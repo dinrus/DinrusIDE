@@ -1,15 +1,16 @@
 # DinrusIDE
 Интегрированная среда разработки для Динруса
 
-U++ Windows Installation
-Windows release is a simple archive .7z archive. Unpack to directory of your
-preference, then just run theide.exe.
+## Установка U++ на Windows
 
-U++ does not write anything to registry or outside its directory.
+Релиз для Windows представляет собой простой архив .7z. Его распаковывают
+в предпочитаемую директорию, и далее просто запускают theide.exe.
 
-The archive contains CLANG based Win32 toolchain and also SDL 2, OpenSSL, MySql
-and PostgreSQL client libraries. TheIDE will also setup Microsoft C++ compiler
-if it finds one.
+U++ ничего не заносит в рееестр или вне своей рабочей папки.
+
+В архиве содержится тулчейн на основе CLANG Win32, а также клиентские
+библиотеки SDL 2, OpenSSL, MySql и PostgreSQL. TheIDE также устанавливает
+компилятор Microsoft C++, если она его обнаружит.
 	
-U++ minimum requirement is Windows 7 64 with latest patches for theide to run
-and Windows 7 64 or 32 with latest patches for compiled applications.
+Минимальное требование U++ - это Windows 7 64-бит.
+

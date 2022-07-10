@@ -1,0 +1,64 @@
+template "U++ CtrlLib application with main window" main;
+
+id     "Имя класса главного окна" classname = ПАКЕТ;
+select("No layouts", "Generate layout file", "Main window has layout", "Main window has OK/Cancel")
+       "Выкладка" lay = 2;
+option "Imagelist file" iml;
+
+@@<:ПАКЕТ:>.h
+#ifndef _<:ПАКЕТ:>_<:ПАКЕТ:>_h
+#define _<:ПАКЕТ:>_<:ПАКЕТ:>_h
+
+#include <CtrlLib/CtrlLib.h>
+
+using namespace РНЦП;<:?lay:>
+
+#define LAYOUTFILE <<:ПАКЕТ:>/<:ПАКЕТ:>.lay>
+#include <CtrlCore/lay.h><:.:><:?iml:>
+
+#define IMAGEFILE <<:ПАКЕТ:>/<:ПАКЕТ:>.iml>
+#include <Draw/iml_header.h><:.:>
+
+class <:classname:> : public <:lay > 1 ? "With" + classname + "Выкладка<ТопОкно>" : "ТопОкно":> {
+public:
+	<:classname:>();
+};
+
+#endif
+@@main.cpp
+#include "<:ПАКЕТ:>.h"<:?iml:>
+
+#define IMAGEFILE <<:ПАКЕТ:>/<:ПАКЕТ:>.iml>
+#include <Draw/iml_source.h><:.:>
+
+<:classname:>::<:classname:>()
+{<:?lay > 1:>
+	CtrlLayout<:(lay == 3 ? "OKCancel" : ""):>(*this, "Window title");<:.:>
+}
+
+ГЛАВНАЯ_ГИП_ПРИЛ
+{
+	<:classname:>().пуск();
+}
+@@<:ПАКЕТ:>.lay
+??lay
+
+LAYOUT(<:classname:>Выкладка, 200, 100)<:?lay == 3:>
+	ЭЛТ(Кнопка, ok, устНадпись("OK").RightPosZ(90, 80).BottomPosZ(4, 22))
+	ЭЛТ(Кнопка, cancel, устНадпись("Отмена").RightPosZ(4, 80).BottomPosZ(4, 22))<:.:>
+END_LAYOUT
+@@<:ПАКЕТ:>.iml
+??iml
+
+@@<:ПАКЕТ:>.upp
+uses
+	CtrlLib;
+
+file
+	<:ПАКЕТ:>.h,
+	main.cpp<:?lay:>,
+	<:ПАКЕТ:>.lay<:.:><:?iml:>,
+	<:ПАКЕТ:>.iml<:.:>;
+
+mainconfig
+	"" = "GUI";

@@ -1,0 +1,7 @@
+LAYOUT(HexGotoLayout, 280, 68)
+	ЭЛТ(РНЦПДинрус::Надпись, dv___0, устНадпись(t_("Новая позиция")).LeftPosZ(4, 80).TopPosZ(8, 19))
+	ЭЛТ(WithDropChoice<EditString>, text, LeftPosZ(88, 184).TopPosZ(8, 19))
+	ЭЛТ(РНЦПДинрус::Кнопка, ok, устНадпись(t_("OK")).LeftPosZ(140, 64).TopPosZ(36, 24))
+	ЭЛТ(РНЦПДинрус::Кнопка, cancel, устНадпись(t_("Отмена")).LeftPosZ(208, 64).TopPosZ(36, 24))
+END_LAYOUT
+

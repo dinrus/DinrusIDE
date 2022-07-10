@@ -588,7 +588,7 @@ void WorkspaceWork::Import()
 	ImportDlg dlg;
 	if(dlg.Execute() != IDOK)
 		return;
-	Progress pi("Иммпортируется файл %d");
+	Progress pi("Импортируется файл %d");
 	int fci = filelist.GetCursor();
 	int cs = filelist.GetSbPos();
 	try {

@@ -1146,7 +1146,7 @@ void CodeEditor::HighlightLine(int line, Vector<LineEdit::Highlight>& hl, int64 
 
 void CodeEditor::PutI(WithDropChoice<EditString>& edit)
 {
-	edit.AddButton().SetMonoImage(CodeEditorImg::I()).Tip(t_("Set word/selection (Ctrl+I)"))
+	edit.AddButton().SetMonoImage(CodeEditorImg::I()).Tip(t_("Установить word/selection (Ctrl+I)"))
 	    <<= THISBACK1(SetI, &edit);
 }
 

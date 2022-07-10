@@ -1,0 +1,16 @@
+LAYOUT(QuickwatchLayout, 400, 372)
+	ЭЛТ(WithDropChoice<EditString>, expression, HSizePosZ(4, 4).TopPosZ(4, 19))
+	ЭЛТ(РНЦПДинрус::СтрокРедакт, значение, HSizePosZ(4, 4).VSizePosZ(28, 32))
+	ЭЛТ(РНЦПДинрус::Кнопка, ok, устНадпись(t_("OK")).HCenterPosZ(64, 164).BottomPosZ(6, 22))
+	ЭЛТ(РНЦПДинрус::Кнопка, cancel, устНадпись(t_("Отмена")).RightPosZ(76, 64).BottomPosZ(6, 22))
+END_LAYOUT
+
+LAYOUT(GotoMemoryLayout, 384, 64)
+	ЭЛТ(РНЦПДинрус::Надпись, dv___0, устНадпись(t_("Address")).LeftPosZ(8, 48).TopPosZ(8, 19))
+	ЭЛТ(РНЦПДинрус::EditString, adr, LeftPosZ(60, 208).TopPosZ(8, 19))
+	ЭЛТ(РНЦПДинрус::Надпись, dv___2, устНадпись(t_("bytes")).LeftPosZ(276, 36).TopPosZ(8, 19))
+	ЭЛТ(WithDropChoice<EditInt>, count, LeftPosZ(312, 64).TopPosZ(8, 19))
+	ЭЛТ(РНЦПДинрус::Кнопка, ok, устНадпись(t_("OK")).HCenterPosZ(64, 84).BottomPosZ(6, 22))
+	ЭЛТ(РНЦПДинрус::Кнопка, cancel, устНадпись(t_("Cancel")).RightPosZ(8, 64).BottomPosZ(6, 22))
+END_LAYOUT
+

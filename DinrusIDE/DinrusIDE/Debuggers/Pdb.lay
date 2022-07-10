@@ -1,0 +1,10 @@
+LAYOUT(EditPDBExpressionLayout, 604, 484)
+	ЭЛТ(РНЦПДинрус::Надпись, lbl, устНадпись(t_("Выражение")).LeftPosZ(4, 64).TopPosZ(8, 19))
+	ЭЛТ(РНЦПДинрус::EditString, text, HSizePosZ(72, 8).TopPosZ(8, 19))
+	ЭЛТ(РНЦПДинрус::Надпись, value_lbl, устНадпись(t_("  тек. значение")).LeftPosZ(4, 80).TopPosZ(32, 19))
+	ЭЛТ(РНЦПДинрус::DataPusher, значение, устРедактируем(false).HSizePosZ(88, 8).TopPosZ(32, 19))
+	ЭЛТ(РНЦПДинрус::Кнопка, ok, устНадпись(t_("OK")).HCenterPosZ(64, 190).BottomPosZ(6, 22))
+	ЭЛТ(РНЦПДинрус::Кнопка, cancel, устНадпись(t_("Отмена")).RightPosZ(8, 64).BottomPosZ(6, 22))
+	ЭЛТ(РНЦПДинрус::RichTextCtrl, help, LeftPosZ(4, 592).TopPosZ(52, 396))
+END_LAYOUT
+

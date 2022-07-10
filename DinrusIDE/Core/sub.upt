@@ -1,0 +1,10 @@
+template "Plain package with header" sub;
+
+@@<:ПАКЕТ:>.h
+#ifndef _<:ПАКЕТ:>_<:ПАКЕТ:>_h
+#define _<:ПАКЕТ:>_<:ПАКЕТ:>_h
+
+#endif
+@@<:ПАКЕТ:>.upp
+file
+	<:ПАКЕТ:>.h;

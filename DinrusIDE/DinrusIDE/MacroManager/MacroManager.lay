@@ -1,0 +1,8 @@
+LAYOUT(MacroManagerLayout, 708, 408)
+	ЭЛТ(РНЦПДинрус::КтрлРодитель, parent, HSizePosZ(4, 4).VSizePosZ(36, 36))
+	ЭЛТ(РНЦПДинрус::Кнопка, close, устНадпись(t_("Закрыть")).RightPosZ(4, 72).BottomPosZ(4, 24))
+	ЭЛТ(ToolBar, tool, HSizePosZ(4, 4).TopPosZ(4, 24))
+	ЭЛТ(Ктрл, dv___3, устФрейм(фреймНижнСепаратора()).HSizePosZ(4, 4).TopPosZ(32, 2))
+	ЭЛТ(РНЦПДинрус::Кнопка, help, устНадпись(t_("?")).Подсказка(t_("Learn more about Macro manager..")).RightPosZ(80, 24).BottomPosZ(4, 24))
+END_LAYOUT
+

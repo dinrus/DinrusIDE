@@ -1,0 +1,71 @@
+LAYOUT(RepoSyncLayout, 680, 400)
+	ЭЛТ(РНЦПДинрус::КтрлМассив, list, AutoHideSb(true).HSizePosZ(4, 4).VSizePosZ(4, 36))
+	ЭЛТ(РНЦПДинрус::Кнопка, cancel, устНадпись(t_("Отмена")).LeftPosZ(4, 64).BottomPosZ(4, 24))
+	ЭЛТ(РНЦПДинрус::Кнопка, credentials, устНадпись(t_("Аккредитивы..")).RightPosZ(92, 80).BottomPosZ(4, 24))
+	ЭЛТ(РНЦПДинрус::Кнопка, ok, устНадпись(t_("Синхрить!")).RightPosZ(4, 84).BottomPosZ(4, 24))
+END_LAYOUT
+
+LAYOUT(CredentialsLayout, 680, 400)
+	ЭЛТ(РНЦПДинрус::КтрлМассив, list, AutoHideSb(true).HSizePosZ(4, 4).VSizePosZ(4, 36))
+	ЭЛТ(РНЦПДинрус::Опция, show_passwords, устНадпись(t_("покажи passwords")).LeftPosZ(4, 108).TopPosZ(372, 20))
+	ЭЛТ(РНЦПДинрус::Кнопка, passkey, устНадпись(t_("Passkey..")).LeftPosZ(136, 76).TopPosZ(372, 24))
+	ЭЛТ(РНЦПДинрус::Кнопка, add, устНадпись(t_("добавь..")).LeftPosZ(240, 64).TopPosZ(372, 24))
+	ЭЛТ(РНЦПДинрус::Кнопка, edit, устНадпись(t_("Edit..")).LeftPosZ(308, 64).TopPosZ(372, 24))
+	ЭЛТ(РНЦПДинрус::Кнопка, remove, устНадпись(t_("Remove")).LeftPosZ(376, 64).TopPosZ(372, 24))
+	ЭЛТ(РНЦПДинрус::Кнопка, clear, устНадпись(t_("Remove all")).LeftPosZ(456, 72).TopPosZ(372, 24))
+	ЭЛТ(РНЦПДинрус::Кнопка, cancel, устНадпись(t_("Cancel")).LeftPosZ(544, 64).BottomPosZ(4, 24))
+	ЭЛТ(РНЦПДинрус::Кнопка, ok, устНадпись(t_("OK")).LeftPosZ(612, 64).BottomPosZ(4, 24))
+END_LAYOUT
+
+LAYOUT(UrepoConsoleLayout, 680, 660)
+	ЭЛТ(РНЦПДинрус::КтрлМассив, list, HSizePosZ(4, 4).VSizePosZ(4, 40))
+	ЭЛТ(РНЦПДинрус::Кнопка, exit, устНадпись(t_("Close")).RightPosZ(4, 64).BottomPosZ(8, 24))
+	ЭЛТ(РНЦПДинрус::Кнопка, cancel, устНадпись(t_("Abort")).RightPosZ(612, 64).BottomPosZ(8, 24))
+END_LAYOUT
+
+LAYOUT(SvnOptionsLayout, 140, 16)
+	ЭЛТ(РНЦПДинрус::Опция, commit, устНадпись(t_("Commit")).LeftPosZ(0, 68).VCenterPosZ(16, 0))
+	ЭЛТ(РНЦПДинрус::Опция, update, устНадпись(t_("Update")).LeftPosZ(72, 68).VCenterPosZ(16, 0))
+END_LAYOUT
+
+LAYOUT(GitOptionsLayout, 164, 16)
+	ЭЛТ(РНЦПДинрус::Опция, pull, устНадпись(t_("Pull")).LeftPosZ(0, 48).VCenterPosZ(16, 0))
+	ЭЛТ(РНЦПДинрус::Опция, commit, устНадпись(t_("Commit")).LeftPosZ(48, 68).VCenterPosZ(16, 0))
+	ЭЛТ(РНЦПДинрус::Опция, push, устНадпись(t_("сунь")).LeftPosZ(116, 48).VCenterPosZ(16, 0))
+END_LAYOUT
+
+LAYOUT(CredentialLayout, 368, 140)
+	ЭЛТ(РНЦПДинрус::Надпись, dv___0, устНадпись(t_("Url (or directory)")).LeftPosZ(8, 92).TopPosZ(8, 19))
+	ЭЛТ(WithDropChoice<EditString>, url, LeftPosZ(112, 248).TopPosZ(8, 19))
+	ЭЛТ(РНЦПДинрус::Надпись, dv___2, устНадпись(t_("Username")).LeftPosZ(8, 92).TopPosZ(32, 19))
+	ЭЛТ(РНЦПДинрус::EditString, username, LeftPosZ(112, 248).TopPosZ(32, 19))
+	ЭЛТ(РНЦПДинрус::Надпись, dv___4, устНадпись(t_("Password / token")).LeftPosZ(8, 92).TopPosZ(56, 19))
+	ЭЛТ(РНЦПДинрус::EditString, password, LeftPosZ(112, 248).TopPosZ(56, 19))
+	ЭЛТ(РНЦПДинрус::Опция, show_password, устНадпись(t_("покажи password")).LeftPosZ(8, 108).TopPosZ(108, 20))
+	ЭЛТ(РНЦПДинрус::Кнопка, cancel, устНадпись(t_("Cancel")).LeftPosZ(228, 64).BottomPosZ(8, 24))
+	ЭЛТ(РНЦПДинрус::Кнопка, ok, устНадпись(t_("OK")).LeftPosZ(296, 64).BottomPosZ(8, 24))
+	ЭЛТ(РНЦПДинрус::Надпись, dv___9, устНадпись(t_("Note: To use github OAuth token, leave the username empty")).устШрифт(РНЦПДинрус::StdFont().Italic()).LeftPosZ(8, 360).TopPosZ(84, 19))
+END_LAYOUT
+
+LAYOUT(PasskeyLayout, 368, 92)
+	ЭЛТ(РНЦПДинрус::Надпись, dv___0, устНадпись(t_("Passkey")).LeftPosZ(8, 92).TopPosZ(8, 19))
+	ЭЛТ(РНЦПДинрус::EditString, passkey1, LeftPosZ(112, 248).TopPosZ(8, 19))
+	ЭЛТ(РНЦПДинрус::Надпись, dv___2, устНадпись(t_("Passkey (confirm)")).LeftPosZ(8, 92).TopPosZ(32, 19))
+	ЭЛТ(РНЦПДинрус::EditString, passkey2, LeftPosZ(112, 248).TopPosZ(32, 19))
+	ЭЛТ(РНЦПДинрус::Опция, show_passkey, устНадпись(t_("покажи passkey")).LeftPosZ(8, 108).TopPosZ(60, 20))
+	ЭЛТ(РНЦПДинрус::Кнопка, ok, устНадпись(t_("OK")).LeftPosZ(296, 64).BottomPosZ(8, 24))
+END_LAYOUT
+
+LAYOUT(GetPasskeyLayout, 368, 68)
+	ЭЛТ(РНЦПДинрус::Надпись, dv___0, устНадпись(t_("Passkey")).LeftPosZ(8, 92).TopPosZ(8, 19))
+	ЭЛТ(РНЦПДинрус::EditString, passkey, LeftPosZ(112, 248).TopPosZ(8, 19))
+	ЭЛТ(РНЦПДинрус::Опция, show_passkey, устНадпись(t_("покажи passkey")).LeftPosZ(8, 108).TopPosZ(36, 20))
+	ЭЛТ(РНЦПДинрус::Кнопка, ok, устНадпись(t_("OK")).LeftPosZ(296, 64).BottomPosZ(8, 24))
+END_LAYOUT
+
+LAYOUT(FailedPasskeyLayout, 296, 64)
+	ЭЛТ(РНЦПДинрус::Надпись, dv___0, устНадпись(t_("Invalid passkey.")).LeftPosZ(8, 296).TopPosZ(8, 19))
+	ЭЛТ(РНЦПДинрус::Кнопка, clear, устНадпись(t_("Clear credentials and passkey")).LeftPosZ(8, 168).TopPosZ(32, 24))
+	ЭЛТ(РНЦПДинрус::Кнопка, ok, устНадпись(t_("Try again")).LeftPosZ(212, 76).TopPosZ(32, 24))
+END_LAYOUT
+

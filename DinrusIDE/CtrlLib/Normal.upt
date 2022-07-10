@@ -1,0 +1,32 @@
+template "U++ Basic CtrlLib application" main;
+
+option "создай header" header;
+
+@@<:ПАКЕТ:>.h
+??header
+#ifndef _<:ПАКЕТ:>_<:ПАКЕТ:>_h
+#define _<:ПАКЕТ:>_<:ПАКЕТ:>_h
+
+#include <CtrlLib/CtrlLib.h>
+
+using namespace РНЦП;
+
+#endif
+@@main.cpp
+#include <:?header:>"<:ПАКЕТ:>.h"<:/:><CtrlLib/CtrlLib.h>
+
+using namespace РНЦП;<:.:>
+
+ГЛАВНАЯ_ГИП_ПРИЛ
+{
+}
+@@<:ПАКЕТ:>.upp
+uses
+	CtrlLib;
+
+file<:?header:>
+	<:ПАКЕТ:>.h,<:.:>
+	main.cpp;
+
+mainconfig
+	"" = "GUI";

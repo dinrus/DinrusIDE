@@ -85,7 +85,7 @@ Font FontDlg::GetFont() const
 FontDlg::FontDlg()
 {
 	int i;
-	CtrlLayoutOKCancel(*this, "Font");
+	CtrlLayoutOKCancel(*this, "Шрифт");
 	ToolWindow();
 	for(i = 6; i < 70; i++)
 		height.AddList(i);

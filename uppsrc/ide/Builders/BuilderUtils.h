@@ -12,6 +12,9 @@ public:
 	BuilderUtils& operator=(BuilderUtils&) = delete;
 	~BuilderUtils() = delete;
 	
+	//РНЦП Динрус
+	static bool IsDlangFile(const String& path);
+	
 	static bool IsJavaFile(const String& path);
 	static bool IsHeaderFile(const String& path);
 	static bool IsCFile(const String& path);

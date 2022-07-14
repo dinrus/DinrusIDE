@@ -21,7 +21,7 @@ void GccBuilder::CocoaAppBundle()
 		Size sz = m.GetSize();
 		if(sz.cx == sz.cy) {
 			imgs.Add(sz.cx, m);
-			PutVerbose("Found icon " << ff.GetName());
+			PutVerbose("Найдена иконка " << ff.GetName());
 			if((Time)ff.GetLastWriteTime() >= icns_tm)
 				convert_icons = true;
 		}
@@ -29,7 +29,7 @@ void GccBuilder::CocoaAppBundle()
 	if(imgs.GetCount() && convert_icons) {
 		String icons = AppendFileName(outdir, "icons.iconset");
 		RealizeDirectory(icons);
-		PutConsole("Exporting bundle icons to " + icons);
+		PutConsole("Набор иконок экспортируется в " + icons);
 		
 		for(String fn : {
 			"icon_16x16.png",
@@ -48,7 +48,7 @@ void GccBuilder::CocoaAppBundle()
 				n *= 2;
 			int q = imgs.FindLowerBound(n);
 			Image img = q >= 0 && q < imgs.GetCount() ? imgs[q] : imgs[imgs.GetCount() - 1];
-			PutVerbose(String() << "Exporting " << fn << " from "
+			PutVerbose(String() << "Экспортируется " << fn << " из "
 			                    << img.GetSize().cx << "x" << img.GetSize().cx);
 			PNGEncoder().SaveFile(AppendFileName(icons, fn), Rescale(img, n, n));
 		}
@@ -84,7 +84,7 @@ void GccBuilder::CocoaAppBundle()
 		if(FileExists(Info_plist_path))
 			Execute("defaults delete " + Info_plist_path); // Force MacOS to reload plist
 		SaveFile(Info_plist_path, Info_plist);
-		PutConsole("Saving " << Info_plist_path);
+		PutConsole("Сохраняется " << Info_plist_path);
 	}
 }
 

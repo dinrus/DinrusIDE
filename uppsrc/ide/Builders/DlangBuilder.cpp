@@ -1,55 +1,48 @@
+/*
+
+*/
 #include "Builders.h"
 #include "BuilderUtils.h"
 
-void   GccBuilder::AddFlags(Index<String>& cfg)
+void   DlangBuilder::AddFlags(Index<String>& cfg)
 {
 }
 
-String GccBuilder::CompilerName() const
+String DlangBuilder::CompilerName() const
 {
 	if(!IsNull(compiler)) return compiler;
-	return "c++";
+	return "dmd";
 }
 
-String GccBuilder::CmdLine(const String& package, const Package& pkg)
+String DlangBuilder::CmdLine(const String& package, const Package& pkg)
 {
-	String cc = CompilerName();
-	cc << " -c";
+	String dmd = CompilerName();
+	dmd << " -c";
 	for(String s : pkg_config)
-		cc << " `pkg-config --cflags " << s << "`";
-	cc << ' ' << IncludesDefinesTargetTime(package, pkg);
-	return cc;
+		dmd << " `pkg-config --cflags " << s << "`";
+	dmd << ' ' << IncludesDefinesTargetTime(package, pkg);
+	return dmd;
 }
 
-void GccBuilder::BinaryToObject(String objfile, CParser& binscript, String basedir,
+void DlangBuilder::BinaryToObject(String objfile, CParser& binscript, String basedir,
                                 const String& package, const Package& pkg)
 {
 	String fo = BrcToC(binscript, basedir);
-	String tmpfile = ForceExt(objfile, ".c");
+	String tmpfile = ForceExt(objfile, ".d");
 	SaveFile(tmpfile, fo);
-	String cc = CmdLine(package, pkg);
-	cc << " -c -o " << GetPathQ(objfile) << " -x c " << GetPathQ(tmpfile);
+	String dmd = CmdLine(package, pkg);
+	dmd << " -c -o " << GetPathQ(objfile) << " -x c " << GetPathQ(tmpfile);
 	int slot = AllocSlot();
-	if(slot < 0 || !Run(cc, slot, objfile, 1))
+	if(slot < 0 || !Run(dmd, slot, objfile, 1))
 		throw Exc(Format("Ошибка при компиляции бинарного объекта '%s'.", objfile));
 }
 
-bool GccBuilder::BuildPackage(const String& package, Vector<String>& linkfile, Vector<String>& immfile,
+bool DlangBuilder::BuildPackage(const String& package, Vector<String>& linkfile, Vector<String>& immfile,
 	String& linkoptions, const Vector<String>& all_uses, const Vector<String>& all_libraries,
 	int opt)
 {
 	if(HasFlag("MAKE_MLIB") && !HasFlag("MAIN"))
 		return true;
-
-	if(HasFlag("OSX") && HasFlag("GUI")) {
-		String folder;
-		String name = GetFileName(target);
-		if(GetFileExt(target) == ".app")
-			target = target + "/Contents/MacOS/" + GetFileTitle(target);
-		else
-			target = target + ".app/Contents/MacOS/" + GetFileName(target);
-		RealizePath(target);
-	}
 
 	SaveBuildInfo(package);
 	
@@ -76,10 +69,6 @@ bool GccBuilder::BuildPackage(const String& package, Vector<String>& linkfile, V
 
 	bool blitz = HasFlag("BLITZ");
 	bool release = !HasFlag("DEBUG");
-	bool objectivec = HasFlag("OBJC");
-	
-	if(HasFlag("OSX"))
-		objectivec = true;
 
 	for(i = 0; i < pkg.GetCount(); i++) {
 		if(!IdeIsBuilding())
@@ -92,9 +81,7 @@ bool GccBuilder::BuildPackage(const String& package, Vector<String>& linkfile, V
 			for(int j = 0; j < srcfile.GetCount(); j++) {
 				String fn = NormalizePath(srcfile[j]);
 				String ext = GetSrcType(fn);
-				if(findarg(ext, ".c", ".cpp", ".cc", ".cxx", ".brc", ".s", ".ss") >= 0 ||
-				   objectivec && findarg(ext, ".mm", ".m") >= 0 ||
-				   (!release && blitz && ext == ".icpp") ||
+				if(findarg(ext, ".d", ".di") >= 0 ||
 				   ext == ".rc" && HasFlag("WIN32")) {
 					if(FindIndex(sfile, fn) < 0) {
 						sfile.Add(fn);
@@ -102,93 +89,77 @@ bool GccBuilder::BuildPackage(const String& package, Vector<String>& linkfile, V
 					}
 				}
 				else
-				if(ext == ".icpp") {
-					isfile.Add(fn);
-					isoptions.Add(gop);
-				}
-				else
-				if(ext == ".o")
+				if(ext == ".obj")
 					obj.Add(fn);
 				else
-				if(ext == ".a" || ext == ".so")
+				if(ext == ".lib" || ext == ".dll")
 					linkfile.Add(fn);
-				else
-				if(IsHeaderExt(ext) && pkg[i].pch && allow_pch && !blitz) {
-					if(pch_header.GetCount())
-						PutConsole(GetFileName(fn) + ": несколько PCHs не допускается. Проверьте файл конфигурации.");
-					else
-						pch_header = fn;
-				}
-				if(pkg[i].nopch) {
-					nopch.Add(fn);
-					if(allow_pch && release)
-						noblitz.Add(fn);
-				}
+
 				if(pkg[i].noblitz)
 					noblitz.Add(fn);
-				if(ext == ".c")
+				if(ext == ".d")
 					nopch.Add(fn);
 			}
 		}
 	}
 
-	String cc = CmdLine(package, pkg);
+	String dmd = CmdLine(package, pkg);
 
 //	if(IsVerbose())
-//		cc << " -v";
+//		dmd << " -v";
 	if(HasFlag("WIN32")/* && HasFlag("MT")*/)
-		cc << " -mthreads";
+		dmd << " -mthreads";
 
 	if(HasFlag("DEBUG_MINIMAL") || HasFlag("DEBUG_FULL")) {
-		cc << (HasFlag("WIN32") && HasFlag("CLANG") ? " -gcodeview -fno-limit-debug-info" : " -ggdb");
-		cc << (HasFlag("DEBUG_FULL") ? " -g2" : " -g1");
+		dmd << (HasFlag("WIN32") && HasFlag("CLANG") ? " -gcodeview -fno-limit-debug-info" : " -ggdb");
+		dmd << (HasFlag("DEBUG_FULL") ? " -g2" : " -g1");
 	}
 	String fuse_cxa_atexit;
 	if(is_shared /*&& !HasFlag("MAIN")*/) {
-		cc << " -shared -fPIC";
+		dmd << " -shared -fPIC";
 		fuse_cxa_atexit = " -fuse-cxa-atexit";
 	}
 	if(!HasFlag("SHARED") && !is_shared)
-		cc << " -static ";
+		dmd << " -static ";
 //	else if(!HasFlag("WIN32")) // TRC 05/03/08: dynamic fPIC doesn't seem to work in MinGW
-//		cc << " -dynamic -fPIC "; // TRC 05/03/30: dynamic fPIC doesn't seem to work in GCC either :-)
-	cc << ' ' << Gather(pkg.option, config.GetKeys());
-	cc << " -fexceptions";
+//		dmd << " -dynamic -fPIC "; // TRC 05/03/30: dynamic fPIC doesn't seem to work in GCC either :-)
+	dmd << ' ' << Gather(pkg.option, config.GetKeys());
+	dmd << " -fexceptions";
 
 #if 0
 	if (HasFlag("OSX")) {
 	  if (HasFlag("POWERPC"))
-		cc << " -arch ppc";
+		dmd << " -arch ppc";
 	  if (HasFlag("X86"))
-		cc << " -arch i386";
+		dmd << " -arch i386";
 	}
 #endif
 //	if(HasFlag("SSE2")) {
-//		cc << " -msse2";
+//		dmd << " -msse2";
 //		if(!HasFlag("CLANG"))
-//			cc << " -mfpmath=sse";
+//			dmd << " -mfpmath=sse";
 //	}
 
 	if(!release)
-		cc << " -D_DEBUG " << debug_options;
+		dmd << " -debug " << debug_options;
 	else
-		cc << ' ' << release_options;
+		dmd << ' ' << release_options;
 
 	if(pkg.nowarnings)
-		cc << " -w";
+		dmd << " -w";
 
 	int recompile = 0;
 	Blitz b;
 	if(blitz) {
 		BlitzBuilderComponent bc(this);
-		b = bc.MakeBlitzStep(sfile, soptions, obj, immfile, ".o", noblitz, package);
+		b = bc.MakeBlitzStep(sfile, soptions, obj, immfile, ".obj", noblitz, package);
 		recompile = b.build;
 	}
 
 	for(i = 0; i < sfile.GetCount(); i++) {
 		String fn = sfile[i];
 		String ext = ToLower(GetFileExt(fn));
-		if(findarg(ext, ".rc", ".brc", ".c") < 0 && HdependFileTime(sfile[i]) > GetFileTime(CatAnyPath(outdir, GetFileTitle(fn) + ".o")))
+		if(findarg(ext, ".rc", ".brc", ".d") < 0 && HdependFileTime(sfile[i]) > GetFileTime(CatAnyPath(outdir, GetFileTitle(fn) + ".obj")))
 			recompile++;
 	}
 
@@ -203,7 +174,7 @@ bool GccBuilder::BuildPackage(const String& package, Vector<String>& linkfile, V
 		int pch_slot = AllocSlot();
 		StringBuffer sb;
 
-		sb << Join(cc, cpp_options) << " -x c++-header " << GetPathQ(pch_header) << " -o " << GetPathQ(pch_file);
+		sb << Join(dmd, dmd_options) << " -x c++-header " << GetPathQ(pch_header) << " -o " << GetPathQ(pch_file);
 
 		PutConsole("Прекомпилирование заголовка: " + GetFileName(pch_header));
 		if(pch_slot < 0 || !Run(~sb, pch_slot, pch_file, 1))
@@ -216,7 +187,7 @@ bool GccBuilder::BuildPackage(const String& package, Vector<String>& linkfile, V
 	if(blitz && b.build) {
 		PutConsole("БЛИЦ:" + b.info);
 		int slot = AllocSlot();
-		if(slot < 0 || !Run(String().Cat() << Join(cc, cpp_options) << ' '
+		if(slot < 0 || !Run(String().Cat() << Join(dmd, dmd_options) << ' '
 		                    << GetPathQ(b.path)
 		                    << " -o " << GetPathQ(b.object), slot, b.object, b.count))
 			error = true;
@@ -235,7 +206,7 @@ bool GccBuilder::BuildPackage(const String& package, Vector<String>& linkfile, V
 		bool rc = (ext == ".rc");
 		bool brc = (ext == ".brc");
 		bool init = (i >= first_ifile);
-		String objfile = CatAnyPath(outdir, SourceToObjName(package, fn)) + (rc ? "$rc.o" : brc ? "$brc.o" : ".o");
+		String objfile = CatAnyPath(outdir, SourceToObjName(package, fn)) + (rc ? "$rc.obj" : brc ? "$brc.obj" : ".obj");
 		if(GetFileName(fn) == "Info.plist")
 			Info_plist = LoadFile(fn);
 		if(HdependFileTime(fn) > GetFileTime(objfile)) {
@@ -249,7 +220,7 @@ bool GccBuilder::BuildPackage(const String& package, Vector<String>& linkfile, V
 				if(q > 0)
 					windres = compiler.Mid(0, q + 1) + windres;
 				exec << FindInDirs(host->GetExecutablesDirs(), windres) << " -i " << GetPathQ(fn);
-				if(cc.Find(" -m32 ") >= 0)
+				if(dmd.Find(" -m32 ") >= 0)
 					exec << " --target=pe-i386 ";
 				exec << " -o " << GetPathQ(objfile) << Includes(" --include-dir=", package, pkg)
 				     << DefinesTargetTime(" -D", package, pkg) + (HasFlag("DEBUG")?" -D_DEBUG":"");
@@ -271,8 +242,8 @@ bool GccBuilder::BuildPackage(const String& package, Vector<String>& linkfile, V
 				}
 			}
 			else {
-				String exec = cc;
-				if(ext == ".c")
+				String exec = dmd;
+				if(ext == ".d")
 					exec << Join(" -x c", c_options) << ' ';
 				else if(ext == ".s" || ext == ".S")
 					exec << " -x assembler-with-cpp ";
@@ -281,9 +252,9 @@ bool GccBuilder::BuildPackage(const String& package, Vector<String>& linkfile, V
 					exec << fuse_cxa_atexit << " -x objective-c ";
 				else
 				if (ext == ".mm")
-					exec << fuse_cxa_atexit << Join(" -x objective-c++ ", cpp_options) << ' ';
+					exec << fuse_cxa_atexit << Join(" -x objective-c++ ", dmd_options) << ' ';
 				else {
-					exec << fuse_cxa_atexit << Join(" -x c++", cpp_options) << ' ';
+					exec << fuse_cxa_atexit << Join(" -x c++", dmd_options) << ' ';
 					exec << pch_use;
 				}
 				exec << GetPathQ(fn)  << " " << soptions[i] << " -o " << GetPathQ(objfile);
@@ -359,7 +330,7 @@ bool GccBuilder::BuildPackage(const String& package, Vector<String>& linkfile, V
 	return true;
 }
 
-bool GccBuilder::CreateLib(const String& product, const Vector<String>& obj,
+bool DlangBuilder::CreateLib(const String& product, const Vector<String>& obj,
                            const Vector<String>& all_uses, const Vector<String>& all_libraries,
                            const String& link_options)
 {
@@ -481,7 +452,7 @@ bool GccBuilder::CreateLib(const String& product, const Vector<String>& obj,
 	return true;
 }
 
-bool GccBuilder::Link(const Vector<String>& linkfile, const String& linkoptions, bool createmap)
+bool DlangBuilder::Link(const Vector<String>& linkfile, const String& linkoptions, bool createmap)
 {
 	if(!Wait())
 		return false;
@@ -541,7 +512,7 @@ bool GccBuilder::Link(const Vector<String>& linkfile, const String& linkoptions,
 					if(ToLower(GetFileExt(linkfile[i])) == ".o" || ToLower(GetFileExt(linkfile[i])) == ".a")
 						linklist << linkfile[i] << '\n';
 
-				String linklistM = "Производится список компонуемых файлов ...\n";
+				String linklistM = "Producing link file list ...\n";
 				String odir = GetFileDirectory(linkfile[0]);
 				lfilename << GetFileFolder(linkfile[0]) << ".LinkFileList";
 					
@@ -616,7 +587,7 @@ bool GccBuilder::Link(const Vector<String>& linkfile, const String& linkoptions,
 	return true;
 }
 
-bool GccBuilder::Preprocess(const String& package, const String& file, const String& target, bool asmout)
+bool DlangBuilder::Preprocess(const String& package, const String& file, const String& target, bool asmout)
 {
 	Package pkg;
 	String packagePath = PackagePath(package);
@@ -633,17 +604,16 @@ bool GccBuilder::Preprocess(const String& package, const String& file, const Str
 		cmd << " " << c_options;
 	else
 	if(BuilderUtils::IsCppFile(file))
-		cmd << " " << cpp_options;
+		cmd << " " << dmd_options;
 	return Execute(cmd);
 }
 
-Builder *CreateGccBuilder()
+Builder *CreateDlangBuilder()
 {
-	return new GccBuilder;
+	return new DlangBuilder;
 }
 
-INITIALIZER(GccBuilder)
+INITIALIZER(DlangBuilder)
 {
-	RegisterBuilder("GCC", CreateGccBuilder);
-	RegisterBuilder("CLANG", CreateGccBuilder);
+	RegisterBuilder("DLANG", CreateDlangBuilder);
 }

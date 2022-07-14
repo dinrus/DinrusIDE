@@ -167,7 +167,7 @@ String MscBuilder::Pdb(String package, int slot, bool separate_pdb) const
 void DeletePCHFile(const String& pch_file)
 {
 	DeleteFile(pch_file);
-	PutVerbose("Deleting precompiled header: " + pch_file);
+	PutVerbose("Удаляется прекомпилированнный заголовочник: " + pch_file);
 }
 
 bool MscBuilder::BuildPackage(const String& package, Vector<String>& linkfile, Vector<String>& immfile,
@@ -235,7 +235,7 @@ bool MscBuilder::BuildPackage(const String& package, Vector<String>& linkfile, V
 				else
 				if(IsHeaderExt(ext) && pkg[i].pch && allow_pch && IsMsc89() && release && !HasAnyDebug() && !blitz) {
 					if(pch_header.GetCount())
-						PutConsole(GetFileName(fn) + ": multiple PCHs are not allowed. Check your package configuration");
+						PutConsole(GetFileName(fn) + ": Несколько файлов PCH не допустимо. Проверьте конфигурацию пакета.");
 					else
 						pch_header = fn;
 				}
@@ -321,7 +321,7 @@ bool MscBuilder::BuildPackage(const String& package, Vector<String>& linkfile, V
 			StringBuffer sb;
 			sb << Join(cc, cpp_options) << Pdb(package, pch_slot, false) << " -Yc" << pch_common
 			   << " -Tp " << GetPathQ(pch_header) << " -Fo" + GetPathQ(pch_obj);
-			PutConsole("Precompiling header: " + GetFileName(pch_header));
+			PutConsole("Прекомпилируется заголовочник: " + GetFileName(pch_header));
 			if(pch_slot < 0 || !Run(~sb, pch_slot, pch_obj, 1))
 				error = true;
 			Wait();
@@ -332,7 +332,7 @@ bool MscBuilder::BuildPackage(const String& package, Vector<String>& linkfile, V
 	}
 
 	if(blitz && b.build) {
-		PutConsole("BLITZ:" + b.info);
+		PutConsole("БЛИЦ:" + b.info);
 		int slot = AllocSlot();
 		String c = Join(cc, cpp_options);
 		if(HasAnyDebug())
@@ -375,7 +375,7 @@ bool MscBuilder::BuildPackage(const String& package, Vector<String>& linkfile, V
 //					String hfn = GetHostPath(fn);
 					String brcdata = LoadFile(fn);
 					if(brcdata.IsVoid())
-						throw Exc(Format("error reading file '%s'", fn));
+						throw Exc(Format("ошибка при чтении файла '%s'", fn));
 					CParser parser(brcdata, fn);
 					String fo = BrcToC(parser, GetFileDirectory(fn));
 					String tmpfile = ForceExt(objfile, ".c");
@@ -385,7 +385,7 @@ bool MscBuilder::BuildPackage(const String& package, Vector<String>& linkfile, V
 					cmdline << cc << Pdb(package, slot, false)
 					        << " -Tc " << GetPathQ(tmpfile) << " -Fo" << GetPathQ(objfile);
 					if(slot < 0 || !Run(String(cmdline), slot, objfile, 1))
-						throw Exc(Format("Error compiling binary object '%s'.", objfile));
+						throw Exc(Format("Ошибка при компиляции бинарного объекта '%s'.", objfile));
 				}
 				catch(Exc e) {
 					PutConsole(e);
@@ -407,7 +407,7 @@ bool MscBuilder::BuildPackage(const String& package, Vector<String>& linkfile, V
 			if(execerr)
 				DeleteFile(objfile);
 			error |= execerr;
-			PutVerbose("compiled in " + GetPrintTime(time));
+			PutVerbose("скомпилировано за " + GetPrintTime(time));
 			ccount++;
 		}
 		if(init)
@@ -525,7 +525,7 @@ bool MscBuilder::CreateLib(const String& product, const Vector<String>& obj,
 		String deffile = ForceExt(product, ".def");
 		if(!SaveChangedFile(deffile, def))
 		{
-			PutConsole(Format("%s: error saving file", deffile));
+			PutConsole(Format("%s: ошибка при сохранении файла", deffile));
 			return false;
 		}
 		lib << " -def:" << GetPathQ(deffile);
@@ -554,7 +554,7 @@ bool MscBuilder::CreateLib(const String& product, const Vector<String>& obj,
 	}
 	for(int i = 0; i < obj.GetCount(); i++)
 		lib << ' ' << GetPathQ(obj[i]);
-	PutConsole("Creating library...");
+	PutConsole("Создаётся библиотека...");
 	IdeConsoleEndGroup();
 	DeleteFile(product);
 	String tmpFileName;
@@ -602,7 +602,7 @@ bool MscBuilder::CreateLib(const String& product, const Vector<String>& obj,
 		Execute(mt);
 	}
 	PutConsole(String().Cat() << product << " (" << GetFileInfo(product).length
-	           << " B) created in " << GetPrintTime(linktime));
+	           << " B) создано за " << GetPrintTime(linktime));
 	return true;
 }
 
@@ -661,7 +661,7 @@ bool MscBuilder::Link(const Vector<String>& linkfile, const String& linkoptions,
 			link << ' ' << linkoptions << ' ';
 			for(i = 0; i < linkfile.GetCount(); i++)
 				lib << ' ' << GetPathQ(AppendExt(linkfile[i], ".lib"));
-			PutConsole("Linking...");
+			PutConsole("Компоновка...");
 			bool error = false;
 
 			String tmpFileName;
@@ -706,7 +706,7 @@ bool MscBuilder::Link(const Vector<String>& linkfile, const String& linkoptions,
 				   Execute(mt);
 				}
 				PutConsole(String().Cat() << target << " (" << GetFileInfo(target).length
-				           << " B) linked in " << GetPrintTime(time));
+				           << " B) скомпоновано за " << GetPrintTime(time));
 			}
 			else {
 				DeleteFile(target);
@@ -717,7 +717,7 @@ bool MscBuilder::Link(const Vector<String>& linkfile, const String& linkoptions,
 			return !error;
 		}
 	PutConsole(String().Cat() << target << " (" << GetFileInfo(target).length
-	           << " B) is up to date.");
+	           << " B) в свежем состоянии.");
 	return true;
 }
 

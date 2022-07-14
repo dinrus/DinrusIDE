@@ -382,7 +382,7 @@ void MakeBuild::SaveMakeFile(const String& fn, bool exporting)
 				"#define bmHOUR    %H%n"
 				"#define bmMINUTE  %M%n"
 				"#define bmSECOND  %S%n"
-				"#define bmTIME    Время( %y, %m, %d, %H, %M, %S )' | sed 's| 0\\([[:digit:]]\\)| \\1|g' && \\\n"
+				"#define bmTIME    Time( %y, %m, %d, %H, %M, %S )' | sed 's| 0\\([[:digit:]]\\)| \\1|g' && \\\n"
 				"	echo '#define bmMACHINE \"'`hostname`'\"' && \\\n"
 				"	echo '#define bmUSER    \"'`whoami`'\"') > " << build_info << "\n"
 				<< svn_info <<

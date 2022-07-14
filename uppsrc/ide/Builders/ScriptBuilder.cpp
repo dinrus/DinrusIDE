@@ -91,7 +91,7 @@ void ScriptBuilder::CheckParse()
 	{
 		String sdata = LoadFile(script);
 		if(IsNull(sdata))
-			throw Exc(Format("%s: not found or empty", script));
+			throw Exc(Format("%s: не найден или пуст", script));
 		CParser parser(sdata, script, 1);
 		while(!parser.IsEof()) {
 			String id = parser.ReadId();
@@ -183,7 +183,7 @@ bool ScriptBuilder::BuildPackage(const String& package, Vector<String>& linkfile
 				DeleteFile(objfile);
 				error = true;
 			}
-			PutVerbose("compiled in " + GetPrintTime(time));
+			PutVerbose("скомпилировано за " + GetPrintTime(time));
 			ccount++;
 		}
 		obj.Add(objfile);
@@ -213,7 +213,7 @@ bool ScriptBuilder::BuildPackage(const String& package, Vector<String>& linkfile
 			linkfile.Add("*" + product); //!! ugly
 		for(int i = 0; i < obj.GetCount(); i++)
 			if(GetFileTime(obj[i]) > producttime) {
-				PutConsole("Creating library...");
+				PutConsole("Создаётся библиотека...");
 				DeleteFile(product);
 				EscValue objlist;
 				objlist.SetEmptyArray();
@@ -225,7 +225,7 @@ bool ScriptBuilder::BuildPackage(const String& package, Vector<String>& linkfile
 					return false;
 				}
 				PutConsole(String().Cat() << product << " (" << GetFileInfo(product).length
-				           << " B) created in " << GetPrintTime(time));
+				           << " B) создано за " << GetPrintTime(time));
 				break;
 			}
 		return true;
@@ -256,7 +256,7 @@ bool ScriptBuilder::Link(const Vector<String>& linkfile, const String& linkoptio
 			linkargs.Add(liblist);
 			linkargs.Add(GetPathQ(target));
 			linkargs.Add(linkoptions);
-			PutConsole("Linking...");
+			PutConsole("Компоновка...");
 			bool error = false;
 			CustomStep(".pre-link", Null, error);
 			if(!error && !ExecuteIf("link", linkargs).GetNumber()) {
@@ -265,11 +265,11 @@ bool ScriptBuilder::Link(const Vector<String>& linkfile, const String& linkoptio
 			}
 			CustomStep(".post-link", Null, error);
 			PutConsole(String().Cat() << target << " (" << GetFileInfo(target).length
-				<< " B) linked in " << GetPrintTime(time));
+				<< " B) скомпоновано за " << GetPrintTime(time));
 			return !error;
 		}
 	PutConsole(String().Cat() << target << " (" << GetFileInfo(target).length
-	           << " B) is up to date.");
+	           << " B) в свежем состоянии.");
 	return true;
 }
 

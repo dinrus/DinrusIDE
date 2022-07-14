@@ -515,7 +515,7 @@ void CppBuilder::SaveBuildInfo(const String& package)
 	info << "#define bmHOUR   " << (int)t.hour << "\r\n";
 	info << "#define bmMINUTE " << (int)t.minute << "\r\n";
 	info << "#define bmSECOND " << (int)t.second << "\r\n";
-	info << Format("#define bmTIME   Время(%d, %d, %d, %d, %d, %d)\r\n",
+	info << Format("#define bmTIME   Time(%d, %d, %d, %d, %d, %d)\r\n",
 	        (int)t.year, (int)t.month, (int)t.day, (int)t.hour, (int)t.minute, (int)t.second);
 	info << "#define bmMACHINE " << AsCString(GetComputerName()) << "\r\n";
 	info << "#define bmUSER    " << AsCString(GetUserName()) << "\r\n";

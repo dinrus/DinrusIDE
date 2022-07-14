@@ -680,7 +680,7 @@ zhTW("\345\210\227")
 
 // Progress.cpp
 
-T_("Working...")
+T_("Тружусь...")
 caES("S'est\303\240 treballant...")
 csCZ("Pracuji...")
 deDE("Bearbeitung l\303\244uft ...")

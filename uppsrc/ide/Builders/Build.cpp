@@ -142,7 +142,7 @@ One<Builder> MakeBuild::CreateBuilder(Host *host)
 	String builder = bm.Get("BUILDER", "GCC");
 	int q = BuilderMap().Find(builder);
 	if(q < 0) {
-		PutConsole("Invalid builder " + builder);
+		PutConsole("Неправильный построитель " + builder);
 		ConsoleShow();
 		return NULL;
 	}
@@ -388,7 +388,7 @@ Vector<String> MakeBuild::GetAllUses(const Workspace& wspc, int f,
 				if(p.uses[fu].text != package)
 					all_uses.FindAdd(p.uses[fu].text);
 				else if(warn) {
-					PutConsole(Format("%s: circular 'uses' chain", package));
+					PutConsole(Format("%s: циркулярная цепочка 'использований'", package));
 					warn = false;
 				}
 			}
@@ -442,7 +442,7 @@ bool MakeBuild::Build(const Workspace& wspc, String mainparam, String outfile, b
 					String pn = wspc[i];
 					String p = SourcePath(pn, "main.conf");
 					main_conf << "// " << pn << "\r\n" << LoadFile(p) << "\r\n";
-					PutConsole("Found " + p);
+					PutConsole("Найден " + p);
 				}
 		}
 
@@ -457,7 +457,7 @@ bool MakeBuild::Build(const Workspace& wspc, String mainparam, String outfile, b
 				String path = AppendFileName(outdir, "main.conf.h");
 				RealizePath(path);
 				SaveChangedFile(path, main_conf);
-				PutConsole("Saving " + path);
+				PutConsole("Сохраняется " + path);
 				PutVerbose(main_conf);
 				add_includes << outdir << ';';
 			}
@@ -547,7 +547,7 @@ bool MakeBuild::Build()
 
 void MakeBuild::CleanPackage(const Workspace& wspc, int package)
 {
-	PutConsole(Format("Cleaning %s", wspc[package]));
+	PutConsole(Format("Очистка %s", wspc[package]));
 	Host host;
 	CreateHost(host, false, false);
 	One<Builder> builder = CreateBuilder(&host);
@@ -579,7 +579,7 @@ void MakeBuild::Clean()
 	
 	builder->AfterClean();
 	
-	PutConsole("...done");
+	PutConsole("...готово");
 }
 
 void MakeBuild::RebuildAll()
@@ -590,5 +590,5 @@ void MakeBuild::RebuildAll()
 
 String MakeBuild::GetInvalidBuildMethodError(const String& method)
 {
-	return "Invalid build method " + method + " (" + GetMethodPath(method) + ").";
+	return "Неверный метод построения " + method + " (" + GetMethodPath(method) + ").";
 }

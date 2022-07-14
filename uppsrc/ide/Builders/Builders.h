@@ -87,6 +87,24 @@ struct GccBuilder : CppBuilder {
 	String Info_plist; // apple bundle Info.plist
 };
 
+struct DlangBuilder : CppBuilder {
+	virtual void   AddFlags(Index<String>& cfg);
+	virtual bool   BuildPackage(const String& package, Vector<String>& linkfile, Vector<String>& immfile,
+	    String& linkoptions, const Vector<String>& all_uses, const Vector<String>& all_libraries, int optimize);
+	virtual bool   Link(const Vector<String>& linkfile, const String& linkoptions, bool createmap);
+	virtual bool   Preprocess(const String& package, const String& file, const String& target, bool asmout);
+
+	String CompilerName() const;
+	String CmdLine(const String& package, const Package& pkg);
+	void BinaryToObject(String objfile, CParser& binscript, String basedir, const String& package, const Package& pkg);
+	void   CocoaAppBundle();
+	bool   CreateLib(const String& product, const Vector<String>& obj,
+	                 const Vector<String>& all_uses, const Vector<String>& all_libraries,
+	                 const String& link_options);
+
+	String Info_plist; // apple bundle Info.plist
+};
+
 struct OwcBuilder : CppBuilder {
 	typedef OwcBuilder CLASSNAME;
 

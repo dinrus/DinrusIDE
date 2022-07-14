@@ -2,6 +2,12 @@
 
 using namespace Upp;
 
+bool BuilderUtils::IsDlangFile(const String& path)
+{
+	return HasExt(path, { "d", "di" });
+}
+
+
 bool BuilderUtils::IsJavaFile(const String& path)
 {
 	return HasExt(path, { "java" });

@@ -117,7 +117,7 @@ bool AndroidBuilder::BuildPackage(
 		if(BuilderUtils::IsXmlFile(filePath)) {
 			if(isMainPackage && fileName == "AndroidManifest.xml") {
 				if(androidManifestPath.GetCount()) {
-					PutConsole("AndroidManifest.xml is duplicated.");
+					PutConsole("AndroidManifest.xml депрекирован.");
 					return false;
 				}
 				
@@ -139,7 +139,7 @@ bool AndroidBuilder::BuildPackage(
 	}
 	
 	if(isMainPackage && androidManifestPath.IsEmpty()) {
-		PutConsole("Failed to find Android manifest file.");
+		PutConsole("Не удалось найти файл манифеста Android.");
 		return false;
 	}
 	
@@ -152,12 +152,12 @@ bool AndroidBuilder::BuildPackage(
 	}
 	
 	if(isResourcesPackage || nativeSources.IsEmpty()) {
-		Logd() << METHOD_NAME << "There are not native files in the following package " << package << ".";
+		Logd() << METHOD_NAME << "Нативные файлы в пакете " << package << " отсутствуют.";
 		return true;
 	}
 	
 	if(isBlitz) {
-		Logd() << METHOD_NAME << "Creating blitz step for package " << package << ".";
+		Logd() << METHOD_NAME << "Создание блиц-щага для пакета " << package << ".";
 		
 		BlitzBuilderComponent bc(this);
 		bc.SetWorkingDir(project->GetJniDir() + DIR_SEPS + package);
@@ -169,7 +169,7 @@ bool AndroidBuilder::BuildPackage(
 		    noBlitzNativeSourceFiles);
 		
 		if(!FileExists(blitz.path)) {
-			Loge() << METHOD_NAME << "Blitz was enable, but no blitz file generated.";
+			Loge() << METHOD_NAME << "Блиц был активирован, но блиц-файл не сгенерирован.";
 		}
 		else {
 			nativeSources.Add(package + DIR_SEPS + GetFileName(blitz.path));
@@ -201,7 +201,7 @@ bool AndroidBuilder::Link(
 	
 	ManageProjectCohesion();
 	
-	PutConsole("Building Android Project");
+	PutConsole("Построения Проекта Android");
 	StringStream ss;
 	if(!GenerateRFile())
 		return false;
@@ -213,7 +213,7 @@ bool AndroidBuilder::Link(
 	int time;
 	if(linkfile.GetCount()) {
 		PutConsole("-----");
-		PutConsole("Compiling java sources...");
+		PutConsole("Компилируются исходники java...");
 		time = msecs();
 		for(int i = 0; i < linkfile.GetCount(); i++) {
 			if(Execute(linkfile[i], ss) != 0) {
@@ -221,19 +221,19 @@ bool AndroidBuilder::Link(
 				return false;
 			}
 		}
-		PutConsole("Java sources compiled in " + GetPrintTime(time) + ".");
+		PutConsole("Исходники Java скомпилированы за " + GetPrintTime(time) + ".");
 	}
 	
 	// Now, we are going to start compiling c/c++ sources
 	if(DirectoryExists(project->GetJniDir())) {
 		if(!ndk.Validate()) {
-			PutErrorOnConsole("Android NDK was not detected");
+			PutErrorOnConsole("Не обнаружен Android NDK");
 			return false;
 		}
 		
 		time = msecs();
 		PutConsole("-----");
-		PutConsole("Compiling native sources...");
+		PutConsole("Компилируются нативные исходники...");
 		
 		GenerateApplicationMakeFile();
 		GenerateMakeFile();
@@ -247,12 +247,12 @@ bool AndroidBuilder::Link(
 		if(host->Execute(ndkBuild.MakeCmd()) != 0 ) {
 			return false;
 		}
-		PutConsole("Native sources compiled in " + GetPrintTime(time) + ".");
+		PutConsole("Нативные исходники скомпилированы за " + GetPrintTime(time) + ".");
 	}
 	
 	if(DirectoryExists(project->GetClassesDir())) {
 		PutConsole("-----");
-		PutConsole("Creating dex file...");
+		PutConsole("Создаётся файл dex...");
 		String dxCmd;
 		dxCmd << NormalizeExePath(sdk.DxPath());
 		dxCmd << " --dex ";
@@ -264,7 +264,7 @@ bool AndroidBuilder::Link(
 		}
 	}
 	
-	PutConsole("Creating apk file...");
+	PutConsole("Создлаётся файл apk...");
 	String unsignedApkPath = GetSandboxDir() + DIR_SEPS + GetFileTitle(target) + ".unsigned.apk";
 	DeleteFile(unsignedApkPath);
 	String apkCmd;
@@ -283,7 +283,7 @@ bool AndroidBuilder::Link(
 	}
 	
 	if(DirectoryExists(project->GetLibsDir())) {
-		PutConsole("Adding native libraries to apk...");
+		PutConsole("Нативные библиотеки добавляются к apk...");
 		if(!AddSharedLibsToApk(unsignedApkPath))
 			return false;
 	}
@@ -469,7 +469,7 @@ bool AndroidBuilder::SignApk(const String& target, const String& unsignedApkPath
 		if(!GenerateDebugKey(keystorePath))
 			return false;
 	
-		PutConsole("Signing apk file...");
+		PutConsole("Подписывается файл apk...");
 		DeleteFile(signedApkPath);
 		String jarsignerCmd;
 		jarsignerCmd << NormalizeExePath(jdk->GetJarsignerPath());
@@ -494,7 +494,7 @@ bool AndroidBuilder::SignApk(const String& target, const String& unsignedApkPath
 			return false;
 		}
 		
-		PutConsole("Aliging apk file...");
+		PutConsole("Выравнивание файла apk...");
 		DeleteFile(target);
 		String zipalignCmd;
 		zipalignCmd << NormalizeExePath(sdk.ZipalignPath());
@@ -516,7 +516,7 @@ bool AndroidBuilder::GenerateDebugKey(const String& keystorePath)
 	StringStream ss;
 	
 	if(!FileExists(keystorePath)) {
-		PutConsole("Generating debug key...");
+		PutConsole("Генерируется ключ отладки...");
 		
 		String keytoolCmd;
 		keytoolCmd << NormalizeExePath(jdk->GetKeytoolPath());
@@ -580,19 +580,19 @@ bool AndroidBuilder::AddSharedLibsToApk(const String& apkPath)
 bool AndroidBuilder::ValidateBuilderEnviorement()
 {
 	if(!sdk.Validate()) {
-		PutErrorOnConsole("Android SDK was not detected");
+		PutErrorOnConsole("Не обнаружен Android SDK");
 		return false;
 	}
 	if(!sdk.ValidateBuildTools()) {
-		PutErrorOnConsole("Android SDK build tools was not detected");
+		PutErrorOnConsole("Не обнаружены инструменты построения Android SDK");
 		return false;
 	}
 	if(!sdk.ValidatePlatform()) {
-		PutErrorOnConsole("Android SDK platform was not detected");
+		PutErrorOnConsole("Не обнаружена платформа Android SDK");
 		return false;
 	}
 	if(!jdk->Validate()) {
-		PutErrorOnConsole("JDK was not detected");
+		PutErrorOnConsole("Не обнаружен JDK");
 		return false;
 	}
 	
@@ -601,7 +601,7 @@ bool AndroidBuilder::ValidateBuilderEnviorement()
 
 void AndroidBuilder::PutErrorOnConsole(const String& msg)
 {
-	PutConsole("Error: " + msg + ".");
+	PutConsole("Ошибка: " + msg + ".");
 }
 
 bool AndroidBuilder::FileNeedsUpdate(const String& path, const String& data)
@@ -628,9 +628,9 @@ void AndroidBuilder::GenerateApplicationMakeFile()
 	makeFile.SetOptim(HasFlag("DEBUG") ? "debug" : "release");
 	makeFile.SetToolchain(ndkToolchain);
 	
-	PutVerbose("Architectures: " + AsString(ndkArchitectures));
-	PutVerbose("CppRuntime: " + ndkCppRuntime);
-	PutVerbose("CppFlags: " + ndkCppFlags);
+	PutVerbose("Архитектуры: " + AsString(ndkArchitectures));
+	PutVerbose("Рантайм Cpp: " + ndkCppRuntime);
+	PutVerbose("Флаги Cpp: " + ndkCppFlags);
 	PutVerbose("CFlags: " + ndkCFlags);
 	PutVerbose("Toolchain: " + ndkToolchain);
 	

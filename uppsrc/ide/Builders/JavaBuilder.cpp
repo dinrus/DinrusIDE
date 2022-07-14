@@ -104,8 +104,8 @@ bool JavaBuilder::BuildPackage(const String& package, Vector<String>& linkfile, 
 						ismf = true;
 						if(manifest >= 0)
 						{
-							PutConsole(Format("%s(1): duplicate manifest file", fn));
-							PutConsole(Format("%s(1): (previous manifest file)", sfile[manifest]));
+							PutConsole(Format("%s(1): дубликат файла манифеста", fn));
+							PutConsole(Format("%s(1): (предыдущий файл манифеста)", sfile[manifest]));
 						}
 						manifest = sfile.GetCount();
 					}
@@ -133,8 +133,8 @@ bool JavaBuilder::BuildPackage(const String& package, Vector<String>& linkfile, 
 	}
 	linkfile.Add(outdir);
 	if(ccount > 0)
-		PutConsole(String().Cat() << ccount << " file(s) preprocessed in " << GetPrintTime(time) <<
-		           " " << int(msecs() - time) / ccount << " msec/file");
+		PutConsole(String().Cat() << ccount << " файл(-ов) предобработано за " << GetPrintTime(time) <<
+		           " " << int(msecs() - time) / ccount << " мсек/файл");
 	linkoptions << ' ' << Gather(pkg.link, config.GetKeys());
 
 	if(!error && HasFlag("MAIN") && !sfile.IsEmpty())
@@ -215,7 +215,7 @@ bool JavaBuilder::PreprocessJava(String file, String target, String options,
 	String prep = LoadFile(prepfile);
 	if(prep.IsEmpty())
 	{
-		PutConsole(Format("Error loading preprocessed file %s", prepfile));
+		PutConsole(Format("Ошибка при загрузке препроцессированного файла %s", prepfile));
 		error = true;
 	}
 	DeleteFile(prepfile);
@@ -223,9 +223,9 @@ bool JavaBuilder::PreprocessJava(String file, String target, String options,
 	{
 		DeleteFile(target);
 		error = true;
-		PutConsole(Format("%s: error saving file.", target));
+		PutConsole(Format("%s: ошибка при сохранении файла.", target));
 	}
-	PutVerbose("preprocessed in " + GetPrintTime(time));
+	PutVerbose("препроцессировано за " + GetPrintTime(time));
 	return !error;
 }
 
@@ -255,15 +255,15 @@ bool JavaBuilder::Link(const Vector<String>& linkfile, const String& linkoptions
 	String mainclass = linkfile[MAINCLASS];
 	String maindir = linkfile[MAINDIR];
 	String manifest = linkfile[MANIFEST];
-	PutConsole("Compiling...");
+	PutConsole("Компилируется...");
 	if(Execute(linkoptions) != 0) {
 		DeleteFile(mainclass);
 		return false;
 	}
-	PutVerbose("compiled in " + GetPrintTime(time));
+	PutVerbose("скомпилировано за " + GetPrintTime(time));
 	host->ChDir(maindir);
 
-	PutConsole("Archiving...");
+	PutConsole("Архивирование...");
 	String cmdline;
 	cmdline << "cf";
 	if(!manifest.IsEmpty())
@@ -285,7 +285,7 @@ bool JavaBuilder::Link(const Vector<String>& linkfile, const String& linkoptions
 			response = GetTempFileName("jar");
 			link << '@' << response;
 			if(!UPP::SaveFile(response, cmdline)) {
-				PutConsole(String().Cat() << "Error writing JAR response file '" << response << "'");
+				PutConsole(String().Cat() << "Ошибка при записи респонс-файла JAR '" << response << "'");
 				return false;
 			}
 		}
@@ -298,11 +298,11 @@ bool JavaBuilder::Link(const Vector<String>& linkfile, const String& linkoptions
 		}
 		CustomStep(".post-link", Null, error);
 		PutConsole(String().Cat() << target << " (" << GetFileInfo(target).length
-		           << " B) archived in " << GetPrintTime(time));
+		           << " B) архивировано за " << GetPrintTime(time));
 	}
 	else
 		PutConsole(String().Cat() << target << " (" << GetFileInfo(target).length
-		           << " B) is up to date.");
+		           << " B) в свежем состоянии.");
 	return true;
 }
 

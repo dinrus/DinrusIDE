@@ -8,9 +8,9 @@ AndroidBuilderCommands::AndroidBuilderCommands(
 	, sdkPtr(sdkPtr)
 	, jdkPtr(jdkPtr)
 {
-	ASSERT_(projectPtr, "Project is not initialized.");
-	ASSERT_(sdkPtr, "Android sdk is not initialized.");
-	ASSERT_(jdkPtr, "JDK is not initialized.");
+	ASSERT_(projectPtr, "Проект не инициирован.");
+	ASSERT_(sdkPtr, "Android sdk не инициирован.");
+	ASSERT_(jdkPtr, "JDK не инициирован.");
 }
 
 String AndroidBuilderCommands::PreperCompileJavaSourcesCommand(

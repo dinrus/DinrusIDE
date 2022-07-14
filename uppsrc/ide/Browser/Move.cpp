@@ -34,7 +34,7 @@ void MoveTopicDlg::Package()
 
 MoveTopicDlg::MoveTopicDlg()
 {
-	CtrlLayoutOKCancel(*this, "Перместить тематику");
+	CtrlLayoutOKCancel(*this, "Переместить тематику");
 
 	topic.NotNull();
 	topic.MaxLen(30);

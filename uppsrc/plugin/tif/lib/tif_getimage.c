@@ -928,7 +928,7 @@ gtStripContig(TIFFRGBAImage* img, uint32* raster, uint32 w, uint32 h)
 
 	TIFFGetFieldDefaulted(tif, TIFFTAG_YCBCRSUBSAMPLING, &subsamplinghor, &subsamplingver);
 	if( subsamplingver == 0 ) {
-		TIFFErrorExt(tif->tif_clientdata, TIFFFileName(tif), "Invalid vertical YCbCr subsampling");
+		TIFFErrorExt(tif->tif_clientdata, TIFFFileName(tif), "Неверное vertical YCbCr subsampling");
 		return (0);
 	}
 	
@@ -2313,7 +2313,7 @@ initYCbCrConversion(TIFFRGBAImage* img)
             luma[2] != luma[2] )
         {
             TIFFErrorExt(img->tif->tif_clientdata, module,
-                "Invalid values for YCbCrCoefficients tag");
+                "Неверное values for YCbCrCoefficients tag");
             return (0);
         }
 
@@ -2325,7 +2325,7 @@ initYCbCrConversion(TIFFRGBAImage* img)
             !isInRefBlackWhiteRange(refBlackWhite[5]) )
         {
             TIFFErrorExt(img->tif->tif_clientdata, module,
-                "Invalid values for ReferenceBlackWhite tag");
+                "Неверное values for ReferenceBlackWhite tag");
             return (0);
         }
 
@@ -2345,7 +2345,7 @@ initCIELabConversion(TIFFRGBAImage* img)
 	TIFFGetFieldDefaulted(img->tif, TIFFTAG_WHITEPOINT, &whitePoint);
 	if (whitePoint[1] == 0.0f ) {
 		TIFFErrorExt(img->tif->tif_clientdata, module,
-		    "Invalid value for WhitePoint tag.");
+		    "Неверное value for WhitePoint tag.");
 		return NULL;
         }
 

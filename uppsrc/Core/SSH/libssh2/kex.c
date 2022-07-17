@@ -3961,7 +3961,7 @@ libssh2_session_method_pref(LIBSSH2_SESSION * session, int method_type,
 
     default:
         return _libssh2_error(session, LIBSSH2_ERROR_INVAL,
-                              "Invalid parameter specified for method_type");
+                              "Неверное parameter specified for method_type");
     }
 
     s = newprefs = LIBSSH2_ALLOC(session, prefs_len + 1);

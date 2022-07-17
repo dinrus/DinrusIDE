@@ -136,7 +136,7 @@ class LangConvertClass : public Convert {
 	virtual Value  Scan(const Value& text) const {
 		if(IsNull(text)) return 0;
 		int q = LNGFromText((String)text);
-		if(!q) return ErrorValue(t_("Invalid language specification."));
+		if(!q) return ErrorValue(t_("Неверное language specification."));
 		return (int) q;
 	}
 

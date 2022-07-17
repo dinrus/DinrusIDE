@@ -1,4 +1,4 @@
-description "The source files edit, derived from CtrlLib's LineEdit\377";
+description "Редактор исходного кода, производный от LineEdit из CtrlLib\377";
 
 uses
 	CtrlLib,

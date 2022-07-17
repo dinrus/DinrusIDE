@@ -151,7 +151,7 @@ ValueArray::ValueArray(const Value& src)
 		}
 		else {
 			if(src.GetType() != VALUEARRAY_V)
-				throw ValueTypeError(String().Cat() << "Invalid value conversion: "
+				throw ValueTypeError(String().Cat() << "неправильное преобразование значения: "
 			                         << src.GetTypeName() << " -> ValueArray",
 			                         src, VALUEARRAY_V);
 			data = (ValueArray::Data *)src.GetVoidPtr();
@@ -480,7 +480,7 @@ ValueMap::ValueMap(const Value& src)
 		}
 		else {
 			if(src.GetType() != VALUEMAP_V)
-				throw ValueTypeError(String().Cat() << "Invalid value conversion: "
+				throw ValueTypeError(String().Cat() << "Неправильное преобразование значения: "
 			                         << src.GetTypeName() << " -> ValueMap",
 			                         src, VALUEMAP_V);
 			data = (ValueMap::Data *)src.GetVoidPtr();

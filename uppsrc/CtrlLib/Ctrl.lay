@@ -9,25 +9,25 @@ LAYOUT(EditIntLayout, 236, 62)
 	ITEM(Upp::Label, lbl, SetLabel(t_("Test")).LeftPosZ(4, 96).TopPosZ(4, 19))
 	ITEM(Upp::EditInt, number, HSizePosZ(104, 4).TopPosZ(4, 19))
 	ITEM(Upp::Button, ok, SetLabel(t_("OK")).HCenterPosZ(64, 14).BottomPosZ(6, 24))
-	ITEM(Upp::Button, cancel, SetLabel(t_("Cancel")).RightPosZ(4, 64).BottomPosZ(6, 24))
+	ITEM(Upp::Button, cancel, SetLabel(t_("Отмена")).RightPosZ(4, 64).BottomPosZ(6, 24))
 END_LAYOUT
 
 LAYOUT(EditDoubleLayout, 236, 62)
 	ITEM(Upp::Label, lbl, SetLabel(t_("Test")).LeftPosZ(4, 116).TopPosZ(4, 19))
 	ITEM(Upp::EditDouble, number, HSizePosZ(124, 4).TopPosZ(4, 19))
 	ITEM(Upp::Button, ok, SetLabel(t_("OK")).HCenterPosZ(64, 14).BottomPosZ(6, 24))
-	ITEM(Upp::Button, cancel, SetLabel(t_("Cancel")).RightPosZ(4, 64).BottomPosZ(6, 24))
+	ITEM(Upp::Button, cancel, SetLabel(t_("Отмена")).RightPosZ(4, 64).BottomPosZ(6, 24))
 END_LAYOUT
 
 LAYOUT(EditDateLayout, 236, 62)
 	ITEM(Upp::Label, lbl, SetLabel(t_("Test")).LeftPosZ(4, 120).TopPosZ(4, 19))
 	ITEM(Upp::DropDate, date, HSizePosZ(128, 8).TopPosZ(4, 19))
 	ITEM(Upp::Button, ok, SetLabel(t_("OK")).HCenterPosZ(64, 10).BottomPosZ(6, 24))
-	ITEM(Upp::Button, cancel, SetLabel(t_("Cancel")).RightPosZ(8, 64).BottomPosZ(6, 24))
+	ITEM(Upp::Button, cancel, SetLabel(t_("Отмена")).RightPosZ(8, 64).BottomPosZ(6, 24))
 END_LAYOUT
 
 LAYOUT(ProgressLayout, 320, 72)
-	ITEM(Upp::Button, stop, SetLabel(t_("Cancel")).HCenterPosZ(68, 0).BottomPosZ(4, 24))
+	ITEM(Upp::Button, stop, SetLabel(t_("Отмена")).HCenterPosZ(68, 0).BottomPosZ(4, 24))
 	UNTYPED(pi, HSizePosZ(4, 4).TopPosZ(28, 12))
 	ITEM(Upp::Label, info, HSizePosZ(4, 4).TopPosZ(4, 20))
 END_LAYOUT
@@ -35,13 +35,13 @@ END_LAYOUT
 LAYOUT(CommentLayout, 400, 204)
 	ITEM(Upp::DocEdit, text, HSizePosZ(8, 8).VSizePosZ(8, 40))
 	ITEM(Upp::Button, ok, SetLabel(t_("OK")).RightPosZ(80, 64).BottomPosZ(8, 24))
-	ITEM(Upp::Button, cancel, SetLabel(t_("Cancel")).RightPosZ(8, 64).BottomPosZ(8, 24))
+	ITEM(Upp::Button, cancel, SetLabel(t_("Отмена")).RightPosZ(8, 64).BottomPosZ(8, 24))
 END_LAYOUT
 
 LAYOUT(SimpleSelectLayout, 172, 184)
 	ITEM(Upp::ArrayCtrl, list, HSizePosZ(4, 4).VSizePosZ(4, 34))
 	ITEM(Upp::Button, ok, SetLabel(t_("OK")).RightPosZ(74, 64).BottomPosZ(4, 24))
-	ITEM(Upp::Button, cancel, SetLabel(t_("Cancel")).RightPosZ(4, 64).BottomPosZ(4, 24))
+	ITEM(Upp::Button, cancel, SetLabel(t_("Отмена")).RightPosZ(4, 64).BottomPosZ(4, 24))
 END_LAYOUT
 
 LAYOUT(FileSelectorLayout, 652, 488)
@@ -62,7 +62,7 @@ LAYOUT(FileSelectorLayout, 652, 488)
 	ITEM(Upp::Option, readonly, SetLabel(t_("Read only")).LeftPosZ(84, 84).BottomPosZ(4, 16))
 	ITEM(Upp::Option, hiddenfiles, SetLabel(t_("Show hidden files")).LeftPosZ(348, 152).BottomPosZ(4, 16))
 	ITEM(Upp::Button, ok, SetLabel(t_("Open")).RightPosZ(80, 68).BottomPosZ(8, 24))
-	ITEM(Upp::Button, cancel, SetLabel(t_("Cancel")).RightPosZ(8, 68).BottomPosZ(8, 24))
+	ITEM(Upp::Button, cancel, SetLabel(t_("Отмена")).RightPosZ(8, 68).BottomPosZ(8, 24))
 END_LAYOUT
 
 LAYOUT(PaletteLayout, 216, 332)
@@ -88,7 +88,7 @@ END_LAYOUT
 LAYOUT(PaletteSelectorLayout, 248, 320)
 	ITEM(Ctrl, palette, HSizePosZ(4, 4).VSizePosZ(4, 32))
 	ITEM(Upp::Button, ok, SetLabel(t_("OK")).RightPosZ(88, 80).BottomPosZ(4, 22))
-	ITEM(Upp::Button, cancel, SetLabel(t_("Cancel")).RightPosZ(4, 80).BottomPosZ(4, 22))
+	ITEM(Upp::Button, cancel, SetLabel(t_("Отмена")).RightPosZ(4, 80).BottomPosZ(4, 22))
 END_LAYOUT
 
 LAYOUT(PalCtrlSizeLayout, 206, 60)
@@ -97,14 +97,14 @@ LAYOUT(PalCtrlSizeLayout, 206, 60)
 	ITEM(Upp::Label, dv___2, SetLabel(t_("&Columns:")).LeftPosZ(108, 44).TopPosZ(4, 19))
 	ITEM(Upp::EditIntSpin, columns, LeftPosZ(152, 50).TopPosZ(4, 19))
 	ITEM(Upp::Button, ok, SetLabel(t_("OK")).RightPosZ(88, 80).BottomPosZ(4, 22))
-	ITEM(Upp::Button, cancel, SetLabel(t_("Cancel")).RightPosZ(4, 80).BottomPosZ(4, 22))
+	ITEM(Upp::Button, cancel, SetLabel(t_("Отмена")).RightPosZ(4, 80).BottomPosZ(4, 22))
 END_LAYOUT
 
 LAYOUT(KeysLayout, 604, 500)
 	ITEM(Upp::ArrayCtrl, group, LeftPosZ(8, 116).TopPosZ(8, 452))
 	ITEM(Upp::ArrayCtrl, keys, LeftPosZ(132, 464).TopPosZ(8, 452))
 	ITEM(Upp::Button, ok, SetLabel(t_("OK")).LeftPosZ(464, 64).TopPosZ(468, 24))
-	ITEM(Upp::Button, cancel, SetLabel(t_("Cancel")).LeftPosZ(532, 64).TopPosZ(468, 24))
+	ITEM(Upp::Button, cancel, SetLabel(t_("Отмена")).LeftPosZ(532, 64).TopPosZ(468, 24))
 	ITEM(Upp::Button, defaults, SetLabel(t_("Defaults")).LeftPosZ(8, 64).TopPosZ(468, 24))
 END_LAYOUT
 
@@ -130,6 +130,6 @@ LAYOUT(PrinterLayout, 380, 276)
 	ITEM(Upp::Label, dv___18, SetLabel(t_("Pages per sheet")).LeftPosZ(196, 108).TopPosZ(200, 20))
 	ITEM(Upp::DropList, npage, LeftPosZ(308, 56).TopPosZ(200, 19))
 	ITEM(Upp::Button, ok, SetLabel(t_("OK")).RightPosZ(76, 64).BottomPosZ(8, 24))
-	ITEM(Upp::Button, cancel, SetLabel(t_("Cancel")).RightPosZ(8, 64).BottomPosZ(8, 24))
+	ITEM(Upp::Button, cancel, SetLabel(t_("Отмена")).RightPosZ(8, 64).BottomPosZ(8, 24))
 END_LAYOUT
 

@@ -1,7 +1,8 @@
-description "Commandline U++ package/assembly builder\377";
+description "Построитель пакета/сборки из командной строки\377";
 
 uses
-	ide\Builders;
+	ide\Builders,
+	DRC/ocx;
 
 file
 	umake.h,

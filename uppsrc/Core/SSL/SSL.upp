@@ -1,4 +1,4 @@
-description "OpenSSL based SSL support for Core\3770,128,128";
+description "Основанная на OpenSSL поддержка для  Core (ядра)\3770,128,128";
 
 library(!OSX) "crypto ssl";
 

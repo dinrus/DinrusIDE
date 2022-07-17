@@ -223,14 +223,14 @@ void WebSocket::RequestHeader()
 	if(ReadHttpHeader()) {
 		HttpHeader hdr;
 		if(!hdr.Parse(data)) {
-			Error("Invalid HTTP header");
+			Error("Неверное HTTP header");
 			return;
 		}
 		String dummy;
 		hdr.Request(dummy, uri, dummy);
 		String key = hdr["sec-websocket-key"];
 		if(IsNull(key)) {
-			Error("Invalid HTTP header: missing sec-websocket-key");
+			Error("Неверное HTTP header: missing sec-websocket-key");
 			return;
 		}
 	
@@ -265,7 +265,7 @@ void WebSocket::ResponseHeader()
 			}
 		}
 		if(ToLower(h["upgrade"]) != "websocket") {
-			Error("Invalid server response HTTP header");
+			Error("Неверное server response HTTP header");
 			return;
 		}
 		LLOG("HTTP response header received");

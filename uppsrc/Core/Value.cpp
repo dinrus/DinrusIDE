@@ -386,7 +386,7 @@ void Value::Serialize(Stream& s) {
 		int st = data.GetSpecial();
 		ASSERT_(!type || type == ERROR_V || type == UNKNOWN_V || st == STRING ||
 		        (IsRef() ? Typemap().Find(type) >= 0 : st < 255 && svo[st]),
-		        GetName() + " is not registred for serialization");
+		        GetName() + " не требуется для сериализации");
 		if(st == VOIDV)
 			return;
 		if(st == STRING)
@@ -422,7 +422,7 @@ void Value::Xmlize(XmlIO& xio)
 			int st = data.GetSpecial();
 			ASSERT_(!type || type == ERROR_V || type == UNKNOWN_V || st == STRING ||
 			        (IsRef() ? Typemap().Find(type) >= 0 : st < 255 && svo[st]),
-			        GetName() + " is not registred for xmlize");
+			        GetName() + " не зарегистрирован для xml-изации");
 			if(st == VOIDV)
 				return;
 			if(st == STRING)
@@ -446,13 +446,13 @@ void Value::Xmlize(XmlIO& xio)
 				LoadFromString(*this, ScanHexString(s));
 			}
 			catch(LoadingError) {
-				throw XmlError("xmlize serialized_binary Error");
+				throw XmlError("Ошибка при xml-изации сериализованного бинарника");
 			}
 		}
 		else {
 			int type = GetType(name);
 			if(Upp::IsNull(type))
-				throw XmlError("invalid Value type");
+				throw XmlError("Неправильный тип значения");
 			Free();
 			int st = (dword)type == VOID_V ? VOIDV : (dword)type == STRING_V ? STRING : type;
 			if(st == STRING)
@@ -471,7 +471,7 @@ void Value::Xmlize(XmlIO& xio)
 					InitRef(p, type);
 				}
 				else
-					throw XmlError("invalid Value type");
+					throw XmlError("Неправильный тип значения");
 			}
 		}
 	}
@@ -495,7 +495,7 @@ void Value::Jsonize(JsonIO& jio)
 				int st = data.GetSpecial();
 				ASSERT_(!type || type == ERROR_V || type == UNKNOWN_V || st == STRING ||
 				        (IsRef() ? Typemap().Find(type) >= 0 : st < 255 && svo[st]),
-				        GetName() + " is not registred for jsonize");
+				        GetName() + " не зарегистрирован для json-изации");
 				if(st == VOIDV)
 					return;
 				JsonIO hio;
@@ -525,19 +525,19 @@ void Value::Jsonize(JsonIO& jio)
 			Value  val = g["value"];
 			if(name == s_binary) {
 				if(!Upp::IsString(val))
-					throw JsonizeError("serialized_binary Error");
+					throw JsonizeError("Ошибка сериализонанного бинарника");
 				String s = val;
 				try {
 					LoadFromString(*this, ScanHexString(s));
 				}
 				catch(LoadingError) {
-					throw JsonizeError("serialized_binary Error");
+					throw JsonizeError("Ошибка сериализаванного бинарника");
 				}
 			}
 			else {
 				int type = GetType(name);
 				if(Upp::IsNull(type))
-					throw JsonizeError("invalid Value type");
+					throw JsonizeError("Неверный тип значения");
 				Free();
 				int st = (dword)type == VOID_V ? VOIDV : (dword)type == STRING_V ? STRING : type;
 				if(st == STRING) {
@@ -560,7 +560,7 @@ void Value::Jsonize(JsonIO& jio)
 							InitRef(p, type);
 						}
 						else
-							throw JsonizeError("invalid Value type");
+							throw JsonizeError("Неверный тип значения");
 					}
 				}
 			}

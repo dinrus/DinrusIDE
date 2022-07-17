@@ -1,4 +1,4 @@
-description "TheIDE - extensions (macro) managment utility\377B";
+description "DinrusIDE - утилита управления расширениями (macro)\377B";
 
 uses
 	CtrlLib,

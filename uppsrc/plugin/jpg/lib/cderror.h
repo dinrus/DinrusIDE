@@ -42,8 +42,8 @@ JMESSAGE(JMSG_FIRSTADDONCODE=1000, NULL) /* Must be first entry! */
 #ifdef BMP_SUPPORTED
 JMESSAGE(JERR_BMP_BADCMAP, "Unsupported BMP colormap format")
 JMESSAGE(JERR_BMP_BADDEPTH, "Only 8-, 24-, and 32-bit BMP files are supported")
-JMESSAGE(JERR_BMP_BADHEADER, "Invalid BMP file: bad header length")
-JMESSAGE(JERR_BMP_BADPLANES, "Invalid BMP file: biPlanes not equal to 1")
+JMESSAGE(JERR_BMP_BADHEADER, "Неверное BMP file: bad header length")
+JMESSAGE(JERR_BMP_BADPLANES, "Неверное BMP file: biPlanes not equal to 1")
 JMESSAGE(JERR_BMP_COLORSPACE, "BMP output must be grayscale or RGB")
 JMESSAGE(JERR_BMP_COMPRESSED, "Sorry, compressed BMPs not yet supported")
 JMESSAGE(JERR_BMP_NOT, "Not a BMP file - does not start with BM")
@@ -101,7 +101,7 @@ JMESSAGE(JTRC_RLE_MAPPED, "%ux%u colormapped RLE file with map of length %d")
 
 #ifdef TARGA_SUPPORTED
 JMESSAGE(JERR_TGA_BADCMAP, "Unsupported Targa colormap format")
-JMESSAGE(JERR_TGA_BADPARMS, "Invalid or unsupported Targa file")
+JMESSAGE(JERR_TGA_BADPARMS, "Неверное or unsupported Targa file")
 JMESSAGE(JERR_TGA_COLORSPACE, "Targa output must be grayscale or RGB")
 JMESSAGE(JTRC_TGA, "%ux%u RGB Targa image")
 JMESSAGE(JTRC_TGA_GRAY, "%ux%u grayscale Targa image")

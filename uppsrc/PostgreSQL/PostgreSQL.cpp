@@ -519,7 +519,7 @@ bool PostgreSQLConnection::Execute()
 				}
 				else {
 					if(pi >= param.GetCount()) {
-						session.SetError("Invalid number of parameters", statement);
+						session.SetError("Неверное число параметров", statement);
 						return false;
 					}
 					query.Cat(param[pi++]);

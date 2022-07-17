@@ -150,30 +150,30 @@ bool CParser::Id0(const char *s) {
 void CParser::PassId(const char *s) {
 	LTIMING("PassId");
 	if(!Id(s))
-		ThrowError(String("missing '") + s + "\'");
+		ThrowError(String("отсутствует '") + s + "\'");
 }
 
 void CParser::PassChar(char c) {
 	LTIMING("PassChar");
 	if(!Char(c))
-		ThrowError(String("missing '") + c + "\'");
+		ThrowError(String("отсутствует '") + c + "\'");
 }
 
 void CParser::PassChar2(char c1, char c2) {
 	LTIMING("PassChar2");
 	if(!Char2(c1, c2))
-		ThrowError(String("missing '") + c1 + c2 + "\'");
+		ThrowError(String("отсутствует '") + c1 + c2 + "\'");
 }
 
 void CParser::PassChar3(char c1, char c2, char c3) {
 	LTIMING("PassChar3");
 	if(!Char3(c1, c2, c3))
-		ThrowError(String("missing '") + c1 + c2 + c3 + "\'");
+		ThrowError(String("отсутствует '") + c1 + c2 + c3 + "\'");
 }
 
 String CParser::ReadId() {
 	if(!IsId())
-		ThrowError("missing id");
+		ThrowError("отсутствует id");
 	String result;
 	const char *b = term;
 	const char *p = b;
@@ -186,7 +186,7 @@ String CParser::ReadId() {
 
 String CParser::ReadIdt() {
 	if(!IsId())
-		ThrowError("missing id");
+		ThrowError("отсутствует id");
 	StringBuffer result;
 	int lvl = 0;
 	while(IsAlNum(*term) || *term == '_' || *term == '<' || *term == '>' ||
@@ -229,7 +229,7 @@ int  CParser::ReadInt() {
 	int n;
 	bool overflow = false;
 	const char *t = ScanInt<char, byte, dword, int, 10>(n, term, overflow);
-	if(!t) ThrowError("missing number");
+	if(!t) ThrowError("отсутствует number");
 	if(overflow) ThrowError("number is too big");
 	term = t;
 	DoSpaces();
@@ -250,7 +250,7 @@ int64 CParser::ReadInt64()
 	int64 n;
 	bool overflow = false;
 	const char *t = ScanInt<char, byte, uint64, int64, 10>(n, term, overflow);
-	if(!t) ThrowError("missing number");
+	if(!t) ThrowError("отсутствует number");
 	if(overflow) ThrowError("number is too big");
 	term = t;
 	DoSpaces();
@@ -300,7 +300,7 @@ uint32  CParser::ReadNumber(int base)
 		uint32 n = 0;
 		int q = ctoi(*term);
 		if(q < 0 || q >= base)
-			ThrowError("missing number");
+			ThrowError("отсутствует number");
 		for(;;) {
 			int c = ctoi(*term);
 			if(c < 0 || c >= base)
@@ -314,7 +314,7 @@ uint32  CParser::ReadNumber(int base)
 		DoSpaces();
 		return n;
 	}
-	if(!t) ThrowError("missing number");
+	if(!t) ThrowError("отсутствует number");
 	if(overflow) ThrowError("number is too big");
 	term = t;
 	DoSpaces();
@@ -346,7 +346,7 @@ uint64  CParser::ReadNumber64(int base)
 		uint64 n = 0;
 		int q = ctoi(*term);
 		if(q < 0 || q >= base)
-			ThrowError("missing number");
+			ThrowError("отсутствует number");
 		for(;;) {
 			int c = ctoi(*term);
 			if(c < 0 || c >= base)
@@ -360,7 +360,7 @@ uint64  CParser::ReadNumber64(int base)
 		DoSpaces();
 		return n;
 	}
-	if(!t) ThrowError("missing number");
+	if(!t) ThrowError("отсутствует number");
 	if(overflow) ThrowError("number is too big");
 	term = t;
 	DoSpaces();
@@ -405,7 +405,7 @@ bool CParser::ReadHex(dword& hex, int n)
 
 String CParser::ReadOneString(int delim, bool chkend) {
 	if(!IsChar(delim))
-		ThrowError("missing string");
+		ThrowError("отсутствует string");
 	term++;
 	StringBuffer result;
 	for(;;) {
@@ -445,7 +445,7 @@ String CParser::ReadOneString(int delim, bool chkend) {
 								break;
 							}
 						}
-						ThrowError("Invalid UTF-16 surrogate pair");
+						ThrowError("Неверное UTF-16 surrogate pair");
 					}
 					else
 						result.Cat(ToUtf8(hex));

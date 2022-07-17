@@ -160,7 +160,7 @@ void MemoryFree_(void *ptr);
 void DbgCheck(DbgBlkHeader *p)
 {
 	if((dword)Peek32le((byte *)(p + 1) + p->size) != p->serial)
-		DbgHeapPanic("Heap is corrupted ", p);
+		DbgHeapPanic("Куча повреждена ", p);
 }
 
 void MemoryFree(void *ptr)
@@ -219,7 +219,7 @@ void MemoryCheckDebug()
 	DbgBlkHeader *p = dbg_live.next;
 	while(p != &dbg_live) {
 		if((dword)Peek32le((byte *)(p + 1) + p->size) != p->serial)
-			DbgHeapPanic("HEAP CHECK: Heap is corrupted ", p);
+			DbgHeapPanic("ПРОВЕРКА КУЧИ: Куча повреждена ", p);
 		p = p->next;
 	}
 	while(p != &dbg_live);
@@ -233,7 +233,7 @@ void MemoryDumpLeaks()
 	return; // ignore leaks in macos
 #endif
 	if(IsMainRunning()) {
-		VppLog() << "Application was terminated in a non-standard way (e.g. exit(x) call or Ctrl+C)\n";
+		VppLog() << "Приложение было закрыто нестандартным образом (напр., вызовом exit(x) или Ctrl+C)\n";
 	}
 #ifndef PLATFORM_POSIX
 	if(s_ignoreleaks)
@@ -247,7 +247,7 @@ void MemoryDumpLeaks()
 		dword serial = (unsigned int)~(p->serial ^ (uintptr_t)p);
 		if(p->serial && (!sIgnoreNonMainLeaks || serial >= serial_main_begin && serial < serial_main_end)) {
 			if(!leaks)
-				VppLog() << "\n\nHeap leaks detected:\n";
+				VppLog() << "\n\nОбнаружены утечки кучи:\n";
 			leaks = true;
 			char b[100];
 			DbgFormat(b, p);
@@ -273,7 +273,7 @@ void MemoryDumpLeaks()
 	           MB_ICONSTOP|MB_OK|MB_APPLMODAL);
 #else
 	if(!IsPanicMode())
-		Panic("Heap leaks detected!");
+		Panic("Обнаружены утечки памяти кучи!");
 #endif
 	Heap::AuxFinalCheck();
 }

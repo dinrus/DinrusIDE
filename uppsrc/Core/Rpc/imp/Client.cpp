@@ -181,7 +181,7 @@ RpcGet RpcRequest::Execute()
 				}
 			}
 			String s;
-			faultString = "Invalid response";
+			faultString = "Неверное response";
 			faultCode = RPC_CLIENT_RESPONSE_ERROR;
 			error = faultString;
 			LLOG(error);

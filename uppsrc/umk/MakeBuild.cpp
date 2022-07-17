@@ -44,7 +44,7 @@ void Ide::EndBuilding(bool ok)
 	if(!errors.IsEmpty())
 		ok = false;
 	PutConsole("");
-	PutConsole((ok ? "OK. " : "There were errors. ") + GetPrintTime(build_time));
+	PutConsole((ok ? "OK. " : "Имелись ошибки. ") + GetPrintTime(build_time));
 }
 
 void Ide::ConsoleClear()

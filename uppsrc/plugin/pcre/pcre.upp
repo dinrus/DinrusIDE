@@ -1,4 +1,4 @@
-description "PCRE regular expressions library\3770,128,128";
+description "Библиотека регулярных выражений PCRE\3770,128,128";
 
 noblitz;
 

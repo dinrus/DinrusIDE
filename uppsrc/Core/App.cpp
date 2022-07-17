@@ -459,17 +459,17 @@ void AppExecute__(void (*app)())
 
 void s_ill_handler(int)
 {
-	Panic("Illegal instruction!");
+	Panic("Недопустимая инструкция!");
 }
 
 void s_segv_handler(int)
 {
-	Panic("Invalid memory access!");
+	Panic("Неверный доступ к памяти!");
 }
 
 void s_fpe_handler(int)
 {
-	Panic("Invalid arithmetic operation!");
+	Panic("Неверная арифметическая операция!");
 }
 
 void AppInit__(int argc, const char **argv, const char **envptr)

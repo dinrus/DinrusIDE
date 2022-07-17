@@ -67,7 +67,7 @@ void *Heap::HugeAlloc(size_t count) // count in 4kb pages
 		if(huge_4KB_count > huge_4KB_count_max) {
 			huge_4KB_count_max = huge_4KB_count;
 			if(4 * (Heap::huge_4KB_count - Heap::free_4KB) > sKBLimit)
-				Panic("MemoryLimitKb breached!");
+				Panic("Брешь в MemoryLimitKb!");
 			if(sPeak)
 				Make(*sPeak);
 		}

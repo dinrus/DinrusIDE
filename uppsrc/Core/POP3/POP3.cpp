@@ -205,7 +205,7 @@ bool Pop3::Login()
 			}
 			LLOG("Proxy response: " << response);
 			if(!response.StartsWith("HTTP") || response.Find(" 2") < 0)
-				throw Exc("Invalid proxy reply: " + response);
+				throw Exc("Неверное proxy reply: " + response);
 			LLOG("Connected via proxy");
 		}
 		else

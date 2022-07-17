@@ -452,7 +452,7 @@ void RichQtfParser::TableFormat(bool bw)
 		case '+':
 		case '|': t.vspan = GetNumber(); break;
 		default:
-			Error("Invalid cell format");
+			Error("Неверное cell format");
 		}
 	}
 }
@@ -644,7 +644,7 @@ void RichQtfParser::Parse(const char *qtf, int _accesskey)
 				case '.': {
 					int n = GetNumber();
 					if(n >= Font::GetFaceCount())
-						Error("Invalid face number");
+						Error("Неверное face number");
 					format.Face(n); break;
 				}
 				case '!': {
@@ -946,7 +946,7 @@ void RichQtfParser::Parse(const char *qtf, int _accesskey)
 				while(isxdigit(*term))
 					xu.Cat(*term++);
 				if(xu.GetLength() != 32)
-					Error("Invalid UUID !");
+					Error("Неверное UUID !");
 				id = ScanUuid(xu);
 			}
 			else
@@ -1017,7 +1017,7 @@ void RichQtfParser::Parse(const char *qtf, int _accesskey)
 						if(ok)
 							Cat(c);
 						else
-							Error("Invalid UTF-8 sequence");
+							Error("Неверное UTF-8 sequence");
 					}
 					else
 						Cat(ToUnicode((byte)*term++, format.charset));

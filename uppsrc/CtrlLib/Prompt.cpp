@@ -423,15 +423,15 @@ void ErrorOKOpt(const char *qtf, const char *opt_id) {
 }
 
 int PromptOKCancelOpt(const char *qtf, const char *opt_id) {
-	return PromptOpt(opt_id, BEEP_QUESTION, Ctrl::GetAppName(), CtrlImg::question(), qtf, t_("OK"), t_("Cancel"));
+	return PromptOpt(opt_id, BEEP_QUESTION, Ctrl::GetAppName(), CtrlImg::question(), qtf, t_("OK"), t_("Отмена"));
 }
 
 int PromptOKCancelAllOpt(const char *qtf, const char *opt_id) {
-	return PromptOpt(opt_id, BEEP_QUESTION, Ctrl::GetAppName(), CtrlImg::question(), qtf, t_("OK"), t_("Cancel"), t_("All"));
+	return PromptOpt(opt_id, BEEP_QUESTION, Ctrl::GetAppName(), CtrlImg::question(), qtf, t_("OK"), t_("Отмена"), t_("Все"));
 }
 
 int ErrorOKCancelOpt(const char *qtf, const char *opt_id) {
-	return PromptOpt(opt_id, BEEP_ERROR, Ctrl::GetAppName(), CtrlImg::error(), qtf, t_("OK"), t_("Cancel"));
+	return PromptOpt(opt_id, BEEP_ERROR, Ctrl::GetAppName(), CtrlImg::error(), qtf, t_("OK"), t_("Отмена"));
 }
 
 int PromptYesNoOpt(const char *qtf, const char *opt_id) {
@@ -567,15 +567,15 @@ void ErrorOKOpt1(const char *qtf, const char *opt_id) {
 }
 
 int PromptOKCancelOpt1(const char *qtf, const char *opt_id) {
-	return PromptOpt1(opt_id, BEEP_QUESTION, Ctrl::GetAppName(), CtrlImg::question(), qtf, t_("OK"), t_("Cancel"));
+	return PromptOpt1(opt_id, BEEP_QUESTION, Ctrl::GetAppName(), CtrlImg::question(), qtf, t_("OK"), t_("Отмена"));
 }
 
 int PromptOKCancelAllOpt1(const char *qtf, const char *opt_id) {
-	return PromptOpt1(opt_id, BEEP_QUESTION, Ctrl::GetAppName(), CtrlImg::question(), qtf, t_("OK"), t_("Cancel"), t_("All"));
+	return PromptOpt1(opt_id, BEEP_QUESTION, Ctrl::GetAppName(), CtrlImg::question(), qtf, t_("OK"), t_("Отмена"), t_("Все"));
 }
 
 int ErrorOKCancelOpt1(const char *qtf, const char *opt_id) {
-	return PromptOpt1(opt_id, BEEP_ERROR, Ctrl::GetAppName(), CtrlImg::error(), qtf, t_("OK"), t_("Cancel"));
+	return PromptOpt1(opt_id, BEEP_ERROR, Ctrl::GetAppName(), CtrlImg::error(), qtf, t_("OK"), t_("Отмена"));
 }
 
 int PromptYesNoOpt1(const char *qtf, const char *opt_id) {

@@ -457,7 +457,7 @@ bool ODBCConnection::Execute()
 		else {
 			if(*s == '?') {
 				if(pi >= param.GetCount()) {
-					session->SetError("Invalid number of parameters", statement);
+					session->SetError("Неверное число параметров", statement);
 					return false;
 				}
 				Value v = param[pi++];

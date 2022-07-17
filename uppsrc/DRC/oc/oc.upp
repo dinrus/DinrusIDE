@@ -1,0 +1,16 @@
+description "Главный модуль конвертера объектных файлов\377";
+
+uses
+	DRC\ocx,
+	Core;
+
+file
+	main.cpp;
+
+mainconfig
+	"" = "EXE";
+
+custom(GUI) "",
+	"",
+	"";
+

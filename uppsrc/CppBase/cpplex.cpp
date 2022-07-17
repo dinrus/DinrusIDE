@@ -118,23 +118,21 @@ const LexSymbolStat& Lex::FinishStatCollection()
 	return symbolStat;
 }
 
-int Lex::GetCharacter()
+const char Lex::GetCharacter()
 {
-	if(*ptr == '\0') return t_eof;
+		if(*ptr == '\0') return char((byte)t_eof);
 	int c = *ptr++;
 	if(c == '\\') {
 		c = *ptr++;
 		switch(c) {
-	//	case_id_rus: {
-	//	 return c;
-		//	}
-		case 'a': return '\a';
-		case 'b': return '\b';
-		case 't': return '\t';
-		case 'v': return '\v';
-		case 'n': return '\n';
-		case 'r': return '\r';
-		case 'f': return '\f';
+		case_id_rus: break;
+		case 'a': return char((byte)'\a');
+		case 'b': return char((byte)'\b');
+		case 't': return char((byte)'\t');
+		case 'v': return char((byte)'\v');
+		case 'n': return char((byte)'\n');
+		case 'r': return char((byte)'\r');
+		case 'f': return char((byte)'\f');
 		case 'x':
 			c = 0;
 			if(isxdigit(*ptr)) {
@@ -156,7 +154,7 @@ int Lex::GetCharacter()
 			}
 		}
 	}
-	return (byte)c;
+	return char(c);
 }
 
 void Lex::Next()

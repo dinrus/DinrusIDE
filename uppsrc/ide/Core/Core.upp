@@ -1,4 +1,4 @@
-description "TheIDE - common library\377B";
+description "DinrusIDE - общая библиотека\377B";
 
 uses
 	Esc,

@@ -40,7 +40,7 @@ public:
 void AutoSetup()
 {
 	WithAutoSetupLayout<TopWindow> dlg;
-	CtrlLayoutOKCancel(dlg, "Автонастройка методов Ultimate++");
+	CtrlLayoutOKCancel(dlg, "Автонастройка методов DinrusIDE");
 	dlg.Sizeable().Zoomable().SetRect(Size(640, 480));
 
 	WithAutoSetupMSC12<ParentCtrl> msc12; CtrlLayout(msc12);

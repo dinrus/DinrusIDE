@@ -463,7 +463,7 @@ scp_recv(LIBSSH2_SESSION * session, const char *path, libssh2_struct_stat * sb)
                         scpRecv_response[session->scpRecv_response_len - 1] !=
                         '\n')) {
                     _libssh2_error(session, LIBSSH2_ERROR_SCP_PROTOCOL,
-                                   "Invalid data in SCP response");
+                                   "Неверное data in SCP response");
                     goto scp_recv_error;
                 }
 
@@ -499,7 +499,7 @@ scp_recv(LIBSSH2_SESSION * session, const char *path, libssh2_struct_stat * sb)
                 if(session->scpRecv_response_len < 8) {
                     /* EOL came too soon */
                     _libssh2_error(session, LIBSSH2_ERROR_SCP_PROTOCOL,
-                                   "Invalid response from SCP server, "
+                                   "Неверное response from SCP server, "
                                    "too short");
                     goto scp_recv_error;
                 }
@@ -510,7 +510,7 @@ scp_recv(LIBSSH2_SESSION * session, const char *path, libssh2_struct_stat * sb)
                 if(!p || ((p - s) <= 0)) {
                     /* No spaces or space in the wrong spot */
                     _libssh2_error(session, LIBSSH2_ERROR_SCP_PROTOCOL,
-                                   "Invalid response from SCP server, "
+                                   "Неверное response from SCP server, "
                                    "malformed mtime");
                     goto scp_recv_error;
                 }
@@ -523,7 +523,7 @@ scp_recv(LIBSSH2_SESSION * session, const char *path, libssh2_struct_stat * sb)
                 if(!s || ((s - p) <= 0)) {
                     /* No spaces or space in the wrong spot */
                     _libssh2_error(session, LIBSSH2_ERROR_SCP_PROTOCOL,
-                                   "Invalid response from SCP server, "
+                                   "Неверное response from SCP server, "
                                    "malformed mtime.usec");
                     goto scp_recv_error;
                 }
@@ -534,7 +534,7 @@ scp_recv(LIBSSH2_SESSION * session, const char *path, libssh2_struct_stat * sb)
                 if(!p || ((p - s) <= 0)) {
                     /* No spaces or space in the wrong spot */
                     _libssh2_error(session, LIBSSH2_ERROR_SCP_PROTOCOL,
-                                   "Invalid response from SCP server, "
+                                   "Неверное response from SCP server, "
                                    "too short or malformed");
                     goto scp_recv_error;
                 }
@@ -607,7 +607,7 @@ scp_recv(LIBSSH2_SESSION * session, const char *path, libssh2_struct_stat * sb)
 
                 if(session->scpRecv_response[0] != 'C') {
                     _libssh2_error(session, LIBSSH2_ERROR_SCP_PROTOCOL,
-                                   "Invalid response from SCP server");
+                                   "Неверное response from SCP server");
                     goto scp_recv_error;
                 }
 
@@ -623,7 +623,7 @@ scp_recv(LIBSSH2_SESSION * session, const char *path, libssh2_struct_stat * sb)
                      scpRecv_response[session->scpRecv_response_len - 1]
                      < 32)) {
                     _libssh2_error(session, LIBSSH2_ERROR_SCP_PROTOCOL,
-                                   "Invalid data in SCP response");
+                                   "Неверное data in SCP response");
                     goto scp_recv_error;
                 }
 
@@ -660,7 +660,7 @@ scp_recv(LIBSSH2_SESSION * session, const char *path, libssh2_struct_stat * sb)
                 if(session->scpRecv_response_len < 6) {
                     /* EOL came too soon */
                     _libssh2_error(session, LIBSSH2_ERROR_SCP_PROTOCOL,
-                                   "Invalid response from SCP server, "
+                                   "Неверное response from SCP server, "
                                    "too short");
                     goto scp_recv_error;
                 }
@@ -671,7 +671,7 @@ scp_recv(LIBSSH2_SESSION * session, const char *path, libssh2_struct_stat * sb)
                 if(!p || ((p - s) <= 0)) {
                     /* No spaces or space in the wrong spot */
                     _libssh2_error(session, LIBSSH2_ERROR_SCP_PROTOCOL,
-                                   "Invalid response from SCP server, "
+                                   "Неверное response from SCP server, "
                                    "malformed mode");
                     goto scp_recv_error;
                 }
@@ -682,7 +682,7 @@ scp_recv(LIBSSH2_SESSION * session, const char *path, libssh2_struct_stat * sb)
                 session->scpRecv_mode = strtol(s, &e, 8);
                 if(e && *e) {
                     _libssh2_error(session, LIBSSH2_ERROR_SCP_PROTOCOL,
-                                   "Invalid response from SCP server, "
+                                   "Неверное response from SCP server, "
                                    "invalid mode");
                     goto scp_recv_error;
                 }
@@ -691,7 +691,7 @@ scp_recv(LIBSSH2_SESSION * session, const char *path, libssh2_struct_stat * sb)
                 if(!s || ((s - p) <= 0)) {
                     /* No spaces or space in the wrong spot */
                     _libssh2_error(session, LIBSSH2_ERROR_SCP_PROTOCOL,
-                                   "Invalid response from SCP server, "
+                                   "Неверное response from SCP server, "
                                    "too short or malformed");
                     goto scp_recv_error;
                 }
@@ -701,7 +701,7 @@ scp_recv(LIBSSH2_SESSION * session, const char *path, libssh2_struct_stat * sb)
                 session->scpRecv_size = scpsize_strtol(p, &e, 10);
                 if(e && *e) {
                     _libssh2_error(session, LIBSSH2_ERROR_SCP_PROTOCOL,
-                                   "Invalid response from SCP server, "
+                                   "Неверное response from SCP server, "
                                    "invalid size");
                     goto scp_recv_error;
                 }
@@ -938,7 +938,7 @@ scp_send(LIBSSH2_SESSION * session, const char *path, int mode,
             goto scp_send_empty_channel;
         else if(session->scpSend_response[0] != 0) {
             _libssh2_error(session, LIBSSH2_ERROR_SCP_PROTOCOL,
-                           "Invalid ACK response from remote");
+                           "Неверное ACK response from remote");
             goto scp_send_error;
         }
         if(mtime || atime) {
@@ -992,7 +992,7 @@ scp_send(LIBSSH2_SESSION * session, const char *path, int mode,
                 goto scp_send_empty_channel;
             else if(session->scpSend_response[0] != 0) {
                 _libssh2_error(session, LIBSSH2_ERROR_SCP_PROTOCOL,
-                               "Invalid SCP ACK response");
+                               "Неверное SCP ACK response");
                 goto scp_send_error;
             }
 
@@ -1053,7 +1053,7 @@ scp_send(LIBSSH2_SESSION * session, const char *path, int mode,
         }
         else if(rc < 0) {
             _libssh2_error(session, LIBSSH2_ERROR_SCP_PROTOCOL,
-                           "Invalid ACK response from remote");
+                           "Неверное ACK response from remote");
             goto scp_send_error;
         }
         else if(rc == 0)

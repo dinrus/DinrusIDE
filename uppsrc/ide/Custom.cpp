@@ -42,7 +42,7 @@ void Custom::DoMenu(Button& b, Callback1<String> cb, bool cmd) {
 		ext = '.' + ext;
 	String samplefile = "foo/" + ForceExt("sample", ext);
 	String sample = SourcePath(pk, samplefile);
-	menu.Add("Путь в воодному файлу (типа '" + UnixPath(sample) + "')", callback1(cb, "$(PATH)"));
+	menu.Add("Путь в вводному файлу (типа '" + UnixPath(sample) + "')", callback1(cb, "$(PATH)"));
 	menu.Add("Путь к вводному файлу относительно пакета (типа '" + samplefile + "')", callback1(cb, "$(RELPATH)"));
 	menu.Add("Папка вводного файла (типа '" + samplefile + "')", callback1(cb, "$(FILEDIR)"));
 	menu.Add("Папка пакета (типа '" + UnixPath(GetFileFolder(sample)) + "')", callback1(cb, "$(DIR)"));
@@ -85,7 +85,7 @@ Custom::Custom() {
 	list.AddColumn("Хост-пакет", 85).Edit(package);
 	list.AddColumn("Когда", 416).Edit(when);
 	when.SetFilter(CondFilter);
-	list.AddColumn(".extension", 74).Edit(extension);
+	list.AddColumn(".расширение", 74).Edit(extension);
 	list.AddCtrl(command);
 	list.AddCtrl(output);
 	outputmenu.SetFrame(InsetFrame());

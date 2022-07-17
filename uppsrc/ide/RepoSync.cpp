@@ -146,7 +146,7 @@ bool RepoSync::ListSvn(const String& path)
 						}
 						else {
 							static const char *as[] = {
-								"Modify", "Resolved", "Add", "Remove", "Replace"
+								"Modify", "Resolved", "Add", "Удалить", "Replace"
 							};
 							static Color c[] = { LtBlue, Magenta, Green, LtRed, LtMagenta };
 							an = as[action];

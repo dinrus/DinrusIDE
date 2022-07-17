@@ -216,7 +216,7 @@ void Pdb::MemoryGoto(const String& exp)
 		tab.Set(TAB_MEMORY);
 	}
 	catch(CParser::Error e) {
-		Exclamation("Invalid expression!&" + DeQtf(e));
+		Exclamation("Неверное expression!&" + DeQtf(e));
 	}
 }
 

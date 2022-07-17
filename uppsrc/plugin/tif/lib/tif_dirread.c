@@ -4333,7 +4333,7 @@ TIFFReadDirectoryCheckOrder(TIFF* tif, TIFFDirEntry* dir, uint16 dircount)
 		if (o->tdir_tag<m)
 		{
 			TIFFWarningExt(tif->tif_clientdata,module,
-			    "Invalid TIFF directory; tags are not sorted in ascending order");
+			    "Неверное TIFF directory; tags are not sorted in ascending order");
 			break;
 		}
 		m=o->tdir_tag+1;
@@ -6037,7 +6037,7 @@ int _TIFFPartialReadStripArray( TIFF* tif, TIFFDirEntry* dirent,
     else
     {
         TIFFErrorExt(tif->tif_clientdata, module,
-                 "Invalid type for [Strip|Tile][Offset/ByteCount] tag");
+                 "Неверное type for [Strip|Tile][Offset/ByteCount] tag");
         panVals[strile] = 0;
         return 0;
     }

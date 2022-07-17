@@ -829,7 +829,7 @@ DockCont::DockCont()
 	handle.WhenContext = THISBACK(WindowMenu);
 	handle.WhenLeftDrag = THISBACK(MoveBegin);
 	handle.WhenLeftDouble = THISBACK(RestoreCurrent);
-	close.Tip(t_("Close")) 				<<= THISBACK(CloseAll);
+	close.Tip(t_("Закрыть")) 				<<= THISBACK(CloseAll);
 	autohide.Tip(t_("Auto-Hide")) 		<<= THISBACK(AutoHide);
 	windowpos.Tip(t_("Window Menu")) 	<<= THISBACK(WindowMenu);		
 	

@@ -2180,7 +2180,7 @@ some cases doesn't actually use these names at all). */
   "*MARK", "*PRUNE", "*PRUNE", "*SKIP", "*SKIP",                  \
   "*THEN", "*THEN", "*COMMIT", "*FAIL",                           \
   "*ACCEPT", "*ASSERT_ACCEPT",                                    \
-  "Close", "Skip zero"
+  "Закрыть", "Skip zero"
 
 
 /* This macro defines the length of fixed length operations in the compiled

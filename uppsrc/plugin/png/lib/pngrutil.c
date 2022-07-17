@@ -447,7 +447,7 @@ png_handle_IHDR(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
 
    /* Check the length */
    if (length != 13)
-      png_error(png_ptr, "Invalid IHDR chunk");
+      png_error(png_ptr, "Неверное IHDR chunk");
 
    png_ptr->mode |= PNG_HAVE_IHDR;
 
@@ -522,7 +522,7 @@ png_handle_PLTE(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
 
    else if (png_ptr->mode & PNG_HAVE_IDAT)
    {
-      png_warning(png_ptr, "Invalid PLTE after IDAT");
+      png_warning(png_ptr, "Неверное PLTE after IDAT");
       png_crc_finish(png_ptr, length);
       return;
    }
@@ -551,14 +551,14 @@ png_handle_PLTE(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
    {
       if (png_ptr->color_type != PNG_COLOR_TYPE_PALETTE)
       {
-         png_warning(png_ptr, "Invalid palette chunk");
+         png_warning(png_ptr, "Неверное palette chunk");
          png_crc_finish(png_ptr, length);
          return;
       }
 
       else
       {
-         png_error(png_ptr, "Invalid palette chunk");
+         png_error(png_ptr, "Неверное palette chunk");
       }
    }
 
@@ -699,7 +699,7 @@ png_handle_gAMA(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
       png_error(png_ptr, "Missing IHDR before gAMA");
    else if (png_ptr->mode & PNG_HAVE_IDAT)
    {
-      png_warning(png_ptr, "Invalid gAMA after IDAT");
+      png_warning(png_ptr, "Неверное gAMA after IDAT");
       png_crc_finish(png_ptr, length);
       return;
    }
@@ -779,7 +779,7 @@ png_handle_sBIT(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
       png_error(png_ptr, "Missing IHDR before sBIT");
    else if (png_ptr->mode & PNG_HAVE_IDAT)
    {
-      png_warning(png_ptr, "Invalid sBIT after IDAT");
+      png_warning(png_ptr, "Неверное sBIT after IDAT");
       png_crc_finish(png_ptr, length);
       return;
    }
@@ -849,7 +849,7 @@ png_handle_cHRM(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
       png_error(png_ptr, "Missing IHDR before cHRM");
    else if (png_ptr->mode & PNG_HAVE_IDAT)
    {
-      png_warning(png_ptr, "Invalid cHRM after IDAT");
+      png_warning(png_ptr, "Неверное cHRM after IDAT");
       png_crc_finish(png_ptr, length);
       return;
    }
@@ -969,7 +969,7 @@ png_handle_sRGB(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
       png_error(png_ptr, "Missing IHDR before sRGB");
    else if (png_ptr->mode & PNG_HAVE_IDAT)
    {
-      png_warning(png_ptr, "Invalid sRGB after IDAT");
+      png_warning(png_ptr, "Неверное sRGB after IDAT");
       png_crc_finish(png_ptr, length);
       return;
    }
@@ -1072,7 +1072,7 @@ png_handle_iCCP(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
       png_error(png_ptr, "Missing IHDR before iCCP");
    else if (png_ptr->mode & PNG_HAVE_IDAT)
    {
-      png_warning(png_ptr, "Invalid iCCP after IDAT");
+      png_warning(png_ptr, "Неверное iCCP after IDAT");
       png_crc_finish(png_ptr, length);
       return;
    }
@@ -1212,7 +1212,7 @@ png_handle_sPLT(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
       png_error(png_ptr, "Missing IHDR before sPLT");
    else if (png_ptr->mode & PNG_HAVE_IDAT)
    {
-      png_warning(png_ptr, "Invalid sPLT after IDAT");
+      png_warning(png_ptr, "Неверное sPLT after IDAT");
       png_crc_finish(png_ptr, length);
       return;
    }
@@ -1350,7 +1350,7 @@ png_handle_tRNS(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
       png_error(png_ptr, "Missing IHDR before tRNS");
    else if (png_ptr->mode & PNG_HAVE_IDAT)
    {
-      png_warning(png_ptr, "Invalid tRNS after IDAT");
+      png_warning(png_ptr, "Неверное tRNS after IDAT");
       png_crc_finish(png_ptr, length);
       return;
    }
@@ -1446,7 +1446,7 @@ png_handle_bKGD(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
       png_error(png_ptr, "Missing IHDR before bKGD");
    else if (png_ptr->mode & PNG_HAVE_IDAT)
    {
-      png_warning(png_ptr, "Invalid bKGD after IDAT");
+      png_warning(png_ptr, "Неверное bKGD after IDAT");
       png_crc_finish(png_ptr, length);
       return;
    }
@@ -1535,7 +1535,7 @@ png_handle_hIST(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
       png_error(png_ptr, "Missing IHDR before hIST");
    else if (png_ptr->mode & PNG_HAVE_IDAT)
    {
-      png_warning(png_ptr, "Invalid hIST after IDAT");
+      png_warning(png_ptr, "Неверное hIST after IDAT");
       png_crc_finish(png_ptr, length);
       return;
    }
@@ -1591,7 +1591,7 @@ png_handle_pHYs(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
       png_error(png_ptr, "Missing IHDR before pHYs");
    else if (png_ptr->mode & PNG_HAVE_IDAT)
    {
-      png_warning(png_ptr, "Invalid pHYs after IDAT");
+      png_warning(png_ptr, "Неверное pHYs after IDAT");
       png_crc_finish(png_ptr, length);
       return;
    }
@@ -1634,7 +1634,7 @@ png_handle_oFFs(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
       png_error(png_ptr, "Missing IHDR before oFFs");
    else if (png_ptr->mode & PNG_HAVE_IDAT)
    {
-      png_warning(png_ptr, "Invalid oFFs after IDAT");
+      png_warning(png_ptr, "Неверное oFFs after IDAT");
       png_crc_finish(png_ptr, length);
       return;
    }
@@ -1681,7 +1681,7 @@ png_handle_pCAL(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
       png_error(png_ptr, "Missing IHDR before pCAL");
    else if (png_ptr->mode & PNG_HAVE_IDAT)
    {
-      png_warning(png_ptr, "Invalid pCAL after IDAT");
+      png_warning(png_ptr, "Неверное pCAL after IDAT");
       png_crc_finish(png_ptr, length);
       return;
    }
@@ -1723,7 +1723,7 @@ png_handle_pCAL(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
       in order to get the parameter information. */
    if (slength < 12U || endptr - buf <= 12)
    {
-      png_warning(png_ptr, "Invalid pCAL data");
+      png_warning(png_ptr, "Неверное pCAL data");
       png_free(png_ptr, png_ptr->chunkdata);
       png_ptr->chunkdata = NULL;
       return;
@@ -1744,7 +1744,7 @@ png_handle_pCAL(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
        (type == PNG_EQUATION_ARBITRARY && nparams != 3) ||
        (type == PNG_EQUATION_HYPERBOLIC && nparams != 4))
    {
-      png_warning(png_ptr, "Invalid pCAL parameters for equation type");
+      png_warning(png_ptr, "Неверное pCAL parameters for equation type");
       png_free(png_ptr, png_ptr->chunkdata);
       png_ptr->chunkdata = NULL;
       return;
@@ -1780,7 +1780,7 @@ png_handle_pCAL(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
       /* Make sure we haven't run out of data yet */
       if (buf > endptr)
       {
-         png_warning(png_ptr, "Invalid pCAL data");
+         png_warning(png_ptr, "Неверное pCAL data");
          png_free(png_ptr, png_ptr->chunkdata);
          png_ptr->chunkdata = NULL;
          png_free(png_ptr, params);
@@ -1819,7 +1819,7 @@ png_handle_sCAL(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
       png_error(png_ptr, "Missing IHDR before sCAL");
    else if (png_ptr->mode & PNG_HAVE_IDAT)
    {
-      png_warning(png_ptr, "Invalid sCAL after IDAT");
+      png_warning(png_ptr, "Неверное sCAL after IDAT");
       png_crc_finish(png_ptr, length);
       return;
    }
@@ -1934,7 +1934,7 @@ png_handle_sCAL(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
 #endif
       )
    {
-      png_warning(png_ptr, "Invalid sCAL data");
+      png_warning(png_ptr, "Неверное sCAL data");
       png_free(png_ptr, png_ptr->chunkdata);
       png_ptr->chunkdata = NULL;
 #if defined(PNG_FIXED_POINT_SUPPORTED) && !defined(PNG_FLOATING_POINT_SUPPORTED)

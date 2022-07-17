@@ -189,7 +189,7 @@ const char *TcpSocketErrorDesc(int code)
 		{ WSAEINTR,                 "Interrupted function call." },
 		{ WSAEACCES,                "Permission denied." },
 		{ WSAEFAULT,                "Bad address." },
-		{ WSAEINVAL,                "Invalid argument." },
+		{ WSAEINVAL,                "Неверное argument." },
 		{ WSAEMFILE,                "Too many open files." },
 		{ WSAEWOULDBLOCK,           "Resource temporarily unavailable." },
 		{ WSAEINPROGRESS,           "Operation now in progress." },

@@ -158,10 +158,10 @@ Value StrIntValue(const char *s)
 		if(!IsNull(q))
 			while(*p) {
 				if((byte)*p > ' ')
-					return ErrorValue(t_("Invalid number !"));
+					return ErrorValue(t_("Неверное число !"));
 				p++;
 			}
-		return IsNull(q) ? ErrorValue(t_("Invalid number !")) : Value(q);
+		return IsNull(q) ? ErrorValue(t_("Неверное число !")) : Value(q);
 	}
 	return (int)Null;
 }
@@ -174,10 +174,10 @@ Value StrDblValue(const char *s)
 		if(!IsNull(q))
 			while(*p) {
 				if((byte)*p > ' ')
-					return ErrorValue(t_("Invalid number !"));
+					return ErrorValue(t_("Неверное число !"));
 				p++;
 			}
-		return IsNull(q) ? ErrorValue(t_("Invalid number !")) : Value(q);
+		return IsNull(q) ? ErrorValue(t_("Неверное число !")) : Value(q);
 	}
 	return (double)Null;
 }
@@ -203,7 +203,7 @@ Value Scan(dword qtype, const String& text, const Value& def, bool *hastime) {
 					return date;
 				s++;
 			}
-		return ErrorValue(t_("Invalid date !"));
+		return ErrorValue(t_("Неверная дата !"));
 	case TIME_V: {
 		if(text.IsEmpty()) return (Time) Null;
 		s = StrToDate(date, text, (Date)def);
@@ -241,7 +241,7 @@ Value Scan(dword qtype, const String& text, const Value& def, bool *hastime) {
 					return tm;
 			}
 			catch(CParser::Error) {}
-		return ErrorValue(t_("Invalid time !"));
+		return ErrorValue(t_("Неверное время !"));
 	}
 	case STRING_V:
 	case WSTRING_V:

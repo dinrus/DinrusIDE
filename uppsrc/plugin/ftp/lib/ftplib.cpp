@@ -658,12 +658,12 @@ static int FtpOpenPort(netbuf *nControl, netbuf **nData, int mode, int dir)
 		return -1;
 	if ((dir != FTPLIB_READ) && (dir != FTPLIB_WRITE))
 	{
-		sprintf(nControl->response, "Invalid direction %d\n", dir);
+		sprintf(nControl->response, "Неверное direction %d\n", dir);
 		return -1;
 	}
 	if ((mode != FTPLIB_ASCII) && (mode != FTPLIB_IMAGE))
 	{
-		sprintf(nControl->response, "Invalid mode %c\n", mode);
+		sprintf(nControl->response, "Неверное mode %c\n", mode);
 		return -1;
 	}
 	l = sizeof(sin);
@@ -937,7 +937,7 @@ GLOBALDEF int FtpAccess(const char *path, int typ, int mode, netbuf *nControl,
 		dir = FTPLIB_WRITE;
 		break;
 	default:
-		sprintf(nControl->response, "Invalid open type %d\n", typ);
+		sprintf(nControl->response, "Неверное open type %d\n", typ);
 		return 0;
 	}
 	if (path != NULL)

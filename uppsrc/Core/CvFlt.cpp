@@ -5,8 +5,8 @@
 
 namespace Upp {
 
-static_assert(sizeof(uint64) == sizeof(double), "size mismatch");
-static_assert(std::numeric_limits<double>::is_iec559, "only IEEE754 FP is supported");
+static_assert(sizeof(uint64) == sizeof(double), "расхождение размеров");
+static_assert(std::numeric_limits<double>::is_iec559, "поддерживается только EEE754 FP");
 
 struct sF128 {
 	int    exponent;
@@ -668,9 +668,9 @@ double CParser::ReadDouble()
 	LTIMING("ReadDouble");
 	double n;
 	const char *t = ScanDbl<char, byte>(n, term, '.');
-	if(!t) ThrowError("missing number");
+	if(!t) ThrowError("отсутствует число");
 	if(!IsFin(n))
-		ThrowError("invalid number");
+		ThrowError("неверное число");
 	term = t;
 	DoSpaces();
 	return n;

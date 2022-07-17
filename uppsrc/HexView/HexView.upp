@@ -1,4 +1,4 @@
-description "Widget to display hexadecimal dumps (e.g. memory in debugger)\377";
+description "Виджет для обзора шестнадцатиричных дампов (напр., памяти в отладчике)\377";
 
 uses
 	CtrlLib;

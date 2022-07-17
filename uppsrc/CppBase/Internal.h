@@ -219,7 +219,7 @@ class Lex {
 	void AssOp(int noass, int ass)   { AddCode(Char('=') ? ass : noass); }
 	void Next();
 	bool Prepare(int pos);
-	int  GetCharacter();
+	const char  GetCharacter();
 	void ThrowError(const char *e);
 
 public:

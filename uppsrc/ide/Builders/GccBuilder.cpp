@@ -115,7 +115,7 @@ bool GccBuilder::BuildPackage(const String& package, Vector<String>& linkfile, V
 				else
 				if(IsHeaderExt(ext) && pkg[i].pch && allow_pch && !blitz) {
 					if(pch_header.GetCount())
-						PutConsole(GetFileName(fn) + ": несколько PCHs не допускается. Проверьте файл конфигурации.");
+						PutConsole(GetFileName(fn) + ": несколько PCH не допускается. Проверьте файл конфигурации.");
 					else
 						pch_header = fn;
 				}

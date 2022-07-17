@@ -62,7 +62,7 @@ _TIFFMultiplySSize(TIFF* tif, tmsize_t first, tmsize_t second, const char* where
         if( tif != NULL && where != NULL )
         {
             TIFFErrorExt(tif->tif_clientdata, where,
-                        "Invalid argument to _TIFFMultiplySSize() in %s", where);
+                        "Неверное argument to _TIFFMultiplySSize() in %s", where);
         }
         return 0;
     }

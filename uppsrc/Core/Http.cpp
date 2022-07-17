@@ -523,7 +523,7 @@ void HttpRequest::ProcessSSLProxyResponse()
 	if(q >= 0)
 		data.Trim(q);
 	if(!data.StartsWith("HTTP") || data.Find(" 2") < 0) {
-		HttpError("Invalid proxy reply: " + data);
+		HttpError("Неверное proxy reply: " + data);
 		return;
 	}
 	AfterConnect();

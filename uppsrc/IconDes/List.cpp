@@ -134,7 +134,7 @@ bool CheckName(WithImageLayout<TopWindow>& dlg)
 	String n = ~dlg.name;
 	CParser p(n);
 	if(p.IsId()) return true;
-	Exclamation("Invalid name!");
+	Exclamation("Неверное name!");
 	return false;
 }
 

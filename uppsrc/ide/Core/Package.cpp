@@ -180,7 +180,7 @@ Package::Package()
 
 bool StdResolver(const String& error, const String& path, int line)
 {
-	PutConsole("Invalid package: " + path);
+	PutConsole("Неверное package: " + path);
 	exit(1);
 	return false;
 }

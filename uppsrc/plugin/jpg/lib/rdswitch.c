@@ -103,7 +103,7 @@ read_quant_tables (j_compress_ptr cinfo, char * filename, boolean force_baseline
     table[0] = (unsigned int) val;
     for (i = 1; i < DCTSIZE2; i++) {
       if (! read_text_integer(fp, &val, &termchar)) {
-	fprintf(stderr, "Invalid table data in file %s\n", filename);
+	fprintf(stderr, "Неверное table data in file %s\n", filename);
 	fclose(fp);
 	return FALSE;
       }
@@ -231,7 +231,7 @@ read_scan_script (j_compress_ptr cinfo, char * filename)
     }
     if (termchar != ';' && termchar != EOF) {
 bogus:
-      fprintf(stderr, "Invalid scan entry format in file %s\n", filename);
+      fprintf(stderr, "Неверное scan entry format in file %s\n", filename);
       fclose(fp);
       return FALSE;
     }

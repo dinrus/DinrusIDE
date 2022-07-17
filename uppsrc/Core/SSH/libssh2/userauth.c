@@ -494,7 +494,7 @@ memory_read_publickey(LIBSSH2_SESSION * session, unsigned char **method,
 
     if(pubkeyfiledata_len <= 1) {
         return _libssh2_error(session, LIBSSH2_ERROR_FILE,
-                              "Invalid data in public key file");
+                              "Неверное data in public key file");
     }
 
     pubkey = LIBSSH2_ALLOC(session, pubkeyfiledata_len);
@@ -521,7 +521,7 @@ memory_read_publickey(LIBSSH2_SESSION * session, unsigned char **method,
     if(sp1 == NULL) {
         LIBSSH2_FREE(session, pubkey);
         return _libssh2_error(session, LIBSSH2_ERROR_FILE,
-                              "Invalid public key data");
+                              "Неверное public key data");
     }
 
     sp1++;
@@ -536,7 +536,7 @@ memory_read_publickey(LIBSSH2_SESSION * session, unsigned char **method,
                               (char *) sp1, sp2 - sp1)) {
         LIBSSH2_FREE(session, pubkey);
         return _libssh2_error(session, LIBSSH2_ERROR_FILE,
-                                  "Invalid key data, not base64 encoded");
+                                  "Неверное key data, not base64 encoded");
     }
 
     /* Wasting some bytes here (okay, more than some), but since it's likely
@@ -591,7 +591,7 @@ file_read_publickey(LIBSSH2_SESSION * session, unsigned char **method,
     if(pubkey_len <= 1) {
         fclose(fd);
         return _libssh2_error(session, LIBSSH2_ERROR_FILE,
-                              "Invalid data in public key file");
+                              "Неверное data in public key file");
     }
 
     pubkey = LIBSSH2_ALLOC(session, pubkey_len);
@@ -624,7 +624,7 @@ file_read_publickey(LIBSSH2_SESSION * session, unsigned char **method,
     if(sp1 == NULL) {
         LIBSSH2_FREE(session, pubkey);
         return _libssh2_error(session, LIBSSH2_ERROR_FILE,
-                              "Invalid public key data");
+                              "Неверное public key data");
     }
 
     sp1++;
@@ -640,7 +640,7 @@ file_read_publickey(LIBSSH2_SESSION * session, unsigned char **method,
                               (char *) sp1, sp2 - sp1)) {
         LIBSSH2_FREE(session, pubkey);
         return _libssh2_error(session, LIBSSH2_ERROR_FILE,
-                              "Invalid key data, not base64 encoded");
+                              "Неверное key data, not base64 encoded");
     }
 
     /* Wasting some bytes here (okay, more than some), but since it's likely
@@ -1047,7 +1047,7 @@ userauth_hostbased_fromfile(LIBSSH2_SESSION *session,
     LIBSSH2_FREE(session, session->userauth_host_data);
     session->userauth_host_data = NULL;
     return _libssh2_error(session, LIBSSH2_ERROR_PUBLICKEY_UNVERIFIED,
-                          "Invalid signature for supplied public key, or bad "
+                          "Неверное signature for supplied public key, or bad "
                           "username/public key combination");
 }
 
@@ -1102,7 +1102,7 @@ _libssh2_userauth_publickey(LIBSSH2_SESSION *session,
          */
         if(pubkeydata_len < 4)
             return _libssh2_error(session, LIBSSH2_ERROR_PUBLICKEY_UNVERIFIED,
-                                  "Invalid public key, too short");
+                                  "Неверное public key, too short");
 
         /* Zero the whole thing out */
         memset(&session->userauth_pblc_packet_requirev_state, 0,
@@ -1123,7 +1123,7 @@ _libssh2_userauth_publickey(LIBSSH2_SESSION *session,
                    data */
                 return _libssh2_error(session,
                                       LIBSSH2_ERROR_PUBLICKEY_UNVERIFIED,
-                                      "Invalid public key");
+                                      "Неверное public key");
 
             session->userauth_pblc_method =
                 LIBSSH2_ALLOC(session, session->userauth_pblc_method_len);
@@ -1143,7 +1143,7 @@ _libssh2_userauth_publickey(LIBSSH2_SESSION *session,
         else if(session->userauth_pblc_method_len !=
                  _libssh2_ntohu32(pubkeydata))
             return _libssh2_error(session, LIBSSH2_ERROR_PUBLICKEY_UNVERIFIED,
-                                  "Invalid public key");
+                                  "Неверное public key");
 
         /*
          * 45 = packet_type(1) + username_len(4) + servicename_len(4) +
@@ -1414,7 +1414,7 @@ _libssh2_userauth_publickey(LIBSSH2_SESSION *session,
     session->userauth_pblc_data = NULL;
     session->userauth_pblc_state = libssh2_NB_state_idle;
     return _libssh2_error(session, LIBSSH2_ERROR_PUBLICKEY_UNVERIFIED,
-                          "Invalid signature for supplied public key, or bad "
+                          "Неверное signature for supplied public key, or bad "
                           "username/public key combination");
 }
 
@@ -1469,7 +1469,7 @@ userauth_publickey_frommemory(LIBSSH2_SESSION *session,
         }
         else {
             return _libssh2_error(session, LIBSSH2_ERROR_FILE,
-                                  "Invalid data in public and private key.");
+                                  "Неверное data in public and private key.");
         }
     }
 

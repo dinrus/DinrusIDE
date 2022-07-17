@@ -631,8 +631,8 @@ void AndroidBuilder::GenerateApplicationMakeFile()
 	PutVerbose("Архитектуры: " + AsString(ndkArchitectures));
 	PutVerbose("Рантайм Cpp: " + ndkCppRuntime);
 	PutVerbose("Флаги Cpp: " + ndkCppFlags);
-	PutVerbose("CFlags: " + ndkCFlags);
-	PutVerbose("Toolchain: " + ndkToolchain);
+	PutVerbose("Флаги Си: " + ndkCFlags);
+	PutVerbose("Тулчейн: " + ndkToolchain);
 	
 	UpdateFile(project->GetJniApplicationMakeFilePath(), makeFile.ToString());
 }

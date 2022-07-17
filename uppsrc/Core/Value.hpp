@@ -204,7 +204,7 @@ T& Value::GetSmall() const
 	ASSERT(t < 255);
 	if(Is((byte)t))
 		return GetSmallRaw<T>();
-	String h = String() << "Invalid value conversion: "
+	String h = String() << "Неправильное преобразование значения: "
 	                    << GetName() << " -> " << typeid(T).name();
 	throw ValueTypeError(h, *this, t);
 	return *(T*)&data; // Silence compiler warning
@@ -248,7 +248,7 @@ inline const T& Value::To() const
 	else
 	if(t < 255 && Is((byte)t))
 		return GetSmallRaw<T>();
-	throw ValueTypeError(String().Cat() << "Invalid value conversion: "
+	throw ValueTypeError(String().Cat() << "Неправильное преобразование значения: "
 	                     << GetName() << " -> " << typeid(T).name(),
 	                     *this, t);
 }

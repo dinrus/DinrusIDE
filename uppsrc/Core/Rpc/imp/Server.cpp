@@ -246,7 +246,7 @@ String XmlRpcDo::ProcessJsonRpc(const Value& v)
 		LLOG("ValueTypeMismatch at parameter " << data.ii);
 		if(rpc_trace)
 			*rpc_trace << "ValueTypeMismatch at parameter " << data.ii << '\n';
-		return JsonRpcError(RPC_SERVER_PARAM_ERROR, "Invalid params", id);
+		return JsonRpcError(RPC_SERVER_PARAM_ERROR, "Неверное params", id);
 	}
 }
 

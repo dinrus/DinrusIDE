@@ -11,7 +11,7 @@ String GetUmkFile(const char *fn)
 		return h;
 	String cfgdir = GetFileFolder(GetFileFolder(ConfigFile("x")));
 	ONCELOCK
-		PutVerbose("Config directory: " << cfgdir);
+		PutVerbose("Пака конфигурации: " << cfgdir);
 	return GetFileOnPath(fn,
 	                     cfgdir + "/umk" + ';' +
 	                     cfgdir + "/theide" + ';' +
@@ -29,7 +29,7 @@ String GetBuildMethodPath(String method)
 
 String Ide::GetDefaultMethod()
 {
-	return "GCC";
+	return "CLANG";
 }
 
 VectorMap<String, String> Ide::GetMethodVars(const String& method)
@@ -113,11 +113,11 @@ CONSOLE_APP_MAIN
 					makefile = true;
 					if(s[1] == '=') {
 						mkf = NormalizePath(s + 2);
-						PutVerbose("Generating Makefile: " + mkf);
+						PutVerbose("Генерируется Makefile: " + mkf);
 						goto endopt;
 					}
 					else
-						PutVerbose("Generating Makefile");
+						PutVerbose("Генерируется Makefile");
 					break;
 				}
 				case 'H': {
@@ -127,13 +127,13 @@ CONSOLE_APP_MAIN
 						s++;
 					}
 					n = minmax(n, 1, 32);
-					PutVerbose("Hydra threads: " + AsString(n));
+					PutVerbose("Нити Hydra: " + AsString(n));
 					ide.console.SetSlots(n);
 					break;
 				}
 				default:
 					SilentMode = false;
-					Puts("Invalid build option(s)");
+					Puts("Неверная опция(-и) построения");
 					SetExitCode(3);
 					return;
 				}
@@ -148,9 +148,9 @@ CONSOLE_APP_MAIN
 			for(int j = i + 1; j < args.GetCount(); j++)
 				runargs.Add(args[j]);
 			if(runargs)
-				PutVerbose("Set to execute the result with args: " << Join(runargs, " "));
+				PutVerbose("Установить на выполнение результата с аргами: " << Join(runargs, " "));
 			else
-				PutVerbose("Set to execute the result");
+				PutVerbose("Установить на выполнение результата");
 			break;
 		}
 		else
@@ -169,25 +169,25 @@ CONSOLE_APP_MAIN
 				h[i] = GetFullPath(TrimBoth(h[i]));
 			String x = Join(h, ";");
 			SetVar("UPP", x, false);
-			PutVerbose("Inline assembly: " + x);
+			PutVerbose("Инлайн сборки: " + x);
 			String outdir = GetDefaultUppOut();
 			RealizeDirectory(outdir);
 			SetVar("OUTPUT", outdir, false);
 		}
 		else {
 			if(!LoadVars(v)) {
-				Puts("Invalid assembly\n");
+				Puts("Неверная сборка\n");
 				SetExitCode(2);
 				return;
 			}
-			PutVerbose("Assembly file: " + v);
-			PutVerbose("Assembly: " + GetVar("UPP"));
+			PutVerbose("Файл сборки: " + v);
+			PutVerbose("Сборка: " + GetVar("UPP"));
 		}
-		PutVerbose("Output directory: " + GetVar("OUTPUT"));
+		PutVerbose("Папка вывода: " + GetVar("OUTPUT"));
 		v = SourcePath(param[1], GetFileTitle(param[1]) + ".upp");
-		PutVerbose("Main package: " + v);
+		PutVerbose("Главный пакет: " + v);
 		if(!FileExists(v)) {
-			Puts("Package does not exist\n");
+			Puts("Пакета не существует\n");
 			SetExitCode(2);
 			return;
 		}
@@ -195,7 +195,7 @@ CONSOLE_APP_MAIN
 		ide.wspc.Scan(ide.main);
 		const Workspace& wspc = ide.IdeWorkspace();
 		if(!wspc.GetCount()) {
-			Puts("Empty assembly\n");
+			Puts("Пустая сборка\n");
 			SetExitCode(4);
 			return;
 		}
@@ -206,7 +206,7 @@ CONSOLE_APP_MAIN
 				missing.FindAdd(p);
 		}
 		if(missing.GetCount()) {
-			Puts("Missing package(s): " << Join(missing.GetKeys(), " ") << "\n");
+			Puts("Отсутствующий пакет(-ы): " << Join(missing.GetKeys(), " ") << "\n");
 			SetExitCode(5);
 			return;
 		}
@@ -215,13 +215,13 @@ CONSOLE_APP_MAIN
 			if(f.GetCount())
 				ide.mainconfigparam = f[0].param;
 		}
-		PutVerbose("Build flags: " << ide.mainconfigparam);
+		PutVerbose("Флаги построения: " << ide.mainconfigparam);
 		String m = 2 < param.GetCount() ? param[2] : "CLANG";
 		String bp = GetBuildMethodPath(m);
-		PutVerbose("Build method: " + bp);
+		PutVerbose("Методы построения: " + bp);
 		if(bp.GetCount() == 0) {
 			SilentMode = false;
-			Puts("Invalid build method\n");
+			Puts("Неверный метод построения\n");
 			SetExitCode(3);
 			return;
 		}
@@ -229,7 +229,7 @@ CONSOLE_APP_MAIN
 		if(3 < param.GetCount()) {
 			ide.debug.target_override = ide.release.target_override = true;
 			ide.debug.target = ide.release.target = NormalizePath(param[3]);
-			PutVerbose("Target override: " << ide.debug.target);
+			PutVerbose("Цель переписана: " << ide.debug.target);
 		}
 
 		ide.method = m;
@@ -279,10 +279,10 @@ CONSOLE_APP_MAIN
 			SetExitCode(1);
 	}
 	else
-		Puts("Usage: [-options] umk assembly main_package [build_method] [+flags] [output]\n\n"
-		     "Examples: umk examples Bombs GCC -ab +GUI,SHARED ~/bombs\n"
+		Puts("Использование: [-опции] umk сборка главный_пакет [метод построения] [+флаги] [вывод]\n\n"
+		     "Примеры: umk examples Bombs GCC -ab +GUI,SHARED ~/bombs\n"
 		     "          umk examples,uppsrc Bombs ~/GCC.bm -rv +GUI,SHARED ~/bin\n\n"
-		     "See https://www.ultimatepp.org/app$ide$umk$en-us.html for details\n");
+		     "Смотрите детали в https://www.ultimatepp.org/app$ide$umk$en-us.html\n");
 }
 
 #endif

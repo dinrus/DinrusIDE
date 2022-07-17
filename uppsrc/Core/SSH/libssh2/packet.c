@@ -499,7 +499,7 @@ _libssh2_packet_add(LIBSSH2_SESSION * session, unsigned char *data,
 
             LIBSSH2_FREE(session, data);
             return _libssh2_error(session, LIBSSH2_ERROR_INVALID_MAC,
-                                  "Invalid MAC received");
+                                  "Неверное MAC received");
         }
         session->packAdd_state = libssh2_NB_state_allocated;
         break;

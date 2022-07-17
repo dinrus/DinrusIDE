@@ -76,7 +76,7 @@ GridCtrl::GridCtrl() : holder(*this)
 	coluid = 0;
 	rowuid = 0;
 
-	close.SetLabel(t_("Close"));
+	close.SetLabel(t_("Закрыть"));
 	close <<= THISBACK(CloseGrid);
 
 	oldpos.Clear();
@@ -261,7 +261,7 @@ GridCtrl::GridCtrl() : holder(*this)
 	focused_ctrl_id = -1;
 	focused_col = -1;
 
-	find.NullText(t_("Search"));
+	find.NullText(t_("Поиск"));
 	find.WhenBar = THISBACK(FindOptsBar);
 
 	/* frames added at the very end, otherwise there will be strange crash in optimal mode... */
@@ -294,24 +294,24 @@ void GridCtrl::StdToolBar(Bar &bar)
 	bool d = c && IsRowEditable();
 
 	if(appending)
-		bar.Add(e, t_("Append"), GridImg::Append(), StdAppend);
+		bar.Add(e, t_("Приставить"), GridImg::Append(), StdAppend);
 
 	if(inserting)
-		bar.Add(c, t_("Insert "), GridImg::Insert(), StdInsert);
+		bar.Add(c, t_("Вставить "), GridImg::Insert(), StdInsert);
 
 	if(duplicating)
-		bar.Add(d && !isedit, t_("Duplicate"), GridImg::Duplicate(), StdDuplicate);
+		bar.Add(d && !isedit, t_("Дубликат"), GridImg::Duplicate(), StdDuplicate);
 
 	if(removing)
-		bar.Add(d && (keep_last_row ? GetCount() > 1 : true), t_("Delete "), GridImg::Delete(), StdRemove);
+		bar.Add(d && (keep_last_row ? GetCount() > 1 : true), t_("Удалить "), GridImg::Delete(), StdRemove);
 
 	if(editing)
 	{
-		bar.Add(!isedit && d, t_("Edit"), GridImg::Modify(), StdEdit);
+		bar.Add(!isedit && d, t_("Редактировать"), GridImg::Modify(), StdEdit);
 		if(accepting)
-			bar.Add(isedit, t_("Accept"), GridImg::Commit(), THISBACK(DoEndEdit));
+			bar.Add(isedit, t_("Принять"), GridImg::Commit(), THISBACK(DoEndEdit));
 		if(canceling)
-			bar.Add(isedit, t_("Cancel"), GridImg::Cancel(), THISBACK(DoCancelEdit));
+			bar.Add(isedit, t_("Отмена"), GridImg::Cancel(), THISBACK(DoCancelEdit));
 	}
 
 	if(searching)
@@ -326,8 +326,8 @@ void GridCtrl::StdToolBar(Bar &bar)
 		if(searching)
 			bar.Separator();
 
-		bar.Add(c, t_("Move up"), GridImg::MoveUp(), THISBACK(DoSwapUp));
-		bar.Add(c, t_("Move down"), GridImg::MoveDn(), THISBACK(DoSwapDown));
+		bar.Add(c, t_("Поднять"), GridImg::MoveUp(), THISBACK(DoSwapUp));
+		bar.Add(c, t_("Опустить"), GridImg::MoveDn(), THISBACK(DoSwapDown));
 	}
 
 	if(navigating)
@@ -364,10 +364,10 @@ void GridCtrl::SetToolBarInfo(String inf)
 
 void GridCtrl::NavigatingBar(Bar &bar)
 {
-	bar.Add(RowFormat(t_("First %s")), GridImg::FirstRec(), THISBACK(DoGoBegin));
-	bar.Add(RowFormat(t_("Previous %s")), GridImg::PrevRec(), THISBACK(DoGoPrev));
-	bar.Add(RowFormat(t_("Next %s")), GridImg::NextRec(), THISBACK(DoGoNext));
-	bar.Add(RowFormat(t_("Last %s")), GridImg::LastRec(), THISBACK(DoGoEnd));
+	bar.Add(RowFormat(t_("Первый %s")), GridImg::FirstRec(), THISBACK(DoGoBegin));
+	bar.Add(RowFormat(t_("Предыдущий %s")), GridImg::PrevRec(), THISBACK(DoGoPrev));
+	bar.Add(RowFormat(t_("Следующий %s")), GridImg::NextRec(), THISBACK(DoGoNext));
+	bar.Add(RowFormat(t_("Последний %s")), GridImg::LastRec(), THISBACK(DoGoEnd));
 }
 
 GridCtrl& GridCtrl::SetToolBar(bool b, int align, int frame)
@@ -418,10 +418,10 @@ GridCtrl& GridCtrl::ResizePanel(bool b)
 
 void GridCtrl::FindOptsBar(Bar &bar)
 {
-	bar.Add(t_("Immediate search"), THISBACK1(SetFindOpts, 0)).Check(search_immediate);
-	bar.Add(t_("Hide rows"), THISBACK1(SetFindOpts, 1)).Check(search_hide);
-	bar.Add(t_("Highlight found cells"), THISBACK1(SetFindOpts, 2)).Check(search_highlight);
-	bar.Add(t_("Case sensitive"), THISBACK1(SetFindOpts, 3)).Check(search_case);
+	bar.Add(t_("Немедленный поиск"), THISBACK1(SetFindOpts, 0)).Check(search_immediate);
+	bar.Add(t_("Скрыть ряды"), THISBACK1(SetFindOpts, 1)).Check(search_hide);
+	bar.Add(t_("Подсветить найденные ячейки"), THISBACK1(SetFindOpts, 2)).Check(search_highlight);
+	bar.Add(t_("Регистрочувствительно"), THISBACK1(SetFindOpts, 3)).Check(search_case);
 }
 
 void GridCtrl::SetFindOpts(int n)
@@ -470,7 +470,7 @@ void GridCtrl::SetFindOpts(int n)
 
 String GridCtrl::RowFormat(const char *s)
 {
-	String row = t_("row");
+	String row = t_("ряд");
 	return Sprintf(s, ~row);
 }
 
@@ -484,31 +484,31 @@ void GridCtrl::StdMenuBar(Bar &bar)
 	{
 		if(bains == 0)
 		{
-			bar.Add(c, t_("Insert "), StdInsert)
+			bar.Add(c, t_("Вставить "), StdInsert)
 			   .Image(GridImg::Insert())
-			   .Help(RowFormat(t_("Insert a new %s into the table.")))
+			   .Help(RowFormat(t_("Всавить новый %s в эту таблицу.")))
 			   .Key(K_INSERT);
 		}
 		else if(bains == 1)
 		{
-			bar.Add(c, t_("Insert before"), THISBACK(DoInsertBefore))
+			bar.Add(c, t_("Вставить перед"), THISBACK(DoInsertBefore))
 			   .Image(GridImg::InsertBefore())
-			   .Help(RowFormat(t_("Insert a new %s into the table before current")))
+			   .Help(RowFormat(t_("Вставить новый %s в эту таблицу перед текущим")))
 			   .Key(K_INSERT);
-			bar.Add(c, t_("Insert after"), THISBACK(DoInsertAfter))
+			bar.Add(c, t_("Вставить после"), THISBACK(DoInsertAfter))
 			   .Image(GridImg::InsertAfter())
-			   .Help(RowFormat(t_("Insert a new %s into the table after current")))
+			   .Help(RowFormat(t_("Вставить новый %s в эту таблицу после текущего")))
 			   .Key(K_ALT_INSERT);
 		}
 		else if(bains == 2)
 		{
-			bar.Add(c, t_("Insert after"), THISBACK(DoInsertAfter))
+			bar.Add(c, t_("Вставить после"), THISBACK(DoInsertAfter))
 			   .Image(GridImg::InsertAfter())
-			   .Help(RowFormat(t_("Insert a new %s into the table after current")))
+			   .Help(RowFormat(t_("Вставить новый %s в эту таблицу после текущего")))
 			   .Key(K_INSERT);
-			bar.Add(c, t_("Insert before"), THISBACK(DoInsertBefore))
+			bar.Add(c, t_("Вставить перед"), THISBACK(DoInsertBefore))
 			   .Image(GridImg::InsertBefore())
-			   .Help(RowFormat(t_("Insert a new %s into the table before current")))
+			   .Help(RowFormat(t_("Вставить новый %s в эту таблицу перед текущим")))
 			   .Key(K_ALT_INSERT);
 		}
 		isitem = true;
@@ -516,9 +516,9 @@ void GridCtrl::StdMenuBar(Bar &bar)
 	
 	if(appending)
 	{
-		bar.Add(t_("Append"), StdAppend)
+		bar.Add(t_("Приставить"), StdAppend)
 		   .Image(GridImg::Append())
-		   .Help(RowFormat(t_("Append a new %s at the end of the table.")))
+		   .Help(RowFormat(t_("Приставить новый %s в конец этой таблицы.")))
 		   .Key(inserting ? (dword) K_CTRL_INSERT : (dword) K_INSERT);
 
 		isitem = true;
@@ -526,9 +526,9 @@ void GridCtrl::StdMenuBar(Bar &bar)
 	
 	if(duplicating)
 	{
-		bar.Add(c, t_("Duplicate"), THISBACK(DoDuplicate))
+		bar.Add(c, t_("Дублировать"), THISBACK(DoDuplicate))
 		   .Image(GridImg::Duplicate())
-		   .Help(RowFormat(t_("Duplicate current table %s.")))
+		   .Help(RowFormat(t_("Дублировать текущую таблицу %s.")))
 		   .Key(K_CTRL_D);
 
 		isitem = true;
@@ -536,9 +536,9 @@ void GridCtrl::StdMenuBar(Bar &bar)
 
 	if(editing)
 	{
-		bar.Add(!isedit && e, t_("Edit"), StdEdit)
+		bar.Add(!isedit && e, t_("Редактировать"), StdEdit)
 		   .Image(GridImg::Modify())
-		   .Help(RowFormat(t_("Edit active %s.")))
+		   .Help(RowFormat(t_("Редактировать активный %s.")))
 		   .Key(K_ENTER);
 
 		isitem = true;
@@ -581,34 +581,34 @@ void GridCtrl::StdMenuBar(Bar &bar)
 void GridCtrl::RemovingMenu(Bar &bar)
 {
 	bool c = IsCursor() && IsRowEditable();
-	bar.Add(c && (keep_last_row ? GetCount() > 1 : true), t_("Delete "), StdRemove)
+	bar.Add(c && (keep_last_row ? GetCount() > 1 : true), t_("Удалить "), StdRemove)
 	   .Image(GridImg::Delete())
-	   .Help(RowFormat(t_("Delete active %s.")))
+	   .Help(RowFormat(t_("Удалить активный %s.")))
 	   .Key(K_DELETE);
 }
 
 void GridCtrl::MovingMenu(Bar &bar)
 {
 	bool c = IsCursor();
-	bar.Add(c && curpos.y > fixed_rows, t_("Move up"), THISBACK(DoSwapUp))
+	bar.Add(c && curpos.y > fixed_rows, t_("Поднять"), THISBACK(DoSwapUp))
 	   .Image(GridImg::MoveUp())
 	   .Key(K_CTRL_UP);
-	bar.Add(c && curpos.y >= fixed_rows && curpos.y < total_rows - 1, t_("Move down"), THISBACK(DoSwapDown))
+	bar.Add(c && curpos.y >= fixed_rows && curpos.y < total_rows - 1, t_("Опустить"), THISBACK(DoSwapDown))
 	   .Image(GridImg::MoveDn())
 	   .Key(K_CTRL_DOWN);
 }
 
 void GridCtrl::SelectMenu(Bar &bar)
 {
-	bar.Add(total_rows > fixed_rows, RowFormat(t_("Select all")), THISBACK(DoSelectAll))
+	bar.Add(total_rows > fixed_rows, RowFormat(t_("Выделить все")), THISBACK(DoSelectAll))
 	   .Image(GridImg::SelectAll())
-	   .Help(t_("Select all table rows"))
+	   .Help(t_("Выделить все ряды таблицы"))
 	   .Key(K_CTRL_A);
 }
 
 void GridCtrl::ColumnsMenu(Bar &bar)
 {
-	bar.Add(t_("Columns"), THISBACK(ColumnList));
+	bar.Add(t_("Колонки"), THISBACK(ColumnList));
 }
 
 void GridCtrl::ColumnList(Bar &bar)
@@ -631,11 +631,11 @@ void GridCtrl::ClipboardMenu(Bar &bar)
 {
 	bool c = IsCursor();
 	bool s = c || IsSelection();
-	bar.Add(t_("Copy"), THISBACK(DoCopy)).Image(CtrlImg::copy()).Key(K_CTRL_C).Enable(s && copy_allowed);
+	bar.Add(t_("Копировать"), THISBACK(DoCopy)).Image(CtrlImg::copy()).Key(K_CTRL_C).Enable(s && copy_allowed);
 	if(cut_allowed)
-		bar.Add(t_("Cut"), THISBACK(Nothing)).Image(CtrlImg::cut()).Key(K_CTRL_X).Enable(s && cut_allowed);
+		bar.Add(t_("Вырезать"), THISBACK(Nothing)).Image(CtrlImg::cut()).Key(K_CTRL_X).Enable(s && cut_allowed);
 	if(paste_allowed)
-		bar.Add(t_("Paste"), THISBACK(DoPaste)).Image(CtrlImg::paste()).Key(K_CTRL_V).Enable(c && paste_allowed && IsClipboardAvailable());
+		bar.Add(t_("Вставить"), THISBACK(DoPaste)).Image(CtrlImg::paste()).Key(K_CTRL_V).Enable(c && paste_allowed && IsClipboardAvailable());
 	if(extra_paste)
 		bar.Add(t_("Paste as"), THISBACK(PasteAsMenu));
 }
@@ -644,8 +644,8 @@ void GridCtrl::PasteAsMenu(Bar &bar)
 {
 	bool c = IsCursor();
 	bool s = IsClipboardAvailable() && !fixed_paste;
-	bar.Add(t_("appended"), THISBACK(DoPasteAppendedRows)).Key(K_CTRL_E).Enable(s && paste_allowed);
-	bar.Add(t_("inserted"), THISBACK(DoPasteInsertedRows)).Key(K_CTRL_I).Enable(c && paste_allowed && s);
+	bar.Add(t_("приставлен"), THISBACK(DoPasteAppendedRows)).Key(K_CTRL_E).Enable(s && paste_allowed);
+	bar.Add(t_("вставлен"), THISBACK(DoPasteInsertedRows)).Key(K_CTRL_I).Enable(c && paste_allowed && s);
 }
 
 bool GridCtrl::IsClipboardAvailable()

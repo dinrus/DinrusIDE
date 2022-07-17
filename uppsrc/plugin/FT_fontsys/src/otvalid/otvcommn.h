@@ -98,7 +98,7 @@ FT_BEGIN_HEADER
                                                                     \
                                                                     \
                 FT_TRACE3(( "\n"                                    \
-                            "Invalid offset to optional table `%s'" \
+                            "Неверное offset to optional table `%s'" \
                             " set to zero.\n"                       \
                             "\n", #_size ));                        \
                                                                     \

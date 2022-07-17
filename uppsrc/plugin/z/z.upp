@@ -1,4 +1,4 @@
-description "zlib compressor/decompressor and its U++ encapsulation\3770,128,128";
+description "Компрессор/декомпрессор zlib\3770,128,128";
 
 options(BUILDER_OPTION) NOWARNINGS;
 

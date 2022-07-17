@@ -467,7 +467,7 @@ _libssh2_openssh_pem_parse_data(LIBSSH2_SESSION * session,
 
     if(_libssh2_get_string(&decoded, &buf, &tmp_len) || tmp_len == 0) {
         ret = _libssh2_error(session, LIBSSH2_ERROR_PROTO,
-                             "Invalid private key; "
+                             "Неверное private key; "
                              "expect embedded public key");
         goto out;
     }

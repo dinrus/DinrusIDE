@@ -133,7 +133,7 @@ int Heap::CheckFree(FreeLink *l, int k, bool pg)
 	Page *page = GetPage(l);
 
 	if(l && page->klass != k) {
-		sprintf(h, "Invalid freelist block at 0x%p sz: %d (klass mismatch)", l, Ksz(k));
+		sprintf(h, "Неверный блок списка очистки у 0x%p sz: %d (klass не совпадает)", l, Ksz(k));
 		Panic(h);
 	}
 	
@@ -141,15 +141,15 @@ int Heap::CheckFree(FreeLink *l, int k, bool pg)
 		if(l->next) {
 			Page *lp = GetPage(l->next);
 			if(pg && lp != page) {
-				sprintf(h, "Invalid freelist block at 0x%p sz: %d (out of page) (-> 0x%p)", l, Ksz(k), l->next);
+				sprintf(h, "Неверный болк списка очистки у 0x%p sz: %d (вне страницы) (-> 0x%p)", l, Ksz(k), l->next);
 				Panic(h);
 			}
 			if((4096 - ((uintptr_t)(l->next) & (uintptr_t)4095)) % Ksz(k) != 0) {
-				sprintf(h, "Invalid freelist block at 0x%p sz: %d (invalid address)", l, Ksz(k));
+				sprintf(h, "Неверный болк списка очистки у 0x%p sz: %d (еверный адрес)", l, Ksz(k));
 				Panic(h);
 			}
 			if(lp->klass != k) {
-				sprintf(h, "Invalid freelist block at 0x%p sz: %d (next klass mismatch)", l, Ksz(k));
+				sprintf(h, "Неверный болк списка очистки у 0x%p sz: %d (следщ klass несовпадает)", l, Ksz(k));
 				Panic(h);
 			}
 		}
@@ -215,7 +215,7 @@ void Heap::Check() {
 void Heap::AssertLeaks(bool b)
 {
 	if(!b)
-		Panic("Memory leaks detected! (final check)");
+		Panic("Обнаружены утечки памяти! (финальная проверка)");
 }
 
 void Heap::AuxFinalCheck()

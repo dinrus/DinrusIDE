@@ -147,7 +147,7 @@ publickey_packet_receive(LIBSSH2_PUBLICKEY * pkey,
         }
         else if(rc != 4) {
             return _libssh2_error(session, LIBSSH2_ERROR_PUBLICKEY_PROTOCOL,
-                                  "Invalid response from publickey subsystem");
+                                  "Неверное response from publickey subsystem");
         }
 
         pkey->receive_packet_len = _libssh2_ntohu32(buffer);
@@ -279,7 +279,7 @@ publickey_response_success(LIBSSH2_PUBLICKEY * pkey)
             if(response < 0) {
                 return _libssh2_error(session,
                                       LIBSSH2_ERROR_PUBLICKEY_PROTOCOL,
-                                      "Invalid publickey subsystem response");
+                                      "Неверное publickey subsystem response");
             }
             /* Unknown/Unexpected */
             _libssh2_error(session, LIBSSH2_ERROR_PUBLICKEY_PROTOCOL,
@@ -441,7 +441,7 @@ static LIBSSH2_PUBLICKEY *publickey_init(LIBSSH2_SESSION *session)
             if((response =
                  publickey_response_id(&s, session->pkeyInit_data_len)) < 0) {
                 _libssh2_error(session, LIBSSH2_ERROR_PUBLICKEY_PROTOCOL,
-                               "Invalid publickey subsystem response code");
+                               "Неверное publickey subsystem response code");
                 goto err_exit;
             }
 
@@ -883,7 +883,7 @@ libssh2_publickey_list_fetch(LIBSSH2_PUBLICKEY * pkey, unsigned long *num_keys,
              publickey_response_id(&pkey->listFetch_s,
                                    pkey->listFetch_data_len)) < 0) {
             _libssh2_error(session, LIBSSH2_ERROR_PUBLICKEY_PROTOCOL,
-                           "Invalid publickey subsystem response code");
+                           "Неверное publickey subsystem response code");
             goto err_exit;
         }
 

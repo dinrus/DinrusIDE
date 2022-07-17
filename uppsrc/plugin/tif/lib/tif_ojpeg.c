@@ -1123,7 +1123,7 @@ OJPEGReadHeaderInfo(TIFF* tif)
 		if (((sp->subsampling_hor!=1) && (sp->subsampling_hor!=2) && (sp->subsampling_hor!=4)) ||
 		    ((sp->subsampling_ver!=1) && (sp->subsampling_ver!=2) && (sp->subsampling_ver!=4)))
 		{
-			TIFFErrorExt(tif->tif_clientdata,module,"Invalid subsampling values");
+			TIFFErrorExt(tif->tif_clientdata,module,"Неверное subsampling values");
 			return(0);
 		}
 		if (sp->strile_length%(sp->subsampling_ver*8)!=0)

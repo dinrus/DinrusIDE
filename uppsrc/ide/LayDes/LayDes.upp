@@ -1,4 +1,4 @@
-description "TheIDE - layout (.lay) designer \377B";
+description "DinrusIDE -дизайнер выкладки (.lay)\377B";
 
 uses
 	RichEdit,

@@ -797,7 +797,7 @@ session_startup(LIBSSH2_SESSION *session, libssh2_socket_t sock)
             LIBSSH2_FREE(session, session->startup_data);
             session->startup_data = NULL;
             return _libssh2_error(session, LIBSSH2_ERROR_PROTO,
-                                  "Invalid response received from server");
+                                  "Неверное response received from server");
         }
         LIBSSH2_FREE(session, session->startup_data);
         session->startup_data = NULL;
@@ -1232,7 +1232,7 @@ libssh2_session_methods(LIBSSH2_SESSION * session, int method_type)
 
     default:
         _libssh2_error(session, LIBSSH2_ERROR_INVAL,
-                       "Invalid parameter specified for method_type");
+                       "Неверное parameter specified for method_type");
         return NULL;
     }
 
@@ -1536,7 +1536,7 @@ libssh2_poll(LIBSSH2_POLLFD * fds, unsigned int nfds, long timeout)
         default:
             if(session)
                 _libssh2_error(session, LIBSSH2_ERROR_INVALID_POLL_TYPE,
-                               "Invalid descriptor passed to libssh2_poll()");
+                               "Неверное descriptor passed to libssh2_poll()");
             return -1;
         }
     }
@@ -1583,7 +1583,7 @@ libssh2_poll(LIBSSH2_POLLFD * fds, unsigned int nfds, long timeout)
         default:
             if(session)
                 _libssh2_error(session, LIBSSH2_ERROR_INVALID_POLL_TYPE,
-                               "Invalid descriptor passed to libssh2_poll()");
+                               "Неверное descriptor passed to libssh2_poll()");
             return -1;
         }
     }

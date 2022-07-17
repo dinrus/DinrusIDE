@@ -101,7 +101,7 @@ static int TIFFReadAndRealloc( TIFF* tif, tmsize_t size,
                         (uint64)already_read + to_read + rawdata_offset, 1024);
                 if (tif->tif_rawdatasize==0) {
                     TIFFErrorExt(tif->tif_clientdata, module,
-                                "Invalid buffer size");
+                                "Неверное buffer size");
                     return 0;
                 }
                 new_rawdata = (uint8*) _TIFFrealloc(
@@ -774,12 +774,12 @@ TIFFFillStrip(TIFF* tif, uint32 strip)
 		if( bytecount == 0 || bytecount > (uint64)TIFF_INT64_MAX ) {
 #if defined(__WIN32__) && (defined(_MSC_VER) || defined(__MINGW32__))
 			TIFFErrorExt(tif->tif_clientdata, module,
-				"Invalid strip byte count %I64u, strip %lu",
+				"Неверное strip byte count %I64u, strip %lu",
 				     (unsigned __int64) bytecount,
 				     (unsigned long) strip);
 #else
 			TIFFErrorExt(tif->tif_clientdata, module,
-				"Invalid strip byte count %llu, strip %lu",
+				"Неверное strip byte count %llu, strip %lu",
 				     (unsigned long long) bytecount,
 				     (unsigned long) strip);
 #endif
@@ -1396,7 +1396,7 @@ TIFFReadBufferSetup(TIFF* tif, void* bp, tmsize_t size)
 		tif->tif_rawdatasize = (tmsize_t)TIFFroundup_64((uint64)size, 1024);
 		if (tif->tif_rawdatasize==0) {
 		    TIFFErrorExt(tif->tif_clientdata, module,
-				 "Invalid buffer size");
+				 "Неверное buffer size");
 		    return (0);
 		}
 		/* Initialize to zero to avoid uninitialized buffers in case of */

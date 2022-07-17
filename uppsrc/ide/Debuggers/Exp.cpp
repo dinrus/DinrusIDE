@@ -367,7 +367,7 @@ Pdb::Val Pdb::Term(CParser& p)
 	if(p.IsChar('\'')) {
 		String s = p.ReadString('\'');
 		if(s.GetLength() != 1)
-			ThrowError("Invalid character literal");
+			ThrowError("Неверное character literal");
 		return RValue(s[0]);
 	}
 	if(p.Char('(')) {

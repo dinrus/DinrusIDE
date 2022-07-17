@@ -460,7 +460,7 @@ void TabBar::ContextMenu(Bar& bar)
 {
 	int ii = GetHighlight(); // Need copy to freeze it, [=] copies 'this' and thus reference to highlight
 	if (GetCursor() >= 0 && ii >= 0 && !IsCancelClose(ii))
-		bar.Add(tabs.GetCount() > mintabcount, t_("Close"), [=] {
+		bar.Add(tabs.GetCount() > mintabcount, t_("Закрыть"), [=] {
 			if (!CancelClose(tabs[ii].key)) {
 				WhenClose(tabs[ii].key);
 				TabClosed(tabs[ii].key);

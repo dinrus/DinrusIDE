@@ -1,4 +1,4 @@
-description "TheIDE - debuggers\377B";
+description "DinrusIDE - отладчики\377B";
 
 uses
 	ide/Common,

@@ -1,4 +1,4 @@
-description "Image designer\377";
+description "Дизайнер картинок\377";
 
 uses
 	CtrlLib,

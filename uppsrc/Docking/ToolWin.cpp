@@ -223,7 +223,7 @@ ToolWin::ToolWin()
 	Add(close);
 	close.Image(CtrlImg::cross());
 	close <<= THISBACK(DoClose);
-	close.Tip(t_("Close"));
+	close.Tip(t_("Закрыть"));
 	AddFrame(*this);
 	FrameLess();
 }

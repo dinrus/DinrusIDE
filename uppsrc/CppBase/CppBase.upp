@@ -1,4 +1,4 @@
-description "Partly heurestic (imprecise) C++ parser for purposes of Assist++ (intellisense)\377";
+description "Отчасти эвристический (неточный) парсер  C++ для Assist++ (intellisense)\377";
 
 uses
 	Core;

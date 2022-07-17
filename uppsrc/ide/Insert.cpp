@@ -93,7 +93,7 @@ void Ide::InsertIml(const Package& pkg, const String& fn, String classname)
 {
 	if(editor.IsReadOnly())
 		return;
-	if(!EditText(classname, "Вставить .iml include", "Img class"))
+	if(!EditText(classname, "Вставить включение .iml", "Img class"))
 		return;
 	String h;
 	h << "#define IMAGECLASS " << classname << "\n"

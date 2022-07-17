@@ -247,7 +247,7 @@ WString WString::GetVoid()
 }
 
 #ifndef _HAVE_NO_STDWSTRING
-static_assert(sizeof(wchar_t) == 4 || sizeof(wchar_t) == 2, "Invalid wchar_t size");
+static_assert(sizeof(wchar_t) == 4 || sizeof(wchar_t) == 2, "Неверное wchar_t size");
 
 WString::WString(const std::wstring& s)
 {

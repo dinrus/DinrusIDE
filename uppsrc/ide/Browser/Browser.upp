@@ -1,4 +1,4 @@
-description "TheIDE - code browser and Topic++\377B";
+description "DinrusIDE - просмотрщик кода и Topic++\377B";
 
 uses
 	CppBase,

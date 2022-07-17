@@ -311,7 +311,7 @@ libssh2_base64_decode(LIBSSH2_SESSION *session, char **data,
            octet */
         LIBSSH2_FREE(session, *data);
         *data = NULL;
-        return _libssh2_error(session, LIBSSH2_ERROR_INVAL, "Invalid base64");
+        return _libssh2_error(session, LIBSSH2_ERROR_INVAL, "Неверное base64");
     }
 
     *datalen = len;

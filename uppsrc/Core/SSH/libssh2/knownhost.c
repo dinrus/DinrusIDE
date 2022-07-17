@@ -569,7 +569,7 @@ libssh2_knownhost_del(LIBSSH2_KNOWNHOSTS *hosts,
     /* check that this was retrieved the right way or get out */
     if(!entry || (entry->magic != KNOWNHOST_MAGIC))
         return _libssh2_error(hosts->session, LIBSSH2_ERROR_INVAL,
-                              "Invalid host information");
+                              "Неверное host information");
 
     /* get the internal node pointer */
     node = entry->node;
@@ -1175,7 +1175,7 @@ libssh2_knownhost_writeline(LIBSSH2_KNOWNHOSTS *hosts,
 
     if(known->magic != KNOWNHOST_MAGIC)
         return _libssh2_error(hosts->session, LIBSSH2_ERROR_INVAL,
-                              "Invalid host information");
+                              "Неверное host information");
 
     node = known->node;
 

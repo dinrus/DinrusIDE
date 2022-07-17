@@ -58,7 +58,7 @@ int Console::Flush()
 		if(!slot.process->IsRunning()) {
 			Kill(i);
 			if(slot.exitcode != 0 && verbosebuild)
-				spooled_output.Cat("Error executing " + slot.cmdline + "\n");
+				spooled_output.Cat("Ошибка при выполнении " + slot.cmdline + "\n");
 			if(console_lock == i)
 				console_lock = -1;
 			FlushConsole();
@@ -129,7 +129,7 @@ bool Console::Run(One<AProcess> process, const char *cmdline, Stream *out, bool 
 {
 	if(!process) {
 		if(verbosebuild)
-			spooled_output << "Error running " << cmdline << "\n";
+			spooled_output << "Ошибка при запуске " << cmdline << "\n";
 		FlushConsole();
 		return false;
 	}
@@ -281,7 +281,7 @@ void Console::CheckEndGroup()
 				;
 			if(p < 0) {
 				if(group.count > 0) {
-					String msg = NFormat("%s: %d file(s) built in %s, %d msecs / file",
+					String msg = NFormat("%s: %d файл(-ов) построено за %s, %d мсек / файл",
 						gname, group.count, PrintTime(group.msecs), group.msecs / group.count);
 					msg << '\n';
 					spooled_output.Cat(msg);

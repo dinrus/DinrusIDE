@@ -294,7 +294,7 @@ String Qualify(const String& scope, const String& type, const String& usings);
 int    CharFilterMacro(int c);
 int    CharFilterFileName(int c);
 
-bool   isincludefnchar(int c);
+bool   isincludefnchar(long c);
 
 Size   GetDrawFileNameSize(const String& h);
 void   DrawFileName(Draw& w, const Rect& r, const String& h, Color ink);

@@ -908,7 +908,7 @@ static LIBSSH2_SFTP *sftp_init(LIBSSH2_SESSION *session)
             LIBSSH2_FREE(session, data);
         }
         _libssh2_error(session, LIBSSH2_ERROR_SFTP_PROTOCOL,
-                       "Invalid SSH_FXP_VERSION response");
+                       "Неверное SSH_FXP_VERSION response");
         goto sftp_init_error;
     }
     else if(rc) {
@@ -3687,7 +3687,7 @@ static int sftp_symlink(LIBSSH2_SFTP *sftp, const char *path,
     if(_libssh2_ntohu32(data + 5) < 1) {
         LIBSSH2_FREE(session, data);
         return _libssh2_error(session, LIBSSH2_ERROR_SFTP_PROTOCOL,
-                              "Invalid READLINK/REALPATH response, "
+                              "Неверное READLINK/REALPATH response, "
                               "no name entries");
     }
 

@@ -142,7 +142,7 @@ TWebPDecode(TIFF* tif, uint8* op, tmsize_t occ, uint16 s)
   if (status != VP8_STATUS_OK && status != VP8_STATUS_SUSPENDED) {
     if (status == VP8_STATUS_INVALID_PARAM) {
        TIFFErrorExt(tif->tif_clientdata, module,
-         "Invalid parameter used.");      
+         "Неверное parameter used.");      
     } else if (status == VP8_STATUS_OUT_OF_MEMORY) {
       TIFFErrorExt(tif->tif_clientdata, module,
         "Out of memory.");         

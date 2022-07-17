@@ -16,7 +16,7 @@ bool SshTunnel::IsValid()
 		default: NEVER();
 	}
 	if(b)
-		SetError(-1, "Invalid channel instance.");
+		SetError(-1, "Неверное channel instance.");
 	return !b;
 }
 
@@ -93,7 +93,7 @@ bool SshTunnel::Accept(SshTunnel& listener)
 		return false;
 	
 	if(!listener.listener) {
-		SetError(-1, "Invalid listener.");
+		SetError(-1, "Неверное listener.");
 		return false;
 	}
 

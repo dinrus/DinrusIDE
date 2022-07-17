@@ -231,11 +231,11 @@ String AsString(const MemoryProfile& mem)
 	size_t asize = 0;
 	int fcount = 0;
 	size_t fsize = 0;
-	text << "Memory peak: " << MemoryUsedKbMax() << " KB, current: " << MemoryUsedKb() << "KB \n";
+	text << "Пик памяти: " << MemoryUsedKbMax() << " КБ, текущая: " << MemoryUsedKb() << "КБ \n";
 	for(int i = 0; i < 1024; i++)
 		if(mem.allocated[i]) {
 			int sz = 4 * i;
-			text << Format("%4d B, %7d allocated (%6d KB), %6d fragments (%6d KB)\n",
+			text << Format("%4d Б, %7d размещено (%6d KB), %6d фрагментов (%6d КБ)\n",
 			              sz, mem.allocated[i], (mem.allocated[i] * sz) >> 10,
 			              mem.fragments[i], (mem.fragments[i] * sz) >> 10);
 			acount += mem.allocated[i];
@@ -243,28 +243,28 @@ String AsString(const MemoryProfile& mem)
 			fcount += mem.fragments[i];
 			fsize += mem.fragments[i] * sz;
 		}
-	text << Format(" TOTAL, %7d allocated (%6d KB), %6d fragments (%6d KB)\n",
+	text << Format(" ВСЕГО, %7d размещено (%6d КБ), %6d фрагментов (%6d КБ)\n",
 	              acount, int(asize >> 10), fcount, int(fsize >> 10));
-	text << "Empty 4KB pages " << mem.freepages << " (" << mem.freepages * 4 << " KB)\n";
-	text << "Large block count " << mem.large_count
-	     << ", total size " << (mem.large_total >> 10) << " KB\n";
-	text << "Large fragments count " << mem.large_fragments_count
-	     << ", total size " << (mem.large_fragments_total >> 10) << " KB\n";
-	text << "Huge block count " << mem.huge_count
-	     << ", total size " << int(mem.huge_total >> 10) << " KB\n";
-	text << "Huge fragments count " << mem.huge_fragments_count
-	     << ", total size " << 4 * mem.huge_fragments_total << " KB\n";
-	text << "Sys block count " << mem.sys_count
-	     << ", total size " << int(mem.sys_total >> 10) << " KB\n";
-	text << Heap::HPAGE * 4 / 1024 << "MB master blocks " << mem.master_chunks << "\n";
-	text << "\nLarge fragments:\n";
+	text << "Пустые 4КБ страницы " << mem.freepages << " (" << mem.freepages * 4 << " КБ)\n";
+	text << "Счёт блоков Large " << mem.large_count
+	     << ", общий размер " << (mem.large_total >> 10) << " КБ\n";
+	text << "Счёт фрагментов Large " << mem.large_fragments_count
+	     << ", общий размер " << (mem.large_fragments_total >> 10) << " КБ\n";
+	text << "Счёт блоков Huge " << mem.huge_count
+	     << ", общий размер " << int(mem.huge_total >> 10) << " КБ\n";
+	text << "Счёт фрагментов Huge " << mem.huge_fragments_count
+	     << ", общий размер " << 4 * mem.huge_fragments_total << " КБ\n";
+	text << "Счёт блоков Syst " << mem.sys_count
+	     << ", общий размер " << int(mem.sys_total >> 10) << " КБ\n";
+	text << Heap::HPAGE * 4 / 1024 << "МБ мастер-блоки " << mem.master_chunks << "\n";
+	text << "\nФрагменты Large:\n";
 	for(int i = 0; i < 2048; i++)
 		if(mem.large_fragments[i])
-			text << 256.0 * i / 1024 << " KB: " << mem.large_fragments[i] << "\n";
-	text << "\nHuge fragments:\n";
+			text << 256.0 * i / 1024 << " КБ: " << mem.large_fragments[i] << "\n";
+	text << "\nФрагменты Huge:\n";
 	for(int i = 0; i < 65535; i++)
 		if(mem.huge_fragments[i])
-			text << i * 4 << " KB: " << mem.huge_fragments[i] << "\n";
+			text << i * 4 << " КБ: " << mem.huge_fragments[i] << "\n";
 #endif
 	return text;
 }

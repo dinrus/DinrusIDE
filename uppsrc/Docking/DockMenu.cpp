@@ -72,7 +72,7 @@ void DockMenu::GroupMenu(Bar& bar, String group)
 	if(dock->HasCloseButtons())
 	{
 		bar.Separator();
-		bar.Add(true, t_("Close") + text, CtrlImg::Remove(), DOCKBACK1(CloseGroup, group));		
+		bar.Add(true, t_("Закрыть") + text, CtrlImg::Remove(), DOCKBACK1(CloseGroup, group));		
 	}
 }
 
@@ -89,7 +89,7 @@ void DockMenu::WindowMenu(Bar& bar, DockableCtrl *dc)
 	if(dock->HasCloseButtons())
 	{
 		bar.Separator();
-		bar.Add(true, t_("Close"), CtrlImg::Remove(), THISBACK1(MenuClose, dc));
+		bar.Add(true, t_("Закрыть"), CtrlImg::Remove(), THISBACK1(MenuClose, dc));
 	}
 }
 

@@ -490,7 +490,7 @@ void RichEdit::TabMenu()
 		menu.Add(t_("Fill with __"), fill[3])
 		    .Radio(f == 3);
 		menu.Separator();
-		menu.Add(t_("Remove"), fill[-1]);
+		menu.Add(t_("Удалить"), fill[-1]);
 	}
 	menu.Execute();
 	if(!IsNull(align)) {

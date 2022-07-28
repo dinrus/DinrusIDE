@@ -2350,7 +2350,7 @@
 
   static const AF_Script_UniRangeRec  af_latin2_uniranges[] =
   {
-    AF_UNIRANGE_REC( 32UL,  127UL ),    /* TODO: Add new Unicode ranges here! */
+    AF_UNIRANGE_REC( 32UL,  127UL ),    /* СДЕЛАТЬ: Add new Unicode ranges here! */
     AF_UNIRANGE_REC( 160UL, 255UL ),
     AF_UNIRANGE_REC( 0UL,   0UL )
   };

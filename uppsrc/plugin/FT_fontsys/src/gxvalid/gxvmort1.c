@@ -126,7 +126,7 @@
 
     /* XXX: check range? */
 
-    /* TODO: min_gid & max_gid comparison with ClassTable contents */
+    /* СДЕЛАТЬ: min_gid & max_gid comparison with ClassTable contents */
   }
 
 

@@ -1235,7 +1235,7 @@ int32_t disasm(uint8_t *data, char *output, int outbufsize, int segsize,
 
     slen = 0;
 
-    /* TODO: snprintf returns the value that the string would have if
+    /* СДЕЛАТЬ: snprintf returns the value that the string would have if
      *      the buffer were long enough, and not the actual length of
      *      the returned string, so each instance of using the return
      *      value of snprintf should actually be checked to assure that

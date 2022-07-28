@@ -353,7 +353,7 @@
       if ( info->is_fixed_pitch )
         cidface->face_flags |= FT_FACE_FLAG_FIXED_WIDTH;
 
-      /* XXX: TODO: add kerning with .afm support */
+      /* XXX: СДЕЛАТЬ: add kerning with .afm support */
 
       /* get style name -- be careful, some broken fonts only */
       /* have a /FontName dictionary entry!                   */

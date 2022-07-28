@@ -83,7 +83,7 @@ public:
 
  
 inline void SetSurface(SystemDraw& w, const Rect& dest, const RGBA *pixels, Size srcsz, Point poff)
-{ // TODO: Unless we can do this...
+{ // СДЕЛАТЬ: Unless we can do this...
 	NEVER();
 }
 

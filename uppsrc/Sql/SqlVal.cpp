@@ -352,14 +352,14 @@ SqlVal Least(const SqlVal& a, const SqlVal& b) {
 	              SqlS::FN);
 }
 
-SqlVal ConvertCharset(const SqlVal& exp, const SqlVal& charset) { //TODO Dialect!
+SqlVal ConvertCharset(const SqlVal& exp, const SqlVal& charset) { //СДЕЛАТЬ Dialect!
 	if(exp.IsEmpty()) return exp;
 	return exp.IsEmpty() ? exp : SqlFunc("convert", exp, charset);
 }
 
 SqlVal ConvertAscii(const SqlVal& exp) {
 	return SqlVal(SqlCode(MSSQL, String().Cat() << "((" << ~exp << ") collate SQL_Latin1_General_Cp1251_CS_AS)")
-			             (~ConvertCharset(exp, "US7ASCII")), SqlS::FN); // This is Oracle really, TODO: Add other dialects
+			             (~ConvertCharset(exp, "US7ASCII")), SqlS::FN); // This is Oracle really, СДЕЛАТЬ: Add other dialects
 }
 
 SqlVal Upper(const SqlVal& exp) {
@@ -414,19 +414,19 @@ SqlVal SqlDate(const SqlVal& year, const SqlVal& month, const SqlVal& day) {
 	SqlS::FN);
 }
 
-SqlVal AddMonths(const SqlVal& date, const SqlVal& months) {//TODO Dialect!
+SqlVal AddMonths(const SqlVal& date, const SqlVal& months) {//СДЕЛАТЬ Dialect!
 	return SqlFunc("add_months", date, months);
 }
 
-SqlVal LastDay(const SqlVal& date) {//TODO Dialect!
+SqlVal LastDay(const SqlVal& date) {//СДЕЛАТЬ Dialect!
 	return SqlFunc("last_day", date);
 }
 
-SqlVal MonthsBetween(const SqlVal& date1, const SqlVal& date2) {//TODO Dialect!
+SqlVal MonthsBetween(const SqlVal& date1, const SqlVal& date2) {//СДЕЛАТЬ Dialect!
 	return SqlFunc("months_between", date1, date2);
 }
 
-SqlVal NextDay(const SqlVal& date) {//TODO Dialect!
+SqlVal NextDay(const SqlVal& date) {//СДЕЛАТЬ Dialect!
 	return SqlFunc("next_day", date);
 }
 

@@ -173,7 +173,7 @@ void sCleanZombies(int signal_number)
 #endif
 
 #ifdef PLATFORM_WIN32
-String HostConsole = "powershell.exe";
+String HostConsole = "pwsh.exe";
 #else
 String HostConsole = "/usr/bin/xterm -e";
 #endif

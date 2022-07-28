@@ -134,7 +134,7 @@
       error = service->get_advance( face, gindex, aadvance );
     }
     else
-      /* XXX: TODO: PROVIDE ADVANCE-LOADING METHOD TO ALL FONT DRIVERS */
+      /* XXX: СДЕЛАТЬ: PROVIDE ADVANCE-LOADING METHOD TO ALL FONT DRIVERS */
       error = FT_Err_Invalid_Argument;
 
     return error;

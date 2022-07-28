@@ -401,7 +401,7 @@
 #if 0 /* some fonts seem to be broken here! */
 
       /* Apply the font matrix, if any.                 */
-      /* TODO: Test existing fonts with unusual matrix  */
+      /* СДЕЛАТЬ: Test existing fonts with unusual matrix  */
       /* whether we have to adjust Units per EM.        */
       {
         FT_Matrix font_matrix;

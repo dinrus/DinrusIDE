@@ -91,7 +91,7 @@ file
 	FileSelUtil.cpp,
 	Utilities readonly separator,
 	CtrlUtil.h,
-	PrinterJob.cpp,
+	PrinterJob.cpp charset "UTF-8",
 	Windows.cpp,
 	Win32.cpp,
 	Gtk.cpp,

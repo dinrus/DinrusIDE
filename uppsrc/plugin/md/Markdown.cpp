@@ -95,7 +95,7 @@ void sMarkdownContext::EndBlock(MD_BLOCKTYPE type, void *detail)
 
 String sMarkdownContext::Compose(const Array<Block>& doc, int data, bool notext, dword flags) const
 {
-	// TODO:
+	// СДЕЛАТЬ:
 	// 1) Refactor this method.
 	// 2) Make certain block styles and page properties (e.g. margins, indentation, etc.) configurable.
 
@@ -380,7 +380,7 @@ static int sParseMdDocument(MD_PARSER& parser, const String& txt, void *ctx)
 			ctx << decode(type,
 					MD_TEXT_NULLCHAR,	"?",
 					MD_TEXT_BR,			"&",
-					MD_TEXT_SOFTBR,		" ",	// TODO: See if there is a way to properly imitate this in qtf...
+					MD_TEXT_SOFTBR,		" ",	// СДЕЛАТЬ: See if there is a way to properly imitate this in qtf...
 					(const char*) ~sDeQtfMd(String((const char*) text, size)));
 		return 0;
 	};

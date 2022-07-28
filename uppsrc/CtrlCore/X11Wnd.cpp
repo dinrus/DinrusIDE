@@ -993,7 +993,7 @@ void Ctrl::AddGlobalRepaint()
 {
 	GuiLock __;
 	Rect rect = GetRect();
-	rect.Inflate(32, 32);//TODO !!! Not correct !!! should read frame extent instead... - or shift GraphicsExposes /  NoExposes...
+	rect.Inflate(32, 32);//СДЕЛАТЬ !!! Not correct !!! should read frame extent instead... - or shift GraphicsExposes /  NoExposes...
 	ArrayMap<Window, Ctrl::XWindow>& w = Xwindow();
 	for(int i = 0; i < w.GetCount(); i++)
 		if(w.GetKey(i) && w[i].ctrl) {

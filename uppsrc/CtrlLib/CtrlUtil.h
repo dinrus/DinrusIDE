@@ -21,7 +21,7 @@ bool EditDateDlg(Date& d, const char *title, const char *label, Date min = Date:
 void Show2(Ctrl& ctrl1, Ctrl& ctrl, bool show = true);
 void Hide2(Ctrl& ctrl1, Ctrl& ctrl);
 
-#ifndef PLATFORM_WINCE //TODO?
+#ifndef PLATFORM_WINCE //СДЕЛАТЬ?
 void UpdateFile(const char *filename);
 void SelfUpdate();
 bool SelfUpdateSelf();

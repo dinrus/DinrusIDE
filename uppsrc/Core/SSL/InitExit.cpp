@@ -59,7 +59,7 @@ static void *SslRealloc(void *ptr, size_t size)
 #endif
 	}
 	int64 *aptr = (int64 *)ptr - 1;
-	if((int64)(size + sizeof(int64)) <= *aptr) { // TODO: Do we really want this?
+	if((int64)(size + sizeof(int64)) <= *aptr) { // СДЕЛАТЬ: Do we really want this?
 		LLOG("UPP_SSL_REALLOC(" << ptr << ", " << (int64)size << ", alloc " << *aptr << ") -> keep same block" << ", thread: " << Thread::GetCurrentId());
 		return ptr;
 	}

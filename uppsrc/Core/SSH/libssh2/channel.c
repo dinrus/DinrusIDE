@@ -1745,7 +1745,7 @@ libssh2_channel_get_exit_signal(LIBSSH2_CHANNEL *channel,
                 *exitsignal_len = 0;
         }
 
-        /* TODO: set error message and language tag */
+        /* СДЕЛАТЬ: set error message and language tag */
 
         if(errmsg)
             *errmsg = NULL;

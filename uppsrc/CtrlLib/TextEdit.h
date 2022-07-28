@@ -354,7 +354,7 @@ protected:
 	bool             showlines;
 	bool             showreadonly;
 	bool             warnwhitespace;
-	bool             dorectsel; // TODO: Refactor this ugly hack!
+	bool             dorectsel; // СДЕЛАТЬ: Refactor this ugly hack!
 
 	void   Paint0(Draw& w);
 

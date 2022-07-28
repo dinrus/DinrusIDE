@@ -3,7 +3,7 @@
 namespace Upp {
 
 #define LTIMING(x)  // RTIMING(x)
-
+//Сравнение строк
 bool cmps(const wchar *q, const char *s, int& n) {
 	const wchar *t = q;
 	while(*q)
@@ -12,7 +12,7 @@ bool cmps(const wchar *q, const char *s, int& n) {
 	n += int(q - t);
 	return *q == *s;
 }
-
+//Проверка регистра на заглавные
 bool IsUpperString(const char *q)
 {
 	while(*q)
@@ -23,7 +23,7 @@ bool IsUpperString(const char *q)
     }
 	return true;
 }
-
+//Цвет блока
 Color CSyntax::BlockColor(int level)
 {
 	if(hilite_scope == 1)
@@ -34,8 +34,8 @@ Color CSyntax::BlockColor(int level)
 	}
 	return GetHlStyle(PAPER_NORMAL).color;
 }
-
-void CSyntax::Bracket(int64 pos, HighlightOutput& hls, CodeEditor *editor) // TODO:SYNTAX: Cleanup passing bracket info
+//
+void CSyntax::Bracket(int64 pos, HighlightOutput& hls, CodeEditor *editor) // СДЕЛАТЬ:SYNTAX: Cleanup passing bracket info
 {
 	if(!editor)
 		return;
@@ -50,7 +50,7 @@ void CSyntax::Bracket(int64 pos, HighlightOutput& hls, CodeEditor *editor) // TO
 		hls.SetFont(hls.pos, 1, h);
 	}
 }
-
+//Подсветка числа
 const wchar *HighlightNumber(HighlightOutput& hls, const wchar *p, bool ts, bool octal, bool css)
 {
 	int c = octal ? HighlightSetup::INK_CONST_OCT : HighlightSetup::INK_CONST_INT;
@@ -90,7 +90,7 @@ const wchar *HighlightNumber(HighlightOutput& hls, const wchar *p, bool ts, bool
 	}
 	return p;
 }
-
+//Подсветка гекса
 const wchar *HighlightHexBin(HighlightOutput& hls, const wchar *p, int plen, bool thousands_separator)
 {
 	hls.Put(plen, HighlightSetup::hl_style[HighlightSetup::INK_CONST_HEX]);
@@ -105,7 +105,7 @@ const wchar *HighlightHexBin(HighlightOutput& hls, const wchar *p, int plen, boo
 	}
 	return p;
 }
-
+//Комментарии
 const wchar *CSyntax::DoComment(HighlightOutput& hls, const wchar *p, const wchar *e)
 {
 	WString w;
@@ -121,9 +121,9 @@ const wchar *CSyntax::DoComment(HighlightOutput& hls, const wchar *p, const wcha
 		for(const wchar *s = p; s < e && !IsLetter(*s); s++)
 			n++;
 	hls.SetFlags(n, flags);
-	static WString todo = "TODO";
-	static WString fixme = "FIXME";
-	if(w.GetCount() >= 4 && w.GetCount() <= 5 && findarg(w, todo, fixme) >= 0)
+	static WString todo = "СДЕЛАТЬ";
+	static WString fixme = "ИСПРАВИТЬ";
+	if(w.GetCount() >= 6 && w.GetCount() <= 9 && findarg(w, todo, fixme) >= 0)
 		hls.Put(n, hl_style[INK_COMMENT_WORD], hl_style[PAPER_COMMENT_WORD]);
 	else
 		hls.Put(n, hl_style[INK_COMMENT]);

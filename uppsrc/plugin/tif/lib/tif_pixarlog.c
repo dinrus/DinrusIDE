@@ -694,7 +694,7 @@ PixarLogSetupDecode(TIFF* tif)
 	/* add one more stride in case input ends mid-stride */
 	tbuf_size = add_ms(tbuf_size, sizeof(uint16) * sp->stride);
 	if (tbuf_size == 0)
-		return (0);   /* TODO: this is an error return without error report through TIFFErrorExt */
+		return (0);   /* СДЕЛАТЬ: this is an error return without error report through TIFFErrorExt */
 	sp->tbuf = (uint16 *) _TIFFmalloc(tbuf_size);
 	if (sp->tbuf == NULL)
 		return (0);
@@ -910,7 +910,7 @@ PixarLogSetupEncode(TIFF* tif)
 	tbuf_size = multiply_ms(multiply_ms(multiply_ms(sp->stride, td->td_imagewidth),
 				      td->td_rowsperstrip), sizeof(uint16));
 	if (tbuf_size == 0)
-		return (0);  /* TODO: this is an error return without error report through TIFFErrorExt */
+		return (0);  /* СДЕЛАТЬ: this is an error return without error report through TIFFErrorExt */
 	sp->tbuf = (uint16 *) _TIFFmalloc(tbuf_size);
 	if (sp->tbuf == NULL)
 		return (0);

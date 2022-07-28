@@ -183,7 +183,7 @@ One<Builder> MakeBuild::CreateBuilder(Host *host)
 		b = ab;
 	}
 	else {
-		// TODO: cpp builder variables only!!!
+		// СДЕЛАТЬ: cpp builder variables only!!!
 		b->compiler = bm.Get("COMPILER", "");
 		b->include = SplitDirs(Join(GetUppDirs(), ";") + ';' + bm.Get("INCLUDE", "") + ';' + add_includes);
 		const Workspace& wspc = GetIdeWorkspace();
@@ -555,7 +555,7 @@ void MakeBuild::CleanPackage(const Workspace& wspc, int package)
 		return;
 	String outdir = OutDir(PackageConfig(wspc, package, GetMethodVars(method), mainconfigparam,
 	                       host, *builder), wspc[package], GetMethodVars(method));
-	// TODO: almost perfect, but target will be detected after build. if build does not occur the target is empty :(
+	// СДЕЛАТЬ: almost perfect, but target will be detected after build. if build does not occur the target is empty :(
 	// How to make sure we know target? Target directory is where android project sandbox is.
 	builder->target = target;
 	builder->CleanPackage(wspc[package], outdir);

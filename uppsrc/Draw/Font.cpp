@@ -166,7 +166,7 @@ void Font::SetStdFont(Font font)
 
 void Font::InitStdFont()
 {
-	ONCELOCK { // TODO: This is now sort of obsolete function....
+	ONCELOCK { // СДЕЛАТЬ: This is now sort of obsolete function....
 	//	Mutex::Lock __(sFontLock);
 	//	FaceList();
 		AStdFont = Arial(12);

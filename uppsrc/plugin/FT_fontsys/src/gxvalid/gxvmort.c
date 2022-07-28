@@ -77,7 +77,7 @@
       GXV_TRACE(( "\n" ));
     }
 
-    /* TODO: enableFlags must be unique value in specified chain?  */
+    /* СДЕЛАТЬ: enableFlags must be unique value in specified chain?  */
   }
 
 
@@ -207,7 +207,7 @@
       func( p, p + rest, valid );
 
       p += rest;
-      /* TODO: validate subFeatureFlags */
+      /* СДЕЛАТЬ: validate subFeatureFlags */
     }
 
     valid->subtable_length = p - table;
@@ -248,7 +248,7 @@
     gxv_mort_subtables_validate( p, table + chainLength, nSubtables, valid );
     valid->subtable_length = chainLength;
 
-    /* TODO: validate defaultFlags */
+    /* СДЕЛАТЬ: validate defaultFlags */
     GXV_EXIT;
   }
 

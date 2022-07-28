@@ -186,7 +186,7 @@ void PackageEditor::OptionAdd(ArrayCtrl& option, int type, const char *title, co
 {
 	if(o.GetCount() == 0)
 		return;
-	option.Add(-1, -1, type == INCLUDE ? "" : "when", title);
+	option.Add(-1, -1, type == INCLUDE ? "" : "Когда", title);
 	option.SetDisplay(option.GetCount() - 1, 0, Single<OptionHeaderDisplay>());
 	option.SetDisplay(option.GetCount() - 1, 1, Single<OptionHeaderDisplay>());
 	for(int i = 0; i < o.GetCount(); i++) {
@@ -394,7 +394,7 @@ void PackageEditor::OptionMenu(Bar& bar)
 	b = option.IsCursor() && (int)option.Get(0) >= 0;
 	bar.Add(b, "Редактировать..", [=] { EditOption(false); })
 		.Key(K_CTRL_ENTER);
-	bar.Add(b, "Дублткат..", [=] { EditOption(true); })
+	bar.Add(b, "Дубликат..", [=] { EditOption(true); })
 	   .Key(K_CTRL_D);
 	bar.Add(b, "Удалить", THISBACK(RemoveOption))
 	   .Key(K_DELETE);

@@ -170,7 +170,7 @@ UnicodeInfo::UnicodeInfo()
 }
 
 static int sUnicodeDecompose(wchar codepoint, wchar *t, WString *r, bool only_canonical)
-{ // TODO: Add hangul support
+{ // СДЕЛАТЬ: Add hangul support
 	const UnicodeInfo& f = Single<UnicodeInfo>();
 	int q = f.composed.Find(codepoint);
 	if(q >= 0 && (!only_canonical || q < f.canonical_count)) {

@@ -743,7 +743,7 @@ void DockCont::DockContMenu::ContainerMenu(Bar& bar, DockCont *c, bool withgroup
 	DockableCtrl *dc = &c->GetCurrent();
 	cont = c;
 		
-	// TODO: Need correct group filtering
+	// СДЕЛАТЬ: Need correct group filtering
 	withgroups = false;
 	
 	// If grouping, find all groups

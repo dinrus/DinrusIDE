@@ -61,7 +61,7 @@ struct SvgParser {
 		Pointf a, b, c, f;
 		double r;
 		int    style;
-		bool   user_space; // TODO: Cascade!
+		bool   user_space; // СДЕЛАТЬ: Cascade!
 		String transform;
 
 		Vector<Stop> stop;

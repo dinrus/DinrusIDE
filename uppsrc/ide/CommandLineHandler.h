@@ -3,7 +3,7 @@
 
 #include <Core/Core.h>
 
-// TODO: All TheIDE command line arguments should be consume in this file.
+// СДЕЛАТЬ: All TheIDE command line arguments should be consume in this file.
 
 namespace Upp {
 

@@ -49,7 +49,7 @@
 #define SHA1_DIGEST_LENGTH SHA_DIGEST_LENGTH
 #endif
 
-/* TODO: Switch this to an inline and handle alloc() failures */
+/* СДЕЛАТЬ: Switch this to an inline and handle alloc() failures */
 /* Helper macro called from
    kex_method_diffie_hellman_group1_sha1_key_exchange */
 
@@ -100,7 +100,7 @@
 
 /*!
  * @note The following are wrapper functions used by diffie_hellman_sha_algo().
- * TODO: Switch backend SHA macros to functions to allow function pointers
+ * СДЕЛАТЬ: Switch backend SHA macros to functions to allow function pointers
  * @discussion Ideally these would be function pointers but the backend macros
  * don't allow it so we have to wrap them up in helper functions
  */
@@ -3652,7 +3652,7 @@ static int kex_agree_comp(LIBSSH2_SESSION *session,
 }
 
 
-/* TODO: When in server mode we need to turn this logic on its head
+/* СДЕЛАТЬ: When in server mode we need to turn this logic on its head
  * The Client gets to make the final call on "agreed methods"
  */
 

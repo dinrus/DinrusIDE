@@ -52,7 +52,7 @@ void WinMetaFile::Clear() {
 	hemf = NULL;
 }
 
-/* TODO: Remove picks
+/* СДЕЛАТЬ: Remove picks
 void WinMetaFile::Pick(pick_ WinMetaFile& src) {
 	hemf = src.hemf;
 	size = src.size;

@@ -494,9 +494,9 @@
 
     scaler.face    = face;
     scaler.x_scale = size->metrics.x_scale;
-    scaler.x_delta = 0;  /* XXX: TODO: add support for sub-pixel hinting */
+    scaler.x_delta = 0;  /* XXX: СДЕЛАТЬ: add support for sub-pixel hinting */
     scaler.y_scale = size->metrics.y_scale;
-    scaler.y_delta = 0;  /* XXX: TODO: add support for sub-pixel hinting */
+    scaler.y_delta = 0;  /* XXX: СДЕЛАТЬ: add support for sub-pixel hinting */
 
     scaler.render_mode = FT_LOAD_TARGET_MODE( load_flags );
     scaler.flags       = 0;  /* XXX: fix this */

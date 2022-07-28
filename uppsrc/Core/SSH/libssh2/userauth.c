@@ -233,7 +233,7 @@ userauth_password(LIBSSH2_SESSION *session,
         session->userauth_pswd_data0 =
             (unsigned char) ~SSH_MSG_USERAUTH_PASSWD_CHANGEREQ;
 
-        /* TODO: remove this alloc with a fixed buffer in the session
+        /* СДЕЛАТЬ: remove this alloc with a fixed buffer in the session
            struct */
         s = session->userauth_pswd_data =
             LIBSSH2_ALLOC(session, session->userauth_pswd_data_len);
@@ -1138,7 +1138,7 @@ _libssh2_userauth_publickey(LIBSSH2_SESSION *session,
         /*
          * The length of the method name read from plaintext prefix in the
          * file must match length embedded in the key.
-         * TODO: The data should match too but we don't check that. Should we?
+         * СДЕЛАТЬ: The data should match too but we don't check that. Should we?
          */
         else if(session->userauth_pblc_method_len !=
                  _libssh2_ntohu32(pubkeydata))

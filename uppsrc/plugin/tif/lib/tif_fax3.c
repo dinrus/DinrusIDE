@@ -1369,7 +1369,7 @@ InitCCITTFax3(TIFF* tif)
 	tif->tif_tagmethods.printdir = Fax3PrintDir;   /* hook for codec tags */
 	sp->groupoptions = 0;	
 
-	if (sp->rw_mode == O_RDONLY) /* FIXME: improve for in place update */
+	if (sp->rw_mode == O_RDONLY) /* ИСПРАВИТЬ: improve for in place update */
 		tif->tif_flags |= TIFF_NOBITREV; /* decoder does bit reversal */
 	DecoderState(tif)->runs = NULL;
 	TIFFSetField(tif, TIFFTAG_FAXFILLFUNC, _TIFFFax3fillruns);

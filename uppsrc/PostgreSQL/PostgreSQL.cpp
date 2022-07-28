@@ -104,7 +104,7 @@ public:
 
 const char *PostgreSQLReadString(const char *s, String& stmt)
 {
-	//TODO: to clear this, currently this is based on sqlite
+	//СДЕЛАТЬ: to clear this, currently this is based on sqlite
 	stmt.Cat(*s);
 	int c = *s++;
 	for(;;) {
@@ -280,17 +280,17 @@ Vector<String> PostgreSQLSession::EnumPrimaryKey(String database, String table)
 //	   AND a.attrelid = c.oid
 //	WHERE contype='p'
 //	AND relname = '?'
-	return Vector<String>(); //TODO
+	return Vector<String>(); //СДЕЛАТЬ
 }
 
 String PostgreSQLSession::EnumRowID(String database, String table)
 {
-	return ""; //TODO
+	return ""; //СДЕЛАТЬ
 }
 
 Vector<String> PostgreSQLSession::EnumReservedWords()
 {
-	return Vector<String>(); //TODO
+	return Vector<String>(); //СДЕЛАТЬ
 }
 
 SqlConnection * PostgreSQLSession::CreateConnection()

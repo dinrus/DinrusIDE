@@ -7011,7 +7011,7 @@ void GridButton::State(int reason)
 
 Size GridButton::GetStdSize() const
 {
-	return n > 0 ? Size(14, 11) : Size(17, 17); //FIXME
+	return n > 0 ? Size(14, 11) : Size(17, 17); //ИСПРАВИТЬ
 }
 
 void GridButton::SetButton(int b)

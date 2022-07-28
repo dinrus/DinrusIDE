@@ -224,7 +224,7 @@ void DrawGL::DrawArcOp(const Rect& rc, Point start, Point end, int width, Color 
 
 void DrawGL::DrawEllipseOp(const Rect& r, Color color, int pen, Color pencolor)
 {
-	// TODO: Dash, ellipse stroke
+	// СДЕЛАТЬ: Dash, ellipse stroke
 	if(!r.IsEmpty())
 		Upp::Ellipse(*this, Pointf(r.CenterPoint()) + cloff.Top().offset,
 		             Sizef(r.GetSize()) / 2, color, pen, pencolor, dd.alpha);

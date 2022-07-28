@@ -197,7 +197,7 @@ bool PdfDraw::ClipoffOp(const Rect& r)
 
 bool PdfDraw::ExcludeClipOp(const Rect& r)
 {
-	return true; // TODO
+	return true; // СДЕЛАТЬ
 /*	
 	if(r.left <= actual_clip.left && r.right >= actual_clip.right) {
 		if(r.top <= actual_clip.top) actual_clip.top = max(actual_clip.top, r.bottom);
@@ -603,7 +603,7 @@ void PdfDraw::DrawEllipseOp(const Rect& r, Color color, int pen, Color outline)
 
 void PdfDraw::DrawArcOp(const Rect& rc, Point start, Point end, int width, Color color)
 {
-	//TODO!!
+	//СДЕЛАТЬ!!
 	NEVER();
 }
 

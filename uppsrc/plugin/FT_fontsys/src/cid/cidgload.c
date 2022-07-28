@@ -238,7 +238,7 @@
     if ( error )
       return error;
 
-    /* TODO: initialize decoder.len_buildchar and decoder.buildchar */
+    /* СДЕЛАТЬ: initialize decoder.len_buildchar and decoder.buildchar */
     /*       if we ever support CID-keyed multiple master fonts     */
 
     decoder.builder.metrics_only = 1;
@@ -314,7 +314,7 @@
     if ( error )
       goto Exit;
 
-    /* TODO: initialize decoder.len_buildchar and decoder.buildchar */
+    /* СДЕЛАТЬ: initialize decoder.len_buildchar and decoder.buildchar */
     /*       if we ever support CID-keyed multiple master fonts     */
 
     /* set up the decoder */

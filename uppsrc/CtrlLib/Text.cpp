@@ -789,7 +789,7 @@ int TextCtrl::GetLength32() const
 	return h < INT_MAX ? (int)h : 0;
 }
 
-int TextCtrl::Insert0(int pos, const WString& txt) { // TODO: Do this with utf8
+int TextCtrl::Insert0(int pos, const WString& txt) { // СДЕЛАТЬ: Do this with utf8
 	GuiLock __;
 	int inspos = pos;
 	PreInsert(inspos, txt);

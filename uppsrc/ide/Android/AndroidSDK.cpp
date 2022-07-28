@@ -157,7 +157,7 @@ Vector<AndroidVirtualDevice> AndroidSDK::FindVirtualDevices() const
 				if(tag.Find("Tag/ABI") > -1)
 					avd.SetAbi(data);
 				
-				// TODO: implement all possible tags
+				// СДЕЛАТЬ: implement all possible tags
 			}
 		}
 		

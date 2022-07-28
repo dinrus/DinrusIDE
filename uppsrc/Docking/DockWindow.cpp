@@ -468,7 +468,7 @@ void DockWindow::Undock0(Ctrl& c, bool do_animatehl, int fsz, bool ishighlight)
 	else {
 		if (dockpane[al].GetFirstChild() == dockpane[al].GetLastChild())
 			fsz = 0;
-		dockpane[al].Undock(c, do_animatehl, ishighlight); // TODO: fix nasty hack
+		dockpane[al].Undock(c, do_animatehl, ishighlight); // СДЕЛАТЬ: fix nasty hack
 		if (fsz >= 0)
 			DoFrameSize(do_animatehl, al, fsz);
 	}

@@ -357,7 +357,7 @@
       if ( face->blend )
         root->face_flags |= FT_FACE_FLAG_MULTIPLE_MASTERS;
 
-      /* XXX: TODO -- add kerning with .afm support */
+      /* XXX: СДЕЛАТЬ -- add kerning with .afm support */
 
 
       /* The following code to extract the family and the style is very   */

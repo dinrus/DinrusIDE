@@ -456,7 +456,7 @@
       FTC_MruList_Reset( &manager->sizes );
       FTC_MruList_Reset( &manager->faces );
     }
-    /* XXX: FIXME: flush the caches? */
+    /* XXX: ИСПРАВИТЬ: flush the caches? */
   }
 
 

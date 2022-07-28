@@ -9,7 +9,7 @@ void SFtpStream::SetPos(int64 pos)
 
 void SFtpStream::SetStreamSize(int64 size)
 {
-	// TODO
+	// СДЕЛАТЬ
 }
 
 dword SFtpStream::Read(int64 at, void *ptr, dword size)

@@ -1176,7 +1176,7 @@ Size Clock::ComputeSize()
 	Font fnt = st.font;
 	Size tsz = GetTextSize("W", st.font);
 	hs = tsz.cy + 4;
-	//TODO: Find better scaling method.
+	//СДЕЛАТЬ: Find better scaling method.
 	double d = fnt == StdFont() ? 1 : tsz.cy / double(tsz.cx);
 	return Size(int(150.0 * d), int(157.0 * d));
 }

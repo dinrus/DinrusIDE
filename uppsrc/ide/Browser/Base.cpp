@@ -497,7 +497,7 @@ void CodeBaseScanFile(const String& fn, bool auto_check)
 
 void ClearCodeBase()
 {
-	// TODO: Create combined defs
+	// СДЕЛАТЬ: Create combined defs
 	if(DeadLockCheck()) return;
 	Mutex::Lock __(CppBaseMutex);
 	CleanPP();

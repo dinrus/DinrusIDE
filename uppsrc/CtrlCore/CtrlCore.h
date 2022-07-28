@@ -204,7 +204,7 @@ CtrlFrame& WhiteFrame();
 CtrlFrame& XPFieldFrame();
 
 CtrlFrame& FieldFrame();
-// CtrlFrame& EditFieldFrame(); //TODO remove
+// CtrlFrame& EditFieldFrame(); //СДЕЛАТЬ remove
 
 CtrlFrame& TopSeparatorFrame();
 CtrlFrame& BottomSeparatorFrame();

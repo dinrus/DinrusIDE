@@ -590,12 +590,21 @@ void Ide::SyncErrorsMessage()
 	}
 	else  {
 		h = "\1[g Сообщение";
-		if(error_count)
-			cnt << "[*@r " << error_count << " ошибка" << (error_count > 1 ? "s]" : "]");
-		if(warning_count) {
+		if(error_count == 1)
+			cnt << "[*@r " << error_count << " ошибка]";
+		if(error_count > 1)
+			cnt << "[*@r " << error_count << " ошибки]";
+			
+		if(warning_count == 1) {
 			if(error_count)
 				cnt << ", ";
-			cnt << "[@o " << warning_count << " предупреждение" << (warning_count > 1 ? "s]" : "]");
+			cnt << "[@o " << warning_count << " предупреждение]";
+		}
+		
+		if(warning_count > 1) {
+			if(error_count)
+				cnt << ", ";
+			cnt << "[@o " << warning_count << " предупреждения]";
 		}
 	}
 	if(cnt.GetCount())

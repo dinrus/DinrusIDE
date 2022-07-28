@@ -129,7 +129,7 @@ public:
 	
 	Index()                                                 {}
 	Index(Index&& s) : key(pick(s.key))                     { IndexCommon::Pick(s); }
-	Index(const Index& s, int) : key(s.key, 0)              { ReallocHash(0); IndexCommon::Copy(s, key.GetCount()); } // TODO: Unlinked!
+	Index(const Index& s, int) : key(s.key, 0)              { ReallocHash(0); IndexCommon::Copy(s, key.GetCount()); } // СДЕЛАТЬ: Unlinked!
 	explicit Index(Vector<T>&& s) : key(pick(s))            { FixHash(); }
 	Index(const Vector<T>& s, int) : key(s, 0)              { FixHash(); }
 

@@ -469,7 +469,7 @@
     GXV_Validator                   valid )
   {
 #ifdef GXV_LOAD_UNUSED_VARS
-    /* TODO: validate markClass & currentClass */
+    /* СДЕЛАТЬ: validate markClass & currentClass */
     FT_UShort  setMark;
     FT_UShort  dontAdvance;
     FT_UShort  markClass;

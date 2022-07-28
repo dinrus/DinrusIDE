@@ -406,7 +406,7 @@ void ODBCConnection::SetParam(int i, const Value& r)
 
 const char *ODBCReadString(const char *s, String& stmt)
 {
-	//TODO: to clear this, currently this is based on sqlite
+	//СДЕЛАТЬ: to clear this, currently this is based on sqlite
 	stmt.Cat(*s);
 	int c = *s++;
 	for(;;) {

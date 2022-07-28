@@ -4,13 +4,13 @@
 void   GccBuilder::AddFlags(Index<String>& cfg)
 {
 }
-
+//Выводит имя компилятора (c++ по умолчанию)
 String GccBuilder::CompilerName() const
 {
 	if(!IsNull(compiler)) return compiler;
 	return "c++";
 }
-
+//Создаёт командную строку
 String GccBuilder::CmdLine(const String& package, const Package& pkg)
 {
 	String cc = CompilerName();
@@ -20,7 +20,7 @@ String GccBuilder::CmdLine(const String& package, const Package& pkg)
 	cc << ' ' << IncludesDefinesTargetTime(package, pkg);
 	return cc;
 }
-
+//Преобразует бинарный файл в объектный
 void GccBuilder::BinaryToObject(String objfile, CParser& binscript, String basedir,
                                 const String& package, const Package& pkg)
 {
@@ -33,7 +33,7 @@ void GccBuilder::BinaryToObject(String objfile, CParser& binscript, String based
 	if(slot < 0 || !Run(cc, slot, objfile, 1))
 		throw Exc(Format("Ошибка при компиляции бинарного объекта '%s'.", objfile));
 }
-
+//Строит пакет
 bool GccBuilder::BuildPackage(const String& package, Vector<String>& linkfile, Vector<String>& immfile,
 	String& linkoptions, const Vector<String>& all_uses, const Vector<String>& all_libraries,
 	int opt)
@@ -143,6 +143,8 @@ bool GccBuilder::BuildPackage(const String& package, Vector<String>& linkfile, V
 		cc << (HasFlag("WIN32") && HasFlag("CLANG") ? " -gcodeview -fno-limit-debug-info" : " -ggdb");
 		cc << (HasFlag("DEBUG_FULL") ? " -g2" : " -g1");
 	}
+	
+//ДИНИМАЧЕСКАЯ БИБЛИОТЕКА
 	String fuse_cxa_atexit;
 	if(is_shared /*&& !HasFlag("MAIN")*/) {
 		cc << " -shared -fPIC";
@@ -358,7 +360,7 @@ bool GccBuilder::BuildPackage(const String& package, Vector<String>& linkfile, V
 	linkfile = pick(obj);
 	return true;
 }
-
+//Создаёт библиотеку
 bool GccBuilder::CreateLib(const String& product, const Vector<String>& obj,
                            const Vector<String>& all_uses, const Vector<String>& all_libraries,
                            const String& link_options)
@@ -480,7 +482,7 @@ bool GccBuilder::CreateLib(const String& product, const Vector<String>& obj,
 	           << " B) создано за " << GetPrintTime(libtime));
 	return true;
 }
-
+//Компонует
 bool GccBuilder::Link(const Vector<String>& linkfile, const String& linkoptions, bool createmap)
 {
 	if(!Wait())
@@ -503,7 +505,7 @@ bool GccBuilder::Link(const Vector<String>& linkfile, const String& linkoptions,
 			if(HasFlag("GCC32"))
 				lnk << " -m32";
 			if(HasFlag("DLL"))
-				lnk << " -shared";
+				lnk << " -shared -Wl,--out-implib="<<target<<".a";// -Wl,--export-all-symbols -Wl,--enable-auto-import";
 			if(!HasFlag("SHARED") && !HasFlag("SO"))
 				lnk << " -static";
 			if(HasFlag("WINCE"))
@@ -615,7 +617,7 @@ bool GccBuilder::Link(const Vector<String>& linkfile, const String& linkoptions,
 	           << " B) в свежем состоянии.");
 	return true;
 }
-
+//Выполняет препроцессинг
 bool GccBuilder::Preprocess(const String& package, const String& file, const String& target, bool asmout)
 {
 	Package pkg;
@@ -636,12 +638,12 @@ bool GccBuilder::Preprocess(const String& package, const String& file, const Str
 		cmd << " " << cpp_options;
 	return Execute(cmd);
 }
-
+//Создаёт сам построитель
 Builder *CreateGccBuilder()
 {
 	return new GccBuilder;
 }
-
+//Регистрация построителей
 INITIALIZER(GccBuilder)
 {
 	RegisterBuilder("GCC", CreateGccBuilder);

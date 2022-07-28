@@ -185,7 +185,7 @@ void Ide::LaunchTerminal(const char *dir)
 	CreateHost(h, false, false);
 	h.ChDir(dir);
 #ifdef PLATFORM_WIN32
-	h.Launch(Nvl(HostConsole, "powershell.exe"), false);
+	h.Launch(Nvl(HostConsole, "pwsh.exe"), false);
 #elif defined(PLATFORM_COCOA)
 	String script = ConfigFile("console-script-" + AsString(getpid()));
 	FileStream out(script, FileStream::CREATE, 0777);
@@ -321,7 +321,7 @@ void Ide::BuildAndDebug(bool runto)
 	VectorMap<String, String> bm = GetMethodVars(method);
 	String builder = bm.Get("BUILDER", "");
 	
-	// TODO: implement debugging on android
+	// СДЕЛАТЬ: implement debugging on android
 	if(builder == "ANDROID") {
 		BuildAndExecute();
 		return;

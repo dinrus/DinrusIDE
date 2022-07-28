@@ -159,7 +159,7 @@ String RichTextView::GetLink(int pos, Point p) const
 	RichObject object = text.GetRichPos(pos).object;
 	if(object) {
 		Rect rc = text.GetCaret(pos, GetPage());
-		//TODO: Perhaps use GetTextPoint here?
+		//СДЕЛАТЬ: Perhaps use GetTextPoint here?
 		link = object.GetLink(p - rc.TopLeft(), rc.Size());
 	}
 

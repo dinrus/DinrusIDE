@@ -707,7 +707,7 @@
         known_othersubr_result_cnt   = 0;
         unknown_othersubr_result_cnt = 0;
 
-        /* XXX TODO: The checks to `arg_count == <whatever>'       */
+        /* XXX СДЕЛАТЬ: The checks to `arg_count == <whatever>'       */
         /* might not be correct; an othersubr expects a certain    */
         /* number of operands on the PostScript stack (as opposed  */
         /* to the T1 stack) but it doesn't have to put them there  */

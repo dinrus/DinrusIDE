@@ -341,9 +341,9 @@ void WebSocket::FrameData()
 		if(n == 0)
 			return;
 		if(mask)
-			for(int i = 0; i < n; i++) // TODO: Optimize
+			for(int i = 0; i < n; i++) // СДЕЛАТЬ: Optimize
 				buffer[i] ^= key[(i + data_pos) & 3];
-		data.Cat(~buffer, n); // TODO: Split long data
+		data.Cat(~buffer, n); // СДЕЛАТЬ: Split long data
 		data_pos += n;
 		LLOG("Frame data chunk received, chunk len: " << n);
 	}

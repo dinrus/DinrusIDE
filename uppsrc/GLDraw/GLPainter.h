@@ -14,7 +14,7 @@ namespace Upp {
 } while(0)
 #endif
 
-struct GLContext2D { // TODO: This should be changed to regular matrix (later)
+struct GLContext2D { // СДЕЛАТЬ: This should be changed to regular matrix (later)
 	Sizef  vs;
 	Sizef  off = Sizef(-1, 1);
 	double alpha = 1;

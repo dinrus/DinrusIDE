@@ -148,7 +148,7 @@ int PythonSyntax::CalculateSpaceIndetationSize(CodeEditor& editor)
 			break;
 	}
 	
-	// TODO: 4 is magic number - try to find the way to get this number from ide constants
+	// СДЕЛАТЬ: 4 is magic number - try to find the way to get this number from ide constants
 	return current > 0 ? current : 4;
 }
 

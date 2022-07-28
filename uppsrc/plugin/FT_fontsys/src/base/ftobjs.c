@@ -1410,7 +1410,7 @@
     *length = 0;
     *is_sfnt_cid = FALSE;
 
-    /* TODO: support for sfnt-wrapped PS/CID in TTC format */
+    /* СДЕЛАТЬ: support for sfnt-wrapped PS/CID in TTC format */
 
     /* version check for 'typ1' (should be ignored?) */
     if ( FT_READ_ULONG( tag ) )

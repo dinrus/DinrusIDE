@@ -103,7 +103,7 @@
 
       func( p, p + rest, valid );
 
-      /* TODO: subFeatureFlags should be unique in a table? */
+      /* СДЕЛАТЬ: subFeatureFlags should be unique in a table? */
       p += rest;
     }
 
@@ -151,7 +151,7 @@
 
     valid->subtable_length = chainLength;
 
-    /* TODO: defaultFlags should be compared with the flags in tables */
+    /* СДЕЛАТЬ: defaultFlags should be compared with the flags in tables */
 
     GXV_EXIT;
   }

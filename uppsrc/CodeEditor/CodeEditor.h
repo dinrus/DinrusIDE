@@ -473,7 +473,7 @@ public:
 	int      GetLine2(int i) const;
 	void     ReformatComment();
 
-// TODO: Syntax: Remove
+// СДЕЛАТЬ: Syntax: Remove
 	void     HiliteScope(byte b)                      { EditorSyntax::hilite_scope = b; Refresh(); }
 	void     HiliteBracket(byte b)                    { EditorSyntax::hilite_bracket = b; Refresh(); }
 	void     HiliteIfDef(byte b)                      { EditorSyntax::hilite_ifdef = b; Refresh(); }
@@ -524,7 +524,7 @@ public:
 	bool IsCursorBracket(int64 pos) const;
 	bool IsMatchingBracket(int64 pos) const;
 
-// TODO: Do we really need this ?
+// СДЕЛАТЬ: Do we really need this ?
 	Vector<IfState> GetIfStack(int line)              { return GetSyntax(line)->PickIfStack(); }
 
 	struct FindReplaceData {

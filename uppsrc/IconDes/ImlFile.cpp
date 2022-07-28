@@ -127,7 +127,7 @@ void ScanIML(CParser& parser, Array<ImlImage>& out_images,
 			}
 		}
 		else if(bid == "IMAGE_BEGIN16" && parser.Char('(') && !IsNull(name = parser.ReadId()) && parser.Char(')'))
-		{ //TODO: FIX THESE!!!
+		{ //СДЕЛАТЬ: FIX THESE!!!
 			out_settings.GetAdd("wince_16bit", "1");
 			String encoded_data;
 			String id;
@@ -139,8 +139,8 @@ void ScanIML(CParser& parser, Array<ImlImage>& out_images,
 				{
 					CParser::Pos pos = parser.GetPos();
 					const char *end;
-					end = pos.ptr; // TODO - remove
-					String scan; // TODO = GetUnicodeScan(pos.ptr, &end);
+					end = pos.ptr; // СДЕЛАТЬ - remove
+					String scan; // СДЕЛАТЬ = GetUnicodeScan(pos.ptr, &end);
 					pos.ptr = end;
 					parser.SetPos(pos);
 					if(!parser.Char('\"'))

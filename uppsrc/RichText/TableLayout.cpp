@@ -66,7 +66,7 @@ const RichTable::TabLayout& RichTable::Realize(RichContext rc) const
 			int hy = min(format.header, cell.GetCount());
 			clayout.header = Realize(hpy, nextpage_rc, hy, true); // realize header as if first on next page
 			if(clayout.header[0].py.page == clayout.header[hy - 1].pyy.page) { // header fits single page
-				Layout x = Realize(py, MakeRichContext(rc, py, false), cell.GetCount(), false); // TODO: check this
+				Layout x = Realize(py, MakeRichContext(rc, py, false), cell.GetCount(), false); // СДЕЛАТЬ: check this
 				if(cell.GetCount() > hy && py.page != x[hy].py.page) // first header would break the end of page
 					NextPage(py, false);
 				clayout.hasheader = true; // if it fits, we repeat header on each new page

@@ -446,7 +446,7 @@ TIFFSeek(TIFF* tif, uint32 row, uint16 sample )
 		 * Seek forward to the desired row.
 		 */
 
-                /* TODO: Will this really work with partial buffers? */
+                /* СДЕЛАТЬ: Will this really work with partial buffers? */
                 
 		if (!(*tif->tif_seek)(tif, row - tif->tif_row))
 			return (0);

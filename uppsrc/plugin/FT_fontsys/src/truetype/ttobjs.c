@@ -441,7 +441,7 @@
         result = TRUE;
       else
       {
-        /* FIXME: Need to test glyphname == .notdef ? */
+        /* ИСПРАВИТЬ: Need to test glyphname == .notdef ? */
         FT_Error error;
         char buf[8];
 

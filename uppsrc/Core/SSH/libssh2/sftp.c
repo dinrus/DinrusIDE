@@ -641,7 +641,7 @@ sftp_attr2bin(unsigned char *p, const LIBSSH2_SFTP_ATTRIBUTES * attrs)
         LIBSSH2_SFTP_ATTR_SIZE | LIBSSH2_SFTP_ATTR_UIDGID |
         LIBSSH2_SFTP_ATTR_PERMISSIONS | LIBSSH2_SFTP_ATTR_ACMODTIME;
 
-    /* TODO: When we add SFTP4+ functionality flag_mask can get additional
+    /* СДЕЛАТЬ: When we add SFTP4+ functionality flag_mask can get additional
        bits */
 
     if(!attrs) {
@@ -1073,7 +1073,7 @@ sftp_shutdown(LIBSSH2_SFTP *sftp)
 
     sftp_packet_flush(sftp);
 
-    /* TODO: We should consider walking over the sftp_handles list and kill
+    /* СДЕЛАТЬ: We should consider walking over the sftp_handles list and kill
      * any remaining sftp handles ... */
 
     rc = _libssh2_channel_free(sftp->channel);
@@ -2006,7 +2006,7 @@ libssh2_sftp_readdir_ex(LIBSSH2_SFTP_HANDLE *hnd, char *buffer,
  * Caveats:
  * -  be careful: we must not return a higher number than what was given!
  *
- * TODO:
+ * СДЕЛАТЬ:
  *   Introduce an option that disables this sort of "speculative" ahead writing
  *   as there's a risk that it will do harm to some app.
  */
@@ -2054,7 +2054,7 @@ static ssize_t sftp_write(LIBSSH2_SFTP_HANDLE *handle, const char *buffer,
 
         sftp->write_state = libssh2_NB_state_idle;
         while(count) {
-            /* TODO: Possibly this should have some logic to prevent a very
+            /* СДЕЛАТЬ: Possibly this should have some logic to prevent a very
                very small fraction to be left but lets ignore that for now */
             uint32_t size = MIN(MAX_SFTP_OUTGOING_SIZE, count);
             uint32_t request_id;

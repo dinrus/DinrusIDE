@@ -9,7 +9,7 @@ dword SDraw::GetInfo() const
 
 void SDraw::DrawArcOp(const Rect& rc, Point start, Point end, int width, Color color)
 {
-	// TODO
+	// СДЕЛАТЬ
 }
 
 void SDraw::DrawEllipseOp(const Rect& r, Color color, int pen, Color pencolor)

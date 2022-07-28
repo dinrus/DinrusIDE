@@ -689,7 +689,7 @@ void _libssh2_openssl_crypto_exit(void)
 #endif
 }
 
-/* TODO: Optionally call a passphrase callback specified by the
+/* СДЕЛАТЬ: Optionally call a passphrase callback specified by the
  * calling program
  */
 static int

@@ -889,7 +889,7 @@ _libssh2_packet_add(LIBSSH2_SESSION * session, unsigned char *data,
                             memcpy(channelp->exit_signal,
                                    data + 13 + sizeof("exit-signal"), namelen);
                             channelp->exit_signal[namelen] = '\0';
-                            /* TODO: save error message and language tag */
+                            /* СДЕЛАТЬ: save error message and language tag */
                             _libssh2_debug(session, LIBSSH2_TRACE_CONN,
                                            "Exit signal %s received for "
                                            "channel %lu/%lu",
@@ -1256,7 +1256,7 @@ _libssh2_packet_burn(LIBSSH2_SESSION * session,
             return ret;
         }
         else if(ret == 0) {
-            /* FIXME: this might busyloop */
+            /* ИСПРАВИТЬ: this might busyloop */
             continue;
         }
 

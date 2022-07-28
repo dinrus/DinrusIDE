@@ -619,7 +619,7 @@ String Parser::StructDeclaration(const String& tn, const String& tp)
 	im.ptype.Clear();
 	im.pname.Clear();
 	im.param.Clear();
-	if(lex == ';') { // TODO: perhaps could be united with following code
+	if(lex == ';') { // СДЕЛАТЬ: perhaps could be united with following code
 		context = pick(cc);
 		im.natural = Gpurify(nn);
 		SetScopeCurrent();
@@ -949,7 +949,7 @@ void Parser::Declarator(Decl& d, const char *p)
 				++lex;
 		}
 	}
-	if(Key('=') || (inbody && lex == '(')) { // TODO: Add C++11 initializers here (?)
+	if(Key('=') || (inbody && lex == '(')) { // СДЕЛАТЬ: Add C++11 initializers here (?)
 		int level = 0;
 		int tlevel = 0;
 		for(;;) {

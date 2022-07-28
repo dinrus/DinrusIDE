@@ -2591,7 +2591,7 @@ void TabBar::CloseForce(int n, bool action)
 			active--;
 		Refresh();
 		if (n == highlight && Ctrl::HasMouse()) {
-			//TODO: That must be refactored
+			//СДЕЛАТЬ: That must be refactored
 			highlight = -1;
 			drag_highlight = -1;
 			Refresh();

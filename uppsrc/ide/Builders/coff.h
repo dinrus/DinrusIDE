@@ -713,7 +713,7 @@ __attribute__((packed))
      1 byte stab other field
      2 byte stab desc field
      4 byte stab value
-   FIXME: This will have to change for a 64 bit object format.
+   ИСПРАВИТЬ: This will have to change for a 64 bit object format.
 
    The stabs symbols are divided into compilation units.  For the
    first entry in each unit, the type of 0, the value is the length of

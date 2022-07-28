@@ -65,7 +65,7 @@ char *String0::Insert(int pos, int count, const char *s)
 	int len = GetCount();
 	int newlen = len + count;
 	if(newlen < len) // overflow, string >2GB
-		Panic("String is too big!");
+		Panic("Строка слишком большая!");
 	char *str = (char *)Begin();
 	if(newlen < GetAlloc() && !IsSharedRef() && (!s || s < str || s > str + len)) {
 		if(pos < len)
@@ -275,7 +275,7 @@ void StringBuffer::Realloc(dword n, const char *cat, int l)
 	}
 	if(cat) {
 		if(ep + l > INT_MAX)
-			Panic("StringBuffer is too big (>2GB)!");
+			Panic("StringBuffer слишком большой (>2GB)!");
 		memcpy8(p + ep, cat, l);
 		ep += l;
 	}
@@ -291,7 +291,7 @@ void StringBuffer::Expand()
 {
 	Realloc(GetLength() * 3 / 2);
 	if(pend == limit)
-		Panic("StringBuffer is too big!");
+		Panic("StringBuffer слишком большой!");
 }
 
 void StringBuffer::SetLength(int l)

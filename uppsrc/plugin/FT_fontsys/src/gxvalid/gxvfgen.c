@@ -260,7 +260,7 @@
       1,
       {
         "No Alternates",
-        /* TODO */
+        /* СДЕЛАТЬ */
         NULL
       }
     }, {                                    /* 18 */
@@ -272,7 +272,7 @@
         "Design Level 3",
         "Design Level 4",
         "Design Level 5",
-        /* TODO */
+        /* СДЕЛАТЬ */
         NULL
       }
     }, {                                    /* 19 */

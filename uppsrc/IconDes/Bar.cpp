@@ -251,7 +251,7 @@ struct CachedIconImage : public Display {
 		else
 		if(2 * isz.cx <= rsz.cx && 2 * isz.cy <= rsz.cy) {
 			int n = min(rsz.cx / isz.cx, rsz.cy / isz.cy);
-			m = Magnify(m, n, n); // TODO: Cached!
+			m = Magnify(m, n, n); // СДЕЛАТЬ: Cached!
 		}
 		else
 		if(isz.cx > r.GetWidth() || isz.cy > r.GetHeight())

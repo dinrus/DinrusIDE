@@ -112,7 +112,7 @@ String AndroidNDK::GetIncludeDir() const
 {
 	String dir;
 	dir << GetPlatformsDir() << DIR_SEPS << FindDefaultPlatform() << DIR_SEPS;
-	// TODO: decide how to implement architecture selection.
+	// СДЕЛАТЬ: decide how to implement architecture selection.
 	dir << "arch-arm" << DIR_SEPS;
 	dir << "usr" << DIR_SEPS << "include";
 	

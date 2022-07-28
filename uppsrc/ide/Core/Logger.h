@@ -9,8 +9,8 @@
 
 namespace Upp {
 
-// TODO: Add support for thread names ids.
-// TODO: Add logger config to select global logging level.
+// СДЕЛАТЬ: Add support for thread names ids.
+// СДЕЛАТЬ: Add logger config to select global logging level.
 class Logger {
 public:
 	enum class LoggingLevel {

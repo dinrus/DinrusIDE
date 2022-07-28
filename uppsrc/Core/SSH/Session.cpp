@@ -210,7 +210,7 @@ bool SshSession::Connect(const String& host, int port, const String& user, const
 	})) goto Bailout;
 
 	if(!Run([=] () mutable {
-			switch(session->hashtype) {  // TODO: Remove this block along with the deprecated Hashtype()
+			switch(session->hashtype) {  // СДЕЛАТЬ: Remove this block along with the deprecated Hashtype()
 			case HASH_MD5:               //       and  GetFingerprint() methods, in the future versions.
 				session->fingerprint = GetMD5Fingerprint();
 				LLOG("MD5 fingerprint of " << host << ": " << HexString(session->fingerprint, 1, ':'));

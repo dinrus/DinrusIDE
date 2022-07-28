@@ -671,7 +671,7 @@ void Ctrl::Proc()
 		break;
 	case EVENT_TEXT: {
 		WString h = CurrentEvent.value;
-		for(int i = 0; i < h.GetCount(); i++) // TODO: Add compression
+		for(int i = 0; i < h.GetCount(); i++) // СДЕЛАТЬ: Add compression
 			DispatchKey(h[i], 1);
 		break;
 	}

@@ -1,36 +1,37 @@
 #include "ide.h"
 
+//Показать консоль
 void Ide::ConsoleShow()
 {
 	ShowConsole();
 	console.Sync();
 }
-
+//Синхронизовать консоль
 void Ide::ConsoleSync()
 {
 	console.Sync();
 }
-
+//Подобрать ошибки
 Vector<String> Ide::PickErrors()
 {
 	return console.PickErrors();
 }
-
+//Выполнить события процесса
 void Ide::DoProcessEvents()
 {
 	ProcessEvents();
 }
-
+//Переквалицифировать базу кода
 void Ide::ReQualifyCodeBase()
 {
 	FinishCodeBase();
 }
-
+//Получить главную
 String Ide::GetMain()
 {
 	return main;
 }
-
+//Начать построение (с очисткой/без)
 void Ide::BeginBuilding(bool clear_console)
 {
 	SetupDefaultMethod();
@@ -50,7 +51,7 @@ void Ide::BeginBuilding(bool clear_console)
 	cmdout.Clear();
 	InvalidateIncludes();
 }
-
+//Завершмть построение
 void Ide::EndBuilding(bool ok)
 {
 	console.EndGroup();
@@ -71,12 +72,12 @@ void Ide::EndBuilding(bool ok)
 	}
 	ShowConsole();
 }
-
+//Выполнить построение
 void Ide::DoBuild()
 {
 	Build();
 }
-
+//Построить пакет
 void Ide::PackageBuild()
 {
 	InitBlitz();
@@ -91,7 +92,7 @@ void Ide::PackageBuild()
 		SetErrorEditor();
 	}
 }
-
+//Прервать построение
 void Ide::StopBuild()
 {
 	if(idestate == BUILDING) {
@@ -100,17 +101,17 @@ void Ide::StopBuild()
 		SetIdeState(EDITING);
 	}
 }
-
+//Получить папку вывода
 String Ide::GetOutputDir()
 {
 	return GetFileFolder(target);
 }
-
+//Получить директорию конфигурации
 String Ide::GetConfigDir()
 {
 	return GetHomeDirFile(".config/u++/" + GetFileTitle(target));
 }
-
+//Очистить пакет
 void Ide::PackageClean()
 {
 	const Workspace& wspc = IdeWorkspace();
@@ -120,7 +121,7 @@ void Ide::PackageClean()
 		CleanPackage(wspc, pi);
 	}
 }
-
+//Очистить вывод
 void Ide::CleanUppOut()
 {
 	String out = GetVar("OUTPUT");
@@ -132,7 +133,7 @@ void Ide::CleanUppOut()
 	PutConsole("(готово)");
 	HideBottom();
 }
-
+//Скомпилировать файл
 void Ide::FileCompile()
 {
 	if(editfile.IsEmpty())
@@ -153,7 +154,7 @@ void Ide::FileCompile()
 	EndBuilding(ok);
 	SetErrorEditor();
 }
-
+//Внутренний препроцессинг
 void Ide::PreprocessInternal()
 {
 	if(editor.GetLength64() >= 1000000) // Sanity...
@@ -169,7 +170,7 @@ void Ide::PreprocessInternal()
 		ToggleReadOnly();
 	editor.SetCursor(editor.GetPos64(l));
 }
-
+//Препроцессинг
 void Ide::Preprocess(bool asmout) {
 	if(editfile.IsEmpty())
 		return;
@@ -197,7 +198,7 @@ void Ide::Preprocess(bool asmout) {
 			ToggleReadOnly();
 	}
 }
-
+//Создать мейкфайл
 void Ide::CreateMakefile()
 {
 	const Workspace& wspc = IdeWorkspace();

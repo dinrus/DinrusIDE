@@ -48,7 +48,7 @@
     - If there is a Type 1 font available (as a separate `LWFN' file), read
       its data into memory, massage it slightly so it becomes PFB data, wrap
       it into a memory stream, load the Type 1 driver and delegate the rest
-      of the work to it by calling FT_Open_Face().  (XXX TODO: after this
+      of the work to it by calling FT_Open_Face().  (XXX СДЕЛАТЬ: after this
       has been done, the kerning data from the FOND resource should be
       appended to the face: On the Mac there are usually no AFM files
       available.  However, this is tricky since we need to map Mac char

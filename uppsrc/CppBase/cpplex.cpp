@@ -285,7 +285,7 @@ void Lex::Next()
 			bool fp = false;
 			while(*ptr >= '0' && *ptr <= '9')
 				w = w * 10 + *ptr++ - '0';
-			if(*ptr == '.') { //TODO TO BE Completed !!!
+			if(*ptr == '.') { //СДЕЛАТЬ TO BE Completed !!!
 				fp = true;
 				ptr++;
 				double x = 0.1;

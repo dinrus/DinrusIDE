@@ -315,7 +315,7 @@ void Esc::Term(SRVal& r)
 		return;
 	}
 	if(IsNumber()) {
-		// TODO: int64 !
+		// СДЕЛАТЬ: int64 !
 		r = ReadDouble();
 		return;
 	}

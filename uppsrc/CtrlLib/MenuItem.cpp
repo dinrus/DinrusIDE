@@ -371,7 +371,7 @@ void MenuItem::LeftUp(Point, dword)
 	if(!isenabled) return;
 #ifdef PLATFORM_WIN32
 #ifdef PLATFORM_WINCE
-	PlaySound(L"MenuCommand", NULL, SND_ASYNC|SND_NODEFAULT); //TODO?
+	PlaySound(L"MenuCommand", NULL, SND_ASYNC|SND_NODEFAULT); //СДЕЛАТЬ?
 #else
 	PlaySound("MenuCommand", NULL, SND_ASYNC|SND_NODEFAULT);
 #endif

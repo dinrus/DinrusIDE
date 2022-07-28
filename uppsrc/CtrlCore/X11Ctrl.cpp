@@ -82,7 +82,7 @@ void GuiPlatformGripResize(TopWindow *q)
 
 Color GuiPlatformGetScreenPixel(int x, int y)
 {
-	// TODO
+	// СДЕЛАТЬ
 	return Black;
 }
 

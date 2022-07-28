@@ -134,7 +134,7 @@ GLM_FUNC_QUALIFIER glm_vec4 glm_vec4_floor(glm_vec4 x)
 #	endif
 }
 
-/* trunc TODO
+/* trunc СДЕЛАТЬ
 GLM_FUNC_QUALIFIER glm_vec4 glm_vec4_trunc(glm_vec4 x)
 {
 	return glm_vec4();

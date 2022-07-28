@@ -89,7 +89,7 @@ public:
 	void     PickInvalid(Vector<Rect>&& inv)   { invalid = pick(inv); }
 	Point    GetOffset() const;
 	bool     CanSetSurface()          { return true; }
-	static void Flush()               {} // TODO?
+	static void Flush()               {} // СДЕЛАТЬ?
 
 //	SystemDraw(cairo_t *cr, GdkDrawable *dw/* = NULL*/) : cr(cr), drawable(dw) { (void)drawable; invalid = NULL; }
 	SystemDraw(cairo_t *cr) : cr(cr) {}

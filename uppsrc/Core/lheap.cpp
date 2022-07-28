@@ -220,7 +220,7 @@ bool   Heap::TryRealloc(void *ptr, size_t& newsize)
 		}
 	}
 
-	// TODO: When small block fits, we could still return true
+	// СДЕЛАТЬ: When small block fits, we could still return true
 
 	return false;
 }

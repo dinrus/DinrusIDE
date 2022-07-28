@@ -40,7 +40,7 @@
   /*************************************************************************/
   /*************************************************************************/
 
-  /* TODO: More compact format */
+  /* СДЕЛАТЬ: More compact format */
   typedef struct  GXV_Feature_RegistryRec_
   {
     FT_Bool  existence;

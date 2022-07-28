@@ -111,7 +111,7 @@ public:
 	virtual void            ScanSyntax(const wchar *ln, const wchar *e, int line, int tab_size);
 	virtual void            Serialize(Stream& s);
 	virtual void            IndentInsert(CodeEditor& editor, int chr, int count);
-	virtual bool            CheckBrackets(CodeEditor& e, int64& bpos0, int64& bpos); // TODO: Replace with generic mechanism
+	virtual bool            CheckBrackets(CodeEditor& e, int64& bpos0, int64& bpos); // СДЕЛАТЬ: Replace with generic mechanism
 	virtual void            CheckSyntaxRefresh(CodeEditor& e, int64 pos, const WString& text);
 	virtual bool            CanAssist() const;
 	virtual void            Highlight(const wchar *s, const wchar *end, HighlightOutput& hls,

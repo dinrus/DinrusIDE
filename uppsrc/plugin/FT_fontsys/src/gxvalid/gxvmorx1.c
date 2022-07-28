@@ -197,7 +197,7 @@
 
 
   /*
-   * TODO: length should be limit?
+   * СДЕЛАТЬ: length should be limit?
    **/
   static void
   gxv_morx_subtable_type1_substitutionTable_validate( FT_Bytes       table,
@@ -211,7 +211,7 @@
       (GXV_morx_subtable_type1_StateOptRecData)valid->xstatetable.optdata;
 
 
-    /* TODO: calculate offset/length for each lookupTables */
+    /* СДЕЛАТЬ: calculate offset/length for each lookupTables */
     valid->lookupval_sign   = GXV_LOOKUPVALUE_UNSIGNED;
     valid->lookupval_func   = gxv_morx_subtable_type1_LookupValue_validate;
     valid->lookupfmt4_trans = gxv_morx_subtable_type1_LookupFmt4_transit;
@@ -227,7 +227,7 @@
       gxv_LookupTable_validate( table + offset, limit, valid );
     }
 
-    /* TODO: overlapping of lookupTables in substitutionTable */
+    /* СДЕЛАТЬ: overlapping of lookupTables in substitutionTable */
   }
 
 

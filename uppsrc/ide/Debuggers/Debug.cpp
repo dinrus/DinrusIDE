@@ -559,7 +559,7 @@ void Pdb::SetBreakpoints()
 		AddBp(breakpoint[i]);
 }
 
-void Pdb::BreakRunning() //TODO: Fix in wow64?
+void Pdb::BreakRunning() //СДЕЛАТЬ: Fix in wow64?
 {
 	stop = true;
 	if(running) {

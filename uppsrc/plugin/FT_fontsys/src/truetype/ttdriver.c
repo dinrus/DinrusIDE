@@ -136,7 +136,7 @@
     TT_Face  face  = (TT_Face) ttface;
 
 
-    /* XXX: TODO: check for sbits */
+    /* XXX: СДЕЛАТЬ: check for sbits */
 
     if ( flags & FT_LOAD_VERTICAL_LAYOUT )
     {

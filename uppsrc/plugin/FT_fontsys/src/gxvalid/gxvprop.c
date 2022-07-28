@@ -173,7 +173,7 @@
 
     if ( ( property & GXV_PROP_DIRECTIONALITY_CLASS ) > 11 )
     {
-      /* TODO: Too restricted. Use the validation level. */
+      /* СДЕЛАТЬ: Too restricted. Use the validation level. */
       if ( GXV_PROP_DATA( version ) == 0x00010000UL ||
            GXV_PROP_DATA( version ) == 0x00020000UL )
       {

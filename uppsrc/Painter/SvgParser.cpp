@@ -433,7 +433,7 @@ void SvgParser::Element(const XmlNode& n, int depth, bool dosymbols)
 				int anchor = state.Top().text_anchor;
 				double x = Dbl("x");
 				if(anchor) {
-					Sizef sz = GetTextSize(text, fnt); // TODO; GetTextSizef
+					Sizef sz = GetTextSize(text, fnt); // СДЕЛАТЬ; GetTextSizef
 					x -= anchor == 1 ? sz.cx / 2 : sz.cx;
 				}
 				bp.Text(x	, Dbl("y") - fnt.GetAscent(), text, fnt);
@@ -475,7 +475,7 @@ void SvgParser::Element(const XmlNode& n, int depth, bool dosymbols)
 		if(!IsNull(sz)) {
 			Pointf p = Nvl(GetSvgPos(n), Pointf(0, 0));
 			Rectf vb = Nvl(GetSvgViewBox(n), sz);
-			//TODO: For now, we support "xyMid meet" only
+			//СДЕЛАТЬ: For now, we support "xyMid meet" only
 			bp.Translate(p.x, p.y);
 			bp.Scale(min(sz.cx / vb.GetWidth(), sz.cy / vb.GetHeight()));
 			bp.Translate(-vb.TopLeft());

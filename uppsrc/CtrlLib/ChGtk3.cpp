@@ -314,7 +314,7 @@ void ChHostSkin()
 
 	ChBaseSkin();
 
-#if 0 // TODO (?)
+#if 0 // СДЕЛАТЬ (?)
 		{ SColorLight_Write, 2*5 + 0 },
 		{ SColorShadow_Write, 3*5 + 0 },
 #endif

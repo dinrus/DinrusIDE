@@ -374,7 +374,7 @@ void Pdb::Trace(bool over)
 
 void Pdb::StepOut()
 {
-	// TODO: Consider using stack frame info to optimize this
+	// СДЕЛАТЬ: Consider using stack frame info to optimize this
 	LLOG("== StepOut");
 	Lock();
 	TimeStop ts;

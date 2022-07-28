@@ -159,7 +159,7 @@ void SystemDraw::DrawTextOp(int x, int y, int angle, const wchar *text, Font fon
 	GuiLock __;
 	LTIMING("DrawText");
 	LLOG("DrawText " << ToUtf8(WString(text, n)) << " color:" << ink << " font:" << font);
-	//TODO - X11 seems to crash when displaying too long strings (?)
+	//СДЕЛАТЬ - X11 seems to crash when displaying too long strings (?)
 	int ox = x + actual_offset.x;
 	int oy = y + actual_offset.y;
 	SetForeground(ink);

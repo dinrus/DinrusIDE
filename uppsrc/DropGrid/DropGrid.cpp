@@ -126,7 +126,7 @@ void DropGrid::Drop()
 	else
 		dsp.SetHorzMargin();
 
-	list.UpdateRows(true); //TODO: try to avoid it..
+	list.UpdateRows(true); //СДЕЛАТЬ: try to avoid it..
 
 	Rect rs = GetScreenRect();
 	int width = rs.Width();

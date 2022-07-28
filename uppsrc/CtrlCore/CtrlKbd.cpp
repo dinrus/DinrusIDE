@@ -407,7 +407,7 @@ String GetKeyDesc(dword key)
 
 	if(key == 0)
 		return desc;
-	// TODO: Cocoa graphics https://tech.karbassi.com/2009/05/27/command-option-shift-symbols-in-unicode/
+	// СДЕЛАТЬ: Cocoa graphics https://tech.karbassi.com/2009/05/27/command-option-shift-symbols-in-unicode/
 #ifdef PLATFORM_COCOA
 	if(key & K_KEYUP) desc << t_("key\vUP ");
 	if(key & K_CTRL)  desc << t_("key\v⌘");

@@ -9,7 +9,7 @@ public:
 	virtual void            Highlight(const wchar *s, const wchar *end, HighlightOutput& hls,
 	                                  CodeEditor *editor, int line, int64 pos);
 	virtual void            CheckSyntaxRefresh(CodeEditor& e, int64 pos, const WString& text);
-	virtual Vector<IfState> PickIfStack(); // TODO: Refactor?
+	virtual Vector<IfState> PickIfStack(); // СДЕЛАТЬ: Refactor?
 	virtual void            ReformatComment(CodeEditor& e);
 
 protected:
@@ -29,7 +29,7 @@ protected:
 	int         cl, bl, pl; // levels of { [ (
 
 	Vector<int>     brk; // { ( [ stack (contains '{', ')', ']')
-	Vector<int>     blk; // { line stack //TODO:SYNTAX: Join blk and bid
+	Vector<int>     blk; // { line stack //СДЕЛАТЬ:SYNTAX: Join blk and bid
 	Vector<int>     bid; // { indentation stack
 	Vector<Isx>     par; // ( [ position stack
 	Vector<IfState> ifstack;
@@ -39,7 +39,7 @@ protected:
 	int         seline;       // stmtline stored here on ';' (not in ( [ brackets)
 	int         spar;         // ( [ level, reset on "if", "else", "while", "do", "for"
 	
-	int         highlight;    // subtype (temporary) TODO
+	int         highlight;    // subtype (temporary) СДЕЛАТЬ
 
 	static int  InitUpp(const char **q);
 	static void InitKeywords();

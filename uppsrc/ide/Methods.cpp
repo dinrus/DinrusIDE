@@ -819,7 +819,7 @@ String Ide::GetIncludePath()
 	static VectorMap<String, String> clang_include;
 	int q = clang_include.Find(method);
 	if(q < 0) {
-		String gcc = GetFileOnPath("clang.exe", bm.Get("PATH", "")); // TODO clang
+		String gcc = GetFileOnPath("clang.exe", bm.Get("PATH", "")); // СДЕЛАТЬ clang
 		Index<String> r;
 		if(gcc.GetCount()) {
 			String dummy = ConfigFile("dummy.cpp");

@@ -420,8 +420,8 @@ void Ide::SetupFormat() {
 	dlg.WhenClose = dlg.Acceptor(IDEXIT);
 
 #ifdef PLATFORM_WIN32
-	ide.xterm.SetLabel("powershell");
-	ide.xterm << [&] { ide.console <<= "powershell.exe"; };
+	ide.xterm.SetLabel("pwsh");
+	ide.xterm << [&] { ide.console <<= "pwsh.exe"; };
 	ide.gnome.SetLabel("cmd");
 	ide.gnome << [&] { ide.console <<= "cmd.exe"; };
 	ide.kde.Hide();

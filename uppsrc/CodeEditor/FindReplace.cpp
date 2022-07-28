@@ -774,12 +774,12 @@ void CodeEditor::ReplaceWildcard()
 	for(int i = 1; i <= 9; i++)
 		menu.Add(Format(ptxt, i), THISBACK1(InsertWildcard, "@"+AsString(i)));
 	menu.Separator();
-	menu.Add(t_("To upper"), THISBACK1(InsertWildcard, "+"));
-	menu.Add(t_("To lower"), THISBACK1(InsertWildcard, "-"));
-	menu.Add(t_("InitCaps"), THISBACK1(InsertWildcard, "!"));
+	menu.Add(t_("Взаг"), THISBACK1(InsertWildcard, "+"));
+	menu.Add(t_("Впроп"), THISBACK1(InsertWildcard, "-"));
+	menu.Add(t_("Озаглавь"), THISBACK1(InsertWildcard, "!"));
 	menu.Separator();
-	menu.Add(t_("Tab"), THISBACK1(InsertWildcard, "\\t"));
-	menu.Add(t_("Line feed"), THISBACK1(InsertWildcard, "\\n"));
+	menu.Add(t_("Таб"), THISBACK1(InsertWildcard, "\\t"));
+	menu.Add(t_("Лайнфид"), THISBACK1(InsertWildcard, "\\n"));
 	int l, h;
 	findreplace.replace.GetSelection(l, h);
 	iwc.Clear();
@@ -932,7 +932,7 @@ void CodeEditor::StartSearchProgress(int64, int64)
 {
 	search_canceled = false;
 	search_progress.Create();
-	search_progress->SetText("Сканируется этот файл");
+	search_progress->SetText("Сканируется файл");
 	search_time0 = msecs();
 }
 

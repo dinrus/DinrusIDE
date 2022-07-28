@@ -146,7 +146,7 @@ void Ide::EditorMode()
 	main = Null;
 	pocfg = Null;
 	
-	// TODO: This is probably bug with CtrlLib tool bar. If
+	// СДЕЛАТЬ: This is probably bug with CtrlLib tool bar. If
 	// we did not call clear here - we will have blocked two icons
 	// in editor mode :(. This should be investigated with
 	// appropriate test case.
@@ -329,7 +329,7 @@ void Ide::Serialize(Stream& s)
 
 #ifdef PLATFORM_WIN32
 	if(s.IsLoading() && HostConsole == "/usr/bin/xterm -e")
-		HostConsole = "powershell.exe";
+		HostConsole = "pwsh.exe";
 #endif
 }
 

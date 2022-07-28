@@ -40,7 +40,7 @@ String JsonViewDes::Load0(const String& json)
 int JsonViewDes::AddNode(int parent_id, const Value& id, const String& name, const Value& v)
 {
 	if(IsError(v)) {
-		// TODO: Replace with JsonExc or something that is more accurate in this situation.
+		// СДЕЛАТЬ: Replace with JsonExc or something that is more accurate in this situation.
 		String errorText = GetErrorText(v);
 		errorText.Remove(0, errorText.Find(" ") + 1);
 		throw Exc(errorText);

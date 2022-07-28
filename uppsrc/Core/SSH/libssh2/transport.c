@@ -713,7 +713,7 @@ int _libssh2_transport_send(LIBSSH2_SESSION *session,
     int total_length;
 #ifdef RANDOM_PADDING
     int rand_max;
-    int seed = data[0];         /* FIXME: make this random */
+    int seed = data[0];         /* ИСПРАВИТЬ: make this random */
 #endif
     struct transportpacket *p = &session->packet;
     int encrypted;
@@ -835,7 +835,7 @@ int _libssh2_transport_send(LIBSSH2_SESSION *session,
         padding_length += blocksize;
     }
 #ifdef RANDOM_PADDING
-    /* FIXME: we can add padding here, but that also makes the packets
+    /* ИСПРАВИТЬ: we can add padding here, but that also makes the packets
        bigger etc */
 
     /* now we can add 'blocksize' to the padding_length N number of times

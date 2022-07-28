@@ -325,7 +325,7 @@ void AndroidBuilder::CleanPackage(const String& package, const String& outdir)
 	if(HasFlag(RES_PKG_FLAG))
 		pkgDirs.Add(project->GetResDir());
 	else {
-		// TODO: handle deletetion of (.class)es
+		// СДЕЛАТЬ: handle deletetion of (.class)es
 		pkgDirs.Add(project->GetJavaDir(package));
 		PutConsole(project->GetJavaDir(package));
 		pkgDirs.Add(project->GetJniDir(package));
@@ -440,7 +440,7 @@ bool AndroidBuilder::MovePackageFileToAndroidProject(const String& src, const St
 			return true;
 	}
 	
-	// TODO: Generic host should return bool flag.
+	// СДЕЛАТЬ: Generic host should return bool flag.
 	return ::SaveFile(dst, LoadFile(src));
 }
 
@@ -482,7 +482,7 @@ bool AndroidBuilder::SignApk(const String& target, const String& unsignedApkPath
 		jarsignerCmd << " -keystore " + keystorePath;
 		jarsignerCmd << " -storepass android";
 		jarsignerCmd << " -keypass android";
-		// TODO: not sure about below line. But I think for debug purpose we shouldn't use tsa.
+		// СДЕЛАТЬ: not sure about below line. But I think for debug purpose we shouldn't use tsa.
 		// http://en.wikipedia.org/wiki/Trusted_timestamping
 		//jarsignerCmd << " -tsa https://timestamp.geotrust.com/tsa";
 		jarsignerCmd << " -signedjar " << signedApkPath;
@@ -536,7 +536,7 @@ bool AndroidBuilder::GenerateDebugKey(const String& keystorePath)
 
 bool AndroidBuilder::AddSharedLibsToApk(const String& apkPath)
 {
-	// TODO: A little bit workearound (I know one thing that shared libs should be in "lib" directory not in "libs")
+	// СДЕЛАТЬ: A little bit workearound (I know one thing that shared libs should be in "lib" directory not in "libs")
 	// So, we need to create temporary lib directory with .so files :(
 	const String libDir = project->GetDir() + DIR_SEPS + "lib";
 	
@@ -545,7 +545,7 @@ bool AndroidBuilder::AddSharedLibsToApk(const String& apkPath)
 		if (!ff.IsHidden () && !ff.IsSymLink () && ff.IsDirectory()) {
 			for(FindFile ffa(AppendFileName (ff.GetPath(), "*")); ffa; ffa.Next ()) {
 				if(!ffa.IsHidden() && !ffa.IsSymLink() && !ffa.IsDirectory()) {
-					// TODO: in libs directory we can find another java libs (.jar)
+					// СДЕЛАТЬ: in libs directory we can find another java libs (.jar)
 					String fileExt = ToLower(GetFileExt(ffa.GetPath()));
 					if(fileExt == ".so") {
 						const String libPath = String("lib") + DIR_SEPS + ff.GetName() + DIR_SEPS + ffa.GetName();
@@ -680,7 +680,7 @@ void AndroidBuilder::GenerateMakeFile()
 
 bool AndroidBuilder::GenerateRFile()
 {
-	// TODO: gen in gen folder
+	// СДЕЛАТЬ: gen in gen folder
 	if(DirectoryExists(project->GetResDir())) {
 		StringStream ss;
 		String aaptCmd;

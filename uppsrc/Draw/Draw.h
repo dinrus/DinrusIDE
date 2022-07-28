@@ -896,7 +896,7 @@ void AddRefreshRect(Vector<Rect>& invalid, const Rect& _r);
 void DrawDragFrame(Draw& w, const Rect& r, int n, const int *pattern, Color color, int animation);
 void DrawDragFrame(Draw& w, const Rect& r, int n, int pattern, Color color, int animation);
 
-void DrawRect(Draw& w, const Rect& rect, const Image& img, bool ralgn = false); //??? TODO
+void DrawRect(Draw& w, const Rect& rect, const Image& img, bool ralgn = false); //??? СДЕЛАТЬ
 void DrawRect(Draw& w, int x, int y, int cx, int cy, const Image& img, bool ra = false);
 
 void DrawTiles(Draw& w, int x, int y, int cx, int cy, const Image& img);
@@ -916,7 +916,7 @@ void DrawFrame(Draw& w, const Rect& r,
 void DrawFrame(Draw& w, int x, int y, int cx, int cy, Color color);
 void DrawFrame(Draw& w, const Rect& r, Color color);
 
-void DrawBorder(Draw& w, int x, int y, int cx, int cy, const ColorF *colors_ltrd); //TODO
+void DrawBorder(Draw& w, int x, int y, int cx, int cy, const ColorF *colors_ltrd); //СДЕЛАТЬ
 void DrawBorder(Draw& w, const Rect& r, const ColorF *colors_ltrd);
 
 const ColorF *BlackBorder();

@@ -91,7 +91,7 @@ void SvgParser::ProcessValue(const String& key, const String& value_)
 		}
 		else
 		if(key == "font") {
-			// TODO(?)
+			// СДЕЛАТЬ(?)
 		}
 		else
 		if(key == "font-family") {

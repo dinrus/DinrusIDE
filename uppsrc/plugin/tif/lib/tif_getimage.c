@@ -134,7 +134,7 @@ TIFFRGBAImageOK(TIFF* tif, char emsg[1024])
 			break;
 		case PHOTOMETRIC_YCBCR:
 			/*
-			 * TODO: if at all meaningful and useful, make more complete
+			 * СДЕЛАТЬ: if at all meaningful and useful, make more complete
 			 * support check here, or better still, refactor to let supporting
 			 * code decide whether there is support and what meaningful
 			 * error to return
@@ -400,7 +400,7 @@ TIFFRGBAImageBegin(TIFFRGBAImage* img, TIFF* tif, int stop, char emsg[1024])
 				switch (compress) {
 					case COMPRESSION_JPEG:
 						/*
-						 * TODO: when complete tests verify complete desubsampling
+						 * СДЕЛАТЬ: when complete tests verify complete desubsampling
 						 * and YCbCr handling, remove use of TIFFTAG_JPEGCOLORMODE in
 						 * favor of tif_getimage.c native handling
 						 */
@@ -412,7 +412,7 @@ TIFFRGBAImageBegin(TIFFRGBAImage* img, TIFF* tif, int stop, char emsg[1024])
 						break;
 				}
 			/*
-			 * TODO: if at all meaningful and useful, make more complete
+			 * СДЕЛАТЬ: if at all meaningful and useful, make more complete
 			 * support check here, or better still, refactor to let supporting
 			 * code decide whether there is support and what meaningful
 			 * error to return
@@ -1223,7 +1223,7 @@ gtStripSeparate(TIFFRGBAImage* img, uint32* raster, uint32 w, uint32 h)
 #define	PACK4(r,g,b,a)	\
 	((uint32)(r)|((uint32)(g)<<8)|((uint32)(b)<<16)|((uint32)(a)<<24))
 #define W2B(v) (((v)>>8)&0xff)
-/* TODO: PACKW should have be made redundant in favor of Bitdepth16To8 LUT */
+/* СДЕЛАТЬ: PACKW should have be made redundant in favor of Bitdepth16To8 LUT */
 #define	PACKW(r,g,b)	\
 	((uint32)W2B(r)|((uint32)W2B(g)<<8)|((uint32)W2B(b)<<16)|A1)
 #define	PACKW4(r,g,b,a)	\
@@ -2261,7 +2261,7 @@ DECLARESepPutFunc(putseparate8bitYCbCr11tile)
 {
 	(void) y;
 	(void) a;
-	/* TODO: naming of input vars is still off, change obfuscating declaration inside define, or resolve obfuscation */
+	/* СДЕЛАТЬ: naming of input vars is still off, change obfuscating declaration inside define, or resolve obfuscation */
 	for( ; h > 0; --h) {
 		x = w;
 		do {
@@ -2826,7 +2826,7 @@ PickSeparateCase(TIFFRGBAImage* img)
 				case 0x11:
 					img->put.separate = putseparate8bitYCbCr11tile;
 					break;
-					/* TODO: add other cases here */
+					/* СДЕЛАТЬ: add other cases here */
 				}
 			}
 		}

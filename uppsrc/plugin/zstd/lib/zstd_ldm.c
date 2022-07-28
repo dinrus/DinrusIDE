@@ -471,7 +471,7 @@ size_t ZSTD_ldm_generateSequences(
          *
          * kMaxChunkSize should be small enough that we don't lose too much of
          * the window through early invalidation.
-         * TODO: * Test the chunk size.
+         * СДЕЛАТЬ: * Test the chunk size.
          *       * Try invalidation after the sequence generation and test the
          *         the offset against maxDist directly.
          *

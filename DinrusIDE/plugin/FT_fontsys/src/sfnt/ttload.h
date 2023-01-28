@@ -2,7 +2,7 @@
 /*                                                                         */
 /*  ttload.h                                                               */
 /*                                                                         */
-/*    грузи the basic TrueType tables, i.e., tables that can be either in   */
+/*    Load the basic TrueType tables, i.e., tables that can be either in   */
 /*    TTF or OTF fonts (specification).                                    */
 /*                                                                         */
 /*  Copyright 1996-2001, 2002, 2005, 2006 by                               */
@@ -49,7 +49,7 @@ FT_BEGIN_HEADER
   tt_face_load_any( TT_Face    face,
                     FT_ULong   tag,
                     FT_Long    offset,
-                    FT_Byte*   буфер,
+                    FT_Byte*   buffer,
                     FT_ULong*  length );
 
 

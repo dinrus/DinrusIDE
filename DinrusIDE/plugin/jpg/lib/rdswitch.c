@@ -3,13 +3,13 @@
  *
  * Copyright (C) 1991-1996, Thomas G. Lane.
  * Modified 2003-2019 by Guido Vollbeding.
- * This file is part of the Independent JPEG Группа's software.
+ * This file is part of the Independent JPEG Group's software.
  * For conditions of distribution and use, see the accompanying README file.
  *
  * This file contains routines to process some of cjpeg's more complicated
  * command-line switches.  Switches processed here are:
- *	-qtables file		читай quantization tables from text file
- *	-scans file		читай scan script from text file
+ *	-qtables file		Read quantization tables from text file
+ *	-scans file		Read scan script from text file
  *	-quality N[,N,...]	Set quality ratings
  *	-qslots N[,N,...]	Set component quantization table selectors
  *	-sample HxV[,HxV,...]	Set component sampling factors
@@ -21,7 +21,7 @@
 
 LOCAL(int)
 text_getc (FILE * file)
-/* читай next char, skipping over any comments (# to end of line) */
+/* Read next char, skipping over any comments (# to end of line) */
 /* A comment/newline sequence is returned as a newline */
 {
   register int ch;
@@ -38,13 +38,13 @@ text_getc (FILE * file)
 
 LOCAL(boolean)
 read_text_integer (FILE * file, long * result, int * termchar)
-/* читай an unsigned decimal integer from a file, store it in result */
+/* Read an unsigned decimal integer from a file, store it in result */
 /* Reads one trailing character after the integer; returns it in termchar */
 {
   register int ch;
   register long val;
   
-  /* пропусти any leading whitespace, detect EOF */
+  /* Skip any leading whitespace, detect EOF */
   do {
     ch = text_getc(file);
     if (ch == EOF) {
@@ -73,7 +73,7 @@ read_text_integer (FILE * file, long * result, int * termchar)
 
 GLOBAL(boolean)
 read_quant_tables (j_compress_ptr cinfo, char * filename, boolean force_baseline)
-/* читай a set of quantization tables from the specified file.
+/* Read a set of quantization tables from the specified file.
  * The file is plain ASCII text: decimal numbers with whitespace between.
  * Comments preceded by '#' may be included in the file.
  * There may be one to NUM_QUANT_TBLS tables in the file, each of 64 values.
@@ -103,7 +103,7 @@ read_quant_tables (j_compress_ptr cinfo, char * filename, boolean force_baseline
     table[0] = (unsigned int) val;
     for (i = 1; i < DCTSIZE2; i++) {
       if (! read_text_integer(fp, &val, &termchar)) {
-	fprintf(stderr, "Invalid table data in file %s\n", filename);
+	fprintf(stderr, "Неверное table data in file %s\n", filename);
 	fclose(fp);
 	return FALSE;
       }
@@ -158,7 +158,7 @@ read_scan_integer (FILE * file, long * result, int * termchar)
 
 GLOBAL(boolean)
 read_scan_script (j_compress_ptr cinfo, char * filename)
-/* читай a scan script from the specified text file.
+/* Read a scan script from the specified text file.
  * Each entry in the file defines one scan to be emitted.
  * Entries are separated by semicolons ';'.
  * An entry contains one to four component indexes,
@@ -166,7 +166,7 @@ read_scan_script (j_compress_ptr cinfo, char * filename)
  * The component indexes denote which component(s) are to be transmitted
  * in the current scan.  The first component has index 0.
  * Sequential JPEG is used if the progressive-JPEG parameters are omitted.
- * The file is free формат text: any whitespace may appear between numbers
+ * The file is free format text: any whitespace may appear between numbers
  * and the ':' and ';' punctuation marks.  Also, other punctuation (such
  * as commas or dashes) can be placed between numbers if desired.
  * Comments preceded by '#' may be included in the file.
@@ -231,7 +231,7 @@ read_scan_script (j_compress_ptr cinfo, char * filename)
     }
     if (termchar != ';' && termchar != EOF) {
 bogus:
-      fprintf(stderr, "Invalid scan entry формат in file %s\n", filename);
+      fprintf(stderr, "Неверное scan entry format in file %s\n", filename);
       fclose(fp);
       return FALSE;
     }
@@ -267,10 +267,10 @@ GLOBAL(boolean)
 set_quality_ratings (j_compress_ptr cinfo, char *arg, boolean force_baseline)
 /* Process a quality-ratings parameter string, of the form
  *     N[,N,...]
- * If there are more q-table slots than parameters, the last значение is replicated.
+ * If there are more q-table slots than parameters, the last value is replicated.
  */
 {
-  int val = 75;			/* default значение */
+  int val = 75;			/* default value */
   int tblno;
   char ch;
 
@@ -281,12 +281,12 @@ set_quality_ratings (j_compress_ptr cinfo, char *arg, boolean force_baseline)
 	return FALSE;
       if (ch != ',')		/* syntax check */
 	return FALSE;
-      /* Преобр user 0-100 rating to percentage scaling */
+      /* Convert user 0-100 rating to percentage scaling */
       cinfo->q_scale_factor[tblno] = jpeg_quality_scaling(val);
       while (*arg && *arg++ != ',') /* advance to next segment of arg string */
 	;
     } else {
-      /* reached end of parameter, set remaining factors to last значение */
+      /* reached end of parameter, set remaining factors to last value */
       cinfo->q_scale_factor[tblno] = jpeg_quality_scaling(val);
     }
   }
@@ -299,7 +299,7 @@ GLOBAL(boolean)
 set_quant_slots (j_compress_ptr cinfo, char *arg)
 /* Process a quantization-table-selectors parameter string, of the form
  *     N[,N,...]
- * If there are more components than parameters, the last значение is replicated.
+ * If there are more components than parameters, the last value is replicated.
  */
 {
   int val = 0;			/* default table # */

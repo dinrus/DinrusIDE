@@ -1,29 +1,29 @@
 #ifndef _CppBase_Internal_h_
 #define _CppBase_Internal_h_
 
-namespace РНЦП {
+namespace Upp {
 	
 const char *SkipString(const char *s);
 
-void RemoveComments(Ткст& l, bool& incomment);
+void RemoveComments(String& l, bool& incomment);
 
-const ВекторМап<Ткст, Ткст>& GetNamespaceMacros();
-const Индекс<Ткст>&             GetNamespaceEndMacros();
+const VectorMap<String, String>& GetNamespaceMacros();
+const Index<String>&             GetNamespaceEndMacros();
 
-struct CppMacro : Движимое<CppMacro> {
-	Ткст        param;
-	Ткст        body;
+struct CppMacro : Moveable<CppMacro> {
+	String        param;
+	String        body;
 	byte          md5[16];
 	
-	Ткст Define(const char *s);
+	String Define(const char *s);
 	void   SetUndef()                { body = "\x7f"; }
 	bool   IsUndef() const           { return body[0] == '\x7f' && body[1] == '\0'; }
 
-	Ткст расширь(const Вектор<Ткст>& p, const Вектор<Ткст>& ep) const;
+	String Expand(const Vector<String>& p, const Vector<String>& ep) const;
 
-	void   сериализуй(Поток& s);
+	void   Serialize(Stream& s);
 	
-	Ткст вТкст() const;
+	String ToString() const;
 };
 
 enum PPItemType {
@@ -35,97 +35,97 @@ enum PPItemType {
 };
 
 struct PPItem {
-	int      тип;
-	Ткст   text;
+	int      type;
+	String   text;
 	int      segment_id;
 	
-	void     сериализуй(Поток& s) { s % тип % text % segment_id; }
+	void     Serialize(Stream& s) { s % type % text % segment_id; }
 };
 
-struct PPMacro : Движимое<PPMacro> {
+struct PPMacro : Moveable<PPMacro> {
 	CppMacro  macro;
-	int       segment_id;        // a группа of macros in single file, between other elements (include, namespace. using, undef...)
+	int       segment_id;        // a group of macros in single file, between other elements (include, namespace. using, undef...)
 	int       line;              // line in file
 	int       undef_segment_id;  // macro has matching undef in the same file within this segment
 	
-	void   сериализуй(Поток& s) { s % macro % segment_id % line % undef_segment_id; }
-	Ткст вТкст() const     { return какТкст(macro) + " " + какТкст(segment_id); }
+	void   Serialize(Stream& s) { s % macro % segment_id % line % undef_segment_id; }
+	String ToString() const     { return AsString(macro) + " " + AsString(segment_id); }
 	
 	PPMacro()                   { segment_id = undef_segment_id = 0; }
 };
 
 struct PPFile { // contains "macro extract" of file, only info about macros defined and namespaces
-	Время           filetime;
-	Массив<PPItem>  элт;
-	Индекс<Ткст>  includes;
-	Вектор<Ткст> keywords;
-	Ткст         md5sum;
+	Time           filetime;
+	Array<PPItem>  item;
+	Index<String>  includes;
+	Vector<String> keywords;
+	String         md5sum;
 
-	void Parse(Поток& in);
-	void сериализуй(Поток& s) { s % filetime % элт % includes % keywords % md5sum; }
+	void Parse(Stream& in);
+	void Serialize(Stream& s) { s % filetime % item % includes % keywords % md5sum; }
 	void Dump() const;
 
 private:
-	Вектор<int>    ppmacro;   // indicies of macros in sAllMacros
+	Vector<int>    ppmacro;   // indicies of macros in sAllMacros
 
-	void CheckEndNamespace(Вектор<int>& namespace_block, int level, Md5Stream& md5);
+	void CheckEndNamespace(Vector<int>& namespace_block, int level, Md5Stream& md5);
 };
 
-PPMacro            *FindPPMacro(const Ткст& id, Индекс<int>& segment_id, int& segmenti);
-const     CppMacro *FindMacro(const Ткст& id, Индекс<int>& segment_id, int& segmenti);
+PPMacro            *FindPPMacro(const String& id, Index<int>& segment_id, int& segmenti);
+const     CppMacro *FindMacro(const String& id, Index<int>& segment_id, int& segmenti);
 
-Ткст GetIncludePath();
+String GetIncludePath();
 
-Ткст GetSegmentFile(int segment_id);
+String GetSegmentFile(int segment_id);
 
-void  MakePP(const Индекс<Ткст>& paths); // this is the only place to change PPFile info, cannot be run concurrently with anything else
+void  MakePP(const Index<String>& paths); // this is the only place to change PPFile info, cannot be run concurrently with anything else
 
 const PPFile& GetPPFile(const char *path); // only returns information created by MakePP
 
-Ткст GetIncludePath(const Ткст& s, const Ткст& filedir);
-bool   IncludesFile(const Ткст& parent_path, const Ткст& header_path);
+String GetIncludePath(const String& s, const String& filedir);
+bool   IncludesFile(const String& parent_path, const String& header_path);
 
 struct FlatPP {
-	Индекс<int>    segment_id;
-	Индекс<Ткст> usings;
+	Index<int>    segment_id;
+	Index<String> usings;
 };
 
 const FlatPP& GetFlatPPFile(const char *path); // with #includes resolved
 
 struct Cpp {
-	static Индекс<Ткст>        kw;
+	static Index<String>        kw;
 
 	bool                        incomment;
 	bool                        done;
 	
-	Индекс<Ткст>               visited;
+	Index<String>               visited;
 
-	Индекс<int>                  segment_id; // segments of included macros
-	ВекторМап<Ткст, PPMacro>  macro; // macros defined
+	Index<int>                  segment_id; // segments of included macros
+	VectorMap<String, PPMacro>  macro; // macros defined
 	int                         std_macros; // standard macros (keywords and trick - fixed)
-	Индекс<Ткст>               notmacro; // accelerator / expanding helper
-	Ткст                      prefix_macro; // for handling multiline macros
+	Index<String>               notmacro; // accelerator / expanding helper
+	String                      prefix_macro; // for handling multiline macros
 
-	Ткст                      output; // preprocessed file
-//	Индекс<Ткст>               usedmacro;
-	Индекс<Ткст>               namespace_using; // 'using namespace' up to start of file
-	Вектор<Ткст>              namespace_stack; // namspace up to start of file
+	String                      output; // preprocessed file
+//	Index<String>               usedmacro;
+	Index<String>               namespace_using; // 'using namespace' up to start of file
+	Vector<String>              namespace_stack; // namspace up to start of file
 	
 	Md5Stream                   md5;
 	
 	void   Define(const char *s);
 
-	void   ParamAdd(Вектор<Ткст>& param, const char *b, const char *e);
-	Ткст расширь(const char *s);
-	void   DoFlatInclude(const Ткст& header_path);
-	void   Do(const Ткст& sourcefile, Поток& in, const Ткст& currentfile, bool get_macros);
+	void   ParamAdd(Vector<String>& param, const char *b, const char *e);
+	String Expand(const char *s);
+	void   DoFlatInclude(const String& header_path);
+	void   Do(const String& sourcefile, Stream& in, const String& currentfile, bool get_macros);
 
-	bool   Preprocess(const Ткст& sourcefile, Поток& in, const Ткст& currentfile,
+	bool   Preprocess(const String& sourcefile, Stream& in, const String& currentfile,
 	                  bool just_get_macros = false);
 
-	Ткст GetDependeciesMd5(const Вектор<Ткст>& m);
+	String GetDependeciesMd5(const Vector<String>& m);
 	
-	typedef Cpp ИМЯ_КЛАССА;
+	typedef Cpp CLASSNAME;
 };
 
 enum tk_Keywords {
@@ -175,75 +175,75 @@ class LexSymbolStat
 {
 public:
 	LexSymbolStat();
-	void переустанов(int minSymbol, int maxSymbol);
+	void Reset(int minSymbol, int maxSymbol);
 	void IncStat(int symbol);
 	int  GetStat(int symbol) const;
-	int  суммаStat(const Вектор<int> & symbols) const;
+	int  SumStat(const Vector<int> & symbols) const;
 	void Merge(const LexSymbolStat & other);
 
 private:
-	Вектор<int> v;
+	Vector<int> v;
 	int minSymbol;
 };
 
 
 class Lex {
-#ifdef _ОТЛАДКА
+#ifdef _DEBUG
 	const char *pp;
 #endif
 	const char *ptr;
 	const char *pos;
 
-	Индекс<Ткст> id;
+	Index<String> id;
 	int           endkey;
 	int           braceslevel;
 
-	struct прекрати  : Движимое<прекрати>{
+	struct Term  : Moveable<Term>{
 		const  char *ptr;
 		int    code;
-		Ткст text;
+		String text;
 		double number;
 		bool   grounding;
 		
-		прекрати() { grounding = false; }
+		Term() { grounding = false; }
 	};
 
 	bool statsCollected;
 	LexSymbolStat symbolStat;
-	БиВектор<прекрати> term;
+	BiVector<Term> term;
 	int            body;
 	bool           grounding;
 
-	bool сим(int c)                 { if(*ptr == c) { ptr++; return true; } else return false; }
-	void добавьКод(int code)           { прекрати& tm = term.добавьХвост(); tm.code = code; tm.ptr = pos; tm.grounding = grounding; }
-	void AssOp(int noass, int ass)   { добавьКод(char('=') ? ass : noass); }
-	void следщ();
+	bool Char(int c)                 { if(*ptr == c) { ptr++; return true; } else return false; }
+	void AddCode(int code)           { Term& tm = term.AddTail(); tm.code = code; tm.ptr = pos; tm.grounding = grounding; }
+	void AssOp(int noass, int ass)   { AddCode(Char('=') ? ass : noass); }
+	void Next();
 	bool Prepare(int pos);
-	int  дайСимвол();
-	void выведиОш(const char *e);
+	const char  GetCharacter();
+	void ThrowError(const char *e);
 
 public:
-	Событие<const Ткст&> WhenError;
+	Event<const String&> WhenError;
 
 	struct Grounding {};
 
 	int         Code(int pos = 0);
-	bool        ид_ли(int pos = 0);
-	Ткст      Ид(int pos = 0);
-	int         Цел(int pos = 0);
-	double      Дво(int pos = 0);
+	bool        IsId(int pos = 0);
+	String      Id(int pos = 0);
+	int         Int(int pos = 0);
+	double      Double(int pos = 0);
 	int         Chr(int pos = 0);
-	Ткст      устТекст(int pos = 0);
+	String      Text(int pos = 0);
 
-	void        дай(int n = 1);
-	int         дайКод()                   { int q = Code(); дай(); return q; }
-	Ткст      дайИд()                     { Ткст q = Ид(); дай(); return q; }
-	int         дайЦел()                    { int q = Цел(); дай(); return q; }
-	double      дайДво()                 { double q = Дво(); дай(); return q; }
-	int         GetChr()                    { int q = Chr(); дай(); return q; }
-	Ткст      дайТекст()                   { Ткст q = устТекст(); дай(); return q; }
+	void        Get(int n = 1);
+	int         GetCode()                   { int q = Code(); Get(); return q; }
+	String      GetId()                     { String q = Id(); Get(); return q; }
+	int         GetInt()                    { int q = Int(); Get(); return q; }
+	double      GetDouble()                 { double q = Double(); Get(); return q; }
+	int         GetChr()                    { int q = Chr(); Get(); return q; }
+	String      GetText()                   { String q = Text(); Get(); return q; }
 
-	int         Ид(const Ткст& s)         { return id.найдиДобавь(s) + 256; }
+	int         Id(const String& s)         { return id.FindAdd(s) + 256; }
 
 	int         GetBracesLevel() const      { return braceslevel; }
 	void        ClearBracesLevel()          { braceslevel = 0; }
@@ -252,17 +252,17 @@ public:
 	void        EndBody()                   { body--; }
 	void        ClearBody()                 { body = 0; }
 	bool        IsBody() const              { return body; }
-	bool        IsGrounded()                { Code(); return term.дайСчёт() && term[0].grounding; }
+	bool        IsGrounded()                { Code(); return term.GetCount() && term[0].grounding; }
 	void        SkipToGrounding();
 
-	const char *Поз(int pos = 0);
+	const char *Pos(int pos = 0);
 	int         operator[](int pos)         { return Code(pos); }
 	operator    int()                       { return Code(0); }
-	void        operator++()                { return дай(); }
+	void        operator++()                { return Get(); }
 	
 	void        Dump(int pos);
 
-	void        иниц(const char *s);
+	void        Init(const char *s);
 	void        StartStatCollection();
 	const LexSymbolStat & FinishStatCollection();
 
@@ -273,8 +273,8 @@ struct SrcFile {
 	SrcFile();
 	rval_default(SrcFile);
 
-	Ткст      text;
-	Вектор<int> linepos;
+	String      text;
+	Vector<int> linepos;
 	int preprocessorLinesRemoved;
 	int blankLinesRemoved;
 	int commentLinesRemoved;
@@ -282,9 +282,9 @@ struct SrcFile {
 
 struct Parser;
 
-SrcFile PreProcess(Поток& in, Parser& parser);
+SrcFile PreProcess(Stream& in, Parser& parser);
 
-Ткст CppItemKindAsString(int kind);
+String CppItemKindAsString(int kind);
 
 struct Parser : ParserContext {
 	struct Decla {
@@ -294,7 +294,7 @@ struct Parser : ParserContext {
 		bool    s_mutable = false;
 		bool    s_explicit = false;
 		bool    s_virtual = false;
-		Ткст  имя;
+		String  name;
 		bool    function = false;
 		bool    type_def = false;
 		bool    isfriend = false;
@@ -306,13 +306,13 @@ struct Parser : ParserContext {
 		bool    oper = false;
 		bool    castoper = false;
 
-		Ткст  tnames;
-		Ткст  тип;
-		Ткст  natural;
+		String  tnames;
+		String  type;
+		String  natural;
 	};
 
 	struct Decl : Decla {
-		Массив<Decl> param;
+		Array<Decl> param;
 		
 		rval_default(Decl);
 		Decl() {}
@@ -334,10 +334,10 @@ struct Parser : ParserContext {
 	Lex         lex;
 	int         filei;
 	byte        filetype;
-	Ткст      title;
+	String      title;
 	int         struct_level;
 
-	Событие<int, const Ткст&> err;
+	Event<int, const String&> err;
 
 	int     lpos, line;
 
@@ -345,105 +345,105 @@ struct Parser : ParserContext {
 
 	int    RPtr();
 
-	bool   Ключ(int code);
+	bool   Key(int code);
 	bool   EatBody();
-	Ткст ResolveAutoType();
+	String ResolveAutoType();
 	void   TryLambda();
 	bool   Skipars(int& q);
 
 	void   Cv();
-	Ткст TType();
-	Ткст ReadType(Decla& d, const Ткст& tname, const Ткст& tparam);
+	String TType();
+	String ReadType(Decla& d, const String& tname, const String& tparam);
 	void   Qualifier(bool override_final = false);
 	void   ParamList(Decl& d);
 	void   Declarator(Decl& d, const char *p);
 	void   EatInitializers();
-	void   Vars(Массив<Decl>& r, const char *p, bool type_def, bool more);
+	void   Vars(Array<Decl>& r, const char *p, bool type_def, bool more);
 	void   ReadMods(Decla& d);
-	Массив<Decl> Declaration0(bool l0, bool more, const Ткст& tname, const Ткст& tparam);
-	Массив<Decl> Declaration(bool l0/* = false*/, bool more/* = false*/, const Ткст& tname, const Ткст& tparam);
+	Array<Decl> Declaration0(bool l0, bool more, const String& tname, const String& tparam);
+	Array<Decl> Declaration(bool l0/* = false*/, bool more/* = false*/, const String& tname, const String& tparam);
 	bool   IsParamList(int q);
 	void   Elipsis(Decl& d);
-	Decl&  финиш(Decl& d, const char *p);
-	void   AddNamespace(const Ткст& n, const Ткст& имя);
-	bool   Scope(const Ткст& tp, const Ткст& tn);
+	Decl&  Finish(Decl& d, const char *p);
+	void   AddNamespace(const String& n, const String& name);
+	bool   Scope(const String& tp, const String& tn);
 
-	Ткст TemplateParams(Ткст& pnames);
-	Ткст TemplateParams();
-	Ткст TemplatePnames();
-	Ткст Имя(Ткст& h, bool& castoper, bool& oper);
-	Ткст Имя(bool& castoper, bool& oper);
-	Ткст Constant();
-	Ткст ReadOper(bool& castoper);
+	String TemplateParams(String& pnames);
+	String TemplateParams();
+	String TemplatePnames();
+	String Name(String& h, bool& castoper, bool& oper);
+	String Name(bool& castoper, bool& oper);
+	String Constant();
+	String ReadOper(bool& castoper);
 
-	int    дайСтроку(const char *pos);
-	void   Строка();
+	int    GetLine(const char *pos);
+	void   Line();
 	void   Check(bool b, const char *err);
 	void   CheckKey(int c);
 
-	void   ClassEnum(const Ткст& clss);
+	void   ClassEnum(const String& clss);
 	bool   IsEnum(int i);
 	bool   UsingNamespace();
 	void   SetScopeCurrent();
 	void   ScopeBody();
 	void   DoNamespace();
 	void   Do();
-	Ткст AnonymousName();
-	Ткст StructDeclaration(const Ткст& tp, const Ткст& tn);
+	String AnonymousName();
+	String StructDeclaration(const String& tp, const String& tn);
 	void   Enum(bool vars);
 
-	CppItem& Элемент(const Ткст& scope, const Ткст& using_namespace, const Ткст& элт,
-	              const Ткст& имя, bool impl);
-	CppItem& Элемент(const Ткст& scope, const Ткст& using_namespace, const Ткст& элт,
-	              const Ткст& имя);
+	CppItem& Item(const String& scope, const String& using_namespace, const String& item,
+	              const String& name, bool impl);
+	CppItem& Item(const String& scope, const String& using_namespace, const String& item,
+	              const String& name);
 
-	CppItem& Фн(const Decl& d, const Ткст& templ, bool body,
-	            const Ткст& tname, const Ткст& tparam);
+	CppItem& Fn(const Decl& d, const String& templ, bool body,
+	            const String& tname, const String& tparam);
 
-	struct Ошибка {};
+	struct Error {};
 
-	void   выведиОш(const Ткст& e);
+	void   ThrowError(const String& e);
 	void   Resume(int bl);
 
 	void   MatchPars();
 	bool   VCAttribute();
 	bool   TryDecl();
 	void   Statement();
-	void   Locals(const Ткст& тип);
-	Ткст Tparam(int& q);
-	bool   IsNamespace(const Ткст& scope);
+	void   Locals(const String& type);
+	String Tparam(int& q);
+	bool   IsNamespace(const String& scope);
 	
-	friend class Lex; // фиксируй to make Lex::выведиОш
+	friend class Lex; // Fix to make Lex::ThrowError
 
-	typedef Parser ИМЯ_КЛАССА;
+	typedef Parser CLASSNAME;
 
 public:
-	void AddMacro(int lineno, const Ткст& macro, int kind = MACRO);
+	void AddMacro(int lineno, const String& macro, int kind = MACRO);
 
 	bool                      dobody;
-	Функция<Ткст(Ткст, Ткст, Ткст)> qualify; // used to qualify local variable names (needs main codebase and its mutex)
+	Function<String(String, String, String)> qualify; // used to qualify local variable names (needs main codebase and its mutex)
 	int                       currentScopeDepth;
 	int                       maxScopeDepth;
 	
-	Ткст                    namespace_info;
+	String                    namespace_info;
 
 	const SrcFile &getPreprocessedFile() { return file; }
 
-	void  Do(Поток& in, CppBase& _base, int file, int filetype,
-	         const Ткст& title, Событие<int, const Ткст&> _err,
-	         const Вектор<Ткст>& typenames,
-	         const Вектор<Ткст>& namespace_stack,
-	         const Индекс<Ткст>& namespace_using);
+	void  Do(Stream& in, CppBase& _base, int file, int filetype,
+	         const String& title, Event<int, const String&> _err,
+	         const Vector<String>& typenames,
+	         const Vector<String>& namespace_stack,
+	         const Index<String>& namespace_using);
 
-	Parser() : dobody(false) { lex.WhenError = THISBACK(выведиОш); }
+	Parser() : dobody(false) { lex.WhenError = THISBACK(ThrowError); }
 };
 
-void   QualifyTypes(CppBase& base, const Ткст& scope, CppItem& m);
-Ткст QualifyKey(const CppBase& base, const Ткст& scope, const Ткст& тип, const Ткст& usings);
+void   QualifyTypes(CppBase& base, const String& scope, CppItem& m);
+String QualifyKey(const CppBase& base, const String& scope, const String& type, const String& usings);
 
-const Массив<CppItem>& GetTypeItems(const CppBase& codebase, const Ткст& тип);
+const Array<CppItem>& GetTypeItems(const CppBase& codebase, const String& type);
 
-Вектор<Ткст> MakeXP(const char *s);
+Vector<String> MakeXP(const char *s);
 
 };
 

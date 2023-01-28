@@ -53,7 +53,7 @@
                   FT_Memory      memory,
                   PSAux_Service  psaux )
   {
-    FT_Error  Ошибка;
+    FT_Error  error;
     FT_ULong  base_offset, offset, ps_len;
     FT_Byte   *cur, *limit;
     FT_Byte   *arg1, *arg2;
@@ -66,7 +66,7 @@
 
     base_offset = FT_STREAM_POS();
 
-    /* first of all, check the font формат in the header */
+    /* first of all, check the font format in the header */
     if ( FT_FRAME_ENTER( 31 ) )
       goto Exit;
 
@@ -74,20 +74,20 @@
                      "%!PS-Adobe-3.0 Resource-CIDFont", 31 ) )
     {
       FT_TRACE2(( "[not a valid CID-keyed font]\n" ));
-      Ошибка = CID_Err_Unknown_File_Format;
+      error = CID_Err_Unknown_File_Format;
     }
 
     FT_FRAME_EXIT();
-    if ( Ошибка )
+    if ( error )
       goto Exit;
 
   Again:
     /* now, read the rest of the file until we find */
     /* `StartData' or `/sfnts'                      */
     {
-      FT_Byte   буфер[256 + 10];
+      FT_Byte   buffer[256 + 10];
       FT_Long   read_len = 256 + 10; /* same as signed FT_Stream->size */
-      FT_Byte*  p        = буфер;
+      FT_Byte*  p        = buffer;
 
 
       for ( offset = FT_STREAM_POS(); ; offset += 256 )
@@ -99,7 +99,7 @@
         if ( stream_len == 0 )
         {
           FT_TRACE2(( "cid_parser_new: no `StartData' keyword found\n" ));
-          Ошибка = CID_Err_Unknown_File_Format;
+          error = CID_Err_Unknown_File_Format;
           goto Exit;
         }
 
@@ -112,24 +112,24 @@
 
         limit = p + read_len - 10;
 
-        for ( p = буфер; p < limit; p++ )
+        for ( p = buffer; p < limit; p++ )
         {
           if ( p[0] == 'S' && ft_strncmp( (char*)p, "StartData", 9 ) == 0 )
           {
             /* save offset of binary data after `StartData' */
-            offset += p - буфер + 10;
+            offset += p - buffer + 10;
             goto Found;
           }
           else if ( p[1] == 's' && ft_strncmp( (char*)p, "/sfnts", 6 ) == 0 )
           {
-            offset += p - буфер + 7;
+            offset += p - buffer + 7;
             goto Found;
           }
         }
 
-        FT_MEM_MOVE( буфер, p, 10 );
+        FT_MEM_MOVE( buffer, p, 10 );
         read_len = 256;
-        p = буфер + 10;
+        p = buffer + 10;
       }
     }
 
@@ -153,7 +153,7 @@
     /* Finally, we check whether `StartData' or `/sfnts' was real --  */
     /* it could be in a comment or string.  We also get the arguments */
     /* of `StartData' to find out whether the data is represented in  */
-    /* binary or hex формат.                                          */
+    /* binary or hex format.                                          */
 
     arg1 = parser->root.cursor;
     cid_parser_skip_PS_token( parser );
@@ -167,15 +167,15 @@
 
     while ( cur < limit )
     {
-      if ( parser->root.Ошибка )
+      if ( parser->root.error )
       {
-        Ошибка = parser->root.Ошибка;
+        error = parser->root.error;
         goto Exit;
       }
 
       if ( cur[0] == 'S' && ft_strncmp( (char*)cur, "StartData", 9 ) == 0 )
       {
-        if ( ft_strncmp( (char*)arg1, "(Гекс)", 5 ) == 0 )
+        if ( ft_strncmp( (char*)arg1, "(Hex)", 5 ) == 0 )
           parser->binary_length = ft_atol( (const char *)arg2 );
 
         limit = parser->root.limit;
@@ -185,7 +185,7 @@
       else if ( cur[1] == 's' && ft_strncmp( (char*)cur, "/sfnts", 6 ) == 0 )
       {
         FT_TRACE2(( "cid_parser_new: cannot handle Type 11 fonts\n" ));
-        Ошибка = CID_Err_Unknown_File_Format;
+        error = CID_Err_Unknown_File_Format;
         goto Exit;
       }
 
@@ -203,7 +203,7 @@
       goto Again;
 
   Exit:
-    return Ошибка;
+    return error;
   }
 
 

@@ -39,22 +39,22 @@
  * as well as 16-bit or 8-bit unsigned integer values.
  *
  * On writing any of the above are converted into the internal
- * 11-bit log формат.   In the case of  8 and 16 bit values, the
+ * 11-bit log format.   In the case of  8 and 16 bit values, the
  * input is assumed to be unsigned linear color values that represent
  * the range 0-1.  In the case of IEEE values, the 0-1 range is assumed to
  * be the normal linear color range, in addition over 1 values are
- * accepted up to a значение of about 25.0 to encode "hot" highlights and such.
+ * accepted up to a value of about 25.0 to encode "hot" highlights and such.
  * The encoding is lossless for 8-bit values, slightly lossy for the
  * other bit depths.  The actual color precision should be better
  * than the human eye can perceive with extra room to allow for
- * Ошибка introduced by further image computation.  As with any quantized
- * color формат, it is possible to perform image calculations which
- * expose the quantization Ошибка. This формат should certainly be less 
+ * error introduced by further image computation.  As with any quantized
+ * color format, it is possible to perform image calculations which
+ * expose the quantization error. This format should certainly be less 
  * susceptible to such errors than standard 8-bit encodings, but more
  * susceptible than straight 16-bit or 32-bit encodings.
  *
- * On reading the internal формат is converted to the desired output формат.
- * The program can request which формат it desires by setting the internal
+ * On reading the internal format is converted to the desired output format.
+ * The program can request which format it desires by setting the internal
  * pseudo tag TIFFTAG_PIXARLOGDATAFMT to one of these possible values:
  *  PIXARLOGDATAFMT_FLOAT     = provide IEEE float values.
  *  PIXARLOGDATAFMT_16BIT     = provide unsigned 16-bit integer values
@@ -71,16 +71,16 @@
  * "hot" (over 1.0) areas written in floating point get clamped to
  * 1.0 in the integer data types.
  *
- * When the file is closed after writing, the bit depth and sample формат
+ * When the file is closed after writing, the bit depth and sample format
  * are set always to appear as if 8-bit data has been written into it.
  * That way a naive program unaware of the particulars of the encoding
- * gets the формат it is most likely able to handle.
+ * gets the format it is most likely able to handle.
  *
  * The codec does it's own horizontal differencing step on the coded
  * values so the libraries predictor stuff should be turned off.
  * The codec also handle byte swapping the encoded values as necessary
  * since the library does not have the information necessary
- * to know the bit depth of the raw unencoded буфер.
+ * to know the bit depth of the raw unencoded buffer.
  *
  * NOTE: This decoder does not appear to update tif_rawcp, and tif_rawcc.
  * This can cause problems with the implementation of CHUNKY_STRIP_READ_SUPPORT
@@ -98,7 +98,7 @@
 
 #define  TSIZE	 2048		/* decode table size (11-bit tokens) */
 #define  TSIZEP1 2049		/* Plus one for slop */
-#define  ONE	 1250		/* token значение of 1.0 exactly */
+#define  ONE	 1250		/* token value of 1.0 exactly */
 #define  RATIO	 1.004		/* nominal ratio for log part */
 
 #define CODE_MASK 0x7ff         /* 11 bits. */
@@ -603,30 +603,30 @@ static int
 PixarLogGuessDataFmt(TIFFDirectory *td)
 {
 	int guess = PIXARLOGDATAFMT_UNKNOWN;
-	int формат = td->td_sampleformat;
+	int format = td->td_sampleformat;
 
 	/* If the user didn't tell us his datafmt,
 	 * take our best guess from the bitspersample.
 	 */
 	switch (td->td_bitspersample) {
 	 case 32:
-		if (формат == SAMPLEFORMAT_IEEEFP)
+		if (format == SAMPLEFORMAT_IEEEFP)
 			guess = PIXARLOGDATAFMT_FLOAT;
 		break;
 	 case 16:
-		if (формат == SAMPLEFORMAT_VOID || формат == SAMPLEFORMAT_UINT)
+		if (format == SAMPLEFORMAT_VOID || format == SAMPLEFORMAT_UINT)
 			guess = PIXARLOGDATAFMT_16BIT;
 		break;
 	 case 12:
-		if (формат == SAMPLEFORMAT_VOID || формат == SAMPLEFORMAT_INT)
+		if (format == SAMPLEFORMAT_VOID || format == SAMPLEFORMAT_INT)
 			guess = PIXARLOGDATAFMT_12BITPICIO;
 		break;
 	 case 11:
-		if (формат == SAMPLEFORMAT_VOID || формат == SAMPLEFORMAT_UINT)
+		if (format == SAMPLEFORMAT_VOID || format == SAMPLEFORMAT_UINT)
 			guess = PIXARLOGDATAFMT_11BITLOG;
 		break;
 	 case 8:
-		if (формат == SAMPLEFORMAT_VOID || формат == SAMPLEFORMAT_UINT)
+		if (format == SAMPLEFORMAT_VOID || format == SAMPLEFORMAT_UINT)
 			guess = PIXARLOGDATAFMT_8BIT;
 		break;
 	}
@@ -681,7 +681,7 @@ PixarLogSetupDecode(TIFF* tif)
         if( strip_height > td->td_imagelength )
             strip_height = td->td_imagelength;
 
-	/* сделай sure no byte swapping happens on the data
+	/* Make sure no byte swapping happens on the data
 	 * after decompression. */
 	tif->tif_postdecode = _TIFFNoPostDecode;  
 
@@ -694,7 +694,7 @@ PixarLogSetupDecode(TIFF* tif)
 	/* add one more stride in case input ends mid-stride */
 	tbuf_size = add_ms(tbuf_size, sizeof(uint16) * sp->stride);
 	if (tbuf_size == 0)
-		return (0);   /* TODO: this is an Ошибка return without Ошибка report through TIFFErrorExt */
+		return (0);   /* СДЕЛАТЬ: this is an error return without error report through TIFFErrorExt */
 	sp->tbuf = (uint16 *) _TIFFmalloc(tbuf_size);
 	if (sp->tbuf == NULL)
 		return (0);
@@ -706,7 +706,7 @@ PixarLogSetupDecode(TIFF* tif)
                 sp->tbuf = NULL;
                 sp->tbuf_size = 0;
 		TIFFErrorExt(tif->tif_clientdata, module,
-			"PixarLog compression can't handle bits depth/data формат combination (depth: %d)", 
+			"PixarLog compression can't handle bits depth/data format combination (depth: %d)", 
 			td->td_bitspersample);
 		return (0);
 	}
@@ -724,7 +724,7 @@ PixarLogSetupDecode(TIFF* tif)
 }
 
 /*
- * настрой state for decoding a strip.
+ * Setup state for decoding a strip.
  */
 static int
 PixarLogPreDecode(TIFF* tif, uint16 s)
@@ -811,12 +811,12 @@ PixarLogDecode(TIFF* tif, uint8* op, tmsize_t occ, uint16 s)
 		}
 		if (state == Z_DATA_ERROR) {
 			TIFFErrorExt(tif->tif_clientdata, module,
-			    "Decoding Ошибка at scanline %lu, %s",
+			    "Decoding error at scanline %lu, %s",
 			    (unsigned long) tif->tif_row, sp->stream.msg ? sp->stream.msg : "(null)");
 			return (0);
 		}
 		if (state != Z_OK) {
-			TIFFErrorExt(tif->tif_clientdata, module, "ZLib Ошибка: %s",
+			TIFFErrorExt(tif->tif_clientdata, module, "ZLib error: %s",
 			    sp->stream.msg ? sp->stream.msg : "(null)");
 			return (0);
 		}
@@ -834,13 +834,13 @@ PixarLogDecode(TIFF* tif, uint8* op, tmsize_t occ, uint16 s)
         tif->tif_rawcc = sp->stream.avail_in;
 
 	up = sp->tbuf;
-	/* разверни bytes in the data if from a different endian machine. */
+	/* Swap bytes in the data if from a different endian machine. */
 	if (tif->tif_flags & TIFF_SWAB)
 		TIFFSwabArrayOfShort(up, nsamples);
 
 	/*
 	 * if llen is not an exact multiple of nsamples, the decode operation
-	 * may overflow the output буфер, so truncate it enough to prevent
+	 * may overflow the output buffer, so truncate it enough to prevent
 	 * that but still salvage as much data as possible.
 	 */
 	if (nsamples % llen) { 
@@ -910,7 +910,7 @@ PixarLogSetupEncode(TIFF* tif)
 	tbuf_size = multiply_ms(multiply_ms(multiply_ms(sp->stride, td->td_imagewidth),
 				      td->td_rowsperstrip), sizeof(uint16));
 	if (tbuf_size == 0)
-		return (0);  /* TODO: this is an Ошибка return without Ошибка report through TIFFErrorExt */
+		return (0);  /* СДЕЛАТЬ: this is an error return without error report through TIFFErrorExt */
 	sp->tbuf = (uint16 *) _TIFFmalloc(tbuf_size);
 	if (sp->tbuf == NULL)
 		return (0);
@@ -931,7 +931,7 @@ PixarLogSetupEncode(TIFF* tif)
 }
 
 /*
- * переустанов encoding state at the start of a strip.
+ * Reset encoding state at the start of a strip.
  */
 static int
 PixarLogPreEncode(TIFF* tif, uint16 s)
@@ -1194,7 +1194,7 @@ PixarLogEncode(TIFF* tif, uint8* bp, tmsize_t cc, uint16 s)
 
 	do {
 		if (deflate(&sp->stream, Z_NO_FLUSH) != Z_OK) {
-			TIFFErrorExt(tif->tif_clientdata, module, "Encoder Ошибка: %s",
+			TIFFErrorExt(tif->tif_clientdata, module, "Encoder error: %s",
 			    sp->stream.msg ? sp->stream.msg : "(null)");
 			return (0);
 		}
@@ -1209,8 +1209,8 @@ PixarLogEncode(TIFF* tif, uint8* bp, tmsize_t cc, uint16 s)
 }
 
 /*
- * финиш off an encoded strip by flushing the last
- * string and tacking on an стоп Of Information code.
+ * Finish off an encoded strip by flushing the last
+ * string and tacking on an End Of Information code.
  */
 
 static int
@@ -1236,7 +1236,7 @@ PixarLogPostEncode(TIFF* tif)
 		    }
 		    break;
 		default:
-			TIFFErrorExt(tif->tif_clientdata, module, "ZLib Ошибка: %s",
+			TIFFErrorExt(tif->tif_clientdata, module, "ZLib error: %s",
 			sp->stream.msg ? sp->stream.msg : "(null)");
 		    return (0);
 		}
@@ -1252,7 +1252,7 @@ PixarLogClose(TIFF* tif)
 
 	assert(sp != 0);
 	/* In a really sneaky (and really incorrect, and untruthful, and
-	 * troublesome, and Ошибка-prone) maneuver that completely goes against
+	 * troublesome, and error-prone) maneuver that completely goes against
 	 * the spirit of TIFF, and breaks TIFF, on close, we covertly
 	 * modify both bitspersample and sampleformat in the directory to
 	 * indicate 8-bit linear.  This way, the decode "just works" even for
@@ -1266,7 +1266,7 @@ PixarLogClose(TIFF* tif)
              * What appends in that case is that the bitspersample is 1 and
              * a TransferFunction is set. The size of the TransferFunction
              * depends on 1<<bitspersample. So if we increase it, an access
-             * out of the буфер will happen at directory flushing.
+             * out of the buffer will happen at directory flushing.
              * Another option would be to clear those targs. 
              */
             td->td_bitspersample = 8;
@@ -1319,7 +1319,7 @@ PixarLogVSetField(TIFF* tif, uint32 tag, va_list ap)
 		if (tif->tif_mode != O_RDONLY && (sp->state&PLSTATE_INIT)) {
 			if (deflateParams(&sp->stream,
 			    sp->quality, Z_DEFAULT_STRATEGY) != Z_OK) {
-				TIFFErrorExt(tif->tif_clientdata, module, "ZLib Ошибка: %s",
+				TIFFErrorExt(tif->tif_clientdata, module, "ZLib error: %s",
 					sp->stream.msg ? sp->stream.msg : "(null)");
 				return (0);
 			}
@@ -1445,12 +1445,12 @@ TIFFInitPixarLog(TIFF* tif, int scheme)
 	sp->vsetparent = tif->tif_tagmethods.vsetfield;
 	tif->tif_tagmethods.vsetfield = PixarLogVSetField;   /* hook for codec tags */
 
-	/* дефолт values for codec-specific fields */
+	/* Default values for codec-specific fields */
 	sp->quality = Z_DEFAULT_COMPRESSION; /* default comp. level */
 	sp->state = 0;
 
 	/* we don't wish to use the predictor, 
-	 * the default is none, which predictor значение 1
+	 * the default is none, which predictor value 1
 	 */
 	(void) TIFFPredictorInit(tif);
 
@@ -1473,5 +1473,5 @@ bad:
  * mode: c
  * c-basic-offset: 8
  * fill-column: 78
- * стоп:
+ * End:
  */

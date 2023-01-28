@@ -1,39 +1,39 @@
 #include "RichEdit.h"
 
-namespace РНЦП {
+namespace Upp {
 
-Точка RichEdit::GetPreedit()
+Point RichEdit::GetPreedit()
 {
-	Прям r = GetCaretRect();
+	Rect r = GetCaretRect();
 	if(formatinfo.sscript == 2) {
-		Точка p = r.низПраво();
-		p.y -= 3 * r.дайВысоту() / 5;
+		Point p = r.BottomRight();
+		p.y -= 3 * r.GetHeight() / 5;
 		return p;
 	}
-	return r.верхПраво();
+	return r.TopRight();
 }
 	
-Шрифт RichEdit::GetPreeditFont()
+Font RichEdit::GetPreeditFont()
 {
-	Шрифт fnt = formatinfo;
-	int h = абс(fnt.дайВысоту());
+	Font fnt = formatinfo;
+	int h = abs(fnt.GetHeight());
 	if(formatinfo.sscript)
 		h = 3 * h / 5;
-	return fnt(max(GetZoom() * абс(h), 1));
+	return fnt(max(GetZoom() * abs(h), 1));
 }
 
 void RichEdit::ApplyFormat(dword charvalid, dword paravalid)
 {
-	if(толькочтен_ли())
+	if(IsReadOnly())
 		return;
 	RichText::FormatInfo f = formatinfo;
 	f.charvalid = charvalid;
 	f.paravalid = paravalid;
 	if(objectpos >= 0) {
 		ModifyFormat(objectpos, f, 1);
-		финиш();
+		Finish();
 	}
-	if(выделение_ли()) {
+	if(IsSelection()) {
 		if(tablesel) {
 			NextUndo();
 			SaveTable(tablesel);
@@ -50,17 +50,17 @@ void RichEdit::ApplyFormat(dword charvalid, dword paravalid)
 			}
 			ModifyFormat(l, f, h - l);
 		}
-		финиш();
+		Finish();
 	}
 	else
 	if(cursorp.paralen == 0) {
 		ModifyFormat(cursor, f, 0);
-		финиш();
+		Finish();
 	}
 	else
 	if(f.paravalid) {
 		ModifyFormat(cursor, f, 0);
-		финиш();
+		Finish();
 	}
 	else
 		RefreshBar();
@@ -121,23 +121,23 @@ void RichEdit::SetFace()
 	NextUndo();
 	formatinfo.Face(~face);
 	ApplyFormat(RichText::FACE);
-	устФокус();
+	SetFocus();
 }
 
 void RichEdit::SetHeight()
 {
 	NextUndo();
-	formatinfo.устВысоту(PtToDot(~height));
+	formatinfo.Height(PtToDot(~height));
 	ApplyFormat(RichText::HEIGHT);
-	устФокус();
+	SetFocus();
 }
 
-void RichEdit::устЧернила()
+void RichEdit::SetInk()
 {
 	NextUndo();
 	formatinfo.ink = ~ink;
 	ApplyFormat(RichText::INK);
-	устФокус();
+	SetFocus();
 }
 
 void RichEdit::SetPaper()
@@ -145,7 +145,7 @@ void RichEdit::SetPaper()
 	NextUndo();
 	formatinfo.paper = ~paper;
 	ApplyFormat(RichText::PAPER);
-	устФокус();
+	SetFocus();
 }
 
 void RichEdit::SetLanguage()
@@ -153,24 +153,24 @@ void RichEdit::SetLanguage()
 	NextUndo();
 	formatinfo.language = (int)~language;
 	ApplyFormat(RichText::LANGUAGE);
-	устФокус();
+	SetFocus();
 }
 
 void RichEdit::Language()
 {
-	WithRichLanguageLayout<ТопОкно> d;
+	WithRichLanguageLayout<TopWindow> d;
 	CtrlLayoutOKCancel(d, t_("Language"));
 	d.lang <<= ~language;
-	if(d.пуск() != IDOK)
+	if(d.Run() != IDOK)
 		return;
 	formatinfo.language = (int)~d.lang;
 	ApplyFormat(RichText::LANGUAGE);
-	устФокус();
+	SetFocus();
 	if(!language.HasKey((int)~d.lang)) {
-		Вектор<int> h;
-		for(int i = 0; i < language.дайСчёт(); i++)
-			h.добавь(language.дайКлюч(i));
-		h.добавь(~d.lang);
+		Vector<int> h;
+		for(int i = 0; i < language.GetCount(); i++)
+			h.Add(language.GetKey(i));
+		h.Add(~d.lang);
 		SetupLanguage(pick(h));
 	}
 }
@@ -179,14 +179,14 @@ void RichEdit::IndentMark()
 {
 	RichRuler::Marker m;
 	int l = formatinfo.lm;
-	int r = cursorc.textpage.устШирину() - formatinfo.rm;
+	int r = cursorc.textpage.Width() - formatinfo.rm;
 	m.pos = l + formatinfo.indent;
 	m.minpos = max(l, 0);
 	m.maxpos = max(r - 120, 0);
 	m.top = true;
 	m.image = formatinfo.paravalid & RichText::INDENT ? RichEditImg::Indent()
 	                                                  : RichEditImg::IndentMixed();
-	ruler.уст(2, m);
+	ruler.Set(2, m);
 }
 
 void RichEdit::ReadFormat()
@@ -194,16 +194,16 @@ void RichEdit::ReadFormat()
 	if(objectpos >= 0)
 		formatinfo = text.GetFormatInfo(objectpos, 1);
 	else
-	if(выделение_ли())
+	if(IsSelection())
 		if(tablesel)
 			formatinfo = text.GetTableFormatInfo(tablesel, cells);
 		else
-			formatinfo = text.GetFormatInfo(min(cursor, anchor), абс(cursor - anchor));
+			formatinfo = text.GetFormatInfo(min(cursor, anchor), abs(cursor - anchor));
 	else {
 		RichPos p = cursorp;
 		if(cursor && p.posinpara)
 			p = text.GetRichPos(cursor - 1);
-		formatinfo.уст(p.формат);
+		formatinfo.Set(p.format);
 	}
 	ShowFormat();
 }
@@ -218,7 +218,7 @@ void RichEdit::ShowFormat()
 		face <<= Null;
 
 	if(formatinfo.charvalid & RichText::HEIGHT)
-		height <<= DotToPt(formatinfo.дайВысоту());
+		height <<= DotToPt(formatinfo.GetHeight());
 	else
 		height <<= Null;
 
@@ -247,34 +247,34 @@ void RichEdit::ShowFormat()
 	else
 		language <<= Null;
 
-	if(выделение_ли())
+	if(IsSelection())
 		label <<= Null;
 	else
 		label <<= formatinfo.label;
 
 	int l = formatinfo.lm;
-	int r = cursorc.textpage.устШирину() - formatinfo.rm;
+	int r = cursorc.textpage.Width() - formatinfo.rm;
 
 	RichRuler::Marker m;
 	m.pos = l;
 	m.minpos = 0;
 	m.maxpos = max(r - formatinfo.indent - 120, 0);
 	m.image = formatinfo.paravalid & RichText::LM ? RichEditImg::Margin() : RichEditImg::MarginMixed();
-	ruler.уст(0, m);
+	ruler.Set(0, m);
 
 	m.pos = r;
 	m.minpos = max(l + formatinfo.indent + 120, 0);
-	m.maxpos = cursorc.textpage.устШирину();
+	m.maxpos = cursorc.textpage.Width();
 	m.image = formatinfo.paravalid & RichText::RM ? RichEditImg::Margin() : RichEditImg::MarginMixed();
-	ruler.уст(1, m);
+	ruler.Set(1, m);
 	IndentMark();
 
 	int maxpos = 0;
 	m.minpos = 0;
 	m.deletable = true;
 	if(formatinfo.paravalid & RichText::TABS) {
-		for(int i = 0; i < formatinfo.tab.дайСчёт(); i++) {
-			RichPara::Вкладка tab = formatinfo.tab[i];
+		for(int i = 0; i < formatinfo.tab.GetCount(); i++) {
+			RichPara::Tab tab = formatinfo.tab[i];
 			m.pos = tab.pos;
 			if(tab.pos > maxpos)
 				maxpos = tab.pos;
@@ -289,92 +289,92 @@ void RichEdit::ShowFormat()
 				m.image = RichEditImg::CenterTab();
 				break;
 			}
-			ruler.уст(i + 3, m);
+			ruler.Set(i + 3, m);
 		}
 		ruler.SetTabs(maxpos, formatinfo.tabsize);
-		ruler.устСчёт(formatinfo.tab.дайСчёт() + 3);
+		ruler.SetCount(formatinfo.tab.GetCount() + 3);
 	}
 	else {
 		ruler.SetTabs(INT_MAX / 2, 1);
-		ruler.устСчёт(3);
+		ruler.SetCount(3);
 	}
 
 	if(formatinfo.paravalid & RichText::STYLE)
 		style <<= formatinfo.styleid;
 	else
 		style <<= Null;
-	setstyle->вкл(!выделение_ли());
+	setstyle->Enable(!IsSelection());
 }
 
 void RichEdit::HighLightTab(int r)
 {
 	RichRuler::Marker m = ruler[r + 3];
-	RichPara::Вкладка tab = formatinfo.tab[r];
+	RichPara::Tab tab = formatinfo.tab[r];
 	m.image = tab.align == ALIGN_RIGHT  ? RichEditImg::RightTabTrack() :
 	          tab.align == ALIGN_CENTER ? RichEditImg::CenterTabTrack() :
 	                                      RichEditImg::LeftTabTrack();
-	ruler.уст(r + 3, m);
+	ruler.Set(r + 3, m);
 }
 
 void RichEdit::Hyperlink()
 {
-	Ткст s = formatinfo.link;
-	if(!выделение_ли() && !пусто_ли(s) && cursorp.формат.link == s && text[cursor] != '\n') {
+	String s = formatinfo.link;
+	if(!IsSelection() && !IsNull(s) && cursorp.format.link == s && text[cursor] != '\n') {
 		int l = cursor - 1;
-		while(l >= 0 && text[l] != '\n' && text.GetRichPos(l).формат.link == s)
+		while(l >= 0 && text[l] != '\n' && text.GetRichPos(l).format.link == s)
 			l--;
 		l++;
 		int h = cursor;
-		while(h < text.дайДлину() && text[h] != '\n' && text.GetRichPos(h).формат.link == s)
+		while(h < text.GetLength() && text[h] != '\n' && text.GetRichPos(h).format.link == s)
 			h++;
 		if(l < h)
-			выдели(l, h - l);
+			Select(l, h - l);
 	}
-	ШТкст linktext;
+	WString linktext;
 	WhenHyperlink(s, linktext);
-	if(s != formatinfo.link || linktext.дайДлину()) {
+	if(s != formatinfo.link || linktext.GetLength()) {
 		formatinfo.link = s;
 		hyperlink <<= s;
 		NextUndo();
 		ApplyFormat(RichText::LINK);
-		if(linktext.дайДлину()) {
-			удалиВыделение();
+		if(linktext.GetLength()) {
+			RemoveSelection();
 			RichPara p;
-			p.формат = formatinfo;
-			p.конкат(linktext, formatinfo);
+			p.format = formatinfo;
+			p.Cat(linktext, formatinfo);
 			RichText txt;
 			txt.SetStyles(text.GetStyles());
-			txt.конкат(p);
-			вставь(cursor, txt, true);
-			Move(cursor + linktext.дайСчёт(), false);
+			txt.Cat(p);
+			Insert(cursor, txt, true);
+			Move(cursor + linktext.GetCount(), false);
 		}
 	}
-	устФокус();
+	SetFocus();
 }
 
-void RichEdit::Надпись()
+void RichEdit::Label()
 {
-	if(выделение_ли()) return;
-	Ткст s = formatinfo.label;
+	if(IsSelection()) return;
+	String s = formatinfo.label;
 	WhenLabel(s);
 	if(s != formatinfo.label) {
 		formatinfo.label = s;
 		NextUndo();
 		ApplyFormat(0, RichText::LABEL);
-		устФокус();
+		SetFocus();
 	}
 }
 
 void RichEdit::IndexEntry()
 {
-	Ткст s = formatinfo.indexentry.вТкст();
-	Ткст s0 = s;
+	String s = formatinfo.indexentry.ToString();
+	String s0 = s;
 	WhenIndexEntry(s);
 	if(s != s0) {
-		formatinfo.indexentry = s.вШТкст();
+		formatinfo.indexentry = s.ToWString();
 		ApplyFormat(RichText::INDEXENTRY);
 		NextUndo();
-		устФокус();
+		SetFocus();
 	}
 }
 
@@ -397,7 +397,7 @@ void RichEdit::BeginRulerTrack()
 		HighLightTab(r - 3);
 		return;
 	}
-	ruler.уст(r, m);
+	ruler.Set(r, m);
 }
 
 void RichEdit::SetParaFormat(dword paravalid)
@@ -405,11 +405,11 @@ void RichEdit::SetParaFormat(dword paravalid)
 	RichText::FormatInfo f = formatinfo;
 	f.charvalid = 0;
 	f.paravalid = paravalid;
-	if(выделение_ли())
+	if(IsSelection())
 		if(tablesel)
 			text.ApplyTableFormatInfo(tablesel, cells, f);
 		else
-			text.ApplyFormatInfo(min(cursor, anchor), f, абс(cursor - anchor));
+			text.ApplyFormatInfo(min(cursor, anchor), f, abs(cursor - anchor));
 	else
 		text.ApplyFormatInfo(cursor, f, 0);
 }
@@ -426,7 +426,7 @@ void RichEdit::RulerTrack()
 		IndentMark();
 		break;
 	case 1:
-		formatinfo.rm = cursorc.textpage.устШирину() - m.pos;
+		formatinfo.rm = cursorc.textpage.Width() - m.pos;
 		SetParaFormat(RichText::RM);
 		break;
 	case 2:
@@ -437,8 +437,8 @@ void RichEdit::RulerTrack()
 		formatinfo.tab[r - 3].pos = m.pos;
 		SetParaFormat(RichText::TABS);
 		int maxpos = 0;
-		for(int i = 0; i < formatinfo.tab.дайСчёт(); i++) {
-			RichPara::Вкладка tab = formatinfo.tab[i];
+		for(int i = 0; i < formatinfo.tab.GetCount(); i++) {
+			RichPara::Tab tab = formatinfo.tab[i];
 			if(tab.pos > maxpos)
 				maxpos = tab.pos;
 		}
@@ -450,13 +450,13 @@ void RichEdit::RulerTrack()
 
 void RichEdit::TabAdd(int align)
 {
-	RichPara::Вкладка tab;
-	tab.pos = ruler.дайПоз();
+	RichPara::Tab tab;
+	tab.pos = ruler.GetPos();
 	tab.align = align;
-	if(formatinfo.tab.дайСчёт() > 30000 || tab.pos < 0 || tab.pos >= cursorc.textpage.устШирину()) return;
-	formatinfo.tab.добавь(tab);
+	if(formatinfo.tab.GetCount() > 30000 || tab.pos < 0 || tab.pos >= cursorc.textpage.Width()) return;
+	formatinfo.tab.Add(tab);
 	SetParaFormat(RichText::TABS);
-	финиш();
+	Finish();
 }
 
 void RichEdit::AddTab()
@@ -474,26 +474,26 @@ void RichEdit::TabMenu()
 		HighLightTab(r);
 	CallbackArgTarget<int> align;
 	CallbackArgTarget<int> fill;
-	БарМеню menu;
-	menu.добавь(t_("лево"), RichEditImg::LeftTab(), align[ALIGN_LEFT]);
-	menu.добавь(t_("право"), RichEditImg::RightTab(), align[ALIGN_RIGHT]);
-	menu.добавь(t_("Center"), RichEditImg::CenterTab(), align[ALIGN_CENTER]);
+	MenuBar menu;
+	menu.Add(t_("Left"), RichEditImg::LeftTab(), align[ALIGN_LEFT]);
+	menu.Add(t_("Right"), RichEditImg::RightTab(), align[ALIGN_RIGHT]);
+	menu.Add(t_("Center"), RichEditImg::CenterTab(), align[ALIGN_CENTER]);
 	if(r >= 0) {
 		int f = formatinfo.tab[r].fillchar;
 		menu.Separator();
-		menu.добавь(t_("No fill"), fill[0])
+		menu.Add(t_("No fill"), fill[0])
 		    .Radio(f == 0);
-		menu.добавь(t_("Fill with ...."), fill[1])
+		menu.Add(t_("Fill with ...."), fill[1])
 		    .Radio(f == 1);
-		menu.добавь(t_("Fill with ----"), fill[2])
+		menu.Add(t_("Fill with ----"), fill[2])
 		    .Radio(f == 2);
-		menu.добавь(t_("Fill with __"), fill[3])
+		menu.Add(t_("Fill with __"), fill[3])
 		    .Radio(f == 3);
 		menu.Separator();
-		menu.добавь(t_("удали"), fill[-1]);
+		menu.Add(t_("Удалить"), fill[-1]);
 	}
-	menu.выполни();
-	if(!пусто_ли(align)) {
+	menu.Execute();
+	if(!IsNull(align)) {
 		SaveFormat();
 		if(r >= 0) {
 			formatinfo.tab[r].align = (int)align;
@@ -502,7 +502,7 @@ void RichEdit::TabMenu()
 		else
 			TabAdd(align);
 	}
-	if(!пусто_ли(fill) && r >= 0) {
+	if(!IsNull(fill) && r >= 0) {
 		SaveFormat();
 		if(r >= 0) {
 			if(fill == -1)
@@ -512,7 +512,7 @@ void RichEdit::TabMenu()
 			SetParaFormat(RichText::TABS);
 		}
 	}
-	финиш();
+	Finish();
 }
 
 void RichEdit::AlignLeft()
@@ -549,7 +549,7 @@ void  RichEdit::SetBullet(int bullet)
 	if((formatinfo.paravalid & RichText::BULLET) && formatinfo.bullet == bullet) {
 		formatinfo.bullet = RichPara::BULLET_NONE;
 		formatinfo.indent = formatinfo.paravalid & RichText::STYLE ?
-		                       text.дайСтиль(formatinfo.styleid).формат.indent : 0;
+		                       text.GetStyle(formatinfo.styleid).format.indent : 0;
 	}
 	else {
 		formatinfo.bullet = bullet;
@@ -558,14 +558,14 @@ void  RichEdit::SetBullet(int bullet)
 	ApplyFormat(0, RichText::INDENT|RichText::BULLET);
 }
 
-void RichEdit::Стиль()
+void RichEdit::Style()
 {
 	NextUndo();
 	SaveFormat(cursor, 0);
-	formatinfo.уст(text.дайСтиль((Uuid)~style).формат);
+	formatinfo.Set(text.GetStyle((Uuid)~style).format);
 	ApplyFormat(0, RichText::STYLE);
-	устФокус();
-	финиш();
+	SetFocus();
+	Finish();
 }
 
 void RichEdit::AdjustObjectSize()
@@ -573,49 +573,49 @@ void RichEdit::AdjustObjectSize()
 	NextUndo();
 	RichObject obj = cursorp.object;
 	if(!obj) return;
-	WithObjectSizeLayout<ТопОкно> d;
+	WithObjectSizeLayout<TopWindow> d;
 	CtrlLayoutOKCancel(d, t_("Object position"));
-	Размер sz = obj.дайРазм();
-	Размер psz = GetPhysicalSize(obj);
+	Size sz = obj.GetSize();
+	Size psz = GetPhysicalSize(obj);
 	if(psz.cx == 0) psz.cx = 2000;
 	if(psz.cy == 0) psz.cy = 2000;
-	d.width.уст(unit, sz.cx);
-	d.height.уст(unit, sz.cy);
-	d.widthp.SetInc(5).образец("%.1f");
+	d.width.Set(unit, sz.cx);
+	d.height.Set(unit, sz.cy);
+	d.widthp.SetInc(5).Pattern("%.1f");
 	d.widthp <<= 100.0 * sz.cx / psz.cx;
-	d.heightp.SetInc(5).образец("%.1f");
+	d.heightp.SetInc(5).Pattern("%.1f");
 	d.heightp <<= 100.0 * sz.cy / psz.cy;
 	d.keepratio = obj.IsKeepRatio();
 	d.width <<= d.height <<= d.widthp <<= d.heightp <<= d.Breaker(IDYES);
-	d.ydelta.WithSgn().уст(unit, obj.GetYDelta());
+	d.ydelta.WithSgn().Set(unit, obj.GetYDelta());
 	d.keepratio <<= d.Breaker(IDNO);
 	for(;;) {
-		switch(d.пуск()) {
+		switch(d.Run()) {
 		case IDCANCEL:
 			return;
 		case IDYES:
-			if(d.width.естьФокус() && !пусто_ли(d.width)) {
+			if(d.width.HasFocus() && !IsNull(d.width)) {
 				d.widthp <<= 100 * (double)~d.width / psz.cx;
 				if(d.keepratio) {
 					d.height <<= psz.cy * (double)~d.width / psz.cx;
 					d.heightp <<= ~d.widthp;
 				}
 			}
-			if(d.height.естьФокус() && !пусто_ли(d.height)) {
+			if(d.height.HasFocus() && !IsNull(d.height)) {
 				d.heightp <<= 100 * (double)~d.height / psz.cy;
 				if(d.keepratio) {
 					d.width <<= psz.cx * (double)~d.height / psz.cy;
 					d.widthp <<= ~d.heightp;
 				}
 			}
-			if(d.widthp.естьФокус() && !пусто_ли(d.widthp)) {
+			if(d.widthp.HasFocus() && !IsNull(d.widthp)) {
 				d.width <<= psz.cx * (double)~d.widthp / 100;
 				if(d.keepratio) {
 					d.height <<= psz.cy * (double)~d.width / psz.cx;
 					d.heightp <<= ~d.widthp;
 				}
 			}
-			if(d.heightp.естьФокус() && !пусто_ли(d.heightp)) {
+			if(d.heightp.HasFocus() && !IsNull(d.heightp)) {
 				d.height <<= psz.cy * (double)~d.heightp / 100;
 				if(d.keepratio) {
 					d.width <<= psz.cx * (double)~d.height / psz.cy;
@@ -624,7 +624,7 @@ void RichEdit::AdjustObjectSize()
 			}
 			break;
 		case IDNO:
-			if(d.keepratio && !пусто_ли(d.width)) {
+			if(d.keepratio && !IsNull(d.width)) {
 				d.widthp <<= 100 * (double)~d.width / psz.cx;
 				if(d.keepratio) {
 					d.height  <<= psz.cy * (double)~d.width / psz.cx;
@@ -633,12 +633,12 @@ void RichEdit::AdjustObjectSize()
 			}
 			break;
 		case IDOK:
-			if(!пусто_ли(d.width) && (int)~d.width > 0)
+			if(!IsNull(d.width) && (int)~d.width > 0)
 				sz.cx = ~d.width;
-			if(!пусто_ли(d.height) && (int)~d.height > 0)
+			if(!IsNull(d.height) && (int)~d.height > 0)
 				sz.cy = ~d.height;
-			obj.устРазм(sz);
-			if(!пусто_ли(d.ydelta))
+			obj.SetSize(sz);
+			if(!IsNull(d.ydelta))
 				obj.SetYDelta(~d.ydelta);
 			obj.KeepRatio(d.keepratio);
 			ReplaceObject(obj);

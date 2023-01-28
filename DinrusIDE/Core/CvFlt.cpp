@@ -3,10 +3,10 @@
 #define LTIMING(x) // RTIMING(x)
 #define LHITCOUNT(x) // RHITCOUNT(x)
 
-namespace РНЦПДинрус {
+namespace Upp {
 
-static_assert(sizeof(uint64) == sizeof(double), "несовпадение размера");
-static_assert(std::numeric_limits<double>::is_iec559, "поддерживается только IEEE754 FP");
+static_assert(sizeof(uint64) == sizeof(double), "расхождение размеров");
+static_assert(std::numeric_limits<double>::is_iec559, "поддерживается только EEE754 FP");
 
 struct sF128 {
 	int    exponent;
@@ -15,11 +15,11 @@ struct sF128 {
 
 	template<class T, class S> static T as(S s) { T t; memcpy(&t, &s, sizeof(S)); return t; }
 	
-	void   устДво(double h);
-	double делайДво() const;
-	void   устБцел64(uint64 h);
-	uint64 дайБцел64() const;
-	void   умножьСтепень10(int i);
+	void   SetDouble(double h);
+	double MakeDouble() const;
+	void   SetUint64(uint64 h);
+	uint64 GetUint64() const;
+	void   MulPow10(int i);
 };
 
 sF128 ipow10table[] = {
@@ -27,7 +27,7 @@ sF128 ipow10table[] = {
 };
 
 force_inline
-double sF128::делайДво() const
+double sF128::MakeDouble() const
 {
 	uint64 u;
 	
@@ -59,12 +59,12 @@ double sF128::делайДво() const
 	return as<double>(u);
 }
 
-#ifndef _ОТЛАДКА
+#ifndef _DEBUG
 force_inline
 #endif
-void sF128::устДво(double d)
+void sF128::SetDouble(double d)
 {
-	LTIMING("устДво");
+	LTIMING("SetDouble");
 	uint64 u = as<uint64>(d);
 	int exp = ((u >> 52) & 2047);
 	exponent = exp - 1022;
@@ -80,10 +80,10 @@ void sF128::устДво(double d)
 }
 
 force_inline
-void sF128::умножьСтепень10(int powi)
+void sF128::MulPow10(int powi)
 {
-	LTIMING("умножьСтепень10");
-	ПРОВЕРЬ(l == 0); // we can only do F64xF128 multiplication
+	LTIMING("MulPow10");
+	ASSERT(l == 0); // we can only do F64xF128 multiplication
 	const auto& pow10 = ipow10table[powi + 350];
 	uint64 hh, midh, midl;
 	l = mul64(h, pow10.h, hh);
@@ -97,7 +97,7 @@ void sF128::умножьСтепень10(int powi)
 }
 
 force_inline
-void sF128::устБцел64(uint64 digits)
+void sF128::SetUint64(uint64 digits)
 {
 	l = 0;
 	if(digits & 0x8000000000000000) {
@@ -112,9 +112,9 @@ void sF128::устБцел64(uint64 digits)
 }
 
 force_inline
-uint64 sF128::дайБцел64() const
+uint64 sF128::GetUint64() const
 {
-	LTIMING("дайБцел64");
+	LTIMING("GetUint64");
 	if(exponent == 0)
 		return h > 0x8000000000000000 || (h == 0x8000000000000000 && l);
 	int shift = 64 - exponent;
@@ -144,11 +144,11 @@ static const char s100[] =
     "90919293949596979899"
 ;
 
-int фмтДвоЦифры(const sF128& w, char *digits, int precision)
+int FormatDoubleDigits(const sF128& w, char *digits, int precision)
 { // produces exactly precision valid numbers of result, returns its E
-	ПРОВЕРЬ(precision > 0 && precision < 19);
+	ASSERT(precision > 0 && precision < 19);
 	
-	LHITCOUNT("фмтДвоЦифры");
+	LHITCOUNT("FormatDoubleDigits");
 
 	uint64 u, u1;
 	int e10;
@@ -158,9 +158,9 @@ int фмтДвоЦифры(const sF128& w, char *digits, int precision)
 		// note: better estimate with mantissa involved is possible but not really faster
 		for(;;) { // until u fits required precision
 			sF128 v = w;
-			v.умножьСтепень10(e10);
-			u = v.дайБцел64();
-			ПРОВЕРЬ(u >= limit / 10);
+			v.MulPow10(e10);
+			u = v.GetUint64();
+			ASSERT(u >= limit / 10);
 			if(u < limit)
 				break;
 			e10--;
@@ -205,17 +205,17 @@ int фмтДвоЦифры(const sF128& w, char *digits, int precision)
 }
 
 force_inline
-int фмтДвоЦифры(double x, char *digits, int precision)
+int FormatDoubleDigits(double x, char *digits, int precision)
 {
 	sF128 w;
-	w.устДво(x);
-	return фмтДвоЦифры(w, digits, precision);
+	w.SetDouble(x);
+	return FormatDoubleDigits(w, digits, precision);
 }
 
 force_inline
-void фмтЭ10(char *&t, int exp, dword flags = FD_SIGN_EXP)
+void FormatE10(char *&t, int exp, dword flags = FD_SIGN_EXP)
 {
-	LTIMING("фмтЭ");
+	LTIMING("FormatE");
 	*t++ = flags & FD_CAP_E ? 'E' :  'e';
 	if(exp < 0) {
 		*t++ = '-';
@@ -289,7 +289,7 @@ void do_point(char *&t, dword flags)
 	*t++ = flags & FD_COMMA ? ',' : '.';
 }
 
-char *фмтЭ(char *t, double x, int precision, dword flags)
+char *FormatE(char *t, double x, int precision, dword flags)
 {
 	if(do_sgn_inf_nan(t, x, flags))
 		return t;
@@ -305,32 +305,32 @@ char *фмтЭ(char *t, double x, int precision, dword flags)
 		char digits[32];
 		precision++;
 		int ndigits = clamp(precision, 1, 18);
-		int exp = фмтДвоЦифры(x, digits, ndigits) + 1;
+		int exp = FormatDoubleDigits(x, digits, ndigits) + 1;
 		*t++ = *digits;
 		if(precision > 1)
 			do_point(t, flags);
 		tCat(t, digits + 1, ndigits - 1);
 		if(precision > 18)
 			tCat(t, '0', precision - 18);
-		фмтЭ10(t, exp + ndigits - 2, flags);
+		FormatE10(t, exp + ndigits - 2, flags);
 	}
 	return t;
 }
 
-Ткст фмтЭ(double x, int precision, dword flags)
+String FormatE(double x, int precision, dword flags)
 {
 	char h[512];
-	ПРОВЕРЬ(precision < 300);
-	return Ткст(h, фмтЭ(h, x, precision, flags));
+	ASSERT(precision < 300);
+	return String(h, FormatE(h, x, precision, flags));
 }
 
 force_inline
-char *фмтДво_(char *t, double x, int precision, dword flags)
+char *FormatDouble_(char *t, double x, int precision, dword flags)
 {
 	if(flags & FD_FIX)
-		return фмтФ(t, x, precision, flags);
+		return FormatF(t, x, precision, flags);
 	if(flags & FD_EXP)
-		return фмтЭ(t, x, precision, flags);
+		return FormatE(t, x, precision, flags);
 	if(do_sgn_inf_nan(t, x, flags))
 		return t;
 	if(!x) {
@@ -339,7 +339,7 @@ char *фмтДво_(char *t, double x, int precision, dword flags)
 	}
 	char digits[32];
 	precision = clamp(precision, 1, 18);
-	int exp = фмтДвоЦифры(x, digits, precision);
+	int exp = FormatDoubleDigits(x, digits, precision);
 	int decimal_point = exp + precision;
 	if(decimal_point >= -int((flags >> 16) & 0xf) && decimal_point <= precision) {
 		if(decimal_point <= 0)
@@ -375,53 +375,53 @@ char *фмтДво_(char *t, double x, int precision, dword flags)
 		if(flags & FD_POINT)
 			do_point(t, flags);
 		exp += precision - 1;
-		фмтЭ10(t, exp, flags);
+		FormatE10(t, exp, flags);
 	}
 	return t;
 }
 
-char *фмтДво(char *t, double x, int precision, dword flags)
+char *FormatDouble(char *t, double x, int precision, dword flags)
 {
-	return фмтДво_(t, x, precision, flags);
+	return FormatDouble_(t, x, precision, flags);
 }
 
-Ткст фмтДво(double x, int precision, dword flags)
-{
-	char h[512];
-	ПРОВЕРЬ(precision < 300);
-	return Ткст(h, фмтДво_(h, x, precision, flags));
-}
-
-char *фмтДво(char *t, double x)
-{
-	return фмтДво_(t, x, 15, FD_TOLERANCE(6)|FD_MINIMAL_EXP|FD_SPECIAL);
-}
-
-Ткст фмтДво(double x)
+String FormatDouble(double x, int precision, dword flags)
 {
 	char h[512];
-	return Ткст(h, фмтДво(h, x));
+	ASSERT(precision < 300);
+	return String(h, FormatDouble_(h, x, precision, flags));
 }
 
-Ткст фмтДвоЧ(double x)
+char *FormatDouble(char *t, double x)
+{
+	return FormatDouble_(t, x, 15, FD_TOLERANCE(6)|FD_MINIMAL_EXP|FD_SPECIAL);
+}
+
+String FormatDouble(double x)
 {
 	char h[512];
-	return Ткст(h, фмтДво_(h, x, 15, FD_TOLERANCE(6)|FD_MINIMAL_EXP));
+	return String(h, FormatDouble(h, x));
 }
 
-char *фмтГ(char *t, double x, int precision, dword flags)
-{
-	return фмтДво_(t, x, precision, flags);
-}
-
-Ткст фмтГ(double x, int precision, dword flags)
+String FormatDoubleN(double x)
 {
 	char h[512];
-	ПРОВЕРЬ(precision < 300);
-	return Ткст(h, фмтГ(h, x, precision, flags));
+	return String(h, FormatDouble_(h, x, 15, FD_TOLERANCE(6)|FD_MINIMAL_EXP));
 }
 
-char *фмтФ(char *t, double x, int precision, dword flags)
+char *FormatG(char *t, double x, int precision, dword flags)
+{
+	return FormatDouble_(t, x, precision, flags);
+}
+
+String FormatG(double x, int precision, dword flags)
+{
+	char h[512];
+	ASSERT(precision < 300);
+	return String(h, FormatG(h, x, precision, flags));
+}
+
+char *FormatF(char *t, double x, int precision, dword flags)
 {
 	if(do_sgn_inf_nan(t, x, flags))
 		return t;
@@ -442,11 +442,11 @@ char *фмтФ(char *t, double x, int precision, dword flags)
 			precision = 18;
 		}
 		sF128 w;
-		w.устДво(x);
+		w.SetDouble(x);
 		uint64 u;
 		sF128 v = w;
-		v.умножьСтепень10(precision);
-		u = v.дайБцел64();
+		v.MulPow10(precision);
+		u = v.GetUint64();
 		char digits[32];
 		if(u < 1000000000000000000) { // integer part is less than 18 digits
 			int n = utoa64(u, digits);
@@ -467,7 +467,7 @@ char *фмтФ(char *t, double x, int precision, dword flags)
 			}
 		}
 		else { // we need to add zeroes to the left of decimal point
-			int e10 = фмтДвоЦифры(w, digits, 18);
+			int e10 = FormatDoubleDigits(w, digits, 18);
 			if(e10 < 0) {
 				tCat(t, digits, 18 + e10);
 				if(precision) {
@@ -502,25 +502,25 @@ char *фмтФ(char *t, double x, int precision, dword flags)
 	return t;
 }
 
-Ткст фмтФ(double x, int precision, dword flags)
+String FormatF(double x, int precision, dword flags)
 {
 	char h[512];
-	ПРОВЕРЬ(precision < 300);
-	return Ткст(h, фмтФ(h, x, precision, flags));
+	ASSERT(precision < 300);
+	return String(h, FormatF(h, x, precision, flags));
 }
 
 template <typename CHAR, typename BYTE>
-const CHAR *сканДво(double& result, const CHAR *s, int alt_dp)
+const CHAR *ScanDbl(double& result, const CHAR *s, int alt_dp)
 {
-	пропустиПробелы__<CHAR, BYTE>(s);
+	SkipSpaces__<CHAR, BYTE>(s);
 
-	double sign = сканЗнак__<CHAR, BYTE>(s);
-	if(!цифра_ли(*s) && *s != '.' && *s != alt_dp)
+	double sign = ScanSgn__<CHAR, BYTE>(s);
+	if(!IsDigit(*s) && *s != '.' && *s != alt_dp)
 		return NULL;
 	
 	int ignored = 0;
 	uint64 digits = 0;
-	auto читайЧисло = [&] {
+	auto ReadNumber = [&] {
 		ignored = 0;
 		for(;;) {
 			if(digits >= 1000000000000000) { // we could reach 19 digits in the next pass, slow down
@@ -563,20 +563,20 @@ const CHAR *сканДво(double& result, const CHAR *s, int alt_dp)
 		}
 	};
 
-	читайЧисло();
+	ReadNumber();
 	int exp = ignored;
 	if(*s == '.' || *s == alt_dp) {
 		s++;
 		const CHAR *s0 = s;
-		читайЧисло();
+		ReadNumber();
 		exp += int(s0 - s) + ignored;
 	}
 	if(*s == 'e' || *s == 'E') {
 		dword e = 0;
 		bool overflow = false;
 		s++;
-		int es = сканЗнак__<CHAR, BYTE>(s);
-		s = сканБцел<CHAR, BYTE, dword, 10>(e, s, overflow);
+		int es = ScanSgn__<CHAR, BYTE>(s);
+		s = ScanUint<CHAR, BYTE, dword, 10>(e, s, overflow);
 		if(overflow || e > 340) {
 			result = es > 0 ? sign * std::numeric_limits<double>::infinity()
 			                : sign * 0.0;
@@ -589,90 +589,90 @@ const CHAR *сканДво(double& result, const CHAR *s, int alt_dp)
 	else
 	if(exp) {
 		sF128 w;
-		w.устБцел64(digits);
-		w.умножьСтепень10(exp);
-		result = sign * w.делайДво();
+		w.SetUint64(digits);
+		w.MulPow10(exp);
+		result = sign * w.MakeDouble();
 	}
 	else
 		result = sign * digits;
 	return s;
 }
 
-const char *сканДво(double& result, const char *s, int alt_dp)
+const char *ScanDbl(double& result, const char *s, int alt_dp)
 {
-	return сканДво<char, byte>(result, s, alt_dp);
+	return ScanDbl<char, byte>(result, s, alt_dp);
 }
 
-const wchar *сканДво(double& result, const wchar *s, int alt_dp)
+const wchar *ScanDbl(double& result, const wchar *s, int alt_dp)
 {
-	return сканДво<wchar, dword>(result, s, alt_dp);
+	return ScanDbl<wchar, dword>(result, s, alt_dp);
 }
 
-double сканДво(const char *ptr, const char **endptr, bool accept_comma)
+double ScanDouble(const char *ptr, const char **endptr, bool accept_comma)
 {
 	double n;
-	ptr = сканДво<char, byte>(n, ptr, accept_comma ? ',' : '.');
+	ptr = ScanDbl<char, byte>(n, ptr, accept_comma ? ',' : '.');
 	if(ptr && endptr)
 		*endptr = ptr;
 	return ptr ? n : Null;
 }
 
-double сканДво(const wchar *ptr, const wchar **endptr, bool accept_comma)
+double ScanDouble(const wchar *ptr, const wchar **endptr, bool accept_comma)
 {
 	double n;
-	ptr = сканДво<wchar, word>(n, ptr, accept_comma ? ',' : '.');
+	ptr = ScanDbl<wchar, word>(n, ptr, accept_comma ? ',' : '.');
 	if(ptr && endptr)
 		*endptr = ptr;
 	return ptr ? n : Null;
 }
 
-double сканДво(const char *ptr, const char **endptr)
+double ScanDouble(const char *ptr, const char **endptr)
 {
 	double n;
-	ptr = сканДво<char, byte>(n, ptr, ',');
+	ptr = ScanDbl<char, byte>(n, ptr, ',');
 	if(ptr && endptr)
 		*endptr = ptr;
 	return ptr ? n : Null;
 }
 
-double сканДво(const wchar *ptr, const wchar **endptr)
+double ScanDouble(const wchar *ptr, const wchar **endptr)
 {
 	double n;
-	ptr = сканДво<wchar, word>(n, ptr, ',');
+	ptr = ScanDbl<wchar, word>(n, ptr, ',');
 	if(ptr && endptr)
 		*endptr = ptr;
 	return ptr ? n : Null;
 }
 
-double сканДво(const char *ptr)
+double ScanDouble(const char *ptr)
 {
 	double n;
-	ptr = сканДво<char, byte>(n, ptr, ',');
+	ptr = ScanDbl<char, byte>(n, ptr, ',');
 	return ptr ? n : Null;
 }
 
-double сканДво(const wchar *ptr)
+double ScanDouble(const wchar *ptr)
 {
 	double n;
-	return сканДво<wchar, word>(n, ptr, ',') ? n : Null;
+	return ScanDbl<wchar, word>(n, ptr, ',') ? n : Null;
 }
 
 double Atof(const char *s)
 {
 	double n;
-	return сканДво<char, byte>(n, s, '.') ? n : 0;
+	return ScanDbl<char, byte>(n, s, '.') ? n : 0;
 }
 
-double СиПарсер::читайДво()
+double CParser::ReadDouble()
 {
-	LTIMING("читайДво");
+	LTIMING("ReadDouble");
 	double n;
-	const char *t = сканДво<char, byte>(n, term, '.');
-	if(!t) выведиОш("отсутствует число");
-	if(!конечен(n))
-		выведиОш("неверное число");
+	const char *t = ScanDbl<char, byte>(n, term, '.');
+	if(!t) ThrowError("отсутствует число");
+	if(!IsFin(n))
+		ThrowError("неверное число");
 	term = t;
-	сделайПробелы();
+	DoSpaces();
 	return n;
 }
 

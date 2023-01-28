@@ -3,14 +3,14 @@
 
 #include <Core/Core.h>
 
-#define UPP_FUNCTION_NAME Ткст(__func__)
+#define UPP_FUNCTION_NAME String(__func__)
 #define UPP_METHOD_NAME(ClassName) \
-	Ткст(ClassName) << "::" << UPP_FUNCTION_NAME << "(this = " << this << "): "
+	String(ClassName) << "::" << UPP_FUNCTION_NAME << "(this = " << this << "): "
 
-namespace РНЦП {
+namespace Upp {
 
-// TODO: добавь support for thread names ids.
-// TODO: добавь logger config to select global logging level.
+// СДЕЛАТЬ: Add support for thread names ids.
+// СДЕЛАТЬ: Add logger config to select global logging level.
 class Logger {
 public:
 	enum class LoggingLevel {
@@ -21,33 +21,33 @@ public:
 		NONE
 	};
 
-	Logger(LoggingLevel level, const Ткст& tag = "");
+	Logger(LoggingLevel level, const String& tag = "");
 	virtual ~Logger();
 	
 	template <typename T>
-	Logger& operator<<(T const& значение) {
-		outputStream << значение;
+	Logger& operator<<(T const& value) {
+		outputStream << value;
 		return *this;
 	}
 	
 private:
 	void Log();
 	
-	Ткст GetCurrentTime();
+	String GetCurrentTime();
 	
 private:
-	ТкстПоток outputStream;
+	StringStream outputStream;
 	
 	LoggingLevel level;
-	Ткст       tag;
+	String       tag;
 };
 
-Поток& operator<<(Поток& s, Logger::LoggingLevel level);
+Stream& operator<<(Stream& s, Logger::LoggingLevel level);
 
 #define LOGGER(CLASS_NAME, LEVEL) \
 class CLASS_NAME : public Logger { \
 public: \
-	CLASS_NAME(const Ткст& tag = "") \
+	CLASS_NAME(const String& tag = "") \
 		: Logger(LEVEL, tag) \
 	{} \
 };

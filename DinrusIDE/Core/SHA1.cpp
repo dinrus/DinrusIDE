@@ -1,6 +1,6 @@
 #include "Core.h"
 
-namespace РНЦПДинрус {
+namespace Upp {
 
 /*
 SHA-1 in C
@@ -16,14 +16,14 @@ A million repetitions of "a"
   34AA973C D4C4DAA4 F61EEB2B DBAD2731 6534016F
 */
 
-/* Хэш a single 512-bit block. This is the core of the algorithm. */
+/* Hash a single 512-bit block. This is the core of the algorithm. */
 /* blk0() and blk() perform the initial expand. */
 /* I got the idea of expanding during the round function from SSLeay */
 
 #ifdef COMPILER_MSC
-#define rol(значение, bits) _rotl(значение, bits)
+#define rol(value, bits) _rotl(value, bits)
 #else
-#define rol(значение, bits) (((значение) << (bits)) | ((значение) >> (32 - (bits))))
+#define rol(value, bits) (((value) << (bits)) | ((value) >> (32 - (bits))))
 #endif
 
 /* blk0() and blk() perform the initial expand. */
@@ -46,9 +46,9 @@ A million repetitions of "a"
 #define R4(v,w,x,y,z,i) z+=(w^x^y)+blk(i)+0xCA62C1D6+rol(v,5);w=rol(w,30);
 
 
-/* Хэш a single 512-bit block. This is the core of the algorithm. */
+/* Hash a single 512-bit block. This is the core of the algorithm. */
 
-void SHA1Transform(uint32_t state[5], const unsigned char буфер[64])
+void SHA1Transform(uint32_t state[5], const unsigned char buffer[64])
 {
     uint32_t a, b, c, d, e;
 
@@ -60,15 +60,15 @@ void SHA1Transform(uint32_t state[5], const unsigned char буфер[64])
 
     CHAR64LONG16 block[1];      /* use array to appear as a pointer */
 
-    memcpy(block, буфер, 64);
+    memcpy(block, buffer, 64);
 
-    /* копируй context->state[] to working vars */
+    /* Copy context->state[] to working vars */
     a = state[0];
     b = state[1];
     c = state[2];
     d = state[3];
     e = state[4];
-    /* 4 rounds of 20 operations each. цикл unrolled. */
+    /* 4 rounds of 20 operations each. Loop unrolled. */
     R0(a, b, c, d, e, 0);
     R0(e, a, b, c, d, 1);
     R0(d, e, a, b, c, 2);
@@ -149,7 +149,7 @@ void SHA1Transform(uint32_t state[5], const unsigned char буфер[64])
     R4(d, e, a, b, c, 77);
     R4(c, d, e, a, b, 78);
     R4(b, c, d, e, a, 79);
-    /* добавь the working vars back into context.state[] */
+    /* Add the working vars back into context.state[] */
     state[0] += a;
     state[1] += b;
     state[2] += c;
@@ -160,9 +160,9 @@ void SHA1Transform(uint32_t state[5], const unsigned char буфер[64])
     memset8(block, '\0', sizeof(block));
 }
 
-/* SHA1Иниt - инициализуй new context */
+/* SHA1Init - Initialize new context */
 
-void SHA1Иниt(РНЦП_SHA1_CTX *context)
+void SHA1Init(UPP_SHA1_CTX *context)
 {
     /* SHA1 initialization constants */
     context->state[0] = 0x67452301;
@@ -174,9 +174,9 @@ void SHA1Иниt(РНЦП_SHA1_CTX *context)
 }
 
 
-/* выполни your данные through this. */
+/* Run your data through this. */
 
-void SHA1Update(РНЦП_SHA1_CTX *context, const unsigned char *данные, uint32_t len)
+void SHA1Update(UPP_SHA1_CTX *context, const unsigned char *data, uint32_t len)
 {
     uint32_t i, j;
     j = context->count[0];
@@ -186,21 +186,21 @@ void SHA1Update(РНЦП_SHA1_CTX *context, const unsigned char *данные, u
     j = (j >> 3) & 63;
     if ((j + len) > 63)
     {
-        memcpy(&context->буфер[j], данные, (i = 64 - j));
-        SHA1Transform(context->state, context->буфер);
+        memcpy(&context->buffer[j], data, (i = 64 - j));
+        SHA1Transform(context->state, context->buffer);
         for (; i + 63 < len; i += 64)
         {
-            SHA1Transform(context->state, &данные[i]);
+            SHA1Transform(context->state, &data[i]);
         }
         j = 0;
     }
     else
         i = 0;
-    memcpy(&context->буфер[j], &данные[i], len - i);
+    memcpy(&context->buffer[j], &data[i], len - i);
 }
 
 
-void SHA1Final(byte *digest, РНЦП_SHA1_CTX *context)
+void SHA1Final(byte *digest, UPP_SHA1_CTX *context)
 {
     unsigned int  i;
     unsigned char finalcount[8];
@@ -225,39 +225,39 @@ void SHA1Final(byte *digest, РНЦП_SHA1_CTX *context)
     memset(&finalcount, '\0', sizeof(finalcount));
 }
 
-void Sha1Stream::выведи(const void *данные, dword length)
+void Sha1Stream::Out(const void *data, dword length)
 {
-	SHA1Update(ctx, (unsigned char *)данные, length);
+	SHA1Update(ctx, (unsigned char *)data, length);
 }
 
-void Sha1Stream::финиш(byte *hash20)
+void Sha1Stream::Finish(byte *hash20)
 {
-	слей();
+	Flush();
 	SHA1Final(hash20, ctx);
 	Cleanup();
 }
 
-Ткст Sha1Stream::FinishString()
+String Sha1Stream::FinishString()
 {
 	byte hash[20];
-	финиш(hash);
-	return гексТкст(hash, 20);
+	Finish(hash);
+	return HexString(hash, 20);
 }
 
-Ткст Sha1Stream::FinishStringS()
+String Sha1Stream::FinishStringS()
 {
 	byte hash[20];
-	финиш(hash);
-	return гексТкст(hash, 20, 4);
+	Finish(hash);
+	return HexString(hash, 20, 4);
 }
 
-void Sha1Stream::переустанов() {
-	SHA1Иниt(ctx);
+void Sha1Stream::Reset() {
+	SHA1Init(ctx);
 }
 
 Sha1Stream::Sha1Stream()
 {
-	переустанов();
+	Reset();
 }
 
 Sha1Stream::~Sha1Stream()
@@ -265,40 +265,40 @@ Sha1Stream::~Sha1Stream()
 	Cleanup();
 }
 
-void SHA1(byte *hash20, const void *данные, dword size)
+void SHA1(byte *hash20, const void *data, dword size)
 {
 	Sha1Stream sha1;
-	sha1.помести(данные, size);
-	sha1.финиш(hash20);
+	sha1.Put(data, size);
+	sha1.Finish(hash20);
 }
 
-void SHA1(byte *hash20, const Ткст& s)
+void SHA1(byte *hash20, const String& s)
 {
-	return SHA1(hash20, s, s.дайДлину());
+	return SHA1(hash20, s, s.GetLength());
 }
 
-Ткст SHA1String(const void *данные, dword size)
+String SHA1String(const void *data, dword size)
 {
 	Sha1Stream sha1;
-	sha1.помести(данные, size);
+	sha1.Put(data, size);
 	return sha1.FinishString();
 }
 
-Ткст SHA1String(const Ткст& данные)
+String SHA1String(const String& data)
 {
-	return SHA1String(~данные, данные.дайДлину());
+	return SHA1String(~data, data.GetLength());
 }
 
-Ткст  SHA1StringS(const void *данные, dword size)
+String  SHA1StringS(const void *data, dword size)
 {
 	Sha1Stream sha1;
-	sha1.помести(данные, size);
+	sha1.Put(data, size);
 	return sha1.FinishStringS();
 }
 
-Ткст  SHA1StringS(const Ткст& данные)
+String  SHA1StringS(const String& data)
 {
-	return SHA1StringS(~данные, данные.дайДлину());
+	return SHA1StringS(~data, data.GetLength());
 }
 
 }

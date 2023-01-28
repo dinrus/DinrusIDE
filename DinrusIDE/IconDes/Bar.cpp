@@ -1,9 +1,9 @@
 #include "IconDes.h"
 
-namespace РНЦП {
+namespace Upp {
 
 #define KEYNAMESPACE IconDesKeys
-#define KEYGROUPNAME "Иконка designer"
+#define KEYGROUPNAME "Icon designer"
 #define KEYFILE      <IconDes/IconDes.key>
 #include             <CtrlLib/key_source.h>
 
@@ -13,16 +13,16 @@ void IconDes::SetPen(int _pen)
 	SetBar();
 }
 
-bool IconDes::Ключ(dword ключ, int count)
+bool IconDes::Key(dword key, int count)
 {
-	switch(ключ) {
+	switch(key) {
 	case K_SHIFT_LEFT:  KeyMove(-1, 0); return true;
 	case K_SHIFT_RIGHT: KeyMove(1, 0); return true;
 	case K_SHIFT_UP:    KeyMove(0, -1); return true;
 	case K_SHIFT_DOWN:  KeyMove(0, 1); return true;
 	case K_PAGEUP:      ChangeSlot(-1); return true;
 	case K_PAGEDOWN:    ChangeSlot(1); return true;
-	case K_CTRL_F:      search.устФокус(); return true;
+	case K_CTRL_F:      search.SetFocus(); return true;
 	}
 	return false;
 }
@@ -34,9 +34,9 @@ void IconDes::SetMagnify(int mag)
 
 	magnify = minmax(mag, 1, 27);
 
-	sb = Точка(0, 0);
+	sb = Point(0, 0);
 	SetSb();
-	освежи();
+	Refresh();
 
 	SetBar();
 }
@@ -56,7 +56,7 @@ void IconDes::DoPaste()
 {
 	if(!IsCurrent())
 		return;
-	Рисунок m = ReadClipboardImage();
+	Image m = ReadClipboardImage();
 	if(m)
 		Paste(m);
 }
@@ -65,7 +65,7 @@ void IconDes::DoCopy()
 {
 	if(!IsCurrent())
 		return;
-	WriteClipboardImage(IsPasting() ? Current().paste_image : копируй(SelectionRect()));
+	WriteClipboardImage(IsPasting() ? Current().paste_image : Copy(SelectionRect()));
 }
 
 void IconDes::DoCut()
@@ -74,146 +74,146 @@ void IconDes::DoCut()
 		return;
 	DoCopy();
 	if(IsPasting()) {
-		Current().paste_image.очисть();
+		Current().paste_image.Clear();
 		MakePaste();
 	}
 	else
 		Delete();
 }
 
-void IconDes::ToolEx(Бар& bar) {}
+void IconDes::ToolEx(Bar& bar) {}
 
-void IconDes::EditBar(Бар& bar)
+void IconDes::EditBar(Bar& bar)
 {
-	Слот *c = IsCurrent() ? &Current() : NULL;
-	bar.добавь(c, "вырежь", CtrlImg::cut(), THISBACK(DoCut)).Ключ(K_DELETE).Ключ(K_CTRL_X);
-	bar.добавь(c, "копируй", CtrlImg::copy(), THISBACK(DoCopy)).Ключ(K_CTRL_C);
-	bar.добавь(c, "Paste", CtrlImg::paste(), THISBACK(DoPaste)).Ключ(K_CTRL_V);
+	Slot *c = IsCurrent() ? &Current() : NULL;
+	bar.Add(c, "Cut", CtrlImg::cut(), THISBACK(DoCut)).Key(K_DELETE).Key(K_CTRL_X);
+	bar.Add(c, "Copy", CtrlImg::copy(), THISBACK(DoCopy)).Key(K_CTRL_C);
+	bar.Add(c, "Paste", CtrlImg::paste(), THISBACK(DoPaste)).Key(K_CTRL_V);
 	bar.Separator();
-	bar.добавь(c && c->undo.дайСчёт(), "Undo", CtrlImg::undo(), THISBACK(Undo))
-	   .Ключ(K_CTRL_Z)
-	   .повтори();
-	bar.добавь(c && c->redo.дайСчёт(), "Redo", CtrlImg::redo(), THISBACK(Redo))
-	   .Ключ(K_SHIFT_CTRL_Z)
-	   .повтори();
+	bar.Add(c && c->undo.GetCount(), "Undo", CtrlImg::undo(), THISBACK(Undo))
+	   .Key(K_CTRL_Z)
+	   .Repeat();
+	bar.Add(c && c->redo.GetCount(), "Redo", CtrlImg::redo(), THISBACK(Redo))
+	   .Key(K_SHIFT_CTRL_Z)
+	   .Repeat();
 }
 
-void IconDes::SettingBar(Бар& bar)
+void IconDes::SettingBar(Bar& bar)
 {
 	using namespace IconDesKeys;
-	Слот *c = IsCurrent() ? &Current() : NULL;
-	bar.добавь(c, AK_ZOOM_IN, IconDesImg::ZoomMinus(), THISBACK(ZoomOut))
-		.вкл(magnify > 1);
-	bar.добавь(c, AK_ZOOM_OUT,  IconDesImg::ZoomPlus(), THISBACK(ZoomIn))
-		.вкл(magnify < 27);
-	bar.добавь(AK_PASTE_MODE, IconDesImg::PasteOpaque(),
+	Slot *c = IsCurrent() ? &Current() : NULL;
+	bar.Add(c, AK_ZOOM_IN, IconDesImg::ZoomMinus(), THISBACK(ZoomOut))
+		.Enable(magnify > 1);
+	bar.Add(c, AK_ZOOM_OUT,  IconDesImg::ZoomPlus(), THISBACK(ZoomIn))
+		.Enable(magnify < 27);
+	bar.Add(AK_PASTE_MODE, IconDesImg::PasteOpaque(),
 	        [=] { paste_mode = paste_mode == PASTE_OPAQUE ? PASTE_TRANSPARENT : PASTE_OPAQUE; MakePaste(); SetBar(); })
 	   .Check(paste_mode == PASTE_OPAQUE);
-	bar.добавь(AK_PASTE_BACK, IconDesImg::PasteBack(),
+	bar.Add(AK_PASTE_BACK, IconDesImg::PasteBack(),
 	        [=] { paste_mode = paste_mode == PASTE_BACK ? PASTE_TRANSPARENT : PASTE_BACK; MakePaste(); SetBar(); })
 	   .Check(paste_mode == PASTE_BACK);
 }
 
-void IconDes::SelectBar(Бар& bar)
+void IconDes::SelectBar(Bar& bar)
 {
 	using namespace IconDesKeys;
-	Слот *c = IsCurrent() ? &Current() : NULL;
-	bar.добавь(c, AK_SELECT, IconDesImg::Select(), THISBACK(выдели))
+	Slot *c = IsCurrent() ? &Current() : NULL;
+	bar.Add(c, AK_SELECT, IconDesImg::Select(), THISBACK(Select))
 	   .Check(doselection);
-	bar.добавь(c, AK_INVERT_SEL, IconDesImg::InvertSelect(), THISBACK(InvertSelect));
-	bar.добавь(c, AK_CANCEL_SEL, IconDesImg::CancelSelect(), THISBACK(CancelSelect));
-	bar.добавь(c, AK_SELECT_MOVE, IconDesImg::SelectRect(), THISBACK(SelectRect))
+	bar.Add(c, AK_INVERT_SEL, IconDesImg::InvertSelect(), THISBACK(InvertSelect));
+	bar.Add(c, AK_CANCEL_SEL, IconDesImg::CancelSelect(), THISBACK(CancelSelect));
+	bar.Add(c, AK_SELECT_MOVE, IconDesImg::SelectRect(), THISBACK(SelectRect))
 	   .Check(selectrect);
-	bar.добавь(c, AK_MOVE, IconDesImg::Move(), THISBACK(Move))
+	bar.Add(c, AK_MOVE, IconDesImg::Move(), THISBACK(Move))
 	   .Check(IsPasting());
 }
 
-void IconDes::ImageBar(Бар& bar)
+void IconDes::ImageBar(Bar& bar)
 {
 	using namespace IconDesKeys;
-	Слот *c = IsCurrent() ? &Current() : NULL;
-	bar.добавь(c, AK_SETCOLOR, IconDesImg::SetColor(), THISBACK(устЦвет));
-	bar.добавь(c, AK_EMPTY, IconDesImg::Delete(), THISBACK(DoDelete));
-	bar.добавь(c, AK_INTERPOLATE, IconDesImg::Interpolate(), THISBACK(Interpolate));
-	bar.добавь(c, AK_HMIRROR, IconDesImg::MirrorX(), THISBACK(MirrorX));
-	bar.добавь(c, AK_VMIRROR, IconDesImg::MirrorY(), THISBACK(MirrorY));
-	bar.добавь(c, AK_HSYM, IconDesImg::SymmX(), THISBACK(SymmX));
-	bar.добавь(c, AK_VSYM, IconDesImg::SymmY(), THISBACK(SymmY));
-	bar.добавь(c, AK_ROTATE, IconDesImg::Rotate(), THISBACK(Rotate));
-	bar.добавь(c, AK_FREE_ROTATE, IconDesImg::FreeRotate(), THISBACK(FreeRotate));
-	bar.добавь(c, AK_RESCALE, IconDesImg::Rescale(), THISBACK(SmoothRescale));
-	bar.добавь(c, AK_BLUR, IconDesImg::BlurSharpen(), THISBACK(BlurSharpen));
-	bar.добавь(c, AK_COLORIZE, IconDesImg::Colorize(), THISBACK(Colorize));
-	bar.добавь(c, AK_CHROMA, IconDesImg::Chroma(), THISBACK(Chroma));
-	bar.добавь(c, AK_CONTRAST, IconDesImg::Contrast(), THISBACK(Contrast));
-	bar.добавь(c, AK_ALPHA, IconDesImg::AlphaI(), THISBACK(Alpha));
-	bar.добавь(c, AK_COLORS, IconDesImg::Colors(), THISBACK(Colors));
-	bar.добавь(c, AK_SMOOTHEN, IconDesImg::Smoothen(), THISBACK(Smoothen));
+	Slot *c = IsCurrent() ? &Current() : NULL;
+	bar.Add(c, AK_SETCOLOR, IconDesImg::SetColor(), THISBACK(SetColor));
+	bar.Add(c, AK_EMPTY, IconDesImg::Delete(), THISBACK(DoDelete));
+	bar.Add(c, AK_INTERPOLATE, IconDesImg::Interpolate(), THISBACK(Interpolate));
+	bar.Add(c, AK_HMIRROR, IconDesImg::MirrorX(), THISBACK(MirrorX));
+	bar.Add(c, AK_VMIRROR, IconDesImg::MirrorY(), THISBACK(MirrorY));
+	bar.Add(c, AK_HSYM, IconDesImg::SymmX(), THISBACK(SymmX));
+	bar.Add(c, AK_VSYM, IconDesImg::SymmY(), THISBACK(SymmY));
+	bar.Add(c, AK_ROTATE, IconDesImg::Rotate(), THISBACK(Rotate));
+	bar.Add(c, AK_FREE_ROTATE, IconDesImg::FreeRotate(), THISBACK(FreeRotate));
+	bar.Add(c, AK_RESCALE, IconDesImg::Rescale(), THISBACK(SmoothRescale));
+	bar.Add(c, AK_BLUR, IconDesImg::BlurSharpen(), THISBACK(BlurSharpen));
+	bar.Add(c, AK_COLORIZE, IconDesImg::Colorize(), THISBACK(Colorize));
+	bar.Add(c, AK_CHROMA, IconDesImg::Chroma(), THISBACK(Chroma));
+	bar.Add(c, AK_CONTRAST, IconDesImg::Contrast(), THISBACK(Contrast));
+	bar.Add(c, AK_ALPHA, IconDesImg::AlphaI(), THISBACK(Alpha));
+	bar.Add(c, AK_COLORS, IconDesImg::Colors(), THISBACK(Colors));
+	bar.Add(c, AK_SMOOTHEN, IconDesImg::Smoothen(), THISBACK(Smoothen));
 }
 
-void IconDes::DrawBar(Бар& bar)
+void IconDes::DrawBar(Bar& bar)
 {
 	using namespace IconDesKeys;
 	bool notpasting = !IsPasting();
-	bar.добавь(AK_FREEHAND, IconDesImg::FreeHand(), THISBACK1(SetTool, &IconDes::FreehandTool))
+	bar.Add(AK_FREEHAND, IconDesImg::FreeHand(), THISBACK1(SetTool, &IconDes::FreehandTool))
 	   .Check(tool == &IconDes::FreehandTool && notpasting);
-	bar.добавь(AK_LINES, IconDesImg::Lines(), THISBACK1(SetTool, &IconDes::LineTool))
+	bar.Add(AK_LINES, IconDesImg::Lines(), THISBACK1(SetTool, &IconDes::LineTool))
 	   .Check(tool == &IconDes::LineTool && notpasting);
-	bar.добавь(AK_ELLIPSES, IconDesImg::Circles(), THISBACK1(SetTool, &IconDes::EllipseTool))
+	bar.Add(AK_ELLIPSES, IconDesImg::Circles(), THISBACK1(SetTool, &IconDes::EllipseTool))
 	   .Check(tool == &IconDes::EllipseTool && notpasting);
-	bar.добавь(AK_EMPTY_ELLIPSES, IconDesImg::EmptyCircles(), THISBACK1(SetTool, &IconDes::EmptyEllipseTool))
+	bar.Add(AK_EMPTY_ELLIPSES, IconDesImg::EmptyCircles(), THISBACK1(SetTool, &IconDes::EmptyEllipseTool))
 	   .Check(tool == &IconDes::EmptyEllipseTool && notpasting);
-	bar.добавь(AK_RECTANGLES, IconDesImg::Rects(), THISBACK1(SetTool, &IconDes::RectTool))
+	bar.Add(AK_RECTANGLES, IconDesImg::Rects(), THISBACK1(SetTool, &IconDes::RectTool))
 	   .Check(tool == &IconDes::RectTool && notpasting);
-	bar.добавь(AK_EMPTY_RECTANGLES, IconDesImg::EmptyRects(), THISBACK1(SetTool, &IconDes::EmptyRectTool))
+	bar.Add(AK_EMPTY_RECTANGLES, IconDesImg::EmptyRects(), THISBACK1(SetTool, &IconDes::EmptyRectTool))
 	   .Check(tool == &IconDes::EmptyRectTool && notpasting && !selectrect);
-	bar.добавь(AK_HOTSPOTS, IconDesImg::HotSpot(), THISBACK1(SetTool, &IconDes::HotSpotTool))
+	bar.Add(AK_HOTSPOTS, IconDesImg::HotSpot(), THISBACK1(SetTool, &IconDes::HotSpotTool))
 	   .Check(tool == &IconDes::HotSpotTool);
-	bar.добавь(AK_TEXT, IconDesImg::Text(), THISBACK(устТекст))
-	   .Check(textdlg.открыт());
-	bar.добавь("Fill", fill_cursor, [=] { SetTool(&IconDes::FillTool); })
+	bar.Add(AK_TEXT, IconDesImg::Text(), THISBACK(Text))
+	   .Check(textdlg.IsOpen());
+	bar.Add("Fill", fill_cursor, [=] { SetTool(&IconDes::FillTool); })
 	   .Check(tool == &IconDes::FillTool && notpasting)
-	   .Подсказка("Fill (Shift+Click)");
-	bar.добавь("Fill with small tolerance", fill_cursor2, [=] { SetTool(&IconDes::Fill2Tool); })
+	   .Tip("Fill (Shift+Click)");
+	bar.Add("Fill with small tolerance", fill_cursor2, [=] { SetTool(&IconDes::Fill2Tool); })
 	   .Check(tool == &IconDes::Fill2Tool && notpasting)
-	   .Подсказка("Fill with small tolerance (Ктрл+Click)");
-	bar.добавь("Fill with large tolerance", fill_cursor3, [=] { SetTool(&IconDes::Fill3Tool); })
+	   .Tip("Fill with small tolerance (Ctrl+Click)");
+	bar.Add("Fill with large tolerance", fill_cursor3, [=] { SetTool(&IconDes::Fill3Tool); })
 	   .Check(tool == &IconDes::Fill3Tool && notpasting)
-	   .Подсказка("Fill with large tolerance (Alt+Click)");
-	bar.добавь("Antifill", antifill_cursor, [=] { SetTool(&IconDes::AntiFillTool); })
+	   .Tip("Fill with large tolerance (Alt+Click)");
+	bar.Add("Antifill", antifill_cursor, [=] { SetTool(&IconDes::AntiFillTool); })
 	   .Check(tool == &IconDes::AntiFillTool && notpasting)
-	   .Подсказка("Antifill (Shift+Ктрл+Click)");
+	   .Tip("Antifill (Shift+Ctrl+Click)");
 	bar.Separator();
 	for(int i = 1; i <= 6; i++)
-		bar.добавь("Pen " + какТкст(i), IconDesImg::дай(IconDesImg::I_Pen1 + i - 1), THISBACK1(SetPen, i))
+		bar.Add("Pen " + AsString(i), IconDesImg::Get(IconDesImg::I_Pen1 + i - 1), THISBACK1(SetPen, i))
 		   .Check(pen == i)
-		   .Ключ(K_1 + i - 1);
+		   .Key(K_1 + i - 1);
 	bar.Separator();
-	Слот *c = IsCurrent() ? &Current() : NULL;
-	bar.добавь(c && c->image.дайДлину() < 256 * 256, "Smart Upscale 2x",
+	Slot *c = IsCurrent() ? &Current() : NULL;
+	bar.Add(c && c->image.GetLength() < 256 * 256, "Smart Upscale 2x",
 	        IconDesImg::Upscale(), THISBACK(Upscale))
-	   .Ключ(AK_RESIZEUP2);
-	bar.добавь(c && c->image.дайДлину() < 256 * 256, "Resize Up 2x",
+	   .Key(AK_RESIZEUP2);
+	bar.Add(c && c->image.GetLength() < 256 * 256, "Resize Up 2x",
 	        IconDesImg::ResizeUp2(), THISBACK(ResizeUp2))
-	   .Ключ(AK_RESIZEUP2);
-	bar.добавь(c, "Supersample 2x", IconDesImg::ResizeDown2(), THISBACK(ResizeDown2))
-	   .Ключ(AK_RESIZEDOWN2);
-	bar.добавь(c && c->image.дайДлину() < 256 * 256, "Resize Up 3x",
+	   .Key(AK_RESIZEUP2);
+	bar.Add(c, "Supersample 2x", IconDesImg::ResizeDown2(), THISBACK(ResizeDown2))
+	   .Key(AK_RESIZEDOWN2);
+	bar.Add(c && c->image.GetLength() < 256 * 256, "Resize Up 3x",
 	        IconDesImg::ResizeUp(), THISBACK(ResizeUp))
-       .Ключ(AK_RESIZEUP3);
-	bar.добавь(c, "Supersample 3x", IconDesImg::ResizeDown(), THISBACK(ResizeDown))
-	   .Ключ(AK_RESIZEDOWN3);
-	bar.добавь("покажи UHD/Dark syntetics", IconDesImg::ShowOther(),
+       .Key(AK_RESIZEUP3);
+	bar.Add(c, "Supersample 3x", IconDesImg::ResizeDown(), THISBACK(ResizeDown))
+	   .Key(AK_RESIZEDOWN3);
+	bar.Add("Show UHD/Dark syntetics", IconDesImg::ShowOther(),
 	        [=] { show_other = !show_other; show_small = false; SyncShow(); SetBar(); })
 	   .Check(show_other);
-	bar.добавь("покажи downscaled", IconDesImg::ShowSmall(),
+	bar.Add("Show downscaled", IconDesImg::ShowSmall(),
 	        [=] { show_small = !show_small; show_other = false; SyncShow(); SetBar(); })
 	   .Check(show_small);
 	bar.Separator();
-	bar.добавь(c, AK_SLICE, IconDesImg::Slice(), THISBACK(Slice));
+	bar.Add(c, AK_SLICE, IconDesImg::Slice(), THISBACK(Slice));
 }
 
-void IconDes::MainToolBar(Бар& bar)
+void IconDes::MainToolBar(Bar& bar)
 {
 	EditBar(bar);
 	bar.Separator();
@@ -221,7 +221,7 @@ void IconDes::MainToolBar(Бар& bar)
 	bar.Separator();
 	ImageBar(bar);
 	bar.Separator();
-	bar.добавь(status, INT_MAX, GetStdFontCy());
+	bar.Add(status, INT_MAX, GetStdFontCy());
 	bar.Break();
 	DrawBar(bar);
 	ToolEx(bar);
@@ -231,47 +231,47 @@ void IconDes::MainToolBar(Бар& bar)
 
 void IconDes::SetBar()
 {
-	toolbar.уст(THISBACK(MainToolBar));
+	toolbar.Set(THISBACK(MainToolBar));
 	SetSb();
 	SyncStatus();
 }
 
-struct CachedIconImage : public Дисплей {
-	virtual void рисуй(Draw& w, const Прям& r, const Значение& q,
-	                   Цвет ink, Цвет paper, dword style) const
+struct CachedIconImage : public Display {
+	virtual void Paint(Draw& w, const Rect& r, const Value& q,
+	                   Color ink, Color paper, dword style) const
 	{
 		w.DrawRect(r, paper);
-		Рисунок m = q;
-		if(пусто_ли(m))
+		Image m = q;
+		if(IsNull(m))
 			return;
-		Размер rsz = r.дайРазм();
-		Размер isz = m.дайРазм();
+		Size rsz = r.GetSize();
+		Size isz = m.GetSize();
 		if(isz.cx > 200 || isz.cy > 200)
 			m = IconDesImg::LargeImage();
 		else
 		if(2 * isz.cx <= rsz.cx && 2 * isz.cy <= rsz.cy) {
 			int n = min(rsz.cx / isz.cx, rsz.cy / isz.cy);
-			m = Magnify(m, n, n); // TODO: Cached!
+			m = Magnify(m, n, n); // СДЕЛАТЬ: Cached!
 		}
 		else
-		if(isz.cx > r.дайШирину() || isz.cy > r.дайВысоту())
-			m = CachedRescale(m, дайРазмСхождения(m.дайРазм(), r.дайРазм()));
-		Точка p = r.позЦентра(m.дайРазм());
+		if(isz.cx > r.GetWidth() || isz.cy > r.GetHeight())
+			m = CachedRescale(m, GetFitSize(m.GetSize(), r.GetSize()));
+		Point p = r.CenterPos(m.GetSize());
 		w.DrawImage(p.x, p.y, m);
 	}
-	virtual Размер дайСтдРазм(const Значение& q) const
+	virtual Size GetStdSize(const Value& q) const
 	{
-		Рисунок m = q;
-		if(пусто_ли(m))
-			return Размер(0, 0);
-		Размер isz = m.дайРазм();
-		return isz.cx < 200 && isz.cy < 200 ? isz : IconDesImg::LargeImage().дайРазм();
+		Image m = q;
+		if(IsNull(m))
+			return Size(0, 0);
+		Size isz = m.GetSize();
+		return isz.cx < 200 && isz.cy < 200 ? isz : IconDesImg::LargeImage().GetSize();
 	}
 };
 
-void IconDes::сериализуйНастройки(Поток& s)
+void IconDes::SerializeSettings(Stream& s)
 {
-	void (IconDes::*toollist[])(Точка p, dword flags) = {
+	void (IconDes::*toollist[])(Point p, dword flags) = {
 		&IconDes::LineTool,
 		&IconDes::FreehandTool,
 		&IconDes::EllipseTool,
@@ -295,7 +295,7 @@ void IconDes::сериализуйНастройки(Поток& s)
 	if(version >= 1)
 		s % pen;
 	SetSb();
-	освежи();
+	Refresh();
 	SetBar();
 	if(version >= 2)
 		s % ImgFile();
@@ -311,47 +311,47 @@ void IconDes::сериализуйНастройки(Поток& s)
 
 void IconDes::SyncStatus()
 {
-	Точка p = дайПоз(дайПозМыши() - GetScreenView().верхЛево());
-	Размер sz = IsCurrent() ? Current().image.дайРазм() : Размер(0, 0);
-	Ткст s;
-	if(Прям(sz).содержит(p))
+	Point p = GetPos(GetMousePos() - GetScreenView().TopLeft());
+	Size sz = IsCurrent() ? Current().image.GetSize() : Size(0, 0);
+	String s;
+	if(Rect(sz).Contains(p))
 		s << "(" << p.x << ", " << p.y << ") : (" << sz.cx - p.x - 1 << ", " << sz.cy - p.y - 1 << ")";
-	if(!пусто_ли(rect) && (doselection || IsPasting()))
-		MergeWith(s, ", ", какТкст(rect));
-	status.устНадпись(s);
+	if(!IsNull(rect) && (doselection || IsPasting()))
+		MergeWith(s, ", ", AsString(rect));
+	status.SetLabel(s);
 }
 
 IconDes::IconDes()
 {
-	sb.ПриПромоте = THISBACK(промотай);
+	sb.WhenScroll = THISBACK(Scroll);
 
 	paste_mode = PASTE_TRANSPARENT;
 	doselection = false;
 
 	tool = &IconDes::FreehandTool;
 	
-	добавьФрейм(leftpane);
-	добавьФрейм(toolbar);
-	добавьФрейм(bottompane);
-	добавьФрейм(sb);
-	добавьФрейм(ViewFrame());
+	AddFrame(leftpane);
+	AddFrame(toolbar);
+	AddFrame(bottompane);
+	AddFrame(sb);
+	AddFrame(ViewFrame());
 
-	leftpane.лево(rgbactrl, 256);
+	leftpane.Left(rgbactrl, 256);
 	rgbactrl.SubCtrl(&imgs);
 
 	rgbactrl <<= THISBACK(ColorChanged);
 
-	search.NullText("Поиск (Ктрл+F)");
-	search <<= THISBACK(ищи);
-	search.устФильтр(CharFilterToUpper);
+	search.NullText("Search (Ctrl+F)");
+	search <<= THISBACK(Search);
+	search.SetFilter(CharFilterToUpper);
 
 	int cy = EditString::GetStdHeight();
-	imgs.добавь(search.HSizePos().TopPos(0, cy));
-	imgs.добавь(ilist.HSizePos().VSizePos(cy, 0));
+	imgs.Add(search.HSizePos().TopPos(0, cy));
+	imgs.Add(ilist.HSizePos().VSizePos(cy, 0));
 
-	ilist.добавьКлюч();
-	ilist.добавьКолонку("", 4);
-	ilist.добавьКолонку("").устДисплей(Single<CachedIconImage>());
+	ilist.AddKey();
+	ilist.AddColumn("", 4);
+	ilist.AddColumn("").SetDisplay(Single<CachedIconImage>());
 	ilist.NoHeader().NoVertGrid();
 	ilist.SetLineCy(max(GetStdFontCy(), DPI(16)));
 	ilist.WhenBar = THISBACK(ListMenu);
@@ -359,13 +359,13 @@ IconDes::IconDes()
 	ilist.WhenLeftDouble = THISBACK(EditImage);
 	ilist.NoWantFocus();
 	
-	ilist.WhenDrag = THISBACK(тяни);
-	ilist.WhenDropInsert = THISBACK(вставьТиБ);
+	ilist.WhenDrag = THISBACK(Drag);
+	ilist.WhenDropInsert = THISBACK(DnDInsert);
 
-	search <<= THISBACK(ищи);
-	search.устФильтр(CharFilterToUpper);
+	search <<= THISBACK(Search);
+	search.SetFilter(CharFilterToUpper);
 
-	bottompane.низ(iconshow, 64);
+	bottompane.Bottom(iconshow, 64);
 	
 	SetBar();
 	ColorChanged();
@@ -376,7 +376,7 @@ IconDes::IconDes()
 	
 	single_mode = false;
 
-	status.устШирину(200);
+	status.Width(200);
 	status.NoTransparent();
 }
 

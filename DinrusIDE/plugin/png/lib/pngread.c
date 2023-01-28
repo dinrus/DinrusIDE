@@ -1,10 +1,10 @@
 
 /* pngread.c - read a PNG file
  *
- * последний changed in libpng 1.2.53 [February 26, 2015]
+ * Last changed in libpng 1.2.53 [February 26, 2015]
  * Copyright (c) 1998-2002,2004,2006-2015 Glenn Randers-Pehrson
  * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
- * (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Группа 42, Inc.)
+ * (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
  *
  * This code is released under the libpng license.
  * For conditions of distribution and use, see the disclaimer
@@ -19,7 +19,7 @@
 #include "png.h"
 #ifdef PNG_READ_SUPPORTED
 
-/* создай a PNG structure for reading, and allocate any memory needed. */
+/* Create a PNG structure for reading, and allocate any memory needed. */
 png_structp PNGAPI
 png_create_read_struct(png_const_charp user_png_ver, png_voidp error_ptr,
    png_error_ptr error_fn, png_error_ptr warn_fn)
@@ -152,7 +152,7 @@ png_create_read_struct_2(png_const_charp user_png_ver, png_voidp error_ptr,
       }
    }
 
-   /* Initialize zbuf - compression буфер */
+   /* Initialize zbuf - compression buffer */
    png_ptr->zbuf_size = PNG_ZBUF_SIZE;
    png_ptr->zbuf = (png_bytep)png_malloc(png_ptr,
      (png_uint_32)png_ptr->zbuf_size);
@@ -164,11 +164,11 @@ png_create_read_struct_2(png_const_charp user_png_ver, png_voidp error_ptr,
       {
          case Z_OK: /* Do nothing */ break;
          case Z_MEM_ERROR:
-         case Z_STREAM_ERROR: png_error(png_ptr, "zlib memory Ошибка");
+         case Z_STREAM_ERROR: png_error(png_ptr, "zlib memory error");
             break;
-         case Z_VERSION_ERROR: png_error(png_ptr, "zlib version Ошибка");
+         case Z_VERSION_ERROR: png_error(png_ptr, "zlib version error");
             break;
-         default: png_error(png_ptr, "Unknown zlib Ошибка");
+         default: png_error(png_ptr, "Unknown zlib error");
       }
 
 
@@ -262,7 +262,7 @@ png_read_init_3(png_structpp ptr_ptr, png_const_charp user_png_ver,
    png_size_t png_struct_size)
 {
 #ifdef PNG_SETJMP_SUPPORTED
-   jmp_buf tmp_jmp;  /* to save current jump буфер */
+   jmp_buf tmp_jmp;  /* to save current jump buffer */
 #endif
 
    int i = 0;
@@ -291,7 +291,7 @@ png_read_init_3(png_structpp ptr_ptr, png_const_charp user_png_ver,
    png_debug(1, "in png_read_init_3");
 
 #ifdef PNG_SETJMP_SUPPORTED
-   /* сохрани jump буфер and Ошибка functions */
+   /* Save jump buffer and error functions */
    png_memcpy(tmp_jmp, png_ptr->jmpbuf, png_sizeof(jmp_buf));
 #endif
 
@@ -302,11 +302,11 @@ png_read_init_3(png_structpp ptr_ptr, png_const_charp user_png_ver,
       png_ptr = *ptr_ptr;
    }
 
-   /* переустанов all variables to 0 */
+   /* Reset all variables to 0 */
    png_memset(png_ptr, 0, png_sizeof(png_struct));
 
 #ifdef PNG_SETJMP_SUPPORTED
-   /* Restore jump буфер */
+   /* Restore jump buffer */
    png_memcpy(png_ptr->jmpbuf, tmp_jmp, png_sizeof(jmp_buf));
 #endif
 
@@ -316,7 +316,7 @@ png_read_init_3(png_structpp ptr_ptr, png_const_charp user_png_ver,
    png_ptr->user_height_max = PNG_USER_HEIGHT_MAX;
 #endif
 
-   /* Initialize zbuf - compression буфер */
+   /* Initialize zbuf - compression buffer */
    png_ptr->zbuf_size = PNG_ZBUF_SIZE;
    png_ptr->zstream.zalloc = png_zalloc;
    png_ptr->zbuf = (png_bytep)png_malloc(png_ptr,
@@ -328,10 +328,10 @@ png_read_init_3(png_structpp ptr_ptr, png_const_charp user_png_ver,
    switch (inflateInit(&png_ptr->zstream))
    {
       case Z_OK: /* Do nothing */ break;
-      case Z_STREAM_ERROR: png_error(png_ptr, "zlib memory Ошибка"); break;
-      case Z_VERSION_ERROR: png_error(png_ptr, "zlib version Ошибка");
+      case Z_STREAM_ERROR: png_error(png_ptr, "zlib memory error"); break;
+      case Z_VERSION_ERROR: png_error(png_ptr, "zlib version error");
           break;
-      default: png_error(png_ptr, "Unknown zlib Ошибка");
+      default: png_error(png_ptr, "Unknown zlib error");
    }
 
    png_ptr->zstream.next_out = png_ptr->zbuf;
@@ -341,7 +341,7 @@ png_read_init_3(png_structpp ptr_ptr, png_const_charp user_png_ver,
 }
 
 #ifdef PNG_SEQUENTIAL_READ_SUPPORTED
-/* читай the information before the actual image data.  This has been
+/* Read the information before the actual image data.  This has been
  * changed in v0.90 to allow reading a file that already has the magic
  * bytes read from the stream.  You can tell libpng how many bytes have
  * been read from the beginning of the stream (up to the maximum of 8)
@@ -441,7 +441,7 @@ png_read_info(png_structp png_ptr, png_infop info_ptr)
       PNG_CONST png_bytep chunk_name = png_ptr->chunk_name;
 
       /* This should be a binary subdivision search or a hash for
-       * matching the chunk имя rather than a linear search.
+       * matching the chunk name rather than a linear search.
        */
       if (!png_memcmp(chunk_name, png_IDAT, 4))
         if (png_ptr->mode & PNG_AFTER_IDAT)
@@ -570,7 +570,7 @@ png_read_update_info(png_structp png_ptr, png_infop info_ptr)
       png_read_start_row(png_ptr);
    else
       png_warning(png_ptr,
-      "Ignoring extra png_read_update_info() call; row буфер not reallocated");
+      "Ignoring extra png_read_update_info() call; row buffer not reallocated");
 
    png_read_transform_info(png_ptr, info_ptr);
 }
@@ -725,7 +725,7 @@ png_read_row(png_structp png_ptr, png_bytep row, png_bytep dsp_row)
 #endif
 
    if (!(png_ptr->mode & PNG_HAVE_IDAT))
-      png_error(png_ptr, "Invalid attempt to read row data");
+      png_error(png_ptr, "Неверное attempt to read row data");
 
    png_ptr->zstream.next_out = png_ptr->row_buf;
    png_ptr->zstream.avail_out =
@@ -763,7 +763,7 @@ png_read_row(png_structp png_ptr, png_bytep row, png_bytep dsp_row)
       }
       if (ret != Z_OK)
          png_error(png_ptr, png_ptr->zstream.msg ? png_ptr->zstream.msg :
-                   "Decompression Ошибка");
+                   "Decompression error");
 
    } while (png_ptr->zstream.avail_out);
 
@@ -831,7 +831,7 @@ png_read_row(png_structp png_ptr, png_bytep row, png_bytep dsp_row)
 #endif /* PNG_SEQUENTIAL_READ_SUPPORTED */
 
 #ifdef PNG_SEQUENTIAL_READ_SUPPORTED
-/* читай one or more rows of image data.  If the image is interlaced,
+/* Read one or more rows of image data.  If the image is interlaced,
  * and png_set_interlace_handling() has been called, the rows need to
  * contain the contents of the rows from the previous pass.  If the
  * image has alpha or transparency, and png_handle_alpha()[*] has been
@@ -840,16 +840,16 @@ png_read_row(png_structp png_ptr, png_bytep row, png_bytep dsp_row)
  *
  * "row" holds the actual image, and pixels are placed in it
  * as they arrive.  If the image is displayed after each pass, it will
- * appear to "sparkle" in.  "display_row" can be used to дисплей a
+ * appear to "sparkle" in.  "display_row" can be used to display a
  * "chunky" progressive image, with finer detail added as it becomes
- * available.  If you do not want this "chunky" дисплей, you may pass
- * NULL for display_row.  If you do not want the sparkle дисплей, and
+ * available.  If you do not want this "chunky" display, you may pass
+ * NULL for display_row.  If you do not want the sparkle display, and
  * you have not called png_handle_alpha(), you may pass NULL for rows.
  * If you have called png_handle_alpha(), and the image has either an
- * alpha channel or a transparency chunk, you must provide a буфер for
- * rows.  In this case, you do not have to provide a display_row буфер
+ * alpha channel or a transparency chunk, you must provide a buffer for
+ * rows.  In this case, you do not have to provide a display_row buffer
  * also, but you may.  If the image is not interlaced, or if you have
- * not called png_set_interlace_handling(), the display_row буфер will
+ * not called png_set_interlace_handling(), the display_row buffer will
  * be ignored, so pass NULL to it.
  *
  * [*] png_handle_alpha() does not exist yet, as of this version of libpng
@@ -895,7 +895,7 @@ png_read_rows(png_structp png_ptr, png_bytepp row,
 #endif /* PNG_SEQUENTIAL_READ_SUPPORTED */
 
 #ifdef PNG_SEQUENTIAL_READ_SUPPORTED
-/* читай the entire image.  If the image has an alpha channel or a tRNS
+/* Read the entire image.  If the image has an alpha channel or a tRNS
  * chunk, and you have called png_handle_alpha()[*], you will need to
  * initialize the image to the current image that PNG will be overlaying.
  * We set the num_rows again here, in case it was incorrectly set in
@@ -930,7 +930,7 @@ png_read_image(png_structp png_ptr, png_bytepp image)
 
 
    image_height=png_ptr->height;
-   png_ptr->num_rows = image_height; /* сделай sure this is set correctly */
+   png_ptr->num_rows = image_height; /* Make sure this is set correctly */
 
    for (j = 0; j < pass; j++)
    {
@@ -945,7 +945,7 @@ png_read_image(png_structp png_ptr, png_bytepp image)
 #endif /* PNG_SEQUENTIAL_READ_SUPPORTED */
 
 #ifdef PNG_SEQUENTIAL_READ_SUPPORTED
-/* читай the end of the PNG file.  Will not read past the end of the
+/* Read the end of the PNG file.  Will not read past the end of the
  * file, will verify the end is accurate, and will read any comments
  * or time information at the end of the file, if info is not NULL.
  */
@@ -956,7 +956,7 @@ png_read_end(png_structp png_ptr, png_infop info_ptr)
  
    if (png_ptr == NULL)
       return;
-   png_crc_finish(png_ptr, 0); /* финиш off CRC from last IDAT chunk */
+   png_crc_finish(png_ptr, 0); /* Finish off CRC from last IDAT chunk */
 
    do
    {
@@ -1039,7 +1039,7 @@ png_read_end(png_structp png_ptr, png_infop info_ptr)
 #endif
       else if (!png_memcmp(chunk_name, png_IDAT, 4))
       {
-         /* обнули length IDATs are legal after the last IDAT has been
+         /* Zero length IDATs are legal after the last IDAT has been
           * read, but not after other chunks have been read.
           */
          if ((length > 0) || (png_ptr->mode & PNG_HAVE_CHUNK_AFTER_IDAT))
@@ -1122,7 +1122,7 @@ png_read_end(png_structp png_ptr, png_infop info_ptr)
 }
 #endif /* PNG_SEQUENTIAL_READ_SUPPORTED */
 
-/* освободи all memory used by the read */
+/* Free all memory used by the read */
 void PNGAPI
 png_destroy_read_struct(png_structpp png_ptr_ptr, png_infopp info_ptr_ptr,
    png_infopp end_info_ptr_ptr)
@@ -1195,7 +1195,7 @@ png_destroy_read_struct(png_structpp png_ptr_ptr, png_infopp info_ptr_ptr,
    }
 }
 
-/* освободи all memory used by the read (old method) */
+/* Free all memory used by the read (old method) */
 void /* PRIVATE */
 png_read_destroy(png_structp png_ptr, png_infop info_ptr,
     png_infop end_info_ptr)
@@ -1308,7 +1308,7 @@ png_read_destroy(png_structp png_ptr, png_infop info_ptr,
    png_free(png_ptr, png_ptr->save_buffer);
 #endif
 
-   /* сохрани the important info out of the png_struct, in case it is
+   /* Save the important info out of the png_struct, in case it is
     * being used again.
     */
 #ifdef PNG_SETJMP_SUPPORTED
@@ -1369,7 +1369,7 @@ png_read_png(png_structp png_ptr, png_infop info_ptr,
     */
    png_read_info(png_ptr, info_ptr);
    if (info_ptr->height > PNG_UINT_32_MAX/png_sizeof(png_bytep))
-      png_error(png_ptr, "Рисунок is too high to process with png_read_png()");
+      png_error(png_ptr, "Image is too high to process with png_read_png()");
 
    /* -------------- image transformations start here ------------------- */
 
@@ -1389,7 +1389,7 @@ png_read_png(png_structp png_ptr, png_infop info_ptr,
 #endif
 
 #if defined(PNG_READ_PACK_SUPPORTED) && !defined(PNG_READ_EXPAND_SUPPORTED)
-   /* извлеки multiple pixels with bit depths of 1, 2, or 4 from a single
+   /* Extract multiple pixels with bit depths of 1, 2, or 4 from a single
     * byte into separate bytes (useful for paletted and grayscale images).
     */
    if (transforms & PNG_TRANSFORM_PACKING)
@@ -1405,10 +1405,10 @@ png_read_png(png_structp png_ptr, png_infop info_ptr,
 #endif
 
 #ifdef PNG_READ_EXPAND_SUPPORTED
-   /* Expand paletted colors into true дайКЗС triplets
+   /* Expand paletted colors into true RGB triplets
     * Expand grayscale images to full 8 bits from 1, 2, or 4 bits/pixel
-    * Expand paletted or дайКЗС images with transparency to full alpha
-    * channels so the data will be available as КЗСА quartets.
+    * Expand paletted or RGB images with transparency to full alpha
+    * channels so the data will be available as RGBA quartets.
     */
    if (transforms & PNG_TRANSFORM_EXPAND)
       if ((png_ptr->bit_depth < 8) ||
@@ -1437,21 +1437,21 @@ png_read_png(png_structp png_ptr, png_infop info_ptr,
 #endif
 
 #ifdef PNG_READ_BGR_SUPPORTED
-   /* Flip the дайКЗС pixels to BGR (or КЗСА to BGRA)
+   /* Flip the RGB pixels to BGR (or RGBA to BGRA)
     */
    if (transforms & PNG_TRANSFORM_BGR)
       png_set_bgr(png_ptr);
 #endif
 
 #ifdef PNG_READ_SWAP_ALPHA_SUPPORTED
-   /* разверни the КЗСА or GA data to ARGB or AG (or BGRA to ABGR)
+   /* Swap the RGBA or GA data to ARGB or AG (or BGRA to ABGR)
     */
    if (transforms & PNG_TRANSFORM_SWAP_ALPHA)
        png_set_swap_alpha(png_ptr);
 #endif
 
 #ifdef PNG_READ_SWAP_SUPPORTED
-   /* разверни bytes of 16 bit files to least significant byte first
+   /* Swap bytes of 16 bit files to least significant byte first
     */
    if (transforms & PNG_TRANSFORM_SWAP_ENDIAN)
       png_set_swap(png_ptr);
@@ -1467,7 +1467,7 @@ png_read_png(png_structp png_ptr, png_infop info_ptr,
 
 /* Added at libpng-1.2.41 */
 #ifdef PNG_READ_GRAY_TO_RGB_SUPPORTED
-   /* Expand grayscale image to дайКЗС
+   /* Expand grayscale image to RGB
     */
    if (transforms & PNG_TRANSFORM_GRAY_TO_RGB)
        png_set_gray_to_rgb(png_ptr);
@@ -1505,7 +1505,7 @@ png_read_png(png_structp png_ptr, png_infop info_ptr,
    png_read_image(png_ptr, info_ptr->row_pointers);
    info_ptr->valid |= PNG_INFO_IDAT;
 
-   /* читай rest of file, and get additional chunks in info_ptr - REQUIRED */
+   /* Read rest of file, and get additional chunks in info_ptr - REQUIRED */
    png_read_end(png_ptr, info_ptr);
 
    PNG_UNUSED(transforms) /* Quiet compiler warnings */

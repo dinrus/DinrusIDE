@@ -4,11 +4,11 @@
 
 #include <X11/Xlocale.h>
 
-namespace РНЦП {
+namespace Upp {
 
-#ifdef _ОТЛАДКА
+#ifdef _DEBUG
 
-bool Ктрл::LogMessages
+bool Ctrl::LogMessages
 
 // = true _DBG_
 ;
@@ -22,40 +22,40 @@ bool __X11_Grabbing = false;
 
 // #define SYNCHRONIZE
 
-#define x_Событие(x) { x, #x },
+#define x_Event(x) { x, #x },
 
 static
-struct XСобытиеMap {
-	int         ИД;
-	const char *имя;
+struct XEventMap {
+	int         ID;
+	const char *name;
 }
 sXevent[] = {
-#include "X11Событие.i"
+#include "X11Event.i"
 	{ 0, NULL }
 };
 
-МассивМап<Window, Ктрл::XWindow>& Ктрл::Xwindow()
+ArrayMap<Window, Ctrl::XWindow>& Ctrl::Xwindow()
 {
-	return Single< МассивМап<Window, XWindow> >();
+	return Single< ArrayMap<Window, XWindow> >();
 }
 
-int       Ктрл::WndCaretTime;
-bool      Ктрл::WndCaretVisible;
-int       Ктрл::Xbuttons;
-Window    Ктрл::grabWindow, Ктрл::focusWindow;
-int       Ктрл::Xeventtime;
+int       Ctrl::WndCaretTime;
+bool      Ctrl::WndCaretVisible;
+int       Ctrl::Xbuttons;
+Window    Ctrl::grabWindow, Ctrl::focusWindow;
+int       Ctrl::Xeventtime;
 
-int       Ктрл::PopupGrab;
-Ук<Ктрл> Ктрл::popupWnd;
+int       Ctrl::PopupGrab;
+Ptr<Ctrl> Ctrl::popupWnd;
 
-Точка     Ктрл::mousePos;
+Point     Ctrl::mousePos;
 
 static int s_starttime;
 
-void Ктрл::DoPaint(const Вектор<Прям>& invalid)
+void Ctrl::DoPaint(const Vector<Rect>& invalid)
 {
-	ЗамкниГип __;
-	if(видим_ли()) {
+	GuiLock __;
+	if(IsVisible()) {
 		LTIMING("DoPaint");
 		fullrefresh = false;
 //		if(GLX) return;
@@ -71,119 +71,119 @@ void Ктрл::DoPaint(const Вектор<Прям>& invalid)
 	}
 }
 
-void  Ктрл::WndScrollView(const Прям& r, int dx, int dy)
+void  Ctrl::WndScrollView(const Rect& r, int dx, int dy)
 {
-	ЗамкниГип __;
-	if(r.пустой() || !GetWindow()) return;
-	int cx = r.устШирину() - абс(dx);
-	int cy = r.устВысоту() - абс(dy);
+	GuiLock __;
+	if(r.IsEmpty() || !GetWindow()) return;
+	int cx = r.Width() - abs(dx);
+	int cy = r.Height() - abs(dy);
 	GC gc = XCreateGC(Xdisplay, GetWindow(), 0, 0);
 	XCopyArea(Xdisplay, GetWindow(), GetWindow(), gc,
 	          r.left + max(-dx, 0), r.top + max(-dy, 0), cx, cy,
 	          r.left + max(dx, 0), r.top + max(dy, 0));
 	XFreeGC(Xdisplay, gc);
 	XWindow *xw = GetXWindow();
-	Вектор<Прям> ur;
+	Vector<Rect> ur;
 	if(xw)
-		for(int i = 0; i < xw->invalid.дайСчёт(); i++)
-			if(xw->invalid[i].пересекается(r))
-				ur.добавь(xw->invalid[i]);
-	for(int i = 0; i < ur.дайСчёт(); i++)
-		инивалидируй(*xw, ur[i].смещенец(dx, dy));
+		for(int i = 0; i < xw->invalid.GetCount(); i++)
+			if(xw->invalid[i].Intersects(r))
+				ur.Add(xw->invalid[i]);
+	for(int i = 0; i < ur.GetCount(); i++)
+		Invalidate(*xw, ur[i].Offseted(dx, dy));
 }
 
-bool Ктрл::ожидаетСобытие()
+bool Ctrl::IsWaitingEvent()
 {
-	ПРОВЕРЬ_(главнаяНить_ли(), "ожидаетСобытие can only run in the main thread");
-	ЗамкниГип __;
+	ASSERT_(IsMainThread(), "IsWaitingEvent can only run in the main thread");
+	GuiLock __;
 	return XPending(Xdisplay);
 }
 
-Ктрл *Ктрл::CtrlFromWindow(Window w)
+Ctrl *Ctrl::CtrlFromWindow(Window w)
 {
-	ЗамкниГип __;
-	int q = Xwindow().найди(w);
+	GuiLock __;
+	int q = Xwindow().Find(w);
 	return q >= 0 ? Xwindow()[q].ctrl : NULL;
 }
 
-Ктрл::XWindow *Ктрл::GetXWindow()
+Ctrl::XWindow *Ctrl::GetXWindow()
 {
-	ЗамкниГип __;
+	GuiLock __;
 	if(!top) return NULL;
-	int q = Xwindow().найди(top->window);
+	int q = Xwindow().Find(top->window);
 	return q >= 0 ? &Xwindow()[q] : NULL;
 }
 // 01/12/2007 - mdelfede
 // added support for windowed controls
 
 // Gets handle of window containing control
-Window Ктрл::GetParentWindow(void) const
+Window Ctrl::GetParentWindow(void) const
 {
-	ЗамкниГип __;
-	Ктрл const *q = GetParentWindowCtrl();
+	GuiLock __;
+	Ctrl const *q = GetParentWindowCtrl();
 	if(q)
 		return q->top->window;
 	else
 		return 0;
 
-} // END Ктрл::GetParentWindow()
+} // END Ctrl::GetParentWindow()
 
-// дай control with parentwindow as handle
-Ктрл *Ктрл::GetParentWindowCtrl(void) const
+// Get control with parentwindow as handle
+Ctrl *Ctrl::GetParentWindowCtrl(void) const
 {
-	ЗамкниГип __;
-	Ктрл *q = parent;
+	GuiLock __;
+	Ctrl *q = parent;
 	while(q && !q->top)
 		q = q->parent;
 	return q;
 
-} // END Ктрл::GetParentWindowCtrl()
+} // END Ctrl::GetParentWindowCtrl()
 
 // Gets the rect inside the parent window
-Прям Ктрл::GetRectInParentWindow(void) const
+Rect Ctrl::GetRectInParentWindow(void) const
 {
-	ЗамкниГип __;
-	Прям r = дайПрямЭкрана();
-	Ктрл *q = parent;
+	GuiLock __;
+	Rect r = GetScreenRect();
+	Ctrl *q = parent;
 	while(q && !q->top)
 		q = q->parent;
 	if(q)
 	{
-		Прям pr = q->дайПрямЭкрана();
-		r -= pr.верхЛево();
+		Rect pr = q->GetScreenRect();
+		r -= pr.TopLeft();
 	}
 	return r;
 }
 // 01/12/2007 - END
 
-bool Ктрл::HookProc(XСобытие *event) { return false; }
+bool Ctrl::HookProc(XEvent *event) { return false; }
 
-void DnDRequest(XSelectionRequestСобытие *se);
+void DnDRequest(XSelectionRequestEvent *se);
 void DnDClear();
 
-dword X11mods(dword ключ)
+dword X11mods(dword key)
 {
 	dword mod = 0;
-	if(ключ & K_ALT)
+	if(key & K_ALT)
 		mod |= Mod1Mask;
-	if(ключ & K_SHIFT)
+	if(key & K_SHIFT)
 		mod |= ShiftMask;
-	if(ключ & K_CTRL)
+	if(key & K_CTRL)
 		mod |= ControlMask;
 	return mod;
 }
 
-Вектор<Событие<> > Ктрл::hotkey;
-Вектор<dword> Ктрл::keyhot;
-Вектор<dword> Ктрл::modhot;
+Vector<Event<> > Ctrl::hotkey;
+Vector<dword> Ctrl::keyhot;
+Vector<dword> Ctrl::modhot;
 
-int Ктрл::RegisterSystemHotKey(dword ключ, Функция<void ()> cb)
+int Ctrl::RegisterSystemHotKey(dword key, Function<void ()> cb)
 {
-	ЗамкниГип __;
-	ПРОВЕРЬ(ключ >= K_DELTA);
+	GuiLock __;
+	ASSERT(key >= K_DELTA);
 	bool b = TrapX11Errors();
-	KeyCode k = XKeysymToKeycode(Xdisplay, ключ & 0xffff);
-	dword mod = X11mods(ключ);
+	KeyCode k = XKeysymToKeycode(Xdisplay, key & 0xffff);
+	dword mod = X11mods(key);
 	bool r = false;
 	for(dword nlock = 0; nlock < 2; nlock++)
 		for(dword clock = 0; clock < 2; clock++)
@@ -193,22 +193,22 @@ int Ктрл::RegisterSystemHotKey(dword ключ, Функция<void ()> cb)
 				             Xroot, true, GrabModeAsync, GrabModeAsync) || r;
 	UntrapX11Errors(b);
 	if(!r) return -1;
-	int q = hotkey.дайСчёт();
-	for(int i = 0; i < hotkey.дайСчёт(); i++)
+	int q = hotkey.GetCount();
+	for(int i = 0; i < hotkey.GetCount(); i++)
 		if(!hotkey[i]) {
 			q = i;
 			break;
 		}
-	hotkey.по(q) << cb;
-	keyhot.по(q) = k;
-	modhot.по(q) = mod;
+	hotkey.At(q) << cb;
+	keyhot.At(q) = k;
+	modhot.At(q) = mod;
 	return q;
 }
 
-void Ктрл::UnregisterSystemHotKey(int id)
+void Ctrl::UnregisterSystemHotKey(int id)
 {
-	ЗамкниГип __;
-	if(id >= 0 && id < hotkey.дайСчёт() && hotkey[id]) {
+	GuiLock __;
+	if(id >= 0 && id < hotkey.GetCount() && hotkey[id]) {
 		bool b = TrapX11Errors();
 		for(dword nlock = 0; nlock < 2; nlock++)
 			for(dword clock = 0; clock < 2; clock++)
@@ -217,40 +217,40 @@ void Ктрл::UnregisterSystemHotKey(int id)
 					           modhot[id] | (nlock * Mod2Mask) | (clock * LockMask) | (slock * Mod3Mask),
 					           Xroot);
 		UntrapX11Errors(b);
-		hotkey[id].очисть();
+		hotkey[id].Clear();
 	}
 }
 
-void Ктрл::обработайСобытие(XСобытие *event)
+void Ctrl::ProcessEvent(XEvent *event)
 {
-	ЗамкниГип __;
-	if(xim && XFilterСобытие(event, None))
+	GuiLock __;
+	if(xim && XFilterEvent(event, None))
 		return;
-	if(event->тип == KeyPress)
-		for(int i = 0; i < hotkey.дайСчёт(); i++)
+	if(event->type == KeyPress)
+		for(int i = 0; i < hotkey.GetCount(); i++)
 			if(hotkey[i] && keyhot[i] == event->xkey.keycode
 			   && modhot[i] == (event->xkey.state & (Mod1Mask|ShiftMask|ControlMask))) {
 				hotkey[i]();
 				return;
 			}
-	МассивМап<Window, Ктрл::XWindow>& xmap = Xwindow();
-	for(int i = 0; i < xmap.дайСчёт(); i++)
+	ArrayMap<Window, Ctrl::XWindow>& xmap = Xwindow();
+	for(int i = 0; i < xmap.GetCount(); i++)
 		if(xmap[i].ctrl && xmap[i].ctrl->HookProc(event))
 			return;
 	FocusSync();
-	if(event->тип == PropertyNotify &&
+	if(event->type == PropertyNotify &&
 	   (event->xproperty.atom == XAtom("_QT_SETTINGS_TIMESTAMP_") ||
 	    event->xproperty.atom == XAtom("_KDE_NET_USER_TIME"))) {
 		LLOG("Property notify " << XAtomName(event->xproperty.atom)
 		     << " " << (void *)event->xany.window);
-		for(int i = 0; i < Xwindow().дайСчёт(); i++) {
-			if(Xwindow().дайКлюч(i)) {
-				Ктрл *q = Xwindow()[i].ctrl;
-				if(q) q->освежи();
+		for(int i = 0; i < Xwindow().GetCount(); i++) {
+			if(Xwindow().GetKey(i)) {
+				Ctrl *q = Xwindow()[i].ctrl;
+				if(q) q->Refresh();
 			}
 		}
 	}
-	if(event->тип == SelectionRequest &&
+	if(event->type == SelectionRequest &&
 	   event->xselectionrequest.owner == xclipboard().win) {
 		if(event->xselectionrequest.selection == XAtom("XdndSelection"))
 			DnDRequest(&event->xselectionrequest);
@@ -258,109 +258,109 @@ void Ктрл::обработайСобытие(XСобытие *event)
 			xclipboard().Request(&event->xselectionrequest);
 		return;
 	}
-	if(event->тип == SelectionClear &&
+	if(event->type == SelectionClear &&
 	   event->xselectionclear.window == xclipboard().win) {
 		if(event->xselectionclear.selection == XAtom("PRIMARY")) {
-			sel_formats.очисть();
+			sel_formats.Clear();
 			sel_ctrl = NULL;
 		}
 		if(event->xselectionclear.selection == XAtom("CLIPBOARD"))
-			xclipboard().очисть();
+			xclipboard().Clear();
 		if(event->xselectionrequest.selection == XAtom("XdndSelection"))
 			DnDClear();
 		return;
 	}
-	int q = xmap.найди(event->xany.window);
-#ifdef _ОТЛАДКА
+	int q = xmap.Find(event->xany.window);
+#ifdef _DEBUG
 	bool eo = false;
-	if(LogMessages && event->тип != NoExpose && event->тип != PropertyNotify
-	               && event->тип != MotionNotify)
-		for(XСобытиеMap *m = sXevent; m->ИД; m++)
-			if(m->ИД == event->тип) {
+	if(LogMessages && event->type != NoExpose && event->type != PropertyNotify
+	               && event->type != MotionNotify)
+		for(XEventMap *m = sXevent; m->ID; m++)
+			if(m->ID == event->type) {
 				if(!s_starttime)
 					s_starttime = msecs();
 				int t = msecs() - s_starttime;
-				VppLog() << фмт("%d.%01d", t / 1000, t % 1000);
-				VppLog() << " EVENT " << фмт("%-20.20s", m->имя);
+				VppLog() << Format("%d.%01d", t / 1000, t % 1000);
+				VppLog() << " EVENT " << Format("%-20.20s", m->name);
 				VppLog() << "[window: " << event->xany.window << "] ";
 				if(q >= 0)
-					VppLog() << '<' << РНЦП::Имя(Xwindow()[q].ctrl) << '>';
+					VppLog() << '<' << UPP::Name(Xwindow()[q].ctrl) << '>';
 				else
 					VppLog() << "<unknown ctrl> ";
-				if(event->тип == ClientMessage)
+				if(event->type == ClientMessage)
 					VppLog() << ": " << XAtomName(event->xclient.message_type);
 				VppLog() << '\n';
 				eo = true;
 				break;
 			}
 #endif
-	DropStatusСобытие(event);
+	DropStatusEvent(event);
 	if(q < 0) {
-		if(event->тип == ButtonRelease && popupWnd)
-			popupWnd->устФокус();
+		if(event->type == ButtonRelease && popupWnd)
+			popupWnd->SetFocus();
 		return;
 	}
 	XWindow& w = xmap[q];
 	if(w.ctrl) {
-		w.ctrl->СобытиеProc(w, event);
+		w.ctrl->EventProc(w, event);
 		if(w.ctrl)
 			w.ctrl->SyncMoves();
 	}
 	else
-		xmap.устКлюч(q, None);
+		xmap.SetKey(q, None);
 	DefferedFocusSync();
-#ifdef _ОТЛАДКА
+#ifdef _DEBUG
 #ifdef UPP_HEAP
 	if(MemoryCheck)
-		РНЦП::MemoryCheck();
+		UPP::MemoryCheck();
 #endif
 	if(eo)
 		LLOG("------ end of event processing ----------");
 #endif
 }
 
-void Ктрл::TimerAndPaint() {
-	ЗамкниГип __;
+void Ctrl::TimerAndPaint() {
+	GuiLock __;
 	LTIMING("TimerAndPaint");
 	TimerProc(msecs());
-	for(int i = 0; i < Xwindow().дайСчёт(); i++) {
+	for(int i = 0; i < Xwindow().GetCount(); i++) {
 		XWindow& xw = Xwindow()[i];
-		if(Xwindow().дайКлюч(i) && xw.exposed && xw.invalid.дайСчёт()) {
+		if(Xwindow().GetKey(i) && xw.exposed && xw.invalid.GetCount()) {
 			if(xw.ctrl) {
-				LLOG("..and paint " << РНЦП::Имя(xw.ctrl));
-				xw.ctrl->синхПромот();
-				Вектор<Прям> x = pick(xw.invalid);
-				xw.invalid.очисть();
+				LLOG("..and paint " << UPP::Name(xw.ctrl));
+				xw.ctrl->SyncScroll();
+				Vector<Rect> x = pick(xw.invalid);
+				xw.invalid.Clear();
 				xw.ctrl->DoPaint(x);
 			}
 			else
-				Xwindow().устКлюч(i, None);
+				Xwindow().SetKey(i, None);
 		}
 	}
 	SyncCaret();
-	анимируйКаретку();
+	AnimateCaret();
 	XSync(Xdisplay, false);
 	SyncIMPosition();
 }
 
-bool Ктрл::обработайСобытие(bool *)
+bool Ctrl::ProcessEvent(bool *)
 {
-	ЗамкниГип __;
-	if(!ожидаетСобытие()) return false;
-	XСобытие event;
-	XNextСобытие(Xdisplay, &event);
-	обработайСобытие(&event);
+	GuiLock __;
+	if(!IsWaitingEvent()) return false;
+	XEvent event;
+	XNextEvent(Xdisplay, &event);
+	ProcessEvent(&event);
 	return true;
 }
 
 void SweepMkImageCache();
 
-bool Ктрл::обработайСобытия(bool *)
+bool Ctrl::ProcessEvents(bool *)
 {
-	ПРОВЕРЬ_(главнаяНить_ли(), "обработайСобытия can only run in the main thread");
-	ЗамкниГип __;
-	if(обработайСобытие()) {
-		while(обработайСобытие() && (!LoopCtrl || LoopCtrl->InLoop())); // LoopCtrl-MF 071008
+	ASSERT_(IsMainThread(), "ProcessEvents can only run in the main thread");
+	GuiLock __;
+	if(ProcessEvent()) {
+		while(ProcessEvent() && (!LoopCtrl || LoopCtrl->InLoop())); // LoopCtrl-MF 071008
 		TimerAndPaint();
 		SweepMkImageCache();
 		return true;
@@ -373,7 +373,7 @@ bool Ктрл::обработайСобытия(bool *)
 static bool WakePipeOK;
 static int  WakePipe[2];
 
-ИНИЦБЛОК {
+INITBLOCK {
 	WakePipeOK = pipe(WakePipe) == 0;
 	fcntl(WakePipe[0], F_SETFL, O_NONBLOCK);
 	fcntl(WakePipe[1], F_SETFL, O_NONBLOCK);
@@ -385,11 +385,11 @@ void WakeUpGuiThread()
 		IGNORE_RESULT(write(WakePipe[1], "\1", 1));
 }
 
-void Ктрл::гипСпи(int ms)
+void Ctrl::GuiSleep(int ms)
 {
-	ЗамкниГип __;
+	GuiLock __;
 	LLOG(msecs() << " GUISLEEP " << ms);
-	ПРОВЕРЬ_(главнаяНить_ли(), "Only main thread can perform гипСпи");
+	ASSERT_(IsMainThread(), "Only main thread can perform GuiSleep");
 	timeval timeout;
 	timeout.tv_sec = ms / 1000;
 	timeout.tv_usec = ms % 1000 * 1000;
@@ -399,49 +399,49 @@ void Ктрл::гипСпи(int ms)
 	FD_SET(Xconnection, &fdset);
 	if(WakePipeOK)
 		FD_SET(WakePipe[0], &fdset);
-	int level = покиньВсеСтопорыГип(); // Give  a chance to nonmain threads to touch GUI things
+	int level = LeaveGuiMutexAll(); // Give  a chance to nonmain threads to touch GUI things
 	select((WakePipeOK ? max(WakePipe[0], Xconnection) : Xconnection) + 1, &fdset, NULL, NULL, &timeout);
 	char h;
 	while(WakePipeOK && read(WakePipe[0], &h, 1) > 0) // There might be relatively harmless race condition here causing delay in ICall
 		LLOG(msecs() << " WakeUpGuiThread detected!"); // or "void" passes through timer & paint
-	войдиВСтопорГип(level);
+	EnterGuiMutex(level);
 }
 
 static int granularity = 10;
 
-void Ктрл::SetTimerGranularity(int ms)
+void Ctrl::SetTimerGranularity(int ms)
 {
-	ЗамкниГип __;
+	GuiLock __;
 	granularity = ms;
 }
 
-void Ктрл::SysEndLoop()
+void Ctrl::SysEndLoop()
 {
 }
 
-void Ктрл::циклСобытий(Ктрл *ctrl)
+void Ctrl::EventLoop(Ctrl *ctrl)
 {
-	ЗамкниГип __;
-	ПРОВЕРЬ_(главнаяНить_ли(), "циклСобытий can only run in the main thread");
-	ПРОВЕРЬ(LoopLevel == 0 || ctrl);
+	GuiLock __;
+	ASSERT_(IsMainThread(), "EventLoop can only run in the main thread");
+	ASSERT(LoopLevel == 0 || ctrl);
 	LoopLevel++;
-	int64 loopno = ++СобытиеLoopNo;
+	int64 loopno = ++EventLoopNo;
 	LLOG("Entering event loop at level " << LoopLevel << LOG_BEGIN);
-	Ктрл *ploop = NULL;
+	Ctrl *ploop = NULL;
 	if(ctrl) {
 		ploop = LoopCtrl;
 		LoopCtrl = ctrl;
 		ctrl->inloop = true;
 	}
 
-	while(loopno > EndSessionLoopNo && (ctrl ? ctrl->InLoop() && ctrl->открыт() : дайТопКтрлы().дайСчёт())) {
-		XСобытие event;
-		гипСпи(granularity);
+	while(loopno > EndSessionLoopNo && (ctrl ? ctrl->InLoop() && ctrl->IsOpen() : GetTopCtrls().GetCount())) {
+		XEvent event;
+		GuiSleep(granularity);
 		SyncMousePos();
-		while(ожидаетСобытие()) {
-			LTIMING("XNextСобытие");
-			XNextСобытие(Xdisplay, &event);
-			обработайСобытие(&event);
+		while(IsWaitingEvent()) {
+			LTIMING("XNextEvent");
+			XNextEvent(Xdisplay, &event);
+			ProcessEvent(&event);
 		}
 		TimerAndPaint();
 		SweepMkImageCache();
@@ -454,23 +454,23 @@ void Ктрл::циклСобытий(Ктрл *ctrl)
 	LLOG(LOG_END << "Leaving event loop ");
 }
 
-void Ктрл::SyncExpose()
+void Ctrl::SyncExpose()
 {
-	ЗамкниГип __;
+	GuiLock __;
 	if(!top) return;
-	XСобытие event;
-	while(top && XCheckTypedWindowСобытие(Xdisplay, top->window, Expose, &event))
-		обработайСобытие(&event);
-	while(top && XCheckTypedWindowСобытие(Xdisplay, top->window, GraphicsExpose, &event))
-		обработайСобытие(&event);
+	XEvent event;
+	while(top && XCheckTypedWindowEvent(Xdisplay, top->window, Expose, &event))
+		ProcessEvent(&event);
+	while(top && XCheckTypedWindowEvent(Xdisplay, top->window, GraphicsExpose, &event))
+		ProcessEvent(&event);
 }
 
-void Ктрл::создай(Ктрл *owner, bool redirect, bool savebits)
+void Ctrl::Create(Ctrl *owner, bool redirect, bool savebits)
 {
-	ЗамкниГип __;
-	ПРОВЕРЬ_(главнаяНить_ли(), "Only main thread can create windows");
-	LLOG("создай " << Имя() << " " << дайПрям());
-	ПРОВЕРЬ(!отпрыск_ли() && !открыт());
+	GuiLock __;
+	ASSERT_(IsMainThread(), "Only main thread can create windows");
+	LLOG("Create " << Name() << " " << GetRect());
+	ASSERT(!IsChild() && !IsOpen());
 	LLOG("Ungrab1");
 	ReleaseGrab();
 	XSetWindowAttributes swa;
@@ -478,19 +478,19 @@ void Ктрл::создай(Ктрл *owner, bool redirect, bool savebits)
 	swa.background_pixmap = None;
 	swa.override_redirect = redirect;
 	swa.save_under = savebits;
-	Цвет c = SColorPaper();
-	swa.background_pixel = GetXPixel(c.дайК(), c.дайЗ(), c.дайС());
-	Прям r = дайПрям();
+	Color c = SColorPaper();
+	swa.background_pixel = GetXPixel(c.GetR(), c.GetG(), c.GetB());
+	Rect r = GetRect();
 	isopen = true;
 	Window w = XCreateWindow(Xdisplay, RootWindow(Xdisplay, Xscreenno),
-	                         r.left, r.top, r.устШирину(), r.устВысоту(),
+	                         r.left, r.top, r.Width(), r.Height(),
 	                         0, CopyFromParent, InputOutput, CopyFromParent,
 	                         CWBitGravity|CWSaveUnder|CWOverrideRedirect|CWBackPixmap,
 	                         &swa);
 	if(!w) XError("XCreateWindow failed !");
-	int i = Xwindow().найди(None);
-	if(i >= 0) Xwindow().устКлюч(i, w);
-	XWindow& cw = i >= 0 ? Xwindow()[i] : Xwindow().добавь(w);
+	int i = Xwindow().Find(None);
+	if(i >= 0) Xwindow().SetKey(i, w);
+	XWindow& cw = i >= 0 ? Xwindow()[i] : Xwindow().Add(w);
 	cw.ctrl = this;
 	cw.exposed = false;
 	cw.owner = owner;
@@ -503,11 +503,11 @@ void Ктрл::создай(Ктрл *owner, bool redirect, bool savebits)
 		                   XNClientWindow, w,
 		                   NULL);
 	}
-	top = new Верх;
+	top = new Top;
 	top->window = w;
 	long im_event_mask = 0;
 	if(cw.xic)
-		XGetICValues(cw.xic, XNFilterСобытиеs, &im_event_mask, NULL);
+		XGetICValues(cw.xic, XNFilterEvents, &im_event_mask, NULL);
 	XSelectInput(Xdisplay, w, ExposureMask|StructureNotifyMask|KeyPressMask|
 	             FocusChangeMask|KeyPressMask|KeyReleaseMask|PointerMotionMask|
 	             ButtonPressMask|ButtonReleaseMask|PropertyChangeMask|
@@ -515,9 +515,9 @@ void Ктрл::создай(Ктрл *owner, bool redirect, bool savebits)
 	int version = 5;
 	XChangeProperty(Xdisplay, w, XAtom("XdndAware"), XA_ATOM, 32,
 					0, (byte *)&version, 1);
-	режимОтмены();
-	if(r.содержит(дайПозМыши()))
-		DispatchMouse(MOUSEMOVE, дайПозМыши() - r.верхЛево());
+	CancelMode();
+	if(r.Contains(GetMousePos()))
+		DispatchMouse(MOUSEMOVE, GetMousePos() - r.TopLeft());
 
 	if(redirect) {
 		int windowType = XInternAtom(Xdisplay, "_NET_WM_WINDOW_TYPE_POPUP_MENU", false);
@@ -530,26 +530,26 @@ void Ктрл::создай(Ктрл *owner, bool redirect, bool savebits)
 	SyncIMPosition();
 }
 
-void Ктрл::разрушьОкно()
+void Ctrl::WndDestroy()
 {
-	ЗамкниГип __;
-	LLOG("разрушьОкно " << Имя());
+	GuiLock __;
+	LLOG("WndDestroy " << Name());
 	if(!top || !isopen) return;
 	AddGlobalRepaint();
-	bool revertfocus = естьФокусОкна() || !GetFocusCtrl();
-	for(int i = 0; i < Xwindow().дайСчёт(); i++) {
+	bool revertfocus = HasWndFocus() || !GetFocusCtrl();
+	for(int i = 0; i < Xwindow().GetCount(); i++) {
 		LOGBEGIN();
 		XWindow& w = Xwindow()[i];
-		if(Xwindow().дайКлюч(i) != None && w.owner == this && w.ctrl->открыт())
-			w.ctrl->разрушьОкно();
+		if(Xwindow().GetKey(i) != None && w.owner == this && w.ctrl->IsOpen())
+			w.ctrl->WndDestroy();
 		LOGEND();
 	}
-	Ук<Ктрл> owner;
-	int i = Xwindow().найди(top->window);
+	Ptr<Ctrl> owner;
+	int i = Xwindow().Find(top->window);
 	if(i >= 0) {
 		XWindow& w = Xwindow()[i];
 		owner = w.owner;
-		w.invalid.очисть();
+		w.invalid.Clear();
 		if(w.xic)
 			XDestroyIC(w.xic);
 	}
@@ -560,7 +560,7 @@ void Ктрл::разрушьОкно()
 		grabWindow = None;
 	XDestroyWindow(Xdisplay, top->window);
 	if(i >= 0) {
-		Xwindow().устКлюч(i, None);
+		Xwindow().SetKey(i, None);
 		top->window = None;
 		Xwindow()[i].ctrl = NULL;
 	}
@@ -569,7 +569,7 @@ void Ктрл::разрушьОкно()
 		owner->TakeFocus();
 
 	if(focusWindow) {
-		int q = Xwindow().найди(focusWindow);
+		int q = Xwindow().Find(focusWindow);
 		if(q >= 0) {
 			XIC xic = Xwindow()[q].xic;
 			if(xic) {
@@ -584,20 +584,20 @@ void Ктрл::разрушьОкно()
 	FocusSync();
 }
 
-Вектор<Ктрл *> Ктрл::дайТопКтрлы()
+Vector<Ctrl *> Ctrl::GetTopCtrls()
 {
-	ЗамкниГип __;
-	Вектор<Ктрл *> v;
-	const МассивМап<Window, Ктрл::XWindow>& w = Xwindow();
-	for(int i = 0; i < w.дайСчёт(); i++)
-		if(w.дайКлюч(i) && w[i].ctrl && !w[i].ctrl->parent)
-			v.добавь(w[i].ctrl);
+	GuiLock __;
+	Vector<Ctrl *> v;
+	const ArrayMap<Window, Ctrl::XWindow>& w = Xwindow();
+	for(int i = 0; i < w.GetCount(); i++)
+		if(w.GetKey(i) && w[i].ctrl && !w[i].ctrl->parent)
+			v.Add(w[i].ctrl);
 	return v;
 }
 
-void Ктрл::StartPopupGrab()
+void Ctrl::StartPopupGrab()
 {
-	ЗамкниГип __;
+	GuiLock __;
 	if(PopupGrab == 0) {
 		if(!top) return;
 		if(XGrabPointer(
@@ -605,60 +605,60 @@ void Ктрл::StartPopupGrab()
 		   ButtonPressMask|ButtonReleaseMask|PointerMotionMask|EnterWindowMask|LeaveWindowMask,
 		   GrabModeAsync, GrabModeAsync, None, None, CurrentTime) == GrabSuccess) {
 				PopupGrab++;
-				popupWnd = дайТопОкно();
-#ifdef _ОТЛАДКА
+				popupWnd = GetTopWindow();
+#ifdef _DEBUG
 				__X11_Grabbing = true;
 #endif
 			}
 	}
 }
 
-void Ктрл::EndPopupGrab()
+void Ctrl::EndPopupGrab()
 {
-	ЗамкниГип __;
+	GuiLock __;
 	if(PopupGrab == 0) return;
 	if(--PopupGrab == 0) {
 		XUngrabPointer(Xdisplay, CurrentTime);
 		XFlush(Xdisplay);
-#ifdef _ОТЛАДКА
+#ifdef _DEBUG
 		__X11_Grabbing = false;
 #endif
 	}
 }
 
-void Ктрл::PopUp(Ктрл *owner, bool savebits, bool activate, bool, bool)
+void Ctrl::PopUp(Ctrl *owner, bool savebits, bool activate, bool, bool)
 {
-	ЗамкниГип __;
-	LLOG("POPUP: " << РНЦП::Имя(this));
-	Ктрл *q = owner ? owner->дайТопКтрл() : дайАктивныйКтрл();
+	GuiLock __;
+	LLOG("POPUP: " << UPP::Name(this));
+	Ctrl *q = owner ? owner->GetTopCtrl() : GetActiveCtrl();
 	ignoretakefocus = true;
-	создай(q, true, savebits);
+	Create(q, true, savebits);
 	if(activate) {
 		q->StartPopupGrab();
 		popupgrab = true;
 	}
 	if(top) popup = true;
 	WndShow(visible);
-	if(activate && включен_ли())
-		устФокус();
+	if(activate && IsEnabled())
+		SetFocus();
 	if(top) top->owner = owner;
 	StateH(OPEN);
 }
 
-Ктрл *Ктрл::дайАктивныйКтрл()
+Ctrl *Ctrl::GetActiveCtrl()
 {
-	ЗамкниГип __;
-	return focusCtrl ? focusCtrl->дайТопКтрл() : NULL;
+	GuiLock __;
+	return focusCtrl ? focusCtrl->GetTopCtrl() : NULL;
 }
 
-bool  Ктрл::IsAlphaSupported()
+bool  Ctrl::IsAlphaSupported()
 {
 	return IsCompositedGui();
 }
 
-void  Ктрл::SetAlpha(byte alpha)
+void  Ctrl::SetAlpha(byte alpha)
 {
-	ЗамкниГип __;
+	GuiLock __;
 	Window hwnd = GetWindow();
 	if (!IsAlphaSupported() || parent || !top || !hwnd)
 		return;
@@ -668,24 +668,24 @@ void  Ктрл::SetAlpha(byte alpha)
 					(unsigned char *) &opacity, 1);
 }
 
-bool Ктрл::IsCompositedGui()
+bool Ctrl::IsCompositedGui()
 {
-	ЗамкниГип __;
-	static bool b = XGetSelectionOwner(Xdisplay, XAtom(Ткст().конкат() << "_NET_WM_CM_S" << Xscreenno)) != None;
+	GuiLock __;
+	static bool b = XGetSelectionOwner(Xdisplay, XAtom(String().Cat() << "_NET_WM_CM_S" << Xscreenno)) != None;
 	return b;
 }
 
-Ктрл *Ктрл::дайВладельца()
+Ctrl *Ctrl::GetOwner()
 {
-	ЗамкниГип __;
-	if(!открыт()) return NULL;
-	int q = Xwindow().найди(GetWindow());
+	GuiLock __;
+	if(!IsOpen()) return NULL;
+	int q = Xwindow().Find(GetWindow());
 	return q >= 0 ? Xwindow()[q].owner : NULL;
 }
 
-void Ктрл::WndShow(bool b)
+void Ctrl::WndShow(bool b)
 {
-	ЗамкниГип __;
+	GuiLock __;
 	LLOG("WndShow " << b);
 	if(top) {
 		XWindowAttributes xwa;
@@ -701,60 +701,60 @@ void Ктрл::WndShow(bool b)
 	}
 }
 
-void Ктрл::обновиОкно()
+void Ctrl::WndUpdate()
 {
-	ЗамкниГип __;
-	LTIMING("обновиОкно");
+	GuiLock __;
+	LTIMING("WndUpdate");
 	LLOG("WNDUPDATE");
 	if(!top) return;
 	SyncExpose();
 	if(!top) return;
-	XWindow& xw = Xwindow().дай(top->window);
-	if(xw.exposed && xw.invalid.дайСчёт()) {
-		синхПромот();
+	XWindow& xw = Xwindow().Get(top->window);
+	if(xw.exposed && xw.invalid.GetCount()) {
+		SyncScroll();
 		DoPaint(xw.invalid);
-		xw.invalid.очисть();
-		LTIMING("обновиОкно XSync");
+		xw.invalid.Clear();
+		LTIMING("WndUpdate XSync");
 		XSync(Xdisplay, false);
 	}
 }
 
-void Ктрл::обновиОкно(const Прям& r)
+void Ctrl::WndUpdate(const Rect& r)
 {
-	ЗамкниГип __;
-	LTIMING("обновиОкно Прям");
+	GuiLock __;
+	LTIMING("WndUpdate Rect");
 	LLOG("WNDUPDATE " << r);
 	if(!top) return;
 	SyncExpose();
-	XWindow& xw = Xwindow().дай(top->window);
+	XWindow& xw = Xwindow().Get(top->window);
 	bool dummy;
-	синхПромот();
-	DoPaint(пересек(xw.invalid, r, dummy));
-	LTIMING("обновиОкно XSync");
+	SyncScroll();
+	DoPaint(Intersect(xw.invalid, r, dummy));
+	LTIMING("WndUpdate XSync");
 	XSync(Xdisplay, false);
 	xw.invalid = Subtract(xw.invalid, r, dummy);
 }
 
-void Ктрл::WndSetPos(const Прям& r)
+void Ctrl::WndSetPos(const Rect& r)
 {
-	ЗамкниГип __;
+	GuiLock __;
 	if(!top) return;
-	LLOG("WndSetPos0 " << Имя() << r);
+	LLOG("WndSetPos0 " << Name() << r);
 	AddGlobalRepaint();
-	XMoveResizeWindow(Xdisplay, top->window, r.left, r.top, r.устШирину(), r.устВысоту());
+	XMoveResizeWindow(Xdisplay, top->window, r.left, r.top, r.Width(), r.Height());
 	rect = r;
 	SetWndRect(r);
 }
 
-bool Ктрл::IsWndOpen() const
+bool Ctrl::IsWndOpen() const
 {
 	return top;
 }
 
-bool Ктрл::SetWndCapture()
+bool Ctrl::SetWndCapture()
 {
-	ЗамкниГип __;
-	if(!включен_ли() || !top || !видим_ли()) return false;
+	GuiLock __;
+	if(!IsEnabled() || !top || !IsVisible()) return false;
 	if(top->window == grabWindow) return true;
 	int status = XGrabPointer(
 		Xdisplay, top->window, false,
@@ -762,7 +762,7 @@ bool Ктрл::SetWndCapture()
 		GrabModeAsync, GrabModeAsync, None, None, CurrentTime
 	);
 	if(status) return false;
-#ifdef _ОТЛАДКА
+#ifdef _DEBUG
 		__X11_Grabbing = true;
 #endif
 	LLOG("Capture set ok");
@@ -770,29 +770,29 @@ bool Ктрл::SetWndCapture()
 	return true;
 }
 
-bool Ктрл::HasWndCapture() const
+bool Ctrl::HasWndCapture() const
 {
-	ЗамкниГип __;
+	GuiLock __;
 	return top && top->window == grabWindow;
 }
 
-void Ктрл::ReleaseGrab()
+void Ctrl::ReleaseGrab()
 {
-	ЗамкниГип __;
+	GuiLock __;
 	if(grabWindow) {
 		LLOG("RELEASE GRAB");
 		XUngrabPointer(Xdisplay, CurrentTime);
 		XFlush(Xdisplay);
 		grabWindow = None;
-#ifdef _ОТЛАДКА
+#ifdef _DEBUG
 		__X11_Grabbing = false;
 #endif
 	}
 }
 
-bool Ктрл::ReleaseWndCapture()
+bool Ctrl::ReleaseWndCapture()
 {
-	ЗамкниГип __;
+	GuiLock __;
 	LLOG("Releasing capture");
 	if(top && top->window == grabWindow) {
 		LLOG("Ungrab3");
@@ -802,16 +802,16 @@ bool Ктрл::ReleaseWndCapture()
 	return false;
 }
 
-void Ктрл::устКурсорМыши(const Рисунок& image)
+void Ctrl::SetMouseCursor(const Image& image)
 {
-	ЗамкниГип __;
-	static Рисунок img;
+	GuiLock __;
+	static Image img;
 	static Cursor shc;
 	if(img.GetSerialId() != image.GetSerialId()) {
 		img = image;
-		Cursor hc = (Cursor)CursorX11(пусто_ли(img) ? Рисунок::Arrow() : img);
-		for(int i = 0; i < Xwindow().дайСчёт(); i++) {
-			Window wnd = Xwindow().дайКлюч(i);
+		Cursor hc = (Cursor)CursorX11(IsNull(img) ? Image::Arrow() : img);
+		for(int i = 0; i < Xwindow().GetCount(); i++) {
+			Window wnd = Xwindow().GetKey(i);
 			if(wnd)
 				XDefineCursor(Xdisplay, wnd, hc);
 		}
@@ -824,12 +824,12 @@ void Ктрл::устКурсорМыши(const Рисунок& image)
 
 void ClearKbdState_();
 
-void Ктрл::TakeFocus()
+void Ctrl::TakeFocus()
 {
-	LLOG("TAKE_FOCUS0 " << Имя());
-	ЗамкниГип __;
-	if(отпрыск_ли()) {
-		Ктрл *w = дайТопКтрл();
+	LLOG("TAKE_FOCUS0 " << Name());
+	GuiLock __;
+	if(IsChild()) {
+		Ctrl *w = GetTopCtrl();
 		if(w) w->TakeFocus();
 		return;
 	}
@@ -846,22 +846,22 @@ void Ктрл::TakeFocus()
 		LLOG("IGNORED TAKE_FOCUS (window is owned)");
 		return;
 	}
-	LLOG("TAKE_FOCUS " << Имя());
-	if(включен_ли() && видим_ли() && top->window != GetXServerFocusWindow()) {
+	LLOG("TAKE_FOCUS " << Name());
+	if(IsEnabled() && IsVisible() && top->window != GetXServerFocusWindow()) {
 		ClearKbdState_();
-		устФокусОкна();
+		SetWndFocus();
 	}
 	if(this != focusCtrlWnd) {
-		if(включен_ли()) {
+		if(IsEnabled()) {
 			SetLastActive(w, this);
-			LLOG("активируй " << Имя());
+			LLOG("Activate " << Name());
 			SetFocusWnd();
 		}
 		else {
-			LLOG("активируй of disabled window" << Имя());
-			if(w->last_active && w->last_active->открыт() && w->last_active->включен_ли() &&
+			LLOG("Activate of disabled window" << Name());
+			if(w->last_active && w->last_active->IsOpen() && w->last_active->IsEnabled() &&
 			   w->last_active != this) {
-				LLOG("    activating last active: " << РНЦП::Имя(w->last_active));
+				LLOG("    activating last active: " << UPP::Name(w->last_active));
 				w->last_active->TakeFocus();
 			}
 		}
@@ -870,12 +870,12 @@ void Ктрл::TakeFocus()
 	return;
 }
 
-void Ктрл::KillFocus(Window window)
+void Ctrl::KillFocus(Window window)
 {
-	ЗамкниГип __;
+	GuiLock __;
 	if(!window)
 		return;
-	int q = Xwindow().найди(window);
+	int q = Xwindow().Find(window);
 	if(q < 0)
 		return;
 	XWindow& w = Xwindow()[q];
@@ -883,14 +883,14 @@ void Ктрл::KillFocus(Window window)
 		w.ctrl->KillFocusWnd();
 }
 
-bool Ктрл::устФокусОкна()
+bool Ctrl::SetWndFocus()
 {
-	ЗамкниГип __;
-	LLOG("устФокусОкна " << Имя());
-	if(top && top->window != focusWindow && включен_ли() && видим_ли()) {
+	GuiLock __;
+	LLOG("SetWndFocus " << Name());
+	if(top && top->window != focusWindow && IsEnabled() && IsVisible()) {
 		LLOG("Setting focus... ");
 		LTIMING("XSetInfputFocus");
-		Ук<Ктрл> _this = this;
+		Ptr<Ctrl> _this = this;
 		KillFocus(focusWindow);
 		if(_this && top) {
 			XSetInputFocus(Xdisplay, top->window, RevertToParent, CurrentTime);
@@ -902,29 +902,29 @@ bool Ктрл::устФокусОкна()
 	return false;
 }
 
-bool Ктрл::естьФокусОкна() const
+bool Ctrl::HasWndFocus() const
 {
-	ЗамкниГип __;
+	GuiLock __;
 	return top && top->window == focusWindow;
 }
 
-Window Ктрл::GetXServerFocusWindow()
+Window Ctrl::GetXServerFocusWindow()
 {
-	ЗамкниГип __;
+	GuiLock __;
 	Window w;
 	int    dummy;
 	XGetInputFocus(Xdisplay, &w, &dummy);
 	return w;
 }
 
-void Ктрл::FocusSync()
+void Ctrl::FocusSync()
 {
-	ЗамкниГип __;
+	GuiLock __;
 	Window fw = GetXServerFocusWindow();
 	if(fw != focusWindow) {
-		LLOG("FocusSync to " << фмтЦелГекс(fw));
+		LLOG("FocusSync to " << FormatIntHex(fw));
 		if(fw) {
-			int q = Xwindow().найди(fw);
+			int q = Xwindow().Find(fw);
 			if(q >= 0) {
 				LLOG("Focus to app window");
 				Window fwo = focusWindow;
@@ -932,29 +932,29 @@ void Ктрл::FocusSync()
 				XWindow& w = Xwindow()[q];
 				if(w.ctrl) {
 					if(w.ctrl->IsPopUp()) {
-						анимируйКаретку();
+						AnimateCaret();
 						return;
 					}
 					KillFocus(fwo);
-//					focusWindow = None; // 1010-10-13 cxl (устФокусОкна does not set this)
+//					focusWindow = None; // 1010-10-13 cxl (SetWndFocus does not set this)
 					w.ctrl->SetFocusWnd();
-					анимируйКаретку();
+					AnimateCaret();
 					return;
 				}
 			}
 		}
 		KillFocus(focusWindow);
 		focusWindow = None;
-		анимируйКаретку();
+		AnimateCaret();
 	}
 }
 
-void  Ктрл::SyncIMPosition()
+void  Ctrl::SyncIMPosition()
 {
 /*
 	if(!focusWindow)
 		return;
-	int q = Xwindow().найди(focusWindow);
+	int q = Xwindow().Find(focusWindow);
 	if(q < 0)
 		return;
 	XWindow& xw = Xwindow()[q];
@@ -971,9 +971,9 @@ void  Ктрл::SyncIMPosition()
 */
 }
 
-void  Ктрл::анимируйКаретку()
+void  Ctrl::AnimateCaret()
 {
-	ЗамкниГип __;
+	GuiLock __;
 	int v = !(((msecs() - WndCaretTime) / 500) & 1);
 	if(v != WndCaretVisible) {
 		RefreshCaret();
@@ -981,105 +981,105 @@ void  Ктрл::анимируйКаретку()
 	}
 }
 
-void Ктрл::инивалидируй(XWindow& xw, const Прям& _r)
+void Ctrl::Invalidate(XWindow& xw, const Rect& _r)
 {
-	ЗамкниГип __;
-	LTIMING("инивалидируй");
-	LLOG("инивалидируй " << РНЦП::Имя(xw.ctrl) << " " << _r);
+	GuiLock __;
+	LTIMING("Invalidate");
+	LLOG("Invalidate " << UPP::Name(xw.ctrl) << " " << _r);
 	AddRefreshRect(xw.invalid, _r);
 }
 
-void Ктрл::AddGlobalRepaint()
+void Ctrl::AddGlobalRepaint()
 {
-	ЗамкниГип __;
-	Прям rect = дайПрям();
-	rect.инфлируй(32, 32);//TODO !!! Not correct !!! should read frame extent instead... - or shift GraphicsExposes /  NoExposes...
-	МассивМап<Window, Ктрл::XWindow>& w = Xwindow();
-	for(int i = 0; i < w.дайСчёт(); i++)
-		if(w.дайКлюч(i) && w[i].ctrl) {
-			const Прям& r = w[i].ctrl->rect;
-			if(rect.пересекается(r))
-				инивалидируй(w[i], Прям(rect.смещенец(-r.верхЛево())));
+	GuiLock __;
+	Rect rect = GetRect();
+	rect.Inflate(32, 32);//СДЕЛАТЬ !!! Not correct !!! should read frame extent instead... - or shift GraphicsExposes /  NoExposes...
+	ArrayMap<Window, Ctrl::XWindow>& w = Xwindow();
+	for(int i = 0; i < w.GetCount(); i++)
+		if(w.GetKey(i) && w[i].ctrl) {
+			const Rect& r = w[i].ctrl->rect;
+			if(rect.Intersects(r))
+				Invalidate(w[i], Rect(rect.Offseted(-r.TopLeft())));
 		}
 }
 
-void Ктрл::WndInvalidateRect(const Прям& r)
+void Ctrl::WndInvalidateRect(const Rect& r)
 {
-	ЗамкниГип __;
+	GuiLock __;
 	if(!top) return;
 	LLOG("WndInvalidateRect0 " << r);
-	инивалидируй(Xwindow().дай(top->window), r);
+	Invalidate(Xwindow().Get(top->window), r);
 }
 
-void Ктрл::устППОкна()
+void Ctrl::SetWndForeground()
 {
-	ЗамкниГип __;
-	LLOG("устППОкна " << Имя());
-	if(!top || !видим_ли()) return;
-	if(!включен_ли()) {
+	GuiLock __;
+	LLOG("SetWndForeground " << Name());
+	if(!top || !IsVisible()) return;
+	if(!IsEnabled()) {
 		LLOG("Not enabled");
 		XWindow *w = GetXWindow();
 		if(w && w->last_active && w->last_active != this &&
-		   w->last_active->открыт() && w->last_active->включен_ли())
-			w->last_active->устППОкна();
+		   w->last_active->IsOpen() && w->last_active->IsEnabled())
+			w->last_active->SetWndForeground();
 	}
 	else {
-		Ук<Ктрл> _this = this;
-		устФокусОкна();
+		Ptr<Ctrl> _this = this;
+		SetWndFocus();
 		if(_this && top)
 			XRaiseWindow(Xdisplay, top->window);
 	}
 }
 
-bool Ктрл::ппОкна_ли() const
+bool Ctrl::IsWndForeground() const
 {
-	ЗамкниГип __;
-	const Ктрл *q = дайТопОкно();
-	return ~focusCtrlWnd == (q ? q : дайТопКтрл());
+	GuiLock __;
+	const Ctrl *q = GetTopWindow();
+	return ~focusCtrlWnd == (q ? q : GetTopCtrl());
 }
 
-void Ктрл::WndEnable(bool b)
+void Ctrl::WndEnable(bool b)
 {
-	ЗамкниГип __;
+	GuiLock __;
 	LLOG("WndEnable");
 	if(!top) return;
 	if(!b) {
 		ReleaseCapture();
-		if(естьФокусОкна())
+		if(HasWndFocus())
 			XSetInputFocus(Xdisplay, None, RevertToPointerRoot, CurrentTime);
 	}
 }
 
 // 01/12/2007 - mdelfede
 // added support for windowed controls
-Ктрл::XWindow *Ктрл::AddXWindow(Window &w)
+Ctrl::XWindow *Ctrl::AddXWindow(Window &w)
 {
-	ЗамкниГип __;
-	int i = Xwindow().найди(None);
+	GuiLock __;
+	int i = Xwindow().Find(None);
 	if(i >= 0)
-		Xwindow().устКлюч(i, w);
-	XWindow& cw = i >= 0 ? Xwindow()[i] : Xwindow().добавь(w);
+		Xwindow().SetKey(i, w);
+	XWindow& cw = i >= 0 ? Xwindow()[i] : Xwindow().Add(w);
 	cw.ctrl    = this;
 	cw.exposed = true;
-	cw.owner   = дайРодителя();
+	cw.owner   = GetParent();
 	cw.xic     = NULL;
 	return &cw;
 }
 
-void Ктрл::RemoveXWindow(Window &w)
+void Ctrl::RemoveXWindow(Window &w)
 {
-	ЗамкниГип __;
-	int i = Xwindow().найди(w);
+	GuiLock __;
+	int i = Xwindow().Find(w);
 	if(i >= 0) {
-		Xwindow().устКлюч(i, None);
+		Xwindow().SetKey(i, None);
 		Xwindow()[i].ctrl = NULL;
 	}
 
 }
-Ктрл::XWindow *Ктрл::XWindowFromWindow(Window &w)
+Ctrl::XWindow *Ctrl::XWindowFromWindow(Window &w)
 {
-	ЗамкниГип __;
-	int i = Xwindow().найди(w);
+	GuiLock __;
+	int i = Xwindow().Find(w);
 	if(i >= 0)
 		return &Xwindow()[i];
 	else
@@ -1087,51 +1087,51 @@ void Ктрл::RemoveXWindow(Window &w)
 }
 
 // Synchronizes the native windows inside ctrls
-void Ктрл::SyncNativeWindows(void)
+void Ctrl::SyncNativeWindows(void)
 {
-	ЗамкниГип __;
-	МассивМап<Window, Ктрл::XWindow>& xwindows = Xwindow();
-	for(int i = 0; i < xwindows.дайСчёт(); i++)
+	GuiLock __;
+	ArrayMap<Window, Ctrl::XWindow>& xwindows = Xwindow();
+	for(int i = 0; i < xwindows.GetCount(); i++)
 	{
 		XWindow &xw = xwindows[i];
-		Window w = xwindows.дайКлюч(i);
+		Window w = xwindows.GetKey(i);
 		if(xw.ctrl && xw.ctrl->parent && w)
 		{
 			Window dummy;
 			int x, y;
 			unsigned int width, height, border, depth;
 			XGetGeometry(Xdisplay, w, &dummy, &x, &y, &width, &height, &border, &depth);
-			Прям r = xw.ctrl->GetRectInParentWindow();
-			if( (x != r.left || y != r.top) && ((int)width == r.устШирину() && (int)height == r.устВысоту()))
+			Rect r = xw.ctrl->GetRectInParentWindow();
+			if( (x != r.left || y != r.top) && ((int)width == r.Width() && (int)height == r.Height()))
 				XMoveWindow(Xdisplay, w, r.left, r.top);
-			else if( (x == r.left && y == r.top) && ((int)width != r.устШирину() || (int)height != r.устВысоту()))
-				XResizeWindow(Xdisplay, w, r.устШирину(), r.устВысоту());
-			else if( x != r.left || y != r.top || (int)width != r.устШирину() || (int)height != r.устВысоту())
-				XMoveResizeWindow(Xdisplay, w, r.left, r.top, r.устШирину(), r.устВысоту());
+			else if( (x == r.left && y == r.top) && ((int)width != r.Width() || (int)height != r.Height()))
+				XResizeWindow(Xdisplay, w, r.Width(), r.Height());
+			else if( x != r.left || y != r.top || (int)width != r.Width() || (int)height != r.Height())
+				XMoveResizeWindow(Xdisplay, w, r.left, r.top, r.Width(), r.Height());
 		}
 	}
 
-} // END Ктрл::SyncNativeWindows()
+} // END Ctrl::SyncNativeWindows()
 
 // 01/12/2007 - END
 
-TopFrameDraw::TopFrameDraw(Ктрл *ctrl, const Прям& r)
+TopFrameDraw::TopFrameDraw(Ctrl *ctrl, const Rect& r)
 {
-	войдиВСтопорГип();
-	Ктрл *top = ctrl->дайТопКтрл();
-	Вектор<Прям> clip;
-	clip.добавь(r);
+	EnterGuiMutex();
+	Ctrl *top = ctrl->GetTopCtrl();
+	Vector<Rect> clip;
+	clip.Add(r);
 	dw = top->GetWindow();
 	gc = XCreateGC(Xdisplay, dw, 0, 0);
 	xftdraw = XftDrawCreate(Xdisplay, (Drawable) dw,
 	                        DefaultVisual(Xdisplay, Xscreenno), Xcolormap);
-	иниц(clip, r.верхЛево());
+	Init(clip, r.TopLeft());
 }
 
 TopFrameDraw::~TopFrameDraw()
 {
 	XFreeGC(Xdisplay, gc);
-	покиньСтопорГип();
+	LeaveGuiMutex();
 }
 
 }

@@ -4,7 +4,7 @@
 /*                                                                         */
 /*    TrueTypeGX/AAT mort table validation (body).                         */
 /*                                                                         */
-/*  Copyright 2005 by suzuki toshiya, Masatake YAMATO, красный Hat K.K.,       */
+/*  Copyright 2005 by suzuki toshiya, Masatake YAMATO, Red Hat K.K.,       */
 /*  David Turner, Robert Wilhelm, and Werner Lemberg.                      */
 /*                                                                         */
 /*  This file is part of the FreeType project, and may only be used,       */
@@ -61,7 +61,7 @@
       FT_Byte  nSettings_max;
 
 
-      /* nSettings in gxvfeat.c is halved for exclusive on/off настройки */
+      /* nSettings in gxvfeat.c is halved for exclusive on/off settings */
       nSettings_max = gxv_feat_registry[f->featureType].nSettings;
       if ( gxv_feat_registry[f->featureType].exclusive )
         nSettings_max = (FT_Byte)( 2 * nSettings_max );
@@ -77,7 +77,7 @@
       GXV_TRACE(( "\n" ));
     }
 
-    /* TODO: enableFlags must be unique значение in specified chain?  */
+    /* СДЕЛАТЬ: enableFlags must be unique value in specified chain?  */
   }
 
 
@@ -176,7 +176,7 @@
 #ifdef GXV_LOAD_UNUSED_VARS
       FT_ULong   subFeatureFlags;
 #endif
-      FT_UInt    тип;
+      FT_UInt    type;
       FT_UInt    rest;
 
 
@@ -191,23 +191,23 @@
 
       GXV_TRACE(( "validating chain subtable %d/%d (%d bytes)\n",
                   i + 1, nSubtables, length ));
-      тип = coverage & 0x0007;
+      type = coverage & 0x0007;
       rest = length - ( 2 + 2 + 4 );
 
       GXV_LIMIT_CHECK( rest );
       gxv_mort_coverage_validate( coverage, valid );
 
-      if ( тип > 5 )
+      if ( type > 5 )
         FT_INVALID_FORMAT;
 
-      func = fmt_funcs_table[тип];
+      func = fmt_funcs_table[type];
       if ( func == NULL )
-        GXV_TRACE(( "morx тип %d is reserved\n", тип ));
+        GXV_TRACE(( "morx type %d is reserved\n", type ));
 
       func( p, p + rest, valid );
 
       p += rest;
-      /* TODO: validate subFeatureFlags */
+      /* СДЕЛАТЬ: validate subFeatureFlags */
     }
 
     valid->subtable_length = p - table;
@@ -248,7 +248,7 @@
     gxv_mort_subtables_validate( p, table + chainLength, nSubtables, valid );
     valid->subtable_length = chainLength;
 
-    /* TODO: validate defaultFlags */
+    /* СДЕЛАТЬ: validate defaultFlags */
     GXV_EXIT;
   }
 

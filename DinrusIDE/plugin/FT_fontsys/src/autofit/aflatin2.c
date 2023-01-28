@@ -69,7 +69,7 @@
     metrics->axis[AF_DIMENSION_VERT].width_count = 0;
 
     {
-      FT_Error             Ошибка;
+      FT_Error             error;
       FT_UInt              glyph_index;
       int                  dim;
       AF_LatinMetricsRec   dummy[1];
@@ -80,8 +80,8 @@
       if ( glyph_index == 0 )
         goto Exit;
 
-      Ошибка = FT_Load_Glyph( face, glyph_index, FT_LOAD_NO_SCALE );
-      if ( Ошибка || face->glyph->outline.n_points <= 0 )
+      error = FT_Load_Glyph( face, glyph_index, FT_LOAD_NO_SCALE );
+      if ( error || face->glyph->outline.n_points <= 0 )
         goto Exit;
 
       FT_ZERO( dummy );
@@ -95,8 +95,8 @@
 
       af_glyph_hints_rescale( hints, (AF_ScriptMetrics)dummy );
 
-      Ошибка = af_glyph_hints_reload( hints, &face->glyph->outline );
-      if ( Ошибка )
+      error = af_glyph_hints_reload( hints, &face->glyph->outline );
+      if ( error )
         goto Exit;
 
       for ( dim = 0; dim < AF_DIMENSION_MAX; dim++ )
@@ -107,9 +107,9 @@
         FT_UInt       num_widths = 0;
 
 
-        Ошибка = af_latin2_hints_compute_segments( hints,
+        error = af_latin2_hints_compute_segments( hints,
                                                  (AF_Dimension)dim );
-        if ( Ошибка )
+        if ( error )
           goto Exit;
 
         af_latin2_hints_link_segments( hints,
@@ -189,7 +189,7 @@
     FT_Int        num_rounds;
     FT_Int        bb;
     AF_LatinBlue  blue;
-    FT_Error      Ошибка;
+    FT_Error      error;
     AF_LatinAxis  axis  = &metrics->axis[AF_DIMENSION_VERT];
     FT_GlyphSlot  glyph = face->glyph;
 
@@ -229,8 +229,8 @@
         if ( glyph_index == 0 )
           continue;
 
-        Ошибка = FT_Load_Glyph( face, glyph_index, FT_LOAD_NO_SCALE );
-        if ( Ошибка || glyph->outline.n_points <= 0 )
+        error = FT_Load_Glyph( face, glyph_index, FT_LOAD_NO_SCALE );
+        if ( error || glyph->outline.n_points <= 0 )
           continue;
 
         /* now compute min or max point indices and coordinates */
@@ -356,7 +356,7 @@
 
       /* we have computed the contents of the `rounds' and `flats' tables, */
       /* now determine the reference and overshoot position of the blue -- */
-      /* we simply take the median значение after a simple sort               */
+      /* we simply take the median value after a simple sort               */
       af_sort_pos( num_rounds, rounds );
       af_sort_pos( num_flats,  flats );
 
@@ -465,7 +465,7 @@
   af_latin2_metrics_init( AF_LatinMetrics  metrics,
                           FT_Face          face )
   {
-    FT_Error    Ошибка = AF_Err_Ok;
+    FT_Error    error = AF_Err_Ok;
     FT_CharMap  oldmap = face->charmap;
     FT_UInt     ee;
 
@@ -484,12 +484,12 @@
     /* do we have a latin charmap in there? */
     for ( ee = 0; latin_encodings[ee] != FT_ENCODING_NONE; ee++ )
     {
-      Ошибка = FT_Select_Charmap( face, latin_encodings[ee] );
-      if ( !Ошибка )
+      error = FT_Select_Charmap( face, latin_encodings[ee] );
+      if ( !error )
         break;
     }
 
-    if ( !Ошибка )
+    if ( !error )
     {
       /* For now, compute the standard width and height from the `o'. */
       af_latin2_metrics_init_widths( metrics, face, 'o' );
@@ -680,7 +680,7 @@
   {
     AF_AxisHints  axis          = &hints->axis[dim];
     FT_Memory     memory        = hints->memory;
-    FT_Error      Ошибка         = AF_Err_Ok;
+    FT_Error      error         = AF_Err_Ok;
     AF_Segment    segment       = NULL;
     AF_SegmentRec seg0;
     AF_Point*     contour       = hints->contours;
@@ -788,8 +788,8 @@
           max_v = point->v;
 
         /* record new segment */
-        Ошибка = af_axis_hints_new_segment( axis, memory, &segment );
-        if ( Ошибка )
+        error = af_axis_hints_new_segment( axis, memory, &segment );
+        if ( error )
           goto Exit;
 
         segment[0]         = seg0;
@@ -927,7 +927,7 @@
 #endif
 
   Exit:
-    return Ошибка;
+    return error;
   }
 
 
@@ -1036,7 +1036,7 @@
                                  AF_Dimension   dim )
   {
     AF_AxisHints  axis   = &hints->axis[dim];
-    FT_Error      Ошибка  = AF_Err_Ok;
+    FT_Error      error  = AF_Err_Ok;
     FT_Memory     memory = hints->memory;
     AF_LatinAxis  laxis  = &((AF_LatinMetrics)hints->metrics)->axis[dim];
 
@@ -1153,9 +1153,9 @@
 
         /* insert a new edge in the list and */
         /* sort according to the position    */
-        Ошибка = af_axis_hints_new_edge( axis, seg->pos, seg->dir,
+        error = af_axis_hints_new_edge( axis, seg->pos, seg->dir,
                                         memory, &edge );
-        if ( Ошибка )
+        if ( error )
           goto Exit;
 
         /* add the segment to the new edge's list */
@@ -1333,7 +1333,7 @@
     }
 
   Exit:
-    return Ошибка;
+    return error;
   }
 
 
@@ -1341,17 +1341,17 @@
   af_latin2_hints_detect_features( AF_GlyphHints  hints,
                                    AF_Dimension   dim )
   {
-    FT_Error  Ошибка;
+    FT_Error  error;
 
 
-    Ошибка = af_latin2_hints_compute_segments( hints, dim );
-    if ( !Ошибка )
+    error = af_latin2_hints_compute_segments( hints, dim );
+    if ( !error )
     {
       af_latin2_hints_link_segments( hints, dim );
 
-      Ошибка = af_latin2_hints_compute_edges( hints, dim );
+      error = af_latin2_hints_compute_edges( hints, dim );
     }
-    return Ошибка;
+    return error;
   }
 
 
@@ -2275,12 +2275,12 @@
                          FT_Outline*      outline,
                          AF_LatinMetrics  metrics )
   {
-    FT_Error  Ошибка;
+    FT_Error  error;
     int       dim;
 
 
-    Ошибка = af_glyph_hints_reload( hints, outline );
-    if ( Ошибка )
+    error = af_glyph_hints_reload( hints, outline );
+    if ( error )
       goto Exit;
 
     /* analyze glyph outline */
@@ -2291,15 +2291,15 @@
     if ( AF_HINTS_DO_HORIZONTAL( hints ) )
 #endif
     {
-      Ошибка = af_latin2_hints_detect_features( hints, AF_DIMENSION_HORZ );
-      if ( Ошибка )
+      error = af_latin2_hints_detect_features( hints, AF_DIMENSION_HORZ );
+      if ( error )
         goto Exit;
     }
 
     if ( AF_HINTS_DO_VERTICAL( hints ) )
     {
-      Ошибка = af_latin2_hints_detect_features( hints, AF_DIMENSION_VERT );
-      if ( Ошибка )
+      error = af_latin2_hints_detect_features( hints, AF_DIMENSION_VERT );
+      if ( error )
         goto Exit;
 
       af_latin2_hints_compute_blue_edges( hints, metrics );
@@ -2335,7 +2335,7 @@
     af_glyph_hints_save( hints, outline );
 
   Exit:
-    return Ошибка;
+    return error;
   }
 
 
@@ -2350,7 +2350,7 @@
 
   static const AF_Script_UniRangeRec  af_latin2_uniranges[] =
   {
-    AF_UNIRANGE_REC( 32UL,  127UL ),    /* TODO: добавь new Unicode ranges here! */
+    AF_UNIRANGE_REC( 32UL,  127UL ),    /* СДЕЛАТЬ: Add new Unicode ranges here! */
     AF_UNIRANGE_REC( 160UL, 255UL ),
     AF_UNIRANGE_REC( 0UL,   0UL )
   };

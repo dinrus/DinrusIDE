@@ -1,7 +1,7 @@
 #include <Core/Core.h>
 #include <Core/Rpc/Rpc.h>
 
-namespace РНЦПДинрус {
+namespace Upp {
 
 #define LLOG(x)  // LOG(x)
 
@@ -29,16 +29,16 @@ RpcRequest& RpcRequest::Url(const char *url)
 	return *this;
 }
 
-RpcRequest& RpcRequest::Method(const char *имя)
+RpcRequest& RpcRequest::Method(const char *name)
 {
 	shouldExecute = true;
-	method = имя;
-	данные.переустанов();
-	Ошибка.очисть();
+	method = name;
+	data.Reset();
+	error.Clear();
 	return *this;
 }
 
-void RpcRequest::иниц()
+void RpcRequest::Init()
 {
 	ContentType("text/xml");
 	RequestTimeout(30000);
@@ -50,51 +50,51 @@ void RpcRequest::иниц()
 RpcRequest::RpcRequest(const char *url)
 {
 	Url(url);
-	иниц();
+	Init();
 }
 
 RpcRequest::RpcRequest()
 {
 	Url(NULL);
-	иниц();
+	Init();
 }
 
-Ткст XmlRpcExecute(const Ткст& request, const char *группа, const char *peeraddr, bool& json);
-Ткст XmlRpcExecute(const Ткст& request, const char *группа, const char *peeraddr);
+String XmlRpcExecute(const String& request, const char *group, const char *peeraddr, bool& json);
+String XmlRpcExecute(const String& request, const char *group, const char *peeraddr);
 
 RpcGet RpcRequest::Retry()
 {
-	сотриОш();
+	ClearError();
 	shouldExecute = true;
-	return выполни();
+	return Execute();
 }
 
-Значение JsonRpcData(const Значение& v)
+Value JsonRpcData(const Value& v)
 {
-	if(датаВремя_ли(v) && !пусто_ли(v))
+	if(IsDateTime(v) && !IsNull(v))
 		return FormatIso8601(v);
 	return v;
 }
 
-Ткст RpcExecuteShorted(const Ткст& request_);
+String RpcExecuteShorted(const String& request_);
 
-RpcGet RpcRequest::выполни()
+RpcGet RpcRequest::Execute()
 {
 	if(!shouldExecute)
 		return RpcGet();
 	shouldExecute = false;
-	Ткст request;
+	String request;
 	if(json) {
 		ContentType("application/json");
-		static Атомар ид;
+		static Atomic id;
 		Json json;
 		json("jsonrpc", "2.0")
 		    ("method", method);
-		if(данные.out.дайСчёт()) {
+		if(data.out.GetCount()) {
 			JsonArray a;
-			for(int i = 0; i < данные.out.дайСчёт(); i++) {
-				const Значение& v = данные.out[i];
-				if(v.является<RawJsonText>())
+			for(int i = 0; i < data.out.GetCount(); i++) {
+				const Value& v = data.out[i];
+				if(v.Is<RawJsonText>())
 					a.CatRaw(v.To<RawJsonText>().json);
 				else
 					a << JsonRpcData(v);
@@ -102,149 +102,149 @@ RpcGet RpcRequest::выполни()
 			json("params", a);
 		}
 		else
-		if(данные.out_map.дайСчёт()) {
+		if(data.out_map.GetCount()) {
 			Json m;
-			for(int i = 0; i < данные.out_map.дайСчёт(); i++) {
-				const Значение& v = данные.out_map.дайЗначение(i);
-				Ткст ключ = (Ткст)данные.out_map.дайКлюч(i);
-				if(v.является<RawJsonText>())
-					m.CatRaw(ключ, v.To<RawJsonText>().json);
+			for(int i = 0; i < data.out_map.GetCount(); i++) {
+				const Value& v = data.out_map.GetValue(i);
+				String key = (String)data.out_map.GetKey(i);
+				if(v.Is<RawJsonText>())
+					m.CatRaw(key, v.To<RawJsonText>().json);
 				else
-					m(ключ, JsonRpcData(v));
+					m(key, JsonRpcData(v));
 			}
 			json("params", m);
 		}
-		json("ид", ид);
-		атомнИнк(ид);
+		json("id", id);
+		AtomicInc(id);
 		request = ~json;
 	}
 	else {
 		ContentType("text/xml");
 		request = XmlHeader();
-		if(protocol_version.дайСчёт())
+		if(protocol_version.GetCount())
 			request << "<!--protocolVersion=\"" << protocol_version << "\"-->\r\n";
-		request << ТэгРяр("methodCall")(ТэгРяр("methodName")(method) + FormatXmlRpcParams(данные.out, supports_i8));
+		request << XmlTag("methodCall")(XmlTag("methodName")(method) + FormatXmlRpcParams(data.out, supports_i8));
 	}
 	if(sLogRpcCalls) {
 		if(sLogRpcCallsCompress)
-			RLOG("=== XmlRpc call request:\n" << сожмиЛог(request));
+			RLOG("=== XmlRpc call request:\n" << CompressLog(request));
 		else
 			RLOG("=== XmlRpc call request:\n" << request);
 	}
-	Ткст response;
-	нов();
+	String response;
+	New();
 	if(shorted)
 		response = RpcExecuteShorted(request);
 	else
-		response = пост(request).выполни();
+		response = Post(request).Execute();
 	if(sLogRpcCalls) {
 		if(sLogRpcCallsCompress)
-			RLOG("=== XmlRpc call response:\n" << сожмиЛог(response));
+			RLOG("=== XmlRpc call response:\n" << CompressLog(response));
 		else
 			RLOG("=== XmlRpc call response:\n" << response);
 	}
 	RpcGet h;
-	if(пусто_ли(response)) {
+	if(IsNull(response)) {
 		faultCode = RPC_CLIENT_HTTP_ERROR;
 		faultString = GetErrorDesc();
-		Ошибка = "Http request failed: " + faultString;
-		LLOG(Ошибка);
-		h.v = значОш(Ошибка);
+		error = "Http request failed: " + faultString;
+		LLOG(error);
+		h.v = ErrorValue(error);
 		return h;
 	}
 	if(json) {
 		try {
-			Значение r = ParseJSON(response);
-			if(мапЗнач_ли(r)) {
-				МапЗнач m = r;
-				Значение result = m["result"];
-				if(!result.проц_ли()) {
-					данные.in.очисть();
-					данные.in.добавь(result);
-					данные.ii = 0;
+			Value r = ParseJSON(response);
+			if(IsValueMap(r)) {
+				ValueMap m = r;
+				Value result = m["result"];
+				if(!result.IsVoid()) {
+					data.in.Clear();
+					data.in.Add(result);
+					data.ii = 0;
 					h.v = result;
 					return h;
 				}
-				Значение e = m["Ошибка"];
-				if(мапЗнач_ли(e)) {
-					Значение c = e["code"];
-					Значение m = e["message"];
-					if(число_ли(c) && ткст_ли(m)) {
+				Value e = m["error"];
+				if(IsValueMap(e)) {
+					Value c = e["code"];
+					Value m = e["message"];
+					if(IsNumber(c) && IsString(m)) {
 						faultCode = e["code"];
 						faultString = e["message"];
-						Ошибка.очисть();
-						Ошибка << "Failed '" << faultString << "' (" << faultCode << ')';
+						error.Clear();
+						error << "Failed '" << faultString << "' (" << faultCode << ')';
 						LLOG(s);
-						h.v = значОш(Ошибка);
+						h.v = ErrorValue(error);
 						return h;
 					}
 				}
 			}
-			Ткст s;
-			faultString = "Invalid response";
+			String s;
+			faultString = "Неправильный ответ";
 			faultCode = RPC_CLIENT_RESPONSE_ERROR;
-			Ошибка = faultString;
-			LLOG(Ошибка);
-			h.v = значОш(Ошибка);
+			error = faultString;
+			LLOG(error);
+			h.v = ErrorValue(error);
 			return h;
 		}
-		catch(СиПарсер::Ошибка e) {
-			Ткст s;
+		catch(CParser::Error e) {
+			String s;
 			faultString = e;
 			faultCode = RPC_CLIENT_JSON_ERROR;
-			Ошибка.очисть();
-			Ошибка << "JSON Ошибка: " << faultString;
-			LLOG(Ошибка);
-			h.v = значОш(Ошибка);
+			error.Clear();
+			error << "Ошибка JSON: " << faultString;
+			LLOG(error);
+			h.v = ErrorValue(error);
 			return h;
 		}
 	}
 	else {
-		ПарсерРяр p(response);
+		XmlParser p(response);
 		try {
 			p.ReadPI();
-			while(p.коммент_ли())
-				p.читайКоммент();
-			p.передайТэг("methodResponse");
-			if(p.Тэг("fault")) {
-				Значение m = ParseXmlRpcValue(p);
-				if(мапЗнач_ли(m)) {
-					МапЗнач mm = m;
+			while(p.IsComment())
+				p.ReadComment();
+			p.PassTag("methodResponse");
+			if(p.Tag("fault")) {
+				Value m = ParseXmlRpcValue(p);
+				if(IsValueMap(m)) {
+					ValueMap mm = m;
 					faultString = mm["faultString"];
 					faultCode = mm["faultCode"];
-					Ошибка.очисть();
-					Ошибка << "Failed '" << faultString << "' (" << faultCode << ')';
+					error.Clear();
+					error << "Неудача '" << faultString << "' (" << faultCode << ')';
 					LLOG(s);
-					h.v = значОш(Ошибка);
+					h.v = ErrorValue(error);
 					return h;
 				}
 			}
 			else {
-				данные.in = ParseXmlRpcParams(p);
-				данные.ii = 0;
-				p.передайКонец();
+				data.in = ParseXmlRpcParams(p);
+				data.ii = 0;
+				p.PassEnd();
 			}
 		}
-		catch(ОшибкаРяр e) {
-			Ткст s;
+		catch(XmlError e) {
+			String s;
 			faultString = e;
 			faultCode = RPC_CLIENT_XML_ERROR;
-			Ошибка.очисть();
-			Ошибка << "XML Ошибка: " << faultString;
-			LLOG(Ошибка << ": " << p.дайУк());
-			h.v = значОш(Ошибка);
+			error.Clear();
+			error << "Ошибка XML: " << faultString;
+			LLOG(error << ": " << p.GetPtr());
+			h.v = ErrorValue(error);
 			return h;
 		}
-		h.v = данные.in.дайСчёт() ? данные.in[0] : Null;
+		h.v = data.in.GetCount() ? data.in[0] : Null;
 		return h;
 	}
 }
 
-void RpcRequest::сотриОш()
+void RpcRequest::ClearError()
 {
 	faultCode = 0;
-	faultString.очисть();
-	Ошибка.очисть();
+	faultString.Clear();
+	error.Clear();
 }
 
 }

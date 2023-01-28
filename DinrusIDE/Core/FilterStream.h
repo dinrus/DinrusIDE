@@ -1,89 +1,89 @@
-class ВхоФильтрПоток : public Поток {
+class InFilterStream : public Stream {
 public:
-	virtual   bool  открыт() const;
+	virtual   bool  IsOpen() const;
 
 protected:
-	virtual   int   _прекрати();
-	virtual   int   _получи();
-	virtual   dword _получи(void *данные, dword size);
+	virtual   int   _Term();
+	virtual   int   _Get();
+	virtual   dword _Get(void *data, dword size);
 
-	Вектор<byte> буфер;
+	Vector<byte> buffer;
 	bool         eof;
 	int          buffersize = 4096;
-	Буфер<int>  inbuffer;
-	byte        *t; // target pointer for block _получи
+	Buffer<int>  inbuffer;
+	byte        *t; // target pointer for block _Get
 	dword        todo; // target count
 
-	void   иниц();
-	void   фетч();
+	void   Init();
+	void   Fetch();
 	void   SetRd();
 
 private:
-	void   устРазм(int64 size)  { NEVER(); } // removed
-	int64  дайРазм() const      { NEVER(); return 0; }
+	void   SetSize(int64 size)  { NEVER(); } // removed
+	int64  GetSize() const      { NEVER(); return 0; }
 
 public:
-	Поток                      *in;
-	Событие<const void *, int>     фильтруй;
-	Врата<>                       FilterEof;
-	Событие<>                      стоп;
-	Врата<>                       ещё;
-	void                         выведи(const void *ptr, int size);
+	Stream                      *in;
+	Event<const void *, int>     Filter;
+	Gate<>                       FilterEof;
+	Event<>                      End;
+	Gate<>                       More;
+	void                         Out(const void *ptr, int size);
 	
-	Событие<>                      WhenOut;
+	Event<>                      WhenOut;
 	
 	template <class F>
-	void уст(Поток& in_, F& filter) {
-		иниц();
+	void Set(Stream& in_, F& filter) {
+		Init();
 		in = &in_;
-		filter.WhenOut = [=](const void *ptr, int size) { выведи(ptr, size); };
-		фильтруй = [&filter](const void *ptr, int size) { filter.помести(ptr, size); };
-		стоп = [&filter] { filter.стоп(); };
+		filter.WhenOut = [=](const void *ptr, int size) { Out(ptr, size); };
+		Filter = [&filter](const void *ptr, int size) { filter.Put(ptr, size); };
+		End = [&filter] { filter.End(); };
 	}
 	
-	void устРазмБуф(int size) { buffersize = size; inbuffer.очисть(); }
+	void SetBufferSize(int size) { buffersize = size; inbuffer.Clear(); }
 	
-	ВхоФильтрПоток();
-	template <class F> ВхоФильтрПоток(Поток& in, F& filter) { уст(in, filter); }
+	InFilterStream();
+	template <class F> InFilterStream(Stream& in, F& filter) { Set(in, filter); }
 };
 
-class ВыхФильтрПоток : public Поток {
+class OutFilterStream : public Stream {
 public:
-	virtual   void  открой();
-	virtual   bool  открыт() const;
+	virtual   void  Close();
+	virtual   bool  IsOpen() const;
 
 protected:
-	virtual   void  _помести(int w);
-	virtual   void  _помести(const void *данные, dword size);
+	virtual   void  _Put(int w);
+	virtual   void  _Put(const void *data, dword size);
 
-	Буфер<byte> буфер;
+	Buffer<byte> buffer;
 	int64        count;
 
-	void   излей();
-	dword  Avail()               { return dword(4096 - (ptr - ~буфер)); }
-	void   иниц();
+	void   FlushOut();
+	dword  Avail()               { return dword(4096 - (ptr - ~buffer)); }
+	void   Init();
 
 public:
-	Поток                      *out;
-	Событие<const void *, int>     фильтруй;
-	Событие<>                      стоп;
-	void                         выведи(const void *ptr, int size);
+	Stream                      *out;
+	Event<const void *, int>     Filter;
+	Event<>                      End;
+	void                         Out(const void *ptr, int size);
 	
-	int64                        дайСчёт() const             { return count; }
+	int64                        GetCount() const             { return count; }
 	
-	Событие<int64>                 WhenPos;
+	Event<int64>                 WhenPos;
 
 	template <class F>
-	void уст(Поток& out_, F& filter) {
-		иниц();
+	void Set(Stream& out_, F& filter) {
+		Init();
 		out = &out_;
-		filter.WhenOut = callback(this, &ВыхФильтрПоток::выведи);
-		фильтруй = callback<F, F, const void *, int>(&filter, &F::помести);
-		стоп = callback(&filter, &F::стоп);
+		filter.WhenOut = callback(this, &OutFilterStream::Out);
+		Filter = callback<F, F, const void *, int>(&filter, &F::Put);
+		End = callback(&filter, &F::End);
 		count = 0;
 	}
 	
-	ВыхФильтрПоток();
-	template <class F> ВыхФильтрПоток(Поток& in, F& filter) { уст(in, filter); }
-	~ВыхФильтрПоток();
+	OutFilterStream();
+	template <class F> OutFilterStream(Stream& in, F& filter) { Set(in, filter); }
+	~OutFilterStream();
 };

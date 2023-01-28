@@ -8,7 +8,7 @@
    subject to change. Applications should only use zlib.h.
  */
 
-/* @(#) $Ид$ */
+/* @(#) $Id$ */
 
 #ifndef DEFLATE_H
 #define DEFLATE_H
@@ -34,7 +34,7 @@
 /* number of literal bytes 0..255 */
 
 #define L_CODES (LITERALS+1+LENGTH_CODES)
-/* number of Literal or длина codes, including the END_BLOCK code */
+/* number of Literal or Length codes, including the END_BLOCK code */
 
 #define D_CODES   30
 /* number of distance codes */
@@ -49,22 +49,22 @@
 /* All codes must not exceed MAX_BITS bits */
 
 #define Buf_size 16
-/* size of bit буфер in bi_buf */
+/* size of bit buffer in bi_buf */
 
 #define INIT_STATE    42    /* zlib header -> BUSY_STATE */
 #ifdef GZIP
 #  define GZIP_STATE  57    /* gzip header -> BUSY_STATE | EXTRA_STATE */
 #endif
 #define EXTRA_STATE   69    /* gzip extra block -> NAME_STATE */
-#define NAME_STATE    73    /* gzip file имя -> COMMENT_STATE */
+#define NAME_STATE    73    /* gzip file name -> COMMENT_STATE */
 #define COMMENT_STATE 91    /* gzip comment -> HCRC_STATE */
 #define HCRC_STATE   103    /* gzip header CRC -> BUSY_STATE */
 #define BUSY_STATE   113    /* deflate -> FINISH_STATE */
 #define FINISH_STATE 666    /* stream complete */
-/* Поток status */
+/* Stream status */
 
 
-/* Данные structure describing a single значение and its code string. */
+/* Data structure describing a single value and its code string. */
 typedef struct ct_data_s {
     union {
         ush  freq;       /* frequency count */
@@ -89,26 +89,26 @@ typedef struct tree_desc_s {
     const static_tree_desc *stat_desc;  /* the corresponding static tree */
 } FAR tree_desc;
 
-typedef ush Поз;
-typedef Поз FAR Posf;
+typedef ush Pos;
+typedef Pos FAR Posf;
 typedef unsigned IPos;
 
-/* A Поз is an Индекс in the character window. We use short instead of int to
+/* A Pos is an index in the character window. We use short instead of int to
  * save space in the various tables. IPos is used only for parameter passing.
  */
 
 typedef struct internal_state {
     z_streamp strm;      /* pointer back to this zlib stream */
-    int   status;        /* as the имя implies */
+    int   status;        /* as the name implies */
     Bytef *pending_buf;  /* output still pending */
     ulg   pending_buf_size; /* size of pending_buf */
     Bytef *pending_out;  /* next pending byte to output to the stream */
-    ulg   pending;       /* nb of bytes in the pending буфер */
+    ulg   pending;       /* nb of bytes in the pending buffer */
     int   wrap;          /* bit 0 true for zlib, bit 1 true for gzip */
     gz_headerp  gzhead;  /* gzip header information to write */
-    ulg   gzindex;       /* where in extra, имя, or comment */
-    Байт  method;        /* can only be DEFLATED */
-    int   last_flush;    /* значение of flush param for previous deflate call */
+    ulg   gzindex;       /* where in extra, name, or comment */
+    Byte  method;        /* can only be DEFLATED */
+    int   last_flush;    /* value of flush param for previous deflate call */
 
                 /* used by deflate.c: */
 
@@ -123,23 +123,23 @@ typedef struct internal_state {
      * wSize-MAX_MATCH bytes, but this ensures that IO is always
      * performed with a length multiple of the block size. Also, it limits
      * the window size to 64K, which is quite useful on MSDOS.
-     * To do: use the user input буфер as sliding window.
+     * To do: use the user input buffer as sliding window.
      */
 
     ulg window_size;
-    /* Actual size of window: 2*wSize, except when the user input буфер
+    /* Actual size of window: 2*wSize, except when the user input buffer
      * is directly used as sliding window.
      */
 
     Posf *prev;
-    /* Link to older string with same hash Индекс. To limit the size of this
+    /* Link to older string with same hash index. To limit the size of this
      * array to 64K, this link is maintained only for the last 32K strings.
-     * An Индекс in this array is thus a window Индекс modulo 32K.
+     * An index in this array is thus a window index modulo 32K.
      */
 
     Posf *head; /* Heads of the hash chains or NIL. */
 
-    uInt  ins_h;          /* hash Индекс of string to be inserted */
+    uInt  ins_h;          /* hash index of string to be inserted */
     uInt  hash_size;      /* number of elements in hash table */
     uInt  hash_bits;      /* log2(hash_size) */
     uInt  hash_mask;      /* hash_size-1 */
@@ -147,7 +147,7 @@ typedef struct internal_state {
     uInt  hash_shift;
     /* Number of bits by which ins_h must be shifted at each input
      * step. It must be such that after MIN_MATCH steps, the oldest
-     * byte no longer takes part in the hash ключ, that is:
+     * byte no longer takes part in the hash key, that is:
      *   hash_shift * MIN_MATCH >= hash_bits
      */
 
@@ -164,7 +164,7 @@ typedef struct internal_state {
     uInt lookahead;              /* number of valid bytes ahead in window */
 
     uInt prev_length;
-    /* длина of the best match at previous step. Matches not greater than this
+    /* Length of the best match at previous step. Matches not greater than this
      * are discarded. This is used in the lazy match evaluation.
      */
 
@@ -176,11 +176,11 @@ typedef struct internal_state {
 
     uInt max_lazy_match;
     /* Attempt to find a better match only when the current match is strictly
-     * smaller than this значение. This mechanism is used only for compression
+     * smaller than this value. This mechanism is used only for compression
      * levels >= 4.
      */
 #   define max_insert_length  max_lazy_match
-    /* вставь new strings in the hash table only if the match length is not
+    /* Insert new strings in the hash table only if the match length is not
      * greater than this length. This saves time but degrades compression.
      * max_insert_length is used only for compression levels <= 3.
      */
@@ -191,7 +191,7 @@ typedef struct internal_state {
     uInt good_match;
     /* Use a faster search when the previous match is longer than this */
 
-    int nice_match; /* стоп searching when current match exceeds this */
+    int nice_match; /* Stop searching when current match exceeds this */
 
                 /* used by trees.c: */
     /* Didn't use ct_data typedef below to suppress compiler warning */
@@ -217,10 +217,10 @@ typedef struct internal_state {
     /* Depth of each subtree used as tie breaker for trees of equal frequency
      */
 
-    uchf *l_buf;          /* буфер for literals or lengths */
+    uchf *l_buf;          /* buffer for literals or lengths */
 
     uInt  lit_bufsize;
-    /* Размер of match буфер for literals/lengths.  There are 4 reasons for
+    /* Size of match buffer for literals/lengths.  There are 4 reasons for
      * limiting lit_bufsize to 64K:
      *   - frequencies can be kept in 16 bit counters
      *   - if compression is not successful for the first block, all input
@@ -233,16 +233,16 @@ typedef struct internal_state {
      *   - creating new Huffman trees less frequently may not provide fast
      *     adaptation to changes in the input data statistics. (Take for
      *     example a binary file with poorly compressible code followed by
-     *     a highly compressible string table.) Smaller буфер sizes give
+     *     a highly compressible string table.) Smaller buffer sizes give
      *     fast adaptation but have of course the overhead of transmitting
      *     trees more frequently.
      *   - I can't count above 4
      */
 
-    uInt last_lit;      /* running Индекс in l_buf */
+    uInt last_lit;      /* running index in l_buf */
 
     ushf *d_buf;
-    /* Буфер for distances. To simplify the code, d_buf and l_buf have
+    /* Buffer for distances. To simplify the code, d_buf and l_buf have
      * the same number of elements. To use different lengths, an extra flag
      * array would be necessary.
      */
@@ -258,7 +258,7 @@ typedef struct internal_state {
 #endif
 
     ush bi_buf;
-    /* Output буфер. bits are inserted starting at the bottom (least
+    /* Output buffer. bits are inserted starting at the bottom (least
      * significant bits).
      */
     int bi_valid;
@@ -267,7 +267,7 @@ typedef struct internal_state {
      */
 
     ulg high_water;
-    /* наибольш water mark offset in window for initialized bytes -- bytes above
+    /* High water mark offset in window for initialized bytes -- bytes above
      * this are set to zero in order to avoid memory check warnings when
      * longest match routines access bytes past the input.  This is then
      * updated to the new high water mark.

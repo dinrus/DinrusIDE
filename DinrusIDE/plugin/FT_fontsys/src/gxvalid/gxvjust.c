@@ -4,7 +4,7 @@
 /*                                                                         */
 /*    TrueTypeGX/AAT just table validation (body).                         */
 /*                                                                         */
-/*  Copyright 2005 by suzuki toshiya, Masatake YAMATO, красный Hat K.K.,       */
+/*  Copyright 2005 by suzuki toshiya, Masatake YAMATO, Red Hat K.K.,       */
 /*  David Turner, Robert Wilhelm, and Werner Lemberg.                      */
 /*                                                                         */
 /*  This file is part of the FreeType project, and may only be used,       */
@@ -40,13 +40,13 @@
 #define FT_COMPONENT  trace_gxvjust
 
   /*
-   * referred `just' table формат specification:
+   * referred `just' table format specification:
    * http://developer.apple.com/fonts/TTRefMan/RM06/Chap6just.html
    * last updated 2000.
    * ----------------------------------------------
    * [JUST HEADER]: GXV_JUST_HEADER_SIZE
    * version     (fixed:  32bit) = 0x00010000
-   * формат      (uint16: 16bit) = 0 is only defined (2000)
+   * format      (uint16: 16bit) = 0 is only defined (2000)
    * horizOffset (uint16: 16bit)
    * vertOffset  (uint16: 16bit)
    * ----------------------------------------------
@@ -114,7 +114,7 @@
     /* According to Apple spec, only 7bits in justClass is used */
     if ( ( justClass & 0xFFFFFF80 ) != 0 )
     {
-      GXV_TRACE(( "just table includes non-zero значение"
+      GXV_TRACE(( "just table includes non-zero value"
                   " in unused justClass higher bits"
                   " of WidthDeltaPair" ));
       GXV_SET_ERR_IF_PARANOID( FT_INVALID_DATA );
@@ -291,7 +291,7 @@
     valid->subtable_length = p - table;
 
     if ( variantsAxis != 0x64756374 ) /* 'duct' */
-      GXV_TRACE(( "variantsAxis 0x%08x is non default значение",
+      GXV_TRACE(( "variantsAxis 0x%08x is non default value",
                    variantsAxis ));
 
     if ( minimumLimit > noStretchValue )
@@ -322,7 +322,7 @@
     glyph = FT_NEXT_USHORT( p );
 
     if ( flags )
-      GXV_TRACE(( "type5: nonzero значение 0x%04x in unused flags\n",
+      GXV_TRACE(( "type5: nonzero value 0x%04x in unused flags\n",
                    flags ));
     gxv_just_check_max_gid( glyph, "type5:glyph", valid );
 
@@ -469,7 +469,7 @@
     GXV_Validator                   valid )
   {
 #ifdef GXV_LOAD_UNUSED_VARS
-    /* TODO: validate markClass & currentClass */
+    /* СДЕЛАТЬ: validate markClass & currentClass */
     FT_UShort  setMark;
     FT_UShort  dontAdvance;
     FT_UShort  markClass;
@@ -518,7 +518,7 @@
       GXV_TRACE(( "descending\n" ));
 
     if ( subFeatureFlags )
-      GXV_TRACE(( "  justClassTable: nonzero значение (0x%08x)"
+      GXV_TRACE(( "  justClassTable: nonzero value (0x%08x)"
                   " in unused subFeatureFlags\n", subFeatureFlags ));
 
     valid->statetable.optdata               = NULL;
@@ -653,7 +653,7 @@
     GXV_just_Data      just = &justrec;
 
     FT_ULong           version;
-    FT_UShort          формат;
+    FT_UShort          format;
     FT_UShort          horizOffset;
     FT_UShort          vertOffset;
 
@@ -673,7 +673,7 @@
 
     GXV_LIMIT_CHECK( 4 + 2 + 2 + 2 );
     version     = FT_NEXT_ULONG( p );
-    формат      = FT_NEXT_USHORT( p );
+    format      = FT_NEXT_USHORT( p );
     horizOffset = FT_NEXT_USHORT( p );
     vertOffset  = FT_NEXT_USHORT( p );
     gxv_odtect_add_range( table, p - table, "just header", odtect );
@@ -684,9 +684,9 @@
     if ( version != 0x00010000UL )
       FT_INVALID_FORMAT;
 
-    /* формат 0 (always:2000) */
-    GXV_TRACE(( " (формат = 0x%04x)\n", формат ));
-    if ( формат != 0x0000 )
+    /* format 0 (always:2000) */
+    GXV_TRACE(( " (format = 0x%04x)\n", format ));
+    if ( format != 0x0000 )
         FT_INVALID_FORMAT;
 
     GXV_TRACE(( " (horizOffset = %d)\n", horizOffset  ));

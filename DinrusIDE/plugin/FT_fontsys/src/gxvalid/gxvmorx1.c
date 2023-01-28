@@ -5,7 +5,7 @@
 /*    TrueTypeGX/AAT morx table validation                                 */
 /*    body for type1 (Contextual Substitution) subtable.                   */
 /*                                                                         */
-/*  Copyright 2005, 2007 by suzuki toshiya, Masatake YAMATO, красный Hat K.K., */
+/*  Copyright 2005, 2007 by suzuki toshiya, Masatake YAMATO, Red Hat K.K., */
 /*  David Turner, Robert Wilhelm, and Werner Lemberg.                      */
 /*                                                                         */
 /*  This file is part of the FreeType project, and may only be used,       */
@@ -180,7 +180,7 @@
     FT_Bytes             p;
     FT_Bytes             limit;
     FT_UShort            offset;
-    GXV_LookupValueDesc  значение;
+    GXV_LookupValueDesc  value;
 
     /* XXX: check range? */
     offset = (FT_UShort)( base_value_p->u +
@@ -190,14 +190,14 @@
     limit = lookuptbl_limit;
 
     GXV_LIMIT_CHECK ( 2 );
-    значение.u = FT_NEXT_USHORT( p );
+    value.u = FT_NEXT_USHORT( p );
 
-    return значение;
+    return value;
   }
 
 
   /*
-   * TODO: length should be limit?
+   * СДЕЛАТЬ: length should be limit?
    **/
   static void
   gxv_morx_subtable_type1_substitutionTable_validate( FT_Bytes       table,
@@ -211,7 +211,7 @@
       (GXV_morx_subtable_type1_StateOptRecData)valid->xstatetable.optdata;
 
 
-    /* TODO: calculate offset/length for each lookupTables */
+    /* СДЕЛАТЬ: calculate offset/length for each lookupTables */
     valid->lookupval_sign   = GXV_LOOKUPVALUE_UNSIGNED;
     valid->lookupval_func   = gxv_morx_subtable_type1_LookupValue_validate;
     valid->lookupfmt4_trans = gxv_morx_subtable_type1_LookupFmt4_transit;
@@ -227,7 +227,7 @@
       gxv_LookupTable_validate( table + offset, limit, valid );
     }
 
-    /* TODO: overlapping of lookupTables in substitutionTable */
+    /* СДЕЛАТЬ: overlapping of lookupTables in substitutionTable */
   }
 
 

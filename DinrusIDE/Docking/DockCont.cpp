@@ -1,157 +1,157 @@
 #include "Docking.h"
 
-namespace РНЦП {
+namespace Upp {
 
 // ImgButton
-void ImgButton::рисуй(Draw &w)
+void ImgButton::Paint(Draw &w)
 {
-	Размер sz = дайРазм();
+	Size sz = GetSize();
 	if (look)
-		ChPaint(w, sz, look[Толкач::GetVisualState()]);
+		ChPaint(w, sz, look[Pusher::GetVisualState()]);
 	int dx = IsPush() * -1;
 	int dy = IsPush();
-	if (!img.пустой()) {
-		Размер isz = img.дайРазм();
+	if (!img.IsEmpty()) {
+		Size isz = img.GetSize();
 		w.DrawImage((sz.cx - isz.cx) / 2 + dx, (sz.cy - isz.cy) / 2 + dy, img);
 	}
 }
 
 // DockContHandle frame
-int DockCont::DockContHandle::GetHandleSize(const DockableCtrl::Стиль &s) const
+int DockCont::DockContHandle::GetHandleSize(const DockableCtrl::Style &s) const
 {
-	return 	(пусто_ли(s.title_font) ? DPI(12) : s.title_font.GetCy() + DPI(2))
-			 + (s.handle_vert ? s.handle_margins.дайШирину() : s.handle_margins.дайВысоту()); 
+	return 	(IsNull(s.title_font) ? DPI(12) : s.title_font.GetCy() + DPI(2))
+			 + (s.handle_vert ? s.handle_margins.GetWidth() : s.handle_margins.GetHeight()); 
 }
 /*
-void DockCont::DockContHandle::освежиФокус(bool _focus)
+void DockCont::DockContHandle::RefreshFocus(bool _focus)
 {
 	if (focus != _focus) 	
-		{ focus = _focus; освежи(); }
+		{ focus = _focus; Refresh(); }
 }
 */
-void DockCont::DockContHandle::выложиФрейм(Прям& r)
+void DockCont::DockContHandle::FrameLayout(Rect& r)
 {
-	if (!dc || !показан_ли()) return;
-	const DockableCtrl::Стиль &s = dc->дайСтиль();
+	if (!dc || !IsShown()) return;
+	const DockableCtrl::Style &s = dc->GetStyle();
 	if (s.handle_vert)
-		выложиФреймСлева(r, this, GetHandleSize(s));
+		LayoutFrameLeft(r, this, GetHandleSize(s));
 	else
-		выложиФреймСверху(r, this, GetHandleSize(s));
+		LayoutFrameTop(r, this, GetHandleSize(s));
 }
 
-void DockCont::DockContHandle::добавьРазмФрейма(Размер& sz)
+void DockCont::DockContHandle::FrameAddSize(Size& sz)
 {
-	if (!dc || !показан_ли()) return;
-	const DockableCtrl::Стиль &s = dc->дайСтиль();
+	if (!dc || !IsShown()) return;
+	const DockableCtrl::Style &s = dc->GetStyle();
 	if (s.handle_vert)
 		sz.cx += GetHandleSize(s);
 	else
 		sz.cy += GetHandleSize(s);
 }
 
-void DockCont::DockContHandle::рисуй(Draw& w)
+void DockCont::DockContHandle::Paint(Draw& w)
 {
-	if (показан_ли() && dc) {
-		const DockableCtrl::Стиль &s = dc->дайСтиль();
-		Прям r = дайРазм();
-		const Прям &m = s.handle_margins;
-		Точка p;
+	if (IsShown() && dc) {
+		const DockableCtrl::Style &s = dc->GetStyle();
+		Rect r = GetSize();
+		const Rect &m = s.handle_margins;
+		Point p;
 		
 		if (s.handle_vert)
-			p = Точка(r.left-1 + m.left, r.bottom - m.bottom);
+			p = Point(r.left-1 + m.left, r.bottom - m.bottom);
 		else
-			p = Точка(r.left + m.left, r.top + m.top);
+			p = Point(r.left + m.left, r.top + m.top);
 		ChPaint(w, r, s.handle[0]);
 		
-		Рисунок img = dc->дайИконку();
-		if (!img.пустой()) {
+		Image img = dc->GetIcon();
+		if (!img.IsEmpty()) {
 			if (s.handle_vert) {
-				int isz = r.дайШирину();
+				int isz = r.GetWidth();
 				p.y -= isz;
 				isz -= 2;
-				img = CachedRescale(img, Размер(isz, isz));
+				img = CachedRescale(img, Size(isz, isz));
 				w.DrawImage(1, max(p.y, r.top), img);
 				p.y -= 2;
 			}
 			else {
-				int isz = r.дайВысоту() - 2;
-				img = CachedRescale(img, Размер(isz, isz));
+				int isz = r.GetHeight() - 2;
+				img = CachedRescale(img, Size(isz, isz));
 				w.DrawImage(p.x, 1, img);
 				p.x += isz + 2;
 			}
 		}
-		if (!пусто_ли(s.title_font)) {		
-			Ктрл *c = GetLastChild();
-			while (c && !c->показан_ли() && c->дайРодителя())
-				c = c->дайПредш();
+		if (!IsNull(s.title_font)) {		
+			Ctrl *c = GetLastChild();
+			while (c && !c->IsShown() && c->GetParent())
+				c = c->GetPrev();
 			if (s.handle_vert)
-				r.top = c ? c->дайПрям().bottom - m.top : r.top - m.top;
+				r.top = c ? c->GetRect().bottom - m.top : r.top - m.top;
 			else
-				r.right = c ? c->дайПрям().left - m.right : r.right - m.right;
+				r.right = c ? c->GetRect().left - m.right : r.right - m.right;
 			w.Clip(r);
-			ШТкст text = пусто_ли(dc->дайГруппу()) ? dc->дайТитул() : (ШТкст)фмт("%s (%s)", dc->дайТитул(), dc->дайГруппу());
+			WString text = IsNull(dc->GetGroup()) ? dc->GetTitle() : (WString)Format("%s (%s)", dc->GetTitle(), dc->GetGroup());
 			w.DrawText(p.x, p.y, s.handle_vert ? 900 : 0, text, s.title_font, s.title_ink[0/*focus*/]);
-			w.стоп();
+			w.End();
 		}
 	}	
 }
 
-void DockCont::Выкладка()
+void DockCont::Layout()
 {
 	if (waitsync) {
 		waitsync = false;
-		if (дайСчёт() == 1) {
-			Значение v = tabbar.дайКлюч(0);
+		if (GetCount() == 1) {
+			Value v = tabbar.GetKey(0);
 			if (IsDockCont(v)) {
 				DockCont *dc = ContCast(v);
 				AddFrom(*dc);
 				base->CloseContainer(*dc);
-				освежиВыкладку();
+				RefreshLayout();
 			}
 		}
-		if (!tabbar.дайСчёт())
+		if (!tabbar.GetCount())
 			base->CloseContainer(*this);
 		TabSelected();
 	}
 }
 
-void DockCont::отпрыскУдалён(Ктрл *child)
+void DockCont::ChildRemoved(Ctrl *child)
 {
-	if (child->дайРодителя() != this || !tabbar.дайСчёт()) return;
-	Ктрл *c = dynamic_cast<DockableCtrl *>(child);
+	if (child->GetParent() != this || !tabbar.GetCount()) return;
+	Ctrl *c = dynamic_cast<DockableCtrl *>(child);
 	if (!c) c = dynamic_cast<DockCont *>(child);
 	if (c)
-		for (int i = 0; i < дайСчёт(); i++)
-			if (c == дайКтрл(i)) {
-				tabbar.закрой(i);
+		for (int i = 0; i < GetCount(); i++)
+			if (c == GetCtrl(i)) {
+				tabbar.Close(i);
 				waitsync = true;
 				break;
 			}
 }
 
-void DockCont::отпрыскДобавлен(Ктрл *child)
+void DockCont::ChildAdded(Ctrl *child)
 {
-	if (child->дайРодителя() != this) 
+	if (child->GetParent() != this) 
 		return;
 	else if (DockableCtrl *dc = dynamic_cast<DockableCtrl *>(child)) {
-		Значение v = ValueCast(dc);
-		tabbar.вставьКлюч(0, v, dc->дайТитул(), dc->дайИконку(), dc->дайГруппу(), true);
+		Value v = ValueCast(dc);
+		tabbar.InsertKey(0, v, dc->GetTitle(), dc->GetIcon(), dc->GetGroup(), true);
 	}	
 	else if (DockCont *dc = dynamic_cast<DockCont *>(child)) {
-		Значение v = ValueCast(dc);
-		tabbar.вставьКлюч(0, v, dc->дайТитул(), Null, Null, true);
+		Value v = ValueCast(dc);
+		tabbar.InsertKey(0, v, dc->GetTitle(), Null, Null, true);
 	}	
 	else 
 		return;	
 	child->SizePos();
 	TabSelected();	
-	if (дайСчёт() >= 2) освежиВыкладку();
+	if (GetCount() >= 2) RefreshLayout();
 }
 
-bool DockCont::Ключ(dword ключ, int count)
+bool DockCont::Key(dword key, int count)
 {
 	if (!IsDocked())
-		постОбрвыз(callback1(base, &ОкноДок::DoHotKeys, ключ));
+		PostCallback(callback1(base, &DockWindow::DoHotKeys, key));
 	return !IsDocked();
 }
 
@@ -162,7 +162,7 @@ void DockCont::MoveBegin()
 	static bool in_move = false;
 	if (!in_move && !base->IsLocked()) { 
 		in_move = true;	
-		base->SaveDockerPos(GetCurrent(), Single<ОкноДок::PosInfo>()); 
+		base->SaveDockerPos(GetCurrent(), Single<DockWindow::PosInfo>()); 
 		base->ContainerDragStart(*this); 
 		in_move = false;
 	} 
@@ -182,18 +182,18 @@ void DockCont::MoveEnd() {
 void DockCont::WindowMenu()
 {
 	if (!base->IsLocked()) {
-		БарМеню bar;
+		MenuBar bar;
 		DockContMenu menu(base);
 		menu.ContainerMenu(bar, this, true);
-		bar.выполни();
+		bar.Execute();
 	}
 }
 
-void DockCont::анимируй(Прям target, int ticks, int interval)
+void DockCont::Animate(Rect target, int ticks, int interval)
 {
-	if (!открыт() || дайРодителя()) return;
+	if (!IsOpen() || GetParent()) return;
 	animating = true;	
-	Прям dr = дайПрям();
+	Rect dr = GetRect();
 	target -= dr;
 #ifdef PLATFORM_WIN32
 	target.top += 16; // Fudge for titlebar. Should get from OS?
@@ -204,40 +204,40 @@ void DockCont::анимируй(Прям target, int ticks, int interval)
 	target.bottom /= ticks;
 	for (int i = 0; i < ticks; i++) {
 		dr += target;
-		устПрям(dr);
-		синх();
-		обработайСобытия();
-		спи(interval);
+		SetRect(dr);
+		Sync();
+		ProcessEvents();
+		Sleep(interval);
 	}	
 	animating = false;	
 }
 
 void DockCont::TabSelected() 
 {
-	int ix = tabbar.дайКурсор();
+	int ix = tabbar.GetCursor();
 	if (ix >= 0) {
 		DockableCtrl *dc = Get0(ix);
 		if (!dc) return;
 		
-		Ктрл *ctrl = дайКтрл(ix);
-		for (Ктрл *c = FindFirstChild(); c; c = c->дайСледщ())
+		Ctrl *ctrl = GetCtrl(ix);
+		for (Ctrl *c = FindFirstChild(); c; c = c->GetNext())
 			if (c != ctrl && !c->InFrame()) 
-				c->скрой();
-		ctrl->покажи();
+				c->Hide();
+		ctrl->Show();
 
 		handle.dc = dc;
-		Иконка(dc->дайИконку()).Титул(dc->дайТитул());
+		Icon(dc->GetIcon()).Title(dc->GetTitle());
 
 		SyncButtons(*dc);
 
 		if (IsTabbed()) {
-			DockCont *c = static_cast<DockCont *>(дайРодителя());
+			DockCont *c = static_cast<DockCont *>(GetParent());
 			c->ChildTitleChanged(*this);
 			c->TabSelected();
 		}
 		else {
-			handle.освежи();
-			освежиВыкладку();
+			handle.Refresh();
+			RefreshLayout();
 		}
 	}
 }
@@ -247,95 +247,95 @@ void DockCont::TabDragged(int ix)
 	if (base->IsLocked())
 		return;
 	if (ix >= 0) {
-		// особый code needed
-		Значение v = tabbar.дайКлюч(ix);
+		// Special code needed
+		Value v = tabbar.GetKey(ix);
 		if (IsDockCont(v)) {
 			DockCont *c = ContCast(v);
-			c->удали();
+			c->Remove();
 			base->FloatFromTab(*this, *c);
 		}
 		else {
 			DockableCtrl *c = DockCast(v);
 			base->SaveDockerPos(*c);
-			c->удали();
+			c->Remove();
 			base->FloatFromTab(*this, *c);
 		}
-		if (tabbar.автоСкрой_ли()) 
-			освежиВыкладку();		
+		if (tabbar.IsAutoHide()) 
+			RefreshLayout();		
 	}
 }
 
 void DockCont::TabContext(int ix)
 {
-	БарМеню 		bar;
+	MenuBar 		bar;
 	DockContMenu 	menu(base);
 	DockMenu 		tabmenu(base);
 	if (ix >= 0) {
-		Значение v = tabbar.дайКлюч(ix);
+		Value v = tabbar.GetKey(ix);
 		if (IsDockCont(v))
 			menu.ContainerMenu(bar, ContCast(v), false);
 		else
 			tabmenu.WindowMenuNoClose(bar, DockCast(v));
 	}
 	if(base->HasCloseButtons()) {
-		if (!bar.пустой())
+		if (!bar.IsEmpty())
 			bar.Separator();
-		tabbar.сКонтекстнМеню(bar);
+		tabbar.ContextMenu(bar);
 	}
-	bar.выполни();
+	bar.Execute();
 }
 
-void DockCont::TabClosed0(Значение v)
+void DockCont::TabClosed0(Value v)
 {
 	if (IsDockCont(v)) {
 		DockCont *c = ContCast(v);
-		c->удали();
+		c->Remove();
 		base->CloseContainer(*c);
 	}
 	else {
 		DockableCtrl *c = DockCast(v);
 		base->SaveDockerPos(*c);
-		c->удали();
+		c->Remove();
 		c->WhenState();		
 	}
 	waitsync = true;
 }
 
-void DockCont::TabClosed(Значение v)
+void DockCont::TabClosed(Value v)
 {
 	TabClosed0(v);
-	Выкладка();
-	if (tabbar.дайСчёт() == 1) 
-		освежиВыкладку();
+	Layout();
+	if (tabbar.GetCount() == 1) 
+		RefreshLayout();
 }
 
-void DockCont::TabsClosed(МассивЗнач vv)
+void DockCont::TabsClosed(ValueArray vv)
 {
-	for (int i = vv.дайСчёт()-1; i >= 0 ; --i)
+	for (int i = vv.GetCount()-1; i >= 0 ; --i)
 		TabClosed0(vv[i]);
-	Выкладка();
-	if (tabbar.дайСчёт() == 1) 
-		освежиВыкладку();	
+	Layout();
+	if (tabbar.GetCount() == 1) 
+		RefreshLayout();	
 }
 
-void DockCont::сортируйТабы(bool b)
+void DockCont::SortTabs(bool b)
 {
-	tabbar.сортируйТабы(b);
+	tabbar.SortTabs(b);
 }
 
-void DockCont::сортируйТабы(ПорядокЗнач &sorter)
+void DockCont::SortTabs(ValueOrder &sorter)
 {
-	tabbar.сортируйЗначТабов(sorter);
+	tabbar.SortTabValues(sorter);
 }
 
-void DockCont::сортируйТабыРаз()
+void DockCont::SortTabsOnce()
 {
-	tabbar.сортируйТабыРаз();
+	tabbar.SortTabsOnce();
 }
 
-void DockCont::сортируйТабыРаз(ПорядокЗнач &sorter)
+void DockCont::SortTabsOnce(ValueOrder &sorter)
 {
-	tabbar.сортируйЗначТабовРаз(sorter);
+	tabbar.SortTabValuesOnce(sorter);
 }
 
 void DockCont::CloseAll()
@@ -354,22 +354,22 @@ void DockCont::Dock(int align)
 	base->DockContainer(align, *this);
 }
 
-void DockCont::автоСкрой()
+void DockCont::AutoHide()
 {
-	AutoHideAlign(автоСкрой_ли() ? GetAutoHideAlign() : GetDockAlign());
+	AutoHideAlign(IsAutoHide() ? GetAutoHideAlign() : GetDockAlign());
 }
 
 void DockCont::AutoHideAlign(int align)
 {
-	ПРОВЕРЬ(base);
-	if (автоСкрой_ли()) {
-		if (align == ОкноДок::DOCK_NONE)
+	ASSERT(base);
+	if (IsAutoHide()) {
+		if (align == DockWindow::DOCK_NONE)
 			base->FloatContainer(*this, Null, false);
 		else			
 			base->DockContainer(align, *this);	
 	}
 	else	
-		base->AutoHideContainer((align == ОкноДок::DOCK_NONE) ? ОкноДок::DOCK_TOP : align, *this);
+		base->AutoHideContainer((align == DockWindow::DOCK_NONE) ? DockWindow::DOCK_TOP : align, *this);
 }
 
 void DockCont::RestoreCurrent()
@@ -379,39 +379,39 @@ void DockCont::RestoreCurrent()
 
 void DockCont::AddFrom(DockCont& cont, int except)
 {
-	bool all = except < 0 || except >= cont.дайСчёт();
-	int ix = дайСчёт();
-	for (int i = cont.дайСчёт() - 1; i >= 0; i--)
+	bool all = except < 0 || except >= cont.GetCount();
+	int ix = GetCount();
+	for (int i = cont.GetCount() - 1; i >= 0; i--)
 		if (i != except) {
-			Ктрл *c = cont.дайКтрл(i);
-			c->удали();
-			добавь(*c);				
+			Ctrl *c = cont.GetCtrl(i);
+			c->Remove();
+			Add(*c);				
 		}		
 	if (all)
-		cont.tabbar.очисть();
-	SignalStateChange(ix, дайСчёт()-1);
+		cont.tabbar.Clear();
+	SignalStateChange(ix, GetCount()-1);
 }
 
-void DockCont::очисть()
+void DockCont::Clear()
 {
-	if (tabbar.дайСчёт()) {
-		// копируй tabbar values and clear to prevent this being called multple times if child 
+	if (tabbar.GetCount()) {
+		// Copy tabbar values and clear to prevent this being called multple times if child 
 		//  if destroyed on closing. pfft
-		Вектор<Значение> v;
-		v.устСчёт(tabbar.дайСчёт());
-		for (int i = 0; i < tabbar.дайСчёт(); i++)
-			v[i] = tabbar.дайКлюч(i);
-		tabbar.очисть();
-		// удали ctrls and signal correct state change
-		for (int i = 0; i < v.дайСчёт(); i++) {
+		Vector<Value> v;
+		v.SetCount(tabbar.GetCount());
+		for (int i = 0; i < tabbar.GetCount(); i++)
+			v[i] = tabbar.GetKey(i);
+		tabbar.Clear();
+		// Remove ctrls and signal correct state change
+		for (int i = 0; i < v.GetCount(); i++) {
 			if (IsDockCont(v[i])) { 
 				DockCont *dc = ContCast(v[i]);
-				dc->удали();
+				dc->Remove();
 				dc->State(*base, STATE_NONE);
 			}
 			else {
 				DockableCtrl *dc = DockCast(v[i]);
-				dc->удали();
+				dc->Remove();
 				dc->WhenState();
 			}
 		}		
@@ -420,111 +420,111 @@ void DockCont::очисть()
 	handle.dc = NULL;
 }
 
-void DockCont::State(ОкноДок& dock, DockCont::DockState state)
+void DockCont::State(DockWindow& dock, DockCont::DockState state)
 {
 	base = &dock;
 	dockstate = state;	
 	SyncFrames();
 	SyncButtons();
-	покажи(); 
+	Show(); 
 	SignalStateChange();
 }
 
 void DockCont::SignalStateChange()
 {
-	if (дайСчёт())
-		SignalStateChange(дайСчёт()-1, 0);
+	if (GetCount())
+		SignalStateChange(GetCount()-1, 0);
 }
 
 void DockCont::SignalStateChange(int from, int to)
 {
 	for (int i = to; i >= from; i--) {
-		if (IsDockCont(tabbar.дайКлюч(i)))
-			ContCast(tabbar.дайКлюч(i))->SignalStateChange();
+		if (IsDockCont(tabbar.GetKey(i)))
+			ContCast(tabbar.GetKey(i))->SignalStateChange();
 		else
-			DockCast(tabbar.дайКлюч(i))->WhenState();
+			DockCast(tabbar.GetKey(i))->WhenState();
 	}
 }
 
 void DockCont::SyncButtons(DockableCtrl& dc)
 {
-//	if (!handle.показан_ли()) return;
+//	if (!handle.IsShown()) return;
 	if (base) {
-		Ктрл::ПозЛога lp;
-		const DockableCtrl::Стиль& s = dc.дайСтиль();
+		Ctrl::LogPos lp;
+		const DockableCtrl::Style& s = dc.GetStyle();
 		int btnsize = handle.GetHandleSize(s) - 3;
 		
 		Logc& inc = s.handle_vert ? lp.y : lp.x;
-		lp.x = s.handle_vert ? Ктрл::Logc(ALIGN_LEFT, 1, btnsize) : Ктрл::Logc(ALIGN_RIGHT, 1, btnsize);
-		lp.y = Ктрл::Logc(ALIGN_TOP, 1, btnsize);		
+		lp.x = s.handle_vert ? Ctrl::Logc(ALIGN_LEFT, 1, btnsize) : Ctrl::Logc(ALIGN_RIGHT, 1, btnsize);
+		lp.y = Ctrl::Logc(ALIGN_TOP, 1, btnsize);		
 		
-		if (close.дайРодителя()) {
-			close.SetLook(s.close).устПоз(lp).покажи();
+		if (close.GetParent()) {
+			close.SetLook(s.close).SetPos(lp).Show();
 			inc.SetA(inc.GetA() + btnsize + 1);
 		}
-		bool ah = base->автоСкрой_ли();
-		autohide.покажи(ah);
-		if (ah && autohide.дайРодителя()) {
-			autohide.SetLook(автоСкрой_ли() ? s.pin : s.autohide).устПоз(lp);
+		bool ah = base->IsAutoHide();
+		autohide.Show(ah);
+		if (ah && autohide.GetParent()) {
+			autohide.SetLook(IsAutoHide() ? s.pin : s.autohide).SetPos(lp);
 			inc.SetA(inc.GetA() + btnsize + 1);		
 		}
-		if (windowpos.дайРодителя())
-			windowpos.SetLook(s.windowpos).устПоз(lp).покажи();
+		if (windowpos.GetParent())
+			windowpos.SetLook(s.windowpos).SetPos(lp).Show();
 	}
 	else {
-		close.скрой();
-		autohide.скрой();
-		windowpos.скрой();
+		close.Hide();
+		autohide.Hide();
+		windowpos.Hide();
 	}
 }
 
-void DockCont::синхТабы(int align, bool text)
+void DockCont::SyncTabs(int align, bool text)
 {
 	tabbar.ShowText(text);
-	if (align != tabbar.дайЛин())
-		tabbar.устЛин(align);
+	if (align != tabbar.GetAlign())
+		tabbar.SetAlign(align);
 }
 
-Ктрл * DockCont::FindFirstChild() const
+Ctrl * DockCont::FindFirstChild() const
 {
-	for (Ктрл *c = дайПервОтпрыск(); c; c = c->дайСледщ())
+	for (Ctrl *c = GetFirstChild(); c; c = c->GetNext())
 		if (!c->InFrame()) return c;
 	return NULL;
 }
 
-void DockCont::устКурсор(Ктрл& c)
+void DockCont::SetCursor(Ctrl& c)
 {
-	for (int i = 0; i < дайСчёт(); i++) 
-		if (дайКтрл(i) == &c)
-			return устКурсор(i);
+	for (int i = 0; i < GetCount(); i++) 
+		if (GetCtrl(i) == &c)
+			return SetCursor(i);
 }
 
 void DockCont::GroupRefresh()
 {
-	for (int i = 0; i < tabbar.дайСчёт(); i++)
-		if (!IsDockCont(tabbar.дайКлюч(i)))
-			tabbar.устГруппуТабов(i, DockCast(tabbar.дайКлюч(i))->дайГруппу());
-	освежи();
+	for (int i = 0; i < tabbar.GetCount(); i++)
+		if (!IsDockCont(tabbar.GetKey(i)))
+			tabbar.SetTabGroup(i, DockCast(tabbar.GetKey(i))->GetGroup());
+	Refresh();
 }
 
-void DockCont::GetGroups(Вектор<Ткст>& groups)
+void DockCont::GetGroups(Vector<String>& groups)
 {
-	for (int i = 0; i < tabbar.дайСчёт(); i++) {
-		Значение v = tabbar.дайКлюч(i);
+	for (int i = 0; i < tabbar.GetCount(); i++) {
+		Value v = tabbar.GetKey(i);
 		if (IsDockCont(v))
 			ContCast(v)->GetGroups(groups);
 		else {
 			DockableCtrl *dc = DockCast(v);
-			Ткст g = dc->дайГруппу();
-			if (!g.пустой()) {
+			String g = dc->GetGroup();
+			if (!g.IsEmpty()) {
 				bool found = false;
-				for (int j = 0;	j < groups.дайСчёт(); j++)
+				for (int j = 0;	j < groups.GetCount(); j++)
 					if (groups[j] == g) {
 						found = true;
 						break;
 					}
 				if (!found)
-					groups.добавь(g);
+					groups.Add(g);
 			}				
 		}
 	}
@@ -532,10 +532,10 @@ void DockCont::GetGroups(Вектор<Ткст>& groups)
 
 void DockCont::SetAllDockerPos()
 {
-	ОкноДок::PosInfo pi;
+	DockWindow::PosInfo pi;
 	bool posset = false;
-	for (int i = 0; i < дайСчёт(); i++) {
-		Значение v = tabbar.дайКлюч(i);
+	for (int i = 0; i < GetCount(); i++) {
+		Value v = tabbar.GetKey(i);
 		if (IsDockCont(v))
 			ContCast(v)->SetAllDockerPos();
 		else {
@@ -553,70 +553,70 @@ void DockCont::WindowButtons(bool menu, bool hide, bool _close)
 	AddRemoveButton(windowpos, menu && !locked);
 	AddRemoveButton(autohide, hide && !locked);
 	AddRemoveButton(close, _close && !locked);
-	tabbar.сКроссами(_close && !locked);
+	tabbar.Crosses(_close && !locked);
 	NoCloseBox((!_close) || locked);
 	SyncButtons();
 }
 
-void DockCont::AddRemoveButton(Ктрл& c, bool state)
+void DockCont::AddRemoveButton(Ctrl& c, bool state)
 {
-	if (state && !c.дайРодителя()) 
-		handle.добавь(c); 
+	if (state && !c.GetParent()) 
+		handle.Add(c); 
 	else if (!state) 
-		c.удали();	
+		c.Remove();	
 }
 
 void DockCont::Highlight()
 {
-	if (!дайСчёт() || (!открыт() && !IsPopUp() && !дайРодителя())) return;
+	if (!GetCount() || (!IsOpen() && !IsPopUp() && !GetParent())) return;
 	ViewDraw v(this); 
-	ChPaint(v, дайРазм(), GetCurrent().дайСтиль().highlight[1]);
+	ChPaint(v, GetSize(), GetCurrent().GetStyle().highlight[1]);
 }
 
-Рисунок DockCont::GetHighlightImage()
+Image DockCont::GetHighlightImage()
 {
-	Ктрл *ctrl = дайКтрл(дайКурсор());
-	if (!ctrl) return Рисунок();
-	Размер sz = ctrl->дайПрям().дайРазм();
-	if (tabbar.автоСкрой_ли()) {
-		if (tabbar.вертикален())
-			sz.cx -= tabbar.дайРазмФрейма();
+	Ctrl *ctrl = GetCtrl(GetCursor());
+	if (!ctrl) return Image();
+	Size sz = ctrl->GetRect().GetSize();
+	if (tabbar.IsAutoHide()) {
+		if (tabbar.IsVert())
+			sz.cx -= tabbar.GetFrameSize();
 		else
-			sz.cy -= tabbar.дайРазмФрейма();
+			sz.cy -= tabbar.GetFrameSize();
 	}
 	ImageDraw img(sz);
 	ctrl->DrawCtrlWithParent(img);
 	return img;
 }
 
-Размер DockCont::дайМинРазм() const
+Size DockCont::GetMinSize() const
 { 
-	if (animating) return Размер(0, 0);
-	Размер sz = tabbar.дайСчёт() ? GetCurrent().дайМинРазм() : Размер(0, 0); 
-	sz = дайРазмФрейма(sz);
+	if (animating) return Size(0, 0);
+	Size sz = tabbar.GetCount() ? GetCurrent().GetMinSize() : Size(0, 0); 
+	sz = AddFrameSize(sz);
 	return sz;
 }
 
-Размер DockCont::дайМаксРазм() const	
+Size DockCont::GetMaxSize() const	
 { 
-	Размер sz = tabbar.дайСчёт() ? GetCurrent().дайМаксРазм() : Размер(0, 0);
-	return дайРазмФрейма(sz);
+	Size sz = tabbar.GetCount() ? GetCurrent().GetMaxSize() : Size(0, 0);
+	return AddFrameSize(sz);
 }
 
-Размер DockCont::дайСтдРазм() const
+Size DockCont::GetStdSize() const
 {
-	Размер sz = usersize;
-	if (пусто_ли(sz.cx) || пусто_ли(sz.cy)) {
-		Размер std = GetCurrent().дайСтдРазм();
-		if (пусто_ли(sz.cx)) sz.cx = std.cx;
-		if (пусто_ли(sz.cy)) sz.cy = std.cy;
+	Size sz = usersize;
+	if (IsNull(sz.cx) || IsNull(sz.cy)) {
+		Size std = GetCurrent().GetStdSize();
+		if (IsNull(sz.cx)) sz.cx = std.cx;
+		if (IsNull(sz.cy)) sz.cy = std.cy;
 	}
-	return дайРазмФрейма(sz);
+	return AddFrameSize(sz);
 }
 
 void DockCont::SyncUserSize(bool h, bool v)
 {
-	Размер sz = дайРазм();
+	Size sz = GetSize();
 	if (h) usersize.cx = sz.cx;
 	if (v) usersize.cy = sz.cy;
 }
@@ -633,130 +633,130 @@ int DockCont::GetAutoHideAlign() const
 
 bool DockCont::IsDockAllowed(int align, int dc_ix) const
 {
-	if (dc_ix >= 0) return IsDockAllowed0(align, tabbar.дайКлюч(dc_ix));
+	if (dc_ix >= 0) return IsDockAllowed0(align, tabbar.GetKey(dc_ix));
 	else if (!base->IsDockAllowed(align)) return false;
 	
-	for (int i = 0; i < tabbar.дайСчёт(); i++)
-		if (!IsDockAllowed0(align, tabbar.дайКлюч(i))) return false;
+	for (int i = 0; i < tabbar.GetCount(); i++)
+		if (!IsDockAllowed0(align, tabbar.GetKey(i))) return false;
 	return true;
 }
 
-bool DockCont::IsDockAllowed0(int align, const Значение& v) const
+bool DockCont::IsDockAllowed0(int align, const Value& v) const
 {
 	return IsDockCont(v) ? ContCast(v)->IsDockAllowed(align, -1) : base->IsDockAllowed(align, *DockCast(v));
 }
 
 DockableCtrl * DockCont::Get0(int ix) const
 { 
-	if (ix < 0 || ix > tabbar.дайСчёт()) return NULL;
-	Значение v = tabbar.дайКлюч(ix); 
+	if (ix < 0 || ix > tabbar.GetCount()) return NULL;
+	Value v = tabbar.GetKey(ix); 
 	return IsDockCont(v) ? ContCast(v)->GetCurrent0() : DockCast(v); 
 }
 
-ШТкст DockCont::дайТитул(bool force_count) const
+WString DockCont::GetTitle(bool force_count) const
 {
-	if ((IsTabbed() || force_count) && tabbar.дайСчёт() > 1) 
-		return (ШТкст)фмт("%s (%d/%d)", GetCurrent().дайТитул(), tabbar.дайКурсор()+1, tabbar.дайСчёт()); 
-	return GetCurrent().дайТитул();	
+	if ((IsTabbed() || force_count) && tabbar.GetCount() > 1) 
+		return (WString)Format("%s (%d/%d)", GetCurrent().GetTitle(), tabbar.GetCursor()+1, tabbar.GetCount()); 
+	return GetCurrent().GetTitle();	
 }
 
 void DockCont::ChildTitleChanged(DockableCtrl &dc)
 {
-	ChildTitleChanged(&dc, dc.дайТитул(), dc.дайИконку());
+	ChildTitleChanged(&dc, dc.GetTitle(), dc.GetIcon());
 }
 
 void DockCont::ChildTitleChanged(DockCont &dc)
 {
-	ChildTitleChanged(&dc, dc.дайТитул(), Null);
+	ChildTitleChanged(&dc, dc.GetTitle(), Null);
 }
 
-void DockCont::ChildTitleChanged(Ктрл *child, ШТкст title, Рисунок icon)
+void DockCont::ChildTitleChanged(Ctrl *child, WString title, Image icon)
 {
-	for (int i = 0; i < tabbar.дайСчёт(); i++)
-		if (CtrlCast(tabbar.дайКлюч(i)) == child) {
-		    tabbar.уст(i, tabbar.дайКлюч(i), title, icon);
+	for (int i = 0; i < tabbar.GetCount(); i++)
+		if (CtrlCast(tabbar.GetKey(i)) == child) {
+		    tabbar.Set(i, tabbar.GetKey(i), title, icon);
 		    break;
 		}
-	if (!дайРодителя()) 
-		Титул(дайТитул());
-	освежиФрейм();
+	if (!GetParent()) 
+		Title(GetTitle());
+	RefreshFrame();
 }
 
-void DockCont::сериализуй(Поток& s)
+void DockCont::Serialize(Stream& s)
 {
 	int ctrl = 'D';
 	int cont = 'C';
-	const Вектор<DockableCtrl *>& dcs = base->GetDockableCtrls();
+	const Vector<DockableCtrl *>& dcs = base->GetDockableCtrls();
 	
-	if (s.сохраняется()) {		
-		if (дайСчёт() == 1 && IsDockCont(tabbar.дайКлюч(0)))
-			return ContCast(tabbar.дайКлюч(0))->сериализуй(s);
+	if (s.IsStoring()) {		
+		if (GetCount() == 1 && IsDockCont(tabbar.GetKey(0)))
+			return ContCast(tabbar.GetKey(0))->Serialize(s);
 
-		int cnt = дайСчёт();
+		int cnt = GetCount();
 		s / cont / cnt;
-		for (int i = дайСчёт() - 1; i >= 0; i--) {
-			if (IsDockCont(tabbar.дайКлюч(i)))
-				ContCast(tabbar.дайКлюч(i))->сериализуй(s);
+		for (int i = GetCount() - 1; i >= 0; i--) {
+			if (IsDockCont(tabbar.GetKey(i)))
+				ContCast(tabbar.GetKey(i))->Serialize(s);
 			else {
-				DockableCtrl *dc = DockCast(tabbar.дайКлюч(i));
+				DockableCtrl *dc = DockCast(tabbar.GetKey(i));
 				int ix = base->FindDocker(dc);
 				s / ctrl / ix;					
 			}									
 		}
-		int cursor = tabbar.дайКурсор();
-		int groupix = tabbar.дайГруппу();
+		int cursor = tabbar.GetCursor();
+		int groupix = tabbar.GetGroup();
 		s / cursor / groupix;
 	}
 	else {
 		int cnt;
-		int тип;
+		int type;
 		
-		s / тип / cnt;
-		ПРОВЕРЬ(тип == cont);
+		s / type / cnt;
+		ASSERT(type == cont);
 		for (int i = 0; i < cnt; i++) {
-			int64 pos = s.дайПоз();
-			s / тип;
-			if (тип == cont) {
-				s.перейди(pos);
+			int64 pos = s.GetPos();
+			s / type;
+			if (type == cont) {
+				s.Seek(pos);
 				DockCont *dc = base->CreateContainer();
-				dc->сериализуй(s);
+				dc->Serialize(s);
 				base->DockContainerAsTab(*this, *dc, true);
 			}
-			else if (тип == ctrl) {
+			else if (type == ctrl) {
 				int ix;
 				s / ix;
-				if (ix >= 0 && ix < dcs.дайСчёт())
-					добавь(*dcs[ix]);
+				if (ix >= 0 && ix < dcs.GetCount())
+					Add(*dcs[ix]);
 			}
 			else
-				ПРОВЕРЬ(false);								
+				ASSERT(false);								
 		}
 		int cursor, groupix;
 		s / cursor / groupix;
-		tabbar.устГруппу(groupix);
-		tabbar.устКурсор(min(tabbar.дайСчёт()-1, cursor));
+		tabbar.SetGroup(groupix);
+		tabbar.SetCursor(min(tabbar.GetCount()-1, cursor));
 		TabSelected();
 	}	
 }
-void DockCont::DockContMenu::ContainerMenu(Бар& bar, DockCont *c, bool withgroups)
+void DockCont::DockContMenu::ContainerMenu(Bar& bar, DockCont *c, bool withgroups)
 {
 	DockableCtrl *dc = &c->GetCurrent();
 	cont = c;
 		
-	// TODO: Need correct группа filtering
+	// СДЕЛАТЬ: Need correct group filtering
 	withgroups = false;
 	
 	// If grouping, find all groups
 	DockMenu::WindowMenu(bar, dc);	
 	if (withgroups && dock->IsGrouping()) {
-		Вектор<Ткст> groups;
+		Vector<String> groups;
 		cont->GetGroups(groups);
-		if (groups.дайСчёт()) {
+		if (groups.GetCount()) {
 			bar.Separator();
-			сортируй(groups);
-			for (int i = 0; i < groups.дайСчёт(); i++)
-				bar.добавь(groups[i], THISBACK1(GroupWindowsMenu, groups[i]));
-			bar.добавь(t_("All"), THISBACK1(GroupWindowsMenu, Ткст(Null)));	
+			Sort(groups);
+			for (int i = 0; i < groups.GetCount(); i++)
+				bar.Add(groups[i], THISBACK1(GroupWindowsMenu, groups[i]));
+			bar.Add(t_("All"), THISBACK1(GroupWindowsMenu, String(Null)));	
 		}
 	}
 }
@@ -781,13 +781,13 @@ void DockCont::DockContMenu::MenuClose(DockableCtrl *dc)
 	cont->CloseAll();
 }
 
-void DockCont::Замок(bool lock)
+void DockCont::Lock(bool lock)
 {
-	tabbar.сКроссами(!lock && base && base->HasCloseButtons());
-	tabbar.WhenDrag 		= lock ? Обрвыз1<int>() : THISBACK(TabDragged);
-	tabbar.WhenContext 		= lock ? Обрвыз1<int>() : THISBACK(TabContext);	
+	tabbar.Crosses(!lock && base && base->HasCloseButtons());
+	tabbar.WhenDrag 		= lock ? Callback1<int>() : THISBACK(TabDragged);
+	tabbar.WhenContext 		= lock ? Callback1<int>() : THISBACK(TabContext);	
 	SyncFrames(lock && !base->IsShowingLockedHandles());
-	освежиВыкладку();
+	RefreshLayout();
 }
 
 void DockCont::SyncFrames()
@@ -797,12 +797,12 @@ void DockCont::SyncFrames()
 
 void DockCont::SyncFrames(bool hidehandle)
 {
-	bool frames = !hidehandle && (IsDocked() || автоСкрой_ли());
-	handle.покажи(frames);
+	bool frames = !hidehandle && (IsDocked() || IsAutoHide());
+	handle.Show(frames);
 	if (frames)
-		устФрейм(0, Single<DockCont::DockContFrame>());
+		SetFrame(0, Single<DockCont::DockContFrame>());
 	else 
-		устФрейм(0, фреймПусто());
+		SetFrame(0, NullFrame());
 }
 
 DockCont::DockCont()
@@ -814,14 +814,14 @@ DockCont::DockCont()
 	usersize.cx = usersize.cy = Null;
 	NoCenter();
 
-	tabbar.сортируйЗначТабов(Single<StdValueOrder>());
-	tabbar.сортируйТабы(false);
+	tabbar.SortTabValues(Single<StdValueOrder>());
+	tabbar.SortTabs(false);
 
 	tabbar.AutoHideMin(1);
 	tabbar<<= THISBACK(TabSelected);
 	tabbar.WhenClose = THISBACK(TabClosed);
 	tabbar.WhenCloseSome = THISBACK(TabsClosed);
-	tabbar.устНиз();	
+	tabbar.SetBottom();	
 
 	WhenClose = THISBACK(CloseAll);
 	
@@ -829,15 +829,15 @@ DockCont::DockCont()
 	handle.WhenContext = THISBACK(WindowMenu);
 	handle.WhenLeftDrag = THISBACK(MoveBegin);
 	handle.WhenLeftDouble = THISBACK(RestoreCurrent);
-	close.Подсказка(t_("закрой")) 				<<= THISBACK(CloseAll);
-	autohide.Подсказка(t_("Auto-скрой")) 		<<= THISBACK(автоСкрой);
-	windowpos.Подсказка(t_("Window Menu")) 	<<= THISBACK(WindowMenu);		
+	close.Tip(t_("Закрыть")) 				<<= THISBACK(CloseAll);
+	autohide.Tip(t_("Auto-Hide")) 		<<= THISBACK(AutoHide);
+	windowpos.Tip(t_("Window Menu")) 	<<= THISBACK(WindowMenu);		
 	
-	добавьФрейм(фреймПусто());
-	добавьФрейм(tabbar);
-	добавьФрейм(handle);
+	AddFrame(NullFrame());
+	AddFrame(tabbar);
+	AddFrame(handle);
 
-	Замок(false);	
+	Lock(false);	
 }
 
 }

@@ -1,16 +1,16 @@
 class CSyntax : public EditorSyntax { // Curly braces languages (C++, Java, C#, Javascript...) common support
 public:
-	virtual void            очисть();
+	virtual void            Clear();
 	virtual void            ScanSyntax(const wchar *ln, const wchar *e, int line, int tab_size);
-	virtual void            сериализуй(Поток& s);
-	virtual void            IndentInsert(РедакторКода& editor, int chr, int count);
-	virtual bool            проверьФигСкобы(РедакторКода& e, int64& bpos0, int64& bpos);
+	virtual void            Serialize(Stream& s);
+	virtual void            IndentInsert(CodeEditor& editor, int chr, int count);
+	virtual bool            CheckBrackets(CodeEditor& e, int64& bpos0, int64& bpos);
 	virtual bool            CanAssist() const;
 	virtual void            Highlight(const wchar *s, const wchar *end, HighlightOutput& hls,
-	                                  РедакторКода *editor, int line, int64 pos);
-	virtual void            проверьОсвежиСинтакс(РедакторКода& e, int64 pos, const ШТкст& text);
-	virtual Вектор<IfState> PickIfStack(); // TODO: Refactor?
-	virtual void            перефмтКоммент(РедакторКода& e);
+	                                  CodeEditor *editor, int line, int64 pos);
+	virtual void            CheckSyntaxRefresh(CodeEditor& e, int64 pos, const WString& text);
+	virtual Vector<IfState> PickIfStack(); // СДЕЛАТЬ: Refactor?
+	virtual void            ReformatComment(CodeEditor& e);
 
 protected:
 	bool        comment;       // we are in /* */ block comment
@@ -18,7 +18,7 @@ protected:
 	bool        string;        // we are in string (becase it can be continued by '\')
 	bool        linecont;      // line ended with '\'
 	bool        was_namespace; // true if there was 'namespace', until '{' or ';' (not in ( [ brackets)
-	ШТкст     raw_string;    // we are in C++11 raw string literal, this is end delimiter, e.g. )"
+	WString     raw_string;    // we are in C++11 raw string literal, this is end delimiter, e.g. )"
 	char        macro;         // can be one of:
 	enum        {
 		MACRO_OFF = 0,  // last line was not #define
@@ -28,44 +28,44 @@ protected:
 
 	int         cl, bl, pl; // levels of { [ (
 
-	Вектор<int>     brk; // { ( [ stack (contains '{', ')', ']')
-	Вектор<int>     blk; // { line stack //TODO:SYNTAX: Join blk and bid
-	Вектор<int>     bid; // { indentation stack
-	Вектор<Isx>     par; // ( [ position stack
-	Вектор<IfState> ifstack;
+	Vector<int>     brk; // { ( [ stack (contains '{', ')', ']')
+	Vector<int>     blk; // { line stack //СДЕЛАТЬ:SYNTAX: Join blk and bid
+	Vector<int>     bid; // { indentation stack
+	Vector<Isx>     par; // ( [ position stack
+	Vector<IfState> ifstack;
 
 	int         stmtline;     // line of latest "if", "else", "while", "do", "for" or -1
 	int         endstmtline;  // line of latest ';' (not in ( [ brackets)
 	int         seline;       // stmtline stored here on ';' (not in ( [ brackets)
 	int         spar;         // ( [ level, reset on "if", "else", "while", "do", "for"
 	
-	int         highlight;    // subtype (temporary) TODO
+	int         highlight;    // subtype (temporary) СДЕЛАТЬ
 
 	static int  InitUpp(const char **q);
 	static void InitKeywords();
 	const wchar *DoComment(HighlightOutput& hls, const wchar *p, const wchar *e);
 
-	static Вектор< Индекс<Ткст> > keyword;
-	static Вектор< Индекс<Ткст> > имя;
-	static Индекс<Ткст> kw_upp;
+	static Vector< Index<String> > keyword;
+	static Vector< Index<String> > name;
+	static Index<String> kw_upp;
 	static int kw_macros, kw_logs, kw_sql_base, kw_sql_func;
 
 	
-	static Цвет BlockColor(int level);
+	static Color BlockColor(int level);
 
-	int     GetCommentPos(РедакторКода& e, int l, ШТкст& ch) const;
-	ШТкст GetCommentHdr(РедакторКода& e, int l) const { ШТкст h; GetCommentPos(e, l, h); return h; }
-	void    IndentInsert0(РедакторКода& e, int chr, int count, bool reformat);
+	int     GetCommentPos(CodeEditor& e, int l, WString& ch) const;
+	WString GetCommentHdr(CodeEditor& e, int l) const { WString h; GetCommentPos(e, l, h); return h; }
+	void    IndentInsert0(CodeEditor& e, int chr, int count, bool reformat);
 
-	void Bracket(int64 pos, HighlightOutput& hls, РедакторКода *editor);
+	void Bracket(int64 pos, HighlightOutput& hls, CodeEditor *editor);
 
 	void  ClearBraces();
 
 	void  Grounding(const wchar *ln, const wchar *e);
 
-	bool CheckBracket(РедакторКода& e, int li, int64 pos, int64 ppos, int64 pos0, ШТкст ln, int d, int limit, int64& bpos0, int64& bpos);
-	bool CheckLeftBracket(РедакторКода& e, int64 pos, int64& bpos0, int64& bpos);
-	bool CheckRightBracket(РедакторКода& e, int64 pos, int64& bpos0, int64& bpos);
+	bool CheckBracket(CodeEditor& e, int li, int64 pos, int64 ppos, int64 pos0, WString ln, int d, int limit, int64& bpos0, int64& bpos);
+	bool CheckLeftBracket(CodeEditor& e, int64 pos, int64& bpos0, int64& bpos);
+	bool CheckRightBracket(CodeEditor& e, int64 pos, int64& bpos0, int64& bpos);
 
 	bool RawString(const wchar *p, int& n);
 	
@@ -81,7 +81,7 @@ public:
 	
 	void    SetHighlight(int h)           { highlight = h; }
 
-	CSyntax()                             { очисть(); }
+	CSyntax()                             { Clear(); }
 };
 
 const wchar *HighlightNumber(HighlightOutput& hls, const wchar *p, bool ts, bool octal, bool css);

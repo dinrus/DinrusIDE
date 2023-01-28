@@ -38,7 +38,7 @@ struct POOL_ctx_s {
     size_t threadCapacity;
     size_t threadLimit;
 
-    /* The queue is a circular буфер */
+    /* The queue is a circular buffer */
     POOL_job *queue;
     size_t queueHead;
     size_t queueTail;
@@ -51,9 +51,9 @@ struct POOL_ctx_s {
 
     /* The mutex protects the queue */
     ZSTD_pthread_mutex_t queueMutex;
-    /* Условие variable for pushers to wait on when the queue is full */
+    /* Condition variable for pushers to wait on when the queue is full */
     ZSTD_pthread_cond_t queuePushCond;
-    /* Условие variables for poppers to wait on when the queue is empty */
+    /* Condition variables for poppers to wait on when the queue is empty */
     ZSTD_pthread_cond_t queuePopCond;
     /* Indicates if the queue is shutting down */
     int shutdown;
@@ -82,12 +82,12 @@ static void* POOL_thread(void* opaque) {
             }
             ZSTD_pthread_cond_wait(&ctx->queuePopCond, &ctx->queueMutex);
         }
-        /* вынь a job off the queue */
+        /* Pop a job off the queue */
         {   POOL_job const job = ctx->queue[ctx->queueHead];
             ctx->queueHead = (ctx->queueHead + 1) % ctx->queueSize;
             ctx->numThreadsBusy++;
             ctx->queueEmpty = ctx->queueHead == ctx->queueTail;
-            /* разблокируй the mutex, signal a pusher, and run the job */
+            /* Unlock the mutex, signal a pusher, and run the job */
             ZSTD_pthread_cond_signal(&ctx->queuePushCond);
             ZSTD_pthread_mutex_unlock(&ctx->queueMutex);
 
@@ -128,11 +128,11 @@ POOL_ctx* POOL_create_advanced(size_t numThreads, size_t queueSize,
     ctx->numThreadsBusy = 0;
     ctx->queueEmpty = 1;
     {
-        int Ошибка = 0;
-        Ошибка |= ZSTD_pthread_mutex_init(&ctx->queueMutex, NULL);
-        Ошибка |= ZSTD_pthread_cond_init(&ctx->queuePushCond, NULL);
-        Ошибка |= ZSTD_pthread_cond_init(&ctx->queuePopCond, NULL);
-        if (Ошибка) { POOL_free(ctx); return NULL; }
+        int error = 0;
+        error |= ZSTD_pthread_mutex_init(&ctx->queueMutex, NULL);
+        error |= ZSTD_pthread_cond_init(&ctx->queuePushCond, NULL);
+        error |= ZSTD_pthread_cond_init(&ctx->queuePopCond, NULL);
+        if (error) { POOL_free(ctx); return NULL; }
     }
     ctx->shutdown = 0;
     /* Allocate space for the thread handles */
@@ -194,7 +194,7 @@ size_t POOL_sizeof(POOL_ctx *ctx) {
 }
 
 
-/* @return : 0 on success, 1 on Ошибка */
+/* @return : 0 on success, 1 on error */
 static int POOL_resize_internal(POOL_ctx* ctx, size_t numThreads)
 {
     if (numThreads <= ctx->threadCapacity) {
@@ -223,7 +223,7 @@ static int POOL_resize_internal(POOL_ctx* ctx, size_t numThreads)
     return 0;
 }
 
-/* @return : 0 on success, 1 on Ошибка */
+/* @return : 0 on success, 1 on error */
 int POOL_resize(POOL_ctx* ctx, size_t numThreads)
 {
     int result;

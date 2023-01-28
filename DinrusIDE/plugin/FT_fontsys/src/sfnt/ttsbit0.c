@@ -43,7 +43,7 @@
   tt_face_load_eblc( TT_Face    face,
                      FT_Stream  stream )
   {
-    FT_Error  Ошибка = SFNT_Err_Ok;
+    FT_Error  error = SFNT_Err_Ok;
     FT_Fixed  version;
     FT_ULong  num_strikes, table_size;
     FT_Byte*  p;
@@ -54,16 +54,16 @@
     face->sbit_num_strikes = 0;
 
     /* this table is optional */
-    Ошибка = face->goto_table( face, TTAG_EBLC, stream, &table_size );
-    if ( Ошибка )
-      Ошибка = face->goto_table( face, TTAG_bloc, stream, &table_size );
-    if ( Ошибка )
+    error = face->goto_table( face, TTAG_EBLC, stream, &table_size );
+    if ( error )
+      error = face->goto_table( face, TTAG_bloc, stream, &table_size );
+    if ( error )
       goto Exit;
 
     if ( table_size < 8 )
     {
       FT_ERROR(( "tt_face_load_sbit_strikes: table too short\n" ));
-      Ошибка = SFNT_Err_Invalid_File_Format;
+      error = SFNT_Err_Invalid_File_Format;
       goto Exit;
     }
 
@@ -81,7 +81,7 @@
     if ( version != 0x00020000UL || num_strikes >= 0x10000UL )
     {
       FT_ERROR(( "tt_face_load_sbit_strikes: invalid table version\n" ));
-      Ошибка = SFNT_Err_Invalid_File_Format;
+      error = SFNT_Err_Invalid_File_Format;
       goto Fail;
     }
 
@@ -97,7 +97,7 @@
 
     FT_TRACE3(( "sbit_num_strikes: %u\n", count ));
   Exit:
-    return Ошибка;
+    return error;
 
   Fail:
     FT_FRAME_RELEASE( face->sbit_table );
@@ -147,7 +147,7 @@
     metrics->descender = (FT_Char)strike[17] << 6;  /* hori.descender */
     metrics->height    = metrics->ascender - metrics->descender;
 
-    /* XXX: является this correct? */
+    /* XXX: Is this correct? */
     metrics->max_advance = ( (FT_Char)strike[22] + /* min_origin_SB  */
                                       strike[18] + /* max_width      */
                              (FT_Char)strike[23]   /* min_advance_SB */
@@ -184,15 +184,15 @@
                         FT_ULong             strike_index,
                         TT_SBit_MetricsRec*  metrics )
   {
-    FT_Error   Ошибка;
+    FT_Error   error;
     FT_Stream  stream = face->root.stream;
     FT_ULong   ebdt_size;
 
 
-    Ошибка = face->goto_table( face, TTAG_EBDT, stream, &ebdt_size );
-    if ( Ошибка )
-      Ошибка = face->goto_table( face, TTAG_bdat, stream, &ebdt_size );
-    if ( Ошибка )
+    error = face->goto_table( face, TTAG_EBDT, stream, &ebdt_size );
+    if ( error )
+      error = face->goto_table( face, TTAG_bdat, stream, &ebdt_size );
+    if ( error )
       goto Exit;
 
     decoder->face    = face;
@@ -216,7 +216,7 @@
 
       if ( 8 + 48 * strike_index + 3 * 4 + 34 + 1 > face->sbit_table_size )
       {
-        Ошибка = SFNT_Err_Invalid_File_Format;
+        error = SFNT_Err_Invalid_File_Format;
         goto Exit;
       }
 
@@ -231,11 +231,11 @@
       if ( decoder->strike_index_array > face->sbit_table_size             ||
            decoder->strike_index_array + 8 * decoder->strike_index_count >
              face->sbit_table_size                                         )
-        Ошибка = SFNT_Err_Invalid_File_Format;
+        error = SFNT_Err_Invalid_File_Format;
     }
 
   Exit:
-    return Ошибка;
+    return error;
   }
 
 
@@ -249,7 +249,7 @@
   static FT_Error
   tt_sbit_decoder_alloc_bitmap( TT_SBitDecoder  decoder )
   {
-    FT_Error    Ошибка = SFNT_Err_Ok;
+    FT_Error    error = SFNT_Err_Ok;
     FT_UInt     width, height;
     FT_Bitmap*  map = decoder->bitmap;
     FT_Long     size;
@@ -257,7 +257,7 @@
 
     if ( !decoder->metrics_loaded )
     {
-      Ошибка = SFNT_Err_Invalid_Argument;
+      error = SFNT_Err_Invalid_Argument;
       goto Exit;
     }
 
@@ -290,7 +290,7 @@
       break;
 
     default:
-      Ошибка = SFNT_Err_Invalid_File_Format;
+      error = SFNT_Err_Invalid_File_Format;
       goto Exit;
     }
 
@@ -300,14 +300,14 @@
     if ( size == 0 )
       goto Exit;     /* exit successfully! */
 
-    Ошибка = ft_glyphslot_alloc_bitmap( decoder->face->root.glyph, size );
-    if ( Ошибка )
+    error = ft_glyphslot_alloc_bitmap( decoder->face->root.glyph, size );
+    if ( error )
       goto Exit;
 
     decoder->bitmap_allocated = 1;
 
   Exit:
-    return Ошибка;
+    return error;
   }
 
 
@@ -373,7 +373,7 @@
                                      FT_Int          x_pos,
                                      FT_Int          y_pos )
   {
-    FT_Error    Ошибка = SFNT_Err_Ok;
+    FT_Error    error = SFNT_Err_Ok;
     FT_Byte*    line;
     FT_Int      bit_height, bit_width, pitch, width, height, h;
     FT_Bitmap*  bitmap;
@@ -381,8 +381,8 @@
 
     if ( !decoder->bitmap_allocated )
     {
-      Ошибка = tt_sbit_decoder_alloc_bitmap( decoder );
-      if ( Ошибка )
+      error = tt_sbit_decoder_alloc_bitmap( decoder );
+      if ( error )
         goto Exit;
     }
 
@@ -391,7 +391,7 @@
     bit_width  = bitmap->width;
     bit_height = bitmap->rows;
     pitch      = bitmap->pitch;
-    line       = bitmap->буфер;
+    line       = bitmap->buffer;
 
     width  = decoder->metrics->width;
     height = decoder->metrics->height;
@@ -399,13 +399,13 @@
     if ( x_pos < 0 || x_pos + width > bit_width   ||
          y_pos < 0 || y_pos + height > bit_height )
     {
-      Ошибка = SFNT_Err_Invalid_File_Format;
+      error = SFNT_Err_Invalid_File_Format;
       goto Exit;
     }
 
     if ( p + ( ( width + 7 ) >> 3 ) * height > limit )
     {
-      Ошибка = SFNT_Err_Invalid_File_Format;
+      error = SFNT_Err_Invalid_File_Format;
       goto Exit;
     }
 
@@ -465,12 +465,12 @@
     }
 
   Exit:
-    return Ошибка;
+    return error;
   }
 
 
   /*
-   * грузи a bit-aligned bitmap (with pointer `p') into a line-aligned bitmap
+   * Load a bit-aligned bitmap (with pointer `p') into a line-aligned bitmap
    * (with pointer `write').  In the example below, the width is 3 pixel,
    * and `x_pos' is 1 pixel.
    *
@@ -511,7 +511,7 @@
                                     FT_Int          x_pos,
                                     FT_Int          y_pos )
   {
-    FT_Error    Ошибка = SFNT_Err_Ok;
+    FT_Error    error = SFNT_Err_Ok;
     FT_Byte*    line;
     FT_Int      bit_height, bit_width, pitch, width, height, h, nbits;
     FT_Bitmap*  bitmap;
@@ -520,8 +520,8 @@
 
     if ( !decoder->bitmap_allocated )
     {
-      Ошибка = tt_sbit_decoder_alloc_bitmap( decoder );
-      if ( Ошибка )
+      error = tt_sbit_decoder_alloc_bitmap( decoder );
+      if ( error )
         goto Exit;
     }
 
@@ -530,7 +530,7 @@
     bit_width  = bitmap->width;
     bit_height = bitmap->rows;
     pitch      = bitmap->pitch;
-    line       = bitmap->буфер;
+    line       = bitmap->buffer;
 
     width  = decoder->metrics->width;
     height = decoder->metrics->height;
@@ -538,13 +538,13 @@
     if ( x_pos < 0 || x_pos + width  > bit_width  ||
          y_pos < 0 || y_pos + height > bit_height )
     {
-      Ошибка = SFNT_Err_Invalid_File_Format;
+      error = SFNT_Err_Invalid_File_Format;
       goto Exit;
     }
 
     if ( p + ( ( width * height + 7 ) >> 3 ) > limit )
     {
-      Ошибка = SFNT_Err_Invalid_File_Format;
+      error = SFNT_Err_Invalid_File_Format;
       goto Exit;
     }
 
@@ -554,7 +554,7 @@
     line  += y_pos * pitch + ( x_pos >> 3 );
     x_pos &= 7;
 
-    /* the higher byte of `rval' is used as a буфер */
+    /* the higher byte of `rval' is used as a buffer */
     rval  = 0;
     nbits = 0;
 
@@ -623,7 +623,7 @@
     }
 
   Exit:
-    return Ошибка;
+    return error;
   }
 
 
@@ -634,7 +634,7 @@
                                  FT_Int          x_pos,
                                  FT_Int          y_pos )
   {
-    FT_Error  Ошибка = SFNT_Err_Ok;
+    FT_Error  error = SFNT_Err_Ok;
     FT_UInt   num_components, nn;
 
     FT_Char  horiBearingX = decoder->metrics->horiBearingX;
@@ -654,8 +654,8 @@
 
     if ( !decoder->bitmap_allocated )
     {
-      Ошибка = tt_sbit_decoder_alloc_bitmap( decoder );
-      if ( Ошибка )
+      error = tt_sbit_decoder_alloc_bitmap( decoder );
+      if ( error )
         goto Exit;
     }
 
@@ -667,9 +667,9 @@
 
 
       /* NB: a recursive call */
-      Ошибка = tt_sbit_decoder_load_image( decoder, gindex,
+      error = tt_sbit_decoder_load_image( decoder, gindex,
                                           x_pos + dx, y_pos + dy );
-      if ( Ошибка )
+      if ( error )
         break;
     }
 
@@ -683,10 +683,10 @@
     decoder->metrics->height       = (FT_UInt)decoder->bitmap->rows;
 
   Exit:
-    return Ошибка;
+    return error;
 
   Fail:
-    Ошибка = SFNT_Err_Invalid_File_Format;
+    error = SFNT_Err_Invalid_File_Format;
     goto Exit;
   }
 
@@ -699,7 +699,7 @@
                                FT_Int          x_pos,
                                FT_Int          y_pos )
   {
-    FT_Error   Ошибка;
+    FT_Error   error;
     FT_Stream  stream = decoder->stream;
     FT_Byte*   p;
     FT_Byte*   p_limit;
@@ -709,7 +709,7 @@
     /* seek into the EBDT table now */
     if ( glyph_start + glyph_size > decoder->ebdt_size )
     {
-      Ошибка = SFNT_Err_Invalid_Argument;
+      error = SFNT_Err_Invalid_Argument;
       goto Exit;
     }
 
@@ -720,26 +720,26 @@
     p       = data;
     p_limit = p + glyph_size;
 
-    /* read the data, depending on the glyph формат */
+    /* read the data, depending on the glyph format */
     switch ( glyph_format )
     {
     case 1:
     case 2:
     case 8:
-      Ошибка = tt_sbit_decoder_load_metrics( decoder, &p, p_limit, 0 );
+      error = tt_sbit_decoder_load_metrics( decoder, &p, p_limit, 0 );
       break;
 
     case 6:
     case 7:
     case 9:
-      Ошибка = tt_sbit_decoder_load_metrics( decoder, &p, p_limit, 1 );
+      error = tt_sbit_decoder_load_metrics( decoder, &p, p_limit, 1 );
       break;
 
     default:
-      Ошибка = SFNT_Err_Ok;
+      error = SFNT_Err_Ok;
     }
 
-    if ( Ошибка )
+    if ( error )
       goto Fail;
 
     {
@@ -774,14 +774,14 @@
         goto Fail;
       }
 
-      Ошибка = loader( decoder, p, p_limit, x_pos, y_pos );
+      error = loader( decoder, p, p_limit, x_pos, y_pos );
     }
 
   Fail:
     FT_FRAME_RELEASE( data );
 
   Exit:
-    return Ошибка;
+    return error;
   }
 
 
@@ -991,21 +991,21 @@
                            TT_SBit_MetricsRec  *metrics )
   {
     TT_SBitDecoderRec  decoder[1];
-    FT_Error           Ошибка;
+    FT_Error           error;
 
     FT_UNUSED( load_flags );
     FT_UNUSED( stream );
     FT_UNUSED( map );
 
 
-    Ошибка = tt_sbit_decoder_init( decoder, face, strike_index, metrics );
-    if ( !Ошибка )
+    error = tt_sbit_decoder_init( decoder, face, strike_index, metrics );
+    if ( !error )
     {
-      Ошибка = tt_sbit_decoder_load_image( decoder, glyph_index, 0, 0 );
+      error = tt_sbit_decoder_load_image( decoder, glyph_index, 0, 0 );
       tt_sbit_decoder_done( decoder );
     }
 
-    return Ошибка;
+    return error;
   }
 
 /* EOF */

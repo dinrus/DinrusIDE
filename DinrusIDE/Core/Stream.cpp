@@ -5,50 +5,50 @@
 #include <termios.h>
 #endif
 
-namespace РНЦПДинрус {
+namespace Upp {
 
 #define LLOG(x) // RLOG(x)
 #define LDUMP(x) // RDUMP(x)
 #define LLOGHEXDUMP(x, y) // RLOGHEXDUMP(x, y)
 
-void Поток::_помести(const void *данные, dword size) {
-	const byte *s = (const byte *) данные;
+void Stream::_Put(const void *data, dword size) {
+	const byte *s = (const byte *) data;
 	while(size--)
-		помести(*s++);
+		Put(*s++);
 }
 
-dword Поток::_получи(void *данные, dword size) {
+dword Stream::_Get(void *data, dword size) {
 	int c;
-	byte *s = (byte *) данные;
+	byte *s = (byte *) data;
 	dword sz;
-	for(sz = 0; sz < size && (c = дай()) >= 0; sz++)
+	for(sz = 0; sz < size && (c = Get()) >= 0; sz++)
 		*s++ = c;
 	return sz;
 }
 
-void Поток::_помести(int w) {
-	устОш(ERROR_NOT_ENOUGH_SPACE);
+void Stream::_Put(int w) {
+	SetError(ERROR_NOT_ENOUGH_SPACE);
 }
 
-int  Поток::_получи() {
+int  Stream::_Get() {
 	return -1;
 }
 
-int  Поток::_прекрати() {
+int  Stream::_Term() {
 	return -1;
 }
 
-void Поток::перейди(int64) {
+void Stream::Seek(int64) {
 	NEVER();
 }
 
-int Поток::пропусти(int size)
+int Stream::Skip(int size)
 {
 	int r = 0;
 	while(size) {
 		int n = min(int(rdlim - ptr), size);
 		if(n == 0) {
-			if(дай() < 0)
+			if(Get() < 0)
 				break;
 			r++;
 			size--;
@@ -62,170 +62,170 @@ int Поток::пропусти(int size)
 	return r;
 }
 
-int64 Поток::дайРазм() const {
+int64 Stream::GetSize() const {
 	return 0;
 }
 
-void Поток::устРазм(int64) {
+void Stream::SetSize(int64) {
 	NEVER();
 }
 
-bool Поток::открыт() const { return false; }
+bool Stream::IsOpen() const { return false; }
 
-void Поток::закрой() {}
+void Stream::Close() {}
 
-void Поток::слей() {}
+void Stream::Flush() {}
 
-Поток::Поток() {
+Stream::Stream() {
 	pos = style = 0;
-	буфер = NULL;
+	buffer = NULL;
 	ptr = rdlim = wrlim = NULL;
 }
 
-Поток::~Поток() {}
+Stream::~Stream() {}
 
-void Поток::загрузиОш() {
-	устОш(ERROR_LOADING_FAILED);
+void Stream::LoadError() {
+	SetError(ERROR_LOADING_FAILED);
 	if(style & STRM_THROW)
 		throw LoadingError();
 }
 
-Ткст Поток::дайТекстОш() const
+String Stream::GetErrorText() const
 {
-   return ошибка_ли() ? РНЦПДинрус::дайОшСооб(errorcode) : Ткст();
+   return IsError() ? Upp::GetErrorMessage(errorcode) : String();
 }
 
-bool Поток::дайВсе(void *данные, int size) {
-	if(дай(данные, size) != size) {
-		загрузиОш();
+bool Stream::GetAll(void *data, int size) {
+	if(Get(data, size) != size) {
+		LoadError();
 		return false;
 	}
 	return true;
 }
 
-void Поток::помести64(const void *данные, int64 size)
+void Stream::Put64(const void *data, int64 size)
 {
 #ifdef CPU_64
-	byte *ptr = (byte *)данные;
+	byte *ptr = (byte *)data;
 	while(size > INT_MAX) {
-		помести(ptr, INT_MAX);
+		Put(ptr, INT_MAX);
 		ptr += INT_MAX;
 		size -= INT_MAX;
 	}
-	помести(ptr, (int)size);
+	Put(ptr, (int)size);
 #else
-	ПРОВЕРЬ(size <= INT_MAX);
-	помести(данные, (int)size);
+	ASSERT(size <= INT_MAX);
+	Put(data, (int)size);
 #endif
 }
 
-int64 Поток::дай64(void *данные, int64 size)
+int64 Stream::Get64(void *data, int64 size)
 {
 #ifdef CPU_64
-	byte *ptr = (byte *)данные;
+	byte *ptr = (byte *)data;
 	int64 n = 0;
 	while(size > INT_MAX) {
-		int q = дай(ptr, INT_MAX);
+		int q = Get(ptr, INT_MAX);
 		n += q;
 		if(q != INT_MAX)
 			return n;
 		ptr += INT_MAX;
 		size -= INT_MAX;
 	}
-	int q = дай(ptr, (int)size);
+	int q = Get(ptr, (int)size);
 	return n + q;
 #else
-	ПРОВЕРЬ(size <= INT_MAX);
-	return дай(данные, (int)size);
+	ASSERT(size <= INT_MAX);
+	return Get(data, (int)size);
 #endif
 }
 
-bool Поток::GetAll64(void *данные, int64 size)
+bool Stream::GetAll64(void *data, int64 size)
 {
-	if(дай64(данные, size) != size) {
-		загрузиОш();
+	if(Get64(data, size) != size) {
+		LoadError();
 		return false;
 	}
 	return true;
 }
 
-size_t Поток::дай(Huge& h, size_t size)
+size_t Stream::Get(Huge& h, size_t size)
 {
-	while(h.дайРазм() < size) {
-		int sz = (int)min((size_t)h.CHUNK, size - h.дайРазм());
-		int len = дай(h.AddChunk(), sz);
+	while(h.GetSize() < size) {
+		int sz = (int)min((size_t)h.CHUNK, size - h.GetSize());
+		int len = Get(h.AddChunk(), sz);
 		if(len < h.CHUNK) {
-			h.финиш(len);
+			h.Finish(len);
 			break;
 		}
 	}
-	return h.дайРазм();
+	return h.GetSize();
 }
 
-bool Поток::дайВсе(Huge& h, size_t size)
+bool Stream::GetAll(Huge& h, size_t size)
 {
-	if(дай(h, size) != size) {
-		загрузиОш();
+	if(Get(h, size) != size) {
+		LoadError();
 		return false;
 	}
 	return true;
 }
 
-Ткст Поток::дай(int size)
+String Stream::Get(int size)
 {
-	ТкстБуф b(size);
-	int n = дай(~b, size);
-	b.устСчёт(n);
-	return Ткст(b);
+	StringBuffer b(size);
+	int n = Get(~b, size);
+	b.SetCount(n);
+	return String(b);
 }
 
-Ткст Поток::дайВсе(int size)
+String Stream::GetAll(int size)
 {
-	Ткст result;
+	String result;
 	if(size < 4 * 1024*1024)
-		result = дай(size);
+		result = Get(size);
 	else {
 		Huge h;
-		дай(h, size);
-		result = h.дай();
+		Get(h, size);
+		result = h.Get();
 	}
-	if(result.дайСчёт() != size) {
-		загрузиОш();
-		result = Ткст::дайПроц();
+	if(result.GetCount() != size) {
+		LoadError();
+		result = String::GetVoid();
 	}
 	return result;
 }
 
-int  Поток::_получи8()
+int  Stream::_Get8()
 {
-	int c = дай();
+	int c = Get();
 	if(c < 0) {
-		загрузиОш();
+		LoadError();
 		return -1;
 	}
 	return c;
 }
 
-int  Поток::_получи16() {
+int  Stream::_Get16() {
 	word w;
-	return дайВсе(&w, 2) ? w : -1;
+	return GetAll(&w, 2) ? w : -1;
 }
 
-int  Поток::_получи32() {
+int  Stream::_Get32() {
 	int l;
-	return дайВсе(&l, 4) ? l : -1;
+	return GetAll(&l, 4) ? l : -1;
 }
 
-int64  Поток::_получи64() {
+int64  Stream::_Get64() {
 	int64 l;
-	return дайВсе(&l, 8) ? l : -1;
+	return GetAll(&l, 8) ? l : -1;
 }
 
-int Поток::дайУтф8()
+int Stream::GetUtf8()
 {
-	int code = дай();
+	int code = Get();
 	if(code <= 0) {
-		загрузиОш();
+		LoadError();
 		return -1;
 	}
 	if(code < 0x80)
@@ -235,41 +235,41 @@ int Поток::дайУтф8()
 		return -1;
 	else
 	if(code < 0xE0) {
-		if(кф_ли()) {
-			загрузиОш();
+		if(IsEof()) {
+			LoadError();
 			return -1;
 		}
-		return ((code - 0xC0) << 6) + дай() - 0x80;
+		return ((code - 0xC0) << 6) + Get() - 0x80;
 	}
 	else
 	if(code < 0xF0) {
-		int c0 = дай();
-		int c1 = дай();
+		int c0 = Get();
+		int c1 = Get();
 		if(c1 < 0) {
-			загрузиОш();
+			LoadError();
 			return -1;
 		}
 		return ((code - 0xE0) << 12) + ((c0 - 0x80) << 6) + c1 - 0x80;
 	}
 	else
 	if(code < 0xF8) {
-		int c0 = дай();
-		int c1 = дай();
-		int c2 = дай();
+		int c0 = Get();
+		int c1 = Get();
+		int c2 = Get();
 		if(c2 < 0) {
-			загрузиОш();
+			LoadError();
 			return -1;
 		}
 		return ((code - 0xf0) << 18) + ((c0 - 0x80) << 12) + ((c1 - 0x80) << 6) + c2 - 0x80;
 	}
 	else
 	if(code < 0xFC) {
-		int c0 = дай();
-		int c1 = дай();
-		int c2 = дай();
-		int c3 = дай();
+		int c0 = Get();
+		int c1 = Get();
+		int c2 = Get();
+		int c3 = Get();
 		if(c3 < 0) {
-			загрузиОш();
+			LoadError();
 			return -1;
 		}
 		return ((code - 0xF8) << 24) + ((c0 - 0x80) << 18) + ((c1 - 0x80) << 12) +
@@ -277,13 +277,13 @@ int Поток::дайУтф8()
 	}
 	else
 	if(code < 0xFE) {
-		int c0 = дай();
-		int c1 = дай();
-		int c2 = дай();
-		int c3 = дай();
-		int c4 = дай();
+		int c0 = Get();
+		int c1 = Get();
+		int c2 = Get();
+		int c3 = Get();
+		int c4 = Get();
 		if(c4 < 0) {
-			загрузиОш();
+			LoadError();
 			return -1;
 		}
 		return ((code - 0xFC) << 30) + ((c0 - 0x80) << 24) + ((c1 - 0x80) << 18) +
@@ -291,70 +291,70 @@ int Поток::дайУтф8()
 
 	}
 	else {
-		загрузиОш();
+		LoadError();
 		return -1;
 	}
 }
 
-Ткст Поток::дайСтроку() {
+String Stream::GetLine() {
 	byte *q = ptr;
 	while(q < rdlim)
 		if(*q == '\n') {
-			Ткст result((const char *)ptr, (int)(uintptr_t)(q - ptr - (q > ptr && q[-1] == '\r')));
+			String result((const char *)ptr, (int)(uintptr_t)(q - ptr - (q > ptr && q[-1] == '\r')));
 			ptr = q + 1;
 			return result;
 		}
 		else
 			q++;
-	Ткст result((const char *)ptr, (int)(uintptr_t)(q - ptr));
+	String result((const char *)ptr, (int)(uintptr_t)(q - ptr));
 	ptr = q;
 	for(;;) {
 		byte *q = ptr;
 		while(q < rdlim && *q != '\n')
 			q++;
-		result.конкат(ptr, (int)(uintptr_t)(q - ptr));
+		result.Cat(ptr, (int)(uintptr_t)(q - ptr));
 		ptr = q;
-		int c = дай();
+		int c = Get();
 		if(c == '\n')
 			break;
 		if(c < 0) {
-			if(result.дайСчёт() == 0)
-				return Ткст::дайПроц();
+			if(result.GetCount() == 0)
+				return String::GetVoid();
 			break;
 		}
-		result.конкат(c);
+		result.Cat(c);
 	}
-	if(*result.последний() == '\r')
-		result.обрежь(result.дайДлину() - 1);
+	if(*result.Last() == '\r')
+		result.Trim(result.GetLength() - 1);
 	return result;
 }
 
-void Поток::PutUtf8(int c)
+void Stream::PutUtf8(int c)
 {
 	word code = c;
 	if(code < 0x80)
-		помести(code);
+		Put(code);
 	else
 	if(code < 0x800) {
-		помести(0xc0 | (code >> 6));
-		помести(0x80 | (code & 0x3f));
+		Put(0xc0 | (code >> 6));
+		Put(0x80 | (code & 0x3f));
 	}
 	else
 	if((code & 0xFF00) == 0xEE00)
-		помести(code);
+		Put(code);
 	else {
-		помести(0xe0 | (code >> 12));
-		помести(0x80 | ((code >> 6) & 0x3f));
-		помести(0x80 | (code & 0x3f));
+		Put(0xe0 | (code >> 12));
+		Put(0x80 | ((code >> 6) & 0x3f));
+		Put(0x80 | (code & 0x3f));
 	}
 }
 
-void Поток::помести(const char *s)
+void Stream::Put(const char *s)
 {
-	while(*s) помести(*s++);
+	while(*s) Put(*s++);
 }
 
-void Поток::помести(int c, int count) {
+void Stream::Put(int c, int count) {
 
 	while(count) {
 		int n = min(count, (int)(intptr_t)(wrlim - ptr));
@@ -364,68 +364,68 @@ void Поток::помести(int c, int count) {
 			count -= n;
 		}
 		else {
-			помести(c);
+			Put(c);
 			count--;
 		}
 	}
 }
 
-void Поток::PutLine(const char *s) {
-	помести(s);
+void Stream::PutLine(const char *s) {
+	Put(s);
 	PutEol();
 }
 
-void Поток::PutLine(const Ткст& s) {
-	помести(s);
+void Stream::PutLine(const String& s) {
+	Put(s);
 	PutEol();
 }
 
-void  Поток::помести(Поток& s, int64 size, dword click) {
-	Буфер<byte> буфер(click);
+void  Stream::Put(Stream& s, int64 size, dword click) {
+	Buffer<byte> buffer(click);
 	while(size) {
-		dword n = s.дай(буфер, (int)min<int64>(click, size));
+		dword n = s.Get(buffer, (int)min<int64>(click, size));
 		if(n == 0)
 			break;
-		помести(~буфер, n);
+		Put(~buffer, n);
 		size -= n;
 	}
 }
 
-Ткст Поток::GetAllRLE(int size)
+String Stream::GetAllRLE(int size)
 {
-	Ткст result;
-	while(result.дайСчёт() < size) {
-		int c = дай();
+	String result;
+	while(result.GetCount() < size) {
+		int c = Get();
 		if(c < 0)
 			break;
 		if(c == 0xcb) {
-			c = дай();
-			result.конкат(c, дай());
+			c = Get();
+			result.Cat(c, Get());
 		}
 		else
-			result.конкат(c);
+			result.Cat(c);
 	}
-	return result.дайСчёт() == size ? result : Ткст::дайПроц();
+	return result.GetCount() == size ? result : String::GetVoid();
 }
 
-void Поток::SerializeRLE(byte *данные, int size)
+void Stream::SerializeRLE(byte *data, int size)
 {
-	ПРОВЕРЬ(size >= 0);
-	if(ошибка_ли()) return;
-	byte *s =   (byte *)данные;
+	ASSERT(size >= 0);
+	if(IsError()) return;
+	byte *s =   (byte *)data;
 	byte *lim = s + size;
-	if(грузится())
+	if(IsLoading())
 		while(s != lim) {
-			if(кф_ли() || s > lim) {
-				загрузиОш();
+			if(IsEof() || s > lim) {
+				LoadError();
 				return;
 			}
-			byte c = дай();
+			byte c = Get();
 			if(c == 0xcb) {
-				c = дай();
-				int n = дай();
+				c = Get();
+				int n = Get();
 				if(s + n > lim) {
-					загрузиОш();
+					LoadError();
 					return;
 				}
 				memset(s, c, n);
@@ -442,73 +442,73 @@ void Поток::SerializeRLE(byte *данные, int size)
 			while(*t == c && t < lm)
 				t++;
 			if(t >= s + 3 || c == 0xcb) {
-				помести(0xcb);
-				помести(c);
-				помести(byte(t - s));
+				Put(0xcb);
+				Put(c);
+				Put(byte(t - s));
 			}
 			else {
-				помести(*s);
+				Put(*s);
 
 				if(t == s + 2)
-					помести(*s);
+					Put(*s);
 			}
-			if(ошибка_ли()) break;
+			if(IsError()) break;
 			s = t;
 		}
 }
 
-void Поток::SerializeRaw(byte *данные, int64 size)
+void Stream::SerializeRaw(byte *data, int64 size)
 {
-	ПРОВЕРЬ(size >= 0);
-	if(ошибка_ли()) return;
-	if(грузится())
-		GetAll64(данные, size);
+	ASSERT(size >= 0);
+	if(IsError()) return;
+	if(IsLoading())
+		GetAll64(data, size);
 	else
-		помести64(данные, size);
+		Put64(data, size);
 }
 
-void Поток::SerializeRaw(word *данные, int64 count)
+void Stream::SerializeRaw(word *data, int64 count)
 {
-	ПРОВЕРЬ(count >= 0);
+	ASSERT(count >= 0);
 #ifdef CPU_BE
-	эндианРазворот(данные, count);
+	EndianSwap(data, count);
 #endif
-	SerializeRaw((byte *)данные, 2 * count);
+	SerializeRaw((byte *)data, 2 * count);
 #ifdef CPU_BE
-	эндианРазворот(данные, count);
+	EndianSwap(data, count);
 #endif
 }
 
-void Поток::SerializeRaw(dword *данные, int64 count)
+void Stream::SerializeRaw(dword *data, int64 count)
 {
-	ПРОВЕРЬ(count >= 0);
+	ASSERT(count >= 0);
 #ifdef CPU_BE
-	эндианРазворот(данные, count);
+	EndianSwap(data, count);
 #endif
-	SerializeRaw((byte *)данные, 4 * count);
+	SerializeRaw((byte *)data, 4 * count);
 #ifdef CPU_BE
-	эндианРазворот(данные, count);
+	EndianSwap(data, count);
 #endif
 }
 
-void Поток::SerializeRaw(uint64 *данные, int64 count)
+void Stream::SerializeRaw(uint64 *data, int64 count)
 {
-	ПРОВЕРЬ(count >= 0);
+	ASSERT(count >= 0);
 #ifdef CPU_BE
-	эндианРазворот(данные, count);
+	EndianSwap(data, count);
 #endif
-	SerializeRaw((byte *)данные, 8 * count);
+	SerializeRaw((byte *)data, 8 * count);
 #ifdef CPU_BE
-	эндианРазворот(данные, count);
+	EndianSwap(data, count);
 #endif
 }
 
-void Поток::Pack(dword& w) {
-	if(ошибка_ли()) return;
-	if(грузится()) {
-		int q = дай();
+void Stream::Pack(dword& w) {
+	if(IsError()) return;
+	if(IsLoading()) {
+		int q = Get();
 		if(q < 0)
-			загрузиОш();
+			LoadError();
 		else {
 			if(q != 255)
 				w = q;
@@ -518,19 +518,19 @@ void Поток::Pack(dword& w) {
 	}
 	else {
 		if(w < 255)
-			помести(w);
+			Put(w);
 		else {
-			помести(255);
+			Put(255);
 			SerializeRaw(&w, 1);
 		}
 	}
 }
 
-void    Поток::Pack(bool& a, bool& b, bool& c, bool& d, bool& e, bool& f, bool& g, bool& h) {
-	if(ошибка_ли()) return;
-	if(грузится()) {
-		int ff = дай();
-		if(ff < 0) загрузиОш();
+void    Stream::Pack(bool& a, bool& b, bool& c, bool& d, bool& e, bool& f, bool& g, bool& h) {
+	if(IsError()) return;
+	if(IsLoading()) {
+		int ff = Get();
+		if(ff < 0) LoadError();
 		else {
 			a = !!(ff & 0x80);
 			b = !!(ff & 0x40);
@@ -552,62 +552,62 @@ void    Поток::Pack(bool& a, bool& b, bool& c, bool& d, bool& e, bool& f, b
 		if(f) ff |= 0x04;
 		if(g) ff |= 0x02;
 		if(h) ff |= 0x01;
-		помести(ff);
+		Put(ff);
 	}
 }
 
-void  Поток::Pack(bool& a, bool& b, bool& c, bool& d, bool& e, bool& f, bool& g) {
+void  Stream::Pack(bool& a, bool& b, bool& c, bool& d, bool& e, bool& f, bool& g) {
 	bool h = false; Pack(a, b, c, d, e, f, g, h);
 }
 
-void  Поток::Pack(bool& a, bool& b, bool& c, bool& d, bool& e, bool& f) {
+void  Stream::Pack(bool& a, bool& b, bool& c, bool& d, bool& e, bool& f) {
 	bool h = false; Pack(a, b, c, d, e, f, h, h);
 }
 
-void  Поток::Pack(bool& a, bool& b, bool& c, bool& d, bool& e) {
+void  Stream::Pack(bool& a, bool& b, bool& c, bool& d, bool& e) {
 	bool h = false; Pack(a, b, c, d, e, h, h, h);
 }
 
-void  Поток::Pack(bool& a, bool& b, bool& c, bool& d) {
+void  Stream::Pack(bool& a, bool& b, bool& c, bool& d) {
 	bool h = false; Pack(a, b, c, d, h, h, h, h);
 }
 
-void  Поток::Pack(bool& a, bool& b, bool& c) {
+void  Stream::Pack(bool& a, bool& b, bool& c) {
 	bool h = false; Pack(a, b, c, h, h, h, h, h);
 }
 
-void  Поток::Pack(bool& a, bool& b) {
+void  Stream::Pack(bool& a, bool& b) {
 	bool h = false; Pack(a, b, h, h, h, h, h, h);
 }
 
-Поток& Поток::operator%(Ткст& s) {
-	if(ошибка_ли()) return *this;
-	if(грузится()) {
+Stream& Stream::operator%(String& s) {
+	if(IsError()) return *this;
+	if(IsLoading()) {
 		dword len;
-		len = дай();
+		len = Get();
 		if(len != 0xff) {
 			if(len & 0x80) {
 				len &= 0x7f;
-				дай(); // reserved for future use... or removal
+				Get(); // reserved for future use... or removal
 			}
 		}
 		else {
 			len = Get32le();
 			if(len & 0x80000000) {
 				len &= 0x7fffffff;
-				дай(); // reserved for future use... or removal
+				Get(); // reserved for future use... or removal
 			}
 		}
-		s = дайВсе(len);
-		if(s.проц_ли())
-			загрузиОш();
+		s = GetAll(len);
+		if(s.IsVoid())
+			LoadError();
 	}
 	else {
-		dword len = s.дайДлину();
+		dword len = s.GetLength();
 		if(len < 127)
-			помести(len);
+			Put(len);
 		else {
-			помести(0xff);
+			Put(0xff);
 			Put32le(len);
 		}
 		SerializeRaw((byte *)~s, len);
@@ -615,40 +615,40 @@ void  Поток::Pack(bool& a, bool& b) {
 	return *this;
 }
 
-Поток& Поток::operator/(Ткст& s) {
-	if(ошибка_ли()) return *this;
-	dword len = s.дайДлину();
+Stream& Stream::operator/(String& s) {
+	if(IsError()) return *this;
+	dword len = s.GetLength();
 	Pack(len);
-	if(грузится()) {
+	if(IsLoading()) {
 		s = GetAllRLE(len);
-		if(s.проц_ли())
-			загрузиОш();
+		if(s.IsVoid())
+			LoadError();
 	}
 	else
 		SerializeRLE((byte *)~s, len);
 	return *this;
 }
 
-Поток& Поток::operator%(ШТкст& s)
+Stream& Stream::operator%(WString& s)
 { // we do not support BE here anymore
-	if(ошибка_ли()) return *this;
-	if(грузится()) {
-		dword len = дай();
+	if(IsError()) return *this;
+	if(IsLoading()) {
+		dword len = Get();
 		if(len == 0xff)
 			len = Get32le();
-		Ткст h = дайВсе(len * sizeof(char16));
-		if(h.проц_ли())
-			загрузиОш();
+		String h = GetAll(len * sizeof(char16));
+		if(h.IsVoid())
+			LoadError();
 		else
-			s = вУтф32((const char16 *)~h, len);
+			s = ToUtf32((const char16 *)~h, len);
 	}
 	else {
-		Вектор<char16> x = вУтф16(s);
-		dword len = x.дайСчёт();
+		Vector<char16> x = ToUtf16(s);
+		dword len = x.GetCount();
 		if(len < 0xff)
-			помести(len);
+			Put(len);
 		else {
-			помести(0xff);
+			Put(0xff);
 			Put32le(len);
 		}
 		SerializeRaw((byte*)x.begin(), len * sizeof(char16));
@@ -656,452 +656,452 @@ void  Поток::Pack(bool& a, bool& b) {
 	return *this;
 }
 
-Поток& Поток::operator/(ШТкст& s) {
-	if(ошибка_ли()) return *this;
-	Ткст h = вУтф8(s);
+Stream& Stream::operator/(WString& s) {
+	if(IsError()) return *this;
+	String h = ToUtf8(s);
 	*this / h;
-	s = вУтф32(h);
+	s = ToUtf32(h);
 	return *this;
 }
 
-Поток& Поток::operator/(int& i)            { dword w = 0; if(сохраняется()) w = i + 1; Pack(w); i = w - 1; return *this; }
-Поток& Поток::operator/(unsigned int& i)   { dword w = 0; if(сохраняется()) w = i + 1; Pack(w); i = w - 1; return *this; }
-Поток& Поток::operator/(long& i)           { dword w = 0; if(сохраняется()) w = i + 1; Pack(w); i = w - 1; return *this; }
-Поток& Поток::operator/(unsigned long& i)  { dword w = 0; if(сохраняется()) w = i + 1; Pack(w); i = w - 1; return *this; }
+Stream& Stream::operator/(int& i)            { dword w = 0; if(IsStoring()) w = i + 1; Pack(w); i = w - 1; return *this; }
+Stream& Stream::operator/(unsigned int& i)   { dword w = 0; if(IsStoring()) w = i + 1; Pack(w); i = w - 1; return *this; }
+Stream& Stream::operator/(long& i)           { dword w = 0; if(IsStoring()) w = i + 1; Pack(w); i = w - 1; return *this; }
+Stream& Stream::operator/(unsigned long& i)  { dword w = 0; if(IsStoring()) w = i + 1; Pack(w); i = w - 1; return *this; }
 
-void Поток::Magic(dword magic) {
+void Stream::Magic(dword magic) {
 	dword a = magic;
 	*this % a;
-	if(magic != a) загрузиОш();
+	if(magic != a) LoadError();
 }
 
-// -------------------------- Ткст stream -----------------------------
+// -------------------------- String stream -----------------------------
 
-void ТкстПоток::SetWriteBuffer()
+void StringStream::SetWriteBuffer()
 {
-	буфер = (byte *)wdata.старт();
-	rdlim = буфер;
-	wrlim = (byte *)wdata.стоп();
+	buffer = (byte *)wdata.Begin();
+	rdlim = buffer;
+	wrlim = (byte *)wdata.End();
 }
 
-void ТкстПоток::SetWriteMode()
+void StringStream::SetWriteMode()
 {
 	if(writemode) return;
-	intptr_t p = ptr - буфер;
-	size = данные.дайДлину();
-	wdata = данные;
+	intptr_t p = ptr - buffer;
+	size = data.GetLength();
+	wdata = data;
 	SetWriteBuffer();
-	ptr = буфер + p;
+	ptr = buffer + p;
 	writemode = true;
 }
 
-void   ТкстПоток::SetReadMode()
+void   StringStream::SetReadMode()
 {
 	if(!writemode) return;
-	wdata.устДлину((dword)дайРазм());
-	dword p = (dword)(uintptr_t)(ptr - буфер);
-	данные = wdata;
-	буфер = (byte *) ~данные;
-	ptr = буфер + p;
-	wrlim = буфер;
-	rdlim = буфер + данные.дайСчёт();
+	wdata.SetLength((dword)GetSize());
+	dword p = (dword)(uintptr_t)(ptr - buffer);
+	data = wdata;
+	buffer = (byte *) ~data;
+	ptr = buffer + p;
+	wrlim = buffer;
+	rdlim = buffer + data.GetCount();
 	writemode = false;
 }
 
-void  ТкстПоток::открой(const Ткст& adata)
+void  StringStream::Open(const String& adata)
 {
 	pos = 0;
-	данные = adata;
+	data = adata;
 	style = STRM_READ|STRM_WRITE|STRM_SEEK|STRM_LOADING;
-	wdata.очисть();
-	буфер = (byte *) ~данные;
-	ptr = wrlim = буфер;
-	rdlim = буфер + данные.дайСчёт();
+	wdata.Clear();
+	buffer = (byte *) ~data;
+	ptr = wrlim = buffer;
+	rdlim = buffer + data.GetCount();
 	writemode = false;
-	сотриОш();
+	ClearError();
 }
 
-void  ТкстПоток::создай()
+void  StringStream::Create()
 {
-	открой(Ткст());
+	Open(String());
 	SetStoring();
 	SetWriteMode();
-	сотриОш();
+	ClearError();
 }
 
-int64 ТкстПоток::дайРазм() const
+int64 StringStream::GetSize() const
 {
-	return writemode ? max<int64>(дайПоз(), size) : данные.дайДлину();
+	return writemode ? max<int64>(GetPos(), size) : data.GetLength();
 }
 
-Ткст ТкстПоток::дайРез()
+String StringStream::GetResult()
 {
 	SetReadMode();
-	return данные;
+	return data;
 }
 
-void  ТкстПоток::_помести(const void *d, dword sz)
+void  StringStream::_Put(const void *d, dword sz)
 {
 	SetWriteMode();
 	if(ptr + sz >= wrlim) {
-		size_t p = ptr - буфер;
+		size_t p = ptr - buffer;
 		if(limit != INT_MAX && p + sz > (size_t)limit)
 			throw LimitExc();
 		if(p + sz >= INT_MAX)
-			паника("2GB ТкстПоток limit exceeded");
-		int len = (int32)max((int64)128, min((int64)limit, max(2 * дайРазм(), дайРазм() + sz)));
-		wdata.устДлину(len);
+			Panic("2GB StringStream limit exceeded");
+		int len = (int32)max((int64)128, min((int64)limit, max(2 * GetSize(), GetSize() + sz)));
+		wdata.SetLength(len);
 		SetWriteBuffer();
-		ptr = буфер + p;
+		ptr = buffer + p;
 	}
 	memcpy8(ptr, d, sz);
 	ptr += sz;
 }
 
-void ТкстПоток::резервируй(int n)
+void StringStream::Reserve(int n)
 {
 	SetWriteMode();
-	intptr_t p = ptr - буфер;
-	wdata.устДлину((int)дайРазм() + n);
+	intptr_t p = ptr - buffer;
+	wdata.SetLength((int)GetSize() + n);
 	SetWriteBuffer();
-	ptr = буфер + p;
+	ptr = buffer + p;
 }
 
-void  ТкстПоток::_помести(int w)
+void  StringStream::_Put(int w)
 {
 	byte h = w;
-	_помести(&h, 1);
+	_Put(&h, 1);
 }
 
-dword ТкстПоток::_получи(void *данные, dword sz)
+dword StringStream::_Get(void *data, dword sz)
 {
 	SetReadMode();
 	dword read = min((dword)(uintptr_t)(rdlim - ptr), sz);
-	memcpy8(данные, ptr, read);
+	memcpy8(data, ptr, read);
 	ptr += read;
 	return read;
 }
 
-int  ТкстПоток::_получи()
+int  StringStream::_Get()
 {
 	SetReadMode();
 	return ptr < rdlim ? *ptr++ : -1;
 }
 
-int  ТкстПоток::_прекрати() {
+int  StringStream::_Term() {
 	SetReadMode();
 	return ptr < rdlim ? *ptr : -1;
 }
 
-void  ТкстПоток::перейди(int64 pos) {
-	size = (dword)дайРазм();
+void  StringStream::Seek(int64 pos) {
+	size = (dword)GetSize();
 	if(pos > size) {
 		SetWriteMode();
 		size = (dword)pos;
-		wdata.устДлину((dword)pos + 100);
+		wdata.SetLength((dword)pos + 100);
 		SetWriteBuffer();
 	}
-	ptr = буфер + min(дайРазм(), pos);
+	ptr = buffer + min(GetSize(), pos);
 }
 
-void  ТкстПоток::устРазм(int64 asize) {
+void  StringStream::SetSize(int64 asize) {
 	SetWriteMode();
-	dword p = (dword)(uintptr_t)дайПоз();
-	перейди(asize);
+	dword p = (dword)(uintptr_t)GetPos();
+	Seek(asize);
 	size = (dword)asize;
-	перейди(min(p, size));
+	Seek(min(p, size));
 }
 
-bool  ТкстПоток::открыт() const {
+bool  StringStream::IsOpen() const {
 	return true;
 }
 
 // -------------------- Memory read-write stream ------------------------
 
-void ПамПоток::перейди(int64 pos) {
-	ptr = буфер + min(pos, int64(rdlim - буфер));
+void MemStream::Seek(int64 pos) {
+	ptr = buffer + min(pos, int64(rdlim - buffer));
 }
 
-int64 ПамПоток::дайРазм() const {
-	return rdlim - буфер;
+int64 MemStream::GetSize() const {
+	return rdlim - buffer;
 }
 
-dword ПамПоток::_получи(void *данные, dword size) {
+dword MemStream::_Get(void *data, dword size) {
 	if(size > (dword)(intptr_t)(rdlim - ptr))
 		size = (dword)(intptr_t)(rdlim - ptr);
-	memcpy8(данные, ptr, size);
+	memcpy8(data, ptr, size);
 	ptr += size;
 	return size;
 }
 
-void  ПамПоток::_помести(const void *данные, dword size) {
+void  MemStream::_Put(const void *data, dword size) {
 	if(size > (dword)(uintptr_t)(wrlim - ptr)) {
-		устОш(ERROR_NOT_ENOUGH_SPACE);
+		SetError(ERROR_NOT_ENOUGH_SPACE);
 		return;
 	}
-	memcpy8(ptr, данные, size);
+	memcpy8(ptr, data, size);
 	ptr += size;
 }
 
-bool  ПамПоток::открыт() const {
+bool  MemStream::IsOpen() const {
 	return true;
 }
 
-void ПамПоток::создай(void *данные, int64 size)
+void MemStream::Create(void *data, int64 size)
 {
 	style = STRM_WRITE|STRM_READ|STRM_SEEK|STRM_LOADING;
-	ptr = буфер = (byte *) данные;
-	wrlim = rdlim = буфер + (size_t)size;
+	ptr = buffer = (byte *) data;
+	wrlim = rdlim = buffer + (size_t)size;
 	pos = 0;
 }
 
-ПамПоток::ПамПоток(void *данные, int64 size) {
-	создай(данные, size);
+MemStream::MemStream(void *data, int64 size) {
+	Create(data, size);
 }
 
-ПамПоток::ПамПоток() {}
+MemStream::MemStream() {}
 
 // ----------------------- Memory read streamer -------------------------
 
-void ПамЧтенПоток::создай(const void *данные, int64 size)
+void MemReadStream::Create(const void *data, int64 size)
 {
-	ПамПоток::создай((void *)данные, size);
+	MemStream::Create((void *)data, size);
 	style = STRM_READ|STRM_SEEK|STRM_LOADING;
-	wrlim = буфер;
+	wrlim = buffer;
 }
 
-ПамЧтенПоток::ПамЧтенПоток(const void *данные, int64 size)
+MemReadStream::MemReadStream(const void *data, int64 size)
 {
-	создай(данные, size);
+	Create(data, size);
 }
 
-ПамЧтенПоток::ПамЧтенПоток() {}
+MemReadStream::MemReadStream() {}
 
-// --------------------------- размер stream -----------------------
+// --------------------------- Size stream -----------------------
 
-int64 РамерПоток::дайРазм() const
+int64 SizeStream::GetSize() const
 {
-	return int64(ptr - буфер + pos);
+	return int64(ptr - buffer + pos);
 }
 
-void РамерПоток::_помести(const void *, dword sz)
+void SizeStream::_Put(const void *, dword sz)
 {
-	wrlim = буфер + sizeof(h);
-	pos += ptr - буфер + sz;
-	ptr = буфер;
+	wrlim = buffer + sizeof(h);
+	pos += ptr - buffer + sz;
+	ptr = buffer;
 }
 
-void РамерПоток::_помести(int w)
+void SizeStream::_Put(int w)
 {
-	_помести(NULL, 1);
+	_Put(NULL, 1);
 }
 
-bool РамерПоток::открыт() const
+bool SizeStream::IsOpen() const
 {
 	return true;
 }
 
-РамерПоток::РамерПоток()
+SizeStream::SizeStream()
 {
 	style = STRM_WRITE;
-	буфер = ptr = h;
+	buffer = ptr = h;
 }
 
-// ------------------------------ сравни stream ----------------------------
+// ------------------------------ Compare stream ----------------------------
 
-СравнПоток::СравнПоток() {
+CompareStream::CompareStream() {
 	stream = NULL;
 	equal = false;
 	size = 0;
-	буфер = h;
+	buffer = h;
 }
 
-СравнПоток::СравнПоток(Поток& astream) {
+CompareStream::CompareStream(Stream& astream) {
 	stream = NULL;
-	буфер = h;
-	открой(astream);
+	buffer = h;
+	Open(astream);
 }
 
-void СравнПоток::открой(Поток& astream) {
-	ПРОВЕРЬ(astream.открыт());
-	открой();
+void CompareStream::Open(Stream& astream) {
+	ASSERT(astream.IsOpen());
+	Close();
 	style = STRM_WRITE|STRM_SEEK;
 	stream = &astream;
 	size = pos = 0;
-	wrlim = буфер + 128;
-	ptr = буфер;
+	wrlim = buffer + 1024;
+	ptr = buffer;
 	equal = true;
-	сотриОш();
+	ClearError();
 }
 
-bool СравнПоток::открыт() const {
+bool CompareStream::IsOpen() const {
 	return !!stream;
 }
 
-int64 СравнПоток::дайРазм() const {
-	return max(int64(ptr - буфер + pos), size);
+int64 CompareStream::GetSize() const {
+	return max(int64(ptr - buffer + pos), size);
 }
 
-void СравнПоток::открой() {
+void CompareStream::Close() {
 	if(!stream) return;
-	if(дайПоз() > size)
-		size = дайПоз();
-	слей();
-	if(stream->дайРазм() != дайРазм())
+	if(GetPos() > size)
+		size = GetPos();
+	Flush();
+	if(stream->GetSize() != GetSize())
 		equal = false;
 	stream = NULL;
 }
 
-void СравнПоток::устРазм(int64 asize) {
-	слей();
-	pos += ptr - буфер;
-	ptr = буфер;
+void CompareStream::SetSize(int64 asize) {
+	Flush();
+	pos += ptr - buffer;
+	ptr = buffer;
 	size = asize;
 	if(pos > size)
 		pos = size;
 }
 
-void СравнПоток::перейди(int64 apos) {
-	слей();
-	int64 sz = ptr - буфер + pos;
+void CompareStream::Seek(int64 apos) {
+	Flush();
+	int64 sz = ptr - buffer + pos;
 	if(sz > size)
 		size = sz;
 	pos = apos;
-	ptr = буфер;
+	ptr = buffer;
 }
 
-void СравнПоток::сравни(int64 pos, const void *данные, int size) {
-	ПРОВЕРЬ(stream);
+void CompareStream::Compare(int64 pos, const void *data, int size) {
+	ASSERT(stream);
 	if(!size) return;
-	Буфер<byte> b(size);
-	if(stream->дайПоз() != pos)
-		stream->перейди(pos);
-	if(stream->дай(b, size) != size || memcmp(b.operator const byte *(), данные, size))
+	Buffer<byte> b(size);
+	if(stream->GetPos() != pos)
+		stream->Seek(pos);
+	if(stream->Get(b, size) != size || memcmp(b.operator const byte *(), data, size))
 		equal = false;
 }
 
-void СравнПоток::слей() {
-	сравни(pos, буфер, (int)(ptr - буфер));
+void CompareStream::Flush() {
+	Compare(pos, buffer, (int)(ptr - buffer));
 }
 
-void СравнПоток::_помести(const void *данные, dword size) {
-	wrlim = буфер + sizeof(h);
-	ПРОВЕРЬ(ptr <= wrlim);
-	слей();
-	pos += ptr - буфер;
-	ptr = буфер;
-	byte *b = (byte *) данные;
+void CompareStream::_Put(const void *data, dword size) {
+	wrlim = buffer + sizeof(h);
+	ASSERT(ptr <= wrlim);
+	Flush();
+	pos += ptr - buffer;
+	ptr = buffer;
+	byte *b = (byte *) data;
 	while(size && equal) {
 		int sz = min<int>(size, sizeof(h));
-		сравни(pos, b, sz);
+		Compare(pos, b, sz);
 		pos += sz;
 		b += sz;
 		size -= sz;
 	}
 }
 
-void СравнПоток::_помести(int w) {
+void CompareStream::_Put(int w) {
 	byte b = w;
-	_помести(&b, 1);
+	_Put(&b, 1);
 }
 
-ПотокВывода::ПотокВывода()
+OutStream::OutStream()
 {
 	const int bsz = 64 * 1024;
 	h = (byte *)MemoryAlloc(bsz);
-	буфер = ptr = h;
+	buffer = ptr = h;
 	wrlim = h + bsz;
 }
 
-ПотокВывода::~ПотокВывода()
-{	// Note: cannot call открой here !
+OutStream::~OutStream()
+{	// Note: cannot call Close here !
 	MemoryFree(h);
 }
 
-void ПотокВывода::_помести(int w)
+void OutStream::_Put(int w)
 {
-	слей();
+	Flush();
 	*ptr++ = w;
 }
 
-void ПотокВывода::_помести(const void *данные, dword size)
+void OutStream::_Put(const void *data, dword size)
 {
-	if(ptr == буфер)
-		выведи(данные, size);
+	if(ptr == buffer)
+		Out(data, size);
 	else
 	if(ptr + size < wrlim) {
-		memcpy8(ptr, данные, size);
+		memcpy8(ptr, data, size);
 		ptr += size;
 	}
 	else {
-		слей();
-		выведи(данные, size);
+		Flush();
+		Out(data, size);
 	}
 }
 
-void ПотокВывода::слей()
+void OutStream::Flush()
 {
-	if(ptr != буфер) {
-		выведи(буфер, int(ptr - буфер));
+	if(ptr != buffer) {
+		Out(buffer, int(ptr - buffer));
 		ptr = h;
 	}
 }
 
-void ПотокВывода::открой()
+void OutStream::Close()
 {
-	слей();
+	Flush();
 }
 
-bool ПотокВывода::открыт() const
+bool OutStream::IsOpen() const
 {
 	return true;
 }
 
-void TeeStream::выведи(const void *данные, dword size)
+void TeeStream::Out(const void *data, dword size)
 {
-	a.помести(данные, size);
-	b.помести(данные, size);
+	a.Put(data, size);
+	b.Put(data, size);
 }
 
-struct NilStreamClass : public Поток {
-	virtual void    _помести(int w)    {}
-	virtual bool    открыт() const { return true; }
-	virtual   int   _прекрати()        { return -1; }
-	virtual   int   _получи()         { return -1; }
+struct NilStreamClass : public Stream {
+	virtual void    _Put(int w)    {}
+	virtual bool    IsOpen() const { return true; }
+	virtual   int   _Term()        { return -1; }
+	virtual   int   _Get()         { return -1; }
 };
 
-Поток& NilStream()
+Stream& NilStream()
 {
 	return Single<NilStreamClass>();
 }
 
 #ifndef PLATFORM_WINCE
-class CoutStream : public Поток {
+class CoutStream : public Stream {
 #ifdef PLATFORM_WIN32
-	Ткст буфер;
+	String buffer;
 
-	void слей() {
+	void Flush() {
 		ONCELOCK {
 			SetConsoleOutputCP(65001); // set console to UTF8 mode
 		}
 		static HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
 		dword dummy;
-		WriteFile(h, ~буфер, буфер.дайСчёт(), &dummy, NULL);
-		буфер.очисть();
+		WriteFile(h, ~buffer, buffer.GetCount(), &dummy, NULL);
+		buffer.Clear();
 	}
 #endif
 
 
 	void Put0(int w) {
 #ifdef PLATFORM_WIN32
-		буфер.конкат(w);
-		if(проверьУтф8(буфер) || буфер.дайСчёт() > 8)
-			слей();
+		buffer.Cat(w);
+		if(CheckUtf8(buffer) || buffer.GetCount() > 8)
+			Flush();
 #else
 		putchar(w);
 #endif
 	}
-	virtual void    _помести(int w) {
+	virtual void    _Put(int w) {
 		if(w == '\n') {
 #ifdef PLATFORM_WIN32
 			Put0('\r');
@@ -1112,19 +1112,19 @@ class CoutStream : public Поток {
 		if(w != '\r')
 			Put0(w);
 	}
-	virtual   bool  открыт() const { return true; }
+	virtual   bool  IsOpen() const { return true; }
 #ifdef PLATFORM_POSIX
-	virtual   void   слей()       { fflush(stdout); }
+	virtual   void   Flush()       { fflush(stdout); }
 #endif
 };
 
-Поток& Cout()
+Stream& Cout()
 {
 	return Single<CoutStream>();
 }
 
-class CerrStream : public Поток {
-	virtual void    _помести(int w) {
+class CerrStream : public Stream {
+	virtual void    _Put(int w) {
 	#ifdef PLATFORM_WIN32
 		static HANDLE h = GetStdHandle(STD_ERROR_HANDLE);
 		char s[1];
@@ -1136,38 +1136,38 @@ class CerrStream : public Поток {
 	#endif
 	}
 #ifdef PLATFORM_POSIX
-	virtual   void  _помести(const void *данные, dword size) {
-		fwrite(данные, 1, size, stderr);
+	virtual   void  _Put(const void *data, dword size) {
+		fwrite(data, 1, size, stderr);
 	}
 #endif
-	virtual   bool  открыт() const { return true; }
+	virtual   bool  IsOpen() const { return true; }
 };
 
-Поток& Cerr()
+Stream& Cerr()
 {
 	return Single<CerrStream>();
 }
 #endif
 
 
-Ткст читайСтдВхо()
+String ReadStdIn()
 {
-	Ткст r;
+	String r;
 	for(;;) {
 		int c = getchar();
 		if(c < 0)
-			return r.дайСчёт() ? r : Ткст::дайПроц();
+			return r.GetCount() ? r : String::GetVoid();
 		if(c == '\n')
 			return r;
-		r.конкат(c);
+		r.Cat(c);
 	}
 }
 
 
-Ткст ReadSecret()
+String ReadSecret()
 {
 	DisableEcho();
-	Ткст s = читайСтдВхо();
+	String s = ReadStdIn();
 	EnableEcho();
 	Cout().PutEol();
 	return s;
@@ -1188,7 +1188,7 @@ void EnableEcho(bool b)
 	if(b) mode |=  ENABLE_ECHO_INPUT;
 	else  mode &= ~ENABLE_ECHO_INPUT;
 	SetConsoleMode(h, mode);
-#endif	
+#endif
 }
 
 void DisableEcho()
@@ -1199,56 +1199,56 @@ void DisableEcho()
 
 // ---------------------------------------------------------------------------
 
-Ткст загрузиПоток(Поток& in) {
-	if(in.открыт()) {
-		in.сотриОш();
+String LoadStream(Stream& in) {
+	if(in.IsOpen()) {
+		in.ClearError();
 		int64 size = in.GetLeft();
 		if(size >= 0 && size < INT_MAX) {
-			ТкстБуф s((int)size);
-			in.дай(s, (int)size);
-			if(!in.ошибка_ли())
-				return Ткст(s);
+			StringBuffer s((int)size);
+			in.Get(s, (int)size);
+			if(!in.IsError())
+				return String(s);
 		}
 	}
-	return Ткст::дайПроц();
+	return String::GetVoid();
 }
 
-Ткст загрузиФайл(const char *filename) {
-	ФайлПоиск ff(filename);
-	if(ff && ff.файл_ли()) {
-		ФайлВвод in(filename);
-		return загрузиПоток(in);
+String LoadFile(const char *filename) {
+	FindFile ff(filename);
+	if(ff && ff.IsFile()) {
+		FileIn in(filename);
+		return LoadStream(in);
 	}
-	return Ткст::дайПроц();
+	return String::GetVoid();
 }
 
-bool сохраниПоток(Поток& out, const Ткст& данные) {
-	if(!out.открыт() || out.ошибка_ли()) return false;
-	out.помести((const char *)данные, данные.дайДлину());
-	out.закрой();
-	return out.ок_ли();
+bool SaveStream(Stream& out, const String& data) {
+	if(!out.IsOpen() || out.IsError()) return false;
+	out.Put((const char *)data, data.GetLength());
+	out.Close();
+	return out.IsOK();
 }
 
-bool сохраниФайл(const char *filename, const Ткст& данные) {
-	ФайлВывод out(filename);
-	return сохраниПоток(out, данные);
+bool SaveFile(const char *filename, const String& data) {
+	FileOut out(filename);
+	return SaveStream(out, data);
 }
 
-int64 копируйПоток(Поток& dest, Поток& ист, int64 count)
+int64 CopyStream(Stream& dest, Stream& src, int64 count)
 {
-	return копируйПоток(dest, ист, count, Null);
+	return CopyStream(dest, src, count, Null);
 }
 
-int64 копируйПоток(Поток& dest, Поток& ист, int64 count, Врата<int64, int64> progress, int chunk_size)
+int64 CopyStream(Stream& dest, Stream& src, int64 count, Gate<int64, int64> progress, int chunk_size)
 {
 	int block = (int)min<int64>(count, chunk_size);
-	Буфер<byte> temp(block);
+	Buffer<byte> temp(block);
 	int loaded;
 	int64 done = 0;
 	int64 total = count;
-	while(count > 0 && (loaded = ист.дай(~temp, (int)min<int64>(count, block))) > 0) {
-		dest.помести(~temp, loaded);
-		if(dest.ошибка_ли())
+	while(count > 0 && (loaded = src.Get(~temp, (int)min<int64>(count, block))) > 0) {
+		dest.Put(~temp, loaded);
+		if(dest.IsError())
 			return -1;
 		count -= loaded;
 		done += loaded;
@@ -1258,70 +1258,70 @@ int64 копируйПоток(Поток& dest, Поток& ист, int64 count
 	return done;
 }
 
-void CheckedSerialize(const Событие<Поток&> serialize, Поток& stream, int версия)
+void CheckedSerialize(const Event<Stream&> serialize, Stream& stream, int version)
 {
-	int pos = (int)stream.дайПоз();
+	int pos = (int)stream.GetPos();
 	stream.Magic(0x61746164);
-	if(!пусто_ли(версия))
-		stream.Magic(версия);
+	if(!IsNull(version))
+		stream.Magic(version);
 	serialize(stream);
 	stream.Magic(0x00646e65);
-	pos = int(stream.дайПоз() - pos);
+	pos = int(stream.GetPos() - pos);
 	stream.Magic(pos);
 }
 
-bool грузи(Событие<Поток&> serialize, Поток& stream, int версия) {
-	ТкстПоток backup;
+bool Load(Event<Stream&> serialize, Stream& stream, int version) {
+	StringStream backup;
 	backup.SetStoring();
 	serialize(backup);
-	ПРОВЕРЬ(!backup.ошибка_ли());
+	ASSERT(!backup.IsError());
 	stream.SetLoading();
 	stream.LoadThrowing();
 	try {
-		CheckedSerialize(serialize, stream, версия);
+		CheckedSerialize(serialize, stream, version);
 	}
 	catch(LoadingError) {
-		backup.перейди(0);
+		backup.Seek(0);
 		backup.SetLoading();
 		serialize(backup);
-		ПРОВЕРЬ(!backup.ошибка_ли());
+		ASSERT(!backup.IsError());
 		return false;
 	}
-	catch(ОшибкаТипаЗначения) {
-		backup.перейди(0);
+	catch(ValueTypeError) {
+		backup.Seek(0);
 		backup.SetLoading();
 		serialize(backup);
-		ПРОВЕРЬ(!backup.ошибка_ли());
+		ASSERT(!backup.IsError());
 		return false;
 	}
 	return true;
 }
 
-bool сохрани(Событие<Поток&> serialize, Поток& stream, int версия) {
+bool Store(Event<Stream&> serialize, Stream& stream, int version) {
 	stream.SetStoring();
-	CheckedSerialize(serialize, stream, версия);
-	return !stream.ошибка_ли();
+	CheckedSerialize(serialize, stream, version);
+	return !stream.IsError();
 }
 
-Ткст Cfgname(const char *file) {
-	return file ? Ткст(file) : конфигФайл();
+String Cfgname(const char *file) {
+	return file ? String(file) : ConfigFile();
 }
 
-bool грузиИзФайла(Событие<Поток&> serialize, const char *file, int версия) {
-	ФайлВвод f(Cfgname(file));
-	return f ? грузи(serialize, f, версия) : false;
+bool LoadFromFile(Event<Stream&> serialize, const char *file, int version) {
+	FileIn f(Cfgname(file));
+	return f ? Load(serialize, f, version) : false;
 }
 
-bool сохраниВФайл(Событие<Поток&> serialize, const char *file, int версия) {
-	ФайлВывод f(Cfgname(file));
-	if(!f || !сохрани(serialize, f, версия))
+bool StoreToFile(Event<Stream&> serialize, const char *file, int version) {
+	FileOut f(Cfgname(file));
+	if(!f || !Store(serialize, f, version))
 		return false;
-	f.закрой();
-	return !f.ошибка_ли();
+	f.Close();
+	return !f.IsError();
 }
 
-Поток& пакуй16(Поток& s, int& i) {
-	if(s.грузится()) {
+Stream& Pack16(Stream& s, int& i) {
+	if(s.IsLoading()) {
 		i = (int16) s.Get16le();
 		if(i == -32768)
 			i = s.Get32le();
@@ -1336,47 +1336,47 @@ bool сохраниВФайл(Событие<Поток&> serialize, const char 
 	return s;
 }
 
-Поток& пакуй16(Поток& s, int& i1, int& i2) {
-	пакуй16(s, i1);
-	пакуй16(s, i2);
+Stream& Pack16(Stream& s, int& i1, int& i2) {
+	Pack16(s, i1);
+	Pack16(s, i2);
 	return s;
 }
 
-Поток& пакуй16(Поток& s, int& i1, int& i2, int& i3) {
-	пакуй16(s, i1, i2);
-	пакуй16(s, i3);
+Stream& Pack16(Stream& s, int& i1, int& i2, int& i3) {
+	Pack16(s, i1, i2);
+	Pack16(s, i3);
 	return s;
 }
 
-Поток& пакуй16(Поток& s, int& i1, int& i2, int& i3, int& i4) {
-	пакуй16(s, i1, i2, i3);
-	пакуй16(s, i4);
+Stream& Pack16(Stream& s, int& i1, int& i2, int& i3, int& i4) {
+	Pack16(s, i1, i2, i3);
+	Pack16(s, i4);
 	return s;
 }
 
-Поток& пакуй16(Поток& s, int& i1, int& i2, int& i3, int& i4, int& i5) {
-	пакуй16(s, i1, i2, i3, i4);
-	пакуй16(s, i5);
+Stream& Pack16(Stream& s, int& i1, int& i2, int& i3, int& i4, int& i5) {
+	Pack16(s, i1, i2, i3, i4);
+	Pack16(s, i5);
 	return s;
 }
 
-int StreamHeading(Поток& stream, int ver, int minver, int maxver, const char* tag)
+int StreamHeading(Stream& stream, int ver, int minver, int maxver, const char* tag)
 {
-	if(stream.грузится() && stream.кф_ли() || stream.ошибка_ли())
+	if(stream.IsLoading() && stream.IsEof() || stream.IsError())
 		return Null;
-	Ткст text = tag;
-	dword len = text.дайДлину();
+	String text = tag;
+	dword len = text.GetLength();
 	stream.Pack(len);
-	if(stream.грузится()) {
-		if(stream.ошибка_ли() || (int)len != text.дайДлину()) {
-			stream.устОш();
+	if(stream.IsLoading()) {
+		if(stream.IsError() || (int)len != text.GetLength()) {
+			stream.SetError();
 			return Null;
 		}
-		ТкстБуф b(len);
+		StringBuffer b(len);
 		stream.SerializeRaw((byte *)~b, len);
-		Ткст in = b;
-		if(stream.ошибка_ли() || in != text) {
-			stream.устОш();
+		String in = b;
+		if(stream.IsError() || in != text) {
+			stream.SetError();
 			return Null;
 		}
 	}
@@ -1384,7 +1384,7 @@ int StreamHeading(Поток& stream, int ver, int minver, int maxver, const cha
 		stream.SerializeRaw((byte *)(const char*)text, len);
 	stream / ver;
 	if(ver < minver || ver > maxver) {
-		stream.устОш();
+		stream.SetError();
 		return Null;
 	}
 	return ver;

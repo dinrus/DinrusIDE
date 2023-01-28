@@ -20,7 +20,7 @@
 #include FT_SERVICE_PFR_H
 
 
-  /* check the формат */
+  /* check the format */
   static FT_Service_PfrMetrics
   ft_pfr_check( FT_Face  face )
   {
@@ -43,7 +43,7 @@
                       FT_Fixed  *ametrics_x_scale,
                       FT_Fixed  *ametrics_y_scale )
   {
-    FT_Error               Ошибка = FT_Err_Ok;
+    FT_Error               error = FT_Err_Ok;
     FT_Service_PfrMetrics  service;
 
 
@@ -53,7 +53,7 @@
     service = ft_pfr_check( face );
     if ( service )
     {
-      Ошибка = service->get_metrics( face,
+      error = service->get_metrics( face,
                                     aoutline_resolution,
                                     ametrics_resolution,
                                     ametrics_x_scale,
@@ -84,10 +84,10 @@
       if ( ametrics_y_scale )
         *ametrics_y_scale = y_scale;
 
-      Ошибка = FT_Err_Unknown_File_Format;
+      error = FT_Err_Unknown_File_Format;
     }
 
-    return Ошибка;
+    return error;
   }
 
 
@@ -99,7 +99,7 @@
                       FT_UInt     right,
                       FT_Vector  *avector )
   {
-    FT_Error               Ошибка;
+    FT_Error               error;
     FT_Service_PfrMetrics  service;
 
 
@@ -108,12 +108,12 @@
 
     service = ft_pfr_check( face );
     if ( service )
-      Ошибка = service->get_kerning( face, left, right, avector );
+      error = service->get_kerning( face, left, right, avector );
     else
-      Ошибка = FT_Get_Kerning( face, left, right,
+      error = FT_Get_Kerning( face, left, right,
                               FT_KERNING_UNSCALED, avector );
 
-    return Ошибка;
+    return error;
   }
 
 
@@ -124,20 +124,20 @@
                       FT_UInt   gindex,
                       FT_Pos   *aadvance )
   {
-    FT_Error               Ошибка;
+    FT_Error               error;
     FT_Service_PfrMetrics  service;
 
 
     service = ft_pfr_check( face );
     if ( service )
     {
-      Ошибка = service->get_advance( face, gindex, aadvance );
+      error = service->get_advance( face, gindex, aadvance );
     }
     else
-      /* XXX: TODO: PROVIDE ADVANCE-LOADING METHOD TO ALL FONT DRIVERS */
-      Ошибка = FT_Err_Invalid_Argument;
+      /* XXX: СДЕЛАТЬ: PROVIDE ADVANCE-LOADING METHOD TO ALL FONT DRIVERS */
+      error = FT_Err_Invalid_Argument;
 
-    return Ошибка;
+    return error;
   }
 
 

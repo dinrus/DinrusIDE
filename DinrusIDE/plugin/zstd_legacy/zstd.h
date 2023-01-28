@@ -3,27 +3,27 @@
 
 #include <Core/Core.h>
 
-namespace РНЦП {
+namespace Upp {
 	
 namespace Legacy {
 
 #define ZSTD_STATIC_LINKING_ONLY
 #include "lib/zstd.h"
 
-class ZstdCompressStream : public Поток  {
+class ZstdCompressStream : public Stream  {
 public:
-	virtual   void  закрой();
-	virtual   bool  открыт() const;
+	virtual   void  Close();
+	virtual   bool  IsOpen() const;
 
 protected:
-	virtual   void  _помести(int w);
-	virtual   void  _помести(const void *data, dword size);
+	virtual   void  _Put(int w);
+	virtual   void  _Put(const void *data, dword size);
 	
-	Поток      *out;
+	Stream      *out;
 	
-	Буфер<byte> буфер;
-	Буфер<byte> outbuf;
-	Буфер<int>  outsz;
+	Buffer<byte> buffer;
+	Buffer<byte> outbuf;
+	Buffer<int>  outsz;
 
 	enum { BLOCK_BYTES = 1024*1024 };
 	
@@ -31,39 +31,39 @@ protected:
 	
 	bool          concurrent;
     
-    void          размести();
-	void          иниц();
+    void          Alloc();
+	void          Init();
 	void          FlushOut();
 
 public:
 #ifdef _MULTITHREADED
 	void Co(bool b = true);
 #endif
-	void открой(Поток& out, int level = 1);
+	void Open(Stream& out, int level = 1);
 
 	ZstdCompressStream();
-	ZstdCompressStream(Поток& out, int level = 1) : ZstdCompressStream() { открой(out, level); }
+	ZstdCompressStream(Stream& out, int level = 1) : ZstdCompressStream() { Open(out, level); }
 	~ZstdCompressStream();
 };
 
-class ZstdDecompressStream : public Поток {
+class ZstdDecompressStream : public Stream {
 public:
-	virtual   bool  открыт() const;
+	virtual   bool  IsOpen() const;
 
 protected:
-	virtual   int   _прекрати();
-	virtual   int   _получи();
-	virtual   dword _получи(void *data, dword size);
+	virtual   int   _Term();
+	virtual   int   _Get();
+	virtual   dword _Get(void *data, dword size);
 
 private:
-	Поток        *in;
+	Stream        *in;
 	struct Workblock {
-		Буфер<char> c, d; // compressed, decompressed data
+		Buffer<char> c, d; // compressed, decompressed data
 		int          clen = 0, dlen = 0; // compressed, decompressed len
-		Ткст       lc; // used when compressed length is too big
+		String       lc; // used when compressed length is too big
 		bool         irregular_d = false; // d reallocated to accomodate bigger result
 		
-		void очисть() { c.очисть(); d.очисть(); lc.очисть(); }
+		void Clear() { c.Clear(); d.Clear(); lc.Clear(); }
 	};
 	Workblock wb[16];
 	int       count; // count of workblocks fetched
@@ -81,38 +81,38 @@ private:
 
     void          TryHeader();
 
-	void          иниц();
-	bool          следщ();
+	void          Init();
+	bool          Next();
 	void          Fetch();
-	bool          Ended() const { return ошибка_ли() || in->ошибка_ли() || ptr == rdlim && ii == count && eof; }
+	bool          Ended() const { return IsError() || in->IsError() || ptr == rdlim && ii == count && eof; }
 
 public:	
-	bool открой(Поток& in);
+	bool Open(Stream& in);
 
 #ifdef _MULTITHREADED
 	void Co(bool b = true)                                    { concurrent = b; }
 #endif
 
 	ZstdDecompressStream();
-	ZstdDecompressStream(Поток& in) : ZstdDecompressStream() { открой(in); }
+	ZstdDecompressStream(Stream& in) : ZstdDecompressStream() { Open(in); }
 	~ZstdDecompressStream();
 };
 
-int64 ZstdCompress(Поток& out, Поток& in, Врата<int64, int64> progress = Null);
-int64 ZstdDecompress(Поток& out, Поток& in, Врата<int64, int64> progress = Null);
-Ткст ZstdCompress(const void *data, int64 len, Врата<int64, int64> progress = Null);
-Ткст ZstdCompress(const Ткст& s, Врата<int64, int64> progress = Null);
-Ткст ZstdDecompress(const void *data, int64 len, Врата<int64, int64> progress = Null);
-Ткст ZstdDecompress(const Ткст& s, Врата<int64, int64> progress = Null);
+int64 ZstdCompress(Stream& out, Stream& in, Gate<int64, int64> progress = Null);
+int64 ZstdDecompress(Stream& out, Stream& in, Gate<int64, int64> progress = Null);
+String ZstdCompress(const void *data, int64 len, Gate<int64, int64> progress = Null);
+String ZstdCompress(const String& s, Gate<int64, int64> progress = Null);
+String ZstdDecompress(const void *data, int64 len, Gate<int64, int64> progress = Null);
+String ZstdDecompress(const String& s, Gate<int64, int64> progress = Null);
 
-int64 CoZstdCompress(Поток& out, Поток& in, Врата<int64, int64> progress = Null);
-int64 CoZstdDecompress(Поток& out, Поток& in, Врата<int64, int64> progress = Null);
-Ткст CoZstdCompress(const void *data, int64 len, Врата<int64, int64> progress = Null);
-Ткст CoZstdCompress(const Ткст& s, Врата<int64, int64> progress = Null);
-Ткст CoZstdDecompress(const void *data, int64 len, Врата<int64, int64> progress = Null);
-Ткст CoZstdDecompress(const Ткст& s, Врата<int64, int64> progress = Null);
+int64 CoZstdCompress(Stream& out, Stream& in, Gate<int64, int64> progress = Null);
+int64 CoZstdDecompress(Stream& out, Stream& in, Gate<int64, int64> progress = Null);
+String CoZstdCompress(const void *data, int64 len, Gate<int64, int64> progress = Null);
+String CoZstdCompress(const String& s, Gate<int64, int64> progress = Null);
+String CoZstdDecompress(const void *data, int64 len, Gate<int64, int64> progress = Null);
+String CoZstdDecompress(const String& s, Gate<int64, int64> progress = Null);
 
-bool IsZstd(Поток& s);
+bool IsZstd(Stream& s);
 
 }
 

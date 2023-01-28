@@ -17,7 +17,7 @@
  *   disclaimer in the documentation and/or other materials
  *   provided with the distribution.
  *
- *   Neither the имя of the copyright holder nor the names
+ *   Neither the name of the copyright holder nor the names
  *   of any other contributors may be used to endorse or
  *   promote products derived from this software without
  *   specific prior written permission.
@@ -281,7 +281,7 @@ packet_queue_listener(LIBSSH2_SESSION * session, unsigned char *data,
 /*
  * packet_x11_open
  *
- * прими a forwarded X11 connection
+ * Accept a forwarded X11 connection
  */
 static inline int
 packet_x11_open(LIBSSH2_SESSION * session, unsigned char *data,
@@ -463,7 +463,7 @@ packet_x11_open(LIBSSH2_SESSION * session, unsigned char *data,
 /*
  * _libssh2_packet_add
  *
- * создай a new packet and attach it to the brigade. Called from the transport
+ * Create a new packet and attach it to the brigade. Called from the transport
  * layer when it has received a packet.
  *
  * The input pointer 'data' is pointing to allocated data that this function
@@ -488,7 +488,7 @@ _libssh2_packet_add(LIBSSH2_SESSION * session, unsigned char *data,
     switch(session->packAdd_state) {
     case libssh2_NB_state_idle:
         _libssh2_debug(session, LIBSSH2_TRACE_TRANS,
-                       "Packet тип %d received, length=%d",
+                       "Packet type %d received, length=%d",
                        (int) msg, (int) datalen);
 
         if((macstate == LIBSSH2_MAC_INVALID) &&
@@ -499,7 +499,7 @@ _libssh2_packet_add(LIBSSH2_SESSION * session, unsigned char *data,
 
             LIBSSH2_FREE(session, data);
             return _libssh2_error(session, LIBSSH2_ERROR_INVALID_MAC,
-                                  "Invalid MAC received");
+                                  "Неверное MAC received");
         }
         session->packAdd_state = libssh2_NB_state_allocated;
         break;
@@ -535,7 +535,7 @@ _libssh2_packet_add(LIBSSH2_SESSION * session, unsigned char *data,
                 buf.data = (unsigned char *)data;
                 buf.dataptr = buf.data;
                 buf.len = datalen;
-                buf.dataptr++; /* advance past тип */
+                buf.dataptr++; /* advance past type */
 
                 _libssh2_get_u32(&buf, &reason);
                 _libssh2_get_string(&buf, &message, &message_len);
@@ -591,7 +591,7 @@ _libssh2_packet_add(LIBSSH2_SESSION * session, unsigned char *data,
                     buf.data = (unsigned char *)data;
                     buf.dataptr = buf.data;
                     buf.len = datalen;
-                    buf.dataptr += 2; /* advance past тип & always дисплей */
+                    buf.dataptr += 2; /* advance past type & always display */
 
                     _libssh2_get_string(&buf, &message, &message_len);
                     _libssh2_get_string(&buf, &language, &language_len);
@@ -617,7 +617,7 @@ _libssh2_packet_add(LIBSSH2_SESSION * session, unsigned char *data,
 
             /*
               byte      SSH_MSG_GLOBAL_REQUEST
-              string    request имя in US-ASCII only
+              string    request name in US-ASCII only
               boolean   want reply
               ....      request-specific data follows
             */
@@ -631,7 +631,7 @@ _libssh2_packet_add(LIBSSH2_SESSION * session, unsigned char *data,
                     want_reply = data[5 + len];
                     _libssh2_debug(session,
                                    LIBSSH2_TRACE_CONN,
-                                   "Received global request тип %.*s (wr %X)",
+                                   "Received global request type %.*s (wr %X)",
                                    len, data + 5, want_reply);
                 }
 
@@ -765,7 +765,7 @@ _libssh2_packet_add(LIBSSH2_SESSION * session, unsigned char *data,
                 session->packAdd_state = libssh2_NB_state_idle;
                 return 0;
             }
-            /* переустанов EOF status */
+            /* Reset EOF status */
             channelp->remote.eof = 0;
 
             if(channelp->read_avail + datalen - data_head >
@@ -819,9 +819,9 @@ _libssh2_packet_add(LIBSSH2_SESSION * session, unsigned char *data,
             /*
               byte      SSH_MSG_CHANNEL_REQUEST
               uint32    recipient channel
-              string    request тип in US-ASCII characters only
+              string    request type in US-ASCII characters only
               boolean   want reply
-              ....      тип-specific data follows
+              ....      type-specific data follows
             */
 
         case SSH_MSG_CHANNEL_REQUEST:
@@ -835,7 +835,7 @@ _libssh2_packet_add(LIBSSH2_SESSION * session, unsigned char *data,
 
                 _libssh2_debug(session,
                                LIBSSH2_TRACE_CONN,
-                               "Channel %d received request тип %.*s (wr %X)",
+                               "Channel %d received request type %.*s (wr %X)",
                                channel, len, data + 9, want_reply);
 
                 if(len == sizeof("exit-status") - 1
@@ -843,7 +843,7 @@ _libssh2_packet_add(LIBSSH2_SESSION * session, unsigned char *data,
                     && !memcmp("exit-status", data + 9,
                                sizeof("exit-status") - 1)) {
 
-                    /* we've got "exit-status" packet. Set the session значение */
+                    /* we've got "exit-status" packet. Set the session value */
                     if(datalen >= 20)
                         channelp =
                             _libssh2_channel_locate(session, channel);
@@ -869,7 +869,7 @@ _libssh2_packet_add(LIBSSH2_SESSION * session, unsigned char *data,
                         channelp = _libssh2_channel_locate(session, channel);
 
                     if(channelp && (sizeof("exit-signal") + 13) <= datalen) {
-                        /* set signal имя (without SIG prefix) */
+                        /* set signal name (without SIG prefix) */
                         uint32_t namelen =
                             _libssh2_ntohu32(data + 9 + sizeof("exit-signal"));
 
@@ -883,13 +883,13 @@ _libssh2_packet_add(LIBSSH2_SESSION * session, unsigned char *data,
 
                         if(!channelp->exit_signal)
                             rc = _libssh2_error(session, LIBSSH2_ERROR_ALLOC,
-                                                "memory for signal имя");
+                                                "memory for signal name");
                         else if((sizeof("exit-signal") + 13 + namelen <=
                                  datalen)) {
                             memcpy(channelp->exit_signal,
                                    data + 13 + sizeof("exit-signal"), namelen);
                             channelp->exit_signal[namelen] = '\0';
-                            /* TODO: save Ошибка message and language tag */
+                            /* СДЕЛАТЬ: save error message and language tag */
                             _libssh2_debug(session, LIBSSH2_TRACE_CONN,
                                            "Exit signal %s received for "
                                            "channel %lu/%lu",
@@ -1063,7 +1063,7 @@ _libssh2_packet_add(LIBSSH2_SESSION * session, unsigned char *data,
          * The KEXINIT message has been added to the queue.  The packAdd and
          * readPack states need to be reset because _libssh2_kex_exchange
          * (eventually) calls upon _libssh2_transport_read to read the rest of
-         * the ключ exchange conversation.
+         * the key exchange conversation.
          */
         session->readPack_state = libssh2_NB_state_idle;
         session->packet.total_num = 0;
@@ -1073,7 +1073,7 @@ _libssh2_packet_add(LIBSSH2_SESSION * session, unsigned char *data,
         memset(&session->startup_key_state, 0, sizeof(key_exchange_state_t));
 
         /*
-         * If there was a ключ reexchange failure, let's just hope we didn't
+         * If there was a key reexchange failure, let's just hope we didn't
          * send NEWKEYS yet, otherwise remote will drop us like a rock
          */
         rc = _libssh2_kex_exchange(session, 1, &session->startup_key_state);
@@ -1088,7 +1088,7 @@ _libssh2_packet_add(LIBSSH2_SESSION * session, unsigned char *data,
 /*
  * _libssh2_packet_ask
  *
- * Scan the brigade for a matching packet тип, optionally poll the socket for
+ * Scan the brigade for a matching packet type, optionally poll the socket for
  * a packet first
  */
 int
@@ -1100,7 +1100,7 @@ _libssh2_packet_ask(LIBSSH2_SESSION * session, unsigned char packet_type,
     LIBSSH2_PACKET *packet = _libssh2_list_first(&session->packets);
 
     _libssh2_debug(session, LIBSSH2_TRACE_TRANS,
-                   "Looking for packet of тип: %d", (int) packet_type);
+                   "Looking for packet of type: %d", (int) packet_type);
 
     while(packet) {
         if(packet->data[0] == packet_type
@@ -1156,7 +1156,7 @@ _libssh2_packet_askv(LIBSSH2_SESSION * session,
  * Loops _libssh2_transport_read() until the packet requested is available
  * SSH_DISCONNECT or a SOCKET_DISCONNECTED will cause a bailout
  *
- * Returns negative on Ошибка
+ * Returns negative on error
  * Returns 0 when it has taken care of the requested packet.
  */
 int
@@ -1184,7 +1184,7 @@ _libssh2_packet_require(LIBSSH2_SESSION * session, unsigned char packet_type,
             return ret;
         else if(ret < 0) {
             state->start = 0;
-            /* an Ошибка which is not just because of blocking */
+            /* an error which is not just because of blocking */
             return ret;
         }
         else if(ret == packet_type) {
@@ -1256,7 +1256,7 @@ _libssh2_packet_burn(LIBSSH2_SESSION * session,
             return ret;
         }
         else if(ret == 0) {
-            /* FIXME: this might busyloop */
+            /* ИСПРАВИТЬ: this might busyloop */
             continue;
         }
 
@@ -1293,7 +1293,7 @@ _libssh2_packet_requirev(LIBSSH2_SESSION *session,
 {
     if(_libssh2_packet_askv(session, packet_types, data, data_len, match_ofs,
                              match_buf, match_len) == 0) {
-        /* Один of the packets listed was available in the packet brigade */
+        /* One of the packets listed was available in the packet brigade */
         state->start = 0;
         return 0;
     }

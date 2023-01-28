@@ -3,10 +3,10 @@
  *
  * Copyright (C) 1994-1997, Thomas G. Lane.
  * Modified 2009-2017 by Guido Vollbeding.
- * This file is part of the Independent JPEG Группа's software.
+ * This file is part of the Independent JPEG Group's software.
  * For conditions of distribution and use, see the accompanying README file.
  *
- * This file defines the Ошибка and message codes for the cjpeg/djpeg
+ * This file defines the error and message codes for the cjpeg/djpeg
  * applications.  These strings are not needed as part of the JPEG library
  * proper.
  * Edit this file to add new codes, or to translate the message strings to
@@ -40,14 +40,14 @@ typedef enum {
 JMESSAGE(JMSG_FIRSTADDONCODE=1000, NULL) /* Must be first entry! */
 
 #ifdef BMP_SUPPORTED
-JMESSAGE(JERR_BMP_BADCMAP, "Unsupported BMP colormap формат")
+JMESSAGE(JERR_BMP_BADCMAP, "Unsupported BMP colormap format")
 JMESSAGE(JERR_BMP_BADDEPTH, "Only 8-, 24-, and 32-bit BMP files are supported")
-JMESSAGE(JERR_BMP_BADHEADER, "Invalid BMP file: bad header length")
-JMESSAGE(JERR_BMP_BADPLANES, "Invalid BMP file: biPlanes not equal to 1")
-JMESSAGE(JERR_BMP_COLORSPACE, "BMP output must be grayscale or дайКЗС")
+JMESSAGE(JERR_BMP_BADHEADER, "Неверное BMP file: bad header length")
+JMESSAGE(JERR_BMP_BADPLANES, "Неверное BMP file: biPlanes not equal to 1")
+JMESSAGE(JERR_BMP_COLORSPACE, "BMP output must be grayscale or RGB")
 JMESSAGE(JERR_BMP_COMPRESSED, "Sorry, compressed BMPs not yet supported")
 JMESSAGE(JERR_BMP_NOT, "Not a BMP file - does not start with BM")
-JMESSAGE(JERR_BMP_OUTOFRANGE, "Numeric значение out of range in BMP file")
+JMESSAGE(JERR_BMP_OUTOFRANGE, "Numeric value out of range in BMP file")
 JMESSAGE(JTRC_BMP, "%ux%u %d-bit BMP image")
 JMESSAGE(JTRC_BMP_MAPPED, "%ux%u 8-bit colormapped BMP image")
 JMESSAGE(JTRC_BMP_OS2, "%ux%u %d-bit OS2 BMP image")
@@ -57,13 +57,13 @@ JMESSAGE(JTRC_BMP_OS2_MAPPED, "%ux%u 8-bit colormapped OS2 BMP image")
 #ifdef GIF_SUPPORTED
 JMESSAGE(JERR_GIF_BUG, "GIF output got confused")
 JMESSAGE(JERR_GIF_CODESIZE, "Bogus GIF codesize %d")
-JMESSAGE(JERR_GIF_COLORSPACE, "GIF output must be grayscale or дайКЗС")
+JMESSAGE(JERR_GIF_COLORSPACE, "GIF output must be grayscale or RGB")
 JMESSAGE(JERR_GIF_IMAGENOTFOUND, "Too few images in GIF file")
 JMESSAGE(JERR_GIF_NOT, "Not a GIF file")
 JMESSAGE(JTRC_GIF, "%ux%ux%d GIF image")
 JMESSAGE(JTRC_GIF_BADVERSION,
 	 "Warning: unexpected GIF version number '%c%c%c'")
-JMESSAGE(JTRC_GIF_EXTENSION, "Ignoring GIF extension block of тип 0x%02x")
+JMESSAGE(JTRC_GIF_EXTENSION, "Ignoring GIF extension block of type 0x%02x")
 JMESSAGE(JTRC_GIF_NONSQUARE, "Caution: nonsquare pixels in input")
 JMESSAGE(JWRN_GIF_BADDATA, "Corrupt data in GIF file")
 JMESSAGE(JWRN_GIF_CHAR, "Bogus char 0x%02x in GIF file, ignoring")
@@ -72,10 +72,10 @@ JMESSAGE(JWRN_GIF_NOMOREDATA, "Ran out of GIF bits")
 #endif /* GIF_SUPPORTED */
 
 #ifdef PPM_SUPPORTED
-JMESSAGE(JERR_PPM_COLORSPACE, "PPM output must be grayscale or дайКЗС")
+JMESSAGE(JERR_PPM_COLORSPACE, "PPM output must be grayscale or RGB")
 JMESSAGE(JERR_PPM_NONNUMERIC, "Nonnumeric data in PPM file")
 JMESSAGE(JERR_PPM_NOT, "Not a PPM/PGM file")
-JMESSAGE(JERR_PPM_OUTOFRANGE, "Numeric значение out of range in PPM file")
+JMESSAGE(JERR_PPM_OUTOFRANGE, "Numeric value out of range in PPM file")
 JMESSAGE(JTRC_PGM, "%ux%u PGM image")
 JMESSAGE(JTRC_PGM_TEXT, "%ux%u text PGM image")
 JMESSAGE(JTRC_PPM, "%ux%u PPM image")
@@ -83,9 +83,9 @@ JMESSAGE(JTRC_PPM_TEXT, "%ux%u text PPM image")
 #endif /* PPM_SUPPORTED */
 
 #ifdef RLE_SUPPORTED
-JMESSAGE(JERR_RLE_BADERROR, "Bogus Ошибка code from RLE library")
-JMESSAGE(JERR_RLE_COLORSPACE, "RLE output must be grayscale or дайКЗС")
-JMESSAGE(JERR_RLE_DIMENSIONS, "Рисунок dimensions (%ux%u) too large for RLE")
+JMESSAGE(JERR_RLE_BADERROR, "Bogus error code from RLE library")
+JMESSAGE(JERR_RLE_COLORSPACE, "RLE output must be grayscale or RGB")
+JMESSAGE(JERR_RLE_DIMENSIONS, "Image dimensions (%ux%u) too large for RLE")
 JMESSAGE(JERR_RLE_EMPTY, "Empty RLE file")
 JMESSAGE(JERR_RLE_EOF, "Premature EOF in RLE header")
 JMESSAGE(JERR_RLE_MEM, "Insufficient memory for RLE header")
@@ -100,10 +100,10 @@ JMESSAGE(JTRC_RLE_MAPPED, "%ux%u colormapped RLE file with map of length %d")
 #endif /* RLE_SUPPORTED */
 
 #ifdef TARGA_SUPPORTED
-JMESSAGE(JERR_TGA_BADCMAP, "Unsupported Targa colormap формат")
-JMESSAGE(JERR_TGA_BADPARMS, "Invalid or unsupported Targa file")
-JMESSAGE(JERR_TGA_COLORSPACE, "Targa output must be grayscale or дайКЗС")
-JMESSAGE(JTRC_TGA, "%ux%u дайКЗС Targa image")
+JMESSAGE(JERR_TGA_BADCMAP, "Unsupported Targa colormap format")
+JMESSAGE(JERR_TGA_BADPARMS, "Неверное or unsupported Targa file")
+JMESSAGE(JERR_TGA_COLORSPACE, "Targa output must be grayscale or RGB")
+JMESSAGE(JTRC_TGA, "%ux%u RGB Targa image")
 JMESSAGE(JTRC_TGA_GRAY, "%ux%u grayscale Targa image")
 JMESSAGE(JTRC_TGA_MAPPED, "%ux%u colormapped Targa image")
 #else
@@ -111,17 +111,17 @@ JMESSAGE(JERR_TGA_NOTCOMP, "Targa support was not compiled")
 #endif /* TARGA_SUPPORTED */
 
 JMESSAGE(JERR_BAD_CMAP_FILE,
-	 "Цвет map file is invalid or of unsupported формат")
+	 "Color map file is invalid or of unsupported format")
 JMESSAGE(JERR_TOO_MANY_COLORS,
-	 "Output file формат cannot handle %d colormap entries")
+	 "Output file format cannot handle %d colormap entries")
 JMESSAGE(JERR_UNGETC_FAILED, "ungetc failed")
 #ifdef TARGA_SUPPORTED
 JMESSAGE(JERR_UNKNOWN_FORMAT,
-	 "Unrecognized input file формат --- perhaps you need -targa")
+	 "Unrecognized input file format --- perhaps you need -targa")
 #else
-JMESSAGE(JERR_UNKNOWN_FORMAT, "Unrecognized input file формат")
+JMESSAGE(JERR_UNKNOWN_FORMAT, "Unrecognized input file format")
 #endif
-JMESSAGE(JERR_UNSUPPORTED_FORMAT, "Unsupported output file формат")
+JMESSAGE(JERR_UNSUPPORTED_FORMAT, "Unsupported output file format")
 
 #ifdef JMAKE_ENUM_LIST
 

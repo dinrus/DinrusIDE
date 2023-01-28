@@ -2,7 +2,7 @@
 /*                                                                         */
 /*  sfnt.h                                                                 */
 /*                                                                         */
-/*    наибольш-level `sfnt' driver interface (specification).                  */
+/*    High-level `sfnt' driver interface (specification).                  */
 /*                                                                         */
 /*  Copyright 1996-2001, 2002, 2003, 2004, 2005, 2006 by                   */
 /*  David Turner, Robert Wilhelm, and Werner Lemberg.                      */
@@ -35,7 +35,7 @@ FT_BEGIN_HEADER
   /*                                                                       */
   /* <Description>                                                         */
   /*    First part of the SFNT face object initialization.  This finds     */
-  /*    the face in a SFNT file or collection, and load its формат tag in  */
+  /*    the face in a SFNT file or collection, and load its format tag in  */
   /*    face->format_tag.                                                  */
   /*                                                                       */
   /* <Input>                                                               */
@@ -43,7 +43,7 @@ FT_BEGIN_HEADER
   /*                                                                       */
   /*    face       :: A handle to the target face object.                  */
   /*                                                                       */
-  /*    face_index :: The Индекс of the TrueType font, if we are opening a  */
+  /*    face_index :: The index of the TrueType font, if we are opening a  */
   /*                  collection.                                          */
   /*                                                                       */
   /*    num_params :: The number of additional parameters.                 */
@@ -51,7 +51,7 @@ FT_BEGIN_HEADER
   /*    params     :: Optional additional parameters.                      */
   /*                                                                       */
   /* <Return>                                                              */
-  /*    FreeType Ошибка code.  0 means success.                             */
+  /*    FreeType error code.  0 means success.                             */
   /*                                                                       */
   /* <Note>                                                                */
   /*    The stream cursor must be at the font file's origin.               */
@@ -59,7 +59,7 @@ FT_BEGIN_HEADER
   /*    This function recognizes fonts embedded in a `TrueType             */
   /*    collection'.                                                       */
   /*                                                                       */
-  /*    Once the формат tag has been validated by the font driver, it      */
+  /*    Once the format tag has been validated by the font driver, it      */
   /*    should then call the TT_Load_Face_Func() callback to read the rest */
   /*    of the SFNT tables in the object.                                  */
   /*                                                                       */
@@ -86,7 +86,7 @@ FT_BEGIN_HEADER
   /*                                                                       */
   /*    face       :: A handle to the target face object.                  */
   /*                                                                       */
-  /*    face_index :: The Индекс of the TrueType font, if we are opening a  */
+  /*    face_index :: The index of the TrueType font, if we are opening a  */
   /*                  collection.                                          */
   /*                                                                       */
   /*    num_params :: The number of additional parameters.                 */
@@ -94,7 +94,7 @@ FT_BEGIN_HEADER
   /*    params     :: Optional additional parameters.                      */
   /*                                                                       */
   /* <Return>                                                              */
-  /*    FreeType Ошибка code.  0 means success.                             */
+  /*    FreeType error code.  0 means success.                             */
   /*                                                                       */
   /* <Note>                                                                */
   /*    This function must be called after TT_Init_Face_Func().            */
@@ -140,14 +140,14 @@ FT_BEGIN_HEADER
   /*                                                                       */
   /*    stream     :: The input stream.                                    */
   /*                                                                       */
-  /*    face_index :: The Индекс of the TrueType font, if we are opening a  */
+  /*    face_index :: The index of the TrueType font, if we are opening a  */
   /*                  collection.                                          */
   /*                                                                       */
   /* <Output>                                                              */
   /*    sfnt       :: The SFNT header.                                     */
   /*                                                                       */
   /* <Return>                                                              */
-  /*    FreeType Ошибка code.  0 means success.                             */
+  /*    FreeType error code.  0 means success.                             */
   /*                                                                       */
   /* <Note>                                                                */
   /*    The stream cursor must be at the font file's origin.               */
@@ -181,11 +181,11 @@ FT_BEGIN_HEADER
   /*    sfnt   :: The SFNT header.                                         */
   /*                                                                       */
   /* <Return>                                                              */
-  /*    FreeType Ошибка code.  0 means success.                             */
+  /*    FreeType error code.  0 means success.                             */
   /*                                                                       */
   /* <Note>                                                                */
   /*    The stream cursor must be on the first byte after the 4-byte font  */
-  /*    формат tag.  This is the case just after a call to                 */
+  /*    format tag.  This is the case just after a call to                 */
   /*    TT_Load_Format_Tag().                                              */
   /*                                                                       */
   typedef FT_Error
@@ -202,12 +202,12 @@ FT_BEGIN_HEADER
   /*    TT_Load_Any_Func                                                   */
   /*                                                                       */
   /* <Description>                                                         */
-  /*    грузи any font table into client memory.                            */
+  /*    Load any font table into client memory.                            */
   /*                                                                       */
   /* <Input>                                                               */
   /*    face   :: The face object to look for.                             */
   /*                                                                       */
-  /*    tag    :: The tag of table to load.  Use the значение 0 if you want   */
+  /*    tag    :: The tag of table to load.  Use the value 0 if you want   */
   /*              to access the whole font file, else set this parameter   */
   /*              to a valid TrueType table tag that you can forge with    */
   /*              the MAKE_TT_TAG macro.                                   */
@@ -218,12 +218,12 @@ FT_BEGIN_HEADER
   /*    length :: The address of the decision variable:                    */
   /*                                                                       */
   /*                If length == NULL:                                     */
-  /*                  Loads the whole table.  Returns an Ошибка if          */
+  /*                  Loads the whole table.  Returns an error if          */
   /*                  `offset' == 0!                                       */
   /*                                                                       */
   /*                If *length == 0:                                       */
   /*                  Exits immediately; returning the length of the given */
-  /*                  table or of the font file, depending on the значение of */
+  /*                  table or of the font file, depending on the value of */
   /*                  `tag'.                                               */
   /*                                                                       */
   /*                If *length != 0:                                       */
@@ -231,16 +231,16 @@ FT_BEGIN_HEADER
   /*                  starting at offset `offset' (in table or font too).  */
   /*                                                                       */
   /* <Output>                                                              */
-  /*    буфер :: The address of target буфер.                            */
+  /*    buffer :: The address of target buffer.                            */
   /*                                                                       */
   /* <Return>                                                              */
-  /*    TrueType Ошибка code.  0 means success.                             */
+  /*    TrueType error code.  0 means success.                             */
   /*                                                                       */
   typedef FT_Error
   (*TT_Load_Any_Func)( TT_Face    face,
                        FT_ULong   tag,
                        FT_Long    offset,
-                       FT_Byte   *буфер,
+                       FT_Byte   *buffer,
                        FT_ULong*  length );
 
 
@@ -256,19 +256,19 @@ FT_BEGIN_HEADER
   /* <Input>                                                               */
   /*    face          :: The target face object.                           */
   /*                                                                       */
-  /*    glyph_index   :: The glyph Индекс.                                  */
+  /*    glyph_index   :: The glyph index.                                  */
   /*                                                                       */
-  /*    strike_index  :: The current strike Индекс.                         */
+  /*    strike_index  :: The current strike index.                         */
   /*                                                                       */
   /* <Output>                                                              */
-  /*    arange        :: The SBit range containing the glyph Индекс.        */
+  /*    arange        :: The SBit range containing the glyph index.        */
   /*                                                                       */
-  /*    astrike       :: The SBit strike containing the glyph Индекс.       */
+  /*    astrike       :: The SBit strike containing the glyph index.       */
   /*                                                                       */
   /*    aglyph_offset :: The offset of the glyph data in `EBDT' table.     */
   /*                                                                       */
   /* <Return>                                                              */
-  /*    FreeType Ошибка code.  0 means success.  Returns                    */
+  /*    FreeType error code.  0 means success.  Returns                    */
   /*    SFNT_Err_Invalid_Argument if no sbit exists for the requested      */
   /*    glyph.                                                             */
   /*                                                                       */
@@ -287,7 +287,7 @@ FT_BEGIN_HEADER
   /*    TT_Load_SBit_Metrics_Func                                          */
   /*                                                                       */
   /* <Description>                                                         */
-  /*    дай the big metrics for a given embedded bitmap.                   */
+  /*    Get the big metrics for a given embedded bitmap.                   */
   /*                                                                       */
   /* <Input>                                                               */
   /*    stream      :: The input stream.                                   */
@@ -298,13 +298,13 @@ FT_BEGIN_HEADER
   /*    big_metrics :: A big SBit metrics structure for the glyph.         */
   /*                                                                       */
   /* <Return>                                                              */
-  /*    FreeType Ошибка code.  0 means success.                             */
+  /*    FreeType error code.  0 means success.                             */
   /*                                                                       */
   /* <Note>                                                                */
   /*    The stream cursor must be positioned at the glyph's offset within  */
   /*    the `EBDT' table before the call.                                  */
   /*                                                                       */
-  /*    If the image формат uses variable metrics, the stream cursor is    */
+  /*    If the image format uses variable metrics, the stream cursor is    */
   /*    positioned just after the metrics header in the `EBDT' table on    */
   /*    function exit.                                                     */
   /*                                                                       */
@@ -320,7 +320,7 @@ FT_BEGIN_HEADER
   /*    TT_Load_SBit_Image_Func                                            */
   /*                                                                       */
   /* <Description>                                                         */
-  /*    грузи a given glyph sbit image from the font resource.  This also   */
+  /*    Load a given glyph sbit image from the font resource.  This also   */
   /*    returns its metrics.                                               */
   /*                                                                       */
   /* <Input>                                                               */
@@ -328,10 +328,10 @@ FT_BEGIN_HEADER
   /*      The target face object.                                          */
   /*                                                                       */
   /*    strike_index ::                                                    */
-  /*      The strike Индекс.                                                */
+  /*      The strike index.                                                */
   /*                                                                       */
   /*    glyph_index ::                                                     */
-  /*      The current glyph Индекс.                                         */
+  /*      The current glyph index.                                         */
   /*                                                                       */
   /*    load_flags ::                                                      */
   /*      The current load flags.                                          */
@@ -347,11 +347,11 @@ FT_BEGIN_HEADER
   /*      A big sbit metrics structure for the glyph image.                */
   /*                                                                       */
   /* <Return>                                                              */
-  /*    FreeType Ошибка code.  0 means success.  Returns an Ошибка if no     */
-  /*    glyph sbit exists for the Индекс.                                   */
+  /*    FreeType error code.  0 means success.  Returns an error if no     */
+  /*    glyph sbit exists for the index.                                   */
   /*                                                                       */
   /*  <Note>                                                               */
-  /*    The `map.буфер' field is always freed before the glyph is loaded. */
+  /*    The `map.buffer' field is always freed before the glyph is loaded. */
   /*                                                                       */
   typedef FT_Error
   (*TT_Load_SBit_Image_Func)( TT_Face              face,
@@ -371,7 +371,7 @@ FT_BEGIN_HEADER
   /*    TT_Set_SBit_Strike_OldFunc                                         */
   /*                                                                       */
   /* <Description>                                                         */
-  /*    выдели an sbit strike for a given size request.                    */
+  /*    Select an sbit strike for a given size request.                    */
   /*                                                                       */
   /* <Input>                                                               */
   /*    face          :: The target face object.                           */
@@ -379,10 +379,10 @@ FT_BEGIN_HEADER
   /*    req           :: The size request.                                 */
   /*                                                                       */
   /* <Output>                                                              */
-  /*    astrike_index :: The Индекс of the sbit strike.                     */
+  /*    astrike_index :: The index of the sbit strike.                     */
   /*                                                                       */
   /* <Return>                                                              */
-  /*    FreeType Ошибка code.  0 means success.  Returns an Ошибка if no     */
+  /*    FreeType error code.  0 means success.  Returns an error if no     */
   /*    sbit strike exists for the selected ppem values.                   */
   /*                                                                       */
   typedef FT_Error
@@ -409,11 +409,11 @@ FT_BEGIN_HEADER
   /*    cmap   :: A pointer to a cmap object.                              */
   /*                                                                       */
   /* <Return>                                                              */
-  /*    FreeType Ошибка code.  0 means success.                             */
+  /*    FreeType error code.  0 means success.                             */
   /*                                                                       */
   /* <Note>                                                                */
   /*    The function assumes that the stream is already in use (i.e.,      */
-  /*    opened).  In case of Ошибка, all partially allocated tables are     */
+  /*    opened).  In case of error, all partially allocated tables are     */
   /*    released.                                                          */
   /*                                                                       */
   typedef FT_Error
@@ -436,7 +436,7 @@ FT_BEGIN_HEADER
   /*    cmap :: A handle to a cmap object.                                 */
   /*                                                                       */
   /* <Return>                                                              */
-  /*    FreeType Ошибка code.  0 means success.                             */
+  /*    FreeType error code.  0 means success.                             */
   /*                                                                       */
   typedef FT_Error
   (*TT_CharMap_Free_Func)( TT_Face       face,
@@ -451,7 +451,7 @@ FT_BEGIN_HEADER
   /*    TT_Set_SBit_Strike_Func                                            */
   /*                                                                       */
   /* <Description>                                                         */
-  /*    выдели an sbit strike for a given size request.                    */
+  /*    Select an sbit strike for a given size request.                    */
   /*                                                                       */
   /* <Input>                                                               */
   /*    face          :: The target face object.                           */
@@ -459,10 +459,10 @@ FT_BEGIN_HEADER
   /*    req           :: The size request.                                 */
   /*                                                                       */
   /* <Output>                                                              */
-  /*    astrike_index :: The Индекс of the sbit strike.                     */
+  /*    astrike_index :: The index of the sbit strike.                     */
   /*                                                                       */
   /* <Return>                                                              */
-  /*    FreeType Ошибка code.  0 means success.  Returns an Ошибка if no     */
+  /*    FreeType error code.  0 means success.  Returns an error if no     */
   /*    sbit strike exists for the selected ppem values.                   */
   /*                                                                       */
   typedef FT_Error
@@ -477,18 +477,18 @@ FT_BEGIN_HEADER
   /*    TT_Load_Strike_Metrics_Func                                        */
   /*                                                                       */
   /* <Description>                                                         */
-  /*    грузи the metrics of a given strike.                                */
+  /*    Load the metrics of a given strike.                                */
   /*                                                                       */
   /* <Input>                                                               */
   /*    face          :: The target face object.                           */
   /*                                                                       */
-  /*    strike_index  :: The strike Индекс.                                 */
+  /*    strike_index  :: The strike index.                                 */
   /*                                                                       */
   /* <Output>                                                              */
   /*    metrics       :: the metrics of the strike.                        */
   /*                                                                       */
   /* <Return>                                                              */
-  /*    FreeType Ошибка code.  0 means success.  Returns an Ошибка if no     */
+  /*    FreeType error code.  0 means success.  Returns an error if no     */
   /*    such sbit strike exists.                                           */
   /*                                                                       */
   typedef FT_Error
@@ -503,18 +503,18 @@ FT_BEGIN_HEADER
   /*    TT_Get_PS_Name_Func                                                */
   /*                                                                       */
   /* <Description>                                                         */
-  /*    дай the PostScript glyph имя of a glyph.                          */
+  /*    Get the PostScript glyph name of a glyph.                          */
   /*                                                                       */
   /* <Input>                                                               */
-  /*    idx  :: The glyph Индекс.                                           */
+  /*    idx  :: The glyph index.                                           */
   /*                                                                       */
   /*    PSname :: The address of a string pointer.  Will be NULL in case   */
-  /*              of Ошибка, otherwise it is a pointer to the glyph имя.   */
+  /*              of error, otherwise it is a pointer to the glyph name.   */
   /*                                                                       */
   /*              You must not modify the returned string!                 */
   /*                                                                       */
   /* <Output>                                                              */
-  /*    FreeType Ошибка code.  0 means success.                             */
+  /*    FreeType error code.  0 means success.                             */
   /*                                                                       */
   typedef FT_Error
   (*TT_Get_PS_Name_Func)( TT_Face      face,
@@ -528,7 +528,7 @@ FT_BEGIN_HEADER
   /*    TT_Load_Metrics_Func                                               */
   /*                                                                       */
   /* <Description>                                                         */
-  /*    грузи a metrics table, which is a table with a horizontal and a     */
+  /*    Load a metrics table, which is a table with a horizontal and a     */
   /*    vertical version.                                                  */
   /*                                                                       */
   /* <Input>                                                               */
@@ -539,7 +539,7 @@ FT_BEGIN_HEADER
   /*    vertical :: A boolean flag.  If set, load the vertical one.        */
   /*                                                                       */
   /* <Return>                                                              */
-  /*    FreeType Ошибка code.  0 means success.                             */
+  /*    FreeType error code.  0 means success.                             */
   /*                                                                       */
   typedef FT_Error
   (*TT_Load_Metrics_Func)( TT_Face    face,
@@ -553,7 +553,7 @@ FT_BEGIN_HEADER
   /*    TT_Get_Metrics_Func                                                */
   /*                                                                       */
   /* <Description>                                                         */
-  /*    грузи the horizontal or vertical header in a face object.           */
+  /*    Load the horizontal or vertical header in a face object.           */
   /*                                                                       */
   /* <Input>                                                               */
   /*    face     :: A handle to the target face object.                    */
@@ -563,7 +563,7 @@ FT_BEGIN_HEADER
   /*    vertical :: A boolean flag.  If set, load vertical metrics.        */
   /*                                                                       */
   /* <Return>                                                              */
-  /*    FreeType Ошибка code.  0 means success.                             */
+  /*    FreeType error code.  0 means success.                             */
   /*                                                                       */
   typedef FT_Error
   (*TT_Get_Metrics_Func)( TT_Face     face,
@@ -579,7 +579,7 @@ FT_BEGIN_HEADER
   /*    TT_Load_Table_Func                                                 */
   /*                                                                       */
   /* <Description>                                                         */
-  /*    грузи a given TrueType table.                                       */
+  /*    Load a given TrueType table.                                       */
   /*                                                                       */
   /* <Input>                                                               */
   /*    face   :: A handle to the target face object.                      */
@@ -587,7 +587,7 @@ FT_BEGIN_HEADER
   /*    stream :: The input stream.                                        */
   /*                                                                       */
   /* <Return>                                                              */
-  /*    FreeType Ошибка code.  0 means success.                             */
+  /*    FreeType error code.  0 means success.                             */
   /*                                                                       */
   /* <Note>                                                                */
   /*    The function uses `face->goto_table' to seek the stream to the     */
@@ -604,7 +604,7 @@ FT_BEGIN_HEADER
   /*    TT_Free_Table_Func                                                 */
   /*                                                                       */
   /* <Description>                                                         */
-  /*    освободи a given TrueType table.                                       */
+  /*    Free a given TrueType table.                                       */
   /*                                                                       */
   /* <Input>                                                               */
   /*    face :: A handle to the target face object.                        */
@@ -618,15 +618,15 @@ FT_BEGIN_HEADER
    *    TT_Face_GetKerningFunc
    *
    * @description:
-   *    Return the horizontal kerning значение between two glyphs.
+   *    Return the horizontal kerning value between two glyphs.
    *
    * @input:
    *    face        :: A handle to the source face object.
-   *    left_glyph  :: The left glyph Индекс.
-   *    right_glyph :: The right glyph Индекс.
+   *    left_glyph  :: The left glyph index.
+   *    right_glyph :: The right glyph index.
    *
    * @return:
-   *    The kerning значение in font units.
+   *    The kerning value in font units.
    */
   typedef FT_Int
   (*TT_Face_GetKerningFunc)( TT_Face  face,

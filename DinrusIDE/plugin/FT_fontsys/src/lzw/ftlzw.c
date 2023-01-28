@@ -43,7 +43,7 @@
 #ifdef FT_CONFIG_OPTION_USE_LZW
 
 #ifdef FT_CONFIG_OPTION_PIC
-#Ошибка "lzw code does not support PIC yet"
+#error "lzw code does not support PIC yet"
 #endif 
 
 #include "ftzopen.h"
@@ -74,7 +74,7 @@
     FT_Memory       memory;         /* memory allocator            */
     FT_LzwStateRec  lzw;            /* lzw decompressor state      */
 
-    FT_Byte         буфер[FT_LZW_BUFFER_SIZE]; /* output буфер      */
+    FT_Byte         buffer[FT_LZW_BUFFER_SIZE]; /* output buffer      */
     FT_ULong        pos;                        /* position in output */
     FT_Byte*        cursor;
     FT_Byte*        limit;
@@ -86,7 +86,7 @@
   static FT_Error
   ft_lzw_check_header( FT_Stream  stream )
   {
-    FT_Error  Ошибка;
+    FT_Error  error;
     FT_Byte   head[2];
 
 
@@ -97,10 +97,10 @@
     /* head[0] && head[1] are the magic numbers */
     if ( head[0] != 0x1f ||
          head[1] != 0x9d )
-      Ошибка = LZW_Err_Invalid_File_Format;
+      error = LZW_Err_Invalid_File_Format;
 
   Exit:
-    return Ошибка;
+    return error;
   }
 
 
@@ -110,27 +110,27 @@
                     FT_Stream   source )
   {
     FT_LzwState  lzw   = &zip->lzw;
-    FT_Error     Ошибка = LZW_Err_Ok;
+    FT_Error     error = LZW_Err_Ok;
 
 
     zip->stream = stream;
     zip->source = source;
     zip->memory = stream->memory;
 
-    zip->limit  = zip->буфер + FT_LZW_BUFFER_SIZE;
+    zip->limit  = zip->buffer + FT_LZW_BUFFER_SIZE;
     zip->cursor = zip->limit;
     zip->pos    = 0;
 
     /* check and skip .Z header */
-    Ошибка = ft_lzw_check_header( source );
-    if ( Ошибка )
+    error = ft_lzw_check_header( source );
+    if ( error )
       goto Exit;
 
     /* initialize internal lzw variable */
     ft_lzwstate_init( lzw, source );
 
   Exit:
-    return Ошибка;
+    return error;
   }
 
 
@@ -150,19 +150,19 @@
   ft_lzw_file_reset( FT_LZWFile  zip )
   {
     FT_Stream  stream = zip->source;
-    FT_Error   Ошибка;
+    FT_Error   error;
 
 
     if ( !FT_STREAM_SEEK( 0 ) )
     {
       ft_lzwstate_reset( &zip->lzw );
 
-      zip->limit  = zip->буфер + FT_LZW_BUFFER_SIZE;
+      zip->limit  = zip->buffer + FT_LZW_BUFFER_SIZE;
       zip->cursor = zip->limit;
       zip->pos    = 0;
     }
 
-    return Ошибка;
+    return error;
   }
 
 
@@ -171,31 +171,31 @@
   {
     FT_LzwState  lzw = &zip->lzw;
     FT_ULong     count;
-    FT_Error     Ошибка = LZW_Err_Ok;
+    FT_Error     error = LZW_Err_Ok;
 
 
-    zip->cursor = zip->буфер;
+    zip->cursor = zip->buffer;
 
-    count = ft_lzwstate_io( lzw, zip->буфер, FT_LZW_BUFFER_SIZE );
+    count = ft_lzwstate_io( lzw, zip->buffer, FT_LZW_BUFFER_SIZE );
 
     zip->limit = zip->cursor + count;
 
     if ( count == 0 )
-      Ошибка = LZW_Err_Invalid_Stream_Operation;
+      error = LZW_Err_Invalid_Stream_Operation;
 
-    return Ошибка;
+    return error;
   }
 
 
-  /* fill output буфер; `count' must be <= FT_LZW_BUFFER_SIZE */
+  /* fill output buffer; `count' must be <= FT_LZW_BUFFER_SIZE */
   static FT_Error
   ft_lzw_file_skip_output( FT_LZWFile  zip,
                            FT_ULong    count )
   {
-    FT_Error  Ошибка = LZW_Err_Ok;
+    FT_Error  error = LZW_Err_Ok;
 
 
-    /* first, we skip what we can from the output буфер */
+    /* first, we skip what we can from the output buffer */
     {
       FT_ULong  delta = (FT_ULong)( zip->limit - zip->cursor );
 
@@ -223,7 +223,7 @@
       if ( numread < delta )
       {
         /* not enough bytes */
-        Ошибка = LZW_Err_Invalid_Stream_Operation;
+        error = LZW_Err_Invalid_Stream_Operation;
         break;
       }
 
@@ -231,34 +231,34 @@
       count    -= delta;
     }
 
-    return Ошибка;
+    return error;
   }
 
 
   static FT_ULong
   ft_lzw_file_io( FT_LZWFile  zip,
                   FT_ULong    pos,
-                  FT_Byte*    буфер,
+                  FT_Byte*    buffer,
                   FT_ULong    count )
   {
     FT_ULong  result = 0;
-    FT_Error  Ошибка;
+    FT_Error  error;
 
 
     /* seeking backwards. */
     if ( pos < zip->pos )
     {
-      /* If the new position is within the output буфер, simply       */
+      /* If the new position is within the output buffer, simply       */
       /* decrement pointers, otherwise we reset the stream completely! */
-      if ( ( zip->pos - pos ) <= (FT_ULong)( zip->cursor - zip->буфер ) )
+      if ( ( zip->pos - pos ) <= (FT_ULong)( zip->cursor - zip->buffer ) )
       {
         zip->cursor -= zip->pos - pos;
         zip->pos     = pos;
       }
       else
       {
-        Ошибка = ft_lzw_file_reset( zip );
-        if ( Ошибка )
+        error = ft_lzw_file_reset( zip );
+        if ( error )
           goto Exit;
       }
     }
@@ -266,8 +266,8 @@
     /* skip unwanted bytes */
     if ( pos > zip->pos )
     {
-      Ошибка = ft_lzw_file_skip_output( zip, (FT_ULong)( pos - zip->pos ) );
-      if ( Ошибка )
+      error = ft_lzw_file_skip_output( zip, (FT_ULong)( pos - zip->pos ) );
+      if ( error )
         goto Exit;
     }
 
@@ -284,7 +284,7 @@
       if ( delta >= count )
         delta = count;
 
-      FT_MEM_COPY( буфер + result, zip->cursor, delta );
+      FT_MEM_COPY( buffer + result, zip->cursor, delta );
       result      += delta;
       zip->cursor += delta;
       zip->pos    += delta;
@@ -293,8 +293,8 @@
       if ( count == 0 )
         break;
 
-      Ошибка = ft_lzw_file_fill_output( zip );
-      if ( Ошибка )
+      error = ft_lzw_file_fill_output( zip );
+      if ( error )
         break;
     }
 
@@ -333,13 +333,13 @@
   static FT_ULong
   ft_lzw_stream_io( FT_Stream  stream,
                     FT_ULong   pos,
-                    FT_Byte*   буфер,
+                    FT_Byte*   buffer,
                     FT_ULong   count )
   {
     FT_LZWFile  zip = (FT_LZWFile)stream->descriptor.pointer;
 
 
-    return ft_lzw_file_io( zip, pos, буфер, count );
+    return ft_lzw_file_io( zip, pos, buffer, count );
   }
 
 
@@ -347,7 +347,7 @@
   FT_Stream_OpenLZW( FT_Stream  stream,
                      FT_Stream  source )
   {
-    FT_Error    Ошибка;
+    FT_Error    error;
     FT_Memory   memory = source->memory;
     FT_LZWFile  zip = NULL;
 
@@ -359,8 +359,8 @@
      *  Did I mention that you should never use .Z compressed font
      *  files?
      */
-    Ошибка = ft_lzw_check_header( source );
-    if ( Ошибка )
+    error = ft_lzw_check_header( source );
+    if ( error )
       goto Exit;
 
     FT_ZERO( stream );
@@ -368,8 +368,8 @@
 
     if ( !FT_NEW( zip ) )
     {
-      Ошибка = ft_lzw_file_init( zip, stream, source );
-      if ( Ошибка )
+      error = ft_lzw_file_init( zip, stream, source );
+      if ( error )
       {
         FT_FREE( zip );
         goto Exit;
@@ -385,7 +385,7 @@
     stream->close = ft_lzw_stream_close;
 
   Exit:
-    return Ошибка;
+    return error;
   }
 
 

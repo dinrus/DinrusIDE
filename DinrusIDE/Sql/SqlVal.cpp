@@ -1,23 +1,23 @@
 #include "Sql.h"
 
-namespace РНЦП {
+namespace Upp {
 
 SqlId SqlId::Of(const char *of) const
 {
-	return Ткст().конкат() << of << (char)SQLC_OF << вТкст();
+	return String().Cat() << of << (char)SQLC_OF << ToString();
 }
 
 SqlId SqlId::Of(SqlId id) const
 {
-	return id.пусто_ли() ? вТкст() : Ткст().конкат() << id.вТкст() << (char)SQLC_OF << вТкст();
+	return id.IsNull() ? ToString() : String().Cat() << id.ToString() << (char)SQLC_OF << ToString();
 }
 
-void SqlId::PutOf0(Ткст& s, const SqlId& b) const
+void SqlId::PutOf0(String& s, const SqlId& b) const
 {
-	s << вТкст() << (char)SQLC_OF << ~b;
+	s << ToString() << (char)SQLC_OF << ~b;
 }
 
-void SqlId::PutOf(Ткст& s, const SqlId& b) const
+void SqlId::PutOf(String& s, const SqlId& b) const
 {
 	s << (char)SQLC_COMMA;
 	PutOf0(s, b);
@@ -30,91 +30,91 @@ SqlId SqlId::operator[](const SqlId& id) const
 
 SqlId SqlId::As(const char *as) const
 {
-	return id.пусто_ли() ? вТкст() : Ткст().конкат() << вТкст() << (char)SQLC_AS << as;
+	return id.IsNull() ? ToString() : String().Cat() << ToString() << (char)SQLC_AS << as;
 }
 
 SqlId SqlId::operator()(SqlId p) const
 {
-	Ткст x;
+	String x;
 	PutOf0(x, p);
 	return x;
 }
 
 SqlId SqlId::operator [] (int i) const
 {
-	return вТкст() + фмтЦел(i);
+	return ToString() + FormatInt(i);
 }
 
 SqlId SqlId::operator&(const SqlId& s) const
 {
-	return вТкст() + "$" + s.вТкст();
+	return ToString() + "$" + s.ToString();
 }
 
 SqlId SqlId::operator()(const S_info& table) const
 {
-	Ткст x;
-	for(int i = 0; i < table.дайСчёт(); i++)
+	String x;
+	for(int i = 0; i < table.GetCount(); i++)
 		if(i)
-			PutOf(x, table.дайИд(i));
+			PutOf(x, table.GetId(i));
 		else
-			PutOf0(x, table.дайИд(i));
+			PutOf0(x, table.GetId(i));
 	return x;
 }
 
-Ткст SqlS::operator()() const
+String SqlS::operator()() const
 {
-	return Ткст().конкат() << '(' << text << ')';
+	return String().Cat() << '(' << text << ')';
 }
 
-Ткст SqlS::operator()(int at) const
+String SqlS::operator()(int at) const
 {
 	return at > priority ? operator()() : text;
 }
 
-Ткст SqlS::operator()(int at, byte cond) const
+String SqlS::operator()(int at, byte cond) const
 {
 	if(at <= priority)
 		return text;
-	ТкстБуф out;
+	StringBuffer out;
 	out << SqlCode(cond, "(")() << text << SqlCode(cond, ")")();
-	return Ткст(out);
+	return String(out);
 }
 
-void SqlS::иниц(const SqlS& a, const char *o, int olen, const SqlS& b, int pr, int prb)
+void SqlS::Init(const SqlS& a, const char *o, int olen, const SqlS& b, int pr, int prb)
 {
-	ТкстБуф s;
+	StringBuffer s;
 	if(a.priority < pr) {
-		s.конкат('(');
-		s.конкат(~a);
-		s.конкат(')');
+		s.Cat('(');
+		s.Cat(~a);
+		s.Cat(')');
 	}
 	else
-		s.конкат(~a);
-	s.конкат(o, olen);
+		s.Cat(~a);
+	s.Cat(o, olen);
 	if(b.priority < prb) {
-		s.конкат('(');
-		s.конкат(~b);
-		s.конкат(')');
+		s.Cat('(');
+		s.Cat(~b);
+		s.Cat(')');
 	}
 	else
-		s.конкат(~b);
+		s.Cat(~b);
 	text = s;
 	priority = pr;
 }
 
 SqlVal SqlVal::As(const char *as) const {
 	SqlVal v;
-	v.SetHigh(Ткст().конкат() << text << (char)SQLC_AS << '\t' << as << '\t');
+	v.SetHigh(String().Cat() << text << (char)SQLC_AS << '\t' << as << '\t');
 	return v;
 }
 
 SqlVal SqlVal::As(const SqlId& id) const {
-	return As(~id.вТкст());
+	return As(~id.ToString());
 }
 
-SqlVal::SqlVal(const Ткст& x) {
-	if(РНЦП::пусто_ли(x))
-		устПусто();
+SqlVal::SqlVal(const String& x) {
+	if(UPP::IsNull(x))
+		SetNull();
 	else
 		SetHigh(SqlFormat(x));
 }
@@ -123,53 +123,53 @@ SqlVal::SqlVal(const char *s) {
 	if(s && *s)
 		SetHigh(SqlFormat(s));
 	else
-		устПусто();
+		SetNull();
 }
 
 SqlVal::SqlVal(int x) {
-	if(РНЦП::пусто_ли(x))
-		устПусто();
+	if(UPP::IsNull(x))
+		SetNull();
 	else
 		SetHigh(SqlFormat(x));
 }
 
 SqlVal::SqlVal(int64 x) {
-	if(РНЦП::пусто_ли(x))
-		устПусто();
+	if(UPP::IsNull(x))
+		SetNull();
 	else
 		SetHigh(SqlFormat(x));
 }
 
 SqlVal::SqlVal(double x) {
-	if(РНЦП::пусто_ли(x))
-		устПусто();
+	if(UPP::IsNull(x))
+		SetNull();
 	else
 		SetHigh(SqlFormat(x));
 }
 
-SqlVal::SqlVal(Дата x) {
-	if(РНЦП::пусто_ли(x))
-		устПусто();
+SqlVal::SqlVal(Date x) {
+	if(UPP::IsNull(x))
+		SetNull();
 	else
 		SetHigh(SqlFormat(x));
 }
 
-SqlVal::SqlVal(Время x) {
-	if(РНЦП::пусто_ли(x))
-		устПусто();
+SqlVal::SqlVal(Time x) {
+	if(UPP::IsNull(x))
+		SetNull();
 	else
 		SetHigh(SqlFormat(x));
 }
 
-SqlVal::SqlVal(const Значение& x) {
-	if(РНЦП::пусто_ли(x))
-		устПусто();
+SqlVal::SqlVal(const Value& x) {
+	if(UPP::IsNull(x))
+		SetNull();
 	else
 		SetHigh(SqlFormat(x));
 }
 
-SqlVal::SqlVal(const Обнул&) {
-	устПусто();
+SqlVal::SqlVal(const Nuller&) {
+	SetNull();
 }
 
 SqlVal::SqlVal(const SqlId& id) {
@@ -220,51 +220,51 @@ SqlVal& operator/=(SqlVal& a, const SqlVal& b)     { return a = a / b; }
 SqlVal& operator%=(SqlVal& a, const SqlVal& b)     { return a = a % b; }
 SqlVal& operator|=(SqlVal& a, const SqlVal& b)     { return a = a | b; }
 
-SqlVal SqlFunc(const char *имя, const SqlVal& a) {
-	return SqlVal(Ткст().конкат() << имя << '(' << ~a << ')', SqlS::FN);
+SqlVal SqlFunc(const char *name, const SqlVal& a) {
+	return SqlVal(String().Cat() << name << '(' << ~a << ')', SqlS::FN);
 }
 
 SqlVal SqlFunc(const char *n, const SqlVal& a, const SqlVal& b) {
-	return SqlVal(Ткст(n).конкат() << '(' + ~a << ", " << ~b << ')', SqlS::FN);
+	return SqlVal(String(n).Cat() << '(' + ~a << ", " << ~b << ')', SqlS::FN);
 }
 
 SqlVal SqlFunc(const char *n, const SqlVal& a, const SqlVal& b, const SqlVal& c) {
-	return SqlVal(Ткст(n).конкат() << '(' << ~a << ", " << ~b << ", " << ~c << ')', SqlS::FN);
+	return SqlVal(String(n).Cat() << '(' << ~a << ", " << ~b << ", " << ~c << ')', SqlS::FN);
 }
 
 SqlVal SqlFunc(const char *n, const SqlVal& a, const SqlVal& b, const SqlVal& c, const SqlVal& d) {
-	return SqlVal(Ткст(n).конкат() << '(' << ~a << ", " << ~b << ", " << ~c << ", " << ~d << ')', SqlS::FN);
+	return SqlVal(String(n).Cat() << '(' << ~a << ", " << ~b << ", " << ~c << ", " << ~d << ')', SqlS::FN);
 }
 
-SqlVal SqlFunc(const char *имя, const SqlSet& set) {
-	return SqlVal(имя + set(), SqlS::FN);
+SqlVal SqlFunc(const char *name, const SqlSet& set) {
+	return SqlVal(name + set(), SqlS::FN);
 }
 
-SqlBool SqlBoolFunc(const char *имя, const SqlBool& a) {
-	return SqlBool(Ткст().конкат() << имя << '(' << ~a << ')', SqlS::FN);
+SqlBool SqlBoolFunc(const char *name, const SqlBool& a) {
+	return SqlBool(String().Cat() << name << '(' << ~a << ')', SqlS::FN);
 }
 
 SqlBool SqlBoolFunc(const char *n, const SqlBool& a, const SqlBool& b) {
-	return SqlBool(Ткст(n).конкат() << '(' + ~a << ", " << ~b << ')', SqlS::FN);
+	return SqlBool(String(n).Cat() << '(' + ~a << ", " << ~b << ')', SqlS::FN);
 }
 
 SqlBool SqlBoolFunc(const char *n, const SqlBool& a, const SqlBool& b, const SqlBool& c) {
-	return SqlBool(Ткст(n).конкат() << '(' << ~a << ", " << ~b << ", " << ~c << ')', SqlS::FN);
+	return SqlBool(String(n).Cat() << '(' << ~a << ", " << ~b << ", " << ~c << ')', SqlS::FN);
 }
 
 SqlBool SqlBoolFunc(const char *n, const SqlBool& a, const SqlBool& b, const SqlBool& c, const SqlBool& d) {
-	return SqlBool(Ткст(n).конкат() << '(' << ~a << ", " << ~b << ", " << ~c << ", " << ~d << ')', SqlS::FN);
+	return SqlBool(String(n).Cat() << '(' << ~a << ", " << ~b << ", " << ~c << ", " << ~d << ')', SqlS::FN);
 }
 
 SqlVal Decode(const SqlVal& exp, const SqlSet& variants) {
-	ПРОВЕРЬ(!variants.пустой());
-	Вектор<SqlVal> v = variants.разбей();
-	ПРОВЕРЬ(v.дайСчёт() > 1);
+	ASSERT(!variants.IsEmpty());
+	Vector<SqlVal> v = variants.Split();
+	ASSERT(v.GetCount() > 1);
 	SqlCase cs(exp == v[0], v[1]);
 	int i;
-	for(i = 2; i + 1 < v.дайСчёт(); i += 2)
+	for(i = 2; i + 1 < v.GetCount(); i += 2)
 		cs(exp == v[i], v[i + 1]);
-	if(i < v.дайСчёт())
+	if(i < v.GetCount())
 		cs(v[i]);
 	else
 		cs(Null);
@@ -320,7 +320,7 @@ SqlVal SqlMin(const SqlVal& exp) {
 	return SqlFunc("min", exp);
 }
 
-SqlVal Sqlсумма(const SqlVal& exp) {
+SqlVal SqlSum(const SqlVal& exp) {
 	return SqlFunc("sum", exp);
 }
 
@@ -329,7 +329,7 @@ SqlVal Avg(const SqlVal& a) {
 }
 
 SqlVal Abs(const SqlVal& a) {
-	return SqlFunc("абс", a);
+	return SqlFunc("abs", a);
 }
 
 SqlVal Stddev(const SqlVal& a) {
@@ -352,30 +352,30 @@ SqlVal Least(const SqlVal& a, const SqlVal& b) {
 	              SqlS::FN);
 }
 
-SqlVal преобразуйНабСим(const SqlVal& exp, const SqlVal& charset) { //TODO Dialect!
-	if(exp.пустой()) return exp;
-	return exp.пустой() ? exp : SqlFunc("convert", exp, charset);
+SqlVal ConvertCharset(const SqlVal& exp, const SqlVal& charset) { //СДЕЛАТЬ Dialect!
+	if(exp.IsEmpty()) return exp;
+	return exp.IsEmpty() ? exp : SqlFunc("convert", exp, charset);
 }
 
 SqlVal ConvertAscii(const SqlVal& exp) {
-	return SqlVal(SqlCode(MSSQL, Ткст().конкат() << "((" << ~exp << ") collate SQL_Latin1_General_Cp1251_CS_AS)")
-			             (~преобразуйНабСим(exp, "US7ASCII")), SqlS::FN); // This is Oracle really, TODO: добавь other dialects
+	return SqlVal(SqlCode(MSSQL, String().Cat() << "((" << ~exp << ") collate SQL_Latin1_General_Cp1251_CS_AS)")
+			             (~ConvertCharset(exp, "US7ASCII")), SqlS::FN); // This is Oracle really, СДЕЛАТЬ: Add other dialects
 }
 
 SqlVal Upper(const SqlVal& exp) {
-	return exp.пустой() ? exp : SqlFunc("upper", exp);
+	return exp.IsEmpty() ? exp : SqlFunc("upper", exp);
 }
 
 SqlVal Lower(const SqlVal& exp) {
-	return exp.пустой() ? exp : SqlFunc("lower", exp);
+	return exp.IsEmpty() ? exp : SqlFunc("lower", exp);
 }
 
-SqlVal длина(const SqlVal& exp) {
-	return exp.пустой() ? exp : SqlFunc(SqlCode(MSSQL, "len")("length"), exp);
+SqlVal Length(const SqlVal& exp) {
+	return exp.IsEmpty() ? exp : SqlFunc(SqlCode(MSSQL, "len")("length"), exp);
 }
 
 SqlVal UpperAscii(const SqlVal& exp) {
-	return exp.пустой() ? exp : Upper(ConvertAscii(exp));
+	return exp.IsEmpty() ? exp : Upper(ConvertAscii(exp));
 }
 
 SqlVal Substr(const SqlVal& a, const SqlVal& b) {
@@ -392,7 +392,7 @@ SqlVal Instr(const SqlVal& a, const SqlVal& b) {
 }
 
 SqlVal Wild(const char* s) {
-	Ткст result;
+	String result;
 	for(char c; (c = *s++) != 0;)
 		if(c == '*')
 			result << '%';
@@ -414,19 +414,19 @@ SqlVal SqlDate(const SqlVal& year, const SqlVal& month, const SqlVal& day) {
 	SqlS::FN);
 }
 
-SqlVal AddMonths(const SqlVal& date, const SqlVal& months) {//TODO Dialect!
+SqlVal AddMonths(const SqlVal& date, const SqlVal& months) {//СДЕЛАТЬ Dialect!
 	return SqlFunc("add_months", date, months);
 }
 
-SqlVal LastDay(const SqlVal& date) {//TODO Dialect!
+SqlVal LastDay(const SqlVal& date) {//СДЕЛАТЬ Dialect!
 	return SqlFunc("last_day", date);
 }
 
-SqlVal MonthsBetween(const SqlVal& date1, const SqlVal& date2) {//TODO Dialect!
+SqlVal MonthsBetween(const SqlVal& date1, const SqlVal& date2) {//СДЕЛАТЬ Dialect!
 	return SqlFunc("months_between", date1, date2);
 }
 
-SqlVal NextDay(const SqlVal& date) {//TODO Dialect!
+SqlVal NextDay(const SqlVal& date) {//СДЕЛАТЬ Dialect!
 	return SqlFunc("next_day", date);
 }
 
@@ -440,8 +440,8 @@ SqlVal SqlCurrentTime() {
 	                     ("current_timestamp"), SqlVal::HIGH);
 }
 
-SqlVal Cast(const char* тип, const SqlId& a) {
-	return SqlFunc(тип, a);
+SqlVal Cast(const char* type, const SqlId& a) {
+	return SqlFunc(type, a);
 }
 
 SqlVal SqlNvl(const SqlVal& a, const SqlVal& b) {
@@ -479,15 +479,15 @@ SqlVal Prior(const SqlId& a) {
 
 SqlVal NextVal(const SqlId& a) {
 	return SqlVal(SqlCode
-	                 (PGSQL, "nextval('" + a.вТкст() + "')")
-	                 (MSSQL, "next значение for " + a.Quoted())
+	                 (PGSQL, "nextval('" + a.ToString() + "')")
+	                 (MSSQL, "next value for " + a.Quoted())
 	                 (a.Quoted() + ".NEXTVAL")
 	              , SqlS::HIGH);
 }
 
 SqlVal CurrVal(const SqlId& a) {
 	return SqlVal(SqlCode
-				    (PGSQL, "currval('" + a.вТкст() + "')")
+				    (PGSQL, "currval('" + a.ToString() + "')")
 				    (a.Quoted() + ".CURRVAL")
 				  , SqlS::HIGH);
 }
@@ -520,9 +520,9 @@ SqlVal SqlBinary(const char *s, int l)
 	return x;
 }
 
-SqlVal SqlBinary(const Ткст& data)
+SqlVal SqlBinary(const String& data)
 {
-	return SqlBinary(~data, data.дайСчёт());
+	return SqlBinary(~data, data.GetCount());
 }
 
 }

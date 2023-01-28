@@ -2,16 +2,16 @@
 
 #define LLOG(x)
 
-namespace РНЦП {
+namespace Upp {
 
 #include "SvgInternal.h"
 
-void SvgParser::переустанов()
+void SvgParser::Reset()
 {
-	state.добавь();
-	State& s = state.верх();
+	state.Add();
+	State& s = state.Top();
 	s.fill_gradient = s.stroke_gradient = -1;
-	s.fill = чёрный();
+	s.fill = Black();
 	s.stroke = Null;
 	s.opacity = s.fill_opacity = s.stroke_opacity = s.stroke_width = 1;
 	s.dash_offset = 0;
@@ -19,112 +19,112 @@ void SvgParser::переустанов()
 	s.text_anchor = 0;
 }
 
-void SvgParser::ProcessValue(const Ткст& ключ, const Ткст& value_)
+void SvgParser::ProcessValue(const String& key, const String& value_)
 {
-	State& s = state.верх();
-	Ткст значение = обрежьОба(value_);
-	значение = обрежьОба(значение);
-	LLOG("ATTR " << ключ << " = " << значение);
-	if(значение != "inherit") {
-		if(ключ == "opacity")
-			s.opacity = Nvl(тктДво(значение), 1.0);
+	State& s = state.Top();
+	String value = TrimBoth(value_);
+	value = TrimBoth(value);
+	LLOG("ATTR " << key << " = " << value);
+	if(value != "inherit") {
+		if(key == "opacity")
+			s.opacity = Nvl(StrDbl(value), 1.0);
 		else
-		if(ключ == "fill") {
-			if(значение.начинаетсяС("url(#")) {
-				значение = значение.середина(5);
-				int q = значение.найди(')');
+		if(key == "fill") {
+			if(value.StartsWith("url(#")) {
+				value = value.Mid(5);
+				int q = value.Find(')');
 				if(q >= 0)
-					значение.обрежь(q);
-				s.fill_gradient = gradient.найди(значение);
+					value.Trim(q);
+				s.fill_gradient = gradient.Find(value);
 				s.fill = Null;
 			}
 			else {
 				s.fill_gradient = -1;
-				s.fill = дайЦвет(значение);
+				s.fill = GetColor(value);
 			}
 		}
 		else
-		if(ключ == "fill-opacity")
-			s.fill_opacity = Nvl(тктДво(значение), 1.0);
+		if(key == "fill-opacity")
+			s.fill_opacity = Nvl(StrDbl(value), 1.0);
 		else
-		if(ключ == "fill-rule")
-			sw.EvenOdd(значение == "evenodd");
+		if(key == "fill-rule")
+			sw.EvenOdd(value == "evenodd");
 		else
-		if(ключ == "stroke") {
-			if(значение.начинаетсяС("url(#")) {
-				значение = значение.середина(5);
-				int q = значение.найди(')');
+		if(key == "stroke") {
+			if(value.StartsWith("url(#")) {
+				value = value.Mid(5);
+				int q = value.Find(')');
 				if(q >= 0)
-					значение.обрежь(q);
-				s.stroke_gradient = gradient.найди(значение);
+					value.Trim(q);
+				s.stroke_gradient = gradient.Find(value);
 				s.stroke = Null;
 			}
 			else {
-				s.stroke = дайЦвет(значение);
+				s.stroke = GetColor(value);
 				s.stroke_gradient = -1;
 			}
 		}
 		else
-		if(ключ == "stroke-opacity")
-			s.stroke_opacity = Nvl(тктДво(значение), 1.0);
+		if(key == "stroke-opacity")
+			s.stroke_opacity = Nvl(StrDbl(value), 1.0);
 		else
-		if(ключ == "stroke-width")
-			s.stroke_width = Nvl(тктДво(значение), 1.0);
+		if(key == "stroke-width")
+			s.stroke_width = Nvl(StrDbl(value), 1.0);
 		else
-		if(ключ == "stroke-linecap")
-			sw.LineCap(decode(значение, "round", LINECAP_ROUND, "square", LINECAP_SQUARE, LINECAP_BUTT));
+		if(key == "stroke-linecap")
+			sw.LineCap(decode(value, "round", LINECAP_ROUND, "square", LINECAP_SQUARE, LINECAP_BUTT));
 		else
-		if(ключ == "stroke-linejoin")
-			sw.LineJoin(decode(значение, "round", LINEJOIN_ROUND, "bevel", LINEJOIN_BEVEL, LINEJOIN_MITER));
+		if(key == "stroke-linejoin")
+			sw.LineJoin(decode(value, "round", LINEJOIN_ROUND, "bevel", LINEJOIN_BEVEL, LINEJOIN_MITER));
 		else
-		if(ключ == "miter-limit")
-			sw.MiterLimit(max(1.0, тктДво(значение)));
+		if(key == "miter-limit")
+			sw.MiterLimit(max(1.0, StrDbl(value)));
 		else
-		if(ключ == "stroke-dasharray") {
-			s.dash_array = значение;
+		if(key == "stroke-dasharray") {
+			s.dash_array = value;
 			sw.Dash(s.dash_array, s.dash_offset);
 		}
 		else
-		if(ключ == "stroke-dashoffset") {
-			s.dash_offset = тктДво(значение);
+		if(key == "stroke-dashoffset") {
+			s.dash_offset = StrDbl(value);
 			sw.Dash(s.dash_array, s.dash_offset);
 		}
 		else
-		if(ключ == "font") {
-			// TODO(?)
+		if(key == "font") {
+			// СДЕЛАТЬ(?)
 		}
 		else
-		if(ключ == "font-family") {
-			int face = Шрифт::SANSSERIF;
-			if(findarg(значение, "courier", "monospace") >= 0)
-				face = Шрифт::MONOSPACE;
-			if(findarg(значение, "roman;serif") >= 0)
-				face = Шрифт::SERIF;
+		if(key == "font-family") {
+			int face = Font::SANSSERIF;
+			if(findarg(value, "courier", "monospace") >= 0)
+				face = Font::MONOSPACE;
+			if(findarg(value, "roman;serif") >= 0)
+				face = Font::SERIF;
 			s.font.Face(face);
 		}
 		else
-		if(ключ == "font-size")
-			s.font.устВысоту(atoi(значение));
+		if(key == "font-size")
+			s.font.Height(atoi(value));
 		else
-		if(ключ == "font-style")
-			s.font.Italic(findarg(значение, "italic", "oblique") >= 0);
+		if(key == "font-style")
+			s.font.Italic(findarg(value, "italic", "oblique") >= 0);
 		else
-		if(ключ == "font-weight")
-			s.font.Bold(findarg(значение, "bold", "bolder") >= 0 || atoi(значение) >= 500);
+		if(key == "font-weight")
+			s.font.Bold(findarg(value, "bold", "bolder") >= 0 || atoi(value) >= 500);
 		else
-		if(ключ == "text-anchor")
-			s.text_anchor = decode(значение, "left", 0, "middle", 1, "right", 2, 0);
+		if(key == "text-anchor")
+			s.text_anchor = decode(value, "left", 0, "middle", 1, "right", 2, 0);
 	}
 }
 
-void SvgParser::Стиль(const char *style)
+void SvgParser::Style(const char *style)
 {
-	Ткст ключ, значение;
+	String key, value;
 	for(;;) {
 		if(*style == ';' || *style == '\0') {
-			ProcessValue(ключ, значение);
-			значение.очисть();
-			ключ.очисть();
+			ProcessValue(key, value);
+			value.Clear();
+			key.Clear();
 			if(*style == '\0')
 				break;
 			else
@@ -132,12 +132,12 @@ void SvgParser::Стиль(const char *style)
 		}
 		else
 		if(*style == ':') {
-			ключ << обрежьОба(значение);
-			значение.очисть();
+			key << TrimBoth(value);
+			value.Clear();
 			style++;
 		}
 		else
-			значение.конкат(*style++);
+			value.Cat(*style++);
 	}
 }
 
@@ -145,30 +145,30 @@ Xform2D SvgParser::Transform(const char *transform)
 {
 	Xform2D mx;
 	try {
-		СиПарсер p(transform);
-		while(!p.кф_ли()) {
-			Ткст kind = впроп(p.читайИд());
-			Вектор<double> r;
-			p.сим('(');
-			while(!p.кф_ли() && !p.сим(')')) {
-				r.добавь(p.читайДво());
-				p.сим(',');
+		CParser p(transform);
+		while(!p.IsEof()) {
+			String kind = ToLower(p.ReadId());
+			Vector<double> r;
+			p.Char('(');
+			while(!p.IsEof() && !p.Char(')')) {
+				r.Add(p.ReadDouble());
+				p.Char(',');
 			}
-			if(r.дайСчёт() >= 1) {
+			if(r.GetCount() >= 1) {
 				LLOG("transform " << kind << r);
-				if(kind == "translate" && r.дайСчёт() >= 2)
+				if(kind == "translate" && r.GetCount() >= 2)
 					mx = Xform2D::Translation(r[0], r[1]) * mx;
 				else
 				if(kind == "rotate") {
-					if(r.дайСчёт() >= 3)
+					if(r.GetCount() >= 3)
 						mx = Xform2D::Translation(-r[1], -r[2]) * mx;
 					mx = Xform2D::Rotation(r[0] * M_2PI / 360) * mx;
-					if(r.дайСчёт() >= 3)
+					if(r.GetCount() >= 3)
 						mx = Xform2D::Translation(r[1], r[2]) * mx;
 				}
 				else
-				if(kind == "scale" && r.дайСчёт() >= 1)
-					mx = Xform2D::Scale(r[0], r[min(r.дайСчёт() - 1, 1)]) * mx;
+				if(kind == "scale" && r.GetCount() >= 1)
+					mx = Xform2D::Scale(r[0], r[min(r.GetCount() - 1, 1)]) * mx;
 				else {
 					Xform2D m;
 					if(kind == "skewx")
@@ -177,7 +177,7 @@ Xform2D SvgParser::Transform(const char *transform)
 					if(kind == "skewy")
 						m.y.x = atan(r[0] * M_2PI / 360);
 					else
-					if(kind == "matrix" && r.дайСчёт() >= 6) {
+					if(kind == "matrix" && r.GetCount() >= 6) {
 						m.x.x = r[0];
 						m.y.x = r[1];
 						m.x.y = r[2];
@@ -188,10 +188,10 @@ Xform2D SvgParser::Transform(const char *transform)
 					mx = m * mx;
 				}
 			}
-			p.сим(',');
+			p.Char(',');
 		}
 	}
-	catch(СиПарсер::Ошибка) {
+	catch(CParser::Error) {
 	}
 	return mx;
 }

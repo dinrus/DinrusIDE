@@ -51,7 +51,7 @@
                       FT_Bitmap*     target,
                       FT_Bool        decreasing )
   {
-    writer->line   = target->буфер;
+    writer->line   = target->buffer;
     writer->pitch  = target->pitch;
     writer->width  = target->width;
     writer->rows   = target->rows;
@@ -339,7 +339,7 @@
   }
 
 
-  /* load bitmap metrics.  "*padvance" must be set to the default значение */
+  /* load bitmap metrics.  "*padvance" must be set to the default value */
   /* before calling this function...                                    */
   /*                                                                    */
   static FT_Error
@@ -353,7 +353,7 @@
                            FT_Long   *aadvance,
                            FT_UInt   *aformat )
   {
-    FT_Error  Ошибка = PFR_Err_Ok;
+    FT_Error  error = PFR_Err_Ok;
     FT_Byte   flags;
     FT_Char   b;
     FT_Byte*  p = *pdata;
@@ -468,10 +468,10 @@
     *pdata    = p;
 
   Exit:
-    return Ошибка;
+    return error;
 
   Too_Short:
-    Ошибка = PFR_Err_Invalid_Table;
+    error = PFR_Err_Invalid_Table;
     FT_ERROR(( "pfr_load_bitmap_metrics: invalid glyph data\n" ));
     goto Exit;
   }
@@ -480,11 +480,11 @@
   static FT_Error
   pfr_load_bitmap_bits( FT_Byte*    p,
                         FT_Byte*    limit,
-                        FT_UInt     формат,
+                        FT_UInt     format,
                         FT_Bool     decreasing,
                         FT_Bitmap*  target )
   {
-    FT_Error          Ошибка = PFR_Err_Ok;
+    FT_Error          error = PFR_Err_Ok;
     PFR_BitWriterRec  writer;
 
 
@@ -492,7 +492,7 @@
     {
       pfr_bitwriter_init( &writer, target, decreasing );
 
-      switch ( формат )
+      switch ( format )
       {
       case 0: /* packed bits */
         pfr_bitwriter_decode_bytes( &writer, p, limit );
@@ -507,12 +507,12 @@
         break;
 
       default:
-        FT_ERROR(( "pfr_read_bitmap_data: invalid image тип\n" ));
-        Ошибка = PFR_Err_Invalid_File_Format;
+        FT_ERROR(( "pfr_read_bitmap_data: invalid image type\n" ));
+        error = PFR_Err_Invalid_File_Format;
       }
     }
 
-    return Ошибка;
+    return error;
   }
 
 
@@ -529,7 +529,7 @@
                         PFR_Size  size,
                         FT_UInt   glyph_index )
   {
-    FT_Error     Ошибка;
+    FT_Error     error;
     PFR_Face     face   = (PFR_Face) glyph->root.face;
     FT_Stream    stream = face->root.stream;
     PFR_PhyFont  phys   = &face->phy_font;
@@ -593,7 +593,7 @@
       if ( gps_size == 0 )
       {
         /* Could not find a bitmap program string for this glyph */
-        Ошибка = PFR_Err_Invalid_Argument;
+        error = PFR_Err_Invalid_Argument;
         goto Exit;
       }
     }
@@ -601,7 +601,7 @@
     /* get the bitmap metrics */
     {
       FT_Long   xpos = 0, ypos = 0, advance = 0;
-      FT_UInt   xsize = 0, ysize = 0, формат = 0;
+      FT_UInt   xsize = 0, ysize = 0, format = 0;
       FT_Byte*  p;
 
 
@@ -625,14 +625,14 @@
         goto Exit;
 
       p     = stream->cursor;
-      Ошибка = pfr_load_bitmap_metrics( &p, stream->limit,
+      error = pfr_load_bitmap_metrics( &p, stream->limit,
                                        advance,
                                        &xpos, &ypos,
                                        &xsize, &ysize,
-                                       &advance, &формат );
+                                       &advance, &format );
 
       /*
-       * XXX: on 16bit system, we return an Ошибка for huge bitmap
+       * XXX: on 16bit system, we return an error for huge bitmap
        *      which causes a size truncation, because truncated
        *      size properties makes bitmap glyph broken.
        */
@@ -641,12 +641,12 @@
         FT_TRACE1(( "pfr_slot_load_bitmap:" ));
         FT_TRACE1(( "huge bitmap glyph %dx%d over FT_GlyphSlot\n",
                      xpos, ypos ));
-        Ошибка = PFR_Err_Invalid_Pixel_Size;
+        error = PFR_Err_Invalid_Pixel_Size;
       }
 
-      if ( !Ошибка )
+      if ( !error )
       {
-        glyph->root.формат = FT_GLYPH_FORMAT_BITMAP;
+        glyph->root.format = FT_GLYPH_FORMAT_BITMAP;
 
         /* Set up glyph bitmap and metrics */
 
@@ -675,13 +675,13 @@
           FT_ULong  len = glyph->root.bitmap.pitch * ysize;
 
 
-          Ошибка = ft_glyphslot_alloc_bitmap( &glyph->root, len );
-          if ( !Ошибка )
+          error = ft_glyphslot_alloc_bitmap( &glyph->root, len );
+          if ( !error )
           {
-            Ошибка = pfr_load_bitmap_bits(
+            error = pfr_load_bitmap_bits(
                       p,
                       stream->limit,
-                      формат,
+                      format,
                       FT_BOOL(face->header.color_flags & 2),
                       &glyph->root.bitmap );
           }
@@ -692,7 +692,7 @@
     }
 
   Exit:
-    return Ошибка;
+    return error;
   }
 
 /* END */

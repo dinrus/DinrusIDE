@@ -14,7 +14,7 @@
 ** * Redistributions in binary form must reproduce the above copyright notice, 
 **   this list of conditions and the following disclaimer in the documentation 
 **   and/or other materials provided with the distribution.
-** * The имя of the author may be used to endorse or promote products 
+** * The name of the author may be used to endorse or promote products 
 **   derived from this software without specific prior written permission.
 **
 ** THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
@@ -66,10 +66,10 @@
 
 #  undef glGetProcAddressREGAL
 #  ifdef WIN32
-extern void *  __stdcall glGetProcAddressREGAL(const GLchar *имя);
+extern void *  __stdcall glGetProcAddressREGAL(const GLchar *name);
 static void * (__stdcall * regalGetProcAddress) (const GLchar *) = glGetProcAddressREGAL;
 #    else
-extern void * glGetProcAddressREGAL(const GLchar *имя);
+extern void * glGetProcAddressREGAL(const GLchar *name);
 static void * (*regalGetProcAddress) (const GLchar *) = glGetProcAddressREGAL;
 #  endif
 #  define glGetProcAddressREGAL GLEW_GET_FUN(__glewGetProcAddressREGAL)
@@ -79,7 +79,7 @@ static void * (*regalGetProcAddress) (const GLchar *) = glGetProcAddressREGAL;
 #include <stdio.h>
 #include <stdlib.h>
 
-void* dlGetProcAddress (const GLubyte* имя)
+void* dlGetProcAddress (const GLubyte* name)
 {
   static void* h = NULL;
   static void* gpa;
@@ -91,9 +91,9 @@ void* dlGetProcAddress (const GLubyte* имя)
   }
 
   if (gpa != NULL)
-    return ((void*(*)(const GLubyte*))gpa)(имя);
+    return ((void*(*)(const GLubyte*))gpa)(name);
   else
-    return dlsym(h, (const char*)имя);
+    return dlsym(h, (const char*)name);
 }
 #endif /* __sgi || __sun || GLEW_APPLE_GLX */
 
@@ -106,7 +106,7 @@ void* dlGetProcAddress (const GLubyte* имя)
 
 #include <dlfcn.h>
 
-void* NSGLGetProcAddress (const GLubyte *имя)
+void* NSGLGetProcAddress (const GLubyte *name)
 {
   static void* image = NULL;
   void* addr;
@@ -115,10 +115,10 @@ void* NSGLGetProcAddress (const GLubyte *имя)
     image = dlopen("/System/Library/Frameworks/OpenGL.framework/Versions/Current/OpenGL", RTLD_LAZY);
   }
   if( !image ) return NULL;
-  addr = dlsym(image, (const char*)имя);
+  addr = dlsym(image, (const char*)name);
   if( addr ) return addr;
 #ifdef GLEW_APPLE_GLX
-  return dlGetProcAddress( имя ); // try next for glx symbols
+  return dlGetProcAddress( name ); // try next for glx symbols
 #else
   return NULL;
 #endif
@@ -127,7 +127,7 @@ void* NSGLGetProcAddress (const GLubyte *имя)
 
 #include <mach-o/dyld.h>
 
-void* NSGLGetProcAddress (const GLubyte *имя)
+void* NSGLGetProcAddress (const GLubyte *name)
 {
   static const struct mach_header* image = NULL;
   NSSymbol symbol;
@@ -137,8 +137,8 @@ void* NSGLGetProcAddress (const GLubyte *имя)
     image = NSAddImage("/System/Library/Frameworks/OpenGL.framework/Versions/Current/OpenGL", NSADDIMAGE_OPTION_RETURN_ON_ERROR);
   }
   /* prepend a '_' for the Unix C symbol mangling convention */
-  symbolName = malloc(strlen((const char*)имя) + 2);
-  strcpy(symbolName+1, (const char*)имя);
+  symbolName = malloc(strlen((const char*)name) + 2);
+  strcpy(symbolName+1, (const char*)name);
   symbolName[0] = '_';
   symbol = NULL;
   /* if (NSIsSymbolNameDefined(symbolName))
@@ -147,7 +147,7 @@ void* NSGLGetProcAddress (const GLubyte *имя)
   free(symbolName);
   if( symbol ) return NSAddressOfSymbol(symbol);
 #ifdef GLEW_APPLE_GLX
-  return dlGetProcAddress( имя ); // try next for glx symbols
+  return dlGetProcAddress( name ); // try next for glx symbols
 #else
   return NULL;
 #endif
@@ -159,23 +159,23 @@ void* NSGLGetProcAddress (const GLubyte *имя)
  * Define glewGetProcAddress.
  */
 #if defined(GLEW_REGAL)
-#  define glewGetProcAddress(имя) regalGetProcAddress((const GLchar *)имя)
+#  define glewGetProcAddress(name) regalGetProcAddress((const GLchar *)name)
 #elif defined(GLEW_OSMESA)
-#  define glewGetProcAddress(имя) OSMesaGetProcAddress((const char *)имя)
+#  define glewGetProcAddress(name) OSMesaGetProcAddress((const char *)name)
 #elif defined(GLEW_EGL)
-#  define glewGetProcAddress(имя) eglGetProcAddress((const char *)имя)
+#  define glewGetProcAddress(name) eglGetProcAddress((const char *)name)
 #elif defined(_WIN32)
-#  define glewGetProcAddress(имя) wglGetProcAddress((LPCSTR)имя)
+#  define glewGetProcAddress(name) wglGetProcAddress((LPCSTR)name)
 #elif defined(__APPLE__) && !defined(GLEW_APPLE_GLX)
-#  define glewGetProcAddress(имя) NSGLGetProcAddress(имя)
+#  define glewGetProcAddress(name) NSGLGetProcAddress(name)
 #elif defined(__sgi) || defined(__sun) || defined(__HAIKU__)
-#  define glewGetProcAddress(имя) dlGetProcAddress(имя)
+#  define glewGetProcAddress(name) dlGetProcAddress(name)
 #elif defined(__ANDROID__)
-#  define glewGetProcAddress(имя) NULL /* TODO */
+#  define glewGetProcAddress(name) NULL /* СДЕЛАТЬ */
 #elif defined(__native_client__)
-#  define glewGetProcAddress(имя) NULL /* TODO */
+#  define glewGetProcAddress(name) NULL /* СДЕЛАТЬ */
 #else /* __linux */
-#  define glewGetProcAddress(имя) (*glXGetProcAddressARB)(имя)
+#  define glewGetProcAddress(name) (*glXGetProcAddressARB)(name)
 #endif
 
 /*
@@ -297,22 +297,22 @@ static GLboolean _glewStrSame3 (const GLubyte** a, GLuint* na, const GLubyte* b,
 }
 
 /*
- * Search for имя in the extensions string. Use of strstr()
+ * Search for name in the extensions string. Use of strstr()
  * is not sufficient because extension names can be prefixes of
  * other extension names. Could use strtok() but the constant
  * string returned by glGetString might be in read-only memory.
  */
 #if !defined(GLEW_OSMESA)
 #if !defined(__APPLE__) || defined(GLEW_APPLE_GLX)
-static GLboolean _glewSearchExtension (const char* имя, const GLubyte *start, const GLubyte *end)
+static GLboolean _glewSearchExtension (const char* name, const GLubyte *start, const GLubyte *end)
 {
   const GLubyte* p;
-  GLuint len = _glewStrLen((const GLubyte*)имя);
+  GLuint len = _glewStrLen((const GLubyte*)name);
   p = start;
   while (p < end)
   {
     GLuint n = _glewStrCLen(p, ' ');
-    if (len == n && _glewStrSame((const GLubyte*)имя, p, n)) return GL_TRUE;
+    if (len == n && _glewStrSame((const GLubyte*)name, p, n)) return GL_TRUE;
     p += n+1;
   }
   return GL_FALSE;
@@ -17906,14 +17906,14 @@ static int _glewExtensionCompare(const char *s1, const char *s2)
   return 0;
 }
 
-static ptrdiff_t _glewBsearchExtension(const char* имя)
+static ptrdiff_t _glewBsearchExtension(const char* name)
 {
   ptrdiff_t lo = 0, hi = sizeof(_glewExtensionLookup) / sizeof(char*) - 2;
 
   while (lo <= hi)
   {
     ptrdiff_t mid = (lo + hi) / 2;
-    const int cmp = _glewExtensionCompare(имя, _glewExtensionLookup[mid]);
+    const int cmp = _glewExtensionCompare(name, _glewExtensionLookup[mid]);
     if (cmp < 0) hi = mid - 1;
     else if (cmp > 0) lo = mid + 1;
     else return mid;
@@ -17921,16 +17921,16 @@ static ptrdiff_t _glewBsearchExtension(const char* имя)
   return -1;
 }
 
-static GLboolean *_glewGetExtensionString(const char *имя)
+static GLboolean *_glewGetExtensionString(const char *name)
 {
-  ptrdiff_t n = _glewBsearchExtension(имя);
+  ptrdiff_t n = _glewBsearchExtension(name);
   if (n >= 0) return &_glewExtensionString[n];
   return NULL;
 }
 
-static GLboolean *_glewGetExtensionEnable(const char *имя)
+static GLboolean *_glewGetExtensionEnable(const char *name)
 {
-  ptrdiff_t n = _glewBsearchExtension(имя);
+  ptrdiff_t n = _glewBsearchExtension(name);
   if (n >= 0) return _glewExtensionEnabled[n];
   return NULL;
 }
@@ -17951,9 +17951,9 @@ static const char *_glewNextNonSpace(const char *i)
   return j;
 }
 
-GLboolean GLEWAPIENTRY glewGetExtension (const char* имя)
+GLboolean GLEWAPIENTRY glewGetExtension (const char* name)
 {
-  GLboolean *enable = _glewGetExtensionString(имя);
+  GLboolean *enable = _glewGetExtensionString(name);
   if (enable)
     return *enable;
   return GL_FALSE;
@@ -17961,7 +17961,7 @@ GLboolean GLEWAPIENTRY glewGetExtension (const char* имя)
 
 /* ------------------------------------------------------------------------- */
 
-typedef const GLubyte* (GLAPIENTRY * PFNGLGETSTRINGPROC) (GLenum имя);
+typedef const GLubyte* (GLAPIENTRY * PFNGLGETSTRINGPROC) (GLenum name);
 typedef void (GLAPIENTRY * PFNGLGETINTEGERVPROC) (GLenum pname, GLint *params);
 
 static GLenum GLEWAPIENTRY glewContextInit ()
@@ -20470,7 +20470,7 @@ static GLboolean _glewInit_EGL_WL_create_wayland_buffer_from_image ()
 
   /* ------------------------------------------------------------------------ */
 
-GLboolean eglewGetExtension (const char* имя)
+GLboolean eglewGetExtension (const char* name)
 {
   const GLubyte* start;
   const GLubyte* end;
@@ -20478,10 +20478,10 @@ GLboolean eglewGetExtension (const char* имя)
   start = (const GLubyte*) eglQueryString(eglGetCurrentDisplay(), EGL_EXTENSIONS);
   if (0 == start) return GL_FALSE;
   end = start + _glewStrLen(start);
-  return _glewSearchExtension(имя, start, end);
+  return _glewSearchExtension(name, start, end);
 }
 
-GLenum eglewInit (EGLDisplay дисплей)
+GLenum eglewInit (EGLDisplay display)
 {
   EGLint major, minor;
   const GLubyte* extStart;
@@ -20489,14 +20489,14 @@ GLenum eglewInit (EGLDisplay дисплей)
   PFNEGLINITIALIZEPROC initialize = NULL;
   PFNEGLQUERYSTRINGPROC queryString = NULL;
 
-  /* грузи necessary entry points */
+  /* Load necessary entry points */
   initialize = (PFNEGLINITIALIZEPROC)   glewGetProcAddress("eglInitialize");
   queryString = (PFNEGLQUERYSTRINGPROC) glewGetProcAddress("eglQueryString");
   if (!initialize || !queryString)
     return 1;
 
   /* query EGK version */
-  if (initialize(дисплей, &major, &minor) != EGL_TRUE)
+  if (initialize(display, &major, &minor) != EGL_TRUE)
     return 1;
 
   EGLEW_VERSION_1_5   = ( major > 1 )                || ( major == 1 && minor >= 5 ) ? GL_TRUE : GL_FALSE;
@@ -20507,7 +20507,7 @@ GLenum eglewInit (EGLDisplay дисплей)
   EGLEW_VERSION_1_0   = EGLEW_VERSION_1_1 == GL_TRUE || ( major == 1 && minor >= 0 ) ? GL_TRUE : GL_FALSE;
 
   /* query EGL extension string */
-  extStart = (const GLubyte*) queryString(дисплей, EGL_EXTENSIONS);
+  extStart = (const GLubyte*) queryString(display, EGL_EXTENSIONS);
   if (extStart == 0)
     extStart = (const GLubyte *)"";
   extEnd = extStart + _glewStrLen(extStart);
@@ -21733,7 +21733,7 @@ static GLboolean _glewInit_WGL_OML_sync_control ()
 static PFNWGLGETEXTENSIONSSTRINGARBPROC _wglewGetExtensionsStringARB = NULL;
 static PFNWGLGETEXTENSIONSSTRINGEXTPROC _wglewGetExtensionsStringEXT = NULL;
 
-GLboolean GLEWAPIENTRY wglewGetExtension (const char* имя)
+GLboolean GLEWAPIENTRY wglewGetExtension (const char* name)
 {    
   const GLubyte* start;
   const GLubyte* end;
@@ -21747,7 +21747,7 @@ GLboolean GLEWAPIENTRY wglewGetExtension (const char* имя)
   if (start == 0)
     return GL_FALSE;
   end = start + _glewStrLen(start);
-  return _glewSearchExtension(имя, start, end);
+  return _glewSearchExtension(name, start, end);
 }
 
 GLenum GLEWAPIENTRY wglewInit ()
@@ -22755,7 +22755,7 @@ static GLboolean _glewInit_GLX_SUN_video_resize ()
 
 /* ------------------------------------------------------------------------ */
 
-GLboolean glxewGetExtension (const char* имя)
+GLboolean glxewGetExtension (const char* name)
 {    
   const GLubyte* start;
   const GLubyte* end;
@@ -22764,20 +22764,20 @@ GLboolean glxewGetExtension (const char* имя)
   start = (const GLubyte*)glXGetClientString(glXGetCurrentDisplay(), GLX_EXTENSIONS);
   if (0 == start) return GL_FALSE;
   end = start + _glewStrLen(start);
-  return _glewSearchExtension(имя, start, end);
+  return _glewSearchExtension(name, start, end);
 }
 
 GLenum glxewInit ()
 {
-  Дисплей* дисплей;
+  Display* display;
   int major, minor;
   const GLubyte* extStart;
   const GLubyte* extEnd;
   /* initialize core GLX 1.2 */
   if (_glewInit_GLX_VERSION_1_2()) return GLEW_ERROR_GLX_VERSION_11_ONLY;
-  /* check for a дисплей */
-  дисплей = glXGetCurrentDisplay();
-  if (дисплей == NULL) return GLEW_ERROR_NO_GLX_DISPLAY;
+  /* check for a display */
+  display = glXGetCurrentDisplay();
+  if (display == NULL) return GLEW_ERROR_NO_GLX_DISPLAY;
   /* initialize flags */
   GLXEW_VERSION_1_0 = GL_TRUE;
   GLXEW_VERSION_1_1 = GL_TRUE;
@@ -22785,7 +22785,7 @@ GLenum glxewInit ()
   GLXEW_VERSION_1_3 = GL_TRUE;
   GLXEW_VERSION_1_4 = GL_TRUE;
   /* query GLX version */
-  glXQueryVersion(дисплей, &major, &minor);
+  glXQueryVersion(display, &major, &minor);
   if (major == 1 && minor <= 3)
   {
     switch (minor)
@@ -22805,7 +22805,7 @@ GLenum glxewInit ()
   /* query GLX extension string */
   extStart = 0;
   if (glXGetCurrentDisplay != NULL)
-    extStart = (const GLubyte*)glXGetClientString(дисплей, GLX_EXTENSIONS);
+    extStart = (const GLubyte*)glXGetClientString(display, GLX_EXTENSIONS);
   if (extStart == 0)
     extStart = (const GLubyte *)"";
   extEnd = extStart + _glewStrLen(extStart);
@@ -23068,21 +23068,21 @@ GLenum glxewInit ()
 
 /* ------------------------------------------------------------------------ */
 
-const GLubyte * GLEWAPIENTRY glewGetErrorString (GLenum Ошибка)
+const GLubyte * GLEWAPIENTRY glewGetErrorString (GLenum error)
 {
   static const GLubyte* _glewErrorString[] =
   {
-    (const GLubyte*)"No Ошибка",
+    (const GLubyte*)"No error",
     (const GLubyte*)"Missing GL version",
     (const GLubyte*)"GL 1.1 and up are not supported",
     (const GLubyte*)"GLX 1.2 and up are not supported",
-    (const GLubyte*)"Unknown Ошибка"
+    (const GLubyte*)"Unknown error"
   };
   const size_t max_error = sizeof(_glewErrorString)/sizeof(*_glewErrorString) - 1;
-  return _glewErrorString[(size_t)Ошибка > max_error ? max_error : (size_t)Ошибка];
+  return _glewErrorString[(size_t)error > max_error ? max_error : (size_t)error];
 }
 
-const GLubyte * GLEWAPIENTRY glewGetString (GLenum имя)
+const GLubyte * GLEWAPIENTRY glewGetString (GLenum name)
 {
   static const GLubyte* _glewString[] =
   {
@@ -23093,7 +23093,7 @@ const GLubyte * GLEWAPIENTRY glewGetString (GLenum имя)
     (const GLubyte*)"0"
   };
   const size_t max_string = sizeof(_glewString)/sizeof(*_glewString) - 1;
-  return _glewString[(size_t)имя > max_string ? 0 : (size_t)имя];
+  return _glewString[(size_t)name > max_string ? 0 : (size_t)name];
 }
 
 /* ------------------------------------------------------------------------ */
@@ -23133,9 +23133,9 @@ int __stdcall DllMainCRTStartup(void* instance, unsigned reason, void* reserved)
   return 1;
 }
 #endif
-GLboolean GLEWAPIENTRY glewIsSupported (const char* имя)
+GLboolean GLEWAPIENTRY glewIsSupported (const char* name)
 {
-  const GLubyte* pos = (const GLubyte*)имя;
+  const GLubyte* pos = (const GLubyte*)name;
   GLuint len = _glewStrLen(pos);
   GLboolean ret = GL_TRUE;
   while (ret && len > 0)
@@ -29787,9 +29787,9 @@ GLboolean GLEWAPIENTRY glewIsSupported (const char* имя)
 
 #if defined(_WIN32) && !defined(GLEW_EGL) && !defined(GLEW_OSMESA)
 
-GLboolean GLEWAPIENTRY wglewIsSupported (const char* имя)
+GLboolean GLEWAPIENTRY wglewIsSupported (const char* name)
 {
-  const GLubyte* pos = (const GLubyte*)имя;
+  const GLubyte* pos = (const GLubyte*)name;
   GLuint len = _glewStrLen(pos);
   GLboolean ret = GL_TRUE;
   while (ret && len > 0)
@@ -30230,9 +30230,9 @@ GLboolean GLEWAPIENTRY wglewIsSupported (const char* имя)
 
 #elif !defined(GLEW_OSMESA) && !defined(GLEW_EGL) && !defined(__ANDROID__) && !defined(__native_client__) && !defined(__HAIKU__) && !defined(__APPLE__) || defined(GLEW_APPLE_GLX)
 
-GLboolean glxewIsSupported (const char* имя)
+GLboolean glxewIsSupported (const char* name)
 {
-  const GLubyte* pos = (const GLubyte*)имя;
+  const GLubyte* pos = (const GLubyte*)name;
   GLuint len = _glewStrLen(pos);
   GLboolean ret = GL_TRUE;
   while (ret && len > 0)
@@ -30807,9 +30807,9 @@ GLboolean glxewIsSupported (const char* имя)
 
 #elif defined(GLEW_EGL)
 
-GLboolean eglewIsSupported (const char* имя)
+GLboolean eglewIsSupported (const char* name)
 {
-  const GLubyte* pos = (const GLubyte*)имя;
+  const GLubyte* pos = (const GLubyte*)name;
   GLuint len = _glewStrLen(pos);
   GLboolean ret = GL_TRUE;
   while (ret && len > 0)

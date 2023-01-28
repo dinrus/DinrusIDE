@@ -1,4 +1,4 @@
-description "Esc scripting language interpreter\377";
+description "Интерпретатор скриптового языка Esc\377";
 
 uses
 	Core;

@@ -9,9 +9,9 @@
 #define CUSTOM_FONTSYS
 #endif
 
-namespace РНЦП {
+namespace Upp {
 
-class Чертёж;
+class Drawing;
 class Draw;
 class Painting;
 class SystemDraw;
@@ -22,11 +22,11 @@ class ImageDraw;
 const int FONT_V = 40;
 
 struct FontGlyphConsumer {
-	virtual void Move(ТочкаПЗ p) = 0;
-	virtual void Строка(ТочкаПЗ p) = 0;
-	virtual void Quadratic(ТочкаПЗ p1, ТочкаПЗ p2) = 0;
-	virtual void Cubic(ТочкаПЗ p1, ТочкаПЗ p2, ТочкаПЗ p3) = 0;
-	virtual void закрой() = 0;
+	virtual void Move(Pointf p) = 0;
+	virtual void Line(Pointf p) = 0;
+	virtual void Quadratic(Pointf p1, Pointf p2) = 0;
+	virtual void Cubic(Pointf p1, Pointf p2, Pointf p3) = 0;
+	virtual void Close() = 0;
 };
 
 #include "FontInt.h"
@@ -40,7 +40,7 @@ bool PreferColorEmoji(int c)
 	return c >= 0x2600 && c <= 0x27ef || c >= 0x1f004 && c <= 0x1f251 || c >= 0x1f300 && c <= 0x1faf6;
 }
 
-class Шрифт : public ТипЗнач<Шрифт, FONT_V, Движимое<Шрифт> >{
+class Font : public ValueType<Font, FONT_V, Moveable<Font> >{
 	union {
 		int64 data;
 		struct {
@@ -60,19 +60,19 @@ class Шрифт : public ТипЗнач<Шрифт, FONT_V, Движимое<Ш
 		FONT_TRUE_TYPE_ONLY = 0x400
 	};
 
-	static Шрифт AStdFont;
-	static Размер StdFontSize;
+	static Font AStdFont;
+	static Size StdFontSize;
 	static bool std_font_override;
 
-	static void SetStdFont0(Шрифт font);
-	static Вектор<FaceInfo>& FaceList();
+	static void SetStdFont0(Font font);
+	static Vector<FaceInfo>& FaceList();
 	static void SyncStdFont();
 	static void InitStdFont();
 
 	const CommonFontInfo& Fi() const;
 	
 	friend void   sInitFonts();
-	friend Ткст GetFontDataSys(Шрифт font, const char *table, int offset, int size);
+	friend String GetFontDataSys(Font font, const char *table, int offset, int size);
 	
 public:
 	enum {
@@ -86,16 +86,16 @@ public:
 	};
 
 	static int    GetFaceCount();
-	static Ткст GetFaceName(int Индекс);
-	static int    FindFaceNameIndex(const Ткст& имя);
-	static dword  GetFaceInfo(int Индекс);
-	static void   SetFace(int Индекс, const Ткст& имя, dword info);
-	static void   SetFace(int Индекс, const Ткст& имя);
+	static String GetFaceName(int index);
+	static int    FindFaceNameIndex(const String& name);
+	static dword  GetFaceInfo(int index);
+	static void   SetFace(int index, const String& name, dword info);
+	static void   SetFace(int index, const String& name);
 
-	static void   SetDefaultFont(Шрифт font);
-	static void   SetStdFont(Шрифт font);
-	static Шрифт   GetStdFont();
-	static Размер   GetStdFontSize();
+	static void   SetDefaultFont(Font font);
+	static void   SetStdFont(Font font);
+	static Font   GetStdFont();
+	static Size   GetStdFontSize();
 
 	enum {
 		STDFONT,
@@ -119,47 +119,47 @@ public:
 	};
 	
 	int    GetFace() const          { return v.face; }
-	int    дайВысоту() const;
-	int    дайШирину() const         { return v.width; }
+	int    GetHeight() const;
+	int    GetWidth() const         { return v.width; }
 	bool   IsBold() const           { return v.flags & FONT_BOLD; }
 	bool   IsItalic() const         { return v.flags & FONT_ITALIC; }
 	bool   IsUnderline() const      { return v.flags & FONT_UNDERLINE; }
 	bool   IsStrikeout() const      { return v.flags & FONT_STRIKEOUT; }
 	bool   IsNonAntiAliased() const { return v.flags & FONT_NON_ANTI_ALIASED; } // deprecated
 	bool   IsTrueTypeOnly() const   { return v.flags & FONT_TRUE_TYPE_ONLY; } // deprecated
-	Ткст GetFaceName() const;
-	Ткст GetFaceNameStd() const;
+	String GetFaceName() const;
+	String GetFaceNameStd() const;
 	dword  GetFaceInfo() const;
 	int64  AsInt64() const          { return data; }
 	
 	void   RealizeStd();
 
-	Шрифт& Face(int n)               { v.face = n; return *this; }
-	Шрифт& устВысоту(int n)             { v.height = n; return *this; }
-	Шрифт& устШирину(int n)              { v.width = n; return *this; }
-	Шрифт& Bold()                    { v.flags |= FONT_BOLD; return *this; }
-	Шрифт& NoBold()                  { v.flags &= ~FONT_BOLD; return *this; }
-	Шрифт& Bold(bool b)              { return b ? Bold() : NoBold(); }
-	Шрифт& Italic()                  { v.flags |= FONT_ITALIC; return *this; }
-	Шрифт& NoItalic()                { v.flags &= ~FONT_ITALIC; return *this; }
-	Шрифт& Italic(bool b)            { return b ? Italic() : NoItalic(); }
-	Шрифт& Underline()               { v.flags |= FONT_UNDERLINE; return *this; }
-	Шрифт& NoUnderline()             { v.flags &= ~FONT_UNDERLINE; return *this; }
-	Шрифт& Underline(bool b)         { return b ? Underline() : NoUnderline(); }
-	Шрифт& Strikeout()               { v.flags |= FONT_STRIKEOUT; return *this; }
-	Шрифт& NoStrikeout()             { v.flags &= ~FONT_STRIKEOUT; return *this; }
-	Шрифт& Strikeout(bool b)         { return b ? Strikeout() : NoStrikeout(); }
-	Шрифт& NonAntiAliased()          { v.flags |= FONT_NON_ANTI_ALIASED; return *this; }
-	Шрифт& NoNonAntiAliased()        { v.flags &= ~FONT_NON_ANTI_ALIASED; return *this; } // deprecated
-	Шрифт& NonAntiAliased(bool b)    { return b ? NonAntiAliased() : NoNonAntiAliased(); } // deprecated
-	Шрифт& TrueTypeOnly()            { v.flags |= FONT_TRUE_TYPE_ONLY; return *this; } // deprecated
-	Шрифт& NoTrueTypeOnly()          { v.flags &= ~FONT_TRUE_TYPE_ONLY; return *this; } // deprecated
-	Шрифт& TrueTypeOnly(bool b)      { return b ? TrueTypeOnly() : NoTrueTypeOnly(); } // deprecated
+	Font& Face(int n)               { v.face = n; return *this; }
+	Font& Height(int n)             { v.height = n; return *this; }
+	Font& Width(int n)              { v.width = n; return *this; }
+	Font& Bold()                    { v.flags |= FONT_BOLD; return *this; }
+	Font& NoBold()                  { v.flags &= ~FONT_BOLD; return *this; }
+	Font& Bold(bool b)              { return b ? Bold() : NoBold(); }
+	Font& Italic()                  { v.flags |= FONT_ITALIC; return *this; }
+	Font& NoItalic()                { v.flags &= ~FONT_ITALIC; return *this; }
+	Font& Italic(bool b)            { return b ? Italic() : NoItalic(); }
+	Font& Underline()               { v.flags |= FONT_UNDERLINE; return *this; }
+	Font& NoUnderline()             { v.flags &= ~FONT_UNDERLINE; return *this; }
+	Font& Underline(bool b)         { return b ? Underline() : NoUnderline(); }
+	Font& Strikeout()               { v.flags |= FONT_STRIKEOUT; return *this; }
+	Font& NoStrikeout()             { v.flags &= ~FONT_STRIKEOUT; return *this; }
+	Font& Strikeout(bool b)         { return b ? Strikeout() : NoStrikeout(); }
+	Font& NonAntiAliased()          { v.flags |= FONT_NON_ANTI_ALIASED; return *this; }
+	Font& NoNonAntiAliased()        { v.flags &= ~FONT_NON_ANTI_ALIASED; return *this; } // deprecated
+	Font& NonAntiAliased(bool b)    { return b ? NonAntiAliased() : NoNonAntiAliased(); } // deprecated
+	Font& TrueTypeOnly()            { v.flags |= FONT_TRUE_TYPE_ONLY; return *this; } // deprecated
+	Font& NoTrueTypeOnly()          { v.flags &= ~FONT_TRUE_TYPE_ONLY; return *this; } // deprecated
+	Font& TrueTypeOnly(bool b)      { return b ? TrueTypeOnly() : NoTrueTypeOnly(); } // deprecated
 
-	Шрифт& FaceName(const Ткст& имя);
+	Font& FaceName(const String& name);
 
-	Шрифт  operator()() const        { return *this; }
-	Шрифт  operator()(int n) const   { return Шрифт(*this).устВысоту(n); }
+	Font  operator()() const        { return *this; }
+	Font  operator()(int n) const   { return Font(*this).Height(n); }
 
 	int   GetAscent() const                  { return Fi().ascent; }
 	int   GetDescent() const                 { return Fi().descent; }
@@ -170,47 +170,47 @@ public:
 	int   GetOverhang() const                { return Fi().overhang; }
 	int   GetAveWidth() const                { return Fi().avewidth; }
 	int   GetMaxWidth() const                { return Fi().maxwidth; }
-	int   GetMonoWidth() const               { return max(дайШирину('M'), дайШирину('W')); }
+	int   GetMonoWidth() const               { return max(GetWidth('M'), GetWidth('W')); }
 	bool  IsNormal(int ch) const;
 	bool  IsComposed(int ch) const;
 	bool  IsReplaced(int ch) const;
 	bool  IsMissing(int ch) const;
 	int   HasChar(int ch) const;
-	int   дайШирину(int c) const;
-	int   operator[](int c) const            { return дайШирину(c); }
+	int   GetWidth(int c) const;
+	int   operator[](int c) const            { return GetWidth(c); }
 	int   GetLeftSpace(int c) const;
 	int   GetRightSpace(int c) const;
 	bool  IsFixedPitch() const               { return Fi().fixedpitch; }
 	bool  IsScaleable() const                { return Fi().scaleable; }
-	bool  особый_ли() const                  { return GetFaceInfo() & SPECIAL; }
+	bool  IsSpecial() const                  { return GetFaceInfo() & SPECIAL; }
 	bool  IsTrueType() const                 { return Fi().ttf; }
 	bool  IsSerif() const                    { return GetFaceInfo() & SERIFSTYLE; }
 	bool  IsScript() const                   { return GetFaceInfo() & SCRIPTSTYLE; }
 
-	Ткст GetTextFlags() const;
+	String GetTextFlags() const;
 	void   ParseTextFlags(const char *s);
 	
-	Ткст дайДанные(const char *table = NULL, int offset = 0, int size = INT_MAX) const;
+	String GetData(const char *table = NULL, int offset = 0, int size = INT_MAX) const;
 	
 	void   Render(FontGlyphConsumer& sw, double x, double y, int ch) const;
 
-	void  сериализуй(Поток& s);
-	void  вДжейсон(ДжейсонВВ& jio);
-	void  вРяр(РярВВ& xio);
+	void  Serialize(Stream& s);
+	void  Jsonize(JsonIO& jio);
+	void  Xmlize(XmlIO& xio);
 
-	bool  operator==(Шрифт f) const  { return v.face == f.v.face && v.flags == f.v.flags &&
+	bool  operator==(Font f) const  { return v.face == f.v.face && v.flags == f.v.flags &&
 	                                        v.width == f.v.width && v.height == f.v.height; }
-	bool  operator!=(Шрифт f) const  { return !operator==(f); }
+	bool  operator!=(Font f) const  { return !operator==(f); }
 
-	hash_t дайХэшЗнач() const     { return комбинируйХэш(v.width, v.flags, v.height, v.face); }
-	bool   экзПусто_ли() const   { return v.face == 0xffff; }
-	void   устПусто()                { v.face = 0xffff; v.height = v.width = 0; v.flags = 0; }
-	Шрифт()                          { v.height = v.width = 0; v.face = v.flags = 0; }
-	Шрифт(int face, int height)      { v.face = face; v.height = height; v.flags = 0; v.width = 0; }
-	Шрифт(const Обнул&)             { устПусто(); }
+	hash_t GetHashValue() const     { return CombineHash(v.width, v.flags, v.height, v.face); }
+	bool   IsNullInstance() const   { return v.face == 0xffff; }
+	void   SetNull()                { v.face = 0xffff; v.height = v.width = 0; v.flags = 0; }
+	Font()                          { v.height = v.width = 0; v.face = v.flags = 0; }
+	Font(int face, int height)      { v.face = face; v.height = height; v.flags = 0; v.width = 0; }
+	Font(const Nuller&)             { SetNull(); }
 
-	operator Значение() const          { return богатыйВЗнач(*this); }
-	Шрифт(const Значение& q)            { *this = q.дай<Шрифт>(); }
+	operator Value() const          { return RichToValue(*this); }
+	Font(const Value& q)            { *this = q.Get<Font>(); }
 
 // BW compatibility
 	FontInfo Info() const;
@@ -219,71 +219,71 @@ public:
 
 //BW compatibility
 class FontInfo { // Obsolete!
-	Шрифт font;
-	friend class Шрифт;
+	Font font;
+	friend class Font;
 public:
 	int    GetAscent() const                  { return font.GetAscent(); }
 	int    GetDescent() const                 { return font.GetDescent(); }
 	int    GetExternal() const                { return font.GetExternal(); }
 	int    GetInternal() const                { return font.GetInternal(); }
-	int    дайВысоту() const                  { return font.GetCy(); }
+	int    GetHeight() const                  { return font.GetCy(); }
 	int    GetLineHeight() const              { return font.GetLineHeight(); }
 	int    GetOverhang() const                { return font.GetOverhang(); }
 	int    GetAveWidth() const                { return font.GetAveWidth(); }
 	int    GetMaxWidth() const                { return font.GetMaxWidth(); }
 	int    HasChar(int c) const               { return font.HasChar(c); }
-	int    дайШирину(int c) const              { return font.дайШирину(c); }
-	int    operator[](int c) const            { return дайШирину(c); }
+	int    GetWidth(int c) const              { return font.GetWidth(c); }
+	int    operator[](int c) const            { return GetWidth(c); }
 	int    GetLeftSpace(int c) const          { return font.GetLeftSpace(c); }
 	int    GetRightSpace(int c) const         { return font.GetRightSpace(c); }
 	bool   IsFixedPitch() const               { return font.IsFixedPitch(); }
 	bool   IsScaleable() const                { return font.IsScaleable(); }
-	int    GetFontHeight() const              { return font.дайВысоту(); }
-	Шрифт   дайШрифт() const                    { return font; }
+	int    GetFontHeight() const              { return font.GetHeight(); }
+	Font   GetFont() const                    { return font; }
 };
 
 struct ComposedGlyph {
 	wchar  basic_char;
-	Точка  mark_pos;
+	Point  mark_pos;
 	wchar  mark_char;
-	Шрифт   mark_font;
+	Font   mark_font;
 };
 
-bool Compose(Шрифт fnt, int chr, ComposedGlyph& cs);
+bool Compose(Font fnt, int chr, ComposedGlyph& cs);
 
 template<>
-Ткст какТкст(const Шрифт& f);
+String AsString(const Font& f);
 
-inline void SetStdFont(Шрифт font)                   { Шрифт::SetStdFont(font); }
-inline Шрифт GetStdFont()                            { return Шрифт::GetStdFont(); }
-inline Размер GetStdFontSize()                        { return Шрифт::GetStdFontSize(); } // deprecated
+inline void SetStdFont(Font font)                   { Font::SetStdFont(font); }
+inline Font GetStdFont()                            { return Font::GetStdFont(); }
+inline Size GetStdFontSize()                        { return Font::GetStdFontSize(); } // deprecated
 inline int  GetStdFontCy()                          { return GetStdFontSize().cy; }
 
-Шрифт StdFont();
+Font StdFont();
 
-inline Шрифт StdFont(int h)                          { return StdFont().устВысоту(h); }
+inline Font StdFont(int h)                          { return StdFont().Height(h); }
 
-inline Шрифт Serif(int n = -32000) { return Шрифт(Шрифт::SCREEN_SERIF, n); }
-inline Шрифт SansSerif(int n = -32000) { return Шрифт(Шрифт::SCREEN_SANS, n); }
-inline Шрифт Monospace(int n = -32000) { return Шрифт(Шрифт::SCREEN_FIXED, n); }
+inline Font Serif(int n = -32000) { return Font(Font::SCREEN_SERIF, n); }
+inline Font SansSerif(int n = -32000) { return Font(Font::SCREEN_SANS, n); }
+inline Font Monospace(int n = -32000) { return Font(Font::SCREEN_FIXED, n); }
 
-inline Шрифт Roman(int n = -32000) { return Шрифт(Шрифт::SCREEN_SERIF, n); } // deprecated
-inline Шрифт Arial(int n = -32000) { return Шрифт(Шрифт::SCREEN_SANS, n); } // deprecated
-inline Шрифт Courier(int n = -32000) { return Шрифт(Шрифт::SCREEN_FIXED, n); } // deprecated
+inline Font Roman(int n = -32000) { return Font(Font::SCREEN_SERIF, n); } // deprecated
+inline Font Arial(int n = -32000) { return Font(Font::SCREEN_SANS, n); } // deprecated
+inline Font Courier(int n = -32000) { return Font(Font::SCREEN_FIXED, n); } // deprecated
 
-inline Шрифт ScreenSerif(int n = -32000) { return Шрифт(Шрифт::SCREEN_SERIF, n); } // deprecated
-inline Шрифт ScreenSans(int n = -32000) { return Шрифт(Шрифт::SCREEN_SANS, n); } // deprecated
-inline Шрифт ScreenFixed(int n = -32000) { return Шрифт(Шрифт::SCREEN_FIXED, n); } // deprecated
+inline Font ScreenSerif(int n = -32000) { return Font(Font::SCREEN_SERIF, n); } // deprecated
+inline Font ScreenSans(int n = -32000) { return Font(Font::SCREEN_SANS, n); } // deprecated
+inline Font ScreenFixed(int n = -32000) { return Font(Font::SCREEN_FIXED, n); } // deprecated
 
 #ifdef PLATFORM_WIN32 // backward comaptibility
-inline Шрифт Tahoma(int n = -32000) { return Шрифт(Шрифт::TAHOMA, n); }
+inline Font Tahoma(int n = -32000) { return Font(Font::TAHOMA, n); }
 #endif
 
-Размер дайРазмТекста(const wchar *text, Шрифт font, int n = -1);
-Размер дайРазмТекста(const ШТкст& text, Шрифт font);
-Размер дайРазмТекста(const char *text, byte charset, Шрифт font, int n = -1);
-Размер дайРазмТекста(const char *text, Шрифт font, int n = -1);
-Размер дайРазмТекста(const Ткст& text, Шрифт font);
+Size GetTextSize(const wchar *text, Font font, int n = -1);
+Size GetTextSize(const WString& text, Font font);
+Size GetTextSize(const char *text, byte charset, Font font, int n = -1);
+Size GetTextSize(const char *text, Font font, int n = -1);
+Size GetTextSize(const String& text, Font font);
 
 enum {
 	PEN_NULL = -1,
@@ -296,121 +296,121 @@ enum {
 #endif
 };
 
-class Рисунок;
+class Image;
 
-Цвет SBlack();
-Цвет SGray();
-Цвет SLtGray();
-Цвет SWhiteGray();
-Цвет SWhite();
-Цвет SRed();
-Цвет SGreen();
-Цвет SBrown();
-Цвет SBlue();
-Цвет SMagenta();
-Цвет SCyan();
-Цвет SYellow();
-Цвет SLtRed();
-Цвет SLtGreen();
-Цвет SLtYellow();
-Цвет SLtBlue();
-Цвет SLtMagenta();
-Цвет SLtCyan();
+Color SBlack();
+Color SGray();
+Color SLtGray();
+Color SWhiteGray();
+Color SWhite();
+Color SRed();
+Color SGreen();
+Color SBrown();
+Color SBlue();
+Color SMagenta();
+Color SCyan();
+Color SYellow();
+Color SLtRed();
+Color SLtGreen();
+Color SLtYellow();
+Color SLtBlue();
+Color SLtMagenta();
+Color SLtCyan();
 
-Цвет SColorPaper();
-Цвет SColorText();
-Цвет SColorFace();
-Цвет SColorHighlight();
-Цвет SColorHighlightText();
-Цвет SColorMenu();
-Цвет SColorMenuText();
-Цвет SColorInfo();
-Цвет SColorInfoText();
-Цвет SColorMark();
-Цвет SColorMenuMark();
-Цвет SColorDisabled();
-Цвет SColorLight();
-Цвет SColorLabel();
-Цвет SColorShadow();
+Color SColorPaper();
+Color SColorText();
+Color SColorFace();
+Color SColorHighlight();
+Color SColorHighlightText();
+Color SColorMenu();
+Color SColorMenuText();
+Color SColorInfo();
+Color SColorInfoText();
+Color SColorMark();
+Color SColorMenuMark();
+Color SColorDisabled();
+Color SColorLight();
+Color SColorLabel();
+Color SColorShadow();
 
-Цвет SColorLtFace();
-Цвет SColorDkShadow();
+Color SColorLtFace();
+Color SColorDkShadow();
 
-void SBlack_Write(Цвет c);
-void SGray_Write(Цвет c);
-void SLtGray_Write(Цвет c);
-void SWhiteGray_Write(Цвет c);
-void SWhite_Write(Цвет c);
-void SRed_Write(Цвет c);
-void SGreen_Write(Цвет c);
-void SBrown_Write(Цвет c);
-void SBlue_Write(Цвет c);
-void SMagenta_Write(Цвет c);
-void SCyan_Write(Цвет c);
-void SYellow_Write(Цвет c);
-void SLtRed_Write(Цвет c);
-void SLtGreen_Write(Цвет c);
-void SLtYellow_Write(Цвет c);
-void SLtBlue_Write(Цвет c);
-void SLtMagenta_Write(Цвет c);
-void SLtCyan_Write(Цвет c);
+void SBlack_Write(Color c);
+void SGray_Write(Color c);
+void SLtGray_Write(Color c);
+void SWhiteGray_Write(Color c);
+void SWhite_Write(Color c);
+void SRed_Write(Color c);
+void SGreen_Write(Color c);
+void SBrown_Write(Color c);
+void SBlue_Write(Color c);
+void SMagenta_Write(Color c);
+void SCyan_Write(Color c);
+void SYellow_Write(Color c);
+void SLtRed_Write(Color c);
+void SLtGreen_Write(Color c);
+void SLtYellow_Write(Color c);
+void SLtBlue_Write(Color c);
+void SLtMagenta_Write(Color c);
+void SLtCyan_Write(Color c);
 
-void SColorPaper_Write(Цвет c);
-void SColorText_Write(Цвет c);
-void SColorHighlight_Write(Цвет c);
-void SColorHighlightText_Write(Цвет c);
-void SColorMenu_Write(Цвет c);
-void SColorMenuText_Write(Цвет c);
-void SColorInfo_Write(Цвет c);
-void SColorInfoText_Write(Цвет c);
-void SColorMark_Write(Цвет c);
-void SColorMenuMark_Write(Цвет c);
-void SColorDisabled_Write(Цвет c);
-void SColorLight_Write(Цвет c);
-void SColorFace_Write(Цвет c);
-void SColorLabel_Write(Цвет c);
-void SColorShadow_Write(Цвет c);
+void SColorPaper_Write(Color c);
+void SColorText_Write(Color c);
+void SColorHighlight_Write(Color c);
+void SColorHighlightText_Write(Color c);
+void SColorMenu_Write(Color c);
+void SColorMenuText_Write(Color c);
+void SColorInfo_Write(Color c);
+void SColorInfoText_Write(Color c);
+void SColorMark_Write(Color c);
+void SColorMenuMark_Write(Color c);
+void SColorDisabled_Write(Color c);
+void SColorLight_Write(Color c);
+void SColorFace_Write(Color c);
+void SColorLabel_Write(Color c);
+void SColorShadow_Write(Color c);
 
-void SColorLtFace_Write(Цвет c);
-void SColorDkShadow_Write(Цвет c);
+void SColorLtFace_Write(Color c);
+void SColorDkShadow_Write(Color c);
 
-inline Цвет InvertColor() { return Цвет::особый(255); } // особый color that with DrawRect actually inverts the rectangle
-inline Цвет DefaultInk() { return Цвет::особый(254); } // SColorText on screen, чёрный on other outputs
+inline Color InvertColor() { return Color::Special(255); } // Special color that with DrawRect actually inverts the rectangle
+inline Color DefaultInk() { return Color::Special(254); } // SColorText on screen, Black on other outputs
 
 extern bool dark_theme__;
 
 inline bool  IsDarkTheme()           { return dark_theme__; }
 
-inline Цвет AdjustIfDark(Цвет c)   { return IsDarkTheme() ? тёмнаяТемаИзКэша(c) : c; }
+inline Color AdjustIfDark(Color c)   { return IsDarkTheme() ? DarkThemeCached(c) : c; }
 
-Чертёж AsDrawing(const Painting& pw);
+Drawing AsDrawing(const Painting& pw);
 
-class Painting : public ТипЗнач<Painting, 48, Движимое<Painting> > {
-	Ткст     cmd;
-	МассивЗнач data;
-	РазмерПЗ      size;
+class Painting : public ValueType<Painting, 48, Moveable<Painting> > {
+	String     cmd;
+	ValueArray data;
+	Sizef      size;
 	
 	friend class PaintingPainter;
-	friend class Рисовало;
+	friend class Painter;
 
 public:
-	РазмерПЗ   дайРазм() const                     { return size; }
+	Sizef   GetSize() const                     { return size; }
 
-	void    очисть()                             { size = Null; data.очисть(); cmd.очисть(); }
-	void    сериализуй(Поток& s)                { s % cmd % data % size; }
-	void    вРяр(РярВВ& xio)                  { XmlizeBySerialize(xio, *this); }
-	void    вДжейсон(ДжейсонВВ& jio)                { JsonizeBySerialize(jio, *this); }
-	bool    экзПусто_ли() const              { return cmd.пустой(); }
-	void    устПусто()                           { size = Null; }
+	void    Clear()                             { size = Null; data.Clear(); cmd.Clear(); }
+	void    Serialize(Stream& s)                { s % cmd % data % size; }
+	void    Xmlize(XmlIO& xio)                  { XmlizeBySerialize(xio, *this); }
+	void    Jsonize(JsonIO& jio)                { JsonizeBySerialize(jio, *this); }
+	bool    IsNullInstance() const              { return cmd.IsEmpty(); }
+	void    SetNull()                           { size = Null; }
 	bool    operator==(const Painting& b) const { return cmd == b.cmd && data == b.data && size == b.size; }
-	hash_t  дайХэшЗнач() const                { return комбинируйХэш(cmd, data); }
-	Ткст  вТкст() const                    { return "painting " + какТкст(size); }
+	hash_t  GetHashValue() const                { return CombineHash(cmd, data); }
+	String  ToString() const                    { return "painting " + AsString(size); }
 
-	operator Значение() const                      { return богатыйВЗнач(*this); }
-	Painting(const Значение& q)                    { *this = q.дай<Painting>(); }
+	operator Value() const                      { return RichToValue(*this); }
+	Painting(const Value& q)                    { *this = q.Get<Painting>(); }
 
-	Painting()                                  { устПусто(); }
-	Painting(const Обнул&)                     { устПусто(); }
+	Painting()                                  { SetNull(); }
+	Painting(const Nuller&)                     { SetNull(); }
 };
 
 enum {
@@ -420,11 +420,11 @@ enum {
 };
 
 bool HasPainter();
-void PaintImageBuffer(ImageBuffer& ib, const Painting& p, Размер sz, Точка pos, int mode = MODE_ANTIALIASED);
+void PaintImageBuffer(ImageBuffer& ib, const Painting& p, Size sz, Point pos, int mode = MODE_ANTIALIASED);
 void PaintImageBuffer(ImageBuffer& ib, const Painting& p, int mode = MODE_ANTIALIASED);
-void PaintImageBuffer(ImageBuffer& ib, const Чертёж& p, int mode = MODE_ANTIALIASED);
+void PaintImageBuffer(ImageBuffer& ib, const Drawing& p, int mode = MODE_ANTIALIASED);
 
-class Draw : БезКопий {
+class Draw : NoCopy {
 	struct DrawingPos;
 	
 public:
@@ -439,56 +439,56 @@ public:
 
 	virtual dword GetInfo() const = 0;
 
-	virtual Размер GetPageSize() const;
+	virtual Size GetPageSize() const;
 	virtual void StartPage();
 	virtual void EndPage();
 
 	virtual void BeginOp() = 0;
 	virtual void EndOp() = 0;
-	virtual void OffsetOp(Точка p) = 0;
-	virtual bool ClipOp(const Прям& r) = 0;
-	virtual bool ClipoffOp(const Прям& r) = 0;
-	virtual bool ExcludeClipOp(const Прям& r) = 0;
-	virtual bool IntersectClipOp(const Прям& r) = 0;
-	virtual bool IsPaintingOp(const Прям& r) const = 0;
-	virtual Прям GetPaintRect() const;
+	virtual void OffsetOp(Point p) = 0;
+	virtual bool ClipOp(const Rect& r) = 0;
+	virtual bool ClipoffOp(const Rect& r) = 0;
+	virtual bool ExcludeClipOp(const Rect& r) = 0;
+	virtual bool IntersectClipOp(const Rect& r) = 0;
+	virtual bool IsPaintingOp(const Rect& r) const = 0;
+	virtual Rect GetPaintRect() const;
 
-	virtual	void DrawRectOp(int x, int y, int cx, int cy, Цвет color) = 0;
-	virtual void SysDrawImageOp(int x, int y, const Рисунок& img, Цвет color);
-	virtual void SysDrawImageOp(int x, int y, const Рисунок& img, const Прям& src, Цвет color);
-	virtual void DrawImageOp(int x, int y, int cx, int cy, const Рисунок& img, const Прям& src, Цвет color);
-	virtual void DrawDataOp(int x, int y, int cx, int cy, const Ткст& data, const char *id);
-	virtual void DrawLineOp(int x1, int y1, int x2, int y2, int width, Цвет color) = 0;
+	virtual	void DrawRectOp(int x, int y, int cx, int cy, Color color) = 0;
+	virtual void SysDrawImageOp(int x, int y, const Image& img, Color color);
+	virtual void SysDrawImageOp(int x, int y, const Image& img, const Rect& src, Color color);
+	virtual void DrawImageOp(int x, int y, int cx, int cy, const Image& img, const Rect& src, Color color);
+	virtual void DrawDataOp(int x, int y, int cx, int cy, const String& data, const char *id);
+	virtual void DrawLineOp(int x1, int y1, int x2, int y2, int width, Color color) = 0;
 
-	virtual void DrawPolyPolylineOp(const Точка *vertices, int vertex_count,
+	virtual void DrawPolyPolylineOp(const Point *vertices, int vertex_count,
 	                                const int *counts, int count_count,
-	                                int width, Цвет color, Цвет doxor) = 0;
-	virtual void DrawPolyPolyPolygonOp(const Точка *vertices, int vertex_count,
+	                                int width, Color color, Color doxor) = 0;
+	virtual void DrawPolyPolyPolygonOp(const Point *vertices, int vertex_count,
 	                                   const int *subpolygon_counts, int scc,
 	                                   const int *disjunct_polygon_counts, int dpcc,
-	                                   Цвет color, int width, Цвет outline,
-	                                   uint64 pattern, Цвет doxor) = 0;
-	virtual void DrawArcOp(const Прям& rc, Точка start, Точка end, int width, Цвет color) = 0;
+	                                   Color color, int width, Color outline,
+	                                   uint64 pattern, Color doxor) = 0;
+	virtual void DrawArcOp(const Rect& rc, Point start, Point end, int width, Color color) = 0;
 
-	virtual void DrawEllipseOp(const Прям& r, Цвет color, int pen, Цвет pencolor) = 0;
-	virtual void DrawTextOp(int x, int y, int angle, const wchar *text, Шрифт font,
-		                    Цвет ink, int n, const int *dx) = 0;
-	virtual void DrawDrawingOp(const Прям& target, const Чертёж& w);
-	virtual void DrawPaintingOp(const Прям& target, const Painting& w);
+	virtual void DrawEllipseOp(const Rect& r, Color color, int pen, Color pencolor) = 0;
+	virtual void DrawTextOp(int x, int y, int angle, const wchar *text, Font font,
+		                    Color ink, int n, const int *dx) = 0;
+	virtual void DrawDrawingOp(const Rect& target, const Drawing& w);
+	virtual void DrawPaintingOp(const Rect& target, const Painting& w);
 	
-	virtual Размер GetNativeDpi() const;
+	virtual Size GetNativeDpi() const;
 	virtual void BeginNative();
 	virtual void EndNative();
 
 	virtual int  GetCloffLevel() const;
 	
-	virtual void Escape(const Ткст& data);
+	virtual void Escape(const String& data);
 
 	virtual ~Draw();
 
 // --------------
-	Размер  GetPixelsPerInch() const;
-	Размер  GetPageMMs() const;
+	Size  GetPixelsPerInch() const;
+	Size  GetPageMMs() const;
 
 	bool  Dots() const                                  { return GetInfo() & DOTS; }
 	bool  Pixels() const                                { return !Dots(); }
@@ -498,285 +498,285 @@ public:
 	int  GetNativeX(int x) const;
 	int  GetNativeY(int y) const;
 	void Native(int& x, int& y) const;
-	void Native(Точка& p) const;
-	void Native(Размер& sz) const;
-	void Native(Прям& r) const;
+	void Native(Point& p) const;
+	void Native(Size& sz) const;
+	void Native(Rect& r) const;
 
-	void  старт()                                       { BeginOp(); }
-	void  стоп()                                         { EndOp(); }
-	void  смещение(Точка p)                               { OffsetOp(p); }
-	void  смещение(int x, int y);
-	bool  Clip(const Прям& r)                           { return ClipOp(r); }
+	void  Begin()                                       { BeginOp(); }
+	void  End()                                         { EndOp(); }
+	void  Offset(Point p)                               { OffsetOp(p); }
+	void  Offset(int x, int y);
+	bool  Clip(const Rect& r)                           { return ClipOp(r); }
 	bool  Clip(int x, int y, int cx, int cy);
-	bool  Clipoff(const Прям& r)                        { return ClipoffOp(r); }
+	bool  Clipoff(const Rect& r)                        { return ClipoffOp(r); }
 	bool  Clipoff(int x, int y, int cx, int cy);
-	bool  ExcludeClip(const Прям& r)                    { return ExcludeClipOp(r); }
+	bool  ExcludeClip(const Rect& r)                    { return ExcludeClipOp(r); }
 	bool  ExcludeClip(int x, int y, int cx, int cy);
-	bool  IntersectClip(const Прям& r)                  { return IntersectClipOp(r); }
+	bool  IntersectClip(const Rect& r)                  { return IntersectClipOp(r); }
 	bool  IntersectClip(int x, int y, int cx, int cy);
-	bool  IsPainting(const Прям& r) const               { return IsPaintingOp(r); }
+	bool  IsPainting(const Rect& r) const               { return IsPaintingOp(r); }
 	bool  IsPainting(int x, int y, int cx, int cy) const;
 
-	void DrawRect(int x, int y, int cx, int cy, Цвет color);
-	void DrawRect(const Прям& rect, Цвет color);
+	void DrawRect(int x, int y, int cx, int cy, Color color);
+	void DrawRect(const Rect& rect, Color color);
 
-	void DrawImage(int x, int y, int cx, int cy, const Рисунок& img, const Прям& src);
-	void DrawImage(int x, int y, int cx, int cy, const Рисунок& img);
-	void DrawImage(int x, int y, int cx, int cy, const Рисунок& img, const Прям& src, Цвет color);
-	void DrawImage(int x, int y, int cx, int cy, const Рисунок& img, Цвет color);
+	void DrawImage(int x, int y, int cx, int cy, const Image& img, const Rect& src);
+	void DrawImage(int x, int y, int cx, int cy, const Image& img);
+	void DrawImage(int x, int y, int cx, int cy, const Image& img, const Rect& src, Color color);
+	void DrawImage(int x, int y, int cx, int cy, const Image& img, Color color);
 
-	void DrawImage(const Прям& r, const Рисунок& img, const Прям& src);
-	void DrawImage(const Прям& r, const Рисунок& img);
-	void DrawImage(const Прям& r, const Рисунок& img, const Прям& src, Цвет color);
-	void DrawImage(const Прям& r, const Рисунок& img, Цвет color);
+	void DrawImage(const Rect& r, const Image& img, const Rect& src);
+	void DrawImage(const Rect& r, const Image& img);
+	void DrawImage(const Rect& r, const Image& img, const Rect& src, Color color);
+	void DrawImage(const Rect& r, const Image& img, Color color);
 
-	void DrawImage(int x, int y, const Рисунок& img, const Прям& src);
-	void DrawImage(int x, int y, const Рисунок& img);
-	void DrawImage(int x, int y, const Рисунок& img, const Прям& src, Цвет color);
-	void DrawImage(int x, int y, const Рисунок& img, Цвет color);
+	void DrawImage(int x, int y, const Image& img, const Rect& src);
+	void DrawImage(int x, int y, const Image& img);
+	void DrawImage(int x, int y, const Image& img, const Rect& src, Color color);
+	void DrawImage(int x, int y, const Image& img, Color color);
 
-	void DrawData(int x, int y, int cx, int cy, const Ткст& data, const char *тип);
-	void DrawData(const Прям& r, const Ткст& data, const char *тип);
+	void DrawData(int x, int y, int cx, int cy, const String& data, const char *type);
+	void DrawData(const Rect& r, const String& data, const char *type);
 
-	void DrawLine(int x1, int y1, int x2, int y2, int width = 0, Цвет color = DefaultInk());
-	void DrawLine(Точка p1, Точка p2, int width = 0, Цвет color = DefaultInk());
+	void DrawLine(int x1, int y1, int x2, int y2, int width = 0, Color color = DefaultInk());
+	void DrawLine(Point p1, Point p2, int width = 0, Color color = DefaultInk());
 
-	void DrawEllipse(const Прям& r, Цвет color = DefaultInk(),
-	                 int pen = Null, Цвет pencolor = DefaultInk());
-	void DrawEllipse(int x, int y, int cx, int cy, Цвет color = DefaultInk(),
-		             int pen = Null, Цвет pencolor = DefaultInk());
+	void DrawEllipse(const Rect& r, Color color = DefaultInk(),
+	                 int pen = Null, Color pencolor = DefaultInk());
+	void DrawEllipse(int x, int y, int cx, int cy, Color color = DefaultInk(),
+		             int pen = Null, Color pencolor = DefaultInk());
 
-	void DrawArc(const Прям& rc, Точка start, Точка end, int width = 0, Цвет color = DefaultInk());
+	void DrawArc(const Rect& rc, Point start, Point end, int width = 0, Color color = DefaultInk());
 
-	void DrawPolyPolyline(const Точка *vertices, int vertex_count,
+	void DrawPolyPolyline(const Point *vertices, int vertex_count,
 	                      const int *counts, int count_count,
-	                      int width = 0, Цвет color = DefaultInk(), Цвет doxor = Null);
-	void DrawPolyPolyline(const Вектор<Точка>& vertices, const Вектор<int>& counts,
-		                  int width = 0, Цвет color = DefaultInk(), Цвет doxor = Null);
-	void DrawPolyline(const Точка *vertices, int count,
-		              int width = 0, Цвет color = DefaultInk(), Цвет doxor = Null);
-	void DrawPolyline(const Вектор<Точка>& vertices,
-		              int width = 0, Цвет color = DefaultInk(), Цвет doxor = Null);
+	                      int width = 0, Color color = DefaultInk(), Color doxor = Null);
+	void DrawPolyPolyline(const Vector<Point>& vertices, const Vector<int>& counts,
+		                  int width = 0, Color color = DefaultInk(), Color doxor = Null);
+	void DrawPolyline(const Point *vertices, int count,
+		              int width = 0, Color color = DefaultInk(), Color doxor = Null);
+	void DrawPolyline(const Vector<Point>& vertices,
+		              int width = 0, Color color = DefaultInk(), Color doxor = Null);
 
-	void   DrawPolyPolyPolygon(const Точка *vertices, int vertex_count,
+	void   DrawPolyPolyPolygon(const Point *vertices, int vertex_count,
 		                       const int *subpolygon_counts, int subpolygon_count_count,
 		                       const int *disjunct_polygon_counts, int disjunct_polygon_count_count,
-		                       Цвет color = DefaultInk(), int width = 0, Цвет outline = Null,
-		                       uint64 pattern = 0, Цвет doxor = Null);
-	void   DrawPolyPolyPolygon(const Вектор<Точка>& vertices,
-	                           const Вектор<int>& subpolygon_counts,
-	                           const Вектор<int>& disjunct_polygon_counts,
-	                           Цвет color = DefaultInk(), int width = 0, Цвет outline = Null, uint64 pattern = 0, Цвет doxor = Null);
-	void   DrawPolyPolygon(const Точка *vertices, int vertex_count,
+		                       Color color = DefaultInk(), int width = 0, Color outline = Null,
+		                       uint64 pattern = 0, Color doxor = Null);
+	void   DrawPolyPolyPolygon(const Vector<Point>& vertices,
+	                           const Vector<int>& subpolygon_counts,
+	                           const Vector<int>& disjunct_polygon_counts,
+	                           Color color = DefaultInk(), int width = 0, Color outline = Null, uint64 pattern = 0, Color doxor = Null);
+	void   DrawPolyPolygon(const Point *vertices, int vertex_count,
 	                       const int *subpolygon_counts, int subpolygon_count_count,
-	                       Цвет color = DefaultInk(), int width = 0, Цвет outline = Null, uint64 pattern = 0, Цвет doxor = Null);
-	void   DrawPolyPolygon(const Вектор<Точка>& vertices, const Вектор<int>& subpolygon_counts,
-	                       Цвет color = DefaultInk(), int width = 0, Цвет outline = Null, uint64 pattern = 0, Цвет doxor = Null);
-	void   DrawPolygons(const Точка *vertices, int vertex_count,
+	                       Color color = DefaultInk(), int width = 0, Color outline = Null, uint64 pattern = 0, Color doxor = Null);
+	void   DrawPolyPolygon(const Vector<Point>& vertices, const Vector<int>& subpolygon_counts,
+	                       Color color = DefaultInk(), int width = 0, Color outline = Null, uint64 pattern = 0, Color doxor = Null);
+	void   DrawPolygons(const Point *vertices, int vertex_count,
 	                    const int *polygon_counts, int polygon_count_count,
-	                    Цвет color = DefaultInk(), int width = 0, Цвет outline = Null, uint64 pattern = 0, Цвет doxor = Null);
-	void   DrawPolygons(const Вектор<Точка>& vertices, const Вектор<int>& polygon_counts,
-	                    Цвет color = DefaultInk(), int width = 0, Цвет outline = Null, uint64 pattern = 0, Цвет doxor = Null);
-	void   DrawPolygon(const Точка *vertices, int vertex_count,
-	                   Цвет color = DefaultInk(), int width = 0, Цвет outline = Null, uint64 pattern = 0, Цвет doxor = Null);
-	void   DrawPolygon(const Вектор<Точка>& vertices,
-	                   Цвет color = DefaultInk(), int width = 0, Цвет outline = Null, uint64 pattern = 0, Цвет doxor = Null);
+	                    Color color = DefaultInk(), int width = 0, Color outline = Null, uint64 pattern = 0, Color doxor = Null);
+	void   DrawPolygons(const Vector<Point>& vertices, const Vector<int>& polygon_counts,
+	                    Color color = DefaultInk(), int width = 0, Color outline = Null, uint64 pattern = 0, Color doxor = Null);
+	void   DrawPolygon(const Point *vertices, int vertex_count,
+	                   Color color = DefaultInk(), int width = 0, Color outline = Null, uint64 pattern = 0, Color doxor = Null);
+	void   DrawPolygon(const Vector<Point>& vertices,
+	                   Color color = DefaultInk(), int width = 0, Color outline = Null, uint64 pattern = 0, Color doxor = Null);
 
-	void DrawDrawing(const Прям& r, const Чертёж& iw) { DrawDrawingOp(r, iw); }
-	void DrawDrawing(int x, int y, int cx, int cy, const Чертёж& iw);
-	void DrawDrawing(int x, int y, const Чертёж& iw);
+	void DrawDrawing(const Rect& r, const Drawing& iw) { DrawDrawingOp(r, iw); }
+	void DrawDrawing(int x, int y, int cx, int cy, const Drawing& iw);
+	void DrawDrawing(int x, int y, const Drawing& iw);
 
-	void DrawPainting(const Прям& r, const Painting& iw) { DrawPaintingOp(r, iw); }
+	void DrawPainting(const Rect& r, const Painting& iw) { DrawPaintingOp(r, iw); }
 	void DrawPainting(int x, int y, int cx, int cy, const Painting& iw);
 	void DrawPainting(int x, int y, const Painting& iw);
 
-	void DrawText(int x, int y, int angle, const wchar *text, Шрифт font = StdFont(),
-		          Цвет ink = DefaultInk(), int n = -1, const int *dx = NULL);
-	void DrawText(int x, int y, const wchar *text, Шрифт font = StdFont(),
-		          Цвет ink = DefaultInk(), int n = -1, const int *dx = NULL);
+	void DrawText(int x, int y, int angle, const wchar *text, Font font = StdFont(),
+		          Color ink = DefaultInk(), int n = -1, const int *dx = NULL);
+	void DrawText(int x, int y, const wchar *text, Font font = StdFont(),
+		          Color ink = DefaultInk(), int n = -1, const int *dx = NULL);
 
-	void DrawText(int x, int y, const ШТкст& text, Шрифт font = StdFont(),
-		          Цвет ink = DefaultInk(), const int *dx = NULL);
-	void DrawText(int x, int y, int angle, const ШТкст& text, Шрифт font = StdFont(),
-		          Цвет ink = DefaultInk(), const int *dx = NULL);
+	void DrawText(int x, int y, const WString& text, Font font = StdFont(),
+		          Color ink = DefaultInk(), const int *dx = NULL);
+	void DrawText(int x, int y, int angle, const WString& text, Font font = StdFont(),
+		          Color ink = DefaultInk(), const int *dx = NULL);
 
 	void DrawText(int x, int y, int angle, const char *text, byte charset,
-	              Шрифт font = StdFont(), Цвет ink = DefaultInk(), int n = -1, const int *dx = NULL);
-	void DrawText(int x, int y, const char *text, byte charset, Шрифт font = StdFont(),
-		          Цвет ink = DefaultInk(), int n = -1, const int *dx = NULL);
+	              Font font = StdFont(), Color ink = DefaultInk(), int n = -1, const int *dx = NULL);
+	void DrawText(int x, int y, const char *text, byte charset, Font font = StdFont(),
+		          Color ink = DefaultInk(), int n = -1, const int *dx = NULL);
 
 	void DrawText(int x, int y, int angle, const char *text,
-	              Шрифт font = StdFont(), Цвет ink = DefaultInk(), int n = -1, const int *dx = NULL);
-	void DrawText(int x, int y, const char *text, Шрифт font = StdFont(),
-		          Цвет ink = DefaultInk(), int n = -1, const int *dx = NULL);
+	              Font font = StdFont(), Color ink = DefaultInk(), int n = -1, const int *dx = NULL);
+	void DrawText(int x, int y, const char *text, Font font = StdFont(),
+		          Color ink = DefaultInk(), int n = -1, const int *dx = NULL);
 
-	void DrawText(int x, int y, const Ткст& text, Шрифт font = StdFont(),
-		          Цвет ink = DefaultInk(), const int *dx = NULL);
-	void DrawText(int x, int y, int angle, const Ткст& text, Шрифт font = StdFont(),
-		          Цвет ink = DefaultInk(), const int *dx = NULL);
+	void DrawText(int x, int y, const String& text, Font font = StdFont(),
+		          Color ink = DefaultInk(), const int *dx = NULL);
+	void DrawText(int x, int y, int angle, const String& text, Font font = StdFont(),
+		          Color ink = DefaultInk(), const int *dx = NULL);
 
 	static void SinCos(int angle, double& sina, double& cosa);
 	
 	// deprecated:
-	static void SetStdFont(Шрифт font)                   { РНЦП::SetStdFont(font); }
-	static Шрифт GetStdFont()                            { return РНЦП::GetStdFont(); }
-	static Размер GetStdFontSize()                        { return РНЦП::GetStdFontSize(); }
+	static void SetStdFont(Font font)                   { UPP::SetStdFont(font); }
+	static Font GetStdFont()                            { return UPP::GetStdFont(); }
+	static Size GetStdFontSize()                        { return UPP::GetStdFontSize(); }
 	static int  GetStdFontCy()                          { return GetStdFontSize().cy; }
-	Размер   GetPagePixels() const                        { return GetPageSize(); }
+	Size   GetPagePixels() const                        { return GetPageSize(); }
 
 protected:
-	Цвет ResolveInk(Цвет c) const                     { return c == DefaultInk() ? GetDefaultInk() : c; }
-	virtual Цвет GetDefaultInk() const;
+	Color ResolveInk(Color c) const                     { return c == DefaultInk() ? GetDefaultInk() : c; }
+	virtual Color GetDefaultInk() const;
 };
 
-void DrawImageBandRLE(Draw& w, int x, int y, const Рисунок& m, int minp);
+void DrawImageBandRLE(Draw& w, int x, int y, const Image& m, int minp);
 
 class DataDrawer {
 	typedef DataDrawer *(*Factory)();
 	template <class T> static DataDrawer *FactoryFn() { return new T; }
 	static void AddFormat(const char *id, Factory f);
-	static ВекторМап<Ткст, void *>& вКарту();
+	static VectorMap<String, void *>& Map();
 
 public:
-	virtual void  открой(const Ткст& data, int cx, int cy) = 0;
+	virtual void  Open(const String& data, int cx, int cy) = 0;
 	virtual void  Render(ImageBuffer& ib) = 0;
 	virtual ~DataDrawer();
 
-	static  Один<DataDrawer> создай(const Ткст& id);
+	static  One<DataDrawer> Create(const String& id);
 
-	template <class T>	static void регистрируй(const char *id)  { AddFormat(id, &DataDrawer::FactoryFn<T>); }
+	template <class T>	static void Register(const char *id)  { AddFormat(id, &DataDrawer::FactoryFn<T>); }
 };
 
-class Чертёж : public ТипЗнач<Чертёж, 49, Движимое<Чертёж> > {
-	Размер       size;
-	Ткст     data;
-	МассивЗнач val;
+class Drawing : public ValueType<Drawing, 49, Moveable<Drawing> > {
+	Size       size;
+	String     data;
+	ValueArray val;
 
 	friend class DrawingDraw;
 	friend class Draw;
 
 public:
-	operator bool() const          { return !data.пустой(); }
-	Размер дайРазм() const           { return size; }
-	void устРазм(Размер sz)          { size = sz; }
-	void устРазм(int cx, int cy)   { size = Размер(cx, cy); }
+	operator bool() const          { return !data.IsEmpty(); }
+	Size GetSize() const           { return size; }
+	void SetSize(Size sz)          { size = sz; }
+	void SetSize(int cx, int cy)   { size = Size(cx, cy); }
 
-	Размер RatioSize(int cx, int cy) const;
-	Размер RatioSize(Размер sz) const  { return RatioSize(sz.cx, sz.cy); }
+	Size RatioSize(int cx, int cy) const;
+	Size RatioSize(Size sz) const  { return RatioSize(sz.cx, sz.cy); }
 
-	void очисть()                   { data.очисть(); size = Null; }
+	void Clear()                   { data.Clear(); size = Null; }
 
-	void приставь(Чертёж& dw);
+	void Append(Drawing& dw);
 
-	void сериализуй(Поток& s);
-	void вРяр(РярВВ& xio)        { XmlizeBySerialize(xio, *this); }
-	void вДжейсон(ДжейсонВВ& jio)      { JsonizeBySerialize(jio, *this); }
+	void Serialize(Stream& s);
+	void Xmlize(XmlIO& xio)        { XmlizeBySerialize(xio, *this); }
+	void Jsonize(JsonIO& jio)      { JsonizeBySerialize(jio, *this); }
 
-	bool    экзПусто_ли() const             { return data.пустой(); }
-	void    устПусто()                          { size = Null; data.очисть(); }
+	bool    IsNullInstance() const             { return data.IsEmpty(); }
+	void    SetNull()                          { size = Null; data.Clear(); }
 
-	bool    operator==(const Чертёж& b) const { return val == b.val && data == b.data && size == b.size; }
-	Ткст  вТкст() const                   { return "drawing " + какТкст(size); }
-	hash_t  дайХэшЗнач() const               { return комбинируйХэш(data, val); }
+	bool    operator==(const Drawing& b) const { return val == b.val && data == b.data && size == b.size; }
+	String  ToString() const                   { return "drawing " + AsString(size); }
+	hash_t  GetHashValue() const               { return CombineHash(data, val); }
 
-	operator Значение() const                     { return богатыйВЗнач(*this); }
-	Чертёж(const Значение& src)                  { *this = src.дай<Чертёж>(); }
+	operator Value() const                     { return RichToValue(*this); }
+	Drawing(const Value& src)                  { *this = src.Get<Drawing>(); }
 
-	Чертёж()                                  { устПусто(); }
-	Чертёж(const Обнул&)                     { устПусто(); }
+	Drawing()                                  { SetNull(); }
+	Drawing(const Nuller&)                     { SetNull(); }
 };
 
 class DrawingDraw : public Draw {
 public:
 	virtual dword GetInfo() const;
-	virtual Размер  GetPageSize() const;
-	virtual Прям  GetPaintRect() const;
+	virtual Size  GetPageSize() const;
+	virtual Rect  GetPaintRect() const;
 	
 	virtual void BeginOp();
 	virtual void EndOp();
-	virtual void OffsetOp(Точка p);
-	virtual bool ClipOp(const Прям& r);
-	virtual bool ClipoffOp(const Прям& r);
-	virtual bool ExcludeClipOp(const Прям& r);
-	virtual bool IntersectClipOp(const Прям& r);
-	virtual bool IsPaintingOp(const Прям& r) const;
+	virtual void OffsetOp(Point p);
+	virtual bool ClipOp(const Rect& r);
+	virtual bool ClipoffOp(const Rect& r);
+	virtual bool ExcludeClipOp(const Rect& r);
+	virtual bool IntersectClipOp(const Rect& r);
+	virtual bool IsPaintingOp(const Rect& r) const;
 
-	virtual	void DrawRectOp(int x, int y, int cx, int cy, Цвет color);
-	virtual void DrawImageOp(int x, int y, int cx, int cy, const Рисунок& img, const Прям& src, Цвет color);
-	virtual void DrawDataOp(int x, int y, int cx, int cy, const Ткст& data, const char *id);
-	virtual void DrawLineOp(int x1, int y1, int x2, int y2, int width, Цвет color);
-	virtual void DrawPolyPolylineOp(const Точка *vertices, int vertex_count,
+	virtual	void DrawRectOp(int x, int y, int cx, int cy, Color color);
+	virtual void DrawImageOp(int x, int y, int cx, int cy, const Image& img, const Rect& src, Color color);
+	virtual void DrawDataOp(int x, int y, int cx, int cy, const String& data, const char *id);
+	virtual void DrawLineOp(int x1, int y1, int x2, int y2, int width, Color color);
+	virtual void DrawPolyPolylineOp(const Point *vertices, int vertex_count,
 	                                const int *counts, int count_count,
-	                                int width, Цвет color, Цвет doxor);
-	virtual void DrawPolyPolyPolygonOp(const Точка *vertices, int vertex_count,
+	                                int width, Color color, Color doxor);
+	virtual void DrawPolyPolyPolygonOp(const Point *vertices, int vertex_count,
 	                                   const int *subpolygon_counts, int scc,
 	                                   const int *disjunct_polygon_counts, int dpcc,
-	                                   Цвет color, int width, Цвет outline,
-	                                   uint64 pattern, Цвет doxor);
-	virtual void DrawEllipseOp(const Прям& r, Цвет color, int pen, Цвет pencolor);
-	virtual void DrawArcOp(const Прям& rc, Точка start, Точка end, int pen, Цвет pencolor);
-	virtual void DrawTextOp(int x, int y, int angle, const wchar *text, Шрифт font,
-		                    Цвет ink, int n, const int *dx);
+	                                   Color color, int width, Color outline,
+	                                   uint64 pattern, Color doxor);
+	virtual void DrawEllipseOp(const Rect& r, Color color, int pen, Color pencolor);
+	virtual void DrawArcOp(const Rect& rc, Point start, Point end, int pen, Color pencolor);
+	virtual void DrawTextOp(int x, int y, int angle, const wchar *text, Font font,
+		                    Color ink, int n, const int *dx);
 
-	virtual void DrawDrawingOp(const Прям& target, const Чертёж& w);
-	virtual void DrawPaintingOp(const Прям& target, const Painting& w);
+	virtual void DrawDrawingOp(const Rect& target, const Drawing& w);
+	virtual void DrawPaintingOp(const Rect& target, const Painting& w);
 	
-	virtual void Escape(const Ткст& data);
+	virtual void Escape(const String& data);
 	
 private:
-	Размер         size;
+	Size         size;
 	bool         dots;
-	ТкстПоток drawing;
-	МассивЗнач   val;
+	StringStream drawing;
+	ValueArray   val;
 
-	Поток&      DrawingOp(int code);
+	Stream&      DrawingOp(int code);
 
 public:
-	void     создай(int cx, int cy, bool dots = true);
-	void     создай(Размер sz, bool dots = true);
+	void     Create(int cx, int cy, bool dots = true);
+	void     Create(Size sz, bool dots = true);
 
-	Размер     дайРазм() const                  { return size; }
+	Size     GetSize() const                  { return size; }
 
-	Чертёж  дайРез();
-	operator Чертёж()                        { return дайРез(); }
+	Drawing  GetResult();
+	operator Drawing()                        { return GetResult(); }
 
 	DrawingDraw();
 	DrawingDraw(int cx, int cy, bool dots = true);
-	DrawingDraw(Размер sz, bool dots = true);
+	DrawingDraw(Size sz, bool dots = true);
 };
 
 class NilDraw : public Draw {
 public:
 	virtual dword GetInfo() const;
-	virtual Размер  GetPageSize() const;
+	virtual Size  GetPageSize() const;
 	virtual void BeginOp();
 	virtual void EndOp();
-	virtual void OffsetOp(Точка p);
-	virtual bool ClipOp(const Прям& r);
-	virtual bool ClipoffOp(const Прям& r);
-	virtual bool ExcludeClipOp(const Прям& r);
-	virtual bool IntersectClipOp(const Прям& r);
-	virtual bool IsPaintingOp(const Прям& r) const;
-	virtual Прям GetPaintRect() const;
+	virtual void OffsetOp(Point p);
+	virtual bool ClipOp(const Rect& r);
+	virtual bool ClipoffOp(const Rect& r);
+	virtual bool ExcludeClipOp(const Rect& r);
+	virtual bool IntersectClipOp(const Rect& r);
+	virtual bool IsPaintingOp(const Rect& r) const;
+	virtual Rect GetPaintRect() const;
 
-	virtual	void DrawRectOp(int x, int y, int cx, int cy, Цвет color);
-	virtual void DrawImageOp(int x, int y, int cx, int cy, const Рисунок& img, const Прям& src, Цвет color);
-	virtual void DrawDataOp(int x, int y, int cx, int cy, const Ткст& data, const char *id);
-	virtual void DrawLineOp(int x1, int y1, int x2, int y2, int width, Цвет color);
-	virtual void DrawPolyPolylineOp(const Точка *vertices, int vertex_count,
+	virtual	void DrawRectOp(int x, int y, int cx, int cy, Color color);
+	virtual void DrawImageOp(int x, int y, int cx, int cy, const Image& img, const Rect& src, Color color);
+	virtual void DrawDataOp(int x, int y, int cx, int cy, const String& data, const char *id);
+	virtual void DrawLineOp(int x1, int y1, int x2, int y2, int width, Color color);
+	virtual void DrawPolyPolylineOp(const Point *vertices, int vertex_count,
 	                                const int *counts, int count_count,
-	                                int width, Цвет color, Цвет doxor);
-	virtual void DrawPolyPolyPolygonOp(const Точка *vertices, int vertex_count,
+	                                int width, Color color, Color doxor);
+	virtual void DrawPolyPolyPolygonOp(const Point *vertices, int vertex_count,
 	                                   const int *subpolygon_counts, int scc,
 	                                   const int *disjunct_polygon_counts, int dpcc,
-	                                   Цвет color, int width, Цвет outline,
-	                                   uint64 pattern, Цвет doxor);
-	virtual void DrawArcOp(const Прям& rc, Точка start, Точка end, int width, Цвет color);
-	virtual void DrawEllipseOp(const Прям& r, Цвет color, int pen, Цвет pencolor);
-	virtual void DrawTextOp(int x, int y, int angle, const wchar *text, Шрифт font,
-		                    Цвет ink, int n, const int *dx);
-	virtual void DrawDrawingOp(const Прям& target, const Чертёж& w);
-	virtual void DrawPaintingOp(const Прям& target, const Painting& w);
+	                                   Color color, int width, Color outline,
+	                                   uint64 pattern, Color doxor);
+	virtual void DrawArcOp(const Rect& rc, Point start, Point end, int width, Color color);
+	virtual void DrawEllipseOp(const Rect& r, Color color, int pen, Color pencolor);
+	virtual void DrawTextOp(int x, int y, int angle, const wchar *text, Font font,
+		                    Color ink, int n, const int *dx);
+	virtual void DrawDrawingOp(const Rect& target, const Drawing& w);
+	virtual void DrawPaintingOp(const Rect& target, const Painting& w);
 };
 
 struct DrawProxy : Draw {
@@ -786,138 +786,138 @@ struct DrawProxy : Draw {
 	
 	virtual dword GetInfo() const;
 
-	virtual Размер GetPageSize() const;
+	virtual Size GetPageSize() const;
 	virtual void StartPage();
 	virtual void EndPage();
 
 	virtual void BeginOp();
 	virtual void EndOp();
-	virtual void OffsetOp(Точка p);
-	virtual bool ClipOp(const Прям& r);
-	virtual bool ClipoffOp(const Прям& r);
-	virtual bool ExcludeClipOp(const Прям& r);
-	virtual bool IntersectClipOp(const Прям& r);
-	virtual bool IsPaintingOp(const Прям& r) const;
-	virtual Прям GetPaintRect() const;
+	virtual void OffsetOp(Point p);
+	virtual bool ClipOp(const Rect& r);
+	virtual bool ClipoffOp(const Rect& r);
+	virtual bool ExcludeClipOp(const Rect& r);
+	virtual bool IntersectClipOp(const Rect& r);
+	virtual bool IsPaintingOp(const Rect& r) const;
+	virtual Rect GetPaintRect() const;
 
-	virtual	void DrawRectOp(int x, int y, int cx, int cy, Цвет color);
-	virtual void SysDrawImageOp(int x, int y, const Рисунок& img, Цвет color);
-	virtual void SysDrawImageOp(int x, int y, const Рисунок& img, const Прям& src, Цвет color);
-	virtual void DrawImageOp(int x, int y, int cx, int cy, const Рисунок& img, const Прям& src, Цвет color);
-	virtual void DrawDataOp(int x, int y, int cx, int cy, const Ткст& data, const char *id);
-	virtual void DrawLineOp(int x1, int y1, int x2, int y2, int width, Цвет color);
+	virtual	void DrawRectOp(int x, int y, int cx, int cy, Color color);
+	virtual void SysDrawImageOp(int x, int y, const Image& img, Color color);
+	virtual void SysDrawImageOp(int x, int y, const Image& img, const Rect& src, Color color);
+	virtual void DrawImageOp(int x, int y, int cx, int cy, const Image& img, const Rect& src, Color color);
+	virtual void DrawDataOp(int x, int y, int cx, int cy, const String& data, const char *id);
+	virtual void DrawLineOp(int x1, int y1, int x2, int y2, int width, Color color);
 
-	virtual void DrawPolyPolylineOp(const Точка *vertices, int vertex_count,
+	virtual void DrawPolyPolylineOp(const Point *vertices, int vertex_count,
 	                                const int *counts, int count_count,
-	                                int width, Цвет color, Цвет doxor);
-	virtual void DrawPolyPolyPolygonOp(const Точка *vertices, int vertex_count,
+	                                int width, Color color, Color doxor);
+	virtual void DrawPolyPolyPolygonOp(const Point *vertices, int vertex_count,
 	                                   const int *subpolygon_counts, int scc,
 	                                   const int *disjunct_polygon_counts, int dpcc,
-	                                   Цвет color, int width, Цвет outline,
-	                                   uint64 pattern, Цвет doxor);
-	virtual void DrawArcOp(const Прям& rc, Точка start, Точка end, int width, Цвет color);
+	                                   Color color, int width, Color outline,
+	                                   uint64 pattern, Color doxor);
+	virtual void DrawArcOp(const Rect& rc, Point start, Point end, int width, Color color);
 
-	virtual void DrawEllipseOp(const Прям& r, Цвет color, int pen, Цвет pencolor);
-	virtual void DrawTextOp(int x, int y, int angle, const wchar *text, Шрифт font,
-		                    Цвет ink, int n, const int *dx);
-	virtual void DrawDrawingOp(const Прям& target, const Чертёж& w);
-	virtual void DrawPaintingOp(const Прям& target, const Painting& w);
+	virtual void DrawEllipseOp(const Rect& r, Color color, int pen, Color pencolor);
+	virtual void DrawTextOp(int x, int y, int angle, const wchar *text, Font font,
+		                    Color ink, int n, const int *dx);
+	virtual void DrawDrawingOp(const Rect& target, const Drawing& w);
+	virtual void DrawPaintingOp(const Rect& target, const Painting& w);
 	
-	virtual Размер GetNativeDpi() const;
+	virtual Size GetNativeDpi() const;
 	virtual void BeginNative();
 	virtual void EndNative();
 
 	virtual int  GetCloffLevel() const;
 	
-	virtual void Escape(const Ткст& data);
+	virtual void Escape(const String& data);
 };
 
 class ImageAnyDraw : public Draw {
 	Draw *draw;
 	
-	void иниц(Размер sz);
+	void Init(Size sz);
 
 public:
 	virtual dword GetInfo() const;
-	virtual Размер  GetPageSize() const;
+	virtual Size  GetPageSize() const;
 	virtual void BeginOp();
 	virtual void EndOp();
-	virtual void OffsetOp(Точка p);
-	virtual bool ClipOp(const Прям& r);
-	virtual bool ClipoffOp(const Прям& r);
-	virtual bool ExcludeClipOp(const Прям& r);
-	virtual bool IntersectClipOp(const Прям& r);
-	virtual bool IsPaintingOp(const Прям& r) const;
-	virtual Прям GetPaintRect() const;
+	virtual void OffsetOp(Point p);
+	virtual bool ClipOp(const Rect& r);
+	virtual bool ClipoffOp(const Rect& r);
+	virtual bool ExcludeClipOp(const Rect& r);
+	virtual bool IntersectClipOp(const Rect& r);
+	virtual bool IsPaintingOp(const Rect& r) const;
+	virtual Rect GetPaintRect() const;
 
-	virtual	void DrawRectOp(int x, int y, int cx, int cy, Цвет color);
-	virtual void DrawImageOp(int x, int y, int cx, int cy, const Рисунок& img, const Прям& src, Цвет color);
-	virtual void DrawDataOp(int x, int y, int cx, int cy, const Ткст& data, const char *id);
-	virtual void DrawLineOp(int x1, int y1, int x2, int y2, int width, Цвет color);
-	virtual void DrawPolyPolylineOp(const Точка *vertices, int vertex_count,
+	virtual	void DrawRectOp(int x, int y, int cx, int cy, Color color);
+	virtual void DrawImageOp(int x, int y, int cx, int cy, const Image& img, const Rect& src, Color color);
+	virtual void DrawDataOp(int x, int y, int cx, int cy, const String& data, const char *id);
+	virtual void DrawLineOp(int x1, int y1, int x2, int y2, int width, Color color);
+	virtual void DrawPolyPolylineOp(const Point *vertices, int vertex_count,
 	                                const int *counts, int count_count,
-	                                int width, Цвет color, Цвет doxor);
-	virtual void DrawPolyPolyPolygonOp(const Точка *vertices, int vertex_count,
+	                                int width, Color color, Color doxor);
+	virtual void DrawPolyPolyPolygonOp(const Point *vertices, int vertex_count,
 	                                   const int *subpolygon_counts, int scc,
 	                                   const int *disjunct_polygon_counts, int dpcc,
-	                                   Цвет color, int width, Цвет outline,
-	                                   uint64 pattern, Цвет doxor);
-	virtual void DrawArcOp(const Прям& rc, Точка start, Точка end, int width, Цвет color);
-	virtual void DrawEllipseOp(const Прям& r, Цвет color, int pen, Цвет pencolor);
-	virtual void DrawTextOp(int x, int y, int angle, const wchar *text, Шрифт font,
-		                    Цвет ink, int n, const int *dx);
-	virtual void DrawDrawingOp(const Прям& target, const Чертёж& w);
-	virtual void DrawPaintingOp(const Прям& target, const Painting& w);
+	                                   Color color, int width, Color outline,
+	                                   uint64 pattern, Color doxor);
+	virtual void DrawArcOp(const Rect& rc, Point start, Point end, int width, Color color);
+	virtual void DrawEllipseOp(const Rect& r, Color color, int pen, Color pencolor);
+	virtual void DrawTextOp(int x, int y, int angle, const wchar *text, Font font,
+		                    Color ink, int n, const int *dx);
+	virtual void DrawDrawingOp(const Rect& target, const Drawing& w);
+	virtual void DrawPaintingOp(const Rect& target, const Painting& w);
 
 public:
 	static bool IsAvailable();
 
-	operator Рисунок() const;
+	operator Image() const;
 	
-	ImageAnyDraw(Размер sz);
+	ImageAnyDraw(Size sz);
 	ImageAnyDraw(int cx, int cy);
 	
 	~ImageAnyDraw();
 };
 
-void         AddNotEmpty(Вектор<Прям>& result, int left, int right, int top, int bottom);
-bool         Subtract(const Прям& r, const Прям& sub, Вектор<Прям>& result);
-bool         Subtract(const Вектор<Прям>& rr, const Прям& sub, Вектор<Прям>& result);
-Вектор<Прям> Subtract(const Вектор<Прям>& rr, const Прям& sub, bool& changed);
-Вектор<Прям> пересек(const Вектор<Прям>& b, const Прям& a, bool& changed);
+void         AddNotEmpty(Vector<Rect>& result, int left, int right, int top, int bottom);
+bool         Subtract(const Rect& r, const Rect& sub, Vector<Rect>& result);
+bool         Subtract(const Vector<Rect>& rr, const Rect& sub, Vector<Rect>& result);
+Vector<Rect> Subtract(const Vector<Rect>& rr, const Rect& sub, bool& changed);
+Vector<Rect> Intersect(const Vector<Rect>& b, const Rect& a, bool& changed);
 
-void Subtract(Вектор<Прям>& rr, const Прям& sub);
-void союз(Вектор<Прям>& rr, const Прям& add);
+void Subtract(Vector<Rect>& rr, const Rect& sub);
+void Union(Vector<Rect>& rr, const Rect& add);
 
-Вектор<Прям> Intersection(const Вектор<Прям>& b, const Прям& a);
+Vector<Rect> Intersection(const Vector<Rect>& b, const Rect& a);
 
-void AddRefreshRect(Вектор<Прям>& invalid, const Прям& _r);
+void AddRefreshRect(Vector<Rect>& invalid, const Rect& _r);
 
-void DrawDragFrame(Draw& w, const Прям& r, int n, const int *pattern, Цвет color, int animation);
-void DrawDragFrame(Draw& w, const Прям& r, int n, int pattern, Цвет color, int animation);
+void DrawDragFrame(Draw& w, const Rect& r, int n, const int *pattern, Color color, int animation);
+void DrawDragFrame(Draw& w, const Rect& r, int n, int pattern, Color color, int animation);
 
-void DrawRect(Draw& w, const Прям& rect, const Рисунок& img, bool ralgn = false); //??? TODO
-void DrawRect(Draw& w, int x, int y, int cx, int cy, const Рисунок& img, bool ra = false);
+void DrawRect(Draw& w, const Rect& rect, const Image& img, bool ralgn = false); //??? СДЕЛАТЬ
+void DrawRect(Draw& w, int x, int y, int cx, int cy, const Image& img, bool ra = false);
 
-void DrawTiles(Draw& w, int x, int y, int cx, int cy, const Рисунок& img);
-void DrawTiles(Draw& w, const Прям& rect, const Рисунок& img);
+void DrawTiles(Draw& w, int x, int y, int cx, int cy, const Image& img);
+void DrawTiles(Draw& w, const Rect& rect, const Image& img);
 
-void DrawFatFrame(Draw& w, int x, int y, int cx, int cy, Цвет color, int n);
-void DrawFatFrame(Draw& w, const Прям& r, Цвет color, int n);
+void DrawFatFrame(Draw& w, int x, int y, int cx, int cy, Color color, int n);
+void DrawFatFrame(Draw& w, const Rect& r, Color color, int n);
 
 void DrawFrame(Draw& w, int x, int y, int cx, int cy,
-			   Цвет leftcolor, Цвет topcolor, Цвет rightcolor, Цвет bottomcolor);
-void DrawFrame(Draw& w, const Прям& r,
-			   Цвет leftcolor, Цвет topcolor, Цвет rightcolor, Цвет bottomcolor);
+			   Color leftcolor, Color topcolor, Color rightcolor, Color bottomcolor);
+void DrawFrame(Draw& w, const Rect& r,
+			   Color leftcolor, Color topcolor, Color rightcolor, Color bottomcolor);
 void DrawFrame(Draw& w, int x, int y, int cx, int cy,
-			   Цвет topleftcolor, Цвет bottomrightcolor);
-void DrawFrame(Draw& w, const Прям& r,
-			   Цвет topleftcolor, Цвет bottomrightcolor);
-void DrawFrame(Draw& w, int x, int y, int cx, int cy, Цвет color);
-void DrawFrame(Draw& w, const Прям& r, Цвет color);
+			   Color topleftcolor, Color bottomrightcolor);
+void DrawFrame(Draw& w, const Rect& r,
+			   Color topleftcolor, Color bottomrightcolor);
+void DrawFrame(Draw& w, int x, int y, int cx, int cy, Color color);
+void DrawFrame(Draw& w, const Rect& r, Color color);
 
-void DrawBorder(Draw& w, int x, int y, int cx, int cy, const ColorF *colors_ltrd); //TODO
-void DrawBorder(Draw& w, const Прям& r, const ColorF *colors_ltrd);
+void DrawBorder(Draw& w, int x, int y, int cx, int cy, const ColorF *colors_ltrd); //СДЕЛАТЬ
+void DrawBorder(Draw& w, const Rect& r, const ColorF *colors_ltrd);
 
 const ColorF *BlackBorder();
 const ColorF *WhiteBorder();
@@ -931,24 +931,24 @@ const ColorF *ThinOutsetBorder();
 const ColorF *ThinInsetBorder();
 
 void DrawBorder(Draw& w, int x, int y, int cx, int cy, const ColorF *(*colors_ltrd)());
-void DrawBorder(Draw& w, const Прям& r, const ColorF *(*colors_ltrd)());
+void DrawBorder(Draw& w, const Rect& r, const ColorF *(*colors_ltrd)());
 
-void DrawRectMinusRect(Draw& w, const Прям& rect, const Прям& inner, Цвет color);
+void DrawRectMinusRect(Draw& w, const Rect& rect, const Rect& inner, Color color);
 
-void DrawHighlightImage(Draw& w, int x, int y, const Рисунок& img, bool highlight = true,
-                        bool enabled = true, Цвет maskcolor = SColorPaper);
+void DrawHighlightImage(Draw& w, int x, int y, const Image& img, bool highlight = true,
+                        bool enabled = true, Color maskcolor = SColorPaper);
 
-Цвет GradientColor(Цвет fc, Цвет tc, int i, int n);
+Color GradientColor(Color fc, Color tc, int i, int n);
 
 void DrawTextEllipsis(Draw& w, int x, int y, int cx, const char *text, const char *ellipsis,
-				      Шрифт font = StdFont(), Цвет ink = SColorText(), int n = -1);
+				      Font font = StdFont(), Color ink = SColorText(), int n = -1);
 void DrawTextEllipsis(Draw& w, int x, int y, int cx, const wchar *text, const char *ellipsis,
-				      Шрифт font = StdFont(), Цвет ink = SColorText(), int n = -1);
+				      Font font = StdFont(), Color ink = SColorText(), int n = -1);
 
-Размер GetTLTextSize(const wchar *text, Шрифт font = StdFont());
-int  GetTLTextHeight(const wchar *s, Шрифт font = StdFont());
-void DrawTLText(Draw& draw, int x, int y, int cx, const wchar *text, Шрифт font = StdFont(),
-                Цвет ink = SColorText(), int accesskey = 0);
+Size GetTLTextSize(const wchar *text, Font font = StdFont());
+int  GetTLTextHeight(const wchar *s, Font font = StdFont());
+void DrawTLText(Draw& draw, int x, int y, int cx, const wchar *text, Font font = StdFont(),
+                Color ink = SColorText(), int accesskey = 0);
 
 enum {
 	BUTTON_NORMAL, BUTTON_OK, BUTTON_HIGHLIGHT, BUTTON_PUSH, BUTTON_DISABLED, BUTTON_CHECKED,
@@ -958,12 +958,12 @@ enum {
 	BUTTON_SCROLL = 0x800,
 };
 
-void DrawXPButton(Draw& w, Прям r, int тип);
+void DrawXPButton(Draw& w, Rect r, int type);
 
 struct PdfSignatureInfo;
-typedef Ткст (*DrawingToPdfFnType)(const Массив<Чертёж>& report, Размер pagesize, int margin,
+typedef String (*DrawingToPdfFnType)(const Array<Drawing>& report, Size pagesize, int margin,
                                      bool pdfa, const PdfSignatureInfo *sign);
-typedef void (*PdfDrawJPEGFnType)(Draw& w, int x, int y, int cx, int cy, const Ткст& jpeg_data);
+typedef void (*PdfDrawJPEGFnType)(Draw& w, int x, int y, int cx, int cy, const String& jpeg_data);
 
 void SetDrawingToPdfFn(DrawingToPdfFnType Pdf, PdfDrawJPEGFnType Jpeg);
 DrawingToPdfFnType GetDrawingToPdfFn();
@@ -983,9 +983,9 @@ enum {
 	CMAP_ALLOW_SYMBOL = 2,
 };
 
-bool ReadCmap(const char *ptr, int count, Событие<int, int, int> range, dword flags = 0);
-bool ReadCmap(Шрифт font, Событие<int, int, int> range, dword flags = 0);
-bool GetPanoseNumber(Шрифт font, byte *panose);
+bool ReadCmap(const char *ptr, int count, Event<int, int, int> range, dword flags = 0);
+bool ReadCmap(Font font, Event<int, int, int> range, dword flags = 0);
+bool GetPanoseNumber(Font font, byte *panose);
 
 }
 

@@ -15,7 +15,7 @@
  *   disclaimer in the documentation and/or other materials
  *   provided with the distribution.
  *
- *   Neither the имя of the copyright holder nor the names
+ *   Neither the name of the copyright holder nor the names
  *   of any other contributors may be used to endorse or
  *   promote products derived from this software without
  *   specific prior written permission.
@@ -44,12 +44,12 @@
 #include "session.h"
 
 
-/* макс. length of a quoted string after libssh2_shell_quotearg() processing */
+/* Max. length of a quoted string after libssh2_shell_quotearg() processing */
 #define _libssh2_shell_quotedsize(s)     (3 * strlen(s) + 2)
 
 /*
   This function quotes a string in a way suitable to be used with a
-  shell, e.g. the file имя
+  shell, e.g. the file name
   one two
   becomes
   'one two'
@@ -87,7 +87,7 @@
    _  _ _
   'a'\!'b'
 
-  The result буфер must be large enough for the expanded result. A
+  The result buffer must be large enough for the expanded result. A
   bad case regarding expansion is alternating characters and
   apostrophes:
 
@@ -107,16 +107,16 @@
   represented as 6 characters: a' -> a'"'"'
   o  String terminator (+1)
 
-  A result буфер three times the size of the input буфер + 2
+  A result buffer three times the size of the input buffer + 2
   characters should be safe.
 
   References:
   o  csh-compatible quotation (special handling for '!' etc.), see
   http://www.grymoire.com/Unix/Csh.html#toc-uh-10
 
-  Return значение:
-  длина of the resulting string (not counting the terminating '\0'),
-  or 0 in case of errors, e.g. result буфер too small
+  Return value:
+  Length of the resulting string (not counting the terminating '\0'),
+  or 0 in case of errors, e.g. result buffer too small
 
   Note: this function could possible be used elsewhere within libssh2, but
   until then it is kept static and in this source file.
@@ -145,7 +145,7 @@ shell_quotearg(const char *path, unsigned char *buf,
 
         switch(*src) {
             /*
-             * особый handling for apostrophe.
+             * Special handling for apostrophe.
              * An apostrophe is always written in quotation marks, e.g.
              * ' -> "'".
              */
@@ -172,7 +172,7 @@ shell_quotearg(const char *path, unsigned char *buf,
             break;
 
             /*
-             * особый handling for exclamation marks. CSH interprets
+             * Special handling for exclamation marks. CSH interprets
              * exclamation marks even when quoted with apostrophes. We convert
              * it to the plain string \!, because both Bourne Shell and CSH
              * interpret that as a verbatim exclamation mark.
@@ -225,7 +225,7 @@ shell_quotearg(const char *path, unsigned char *buf,
             default:
                 break;
             }
-            state = SQSTRING;   /* старт single-quoted string */
+            state = SQSTRING;   /* Start single-quoted string */
             break;
         }
 
@@ -289,7 +289,7 @@ scp_recv(LIBSSH2_SESSION * session, const char *path, libssh2_struct_stat * sb)
 
         if(!session->scpRecv_command) {
             _libssh2_error(session, LIBSSH2_ERROR_ALLOC,
-                           "Unable to allocate a command буфер for "
+                           "Unable to allocate a command buffer for "
                            "SCP session");
             return NULL;
         }
@@ -398,7 +398,7 @@ scp_recv(LIBSSH2_SESSION * session, const char *path, libssh2_struct_stat * sb)
                     return NULL;
                 }
                 else if(rc < 0) {
-                    /* Ошибка, give up */
+                    /* error, give up */
                     _libssh2_error(session, rc, "Failed reading SCP response");
                     goto scp_recv_error;
                 }
@@ -427,12 +427,12 @@ scp_recv(LIBSSH2_SESSION * session, const char *path, libssh2_struct_stat * sb)
                         goto scp_recv_error;
                     }
 
-                    /* читай the remote Ошибка message */
+                    /* Read the remote error message */
                     (void)_libssh2_channel_read(session->scpRecv_channel, 0,
                                                 err_msg, err_len);
                     /* If it failed for any reason, we ignore it anyway. */
 
-                    /* zero terminate the Ошибка */
+                    /* zero terminate the error */
                     err_msg[err_len] = 0;
 
                     _libssh2_debug(session, LIBSSH2_TRACE_SCP,
@@ -463,7 +463,7 @@ scp_recv(LIBSSH2_SESSION * session, const char *path, libssh2_struct_stat * sb)
                         scpRecv_response[session->scpRecv_response_len - 1] !=
                         '\n')) {
                     _libssh2_error(session, LIBSSH2_ERROR_SCP_PROTOCOL,
-                                   "Invalid data in SCP response");
+                                   "Неверное data in SCP response");
                     goto scp_recv_error;
                 }
 
@@ -499,7 +499,7 @@ scp_recv(LIBSSH2_SESSION * session, const char *path, libssh2_struct_stat * sb)
                 if(session->scpRecv_response_len < 8) {
                     /* EOL came too soon */
                     _libssh2_error(session, LIBSSH2_ERROR_SCP_PROTOCOL,
-                                   "Invalid response from SCP server, "
+                                   "Неверное response from SCP server, "
                                    "too short");
                     goto scp_recv_error;
                 }
@@ -508,22 +508,22 @@ scp_recv(LIBSSH2_SESSION * session, const char *path, libssh2_struct_stat * sb)
 
                 p = (unsigned char *) strchr((char *) s, ' ');
                 if(!p || ((p - s) <= 0)) {
-                    /* No пробелы or space in the wrong spot */
+                    /* No spaces or space in the wrong spot */
                     _libssh2_error(session, LIBSSH2_ERROR_SCP_PROTOCOL,
-                                   "Invalid response from SCP server, "
+                                   "Неверное response from SCP server, "
                                    "malformed mtime");
                     goto scp_recv_error;
                 }
 
                 *(p++) = '\0';
-                /* сделай sure we don't get fooled by leftover values */
+                /* Make sure we don't get fooled by leftover values */
                 session->scpRecv_mtime = strtol((char *) s, NULL, 10);
 
                 s = (unsigned char *) strchr((char *) p, ' ');
                 if(!s || ((s - p) <= 0)) {
-                    /* No пробелы or space in the wrong spot */
+                    /* No spaces or space in the wrong spot */
                     _libssh2_error(session, LIBSSH2_ERROR_SCP_PROTOCOL,
-                                   "Invalid response from SCP server, "
+                                   "Неверное response from SCP server, "
                                    "malformed mtime.usec");
                     goto scp_recv_error;
                 }
@@ -532,15 +532,15 @@ scp_recv(LIBSSH2_SESSION * session, const char *path, libssh2_struct_stat * sb)
                 s++;
                 p = (unsigned char *) strchr((char *) s, ' ');
                 if(!p || ((p - s) <= 0)) {
-                    /* No пробелы or space in the wrong spot */
+                    /* No spaces or space in the wrong spot */
                     _libssh2_error(session, LIBSSH2_ERROR_SCP_PROTOCOL,
-                                   "Invalid response from SCP server, "
+                                   "Неверное response from SCP server, "
                                    "too short or malformed");
                     goto scp_recv_error;
                 }
 
                 *p = '\0';
-                /* сделай sure we don't get fooled by leftover values */
+                /* Make sure we don't get fooled by leftover values */
                 session->scpRecv_atime = strtol((char *) s, NULL, 10);
 
                 /* SCP ACK */
@@ -596,7 +596,7 @@ scp_recv(LIBSSH2_SESSION * session, const char *path, libssh2_struct_stat * sb)
                     return NULL;
                 }
                 else if(rc < 0) {
-                    /* Ошибка, bail out*/
+                    /* error, bail out*/
                     _libssh2_error(session, rc, "Failed reading SCP response");
                     goto scp_recv_error;
                 }
@@ -607,7 +607,7 @@ scp_recv(LIBSSH2_SESSION * session, const char *path, libssh2_struct_stat * sb)
 
                 if(session->scpRecv_response[0] != 'C') {
                     _libssh2_error(session, LIBSSH2_ERROR_SCP_PROTOCOL,
-                                   "Invalid response from SCP server");
+                                   "Неверное response from SCP server");
                     goto scp_recv_error;
                 }
 
@@ -623,7 +623,7 @@ scp_recv(LIBSSH2_SESSION * session, const char *path, libssh2_struct_stat * sb)
                      scpRecv_response[session->scpRecv_response_len - 1]
                      < 32)) {
                     _libssh2_error(session, LIBSSH2_ERROR_SCP_PROTOCOL,
-                                   "Invalid data in SCP response");
+                                   "Неверное data in SCP response");
                     goto scp_recv_error;
                 }
 
@@ -660,7 +660,7 @@ scp_recv(LIBSSH2_SESSION * session, const char *path, libssh2_struct_stat * sb)
                 if(session->scpRecv_response_len < 6) {
                     /* EOL came too soon */
                     _libssh2_error(session, LIBSSH2_ERROR_SCP_PROTOCOL,
-                                   "Invalid response from SCP server, "
+                                   "Неверное response from SCP server, "
                                    "too short");
                     goto scp_recv_error;
                 }
@@ -669,39 +669,39 @@ scp_recv(LIBSSH2_SESSION * session, const char *path, libssh2_struct_stat * sb)
 
                 p = strchr(s, ' ');
                 if(!p || ((p - s) <= 0)) {
-                    /* No пробелы or space in the wrong spot */
+                    /* No spaces or space in the wrong spot */
                     _libssh2_error(session, LIBSSH2_ERROR_SCP_PROTOCOL,
-                                   "Invalid response from SCP server, "
+                                   "Неверное response from SCP server, "
                                    "malformed mode");
                     goto scp_recv_error;
                 }
 
                 *(p++) = '\0';
-                /* сделай sure we don't get fooled by leftover values */
+                /* Make sure we don't get fooled by leftover values */
 
                 session->scpRecv_mode = strtol(s, &e, 8);
                 if(e && *e) {
                     _libssh2_error(session, LIBSSH2_ERROR_SCP_PROTOCOL,
-                                   "Invalid response from SCP server, "
+                                   "Неверное response from SCP server, "
                                    "invalid mode");
                     goto scp_recv_error;
                 }
 
                 s = strchr(p, ' ');
                 if(!s || ((s - p) <= 0)) {
-                    /* No пробелы or space in the wrong spot */
+                    /* No spaces or space in the wrong spot */
                     _libssh2_error(session, LIBSSH2_ERROR_SCP_PROTOCOL,
-                                   "Invalid response from SCP server, "
+                                   "Неверное response from SCP server, "
                                    "too short or malformed");
                     goto scp_recv_error;
                 }
 
                 *s = '\0';
-                /* сделай sure we don't get fooled by leftover values */
+                /* Make sure we don't get fooled by leftover values */
                 session->scpRecv_size = scpsize_strtol(p, &e, 10);
                 if(e && *e) {
                     _libssh2_error(session, LIBSSH2_ERROR_SCP_PROTOCOL,
-                                   "Invalid response from SCP server, "
+                                   "Неверное response from SCP server, "
                                    "invalid size");
                     goto scp_recv_error;
                 }
@@ -847,7 +847,7 @@ scp_send(LIBSSH2_SESSION * session, const char *path, int mode,
 
         if(!session->scpSend_command) {
             _libssh2_error(session, LIBSSH2_ERROR_ALLOC,
-                           "Unable to allocate a command буфер for "
+                           "Unable to allocate a command buffer for "
                            "SCP session");
             return NULL;
         }
@@ -911,7 +911,7 @@ scp_send(LIBSSH2_SESSION * session, const char *path, int mode,
             LIBSSH2_FREE(session, session->scpSend_command);
             session->scpSend_command = NULL;
             _libssh2_error(session, LIBSSH2_ERROR_SCP_PROTOCOL,
-                           "Unknown Ошибка while getting Ошибка string");
+                           "Unknown error while getting error string");
             goto scp_send_error;
         }
         LIBSSH2_FREE(session, session->scpSend_command);
@@ -938,7 +938,7 @@ scp_send(LIBSSH2_SESSION * session, const char *path, int mode,
             goto scp_send_empty_channel;
         else if(session->scpSend_response[0] != 0) {
             _libssh2_error(session, LIBSSH2_ERROR_SCP_PROTOCOL,
-                           "Invalid ACK response from remote");
+                           "Неверное ACK response from remote");
             goto scp_send_error;
         }
         if(mtime || atime) {
@@ -992,7 +992,7 @@ scp_send(LIBSSH2_SESSION * session, const char *path, int mode,
                 goto scp_send_empty_channel;
             else if(session->scpSend_response[0] != 0) {
                 _libssh2_error(session, LIBSSH2_ERROR_SCP_PROTOCOL,
-                               "Invalid SCP ACK response");
+                               "Неверное SCP ACK response");
                 goto scp_send_error;
             }
 
@@ -1053,7 +1053,7 @@ scp_send(LIBSSH2_SESSION * session, const char *path, int mode,
         }
         else if(rc < 0) {
             _libssh2_error(session, LIBSSH2_ERROR_SCP_PROTOCOL,
-                           "Invalid ACK response from remote");
+                           "Неверное ACK response from remote");
             goto scp_send_error;
         }
         else if(rc == 0)
@@ -1072,7 +1072,7 @@ scp_send(LIBSSH2_SESSION * session, const char *path, int mode,
                 goto scp_send_error;
             }
 
-            /* читай the remote Ошибка message */
+            /* Read the remote error message */
             rc = _libssh2_channel_read(session->scpSend_channel, 0,
                                        err_msg, err_len);
             if(rc > 0) {

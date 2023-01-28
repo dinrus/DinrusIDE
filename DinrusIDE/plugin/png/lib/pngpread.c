@@ -1,10 +1,10 @@
 
 /* pngpread.c - read a png file in push mode
  *
- * последний changed in libpng 1.2.58 [August 24, 2017]
+ * Last changed in libpng 1.2.58 [August 24, 2017]
  * Copyright (c) 1998-2002,2004,2006-2015,2017 Glenn Randers-Pehrson
  * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
- * (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Группа 42, Inc.)
+ * (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
  *
  * This code is released under the libpng license.
  * For conditions of distribution and use, see the disclaimer
@@ -16,7 +16,7 @@
 #include "png.h"
 #ifdef PNG_PROGRESSIVE_READ_SUPPORTED
 
-/* сунь model modes */
+/* Push model modes */
 #define PNG_READ_SIG_MODE   0
 #define PNG_READ_CHUNK_MODE 1
 #define PNG_READ_IDAT_MODE  2
@@ -29,12 +29,12 @@
 
 void PNGAPI
 png_process_data(png_structp png_ptr, png_infop info_ptr,
-   png_bytep буфер, png_size_t buffer_size)
+   png_bytep buffer, png_size_t buffer_size)
 {
    if (png_ptr == NULL || info_ptr == NULL)
       return;
 
-   png_push_restore_buffer(png_ptr, буфер, buffer_size);
+   png_push_restore_buffer(png_ptr, buffer, buffer_size);
 
    while (png_ptr->buffer_size)
    {
@@ -85,7 +85,7 @@ png_process_some_data(png_structp png_ptr, png_infop info_ptr)
    }
 }
 
-/* читай any remaining signature bytes from the stream and compare them with
+/* Read any remaining signature bytes from the stream and compare them with
  * the correct PNG signature.  It is possible that this routine is called
  * with bytes already read from the signature, either because they have been
  * checked by the calling application, or because of multiple calls to this
@@ -184,10 +184,10 @@ png_push_read_chunk(png_structp png_ptr, png_infop info_ptr)
 #endif
 #endif /* PNG_USE_LOCAL_ARRAYS */
 
-   /* First we make sure we have enough data for the 4 byte chunk имя
+   /* First we make sure we have enough data for the 4 byte chunk name
     * and the 4 byte chunk length before proceeding with decoding the
     * chunk data.  To fully decode each of these chunks, we also make
-    * sure we have enough data in the буфер for the 4 byte CRC at the
+    * sure we have enough data in the buffer for the 4 byte CRC at the
     * end of every chunk (except IDAT, which is handled separately).
     */
    if (!(png_ptr->mode & PNG_HAVE_CHUNK_HEADER))
@@ -216,7 +216,7 @@ png_push_read_chunk(png_structp png_ptr, png_infop info_ptr)
    if (!png_memcmp(png_ptr->chunk_name, png_IHDR, 4))
    {
       if (png_ptr->push_length != 13)
-         png_error(png_ptr, "Invalid IHDR length");
+         png_error(png_ptr, "Неверное IHDR length");
 
       if (png_ptr->push_length + 4 > png_ptr->buffer_size)
       {
@@ -284,7 +284,7 @@ png_push_read_chunk(png_structp png_ptr, png_infop info_ptr)
    {
       /* If we reach an IDAT chunk, this means we have read all of the
        * header chunks, and we can start reading the image (or if this
-       * is called after the image has been read - we have an Ошибка).
+       * is called after the image has been read - we have an error).
        */
 
       if (!(png_ptr->mode & PNG_HAVE_IHDR))
@@ -605,14 +605,14 @@ png_push_crc_finish(png_structp png_ptr)
 }
 
 void PNGAPI
-png_push_fill_buffer(png_structp png_ptr, png_bytep буфер, png_size_t length)
+png_push_fill_buffer(png_structp png_ptr, png_bytep buffer, png_size_t length)
 {
    png_bytep ptr;
 
    if (png_ptr == NULL)
       return;
 
-   ptr = буфер;
+   ptr = buffer;
    if (png_ptr->save_buffer_size)
    {
       png_size_t save_size;
@@ -692,7 +692,7 @@ png_push_save_buffer(png_structp png_ptr)
           png_memcpy(png_ptr->save_buffer, old_buffer,
              png_ptr->save_buffer_size);
         else if (png_ptr->save_buffer_size)
-          png_error(png_ptr, "save_buffer Ошибка");
+          png_error(png_ptr, "save_buffer error");
         png_free(png_ptr, old_buffer);
         png_ptr->save_buffer_max = new_max;
       }
@@ -709,10 +709,10 @@ png_push_save_buffer(png_structp png_ptr)
 }
 
 void /* PRIVATE */
-png_push_restore_buffer(png_structp png_ptr, png_bytep буфер,
+png_push_restore_buffer(png_structp png_ptr, png_bytep buffer,
    png_size_t buffer_length)
 {
-   png_ptr->current_buffer = буфер;
+   png_ptr->current_buffer = buffer;
    png_ptr->current_buffer_size = buffer_length;
    png_ptr->buffer_size = buffer_length + png_ptr->save_buffer_size;
    png_ptr->current_buffer_ptr = png_ptr->current_buffer;
@@ -813,18 +813,18 @@ png_push_read_IDAT(png_structp png_ptr)
 }
 
 void /* PRIVATE */
-png_process_IDAT_data(png_structp png_ptr, png_bytep буфер,
+png_process_IDAT_data(png_structp png_ptr, png_bytep buffer,
    png_size_t buffer_length)
 {
-   /* The caller checks for a non-zero буфер length. */
-   if (!(buffer_length > 0) || буфер == NULL)
-      png_error(png_ptr, "No IDAT data (internal Ошибка)");
+   /* The caller checks for a non-zero buffer length. */
+   if (!(buffer_length > 0) || buffer == NULL)
+      png_error(png_ptr, "No IDAT data (internal error)");
 
    /* This routine must process all the data it has been given
     * before returning, calling the row callback as required to
     * handle the uncompressed results.
     */
-   png_ptr->zstream.next_in = буфер;
+   png_ptr->zstream.next_in = buffer;
    png_ptr->zstream.avail_in = (uInt)buffer_length;
 
    /* Keep going until the decompressed data is all processed
@@ -870,16 +870,16 @@ png_process_IDAT_data(png_structp png_ptr, png_bytep буфер,
 	     png_ptr->pass > 6)
 	    png_warning(png_ptr, "Truncated compressed data in IDAT");
 	 else
-	    png_error(png_ptr, "Decompression Ошибка in IDAT");
+	    png_error(png_ptr, "Decompression error in IDAT");
 
-	 /* пропусти the check on unprocessed input */
+	 /* Skip the check on unprocessed input */
          return;
       }
 
       /* Did inflate output any data? */
       if (png_ptr->zstream.next_out != png_ptr->row_buf)
       {
-	 /* является this unexpected data after the last row?
+	 /* Is this unexpected data after the last row?
 	  * If it is, artificially terminate the LZ output
 	  * here.
 	  */
@@ -993,7 +993,7 @@ png_push_process_row(png_structp png_ptr)
                png_read_push_finish_row(png_ptr);
             }
 
-            if (png_ptr->pass == 2) /* пропусти top 4 generated rows */
+            if (png_ptr->pass == 2) /* Skip top 4 generated rows */
             {
                for (i = 0; i < 4 && png_ptr->pass == 2; i++)
                {
@@ -1043,7 +1043,7 @@ png_push_process_row(png_structp png_ptr)
                png_read_push_finish_row(png_ptr);
             }
 
-            if (png_ptr->pass == 4) /* пропусти top two generated rows */
+            if (png_ptr->pass == 4) /* Skip top two generated rows */
             {
                for (i = 0; i < 2 && png_ptr->pass == 4; i++)
                {
@@ -1090,7 +1090,7 @@ png_push_process_row(png_structp png_ptr)
                png_read_push_finish_row(png_ptr);
             }
 
-            if (png_ptr->pass == 6) /* пропусти top generated row */
+            if (png_ptr->pass == 6) /* Skip top generated row */
             {
                   png_push_have_row(png_ptr, png_bytep_NULL);
                png_read_push_finish_row(png_ptr);
@@ -1125,19 +1125,19 @@ png_read_push_finish_row(png_structp png_ptr)
 #ifdef PNG_USE_LOCAL_ARRAYS
    /* Arrays to facilitate easy interlacing - use pass (0 - 6) as index */
 
-   /* старт of interlace block */
+   /* Start of interlace block */
    PNG_CONST int FARDATA png_pass_start[] = {0, 4, 0, 2, 0, 1, 0};
 
-   /* смещение to next interlace block */
+   /* Offset to next interlace block */
    PNG_CONST int FARDATA png_pass_inc[] = {8, 8, 4, 4, 2, 2, 1};
 
-   /* старт of interlace block in the y direction */
+   /* Start of interlace block in the y direction */
    PNG_CONST int FARDATA png_pass_ystart[] = {0, 0, 4, 0, 2, 0, 1};
 
-   /* смещение to next interlace block in the y direction */
+   /* Offset to next interlace block in the y direction */
    PNG_CONST int FARDATA png_pass_yinc[] = {8, 8, 8, 4, 4, 2, 2};
 
-   /* устВысоту of interlace block.  This is not currently used - if you need
+   /* Height of interlace block.  This is not currently used - if you need
     * it, uncomment it here and in png.h
    PNG_CONST int FARDATA png_pass_height[] = {8, 8, 4, 4, 2, 2, 1};
    */

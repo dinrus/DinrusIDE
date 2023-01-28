@@ -1,46 +1,46 @@
 #include "IconDes.h"
 
-namespace РНЦП {
+namespace Upp {
 
 class AlphaImageInfo
 {
 public:
 	enum ENCODING { COLOR_RLE, MONO_RLE, MONO_PACKED };
 
-	AlphaImageInfo(Размер size = Размер(0, 0), int encoding = COLOR_RLE, Точка hotspot = Точка(0, 0))
+	AlphaImageInfo(Size size = Size(0, 0), int encoding = COLOR_RLE, Point hotspot = Point(0, 0))
 		: encoding(encoding), size(size), hotspot(hotspot) {}
 
-	void               сериализуй(Поток& stream);
+	void               Serialize(Stream& stream);
 
 public:
 	int                encoding;
-	Размер               size;
-	Точка              hotspot;
+	Size               size;
+	Point              hotspot;
 };
 
-Ткст AlphaToRLE(const Рисунок& aa)
+String AlphaToRLE(const Image& aa)
 {
-	Ткст result;
-	for(int y = 0; y < aa.дайВысоту(); y++) {
-		result.конкат(PackRLE(aa[y], aa.дайШирину()));
-		result.конкат(0x80);
+	String result;
+	for(int y = 0; y < aa.GetHeight(); y++) {
+		result.Cat(PackRLE(aa[y], aa.GetWidth()));
+		result.Cat(0x80);
 	}
 	return result;
 }
 
-Рисунок RLEToAlpha(const Ткст& rle, Размер sz)
+Image RLEToAlpha(const String& rle, Size sz)
 {
 	ImageBuffer ib(sz);
 	const byte *s = rle;
 	for(int y = 0; y < sz.cy; y++)
-		if((const char *)s < rle.стоп())
+		if((const char *)s < rle.End())
 			s = UnpackRLE(ib[y], s, sz.cx) + 1;
 		else
-			memset(ib[y], 0, sz.cx * sizeof(КЗСА));
+			memset(ib[y], 0, sz.cx * sizeof(RGBA));
 	return ib;
 }
 
-void AlphaImageInfo::сериализуй(Поток& stream)
+void AlphaImageInfo::Serialize(Stream& stream)
 {
 	int version = 1;
 	stream / version;
@@ -48,133 +48,133 @@ void AlphaImageInfo::сериализуй(Поток& stream)
 		stream % size % hotspot % encoding;
 }
 
-void ScanIML(СиПарсер& parser, Массив<ImlImage>& out_images,
-             ВекторМап<Ткст, Ткст>& out_settings)
+void ScanIML(CParser& parser, Array<ImlImage>& out_images,
+             VectorMap<String, String>& out_settings)
 {
-	Ткст имя, bid;
+	String name, bid;
 	bool exp = false;
-	while(!parser.кф_ли())
+	while(!parser.IsEof())
 	{
-		if((bid = parser.читайИд()) == "IMAGE_META")
+		if((bid = parser.ReadId()) == "IMAGE_META")
 		{
-			parser.сим('(');
-			if(parser.ткст_ли())
-				имя = parser.читайТкст();
+			parser.Char('(');
+			if(parser.IsString())
+				name = parser.ReadString();
 			else
-				имя = parser.читайИд();
-			parser.передайСим(',');
-			Ткст значение = parser.читайТкст();
-			parser.передайСим(')');
-			out_settings.добавь(имя, значение);
-			if(значение == "exp")
+				name = parser.ReadId();
+			parser.PassChar(',');
+			String value = parser.ReadString();
+			parser.PassChar(')');
+			out_settings.Add(name, value);
+			if(value == "exp")
 				exp = true;
 		}
-		else if(bid == "IMAGE_BEGIN" && parser.сим('(') && !пусто_ли(имя = parser.читайИд()) && parser.сим(')'))
+		else if(bid == "IMAGE_BEGIN" && parser.Char('(') && !IsNull(name = parser.ReadId()) && parser.Char(')'))
 		{
-			Ткст encoded_data;
-			out_settings.дайДобавь("wince_16bit", "0");
-			Ткст id;
+			String encoded_data;
+			out_settings.GetAdd("wince_16bit", "0");
+			String id;
 			bool first = true;
-			while((id = parser.читайИд()) == "IMAGE_SCAN" && parser.сим('('))
+			while((id = parser.ReadId()) == "IMAGE_SCAN" && parser.Char('('))
 			{
 				bool first_in_row = true;
-				while(parser.сим_ли('\"'))
+				while(parser.IsChar('\"'))
 				{
-					Ткст scan = parser.читай1Ткст();
+					String scan = parser.ReadOneString();
 					if(!first && first_in_row)
-						encoded_data.конкат('\x80');
+						encoded_data.Cat('\x80');
 					first_in_row = first = false;
-					encoded_data.конкат(scan);
+					encoded_data.Cat(scan);
 				}
-				if(!parser.сим(')'))
+				if(!parser.Char(')'))
 					break;
 			}
 			AlphaImageInfo image;
 			bool accepted = false;
-			if(parser.сим('(') && parser.читайИд() == имя && parser.сим(',')) {
+			if(parser.Char('(') && parser.ReadId() == name && parser.Char(',')) {
 				if(id == "IMAGE_END"
-				&& (image.size.cx = parser.читайЦел()) > 0 && parser.сим(',')
-				&& (image.size.cy = parser.читайЦел()) > 0 && parser.сим(')')) {
+				&& (image.size.cx = parser.ReadInt()) > 0 && parser.Char(',')
+				&& (image.size.cy = parser.ReadInt()) > 0 && parser.Char(')')) {
 					accepted = true;
 				}
-				else if(id == "IMAGE_PACKED" && parser.сим_ли('\"')) {
-					Ткст d = parser.читай1Ткст();
-					if(parser.сим(')'))
+				else if(id == "IMAGE_PACKED" && parser.IsChar('\"')) {
+					String d = parser.ReadOneString();
+					if(parser.Char(')'))
 					{
-						ТкстПоток ss(d);
+						StringStream ss(d);
 						ss % image;
-						if(!ss.ошибка_ли())
+						if(!ss.IsError())
 							accepted = true;
 					}
 				}
 			}
-			if(имя.дайДлину() >= 6 && !memcmp(имя, "_java_", 6))
+			if(name.GetLength() >= 6 && !memcmp(name, "_java_", 6))
 				accepted = false;
 
 			if(accepted) {
-				if(имя.дайДлину() >= 4 && !memcmp(имя, "im__", 4))
-					имя = Null;
+				if(name.GetLength() >= 4 && !memcmp(name, "im__", 4))
+					name = Null;
 
-				Рисунок m = RLEToAlpha(encoded_data, image.size);
+				Image m = RLEToAlpha(encoded_data, image.size);
 				ImageBuffer ib(m);
 				ib.SetHotSpot(image.hotspot);
 				m = ib;
-				ImlImage& c = out_images.добавь();
-				c.имя = имя;
+				ImlImage& c = out_images.Add();
+				c.name = name;
 				c.image = m;
 				c.exp = exp;
 				exp = false;
 			}
 		}
-		else if(bid == "IMAGE_BEGIN16" && parser.сим('(') && !пусто_ли(имя = parser.читайИд()) && parser.сим(')'))
-		{ //TODO: FIX THESE!!!
-			out_settings.дайДобавь("wince_16bit", "1");
-			Ткст encoded_data;
-			Ткст id;
+		else if(bid == "IMAGE_BEGIN16" && parser.Char('(') && !IsNull(name = parser.ReadId()) && parser.Char(')'))
+		{ //СДЕЛАТЬ: FIX THESE!!!
+			out_settings.GetAdd("wince_16bit", "1");
+			String encoded_data;
+			String id;
 			bool first = true;
-			while((id = parser.читайИд()) == "IMAGE_SCAN16" && parser.сим('(') && parser.сим('L'))
+			while((id = parser.ReadId()) == "IMAGE_SCAN16" && parser.Char('(') && parser.Char('L'))
 			{
 				bool first_in_row = true;
-				while(parser.сим('\"'))
+				while(parser.Char('\"'))
 				{
-					СиПарсер::Поз pos = parser.дайПоз();
+					CParser::Pos pos = parser.GetPos();
 					const char *end;
-					end = pos.ptr; // TODO - remove
-					Ткст scan; // TODO = GetUnicodeScan(pos.ptr, &end);
+					end = pos.ptr; // СДЕЛАТЬ - remove
+					String scan; // СДЕЛАТЬ = GetUnicodeScan(pos.ptr, &end);
 					pos.ptr = end;
-					parser.устПоз(pos);
-					if(!parser.сим('\"'))
+					parser.SetPos(pos);
+					if(!parser.Char('\"'))
 						break;
 					if(!first && first_in_row)
-						encoded_data.конкат('\x80');
+						encoded_data.Cat('\x80');
 					first_in_row = first = false;
-					encoded_data.конкат(scan);
+					encoded_data.Cat(scan);
 				}
-				if(!parser.сим(')'))
+				if(!parser.Char(')'))
 					break;
 			}
 			AlphaImageInfo idata;
 			bool accepted = false;
-			if(id == "IMAGE_END16" && parser.сим('(') && parser.читайИд() == имя && parser.сим(',')
-			&& (idata.size.cx = parser.читайЦел()) > 0 && parser.сим(',')
-			&& (idata.size.cy = parser.читайЦел()) > 0 && parser.сим(',')
-			&& !пусто_ли(idata.hotspot.x = parser.читайЦел()) && parser.сим(',')
-			&& !пусто_ли(idata.hotspot.y = parser.читайЦел()) && parser.сим(')'))
+			if(id == "IMAGE_END16" && parser.Char('(') && parser.ReadId() == name && parser.Char(',')
+			&& (idata.size.cx = parser.ReadInt()) > 0 && parser.Char(',')
+			&& (idata.size.cy = parser.ReadInt()) > 0 && parser.Char(',')
+			&& !IsNull(idata.hotspot.x = parser.ReadInt()) && parser.Char(',')
+			&& !IsNull(idata.hotspot.y = parser.ReadInt()) && parser.Char(')'))
 			{
 				accepted = true;
 			}
 
 			if(accepted)
 			{
-				if(имя.дайДлину() >= 4 && !memcmp(имя, "im__", 4))
-					имя = Null;
+				if(name.GetLength() >= 4 && !memcmp(name, "im__", 4))
+					name = Null;
 
-				Рисунок m = RLEToAlpha(encoded_data, idata.size);
+				Image m = RLEToAlpha(encoded_data, idata.size);
 				ImageBuffer ib(m);
 				ib.SetHotSpot(idata.hotspot);
 				m = ib;
-				ImlImage& c = out_images.добавь();
-				c.имя = имя;
+				ImlImage& c = out_images.Add();
+				c.name = name;
 				c.image = m;
 				c.exp = exp;
 				exp = false;
@@ -185,84 +185,84 @@ void ScanIML(СиПарсер& parser, Массив<ImlImage>& out_images,
 	}
 }
 
-bool LoadIml(const Ткст& data, Массив<ImlImage>& img, int& формат)
+bool LoadIml(const String& data, Array<ImlImage>& img, int& format)
 {
-	СиПарсер p(data);
-	формат = 0;
+	CParser p(data);
+	format = 0;
 	try {
-		bool premultiply = !p.ид("PREMULTIPLIED");
-		Вектор<Ткст> имя;
-		Вектор<bool> exp;
-		while(p.ид("IMAGE_ID")) {
-			p.передайСим('(');
-			Ткст n;
-			if(p.ид_ли()) {
-				n = p.читайИд();
-				if(n.начинаетсяС("im__", 4))
+		bool premultiply = !p.Id("PREMULTIPLIED");
+		Vector<String> name;
+		Vector<bool> exp;
+		while(p.Id("IMAGE_ID")) {
+			p.PassChar('(');
+			String n;
+			if(p.IsId()) {
+				n = p.ReadId();
+				if(n.StartsWith("im__", 4))
 					n = Null;
-				p.передайСим(')');
+				p.PassChar(')');
 			}
 			else
-				while(!p.кф_ли()) {
-					if(p.сим(')'))
+				while(!p.IsEof()) {
+					if(p.Char(')'))
 						break;
-					p.пропустиТерм();
+					p.SkipTerm();
 				}
-			имя.добавь(n);
+			name.Add(n);
 			bool e = false;
-			if(p.ид("IMAGE_META")) {
-				p.передайСим('(');
-				e = p.читайТкст() == "exp";
-				if(p.сим(',') && p.ткст_ли())
-					p.читайТкст();
-				p.передайСим(')');
+			if(p.Id("IMAGE_META")) {
+				p.PassChar('(');
+				e = p.ReadString() == "exp";
+				if(p.Char(',') && p.IsString())
+					p.ReadString();
+				p.PassChar(')');
 			}
-			exp.добавь(e);
+			exp.Add(e);
 		}
 		int ii = 0;
-		while(p.ид("IMAGE_BEGIN_DATA")) {
-			Ткст data;
-			while(p.ид("IMAGE_DATA")) {
-				p.передайСим('(');
+		while(p.Id("IMAGE_BEGIN_DATA")) {
+			String data;
+			while(p.Id("IMAGE_DATA")) {
+				p.PassChar('(');
 				for(int j = 0; j < 32; j++) {
-					if(j) p.передайСим(',');
-					data.конкат(p.читайЦел());
+					if(j) p.PassChar(',');
+					data.Cat(p.ReadInt());
 				}
-				p.передайСим(')');
+				p.PassChar(')');
 			}
-			p.передайИд("IMAGE_END_DATA");
-			p.передайСим('(');
-			int zlen = p.читайЦел();
-			p.передайСим(',');
-			int count = p.читайЦел();
-			p.передайСим(')');
+			p.PassId("IMAGE_END_DATA");
+			p.PassChar('(');
+			int zlen = p.ReadInt();
+			p.PassChar(',');
+			int count = p.ReadInt();
+			p.PassChar(')');
 
-			data.обрежь(zlen);
-			Вектор<ImageIml> m = UnpackImlData(data, data.дайСчёт());
-			if(m.дайСчёт() != count || ii + count > имя.дайСчёт())
-				p.выведиОш("");
+			data.Trim(zlen);
+			Vector<ImageIml> m = UnpackImlData(data, data.GetCount());
+			if(m.GetCount() != count || ii + count > name.GetCount())
+				p.ThrowError("");
 			for(int i = 0; i < count; i++) {
-				ImlImage& c = img.добавь();
+				ImlImage& c = img.Add();
 				(ImageIml &)c = m[i];
-				c.имя = имя[ii];
+				c.name = name[ii];
 				c.exp = exp[ii++];
-				c.имя.обрежьКонец("__DARK");
-				c.имя.обрежьКонец("__UHD");
+				c.name.TrimEnd("__DARK");
+				c.name.TrimEnd("__UHD");
 				if(premultiply)
 					c.image = Premultiply(c.image);
 			}
 		}
-		if(!p.кф_ли())
-			p.выведиОш("");
+		if(!p.IsEof())
+			p.ThrowError("");
 	}
-	catch(СиПарсер::Ошибка) {
+	catch(CParser::Error) {
 		try {
-			СиПарсер p(data);
-			Массив<ImlImage> m;
-			ВекторМап<Ткст, Ткст> s;
+			CParser p(data);
+			Array<ImlImage> m;
+			VectorMap<String, String> s;
 			ScanIML(p, img, s);
-			if(img.дайСчёт())
-				формат = 1;
+			if(img.GetCount())
+				format = 1;
 		}
 		catch(...) {
 			return false;
@@ -271,80 +271,80 @@ bool LoadIml(const Ткст& data, Массив<ImlImage>& img, int& форма�
 	return true;
 }
 
-static void PutOctalString(Поток& out, const char *b, const char *e, const Ткст& eol, bool split = false)
+static void PutOctalString(Stream& out, const char *b, const char *e, const String& eol, bool split = false)
 {
-	out.помести('\"');
-	int64 start = out.дайПоз();
+	out.Put('\"');
+	int64 start = out.GetPos();
 	while(b < e) {
-		if(split && out.дайПоз() >= start + 200u) {
+		if(split && out.GetPos() >= start + 200u) {
 			out << "\"" << eol << "\t\"";
-			start = out.дайПоз();
+			start = out.GetPos();
 		}
 		if((byte)*b >= ' ' && *b != '\x7F' && *b != '\xFF') {
 			if(*b == '\\' || *b == '\"' || *b == '\'')
-				out.помести('\\');
-			out.помести(*b++);
+				out.Put('\\');
+			out.Put(*b++);
 		}
-		else if(цифра_ли(b[1]))
-			out.помести(спринтф("\\%03o", (byte)*b++));
+		else if(IsDigit(b[1]))
+			out.Put(Sprintf("\\%03o", (byte)*b++));
 		else
-			out.помести(спринтф("\\%o", (byte)*b++));
+			out.Put(Sprintf("\\%o", (byte)*b++));
 	}
-	out.помести('\"');
+	out.Put('\"');
 }
 
-Ткст SaveIml(const Массив<ImlImage>& iml, int формат, const Ткст& eol) {
-	ТкстПоток out;
-	if(формат == 1) {
-		for(int i = 0; i < iml.дайСчёт(); i++) {
+String SaveIml(const Array<ImlImage>& iml, int format, const String& eol) {
+	StringStream out;
+	if(format == 1) {
+		for(int i = 0; i < iml.GetCount(); i++) {
 			const ImlImage& c = iml[i];
 			if(c.exp)
 				out << "IMAGE_META(\"exp\", \"\")" << eol;
-			Ткст имя = c.имя;
-			Рисунок буфер = c.image;
-			if(пусто_ли(имя))
-				имя = "im__" + целТкт(i);
-			out.PutLine(фмт("IMAGE_BEGIN(%s)", имя));
+			String name = c.name;
+			Image buffer = c.image;
+			if(IsNull(name))
+				name = "im__" + IntStr(i);
+			out.PutLine(Format("IMAGE_BEGIN(%s)", name));
 			int last = 0;
-			for(int i = 0; i < буфер.дайВысоту(); i++) {
-				Ткст scan = PackRLE(буфер[i], буфер.дайШирину());
-				if(!scan.пустой() || i == 0) // force at least 1 scan
+			for(int i = 0; i < buffer.GetHeight(); i++) {
+				String scan = PackRLE(buffer[i], buffer.GetWidth());
+				if(!scan.IsEmpty() || i == 0) // force at least 1 scan
 				{
 					for(; last < i; last++)
 						out.PutLine("\tIMAGE_SCAN(\"\")");
-					out.помести("\tIMAGE_SCAN(");
-					PutOctalString(out, scan.старт(), scan.стоп(), eol, true);
+					out.Put("\tIMAGE_SCAN(");
+					PutOctalString(out, scan.Begin(), scan.End(), eol, true);
 					out << ")" << eol;
 					last = i + 1;
 				}
 			}
-			out.помести("IMAGE_PACKED(");
-			out.помести(имя);
-			out.помести(", ");
-			ТкстПоток datastrm;
-			Размер size = буфер.дайРазм();
-			Точка hotspot = буфер.GetHotSpot();
+			out.Put("IMAGE_PACKED(");
+			out.Put(name);
+			out.Put(", ");
+			StringStream datastrm;
+			Size size = buffer.GetSize();
+			Point hotspot = buffer.GetHotSpot();
 			int encoding = AlphaImageInfo::COLOR_RLE;
 			int version = 1;
 			datastrm / version;
 			datastrm % size % hotspot % encoding;
-			ПРОВЕРЬ(!datastrm.ошибка_ли());
-			Ткст s = datastrm.дайРез();
-			PutOctalString(out, s.старт(), s.стоп(), eol);
+			ASSERT(!datastrm.IsError());
+			String s = datastrm.GetResult();
+			PutOctalString(out, s.Begin(), s.End(), eol);
 			out << ")" << eol;
 		}
 	}
 	else {
 		out << "PREMULTIPLIED" << eol;
-		Индекс<Ткст> std_name;
-		for(int i = 0; i < iml.дайСчёт(); i++) {
+		Index<String> std_name;
+		for(int i = 0; i < iml.GetCount(); i++) {
 			const ImlImage& c = iml[i];
 			if(c.image.GetResolution() == IMAGE_RESOLUTION_STANDARD)
-				std_name.добавь(c.имя);
+				std_name.Add(c.name);
 		}
-		for(int i = 0; i < iml.дайСчёт(); i++) {
+		for(int i = 0; i < iml.GetCount(); i++) {
 			const ImlImage& c = iml[i];
-			out << "IMAGE_ID(" << c.имя;
+			out << "IMAGE_ID(" << c.name;
 			if(c.flags & IML_IMAGE_FLAG_UHD)
 				out << "__UHD";
 			if(c.flags & IML_IMAGE_FLAG_DARK)
@@ -355,27 +355,27 @@ static void PutOctalString(Поток& out, const char *b, const char *e, const 
 			out << eol;
 		}
 		int ii = 0;
-		while(ii < iml.дайСчёт()) {
+		while(ii < iml.GetCount()) {
 			int bl = 0;
 			int bn = 0;
-			Вектор<ImageIml> bimg;
-			while(bl < 4096 && ii < iml.дайСчёт()) {
+			Vector<ImageIml> bimg;
+			while(bl < 4096 && ii < iml.GetCount()) {
 				const ImlImage& c = iml[ii++];
-				ImageIml& m = bimg.добавь();
+				ImageIml& m = bimg.Add();
 				m.image = c.image;
 				m.flags = c.flags;
 				if(c.flags & IML_IMAGE_FLAG_UHD)
 					SetResolution(m.image, IMAGE_RESOLUTION_UHD);
 				if(c.flags & (IML_IMAGE_FLAG_FIXED|IML_IMAGE_FLAG_FIXED_SIZE))
 					SetResolution(m.image, IMAGE_RESOLUTION_NONE);
-				bl += c.image.дайДлину();
+				bl += c.image.GetLength();
 				bn++;
 			}
-			Ткст bs = PackImlData(bimg);
+			String bs = PackImlData(bimg);
 			out << eol << "IMAGE_BEGIN_DATA" << eol;
-			bs.конкат(0, ((bs.дайСчёт() + 31) & ~31) - bs.дайСчёт());
+			bs.Cat(0, ((bs.GetCount() + 31) & ~31) - bs.GetCount());
 			const byte *s = bs;
-			for(int n = bs.дайСчёт() / 32; n--;) {
+			for(int n = bs.GetCount() / 32; n--;) {
 				out << "IMAGE_DATA(";
 				for(int j = 0; j < 32; j++) {
 					if(j) out << ',';
@@ -383,10 +383,10 @@ static void PutOctalString(Поток& out, const char *b, const char *e, const 
 				}
 				out << ")" << eol;
 			}
-			out << "IMAGE_END_DATA(" << bs.дайСчёт() << ", " << bn << ")" << eol;
+			out << "IMAGE_END_DATA(" << bs.GetCount() << ", " << bn << ")" << eol;
 		}
 	}
-	return out.дайРез();
+	return out.GetResult();
 }
 
 }

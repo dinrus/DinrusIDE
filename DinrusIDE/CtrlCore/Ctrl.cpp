@@ -1,6 +1,6 @@
 #include "CtrlCore.h"
 
-namespace РНЦП {
+namespace Upp {
 
 #define LLOG(x)   // DLOG(x)
 
@@ -8,135 +8,145 @@ namespace РНЦП {
 #define IMAGEFILE <CtrlCore/CtrlCore.iml>
 #include <Draw/iml_source.h>
 
-static bool StdDisplayErrorFn(const Значение& e)
+static bool StdDisplayErrorFn(const Value& e)
 {
-	ЗамкниГип __;
-	if(!e.ошибка_ли())
+	GuiLock __;
+	if(!e.IsError())
 		return false;
-	Ткст s = дайТекстОш(e);
+	String s = GetErrorText(e);
 #ifdef PLATFORM_WIN32
-	MessageBox(NULL, s, дайТитулИсп(), MB_OK | MB_ICONQUESTION);
+	MessageBox(NULL, s, GetExeTitle(), MB_OK | MB_ICONQUESTION);
 #else
-	fputs(Ткст().конкат() << дайТитулИсп() << ": " << s << '\n', stderr);
+	fputs(String().Cat() << GetExeTitle() << ": " << s << '\n', stderr);
 #endif
 	return true;
 }
 
-bool (*&DisplayErrorFn())(const Значение& v)
+bool (*&DisplayErrorFn())(const Value& v)
 {
-	static bool (*errfn)(const Значение& v) = &StdDisplayErrorFn;
+	static bool (*errfn)(const Value& v) = &StdDisplayErrorFn;
 	return errfn;
 }
 
-int64 Ктрл::eventid;
-int   Ктрл::СобытиеLevel;
+int64 Ctrl::eventid;
+int   Ctrl::EventLevel;
 
-Ктрл *Ктрл::LoopCtrl;
-int   Ктрл::LoopLevel;
-int64 Ктрл::СобытиеLoopNo;
-int64 Ктрл::EndSessionLoopNo;
+Ctrl *Ctrl::LoopCtrl;
+int   Ctrl::LoopLevel;
+int64 Ctrl::EventLoopNo;
+int64 Ctrl::EndSessionLoopNo;
 
-bool Ктрл::MemoryCheck;
+bool Ctrl::MemoryCheck;
 
-bool Ктрл::painting = false;
+bool Ctrl::painting = false;
 
-void   Ктрл::устДанные(const Значение&) {}
-Значение  Ктрл::дайДанные() const       { return Значение(); }
+void   Ctrl::SetData(const Value&) {}
+Value  Ctrl::GetData() const       { return Value(); }
 
-void Ктрл::рисуй(Draw& draw)                        {}
-int  Ктрл::рисуйПоверх() const                        { return 0; }
+void Ctrl::Paint(Draw& draw)                        {}
+int  Ctrl::OverPaint() const                        { return 0; }
 
-void Ктрл::активируй()                               {}
-void Ктрл::дезактивируй()                             {}
-void Ктрл::дезактивируйПо(Ктрл *)                     {}
+void Ctrl::Activate()                               {}
+void Ctrl::Deactivate()                             {}
+void Ctrl::DeactivateBy(Ctrl *)                     {}
 
-void Ктрл::режимОтмены()                             {}
-void Ктрл::входМыши(Точка p, dword keyflags)      {}
-void Ктрл::леваяВнизу(Точка p, dword keyflags)        {}
-void Ктрл::праваяВнизу(Точка p, dword keyflags)       {}
-void Ктрл::леваяПовтори(Точка p, dword keyflags)      {}
-void Ктрл::RightRepeat(Точка p, dword keyflags)     {}
-void Ктрл::двигМыши(Точка p, dword keyflags)       {}
-void Ктрл::леваяВверху(Точка, dword keyflags)            {}
-void Ктрл::RightUp(Точка p, dword keyflags)         {}
-void Ктрл::выходМыши()                             {}
-void Ктрл::леваяТяг(Точка p, dword keyflags)        {}
-void Ктрл::LeftHold(Точка p, dword keyflags)        {}
-void Ктрл::RightDrag(Точка p, dword keyflags)       {}
-void Ктрл::RightHold(Точка p, dword keyflags)       {}
-void Ктрл::MiddleDown(Точка p, dword keyflags)      {}
-void Ктрл::MiddleDouble(Точка p, dword keyflags)    {}
-void Ктрл::MiddleTriple(Точка p, dword keyflags)    {}
-void Ктрл::MiddleRepeat(Точка p, dword keyflags)    {}
-void Ктрл::MiddleDrag(Точка p, dword keyflags)      {}
-void Ктрл::MiddleHold(Точка p, dword keyflags)      {}
-void Ктрл::MiddleUp(Точка p, dword keyflags)        {}
+void Ctrl::CancelMode()                             {}
+void Ctrl::MouseEnter(Point p, dword keyflags)      {}
+void Ctrl::LeftDown(Point p, dword keyflags)        {}
+void Ctrl::RightDown(Point p, dword keyflags)       {}
+void Ctrl::LeftRepeat(Point p, dword keyflags)      {}
+void Ctrl::RightRepeat(Point p, dword keyflags)     {}
+void Ctrl::MouseMove(Point p, dword keyflags)       {}
+void Ctrl::LeftUp(Point, dword keyflags)            {}
+void Ctrl::RightUp(Point p, dword keyflags)         {}
+void Ctrl::MouseLeave()                             {}
+void Ctrl::LeftDrag(Point p, dword keyflags)        {}
+void Ctrl::LeftHold(Point p, dword keyflags)        {}
+void Ctrl::RightDrag(Point p, dword keyflags)       {}
+void Ctrl::RightHold(Point p, dword keyflags)       {}
+void Ctrl::MiddleDown(Point p, dword keyflags)      {}
+void Ctrl::MiddleDouble(Point p, dword keyflags)    {}
+void Ctrl::MiddleTriple(Point p, dword keyflags)    {}
+void Ctrl::MiddleRepeat(Point p, dword keyflags)    {}
+void Ctrl::MiddleDrag(Point p, dword keyflags)      {}
+void Ctrl::MiddleHold(Point p, dword keyflags)      {}
+void Ctrl::MiddleUp(Point p, dword keyflags)        {}
 
-void Ктрл::Pen(Точка p, const ИнфОПере& pen, dword keyflags) {}
+void Ctrl::Pen(Point p, const PenInfo& pen, dword keyflags) {}
 
-void Ктрл::Выкладка()                                 {}
+void Ctrl::Layout()                                 {}
 
-void Ктрл::PostInput()
+void Ctrl::PostInput()
 {
-	ЗамкниГип __;
-	if(parent) parent->PostInput();
+	GuiLock __;
+	Ctrl *parent = GetParent();
+	if(parent)
+		parent->PostInput();
 }
 
-void Ктрл::леваяДКлик(Точка p, dword keyflags)
+void Ctrl::LeftDouble(Point p, dword keyflags)
 {
-	леваяВнизу(p, keyflags);
+	LeftDown(p, keyflags);
 }
 
-void Ктрл::LeftTriple(Точка p, dword keyflags)
+void Ctrl::LeftTriple(Point p, dword keyflags)
 {
-	леваяВнизу(p, keyflags);
+	LeftDown(p, keyflags);
 }
 
-void Ктрл::RightDouble(Точка p, dword keyflags)
+void Ctrl::RightDouble(Point p, dword keyflags)
 {
-	праваяВнизу(p, keyflags);
+	RightDown(p, keyflags);
 }
 
-void Ктрл::RightTriple(Точка p, dword keyflags)
+void Ctrl::RightTriple(Point p, dword keyflags)
 {
-	праваяВнизу(p, keyflags);
+	RightDown(p, keyflags);
 }
 
-void Ктрл::отпрыскФок()
+void Ctrl::ChildGotFocus()
 {
-	ЗамкниГип __;
-	if(parent) parent->отпрыскФок();
+	GuiLock __;
+	Ctrl *parent = GetParent();
+	if(parent)
+		parent->ChildGotFocus();
 }
 
-void Ктрл::отпрыскРасфок()
+void Ctrl::ChildLostFocus()
 {
-	ЗамкниГип __;
-	if(parent) parent->отпрыскРасфок();
+	GuiLock __;
+	Ctrl *parent = GetParent();
+	if(parent)
+		parent->ChildLostFocus();
 }
 
-void Ктрл::отпрыскДобавлен(Ктрл *q)
+void Ctrl::ChildAdded(Ctrl *q)
 {
-	ЗамкниГип __;
-	if(parent) parent->отпрыскДобавлен(q);
+	GuiLock __;
+	Ctrl *parent = GetParent();
+	if(parent)
+		parent->ChildAdded(q);
 }
 
-void Ктрл::отпрыскУдалён(Ктрл *q)
+void Ctrl::ChildRemoved(Ctrl *q)
 {
-	ЗамкниГип __;
-	if(parent) parent->отпрыскУдалён(q);
+	GuiLock __;
+	Ctrl *parent = GetParent();
+	if(parent)
+		parent->ChildRemoved(q);
 }
 
-void Ктрл::ParentChange() {}
+void Ctrl::ParentChange() {}
 
-bool Ктрл::Ключ(dword ключ, int count)
+bool Ctrl::Key(dword key, int count)
 {
 	return false;
 }
 
-void Ктрл::сфокусирован()                               {}
-void Ктрл::расфокусирован()                              {}
+void Ctrl::GotFocus()                               {}
+void Ctrl::LostFocus()                              {}
 
-dword  Ктрл::AccessKeyBit(int accesskey)
+dword  Ctrl::AccessKeyBit(int accesskey)
 {
 	accesskey &= 255;
 	if(accesskey >= 'A' && accesskey <= 'Z')
@@ -144,390 +154,393 @@ dword  Ктрл::AccessKeyBit(int accesskey)
 	return !!accesskey;
 }
 
-dword Ктрл::GetAccessKeysDeep() const
+dword Ctrl::GetAccessKeysDeep() const
 {
-	ЗамкниГип __;
-	dword used = дайКлючиДоступа();
-	for(Ктрл *ctrl = дайПервОтпрыск(); ctrl; ctrl = ctrl->дайСледщ())
+	GuiLock __;
+	dword used = GetAccessKeys();
+	for(Ctrl *ctrl = GetFirstChild(); ctrl; ctrl = ctrl->GetNext())
 		used |= ctrl->GetAccessKeysDeep();
 	return used;
 }
 
-void Ктрл::присвойКлючиДоступа(dword used)
+void Ctrl::AssignAccessKeys(dword used)
 {
-	ЗамкниГип __;
-	for(Ктрл *ctrl = дайПервОтпрыск(); ctrl; ctrl = ctrl->дайСледщ()) {
-		ctrl->присвойКлючиДоступа(used);
-		used |= ctrl->дайКлючиДоступа();
+	GuiLock __;
+	for(Ctrl *ctrl = GetFirstChild(); ctrl; ctrl = ctrl->GetNext()) {
+		ctrl->AssignAccessKeys(used);
+		used |= ctrl->GetAccessKeys();
 	}
 }
 
-dword Ктрл::дайКлючиДоступа() const
+dword Ctrl::GetAccessKeys() const
 {
 	return 0;
 }
 
-void Ктрл::DistributeAccessKeys()
+void Ctrl::DistributeAccessKeys()
 {
-	присвойКлючиДоступа(GetAccessKeysDeep());
+	AssignAccessKeys(GetAccessKeysDeep());
 }
 
-bool Ктрл::VisibleAccessKeys()
+bool Ctrl::VisibleAccessKeys()
 {
-	ЗамкниГип __;
+	GuiLock __;
 	if(GUI_AltAccessKeys())
-		return дайАльт() && дайТопКтрл() == дайАктивныйКтрл();
+		return GetAlt() && GetTopCtrl() == GetActiveCtrl();
 	return true;
 }
 
-void Ктрл::State(int) {}
+void Ctrl::State(int) {}
 
-void Ктрл::StateDeep(int reason)
+void Ctrl::StateDeep(int reason)
 {
-	ЗамкниГип __;
+	GuiLock __;
 	if(destroying)
 		return;
-	for(Ктрл *q = дайПервОтпрыск(); q; q = q->дайСледщ())
+	for(Ctrl *q = GetFirstChild(); q; q = q->GetNext())
 		q->StateDeep(reason);
 	State(reason);
 }
 
-void Ктрл::StateH(int reason)
+void Ctrl::StateH(int reason)
 {
-	ЗамкниГип __;
-	for(int i = 0; i < statehook().дайСчёт(); i++)
+	GuiLock __;
+	for(int i = 0; i < statehook().GetCount(); i++)
 		if((*statehook()[i])(this, reason))
 			return;
 	StateDeep(reason);
 }
 
-bool   Ктрл::прими()
+bool   Ctrl::Accept()
 {
-	ЗамкниГип __;
-	if(!включен_ли() || !показан_ли())
+	GuiLock __;
+	if(!IsEnabled() || !IsShown())
 		return true;
-	if(DisplayError(дайДанные())) {
+	if(DisplayError(GetData())) {
 		SetWantFocus();
 		return false;
 	}
-	for(Ктрл *q = дайПервОтпрыск(); q; q = q->дайСледщ())
-		if(!q->прими()) return false;
+	for(Ctrl *q = GetFirstChild(); q; q = q->GetNext())
+		if(!q->Accept()) return false;
 	return true;
 }
 
-void   Ктрл::отклони()
+void   Ctrl::Reject()
 {
-	ЗамкниГип __;
-	for(Ктрл *q = дайПервОтпрыск(); q; q = q->дайСледщ())
-		q->отклони();
+	GuiLock __;
+	for(Ctrl *q = GetFirstChild(); q; q = q->GetNext())
+		q->Reject();
 }
 
-void   Ктрл::сериализуй(Поток& s)
+void   Ctrl::Serialize(Stream& s)
 {
-	ЗамкниГип __;
-	Значение x;
-	if(s.сохраняется())
-		x = дайДанные();
+	GuiLock __;
+	Value x;
+	if(s.IsStoring())
+		x = GetData();
 	s % x;
-	if(s.грузится())
-		устДанные(x);
-	for(Ктрл *q = дайПервОтпрыск(); q; q = q->дайСледщ())
-		q->сериализуй(s);
+	if(s.IsLoading())
+		SetData(x);
+	for(Ctrl *q = GetFirstChild(); q; q = q->GetNext())
+		q->Serialize(s);
 }
 
-void Ктрл::вДжейсон(ДжейсонВВ& jio)
+void Ctrl::Jsonize(JsonIO& jio)
 {
-	ЗамкниГип __;
-	Значение x;
-	if(jio.сохраняется())
-		x = дайДанные();
-	x.вДжейсон(jio);
-	if(jio.грузится())
-		устДанные(x);
+	GuiLock __;
+	Value x;
+	if(jio.IsStoring())
+		x = GetData();
+	x.Jsonize(jio);
+	if(jio.IsLoading())
+		SetData(x);
 }
 
-void Ктрл::вРяр(РярВВ& xio)
+void Ctrl::Xmlize(XmlIO& xio)
 {
-	ЗамкниГип __;
-	Значение x;
-	if(xio.сохраняется())
-		x = дайДанные();
-	x.вРяр(xio);
-	if(xio.грузится())
-		устДанные(x);
+	GuiLock __;
+	Value x;
+	if(xio.IsStoring())
+		x = GetData();
+	x.Xmlize(xio);
+	if(xio.IsLoading())
+		SetData(x);
 }
 
-void Ктрл::обновлено() {}
+void Ctrl::Updated() {}
 
-bool Ктрл::пп_ли() const
+bool Ctrl::IsForeground() const
 {
-	ЗамкниГип __;
-	return дайТопКтрл()->ппОкна_ли();
+	GuiLock __;
+	return GetTopCtrl()->IsWndForeground();
 }
 
-void Ктрл::устПП()
+void Ctrl::SetForeground()
 {
-	ЗамкниГип __;
-	дайТопКтрл()->устППОкна();
+	GuiLock __;
+	GetTopCtrl()->SetWndForeground();
 }
 
-bool Ктрл::открыт() const
+bool Ctrl::IsOpen() const
 {
-	ЗамкниГип __;
-	const Ктрл *q = дайТопКтрл();
+	GuiLock __;
+	const Ctrl *q = GetTopCtrl();
 	return q->isopen && q->IsWndOpen();
 }
 
-void Ктрл::покажи(bool ashow) {
-	ЗамкниГип __;
+void Ctrl::Show(bool ashow) {
+	GuiLock __;
 	if(visible != ashow) {
 		visible = true;
 		fullrefresh = false;
-		освежиФрейм();
+		RefreshFrame();
 		visible = ashow;
 		fullrefresh = false;
-		освежиФрейм();
+		RefreshFrame();
+		Ctrl *parent = GetParent();
 		if(parent)
 			StateH(SHOW);
 		if(top)
 			WndShow(visible);
 		if(InFrame() && parent)
-			освежиВыкладкуРодителя();
+			RefreshParentLayout();
 	}
 }
 
-bool Ктрл::видим_ли() const {
-	ЗамкниГип __;
-	const Ктрл *q = this;
+bool Ctrl::IsVisible() const {
+	GuiLock __;
+	const Ctrl *q = this;
 	for(;;) {
 		if(!q->visible) return false;
-		if(!q->parent) break;
-		q = q->parent;
+		Ctrl *p = q->GetParent();
+		if(!p) break;
+		q = p;
 	}
 	return q->visible;
 }
 
-void Ктрл::вкл(bool aenable) {
-	ЗамкниГип __;
+void Ctrl::Enable(bool aenable) {
+	GuiLock __;
 	if(enabled != aenable) {
 		enabled = aenable;
 		if(top) WndEnable(enabled);
-		if(!enabled && parent && HasFocusDeep())
-			IterateFocusForward(this, дайТопКтрл());
-		освежиФрейм();
+		if(!enabled && GetParent() && HasFocusDeep())
+			IterateFocusForward(this, GetTopCtrl());
+		RefreshFrame();
 		StateH(ENABLE);
 		SyncCaret();
 	}
 }
 
-bool Ктрл::IsShowEnabled() const {
-	ЗамкниГип __;
-	return включен_ли() && (!parent || parent->IsShowEnabled());
+bool Ctrl::IsShowEnabled() const {
+	GuiLock __;
+	Ctrl *parent = GetParent();
+	return IsEnabled() && (!parent || parent->IsShowEnabled());
 }
 
-Ктрл& Ктрл::устРедактируем(bool aeditable) {
-	ЗамкниГип __;
+Ctrl& Ctrl::SetEditable(bool aeditable) {
+	GuiLock __;
 	if(editable != aeditable) {
 		editable = aeditable;
-		освежиФрейм();
+		RefreshFrame();
 		StateH(EDITABLE);
 	}
 	return *this;
 }
 
-void Ктрл::SetModify()
+void Ctrl::SetModify()
 {
-	ЗамкниГип __;
+	GuiLock __;
 	modify = true;
 	CancelMyPreedit();
 }
 
-void Ктрл::ClearModify()
+void Ctrl::ClearModify()
 {
-	ЗамкниГип __;
+	GuiLock __;
 	modify = false;
 	CancelMyPreedit();
 }
 
-void Ктрл::ClearModifyDeep()
+void Ctrl::ClearModifyDeep()
 {
-	ЗамкниГип __;
+	GuiLock __;
 	ClearModify();
-	for(Ктрл *q = firstchild; q; q = q->next)
-		q->ClearModifyDeep();
+	for(Ctrl& q : *this)
+		q.ClearModifyDeep();
 }
 
 
-bool Ктрл::изменено() const
+bool Ctrl::IsModified() const
 {
-	ЗамкниГип __;
+	GuiLock __;
 	return modify;
 }
 
-bool Ктрл::IsModifiedDeep() const
+bool Ctrl::IsModifiedDeep() const
 {
-	ЗамкниГип __;
-	if(изменено()) return true;
-	for(Ктрл *q = firstchild; q; q = q->next)
-		if(q->изменено()) return true;
+	GuiLock __;
+	if(IsModified()) return true;
+	for(const Ctrl& q : *this)
+		if(q.IsModified()) return true;
 	return false;
 }
 
-void Ктрл::устКаретку(const Прям& r)
+void Ctrl::SetCaret(const Rect& r)
 {
-	устКаретку(r.left, r.top, r.дайШирину(), r.дайВысоту());
+	SetCaret(r.left, r.top, r.GetWidth(), r.GetHeight());
 }
 
-Прям Ктрл::дайКаретку() const
+Rect Ctrl::GetCaret() const
 {
 	return RectC(caretx, carety, caretcx, caretcy);
 }
 
-void Ктрл::анулируйКаретку()
+void Ctrl::KillCaret()
 {
-	устКаретку(0, 0, 0, 0);
+	SetCaret(0, 0, 0, 0);
 }
 
-void Ктрл::SetInfoPart(int i, const char *txt)
+void Ctrl::SetInfoPart(int i, const char *txt)
 {
-	Вектор<Ткст> f = разбей(info, '\x7f', false);
-	f.по(i) = txt;
+	Vector<String> f = Split(info, '\x7f', false);
+	f.At(i) = txt;
 	info = Join(f, "\x7f");
 }
 
-Ктрл& Ктрл::Подсказка(const char *txt)
+Ctrl& Ctrl::Tip(const char *txt)
 {
 	SetInfoPart(0, txt);
 	return *this;
 }
 
-Ктрл& Ктрл::HelpLine(const char *txt)
+Ctrl& Ctrl::HelpLine(const char *txt)
 {
 	SetInfoPart(1, txt);
 	return *this;
 }
 
-Ктрл& Ктрл::Description(const char *txt)
+Ctrl& Ctrl::Description(const char *txt)
 {
 	SetInfoPart(2, txt);
 	return *this;
 }
 
-Ктрл& Ктрл::HelpTopic(const char *txt)
+Ctrl& Ctrl::HelpTopic(const char *txt)
 {
 	SetInfoPart(3, txt);
 	return *this;
 }
 
-Ктрл& Ктрл::LayoutId(const char *txt)
+Ctrl& Ctrl::LayoutId(const char *txt)
 {
 	SetInfoPart(4, txt);
 	return *this;
 }
 
-Ткст Ктрл::GetInfoPart(int i) const
+String Ctrl::GetInfoPart(int i) const
 {
-	Вектор<Ткст> f = разбей(info, '\x7f', false);
-	return i < f.дайСчёт() ? f[i] : Ткст();
+	Vector<String> f = Split(info, '\x7f', false);
+	return i < f.GetCount() ? f[i] : String();
 }
 
-Ткст Ктрл::GetTip() const
+String Ctrl::GetTip() const
 {
 	return GetInfoPart(0);
 }
 
-Ткст Ктрл::GetHelpLine() const
+String Ctrl::GetHelpLine() const
 {
 	return GetInfoPart(1);
 }
 
-Ткст Ктрл::GetDescription() const
+String Ctrl::GetDescription() const
 {
 	return GetInfoPart(2);
 }
 
-Ткст Ктрл::GetHelpTopic() const
+String Ctrl::GetHelpTopic() const
 {
 	return GetInfoPart(3);
 }
 
-Ткст Ктрл::дайИдВыкладки() const
+String Ctrl::GetLayoutId() const
 {
 	return GetInfoPart(4);
 }
 
-bool  Ктрл::SetWantFocus() {
-	ЗамкниГип __;
-	if(IsWantFocus() && включен_ли() && видим_ли() && открыт())
-		return устФокус();
+bool  Ctrl::SetWantFocus() {
+	GuiLock __;
+	if(IsWantFocus() && IsEnabled() && IsVisible() && IsOpen())
+		return SetFocus();
 	return false;
 }
 
-void Ктрл::обновиОсвежи() {
+void Ctrl::UpdateRefresh() {
 	Update();
-	освежи();
+	Refresh();
 }
 
-void Ктрл::Update() {
+void Ctrl::Update() {
 	SetModify();
-	обновлено();
+	Updated();
 }
 
-void Ктрл::Action()
+void Ctrl::Action()
 {
-	Событие<> h = WhenAction; // we make copy of action just in case widget is destroyed during the call
+	Event<> h = WhenAction; // we make copy of action just in case widget is destroyed during the call
 	h();
 }
 
-void Ктрл::UpdateAction() {
+void Ctrl::UpdateAction() {
 	Update();
 	Action();
 }
 
-void Ктрл::UpdateActionRefresh() {
+void Ctrl::UpdateActionRefresh() {
 	Update();
 	Action();
-	освежи();
+	Refresh();
 };
 
-void  Ктрл::CancelModeDeep() {
-	ЗамкниГип __;
-	режимОтмены();
-	for(Ктрл *q = firstchild; q; q = q->next)
-		q->CancelModeDeep();
+void  Ctrl::CancelModeDeep() {
+	GuiLock __;
+	CancelMode();
+	for(Ctrl& q : *this)
+		q.CancelModeDeep();
 }
 
-Ткст Ктрл::дайОпис() const
+String Ctrl::GetDesc() const
 {
 	return "";
 }
 
 
-Ткст Имя(const Ктрл *ctrl)
+String Name(const Ctrl *ctrl)
 {
-	return ctrl ? ctrl->Имя() : "NULL";
+	return ctrl ? ctrl->Name() : "NULL";
 }
 
-Ткст Desc(const Ктрл *ctrl)
+String Desc(const Ctrl *ctrl)
 {
 	if(!ctrl)
 		return "NULL";
-	Ткст s;
+	String s;
 	s << typeid(*ctrl).name();
-	Ткст q = ctrl->дайОпис();
-	if(пусто_ли(q)) {
-		if(ctrl->дайПредш()) {
-			q = ctrl->дайПредш()->дайОпис();
-			if(!пусто_ли(q))
+	String q = ctrl->GetDesc();
+	if(IsNull(q)) {
+		if(ctrl->GetPrev()) {
+			q = ctrl->GetPrev()->GetDesc();
+			if(!IsNull(q))
 			  s << " <<\"" << q << "\">>";
 		}
 	}
 	else
 	  s << " \"" << q << '\"';
-	const Ктрл *top = ctrl->дайТопОкно();
+	const Ctrl *top = ctrl->GetTopWindow();
 	if(top && top != ctrl) {
- 		Ткст q = top->дайОпис();
- 		if(пусто_ли(q))
+ 		String q = top->GetDesc();
+ 		if(IsNull(q))
  			s << " (" << typeid(*top).name() << ")";
  		else
 	 		s << " (\"" << q << "\")";
@@ -535,26 +548,26 @@ void  Ктрл::CancelModeDeep() {
 	return s;
 }
 
-#ifdef _ОТЛАДКА
+#ifdef _DEBUG
 
 #define sFLAG(x)  (x ? #x" " : "")
 #define LG(x)     s << x << '\n'
 
-void Ктрл::Dump(Поток& s) const {
-	ЗамкниГип __;
-	LG(Имя());
+void Ctrl::Dump(Stream& s) const {
+	GuiLock __;
+	LG(Name());
 	LG(sFLAG(backpaint) << sFLAG(inframe) << sFLAG(visible) << sFLAG(enabled) <<
-	   sFLAG(wantfocus) << sFLAG(editable) << sFLAG(изменено()) << sFLAG(transparent));
-	LG("Прям:   " << дайПрям());
+	   sFLAG(wantfocus) << sFLAG(editable) << sFLAG(IsModified()) << sFLAG(transparent));
+	LG("Rect:   " << GetRect());
 	LG("View:   " << GetView());
-	for(int i = 0; i < frame.дайСчёт(); i++)
-		LG("Фрейм " << i << ": " << typeid(decltype(*frame[i].frame)).name() << " - " << frame[i].view);
-	LG("Данные: " << дайДанные().вТкст());
-	if(firstchild) {
+	for(int i = 0; i < GetFrameCount(); i++)
+		LG("Frame " << i << ": " << typeid(decltype(*GetFrame0(i).frame)).name() << " - " << GetFrame0(i).GetView());
+	LG("Data: " << GetData().ToString());
+	if(children) {
 		LG("Children");
 		s << LOG_BEGIN;
-		for(Ктрл *q = дайПервОтпрыск(); q; q = q->дайСледщ()) {
-			q->Dump(s);
+		for(const Ctrl& q : *this) {
+			q.Dump(s);
 			LG("------");
 		}
 		s << LOG_END;
@@ -563,11 +576,11 @@ void Ктрл::Dump(Поток& s) const {
 		LG("No child");
 }
 
-void Ктрл::Dump() const {
+void Ctrl::Dump() const {
 	Dump(VppLog());
 }
 
-void   Dump(const Ктрл *ctrl)
+void   Dump(const Ctrl *ctrl)
 {
 	if(ctrl)
 		ctrl->Dump();
@@ -577,34 +590,34 @@ void   Dump(const Ктрл *ctrl)
 
 #endif
 
-bool Ктрл::IsOcxChild()
+bool Ctrl::IsOcxChild()
 {
 	return false;
 }
 
-Ктрл::Ктрл() {
+Ctrl::Ctrl() {
 	ONCELOCK {
 		InstallPanicBox();
 	}
-	ПРОВЕРЬ_(главнаяПущена(), "GUI widgets cannot be global variables");
-	ПРОВЕРЬ_(уНитиЕстьЗамокГип(), "GUI widgets cannot be initialized in non-main thread without ЗамкниГип");
-	ЗамкниГип __; // Beware: Even if we have уНитиЕстьЗамокГип ПРОВЕРЬ, we still can be the main thread!
-	LLOG("Ктрл::Ктрл");
+	ASSERT_(IsMainRunning(), "GUI widgets cannot be global variables");
+	ASSERT_(ThreadHasGuiLock(), "GUI widgets cannot be initialized in non-main thread without GuiLock");
+	GuiLock __; // Beware: Even if we have ThreadHasGuiLock ASSERT, we still can be the main thread!
+	LLOG("Ctrl::Ctrl");
 	GuiPlatformConstruct();
 	destroying = false;
 	parent = prev = next = firstchild = lastchild = NULL;
 	top = NULL;
 	exitcode = 0;
-	frame.добавь().frame = &фреймПусто();
+	frame.Add().frame = &NullFrame();
 	enabled = visible = wantfocus = initfocus = true;
 	editable = true;
 	backpaint = IsCompositedGui() ? FULLBACKPAINT : TRANSPARENTBACKPAINT;
 	inframe = false;
 	ignoremouse = transparent = false;
 	caretcx = caretcy = caretx = carety = 0;
-	pos.x = позЛев(0, 0);
-	pos.y = позВерх(0, 0);
-	rect = Прям(0, 0, 0, 0);
+	pos.x = PosLeft(0, 0);
+	pos.y = PosTop(0, 0);
+	rect = Rect(0, 0, 0, 0);
 	inloop = popup = isopen = false;
 	modify = false;
 	unicode = false;
@@ -615,385 +628,389 @@ bool Ктрл::IsOcxChild()
 
 void KillTimeCallbacks(void *id, void *idlim);
 
-void Ктрл::DoRemove() {
-	ЗамкниГип __;
-	if(!открыт()) return;
+void Ctrl::DoRemove() {
+	GuiLock __;
+	if(!IsOpen()) return;
 	ReleaseCapture();
 	if(HasChildDeep(captureCtrl))
 		captureCtrl->ReleaseCapture();
 	CancelModeDeep();
 	if(HasChildDeep(mouseCtrl) || mouseCtrl == this)
 		mouseCtrl = NULL;
-	LLOG("DoRemove " << Имя() << " focusCtrl: " << РНЦП::Имя(focusCtrl));
+	LLOG("DoRemove " << Name() << " focusCtrl: " << UPP::Name(focusCtrl));
 	GuiPlatformRemove();
+	Ctrl *parent = GetParent();
 	if(HasFocusDeep()) {
 		LLOG("DoRemove - HasFocusDeep");
 		if(destroying) {
 			if(parent) {
-				LLOG("parent - deferred устФокус / отпрыскРасфок; parent = " << РНЦП::Имя(parent));
+				LLOG("parent - deferred SetFocus / ChildLostFocus; parent = " << UPP::Name(parent));
 				defferedSetFocus = parent;
-				defferedChildLostFocus.добавь(parent);
+				defferedChildLostFocus.Add(parent);
 			}
 			else
 				if(IsPopUp()) {
-					LLOG("удали Popup");
-					Ктрл *owner = дайВладельца();
-					if(owner && owner->включен_ли())
-						owner->активируйОкно();
+					LLOG("Remove Popup");
+					Ctrl *owner = GetOwner();
+					if(owner && owner->IsEnabled())
+						owner->ActivateWnd();
 				}
 			NoWantFocus();
 		}
 		else {
-			Ук<Ктрл> fc = focusCtrl;
+			Ptr<Ctrl> fc = focusCtrl;
 			focusCtrl = NULL;
 			DoKillFocus(fc, NULL);
 			if(parent) {
-				LLOG("DoRemove -> устФокус(" << РНЦП::Имя(parent) << "), focusCtrl = " << РНЦП::Имя(focusCtrl) << ", fc = " << РНЦП::Имя(fc));
+				LLOG("DoRemove -> SetFocus(" << UPP::Name(parent) << "), focusCtrl = " << UPP::Name(focusCtrl) << ", fc = " << UPP::Name(fc));
 				bool b = IsWantFocus();
 				NoWantFocus();
-				parent->устФокус0(false);
+				parent->SetFocus0(false);
 				WantFocus(b);
 			}
 			else
 				if(IsPopUp()) {
-					LLOG("удали Popup");
-					Ктрл *owner = дайВладельца();
-					if(owner && owner->включен_ли()) {
-						LLOG("удали popup -> owner->активируйОкно");
-						owner->активируйОкно();
+					LLOG("Remove Popup");
+					Ctrl *owner = GetOwner();
+					if(owner && owner->IsEnabled()) {
+						LLOG("Remove popup -> owner->ActivateWnd");
+						owner->ActivateWnd();
 					}
 				}
 		}
 		SyncCaret();
 	}
-	LLOG("//DoRemove " << Имя() << " focusCtrl: " << РНЦП::Имя(focusCtrl));
+	LLOG("//DoRemove " << Name() << " focusCtrl: " << UPP::Name(focusCtrl));
 }
 
-void Ктрл::закрой()
+void Ctrl::Close()
 {
-	ЗамкниГип __;
-	Ктрл *q = дайТопКтрл();
+	GuiLock __;
+	Ctrl *q = GetTopCtrl();
 	if(!q->top) return;
 	DoRemove();
-	if(parent) return;
+	if(GetParent()) return;
 	StateH(CLOSE);
 	USRLOG("   CLOSE " + Desc(this));
-	разрушьОкно();
+	WndDestroy();
 	visible = true;
 	popup = false;
 }
 
-Ктрл::~Ктрл() {
-	ЗамкниГип __;
-	LLOG("Ктрл::~Ктрл");
+Ctrl::~Ctrl() {
+	GuiLock __;
+	LLOG("Ctrl::~Ctrl");
 	destroying = true;
-	while(дайПервОтпрыск())
-		удалиОтпрыск(дайПервОтпрыск());
+	while(GetFirstChild())
+		RemoveChild(GetFirstChild());
+	Ctrl *parent = GetParent();
 	if(parent)
-		parent->удалиОтпрыск(this);
-	закрой();
-	KillTimeCallbacks(this, (byte *) this + sizeof(Ктрл));
+		parent->RemoveChild(this);
+	Close();
+	KillTimeCallbacks(this, (byte *) this + sizeof(Ctrl));
+	ClearInfo();
+	//FreeFrames();
 }
 
-Вектор<Ктрл::ХукМыш>& Ктрл::mousehook() { static Вектор<Ктрл::ХукМыш> h; return h; }
-Вектор<Ктрл::ХукКлав>&   Ктрл::keyhook() { static Вектор<Ктрл::ХукКлав> h; return h; }
-Вектор<Ктрл::ХукСост>& Ктрл::statehook() { static Вектор<Ктрл::ХукСост> h; return h; }
+Vector<Ctrl::MouseHook>& Ctrl::mousehook() { static Vector<Ctrl::MouseHook> h; return h; }
+Vector<Ctrl::KeyHook>&   Ctrl::keyhook() { static Vector<Ctrl::KeyHook> h; return h; }
+Vector<Ctrl::StateHook>& Ctrl::statehook() { static Vector<Ctrl::StateHook> h; return h; }
 
-void Ктрл::устХукМыши(ХукМыш hook)
+void Ctrl::InstallMouseHook(MouseHook hook)
 {
-	ЗамкниГип __;
-	mousehook().добавь(hook);
+	GuiLock __;
+	mousehook().Add(hook);
 }
 
-void Ктрл::DeinstallMouseHook(ХукМыш hook)
+void Ctrl::DeinstallMouseHook(MouseHook hook)
 {
-	ЗамкниГип __;
-	int q = найдиИндекс(mousehook(), hook);
-	if(q >= 0) mousehook().удали(q);
+	GuiLock __;
+	int q = FindIndex(mousehook(), hook);
+	if(q >= 0) mousehook().Remove(q);
 }
 
-void Ктрл::InstallKeyHook(ХукКлав hook)
+void Ctrl::InstallKeyHook(KeyHook hook)
 {
-	ЗамкниГип __;
-	keyhook().добавь(hook);
+	GuiLock __;
+	keyhook().Add(hook);
 }
 
-void Ктрл::DeinstallKeyHook(ХукКлав hook)
+void Ctrl::DeinstallKeyHook(KeyHook hook)
 {
-	ЗамкниГип __;
-	int q = найдиИндекс(keyhook(), hook);
-	if(q >= 0) keyhook().удали(q);
+	GuiLock __;
+	int q = FindIndex(keyhook(), hook);
+	if(q >= 0) keyhook().Remove(q);
 }
 
-void Ктрл::InstallStateHook(ХукСост hook)
+void Ctrl::InstallStateHook(StateHook hook)
 {
-	ЗамкниГип __;
-	statehook().добавь(hook);
+	GuiLock __;
+	statehook().Add(hook);
 }
 
-void Ктрл::DeinstallStateHook(ХукСост hook)
+void Ctrl::DeinstallStateHook(StateHook hook)
 {
-	ЗамкниГип __;
-	int q = найдиИндекс(statehook(), hook);
-	if(q >= 0) statehook().удали(q);
+	GuiLock __;
+	int q = FindIndex(statehook(), hook);
+	if(q >= 0) statehook().Remove(q);
 }
 
-static char sZoomText[] = "OK Cancel выход Retry";
+static char sZoomText[] = "OK Отмена Выход Повторить";
 
-const char *Ктрл::GetZoomText()
+const char *Ctrl::GetZoomText()
 {
-	ЗамкниГип __;
+	GuiLock __;
 	return sZoomText;
 }
 
-Размер Ктрл::Bsize;
-Размер Ктрл::Dsize;
-Размер Ктрл::Csize;
-bool Ктрл::IsNoLayoutZoom;
+Size Ctrl::Bsize;
+Size Ctrl::Dsize;
+Size Ctrl::Csize;
+bool Ctrl::IsNoLayoutZoom;
 
 /*
 void InitRichTextZoom()
 {
-	SetRichTextStdScreenZoom(96 * дайРазмТекста(sZoomText, StdFont()).cy / 13, 600);
-	Ктрл::ReSkin();
+	SetRichTextStdScreenZoom(96 * GetTextSize(sZoomText, StdFont()).cy / 13, 600);
+	Ctrl::ReSkin();
 }
 */
 void InitRichTextZoom()
 {
-	Размер h = 96 * Ктрл::Bsize / Ктрл::Dsize;
+	Size h = 96 * Ctrl::Bsize / Ctrl::Dsize;
 	SetRichTextStdScreenZoom(min(h.cx, h.cy), 600);
-	Ктрл::ReSkin();
+	Ctrl::ReSkin();
 }
 
 
-void Ктрл::Csizeinit()
+void Ctrl::Csizeinit()
 {
-	ЗамкниГип __;
+	GuiLock __;
 	if(Csize.cx == 0 || Dsize.cx == 0) {
 		bool bigger = GetStdFontCy() > 20;
 		if(Csize.cx == 0) {
-			Csize = дайРазмТекста(sZoomText, StdFont());
+			Csize = GetTextSize(sZoomText, StdFont());
 			Csize.cy += 4 * bigger; // this is intended to compensate for editfield / droplist edges - in any case looks better on UHD
 		}
 		Bsize = Csize;
 		if(Dsize.cx == 0)
-			Dsize = Размер(99, 13 + 4 * bigger);
+			Dsize = Size(99, 13 + 4 * bigger);
 		Csize.cx = max(Csize.cx, Dsize.cx);
 		Csize.cy = max(Csize.cy, Dsize.cy);
 		InitRichTextZoom();
 	}
 }
 
-void Ктрл::SetZoomSize(Размер sz, Размер bsz)
+void Ctrl::SetZoomSize(Size sz, Size bsz)
 {
-	ЗамкниГип __;
+	GuiLock __;
 	Csize = sz;
 	Dsize = bsz;
 	IsNoLayoutZoom = false;
 	ReSkin();
 }
 
-void Ктрл::NoLayoutZoom()
+void Ctrl::NoLayoutZoom()
 {
-	ЗамкниГип __;
+	GuiLock __;
 	IsNoLayoutZoom = true;
-	Csize = Dsize = Размер(1, 1);
+	Csize = Dsize = Size(1, 1);
 	ReSkin();
 }
 
-void Ктрл::GetZoomRatio(Размер& m, Размер& d)
+void Ctrl::GetZoomRatio(Size& m, Size& d)
 {
-	ЗамкниГип __;
+	GuiLock __;
 	m = Csize;
 	d = Dsize;
 }
 
-int  Ктрл::HorzLayoutZoom(int cx)
+int  Ctrl::HorzLayoutZoom(int cx)
 {
 	Csizeinit();
 	return cx > -16000 ? Csize.cx * cx / Dsize.cx : cx;
 }
 
-double  Ктрл::HorzLayoutZoomf(double cx)
+double  Ctrl::HorzLayoutZoomf(double cx)
 {
 	Csizeinit();
 	return cx > -16000 ? Csize.cx * cx / Dsize.cx : cx;
 }
 
-int  Ктрл::VertLayoutZoom(int cy)
+int  Ctrl::VertLayoutZoom(int cy)
 {
 	Csizeinit();
 	return cy > -16000 ? Csize.cy * cy / Dsize.cy : cy;
 }
 
-Размер Ктрл::LayoutZoom(int cx, int cy)
+Size Ctrl::LayoutZoom(int cx, int cy)
 {
-	return Размер(HorzLayoutZoom(cx), VertLayoutZoom(cy));
+	return Size(HorzLayoutZoom(cx), VertLayoutZoom(cy));
 }
 
-Размер Ктрл::LayoutZoom(Размер sz)
+Size Ctrl::LayoutZoom(Size sz)
 {
 	return LayoutZoom(sz.cx, sz.cy);
 }
 
-Шрифт FontZ(int face, int height)
+Font FontZ(int face, int height)
 {
-	return Шрифт(face, Ктрл::VertLayoutZoom(height));
+	return Font(face, Ctrl::VertLayoutZoom(height));
 }
 
 bool ApplicationUHDEnabled = true;
 
-void Ктрл::SetUHDEnabled(bool set)
+void Ctrl::SetUHDEnabled(bool set)
 {
 	ApplicationUHDEnabled = set;
 	ReSkin();
 }
 
-bool Ктрл::IsUHDEnabled()
+bool Ctrl::IsUHDEnabled()
 {
-	if(дайСреду("UPP_DISABLE_UHD__") == "1")
+	if(GetEnv("UPP_DISABLE_UHD__") == "1")
 		return false;
 	return ApplicationUHDEnabled;
 }
 
 bool ApplicationDarkThemeEnabled = true;
 
-void Ктрл::SetDarkThemeEnabled(bool set)
+void Ctrl::SetDarkThemeEnabled(bool set)
 {
 	ApplicationDarkThemeEnabled = set;
 	ReSkin();
 }
 
-bool Ктрл::IsDarkThemeEnabled()
+bool Ctrl::IsDarkThemeEnabled()
 {
 	return ApplicationDarkThemeEnabled;
 }
 
-Шрифт StdFontZ(int height)   { return FontZ(Шрифт::STDFONT, height); }
-Шрифт SansSerifZ(int height) { return FontZ(Шрифт::SANSSERIF, height); }
-Шрифт SerifZ(int height)     { return FontZ(Шрифт::SERIF, height); }
-Шрифт MonospaceZ(int height) { return FontZ(Шрифт::MONOSPACE, height); }
+Font StdFontZ(int height)   { return FontZ(Font::STDFONT, height); }
+Font SansSerifZ(int height) { return FontZ(Font::SANSSERIF, height); }
+Font SerifZ(int height)     { return FontZ(Font::SERIF, height); }
+Font MonospaceZ(int height) { return FontZ(Font::MONOSPACE, height); }
 
-Шрифт ScreenSansZ(int height) { return FontZ(Шрифт::SCREEN_SANS, height); }
-Шрифт ScreenSerifZ(int height) { return FontZ(Шрифт::SCREEN_SERIF, height); }
-Шрифт ScreenFixedZ(int height) { return FontZ(Шрифт::SCREEN_FIXED, height); }
-Шрифт RomanZ(int height) { return FontZ(Шрифт::ROMAN, height); }
-Шрифт ArialZ(int height) { return FontZ(Шрифт::ARIAL, height); }
-Шрифт CourierZ(int height) { return FontZ(Шрифт::COURIER, height); }
+Font ScreenSansZ(int height) { return FontZ(Font::SCREEN_SANS, height); }
+Font ScreenSerifZ(int height) { return FontZ(Font::SCREEN_SERIF, height); }
+Font ScreenFixedZ(int height) { return FontZ(Font::SCREEN_FIXED, height); }
+Font RomanZ(int height) { return FontZ(Font::ROMAN, height); }
+Font ArialZ(int height) { return FontZ(Font::ARIAL, height); }
+Font CourierZ(int height) { return FontZ(Font::COURIER, height); }
 
-Ткст Ктрл::appname;
+String Ctrl::appname;
 
-void Ктрл::устИмяПрил(const Ткст& nm)
+void Ctrl::SetAppName(const String& nm)
 {
-	ЗамкниГип __;
+	GuiLock __;
 	appname = nm;
 }
 
-Ткст Ктрл::дайИмяПрил()
+String Ctrl::GetAppName()
 {
-	ЗамкниГип __;
-	if(appname.пустой())
-		appname = дайТитулИсп();
+	GuiLock __;
+	if(appname.IsEmpty())
+		appname = GetExeTitle();
 	return appname;
 }
 
 static bool _ClickFocus;
-bool Ктрл::ClickFocus() { return _ClickFocus; }
-void Ктрл::ClickFocus(bool cf) { _ClickFocus = cf; }
+bool Ctrl::ClickFocus() { return _ClickFocus; }
+void Ctrl::ClickFocus(bool cf) { _ClickFocus = cf; }
 
 
-Вектор<Ктрл *> Ктрл::дайТопОкна()
+Vector<Ctrl *> Ctrl::GetTopWindows()
 {
-	ЗамкниГип __;
-	Вектор<Ктрл *> c = дайТопКтрлы();
-	Вектор<Ктрл *> r;
-	for(int i = 0; i < c.дайСчёт(); i++)
+	GuiLock __;
+	Vector<Ctrl *> c = GetTopCtrls();
+	Vector<Ctrl *> r;
+	for(int i = 0; i < c.GetCount(); i++)
 		if(!c[i]->IsPopUp())
-			r.добавь(c[i]);
+			r.Add(c[i]);
 	return r;
 }
 
-void Ктрл::закройТопКтрлы()
+void Ctrl::CloseTopCtrls()
 {
-	ЗамкниГип __;
-	Вектор<Ктрл *> tc = Ктрл::дайТопКтрлы();
-	for(int i = 0; i < tc.дайСчёт(); i++)
-		tc[i]->закрой();
+	GuiLock __;
+	Vector<Ctrl *> tc = Ctrl::GetTopCtrls();
+	for(int i = 0; i < tc.GetCount(); i++)
+		tc[i]->Close();
 }
 
 bool xpstyle;
 
-bool IsOrOwnedBy(Ктрл *q, Ктрл *window)
+bool IsOrOwnedBy(Ctrl *q, Ctrl *window)
 {
 	while(q) {
 		if(q == window)
 			return true;
-		q = q->дайВладельца();
+		q = q->GetOwner();
 	}
 	return false;
 }
 
-Вектор< Ук<Ктрл> > отклКтрлы(const Вектор<Ктрл *>& ctrl, Ктрл *exclude)
+Vector< Ptr<Ctrl> > DisableCtrls(const Vector<Ctrl *>& ctrl, Ctrl *exclude)
 {
-	Вектор< Ук<Ктрл> > disabled;
-	for(int i = 0; i < ctrl.дайСчёт(); i++) {
-		Ктрл *q = ctrl[i];
-		if(q && q->включен_ли() && !IsOrOwnedBy(q, exclude)) {
-			q->откл();
-			disabled.добавь(q);
+	Vector< Ptr<Ctrl> > disabled;
+	for(int i = 0; i < ctrl.GetCount(); i++) {
+		Ctrl *q = ctrl[i];
+		if(q && q->IsEnabled() && !IsOrOwnedBy(q, exclude)) {
+			q->Disable();
+			disabled.Add(q);
 		}
 	}
 	return disabled;
 }
 
-void вклКтрлы(const Вектор< Ук<Ктрл> >& ctrl)
+void EnableCtrls(const Vector< Ptr<Ctrl> >& ctrl)
 {
-	for(int i = ctrl.дайСчёт(); --i >= 0;) {
-		Ктрл *q = ctrl[i];
-		if(q) q->вкл();
+	for(int i = ctrl.GetCount(); --i >= 0;) {
+		Ctrl *q = ctrl[i];
+		if(q) q->Enable();
 	}
 }
 
-void Modality::старт(Ктрл *modal, bool fo)
+void Modality::Begin(Ctrl *modal, bool fo)
 {
-	active = Ктрл::GetFocusCtrl();
+	active = Ctrl::GetFocusCtrl();
 	fore_only = fo;
-	LLOG("Active " << Имя(active));
-	enable = отклКтрлы(Ктрл::дайТопОкна(), modal);
+	LLOG("Active " << Name(active));
+	enable = DisableCtrls(Ctrl::GetTopWindows(), modal);
 }
 
-void Modality::стоп()
+void Modality::End()
 {
-	вклКтрлы(enable);
-	if(active && (!fore_only || active->пп_ли()))
-		active->устФокус();
-	enable.очисть();
+	EnableCtrls(enable);
+	if(active && (!fore_only || active->IsForeground()))
+		active->SetFocus();
+	enable.Clear();
 	active = NULL;
 }
 
 extern void (*whenSetStdFont)();
 
-ИНИЦБЛОК {
-	whenSetStdFont = &Ктрл::ReSkin;
+INITBLOCK {
+	whenSetStdFont = &Ctrl::ReSkin;
 }
 
-void (*Ктрл::skin)();
+void (*Ctrl::skin)();
 
 void CtrlSetDefaultSkin(void (*_skin)())
 {
-	Ктрл::skin = _skin;
+	Ctrl::skin = _skin;
 }
 
-void Ктрл::SetSkin(void (*_skin)())
+void Ctrl::SetSkin(void (*_skin)())
 {
-	ЗамкниГип __;
+	GuiLock __;
 	skin = _skin;
 	ReSkin();
 }
 
-void Ктрл::ReSkin()
+void Ctrl::ReSkin()
 {
-	ЗамкниГип __;
+	GuiLock __;
 	static int lock;
 	if(lock)
 		return;
@@ -1006,10 +1023,10 @@ void Ктрл::ReSkin()
 	Csize.cx = Dsize.cx = IsNoLayoutZoom;
 	Csizeinit();
 	ChFinish();
-	Вектор<Ктрл *> ctrl = дайТопКтрлы();
-	for(int i = 0; i < ctrl.дайСчёт(); i++) {
+	Vector<Ctrl *> ctrl = GetTopCtrls();
+	for(int i = 0; i < ctrl.GetCount(); i++) {
 		ctrl[i]->RefreshLayoutDeep();
-		ctrl[i]->освежиФрейм();
+		ctrl[i]->RefreshFrame();
 	}
 	lock--;
 }
@@ -1026,74 +1043,74 @@ CH_INT(GUI_DragDistance, 4);
 CH_INT(GUI_DblClickTime, 500);
 CH_INT(GUI_WheelScrollLines, 3);
 
-Ткст Ктрл::имя0() const {
-	ЗамкниГип __;
-	Ткст s = разманглируйСиПП(typeid(*this).name());
-	const Ктрл *q = this;
-	Ткст path;
+String Ctrl::Name0() const {
+	GuiLock __;
+	String s = CppDemangle(typeid(*this).name());
+	const Ctrl *q = this;
+	String path;
 	while(q) {
-		Ткст id = q->дайИдВыкладки();
-		if(id.дайСчёт())
-			path = '.' + q->дайИдВыкладки() + path;
+		String id = q->GetLayoutId();
+		if(id.GetCount())
+			path = '.' + q->GetLayoutId() + path;
 		q = q->parent;
 	}
 	s << ' ' << path;
 #ifdef CPU_64
-	s << " : 0x" + фмтЦелГекс(this);
+	s << " : 0x" + FormatIntHex(this);
 #else
-	s << " : " + фмт("0x%x", (int) this);
+	s << " : " + Format("0x%x", (int) this);
 #endif
-	if(отпрыск_ли())
-		s << " (parent " << разманглируйСиПП(typeid(*parent).name()) << ")";
+	if(IsChild())
+		s << " (parent " << CppDemangle(typeid(*parent).name()) << ")";
 	return s;
 }
 
-Ткст Ктрл::Имя(Ктрл *ctrl)
+String Ctrl::Name(Ctrl *ctrl)
 {
-	return РНЦП::Имя(ctrl);
+	return Upp::Name(ctrl);
 }
 
-void   Ктрл::EndLoop()
+void   Ctrl::EndLoop()
 {
-	ЗамкниГип __;
+	GuiLock __;
 	inloop = false;
 	SysEndLoop();
 }
 
-void   Ктрл::EndLoop(int code)
+void   Ctrl::EndLoop(int code)
 {
-	ЗамкниГип __;
-	ПРОВЕРЬ(!parent);
+	GuiLock __;
+	ASSERT(!parent);
 	exitcode = code;
 	EndLoop();
 }
 
-bool   Ктрл::InLoop() const
+bool   Ctrl::InLoop() const
 {
-	ЗамкниГип __;
+	GuiLock __;
 	return inloop;
 }
 
-bool   Ктрл::InCurrentLoop() const
+bool   Ctrl::InCurrentLoop() const
 {
-	ЗамкниГип __;
+	GuiLock __;
 	return GetLoopCtrl() == this;
 }
 
-int    Ктрл::дайКодВыхода() const
+int    Ctrl::GetExitCode() const
 {
-	ЗамкниГип __;
+	GuiLock __;
 	return exitcode;
 }
 
 #ifdef HAS_TopFrameDraw
 
-ViewDraw::ViewDraw(Ктрл *ctrl, const Прям& r)
-:	TopFrameDraw(ctrl, (ctrl->GetScreenView() & (r + ctrl->GetScreenView().верхЛево()))
-                       - ctrl->дайТопКтрл()->дайПрямЭкрана().верхЛево())
+ViewDraw::ViewDraw(Ctrl *ctrl, const Rect& r)
+:	TopFrameDraw(ctrl, (ctrl->GetScreenView() & (r + ctrl->GetScreenView().TopLeft()))
+                       - ctrl->GetTopCtrl()->GetScreenRect().TopLeft())
 {
-	Точка p = r.верхЛево();
-	смещение(min(p.x, 0), min(p.y, 0));
+	Point p = r.TopLeft();
+	Offset(min(p.x, 0), min(p.y, 0));
 }
 
 #endif

@@ -27,7 +27,7 @@
 /*
  * TIFF Library.
  *
- * CCITT Группа 3 (T.4) and Группа 4 (T.6) Compression Support.
+ * CCITT Group 3 (T.4) and Group 4 (T.6) Compression Support.
  *
  * This file contains support for decoding and encoding TIFF
  * compression algorithms 2, 3, 4, and 32771.
@@ -54,7 +54,7 @@ typedef struct {
 	uint16   cleanfaxdata;           /* CleanFaxData tag */
 	uint32   badfaxrun;              /* BadFaxRun tag */
 	uint32   badfaxlines;            /* BadFaxLines tag */
-	uint32   groupoptions;           /* Группа 3/4 options tag */
+	uint32   groupoptions;           /* Group 3/4 options tag */
 
 	TIFFVGetMethod  vgetparent;      /* super-class method */
 	TIFFVSetMethod  vsetparent;      /* super-class method */
@@ -91,7 +91,7 @@ typedef struct {
 #define isAligned(p,t) ((((size_t)(p)) & (sizeof (t)-1)) == 0)
 
 /*
- * Группа 3 and Группа 4 Decoding.
+ * Group 3 and Group 4 Decoding.
  */
 
 /*
@@ -118,7 +118,7 @@ typedef struct {
     int b1;				/* next change on prev line */	\
     uint32* pb				/* next run in reference line */\
 /*
- * грузи any state that may be changed during decoding.
+ * Load any state that may be changed during decoding.
  */
 #define	CACHE_STATE(tif, sp) do {					\
     BitAcc = sp->data;							\
@@ -128,7 +128,7 @@ typedef struct {
     ep = cp + tif->tif_rawcc;						\
 } while (0)
 /*
- * сохрани state possibly changed during decoding.
+ * Save state possibly changed during decoding.
  */
 #define	UNCACHE_STATE(tif, sp) do {					\
     sp->bit = BitsAvail;						\
@@ -139,7 +139,7 @@ typedef struct {
 } while (0)
 
 /*
- * настрой state for decoding a strip.
+ * Setup state for decoding a strip.
  */
 static int
 Fax3PreDecode(TIFF* tif, uint16 s)
@@ -154,7 +154,7 @@ Fax3PreDecode(TIFF* tif, uint16 s)
 	/*
 	 * Decoder assumes lsb-to-msb bit order.  Note that we select
 	 * this here rather than in Fax3SetupState so that viewers can
-	 * hold the image open, fiddle with the FillOrder tag значение,
+	 * hold the image open, fiddle with the FillOrder tag value,
 	 * and then re-decode the image.  Otherwise they'd need to close
 	 * and open the image to get the state reset.
 	 */
@@ -199,7 +199,7 @@ static void
 Fax3BadLength(const char* module, TIFF* tif, uint32 line, uint32 a0, uint32 lastx)
 {
 	TIFFWarningExt(tif->tif_clientdata, module, "%s at line %u of %s %u (got %u, expected %u)",
-	    a0 < lastx ? "Premature EOL" : "Строка length mismatch",
+	    a0 < lastx ? "Premature EOL" : "Line length mismatch",
 	    line, isTiled(tif) ? "tile" : "strip",
 	    (isTiled(tif) ? tif->tif_curtile : tif->tif_curstrip),
 	    a0, lastx);
@@ -491,7 +491,7 @@ Fax3FixupTags(TIFF* tif)
 }
 
 /*
- * настрой G3/G4-related compression/decompression state
+ * Setup G3/G4-related compression/decompression state
  * before data is processed.  This routine is called once
  * per image -- it sets up different state based on whether
  * or not decoding or encoding is being done and whether
@@ -510,7 +510,7 @@ Fax3SetupState(TIFF* tif)
 
 	if (td->td_bitspersample != 1) {
 		TIFFErrorExt(tif->tif_clientdata, module,
-		    "Bits/sample must be 1 for Группа 3/4 encoding/decoding");
+		    "Bits/sample must be 1 for Group 3/4 encoding/decoding");
 		return (0);
 	}
 	/*
@@ -552,7 +552,7 @@ Fax3SetupState(TIFF* tif)
 	dsp->runs = (uint32*) _TIFFCheckMalloc(tif,
 					       TIFFSafeMultiply(uint32,nruns,2),
 					       sizeof (uint32),
-					       "for Группа 3/4 run arrays");
+					       "for Group 3/4 run arrays");
 	if (dsp->runs == NULL)
 		return (0);
 	memset( dsp->runs, 0, TIFFSafeMultiply(uint32,nruns,2)*sizeof(uint32));
@@ -572,7 +572,7 @@ Fax3SetupState(TIFF* tif)
 		Fax3CodecState* esp = EncoderState(tif);
 		/*
 		 * 2d encoding requires a scanline
-		 * буфер for the ``reference line''; the
+		 * buffer for the ``reference line''; the
 		 * scanline against which delta encoding
 		 * is referenced.  The reference line must
 		 * be initialized to be ``white'' (done elsewhere).
@@ -580,7 +580,7 @@ Fax3SetupState(TIFF* tif)
 		esp->refline = (unsigned char*) _TIFFmalloc(rowbytes);
 		if (esp->refline == NULL) {
 			TIFFErrorExt(tif->tif_clientdata, module,
-			    "No space for Группа 3/4 reference line");
+			    "No space for Group 3/4 reference line");
 			return (0);
 		}
 	} else					/* 1d encoding */
@@ -590,7 +590,7 @@ Fax3SetupState(TIFF* tif)
 }
 
 /*
- * CCITT Группа 3 FAX Encoding.
+ * CCITT Group 3 FAX Encoding.
  */
 
 #define	Fax3FlushBits(tif, sp) {				\
@@ -623,7 +623,7 @@ static const int _msbmask[9] =
 }
 	
 /*
- * пиши a variable-length bit-значение to
+ * Write a variable-length bit-value to
  * the output stream.  Values are
  * assumed to be at most 16 bits.
  */
@@ -641,7 +641,7 @@ Fax3PutBits(TIFF* tif, unsigned int bits, unsigned int length)
 }
 
 /*
- * пиши a code to the output stream.
+ * Write a code to the output stream.
  */
 #define putcode(tif, te)	Fax3PutBits(tif, (te)->code, (te)->length)
 
@@ -657,7 +657,7 @@ Fax3PutBits(TIFF* tif, unsigned int bits, unsigned int length)
 #endif
 
 /*
- * пиши the sequence of codes that describes
+ * Write the sequence of codes that describes
  * the specified span of zero's or one's.  The
  * appropriate table that holds the make-up and
  * terminating codes is supplied.
@@ -703,7 +703,7 @@ putspan(TIFF* tif, int32 span, const tableentry* tab)
 }
 
 /*
- * пиши an EOL code to the output stream.  The zero-fill
+ * Write an EOL code to the output stream.  The zero-fill
  * logic for byte-aligning encoded scanlines is handled
  * here.  We also handle writing the tag bit for the next
  * scanline when doing 2d encoding.
@@ -745,7 +745,7 @@ Fax3PutEOL(TIFF* tif)
 }
 
 /*
- * переустанов encoding state at the start of a strip.
+ * Reset encoding state at the start of a strip.
  */
 static int
 Fax3PreEncode(TIFF* tif, uint16 s)
@@ -758,7 +758,7 @@ Fax3PreEncode(TIFF* tif, uint16 s)
 	sp->data = 0;
 	sp->tag = G3_1D;
 	/*
-	 * This is necessary for Группа 4; otherwise it isn't
+	 * This is necessary for Group 4; otherwise it isn't
 	 * needed because the first scanline of each strip ends
 	 * up being copied into the refline.
 	 */
@@ -834,7 +834,7 @@ static	int32 find1span(unsigned char*, int32, int32);
 #endif
 
 /*
- * найди a span of ones or zeros using the supplied
+ * Find a span of ones or zeros using the supplied
  * table.  The ``base'' of the bit string is supplied
  * along with the start+end bit indices.
  */
@@ -850,7 +850,7 @@ find0span(unsigned char* bp, int32 bs, int32 be)
 	 */
 	if (bits > 0 && (n = (bs & 7)) != 0) {
 		span = zeroruns[(*bp << n) & 0xff];
-		if (span > 8-n)		/* table значение too generous */
+		if (span > 8-n)		/* table value too generous */
 			span = 8-n;
 		if (span > bits)	/* constrain span to bit range */
 			span = bits;
@@ -912,7 +912,7 @@ find1span(unsigned char* bp, int32 bs, int32 be)
 	 */
 	if (bits > 0 && (n = (bs & 7)) != 0) {
 		span = oneruns[(*bp << n) & 0xff];
-		if (span > 8-n)		/* table значение too generous */
+		if (span > 8-n)		/* table value too generous */
 			span = 8-n;
 		if (span > bits)	/* constrain span to bit range */
 			span = bits;
@@ -1076,7 +1076,7 @@ Fax3Encode2DRow(TIFF* tif, unsigned char* bp, unsigned char* rp, uint32 bits)
 }
 
 /*
- * Encode a буфер of pixels.
+ * Encode a buffer of pixels.
  */
 static int
 Fax3Encode(TIFF* tif, uint8* bp, tmsize_t cc, uint16 s)
@@ -1280,12 +1280,12 @@ Fax3PrintDir(TIFF* tif, FILE* fd, long flags)
 	if (TIFFFieldSet(tif,FIELD_OPTIONS)) {
 		const char* sep = " ";
 		if (tif->tif_dir.td_compression == COMPRESSION_CCITTFAX4) {
-			fprintf(fd, "  Группа 4 Options:");
+			fprintf(fd, "  Group 4 Options:");
 			if (sp->groupoptions & GROUP4OPT_UNCOMPRESSED)
 				fprintf(fd, "%suncompressed data", sep);
 		} else {
 
-			fprintf(fd, "  Группа 3 Options:");
+			fprintf(fd, "  Group 3 Options:");
 			if (sp->groupoptions & GROUP3OPT_2DENCODING) {
 				fprintf(fd, "%s2-d encoding", sep);
 				sep = "+";
@@ -1369,7 +1369,7 @@ InitCCITTFax3(TIFF* tif)
 	tif->tif_tagmethods.printdir = Fax3PrintDir;   /* hook for codec tags */
 	sp->groupoptions = 0;	
 
-	if (sp->rw_mode == O_RDONLY) /* FIXME: improve for in place update */
+	if (sp->rw_mode == O_RDONLY) /* ИСПРАВИТЬ: improve for in place update */
 		tif->tif_flags |= TIFF_NOBITREV; /* decoder does bit reversal */
 	DecoderState(tif)->runs = NULL;
 	TIFFSetField(tif, TIFFTAG_FAXFILLFUNC, _TIFFFax3fillruns);
@@ -1412,7 +1412,7 @@ TIFFInitCCITTFax3(TIFF* tif, int scheme)
 		}
 
 		/*
-		 * The default формат is Class/F-style w/o RTC.
+		 * The default format is Class/F-style w/o RTC.
 		 */
 		return TIFFSetField(tif, TIFFTAG_FAXMODE, FAXMODE_CLASSF);
 	} else
@@ -1420,7 +1420,7 @@ TIFFInitCCITTFax3(TIFF* tif, int scheme)
 }
 
 /*
- * CCITT Группа 4 (T.6) Facsimile-compatible
+ * CCITT Group 4 (T.6) Facsimile-compatible
  * Compression Scheme Support.
  */
 
@@ -1470,7 +1470,7 @@ Fax4Decode(TIFF* tif, uint8* buf, tmsize_t occ, uint16 s)
                 ClrBits( 13 );
 		(*sp->fill)(buf, thisrun, pa, lastx);
 		UNCACHE_STATE(tif, sp);
-		return ( sp->line ? 1 : -1);	/* don't Ошибка on badly-terminated strips */
+		return ( sp->line ? 1 : -1);	/* don't error on badly-terminated strips */
 	}
 	UNCACHE_STATE(tif, sp);
 	return (1);
@@ -1545,7 +1545,7 @@ TIFFInitCCITTFax4(TIFF* tif, int scheme)
 }
 
 /*
- * CCITT Группа 3 1-D Modified Huffman RLE Compression Support.
+ * CCITT Group 3 1-D Modified Huffman RLE Compression Support.
  * (Compression algorithms 2 and 32771)
  */
 
@@ -1642,5 +1642,5 @@ TIFFInitCCITTRLEW(TIFF* tif, int scheme)
  * mode: c
  * c-basic-offset: 8
  * fill-column: 78
- * стоп:
+ * End:
  */

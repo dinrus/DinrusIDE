@@ -1,45 +1,45 @@
 #include "CtrlLib.h"
 
-namespace РНЦП {
+namespace Upp {
 
 #define LLOG(x) // LOG(x)
 
 Zoom  RichTextView::GetZoom() const
 {
-	int szcx = дайРазм().cx;
-	if(!sb.показан_ли() && sb.автоСкрой_ли())
-		szcx -= размПромотБара();
-	return пусто_ли(zoom) ? Zoom(szcx - margin.left - margin.right, cx) : zoom;
+	int szcx = GetSize().cx;
+	if(!sb.IsShown() && sb.IsAutoHide())
+		szcx -= ScrollBarSize();
+	return IsNull(zoom) ? Zoom(szcx - margin.left - margin.right, cx) : zoom;
 }
 
 int   RichTextView::GetPageCx(bool reduced) const
 {
-	int szcx = дайРазм().cx;
-	if(reduced && !sb.показан_ли() && sb.автоСкрой_ли())
-		szcx -= размПромотБара();
-	return пусто_ли(zoom) ? cx : (szcx - margin.left - margin.right) / zoom;
+	int szcx = GetSize().cx;
+	if(reduced && !sb.IsShown() && sb.IsAutoHide())
+		szcx -= ScrollBarSize();
+	return IsNull(zoom) ? cx : (szcx - margin.left - margin.right) / zoom;
 }
 
-Прям  RichTextView::дайСтраницу() const
+Rect  RichTextView::GetPage() const
 {
-	return Прям(0, 0, GetPageCx(), INT_MAX);
+	return Rect(0, 0, GetPageCx(), INT_MAX);
 }
 
 int RichTextView::GetCy() const
 {
-	return GetZoom() * text.дайВысоту(дайСтраницу()).y;
+	return GetZoom() * text.GetHeight(GetPage()).y;
 }
 
 int RichTextView::TopY() const
 {
-	if(vcenter && sb.дайВсего() < sb.дайСтраницу())
-		return (sb.дайСтраницу() - sb.дайВсего()) / 2;
+	if(vcenter && sb.GetTotal() < sb.GetPage())
+		return (sb.GetPage() - sb.GetTotal()) / 2;
 	return 0;
 }
 
-void  RichTextView::рисуй(Draw& w)
+void  RichTextView::Paint(Draw& w)
 {
-	Размер sz = дайРазм();
+	Size sz = GetSize();
 	w.DrawRect(sz, background);
 	sz.cx -= margin.left + margin.right;
 	sz.cy -= margin.top + margin.bottom;
@@ -56,8 +56,8 @@ void  RichTextView::рисуй(Draw& w)
 	pi.zoom = GetZoom();
 	pi.textcolor = textcolor;
 	int q = sb * pi.zoom;
-	scroller.уст(q);
-	w.смещение(0, -q);
+	scroller.Set(q);
+	w.Offset(0, -q);
 	SimplePageDraw pw(w);
 	pi.top = PageY(0, sb);
 	pi.bottom = PageY(0, sb + sz.cy / pi.zoom);
@@ -65,109 +65,109 @@ void  RichTextView::рисуй(Draw& w)
 	pi.sizetracking = sizetracking;
 	pi.shrink_oversized_objects = shrink_oversized_objects;
 	pi.darktheme = Grayscale(SColorPaper()) < 100;
-	Прям pg = дайСтраницу();
+	Rect pg = GetPage();
 	pg.top = TopY();
-	text.рисуй(pw, pg, pi);
-	w.стоп();
-	w.стоп();
+	text.Paint(pw, pg, pi);
+	w.End();
+	w.End();
 }
 
 void  RichTextView::SetSb()
 {
-	sb.устВсего(text.дайВысоту(дайСтраницу()).y);
-	sb.устСтраницу((дайРазм().cy - margin.top - margin.bottom) / GetZoom());
+	sb.SetTotal(text.GetHeight(GetPage()).y);
+	sb.SetPage((GetSize().cy - margin.top - margin.bottom) / GetZoom());
 }
 
-bool  RichTextView::Ключ(dword ключ, int count)
+bool  RichTextView::Key(dword key, int count)
 {
-	if(ключ == K_CTRL_C || ключ == K_SHIFT_INSERT) {
-		копируй();
+	if(key == K_CTRL_C || key == K_SHIFT_INSERT) {
+		Copy();
 		return true;
 	}
-	return sb.вертКлюч(ключ);
+	return sb.VertKey(key);
 }
 
-void  RichTextView::колесоМыши(Точка p, int zdelta, dword keyflags)
+void  RichTextView::MouseWheel(Point p, int zdelta, dword keyflags)
 {
 	sb.Wheel(zdelta);
 }
 
-Рисунок RichTextView::рисКурсора(Точка p, dword keyflags)
+Image RichTextView::CursorImage(Point p, dword keyflags)
 {
 	int pos = GetPointPos(p);
-	if(WhenLink && pos >= 0 && !пусто_ли(GetLink(pos, p)))
-		return Рисунок::Hand();
+	if(WhenLink && pos >= 0 && !IsNull(GetLink(pos, p)))
+		return Image::Hand();
 	if(HasCapture())
-		return Рисунок::IBeam();
-	return Рисунок::Arrow();
+		return Image::IBeam();
+	return Image::Arrow();
 }
 
-ШТкст RichTextView::GetSelText() const
+WString RichTextView::GetSelText() const
 {
 	if(anchor == cursor)
 		return text.GetPlainText();
 	else {
-		ШТкст h = text.GetPlainText(false).середина(sell, selh - sell);
-		ШТкст r;
-		for(const wchar *s = ~h; s < h.стоп(); s++) {
+		WString h = text.GetPlainText(false).Mid(sell, selh - sell);
+		WString r;
+		for(const wchar *s = ~h; s < h.End(); s++) {
 			if(*s == '\n')
-				r.конкат('\r');
-			r.конкат(*s);
+				r.Cat('\r');
+			r.Cat(*s);
 		}
 		return r;
 	}
 }
 
-void RichTextView::копируй()
+void RichTextView::Copy()
 {
-	освежиВыд();
+	RefreshSel();
 	WriteClipboardUnicodeText(GetSelText());
 }
 
-Ткст RichTextView::GetSelectionData(const Ткст& fmt) const
+String RichTextView::GetSelectionData(const String& fmt) const
 {
 	return GetTextClip(GetSelText(), fmt);
 }
 
-void RichTextView::праваяВнизу(Точка p, dword keyflags)
+void RichTextView::RightDown(Point p, dword keyflags)
 {
-	БарМеню b;
-	b.добавь(cursor != anchor, t_("копируй"), CtrlImg::copy(), THISBACK(копируй)).Ключ(K_CTRL_C);
-	b.выполни();
+	MenuBar b;
+	b.Add(cursor != anchor, t_("Копировать"), CtrlImg::copy(), THISBACK(Copy)).Key(K_CTRL_C);
+	b.Execute();
 }
 
-Точка RichTextView::GetTextPoint(Точка p) const
+Point RichTextView::GetTextPoint(Point p) const
 {
-	p -= margin.верхЛево();
+	p -= margin.TopLeft();
 	Zoom zoom = GetZoom();
 	p.y += sb * zoom;
-	return Точка(p.x / zoom, p.y / zoom - TopY());
+	return Point(p.x / zoom, p.y / zoom - TopY());
 }
 
-int  RichTextView::GetPointPos(Точка p) const
+int  RichTextView::GetPointPos(Point p) const
 {
-	Размер sz = дайРазм();
+	Size sz = GetSize();
 	sz.cx -= margin.left + margin.right;
 	sz.cy -= margin.top + margin.bottom;
 	p = GetTextPoint(p);
-	return text.дайПоз(p.x, PageY(0, p.y), дайСтраницу());
+	return text.GetPos(p.x, PageY(0, p.y), GetPage());
 }
 
-Ткст RichTextView::GetLink(int pos, Точка p) const
+String RichTextView::GetLink(int pos, Point p) const
 {
-	Ткст link;
+	String link;
 	RichObject object = text.GetRichPos(pos).object;
 	if(object) {
-		Прям rc = text.дайКаретку(pos, дайСтраницу());
-		//TODO: Perhaps use GetTextPoint here?
-		link = object.GetLink(p - rc.верхЛево(), rc.размер());
+		Rect rc = text.GetCaret(pos, GetPage());
+		//СДЕЛАТЬ: Perhaps use GetTextPoint here?
+		link = object.GetLink(p - rc.TopLeft(), rc.Size());
 	}
 
-	if(пусто_ли(link)) {
+	if(IsNull(link)) {
 		RichPos richpos = text.GetRichPos(pos);
-		Прям rc = text.дайКаретку(pos, дайСтраницу());
-		if(richpos.chr != '\n' && rc.содержит(GetTextPoint(p)))
-			link = Nvl(richpos.fieldformat.link, richpos.формат.link);
+		Rect rc = text.GetCaret(pos, GetPage());
+		if(richpos.chr != '\n' && rc.Contains(GetTextPoint(p)))
+			link = Nvl(richpos.fieldformat.link, richpos.format.link);
 	}
 	return link;
 }
@@ -175,19 +175,19 @@ int  RichTextView::GetPointPos(Точка p) const
 void RichTextView::RefreshRange(int a, int b)
 {
 	int l = max(min(a, b) - 1, 0); // Extend the range to cover 'weird' cases (line break)
-	int h = min(max(a, b) + 1, дайДлину());
+	int h = min(max(a, b) + 1, GetLength());
 	if(l == h)
 		return;
-	Прям r1 = text.дайКаретку(l, дайСтраницу()) + margin.верхЛево();
-	Прям r2 = text.дайКаретку(h, дайСтраницу()) + margin.верхЛево();
+	Rect r1 = text.GetCaret(l, GetPage()) + margin.TopLeft();
+	Rect r2 = text.GetCaret(h, GetPage()) + margin.TopLeft();
 	Zoom zoom = GetZoom();
-	освежи(Прям(0, zoom * (r1.top - sb + TopY()), дайРазм().cx, zoom * (r2.bottom - sb + zoom.d - 1) + TopY()));
+	Refresh(Rect(0, zoom * (r1.top - sb + TopY()), GetSize().cx, zoom * (r2.bottom - sb + zoom.d - 1) + TopY()));
 }
 
-void  RichTextView::освежиВыд()
+void  RichTextView::RefreshSel()
 {
-	int l = minmax(min(cursor, anchor), 0, text.дайДлину());
-	int h = minmax(max(cursor, anchor), 0, text.дайДлину());
+	int l = minmax(min(cursor, anchor), 0, text.GetLength());
+	int h = minmax(max(cursor, anchor), 0, text.GetLength());
 	if(sell == l && selh == h || sell == selh && l == h)
 		return;
 	RichPos pl = text.GetRichPos(l);
@@ -197,38 +197,38 @@ void  RichTextView::освежиВыд()
 	if(psell.parai != pl.parai || pselh.parai != ph.parai ||
 	   psell.table != pl.table || pselh.table != ph.table ||
 	   psell.cell != pl.cell || pselh.cell != ph.cell)
-		освежи();
+		Refresh();
 	else {
 		RefreshRange(l, sell);
 		RefreshRange(h, selh);
 	}
 	sell = l;
 	selh = h;
-	if(выделение_ли())
+	if(IsSelection())
 		SetSelectionSource(ClipFmtsText());
 }
 
-void  RichTextView::леваяВнизу(Точка p, dword keyflags)
+void  RichTextView::LeftDown(Point p, dword keyflags)
 {
 	int pos = GetPointPos(p);
 	if(pos < 0) {
 		cursor = anchor = 0;
 		return;
 	}
-	Ткст link = GetLink(pos, p);
-	if(!пусто_ли(link))
+	String link = GetLink(pos, p);
+	if(!IsNull(link))
 		WhenLink(link);
 	else {
 		cursor = pos;
 		if(!(keyflags & K_SHIFT))
 			anchor = pos;
-		освежиВыд();
-		устФокус();
+		RefreshSel();
+		SetFocus();
 		SetCapture();
 	}
 }
 
-void RichTextView::леваяДКлик(Точка p, dword keyflags)
+void RichTextView::LeftDouble(Point p, dword keyflags)
 {
 	int pos = GetPointPos(p);
 	if(IsLeNum(text[pos])) {
@@ -236,26 +236,26 @@ void RichTextView::леваяДКлик(Точка p, dword keyflags)
 		while(anchor > 0 && IsLeNum(text[anchor - 1]))
 			anchor--;
 		cursor = pos;
-		while(cursor < text.дайДлину() && IsLeNum(text[cursor]))
+		while(cursor < text.GetLength() && IsLeNum(text[cursor]))
 			cursor++;
-		while(cursor < text.дайДлину() && text[cursor] == ' ')
+		while(cursor < text.GetLength() && text[cursor] == ' ')
 			cursor++;
-		освежиВыд();
-		устФокус();
+		RefreshSel();
+		SetFocus();
 	}
 }
 
-void RichTextView::LeftTriple(Точка p, dword keyflags)
+void RichTextView::LeftTriple(Point p, dword keyflags)
 {
     int pos = GetPointPos(p);
 	RichPos rp = text.GetRichPos(pos);
 	anchor = pos - rp.posinpara;
 	cursor = anchor + rp.paralen + 1;
-    освежиВыд();
-    устФокус();
+    RefreshSel();
+    SetFocus();
 }
 
-void RichTextView::двигМыши(Точка p, dword keyflags)
+void RichTextView::MouseMove(Point p, dword keyflags)
 {
 	int pos = GetPointPos(p);
 	WhenMouseMove(pos);
@@ -263,97 +263,97 @@ void RichTextView::двигМыши(Точка p, dword keyflags)
 		if(pos < 0)
 			return;
 		cursor = pos;
-		Прям r1 = text.дайКаретку(cursor, дайСтраницу());
-		sb.промотайДо(r1.top, r1.устВысоту());
-		освежиВыд();
+		Rect r1 = text.GetCaret(cursor, GetPage());
+		sb.ScrollInto(r1.top, r1.Height());
+		RefreshSel();
 	}
 }
 
-void RichTextView::леваяПовтори(Точка p, dword keyflags)
+void RichTextView::LeftRepeat(Point p, dword keyflags)
 {
-	двигМыши(p, keyflags);
+	MouseMove(p, keyflags);
 }
 
 void  RichTextView::EndSizeTracking()
 {
 	sizetracking = false;
-	освежи();
+	Refresh();
 }
 
-void  RichTextView::Выкладка()
+void  RichTextView::Layout()
 {
 	sizetracking = false;
-	if(открыт() && lazy) {
+	if(IsOpen() && lazy) {
 		sizetracking = true;
-		глушиОбрвызВремени(TIMEID_ENDSIZETRACKING);
-		устОбрвызВремени(250, THISBACK(EndSizeTracking), TIMEID_ENDSIZETRACKING);
+		KillTimeCallback(TIMEID_ENDSIZETRACKING);
+		SetTimeCallback(250, THISBACK(EndSizeTracking), TIMEID_ENDSIZETRACKING);
 	}
 	SetSb();
-	освежи();
+	Refresh();
 }
 
-Значение RichTextView::дайДанные() const
+Value RichTextView::GetData() const
 {
-	if(text.пустой()) return Значение();
+	if(text.IsEmpty()) return Value();
 	return GetQTF();
 }
 
-void  RichTextView::устДанные(const Значение& v)
+void  RichTextView::SetData(const Value& v)
 {
-	SetQTF(Ткст(v));
+	SetQTF(String(v));
 }
 
-void  RichTextView::промотай()
+void  RichTextView::Scroll()
 {
-	scroller.промотай(*this, Прям(дайРазм()).дефлят(margin), sb * GetZoom());
+	scroller.Scroll(*this, Rect(GetSize()).Deflated(margin), sb * GetZoom());
 }
 
-bool RichTextView::GotoLabel(const Ткст& lbl, bool dohighlight)
+bool RichTextView::GotoLabel(const String& lbl, bool dohighlight)
 {
-	Вектор<RichValPos> f = text.GetValPos(дайСтраницу(), RichText::LABELS);
+	Vector<RichValPos> f = text.GetValPos(GetPage(), RichText::LABELS);
 	highlight = Null;
-	ШТкст lw = lbl.вШТкст();
-	for(int i = 0; i < f.дайСчёт(); i++) {
+	WString lw = lbl.ToWString();
+	for(int i = 0; i < f.GetCount(); i++) {
 		if(f[i].data == lw) {
 			sb = f[i].py.y;
 			if(dohighlight)
 				highlight = f[i].pos;
-			освежи();
+			Refresh();
 			return true;
 		}
 	}
 	return false;
 }
 
-void  RichTextView::очисть()
+void  RichTextView::Clear()
 {
 	sb = 0;
-	text.очисть();
+	text.Clear();
 	SetSb();
-	освежи();
+	Refresh();
 	anchor = cursor = sell = selh = 0;
 }
 
-void  RichTextView::подбери(RichText&& rt)
+void  RichTextView::Pick(RichText&& rt)
 {
 	sb = 0;
 	anchor = cursor = sell = selh = 0;
 	text = pick(rt);
 	SetSb();
-	обновиОсвежи();
+	UpdateRefresh();
 	highlight = -1;
 }
 
-void  RichTextView::подбери(RichText&& txt, Zoom z) {
+void  RichTextView::Pick(RichText&& txt, Zoom z) {
 	if(z.m != z.d)
 		const_cast<RichText&>(txt).ApplyZoom(z);
-	подбери(pick(txt));
-	sb.устСтроку(z * 100);
+	Pick(pick(txt));
+	sb.SetLine(z * 100);
 }
 
 void  RichTextView::SetQTF(const char *qtf, Zoom z)
 {
-	подбери(ParseQTF(qtf), z);
+	Pick(ParseQTF(qtf), z);
 }
 
 RichTextView& RichTextView::PageWidth(int _cx)
@@ -361,7 +361,7 @@ RichTextView& RichTextView::PageWidth(int _cx)
 	cx = _cx;
 	sb = 0;
 	SetSb();
-	освежи();
+	Refresh();
 	return *this;
 }
 
@@ -370,22 +370,22 @@ RichTextView& RichTextView::SetZoom(Zoom z)
 	zoom = z;
 	sb = 0;
 	SetSb();
-	освежи();
+	Refresh();
 	return *this;
 }
 
-RichTextView& RichTextView::фон(Цвет c)
+RichTextView& RichTextView::Background(Color c)
 {
 	background = c;
-	Transparent(пусто_ли(c));
-	освежи();
+	Transparent(IsNull(c));
+	Refresh();
 	return *this;
 }
 
-RichTextView& RichTextView::TextColor(Цвет _color)
+RichTextView& RichTextView::TextColor(Color _color)
 {
 	textcolor = _color;
-	освежи();
+	Refresh();
 	return *this;
 }
 
@@ -395,31 +395,31 @@ RichTextView& RichTextView::VCenter(bool b)
 	return *this;
 }
 
-RichTextView& RichTextView::Margins(const Прям& m)
+RichTextView& RichTextView::Margins(const Rect& m)
 {
 	margin = m;
-	освежи();
+	Refresh();
 	return *this;
 }
 
 RichTextView& RichTextView::HMargins(int a)
 {
 	margin.left = margin.right = a;
-	освежи();
+	Refresh();
 	return *this;
 }
 
 RichTextView& RichTextView::VMargins(int a)
 {
 	margin.top = margin.bottom = a;
-	освежи();
+	Refresh();
 	return *this;
 }
 
 RichTextView& RichTextView::Margins(int a)
 {
-	margin.уст(a, a, a, a);
-	освежи();
+	margin.Set(a, a, a, a);
+	Refresh();
 	return *this;
 }
 
@@ -429,19 +429,19 @@ RichTextView::RichTextView()
 {
 	cx = 3968;
 	sizetracking = false;
-	sb.устСтроку(100);
-	sb.ПриПромоте = THISBACK(промотай);
+	sb.SetLine(100);
+	sb.WhenScroll = THISBACK(Scroll);
 	zoom = Null;
 	background = SColorPaper;
 	textcolor = Null;
 	vcenter = false;
-	margin = Прям(0, 0, 0, 0);
+	margin = Rect(0, 0, 0, 0);
 	highlight = -1;
 	hldec = true;
-	WhenLink = callback(запустиВебБраузер);
+	WhenLink = callback(LaunchWebBrowser);
 	anchor = cursor = sell = selh = 0;
-	устФрейм(ViewFrame());
-	добавьФрейм(sb);
+	SetFrame(ViewFrame());
+	AddFrame(sb);
 	NoWantFocus();
 	lazy = true;
 	shrink_oversized_objects = true;
@@ -449,48 +449,48 @@ RichTextView::RichTextView()
 
 RichTextView::~RichTextView() {}
 
-void RichTextCtrl::устДанные(const Значение& v)
+void RichTextCtrl::SetData(const Value& v)
 {
-	SetQTF(Ткст(v));
+	SetQTF(String(v));
 }
 
 RichTextCtrl::RichTextCtrl()
 {
 	SetZoom(Zoom(1, 1));
 	Transparent();
-	фон(Null);
-	устФрейм(фреймПусто());
+	Background(Null);
+	SetFrame(NullFrame());
 	AutoHideSb();
 }
 
 #ifndef PLATFORM_PDA
 
-void Print(Draw& w, const RichText& text, const Прям& page, const Вектор<int>& pg)
+void Print(Draw& w, const RichText& text, const Rect& page, const Vector<int>& pg)
 {
 	LLOG("Print");
-	int lpage = text.дайВысоту(page).page;
+	int lpage = text.GetHeight(page).page;
 	PrintPageDraw pw(w);
-	Размер sz = w.GetPageMMs();
-	Размер pgsz = page.размер();
+	Size sz = w.GetPageMMs();
+	Size pgsz = page.Size();
 	int x = (6000 * sz.cx / 254 - pgsz.cx) / 2;
 	int y = (6000 * sz.cy / 254 - pgsz.cy) / 2;
-	for(int pi = 0; pi < pg.дайСчёт(); pi++) {
+	for(int pi = 0; pi < pg.GetCount(); pi++) {
 		int i = pg[pi];
 		w.StartPage();
-		w.смещение(x, y);
-		pw.устСтраницу(i);
+		w.Offset(x, y);
+		pw.SetPage(i);
 		PaintInfo paintinfo;
 		paintinfo.top = PageY(i, 0);
 		paintinfo.bottom = PageY(i + 1, 0);
 		paintinfo.indexentry = Null;
 		if(text.IsPrintNoLinks())
 			paintinfo.hyperlink = Null;
-		text.рисуй(pw, page, paintinfo);
-		w.стоп();
-		Ткст footer = text.GetFooter();
-		if(!пусто_ли(footer) && lpage) {
-			Ткст n = фмт(footer, i + 1, lpage + 1);
-			Размер nsz = дайРазмТекста(n, Arial(90).Italic());
+		text.Paint(pw, page, paintinfo);
+		w.End();
+		String footer = text.GetFooter();
+		if(!IsNull(footer) && lpage) {
+			String n = Format(footer, i + 1, lpage + 1);
+			Size nsz = GetTextSize(n, Arial(90).Italic());
 			pw.Page(i).DrawText(
 				x + pgsz.cx - nsz.cx, y + pgsz.cy + 100,
 				n, Arial(90).Italic());
@@ -499,22 +499,22 @@ void Print(Draw& w, const RichText& text, const Прям& page, const Векто
 	}
 }
 
-void Print(Draw& w, const RichText& text, const Прям& page)
+void Print(Draw& w, const RichText& text, const Rect& page)
 {
-	int n = text.дайВысоту(page).page;
-	Вектор<int> pg;
+	int n = text.GetHeight(page).page;
+	Vector<int> pg;
 	for(int i = 0; i <= n; i++)
-		pg.добавь(i);
+		pg.Add(i);
 	Print(w, text, page, pg);
 }
 
-bool Print(const RichText& text, const Прям& page, int currentpage, const char *имя)
+bool Print(const RichText& text, const Rect& page, int currentpage, const char *name)
 {
-	PrinterJob pj(имя);
+	PrinterJob pj(name);
 	pj.CurrentPage(currentpage);
-	pj.PageCount(text.дайВысоту(page).page + 1);
-	pj.Landscape(page.дайШирину() > page.дайВысоту());
-	if(pj.выполни()) {
+	pj.PageCount(text.GetHeight(page).page + 1);
+	pj.Landscape(page.GetWidth() > page.GetHeight());
+	if(pj.Execute()) {
 		Print(pj, text, page, pj.GetPages());
 		return true;
 	}

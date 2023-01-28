@@ -1,10 +1,10 @@
 
 /* png.c - location for general purpose libpng functions
  *
- * последний changed in libpng 1.2.58 [(PENDING RELEASE)]
+ * Last changed in libpng 1.2.58 [(PENDING RELEASE)]
  * Copyright (c) 1998-2002,2004,2006-2017 Glenn Randers-Pehrson
  * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
- * (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Группа 42, Inc.)
+ * (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
  *
  * This code is released under the libpng license.
  * For conditions of distribution and use, see the disclaimer
@@ -16,7 +16,7 @@
 #define PNG_NO_PEDANTIC_WARNINGS
 #include "png.h"
 
-/* Generate a compiler Ошибка if there is an old png.h in the search path. */
+/* Generate a compiler error if there is an old png.h in the search path. */
 typedef version_1_2_59 Your_png_h_is_not_version_1_2_59;
 
 /* Version information for C files.  This had better match the version
@@ -60,19 +60,19 @@ PNG_zTXt;
 #ifdef PNG_READ_SUPPORTED
 /* Arrays to facilitate easy interlacing - use pass (0 - 6) as index */
 
-/* старт of interlace block */
+/* Start of interlace block */
 PNG_CONST int FARDATA png_pass_start[] = {0, 4, 0, 2, 0, 1, 0};
 
-/* смещение to next interlace block */
+/* Offset to next interlace block */
 PNG_CONST int FARDATA png_pass_inc[] = {8, 8, 4, 4, 2, 2, 1};
 
-/* старт of interlace block in the y direction */
+/* Start of interlace block in the y direction */
 PNG_CONST int FARDATA png_pass_ystart[] = {0, 0, 4, 0, 2, 0, 1};
 
-/* смещение to next interlace block in the y direction */
+/* Offset to next interlace block in the y direction */
 PNG_CONST int FARDATA png_pass_yinc[] = {8, 8, 8, 4, 4, 2, 2};
 
-/* устВысоту of interlace block.  This is not currently used - if you need
+/* Height of interlace block.  This is not currently used - if you need
  * it, uncomment it here and in png.h
 PNG_CONST int FARDATA png_pass_height[] = {8, 8, 4, 4, 2, 2, 1};
 */
@@ -111,7 +111,7 @@ png_set_sig_bytes(png_structp png_ptr, int num_bytes)
 
 /* Checks whether the supplied bytes match the PNG signature.  We allow
  * checking less than the full 8-byte signature so that those apps that
- * already read the first few bytes of a file to determine the file тип
+ * already read the first few bytes of a file to determine the file type
  * can simply check the remaining bytes for extra assurance.  Returns
  * an integer less than, equal to, or greater than zero if sig is found,
  * respectively, to be less than, to match, or be greater than the correct
@@ -149,7 +149,7 @@ png_check_sig(png_bytep sig, int num)
 #endif /* PNG_READ_SUPPORTED */
 
 #if defined(PNG_READ_SUPPORTED) || defined(PNG_WRITE_SUPPORTED)
-/* Функция to allocate memory for zlib and clear it to 0. */
+/* Function to allocate memory for zlib and clear it to 0. */
 #ifdef PNG_1_0_X
 voidpf PNGAPI
 #else
@@ -197,7 +197,7 @@ png_zalloc(voidpf png_ptr, uInt items, uInt size)
    return ((voidpf)ptr);
 }
 
-/* Функция to free memory for zlib */
+/* Function to free memory for zlib */
 #ifdef PNG_1_0_X
 void PNGAPI
 #else
@@ -208,7 +208,7 @@ png_zfree(voidpf png_ptr, voidpf ptr)
    png_free((png_structp)png_ptr, (png_voidp)ptr);
 }
 
-/* переустанов the CRC variable to 32 bits of 1's.  Care must be taken
+/* Reset the CRC variable to 32 bits of 1's.  Care must be taken
  * in case CRC is > 32 bits to leave the top bits 0.
  */
 void /* PRIVATE */
@@ -218,7 +218,7 @@ png_reset_crc(png_structp png_ptr)
 }
 
 /* Calculate the CRC over a section of data.  We can only pass as
- * much data to this routine as the largest single буфер size.  We
+ * much data to this routine as the largest single buffer size.  We
  * also check that this data will actually be used before going to the
  * trouble of calculating it.
  */
@@ -370,7 +370,7 @@ png_free_data(png_structp png_ptr, png_infop info_ptr, png_uint_32 mask,
       return;
 
 #ifdef PNG_TEXT_SUPPORTED
-   /* освободи text элт num or (if num == -1) all text items */
+   /* Free text item num or (if num == -1) all text items */
 #ifdef PNG_FREE_ME_SUPPORTED
    if ((mask & PNG_FREE_TEXT) & info_ptr->free_me)
 #else
@@ -379,10 +379,10 @@ png_free_data(png_structp png_ptr, png_infop info_ptr, png_uint_32 mask,
    {
       if (num != -1)
       {
-         if (info_ptr->text && info_ptr->text[num].ключ)
+         if (info_ptr->text && info_ptr->text[num].key)
          {
-            png_free(png_ptr, info_ptr->text[num].ключ);
-            info_ptr->text[num].ключ = NULL;
+            png_free(png_ptr, info_ptr->text[num].key);
+            info_ptr->text[num].key = NULL;
          }
       }
       else
@@ -399,7 +399,7 @@ png_free_data(png_structp png_ptr, png_infop info_ptr, png_uint_32 mask,
 #endif
 
 #ifdef PNG_tRNS_SUPPORTED
-   /* освободи any tRNS entry */
+   /* Free any tRNS entry */
 #ifdef PNG_FREE_ME_SUPPORTED
    if ((mask & PNG_FREE_TRNS) & info_ptr->free_me)
 #else
@@ -416,7 +416,7 @@ png_free_data(png_structp png_ptr, png_infop info_ptr, png_uint_32 mask,
 #endif
 
 #ifdef PNG_sCAL_SUPPORTED
-   /* освободи any sCAL entry */
+   /* Free any sCAL entry */
 #ifdef PNG_FREE_ME_SUPPORTED
    if ((mask & PNG_FREE_SCAL) & info_ptr->free_me)
 #else
@@ -434,7 +434,7 @@ png_free_data(png_structp png_ptr, png_infop info_ptr, png_uint_32 mask,
 #endif
 
 #ifdef PNG_pCAL_SUPPORTED
-   /* освободи any pCAL entry */
+   /* Free any pCAL entry */
 #ifdef PNG_FREE_ME_SUPPORTED
    if ((mask & PNG_FREE_PCAL) & info_ptr->free_me)
 #else
@@ -461,7 +461,7 @@ png_free_data(png_structp png_ptr, png_infop info_ptr, png_uint_32 mask,
 #endif
 
 #ifdef PNG_iCCP_SUPPORTED
-   /* освободи any iCCP entry */
+   /* Free any iCCP entry */
 #ifdef PNG_FREE_ME_SUPPORTED
    if ((mask & PNG_FREE_ICCP) & info_ptr->free_me)
 #else
@@ -477,7 +477,7 @@ png_free_data(png_structp png_ptr, png_infop info_ptr, png_uint_32 mask,
 #endif
 
 #ifdef PNG_sPLT_SUPPORTED
-   /* освободи a given sPLT entry, or (if num == -1) all sPLT entries */
+   /* Free a given sPLT entry, or (if num == -1) all sPLT entries */
 #ifdef PNG_FREE_ME_SUPPORTED
    if ((mask & PNG_FREE_SPLT) & info_ptr->free_me)
 #else
@@ -488,9 +488,9 @@ png_free_data(png_structp png_ptr, png_infop info_ptr, png_uint_32 mask,
       {
          if (info_ptr->splt_palettes)
          {
-            png_free(png_ptr, info_ptr->splt_palettes[num].имя);
+            png_free(png_ptr, info_ptr->splt_palettes[num].name);
             png_free(png_ptr, info_ptr->splt_palettes[num].entries);
-            info_ptr->splt_palettes[num].имя = NULL;
+            info_ptr->splt_palettes[num].name = NULL;
             info_ptr->splt_palettes[num].entries = NULL;
          }
       }
@@ -550,7 +550,7 @@ png_free_data(png_structp png_ptr, png_infop info_ptr, png_uint_32 mask,
 #endif
 
 #ifdef PNG_hIST_SUPPORTED
-   /* освободи any hIST entry */
+   /* Free any hIST entry */
 #ifdef PNG_FREE_ME_SUPPORTED
    if ((mask & PNG_FREE_HIST)  & info_ptr->free_me)
 #else
@@ -566,7 +566,7 @@ png_free_data(png_structp png_ptr, png_infop info_ptr, png_uint_32 mask,
    }
 #endif
 
-   /* освободи any PLTE entry that was internally allocated */
+   /* Free any PLTE entry that was internally allocated */
 #ifdef PNG_FREE_ME_SUPPORTED
    if ((mask & PNG_FREE_PLTE) & info_ptr->free_me)
 #else
@@ -583,7 +583,7 @@ png_free_data(png_structp png_ptr, png_infop info_ptr, png_uint_32 mask,
    }
 
 #ifdef PNG_INFO_IMAGE_SUPPORTED
-   /* освободи any image bits attached to the info structure */
+   /* Free any image bits attached to the info structure */
 #ifdef PNG_FREE_ME_SUPPORTED
    if ((mask & PNG_FREE_ROWS) & info_ptr->free_me)
 #else
@@ -670,8 +670,8 @@ png_init_io(png_structp png_ptr, png_FILE_p fp)
 #endif
 
 #ifdef PNG_TIME_RFC1123_SUPPORTED
-/* Преобр the supplied time into an RFC 1123 string suitable for use in
- * a "Creation Время" or other text-based time string.
+/* Convert the supplied time into an RFC 1123 string suitable for use in
+ * a "Creation Time" or other text-based time string.
  */
 png_charp PNGAPI
 png_convert_to_rfc1123(png_structp png_ptr, png_timep ptime)
@@ -736,19 +736,19 @@ png_get_copyright(png_structp png_ptr)
      "Copyright (c) 1998-2002,2004,2006-2017 Glenn Randers-Pehrson" \
      PNG_STRING_NEWLINE \
      "Copyright (c) 1996-1997 Andreas Dilger" PNG_STRING_NEWLINE \
-     "Copyright (c) 1995-1996 Guy Eric Schalnat, Группа 42, Inc." \
+     "Copyright (c) 1995-1996 Guy Eric Schalnat, Group 42, Inc." \
      PNG_STRING_NEWLINE);
 #else
    return ((png_charp) "libpng version 1.2.59 - September 28, 2017\
       Copyright (c) 1998-2002,2004,2006-2017 Glenn Randers-Pehrson\
       Copyright (c) 1996-1997 Andreas Dilger\
-      Copyright (c) 1995-1996 Guy Eric Schalnat, Группа 42, Inc.");
+      Copyright (c) 1995-1996 Guy Eric Schalnat, Group 42, Inc.");
 #endif
 #endif
 }
 
 /* The following return the library version as a short string in the
- * формат 1.0.0 through 99.99.99zz.  To get the version of *.h files
+ * format 1.0.0 through 99.99.99zz.  To get the version of *.h files
  * used with your application, print out PNG_LIBPNG_VER_STRING, which
  * is defined in png.h.
  * Note: now there is no difference between png_get_libpng_ver() and
@@ -792,7 +792,7 @@ png_get_header_version(png_structp png_ptr)
 int PNGAPI
 png_handle_as_unknown(png_structp png_ptr, png_bytep chunk_name)
 {
-   /* Check chunk_name and return "keep" значение if it's on the list, else 0 */
+   /* Check chunk_name and return "keep" value if it's on the list, else 0 */
    int i;
    png_bytep p;
    if (png_ptr == NULL || chunk_name == NULL || png_ptr->num_chunk_list<=0)
@@ -913,7 +913,7 @@ png_check_cHRM_fixed(png_structp png_ptr,
         blue_x < 0 ||  blue_y <  0)
    {
       png_warning(png_ptr,
-        "Ignoring attempt to set negative chromaticity значение");
+        "Ignoring attempt to set negative chromaticity value");
       ret = 0;
    }
    if (white_x > (png_fixed_point) PNG_UINT_31_MAX ||
@@ -926,27 +926,27 @@ png_check_cHRM_fixed(png_structp png_ptr,
         blue_y > (png_fixed_point) PNG_UINT_31_MAX )
    {
       png_warning(png_ptr,
-        "Ignoring attempt to set chromaticity значение exceeding 21474.83");
+        "Ignoring attempt to set chromaticity value exceeding 21474.83");
       ret = 0;
    }
    if (white_x > 100000L - white_y)
    {
-      png_warning(png_ptr, "Invalid cHRM white point");
+      png_warning(png_ptr, "Неверное cHRM white point");
       ret = 0;
    }
    if (red_x > 100000L - red_y)
    {
-      png_warning(png_ptr, "Invalid cHRM red point");
+      png_warning(png_ptr, "Неверное cHRM red point");
       ret = 0;
    }
    if (green_x > 100000L - green_y)
    {
-      png_warning(png_ptr, "Invalid cHRM green point");
+      png_warning(png_ptr, "Неверное cHRM green point");
       ret = 0;
    }
    if (blue_x > 100000L - blue_y)
    {
-      png_warning(png_ptr, "Invalid cHRM blue point");
+      png_warning(png_ptr, "Неверное cHRM blue point");
       ret = 0;
    }
 
@@ -956,7 +956,7 @@ png_check_cHRM_fixed(png_structp png_ptr,
    if (xy_hi == yx_hi && xy_lo == yx_lo)
    {
       png_warning(png_ptr,
-         "Ignoring attempt to set cHRM дайКЗС triangle with zero area");
+         "Ignoring attempt to set cHRM RGB triangle with zero area");
       ret = 0;
    }
 
@@ -971,19 +971,19 @@ png_check_IHDR(png_structp png_ptr,
    int color_type, int interlace_type, int compression_type,
    int filter_type)
 {
-   int Ошибка = 0;
+   int error = 0;
 
    /* Check for width and height valid values */
    if (width == 0)
    {
-      png_warning(png_ptr, "Рисунок width is zero in IHDR");
-      Ошибка = 1;
+      png_warning(png_ptr, "Image width is zero in IHDR");
+      error = 1;
    }
 
    if (height == 0)
    {
-      png_warning(png_ptr, "Рисунок height is zero in IHDR");
-      Ошибка = 1;
+      png_warning(png_ptr, "Image height is zero in IHDR");
+      error = 1;
    }
 
 #ifdef PNG_SET_USER_LIMITS_SUPPORTED
@@ -992,8 +992,8 @@ png_check_IHDR(png_structp png_ptr,
    if (width > PNG_USER_WIDTH_MAX)
 #endif
    {
-      png_warning(png_ptr, "Рисунок width exceeds user limit in IHDR");
-      Ошибка = 1;
+      png_warning(png_ptr, "Image width exceeds user limit in IHDR");
+      error = 1;
    }
 
 #ifdef PNG_SET_USER_LIMITS_SUPPORTED
@@ -1002,35 +1002,35 @@ png_check_IHDR(png_structp png_ptr,
    if (height > PNG_USER_HEIGHT_MAX)
 #endif
    {
-      png_warning(png_ptr, "Рисунок height exceeds user limit in IHDR");
-      Ошибка = 1;
+      png_warning(png_ptr, "Image height exceeds user limit in IHDR");
+      error = 1;
    }
 
    if (width > PNG_UINT_31_MAX)
    {
-      png_warning(png_ptr, "Invalid image width in IHDR");
-      Ошибка = 1;
+      png_warning(png_ptr, "Неверное image width in IHDR");
+      error = 1;
    }
 
    if ( height > PNG_UINT_31_MAX)
    {
-      png_warning(png_ptr, "Invalid image height in IHDR");
-      Ошибка = 1;
+      png_warning(png_ptr, "Неверное image height in IHDR");
+      error = 1;
    }
 
    /* Check other values */
    if (bit_depth != 1 && bit_depth != 2 && bit_depth != 4 &&
        bit_depth != 8 && bit_depth != 16)
    {
-      png_warning(png_ptr, "Invalid bit depth in IHDR");
-      Ошибка = 1;
+      png_warning(png_ptr, "Неверное bit depth in IHDR");
+      error = 1;
    }
 
    if (color_type < 0 || color_type == 1 ||
        color_type == 5 || color_type > 6)
    {
-      png_warning(png_ptr, "Invalid color тип in IHDR");
-      Ошибка = 1;
+      png_warning(png_ptr, "Неверное color type in IHDR");
+      error = 1;
    }
 
    if (((color_type == PNG_COLOR_TYPE_PALETTE) && bit_depth > 8) ||
@@ -1038,31 +1038,31 @@ png_check_IHDR(png_structp png_ptr,
          color_type == PNG_COLOR_TYPE_GRAY_ALPHA ||
          color_type == PNG_COLOR_TYPE_RGB_ALPHA) && bit_depth < 8))
    {
-      png_warning(png_ptr, "Invalid color тип/bit depth combination in IHDR");
-      Ошибка = 1;
+      png_warning(png_ptr, "Неверное color type/bit depth combination in IHDR");
+      error = 1;
    }
 
    if (interlace_type >= PNG_INTERLACE_LAST)
    {
       png_warning(png_ptr, "Unknown interlace method in IHDR");
-      Ошибка = 1;
+      error = 1;
    }
 
    if (compression_type != PNG_COMPRESSION_TYPE_BASE)
    {
       png_warning(png_ptr, "Unknown compression method in IHDR");
-      Ошибка = 1;
+      error = 1;
    }
 
 #ifdef PNG_MNG_FEATURES_SUPPORTED
-   /* прими filter_method 64 (intrapixel differencing) only if
+   /* Accept filter_method 64 (intrapixel differencing) only if
     * 1. Libpng was compiled with PNG_MNG_FEATURES_SUPPORTED and
     * 2. Libpng did not read a PNG signature (this filter_method is only
     *    used in PNG datastreams that are embedded in MNG datastreams) and
     * 3. The application called png_permit_mng_features with a mask that
     *    included PNG_FLAG_MNG_FILTER_64 and
     * 4. The filter_method is 64 and
-    * 5. The color_type is дайКЗС or КЗСА
+    * 5. The color_type is RGB or RGBA
     */
    if ((png_ptr->mode & PNG_HAVE_PNG_SIGNATURE) &&
        png_ptr->mng_features_permitted)
@@ -1077,13 +1077,13 @@ png_check_IHDR(png_structp png_ptr,
          color_type == PNG_COLOR_TYPE_RGB_ALPHA)))
       {
          png_warning(png_ptr, "Unknown filter method in IHDR");
-         Ошибка = 1;
+         error = 1;
       }
 
       if (png_ptr->mode & PNG_HAVE_PNG_SIGNATURE)
       {
-         png_warning(png_ptr, "Invalid filter method in IHDR");
-         Ошибка = 1;
+         png_warning(png_ptr, "Неверное filter method in IHDR");
+         error = 1;
       }
    }
 
@@ -1091,11 +1091,11 @@ png_check_IHDR(png_structp png_ptr,
    if (filter_type != PNG_FILTER_TYPE_BASE)
    {
       png_warning(png_ptr, "Unknown filter method in IHDR");
-      Ошибка = 1;
+      error = 1;
    }
 #endif
 
-   if (Ошибка == 1)
-      png_error(png_ptr, "Invalid IHDR data");
+   if (error == 1)
+      png_error(png_ptr, "Неверное IHDR data");
 }
 #endif /* defined(PNG_READ_SUPPORTED) || defined(PNG_WRITE_SUPPORTED) */

@@ -1,14 +1,14 @@
-struct ИндексОбщее {
+struct IndexCommon {
 	enum { HIBIT = 0x80000000 };
 
-	struct Хэш : Движимое<Хэш> {
+	struct Hash : Moveable<Hash> {
 		int   next; // also link for unlinked items...
 		dword hash;
 		int   prev;
 	};
 	
 	int         *map;
-	Хэш        *hash;
+	Hash        *hash;
 	dword        mask;
 	int          unlinked;
 
@@ -17,177 +17,177 @@ struct ИндексОбщее {
 
 	static dword Smear(hash_t h)          { return FoldHash(h) | HIBIT; }
 
-	void линкуй(int& m, Хэш& hh, int ii);
-	void линкуй(int ii, dword sh);
-	void уд(int& m, Хэш& hh, int ii);
-	void Ins(int& m, Хэш& hh, int ii);
+	void Link(int& m, Hash& hh, int ii);
+	void Link(int ii, dword sh);
+	void Del(int& m, Hash& hh, int ii);
+	void Ins(int& m, Hash& hh, int ii);
 
-	void сделайМап(int count);
-	void ремапируй(int count);
-	void реиндексируй(int count);
-	void нарастиМап(int count);
-	void освободиМап();
-	void освободи();
+	void MakeMap(int count);
+	void Remap(int count);
+	void Reindex(int count);
+	void GrowMap(int count);
+	void FreeMap();
+	void Free();
 
-	void уст(int ii, dword h);
+	void Set(int ii, dword h);
 	
-	Вектор<int> дайОтлинкованно() const;
+	Vector<int> GetUnlinked() const;
 	
-	void очисть();
-	void обрежь(int n, int count);
-	void смети(int n);
-	void резервируй(int n);
-	void сожми();
+	void Clear();
+	void Trim(int n, int count);
+	void Sweep(int n);
+	void Reserve(int n);
+	void Shrink();
 	void AdjustMap(int count, int alloc);
 	
-	void копируй(const ИндексОбщее& b, int count);
-	void подбери(ИндексОбщее& b);
-	void разверни(ИндексОбщее& b);
+	void Copy(const IndexCommon& b, int count);
+	void Pick(IndexCommon& b);
+	void Swap(IndexCommon& b);
 	
-	ИндексОбщее();
-	~ИндексОбщее();
+	IndexCommon();
+	~IndexCommon();
 };
 
-template <class K, class T, class V> class АМап;
+template <class K, class T, class V> class AMap;
 
 template <class T>
-class Индекс : ОпцияДвижимогоИГлубКопии<Индекс<T>>, ИндексОбщее {
-	Вектор<T> ключ;
+class Index : MoveableAndDeepCopyOption<Index<T>>, IndexCommon {
+	Vector<T> key;
 
-	static dword Smear(const T& k)   { return ИндексОбщее::Smear(дайХэшЗнач(k)); }
+	static dword Smear(const T& k)   { return IndexCommon::Smear(GetHashValue(k)); }
 
-	int  найдиОт(int i, dword sh, const T& k, int end) const;
+	int  FindFrom(int i, dword sh, const T& k, int end) const;
 	int  FindBack(int i, dword sh, const T& k, int end) const;
 
 
 	void ReallocHash(int n);
-	template <typename U> void нарастиДобавь(U&& k, dword sh);
+	template <typename U> void GrowAdd(U&& k, dword sh);
 	template <typename U> void AddS(int& m, U&& k, dword sh);
 	template <typename U> void AddS(U&& k, dword sh);
 
-	template <class OP, class U> int найдиДобавь(U&& k, OP add_op);
+	template <class OP, class U> int FindAdd(U&& k, OP add_op);
 	template <class U> int FindPut0(U&& k);
 
 	template <typename U> int Put0(U&& k, dword sh);
-	template <typename U> void уст0(int i, U&& k);
+	template <typename U> void Set0(int i, U&& k);
 
-	template <typename, typename, typename> friend class АМап;
+	template <typename, typename, typename> friend class AMap;
 	
-	void        фиксируйХэш(bool makemap = true);
+	void        FixHash(bool makemap = true);
 
 public:
-	void        добавь(const T& k)             { AddS(k, Smear(k)); }
-	void        добавь(T&& k)                  { AddS(pick(k), Smear(k)); }
-	Индекс&      operator<<(const T& x)      { добавь(x); return *this; }
-	Индекс&      operator<<(T&& x)           { добавь(pick(x)); return *this; }
+	void        Add(const T& k)             { AddS(k, Smear(k)); }
+	void        Add(T&& k)                  { AddS(pick(k), Smear(k)); }
+	Index&      operator<<(const T& x)      { Add(x); return *this; }
+	Index&      operator<<(T&& x)           { Add(pick(x)); return *this; }
 
-	int         найди(const T& k) const;
-	int         найдиСледщ(int i) const;
-	int         найдиПоследн(const T& k) const;
-	int         найдиПредш(int i) const;
+	int         Find(const T& k) const;
+	int         FindNext(int i) const;
+	int         FindLast(const T& k) const;
+	int         FindPrev(int i) const;
 	
-	int         найдиДобавь(const T& k)         { return найдиДобавь(k, []{}); }
-	int         найдиДобавь(T&& k)              { return найдиДобавь(pick(k), []{}); }
+	int         FindAdd(const T& k)         { return FindAdd(k, []{}); }
+	int         FindAdd(T&& k)              { return FindAdd(pick(k), []{}); }
 
-	int         помести(const T& k)             { return Put0(k, Smear(k)); }
-	int         помести(T&& k)                  { return Put0(pick(k), Smear(k)); }
-	int         найдиПомести(const T& k)         { return FindPut0(k); }
-	int         найдиПомести(T&& k)              { return FindPut0(pick(k)); }
+	int         Put(const T& k)             { return Put0(k, Smear(k)); }
+	int         Put(T&& k)                  { return Put0(pick(k), Smear(k)); }
+	int         FindPut(const T& k)         { return FindPut0(k); }
+	int         FindPut(T&& k)              { return FindPut0(pick(k)); }
 
-	void        отлинкуй(int i);
-	int         отлинкуйКлюч(const T& k);
-	bool        отлинкован(int i) const      { return hash[i].hash == 0; }
+	void        Unlink(int i);
+	int         UnlinkKey(const T& k);
+	bool        IsUnlinked(int i) const      { return hash[i].hash == 0; }
 	bool        HasUnlinked() const          { return unlinked >= 0; }
-	Вектор<int> дайОтлинкованно() const          { return ИндексОбщее::дайОтлинкованно(); }
+	Vector<int> GetUnlinked() const          { return IndexCommon::GetUnlinked(); }
 
-	void        смети();
+	void        Sweep();
 
-	void        уст(int i, const T& k)       { уст0(i, k); }
-	void        уст(int i, T&& k)            { уст0(i, pick(k)); }
+	void        Set(int i, const T& k)       { Set0(i, k); }
+	void        Set(int i, T&& k)            { Set0(i, pick(k)); }
 
-	const T&    operator[](int i) const      { return ключ[i]; }
-	int         дайСчёт() const             { return ключ.дайСчёт(); }
-	bool        пустой() const              { return ключ.пустой(); }
+	const T&    operator[](int i) const      { return key[i]; }
+	int         GetCount() const             { return key.GetCount(); }
+	bool        IsEmpty() const              { return key.IsEmpty(); }
 	
-	void        очисть()                      { ключ.очисть(); ИндексОбщее::очисть(); }
+	void        Clear()                      { key.Clear(); IndexCommon::Clear(); }
 
-	void        обрежь(int n = 0)              { ИндексОбщее::обрежь(n, дайСчёт()); ключ.обрежь(n); }
-	void        сбрось(int n = 1)              { обрежь(дайСчёт() - 1); }
-	const T&    верх() const                  { return ключ.верх(); }
-	T           вынь()                        { T x = pick(верх()); сбрось(); return x; }
+	void        Trim(int n = 0)              { IndexCommon::Trim(n, GetCount()); key.Trim(n); }
+	void        Drop(int n = 1)              { Trim(GetCount() - 1); }
+	const T&    Top() const                  { return key.Top(); }
+	T           Pop()                        { T x = pick(Top()); Drop(); return x; }
 
-	void        резервируй(int n);
-	void        сожми();
-	int         дайРазмест() const             { return ключ.дайРазмест(); }
+	void        Reserve(int n);
+	void        Shrink();
+	int         GetAlloc() const             { return key.GetAlloc(); }
 
-	Вектор<T>        подбериКлючи()              { Вектор<T> r = pick(ключ); очисть(); return r; }
-	const Вектор<T>& дайКлючи() const         { return ключ; }
+	Vector<T>        PickKeys()              { Vector<T> r = pick(key); Clear(); return r; }
+	const Vector<T>& GetKeys() const         { return key; }
 
-	void     удали(const int *sorted_list, int count);
-	void     удали(const Вектор<int>& sorted_list)         { удали(sorted_list, sorted_list.дайСчёт()); }
-	template <typename Предикат> void удалиЕсли(Предикат p)          { удали(найдиВсеи(ключ, p)); }
+	void     Remove(const int *sorted_list, int count);
+	void     Remove(const Vector<int>& sorted_list)         { Remove(sorted_list, sorted_list.GetCount()); }
+	template <typename Pred> void RemoveIf(Pred p)          { Remove(FindAlli(key, p)); }
 	
-	Индекс()                                                 {}
-	Индекс(Индекс&& s) : ключ(pick(s.ключ))                     { ИндексОбщее::подбери(s); }
-	Индекс(const Индекс& s, int) : ключ(s.ключ, 0)              { ReallocHash(0); ИндексОбщее::копируй(s, ключ.дайСчёт()); } // TODO: Unlinked!
-	explicit Индекс(Вектор<T>&& s) : ключ(pick(s))            { фиксируйХэш(); }
-	Индекс(const Вектор<T>& s, int) : ключ(s, 0)              { фиксируйХэш(); }
+	Index()                                                 {}
+	Index(Index&& s) : key(pick(s.key))                     { IndexCommon::Pick(s); }
+	Index(const Index& s, int) : key(s.key, 0)              { ReallocHash(0); IndexCommon::Copy(s, key.GetCount()); } // СДЕЛАТЬ: Unlinked!
+	explicit Index(Vector<T>&& s) : key(pick(s))            { FixHash(); }
+	Index(const Vector<T>& s, int) : key(s, 0)              { FixHash(); }
 
-	Индекс& operator=(Вектор<T>&& x)                         { ключ = pick(x); фиксируйХэш(); return *this; }
-	Индекс& operator=(Индекс<T>&& x)                          { ключ = pick(x.ключ); ИндексОбщее::подбери(x); return *this; }
+	Index& operator=(Vector<T>&& x)                         { key = pick(x); FixHash(); return *this; }
+	Index& operator=(Index<T>&& x)                          { key = pick(x.key); IndexCommon::Pick(x); return *this; }
 
-	Индекс(std::initializer_list<T> init) : ключ(init)        { фиксируйХэш(); }
+	Index(std::initializer_list<T> init) : key(init)        { FixHash(); }
 
-	void     сериализуй(Поток& s);
-	void     вРяр(РярВВ& xio, const char *itemtag = "ключ");
-	void     вДжейсон(ДжейсонВВ& jio);
-	Ткст   вТкст() const;
-	template <class B> bool operator==(const B& b) const { return диапазоныРавны(*this, b); }
+	void     Serialize(Stream& s);
+	void     Xmlize(XmlIO& xio, const char *itemtag = "key");
+	void     Jsonize(JsonIO& jio);
+	String   ToString() const;
+	template <class B> bool operator==(const B& b) const { return IsEqualRange(*this, b); }
 	template <class B> bool operator!=(const B& b) const { return !operator==(b); }
-	template <class B> int  сравни(const B& b) const    { return сравниДиапазоны(*this, b); }
-	template <class B> bool operator<=(const B& x) const { return сравни(x) <= 0; }
-	template <class B> bool operator>=(const B& x) const { return сравни(x) >= 0; }
-	template <class B> bool operator<(const B& x) const  { return сравни(x) < 0; }
-	template <class B> bool operator>(const B& x) const  { return сравни(x) > 0; }
+	template <class B> int  Compare(const B& b) const    { return CompareRanges(*this, b); }
+	template <class B> bool operator<=(const B& x) const { return Compare(x) <= 0; }
+	template <class B> bool operator>=(const B& x) const { return Compare(x) >= 0; }
+	template <class B> bool operator<(const B& x) const  { return Compare(x) < 0; }
+	template <class B> bool operator>(const B& x) const  { return Compare(x) > 0; }
 
 // Standard container interface
-	typedef КонстОбходчикУ<Вектор<T>> КонстОбходчик;
-	КонстОбходчик begin() const                             { return ключ.begin(); }
-	КонстОбходчик end() const                               { return ключ.end(); }
+	typedef ConstIteratorOf<Vector<T>> ConstIterator;
+	ConstIterator begin() const                             { return key.begin(); }
+	ConstIterator end() const                               { return key.end(); }
 
-	friend void разверни(Индекс& a, Индекс& b)                    { a.ИндексОбщее::разверни(b); РНЦП::разверни(a.ключ, b.ключ); }
+	friend void Swap(Index& a, Index& b)                    { a.IndexCommon::Swap(b); UPP::Swap(a.key, b.key); }
 
 // deprecated:
 #ifdef DEPRECATED
-	T&       вставь(int i, const T& k)                      { ключ.вставь(i, k); фиксируйХэш(); return ключ[i]; }
-	void     удали(int i, int count)                       { ключ.удали(i, count); фиксируйХэш(); }
-	void     удали(int i)                                  { удали(i, 1); }
-	int      удалиКлюч(const T& k)                          { int i = найди(k); if(i >= 0) удали(i); return i; }
+	T&       Insert(int i, const T& k)                      { key.Insert(i, k); FixHash(); return key[i]; }
+	void     Remove(int i, int count)                       { key.Remove(i, count); FixHash(); }
+	void     Remove(int i)                                  { Remove(i, 1); }
+	int      RemoveKey(const T& k)                          { int i = Find(k); if(i >= 0) Remove(i); return i; }
 
-	unsigned дайХэш(int i) const                           { return hash[i].hash; }
+	unsigned GetHash(int i) const                           { return hash[i].hash; }
 
-	Индекс& operator<<=(const Вектор<T>& s)                  { *this = clone(s); return *this; }
-	typedef T                ТипЗнач;
-	typedef Вектор<T>        КонтейнерЗначений;
-	КонстОбходчик  дайОбх(int pos) const                   { return ключ.дайОбх(pos); }
+	Index& operator<<=(const Vector<T>& s)                  { *this = clone(s); return *this; }
+	typedef T                ValueType;
+	typedef Vector<T>        ValueContainer;
+	ConstIterator  GetIter(int pos) const                   { return key.GetIter(pos); }
 
 	void     ClearIndex()                    {}
-	void     реиндексируй(int n)                  {}
-	void     реиндексируй()                       {}
+	void     Reindex(int n)                  {}
+	void     Reindex()                       {}
 
 	typedef T             value_type;
-	typedef КонстОбходчик const_iterator;
+	typedef ConstIterator const_iterator;
 	typedef const T&      const_reference;
 	typedef int           size_type;
 	typedef int           difference_type;
-	const_iterator        старт() const          { return begin(); }
-	const_iterator        стоп() const            { return end(); }
-	void                  clear()                { очисть(); }
-	size_type             size()                 { return дайСчёт(); }
-	bool                  empty() const          { return пустой(); }
+	const_iterator        Begin() const          { return begin(); }
+	const_iterator        End() const            { return end(); }
+	void                  clear()                { Clear(); }
+	size_type             size()                 { return GetCount(); }
+	bool                  empty() const          { return IsEmpty(); }
 #endif
 
-#ifdef _ОТЛАДКА
-	Ткст дамп() const;
+#ifdef _DEBUG
+	String Dump() const;
 #endif
 };

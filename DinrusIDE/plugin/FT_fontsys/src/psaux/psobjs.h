@@ -199,7 +199,7 @@ FT_BEGIN_HEADER
   /*************************************************************************/
 
   FT_LOCAL( void )
-  t1_decrypt( FT_Byte*   буфер,
+  t1_decrypt( FT_Byte*   buffer,
               FT_Offset  length,
               FT_UShort  seed );
 

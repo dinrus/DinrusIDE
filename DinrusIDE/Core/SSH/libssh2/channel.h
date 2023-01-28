@@ -17,7 +17,7 @@
  *   disclaimer in the documentation and/or other materials
  *   provided with the distribution.
  *
- *   Neither the имя of the copyright holder nor the names
+ *   Neither the name of the copyright holder nor the names
  *   of any other contributors may be used to endorse or
  *   promote products derived from this software without
  *   specific prior written permission.
@@ -55,7 +55,7 @@ int _libssh2_channel_receive_window_adjust(LIBSSH2_CHANNEL * channel,
 /*
  * _libssh2_channel_flush
  *
- * слей данные from one (or all) stream
+ * Flush data from one (or all) stream
  * Returns number of bytes flushed, or negative on failure
  */
 int _libssh2_channel_flush(LIBSSH2_CHANNEL *channel, int streamid);
@@ -63,7 +63,7 @@ int _libssh2_channel_flush(LIBSSH2_CHANNEL *channel, int streamid);
 /*
  * _libssh2_channel_free
  *
- * сделай sure a channel is closed, then remove the channel from the session
+ * Make sure a channel is closed, then remove the channel from the session
  * and free its resource(s)
  *
  * Returns 0 on success, negative on failure
@@ -76,7 +76,7 @@ _libssh2_channel_extended_data(LIBSSH2_CHANNEL *channel, int ignore_mode);
 /*
  * _libssh2_channel_write
  *
- * Send данные to a channel
+ * Send data to a channel
  */
 ssize_t
 _libssh2_channel_write(LIBSSH2_CHANNEL *channel, int stream_id,
@@ -98,7 +98,7 @@ _libssh2_channel_open(LIBSSH2_SESSION * session, const char *channel_type,
 /*
  * _libssh2_channel_process_startup
  *
- * Примитив for libssh2_channel_(shell|exec|subsystem)
+ * Primitive for libssh2_channel_(shell|exec|subsystem)
  */
 int
 _libssh2_channel_process_startup(LIBSSH2_CHANNEL *channel,
@@ -108,11 +108,11 @@ _libssh2_channel_process_startup(LIBSSH2_CHANNEL *channel,
 /*
  * _libssh2_channel_read
  *
- * читай данные from a channel
+ * Read data from a channel
  *
  * It is important to not return 0 until the currently read channel is
- * complete. If we read stuff from the wire but it was no payload данные to fill
- * in the буфер with, we MUST make sure to return PACKET_EAGAIN.
+ * complete. If we read stuff from the wire but it was no payload data to fill
+ * in the buffer with, we MUST make sure to return PACKET_EAGAIN.
  */
 ssize_t _libssh2_channel_read(LIBSSH2_CHANNEL *channel, int stream_id,
                               char *buf, size_t buflen);
@@ -130,10 +130,10 @@ int _libssh2_channel_close(LIBSSH2_CHANNEL * channel);
 /*
  * _libssh2_channel_forward_cancel
  *
- * стоп listening on a remote port and free the listener
+ * Stop listening on a remote port and free the listener
  * Toss out any pending (un-accept()ed) connections
  *
- * Return 0 on success, LIBSSH2_ERROR_EAGAIN if would block, -1 on Ошибка
+ * Return 0 on success, LIBSSH2_ERROR_EAGAIN if would block, -1 on error
  */
 int _libssh2_channel_forward_cancel(LIBSSH2_LISTENER *listener);
 

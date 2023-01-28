@@ -15,7 +15,7 @@ static Upp::Ptr<Upp::Ctrl> coco_capture;
 Upp::Ptr<Upp::Ctrl> Upp::Ctrl::lastActive;
 
 namespace Upp {
-	
+
 extern id menubar;
 
 
@@ -82,7 +82,7 @@ struct MMImp {
 		Flags(e);
 		if(!ctrl->IsEnabled())
 			return false;
-		
+
 		if(alt != GetAlt())
 			ctrl->DispatchKey(K_ALT_KEY|(alt * K_KEYUP), 1);
 		if(ctl != GetCtrl())
@@ -99,7 +99,7 @@ struct MMImp {
 	{
 		coco_flags = [e modifierFlags];
 	}
-	
+
 	static bool MouseEvent(CocoView *view, NSEvent *e, int event, double zd = 0)
 	{
 		if(!view->ctrl)
@@ -162,7 +162,7 @@ struct MMImp {
 	            view->ctrl->SetFocus();
 			view->ctrl->DispatchMouse(event, p, 120 * sgn(zd));
 		}
-		
+
 		sCurrentMouseEvent__ = NULL;
 		return false;
 	}
@@ -197,7 +197,7 @@ struct MMImp {
 		dbl_pos = np;
 		return b;
 	}
-	
+
 	static void Paint(Upp::Ctrl *ctrl, Upp::SystemDraw& w, const Rect& r)
 	{
 		if(!ctrl)
@@ -233,7 +233,7 @@ struct MMImp {
 			k |= K_ALT;
 		if(GetOption())
 			k |= K_OPTION;
-		
+
 		if(e.keyCode == kVK_Help) // TODO: This is Insert key, but all this is dubious
 			ctrl->DispatchKey(k & ~K_KEYUP, 1);
 
@@ -271,7 +271,7 @@ struct MMImp {
 		ctrl->KillFocusWnd();
 		Upp::Ctrl::ReleaseCtrlCapture();
 	}
-	
+
 	static void DoClose(Upp::Ctrl *ctrl)
 	{
 		if(!ctrl)
@@ -300,38 +300,38 @@ struct MMImp {
 		                                                        : NSDragOperationCopy
 		                         : NSDragOperationNone;
 	}
-	
+
 	static void DnDLeave(Ctrl *ctrl)
 	{
 		ctrl->DnDLeave();
 	}
-	
+
 	static void DoCursorShape()
 	{
 		Ctrl::DoCursorShape();
 	}
-	
+
 	static void ShowPreedit(Ctrl *ctrl, const WString& text)
 	{
 		if(ctrl)
 			ctrl->GetTopCtrl()->ShowPreedit(text, INT_MAX);
 	}
-	
+
 	static NSRect PreeditRect(Ctrl *ctrl)
 	{
 		if(ctrl)
 			return DesktopRect(ctrl->GetTopCtrl()->GetPreeditScreenRect());
 		return NSRect();
 	}
-	
+
 	static void PreeditText(Ctrl *ctrl, const WString& s)
 	{
 		if(ctrl)
 			for(Upp::wchar ch : s)
-				if(ch >= 32)
+				if(ch >= 32 && ch != 127 && ch != ' ')
 					ctrl->DispatchKey(ch, 1);
 	}
-	
+
 	static void CancelPreedit()
 	{
 		Ctrl::HidePreedit();

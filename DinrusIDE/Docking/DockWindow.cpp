@@ -1,18 +1,18 @@
 #include "Docking.h"
 
-namespace РНЦП {
+namespace Upp {
 
-#define ALIGN_ASSERT(al)	ПРОВЕРЬ(al >= 0 && al < 4)
+#define ALIGN_ASSERT(al)	ASSERT(al >= 0 && al < 4)
 #define FRAME_MOVE_DIV 		5 // Outside fraction of the highlight that the mouse must be in to trigger dockpane reordering
 #define VERSION				5 // Serialisation version
 
 /*
  * Public interface
 */ 
-void ОкноДок::State(int reason)
+void DockWindow::State(int reason)
 {
-	if (reason == Ктрл::OPEN) {
-		if (!hideframe[0].дайРодителя())
+	if (reason == Ctrl::OPEN) {
+		if (!hideframe[0].GetParent())
 			DockLayout();
 		if (!init) {
 			DockInit();
@@ -20,180 +20,180 @@ void ОкноДок::State(int reason)
 			StopHighlight(false);
 		}
 	}
-	ТопОкно::State(reason);
+	TopWindow::State(reason);
 }
 
-bool ОкноДок::Ключ(dword ключ, int count)
+bool DockWindow::Key(dword key, int count)
 {
-	DoHotKeys(ключ);
-	return ТопОкно::Ключ(ключ, count);
+	DoHotKeys(key);
+	return TopWindow::Key(key, count);
 }
 
-void ОкноДок::DoHotKeys(dword ключ)
+void DockWindow::DoHotKeys(dword key)
 {
 	if (!HasCloseButtons() || IsLocked()) return;
-	for (int i = 0; i < dockers.дайСчёт(); i++) {
-		if (dockers[i]->IsHotKey(ключ))
+	for (int i = 0; i < dockers.GetCount(); i++) {
+		if (dockers[i]->IsHotKey(key))
 			HideRestoreDocker(*dockers[i]);
 	}
 }
 
-void ОкноДок::Dock(int align, DockableCtrl& dc, int pos)
+void DockWindow::Dock(int align, DockableCtrl& dc, int pos)
 {
 	ALIGN_ASSERT(align);
-	регистрируй(dc);
+	Register(dc);
 	DockContainer(align, *GetReleasedContainer(dc), pos);
 }
 
-void ОкноДок::Tabify(DockableCtrl& target, DockableCtrl& dc)
+void DockWindow::Tabify(DockableCtrl& target, DockableCtrl& dc)
 {
-	ПРОВЕРЬ(GetContainer(target));
-	регистрируй(dc);
+	ASSERT(GetContainer(target));
+	Register(dc);
 	DockAsTab(*GetContainer(target), dc);
 }
 
-void ОкноДок::Float(DockableCtrl& dc, Точка p)
+void DockWindow::Float(DockableCtrl& dc, Point p)
 {
-	if (dc.дайРодителя() && p.экзПусто_ли())
-		p = дайПрямЭкрана().верхЛево();
+	if (dc.GetParent() && p.IsNullInstance())
+		p = GetScreenRect().TopLeft();
 	else
-		регистрируй(dc);
+		Register(dc);
 	FloatContainer(*GetReleasedContainer(dc), p);
 }
 
-void ОкноДок::Float(DockableCtrl& dc, const char *title, Точка p)
+void DockWindow::Float(DockableCtrl& dc, const char *title, Point p)
 {
-	dc.Титул(title);
+	dc.Title(title);
 	Float(dc, p);
 }
 
-void ОкноДок::автоСкрой(DockableCtrl& dc)
+void DockWindow::AutoHide(DockableCtrl& dc)
 {
-	if (dc.автоСкрой_ли()) return;
+	if (dc.IsAutoHide()) return;
 	int align = GetDockAlign(dc);
-	автоСкрой(align == DOCK_NONE ? DOCK_TOP : align,  dc);
+	AutoHide(align == DOCK_NONE ? DOCK_TOP : align,  dc);
 }
 
-void ОкноДок::автоСкрой(int align, DockableCtrl& dc)
+void DockWindow::AutoHide(int align, DockableCtrl& dc)
 {
 	ALIGN_ASSERT(align);
-	регистрируй(dc);
+	Register(dc);
 	DockCont *c = GetReleasedContainer(dc);
 	c->StateAutoHide(*this);
-	hideframe[align].добавьКтрл(*c, dc.дайГруппу());
+	hideframe[align].AddCtrl(*c, dc.GetGroup());
 }
 
-int ОкноДок::FindDocker(const Ктрл *dc)
+int DockWindow::FindDocker(const Ctrl *dc)
 {
-	for (int i = 0; i < dockers.дайСчёт(); i++)
-		if (dc == (Ктрл *) dockers[i])
+	for (int i = 0; i < dockers.GetCount(); i++)
+		if (dc == (Ctrl *) dockers[i])
 			return i;
 	return -1;
 }
 
-DockableCtrl& ОкноДок::регистрируй(DockableCtrl& dc)
+DockableCtrl& DockWindow::Register(DockableCtrl& dc)
 {
 	int ix = FindDocker(&dc);
 	if (ix < 0) {
-		ix = dockers.дайСчёт();
-		dockers.добавь(&dc);
-		dockerpos.добавь();
+		ix = dockers.GetCount();
+		dockers.Add(&dc);
+		dockerpos.Add();
 	}
 	return *dockers[ix];
 }
 
-void ОкноДок::Deregister(const DockableCtrl& dc)
+void DockWindow::Deregister(const DockableCtrl& dc)
 {
 	int ix = FindDocker(&dc);
 	if (ix >= 0) {
 		DockableCtrl &dc = *dockers[ix];
-		dockers.удали(ix);
-		закрой(dc);
-		dockerpos.удали(ix);
+		dockers.Remove(ix);
+		Close(dc);
+		dockerpos.Remove(ix);
 	}
-	for (int i = 0; i < ctrls.дайСчёт(); i++) {
+	for (int i = 0; i < ctrls.GetCount(); i++) {
 		if (&dc == &ctrls[i]) {
-			ctrls.удали(i);
+			ctrls.Remove(i);
 			break;
 		}
 	}
 }
 
-void ОкноДок::закрой(DockableCtrl& dc)
+void DockWindow::Close(DockableCtrl& dc)
 {
 	DockCont *c = GetContainer(dc);
-	if (c && c->дайСчёт() > 1) {
+	if (c && c->GetCount() > 1) {
 		SaveDockerPos(dc);
-		dc.удали();
-		c->Выкладка();
+		dc.Remove();
+		c->Layout();
 		return;
 	}
 	if (c) CloseContainer(*c);
 }
 
-void ОкноДок::ActivateDockable(Ктрл& c)
+void DockWindow::ActivateDockable(Ctrl& c)
 {
 	int ix = FindDocker(&c);
 	if (ix >= 0)
-		активируй(*dockers[ix]);
+		Activate(*dockers[ix]);
 }
 
-void ОкноДок::ActivateDockableChild(Ктрл& c)
+void DockWindow::ActivateDockableChild(Ctrl& c)
 {
-	Ктрл *p = c.дайРодителя();
+	Ctrl *p = c.GetParent();
 	int ix = -1;
 	while (p && (ix = FindDocker(p)) < 0)
-		p = p->дайРодителя();
+		p = p->GetParent();
 	if (ix >= 0)
-		активируй(*dockers[ix]);
+		Activate(*dockers[ix]);
 }
 
-void ОкноДок::активируй(DockableCtrl& dc)
+void DockWindow::Activate(DockableCtrl& dc)
 {
-	if (dc.видим_ли() && dc.открыт())
+	if (dc.IsVisible() && dc.IsOpen())
 		return dc.TimedHighlight(200);
 	DockCont *c = GetContainer(dc);
 	if (!c)
 		c = CreateContainer(dc);
-	if (c->скрыт_ли())
+	if (c->IsHidden())
 		RestoreDockerPos(dc);
-	else if (c->автоСкрой_ли()) {
+	else if (c->IsAutoHide()) {
 		for (int i = 0; i <= DOCK_BOTTOM; i++)
 			if (hideframe[i].HasCtrl(*c))
 				hideframe[i].ShowAnimate(c);
 	}
 	else
-		c->устКурсор(dc);
+		c->SetCursor(dc);
 }
 
-void ОкноДок::SaveDockerPos(DockableCtrl& dc, PosInfo& pi)
+void DockWindow::SaveDockerPos(DockableCtrl& dc, PosInfo& pi)
 {
-	// дай the container
+	// Get the container
 	DockCont *cont = GetContainer(dc);
 	if (!cont) {
-		// Ктрл must be hidden
+		// Ctrl must be hidden
 		pi = PosInfo();
 		return;	
 	}
 	// Are we tabbed?
-	pi.tabcont = (cont->дайСчёт() > 1) ? cont : NULL;
-	// найди top DockCont in case of nesting
+	pi.tabcont = (cont->GetCount() > 1) ? cont : NULL;
+	// Find top DockCont in case of nesting
 	DockCont *parent = GetContainer(*cont);
 	while (parent) {
 		cont = parent;
 		parent = GetContainer(*cont);
 	}
-	// сохрани state
+	// Save state
 	pi.state = cont->GetDockState();
 	// determine context info
-	ТкстПоток s;
+	StringStream s;
 	switch (pi.state) {
 		case DockCont::STATE_DOCKED: {
 			int align = GetDockAlign(*cont);
 			ALIGN_ASSERT(align);
 			int ps = dockpane[align].GetChildIndex(cont);
-			ПРОВЕРЬ(ps >= 0);
-			Размер sz = cont->дайРазм();
+			ASSERT(ps >= 0);
+			Size sz = cont->GetSize();
 			s % align % ps % sz;
 			break;
 		}
@@ -204,10 +204,10 @@ void ОкноДок::SaveDockerPos(DockableCtrl& dc, PosInfo& pi)
 			for (int i = 0; i < 4; i++) {
 				int ix = hideframe[i].FindCtrl(*cont);
 				if (ix >= 0) {
-					s.помести(ix);
+					s.Put(ix);
 					break;
 				}
-				ПРОВЕРЬ(i != 3); // No alignment found!
+				ASSERT(i != 3); // No alignment found!
 			}
 			break;
 		default:
@@ -216,25 +216,25 @@ void ОкноДок::SaveDockerPos(DockableCtrl& dc, PosInfo& pi)
 	pi.data = s;	
 }
 
-void ОкноДок::SetDockerPosInfo(DockableCtrl& dc, const PosInfo& pi)
+void DockWindow::SetDockerPosInfo(DockableCtrl& dc, const PosInfo& pi)
 {
-	// найди PosInfo record for the ctrl
+	// Find PosInfo record for the ctrl
 	int ix = FindDocker(&dc);
 	if (ix < 0) return;
 	dockerpos[ix] = pi;
 }
 
-void ОкноДок::SaveDockerPos(DockableCtrl& dc)
+void DockWindow::SaveDockerPos(DockableCtrl& dc)
 {
-	// найди PosInfo record for the ctrl
+	// Find PosInfo record for the ctrl
 	int ix = FindDocker(&dc);
 	if (ix < 0) return;
 	SaveDockerPos(dc, dockerpos[ix]);
 }
 
-void ОкноДок::RestoreDockerPos(DockableCtrl& dc, bool savefirst)
+void DockWindow::RestoreDockerPos(DockableCtrl& dc, bool savefirst)
 {
-	// найди PosInfo record for the ctrl
+	// Find PosInfo record for the ctrl
 	int ix = FindDocker(&dc);
 	if (ix < 0) return;
 	PosInfo pi = dockerpos[ix];
@@ -245,12 +245,12 @@ void ОкноДок::RestoreDockerPos(DockableCtrl& dc, bool savefirst)
 		return;
 	}	
 	
-	// читай position based on state
-	ТкстПоток s(pi.data);
+	// Read position based on state
+	StringStream s(pi.data);
 	switch (pi.state) {
 		case DockCont::STATE_DOCKED: {
 			int align, ps;
-			Размер sz;
+			Size sz;
 			s % align % ps % sz;
 			ALIGN_ASSERT(align);
 			if (pi.tabcont && pi.tabcont->GetDockAlign() == align)
@@ -272,7 +272,7 @@ void ОкноДок::RestoreDockerPos(DockableCtrl& dc, bool savefirst)
 			break;
 		}
 		case DockCont::STATE_AUTOHIDE: {
-			автоСкрой(s.дай(), dc);
+			AutoHide(s.Get(), dc);
 			break;
 		}
 		default:
@@ -280,64 +280,64 @@ void ОкноДок::RestoreDockerPos(DockableCtrl& dc, bool savefirst)
 	}
 }
 
-void ОкноДок::HideRestoreDocker(DockableCtrl& dc)
+void DockWindow::HideRestoreDocker(DockableCtrl& dc)
 {
-	if (dc.скрыт_ли())
-		ОкноДок::RestoreDockerPos(dc);
+	if (dc.IsHidden())
+		DockWindow::RestoreDockerPos(dc);
 	else
-		ОкноДок::закрой(dc);		
+		DockWindow::Close(dc);		
 }
 
-void ОкноДок::DockGroup(int align, Ткст группа, int pos)
+void DockWindow::DockGroup(int align, String group, int pos)
 {
 	ALIGN_ASSERT(align);
-	bool all = группа == "All"; 
-	for (int i = 0; i < dockers.дайСчёт(); i++)
-		if (all || dockers[i]->дайГруппу() == группа && IsDockAllowed(align, *dockers[i]))
+	bool all = group == "All"; 
+	for (int i = 0; i < dockers.GetCount(); i++)
+		if (all || dockers[i]->GetGroup() == group && IsDockAllowed(align, *dockers[i]))
 			Dock(align, *dockers[i], pos);
 }
 
-void ОкноДок::ForceDockGroup(int align, Ткст группа, int pos)
+void DockWindow::ForceDockGroup(int align, String group, int pos)
 {
 	ALIGN_ASSERT(align);
-	bool all = группа == "All"; 
-	for (int i = 0; i < dockers.дайСчёт(); i++)
-		if (all || dockers[i]->дайГруппу() == группа)
+	bool all = group == "All"; 
+	for (int i = 0; i < dockers.GetCount(); i++)
+		if (all || dockers[i]->GetGroup() == group)
 			Dock(align, *dockers[i], pos);
 }
 
-void ОкноДок::FloatGroup(Ткст группа)
+void DockWindow::FloatGroup(String group)
 {
-	bool all = группа == "All"; 	
-	Точка p = дайПрямЭкрана().верхЛево();
-	Точка inc(20, 20);	
-	for (int i = 0; i < dockers.дайСчёт(); i++)
-		if (all || dockers[i]->дайГруппу() == группа) {
+	bool all = group == "All"; 	
+	Point p = GetScreenRect().TopLeft();
+	Point inc(20, 20);	
+	for (int i = 0; i < dockers.GetCount(); i++)
+		if (all || dockers[i]->GetGroup() == group) {
 			p += inc;
 			Float(*dockers[i], p);
 		}
 }
 
-void ОкноДок::AutoHideGroup(int align, Ткст группа)
+void DockWindow::AutoHideGroup(int align, String group)
 {
 	ALIGN_ASSERT(align);
-	bool all = группа == "All"; 	
-	for (int i = 0; i < dockers.дайСчёт(); i++)
-		if (all || dockers[i]->дайГруппу() == группа)
-			автоСкрой(align, *dockers[i]);
+	bool all = group == "All"; 	
+	for (int i = 0; i < dockers.GetCount(); i++)
+		if (all || dockers[i]->GetGroup() == group)
+			AutoHide(align, *dockers[i]);
 }
 
-void ОкноДок::AutoHideGroup(Ткст группа)
+void DockWindow::AutoHideGroup(String group)
 {
-	bool all = группа == "All"; 	
-	for (int i = 0; i < dockers.дайСчёт(); i++)
-		if (all || dockers[i]->дайГруппу() == группа)
-			автоСкрой(*dockers[i]);	
+	bool all = group == "All"; 	
+	for (int i = 0; i < dockers.GetCount(); i++)
+		if (all || dockers[i]->GetGroup() == group)
+			AutoHide(*dockers[i]);	
 }
 
-void ОкноДок::TabDockGroup(int align, Ткст группа, int pos)
+void DockWindow::TabDockGroup(int align, String group, int pos)
 {
-	if (DockCont *c = TabifyGroup(группа)) {
+	if (DockCont *c = TabifyGroup(group)) {
 		if (c->IsDockAllowed(align))
 			DockContainer(align, *c, pos);
 		else
@@ -345,24 +345,24 @@ void ОкноДок::TabDockGroup(int align, Ткст группа, int pos)
 	}
 }
 
-void ОкноДок::ForceTabDockGroup(int align, Ткст группа, int pos)
+void DockWindow::ForceTabDockGroup(int align, String group, int pos)
 {
-	if (DockCont *c = TabifyGroup(группа))
+	if (DockCont *c = TabifyGroup(group))
 		DockContainer(align, *c, pos);
 }
 
-void ОкноДок::TabFloatGroup(Ткст группа)
+void DockWindow::TabFloatGroup(String group)
 {
-	if (DockCont *c = TabifyGroup(группа)) 
+	if (DockCont *c = TabifyGroup(group)) 
 		FloatContainer(*c);
 }
 
-DockCont * ОкноДок::TabifyGroup(Ткст группа)
+DockCont * DockWindow::TabifyGroup(String group)
 {
 	DockCont *c = NULL;	
-	bool all = группа == "All"; 
-	for (int i = 0; i < dockers.дайСчёт(); i++)
-		if (all || dockers[i]->дайГруппу() == группа) {
+	bool all = group == "All"; 
+	for (int i = 0; i < dockers.GetCount(); i++)
+		if (all || dockers[i]->GetGroup() == group) {
 			if (c)
 				DockAsTab(*c, *dockers[i]);
 			else
@@ -371,158 +371,158 @@ DockCont * ОкноДок::TabifyGroup(Ткст группа)
 	return c;
 }
 
-void ОкноДок::CloseGroup(Ткст группа)
+void DockWindow::CloseGroup(String group)
 {
-	bool all = группа == "All"; 	
-	for (int i = 0; i < dockers.дайСчёт(); i++)
-		if (all || dockers[i]->дайГруппу() == группа)
-			закрой(*dockers[i]);
-	for (int i = 0; i < conts.дайСчёт(); i++)
-	conts[i].Выкладка();
+	bool all = group == "All"; 	
+	for (int i = 0; i < dockers.GetCount(); i++)
+		if (all || dockers[i]->GetGroup() == group)
+			Close(*dockers[i]);
+	for (int i = 0; i < conts.GetCount(); i++)
+	conts[i].Layout();
 }
 
 /*
- * Контейнер management
+ * Container management
 */ 
-DockCont * ОкноДок::CreateContainer()
+DockCont * DockWindow::CreateContainer()
 {
-	DockCont *dc = &conts.добавь();
+	DockCont *dc = &conts.Add();
 	dc->StateNotDocked(this);
 	SyncContainer(*dc);
 	return dc;
 }
 
-DockCont * ОкноДок::CreateContainer(DockableCtrl& dc)
+DockCont * DockWindow::CreateContainer(DockableCtrl& dc)
 {
 	DockCont *c = CreateContainer();
-	c->добавь(dc);
+	c->Add(dc);
 	return c;
 }
 
-void ОкноДок::DestroyContainer(DockCont& c)
+void DockWindow::DestroyContainer(DockCont& c)
 {
-	for (int i = 0; i < conts.дайСчёт(); i++)
+	for (int i = 0; i < conts.GetCount(); i++)
 		if (&conts[i] == &c) 
-			return conts.удали(i);
+			return conts.Remove(i);
 }
 
-DockCont *ОкноДок::GetReleasedContainer(DockableCtrl& dc)
+DockCont *DockWindow::GetReleasedContainer(DockableCtrl& dc)
 {
 	DockCont *c = GetContainer(dc);
-	if (c && c->дайСчёт() > 1) {
+	if (c && c->GetCount() > 1) {
 		SaveDockerPos(dc);
-		dc.удали();
-		c->освежиВыкладку();
+		dc.Remove();
+		c->RefreshLayout();
 		c = NULL;
 	}
 	if (c) 
-		открепи(*c);
+		Detach(*c);
 	else
 		c = CreateContainer(dc);
 	return c;
 }
 
-void ОкноДок::SyncContainer(DockCont& c)
+void DockWindow::SyncContainer(DockCont& c)
 {
 //	c.ToolWindow(childtoolwindows);	
-	c.сГруппингом(grouping);
+	c.Grouping(grouping);
 	c.WindowButtons(menubtn, hidebtn, closebtn);
 	c.SyncButtons();
-	c.Замок(IsLocked());
+	c.Lock(IsLocked());
 	if (!tabalign)
-		c.синхТабы(БарТаб::BOTTOM, tabtext);
+		c.SyncTabs(TabBar::BOTTOM, tabtext);
 	else {
 		int align;
-		if ((align = GetDockAlign(c)) == DOCK_NONE && c.автоСкрой_ли())
+		if ((align = GetDockAlign(c)) == DOCK_NONE && c.IsAutoHide())
 			for (int i = 0; i < DOCK_BOTTOM; i++)
 				if (hideframe[i].HasCtrl(c)) {
 					align = i;
 					break; 	
 				}
-		align = IsTB(align) ? БарТаб::RIGHT : БарТаб::BOTTOM;
-		c.синхТабы(align, tabtext);
+		align = IsTB(align) ? TabBar::RIGHT : TabBar::BOTTOM;
+		c.SyncTabs(align, tabtext);
 	}
 	
 }
 
-void ОкноДок::SyncAll()
+void DockWindow::SyncAll()
 {
-	for (int i = 0; i < conts.дайСчёт(); i++)
+	for (int i = 0; i < conts.GetCount(); i++)
 		SyncContainer(conts[i]);
 }
 
 /*
  * Docking/Undocking helpers
 */ 
-void ОкноДок::Undock0(Ктрл& c, bool do_animatehl, int fsz, bool ishighlight)
+void DockWindow::Undock0(Ctrl& c, bool do_animatehl, int fsz, bool ishighlight)
 {
 	int al = GetDockAlign(c);
-	Ктрл *p = c.дайРодителя();
+	Ctrl *p = c.GetParent();
 	if (p != &dockpane[al]) {
-		c.удали();
+		c.Remove();
 		if (p) {
-			p->Выкладка();
-			p->освежиВыкладку();
+			p->Layout();
+			p->RefreshLayout();
 		}
 	}
 	else {
-		if (dockpane[al].дайПервОтпрыск() == dockpane[al].GetLastChild())
+		if (dockpane[al].GetFirstChild() == dockpane[al].GetLastChild())
 			fsz = 0;
-		dockpane[al].Undock(c, do_animatehl, ishighlight); // TODO: fix nasty hack
+		dockpane[al].Undock(c, do_animatehl, ishighlight); // СДЕЛАТЬ: fix nasty hack
 		if (fsz >= 0)
 			DoFrameSize(do_animatehl, al, fsz);
 	}
 }
 
-void ОкноДок::DoFrameSize(bool animate, int align, int targetsize)
+void DockWindow::DoFrameSize(bool animate, int align, int targetsize)
 {
 	if (!animate || !IsAnimatedFrames()) {
-		dockframe[align].устРазм(targetsize);
+		dockframe[align].SetSize(targetsize);
 		if (targetsize <= 0)
-			dockframe[align].скрой();
+			dockframe[align].Hide();
 	}
 	else {
 		FrameAnim& a = frameanim[align];
 		if (a.inc)
-			dockframe[align].устРазм(a.target);
+			dockframe[align].SetSize(a.target);
 		a.target = max(targetsize, 0);
-		a.inc = (targetsize - dockframe[align].дайРазм()) / dockpane[0].GetAnimMaxTicks();
+		a.inc = (targetsize - dockframe[align].GetSize()) / dockpane[0].GetAnimMaxTicks();
 		if (!a.inc) 
-			a.inc = (targetsize > dockframe[align].дайРазм()) ? 1 : -1;
+			a.inc = (targetsize > dockframe[align].GetSize()) ? 1 : -1;
 		KillSetTimeCallback(-dockpane[0].GetAnimInterval(), THISBACK(FrameAnimateTick), TIMEID_ANIMATE);
 	}			
 }
 
-void ОкноДок::FrameAnimateTick()
+void DockWindow::FrameAnimateTick()
 {
 	bool done = true;
 	for (int i = 0; i < 4; i++) {
 		FrameAnim& a = frameanim[i];
 		if (a.inc) {
-			int sz = dockframe[i].дайРазм() + a.inc;
+			int sz = dockframe[i].GetSize() + a.inc;
 			if (a.inc > 0 && sz >= a.target || a.inc < 0 && sz <= a.target) {
 				sz = a.target;
 				a.inc = 0;
 				if (sz == 0)
-					dockframe[i].скрой();
+					dockframe[i].Hide();
 			}
 			else
 				done = false;			
-			dockframe[i].устРазм(sz);
+			dockframe[i].SetSize(sz);
 		}
 	}
 	if (done)
-		глушиОбрвызВремени(TIMEID_ANIMATE);
+		KillTimeCallback(TIMEID_ANIMATE);
 }
-void ОкноДок::Undock(DockCont& c)
+void DockWindow::Undock(DockCont& c)
 {
-	if (!c.IsFloating() && !c.скрыт_ли()) {
-		if (c.автоСкрой_ли()) {
+	if (!c.IsFloating() && !c.IsHidden()) {
+		if (c.IsAutoHide()) {
 			for (int i = 0; i < 4; i++) {
 				int ix = hideframe[i].FindCtrl(c);
 				if (ix >= 0) {
 					hideframe[i].RemoveCtrl(ix);
-					hideframe[i].освежиФрейм();
+					hideframe[i].RefreshFrame();
 					break;
 				}
 			}				
@@ -530,9 +530,9 @@ void ОкноДок::Undock(DockCont& c)
 		else {
 			int dock = GetDockAlign(c);
 			if (dock >= 0 && dock < 4) {
-				Ктрл *p = &c;
-				while (p && p->дайРодителя() != &dockpane[dock]) p = p->дайРодителя();
-				ПРОВЕРЬ(p);
+				Ctrl *p = &c;
+				while (p && p->GetParent() != &dockpane[dock]) p = p->GetParent();
+				ASSERT(p);
 				bool v = !IsTB(dock);		
 				c.SyncUserSize(v, !v);
 			}
@@ -542,59 +542,59 @@ void ОкноДок::Undock(DockCont& c)
 	}		
 }
 
-void ОкноДок::Unfloat(DockCont& c)
+void DockWindow::Unfloat(DockCont& c)
 {
 	if (c.IsFloating()) {
 		c.SyncUserSize(true, true);
-		if (c.открыт() || c.IsPopUp()) 
-			c.закрой();
+		if (c.IsOpen() || c.IsPopUp()) 
+			c.Close();
 		c.StateNotDocked();
 	}
 }
 
-void ОкноДок::DockAsTab(DockCont& target, DockableCtrl& dc)
+void DockWindow::DockAsTab(DockCont& target, DockableCtrl& dc)
 {
 	DockCont *c = GetContainer(dc);
 	if (c) {
-		if (c->дайСчёт() == 1)
+		if (c->GetCount() == 1)
 			CloseContainer(*c);
 		else {
-			Ктрл *c = dc.дайРодителя();
-			dc.удали();
-			c->Выкладка();
+			Ctrl *c = dc.GetParent();
+			dc.Remove();
+			c->Layout();
 		}
 	}
-	target.добавь(dc);
+	target.Add(dc);
 }
 
-void ОкноДок::Dock0(int align, Ктрл& c, int pos, bool do_animatehl, bool ishighlight)
+void DockWindow::Dock0(int align, Ctrl& c, int pos, bool do_animatehl, bool ishighlight)
 {
 	Dock0(align, c, pos, CtrlBestSize(c, align), do_animatehl, ishighlight);
 }
 
-void ОкноДок::Dock0(int align, Ктрл& c, int pos, Размер sz, bool do_animatehl, bool ishighlight)
+void DockWindow::Dock0(int align, Ctrl& c, int pos, Size sz, bool do_animatehl, bool ishighlight)
 {
 	int fsz = IsTB(align) ? sz.cy : sz.cx;
-	if (!dockframe[align].показан_ли())
-		dockframe[align].покажи();
-	if (fsz > dockframe[align].дайРазм())
+	if (!dockframe[align].IsShown())
+		dockframe[align].Show();
+	if (fsz > dockframe[align].GetSize())
 		DoFrameSize(do_animatehl, align, fsz);
 	dockpane[align].Dock(c, sz, pos, do_animatehl, ishighlight);
 }
 
 /*
- * Контейнер docking
+ * Container docking
 */ 
-void ОкноДок::DockContainer(int align, DockCont& c, int pos)
+void DockWindow::DockContainer(int align, DockCont& c, int pos)
 {
-	открепи(c);
+	Detach(c);
 	c.StateDocked(*this);
 	Dock0(align, c, pos);
 }
 
-void ОкноДок::DockContainerAsTab(DockCont& target, DockCont& c, bool do_nested)
+void DockWindow::DockContainerAsTab(DockCont& target, DockCont& c, bool do_nested)
 {
-	открепи(c);	
+	Detach(c);	
 	if (do_nested) {
 		c.StateTabbed(*this);
 		target << c;
@@ -605,78 +605,78 @@ void ОкноДок::DockContainerAsTab(DockCont& target, DockCont& c, bool do_n
 	}
 }
 
-void ОкноДок::FloatContainer(DockCont& c, Точка p, bool move)
+void DockWindow::FloatContainer(DockCont& c, Point p, bool move)
 {
-	ПРОВЕРЬ(открыт());
+	ASSERT(IsOpen());
 	if (c.IsFloating()) return;
-	открепи(c);	
+	Detach(c);	
 	c.StateFloating(*this);
 	if (move) {
-		Размер best = CtrlBestSize(c, false);
-		if (p.экзПусто_ли()) 
-			p = дайПрямЭкрана().центрТочка() - best/2;
-		c.SetClientRect(Прям(p, best));
+		Size best = CtrlBestSize(c, false);
+		if (p.IsNullInstance()) 
+			p = GetScreenRect().CenterPoint() - best/2;
+		c.SetClientRect(Rect(p, best));
 	}
-	c.открой(this);
+	c.Open(this);
 }
 
-void ОкноДок::FloatFromTab(DockCont& c, DockCont& tab)
+void DockWindow::FloatFromTab(DockCont& c, DockCont& tab)
 {
-	Прям r = c.дайПрямЭкрана();
+	Rect r = c.GetScreenRect();
 	tab.SetClientRect(r);
 	tab.StateNotDocked(this);
-	c.освежиВыкладку();
+	c.RefreshLayout();
 	tab.MoveBegin();
 }
 
-void ОкноДок::AutoHideContainer(int align, DockCont& c)
+void DockWindow::AutoHideContainer(int align, DockCont& c)
 {
-	while (c.дайСчёт() && !c.автоСкрой_ли())
-		автоСкрой(align, c.дай(0));	
+	while (c.GetCount() && !c.IsAutoHide())
+		AutoHide(align, c.Get(0));	
 }
 
-void ОкноДок::CloseContainer(DockCont& c)
+void DockWindow::CloseContainer(DockCont& c)
 {
 	c.SetAllDockerPos();
-	c.очисть(); 
-	открепи(c);
+	c.Clear(); 
+	Detach(c);
 	DestroyContainer(c);	
 }
 
 /*
  * Docking Interface helpers
 */ 
-DockCont *ОкноДок::GetMouseDockTarget()
+DockCont *DockWindow::GetMouseDockTarget()
 {
-	Точка mp = дайПозМыши();
+	Point mp = GetMousePos();
 	for (int i = 0; i < 4; i++) {
-		if (dockpane[i].показан_ли()) {
-			Прям r = dockpane[i].дайПрямЭкрана();
-			if (r.содержит(mp))
-				return dynamic_cast<DockCont *>(dockpane[i].отпрыскИзТочки(mp -= r.верхЛево()));
+		if (dockpane[i].IsShown()) {
+			Rect r = dockpane[i].GetScreenRect();
+			if (r.Contains(mp))
+				return dynamic_cast<DockCont *>(dockpane[i].ChildFromPoint(mp -= r.TopLeft()));
 		}
 	}
 	return NULL;
 }
 
-int ОкноДок::GetDockAlign(const Ктрл& c) const
+int DockWindow::GetDockAlign(const Ctrl& c) const
 {
-	Ктрл *p = c.дайРодителя();
-	while (p && p->дайРодителя() != this) p = p->дайРодителя();
+	Ctrl *p = c.GetParent();
+	while (p && p->GetParent() != this) p = p->GetParent();
 	for (int i = 0; i < 4; i++) 
-		if (dockpane[i].дайРодителя() == p) return i;
+		if (dockpane[i].GetParent() == p) return i;
 	return DOCK_NONE;
 }
 
-int ОкноДок::GetDockAlign(const Точка& p) const
+int DockWindow::GetDockAlign(const Point& p) const
 {
 	for (int i = 0; i < 4; i++) 
-		if (dockpane[i].видим_ли() && dockpane[i].дайПрямЭкрана().содержит(p)) 
+		if (dockpane[i].IsVisible() && dockpane[i].GetScreenRect().Contains(p)) 
 			return i; 
 	return DOCK_NONE;
 }
 
-int ОкноДок::GetAutoHideAlign(const DockCont& c) const
+int DockWindow::GetAutoHideAlign(const DockCont& c) const
 {
 	for (int i = 0; i < 4; i++) {
 		if (hideframe[i].HasCtrl(c))
@@ -685,41 +685,41 @@ int ОкноДок::GetAutoHideAlign(const DockCont& c) const
 	return DOCK_NONE;
 }
 
-Размер ОкноДок::CtrlBestSize(const Ктрл& c, int align, bool restrict) const
+Size DockWindow::CtrlBestSize(const Ctrl& c, int align, bool restrict) const
 {
-	Размер mn = c.дайМинРазм();
-	Размер mx = c.дайМаксРазм();
-	Размер std = c.дайСтдРазм();
+	Size mn = c.GetMinSize();
+	Size mx = c.GetMaxSize();
+	Size std = c.GetStdSize();
 	if (restrict) {
 		if (IsTB(align))
-			mx.cy = minmax(дайРазм().cy/2, mn.cy, mx.cy);
+			mx.cy = minmax(GetSize().cy/2, mn.cy, mx.cy);
 		else
-			mx.cx = minmax(дайРазм().cx/2, mn.cx, mx.cx);
+			mx.cx = minmax(GetSize().cx/2, mn.cx, mx.cx);
 	}
 	return minmax(std, mn, mx);
 }
 
-DockCont *ОкноДок::FindDockTarget(DockCont& dc, int& dock)
+DockCont *DockWindow::FindDockTarget(DockCont& dc, int& dock)
 {
-	Точка p = дайПозМыши();
-	Прям r = GetScreenView(); // IODO: This is not technically correct if the user has added additional frames. 
-							  // Need to manually добавьРазмФрейма for all frames up tolast dockpane
+	Point p = GetMousePos();
+	Rect r = GetScreenView(); // IODO: This is not technically correct if the user has added additional frames. 
+							  // Need to manually FrameAddSize for all frames up tolast dockpane
 	DockCont *target = NULL;
 	int align = DOCK_NONE;
 	
 	dock = DOCK_NONE;
 	
-	if (r.содержит(p)) {
+	if (r.Contains(p)) {
 		// Check for mouse near hidden dockpanes
 		dock = GetPointAlign(p, r, true, true, true);
-		if (dock != DOCK_NONE && dockpane[dock].видим_ли())
+		if (dock != DOCK_NONE && dockpane[dock].IsVisible())
 			dock = DOCK_NONE;
 	}
 	else {
 		// Check for mouse over a docked container
 		target = GetMouseDockTarget();		
 		if (target) {
-			r = target->дайПрямЭкрана();
+			r = target->GetScreenRect();
 			dock = GetDockAlign(*target);
 			align = GetPointAlign(p, r, IsTabbing(), IsTB(dock), !IsTB(dock));
 		}
@@ -742,12 +742,12 @@ DockCont *ОкноДок::FindDockTarget(DockCont& dc, int& dock)
 		// The following code handles the case of an insertion between two docked controls. In this case we must set 
 		//  the highlight bounds to be a union of the bounds from each control. Very ugly.
 		if (dock != DOCK_NONE) {
-			Ктрл *c = IsTL(align) ? target->дайПредш() : target->дайСледщ();
+			Ctrl *c = IsTL(align) ? target->GetPrev() : target->GetNext();
 			if (c) {
 				int opal = align > 1 ? align-2 : align+2;
-				GetHighlightCtrl().bounds.союз(GetAlignBounds(opal, c->дайПрямЭкрана(), IsTabbing()));
+				GetHighlightCtrl().bounds.Union(GetAlignBounds(opal, c->GetScreenRect(), IsTabbing()));
 			}
-			target = IsTL(align) ? target : dynamic_cast<DockCont*>(target->дайСледщ());
+			target = IsTL(align) ? target : dynamic_cast<DockCont*>(target->GetNext());
 		}
 		
 	}
@@ -757,9 +757,9 @@ DockCont *ОкноДок::FindDockTarget(DockCont& dc, int& dock)
 	return target;	
 }
 
-Прям ОкноДок::GetAlignBounds(int al, Прям r, bool center, bool allow_lr, bool allow_tb)
+Rect DockWindow::GetAlignBounds(int al, Rect r, bool center, bool allow_lr, bool allow_tb)
 {
-	Размер border = r.дайРазм()/4;
+	Size border = r.GetSize()/4;
 	switch (al) {
 	case DOCK_LEFT:
 		r.right = r.left + (center ? border.cx : (GHalf_(r.left + r.right)));
@@ -775,18 +775,18 @@ DockCont *ОкноДок::FindDockTarget(DockCont& dc, int& dock)
 		return r;
 	}
 	if (allow_lr)
-		r.дефлируйГориз(border.cx);
+		r.DeflateHorz(border.cx);
 	if (allow_tb)
-		r.дефлируйВерт(border.cy);
+		r.DeflateVert(border.cy);
 	return r;
 }	
 
-int ОкноДок::GetPointAlign(const Точка p, Прям r, bool center, bool allow_lr, bool allow_tb)
+int DockWindow::GetPointAlign(const Point p, Rect r, bool center, bool allow_lr, bool allow_tb)
 {
-	Размер border = r.дайРазм();
+	Size border = r.GetSize();
 	border.cx = allow_lr ? border.cx/4 : 0;
 	border.cy = allow_tb ? border.cy/4 : 0;
-	if (center && r.дефлят(border).содержит(p))
+	if (center && r.Deflated(border).Contains(p))
 		return DOCK_NONE;
 	int q = GetQuad(p, r);
 	int al = DOCK_NONE;
@@ -805,7 +805,7 @@ int ОкноДок::GetPointAlign(const Точка p, Прям r, bool center, b
 	return al;
 }
 
-int ОкноДок::GetQuad(Точка p, Прям r)
+int DockWindow::GetQuad(Point p, Rect r)
 /* Finds the quadrant in the rectangle for point p:
 	-------
 	|\0|1/|
@@ -816,35 +816,35 @@ int ОкноДок::GetQuad(Точка p, Прям r)
 	-------
 */
 {
-	Точка cp = r.центрТочка();
+	Point cp = r.CenterPoint();
 	p -= cp;
-	cp -= r.верхЛево();
-	if (p.x <= 0) { // лево
-		if (p.y <= 0) // верх-лево
+	cp -= r.TopLeft();
+	if (p.x <= 0) { // Left
+		if (p.y <= 0) // Top-Left
 			return ((p.y * cp.x)/cp.y > p.x) ? 7 : 0;
-		else {// низ-лево
+		else {// Bottom-Left
 			p.x = -p.x;
 			return ((p.y * cp.x)/cp.y > p.x) ? 5 : 6;
 		}
 	}
-	else { // право
-		if (p.y <= 0) { // верх-право
+	else { // Right
+		if (p.y <= 0) { // Top-Right
 			p.x = -p.x;
 			return ((p.y * cp.x)/cp.y > p.x) ? 2 : 1;
 		}
-		else // низ-право
+		else // Bottom-Right
 			return ((p.y * cp.x)/cp.y > p.x) ? 4 : 3;		
 	}
 }
 
-Прям ОкноДок::GetFinalAnimRect(int align, Ктрл& c)
+Rect DockWindow::GetFinalAnimRect(int align, Ctrl& c)
 {
-	if (c.дайРодителя() != &dockpane[align])
+	if (c.GetParent() != &dockpane[align])
 		// c is docked as a tab
-		return c.дайПрямЭкрана();
+		return c.GetScreenRect();
 	
-	Прям r = dockpane[align].GetFinalAnimRect(c);
-	r.смещение(dockpane[align].дайПрямЭкрана().верхЛево());
+	Rect r = dockpane[align].GetFinalAnimRect(c);
+	r.Offset(dockpane[align].GetScreenRect().TopLeft());
 	if (IsFrameAnimating(align)) {
 		switch (align) {
 		case DOCK_LEFT:
@@ -865,25 +865,25 @@ int ОкноДок::GetQuad(Точка p, Прям r)
 }
 
 // HighlightCtrl
-void ОкноДок::HighlightCtrl::рисуй(Draw& w)
+void DockWindow::HighlightCtrl::Paint(Draw& w)
 {	
-	if (буфер.пустой())
-		ChPaint(w, дайРазм(), *highlight);
+	if (buffer.IsEmpty())
+		ChPaint(w, GetSize(), *highlight);
 	else
-		w.DrawImage(0, 0, буфер);
+		w.DrawImage(0, 0, buffer);
 }
 
-void ОкноДок::HighlightCtrl::SetHighlight(const Значение& hl, bool _isnested, bool _cannest, Рисунок bg)
+void DockWindow::HighlightCtrl::SetHighlight(const Value& hl, bool _isnested, bool _cannest, Image bg)
 {
 	highlight = &hl;
 	img = bg;	
-	буфер.очисть();
+	buffer.Clear();
 	cannest = _cannest;
 	isnested = cannest && _isnested;
 	CreateBuffer();
 }
 
-void ОкноДок::HighlightCtrl::SetNested(bool _isnested)
+void DockWindow::HighlightCtrl::SetNested(bool _isnested)
 {
 	bool nest = cannest && _isnested;
 	if (nest != isnested) {
@@ -892,32 +892,32 @@ void ОкноДок::HighlightCtrl::SetNested(bool _isnested)
 	}
 }
 
-void ОкноДок::HighlightCtrl::CreateBuffer()
+void DockWindow::HighlightCtrl::CreateBuffer()
 {
-	if (!img.пустой()) {
-		Размер sz = img.дайРазм();
+	if (!img.IsEmpty()) {
+		Size sz = img.GetSize();
 		ImageDraw w(sz);
 		w.DrawImage(0, 0, img);
 		if (isnested) {
-			Прям r = sz;
-			Прям t = r;
-			const КтрлВкладка::Стиль& s = БарТаб::дефСтиль();
-			t.bottom -= s.tabheight + s.sel.top + 1;	// Nasty bodge! See БарТаб::дайВысотуСтиля
+			Rect r = sz;
+			Rect t = r;
+			const TabCtrl::Style& s = TabBar::StyleDefault();
+			t.bottom -= s.tabheight + s.sel.top + 1;	// Nasty bodge! See TabBar::GetStyleHeight
 			r.top = t.bottom-1;
-			r.right = max(min(150, r.дайШирину()/3), 20);
+			r.right = max(min(150, r.GetWidth()/3), 20);
 			r.left += 10;
 			ChPaint(w, r, *highlight);
 			ChPaint(w, t, *highlight);
 		}
 		else
 			ChPaint(w, sz, *highlight);			
-		буфер = w;
-		освежи();
+		buffer = w;
+		Refresh();
 	}	
 }
 
-// тяни and сбрось interface
-void ОкноДок::StartHighlight(DockCont *dc)
+// Drag and Drop interface
+void DockWindow::StartHighlight(DockCont *dc)
 {
 	int align = DOCK_NONE;
 	DockCont *target = FindDockTarget(*dc, align);
@@ -929,27 +929,27 @@ void ОкноДок::StartHighlight(DockCont *dc)
 		StopHighlight(IsAnimatedHighlight());
 }
 
-void ОкноДок::Highlight(int align, DockCont& cont, DockCont *target)
+void DockWindow::Highlight(int align, DockCont& cont, DockCont *target)
 {
 	HighlightCtrl& hl = GetHighlightCtrl();
 	DockableCtrl& dc = cont.GetCurrent();
-	ПРОВЕРЬ(&hl != (Ктрл *)&cont);
+	ASSERT(&hl != (Ctrl *)&cont);
 
-	hl.SizeHint(cont.дайМинРазм(), cont.дайМаксРазм(), cont.дайСтдРазм()).покажи();
+	hl.SizeHint(cont.GetMinSize(), cont.GetMaxSize(), cont.GetStdSize()).Show();
 
 	prehighlightframepos = -1;
 	if (align != DOCK_NONE) {
 		if (NeedFrameReorder(align))
 			DoFrameReorder(align);
 		// Do highlight
-		hl.SetHighlight(dc.дайСтиль().highlight[0], false, 0);
-		hl.oldframesize = dockframe[align].дайРазм();	
+		hl.SetHighlight(dc.GetStyle().highlight[0], false, 0);
+		hl.oldframesize = dockframe[align].GetSize();	
 		int pos = target ? dockpane[align].GetChildIndex(target) : -1;
 		Dock0(align, hl, pos, IsAnimatedHighlight(), true);
 	}
 	else if (target && IsTabbing()) {
-		hl.Титул(cont.дайТитул(true)).Иконка(dc.дайИконку());
-		hl.SetHighlight(dc.дайСтиль().highlight[1], CheckNesting(), cont.дайСчёт() > 1, 
+		hl.Title(cont.GetTitle(true)).Icon(dc.GetIcon());
+		hl.SetHighlight(dc.GetStyle().highlight[1], CheckNesting(), cont.GetCount() > 1, 
 		             target->GetHighlightImage());
 		if (false && frameorder) {
 			align = GetDockAlign(*target);
@@ -961,85 +961,85 @@ void ОкноДок::Highlight(int align, DockCont& cont, DockCont *target)
 	}
 }
 
-void ОкноДок::StopHighlight(bool do_animatehl)
+void DockWindow::StopHighlight(bool do_animatehl)
 {
 	HighlightCtrl& hl = GetHighlightCtrl();
-	if (hl.дайРодителя()) {
+	if (hl.GetParent()) {
 		UndoFrameReorder();
 		Undock0(hl, do_animatehl, hl.oldframesize, true);
 		hl.ClearHighlight();
 	}
 }
 
-void ОкноДок::DoFrameReorder(int align)
+void DockWindow::DoFrameReorder(int align)
 {
 	// Reorder dockpanes
-	int ix = найдиФрейм(dockframe[align]);
+	int ix = FindFrame(dockframe[align]);
 	if (ix != dockframepos) {
 		prehighlightframepos = ix;
-		удалиФрейм(ix);
-		вставьФрейм(dockframepos, dockframe[align]);
+		RemoveFrame(ix);
+		InsertFrame(dockframepos, dockframe[align]);
 	}	
 }
 
-void ОкноДок::UndoFrameReorder()
+void DockWindow::UndoFrameReorder()
 {
 	if (IsReorderingFrames()) {
-		КтрлФрейм& c = дайФрейм(dockframepos);
-		удалиФрейм(dockframepos);
-		вставьФрейм(prehighlightframepos, c);
+		CtrlFrame& c = GetFrame(dockframepos);
+		RemoveFrame(dockframepos);
+		InsertFrame(prehighlightframepos, c);
 		prehighlightframepos = -1;
 	}	
 }
 
-bool ОкноДок::NeedFrameReorder(int align)
+bool DockWindow::NeedFrameReorder(int align)
 {
 	// Determine if we need to re-order the dockpanes to set layout precedence
 	if (!frameorder) return false;
 	switch (align) {
 	case DOCK_LEFT:
-		return дайПозМыши().x < (GetHighlightCtrl().bounds.left + GetHighlightCtrl().bounds.устШирину() / FRAME_MOVE_DIV);
+		return GetMousePos().x < (GetHighlightCtrl().bounds.left + GetHighlightCtrl().bounds.Width() / FRAME_MOVE_DIV);
 	case DOCK_RIGHT:
-		return дайПозМыши().x > (GetHighlightCtrl().bounds.right - GetHighlightCtrl().bounds.устШирину() / FRAME_MOVE_DIV);
+		return GetMousePos().x > (GetHighlightCtrl().bounds.right - GetHighlightCtrl().bounds.Width() / FRAME_MOVE_DIV);
 	case DOCK_TOP:
-		return дайПозМыши().y < (GetHighlightCtrl().bounds.top + GetHighlightCtrl().bounds.устВысоту() / FRAME_MOVE_DIV);	
+		return GetMousePos().y < (GetHighlightCtrl().bounds.top + GetHighlightCtrl().bounds.Height() / FRAME_MOVE_DIV);	
 	case DOCK_BOTTOM:
-		return дайПозМыши().y > (GetHighlightCtrl().bounds.bottom - GetHighlightCtrl().bounds.устВысоту() / FRAME_MOVE_DIV);		
+		return GetMousePos().y > (GetHighlightCtrl().bounds.bottom - GetHighlightCtrl().bounds.Height() / FRAME_MOVE_DIV);		
 	}	
 	return false;
 }
 
-void ОкноДок::ContainerDragStart(DockCont& dc)
+void DockWindow::ContainerDragStart(DockCont& dc)
 {
 	if (!dc.IsFloating()) {
 		// Reposition if not under the mouse
-		открепи(dc);	
+		Detach(dc);	
 		dc.StateFloating(*this);
-		Прям r = dc.GetScreenView();
-		r.устРазм(CtrlBestSize(dc, false));
+		Rect r = dc.GetScreenView();
+		r.SetSize(CtrlBestSize(dc, false));
 		dc.SyncUserSize(true, true);
-		if (IsAnimatedHighlight() && dc.IsDocked() && dc.дайРодителя()) {
+		if (IsAnimatedHighlight() && dc.IsDocked() && dc.GetParent()) {
 			Undock0(dc, true);
 			dc.StateNotDocked();
 		}
 		dc.PlaceClientRect(r);
-		if(!dc.открыт())
-			dc.открой(this);
+		if(!dc.IsOpen())
+			dc.Open(this);
 		dc.StartMouseDrag();
 	}
 }
 
-void ОкноДок::ContainerDragMove(DockCont& dc)
+void DockWindow::ContainerDragMove(DockCont& dc)
 {
 	HighlightCtrl& hl = GetHighlightCtrl();
-	Точка p = дайПозМыши();
-	if (hl.дайРодителя()) {
-		if (!hl.bounds.содержит(p))
+	Point p = GetMousePos();
+	if (hl.GetParent()) {
+		if (!hl.bounds.Contains(p))
 			StopHighlight(IsAnimatedHighlight());
 		else {
 			if (frameorder) {
 				int align = GetDockAlign(hl);
-				bool needed = (hl.дайРодителя() == &dockpane[align]) &&  NeedFrameReorder(align);
+				bool needed = (hl.GetParent() == &dockpane[align]) &&  NeedFrameReorder(align);
 				if (!needed && IsReorderingFrames())
 					UndoFrameReorder();
 				else if (needed && !IsReorderingFrames())
@@ -1047,20 +1047,20 @@ void ОкноДок::ContainerDragMove(DockCont& dc)
 			}
 			hl.SetNested(CheckNesting());
 		}
-		return глушиОбрвызВремени(TIMEID_ANIMATE_DELAY);
+		return KillTimeCallback(TIMEID_ANIMATE_DELAY);
 	}	
 	animdelay ? 
 		KillSetTimeCallback(animdelay, THISBACK1(StartHighlight, &dc), TIMEID_ANIMATE_DELAY) :
 		StartHighlight(&dc);
 }
 	
-void ОкноДок::ContainerDragEnd(DockCont& dc)
+void DockWindow::ContainerDragEnd(DockCont& dc)
 {
-	глушиОбрвызВремени(TIMEID_ANIMATE_DELAY);
+	KillTimeCallback(TIMEID_ANIMATE_DELAY);
 	if (!dc.IsFloating()) return;
 	HighlightCtrl& hl = GetHighlightCtrl();
 
-	Ктрл *p = hl.дайРодителя();
+	Ctrl *p = hl.GetParent();
 	int align = DOCK_NONE; 
 
 	if (p) 
@@ -1068,17 +1068,17 @@ void ОкноДок::ContainerDragEnd(DockCont& dc)
 			if (p == &dockpane[i]) align = i;
 
 	if (animatewnd && (p || align != DOCK_NONE))
-		dc.анимируй(GetFinalAnimRect(align, hl), dockpane[0].GetAnimMaxTicks(), 5);
+		dc.Animate(GetFinalAnimRect(align, hl), dockpane[0].GetAnimMaxTicks(), 5);
 		
 	if (align != DOCK_NONE) {
 		Unfloat(dc);
 		dc.StateDocked(*this);
-		dockpane[align].разверни(hl, dc);
-		dc.устФокус();		
+		dockpane[align].Swap(hl, dc);
+		dc.SetFocus();		
 	}
 	else if (DockCont *target = dynamic_cast<DockCont *>(p)) {
 		StopHighlight(false);
-		DockContainerAsTab(*target, dc, CheckNesting() && dc.дайСчёт() > 1);
+		DockContainerAsTab(*target, dc, CheckNesting() && dc.GetCount() > 1);
 	}
 	else
 		StopHighlight(false);
@@ -1087,33 +1087,33 @@ void ОкноДок::ContainerDragEnd(DockCont& dc)
 /*
  * Misc
 */ 
-void ОкноДок::LockLayout(bool lock)
+void DockWindow::LockLayout(bool lock)
 {
 	locked = lock;
 	SyncAll();
 }
 
-ОкноДок& ОкноДок::TabAutoAlign(bool al)
+DockWindow& DockWindow::TabAutoAlign(bool al)
 {
 	tabalign = al;
 	SyncAll(); 
 	return *this;		
 }
 
-ОкноДок& ОкноДок::TabShowText(bool text)
+DockWindow& DockWindow::TabShowText(bool text)
 {
 	tabtext = text; 
 	SyncAll(); 
 	return *this;	
 }
 
-void ОкноДок::устРазмФрейма(int align, int size)
+void DockWindow::SetFrameSize(int align, int size)
 {
 	ALIGN_ASSERT(align);
-	dockframe[align].устРазм(size);
+	dockframe[align].SetSize(size);
 }
 
-ОкноДок&  ОкноДок::анимируй(bool highlight, bool frame, bool window, int ticks, int interval)
+DockWindow&  DockWindow::Animate(bool highlight, bool frame, bool window, int ticks, int interval)
 {
 	animatehl = highlight;
 	animatewnd = window;
@@ -1125,7 +1125,7 @@ void ОкноДок::устРазмФрейма(int align, int size)
 	return *this;
 }
 
-ОкноДок&  ОкноДок::сГруппингом(bool _grouping)
+DockWindow&  DockWindow::Grouping(bool _grouping)
 {
 	if (_grouping != grouping) {
 		grouping = _grouping;
@@ -1134,7 +1134,7 @@ void ОкноДок::устРазмФрейма(int align, int size)
 	return *this;
 }
 
-ОкноДок&  ОкноДок::SetFrameOrder(int first, int second, int third, int fourth)
+DockWindow&  DockWindow::SetFrameOrder(int first, int second, int third, int fourth)
 {
 	if (fourth != DOCK_NONE)
 		DoFrameReorder(fourth);
@@ -1144,27 +1144,27 @@ void ОкноДок::устРазмФрейма(int align, int size)
 		DoFrameReorder(second);
 	if (first != DOCK_NONE)
 		DoFrameReorder(first);
-	освежиВыкладку();
+	RefreshLayout();
 	return *this;
 }
 
-ОкноДок&  ОкноДок::AllowDockAll()
+DockWindow&  DockWindow::AllowDockAll()
 {
 	return AllowDockLeft().AllowDockRight().AllowDockTop().AllowDockBottom();	
 }
 
-ОкноДок&  ОкноДок::AllowDockNone()
+DockWindow&  DockWindow::AllowDockNone()
 {
 	return AllowDockLeft(false).AllowDockRight(false).AllowDockTop(false).AllowDockBottom(false);
 }
 
-bool ОкноДок::IsDockAllowed(int align, DockableCtrl& dc) const
+bool DockWindow::IsDockAllowed(int align, DockableCtrl& dc) const
 {
 	ALIGN_ASSERT(align);
 	return dockable[align] && dc.IsDockAllowed(align);
 }
 
-ОкноДок&  ОкноДок::автоСкрой(bool v)
+DockWindow&  DockWindow::AutoHide(bool v)
 {
 	if (v != autohide) {
 		autohide = v;
@@ -1173,7 +1173,7 @@ bool ОкноДок::IsDockAllowed(int align, DockableCtrl& dc) const
 	return *this;
 }
 
-ОкноДок&  ОкноДок::WindowButtons(bool menu, bool hide, bool close)
+DockWindow&  DockWindow::WindowButtons(bool menu, bool hide, bool close)
 {
 	if (menu == menubtn && close == closebtn && hide == hidebtn) return *this;;
 	menubtn = menu;
@@ -1183,56 +1183,56 @@ bool ОкноДок::IsDockAllowed(int align, DockableCtrl& dc) const
  	return *this;	
 }
 
-void ОкноДок::DockLayout(bool tb_precedence)
+void DockWindow::DockLayout(bool tb_precedence)
 {
-	if (hideframe[0].дайРодителя())
+	if (hideframe[0].GetParent())
 		for (int i = 0; i < 4; i++) {
-			удалиФрейм(hideframe[i]);
-			удалиФрейм(dockframe[i]);
+			RemoveFrame(hideframe[i]);
+			RemoveFrame(dockframe[i]);
 		}
 	int i = tb_precedence ? 0 : 1;
-	// верх, низ, лево, право
-	добавьФрейм(hideframe[1-i]);
-	добавьФрейм(hideframe[3-i]);
-	добавьФрейм(hideframe[0+i]);
-	добавьФрейм(hideframe[2+i]);
+	// Top, Bottom, Left, Right
+	AddFrame(hideframe[1-i]);
+	AddFrame(hideframe[3-i]);
+	AddFrame(hideframe[0+i]);
+	AddFrame(hideframe[2+i]);
 			
-	dockframepos = дайСчётФреймов();
-	добавьФрейм(dockframe[1-i]);
-	добавьФрейм(dockframe[3-i]);
-	добавьФрейм(dockframe[0+i]);
-	добавьФрейм(dockframe[2+i]);
+	dockframepos = GetFrameCount();
+	AddFrame(dockframe[1-i]);
+	AddFrame(dockframe[3-i]);
+	AddFrame(dockframe[0+i]);
+	AddFrame(dockframe[2+i]);
 }
 
-DockableCtrl&  ОкноДок::Dockable(Ктрл& ctrl, ШТкст title)
+DockableCtrl&  DockWindow::Dockable(Ctrl& ctrl, WString title)
 {
-	DockableCtrl& dc = регистрируй(ctrls.добавь().SizeHint(ctrl.дайМинРазм()));
-	if (!пусто_ли(title)) dc.Титул(title);
+	DockableCtrl& dc = Register(ctrls.Add().SizeHint(ctrl.GetMinSize()));
+	if (!IsNull(title)) dc.Title(title);
 	dc << ctrl.SizePos();
 	return dc;
 }
 
-void ОкноДок::DockManager()
+void DockWindow::DockManager()
 {
-	DockConfigDlg(*this).пуск();
+	DockConfigDlg(*this).Run();
 }
 
-void ОкноДок::DockWindowMenu(Бар& bar)
+void DockWindow::DockWindowMenu(Bar& bar)
 {
 	if (IsGrouping())
 		menu.GroupListMenu(bar);
 	else
-		menu.WindowListMenu(bar, t_("Все"));
-	if (dockers.дайСчёт())
+		menu.WindowListMenu(bar, t_("All"));
+	if (dockers.GetCount())
 		bar.Separator();
-	if (layouts.дайСчёт()) {
-		bar.добавь(t_("Выкладки"), callback(&menu, &DockMenu::LayoutListMenu));
+	if (layouts.GetCount()) {
+		bar.Add(t_("Layouts"), callback(&menu, &DockMenu::LayoutListMenu));
 		bar.Separator();
 	}
-	bar.добавь(t_("Manage Windows..."), THISBACK(DockManager));
+	bar.Add(t_("Manage Windows..."), THISBACK(DockManager));
 }
 
-void ОкноДок::SerializeWindow(Поток& s)
+void DockWindow::SerializeWindow(Stream& s)
 {
 	int version = VERSION;
 	int v = version;
@@ -1246,26 +1246,26 @@ void ОкноДок::SerializeWindow(Поток& s)
 		s % locked;
 	if (version >= 5)
 		s % frameorder;
-	if (s.грузится()) {
+	if (s.IsLoading()) {
 		SyncAll();
 		init = true;
 	}
 }
 
-void ОкноДок::ClearLayout()
+void DockWindow::ClearLayout()
 {
-	// закрой everything
-	for (int i = 0; i < conts.дайСчёт(); i++)
+	// Close everything
+	for (int i = 0; i < conts.GetCount(); i++)
 		CloseContainer(conts[i]);
 	for (int i = 0; i < 4; i++) {
-		dockpane[i].очисть(); 
-		hideframe[i].очисть();
+		dockpane[i].Clear(); 
+		hideframe[i].Clear();
 		frameanim[i].inc = 0;
 	}
-	conts.очисть();	
+	conts.Clear();	
 }
 
-void ОкноДок::SerializeLayout(Поток& s, bool withsavedlayouts)
+void DockWindow::SerializeLayout(Stream& s, bool withsavedlayouts)
 {
 	StopHighlight(false);
 	int cnt = 0;
@@ -1275,188 +1275,188 @@ void ОкноДок::SerializeLayout(Поток& s, bool withsavedlayouts)
 	s % version;
 	
 	// Groups
-	МассивМап<Ткст, Вектор<int> > groups;
-	if (s.сохраняется())
-		for (int i = 0; i < dockers.дайСчёт(); i++) {
-			Ткст g = dockers[i]->дайГруппу();
-			if (!g.пустой()) {
-				int ix = groups.найди(g);
+	ArrayMap<String, Vector<int> > groups;
+	if (s.IsStoring())
+		for (int i = 0; i < dockers.GetCount(); i++) {
+			String g = dockers[i]->GetGroup();
+			if (!g.IsEmpty()) {
+				int ix = groups.Find(g);
 				if (ix < 0) {
-					groups.добавь(dockers[i]->дайГруппу(), Вектор<int>());
-					ix = groups.дайСчёт() - 1;
+					groups.Add(dockers[i]->GetGroup(), Vector<int>());
+					ix = groups.GetCount() - 1;
 				}	
-				groups[ix].добавь(i);
+				groups[ix].Add(i);
 			}
 		}
 	s % groups;
-	if (s.грузится()) {
+	if (s.IsLoading()) {
 		ClearLayout();		
 		
-		for (int i = 0; i < dockers.дайСчёт(); i++)
-			dockers[i]->устГруппу(Null);
-		for (int i = 0; i < groups.дайСчёт(); i++) {
-			Вектор<int>& v = groups[i];
-			const Ткст& g = groups.дайКлюч(i);
-			for (int j = 0; j < v.дайСчёт(); j++) {
+		for (int i = 0; i < dockers.GetCount(); i++)
+			dockers[i]->SetGroup(Null);
+		for (int i = 0; i < groups.GetCount(); i++) {
+			Vector<int>& v = groups[i];
+			const String& g = groups.GetKey(i);
+			for (int j = 0; j < v.GetCount(); j++) {
 				int ix = v[j];
-				if (ix >= 0 && ix < dockers.дайСчёт())
-					dockers[ix]->устГруппу(g);
+				if (ix >= 0 && ix < dockers.GetCount())
+					dockers[ix]->SetGroup(g);
 			}
 		}
 	}
 			    
-	if (s.сохраняется()) {
-		// пиши frame order
+	if (s.IsStoring()) {
+		// Write frame order
 		for (int i = 0; i < 4; i++) {
-			int ps = max(найдиФрейм(dockframe[i]) - dockframepos, 0);
+			int ps = max(FindFrame(dockframe[i]) - dockframepos, 0);
 			s % ps;
 		}
-		// пиши docked
+		// Write docked
 		for (int i = 0; i < 4; i++) {
 			DockPane& pane = dockpane[i];
-			int fsz = dockframe[i].показан_ли() ? dockframe[i].дайРазм() : 0;
+			int fsz = dockframe[i].IsShown() ? dockframe[i].GetSize() : 0;
 			
 			s / fsz % pane;
-			DockCont *dc = dynamic_cast<DockCont *>(pane.дайПервОтпрыск());
-			for (int j = 0; dc && j < pane.дайСчёт(); j++) {
+			DockCont *dc = dynamic_cast<DockCont *>(pane.GetFirstChild());
+			for (int j = 0; dc && j < pane.GetCount(); j++) {
 				s % *dc;
-				dc = dynamic_cast<DockCont *>(dc->дайСледщ());
+				dc = dynamic_cast<DockCont *>(dc->GetNext());
 			}
 		}
 		cnt = 0;
 		// Count Floating
-		for (int i = 0; i < conts.дайСчёт(); i++)
+		for (int i = 0; i < conts.GetCount(); i++)
 			if (conts[i].IsFloating()) cnt++;
-		// пиши Floating
+		// Write Floating
 		s / cnt;
-		for (int i = 0; i < conts.дайСчёт(); i++) {
+		for (int i = 0; i < conts.GetCount(); i++) {
 			if (conts[i].IsFloating()) {
-				conts[i].сериализуй(s);
+				conts[i].Serialize(s);
 				conts[i].SerializePlacement(s, false);
 			}
 		}
-		// пиши Autohidden
+		// Write Autohidden
 		for (int i = 0; i < 4; i++) {
-			cnt = hideframe[i].дайСчёт();
+			cnt = hideframe[i].GetCount();
 			s / cnt;
-			for (int j = 0; j < hideframe[i].дайСчёт(); j++) {
-				int ix = FindDocker(&hideframe[i].дайКтрл(j)->дай(0));
+			for (int j = 0; j < hideframe[i].GetCount(); j++) {
+				int ix = FindDocker(&hideframe[i].GetCtrl(j)->Get(0));
 				if (ix >= 0)
 					s / ix;
 			}
 		}		
 	}
 	else {
-		// читай frame order
+		// Read frame order
 		if (version >= 5) {
 			int ps[4];
 			for (int i = 0; i < 4; i++) {
 				s % ps[i];
-				устФрейм(dockframepos + i, фреймИнсет());
+				SetFrame(dockframepos + i, InsetFrame());
 			}
 			for (int i= 0; i < 4; i++)
-				устФрейм(ps[i] + dockframepos, dockframe[i]);
+				SetFrame(ps[i] + dockframepos, dockframe[i]);
 		}
-		// читай docked
+		// Read docked
 		for (int i = 0; i < 4; i++) {
 			DockPane& pane = dockpane[i];
-			dockframe[i].скрой();
+			dockframe[i].Hide();
 			int fsz;
 			s / fsz % pane;
 
-			for (int j = 0; j < pane.дайСчёт(); j++) {
+			for (int j = 0; j < pane.GetCount(); j++) {
 				DockCont *dc = CreateContainer();
 				s % *dc;
 				dc->StateDocked(*this);
 				pane << *dc;
 			}
-			if (fsz && pane.дайСчёт()) {
-				dockframe[i].устРазм(fsz);
-				dockframe[i].покажи();
+			if (fsz && pane.GetCount()) {
+				dockframe[i].SetSize(fsz);
+				dockframe[i].Show();
 			} 
 			else
-				dockframe[i].устРазм(0);			
+				dockframe[i].SetSize(0);			
 		}	
-		// читай floating
+		// Read floating
 		s / cnt;
 		for (int i = 0; i < cnt; i++) {
 			DockCont *dc = CreateContainer();
-			dc->сериализуй(s);
+			dc->Serialize(s);
 			FloatContainer(*dc);
 			dc->SerializePlacement(s, false);	
 		}
-		// читай Autohidden
+		// Read Autohidden
 		for (int i = 0; i < 4; i++) {
 			s / cnt;
 			for (int j = 0; j < cnt; j++) {
 				int ix;
 				s / ix;
-				if (ix >= 0 && ix < dockers.дайСчёт())
-					автоСкрой(i, *dockers[ix]);
+				if (ix >= 0 && ix < dockers.GetCount())
+					AutoHide(i, *dockers[ix]);
 			}		
 		}
-		// очисть empty containers
-		for (int i = conts.дайСчёт()-1; i >= 0; i--) {
-			if (!conts.дайСчёт()) CloseContainer(conts[i]);
+		// Clear empty containers
+		for (int i = conts.GetCount()-1; i >= 0; i--) {
+			if (!conts.GetCount()) CloseContainer(conts[i]);
 		}
-		освежиВыкладку();
+		RefreshLayout();
 	}
 	bool haslay = withsavedlayouts;
 	s % haslay;
-	if (withsavedlayouts && (s.сохраняется() || haslay))
+	if (withsavedlayouts && (s.IsStoring() || haslay))
 		s % layouts;
 	s.Magic();
 }
 
-void ОкноДок::BackupLayout()
+void DockWindow::BackupLayout()
 {
-	ТкстПоток s;
+	StringStream s;
 	SerializeLayout(s);
 	layoutbackup = s;
 }
 
-void ОкноДок::RestoreLayout()
+void DockWindow::RestoreLayout()
 {
-	if (!layoutbackup.дайСчёт()) return;
-	ТкстПоток s(layoutbackup);
+	if (!layoutbackup.GetCount()) return;
+	StringStream s(layoutbackup);
 	SerializeLayout(s);	
 }
 
-int ОкноДок::SaveLayout(Ткст имя)
+int DockWindow::SaveLayout(String name)
 {
-	ПРОВЕРЬ(!имя.пустой());
-	ТкстПоток s;
+	ASSERT(!name.IsEmpty());
+	StringStream s;
 	SerializeLayout(s, false);
-	int ix = layouts.найдиДобавь(имя, Ткст());
-	layouts[ix] = (Ткст)s;
+	int ix = layouts.FindAdd(name, String());
+	layouts[ix] = (String)s;
 	return ix;
 }
 
-void ОкноДок::LoadLayout(Ткст имя)
+void DockWindow::LoadLayout(String name)
 {
-	int ix = layouts.найди(имя); 
+	int ix = layouts.Find(name); 
 	if (ix >= 0) 
 		LoadLayout(ix);	
 }
 
-void ОкноДок::LoadLayout(int ix)
+void DockWindow::LoadLayout(int ix)
 {
-	ПРОВЕРЬ(ix >= 0 && ix < layouts.дайСчёт());
-	ТкстПоток s((Ткст)layouts[ix]);
+	ASSERT(ix >= 0 && ix < layouts.GetCount());
+	StringStream s((String)layouts[ix]);
 	SerializeLayout(s, false);
-	освежиВыкладку();
+	RefreshLayout();
 }
 
-void ОкноДок::EnableFloating(bool enable)
+void DockWindow::EnableFloating(bool enable)
 {
-	for (int i = 0; i < conts.дайСчёт(); i++)
+	for (int i = 0; i < conts.GetCount(); i++)
 		if (conts[i].IsFloating())
-			conts[i].вкл(enable);
+			conts[i].Enable(enable);
 }
 
-ОкноДок::ОкноДок()
+DockWindow::DockWindow()
 {
-	menu.уст(*this);
+	menu.Set(*this);
 
 #ifdef PLATFORM_WIN32
 	childtoolwindows = true;
@@ -1479,12 +1479,12 @@ void ОкноДок::EnableFloating(bool enable)
 	showlockedhandles = false;
 
 	for (int i = 0; i < 4; i++) {
-		dockframe[i].уст(dockpane[i], 0, i);
-		IsTB(i) ? dockpane[i].гориз() : dockpane[i].верт();
-		hideframe[i].устЛин(i);
-		dockframe[i].скрой();
+		dockframe[i].Set(dockpane[i], 0, i);
+		IsTB(i) ? dockpane[i].Horz() : dockpane[i].Vert();
+		hideframe[i].SetAlign(i);
+		dockframe[i].Hide();
 	}
-	AllowDockAll().анимируй().AnimateDelay(30);
+	AllowDockAll().Animate().AnimateDelay(30);
 }
 
 // PopUpDockWindow
@@ -1492,7 +1492,7 @@ void ОкноДок::EnableFloating(bool enable)
 
 void PopUpDockWindow::ContainerDragStart(DockCont& dc)
 {
-	ОкноДок::ContainerDragStart(dc);
+	DockWindow::ContainerDragStart(dc);
 	last_target = NULL;
 	last_popup = NULL;	
 }
@@ -1501,8 +1501,8 @@ void PopUpDockWindow::ContainerDragMove(DockCont& dc)
 {
 	int align = DOCK_NONE;
 
-	// является the highlight the same as last time? (Quick escape)
-	if (last_popup && last_popup->IsPopUp() && last_popup->дайПрям().содержит(дайПозМыши()))
+	// Is the highlight the same as last time? (Quick escape)
+	if (last_popup && last_popup->IsPopUp() && last_popup->GetRect().Contains(GetMousePos()))
 		return;
 	
 	DockCont *target = GetMouseDockTarget();
@@ -1513,10 +1513,10 @@ void PopUpDockWindow::ContainerDragMove(DockCont& dc)
 			target = NULL;
 	}
 	bool target_changed =  (target != last_target) 
-						&& !GetHighlightCtrl().дайРодителя() 
+						&& !GetHighlightCtrl().GetParent() 
 						&& (!target || !IsPaneAnimating(dock));
 	
-	// скрой show inner popups as necessary
+	// Hide show inner popups as necessary
 	if (!target && last_target != NULL)
 		HidePopUps(true, false);
 	else if (target_changed)
@@ -1524,7 +1524,7 @@ void PopUpDockWindow::ContainerDragMove(DockCont& dc)
 	ShowOuterPopUps(dc);		
 	last_target = target;
 	
-	// дай potential alignment
+	// Get potential alignment
 	align = PopUpHighlight(inner, 5);
 	if (align == DOCK_NONE) {
 		target = NULL;
@@ -1534,7 +1534,7 @@ void PopUpDockWindow::ContainerDragMove(DockCont& dc)
 	else if (align == 4)
 		align = DOCK_NONE;
 	else if (target) {
-		target = IsTL(align) ? target : dynamic_cast<DockCont*>(target->дайСледщ());
+		target = IsTL(align) ? target : dynamic_cast<DockCont*>(target->GetNext());
 		align = dock;
 	}
 	
@@ -1554,13 +1554,13 @@ void PopUpDockWindow::ContainerDragMove(DockCont& dc)
 void PopUpDockWindow::ContainerDragEnd(DockCont& dc)
 {
 	int align = DOCK_NONE;
-	if (автоСкрой_ли() && showhide)
+	if (IsAutoHide() && showhide)
 		align = PopUpHighlight(hide, 4);
 	HidePopUps(true, true);
 	if (align != DOCK_NONE)
 		AutoHideContainer(align, dc);	
 	else
-		ОкноДок::ContainerDragEnd(dc);	
+		DockWindow::ContainerDragEnd(dc);	
 	last_target = NULL;
 	last_popup = NULL;	
 }
@@ -1568,19 +1568,19 @@ void PopUpDockWindow::ContainerDragEnd(DockCont& dc)
 int PopUpDockWindow::PopUpHighlight(PopUpButton *pb, int cnt)
 {
 	int ix = -1;
-	Точка p = дайПозМыши();
+	Point p = GetMousePos();
 	for (int i = 0; i < cnt; i++) {
-		if (pb[i].IsPopUp() && pb[i].дайПрям().содержит(p)) {
+		if (pb[i].IsPopUp() && pb[i].GetRect().Contains(p)) {
 			if (!pb[i].hlight) {
 				pb[i].hlight = &(style->highlight);
-				pb[i].освежи();
+				pb[i].Refresh();
 			}
 			ix = i;
 			last_popup = &pb[i];
 		}
 		else if (pb[i].hlight) {
 			pb[i].hlight = NULL;
-			pb[i].освежи();
+			pb[i].Refresh();
 		}
 	}
 	return ix;
@@ -1588,65 +1588,65 @@ int PopUpDockWindow::PopUpHighlight(PopUpButton *pb, int cnt)
 
 void PopUpDockWindow::ShowOuterPopUps(DockCont& dc)
 {
-	Прям wrect = дайПрямЭкрана();
-	Точка cp = wrect.центрТочка();
-	Размер psz(style->outersize, style->outersize);
-	Прям prect = Прям(psz);	
+	Rect wrect = GetScreenRect();
+	Point cp = wrect.CenterPoint();
+	Size psz(style->outersize, style->outersize);
+	Rect prect = Rect(psz);	
 	psz /= 2;
 	
-	wrect.дефлируй(12, 12);
+	wrect.Deflate(12, 12);
 	
-	if (dc.IsDockAllowed(DOCK_LEFT)) 	ShowPopUp(outer[DOCK_LEFT], prect.смещенец(wrect.left + POPUP_SPACING, cp.y - psz.cy));	
-	if (dc.IsDockAllowed(DOCK_TOP)) 	ShowPopUp(outer[DOCK_TOP], prect.смещенец(cp.x - psz.cx, wrect.top + POPUP_SPACING));	 
-	if (dc.IsDockAllowed(DOCK_RIGHT)) 	ShowPopUp(outer[DOCK_RIGHT], prect.смещенец(wrect.right - POPUP_SPACING - psz.cx*2, cp.y - psz.cy));
-	if (dc.IsDockAllowed(DOCK_BOTTOM)) 	ShowPopUp(outer[DOCK_BOTTOM], prect.смещенец(cp.x - psz.cx, wrect.bottom - POPUP_SPACING - psz.cy*2));
+	if (dc.IsDockAllowed(DOCK_LEFT)) 	ShowPopUp(outer[DOCK_LEFT], prect.Offseted(wrect.left + POPUP_SPACING, cp.y - psz.cy));	
+	if (dc.IsDockAllowed(DOCK_TOP)) 	ShowPopUp(outer[DOCK_TOP], prect.Offseted(cp.x - psz.cx, wrect.top + POPUP_SPACING));	 
+	if (dc.IsDockAllowed(DOCK_RIGHT)) 	ShowPopUp(outer[DOCK_RIGHT], prect.Offseted(wrect.right - POPUP_SPACING - psz.cx*2, cp.y - psz.cy));
+	if (dc.IsDockAllowed(DOCK_BOTTOM)) 	ShowPopUp(outer[DOCK_BOTTOM], prect.Offseted(cp.x - psz.cx, wrect.bottom - POPUP_SPACING - psz.cy*2));
 	
-	if (автоСкрой_ли() && showhide) {
-		ShowPopUp(hide[DOCK_LEFT], prect.смещенец(wrect.left + POPUP_SPACING + style->outersize, cp.y - psz.cy));	
-		ShowPopUp(hide[DOCK_TOP], prect.смещенец(cp.x - psz.cx, wrect.top + POPUP_SPACING + style->outersize));	 
-		ShowPopUp(hide[DOCK_RIGHT], prect.смещенец(wrect.right - POPUP_SPACING - psz.cx*2 - style->outersize, cp.y - psz.cy));
-		ShowPopUp(hide[DOCK_BOTTOM], prect.смещенец(cp.x - psz.cx, wrect.bottom - POPUP_SPACING - psz.cy*2 - style->outersize));		
+	if (IsAutoHide() && showhide) {
+		ShowPopUp(hide[DOCK_LEFT], prect.Offseted(wrect.left + POPUP_SPACING + style->outersize, cp.y - psz.cy));	
+		ShowPopUp(hide[DOCK_TOP], prect.Offseted(cp.x - psz.cx, wrect.top + POPUP_SPACING + style->outersize));	 
+		ShowPopUp(hide[DOCK_RIGHT], prect.Offseted(wrect.right - POPUP_SPACING - psz.cx*2 - style->outersize, cp.y - psz.cy));
+		ShowPopUp(hide[DOCK_BOTTOM], prect.Offseted(cp.x - psz.cx, wrect.bottom - POPUP_SPACING - psz.cy*2 - style->outersize));		
 	}
 }
 
 void PopUpDockWindow::ShowInnerPopUps(DockCont& dc, DockCont *target)
 {
-	ПРОВЕРЬ(target);
-	Прям wrect = дайПрямЭкрана();
-	Размер psz(style->innersize, style->innersize);
-	Прям prect = Прям(psz);	
-	Точка cp;
+	ASSERT(target);
+	Rect wrect = GetScreenRect();
+	Size psz(style->innersize, style->innersize);
+	Rect prect = Rect(psz);	
+	Point cp;
 	psz /= 2;
 
-	cp = target->дайПрямЭкрана().центрТочка();
+	cp = target->GetScreenRect().CenterPoint();
 	int d = psz.cy * 5;
 	cp.x = minmax(cp.x, wrect.left + d, wrect.right - d);
 	cp.y = minmax(cp.y, wrect.top + d, wrect.bottom - d);		
 
 	int align = GetDockAlign(*target);
-	if (IsTB(align)) { // лево/right docking allowed
-		ShowPopUp(inner[DOCK_LEFT], prect.смещенец(cp.x - psz.cx*3, cp.y - psz.cy));	
-		ShowPopUp(inner[DOCK_RIGHT], prect.смещенец(cp.x + psz.cx, cp.y - psz.cy));	
+	if (IsTB(align)) { // Left/right docking allowed
+		ShowPopUp(inner[DOCK_LEFT], prect.Offseted(cp.x - psz.cx*3, cp.y - psz.cy));	
+		ShowPopUp(inner[DOCK_RIGHT], prect.Offseted(cp.x + psz.cx, cp.y - psz.cy));	
 	}
 	else {
-		inner[DOCK_LEFT].закрой();	
-		inner[DOCK_RIGHT].закрой();
+		inner[DOCK_LEFT].Close();	
+		inner[DOCK_RIGHT].Close();
 	}
-	if (!IsTB(align)) { // верх/bottom docking allowed
-		ShowPopUp(inner[DOCK_TOP], prect.смещенец(cp.x - psz.cx, cp.y - psz.cy*3));
-		ShowPopUp(inner[DOCK_BOTTOM], prect.смещенец(cp.x - psz.cx, cp.y + psz.cy));
+	if (!IsTB(align)) { // Top/bottom docking allowed
+		ShowPopUp(inner[DOCK_TOP], prect.Offseted(cp.x - psz.cx, cp.y - psz.cy*3));
+		ShowPopUp(inner[DOCK_BOTTOM], prect.Offseted(cp.x - psz.cx, cp.y + psz.cy));
 	}
 	else {
-		inner[DOCK_TOP].закрой();	
-		inner[DOCK_BOTTOM].закрой();
+		inner[DOCK_TOP].Close();	
+		inner[DOCK_BOTTOM].Close();
 	}
 	if (IsTabbing())
-		ShowPopUp(inner[4], prect.смещенец(cp.x-psz.cx, cp.y-psz.cy));
+		ShowPopUp(inner[4], prect.Offseted(cp.x-psz.cx, cp.y-psz.cy));
 }
 
-void PopUpDockWindow::ShowPopUp(PopUpButton& pb, const Прям& r)
+void PopUpDockWindow::ShowPopUp(PopUpButton& pb, const Rect& r)
 {
-	pb.устПрям(r);
+	pb.SetRect(r);
 	if (!pb.IsPopUp())
 		pb.PopUp(this, false, true, true);
 }
@@ -1655,16 +1655,16 @@ void PopUpDockWindow::HidePopUps(bool _inner, bool _outer)
 {
 	if (_inner)
 		for (int i = 0; i < 5; i++)
-			inner[i].закрой();	
+			inner[i].Close();	
 	if (_outer) {
 		for (int i = 0; i < 4; i++)
-			outer[i].закрой();
+			outer[i].Close();
 		for (int i = 0; i < 4; i++)
-			hide[i].закрой();
+			hide[i].Close();
 	}				
 }
 
-PopUpDockWindow&  PopUpDockWindow::устСтиль(const Стиль& s)
+PopUpDockWindow&  PopUpDockWindow::SetStyle(const Style& s)
 {
 	style = &s;
 	for (int i = 0; i < 5; i++)
@@ -1679,11 +1679,11 @@ PopUpDockWindow&  PopUpDockWindow::устСтиль(const Стиль& s)
 PopUpDockWindow::PopUpDockWindow()
 : showhide(true)
 {
-	устСтиль(дефСтиль());
+	SetStyle(StyleDefault());
 	AnimateDelay(0);
 }
 
-CH_STYLE(PopUpDockWindow, Стиль, дефСтиль)
+CH_STYLE(PopUpDockWindow, Style, StyleDefault)
 {
 	inner[0] = DockingImg::DockLeft();
 	inner[1] = DockingImg::DockTop();

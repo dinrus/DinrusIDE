@@ -15,7 +15,7 @@
  *   disclaimer in the documentation and/or other materials
  *   provided with the distribution.
  *
- *   Neither the имя of the copyright holder nor the names
+ *   Neither the name of the copyright holder nor the names
  *   of any other contributors may be used to endorse or
  *   promote products derived from this software without
  *   specific prior written permission.
@@ -75,7 +75,7 @@ hostkey_method_ssh_rsa_init(LIBSSH2_SESSION * session,
 
     if(hostkey_data_len < 19) {
         _libssh2_debug(session, LIBSSH2_TRACE_ERROR,
-                       "host ключ length too short");
+                       "host key length too short");
         return -1;
     }
 
@@ -105,7 +105,7 @@ hostkey_method_ssh_rsa_init(LIBSSH2_SESSION * session,
 /*
  * hostkey_method_ssh_rsa_initPEM
  *
- * грузи a Private Key from a PEM file
+ * Load a Private Key from a PEM file
  */
 static int
 hostkey_method_ssh_rsa_initPEM(LIBSSH2_SESSION * session,
@@ -134,7 +134,7 @@ hostkey_method_ssh_rsa_initPEM(LIBSSH2_SESSION * session,
 /*
  * hostkey_method_ssh_rsa_initPEMFromMemory
  *
- * грузи a Private Key from a memory
+ * Load a Private Key from a memory
  */
 static int
 hostkey_method_ssh_rsa_initPEMFromMemory(LIBSSH2_SESSION * session,
@@ -178,7 +178,7 @@ hostkey_method_ssh_rsa_sig_verify(LIBSSH2_SESSION * session,
     libssh2_rsa_ctx *rsactx = (libssh2_rsa_ctx *) (*abstract);
     (void) session;
 
-    /* пропусти past keyname_len(4) + keyname(7){"ssh-rsa"} + signature_len(4) */
+    /* Skip past keyname_len(4) + keyname(7){"ssh-rsa"} + signature_len(4) */
     if(sig_len < 15)
         return -1;
 
@@ -190,7 +190,7 @@ hostkey_method_ssh_rsa_sig_verify(LIBSSH2_SESSION * session,
 /*
  * hostkey_method_ssh_rsa_signv
  *
- * строй a signature from an array of vectors
+ * Construct a signature from an array of vectors
  */
 static int
 hostkey_method_ssh_rsa_signv(LIBSSH2_SESSION * session,
@@ -293,7 +293,7 @@ hostkey_method_ssh_dss_init(LIBSSH2_SESSION * session,
 
     if(hostkey_data_len < 27) {
         _libssh2_debug(session, LIBSSH2_TRACE_ERROR,
-                       "host ключ length too short");
+                       "host key length too short");
         return -1;
     }
 
@@ -329,7 +329,7 @@ hostkey_method_ssh_dss_init(LIBSSH2_SESSION * session,
 /*
  * hostkey_method_ssh_dss_initPEM
  *
- * грузи a Private Key from a PEM file
+ * Load a Private Key from a PEM file
  */
 static int
 hostkey_method_ssh_dss_initPEM(LIBSSH2_SESSION * session,
@@ -358,7 +358,7 @@ hostkey_method_ssh_dss_initPEM(LIBSSH2_SESSION * session,
 /*
  * hostkey_method_ssh_dss_initPEMFromMemory
  *
- * грузи a Private Key from memory
+ * Load a Private Key from memory
  */
 static int
 hostkey_method_ssh_dss_initPEMFromMemory(LIBSSH2_SESSION * session,
@@ -401,10 +401,10 @@ hostkey_method_ssh_dss_sig_verify(LIBSSH2_SESSION * session,
 {
     libssh2_dsa_ctx *dsactx = (libssh2_dsa_ctx *) (*abstract);
 
-    /* пропусти past keyname_len(4) + keyname(7){"ssh-dss"} + signature_len(4) */
+    /* Skip past keyname_len(4) + keyname(7){"ssh-dss"} + signature_len(4) */
     if(sig_len != 55) {
         return _libssh2_error(session, LIBSSH2_ERROR_PROTO,
-                              "Invalid DSS signature length");
+                              "Неправильная длина сигнатуры DSS");
     }
 
     sig += 15;
@@ -416,7 +416,7 @@ hostkey_method_ssh_dss_sig_verify(LIBSSH2_SESSION * session,
 /*
  * hostkey_method_ssh_dss_signv
  *
- * строй a signature from an array of vectors
+ * Construct a signature from an array of vectors
  */
 static int
 hostkey_method_ssh_dss_signv(LIBSSH2_SESSION * session,
@@ -507,7 +507,7 @@ hostkey_method_ssh_ecdsa_init(LIBSSH2_SESSION * session,
     libssh2_ecdsa_ctx *ecdsactx = NULL;
     unsigned char *type_str, *domain, *public_key;
     size_t key_len, len;
-    libssh2_curve_type тип;
+    libssh2_curve_type type;
     struct string_buf buf;
 
     if(abstract != NULL && *abstract) {
@@ -517,7 +517,7 @@ hostkey_method_ssh_ecdsa_init(LIBSSH2_SESSION * session,
 
     if(hostkey_data_len < 39) {
         _libssh2_debug(session, LIBSSH2_TRACE_ERROR,
-                       "host ключ length too short");
+                       "длина ключа хоста слишком коротка");
         return -1;
     }
 
@@ -529,13 +529,13 @@ hostkey_method_ssh_ecdsa_init(LIBSSH2_SESSION * session,
         return -1;
 
     if(strncmp((char *) type_str, "ecdsa-sha2-nistp256", 19) == 0) {
-        тип = LIBSSH2_EC_CURVE_NISTP256;
+        type = LIBSSH2_EC_CURVE_NISTP256;
     }
     else if(strncmp((char *) type_str, "ecdsa-sha2-nistp384", 19) == 0) {
-        тип = LIBSSH2_EC_CURVE_NISTP384;
+        type = LIBSSH2_EC_CURVE_NISTP384;
     }
     else if(strncmp((char *) type_str, "ecdsa-sha2-nistp521", 19) == 0) {
-        тип = LIBSSH2_EC_CURVE_NISTP521;
+        type = LIBSSH2_EC_CURVE_NISTP521;
     }
     else {
         return -1;
@@ -544,25 +544,25 @@ hostkey_method_ssh_ecdsa_init(LIBSSH2_SESSION * session,
     if(_libssh2_get_string(&buf, &domain, &len) || len != 8)
         return -1;
 
-    if(тип == LIBSSH2_EC_CURVE_NISTP256 &&
+    if(type == LIBSSH2_EC_CURVE_NISTP256 &&
        strncmp((char *)domain, "nistp256", 8) != 0) {
         return -1;
     }
-    else if(тип == LIBSSH2_EC_CURVE_NISTP384 &&
+    else if(type == LIBSSH2_EC_CURVE_NISTP384 &&
             strncmp((char *)domain, "nistp384", 8) != 0) {
         return -1;
     }
-    else if(тип == LIBSSH2_EC_CURVE_NISTP521 &&
+    else if(type == LIBSSH2_EC_CURVE_NISTP521 &&
             strncmp((char *)domain, "nistp521", 8) != 0) {
         return -1;
     }
 
-    /* public ключ */
+    /* public key */
     if(_libssh2_get_string(&buf, &public_key, &key_len))
         return -1;
 
     if(_libssh2_ecdsa_curve_name_with_octal_new(&ecdsactx, public_key,
-                                                key_len, тип))
+                                                key_len, type))
         return -1;
 
     if(abstract != NULL)
@@ -574,7 +574,7 @@ hostkey_method_ssh_ecdsa_init(LIBSSH2_SESSION * session,
 /*
  * hostkey_method_ssh_ecdsa_initPEM
  *
- * грузи a Private Key from a PEM file
+ * Load a Private Key from a PEM file
  */
 static int
 hostkey_method_ssh_ecdsa_initPEM(LIBSSH2_SESSION * session,
@@ -602,7 +602,7 @@ hostkey_method_ssh_ecdsa_initPEM(LIBSSH2_SESSION * session,
 /*
  * hostkey_method_ssh_ecdsa_initPEMFromMemory
  *
- * грузи a Private Key from memory
+ * Load a Private Key from memory
  */
 static int
 hostkey_method_ssh_ecdsa_initPEMFromMemory(LIBSSH2_SESSION * session,
@@ -645,7 +645,7 @@ hostkey_method_ssh_ecdsa_sig_verify(LIBSSH2_SESSION * session,
                                     const unsigned char *m,
                                     size_t m_len, void **abstract)
 {
-    unsigned char *r, *s, *имя;
+    unsigned char *r, *s, *name;
     size_t r_len, s_len, name_len;
     uint32_t len;
     struct string_buf buf;
@@ -662,7 +662,7 @@ hostkey_method_ssh_ecdsa_sig_verify(LIBSSH2_SESSION * session,
     buf.dataptr = buf.data;
     buf.len = sig_len;
 
-   if(_libssh2_get_string(&buf, &имя, &name_len) || name_len != 19)
+   if(_libssh2_get_string(&buf, &name, &name_len) || name_len != 19)
         return -1;
 
     if(_libssh2_get_u32(&buf, &len) != 0 || len < 8)
@@ -698,7 +698,7 @@ hostkey_method_ssh_ecdsa_sig_verify(LIBSSH2_SESSION * session,
 /*
  * hostkey_method_ecdsa_signv
  *
- * строй a signature from an array of vectors
+ * Construct a signature from an array of vectors
  */
 static int
 hostkey_method_ssh_ecdsa_signv(LIBSSH2_SESSION * session,
@@ -709,16 +709,16 @@ hostkey_method_ssh_ecdsa_signv(LIBSSH2_SESSION * session,
                                void **abstract)
 {
     libssh2_ecdsa_ctx *ec_ctx = (libssh2_ecdsa_ctx *) (*abstract);
-    libssh2_curve_type тип = _libssh2_ecdsa_get_curve_type(ec_ctx);
+    libssh2_curve_type type = _libssh2_ecdsa_get_curve_type(ec_ctx);
     int ret = 0;
 
-    if(тип == LIBSSH2_EC_CURVE_NISTP256) {
+    if(type == LIBSSH2_EC_CURVE_NISTP256) {
         LIBSSH2_HOSTKEY_METHOD_EC_SIGNV_HASH(256);
     }
-    else if(тип == LIBSSH2_EC_CURVE_NISTP384) {
+    else if(type == LIBSSH2_EC_CURVE_NISTP384) {
         LIBSSH2_HOSTKEY_METHOD_EC_SIGNV_HASH(384);
     }
-    else if(тип == LIBSSH2_EC_CURVE_NISTP521) {
+    else if(type == LIBSSH2_EC_CURVE_NISTP521) {
         LIBSSH2_HOSTKEY_METHOD_EC_SIGNV_HASH(512);
     }
     else {
@@ -816,7 +816,7 @@ hostkey_method_ssh_ed25519_init(LIBSSH2_SESSION * session,
 
     if(hostkey_data_len < 19) {
         _libssh2_debug(session, LIBSSH2_TRACE_ERROR,
-                       "host ключ length too short");
+                       "длина ключа хоста короткая");
         return -1;
     }
 
@@ -830,7 +830,7 @@ hostkey_method_ssh_ed25519_init(LIBSSH2_SESSION * session,
 
     s += 11;
 
-    /* public ключ */
+    /* public key */
     key_len = _libssh2_ntohu32(s);
     s += 4;
 
@@ -846,7 +846,7 @@ hostkey_method_ssh_ed25519_init(LIBSSH2_SESSION * session,
 /*
  * hostkey_method_ssh_ed25519_initPEM
  *
- * грузи a Private Key from a PEM file
+ * Load a Private Key from a PEM file
  */
 static int
 hostkey_method_ssh_ed25519_initPEM(LIBSSH2_SESSION * session,
@@ -876,7 +876,7 @@ hostkey_method_ssh_ed25519_initPEM(LIBSSH2_SESSION * session,
 /*
  * hostkey_method_ssh_ed25519_initPEMFromMemory
  *
- * грузи a Private Key from memory
+ * Load a Private Key from memory
  */
 static int
 hostkey_method_ssh_ed25519_initPEMFromMemory(LIBSSH2_SESSION * session,
@@ -925,7 +925,7 @@ hostkey_method_ssh_ed25519_sig_verify(LIBSSH2_SESSION * session,
     if(sig_len < 19)
         return -1;
 
-    /* пропусти past keyname_len(4) + keyname(11){"ssh-ed25519"} +
+    /* Skip past keyname_len(4) + keyname(11){"ssh-ed25519"} +
        signature_len(4) */
     sig += 19;
     sig_len -= 19;
@@ -939,7 +939,7 @@ hostkey_method_ssh_ed25519_sig_verify(LIBSSH2_SESSION * session,
 /*
  * hostkey_method_ssh_ed25519_signv
  *
- * строй a signature from an array of vectors
+ * Construct a signature from an array of vectors
  */
 static int
 hostkey_method_ssh_ed25519_signv(LIBSSH2_SESSION * session,
@@ -963,7 +963,7 @@ hostkey_method_ssh_ed25519_signv(LIBSSH2_SESSION * session,
 /*
  * hostkey_method_ssh_ed25519_dtor
  *
- * Shutdown the hostkey by freeing ключ context
+ * Shutdown the hostkey by freeing key context
  */
 static int
 hostkey_method_ssh_ed25519_dtor(LIBSSH2_SESSION * session, void **abstract)
@@ -999,6 +999,9 @@ static const LIBSSH2_HOSTKEY_METHOD *hostkey_methods[] = {
     &hostkey_method_ecdsa_ssh_nistp256,
     &hostkey_method_ecdsa_ssh_nistp384,
     &hostkey_method_ecdsa_ssh_nistp521,
+    &hostkey_method_ecdsa_ssh_nistp256_cert,
+    &hostkey_method_ecdsa_ssh_nistp384_cert,
+    &hostkey_method_ecdsa_ssh_nistp521_cert,
 #endif
 #if LIBSSH2_ED25519
     &hostkey_method_ssh_ed25519,
@@ -1022,8 +1025,8 @@ libssh2_hostkey_methods(void)
  * libssh2_hostkey_hash
  *
  * Returns hash signature
- * Returned буфер should NOT be freed
- * длина of буфер is determined by hash тип
+ * Returned buffer should NOT be freed
+ * Length of buffer is determined by hash type
  * i.e. MD5 == 16, SHA1 == 20, SHA256 == 32
  */
 LIBSSH2_API const char *
@@ -1109,17 +1112,17 @@ static int hostkey_type(const unsigned char *hostkey, size_t len)
 /*
  * libssh2_session_hostkey()
  *
- * Returns the server ключ and length.
+ * Returns the server key and length.
  *
  */
 LIBSSH2_API const char *
-libssh2_session_hostkey(LIBSSH2_SESSION *session, size_t *len, int *тип)
+libssh2_session_hostkey(LIBSSH2_SESSION *session, size_t *len, int *type)
 {
     if(session->server_hostkey_len) {
         if(len)
             *len = session->server_hostkey_len;
-        if(тип)
-            *тип = hostkey_type(session->server_hostkey,
+        if(type)
+            *type = hostkey_type(session->server_hostkey,
                                  session->server_hostkey_len);
         return (char *) session->server_hostkey;
     }

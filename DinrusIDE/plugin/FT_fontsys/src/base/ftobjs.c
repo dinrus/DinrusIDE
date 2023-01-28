@@ -76,7 +76,7 @@
     valid->base  = base;
     valid->limit = limit;
     valid->level = level;
-    valid->Ошибка = FT_Err_Ok;
+    valid->error = FT_Err_Ok;
   }
 
 
@@ -92,15 +92,15 @@
 
   FT_BASE_DEF( void )
   ft_validator_error( FT_Validator  valid,
-                      FT_Error      Ошибка )
+                      FT_Error      error )
   {
     /* since the cast below also disables the compiler's */
-    /* тип check, we introduce a dummy variable, which  */
+    /* type check, we introduce a dummy variable, which  */
     /* will be optimized away                            */
     volatile ft_jmp_buf* jump_buffer = &valid->jump_buffer;
 
 
-    valid->Ошибка = Ошибка;
+    valid->error = error;
 
     /* throw away volatileness; use `jump_buffer' or the  */
     /* compiler may warn about an unused local variable   */
@@ -128,7 +128,7 @@
                  const FT_Open_Args*  args,
                  FT_Stream           *astream )
   {
-    FT_Error   Ошибка;
+    FT_Error   error;
     FT_Memory  memory;
     FT_Stream  stream = NULL;
 
@@ -161,7 +161,7 @@
     else if ( args->flags & FT_OPEN_PATHNAME )
     {
       /* create a normal system stream */
-      Ошибка = FT_Stream_Open( stream, args->pathname );
+      error = FT_Stream_Open( stream, args->pathname );
       stream->pathname.pointer = args->pathname;
     }
     else if ( ( args->flags & FT_OPEN_STREAM ) && args->stream )
@@ -177,9 +177,9 @@
 #endif
 
     else
-      Ошибка = FT_Err_Invalid_Argument;
+      error = FT_Err_Invalid_Argument;
 
-    if ( Ошибка )
+    if ( error )
       FT_FREE( stream );
     else
       stream->memory = memory;  /* just to be certain */
@@ -187,7 +187,7 @@
     *astream = stream;
 
   Exit:
-    return Ошибка;
+    return error;
   }
 
 
@@ -237,7 +237,7 @@
     FT_Driver         driver   = slot->face->driver;
     FT_Driver_Class   clazz    = driver->clazz;
     FT_Memory         memory   = driver->root.memory;
-    FT_Error          Ошибка    = FT_Err_Ok;
+    FT_Error          error    = FT_Err_Ok;
     FT_Slot_Internal  internal = NULL;
 
 
@@ -249,13 +249,13 @@
     slot->internal = internal;
 
     if ( FT_DRIVER_USES_OUTLINES( driver ) )
-      Ошибка = FT_GlyphLoader_New( memory, &internal->loader );
+      error = FT_GlyphLoader_New( memory, &internal->loader );
 
-    if ( !Ошибка && clazz->init_slot )
-      Ошибка = clazz->init_slot( slot );
+    if ( !error && clazz->init_slot )
+      error = clazz->init_slot( slot );
 
   Exit:
-    return Ошибка;
+    return error;
   }
 
 
@@ -267,25 +267,25 @@
       FT_Memory  memory = FT_FACE_MEMORY( slot->face );
 
 
-      FT_FREE( slot->bitmap.буфер );
+      FT_FREE( slot->bitmap.buffer );
       slot->internal->flags &= ~FT_GLYPH_OWN_BITMAP;
     }
     else
     {
-      /* assume that the bitmap буфер was stolen or not */
+      /* assume that the bitmap buffer was stolen or not */
       /* allocated from the heap                         */
-      slot->bitmap.буфер = NULL;
+      slot->bitmap.buffer = NULL;
     }
   }
 
 
   FT_BASE_DEF( void )
   ft_glyphslot_set_bitmap( FT_GlyphSlot  slot,
-                           FT_Byte*      буфер )
+                           FT_Byte*      buffer )
   {
     ft_glyphslot_free_bitmap( slot );
 
-    slot->bitmap.буфер = буфер;
+    slot->bitmap.buffer = buffer;
 
     FT_ASSERT( (slot->internal->flags & FT_GLYPH_OWN_BITMAP) == 0 );
   }
@@ -296,16 +296,16 @@
                              FT_ULong      size )
   {
     FT_Memory  memory = FT_FACE_MEMORY( slot->face );
-    FT_Error   Ошибка;
+    FT_Error   error;
 
 
     if ( slot->internal->flags & FT_GLYPH_OWN_BITMAP )
-      FT_FREE( slot->bitmap.буфер );
+      FT_FREE( slot->bitmap.buffer );
     else
       slot->internal->flags |= FT_GLYPH_OWN_BITMAP;
 
-    (void)FT_ALLOC( slot->bitmap.буфер, size );
-    return Ошибка;
+    (void)FT_ALLOC( slot->bitmap.buffer, size );
+    return error;
   }
 
 
@@ -323,7 +323,7 @@
     slot->bitmap.rows       = 0;
     slot->bitmap.pitch      = 0;
     slot->bitmap.pixel_mode = 0;
-    /* `slot->bitmap.буфер' has been handled by ft_glyphslot_free_bitmap */
+    /* `slot->bitmap.buffer' has been handled by ft_glyphslot_free_bitmap */
 
     slot->bitmap_left   = 0;
     slot->bitmap_top    = 0;
@@ -332,7 +332,7 @@
     slot->control_data  = 0;
     slot->control_len   = 0;
     slot->other         = 0;
-    slot->формат        = FT_GLYPH_FORMAT_NONE;
+    slot->format        = FT_GLYPH_FORMAT_NONE;
 
     slot->linearHoriAdvance = 0;
     slot->linearVertAdvance = 0;
@@ -352,7 +352,7 @@
     if ( clazz->done_slot )
       clazz->done_slot( slot );
 
-    /* free bitmap буфер if needed */
+    /* free bitmap buffer if needed */
     ft_glyphslot_free_bitmap( slot );
 
     /* slot->internal might be NULL in out-of-memory situations */
@@ -376,7 +376,7 @@
   FT_New_GlyphSlot( FT_Face        face,
                     FT_GlyphSlot  *aslot )
   {
-    FT_Error         Ошибка;
+    FT_Error         error;
     FT_Driver        driver;
     FT_Driver_Class  clazz;
     FT_Memory        memory;
@@ -395,8 +395,8 @@
     {
       slot->face = face;
 
-      Ошибка = ft_glyphslot_init( slot );
-      if ( Ошибка )
+      error = ft_glyphslot_init( slot );
+      if ( error )
       {
         ft_glyphslot_done( slot );
         FT_FREE( slot );
@@ -414,8 +414,8 @@
 
 
   Exit:
-    FT_TRACE4(( "FT_New_GlyphSlot: Return %d\n", Ошибка ));
-    return Ошибка;
+    FT_TRACE4(( "FT_New_GlyphSlot: Return %d\n", error ));
+    return error;
   }
 
 
@@ -560,7 +560,7 @@
                  FT_UInt   glyph_index,
                  FT_Int32  load_flags )
   {
-    FT_Error      Ошибка;
+    FT_Error      error;
     FT_Driver     driver;
     FT_GlyphSlot  slot;
     FT_Library    library;
@@ -601,7 +601,7 @@
      * The general rules are:
      *
      * - Do only auto-hinting if we have a hinter module, a scalable font
-     *   формат dealing with outlines, and no transforms except simple
+     *   format dealing with outlines, and no transforms except simple
      *   slants and/or rotations by integer multiples of 90 degrees.
      *
      * - Then, auto-hint if FT_LOAD_FORCE_AUTOHINT is set or if we don't
@@ -657,11 +657,11 @@
       if ( FT_HAS_FIXED_SIZES( face )             &&
           ( load_flags & FT_LOAD_NO_BITMAP ) == 0 )
       {
-        Ошибка = driver->clazz->load_glyph( slot, face->size,
+        error = driver->clazz->load_glyph( slot, face->size,
                                            glyph_index,
                                            load_flags | FT_LOAD_SBITS_ONLY );
 
-        if ( !Ошибка && slot->формат == FT_GLYPH_FORMAT_BITMAP )
+        if ( !error && slot->format == FT_GLYPH_FORMAT_BITMAP )
           goto Load_Ok;
       }
 
@@ -677,7 +677,7 @@
         /* load auto-hinted outline */
         hinting = (FT_AutoHinter_Service)hinter->clazz->module_interface;
 
-        Ошибка   = hinting->load_glyph( (FT_AutoHinter)hinter,
+        error   = hinting->load_glyph( (FT_AutoHinter)hinter,
                                        slot, face->size,
                                        glyph_index, load_flags );
 
@@ -686,18 +686,18 @@
     }
     else
     {
-      Ошибка = driver->clazz->load_glyph( slot,
+      error = driver->clazz->load_glyph( slot,
                                          face->size,
                                          glyph_index,
                                          load_flags );
-      if ( Ошибка )
+      if ( error )
         goto Exit;
 
-      if ( slot->формат == FT_GLYPH_FORMAT_OUTLINE )
+      if ( slot->format == FT_GLYPH_FORMAT_OUTLINE )
       {
         /* check that the loaded outline is correct */
-        Ошибка = FT_Outline_Check( &slot->outline );
-        if ( Ошибка )
+        error = FT_Outline_Check( &slot->outline );
+        if ( error )
           goto Exit;
 
 #ifdef GRID_FIT_METRICS
@@ -749,11 +749,11 @@
 
 
         if ( renderer )
-          Ошибка = renderer->clazz->transform_glyph(
+          error = renderer->clazz->transform_glyph(
                                      renderer, slot,
                                      &internal->transform_matrix,
                                      &internal->transform_delta );
-        else if ( slot->формат == FT_GLYPH_FORMAT_OUTLINE )
+        else if ( slot->format == FT_GLYPH_FORMAT_OUTLINE )
         {
           /* apply `standard' transformation if no renderer is available */
           if ( &internal->transform_matrix )
@@ -778,9 +778,9 @@
     FT_TRACE5(( "  linear y advance: %d\n" , slot->linearVertAdvance ));
 
     /* do we need to render the image now? */
-    if ( !Ошибка                                    &&
-         slot->формат != FT_GLYPH_FORMAT_BITMAP    &&
-         slot->формат != FT_GLYPH_FORMAT_COMPOSITE &&
+    if ( !error                                    &&
+         slot->format != FT_GLYPH_FORMAT_BITMAP    &&
+         slot->format != FT_GLYPH_FORMAT_COMPOSITE &&
          load_flags & FT_LOAD_RENDER )
     {
       FT_Render_Mode  mode = FT_LOAD_TARGET_MODE( load_flags );
@@ -790,11 +790,11 @@
            (load_flags & FT_LOAD_MONOCHROME ) )
         mode = FT_RENDER_MODE_MONO;
 
-      Ошибка = FT_Render_Glyph( slot, mode );
+      error = FT_Render_Glyph( slot, mode );
     }
 
   Exit:
-    return Ошибка;
+    return error;
   }
 
 
@@ -829,7 +829,7 @@
     if ( size->generic.finalizer )
       size->generic.finalizer( size );
 
-    /* finalize формат-specific stuff */
+    /* finalize format-specific stuff */
     if ( driver->clazz->done_size )
       driver->clazz->done_size( size );
 
@@ -899,7 +899,7 @@
     /* discard charmaps */
     destroy_charmaps( face, memory );
 
-    /* finalize формат-specific stuff */
+    /* finalize format-specific stuff */
     if ( clazz->done_face )
       clazz->done_face( face );
 
@@ -935,7 +935,7 @@
 
   /*************************************************************************/
   /*                                                                       */
-  /* <Функция>                                                            */
+  /* <Function>                                                            */
   /*    find_unicode_charmap                                               */
   /*                                                                       */
   /* <Description>                                                         */
@@ -975,10 +975,10 @@
      *  For compatibility purposes, these fonts generally come with
      *  *several* Unicode charmaps:
      *
-     *   - Один of them in the "old" 16-bit формат, that cannot access
+     *   - One of them in the "old" 16-bit format, that cannot access
      *     all glyphs in the font.
      *
-     *   - Another one in the "new" 32-bit формат, that can access all
+     *   - Another one in the "new" 32-bit format, that can access all
      *     the glyphs.
      *
      *  This function has been written to always favor a 32-bit charmap
@@ -1044,12 +1044,12 @@
 
   /*************************************************************************/
   /*                                                                       */
-  /* <Функция>                                                            */
+  /* <Function>                                                            */
   /*    find_variant_selector_charmap                                      */
   /*                                                                       */
   /* <Description>                                                         */
   /*    This function finds the variant selector charmap, if there is one. */
-  /*    There can only be one (platform=0, specific=5, формат=14).         */
+  /*    There can only be one (platform=0, specific=5, format=14).         */
   /*                                                                       */
   static FT_CharMap
   find_variant_selector_charmap( FT_Face  face )
@@ -1093,7 +1093,7 @@
 
   /*************************************************************************/
   /*                                                                       */
-  /* <Функция>                                                            */
+  /* <Function>                                                            */
   /*    open_face                                                          */
   /*                                                                       */
   /* <Description>                                                         */
@@ -1110,7 +1110,7 @@
     FT_Memory         memory;
     FT_Driver_Class   clazz;
     FT_Face           face = 0;
-    FT_Error          Ошибка, error2;
+    FT_Error          error, error2;
     FT_Face_Internal  internal = NULL;
 
 
@@ -1145,12 +1145,12 @@
 #endif
 
     if ( clazz->init_face )
-      Ошибка = clazz->init_face( stream,
+      error = clazz->init_face( stream,
                                 face,
                                 (FT_Int)face_index,
                                 num_params,
                                 params );
-    if ( Ошибка )
+    if ( error )
       goto Fail;
 
     /* select Unicode charmap by default */
@@ -1159,17 +1159,17 @@
     /* if no Unicode charmap can be found, FT_Err_Invalid_CharMap_Handle */
     /* is returned.                                                      */
 
-    /* no Ошибка should happen, but we want to play safe */
+    /* no error should happen, but we want to play safe */
     if ( error2 && error2 != FT_Err_Invalid_CharMap_Handle )
     {
-      Ошибка = error2;
+      error = error2;
       goto Fail;
     }
 
     *aface = face;
 
   Fail:
-    if ( Ошибка )
+    if ( error )
     {
       destroy_charmaps( face, memory );
       if ( clazz->done_face )
@@ -1179,7 +1179,7 @@
       *aface = 0;
     }
 
-    return Ошибка;
+    return error;
   }
 
 
@@ -1284,7 +1284,7 @@
   }
 
 
-  /* создай a new memory stream from a буфер and a size. */
+  /* Create a new memory stream from a buffer and a size. */
   /* From ftmac.c.                                        */
   static FT_Error
   new_memory_stream( FT_Library           library,
@@ -1293,7 +1293,7 @@
                      FT_Stream_CloseFunc  close,
                      FT_Stream           *astream )
   {
-    FT_Error   Ошибка;
+    FT_Error   error;
     FT_Memory  memory;
     FT_Stream  stream = NULL;
 
@@ -1316,11 +1316,11 @@
     *astream = stream;
 
   Exit:
-    return Ошибка;
+    return error;
   }
 
 
-  /* создай a new FT_Face given a буфер and a driver имя. */
+  /* Create a new FT_Face given a buffer and a driver name. */
   /* from ftmac.c */
   FT_LOCAL_DEF( FT_Error )
   open_face_from_buffer( FT_Library   library,
@@ -1331,20 +1331,20 @@
                          FT_Face     *aface )
   {
     FT_Open_Args  args;
-    FT_Error      Ошибка;
+    FT_Error      error;
     FT_Stream     stream = NULL;
     FT_Memory     memory = library->memory;
 
 
-    Ошибка = new_memory_stream( library,
+    error = new_memory_stream( library,
                                base,
                                size,
                                memory_stream_close,
                                &stream );
-    if ( Ошибка )
+    if ( error )
     {
       FT_FREE( base );
-      return Ошибка;
+      return error;
     }
 
     args.flags = FT_OPEN_STREAM;
@@ -1356,7 +1356,7 @@
     }
 
 #ifdef FT_MACINTOSH
-    /* по this point, face_index has served its purpose;      */
+    /* At this point, face_index has served its purpose;      */
     /* whoever calls this function has already used it to     */
     /* locate the correct font data.  We should not propagate */
     /* this index to FT_Open_Face() (unless it is negative).  */
@@ -1365,9 +1365,9 @@
       face_index = 0;
 #endif
 
-    Ошибка = FT_Open_Face( library, &args, face_index, aface );
+    error = FT_Open_Face( library, &args, face_index, aface );
 
-    if ( Ошибка == FT_Err_Ok )
+    if ( error == FT_Err_Ok )
       (*aface)->face_flags &= ~FT_FACE_FLAG_EXTERNAL_STREAM;
     else
 #ifdef FT_MACINTOSH
@@ -1379,7 +1379,7 @@
     }
 #endif
 
-    return Ошибка;
+    return error;
   }
 
 
@@ -1387,9 +1387,9 @@
   /* `offset' and `length' must exclude the binary header in tables. */
 
   /* Type 1 and CID-keyed font drivers should recognize sfnt-wrapped */
-  /* формат too.  Here, since we can't expect that the TrueType font */
+  /* format too.  Here, since we can't expect that the TrueType font */
   /* driver is loaded unconditially, we must parse the font by       */
-  /* ourselves.  We are only interested in the имя of the table and */
+  /* ourselves.  We are only interested in the name of the table and */
   /* the offset.                                                     */
 
   static FT_Error
@@ -1399,7 +1399,7 @@
                                FT_ULong*  length,
                                FT_Bool*   is_sfnt_cid )
   {
-    FT_Error   Ошибка;
+    FT_Error   error;
     FT_UShort  numTables;
     FT_Long    pstable_index;
     FT_ULong   tag;
@@ -1410,18 +1410,18 @@
     *length = 0;
     *is_sfnt_cid = FALSE;
 
-    /* TODO: support for sfnt-wrapped PS/CID in TTC формат */
+    /* СДЕЛАТЬ: support for sfnt-wrapped PS/CID in TTC format */
 
     /* version check for 'typ1' (should be ignored?) */
     if ( FT_READ_ULONG( tag ) )
-      return Ошибка;
+      return error;
     if ( tag != TTAG_typ1 )
       return FT_Err_Unknown_File_Format;
 
     if ( FT_READ_USHORT( numTables ) )
-      return Ошибка;
+      return error;
     if ( FT_STREAM_SKIP( 2 * 3 ) ) /* skip binary search header */
-      return Ошибка;
+      return error;
 
     pstable_index = -1;
     *is_sfnt_cid  = FALSE;
@@ -1430,7 +1430,7 @@
     {
       if ( FT_READ_ULONG( tag )     || FT_STREAM_SKIP( 4 )      ||
            FT_READ_ULONG( *offset ) || FT_READ_ULONG( *length ) )
-        return Ошибка;
+        return error;
 
       if ( tag == TTAG_CID )
       {
@@ -1465,7 +1465,7 @@
                                  FT_Parameter  *params,
                                  FT_Face       *aface )
   {
-    FT_Error   Ошибка;
+    FT_Error   error;
     FT_Memory  memory = library->memory;
     FT_ULong   offset, length;
     FT_Long    pos;
@@ -1478,12 +1478,12 @@
 
     pos = FT_Stream_Pos( stream );
 
-    Ошибка = ft_lookup_PS_in_sfnt_stream( stream,
+    error = ft_lookup_PS_in_sfnt_stream( stream,
                                          face_index,
                                          &offset,
                                          &length,
                                          &is_sfnt_cid );
-    if ( Ошибка )
+    if ( error )
       goto Exit;
 
     if ( FT_Stream_Seek( stream, pos + offset ) )
@@ -1492,11 +1492,11 @@
     if ( FT_ALLOC( sfnt_ps, (FT_Long)length ) )
       goto Exit;
 
-    Ошибка = FT_Stream_Read( stream, (FT_Byte *)sfnt_ps, length );
-    if ( Ошибка )
+    error = FT_Stream_Read( stream, (FT_Byte *)sfnt_ps, length );
+    if ( error )
       goto Exit;
 
-    Ошибка = open_face_from_buffer( library,
+    error = open_face_from_buffer( library,
                                    sfnt_ps,
                                    length,
                                    face_index < 0 ? face_index : 0,
@@ -1507,14 +1507,14 @@
       FT_Error  error1;
 
 
-      if ( Ошибка == FT_Err_Unknown_File_Format )
+      if ( error == FT_Err_Unknown_File_Format )
       {
         error1 = FT_Stream_Seek( stream, pos );
         if ( error1 )
           return error1;
       }
 
-      return Ошибка;
+      return error;
     }
   }
 
@@ -1535,10 +1535,10 @@
                           FT_Long     face_index,
                           FT_Face    *aface )
   {
-    FT_Error   Ошибка  = FT_Err_Cannot_Open_Resource;
+    FT_Error   error  = FT_Err_Cannot_Open_Resource;
     FT_Memory  memory = library->memory;
     FT_Byte*   pfb_data = NULL;
-    int        i, тип, flags;
+    int        i, type, flags;
     FT_Long    len;
     FT_Long    pfb_len, pfb_pos, pfb_lenpos;
     FT_Long    rlen, temp;
@@ -1547,15 +1547,15 @@
     if ( face_index == -1 )
       face_index = 0;
     if ( face_index != 0 )
-      return Ошибка;
+      return error;
 
-    /* найди the length of all the POST resources, concatenated.  Assume */
+    /* Find the length of all the POST resources, concatenated.  Assume */
     /* worst case (each resource in its own section).                   */
     pfb_len = 0;
     for ( i = 0; i < resource_cnt; ++i )
     {
-      Ошибка = FT_Stream_Seek( stream, offsets[i] );
-      if ( Ошибка )
+      error = FT_Stream_Seek( stream, offsets[i] );
+      if ( error )
         goto Exit;
       if ( FT_READ_LONG( temp ) )
         goto Exit;
@@ -1575,11 +1575,11 @@
     pfb_lenpos  = 2;
 
     len = 0;
-    тип = 1;
+    type = 1;
     for ( i = 0; i < resource_cnt; ++i )
     {
-      Ошибка = FT_Stream_Seek( stream, offsets[i] );
-      if ( Ошибка )
+      error = FT_Stream_Seek( stream, offsets[i] );
+      if ( error )
         goto Exit2;
       if ( FT_READ_LONG( rlen ) )
         goto Exit;
@@ -1588,7 +1588,7 @@
       FT_TRACE3(( "POST fragment[%d]: offsets=0x%08x, rlen=0x%08x, flags=0x%04x\n",
                    i, offsets[i], rlen, flags ));
 
-      /* postpone the check of rlen longer than буфер until FT_Stream_Read() */
+      /* postpone the check of rlen longer than buffer until FT_Stream_Read() */
       if ( ( flags >> 8 ) == 0 )        /* Comment, should not be loaded */
         continue;
 
@@ -1599,7 +1599,7 @@
       else
         rlen = 0;
 
-      if ( ( flags >> 8 ) == тип )
+      if ( ( flags >> 8 ) == type )
         len += rlen;
       else
       {
@@ -1610,17 +1610,17 @@
         pfb_data[pfb_lenpos + 2] = (FT_Byte)( len >> 16 );
         pfb_data[pfb_lenpos + 3] = (FT_Byte)( len >> 24 );
 
-        if ( ( flags >> 8 ) == 5 )      /* стоп of font mark */
+        if ( ( flags >> 8 ) == 5 )      /* End of font mark */
           break;
 
         if ( pfb_pos + 6 > pfb_len + 2 )
           goto Exit2;
         pfb_data[pfb_pos++] = 0x80;
 
-        тип = flags >> 8;
+        type = flags >> 8;
         len = rlen;
 
-        pfb_data[pfb_pos++] = (FT_Byte)тип;
+        pfb_data[pfb_pos++] = (FT_Byte)type;
         pfb_lenpos          = pfb_pos;
         pfb_data[pfb_pos++] = 0;        /* 4-byte length, fill in later */
         pfb_data[pfb_pos++] = 0;
@@ -1628,12 +1628,12 @@
         pfb_data[pfb_pos++] = 0;
       }
 
-      Ошибка = FT_Err_Cannot_Open_Resource;
+      error = FT_Err_Cannot_Open_Resource;
       if ( pfb_pos > pfb_len || pfb_pos + rlen > pfb_len )
         goto Exit2;
 
-      Ошибка = FT_Stream_Read( stream, (FT_Byte *)pfb_data + pfb_pos, rlen );
-      if ( Ошибка )
+      error = FT_Stream_Read( stream, (FT_Byte *)pfb_data + pfb_pos, rlen );
+      if ( error )
         goto Exit2;
       pfb_pos += rlen;
     }
@@ -1661,7 +1661,7 @@
     FT_FREE( pfb_data );
 
   Exit:
-    return Ошибка;
+    return error;
   }
 
 
@@ -1680,7 +1680,7 @@
   {
     FT_Memory  memory = library->memory;
     FT_Byte*   sfnt_data = NULL;
-    FT_Error   Ошибка;
+    FT_Error   error;
     FT_Long    flag_offset;
     FT_Long    rlen;
     int        is_cff;
@@ -1693,8 +1693,8 @@
       return FT_Err_Cannot_Open_Resource;
 
     flag_offset = offsets[face_index];
-    Ошибка = FT_Stream_Seek( stream, flag_offset );
-    if ( Ошибка )
+    error = FT_Stream_Seek( stream, flag_offset );
+    if ( error )
       goto Exit;
 
     if ( FT_READ_LONG( rlen ) )
@@ -1702,12 +1702,12 @@
     if ( rlen == -1 )
       return FT_Err_Cannot_Open_Resource;
 
-    Ошибка = open_face_PS_from_sfnt_stream( library,
+    error = open_face_PS_from_sfnt_stream( library,
                                            stream,
                                            face_index,
                                            0, NULL,
                                            aface );
-    if ( !Ошибка )
+    if ( !error )
       goto Exit;
 
     /* rewind sfnt stream before open_face_PS_from_sfnt_stream() */
@@ -1715,13 +1715,13 @@
       goto Exit;
 
     if ( FT_ALLOC( sfnt_data, (FT_Long)rlen ) )
-      return Ошибка;
-    Ошибка = FT_Stream_Read( stream, (FT_Byte *)sfnt_data, rlen );
-    if ( Ошибка )
+      return error;
+    error = FT_Stream_Read( stream, (FT_Byte *)sfnt_data, rlen );
+    if ( error )
       goto Exit;
 
     is_cff = rlen > 4 && !ft_memcmp( sfnt_data, "OTTO", 4 );
-    Ошибка = open_face_from_buffer( library,
+    error = open_face_from_buffer( library,
                                    sfnt_data,
                                    rlen,
                                    face_index_in_resource,
@@ -1729,7 +1729,7 @@
                                    aface );
 
   Exit:
-    return Ошибка;
+    return error;
   }
 
 
@@ -1746,49 +1746,49 @@
                  FT_Face    *aface )
   {
     FT_Memory  memory = library->memory;
-    FT_Error   Ошибка;
+    FT_Error   error;
     FT_Long    map_offset, rdara_pos;
     FT_Long    *data_offsets;
     FT_Long    count;
 
 
-    Ошибка = FT_Raccess_Get_HeaderInfo( library, stream, resource_offset,
+    error = FT_Raccess_Get_HeaderInfo( library, stream, resource_offset,
                                        &map_offset, &rdara_pos );
-    if ( Ошибка )
-      return Ошибка;
+    if ( error )
+      return error;
 
-    Ошибка = FT_Raccess_Get_DataOffsets( library, stream,
+    error = FT_Raccess_Get_DataOffsets( library, stream,
                                         map_offset, rdara_pos,
                                         TTAG_POST,
                                         &data_offsets, &count );
-    if ( !Ошибка )
+    if ( !error )
     {
-      Ошибка = Mac_Read_POST_Resource( library, stream, data_offsets, count,
+      error = Mac_Read_POST_Resource( library, stream, data_offsets, count,
                                       face_index, aface );
       FT_FREE( data_offsets );
       /* POST exists in an LWFN providing a single face */
-      if ( !Ошибка )
+      if ( !error )
         (*aface)->num_faces = 1;
-      return Ошибка;
+      return error;
     }
 
-    Ошибка = FT_Raccess_Get_DataOffsets( library, stream,
+    error = FT_Raccess_Get_DataOffsets( library, stream,
                                         map_offset, rdara_pos,
                                         TTAG_sfnt,
                                         &data_offsets, &count );
-    if ( !Ошибка )
+    if ( !error )
     {
       FT_Long  face_index_internal = face_index % count;
 
 
-      Ошибка = Mac_Read_sfnt_Resource( library, stream, data_offsets, count,
+      error = Mac_Read_sfnt_Resource( library, stream, data_offsets, count,
                                       face_index_internal, aface );
       FT_FREE( data_offsets );
-      if ( !Ошибка )
+      if ( !error )
         (*aface)->num_faces = count;
     }
 
-    return Ошибка;
+    return error;
   }
 
 
@@ -1802,19 +1802,19 @@
                FT_Face    *aface )
   {
     unsigned char  header[128];
-    FT_Error       Ошибка;
+    FT_Error       error;
     FT_Long        dlen, offset;
 
 
     if ( NULL == stream )
       return FT_Err_Invalid_Stream_Operation;
 
-    Ошибка = FT_Stream_Seek( stream, 0 );
-    if ( Ошибка )
+    error = FT_Stream_Seek( stream, 0 );
+    if ( error )
       goto Exit;
 
-    Ошибка = FT_Stream_Read( stream, (FT_Byte*)header, 128 );
-    if ( Ошибка )
+    error = FT_Stream_Read( stream, (FT_Byte*)header, 128 );
+    if ( error )
       goto Exit;
 
     if (            header[ 0] !=  0 ||
@@ -1841,7 +1841,7 @@
     return IsMacResource( library, stream, offset, face_index, aface );
 
   Exit:
-    return Ошибка;
+    return error;
   }
 
 
@@ -1857,7 +1857,7 @@
 #define FT_COMPONENT  trace_raccess
 
     FT_Memory  memory = library->memory;
-    FT_Error   Ошибка  = FT_Err_Unknown_File_Format;
+    FT_Error   error  = FT_Err_Unknown_File_Format;
     int        i;
 
     char *     file_names[FT_RACCESS_N_RULES];
@@ -1877,7 +1877,7 @@
       is_darwin_vfs = raccess_rule_by_darwin_vfs( i );
       if ( is_darwin_vfs && vfs_rfork_has_no_font )
       {
-        FT_TRACE3(( "пропусти rule %d: darwin vfs resource fork"
+        FT_TRACE3(( "Skip rule %d: darwin vfs resource fork"
                     " is already checked and"
                     " no font is found\n", i ));
         continue;
@@ -1885,7 +1885,7 @@
 
       if ( errors[i] )
       {
-        FT_TRACE3(( "Ошибка[%d] has occurred in rule %d\n", errors[i], i ));
+        FT_TRACE3(( "Error[%d] has occurred in rule %d\n", errors[i], i ));
         continue;
       }
 
@@ -1895,23 +1895,23 @@
       FT_TRACE3(( "Try rule %d: %s (offset=%d) ...",
                   i, args2.pathname, offsets[i] ));
 
-      Ошибка = FT_Stream_New( library, &args2, &stream2 );
-      if ( is_darwin_vfs && Ошибка == FT_Err_Cannot_Open_Stream )
+      error = FT_Stream_New( library, &args2, &stream2 );
+      if ( is_darwin_vfs && error == FT_Err_Cannot_Open_Stream )
         vfs_rfork_has_no_font = TRUE;
 
-      if ( Ошибка )
+      if ( error )
       {
         FT_TRACE3(( "failed\n" ));
         continue;
       }
 
-      Ошибка = IsMacResource( library, stream2, offsets[i],
+      error = IsMacResource( library, stream2, offsets[i],
                              face_index, aface );
       FT_Stream_Free( stream2, 0 );
 
-      FT_TRACE3(( "%s\n", Ошибка ? "failed": "successful" ));
+      FT_TRACE3(( "%s\n", error ? "failed": "successful" ));
 
-      if ( !Ошибка )
+      if ( !error )
           break;
       else if ( is_darwin_vfs )
           vfs_rfork_has_no_font = TRUE;
@@ -1924,10 +1924,10 @@
     }
 
     /* Caller (load_mac_face) requires FT_Err_Unknown_File_Format. */
-    if ( Ошибка )
-      Ошибка = FT_Err_Unknown_File_Format;
+    if ( error )
+      error = FT_Err_Unknown_File_Format;
 
-    return Ошибка;
+    return error;
 
 #undef  FT_COMPONENT
 #define FT_COMPONENT  trace_objs
@@ -1936,9 +1936,9 @@
 
 
   /* Check for some macintosh formats without Carbon framework.    */
-  /* является this a macbinary file?  If so look at the resource fork.   */
-  /* является this a mac dfont file?                                     */
-  /* является this an old style resource fork? (in data)                 */
+  /* Is this a macbinary file?  If so look at the resource fork.   */
+  /* Is this a mac dfont file?                                     */
+  /* Is this an old style resource fork? (in data)                 */
   /* Else call load_face_in_embedded_rfork to try extra rules      */
   /* (defined in `ftrfork.c').                                     */
   /*                                                               */
@@ -1949,12 +1949,12 @@
                  FT_Face             *aface,
                  const FT_Open_Args  *args )
   {
-    FT_Error Ошибка;
+    FT_Error error;
     FT_UNUSED( args );
 
 
-    Ошибка = IsMacBinary( library, stream, face_index, aface );
-    if ( FT_ERROR_BASE( Ошибка ) == FT_Err_Unknown_File_Format )
+    error = IsMacBinary( library, stream, face_index, aface );
+    if ( FT_ERROR_BASE( error ) == FT_Err_Unknown_File_Format )
     {
 
 #undef  FT_COMPONENT
@@ -1962,21 +1962,21 @@
 
       FT_TRACE3(( "Try as dfont: %s ...", args->pathname ));
 
-      Ошибка = IsMacResource( library, stream, 0, face_index, aface );
+      error = IsMacResource( library, stream, 0, face_index, aface );
 
-      FT_TRACE3(( "%s\n", Ошибка ? "failed" : "successful" ));
+      FT_TRACE3(( "%s\n", error ? "failed" : "successful" ));
 
 #undef  FT_COMPONENT
 #define FT_COMPONENT  trace_objs
 
     }
 
-    if ( ( FT_ERROR_BASE( Ошибка ) == FT_Err_Unknown_File_Format      ||
-           FT_ERROR_BASE( Ошибка ) == FT_Err_Invalid_Stream_Operation ) &&
+    if ( ( FT_ERROR_BASE( error ) == FT_Err_Unknown_File_Format      ||
+           FT_ERROR_BASE( error ) == FT_Err_Invalid_Stream_Operation ) &&
          ( args->flags & FT_OPEN_PATHNAME )                            )
-      Ошибка = load_face_in_embedded_rfork( library, stream,
+      error = load_face_in_embedded_rfork( library, stream,
                                            face_index, aface, args );
-    return Ошибка;
+    return error;
   }
 #endif
 
@@ -1991,7 +1991,7 @@
                 FT_Long              face_index,
                 FT_Face             *aface )
   {
-    FT_Error     Ошибка;
+    FT_Error     error;
     FT_Driver    driver;
     FT_Memory    memory;
     FT_Stream    stream = NULL;
@@ -2012,8 +2012,8 @@
                                args->stream                     );
 
     /* create input stream */
-    Ошибка = FT_Stream_New( library, args, &stream );
-    if ( Ошибка )
+    error = FT_Stream_New( library, args, &stream );
+    if ( error )
       goto Fail3;
 
     memory = library->memory;
@@ -2037,20 +2037,20 @@
           params     = args->params;
         }
 
-        Ошибка = open_face( driver, stream, face_index,
+        error = open_face( driver, stream, face_index,
                            num_params, params, &face );
-        if ( !Ошибка )
+        if ( !error )
           goto Success;
       }
       else
-        Ошибка = FT_Err_Invalid_Handle;
+        error = FT_Err_Invalid_Handle;
 
       FT_Stream_Free( stream, external_stream );
       goto Fail;
     }
     else
     {
-      /* check each font driver for an appropriate формат */
+      /* check each font driver for an appropriate format */
       cur   = library->modules;
       limit = cur + library->num_modules;
 
@@ -2072,34 +2072,34 @@
             params     = args->params;
           }
 
-          Ошибка = open_face( driver, stream, face_index,
+          error = open_face( driver, stream, face_index,
                              num_params, params, &face );
-          if ( !Ошибка )
+          if ( !error )
             goto Success;
 
 #ifdef FT_CONFIG_OPTION_MAC_FONTS
           if ( ft_strcmp( cur[0]->clazz->module_name, "truetype" ) == 0 &&
-               FT_ERROR_BASE( Ошибка ) == FT_Err_Table_Missing           )
+               FT_ERROR_BASE( error ) == FT_Err_Table_Missing           )
           {
             /* TrueType but essential tables are missing */
             if ( FT_Stream_Seek( stream, 0 ) )
               break;
 
-            Ошибка = open_face_PS_from_sfnt_stream( library,
+            error = open_face_PS_from_sfnt_stream( library,
                                                    stream,
                                                    face_index,
                                                    num_params,
                                                    params,
                                                    aface );
-            if ( !Ошибка )
+            if ( !error )
             {
               FT_Stream_Free( stream, external_stream );
-              return Ошибка;
+              return error;
             }
           }
 #endif
 
-          if ( FT_ERROR_BASE( Ошибка ) != FT_Err_Unknown_File_Format )
+          if ( FT_ERROR_BASE( error ) != FT_Err_Unknown_File_Format )
             goto Fail3;
         }
       }
@@ -2108,14 +2108,14 @@
     /* If we are on the mac, and we get an FT_Err_Invalid_Stream_Operation */
     /* it may be because we have an empty data fork, so we need to check   */
     /* the resource fork.                                                  */
-    if ( FT_ERROR_BASE( Ошибка ) != FT_Err_Cannot_Open_Stream       &&
-         FT_ERROR_BASE( Ошибка ) != FT_Err_Unknown_File_Format      &&
-         FT_ERROR_BASE( Ошибка ) != FT_Err_Invalid_Stream_Operation )
+    if ( FT_ERROR_BASE( error ) != FT_Err_Cannot_Open_Stream       &&
+         FT_ERROR_BASE( error ) != FT_Err_Unknown_File_Format      &&
+         FT_ERROR_BASE( error ) != FT_Err_Invalid_Stream_Operation )
       goto Fail2;
 
 #if !defined( FT_MACINTOSH ) && defined( FT_CONFIG_OPTION_MAC_FONTS )
-    Ошибка = load_mac_face( library, stream, face_index, aface, args );
-    if ( !Ошибка )
+    error = load_mac_face( library, stream, face_index, aface, args );
+    if ( !error )
     {
       /* We don't want to go to Success here.  We've already done that. */
       /* On the other hand, if we succeeded we still need to close this */
@@ -2123,15 +2123,15 @@
       /* interesting information out of this stream here.  That stream  */
       /* will still be open and the face will point to it).             */
       FT_Stream_Free( stream, external_stream );
-      return Ошибка;
+      return error;
     }
 
-    if ( FT_ERROR_BASE( Ошибка ) != FT_Err_Unknown_File_Format )
+    if ( FT_ERROR_BASE( error ) != FT_Err_Unknown_File_Format )
       goto Fail2;
 #endif  /* !FT_MACINTOSH && FT_CONFIG_OPTION_MAC_FONTS */
 
-      /* no driver is able to handle this формат */
-      Ошибка = FT_Err_Unknown_File_Format;
+      /* no driver is able to handle this format */
+      error = FT_Err_Unknown_File_Format;
 
   Fail2:
       FT_Stream_Free( stream, external_stream );
@@ -2139,7 +2139,7 @@
     }
 
   Success:
-    FT_TRACE4(( "FT_Open_Face: нов face object, adding to list\n" ));
+    FT_TRACE4(( "FT_Open_Face: New face object, adding to list\n" ));
 
     /* set the FT_FACE_FLAG_EXTERNAL_STREAM bit for FT_Done_Face */
     if ( external_stream )
@@ -2159,8 +2159,8 @@
 
     if ( face_index >= 0 )
     {
-      Ошибка = FT_New_GlyphSlot( face, NULL );
-      if ( Ошибка )
+      error = FT_New_GlyphSlot( face, NULL );
+      if ( error )
         goto Fail;
 
       /* finally, allocate a size object for the face */
@@ -2170,8 +2170,8 @@
 
         FT_TRACE4(( "FT_Open_Face: Creating size object\n" ));
 
-        Ошибка = FT_New_Size( face, &size );
-        if ( Ошибка )
+        error = FT_New_Size( face, &size );
+        if ( error )
           goto Fail;
 
         face->size = size;
@@ -2235,9 +2235,9 @@
     FT_Done_Face( face );
 
   Exit:
-    FT_TRACE4(( "FT_Open_Face: Return %d\n", Ошибка ));
+    FT_TRACE4(( "FT_Open_Face: Return %d\n", error ));
 
-    return Ошибка;
+    return error;
   }
 
 
@@ -2270,7 +2270,7 @@
                     FT_Open_Args*  parameters )
   {
     FT_Stream  stream;
-    FT_Error   Ошибка;
+    FT_Error   error;
     FT_Driver  driver;
 
     FT_Driver_Class  clazz;
@@ -2285,17 +2285,17 @@
     if ( !driver )
       return FT_Err_Invalid_Driver_Handle;
 
-    Ошибка = FT_Stream_New( driver->root.library, parameters, &stream );
-    if ( Ошибка )
+    error = FT_Stream_New( driver->root.library, parameters, &stream );
+    if ( error )
       goto Exit;
 
     /* we implement FT_Attach_Stream in each driver through the */
     /* `attach_file' interface                                  */
 
-    Ошибка = FT_Err_Unimplemented_Feature;
+    error = FT_Err_Unimplemented_Feature;
     clazz = driver->clazz;
     if ( clazz->attach_file )
-      Ошибка = clazz->attach_file( face, stream );
+      error = clazz->attach_file( face, stream );
 
     /* close the attached stream */
     FT_Stream_Free( stream,
@@ -2303,7 +2303,7 @@
                                ( parameters->flags & FT_OPEN_STREAM ) ) );
 
   Exit:
-    return Ошибка;
+    return error;
   }
 
 
@@ -2323,18 +2323,18 @@
   FT_EXPORT_DEF( FT_Error )
   FT_Done_Face( FT_Face  face )
   {
-    FT_Error     Ошибка;
+    FT_Error     error;
     FT_Driver    driver;
     FT_Memory    memory;
     FT_ListNode  node;
 
 
-    Ошибка = FT_Err_Invalid_Face_Handle;
+    error = FT_Err_Invalid_Face_Handle;
     if ( face && face->driver )
     {
       face->internal->refcount--;
       if ( face->internal->refcount > 0 )
-        Ошибка = FT_Err_Ok;
+        error = FT_Err_Ok;
       else
       {
         driver = face->driver;
@@ -2350,12 +2350,12 @@
 
           /* now destroy the object proper */
           destroy_face( memory, face, driver );
-          Ошибка = FT_Err_Ok;
+          error = FT_Err_Ok;
         }
       }
     }
 
-    return Ошибка;
+    return error;
   }
 
 
@@ -2365,7 +2365,7 @@
   FT_New_Size( FT_Face   face,
                FT_Size  *asize )
   {
-    FT_Error         Ошибка;
+    FT_Error         error;
     FT_Memory        memory;
     FT_Driver        driver;
     FT_Driver_Class  clazz;
@@ -2399,10 +2399,10 @@
     size->internal = 0;
 
     if ( clazz->init_size )
-      Ошибка = clazz->init_size( size );
+      error = clazz->init_size( size );
 
     /* in case of success, add to the face's list */
-    if ( !Ошибка )
+    if ( !error )
     {
       *asize     = size;
       node->data = size;
@@ -2410,13 +2410,13 @@
     }
 
   Exit:
-    if ( Ошибка )
+    if ( error )
     {
       FT_FREE( node );
       FT_FREE( size );
     }
 
-    return Ошибка;
+    return error;
   }
 
 
@@ -2425,7 +2425,7 @@
   FT_EXPORT_DEF( FT_Error )
   FT_Done_Size( FT_Size  size )
   {
-    FT_Error     Ошибка;
+    FT_Error     error;
     FT_Driver    driver;
     FT_Memory    memory;
     FT_Face      face;
@@ -2445,7 +2445,7 @@
 
     memory = driver->root.memory;
 
-    Ошибка = FT_Err_Ok;
+    error = FT_Err_Ok;
     node  = FT_List_Find( &face->sizes_list, size );
     if ( node )
     {
@@ -2462,9 +2462,9 @@
       destroy_size( memory, size, driver );
     }
     else
-      Ошибка = FT_Err_Invalid_Size_Handle;
+      error = FT_Err_Invalid_Size_Handle;
 
-    return Ошибка;
+    return error;
   }
 
 
@@ -2484,7 +2484,7 @@
       return FT_Err_Invalid_Face_Handle;
 
     /* FT_Bitmap_Size doesn't provide enough info... */
-    if ( req->тип != FT_SIZE_REQUEST_TYPE_NOMINAL )
+    if ( req->type != FT_SIZE_REQUEST_TYPE_NOMINAL )
       return FT_Err_Unimplemented_Feature;
 
     w = FT_REQUEST_WIDTH ( req );
@@ -2537,7 +2537,7 @@
     else if ( metrics->horiBearingY > 0 )
       height -= metrics->horiBearingY;
 
-    /* the factor 1.2 is a heuristical значение */
+    /* the factor 1.2 is a heuristical value */
     if ( !advance )
       advance = height * 12 / 10;
 
@@ -2630,7 +2630,7 @@
       FT_Long  w = 0, h = 0, scaled_w = 0, scaled_h = 0;
 
 
-      switch ( req->тип )
+      switch ( req->type )
       {
       case FT_SIZE_REQUEST_TYPE_NOMINAL:
         w = h = face->units_per_EM;
@@ -2682,7 +2682,7 @@
         {
           metrics->y_scale = FT_DivFix( scaled_h, h );
 
-          if ( req->тип == FT_SIZE_REQUEST_TYPE_CELL )
+          if ( req->type == FT_SIZE_REQUEST_TYPE_CELL )
           {
             if ( metrics->y_scale > metrics->x_scale )
               metrics->y_scale = metrics->x_scale;
@@ -2704,7 +2704,7 @@
 
   Calculate_Ppem:
       /* calculate the ppems */
-      if ( req->тип != FT_SIZE_REQUEST_TYPE_NOMINAL )
+      if ( req->type != FT_SIZE_REQUEST_TYPE_NOMINAL )
       {
         scaled_w = FT_MulFix( face->units_per_EM, metrics->x_scale );
         scaled_h = FT_MulFix( face->units_per_EM, metrics->y_scale );
@@ -2764,7 +2764,7 @@
       return FT_Err_Invalid_Face_Handle;
 
     if ( !req || req->width < 0 || req->height < 0 ||
-         req->тип >= FT_SIZE_REQUEST_TYPE_MAX )
+         req->type >= FT_SIZE_REQUEST_TYPE_MAX )
       return FT_Err_Invalid_Argument;
 
     clazz = face->driver->clazz;
@@ -2781,12 +2781,12 @@
      */
     if ( !FT_IS_SCALABLE( face ) && FT_HAS_FIXED_SIZES( face ) )
     {
-      FT_Error  Ошибка;
+      FT_Error  error;
 
 
-      Ошибка = FT_Match_Size( face, req, 0, &strike_index );
-      if ( Ошибка )
-        return Ошибка;
+      error = FT_Match_Size( face, req, 0, &strike_index );
+      if ( error )
+        return error;
 
       FT_TRACE3(( "FT_Request_Size: bitmap strike %lu matched\n",
                   strike_index ));
@@ -2830,7 +2830,7 @@
     if ( !horz_resolution )
       horz_resolution = vert_resolution = 72;
 
-    req.тип           = FT_SIZE_REQUEST_TYPE_NOMINAL;
+    req.type           = FT_SIZE_REQUEST_TYPE_NOMINAL;
     req.width          = char_width;
     req.height         = char_height;
     req.horiResolution = horz_resolution;
@@ -2866,7 +2866,7 @@
     if ( pixel_height >= 0xFFFFU )
       pixel_height = 0xFFFFU;
 
-    req.тип           = FT_SIZE_REQUEST_TYPE_NOMINAL;
+    req.type           = FT_SIZE_REQUEST_TYPE_NOMINAL;
     req.width          = pixel_width << 6;
     req.height         = pixel_height << 6;
     req.horiResolution = 0;
@@ -2885,7 +2885,7 @@
                   FT_UInt     kern_mode,
                   FT_Vector  *akerning )
   {
-    FT_Error   Ошибка = FT_Err_Ok;
+    FT_Error   error = FT_Err_Ok;
     FT_Driver  driver;
 
 
@@ -2902,11 +2902,11 @@
 
     if ( driver->clazz->get_kerning )
     {
-      Ошибка = driver->clazz->get_kerning( face,
+      error = driver->clazz->get_kerning( face,
                                           left_glyph,
                                           right_glyph,
                                           akerning );
-      if ( !Ошибка )
+      if ( !error )
       {
         if ( kern_mode != FT_KERNING_UNSCALED )
         {
@@ -2932,7 +2932,7 @@
       }
     }
 
-    return Ошибка;
+    return error;
   }
 
 
@@ -2945,7 +2945,7 @@
                         FT_Fixed*  akerning )
   {
     FT_Service_Kerning  service;
-    FT_Error            Ошибка = FT_Err_Ok;
+    FT_Error            error = FT_Err_Ok;
 
 
     if ( !face )
@@ -2958,12 +2958,12 @@
     if ( !service )
       return FT_Err_Unimplemented_Feature;
 
-    Ошибка = service->get_track( face,
+    error = service->get_track( face,
                                 point_size,
                                 degree,
                                 akerning );
 
-    return Ошибка;
+    return error;
   }
 
 
@@ -3112,7 +3112,7 @@
     {
       FT_Face    face   = cmap->charmap.face;
       FT_Memory  memory = FT_FACE_MEMORY( face );
-      FT_Error   Ошибка;
+      FT_Error   error;
       FT_Int     i, j;
 
 
@@ -3157,7 +3157,7 @@
                FT_CharMap     charmap,
                FT_CMap       *acmap )
   {
-    FT_Error   Ошибка = FT_Err_Ok;
+    FT_Error   error = FT_Err_Ok;
     FT_Face    face;
     FT_Memory  memory;
     FT_CMap    cmap = NULL;
@@ -3176,8 +3176,8 @@
 
       if ( clazz->init )
       {
-        Ошибка = clazz->init( cmap, init_data );
-        if ( Ошибка )
+        error = clazz->init( cmap, init_data );
+        if ( error )
           goto Fail;
       }
 
@@ -3194,7 +3194,7 @@
     if ( acmap )
       *acmap = cmap;
 
-    return Ошибка;
+    return error;
 
   Fail:
     ft_cmap_done_internal( cmap );
@@ -3494,15 +3494,15 @@
   FT_EXPORT_DEF( FT_Error )
   FT_Get_Glyph_Name( FT_Face     face,
                      FT_UInt     glyph_index,
-                     FT_Pointer  буфер,
+                     FT_Pointer  buffer,
                      FT_UInt     buffer_max )
   {
-    FT_Error  Ошибка = FT_Err_Invalid_Argument;
+    FT_Error  error = FT_Err_Invalid_Argument;
 
 
-    /* clean up буфер */
-    if ( буфер && buffer_max > 0 )
-      ((FT_Byte*)буфер)[0] = 0;
+    /* clean up buffer */
+    if ( buffer && buffer_max > 0 )
+      ((FT_Byte*)buffer)[0] = 0;
 
     if ( face                                     &&
          (FT_Long)glyph_index <= face->num_glyphs &&
@@ -3516,10 +3516,10 @@
                               GLYPH_DICT );
 
       if ( service && service->get_name )
-        Ошибка = service->get_name( face, glyph_index, буфер, buffer_max );
+        error = service->get_name( face, glyph_index, buffer, buffer_max );
     }
 
-    return Ошибка;
+    return error;
   }
 
 
@@ -3579,7 +3579,7 @@
   FT_Load_Sfnt_Table( FT_Face    face,
                       FT_ULong   tag,
                       FT_Long    offset,
-                      FT_Byte*   буфер,
+                      FT_Byte*   buffer,
                       FT_ULong*  length )
   {
     FT_Service_SFNT_Table  service;
@@ -3592,7 +3592,7 @@
     if ( service == NULL )
       return FT_Err_Unimplemented_Feature;
 
-    return service->load_table( face, tag, offset, буфер, length );
+    return service->load_table( face, tag, offset, buffer, length );
   }
 
 
@@ -3663,7 +3663,7 @@
     if ( service->get_cmap_info( charmap, &cmap_info ))
       return -1;
 
-    return cmap_info.формат;
+    return cmap_info.format;
   }
 
 
@@ -3702,10 +3702,10 @@
   /*************************************************************************/
   /*************************************************************************/
 
-  /* lookup a renderer by glyph формат in the library's list */
+  /* lookup a renderer by glyph format in the library's list */
   FT_BASE_DEF( FT_Renderer )
   FT_Lookup_Renderer( FT_Library       library,
-                      FT_Glyph_Format  формат,
+                      FT_Glyph_Format  format,
                       FT_ListNode*     node )
   {
     FT_ListNode  cur;
@@ -3729,7 +3729,7 @@
       FT_Renderer  renderer = FT_RENDERER( cur->data );
 
 
-      if ( renderer->glyph_format == формат )
+      if ( renderer->glyph_format == format )
       {
         if ( node )
           *node = cur;
@@ -3753,8 +3753,8 @@
     FT_Renderer  result  = library->cur_renderer;
 
 
-    if ( !result || result->glyph_format != slot->формат )
-      result = FT_Lookup_Renderer( library, slot->формат, 0 );
+    if ( !result || result->glyph_format != slot->format )
+      result = FT_Lookup_Renderer( library, slot->format, 0 );
 
     return result;
   }
@@ -3776,7 +3776,7 @@
   {
     FT_Library   library = module->library;
     FT_Memory    memory  = library->memory;
-    FT_Error     Ошибка;
+    FT_Error     error;
     FT_ListNode  node    = NULL;
 
 
@@ -3795,8 +3795,8 @@
       if ( clazz->glyph_format == FT_GLYPH_FORMAT_OUTLINE &&
            clazz->raster_class->raster_new                )
       {
-        Ошибка = clazz->raster_class->raster_new( memory, &render->raster );
-        if ( Ошибка )
+        error = clazz->raster_class->raster_new( memory, &render->raster );
+        if ( error )
           goto Fail;
 
         render->raster_render = clazz->raster_class->raster_render;
@@ -3811,11 +3811,11 @@
     }
 
   Fail:
-    if ( Ошибка )
+    if ( error )
       FT_FREE( node );
 
   Exit:
-    return Ошибка;
+    return error;
   }
 
 
@@ -3851,11 +3851,11 @@
 
   FT_EXPORT_DEF( FT_Renderer )
   FT_Get_Renderer( FT_Library       library,
-                   FT_Glyph_Format  формат )
+                   FT_Glyph_Format  format )
   {
     /* test for valid `library' delayed to FT_Lookup_Renderer() */
 
-    return FT_Lookup_Renderer( library, формат, 0 );
+    return FT_Lookup_Renderer( library, format, 0 );
   }
 
 
@@ -3868,7 +3868,7 @@
                    FT_Parameter*  parameters )
   {
     FT_ListNode  node;
-    FT_Error     Ошибка = FT_Err_Ok;
+    FT_Error     error = FT_Err_Ok;
 
 
     if ( !library )
@@ -3880,7 +3880,7 @@
     node = FT_List_Find( &library->renderers, renderer );
     if ( !node )
     {
-      Ошибка = FT_Err_Invalid_Argument;
+      error = FT_Err_Invalid_Argument;
       goto Exit;
     }
 
@@ -3896,15 +3896,15 @@
 
       for ( ; num_params > 0; num_params-- )
       {
-        Ошибка = set_mode( renderer, parameters->tag, parameters->data );
-        if ( Ошибка )
+        error = set_mode( renderer, parameters->tag, parameters->data );
+        if ( error )
           break;
         parameters++;
       }
     }
 
   Exit:
-    return Ошибка;
+    return error;
   }
 
 
@@ -3913,12 +3913,12 @@
                             FT_GlyphSlot    slot,
                             FT_Render_Mode  render_mode )
   {
-    FT_Error     Ошибка = FT_Err_Ok;
+    FT_Error     error = FT_Err_Ok;
     FT_Renderer  renderer;
 
 
     /* if it is already a bitmap, no need to do anything */
-    switch ( slot->формат )
+    switch ( slot->format )
     {
     case FT_GLYPH_FORMAT_BITMAP:   /* already a bitmap, don't do anything */
       break;
@@ -3930,40 +3930,40 @@
 
 
         /* small shortcut for the very common case */
-        if ( slot->формат == FT_GLYPH_FORMAT_OUTLINE )
+        if ( slot->format == FT_GLYPH_FORMAT_OUTLINE )
         {
           renderer = library->cur_renderer;
           node     = library->renderers.head;
         }
         else
-          renderer = FT_Lookup_Renderer( library, slot->формат, &node );
+          renderer = FT_Lookup_Renderer( library, slot->format, &node );
 
-        Ошибка = FT_Err_Unimplemented_Feature;
+        error = FT_Err_Unimplemented_Feature;
         while ( renderer )
         {
-          Ошибка = renderer->render( renderer, slot, render_mode, NULL );
-          if ( !Ошибка                                               ||
-               FT_ERROR_BASE( Ошибка ) != FT_Err_Cannot_Render_Glyph )
+          error = renderer->render( renderer, slot, render_mode, NULL );
+          if ( !error                                               ||
+               FT_ERROR_BASE( error ) != FT_Err_Cannot_Render_Glyph )
             break;
 
           /* FT_Err_Cannot_Render_Glyph is returned if the render mode   */
           /* is unsupported by the current renderer for this glyph image */
-          /* формат.                                                     */
+          /* format.                                                     */
 
           /* now, look for another renderer that supports the same */
-          /* формат.                                               */
-          renderer = FT_Lookup_Renderer( library, slot->формат, &node );
+          /* format.                                               */
+          renderer = FT_Lookup_Renderer( library, slot->format, &node );
           update   = 1;
         }
 
-        /* if we changed the current renderer for the glyph image формат */
+        /* if we changed the current renderer for the glyph image format */
         /* we need to select it as the next current one                  */
-        if ( !Ошибка && update && renderer )
+        if ( !error && update && renderer )
           FT_Set_Renderer( library, renderer, 0, 0 );
       }
     }
 
-    return Ошибка;
+    return error;
   }
 
 
@@ -4000,7 +4000,7 @@
 
   /*************************************************************************/
   /*                                                                       */
-  /* <Функция>                                                            */
+  /* <Function>                                                            */
   /*    Destroy_Module                                                     */
   /*                                                                       */
   /* <Description>                                                         */
@@ -4051,7 +4051,7 @@
   FT_Add_Module( FT_Library              library,
                  const FT_Module_Class*  clazz )
   {
-    FT_Error   Ошибка;
+    FT_Error   error;
     FT_Memory  memory;
     FT_Module  module;
     FT_UInt    nn;
@@ -4070,13 +4070,13 @@
     if ( clazz->module_requires > FREETYPE_VER_FIXED )
       return FT_Err_Invalid_Version;
 
-    /* look for a module with the same имя in the library's table */
+    /* look for a module with the same name in the library's table */
     for ( nn = 0; nn < library->num_modules; nn++ )
     {
       module = library->modules[nn];
       if ( ft_strcmp( module->clazz->module_name, clazz->module_name ) == 0 )
       {
-        /* this installed module has the same имя, compare their versions */
+        /* this installed module has the same name, compare their versions */
         if ( clazz->module_version <= module->clazz->module_version )
           return FT_Err_Lower_Module_Version;
 
@@ -4088,11 +4088,11 @@
     }
 
     memory = library->memory;
-    Ошибка  = FT_Err_Ok;
+    error  = FT_Err_Ok;
 
     if ( library->num_modules >= FT_MAX_MODULES )
     {
-      Ошибка = FT_Err_Too_Many_Drivers;
+      error = FT_Err_Too_Many_Drivers;
       goto Exit;
     }
 
@@ -4110,8 +4110,8 @@
     if ( FT_MODULE_IS_RENDERER( module ) )
     {
       /* add to the renderers list */
-      Ошибка = ft_add_renderer( module );
-      if ( Ошибка )
+      error = ft_add_renderer( module );
+      if ( error )
         goto Fail;
     }
 
@@ -4129,16 +4129,16 @@
       driver->clazz = (FT_Driver_Class)module->clazz;
       if ( FT_DRIVER_USES_OUTLINES( driver ) )
       {
-        Ошибка = FT_GlyphLoader_New( memory, &driver->glyph_loader );
-        if ( Ошибка )
+        error = FT_GlyphLoader_New( memory, &driver->glyph_loader );
+        if ( error )
           goto Fail;
       }
     }
 
     if ( clazz->module_init )
     {
-      Ошибка = clazz->module_init( module );
-      if ( Ошибка )
+      error = clazz->module_init( module );
+      if ( error )
         goto Fail;
     }
 
@@ -4146,7 +4146,7 @@
     library->modules[library->num_modules++] = module;
 
   Exit:
-    return Ошибка;
+    return error;
 
   Fail:
     if ( FT_MODULE_IS_DRIVER( module ) )
@@ -4335,7 +4335,7 @@
                   FT_Library  *alibrary )
   {
     FT_Library  library = NULL;
-    FT_Error    Ошибка;
+    FT_Error    error;
 
 
     if ( !memory )
@@ -4348,14 +4348,14 @@
 
     /* first of all, allocate the library object */
     if ( FT_NEW( library ) )
-      return Ошибка;
+      return error;
 
     library->memory = memory;
 
 #ifdef FT_CONFIG_OPTION_PIC
     /* initialize position independent code containers */
-    Ошибка = ft_pic_container_init( library );
-    if ( Ошибка )
+    error = ft_pic_container_init( library );
+    if ( error )
       goto Fail;
 #endif
 
@@ -4382,7 +4382,7 @@
     ft_pic_container_destroy( library );
 #endif
     FT_FREE( library );
-    return Ошибка;
+    return error;
   }
 
 
@@ -4517,12 +4517,12 @@
     }
 #endif
 
-    /* разрушь raster objects */
+    /* Destroy raster objects */
     FT_FREE( library->raster_pool );
     library->raster_pool_size = 0;
 
 #ifdef FT_CONFIG_OPTION_PIC
-    /* разрушь pic container contents */
+    /* Destroy pic container contents */
     ft_pic_container_destroy( library );
 #endif
 
@@ -4592,7 +4592,7 @@
 
     if ( driver->clazz->request_size )
     {
-      req.тип   = FT_SIZE_REQUEST_TYPE_NOMINAL;
+      req.type   = FT_SIZE_REQUEST_TYPE_NOMINAL;
       req.width  = width;
       req.height = height;
 
@@ -4626,7 +4626,7 @@
 
     if ( driver->clazz->request_size )
     {
-      req.тип           = FT_SIZE_REQUEST_TYPE_NOMINAL;
+      req.type           = FT_SIZE_REQUEST_TYPE_NOMINAL;
       req.width          = width  << 6;
       req.height         = height << 6;
       req.horiResolution = 0;
@@ -4652,12 +4652,12 @@
                         FT_Int       *p_arg2,
                         FT_Matrix    *p_transform )
   {
-    FT_Error  Ошибка = FT_Err_Invalid_Argument;
+    FT_Error  error = FT_Err_Invalid_Argument;
 
 
     if ( glyph                                      &&
          glyph->subglyphs                           &&
-         glyph->формат == FT_GLYPH_FORMAT_COMPOSITE &&
+         glyph->format == FT_GLYPH_FORMAT_COMPOSITE &&
          sub_index < glyph->num_subglyphs           )
     {
       FT_SubGlyph  subg = glyph->subglyphs + sub_index;
@@ -4670,7 +4670,7 @@
       *p_transform = subg->transform;
     }
 
-    return Ошибка;
+    return error;
   }
 
 

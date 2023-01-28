@@ -2,7 +2,7 @@
 /*                                                                         */
 /*  ftcmanag.c                                                             */
 /*                                                                         */
-/*    FreeType Кэш Manager (body).                                       */
+/*    FreeType Cache Manager (body).                                       */
 /*                                                                         */
 /*  Copyright 2000-2001, 2002, 2003, 2004, 2005, 2006, 2008, 2009, 2010 by */
 /*  David Turner, Robert Wilhelm, and Werner Lemberg.                      */
@@ -27,7 +27,7 @@
 #include "ftcerror.h"
 
 #ifdef FT_CONFIG_OPTION_PIC
-#Ошибка "cache system does not support PIC yet"
+#error "cache system does not support PIC yet"
 #endif 
 
 
@@ -44,25 +44,25 @@
   {
     FT_Face   face;
     FT_Size   size = NULL;
-    FT_Error  Ошибка;
+    FT_Error  error;
 
 
-    Ошибка = FTC_Manager_LookupFace( manager, scaler->face_id, &face );
-    if ( Ошибка )
+    error = FTC_Manager_LookupFace( manager, scaler->face_id, &face );
+    if ( error )
       goto Exit;
 
-    Ошибка = FT_New_Size( face, &size );
-    if ( Ошибка )
+    error = FT_New_Size( face, &size );
+    if ( error )
       goto Exit;
 
     FT_Activate_Size( size );
 
     if ( scaler->pixel )
-      Ошибка = FT_Set_Pixel_Sizes( face, scaler->width, scaler->height );
+      error = FT_Set_Pixel_Sizes( face, scaler->width, scaler->height );
     else
-      Ошибка = FT_Set_Char_Size( face, scaler->width, scaler->height,
+      error = FT_Set_Char_Size( face, scaler->width, scaler->height,
                                 scaler->x_res, scaler->y_res );
-    if ( Ошибка )
+    if ( error )
     {
       FT_Done_Size( size );
       size = NULL;
@@ -70,7 +70,7 @@
 
   Exit:
     *asize = size;
-    return Ошибка;
+    return error;
   }
 
 
@@ -182,7 +182,7 @@
                           FTC_Scaler   scaler,
                           FT_Size     *asize )
   {
-    FT_Error     Ошибка;
+    FT_Error     error;
     FTC_MruNode  mrunode;
 
 
@@ -197,16 +197,16 @@
 #ifdef FTC_INLINE
 
     FTC_MRULIST_LOOKUP_CMP( &manager->sizes, scaler, ftc_size_node_compare,
-                            mrunode, Ошибка );
+                            mrunode, error );
 
 #else
-    Ошибка = FTC_MruList_Lookup( &manager->sizes, scaler, &mrunode );
+    error = FTC_MruList_Lookup( &manager->sizes, scaler, &mrunode );
 #endif
 
-    if ( !Ошибка )
+    if ( !error )
       *asize = FTC_SIZE_NODE( mrunode )->size;
 
-    return Ошибка;
+    return error;
   }
 
 
@@ -237,23 +237,23 @@
     FTC_FaceNode  node    = (FTC_FaceNode)ftcnode;
     FTC_FaceID    face_id = (FTC_FaceID)ftcface_id;
     FTC_Manager   manager = (FTC_Manager)ftcmanager;
-    FT_Error      Ошибка;
+    FT_Error      error;
 
 
     node->face_id = face_id;
 
-    Ошибка = manager->request_face( face_id,
+    error = manager->request_face( face_id,
                                    manager->library,
                                    manager->request_data,
                                    &node->face );
-    if ( !Ошибка )
+    if ( !error )
     {
       /* destroy initial size object; it will be re-created later */
       if ( node->face->size )
         FT_Done_Size( node->face->size );
     }
 
-    return Ошибка;
+    return error;
   }
 
 
@@ -309,7 +309,7 @@
                           FTC_FaceID   face_id,
                           FT_Face     *aface )
   {
-    FT_Error     Ошибка;
+    FT_Error     error;
     FTC_MruNode  mrunode;
 
 
@@ -325,16 +325,16 @@
 #ifdef FTC_INLINE
 
     FTC_MRULIST_LOOKUP_CMP( &manager->faces, face_id, ftc_face_node_compare,
-                            mrunode, Ошибка );
+                            mrunode, error );
 
 #else
-    Ошибка = FTC_MruList_Lookup( &manager->faces, face_id, &mrunode );
+    error = FTC_MruList_Lookup( &manager->faces, face_id, &mrunode );
 #endif
 
-    if ( !Ошибка )
+    if ( !error )
       *aface = FTC_FACE_NODE( mrunode )->face;
 
-    return Ошибка;
+    return error;
   }
 
 
@@ -358,7 +358,7 @@
                    FT_Pointer          req_data,
                    FTC_Manager        *amanager )
   {
-    FT_Error     Ошибка;
+    FT_Error     error;
     FT_Memory    memory;
     FTC_Manager  manager = 0;
 
@@ -402,7 +402,7 @@
     *amanager = manager;
 
   Exit:
-    return Ошибка;
+    return error;
   }
 
 
@@ -456,7 +456,7 @@
       FTC_MruList_Reset( &manager->sizes );
       FTC_MruList_Reset( &manager->faces );
     }
-    /* XXX: FIXME: flush the caches? */
+    /* XXX: ИСПРАВИТЬ: flush the caches? */
   }
 
 
@@ -575,7 +575,7 @@
                              FTC_CacheClass   clazz,
                              FTC_Cache       *acache )
   {
-    FT_Error   Ошибка = FTC_Err_Invalid_Argument;
+    FT_Error   error = FTC_Err_Invalid_Argument;
     FTC_Cache  cache = NULL;
 
 
@@ -586,7 +586,7 @@
 
       if ( manager->num_caches >= FTC_MAX_CACHES )
       {
-        Ошибка = FTC_Err_Too_Many_Caches;
+        error = FTC_Err_Too_Many_Caches;
         FT_ERROR(( "FTC_Manager_RegisterCache:"
                    " too many registered caches\n" ));
         goto Exit;
@@ -603,8 +603,8 @@
         /* IF IT IS NOT SET CORRECTLY                          */
         cache->index = manager->num_caches;
 
-        Ошибка = clazz->cache_init( cache );
-        if ( Ошибка )
+        error = clazz->cache_init( cache );
+        if ( error )
         {
           clazz->cache_done( cache );
           FT_FREE( cache );
@@ -618,7 +618,7 @@
   Exit:
     if ( acache )
       *acache = cache;
-    return Ошибка;
+    return error;
   }
 
 
@@ -707,7 +707,7 @@
                            FT_Size     *asize )
   {
     FTC_ScalerRec  scaler;
-    FT_Error       Ошибка;
+    FT_Error       error;
     FT_Size        size;
     FT_Face        face;
 
@@ -719,8 +719,8 @@
     scaler.x_res   = 0;
     scaler.y_res   = 0;
 
-    Ошибка = FTC_Manager_LookupSize( manager, &scaler, &size );
-    if ( Ошибка )
+    error = FTC_Manager_LookupSize( manager, &scaler, &size );
+    if ( error )
     {
       face = NULL;
       size = NULL;
@@ -734,7 +734,7 @@
     if ( asize )
       *asize = size;
 
-    return Ошибка;
+    return error;
   }
 
 #endif /* FT_CONFIG_OPTION_OLD_INTERNALS */

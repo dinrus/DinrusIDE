@@ -1,84 +1,84 @@
 #include "Core.h"
 
-namespace РНЦПДинрус {
+namespace Upp {
 
-static Ткст sAsString(const Вектор<Значение>& v);
+static String sAsString(const Vector<Value>& v);
 
 #define LTIMING(x) // RTIMING(x)
 
-struct Реф::ValueRef : public РефМенеджер {
-	virtual int   дайТип()                            { return VALUE_V; }
-	virtual Значение дайЗначение(const void *ptr)            { return *(Значение *) ptr; }
-	virtual bool  пусто_ли(const void *ptr)              { return РНЦП::пусто_ли(*(Значение *) ptr); }
-	virtual void  устЗначение(void *ptr, const Значение& v)  { *(Значение *) ptr = v; }
-	virtual void  устПусто(void *ptr)                   { *(Значение *) ptr = Null; }
+struct Ref::ValueRef : public RefManager {
+	virtual int   GetType()                            { return VALUE_V; }
+	virtual Value GetValue(const void *ptr)            { return *(Value *) ptr; }
+	virtual bool  IsNull(const void *ptr)              { return UPP::IsNull(*(Value *) ptr); }
+	virtual void  SetValue(void *ptr, const Value& v)  { *(Value *) ptr = v; }
+	virtual void  SetNull(void *ptr)                   { *(Value *) ptr = Null; }
 };
 
-Реф::Реф(Ткст& s)  { ptr = &s; m = &Single< StdRef<Ткст> >(); }
-Реф::Реф(ШТкст& s) { ptr = &s; m = &Single< StdRef<ШТкст> >(); }
-Реф::Реф(int& i)     { ptr = &i; m = &Single< StdRef<int> >(); }
-Реф::Реф(int64& i)   { ptr = &i; m = &Single< StdRef<int64> >(); }
-Реф::Реф(double& d)  { ptr = &d; m = &Single< StdRef<double> >(); }
-Реф::Реф(bool& b)    { ptr = &b; m = &Single< StdRef<bool> >(); }
-Реф::Реф(Дата& d)    { ptr = &d; m = &Single< StdRef<Дата> >(); }
-Реф::Реф(Время& t)    { ptr = &t; m = &Single< StdRef<Время> >(); }
-Реф::Реф(Значение& v)   { ptr = &v; m = &Single< ValueRef >(); }
+Ref::Ref(String& s)  { ptr = &s; m = &Single< StdRef<String> >(); }
+Ref::Ref(WString& s) { ptr = &s; m = &Single< StdRef<WString> >(); }
+Ref::Ref(int& i)     { ptr = &i; m = &Single< StdRef<int> >(); }
+Ref::Ref(int64& i)   { ptr = &i; m = &Single< StdRef<int64> >(); }
+Ref::Ref(double& d)  { ptr = &d; m = &Single< StdRef<double> >(); }
+Ref::Ref(bool& b)    { ptr = &b; m = &Single< StdRef<bool> >(); }
+Ref::Ref(Date& d)    { ptr = &d; m = &Single< StdRef<Date> >(); }
+Ref::Ref(Time& t)    { ptr = &t; m = &Single< StdRef<Time> >(); }
+Ref::Ref(Value& v)   { ptr = &v; m = &Single< ValueRef >(); }
 
 // ----------------------------------
 
-bool МассивЗнач::Данные::пусто_ли() const
+bool ValueArray::Data::IsNull() const
 {
-	return данные.пустой();
+	return data.IsEmpty();
 }
 
-void МассивЗнач::Данные::сериализуй(Поток& s)
+void ValueArray::Data::Serialize(Stream& s)
 {
-	s % данные;
+	s % data;
 }
 
-void МассивЗнач::Данные::вДжейсон(ДжейсонВВ& jio)
+void ValueArray::Data::Jsonize(JsonIO& jio)
 {
-	РНЦПДинрус::вДжейсон(jio, данные);
+	Upp::Jsonize(jio, data);
 }
 
-void МассивЗнач::Данные::вРяр(РярВВ& io)
+void ValueArray::Data::Xmlize(XmlIO& io)
 {
-	РНЦПДинрус::вРяр(io, данные);
+	Upp::Xmlize(io, data);
 }
 
-hash_t МассивЗнач::Данные::дайХэшЗнач() const
+hash_t ValueArray::Data::GetHashValue() const
 {
-	комбинируйХэш w(данные.дайСчёт());
-	for(int i = 0; i < данные.дайСчёт(); i++)
-		w.помести(данные[i].дайХэшЗнач());
+	CombineHash w(data.GetCount());
+	for(int i = 0; i < data.GetCount(); i++)
+		w.Put(data[i].GetHashValue());
 	return w;
 }
 
-bool МассивЗнач::Данные::равен(const Значение::Проц *p)
+bool ValueArray::Data::IsEqual(const Value::Void *p)
 {
-	return ((Данные *)p)->данные == данные;
+	return ((Data *)p)->data == data;
 }
 
-int МассивЗнач::Данные::сравни(const Значение::Проц *p)
+int ValueArray::Data::Compare(const Value::Void *p)
 {
-	return данные.сравни(((Данные *)p)->данные);
+	return data.Compare(((Data *)p)->data);
 }
 
-bool МассивЗнач::operator==(const МассивЗнач& v) const
+bool ValueArray::operator==(const ValueArray& v) const
 {
-	return v.данные->данные == данные->данные;
+	return v.data->data == data->data;
 }
 
-int МассивЗнач::сравни(const МассивЗнач& b) const
+int ValueArray::Compare(const ValueArray& b) const
 {
-	return данные->данные.сравни(b.данные->данные);
+	return data->data.Compare(b.data->data);
 }
 
-static Ткст sAsString(const Вектор<Значение>& v)
+static String sAsString(const Vector<Value>& v)
 {
-	Ткст s;
+	String s;
 	s << "[";
-	for(int i = 0; i < v.дайСчёт(); i++) {
+	for(int i = 0; i < v.GetCount(); i++) {
 		if(i) s << ", ";
 		s << v[i];
 	}
@@ -86,533 +86,533 @@ static Ткст sAsString(const Вектор<Значение>& v)
 	return s;
 }
 
-Ткст МассивЗнач::Данные::какТкст() const
+String ValueArray::Data::AsString() const
 {
-	return sAsString(данные);
+	return sAsString(data);
 }
 
-Вектор<Значение> МассивЗнач::VoidData;
+Vector<Value> ValueArray::VoidData;
 
-Вектор<Значение>& МассивЗнач::создай()
+Vector<Value>& ValueArray::Create()
 {
-	данные = new Данные;
-	return данные->данные;
+	data = new Data;
+	return data->data;
 }
 
-Вектор<Значение>& МассивЗнач::клонируй() {
-	if(данные->GetRefCount() != 1) {
-		Данные *d = new Данные;
-		d->данные = clone(данные->данные);
-		данные->отпусти();
-		данные = d;
+Vector<Value>& ValueArray::Clone() {
+	if(data->GetRefCount() != 1) {
+		Data *d = new Data;
+		d->data = clone(data->data);
+		data->Release();
+		data = d;
 	}
-	return данные->данные;
+	return data->data;
 }
 
-void МассивЗнач::иниц0()
+void ValueArray::Init0()
 {
-	данные = &Single<ДанныеПусто>();
-	данные->Retain();
+	data = &Single<NullData>();
+	data->Retain();
 }
 
-МассивЗнач::МассивЗнач(const МассивЗнач& v) {
-	данные = v.данные;
-	данные->Retain();
+ValueArray::ValueArray(const ValueArray& v) {
+	data = v.data;
+	data->Retain();
 }
 
-МассивЗнач::МассивЗнач(МассивЗнач&& v) {
-	данные = v.данные;
-	v.иниц0();
+ValueArray::ValueArray(ValueArray&& v) {
+	data = v.data;
+	v.Init0();
 }
 
-МассивЗнач::МассивЗнач(Вектор<Значение>&& v)
+ValueArray::ValueArray(Vector<Value>&& v)
 {
-	создай() = pick(v);
+	Create() = pick(v);
 }
 
-МассивЗнач::МассивЗнач(const Вектор<Значение>& v, int deep)
+ValueArray::ValueArray(const Vector<Value>& v, int deep)
 {
-	создай() = clone(v);
+	Create() = clone(v);
 }
 
-МассивЗнач::operator Значение() const {
-	данные->Retain();
-	return Значение(данные, VALUEARRAY_V);
+ValueArray::operator Value() const {
+	data->Retain();
+	return Value(data, VALUEARRAY_V);
 }
 
-МассивЗнач::МассивЗнач(const Значение& ист)
+ValueArray::ValueArray(const Value& src)
 {
-	if(!РНЦП::пусто_ли(ист)) {
-		if(ист.является<МапЗнач>()) {
-			МассивЗнач v = МапЗнач(ист);
-			данные = v.данные;
-			данные->Retain();
+	if(!UPP::IsNull(src)) {
+		if(src.Is<ValueMap>()) {
+			ValueArray v = ValueMap(src);
+			data = v.data;
+			data->Retain();
 			return;
 		}
 		else {
-			if(ист.дайТип() != VALUEARRAY_V)
-				throw ОшибкаТипаЗначения(Ткст().конкат() << "Invalid значение conversion: "
-			                         << ист.дайИмяТипа() << " -> МассивЗнач",
-			                         ист, VALUEARRAY_V);
-			данные = (МассивЗнач::Данные *)ист.дайПроцУк();
+			if(src.GetType() != VALUEARRAY_V)
+				throw ValueTypeError(String().Cat() << "неправильное преобразование значения: "
+			                         << src.GetTypeName() << " -> ValueArray",
+			                         src, VALUEARRAY_V);
+			data = (ValueArray::Data *)src.GetVoidPtr();
 		}
 	}
 	else
-		данные = &Single<ДанныеПусто>();
-	данные->Retain();
+		data = &Single<NullData>();
+	data->Retain();
 }
 
-void МассивЗнач::сериализуй(Поток& s) {
-	if(s.грузится()) {
-		данные->отпусти();
-		создай();
+void ValueArray::Serialize(Stream& s) {
+	if(s.IsLoading()) {
+		data->Release();
+		Create();
 	}
-	данные->сериализуй(s);
+	data->Serialize(s);
 }
 
-void МассивЗнач::вДжейсон(ДжейсонВВ& jio)
+void ValueArray::Jsonize(JsonIO& jio)
 {
-	if(jio.грузится()) {
-		данные->отпусти();
-		создай();
+	if(jio.IsLoading()) {
+		data->Release();
+		Create();
 	}
-	данные->вДжейсон(jio);
+	data->Jsonize(jio);
 }
 
-void МассивЗнач::вРяр(РярВВ& xio)
+void ValueArray::Xmlize(XmlIO& xio)
 {
-	if(xio.грузится()) {
-		данные->отпусти();
-		создай();
+	if(xio.IsLoading()) {
+		data->Release();
+		Create();
 	}
-	данные->вРяр(xio);
+	data->Xmlize(xio);
 }
 
-Ткст МассивЗнач::вТкст() const
+String ValueArray::ToString() const
 {
-	return sAsString(дай());
+	return sAsString(Get());
 }
 
-МассивЗнач::~МассивЗнач() {
-	ПРОВЕРЬ(данные->GetRefCount() > 0);
-	данные->отпусти();
+ValueArray::~ValueArray() {
+	ASSERT(data->GetRefCount() > 0);
+	data->Release();
 }
 
-МассивЗнач& МассивЗнач::operator=(const МассивЗнач& v) {
-	v.данные->Retain();
-	данные->отпусти();
-	данные = v.данные;
+ValueArray& ValueArray::operator=(const ValueArray& v) {
+	v.data->Retain();
+	data->Release();
+	data = v.data;
 	return *this;
 }
 
-void МассивЗнач::устСчёт(int n)
+void ValueArray::SetCount(int n)
 {
-	клонируй().устСчёт(n);
+	Clone().SetCount(n);
 }
 
-void МассивЗнач::устСчёт(int n, const Значение& v)
+void ValueArray::SetCount(int n, const Value& v)
 {
-	клонируй().устСчёт(n, v);
+	Clone().SetCount(n, v);
 }
 
-void МассивЗнач::очисть() {
-	клонируй().очисть();
+void ValueArray::Clear() {
+	Clone().Clear();
 }
 
-void МассивЗнач::добавь(const Значение& v) {
-	клонируй().добавь(v);
+void ValueArray::Add(const Value& v) {
+	Clone().Add(v);
 }
 
-void МассивЗнач::уст(int i, const Значение& v) {
+void ValueArray::Set(int i, const Value& v) {
 #if !defined(_MSC_VER) || _MSC_VER > 1310
-	ПРОВЕРЬ(i >= 0);
-	клонируй().по(i) = v;
+	ASSERT(i >= 0);
+	Clone().At(i) = v;
 #else
 	throw 0;
 #endif
 }
 
-Значение& МассивЗнач::по(int i)
+Value& ValueArray::At(int i)
 {
-	return клонируй().по(i);
+	return Clone().At(i);
 }
 
-void МассивЗнач::удали(int i, int count)
+void ValueArray::Remove(int i, int count)
 {
-	клонируй().удали(i, count);
+	Clone().Remove(i, count);
 }
 
-void МассивЗнач::удали(const Вектор<int>& ii)
+void ValueArray::Remove(const Vector<int>& ii)
 {
-	клонируй().удали(ii);
+	Clone().Remove(ii);
 }
 
-void МассивЗнач::вставь(int i, const МассивЗнач& va)
+void ValueArray::Insert(int i, const ValueArray& va)
 {
-	if(va.данные == данные) {
-		МассивЗнач va2 = va;
-		клонируй().вставь(i, va2.дай());
+	if(va.data == data) {
+		ValueArray va2 = va;
+		Clone().Insert(i, va2.Get());
 	}
 	else
-		клонируй().вставь(i, va.дай());
+		Clone().Insert(i, va.Get());
 }
 
-const Значение& МассивЗнач::дай(int i) const {
-	ПРОВЕРЬ(i >= 0 && i < дайСчёт());
-	return данные->данные[i];
+const Value& ValueArray::Get(int i) const {
+	ASSERT(i >= 0 && i < GetCount());
+	return data->data[i];
 }
 
-Значение МассивЗнач::дайИОчисть(int i)
+Value ValueArray::GetAndClear(int i)
 {
-	ПРОВЕРЬ(i >= 0 && i < дайСчёт());
-	Вектор<Значение>& x = клонируй();
-	Значение v = x[i];
-	x[i] = Значение();
+	ASSERT(i >= 0 && i < GetCount());
+	Vector<Value>& x = Clone();
+	Value v = x[i];
+	x[i] = Value();
 	return v;
 }
 
-Вектор<Значение> МассивЗнач::подбери()
+Vector<Value> ValueArray::Pick()
 {
-	Вектор<Значение>& x = клонируй();
-	Вектор<Значение> r = pick(x);
-	x.очисть();
+	Vector<Value>& x = Clone();
+	Vector<Value> r = pick(x);
+	x.Clear();
 	return r;
 }
 
 template<>
-Ткст какТкст(const МассивЗнач& v) {
-	return sAsString(v.дай());
+String AsString(const ValueArray& v) {
+	return sAsString(v.Get());
 }
 
-bool МапЗнач::Данные::пусто_ли() const {
-	return this == &Single<МапЗнач::ДанныеПусто>();
+bool ValueMap::Data::IsNull() const {
+	return this == &Single<ValueMap::NullData>();
 }
 
-void МапЗнач::Данные::сериализуй(Поток& s) {
-	s % ключ % значение;
+void ValueMap::Data::Serialize(Stream& s) {
+	s % key % value;
 }
 
-void МапЗнач::Данные::вРяр(РярВВ& xio)
+void ValueMap::Data::Xmlize(XmlIO& xio)
 {
-	РНЦПДинрус::вРяр(xio, ключ);
-	РНЦПДинрус::вРяр(xio, значение);
+	Upp::Xmlize(xio, key);
+	Upp::Xmlize(xio, value);
 }
 
-void МапЗнач::Данные::вДжейсон(ДжейсонВВ& jio)
+void ValueMap::Data::Jsonize(JsonIO& jio)
 {
-	if(jio.сохраняется()) {
-		МассивЗнач va;
-		int n = min(значение.дайСчёт(), ключ.дайСчёт());
+	if(jio.IsStoring()) {
+		ValueArray va;
+		int n = min(value.GetCount(), key.GetCount());
 		for(int i = 0; i < n; i++) {
-			МапЗнач m;
-			m.добавь("ключ", StoreAsJsonValue(ключ[i]));
-			m.добавь("значение", StoreAsJsonValue(значение[i]));
-			va.добавь(m);
+			ValueMap m;
+			m.Add("key", StoreAsJsonValue(key[i]));
+			m.Add("value", StoreAsJsonValue(value[i]));
+			va.Add(m);
 		}
-		jio.уст(va);
+		jio.Set(va);
 	}
 	else {
-		Значение va = jio.дай();
-		ключ.очисть();
-		значение.очисть();
-		for(int i = 0; i < va.дайСчёт(); i++) {
-			Значение k, v;
-			LoadFromJsonValue(k, va[i]["ключ"]);
-			LoadFromJsonValue(v, va[i]["значение"]);
-			ключ.добавь(k);
-			значение.добавь(v);
+		Value va = jio.Get();
+		key.Clear();
+		value.Clear();
+		for(int i = 0; i < va.GetCount(); i++) {
+			Value k, v;
+			LoadFromJsonValue(k, va[i]["key"]);
+			LoadFromJsonValue(v, va[i]["value"]);
+			key.Add(k);
+			value.Add(v);
 		}
 	}
 }
 
-hash_t МапЗнач::Данные::дайХэшЗнач() const {
-	комбинируйХэш w(ключ.дайСчёт());
-	for(int i = 0; i < ключ.дайСчёт(); i++)
-		w.помести(ключ[i].дайХэшЗнач());
-	w.помести(значение.дайХэшЗнач());
+hash_t ValueMap::Data::GetHashValue() const {
+	CombineHash w(key.GetCount());
+	for(int i = 0; i < key.GetCount(); i++)
+		w.Put(key[i].GetHashValue());
+	w.Put(value.GetHashValue());
 	return w;
 }
 
-static bool sIsEqual(const Индекс<Значение>& a, const Индекс<Значение>& b)
+static bool sIsEqual(const Index<Value>& a, const Index<Value>& b)
 {
 	if(&a == &b) return true;
-	if(a.дайСчёт() != b.дайСчёт()) return false;
-	for(int i = 0; i < a.дайСчёт(); i++)
+	if(a.GetCount() != b.GetCount()) return false;
+	for(int i = 0; i < a.GetCount(); i++)
 		if(a[i] != b[i]) return false;
 	return true;
 }
 
-bool МапЗнач::Данные::равен(const Значение::Проц *p)
+bool ValueMap::Data::IsEqual(const Value::Void *p)
 {
-	return sIsEqual(((Данные *)p)->ключ, ключ) && ((Данные *)p)->значение == значение;
+	return sIsEqual(((Data *)p)->key, key) && ((Data *)p)->value == value;
 }
 
-bool МапЗнач::operator==(const МапЗнач& v) const
+bool ValueMap::operator==(const ValueMap& v) const
 {
-	return sIsEqual(данные->ключ, v.данные->ключ) && данные->значение == v.данные->значение;
+	return sIsEqual(data->key, v.data->key) && data->value == v.data->value;
 }
 
-int  МапЗнач::Данные::сравни(const Значение::Проц *p)
+int  ValueMap::Data::Compare(const Value::Void *p)
 {
-	Данные *b = (Данные *)p;
-	int n = min(ключ.дайСчёт(), b->ключ.дайСчёт());
+	Data *b = (Data *)p;
+	int n = min(key.GetCount(), b->key.GetCount());
 	for(int i = 0; i < n; i++) {
-		int q = сравниЗнак(ключ[i], b->ключ[i]);
+		int q = SgnCompare(key[i], b->key[i]);
 		if(q)
 			return q;
-		q = сравниЗнак(значение[i], b->значение[i]);
+		q = SgnCompare(value[i], b->value[i]);
 		if(q)
 			return q;
 	}
-	return сравниЗнак(ключ.дайСчёт(), b->ключ.дайСчёт());
+	return SgnCompare(key.GetCount(), b->key.GetCount());
 }
 
-int МапЗнач::сравни(const МапЗнач& b) const
+int ValueMap::Compare(const ValueMap& b) const
 {
-	return данные->сравни((Значение::Проц *)b.данные);
+	return data->Compare((Value::Void *)b.data);
 }
 
-bool МапЗнач::одинаково(const МапЗнач& b) const
+bool ValueMap::IsSame(const ValueMap& b) const
 {
 	for(int pass = 0; pass < 2; pass++) {
-		const МапЗнач& m = pass ? *this : b;
-		const МапЗнач& n = pass ? b : *this;
-		for(int i = 0; i < m.дайСчёт(); i++)
-			if(!n[m.дайКлюч(i)].одинаково(m.дайЗначение(i)))
+		const ValueMap& m = pass ? *this : b;
+		const ValueMap& n = pass ? b : *this;
+		for(int i = 0; i < m.GetCount(); i++)
+			if(!n[m.GetKey(i)].IsSame(m.GetValue(i)))
 				return false;
 	}
 	return true;
 }
 
-Ткст МапЗнач::Данные::какТкст() const
+String ValueMap::Data::AsString() const
 {
-	Ткст s;
+	String s;
 	s << "{ ";
-	for(int i = 0; i < ключ.дайСчёт(); i++) {
+	for(int i = 0; i < key.GetCount(); i++) {
 		if(i) s << ", ";
-		s << ключ[i] << ": " << значение[i];
+		s << key[i] << ": " << value[i];
 	}
 	s << " }";
 	return s;
 }
 
-МапЗнач::Данные& МапЗнач::создай()
+ValueMap::Data& ValueMap::Create()
 {
-	данные = new Данные;
-	return *данные;
+	data = new Data;
+	return *data;
 }
 
-void МапЗнач::клонируй(Данные *&ptr)
+void ValueMap::Clone(Data *&ptr)
 {
-	Данные *d = new Данные;
-	d->ключ = clone(ptr->ключ);
-	d->значение = ptr->значение;
-	ptr->отпусти();
+	Data *d = new Data;
+	d->key = clone(ptr->key);
+	d->value = ptr->value;
+	ptr->Release();
 	ptr = d;
 }
 
-void МапЗнач::иниц0()
+void ValueMap::Init0()
 {
-	данные = &Single<ДанныеПусто>();
-	данные->Retain();
+	data = &Single<NullData>();
+	data->Retain();
 }
 
-МапЗнач::МапЗнач(const МапЗнач& v)
+ValueMap::ValueMap(const ValueMap& v)
 {
-	данные = v.данные;
-	данные->Retain();
+	data = v.data;
+	data->Retain();
 }
 
-МапЗнач::МапЗнач(Индекс<Значение>&& k, Вектор<Значение>&& v)
+ValueMap::ValueMap(Index<Value>&& k, Vector<Value>&& v)
 {
-	Данные& d = создай();
-	d.ключ = pick(k);
-	d.значение = МассивЗнач(pick(v));
+	Data& d = Create();
+	d.key = pick(k);
+	d.value = ValueArray(pick(v));
 }
 
-МапЗнач::МапЗнач(ВекторМап<Значение, Значение>&& m)
+ValueMap::ValueMap(VectorMap<Value, Value>&& m)
 {
-	Данные& d = создай();
-	d.ключ = m.подбериКлючи();
-	d.значение = МассивЗнач(m.подбериЗначения());
+	Data& d = Create();
+	d.key = m.PickKeys();
+	d.value = ValueArray(m.PickValues());
 }
 
-МапЗнач::МапЗнач(const Индекс<Значение>& k, const Вектор<Значение>& v, int deep)
+ValueMap::ValueMap(const Index<Value>& k, const Vector<Value>& v, int deep)
 {
-	Данные& d = создай();
-	d.ключ = clone(k);
-	d.значение = МассивЗнач(v, 0);
+	Data& d = Create();
+	d.key = clone(k);
+	d.value = ValueArray(v, 0);
 }
 
-МапЗнач::МапЗнач(const ВекторМап<Значение, Значение>& m, int deep)
+ValueMap::ValueMap(const VectorMap<Value, Value>& m, int deep)
 {
-	Данные& d = создай();
-	d.ключ = clone(m.дайКлючи());
-	d.значение = МассивЗнач(m.дайЗначения(), 0);
+	Data& d = Create();
+	d.key = clone(m.GetKeys());
+	d.value = ValueArray(m.GetValues(), 0);
 }
 
-ВекторМап<Значение, Значение> МапЗнач::подбери()
+VectorMap<Value, Value> ValueMap::Pick()
 {
-	Данные& d = UnShare();
-	ВекторМап<Значение, Значение> m(d.ключ.подбериКлючи(), d.значение.подбери());
-	d.ключ.очисть();
+	Data& d = UnShare();
+	VectorMap<Value, Value> m(d.key.PickKeys(), d.value.Pick());
+	d.key.Clear();
 	return m;
 }
 
-МапЗнач::operator Значение() const {
-	данные->Retain();
-	return Значение(данные, VALUEMAP_V);
+ValueMap::operator Value() const {
+	data->Retain();
+	return Value(data, VALUEMAP_V);
 }
 
-void МапЗнач::изМассива(const МассивЗнач& va)
+void ValueMap::FromArray(const ValueArray& va)
 {
-	иниц0();
-	for(int i = 0; i < va.дайСчёт(); i++)
-		добавь(i, va[i]);
+	Init0();
+	for(int i = 0; i < va.GetCount(); i++)
+		Add(i, va[i]);
 }
 
-МапЗнач::МапЗнач(const Значение& ист)
+ValueMap::ValueMap(const Value& src)
 {
-	if(!пусто_ли(ист)) {
-		if(ист.является<МассивЗнач>()) {
-			изМассива(ист);
+	if(!IsNull(src)) {
+		if(src.Is<ValueArray>()) {
+			FromArray(src);
 			return;
 		}
 		else {
-			if(ист.дайТип() != VALUEMAP_V)
-				throw ОшибкаТипаЗначения(Ткст().конкат() << "Invalid значение conversion: "
-			                         << ист.дайИмяТипа() << " -> МапЗнач",
-			                         ист, VALUEMAP_V);
-			данные = (МапЗнач::Данные *)ист.дайПроцУк();
+			if(src.GetType() != VALUEMAP_V)
+				throw ValueTypeError(String().Cat() << "Неправильное преобразование значения: "
+			                         << src.GetTypeName() << " -> ValueMap",
+			                         src, VALUEMAP_V);
+			data = (ValueMap::Data *)src.GetVoidPtr();
 		}
 	}
 	else
-		данные = &Single<ДанныеПусто>();
-	данные->Retain();
+		data = &Single<NullData>();
+	data->Retain();
 }
 
-void МапЗнач::сериализуй(Поток& s) {
-	if(s.грузится()) {
-		данные->отпусти();
-		создай();
+void ValueMap::Serialize(Stream& s) {
+	if(s.IsLoading()) {
+		data->Release();
+		Create();
 	}
-	данные->сериализуй(s);
+	data->Serialize(s);
 }
 
-void МапЗнач::вДжейсон(ДжейсонВВ& jio)
+void ValueMap::Jsonize(JsonIO& jio)
 {
-	if(jio.грузится()) {
-		данные->отпусти();
-		создай();
+	if(jio.IsLoading()) {
+		data->Release();
+		Create();
 	}
-	данные->вДжейсон(jio);
+	data->Jsonize(jio);
 }
 
-void МапЗнач::вРяр(РярВВ& xio)
+void ValueMap::Xmlize(XmlIO& xio)
 {
-	if(xio.грузится()) {
-		данные->отпусти();
-		создай();
+	if(xio.IsLoading()) {
+		data->Release();
+		Create();
 	}
-	данные->вРяр(xio);
+	data->Xmlize(xio);
 }
 
-МапЗнач::~МапЗнач() {
-	ПРОВЕРЬ(данные->GetRefCount() > 0);
-	данные->отпусти();
+ValueMap::~ValueMap() {
+	ASSERT(data->GetRefCount() > 0);
+	data->Release();
 }
 
-МапЗнач& МапЗнач::operator=(const МапЗнач& v) {
-	v.данные->Retain();
-	данные->отпусти();
-	данные = v.данные;
+ValueMap& ValueMap::operator=(const ValueMap& v) {
+	v.data->Retain();
+	data->Release();
+	data = v.data;
 	return *this;
 }
 
-void МапЗнач::очисть() {
-	данные->отпусти();
-	иниц0();
+void ValueMap::Clear() {
+	data->Release();
+	Init0();
 }
 
-void МапЗнач::уст(const Значение& ключ, const Значение& значение)
+void ValueMap::Set(const Value& key, const Value& value)
 {
-	Данные& d = UnShare();
-	int i = d.ключ.найди(ключ);
+	Data& d = UnShare();
+	int i = d.key.Find(key);
 	if(i >= 0)
-		d.значение.уст(i, значение);
+		d.value.Set(i, value);
 	else {
-		d.ключ.добавь(ключ);
-		d.значение.добавь(значение);
+		d.key.Add(key);
+		d.value.Add(value);
 	}
 }
 
-void МапЗнач::устПо(int i, const Значение& v) {
-	UnShare().значение.уст(i, v);
+void ValueMap::SetAt(int i, const Value& v) {
+	UnShare().value.Set(i, v);
 }
 
-void МапЗнач::устКлюч(int i, const Значение& k) {
-	UnShare().ключ.уст(i, k);
+void ValueMap::SetKey(int i, const Value& k) {
+	UnShare().key.Set(i, k);
 }
 
-int МапЗнач::удалиКлюч(const Значение& ключ)
+int ValueMap::RemoveKey(const Value& key)
 {
-	Данные& d = UnShare();
-	Вектор<int> rk;
-	int q = d.ключ.найди(ключ);
+	Data& d = UnShare();
+	Vector<int> rk;
+	int q = d.key.Find(key);
 	while(q >= 0) {
-		rk.добавь(q);
-		q = d.ключ.найдиСледщ(q);
+		rk.Add(q);
+		q = d.key.FindNext(q);
 	}
-	if(rk.дайСчёт()) {
-		сортируй(rk);
-		d.ключ.удали(rk);
-		d.значение.удали(rk);
+	if(rk.GetCount()) {
+		Sort(rk);
+		d.key.Remove(rk);
+		d.value.Remove(rk);
 	}
-	return rk.дайСчёт();
+	return rk.GetCount();
 }
 
-void МапЗнач::удали(int i)
+void ValueMap::Remove(int i)
 {
-	Данные& d = UnShare();
-	d.ключ.удали(i);
-	d.значение.удали(i);
+	Data& d = UnShare();
+	d.key.Remove(i);
+	d.value.Remove(i);
 }
 
-Значение МапЗнач::дайИОчисть(const Значение& ключ)
+Value ValueMap::GetAndClear(const Value& key)
 {
-	Данные& d = UnShare();
-	int q = d.ключ.найди(ключ);
-	return q < 0 ? значОш() : d.значение.дайИОчисть(q);
+	Data& d = UnShare();
+	int q = d.key.Find(key);
+	return q < 0 ? ErrorValue() : d.value.GetAndClear(q);
 }
 
 // ----------------------------------
 
-bool StdValuePairOrder::operator()(const Значение& k1, const Значение& v1, const Значение& k2, const Значение& v2) const
+bool StdValuePairOrder::operator()(const Value& k1, const Value& v1, const Value& k2, const Value& v2) const
 {
-	int q = сравниСтдЗнач(k1, k2, язык);
+	int q = StdValueCompare(k1, k2, language);
 	if(q) return q < 0;
-	return сравниСтдЗнач(v1, v2, язык);
+	return StdValueCompare(v1, v2, language);
 }
 
-bool FnValuePairOrder::operator()(const Значение& keya, const Значение& valuea, const Значение& keyb, const Значение& valueb) const
+bool FnValuePairOrder::operator()(const Value& keya, const Value& valuea, const Value& keyb, const Value& valueb) const
 {
-	return (*фн)(keya, valuea, keyb, valueb) < 0;
+	return (*fn)(keya, valuea, keyb, valueb) < 0;
 }
 
-int CompareStrings(const Значение& a, const Значение& b, const LanguageInfo& f)
+int CompareStrings(const Value& a, const Value& b, const LanguageInfo& f)
 {
-	return f.сравни(ШТкст(a), ШТкст(b));
+	return f.Compare(WString(a), WString(b));
 }
 
-void Комплекс::вРяр(РярВВ& xio)
+void Complex::Xmlize(XmlIO& xio)
 {
 	double r, i;
 	r = real(); i = imag();
-	xio.Атр("real", r).Атр("imag", i);
+	xio.Attr("real", r).Attr("imag", i);
 	*this = C(r, i);
 }
 
-void Комплекс::вДжейсон(ДжейсонВВ& jio)
+void Complex::Jsonize(JsonIO& jio)
 {
 	double r, i;
 	r = real(); i = imag();
@@ -620,7 +620,7 @@ void Комплекс::вДжейсон(ДжейсонВВ& jio)
 	*this = C(r, i);
 }
 
-void Комплекс::сериализуй(Поток& s)
+void Complex::Serialize(Stream& s)
 {
 	double r, i;
 	r = real(); i = imag();
@@ -629,25 +629,25 @@ void Комплекс::сериализуй(Поток& s)
 }
 
 template <class T>
-static void sReg(const char *имя)
+static void sReg(const char *name)
 {
 	if(FitsSvoValue<T>())
-		Значение::SvoRegister<T>(имя);
+		Value::SvoRegister<T>(name);
 	else
-		Значение::регистрируй<T>(имя);
+		Value::Register<T>(name);
 }
 
-ИНИЦБЛОК
+INITBLOCK
 {
-	sReg<Точка>("Точка");
-	sReg<Точка64>("Точка64");
-	sReg<ТочкаПЗ>("ТочкаПЗ");
-	sReg<Размер>("Размер");
-	sReg<Размер64>("Размер64");
-	sReg<РазмерПЗ>("РазмерПЗ");
-	Значение::регистрируй<Прям>("Прям");
-	Значение::регистрируй<Прям64>("Прям64");
-	Значение::регистрируй<ПрямПЗ>("ПрямПЗ");
+	sReg<Point>("Point");
+	sReg<Point64>("Point64");
+	sReg<Pointf>("Pointf");
+	sReg<Size>("Size");
+	sReg<Size64>("Size64");
+	sReg<Sizef>("Sizef");
+	Value::Register<Rect>("Rect");
+	Value::Register<Rect64>("Rect64");
+	Value::Register<Rectf>("Rectf");
 }
 
 }

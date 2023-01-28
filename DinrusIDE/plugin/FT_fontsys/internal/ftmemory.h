@@ -34,13 +34,13 @@ FT_BEGIN_HEADER
   /*    FT_SET_ERROR                                                       */
   /*                                                                       */
   /* <Description>                                                         */
-  /*    This macro is used to set an implicit `Ошибка' variable to a given  */
-  /*    expression's значение (usually a function call), and convert it to a  */
-  /*    boolean which is set whenever the значение is != 0.                   */
+  /*    This macro is used to set an implicit `error' variable to a given  */
+  /*    expression's value (usually a function call), and convert it to a  */
+  /*    boolean which is set whenever the value is != 0.                   */
   /*                                                                       */
 #undef  FT_SET_ERROR
 #define FT_SET_ERROR( expression ) \
-          ( ( Ошибка = (expression) ) != 0 )
+          ( ( error = (expression) ) != 0 )
 
 
 
@@ -105,7 +105,7 @@ FT_BEGIN_HEADER
 
 
   /*
-   *  The allocation functions return a pointer, and the Ошибка code
+   *  The allocation functions return a pointer, and the error code
    *  is written to through the `p_error' parameter.  See below for
    *  for documentation.
    */
@@ -142,7 +142,7 @@ FT_BEGIN_HEADER
 
 
 #define FT_MEM_ALLOC( ptr, size )                                         \
-          FT_ASSIGNP_INNER( ptr, ft_mem_alloc( memory, (size), &Ошибка ) )
+          FT_ASSIGNP_INNER( ptr, ft_mem_alloc( memory, (size), &error ) )
 
 #define FT_MEM_FREE( ptr )                \
           FT_BEGIN_STMNT                  \
@@ -156,10 +156,10 @@ FT_BEGIN_HEADER
 #define FT_MEM_REALLOC( ptr, cursz, newsz )                        \
           FT_ASSIGNP_INNER( ptr, ft_mem_realloc( memory, 1,        \
                                                  (cursz), (newsz), \
-                                                 (ptr), &Ошибка ) )
+                                                 (ptr), &error ) )
 
 #define FT_MEM_QALLOC( ptr, size )                                         \
-          FT_ASSIGNP_INNER( ptr, ft_mem_qalloc( memory, (size), &Ошибка ) )
+          FT_ASSIGNP_INNER( ptr, ft_mem_qalloc( memory, (size), &error ) )
 
 #define FT_MEM_QNEW( ptr )                        \
           FT_MEM_QALLOC( ptr, sizeof ( *(ptr) ) )
@@ -167,35 +167,35 @@ FT_BEGIN_HEADER
 #define FT_MEM_QREALLOC( ptr, cursz, newsz )                         \
           FT_ASSIGNP_INNER( ptr, ft_mem_qrealloc( memory, 1,        \
                                                   (cursz), (newsz), \
-                                                  (ptr), &Ошибка ) )
+                                                  (ptr), &error ) )
 
 #define FT_MEM_QRENEW_ARRAY( ptr, cursz, newsz )                             \
           FT_ASSIGNP_INNER( ptr, ft_mem_qrealloc( memory, sizeof ( *(ptr) ), \
                                                   (cursz), (newsz),          \
-                                                  (ptr), &Ошибка ) )
+                                                  (ptr), &error ) )
 
 #define FT_MEM_ALLOC_MULT( ptr, count, item_size )                    \
           FT_ASSIGNP_INNER( ptr, ft_mem_realloc( memory, (item_size), \
                                                  0, (count),          \
-                                                 NULL, &Ошибка ) )
+                                                 NULL, &error ) )
 
 #define FT_MEM_REALLOC_MULT( ptr, oldcnt, newcnt, itmsz )            \
           FT_ASSIGNP_INNER( ptr, ft_mem_realloc( memory, (itmsz),    \
                                                  (oldcnt), (newcnt), \
-                                                 (ptr), &Ошибка ) )
+                                                 (ptr), &error ) )
 
 #define FT_MEM_QALLOC_MULT( ptr, count, item_size )                    \
           FT_ASSIGNP_INNER( ptr, ft_mem_qrealloc( memory, (item_size), \
                                                   0, (count),          \
-                                                  NULL, &Ошибка ) )
+                                                  NULL, &error ) )
 
 #define FT_MEM_QREALLOC_MULT( ptr, oldcnt, newcnt, itmsz)             \
           FT_ASSIGNP_INNER( ptr, ft_mem_qrealloc( memory, (itmsz),    \
                                                   (oldcnt), (newcnt), \
-                                                  (ptr), &Ошибка ) )
+                                                  (ptr), &error ) )
 
 
-#define FT_MEM_SET_ERROR( cond )  ( (cond), Ошибка != 0 )
+#define FT_MEM_SET_ERROR( cond )  ( (cond), error != 0 )
 
 
 #define FT_MEM_SET( dest, byte, count )     ft_memset( dest, byte, count )
@@ -239,22 +239,22 @@ FT_BEGIN_HEADER
 #define FT_MEM_NEW_ARRAY( ptr, count )                                      \
           FT_ASSIGNP_INNER( ptr, ft_mem_realloc( memory, sizeof ( *(ptr) ), \
                                                  0, (count),                \
-                                                 NULL, &Ошибка ) )
+                                                 NULL, &error ) )
 
 #define FT_MEM_RENEW_ARRAY( ptr, cursz, newsz )                             \
           FT_ASSIGNP_INNER( ptr, ft_mem_realloc( memory, sizeof ( *(ptr) ), \
                                                  (cursz), (newsz),          \
-                                                 (ptr), &Ошибка ) )
+                                                 (ptr), &error ) )
 
 #define FT_MEM_QNEW_ARRAY( ptr, count )                                      \
           FT_ASSIGNP_INNER( ptr, ft_mem_qrealloc( memory, sizeof ( *(ptr) ), \
                                                   0, (count),                \
-                                                  NULL, &Ошибка ) )
+                                                  NULL, &error ) )
 
 #define FT_MEM_QRENEW_ARRAY( ptr, cursz, newsz )                             \
           FT_ASSIGNP_INNER( ptr, ft_mem_qrealloc( memory, sizeof ( *(ptr) ), \
                                                   (cursz), (newsz),          \
-                                                  (ptr), &Ошибка ) )
+                                                  (ptr), &error ) )
 
 
 #define FT_ALLOC( ptr, size )                           \
@@ -346,20 +346,20 @@ FT_BEGIN_HEADER
               FT_Error    *p_error );
 
 #define FT_MEM_STRDUP( dst, str )                                            \
-          (dst) = (char*)ft_mem_strdup( memory, (const char*)(str), &Ошибка )
+          (dst) = (char*)ft_mem_strdup( memory, (const char*)(str), &error )
 
 #define FT_STRDUP( dst, str )                           \
           FT_MEM_SET_ERROR( FT_MEM_STRDUP( dst, str ) )
 
 #define FT_MEM_DUP( dst, address, size )                                    \
-          (dst) = ft_mem_dup( memory, (address), (FT_ULong)(size), &Ошибка )
+          (dst) = ft_mem_dup( memory, (address), (FT_ULong)(size), &error )
 
 #define FT_DUP( dst, address, size )                           \
           FT_MEM_SET_ERROR( FT_MEM_DUP( dst, address, size ) )
 
 
   /* Return >= 1 if a truncation occurs.            */
-  /* Return 0 if the source string fits the буфер. */
+  /* Return 0 if the source string fits the buffer. */
   /* This is *not* the same as strlcpy().           */
   FT_BASE( FT_Int )
   ft_mem_strcpyn( char*        dst,

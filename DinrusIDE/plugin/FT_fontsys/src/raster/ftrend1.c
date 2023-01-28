@@ -61,12 +61,12 @@
                         const FT_Matrix*  matrix,
                         const FT_Vector*  delta )
   {
-    FT_Error Ошибка = Raster_Err_Ok;
+    FT_Error error = Raster_Err_Ok;
 
 
-    if ( slot->формат != render->glyph_format )
+    if ( slot->format != render->glyph_format )
     {
-      Ошибка = Raster_Err_Invalid_Argument;
+      error = Raster_Err_Invalid_Argument;
       goto Exit;
     }
 
@@ -77,7 +77,7 @@
       FT_Outline_Translate( &slot->outline, delta->x, delta->y );
 
   Exit:
-    return Ошибка;
+    return error;
   }
 
 
@@ -89,7 +89,7 @@
   {
     FT_MEM_ZERO( cbox, sizeof ( *cbox ) );
 
-    if ( slot->формат == render->glyph_format )
+    if ( slot->format == render->glyph_format )
       FT_Outline_Get_CBox( &slot->outline, cbox );
   }
 
@@ -101,7 +101,7 @@
                      FT_Render_Mode    mode,
                      const FT_Vector*  origin )
   {
-    FT_Error     Ошибка;
+    FT_Error     error;
     FT_Outline*  outline;
     FT_BBox      cbox;
     FT_UInt      width, height, pitch;
@@ -111,10 +111,10 @@
     FT_Raster_Params  params;
 
 
-    /* check glyph image формат */
-    if ( slot->формат != render->glyph_format )
+    /* check glyph image format */
+    if ( slot->format != render->glyph_format )
     {
-      Ошибка = Raster_Err_Invalid_Argument;
+      error = Raster_Err_Invalid_Argument;
       goto Exit;
     }
 
@@ -134,7 +134,7 @@
     }
 #else /* FT_CONFIG_OPTION_PIC */
     /* When PIC is enabled, we cannot get to the class object      */
-    /* so instead we check the final character in the class имя   */
+    /* so instead we check the final character in the class name   */
     /* ("raster5" or "raster1"). Yes this is a hack.               */
     /* The "correct" thing to do is have different render function */
     /* for each of the classes.                                    */
@@ -179,14 +179,14 @@
     bitmap = &slot->bitmap;
     memory = render->root.memory;
 
-    /* release old bitmap буфер */
+    /* release old bitmap buffer */
     if ( slot->internal->flags & FT_GLYPH_OWN_BITMAP )
     {
-      FT_FREE( bitmap->буфер );
+      FT_FREE( bitmap->buffer );
       slot->internal->flags &= ~FT_GLYPH_OWN_BITMAP;
     }
 
-    /* allocate new one, depends on pixel формат */
+    /* allocate new one, depends on pixel format */
     if ( !( mode & FT_RENDER_MODE_MONO ) )
     {
       /* we pad to 32 bits, only for backwards compatibility with FT 1.x */
@@ -204,7 +204,7 @@
     bitmap->rows  = height;
     bitmap->pitch = pitch;
 
-    if ( FT_ALLOC_MULT( bitmap->буфер, pitch, height ) )
+    if ( FT_ALLOC_MULT( bitmap->buffer, pitch, height ) )
       goto Exit;
 
     slot->internal->flags |= FT_GLYPH_OWN_BITMAP;
@@ -221,19 +221,19 @@
       params.flags |= FT_RASTER_FLAG_AA;
 
     /* render outline into the bitmap */
-    Ошибка = render->raster_render( render->raster, &params );
+    error = render->raster_render( render->raster, &params );
 
     FT_Outline_Translate( outline, cbox.xMin, cbox.yMin );
 
-    if ( Ошибка )
+    if ( error )
       goto Exit;
 
-    slot->формат      = FT_GLYPH_FORMAT_BITMAP;
+    slot->format      = FT_GLYPH_FORMAT_BITMAP;
     slot->bitmap_left = (FT_Int)( cbox.xMin >> 6 );
     slot->bitmap_top  = (FT_Int)( cbox.yMax >> 6 );
 
   Exit:
-    return Ошибка;
+    return error;
   }
 
 

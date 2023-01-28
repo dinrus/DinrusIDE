@@ -19,7 +19,7 @@ modification, are permitted provided that the following conditions are met:
       notice, this list of conditions and the following disclaimer in the
       documentation and/or other materials provided with the distribution.
 
-    * Neither the имя of the University of Cambridge nor the names of its
+    * Neither the name of the University of Cambridge nor the names of its
       contributors may be used to endorse or promote products derived from
       this software without specific prior written permission.
 
@@ -39,7 +39,7 @@ POSSIBILITY OF SUCH DAMAGE.
 
 
 /* This file contains a private PCRE function that converts an ordinal
-character значение into a UTF8 string. */
+character value into a UTF8 string. */
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
@@ -50,22 +50,22 @@ character значение into a UTF8 string. */
 #include "pcre_internal.h"
 
 /*************************************************
-*       Преобр character значение to UTF-8         *
+*       Convert character value to UTF-8         *
 *************************************************/
 
-/* This function takes an integer значение in the range 0 - 0x10ffff
+/* This function takes an integer value in the range 0 - 0x10ffff
 and encodes it as a UTF-8 character in 1 to 4 pcre_uchars.
 
 Arguments:
-  cvalue     the character значение
-  буфер     pointer to буфер for result - at least 6 pcre_uchars long
+  cvalue     the character value
+  buffer     pointer to buffer for result - at least 6 pcre_uchars long
 
-Returns:     number of characters placed in the буфер
+Returns:     number of characters placed in the buffer
 */
 
 unsigned
 int
-PRIV(ord2utf)(pcre_uint32 cvalue, pcre_uchar *буфер)
+PRIV(ord2utf)(pcre_uint32 cvalue, pcre_uchar *buffer)
 {
 #ifdef SUPPORT_UTF
 
@@ -73,22 +73,22 @@ register int i, j;
 
 for (i = 0; i < PRIV(utf8_table1_size); i++)
   if ((int)cvalue <= PRIV(utf8_table1)[i]) break;
-буфер += i;
+buffer += i;
 for (j = i; j > 0; j--)
  {
- *буфер-- = 0x80 | (cvalue & 0x3f);
+ *buffer-- = 0x80 | (cvalue & 0x3f);
  cvalue >>= 6;
  }
-*буфер = PRIV(utf8_table2)[i] | cvalue;
+*buffer = PRIV(utf8_table2)[i] | cvalue;
 return i + 1;
 
 #else
 
 (void)(cvalue);  /* Keep compiler happy; this function won't ever be */
-(void)(буфер);  /* called when SUPPORT_UTF is not defined. */
+(void)(buffer);  /* called when SUPPORT_UTF is not defined. */
 return 0;
 
 #endif
 }
 
-/* стоп of pcre_ord2utf8.c */
+/* End of pcre_ord2utf8.c */

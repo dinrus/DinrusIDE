@@ -1,73 +1,73 @@
 #include "POP3.h"
 
-namespace РНЦПДинрус {
+namespace Upp {
 
 static bool sPop3Trace;
-#define LLOG(x) do { if(sPop3Trace) RLOG(сожмиЛог(Ткст().конкат() << x)); } while(0)
+#define LLOG(x) do { if(sPop3Trace) RLOG(CompressLog(String().Cat() << x)); } while(0)
 
 void Pop3::Trace(bool b)
 {
 	sPop3Trace = b;
 }
 
-Pop3& Pop3::прокси(const char *p)
+Pop3& Pop3::Proxy(const char *p)
 {
 	proxy_port = 8080;
 	ParseProxyUrl(p, proxy_host, proxy_port);
 	return *this;
 }
 
-Ткст Pop3::GetTimeStamp()
+String Pop3::GetTimeStamp()
 {
-	int begin = данные.найди('<');
+	int begin = data.Find('<');
 	if(begin >= 0) {
-		int end = данные.найди('>', begin);
+		int end = data.Find('>', begin);
 		if(end > begin) {
 			end++;
-			return данные.середина(begin, end - begin);
+			return data.Mid(begin, end - begin);
 		}
 	}
 	return Null;
 }
 
-bool Pop3::GetListItems(МапЗнач& list, dword type1, dword type2)
+bool Pop3::GetListItems(ValueMap& list, dword type1, dword type2)
 {
-	ТкстПоток s(данные);
-	while(!s.кф_ли()) {
-		Ткст line = s.дайСтроку();
-		Вектор<Ткст> s = разбей(line, ' ');
-		if(s.дайСчёт() < 2)
+	StringStream s(data);
+	while(!s.IsEof()) {
+		String line = s.GetLine();
+		Vector<String> s = Split(line, ' ');
+		if(s.GetCount() < 2)
 			return false;
-		list.добавь(скан(type1, s[0]), скан(type2, s[1]));
+		list.Add(Scan(type1, s[0]), Scan(type2, s[1]));
 	}
-	return true;	
+	return true;
 }
 
 int Pop3::GetMessageCount()
 {
 	if(!PutGet("STAT\r\n"))
 		return Null;
-	Ткст ok, cnt, tsz;
-	if(!SplitTo(данные, ' ', ok, cnt, tsz))
+	String ok, cnt, tsz;
+	if(!SplitTo(data, ' ', ok, cnt, tsz))
 		return Null;
-	return тктЦел(cnt);
+	return StrInt(cnt);
 }
 
-Ткст Pop3::GetMessage(int индекс)
+String Pop3::GetMessage(int index)
 {
-	if(!PutGet(фмт("RETR %d\r\n", индекс), true))
+	if(!PutGet(Format("RETR %d\r\n", index), true))
 		return Null;
-	return данные;
+	return data;
 }
 
-Ткст Pop3::GetMessageHeader(int индекс)
+String Pop3::GetMessageHeader(int index)
 {
-	if(!PutGet(фмт("TOP %d %d\r\n", индекс, 0), true))
+	if(!PutGet(Format("TOP %d %d\r\n", index, 0), true))
 		return Null;
-	return данные;
+	return data;
 }
 
-bool Pop3::GetMessageList(МапЗнач& list)
+bool Pop3::GetMessageList(ValueMap& list)
 {
 	if(!PutGet("LIST\r\n", true))
 		return false;
@@ -75,26 +75,26 @@ bool Pop3::GetMessageList(МапЗнач& list)
 }
 
 
-Ткст Pop3::GetMessageUniqueId(int индекс)
+String Pop3::GetMessageUniqueId(int index)
 {
-	if(!PutGet(фмт("UIDL %d\r\n", индекс)))
+	if(!PutGet(Format("UIDL %d\r\n", index)))
 		return Null;
-	Ткст ok, ид, tsz;
-	if(!SplitTo(данные, ' ', ok, ид, tsz))
+	String ok, id, tsz;
+	if(!SplitTo(data, ' ', ok, id, tsz))
 		return Null;
-	return ид;
+	return id;
 }
 
-bool Pop3::GetMessageUniqueIds(МапЗнач& uids)
+bool Pop3::GetMessageUniqueIds(ValueMap& uids)
 {
 	if(!PutGet("UIDL\r\n", true))
 		return false;
 	return GetListItems(uids, INT_V, STRING_V);
 }
 
-bool Pop3::RemoveMessage(int индекс)
+bool Pop3::RemoveMessage(int index)
 {
-	return PutGet(фмт("DELE %d\r\n", индекс));
+	return PutGet(Format("DELE %d\r\n", index));
 }
 
 bool Pop3::Undo()
@@ -107,45 +107,45 @@ bool Pop3::Noop()
 	return PutGet("NOOP\r\n");
 }
 
-bool Pop3::PutGet(const Ткст& s, bool multiline, bool nolog)
+bool Pop3::PutGet(const String& s, bool multiline, bool nolog)
 {
-	// помести() request.
-	if(!s.пустой()) {
+	// Put() request.
+	if(!s.IsEmpty()) {
 		if(!nolog)
-			LLOG(">> " << обрежьПраво(s));
+			LLOG(">> " << TrimRight(s));
 		if(!PutAll(s)) {
 			LLOG("-- " << GetLastError());
 			return false;
-		}		
+		}
 	}
-	// дай() respone.
-	данные.очисть();
+	// Get() respone.
+	data.Clear();
 	const int MAXLINE = 20000000;
-	Ткст line = дайСтроку(MAXLINE);
-	if(!line.проц_ли()) {
-		LLOG("<< " << обрежьПраво(line));
-		if(line.начинаетсяС("+OK")) {
+	String line = GetLine(MAXLINE);
+	if(!line.IsVoid()) {
+		LLOG("<< " << TrimRight(line));
+		if(line.StartsWith("+OK")) {
 			if(!multiline) {
-				данные.конкат(line);
-				данные.конкат("\r\n");
+				data.Cat(line);
+				data.Cat("\r\n");
 				return true;
 			}
 			else 
 				for(;;) {
-					line = дайСтроку(MAXLINE);
-					if(line.проц_ли())
+					line = GetLine(MAXLINE);
+					if(line.IsVoid())
 						break;
 					if(line == ".") {
 						LLOG("<< ...");
 						return true;
 					}
-					данные.конкат(*line == '.' ? line.середина(1) : line);
-					данные.конкат("\r\n");
+					data.Cat(*line == '.' ? line.Mid(1) : line);
+					data.Cat("\r\n");
 				}
 		}
 		else
-		if(line.начинаетсяС("-ERR"))
-			Ошибка = line;
+		if(line.StartsWith("-ERR"))
+			error = line;
 	}
 	LLOG("-- " << GetLastError());
 	return false;
@@ -154,8 +154,8 @@ bool Pop3::PutGet(const Ткст& s, bool multiline, bool nolog)
 bool Pop3::Authenticate()
 {
 	// Try using APOP authentication.
-	Ткст timestamp = GetTimeStamp();
-	if(!timestamp.пустой()) {
+	String timestamp = GetTimeStamp();
+	if(!timestamp.IsEmpty()) {
 		if(PutGet("APOP " + user + " " + MD5String(timestamp << pass) + "\r\n"))
 			return true;
 	}
@@ -165,66 +165,66 @@ bool Pop3::Authenticate()
 		if(PutGet("PASS " + pass + "\r\n", false, true))
 			return true;
 	}
-	
+
 	return false;
 }
 
 bool Pop3::Login()
 {
 	try {
-		if(host.пустой())
-			throw Искл(t_("Hostname is not specified."));
-		if(user.пустой())
-			throw Искл(t_("Username is not specified."));
-		if(pass.пустой())
-			throw Искл(t_("Password is nor specified."));
-		if(proxy_host.дайСчёт()) {
-			Ткст host_port = host;
+		if(host.IsEmpty())
+			throw Exc(t_("Имя хоста не указано."));
+		if(user.IsEmpty())
+			throw Exc(t_("Имя пользователя не указано."));
+		if(pass.IsEmpty())
+			throw Exc(t_("Пароль не задан."));
+		if(proxy_host.GetCount()) {
+			String host_port = host;
 			host_port << ':' << Nvl(port, ssl ? 995 : 110);
-			Ткст данные;
-			данные << "CONNECT " << host_port << " HTTP/1.1\r\n"
-			     << "Хост: " << host_port << "\r\n";
-			if(!пусто_ли(proxy_username))
-				данные << "прокси-Authorization: Basic "
+			String data;
+			data << "CONNECT " << host_port << " HTTP/1.1\r\n"
+			     << "Host: " << host_port << "\r\n";
+			if(!IsNull(proxy_username))
+				data << "Proxy-Authorization: Basic "
 				     << Base64Encode(proxy_username + ':' + proxy_password) << "\r\n";
-			данные << "\r\n";
+			data << "\r\n";
 			LLOG("Trying to connect proxy " << proxy_host << ":" << proxy_port);
 			if(!Connect(proxy_host, proxy_port))
-				throw Искл("Unable to connect the proxy");
-			LLOG("About to send proxy request:\n" << данные);
-			if(!PutAll(данные))
-				throw Искл("Unable to send request to the proxy");
-			Ткст response;
+				throw Exc("Не удаётся подключение к прокси");
+			LLOG("About to send proxy request:\n" << data);
+			if(!PutAll(data))
+				throw Exc("Не удаётся отправить запрос прокси");
+			String response;
 			for(;;) {
-				Ткст l = дайСтроку();
-				if(l.дайСчёт() == 0)
+				String l = GetLine();
+				if(l.GetCount() == 0)
 					break;
 				LLOG("< " << l);
-				if(response.дайСчёт() == 0)
+				if(response.GetCount() == 0)
 					response = l;
 			}
-			LLOG("прокси response: " << response);
-			if(!response.начинаетсяС("HTTP") || response.найди(" 2") < 0)
-				throw Искл("Invalid proxy reply: " + response);
+			LLOG("Proxy response: " << response);
+			if(!response.StartsWith("HTTP") || response.Find(" 2") < 0)
+				throw Exc("Неверный ответ прокси: " + response);
 			LLOG("Connected via proxy");
 		}
 		else
 		if(!Connect(host, Nvl(port, ssl ? 995 : 110)))
-			throw Искл(GetErrorDesc());
-		LLOG(фмт(t_("Opening connection to %s:%d."), host, port));
+			throw Exc(GetErrorDesc());
+		LLOG(Format(t_("Opening connection to %s:%d."), host, port));
 		if(ssl) {
 			if(!StartSSL())
-				throw Искл(t_("Couldn't start SSL session."));
+				throw Exc(t_("Не удалось начать сессию SSL."));
 			LLOG(t_("SSL session successfully started."));
 		}
 		// Receive server greetings.
 		if(!PutGet(Null))
-			throw Искл(GetLastError());
+			throw Exc(GetLastError());
 		if(!Authenticate())
-			throw Искл(GetLastError());
+			throw Exc(GetLastError());
 	}
-	catch (Искл e) {
-		Ошибка = e;
+	catch (Exc e) {
+		error = e;
 		LLOG("-- " + e);
 		Logout();
 		return false;
@@ -236,9 +236,9 @@ bool Pop3::Logout()
 {
 	if(IsOnline()) 
 		PutGet("QUIT\r\n");
-	LLOG(фмт(t_("Closing connection to %s:%d."), host, port));
-	if(открыт())
-		открой();
+	LLOG(Format(t_("Closing connection to %s:%d."), host, port));
+	if(IsOpen())
+		Close();
 	online = false;
 	return true;
 }

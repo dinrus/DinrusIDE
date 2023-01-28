@@ -25,7 +25,7 @@
 /*
  * TIFF Library
  *
- * читай and return a packed КЗСА image.
+ * Read and return a packed RGBA image.
  */
 #include "tiffiop.h"
 #include <stdio.h>
@@ -49,7 +49,7 @@ static const char photoTag[] = "PhotometricInterpretation";
 #define FLIP_HORIZONTALLY 0x02
 
 /*
- * Цвет conversion constants. We will define дисплей types here.
+ * Color conversion constants. We will define display types here.
  */
 
 static const TIFFDisplay display_sRGB = {
@@ -134,16 +134,16 @@ TIFFRGBAImageOK(TIFF* tif, char emsg[1024])
 			break;
 		case PHOTOMETRIC_YCBCR:
 			/*
-			 * TODO: if at all meaningful and useful, make more complete
+			 * СДЕЛАТЬ: if at all meaningful and useful, make more complete
 			 * support check here, or better still, refactor to let supporting
 			 * code decide whether there is support and what meaningful
-			 * Ошибка to return
+			 * error to return
 			 */
 			break;
 		case PHOTOMETRIC_RGB:
 			if (colorchannels < 3) {
-				sprintf(emsg, "Sorry, can not handle дайКЗС image with %s=%d",
-				    "Цвет channels", colorchannels);
+				sprintf(emsg, "Sorry, can not handle RGB image with %s=%d",
+				    "Color channels", colorchannels);
 				return (0);
 			}
 			break;
@@ -395,12 +395,12 @@ TIFFRGBAImageBegin(TIFFRGBAImage* img, TIFF* tif, int stop, char emsg[1024])
 		case PHOTOMETRIC_YCBCR:
 			/* It would probably be nice to have a reality check here. */
 			if (planarconfig == PLANARCONFIG_CONTIG)
-				/* can rely on libjpeg to convert to дайКЗС */
+				/* can rely on libjpeg to convert to RGB */
 				/* XXX should restore current state on exit */
 				switch (compress) {
 					case COMPRESSION_JPEG:
 						/*
-						 * TODO: when complete tests verify complete desubsampling
+						 * СДЕЛАТЬ: when complete tests verify complete desubsampling
 						 * and YCbCr handling, remove use of TIFFTAG_JPEGCOLORMODE in
 						 * favor of tif_getimage.c native handling
 						 */
@@ -412,16 +412,16 @@ TIFFRGBAImageBegin(TIFFRGBAImage* img, TIFF* tif, int stop, char emsg[1024])
 						break;
 				}
 			/*
-			 * TODO: if at all meaningful and useful, make more complete
+			 * СДЕЛАТЬ: if at all meaningful and useful, make more complete
 			 * support check here, or better still, refactor to let supporting
 			 * code decide whether there is support and what meaningful
-			 * Ошибка to return
+			 * error to return
 			 */
 			break;
 		case PHOTOMETRIC_RGB:
 			if (colorchannels < 3) {
-				sprintf(emsg, "Sorry, can not handle дайКЗС image with %s=%d",
-				    "Цвет channels", colorchannels);
+				sprintf(emsg, "Sorry, can not handle RGB image with %s=%d",
+				    "Color channels", colorchannels);
                                 goto fail_return;
 			}
 			break;
@@ -505,14 +505,14 @@ TIFFRGBAImageGet(TIFFRGBAImage* img, uint32* raster, uint32 w, uint32 h)
 	}
 	if (img->put.any == NULL) {
 		TIFFErrorExt(img->tif->tif_clientdata, TIFFFileName(img->tif),
-		"No \"put\" routine setupl; probably can not handle image формат");
+		"No \"put\" routine setupl; probably can not handle image format");
 		return (0);
     }
     return (*img->get)(img, raster, w, h);
 }
 
 /*
- * читай the specified image into an ABGR-формат rastertaking in account
+ * Read the specified image into an ABGR-format rastertaking in account
  * specified orientation.
  */
 int
@@ -538,7 +538,7 @@ TIFFReadRGBAImageOriented(TIFF* tif,
 }
 
 /*
- * читай the specified image into an ABGR-формат raster. Use bottom left
+ * Read the specified image into an ABGR-format raster. Use bottom left
  * origin for raster by default.
  */
 int
@@ -611,7 +611,7 @@ setorientation(TIFFRGBAImage* img)
 }
 
 /*
- * дай an tile-organized image that has
+ * Get an tile-organized image that has
  *	PlanarConfiguration contiguous if SamplesPerPixel > 1
  * or
  *	SamplesPerPixel == 1
@@ -636,7 +636,7 @@ gtTileContig(TIFFRGBAImage* img, uint32* raster, uint32 w, uint32 h)
 
     bufsize = TIFFTileSize(tif);
     if (bufsize == 0) {
-        TIFFErrorExt(tif->tif_clientdata, TIFFFileName(tif), "%s", "No space for tile буфер");
+        TIFFErrorExt(tif->tif_clientdata, TIFFFileName(tif), "%s", "No space for tile buffer");
         return (0);
     }
 
@@ -724,10 +724,10 @@ gtTileContig(TIFFRGBAImage* img, uint32* raster, uint32 w, uint32 h)
 }
 
 /*
- * дай an tile-organized image that has
+ * Get an tile-organized image that has
  *	 SamplesPerPixel > 1
  *	 PlanarConfiguration separated
- * We assume that all such images are дайКЗС.
+ * We assume that all such images are RGB.
  */	
 static int
 gtTileSeparate(TIFFRGBAImage* img, uint32* raster, uint32 w, uint32 h)
@@ -905,7 +905,7 @@ gtTileSeparate(TIFFRGBAImage* img, uint32* raster, uint32 w, uint32 h)
 }
 
 /*
- * дай a strip-organized image that has
+ * Get a strip-organized image that has
  *	PlanarConfiguration contiguous if SamplesPerPixel > 1
  * or
  *	SamplesPerPixel == 1
@@ -928,7 +928,7 @@ gtStripContig(TIFFRGBAImage* img, uint32* raster, uint32 w, uint32 h)
 
 	TIFFGetFieldDefaulted(tif, TIFFTAG_YCBCRSUBSAMPLING, &subsamplinghor, &subsamplingver);
 	if( subsamplingver == 0 ) {
-		TIFFErrorExt(tif->tif_clientdata, TIFFFileName(tif), "Invalid vertical YCbCr subsampling");
+		TIFFErrorExt(tif->tif_clientdata, TIFFFileName(tif), "Неверное vertical YCbCr subsampling");
 		return (0);
 	}
 	
@@ -1000,10 +1000,10 @@ gtStripContig(TIFFRGBAImage* img, uint32* raster, uint32 w, uint32 h)
 }
 
 /*
- * дай a strip-organized image with
+ * Get a strip-organized image with
  *	 SamplesPerPixel > 1
  *	 PlanarConfiguration separated
- * We assume that all such images are дайКЗС.
+ * We assume that all such images are RGB.
  */
 static int
 gtStripSeparate(TIFFRGBAImage* img, uint32* raster, uint32 w, uint32 h)
@@ -1223,14 +1223,14 @@ gtStripSeparate(TIFFRGBAImage* img, uint32* raster, uint32 w, uint32 h)
 #define	PACK4(r,g,b,a)	\
 	((uint32)(r)|((uint32)(g)<<8)|((uint32)(b)<<16)|((uint32)(a)<<24))
 #define W2B(v) (((v)>>8)&0xff)
-/* TODO: PACKW should have be made redundant in favor of Bitdepth16To8 LUT */
+/* СДЕЛАТЬ: PACKW should have be made redundant in favor of Bitdepth16To8 LUT */
 #define	PACKW(r,g,b)	\
 	((uint32)W2B(r)|((uint32)W2B(g)<<8)|((uint32)W2B(b)<<16)|A1)
 #define	PACKW4(r,g,b,a)	\
 	((uint32)W2B(r)|((uint32)W2B(g)<<8)|((uint32)W2B(b)<<16)|((uint32)W2B(a)<<24))
 
-#define	DECLAREContigPutFunc(имя) \
-static void имя(\
+#define	DECLAREContigPutFunc(name) \
+static void name(\
     TIFFRGBAImage* img, \
     uint32* cp, \
     uint32 x, uint32 y, \
@@ -1240,7 +1240,7 @@ static void имя(\
 )
 
 /*
- * 8-bit palette => colormap/дайКЗС
+ * 8-bit palette => colormap/RGB
  */
 DECLAREContigPutFunc(put8bitcmaptile)
 {
@@ -1260,7 +1260,7 @@ DECLAREContigPutFunc(put8bitcmaptile)
 }
 
 /*
- * 4-bit palette => colormap/дайКЗС
+ * 4-bit palette => colormap/RGB
  */
 DECLAREContigPutFunc(put4bitcmaptile)
 {
@@ -1277,7 +1277,7 @@ DECLAREContigPutFunc(put4bitcmaptile)
 }
 
 /*
- * 2-bit palette => colormap/дайКЗС
+ * 2-bit palette => colormap/RGB
  */
 DECLAREContigPutFunc(put2bitcmaptile)
 {
@@ -1294,7 +1294,7 @@ DECLAREContigPutFunc(put2bitcmaptile)
 }
 
 /*
- * 1-bit palette => colormap/дайКЗС
+ * 1-bit palette => colormap/RGB
  */
 DECLAREContigPutFunc(put1bitcmaptile)
 {
@@ -1311,7 +1311,7 @@ DECLAREContigPutFunc(put1bitcmaptile)
 }
 
 /*
- * 8-bit greyscale => colormap/дайКЗС
+ * 8-bit greyscale => colormap/RGB
  */
 DECLAREContigPutFunc(putgreytile)
 {
@@ -1331,7 +1331,7 @@ DECLAREContigPutFunc(putgreytile)
 }
 
 /*
- * 8-bit greyscale with associated alpha => colormap/КЗСА
+ * 8-bit greyscale with associated alpha => colormap/RGBA
  */
 DECLAREContigPutFunc(putagreytile)
 {
@@ -1351,7 +1351,7 @@ DECLAREContigPutFunc(putagreytile)
 }
 
 /*
- * 16-bit greyscale => colormap/дайКЗС
+ * 16-bit greyscale => colormap/RGB
  */
 DECLAREContigPutFunc(put16bitbwtile)
 {
@@ -1364,7 +1364,7 @@ DECLAREContigPutFunc(put16bitbwtile)
 
 	for (x = w; x > 0; --x)
         {
-            /* use high order byte of 16bit значение */
+            /* use high order byte of 16bit value */
 
 	    *cp++ = BWmap[*wp >> 8][0];
             pp += 2 * samplesperpixel;
@@ -1376,7 +1376,7 @@ DECLAREContigPutFunc(put16bitbwtile)
 }
 
 /*
- * 1-bit bilevel => colormap/дайКЗС
+ * 1-bit bilevel => colormap/RGB
  */
 DECLAREContigPutFunc(put1bitbwtile)
 {
@@ -1393,7 +1393,7 @@ DECLAREContigPutFunc(put1bitbwtile)
 }
 
 /*
- * 2-bit greyscale => colormap/дайКЗС
+ * 2-bit greyscale => colormap/RGB
  */
 DECLAREContigPutFunc(put2bitbwtile)
 {
@@ -1410,7 +1410,7 @@ DECLAREContigPutFunc(put2bitbwtile)
 }
 
 /*
- * 4-bit greyscale => colormap/дайКЗС
+ * 4-bit greyscale => colormap/RGB
  */
 DECLAREContigPutFunc(put4bitbwtile)
 {
@@ -1427,7 +1427,7 @@ DECLAREContigPutFunc(put4bitbwtile)
 }
 
 /*
- * 8-bit packed samples, no Map => дайКЗС
+ * 8-bit packed samples, no Map => RGB
  */
 DECLAREContigPutFunc(putRGBcontig8bittile)
 {
@@ -1445,7 +1445,7 @@ DECLAREContigPutFunc(putRGBcontig8bittile)
 }
 
 /*
- * 8-bit packed samples => КЗСА w/ associated alpha
+ * 8-bit packed samples => RGBA w/ associated alpha
  * (known to have Map == NULL)
  */
 DECLAREContigPutFunc(putRGBAAcontig8bittile)
@@ -1464,7 +1464,7 @@ DECLAREContigPutFunc(putRGBAAcontig8bittile)
 }
 
 /*
- * 8-bit packed samples => КЗСА w/ unassociated alpha
+ * 8-bit packed samples => RGBA w/ unassociated alpha
  * (known to have Map == NULL)
  */
 DECLAREContigPutFunc(putRGBUAcontig8bittile)
@@ -1490,7 +1490,7 @@ DECLAREContigPutFunc(putRGBUAcontig8bittile)
 }
 
 /*
- * 16-bit packed samples => дайКЗС
+ * 16-bit packed samples => RGB
  */
 DECLAREContigPutFunc(putRGBcontig16bittile)
 {
@@ -1511,7 +1511,7 @@ DECLAREContigPutFunc(putRGBcontig16bittile)
 }
 
 /*
- * 16-bit packed samples => КЗСА w/ associated alpha
+ * 16-bit packed samples => RGBA w/ associated alpha
  * (known to have Map == NULL)
  */
 DECLAREContigPutFunc(putRGBAAcontig16bittile)
@@ -1534,7 +1534,7 @@ DECLAREContigPutFunc(putRGBAAcontig16bittile)
 }
 
 /*
- * 16-bit packed samples => КЗСА w/ unassociated alpha
+ * 16-bit packed samples => RGBA w/ unassociated alpha
  * (known to have Map == NULL)
  */
 DECLAREContigPutFunc(putRGBUAcontig16bittile)
@@ -1561,9 +1561,9 @@ DECLAREContigPutFunc(putRGBUAcontig16bittile)
 }
 
 /*
- * 8-bit packed CMYK samples w/o Map => дайКЗС
+ * 8-bit packed CMYK samples w/o Map => RGB
  *
- * NB: The conversion of CMYK->дайКЗС is *very* crude.
+ * NB: The conversion of CMYK->RGB is *very* crude.
  */
 DECLAREContigPutFunc(putRGBcontig8bitCMYKtile)
 {
@@ -1586,9 +1586,9 @@ DECLAREContigPutFunc(putRGBcontig8bitCMYKtile)
 }
 
 /*
- * 8-bit packed CMYK samples w/Map => дайКЗС
+ * 8-bit packed CMYK samples w/Map => RGB
  *
- * NB: The conversion of CMYK->дайКЗС is *very* crude.
+ * NB: The conversion of CMYK->RGB is *very* crude.
  */
 DECLAREContigPutFunc(putRGBcontig8bitCMYKMaptile)
 {
@@ -1612,8 +1612,8 @@ DECLAREContigPutFunc(putRGBcontig8bitCMYKMaptile)
     }
 }
 
-#define	DECLARESepPutFunc(имя) \
-static void имя(\
+#define	DECLARESepPutFunc(name) \
+static void name(\
     TIFFRGBAImage* img,\
     uint32* cp,\
     uint32 x, uint32 y, \
@@ -1623,7 +1623,7 @@ static void имя(\
 )
 
 /*
- * 8-bit unpacked samples => дайКЗС
+ * 8-bit unpacked samples => RGB
  */
 DECLARESepPutFunc(putRGBseparate8bittile)
 {
@@ -1636,7 +1636,7 @@ DECLARESepPutFunc(putRGBseparate8bittile)
 }
 
 /*
- * 8-bit unpacked samples => КЗСА w/ associated alpha
+ * 8-bit unpacked samples => RGBA w/ associated alpha
  */
 DECLARESepPutFunc(putRGBAAseparate8bittile)
 {
@@ -1649,7 +1649,7 @@ DECLARESepPutFunc(putRGBAAseparate8bittile)
 }
 
 /*
- * 8-bit unpacked CMYK samples => КЗСА
+ * 8-bit unpacked CMYK samples => RGBA
  */
 DECLARESepPutFunc(putCMYKseparate8bittile)
 {
@@ -1669,7 +1669,7 @@ DECLARESepPutFunc(putCMYKseparate8bittile)
 }
 
 /*
- * 8-bit unpacked samples => КЗСА w/ unassociated alpha
+ * 8-bit unpacked samples => RGBA w/ unassociated alpha
  */
 DECLARESepPutFunc(putRGBUAseparate8bittile)
 {
@@ -1691,7 +1691,7 @@ DECLARESepPutFunc(putRGBUAseparate8bittile)
 }
 
 /*
- * 16-bit unpacked samples => дайКЗС
+ * 16-bit unpacked samples => RGB
  */
 DECLARESepPutFunc(putRGBseparate16bittile)
 {
@@ -1710,7 +1710,7 @@ DECLARESepPutFunc(putRGBseparate16bittile)
 }
 
 /*
- * 16-bit unpacked samples => КЗСА w/ associated alpha
+ * 16-bit unpacked samples => RGBA w/ associated alpha
  */
 DECLARESepPutFunc(putRGBAAseparate16bittile)
 {
@@ -1731,7 +1731,7 @@ DECLARESepPutFunc(putRGBAAseparate16bittile)
 }
 
 /*
- * 16-bit unpacked samples => КЗСА w/ unassociated alpha
+ * 16-bit unpacked samples => RGBA w/ unassociated alpha
  */
 DECLARESepPutFunc(putRGBUAseparate16bittile)
 {
@@ -1757,7 +1757,7 @@ DECLARESepPutFunc(putRGBUAseparate16bittile)
 }
 
 /*
- * 8-bit packed CIE L*a*b 1976 samples => дайКЗС
+ * 8-bit packed CIE L*a*b 1976 samples => RGB
  */
 DECLAREContigPutFunc(putcontig8bitCIELab)
 {
@@ -1782,7 +1782,7 @@ DECLAREContigPutFunc(putcontig8bitCIELab)
 }
 
 /*
- * YCbCr -> дайКЗС conversion and packing routines.
+ * YCbCr -> RGB conversion and packing routines.
  */
 
 #define	YCbCrtoRGB(dst, Y) {						\
@@ -1792,7 +1792,7 @@ DECLAREContigPutFunc(putcontig8bitCIELab)
 }
 
 /*
- * 8-bit packed YCbCr samples => дайКЗС 
+ * 8-bit packed YCbCr samples => RGB 
  * This function is generic for different sampling sizes, 
  * and can handle blocks sizes that aren't multiples of the
  * sampling size.  However, it is substantially less optimized
@@ -1868,7 +1868,7 @@ static void putcontig8bitYCbCrGenericTile(
 #endif
 
 /*
- * 8-bit packed YCbCr samples w/ 4,4 subsampling => дайКЗС
+ * 8-bit packed YCbCr samples w/ 4,4 subsampling => RGB
  */
 DECLAREContigPutFunc(putcontig8bitYCbCr44tile)
 {
@@ -1974,7 +1974,7 @@ DECLAREContigPutFunc(putcontig8bitYCbCr44tile)
 }
 
 /*
- * 8-bit packed YCbCr samples w/ 4,2 subsampling => дайКЗС
+ * 8-bit packed YCbCr samples w/ 4,2 subsampling => RGB
  */
 DECLAREContigPutFunc(putcontig8bitYCbCr42tile)
 {
@@ -2055,7 +2055,7 @@ DECLAREContigPutFunc(putcontig8bitYCbCr42tile)
 }
 
 /*
- * 8-bit packed YCbCr samples w/ 4,1 subsampling => дайКЗС
+ * 8-bit packed YCbCr samples w/ 4,1 subsampling => RGB
  */
 DECLAREContigPutFunc(putcontig8bitYCbCr41tile)
 {
@@ -2100,7 +2100,7 @@ DECLAREContigPutFunc(putcontig8bitYCbCr41tile)
 }
 
 /*
- * 8-bit packed YCbCr samples w/ 2,2 subsampling => дайКЗС
+ * 8-bit packed YCbCr samples w/ 2,2 subsampling => RGB
  */
 DECLAREContigPutFunc(putcontig8bitYCbCr22tile)
 {
@@ -2158,7 +2158,7 @@ DECLAREContigPutFunc(putcontig8bitYCbCr22tile)
 }
 
 /*
- * 8-bit packed YCbCr samples w/ 2,1 subsampling => дайКЗС
+ * 8-bit packed YCbCr samples w/ 2,1 subsampling => RGB
  */
 DECLAREContigPutFunc(putcontig8bitYCbCr21tile)
 {
@@ -2195,7 +2195,7 @@ DECLAREContigPutFunc(putcontig8bitYCbCr21tile)
 }
 
 /*
- * 8-bit packed YCbCr samples w/ 1,2 subsampling => дайКЗС
+ * 8-bit packed YCbCr samples w/ 1,2 subsampling => RGB
  */
 DECLAREContigPutFunc(putcontig8bitYCbCr12tile)
 {
@@ -2233,7 +2233,7 @@ DECLAREContigPutFunc(putcontig8bitYCbCr12tile)
 }
 
 /*
- * 8-bit packed YCbCr samples w/ no subsampling => дайКЗС
+ * 8-bit packed YCbCr samples w/ no subsampling => RGB
  */
 DECLAREContigPutFunc(putcontig8bitYCbCr11tile)
 {
@@ -2255,13 +2255,13 @@ DECLAREContigPutFunc(putcontig8bitYCbCr11tile)
 }
 
 /*
- * 8-bit packed YCbCr samples w/ no subsampling => дайКЗС
+ * 8-bit packed YCbCr samples w/ no subsampling => RGB
  */
 DECLARESepPutFunc(putseparate8bitYCbCr11tile)
 {
 	(void) y;
 	(void) a;
-	/* TODO: naming of input vars is still off, change obfuscating declaration inside define, or resolve obfuscation */
+	/* СДЕЛАТЬ: naming of input vars is still off, change obfuscating declaration inside define, or resolve obfuscation */
 	for( ; h > 0; --h) {
 		x = w;
 		do {
@@ -2296,7 +2296,7 @@ initYCbCrConversion(TIFFRGBAImage* img)
 		    );
 		if (img->ycbcr == NULL) {
 			TIFFErrorExt(img->tif->tif_clientdata, module,
-			    "No space for YCbCr->дайКЗС conversion state");
+			    "No space for YCbCr->RGB conversion state");
 			return (0);
 		}
 	}
@@ -2313,7 +2313,7 @@ initYCbCrConversion(TIFFRGBAImage* img)
             luma[2] != luma[2] )
         {
             TIFFErrorExt(img->tif->tif_clientdata, module,
-                "Invalid values for YCbCrCoefficients tag");
+                "Неверное values for YCbCrCoefficients tag");
             return (0);
         }
 
@@ -2325,7 +2325,7 @@ initYCbCrConversion(TIFFRGBAImage* img)
             !isInRefBlackWhiteRange(refBlackWhite[5]) )
         {
             TIFFErrorExt(img->tif->tif_clientdata, module,
-                "Invalid values for ReferenceBlackWhite tag");
+                "Неверное values for ReferenceBlackWhite tag");
             return (0);
         }
 
@@ -2345,7 +2345,7 @@ initCIELabConversion(TIFFRGBAImage* img)
 	TIFFGetFieldDefaulted(img->tif, TIFFTAG_WHITEPOINT, &whitePoint);
 	if (whitePoint[1] == 0.0f ) {
 		TIFFErrorExt(img->tif->tif_clientdata, module,
-		    "Invalid значение for WhitePoint tag.");
+		    "Неверное value for WhitePoint tag.");
 		return NULL;
         }
 
@@ -2354,7 +2354,7 @@ initCIELabConversion(TIFFRGBAImage* img)
 			_TIFFmalloc(sizeof(TIFFCIELabToRGB));
 		if (!img->cielab) {
 			TIFFErrorExt(img->tif->tif_clientdata, module,
-			    "No space for CIE L*a*b*->дайКЗС conversion state.");
+			    "No space for CIE L*a*b*->RGB conversion state.");
 			return NULL;
 		}
 	}
@@ -2365,7 +2365,7 @@ initCIELabConversion(TIFFRGBAImage* img)
 		      / whitePoint[1] * refWhite[1];
 	if (TIFFCIELabToRGBInit(img->cielab, &display_sRGB, refWhite) < 0) {
 		TIFFErrorExt(img->tif->tif_clientdata, module,
-		    "Failed to initialize CIE L*a*b*->дайКЗС conversion state.");
+		    "Failed to initialize CIE L*a*b*->RGB conversion state.");
 		_TIFFfree(img->cielab);
 		return NULL;
 	}
@@ -2435,8 +2435,8 @@ makebwmap(TIFFRGBAImage* img)
 }
 
 /*
- * строй a mapping table to convert from the range
- * of the data samples to [0,255] --for дисплей.  This
+ * Construct a mapping table to convert from the range
+ * of the data samples to [0,255] --for display.  This
  * process also handles inverting B&W images when needed.
  */ 
 static int
@@ -2570,7 +2570,7 @@ makecmap(TIFFRGBAImage* img)
 }
 
 /* 
- * строй any mapping table used
+ * Construct any mapping table used
  * by the associated put routine.
  */
 static int
@@ -2590,7 +2590,7 @@ buildMap(TIFFRGBAImage* img)
 	break;
     case PHOTOMETRIC_PALETTE:
 	/*
-	 * Преобр 16-bit colormap to 8-bit (unless it looks
+	 * Convert 16-bit colormap to 8-bit (unless it looks
 	 * like an old-style 8-bit colormap).
 	 */
 	if (checkcmap(img) == 16)
@@ -2609,7 +2609,7 @@ buildMap(TIFFRGBAImage* img)
 }
 
 /*
- * выдели the appropriate conversion routine for packed data.
+ * Select the appropriate conversion routine for packed data.
  */
 static int
 PickContigCase(TIFFRGBAImage* img)
@@ -2761,7 +2761,7 @@ PickContigCase(TIFFRGBAImage* img)
 }
 
 /*
- * выдели the appropriate conversion routine for unpacked data.
+ * Select the appropriate conversion routine for unpacked data.
  *
  * NB: we assume that unpacked single channel data is directed
  *	 to the "packed routines.
@@ -2774,7 +2774,7 @@ PickSeparateCase(TIFFRGBAImage* img)
 	switch (img->photometric) {
 	case PHOTOMETRIC_MINISWHITE:
 	case PHOTOMETRIC_MINISBLACK:
-		/* greyscale images processed pretty much as дайКЗС by gtTileSeparate */
+		/* greyscale images processed pretty much as RGB by gtTileSeparate */
 	case PHOTOMETRIC_RGB:
 		switch (img->bitspersample) {
 		case 8:
@@ -2826,7 +2826,7 @@ PickSeparateCase(TIFFRGBAImage* img)
 				case 0x11:
 					img->put.separate = putseparate8bitYCbCr11tile;
 					break;
-					/* TODO: add other cases here */
+					/* СДЕЛАТЬ: add other cases here */
 				}
 			}
 		}
@@ -2878,7 +2878,7 @@ BuildMapBitdepth16To8(TIFFRGBAImage* img)
 
 
 /*
- * читай a whole strip off data from the file, and convert to КЗСА form.
+ * Read a whole strip off data from the file, and convert to RGBA form.
  * If this is the last strip, then it will only contain the portion of
  * the strip that is actually within the image space.  The result is
  * organized in bottom to top form.
@@ -2938,8 +2938,8 @@ TIFFReadRGBAStripExt(TIFF* tif, uint32 row, uint32 * raster, int stop_on_error)
 }
 
 /*
- * читай a whole tile off data from the file, and convert to КЗСА form.
- * The returned КЗСА data is organized from bottom to top of tile,
+ * Read a whole tile off data from the file, and convert to RGBA form.
+ * The returned RGBA data is organized from bottom to top of tile,
  * and may include zeroed areas if the tile extends off the image.
  */
 
@@ -2984,7 +2984,7 @@ TIFFReadRGBATileExt(TIFF* tif, uint32 col, uint32 row, uint32 * raster, int stop
     }
 
     /*
-     * настрой the КЗСА reader.
+     * Setup the RGBA reader.
      */
     
     if (!TIFFRGBAImageOK(tif, emsg) 
@@ -2996,7 +2996,7 @@ TIFFReadRGBATileExt(TIFF* tif, uint32 col, uint32 row, uint32 * raster, int stop
     /*
      * The TIFFRGBAImageGet() function doesn't allow us to get off the
      * edge of the image, even to fill an otherwise valid tile.  So we
-     * figure out how much we can read, and fix up the tile буфер to
+     * figure out how much we can read, and fix up the tile buffer to
      * a full tile configuration afterwards.
      */
 
@@ -3011,7 +3011,7 @@ TIFFReadRGBATileExt(TIFF* tif, uint32 col, uint32 row, uint32 * raster, int stop
         read_xsize = tile_xsize;
 
     /*
-     * читай the chunk of imagery.
+     * Read the chunk of imagery.
      */
     
     img.row_offset = row;
@@ -3026,7 +3026,7 @@ TIFFReadRGBATileExt(TIFF* tif, uint32 col, uint32 row, uint32 * raster, int stop
      * shifting the data around as if a full tile of data is being returned.
      *
      * This is all the more complicated because the image is organized in
-     * bottom to top формат. 
+     * bottom to top format. 
      */
 
     if( read_xsize == tile_xsize && read_ysize == tile_ysize )
@@ -3054,5 +3054,5 @@ TIFFReadRGBATileExt(TIFF* tif, uint32 col, uint32 row, uint32 * raster, int stop
  * mode: c
  * c-basic-offset: 8
  * fill-column: 78
- * стоп:
+ * End:
  */

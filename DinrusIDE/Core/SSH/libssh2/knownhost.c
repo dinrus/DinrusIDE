@@ -15,7 +15,7 @@
  *   disclaimer in the documentation and/or other materials
  *   provided with the distribution.
  *
- *   Neither the имя of the copyright holder nor the names
+ *   Neither the name of the copyright holder nor the names
  *   of any other contributors may be used to endorse or
  *   promote products derived from this software without
  *   specific prior written permission.
@@ -41,16 +41,16 @@
 
 struct known_host {
     struct list_node node;
-    char *имя;      /* points to the имя or the hash (allocated) */
+    char *name;      /* points to the name or the hash (allocated) */
     size_t name_len; /* needed for hashed data */
-    int port;        /* if non-zero, a specific port this ключ is for on this
+    int port;        /* if non-zero, a specific port this key is for on this
                         host */
     int typemask;    /* plain, sha1, custom, ... */
     char *salt;      /* points to binary salt (allocated) */
     size_t salt_len; /* size of salt */
-    char *ключ;       /* the (allocated) associated ключ. This is kept base64
+    char *key;       /* the (allocated) associated key. This is kept base64
                         encoded in memory. */
-    char *key_type_name; /* the (allocated) ключ тип имя */
+    char *key_type_name; /* the (allocated) key type name */
     size_t key_type_len; /* size of key_type_name */
     char *comment;       /* the (allocated) optional comment text, may be
                             NULL */
@@ -73,12 +73,12 @@ static void free_host(LIBSSH2_SESSION *session, struct known_host *entry)
             LIBSSH2_FREE(session, entry->comment);
         if(entry->key_type_name)
             LIBSSH2_FREE(session, entry->key_type_name);
-        if(entry->ключ)
-            LIBSSH2_FREE(session, entry->ключ);
+        if(entry->key)
+            LIBSSH2_FREE(session, entry->key);
         if(entry->salt)
             LIBSSH2_FREE(session, entry->salt);
-        if(entry->имя)
-            LIBSSH2_FREE(session, entry->имя);
+        if(entry->name)
+            LIBSSH2_FREE(session, entry->name);
         LIBSSH2_FREE(session, entry);
     }
 }
@@ -122,9 +122,9 @@ static struct libssh2_knownhost *knownhost_to_external(struct known_host *node)
 
     ext->magic = KNOWNHOST_MAGIC;
     ext->node = node;
-    ext->имя = ((node->typemask & LIBSSH2_KNOWNHOST_TYPE_MASK) ==
-                 LIBSSH2_KNOWNHOST_TYPE_PLAIN)? node->имя:NULL;
-    ext->ключ = node->ключ;
+    ext->name = ((node->typemask & LIBSSH2_KNOWNHOST_TYPE_MASK) ==
+                 LIBSSH2_KNOWNHOST_TYPE_PLAIN)? node->name:NULL;
+    ext->key = node->key;
     ext->typemask = node->typemask;
 
     return ext;
@@ -134,7 +134,7 @@ static int
 knownhost_add(LIBSSH2_KNOWNHOSTS *hosts,
               const char *host, const char *salt,
               const char *key_type_name, size_t key_type_len,
-              const char *ключ, size_t keylen,
+              const char *key, size_t keylen,
               const char *comment, size_t commentlen,
               int typemask, struct libssh2_knownhost **store)
 {
@@ -144,10 +144,10 @@ knownhost_add(LIBSSH2_KNOWNHOSTS *hosts,
     char *ptr;
     unsigned int ptrlen;
 
-    /* make sure we have a ключ тип set */
+    /* make sure we have a key type set */
     if(!(typemask & LIBSSH2_KNOWNHOST_KEY_MASK))
         return _libssh2_error(hosts->session, LIBSSH2_ERROR_INVAL,
-                              "No ключ тип set");
+                              "No key type set");
 
     entry = LIBSSH2_CALLOC(hosts->session, sizeof(struct known_host));
     if(!entry)
@@ -160,61 +160,61 @@ knownhost_add(LIBSSH2_KNOWNHOSTS *hosts,
     switch(entry->typemask  & LIBSSH2_KNOWNHOST_TYPE_MASK) {
     case LIBSSH2_KNOWNHOST_TYPE_PLAIN:
     case LIBSSH2_KNOWNHOST_TYPE_CUSTOM:
-        entry->имя = LIBSSH2_ALLOC(hosts->session, hostlen + 1);
-        if(!entry->имя) {
+        entry->name = LIBSSH2_ALLOC(hosts->session, hostlen + 1);
+        if(!entry->name) {
             rc = _libssh2_error(hosts->session, LIBSSH2_ERROR_ALLOC,
-                                "Unable to allocate memory for host имя");
-            goto Ошибка;
+                                "Unable to allocate memory for host name");
+            goto error;
         }
-        memcpy(entry->имя, host, hostlen + 1);
+        memcpy(entry->name, host, hostlen + 1);
         entry->name_len = hostlen;
         break;
     case LIBSSH2_KNOWNHOST_TYPE_SHA1:
         rc = libssh2_base64_decode(hosts->session, &ptr, &ptrlen,
                                    host, hostlen);
         if(rc)
-            goto Ошибка;
-        entry->имя = ptr;
+            goto error;
+        entry->name = ptr;
         entry->name_len = ptrlen;
 
         rc = libssh2_base64_decode(hosts->session, &ptr, &ptrlen,
                                    salt, strlen(salt));
         if(rc)
-            goto Ошибка;
+            goto error;
         entry->salt = ptr;
         entry->salt_len = ptrlen;
         break;
     default:
         rc = _libssh2_error(hosts->session, LIBSSH2_ERROR_METHOD_NOT_SUPPORTED,
-                            "Unknown host имя тип");
-        goto Ошибка;
+                            "Unknown host name type");
+        goto error;
     }
 
     if(typemask & LIBSSH2_KNOWNHOST_KEYENC_BASE64) {
-        /* the provided ключ is base64 encoded already */
+        /* the provided key is base64 encoded already */
         if(!keylen)
-            keylen = strlen(ключ);
-        entry->ключ = LIBSSH2_ALLOC(hosts->session, keylen + 1);
-        if(!entry->ключ) {
+            keylen = strlen(key);
+        entry->key = LIBSSH2_ALLOC(hosts->session, keylen + 1);
+        if(!entry->key) {
             rc = _libssh2_error(hosts->session, LIBSSH2_ERROR_ALLOC,
-                                "Unable to allocate memory for ключ");
-            goto Ошибка;
+                                "Unable to allocate memory for key");
+            goto error;
         }
-        memcpy(entry->ключ, ключ, keylen + 1);
-        entry->ключ[keylen] = 0; /* force a terminating zero trailer */
+        memcpy(entry->key, key, keylen + 1);
+        entry->key[keylen] = 0; /* force a terminating zero trailer */
     }
     else {
-        /* ключ is raw, we base64 encode it and store it as such */
-        size_t nlen = _libssh2_base64_encode(hosts->session, ключ, keylen,
+        /* key is raw, we base64 encode it and store it as such */
+        size_t nlen = _libssh2_base64_encode(hosts->session, key, keylen,
                                              &ptr);
         if(!nlen) {
             rc = _libssh2_error(hosts->session, LIBSSH2_ERROR_ALLOC,
                                 "Unable to allocate memory for "
-                                "base64-encoded ключ");
-            goto Ошибка;
+                                "base64-encoded key");
+            goto error;
         }
 
-        entry->ключ = ptr;
+        entry->key = ptr;
     }
 
     if(key_type_name && ((typemask & LIBSSH2_KNOWNHOST_KEY_MASK) ==
@@ -222,8 +222,8 @@ knownhost_add(LIBSSH2_KNOWNHOSTS *hosts,
         entry->key_type_name = LIBSSH2_ALLOC(hosts->session, key_type_len + 1);
         if(!entry->key_type_name) {
             rc = _libssh2_error(hosts->session, LIBSSH2_ERROR_ALLOC,
-                                "Unable to allocate memory for ключ тип");
-            goto Ошибка;
+                                "Unable to allocate memory for key type");
+            goto error;
         }
         memcpy(entry->key_type_name, key_type_name, key_type_len);
         entry->key_type_name[key_type_len] = 0;
@@ -235,7 +235,7 @@ knownhost_add(LIBSSH2_KNOWNHOSTS *hosts,
         if(!entry->comment) {
             rc = _libssh2_error(hosts->session, LIBSSH2_ERROR_ALLOC,
                                 "Unable to allocate memory for comment");
-            goto Ошибка;
+            goto error;
         }
         memcpy(entry->comment, comment, commentlen + 1);
         entry->comment[commentlen] = 0; /* force a terminating zero trailer */
@@ -252,7 +252,7 @@ knownhost_add(LIBSSH2_KNOWNHOSTS *hosts,
         *store = knownhost_to_external(entry);
 
     return LIBSSH2_ERROR_NONE;
-  Ошибка:
+  error:
     free_host(hosts->session, entry);
     return rc;
 }
@@ -260,32 +260,32 @@ knownhost_add(LIBSSH2_KNOWNHOSTS *hosts,
 /*
  * libssh2_knownhost_add
  *
- * добавь a host and its associated ключ to the collection of known hosts.
+ * Add a host and its associated key to the collection of known hosts.
  *
- * The 'тип' argument specifies on what формат the given host and keys are:
+ * The 'type' argument specifies on what format the given host and keys are:
  *
  * plain  - ascii "hostname.domain.tld"
  * sha1   - SHA1(<salt> <host>) base64-encoded!
  * custom - another hash
  *
- * If 'sha1' is selected as тип, the salt must be provided to the salt
+ * If 'sha1' is selected as type, the salt must be provided to the salt
  * argument. This too base64 encoded.
  *
  * The SHA-1 hash is what OpenSSH can be told to use in known_hosts files.  If
- * a custom тип is used, salt is ignored and you must provide the host
+ * a custom type is used, salt is ignored and you must provide the host
  * pre-hashed when checking for it in the libssh2_knownhost_check() function.
  *
- * The keylen parameter may be omitted (zero) if the ключ is provided as a
+ * The keylen parameter may be omitted (zero) if the key is provided as a
  * NULL-terminated base64-encoded string.
  */
 
 LIBSSH2_API int
 libssh2_knownhost_add(LIBSSH2_KNOWNHOSTS *hosts,
                       const char *host, const char *salt,
-                      const char *ключ, size_t keylen,
+                      const char *key, size_t keylen,
                       int typemask, struct libssh2_knownhost **store)
 {
-    return knownhost_add(hosts, host, salt, NULL, 0, ключ, keylen, NULL,
+    return knownhost_add(hosts, host, salt, NULL, 0, key, keylen, NULL,
                          0, typemask, store);
 }
 
@@ -293,47 +293,47 @@ libssh2_knownhost_add(LIBSSH2_KNOWNHOSTS *hosts,
 /*
  * libssh2_knownhost_addc
  *
- * добавь a host and its associated ключ to the collection of known hosts.
+ * Add a host and its associated key to the collection of known hosts.
  *
  * Takes a comment argument that may be NULL.  A NULL comment indicates
- * there is no comment and the entry will end directly after the ключ
+ * there is no comment and the entry will end directly after the key
  * when written out to a file.  An empty string "" comment will indicate an
- * empty comment which will cause a single space to be written after the ключ.
+ * empty comment which will cause a single space to be written after the key.
  *
- * The 'тип' argument specifies on what формат the given host and keys are:
+ * The 'type' argument specifies on what format the given host and keys are:
  *
  * plain  - ascii "hostname.domain.tld"
  * sha1   - SHA1(<salt> <host>) base64-encoded!
  * custom - another hash
  *
- * If 'sha1' is selected as тип, the salt must be provided to the salt
+ * If 'sha1' is selected as type, the salt must be provided to the salt
  * argument. This too base64 encoded.
  *
  * The SHA-1 hash is what OpenSSH can be told to use in known_hosts files.  If
- * a custom тип is used, salt is ignored and you must provide the host
+ * a custom type is used, salt is ignored and you must provide the host
  * pre-hashed when checking for it in the libssh2_knownhost_check() function.
  *
- * The keylen parameter may be omitted (zero) if the ключ is provided as a
+ * The keylen parameter may be omitted (zero) if the key is provided as a
  * NULL-terminated base64-encoded string.
  */
 
 LIBSSH2_API int
 libssh2_knownhost_addc(LIBSSH2_KNOWNHOSTS *hosts,
                        const char *host, const char *salt,
-                       const char *ключ, size_t keylen,
+                       const char *key, size_t keylen,
                        const char *comment, size_t commentlen,
                        int typemask, struct libssh2_knownhost **store)
 {
-    return knownhost_add(hosts, host, salt, NULL, 0, ключ, keylen,
+    return knownhost_add(hosts, host, salt, NULL, 0, key, keylen,
                          comment, commentlen, typemask, store);
 }
 
 /*
  * knownhost_check
  *
- * Check a host and its associated ключ against the collection of known hosts.
+ * Check a host and its associated key against the collection of known hosts.
  *
- * The typemask is the тип/формат of the given host имя and ключ
+ * The typemask is the type/format of the given host name and key
  *
  * plain  - ascii "hostname.domain.tld"
  * sha1   - NOT SUPPORTED AS INPUT
@@ -349,13 +349,13 @@ libssh2_knownhost_addc(LIBSSH2_KNOWNHOSTS *hosts,
 static int
 knownhost_check(LIBSSH2_KNOWNHOSTS *hosts,
                 const char *hostp, int port,
-                const char *ключ, size_t keylen,
+                const char *key, size_t keylen,
                 int typemask,
                 struct libssh2_knownhost **ext)
 {
     struct known_host *node;
     struct known_host *badkey = NULL;
-    int тип = typemask & LIBSSH2_KNOWNHOST_TYPE_MASK;
+    int type = typemask & LIBSSH2_KNOWNHOST_TYPE_MASK;
     char *keyalloc = NULL;
     int rc = LIBSSH2_KNOWNHOST_CHECK_NOTFOUND;
     char hostbuff[270]; /* most host names can't be longer than like 256 */
@@ -363,7 +363,7 @@ knownhost_check(LIBSSH2_KNOWNHOSTS *hosts,
     int numcheck; /* number of host combos to check */
     int match = 0;
 
-    if(тип == LIBSSH2_KNOWNHOST_TYPE_SHA1)
+    if(type == LIBSSH2_KNOWNHOST_TYPE_SHA1)
         /* we can't work with a sha1 as given input */
         return LIBSSH2_KNOWNHOST_CHECK_MISMATCH;
 
@@ -374,7 +374,7 @@ knownhost_check(LIBSSH2_KNOWNHOSTS *hosts,
         if(len < 0 || len >= (int)sizeof(hostbuff)) {
             _libssh2_error(hosts->session,
                            LIBSSH2_ERROR_BUFFER_TOO_SMALL,
-                           "Known-host write буфер too small");
+                           "Known-host write buffer too small");
             return LIBSSH2_KNOWNHOST_CHECK_FAILURE;
         }
         host = hostbuff;
@@ -386,18 +386,18 @@ knownhost_check(LIBSSH2_KNOWNHOSTS *hosts,
     }
 
     if(!(typemask & LIBSSH2_KNOWNHOST_KEYENC_BASE64)) {
-        /* we got a raw ключ input, convert it to base64 for the checks below */
-        size_t nlen = _libssh2_base64_encode(hosts->session, ключ, keylen,
+        /* we got a raw key input, convert it to base64 for the checks below */
+        size_t nlen = _libssh2_base64_encode(hosts->session, key, keylen,
                                              &keyalloc);
         if(!nlen) {
             _libssh2_error(hosts->session, LIBSSH2_ERROR_ALLOC,
                            "Unable to allocate memory for base64-encoded "
-                           "ключ");
+                           "key");
             return LIBSSH2_KNOWNHOST_CHECK_FAILURE;
         }
 
-        /* make the ключ point to this */
-        ключ = keyalloc;
+        /* make the key point to this */
+        key = keyalloc;
     }
 
     do {
@@ -405,15 +405,15 @@ knownhost_check(LIBSSH2_KNOWNHOSTS *hosts,
         while(node) {
             switch(node->typemask & LIBSSH2_KNOWNHOST_TYPE_MASK) {
             case LIBSSH2_KNOWNHOST_TYPE_PLAIN:
-                if(тип == LIBSSH2_KNOWNHOST_TYPE_PLAIN)
-                    match = !strcmp(host, node->имя);
+                if(type == LIBSSH2_KNOWNHOST_TYPE_PLAIN)
+                    match = !strcmp(host, node->name);
                 break;
             case LIBSSH2_KNOWNHOST_TYPE_CUSTOM:
-                if(тип == LIBSSH2_KNOWNHOST_TYPE_CUSTOM)
-                    match = !strcmp(host, node->имя);
+                if(type == LIBSSH2_KNOWNHOST_TYPE_CUSTOM)
+                    match = !strcmp(host, node->name);
                 break;
             case LIBSSH2_KNOWNHOST_TYPE_SHA1:
-                if(тип == LIBSSH2_KNOWNHOST_TYPE_PLAIN) {
+                if(type == LIBSSH2_KNOWNHOST_TYPE_PLAIN) {
                     /* when we have the sha1 version stored, we can use a
                        plain input to produce a hash to compare with the
                        stored hash.
@@ -423,7 +423,7 @@ knownhost_check(LIBSSH2_KNOWNHOSTS *hosts,
                     libssh2_hmac_ctx_init(ctx);
 
                     if(SHA_DIGEST_LENGTH != node->name_len) {
-                        /* the имя hash length must be the sha1 size or
+                        /* the name hash length must be the sha1 size or
                            we can't match it */
                         break;
                     }
@@ -434,28 +434,28 @@ knownhost_check(LIBSSH2_KNOWNHOSTS *hosts,
                     libssh2_hmac_final(ctx, hash);
                     libssh2_hmac_cleanup(&ctx);
 
-                    if(!memcmp(hash, node->имя, SHA_DIGEST_LENGTH))
+                    if(!memcmp(hash, node->name, SHA_DIGEST_LENGTH))
                         /* this is a node we're interested in */
                         match = 1;
                 }
                 break;
-            default: /* unsupported тип */
+            default: /* unsupported type */
                 break;
             }
             if(match) {
                 int host_key_type = typemask & LIBSSH2_KNOWNHOST_KEY_MASK;
                 int known_key_type =
                     node->typemask & LIBSSH2_KNOWNHOST_KEY_MASK;
-                /* match on ключ тип as follows:
-                   - never match on an unknown ключ тип
+                /* match on key type as follows:
+                   - never match on an unknown key type
                    - if key_type is set to zero, ignore it an match always
-                   - otherwise match when both ключ types are equal
+                   - otherwise match when both key types are equal
                 */
                 if(host_key_type != LIBSSH2_KNOWNHOST_KEY_UNKNOWN &&
                      (host_key_type == 0 ||
                       host_key_type == known_key_type)) {
-                    /* host имя and ключ тип match, now compare the keys */
-                    if(!strcmp(ключ, node->ключ)) {
+                    /* host name and key type match, now compare the keys */
+                    if(!strcmp(key, node->key)) {
                         /* they match! */
                         if(ext)
                             *ext = knownhost_to_external(node);
@@ -465,7 +465,7 @@ knownhost_check(LIBSSH2_KNOWNHOSTS *hosts,
                     }
                     else {
                         /* remember the first node that had a host match but a
-                           failed ключ match since we continue our search from
+                           failed key match since we continue our search from
                            here */
                         if(!badkey)
                             badkey = node;
@@ -479,7 +479,7 @@ knownhost_check(LIBSSH2_KNOWNHOSTS *hosts,
     } while(!match && --numcheck);
 
     if(badkey) {
-        /* ключ mismatch */
+        /* key mismatch */
         if(ext)
             *ext = knownhost_to_external(badkey);
         rc = LIBSSH2_KNOWNHOST_CHECK_MISMATCH;
@@ -494,9 +494,9 @@ knownhost_check(LIBSSH2_KNOWNHOSTS *hosts,
 /*
  * libssh2_knownhost_check
  *
- * Check a host and its associated ключ against the collection of known hosts.
+ * Check a host and its associated key against the collection of known hosts.
  *
- * The typemask is the тип/формат of the given host имя and ключ
+ * The typemask is the type/format of the given host name and key
  *
  * plain  - ascii "hostname.domain.tld"
  * sha1   - NOT SUPPORTED AS INPUT
@@ -511,25 +511,25 @@ knownhost_check(LIBSSH2_KNOWNHOSTS *hosts,
  */
 LIBSSH2_API int
 libssh2_knownhost_check(LIBSSH2_KNOWNHOSTS *hosts,
-                        const char *hostp, const char *ключ, size_t keylen,
+                        const char *hostp, const char *key, size_t keylen,
                         int typemask,
                         struct libssh2_knownhost **ext)
 {
-    return knownhost_check(hosts, hostp, -1, ключ, keylen,
+    return knownhost_check(hosts, hostp, -1, key, keylen,
                            typemask, ext);
 }
 
 /*
  * libssh2_knownhost_checkp
  *
- * Check a host+port and its associated ключ against the collection of known
+ * Check a host+port and its associated key against the collection of known
  * hosts.
  *
  * Note that if 'port' is specified as greater than zero, the check function
- * will be able to check for a dedicated ключ for this particular host+port
- * combo, and if 'port' is negative it only checks for the generic host ключ.
+ * will be able to check for a dedicated key for this particular host+port
+ * combo, and if 'port' is negative it only checks for the generic host key.
  *
- * The typemask is the тип/формат of the given host имя and ключ
+ * The typemask is the type/format of the given host name and key
  *
  * plain  - ascii "hostname.domain.tld"
  * sha1   - NOT SUPPORTED AS INPUT
@@ -545,11 +545,11 @@ libssh2_knownhost_check(LIBSSH2_KNOWNHOSTS *hosts,
 LIBSSH2_API int
 libssh2_knownhost_checkp(LIBSSH2_KNOWNHOSTS *hosts,
                          const char *hostp, int port,
-                         const char *ключ, size_t keylen,
+                         const char *key, size_t keylen,
                          int typemask,
                          struct libssh2_knownhost **ext)
 {
-    return knownhost_check(hosts, hostp, port, ключ, keylen,
+    return knownhost_check(hosts, hostp, port, key, keylen,
                            typemask, ext);
 }
 
@@ -569,7 +569,7 @@ libssh2_knownhost_del(LIBSSH2_KNOWNHOSTS *hosts,
     /* check that this was retrieved the right way or get out */
     if(!entry || (entry->magic != KNOWNHOST_MAGIC))
         return _libssh2_error(hosts->session, LIBSSH2_ERROR_INVAL,
-                              "Invalid host information");
+                              "Неверное host information");
 
     /* get the internal node pointer */
     node = entry->node;
@@ -590,7 +590,7 @@ libssh2_knownhost_del(LIBSSH2_KNOWNHOSTS *hosts,
 /*
  * libssh2_knownhost_free
  *
- * освободи an entire collection of known hosts.
+ * Free an entire collection of known hosts.
  *
  */
 LIBSSH2_API void
@@ -607,20 +607,20 @@ libssh2_knownhost_free(LIBSSH2_KNOWNHOSTS *hosts)
 }
 
 
-/* old style plain text: [имя]([,][имя])*
+/* old style plain text: [name]([,][name])*
 
    for the sake of simplicity, we add them as separate hosts with the same
-   ключ
+   key
 */
 static int oldstyle_hostline(LIBSSH2_KNOWNHOSTS *hosts,
                              const char *host, size_t hostlen,
                              const char *key_type_name, size_t key_type_len,
-                             const char *ключ, size_t keylen, int key_type,
+                             const char *key, size_t keylen, int key_type,
                              const char *comment, size_t commentlen)
 {
     int rc = 0;
     size_t namelen = 0;
-    const char *имя = host + hostlen;
+    const char *name = host + hostlen;
 
     if(hostlen < 1)
         return _libssh2_error(hosts->session,
@@ -628,39 +628,39 @@ static int oldstyle_hostline(LIBSSH2_KNOWNHOSTS *hosts,
                               "Failed to parse known_hosts line "
                               "(no host names)");
 
-    while(имя > host) {
-        --имя;
+    while(name > host) {
+        --name;
         ++namelen;
 
         /* when we get the the start or see a comma coming up, add the host
-           имя to the collection */
-        if((имя == host) || (*(имя-1) == ',')) {
+           name to the collection */
+        if((name == host) || (*(name-1) == ',')) {
 
             char hostbuf[256];
 
-            /* make sure we don't overflow the буфер */
+            /* make sure we don't overflow the buffer */
             if(namelen >= sizeof(hostbuf)-1)
                 return _libssh2_error(hosts->session,
                                       LIBSSH2_ERROR_METHOD_NOT_SUPPORTED,
                                       "Failed to parse known_hosts line "
                                       "(unexpected length)");
 
-            /* copy host имя to the temp буфер and zero terminate */
-            memcpy(hostbuf, имя, namelen);
+            /* copy host name to the temp buffer and zero terminate */
+            memcpy(hostbuf, name, namelen);
             hostbuf[namelen] = 0;
 
             rc = knownhost_add(hosts, hostbuf, NULL,
                                key_type_name, key_type_len,
-                               ключ, keylen,
+                               key, keylen,
                                comment, commentlen,
                                key_type | LIBSSH2_KNOWNHOST_TYPE_PLAIN |
                                LIBSSH2_KNOWNHOST_KEYENC_BASE64, NULL);
             if(rc)
                 return rc;
 
-            if(имя > host) {
+            if(name > host) {
                 namelen = 0;
-                --имя; /* skip comma */
+                --name; /* skip comma */
             }
         }
     }
@@ -672,7 +672,7 @@ static int oldstyle_hostline(LIBSSH2_KNOWNHOSTS *hosts,
 static int hashed_hostline(LIBSSH2_KNOWNHOSTS *hosts,
                            const char *host, size_t hostlen,
                            const char *key_type_name, size_t key_type_len,
-                           const char *ключ, size_t keylen, int key_type,
+                           const char *key, size_t keylen, int key_type,
                            const char *comment, size_t commentlen)
 {
     const char *p;
@@ -697,7 +697,7 @@ static int hashed_hostline(LIBSSH2_KNOWNHOSTS *hosts,
 
         memcpy(saltbuf, salt, saltlen);
         saltbuf[saltlen] = 0; /* zero terminate */
-        salt = saltbuf; /* point to the stack based буфер */
+        salt = saltbuf; /* point to the stack based buffer */
 
         hash = p + 1; /* the host hash is after the separator */
 
@@ -717,28 +717,28 @@ static int hashed_hostline(LIBSSH2_KNOWNHOSTS *hosts,
 
         return knownhost_add(hosts, hostbuf, salt,
                              key_type_name, key_type_len,
-                             ключ, keylen,
+                             key, keylen,
                              comment, commentlen,
                              key_type | LIBSSH2_KNOWNHOST_TYPE_SHA1 |
                              LIBSSH2_KNOWNHOST_KEYENC_BASE64, NULL);
     }
     else
-        return 0; /* XXX: This should be an Ошибка, shouldn't it? */
+        return 0; /* XXX: This should be an error, shouldn't it? */
 }
 
 /*
  * hostline()
  *
- * Parse a single known_host line pre-split into host and ключ.
+ * Parse a single known_host line pre-split into host and key.
  *
- * The ключ part may include an optional comment which will be parsed here
- * for ssh-rsa and ssh-dsa keys.  Comments in other ключ types aren't handled.
+ * The key part may include an optional comment which will be parsed here
+ * for ssh-rsa and ssh-dsa keys.  Comments in other key types aren't handled.
  *
  * The function assumes new-lines have already been removed from the arguments.
  */
 static int hostline(LIBSSH2_KNOWNHOSTS *hosts,
                     const char *host, size_t hostlen,
-                    const char *ключ, size_t keylen)
+                    const char *key, size_t keylen)
 {
     const char *comment = NULL;
     const char *key_type_name = NULL;
@@ -751,9 +751,9 @@ static int hostline(LIBSSH2_KNOWNHOSTS *hosts,
         return _libssh2_error(hosts->session,
                               LIBSSH2_ERROR_METHOD_NOT_SUPPORTED,
                               "Failed to parse known_hosts line "
-                              "(ключ too short)");
+                              "(key too short)");
 
-    switch(ключ[0]) {
+    switch(key[0]) {
     case '0': case '1': case '2': case '3': case '4':
     case '5': case '6': case '7': case '8': case '9':
         key_type = LIBSSH2_KNOWNHOST_KEY_RSA1;
@@ -766,13 +766,13 @@ static int hostline(LIBSSH2_KNOWNHOSTS *hosts,
         break;
 
     default:
-        key_type_name = ключ;
-        while(keylen && *ключ &&
-               (*ключ != ' ') && (*ключ != '\t')) {
-            ключ++;
+        key_type_name = key;
+        while(keylen && *key &&
+               (*key != ' ') && (*key != '\t')) {
+            key++;
             keylen--;
         }
-        key_type_len = ключ - key_type_name;
+        key_type_len = key - key_type_name;
 
         if(!strncmp(key_type_name, "ssh-dss", key_type_len))
             key_type = LIBSSH2_KNOWNHOST_KEY_SSHDSS;
@@ -790,22 +790,22 @@ static int hostline(LIBSSH2_KNOWNHOSTS *hosts,
             key_type = LIBSSH2_KNOWNHOST_KEY_UNKNOWN;
 
         /* skip whitespaces */
-        while((*ключ ==' ') || (*ключ == '\t')) {
-            ключ++;
+        while((*key ==' ') || (*key == '\t')) {
+            key++;
             keylen--;
         }
 
-        comment = ключ;
+        comment = key;
         commentlen = keylen;
 
-        /* move over ключ */
+        /* move over key */
         while(commentlen && *comment &&
               (*comment != ' ') && (*comment != '\t')) {
             comment++;
             commentlen--;
         }
 
-        /* reduce ключ by comment length */
+        /* reduce key by comment length */
         keylen -= commentlen;
 
         /* Distinguish empty comment (a space) from no comment (no space) */
@@ -821,21 +821,21 @@ static int hostline(LIBSSH2_KNOWNHOSTS *hosts,
         break;
     }
 
-    /* Figure out host формат */
+    /* Figure out host format */
     if((hostlen >2) && memcmp(host, "|1|", 3)) {
-        /* old style plain text: [имя]([,][имя])*
+        /* old style plain text: [name]([,][name])*
 
            for the sake of simplicity, we add them as separate hosts with the
-           same ключ
+           same key
         */
         return oldstyle_hostline(hosts, host, hostlen, key_type_name,
-                                 key_type_len, ключ, keylen, key_type,
+                                 key_type_len, key, keylen, key_type,
                                  comment, commentlen);
     }
     else {
         /* |1|[salt]|[hash] */
         return hashed_hostline(hosts, host, hostlen, key_type_name,
-                               key_type_len, ключ, keylen, key_type,
+                               key_type_len, key, keylen, key_type,
                                comment, commentlen);
     }
 }
@@ -843,34 +843,34 @@ static int hostline(LIBSSH2_KNOWNHOSTS *hosts,
 /*
  * libssh2_knownhost_readline()
  *
- * Pass in a line of a file of 'тип'.
+ * Pass in a line of a file of 'type'.
  *
- * LIBSSH2_KNOWNHOST_FILE_OPENSSH is the only supported тип.
+ * LIBSSH2_KNOWNHOST_FILE_OPENSSH is the only supported type.
  *
- * OpenSSH line формат:
+ * OpenSSH line format:
  *
- * <host> <ключ>
+ * <host> <key>
  *
  * Where the two parts can be created like:
  *
  * <host> can be either
- * <имя> or <hash>
+ * <name> or <hash>
  *
- * <имя> consists of
- * [имя] optionally followed by [,имя] one or more times
+ * <name> consists of
+ * [name] optionally followed by [,name] one or more times
  *
  * <hash> consists of
  * |1|<salt>|hash
  *
- * <ключ> can be one of:
+ * <key> can be one of:
  * [RSA bits] [e] [n as a decimal number]
- * 'ssh-dss' [base64-encoded-ключ]
- * 'ssh-rsa' [base64-encoded-ключ]
+ * 'ssh-dss' [base64-encoded-key]
+ * 'ssh-rsa' [base64-encoded-key]
  *
  */
 LIBSSH2_API int
 libssh2_knownhost_readline(LIBSSH2_KNOWNHOSTS *hosts,
-                           const char *line, size_t len, int тип)
+                           const char *line, size_t len, int type)
 {
     const char *cp;
     const char *hostp;
@@ -879,10 +879,10 @@ libssh2_knownhost_readline(LIBSSH2_KNOWNHOSTS *hosts,
     size_t keylen;
     int rc;
 
-    if(тип != LIBSSH2_KNOWNHOST_FILE_OPENSSH)
+    if(type != LIBSSH2_KNOWNHOST_FILE_OPENSSH)
         return _libssh2_error(hosts->session,
                               LIBSSH2_ERROR_METHOD_NOT_SUPPORTED,
-                              "Unsupported тип of known-host information "
+                              "Unsupported type of known-host information "
                               "store");
 
     cp = line;
@@ -908,7 +908,7 @@ libssh2_knownhost_readline(LIBSSH2_KNOWNHOSTS *hosts,
 
     hostlen = cp - hostp;
 
-    /* the ключ starts after the whitespaces */
+    /* the key starts after the whitespaces */
     while(len && *cp && ((*cp == ' ') || (*cp == '\t'))) {
         cp++;
         len--;
@@ -919,10 +919,10 @@ libssh2_knownhost_readline(LIBSSH2_KNOWNHOSTS *hosts,
                               LIBSSH2_ERROR_METHOD_NOT_SUPPORTED,
                               "Failed to parse known_hosts line");
 
-    keyp = cp; /* the ключ starts here */
+    keyp = cp; /* the key starts here */
     keylen = len;
 
-    /* check if the line (ключ) ends with a newline and if so kill it */
+    /* check if the line (key) ends with a newline and if so kill it */
     while(len && *cp && (*cp != '\n')) {
         cp++;
         len--;
@@ -932,7 +932,7 @@ libssh2_knownhost_readline(LIBSSH2_KNOWNHOSTS *hosts,
     if(*cp == '\n')
         keylen--; /* don't include this in the count */
 
-    /* deal with this one host+ключ line */
+    /* deal with this one host+key line */
     rc = hostline(hosts, hostp, hostlen, keyp, keylen);
     if(rc)
         return rc; /* failed */
@@ -943,30 +943,30 @@ libssh2_knownhost_readline(LIBSSH2_KNOWNHOSTS *hosts,
 /*
  * libssh2_knownhost_readfile
  *
- * читай hosts+ключ pairs from a given file.
+ * Read hosts+key pairs from a given file.
  *
- * Returns a negative значение for Ошибка or number of successfully added hosts.
+ * Returns a negative value for error or number of successfully added hosts.
  *
  */
 
 LIBSSH2_API int
 libssh2_knownhost_readfile(LIBSSH2_KNOWNHOSTS *hosts,
-                           const char *filename, int тип)
+                           const char *filename, int type)
 {
     FILE *file;
     int num = 0;
     char buf[4092];
 
-    if(тип != LIBSSH2_KNOWNHOST_FILE_OPENSSH)
+    if(type != LIBSSH2_KNOWNHOST_FILE_OPENSSH)
         return _libssh2_error(hosts->session,
                               LIBSSH2_ERROR_METHOD_NOT_SUPPORTED,
-                              "Unsupported тип of known-host information "
+                              "Unsupported type of known-host information "
                               "store");
 
     file = fopen(filename, FOPEN_READTEXT);
     if(file) {
         while(fgets(buf, sizeof(buf), file)) {
-            if(libssh2_knownhost_readline(hosts, buf, strlen(buf), тип)) {
+            if(libssh2_knownhost_readline(hosts, buf, strlen(buf), type)) {
                 num = _libssh2_error(hosts->session, LIBSSH2_ERROR_KNOWN_HOSTS,
                                      "Failed to parse known hosts file");
                 break;
@@ -988,28 +988,28 @@ libssh2_knownhost_readfile(LIBSSH2_KNOWNHOSTS *hosts,
  * Ask libssh2 to convert a known host to an output line for storage.
  *
  * Note that this function returns LIBSSH2_ERROR_BUFFER_TOO_SMALL if the given
- * output буфер is too small to hold the desired output. The 'outlen' field
+ * output buffer is too small to hold the desired output. The 'outlen' field
  * will then contain the size libssh2 wanted to store, which then is the
- * smallest sufficient буфер it would require.
+ * smallest sufficient buffer it would require.
  *
  */
 static int
 knownhost_writeline(LIBSSH2_KNOWNHOSTS *hosts,
                     struct known_host *node,
                     char *buf, size_t buflen,
-                    size_t *outlen, int тип)
+                    size_t *outlen, int type)
 {
     size_t required_size;
 
     const char *key_type_name;
     size_t key_type_len;
 
-    /* we only support this single file тип for now, bail out on all other
+    /* we only support this single file type for now, bail out on all other
        attempts */
-    if(тип != LIBSSH2_KNOWNHOST_FILE_OPENSSH)
+    if(type != LIBSSH2_KNOWNHOST_FILE_OPENSSH)
         return _libssh2_error(hosts->session,
                               LIBSSH2_ERROR_METHOD_NOT_SUPPORTED,
-                              "Unsupported тип of known-host information "
+                              "Unsupported type of known-host information "
                               "store");
 
     switch(node->typemask & LIBSSH2_KNOWNHOST_KEY_MASK) {
@@ -1047,35 +1047,35 @@ knownhost_writeline(LIBSSH2_KNOWNHOSTS *hosts,
             key_type_len = node->key_type_len;
             break;
         }
-        /* otherwise fallback to default and Ошибка */
+        /* otherwise fallback to default and error */
         /* FALL-THROUGH */
     default:
         return _libssh2_error(hosts->session,
                               LIBSSH2_ERROR_METHOD_NOT_SUPPORTED,
-                              "Unsupported тип of known-host entry");
+                              "Unsupported type of known-host entry");
     }
 
     /* When putting together the host line there are three aspects to consider:
        - Hashed (SHA1) or unhashed hostname
-       - ключ имя or no ключ имя (RSA1)
+       - key name or no key name (RSA1)
        - comment or no comment
 
        This means there are 2^3 different formats:
-       ("|1|%s|%s %s %s %s\n", salt, hashed_host, key_name, ключ, comment)
-       ("|1|%s|%s %s %s\n", salt, hashed_host, key_name, ключ)
-       ("|1|%s|%s %s %s\n", salt, hashed_host, ключ, comment)
-       ("|1|%s|%s %s\n", salt, hashed_host, ключ)
-       ("%s %s %s %s\n", host, key_name, ключ, comment)
-       ("%s %s %s\n", host, key_name, ключ)
-       ("%s %s %s\n", host, ключ, comment)
-       ("%s %s\n", host, ключ)
+       ("|1|%s|%s %s %s %s\n", salt, hashed_host, key_name, key, comment)
+       ("|1|%s|%s %s %s\n", salt, hashed_host, key_name, key)
+       ("|1|%s|%s %s %s\n", salt, hashed_host, key, comment)
+       ("|1|%s|%s %s\n", salt, hashed_host, key)
+       ("%s %s %s %s\n", host, key_name, key, comment)
+       ("%s %s %s\n", host, key_name, key)
+       ("%s %s %s\n", host, key, comment)
+       ("%s %s\n", host, key)
 
-       Even if the буфер is too small, we have to set outlen to the number of
+       Even if the buffer is too small, we have to set outlen to the number of
        characters the complete line would have taken.  We also don't write
-       anything to the буфер unless we are sure we can write everything to the
-       буфер. */
+       anything to the buffer unless we are sure we can write everything to the
+       buffer. */
 
-    required_size = strlen(node->ключ);
+    required_size = strlen(node->key);
 
     if(key_type_len)
         required_size += key_type_len + 1; /* ' ' = 1 */
@@ -1089,12 +1089,12 @@ knownhost_writeline(LIBSSH2_KNOWNHOSTS *hosts,
         char *saltalloc;
         size_t salt_base64_len;
 
-        name_base64_len = _libssh2_base64_encode(hosts->session, node->имя,
+        name_base64_len = _libssh2_base64_encode(hosts->session, node->name,
                                                  node->name_len, &namealloc);
         if(!name_base64_len)
             return _libssh2_error(hosts->session, LIBSSH2_ERROR_ALLOC,
                                   "Unable to allocate memory for "
-                                  "base64-encoded host имя");
+                                  "base64-encoded host name");
 
         salt_base64_len = _libssh2_base64_encode(hosts->session,
                                                  node->salt, node->salt_len,
@@ -1112,16 +1112,16 @@ knownhost_writeline(LIBSSH2_KNOWNHOSTS *hosts,
         if(required_size <= buflen) {
             if(node->comment && key_type_len)
                 snprintf(buf, buflen, "|1|%s|%s %s %s %s\n", saltalloc,
-                         namealloc, key_type_name, node->ключ, node->comment);
+                         namealloc, key_type_name, node->key, node->comment);
             else if(node->comment)
                 snprintf(buf, buflen, "|1|%s|%s %s %s\n", saltalloc, namealloc,
-                         node->ключ, node->comment);
+                         node->key, node->comment);
             else if(key_type_len)
                 snprintf(buf, buflen, "|1|%s|%s %s %s\n", saltalloc, namealloc,
-                         key_type_name, node->ключ);
+                         key_type_name, node->key);
             else
                 snprintf(buf, buflen, "|1|%s|%s %s\n", saltalloc, namealloc,
-                         node->ключ);
+                         node->key);
         }
 
         LIBSSH2_FREE(hosts->session, namealloc);
@@ -1133,16 +1133,16 @@ knownhost_writeline(LIBSSH2_KNOWNHOSTS *hosts,
 
         if(required_size <= buflen) {
             if(node->comment && key_type_len)
-                snprintf(buf, buflen, "%s %s %s %s\n", node->имя,
-                         key_type_name, node->ключ, node->comment);
+                snprintf(buf, buflen, "%s %s %s %s\n", node->name,
+                         key_type_name, node->key, node->comment);
             else if(node->comment)
-                snprintf(buf, buflen, "%s %s %s\n", node->имя, node->ключ,
+                snprintf(buf, buflen, "%s %s %s\n", node->name, node->key,
                          node->comment);
             else if(key_type_len)
-                snprintf(buf, buflen, "%s %s %s\n", node->имя, key_type_name,
-                         node->ключ);
+                snprintf(buf, buflen, "%s %s %s\n", node->name, key_type_name,
+                         node->key);
             else
-                snprintf(buf, buflen, "%s %s\n", node->имя, node->ключ);
+                snprintf(buf, buflen, "%s %s\n", node->name, node->key);
         }
     }
 
@@ -1153,7 +1153,7 @@ knownhost_writeline(LIBSSH2_KNOWNHOSTS *hosts,
         return LIBSSH2_ERROR_NONE;
     else
         return _libssh2_error(hosts->session, LIBSSH2_ERROR_BUFFER_TOO_SMALL,
-                              "Known-host write буфер too small");
+                              "Known-host write buffer too small");
 }
 
 /*
@@ -1162,46 +1162,46 @@ knownhost_writeline(LIBSSH2_KNOWNHOSTS *hosts,
  * Ask libssh2 to convert a known host to an output line for storage.
  *
  * Note that this function returns LIBSSH2_ERROR_BUFFER_TOO_SMALL if the given
- * output буфер is too small to hold the desired output.
+ * output buffer is too small to hold the desired output.
  */
 LIBSSH2_API int
 libssh2_knownhost_writeline(LIBSSH2_KNOWNHOSTS *hosts,
                             struct libssh2_knownhost *known,
-                            char *буфер, size_t buflen,
+                            char *buffer, size_t buflen,
                             size_t *outlen, /* the amount of written data */
-                            int тип)
+                            int type)
 {
     struct known_host *node;
 
     if(known->magic != KNOWNHOST_MAGIC)
         return _libssh2_error(hosts->session, LIBSSH2_ERROR_INVAL,
-                              "Invalid host information");
+                              "Неверное host information");
 
     node = known->node;
 
-    return knownhost_writeline(hosts, node, буфер, buflen, outlen, тип);
+    return knownhost_writeline(hosts, node, buffer, buflen, outlen, type);
 }
 
 /*
  * libssh2_knownhost_writefile()
  *
- * пиши hosts+ключ pairs to the given file.
+ * Write hosts+key pairs to the given file.
  */
 LIBSSH2_API int
 libssh2_knownhost_writefile(LIBSSH2_KNOWNHOSTS *hosts,
-                            const char *filename, int тип)
+                            const char *filename, int type)
 {
     struct known_host *node;
     FILE *file;
     int rc = LIBSSH2_ERROR_NONE;
-    char буфер[4092];
+    char buffer[4092];
 
-    /* we only support this single file тип for now, bail out on all other
+    /* we only support this single file type for now, bail out on all other
        attempts */
-    if(тип != LIBSSH2_KNOWNHOST_FILE_OPENSSH)
+    if(type != LIBSSH2_KNOWNHOST_FILE_OPENSSH)
         return _libssh2_error(hosts->session,
                               LIBSSH2_ERROR_METHOD_NOT_SUPPORTED,
-                              "Unsupported тип of known-host information "
+                              "Unsupported type of known-host information "
                               "store");
 
     file = fopen(filename, FOPEN_WRITETEXT);
@@ -1214,16 +1214,16 @@ libssh2_knownhost_writefile(LIBSSH2_KNOWNHOSTS *hosts,
         node = _libssh2_list_next(&node->node)) {
         size_t wrote = 0;
         size_t nwrote;
-        rc = knownhost_writeline(hosts, node, буфер, sizeof(буфер), &wrote,
-                                 тип);
+        rc = knownhost_writeline(hosts, node, buffer, sizeof(buffer), &wrote,
+                                 type);
         if(rc)
             break;
 
-        nwrote = fwrite(буфер, 1, wrote, file);
+        nwrote = fwrite(buffer, 1, wrote, file);
         if(nwrote != wrote) {
             /* failed to write the whole thing, bail out */
             rc = _libssh2_error(hosts->session, LIBSSH2_ERROR_FILE,
-                                "пиши failed");
+                                "Write failed");
             break;
         }
     }

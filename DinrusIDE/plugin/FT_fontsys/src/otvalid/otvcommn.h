@@ -98,7 +98,7 @@ FT_BEGIN_HEADER
                                                                     \
                                                                     \
                 FT_TRACE3(( "\n"                                    \
-                            "Invalid offset to optional table `%s'" \
+                            "Неверное offset to optional table `%s'" \
                             " set to zero.\n"                       \
                             "\n", #_size ));                        \
                                                                     \
@@ -154,11 +154,11 @@ FT_BEGIN_HEADER
                         valid->debug_function_name[valid->nesting_level] )); \
           FT_END_STMNT
 
-#define OTV_NAME_ENTER( имя )                             \
+#define OTV_NAME_ENTER( name )                             \
           FT_BEGIN_STMNT                                   \
             valid->debug_indent += 2;                      \
             FT_TRACE4(( "%*.s", valid->debug_indent, 0 )); \
-            FT_TRACE4(( "%s table\n", имя ));             \
+            FT_TRACE4(( "%s table\n", name ));             \
           FT_END_STMNT
 
 #define OTV_EXIT  valid->debug_indent -= 2
@@ -194,7 +194,7 @@ FT_BEGIN_HEADER
 
 #define OTV_INIT                do { } while ( 0 )
 #define OTV_ENTER               do { } while ( 0 )
-#define OTV_NAME_ENTER( имя )  do { } while ( 0 )
+#define OTV_NAME_ENTER( name )  do { } while ( 0 )
 #define OTV_EXIT                do { } while ( 0 )
 
 #define OTV_TRACE( s )          do { } while ( 0 )

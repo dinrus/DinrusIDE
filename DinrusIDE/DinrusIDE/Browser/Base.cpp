@@ -20,13 +20,13 @@
 
 #define CPP_CODEBASE_VERSION 3141592
 
-static СтатическийСтопор sGLock;
+static StaticMutex sGLock;
 static thread_local int sGLockLevel = 0;
 
 bool DeadLockCheck()
 {
 	if(sGLockLevel) {
-		постОбрвыз([] {
+		PostCallback([] {
 			Exclamation("Внутренняя ошибка (deadlock на sGLock)");
 		});
 		return true;
@@ -37,12 +37,12 @@ bool DeadLockCheck()
 void LockCodeBase()
 {
 	if(sGLockLevel++ == 0)
-		sGLock.войди();
+		sGLock.Enter();
 }
 
 bool TryLockCodeBase()
 {
-	if(sGLockLevel == 0 && sGLock.пробуйВойти()) {
+	if(sGLockLevel == 0 && sGLock.TryEnter()) {
 		sGLockLevel++;
 		return true;
 	}
@@ -52,17 +52,17 @@ bool TryLockCodeBase()
 void UnlockCodeBase()
 {
 	if(sGLockLevel > 0 && --sGLockLevel == 0)
-		sGLock.выйди();
+		sGLock.Leave();
 }
 
 void UnlockCodeBaseAll()
 {
 	if(sGLockLevel > 0)
-		sGLock.выйди();
+		sGLock.Leave();
 	sGLockLevel = 0; // just in case
 }
 
-ИНИЦИАЛИЗАТОР(CodeBase)
+INITIALIZER(CodeBase)
 {
 	void InitializeTopicModule();
 	InitializeTopicModule();
@@ -74,31 +74,31 @@ CppBase& CodeBase()
 	return b;
 }
 
-static Стопор CppBaseMutex; // this is to enforce "one thread rule" for CppBase functions
+static Mutex CppBaseMutex; // this is to enforce "one thread rule" for CppBase functions
 
-МассивМап<Ткст, SourceFileInfo> source_file;
+ArrayMap<String, SourceFileInfo> source_file;
 
-void SourceFileInfo::сериализуй(Поток& s)
+void SourceFileInfo::Serialize(Stream& s)
 {
 	s % time % dependencies_md5sum % md5sum;
-	if(s.грузится()) {
-		depends.очисть();
+	if(s.IsLoading()) {
+		depends.Clear();
 		depends_time = Null;
 	}
 }
 
-Ткст CodeBaseCacheDir()
+String CodeBaseCacheDir()
 {
-#ifdef _ОТЛАДКА
-	return конфигФайл("cfg/debug_codebase");
+#ifdef _DEBUG
+	return ConfigFile("cfg/debug_codebase");
 #else
-	return конфигФайл("cfg/codebase");
+	return ConfigFile("cfg/codebase");
 #endif
 }
 
 struct RCB_FileInfo {
-	Ткст path;
-	Время   time;
+	String path;
+	Time   time;
 	int64  length;
 	
 	bool operator<(const RCB_FileInfo& a) const { return time > a.time; }
@@ -106,24 +106,24 @@ struct RCB_FileInfo {
 
 void ReduceCacheFolder(const char *path, int max_total)
 {
-	Массив<RCB_FileInfo> file;
-	ФайлПоиск ff(приставьИмяф(path, "*.*"));
+	Array<RCB_FileInfo> file;
+	FindFile ff(AppendFileName(path, "*.*"));
 	int64 total = 0;
 	while(ff) {
-		if(ff.файл_ли()) {
-			RCB_FileInfo& m = file.добавь();
-			m.path = ff.дайПуть();
-			m.time = ff.дайВремяПоследнДоступа();
-			m.length = ff.дайДлину();
+		if(ff.IsFile()) {
+			RCB_FileInfo& m = file.Add();
+			m.path = ff.GetPath();
+			m.time = ff.GetLastAccessTime();
+			m.length = ff.GetLength();
 			total += m.length;
 		}
-		ff.следщ();
+		ff.Next();
 	}
-	сортируй(file);
-	while(total > max_total && file.дайСчёт()) {
-		DeleteFile(file.верх().path);
-		total -= file.верх().length;
-		file.сбрось();
+	Sort(file);
+	while(total > max_total && file.GetCount()) {
+		DeleteFile(file.Top().path);
+		total -= file.Top().length;
+		file.Drop();
 	}
 }
 
@@ -132,67 +132,67 @@ void ReduceCodeBaseCache()
 	ReduceCacheFolder(CodeBaseCacheDir(), 256000000);
 }
 
-Ткст CodeBaseCacheFile()
+String CodeBaseCacheFile()
 {
-	return приставьИмяф(CodeBaseCacheDir(), GetAssemblyId() + '.' + IdeGetCurrentMainPackage() + '.' + IdeGetCurrentBuildMethod() + ".codebase");
+	return AppendFileName(CodeBaseCacheDir(), GetAssemblyId() + '.' + IdeGetCurrentMainPackage() + '.' + IdeGetCurrentBuildMethod() + ".codebase");
 }
 
 static bool   s_console;
 
-void BrowserScanError(int line, const Ткст& text, int file)
+void BrowserScanError(int line, const String& text, int file)
 {
 	if(s_console)
-		постОбрвыз([=] { IdePutErrorLine(Ткст().конкат() << source_file.дайКлюч(file) << " (" << line << "): " << text); });
+		PostCallback([=] { IdePutErrorLine(String().Cat() << source_file.GetKey(file) << " (" << line << "): " << text); });
 }
 
-void SerializeCodeBase(Поток& s)
+void SerializeCodeBase(Stream& s)
 {
 	if(DeadLockCheck()) return;
-	Стопор::Замок __(CppBaseMutex);
-	MLOG(s.грузится());
-	source_file.сериализуй(s);
+	Mutex::Lock __(CppBaseMutex);
+	MLOG(s.IsLoading());
+	source_file.Serialize(s);
 	MLOG("source_file " << MemoryUsedKb());
 	SerializePPFiles(s);
 	MLOG("PP files " << MemoryUsedKb());
-	CodeBase().сериализуй(s);
+	CodeBase().Serialize(s);
 	MLOG("codebase " << MemoryUsedKb());
 }
 
 void SaveCodeBase()
 {
 	if(DeadLockCheck()) return;
-	Стопор::Замок __(CppBaseMutex);
+	Mutex::Lock __(CppBaseMutex);
 	LTIMING("SaveCodeBase");
-	LLOG("сохрани code base " << CodeBase().дайСчёт());
-	реализуйДир(CodeBaseCacheDir());
-	ТкстПоток ss;
-	сохрани(callback(SerializeCodeBase), ss, CPP_CODEBASE_VERSION);
-	Ткст data = ss.дайРез();
-	Ткст path = CodeBaseCacheFile();
-	сохраниФайл(path, LZ4Compress(data));
+	LLOG("Save code base " << CodeBase().GetCount());
+	RealizeDirectory(CodeBaseCacheDir());
+	StringStream ss;
+	Store(callback(SerializeCodeBase), ss, CPP_CODEBASE_VERSION);
+	String data = ss.GetResult();
+	String path = CodeBaseCacheFile();
+	SaveFile(path, LZ4Compress(data));
 }
 
 bool TryLoadCodeBase(const char *pattern)
 {
 	if(DeadLockCheck()) return false;
-	Стопор::Замок __(CppBaseMutex);
+	Mutex::Lock __(CppBaseMutex);
 	LLOG("+++ Trying to load " << pattern);
-	ФайлПоиск ff(pattern);
-	Ткст path;
+	FindFile ff(pattern);
+	String path;
 	int64  len = -1;
-	while(ff) { // грузи biggest file, as it has the most chances to have the data we need
-		if(ff.файл_ли() && ff.дайДлину() > len) {
-			path = ff.дайПуть();
-			len = ff.дайДлину();
+	while(ff) { // Load biggest file, as it has the most chances to have the data we need
+		if(ff.IsFile() && ff.GetLength() > len) {
+			path = ff.GetPath();
+			len = ff.GetLength();
 		}
-		ff.следщ();
+		ff.Next();
 	}
-	if(path.дайСчёт()) {
-		LTIMING("грузи code base");
-		ТкстПоток ss(LZ4Decompress(загрузиФайл(path)));
+	if(path.GetCount()) {
+		LTIMING("Load code base");
+		StringStream ss(LZ4Decompress(LoadFile(path)));
 		MLOG("Decompressed " << MemoryUsedKb());
-		if(грузи(callback(SerializeCodeBase), ss, CPP_CODEBASE_VERSION)) {
-			CLOG("*** Loaded " << ff.дайПуть() << ' ' << дайСисВремя() << ", file count: " << source_file.дайСчёт() << ", codebase: " << CodeBase().дайСчёт());
+		if(Load(callback(SerializeCodeBase), ss, CPP_CODEBASE_VERSION)) {
+			CLOG("*** Loaded " << ff.GetPath() << ' ' << GetSysTime() << ", file count: " << source_file.GetCount() << ", codebase: " << CodeBase().GetCount());
 			MLOG("TryLoadCodeBase loaded: " << MemoryUsedKb());
 			return true;
 		}
@@ -203,14 +203,14 @@ bool TryLoadCodeBase(const char *pattern)
 void LoadCodeBase()
 {
 	if(DeadLockCheck()) return;
-	Стопор::Замок __(CppBaseMutex);
+	Mutex::Lock __(CppBaseMutex);
 	MLOG("LoadCodeBase start: " << MemoryUsedKb());
 	TryLoadCodeBase(CodeBaseCacheFile()) ||
-	TryLoadCodeBase(приставьИмяф(CodeBaseCacheDir(), GetAssemblyId() + ".*." + IdeGetCurrentBuildMethod() + ".codebase")) ||
-	TryLoadCodeBase(приставьИмяф(CodeBaseCacheDir(), GetAssemblyId() + ".*.codebase")) ||
-	TryLoadCodeBase(приставьИмяф(CodeBaseCacheDir(), "*.codebase"));
+	TryLoadCodeBase(AppendFileName(CodeBaseCacheDir(), GetAssemblyId() + ".*." + IdeGetCurrentBuildMethod() + ".codebase")) ||
+	TryLoadCodeBase(AppendFileName(CodeBaseCacheDir(), GetAssemblyId() + ".*.codebase")) ||
+	TryLoadCodeBase(AppendFileName(CodeBaseCacheDir(), "*.codebase"));
 	
-	LLOG("LoadCodeBase: " << CodeBase().дайСчёт());
+	LLOG("LoadCodeBase: " << CodeBase().GetCount());
 }
 
 void FinishCodeBase()
@@ -218,7 +218,7 @@ void FinishCodeBase()
 	LTIMING("FinishBase");
 
 	if(DeadLockCheck()) return;
-	Стопор::Замок __(CppBaseMutex);
+	Mutex::Lock __(CppBaseMutex);
 	Qualify(CodeBase());
 }
 
@@ -226,30 +226,30 @@ void LoadDefs()
 {
 	LTIMING("LoadDefs");
 	if(DeadLockCheck()) return;
-	Стопор::Замок __(CppBaseMutex);
-	Вектор<Ткст> defs;
-	defs.добавь(конфигФайл("global.defs"));
-	const РОбласть& wspc = GetIdeWorkspace();
-	for(int i = 0; i < wspc.дайСчёт(); i++) {
-		const Пакет& pk = wspc.дайПакет(i);
-		Ткст n = wspc[i];
-		for(int i = 0; i < pk.file.дайСчёт(); i++) {
-			Ткст path = SourcePath(n, pk.file[i]);
-			if(дайРасшф(path) == ".defs")
-				defs.добавь(path);
+	Mutex::Lock __(CppBaseMutex);
+	Vector<String> defs;
+	defs.Add(ConfigFile("global.defs"));
+	const Workspace& wspc = GetIdeWorkspace();
+	for(int i = 0; i < wspc.GetCount(); i++) {
+		const Package& pk = wspc.GetPackage(i);
+		String n = wspc[i];
+		for(int i = 0; i < pk.file.GetCount(); i++) {
+			String path = SourcePath(n, pk.file[i]);
+			if(GetFileExt(path) == ".defs")
+				defs.Add(path);
 		}
 	}
 	
-	Ткст fp;
-	for(int i = 0; i < defs.дайСчёт(); i++)
+	String fp;
+	for(int i = 0; i < defs.GetCount(); i++)
 		fp << defs[i] << "\n" << GetFileTimeCached(defs[i]) << "\n";
 
-	static Ткст defs_fp;
+	static String defs_fp;
 	if(fp != defs_fp) {
 		defs_fp = fp;
-		Ткст h;
-		for(int i = 0; i < defs.дайСчёт(); i++)
-			h << загрузиФайл(defs[i]) << "\n";
+		String h;
+		for(int i = 0; i < defs.GetCount(); i++)
+			h << LoadFile(defs[i]) << "\n";
 		SetPPDefs(h);
 	}
 }
@@ -257,26 +257,26 @@ void LoadDefs()
 void BaseInfoSync(Progress& pi)
 { // clears temporary caches (file times etc..)
 	if(DeadLockCheck()) return;
-	Стопор::Замок __(CppBaseMutex);
+	Mutex::Lock __(CppBaseMutex);
 	PPSync(TheIde()->IdeGetIncludePath());
 
 	LTIMESTOP("Gathering files");
 	ClearSources();
 	LoadDefs();
-	const РОбласть& wspc = GetIdeWorkspace();
+	const Workspace& wspc = GetIdeWorkspace();
 	LTIMING("Gathering files");
-	pi.устТекст("Gathering files");
-	pi.устВсего(wspc.дайСчёт());
+	pi.SetText("Собираются файлы");
+	pi.SetTotal(wspc.GetCount());
 	
 	for(int pass = 0; pass < 2; pass++) // Ignore headers in the first pass to get correct master files
-		for(int i = 0; i < wspc.дайСчёт(); i++) {
+		for(int i = 0; i < wspc.GetCount(); i++) {
 			pi.Step();
-			const Пакет& pk = wspc.дайПакет(i);
-			Ткст n = wspc[i];
-			for(int i = 0; i < pk.file.дайСчёт(); i++) {
-				Ткст path = SourcePath(n, pk.file[i]);
+			const Package& pk = wspc.GetPackage(i);
+			String n = wspc[i];
+			for(int i = 0; i < pk.file.GetCount(); i++) {
+				String path = SourcePath(n, pk.file[i]);
 				if(pass ? IsHFile(path)
-				   : IsCPPFile(path) || findarg(впроп(дайРасшф(path)), ".lay", ".sch", ".iml") >= 0)
+				   : IsCPPFile(path) || findarg(ToLower(GetFileExt(path)), ".lay", ".sch", ".iml") >= 0)
 					GatherSources(path);
 			}
 		}
@@ -284,122 +284,122 @@ void BaseInfoSync(Progress& pi)
 	SweepPPFiles(GetAllSources());
 }
 
-int GetSourceFileIndex(const Ткст& path)
+int GetSourceFileIndex(const String& path)
 {
 	CodeBaseLock __;
-	return source_file.найдиПомести(NormalizeSourcePath(path));
+	return source_file.FindPut(NormalizeSourcePath(path));
 }
 
-Ткст GetSourceFilePath(int file)
+String GetSourceFilePath(int file)
 {
 	CodeBaseLock __;
-	if(file < 0 || file >= source_file.дайСчёт())
+	if(file < 0 || file >= source_file.GetCount())
 		return Null;
-	return source_file.дайКлюч(file);
+	return source_file.GetKey(file);
 }
 
-bool CheckFile0(SourceFileInfo& f, const Ткст& path)
+bool CheckFile0(SourceFileInfo& f, const String& path)
 {
-	static Стопор sTimePathMutex;
-	static Индекс<Ткст> sTimePath; // map of f.depends indices to real filenames
-	auto GetDependsTime = [&](const Вектор<int>& file) {
+	static Mutex sTimePathMutex;
+	static Index<String> sTimePath; // map of f.depends indices to real filenames
+	auto GetDependsTime = [&](const Vector<int>& file) {
 		LTIMING("CreateTimePrint");
-		Время tm = Время::наименьш();
-		for(int i = 0; i < file.дайСчёт(); i++)
-			if(file[i] < sTimePath.дайСчёт())
+		Time tm = Time::Low();
+		for(int i = 0; i < file.GetCount(); i++)
+			if(file[i] < sTimePath.GetCount())
 				tm = max(tm, GetFileTimeCached(sTimePath[file[i]]));
 		return tm;
 	};
 
-	Время ftm = GetFileTimeCached(path);
+	Time ftm = GetFileTimeCached(path);
 	bool tmok = f.time == ftm;
 	f.time = ftm;
-	if(findarg(впроп(дайРасшф(path)), ".lay", ".iml", ".sch") >= 0)
+	if(findarg(ToLower(GetFileExt(path)), ".lay", ".iml", ".sch") >= 0)
 		return tmok;
 	{
-		Стопор::Замок __(sTimePathMutex);
-		if(!пусто_ли(f.depends_time) && tmok && f.depends_time == GetDependsTime(f.depends) && f.dependencies_md5sum.дайСчёт())
+		Mutex::Lock __(sTimePathMutex);
+		if(!IsNull(f.depends_time) && tmok && f.depends_time == GetDependsTime(f.depends) && f.dependencies_md5sum.GetCount())
 			return true;
 	}
-	Индекс<Ткст> visited;
-	Ткст md5 = GetDependeciesMD5(path, visited);
+	Index<String> visited;
+	String md5 = GetDependeciesMD5(path, visited);
 	bool r = f.dependencies_md5sum == md5 && tmok;
 #ifdef HAS_CLOG
 	if(!r) CLOG(path << " " << f.dependencies_md5sum << " " << md5);
 #endif
-	f.depends.очисть();
+	f.depends.Clear();
 	f.dependencies_md5sum = md5;
-	Стопор::Замок __(sTimePathMutex);
-	for(int i = 0; i < visited.дайСчёт(); i++)
-		f.depends.добавь(sTimePath.найдиДобавь(visited[i]));
+	Mutex::Lock __(sTimePathMutex);
+	for(int i = 0; i < visited.GetCount(); i++)
+		f.depends.Add(sTimePath.FindAdd(visited[i]));
 	f.depends_time = GetDependsTime(f.depends);
 	return r;
 }
 
-bool CheckFile(SourceFileInfo& f, const Ткст& path)
+bool CheckFile(SourceFileInfo& f, const String& path)
 {
 	LTIMING("CheckFile");
 	if(DeadLockCheck()) return false;
-	Стопор::Замок __(CppBaseMutex);
+	Mutex::Lock __(CppBaseMutex);
 	return CheckFile0(f, path);
 }
 
 void UpdateCodeBase2(Progress& pi)
 {
-	CLOG("============= UpdateCodeBase2 " << дайСисВремя());
+	CLOG("============= UpdateCodeBase2 " << GetSysTime());
 	if(DeadLockCheck()) return;
-	Стопор::Замок __(CppBaseMutex);
-	Индекс<int>  parse_file;
+	Mutex::Lock __(CppBaseMutex);
+	Index<int>  parse_file;
 	{
-		pi.устТекст("Checking source files");
-		ВекторМап<int, bool> filecheck;
+		pi.SetText("Проверка исходников");
+		VectorMap<int, bool> filecheck;
 		{
 			CodeBaseLock __;
-			for(const Ткст& path : GetAllSources())
-				filecheck.дайДобавь(GetSourceFileIndex(path));
+			for(const String& path : GetAllSources())
+				filecheck.GetAdd(GetSourceFileIndex(path));
 		}
 		
-		pi.устПоз(0);
-		pi.устВсего(filecheck.дайСчёт());
-		соФор(filecheck.дайСчёт(), [&](int i) {
-			int q = filecheck.дайКлюч(i);
-			filecheck[i] = CheckFile0(source_file[q], source_file.дайКлюч(q));
+		pi.SetPos(0);
+		pi.SetTotal(filecheck.GetCount());
+		CoFor(filecheck.GetCount(), [&](int i) {
+			int q = filecheck.GetKey(i);
+			filecheck[i] = CheckFile0(source_file[q], source_file.GetKey(q));
 		});
 		
 		CodeBaseLock __;
 
-		Индекс<int> keep_file;
+		Index<int> keep_file;
 
-		for(Ткст path : GetAllSources()) {
+		for(String path : GetAllSources()) {
 			int q = GetSourceFileIndex(path);
-			if(filecheck.дай(q, false))
-				keep_file.добавь(q);
+			if(filecheck.Get(q, false))
+				keep_file.Add(q);
 			else
-				parse_file.добавь(q);
+				parse_file.Add(q);
 		}
 		
-		CodeBase().смети(keep_file);
+		CodeBase().Sweep(keep_file);
 	
-		for(int i = 0; i < source_file.дайСчёт(); i++)
-			if(keep_file.найди(i) < 0 && parse_file.найди(i) < 0 && !source_file.отлинкован(i))
-				source_file.отлинкуй(i);
+		for(int i = 0; i < source_file.GetCount(); i++)
+			if(keep_file.Find(i) < 0 && parse_file.Find(i) < 0 && !source_file.IsUnlinked(i))
+				source_file.Unlink(i);
 	}
 
 #ifdef HAS_CLOG
-	for(int i = 0; i < source_file.дайСчёт(); i++)
-		if(!source_file.отлинкован(i))
-			CLOG(i << " " << source_file.дайКлюч(i) << " " << source_file[i].dependencies_md5sum << " " << source_file[i].time);
+	for(int i = 0; i < source_file.GetCount(); i++)
+		if(!source_file.IsUnlinked(i))
+			CLOG(i << " " << source_file.GetKey(i) << " " << source_file[i].dependencies_md5sum << " " << source_file[i].time);
 #endif
 
-	pi.устВсего(parse_file.дайСчёт());
-	pi.устПоз(0);
+	pi.SetTotal(parse_file.GetCount());
+	pi.SetPos(0);
 	pi.AlignText(ALIGN_LEFT);
 	LLOG("=========================");
-	соФор(parse_file.дайСчёт(), [&](int i) {
-		Ткст path = source_file.дайКлюч(parse_file[i]);
-		pi.устТекст(дайИмяф(дайПапкуФайла(path)) + "/" + дайИмяф(path));
+	CoFor(parse_file.GetCount(), [&](int i) {
+		String path = source_file.GetKey(parse_file[i]);
+		pi.SetText(GetFileName(GetFileFolder(path)) + "/" + GetFileName(path));
 		pi.Step();
-		ФайлВвод fi(path);
+		FileIn fi(path);
 		LDUMP(path);
 		LDUMP(parse_file[i]);
 		ParseSrc(fi, parse_file[i], callback1(BrowserScanError, i));
@@ -413,36 +413,36 @@ void UpdateCodeBase(Progress& pi)
 	UpdateCodeBase2(pi);
 }
 
-void ParseSrc(Поток& in, int file, Событие<int, const Ткст&> Ошибка)
+void ParseSrc(Stream& in, int file, Event<int, const String&> error)
 {
-	Ткст path = source_file.дайКлюч(file);
+	String path = source_file.GetKey(file);
 	CLOG("====== Parse " << file << ": " << path);
 	CppBase base;
-	Вектор<Ткст> pp;
-	Ткст ext = впроп(дайРасшф(path));
+	Vector<String> pp;
+	String ext = ToLower(GetFileExt(path));
 	if(ext == ".lay")
-		pp.добавь(PreprocessLayFile(path));
+		pp.Add(PreprocessLayFile(path));
 	else
 	if(ext == ".iml")
-		pp.добавь(PreprocessImlFile(path));
+		pp.Add(PreprocessImlFile(path));
 	else
 	if(ext == ".sch")
-		pp.приставь(PreprocessSchFile(path));
+		pp.Append(PreprocessSchFile(path));
 	else
-		PreprocessParse(base, in, file, path, Ошибка);
+		PreprocessParse(base, in, file, path, error);
 
-	for(int i = 0; i < pp.дайСчёт(); i++)
-		Parse(base, pp[i], file, FILE_OTHER, path, Ошибка, Вектор<Ткст>(), Индекс<Ткст>());
+	for(int i = 0; i < pp.GetCount(); i++)
+		Parse(base, pp[i], file, FILE_OTHER, path, error, Vector<String>(), Index<String>());
 	
 	CodeBaseLock __;
-	CodeBase().приставь(pick(base));
+	CodeBase().Append(pick(base));
 }
 
-void CodeBaseScanFile0(Поток& in, const Ткст& фн)
+void CodeBaseScanFile0(Stream& in, const String& fn)
 {
-	LLOG("===== CodeBaseScanFile " << фн);
+	LLOG("===== CodeBaseScanFile " << fn);
 
-	InvalidateFileTimeCache(NormalizeSourcePath(фн));
+	InvalidateFileTimeCache(NormalizeSourcePath(fn));
 	PPSync(TheIde()->IdeGetIncludePath());
 
 	LTIMING("CodeBaseScanFile0");
@@ -450,42 +450,42 @@ void CodeBaseScanFile0(Поток& in, const Ткст& фн)
 	int file;
 	{
 		CodeBaseLock __;
-		file = GetSourceFileIndex(фн);
+		file = GetSourceFileIndex(fn);
 		CppBase& base = CodeBase();
 		base.RemoveFile(file);
 	}
 	ParseSrc(in, file, CNULL);
 }
 
-void CodeBaseScanFile(Поток& in, const Ткст& фн)
+void CodeBaseScanFile(Stream& in, const String& fn)
 {
 	if(DeadLockCheck()) return;
-	Стопор::Замок __(CppBaseMutex);
-	CodeBaseScanFile0(in, фн);
+	Mutex::Lock __(CppBaseMutex);
+	CodeBaseScanFile0(in, fn);
 	FinishCodeBase();
 }
 
-bool TryCodeBaseScanFile(Поток& in, const Ткст& фн)
+bool TryCodeBaseScanFile(Stream& in, const String& fn)
 {
-	if(DeadLockCheck() || !CppBaseMutex.пробуйВойти())
+	if(DeadLockCheck() || !CppBaseMutex.TryEnter())
 		return false;
-	CodeBaseScanFile0(in, фн);
+	CodeBaseScanFile0(in, fn);
 	FinishCodeBase();
-	CppBaseMutex.выйди();
+	CppBaseMutex.Leave();
 	return true;
 }
 
-void CodeBaseScanFile(const Ткст& фн, bool auto_check)
+void CodeBaseScanFile(const String& fn, bool auto_check)
 {
-	LLOG("CodeBaseScanFile " << фн);
+	LLOG("CodeBaseScanFile " << fn);
 	if(DeadLockCheck()) return;
-	Стопор::Замок __(CppBaseMutex);
-	Ткст md5sum = GetPPMD5(фн);
-	ФайлВвод in(фн);
-	CodeBaseScanFile0(in, фн);
-	int file = GetSourceFileIndex(фн);
+	Mutex::Lock __(CppBaseMutex);
+	String md5sum = GetPPMD5(fn);
+	FileIn in(fn);
+	CodeBaseScanFile0(in, fn);
+	int file = GetSourceFileIndex(fn);
 	SourceFileInfo& f = source_file[file];
-	CLOG("CodeBaseScanFile " << фн << ", " << md5sum << " " << f.md5sum);
+	CLOG("CodeBaseScanFile " << fn << ", " << md5sum << " " << f.md5sum);
 	if(md5sum != f.md5sum) {
 		if(auto_check)
 			SyncCodeBase();
@@ -497,27 +497,27 @@ void CodeBaseScanFile(const Ткст& фн, bool auto_check)
 
 void ClearCodeBase()
 {
-	// TODO: создай combined defs
+	// СДЕЛАТЬ: Create combined defs
 	if(DeadLockCheck()) return;
-	Стопор::Замок __(CppBaseMutex);
+	Mutex::Lock __(CppBaseMutex);
 	CleanPP();
-	CodeBase().очисть();
-	source_file.очисть();
+	CodeBase().Clear();
+	source_file.Clear();
 }
 
 void SyncCodeBase()
 {
 	LTIMING("SyncCodeBase");
 	LTIMESTOP("SyncCodeBase");
-	CLOG("============= синх code base");
+	CLOG("============= Sync code base");
 	if(DeadLockCheck()) return;
-	Стопор::Замок __(CppBaseMutex);
-	if(пусто_ли(IdeGetCurrentMainPackage())) {
+	Mutex::Lock __(CppBaseMutex);
+	if(IsNull(IdeGetCurrentMainPackage())) {
 		ClearCodeBase();
 		return;
 	}
 	Progress pi;
-	pi.Титул("Разбор исходников");
+	pi.Title("Разбор исходников");
 	UpdateCodeBase(pi);
 	FinishCodeBase();
 }
@@ -525,10 +525,10 @@ void SyncCodeBase()
 void NewCodeBase()
 {
 	if(DeadLockCheck()) return;
-	Стопор::Замок __(CppBaseMutex);
+	Mutex::Lock __(CppBaseMutex);
 	InvalidatePPCache();
 	ReduceCodeBaseCache();
-	if(пусто_ли(IdeGetCurrentMainPackage())) {
+	if(IsNull(IdeGetCurrentMainPackage())) {
 		ClearCodeBase();
 		return;
 	}
@@ -536,11 +536,11 @@ void NewCodeBase()
 	if(start) return;
 	start++;
 	LoadCodeBase();
-	LLOG("NewCodeBase loaded " << CodeBase().дайСчёт());
+	LLOG("NewCodeBase loaded " << CodeBase().GetCount());
 	SyncCodeBase();
-	LLOG("NewCodeBase synced " << CodeBase().дайСчёт());
+	LLOG("NewCodeBase synced " << CodeBase().GetCount());
 	SaveCodeBase();
-	LLOG("NewCodeBase saved " << CodeBase().дайСчёт());
+	LLOG("NewCodeBase saved " << CodeBase().GetCount());
 	start--;
 }
 
@@ -548,18 +548,18 @@ void RescanCodeBase()
 {
 	if(DeadLockCheck()) return;
 	InvalidatePPCache();
-	Стопор::Замок __(CppBaseMutex);
+	Mutex::Lock __(CppBaseMutex);
 	ClearCodeBase();
 	s_console = true;
 	Progress pi;
-	pi.Титул("Разбор исходников");
+	pi.Title("Разбор исходников");
 	UpdateCodeBase(pi);
 	FinishCodeBase();
 	s_console = false;
 }
 
-bool ExistsBrowserItem(const Ткст& элт)
+bool ExistsBrowserItem(const String& item)
 {
 	CodeBaseLock __;
-	return GetCodeRefItem(элт);
+	return GetCodeRefItem(item);
 }

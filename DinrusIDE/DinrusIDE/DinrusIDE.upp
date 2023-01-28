@@ -1,13 +1,13 @@
-description "TheIDE main package\377";
+description "Главный пакет DinrusIDE/377\377";
 
 uses
-	DinrusIDE\Common,
-	DinrusIDE\Core,
-	DinrusIDE\LayDes,
-	DinrusIDE\IconDes,
-	DinrusIDE\Builders,
-	DinrusIDE\Debuggers,
-	DinrusIDE\Browser,
+	DinrusIDE/Common,
+	DinrusIDE/Core,
+	DinrusIDE/LayDes,
+	DinrusIDE/IconDes,
+	DinrusIDE/Builders,
+	DinrusIDE/Debuggers,
+	DinrusIDE/Browser,
 	CodeEditor,
 	CtrlLib,
 	plugin\bz2,
@@ -22,6 +22,9 @@ uses
 	Report,
 	Core/SSL,
 	plugin/md;
+
+link
+	-DUNICODE;
 
 file
 	IDE readonly separator,
@@ -101,13 +104,13 @@ file
 	Valgrind.cpp,
 	Export.cpp,
 	Resources readonly separator,
-	DinrusIDE.lay,
-	DinrusIDE.iml,
+	ide.lay,
+	ide.iml,
 	DinrusIDE.usc,
 	app.tpp,
 	DinrusIDE.rc
 		depends() xide.ico
-		depends() DinrusIDE.ico,
+		depends() ide.ico,
 	theide.desktop,
 	Repo readonly separator,
 	urepo.h,
@@ -130,7 +133,7 @@ mainconfig
 	"" = "GUI HEAPLOG",
 	"" = "GUI X11";
 
-custom() "",
+custom(DINRUSIDEEXE) "",
 	"ASDFASDFASDF",
 	"$(OUTDIR)/$(FILE).obj";
 

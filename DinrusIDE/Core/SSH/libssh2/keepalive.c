@@ -14,7 +14,7 @@
  *   disclaimer in the documentation and/or other materials
  *   provided with the distribution.
  *
- *   Neither the имя of the copyright holder nor the names
+ *   Neither the name of the copyright holder nor the names
  *   of any other contributors may be used to endorse or
  *   promote products derived from this software without
  *   specific prior written permission.
@@ -68,7 +68,7 @@ libssh2_keepalive_send (LIBSSH2_SESSION *session,
     now = time(NULL);
 
     if(session->keepalive_last_sent + session->keepalive_interval <= now) {
-        /* фмт is
+        /* Format is
            "SSH_MSG_GLOBAL_REQUEST || 4-byte len || str || want-reply". */
         unsigned char keepalive_data[]
             = "\x50\x00\x00\x00\x15keepalive@libssh2.orgW";
@@ -79,7 +79,7 @@ libssh2_keepalive_send (LIBSSH2_SESSION *session,
             (unsigned char)session->keepalive_want_reply;
 
         rc = _libssh2_transport_send(session, keepalive_data, len, NULL, 0);
-        /* Silently ignore PACKET_EAGAIN here: if the write буфер is
+        /* Silently ignore PACKET_EAGAIN here: if the write buffer is
            already full, sending another keepalive is not useful. */
         if(rc && rc != LIBSSH2_ERROR_EAGAIN) {
             _libssh2_error(session, LIBSSH2_ERROR_SOCKET_SEND,

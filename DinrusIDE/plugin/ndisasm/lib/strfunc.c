@@ -41,7 +41,7 @@
 #include "nasm.h"
 
 /*
- * Преобр a string in UTF-8 формат to UTF-16LE
+ * Convert a string in UTF-8 format to UTF-16LE
  */
 static size_t utf8_to_16le(uint8_t *str, size_t len, char *op)
 {
@@ -111,7 +111,7 @@ static size_t utf8_to_16le(uint8_t *str, size_t len, char *op)
 }
 
 /*
- * Преобр a string in UTF-8 формат to UTF-32LE
+ * Convert a string in UTF-8 format to UTF-32LE
  */
 static size_t utf8_to_32le(uint8_t *str, size_t len, char *op)
 {
@@ -178,8 +178,8 @@ typedef size_t (*transform_func)(uint8_t *, size_t, char *);
 
 /*
  * Apply a specific string transform and return it in a nasm_malloc'd
- * буфер, returning the length.  On Ошибка, returns (size_t)-1 and no
- * буфер is allocated.
+ * buffer, returning the length.  On error, returns (size_t)-1 and no
+ * buffer is allocated.
  */
 size_t string_transform(char *str, size_t len, char **out, enum strfunc func)
 {
@@ -198,6 +198,6 @@ size_t string_transform(char *str, size_t len, char **out, enum strfunc func)
 	return -1;
 
     *out = buf = nasm_malloc(outlen+1);
-    buf[outlen] = '\0';		/* Forcibly null-terminate the буфер */
+    buf[outlen] = '\0';		/* Forcibly null-terminate the buffer */
     return transform(s, len, buf);
 }

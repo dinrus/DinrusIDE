@@ -8,38 +8,38 @@ enum ImageKind {
 	IMAGE_OPAQUE,
 };
 
-inline void Fill(КЗСА *t, КЗСА c, int n) { memset32(t, *(dword *)&c, n); }
-inline void копируй(КЗСА *t, const КЗСА *s, int n) { memcpy_t(t, s, n); }
+inline void Fill(RGBA *t, RGBA c, int n) { memset32(t, *(dword *)&c, n); }
+inline void Copy(RGBA *t, const RGBA *s, int n) { memcpy_t(t, s, n); }
 
-int  Premultiply(КЗСА *t, const КЗСА *s, int len);
-int  Unmultiply(КЗСА *t, const КЗСА *s, int len);
+int  Premultiply(RGBA *t, const RGBA *s, int len);
+int  Unmultiply(RGBA *t, const RGBA *s, int len);
 
-void TransformComponents(КЗСА *t, const КЗСА *s, int len,
+void TransformComponents(RGBA *t, const RGBA *s, int len,
 	const byte r[], const byte g[], const byte b[], const byte a[]);
-void MultiplyComponents(КЗСА *t, const КЗСА *s, int len, int num, int den = 256);
+void MultiplyComponents(RGBA *t, const RGBA *s, int len, int num, int den = 256);
 
-void AlphaBlend(КЗСА *t, const КЗСА *s, int len);
-void AlphaBlend(КЗСА *t, const КЗСА *s, int len, Цвет color);
+void AlphaBlend(RGBA *t, const RGBA *s, int len);
+void AlphaBlend(RGBA *t, const RGBA *s, int len, Color color);
 
-void AlphaBlendOpaque(КЗСА *t, const КЗСА *s, int len, Цвет color);
-void AlphaBlendOpaque(КЗСА *t, const КЗСА *s, int len);
+void AlphaBlendOpaque(RGBA *t, const RGBA *s, int len, Color color);
+void AlphaBlendOpaque(RGBA *t, const RGBA *s, int len);
 
-void AlphaBlendStraight(КЗСА *b, const КЗСА *f, int len);
-void AlphaBlendStraight(КЗСА *b, const КЗСА *f, int len, Цвет color);
-void AlphaBlendStraightOpaque(КЗСА *t, const КЗСА *s, int len);
-void AlphaBlendStraightOpaque(КЗСА *t, const КЗСА *s, int len, int alpha);
+void AlphaBlendStraight(RGBA *b, const RGBA *f, int len);
+void AlphaBlendStraight(RGBA *b, const RGBA *f, int len, Color color);
+void AlphaBlendStraightOpaque(RGBA *t, const RGBA *s, int len);
+void AlphaBlendStraightOpaque(RGBA *t, const RGBA *s, int len, int alpha);
 
 int  GetChMaskPos32(dword mask);
-void AlphaBlendOverBgST(КЗСА *b, КЗСА bg, int len);
+void AlphaBlendOverBgST(RGBA *b, RGBA bg, int len);
 
-const byte *UnpackRLE(КЗСА *t, const byte *src, int len);
-Ткст      PackRLE(const КЗСА *s, int len);
+const byte *UnpackRLE(RGBA *t, const byte *src, int len);
+String      PackRLE(const RGBA *s, int len);
 
 inline int  Grayscale(int r, int g, int b) { return (77 * r + 151 * g + 28 * b) >> 8; }
-inline int  Grayscale(const КЗСА& c)       { return Grayscale(c.r, c.g, c.b); }
+inline int  Grayscale(const RGBA& c)       { return Grayscale(c.r, c.g, c.b); }
 inline byte Saturate255(int x)             { return byte(~(x >> 24) & (x | (-(x >> 8) >> 24)) & 0xff); }
 
-class  Рисунок;
+class  Image;
 
 enum ImageResolutionIntent {
 	IMAGE_RESOLUTION_NONE = -1,
@@ -47,24 +47,24 @@ enum ImageResolutionIntent {
 	IMAGE_RESOLUTION_UHD = 1,
 };
 
-class ImageBuffer : БезКопий {
+class ImageBuffer : NoCopy {
 	mutable int  kind;
-	Размер         size;
-	Буфер<КЗСА> pixels;
-	Точка        hotspot;
-	Точка        spot2;
-	Размер         dots;
+	Size         size;
+	Buffer<RGBA> pixels;
+	Point        hotspot;
+	Point        spot2;
+	Size         dots;
 	int8         resolution;
 	bool         paintonce = false;
 
-	void         уст(Рисунок& img);
+	void         Set(Image& img);
 	void         DeepCopy(const ImageBuffer& img);
 
-	КЗСА*        Строка(int i) const      { ПРОВЕРЬ(i >= 0 && i < size.cy); return (КЗСА *)~pixels + i * size.cx; }
-	friend void  DropPixels___(ImageBuffer& b) { b.pixels.очисть(); }
+	RGBA*        Line(int i) const      { ASSERT(i >= 0 && i < size.cy); return (RGBA *)~pixels + i * size.cx; }
+	friend void  DropPixels___(ImageBuffer& b) { b.pixels.Clear(); }
 	void         InitAttrs();
 
-	friend class Рисунок;
+	friend class Image;
 
 public:
 	void  SetKind(int k)                { kind = k; }
@@ -72,60 +72,60 @@ public:
 	int   ScanKind() const;
 	int   GetScanKind() const           { return kind == IMAGE_UNKNOWN ? ScanKind() : kind; }
 
-	void  SetHotSpot(Точка p)           { hotspot = p; }
-	Точка GetHotSpot() const            { return hotspot; }
+	void  SetHotSpot(Point p)           { hotspot = p; }
+	Point GetHotSpot() const            { return hotspot; }
 
-	void  Set2ndSpot(Точка p)           { spot2 = p; }
-	Точка Get2ndSpot() const            { return spot2; }
+	void  Set2ndSpot(Point p)           { spot2 = p; }
+	Point Get2ndSpot() const            { return spot2; }
 	
-	void  SetHotSpots(const Рисунок& src);
+	void  SetHotSpots(const Image& src);
 
-	void  SetDots(Размер sz)              { dots = sz; }
-	Размер  GetDots() const               { return dots; }
-	void  SetDPI(Размер sz);
-	Размер  GetDPI();
+	void  SetDots(Size sz)              { dots = sz; }
+	Size  GetDots() const               { return dots; }
+	void  SetDPI(Size sz);
+	Size  GetDPI();
 	
 	void  SetResolution(int i)          { resolution = i; }
 	int   GetResolution() const         { return resolution; }
 
 	void  CopyAttrs(const ImageBuffer& img);
-	void  CopyAttrs(const Рисунок& img);
+	void  CopyAttrs(const Image& img);
 	
-	Размер  дайРазм() const               { return size; }
-	int   дайШирину() const              { return size.cx; }
-	int   дайВысоту() const             { return size.cy; }
-	int   дайДлину() const             { return size.cx * size.cy; }
+	Size  GetSize() const               { return size; }
+	int   GetWidth() const              { return size.cx; }
+	int   GetHeight() const             { return size.cy; }
+	int   GetLength() const             { return size.cx * size.cy; }
 
-	КЗСА *operator[](int i)             { return Строка(i); }
-	const КЗСА *operator[](int i) const { return Строка(i); }
-	КЗСА *operator~()                   { return pixels; }
-	operator КЗСА*()                    { return pixels; }
-	const КЗСА *operator~() const       { return pixels; }
-	operator const КЗСА*() const        { return pixels; }
-	КЗСА *старт()                       { return pixels; }
-	const КЗСА *старт() const           { return pixels; }
-	КЗСА *стоп()                         { return pixels + дайДлину(); }
-	const КЗСА *стоп() const             { return pixels + дайДлину(); }
-	КЗСА *begin()                       { return pixels; }
-	const КЗСА *begin() const           { return pixels; }
-	КЗСА *end()                         { return pixels + дайДлину(); }
-	const КЗСА *end() const             { return pixels + дайДлину(); }
+	RGBA *operator[](int i)             { return Line(i); }
+	const RGBA *operator[](int i) const { return Line(i); }
+	RGBA *operator~()                   { return pixels; }
+	operator RGBA*()                    { return pixels; }
+	const RGBA *operator~() const       { return pixels; }
+	operator const RGBA*() const        { return pixels; }
+	RGBA *Begin()                       { return pixels; }
+	const RGBA *Begin() const           { return pixels; }
+	RGBA *End()                         { return pixels + GetLength(); }
+	const RGBA *End() const             { return pixels + GetLength(); }
+	RGBA *begin()                       { return pixels; }
+	const RGBA *begin() const           { return pixels; }
+	RGBA *end()                         { return pixels + GetLength(); }
+	const RGBA *end() const             { return pixels + GetLength(); }
 
-	void  создай(int cx, int cy);
-	void  создай(Размер sz)               { создай(sz.cx, sz.cy); }
-	bool  пустой() const               { return (size.cx | size.cy) == 0; }
-	void  очисть()                       { создай(0, 0); }
+	void  Create(int cx, int cy);
+	void  Create(Size sz)               { Create(sz.cx, sz.cy); }
+	bool  IsEmpty() const               { return (size.cx | size.cy) == 0; }
+	void  Clear()                       { Create(0, 0); }
 
 	void  PaintOnceHint(bool b = true)  { paintonce = b; }
 	bool  IsPaintOnceHint() const       { return paintonce; }
 
-	void  operator=(Рисунок& img);
+	void  operator=(Image& img);
 	void  operator=(ImageBuffer& img);
 
-	ImageBuffer()                       { создай(0, 0); }
-	ImageBuffer(int cx, int cy)         { создай(cx, cy); }
-	ImageBuffer(Размер sz)                { создай(sz.cx, sz.cy); }
-	ImageBuffer(Рисунок& img);
+	ImageBuffer()                       { Create(0, 0); }
+	ImageBuffer(int cx, int cy)         { Create(cx, cy); }
+	ImageBuffer(Size sz)                { Create(sz.cx, sz.cy); }
+	ImageBuffer(Image& img);
 	ImageBuffer(ImageBuffer& b);
 // BW, defined in CtrlCore:
 	ImageBuffer(ImageDraw& iw);
@@ -134,110 +134,110 @@ public:
 void Premultiply(ImageBuffer& b);
 void Unmultiply(ImageBuffer& b);
 
-class Рисунок : public ТипЗнач< Рисунок, 150, Движимое_<Рисунок> > {
+class Image : public ValueType< Image, 150, Moveable_<Image> > {
 private:
-	struct Данные {
-		Атомар refcount;
+	struct Data {
+		Atomic refcount;
 		int64  serial;
 		uint64 aux_data;
 		int    paintcount;
 
-		void   Retain()  { атомнИнк(refcount); }
-		void   отпусти() { if(атомнДек(refcount) == 0) delete this; }
+		void   Retain()  { AtomicInc(refcount); }
+		void   Release() { if(AtomicDec(refcount) == 0) delete this; }
 		
-		ImageBuffer буфер;
+		ImageBuffer buffer;
 		bool        paintonly;
 		
 		int         GetKind();
 
-		Данные(ImageBuffer& b);
+		Data(ImageBuffer& b);
 	};
 
-	Данные *data;
+	Data *data;
 
-	void уст(ImageBuffer& b);
+	void Set(ImageBuffer& b);
 
 	friend class  ImageBuffer;
-	friend struct Данные;
+	friend struct Data;
 	friend class  SystemDraw;
-	friend void   SetPaintOnly__(Рисунок& img)   { img.data->paintonly = img.data->refcount == 1; }
-	friend void   SysImageRealized(const Рисунок& img);
+	friend void   SetPaintOnly__(Image& img)   { img.data->paintonly = img.data->refcount == 1; }
+	friend void   SysImageRealized(const Image& img);
 	friend struct scImageMaker;
 
 	void         SetAuxData(uint64 data);
 
 public:
-	Размер  дайРазм() const                     { return data ? data->буфер.дайРазм() : Размер(0, 0); }
-	int   дайШирину() const                    { return дайРазм().cx; }
-	int   дайВысоту() const                   { return дайРазм().cy; }
-	int   дайДлину() const                   { return data ? data->буфер.дайДлину() : 0; }
-	Точка GetHotSpot() const;
-	Точка Get2ndSpot() const;
-	Размер  GetDots() const;
-	Размер  GetDPI() const;
+	Size  GetSize() const                     { return data ? data->buffer.GetSize() : Size(0, 0); }
+	int   GetWidth() const                    { return GetSize().cx; }
+	int   GetHeight() const                   { return GetSize().cy; }
+	int   GetLength() const                   { return data ? data->buffer.GetLength() : 0; }
+	Point GetHotSpot() const;
+	Point Get2ndSpot() const;
+	Size  GetDots() const;
+	Size  GetDPI() const;
 	int   GetKindNoScan() const;
 	int   GetKind() const;
 	int   GetResolution() const;
 	bool  IsOpaque() const                    { return GetKind() == IMAGE_OPAQUE; }
 
-	const КЗСА *старт() const                 { return data ? ~data->буфер : NULL; }
-	const КЗСА *begin() const                 { return старт(); }
-	const КЗСА *стоп() const                   { return старт() + дайДлину(); }
-	const КЗСА *end() const                   { return стоп(); }
-	const КЗСА* operator~() const             { return старт(); }
-	operator const КЗСА*() const              { return старт(); }
-	const КЗСА* operator[](int i) const       { ПРОВЕРЬ(data); return data->буфер[i]; }
+	const RGBA *Begin() const                 { return data ? ~data->buffer : NULL; }
+	const RGBA *begin() const                 { return Begin(); }
+	const RGBA *End() const                   { return Begin() + GetLength(); }
+	const RGBA *end() const                   { return End(); }
+	const RGBA* operator~() const             { return Begin(); }
+	operator const RGBA*() const              { return Begin(); }
+	const RGBA* operator[](int i) const       { ASSERT(data); return data->buffer[i]; }
 
 	int64 GetSerialId() const                 { return data ? data->serial : 0; }
-	bool  одинаково(const Рисунок& img) const      { return GetSerialId() == img.GetSerialId(); }
+	bool  IsSame(const Image& img) const      { return GetSerialId() == img.GetSerialId(); }
 
-	bool   operator==(const Рисунок& img) const;
-	bool   operator!=(const Рисунок& img) const;
-	hash_t дайХэшЗнач() const;
-	Ткст вТкст() const;
+	bool   operator==(const Image& img) const;
+	bool   operator!=(const Image& img) const;
+	hash_t GetHashValue() const;
+	String ToString() const;
 
-	void  сериализуй(Поток& s);
-	void  вРяр(РярВВ& xio)                  { XmlizeBySerialize(xio, *this); }
-	void  вДжейсон(ДжейсонВВ& jio)                { JsonizeBySerialize(jio, *this); }
-	void  очисть();
+	void  Serialize(Stream& s);
+	void  Xmlize(XmlIO& xio)                  { XmlizeBySerialize(xio, *this); }
+	void  Jsonize(JsonIO& jio)                { JsonizeBySerialize(jio, *this); }
+	void  Clear();
 
-	Рисунок& operator=(const Рисунок& img);
-	Рисунок& operator=(ImageBuffer& img);
+	Image& operator=(const Image& img);
+	Image& operator=(ImageBuffer& img);
 
-	bool экзПусто_ли() const         { Размер sz = дайРазм(); return (sz.cx|sz.cy) == 0; }
+	bool IsNullInstance() const         { Size sz = GetSize(); return (sz.cx|sz.cy) == 0; }
 
-	bool пустой() const                { return экзПусто_ли(); }
-	operator Значение() const              { return богатыйВЗнач(*this); }
+	bool IsEmpty() const                { return IsNullInstance(); }
+	operator Value() const              { return RichToValue(*this); }
 	
 	bool IsPaintOnly() const            { return data && data->paintonly; }
-	bool IsPaintOnceHint() const        { return data && data->буфер.IsPaintOnceHint(); }
+	bool IsPaintOnceHint() const        { return data && data->buffer.IsPaintOnceHint(); }
 
-	Рисунок()                             { data = NULL; }
-	Рисунок(const Обнул&)                { data = NULL; }
-	Рисунок(const Значение& src);
-	Рисунок(const Рисунок& img);
-	Рисунок(Рисунок (*фн)());
-	Рисунок(ImageBuffer& b);
-	~Рисунок();
+	Image()                             { data = NULL; }
+	Image(const Nuller&)                { data = NULL; }
+	Image(const Value& src);
+	Image(const Image& img);
+	Image(Image (*fn)());
+	Image(ImageBuffer& b);
+	~Image();
 
 	// Defined in CtrlCore or by Rainbow:
-	static Рисунок Arrow();
-	static Рисунок жди();
-	static Рисунок IBeam();
-	static Рисунок No();
-	static Рисунок SizeAll();
-	static Рисунок SizeHorz();
-	static Рисунок SizeVert();
-	static Рисунок SizeTopLeft();
-	static Рисунок SizeTop();
-	static Рисунок SizeTopRight();
-	static Рисунок SizeLeft();
-	static Рисунок SizeRight();
-	static Рисунок SizeBottomLeft();
-	static Рисунок SizeBottom();
-	static Рисунок SizeBottomRight();
-	static Рисунок Cross();
-	static Рисунок Hand();
+	static Image Arrow();
+	static Image Wait();
+	static Image IBeam();
+	static Image No();
+	static Image SizeAll();
+	static Image SizeHorz();
+	static Image SizeVert();
+	static Image SizeTopLeft();
+	static Image SizeTop();
+	static Image SizeTopRight();
+	static Image SizeLeft();
+	static Image SizeRight();
+	static Image SizeBottomLeft();
+	static Image SizeBottom();
+	static Image SizeBottomRight();
+	static Image Cross();
+	static Image Hand();
 	
 	// standard mouse cursor support
 	
@@ -248,16 +248,16 @@ public:
 	int GetRefCount() const         { return data ? (int)data->refcount : 0; }
 };
 
-Рисунок Premultiply(const Рисунок& img);
-Рисунок Unmultiply(const Рисунок& img);
+Image Premultiply(const Image& img);
+Image Unmultiply(const Image& img);
 
-struct ImageIml : Движимое<ImageIml> {
-	Рисунок  image;
+struct ImageIml : Moveable<ImageIml> {
+	Image  image;
 	dword  flags = 0;
 };
 
-Вектор<ImageIml> UnpackImlData(const void *ptr, int len);
-Вектор<ImageIml> UnpackImlData(const Ткст& d);
+Vector<ImageIml> UnpackImlData(const void *ptr, int len);
+Vector<ImageIml> UnpackImlData(const String& d);
 
 enum {
 	GUI_MODE_NORMAL   = 0,
@@ -275,60 +275,60 @@ enum {
 };
 
 class Iml {
-	struct IImage : Движимое<IImage> {
+	struct IImage : Moveable<IImage> {
 		std::atomic<bool>  loaded;
-		Рисунок              image;
+		Image              image;
 
 		IImage() { loaded = false; }
 	};
-	struct Данные : Движимое<Данные> {
+	struct Data : Moveable<Data> {
 		const char *data;
 		int   len, count;
 	};
-	Вектор<Данные> data[4]; // 0 normal, 1 HiDPI - HD, 2 DK - Dark, 3 HDK - HiDPI + dark
-	ВекторМап<Ткст, IImage> map;
-	const char **имя;
+	Vector<Data> data[4]; // 0 normal, 1 HiDPI - HD, 2 DK - Dark, 3 HDK - HiDPI + dark
+	VectorMap<String, IImage> map;
+	const char **name;
 	dword global_flags = 0;
 	bool  premultiply;
 
-	Индекс<Ткст> ex_name[3]; // 0 HiDPI - HD, 1 DK - Dark, 2 HDK - HiDPI + dark
+	Index<String> ex_name[3]; // 0 HiDPI - HD, 1 DK - Dark, 2 HDK - HiDPI + dark
 
-	void  иниц(int n);
+	void  Init(int n);
 
 public:
-	void   переустанов();
-	int    дайСчёт() const                  { return map.дайСчёт(); }
-	Ткст дайИд(int i)                      { return map.дайКлюч(i); }
-	Рисунок  дай(int i);
-	int    найди(const Ткст& id) const      { return map.найди(id); }
-	void   уст(int i, const Рисунок& img);
+	void   Reset();
+	int    GetCount() const                  { return map.GetCount(); }
+	String GetId(int i)                      { return map.GetKey(i); }
+	Image  Get(int i);
+	int    Find(const String& id) const      { return map.Find(id); }
+	void   Set(int i, const Image& img);
 
-	ImageIml дайСырой(int mode, int i); // tries to get image for mode, can return Null
-	ImageIml дайСырой(int mode, const Ткст& id); // tries to get image for mode by id, can return Null
+	ImageIml GetRaw(int mode, int i); // tries to get image for mode, can return Null
+	ImageIml GetRaw(int mode, const String& id); // tries to get image for mode by id, can return Null
 
 // these methods serve for .iml import
-	Iml(const char **имя, int n);//Deprecated - legacy .iml
+	Iml(const char **name, int n);//Deprecated - legacy .iml
 	void AddData(const byte *data, int len, int count, int mode = 0);
-	void AddId(int mode1, const char *имя);
+	void AddId(int mode1, const char *name);
 	void Premultiplied()                   { premultiply = false; }
 	void GlobalFlag(dword f)               { global_flags |= f; }
 	
 	static void ResetAll(); // clears all .iml caches
 };
 
-void   регистрируй(const char *imageclass, Iml& iml);
+void   Register(const char *imageclass, Iml& iml);
 
 int    GetImlCount();
-Ткст GetImlName(int i);
+String GetImlName(int i);
 Iml&   GetIml(int i);
-int    FindIml(const char *имя);
-Рисунок  GetImlImage(const char *имя);
-void   SetImlImage(const char *имя, const Рисунок& m);
+int    FindIml(const char *name);
+Image  GetImlImage(const char *name);
+void   SetImlImage(const char *name, const Image& m);
 
-Ткст StoreImageAsString(const Рисунок& img);
-Рисунок  LoadImageFromString(const Ткст& s);
-Размер   GetImageStringSize(const Ткст& src);
-Размер   GetImageStringDots(const Ткст& src);
+String StoreImageAsString(const Image& img);
+Image  LoadImageFromString(const String& s);
+Size   GetImageStringSize(const String& src);
+Size   GetImageStringDots(const String& src);
 
 #include "Raster.h"
 #include "ImageOp.h"

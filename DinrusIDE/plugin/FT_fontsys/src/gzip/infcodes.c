@@ -9,7 +9,7 @@
 #include "infcodes.h"
 #include "infutil.h"
 
-/* simplify the use of the inflate_huft тип with some defines */
+/* simplify the use of the inflate_huft type with some defines */
 #define exop word.what.Exop
 #define bits word.what.Bits
 
@@ -23,7 +23,7 @@ typedef enum {        /* waiting for "i:"=input, "o:"=output, "x:"=nothing */
       LIT,      /* o: got literal, waiting for output space */
       WASH,     /* o: got eob, possibly still output waiting */
       END,      /* x: got eob and all data flushed */
-      BADCODE}  /* x: got Ошибка */
+      BADCODE}  /* x: got error */
 inflate_codes_mode;
 
 /* inflate codes private state */
@@ -47,8 +47,8 @@ struct inflate_codes_state {
   } sub;                /* submode */
 
   /* mode independent information */
-  Байт lbits;           /* ltree bits decoded per branch */
-  Байт dbits;           /* dtree bits decoder per branch */
+  Byte lbits;           /* ltree bits decoded per branch */
+  Byte dbits;           /* dtree bits decoder per branch */
   inflate_huft *ltree;          /* literal/length/eob tree */
   inflate_huft *dtree;          /* distance tree */
 
@@ -67,8 +67,8 @@ z_streamp z )
        ZALLOC(z,1,sizeof(struct inflate_codes_state))) != Z_NULL)
   {
     c->mode = START;
-    c->lbits = (Байт)bl;
-    c->dbits = (Байт)bd;
+    c->lbits = (Byte)bl;
+    c->dbits = (Byte)bd;
     c->ltree = tl;
     c->dtree = td;
     Tracev((stderr, "inflate:       codes new\n"));
@@ -85,8 +85,8 @@ int r )
   uInt j;               /* temporary storage */
   inflate_huft *t;      /* temporary pointer */
   uInt e;               /* extra bits or operation */
-  uLong b;              /* bit буфер */
-  uInt k;               /* bits in bit буфер */
+  uLong b;              /* bit buffer */
+  uInt k;               /* bits in bit buffer */
   Bytef *p;             /* input data pointer */
   uInt n;               /* bytes available there */
   Bytef *q;             /* output window write pointer */
@@ -228,7 +228,7 @@ int r )
     case END:
       r = Z_STREAM_END;
       LEAVE
-    case BADCODE:       /* x: got Ошибка */
+    case BADCODE:       /* x: got error */
       r = Z_DATA_ERROR;
       LEAVE
     default:

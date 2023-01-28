@@ -46,7 +46,7 @@
     FT_Byte*       p;
     FT_UInt        fd_select;
     FT_Stream      stream       = face->cid_stream;
-    FT_Error       Ошибка        = CID_Err_Ok;
+    FT_Error       error        = CID_Err_Ok;
     FT_Byte*       charstring   = 0;
     FT_Memory      memory       = face->root.memory;
     FT_ULong       glyph_length = 0;
@@ -69,9 +69,9 @@
       FT_Data  glyph_data;
 
 
-      Ошибка = inc->funcs->get_glyph_data( inc->object,
+      error = inc->funcs->get_glyph_data( inc->object,
                                           glyph_index, &glyph_data );
-      if ( Ошибка )
+      if ( error )
         goto Exit;
 
       p         = (FT_Byte*)glyph_data.pointer;
@@ -81,14 +81,14 @@
       {
         glyph_length = glyph_data.length - cid->fd_bytes;
         (void)FT_ALLOC( charstring, glyph_length );
-        if ( !Ошибка )
+        if ( !error )
           ft_memcpy( charstring, glyph_data.pointer + cid->fd_bytes,
                      glyph_length );
       }
 
       inc->funcs->free_glyph_data( inc->object, &glyph_data );
 
-      if ( Ошибка )
+      if ( error )
         goto Exit;
     }
 
@@ -117,7 +117,7 @@
 
       if ( fd_select >= (FT_UInt)cid->num_dicts )
       {
-        Ошибка = CID_Err_Invalid_Offset;
+        error = CID_Err_Invalid_Offset;
         goto Exit;
       }
       if ( glyph_length == 0 )
@@ -157,7 +157,7 @@
       if ( decoder->lenIV >= 0 )
         psaux->t1_decrypt( charstring, glyph_length, 4330 );
 
-      Ошибка = decoder->funcs.parse_charstrings(
+      error = decoder->funcs.parse_charstrings(
                 decoder, charstring + cs_offset,
                 (FT_Int)glyph_length - cs_offset );
     }
@@ -167,7 +167,7 @@
 #ifdef FT_CONFIG_OPTION_INCREMENTAL
 
     /* Incremental fonts can optionally override the metrics. */
-    if ( !Ошибка && inc && inc->funcs->get_glyph_metrics )
+    if ( !error && inc && inc->funcs->get_glyph_metrics )
     {
       FT_Incremental_MetricsRec  metrics;
 
@@ -177,7 +177,7 @@
       metrics.advance   = FIXED_TO_INT( decoder->builder.advance.x );
       metrics.advance_v = FIXED_TO_INT( decoder->builder.advance.y );
 
-      Ошибка = inc->funcs->get_glyph_metrics( inc->object,
+      error = inc->funcs->get_glyph_metrics( inc->object,
                                              glyph_index, FALSE, &metrics );
 
       decoder->builder.left_bearing.x = INT_TO_FIXED( metrics.bearing_x );
@@ -188,7 +188,7 @@
 #endif /* FT_CONFIG_OPTION_INCREMENTAL */
 
   Exit:
-    return Ошибка;
+    return error;
   }
 
 
@@ -205,7 +205,7 @@
   /**********    The following code is in charge of computing      *********/
   /**********    the maximum advance width of the font.  It        *********/
   /**********    quickly processes each glyph charstring to        *********/
-  /**********    extract the значение from either a `sbw' or `seac'   *********/
+  /**********    extract the value from either a `sbw' or `seac'   *********/
   /**********    operator.                                         *********/
   /**********                                                      *********/
   /*************************************************************************/
@@ -217,7 +217,7 @@
   cid_face_compute_max_advance( CID_Face  face,
                                 FT_Int*   max_advance )
   {
-    FT_Error       Ошибка;
+    FT_Error       error;
     T1_DecoderRec  decoder;
     FT_Int         glyph_index;
 
@@ -227,7 +227,7 @@
     *max_advance = 0;
 
     /* Initialize load decoder */
-    Ошибка = psaux->t1_decoder_funcs->init( &decoder,
+    error = psaux->t1_decoder_funcs->init( &decoder,
                                            (FT_Face)face,
                                            0, /* size       */
                                            0, /* glyph slot */
@@ -235,10 +235,10 @@
                                            0, /* blend == 0 */
                                            0, /* hinting == 0 */
                                            cid_load_glyph );
-    if ( Ошибка )
-      return Ошибка;
+    if ( error )
+      return error;
 
-    /* TODO: initialize decoder.len_buildchar and decoder.buildchar */
+    /* СДЕЛАТЬ: initialize decoder.len_buildchar and decoder.buildchar */
     /*       if we ever support CID-keyed multiple master fonts     */
 
     decoder.builder.metrics_only = 1;
@@ -250,8 +250,8 @@
           glyph_index++ )
     {
       /* now get load the unscaled outline */
-      Ошибка = cid_load_glyph( &decoder, glyph_index );
-      /* ignore the Ошибка if one occurred - skip to next glyph */
+      error = cid_load_glyph( &decoder, glyph_index );
+      /* ignore the error if one occurred - skip to next glyph */
     }
 
     *max_advance = FIXED_TO_INT( decoder.builder.advance.x );
@@ -272,7 +272,7 @@
                        FT_Int32      load_flags )
   {
     CID_GlyphSlot  glyph = (CID_GlyphSlot)cidglyph;
-    FT_Error       Ошибка;
+    FT_Error       error;
     T1_DecoderRec  decoder;
     CID_Face       face = (CID_Face)cidglyph->face;
     FT_Bool        hinting;
@@ -284,7 +284,7 @@
 
     if ( glyph_index >= (FT_UInt)face->root.num_glyphs )
     {
-      Ошибка = CID_Err_Invalid_Argument;
+      error = CID_Err_Invalid_Argument;
       goto Exit;
     }
 
@@ -300,9 +300,9 @@
     hinting = FT_BOOL( ( load_flags & FT_LOAD_NO_SCALE   ) == 0 &&
                        ( load_flags & FT_LOAD_NO_HINTING ) == 0 );
 
-    cidglyph->формат = FT_GLYPH_FORMAT_OUTLINE;
+    cidglyph->format = FT_GLYPH_FORMAT_OUTLINE;
 
-    Ошибка = psaux->t1_decoder_funcs->init( &decoder,
+    error = psaux->t1_decoder_funcs->init( &decoder,
                                            cidglyph->face,
                                            cidsize,
                                            cidglyph,
@@ -311,18 +311,18 @@
                                            hinting,
                                            FT_LOAD_TARGET_MODE( load_flags ),
                                            cid_load_glyph );
-    if ( Ошибка )
+    if ( error )
       goto Exit;
 
-    /* TODO: initialize decoder.len_buildchar and decoder.buildchar */
+    /* СДЕЛАТЬ: initialize decoder.len_buildchar and decoder.buildchar */
     /*       if we ever support CID-keyed multiple master fonts     */
 
     /* set up the decoder */
     decoder.builder.no_recurse = FT_BOOL(
       ( ( load_flags & FT_LOAD_NO_RECURSE ) != 0 ) );
 
-    Ошибка = cid_load_glyph( &decoder, glyph_index );
-    if ( Ошибка )
+    error = cid_load_glyph( &decoder, glyph_index );
+    if ( error )
       goto Exit;
 
     font_matrix = decoder.font_matrix;
@@ -372,7 +372,7 @@
                                       face->cid.font_bbox.yMin ) >> 16;
       cidglyph->linearVertAdvance = metrics->vertAdvance;
 
-      cidglyph->формат            = FT_GLYPH_FORMAT_OUTLINE;
+      cidglyph->format            = FT_GLYPH_FORMAT_OUTLINE;
 
       if ( cidsize->metrics.y_ppem < 24 )
         cidglyph->outline.flags |= FT_OUTLINE_HIGH_PRECISION;
@@ -435,7 +435,7 @@
     }
 
   Exit:
-    return Ошибка;
+    return error;
   }
 
 

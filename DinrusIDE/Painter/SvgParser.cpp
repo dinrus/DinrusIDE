@@ -3,22 +3,22 @@
 
 #define LLOG(x)
 
-namespace РНЦП {
+namespace Upp {
 
 #include "SvgInternal.h"
 
 void SvgParser::ResolveGradient(int i)
 {
 	Gradient& g = gradient[i];
-	if(g.resolved || g.href.дайСчёт() < 2)
+	if(g.resolved || g.href.GetCount() < 2)
 		return;
-	int q = gradient.найди(g.href.середина(1));
+	int q = gradient.Find(g.href.Mid(1));
 	g.resolved = true;
 	if(q < 0)
 		return;
 	ResolveGradient(q);
 	Gradient& g2 = gradient[q];
-	if(g.stop.дайСчёт() == 0)
+	if(g.stop.GetCount() == 0)
 		g.stop <<= g2.stop;
 	g.a.x = Nvl(Nvl(g.a.x, g2.a.x));
 	g.a.y = Nvl(Nvl(g.a.y, g2.a.y));
@@ -33,49 +33,49 @@ void SvgParser::ResolveGradient(int i)
 	g.style = Nvl(Nvl(g.style, g2.style), GRADIENT_PAD);
 }
 
-void SvgParser::StartElement(const УзелРяр& n)
+void SvgParser::StartElement(const XmlNode& n)
 {
-	State& s = state.добавь();
-	s = state[state.дайСчёт() - 2];
+	State& s = state.Add();
+	s = state[state.GetCount() - 2];
 	s.n = current;
 	current = &n;
-	bp.старт();
+	bp.Begin();
 	bp.Transform(Transform(Txt("transform")));
-	Стиль(Txt("style"));
-	Ткст classid = Txt("class");
-	if(classid.дайСчёт())
-		Стиль(classes.дай(classid, Ткст()));
-	for(int i = 0; i < n.дайСчётАтров(); i++)
-		ProcessValue(n.идАтра(i), n.Атр(i));
+	Style(Txt("style"));
+	String classid = Txt("class");
+	if(classid.GetCount())
+		Style(classes.Get(classid, String()));
+	for(int i = 0; i < n.GetAttrCount(); i++)
+		ProcessValue(n.AttrId(i), n.Attr(i));
 	closed = false;
 }
 
 void SvgParser::EndElement()
 {
 	if(!closed) {
-		sw.Stroke(0, чёрный()); // финиш path to allow new transformations, if not yet done
+		sw.Stroke(0, Black()); // Finish path to allow new transformations, if not yet done
 	}
-	current = state.верх().n;
-	state.сбрось();
-	bp.стоп();
+	current = state.Top().n;
+	state.Drop();
+	bp.End();
 }
 
 void SvgParser::DoGradient(int gi, bool stroke)
 {
-	State& s = state.верх();
+	State& s = state.Top();
 	ResolveGradient(gi);
 	Gradient& g = gradient[gi];
-	if(g.stop.дайСчёт()) {
-		for(int i = 0; i < g.stop.дайСчёт(); i++)
+	if(g.stop.GetCount()) {
+		for(int i = 0; i < g.stop.GetCount(); i++)
 			sw.ColorStop(g.stop[i].offset, g.stop[i].color);
-		ТочкаПЗ a = g.a;
-		ТочкаПЗ b = g.b;
-		ТочкаПЗ c = g.c;
-		ТочкаПЗ f = g.f;
-		ТочкаПЗ r(g.r, g.r);
-		РазмерПЗ sz = bp.boundingbox.дайРазм();
-		ТочкаПЗ pos = bp.boundingbox.верхЛево();
-		if(пусто_ли(b.x))
+		Pointf a = g.a;
+		Pointf b = g.b;
+		Pointf c = g.c;
+		Pointf f = g.f;
+		Pointf r(g.r, g.r);
+		Sizef sz = bp.boundingbox.GetSize();
+		Pointf pos = bp.boundingbox.TopLeft();
+		if(IsNull(b.x))
 			b.x = g.user_space ? bp.boundingbox.right : 1.0;
 		if(g.user_space) {
 			a = (a - pos) / sz;
@@ -95,7 +95,7 @@ void SvgParser::DoGradient(int gi, bool stroke)
 			f = (f - c) / r;
 		}
 		else {
-			ТочкаПЗ d = b - a;
+			Pointf d = b - a;
 			m.x.x = d.x;
 			m.x.y = -d.y;
 			m.y.x = d.y;
@@ -103,10 +103,10 @@ void SvgParser::DoGradient(int gi, bool stroke)
 			m.t = a;
 		}
 		m = m * Xform2D::Scale(sz.cx, sz.cy) * Xform2D::Translation(pos.x, pos.y);
-		if(g.transform.дайСчёт())
+		if(g.transform.GetCount())
 			m = m * Transform(g.transform);
-		КЗСА c1 = g.stop[0].color;
-		КЗСА c2 = g.stop.верх().color;
+		RGBA c1 = g.stop[0].color;
+		RGBA c2 = g.stop.Top().color;
 		if(stroke)
 			if(g.radial)
 				sw.Stroke(s.stroke_width, f, c1, c2, m, g.style);
@@ -117,7 +117,7 @@ void SvgParser::DoGradient(int gi, bool stroke)
 				sw.Fill(f, c1, c2, m, g.style);
 			else
 				sw.Fill(c1, c2, m, g.style);
-		bp.финиш(stroke * s.stroke_width);
+		bp.Finish(stroke * s.stroke_width);
 		sw.ClearStops();
 		closed = true;
 	}
@@ -125,62 +125,62 @@ void SvgParser::DoGradient(int gi, bool stroke)
 
 void SvgParser::StrokeFinishElement()
 {
-	State& s = state.верх();
+	State& s = state.Top();
 	if(s.stroke_width > 0) {
 		double o = s.opacity * s.stroke_opacity;
 		if(o != 1) {
-			sw.старт();
+			sw.Begin();
 			sw.Opacity(o);
 		}
 		if(s.stroke_gradient >= 0 && s.stroke_width > 0)
 			DoGradient(s.stroke_gradient, true);
 		else
-		if(!пусто_ли(s.stroke) && s.stroke_width > 0) {
+		if(!IsNull(s.stroke) && s.stroke_width > 0) {
 			sw.Stroke(s.stroke_width, s.stroke);
-			bp.финиш(s.stroke_width);
+			bp.Finish(s.stroke_width);
 			closed = true;
 		}
 		if(o != 1)
-			sw.стоп();
+			sw.End();
 	}
 	EndElement();
 }
 
 void SvgParser::FinishElement()
 {
-	State& s = state.верх();
+	State& s = state.Top();
 	double o = s.opacity * s.fill_opacity;
 	if(o > 0) {
 		if(o != 1) {
-			sw.старт();
+			sw.Begin();
 			sw.Opacity(o);
 		}
 		if(s.fill_gradient >= 0)
 			DoGradient(s.fill_gradient, false);
 		else
-		if(!пусто_ли(s.fill)) {
+		if(!IsNull(s.fill)) {
 			sw.Fill(s.fill);
-			bp.финиш(0);
+			bp.Finish(0);
 			closed = true;
 		}
 		if(o != 1)
-			sw.стоп();
+			sw.End();
 	}
 	StrokeFinishElement();
 }
 
-void SvgParser::ParseGradient(const УзелРяр& n, bool radial)
+void SvgParser::ParseGradient(const XmlNode& n, bool radial)
 {
-	LLOG("ParseGradient " << n.Атр("id"));
-	Gradient& g = gradient.добавь(n.Атр("id"));
+	LLOG("ParseGradient " << n.Attr("id"));
+	Gradient& g = gradient.Add(n.Attr("id"));
 	g.radial = radial;
-	g.user_space = n.Атр("gradientUnits") == "userSpaceOnUse";
-	g.transform = n.Атр("gradientTransform");
-	g.href = n.Атр("xlink:href");
-	g.resolved = пусто_ли(g.href);
+	g.user_space = n.Attr("gradientUnits") == "userSpaceOnUse";
+	g.transform = n.Attr("gradientTransform");
+	g.href = n.Attr("xlink:href");
+	g.resolved = IsNull(g.href);
 	double def = g.resolved ? 0.0 : (double)Null;
 	double def5 = g.resolved ? 0.5 : (double)Null;
-	auto Dbl = [&](const char *id, double def) { return Nvl(тктДво(n.Атр(id)), def); };
+	auto Dbl = [&](const char *id, double def) { return Nvl(StrDbl(n.Attr(id)), def); };
 	g.c.x = Dbl("cx", def5);
 	g.c.y = Dbl("cy", def5);
 	g.r = Dbl("r", g.resolved ? 1.0 : (double)Null);
@@ -193,28 +193,28 @@ void SvgParser::ParseGradient(const УзелРяр& n, bool radial)
 	g.style = decode(Txt("spreadMethod"), "pad", GRADIENT_PAD, "reflect", GRADIENT_REFLECT,
 	                 "repeat", GRADIENT_REPEAT, (int)Null);
 
-	for(const УзелРяр& m : n)
-		if(m.тэг_ли("stop")) {
-			стоп &s = g.stop.добавь();
+	for(const XmlNode& m : n)
+		if(m.IsTag("stop")) {
+			Stop &s = g.stop.Add();
 			double offset = 0;
-			Ткст st = m.Атр("style");
+			String st = m.Attr("style");
 			const char *style = st;
 			double opacity = 1;
-			Цвет  color;
-			Ткст ключ, значение;
+			Color  color;
+			String key, value;
 			for(;;) {
 				if(*style == ';' || *style == '\0') {
-					значение = обрежьОба(значение);
-					if(ключ == "stop-color")
-						color = дайЦвет(значение);
+					value = TrimBoth(value);
+					if(key == "stop-color")
+						color = GetColor(value);
 					else
-					if(ключ == "stop-opacity")
-						opacity = тктДво(значение);
+					if(key == "stop-opacity")
+						opacity = StrDbl(value);
 					else
-					if(ключ == "offset")
-						offset = тктДво(значение);
-					значение.очисть();
-					ключ.очисть();
+					if(key == "offset")
+						offset = StrDbl(value);
+					value.Clear();
+					key.Clear();
 					if(*style == '\0')
 						break;
 					else
@@ -222,47 +222,47 @@ void SvgParser::ParseGradient(const УзелРяр& n, bool radial)
 				}
 				else
 				if(*style == ':') {
-					ключ << обрежьОба(значение);
-					значение.очисть();
+					key << TrimBoth(value);
+					value.Clear();
 					style++;
 				}
 				else
-					значение.конкат(*style++);
+					value.Cat(*style++);
 			}
-			значение = m.Атр("stop-color");
-			if(значение.дайСчёт())
-				color = дайЦвет(значение);
-			значение = m.Атр("stop-opacity");
-			if(значение.дайСчёт())
-				opacity = Nvl(тктДво(значение), opacity);
+			value = m.Attr("stop-color");
+			if(value.GetCount())
+				color = GetColor(value);
+			value = m.Attr("stop-opacity");
+			if(value.GetCount())
+				opacity = Nvl(StrDbl(value), opacity);
 			s.color = clamp(int(opacity * 255 + 0.5), 0, 255) * color;
-			s.offset = Nvl(тктДво(m.Атр("offset")), offset);
+			s.offset = Nvl(StrDbl(m.Attr("offset")), offset);
 		}
 }
 
-void SvgParser::Poly(const УзелРяр& n, bool line)
+void SvgParser::Poly(const XmlNode& n, bool line)
 {
-	Вектор<Точка> r;
-	Ткст значение = n.Атр("points");
+	Vector<Point> r;
+	String value = n.Attr("points");
 	try {
-		СиПарсер p(значение);
-		while(!p.кф_ли()) {
-			ТочкаПЗ n;
-			n.x = p.читайДво();
-			p.сим(',');
-			n.y = p.читайДво();
-			r.добавь(n);
-			p.сим(',');
+		CParser p(value);
+		while(!p.IsEof()) {
+			Pointf n;
+			n.x = p.ReadDouble();
+			p.Char(',');
+			n.y = p.ReadDouble();
+			r.Add(n);
+			p.Char(',');
 		}
 	}
-	catch(СиПарсер::Ошибка) {}
-	if(r.дайСчёт()) {
+	catch(CParser::Error) {}
+	if(r.GetCount()) {
 		StartElement(n);
 		bp.Move(r[0].x, r[0].y);
-		for(int i = 1; i < r.дайСчёт(); ++i)
-			bp.Строка(r[i].x, r[i].y);
+		for(int i = 1; i < r.GetCount(); ++i)
+			bp.Line(r[i].x, r[i].y);
 		if(!line)
-			bp.закрой();
+			bp.Close();
 		if(line)
 			StrokeFinishElement();
 		else
@@ -270,150 +270,150 @@ void SvgParser::Poly(const УзелРяр& n, bool line)
 	}
 }
 
-double читайЧисло(СиПарсер& p)
+double ReadNumber(CParser& p)
 {
-	while(!p.кф_ли() && (!p.дво_ли() || p.сим_ли('.')))
-		p.пропустиТерм();
-	return p.читайДво();
+	while(!p.IsEof() && (!p.IsDouble() || p.IsChar('.')))
+		p.SkipTerm();
+	return p.ReadDouble();
 }
 
-ПрямПЗ GetSvgViewBox(const Ткст& v)
+Rectf GetSvgViewBox(const String& v)
 {
-	ПрямПЗ r = Null;
-	if(v.дайСчёт()) {
+	Rectf r = Null;
+	if(v.GetCount()) {
 		try {
-			СиПарсер p(v);
-			r.left = читайЧисло(p);
-			r.top = читайЧисло(p);
-			r.right = r.left + читайЧисло(p);
-			r.bottom = r.top + читайЧисло(p);
+			CParser p(v);
+			r.left = ReadNumber(p);
+			r.top = ReadNumber(p);
+			r.right = r.left + ReadNumber(p);
+			r.bottom = r.top + ReadNumber(p);
 		}
-		catch(СиПарсер::Ошибка) {
+		catch(CParser::Error) {
 			r = Null;
 		}
 	}
 	return r;
 }
 
-ПрямПЗ GetSvgViewBox(ПарсерРяр& xml)
+Rectf GetSvgViewBox(XmlParser& xml)
 {
 	return GetSvgViewBox(xml["viewBox"]);
 }
 
-ПрямПЗ GetSvgViewBox(const УзелРяр& xml)
+Rectf GetSvgViewBox(const XmlNode& xml)
 {
-	return GetSvgViewBox(xml.Атр("viewBox"));
+	return GetSvgViewBox(xml.Attr("viewBox"));
 }
 
-РазмерПЗ GetSvgSize(ПарсерРяр& xml)
+Sizef GetSvgSize(XmlParser& xml)
 {
-	РазмерПЗ sz;
-	sz.cx = тктДво(xml["width"]);
-	sz.cy = тктДво(xml["height"]);
-	if(пусто_ли(sz.cx) || пусто_ли(sz.cy))
+	Sizef sz;
+	sz.cx = StrDbl(xml["width"]);
+	sz.cy = StrDbl(xml["height"]);
+	if(IsNull(sz.cx) || IsNull(sz.cy))
 		sz = Null;
 	return sz;
 }
 
-ТочкаПЗ GetSvgPos(ПарсерРяр& xml)
+Pointf GetSvgPos(XmlParser& xml)
 {
-	ТочкаПЗ p;
-	p.x = тктДво(xml["x"]);
-	p.y = тктДво(xml["y"]);
-	if(пусто_ли(p.x) || пусто_ли(p.y))
+	Pointf p;
+	p.x = StrDbl(xml["x"]);
+	p.y = StrDbl(xml["y"]);
+	if(IsNull(p.x) || IsNull(p.y))
 		p = Null;
 	return p;
 }
 
-РазмерПЗ GetSvgSize(const УзелРяр& xml)
+Sizef GetSvgSize(const XmlNode& xml)
 {
-	РазмерПЗ sz;
-	sz.cx = тктДво(xml.Атр("width"));
-	sz.cy = тктДво(xml.Атр("height"));
-	if(пусто_ли(sz.cx) || пусто_ли(sz.cy))
+	Sizef sz;
+	sz.cx = StrDbl(xml.Attr("width"));
+	sz.cy = StrDbl(xml.Attr("height"));
+	if(IsNull(sz.cx) || IsNull(sz.cy))
 		sz = Null;
 	return sz;
 }
 
-ТочкаПЗ GetSvgPos(const УзелРяр& xml)
+Pointf GetSvgPos(const XmlNode& xml)
 {
-	ТочкаПЗ p;
-	p.x = тктДво(xml.Атр("x"));
-	p.y = тктДво(xml.Атр("y"));
-	if(пусто_ли(p.x) || пусто_ли(p.y))
+	Pointf p;
+	p.x = StrDbl(xml.Attr("x"));
+	p.y = StrDbl(xml.Attr("y"));
+	if(IsNull(p.x) || IsNull(p.y))
 		p = Null;
 	return p;
 }
 
-void SvgParser::Element(const УзелРяр& n, int depth, bool dosymbols)
+void SvgParser::Element(const XmlNode& n, int depth, bool dosymbols)
 {
 	if(depth > 100) // defend against id recursion
 		return;
-	LLOG("====== " << n.дайТэг());
-	if(n.тэг_ли("defs")) {
+	LLOG("====== " << n.GetTag());
+	if(n.IsTag("defs")) {
 		for(const auto& m : n)
-			if(m.тэг_ли("linearGradient"))
+			if(m.IsTag("linearGradient"))
 				ParseGradient(m, false);
 			else
-			if(m.тэг_ли("radialGradient"))
+			if(m.IsTag("radialGradient"))
 				ParseGradient(m, true);
 	}
 	else
-	if(n.тэг_ли("linearGradient"))
+	if(n.IsTag("linearGradient"))
 		ParseGradient(n, false);
 	else
-	if(n.тэг_ли("radialGradient"))
+	if(n.IsTag("radialGradient"))
 		ParseGradient(n, true);
 	else
-	if(n.тэг_ли("rect")) {
+	if(n.IsTag("rect")) {
 		StartElement(n);
 		bp.RoundedRectangle(Dbl("x"), Dbl("y"), Dbl("width"), Dbl("height"), Dbl("rx"), Dbl("ry"));
 		FinishElement();
 	}
 	else
-	if(n.тэг_ли("ellipse")) {
+	if(n.IsTag("ellipse")) {
 		StartElement(n);
 		bp.Ellipse(Dbl("cx"), Dbl("cy"), Dbl("rx"), Dbl("ry"));
 		FinishElement();
 	}
 	else
-	if(n.тэг_ли("circle")) {
+	if(n.IsTag("circle")) {
 		StartElement(n);
-		ТочкаПЗ c(Dbl("cx"), Dbl("cy"));
+		Pointf c(Dbl("cx"), Dbl("cy"));
 		double r = Dbl("r");
 		bp.Ellipse(c.x, c.y, r, r);
 		FinishElement();
 	}
 	else
-	if(n.тэг_ли("line")) {
+	if(n.IsTag("line")) {
 		StartElement(n);
-		ТочкаПЗ a(Dbl("x1"), Dbl("y1"));
-		ТочкаПЗ b(Dbl("x2"), Dbl("y2"));
+		Pointf a(Dbl("x1"), Dbl("y1"));
+		Pointf b(Dbl("x2"), Dbl("y2"));
 		bp.Move(a);
-		bp.Строка(b);
+		bp.Line(b);
 		FinishElement();
 	}
 	else
-	if(n.тэг_ли("polygon"))
+	if(n.IsTag("polygon"))
 		Poly(n, false);
 	else
-	if(n.тэг_ли("polyline"))
+	if(n.IsTag("polyline"))
 		Poly(n, true);
 	else
-	if(n.тэг_ли("path")) {
+	if(n.IsTag("path")) {
 		StartElement(n);
 		bp.Path(Txt("d"));
 		FinishElement();
 	}
 	else
-	if(n.тэг_ли("image")) {
+	if(n.IsTag("image")) {
 		StartElement(n);
-		Ткст fileName = Txt("xlink:href");
-		Ткст data;
+		String fileName = Txt("xlink:href");
+		String data;
 		resloader(fileName, data);
-		if(data.дайСчёт()) {
-			Рисунок img = StreamRaster::LoadFileAny(fileName);
-			if(!пусто_ли(img)) {
+		if(data.GetCount()) {
+			Image img = StreamRaster::LoadFileAny(fileName);
+			if(!IsNull(img)) {
 				bp.Rectangle(Dbl("x"), Dbl("y"), Dbl("width"), Dbl("height"));
 				sw.Fill(StreamRaster::LoadFileAny(fileName), Dbl("x"), Dbl("y"), Dbl("width"), 0);
 			}
@@ -421,27 +421,27 @@ void SvgParser::Element(const УзелРяр& n, int depth, bool dosymbols)
 		EndElement();
 	}
 	else
-	if(n.тэг_ли("text")) {
+	if(n.IsTag("text")) {
 		StartElement(n);
-		auto DoText = [&](const УзелРяр& n) {
-			Ткст text = n.собериТекст();
-			text.замени("\n", " ");
-			text.замени("\r", "");
-			text.замени("\t", " ");
-			if(text.дайСчёт()) {
-				Шрифт fnt = state.верх().font;
-				int anchor = state.верх().text_anchor;
+		auto DoText = [&](const XmlNode& n) {
+			String text = n.GatherText();
+			text.Replace("\n", " ");
+			text.Replace("\r", "");
+			text.Replace("\t", " ");
+			if(text.GetCount()) {
+				Font fnt = state.Top().font;
+				int anchor = state.Top().text_anchor;
 				double x = Dbl("x");
 				if(anchor) {
-					РазмерПЗ sz = дайРазмТекста(text, fnt); // TODO; GetTextSizef
+					Sizef sz = GetTextSize(text, fnt); // СДЕЛАТЬ; GetTextSizef
 					x -= anchor == 1 ? sz.cx / 2 : sz.cx;
 				}
-				bp.устТекст(x	, Dbl("y") - fnt.GetAscent(), text, fnt);
+				bp.Text(x	, Dbl("y") - fnt.GetAscent(), text, fnt);
 			}
 		};
 		DoText(n);
 		for(const auto& m : n)
-			if(m.тэг_ли("tspan")) {
+			if(m.IsTag("tspan")) {
 				StartElement(m);
 				DoText(m);
 				FinishElement();
@@ -449,19 +449,19 @@ void SvgParser::Element(const УзелРяр& n, int depth, bool dosymbols)
 		FinishElement();
 	}
 	else
-	if(n.тэг_ли("g") || n.тэг_ли("symbol") && dosymbols)
+	if(n.IsTag("g") || n.IsTag("symbol") && dosymbols)
 		Items(n, depth);
 	else
-	if(n.тэг_ли("use")) {
-		const УзелРяр *idn = idmap.дай(Nvl(n.Атр("href"), n.Атр("xlink:href")), NULL);
+	if(n.IsTag("use")) {
+		const XmlNode *idn = idmap.Get(Nvl(n.Attr("href"), n.Attr("xlink:href")), NULL);
 		if(idn) {
 			StartElement(n);
-			ПрямПЗ vr = GetSvgViewBox(*idn);
-			РазмерПЗ sz = GetSvgSize(*idn);
+			Rectf vr = GetSvgViewBox(*idn);
+			Sizef sz = GetSvgSize(*idn);
 			bp.Translate(Dbl("x"), Dbl("y"));
-			if(!пусто_ли(vr) && !пусто_ли(sz)) {
+			if(!IsNull(vr) && !IsNull(sz)) {
 				bp.Rectangle(0, 0, sz.cx, sz.cy).Clip();
-				sz /= vr.дайРазм();
+				sz /= vr.GetSize();
 				bp.Scale(sz.cx, sz.cy);
 				bp.Translate(-vr.left, -vr.top);
 			}
@@ -470,43 +470,43 @@ void SvgParser::Element(const УзелРяр& n, int depth, bool dosymbols)
 		}
 	}
 	else
-	if(n.тэг_ли("svg")) {
-		РазмерПЗ sz = GetSvgSize(n);
-		if(!пусто_ли(sz)) {
-			ТочкаПЗ p = Nvl(GetSvgPos(n), ТочкаПЗ(0, 0));
-			ПрямПЗ vb = Nvl(GetSvgViewBox(n), sz);
-			//TODO: For now, we support "xyMid meet" only
+	if(n.IsTag("svg")) {
+		Sizef sz = GetSvgSize(n);
+		if(!IsNull(sz)) {
+			Pointf p = Nvl(GetSvgPos(n), Pointf(0, 0));
+			Rectf vb = Nvl(GetSvgViewBox(n), sz);
+			//СДЕЛАТЬ: For now, we support "xyMid meet" only
 			bp.Translate(p.x, p.y);
-			bp.Scale(min(sz.cx / vb.дайШирину(), sz.cy / vb.дайВысоту()));
-			bp.Translate(-vb.верхЛево());
+			bp.Scale(min(sz.cx / vb.GetWidth(), sz.cy / vb.GetHeight()));
+			bp.Translate(-vb.TopLeft());
 			Items(n, depth);
 		}
 	}
 	else
-	if(n.тэг_ли("style")) {
-		Ткст text = n.собериТекст();
+	if(n.IsTag("style")) {
+		String text = n.GatherText();
 		try {
-			СиПарсер p(text);
-			while(!p.кф_ли()) {
-				if(p.сим('.') && p.ид_ли()) {
-					Ткст id = p.читайИд();
-					if(p.сим('{')) {
-						const char *b = p.дайУк();
-						while(!p.сим_ли('}') && !p.кф_ли())
-							p.пропустиТерм();
-						classes.добавь(id, Ткст(b, p.дайУк()));
+			CParser p(text);
+			while(!p.IsEof()) {
+				if(p.Char('.') && p.IsId()) {
+					String id = p.ReadId();
+					if(p.Char('{')) {
+						const char *b = p.GetPtr();
+						while(!p.IsChar('}') && !p.IsEof())
+							p.SkipTerm();
+						classes.Add(id, String(b, p.GetPtr()));
 					}
-					p.сим('}');
+					p.Char('}');
 				}
 				else
-					p.пропустиТерм();
+					p.SkipTerm();
 			}
 		}
-		catch(СиПарсер::Ошибка) {}
+		catch(CParser::Error) {}
 	}
 }
 
-void SvgParser::Items(const УзелРяр& n, int depth)
+void SvgParser::Items(const XmlNode& n, int depth)
 {
 	StartElement(n);
 	for(const auto& m : n)
@@ -514,36 +514,36 @@ void SvgParser::Items(const УзелРяр& n, int depth)
 	EndElement();
 }
 
-void SvgParser::MapIds(const УзелРяр& n)
+void SvgParser::MapIds(const XmlNode& n)
 {
-	Ткст id = n.Атр("id");
-	if(id.дайСчёт())
-		idmap.добавь('#' + id, &n);
+	String id = n.Attr("id");
+	if(id.GetCount())
+		idmap.Add('#' + id, &n);
 	for(const auto& m : n)
 		MapIds(m);
 }
 
 bool SvgParser::Parse(const char *xml) {
 	try {
-		УзелРяр n = разбериРЯР(xml);
+		XmlNode n = ParseXML(xml);
 		MapIds(n);
 		for(const auto& m : n)
-			if(m.тэг_ли("svg"))
+			if(m.IsTag("svg"))
 				Items(m, 0);
 	}
-	catch(ОшибкаРяр e) {
+	catch(XmlError e) {
 		return false;
 	}
 	return true;
 }
 
-SvgParser::SvgParser(Рисовало& sw)
+SvgParser::SvgParser(Painter& sw)
 :	sw(sw), bp(sw)
 {
-	переустанов();
+	Reset();
 }
 
-bool ParseSVG(Рисовало& p, const char *svg, Событие<Ткст, Ткст&> resloader, ПрямПЗ *boundingbox)
+bool ParseSVG(Painter& p, const char *svg, Event<String, String&> resloader, Rectf *boundingbox)
 {
 	SvgParser sp(p);
 	sp.bp.compute_svg_boundingbox = boundingbox;
@@ -555,82 +555,82 @@ bool ParseSVG(Рисовало& p, const char *svg, Событие<Ткст, Т�
 	return true;
 }
 
-bool RenderSVG(Рисовало& p, const char *svg, Событие<Ткст, Ткст&> resloader)
+bool RenderSVG(Painter& p, const char *svg, Event<String, String&> resloader)
 {
 	return ParseSVG(p, svg, resloader, NULL);
 }
 
-bool RenderSVG(Рисовало& p, const char *svg)
+bool RenderSVG(Painter& p, const char *svg)
 {
-	return RenderSVG(p, svg, Событие<Ткст, Ткст&>());
+	return RenderSVG(p, svg, Event<String, String&>());
 }
 
-void GetSVGDimensions(const char *svg, РазмерПЗ& sz, ПрямПЗ& viewbox)
+void GetSVGDimensions(const char *svg, Sizef& sz, Rectf& viewbox)
 {
 	viewbox = Null;
 	sz = Null;
 	try {
-		ПарсерРяр xml(svg);
-		while(!xml.тэг_ли())
-			xml.пропусти();
-		xml.передайТэг("svg");
+		XmlParser xml(svg);
+		while(!xml.IsTag())
+			xml.Skip();
+		xml.PassTag("svg");
 		viewbox = GetSvgViewBox(xml);
 		sz = GetSvgSize(xml);
 	}
-	catch(ОшибкаРяр e) {
+	catch(XmlError e) {
 	}
 }
 
-ПрямПЗ GetSVGBoundingBox(const char *svg)
+Rectf GetSVGBoundingBox(const char *svg)
 {
 	NilPainter nil;
-	ПрямПЗ bb;
-	if(!ParseSVG(nil, svg, Событие<Ткст, Ткст&>(), &bb))
+	Rectf bb;
+	if(!ParseSVG(nil, svg, Event<String, String&>(), &bb))
 		return Null;
 	return bb;
 }
 
-Рисунок RenderSVGImage(Размер sz, const char *svg, Событие<Ткст, Ткст&> resloader)
+Image RenderSVGImage(Size sz, const char *svg, Event<String, String&> resloader)
 {
-	ПрямПЗ f = GetSVGBoundingBox(svg);
-	РазмерПЗ iszf = дайРазмСхождения(f.дайРазм(), РазмерПЗ(sz.cx, sz.cy) - 10.0);
-	Размер isz((int)ceil(iszf.cx), (int)ceil(iszf.cy));
+	Rectf f = GetSVGBoundingBox(svg);
+	Sizef iszf = GetFitSize(f.GetSize(), Sizef(sz.cx, sz.cy) - 10.0);
+	Size isz((int)ceil(iszf.cx), (int)ceil(iszf.cy));
 	if(isz.cx <= 0 || isz.cy <= 0)
 		return Null;
 	ImageBuffer ib(isz);
-	БуфРисовало sw(ib);
-	sw.очисть(белый());
-	sw.Scale(min(isz.cx / f.дайШирину(), isz.cy / f.дайВысоту()));
+	BufferPainter sw(ib);
+	sw.Clear(White());
+	sw.Scale(min(isz.cx / f.GetWidth(), isz.cy / f.GetHeight()));
 	sw.Translate(-f.left, -f.top);
 	RenderSVG(sw, svg, resloader);
 	return ib;
 }
 
-Рисунок RenderSVGImage(Размер sz, const char *svg)
+Image RenderSVGImage(Size sz, const char *svg)
 {
-	return RenderSVGImage(sz, svg, Событие<Ткст, Ткст&>());
+	return RenderSVGImage(sz, svg, Event<String, String&>());
 }
 
 bool IsSVG(const char *svg)
 {
 	try {
-		ПарсерРяр xml(svg);
-		while(!xml.тэг_ли())
-			xml.пропусти();
-		if(xml.Тэг("svg"))
+		XmlParser xml(svg);
+		while(!xml.IsTag())
+			xml.Skip();
+		if(xml.Tag("svg"))
 			return true;
 	}
-	catch(ОшибкаРяр e) {
+	catch(XmlError e) {
 	}
 	return false;
 }
 
-ПрямПЗ GetSVGPathBoundingBox(const char *path)
+Rectf GetSVGPathBoundingBox(const char *path)
 {
 	NilPainter nilp;
 	BoundsPainter p(nilp);
-	p.Path(path).Fill(чёрный());
-	return p.дай();
+	p.Path(path).Fill(Black());
+	return p.Get();
 }
 
 }

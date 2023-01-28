@@ -1,6 +1,6 @@
 #include "Core.h"
 
-namespace РНЦПДинрус {
+namespace Upp {
 
 #define LLOG(x)       // RLOG(x)
 #define LDUMP(x)      // DDUMP(x)
@@ -8,179 +8,179 @@ namespace РНЦПДинрус {
 #define LTIMING(x)    // RTIMING(x)
 #define LHITCOUNT(x)  // RHITCOUNT(x)
 
-thread_local bool    СоРабота::Пул::финблок;
-thread_local int     СоРабота::индекс_трудяги = -1;
-thread_local СоРабота *СоРабота::текущ;
+thread_local bool    CoWork::Pool::finlock;
+thread_local int     CoWork::worker_index = -1;
+thread_local CoWork *CoWork::current;
 
-СоРабота::Пул& СоРабота::дайПул()
+CoWork::Pool& CoWork::GetPool()
 {
-	static СоРабота::Пул пул;
-	return пул;
+	static CoWork::Pool pool;
+	return pool;
 }
 
-void СоРабота::Пул::освободи(МРабота& job)
+void CoWork::Pool::Free(MJob& job)
 {
 	job.link_next[0] = free;
 	free = &job;
 }
 
-void СоРабота::Пул::иницНити(int nthreads)
+void CoWork::Pool::InitThreads(int nthreads)
 {
-	LLOG("Пул::иницНити: " << nthreads);
+	LLOG("Pool::InitThreads: " << nthreads);
 	for(int i = 0; i < nthreads; i++)
-		CHECK(threads.добавь().выполниХорошо([=] { индекс_трудяги = i; пускНити(i); }, true));
+		CHECK(threads.Add().RunNice([=] { worker_index = i; ThreadRun(i); }, true));
 }
 
-void СоРабота::Пул::покиньНити()
+void CoWork::Pool::ExitThreads()
 {
-	lock.войди();
+	lock.Enter();
 	quit = true;
-	lock.выйди();
+	lock.Leave();
 	waitforjob.Broadcast();
-	for(int i = 0; i < threads.дайСчёт(); i++)
-		threads[i].жди();
-	threads.очисть();
-	lock.войди();
+	for(int i = 0; i < threads.GetCount(); i++)
+		threads[i].Wait();
+	threads.Clear();
+	lock.Enter();
 	quit = false;
-	lock.выйди();
+	lock.Leave();
 }
 
-int СоРабота::дайРазмерПула()
+int CoWork::GetPoolSize()
 {
-	int n = дайПул().threads.дайСчёт();
-	return n ? n : цпбЯдра() + 2;
+	int n = GetPool().threads.GetCount();
+	return n ? n : CPU_Cores() + 2;
 }
 
-СоРабота::Пул::Пул()
+CoWork::Pool::Pool()
 {
-	ПРОВЕРЬ(!трудяга_ли());
+	ASSERT(!IsWorker());
 
-	иницНити(цпбЯдра() + 2);
+	InitThreads(CPU_Cores() + 2);
 
 	free = NULL;
 	for(int i = 0; i < SCHEDULED_MAX; i++)
-		освободи(slot[i]);
+		Free(slot[i]);
 	
 	quit = false;
 }
 
-СоРабота::Пул::~Пул()
+CoWork::Pool::~Pool()
 {
-	ПРОВЕРЬ(!трудяга_ли());
+	ASSERT(!IsWorker());
 	LLOG("Quit");
-	покиньНити();
+	ExitThreads();
 	for(int i = 0; i < SCHEDULED_MAX; i++)
-		slot[i].линкуйся();
+		slot[i].LinkSelf();
 	LLOG("Quit ended");
 }
 
-void СоРабота::финБлок()
+void CoWork::FinLock()
 {
-	if(текущ && !Пул::финблок) {
-		Пул::финблок = true;
-		дайПул().lock.войди();
+	if(current && !Pool::finlock) {
+		Pool::finlock = true;
+		GetPool().lock.Enter();
 	}
 }
 
-void СоРабота::Пул::работай(МРабота& job)
+void CoWork::Pool::DoJob(MJob& job)
 {
-	LLOG("работай (СоРабота " << фмтЦелГекс(job.work) << ")");
-	финблок = false;
+	LLOG("DoJob (CoWork " << FormatIntHex(job.work) << ")");
+	finlock = false;
 
-	СоРабота *work = job.work;
-	СоРабота::текущ = work;
+	CoWork *work = job.work;
+	CoWork::current = work;
 	bool looper = job.looper;
-	Функция<void ()> фн;
+	Function<void ()> fn;
 	if(looper) {
-		ПРОВЕРЬ(work);
+		ASSERT(work);
 		if(--work->looper_count <= 0) {
-			job.отлинкуйВсе();
-			освободи(job);
+			job.UnlinkAll();
+			Free(job);
 		}
 	}
 	else {
-		job.отлинкуйВсе();
-		фн = pick(job.фн);
-		освободи(job); // using 'job' after this point is grave Ошибка....
+		job.UnlinkAll();
+		fn = pick(job.fn);
+		Free(job); // using 'job' after this point is grave error....
 	}
 
-	lock.выйди();
+	lock.Leave();
 	std::exception_ptr exc = nullptr;
 	try {
 		if(looper)
 			work->looper_fn();
 		else
-			фн();
+			fn();
 	}
 	catch(...) {
-		LLOG("работай захватил искл");
+		LLOG("DoJob caught exception");
 		exc = std::current_exception();
 	}
-	СоРабота::текущ = NULL;
-	if(!финблок)
-		lock.войди();
+	CoWork::current = NULL;
+	if(!finlock)
+		lock.Enter();
 	if(!work)
 		return;
 	if(exc && !work->exc) {
 		work->canceled = true;
-		work->отмени0();
+		work->Cancel0();
 		work->exc = exc;
 	}
 	else
 	if(looper)
-		work->отмени0();
+		work->Cancel0();
 	if(--work->todo == 0) {
-		LLOG("Releasing waitforfinish of (СоРабота " << фмтЦелГекс(work) << ")");
+		LLOG("Releasing waitforfinish of (CoWork " << FormatIntHex(work) << ")");
 		work->waitforfinish.Signal();
 	}
-	LLOG("DoJobA, todo: " << work->todo << " (СоРабота " << фмтЦелГекс(work) << ")");
-	ПРОВЕРЬ(work->todo >= 0);
+	LLOG("DoJobA, todo: " << work->todo << " (CoWork " << FormatIntHex(work) << ")");
+	ASSERT(work->todo >= 0);
 	LLOG("Finished, remaining todo " << work->todo);
 }
 
-void СоРабота::Пул::пускНити(int tno)
+void CoWork::Pool::ThreadRun(int tno)
 {
-	LLOG("СоРабота thread #" << tno << " started");
-	Пул& p = дайПул();
-	p.lock.войди();
+	LLOG("CoWork thread #" << tno << " started");
+	Pool& p = GetPool();
+	p.lock.Enter();
 	for(;;) {
-		while(!p.jobs.вСписке()) {
-			LHITCOUNT("СоРабота: Parking thread to жди");
+		while(!p.jobs.InList()) {
+			LHITCOUNT("CoWork: Parking thread to Wait");
 			if(p.quit) {
-				p.lock.выйди();
+				p.lock.Leave();
 				return;
 			}
 			p.waiting_threads++;
 			LLOG("#" << tno << " Waiting for job");
-			p.waitforjob.жди(p.lock);
+			p.waitforjob.Wait(p.lock);
 			LLOG("#" << tno << " Waiting ended");
 			p.waiting_threads--;
 		}
 		LLOG("#" << tno << " Job acquired");
-		LHITCOUNT("СоРабота: Running new job");
-		p.работай(*p.jobs.дайСледщ());
+		LHITCOUNT("CoWork: Running new job");
+		p.DoJob(*p.jobs.GetNext());
 		LLOG("#" << tno << " Job finished");
 	}
-	p.lock.выйди();
-	LLOG("СоРабота thread #" << tno << " finished");
+	p.lock.Leave();
+	LLOG("CoWork thread #" << tno << " finished");
 }
 
-void СоРабота::Пул::суньРаботу(Функция<void ()>&& фн, СоРабота *work, bool looper)
+void CoWork::Pool::PushJob(Function<void ()>&& fn, CoWork *work, bool looper)
 {
-	ПРОВЕРЬ(free);
-	МРабота& job = *free;
+	ASSERT(free);
+	MJob& job = *free;
 	free = job.link_next[0];
-	job.линкПосле(&jobs);
+	job.LinkAfter(&jobs);
 	if(work)
-		job.линкПосле(&work->jobs, 1);
+		job.LinkAfter(&work->jobs, 1);
 	job.work = work;
 	job.looper = looper;
 	if(looper) {
-		work->looper_fn = pick(фн);
-		work->looper_count = дайРазмерПула();
+		work->looper_fn = pick(fn);
+		work->looper_count = GetPoolSize();
 	}
 	else
-		job.фн = pick(фн);
+		job.fn = pick(fn);
 	LLOG("Adding job");
 	if(looper)
 		waitforjob.Broadcast();
@@ -192,186 +192,186 @@ void СоРабота::Пул::суньРаботу(Функция<void ()>&& ф
 	}
 }
 
-bool СоРабота::пробуйПлан(Функция<void ()>&& фн)
+bool CoWork::TrySchedule(Function<void ()>&& fn)
 {
-	Пул& p = дайПул();
-	Стопор::Замок __(p.lock);
+	Pool& p = GetPool();
+	Mutex::Lock __(p.lock);
 	if(!p.free)
 		return false;
-	p.суньРаботу(pick(фн), NULL);
+	p.PushJob(pick(fn), NULL);
 	return true;
 }
 
-void СоРабота::планируй(Функция<void ()>&& фн)
+void CoWork::Schedule(Function<void ()>&& fn)
 {
-	while(!пробуйПлан(pick(фн))) Sleep(0);
+	while(!TrySchedule(pick(fn))) Sleep(0);
 }
 
-void СоРабота::делай0(Функция<void ()>&& фн, bool looper)
+void CoWork::Do0(Function<void ()>&& fn, bool looper)
 {
 	LTIMING("Scheduling callback");
-	LHITCOUNT("СоРабота: Scheduling callback");
-	LLOG("делай0, looper: " << looper << ", previous todo: " << todo);
-	Пул& p = дайПул();
-	p.lock.войди();
+	LHITCOUNT("CoWork: Scheduling callback");
+	LLOG("Do0, looper: " << looper << ", previous todo: " << todo);
+	Pool& p = GetPool();
+	p.lock.Enter();
 	if(!p.free) {
 		LLOG("Stack full: running in the originating thread");
-		LHITCOUNT("СоРабота: Stack full: Running in originating thread");
-		p.lock.выйди();
-		Пул::финблок = false;
-		фн();
-		if(Пул::финблок)
-			p.lock.выйди();
+		LHITCOUNT("CoWork: Stack full: Running in originating thread");
+		p.lock.Leave();
+		Pool::finlock = false;
+		fn();
+		if(Pool::finlock)
+			p.lock.Leave();
 		return;
 	}
-	p.суньРаботу(pick(фн), this, looper);
+	p.PushJob(pick(fn), this, looper);
 	if(looper)
-		todo += дайРазмерПула();
+		todo += GetPoolSize();
 	else
 		++todo;
-	p.lock.выйди();
+	p.lock.Leave();
 }
 
-void СоРабота::цикл(Функция<void ()>&& фн)
+void CoWork::Loop(Function<void ()>&& fn)
 {
-	индекс = 0;
-	делай0(pick(фн), true);
-	финиш();
+	index = 0;
+	Do0(pick(fn), true);
+	Finish();
 }
 
-void СоРабота::отмени0()
+void CoWork::Cancel0()
 {
-	LLOG("СоРабота отмени0");
-	Пул& p = дайПул();
-	while(!jobs.пустой(1)) {
-		LHITCOUNT("СоРабота::Canceling scheduled Job");
-		МРабота& job = *jobs.дайСледщ(1);
-		job.отлинкуйВсе();
+	LLOG("CoWork Cancel0");
+	Pool& p = GetPool();
+	while(!jobs.IsEmpty(1)) {
+		LHITCOUNT("CoWork::Canceling scheduled Job");
+		MJob& job = *jobs.GetNext(1);
+		job.UnlinkAll();
 		if(job.looper)
 			todo -= job.work->looper_count;
 		else
 			--todo;
-		p.освободи(job);
+		p.Free(job);
 	}
 }
 
-void СоРабота::финишируй0()
+void CoWork::Finish0()
 {
-	Пул& p = дайПул();
+	Pool& p = GetPool();
 	while(todo) {
-		LLOG("WaitForFinish (СоРабота " << фмтЦелГекс(this) << ")");
-		waitforfinish.жди(p.lock);
+		LLOG("WaitForFinish (CoWork " << FormatIntHex(this) << ")");
+		waitforfinish.Wait(p.lock);
 	}
 	canceled = false;
 	if(exc) {
-		LLOG("СоРабота rethrowing worker exception");
+		LLOG("CoWork rethrowing worker exception");
 		auto e = exc;
 		exc = nullptr;
-		p.lock.выйди();
+		p.lock.Leave();
 		std::rethrow_exception(e);
 	}
 }
 
-void СоРабота::отмена()
+void CoWork::Cancel()
 {
-	Пул& p = дайПул();
-	p.lock.войди();
+	Pool& p = GetPool();
+	p.lock.Enter();
 	canceled = true;
-	отмени0();
-	финишируй0();
-	p.lock.выйди();
-	LLOG("СоРабота " << фмтЦелГекс(this) << " canceled and finished");
+	Cancel0();
+	Finish0();
+	p.lock.Leave();
+	LLOG("CoWork " << FormatIntHex(this) << " canceled and finished");
 }
 
-void СоРабота::финиш() {
-	Пул& p = дайПул();
-	p.lock.войди();
-	while(!jobs.пустой(1)) {
-		LLOG("финиш: todo: " << todo << " (СоРабота " << фмтЦелГекс(this) << ")");
-		p.работай(*jobs.дайСледщ(1));
+void CoWork::Finish() {
+	Pool& p = GetPool();
+	p.lock.Enter();
+	while(!jobs.IsEmpty(1)) {
+		LLOG("Finish: todo: " << todo << " (CoWork " << FormatIntHex(this) << ")");
+		p.DoJob(*jobs.GetNext(1));
 	}
-	финишируй0();
-	p.lock.выйди();
-	LLOG("СоРабота " << фмтЦелГекс(this) << " finished");
+	Finish0();
+	p.lock.Leave();
+	LLOG("CoWork " << FormatIntHex(this) << " finished");
 }
 
-bool СоРабота::финишировал()
+bool CoWork::IsFinished()
 {
-	Пул& p = дайПул();
-	p.lock.войди();
+	Pool& p = GetPool();
+	p.lock.Enter();
 	bool b = todo == 0;
-	p.lock.выйди();
+	p.lock.Leave();
 	return b;
 }
 
-void СоРабота::устРазмерПула(int n)
+void CoWork::SetPoolSize(int n)
 {
-	Пул& p = дайПул();
-	p.покиньНити();
-	p.иницНити(n);
+	Pool& p = GetPool();
+	p.ExitThreads();
+	p.InitThreads(n);
 }
 
-void СоРабота::пайп(int stepi, Функция<void ()>&& фн)
+void CoWork::Pipe(int stepi, Function<void ()>&& fn)
 {
-	Стопор::Замок __(stepmutex);
-	auto& q = step.по(stepi);
-	LLOG("Step " << stepi << ", count: " << q.дайСчёт() << ", running: " << steprunning.дайСчёт());
-	q.добавьГолову(pick(фн));
-	if(!steprunning.по(stepi, false)) {
-		steprunning.по(stepi) = true;
+	Mutex::Lock __(stepmutex);
+	auto& q = step.At(stepi);
+	LLOG("Step " << stepi << ", count: " << q.GetCount() << ", running: " << steprunning.GetCount());
+	q.AddHead(pick(fn));
+	if(!steprunning.At(stepi, false)) {
+		steprunning.At(stepi) = true;
 		*this & [=]() {
 			LLOG("Starting step " << stepi << " processor");
-			stepmutex.войди();
+			stepmutex.Enter();
 			for(;;) {
-				Функция<void ()> f;
+				Function<void ()> f;
 				auto& q = step[stepi];
-				LLOG("StepWork " << stepi << ", todo:" << q.дайСчёт());
-				if(q.дайСчёт() == 0)
+				LLOG("StepWork " << stepi << ", todo:" << q.GetCount());
+				if(q.GetCount() == 0)
 					break;
-				f = pick(q.дайХвост());
-				q.сбросьХвост();
-				stepmutex.выйди();
+				f = pick(q.Tail());
+				q.DropTail();
+				stepmutex.Leave();
 				f();
-				stepmutex.войди();
+				stepmutex.Enter();
 			}
-			steprunning.по(stepi) = false;
-			stepmutex.выйди();
+			steprunning.At(stepi) = false;
+			stepmutex.Leave();
 			LLOG("Exiting step " << stepi << " processor");
 		};
 	}
 }
 
-void СоРабота::переустанов()
+void CoWork::Reset()
 {
 	try {
-		отмена();
+		Cancel();
 	}
 	catch(...) {}
 	todo = 0;
 	canceled = false;
 }
 
-bool СоРабота::отменён()
+bool CoWork::IsCanceled()
 {
-	return текущ && текущ->canceled;
+	return current && current->canceled;
 }
 
-int СоРабота::дайИндексТрудяги()
+int CoWork::GetWorkerIndex()
 {
-	return индекс_трудяги;
+	return worker_index;
 }
 
-СоРабота::СоРабота()
+CoWork::CoWork()
 {
-	LLOG("СоРабота конструировал " << фмтГекс(this));
+	LLOG("CoWork constructed " << FormatHex(this));
 	todo = 0;
 	canceled = false;
 }
 
-СоРабота::~СоРабота() noexcept(false)
+CoWork::~CoWork() noexcept(false)
 {
-	финиш();
-	LLOG("~СоРабота " << фмтЦелГекс(this));
+	Finish();
+	LLOG("~CoWork " << FormatIntHex(this));
 }
 
 }

@@ -15,7 +15,7 @@
  *   disclaimer in the documentation and/or other materials
  *   provided with the distribution.
  *
- *   Neither the имя of the copyright holder nor the names
+ *   Neither the name of the copyright holder nor the names
  *   of any other contributors may be used to endorse or
  *   promote products derived from this software without
  *   specific prior written permission.
@@ -51,7 +51,7 @@
 typedef struct _LIBSSH2_PUBLICKEY_CODE_LIST
 {
     int code;
-    const char *имя;
+    const char *name;
     int name_len;
 } LIBSSH2_PUBLICKEY_CODE_LIST;
 
@@ -85,12 +85,12 @@ static const LIBSSH2_PUBLICKEY_CODE_LIST publickey_status_codes[] = {
      sizeof("storage exceeded") - 1},
     {LIBSSH2_PUBLICKEY_VERSION_NOT_SUPPORTED, "version not supported",
      sizeof("version not supported") - 1},
-    {LIBSSH2_PUBLICKEY_KEY_NOT_FOUND, "ключ not found",
-     sizeof("ключ not found") - 1},
-    {LIBSSH2_PUBLICKEY_KEY_NOT_SUPPORTED, "ключ not supported",
-     sizeof("ключ not supported") - 1},
-    {LIBSSH2_PUBLICKEY_KEY_ALREADY_PRESENT, "ключ already present",
-     sizeof("ключ already present") - 1},
+    {LIBSSH2_PUBLICKEY_KEY_NOT_FOUND, "key not found",
+     sizeof("key not found") - 1},
+    {LIBSSH2_PUBLICKEY_KEY_NOT_SUPPORTED, "key not supported",
+     sizeof("key not supported") - 1},
+    {LIBSSH2_PUBLICKEY_KEY_ALREADY_PRESENT, "key already present",
+     sizeof("key already present") - 1},
     {LIBSSH2_PUBLICKEY_GENERAL_FAILURE, "general failure",
      sizeof("general failure") - 1},
     {LIBSSH2_PUBLICKEY_REQUEST_NOT_SUPPORTED, "request not supported",
@@ -101,7 +101,7 @@ static const LIBSSH2_PUBLICKEY_CODE_LIST publickey_status_codes[] = {
 /*
  * publickey_status_error
  *
- * фмт an Ошибка message from a status code
+ * Format an error message from a status code
  */
 static void
 publickey_status_error(const LIBSSH2_PUBLICKEY *pkey,
@@ -118,7 +118,7 @@ publickey_status_error(const LIBSSH2_PUBLICKEY *pkey,
         msg = "unknown";
     }
     else {
-        msg = publickey_status_codes[status].имя;
+        msg = publickey_status_codes[status].name;
     }
 
     _libssh2_error(session, LIBSSH2_ERROR_PUBLICKEY_PROTOCOL, msg);
@@ -127,7 +127,7 @@ publickey_status_error(const LIBSSH2_PUBLICKEY *pkey,
 /*
  * publickey_packet_receive
  *
- * читай a packet from the subsystem
+ * Read a packet from the subsystem
  */
 static int
 publickey_packet_receive(LIBSSH2_PUBLICKEY * pkey,
@@ -135,28 +135,28 @@ publickey_packet_receive(LIBSSH2_PUBLICKEY * pkey,
 {
     LIBSSH2_CHANNEL *channel = pkey->channel;
     LIBSSH2_SESSION *session = channel->session;
-    unsigned char буфер[4];
+    unsigned char buffer[4];
     int rc;
     *data = NULL; /* default to nothing returned */
     *data_len = 0;
 
     if(pkey->receive_state == libssh2_NB_state_idle) {
-        rc = _libssh2_channel_read(channel, 0, (char *) буфер, 4);
+        rc = _libssh2_channel_read(channel, 0, (char *) buffer, 4);
         if(rc == LIBSSH2_ERROR_EAGAIN) {
             return rc;
         }
         else if(rc != 4) {
             return _libssh2_error(session, LIBSSH2_ERROR_PUBLICKEY_PROTOCOL,
-                                  "Invalid response from publickey subsystem");
+                                  "Неверное response from publickey subsystem");
         }
 
-        pkey->receive_packet_len = _libssh2_ntohu32(буфер);
+        pkey->receive_packet_len = _libssh2_ntohu32(buffer);
         pkey->receive_packet =
             LIBSSH2_ALLOC(session, pkey->receive_packet_len);
         if(!pkey->receive_packet) {
             return _libssh2_error(session, LIBSSH2_ERROR_ALLOC,
                                   "Unable to allocate publickey response "
-                                  "буфер");
+                                  "buffer");
         }
 
         pkey->receive_state = libssh2_NB_state_sent;
@@ -188,7 +188,7 @@ publickey_packet_receive(LIBSSH2_PUBLICKEY * pkey,
 
 /* publickey_response_id
  *
- * Translate a string response имя to a numeric code
+ * Translate a string response name to a numeric code
  * Data will be incremented by 4 + response_len on success only
  */
 static int
@@ -210,9 +210,9 @@ publickey_response_id(unsigned char **pdata, size_t data_len)
         return -1;
     }
 
-    while(codes->имя) {
+    while(codes->name) {
         if((unsigned long)codes->name_len == response_len &&
-            strncmp(codes->имя, (char *) data, response_len) == 0) {
+            strncmp(codes->name, (char *) data, response_len) == 0) {
             *pdata = data + response_len;
             return codes->code;
         }
@@ -255,7 +255,7 @@ publickey_response_success(LIBSSH2_PUBLICKEY * pkey)
 
         switch(response) {
         case LIBSSH2_PUBLICKEY_RESPONSE_STATUS:
-            /* Ошибка, or processing complete */
+            /* Error, or processing complete */
         {
             unsigned long status = 0;
 
@@ -279,7 +279,7 @@ publickey_response_success(LIBSSH2_PUBLICKEY * pkey)
             if(response < 0) {
                 return _libssh2_error(session,
                                       LIBSSH2_ERROR_PUBLICKEY_PROTOCOL,
-                                      "Invalid publickey subsystem response");
+                                      "Неверное publickey subsystem response");
             }
             /* Unknown/Unexpected */
             _libssh2_error(session, LIBSSH2_ERROR_PUBLICKEY_PROTOCOL,
@@ -326,7 +326,7 @@ static LIBSSH2_PUBLICKEY *publickey_init(LIBSSH2_SESSION *session)
                                   0);
         if(!session->pkeyInit_channel) {
             if(libssh2_session_last_errno(session) == LIBSSH2_ERROR_EAGAIN)
-                /* The Ошибка state is already set, so leave it */
+                /* The error state is already set, so leave it */
                 return NULL;
             _libssh2_error(session, LIBSSH2_ERROR_CHANNEL_FAILURE,
                            "Unable to startup channel");
@@ -441,19 +441,19 @@ static LIBSSH2_PUBLICKEY *publickey_init(LIBSSH2_SESSION *session)
             if((response =
                  publickey_response_id(&s, session->pkeyInit_data_len)) < 0) {
                 _libssh2_error(session, LIBSSH2_ERROR_PUBLICKEY_PROTOCOL,
-                               "Invalid publickey subsystem response code");
+                               "Неверное publickey subsystem response code");
                 goto err_exit;
             }
 
             if(session->pkeyInit_data_len < 4) {
                 _libssh2_error(session, LIBSSH2_ERROR_BUFFER_TOO_SMALL,
-                               "Public ключ init data too small");
+                               "Public key init data too small");
                 goto err_exit;
             }
 
             switch(response) {
             case LIBSSH2_PUBLICKEY_RESPONSE_STATUS:
-                /* Ошибка */
+                /* Error */
             {
                 unsigned long status, descr_len, lang_len;
 
@@ -465,7 +465,7 @@ static LIBSSH2_PUBLICKEY *publickey_init(LIBSSH2_SESSION *session)
                 }
                 else {
                     _libssh2_error(session, LIBSSH2_ERROR_BUFFER_TOO_SMALL,
-                                   "Public ключ init data too small");
+                                   "Public key init data too small");
                     goto err_exit;
                 }
 
@@ -478,7 +478,7 @@ static LIBSSH2_PUBLICKEY *publickey_init(LIBSSH2_SESSION *session)
                 }
                 else {
                     _libssh2_error(session, LIBSSH2_ERROR_BUFFER_TOO_SMALL,
-                                   "Public ключ init data too small");
+                                   "Public key init data too small");
                     goto err_exit;
                 }
 
@@ -489,7 +489,7 @@ static LIBSSH2_PUBLICKEY *publickey_init(LIBSSH2_SESSION *session)
                 }
                 else {
                     _libssh2_error(session, LIBSSH2_ERROR_BUFFER_TOO_SMALL,
-                                   "Public ключ init data too small");
+                                   "Public key init data too small");
                     goto err_exit;
                 }
 
@@ -580,10 +580,10 @@ libssh2_publickey_init(LIBSSH2_SESSION *session)
 /*
  * libssh2_publickey_add_ex
  *
- * добавь a new public ключ entry
+ * Add a new public key entry
  */
 LIBSSH2_API int
-libssh2_publickey_add_ex(LIBSSH2_PUBLICKEY *pkey, const unsigned char *имя,
+libssh2_publickey_add_ex(LIBSSH2_PUBLICKEY *pkey, const unsigned char *name,
                          unsigned long name_len, const unsigned char *blob,
                          unsigned long blob_len, char overwrite,
                          unsigned long num_attrs,
@@ -591,7 +591,7 @@ libssh2_publickey_add_ex(LIBSSH2_PUBLICKEY *pkey, const unsigned char *имя,
 {
     LIBSSH2_CHANNEL *channel;
     LIBSSH2_SESSION *session;
-    /*  19 = packet_len(4) + add_len(4) + "add"(3) + name_len(4) + {имя}
+    /*  19 = packet_len(4) + add_len(4) + "add"(3) + name_len(4) + {name}
         blob_len(4) + {blob} */
     unsigned long i, packet_len = 19 + name_len + blob_len;
     unsigned char *comment = NULL;
@@ -608,15 +608,15 @@ libssh2_publickey_add_ex(LIBSSH2_PUBLICKEY *pkey, const unsigned char *имя,
         pkey->add_packet = NULL;
 
         _libssh2_debug(session, LIBSSH2_TRACE_PUBLICKEY, "Adding %s publickey",
-                       имя);
+                       name);
 
         if(pkey->version == 1) {
             for(i = 0; i < num_attrs; i++) {
                 /* Search for a comment attribute */
                 if(attrs[i].name_len == (sizeof("comment") - 1) &&
-                    strncmp(attrs[i].имя, "comment",
+                    strncmp(attrs[i].name, "comment",
                             sizeof("comment") - 1) == 0) {
-                    comment = (unsigned char *) attrs[i].значение;
+                    comment = (unsigned char *) attrs[i].value;
                     comment_len = attrs[i].value_len;
                     break;
                 }
@@ -655,7 +655,7 @@ libssh2_publickey_add_ex(LIBSSH2_PUBLICKEY *pkey, const unsigned char *имя,
 
             _libssh2_htonu32(pkey->add_s, name_len);
             pkey->add_s += 4;
-            memcpy(pkey->add_s, имя, name_len);
+            memcpy(pkey->add_s, name, name_len);
             pkey->add_s += name_len;
             _libssh2_htonu32(pkey->add_s, blob_len);
             pkey->add_s += 4;
@@ -667,7 +667,7 @@ libssh2_publickey_add_ex(LIBSSH2_PUBLICKEY *pkey, const unsigned char *имя,
 
             _libssh2_htonu32(pkey->add_s, name_len);
             pkey->add_s += 4;
-            memcpy(pkey->add_s, имя, name_len);
+            memcpy(pkey->add_s, name, name_len);
             pkey->add_s += name_len;
             _libssh2_htonu32(pkey->add_s, blob_len);
             pkey->add_s += 4;
@@ -679,11 +679,11 @@ libssh2_publickey_add_ex(LIBSSH2_PUBLICKEY *pkey, const unsigned char *имя,
             for(i = 0; i < num_attrs; i++) {
                 _libssh2_htonu32(pkey->add_s, attrs[i].name_len);
                 pkey->add_s += 4;
-                memcpy(pkey->add_s, attrs[i].имя, attrs[i].name_len);
+                memcpy(pkey->add_s, attrs[i].name, attrs[i].name_len);
                 pkey->add_s += attrs[i].name_len;
                 _libssh2_htonu32(pkey->add_s, attrs[i].value_len);
                 pkey->add_s += 4;
-                memcpy(pkey->add_s, attrs[i].значение, attrs[i].value_len);
+                memcpy(pkey->add_s, attrs[i].value, attrs[i].value_len);
                 pkey->add_s += attrs[i].value_len;
                 *(pkey->add_s++) = attrs[i].mandatory ? 0x01 : 0;
             }
@@ -691,8 +691,8 @@ libssh2_publickey_add_ex(LIBSSH2_PUBLICKEY *pkey, const unsigned char *имя,
 
         _libssh2_debug(session, LIBSSH2_TRACE_PUBLICKEY,
                        "Sending publickey \"add\" packet: "
-                       "тип=%s blob_len=%ld num_attrs=%ld",
-                       имя, blob_len, num_attrs);
+                       "type=%s blob_len=%ld num_attrs=%ld",
+                       name, blob_len, num_attrs);
 
         pkey->add_state = libssh2_NB_state_created;
     }
@@ -731,12 +731,12 @@ libssh2_publickey_add_ex(LIBSSH2_PUBLICKEY *pkey, const unsigned char *имя,
  */
 LIBSSH2_API int
 libssh2_publickey_remove_ex(LIBSSH2_PUBLICKEY * pkey,
-                            const unsigned char *имя, unsigned long name_len,
+                            const unsigned char *name, unsigned long name_len,
                             const unsigned char *blob, unsigned long blob_len)
 {
     LIBSSH2_CHANNEL *channel;
     LIBSSH2_SESSION *session;
-    /* 22 = packet_len(4) + remove_len(4) + "remove"(6) + name_len(4) + {имя}
+    /* 22 = packet_len(4) + remove_len(4) + "remove"(6) + name_len(4) + {name}
        + blob_len(4) + {blob} */
     unsigned long packet_len = 22 + name_len + blob_len;
     int rc;
@@ -766,7 +766,7 @@ libssh2_publickey_remove_ex(LIBSSH2_PUBLICKEY * pkey,
         pkey->remove_s += sizeof("remove") - 1;
         _libssh2_htonu32(pkey->remove_s, name_len);
         pkey->remove_s += 4;
-        memcpy(pkey->remove_s, имя, name_len);
+        memcpy(pkey->remove_s, name, name_len);
         pkey->remove_s += name_len;
         _libssh2_htonu32(pkey->remove_s, blob_len);
         pkey->remove_s += 4;
@@ -775,8 +775,8 @@ libssh2_publickey_remove_ex(LIBSSH2_PUBLICKEY * pkey,
 
         _libssh2_debug(session, LIBSSH2_TRACE_PUBLICKEY,
                        "Sending publickey \"remove\" packet: "
-                       "тип=%s blob_len=%ld",
-                       имя, blob_len);
+                       "type=%s blob_len=%ld",
+                       name, blob_len);
 
         pkey->remove_state = libssh2_NB_state_created;
     }
@@ -811,7 +811,7 @@ libssh2_publickey_remove_ex(LIBSSH2_PUBLICKEY * pkey,
 }
 
 /* libssh2_publickey_list_fetch
- * Fetch a list of supported public ключ from a server
+ * Fetch a list of supported public key from a server
  */
 LIBSSH2_API int
 libssh2_publickey_list_fetch(LIBSSH2_PUBLICKEY * pkey, unsigned long *num_keys,
@@ -883,13 +883,13 @@ libssh2_publickey_list_fetch(LIBSSH2_PUBLICKEY * pkey, unsigned long *num_keys,
              publickey_response_id(&pkey->listFetch_s,
                                    pkey->listFetch_data_len)) < 0) {
             _libssh2_error(session, LIBSSH2_ERROR_PUBLICKEY_PROTOCOL,
-                           "Invalid publickey subsystem response code");
+                           "Неверное publickey subsystem response code");
             goto err_exit;
         }
 
         switch(response) {
         case LIBSSH2_PUBLICKEY_RESPONSE_STATUS:
-            /* Ошибка, or processing complete */
+            /* Error, or processing complete */
         {
             unsigned long status, descr_len, lang_len;
 
@@ -953,7 +953,7 @@ libssh2_publickey_list_fetch(LIBSSH2_PUBLICKEY * pkey, unsigned long *num_keys,
             /* What we want */
             if(keys >= max_keys) {
                 libssh2_publickey_list *newlist;
-                /* Grow the ключ list if necessary */
+                /* Grow the key list if necessary */
                 max_keys += 8;
                 newlist =
                     LIBSSH2_REALLOC(session, list,
@@ -992,9 +992,9 @@ libssh2_publickey_list_fetch(LIBSSH2_PUBLICKEY * pkey, unsigned long *num_keys,
                                        "publickey attributes");
                         goto err_exit;
                     }
-                    list[keys].attrs[0].имя = "comment";
+                    list[keys].attrs[0].name = "comment";
                     list[keys].attrs[0].name_len = sizeof("comment") - 1;
-                    list[keys].attrs[0].значение = (char *) pkey->listFetch_s;
+                    list[keys].attrs[0].value = (char *) pkey->listFetch_s;
                     list[keys].attrs[0].value_len = comment_len;
                     list[keys].attrs[0].mandatory = 0;
 
@@ -1018,7 +1018,7 @@ libssh2_publickey_list_fetch(LIBSSH2_PUBLICKEY * pkey, unsigned long *num_keys,
 
                 if(pkey->listFetch_s + list[keys].name_len <=
                    pkey->listFetch_data + pkey->listFetch_data_len) {
-                    list[keys].имя = pkey->listFetch_s;
+                    list[keys].name = pkey->listFetch_s;
                     pkey->listFetch_s += list[keys].name_len;
                 }
                 else {
@@ -1065,7 +1065,7 @@ libssh2_publickey_list_fetch(LIBSSH2_PUBLICKEY * pkey, unsigned long *num_keys,
 
                 if(pkey->listFetch_s + list[keys].name_len <=
                    pkey->listFetch_data + pkey->listFetch_data_len) {
-                    list[keys].имя = pkey->listFetch_s;
+                    list[keys].name = pkey->listFetch_s;
                     pkey->listFetch_s += list[keys].name_len;
                 }
                 else {
@@ -1134,7 +1134,7 @@ libssh2_publickey_list_fetch(LIBSSH2_PUBLICKEY * pkey, unsigned long *num_keys,
 
                         if(pkey->listFetch_s + list[keys].attrs[i].name_len <=
                            pkey->listFetch_data + pkey->listFetch_data_len) {
-                            list[keys].attrs[i].имя =
+                            list[keys].attrs[i].name =
                                 (char *) pkey->listFetch_s;
                             pkey->listFetch_s += list[keys].attrs[i].name_len;
                         }
@@ -1161,7 +1161,7 @@ libssh2_publickey_list_fetch(LIBSSH2_PUBLICKEY * pkey, unsigned long *num_keys,
                         if(pkey->listFetch_s +
                            list[keys].attrs[i].value_len <=
                            pkey->listFetch_data + pkey->listFetch_data_len) {
-                            list[keys].attrs[i].значение =
+                            list[keys].attrs[i].value =
                                 (char *) pkey->listFetch_s;
                             pkey->listFetch_s += list[keys].attrs[i].value_len;
                         }
@@ -1172,7 +1172,7 @@ libssh2_publickey_list_fetch(LIBSSH2_PUBLICKEY * pkey, unsigned long *num_keys,
                             goto err_exit;
                         }
 
-                        /* actually an ignored значение */
+                        /* actually an ignored value */
                         list[keys].attrs[i].mandatory = 0;
                     }
                 }
@@ -1210,7 +1210,7 @@ libssh2_publickey_list_fetch(LIBSSH2_PUBLICKEY * pkey, unsigned long *num_keys,
 }
 
 /* libssh2_publickey_list_free
- * освободи a previously fetched list of public keys
+ * Free a previously fetched list of public keys
  */
 LIBSSH2_API void
 libssh2_publickey_list_free(LIBSSH2_PUBLICKEY * pkey,
@@ -1250,7 +1250,7 @@ libssh2_publickey_shutdown(LIBSSH2_PUBLICKEY *pkey)
     session = pkey->channel->session;
 
     /*
-     * сделай sure all memory used in the state variables are free
+     * Make sure all memory used in the state variables are free
      */
     if(pkey->receive_packet) {
         LIBSSH2_FREE(session, pkey->receive_packet);

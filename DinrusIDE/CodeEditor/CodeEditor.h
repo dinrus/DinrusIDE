@@ -5,76 +5,76 @@
 #include <CtrlLib/CtrlLib.h>
 #include <plugin/pcre/Pcre.h>
 
-namespace РНЦП {
+namespace Upp {
 
 #define  LAYOUTFILE <CodeEditor/CodeEditor.lay>
 #include <CtrlCore/lay.h>
 
-#define IMAGEVECTOR Вектор
+#define IMAGEVECTOR Vector
 #define IMAGECLASS  CodeEditorImg
 #define IMAGEFILE   <CodeEditor/CodeEditor.iml>
 #include <Draw/iml_header.h>
 
 
-void FindWildcardMenu(Обрвыз1<const char *> cb, Точка p, bool tablf, Ктрл *owner, bool regexp);
+void FindWildcardMenu(Callback1<const char *> cb, Point p, bool tablf, Ctrl *owner, bool regexp);
 
 struct LineInfoRecord {
 	int    lineno;
-	Ткст breakpoint;
+	String breakpoint;
 	int    count;
-	int    Ошибка;
+	int    error;
 	int    firstedited;
 	int    edited;
 
-	LineInfoRecord() { Ошибка = 0; edited = 0; }
+	LineInfoRecord() { error = 0; edited = 0; }
 };
 
-typedef Массив<LineInfoRecord> LineInfo;
+typedef Array<LineInfoRecord> LineInfo;
 
-void очистьОшибки(LineInfo& li);
+void ClearErrors(LineInfo& li);
 
-struct LineInfoRemRecord : Движимое<LineInfoRemRecord> {
+struct LineInfoRemRecord : Moveable<LineInfoRemRecord> {
 	int    firstedited;
 	int    edited;
 };
 
-typedef Вектор<LineInfoRemRecord> LineInfoRem;
+typedef Vector<LineInfoRemRecord> LineInfoRem;
 
 void Renumber(LineInfo& lf);
 void ClearBreakpoints(LineInfo& lf);
 void ValidateBreakpoints(LineInfo& lf);
 
-class РедакторКода;
+class CodeEditor;
 
-class EditorBar : public ФреймЛево<Ктрл> {
+class EditorBar : public FrameLeft<Ctrl> {
 public:
-	virtual void рисуй(Draw& w);
-	virtual void двигМыши(Точка p, dword flags);
-	virtual void выходМыши();
-	virtual void леваяВнизу(Точка p, dword flags);
-	virtual void леваяДКлик(Точка p, dword flags);
-	virtual void праваяВнизу(Точка p, dword flags);
-	virtual void колесоМыши(Точка p, int zdelta, dword keyflags);
+	virtual void Paint(Draw& w);
+	virtual void MouseMove(Point p, dword flags);
+	virtual void MouseLeave();
+	virtual void LeftDown(Point p, dword flags);
+	virtual void LeftDouble(Point p, dword flags);
+	virtual void RightDown(Point p, dword flags);
+	virtual void MouseWheel(Point p, int zdelta, dword keyflags);
 
 private:
-	struct LnInfo : Движимое<LnInfo> {
+	struct LnInfo : Moveable<LnInfo> {
 		int    lineno;
-		Ткст breakpoint;
-		int    Ошибка;
+		String breakpoint;
+		int    error;
 		int    firstedited;
 		int    edited;
-		Рисунок  icon;
-		Ткст annotation;
+		Image  icon;
+		String annotation;
 
-		LnInfo() { lineno = -1; Ошибка = 0; firstedited = 0; edited = 0; }
+		LnInfo() { lineno = -1; error = 0; firstedited = 0; edited = 0; }
 	};
 	
-	Вектор<LnInfo>   li;
+	Vector<LnInfo>   li;
 	LineInfoRem      li_removed;
 
-	РедакторКода       *editor;
+	CodeEditor       *editor;
 	int              ptrline[2];
-	Рисунок            ptrimg[2];
+	Image            ptrimg[2];
 	bool             bingenabled;
 	bool             hilite_if_endif;
 	bool             line_numbers;
@@ -83,20 +83,20 @@ private:
 	int              next_age;
 	int              active_annotation;
 
-	Ткст& PointBreak(int& y);
-	void    sPaintImage(Draw& w, int y, int fy, const Рисунок& img);
+	String& PointBreak(int& y);
+	void    sPaintImage(Draw& w, int y, int fy, const Image& img);
 
 public:
-	Событие<int> WhenBreakpoint;
-	Событие<>    WhenAnnotationMove;
-	Событие<>    WhenAnnotationClick;
-	Событие<>    WhenAnnotationRightClick;
+	Event<int> WhenBreakpoint;
+	Event<>    WhenAnnotationMove;
+	Event<>    WhenAnnotationClick;
+	Event<>    WhenAnnotationRightClick;
 
-	void вставьСтроки(int i, int count);
-	void удалиСтроки(int i, int count);
-	void очистьСтроки();
+	void InsertLines(int i, int count);
+	void RemoveLines(int i, int count);
+	void ClearLines();
 
-	void промотай()                          { освежи(); }
+	void Scroll()                          { Refresh(); }
 
 	void SyncSize();
 
@@ -104,14 +104,14 @@ public:
 	void ClearBreakpoints();
 	void ValidateBreakpoints();
 
-	Ткст  GetBreakpoint(int ln);
-	void    SetBreakpoint(int ln, const Ткст& s);
+	String  GetBreakpoint(int ln);
+	void    SetBreakpoint(int ln, const String& s);
 	void    SetEdited(int ln, int count = 1);
 	void    ClearEdited();
-	void    устОш(int ln, int err);
-	void    очистьОшибки(int ln);
+	void    SetError(int ln, int err);
+	void    ClearErrors(int ln);
 
-	void SetEditor(РедакторКода *e)           { editor = e; }
+	void SetEditor(CodeEditor *e)           { editor = e; }
 
 	LineInfo GetLineInfo() const;
 	void     SetLineInfo(const LineInfo& li, int total);
@@ -119,17 +119,17 @@ public:
 	void     SetLineInfoRem(LineInfoRem pick_ li)    { li_removed = pick(li); }
 	
 	void     ClearAnnotations();
-	void     SetAnnotation(int line, const Рисунок& img, const Ткст& ann);
-	Ткст   GetAnnotation(int line) const;
+	void     SetAnnotation(int line, const Image& img, const String& ann);
+	String   GetAnnotation(int line) const;
 
-	int      дайНомСтр(int lineno) const;
+	int      GetLineNo(int lineno) const;
 	int      GetNoLine(int line) const;
 
-	void     устУк(int line, const Рисунок& img, int i);
+	void     SetPtr(int line, const Image& img, int i);
 	void     HidePtr();
 
 	void     EnableBreakpointing(bool b)     { bingenabled = b; }
-	void     HiliteIfEndif(bool b)           { hilite_if_endif = b; освежи(); }
+	void     HiliteIfEndif(bool b)           { hilite_if_endif = b; Refresh(); }
 	void     LineNumbers(bool b);
 	void     Annotations(int width);
 	
@@ -144,30 +144,30 @@ public:
 struct IdentPos {
 	int    begin;
 	int    end;
-	Ткст ident;
+	String ident;
 };
 
-Массив<IdentPos> GetLineIdent(const char *line);
-Вектор<Точка>   GetLineString(const wchar *wline, bool& is_begin, bool& is_end);
+Array<IdentPos> GetLineIdent(const char *line);
+Vector<Point>   GetLineString(const wchar *wline, bool& is_begin, bool& is_end);
 
 inline int  CharFilterCIdent(int i)  { return IsAlNum(i) || i == '_' ? i : 0; }
-inline bool iscidl(int c)            { return iscid(c) || буква_ли(c); }
+inline bool iscidl(int c)            { return iscid(c) || IsLetter(c); }
 inline bool islbrkt(int c)           { return c == '{' || c == '[' || c == '('; }
 inline bool isrbrkt(int c)           { return c == '}' || c == ']' || c == ')'; }
 inline bool isbrkt(int c)            { return islbrkt(c) || isrbrkt(c); }
 
-struct ДиалогНайтиЗаменить : ФреймНиз< WithIDEFindReplaceLayout<ТопОкно> > {
-	ШТкст itext;
+struct FindReplaceDlg : FrameBottom< WithIDEFindReplaceLayout<TopWindow> > {
+	WString itext;
 	bool    replacing;
 
-	virtual bool Ключ(dword ключ, int count);
-	void настрой(bool doreplace);
-	void синх();
-	bool инкрементален_ли() const              { return incremental.включен_ли() && incremental; }
+	virtual bool Key(dword key, int count);
+	void Setup(bool doreplace);
+	void Sync();
+	bool IsIncremental() const              { return incremental.IsEnabled() && incremental; }
 	
-	typedef ДиалогНайтиЗаменить ИМЯ_КЛАССА;
+	typedef FindReplaceDlg CLASSNAME;
 
-	ДиалогНайтиЗаменить();
+	FindReplaceDlg();
 };
 
 #include "Syntax.h"
@@ -177,47 +177,47 @@ struct ДиалогНайтиЗаменить : ФреймНиз< WithIDEFindRep
 #include "LogSyntax.h"
 #include "PythonSyntax.h"
 
-class РедакторКода : public СтрокРедакт, public HighlightSetup
+class CodeEditor : public LineEdit, public HighlightSetup
 {
 	friend class EditorBar;
 
 public:
-	virtual bool  Ключ(dword code, int count);
-	virtual void  леваяВнизу(Точка p, dword keyflags);
-	virtual void  леваяДКлик(Точка p, dword keyflags);
-	virtual void  LeftTriple(Точка p, dword keyflags);
-	virtual void  леваяПовтори(Точка p, dword keyflags);
-	virtual void  двигМыши(Точка p, dword keyflags);
-	virtual Рисунок рисКурсора(Точка p, dword keyflags);
-	virtual void  сериализуй(Поток& s);
-	virtual void  выходМыши();
-	virtual void  колесоМыши(Точка p, int zdelta, dword keyFlags);
+	virtual bool  Key(dword code, int count);
+	virtual void  LeftDown(Point p, dword keyflags);
+	virtual void  LeftDouble(Point p, dword keyflags);
+	virtual void  LeftTriple(Point p, dword keyflags);
+	virtual void  LeftRepeat(Point p, dword keyflags);
+	virtual void  MouseMove(Point p, dword keyflags);
+	virtual Image CursorImage(Point p, dword keyflags);
+	virtual void  Serialize(Stream& s);
+	virtual void  MouseLeave();
+	virtual void  MouseWheel(Point p, int zdelta, dword keyFlags);
 
 protected:
-	virtual void HighlightLine(int line, Вектор<СтрокРедакт::Highlight>& h, int64 pos);
-	virtual void вставьПеред(int pos, const ШТкст& s);
-	virtual void вставьПосле(int pos, const ШТкст& s);
-	virtual void удалиПеред(int pos, int size);
-	virtual void удалиПосле(int pos, int size);
+	virtual void HighlightLine(int line, Vector<LineEdit::Highlight>& h, int64 pos);
+	virtual void PreInsert(int pos, const WString& s);
+	virtual void PostInsert(int pos, const WString& s);
+	virtual void PreRemove(int pos, int size);
+	virtual void PostRemove(int pos, int size);
 	virtual void DirtyFrom(int line);
 	virtual void SelectionChanged();
 
-	virtual void очистьСтроки();
-	virtual void вставьСтроки(int line, int count);
-	virtual void удалиСтроки(int line, int count);
+	virtual void ClearLines();
+	virtual void InsertLines(int line, int count);
+	virtual void RemoveLines(int line, int count);
 
 	virtual void NewScrollPos();
 
-	virtual Ткст  дайВставьТекст();
+	virtual String  GetPasteText();
 
 	EditorBar   bar;
-	Вектор<int> line2;
+	Vector<int> line2;
 
 	struct SyntaxPos {
 		int    line;
-		Ткст data;
+		String data;
 		
-		void очисть() { line = 0; data.очисть(); }
+		void Clear() { line = 0; data.Clear(); }
 	};
 	
 	SyntaxPos   syntax_cache[6];
@@ -232,7 +232,7 @@ protected:
 
 	bool    barline;
 	double  stat_edit_time;
-	Время    last_key_time;
+	Time    last_key_time;
 
 	bool    auto_enclose;
 	bool    mark_lines;
@@ -244,7 +244,7 @@ protected:
 
 	int     ff_start_pos;
 
-	ДиалогНайтиЗаменить findreplace;
+	FindReplaceDlg findreplace;
 	
 	enum {
 		WILDANY = 16,
@@ -255,12 +255,12 @@ protected:
 	};
 
 	struct Found {
-		int     тип;
-		ШТкст text;
+		int     type;
+		WString text;
 	};
 
-	Массив<Found> foundwild;
-	ШТкст      foundtext;
+	Array<Found> foundwild;
+	WString      foundtext;
 	bool   foundsel;
 	bool   found, notfoundfw, notfoundbk;
 	int64  foundpos;
@@ -269,42 +269,42 @@ protected:
 	enum { SEL_CHARS, SEL_WORDS, SEL_LINES };
 	int    selkind;
 
-	ШТкст illuminated;
+	WString illuminated;
 
-	Ткст  iwc;
+	String  iwc;
 
-	Ткст highlight;
+	String highlight;
 	
 	int    spellcheck_comments = 0;
 	bool   wordwrap_comments = true;
 	
-	struct Подсказка : Ктрл {
-		Значение v;
-		const Дисплей *d;
+	struct Tip : Ctrl {
+		Value v;
+		const Display *d;
 		
-		virtual void рисуй(Draw& w);
+		virtual void Paint(Draw& w);
 		
-		Подсказка();
+		Tip();
 	};
 	
-	Подсказка   tip;
+	Tip   tip;
 	int   tippos;
 	
 	int   replacei;
 	
 	bool          search_canceled;
 	int           search_time0;
-	Один<Progress> search_progress;
+	One<Progress> search_progress;
 	
-	Ткст        refresh_info; // serialized next line syntax context to detect the need of full освежи
+	String        refresh_info; // serialized next line syntax context to detect the need of full Refresh
 
 	struct HlSt;
 	
-	bool   MouseSelSpecial(Точка p, dword flags);
-	void   иницНайтиЗаменить();
+	bool   MouseSelSpecial(Point p, dword flags);
+	void   InitFindReplace();
 	void   CancelBracketHighlight(int64& pos);
 	void   FindPrevNext(bool prev);
-	void   проверьФигСкобы();
+	void   CheckBrackets();
 	void   OpenNormalFindReplace0(bool replace);
 	void   OpenNormalFindReplace(bool replace);
 	void   FindReplaceAddHistory();
@@ -314,13 +314,13 @@ protected:
 	void   IncrementalFind();
 	void   NotFound();
 	void   NoFindError();
-	void   проверьОсвежиСинтакс(int64 pos, const ШТкст& text);
+	void   CheckSyntaxRefresh(int64 pos, const WString& text);
 
-	void   устНайден(int fi, int тип, const ШТкст& text);
+	void   SetFound(int fi, int type, const WString& text);
 
-	int     сверь(const wchar *f, const wchar *s, int line, bool we, bool icase, int fi = 0);
-	ШТкст GetWild(int тип, int& i);
-	ШТкст GetReplaceText();
+	int     Match(const wchar *f, const wchar *s, int line, bool we, bool icase, int fi = 0);
+	WString GetWild(int type, int& i);
+	WString GetReplaceText();
 
 	bool   InsertRS(int chr, int count = 1);
 
@@ -332,12 +332,12 @@ protected:
 	void   ToggleLineComments(bool usestars = false);
 	void   ToggleStarComments();
 	void   Enclose(const char *c1, const char *c2, int l = -1, int h = -1);
-	void   сделай(Событие<Ткст&> op);
-	void   TabsOrSpaces(Ткст& out, bool maketabs);
-	void   LineEnds(Ткст& out);
+	void   Make(Event<String&> op);
+	void   TabsOrSpaces(String& out, bool maketabs);
+	void   LineEnds(String& out);
 
 	enum {
-		TIMEID_PERIODIC = Ктрл::TIMEID_COUNT,
+		TIMEID_PERIODIC = Ctrl::TIMEID_COUNT,
 		TIMEID_COUNT,
 	};
 
@@ -348,81 +348,81 @@ protected:
 	bool   SearchCanceled();
 	void   EndSearchProgress();
 
-	Ткст дайОсвежиИнфо(int pos);
+	String GetRefreshInfo(int pos);
 
 public:
 	struct MouseTip {
 		int            pos;
-		Значение          значение;
-		const Дисплей *дисплей;
-		Размер           sz;
+		Value          value;
+		const Display *display;
+		Size           sz;
 	};
 
-	Событие<>            WhenSelection;
-	Врата<MouseTip&>    WhenTip;
-	Событие<>            WhenLeftDown;
-	Событие<int64>       WhenCtrlClick;
-	Событие<>            WhenAnnotationMove;
-	Событие<>            WhenAnnotationClick;
-	Событие<>            WhenAnnotationRightClick;
-	Событие<>            WhenOpenFindReplace;
-	Событие<Ткст&>     WhenPaste;
-	Событие<>            WhenUpdate;
-	Событие<int>         WhenBreakpoint;
+	Event<>            WhenSelection;
+	Gate<MouseTip&>    WhenTip;
+	Event<>            WhenLeftDown;
+	Event<int64>       WhenCtrlClick;
+	Event<>            WhenAnnotationMove;
+	Event<>            WhenAnnotationClick;
+	Event<>            WhenAnnotationRightClick;
+	Event<>            WhenOpenFindReplace;
+	Event<String&>     WhenPaste;
+	Event<>            WhenUpdate;
+	Event<int>         WhenBreakpoint;
 
-	Событие<const Вектор<Кортеж<int64, int>>&> WhenFindAll;
+	Event<const Vector<Tuple<int64, int>>&> WhenFindAll;
 
-	ФреймВерх<Кнопка>    topsbbutton;
-	ФреймВерх<Кнопка>    topsbbutton1;
+	FrameTop<Button>    topsbbutton;
+	FrameTop<Button>    topsbbutton1;
 
 	static dword find_next_key;
 	static dword find_prev_key;
 	static dword replace_key;
 
-	void   очисть();
+	void   Clear();
 
-	void   Highlight(const Ткст& h);
-	Ткст дайПодсвет() const       { return highlight; }
+	void   Highlight(const String& h);
+	String GetHighlight() const       { return highlight; }
 
 	void   EscapeFindReplace();
-	void   закройНайдиЗам();
+	void   CloseFindReplace();
 	void   FindReplace(bool pick_selection, bool pick_text, bool replace);
-	void   найдиВсе();
-	bool   найдиОт(int64 pos, bool back, bool block);
-	bool   найдиРегВыр(int64 pos, bool block);
-	bool   найди(bool back, bool block);
-	bool   найди(bool back, bool blockreplace, bool replace);
-	void   найдиСледщ();
-	void   найдиПредш();
+	void   FindAll();
+	bool   FindFrom(int64 pos, bool back, bool block);
+	bool   RegExpFind(int64 pos, bool block);
+	bool   Find(bool back, bool block);
+	bool   Find(bool back, bool blockreplace, bool replace);
+	void   FindNext();
+	void   FindPrev();
 	bool   GetStringRange(int64 cursor, int64& b, int64& e) const;
-	bool   GetStringRange(int64& b, int64& e) const { return GetStringRange(дайКурсор64(), b, e); }
-	bool   найдиТкст(bool back);
+	bool   GetStringRange(int64& b, int64& e) const { return GetStringRange(GetCursor64(), b, e); }
+	bool   FindString(bool back);
 	bool   FindLangString(bool back);
-	void   замени();
+	void   Replace();
 	void   ReplaceAll(bool rest);
 	int    BlockReplace();
 
 	void   MakeTabsOrSpaces(bool tabs);
 	void   MakeLineEnds();
 
-	void   копируйСлово();
-	void   поменяйСимы();
-	void   дублируйСтроку();
-	void   помести(int chr);
+	void   CopyWord();
+	void   SwapChars();
+	void   DuplicateLine();
+	void   Put(int chr);
 	void   FinishPut();
 
-	void   SerializeFind(Поток& s);
-	bool   IsFindOpen() const                       { return findreplace.открыт(); }
-	void   FindClose()                              { закройНайдиЗам(); }
+	void   SerializeFind(Stream& s);
+	bool   IsFindOpen() const                       { return findreplace.IsOpen(); }
+	void   FindClose()                              { CloseFindReplace(); }
 
-	void   идиК();
+	void   Goto();
 
 	void   DoFind();
 	void   DoFindBack();
 
 //	void    FindWord(bool back);
-	ШТкст GetI();
-	void    SetI(Ктрл *edit);
+	WString GetI();
+	void    SetI(Ctrl *edit);
 	void    PutI(WithDropChoice<EditString>& edit);
 
 	void   MoveNextWord(bool sel);
@@ -430,8 +430,8 @@ public:
 	void   MoveNextBrk(bool sel);
 	void   MovePrevBrk(bool sel);
 
-	Ткст GetWord(int64 pos);
-	Ткст GetWord();
+	String GetWord(int64 pos);
+	String GetWord();
 
 	bool   GetWordPos(int64 pos, int64& l, int64& h);
 
@@ -453,38 +453,38 @@ public:
 	LineInfoRem GetLineInfoRem()                      { return LineInfoRem(bar.GetLineInfoRem(), 0); }
 	void     SetLineInfoRem(LineInfoRem pick_  lf)    { bar.SetLineInfoRem(LineInfoRem(lf, 0)); }
 	double   GetStatEditTime() const                  { return stat_edit_time; }
-	void     Renumber()                               { bar.Renumber(дайСчётСтрок()); }
+	void     Renumber()                               { bar.Renumber(GetLineCount()); }
 	void     ClearBreakpoints()                       { bar.ClearBreakpoints(); }
 	void     ValidateBreakpoints()                    { bar.ValidateBreakpoints(); }
-	int      дайНомСтр(int line) const                { return bar.дайНомСтр(line); }
+	int      GetLineNo(int line) const                { return bar.GetLineNo(line); }
 	int      GetNoLine(int line) const                { return bar.GetNoLine(line); }
-	void     устУк(int line, const Рисунок& img, int i){ bar.устУк(line, img, i); }
+	void     SetPtr(int line, const Image& img, int i){ bar.SetPtr(line, img, i); }
 	void     HidePtr()                                { bar.HidePtr(); }
-	Ткст   GetBreakpoint(int line)                  { return bar.GetBreakpoint(line); }
-	void     SetBreakpoint(int line, const Ткст& b) { bar.SetBreakpoint(line, b); }
-	void     устОш(int line, int err)              { bar.устОш(line, err); }
-	void     очистьОшибки(int line = -1)               { bar.очистьОшибки(line); }
+	String   GetBreakpoint(int line)                  { return bar.GetBreakpoint(line); }
+	void     SetBreakpoint(int line, const String& b) { bar.SetBreakpoint(line, b); }
+	void     SetError(int line, int err)              { bar.SetError(line, err); }
+	void     ClearErrors(int line = -1)               { bar.ClearErrors(line); }
 	void     ClearEdited()                            { bar.ClearEdited(); }
-	int		 GetUndoCount()                           { return undo.дайСчёт(); }
+	int		 GetUndoCount()                           { return undo.GetCount(); }
 	void     GotoLine(int line);
 	void     EnableBreakpointing()                    { bar.EnableBreakpointing(true); }
 	void     DisableBreakpointing()                   { bar.EnableBreakpointing(false); }
 	void     Renumber2();
-	int      дайСтроку2(int i) const;
-	void     перефмтКоммент();
+	int      GetLine2(int i) const;
+	void     ReformatComment();
 
-// TODO: Syntax: удали
-	void     HiliteScope(byte b)                      { EditorSyntax::hilite_scope = b; освежи(); }
-	void     HiliteBracket(byte b)                    { EditorSyntax::hilite_bracket = b; освежи(); }
-	void     HiliteIfDef(byte b)                      { EditorSyntax::hilite_ifdef = b; освежи(); }
+// СДЕЛАТЬ: Syntax: Remove
+	void     HiliteScope(byte b)                      { EditorSyntax::hilite_scope = b; Refresh(); }
+	void     HiliteBracket(byte b)                    { EditorSyntax::hilite_bracket = b; Refresh(); }
+	void     HiliteIfDef(byte b)                      { EditorSyntax::hilite_ifdef = b; Refresh(); }
 	void     HiliteIfEndif(bool b)                    { bar.HiliteIfEndif(b); }
 
-	void     ThousandsSeparator(bool b)               { thousands_separator = b; освежи(); }
+	void     ThousandsSeparator(bool b)               { thousands_separator = b; Refresh(); }
 	void     IndentSpaces(bool is)                    { indent_spaces = is; }
 	void     IndentAmount(int ia)                     { indent_amount = ia; }
 	void     NoParenthesisIndent(bool b)              { no_parenthesis_indent = b; }
 	
-	void     SpellcheckComments(int lang)             { spellcheck_comments = lang; освежи(); }
+	void     SpellcheckComments(int lang)             { spellcheck_comments = lang; Refresh(); }
 	int      GetSpellcheckComments() const            { return spellcheck_comments; }
 	void     WordwrapComments(bool b)                 { wordwrap_comments = b; }
 	bool     IsWordwrapComments() const               { return wordwrap_comments; }
@@ -506,46 +506,46 @@ public:
 	
 	void     Annotations(int width)                   { bar.Annotations(width); }
 	void     ClearAnnotations()                       { bar.ClearAnnotations(); }
-	void     SetAnnotation(int i, const Рисунок& icon, const Ткст& a) { bar.SetAnnotation(i, icon, a); }
-	Ткст   GetAnnotation(int i) const               { return bar.GetAnnotation(i); }
+	void     SetAnnotation(int i, const Image& icon, const String& a) { bar.SetAnnotation(i, icon, a); }
+	String   GetAnnotation(int i) const               { return bar.GetAnnotation(i); }
 	int      GetActiveAnnotationLine() const          { return bar.GetActiveAnnotationLine(); }
 
-	void     HideBar()                                { bar.скрой(); }
+	void     HideBar()                                { bar.Hide(); }
 
 	void     SyncTip();
-	void     CloseTip()                               { if(tip.открыт()) tip.закрой(); tip.d = NULL;  }
+	void     CloseTip()                               { if(tip.IsOpen()) tip.Close(); tip.d = NULL;  }
 	
-	void     Illuminate(const ШТкст& text);
-	ШТкст  GetIlluminated() const                   { return illuminated; }
+	void     Illuminate(const WString& text);
+	WString  GetIlluminated() const                   { return illuminated; }
 
 	void     Zoom(int d);
 
-	Один<EditorSyntax> дайСинтакс(int line);
+	One<EditorSyntax> GetSyntax(int line);
 	bool IsCursorBracket(int64 pos) const;
 	bool IsMatchingBracket(int64 pos) const;
 
-// TODO: Do we really need this ?
-	Вектор<IfState> GetIfStack(int line)              { return дайСинтакс(line)->PickIfStack(); }
+// СДЕЛАТЬ: Do we really need this ?
+	Vector<IfState> GetIfStack(int line)              { return GetSyntax(line)->PickIfStack(); }
 
 	struct FindReplaceData {
-		Ткст find, replace;
-		Ткст find_list, replace_list;
+		String find, replace;
+		String find_list, replace_list;
 		bool   wholeword, wildcards, ignorecase, samecase, regexp;
 	};
 	
 	FindReplaceData GetFindReplaceData();
 	void            SetFindReplaceData(const FindReplaceData& d);
 
-	typedef РедакторКода ИМЯ_КЛАССА;
+	typedef CodeEditor CLASSNAME;
 
-	РедакторКода();
-	virtual ~РедакторКода();
+	CodeEditor();
+	virtual ~CodeEditor();
 
 	static void InitKeywords();
 };
 
-Ткст ReadList(WithDropChoice<EditString>& e);
-void   WriteList(WithDropChoice<EditString>& e, const Ткст& data);
+String ReadList(WithDropChoice<EditString>& e);
+void   WriteList(WithDropChoice<EditString>& e, const String& data);
 
 }
 

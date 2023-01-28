@@ -83,8 +83,8 @@ ZSTDMT_API size_t ZSTDMT_resetCStream(ZSTDMT_CCtx* mtctx, unsigned long long ple
 ZSTDMT_API size_t ZSTDMT_nextInputSizeHint(const ZSTDMT_CCtx* mtctx);
 ZSTDMT_API size_t ZSTDMT_compressStream(ZSTDMT_CCtx* mtctx, ZSTD_outBuffer* output, ZSTD_inBuffer* input);
 
-ZSTDMT_API size_t ZSTDMT_flushStream(ZSTDMT_CCtx* mtctx, ZSTD_outBuffer* output);   /**< @return : 0 == all flushed; >0 : still some data to be flushed; or an Ошибка code (ZSTD_isError()) */
-ZSTDMT_API size_t ZSTDMT_endStream(ZSTDMT_CCtx* mtctx, ZSTD_outBuffer* output);     /**< @return : 0 == all flushed; >0 : still some data to be flushed; or an Ошибка code (ZSTD_isError()) */
+ZSTDMT_API size_t ZSTDMT_flushStream(ZSTDMT_CCtx* mtctx, ZSTD_outBuffer* output);   /**< @return : 0 == all flushed; >0 : still some data to be flushed; or an error code (ZSTD_isError()) */
+ZSTDMT_API size_t ZSTDMT_endStream(ZSTDMT_CCtx* mtctx, ZSTD_outBuffer* output);     /**< @return : 0 == all flushed; >0 : still some data to be flushed; or an error code (ZSTD_isError()) */
 
 
 /* ===   Advanced functions and parameters  === */
@@ -107,10 +107,10 @@ ZSTDMT_API size_t ZSTDMT_initCStream_usingCDict(ZSTDMT_CCtx* mtctx,
                                         unsigned long long pledgedSrcSize);  /* note : zero means empty */
 
 /* ZSTDMT_parameter :
- * Список of parameters that can be set using ZSTDMT_setMTCtxParameter() */
+ * List of parameters that can be set using ZSTDMT_setMTCtxParameter() */
 typedef enum {
-    ZSTDMT_p_jobSize,     /* Each job is compressed in parallel. By default, this значение is dynamically determined depending on compression parameters. Can be set explicitly here. */
-    ZSTDMT_p_overlapLog,  /* Each job may reload a part of previous job to enhance compression ratio; 0 == no overlap, 6(default) == use 1/8th of window, >=9 == use full window. This is a "sticky" parameter : its значение will be re-used on next compression job */
+    ZSTDMT_p_jobSize,     /* Each job is compressed in parallel. By default, this value is dynamically determined depending on compression parameters. Can be set explicitly here. */
+    ZSTDMT_p_overlapLog,  /* Each job may reload a part of previous job to enhance compression ratio; 0 == no overlap, 6(default) == use 1/8th of window, >=9 == use full window. This is a "sticky" parameter : its value will be re-used on next compression job */
     ZSTDMT_p_rsyncable    /* Enables rsyncable mode. */
 } ZSTDMT_parameter;
 
@@ -118,13 +118,13 @@ typedef enum {
  * allow setting individual parameters, one at a time, among a list of enums defined in ZSTDMT_parameter.
  * The function must be called typically after ZSTD_createCCtx() but __before ZSTDMT_init*() !__
  * Parameters not explicitly reset by ZSTDMT_init*() remain the same in consecutive compression sessions.
- * @return : 0, or an Ошибка code (which can be tested using ZSTD_isError()) */
-ZSTDMT_API size_t ZSTDMT_setMTCtxParameter(ZSTDMT_CCtx* mtctx, ZSTDMT_parameter parameter, int значение);
+ * @return : 0, or an error code (which can be tested using ZSTD_isError()) */
+ZSTDMT_API size_t ZSTDMT_setMTCtxParameter(ZSTDMT_CCtx* mtctx, ZSTDMT_parameter parameter, int value);
 
 /* ZSTDMT_getMTCtxParameter() :
- * Query the ZSTDMT_CCtx for a parameter значение.
- * @return : 0, or an Ошибка code (which can be tested using ZSTD_isError()) */
-ZSTDMT_API size_t ZSTDMT_getMTCtxParameter(ZSTDMT_CCtx* mtctx, ZSTDMT_parameter parameter, int* значение);
+ * Query the ZSTDMT_CCtx for a parameter value.
+ * @return : 0, or an error code (which can be tested using ZSTD_isError()) */
+ZSTDMT_API size_t ZSTDMT_getMTCtxParameter(ZSTDMT_CCtx* mtctx, ZSTDMT_parameter parameter, int* value);
 
 
 /*! ZSTDMT_compressStream_generic() :
@@ -132,7 +132,7 @@ ZSTDMT_API size_t ZSTDMT_getMTCtxParameter(ZSTDMT_CCtx* mtctx, ZSTDMT_parameter 
  *  depending on flush directive.
  * @return : minimum amount of data still to be flushed
  *           0 if fully flushed
- *           or an Ошибка code
+ *           or an error code
  *  note : needs to be init using any ZSTD_initCStream*() variant */
 ZSTDMT_API size_t ZSTDMT_compressStream_generic(ZSTDMT_CCtx* mtctx,
                                                 ZSTD_outBuffer* output,
@@ -147,7 +147,7 @@ ZSTDMT_API size_t ZSTDMT_compressStream_generic(ZSTDMT_CCtx* mtctx,
 
  /*! ZSTDMT_toFlushNow()
   *  Tell how many bytes are ready to be flushed immediately.
-  *  Probe the oldest active job (not yet entirely flushed) and check its output буфер.
+  *  Probe the oldest active job (not yet entirely flushed) and check its output buffer.
   *  If return 0, it means there is no active job,
   *  or, it means oldest job is still active, but everything produced has been flushed so far,
   *  therefore flushing is limited by speed of oldest job. */
@@ -155,16 +155,16 @@ size_t ZSTDMT_toFlushNow(ZSTDMT_CCtx* mtctx);
 
 /*! ZSTDMT_CCtxParam_setMTCtxParameter()
  *  like ZSTDMT_setMTCtxParameter(), but into a ZSTD_CCtx_Params */
-size_t ZSTDMT_CCtxParam_setMTCtxParameter(ZSTD_CCtx_params* params, ZSTDMT_parameter parameter, int значение);
+size_t ZSTDMT_CCtxParam_setMTCtxParameter(ZSTD_CCtx_params* params, ZSTDMT_parameter parameter, int value);
 
 /*! ZSTDMT_CCtxParam_setNbWorkers()
- *  уст nbWorkers, and clamp it.
+ *  Set nbWorkers, and clamp it.
  *  Also reset jobSize and overlapLog */
 size_t ZSTDMT_CCtxParam_setNbWorkers(ZSTD_CCtx_params* params, unsigned nbWorkers);
 
 /*! ZSTDMT_updateCParams_whileCompressing() :
  *  Updates only a selected set of compression parameters, to remain compatible with current frame.
- *  нов parameters will be applied to next compression job. */
+ *  New parameters will be applied to next compression job. */
 void ZSTDMT_updateCParams_whileCompressing(ZSTDMT_CCtx* mtctx, const ZSTD_CCtx_params* cctxParams);
 
 /*! ZSTDMT_getFrameProgression():
@@ -175,10 +175,10 @@ ZSTD_frameProgression ZSTDMT_getFrameProgression(ZSTDMT_CCtx* mtctx);
 
 
 /*! ZSTDMT_initCStream_internal() :
- *  Private use only. иниц streaming operation.
+ *  Private use only. Init streaming operation.
  *  expects params to be valid.
  *  must receive dict, or cdict, or none, but not both.
- *  @return : 0, or an Ошибка code */
+ *  @return : 0, or an error code */
 size_t ZSTDMT_initCStream_internal(ZSTDMT_CCtx* zcs,
                     const void* dict, size_t dictSize, ZSTD_dictContentType_e dictContentType,
                     const ZSTD_CDict* cdict,

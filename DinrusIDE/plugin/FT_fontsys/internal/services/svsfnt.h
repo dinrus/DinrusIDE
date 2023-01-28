@@ -40,7 +40,7 @@ FT_BEGIN_HEADER
   (*FT_SFNT_TableLoadFunc)( FT_Face    face,
                             FT_ULong   tag,
                             FT_Long    offset,
-                            FT_Byte*   буфер,
+                            FT_Byte*   buffer,
                             FT_ULong*  length );
 
   /*

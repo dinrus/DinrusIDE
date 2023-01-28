@@ -5,7 +5,7 @@
 
 #include <Core/lib/lz4.h>
 
-namespace РНЦП {
+namespace Upp {
 
 enum {
 	LZ4F_MAGIC       = 0x184D2204,
@@ -24,56 +24,56 @@ enum {
     LZ4F_MAXSIZE_4096KB   = 0x70,
 };
 
-class LZ4CompressStream : public Поток  {
+class LZ4CompressStream : public Stream  {
 public:
-	virtual   void  закрой();
-	virtual   bool  открыт() const;
+	virtual   void  Close();
+	virtual   bool  IsOpen() const;
 
 protected:
-	virtual   void  _помести(int w);
-	virtual   void  _помести(const void *data, dword size);
+	virtual   void  _Put(int w);
+	virtual   void  _Put(const void *data, dword size);
 	
-	Поток      *out;
+	Stream      *out;
 	
-	Буфер<byte> буфер;
-	Буфер<byte> outbuf;
-	Буфер<int>  outsz;
+	Buffer<byte> buffer;
+	Buffer<byte> outbuf;
+	Buffer<int>  outsz;
 
 	enum { BLOCK_BYTES = 1024 * 1024 };
 	
-	ххХэшПоток xxh;
+	xxHashStream xxh;
 
 	bool          concurrent;
     
-    void          размести();
-	void          иниц();
+    void          Alloc();
+	void          Init();
 	void          FlushOut();
 
 public:
 	void Co(bool b = true);
-	void открой(Поток& out_);
+	void Open(Stream& out_);
 
 	LZ4CompressStream();
-	LZ4CompressStream(Поток& out) : LZ4CompressStream() { открой(out); }
+	LZ4CompressStream(Stream& out) : LZ4CompressStream() { Open(out); }
 	~LZ4CompressStream();
 };
 
-class LZ4DecompressStream : public Поток {
+class LZ4DecompressStream : public Stream {
 public:
-	virtual   bool  открыт() const;
+	virtual   bool  IsOpen() const;
 
 protected:
-	virtual   int   _прекрати();
-	virtual   int   _получи();
-	virtual   dword _получи(void *data, dword size);
+	virtual   int   _Term();
+	virtual   int   _Get();
+	virtual   dword _Get(void *data, dword size);
 
 private:
-	Поток        *in;
+	Stream        *in;
 	struct Workblock {
-		Буфер<char> c, d; // compressed, decompressed data
+		Buffer<char> c, d; // compressed, decompressed data
 		int   clen = 0, dlen = 0; // compressed, decompressed len
 		
-		void очисть() { c.очисть(); d.очисть(); }
+		void Clear() { c.Clear(); d.Clear(); }
 	};
 	Workblock wb[16];
 	int       count; // count of workblocks fetched
@@ -82,7 +82,7 @@ private:
 	
 	enum { BLOCK_BYTES = 1024*1024 };
 	
-	ххХэшПоток xxh;
+	xxHashStream xxh;
 	int          maxblock;
 	int          blockchksumsz;
 	byte         lz4hdr;
@@ -92,40 +92,40 @@ private:
 
     void          TryHeader();
 
-	void          иниц();
-	bool          следщ();
+	void          Init();
+	bool          Next();
 	void          Fetch();
-	bool          Ended() const { return ошибка_ли() || in->ошибка_ли() || ptr == rdlim && ii == count && eof; }
+	bool          Ended() const { return IsError() || in->IsError() || ptr == rdlim && ii == count && eof; }
 
 public:
-	bool открой(Поток& in);
+	bool Open(Stream& in);
 
 	void Co(bool b = true)                                  { concurrent = b; }
 
 	LZ4DecompressStream();
-	LZ4DecompressStream(Поток& in) : LZ4DecompressStream() { открой(in); }
+	LZ4DecompressStream(Stream& in) : LZ4DecompressStream() { Open(in); }
 	~LZ4DecompressStream();
 };
 
-int64  LZ4Compress(Поток& out, Поток& in, Врата<int64, int64> progress = Null);
-int64  LZ4Decompress(Поток& out, Поток& in, Врата<int64, int64> progress = Null);
-Ткст LZ4Compress(Поток& in, Врата<int64, int64> progress = Null);
-Ткст LZ4Decompress(Поток& in, Врата<int64, int64> progress = Null);
-Ткст LZ4Compress(const void *data, int64 len, Врата<int64, int64> progress = Null);
-Ткст LZ4Compress(const Ткст& s, Врата<int64, int64> progress = Null);
-Ткст LZ4Decompress(const void *data, int64 len, Врата<int64, int64> progress = Null);
-Ткст LZ4Decompress(const Ткст& s, Врата<int64, int64> progress = Null);
+int64  LZ4Compress(Stream& out, Stream& in, Gate<int64, int64> progress = Null);
+int64  LZ4Decompress(Stream& out, Stream& in, Gate<int64, int64> progress = Null);
+String LZ4Compress(Stream& in, Gate<int64, int64> progress = Null);
+String LZ4Decompress(Stream& in, Gate<int64, int64> progress = Null);
+String LZ4Compress(const void *data, int64 len, Gate<int64, int64> progress = Null);
+String LZ4Compress(const String& s, Gate<int64, int64> progress = Null);
+String LZ4Decompress(const void *data, int64 len, Gate<int64, int64> progress = Null);
+String LZ4Decompress(const String& s, Gate<int64, int64> progress = Null);
 
-int64  CoLZ4Compress(Поток& out, Поток& in, Врата<int64, int64> progress = Null);
-int64  CoLZ4Decompress(Поток& out, Поток& in, Врата<int64, int64> progress = Null);
-Ткст CoLZ4Compress(Поток& in, Врата<int64, int64> progress = Null);
-Ткст CoLZ4Decompress(Поток& in, Врата<int64, int64> progress = Null);
-Ткст CoLZ4Compress(const void *data, int64 len, Врата<int64, int64> progress = Null);
-Ткст CoLZ4Compress(const Ткст& s, Врата<int64, int64> progress = Null);
-Ткст CoLZ4Decompress(const void *data, int64 len, Врата<int64, int64> progress = Null);
-Ткст CoLZ4Decompress(const Ткст& s, Врата<int64, int64> progress = Null);
+int64  CoLZ4Compress(Stream& out, Stream& in, Gate<int64, int64> progress = Null);
+int64  CoLZ4Decompress(Stream& out, Stream& in, Gate<int64, int64> progress = Null);
+String CoLZ4Compress(Stream& in, Gate<int64, int64> progress = Null);
+String CoLZ4Decompress(Stream& in, Gate<int64, int64> progress = Null);
+String CoLZ4Compress(const void *data, int64 len, Gate<int64, int64> progress = Null);
+String CoLZ4Compress(const String& s, Gate<int64, int64> progress = Null);
+String CoLZ4Decompress(const void *data, int64 len, Gate<int64, int64> progress = Null);
+String CoLZ4Decompress(const String& s, Gate<int64, int64> progress = Null);
 
-bool IsLZ4(Поток& s);
+bool IsLZ4(Stream& s);
 
 };
 

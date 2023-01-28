@@ -38,13 +38,13 @@
   }
 
 
-  /* переустанов glyph loader and compute globals if necessary. */
+  /* Reset glyph loader and compute globals if necessary. */
 
   FT_LOCAL_DEF( FT_Error )
   af_loader_reset( AF_Loader  loader,
                    FT_Face    face )
   {
-    FT_Error  Ошибка = AF_Err_Ok;
+    FT_Error  error = AF_Err_Ok;
 
 
     loader->face    = face;
@@ -54,8 +54,8 @@
 
     if ( loader->globals == NULL )
     {
-      Ошибка = af_face_globals_new( face, &loader->globals );
-      if ( !Ошибка )
+      error = af_face_globals_new( face, &loader->globals );
+      if ( !error )
       {
         face->autohint.data =
           (FT_Pointer)loader->globals;
@@ -64,7 +64,7 @@
       }
     }
 
-    return Ошибка;
+    return error;
   }
 
 
@@ -86,7 +86,7 @@
   }
 
 
-  /* грузи a single glyph component.  This routine calls itself */
+  /* Load a single glyph component.  This routine calls itself */
   /* recursively, if necessary, and does the main work of      */
   /* `af_loader_load_glyph.'                                   */
 
@@ -97,7 +97,7 @@
                     FT_Int32   load_flags,
                     FT_UInt    depth )
   {
-    FT_Error          Ошибка;
+    FT_Error          error;
     FT_Face           face     = loader->face;
     FT_GlyphLoader    gloader  = loader->gloader;
     AF_ScriptMetrics  metrics  = loader->metrics;
@@ -106,8 +106,8 @@
     FT_Slot_Internal  internal = slot->internal;
 
 
-    Ошибка = FT_Load_Glyph( face, glyph_index, load_flags );
-    if ( Ошибка )
+    error = FT_Load_Glyph( face, glyph_index, load_flags );
+    if ( error )
       goto Exit;
 
     loader->transformed = internal->glyph_transformed;
@@ -128,7 +128,7 @@
     slot->linearHoriAdvance = slot->metrics.horiAdvance;
     slot->linearVertAdvance = slot->metrics.vertAdvance;
 
-    switch ( slot->формат )
+    switch ( slot->format )
     {
     case FT_GLYPH_FORMAT_OUTLINE:
       /* translate the loaded glyph when an internal transform is needed */
@@ -139,10 +139,10 @@
 
       /* copy the outline points in the loader's current               */
       /* extra points which is used to keep original glyph coordinates */
-      Ошибка = FT_GLYPHLOADER_CHECK_POINTS( gloader,
+      error = FT_GLYPHLOADER_CHECK_POINTS( gloader,
                                            slot->outline.n_points + 4,
                                            slot->outline.n_contours );
-      if ( Ошибка )
+      if ( error )
         goto Exit;
 
       FT_ARRAY_COPY( gloader->current.outline.points,
@@ -264,8 +264,8 @@
         start_point = gloader->base.outline.n_points;
 
         /* first of all, copy the subglyph descriptors in the glyph loader */
-        Ошибка = FT_GlyphLoader_CheckSubGlyphs( gloader, num_subglyphs );
-        if ( Ошибка )
+        error = FT_GlyphLoader_CheckSubGlyphs( gloader, num_subglyphs );
+        if ( error )
           goto Exit;
 
         FT_ARRAY_COPY( gloader->current.subglyphs,
@@ -293,9 +293,9 @@
 
           num_base_points = gloader->base.outline.n_points;
 
-          Ошибка = af_loader_load_g( loader, scaler, subglyph->index,
+          error = af_loader_load_g( loader, scaler, subglyph->index,
                                     load_flags, depth + 1 );
-          if ( Ошибка )
+          if ( error )
             goto Exit;
 
           /* recompute subglyph pointer */
@@ -343,7 +343,7 @@
             if ( start_point + k >= num_base_points         ||
                                l >= (FT_UInt)num_new_points )
             {
-              Ошибка = AF_Err_Invalid_Composite;
+              error = AF_Err_Invalid_Composite;
               goto Exit;
             }
 
@@ -381,7 +381,7 @@
 
     default:
       /* we don't support other formats (yet?) */
-      Ошибка = AF_Err_Unimplemented_Feature;
+      error = AF_Err_Unimplemented_Feature;
     }
 
   Hint_Metrics:
@@ -461,20 +461,20 @@
 
       /* now copy outline into glyph slot */
       FT_GlyphLoader_Rewind( internal->loader );
-      Ошибка = FT_GlyphLoader_CopyPoints( internal->loader, gloader );
-      if ( Ошибка )
+      error = FT_GlyphLoader_CopyPoints( internal->loader, gloader );
+      if ( error )
         goto Exit;
 
       slot->outline = internal->loader->base.outline;
-      slot->формат  = FT_GLYPH_FORMAT_OUTLINE;
+      slot->format  = FT_GLYPH_FORMAT_OUTLINE;
     }
 
   Exit:
-    return Ошибка;
+    return error;
   }
 
 
-  /* грузи a glyph. */
+  /* Load a glyph. */
 
   FT_LOCAL_DEF( FT_Error )
   af_loader_load_glyph( AF_Loader  loader,
@@ -482,7 +482,7 @@
                         FT_UInt    gindex,
                         FT_UInt32  load_flags )
   {
-    FT_Error      Ошибка;
+    FT_Error      error;
     FT_Size       size = face->size;
     AF_ScalerRec  scaler;
 
@@ -494,15 +494,15 @@
 
     scaler.face    = face;
     scaler.x_scale = size->metrics.x_scale;
-    scaler.x_delta = 0;  /* XXX: TODO: add support for sub-pixel hinting */
+    scaler.x_delta = 0;  /* XXX: СДЕЛАТЬ: add support for sub-pixel hinting */
     scaler.y_scale = size->metrics.y_scale;
-    scaler.y_delta = 0;  /* XXX: TODO: add support for sub-pixel hinting */
+    scaler.y_delta = 0;  /* XXX: СДЕЛАТЬ: add support for sub-pixel hinting */
 
     scaler.render_mode = FT_LOAD_TARGET_MODE( load_flags );
     scaler.flags       = 0;  /* XXX: fix this */
 
-    Ошибка = af_loader_reset( loader, face );
-    if ( !Ошибка )
+    error = af_loader_reset( loader, face );
+    if ( !error )
     {
       AF_ScriptMetrics  metrics;
       FT_UInt           options = 0;
@@ -514,9 +514,9 @@
         options = 2;
 #endif
 
-      Ошибка = af_face_globals_get_metrics( loader->globals, gindex,
+      error = af_face_globals_get_metrics( loader->globals, gindex,
                                            options, &metrics );
-      if ( !Ошибка )
+      if ( !error )
       {
         loader->metrics = metrics;
 
@@ -530,17 +530,17 @@
 
         if ( metrics->clazz->script_hints_init )
         {
-          Ошибка = metrics->clazz->script_hints_init( &loader->hints,
+          error = metrics->clazz->script_hints_init( &loader->hints,
                                                      metrics );
-          if ( Ошибка )
+          if ( error )
             goto Exit;
         }
 
-        Ошибка = af_loader_load_g( loader, &scaler, gindex, load_flags, 0 );
+        error = af_loader_load_g( loader, &scaler, gindex, load_flags, 0 );
       }
     }
   Exit:
-    return Ошибка;
+    return error;
   }
 
 

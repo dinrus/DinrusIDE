@@ -54,7 +54,7 @@ DumpModeEncode(TIFF* tif, uint8* pp, tmsize_t cc, uint16 s)
 
 		/*
 		 * Avoid copy if client has setup raw
-		 * data буфер to avoid extra copy.
+		 * data buffer to avoid extra copy.
 		 */
 		if (tif->tif_rawcp != pp)
 			_TIFFmemcpy(tif->tif_rawcp, pp, n);
@@ -95,7 +95,7 @@ DumpModeDecode(TIFF* tif, uint8* buf, tmsize_t cc, uint16 s)
 	}
 	/*
 	 * Avoid copy if client has setup raw
-	 * data буфер to avoid extra copy.
+	 * data buffer to avoid extra copy.
 	 */
 	if (tif->tif_rawcp != buf)
 		_TIFFmemcpy(buf, tif->tif_rawcp, cc);
@@ -105,7 +105,7 @@ DumpModeDecode(TIFF* tif, uint8* buf, tmsize_t cc, uint16 s)
 }
 
 /*
- * перейди forwards nrows in the current strip.
+ * Seek forwards nrows in the current strip.
  */
 static int
 DumpModeSeek(TIFF* tif, uint32 nrows)
@@ -137,5 +137,5 @@ TIFFInitDumpMode(TIFF* tif, int scheme)
  * mode: c
  * c-basic-offset: 8
  * fill-column: 78
- * стоп:
+ * End:
  */

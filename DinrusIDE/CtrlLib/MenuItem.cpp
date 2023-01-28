@@ -4,7 +4,7 @@
 #include <mmsystem.h>
 #endif
 
-namespace РНЦП {
+namespace Upp {
 
 #define LLOG(x)    // DLOG(x)
 #define LTIMING(x) // RTIMING(x)
@@ -14,144 +14,144 @@ MenuItemBase::MenuItemBase()
 	accel = 0;
 	state = 0;
 	isenabled = true;
-	тип = 0;
+	type = 0;
 	font = StdFont();
 	leftgap = DPI(16) + Zx(6);
 	textgap = Zy(6);
 	accesskey = 0;
 	NoWantFocus();
-	style = &БарМеню::дефСтиль();
+	style = &MenuBar::StyleDefault();
 	Transparent();
-	maxiconsize = Размер(INT_MAX, INT_MAX);
+	maxiconsize = Size(INT_MAX, INT_MAX);
 }
 
-БарМеню *MenuItemBase::GetMenuBar() const
+MenuBar *MenuItemBase::GetMenuBar() const
 {
-	Ктрл *q = дайРодителя();
+	Ctrl *q = GetParent();
 	while(q) {
-		БарМеню *bar = dynamic_cast<БарМеню *>(q);
+		MenuBar *bar = dynamic_cast<MenuBar *>(q);
 		if(bar)
 			return bar;
-		q = q->дайРодителя();
+		q = q->GetParent();
 	}
 	return NULL;
 }
 
 bool MenuItemBase::InOpaqueBar() const
 {
-	const БарМеню *bar = GetMenuBar();
+	const MenuBar *bar = GetMenuBar();
 	return !(bar && bar->IsTransparent());
 }
 
-Бар::Элемент& MenuItemBase::устТекст(const char *s)
+Bar::Item& MenuItemBase::Text(const char *s)
 {
 	accesskey = ExtractAccessKey(s, text);
-	освежи();
+	Refresh();
 	return *this;
 }
 
-Бар::Элемент& MenuItemBase::Ключ(dword ключ)
+Bar::Item& MenuItemBase::Key(dword key)
 {
-	if(ключ) {
-		accel = ключ;
-		освежи();
+	if(key) {
+		accel = key;
+		Refresh();
 	}
 	return *this;
 }
 
-Бар::Элемент& MenuItemBase::Рисунок(const РНЦП::Рисунок& img)
+Bar::Item& MenuItemBase::Image(const UPP::Image& img)
 {
 	return *this;
 }
 
-Бар::Элемент& MenuItemBase::Check(bool check)
+Bar::Item& MenuItemBase::Check(bool check)
 {
-	тип = CHECK0 + check;
+	type = CHECK0 + check;
 	return *this;
 }
 
-Бар::Элемент& MenuItemBase::Radio(bool check)
+Bar::Item& MenuItemBase::Radio(bool check)
 {
-	тип = RADIO0 + check;
+	type = RADIO0 + check;
 	return *this;
 }
 
-Бар::Элемент& MenuItemBase::Bold(bool bold)
+Bar::Item& MenuItemBase::Bold(bool bold)
 {
 	font.Bold(bold);
 	return *this;
 }
 
-Бар::Элемент& MenuItemBase::Подсказка(const char *s)
+Bar::Item& MenuItemBase::Tip(const char *s)
 {
 	return *this;
 }
 
-Бар::Элемент& MenuItemBase::Help(const char *s)
+Bar::Item& MenuItemBase::Help(const char *s)
 {
 	HelpLine(s);
 	return *this;
 }
 
-Бар::Элемент& MenuItemBase::Description(const char *s)
+Bar::Item& MenuItemBase::Description(const char *s)
 {
-	Ктрл::Description(s);
+	Ctrl::Description(s);
 	return *this;
 }
 
-Бар::Элемент& MenuItemBase::Topic(const char *s)
+Bar::Item& MenuItemBase::Topic(const char *s)
 {
 	HelpTopic(s);
 	return *this;
 }
 
-Бар::Элемент& MenuItemBase::вкл(bool en)
+Bar::Item& MenuItemBase::Enable(bool en)
 {
 	isenabled = en;
-	освежи();
+	Refresh();
 	return *this;
 }
 
-Ткст MenuItemBase::дайОпис() const
+String MenuItemBase::GetDesc() const
 {
 	return text;
 }
 
-dword  MenuItemBase::дайКлючиДоступа() const
+dword  MenuItemBase::GetAccessKeys() const
 {
 	return AccessKeyBit(accesskey);
 }
 
-void   MenuItemBase::присвойКлючиДоступа(dword used)
+void   MenuItemBase::AssignAccessKeys(dword used)
 {
 	if(!accesskey) {
 		accesskey = ChooseAccessKey(text, used);
 		used |= AccessKeyBit(accesskey);
 	}
-	Ктрл::присвойКлючиДоступа(used);
+	Ctrl::AssignAccessKeys(used);
 }
 
-void DrawMnemonicText(Draw& w, int x, int y, const Ткст& s, Шрифт font, Цвет color,
+void DrawMnemonicText(Draw& w, int x, int y, const String& s, Font font, Color color,
                       int mnemonic, bool menumark)
 {
 	int apos = HIWORD(mnemonic);
 	int q;
-	if(apos && apos < s.дайДлину())
+	if(apos && apos < s.GetLength())
 		q = apos - 1;
 	else {
-		q = s.найди(взаг(mnemonic));
+		q = s.Find(ToUpper(mnemonic));
 		if(q < 0)
-			q = s.найди(впроп(mnemonic));
+			q = s.Find(ToLower(mnemonic));
 	}
 	w.DrawText(x, y, s, font, color);
 	if(q < 0) return;
 	FontInfo f = font.Info();
-	w.DrawRect(x + дайРазмТекста(~s, font, q).cx, y + f.GetAscent() + 1, f[s[q]], 1,
+	w.DrawRect(x + GetTextSize(~s, font, q).cx, y + f.GetAscent() + 1, f[s[q]], 1,
 	           menumark ? SColorMenuMark() : SColorMark());
 }
 
-void DrawMenuText(Draw& w, int x, int y, const Ткст& s, Шрифт f, bool enabled,
-                  bool hl, int mnemonic, Цвет color, Цвет hlcolor, bool menumark)
+void DrawMenuText(Draw& w, int x, int y, const String& s, Font f, bool enabled,
+                  bool hl, int mnemonic, Color color, Color hlcolor, bool menumark)
 {
 	if(enabled)
 		DrawMnemonicText(w, x, y, s, f, hl ? hlcolor : color, mnemonic, menumark);
@@ -165,46 +165,46 @@ void DrawMenuText(Draw& w, int x, int y, const Ткст& s, Шрифт f, bool e
 	}
 }
 
-void MenuItemBase::DrawMenuText(Draw& w, int x, int y, const Ткст& s, Шрифт f, bool enabled,
-                                bool hl, Цвет color, Цвет hlcolor)
+void MenuItemBase::DrawMenuText(Draw& w, int x, int y, const String& s, Font f, bool enabled,
+                                bool hl, Color color, Color hlcolor)
 {
-	РНЦП::DrawMenuText(w, x, y, s, f, enabled, hl, VisibleAccessKeys() ? accesskey : 0,
+	UPP::DrawMenuText(w, x, y, s, f, enabled, hl, VisibleAccessKeys() ? accesskey : 0,
 	                  color, hlcolor, InOpaqueBar());
 }
 
 void MenuItemBase::PaintTopItem(Draw& w, int state) {
-	Размер sz = дайРазм();
-	Ткст text = дайТекст();
-	Размер isz = дайРазмТекста(text, StdFont());
-	Точка tp = (sz - isz) / 2;
+	Size sz = GetSize();
+	String text = GetText();
+	Size isz = GetTextSize(text, StdFont());
+	Point tp = (sz - isz) / 2;
 	if(GUI_GlobalStyle() >= GUISTYLE_XP) {
 		bool opaque = InOpaqueBar();
 		bool opaque2 = opaque || state;
-		Цвет bg = SColorFace();
+		Color bg = SColorFace();
 		if(opaque2)
 			ChPaint(w, 0, 0, sz.cx, sz.cy, style->topitem[state]);
 		else
 		if(opaque)
 			w.DrawRect(0, 0, sz.cx, sz.cy, bg);
-		Цвет txt = opaque ? style->topitemtext[0] : GetLabelTextColor(this);
-		Цвет hltxt = opaque2 ? style->topitemtext[state] : GetLabelTextColor(this);
-		if(!opaque && state != 2 && style->opaquetest) { // фиксируй issues when text color is not compatible with transparent background (e.g. Ubuntu Ambience)]
-			Цвет c = state == 1 && !пусто_ли(style->topitem[0]) ? SColorHighlight() : bg;
+		Color txt = opaque ? style->topitemtext[0] : GetLabelTextColor(this);
+		Color hltxt = opaque2 ? style->topitemtext[state] : GetLabelTextColor(this);
+		if(!opaque && state != 2 && style->opaquetest) { // Fix issues when text color is not compatible with transparent background (e.g. Ubuntu Ambience)]
+			Color c = state == 1 && !IsNull(style->topitem[0]) ? SColorHighlight() : bg;
 			int g = Grayscale(c);
-			bool dark = тёмен(c);
-			if(абс(g - Grayscale(txt)) < 70)
-				txt = dark ? белый() : чёрный();
-			if(абс(g - Grayscale(hltxt)) < 70)
-				hltxt = dark ? белый() : чёрный();
+			bool dark = IsDark(c);
+			if(abs(g - Grayscale(txt)) < 70)
+				txt = dark ? White() : Black();
+			if(abs(g - Grayscale(hltxt)) < 70)
+				hltxt = dark ? White() : Black();
 		}
-		DrawMenuText(w, tp.x, tp.y, text, дайШрифт(), IsItemEnabled(), state,
+		DrawMenuText(w, tp.x, tp.y, text, GetFont(), IsItemEnabled(), state,
 		             txt, hltxt);
 	}
 	else {
 		w.DrawRect(sz, SColorFace);
 		static const ColorF b0[] = { (ColorF)1, SColorLight, SColorLight, SColorShadow, SColorShadow, };
 		static const ColorF b1[] = { (ColorF)1, SColorShadow, SColorShadow, SColorLight, SColorLight, };
-		DrawMenuText(w, tp.x, tp.y, text, дайШрифт(), IsItemEnabled(), false,
+		DrawMenuText(w, tp.x, tp.y, text, GetFont(), IsItemEnabled(), false,
 		             SColorMenuText, SColorHighlightText);
 		if(state)
 			DrawBorder(w, 0, 0, sz.cx, sz.cy, state == 2 ? b1 : b0);
@@ -213,112 +213,112 @@ void MenuItemBase::PaintTopItem(Draw& w, int state) {
 
 // -------------------------------------
 
-Бар::Элемент& ЭлтМеню::Рисунок(const РНЦП::Рисунок& img)
+Bar::Item& MenuItem::Image(const UPP::Image& img)
 {
 	licon = img;
-	освежи();
+	Refresh();
 	return *this;
 }
 
-ЭлтМеню& ЭлтМеню::RightImage(const РНЦП::Рисунок& img)
+MenuItem& MenuItem::RightImage(const UPP::Image& img)
 {
 	ricon = img;
-	освежи();
+	Refresh();
 	return *this;
 }
 
-void ЭлтМеню::SendHelpLine()
+void MenuItem::SendHelpLine()
 {
-	КтрлБар::SendHelpLine(this);
+	BarCtrl::SendHelpLine(this);
 }
 
-void ЭлтМеню::ClearHelpLine()
+void MenuItem::ClearHelpLine()
 {
-	КтрлБар::ClearHelpLine(this);
+	BarCtrl::ClearHelpLine(this);
 }
 
-void ЭлтМеню::входМыши(Точка, dword)
+void MenuItem::MouseEnter(Point, dword)
 {
-	устФокус();
-	освежи();
+	SetFocus();
+	Refresh();
 	SendHelpLine();
 }
 
-void ЭлтМеню::выходМыши()
+void MenuItem::MouseLeave()
 {
-    if(естьФокус() && дайРодителя())
-        дайРодителя()->устФокус();
+    if(HasFocus() && GetParent())
+        GetParent()->SetFocus();
     ClearHelpLine();
 }
 
-void ЭлтМеню::сфокусирован()
+void MenuItem::GotFocus()
 {
-	освежи();
+	Refresh();
 	SendHelpLine();
 }
 
-void ЭлтМеню::расфокусирован()
+void MenuItem::LostFocus()
 {
-	освежи();
+	Refresh();
 	ClearHelpLine();
 }
 
-int ЭлтМеню::GetVisualState()
+int MenuItem::GetVisualState()
 {
-	return естьФокус() ?
-	       (естьМышь() && дайЛевуюМыши() || дайПравуюМыши()) ? PUSH : HIGHLIGHT : NORMAL;
+	return HasFocus() ?
+	       (HasMouse() && GetMouseLeft() || GetMouseRight()) ? PUSH : HIGHLIGHT : NORMAL;
 }
 
-void ЭлтМеню::SyncState()
+void MenuItem::SyncState()
 {
 	int s = GetVisualState();
 	if(s != state) {
 		state = s;
-		освежи();
+		Refresh();
 	}
 }
 
-void ЭлтМеню::рисуй(Draw& w)
+void MenuItem::Paint(Draw& w)
 {
-	int q = text.найди('\t');
-	Ткст txt, keydesc;
+	int q = text.Find('\t');
+	String txt, keydesc;
 	if(accel)
 		keydesc = GetKeyDesc(accel);
 	if(q >= 0) {
-		keydesc = text.середина(q + 1);
-		txt = text.середина(0, q);
+		keydesc = text.Mid(q + 1);
+		txt = text.Mid(0, q);
 	}
 	else
 		txt = text;
 	state = GetVisualState();
 	bool hl = state != NORMAL;
-	Размер sz = дайРазм();
+	Size sz = GetSize();
 
 	if(hl) {
 		if(GUI_GlobalStyle() >= GUISTYLE_XP)
-			ChPaint(w, 0, 0, sz.cx, sz.cy, style->элт);
+			ChPaint(w, 0, 0, sz.cx, sz.cy, style->item);
 		else
 			w.DrawRect(sz, SColorHighlight);
 	}
-	РНЦП::Рисунок li = licon;
-	if(li.пустой()) {
-		switch(тип) {
+	UPP::Image li = licon;
+	if(li.IsEmpty()) {
+		switch(type) {
 		case CHECK0: li = CtrlImg::MenuCheck0(); break;
 		case CHECK1: li = CtrlImg::MenuCheck1(); break;
 		case RADIO0: li = CtrlImg::MenuRadio0(); break;
 		case RADIO1: li = CtrlImg::MenuRadio1(); break;
 		}
 	}
-	Размер isz = li.дайРазм();
+	Size isz = li.GetSize();
 	int iy = (sz.cy - isz.cy) / 2;
 	bool chk = false;
 	int x = max(Zx(3), (leftgap + textgap - isz.cx) / 2);
-	if(!licon.пустой() && тип) {
-		chk = тип == CHECK1 || тип == RADIO1;
-		Прям rr = RectC(x - Zx(2), iy - Zy(2), isz.cx + Zx(4), isz.cy + Zy(4));
+	if(!licon.IsEmpty() && type) {
+		chk = type == CHECK1 || type == RADIO1;
+		Rect rr = RectC(x - Zx(2), iy - Zy(2), isz.cx + Zx(4), isz.cy + Zy(4));
 		if(GUI_GlobalStyle() >= GUISTYLE_XP) {
 			if(chk && !hl) {
-				if(пусто_ли(style->icheck))
+				if(IsNull(style->icheck))
 					DrawXPButton(w, rr, BUTTON_EDGE|BUTTON_CHECKED);
 				else
 					ChPaint(w, rr, style->icheck);
@@ -326,7 +326,7 @@ void ЭлтМеню::рисуй(Draw& w)
 		}
 		else {
 			w.DrawRect(x - Zx(1), iy - Zy(1), isz.cx + Zx(2), isz.cy + Zy(2),
-			           chk ? смешай(SColorFace, SColorLight) : SColorFace);
+			           chk ? Blend(SColorFace, SColorLight) : SColorFace);
 			DrawBorder(w, rr, chk ? ThinInsetBorder : ThinOutsetBorder);
 		}
 	}
@@ -335,70 +335,70 @@ void ЭлтМеню::рисуй(Draw& w)
 	else
 		w.DrawImage(x, iy, DisabledImage(li));
 	x = max(isz.cx + Zx(3), leftgap) + textgap;
-	isz = дайРазмТекста(text, StdFont());
+	isz = GetTextSize(text, StdFont());
 	DrawMenuText(w, x, (sz.cy - isz.cy) / 2, txt, font, isenabled, hl, style->menutext,
 	             style->itemtext);
-	isz = ricon.дайРазм();
+	isz = ricon.GetSize();
 	if(isenabled)
 		w.DrawImage(sz.cx - isz.cx, (sz.cy - isz.cy) / 2, ricon, hl ? style->itemtext : style->menutext);
 	else
 		w.DrawImage(sz.cx - isz.cx, (sz.cy - isz.cy) / 2, DisabledImage(ricon));
 	x = sz.cx - max(isz.cx, Zx(16)) - Zx(1);
-	if(!пустой(keydesc)) {
-		isz = дайРазмТекста(keydesc, StdFont());
-		РНЦП::DrawMenuText(w, x - isz.cx - Zx(2), (sz.cy - isz.cy) / 2, keydesc, font, isenabled, hl,
+	if(!IsEmpty(keydesc)) {
+		isz = GetTextSize(keydesc, StdFont());
+		UPP::DrawMenuText(w, x - isz.cx - Zx(2), (sz.cy - isz.cy) / 2, keydesc, font, isenabled, hl,
 		                  0, SColorMenuMark(), style->itemtext, false);
 	}
 }
 
-Размер ЭлтМеню::дайМинРазм() const
+Size MenuItem::GetMinSize() const
 {
-	Размер sz1 = дайРазмТекста(text, font);
-	Размер sz2(0, 0);
+	Size sz1 = GetTextSize(text, font);
+	Size sz2(0, 0);
 	if(accel) {
-		sz2 = дайРазмТекста(GetKeyDesc(accel), font);
+		sz2 = GetTextSize(GetKeyDesc(accel), font);
 		sz2.cx += Zx(12);
 	}
-	Размер lsz = min(maxiconsize, licon.дайРазм());
-	Размер rsz = ricon.дайРазм();
-	return дайРазмФрейма(Размер(max(lsz.cx, leftgap) + sz1.cx + max(sz2.cx, (rsz.cx ? Zx(16) : 0))
+	Size lsz = min(maxiconsize, licon.GetSize());
+	Size rsz = ricon.GetSize();
+	return AddFrameSize(Size(max(lsz.cx, leftgap) + sz1.cx + max(sz2.cx, (rsz.cx ? Zx(16) : 0))
 	                         + max(rsz.cx, Zx(16)) + textgap + Zx(10),
 	                         max(max(lsz.cy, rsz.cy) + Zy(4), sz1.cy + Zy(6))));
 }
 
-void ЭлтМеню::леваяВверху(Точка, dword)
+void MenuItem::LeftUp(Point, dword)
 {
 	if(!isenabled) return;
 #ifdef PLATFORM_WIN32
 #ifdef PLATFORM_WINCE
-	PlaySound(L"MenuCommand", NULL, SND_ASYNC|SND_NODEFAULT); //TODO?
+	PlaySound(L"MenuCommand", NULL, SND_ASYNC|SND_NODEFAULT); //СДЕЛАТЬ?
 #else
 	PlaySound("MenuCommand", NULL, SND_ASYNC|SND_NODEFAULT);
 #endif
 #endif
-	LLOG("Menu Элемент pre Action");
-	Ук<ЭлтМеню> p = this; // action can destroy the menu and this instance too
+	LLOG("Menu Item pre Action");
+	Ptr<MenuItem> p = this; // action can destroy the menu and this instance too
 	Action();
 	if(p) {
-		БарМеню *bar = GetMenuBar();
+		MenuBar *bar = GetMenuBar();
 		if(bar)
 			bar->action_taken = true;
 	}
-	LLOG("Menu Элемент post Action");
+	LLOG("Menu Item post Action");
 }
 
-void ЭлтМеню::RightUp(Точка p, dword w)
+void MenuItem::RightUp(Point p, dword w)
 {
-	леваяВверху(p, w);
+	LeftUp(p, w);
 }
 
-bool ЭлтМеню::горячаяКлав(dword ключ)
+bool MenuItem::HotKey(dword key)
 {
-	if(isenabled && (ключ == accel || CompareAccessKey(accesskey, ключ)
-	|| ключ < 256 && IsAlNum((char)ключ) && CompareAccessKey(accesskey, взаг((char)ключ) + K_DELTA + K_ALT))) {
-		LLOG("ЭлтМеню::горячаяКлав(" << ключ << ") -> устФокус");
-		устФокус();
-		синх();
+	if(isenabled && (key == accel || CompareAccessKey(accesskey, key)
+	|| key < 256 && IsAlNum((char)key) && CompareAccessKey(accesskey, ToUpper((char)key) + K_DELTA + K_ALT))) {
+		LLOG("MenuItem::HotKey(" << key << ") -> SetFocus");
+		SetFocus();
+		Sync();
 		Sleep(50);
 		Action();
 		return true;
@@ -406,9 +406,9 @@ bool ЭлтМеню::горячаяКлав(dword ключ)
 	return false;
 }
 
-bool ЭлтМеню::Ключ(dword ключ, int count)
+bool MenuItem::Key(dword key, int count)
 {
-	if(ключ == K_ENTER && isenabled) {
+	if(key == K_ENTER && isenabled) {
 		Action();
 		return true;
 	}
@@ -417,19 +417,19 @@ bool ЭлтМеню::Ключ(dword ключ, int count)
 
 // ----------------------------------------------------
 
-void SubMenuBase::Pull(Ктрл *элт, Точка p, Размер sz)
+void SubMenuBase::Pull(Ctrl *item, Point p, Size sz)
 {
 	menu.KillDelayedClose();
-	if(!элт->открыт() || menu.открыт()) return;
-	menu.очисть();
+	if(!item->IsOpen() || menu.IsOpen()) return;
+	menu.Clear();
 #ifdef GUI_COCOA
 	menu.UppMenu();
 #endif
 	if(parentmenu)
-		menu.устСтиль(*parentmenu->style);
+		menu.SetStyle(*parentmenu->style);
 	proc(menu);
 	if(parentmenu) {
-		parentmenu->SetActiveSubmenu(&menu, элт);
+		parentmenu->SetActiveSubmenu(&menu, item);
 		menu.SetParentMenu(parentmenu);
 	}
 	menu.PopUp(parentmenu, p, sz);
@@ -442,62 +442,62 @@ void SubMenuBase::Pull(Ктрл *элт, Точка p, Размер sz)
 
 // ----------------------------------------------------
 
-ЭлтСубМеню::ЭлтСубМеню()
+SubMenuItem::SubMenuItem()
 {
 	RightImage(CtrlImg::right_arrow());
 }
 
-void ЭлтСубМеню::сфокусирован()
+void SubMenuItem::GotFocus()
 {
-	освежи();
+	Refresh();
 }
 
-void ЭлтСубМеню::Pull()
+void SubMenuItem::Pull()
 {
-	Прям r = дайПрямЭкрана();
-	Точка p = r.верхПраво();
+	Rect r = GetScreenRect();
+	Point p = r.TopRight();
 	p.x -= 3;
 	p.y -= 2;
-	устФокус(); // avoid returning focus to window widgets by closing submenu
-	SubMenuBase::Pull(this, p, Размер(-r.устШирину(), 0));
+	SetFocus(); // avoid returning focus to window widgets by closing submenu
+	SubMenuBase::Pull(this, p, Size(-r.Width(), 0));
 	if(parentmenu)
 		parentmenu->SyncState();
 }
 
-void ЭлтСубМеню::входМыши(Точка, dword)
+void SubMenuItem::MouseEnter(Point, dword)
 {
-	устФокус();
-	освежи();
-	if(!menu.открыт() && isenabled)
-		устОбрвызВремени(400, THISBACK(Pull), TIMEID_PULL);
+	SetFocus();
+	Refresh();
+	if(!menu.IsOpen() && isenabled)
+		SetTimeCallback(400, THISBACK(Pull), TIMEID_PULL);
 }
 
-void ЭлтСубМеню::выходМыши()
+void SubMenuItem::MouseLeave()
 {
-	if(естьФокус() && дайРодителя())
-		дайРодителя()->устФокус();
-	глушиОбрвызВремени(TIMEID_PULL);
+	if(HasFocus() && GetParent())
+		GetParent()->SetFocus();
+	KillTimeCallback(TIMEID_PULL);
 }
 
-int ЭлтСубМеню::GetVisualState()
+int SubMenuItem::GetVisualState()
 {
-	if(menu.открыт() && !дайРодителя()->HasFocusDeep())
+	if(menu.IsOpen() && !GetParent()->HasFocusDeep())
 		return PUSH;
-	return ЭлтМеню::GetVisualState();
+	return MenuItem::GetVisualState();
 }
 
-bool ЭлтСубМеню::Ключ(dword ключ, int count)
+bool SubMenuItem::Key(dword key, int count)
 {
-	if(ключ == K_RIGHT || ключ == K_ENTER) {
+	if(key == K_RIGHT || key == K_ENTER) {
 		Pull();
 		return true;
 	}
-	return ЭлтМеню::Ключ(ключ, count);
+	return MenuItem::Key(key, count);
 }
 
-bool ЭлтСубМеню::горячаяКлав(dword ключ)
+bool SubMenuItem::HotKey(dword key)
 {
-	if(isenabled && (ключ == accel || CompareAccessKey(accesskey, ключ))) {
+	if(isenabled && (key == accel || CompareAccessKey(accesskey, key))) {
 		Pull();
 		return true;
 	}
@@ -507,91 +507,91 @@ bool ЭлтСубМеню::горячаяКлав(dword ключ)
 
 // ----------------------------------------------------
 
-Размер TopSubMenuItem::дайМинРазм() const
+Size TopSubMenuItem::GetMinSize() const
 {
-	Размер sz = Zsz(10, 5);
+	Size sz = Zsz(10, 5);
 	sz.cx = (sz.cx + 1) & 0xfffffffe; // We need even number, otherwise it looks asymmetric
-	return дайРазмФрейма(дайРазмТекста(text, font) + sz);
+	return AddFrameSize(GetTextSize(text, font) + sz);
 }
 
 int  TopSubMenuItem::GetState()
 {
 	if(parentmenu && parentmenu->GetActiveSubmenu() == &menu) return PUSH;
-	if(естьМышь() && дайРодителя() && !дайРодителя()->HasFocusDeep() &&
+	if(HasMouse() && GetParent() && !GetParent()->HasFocusDeep() &&
 	                 (!parentmenu || !parentmenu->GetActiveSubmenu() || parentmenu->GetActiveSubmenu() == &menu)
-	   || естьФокус())
+	   || HasFocus())
 		return HIGHLIGHT;
 	return NORMAL;
 }
 
-void TopSubMenuItem::рисуй(Draw& w)
+void TopSubMenuItem::Paint(Draw& w)
 {
 	PaintTopItem(w, state = GetState());
 }
 
 void TopSubMenuItem::Pull()
 {
-	Прям r = дайПрямЭкрана();
-	if(parentmenu && parentmenu->отпрыск_ли() && !parentmenu->submenu)
+	Rect r = GetScreenRect();
+	if(parentmenu && parentmenu->IsChild() && !parentmenu->submenu)
 		parentmenu->SetupRestoreFocus();
-	Точка p = r.низЛево();
+	Point p = r.BottomLeft();
 	if(GUI_GlobalStyle() >= GUISTYLE_XP)
 		p += style->pullshift;
-	устФокус(); // avoid returning focus to window widgets by closing submenu
-	SubMenuBase::Pull(this, p, Размер(r.устШирину(), -r.устВысоту()));
+	SetFocus(); // avoid returning focus to window widgets by closing submenu
+	SubMenuBase::Pull(this, p, Size(r.Width(), -r.Height()));
 	if(parentmenu)
 		parentmenu->SyncState();
 }
 
-void TopSubMenuItem::входМыши(Точка p, dword)
+void TopSubMenuItem::MouseEnter(Point p, dword)
 {
-	LLOG("TopSubMenuItem::входМыши");
-	освежи();
+	LLOG("TopSubMenuItem::MouseEnter");
+	Refresh();
 	if(isenabled && parentmenu->GetActiveSubmenu())
 		Pull();
 }
 
-bool TopSubMenuItem::Ключ(dword ключ, int) {
-	if(isenabled && (ключ == K_ENTER || ключ == K_DOWN)) {
+bool TopSubMenuItem::Key(dword key, int) {
+	if(isenabled && (key == K_ENTER || key == K_DOWN)) {
 		Pull();
 		return true;
 	}
 	return false;
 }
 
-void TopSubMenuItem::сфокусирован()
+void TopSubMenuItem::GotFocus()
 {
-	LLOG("TopSubMenuItem::сфокусирован");
-	освежи();
+	LLOG("TopSubMenuItem::GotFocus");
+	Refresh();
 }
 
-void TopSubMenuItem::расфокусирован()
+void TopSubMenuItem::LostFocus()
 {
-	LLOG("TopSubMenuItem::расфокусирован");
-	освежи();
+	LLOG("TopSubMenuItem::LostFocus");
+	Refresh();
 }
 
-bool TopSubMenuItem::горячаяКлав(dword ключ)
+bool TopSubMenuItem::HotKey(dword key)
 {
-	if(КтрлБар::скан(proc, ключ))
+	if(BarCtrl::Scan(proc, key))
 		return true;
-	if(isenabled && (ключ == accel || CompareAccessKey(accesskey, ключ))) {
+	if(isenabled && (key == accel || CompareAccessKey(accesskey, key))) {
 		Pull();
 		return true;
 	}
 	return false;
 }
 
-void TopSubMenuItem::выходМыши()
+void TopSubMenuItem::MouseLeave()
 {
-	освежи();
+	Refresh();
 }
 
-void TopSubMenuItem::леваяВнизу(Точка, dword)
+void TopSubMenuItem::LeftDown(Point, dword)
 {
-	if(isenabled && !menu.открыт()) {
+	if(isenabled && !menu.IsOpen()) {
 		Pull();
-		освежи();
+		Refresh();
 	}
 }
 
@@ -600,7 +600,7 @@ void TopSubMenuItem::SyncState()
 	int q = GetState();
 	if(q != state) {
 		state = q;
-		освежи();
+		Refresh();
 	}
 }
 
@@ -608,73 +608,73 @@ void TopSubMenuItem::SyncState()
 
 int  TopMenuItem::GetState()
 {
-	if(!включен_ли()) return NORMAL;
-	if(естьМышь() && дайЛевуюМыши() || дайПравуюМыши()) return PUSH;
-	if(естьФокус() || естьМышь()) return HIGHLIGHT;
+	if(!IsEnabled()) return NORMAL;
+	if(HasMouse() && GetMouseLeft() || GetMouseRight()) return PUSH;
+	if(HasFocus() || HasMouse()) return HIGHLIGHT;
 	return NORMAL;
 }
 
-void TopMenuItem::рисуй(Draw& w)
+void TopMenuItem::Paint(Draw& w)
 {
 	PaintTopItem(w, state = GetState());
 }
 
-void TopMenuItem::входМыши(Точка, dword)
+void TopMenuItem::MouseEnter(Point, dword)
 {
-	освежи();
+	Refresh();
 }
 
-void TopMenuItem::выходМыши()
+void TopMenuItem::MouseLeave()
 {
-	освежи();
+	Refresh();
 }
 
-void TopMenuItem::леваяВверху(Точка, dword)
+void TopMenuItem::LeftUp(Point, dword)
 {
 	if(!isenabled) return;
 	Action();
-	освежи();
+	Refresh();
 }
 
-void TopMenuItem::леваяВнизу(Точка, dword)
+void TopMenuItem::LeftDown(Point, dword)
 {
-	освежи();
+	Refresh();
 }
 
-void TopMenuItem::сфокусирован()
+void TopMenuItem::GotFocus()
 {
-	освежи();
+	Refresh();
 }
 
-void TopMenuItem::расфокусирован()
+void TopMenuItem::LostFocus()
 {
-	освежи();
+	Refresh();
 }
 
-bool TopMenuItem::Ключ(dword ключ, int count)
+bool TopMenuItem::Key(dword key, int count)
 {
-	if(isenabled && ключ == K_ENTER) {
+	if(isenabled && key == K_ENTER) {
 		Action();
 		return true;
 	}
 	return false;
 }
 
-Размер TopMenuItem::дайМинРазм() const
+Size TopMenuItem::GetMinSize() const
 {
-	return дайРазмФрейма(дайРазмТекста(text, StdFont()) + Zsz(10, 5));
+	return AddFrameSize(GetTextSize(text, StdFont()) + Zsz(10, 5));
 }
 
-int TopMenuItem::GetStdHeight(Шрифт font)
+int TopMenuItem::GetStdHeight(Font font)
 {
-	return font.Info().дайВысоту() + Zy(7);
+	return font.Info().GetHeight() + Zy(7);
 }
 
 void TopMenuItem::SyncState()
 {
 	if(state != GetState()) {
 		state = GetState();
-		освежи();
+		Refresh();
 	}
 }
 

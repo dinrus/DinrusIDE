@@ -62,7 +62,7 @@ _TIFFMultiplySSize(TIFF* tif, tmsize_t first, tmsize_t second, const char* where
         if( tif != NULL && where != NULL )
         {
             TIFFErrorExt(tif->tif_clientdata, where,
-                        "Invalid argument to _TIFFMultiplySSize() in %s", where);
+                        "Неверное argument to _TIFFMultiplySSize() in %s", where);
         }
         return 0;
     }
@@ -93,7 +93,7 @@ tmsize_t _TIFFCastUInt64ToSSize(TIFF* tif, uint64 val, const char* module)
 }
 
 void*
-_TIFFCheckRealloc(TIFF* tif, void* буфер,
+_TIFFCheckRealloc(TIFF* tif, void* buffer,
 		  tmsize_t nmemb, tmsize_t elem_size, const char* what)
 {
 	void* cp = NULL;
@@ -103,7 +103,7 @@ _TIFFCheckRealloc(TIFF* tif, void* буфер,
 	 */
 	if (count != 0)
 	{
-		cp = _TIFFrealloc(буфер, count);
+		cp = _TIFFrealloc(buffer, count);
 	}
 
 	if (cp == NULL) {
@@ -177,7 +177,7 @@ TIFFDefaultRefBlackWhite(TIFFDirectory* td)
         if (td->td_photometric == PHOTOMETRIC_YCBCR) {
 		/*
 		 * YCbCr (Class Y) images must have the ReferenceBlackWhite
-		 * tag set. фиксируй the broken images, which lacks that tag.
+		 * tag set. Fix the broken images, which lacks that tag.
 		 */
 		td->td_refblackwhite[0] = 0.0F;
 		td->td_refblackwhite[1] = td->td_refblackwhite[3] =
@@ -185,7 +185,7 @@ TIFFDefaultRefBlackWhite(TIFFDirectory* td)
 		td->td_refblackwhite[2] = td->td_refblackwhite[4] = 128.0F;
 	} else {
 		/*
-		 * Assume дайКЗС (Class R)
+		 * Assume RGB (Class R)
 		 */
 		for (i = 0; i < 3; i++) {
 		    td->td_refblackwhite[2*i+0] = 0;
@@ -198,9 +198,9 @@ TIFFDefaultRefBlackWhite(TIFFDirectory* td)
 
 /*
  * Like TIFFGetField, but return any default
- * значение if the tag is not present in the directory.
+ * value if the tag is not present in the directory.
  *
- * NB:	We use the значение in the directory, rather than
+ * NB:	We use the value in the directory, rather than
  *	explicit values so that defaults exist only one
  *	place in the library -- in TIFFDefaultDirectory.
  */
@@ -308,7 +308,7 @@ TIFFVGetFieldDefaulted(TIFF* tif, uint32 tag, va_list ap)
 			static float whitepoint[2];
 
 			/* TIFF 6.0 specification tells that it is no default
-			   значение for the WhitePoint, but AdobePhotoshop TIFF
+			   value for the WhitePoint, but AdobePhotoshop TIFF
 			   Technical Note tells that it should be CIE D50. */
 			whitepoint[0] =	D50_X0 / (D50_X0 + D50_Y0 + D50_Z0);
 			whitepoint[1] =	D50_Y0 / (D50_X0 + D50_Y0 + D50_Z0);
@@ -338,7 +338,7 @@ TIFFVGetFieldDefaulted(TIFF* tif, uint32 tag, va_list ap)
 
 /*
  * Like TIFFGetField, but return any default
- * значение if the tag is not present in the directory.
+ * value if the tag is not present in the directory.
  */
 int
 TIFFGetFieldDefaulted(TIFF* tif, uint32 tag, ...)
@@ -358,7 +358,7 @@ struct _Int64Parts {
 
 typedef union {
 	struct _Int64Parts part;
-	int64 значение;
+	int64 value;
 } _Int64;
 
 float
@@ -366,12 +366,12 @@ _TIFFUInt64ToFloat(uint64 ui64)
 {
 	_Int64 i;
 
-	i.значение = ui64;
+	i.value = ui64;
 	if (i.part.high >= 0) {
-		return (float)i.значение;
+		return (float)i.value;
 	} else {
 		long double df;
-		df = (long double)i.значение;
+		df = (long double)i.value;
 		df += 18446744073709551616.0; /* adding 2**64 */
 		return (float)df;
 	}
@@ -382,12 +382,12 @@ _TIFFUInt64ToDouble(uint64 ui64)
 {
 	_Int64 i;
 
-	i.значение = ui64;
+	i.value = ui64;
 	if (i.part.high >= 0) {
-		return (double)i.значение;
+		return (double)i.value;
 	} else {
 		long double df;
-		df = (long double)i.значение;
+		df = (long double)i.value;
 		df += 18446744073709551616.0; /* adding 2**64 */
 		return (double)df;
 	}
@@ -415,5 +415,5 @@ int _TIFFSeekOK(TIFF* tif, toff_t off)
  * mode: c
  * c-basic-offset: 8
  * fill-column: 78
- * стоп:
+ * End:
  */

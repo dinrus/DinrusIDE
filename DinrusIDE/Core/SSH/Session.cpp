@@ -1,33 +1,33 @@
 #include "SSH.h"
-#include "разместпам.cpp"
+#include "Malloc.cpp"
 
-namespace РНЦПДинрус {
+namespace Upp {
 
-#define LLOG(x)       do { if(SSH::sTrace) RLOG(SSH::дайИмя(ssh->otype, ssh->oid) << x); } while(false)
+#define LLOG(x)       do { if(SSH::sTrace) RLOG(SSH::GetName(ssh->otype, ssh->oid) << x); } while(false)
 #define LDUMPHEX(x)   do { if(SSH::sTraceVerbose) RDUMPHEX(x); } while(false)
 
 // sKeyboardCallback: Authenticates a session, using keyboard-interactive authentication.
 
-static void sKeyboardCallback(const char *имя, int name_len, const char *instruction,
+static void sKeyboardCallback(const char *name, int name_len, const char *instruction,
 	int instruction_len, int num_prompts, const LIBSSH2_USERAUTH_KBDINT_PROMPT *prompts,
 	LIBSSH2_USERAUTH_KBDINT_RESPONSE *responses, void **abstract)
 {
 	SshSession *session = reinterpret_cast<SshSession*>(*abstract);
 	for(auto i = 0; i < num_prompts; i++) {
 		auto response = session->WhenKeyboard(
-			Ткст(имя, name_len),
-			Ткст(instruction, instruction_len),
-			Ткст(prompts[i].text, prompts[i].length)
+			String(name, name_len),
+			String(instruction, instruction_len),
+			String(prompts[i].text, prompts[i].length)
 		);
-#ifdef КУЧА_РНЦП
-		auto *r = (char*) ssh_malloc(response.дайДлину(), abstract);
-		memcpy(r, response.старт(), response.дайДлину());
+#ifdef UPP_HEAP
+		auto *r = (char*) ssh_malloc(response.GetLength(), abstract);
+		memcpy(r, response.Begin(), response.GetLength());
 #else
 		auto *r = strdup(~response);
 #endif
 		if(r) {
 			responses[i].text   = r;
-			responses[i].length = response.дайДлину();
+			responses[i].length = response.GetLength();
 		}
 	}
 }
@@ -36,10 +36,10 @@ static void sKeyboardCallback(const char *имя, int name_len, const char *inst
 
 static void sChangePasswordCallback(LIBSSH2_SESSION *session, char **pwd, int *len, void **abstract)
 {
-	Ткст newpwd = reinterpret_cast<SshSession*>(*abstract)->WhenPasswordChange();
-#ifdef КУЧА_РНЦП
-		*pwd = (char*) ssh_malloc(newpwd.дайДлину(), abstract);
-		memcpy(*pwd, ~newpwd, newpwd.дайДлину());
+	String newpwd = reinterpret_cast<SshSession*>(*abstract)->WhenPasswordChange();
+#ifdef UPP_HEAP
+		*pwd = (char*) ssh_malloc(newpwd.GetLength(), abstract);
+		memcpy(*pwd, ~newpwd, newpwd.GetLength());
 #else
 		*pwd = strdup(~newpwd);
 #endif
@@ -55,21 +55,21 @@ static void sX11RequestCallback(LIBSSH2_SESSION *session, LIBSSH2_CHANNEL *chann
 // slibssh2DebugCallback: Allows full-level logging (redirection) of libsssh2 diagnostic messages.
 
 #ifdef flagLIBSSH2TRACE
-static void slibssh2DebugCallback(LIBSSH2_SESSION *session, void *context, const char *данные, size_t length)
+static void slibssh2DebugCallback(LIBSSH2_SESSION *session, void *context, const char *data, size_t length)
 {
 	if(!session  || !SSH::sTraceVerbose)
 		return;
 	auto* ssh_obj = reinterpret_cast<SshSession*>(context);
-	RLOG(SSH::дайИмя(ssh_obj->дайТип(), ssh_obj->дайИд()) << Ткст(данные, int64(length)));
+	RLOG(SSH::GetName(ssh_obj->GetType(), ssh_obj->GetId()) << String(data, int64(length)));
 }
 #endif
 
-void SshSession::выход()
+void SshSession::Exit()
 {
 	if(!session)
 		return;
 
-	пуск([=]() mutable {
+	Run([=]() mutable {
 		if(!ssh->session)
 			return true;
 		int rc = libssh2_session_disconnect(ssh->session, "Disconnecting...");
@@ -79,7 +79,7 @@ void SshSession::выход()
 		return true;
 	});
 
-	пуск([=]() mutable {
+	Run([=]() mutable {
 		if(!ssh->session)
 			return true;
 		int rc = libssh2_session_free(ssh->session);
@@ -94,54 +94,54 @@ void SshSession::выход()
 	}, false);
 }
 
-bool SshSession::Connect(const Ткст& url)
+bool SshSession::Connect(const String& url)
 {
 	UrlInfo u(url);
 
-	auto b = findarg(u.scheme, "ssh", "sftp", "scp", "exec") >= 0 || (u.scheme.пустой() && !u.host.пустой());
-	int port = (u.port.пустой() || !b) ? 22 : тктЦел(u.port);
+	auto b = findarg(u.scheme, "ssh", "sftp", "scp", "exec") >= 0 || (u.scheme.IsEmpty() && !u.host.IsEmpty());
+	int port = (u.port.IsEmpty() || !b) ? 22 : StrInt(u.port);
 	if(b) return Connect(u.host, port, u.username, u.password);
-	устОш(-1, "Malformed secure shell URL.");
+	SetError(-1, "Malformed secure shell URL.");
 	return false;
 }
 
-bool SshSession::Connect(const Ткст& host, int port, const Ткст& user, const Ткст& password)
+bool SshSession::Connect(const String& host, int port, const String& user, const String& password)
 {
 	IpAddrInfo ipinfo;
 
-	if(!пуск([=, &ipinfo] () mutable {
-		if(host.пустой())
-			выведиОш(-1, "Хост не указан.");
+	if(!Run([=, &ipinfo] () mutable {
+		if(host.IsEmpty())
+			ThrowError(-1, "Host is not specified.");
 		ssh->session = nullptr;
 		session->socket.Timeout(0);
 		if(!WhenProxy) {
-			ipinfo.старт(host, port);
-			LLOG(фмт("Starting DNS sequence locally for %s:%d", host, port));
+			ipinfo.Start(host, port);
+			LLOG(Format("Starting DNS sequence locally for %s:%d", host, port));
 		}
 		else
-			LLOG("прокси plugin found. Attempting to connect via proxy...");
+			LLOG("Proxy plugin found. Attempting to connect via proxy...");
 		WhenPhase(WhenProxy ? PHASE_CONNECTION : PHASE_DNS);
 		return true;
 	})) goto Bailout;
 
 	if(!WhenProxy) {
-		if(!пуск([=, &ipinfo] () mutable {
+		if(!Run([=, &ipinfo] () mutable {
 			if(ipinfo.InProgress())
 				return false;
-			if(!ipinfo.дайРез())
-				выведиОш(-1, "DNS lookup failed.");
+			if(!ipinfo.GetResult())
+				ThrowError(-1, "DNS lookup failed.");
 			WhenPhase(PHASE_CONNECTION);
 			return true;
 		})) goto Bailout;
 
-		if(!пуск([=, &ipinfo] () mutable {
+		if(!Run([=, &ipinfo] () mutable {
 			if(!session->socket.Connect(ipinfo))
 				return false;
-			ipinfo.очисть();
+			ipinfo.Clear();
 			return true;
 		})) goto Bailout;
 
-		if(!пуск([=, &ipinfo] () mutable {
+		if(!Run([=, &ipinfo] () mutable {
 			if(!session->socket.WaitConnect())
 				return false;
 			LLOG("Successfully connected to " << host <<":" << port);
@@ -149,24 +149,24 @@ bool SshSession::Connect(const Ткст& host, int port, const Ткст& user, c
 		})) goto Bailout;
 	}
 	else {
-		if(!пуск([=] () mutable {
+		if(!Run([=] () mutable {
 			if(!WhenProxy())
-				выведиОш(-1, "Неудачная попытка подключения к прокси.");
-			LLOG("прокси connection to " << host << ":" << port << " is successful.");
+				ThrowError(-1, "Proxy connection attempt failed.");
+			LLOG("Proxy connection to " << host << ":" << port << " is successful.");
 			return true;
 		})) goto Bailout;
 	}
 
-	if(!пуск([=] () mutable {
-#ifdef КУЧА_РНЦП
-			LLOG("Using РНЦПДинрус's memory managers.");
+	if(!Run([=] () mutable {
+#ifdef UPP_HEAP
+			LLOG("Using Upp's memory managers.");
 			ssh->session = libssh2_session_init_ex((*ssh_malloc), (*ssh_free), (*ssh_realloc), this);
 #else
 			LLOG("Using libssh2's memory managers.");
 			ssh->session = libssh2_session_init_ex(nullptr, nullptr, nullptr, this);
 #endif
 			if(!ssh->session)
-				выведиОш(-1, "Failed to initalize libssh2 session.");
+				ThrowError(-1, "Failed to initalize libssh2 session.");
 #ifdef flagLIBSSH2TRACE
 			if(libssh2_trace_sethandler(ssh->session, this, &slibssh2DebugCallback))
 				LLOG("Warning: Unable to set trace (debug) handler for libssh2.");
@@ -185,23 +185,23 @@ bool SshSession::Connect(const Ткст& host, int port, const Ткст& user, c
 			return true;
 	})) goto Bailout;
 
-	while(!session->iomethods.пустой()) {
-		if(!пуск([=] () mutable {
-			int    method = session->iomethods.дайКлюч(0);
-			Ткст mnames = GetMethodNames(method);
+	while(!session->iomethods.IsEmpty()) {
+		if(!Run([=] () mutable {
+			int    method = session->iomethods.GetKey(0);
+			String mnames = GetMethodNames(method);
 			int rc = libssh2_session_method_pref(ssh->session, method, ~mnames);
-			if(!WouldBlock(rc) && rc < 0) выведиОш(rc);
-			if(!rc && !session->iomethods.пустой()) {
+			if(!WouldBlock(rc) && rc < 0) ThrowError(rc);
+			if(!rc && !session->iomethods.IsEmpty()) {
 				LLOG("Transport method: #" << method << " is set to [" << mnames << "]");
-				session->iomethods.удали(0);
+				session->iomethods.Remove(0);
 			}
 			return !rc;
 		})) goto Bailout;
 	}
 
-	if(!пуск([=] () mutable {
+	if(!Run([=] () mutable {
 			int rc = libssh2_session_handshake(ssh->session, session->socket.GetSOCKET());
-			if(!WouldBlock(rc) && rc < 0) выведиОш(rc);
+			if(!WouldBlock(rc) && rc < 0) ThrowError(rc);
 			if(!rc) {
 				LLOG("Handshake successful.");
 				WhenPhase(PHASE_AUTHORIZATION);
@@ -209,15 +209,15 @@ bool SshSession::Connect(const Ткст& host, int port, const Ткст& user, c
 			return !rc;
 	})) goto Bailout;
 
-	if(!пуск([=] () mutable {
-			switch(session->hashtype) {  // TODO: удали this block along with the deprecated Hashtype()
+	if(!Run([=] () mutable {
+			switch(session->hashtype) {  // СДЕЛАТЬ: Remove this block along with the deprecated Hashtype()
 			case HASH_MD5:               //       and  GetFingerprint() methods, in the future versions.
 				session->fingerprint = GetMD5Fingerprint();
-				LLOG("MD5 fingerprint of " << host << ": " << гексТкст(session->fingerprint, 1, ':'));
+				LLOG("MD5 fingerprint of " << host << ": " << HexString(session->fingerprint, 1, ':'));
 				break;
 			case HASH_SHA1:
 				session->fingerprint = GetSHA1Fingerprint();
-				LLOG("SHA1 fingerprint of " << host << ": " << гексТкст(session->fingerprint, 1, ':'));
+				LLOG("SHA1 fingerprint of " << host << ": " << HexString(session->fingerprint, 1, ':'));
 				break;
 			case HASH_SHA256:
 				session->fingerprint = GetSHA256Fingerprint();
@@ -227,13 +227,13 @@ bool SshSession::Connect(const Ткст& host, int port, const Ткст& user, c
 				break;
 			}
 			if(WhenVerify && !WhenVerify(host, port))
-				выведиОш(-1);
+				ThrowError(-1);
 			return true;
 	})) goto Bailout;
 
-	if(!пуск([=] () mutable {
-			session->authmethods = libssh2_userauth_list(ssh->session, user, user.дайДлину());
-			if(пусто_ли(session->authmethods)) {
+	if(!Run([=] () mutable {
+			session->authmethods = libssh2_userauth_list(ssh->session, user, user.GetLength());
+			if(IsNull(session->authmethods)) {
 				if(libssh2_userauth_authenticated(ssh->session)) {
 					LLOG("Server @" << host << " does not require authentication!");
 					WhenPhase(PHASE_SUCCESS);
@@ -242,7 +242,7 @@ bool SshSession::Connect(const Ткст& host, int port, const Ткст& user, c
 				}
 				else
 				if(!WouldBlock())
-					выведиОш(-1);
+					ThrowError(-1);
 				return false;
 			}
 			LLOG("Authentication methods list successfully retrieved: [" << session->authmethods << "]");
@@ -253,16 +253,16 @@ bool SshSession::Connect(const Ткст& host, int port, const Ткст& user, c
 	if(session->connected)
 		goto Finalize;
 
-	if(!пуск([=] () mutable {
+	if(!Run([=] () mutable {
 			int rc = -1;
 			switch(session->authmethod) {
 				case PASSWORD:
 					rc = libssh2_userauth_password_ex(
 							ssh->session,
 							~user,
-							 user.дайДлину(),
+							 user.GetLength(),
 							~password,
-							 password.дайДлину(),
+							 password.GetLength(),
 							 WhenPasswordChange
 								? &sChangePasswordCallback
 									: nullptr);
@@ -278,16 +278,16 @@ bool SshSession::Connect(const Ткст& host, int port, const Ткст& user, c
 					:	libssh2_userauth_publickey_frommemory(
 							ssh->session,
 							~user,
-							 user.дайДлину(),
+							 user.GetLength(),
 							~session->pubkey,
-							 session->pubkey.дайДлину(),
+							 session->pubkey.GetLength(),
 							~session->prikey,
-							 session->prikey.дайДлину(),
+							 session->prikey.GetLength(),
 							~session->phrase);
 					break;
 				case HOSTBASED:
 					if(!session->keyfile)
-						выведиОш(-1, "Keys cannot be loaded from memory.");
+						ThrowError(-1, "Не удаётся загрузить из памяти ключи.");
 					else
 					rc = libssh2_userauth_hostbased_fromfile(
 							ssh->session,
@@ -311,7 +311,7 @@ bool SshSession::Connect(const Ткст& host, int port, const Ткст& user, c
 
 			}
 			if(rc != 0 && !WouldBlock(rc))
-				выведиОш(rc);
+				ThrowError(rc);
 			if(rc == 0 && libssh2_userauth_authenticated(ssh->session)) {
 				LLOG("Client succesfully authenticated.");
 				WhenPhase(PHASE_SUCCESS);
@@ -329,65 +329,65 @@ Finalize:
 
 Bailout:
 	LLOG("Connection attempt failed. Bailing out...");
-	выход();
+	Exit();
 	return false;
 }
 
 void SshSession::Disconnect()
 {
-	выход();
+	Exit();
 }
 
 SFtp SshSession::CreateSFtp()
 {
-	ПРОВЕРЬ(ssh && ssh->session);
+	ASSERT(ssh && ssh->session);
 	return pick(SFtp(*this));
 }
 
 SshChannel SshSession::CreateChannel()
 {
-	ПРОВЕРЬ(ssh && ssh->session);
+	ASSERT(ssh && ssh->session);
 	return pick(SshChannel(*this));
 }
 
 SshExec SshSession::CreateExec()
 {
-	ПРОВЕРЬ(ssh && ssh->session);
+	ASSERT(ssh && ssh->session);
 	return pick(SshExec(*this));
 }
 
 Scp SshSession::CreateScp()
 {
-	ПРОВЕРЬ(ssh && ssh->session);
+	ASSERT(ssh && ssh->session);
 	return pick(Scp(*this));
 }
 
 SshTunnel SshSession::CreateTunnel()
 {
-	ПРОВЕРЬ(ssh && ssh->session);
+	ASSERT(ssh && ssh->session);
 	return pick(SshTunnel(*this));
 }
 
 SshShell SshSession::CreateShell()
 {
-	ПРОВЕРЬ(ssh && ssh->session);
+	ASSERT(ssh && ssh->session);
 	return pick(SshShell(*this));
 }
 
-Ткст SshSession::GetHostKeyHash(int тип, int length) const
+String SshSession::GetHostKeyHash(int type, int length) const
 {
-	Ткст hash;
+	String hash;
 	if(ssh->session) {
-		hash = libssh2_hostkey_hash(ssh->session, тип);
-		if(hash.дайДлину() > length)
-			hash.обрежьПоследн(hash.дайДлину() - length);
+		hash = libssh2_hostkey_hash(ssh->session, type);
+		if(hash.GetLength() > length)
+			hash.TrimLast(hash.GetLength() - length);
 	}
 	return hash;
 }
 
-МапЗнач SshSession::GetMethods() const
+ValueMap SshSession::GetMethods() const
 {
-	МапЗнач methods;
+	ValueMap methods;
 	if(ssh->session) {
 		for(int i = METHOD_EXCHANGE; i <= METHOD_SLANGUAGE; i++) {
 			const char **p = nullptr;
@@ -404,56 +404,56 @@ SshShell SshSession::CreateShell()
 	return pick(methods);
 }
 
-Ткст SshSession::GetMethodNames(int тип) const
+String SshSession::GetMethodNames(int type) const
 {
-	Ткст names;
-	const Значение& v = session->iomethods[тип];
-	if(массивЗнач_ли(v)) {
-		for(int i = 0; i < v.дайСчёт(); i++)
-			names << v[i].To<Ткст>() << (i < v.дайСчёт() - 1 ? "," : "");
+	String names;
+	const Value& v = session->iomethods[type];
+	if(IsValueArray(v)) {
+		for(int i = 0; i < v.GetCount(); i++)
+			names << v[i].To<String>() << (i < v.GetCount() - 1 ? "," : "");
 	}
 	else names << v;
 	return pick(names);
 }
 
-int SshSession::TryAgent(const Ткст& username)
+int SshSession::TryAgent(const String& username)
 {
 	LLOG("Attempting to authenticate via ssh-agent...");
 	auto agent = libssh2_agent_init(ssh->session);
 	if(!agent)
-		выведиОш(-1, "Couldn't initialize ssh-agent support.");
+		ThrowError(-1, "Не удаётся инициализировать поддержку ssh-агента.");
 	if(libssh2_agent_connect(agent)) {
 		libssh2_agent_free(agent);
-		выведиОш(-1, "Couldn't connect to ssh-agent.");
+		ThrowError(-1, "Не удаётся подключиться к ssh-агенту.");
 	}
 	if(libssh2_agent_list_identities(agent)) {
 		FreeAgent(agent);
-		выведиОш(-1, "Couldn't request identities to ssh-agent.");
+		ThrowError(-1, "Провал запроса идентичности к ssh-агенту.");
 	}
-	libssh2_agent_publickey *ид = nullptr, *previd = nullptr;
+	libssh2_agent_publickey *id = nullptr, *previd = nullptr;
 
 	for(;;) {
-		auto rc = libssh2_agent_get_identity(agent, &ид, previd);
+		auto rc = libssh2_agent_get_identity(agent, &id, previd);
 		if(rc < 0) {
 			FreeAgent(agent);
-			выведиОш(-1, "Unable to obtain identity from ssh-agent.");
+			ThrowError(-1, "Не удаётся установить идентичность у ssh-агента.");
 		}
 		if(rc != 1) {
-			if(libssh2_agent_userauth(agent, ~username, ид)) {
-				LLOG(фмт("Authentication with username %s and public ключ %s failed.",
-							username, ид->comment));
+			if(libssh2_agent_userauth(agent, ~username, id)) {
+				LLOG(Format("Authentication with username %s and public key %s failed.",
+							username, id->comment));
 			}
 			else {
-				LLOG(фмт("Authentication with username %s and public ключ %s succeesful.",
-							username, ид->comment));
+				LLOG(Format("Authentication with username %s and public key %s succeesful.",
+							username, id->comment));
 				break;
 			}
 		}
 		else {
 			FreeAgent(agent);
-			выведиОш(-1, "Couldn't authenticate via ssh-agent");
+			ThrowError(-1, "Не удаётся аутентификация посредством ssh-агента");
 		}
-		previd = ид;
+		previd = id;
 	}
 	FreeAgent(agent);
 	return 0;
@@ -466,7 +466,7 @@ void SshSession::FreeAgent(SshAgent* agent)
 }
 
 
-SshSession& SshSession::Keys(const Ткст& prikey, const Ткст& pubkey, const Ткст& phrase, bool fromfile)
+SshSession& SshSession::Keys(const String& prikey, const String& pubkey, const String& phrase, bool fromfile)
 {
     session->prikey  = prikey;
     session->pubkey  = pubkey;
@@ -478,9 +478,9 @@ SshSession& SshSession::Keys(const Ткст& prikey, const Ткст& pubkey, con
 SshSession::SshSession()
 : Ssh()
 {
-    session.создай();
+    session.Create();
     ssh->otype           = SESSION;
-    ssh->whenwait        = прокси(WhenWait);
+    ssh->whenwait        = Proxy(WhenWait);
     session->authmethod  = PASSWORD;
     session->connected   = false;
     session->keyfile     = true;
@@ -490,6 +490,6 @@ SshSession::SshSession()
 
 SshSession::~SshSession()
 {
-	выход();
+	Exit();
 }
 }

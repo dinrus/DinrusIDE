@@ -4,13 +4,13 @@
 
 #define METHOD_NAME "AndroidBuilder::" << UPP_FUNCTION_NAME << "(): "
 
-const Ткст AndroidBuilder::RES_PKG_FLAG = "ANDROID_RESOURCES_PACKAGE";
+const String AndroidBuilder::RES_PKG_FLAG = "ANDROID_RESOURCES_PACKAGE";
 
-Индекс<Ткст> AndroidBuilder::GetBuildersNames()
+Index<String> AndroidBuilder::GetBuildersNames()
 {
-	Индекс<Ткст> builders;
+	Index<String> builders;
 	
-	builders.добавь("ANDROID");
+	builders.Add("ANDROID");
 	
 	return builders;
 }
@@ -20,21 +20,21 @@ AndroidBuilder::AndroidBuilder()
 {
 }
 
-void AndroidBuilder::SetJdk(Один<Jdk> jdk)
+void AndroidBuilder::SetJdk(One<Jdk> jdk)
 {
 	this->jdk = pick(jdk);
 }
 
-Ткст AndroidBuilder::GetTargetExt() const
+String AndroidBuilder::GetTargetExt() const
 {
 	return ".apk";
 }
 
-bool AndroidBuilder::постройПакет(
-	const Ткст& package, Вектор<Ткст>& linkfile,
-	Вектор<Ткст>& immfile, Ткст& linkoptions,
-	const Вектор<Ткст>& all_uses,
-	const Вектор<Ткст>& all_libraries,
+bool AndroidBuilder::BuildPackage(
+	const String& package, Vector<String>& linkfile,
+	Vector<String>& immfile, String& linkoptions,
+	const Vector<String>& all_uses,
+	const Vector<String>& all_libraries,
 	int)
 {
 	Logd() << METHOD_NAME;
@@ -43,47 +43,47 @@ bool AndroidBuilder::постройПакет(
 	if(!ValidateBuilderEnviorement())
 		return false;
 	
-	const bool isMainPackage = естьФлаг("MAIN");
-	const bool isResourcesPackage = естьФлаг(RES_PKG_FLAG);
-	const bool isBlitz = естьФлаг("BLITZ") || ndk_blitz;
-	Ткст uppManifestPath = PackagePath(package);
-	Ткст packageDir = дайПапкуФайла(uppManifestPath);
-	Ткст assemblyDir = AndroidBuilderUtils::GetAssemblyDir(packageDir, package);
+	const bool isMainPackage = HasFlag("MAIN");
+	const bool isResourcesPackage = HasFlag(RES_PKG_FLAG);
+	const bool isBlitz = HasFlag("BLITZ") || ndk_blitz;
+	String uppManifestPath = PackagePath(package);
+	String packageDir = GetFileFolder(uppManifestPath);
+	String assemblyDir = AndroidBuilderUtils::GetAssemblyDir(packageDir, package);
 	
 	ChDir(packageDir);
 	PutVerbose("cd " + packageDir);
 	
-	Пакет pkg;
-	pkg.грузи(uppManifestPath);
+	Package pkg;
+	pkg.Load(uppManifestPath);
 	
-	Вектор<Ткст> javaFiles;
-	Вектор<Ткст> nativeSources;
-	Вектор<Ткст> nativeSourcesOptions;
-	Вектор<Ткст> nativeObjects;
+	Vector<String> javaFiles;
+	Vector<String> nativeSources;
+	Vector<String> nativeSourcesOptions;
+	Vector<String> nativeObjects;
 	
-	Индекс<Ткст> noBlitzNativeSourceFiles;
+	Index<String> noBlitzNativeSourceFiles;
 	
-	Ткст androidManifestPath;
+	String androidManifestPath;
 	
-	Ткст javaSourcesDir    = project->GetJavaDir();
-	Ткст jniSourcesDir     = project->GetJniDir();
-	Ткст pkgJavaSourcesDir = javaSourcesDir + DIR_SEPS + package;
-	for(int i = 0; i < pkg.дайСчёт(); i++) {
-		if(!строитсяИср())
+	String javaSourcesDir    = project->GetJavaDir();
+	String jniSourcesDir     = project->GetJniDir();
+	String pkgJavaSourcesDir = javaSourcesDir + DIR_SEPS + package;
+	for(int i = 0; i < pkg.GetCount(); i++) {
+		if(!IdeIsBuilding())
 			return false;
 		if(pkg[i].separator)
 			continue;
 		
-		Ткст globalOptions = Gather(pkg[i].option, config.дайКлючи());
+		String globalOptions = Gather(pkg[i].option, config.GetKeys());
 		
-		Ткст filePath       = SourcePath(package, pkg[i]);
-		Ткст fileName       = NormalizePathSeparator(pkg[i]);
-		Ткст packageFile    = приставьИмяф(package, fileName);
-		Ткст packageFileDir = дайПапкуФайла(packageFile);
+		String filePath       = SourcePath(package, pkg[i]);
+		String fileName       = NormalizePathSeparator(pkg[i]);
+		String packageFile    = AppendFileName(package, fileName);
+		String packageFileDir = GetFileFolder(packageFile);
 		if(isResourcesPackage) {
-			if(packageFileDir.найди(package + DIR_SEPS) != -1)
-				packageFileDir.удали(0, Ткст(package + DIR_SEPS).дайСчёт());
-			Ткст filePathInAndroidProject
+			if(packageFileDir.Find(package + DIR_SEPS) != -1)
+				packageFileDir.Remove(0, String(package + DIR_SEPS).GetCount());
+			String filePathInAndroidProject
 				= GetFilePathInAndroidProject(project->GetResDir(), packageFileDir, fileName);
 			
 			if(!MovePackageFileToAndroidProject(filePath, filePathInAndroidProject))
@@ -91,7 +91,7 @@ bool AndroidBuilder::постройПакет(
 		}
 		else
 		if(BuilderUtils::IsJavaFile(filePath)) {
-			Ткст filePathInAndroidProject
+			String filePathInAndroidProject
 				= GetFilePathInAndroidProject(javaSourcesDir, packageFileDir, fileName);
 			
 			if(!RealizePackageJavaSourcesDirectory(package))
@@ -99,29 +99,29 @@ bool AndroidBuilder::постройПакет(
 			if(!MovePackageFileToAndroidProject(filePath, filePathInAndroidProject))
 				return false;
 			
-			javaFiles.добавь(filePathInAndroidProject);
+			javaFiles.Add(filePathInAndroidProject);
 		}
 		else
 		if(BuilderUtils::IsCppOrCFile(filePath)) {
-			nativeSourcesOptions.добавь(globalOptions);
+			nativeSourcesOptions.Add(globalOptions);
 			if(pkg[i].noblitz) {
 				if (isBlitz) {
-					noBlitzNativeSourceFiles.добавь(filePath);
+					noBlitzNativeSourceFiles.Add(filePath);
 					continue;
 				}
 			}
 			
-			nativeSources.добавь(filePath);
+			nativeSources.Add(filePath);
 		}
 		else
 		if(BuilderUtils::IsXmlFile(filePath)) {
 			if(isMainPackage && fileName == "AndroidManifest.xml") {
-				if(androidManifestPath.дайСчёт()) {
-					вКонсоль("AndroidManifest.xml is duplicated.");
+				if(androidManifestPath.GetCount()) {
+					PutConsole("AndroidManifest.xml депрекирован.");
 					return false;
 				}
 				
-				if(!копируйфл(filePath, project->GetManifestPath()))
+				if(!FileCopy(filePath, project->GetManifestPath()))
 					return false;
 					
 				androidManifestPath = filePath;
@@ -129,35 +129,35 @@ bool AndroidBuilder::постройПакет(
 		}
 		else
 		if(BuilderUtils::IsObjectFile(filePath)) {
-			Ткст filePathInAndroidProject = GetFilePathInAndroidProject(jniSourcesDir, packageFileDir, fileName);
+			String filePathInAndroidProject = GetFilePathInAndroidProject(jniSourcesDir, packageFileDir, fileName);
 			
 			if(!MovePackageFileToAndroidProject(filePath, filePathInAndroidProject))
 				return false;
 			
-			nativeObjects.добавь(filePathInAndroidProject);
+			nativeObjects.Add(filePathInAndroidProject);
 		}
 	}
 	
-	if(isMainPackage && androidManifestPath.пустой()) {
-		вКонсоль("Failed to find Android manifest file.");
+	if(isMainPackage && androidManifestPath.IsEmpty()) {
+		PutConsole("Не удалось найти файл манифеста Android.");
 		return false;
 	}
 	
 	DeleteUnusedSourceFiles(pkgJavaSourcesDir, javaFiles, ".java");
-	if(!isResourcesPackage && !javaFiles.пустой()) {
-		if(!реализуйДир(project->GetClassesDir()))
+	if(!isResourcesPackage && !javaFiles.IsEmpty()) {
+		if(!RealizeDirectory(project->GetClassesDir()))
 			return false;
 				
-		linkfile.добавь(commands->PreperCompileJavaSourcesCommand(javaFiles));
+		linkfile.Add(commands->PreperCompileJavaSourcesCommand(javaFiles));
 	}
 	
-	if(isResourcesPackage || nativeSources.пустой()) {
-		Logd() << METHOD_NAME << "There are not native files in the following package " << package << ".";
+	if(isResourcesPackage || nativeSources.IsEmpty()) {
+		Logd() << METHOD_NAME << "Нативные файлы в пакете " << package << " отсутствуют.";
 		return true;
 	}
 	
 	if(isBlitz) {
-		Logd() << METHOD_NAME << "Creating blitz step for package " << package << ".";
+		Logd() << METHOD_NAME << "Создание блиц-щага для пакета " << package << ".";
 		
 		BlitzBuilderComponent bc(this);
 		bc.SetWorkingDir(project->GetJniDir() + DIR_SEPS + package);
@@ -168,11 +168,11 @@ bool AndroidBuilder::постройПакет(
 		    nativeObjects, immfile, ".o",
 		    noBlitzNativeSourceFiles);
 		
-		if(!файлЕсть(blitz.path)) {
-			Loge() << METHOD_NAME << "Blitz was enable, but no blitz file generated.";
+		if(!FileExists(blitz.path)) {
+			Loge() << METHOD_NAME << "Блиц был активирован, но блиц-файл не сгенерирован.";
 		}
 		else {
-			nativeSources.добавь(package + DIR_SEPS + дайИмяф(blitz.path));
+			nativeSources.Add(package + DIR_SEPS + GetFileName(blitz.path));
 		}
 	}
 	
@@ -183,16 +183,16 @@ bool AndroidBuilder::постройПакет(
 	creator.AddSources(noBlitzNativeSourceFiles);
 	creator.AddInclude(assemblyDir);
 	creator.AddIncludes(pkg.uses);
-	creator.добавьФлаги(pkg.flag);
+	creator.AddFlags(pkg.flag);
 	creator.AddLdLibraries(pkg.library);
 	creator.AddStaticModuleLibrary(pkg.static_library);
 	creator.AddSharedLibraries(pkg.uses);
 
-	return creator.сохрани(GetModuleMakeFilePath(package));
+	return creator.Save(GetModuleMakeFilePath(package));
 }
 
 bool AndroidBuilder::Link(
-	const Вектор<Ткст>& linkfile, const Ткст& linkoptions,
+	const Vector<String>& linkfile, const String& linkoptions,
 	bool createmap)
 {
 	InitProject();
@@ -201,8 +201,8 @@ bool AndroidBuilder::Link(
 	
 	ManageProjectCohesion();
 	
-	вКонсоль("Building Android Project");
-	ТкстПоток ss;
+	PutConsole("Построения Проекта Android");
+	StringStream ss;
 	if(!GenerateRFile())
 		return false;
 	if(!RealizeLinkDirectories())
@@ -211,79 +211,79 @@ bool AndroidBuilder::Link(
 	// We need to compile java packages in this place, because we need to generate "R.java" file before...
 	// We don't know which packages contain resources.
 	int time;
-	if(linkfile.дайСчёт()) {
-		вКонсоль("-----");
-		вКонсоль("Compiling java sources...");
+	if(linkfile.GetCount()) {
+		PutConsole("-----");
+		PutConsole("Компилируются исходники java...");
 		time = msecs();
-		for(int i = 0; i < linkfile.дайСчёт(); i++) {
-			if(выполни(linkfile[i], ss) != 0) {
-				вКонсоль(ss.дайРез());
+		for(int i = 0; i < linkfile.GetCount(); i++) {
+			if(Execute(linkfile[i], ss) != 0) {
+				PutConsole(ss.GetResult());
 				return false;
 			}
 		}
-		вКонсоль("Java sources compiled in " + GetPrintTime(time) + ".");
+		PutConsole("Исходники Java скомпилированы за " + GetPrintTime(time) + ".");
 	}
 	
 	// Now, we are going to start compiling c/c++ sources
-	if(дирЕсть(project->GetJniDir())) {
+	if(DirectoryExists(project->GetJniDir())) {
 		if(!ndk.Validate()) {
-			PutErrorOnConsole("Android NDK was not detected");
+			PutErrorOnConsole("Не обнаружен Android NDK");
 			return false;
 		}
 		
 		time = msecs();
-		вКонсоль("-----");
-		вКонсоль("Compiling native sources...");
+		PutConsole("-----");
+		PutConsole("Компилируются нативные исходники...");
 		
 		GenerateApplicationMakeFile();
 		GenerateMakeFile();
 		
 		NDKBuild ndkBuild(ndk.GetNdkBuildPath());
-		if(вербозно_ли()) {
+		if(IsVerbose()) {
 			ndkBuild.EnableVerbose();
 		}
 		ndkBuild.SetWorkingDir(project->GetDir());
 		ndkBuild.SetJobs(IdeGetHydraThreads());
-		if(host->выполни(ndkBuild.MakeCmd()) != 0 ) {
+		if(host->Execute(ndkBuild.MakeCmd()) != 0 ) {
 			return false;
 		}
-		вКонсоль("Native sources compiled in " + GetPrintTime(time) + ".");
+		PutConsole("Нативные исходники скомпилированы за " + GetPrintTime(time) + ".");
 	}
 	
-	if(дирЕсть(project->GetClassesDir())) {
-		вКонсоль("-----");
-		вКонсоль("Creating dex file...");
-		Ткст dxCmd;
+	if(DirectoryExists(project->GetClassesDir())) {
+		PutConsole("-----");
+		PutConsole("Создаётся файл dex...");
+		String dxCmd;
 		dxCmd << NormalizeExePath(sdk.DxPath());
 		dxCmd << " --dex ";
 		dxCmd << "--output=" << project->GetBinDir() << DIR_SEPS << "classes.dex ";
 		dxCmd << project->GetClassesDir();
-		if(выполни(dxCmd, ss) != 0) {
-			вКонсоль(ss.дайРез());
+		if(Execute(dxCmd, ss) != 0) {
+			PutConsole(ss.GetResult());
 			return false;
 		}
 	}
 	
-	вКонсоль("Creating apk file...");
-	Ткст unsignedApkPath = GetSandboxDir() + DIR_SEPS + дайТитулф(target) + ".unsigned.apk";
+	PutConsole("Создлаётся файл apk...");
+	String unsignedApkPath = GetSandboxDir() + DIR_SEPS + GetFileTitle(target) + ".unsigned.apk";
 	DeleteFile(unsignedApkPath);
-	Ткст apkCmd;
+	String apkCmd;
 	apkCmd << NormalizeExePath(sdk.AaptPath());
 	apkCmd << " package -v -f";
-	if(дирЕсть(project->GetResDir()))
+	if(DirectoryExists(project->GetResDir()))
 		apkCmd << " -S " << project->GetResDir();
 	apkCmd << " -M " << project->GetManifestPath();
 	apkCmd << " -I " << NormalizeExePath(sdk.AndroidJarPath());
 	apkCmd << " -F " << unsignedApkPath;
 	apkCmd << " " << project->GetBinDir();
-	// вКонсоль(apkCmd);
-	if(выполни(apkCmd, ss) != 0) {
-		вКонсоль(ss.дайРез());
+	// PutConsole(apkCmd);
+	if(Execute(apkCmd, ss) != 0) {
+		PutConsole(ss.GetResult());
 		return false;
 	}
 	
-	if(дирЕсть(project->GetLibsDir())) {
-		вКонсоль("Adding native libraries to apk...");
+	if(DirectoryExists(project->GetLibsDir())) {
+		PutConsole("Нативные библиотеки добавляются к apk...");
 		if(!AddSharedLibsToApk(unsignedApkPath))
 			return false;
 	}
@@ -296,58 +296,58 @@ bool AndroidBuilder::Link(
 }
 
 bool AndroidBuilder::Preprocess(
-	const Ткст& package,
-    const Ткст& file,
-    const Ткст& target,
+	const String& package,
+    const String& file,
+    const String& target,
     bool asmout)
 {
 	InitProject();
 	
-	Ткст ext = дайРасшф(file);
+	String ext = GetFileExt(file);
 	if(ext == ".java")
 		return PreprocessJava(package, file, target);
 	return false;
 }
 
-void AndroidBuilder::добавьФлаги(Индекс<Ткст>& cfg)
+void AndroidBuilder::AddFlags(Index<String>& cfg)
 {
-	cfg.добавь("POSIX");
-	cfg.добавь("LINUX");
-	cfg.добавь("ANDROID");
+	cfg.Add("POSIX");
+	cfg.Add("LINUX");
+	cfg.Add("ANDROID");
 }
 
-void AndroidBuilder::очистьПакет(const Ткст& package, const Ткст& outdir)
+void AndroidBuilder::CleanPackage(const String& package, const String& outdir)
 {
 	InitProject();
 	
-	Вектор<Ткст> pkgDirs;
-	Вектор<Ткст> pkgFiles;
-	if(естьФлаг(RES_PKG_FLAG))
-		pkgDirs.добавь(project->GetResDir());
+	Vector<String> pkgDirs;
+	Vector<String> pkgFiles;
+	if(HasFlag(RES_PKG_FLAG))
+		pkgDirs.Add(project->GetResDir());
 	else {
-		// TODO: handle deletetion of (.class)es
-		pkgDirs.добавь(project->GetJavaDir(package));
-		вКонсоль(project->GetJavaDir(package));
-		pkgDirs.добавь(project->GetJniDir(package));
-		for(ФайлПоиск ff(приставьИмяф(project->GetObjLocalDir(), "*")); ff; ff.следщ()) {
-			if(!ff.скрыт_ли() && !ff.симссылка_ли() && ff.папка_ли()) {
-				pkgFiles.добавь(ff.дайПуть() + DIR_SEPS + "lib" + package + ".so");
-				pkgDirs.добавь(ff.дайПуть() + DIR_SEPS + "objs" + DIR_SEPS + package);
+		// СДЕЛАТЬ: handle deletetion of (.class)es
+		pkgDirs.Add(project->GetJavaDir(package));
+		PutConsole(project->GetJavaDir(package));
+		pkgDirs.Add(project->GetJniDir(package));
+		for(FindFile ff(AppendFileName(project->GetObjLocalDir(), "*")); ff; ff.Next()) {
+			if(!ff.IsHidden() && !ff.IsSymLink() && ff.IsFolder()) {
+				pkgFiles.Add(ff.GetPath() + DIR_SEPS + "lib" + package + ".so");
+				pkgDirs.Add(ff.GetPath() + DIR_SEPS + "objs" + DIR_SEPS + package);
 			}
 		}
-		for(ФайлПоиск ff(приставьИмяф(project->GetLibsDir(), "*")); ff; ff.следщ())
-			if(!ff.скрыт_ли() && !ff.симссылка_ли() && ff.папка_ли())
-				pkgFiles.добавь(ff.дайПуть() + DIR_SEPS + "lib" + package + ".so");
+		for(FindFile ff(AppendFileName(project->GetLibsDir(), "*")); ff; ff.Next())
+			if(!ff.IsHidden() && !ff.IsSymLink() && ff.IsFolder())
+				pkgFiles.Add(ff.GetPath() + DIR_SEPS + "lib" + package + ".so");
 	}
 	
-	for(int i = 0; i < pkgDirs.дайСчёт(); i++) {
-		Ткст dir = pkgDirs[i];
-		if(дирЕсть(dir))
+	for(int i = 0; i < pkgDirs.GetCount(); i++) {
+		String dir = pkgDirs[i];
+		if(DirectoryExists(dir))
 			DeleteFolderDeep(dir);
 	}
-	for(int i = 0; i < pkgFiles.дайСчёт(); i++) {
-		Ткст file = pkgFiles[i];
-		if(файлЕсть(file))
+	for(int i = 0; i < pkgFiles.GetCount(); i++) {
+		String file = pkgFiles[i];
+		if(FileExists(file))
 			DeleteFile(file);
 	}
 }
@@ -356,65 +356,65 @@ void AndroidBuilder::AfterClean()
 {
 	InitProject();
 	
-	Ткст sandboxDir = GetSandboxDir();
-	if(дирЕсть(sandboxDir))
+	String sandboxDir = GetSandboxDir();
+	if(DirectoryExists(sandboxDir))
 		DeleteFolderDeep(sandboxDir);
 }
 
 void AndroidBuilder::ManageProjectCohesion()
 {
-	Индекс<Ткст> packages;
-	for(int i = 0; i < wspc.дайСчёт(); i++)
-		packages.добавь(wspc[i]);
+	Index<String> packages;
+	for(int i = 0; i < wspc.GetCount(); i++)
+		packages.Add(wspc[i]);
 	
 	DetectAndManageUnusedPackages(project->GetJavaDir(), packages);
 	DetectAndManageUnusedPackages(project->GetJniDir(), packages);
 }
 
 void AndroidBuilder::DetectAndManageUnusedPackages(
-	const Ткст& nest,
-    const Индекс<Ткст>& packages)
+	const String& nest,
+    const Index<String>& packages)
 {
-	for(ФайлПоиск ff(приставьИмяф(nest, "*")); ff; ff.следщ()) {
-		if(!ff.скрыт_ли() && ff.директория_ли()) {
-			Ткст имя = ff.дайИмя();
-			if(packages.найди(имя) == -1)
-				очистьПакет(имя, "");
+	for(FindFile ff(AppendFileName(nest, "*")); ff; ff.Next()) {
+		if(!ff.IsHidden() && ff.IsDirectory()) {
+			String name = ff.GetName();
+			if(packages.Find(name) == -1)
+				CleanPackage(name, "");
 		}
 	}
 }
 
 void AndroidBuilder::DeleteUnusedSourceFiles(
-	const Ткст& nest,
-    const Вектор<Ткст>& files,
-    Ткст exts,
-    Ткст excludedFiles)
+	const String& nest,
+    const Vector<String>& files,
+    String exts,
+    String excludedFiles)
 {
-	exts.замени(" ", "");
-	excludedFiles.замени(" ", "");
-	Индекс<Ткст> extsIdx = Индекс<Ткст>(разбей(exts, ","));
-	Индекс<Ткст> excludedFilesIdx = Индекс<Ткст>(разбей(excludedFiles, ","));
+	exts.Replace(" ", "");
+	excludedFiles.Replace(" ", "");
+	Index<String> extsIdx = Index<String>(Split(exts, ","));
+	Index<String> excludedFilesIdx = Index<String>(Split(excludedFiles, ","));
 	
-	Вектор<Ткст> dirs { nest };
-	for(int i = 0; i < dirs.дайСчёт(); i++) {
-		for(ФайлПоиск ff(приставьИмяф(dirs[i], "*")); ff; ff.следщ()) {
-			if(ff.скрыт_ли()) {
+	Vector<String> dirs { nest };
+	for(int i = 0; i < dirs.GetCount(); i++) {
+		for(FindFile ff(AppendFileName(dirs[i], "*")); ff; ff.Next()) {
+			if(ff.IsHidden()) {
 				continue;
 			}
 			
-			Ткст path = ff.дайПуть();
-			Ткст имя = ff.дайИмя();
-			if(ff.папка_ли() && ff.симссылка_ли())
-				dirs.добавь(ff.дайПуть());
+			String path = ff.GetPath();
+			String name = ff.GetName();
+			if(ff.IsFolder() && ff.IsSymLink())
+				dirs.Add(ff.GetPath());
 			else
-			if(extsIdx.найди(дайРасшф(path)) == -1)
+			if(extsIdx.Find(GetFileExt(path)) == -1)
 				continue;
 			else
-			if(excludedFilesIdx.найди(имя) > -1)
+			if(excludedFilesIdx.Find(name) > -1)
 				continue;
 			else {
 				bool exists = false;
-				for(int j = 0; j < files.дайСчёт(); j++) {
+				for(int j = 0; j < files.GetCount(); j++) {
 					if(files[j] == path) {
 						exists = true;
 						break;
@@ -427,51 +427,51 @@ void AndroidBuilder::DeleteUnusedSourceFiles(
 	}
 }
 
-bool AndroidBuilder::MovePackageFileToAndroidProject(const Ткст& src, const Ткст& dst)
+bool AndroidBuilder::MovePackageFileToAndroidProject(const String& src, const String& dst)
 {
-	Ткст directory = дайДиректориюФайла(dst);
-	if(!реализуйДир(directory)) {
+	String directory = GetFileDirectory(dst);
+	if(!RealizeDirectory(directory)) {
 		Loge() << METHOD_NAME << "Cannot relize following directory: \"" << directory << "\".";
 		return false;
 	}
 	
-	if(файлЕсть(dst)) {
-		if(дайФВремя(dst) > дайФВремя(src))
+	if(FileExists(dst)) {
+		if(GetFileTime(dst) > GetFileTime(src))
 			return true;
 	}
 	
-	// TODO: Generic host should return bool flag.
-	return ::сохраниФайл(dst, загрузиФайл(src));
+	// СДЕЛАТЬ: Generic host should return bool flag.
+	return ::SaveFile(dst, LoadFile(src));
 }
 
-bool AndroidBuilder::RealizePackageJavaSourcesDirectory(const Ткст& packageName)
+bool AndroidBuilder::RealizePackageJavaSourcesDirectory(const String& packageName)
 {
-	Ткст dir = project->GetJavaDir() + DIR_SEPS + packageName;
+	String dir = project->GetJavaDir() + DIR_SEPS + packageName;
 	
-	return дирЕсть(dir) || реализуйДир(dir);
+	return DirectoryExists(dir) || RealizeDirectory(dir);
 }
 
 bool AndroidBuilder::RealizeLinkDirectories() const
 {
-	if(!реализуйДир(project->GetBinDir()))
+	if(!RealizeDirectory(project->GetBinDir()))
 		return false;
 	
 	return true;
 }
 
-bool AndroidBuilder::SignApk(const Ткст& target, const Ткст& unsignedApkPath)
+bool AndroidBuilder::SignApk(const String& target, const String& unsignedApkPath)
 {
-	ТкстПоток ss;
+	StringStream ss;
 	
-	Ткст signedApkPath = GetSandboxDir() + DIR_SEPS + дайТитулф(target) + ".signed.apk";
-	if(естьФлаг("DEBUG")) {
-		Ткст keystorePath = GetSandboxDir() + DIR_SEPS + "debug.keystore";
+	String signedApkPath = GetSandboxDir() + DIR_SEPS + GetFileTitle(target) + ".signed.apk";
+	if(HasFlag("DEBUG")) {
+		String keystorePath = GetSandboxDir() + DIR_SEPS + "debug.keystore";
 		if(!GenerateDebugKey(keystorePath))
 			return false;
 	
-		вКонсоль("Signing apk file...");
+		PutConsole("Подписывается файл apk...");
 		DeleteFile(signedApkPath);
-		Ткст jarsignerCmd;
+		String jarsignerCmd;
 		jarsignerCmd << NormalizeExePath(jdk->GetJarsignerPath());
 		
 		// Up to Java 6.0 below alogirms was by default
@@ -482,28 +482,28 @@ bool AndroidBuilder::SignApk(const Ткст& target, const Ткст& unsignedApk
 		jarsignerCmd << " -keystore " + keystorePath;
 		jarsignerCmd << " -storepass android";
 		jarsignerCmd << " -keypass android";
-		// TODO: not sure about below line. But I think for debug purpose we shouldn't use tsa.
+		// СДЕЛАТЬ: not sure about below line. But I think for debug purpose we shouldn't use tsa.
 		// http://en.wikipedia.org/wiki/Trusted_timestamping
 		//jarsignerCmd << " -tsa https://timestamp.geotrust.com/tsa";
 		jarsignerCmd << " -signedjar " << signedApkPath;
 		jarsignerCmd << " " << unsignedApkPath;
 		jarsignerCmd << " androiddebugkey";
-		//вКонсоль(jarsignerCmd);
-		if(выполни(jarsignerCmd, ss) != 0) {
-			вКонсоль(ss.дайРез());
+		//PutConsole(jarsignerCmd);
+		if(Execute(jarsignerCmd, ss) != 0) {
+			PutConsole(ss.GetResult());
 			return false;
 		}
 		
-		вКонсоль("Aliging apk file...");
+		PutConsole("Выравнивание файла apk...");
 		DeleteFile(target);
-		Ткст zipalignCmd;
+		String zipalignCmd;
 		zipalignCmd << NormalizeExePath(sdk.ZipalignPath());
 		zipalignCmd << " -f 4 ";
-		zipalignCmd << (естьФлаг("DEBUG") ? signedApkPath : unsignedApkPath) << " ";
+		zipalignCmd << (HasFlag("DEBUG") ? signedApkPath : unsignedApkPath) << " ";
 		zipalignCmd << target;
-		//вКонсоль(zipalignCmd);
-		if(выполни(zipalignCmd, ss) != 0) {
-			вКонсоль(ss.дайРез());
+		//PutConsole(zipalignCmd);
+		if(Execute(zipalignCmd, ss) != 0) {
+			PutConsole(ss.GetResult());
 			return false;
 		}
 	}
@@ -511,48 +511,48 @@ bool AndroidBuilder::SignApk(const Ткст& target, const Ткст& unsignedApk
 	return true;
 }
 
-bool AndroidBuilder::GenerateDebugKey(const Ткст& keystorePath)
+bool AndroidBuilder::GenerateDebugKey(const String& keystorePath)
 {
-	ТкстПоток ss;
+	StringStream ss;
 	
-	if(!файлЕсть(keystorePath)) {
-		вКонсоль("Generating debug ключ...");
+	if(!FileExists(keystorePath)) {
+		PutConsole("Генерируется ключ отладки...");
 		
-		Ткст keytoolCmd;
+		String keytoolCmd;
 		keytoolCmd << NormalizeExePath(jdk->GetKeytoolPath());
 		keytoolCmd << " -genkeypair -alias androiddebugkey -keypass android";
 		keytoolCmd << " -keystore " << keystorePath;
 		keytoolCmd << " -storepass android -dname \"CN=Android Debug,O=Android,C=US\"";
 		keytoolCmd << " -keyalg RSA";
 		keytoolCmd << " -validity 100000";
-		//вКонсоль(keytoolCmd);
-		if(выполни(keytoolCmd, ss) != 0) {
-			вКонсоль(ss.дайРез());
+		//PutConsole(keytoolCmd);
+		if(Execute(keytoolCmd, ss) != 0) {
+			PutConsole(ss.GetResult());
 			return false;
 		}
 	}
 	return true;
 }
 
-bool AndroidBuilder::AddSharedLibsToApk(const Ткст& apkPath)
+bool AndroidBuilder::AddSharedLibsToApk(const String& apkPath)
 {
-	// TODO: A little bit workearound (I know one thing that shared libs should be in "lib" directory not in "libs")
+	// СДЕЛАТЬ: A little bit workearound (I know one thing that shared libs should be in "lib" directory not in "libs")
 	// So, we need to create temporary lib directory with .so files :(
-	const Ткст libDir = project->GetDir() + DIR_SEPS + "lib";
+	const String libDir = project->GetDir() + DIR_SEPS + "lib";
 	
-	Вектор<Ткст> sharedLibsToAdd;
-	for(ФайлПоиск ff(приставьИмяф(project->GetLibsDir(), "*")); ff; ff.следщ()) {
-		if (!ff.скрыт_ли () && !ff.симссылка_ли () && ff.директория_ли()) {
-			for(ФайлПоиск ffa(приставьИмяф (ff.дайПуть(), "*")); ffa; ffa.следщ ()) {
-				if(!ffa.скрыт_ли() && !ffa.симссылка_ли() && !ffa.директория_ли()) {
-					// TODO: in libs directory we can find another java libs (.jar)
-					Ткст fileExt = впроп(дайРасшф(ffa.дайПуть()));
+	Vector<String> sharedLibsToAdd;
+	for(FindFile ff(AppendFileName(project->GetLibsDir(), "*")); ff; ff.Next()) {
+		if (!ff.IsHidden () && !ff.IsSymLink () && ff.IsDirectory()) {
+			for(FindFile ffa(AppendFileName (ff.GetPath(), "*")); ffa; ffa.Next ()) {
+				if(!ffa.IsHidden() && !ffa.IsSymLink() && !ffa.IsDirectory()) {
+					// СДЕЛАТЬ: in libs directory we can find another java libs (.jar)
+					String fileExt = ToLower(GetFileExt(ffa.GetPath()));
 					if(fileExt == ".so") {
-						const Ткст libPath = Ткст("lib") + DIR_SEPS + ff.дайИмя() + DIR_SEPS + ffa.дайИмя();
-						const Ткст destPath = project->GetDir() + DIR_SEPS + libPath;
-						if(!RealizePath(destPath) || !копируйфл(ffa.дайПуть(), destPath))
+						const String libPath = String("lib") + DIR_SEPS + ff.GetName() + DIR_SEPS + ffa.GetName();
+						const String destPath = project->GetDir() + DIR_SEPS + libPath;
+						if(!RealizePath(destPath) || !FileCopy(ffa.GetPath(), destPath))
 							return false;
-						sharedLibsToAdd.добавь(libPath);
+						sharedLibsToAdd.Add(libPath);
 					}
 				}
 			}
@@ -560,15 +560,15 @@ bool AndroidBuilder::AddSharedLibsToApk(const Ткст& apkPath)
 	}
 	
 	ChDir(project->GetDir());
-	Ткст aaptAddCmd;
+	String aaptAddCmd;
 	aaptAddCmd << NormalizeExePath(sdk.AaptPath());
 	aaptAddCmd << " add " << apkPath;
-	for(int i = 0; i < sharedLibsToAdd.дайСчёт(); i++)
+	for(int i = 0; i < sharedLibsToAdd.GetCount(); i++)
 		aaptAddCmd << " " << sharedLibsToAdd[i];
-	// вКонсоль(aaptAddCmd);
-	ТкстПоток ss;
-	if(выполни(aaptAddCmd, ss) != 0) {
-		вКонсоль(ss.дайРез());
+	// PutConsole(aaptAddCmd);
+	StringStream ss;
+	if(Execute(aaptAddCmd, ss) != 0) {
+		PutConsole(ss.GetResult());
 		return false;
 	}
 	if(!DeleteFolderDeep(libDir))
@@ -580,41 +580,41 @@ bool AndroidBuilder::AddSharedLibsToApk(const Ткст& apkPath)
 bool AndroidBuilder::ValidateBuilderEnviorement()
 {
 	if(!sdk.Validate()) {
-		PutErrorOnConsole("Android SDK was not detected");
+		PutErrorOnConsole("Не обнаружен Android SDK");
 		return false;
 	}
 	if(!sdk.ValidateBuildTools()) {
-		PutErrorOnConsole("Android SDK build tools was not detected");
+		PutErrorOnConsole("Не обнаружены инструменты построения Android SDK");
 		return false;
 	}
 	if(!sdk.ValidatePlatform()) {
-		PutErrorOnConsole("Android SDK platform was not detected");
+		PutErrorOnConsole("Не обнаружена платформа Android SDK");
 		return false;
 	}
 	if(!jdk->Validate()) {
-		PutErrorOnConsole("JDK was not detected");
+		PutErrorOnConsole("Не обнаружен JDK");
 		return false;
 	}
 	
 	return true;
 }
 
-void AndroidBuilder::PutErrorOnConsole(const Ткст& msg)
+void AndroidBuilder::PutErrorOnConsole(const String& msg)
 {
-	вКонсоль("Ошибка: " + msg + ".");
+	PutConsole("Ошибка: " + msg + ".");
 }
 
-bool AndroidBuilder::FileNeedsUpdate(const Ткст& path, const Ткст& data)
+bool AndroidBuilder::FileNeedsUpdate(const String& path, const String& data)
 {
-	return !(файлЕсть(path) && загрузиФайл(path).сравни(data) == 0);
+	return !(FileExists(path) && LoadFile(path).Compare(data) == 0);
 }
 
-void AndroidBuilder::обновиФайл(const Ткст& path, const Ткст& data)
+void AndroidBuilder::UpdateFile(const String& path, const String& data)
 {
 	if(!FileNeedsUpdate(path, data))
 		return;
 	
-	сохраниФайл(path, data);
+	SaveFile(path, data);
 }
 
 void AndroidBuilder::GenerateApplicationMakeFile()
@@ -625,65 +625,65 @@ void AndroidBuilder::GenerateApplicationMakeFile()
 	makeFile.SetCppRuntime(ndkCppRuntime);
 	makeFile.SetCppFlags(ndkCppFlags);
 	makeFile.SetCFlags(ndkCFlags);
-	makeFile.SetOptim(естьФлаг("DEBUG") ? "debug" : "release");
+	makeFile.SetOptim(HasFlag("DEBUG") ? "debug" : "release");
 	makeFile.SetToolchain(ndkToolchain);
 	
-	PutVerbose("Architectures: " + какТкст(ndkArchitectures));
-	PutVerbose("CppRuntime: " + ndkCppRuntime);
-	PutVerbose("CppFlags: " + ndkCppFlags);
-	PutVerbose("CFlags: " + ndkCFlags);
-	PutVerbose("Toolchain: " + ndkToolchain);
+	PutVerbose("Архитектуры: " + AsString(ndkArchitectures));
+	PutVerbose("Рантайм Cpp: " + ndkCppRuntime);
+	PutVerbose("Флаги Cpp: " + ndkCppFlags);
+	PutVerbose("Флаги Си: " + ndkCFlags);
+	PutVerbose("Тулчейн: " + ndkToolchain);
 	
-	обновиФайл(project->GetJniApplicationMakeFilePath(), makeFile.вТкст());
+	UpdateFile(project->GetJniApplicationMakeFilePath(), makeFile.ToString());
 }
 
 void AndroidBuilder::GenerateMakeFile()
 {
-	const Ткст makeFileName = "Android.mk";
-	const Ткст baseDir = project->GetJniDir();
-	Вектор<Ткст> modules;
+	const String makeFileName = "Android.mk";
+	const String baseDir = project->GetJniDir();
+	Vector<String> modules;
 	
-	БиВектор<Ткст> dirs;
-	dirs.добавьГолову(baseDir);
-	while(!dirs.пустой()) {
-		Ткст currentDir = dirs.дайГолову();
-		for(ФайлПоиск ff1(приставьИмяф(currentDir, "*")); ff1; ff1.следщ()) {
-			if(!ff1.скрыт_ли() && !ff1.симссылка_ли() && ff1.папка_ли()) {
+	BiVector<String> dirs;
+	dirs.AddHead(baseDir);
+	while(!dirs.IsEmpty()) {
+		String currentDir = dirs.Head();
+		for(FindFile ff1(AppendFileName(currentDir, "*")); ff1; ff1.Next()) {
+			if(!ff1.IsHidden() && !ff1.IsSymLink() && ff1.IsFolder()) {
 				bool isEmpty = true;
-				for(ФайлПоиск ff2(приставьИмяф(ff1.дайПуть(), "*")); ff2; ff2.следщ()) {
-					if(!ff2.скрыт_ли() && !ff2.симссылка_ли() && ff2.файл_ли()) {
+				for(FindFile ff2(AppendFileName(ff1.GetPath(), "*")); ff2; ff2.Next()) {
+					if(!ff2.IsHidden() && !ff2.IsSymLink() && ff2.IsFile()) {
 						isEmpty = false;
 						break;
 					}
 				}
 				
 				if(!isEmpty) {
-					Ткст moduleName = ff1.дайПуть();
-					moduleName.удали(moduleName.найди(baseDir), baseDir.дайСчёт() + 1);
-					modules.добавь(moduleName);
+					String moduleName = ff1.GetPath();
+					moduleName.Remove(moduleName.Find(baseDir), baseDir.GetCount() + 1);
+					modules.Add(moduleName);
 				}
 				else {
-					dirs.добавьХвост(ff1.дайПуть());
+					dirs.AddTail(ff1.GetPath());
 				}
 			}
 		}
-		dirs.сбросьГолову();
+		dirs.DropHead();
 	}
 	
 	AndroidMakeFile makeFile;
 	makeFile.AddHeader();
-	for(const Ткст& module : modules)
+	for(const String& module : modules)
 		makeFile.AddInclusion(module + DIR_SEPS + makeFileName);
 	
-	обновиФайл(project->GetJniMakeFilePath(), makeFile.вТкст());
+	UpdateFile(project->GetJniMakeFilePath(), makeFile.ToString());
 }
 
 bool AndroidBuilder::GenerateRFile()
 {
-	// TODO: gen in gen folder
-	if(дирЕсть(project->GetResDir())) {
-		ТкстПоток ss;
-		Ткст aaptCmd;
+	// СДЕЛАТЬ: gen in gen folder
+	if(DirectoryExists(project->GetResDir())) {
+		StringStream ss;
+		String aaptCmd;
 		aaptCmd << NormalizeExePath(sdk.AaptPath());
 		aaptCmd << " package -v -f -m";
 		aaptCmd << " -S " << project->GetResDir();
@@ -691,8 +691,8 @@ bool AndroidBuilder::GenerateRFile()
 		aaptCmd << " -M " << project->GetManifestPath();
 		aaptCmd << " -I " << NormalizeExePath(sdk.AndroidJarPath());
 		
-		if(выполни(aaptCmd, ss) != 0) {
-			вКонсоль(ss.дайРез());
+		if(Execute(aaptCmd, ss) != 0) {
+			PutConsole(ss.GetResult());
 			return false;
 		}
 	}
@@ -700,23 +700,23 @@ bool AndroidBuilder::GenerateRFile()
 	return true;
 }
 
-bool AndroidBuilder::PreprocessJava(const Ткст& package, const Ткст& file, const Ткст& target)
+bool AndroidBuilder::PreprocessJava(const String& package, const String& file, const String& target)
 {
-	ТкстПоток ss;
-	Ткст ext = дайРасшф(file);
+	StringStream ss;
+	String ext = GetFileExt(file);
 	if(ext != ".java")
 		return false;
-	Ткст fileName = дайИмяф(file);
-	fileName.замени(ext, "");
-	Ткст targetDir = дайДиректориюФайла(target);
-	Ткст classesDir = targetDir + "classes";
-	Ткст classFileName = fileName + ".class";
+	String fileName = GetFileName(file);
+	fileName.Replace(ext, "");
+	String targetDir = GetFileDirectory(target);
+	String classesDir = targetDir + "classes";
+	String classFileName = fileName + ".class";
 	
-	if(дирЕсть(classesDir))
+	if(DirectoryExists(classesDir))
 		DeleteFolderDeep(classesDir);
-	реализуйДир(classesDir);
+	RealizeDirectory(classesDir);
 	
-	Ткст compileCmd;
+	String compileCmd;
 	compileCmd << NormalizeExePath(jdk->GetJavacPath());
 	compileCmd << " -d "<< classesDir;
 	compileCmd << " -classpath ";
@@ -724,38 +724,38 @@ bool AndroidBuilder::PreprocessJava(const Ткст& package, const Ткст& fil
 	compileCmd << project->GetBuildDir();
 	compileCmd << " -sourcepath " << project->GetJavaDir();
 	compileCmd << " " << file;
-	if(выполни(compileCmd) != 0)
+	if(Execute(compileCmd) != 0)
 		return false;
 	
-	Ткст classFileDir;
-	БиВектор<Ткст> paths;
-	paths.добавьХвост(classesDir);
-	while(!paths.пустой()) {
-		for(ФайлПоиск ff(приставьИмяф(paths.дайГолову(), "*")); ff; ff.следщ()) {
-			if(!ff.скрыт_ли()) {
-				if(!ff.симссылка_ли() && ff.директория_ли())
-					paths.добавьХвост(ff.дайПуть());
+	String classFileDir;
+	BiVector<String> paths;
+	paths.AddTail(classesDir);
+	while(!paths.IsEmpty()) {
+		for(FindFile ff(AppendFileName(paths.Head(), "*")); ff; ff.Next()) {
+			if(!ff.IsHidden()) {
+				if(!ff.IsSymLink() && ff.IsDirectory())
+					paths.AddTail(ff.GetPath());
 				else
-				if(ff.дайИмя().сравни(classFileName) == 0) {
-					classFileDir = дайДиректориюФайла(ff.дайПуть());
-					paths.очисть();
+				if(ff.GetName().Compare(classFileName) == 0) {
+					classFileDir = GetFileDirectory(ff.GetPath());
+					paths.Clear();
 					break;
 				}
 			}
 		}
-		if(!paths.пустой())
-			paths.сбросьГолову();
+		if(!paths.IsEmpty())
+			paths.DropHead();
 	}
 	
-	if(classFileDir.пустой())
+	if(classFileDir.IsEmpty())
 		return false;
 	
-	Ткст relativeClassFileDir = classFileDir;
-	relativeClassFileDir.замени(classesDir + DIR_SEPS, "");
-	Ткст className = relativeClassFileDir + fileName;
-	className.замени(DIR_SEPS, ".");
+	String relativeClassFileDir = classFileDir;
+	relativeClassFileDir.Replace(classesDir + DIR_SEPS, "");
+	String className = relativeClassFileDir + fileName;
+	className.Replace(DIR_SEPS, ".");
 	
-	Ткст javahCmd;
+	String javahCmd;
 	javahCmd << NormalizeExePath(jdk->GetJavahPath());
 	javahCmd << " -classpath ";
 	javahCmd << classesDir << Java::GetDelimiter();
@@ -763,9 +763,9 @@ bool AndroidBuilder::PreprocessJava(const Ткст& package, const Ткст& fil
 	javahCmd << project->GetBuildDir();
 	javahCmd << " -o " << target;
 	javahCmd << " " << className;
-	// вКонсоль(javahCmd);
-	if(выполни(javahCmd, ss) != 0) {
-		вКонсоль(ss.дайРез());
+	// PutConsole(javahCmd);
+	if(Execute(javahCmd, ss) != 0) {
+		PutConsole(ss.GetResult());
 		return false;
 	}
 	
@@ -777,66 +777,66 @@ bool AndroidBuilder::PreprocessJava(const Ткст& package, const Ткст& fil
 void AndroidBuilder::InitProject()
 {
 	if(!project) {
-		project.создай<AndroidProject>(GetAndroidProjectDir(), естьФлаг("DEBUG"));
-		commands.создай<AndroidBuilderCommands>(project.дай(), &sdk, jdk.дай());
+		project.Create<AndroidProject>(GetAndroidProjectDir(), HasFlag("DEBUG"));
+		commands.Create<AndroidBuilderCommands>(project.Get(), &sdk, jdk.Get());
 	}
 }
 
-Ткст AndroidBuilder::GetSandboxDir() const
+String AndroidBuilder::GetSandboxDir() const
 {
-	if(target.пустой())
-		return Ткст();
+	if(target.IsEmpty())
+		return String();
 	
-	int targetExtLen = GetTargetExt().дайСчёт();
-	Ткст mainPackageName = дайИмяф(target);
-	mainPackageName.удали(mainPackageName.дайСчёт() - targetExtLen, targetExtLen);
-	return дайПапкуФайла(target) + DIR_SEPS + "Sandbox" + DIR_SEPS + mainPackageName;
+	int targetExtLen = GetTargetExt().GetCount();
+	String mainPackageName = GetFileName(target);
+	mainPackageName.Remove(mainPackageName.GetCount() - targetExtLen, targetExtLen);
+	return GetFileFolder(target) + DIR_SEPS + "Sandbox" + DIR_SEPS + mainPackageName;
 }
 
-Ткст AndroidBuilder::GetAndroidProjectDir() const
+String AndroidBuilder::GetAndroidProjectDir() const
 {
 	return GetSandboxDir() + DIR_SEPS + "AndroidProject";
 }
 
 // -------------------------------------------------------------------
 
-Ткст AndroidBuilder::GetFilePathInAndroidProject(
-	const Ткст& nestDir,
-	const Ткст& packageName,
-	const Ткст& fileName) const
+String AndroidBuilder::GetFilePathInAndroidProject(
+	const String& nestDir,
+	const String& packageName,
+	const String& fileName) const
 {
 	return nestDir + DIR_SEPS + packageName + DIR_SEPS + RemoveDirNameFromFileName(fileName);
 }
 
-Ткст AndroidBuilder::RemoveDirNameFromFileName(Ткст fileName) const
+String AndroidBuilder::RemoveDirNameFromFileName(String fileName) const
 {
-	int idx = fileName.найдирек(DIR_SEPS);
+	int idx = fileName.ReverseFind(DIR_SEPS);
 	if(idx >= 0)
-		fileName.удали(0, idx);
+		fileName.Remove(0, idx);
 	return fileName;
 }
 
-Ткст AndroidBuilder::NormalizeModuleName(Ткст moduleName) const
+String AndroidBuilder::NormalizeModuleName(String moduleName) const
 {
-	moduleName.замени(DIR_SEPS, "_");
+	moduleName.Replace(DIR_SEPS, "_");
 	return moduleName;
 }
 
-Ткст AndroidBuilder::GetModuleMakeFilePath(const Ткст& package) const
+String AndroidBuilder::GetModuleMakeFilePath(const String& package) const
 {
 	return project->GetJniDir() + DIR_SEPS + package + DIR_SEPS + "Android.mk";
 }
 
 // -------------------------------------------------------------------
 
-Построитель *CreateAndroidBuilder()
+Builder *CreateAndroidBuilder()
 {
 	return new AndroidBuilder();
 }
 
-ИНИЦИАЛИЗАТОР(AndroidBuilder)
+INITIALIZER(AndroidBuilder)
 {
-	Индекс<Ткст> builders = AndroidBuilder::GetBuildersNames();
-	for(int i = 0; i < builders.дайСчёт(); i++)
+	Index<String> builders = AndroidBuilder::GetBuildersNames();
+	for(int i = 0; i < builders.GetCount(); i++)
 		RegisterBuilder(builders[i], &CreateAndroidBuilder);
 }

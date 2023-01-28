@@ -23,7 +23,7 @@ local void fixedtables OF((struct inflate_state FAR *state));
    Z_NULL to use the library memory allocation functions.
 
    windowBits is in the range 8..15, and window is a user-supplied
-   window and output буфер that is 2**windowBits bytes.
+   window and output buffer that is 2**windowBits bytes.
  */
 int ZEXPORT inflateBackInit_(strm, windowBits, window, version, stream_size)
 z_streamp strm;
@@ -40,7 +40,7 @@ int stream_size;
     if (strm == Z_NULL || window == Z_NULL ||
         windowBits < 8 || windowBits > 15)
         return Z_STREAM_ERROR;
-    strm->msg = Z_NULL;                 /* in case we return an Ошибка */
+    strm->msg = Z_NULL;                 /* in case we return an error */
     if (strm->zalloc == (alloc_func)0) {
 #ifdef Z_SOLO
         return Z_STREAM_ERROR;
@@ -124,7 +124,7 @@ struct inflate_state FAR *state;
 
 /* Macros for inflateBack(): */
 
-/* грузи returned state from inflate_fast() */
+/* Load returned state from inflate_fast() */
 #define LOAD() \
     do { \
         put = strm->next_out; \
@@ -146,7 +146,7 @@ struct inflate_state FAR *state;
         state->bits = bits; \
     } while (0)
 
-/* очисть the input bit accumulator */
+/* Clear the input bit accumulator */
 #define INITBITS() \
     do { \
         hold = 0; \
@@ -167,8 +167,8 @@ struct inflate_state FAR *state;
         } \
     } while (0)
 
-/* дай a byte of input into the bit accumulator, or return from inflateBack()
-   with an Ошибка if there is no input available. */
+/* Get a byte of input into the bit accumulator, or return from inflateBack()
+   with an error if there is no input available. */
 #define PULLBYTE() \
     do { \
         PULL(); \
@@ -179,7 +179,7 @@ struct inflate_state FAR *state;
 
 /* Assure that there are at least n bits in the bit accumulator.  If there is
    not enough available input to do that, then return from inflateBack() with
-   an Ошибка. */
+   an error. */
 #define NEEDBITS(n) \
     do { \
         while (bits < (unsigned)(n)) \
@@ -221,16 +221,16 @@ struct inflate_state FAR *state;
     } while (0)
 
 /*
-   strm provides the memory allocation functions and window буфер on input,
+   strm provides the memory allocation functions and window buffer on input,
    and provides information on the unused input on return.  For Z_DATA_ERROR
-   returns, strm will also provide an Ошибка message.
+   returns, strm will also provide an error message.
 
    in() and out() are the call-back input and output functions.  When
    inflateBack() needs more input, it calls in().  When inflateBack() has
    filled the window with output, or when it completes with data in the
    window, it calls out() to write out the data.  The application must not
    change the provided input until in() is called again or inflateBack()
-   returns.  The application must not change the window/output буфер until
+   returns.  The application must not change the window/output buffer until
    inflateBack() returns.
 
    in() and out() are called with a descriptor parameter provided in the
@@ -241,9 +241,9 @@ struct inflate_state FAR *state;
    in() should return zero on failure.  out() should return non-zero on
    failure.  If either in() or out() fails, than inflateBack() returns a
    Z_BUF_ERROR.  strm->next_in can be checked for Z_NULL to see whether it
-   was in() or out() that caused in the Ошибка.  Otherwise,  inflateBack()
-   returns Z_STREAM_END on success, Z_DATA_ERROR for an deflate формат
-   Ошибка, or Z_MEM_ERROR if it could not allocate memory for the state.
+   was in() or out() that caused in the error.  Otherwise,  inflateBack()
+   returns Z_STREAM_END on success, Z_DATA_ERROR for an deflate format
+   error, or Z_MEM_ERROR if it could not allocate memory for the state.
    inflateBack() can also return Z_STREAM_ERROR if the input parameters
    are not correct, i.e. strm is Z_NULL or the state was not initialized.
  */
@@ -258,8 +258,8 @@ void FAR *out_desc;
     z_const unsigned char FAR *next;    /* next input */
     unsigned char FAR *put;     /* next output */
     unsigned have, left;        /* available input and output */
-    unsigned long hold;         /* bit буфер */
-    unsigned bits;              /* bits in bit буфер */
+    unsigned long hold;         /* bit buffer */
+    unsigned bits;              /* bits in bit buffer */
     unsigned copy;              /* number of stored or match bytes to copy */
     unsigned char FAR *from;    /* where to copy match bytes from */
     code here;                  /* current decoding table entry */
@@ -274,7 +274,7 @@ void FAR *out_desc;
         return Z_STREAM_ERROR;
     state = (struct inflate_state FAR *)strm->state;
 
-    /* переустанов the state */
+    /* Reset the state */
     strm->msg = Z_NULL;
     state->mode = TYPE;
     state->last = 0;
@@ -286,11 +286,11 @@ void FAR *out_desc;
     put = state->window;
     left = state->wsize;
 
-    /* инфлируй until end of block marked as last */
+    /* Inflate until end of block marked as last */
     for (;;)
         switch (state->mode) {
         case TYPE:
-            /* determine and dispatch block тип */
+            /* determine and dispatch block type */
             if (state->last) {
                 BYTEBITS();
                 state->mode = DONE;
@@ -317,7 +317,7 @@ void FAR *out_desc;
                 state->mode = TABLE;
                 break;
             case 3:
-                strm->msg = (char *)"invalid block тип";
+                strm->msg = (char *)"invalid block type";
                 state->mode = BAD;
             }
             DROPBITS(2);
@@ -443,7 +443,7 @@ void FAR *out_desc;
                 }
             }
 
-            /* handle Ошибка breaks in while */
+            /* handle error breaks in while */
             if (state->mode == BAD) break;
 
             /* check for end-of-block code (better have one) */

@@ -31,7 +31,7 @@ FT_BEGIN_HEADER
   /* <Section>                                                             */
   /*   system_interface                                                    */
   /*                                                                       */
-  /* <Титул>                                                               */
+  /* <Title>                                                               */
   /*   System Interface                                                    */
   /*                                                                       */
   /* <Abstract>                                                            */
@@ -55,7 +55,7 @@ FT_BEGIN_HEADER
 
   /*************************************************************************
    *
-   * @тип:
+   * @type:
    *   FT_Memory
    *
    * @description:
@@ -133,10 +133,10 @@ FT_BEGIN_HEADER
    *     The block's current address.
    *
    * @return:
-   *   нов block address.  0~in case of memory shortage.
+   *   New block address.  0~in case of memory shortage.
    *
    * @note:
-   *   In case of Ошибка, the old block must still be available.
+   *   In case of error, the old block must still be available.
    *
    */
   typedef void*
@@ -159,13 +159,13 @@ FT_BEGIN_HEADER
    *     A generic typeless pointer for user data.
    *
    *   alloc ::
-   *     A pointer тип to an allocation function.
+   *     A pointer type to an allocation function.
    *
    *   free ::
-   *     A pointer тип to an memory freeing function.
+   *     A pointer type to an memory freeing function.
    *
    *   realloc ::
-   *     A pointer тип to a reallocation function.
+   *     A pointer type to a reallocation function.
    *
    */
   struct  FT_MemoryRec_
@@ -186,7 +186,7 @@ FT_BEGIN_HEADER
 
   /*************************************************************************
    *
-   * @тип:
+   * @type:
    *   FT_Stream
    *
    * @description:
@@ -202,13 +202,13 @@ FT_BEGIN_HEADER
    *   FT_StreamDesc
    *
    * @description:
-   *   A union тип used to store either a long or a pointer.  This is used
+   *   A union type used to store either a long or a pointer.  This is used
    *   to store a file descriptor or a `FILE*' in an input stream.
    *
    */
   typedef union  FT_StreamDesc_
   {
-    long   значение;
+    long   value;
     void*  pointer;
 
   } FT_StreamDesc;
@@ -229,8 +229,8 @@ FT_BEGIN_HEADER
    *   offset ::
    *     The offset of read in stream (always from start).
    *
-   *   буфер ::
-   *     The address of the read буфер.
+   *   buffer ::
+   *     The address of the read buffer.
    *
    *   count ::
    *     The number of bytes to read from the stream.
@@ -240,14 +240,14 @@ FT_BEGIN_HEADER
    *
    * @note:
    *   This function might be called to perform a seek or skip operation
-   *   with a `count' of~0.  A non-zero return значение then indicates an
-   *   Ошибка.
+   *   with a `count' of~0.  A non-zero return value then indicates an
+   *   error.
    *
    */
   typedef unsigned long
   (*FT_Stream_IoFunc)( FT_Stream       stream,
                        unsigned long   offset,
-                       unsigned char*  буфер,
+                       unsigned char*  buffer,
                        unsigned long   count );
 
 

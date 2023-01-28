@@ -16,7 +16,7 @@
  *   disclaimer in the documentation and/or other materials
  *   provided with the distribution.
  *
- *   Neither the имя of the copyright holder nor the names
+ *   Neither the name of the copyright holder nor the names
  *   of any other contributors may be used to endorse or
  *   promote products derived from this software without
  *   specific prior written permission.
@@ -38,6 +38,7 @@
  */
 
 #include "libssh2_priv.h"
+#include "agent.h"
 #include "misc.h"
 #include <errno.h>
 #ifdef HAVE_SYS_UN_H
@@ -50,8 +51,11 @@
 #endif
 #include "userauth.h"
 #include "session.h"
+#ifdef WIN32
+#include <stdlib.h>
+#endif
 
-/* Requests from client to agent for protocol 1 ключ operations */
+/* Requests from client to agent for protocol 1 key operations */
 #define SSH_AGENTC_REQUEST_RSA_IDENTITIES 1
 #define SSH_AGENTC_RSA_CHALLENGE 3
 #define SSH_AGENTC_ADD_RSA_IDENTITY 7
@@ -59,7 +63,7 @@
 #define SSH_AGENTC_REMOVE_ALL_RSA_IDENTITIES 9
 #define SSH_AGENTC_ADD_RSA_ID_CONSTRAINED 24
 
-/* Requests from client to agent for protocol 2 ключ operations */
+/* Requests from client to agent for protocol 2 key operations */
 #define SSH2_AGENTC_REQUEST_IDENTITIES 11
 #define SSH2_AGENTC_SIGN_REQUEST 13
 #define SSH2_AGENTC_ADD_IDENTITY 17
@@ -67,7 +71,7 @@
 #define SSH2_AGENTC_REMOVE_ALL_IDENTITIES 19
 #define SSH2_AGENTC_ADD_ID_CONSTRAINED 25
 
-/* Key-тип independent requests from client to agent */
+/* Key-type independent requests from client to agent */
 #define SSH_AGENTC_ADD_SMARTCARD_KEY 20
 #define SSH_AGENTC_REMOVE_SMARTCARD_KEY 21
 #define SSH_AGENTC_LOCK 22
@@ -78,11 +82,11 @@
 #define SSH_AGENT_FAILURE 5
 #define SSH_AGENT_SUCCESS 6
 
-/* Replies from agent to client for protocol 1 ключ operations */
+/* Replies from agent to client for protocol 1 key operations */
 #define SSH_AGENT_RSA_IDENTITIES_ANSWER 2
 #define SSH_AGENT_RSA_RESPONSE 4
 
-/* Replies from agent to client for protocol 2 ключ operations */
+/* Replies from agent to client for protocol 2 key operations */
 #define SSH2_AGENT_IDENTITIES_ANSWER 12
 #define SSH2_AGENT_SIGN_RESPONSE 14
 
@@ -154,13 +158,13 @@ agent_connect_unix(LIBSSH2_AGENT *agent)
         path = getenv("SSH_AUTH_SOCK");
         if(!path)
             return _libssh2_error(agent->session, LIBSSH2_ERROR_BAD_USE,
-                                  "no auth sock variable");
+                                  "отсутсвует переменная auth sock");
     }
 
     agent->fd = socket(PF_UNIX, SOCK_STREAM, 0);
     if(agent->fd < 0)
         return _libssh2_error(agent->session, LIBSSH2_ERROR_BAD_SOCKET,
-                              "failed creating socket");
+                              "неудача при создании сокета");
 
     s_un.sun_family = AF_UNIX;
     strncpy(s_un.sun_path, path, sizeof s_un.sun_path);
@@ -169,19 +173,19 @@ agent_connect_unix(LIBSSH2_AGENT *agent)
     if(connect(agent->fd, (struct sockaddr*)(&s_un), sizeof s_un) != 0) {
         close(agent->fd);
         return _libssh2_error(agent->session, LIBSSH2_ERROR_AGENT_PROTOCOL,
-                              "failed connecting with agent");
+                              "не удалось подключение через агент");
     }
 
     return LIBSSH2_ERROR_NONE;
 }
 
-#define RECV_SEND_ALL(func, socket, буфер, length, flags, abstract) \
+#define RECV_SEND_ALL(func, socket, buffer, length, flags, abstract) \
     int rc;                                                          \
     size_t finished = 0;                                             \
                                                                      \
     while(finished < length) {                                       \
         rc = func(socket,                                            \
-                  (char *)буфер + finished, length - finished,      \
+                  (char *)buffer + finished, length - finished,      \
                   flags, abstract);                                  \
         if(rc < 0)                                                   \
             return rc;                                               \
@@ -192,17 +196,17 @@ agent_connect_unix(LIBSSH2_AGENT *agent)
     return finished;
 
 static ssize_t _send_all(LIBSSH2_SEND_FUNC(func), libssh2_socket_t socket,
-                         const void *буфер, size_t length,
+                         const void *buffer, size_t length,
                          int flags, void **abstract)
 {
-    RECV_SEND_ALL(func, socket, буфер, length, flags, abstract);
+    RECV_SEND_ALL(func, socket, buffer, length, flags, abstract);
 }
 
 static ssize_t _recv_all(LIBSSH2_RECV_FUNC(func), libssh2_socket_t socket,
-                         void *буфер, size_t length,
+                         void *buffer, size_t length,
                          int flags, void **abstract)
 {
-    RECV_SEND_ALL(func, socket, буфер, length, flags, abstract);
+    RECV_SEND_ALL(func, socket, buffer, length, flags, abstract);
 }
 
 #undef RECV_SEND_ALL
@@ -222,7 +226,7 @@ agent_transact_unix(LIBSSH2_AGENT *agent, agent_transaction_ctx_t transctx)
             return LIBSSH2_ERROR_EAGAIN;
         else if(rc < 0)
             return _libssh2_error(agent->session, LIBSSH2_ERROR_SOCKET_SEND,
-                                  "agent send failed");
+                                  "неудача отправки агенту");
         transctx->state = agent_NB_state_request_length_sent;
     }
 
@@ -234,7 +238,7 @@ agent_transact_unix(LIBSSH2_AGENT *agent, agent_transaction_ctx_t transctx)
             return LIBSSH2_ERROR_EAGAIN;
         else if(rc < 0)
             return _libssh2_error(agent->session, LIBSSH2_ERROR_SOCKET_SEND,
-                                  "agent send failed");
+                                  "неудача отправки агенту");
         transctx->state = agent_NB_state_request_sent;
     }
 
@@ -246,7 +250,7 @@ agent_transact_unix(LIBSSH2_AGENT *agent, agent_transaction_ctx_t transctx)
             if(rc == -EAGAIN)
                 return LIBSSH2_ERROR_EAGAIN;
             return _libssh2_error(agent->session, LIBSSH2_ERROR_SOCKET_RECV,
-                                  "agent recv failed");
+                                  "неудача получения от агента");
         }
         transctx->response_len = _libssh2_ntohu32(buf);
         transctx->response = LIBSSH2_ALLOC(agent->session,
@@ -265,7 +269,7 @@ agent_transact_unix(LIBSSH2_AGENT *agent, agent_transaction_ctx_t transctx)
             if(rc == -EAGAIN)
                 return LIBSSH2_ERROR_EAGAIN;
             return _libssh2_error(agent->session, LIBSSH2_ERROR_SOCKET_SEND,
-                                  "agent recv failed");
+                                  "неудача получения агентом");
         }
         transctx->state = agent_NB_state_response_received;
     }
@@ -282,7 +286,7 @@ agent_disconnect_unix(LIBSSH2_AGENT *agent)
         agent->fd = LIBSSH2_INVALID_SOCKET;
     else
         return _libssh2_error(agent->session, LIBSSH2_ERROR_SOCKET_DISCONNECT,
-                              "failed closing the agent socket");
+                              "неудача при закрытии сокета агента");
     return LIBSSH2_ERROR_NONE;
 }
 
@@ -311,7 +315,7 @@ agent_connect_pageant(LIBSSH2_AGENT *agent)
     hwnd = FindWindowA("Pageant", "Pageant");
     if(!hwnd)
         return _libssh2_error(agent->session, LIBSSH2_ERROR_AGENT_PROTOCOL,
-                              "failed connecting agent");
+                              "неудача при подключении к агенту");
     agent->fd = 0;         /* Mark as the connection has been established */
     return LIBSSH2_ERROR_NONE;
 }
@@ -329,12 +333,12 @@ agent_transact_pageant(LIBSSH2_AGENT *agent, agent_transaction_ctx_t transctx)
 
     if(!transctx || 4 + transctx->request_len > PAGEANT_MAX_MSGLEN)
         return _libssh2_error(agent->session, LIBSSH2_ERROR_INVAL,
-                              "illegal input");
+                              "недопустимый ввод");
 
     hwnd = FindWindowA("Pageant", "Pageant");
     if(!hwnd)
         return _libssh2_error(agent->session, LIBSSH2_ERROR_AGENT_PROTOCOL,
-                              "found no pageant");
+                              "не найден pageant");
 
     snprintf(mapname, sizeof(mapname),
              "PageantRequest%08x%c", (unsigned)GetCurrentThreadId(), '\0');
@@ -343,13 +347,13 @@ agent_transact_pageant(LIBSSH2_AGENT *agent, agent_transaction_ctx_t transctx)
 
     if(filemap == NULL || filemap == INVALID_HANDLE_VALUE)
         return _libssh2_error(agent->session, LIBSSH2_ERROR_AGENT_PROTOCOL,
-                              "failed setting up pageant filemap");
+                              "не удалось настроить pageant filemap");
 
     p2 = p = MapViewOfFile(filemap, FILE_MAP_WRITE, 0, 0, 0);
     if(p == NULL || p2 == NULL) {
         CloseHandle(filemap);
         return _libssh2_error(agent->session, LIBSSH2_ERROR_AGENT_PROTOCOL,
-                              "failed to open pageant filemap for writing");
+                              "не удалось открыть pageant filemap для записи");
     }
 
     _libssh2_store_str(&p2, (const char *)transctx->request,
@@ -366,7 +370,7 @@ agent_transact_pageant(LIBSSH2_AGENT *agent, agent_transaction_ctx_t transctx)
             UnmapViewOfFile(p);
             CloseHandle(filemap);
             return _libssh2_error(agent->session, LIBSSH2_ERROR_AGENT_PROTOCOL,
-                                  "agent setup fail");
+                                  "неудачная настройка агента");
         }
         transctx->response = LIBSSH2_ALLOC(agent->session,
                                            transctx->response_len);
@@ -374,7 +378,7 @@ agent_transact_pageant(LIBSSH2_AGENT *agent, agent_transaction_ctx_t transctx)
             UnmapViewOfFile(p);
             CloseHandle(filemap);
             return _libssh2_error(agent->session, LIBSSH2_ERROR_ALLOC,
-                                  "agent malloc");
+                                  "размещение agent malloc");
         }
         memcpy(transctx->response, p + 4, transctx->response_len);
     }
@@ -399,11 +403,12 @@ struct agent_ops agent_ops_pageant = {
 #endif  /* WIN32 */
 
 static struct {
-    const char *имя;
+    const char *name;
     struct agent_ops *ops;
 } supported_backends[] = {
 #ifdef WIN32
     {"Pageant", &agent_ops_pageant},
+    {"OpenSSH", &agent_ops_openssh},
 #endif  /* WIN32 */
 #ifdef PF_UNIX
     {"Unix", &agent_ops_unix},
@@ -423,15 +428,15 @@ agent_sign(LIBSSH2_SESSION *session, unsigned char **sig, size_t *sig_len,
     unsigned char *s;
     int rc;
 
-    /* создай a request to sign the data */
+    /* Create a request to sign the data */
     if(transctx->state == agent_NB_state_init) {
         s = transctx->request = LIBSSH2_ALLOC(session, len);
         if(!transctx->request)
             return _libssh2_error(session, LIBSSH2_ERROR_ALLOC,
-                                  "out of memory");
+                                  "нехватка памяти");
 
         *s++ = SSH2_AGENTC_SIGN_REQUEST;
-        /* ключ blob */
+        /* key blob */
         _libssh2_store_str(&s, (const char *)identity->external.blob,
                            identity->external.blob_len);
         /* data */
@@ -441,22 +446,23 @@ agent_sign(LIBSSH2_SESSION *session, unsigned char **sig, size_t *sig_len,
         _libssh2_store_u32(&s, 0);
 
         transctx->request_len = s - transctx->request;
+        transctx->send_recv_total = 0;
         transctx->state = agent_NB_state_request_created;
     }
 
-    /* сделай sure to be re-called as a result of EAGAIN. */
+    /* Make sure to be re-called as a result of EAGAIN. */
     if(*transctx->request != SSH2_AGENTC_SIGN_REQUEST)
         return _libssh2_error(session, LIBSSH2_ERROR_BAD_USE,
-                              "illegal request");
+                              "недопустимый запрос");
 
     if(!agent->ops)
         /* if no agent has been connected, bail out */
         return _libssh2_error(session, LIBSSH2_ERROR_BAD_USE,
-                              "agent not connected");
+                              "агент не подключен");
 
     rc = agent->ops->transact(agent, transctx);
     if(rc) {
-        goto Ошибка;
+        goto error;
     }
     LIBSSH2_FREE(session, transctx->request);
     transctx->request = NULL;
@@ -466,66 +472,66 @@ agent_sign(LIBSSH2_SESSION *session, unsigned char **sig, size_t *sig_len,
     len--;
     if(len < 0) {
         rc = LIBSSH2_ERROR_AGENT_PROTOCOL;
-        goto Ошибка;
+        goto error;
     }
     if(*s != SSH2_AGENT_SIGN_RESPONSE) {
         rc = LIBSSH2_ERROR_AGENT_PROTOCOL;
-        goto Ошибка;
+        goto error;
     }
     s++;
 
-    /* пропусти the entire length of the signature */
+    /* Skip the entire length of the signature */
     len -= 4;
     if(len < 0) {
         rc = LIBSSH2_ERROR_AGENT_PROTOCOL;
-        goto Ошибка;
+        goto error;
     }
     s += 4;
 
-    /* пропусти signing method */
+    /* Skip signing method */
     len -= 4;
     if(len < 0) {
         rc = LIBSSH2_ERROR_AGENT_PROTOCOL;
-        goto Ошибка;
+        goto error;
     }
     method_len = _libssh2_ntohu32(s);
     s += 4;
     len -= method_len;
     if(len < 0) {
         rc = LIBSSH2_ERROR_AGENT_PROTOCOL;
-        goto Ошибка;
+        goto error;
     }
     s += method_len;
 
-    /* читай the signature */
+    /* Read the signature */
     len -= 4;
     if(len < 0) {
         rc = LIBSSH2_ERROR_AGENT_PROTOCOL;
-        goto Ошибка;
+        goto error;
     }
     *sig_len = _libssh2_ntohu32(s);
     s += 4;
     len -= *sig_len;
     if(len < 0) {
         rc = LIBSSH2_ERROR_AGENT_PROTOCOL;
-        goto Ошибка;
+        goto error;
     }
 
     *sig = LIBSSH2_ALLOC(session, *sig_len);
     if(!*sig) {
         rc = LIBSSH2_ERROR_ALLOC;
-        goto Ошибка;
+        goto error;
     }
     memcpy(*sig, s, *sig_len);
 
-  Ошибка:
+  error:
     LIBSSH2_FREE(session, transctx->request);
     transctx->request = NULL;
 
     LIBSSH2_FREE(session, transctx->response);
     transctx->response = NULL;
 
-    return _libssh2_error(session, rc, "agent sign failure");
+    return _libssh2_error(session, rc, "неудача подписания агентом");
 }
 
 static int
@@ -537,22 +543,23 @@ agent_list_identities(LIBSSH2_AGENT *agent)
     int rc;
     unsigned char c = SSH2_AGENTC_REQUEST_IDENTITIES;
 
-    /* создай a request to list identities */
+    /* Create a request to list identities */
     if(transctx->state == agent_NB_state_init) {
         transctx->request = &c;
         transctx->request_len = 1;
+        transctx->send_recv_total = 0;
         transctx->state = agent_NB_state_request_created;
     }
 
-    /* сделай sure to be re-called as a result of EAGAIN. */
+    /* Make sure to be re-called as a result of EAGAIN. */
     if(*transctx->request != SSH2_AGENTC_REQUEST_IDENTITIES)
         return _libssh2_error(agent->session, LIBSSH2_ERROR_BAD_USE,
-                              "illegal agent request");
+                              "недопустимый агентский запрос");
 
     if(!agent->ops)
         /* if no agent has been connected, bail out */
         return _libssh2_error(agent->session, LIBSSH2_ERROR_BAD_USE,
-                              "agent not connected");
+                              "агент не подключен");
 
     rc = agent->ops->transact(agent, transctx);
     if(rc) {
@@ -567,19 +574,19 @@ agent_list_identities(LIBSSH2_AGENT *agent)
     len--;
     if(len < 0) {
         rc = LIBSSH2_ERROR_AGENT_PROTOCOL;
-        goto Ошибка;
+        goto error;
     }
     if(*s != SSH2_AGENT_IDENTITIES_ANSWER) {
         rc = LIBSSH2_ERROR_AGENT_PROTOCOL;
-        goto Ошибка;
+        goto error;
     }
     s++;
 
-    /* читай the length of identities */
+    /* Read the length of identities */
     len -= 4;
     if(len < 0) {
         rc = LIBSSH2_ERROR_AGENT_PROTOCOL;
-        goto Ошибка;
+        goto error;
     }
     num_identities = _libssh2_ntohu32(s);
     s += 4;
@@ -588,26 +595,26 @@ agent_list_identities(LIBSSH2_AGENT *agent)
         struct agent_publickey *identity;
         ssize_t comment_len;
 
-        /* читай the length of the blob */
+        /* Read the length of the blob */
         len -= 4;
         if(len < 0) {
             rc = LIBSSH2_ERROR_AGENT_PROTOCOL;
-            goto Ошибка;
+            goto error;
         }
         identity = LIBSSH2_ALLOC(agent->session, sizeof *identity);
         if(!identity) {
             rc = LIBSSH2_ERROR_ALLOC;
-            goto Ошибка;
+            goto error;
         }
         identity->external.blob_len = _libssh2_ntohu32(s);
         s += 4;
 
-        /* читай the blob */
+        /* Read the blob */
         len -= identity->external.blob_len;
         if(len < 0) {
             rc = LIBSSH2_ERROR_AGENT_PROTOCOL;
             LIBSSH2_FREE(agent->session, identity);
-            goto Ошибка;
+            goto error;
         }
 
         identity->external.blob = LIBSSH2_ALLOC(agent->session,
@@ -615,29 +622,29 @@ agent_list_identities(LIBSSH2_AGENT *agent)
         if(!identity->external.blob) {
             rc = LIBSSH2_ERROR_ALLOC;
             LIBSSH2_FREE(agent->session, identity);
-            goto Ошибка;
+            goto error;
         }
         memcpy(identity->external.blob, s, identity->external.blob_len);
         s += identity->external.blob_len;
 
-        /* читай the length of the comment */
+        /* Read the length of the comment */
         len -= 4;
         if(len < 0) {
             rc = LIBSSH2_ERROR_AGENT_PROTOCOL;
             LIBSSH2_FREE(agent->session, identity->external.blob);
             LIBSSH2_FREE(agent->session, identity);
-            goto Ошибка;
+            goto error;
         }
         comment_len = _libssh2_ntohu32(s);
         s += 4;
 
-        /* читай the comment */
+        /* Read the comment */
         len -= comment_len;
         if(len < 0) {
             rc = LIBSSH2_ERROR_AGENT_PROTOCOL;
             LIBSSH2_FREE(agent->session, identity->external.blob);
             LIBSSH2_FREE(agent->session, identity);
-            goto Ошибка;
+            goto error;
         }
 
         identity->external.comment = LIBSSH2_ALLOC(agent->session,
@@ -646,7 +653,7 @@ agent_list_identities(LIBSSH2_AGENT *agent)
             rc = LIBSSH2_ERROR_ALLOC;
             LIBSSH2_FREE(agent->session, identity->external.blob);
             LIBSSH2_FREE(agent->session, identity);
-            goto Ошибка;
+            goto error;
         }
         identity->external.comment[comment_len] = '\0';
         memcpy(identity->external.comment, s, comment_len);
@@ -654,12 +661,12 @@ agent_list_identities(LIBSSH2_AGENT *agent)
 
         _libssh2_list_add(&agent->head, &identity->node);
     }
- Ошибка:
+ error:
     LIBSSH2_FREE(agent->session, transctx->response);
     transctx->response = NULL;
 
     return _libssh2_error(agent->session, rc,
-                          "agent list id failed");
+                          "неудачный ид в списке агентов");
 }
 
 static void
@@ -709,13 +716,19 @@ libssh2_agent_init(LIBSSH2_SESSION *session)
     agent = LIBSSH2_CALLOC(session, sizeof *agent);
     if(!agent) {
         _libssh2_error(session, LIBSSH2_ERROR_ALLOC,
-                       "Unable to allocate space for agent connection");
+                       "Не удаётся размещение места для подключения агента");
         return NULL;
     }
     agent->fd = LIBSSH2_INVALID_SOCKET;
     agent->session = session;
     agent->identity_agent_path = NULL;
     _libssh2_list_init(&agent->head);
+
+#ifdef WIN32
+    agent->pipe = INVALID_HANDLE_VALUE;
+    memset(&agent->overlapped, 0, sizeof(OVERLAPPED));
+    agent->pending_io = FALSE;
+#endif
 
     return agent;
 }
@@ -725,13 +738,13 @@ libssh2_agent_init(LIBSSH2_SESSION *session)
  *
  * Connect to an ssh-agent.
  *
- * Returns 0 if succeeded, or a negative значение for Ошибка.
+ * Returns 0 if succeeded, or a negative value for error.
  */
 LIBSSH2_API int
 libssh2_agent_connect(LIBSSH2_AGENT *agent)
 {
     int i, rc = -1;
-    for(i = 0; supported_backends[i].имя; i++) {
+    for(i = 0; supported_backends[i].name; i++) {
         agent->ops = supported_backends[i].ops;
         rc = (agent->ops->connect)(agent);
         if(!rc)
@@ -745,7 +758,7 @@ libssh2_agent_connect(LIBSSH2_AGENT *agent)
  *
  * Request ssh-agent to list identities.
  *
- * Returns 0 if succeeded, or a negative значение for Ошибка.
+ * Returns 0 if succeeded, or a negative value for error.
  */
 LIBSSH2_API int
 libssh2_agent_list_identities(LIBSSH2_AGENT *agent)
@@ -764,7 +777,7 @@ libssh2_agent_list_identities(LIBSSH2_AGENT *agent)
  * next.
  *
  * Returns:
- * 0 if a fine public ключ was stored in 'store'
+ * 0 if a fine public key was stored in 'store'
  * 1 if end of public keys
  * [negative] on errors
  */
@@ -798,7 +811,7 @@ libssh2_agent_get_identity(LIBSSH2_AGENT *agent,
  *
  * Do publickey user authentication with the help of ssh-agent.
  *
- * Returns 0 if succeeded, or a negative значение for Ошибка.
+ * Returns 0 if succeeded, or a negative value for error.
  */
 LIBSSH2_API int
 libssh2_agent_userauth(LIBSSH2_AGENT *agent,
@@ -828,7 +841,7 @@ libssh2_agent_userauth(LIBSSH2_AGENT *agent,
  *
  * Close a connection to an ssh-agent.
  *
- * Returns 0 if succeeded, or a negative значение for Ошибка.
+ * Returns 0 if succeeded, or a negative value for error.
  */
 LIBSSH2_API int
 libssh2_agent_disconnect(LIBSSH2_AGENT *agent)
@@ -841,7 +854,7 @@ libssh2_agent_disconnect(LIBSSH2_AGENT *agent)
 /*
  * libssh2_agent_free()
  *
- * освободи an ssh-agent handle.  This function also frees the internal
+ * Free an ssh-agent handle.  This function also frees the internal
  * collection of public keys.
  */
 LIBSSH2_API void

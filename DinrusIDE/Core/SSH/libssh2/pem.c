@@ -15,7 +15,7 @@
  *   disclaimer in the documentation and/or other materials
  *   provided with the distribution.
  *
- *   Neither the имя of the copyright holder nor the names
+ *   Neither the name of the copyright holder nor the names
  *   of any other contributors may be used to endorse or
  *   promote products derived from this software without
  *   specific prior written permission.
@@ -151,7 +151,7 @@ _libssh2_pem_parse(LIBSSH2_SESSION * session,
             }
         }
 
-        /* None of the available crypt methods were able to decrypt the ключ */
+        /* None of the available crypt methods were able to decrypt the key */
         if(method == NULL)
             return -1;
 
@@ -210,7 +210,7 @@ _libssh2_pem_parse(LIBSSH2_SESSION * session,
         unsigned char secret[2*MD5_DIGEST_LENGTH];
         libssh2_md5_ctx fingerprint_ctx;
 
-        /* Perform ключ derivation (PBKDF1/MD5) */
+        /* Perform key derivation (PBKDF1/MD5) */
         if(!libssh2_md5_init(&fingerprint_ctx)) {
             ret = -1;
             goto out;
@@ -355,7 +355,7 @@ _libssh2_pem_parse_memory(LIBSSH2_SESSION * session,
 }
 
 /* OpenSSH formatted keys */
-#define AUTH_MAGIC "openssh-ключ-v1"
+#define AUTH_MAGIC "openssh-key-v1"
 #define OPENSSH_HEADER_BEGIN "-----BEGIN OPENSSH PRIVATE KEY-----"
 #define OPENSSH_HEADER_END "-----END OPENSSH PRIVATE KEY-----"
 
@@ -374,7 +374,7 @@ _libssh2_openssh_pem_parse_data(LIBSSH2_SESSION * session,
     unsigned char *salt = NULL;
     uint32_t nkeys, check1, check2;
     uint32_t rounds = 0;
-    unsigned char *ключ = NULL;
+    unsigned char *key = NULL;
     unsigned char *key_part = NULL;
     unsigned char *iv_part = NULL;
     unsigned char *f = NULL;
@@ -398,14 +398,14 @@ _libssh2_openssh_pem_parse_data(LIBSSH2_SESSION * session,
     decoded.len = f_len;
 
     if(decoded.len < strlen(AUTH_MAGIC)) {
-        ret = _libssh2_error(session, LIBSSH2_ERROR_PROTO, "ключ too short");
+        ret = _libssh2_error(session, LIBSSH2_ERROR_PROTO, "key too short");
         goto out;
     }
 
     if(strncmp((char *) decoded.dataptr, AUTH_MAGIC,
                strlen(AUTH_MAGIC)) != 0) {
         ret = _libssh2_error(session, LIBSSH2_ERROR_PROTO,
-                             "ключ auth magic mismatch");
+                             "key auth magic mismatch");
         goto out;
     }
 
@@ -453,7 +453,7 @@ _libssh2_openssh_pem_parse_data(LIBSSH2_SESSION * session,
     if(!strcmp((const char *)kdfname, "none") &&
        strcmp((const char *)ciphername, "none") != 0) {
         ret =_libssh2_error(session, LIBSSH2_ERROR_PROTO,
-                            "invalid формат");
+                            "invalid format");
         goto out;
     }
 
@@ -463,22 +463,22 @@ _libssh2_openssh_pem_parse_data(LIBSSH2_SESSION * session,
         goto out;
     }
 
-    /* unencrypted public ключ */
+    /* unencrypted public key */
 
     if(_libssh2_get_string(&decoded, &buf, &tmp_len) || tmp_len == 0) {
         ret = _libssh2_error(session, LIBSSH2_ERROR_PROTO,
-                             "Invalid private ключ; "
-                             "expect embedded public ключ");
+                             "Неверное private key; "
+                             "expect embedded public key");
         goto out;
     }
 
     if(_libssh2_get_string(&decoded, &buf, &tmp_len) || tmp_len == 0) {
         ret = _libssh2_error(session, LIBSSH2_ERROR_PROTO,
-                       "Private ключ data not found");
+                       "Private key data not found");
         goto out;
     }
 
-    /* decode encrypted private ключ */
+    /* decode encrypted private key */
     decrypted.data = decrypted.dataptr = buf;
     decrypted.len = tmp_len;
 
@@ -487,14 +487,14 @@ _libssh2_openssh_pem_parse_data(LIBSSH2_SESSION * session,
 
         all_methods = libssh2_crypt_methods();
         while((cur_method = *all_methods++)) {
-            if(*cur_method->имя &&
-                memcmp(ciphername, cur_method->имя,
-                       strlen(cur_method->имя)) == 0) {
+            if(*cur_method->name &&
+                memcmp(ciphername, cur_method->name,
+                       strlen(cur_method->name)) == 0) {
                     method = cur_method;
                 }
         }
 
-        /* None of the available crypt methods were able to decrypt the ключ */
+        /* None of the available crypt methods were able to decrypt the key */
 
         if(method == NULL) {
             ret = _libssh2_error(session, LIBSSH2_ERROR_PROTO,
@@ -512,10 +512,10 @@ _libssh2_openssh_pem_parse_data(LIBSSH2_SESSION * session,
         ivlen = method->iv_len;
         total_len = keylen + ivlen;
 
-        ключ = LIBSSH2_CALLOC(session, total_len);
-        if(ключ == NULL) {
+        key = LIBSSH2_CALLOC(session, total_len);
+        if(key == NULL) {
             ret = _libssh2_error(session, LIBSSH2_ERROR_PROTO,
-                           "Could not alloc ключ");
+                           "Could not alloc key");
             goto out;
         }
 
@@ -525,24 +525,24 @@ _libssh2_openssh_pem_parse_data(LIBSSH2_SESSION * session,
                 (_libssh2_get_u32(&kdf_buf, &rounds) != 0) ) {
                 ret = _libssh2_error(session, LIBSSH2_ERROR_PROTO,
                                      "kdf contains unexpected values");
-                LIBSSH2_FREE(session, ключ);
+                LIBSSH2_FREE(session, key);
                 goto out;
             }
 
             if(_libssh2_bcrypt_pbkdf((const char *)passphrase,
                                      strlen((const char *)passphrase),
-                                     salt, salt_len, ключ,
+                                     salt, salt_len, key,
                                      keylen + ivlen, rounds) < 0) {
                 ret = _libssh2_error(session, LIBSSH2_ERROR_DECRYPT,
-                                     "invalid формат");
-                LIBSSH2_FREE(session, ключ);
+                                     "invalid format");
+                LIBSSH2_FREE(session, key);
                 goto out;
             }
         }
         else {
             ret = _libssh2_error(session, LIBSSH2_ERROR_KEYFILE_AUTH_FAILED,
                                             "bcrypted without passphrase");
-            LIBSSH2_FREE(session, ключ);
+            LIBSSH2_FREE(session, key);
             goto out;
         }
 
@@ -552,7 +552,7 @@ _libssh2_openssh_pem_parse_data(LIBSSH2_SESSION * session,
         key_part = LIBSSH2_CALLOC(session, keylen);
         if(key_part == NULL) {
             ret = _libssh2_error(session, LIBSSH2_ERROR_PROTO,
-                                 "Could not alloc ключ part");
+                                 "Could not alloc key part");
             goto out;
         }
 
@@ -563,8 +563,8 @@ _libssh2_openssh_pem_parse_data(LIBSSH2_SESSION * session,
             goto out;
         }
 
-        memcpy(key_part, ключ, keylen);
-        memcpy(iv_part, ключ + keylen, ivlen);
+        memcpy(key_part, key, keylen);
+        memcpy(iv_part, key + keylen, ivlen);
 
         /* Initialize the decryption */
         if(method->init(session, method, iv_part, &free_iv, key_part,
@@ -603,13 +603,13 @@ _libssh2_openssh_pem_parse_data(LIBSSH2_SESSION * session,
        _libssh2_get_u32(&decrypted, &check2) != 0 ||
        check1 != check2) {
        _libssh2_error(session, LIBSSH2_ERROR_PROTO,
-                      "Private ключ unpack failed (correct password?)");
+                      "Private key unpack failed (correct password?)");
        ret = LIBSSH2_ERROR_KEYFILE_AUTH_FAILED;
        goto out;
     }
 
     if(decrypted_buf != NULL) {
-        /* copy data to out-going буфер */
+        /* copy data to out-going buffer */
         struct string_buf *out_buf = _libssh2_string_buf_new(session);
         if(!out_buf) {
             ret = _libssh2_error(session, LIBSSH2_ERROR_ALLOC,
@@ -637,9 +637,9 @@ _libssh2_openssh_pem_parse_data(LIBSSH2_SESSION * session,
 out:
 
     /* Clean up */
-    if(ключ) {
-        _libssh2_explicit_zero(ключ, total_len);
-        LIBSSH2_FREE(session, ключ);
+    if(key) {
+        _libssh2_explicit_zero(key, total_len);
+        LIBSSH2_FREE(session, key);
     }
     if(key_part) {
         _libssh2_explicit_zero(key_part, keylen);

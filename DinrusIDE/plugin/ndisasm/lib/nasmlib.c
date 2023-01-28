@@ -48,7 +48,7 @@
 #include "insns.h"
 
 int globalbits = 0;    /* defined in nasm.h, works better here for ASM+DISASM */
-static vefunc nasm_verror;	/* Global Ошибка handling function */
+static vefunc nasm_verror;	/* Global error handling function */
 
 #ifdef LOGALLOC
 static FILE *logfp;
@@ -309,7 +309,7 @@ static int radix_letter(char c)
     }
 }
 
-int64_t readnum(char *str, bool *Ошибка)
+int64_t readnum(char *str, bool *error)
 {
     char *r = str, *q;
     int32_t pradix, sradix, radix;
@@ -319,7 +319,7 @@ int64_t readnum(char *str, bool *Ошибка)
     bool warn = false;
     int sign = 1;
 
-    *Ошибка = false;
+    *error = false;
 
     while (nasm_isspace(*r))
         r++;                    /* find start of number */
@@ -341,7 +341,7 @@ int64_t readnum(char *str, bool *Ошибка)
     len = q-r;
     if (!len) {
 	/* Not numeric */
-	*Ошибка = true;
+	*error = true;
 	return 0;
     }
 
@@ -384,7 +384,7 @@ int64_t readnum(char *str, bool *Ошибка)
     checklimit = UINT64_C(0x8000000000000000) / (radix >> 1);
 
     /*
-     * Calculate the highest allowable значение for the last digit of a
+     * Calculate the highest allowable value for the last digit of a
      * 64-bit constant... in radix 10, it is 6, otherwise it is 0
      */
     last = (radix == 10 ? 6 : 0);
@@ -394,7 +394,7 @@ int64_t readnum(char *str, bool *Ошибка)
 	if (*r != '_') {
 	    if (*r < '0' || (*r > '9' && *r < 'A')
 		|| (digit = numvalue(*r)) >= radix) {
-		*Ошибка = true;
+		*error = true;
 		return 0;
 	    }
 	    if (result > checklimit ||
@@ -477,30 +477,30 @@ void fwriteaddr(uint64_t data, int size, FILE * fp)
 
 void fwriteint16_t(uint16_t data, FILE * fp)
 {
-    char буфер[2], *p = буфер;
+    char buffer[2], *p = buffer;
     WRITESHORT(p, data);
-    fwrite(буфер, 1, 2, fp);
+    fwrite(buffer, 1, 2, fp);
 }
 
 void fwriteint32_t(uint32_t data, FILE * fp)
 {
-    char буфер[4], *p = буфер;
+    char buffer[4], *p = buffer;
     WRITELONG(p, data);
-    fwrite(буфер, 1, 4, fp);
+    fwrite(buffer, 1, 4, fp);
 }
 
 void fwriteint64_t(uint64_t data, FILE * fp)
 {
-    char буфер[8], *p = буфер;
+    char buffer[8], *p = buffer;
     WRITEDLONG(p, data);
-    fwrite(буфер, 1, 8, fp);
+    fwrite(buffer, 1, 8, fp);
 }
 
 void fwriteaddr(uint64_t data, int size, FILE * fp)
 {
-    char буфер[8], *p = буфер;
+    char buffer[8], *p = buffer;
     WRITEADDR(p, data, size);
-    fwrite(буфер, 1, size, fp);
+    fwrite(buffer, 1, size, fp);
 }
 
 #endif
@@ -529,7 +529,7 @@ void standard_extension(char *inname, char *outname, char *extension)
 {
     char *p, *q;
 
-    if (*outname)               /* file имя already exists, */
+    if (*outname)               /* file name already exists, */
         return;                 /* so do nothing */
     q = inname;
     p = outname;
@@ -543,11 +543,11 @@ void standard_extension(char *inname, char *outname, char *extension)
     if (!strcmp(p, extension)) {        /* is the extension already there? */
         if (*extension)
             nasm_error(ERR_WARNING | ERR_NOFILE,
-		       "file имя already ends in `%s': "
+		       "file name already ends in `%s': "
 		       "output will be in `nasm.out'", extension);
         else
             nasm_error(ERR_WARNING | ERR_NOFILE,
-		       "file имя already has no extension: "
+		       "file name already has no extension: "
 		       "output will be in `nasm.out'");
         strcpy(outname, "nasm.out");
     } else
@@ -654,7 +654,7 @@ char *nasm_strcat(const char *one, const char *two)
     return rslt;
 }
 
-/* skip leading пробелы */
+/* skip leading spaces */
 char *nasm_skip_spaces(const char *p)
 {
     if (p)
@@ -663,7 +663,7 @@ char *nasm_skip_spaces(const char *p)
     return (char *)p;
 }
 
-/* skip leading non-пробелы */
+/* skip leading non-spaces */
 char *nasm_skip_word(const char *p)
 {
     if (p)
@@ -672,7 +672,7 @@ char *nasm_skip_word(const char *p)
     return (char *)p;
 }
 
-/* zap leading пробелы with zero */
+/* zap leading spaces with zero */
 char *nasm_zap_spaces_fwd(char *p)
 {
     if (p)
@@ -681,7 +681,7 @@ char *nasm_zap_spaces_fwd(char *p)
     return p;
 }
 
-/* zap пробелы with zero in reverse order */
+/* zap spaces with zero in reverse order */
 char *nasm_zap_spaces_rev(char *p)
 {
     if (p)

@@ -25,12 +25,12 @@
 /*
  * TIFF Library.
  *
- * Strip-organized Рисунок Support Routines.
+ * Strip-organized Image Support Routines.
  */
 #include "tiffiop.h"
 
 /*
- * Compute which strip a (row,sample) значение is in.
+ * Compute which strip a (row,sample) value is in.
  */
 uint32
 TIFFComputeStrip(TIFF* tif, uint32 row, uint16 sample)
@@ -100,7 +100,7 @@ TIFFVStripSize64(TIFF* tif, uint32 nrows)
 		if(td->td_samplesperpixel!=3)
 		{
 			TIFFErrorExt(tif->tif_clientdata,module,
-			    "Invalid td_samplesperpixel значение");
+			    "Неверное td_samplesperpixel value");
 			return 0;
 		}
 		TIFFGetFieldDefaulted(tif,TIFFTAG_YCBCRSUBSAMPLING,ycbcrsubsampling+0,
@@ -109,7 +109,7 @@ TIFFVStripSize64(TIFF* tif, uint32 nrows)
 		    ||(ycbcrsubsampling[1] != 1 && ycbcrsubsampling[1] != 2 && ycbcrsubsampling[1] != 4))
 		{
 			TIFFErrorExt(tif->tif_clientdata,module,
-				     "Invalid YCbCr subsampling (%dx%d)", 
+				     "Неверное YCbCr subsampling (%dx%d)", 
 				     ycbcrsubsampling[0], 
 				     ycbcrsubsampling[1] );
 			return 0;
@@ -209,7 +209,7 @@ TIFFStripSize(TIFF* tif)
 
 /*
  * Compute a default strip size based on the image
- * characteristics and a requested значение.  If the
+ * characteristics and a requested value.  If the
  * request is <1 then we choose a strip size according
  * to certain heuristics.
  */
@@ -273,7 +273,7 @@ TIFFScanlineSize64(TIFF* tif)
 			if(td->td_samplesperpixel!=3)
 			{
                             TIFFErrorExt(tif->tif_clientdata,module,
-                                         "Invalid td_samplesperpixel значение");
+                                         "Неверное td_samplesperpixel value");
                             return 0;
 			}
 			TIFFGetFieldDefaulted(tif,TIFFTAG_YCBCRSUBSAMPLING,
@@ -283,7 +283,7 @@ TIFFScanlineSize64(TIFF* tif)
 			    ((ycbcrsubsampling[1]!=1)&&(ycbcrsubsampling[1]!=2)&&(ycbcrsubsampling[1]!=4)))
 			{
                             TIFFErrorExt(tif->tif_clientdata,module,
-                                         "Invalid YCbCr subsampling");
+                                         "Неверное YCbCr subsampling");
                             return 0;
 			}
 			samplingblock_samples = ycbcrsubsampling[0]*ycbcrsubsampling[1]+2;
@@ -355,5 +355,5 @@ TIFFRasterScanlineSize(TIFF* tif)
  * mode: c
  * c-basic-offset: 8
  * fill-column: 78
- * стоп:
+ * End:
  */

@@ -49,13 +49,13 @@ typedef struct {
   int              quality_level;          /* compression level */
   WebPPicture      sPicture;               /* WebP Picture */
   WebPConfig       sEncoderConfig;         /* WebP encoder config */
-  uint8*           pBuffer;                /* буфер to hold raw data on encoding */
-  unsigned int     buffer_offset;          /* current offset into the буфер */
+  uint8*           pBuffer;                /* buffer to hold raw data on encoding */
+  unsigned int     buffer_offset;          /* current offset into the buffer */
   unsigned int     buffer_size;
   
   WebPIDecoder*    psDecoder;              /* WebPIDecoder */
-  WebPDecBuffer    sDecBuffer;             /* Decoder буфер */
-  int              last_y;                 /* последний row decoded */
+  WebPDecBuffer    sDecBuffer;             /* Decoder buffer */
+  int              last_y;                 /* Last row decoded */
   
   int              state;                  /* state flags */
   
@@ -130,7 +130,7 @@ TWebPDecode(TIFF* tif, uint8* op, tmsize_t occ, uint16 s)
   assert(sp != NULL);
   assert(sp->state == LSTATE_INIT_DECODE);
   
-  if (occ % sp->sDecBuffer.u.КЗСА.stride)
+  if (occ % sp->sDecBuffer.u.RGBA.stride)
   {
     TIFFErrorExt(tif->tif_clientdata, module,
                  "Fractional scanlines cannot be read");
@@ -142,20 +142,20 @@ TWebPDecode(TIFF* tif, uint8* op, tmsize_t occ, uint16 s)
   if (status != VP8_STATUS_OK && status != VP8_STATUS_SUSPENDED) {
     if (status == VP8_STATUS_INVALID_PARAM) {
        TIFFErrorExt(tif->tif_clientdata, module,
-         "Invalid parameter used.");      
+         "Неверное parameter used.");      
     } else if (status == VP8_STATUS_OUT_OF_MEMORY) {
       TIFFErrorExt(tif->tif_clientdata, module,
         "Out of memory.");         
     } else {
       TIFFErrorExt(tif->tif_clientdata, module,
-        "Unrecognized Ошибка.");   
+        "Unrecognized error.");   
     }
     return 0;
   } else {
     int current_y, stride;
     uint8_t* buf;
 
-    /* Returns the дайКЗС/A image decoded so far */
+    /* Returns the RGB/A image decoded so far */
     buf = WebPIDecGetRGB(sp->psDecoder, &current_y, NULL, NULL, &stride);
     
     if ((buf != NULL) &&
@@ -166,7 +166,7 @@ TWebPDecode(TIFF* tif, uint8* op, tmsize_t occ, uint16 s)
 
       tif->tif_rawcp += tif->tif_rawcc;
       tif->tif_rawcc = 0;
-      sp->last_y += occ / sp->sDecBuffer.u.КЗСА.stride;
+      sp->last_y += occ / sp->sDecBuffer.u.RGBA.stride;
       return 1;
     } else {
       TIFFErrorExt(tif->tif_clientdata, module, "Unable to decode WebP data."); 
@@ -182,7 +182,7 @@ TWebPFixupTags(TIFF* tif)
   if (tif->tif_dir.td_planarconfig != PLANARCONFIG_CONTIG) {
     static const char module[] = "TWebPFixupTags";
     TIFFErrorExt(tif->tif_clientdata, module,
-      "TIFF WEBP requires data to be stored contiguously in дайКЗС e.g. RGBRGBRGB "
+      "TIFF WEBP requires data to be stored contiguously in RGB e.g. RGBRGBRGB "
 #if WEBP_ENCODER_ABI_VERSION >= 0x0100
       "or RGBARGBARGBA"
 #endif
@@ -212,16 +212,16 @@ TWebPSetupDecode(TIFF* tif)
   )
   {
     TIFFErrorExt(tif->tif_clientdata, module,
-      "WEBP driver doesn't support %d bands. Must be 3 (дайКЗС) "
+      "WEBP driver doesn't support %d bands. Must be 3 (RGB) "
   #if WEBP_ENCODER_ABI_VERSION >= 0x0100
-      "or 4 (КЗСА) "
+      "or 4 (RGBA) "
   #endif
     "bands.",
     sp->nSamples );
     return 0;
   }
 
-  /* check bits per sample and data тип */
+  /* check bits per sample and data type */
   if ((nBitsPerSample != 8) && (sampleFormat != 1)) {
     TIFFErrorExt(tif->tif_clientdata, module,
                 "WEBP driver requires 8 bit unsigned data");
@@ -245,7 +245,7 @@ TWebPSetupDecode(TIFF* tif)
 }
 
 /*
-* настрой state for decoding a strip.
+* Setup state for decoding a strip.
 */
 static int
 TWebPPreDecode(TIFF* tif, uint16 s)
@@ -283,8 +283,8 @@ TWebPPreDecode(TIFF* tif, uint16 s)
   sp->sDecBuffer.is_external_memory = 0;
   sp->sDecBuffer.width = segment_width;
   sp->sDecBuffer.height = segment_height;
-  sp->sDecBuffer.u.КЗСА.stride = segment_width * sp->nSamples;
-  sp->sDecBuffer.u.КЗСА.size = segment_width * sp->nSamples * segment_height;
+  sp->sDecBuffer.u.RGBA.stride = segment_width * sp->nSamples;
+  sp->sDecBuffer.u.RGBA.size = segment_width * sp->nSamples * segment_height;
   
   if (sp->nSamples > 3) {
     sp->sDecBuffer.colorspace = MODE_RGBA;
@@ -323,16 +323,16 @@ TWebPSetupEncode(TIFF* tif)
   )
   {
     TIFFErrorExt(tif->tif_clientdata, module,
-      "WEBP driver doesn't support %d bands. Must be 3 (дайКЗС) "
+      "WEBP driver doesn't support %d bands. Must be 3 (RGB) "
 #if WEBP_ENCODER_ABI_VERSION >= 0x0100
-      "or 4 (КЗСА) "
+      "or 4 (RGBA) "
 #endif
     "bands.",
     sp->nSamples );
     return 0;
   }
   
-  /* check bits per sample and data тип */
+  /* check bits per sample and data type */
   if ((nBitsPerSample != 8) && (sampleFormat != 1)) {
     TIFFErrorExt(tif->tif_clientdata, module,
                 "WEBP driver requires 8 bit unsigned data");
@@ -351,7 +351,7 @@ TWebPSetupEncode(TIFF* tif)
 
   if (!WebPPictureInit(&sp->sPicture)) {
     TIFFErrorExt(tif->tif_clientdata, module,
-        "Ошибка initializing WebP picture.");
+        "Error initializing WebP picture.");
     return 0;
   }
 
@@ -359,7 +359,7 @@ TWebPSetupEncode(TIFF* tif)
                               sp->quality_level,
                               WEBP_ENCODER_ABI_VERSION)) {
     TIFFErrorExt(tif->tif_clientdata, module,
-      "Ошибка creating WebP encoder configuration.");
+      "Error creating WebP encoder configuration.");
     return 0;
   }
 
@@ -373,7 +373,7 @@ TWebPSetupEncode(TIFF* tif)
 
   if (!WebPValidateConfig(&sp->sEncoderConfig)) {
     TIFFErrorExt(tif->tif_clientdata, module,
-      "Ошибка with WebP encoder configuration.");
+      "Error with WebP encoder configuration.");
     return 0;
   }
 
@@ -381,7 +381,7 @@ TWebPSetupEncode(TIFF* tif)
 }
 
 /*
-* переустанов encoding state at the start of a strip.
+* Reset encoding state at the start of a strip.
 */
 static int
 TWebPPreEncode(TIFF* tif, uint16 s)
@@ -416,7 +416,7 @@ TWebPPreEncode(TIFF* tif, uint16 s)
       return 0;
   }
 
-  /* set up буфер for raw data */
+  /* set up buffer for raw data */
   /* given above check and that nSamples <= 4, buffer_size is <= 1 GB */
   sp->buffer_size = segment_width * segment_height * sp->nSamples;
   
@@ -427,7 +427,7 @@ TWebPPreEncode(TIFF* tif, uint16 s)
   
   sp->pBuffer = _TIFFmalloc(sp->buffer_size);
   if( !sp->pBuffer) {
-      TIFFErrorExt(tif->tif_clientdata, module, "Cannot allocate буфер");
+      TIFFErrorExt(tif->tif_clientdata, module, "Cannot allocate buffer");
       return 0;
   }
   sp->buffer_offset = 0;
@@ -441,7 +441,7 @@ TWebPPreEncode(TIFF* tif, uint16 s)
 }
 
 /*
-* финиш off an encoded strip by flushing it.
+* Finish off an encoded strip by flushing it.
 */
 static int
 TWebPPostEncode(TIFF* tif)
@@ -488,30 +488,30 @@ TWebPPostEncode(TIFF* tif)
         pszErrorMsg = "Picture has invalid width/height"; break;
     case VP8_ENC_ERROR_PARTITION0_OVERFLOW:
         pszErrorMsg = "Partition is bigger than 512k. Try using less "
-            "SEGMENTS, or increase PARTITION_LIMIT значение";
+            "SEGMENTS, or increase PARTITION_LIMIT value";
         break;
     case VP8_ENC_ERROR_PARTITION_OVERFLOW:
         pszErrorMsg = "Partition is bigger than 16M";
         break;
     case VP8_ENC_ERROR_BAD_WRITE:
-        pszErrorMsg = "Ошибка while fludshing bytes"; break;
+        pszErrorMsg = "Error while fludshing bytes"; break;
     case VP8_ENC_ERROR_FILE_TOO_BIG:
-        pszErrorMsg = "Файл is bigger than 4G"; break;
+        pszErrorMsg = "File is bigger than 4G"; break;
     case VP8_ENC_ERROR_USER_ABORT:
         pszErrorMsg = "User interrupted";
         break;
     default:
         TIFFErrorExt(tif->tif_clientdata, module,
-                "WebPEncode returned an unknown Ошибка code: %d",
+                "WebPEncode returned an unknown error code: %d",
                 sp->sPicture.error_code);
-        pszErrorMsg = "Unknown WebP Ошибка тип.";
+        pszErrorMsg = "Unknown WebP error type.";
         break;
     }
     TIFFErrorExt(tif->tif_clientdata, module,
              "WebPEncode() failed : %s", pszErrorMsg);
 #else
     TIFFErrorExt(tif->tif_clientdata, module,
-             "Ошибка in WebPEncode()");
+             "Error in WebPEncode()");
 #endif
     return 0;
   }
@@ -521,7 +521,7 @@ TWebPPostEncode(TIFF* tif)
   if (!TIFFFlushData1(tif))
   {
     TIFFErrorExt(tif->tif_clientdata, module,
-      "Ошибка flushing TIFF WebP encoder.");
+      "Error flushing TIFF WebP encoder.");
     return 0;
   }
 
@@ -655,7 +655,7 @@ TIFFInitWebP(TIFF* tif, int scheme)
   sp->vsetparent = tif->tif_tagmethods.vsetfield;
   tif->tif_tagmethods.vsetfield = TWebPVSetField;	/* hook for codec tags */
 
-  /* дефолт values for codec-specific fields */
+  /* Default values for codec-specific fields */
   sp->quality_level = 75.0f;		/* default comp. level */
   sp->lossless = 0; /* default to false */
   sp->state = 0;

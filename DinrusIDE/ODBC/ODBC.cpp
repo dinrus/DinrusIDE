@@ -1,6 +1,6 @@
 #include "ODBC.h"
 
-namespace РНЦП {
+namespace Upp {
 
 #define LLOG(x)  // DLOG(x)
 
@@ -10,18 +10,18 @@ public:
 	ODBCConnection(ODBCSession *session);
 	virtual ~ODBCConnection();
 
-	void                    очисть();
+	void                    Clear();
 
-	virtual void            SetParam(int i, const Значение& r);
-	virtual bool            выполни();
+	virtual void            SetParam(int i, const Value& r);
+	virtual bool            Execute();
 	virtual int             GetRowsProcessed() const;
 	virtual bool            Fetch();
-	virtual void            дайКолонку(int i, Реф r) const;
+	virtual void            GetColumn(int i, Ref r) const;
 	virtual void            Cancel();
-	virtual SqlSession&     GetSession() const { ПРОВЕРЬ(session); return *session; }
-	virtual Ткст          GetUser() const { ПРОВЕРЬ(session); return session->user; }
-	virtual Ткст          вТкст() const;
-	virtual Значение           GetInsertedId() const;
+	virtual SqlSession&     GetSession() const { ASSERT(session); return *session; }
+	virtual String          GetUser() const { ASSERT(session); return session->user; }
+	virtual String          ToString() const;
+	virtual Value           GetInsertedId() const;
 
 private:
 	friend class ODBCSession;
@@ -29,23 +29,23 @@ private:
 	ODBCSession           *session;
 /*
 	struct Param {
-		Значение  orig;
+		Value  orig;
 		int    ctype;
 		int    sqltype;
 		int    width;
-		Ткст data;
+		String data;
 		SQLLEN li;
 	};
 */
-	Вектор<Значение>            param;
-	Ткст                   last_insert_table;
+	Vector<Value>            param;
+	String                   last_insert_table;
 
 	int                      rowsprocessed;
-	Вектор<double>           number;
-	Вектор<int64>            num64;
-	Вектор<Ткст>           text;
-	Вектор<Время>             time;
-	Вектор<Дата>             date;
+	Vector<double>           number;
+	Vector<int64>            num64;
+	Vector<String>           text;
+	Vector<Time>             time;
+	Vector<Date>             date;
 	int                      rowcount;
 	int                      rowi;
 	int                      number_i;
@@ -53,17 +53,17 @@ private:
 	int                      text_i;
 	int                      time_i;
 	int                      date_i;
-	Вектор<Значение>            fetchrow;
-	Вектор<int>              string_type;
+	Vector<Value>            fetchrow;
+	Vector<int>              string_type;
 	
 	bool                   IsOk(SQLRETURN ret) const;
 	void                   FetchAll();
 	bool                   Fetch0();
 };
 
-Массив< Tuple2<Ткст, Ткст> > ODBCSession::EnumDSN()
+Array< Tuple2<String, String> > ODBCSession::EnumDSN()
 {
-	Массив< Tuple2<Ткст, Ткст> > out;
+	Array< Tuple2<String, String> > out;
 	try {
 		SQLHENV MIenv;
 		SQLAllocHandle(SQL_HANDLE_ENV, SQL_NULL_HANDLE, &MIenv);
@@ -75,13 +75,13 @@ private:
 		l_next=SQL_FETCH_FIRST;
 		while(SQL_SUCCEEDED(ret = SQLDataSources(MIenv, l_next, (SQLCHAR *)l_dsn, sizeof(l_dsn),
 		                                         &l_len1, (SQLCHAR *)l_desc, sizeof(l_desc), &l_len2))) {
-			Tuple2<Ткст, Ткст>& listdsn = out.добавь();
+			Tuple2<String, String>& listdsn = out.Add();
 			listdsn.a = l_dsn;
 			listdsn.b = l_desc;
 			l_next = SQL_FETCH_NEXT;
 		}
 	}
-	catch(Искл e) {
+	catch(Exc e) {
 		LLOG("ODBC::GetDSN->" << e);
 	}
 	return out;
@@ -97,7 +97,7 @@ bool ODBCSession::Connect(const char *cs)
 			SQLSetConnectAttr(hdbc, SQL_ATTR_TXN_ISOLATION, (SQLPOINTER)SQL_TRANSACTION_SERIALIZABLE, SQL_NTS);
 
 			Sql sql("select cast(current_user as text)", *this);
-			if(sql.выполни() && sql.Fetch())
+			if(sql.Execute() && sql.Fetch())
 				user = sql[0];
 			return true;
 		}
@@ -107,12 +107,12 @@ bool ODBCSession::Connect(const char *cs)
 	return false;
 }
 
-bool ODBCSession::открыт() const
+bool ODBCSession::IsOpen() const
 {
 	return hdbc != SQL_NULL_HANDLE;
 }
 
-void ODBCSession::закрой()
+void ODBCSession::Close()
 {
 	SessionClose();
 	if(hdbc != SQL_NULL_HANDLE) {
@@ -139,15 +139,15 @@ bool ODBCSession::IsOk(SQLRETURN ret)
 	SQLCHAR       SqlState[6], Msg[SQL_MAX_MESSAGE_LENGTH];
 	SQLINTEGER    NativeError;
 	SQLSMALLINT   MsgLen;
-	Ткст        Ошибка;
+	String        error;
 	int i = 1;
 	while(SQLGetDiagRec(SQL_HANDLE_DBC, hdbc, i++, SqlState, &NativeError,
 	                 Msg, sizeof(Msg), &MsgLen) != SQL_NO_DATA) {
-		if(Ошибка.дайСчёт())
-			Ошибка << "\r\n";
-		Ошибка << (char *)Msg;
+		if(error.GetCount())
+			error << "\r\n";
+		error << (char *)Msg;
 	}
-	устОш(Ошибка, statement, NativeError);
+	SetError(error, statement, NativeError);
 	return false;
 }
 
@@ -177,7 +177,7 @@ void ODBCSession::SetTransactionMode(int mode)
 	                                   : (SQLPOINTER)SQL_AUTOCOMMIT_ON, SQL_NTS);
 }
 
-void ODBCSession::старт()
+void ODBCSession::Begin()
 {
 	if(tmode == IMPLICIT) {
 		SQLEndTran(SQL_HANDLE_DBC, hdbc, SQL_COMMIT);
@@ -197,7 +197,7 @@ void ODBCSession::Commit()
 		return;
 	}
 	tlevel--;
-	ПРОВЕРЬ(tlevel >= 0);
+	ASSERT(tlevel >= 0);
 	if(tlevel == 0) {
 		SQLEndTran(SQL_HANDLE_DBC, hdbc, SQL_COMMIT);
 		SQLSetConnectAttr(hdbc, SQL_ATTR_AUTOCOMMIT, (SQLPOINTER)SQL_AUTOCOMMIT_ON, SQL_NTS);
@@ -212,81 +212,81 @@ void ODBCSession::Rollback()
 		return;
 	}
 	tlevel--;
-	ПРОВЕРЬ(tlevel >= 0);
+	ASSERT(tlevel >= 0);
 	if(tlevel == 0) {
 		SQLEndTran(SQL_HANDLE_DBC, hdbc, SQL_ROLLBACK);
 		SQLSetConnectAttr(hdbc, SQL_ATTR_AUTOCOMMIT, (SQLPOINTER)SQL_AUTOCOMMIT_ON, SQL_NTS);
 	}
 }
 
-Ткст ODBCSession::Savepoint()
+String ODBCSession::Savepoint()
 {
 	NEVER();
 	return "";
 }
 
-void ODBCSession::RollbackTo(const Ткст& savepoint)
+void ODBCSession::RollbackTo(const String& savepoint)
 {
 	NEVER();
 }
 
-Вектор<Ткст> ODBCSession::EnumUsers()
+Vector<String> ODBCSession::EnumUsers()
 {
-	return Вектор<Ткст>();
+	return Vector<String>();
 }
 
-Вектор<Ткст> ODBCSession::EnumDatabases()
+Vector<String> ODBCSession::EnumDatabases()
 {
-	return Вектор<Ткст>();
+	return Vector<String>();
 }
 
-Вектор<Ткст> ODBCSession::EnumTables(Ткст database)
+Vector<String> ODBCSession::EnumTables(String database)
 {
-	return Вектор<Ткст>();
+	return Vector<String>();
 }
 
-Вектор<Ткст> ODBCSession::EnumViews(Ткст database)
+Vector<String> ODBCSession::EnumViews(String database)
 {
-	return Вектор<Ткст>();
+	return Vector<String>();
 }
 
-Вектор<Ткст> ODBCSession::EnumSequences(Ткст database)
+Vector<String> ODBCSession::EnumSequences(String database)
 {
-	return Вектор<Ткст>();
+	return Vector<String>();
 }
 
-Вектор<Ткст> ODBCSession::EnumPrimaryKeys(Ткст database, Ткст table)
+Vector<String> ODBCSession::EnumPrimaryKeys(String database, String table)
 {
-	return Вектор<Ткст>();
+	return Vector<String>();
 }
 
-Ткст ODBCSession::EnumRowID(Ткст database, Ткст table)
+String ODBCSession::EnumRowID(String database, String table)
 {
 	return "";
 }
 
-bool   ODBCPerformScript(const Ткст& text, StatementExecutor& executor, Врата<int, int> progress_canceled)
+bool   ODBCPerformScript(const String& text, StatementExecutor& executor, Gate<int, int> progress_canceled)
 {
 	const char *p = text;
 	while(*p) {
-		Ткст cmd;
+		String cmd;
 		while(*p && *p != ';')
 			if(*p == '\'') {
 				const char *s = p;
 				while(*++p && (*p != '\'' || *++p == '\''))
 					;
-				cmd.конкат(s, int(p - s));
+				cmd.Cat(s, int(p - s));
 			}
 			else {
 				if(*p > ' ')
-					cmd.конкат(*p);
-				else if(!cmd.пустой() && *cmd.последний() != ' ')
-					cmd.конкат(' ');
+					cmd.Cat(*p);
+				else if(!cmd.IsEmpty() && *cmd.Last() != ' ')
+					cmd.Cat(' ');
 				p++;
 			}
-		if(progress_canceled(int(p - text.старт()), text.дайДлину()))
+		if(progress_canceled(int(p - text.Begin()), text.GetLength()))
 			return false;
-		if(!пусто_ли(cmd) && !executor.выполни(cmd))
+		if(!IsNull(cmd) && !executor.Execute(cmd))
 			return false;
 		if(*p == ';')
 			p++;
@@ -323,38 +323,38 @@ bool ODBCConnection::IsOk(SQLRETURN ret) const
 	SQLCHAR       SqlState[6], Msg[SQL_MAX_MESSAGE_LENGTH];
 	SQLINTEGER    NativeError;
 	SQLSMALLINT   MsgLen;
-	Ткст        Ошибка;
+	String        error;
 	int i = 1;
 	while(SQLGetDiagRec(SQL_HANDLE_STMT, session->hstmt, i++, SqlState, &NativeError,
 	                    Msg, sizeof(Msg), &MsgLen) != SQL_NO_DATA) {
-		if(Ошибка.дайСчёт())
-			Ошибка << "\r\n";
-		Ошибка << (char *)Msg;
+		if(error.GetCount())
+			error << "\r\n";
+		error << (char *)Msg;
 	}
-	session->устОш(Ошибка, statement);
+	session->SetError(error, statement);
 	return false;
 }
 
-void ODBCConnection::SetParam(int i, const Значение& r)
+void ODBCConnection::SetParam(int i, const Value& r)
 {
-	param.по(i) = r;
+	param.At(i) = r;
 /*
-	Param& p = param.по(i);
+	Param& p = param.At(i);
 	p.orig = r;
 	p.width = 0;
-	if(пусто_ли(r)) {
+	if(IsNull(r)) {
 		p.li = SQL_NULL_DATA;
 		p.ctype = SQL_C_CHAR;
 		p.sqltype = SQL_VARCHAR;
 		p.data = NULL;
 		return;
 	}
-	if(число_ли(r)) {
-		if(r.является<int64>()) {
+	if(IsNumber(r)) {
+		if(r.Is<int64>()) {
 			int64 x = r;
 			p.ctype = SQL_C_SBIGINT;
 			p.sqltype = SQL_BIGINT;
-			p.data = Ткст((char *)&x, sizeof(x));
+			p.data = String((char *)&x, sizeof(x));
 			p.li = sizeof(x);
 		}
 		else {
@@ -363,27 +363,27 @@ void ODBCConnection::SetParam(int i, const Значение& r)
 				long int h = (int)x;
 				p.ctype = SQL_C_SLONG;
 				p.sqltype = SQL_INTEGER;
-				p.data = Ткст((char *)&h, sizeof(h));
+				p.data = String((char *)&h, sizeof(h));
 				p.li = sizeof(h);
 			}
 			else {
 				p.ctype = SQL_C_DOUBLE;
 				p.sqltype = SQL_DOUBLE;
-				p.data = Ткст((char *)&x, sizeof(x));
+				p.data = String((char *)&x, sizeof(x));
 				p.li = sizeof(x);
 			}
 		}
 	}
-	if(ткст_ли(r)) {
+	if(IsString(r)) {
 		p.ctype = SQL_C_CHAR;
 		p.sqltype = SQL_VARCHAR;
 		p.data = r;
-		p.li = p.data.дайДлину();
+		p.li = p.data.GetLength();
 	}
-	if(датаВремя_ли(r)) {
+	if(IsDateTime(r)) {
 		p.ctype = SQL_C_TYPE_TIMESTAMP;
 		p.sqltype = SQL_TYPE_TIMESTAMP;
-		Время t = r;
+		Time t = r;
 		SQL_TIMESTAMP_STRUCT tm;
 		tm.year = t.year;
 		tm.month = t.month;
@@ -392,102 +392,102 @@ void ODBCConnection::SetParam(int i, const Значение& r)
 		tm.minute = t.minute;
 		tm.second = t.second;
 		tm.fraction = 0;
-		p.data = Ткст((char *)&tm, sizeof(tm));
+		p.data = String((char *)&tm, sizeof(tm));
 		p.li = sizeof(tm);
 	}
-	if(r.дайТип() == 34) {
+	if(r.GetType() == 34) {
 		p.data = SqlRaw(r);
 		p.ctype = SQL_C_BINARY;
 		p.sqltype = SQL_LONGVARBINARY;
-		p.width = p.li = p.data.дайДлину();
+		p.width = p.li = p.data.GetLength();
 	}
 */
 }
 
-const char *ODBCReadString(const char *s, Ткст& stmt)
+const char *ODBCReadString(const char *s, String& stmt)
 {
-	//TODO: to clear this, currently this is based on sqlite
-	stmt.конкат(*s);
+	//СДЕЛАТЬ: to clear this, currently this is based on sqlite
+	stmt.Cat(*s);
 	int c = *s++;
 	for(;;) {
 		if(*s == '\0') break;
 		else
 		if(*s == '\'' && s[1] == '\'') {
-			stmt.конкат("\'\'");
+			stmt.Cat("\'\'");
 			s += 2;
 		}
 		else
 		if(*s == c) {
-			stmt.конкат(c);
+			stmt.Cat(c);
 			s++;
 			break;
 		}
 		else
 		if(*s == '\\') {
-			stmt.конкат('\\');
+			stmt.Cat('\\');
 			if(*++s)
-				stmt.конкат(*s++);
+				stmt.Cat(*s++);
 		}
 		else
-			stmt.конкат(*s++);
+			stmt.Cat(*s++);
 	}
 	return s;
 }
 
-bool ODBCConnection::выполни()
+bool ODBCConnection::Execute()
 {
-	LLOG("выполни " << (void *)this << " " << (void *)session << " " << statement);
+	LLOG("Execute " << (void *)this << " " << (void *)session << " " << statement);
 	if(session->hstmt == SQL_NULL_HANDLE)
 		return false;
 	session->FlushConnections();
-	last_insert_table.очисть();
-	number.очисть();
-	text.очисть();
-	time.очисть();
-	СиПарсер p(statement);
-	if((p.ид("insert") || p.ид("INSERT")) && (p.ид("into") || p.ид("INTO")) && p.ид_ли())
-		last_insert_table = p.читайИд();
+	last_insert_table.Clear();
+	number.Clear();
+	text.Clear();
+	time.Clear();
+	CParser p(statement);
+	if((p.Id("insert") || p.Id("INSERT")) && (p.Id("into") || p.Id("INTO")) && p.IsId())
+		last_insert_table = p.ReadId();
 
-	Ткст query;
+	String query;
 	int pi = 0;
 	const char *s = statement;
-	while(s < statement.стоп())
+	while(s < statement.End())
 		if(*s == '\'' || *s == '\"')
 			s = ODBCReadString(s, query);
 		else {
 			if(*s == '?') {
-				if(pi >= param.дайСчёт()) {
-					session->устОш("Invalid number of parameters", statement);
+				if(pi >= param.GetCount()) {
+					session->SetError("Неверное число параметров", statement);
 					return false;
 				}
-				Значение v = param[pi++];
-				if(session->charset >= 0 && ткст_ли(v))
-					v = вНабсим(session->charset, (Ткст)v, CHARSET_DEFAULT, '?');
-				if(v.дайТип() == 34)
-					query.конкат(SqlCompile(MSSQL, ~SqlBinary(SqlRaw(v))));
+				Value v = param[pi++];
+				if(session->charset >= 0 && IsString(v))
+					v = ToCharset(session->charset, (String)v, CHARSET_DEFAULT, '?');
+				if(v.GetType() == 34)
+					query.Cat(SqlCompile(MSSQL, ~SqlBinary(SqlRaw(v))));
 				else
-					query.конкат(SqlCompile(MSSQL, ~SqlVal(v)));
+					query.Cat(SqlCompile(MSSQL, ~SqlVal(v)));
 			}
 			else
-				query.конкат(*s);
+				query.Cat(*s);
 			s++;
 		}
-	param.очисть();
-	if(!IsOk(SQLPrepare(session->hstmt, (SQLCHAR *)~query, query.дайСчёт())))
+	param.Clear();
+	if(!IsOk(SQLPrepare(session->hstmt, (SQLCHAR *)~query, query.GetCount())))
 		return false;
 
 /*
 	}
 	else {
-		if(!IsOk(SQLPrepare(session->hstmt, (SQLCHAR *)~statement, statement.дайСчёт())))
+		if(!IsOk(SQLPrepare(session->hstmt, (SQLCHAR *)~statement, statement.GetCount())))
 			return false;
 		parse = false;
 		bparam = pick(param);
-		param.очисть();
-		for(int i = 0; i < bparam.дайСчёт(); i++) {
+		param.Clear();
+		for(int i = 0; i < bparam.GetCount(); i++) {
 			Param& p = bparam[i];
 			if(!IsOk(SQLBindParameter(session->hstmt, i + 1, SQL_PARAM_INPUT, p.ctype, p.sqltype,
-			                          p.width, 0, (SQLPOINTER)~p.data, p.data.дайДлину(), &p.li)))
+			                          p.width, 0, (SQLPOINTER)~p.data, p.data.GetLength(), &p.li)))
 				return false;
 		}
 	}
@@ -497,8 +497,8 @@ bool ODBCConnection::выполни()
 		SQLFreeStmt(session->hstmt, SQL_CLOSE);
 		return false;
 	}
-	info.очисть();
-	string_type.очисть();
+	info.Clear();
+	string_type.Clear();
 	for(int i = 1; i <= ncol; i++) {
 		SQLCHAR      ColumnName[256];
 		SQLSMALLINT  NameLength;
@@ -509,14 +509,14 @@ bool ODBCConnection::выполни()
 		if(!IsOk(SQLDescribeCol(session->hstmt, i, ColumnName, 255, &NameLength, &DataType,
 		                        &ColumnSize, &DecimalDigits, &Nullable)))
 			return false;
-		string_type.добавь(SQL_C_CHAR);
-		SqlColumnInfo& f = info.добавь();
+		string_type.Add(SQL_C_CHAR);
+		SqlColumnInfo& f = info.Add();
 		f.nullable = Nullable != SQL_NO_NULLS;
 		f.binary = false;
 		f.precision = DecimalDigits;
 		f.scale = 0;
 		f.width = ColumnSize;
-		f.имя = (char *)ColumnName;
+		f.name = (char *)ColumnName;
 		switch(DataType) {
 		case SQL_DECIMAL:
 		case SQL_NUMERIC:
@@ -527,33 +527,33 @@ bool ODBCConnection::выполни()
 		case SQL_DOUBLE:
 		case SQL_BIT:
 		case SQL_TINYINT:
-			f.тип = DOUBLE_V;
+			f.type = DOUBLE_V;
 			break;
 		case SQL_BIGINT:
-			f.тип = INT64_V;
+			f.type = INT64_V;
 			break;
 		case SQL_TYPE_DATE:
-			f.тип = DATE_V;
+			f.type = DATE_V;
 			break;
 		case SQL_TYPE_TIMESTAMP:
-			f.тип = TIME_V;
+			f.type = TIME_V;
 			break;
 		case SQL_BINARY:
 		case SQL_VARBINARY:
 		case SQL_LONGVARBINARY:
-			f.тип = STRING_V;
+			f.type = STRING_V;
 			f.binary = true;
-			string_type.верх() = SQL_C_BINARY;
+			string_type.Top() = SQL_C_BINARY;
 			break;
 		case SQL_WCHAR:
 		case SQL_WVARCHAR:
 		case SQL_WLONGVARCHAR:
-			f.тип = STRING_V;
+			f.type = STRING_V;
 			f.binary = true;
-			string_type.верх() = SQL_C_WCHAR;
+			string_type.Top() = SQL_C_WCHAR;
 			break;
 		default:
-			f.тип = STRING_V;
+			f.type = STRING_V;
 			break;
 		}
 	}
@@ -575,15 +575,15 @@ bool ODBCConnection::Fetch0()
 	int ret = SQLFetch(session->hstmt);
 	if(ret == SQL_NO_DATA || !IsOk(ret))
 		return false;
-	fetchrow.очисть();
+	fetchrow.Clear();
 	double dbl;
 	int64 n64;
 	SQL_TIMESTAMP_STRUCT tm;
 	SQLLEN li;
-	for(int i = 0; i < info.дайСчёт(); i++) {
-		Значение v = Null;
-		int тип = info[i].тип;
-		switch(тип) {
+	for(int i = 0; i < info.GetCount(); i++) {
+		Value v = Null;
+		int type = info[i].type;
+		switch(type) {
 		case DOUBLE_V:
 			if(!IsOk(SQLGetData(session->hstmt, i + 1, SQL_C_DOUBLE, &dbl, sizeof(dbl), &li)))
 			   break;
@@ -601,15 +601,15 @@ bool ODBCConnection::Fetch0()
 			if(!IsOk(SQLGetData(session->hstmt, i + 1, SQL_C_TYPE_TIMESTAMP, &tm, sizeof(tm), &li)))
 			   break;
 			if(li != SQL_NULL_DATA) {
-				Время m;
+				Time m;
 				m.year = tm.year;
 				m.month = (byte)tm.month;
 				m.day = (byte)tm.day;
 				m.hour = (byte)tm.hour;
 				m.minute = (byte)tm.minute;
 				m.second = (byte)tm.second;
-				if(тип == DATE_V)
-					v = (Дата)m;
+				if(type == DATE_V)
+					v = (Date)m;
 				else
 					v = m;
 			}
@@ -620,25 +620,25 @@ bool ODBCConnection::Fetch0()
 			   break;
 			if(li != SQL_NULL_DATA && li >= 0) {
 				if(ct == SQL_C_WCHAR) {
-					Буфер<WCHAR> sb(li / 2);
+					Buffer<WCHAR> sb(li / 2);
 					if(!IsOk(SQLGetData(session->hstmt, i + 1, ct, ~sb, li + 2, &li)))
 					   break;
-					v = вУтф32(sb, li / 2);
+					v = ToUtf32(sb, li / 2);
 				}
 				else {
-					ТкстБуф sb;
+					StringBuffer sb;
 					sb.SetLength(li);
 					if(!IsOk(SQLGetData(session->hstmt, i + 1, ct, ~sb, li + 1, &li)))
 					   break;
-					Ткст s = sb;
+					String s = sb;
 					if(session->charset >= 0)
-						s = вНабсим(CHARSET_DEFAULT, s, session->charset, '?');
+						s = ToCharset(CHARSET_DEFAULT, s, session->charset, '?');
 					v = s;
 				}
 			}
 			break;
 		}
-		fetchrow.добавь(v);
+		fetchrow.Add(v);
 	}
 	return ret != SQL_NO_DATA && IsOk(ret);
 }
@@ -647,10 +647,10 @@ bool ODBCConnection::Fetch()
 {
 	if(rowi >= rowcount)
 		return false;
-	fetchrow.очисть();
-	for(int i = 0; i < info.дайСчёт(); i++) {
-		Значение v;
-		switch(info[i].тип) {
+	fetchrow.Clear();
+	for(int i = 0; i < info.GetCount(); i++) {
+		Value v;
+		switch(info[i].type) {
 		case DOUBLE_V:
 			v = number[number_i++];
 			break;
@@ -669,16 +669,16 @@ bool ODBCConnection::Fetch()
 		default:
 			NEVER();
 		}
-		fetchrow.добавь(v);
+		fetchrow.Add(v);
 	}
 	++rowi;
 	return true;
 }
 
-void ODBCConnection::дайКолонку(int i, Реф r) const
+void ODBCConnection::GetColumn(int i, Ref r) const
 {
-	LLOG("дайКолонку " << (void *)this << " " << (void *)session);
-	r.устЗначение(fetchrow[i]);
+	LLOG("GetColumn " << (void *)this << " " << (void *)session);
+	r.SetValue(fetchrow[i]);
 }
 
 void ODBCConnection::FetchAll()
@@ -686,51 +686,51 @@ void ODBCConnection::FetchAll()
 	LLOG("FetchAll " << (void *)this);
 	rowcount = 0;
 	rowi = 0;
-	number.очисть();
-	num64.очисть();
-	text.очисть();
-	time.очисть();
-	date.очисть();
+	number.Clear();
+	num64.Clear();
+	text.Clear();
+	time.Clear();
+	date.Clear();
 	number_i = 0;
 	num64_i = 0;
 	text_i = 0;
 	time_i = 0;
 	date_i = 0;
-	while(info.дайСчёт() && Fetch0()) {
+	while(info.GetCount() && Fetch0()) {
 		rowcount++;
-		for(int i = 0; i < info.дайСчёт(); i++)
-			switch(info[i].тип) {
+		for(int i = 0; i < info.GetCount(); i++)
+			switch(info[i].type) {
 			case DOUBLE_V:
-				number.добавь(fetchrow[i]);
+				number.Add(fetchrow[i]);
 				break;
 			case INT64_V:
-				num64.добавь(fetchrow[i]);
+				num64.Add(fetchrow[i]);
 				break;
 			case STRING_V:
-				text.добавь(fetchrow[i]);
+				text.Add(fetchrow[i]);
 				break;
 			case TIME_V:
-				time.добавь(fetchrow[i]);
+				time.Add(fetchrow[i]);
 				break;
 			case DATE_V:
-				date.добавь(fetchrow[i]);
+				date.Add(fetchrow[i]);
 				break;
 			default:
 				NEVER();
 			}
 	}
-	LLOG("слей fetched " << rowcount << " info count: " << info.дайСчёт());
+	LLOG("Flush fetched " << rowcount << " info count: " << info.GetCount());
 }
 
 void ODBCConnection::Cancel()
 {
-	param.очисть();
+	param.Clear();
 
-	number.очисть();
-	num64.очисть();
-	text.очисть();
-	time.очисть();
-	date.очисть();
+	number.Clear();
+	num64.Clear();
+	text.Clear();
+	time.Clear();
+	date.Clear();
 
 	number_i = 0;
 	num64_i = 0;
@@ -739,16 +739,16 @@ void ODBCConnection::Cancel()
 	date_i = 0;
 }
 
-Ткст ODBCConnection::вТкст() const
+String ODBCConnection::ToString() const
 {
 	return statement;
 }
 
-Значение ODBCConnection::GetInsertedId() const
+Value ODBCConnection::GetInsertedId() const
 {
 	Sql sql(GetSession());
-	return last_insert_table.дайСчёт() ? sql.выдели("IDENT_CURRENT('" + last_insert_table + "')")
-	                                    : sql.выдели("@@IDENTITY");
+	return last_insert_table.GetCount() ? sql.Select("IDENT_CURRENT('" + last_insert_table + "')")
+	                                    : sql.Select("@@IDENTITY");
 }
 
 }

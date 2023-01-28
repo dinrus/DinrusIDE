@@ -1,14 +1,14 @@
 #include "SSH.h"
 
-namespace РНЦПДинрус {
+namespace Upp {
 
-#define LLOG(x)       do { if(SSH::sTrace) RLOG(SSH::дайИмя(ssh->otype, ssh->oid) << x); } while(false)
+#define LLOG(x)       do { if(SSH::sTrace) RLOG(SSH::GetName(ssh->otype, ssh->oid) << x); } while(false)
 #define LDUMPHEX(x)	  do { if(SSH::sTraceVerbose) RDUMPHEX(x); } while(false)
 
-bool SshTunnel::пригоден()
+bool SshTunnel::IsValid()
 {
 	bool b = false;
-	
+
 	switch(mode) {
 		case CONNECT:	b = channel || listener; break;
 		case LISTEN:	b = channel || listener; break;
@@ -16,92 +16,92 @@ bool SshTunnel::пригоден()
 		default: NEVER();
 	}
 	if(b)
-		устОш(-1, "Invalid channel instance.");
+		SetError(-1, "Неверный экземпляр канала.");
 	return !b;
 }
 
-void SshTunnel::выход()
+void SshTunnel::Exit()
 {
 	if(!listener)
 		return;
-	
-	пуск([=]() mutable{
+
+	Run([=]() mutable{
 		int rc = libssh2_channel_forward_cancel(*listener);
-		if(!WouldBlock(rc) && rc < 0) выведиОш(rc);
-		if(rc == 0)	listener.очисть();
+		if(!WouldBlock(rc) && rc < 0) ThrowError(rc);
+		if(rc == 0)	listener.Clear();
 		return !rc;
 	});
 }
 
-bool SshTunnel::Connect(const Ткст& host, int port)
+bool SshTunnel::Connect(const String& host, int port)
 {
 	mode = CONNECT;
-	
-	if(!пригоден())
+
+	if(!IsValid())
 		return false;
 
-	return пуск([=]() mutable{
+	return Run([=]() mutable{
 		LIBSSH2_CHANNEL *ch = libssh2_channel_direct_tcpip(ssh->session, host , port);
-		if(!ch && !WouldBlock()) выведиОш(-1);
+		if(!ch && !WouldBlock()) ThrowError(-1);
 		if(ch) {
-			channel = сделайОдин<LIBSSH2_CHANNEL*>(ch);
+			channel = MakeOne<LIBSSH2_CHANNEL*>(ch);
 			LLOG("Direct tcp-ip connection to " << host << ":" << port << " is established.");
 		}
 		return ch;
 	});
 }
 
-bool SshTunnel::Connect(const Ткст& url)
+bool SshTunnel::Connect(const String& url)
 {
 	UrlInfo u(url);
-	if(!u.host.пустой() && u.port.пустой())
-		return Connect(u.host, тктЦел(u.port));
-	устОш(-1, "Malformed proxy connection URL.");
+	if(!u.host.IsEmpty() && u.port.IsEmpty())
+		return Connect(u.host, StrInt(u.port));
+	SetError(-1, "Неверный УЛР подключения к прокси.");
 	return false;
 }
 
-bool SshTunnel::Listen(const Ткст& host, int port, int* bound_port, int listen_count)
+bool SshTunnel::Listen(const String& host, int port, int* bound_port, int listen_count)
 {
 	mode = LISTEN;
 
-	if(!пригоден())
+	if(!IsValid())
 		return false;
-	
-	return пуск([=]() mutable {
+
+	return Run([=]() mutable {
 		LIBSSH2_LISTENER *lsn = libssh2_channel_forward_listen_ex(
 			ssh->session,
-			host.пустой() ? nullptr : ~host,
+			host.IsEmpty() ? nullptr : ~host,
 			port,
 			bound_port ? bound_port : nullptr,
 			listen_count
 		);
 		if(!lsn && !WouldBlock())
-			выведиОш(-1);
+			ThrowError(-1);
 		if(lsn) {
-			listener = сделайОдин<LIBSSH2_LISTENER*>(lsn);
+			listener = MakeOne<LIBSSH2_LISTENER*>(lsn);
 			LLOG("Started listening on port #" << port);
 		}
 		return lsn;
 	});
 }
 
-bool SshTunnel::прими(SshTunnel& listener)
+bool SshTunnel::Accept(SshTunnel& listener)
 {
 	mode = ACCEPT;
 
-	if(!пригоден())
+	if(!IsValid())
 		return false;
-	
+
 	if(!listener.listener) {
-		устОш(-1, "Invalid listener.");
+		SetError(-1, "Неправильный прослушчик.");
 		return false;
 	}
 
-	return пуск([=, &listener]() mutable {
+	return Run([=, &listener]() mutable {
 		LIBSSH2_CHANNEL *ch = libssh2_channel_forward_accept(*listener.listener);
-		if(!ch && !WouldBlock()) выведиОш(-1);
+		if(!ch && !WouldBlock()) ThrowError(-1);
 		if(ch) {
-			channel = сделайОдин<LIBSSH2_CHANNEL*>(ch);
+			channel = MakeOne<LIBSSH2_CHANNEL*>(ch);
 			LLOG("Connection accepted.");
 		}
 		return ch;

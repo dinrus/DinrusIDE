@@ -1,5 +1,5 @@
 template <class I, class Less>
-void соСорт__(СоРабота& cw, I l, I h, const Less& less)
+void CoSort__(CoWork& cw, I l, I h, const Less& less)
 {
 	int count = int(h - l);
 	I middle = l + (count >> 1);        // get the middle element
@@ -12,8 +12,8 @@ void соСорт__(СоРабота& cw, I l, I h, const Less& less)
 
 		if(count > 1000) {
 			middle = l + (count >> 1); // iterators cannot point to the same object!
-			I q = l + 1 + (int)случ((count >> 1) - 2);
-			I w = middle + 1 + (int)случ((count >> 1) - 2);
+			I q = l + 1 + (int)Random((count >> 1) - 2);
+			I w = middle + 1 + (int)Random((count >> 1) - 2);
 			OrderIter5__(l, q, middle, w, h - 1, less);
 		}
 		else
@@ -34,7 +34,7 @@ void соСорт__(СоРабота& cw, I l, I h, const Less& less)
 		IterSwap(i, h - 2);                 // put pivot back in between partitions
 
 		I ih = i;
-		while(ih + 1 != h && !less(*i, *(ih + 1))) // найди middle range of elements equal to pivot
+		while(ih + 1 != h && !less(*i, *(ih + 1))) // Find middle range of elements equal to pivot
 			++ih;
 
 		int count_l = i - l;
@@ -46,318 +46,318 @@ void соСорт__(СоРабота& cw, I l, I h, const Less& less)
 		int count_h = h - ih - 1;
 
 		if(count_l < count_h) {       // recurse on smaller partition, tail on larger
-			cw & [=, &cw] { соСорт__(cw, l, i, less); };
+			cw & [=, &cw] { CoSort__(cw, l, i, less); };
 			l = ih + 1;
 			count = count_h;
 		}
 		else {
-			cw & [=, &cw] { соСорт__(cw, ih + 1, h, less); };
+			cw & [=, &cw] { CoSort__(cw, ih + 1, h, less); };
 			h = i;
 			count = count_l;
 		}
 
 		if(count > 8 && min(count_l, count_h) < (max(count_l, count_h) >> 2)) // If unbalanced,
-			middle = l + 1 + случ(count - 2); // randomize the next step
+			middle = l + 1 + Random(count - 2); // randomize the next step
 		else
 			middle = l + (count >> 1); // the middle is probably still the best guess otherwise
 	}
 }
 
 template <class I, class Less>
-void соСорт__(I l, I h, const Less& less)
+void CoSort__(I l, I h, const Less& less)
 {
-	СоРабота cw;
-	соСорт__(cw, l, h, less);
+	CoWork cw;
+	CoSort__(cw, l, h, less);
 }
 
-template <class Диапазон, class Less>
-void соСортируй(Диапазон&& c, const Less& less)
+template <class Range, class Less>
+void CoSort(Range&& c, const Less& less)
 {
-	соСорт__(c.begin(), c.end(), less);
+	CoSort__(c.begin(), c.end(), less);
 }
 
-template <class Диапазон>
-void соСортируй(Диапазон&& c)
+template <class Range>
+void CoSort(Range&& c)
 {
-	соСорт__(c.begin(), c.end(), std::less<типЗначУ<Диапазон>>());
+	CoSort__(c.begin(), c.end(), std::less<ValueTypeOf<Range>>());
 }
 
-template <class Диапазон, class Less>
-void соСтабилСортируй(Диапазон&& r, const Less& less)
+template <class Range, class Less>
+void CoStableSort(Range&& r, const Less& less)
 {
 	auto begin = r.begin();
 	auto end = r.end();
-	typedef типЗначУ<Диапазон> VT;
+	typedef ValueTypeOf<Range> VT;
 	typedef decltype(begin) I;
 	int count = (int)(uintptr_t)(end - begin);
-	Буфер<int> h(count);
+	Buffer<int> h(count);
 	for(int i = 0; i < count; i++)
 		h[i] = i;
-	соСорт__(StableSortIterator__<I, VT>(begin, ~h), StableSortIterator__<I, VT>(end, ~h + count),
+	CoSort__(StableSortIterator__<I, VT>(begin, ~h), StableSortIterator__<I, VT>(end, ~h + count),
 	         StableSortLess__<VT, Less>(less));
 }
 
-template <class Диапазон>
-void соСтабилСортируй(Диапазон&& r)
+template <class Range>
+void CoStableSort(Range&& r)
 {
-	соСтабилСортируй(r, std::less<типЗначУ<Диапазон>>());
+	CoStableSort(r, std::less<ValueTypeOf<Range>>());
 }
 
-template <class МастерДиапазон, class Диапазон2, class Less>
-void соИндексСортируй(МастерДиапазон&& r, Диапазон2&& r2, const Less& less)
+template <class MasterRange, class Range2, class Less>
+void CoIndexSort(MasterRange&& r, Range2&& r2, const Less& less)
 {
-	ПРОВЕРЬ(r.дайСчёт() == r2.дайСчёт());
+	ASSERT(r.GetCount() == r2.GetCount());
 	typedef decltype(r.begin()) I;
 	typedef decltype(r2.begin()) I2;
-	typedef типЗначУ<МастерДиапазон> VT;
-	if(r.дайСчёт() == 0)
+	typedef ValueTypeOf<MasterRange> VT;
+	if(r.GetCount() == 0)
 		return;
-	соСорт__(ИндексСортОбходчик__<I, I2, VT>(r.begin(), r2.begin()),
-	         ИндексСортОбходчик__<I, I2, VT>(r.end(), r2.end()),
+	CoSort__(IndexSortIterator__<I, I2, VT>(r.begin(), r2.begin()),
+	         IndexSortIterator__<I, I2, VT>(r.end(), r2.end()),
 		     less);
 }
 
-template <class МастерДиапазон, class Диапазон2>
-void соИндексСортируй(МастерДиапазон&& r, Диапазон2&& r2)
+template <class MasterRange, class Range2>
+void CoIndexSort(MasterRange&& r, Range2&& r2)
 {
-	соИндексСортируй(r, r2, std::less<типЗначУ<МастерДиапазон>>());
+	CoIndexSort(r, r2, std::less<ValueTypeOf<MasterRange>>());
 }
 
-template <class МастерДиапазон, class Диапазон2, class Less>
-void соСтабилИндексСортируй(МастерДиапазон&& r, Диапазон2&& r2, const Less& less)
+template <class MasterRange, class Range2, class Less>
+void CoStableIndexSort(MasterRange&& r, Range2&& r2, const Less& less)
 {
-	ПРОВЕРЬ(r.дайСчёт() == r2.дайСчёт());
+	ASSERT(r.GetCount() == r2.GetCount());
 	typedef decltype(r.begin()) I;
 	typedef decltype(r2.begin()) I2;
-	typedef типЗначУ<МастерДиапазон> VT;
-	if(r.дайСчёт() == 0)
+	typedef ValueTypeOf<MasterRange> VT;
+	if(r.GetCount() == 0)
 		return;
-	соСтабилСортируй(СубДиапазон(ИндексСортОбходчик__<I, I2, VT>(r.begin(), r2.begin()),
-		                  ИндексСортОбходчик__<I, I2, VT>(r.end(), r2.end())).пиши(),
+	CoStableSort(SubRange(IndexSortIterator__<I, I2, VT>(r.begin(), r2.begin()),
+		                  IndexSortIterator__<I, I2, VT>(r.end(), r2.end())).Write(),
 	             less);
 }
 
-template <class МастерДиапазон, class Диапазон2>
-void соСтабилИндексСортируй(МастерДиапазон&& r, Диапазон2&& r2)
+template <class MasterRange, class Range2>
+void CoStableIndexSort(MasterRange&& r, Range2&& r2)
 {
-	соСтабилИндексСортируй(r, r2, std::less<типЗначУ<МастерДиапазон>>());
+	CoStableIndexSort(r, r2, std::less<ValueTypeOf<MasterRange>>());
 }
 
-template <class МастерДиапазон, class Диапазон2, class Диапазон3, class Less>
-void соИндексСортируй2(МастерДиапазон&& r, Диапазон2&& r2, Диапазон3&& r3, const Less& less)
+template <class MasterRange, class Range2, class Range3, class Less>
+void CoIndexSort2(MasterRange&& r, Range2&& r2, Range3&& r3, const Less& less)
 {
-	ПРОВЕРЬ(r.дайСчёт() == r2.дайСчёт());
-	ПРОВЕРЬ(r.дайСчёт() == r3.дайСчёт());
-	if(r.дайСчёт() == 0)
+	ASSERT(r.GetCount() == r2.GetCount());
+	ASSERT(r.GetCount() == r3.GetCount());
+	if(r.GetCount() == 0)
 		return;
 	typedef decltype(r.begin()) I;
 	typedef decltype(r2.begin()) I2;
 	typedef decltype(r3.begin()) I3;
-	typedef типЗначУ<МастерДиапазон> VT;
-	соСорт__(ИндексСорт2Обходчик__<I, I2, I3, VT>(r.begin(), r2.begin(), r3.begin()),
-	         ИндексСорт2Обходчик__<I, I2, I3, VT>(r.end(), r2.end(), r3.end()),
+	typedef ValueTypeOf<MasterRange> VT;
+	CoSort__(IndexSort2Iterator__<I, I2, I3, VT>(r.begin(), r2.begin(), r3.begin()),
+	         IndexSort2Iterator__<I, I2, I3, VT>(r.end(), r2.end(), r3.end()),
 		     less);
 }
 
-template <class МастерДиапазон, class Диапазон2, class Диапазон3>
-void соИндексСортируй2(МастерДиапазон&& r, Диапазон2&& r2, Диапазон3&& r3)
+template <class MasterRange, class Range2, class Range3>
+void CoIndexSort2(MasterRange&& r, Range2&& r2, Range3&& r3)
 {
-	соИндексСортируй2(r, r2, r3, std::less<типЗначУ<МастерДиапазон>>());
+	CoIndexSort2(r, r2, r3, std::less<ValueTypeOf<MasterRange>>());
 }
 
-template <class МастерДиапазон, class Диапазон2, class Диапазон3, class Less>
-void соСтабилИндексСортируй2(МастерДиапазон&& r, Диапазон2&& r2, Диапазон3&& r3, const Less& less)
+template <class MasterRange, class Range2, class Range3, class Less>
+void CoStableIndexSort2(MasterRange&& r, Range2&& r2, Range3&& r3, const Less& less)
 {
-	ПРОВЕРЬ(r.дайСчёт() == r2.дайСчёт());
-	ПРОВЕРЬ(r.дайСчёт() == r3.дайСчёт());
-	if(r.дайСчёт() == 0)
+	ASSERT(r.GetCount() == r2.GetCount());
+	ASSERT(r.GetCount() == r3.GetCount());
+	if(r.GetCount() == 0)
 		return;
 	typedef decltype(r.begin()) I;
 	typedef decltype(r2.begin()) I2;
 	typedef decltype(r3.begin()) I3;
-	typedef типЗначУ<МастерДиапазон> VT;
-	соСтабилСортируй(СубДиапазон(ИндексСорт2Обходчик__<I, I2, I3, VT>(r.begin(), r2.begin(), r3.begin()),
-	                    ИндексСорт2Обходчик__<I, I2, I3, VT>(r.end(), r2.end(), r3.end())).пиши(),
+	typedef ValueTypeOf<MasterRange> VT;
+	CoStableSort(SubRange(IndexSort2Iterator__<I, I2, I3, VT>(r.begin(), r2.begin(), r3.begin()),
+	                    IndexSort2Iterator__<I, I2, I3, VT>(r.end(), r2.end(), r3.end())).Write(),
 		         less);
 }
 
-template <class МастерДиапазон, class Диапазон2, class Диапазон3>
-void соСтабилИндексСортируй2(МастерДиапазон&& r, Диапазон2&& r2, Диапазон3&& r3)
+template <class MasterRange, class Range2, class Range3>
+void CoStableIndexSort2(MasterRange&& r, Range2&& r2, Range3&& r3)
 {
-	соСтабилИндексСортируй2(r, r2, r3, std::less<типЗначУ<МастерДиапазон>>());
+	CoStableIndexSort2(r, r2, r3, std::less<ValueTypeOf<MasterRange>>());
 }
 
-template <class МастерДиапазон, class Диапазон2, class Диапазон3, class Диапазон4, class Less>
-void соИндексСортируй3(МастерДиапазон&& r, Диапазон2&& r2, Диапазон3&& r3, Диапазон4&& r4, const Less& less)
+template <class MasterRange, class Range2, class Range3, class Range4, class Less>
+void CoIndexSort3(MasterRange&& r, Range2&& r2, Range3&& r3, Range4&& r4, const Less& less)
 {
-	ПРОВЕРЬ(r.дайСчёт() == r2.дайСчёт());
-	ПРОВЕРЬ(r.дайСчёт() == r3.дайСчёт());
-	ПРОВЕРЬ(r.дайСчёт() == r4.дайСчёт());
-	if(r.дайСчёт() == 0)
+	ASSERT(r.GetCount() == r2.GetCount());
+	ASSERT(r.GetCount() == r3.GetCount());
+	ASSERT(r.GetCount() == r4.GetCount());
+	if(r.GetCount() == 0)
 		return;
 	typedef decltype(r.begin()) I;
 	typedef decltype(r2.begin()) I2;
 	typedef decltype(r3.begin()) I3;
 	typedef decltype(r4.begin()) I4;
-	typedef типЗначУ<МастерДиапазон> VT;
-	соСорт__(ИндексСорт3Обходчик__<I, I2, I3, I4, VT>(r.begin(), r2.begin(), r3.begin(), r4.begin()),
-	         ИндексСорт3Обходчик__<I, I2, I3, I4, VT>(r.end(), r2.end(), r3.end(), r4.end()),
+	typedef ValueTypeOf<MasterRange> VT;
+	CoSort__(IndexSort3Iterator__<I, I2, I3, I4, VT>(r.begin(), r2.begin(), r3.begin(), r4.begin()),
+	         IndexSort3Iterator__<I, I2, I3, I4, VT>(r.end(), r2.end(), r3.end(), r4.end()),
 		     less);
 }
 
-template <class МастерДиапазон, class Диапазон2, class Диапазон3, class Диапазон4>
-void соИндексСортируй3(МастерДиапазон&& r, Диапазон2&& r2, Диапазон3&& r3, Диапазон4&& r4)
+template <class MasterRange, class Range2, class Range3, class Range4>
+void CoIndexSort3(MasterRange&& r, Range2&& r2, Range3&& r3, Range4&& r4)
 {
-	соИндексСортируй3(r, r2, r3, r4, std::less<типЗначУ<МастерДиапазон>>());
+	CoIndexSort3(r, r2, r3, r4, std::less<ValueTypeOf<MasterRange>>());
 }
 
-template <class МастерДиапазон, class Диапазон2, class Диапазон3, class Диапазон4, class Less>
-void соСтабилИндексСортируй3(МастерДиапазон&& r, Диапазон2&& r2, Диапазон3&& r3, Диапазон4&& r4, const Less& less)
+template <class MasterRange, class Range2, class Range3, class Range4, class Less>
+void CoStableIndexSort3(MasterRange&& r, Range2&& r2, Range3&& r3, Range4&& r4, const Less& less)
 {
-	ПРОВЕРЬ(r.дайСчёт() == r2.дайСчёт());
-	ПРОВЕРЬ(r.дайСчёт() == r3.дайСчёт());
-	ПРОВЕРЬ(r.дайСчёт() == r4.дайСчёт());
-	if(r.дайСчёт() == 0)
+	ASSERT(r.GetCount() == r2.GetCount());
+	ASSERT(r.GetCount() == r3.GetCount());
+	ASSERT(r.GetCount() == r4.GetCount());
+	if(r.GetCount() == 0)
 		return;
 	typedef decltype(r.begin()) I;
 	typedef decltype(r2.begin()) I2;
 	typedef decltype(r3.begin()) I3;
 	typedef decltype(r4.begin()) I4;
-	typedef типЗначУ<МастерДиапазон> VT;
-	соСтабилСортируй(СубДиапазон(ИндексСорт3Обходчик__<I, I2, I3, I4, VT>(r.begin(), r2.begin(), r3.begin(), r4.begin()),
-	                      ИндексСорт3Обходчик__<I, I2, I3, I4, VT>(r.end(), r2.end(), r3.end(), r4.end())).пиши(),
+	typedef ValueTypeOf<MasterRange> VT;
+	CoStableSort(SubRange(IndexSort3Iterator__<I, I2, I3, I4, VT>(r.begin(), r2.begin(), r3.begin(), r4.begin()),
+	                      IndexSort3Iterator__<I, I2, I3, I4, VT>(r.end(), r2.end(), r3.end(), r4.end())).Write(),
 		         less);
 }
 
-template <class МастерДиапазон, class Диапазон2, class Диапазон3, class Диапазон4>
-void соСтабилИндексСортируй3(МастерДиапазон&& r, Диапазон2&& r2, Диапазон3&& r3, Диапазон4&& r4)
+template <class MasterRange, class Range2, class Range3, class Range4>
+void CoStableIndexSort3(MasterRange&& r, Range2&& r2, Range3&& r3, Range4&& r4)
 {
-	соСтабилИндексСортируй3(r, r2, r3, r4, std::less<типЗначУ<МастерДиапазон>>());
+	CoStableIndexSort3(r, r2, r3, r4, std::less<ValueTypeOf<MasterRange>>());
 }
 
-template <class Диапазон, class Less>
-Вектор<int> соДайПорядокСорт(const Диапазон& r, const Less& less)
+template <class Range, class Less>
+Vector<int> CoGetSortOrder(const Range& r, const Less& less)
 {
 	auto begin = r.begin();
-	Вектор<int> индекс;
-	индекс.устСчёт(r.дайСчёт());
-	for(int i = индекс.дайСчёт(); --i >= 0; индекс[i] = i)
+	Vector<int> index;
+	index.SetCount(r.GetCount());
+	for(int i = index.GetCount(); --i >= 0; index[i] = i)
 		;
-	typedef ОбходчикПорядкаСорта__<decltype(begin), типЗначУ<Диапазон>> It;
-	соСорт__(It(индекс.begin(), begin), It(индекс.end(), begin), less);
-	return индекс;
+	typedef SortOrderIterator__<decltype(begin), ValueTypeOf<Range>> It;
+	CoSort__(It(index.begin(), begin), It(index.end(), begin), less);
+	return index;
 }
 
-template <class Диапазон>
-Вектор<int> соДайПорядокСорт(const Диапазон& r)
+template <class Range>
+Vector<int> CoGetSortOrder(const Range& r)
 {
-	return соДайПорядокСорт(r, std::less<типЗначУ<Диапазон>>());
+	return CoGetSortOrder(r, std::less<ValueTypeOf<Range>>());
 }
 
-template <class Диапазон, class Less>
-Вектор<int> соДайСтабилПорядокСорт(const Диапазон& r, const Less& less)
+template <class Range, class Less>
+Vector<int> CoGetStableSortOrder(const Range& r, const Less& less)
 {
-	Вектор<int> индекс;
-	индекс.устСчёт(r.дайСчёт());
-	for(int i = индекс.дайСчёт(); --i >= 0; индекс[i] = i)
+	Vector<int> index;
+	index.SetCount(r.GetCount());
+	for(int i = index.GetCount(); --i >= 0; index[i] = i)
 		;
 	auto begin = r.begin();
-	typedef типЗначУ<Диапазон> VT;
-	typedef ОбходчикПорядкаСтабилСорта__<decltype(begin), VT> It;
-	соСорт__(It(индекс.begin(), begin), It(индекс.end(), begin), StableSortLess__<VT, Less>(less));
-	return индекс;
+	typedef ValueTypeOf<Range> VT;
+	typedef StableSortOrderIterator__<decltype(begin), VT> It;
+	CoSort__(It(index.begin(), begin), It(index.end(), begin), StableSortLess__<VT, Less>(less));
+	return index;
 }
 
-template <class Диапазон>
-Вектор<int> соДайСтабилПорядокСорт(const Диапазон& r)
+template <class Range>
+Vector<int> CoGetStableSortOrder(const Range& r)
 {
-	return соДайПорядокСорт(r, std::less<типЗначУ<Диапазон>>());
+	return CoGetSortOrder(r, std::less<ValueTypeOf<Range>>());
 }
 
-template <class вКарту, class Less>
-void соСортируйПоКлючу(вКарту& map, const Less& less)
+template <class Map, class Less>
+void CoSortByKey(Map& map, const Less& less)
 {
-	typename вКарту::КонтейнерКлючей k = map.подбериКлючи();
-	typename вКарту::КонтейнерЗначений v = map.подбериЗначения();
-	соИндексСортируй(k, v, less);
-	map = вКарту(pick(k), pick(v));
+	typename Map::KeyContainer k = map.PickKeys();
+	typename Map::ValueContainer v = map.PickValues();
+	CoIndexSort(k, v, less);
+	map = Map(pick(k), pick(v));
 }
 
-template <class вКарту>
-void соСортируйПоКлючу(вКарту& map)
+template <class Map>
+void CoSortByKey(Map& map)
 {
-	соСортируйПоКлючу(map, std::less<typename вКарту::ТипКлюча>());
+	CoSortByKey(map, std::less<typename Map::KeyType>());
 }
 
-template <class вКарту, class Less>
-void соСортируйПоЗначению(вКарту& map, const Less& less)
+template <class Map, class Less>
+void CoSortByValue(Map& map, const Less& less)
 {
-	typename вКарту::КонтейнерКлючей k = map.подбериКлючи();
-	typename вКарту::КонтейнерЗначений v = map.подбериЗначения();
-	соИндексСортируй(v, k, less);
-	map = вКарту(pick(k), pick(v));
+	typename Map::KeyContainer k = map.PickKeys();
+	typename Map::ValueContainer v = map.PickValues();
+	CoIndexSort(v, k, less);
+	map = Map(pick(k), pick(v));
 }
 
-template <class вКарту>
-void соСортируйПоЗначению(вКарту& map)
+template <class Map>
+void CoSortByValue(Map& map)
 {
-	соСортируйПоЗначению(map, std::less<типЗначУ<вКарту>>());
+	CoSortByValue(map, std::less<ValueTypeOf<Map>>());
 }
 
-template <class вКарту, class Less>
-void соСтабилСортируйПоКлючу(вКарту& map, const Less& less)
+template <class Map, class Less>
+void CoStableSortByKey(Map& map, const Less& less)
 {
-	typename вКарту::КонтейнерКлючей k = map.подбериКлючи();
-	typename вКарту::КонтейнерЗначений v = map.подбериЗначения();
-	соСтабилИндексСортируй(k, v, less);
-	map = вКарту(pick(k), pick(v));
+	typename Map::KeyContainer k = map.PickKeys();
+	typename Map::ValueContainer v = map.PickValues();
+	CoStableIndexSort(k, v, less);
+	map = Map(pick(k), pick(v));
 }
 
-template <class вКарту>
-void соСтабилСортируйПоКлючу(вКарту& map)
+template <class Map>
+void CoStableSortByKey(Map& map)
 {
-	соСтабилСортируйПоКлючу(map, std::less<typename вКарту::ТипКлюча>());
+	CoStableSortByKey(map, std::less<typename Map::KeyType>());
 }
 
-template <class вКарту, class Less>
-void соСтабилСортируйПоЗначению(вКарту& map, const Less& less)
+template <class Map, class Less>
+void CoStableSortByValue(Map& map, const Less& less)
 {
-	typename вКарту::КонтейнерКлючей k = map.подбериКлючи();
-	typename вКарту::КонтейнерЗначений v = map.подбериЗначения();
-	соСтабилИндексСортируй(v, k, less);
-	map = вКарту(pick(k), pick(v));
+	typename Map::KeyContainer k = map.PickKeys();
+	typename Map::ValueContainer v = map.PickValues();
+	CoStableIndexSort(v, k, less);
+	map = Map(pick(k), pick(v));
 }
 
-template <class вКарту>
-void соСтабилСортируйПоЗначению(вКарту& map)
+template <class Map>
+void CoStableSortByValue(Map& map)
 {
-	соСтабилСортируйПоЗначению(map, std::less<типЗначУ<вКарту>>());
+	CoStableSortByValue(map, std::less<ValueTypeOf<Map>>());
 }
 
-template <class Индекс, class Less>
-void соСортИндекс(Индекс& индекс, const Less& less)
+template <class Index, class Less>
+void CoSortIndex(Index& index, const Less& less)
 {
-	typename Индекс::КонтейнерЗначений k = индекс.подбериКлючи();
-	соСортируй(k, less);
-	индекс = Индекс(pick(k));
+	typename Index::ValueContainer k = index.PickKeys();
+	CoSort(k, less);
+	index = Index(pick(k));
 }
 
-template <class Индекс>
-void соСортИндекс(Индекс& индекс)
+template <class Index>
+void CoSortIndex(Index& index)
 {
-	соСортИндекс(индекс, std::less<типЗначУ<Индекс>>());
+	CoSortIndex(index, std::less<ValueTypeOf<Index>>());
 }
 
-template <class Индекс, class Less>
-void соСтабилСортИндекс(Индекс& индекс, const Less& less)
+template <class Index, class Less>
+void CoStableSortIndex(Index& index, const Less& less)
 {
-	typename Индекс::КонтейнерЗначений k = индекс.подбериКлючи();
-	соСтабилСортируй(k, less);
-	индекс = Индекс(pick(k));
+	typename Index::ValueContainer k = index.PickKeys();
+	CoStableSort(k, less);
+	index = Index(pick(k));
 }
 
-template <class Индекс>
-void соСтабилСортИндекс(Индекс& индекс)
+template <class Index>
+void CoStableSortIndex(Index& index)
 {
-	соСтабилСортИндекс(индекс, std::less<типЗначУ<Индекс>>());
+	CoStableSortIndex(index, std::less<ValueTypeOf<Index>>());
 }

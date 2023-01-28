@@ -1,34 +1,34 @@
 #include "Core.h"
 //#BLITZ_APPROVE
 
-namespace РНЦПДинрус {
+namespace Upp {
 
-// Old формат ---------------------------
+// Old format ---------------------------
 
-Ткст  вфмт(const char *fmt, va_list ptr) {
+String  VFormat(const char *fmt, va_list ptr) {
 	int limit = 2 * (int)strlen(fmt) + 1024;
 	if(limit < 1500) {
-		char буфер[1500];
-		vsprintf(буфер, fmt, ptr);
+		char buffer[1500];
+		vsprintf(buffer, fmt, ptr);
 		va_end(ptr);
-		int len = (int)strlen(буфер);
-		ПРОВЕРЬ(len <= limit);
-		return Ткст(буфер, len);
+		int len = (int)strlen(buffer);
+		ASSERT(len <= limit);
+		return String(buffer, len);
 	}
 	else {
-		Буфер<char> буфер(limit);
-		vsprintf(буфер, fmt, ptr);
+		Buffer<char> buffer(limit);
+		vsprintf(buffer, fmt, ptr);
 		va_end(ptr);
-		int len = (int)strlen(буфер);
-		ПРОВЕРЬ(len <= limit);
-		return Ткст(буфер, len);
+		int len = (int)strlen(buffer);
+		ASSERT(len <= limit);
+		return String(buffer, len);
 	}
 }
 
-// Форматирование routines ---------------------------
+// Formatting routines ---------------------------
 
 // utoa32, utoa64 inspired by
-// https://github.com/miloyip/itoa-benchmark/blob/940542a7770155ee3e9f2777ebc178dc899b43e0/ист/branchlut.cpp
+// https://github.com/miloyip/itoa-benchmark/blob/940542a7770155ee3e9f2777ebc178dc899b43e0/src/branchlut.cpp
 // by Milo Yip
 
 const char s100[] =
@@ -52,135 +52,135 @@ void  Do2(char *t, dword d) {
 };
 
 force_inline
-void  Do4(char *t, dword значение) {
-	Do2(t, значение / 100);
-	Do2(t + 2, значение % 100);
+void  Do4(char *t, dword value) {
+	Do2(t, value / 100);
+	Do2(t + 2, value % 100);
 }
 
 force_inline
-void  Do8(char *t, dword значение) {
-	Do4(t, значение / 10000);
-	Do4(t + 4, значение % 10000);
+void  Do8(char *t, dword value) {
+	Do4(t, value / 10000);
+	Do4(t + 4, value % 10000);
 }
 
 };
 
-int utoa32(dword значение, char *буфер)
+int utoa32(dword value, char *buffer)
 {
 	using namespace utoa_private;
 
-	if (значение < 10000) {
-		if(значение < 100) {
-			if(значение < 10) {
-				*буфер = char(значение + '0');
+	if (value < 10000) {
+		if(value < 100) {
+			if(value < 10) {
+				*buffer = char(value + '0');
 				return 1;
 			}
-			Do2(буфер, значение % 100);
+			Do2(buffer, value % 100);
 			return 2;
 		}
 
-		if(значение < 1000) {
-			*буфер = char(значение / 100 + '0');
-			Do2(буфер + 1, значение % 100);
+		if(value < 1000) {
+			*buffer = char(value / 100 + '0');
+			Do2(buffer + 1, value % 100);
 			return 3;
 		}
 		
-		Do4(буфер, значение);
+		Do4(buffer, value);
 		return 4;
 	}
-	else if (значение < 100000000) {
-		if(значение < 10000000) {
-			if(значение < 100000) {
-				*буфер = char(значение / 10000 + '0');
-				Do4(буфер + 1, значение % 10000);
+	else if (value < 100000000) {
+		if(value < 10000000) {
+			if(value < 100000) {
+				*buffer = char(value / 10000 + '0');
+				Do4(buffer + 1, value % 10000);
 				return 5;
 			}
-			if(значение < 1000000) {
-				Do2(буфер, значение / 10000);
-				Do4(буфер + 2, значение % 10000);
+			if(value < 1000000) {
+				Do2(buffer, value / 10000);
+				Do4(buffer + 2, value % 10000);
 				return 6;
 			}
-			*буфер = char(значение / 1000000 + '0');
-			Do2(буфер + 1, значение / 10000 % 100);
-			Do4(буфер + 3, значение % 10000);
+			*buffer = char(value / 1000000 + '0');
+			Do2(buffer + 1, value / 10000 % 100);
+			Do4(buffer + 3, value % 10000);
 			return 7;
 		}
 		
-		Do8(буфер, значение);
+		Do8(buffer, value);
 		return 8;
 	}
 	else {
-		dword a = значение / 100000000; // 2 digits
-		значение %= 100000000;
+		dword a = value / 100000000; // 2 digits
+		value %= 100000000;
 
 		if(a < 10) {
-			*буфер = char(a + '0');
-			Do8(буфер + 1, значение);
+			*buffer = char(a + '0');
+			Do8(buffer + 1, value);
 			return 9;
 		}
 
-		Do2(буфер, a);
-		Do8(буфер + 2, значение);
+		Do2(buffer, a);
+		Do8(buffer + 2, value);
 		return 10;
 	}
 }
 
-int utoa64(uint64 значение, char *буфер)
+int utoa64(uint64 value, char *buffer)
 {
 	using namespace utoa_private;
 
-	if(значение <= 0xffffffff)
-		return utoa32((dword)значение, буфер);
-	if(значение < (uint64)1000000000 * 100000000) {
-		int q = utoa32(dword(значение / 100000000), буфер);
-		Do8(буфер + q, значение % 100000000);
+	if(value <= 0xffffffff)
+		return utoa32((dword)value, buffer);
+	if(value < (uint64)1000000000 * 100000000) {
+		int q = utoa32(dword(value / 100000000), buffer);
+		Do8(buffer + q, value % 100000000);
 		return q + 8;
 	}
-	int q = utoa32(dword(значение / ((uint64)100000000 * 100000000)), буфер);
-	Do8(буфер + q, значение / 100000000 % 100000000);
-	Do8(буфер + 8 + q, значение % 100000000);
+	int q = utoa32(dword(value / ((uint64)100000000 * 100000000)), buffer);
+	Do8(buffer + q, value / 100000000 % 100000000);
+	Do8(buffer + 8 + q, value % 100000000);
 	return q + 16;
 }
 
-Ткст фмтБцел64(uint64 w)
+String FormatUInt64(uint64 w)
 {
 	if(w < 100000000000000)
-		return Ткст::сделай(14, [&](char *s) { return utoa64(w, s); });
+		return String::Make(14, [&](char *s) { return utoa64(w, s); });
 	else
-		return Ткст::сделай(20, [&](char *s) { return utoa64(w, s); });
+		return String::Make(20, [&](char *s) { return utoa64(w, s); });
 }
 
-Ткст фмтЦел64(int64 i)
+String FormatInt64(int64 i)
 {
-	if(пусто_ли(i))
-		return Ткст();
+	if(IsNull(i))
+		return String();
 	if(i < 0) {
 		i = -i;
 		if(i < 10000000000000)
-			return Ткст::сделай(14, [&](char *s) {
+			return String::Make(14, [&](char *s) {
 				*s++ = '-';
 				return utoa64(i, s) + 1;
 			});
-		return Ткст::сделай(20, [&](char *s) {
+		return String::Make(20, [&](char *s) {
 			*s++ = '-';
 			return utoa64(i, s) + 1;
 		});
 	}
 	if(i < 100000000000000)
-		return Ткст::сделай(14, [&](char *s) { return utoa64(i, s); });
-	return Ткст::сделай(20, [&](char *s) { return utoa64(i, s); });
+		return String::Make(14, [&](char *s) { return utoa64(i, s); });
+	return String::Make(20, [&](char *s) { return utoa64(i, s); });
 }
 
-Ткст фмтЦелОснова(int i, int base, int width, char lpad, int sign, bool upper)
+String FormatIntBase(int i, int base, int width, char lpad, int sign, bool upper)
 {
 	enum { BUFFER = sizeof(int) * 8 + 1 };
 	if(base < 2 || base > 36)
 		return "<invalid base>";
-	char буфер[BUFFER];
-	char *const e = буфер + (int)BUFFER;
+	char buffer[BUFFER];
+	char *const e = buffer + (int)BUFFER;
 	char *p = e;
 	const char *itoc = upper ? "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ" : "0123456789abcdefghijklmnopqrstuvwxyz";
-	if(sign < 0 || !пусто_ли(i))
+	if(sign < 0 || !IsNull(i))
 	{
 		unsigned x = i;
 		if(sign >= 0 && i < 0)
@@ -189,7 +189,7 @@ int utoa64(uint64 значение, char *буфер)
 			*--p = itoc[x % base];
 		while(x /= base);
 	}
-	bool minus = (sign >= 0 && i < 0 && !пусто_ли(i));
+	bool minus = (sign >= 0 && i < 0 && !IsNull(i));
 	bool do_sign = (sign > 0 || sign >= 0 && minus);
 	if(do_sign && lpad != '0')
 		*--p = (minus ? '-' : '+');
@@ -203,39 +203,39 @@ int utoa64(uint64 значение, char *буфер)
 		*--p = (minus ? '-' : '+');
 	int dwd = (int)(e - p);
 	int pad = (width = max(width, dwd)) - dwd;
-	ТкстБуф out(width);
+	StringBuffer out(width);
 	char *o = out;
 	if(dwd < width)
 		memset(o, lpad, pad);
 	memcpy8(o + pad, p, dwd);
-	return Ткст(out);
+	return String(out);
 }
 
-Ткст фмтЦелДес(int i, int width, char lpad, bool always_sign)
+String FormatIntDec(int i, int width, char lpad, bool always_sign)
 {
-	return фмтЦелОснова(i, 10, width, lpad, always_sign ? 1 : 0);
+	return FormatIntBase(i, 10, width, lpad, always_sign ? 1 : 0);
 }
 
-Ткст фмтЦелГекс(int i, int width, char lpad)
+String FormatIntHex(int i, int width, char lpad)
 {
-	return фмтЦелОснова(i, 16, width, lpad, -1);
+	return FormatIntBase(i, 16, width, lpad, -1);
 }
 
-Ткст фмтЦелГексВерхРег(int i, int width, char lpad)
+String FormatIntHexUpper(int i, int width, char lpad)
 {
-	return фмтЦелОснова(i, 16, width, lpad, -1, true);
+	return FormatIntBase(i, 16, width, lpad, -1, true);
 }
 
-Ткст фмтЦелВосьм(int i, int width, char lpad)
+String FormatIntOct(int i, int width, char lpad)
 {
-	return фмтЦелОснова(i, 8, width, lpad, -1);
+	return FormatIntBase(i, 8, width, lpad, -1);
 }
 
-Ткст фмтЦелАльфа(int i, bool upper)
+String FormatIntAlpha(int i, bool upper)
 {
-	if(пусто_ли(i) || i == 0)
+	if(IsNull(i) || i == 0)
 		return Null;
-	Ткст out;
+	String out;
 	if(i < 0)
 	{
 		out << '-';
@@ -246,16 +246,16 @@ int utoa64(uint64 значение, char *буфер)
 	do
 		*--p = itoc[i-- % 26];
 	while(i /= 26);
-	out.конкат(p, temp + 10);
+	out.Cat(p, temp + 10);
 	return out;
 }
 
-Ткст фмтЦелРим(int i, bool upper)
+String FormatIntRoman(int i, bool upper)
 {
-	if(пусто_ли(i) || i == 0)
+	if(IsNull(i) || i == 0)
 		return Null;
 
-	Ткст out;
+	String out;
 	if(i < 0)
 	{
 		out << '-';
@@ -264,34 +264,34 @@ int utoa64(uint64 значение, char *буфер)
 	int m = i / 1000;
 	if(m)
 	{
-		out.конкат('M', m);
+		out.Cat('M', m);
 		i -= 1000 * m;
 	}
 
 	char shift = upper ? 0 : 'a' - 'A';
-	static const int  значение[] =  { 1000, 500, 100, 50,  10,  5,   1 };
+	static const int  value[] =  { 1000, 500, 100, 50,  10,  5,   1 };
 	static const char letter[] = { 'M',  'D', 'C', 'L', 'X', 'V', 'I' };
-	for(int n = 0; i && n < __countof(значение); n++)
+	for(int n = 0; i && n < __countof(value); n++)
 	{
-		int v = значение[n];
+		int v = value[n];
 		while(i >= v)
 		{
 			out << (char)(letter[n] + shift);
 			i -= v;
 		}
-		if(n < __countof(значение) - 1)
-			for(int j = n + (значение[n + 1] * 2 >= v ? 2 : 1); j < __countof(значение); j++)
-				if(i >= v - значение[j])
+		if(n < __countof(value) - 1)
+			for(int j = n + (value[n + 1] * 2 >= v ? 2 : 1); j < __countof(value); j++)
+				if(i >= v - value[j])
 				{ // subtraction scheme
 					out << (char)(letter[j] + shift) << (char)(letter[n] + shift);
-					i -= v - значение[j];
+					i -= v - value[j];
 					break;
 				}
 	}
 	return out;
 }
 
-Ткст фмт64Гекс(uint64 a)
+String Format64Hex(uint64 a)
 {
 	char b[50];
 	char *p = b + 50;
@@ -300,86 +300,86 @@ int utoa64(uint64 значение, char *буфер)
 		a >>= 4;
 	}
 	while(a);
-	return Ткст(p, b + 50);
+	return String(p, b + 50);
 }
 
-Ткст FormatBool(bool a)              { return a ? "true" : "false"; }
-Ткст фмтУк(const void *p)        { return "0x" + фмтГекс(p); }
+String FormatBool(bool a)              { return a ? "true" : "false"; }
+String FormatPtr(const void *p)        { return "0x" + FormatHex(p); }
 
-Ткст фмтДата(Дата date, const char *формат, int язык)
+String FormatDate(Date date, const char *format, int language)
 {
-	if(пусто_ли(date))
+	if(IsNull(date))
 		return Null;
-	if(!формат || !*формат)
-		return фмт(date);
-	return фмтВремя(воВремя(date), формат, язык);
+	if(!format || !*format)
+		return Format(date);
+	return FormatTime(ToTime(date), format, language);
 }
 
-Ткст фмтВремя(Время t, const char *s, int язык)
+String FormatTime(Time t, const char *s, int language)
 {
-	if(пусто_ли(t))
+	if(IsNull(t))
 		return Null;
-	Ткст result;
+	String result;
 	if(!s || !*s)
-		return фмт(t);
+		return Format(t);
 	while(*s) {
 		int q = 0;
 		if(*s == 'M') {
 			while(*s == 'M') { s++; q++; }
 			if(q == 1)
-				result.конкат(фмт("%d", t.month));
+				result.Cat(Format("%d", t.month));
 			else
-				result.конкат(фмт("%02d", t.month));
+				result.Cat(Format("%02d", t.month));
 		}
 		else
 		if(*s == 'D') {
 			while(*s == 'D') { s++; q++; }
 			if(q == 1)
-				result.конкат(фмт("%d", t.day));
+				result.Cat(Format("%d", t.day));
 			else
-				result.конкат(фмт("%02d", t.day));
+				result.Cat(Format("%02d", t.day));
 		}
 		else
 		if(*s == 'Y') {
 			while(*s == 'Y') { s++; q++; }
 			if(q == 1)
-				result.конкат(фмт("%d", t.year % 100));
+				result.Cat(Format("%d", t.year % 100));
 			else
 			if(q == 2)
-				result.конкат(фмт("%02d", t.year % 100));
+				result.Cat(Format("%02d", t.year % 100));
 			else
-				result.конкат(фмт("%d", t.year));
+				result.Cat(Format("%d", t.year));
 		}
 		else
 		if(*s == 'h') {
 			while(*s == 'h') { s++; q++; }
 			if(q == 1)
-				result.конкат(фмт("%d", t.hour));
+				result.Cat(Format("%d", t.hour));
 			else
-				result.конкат(фмт("%02d", t.hour));
+				result.Cat(Format("%02d", t.hour));
 		}
 		else
 		if(*s == 'H') {
 			while(*s == 'H') { s++; q++; }
 			int h = ((t.hour + 11) % 12 + 1);
 			if(q == 1)
-				result.конкат(фмт("%d", h));
+				result.Cat(Format("%d", h));
 			else
-				result.конкат(фмт("%02d", h));
+				result.Cat(Format("%02d", h));
 		}
 		else
 		if(*s == '<') {
 			s++;
 			while(*s && *s != '/') {
 				if(t.hour <= 12)
-					result.конкат(*s);
+					result.Cat(*s);
 				s++;
 			}
 			if(!*s) break;
 			s++;
 			while(*s && *s != '>') {
 				if(t.hour > 12)
-					result.конкат(*s);
+					result.Cat(*s);
 				s++;
 			}
 			if(!*s) break;
@@ -389,149 +389,149 @@ int utoa64(uint64 значение, char *буфер)
 		if(*s == 'm') {
 			while(*s == 'm') { s++; q++; }
 			if(q == 1)
-				result.конкат(фмт("%d", t.minute));
+				result.Cat(Format("%d", t.minute));
 			else
-				result.конкат(фмт("%02d", t.minute));
+				result.Cat(Format("%02d", t.minute));
 		}
 		else
 		if(*s == 's') {
 			while(*s == 's') { s++; q++; }
 			if(q == 1)
-				result.конкат(фмт("%d", t.second));
+				result.Cat(Format("%d", t.second));
 			else
-				result.конкат(фмт("%02d", t.second));
+				result.Cat(Format("%02d", t.second));
 		}
 		else
 		if(*s == '`' && s[1]) {
 			s++;
-			result.конкат(*s++);
+			result.Cat(*s++);
 		}
 		else
-			result.конкат(*s++);
+			result.Cat(*s++);
 	}
 	return result;
 }
 
-// нов формат ----------------------------
+// New format ----------------------------
 
 
-void TrimChar(Ткст& s, int n)
+void TrimChar(String& s, int n)
 {
-	if(дайДефНабСим() == CHARSET_UTF8) {
-		ШТкст h(s);
-		h.обрежь(n);
-		s = h.вТкст();
+	if(GetDefaultCharset() == CHARSET_UTF8) {
+		WString h(s);
+		h.Trim(n);
+		s = h.ToString();
 	}
 	else
-		s.обрежь(n);
+		s.Trim(n);
 }
 
-struct FormId : Движимое<FormId> {
-	FormId(Ткст ид, int тип) : ид(ид), тип(тип) {}
-	Ткст ид;
-	int    тип;
+struct FormId : Moveable<FormId> {
+	FormId(String id, int type) : id(id), type(type) {}
+	String id;
+	int    type;
 };
 
-hash_t дайХэшЗнач(const FormId& fid)
+hash_t GetHashValue(const FormId& fid)
 {
-	return комбинируйХэш(fid.тип, дайХэшЗнач(fid.ид));
+	return CombineHash(fid.type, GetHashValue(fid.id));
 }
 
 bool operator==(const FormId& a, const FormId& b)
 {
-	return a.тип == b.тип && a.ид == b.ид;
+	return a.type == b.type && a.id == b.id;
 }
 
-ВекторМап<FormId, Форматировщик>& formatmap()
+VectorMap<FormId, Formatter>& formatmap()
 {
-	return Single< ВекторМап<FormId, Форматировщик> > ();
+	return Single< VectorMap<FormId, Formatter> > ();
 }
 
-void регФорматировщик(int тип, const char *ид, Форматировщик f)
+void RegisterFormatter(int type, const char *id, Formatter f)
 {
-	проверьНаОН();
+	AssertST();
 	INTERLOCKED {
-		FormId fid(ид, тип);
-		formatmap().найдиДобавь(fid, f);
-		formatmap().найди(fid);
+		FormId fid(id, type);
+		formatmap().FindAdd(fid, f);
+		formatmap().Find(fid);
 	}
 }
 
-void регФорматировщикЗначений(const char *ид, Форматировщик f)
+void RegisterValueFormatter(const char *id, Formatter f)
 {
-	регФорматировщик(VALUE_V, ид, f);
+	RegisterFormatter(VALUE_V, id, f);
 }
 
-void регФорматировщикПусто(const char *ид, Форматировщик f)
+void RegisterNullFormatter(const char *id, Formatter f)
 {
-	регФорматировщик(VOID_V, ид, f);
-	регФорматировщик(ERROR_V, ид, f);
+	RegisterFormatter(VOID_V, id, f);
+	RegisterFormatter(ERROR_V, id, f);
 }
 
-void регФорматировщикЧисел(const char *ид, Форматировщик f)
+void RegisterNumberFormatter(const char *id, Formatter f)
 {
-	регФорматировщик(DOUBLE_V, ид, f);
-	регФорматировщик(INT64_V, ид, f);
-	регФорматировщик(INT_V, ид, f);
-	регФорматировщик(BOOL_V, ид, f);
-	регФорматировщикПусто(ид, f);
+	RegisterFormatter(DOUBLE_V, id, f);
+	RegisterFormatter(INT64_V, id, f);
+	RegisterFormatter(INT_V, id, f);
+	RegisterFormatter(BOOL_V, id, f);
+	RegisterNullFormatter(id, f);
 }
 
-void регФорматировщикТекста(const char *ид, Форматировщик f)
+void RegisterStringFormatter(const char *id, Formatter f)
 {
-	регФорматировщик(WSTRING_V, ид, f);
-	регФорматировщик(STRING_V, ид, f);
-	регФорматировщикПусто(ид, f);
+	RegisterFormatter(WSTRING_V, id, f);
+	RegisterFormatter(STRING_V, id, f);
+	RegisterNullFormatter(id, f);
 }
 
-void регФорматировщикДатВремени(const char *ид, Форматировщик f)
+void RegisterDateTimeFormatter(const char *id, Formatter f)
 {
-	регФорматировщик(TIME_V, ид, f);
-	регФорматировщик(DATE_V, ид, f);
-	регФорматировщикПусто(ид, f);
+	RegisterFormatter(TIME_V, id, f);
+	RegisterFormatter(DATE_V, id, f);
+	RegisterNullFormatter(id, f);
 }
 
-Ткст IntFormatter(const Форматирование& f)
+String IntFormatter(const Formatting& f)
 {
-	if(f.формат.дайСчёт() == 0 && f.ид[0] == 'd' && f.ид[1] == 0)
-		return какТкст((int)f.арг);
-	ТкстБуф q;
-	q.устДлину(1000);
-	q.устДлину(sprintf(q, '%' + f.формат + f.ид, (int)f.арг));
-	return Ткст(q);
+	if(f.format.GetCount() == 0 && f.id[0] == 'd' && f.id[1] == 0)
+		return AsString((int)f.arg);
+	StringBuffer q;
+	q.SetLength(1000);
+	q.SetLength(sprintf(q, '%' + f.format + f.id, (int)f.arg));
+	return String(q);
 }
 
-Ткст Int64Formatter(const Форматирование& f)
+String Int64Formatter(const Formatting& f)
 {
-	ТкстБуф q;
-	q.устДлину(1000);
-	q.устДлину(sprintf(q, '%' + f.формат + f.ид, (int64)f.арг));
-	return Ткст(q);
+	StringBuffer q;
+	q.SetLength(1000);
+	q.SetLength(sprintf(q, '%' + f.format + f.id, (int64)f.arg));
+	return String(q);
 }
 
-Ткст IntLowerAlphaFormatter(const Форматирование& f)
+String IntLowerAlphaFormatter(const Formatting& f)
 {
-	return фмтЦелАльфа(f.арг, false);
+	return FormatIntAlpha(f.arg, false);
 }
 
-Ткст IntUpperAlphaFormatter(const Форматирование& f)
+String IntUpperAlphaFormatter(const Formatting& f)
 {
-	return фмтЦелАльфа(f.арг, true);
+	return FormatIntAlpha(f.arg, true);
 }
 
-Ткст IntLowerRomanFormatter(const Форматирование& f)
+String IntLowerRomanFormatter(const Formatting& f)
 {
-	return фмтЦелРим(f.арг, false);
+	return FormatIntRoman(f.arg, false);
 }
 
-Ткст IntUpperRomanFormatter(const Форматирование& f)
+String IntUpperRomanFormatter(const Formatting& f)
 {
-	return фмтЦелРим(f.арг, true);
+	return FormatIntRoman(f.arg, true);
 }
 
-Ткст DoubleFormatter(const Форматирование& f)
+String DoubleFormatter(const Formatting& f)
 {
-	const char *s = f.формат;
+	const char *s = f.format;
 	
 	bool fillz = false;
 	bool wd = true;
@@ -540,25 +540,25 @@ void регФорматировщикДатВремени(const char *ид, Фо
 	int precision = 6;
 
 	int flags = FD_SIGN_EXP|FD_SPECIAL|FD_MINUS0;
-	const char *ид = f.ид;
-	if(*ид++ == 'M')
+	const char *id = f.id;
+	if(*id++ == 'M')
 		flags |= FD_CAP_E;
 	bool lng = false;
-	if(*ид == 'l') {
+	if(*id == 'l') {
 		lng = true;
-		ид++;
+		id++;
 	}
-	if(*ид == 'E') flags |= FD_EXP|FD_CAP_E;
-	if(*ид == 'e') flags |= FD_EXP;
-	if(*ид == 'f') flags |= FD_FIX|FD_ZEROS;
+	if(*id == 'E') flags |= FD_EXP|FD_CAP_E;
+	if(*id == 'e') flags |= FD_EXP;
+	if(*id == 'f') flags |= FD_FIX|FD_ZEROS;
 
 	while(*s) {
-		if(цифра_ли(*s)) {
+		if(IsDigit(*s)) {
 			if(wd && *s == '0')
 				fillz = true;
 			dword n;
 			bool overflow = false;
-			s = сканБцел<char, byte, dword, 10>(n, s, overflow);
+			s = ScanUint<char, byte, dword, 10>(n, s, overflow);
 			if(overflow || !s || n > (wd ? 1000u : 100u))
 				return Null;
 			(wd ? width : precision) = n;
@@ -578,38 +578,38 @@ void регФорматировщикДатВремени(const char *ид, Фо
 		case '#': flags |= FD_ZEROS|FD_POINT; break;
 		}
 	}
-	Ткст r = фмтДво(f.арг, precision, flags);
+	String r = FormatDouble(f.arg, precision, flags);
 	if(lng) {
-		int q = r.найди('.');
+		int q = r.Find('.');
 		if(q >= 0)
-			r = r.середина(0, q) + GetLanguageInfo(f.язык).decimal_point + r.середина(q + 1);
+			r = r.Mid(0, q) + GetLanguageInfo(f.language).decimal_point + r.Mid(q + 1);
 	}
-	if(width > r.дайСчёт()) {
-		if(fillz && !left && !пусто_ли(f.арг))
-			return цифра_ли(*r) ? Ткст('0', width - r.дайСчёт()) + r
-			                   : r.середина(0, 1) + Ткст('0', width - r.дайСчёт()) + r.середина(1);
-		return left ? r + Ткст(' ', width - r.дайСчёт()) : Ткст(' ', width - r.дайСчёт()) + r;
+	if(width > r.GetCount()) {
+		if(fillz && !left && !IsNull(f.arg))
+			return IsDigit(*r) ? String('0', width - r.GetCount()) + r
+			                   : r.Mid(0, 1) + String('0', width - r.GetCount()) + r.Mid(1);
+		return left ? r + String(' ', width - r.GetCount()) : String(' ', width - r.GetCount()) + r;
 	}
 	return r;
 }
 
-Ткст RealFormatter(const Форматирование& f)
+String RealFormatter(const Formatting& f)
 {
-	if(пусто_ли(f.арг))
+	if(IsNull(f.arg))
 		return Null;
-	double значение = f.арг;
-	const char *s = f.формат;
+	double value = f.arg;
+	const char *s = f.format;
 	int digits = 6;
-	const char *ид = f.ид;
-	bool фн = *ид++ != 'v';
+	const char *id = f.id;
+	bool fn = *id++ != 'v';
 	int flags = 0;
 	if(*s == '+') {
 		flags |= FD_SIGN;
 		s++;
 	}
-	if(цифра_ли(*s) || *s == '-' && цифра_ли(s[1])) {
+	if(IsDigit(*s) || *s == '-' && IsDigit(s[1])) {
 		digits = (int)strtol(s, NULL, 10);
-		while(цифра_ли(*++s))
+		while(IsDigit(*++s))
 			;
 	}
 	if(*s == '@') { s++; flags |= FD_NOTHSEPS; }
@@ -620,54 +620,54 @@ void регФорматировщикДатВремени(const char *ид, Фо
 			flags |= FD_SIGN_EXP;
 			s++;
 		}
-		while(цифра_ли(*++s))
+		while(IsDigit(*++s))
 			;
 	}
 	bool lng = false;
-	if(*ид == 'l') {
+	if(*id == 'l') {
 		lng = true;
-		ид++;
+		id++;
 	}
-	if(*ид == 'e') flags |= FD_EXP;
-	else if(*ид == 'f') flags |= FD_FIX;
-	if(фн && значение >= 1e-15 && значение <= 1e15)
+	if(*id == 'e') flags |= FD_EXP;
+	else if(*id == 'f') flags |= FD_FIX;
+	if(fn && value >= 1e-15 && value <= 1e15)
 		flags |= FD_FIX;
 	if(lng)
-		return GetLanguageInfo(f.язык).фмтДво(значение, digits, flags, 0);
+		return GetLanguageInfo(f.language).FormatDouble(value, digits, flags, 0);
 	else
-		return фмтДво(значение, digits, flags);
+		return FormatDouble(value, digits, flags);
 }
 
-Ткст StringFormatter(const Форматирование& f)
+String StringFormatter(const Formatting& f)
 {
-	const Ткст& s = f.арг;
-	if(f.формат.дайСчёт() == 0 && f.ид[0] == 's' && f.ид[1] == 0)
+	const String& s = f.arg;
+	if(f.format.GetCount() == 0 && f.id[0] == 's' && f.id[1] == 0)
 		return s;
-	int len = s.дайСчётСим();
+	int len = s.GetCharCount();
 	int width = len;
 	int precision = len;
 	bool lpad = false;
-	СиПарсер p(f.формат);
-	if(p.сим('-'))
+	CParser p(f.format);
+	if(p.Char('-'))
 		lpad = true;
-	if(p.число_ли())
-		width = p.читайЦел();
-	if(p.сим('.') && p.число_ли())
-		precision = p.читайЦел();
+	if(p.IsNumber())
+		width = p.ReadInt();
+	if(p.Char('.') && p.IsNumber())
+		precision = p.ReadInt();
 //	if(precision > len)
-//		return ШТкст(~s, precision).вТкст();
-	Ткст q = s;
+//		return WString(~s, precision).ToString();
+	String q = s;
 	if(precision < len) {
 		TrimChar(q, precision);
 		len = precision;
 	}
-	Ткст r;
+	String r;
 	if(lpad)
-		r.конкат(q);
+		r.Cat(q);
 	if(width > len)
-		r.конкат(' ', width - len);
+		r.Cat(' ', width - len);
 	if(!lpad)
-		r.конкат(q);
+		r.Cat(q);
 	return r;
 }
 
@@ -681,10 +681,10 @@ void sFixPoint(char *s) // We do not want locale to affect decimal point, conver
 	}
 }
 
-Ткст FloatFormatter(const Форматирование& f)
+String FloatFormatter(const Formatting& f)
 {
-	double d = f.арг;
-	Ткст fmt = '%' + f.формат + f.ид;
+	double d = f.arg;
+	String fmt = '%' + f.format + f.id;
 	char h[256];
 #ifdef COMPILER_MSC
 	int n = _snprintf(h, 256, fmt, d);
@@ -697,35 +697,35 @@ void sFixPoint(char *s) // We do not want locale to affect decimal point, conver
 #ifdef COMPILER_MSC
 		n = _scprintf(fmt, d);
 #endif
-		Буфер<char> ah(n + 1);
+		Buffer<char> ah(n + 1);
 		sprintf(ah, fmt, d);
 		sFixPoint(ah);
-		return Ткст(ah, n);
+		return String(ah, n);
 	}
 	if(n < 0)
-		return Ткст();
+		return String();
 	sFixPoint(h);
-	return Ткст(h, n);
+	return String(h, n);
 }
 
-Ткст DateFormatter(const Форматирование& f)
+String DateFormatter(const Formatting& f)
 {
-	return GetLanguageInfo(f.язык).фмтДата(f.арг);
+	return GetLanguageInfo(f.language).FormatDate(f.arg);
 }
 
-Ткст TimeFormatter(const Форматирование& f)
+String TimeFormatter(const Formatting& f)
 {
-	return GetLanguageInfo(f.язык).фмтВремя(f.арг);
+	return GetLanguageInfo(f.language).FormatTime(f.arg);
 }
 
-Ткст SwitchFormatter(const Форматирование& f)
+String SwitchFormatter(const Formatting& f)
 {
-	const char *s = f.формат;
-	int i = f.арг;
+	const char *s = f.format;
+	int i = f.arg;
 	int o = i;
 	for(;;) {
 		int n = 0;
-		while(цифра_ли(*s))
+		while(IsDigit(*s))
 			n = 10 * n + *s++ - '0';
 		if(!*s) return Null;
 		if(*s == '%') {
@@ -742,7 +742,7 @@ void sFixPoint(char *s) // We do not want locale to affect decimal point, conver
 				const char *b = s;
 				while(*s && *s != ';')
 					s++;
-				return Ткст(b, s);
+				return String(b, s);
 			}
 			if(*s == ':')
 				while(*s && *s != ';')
@@ -753,132 +753,132 @@ void sFixPoint(char *s) // We do not want locale to affect decimal point, conver
 		else
 			return s;
 	}
-	return Ткст();
+	return String();
 }
 
-Ткст StdFormatFormatter(const Форматирование& f)
+String StdFormatFormatter(const Formatting& f)
 {
-	Ткст out = стдФормат(f.арг);
-	if(!пусто_ли(out))
+	String out = StdFormat(f.arg);
+	if(!IsNull(out))
 		return out;
-	return f.формат;
+	return f.format;
 }
 
-Ткст MonthFormatter(const Форматирование& f)
+String MonthFormatter(const Formatting& f)
 {
-	return имяМесяца((int)f.арг - 1, f.язык);
+	return MonthName((int)f.arg - 1, f.language);
 }
 
-Ткст MONTHFormatter(const Форматирование& f)
+String MONTHFormatter(const Formatting& f)
 {
-	return взаг(MonthFormatter(f), GetLNGCharset(f.язык));
+	return ToUpper(MonthFormatter(f), GetLNGCharset(f.language));
 }
 
-Ткст monthFormatter(const Форматирование& f)
+String monthFormatter(const Formatting& f)
 {
-	return впроп(MonthFormatter(f), GetLNGCharset(f.язык));
+	return ToLower(MonthFormatter(f), GetLNGCharset(f.language));
 }
 
-Ткст MonFormatter(const Форматирование& f)
+String MonFormatter(const Formatting& f)
 {
-	return MonName((int)f.арг - 1, f.язык);
+	return MonName((int)f.arg - 1, f.language);
 }
 
-Ткст MONFormatter(const Форматирование& f)
+String MONFormatter(const Formatting& f)
 {
-	return взаг(MonFormatter(f), GetLNGCharset(f.язык));
+	return ToUpper(MonFormatter(f), GetLNGCharset(f.language));
 }
 
-Ткст monFormatter(const Форматирование& f)
+String monFormatter(const Formatting& f)
 {
-	return впроп(MonFormatter(f), GetLNGCharset(f.язык));
+	return ToLower(MonFormatter(f), GetLNGCharset(f.language));
 }
 
-Ткст DayFormatter(const Форматирование& f)
+String DayFormatter(const Formatting& f)
 {
-	return имяДня((int)f.арг, f.язык);
+	return DayName((int)f.arg, f.language);
 }
 
-Ткст DAYFormatter(const Форматирование& f)
+String DAYFormatter(const Formatting& f)
 {
-	return взаг(DayFormatter(f), GetLNGCharset(f.язык));
+	return ToUpper(DayFormatter(f), GetLNGCharset(f.language));
 }
 
-Ткст dayFormatter(const Форматирование& f)
+String dayFormatter(const Formatting& f)
 {
-	return впроп(DayFormatter(f), GetLNGCharset(f.язык));
+	return ToLower(DayFormatter(f), GetLNGCharset(f.language));
 }
 
-Ткст DyFormatter(const Форматирование& f)
+String DyFormatter(const Formatting& f)
 {
-	return DyName((int)f.арг, f.язык);
+	return DyName((int)f.arg, f.language);
 }
 
-Ткст DYFormatter(const Форматирование& f)
+String DYFormatter(const Formatting& f)
 {
-	return взаг(DyFormatter(f), GetLNGCharset(f.язык));
+	return ToUpper(DyFormatter(f), GetLNGCharset(f.language));
 }
 
-Ткст dyFormatter(const Форматирование& f)
+String dyFormatter(const Formatting& f)
 {
-	return впроп(DyFormatter(f), GetLNGCharset(f.язык));
+	return ToLower(DyFormatter(f), GetLNGCharset(f.language));
 }
 
-Ткст twFormatter(const Форматирование& f)
+String twFormatter(const Formatting& f)
 {
-	int q = f.арг;
-	return спринтф(*f.формат == '0' ? "%02d" : "%d", q ? q % 12 : 12);
+	int q = f.arg;
+	return Sprintf(*f.format == '0' ? "%02d" : "%d", q ? q % 12 : 12);
 }
 
-Ткст NumberFormatter(const Форматирование& f)
+String NumberFormatter(const Formatting& f)
 {
-	int q = f.арг;
-	return какТкст(q);
+	int q = f.arg;
+	return AsString(q);
 }
 
-void IntDoubleRegister(int тип)
+void IntDoubleRegister(int type)
 {
-	регФорматировщик(тип, "", &NumberFormatter);
+	RegisterFormatter(type, "", &NumberFormatter);
 
-	регФорматировщик(тип, "c", &IntFormatter);
-	регФорматировщик(тип, "d", &IntFormatter);
-	регФорматировщик(тип, "i", &IntFormatter);
-	регФорматировщик(тип, "o", &IntFormatter);
-	регФорматировщик(тип, "x", &IntFormatter);
-	регФорматировщик(тип, "X", &IntFormatter);
-	регФорматировщик(тип, "ld", &IntFormatter);
-	регФорматировщик(тип, "li", &IntFormatter);
-	регФорматировщик(тип, "lo", &IntFormatter);
-	регФорматировщик(тип, "lx", &IntFormatter);
-	регФорматировщик(тип, "lX", &IntFormatter);
+	RegisterFormatter(type, "c", &IntFormatter);
+	RegisterFormatter(type, "d", &IntFormatter);
+	RegisterFormatter(type, "i", &IntFormatter);
+	RegisterFormatter(type, "o", &IntFormatter);
+	RegisterFormatter(type, "x", &IntFormatter);
+	RegisterFormatter(type, "X", &IntFormatter);
+	RegisterFormatter(type, "ld", &IntFormatter);
+	RegisterFormatter(type, "li", &IntFormatter);
+	RegisterFormatter(type, "lo", &IntFormatter);
+	RegisterFormatter(type, "lx", &IntFormatter);
+	RegisterFormatter(type, "lX", &IntFormatter);
 
-	регФорматировщик(тип, "lld", &Int64Formatter);
-	регФорматировщик(тип, "lli", &Int64Formatter);
-	регФорматировщик(тип, "llo", &Int64Formatter);
-	регФорматировщик(тип, "llx", &Int64Formatter);
-	регФорматировщик(тип, "llX", &Int64Formatter);
+	RegisterFormatter(type, "lld", &Int64Formatter);
+	RegisterFormatter(type, "lli", &Int64Formatter);
+	RegisterFormatter(type, "llo", &Int64Formatter);
+	RegisterFormatter(type, "llx", &Int64Formatter);
+	RegisterFormatter(type, "llX", &Int64Formatter);
 
-	регФорматировщик(тип, "e", &FloatFormatter);
-	регФорматировщик(тип, "E", &FloatFormatter);
-	регФорматировщик(тип, "f", &FloatFormatter);
-	регФорматировщик(тип, "g", &FloatFormatter);
-	регФорматировщик(тип, "G", &FloatFormatter);
+	RegisterFormatter(type, "e", &FloatFormatter);
+	RegisterFormatter(type, "E", &FloatFormatter);
+	RegisterFormatter(type, "f", &FloatFormatter);
+	RegisterFormatter(type, "g", &FloatFormatter);
+	RegisterFormatter(type, "G", &FloatFormatter);
 
-	регФорматировщик(тип, "s", &SwitchFormatter);
+	RegisterFormatter(type, "s", &SwitchFormatter);
 
-	регФорматировщик(тип, "month", &monthFormatter);
-	регФорматировщик(тип, "Month", &MonthFormatter);
-	регФорматировщик(тип, "MONTH", &MONTHFormatter);
-	регФорматировщик(тип, "mon", &monFormatter);
-	регФорматировщик(тип, "Mon", &MonFormatter);
-	регФорматировщик(тип, "MON", &MONFormatter);
-	регФорматировщик(тип, "Day", &DayFormatter);
-	регФорматировщик(тип, "DAY", &DAYFormatter);
-	регФорматировщик(тип, "day", &dayFormatter);
-	регФорматировщик(тип, "Dy", &DyFormatter);
-	регФорматировщик(тип, "DY", &DYFormatter);
-	регФорматировщик(тип, "dy", &dyFormatter);
-	регФорматировщик(тип, "tw", &twFormatter);
+	RegisterFormatter(type, "month", &monthFormatter);
+	RegisterFormatter(type, "Month", &MonthFormatter);
+	RegisterFormatter(type, "MONTH", &MONTHFormatter);
+	RegisterFormatter(type, "mon", &monFormatter);
+	RegisterFormatter(type, "Mon", &MonFormatter);
+	RegisterFormatter(type, "MON", &MONFormatter);
+	RegisterFormatter(type, "Day", &DayFormatter);
+	RegisterFormatter(type, "DAY", &DAYFormatter);
+	RegisterFormatter(type, "day", &dayFormatter);
+	RegisterFormatter(type, "Dy", &DyFormatter);
+	RegisterFormatter(type, "DY", &DYFormatter);
+	RegisterFormatter(type, "dy", &dyFormatter);
+	RegisterFormatter(type, "tw", &twFormatter);
 }
 
 static void sRegisterFormatters()
@@ -889,26 +889,26 @@ static void sRegisterFormatters()
 		IntDoubleRegister(INT64_V);
 		IntDoubleRegister(DOUBLE_V);
 
-		регФорматировщикТекста("s", &StringFormatter);
-		регФорматировщикПусто("", &DateFormatter);
-		регФорматировщик(DATE_V, "", &DateFormatter);
-		регФорматировщик(TIME_V, "", &TimeFormatter);
+		RegisterStringFormatter("s", &StringFormatter);
+		RegisterNullFormatter("", &DateFormatter);
+		RegisterFormatter(DATE_V, "", &DateFormatter);
+		RegisterFormatter(TIME_V, "", &TimeFormatter);
 
-		регФорматировщикЧисел("n",  &RealFormatter);
-		регФорматировщикЧисел("ne", &RealFormatter);
-		регФорматировщикЧисел("nf", &RealFormatter);
-		регФорматировщикЧисел("nl", &RealFormatter);
-		регФорматировщикЧисел("nle", &RealFormatter);
-		регФорматировщикЧисел("nlf", &RealFormatter);
-		регФорматировщикЧисел("v",  &RealFormatter);
-		регФорматировщикЧисел("ve", &RealFormatter);
-		регФорматировщикЧисел("vf", &RealFormatter);
-		регФорматировщикЧисел("vl", &RealFormatter);
-		регФорматировщикЧисел("vle", &RealFormatter);
-		регФорматировщикЧисел("vlf", &RealFormatter);
+		RegisterNumberFormatter("n",  &RealFormatter);
+		RegisterNumberFormatter("ne", &RealFormatter);
+		RegisterNumberFormatter("nf", &RealFormatter);
+		RegisterNumberFormatter("nl", &RealFormatter);
+		RegisterNumberFormatter("nle", &RealFormatter);
+		RegisterNumberFormatter("nlf", &RealFormatter);
+		RegisterNumberFormatter("v",  &RealFormatter);
+		RegisterNumberFormatter("ve", &RealFormatter);
+		RegisterNumberFormatter("vf", &RealFormatter);
+		RegisterNumberFormatter("vl", &RealFormatter);
+		RegisterNumberFormatter("vle", &RealFormatter);
+		RegisterNumberFormatter("vlf", &RealFormatter);
 
 		// real number formats (n = fixed decimals, v = valid decimals)
-		// ne, ve - force exponential notation; nf, vf - force fixed notation; nl, vl - язык-based formatting
+		// ne, ve - force exponential notation; nf, vf - force fixed notation; nl, vl - language-based formatting
 		// Options: [+][[-]<digits>][!][^[+]<expdig>]
 		// + .. always prepend sign
 		// [-]<digits> .. number of decimals to print (negative = left of decimal point, default = 6)
@@ -917,37 +917,37 @@ static void sRegisterFormatters()
 		// + .. always prepend sign to exponent
 		// <expdig> exponent padding width
 
-		регФорматировщикЧисел("m",  &DoubleFormatter);
-		регФорматировщикЧисел("me", &DoubleFormatter);
-		регФорматировщикЧисел("mf", &DoubleFormatter);
-		регФорматировщикЧисел("ml", &DoubleFormatter);
-		регФорматировщикЧисел("mle", &DoubleFormatter);
-		регФорматировщикЧисел("mlf", &DoubleFormatter);
-		регФорматировщикЧисел("M",  &DoubleFormatter);
-		регФорматировщикЧисел("mE", &DoubleFormatter);
-		регФорматировщикЧисел("Ml", &DoubleFormatter);
-		регФорматировщикЧисел("mlE", &DoubleFormatter);
+		RegisterNumberFormatter("m",  &DoubleFormatter);
+		RegisterNumberFormatter("me", &DoubleFormatter);
+		RegisterNumberFormatter("mf", &DoubleFormatter);
+		RegisterNumberFormatter("ml", &DoubleFormatter);
+		RegisterNumberFormatter("mle", &DoubleFormatter);
+		RegisterNumberFormatter("mlf", &DoubleFormatter);
+		RegisterNumberFormatter("M",  &DoubleFormatter);
+		RegisterNumberFormatter("mE", &DoubleFormatter);
+		RegisterNumberFormatter("Ml", &DoubleFormatter);
+		RegisterNumberFormatter("mlE", &DoubleFormatter);
 
-		регФорматировщикЧисел("a", &IntLowerAlphaFormatter);
-		регФорматировщикЧисел("A", &IntUpperAlphaFormatter);
-		регФорматировщикЧисел("r", &IntLowerRomanFormatter);
-		регФорматировщикЧисел("R", &IntUpperRomanFormatter);
+		RegisterNumberFormatter("a", &IntLowerAlphaFormatter);
+		RegisterNumberFormatter("A", &IntUpperAlphaFormatter);
+		RegisterNumberFormatter("r", &IntLowerRomanFormatter);
+		RegisterNumberFormatter("R", &IntUpperRomanFormatter);
 
-		регФорматировщикЗначений("vt", &StdFormatFormatter);
-		регФорматировщикЗначений("", &StdFormatFormatter);
+		RegisterValueFormatter("vt", &StdFormatFormatter);
+		RegisterValueFormatter("", &StdFormatFormatter);
 	}
 }
 
-ИНИЦБЛОК {
+INITBLOCK {
 	sRegisterFormatters();
 }
 
-Ткст фмт(int язык, const char *s, const Вектор<Значение>& v)
+String Format(int language, const char *s, const Vector<Value>& v)
 {
 	sRegisterFormatters();
-	Форматирование f;
-	f.язык = язык;
-	Ткст result;
+	Formatting f;
+	f.language = language;
+	String result;
 	int pos = 0;
 	const char *b;
 	for(;;) {
@@ -956,24 +956,24 @@ static void sRegisterFormatters()
 		for(;;) {
 			while(*s && *s != '%')
 				++s;
-			result.конкат(b, (int)(s - b));
+			result.Cat(b, (int)(s - b));
 			if(*s == '\0')
 				return result;
 			++s;
 			if(*s == '%') {
-				result.конкат('%');
+				result.Cat('%');
 				++s;
 			}
 			else
 				break;
 			b = s;
 		}
-		f.формат.очисть();
-		f.ид.очисть();
+		f.format.Clear();
+		f.id.Clear();
 		b = s;
 		int pad = -1;
 		int padn = 0;
-		Ткст nvl_value = Ткст::дайПроц();
+		String nvl_value = String::GetVoid();
 		for(;;) {
 			if(*s == '$') {
 				pos = n - 1;
@@ -988,13 +988,13 @@ static void sRegisterFormatters()
 			}
 			else
 			if(*s == '*') {
-				f.формат.конкат(b, (int)(s - b));
+				f.format.Cat(b, (int)(s - b));
 				b = ++s;
 				int i = v[pos++];
 				if(*s == ':' || *s == '$' || *s == '<' || *s == '>' || *s == '=')
 					n = i;
 				else
-					f.формат.конкат(фмтЦел(i));
+					f.format.Cat(FormatInt(i));
 			}
 			else
 			if(*s == '<') {
@@ -1019,19 +1019,19 @@ static void sRegisterFormatters()
 			}
 			else
 			if(*s == '[') {
-				f.формат.конкат(b, (int)(s - b));
+				f.format.Cat(b, (int)(s - b));
 				s++;
 				b = s;
 				while(*s && *s != ']')
 					s++;
-				f.формат.конкат(b, (int)(s - b));
+				f.format.Cat(b, (int)(s - b));
 				if(*s) s++;
 				b = s;
 				if(!IsAlpha(*s) && *s != '~') break;
 			}
 			else if(*s == '~') {
-				nvl_value = f.формат;
-				f.формат = Null;
+				nvl_value = f.format;
+				f.format = Null;
 				b = ++s;
 			}
 			else
@@ -1040,55 +1040,55 @@ static void sRegisterFormatters()
 			else {
 				if(!*s)
 					return result + "<unexpected end>";
-				if(цифра_ли(*s))
+				if(IsDigit(*s))
 					n = 10 * n + *s - '0';
 				else
 					n = 0;
 				s++;
 			}
 		}
-		f.формат.конкат(b, (int)(s - b));
+		f.format.Cat(b, (int)(s - b));
 		b = s;
 		while(IsAlpha(*s))
 			s++;
-		f.ид = Ткст(b, s);
-		if(pos < 0 || pos >= v.дайСчёт())
+		f.id = String(b, s);
+		if(pos < 0 || pos >= v.GetCount())
 		{
 			result << "<invalid pos=" << pos << ">";
 			if(*s == '`')
 				s++;
 			continue;
 		}
-		f.арг = v[pos++];
-		Ткст r;
-		if(!nvl_value.проц_ли() && пусто_ли(f.арг))
+		f.arg = v[pos++];
+		String r;
+		if(!nvl_value.IsVoid() && IsNull(f.arg))
 			r = nvl_value;
 		else
 		{
-			Форматировщик ft = NULL;
-#ifdef _ОТЛАДКА
-			int fi = formatmap().найди(FormId(f.ид, f.арг.дайТип()));
-			if(fi < 0) fi = formatmap().найди(FormId(f.ид, VALUE_V));
+			Formatter ft = NULL;
+#ifdef _DEBUG
+			int fi = formatmap().Find(FormId(f.id, f.arg.GetType()));
+			if(fi < 0) fi = formatmap().Find(FormId(f.id, VALUE_V));
 			if(fi >= 0)
 				ft = formatmap()[fi];
 #else
 			for(;;) {
-				int fi = formatmap().найди(FormId(f.ид, f.арг.дайТип()));
-				if(fi < 0) fi = formatmap().найди(FormId(f.ид, VALUE_V));
+				int fi = formatmap().Find(FormId(f.id, f.arg.GetType()));
+				if(fi < 0) fi = formatmap().Find(FormId(f.id, VALUE_V));
 				if(fi >= 0)
 				{
 					ft = formatmap()[fi];
 					break;
 				}
-				if(f.ид.дайДлину() == 0) break;
-				f.ид.обрежь(f.ид.дайДлину() - 1);
+				if(f.id.GetLength() == 0) break;
+				f.id.Trim(f.id.GetLength() - 1);
 				s--;
 			}
 #endif
 			if(ft)
 				r = (*ft)(f);
 			else
-				r << "<N/A '" << f.ид << "' for тип " << (int)f.арг.дайТип() << ">";
+				r << "<N/A '" << f.id << "' for type " << (int)f.arg.GetType() << ">";
 		}
 		int len;
 		if(padn < 0 || padn > 1000)
@@ -1096,55 +1096,55 @@ static void sRegisterFormatters()
 		else
 		switch(pad) {
 		case ALIGN_LEFT:
-			len = r.дайСчётСим();
+			len = r.GetCharCount();
 			if(len < padn)
-				r.конкат(' ', padn - len);
+				r.Cat(' ', padn - len);
 			else
 				TrimChar(r, padn);
 			break;
 		case ALIGN_RIGHT:
-			len = r.дайСчётСим();
+			len = r.GetCharCount();
 			if(len < padn) {
-				Ткст fill(' ', padn - len);
+				String fill(' ', padn - len);
 				r = fill + r;
 			}
 			else
 				TrimChar(r, padn);
 			break;
 		case ALIGN_CENTER:
-			len = r.дайСчётСим();
+			len = r.GetCharCount();
 			if(len < padn) {
 				int ll = (padn - len) / 2;
-				r = Ткст(' ', ll) + r;
-				r.конкат(' ', padn - len - ll);
+				r = String(' ', ll) + r;
+				r.Cat(' ', padn - len - ll);
 			}
 			else
 				TrimChar(r, padn);
 			break;
 		}
-		result.конкат(r);
+		result.Cat(r);
 		if(*s == '`')
 			s++;
 	}
 }
 
-Ткст фмт(const char *s, const Вектор<Значение>& v) { return фмт(GetCurrentLanguage(), s, v); }
+String Format(const char *s, const Vector<Value>& v) { return Format(GetCurrentLanguage(), s, v); }
 
-Ткст спринтф(const char *fmt, ...) {
+String Sprintf(const char *fmt, ...) {
 	va_list argptr;
 	va_start(argptr, fmt);
-	return вфмт(fmt, argptr);
+	return VFormat(fmt, argptr);
 }
 
-Ткст деФормат(const char *text)
+String DeFormat(const char *text)
 {
-	ТкстБуф x;
+	StringBuffer x;
 	while(*text) {
 		if(*text == '%')
-			x.конкат('%');
-		x.конкат(*text++);
+			x.Cat('%');
+		x.Cat(*text++);
 	}
-	return Ткст(x);
+	return String(x);
 }
 
 }

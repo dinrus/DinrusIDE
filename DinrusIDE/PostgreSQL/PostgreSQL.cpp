@@ -12,7 +12,7 @@
 
 #ifndef flagNOPOSTGRESQL
 
-namespace РНЦП {
+namespace Upp {
 
 enum PGSQL_StandardOid {
 	PGSQL_BOOLOID = 16,
@@ -68,75 +68,75 @@ int OidToType(Oid oid)
 
 class PostgreSQLConnection : public SqlConnection {
 protected:
-	virtual void        SetParam(int i, const Значение& r);
-	virtual bool        выполни();
+	virtual void        SetParam(int i, const Value& r);
+	virtual bool        Execute();
 	virtual int         GetRowsProcessed() const;
-	virtual Значение       GetInsertedId() const;
+	virtual Value       GetInsertedId() const;
 	virtual bool        Fetch();
-	virtual void        дайКолонку(int i, Реф f) const;
+	virtual void        GetColumn(int i, Ref f) const;
 	virtual void        Cancel();
 	virtual SqlSession& GetSession() const;
-	virtual Ткст      GetUser() const;
-	virtual Ткст      вТкст() const;
+	virtual String      GetUser() const;
+	virtual String      ToString() const;
 
 private:
 	PostgreSQLSession& session;
 
 	PGconn         *conn;
-	Вектор<Ткст>  param;
+	Vector<String>  param;
 	PGresult       *result;
-	Вектор<Oid>     oid;
+	Vector<Oid>     oid;
 	int             rows;
 	int             fetched_row; //-1, if not fetched yet
-	Ткст          last_insert_table;
+	String          last_insert_table;
 
 	void            FreeResult();
-	Ткст          ErrorMessage();
-	Ткст          ErrorCode();
+	String          ErrorMessage();
+	String          ErrorCode();
 
-	Ткст          FromCharset(const Ткст& s) const { return session.FromCharset(s); }
-	Ткст          вНабсим(const Ткст& s) const   { return session.вНабсим(s); }
+	String          FromCharset(const String& s) const { return session.FromCharset(s); }
+	String          ToCharset(const String& s) const   { return session.ToCharset(s); }
 
 public:
 	PostgreSQLConnection(PostgreSQLSession& a_session, PGconn *a_conn);
 	virtual ~PostgreSQLConnection() { Cancel(); }
 };
 
-const char *PostgreSQLReadString(const char *s, Ткст& stmt)
+const char *PostgreSQLReadString(const char *s, String& stmt)
 {
-	//TODO: to clear this, currently this is based on sqlite
-	stmt.конкат(*s);
+	//СДЕЛАТЬ: to clear this, currently this is based on sqlite
+	stmt.Cat(*s);
 	int c = *s++;
 	for(;;) {
 		if(*s == '\0') break;
 		else
 		if(*s == '\'' && s[1] == '\'') {
-			stmt.конкат("\'\'");
+			stmt.Cat("\'\'");
 			s += 2;
 		}
 		else
 		if(*s == c) {
-			stmt.конкат(c);
+			stmt.Cat(c);
 			s++;
 			break;
 		}
 		else
 		if(*s == '\\') {
-			stmt.конкат('\\');
+			stmt.Cat('\\');
 			if(*++s)
-				stmt.конкат(*s++);
+				stmt.Cat(*s++);
 		}
 		else
-			stmt.конкат(*s++);
+			stmt.Cat(*s++);
 	}
 	return s;
 }
 
-bool PostgreSQLPerformScript(const Ткст& txt, StatementExecutor& se, Врата<int, int> progress_canceled)
+bool PostgreSQLPerformScript(const String& txt, StatementExecutor& se, Gate<int, int> progress_canceled)
 {
 	const char *text = txt;
 	for(;;) {
-		Ткст stmt;
+		String stmt;
 		while(*text <= 32 && *text > 0) text++;
 		if(*text == '\0') break;
 		for(;;) {
@@ -151,96 +151,96 @@ bool PostgreSQLPerformScript(const Ткст& txt, StatementExecutor& se, Вра�
 			if(*text == '\"')
 				text = PostgreSQLReadString(text, stmt);
 			else
-				stmt.конкат(*text++);
+				stmt.Cat(*text++);
 		}
-		if(progress_canceled(int(text - txt.старт()), txt.дайДлину()))
+		if(progress_canceled(int(text - txt.Begin()), txt.GetLength()))
 			return false;
-		if(!se.выполни(stmt))
+		if(!se.Execute(stmt))
 			return false;
 		if(*text) text++;
 	}
 	return true;
 }
 
-Ткст PostgreSQLConnection::ErrorMessage()
+String PostgreSQLConnection::ErrorMessage()
 {
 	return FromCharset(PQerrorMessage(conn));
 }
 
-Ткст PostgreSQLConnection::ErrorCode()
+String PostgreSQLConnection::ErrorCode()
 {
 	return PQresultErrorField(result, PG_DIAG_SQLSTATE);
 }
 
-Ткст PostgreSQLSession::ErrorMessage()
+String PostgreSQLSession::ErrorMessage()
 {
 	return FromCharset(PQerrorMessage(conn));
 }
 
-Ткст PostgreSQLSession::ErrorCode()
+String PostgreSQLSession::ErrorCode()
 {
 	return PQresultErrorField(result, PG_DIAG_SQLSTATE);
 }
 
-Вектор<Ткст> PostgreSQLSession::EnumUsers()
+Vector<String> PostgreSQLSession::EnumUsers()
 {
-	Вектор<Ткст> vec;
+	Vector<String> vec;
 	Sql sql(*this);
-	sql.выполни("select rolname from pg_authid where rolcanlogin");
+	sql.Execute("select rolname from pg_authid where rolcanlogin");
 	while(sql.Fetch())
-		vec.добавь(sql[0]);
+		vec.Add(sql[0]);
 	return vec;
 }
 
-Вектор<Ткст> PostgreSQLSession::EnumDatabases()
+Vector<String> PostgreSQLSession::EnumDatabases()
 {// For now, we really enumerate namespaces rather than databases here
-	Вектор<Ткст> vec;
+	Vector<String> vec;
 	Sql sql(*this);
-	sql.выполни("select nspname from pg_namespace where nspacl is not null");
+	sql.Execute("select nspname from pg_namespace where nspacl is not null");
 	while(sql.Fetch())
-		vec.добавь(sql[0]);
+		vec.Add(sql[0]);
 	return vec;
 }
 
-Вектор<Ткст> PostgreSQLSession::EnumData(char тип, const char *schema)
+Vector<String> PostgreSQLSession::EnumData(char type, const char *schema)
 {
-	Вектор<Ткст> vec;
-	Sql sql(фмт("select n.nspname || '.' || c.relname from pg_catalog.pg_class c "
+	Vector<String> vec;
+	Sql sql(Format("select n.nspname || '.' || c.relname from pg_catalog.pg_class c "
 		             "left join pg_catalog.pg_namespace n "
 		               "on n.oid = c.relnamespace "
 		            "where c.relkind = '%c' "
 		              "and n.nspname like '%s' "
 		              "and pg_catalog.pg_table_is_visible(c.oid)",
-		              тип, schema ? schema : "%"), *this);
-	sql.выполни();
+		              type, schema ? schema : "%"), *this);
+	sql.Execute();
 	while(sql.Fetch())
-		vec.добавь(sql[0]);
+		vec.Add(sql[0]);
 	return vec;
 }
 
-Вектор<Ткст> PostgreSQLSession::EnumTables(Ткст database)
+Vector<String> PostgreSQLSession::EnumTables(String database)
 {
 	return EnumData('r', database);
 }
 
-Вектор<Ткст> PostgreSQLSession::EnumViews(Ткст database)
+Vector<String> PostgreSQLSession::EnumViews(String database)
 {
 	return EnumData('v', database);
 }
 
-Вектор<Ткст> PostgreSQLSession::EnumSequences(Ткст database)
+Vector<String> PostgreSQLSession::EnumSequences(String database)
 {
 	return EnumData('S', database);
 }
 
-Вектор<SqlColumnInfo> PostgreSQLSession::EnumColumns(Ткст database, Ткст table)
+Vector<SqlColumnInfo> PostgreSQLSession::EnumColumns(String database, String table)
 {
 	/* database means schema here - support for schemas is a something to fix in sql interface */
 
-	int q = table.найди('.');
-	if(q) table = table.середина(q + 1);
-	Вектор<SqlColumnInfo> vec;
-	Sql sql(фмт("select a.attname, a.atttypid, a.attlen, a.atttypmod, a.attnotnull "
+	int q = table.Find('.');
+	if(q) table = table.Mid(q + 1);
+	Vector<SqlColumnInfo> vec;
+	Sql sql(Format("select a.attname, a.atttypid, a.attlen, a.atttypmod, a.attnotnull "
 	                 "from pg_catalog.pg_attribute a "
 	                "inner join pg_catalog.pg_class c "
 	                   "on a.attrelid = c.oid "
@@ -251,25 +251,25 @@ bool PostgreSQLPerformScript(const Ткст& txt, StatementExecutor& se, Вра�
 	                  "and a.attnum > 0 "
 	                  "and a.attisdropped = '0' "
 	                "order by a.attnum", table, database), *this);
-	sql.выполни();
+	sql.Execute();
 	while(sql.Fetch())
 	{
-		SqlColumnInfo &ci = vec.добавь();
+		SqlColumnInfo &ci = vec.Add();
 		int type_mod = int(sql[3]) - sizeof(int32);
-		ci.имя = sql[0];
-		ci.тип = OidToType(ткст_ли(sql[1]) ? atoi(Ткст(sql[1])) : (int)sql[1]);
+		ci.name = sql[0];
+		ci.type = OidToType(IsString(sql[1]) ? atoi(String(sql[1])) : (int)sql[1]);
 		ci.width = sql[2];
 		if(ci.width < 0)
 			ci.width = type_mod;
 		ci.precision = (type_mod >> 16) & 0xffff;
 		ci.scale = type_mod & 0xffff;
-		ci.nullable = какТкст(sql[4]) == "0";
+		ci.nullable = AsString(sql[4]) == "0";
 		ci.binary = false;
 	}
 	return vec;
 }
 
-Вектор<Ткст> PostgreSQLSession::EnumPrimaryKey(Ткст database, Ткст table)
+Vector<String> PostgreSQLSession::EnumPrimaryKey(String database, String table)
 {
 //	SELECT cc.conname, a.attname
 //	 FROM pg_constraint cc
@@ -280,17 +280,17 @@ bool PostgreSQLPerformScript(const Ткст& txt, StatementExecutor& se, Вра�
 //	   AND a.attrelid = c.oid
 //	WHERE contype='p'
 //	AND relname = '?'
-	return Вектор<Ткст>(); //TODO
+	return Vector<String>(); //СДЕЛАТЬ
 }
 
-Ткст PostgreSQLSession::EnumRowID(Ткст database, Ткст table)
+String PostgreSQLSession::EnumRowID(String database, String table)
 {
-	return ""; //TODO
+	return ""; //СДЕЛАТЬ
 }
 
-Вектор<Ткст> PostgreSQLSession::EnumReservedWords()
+Vector<String> PostgreSQLSession::EnumReservedWords()
 {
-	return Вектор<Ткст>(); //TODO
+	return Vector<String>(); //СДЕЛАТЬ
 }
 
 SqlConnection * PostgreSQLSession::CreateConnection()
@@ -301,7 +301,7 @@ SqlConnection * PostgreSQLSession::CreateConnection()
 void PostgreSQLSession::ExecTrans(const char * statement)
 {
 	if(trace)
-		*trace << statement << РНЦП::EOL;
+		*trace << statement << UPP::EOL;
 	
 	int itry = 0;
 
@@ -312,28 +312,28 @@ void PostgreSQLSession::ExecTrans(const char * statement)
 			return;
 		}
 	}
-	while(level == 0 && (!ConnectionOK() || ErrorMessage().найди("connection") >= 0 && itry == 0)
+	while(level == 0 && (!ConnectionOK() || ErrorMessage().Find("connection") >= 0 && itry == 0)
 	      && WhenReconnect(itry++));
 
 	if(trace)
 		*trace << statement << " failed: " << ErrorMessage() << " (level " << level << ")\n";
-	устОш(ErrorMessage(), statement, 0, ErrorCode());
+	SetError(ErrorMessage(), statement, 0, ErrorCode());
 	PQclear(result);
 }
 
-Ткст PostgreSQLSession::FromCharset(const Ткст& s) const
+String PostgreSQLSession::FromCharset(const String& s) const
 {
 	if(!charset)
 		return s;
-	Ткст r = РНЦП::вНабсим(дайДефНабСим(), s, charset);
+	String r = UPP::ToCharset(GetDefaultCharset(), s, charset);
 	return r;
 }
 
-Ткст PostgreSQLSession::вНабсим(const Ткст& s) const
+String PostgreSQLSession::ToCharset(const String& s) const
 {
 	if(!charset)
 		return s;
-	Ткст r = РНЦП::вНабсим(charset, s);
+	String r = UPP::ToCharset(charset, s);
 	return r;
 }
 
@@ -345,9 +345,9 @@ void PostgreSQLSession::DoKeepAlive()
 	}
 }
 
-bool PostgreSQLSession::открой(const char *connect)
+bool PostgreSQLSession::Open(const char *connect)
 {
-	закрой();
+	Close();
 	conns = connect;
 
 	{
@@ -358,15 +358,15 @@ bool PostgreSQLSession::открой(const char *connect)
 
 	if(PQstatus(conn) != CONNECTION_OK)
 	{	
-		устОш(изСисНабсима(PQerrorMessage(conn)), "Opening database");
-		закрой();
+		SetError(FromSystemCharset(PQerrorMessage(conn)), "Opening database");
+		Close();
 		return false;
 	}
 	level = 0;
 	
 	if(PQclientEncoding(conn)) {
 		if(PQsetClientEncoding(conn, "UTF8")) {
-			устОш("Cannot set UTF8 charset", "Opening database");
+			SetError("Cannot set UTF8 charset", "Opening database");
 			return false;
 		}
 		charset = CHARSET_UTF8;
@@ -376,10 +376,10 @@ bool PostgreSQLSession::открой(const char *connect)
 	
 	DoKeepAlive();
 
-	LLOG( Ткст("Postgresql client encoding: ") + pg_encoding_to_char( PQclientEncoding(conn) ) );
+	LLOG( String("Postgresql client encoding: ") + pg_encoding_to_char( PQclientEncoding(conn) ) );
 
 	Sql sql(*this);
-	if(sql.выполни("select setting from pg_settings where имя = 'bytea_output'") && sql.Fetch() && sql[0] == "hex")
+	if(sql.Execute("select setting from pg_settings where name = 'bytea_output'") && sql.Fetch() && sql[0] == "hex")
 		hex_blobs = true;
 
 	return true;
@@ -395,7 +395,7 @@ bool PostgreSQLSession::ReOpen()
 	PQreset(conn);
 	if(PQstatus(conn) != CONNECTION_OK)
 	{
-		устОш(ErrorMessage(), "Opening database");
+		SetError(ErrorMessage(), "Opening database");
 		return false;
 	}
 	DoKeepAlive();
@@ -403,7 +403,7 @@ bool PostgreSQLSession::ReOpen()
 	return true;	
 }
 
-void PostgreSQLSession::закрой()
+void PostgreSQLSession::Close()
 {
 	if(!conn)
 		return;
@@ -413,7 +413,7 @@ void PostgreSQLSession::закрой()
 	level = 0;
 }
 
-void PostgreSQLSession::старт()
+void PostgreSQLSession::Begin()
 {
 	ExecTrans("begin");
 	level++;
@@ -436,33 +436,33 @@ int PostgreSQLSession::GetTransactionLevel() const
 	return level;
 }
 
-void PostgreSQLConnection::SetParam(int i, const Значение& r)
+void PostgreSQLConnection::SetParam(int i, const Value& r)
 {
-	Ткст p;
-	if(пусто_ли(r))
+	String p;
+	if(IsNull(r))
 		p = "NULL";
 	else
-		switch(r.дайТип()) {
+		switch(r.GetType()) {
 		case SQLRAW_V: {
-			Ткст raw = SqlRaw(r);
+			String raw = SqlRaw(r);
 			size_t rl;
-			unsigned char *s = PQescapeByteaConn(conn, (const byte *)~raw, raw.дайДлину(), &rl);
-			p.резервируй(int(rl + 16));
-			p = "\'" + Ткст(s, int(rl - 1)) + "\'::bytea";
+			unsigned char *s = PQescapeByteaConn(conn, (const byte *)~raw, raw.GetLength(), &rl);
+			p.Reserve(int(rl + 16));
+			p = "\'" + String(s, int(rl - 1)) + "\'::bytea";
 			PQfreemem(s);
 			break;
 		}
 		case WSTRING_V:
 		case STRING_V: {
-				Ткст v = r;
-				v = вНабсим(v);
-				ТкстБуф b(v.дайДлину() * 2 + 3);
+				String v = r;
+				v = ToCharset(v);
+				StringBuffer b(v.GetLength() * 2 + 3);
 				char *q = b;
 				*q = '\'';
 				int *err = NULL;
-				int n = (int)PQescapeStringConn(conn, q + 1, v, v.дайДлину(), err);
+				int n = (int)PQescapeStringConn(conn, q + 1, v, v.GetLength(), err);
 				q[1 + n] = '\'';
-				b.устСчёт(2 + n);
+				b.SetCount(2 + n);
 				p = b;
 			}
 			break;
@@ -474,64 +474,64 @@ void PostgreSQLConnection::SetParam(int i, const Значение& r)
 			p << int64(r);
 			break;
 		case DOUBLE_V:
-			p = фмтДво(double(r), 20);
+			p = FormatDouble(double(r), 20);
 			break;
 		case DATE_V: {
-				Дата d = r;
-				p = фмт("\'%04d-%02d-%02d\'", d.year, d.month, d.day);
+				Date d = r;
+				p = Format("\'%04d-%02d-%02d\'", d.year, d.month, d.day);
 			}
 			break;
 		case TIME_V: {
-				Время t = r;
-				p = фмт("\'%04d-%02d-%02d %02d:%02d:%02d\'",
+				Time t = r;
+				p = Format("\'%04d-%02d-%02d %02d:%02d:%02d\'",
 						   t.year, t.month, t.day, t.hour, t.minute, t.second);
 			}
 			break;
 		default:
 			NEVER();
 		}
-	param.по(i, p);
+	param.At(i, p);
 }
 
-bool PostgreSQLConnection::выполни()
+bool PostgreSQLConnection::Execute()
 {
 	Cancel();
-	if(statement.дайДлину() == 0) {
-		session.устОш("Empty statement", statement);
+	if(statement.GetLength() == 0) {
+		session.SetError("Empty statement", statement);
 		return false;
 	}
 
-	СиПарсер p(statement);
-	if((p.ид("insert") || p.ид("INSERT")) && (p.ид("into") || p.ид("INTO")) && p.ид_ли())
-		last_insert_table = p.читайИд();
+	CParser p(statement);
+	if((p.Id("insert") || p.Id("INSERT")) && (p.Id("into") || p.Id("INTO")) && p.IsId())
+		last_insert_table = p.ReadId();
 
-	Ткст query;
+	String query;
 	int pi = 0;
 	const char *s = statement;
-	while(s < statement.стоп())
+	while(s < statement.End())
 		if(*s == '\'' || *s == '\"')
 			s = PostgreSQLReadString(s, query);
 		else {
 			if(*s == '?' && !session.noquestionparams) {
 				if(s[1] == '?') {
-					query.конкат('?');
+					query.Cat('?');
 					s++;
 				}
 				else {
-					if(pi >= param.дайСчёт()) {
-						session.устОш("Invalid number of parameters", statement);
+					if(pi >= param.GetCount()) {
+						session.SetError("Неверное число параметров", statement);
 						return false;
 					}
-					query.конкат(param[pi++]);
+					query.Cat(param[pi++]);
 				}
 			}
 			else
-				query.конкат(*s);
+				query.Cat(*s);
 			s++;
 		}
-	param.очисть();
+	param.Clear();
 
-	Поток *trace = session.GetTrace();
+	Stream *trace = session.GetTrace();
 	dword time;
 	if(session.IsTraceTime())
 		time = msecs();
@@ -543,22 +543,22 @@ bool PostgreSQLConnection::выполни()
 		stat = PQresultStatus(result);
 	}
 	while(stat != PGRES_TUPLES_OK && stat != PGRES_COMMAND_OK && session.level == 0 &&
-	      (!session.ConnectionOK() || ErrorMessage().найди("connection") >= 0 && itry == 0) && session.WhenReconnect(itry++));
+	      (!session.ConnectionOK() || ErrorMessage().Find("connection") >= 0 && itry == 0) && session.WhenReconnect(itry++));
 
 	if(trace) {
 		if(session.IsTraceTime())
-			*trace << фмт("--------------\nexec %d ms:\n", msecs(time));
+			*trace << Format("--------------\nexec %d ms:\n", msecs(time));
 	}
 	if(stat == PGRES_TUPLES_OK) //result set
 	{
 		rows = PQntuples(result);
 		int fields = PQnfields(result);
-		info.устСчёт(fields);
-		oid.устСчёт(fields);
+		info.SetCount(fields);
+		oid.SetCount(fields);
 		for(int i = 0; i < fields; i++)
 		{
 			SqlColumnInfo& f = info[i];
-			f.имя = взаг(PQfname(result, i));
+			f.name = ToUpper(PQfname(result, i));
 			f.width = PQfsize(result, i);
 			int type_mod = PQfmod(result, i) - sizeof(int32);
 			if(f.width < 0)
@@ -567,7 +567,7 @@ bool PostgreSQLConnection::выполни()
 			f.scale = type_mod & 0xffff;
 			f.nullable = true;
 			Oid type_oid = PQftype(result, i);
-			f.тип = OidToType(type_oid);
+			f.type = OidToType(type_oid);
 			oid[i] = type_oid;
 		}
 		return true;
@@ -578,7 +578,7 @@ bool PostgreSQLConnection::выполни()
 		return true;
 	}
 
-	session.устОш(ErrorMessage(), query, 0, ErrorCode());
+	session.SetError(ErrorMessage(), query, 0, ErrorCode());
 	FreeResult();
 	return false;
 }
@@ -588,11 +588,11 @@ int PostgreSQLConnection::GetRowsProcessed() const
 	return rows;
 }
 
-Значение PostgreSQLConnection::GetInsertedId() const
+Value PostgreSQLConnection::GetInsertedId() const
 {
-	Ткст pk = session.pkache.дай(last_insert_table, Null);
-	if(пусто_ли(pk)) {
-		Ткст sqlc_expr; 
+	String pk = session.pkache.Get(last_insert_table, Null);
+	if(IsNull(pk)) {
+		String sqlc_expr; 
 		sqlc_expr <<
 		"SELECT " <<
 		  "pg_attribute.attname " <<
@@ -604,11 +604,11 @@ int PostgreSQLConnection::GetRowsProcessed() const
 		  "pg_attribute.attnum = any(pg_index.indkey) "
 		  "AND indisprimary";
 		Sql sqlc(sqlc_expr, session);
-		pk = sqlc.выполни() && sqlc.Fetch() ? sqlc[0] : "ИД";
-		session.pkache.добавь(last_insert_table, pk);
+		pk = sqlc.Execute() && sqlc.Fetch() ? sqlc[0] : "ID";
+		session.pkache.Add(last_insert_table, pk);
 	}
 	Sql sql("select currval('" + last_insert_table + "_" + pk +"_seq')", session);
-	if(sql.выполни() && sql.Fetch())
+	if(sql.Execute() && sql.Fetch())
 		return sql[0];
 	else
 		return Null;
@@ -623,14 +623,14 @@ bool PostgreSQLConnection::Fetch()
 	return false;
 }
 
-static Дата sDate(const char *s)
+static Date sDate(const char *s)
 {
 	// 0123456789012345678
 	// YYYY-MM-DD HH-MM-SS
-	return Дата(atoi(s), atoi(s + 5), atoi(s + 8));
+	return Date(atoi(s), atoi(s + 5), atoi(s + 8));
 }
 
-void PostgreSQLConnection::дайКолонку(int i, Реф f) const
+void PostgreSQLConnection::GetColumn(int i, Ref f) const
 {
 	if(PQgetisnull(result, fetched_row, i))
 	{
@@ -638,53 +638,53 @@ void PostgreSQLConnection::дайКолонку(int i, Реф f) const
 		return;
 	}
 	char *s = PQgetvalue(result, fetched_row, i);
-	switch(info[i].тип)
+	switch(info[i].type)
 	{
 		case INT64_V:
-			f.устЗначение(сканЦел64(s));
+			f.SetValue(ScanInt64(s));
 			break;
 		case INT_V:
-			f.устЗначение(сканЦел(s));
+			f.SetValue(ScanInt(s));
 			break;
 		case DOUBLE_V: {
-				double d = сканДво(s);
-				f.устЗначение(пусто_ли(d) ? NAN : d);
+				double d = ScanDouble(s);
+				f.SetValue(IsNull(d) ? NAN : d);
 			}
 			break;
 		case BOOL_V:
-			f.устЗначение(*s == 't' ? "1" : "0");
+			f.SetValue(*s == 't' ? "1" : "0");
 			break;
 		case DATE_V:
-			f.устЗначение(sDate(s));
+			f.SetValue(sDate(s));
 			break;
 		case TIME_V: {
-				Время t = воВремя(sDate(s));
+				Time t = ToTime(sDate(s));
 				t.hour = atoi(s + 11);
 				t.minute = atoi(s + 14);
 				t.second = atoi(s + 17);
-				f.устЗначение(t);
+				f.SetValue(t);
 			}
 			break;
 		default: {
 			if(oid[i] == PGSQL_BYTEAOID) {
 				if(session.hex_blobs)
-					f.устЗначение(сканГексТкст(s, (int)strlen(s)));
+					f.SetValue(ScanHexString(s, (int)strlen(s)));
 				else {
 					size_t len;
 					unsigned char *q = PQunescapeBytea((const unsigned char *)s, &len);
-					f.устЗначение(Ткст(q, (int)len));
+					f.SetValue(String(q, (int)len));
 					PQfreemem(q);
 				}
 			}
 			else
-				f.устЗначение(FromCharset(Ткст(s)));
+				f.SetValue(FromCharset(String(s)));
 		}
 	}
 }
 
 void PostgreSQLConnection::Cancel()
 {
-	info.очисть();
+	info.Clear();
 	rows = 0;
 	fetched_row = -1;
 	FreeResult();
@@ -695,12 +695,12 @@ SqlSession& PostgreSQLConnection::GetSession() const
 	return session;
 }
 
-Ткст PostgreSQLConnection::GetUser() const
+String PostgreSQLConnection::GetUser() const
 {
 	return PQuser(conn);
 }
 
-Ткст PostgreSQLConnection::вТкст() const
+String PostgreSQLConnection::ToString() const
 {
 	return statement;
 }
@@ -720,16 +720,16 @@ PostgreSQLConnection::PostgreSQLConnection(PostgreSQLSession& a_session, PGconn 
 	result = NULL;
 }
 
-Значение PgSequence::дай()
+Value PgSequence::Get()
 {
 #ifndef NOAPPSQL
 	Sql sql(session ? *session : SQL.GetSession());
 #else
-	ПРОВЕРЬ(session);
+	ASSERT(session);
 	Sql sql(*session);
 #endif
-	if(!sql.выполни(выдели(NextVal(seq)).дай()) || !sql.Fetch())
-		return значОш();
+	if(!sql.Execute(Select(NextVal(seq)).Get()) || !sql.Fetch())
+		return ErrorValue();
 	return sql[0];
 }
 

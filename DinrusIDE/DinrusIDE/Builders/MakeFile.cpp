@@ -1,141 +1,141 @@
 #include "Builders.h"
 
-Ткст MakeIdent(const char *имя)
+String MakeIdent(const char *name)
 {
-	Ткст out;
-	for(; *имя; имя++)
-		out << (iscid(*имя) ? *имя : '_');
+	String out;
+	for(; *name; name++)
+		out << (iscid(*name) ? *name : '_');
 	return out;
 }
 
-static Ткст MakeSourcePath(const Вектор<Ткст>& dirs, Ткст фн, bool raw, bool exporting)
+static String MakeSourcePath(const Vector<String>& dirs, String fn, bool raw, bool exporting)
 {
-	фн = UnixPath(фн);
-	for(int i = 0; i < dirs.дайСчёт(); i++)
+	fn = UnixPath(fn);
+	for(int i = 0; i < dirs.GetCount(); i++)
 	{
-		int dl = dirs[i].дайДлину();
-		if(фн.дайДлину() >= dl + 2 && !memcmp(фн, dirs[i], dl) && фн[dl] == '/') {
-			Ткст s;
+		int dl = dirs[i].GetLength();
+		if(fn.GetLength() >= dl + 2 && !memcmp(fn, dirs[i], dl) && fn[dl] == '/') {
+			String s;
 			if(!exporting)
 				s << "$(UPPDIR" << (i + 1) << ")";
-			s << AdjustMakePath(фн.дайОбх(dl + 1));
+			s << AdjustMakePath(fn.GetIter(dl + 1));
 			return s;
 		}
 	}
-	return raw ? Ткст() : AdjustMakePath(фн);
+	return raw ? String() : AdjustMakePath(fn);
 }
 
-Ткст ПостроительСиПП::GetMakePath(Ткст фн) const
+String CppBuilder::GetMakePath(String fn) const
 {
-	return ::GetMakePath(фн, естьФлаг("WIN32"));
+	return ::GetMakePath(fn, HasFlag("WIN32"));
 }
 
-void ПостроительСиПП::AddMakeFile(MakeFile& makefile, Ткст package,
-	const Вектор<Ткст>& all_uses, const Вектор<Ткст>& all_libraries,
-	const Индекс<Ткст>& common_config, bool exporting)
+void CppBuilder::AddMakeFile(MakeFile& makefile, String package,
+	const Vector<String>& all_uses, const Vector<String>& all_libraries,
+	const Index<String>& common_config, bool exporting)
 {
-	Ткст packagepath = PackagePath(package);
-	Пакет pkg;
-	pkg.грузи(packagepath);
-	Ткст packagedir = дайПапкуФайла(packagepath);
-	Вектор<Ткст> src = GetUppDirs();
-	for(int i = 0; i < src.дайСчёт(); i++)
+	String packagepath = PackagePath(package);
+	Package pkg;
+	pkg.Load(packagepath);
+	String packagedir = GetFileFolder(packagepath);
+	Vector<String> src = GetUppDirs();
+	for(int i = 0; i < src.GetCount(); i++)
 		src[i] = UnixPath(src[i]);
 
-	bool main = естьФлаг("MAIN");
-	bool is_shared = естьФлаг("SO");
-	bool libout = !main && !естьФлаг("NOLIB");
-	bool win32 = естьФлаг("WIN32");
+	bool main = HasFlag("MAIN");
+	bool is_shared = HasFlag("SO");
+	bool libout = !main && !HasFlag("NOLIB");
+	bool win32 = HasFlag("WIN32");
 
-	Ткст pack_ident = MakeIdent(package);
-	Ткст outdir = "OutDir_" + pack_ident;
-	Ткст macros = "Macro_" + pack_ident;
-	Ткст macdef = "$(Macro)";
-	Ткст objext = (естьФлаг("MSC") || естьФлаг("EVC") ? ".obj" : ".o");
+	String pack_ident = MakeIdent(package);
+	String outdir = "OutDir_" + pack_ident;
+	String macros = "Macro_" + pack_ident;
+	String macdef = "$(Macro)";
+	String objext = (HasFlag("MSC") || HasFlag("EVC") ? ".obj" : ".o");
 
-	Вектор<Ткст> x(config.дайКлючи(), 1);
-	сортируй(x);
-	for(int i = 0; i < x.дайСчёт(); i++) {
-		if(common_config.найди(x[i]) < 0)
+	Vector<String> x(config.GetKeys(), 1);
+	Sort(x);
+	for(int i = 0; i < x.GetCount(); i++) {
+		if(common_config.Find(x[i]) < 0)
 			macdef << " -Dflag" << x[i];
-		x[i] = иницШапки(x[i]);
+		x[i] = InitCaps(x[i]);
 	}
 
 	makefile.outdir << "$(" << outdir << ")";
-	makefile.outfile << AdjustMakePath(дайТитулф(NativePath(package)));
+	makefile.outfile << AdjustMakePath(GetFileTitle(NativePath(package)));
 	if(main)
 		makefile.outfile << GetTargetExt();
 	else if(is_shared)
 		makefile.outfile << (win32 ? ".dll" : ".so");
 	else
-		makefile.outfile << (win32 && естьФлаг("MSC") ? ".lib" : ".a");
-	makefile.output << (main ? Ткст("$(OutDir)") : makefile.outdir) << makefile.outfile;
+		makefile.outfile << (win32 && HasFlag("MSC") ? ".lib" : ".a");
+	makefile.output << (main ? String("$(OutDir)") : makefile.outdir) << makefile.outfile;
 
 	if(main) {
 		makefile.config << "CXX = c++\n"
 			"LINKER = $(CXX)\n";
-		Ткст flags;
-		if(естьФлаг("DEBUG"))
+		String flags;
+		if(HasFlag("DEBUG"))
 			flags << " -D_DEBUG " << debug_options;
 		else
 			flags << ' ' << release_options;
-		if(естьФлаг("DEBUG_MINIMAL"))
+		if(HasFlag("DEBUG_MINIMAL"))
 			flags << " -ggdb -g1";
-		if(естьФлаг("DEBUG_FULL"))
+		if(HasFlag("DEBUG_FULL"))
 			flags << " -ggdb -g2";
 		if(is_shared && !win32)
 			flags << " -fPIC ";
-		flags << ' ' << Gather(pkg.option, config.дайКлючи());
+		flags << ' ' << Gather(pkg.option, config.GetKeys());
 		makefile.config << "CFLAGS =" << Merge(" ", flags, c_options) << "\n"
 			"CXXFLAGS =" << Merge(" ", flags, cpp_options) << "\n"
-			"LDFLAGS = " << Merge(" ", common_link, естьФлаг("DEBUG") ? debug_link : release_link)
+			"LDFLAGS = " << Merge(" ", common_link, HasFlag("DEBUG") ? debug_link : release_link)
 			             << " $(LINKOPTIONS)\n"
 			"LIBPATH =";
-		for(int i = 0; i < libpath.дайСчёт(); i++)
+		for(int i = 0; i < libpath.GetCount(); i++)
 			makefile.config << " -L" << GetMakePath(AdjustMakePath(GetPathQ(libpath[i])));
 		makefile.config << "\n"
 			"AR = ar -sr\n\n";
-		Вектор<Ткст> lib;
-		Ткст lnk;
+		Vector<String> lib;
+		String lnk;
 		lnk << "$(LINKER)";
-		if(!естьФлаг("SHARED"))
+		if(!HasFlag("SHARED"))
 			lnk << " -static";
-		if(естьФлаг("WIN32")) {
+		if(HasFlag("WIN32")) {
 			lnk << " -mwindows";
-			if(!естьФлаг("GUI"))
+			if(!HasFlag("GUI"))
 				makefile.linkfiles << " -mconsole";
 		}
 		lnk << " -o \"$(OutFile)\"";
-		if(естьФлаг("DEBUG") || естьФлаг("DEBUG_MINIMAL") || естьФлаг("DEBUG_FULL"))
+		if(HasFlag("DEBUG") || HasFlag("DEBUG_MINIMAL") || HasFlag("DEBUG_FULL"))
 			lnk << " -ggdb";
 		else
-			lnk << (!естьФлаг("OSX11") ? " -Wl,-s" : "");
+			lnk << (!HasFlag("OSX11") ? " -Wl,-s" : "");
 
 		lnk << " $(LIBPATH)";
-		if (!естьФлаг("OSX11"))
+		if (!HasFlag("OSX11"))
 			lnk << " -Wl,-O,2";
-		lnk << " $(LDFLAGS) -Wl,--start-группа ";
+		lnk << " $(LDFLAGS) -Wl,--start-group ";
 
 		makefile.linkfiles = lnk;
 	}
 
 	makefile.config << outdir << " = $(UPPOUT)"
-		<< GetMakePath(AdjustMakePath(Ткст().конкат() << package << '/' << method << '-' << Join(x, "-") << '/')) << "\n"
+		<< GetMakePath(AdjustMakePath(String().Cat() << package << '/' << method << '-' << Join(x, "-") << '/')) << "\n"
 		<< macros << " = " << macdef << "\n";
 
 	makefile.install << " \\\n\t$(" << outdir << ")";
 	makefile.rules << "$(" << outdir << "):\n\tmkdir -p $(" << outdir << ")\n\n";
 
-	Ткст libdep, libfiles;
+	String libdep, libfiles;
 
 	libdep << makefile.output << ":";
 	if(is_shared)
 	{
 		libfiles = "c++ -shared -fPIC"; // -v";
-		Точка p = ExtractVersion();
-		if(!пусто_ли(p.x)) {
+		Point p = ExtractVersion();
+		if(!IsNull(p.x)) {
 			libfiles << " -Xlinker --major-image-version -Xlinker " << p.x;
-			if(!пусто_ли(p.y))
+			if(!IsNull(p.y))
 				libfiles << " -Xlinker --minor-image-version -Xlinker " << p.y;
 		}
 		libfiles << " -o ";
@@ -144,39 +144,39 @@ void ПостроительСиПП::AddMakeFile(MakeFile& makefile, Ткст pa
 		libfiles = "$(AR) ";
 	libfiles << makefile.output;
 
-	Вектор<Ткст> libs = разбей(Gather(pkg.library, config.дайКлючи()), ' ');
-	for(int i = 0; i < libs.дайСчёт(); i++) {
-		Ткст ln = libs[i];
-		Ткст ext = впроп(дайРасшф(ln));
+	Vector<String> libs = Split(Gather(pkg.library, config.GetKeys()), ' ');
+	for(int i = 0; i < libs.GetCount(); i++) {
+		String ln = libs[i];
+		String ext = ToLower(GetFileExt(ln));
 		if(ext == ".a" || ext == ".so" || ext == ".dll")
 			makefile.linkfileend << " \\\n\t\t\t" << GetPathQ(FindInDirs(libpath, ln));
 		else
 			makefile.linkfileend << " \\\n\t\t\t-l" << ln;
 	}
 
-	for(int i = 0; i < pkg.дайСчёт(); i++)
+	for(int i = 0; i < pkg.GetCount(); i++)
 		if(!pkg[i].separator) {
-			Ткст gop = Gather(pkg[i].option, config.дайКлючи());
-			Ткст фн = SourcePath(package, pkg[i]);
-			Ткст ext = впроп(дайРасшф(фн));
+			String gop = Gather(pkg[i].option, config.GetKeys());
+			String fn = SourcePath(package, pkg[i]);
+			String ext = ToLower(GetFileExt(fn));
 			bool isc = ext == ".c";
-			bool isrc = (ext == ".rc" && естьФлаг("WIN32"));
+			bool isrc = (ext == ".rc" && HasFlag("WIN32"));
 			bool iscpp = (ext == ".cpp" || ext == ".cc" || ext == ".cxx");
 			bool isicpp = (ext == ".icpp");
 			if(ext == ".brc") {
 				isc = true;
-				фн << "c";
+				fn << "c";
 			}
 			if(isc || isrc || iscpp || isicpp) {
-				Ткст outfile;
-				outfile << makefile.outdir << AdjustMakePath(дайТитулф(фн)) << (isrc ? "_rc" : "") << objext;
-				Ткст srcfile = GetMakePath(MakeSourcePath(src, фн, false, exporting));
+				String outfile;
+				outfile << makefile.outdir << AdjustMakePath(GetFileTitle(fn)) << (isrc ? "_rc" : "") << objext;
+				String srcfile = GetMakePath(MakeSourcePath(src, fn, false, exporting));
 				makefile.rules << outfile << ": " << srcfile;
-				Вектор<Ткст> dep = HdependGetDependencies(фн, false);
-				сортируй(dep, GetLanguageInfo());
-				for(int d = 0; d < dep.дайСчёт(); d++) {
-					Ткст dfn = MakeSourcePath(src, dep[d], true, exporting);
-					if(!пусто_ли(dfn))
+				Vector<String> dep = HdependGetDependencies(fn, false);
+				Sort(dep, GetLanguageInfo());
+				for(int d = 0; d < dep.GetCount(); d++) {
+					String dfn = MakeSourcePath(src, dep[d], true, exporting);
+					if(!IsNull(dfn))
 						makefile.rules << " \\\n\t" << GetMakePath(dfn);
 				}
 				makefile.rules << "\n"
@@ -193,8 +193,8 @@ void ПостроительСиПП::AddMakeFile(MakeFile& makefile, Ткст pa
 			}
 			else
 			if(ext == ".o" || ext == ".obj" || ext == ".a" || ext == ".so" || ext == ".lib" || ext == ".dll") {
-				makefile.linkdep << " \\\n\t" << фн;
-				makefile.linkfiles << ' ' << фн;
+				makefile.linkdep << " \\\n\t" << fn;
+				makefile.linkfiles << ' ' << fn;
 			}
 		}
 
@@ -205,135 +205,135 @@ void ПостроительСиПП::AddMakeFile(MakeFile& makefile, Ткст pa
 	}
 /*
 	if(main) {
-		if(!естьФлаг("SOLARIS")&&!естьФлаг("OSX11"))
-			makefile.linkfiles << " \\\n\t\t-Wl,--start-группа ";
+		if(!HasFlag("SOLARIS")&&!HasFlag("OSX11"))
+			makefile.linkfiles << " \\\n\t\t-Wl,--start-group ";
 		DDUMPC(all_libraries);
-		for(int i = 0; i < all_libraries.дайСчёт(); i++) {
-			Ткст ln = all_libraries[i];
-			Ткст ext = впроп(дайРасшф(ln));
+		for(int i = 0; i < all_libraries.GetCount(); i++) {
+			String ln = all_libraries[i];
+			String ext = ToLower(GetFileExt(ln));
 			if(ext == ".a" || ext == ".so" || ext == ".dll")
 				makefile.linkfileend << " \\\n\t\t\t" << GetHostPathQ(FindInDirs(libpath, ln));
 			else
 				makefile.linkfileend << " \\\n\t\t\t-l" << ln;
 		}
-		if(!естьФлаг("SOLARIS")&&!естьФлаг("OSX11"))
-			makefile.linkfileend << " \\\n\t\t-Wl,--end-группа\n\n";
+		if(!HasFlag("SOLARIS")&&!HasFlag("OSX11"))
+			makefile.linkfileend << " \\\n\t\t-Wl,--end-group\n\n";
 	}
 */
 }
 
-JsonArray& operator<<(JsonArray& array, const Вектор<Ткст>& v) {
-	for (const Ткст& s: v)
+JsonArray& operator<<(JsonArray& array, const Vector<String>& v) {
+	for (const String& s: v)
 		array << s;
 	return array;
 }
 
-Вектор<Ткст>& operator<<(Вектор<Ткст>& array, const Вектор<Ткст>& v) {
-	array.приставь(v);
+Vector<String>& operator<<(Vector<String>& array, const Vector<String>& v) {
+	array.Append(v);
 	return array;
 }
 
-Точка ПостроительСиПП::ExtractVersion() const
+Point CppBuilder::ExtractVersion() const
 {
-	Точка v = Точка(Null, Null);
+	Point v = Point(Null, Null);
 	try {
-		СиПарсер p(version);
-		while(!p.кф_ли()) {
-			if(p.число_ли()) {
-				v.x = p.читайЧисло();
+		CParser p(version);
+		while(!p.IsEof()) {
+			if(p.IsNumber()) {
+				v.x = p.ReadNumber();
 				break;
 			}
-			p.дайСим();
-			p.пробелы();
+			p.GetChar();
+			p.Spaces();
 		}
-		while(!p.кф_ли()) {
-			if(p.число_ли()) {
-				v.y = p.читайЧисло();
+		while(!p.IsEof()) {
+			if(p.IsNumber()) {
+				v.y = p.ReadNumber();
 				break;
 			}
-			p.дайСим();
-			p.пробелы();
+			p.GetChar();
+			p.Spaces();
 		}
 	}
-	catch(СиПарсер::Ошибка) {}
+	catch(CParser::Error) {}
 	return v;
 }
 
-void ПостроительСиПП::ShowTime(int count, int start_time)
+void CppBuilder::ShowTime(int count, int start_time)
 {
 	if(count)
-		вКонсоль(фмт("%d файла(ов)скомпилировано за %s %d мсек/файл",
+		PutConsole(Format("%d файла(ов)скомпилировано за %s %d мсек/файл",
 			count, GetPrintTime(start_time), msecs(start_time) / count));
 }
 
-void MakeBuild::SaveMakeFile(const Ткст& фн, bool exporting)
+void MakeBuild::SaveMakeFile(const String& fn, bool exporting)
 {
 	BeginBuilding(true);
 
-	ВекторМап<Ткст, Ткст> bm = GetMethodVars(method);
-	Хост host;
+	VectorMap<String, String> bm = GetMethodVars(method);
+	Host host;
 	CreateHost(host, false, false);
-	Один<Построитель> b = CreateBuilder(&host);
+	One<Builder> b = CreateBuilder(&host);
 
 	if(!b)
 		return;
 
 	const TargetMode& tm = GetTargetMode();
 
-	Ткст makefile;
+	String makefile;
 
-	Вектор<Ткст> uppdirs = GetUppDirs();
-	Ткст uppout = exporting ? GetVar("OUTPUT") : ".cache/upp.out";
-	Ткст inclist;
+	Vector<String> uppdirs = GetUppDirs();
+	String uppout = exporting ? GetVar("OUTPUT") : ".cache/upp.out";
+	String inclist;
 
-	Индекс<Ткст> allconfig = PackageConfig(GetIdeWorkspace(), 0, bm, mainconfigparam, host, *b);
-	bool win32 = allconfig.найди("WIN32") >= 0;
+	Index<String> allconfig = PackageConfig(GetIdeWorkspace(), 0, bm, mainconfigparam, host, *b);
+	bool win32 = allconfig.Find("WIN32") >= 0;
 
-	РОбласть wspc;
-	wspc.скан(GetMain(), allconfig.дайКлючи());
+	Workspace wspc;
+	wspc.Scan(GetMain(), allconfig.GetKeys());
 
-	Индекс<Ткст> pkg_config;
-	for(int i = 0; i < wspc.дайСчёт(); i++) {
-		Индекс<Ткст> modconfig = PackageConfig(wspc, i, bm, mainconfigparam, host, *b);
+	Index<String> pkg_config;
+	for(int i = 0; i < wspc.GetCount(); i++) {
+		Index<String> modconfig = PackageConfig(wspc, i, bm, mainconfigparam, host, *b);
 		PkgConfig(wspc, modconfig, pkg_config);
 		if(i)
-			for(int a = allconfig.дайСчёт(); --a >= 0;)
-				if(modconfig.найди(allconfig[a]) < 0)
-					allconfig.удали(a);
+			for(int a = allconfig.GetCount(); --a >= 0;)
+				if(modconfig.Find(allconfig[a]) < 0)
+					allconfig.Remove(a);
 	}
 
 	if(!exporting)
-		for(int i = 0; i < uppdirs.дайСчёт(); i++) {
-			Ткст srcdir = GetMakePath(AdjustMakePath(приставьИмяф(uppdirs[i], "")), win32);
+		for(int i = 0; i < uppdirs.GetCount(); i++) {
+			String srcdir = GetMakePath(AdjustMakePath(AppendFileName(uppdirs[i], "")), win32);
 			makefile << "UPPDIR" << (i + 1) << " = " << srcdir << "\n";
 			inclist << " -I$(UPPDIR" << (i + 1) << ")";
 		}
 
-	for(Ткст s : pkg_config)
+	for(String s : pkg_config)
 		inclist << " `pkg-config --cflags " << s << "`";
 
-	Вектор<Ткст> includes = SplitDirs(bm.дай("INCLUDE",""));
-	for(int i = 0; i < includes.дайСчёт(); i++)
+	Vector<String> includes = SplitDirs(bm.Get("INCLUDE",""));
+	for(int i = 0; i < includes.GetCount(); i++)
 		inclist << " -I" << includes[i];
 
 	inclist << " -I./";
 	inclist << " -I$(UPPOUT)"; // build_info.h is created there
 
 	makefile << "\n"
-		"UPPOUT = " << (exporting ? "_out/" : GetMakePath(AdjustMakePath(приставьИмяф(uppout, "")), win32)) << "\n"
+		"UPPOUT = " << (exporting ? "_out/" : GetMakePath(AdjustMakePath(AppendFileName(uppout, "")), win32)) << "\n"
 		"CINC   = " << inclist << "\n"
 		"Macro  = ";
 
-	for(int i = 0; i < allconfig.дайСчёт(); i++)
+	for(int i = 0; i < allconfig.GetCount(); i++)
 		makefile << " -Dflag" << allconfig[i];
 	makefile << "\n";
 
-	Ткст output, config, install, rules, linkdep, linkfiles, linkfileend;
+	String output, config, install, rules, linkdep, linkfiles, linkfileend;
 
-	for(Ткст s : pkg_config)
+	for(String s : pkg_config)
 		linkfileend << " \\\n\t\t\t`pkg-config --libs " << s << "`";
 
-	for(int i = 0; i < wspc.дайСчёт(); i++) {
+	for(int i = 0; i < wspc.GetCount(); i++) {
 		b->config = PackageConfig(wspc, i, bm, mainconfigparam, host, *b);
 		b->version = tm.version;
 		b->method = method;
@@ -342,14 +342,14 @@ void MakeBuild::SaveMakeFile(const Ткст& фн, bool exporting)
 		               GetAllLibraries(wspc, i, bm, mainconfigparam, host, *b), allconfig,
 		               exporting);
 		if(i == 0) { // main package
-			Ткст tdir = mf.outdir;
-			Ткст trg;
+			String tdir = mf.outdir;
+			String trg;
 			if(tm.target_override) {
 				trg = GetMakePath(AdjustMakePath(tm.target), win32);
-				if(!trg.пустой() && *trg.последний() == (win32 ? '\\' : '/'))
+				if(!trg.IsEmpty() && *trg.Last() == (win32 ? '\\' : '/'))
 					trg << mf.outfile;
-				else if(trg.найди(win32 ? '\\' : '/') < 0)
-					trg.вставь(0, "$(OutDir)");
+				else if(trg.Find(win32 ? '\\' : '/') < 0)
+					trg.Insert(0, "$(OutDir)");
 			}
 			else
 			if(exporting)
@@ -357,14 +357,14 @@ void MakeBuild::SaveMakeFile(const Ткст& фн, bool exporting)
 			else
 				trg = "./" + wspc[0];
 			output = Nvl(trg, mf.output);
-			while(дирЕсть(output))
+			while(DirectoryExists(output))
 				output << ".out";
-			ТкстПоток ss;
-			Ткст svn_info;
-			Ткст build_info = "\"$(UPPOUT)/build_info.h\"";
+			StringStream ss;
+			String svn_info;
+			String build_info = "\"$(UPPOUT)/build_info.h\"";
 			if(makefile_svn_revision) {
-				Вектор<Ткст> bi = RepoInfo(wspc[i]);
-				for(int i = 0; i < bi.дайСчёт(); i++)
+				Vector<String> bi = RepoInfo(wspc[i]);
+				for(int i = 0; i < bi.GetCount(); i++)
 					svn_info << "	echo '" << bi[i] << "' >> " << build_info << "\n";
 			}
 			install << "\n"
@@ -377,12 +377,12 @@ void MakeBuild::SaveMakeFile(const Ткст& фн, bool exporting)
 				".PHONY: build_info\n"
 				"build_info:\n"
 				"	(date '+#define bmYEAR    %y%n"
-				"#define бмМЕСЯЦ   %m%n"
-				"#define бмДЕНЬ     %d%n"
-				"#define бмЧАС    %H%n"
-				"#define бмМИНУТА  %M%n"
-				"#define бмСЕКУНДА  %S%n"
-				"#define бмВРЕМЯ    Время( %y, %m, %d, %H, %M, %S )' | sed 's| 0\\([[:digit:]]\\)| \\1|g' && \\\n"
+				"#define bmMONTH   %m%n"
+				"#define bmDAY     %d%n"
+				"#define bmHOUR    %H%n"
+				"#define bmMINUTE  %M%n"
+				"#define bmSECOND  %S%n"
+				"#define bmTIME    Time( %y, %m, %d, %H, %M, %S )' | sed 's| 0\\([[:digit:]]\\)| \\1|g' && \\\n"
 				"	echo '#define bmMACHINE \"'`hostname`'\"' && \\\n"
 				"	echo '#define bmUSER    \"'`whoami`'\"') > " << build_info << "\n"
 				<< svn_info <<
@@ -402,19 +402,19 @@ void MakeBuild::SaveMakeFile(const Ткст& фн, bool exporting)
 		<< config
 		<< install
 		<< "\n\n"
-		"$(OutFile): build_info " << linkdep << "\n\t" << linkfiles << linkfileend << " -Wl,--end-группа\n\n"
+		"$(OutFile): build_info " << linkdep << "\n\t" << linkfiles << linkfileend << " -Wl,--end-group\n\n"
 		<< rules
 		<< ".PHONY: clean\n"
 		<< "clean:\n"
 		<< "\tif [ \"$(UPPOUT)\" != \"\" -a \"$(UPPOUT)\" != \"/\" -a -d \"$(UPPOUT)\" ] ; then rm -fr \"$(UPPOUT)\" ; fi\n"
 	;
 
-	bool sv = ::сохраниФайл(фн, makefile);
+	bool sv = ::SaveFile(fn, makefile);
 	if(!exporting) {
 		if(sv)
-			вКонсоль(фмт("%s(1): генерация makefile завершена", фн));
+			PutConsole(Format("%s(1): генерация makefile завершена", fn));
 		else
-			вКонсоль(фмт("%s: ошибки при записи makefile", фн));
+			PutConsole(Format("%s: ошибки при записи makefile", fn));
 	}
 	EndBuilding(true);
 }

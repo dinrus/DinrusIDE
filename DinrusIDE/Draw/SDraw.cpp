@@ -1,69 +1,69 @@
 #include "Draw.h"
 
-namespace РНЦП {
+namespace Upp {
 
 dword SDraw::GetInfo() const
 {
 	return DRAWTEXTLINES;
 }
 
-void SDraw::DrawArcOp(const Прям& rc, Точка start, Точка end, int width, Цвет color)
+void SDraw::DrawArcOp(const Rect& rc, Point start, Point end, int width, Color color)
 {
-	// TODO
+	// СДЕЛАТЬ
 }
 
-void SDraw::DrawEllipseOp(const Прям& r, Цвет color, int pen, Цвет pencolor)
+void SDraw::DrawEllipseOp(const Rect& r, Color color, int pen, Color pencolor)
 {
-	if(!пусто_ли(color)) {
+	if(!IsNull(color)) {
 		docolor = color;
 		Polygon().Ellipse(r).Fill();
 	}
-	if(!пусто_ли(pen) && !пусто_ли(pencolor)) {
+	if(!IsNull(pen) && !IsNull(pencolor)) {
 		docolor = pencolor;
-		устШирину(pen);
+		Width(pen);
 		Ellipse(r);
 	}
 }
 
-void SDraw::DrawLineOp(int x1, int y1, int x2, int y2, int width, Цвет color)
+void SDraw::DrawLineOp(int x1, int y1, int x2, int y2, int width, Color color)
 {
-	if(пусто_ли(width) || пусто_ли(color))
+	if(IsNull(width) || IsNull(color))
 		return;
-	устШирину(width);
+	Width(width);
 	docolor = color;
-	Move(Точка(x1, y1));
-	Строка(Точка(x2, y2));
+	Move(Point(x1, y1));
+	Line(Point(x2, y2));
 }
 
-void SDraw::DrawPolyPolyPolygonOp(const Точка *vertices0, int /*vertex_count*/,
+void SDraw::DrawPolyPolyPolygonOp(const Point *vertices0, int /*vertex_count*/,
                                   const int *subpolygon_counts0,
                                   int /*scc*/, const int *disjunct_polygon_counts0, int dpcc0,
-                                  Цвет color, int width, Цвет outline,
-                                  uint64 /*pattern*/, Цвет /*doxor*/) // последний two parameters ignored
+                                  Color color, int width, Color outline,
+                                  uint64 /*pattern*/, Color /*doxor*/) // Last two parameters ignored
 {
 	for(int pass = 0; pass < 1 + (width > 0); pass++) {
-		const Точка *vertices = vertices0;
+		const Point *vertices = vertices0;
 		const int *subpolygon_counts = subpolygon_counts0;
 		const int *disjunct_polygon_counts = disjunct_polygon_counts0;
 		int dpcc = dpcc0;
 		while(--dpcc >= 0) {
-			const Точка *sp = vertices;
+			const Point *sp = vertices;
 			vertices += *disjunct_polygon_counts++;
 			if(pass == 0)
 				Polygon();
 			else {
 				docolor = outline;
-				устШирину(width);
+				Width(width);
 			}
 			while(sp < vertices) {
-				const Точка *pp = sp;
+				const Point *pp = sp;
 				sp += *subpolygon_counts++;
 				Move(*pp);
 				while(++pp < sp)
-					Строка(*pp);
-				закрой();
+					Line(*pp);
+				Close();
 			}
-			if(pass == 0 && !пусто_ли(color)) {
+			if(pass == 0 && !IsNull(color)) {
 				docolor = color;
 				Fill();
 			}
@@ -71,22 +71,22 @@ void SDraw::DrawPolyPolyPolygonOp(const Точка *vertices0, int /*vertex_coun
 	}
 }
 
-void SDraw::DrawPolyPolylineOp(const Точка *vertices, int vertex_count,
-                               const int *counts, int count_count, int width, Цвет color,
-                               Цвет /*doxor*/) // последний parameter ignored
+void SDraw::DrawPolyPolylineOp(const Point *vertices, int vertex_count,
+                               const int *counts, int count_count, int width, Color color,
+                               Color /*doxor*/) // Last parameter ignored
 {
 	if(width == 0)
 		width = 1;
-	if(пусто_ли(color))
+	if(IsNull(color))
 		return;
-	устШирину(width);
+	Width(width);
 	docolor = color;
 	while(--count_count >= 0) {
-		const Точка *lp = vertices;
+		const Point *lp = vertices;
 		vertices += *counts++;
 		Move(*lp);
 		while(++lp < vertices)
-			Строка(*lp);
+			Line(*lp);
 	}
 }
 

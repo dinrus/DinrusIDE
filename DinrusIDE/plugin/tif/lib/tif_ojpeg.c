@@ -1,4 +1,4 @@
-/* WARNING: The тип of JPEG encapsulation defined by the TIFF Version 6.0
+/* WARNING: The type of JPEG encapsulation defined by the TIFF Version 6.0
    specification is now totally obsolete and deprecated for new applications and
    images. This file was was created solely in order to read unconverted images
    still present on some users' computer systems. It will never be extended
@@ -18,8 +18,8 @@
    in Adobe's specification supplements, marked "draft" up to this day, but
    supported by the TIFF community.
 
-   This file interfaces with отпусти 6B of the JPEG Library written by the
-   Independent JPEG Группа. Previous versions of this file required a hack inside
+   This file interfaces with Release 6B of the JPEG Library written by the
+   Independent JPEG Group. Previous versions of this file required a hack inside
    the LibJpeg library. This version no longer requires that. Remember to
    remove the hack if you update from the old version.
 
@@ -58,7 +58,7 @@
    Some OJPEG imagery contains no valid JPEG header markers. This situation is picked
    up on if we've seen no SOF marker when we're at the start of the compressed image
    data. In this case, the tables are read from JpegXxxTables tags, and the other
-   bits and pieces of information is initialized to its most basic значение. This is
+   bits and pieces of information is initialized to its most basic value. This is
    implemented in the OJPEGReadHeaderInfoSecTablesXxx functions.
 
    When this is complete, a good and valid JPEG header can be assembled, and this is
@@ -75,7 +75,7 @@
    aren't there. This means that some of the data is read twice, but we feel speed
    in correcting these values is important enough to warrant this sacrifice. Although
    there is currently no define or other configuration mechanism to disable this behaviour,
-   the actual header scanning is build to robustly respond with Ошибка report if it
+   the actual header scanning is build to robustly respond with error report if it
    should encounter an uncorrected mismatch of subsampling values. See
    OJPEGReadHeaderInfoSecStreamSof.
 
@@ -136,7 +136,7 @@
  * 	conveniently available, but still it may be worthwhile to use _setjmp or sigsetjmp
  * 	in place of plain setjmp. These macros will make it easier. It is useless
  * 	to fiddle with these if you define JPEG_ENCAP_EXTERNAL.
- * OJPEG_BUFFER: Define the size of the desired буфер here. Should be small enough so as to guarantee
+ * OJPEG_BUFFER: Define the size of the desired buffer here. Should be small enough so as to guarantee
  * 	instant processing, optimal streaming and optimal use of processor cache, but also big
  * 	enough so as to not result in significant call overhead. It should be at least a few
  * 	bytes to accommodate some structures (this is verified in asserts), but it would not be
@@ -1123,7 +1123,7 @@ OJPEGReadHeaderInfo(TIFF* tif)
 		if (((sp->subsampling_hor!=1) && (sp->subsampling_hor!=2) && (sp->subsampling_hor!=4)) ||
 		    ((sp->subsampling_ver!=1) && (sp->subsampling_ver!=2) && (sp->subsampling_ver!=4)))
 		{
-			TIFFErrorExt(tif->tif_clientdata,module,"Invalid subsampling values");
+			TIFFErrorExt(tif->tif_clientdata,module,"Неверное subsampling values");
 			return(0);
 		}
 		if (sp->strile_length%(sp->subsampling_ver*8)!=0)
@@ -1349,7 +1349,7 @@ OJPEGReadHeaderInfoSec(TIFF* tif)
 		switch(m)
 		{
 			case JPEG_MARKER_SOI:
-				/* this тип of marker has no data, and should be skipped */
+				/* this type of marker has no data, and should be skipped */
 				break;
 			case JPEG_MARKER_COM:
 			case JPEG_MARKER_APP0:
@@ -1368,7 +1368,7 @@ OJPEGReadHeaderInfoSec(TIFF* tif)
 			case JPEG_MARKER_APP0+13:
 			case JPEG_MARKER_APP0+14:
 			case JPEG_MARKER_APP0+15:
-				/* this тип of marker has data, but it has no use to us (and no place here) and should be skipped */
+				/* this type of marker has data, but it has no use to us (and no place here) and should be skipped */
 				if (OJPEGReadWord(sp,&n)==0)
 					return(0);
 				if (n<2)
@@ -1408,7 +1408,7 @@ OJPEGReadHeaderInfoSec(TIFF* tif)
 					return(0);
 				break;
 			default:
-				TIFFErrorExt(tif->tif_clientdata,module,"Unknown marker тип %d in JPEG data",m);
+				TIFFErrorExt(tif->tif_clientdata,module,"Unknown marker type %d in JPEG data",m);
 				return(0);
 		}
 	} while(m!=JPEG_MARKER_SOS);
@@ -1524,7 +1524,7 @@ static int
 OJPEGReadHeaderInfoSecStreamDht(TIFF* tif)
 {
 	/* this is a table marker, and it is to be saved as a whole for exact pushing on the jpeg stream later on */
-	/* TODO: the following assumes there is only one table in this marker... but i'm not quite sure that assumption is guaranteed correct */
+	/* СДЕЛАТЬ: the following assumes there is only one table in this marker... but i'm not quite sure that assumption is guaranteed correct */
 	static const char module[]="OJPEGReadHeaderInfoSecStreamDht";
 	OJPEGState* sp=(OJPEGState*)tif->tif_data;
 	uint16 m;
@@ -1688,7 +1688,7 @@ OJPEGReadHeaderInfoSecStreamSof(TIFF* tif, uint8 marker_id)
 		return(0);
 	}
 	/* per component stuff */
-	/* TODO: double-check that flow implies that n cannot be as big as to make us overflow sof_c, sof_hv and sof_tq arrays */
+	/* СДЕЛАТЬ: double-check that flow implies that n cannot be as big as to make us overflow sof_c, sof_hv and sof_tq arrays */
 	for (q=0; q<n; q++)
 	{
 		/* C: Component identifier */
@@ -1821,7 +1821,7 @@ OJPEGReadHeaderInfoSecTablesQTable(TIFF* tif)
 			{
 				if (sp->qtable_offset[m]==sp->qtable_offset[n])
 				{
-					TIFFErrorExt(tif->tif_clientdata,module,"Corrupt JpegQTables tag значение");
+					TIFFErrorExt(tif->tif_clientdata,module,"Corrupt JpegQTables tag value");
 					return(0);
 				}
 			}
@@ -1882,7 +1882,7 @@ OJPEGReadHeaderInfoSecTablesDcTable(TIFF* tif)
 			{
 				if (sp->dctable_offset[m]==sp->dctable_offset[n])
 				{
-					TIFFErrorExt(tif->tif_clientdata,module,"Corrupt JpegDcTables tag значение");
+					TIFFErrorExt(tif->tif_clientdata,module,"Corrupt JpegDcTables tag value");
 					return(0);
 				}
 			}
@@ -1951,7 +1951,7 @@ OJPEGReadHeaderInfoSecTablesAcTable(TIFF* tif)
 			{
 				if (sp->actable_offset[m]==sp->actable_offset[n])
 				{
-					TIFFErrorExt(tif->tif_clientdata,module,"Corrupt JpegAcTables tag значение");
+					TIFFErrorExt(tif->tif_clientdata,module,"Corrupt JpegAcTables tag value");
 					return(0);
 				}
 			}
@@ -1999,7 +1999,7 @@ OJPEGReadBufferFill(OJPEGState* sp)
 {
 	uint16 m;
 	tmsize_t n;
-	/* TODO: double-check: when subsamplingcorrect is set, no call to TIFFErrorExt or TIFFWarningExt should be made
+	/* СДЕЛАТЬ: double-check: when subsamplingcorrect is set, no call to TIFFErrorExt or TIFFWarningExt should be made
 	 * in any other case, seek or read errors should be passed through */
 	do
 	{
@@ -2182,7 +2182,7 @@ OJPEGReadSkip(OJPEGState* sp, uint16 len)
 		 * if that is asked from us, we're dealing with totally bazurk
 		 * data anyway, and we've not seen this happening on any
 		 * testfile, so we might as well likely cause some other
-		 * meaningless Ошибка to be passed at some later time
+		 * meaningless error to be passed at some later time
 		 */
 	}
 }
@@ -2531,17 +2531,17 @@ jpeg_encap_unwind(TIFF* tif)
 static void
 OJPEGLibjpegJpegErrorMgrOutputMessage(jpeg_common_struct* cinfo)
 {
-	char буфер[JMSG_LENGTH_MAX];
-	(*cinfo->err->format_message)(cinfo,буфер);
-	TIFFWarningExt(((TIFF*)(cinfo->client_data))->tif_clientdata,"LibJpeg","%s",буфер);
+	char buffer[JMSG_LENGTH_MAX];
+	(*cinfo->err->format_message)(cinfo,buffer);
+	TIFFWarningExt(((TIFF*)(cinfo->client_data))->tif_clientdata,"LibJpeg","%s",buffer);
 }
 
 static void
 OJPEGLibjpegJpegErrorMgrErrorExit(jpeg_common_struct* cinfo)
 {
-	char буфер[JMSG_LENGTH_MAX];
-	(*cinfo->err->format_message)(cinfo,буфер);
-	TIFFErrorExt(((TIFF*)(cinfo->client_data))->tif_clientdata,"LibJpeg","%s",буфер);
+	char buffer[JMSG_LENGTH_MAX];
+	(*cinfo->err->format_message)(cinfo,buffer);
+	TIFFErrorExt(((TIFF*)(cinfo->client_data))->tif_clientdata,"LibJpeg","%s",buffer);
 	jpeg_encap_unwind((TIFF*)(cinfo->client_data));
 }
 
@@ -2573,7 +2573,7 @@ OJPEGLibjpegJpegSourceMgrSkipInputData(jpeg_decompress_struct* cinfo, long num_b
 {
 	TIFF* tif=(TIFF*)cinfo->client_data;
 	(void)num_bytes;
-	TIFFErrorExt(tif->tif_clientdata,"LibJpeg","Unexpected Ошибка");
+	TIFFErrorExt(tif->tif_clientdata,"LibJpeg","Unexpected error");
 	jpeg_encap_unwind(tif);
 }
 
@@ -2586,7 +2586,7 @@ OJPEGLibjpegJpegSourceMgrResyncToRestart(jpeg_decompress_struct* cinfo, int desi
 {
 	TIFF* tif=(TIFF*)cinfo->client_data;
 	(void)desired;
-	TIFFErrorExt(tif->tif_clientdata,"LibJpeg","Unexpected Ошибка");
+	TIFFErrorExt(tif->tif_clientdata,"LibJpeg","Unexpected error");
 	jpeg_encap_unwind(tif);
 	return(0);
 }
@@ -2608,5 +2608,5 @@ OJPEGLibjpegJpegSourceMgrTermSource(jpeg_decompress_struct* cinfo)
  * mode: c
  * c-basic-offset: 8
  * fill-column: 78
- * стоп:
+ * End:
  */

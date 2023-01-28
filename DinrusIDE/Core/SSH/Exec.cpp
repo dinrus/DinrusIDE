@@ -1,50 +1,50 @@
 #include "SSH.h"
 
-namespace РНЦПДинрус {
+namespace Upp {
 
-int SshExec::выполни(const Ткст& cmd, Ткст& out, Ткст& err)
+int SshExec::Execute(const String& cmd, String& out, String& err)
 {
 	if(RequestExec(cmd)) {
 		ReadStdOut(out);
 		ReadStdErr(err);
-		if(Shut(ошибка_ли() ? GetErrorDesc() : Null))
-			return  дайКодВыхода();
+		if(Shut(IsError() ? GetErrorDesc() : Null))
+			return  GetExitCode();
 	}
-	return дайОш();
+	return GetError();
 }
 
-void SshExec::ReadStdOut(Ткст& out)
+void SshExec::ReadStdOut(String& out)
 {
-	Ткст s;
-	while(!(s = дай(ssh->chunk_size)).пустой())
-		out.конкат(s);
+	String s;
+	while(!(s = Get(ssh->chunk_size)).IsEmpty())
+		out.Cat(s);
 }
 
-void SshExec::ReadStdErr(Ткст& err)
+void SshExec::ReadStdErr(String& err)
 {
-	Ткст s;
-	while(!(s = GetStdErr(ssh->chunk_size)).пустой())
-		err.конкат(s);
+	String s;
+	while(!(s = GetStdErr(ssh->chunk_size)).IsEmpty())
+		err.Cat(s);
 }
 
-int SshExecute(SshSession& session, const Ткст& cmd, Ткст& out, Ткст& err)
+int SshExecute(SshSession& session, const String& cmd, String& out, String& err)
 {
-	return SshExec(session).выполни(cmd, out, err);
+	return SshExec(session).Execute(cmd, out, err);
 }
 
-int SshExecute(SshSession& session, const Ткст& cmd, Ткст& out)
+int SshExecute(SshSession& session, const String& cmd, String& out)
 {
-	Ткст err;
-	int rc = SshExec(session).выполни(cmd, out, err);
-	if(!пусто_ли(err))
-		out.конкат(err);
+	String err;
+	int rc = SshExec(session).Execute(cmd, out, err);
+	if(!IsNull(err))
+		out.Cat(err);
 	return rc;
 }
 
-Ткст SshExecute(SshSession& session, const Ткст& cmd)
+String SshExecute(SshSession& session, const String& cmd)
 {
-	Ткст out, err;
-	return SshExecute(session, cmd, out, err) ? Ткст::дайПроц(): out;
+	String out, err;
+	return SshExecute(session, cmd, out, err) ? String::GetVoid(): out;
 }
 
 }

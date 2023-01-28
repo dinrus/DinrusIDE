@@ -1,248 +1,248 @@
 #include "Core.h"
 
-namespace РНЦПДинрус {
+namespace Upp {
 
 #define LLOG(x)           // DLOG(x)
 #define LDUMP(x)          // DUMP(x)
 #define LLOGHEXDUMP(x, s) // LOGHEXDUMP(x, s)
 
-void БлокПоток::устРазмБуф(dword size)
+void BlockStream::SetBufferSize(dword size)
 {
 	int64 p = 0;
-	if(открыт()) {
-		p = дайПоз();
-		слей();
+	if(IsOpen()) {
+		p = GetPos();
+		Flush();
 	}
 	int n = 1;
 	while(size >> (n + 1))
 		n++;
 	pagesize = 1 << n;
 	pagemask = (uint64)-1 << n;
-	if(буфер)
-		MemoryFree(буфер);
-	буфер = (byte *)MemoryAlloc(pagesize);
+	if(buffer)
+		MemoryFree(buffer);
+	buffer = (byte *)MemoryAlloc(pagesize);
 	pos = 0;
-	ptr = rdlim = wrlim = буфер;
+	ptr = rdlim = wrlim = buffer;
 	pagepos = -1;
-	if(открыт())
-		перейди(p);
+	if(IsOpen())
+		Seek(p);
 }
 
-БлокПоток::БлокПоток()
+BlockStream::BlockStream()
 {
-	буфер = NULL;
+	buffer = NULL;
 }
 
-БлокПоток::~БлокПоток()
+BlockStream::~BlockStream()
 {
-	if(буфер)
-		MemoryFree(буфер);
+	if(buffer)
+		MemoryFree(buffer);
 }
 
-int64 БлокПоток::дайРазм() const {
-	if(ошибка_ли()) return 0;
-	return max(streamsize, ptr - буфер + pos);
+int64 BlockStream::GetSize() const {
+	if(IsError()) return 0;
+	return max(streamsize, ptr - buffer + pos);
 }
 
-void БлокПоток::синхРазм()
+void BlockStream::SyncSize()
 {
-	streamsize = max(streamsize, ptr - буфер + pos);
+	streamsize = max(streamsize, ptr - buffer + pos);
 }
 
-void БлокПоток::слей() {
-	if(!открыт() || ошибка_ли()) return;
+void BlockStream::Flush() {
+	if(!IsOpen() || IsError()) return;
 	if(pagedirty && pagepos >= 0) {
-		синхРазм();
+		SyncSize();
 		int size = (int)min<int64>(streamsize - pagepos, pagesize);
-		LLOG("пиши: " << pagepos << ", " << size);
-		пиши(pagepos, буфер, size);
+		LLOG("Write: " << pagepos << ", " << size);
+		Write(pagepos, buffer, size);
 		streamsize = max(streamsize, pagepos + size);
 	}
-	wrlim = буфер;
+	wrlim = buffer;
 	pagedirty = false;
 }
 
-void БлокПоток::устПоз(int64 p)
+void BlockStream::SetPos(int64 p)
 {
-	синхРазм();
+	SyncSize();
 	pos = p & pagemask;
-	ptr = p - pos + буфер;
-	rdlim = wrlim = буфер;
+	ptr = p - pos + buffer;
+	rdlim = wrlim = buffer;
 }
 
-void БлокПоток::перейди(int64 apos) {
-	if(ошибка_ли()) return;
-	LLOG("перейди " << apos);
+void BlockStream::Seek(int64 apos) {
+	if(IsError()) return;
+	LLOG("Seek " << apos);
 	if(style & STRM_WRITE) {
-		устПоз(apos);
+		SetPos(apos);
 		if(apos > streamsize) {
-			устРазмПотока(apos);
+			SetStreamSize(apos);
 			streamsize = apos;
 		}
 	}
 	else {
 		if(apos > streamsize)
 			apos = streamsize;
-		устПоз(apos);
+		SetPos(apos);
 	}
 }
 
-bool БлокПоток::синхСтраницу()
+bool BlockStream::SyncPage()
 {
 	if(pagepos != pos) {
 		int n = (int)min<int64>(streamsize - pos, pagesize);
-		слей();
+		Flush();
 		pagepos = pos;
-		LLOG("читай:" << pagepos << ", " << n);
-		if(n > 0 && (int)читай(pagepos, буфер, n) != n) {
-			устПоследнОш();
+		LLOG("Read:" << pagepos << ", " << n);
+		if(n > 0 && (int)Read(pagepos, buffer, n) != n) {
+			SetLastError();
 			return false;
 		}
 	}
-	rdlim = wrlim = буфер;
+	rdlim = wrlim = buffer;
 	return true;
 }
 
-bool БлокПоток::синхПоз()
+bool BlockStream::SyncPos()
 {
-	if(ошибка_ли())
+	if(IsError())
 		return false;
-	устПоз(дайПоз());
-	return синхСтраницу();
+	SetPos(GetPos());
+	return SyncPage();
 }
 
-int БлокПоток::_прекрати() {
-	if(ошибка_ли() || !открыт()) return -1;
+int BlockStream::_Term() {
+	if(IsError() || !IsOpen()) return -1;
 	if(ptr < rdlim)
 		return *ptr;
-	if(синхПоз())
-		rdlim = буфер + (int)min<int64>(streamsize - pos, pagesize);
+	if(SyncPos())
+		rdlim = buffer + (int)min<int64>(streamsize - pos, pagesize);
 	else {
-		rdlim = буфер;
+		rdlim = buffer;
 		return -1;
 	}
 	return ptr < rdlim ? *ptr : -1;
 }
 
-void БлокПоток::_помести(int c) {
-	if(!открыт()) return;
-	if(ошибка_ли() || !синхПоз())
-		ptr = буфер;
-	wrlim = буфер + pagesize;
+void BlockStream::_Put(int c) {
+	if(!IsOpen()) return;
+	if(IsError() || !SyncPos())
+		ptr = buffer;
+	wrlim = buffer + pagesize;
 	pagedirty = true;
 	*ptr++ = c;
 }
 
-int  БлокПоток::_получи() {
-	if(ошибка_ли() || !открыт()) return -1;
-	int c = _прекрати();
+int  BlockStream::_Get() {
+	if(IsError() || !IsOpen()) return -1;
+	int c = _Term();
 	if(c >= 0) ptr++;
 	return c;
 }
 
-void БлокПоток::_помести(const void *данные, dword size) {
-	if(ошибка_ли() || !открыт()) return;
-	LLOG("помести " << size);
+void BlockStream::_Put(const void *data, dword size) {
+	if(IsError() || !IsOpen()) return;
+	LLOG("Put " << size);
 	if(!size)
 		return;
-	const byte *s = (const byte *)данные;
-	if(!синхПоз())
+	const byte *s = (const byte *)data;
+	if(!SyncPos())
 		return;
-	int64 pos0 = дайПоз();
+	int64 pos0 = GetPos();
 	int64 pg0 = pos0 & pagemask;
 	int64 pos1 = pos0 + size;
 	int64 pg1 = pos1 & pagemask;
-	wrlim = буфер + pagesize;
+	wrlim = buffer + pagesize;
 	pagedirty = true;
 	if(pg0 == pg1) {
-		memcpy8(буфер + pos0 - pos, данные, size);
-		ptr = буфер + pos1 - pos;
+		memcpy8(buffer + pos0 - pos, data, size);
+		ptr = buffer + pos1 - pos;
 	}
 	else {
 		int n = int(pos + pagesize - pos0);
-		memcpy8(буфер + pos0 - pos, s, n);
+		memcpy8(buffer + pos0 - pos, s, n);
 		s += n;
 		n = dword(pg1 - pg0) - pagesize;
 		streamsize = max(pos + pagesize + n, streamsize);
 		int64 wpos = pos + pagesize;
-		устПоз(pos0 + size);
-		синхСтраницу();
+		SetPos(pos0 + size);
+		SyncPage();
 		if(n)
-			пиши(wpos, s, n);
+			Write(wpos, s, n);
 		s += n;
 		if(pos1 > pg1) {
-			wrlim = буфер + pagesize;
+			wrlim = buffer + pagesize;
 			pagedirty = true;
-			memcpy8(буфер, s, int(pos1 - pg1));
+			memcpy8(buffer, s, int(pos1 - pg1));
 		}
 	}
 }
 
-dword БлокПоток::_получи(void *данные, dword size) {
-	if(ошибка_ли() || !открыт()) return 0;
-	LLOG("дай " << size);
+dword BlockStream::_Get(void *data, dword size) {
+	if(IsError() || !IsOpen()) return 0;
+	LLOG("Get " << size);
 	if(size == 0) return 0;
-	_прекрати();
-	byte *t = (byte *)данные;
-	int64 pos0 = дайПоз();
+	_Term();
+	byte *t = (byte *)data;
+	int64 pos0 = GetPos();
 	int64 pg0 = pos0 & pagemask;
-	size = (int)min<int64>(дайРазм() - pos0, size);
+	size = (int)min<int64>(GetSize() - pos0, size);
 	int64 pos1 = pos0 + size;
 	int64 pg1 = pos1 & pagemask;
 	if(pg0 == pg1) {
-		синхСтраницу();
-		memcpy8(данные, буфер + pos0 - pos, size);
-		ptr = буфер + pos1 - pos;
-		_прекрати();
+		SyncPage();
+		memcpy8(data, buffer + pos0 - pos, size);
+		ptr = buffer + pos1 - pos;
+		_Term();
 	}
 	else {
 		int last = int(pos1 - pg1);
 		if(pagepos == pg1) {
-			memcpy8(t + size - last, буфер, last);
+			memcpy8(t + size - last, buffer, last);
 			last = 0;
 		}
-		синхСтраницу();
+		SyncPage();
 		int n = int(pos + pagesize - pos0);
-		memcpy8(t, буфер + pos0 - pos, n);
+		memcpy8(t, buffer + pos0 - pos, n);
 		dword q = dword(pg1 - pg0) - pagesize;
-		if(q && читай(pos + pagesize, t + n, q) != q) {
-			устОш();
+		if(q && Read(pos + pagesize, t + n, q) != q) {
+			SetError();
 			return 0;
 		}
-		устПоз(pos0 + size);
+		SetPos(pos0 + size);
 		if(last) {
-			синхСтраницу();
-			memcpy8(t + size - last, буфер, last);
+			SyncPage();
+			memcpy8(t + size - last, buffer, last);
 		}
 	}
 	return size;
 }
 
-void БлокПоток::устРазм(int64 size)
+void BlockStream::SetSize(int64 size)
 {
-	if(ошибка_ли() || !открыт()) return;
-	int64 pos = дайПоз();
-	слей();
-	перейди(0);
-	устРазмПотока(size);
+	if(IsError() || !IsOpen()) return;
+	int64 pos = GetPos();
+	Flush();
+	Seek(0);
+	SetStreamSize(size);
 	streamsize = size;
-	перейди(pos < size ? pos : size);
+	Seek(pos < size ? pos : size);
 }
 
-dword БлокПоток::читай(int64 at, void *ptr, dword size) {
+dword BlockStream::Read(int64 at, void *ptr, dword size) {
 	NEVER();
 	return 0;
 }
 
-void  БлокПоток::пиши(int64 at, const void *данные, dword size) {
+void  BlockStream::Write(int64 at, const void *data, dword size) {
 	NEVER();
 }
 
-void  БлокПоток::устРазмПотока(int64 pos) {
+void  BlockStream::SetStreamSize(int64 pos) {
 	NEVER();
 }
 
-void БлокПоток::иницОткр(dword mode, int64 _filesize) {
+void BlockStream::OpenInit(dword mode, int64 _filesize) {
 	streamsize = _filesize;
 	style = STRM_READ|STRM_SEEK;
 	SetLoading();
@@ -251,79 +251,79 @@ void БлокПоток::иницОткр(dword mode, int64 _filesize) {
 		style |= STRM_WRITE;
 		SetStoring();
 	}
-	rdlim = wrlim = ptr = буфер;
+	rdlim = wrlim = ptr = buffer;
 	pos = 0;
 	pagepos = -1;
 	pagedirty = false;
-	if(!буфер)
-		устРазмБуф(4096);
+	if(!buffer)
+		SetBufferSize(4096);
 	if(mode == APPEND) SeekEnd();
-	сотриОш();
+	ClearError();
 }
 
-// ---------------------------- Файл stream -----------------------------
+// ---------------------------- File stream -----------------------------
 
 #ifdef PLATFORM_WIN32
 
-void ФайлПоток::устРазмПотока(int64 pos) {
+void FileStream::SetStreamSize(int64 pos) {
 	long lo = (dword)pos, hi = (dword)(pos >> 32);
 	if(SetFilePointer(handle, lo, &hi, FILE_BEGIN) == 0xffffffff && GetLastError() != NO_ERROR ||
 	   !SetEndOfFile(handle)) {
-		устПоследнОш();
+		SetLastError();
 	}
 }
 
-void ФайлПоток::устПоз(int64 pos) {
-	ПРОВЕРЬ(открыт());
+void FileStream::SetPos(int64 pos) {
+	ASSERT(IsOpen());
 	long lo = (dword)pos, hi = (dword)(pos >> 32);
 	if(SetFilePointer(handle, lo, &hi, FILE_BEGIN) == 0xffffffff && GetLastError() != NO_ERROR)
-		устПоследнОш();
+		SetLastError();
 }
 
-dword ФайлПоток::читай(int64 at, void *ptr, dword size) {
-	ПРОВЕРЬ(открыт() && (style & STRM_READ));
+dword FileStream::Read(int64 at, void *ptr, dword size) {
+	ASSERT(IsOpen() && (style & STRM_READ));
 	dword n;
-	устПоз(at);
-	if(ошибка_ли()) return 0;
+	SetPos(at);
+	if(IsError()) return 0;
 	if(!ReadFile(handle, ptr, size, (DWORD *)&n, NULL)) {
-		устПоследнОш();
+		SetLastError();
 		return 0;
 	}
 	return n;
 }
 
-void ФайлПоток::пиши(int64 at, const void *ptr, dword size) {
-	ПРОВЕРЬ(открыт() && (style & STRM_WRITE));
+void FileStream::Write(int64 at, const void *ptr, dword size) {
+	ASSERT(IsOpen() && (style & STRM_WRITE));
 	dword n;
-	устПоз(at);
-	if(ошибка_ли()) return;
+	SetPos(at);
+	if(IsError()) return;
 	if(!WriteFile(handle, ptr, size, &n, NULL)) {
-		устПоследнОш();
+		SetLastError();
 		return;
 	}
 	if(n != size)
-		устОш(ERROR_NOT_ENOUGH_SPACE);
+		SetError(ERROR_NOT_ENOUGH_SPACE);
 }
 
-ФВремя ФайлПоток::дайВремя() const {
-	ПРОВЕРЬ(открыт());
-	ФВремя tm;
+FileTime FileStream::GetTime() const {
+	ASSERT(IsOpen());
+	FileTime tm;
 	GetFileTime(handle, NULL, NULL, &tm);
 	return tm;
 }
 
-void     ФайлПоток::устВремя(const ФВремя& tm) {
-	ПРОВЕРЬ(открыт());
-	слей();
+void     FileStream::SetTime(const FileTime& tm) {
+	ASSERT(IsOpen());
+	Flush();
 	if(!SetFileTime(handle, NULL, NULL, &tm))
-		устПоследнОш();
+		SetLastError();
 }
 
-bool ФайлПоток::открой(const char *имя, dword mode) {
-	LLOG("открыть " << имя << " режим: " << mode);
-	закрой();
+bool FileStream::Open(const char *name, dword mode) {
+	LLOG("Open " << name << " mode: " << mode);
+	Close();
 	int iomode = mode & ~SHAREMASK;
-	handle = CreateFileW(вСисНабсимШ(имя),
+	handle = CreateFileW(ToSystemCharsetW(name),
 		iomode == READ ? GENERIC_READ : GENERIC_READ|GENERIC_WRITE,
 	#ifdef DEPRECATED
 		(mode & NOREADSHARE ? 0 : FILE_SHARE_READ) | (mode & DELETESHARE ? FILE_SHARE_DELETE : 0) |
@@ -335,7 +335,7 @@ bool ФайлПоток::открой(const char *имя, dword mode) {
 		NULL
 	);
 	if(handle == INVALID_HANDLE_VALUE) {
-		устПоследнОш();
+		SetLastError();
 		return FALSE;
 	}
 	dword fsz_lo, fsz_hi;
@@ -345,69 +345,69 @@ bool ФайлПоток::открой(const char *имя, dword mode) {
 		fsz = 0;
 	else
 		fsz = fsz_lo | (int64(fsz_hi) << 32);
-	иницОткр(iomode, fsz);
+	OpenInit(iomode, fsz);
 	LLOG("OPEN " << handle);
 	return TRUE;
 }
 
-void ФайлПоток::закрой() {
-	if(!открыт()) return;
-	слей();
+void FileStream::Close() {
+	if(!IsOpen()) return;
+	Flush();
 	LLOG("CLOSE " << handle);
 	if(!CloseHandle(handle)) {
-		LLOG("CLOSE Ошибка");
-		LDUMP(дайПоследнОшСооб());
-		устПоследнОш();
+		LLOG("CLOSE ERROR");
+		LDUMP(GetLastErrorMessage());
+		SetLastError();
 	}
 	handle = INVALID_HANDLE_VALUE;
 }
 
-bool ФайлПоток::открыт() const {
+bool FileStream::IsOpen() const {
 	return handle != INVALID_HANDLE_VALUE;
 }
 
-ФайлПоток::ФайлПоток(const char *filename, dword mode) {
+FileStream::FileStream(const char *filename, dword mode) {
 	handle = INVALID_HANDLE_VALUE;
-	открой(filename, mode);
+	Open(filename, mode);
 }
 
-ФайлПоток::ФайлПоток() {
+FileStream::FileStream() {
 	handle = INVALID_HANDLE_VALUE;
 }
 
-ФайлПоток::~ФайлПоток() {
-	закрой();
+FileStream::~FileStream() {
+	Close();
 }
 
-bool ФайлВывод::открой(const char *фн)
+bool FileOut::Open(const char *fn)
 {
-	return ФайлПоток::открой(фн, ФайлПоток::CREATE|ФайлПоток::NOWRITESHARE);
+	return FileStream::Open(fn, FileStream::CREATE|FileStream::NOWRITESHARE);
 }
 
 #endif
 
 #ifdef PLATFORM_POSIX
 
-void ФайлПоток::устРазмПотока(int64 pos)
+void FileStream::SetStreamSize(int64 pos)
 {
 	if(handle < 0) return;
 	LOFF_T_ cur = LSEEK64_(handle, 0, SEEK_CUR);
 	if(cur < 0) {
-		устПоследнОш();
+		SetLastError();
 		return;
 	}
 	LOFF_T_ len = LSEEK64_(handle, 0, SEEK_END);
 	if(len < 0) {
-		устПоследнОш();
+		SetLastError();
 		LSEEK64_(handle, cur, SEEK_SET);
 		return;
 	}
 	while(pos > len) {
-		static char буфер[1024];
+		static char buffer[1024];
 		int64 diff = pos - len;
-		int chunk = (diff > (int64)sizeof(буфер) ? sizeof(буфер) : (int)diff);
-		if(write(handle, буфер, chunk) != chunk) {
-			устПоследнОш();
+		int chunk = (diff > (int64)sizeof(buffer) ? sizeof(buffer) : (int)diff);
+		if(write(handle, buffer, chunk) != chunk) {
+			SetLastError();
 			LSEEK64_(handle, cur, SEEK_SET);
 			return;
 		}
@@ -417,55 +417,55 @@ void ФайлПоток::устРазмПотока(int64 pos)
 		if(cur > pos)
 			LSEEK64_(handle, cur = pos, SEEK_SET);
 		if(FTRUNCATE64_(handle, pos) < 0)
-			устПоследнОш();
+			SetLastError();
 	}
 	if(LSEEK64_(handle, cur, SEEK_SET) < 0)
-		устПоследнОш();
+		SetLastError();
 }
 
-void ФайлПоток::устПоз(int64 pos) {
-	ПРОВЕРЬ(открыт());
+void FileStream::SetPos(int64 pos) {
+	ASSERT(IsOpen());
 	if(LSEEK64_(handle, pos, SEEK_SET) < 0)
-		устПоследнОш();
+		SetLastError();
 }
 
-dword ФайлПоток::читай(int64 at, void *ptr, dword size) {
-	ПРОВЕРЬ(открыт() && (style & STRM_READ));
-	устПоз(at);
-	if(ошибка_ли()) return 0;
+dword FileStream::Read(int64 at, void *ptr, dword size) {
+	ASSERT(IsOpen() && (style & STRM_READ));
+	SetPos(at);
+	if(IsError()) return 0;
 	int n = read(handle, ptr, size);
 	if(n < 0) {
-		устПоследнОш();
+		SetLastError();
 		return 0;
 	}
 	return n;
 }
 
-void ФайлПоток::пиши(int64 at, const void *ptr, dword size) {
-	ПРОВЕРЬ(открыт() && (style & STRM_WRITE));
-	устПоз(at);
-	if(ошибка_ли()) return;
+void FileStream::Write(int64 at, const void *ptr, dword size) {
+	ASSERT(IsOpen() && (style & STRM_WRITE));
+	SetPos(at);
+	if(IsError()) return;
 	int n = write(handle, ptr, size);
 	if(n < 0) {
-		устПоследнОш();
+		SetLastError();
 		return;
 	}
 	if((dword)n != size)
-		устОш(ERROR_NOT_ENOUGH_SPACE);
+		SetError(ERROR_NOT_ENOUGH_SPACE);
 }
 
-ФВремя ФайлПоток::дайВремя() const {
-	ПРОВЕРЬ(открыт());
+FileTime FileStream::GetTime() const {
+	ASSERT(IsOpen());
 	struct stat fst;
 	fstat(handle, &fst);
 	return fst.st_mtime;
 }
 
-bool ФайлПоток::открой(const char *имя, dword mode, mode_t tmode) {
-	открой();
-	LLOG("открой " << имя);
+bool FileStream::Open(const char *name, dword mode, mode_t tmode) {
+	Close();
+	LLOG("Open " << name);
 	int iomode = mode & ~SHAREMASK;
-	handle = open(вСисНабсим(имя), iomode == READ ? O_RDONLY :
+	handle = open(ToSystemCharset(name), iomode == READ ? O_RDONLY :
 	                    iomode == CREATE ? O_CREAT|O_RDWR|O_TRUNC :
 	                    O_RDWR|O_CREAT,
 	              tmode);
@@ -480,44 +480,44 @@ bool ФайлПоток::открой(const char *имя, dword mode, mode_t tmo
 		}
 		int64 fsz = st->st_size;
 		if(fsz >= 0) {
-			иницОткр(mode, fsz);
+			OpenInit(mode, fsz);
 			LLOG("OPEN handle " << handle);
 			return true;
 		}
 	}
-	устПоследнОш();
+	SetLastError();
 	return false;
 }
 
-void ФайлПоток::закрой() {
-	if(!открыт()) return;
+void FileStream::Close() {
+	if(!IsOpen()) return;
 	LLOG("CLOSE handle " << handle);
-	слей();
+	Flush();
 	if(close(handle) < 0)
-		устПоследнОш();
+		SetLastError();
 	handle = -1;
 }
 
-bool ФайлПоток::открыт() const {
+bool FileStream::IsOpen() const {
 	return handle != -1;
 }
 
-ФайлПоток::ФайлПоток(const char *filename, dword mode, mode_t acm) {
+FileStream::FileStream(const char *filename, dword mode, mode_t acm) {
 	handle = -1;
-	открой(filename, mode, acm);
+	Open(filename, mode, acm);
 }
 
-ФайлПоток::ФайлПоток() {
+FileStream::FileStream() {
 	handle = -1;
 }
 
-ФайлПоток::~ФайлПоток() {
-	открой();
+FileStream::~FileStream() {
+	Close();
 }
 
-bool ФайлВывод::открой(const char *фн, mode_t acm)
+bool FileOut::Open(const char *fn, mode_t acm)
 {
-	return ФайлПоток::открой(фн, ФайлПоток::CREATE|ФайлПоток::NOWRITESHARE, acm);
+	return FileStream::Open(fn, FileStream::CREATE|FileStream::NOWRITESHARE, acm);
 }
 
 #endif

@@ -59,7 +59,7 @@ FT_BEGIN_HEADER
 
   /*************************************************************************/
   /*                                                                       */
-  /* Функция types used by the interpreter, depending on various modes    */
+  /* Function types used by the interpreter, depending on various modes    */
   /* (e.g. the rounding mode, whether to render a vertical or horizontal   */
   /* line etc).                                                            */
   /*                                                                       */
@@ -70,26 +70,26 @@ FT_BEGIN_HEADER
   (*TT_Round_Func)( EXEC_OP_ FT_F26Dot6  distance,
                              FT_F26Dot6  compensation );
 
-  /* Точка displacement along the freedom vector routine */
+  /* Point displacement along the freedom vector routine */
   typedef void
   (*TT_Move_Func)( EXEC_OP_ TT_GlyphZone  zone,
                             FT_UShort     point,
                             FT_F26Dot6    distance );
 
-  /* расстояние projection along one of the projection vectors */
+  /* Distance projection along one of the projection vectors */
   typedef FT_F26Dot6
   (*TT_Project_Func)( EXEC_OP_ FT_Pos   dx,
                                FT_Pos   dy );
 
-  /* reading a cvt значение.  Take care of non-square pixels if necessary */
+  /* reading a cvt value.  Take care of non-square pixels if necessary */
   typedef FT_F26Dot6
   (*TT_Get_CVT_Func)( EXEC_OP_ FT_ULong  idx );
 
-  /* setting or moving a cvt значение.  Take care of non-square pixels  */
+  /* setting or moving a cvt value.  Take care of non-square pixels  */
   /* if necessary                                                    */
   typedef void
   (*TT_Set_CVT_Func)( EXEC_OP_ FT_ULong    idx,
-                               FT_F26Dot6  значение );
+                               FT_F26Dot6  value );
 
 
   /*************************************************************************/
@@ -119,7 +119,7 @@ FT_BEGIN_HEADER
 
     /* instructions state */
 
-    FT_Error           Ошибка;      /* last execution Ошибка */
+    FT_Error           error;      /* last execution error */
 
     FT_Long            top;        /* top of exec. stack   */
 
@@ -153,8 +153,8 @@ FT_BEGIN_HEADER
     FT_ULong           cvtSize;
     FT_Long*           cvt;
 
-    FT_UInt            glyphSize; /* glyph instructions буфер size */
-    FT_Byte*           glyphIns;  /* glyph instructions буфер */
+    FT_UInt            glyphSize; /* glyph instructions buffer size */
+    FT_Byte*           glyphIns;  /* glyph instructions buffer */
 
     FT_UInt            numFDefs;  /* number of function defs         */
     FT_UInt            maxFDefs;  /* maximum number of function defs */
@@ -164,8 +164,8 @@ FT_BEGIN_HEADER
     FT_UInt            maxIDefs;  /* maximum number of ins defs */
     TT_DefArray        IDefs;     /* table of IDefs entries     */
 
-    FT_UInt            maxFunc;   /* maximum function Индекс     */
-    FT_UInt            maxIns;    /* maximum instruction Индекс  */
+    FT_UInt            maxFunc;   /* maximum function index     */
+    FT_UInt            maxIns;    /* maximum instruction index  */
 
     FT_Int             callTop,    /* top of call stack during execution */
                        callSize;   /* size of call stack */
@@ -249,7 +249,7 @@ FT_BEGIN_HEADER
 
   /*************************************************************************/
   /*                                                                       */
-  /* <Функция>                                                            */
+  /* <Function>                                                            */
   /*    TT_New_Context                                                     */
   /*                                                                       */
   /* <Description>                                                         */
@@ -288,7 +288,7 @@ FT_BEGIN_HEADER
 
   /*************************************************************************/
   /*                                                                       */
-  /* <Функция>                                                            */
+  /* <Function>                                                            */
   /*    TT_RunIns                                                          */
   /*                                                                       */
   /* <Description>                                                         */
@@ -299,7 +299,7 @@ FT_BEGIN_HEADER
   /*    exec :: A handle to the target execution context.                  */
   /*                                                                       */
   /* <Return>                                                              */
-  /*    FreeType Ошибка code.  0 means success.                             */
+  /*    FreeType error code.  0 means success.                             */
   /*                                                                       */
   /* <Note>                                                                */
   /*    Only the object manager and debugger should call this function.    */

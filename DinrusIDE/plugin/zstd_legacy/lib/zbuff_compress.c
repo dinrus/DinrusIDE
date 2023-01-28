@@ -60,22 +60,22 @@ static size_t const ZBUFF_endFrameSize = ZSTD_BLOCKHEADERSIZE;
 *  Note that it may not consume the entire input, in which case it's up to the caller to call again the function with remaining input.
 *  The content of dst will be overwritten (up to *dstCapacityPtr) at each function call, so save its content if it matters or change dst .
 *  @return : a hint to preferred nb of bytes to use as input for next function call (it's only a hint, to improve latency)
-*            or an Ошибка code, which can be tested using ZBUFF_isError().
+*            or an error code, which can be tested using ZBUFF_isError().
 *
-*  ZBUFF_compressFlush() can be used to instruct ZBUFF to compress and output whatever remains within its буфер.
+*  ZBUFF_compressFlush() can be used to instruct ZBUFF to compress and output whatever remains within its buffer.
 *  Note that it will not output more than *dstCapacityPtr.
-*  Therefore, some content might still be left into its internal буфер if dst буфер is too small.
-*  @return : nb of bytes still present into internal буфер (0 if it's empty)
-*            or an Ошибка code, which can be tested using ZBUFF_isError().
+*  Therefore, some content might still be left into its internal buffer if dst buffer is too small.
+*  @return : nb of bytes still present into internal buffer (0 if it's empty)
+*            or an error code, which can be tested using ZBUFF_isError().
 *
 *  ZBUFF_compressEnd() instructs to finish a frame.
 *  It will perform a flush and write frame epilogue.
-*  Similar to ZBUFF_compressFlush(), it may not be able to output the entire internal буфер content if *dstCapacityPtr is too small.
-*  @return : nb of bytes still present into internal буфер (0 if it's empty)
-*            or an Ошибка code, which can be tested using ZBUFF_isError().
+*  Similar to ZBUFF_compressFlush(), it may not be able to output the entire internal buffer content if *dstCapacityPtr is too small.
+*  @return : nb of bytes still present into internal buffer (0 if it's empty)
+*            or an error code, which can be tested using ZBUFF_isError().
 *
-*  Hint : recommended буфер sizes (not compulsory)
-*  input : ZSTD_BLOCKSIZE_MAX (128 KB), internal unit size, it improves latency to use this значение.
+*  Hint : recommended buffer sizes (not compulsory)
+*  input : ZSTD_BLOCKSIZE_MAX (128 KB), internal unit size, it improves latency to use this value.
 *  output : ZSTD_compressBound(ZSTD_BLOCKSIZE_MAX) + ZSTD_blockHeaderSize + ZBUFF_endFrameSize : ensures it's always possible to write/flush/end a full block at best speed.
 * **************************************************/
 
@@ -145,7 +145,7 @@ size_t ZBUFF_compressInit_advanced(ZBUFF_CCtx* zbc,
             zbc->inBuffSize = neededInBuffSize;
             zbc->customMem.customFree(zbc->customMem.opaque, zbc->inBuff);   /* should not be necessary */
             zbc->inBuff = (char*)zbc->customMem.customAlloc(zbc->customMem.opaque, neededInBuffSize);
-            if (zbc->inBuff == NULL) return Ошибка(memory_allocation);
+            if (zbc->inBuff == NULL) return ERROR(memory_allocation);
         }
         zbc->blockSize = MIN(ZSTD_BLOCKSIZE_MAX, neededInBuffSize);
     }
@@ -153,7 +153,7 @@ size_t ZBUFF_compressInit_advanced(ZBUFF_CCtx* zbc,
         zbc->outBuffSize = ZSTD_compressBound(zbc->blockSize)+1;
         zbc->customMem.customFree(zbc->customMem.opaque, zbc->outBuff);   /* should not be necessary */
         zbc->outBuff = (char*)zbc->customMem.customAlloc(zbc->customMem.opaque, zbc->outBuffSize);
-        if (zbc->outBuff == NULL) return Ошибка(memory_allocation);
+        if (zbc->outBuff == NULL) return ERROR(memory_allocation);
     }
 
     { size_t const errorCode = ZSTD_compressBegin_advanced(zbc->zc, dict, dictSize, params, pledgedSrcSize);
@@ -207,7 +207,7 @@ static size_t ZBUFF_compressContinue_generic(ZBUFF_CCtx* zbc,
     while (notDone) {
         switch(zbc->stage)
         {
-        case ZBUFFcs_init: return Ошибка(init_missing);   /* call ZBUFF_compressInit() first ! */
+        case ZBUFFcs_init: return ERROR(init_missing);   /* call ZBUFF_compressInit() first ! */
 
         case ZBUFFcs_load:
             /* complete inBuffer */
@@ -224,7 +224,7 @@ static size_t ZBUFF_compressContinue_generic(ZBUFF_CCtx* zbc,
                 size_t const iSize = zbc->inBuffPos - zbc->inToCompress;
                 size_t oSize = oend-op;
                 if (oSize >= ZSTD_compressBound(iSize))
-                    cDst = op;   /* compress directly into output буфер (avoid flush stage) */
+                    cDst = op;   /* compress directly into output buffer (avoid flush stage) */
                 else
                     cDst = zbc->outBuff, oSize = zbc->outBuffSize;
                 cSize = ZSTD_compressContinue(zbc->zc, cDst, oSize, zbc->inBuff + zbc->inToCompress, iSize);
@@ -256,7 +256,7 @@ static size_t ZBUFF_compressContinue_generic(ZBUFF_CCtx* zbc,
             break;
 
         default:
-            return Ошибка(GENERIC);   /* impossible */
+            return ERROR(GENERIC);   /* impossible */
         }
     }
 

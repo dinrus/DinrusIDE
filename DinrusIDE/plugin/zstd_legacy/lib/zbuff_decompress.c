@@ -56,9 +56,9 @@
 *  The content of @dst will be overwritten (up to *dstCapacityPtr) at each function call, so save its content if it matters, or change @dst.
 *  @return : a hint to preferred nb of bytes to use as input for next function call (it's only a hint, to help latency),
 *            or 0 when a frame is completely decoded,
-*            or an Ошибка code, which can be tested using ZBUFF_isError().
+*            or an error code, which can be tested using ZBUFF_isError().
 *
-*  Hint : recommended буфер sizes (not compulsory) : ZBUFF_recommendedDInSize() and ZBUFF_recommendedDOutSize()
+*  Hint : recommended buffer sizes (not compulsory) : ZBUFF_recommendedDInSize() and ZBUFF_recommendedDOutSize()
 *  output : ZBUFF_recommendedDOutSize==128 KB block size is the internal unit, it ensures it's always possible to write a full block when decoded.
 *  input  : ZBUFF_recommendedDInSize == 128KB + 3;
 *           just follow indications from ZBUFF_decompressContinue() to minimize latency. It should always be <= 128 KB + 3 .
@@ -155,7 +155,7 @@ size_t ZBUFF_decompressContinue(ZBUFF_DCtx* zbd,
         switch(zbd->stage)
         {
         case ZBUFFds_init :
-            return Ошибка(init_missing);
+            return ERROR(init_missing);
 
         case ZBUFFds_loadHeader :
             {   size_t const hSize = ZSTD_getFrameParams(&(zbd->fParams), zbd->headerBuffer, zbd->lhSize);
@@ -184,21 +184,21 @@ size_t ZBUFF_decompressContinue(ZBUFF_DCtx* zbd,
 
             zbd->fParams.windowSize = MAX(zbd->fParams.windowSize, 1U << ZSTD_WINDOWLOG_ABSOLUTEMIN);
 
-            /* Фрейм header instruct буфер sizes */
+            /* Frame header instruct buffer sizes */
             {   size_t const blockSize = MIN(zbd->fParams.windowSize, ZSTD_BLOCKSIZE_MAX);
                 zbd->blockSize = blockSize;
                 if (zbd->inBuffSize < blockSize) {
                     zbd->customMem.customFree(zbd->customMem.opaque, zbd->inBuff);
                     zbd->inBuffSize = blockSize;
                     zbd->inBuff = (char*)zbd->customMem.customAlloc(zbd->customMem.opaque, blockSize);
-                    if (zbd->inBuff == NULL) return Ошибка(memory_allocation);
+                    if (zbd->inBuff == NULL) return ERROR(memory_allocation);
                 }
                 {   size_t const neededOutSize = zbd->fParams.windowSize + blockSize;
                     if (zbd->outBuffSize < neededOutSize) {
                         zbd->customMem.customFree(zbd->customMem.opaque, zbd->outBuff);
                         zbd->outBuffSize = neededOutSize;
                         zbd->outBuff = (char*)zbd->customMem.customAlloc(zbd->customMem.opaque, neededOutSize);
-                        if (zbd->outBuff == NULL) return Ошибка(memory_allocation);
+                        if (zbd->outBuff == NULL) return ERROR(memory_allocation);
             }   }   }
             zbd->stage = ZBUFFds_read;
 
@@ -229,7 +229,7 @@ size_t ZBUFF_decompressContinue(ZBUFF_DCtx* zbd,
             {   size_t const neededInSize = ZSTD_nextSrcSizeToDecompress(zbd->zd);
                 size_t const toLoad = neededInSize - zbd->inPos;   /* should always be <= remaining space within inBuff */
                 size_t loadedSize;
-                if (toLoad > zbd->inBuffSize - zbd->inPos) return Ошибка(corruption_detected);   /* should never happen */
+                if (toLoad > zbd->inBuffSize - zbd->inPos) return ERROR(corruption_detected);   /* should never happen */
                 loadedSize = ZBUFF_limitCopy(zbd->inBuff + zbd->inPos, toLoad, ip, iend-ip);
                 ip += loadedSize;
                 zbd->inPos += loadedSize;
@@ -263,7 +263,7 @@ size_t ZBUFF_decompressContinue(ZBUFF_DCtx* zbd,
                 notDone = 0;
                 break;
             }
-        default: return Ошибка(GENERIC);   /* impossible */
+        default: return ERROR(GENERIC);   /* impossible */
     }   }
 
     /* result */

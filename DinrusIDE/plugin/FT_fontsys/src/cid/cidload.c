@@ -71,7 +71,7 @@
                     CID_Loader*     loader,
                     const T1_Field  keyword )
   {
-    FT_Error      Ошибка;
+    FT_Error      error;
     CID_Parser*   parser = &loader->parser;
     FT_Byte*      object;
     void*         dummy_object;
@@ -79,10 +79,10 @@
 
 
     /* if the keyword has a dedicated callback, call it */
-    if ( keyword->тип == T1_FIELD_TYPE_CALLBACK )
+    if ( keyword->type == T1_FIELD_TYPE_CALLBACK )
     {
       keyword->reader( (FT_Face)face, parser );
-      Ошибка = parser->root.Ошибка;
+      error = parser->root.error;
       goto Exit;
     }
 
@@ -114,7 +114,7 @@
         {
           FT_ERROR(( "cid_load_keyword: invalid use of `%s'\n",
                      keyword->ident ));
-          Ошибка = CID_Err_Syntax_Error;
+          error = CID_Err_Syntax_Error;
           goto Exit;
         }
 
@@ -134,15 +134,15 @@
     dummy_object = object;
 
     /* now, load the keyword data in the object's field(s) */
-    if ( keyword->тип == T1_FIELD_TYPE_INTEGER_ARRAY ||
-         keyword->тип == T1_FIELD_TYPE_FIXED_ARRAY   )
-      Ошибка = cid_parser_load_field_table( &loader->parser, keyword,
+    if ( keyword->type == T1_FIELD_TYPE_INTEGER_ARRAY ||
+         keyword->type == T1_FIELD_TYPE_FIXED_ARRAY   )
+      error = cid_parser_load_field_table( &loader->parser, keyword,
                                            &dummy_object );
     else
-      Ошибка = cid_parser_load_field( &loader->parser,
+      error = cid_parser_load_field( &loader->parser,
                                      keyword, &dummy_object );
   Exit:
-    return Ошибка;
+    return error;
   }
 
 
@@ -168,7 +168,7 @@
 
       temp_scale = FT_ABS( temp[3] );
 
-      /* Set units per EM based on FontMatrix values.  We set the значение to */
+      /* Set units per EM based on FontMatrix values.  We set the value to */
       /* `1000/temp_scale', because temp_scale was already multiplied by   */
       /* 1000 (in `t1_tofixed', from psobjs.c).                            */
       root->units_per_EM = (FT_UShort)( FT_DivFix( 0x10000L,
@@ -196,7 +196,7 @@
     }
 
     return CID_Err_Ok;      /* this is a callback function; */
-                            /* we must return an Ошибка code */
+                            /* we must return an error code */
   }
 
 
@@ -206,7 +206,7 @@
   {
     CID_FaceInfo  cid    = &face->cid;
     FT_Memory     memory = face->root.memory;
-    FT_Error      Ошибка  = CID_Err_Ok;
+    FT_Error      error  = CID_Err_Ok;
     FT_Long       num_dicts;
 
 
@@ -228,19 +228,19 @@
         CID_FaceDict  dict = cid->font_dicts + n;
 
 
-        /* default значение for lenIV */
+        /* default value for lenIV */
         dict->private_dict.lenIV = 4;
       }
     }
 
   Exit:
-    return Ошибка;
+    return error;
   }
 
 
   /* by mistake, `expansion_factor' appears both in PS_PrivateRec */
   /* and CID_FaceDictRec (both are public header files and can't  */
-  /* changed); we simply copy the значение                           */
+  /* changed); we simply copy the value                           */
 
   FT_CALLBACK_DEF( FT_Error )
   parse_expansion_factor( CID_Face     face,
@@ -286,7 +286,7 @@
 
     parser->root.cursor = base;
     parser->root.limit  = base + size;
-    parser->root.Ошибка  = CID_Err_Ok;
+    parser->root.error  = CID_Err_Ok;
 
     {
       FT_Byte*  cur   = base;
@@ -320,12 +320,12 @@
         }
 
         cur = parser->root.cursor;
-        /* no Ошибка can occur in cid_parser_skip_spaces */
+        /* no error can occur in cid_parser_skip_spaces */
         if ( cur >= limit )
           break;
 
         cid_parser_skip_PS_token( parser );
-        if ( parser->root.cursor >= limit || parser->root.Ошибка )
+        if ( parser->root.cursor >= limit || parser->root.error )
           break;
 
         /* look for immediates */
@@ -339,37 +339,37 @@
 
           if ( len > 0 && len < 22 )
           {
-            /* now compare the immediate имя to the keyword table */
+            /* now compare the immediate name to the keyword table */
             T1_Field  keyword = (T1_Field)cid_field_records;
 
 
             for (;;)
             {
-              FT_Byte*  имя;
+              FT_Byte*  name;
 
 
-              имя = (FT_Byte*)keyword->ident;
-              if ( !имя )
+              name = (FT_Byte*)keyword->ident;
+              if ( !name )
                 break;
 
-              if ( cur[0] == имя[0]                                 &&
-                   len == (FT_PtrDist)ft_strlen( (const char*)имя ) )
+              if ( cur[0] == name[0]                                 &&
+                   len == (FT_PtrDist)ft_strlen( (const char*)name ) )
               {
                 FT_PtrDist  n;
 
 
                 for ( n = 1; n < len; n++ )
-                  if ( cur[n] != имя[n] )
+                  if ( cur[n] != name[n] )
                     break;
 
                 if ( n >= len )
                 {
                   /* we found it - run the parsing callback */
-                  parser->root.Ошибка = cid_load_keyword( face,
+                  parser->root.error = cid_load_keyword( face,
                                                          loader,
                                                          keyword );
-                  if ( parser->root.Ошибка )
-                    return parser->root.Ошибка;
+                  if ( parser->root.error )
+                    return parser->root.error;
                   break;
                 }
               }
@@ -381,7 +381,7 @@
         cur = parser->root.cursor;
       }
     }
-    return parser->root.Ошибка;
+    return parser->root.error;
   }
 
 
@@ -392,7 +392,7 @@
     CID_FaceInfo   cid    = &face->cid;
     FT_Memory      memory = face->root.memory;
     FT_Stream      stream = face->cid_stream;
-    FT_Error       Ошибка;
+    FT_Error       error;
     FT_Int         n;
     CID_Subrs      subr;
     FT_UInt        max_offsets = 0;
@@ -476,7 +476,7 @@
 
   Exit:
     FT_FREE( offsets );
-    return Ошибка;
+    return error;
 
   Fail:
     if ( face->subrs )
@@ -522,9 +522,9 @@
                      CID_Face  face )
   {
     FT_Stream  stream = face->root.stream;
-    FT_Error   Ошибка;
+    FT_Error   error;
 
-    FT_Byte    буфер[256];
+    FT_Byte    buffer[256];
     FT_Byte   *p, *plimit;
     FT_Byte   *d, *dlimit;
     FT_Byte    val;
@@ -537,7 +537,7 @@
 
     d      = data;
     dlimit = d + data_len;
-    p      = буфер;
+    p      = buffer;
     plimit = p;
 
     upper_nibble = 1;
@@ -553,13 +553,13 @@
 
         if ( size == 0 )
         {
-          Ошибка = CID_Err_Syntax_Error;
+          error = CID_Err_Syntax_Error;
           goto Exit;
         }
 
-        if ( FT_STREAM_READ( буфер, 256 > size ? size : 256 ) )
+        if ( FT_STREAM_READ( buffer, 256 > size ? size : 256 ) )
           goto Exit;
-        p      = буфер;
+        p      = buffer;
         plimit = p + FT_STREAM_POS() - oldpos;
       }
 
@@ -586,7 +586,7 @@
       }
       else
       {
-        Ошибка = CID_Err_Syntax_Error;
+        error = CID_Err_Syntax_Error;
         goto Exit;
       }
 
@@ -606,10 +606,10 @@
       p++;
     }
 
-    Ошибка = CID_Err_Ok;
+    error = CID_Err_Ok;
 
   Exit:
-    return Ошибка;
+    return error;
   }
 
 
@@ -620,21 +620,21 @@
     CID_Loader   loader;
     CID_Parser*  parser;
     FT_Memory    memory = face->root.memory;
-    FT_Error     Ошибка;
+    FT_Error     error;
 
 
     t1_init_loader( &loader, face );
 
     parser = &loader.parser;
-    Ошибка = cid_parser_new( parser, face->root.stream, face->root.memory,
+    error = cid_parser_new( parser, face->root.stream, face->root.memory,
                             (PSAux_Service)face->psaux );
-    if ( Ошибка )
+    if ( error )
       goto Exit;
 
-    Ошибка = cid_parse_dict( face, &loader,
+    error = cid_parse_dict( face, &loader,
                             parser->postscript,
                             parser->postscript_len );
-    if ( Ошибка )
+    if ( error )
       goto Exit;
 
     if ( face_index < 0 )
@@ -661,11 +661,11 @@
       face->cid.data_offset = loader.parser.data_offset;
     }
 
-    Ошибка = cid_read_subrs( face );
+    error = cid_read_subrs( face );
 
   Exit:
     t1_done_loader( &loader );
-    return Ошибка;
+    return error;
   }
 
 

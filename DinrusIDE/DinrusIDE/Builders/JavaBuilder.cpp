@@ -1,8 +1,8 @@
 #include "Builders.h"
 
-Ткст AdjustLines(const Ткст& file)
+String AdjustLines(const String& file)
 {
-	Ткст out;
+	String out;
 	const char *p = file;
 	while(*p)
 	{
@@ -11,15 +11,15 @@
 			p++;
 		if(*p == '#')
 		{
-			out.конкат("//");
+			out.Cat("//");
 			b = p;
 			while(*p && *p != '\n' && *p != '\"')
 				p++;
-			out.конкат(b, (int)(p - b));
+			out.Cat(b, (int)(p - b));
 			b = p;
 			if(*p == '\"')
 			{
-				out.конкат('\"');
+				out.Cat('\"');
 				b = ++p;
 				while(*p && *p++ != '\n')
 					;
@@ -28,74 +28,74 @@
 					e--;
 				if(e[-1] == '\"')
 					e--;
-				out.конкат(UnixPath(Ткст(b, e)));
-				out.конкат("\"\r\n");
+				out.Cat(UnixPath(String(b, e)));
+				out.Cat("\"\r\n");
 				b = p;
 				continue;
 			}
 		}
-		out.конкат(b, (int)(p - b));
+		out.Cat(b, (int)(p - b));
 		while(*p && *p != '\n')
 		{
 			b = p;
 			while(*p && *p != '\n' && *p != '\r')
 				p++;
-			out.конкат(b, (int)(p - b));
+			out.Cat(b, (int)(p - b));
 			while(*p == '\r')
 				p++;
 		}
 		if(*p == '\n')
 		{
 			p++;
-			out.конкат("\r\n");
+			out.Cat("\r\n");
 		}
 	}
 	return out;
 }
 
-Ткст JavaBuilder::JavaLine()
+String JavaBuilder::JavaLine()
 {
 	return "javac";
 }
 
-Ткст JavaBuilder::JarLine()
+String JavaBuilder::JarLine()
 {
 	return "jar";
 }
 
 enum { MAINCLASS, MAINDIR, MANIFEST, ITEMCOUNT };
 
-bool JavaBuilder::постройПакет(const Ткст& package, Вектор<Ткст>& linkfile, Вектор<Ткст>&, Ткст& linkoptions,
-	const Вектор<Ткст>& all_uses, const Вектор<Ткст>& all_libraries, int)
+bool JavaBuilder::BuildPackage(const String& package, Vector<String>& linkfile, Vector<String>&, String& linkoptions,
+	const Vector<String>& all_uses, const Vector<String>& all_libraries, int)
 {
 	int time = msecs();
 	int i;
 	int manifest = -1;
-	Ткст packagepath = PackagePath(package);
-	Пакет pkg;
-	pkg.грузи(packagepath);
-	Ткст packagedir = дайПапкуФайла(packagepath);
+	String packagepath = PackagePath(package);
+	Package pkg;
+	pkg.Load(packagepath);
+	String packagedir = GetFileFolder(packagepath);
 	ChDir(packagedir);
 	PutVerbose("cd " + packagedir);
-	Вектор<Ткст> pkgsfile;
-	Вектор<Ткст> sfile;
-	Вектор<Ткст> sobjfile;
-	Вектор<Ткст> soptions;
-	bool           Ошибка = false;
-	bool main = естьФлаг("MAIN");
+	Vector<String> pkgsfile;
+	Vector<String> sfile;
+	Vector<String> sobjfile;
+	Vector<String> soptions;
+	bool           error = false;
+	bool main = HasFlag("MAIN");
 
-	for(i = 0; i < pkg.дайСчёт(); i++) {
-		if(!строитсяИср())
+	for(i = 0; i < pkg.GetCount(); i++) {
+		if(!IdeIsBuilding())
 			return false;
 		if(!pkg[i].separator) {
-			Ткст gop = Gather(pkg[i].option, config.дайКлючи());
-			Вектор<Ткст> srcfile = CustomStep(pkg[i], package, Ошибка);
-			if(srcfile.дайСчёт() == 0)
-				Ошибка = true;
-			for(int j = 0; j < srcfile.дайСчёт(); j++)
+			String gop = Gather(pkg[i].option, config.GetKeys());
+			Vector<String> srcfile = CustomStep(pkg[i], package, error);
+			if(srcfile.GetCount() == 0)
+				error = true;
+			for(int j = 0; j < srcfile.GetCount(); j++)
 			{
-				Ткст фн = srcfile[j];
-				Ткст ext = впроп(дайРасшф(фн));
+				String fn = srcfile[j];
+				String ext = ToLower(GetFileExt(fn));
 				bool ismf = false;
 				if(ext == ".java" || main && ext == ".mf")
 				{
@@ -104,214 +104,214 @@ bool JavaBuilder::постройПакет(const Ткст& package, Вектор
 						ismf = true;
 						if(manifest >= 0)
 						{
-							вКонсоль(фмт("%s(1): duplicate manifest file", фн));
-							вКонсоль(фмт("%s(1): (previous manifest file)", sfile[manifest]));
+							PutConsole(Format("%s(1): дубликат файла манифеста", fn));
+							PutConsole(Format("%s(1): (предыдущий файл манифеста)", sfile[manifest]));
 						}
-						manifest = sfile.дайСчёт();
+						manifest = sfile.GetCount();
 					}
-					Ткст pkgfile = приставьИмяф(package, pkg[i]);
-					pkgsfile.добавь(pkgfile);
-					sfile.добавь(фн);
-					soptions.добавь(gop);
-					Ткст objfile = NativePath(CatAnyPath(outdir, ismf ? Ткст("manifest.mf") : pkgfile));
-					sobjfile.добавь(objfile);
+					String pkgfile = AppendFileName(package, pkg[i]);
+					pkgsfile.Add(pkgfile);
+					sfile.Add(fn);
+					soptions.Add(gop);
+					String objfile = NativePath(CatAnyPath(outdir, ismf ? String("manifest.mf") : pkgfile));
+					sobjfile.Add(objfile);
 				}
 			}
 		}
 	}
 
-	Вектор<Хост::ИнфОФайле> sobjinfo = host->дайИнфОФайле(sobjfile);
+	Vector<Host::FileInfo> sobjinfo = host->GetFileInfo(sobjfile);
 	int ccount = 0;
-	for(i = 0; i < sfile.дайСчёт(); i++) {
-		if(!строитсяИср())
+	for(i = 0; i < sfile.GetCount(); i++) {
+		if(!IdeIsBuilding())
 			return false;
 		if(HdependFileTime(sfile[i]) > sobjinfo[i]) {
 			ccount++;
 			if(!PreprocessJava(sfile[i], sobjfile[i], soptions[i], package, pkg))
-				Ошибка = true;
+				error = true;
 		}
 	}
-	linkfile.добавь(outdir);
+	linkfile.Add(outdir);
 	if(ccount > 0)
-		вКонсоль(Ткст().конкат() << ccount << " file(s) preprocessed in " << GetPrintTime(time) <<
-		           " " << int(msecs() - time) / ccount << " msec/file");
-	linkoptions << ' ' << Gather(pkg.link, config.дайКлючи());
+		PutConsole(String().Cat() << ccount << " файл(-ов) предобработано за " << GetPrintTime(time) <<
+		           " " << int(msecs() - time) / ccount << " мсек/файл");
+	linkoptions << ' ' << Gather(pkg.link, config.GetKeys());
 
-	if(!Ошибка && естьФлаг("MAIN") && !sfile.пустой())
+	if(!error && HasFlag("MAIN") && !sfile.IsEmpty())
 	{
-		Ткст mainfile = sfile.верх();
-		Ткст mainobj = sobjfile.верх();
-		Ткст maincls = форсируйРасш(mainobj, ".class");
-		Ткст libs;
+		String mainfile = sfile.Top();
+		String mainobj = sobjfile.Top();
+		String maincls = ForceExt(mainobj, ".class");
+		String libs;
 		int i;
-		for(i = 0; i < libpath.дайСчёт(); i++)
+		for(i = 0; i < libpath.GetCount(); i++)
 			libs << (i ? ";" : " -classpath ") << '\"' << libpath[i] << '\"';
-		Ткст linkcmd;
+		String linkcmd;
 		linkcmd << "javac";
-		linkcmd << (естьФлаг("DEBUG") ? " -g" : " -g:none");
-		if(!естьФлаг("DEBUG")) {
-			if(!пусто_ли(release_options))
+		linkcmd << (HasFlag("DEBUG") ? " -g" : " -g:none");
+		if(!HasFlag("DEBUG")) {
+			if(!IsNull(release_options))
 				linkcmd << ' ' << release_options;
 			else
 				linkcmd << " -O";
 		}
 		linkcmd << " -deprecation" << linkoptions << " -sourcepath ";
-		bool win32 = естьФлаг("WIN32");
-		for(i = 0; i < linkfile.дайСчёт(); i++) {
+		bool win32 = HasFlag("WIN32");
+		for(i = 0; i < linkfile.GetCount(); i++) {
 			linkcmd << (i ? (win32 ? ";" : ":") : "");
-			if(linkfile[i].найди(' ') >= 0)
+			if(linkfile[i].Find(' ') >= 0)
 				linkcmd << '\"' << linkfile[i] << '\"';
 			else
 				linkcmd << linkfile[i];
 		}
-		linkfile.вставьН(0, ITEMCOUNT);
+		linkfile.InsertN(0, ITEMCOUNT);
 		linkfile[MAINCLASS] = maincls;
 		linkfile[MAINDIR] = outdir;
-		linkfile[MANIFEST] = (manifest >= 0 ? sobjfile[manifest] : Ткст());
+		linkfile[MANIFEST] = (manifest >= 0 ? sobjfile[manifest] : String());
 		linkcmd << ' ' << mainobj;
 		linkoptions = linkcmd;
 	}
-	return !Ошибка;
+	return !error;
 }
 
-bool JavaBuilder::Preprocess(const Ткст& package, const Ткст& file, const Ткст& target, bool)
+bool JavaBuilder::Preprocess(const String& package, const String& file, const String& target, bool)
 {
-	return Построитель::Preprocess(file, target, Null, false);
+	return Builder::Preprocess(file, target, Null, false);
 }
 
-bool JavaBuilder::PreprocessJava(Ткст file, Ткст target, Ткст options,
-                                 Ткст package, const Пакет& pkg)
+bool JavaBuilder::PreprocessJava(String file, String target, String options,
+                                 String package, const Package& pkg)
 {
-	Ткст mscpp = GetVar("MSCPP_JDK");
-	Ткст cc;
-	if(!пусто_ли(mscpp))
+	String mscpp = GetVar("MSCPP_JDK");
+	String cc;
+	if(!IsNull(mscpp))
 		cc = mscpp + " /C /TP /P /nologo ";
 	else
 		cc = "cpp -C ";
 	cc << IncludesDefinesTargetTime(package, pkg);
 	int time = msecs();
 	RealizePath(target);
-	Ткст execpath;
+	String execpath;
 	execpath << cc << ' ' << options << ' ';
-	Ткст prepfile;
-	bool Ошибка = false;
-	if(!пусто_ли(mscpp))
+	String prepfile;
+	bool error = false;
+	if(!IsNull(mscpp))
 	{
-		prepfile = форсируйРасш(file, ".i");
-		host->ChDir(дайПапкуФайла(prepfile));
+		prepfile = ForceExt(file, ".i");
+		host->ChDir(GetFileFolder(prepfile));
 		execpath << file;
 	}
 	else
 	{
-		вКонсоль(file);
+		PutConsole(file);
 		execpath << file << " " << target;
 		prepfile = target;
 	}
-	if(выполни(execpath) != 0)
+	if(Execute(execpath) != 0)
 	{
 		DeleteFile(target);
-		Ошибка = true;
+		error = true;
 	}
-	Ткст prep = загрузиФайл(prepfile);
-	if(prep.пустой())
+	String prep = LoadFile(prepfile);
+	if(prep.IsEmpty())
 	{
-		вКонсоль(фмт("Ошибка loading preprocessed file %s", prepfile));
-		Ошибка = true;
+		PutConsole(Format("Ошибка при загрузке препроцессированного файла %s", prepfile));
+		error = true;
 	}
 	DeleteFile(prepfile);
-	if(!prep.пустой() && !::сохраниФайл(target, AdjustLines(prep)))
+	if(!prep.IsEmpty() && !::SaveFile(target, AdjustLines(prep)))
 	{
 		DeleteFile(target);
-		Ошибка = true;
-		вКонсоль(фмт("%s: Ошибка saving file.", target));
+		error = true;
+		PutConsole(Format("%s: ошибка при сохранении файла.", target));
 	}
-	PutVerbose("preprocessed in " + GetPrintTime(time));
-	return !Ошибка;
+	PutVerbose("препроцессировано за " + GetPrintTime(time));
+	return !error;
 }
 
-Время JavaBuilder::AddClassDeep(Ткст& link, Ткст dir, Ткст reldir)
+Time JavaBuilder::AddClassDeep(String& link, String dir, String reldir)
 {
-	Время time = Время::наименьш();
-	Вектор<Ткст> folders;
-	for(ФайлПоиск ff(приставьИмяф(dir, приставьИмяф(reldir, "*"))); ff; ff.следщ()) {
-		if(ff.папка_ли())
-			folders.добавь(ff.дайИмя());
-		else if(!stricmp(дайПозРасшф(ff.дайИмя()), ".class"))
+	Time time = Time::Low();
+	Vector<String> folders;
+	for(FindFile ff(AppendFileName(dir, AppendFileName(reldir, "*"))); ff; ff.Next()) {
+		if(ff.IsFolder())
+			folders.Add(ff.GetName());
+		else if(!stricmp(GetFileExtPos(ff.GetName()), ".class"))
 		{
-			link << " -C \"" << dir << "\" \"" << UnixPath(CatAnyPath(reldir, ff.дайИмя())) << '\"';
-			time = max(time, Время(ff.дайВремяПоследнЗаписи()));
+			link << " -C \"" << dir << "\" \"" << UnixPath(CatAnyPath(reldir, ff.GetName())) << '\"';
+			time = max(time, Time(ff.GetLastWriteTime()));
 		}
 	}
-	for(int f = 0; f < folders.дайСчёт(); f++)
-		time = max(time, AddClassDeep(link, dir, приставьИмяф(reldir, folders[f])));
+	for(int f = 0; f < folders.GetCount(); f++)
+		time = max(time, AddClassDeep(link, dir, AppendFileName(reldir, folders[f])));
 	return time;
 }
 
-bool JavaBuilder::Link(const Вектор<Ткст>& linkfile, const Ткст& linkoptions, bool)
+bool JavaBuilder::Link(const Vector<String>& linkfile, const String& linkoptions, bool)
 {
-	if(linkfile.дайСчёт() < ITEMCOUNT)
+	if(linkfile.GetCount() < ITEMCOUNT)
 		return false;
 	int time = msecs();
-	Ткст mainclass = linkfile[MAINCLASS];
-	Ткст maindir = linkfile[MAINDIR];
-	Ткст manifest = linkfile[MANIFEST];
-	вКонсоль("Compiling...");
-	if(выполни(linkoptions) != 0) {
+	String mainclass = linkfile[MAINCLASS];
+	String maindir = linkfile[MAINDIR];
+	String manifest = linkfile[MANIFEST];
+	PutConsole("Компилируется...");
+	if(Execute(linkoptions) != 0) {
 		DeleteFile(mainclass);
 		return false;
 	}
-	PutVerbose("compiled in " + GetPrintTime(time));
+	PutVerbose("скомпилировано за " + GetPrintTime(time));
 	host->ChDir(maindir);
 
-	вКонсоль("Archiving...");
-	Ткст cmdline;
+	PutConsole("Архивирование...");
+	String cmdline;
 	cmdline << "cf";
-	if(!manifest.пустой())
+	if(!manifest.IsEmpty())
 		cmdline << 'm';
 	cmdline << ' ' << target;
-	if(!manifest.пустой())
+	if(!manifest.IsEmpty())
 		cmdline << ' ' << manifest;
-	Время tm = Время::наименьш();
-	for(int i = ITEMCOUNT; i < linkfile.дайСчёт(); i++)
+	Time tm = Time::Low();
+	for(int i = ITEMCOUNT; i < linkfile.GetCount(); i++)
 		tm = max(tm, AddClassDeep(cmdline, linkfile[i], Null));
-	bool Ошибка = false;
+	bool error = false;
 	if(tm > targettime) {
-		CustomStep(".pre-link", Null, Ошибка);
-		Ткст link, response;
+		CustomStep(".pre-link", Null, error);
+		String link, response;
 		link << "jar ";
-		if(cmdline.дайДлину() < 32000)
+		if(cmdline.GetLength() < 32000)
 			link << cmdline;
 		else {
-			response = дайВремИмяф("jar");
+			response = GetTempFileName("jar");
 			link << '@' << response;
-			if(!РНЦП::сохраниФайл(response, cmdline)) {
-				вКонсоль(Ткст().конкат() << "Ошибка writing JAR response file '" << response << "'");
+			if(!UPP::SaveFile(response, cmdline)) {
+				PutConsole(String().Cat() << "Ошибка при записи респонс-файла JAR '" << response << "'");
 				return false;
 			}
 		}
-		bool ok = (выполни(link) == 0);
-		if(!пусто_ли(response))
-			удалифл(response);
+		bool ok = (Execute(link) == 0);
+		if(!IsNull(response))
+			FileDelete(response);
 		if(!ok) {
 			DeleteFile(target);
 			return false;
 		}
-		CustomStep(".post-link", Null, Ошибка);
-		вКонсоль(Ткст().конкат() << target << " (" << дайИнфОФайле(target).length
-		           << " B) archived in " << GetPrintTime(time));
+		CustomStep(".post-link", Null, error);
+		PutConsole(String().Cat() << target << " (" << GetFileInfo(target).length
+		           << " B) архивировано за " << GetPrintTime(time));
 	}
 	else
-		вКонсоль(Ткст().конкат() << target << " (" << дайИнфОФайле(target).length
-		           << " B) is up to date.");
+		PutConsole(String().Cat() << target << " (" << GetFileInfo(target).length
+		           << " B) в свежем состоянии.");
 	return true;
 }
 
-static Построитель *CreateJavaBuilder()
+static Builder *CreateJavaBuilder()
 {
 	return new JavaBuilder;
 }
 
-ИНИЦИАЛИЗАТОР(JavaBuilder)
+INITIALIZER(JavaBuilder)
 {
 	RegisterBuilder("JDK", &CreateJavaBuilder);
 }

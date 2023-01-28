@@ -17,192 +17,192 @@ const TargetMode& MakeBuild::GetTargetMode()
 	return (targetmode == 0 ? debug : release);
 }
 
-Индекс<Ткст> MakeBuild::PackageConfig(const РОбласть& wspc, int package,
-                                 const ВекторМап<Ткст, Ткст>& bm, Ткст mainparam,
-                                 Хост& host, Построитель& b, Ткст *target)
+Index<String> MakeBuild::PackageConfig(const Workspace& wspc, int package,
+                                 const VectorMap<String, String>& bm, String mainparam,
+                                 Host& host, Builder& b, String *target)
 {
-	Ткст packagepath = PackagePath(wspc[package]);
-	const Пакет& pkg = wspc.package[package];
-	cfg.очисть();
-	MergeWith(mainparam, " ", bm.дай(targetmode ? "RELEASE_FLAGS" : "DEBUG_FLAGS", Ткст()),
-	                          bm.дай("COMMON_FLAGS", Ткст()));
+	String packagepath = PackagePath(wspc[package]);
+	const Package& pkg = wspc.package[package];
+	cfg.Clear();
+	MergeWith(mainparam, " ", bm.Get(targetmode ? "RELEASE_FLAGS" : "DEBUG_FLAGS", String()),
+	                          bm.Get("COMMON_FLAGS", String()));
 	cfg = SplitFlags(mainparam, package == 0, wspc.GetAllAccepts(package));
-	cfg.найдиДобавь(bm.дай("BUILDER", "GCC"));
+	cfg.FindAdd(bm.Get("BUILDER", "GCC"));
 	const TargetMode& m = GetTargetMode();
 	if(targetmode == 0)
-		cfg.найдиДобавь("DEBUG");
+		cfg.FindAdd("DEBUG");
 	switch(m.linkmode) {
 	case 2:
-		cfg.найдиДобавь("SO");
+		cfg.FindAdd("SO");
 	case 1:
-		cfg.найдиДобавь("SHARED");
+		cfg.FindAdd("SHARED");
 	}
-	int q = m.package.найди(wspc[package]);
+	int q = m.package.Find(wspc[package]);
 	if(q >= 0) {
 		const PackageMode& p = m.package[q];
 		switch(p.debug >= 0 ? p.debug : m.def.debug) {
-		case 1:  cfg.найдиДобавь("DEBUG_MINIMAL"); break;
-		case 2:  cfg.найдиДобавь("DEBUG_FULL"); break;
+		case 1:  cfg.FindAdd("DEBUG_MINIMAL"); break;
+		case 2:  cfg.FindAdd("DEBUG_FULL"); break;
 		}
-		if(!pkg.noblitz && (p.blitz >= 0 ? p.blitz : m.def.blitz) && bm.дай("DISABLE_BLITZ", "") != "1")
-			cfg.найдиДобавь("BLITZ");
+		if(!pkg.noblitz && (p.blitz >= 0 ? p.blitz : m.def.blitz) && bm.Get("DISABLE_BLITZ", "") != "1")
+			cfg.FindAdd("BLITZ");
 	}
 	else {
 		switch(m.def.debug) {
-		case 1:  cfg.найдиДобавь("DEBUG_MINIMAL"); break;
-		case 2:  cfg.найдиДобавь("DEBUG_FULL"); break;
+		case 1:  cfg.FindAdd("DEBUG_MINIMAL"); break;
+		case 2:  cfg.FindAdd("DEBUG_FULL"); break;
 		}
-		if(!pkg.noblitz && m.def.blitz && bm.дай("DISABLE_BLITZ", "") != "1")
-			cfg.найдиДобавь("BLITZ");
+		if(!pkg.noblitz && m.def.blitz && bm.Get("DISABLE_BLITZ", "") != "1")
+			cfg.FindAdd("BLITZ");
 	}
-	b.добавьФлаги(cfg);
-	host.добавьФлаги(cfg);
-	for(int i = 0; i < pkg.flag.дайСчёт(); i++) {
-		if(MatchWhen(pkg.flag[i].when, cfg.дайКлючи())) {
-			Вектор<Ткст> h = разбей(pkg.flag[i].text, ' ');
-			for(int i = 0; i < h.дайСчёт(); i++)
+	b.AddFlags(cfg);
+	host.AddFlags(cfg);
+	for(int i = 0; i < pkg.flag.GetCount(); i++) {
+		if(MatchWhen(pkg.flag[i].when, cfg.GetKeys())) {
+			Vector<String> h = Split(pkg.flag[i].text, ' ');
+			for(int i = 0; i < h.GetCount(); i++)
 				if(*h[i] == '-')
-					cfg.удалиКлюч(h[i].середина(1));
+					cfg.RemoveKey(h[i].Mid(1));
 				else
-					cfg.найдиДобавь(h[i]);
+					cfg.FindAdd(h[i]);
 		}
 	}
-	for(int i = 0; i < wspc.дайСчёт(); i++) {
-		const Пакет& pk = wspc.package[i];
-		for(int j = 0; j < pk.дайСчёт(); j++)
+	for(int i = 0; i < wspc.GetCount(); i++) {
+		const Package& pk = wspc.package[i];
+		for(int j = 0; j < pk.GetCount(); j++)
 			if(pk[j] == "main.conf")
-				cfg.найдиДобавь(фильтруй(wspc.package.дайКлюч(i), [](int c) { return iscid(c) ? c : '_'; }) + "_conf");
+				cfg.FindAdd(Filter(wspc.package.GetKey(i), [](int c) { return iscid(c) ? c : '_'; }) + "_conf");
 	}
-	Индекс<Ткст> h;
+	Index<String> h;
 	h = clone(cfg); // Retain deep copy (h will be picked)
 	return h;
 }
 
-Ткст NoCr(const char *s)
+String NoCr(const char *s)
 {
-	Ткст out;
+	String out;
 	while(*s)
 	{
 		const char *b = s;
 		while(*s && *s != '\r')
 			s++;
-		out.конкат(b, int(s - b));
+		out.Cat(b, int(s - b));
 		if(*s == '\r')
 			s++;
 	}
 	return out;
 }
 
-void MakeBuild::CreateHost(Хост& host, bool darkmode, bool disable_uhd)
+void MakeBuild::CreateHost(Host& host, bool darkmode, bool disable_uhd)
 {
 	SetupDefaultMethod();
-	ВекторМап<Ткст, Ткст> bm = GetMethodVars(method);
+	VectorMap<String, String> bm = GetMethodVars(method);
 	{
-		ВекторМап<Ткст, Ткст> env = clone(систСреда());
-		host.exedirs = SplitDirs(bm.дай("PATH", "") + ';' + env.дай("PATH", ""));
+		VectorMap<String, String> env = clone(Environment());
+		host.exedirs = SplitDirs(bm.Get("PATH", "") + ';' + env.Get("PATH", ""));
 #ifdef PLATFORM_WIN32
-		Ткст p = дайФайлИзПапкиИсп("bin/mingit/cmd");
-		if(файлЕсть(p + "/git.exe"))
-			host.exedirs.добавь(p);
-		env.дайДобавь("PATH") = Join(host.exedirs, ";");
+		String p = GetExeDirFile("bin/mingit/cmd");
+		if(FileExists(p + "/git.exe"))
+			host.exedirs.Add(p);
+		env.GetAdd("PATH") = Join(host.exedirs, ";");
 #else
-		env.дайДобавь("PATH") = Join(host.exedirs, ":");
+		env.GetAdd("PATH") = Join(host.exedirs, ":");
 #endif
-		env.дайДобавь("UPP_MAIN__") = дайДиректориюФайла(PackagePath(GetMain()));
-		env.дайДобавь("UPP_ASSEMBLY__") = GetVar("РНЦП");
+		env.GetAdd("UPP_MAIN__") = GetFileDirectory(PackagePath(GetMain()));
+		env.GetAdd("UPP_ASSEMBLY__") = GetVar("UPP");
 		if(disable_uhd)
-			env.дайДобавь("UPP_DISABLE_UHD__") = "1";
+			env.GetAdd("UPP_DISABLE_UHD__") = "1";
 		if(darkmode)
-			env.дайДобавь("UPP_DARKMODE__") = "1";
+			env.GetAdd("UPP_DARKMODE__") = "1";
 		// setup LD_LIBRARY_PATH on target dir, needed for all shared builds on posix
 #ifdef PLATFORM_POSIX
 		if(target != "")
 		{
-			Ткст ldPath = дайПапкуФайла(target) + ";" + env.дай("LD_LIBRARY_PATH", "");
-			env.дайДобавь("LD_LIBRARY_PATH") = ldPath;
+			String ldPath = GetFileFolder(target) + ";" + env.Get("LD_LIBRARY_PATH", "");
+			env.GetAdd("LD_LIBRARY_PATH") = ldPath;
 		}
 #endif
 #ifdef PLATFORM_COCOA
-		host.exedirs.приставь(SplitDirs("/opt/local/bin:/opt/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin")); // sometimes some of these are missing..
+		host.exedirs.Append(SplitDirs("/opt/local/bin:/opt/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin")); // sometimes some of these are missing..
 #endif
-		for(int i = 0; i < env.дайСчёт(); i++) {
-			LDUMP(env.дайКлюч(i));
+		for(int i = 0; i < env.GetCount(); i++) {
+			LDUMP(env.GetKey(i));
 			LDUMP(env[i]);
-			host.environment << env.дайКлюч(i) << '=' << env[i] << '\0';
+			host.environment << env.GetKey(i) << '=' << env[i] << '\0';
 		}
-		host.environment.конкат(0);
+		host.environment.Cat(0);
 		host.cmdout = &cmdout;
 	}
 }
 
-Один<Построитель> MakeBuild::CreateBuilder(Хост *host)
+One<Builder> MakeBuild::CreateBuilder(Host *host)
 {
 	SetupDefaultMethod();
-	ВекторМап<Ткст, Ткст> bm = GetMethodVars(method);
-	Ткст builder = bm.дай("BUILDER", "GCC");
-	int q = BuilderMap().найди(builder);
+	VectorMap<String, String> bm = GetMethodVars(method);
+	String builder = bm.Get("BUILDER", "GCC");
+	int q = BuilderMap().Find(builder);
 	if(q < 0) {
-		вКонсоль("Неверный построитель " + builder);
+		PutConsole("Неправильный построитель " + builder);
 		ConsoleShow();
 		return NULL;
 	}
-	Построитель* b = (*BuilderMap().дай(builder))();
+	Builder* b = (*BuilderMap().Get(builder))();
 	b->host = host;
-	b->script = bm.дай("SCRIPT", "");
-	if(AndroidBuilder::GetBuildersNames().найди(builder) > -1) {
+	b->script = bm.Get("SCRIPT", "");
+	if(AndroidBuilder::GetBuildersNames().Find(builder) > -1) {
 		AndroidBuilder* ab = dynamic_cast<AndroidBuilder*>(b);
-		ab->sdk.SetPath((bm.дай("SDK_PATH", "")));
-		ab->ndk.SetPath((bm.дай("NDK_PATH", "")));
-		ab->SetJdk(Один<Jdk>(new Jdk(bm.дай("JDK_PATH", ""), host)));
+		ab->sdk.SetPath((bm.Get("SDK_PATH", "")));
+		ab->ndk.SetPath((bm.Get("NDK_PATH", "")));
+		ab->SetJdk(One<Jdk>(new Jdk(bm.Get("JDK_PATH", ""), host)));
 		
-		Ткст platformVersion = bm.дай("SDK_PLATFORM_VERSION", "");
-		if(!platformVersion.пустой())
+		String platformVersion = bm.Get("SDK_PLATFORM_VERSION", "");
+		if(!platformVersion.IsEmpty())
 			ab->sdk.SetPlatform(platformVersion);
 		else
 			ab->sdk.DeducePlatform();
-		Ткст buildToolsRelease = bm.дай("SDK_BUILD_TOOLS_RELEASE", "");
-		if(!buildToolsRelease.пустой())
+		String buildToolsRelease = bm.Get("SDK_BUILD_TOOLS_RELEASE", "");
+		if(!buildToolsRelease.IsEmpty())
 			ab->sdk.SetBuildToolsRelease(buildToolsRelease);
 		else
 			ab->sdk.DeduceBuildToolsRelease();
 		
-		ab->ndk_blitz = bm.дай("NDK_BLITZ", "") == "1";
-		if(bm.дай("NDK_ARCH_ARMEABI_V7A", "") == "1")
-			ab->ndkArchitectures.добавь("armeabi-v7a");
-		if(bm.дай("NDK_ARCH_ARM64_V8A", "") == "1")
-			ab->ndkArchitectures.добавь("arm64-v8a");
-		if(bm.дай("NDK_ARCH_X86", "") == "1")
-			ab->ndkArchitectures.добавь("x86");
-		if(bm.дай("NDK_ARCH_X86_64", "") == "1")
-			ab->ndkArchitectures.добавь("x86_64");
-		ab->ndkToolchain = bm.дай("NDK_TOOLCHAIN", "");
-		ab->ndkCppRuntime = bm.дай("NDK_CPP_RUNTIME", "");
-		ab->ndkCppFlags = bm.дай("NDK_COMMON_CPP_OPTIONS", "");
-		ab->ndkCFlags = bm.дай("NDK_COMMON_C_OPTIONS", "");
+		ab->ndk_blitz = bm.Get("NDK_BLITZ", "") == "1";
+		if(bm.Get("NDK_ARCH_ARMEABI_V7A", "") == "1")
+			ab->ndkArchitectures.Add("armeabi-v7a");
+		if(bm.Get("NDK_ARCH_ARM64_V8A", "") == "1")
+			ab->ndkArchitectures.Add("arm64-v8a");
+		if(bm.Get("NDK_ARCH_X86", "") == "1")
+			ab->ndkArchitectures.Add("x86");
+		if(bm.Get("NDK_ARCH_X86_64", "") == "1")
+			ab->ndkArchitectures.Add("x86_64");
+		ab->ndkToolchain = bm.Get("NDK_TOOLCHAIN", "");
+		ab->ndkCppRuntime = bm.Get("NDK_CPP_RUNTIME", "");
+		ab->ndkCppFlags = bm.Get("NDK_COMMON_CPP_OPTIONS", "");
+		ab->ndkCFlags = bm.Get("NDK_COMMON_C_OPTIONS", "");
 		
 		b = ab;
 	}
 	else {
-		// TODO: cpp builder variables only!!!
-		b->compiler = bm.дай("COMPILER", "");
-		b->include = SplitDirs(Join(GetUppDirs(), ";") + ';' + bm.дай("INCLUDE", "") + ';' + add_includes);
-		const РОбласть& wspc = GetIdeWorkspace();
-		for(int i = 0; i < wspc.дайСчёт(); i++) {
-			const Пакет& pkg = wspc.дайПакет(i);
-			for(int j = 0; j < pkg.include.дайСчёт(); j++)
-				b->include.добавь(SourcePath(wspc[i], pkg.include[j].text));
+		// СДЕЛАТЬ: cpp builder variables only!!!
+		b->compiler = bm.Get("COMPILER", "");
+		b->include = SplitDirs(Join(GetUppDirs(), ";") + ';' + bm.Get("INCLUDE", "") + ';' + add_includes);
+		const Workspace& wspc = GetIdeWorkspace();
+		for(int i = 0; i < wspc.GetCount(); i++) {
+			const Package& pkg = wspc.GetPackage(i);
+			for(int j = 0; j < pkg.include.GetCount(); j++)
+				b->include.Add(SourcePath(wspc[i], pkg.include[j].text));
 		}
-		b->libpath = SplitDirs(bm.дай("LIB", ""));
-		b->cpp_options = bm.дай("COMMON_CPP_OPTIONS", "");
-		b->c_options = bm.дай("COMMON_C_OPTIONS", "");
-		b->debug_options = Join(bm.дай("COMMON_OPTIONS", ""), bm.дай("DEBUG_OPTIONS", ""));
-		b->release_options = Join(bm.дай("COMMON_OPTIONS", ""), bm.дай("RELEASE_OPTIONS", ""));
-		b->common_link = bm.дай("COMMON_LINK", "");
-		b->debug_link = bm.дай("DEBUG_LINK", "");
-		b->release_link = bm.дай("RELEASE_LINK", "");
+		b->libpath = SplitDirs(bm.Get("LIB", ""));
+		b->cpp_options = bm.Get("COMMON_CPP_OPTIONS", "");
+		b->c_options = bm.Get("COMMON_C_OPTIONS", "");
+		b->debug_options = Join(bm.Get("COMMON_OPTIONS", ""), bm.Get("DEBUG_OPTIONS", ""));
+		b->release_options = Join(bm.Get("COMMON_OPTIONS", ""), bm.Get("RELEASE_OPTIONS", ""));
+		b->common_link = bm.Get("COMMON_LINK", "");
+		b->debug_link = bm.Get("DEBUG_LINK", "");
+		b->release_link = bm.Get("RELEASE_LINK", "");
 		
-		b->main_conf = !!main_conf.дайСчёт();
-		b->allow_pch = bm.дай("ALLOW_PRECOMPILED_HEADERS", "") == "1";
+		b->main_conf = !!main_conf.GetCount();
+		b->allow_pch = bm.Get("ALLOW_PRECOMPILED_HEADERS", "") == "1";
 		b->start_time = start_time;
 	}
 	return b;
@@ -215,65 +215,65 @@ int CharFilterSlash(int c)
 
 bool output_per_assembly;
 
-Ткст MakeBuild::OutDir(const Индекс<Ткст>& cfg, const Ткст& package, const ВекторМап<Ткст, Ткст>& bm,
+String MakeBuild::OutDir(const Index<String>& cfg, const String& package, const VectorMap<String, String>& bm,
                    bool use_target)
 {
-	Индекс<Ткст> excl;
-	excl.добавь(bm.дай("BUILDER", "GCC"));
-	excl.добавь("MSC");
-	Хост().добавьФлаги(excl);
-	Вектор<Ткст> x;
-	bool dbg = cfg.найди("DEBUG_FULL") >= 0 || cfg.найди("DEBUG_MINIMAL") >= 0;
-	if(cfg.найди("DEBUG") >= 0) {
-		excl.добавь("BLITZ");
-		if(cfg.найди("BLITZ") < 0)
-			x.добавь("NOBLITZ");
+	Index<String> excl;
+	excl.Add(bm.Get("BUILDER", "GCC"));
+	excl.Add("MSC");
+	Host().AddFlags(excl);
+	Vector<String> x;
+	bool dbg = cfg.Find("DEBUG_FULL") >= 0 || cfg.Find("DEBUG_MINIMAL") >= 0;
+	if(cfg.Find("DEBUG") >= 0) {
+		excl.Add("BLITZ");
+		if(cfg.Find("BLITZ") < 0)
+			x.Add("NOBLITZ");
 	}
 	else
 		if(dbg)
-			x.добавь("RELEASE");
+			x.Add("RELEASE");
 	if(use_target)
-		excl.добавь("MAIN");
-	for(int i = 0; i < cfg.дайСчёт(); i++)
-		if(excl.найди(cfg[i]) < 0)
-			x.добавь(cfg[i]);
-	сортируй(x);
-	for(int i = 0; i < x.дайСчёт(); i++)
-		x[i] = иницШапки(x[i]);
-	Ткст outdir = GetVar("OUTPUT");
+		excl.Add("MAIN");
+	for(int i = 0; i < cfg.GetCount(); i++)
+		if(excl.Find(cfg[i]) < 0)
+			x.Add(cfg[i]);
+	Sort(x);
+	for(int i = 0; i < x.GetCount(); i++)
+		x[i] = InitCaps(x[i]);
+	String outdir = GetVar("OUTPUT");
 	if(output_per_assembly)
-		outdir = приставьИмяф(outdir, GetAssemblyId());
+		outdir = AppendFileName(outdir, GetAssemblyId());
 	if(!use_target)
-		outdir = приставьИмяф(outdir, package);
-	outdir = приставьИмяф(outdir, дайТитулф(method) + "." + Join(x, "."));
-	outdir = фильтруй(outdir, CharFilterSlash);
+		outdir = AppendFileName(outdir, package);
+	outdir = AppendFileName(outdir, GetFileTitle(method) + "." + Join(x, "."));
+	outdir = Filter(outdir, CharFilterSlash);
 	return outdir;
 }
 
-void MakeBuild::PkgConfig(const РОбласть& wspc, const Индекс<Ткст>& config, Индекс<Ткст>& pkg_config)
+void MakeBuild::PkgConfig(const Workspace& wspc, const Index<String>& config, Index<String>& pkg_config)
 {
-	for(int i = 0; i < wspc.дайСчёт(); i++)
-		for(Ткст h : разбей(Gather(wspc.дайПакет(i).pkg_config, config.дайКлючи()), ' '))
-			pkg_config.найдиДобавь(h);
+	for(int i = 0; i < wspc.GetCount(); i++)
+		for(String h : Split(Gather(wspc.GetPackage(i).pkg_config, config.GetKeys()), ' '))
+			pkg_config.FindAdd(h);
 }
 
-bool MakeBuild::постройПакет(const РОбласть& wspc, int pkindex, int pknumber, int pkcount,
-	Ткст mainparam, Ткст outfile, Вектор<Ткст>& linkfile, Вектор<Ткст>& immfile,
-	Ткст& linkopt, bool link)
+bool MakeBuild::BuildPackage(const Workspace& wspc, int pkindex, int pknumber, int pkcount,
+	String mainparam, String outfile, Vector<String>& linkfile, Vector<String>& immfile,
+	String& linkopt, bool link)
 {
-	Ткст package = wspc[pkindex];
-	Ткст mainpackage = wspc[0];
-	const Пакет& pkg = wspc.package[pkindex];
-	ВекторМап<Ткст, Ткст> bm = GetMethodVars(method);
-	if(bm.дайСчёт() == 0) {
-		вКонсоль(GetInvalidBuildMethodError(method));
+	String package = wspc[pkindex];
+	String mainpackage = wspc[0];
+	const Package& pkg = wspc.package[pkindex];
+	VectorMap<String, String> bm = GetMethodVars(method);
+	if(bm.GetCount() == 0) {
+		PutConsole(GetInvalidBuildMethodError(method));
 		ConsoleShow();
 		return false;
 	}
-	Хост host;
+	Host host;
 	CreateHost(host, false, false);
 	host.onefile = onefile;
-	Один<Построитель> b = CreateBuilder(&host);
+	One<Builder> b = CreateBuilder(&host);
 	if(!b)
 		return false;
 	b->config = PackageConfig(wspc, pkindex, bm, mainparam, host, *b);
@@ -283,70 +283,70 @@ bool MakeBuild::постройПакет(const РОбласть& wspc, int pkind
 	b->method = method;
 	b->outdir = OutDir(b->config, package, bm);
 	host.RealizeDir(b->outdir);
-	Ткст mainfn = Null;
-	Индекс<Ткст> mcfg = PackageConfig(wspc, 0, bm, mainparam, host, *b, &mainfn);
+	String mainfn = Null;
+	Index<String> mcfg = PackageConfig(wspc, 0, bm, mainparam, host, *b, &mainfn);
 	HdependClearDependencies();
-	for(int i = 0; i < pkg.дайСчёт(); i++) {
-		const Массив<OptItem>& f = pkg[i].depends;
-		for(int j = 0; j < f.дайСчёт(); j++)
-			if(MatchWhen(f[j].when, mcfg.дайКлючи()))
+	for(int i = 0; i < pkg.GetCount(); i++) {
+		const Array<OptItem>& f = pkg[i].depends;
+		for(int j = 0; j < f.GetCount(); j++)
+			if(MatchWhen(f[j].when, mcfg.GetKeys()))
 				HdependAddDependency(SourcePath(package, pkg[i]), SourcePath(package, f[j].text));
 	}
-	Ткст tout = OutDir(mcfg, mainpackage, bm, use_target);
+	String tout = OutDir(mcfg, mainpackage, bm, use_target);
 	host.RealizeDir(tout);
-	if(пусто_ли(mainfn))
-		mainfn = дайТитулф(mainpackage) + b->GetTargetExt();
-	if(!пусто_ли(outfile))
-		target = нормализуйПуть(outfile, tout);
+	if(IsNull(mainfn))
+		mainfn = GetFileTitle(mainpackage) + b->GetTargetExt();
+	if(!IsNull(outfile))
+		target = NormalizePath(outfile, tout);
 	else {
 	#ifdef PLATFORM_COCOA
-		if(m.target_override && !пусто_ли(m.target)
-		   && папка_ли(m.target) && дайРасшф(m.target) == ".app")
-			target = нормализуйПуть(m.target);
+		if(m.target_override && !IsNull(m.target)
+		   && IsFolder(m.target) && GetFileExt(m.target) == ".app")
+			target = NormalizePath(m.target);
 		else
 	#endif
-		if(m.target_override && !пусто_ли(m.target) && папка_ли(m.target))
-			target = нормализуйПуть(приставьИмяф(m.target, mainfn));
+		if(m.target_override && !IsNull(m.target) && IsFolder(m.target))
+			target = NormalizePath(AppendFileName(m.target, mainfn));
 		else
-		if(m.target_override && (полнпуть_ли(m.target) || *m.target == '/' || *m.target == '\\'))
+		if(m.target_override && (IsFullPath(m.target) || *m.target == '/' || *m.target == '\\'))
 			target = m.target;
 		else
-		if(m.target_override && !пусто_ли(m.target))
-			target = нормализуйПуть(приставьИмяф(tout, m.target));
+		if(m.target_override && !IsNull(m.target))
+			target = NormalizePath(AppendFileName(tout, m.target));
 		else
-		if(полнпуть_ли(mainfn))
+		if(IsFullPath(mainfn))
 			target = mainfn;
 		else
-			target = нормализуйПуть(приставьИмяф(tout, mainfn));
+			target = NormalizePath(AppendFileName(tout, mainfn));
 	}
 	b->target = target;
 	b->mainpackage = mainpackage;
-	if(пусто_ли(onefile)) {
-		Ткст out;
-		out << "----- " << package << " ( " << Join(b->config.дайКлючи(), " ") << " )";
+	if(IsNull(onefile)) {
+		String out;
+		out << "----- " << package << " ( " << Join(b->config.GetKeys(), " ") << " )";
 		if(pkcount > 1)
 			out << " (" << (pknumber + 1) << " / " << pkcount << ')';
-		вКонсоль(out);
+		PutConsole(out);
 	}
 	else
-		b->config.найдиДобавь("NOLIB");
-	bool ok = b->постройПакет(package, linkfile, immfile, linkopt,
+		b->config.FindAdd("NOLIB");
+	bool ok = b->BuildPackage(package, linkfile, immfile, linkopt,
 		                      GetAllUses(wspc, pkindex, bm, mainparam, host, *b),
 		                      GetAllLibraries(wspc, pkindex, bm, mainparam, host, *b),
 		                      targetmode - 1);
 	target = b->target; // apple app bundle can change target
-	Вектор<Ткст> errors = PickErrors();
-	for(Ткст p : errors)
+	Vector<String> errors = PickErrors();
+	for(String p : errors)
 		DeleteFile(p);
-	if(!ok || !errors.пустой())
+	if(!ok || !errors.IsEmpty())
 		return false;
 	if(link) {
 		ok = b->Link(linkfile, linkopt, GetTargetMode().createmap);
 		PutLinkingEnd(ok);
 		errors = PickErrors();
-		for(Ткст p : errors)
+		for(String p : errors)
 			DeleteFile(p);
-		if(!ok || !errors.пустой())
+		if(!ok || !errors.IsEmpty())
 			return false;
 	}
 	return true;
@@ -354,131 +354,131 @@ bool MakeBuild::постройПакет(const РОбласть& wspc, int pkind
 
 void MakeBuild::SetHdependDirs()
 {
-	Вектор<Ткст> include = SplitDirs(GetVar("РНЦП") + ';'
-		+ GetMethodVars(method).дай("INCLUDE", "") + ';'
-		+ систСреда().дай("INCLUDE", "")
+	Vector<String> include = SplitDirs(GetVar("UPP") + ';'
+		+ GetMethodVars(method).Get("INCLUDE", "") + ';'
+		+ Environment().Get("INCLUDE", "")
 #ifdef PLATFORM_POSIX
 		+ ";/usr/include;/usr/local/include;"
 #endif
 		+ add_includes
 		);
 	// Also adding internal includes
-	const РОбласть& wspc = GetIdeWorkspace();
-	for(int i = 0; i < wspc.дайСчёт(); i++) {
-		const Пакет& pkg = wspc.дайПакет(i);
-		for(int j = 0; j < pkg.include.дайСчёт(); j++)
-			include.добавь(SourcePath(wspc[i], pkg.include[j].text));
+	const Workspace& wspc = GetIdeWorkspace();
+	for(int i = 0; i < wspc.GetCount(); i++) {
+		const Package& pkg = wspc.GetPackage(i);
+		for(int j = 0; j < pkg.include.GetCount(); j++)
+			include.Add(SourcePath(wspc[i], pkg.include[j].text));
 	}
 
 	HdependSetDirs(pick(include));
 }
 
-Вектор<Ткст> MakeBuild::GetAllUses(const РОбласть& wspc, int f,
-	const ВекторМап<Ткст, Ткст>& bm, Ткст mainparam, Хост& host, Построитель& builder)
+Vector<String> MakeBuild::GetAllUses(const Workspace& wspc, int f,
+	const VectorMap<String, String>& bm, String mainparam, Host& host, Builder& builder)
 { // Gathers all uses, including subpackages, to support SO builds
-	Ткст package = wspc[f];
-	Индекс<Ткст> all_uses;
+	String package = wspc[f];
+	Index<String> all_uses;
 	bool warn = true;
 	int n = 0;
 	while(f >= 0) {
-		const Пакет& p = wspc.package[f];
-		Индекс<Ткст> config = PackageConfig(wspc, f, bm, mainparam, host, builder);
-		for(int fu = 0; fu < p.uses.дайСчёт(); fu++) {
-			if(MatchWhen(p.uses[fu].when, config.дайКлючи())) {
+		const Package& p = wspc.package[f];
+		Index<String> config = PackageConfig(wspc, f, bm, mainparam, host, builder);
+		for(int fu = 0; fu < p.uses.GetCount(); fu++) {
+			if(MatchWhen(p.uses[fu].when, config.GetKeys())) {
 				if(p.uses[fu].text != package)
-					all_uses.найдиДобавь(p.uses[fu].text);
+					all_uses.FindAdd(p.uses[fu].text);
 				else if(warn) {
-					вКонсоль(фмт("%s: циркулярная цепечка 'использований'", package));
+					PutConsole(Format("%s: циркулярная цепочка 'использований'", package));
 					warn = false;
 				}
 			}
 		}
 		f = -1;
-		while(n < all_uses.дайСчёт() && (f = wspc.package.найди(all_uses[n++])) < 0)
+		while(n < all_uses.GetCount() && (f = wspc.package.Find(all_uses[n++])) < 0)
 			;
 	}
-	return all_uses.подбериКлючи();
+	return all_uses.PickKeys();
 }
 
-Вектор<Ткст> MakeBuild::GetAllLibraries(const РОбласть& wspc, int Индекс,
-	const ВекторМап<Ткст, Ткст>& bm, Ткст mainparam,
-	Хост& host, Построитель& builder)
+Vector<String> MakeBuild::GetAllLibraries(const Workspace& wspc, int index,
+	const VectorMap<String, String>& bm, String mainparam,
+	Host& host, Builder& builder)
 {
-	Вектор<Ткст> uses = GetAllUses(wspc, Индекс, bm, mainparam, host, builder);
-	uses.добавь(wspc[Индекс]);
-	::Индекс<Ткст> libraries;
+	Vector<String> uses = GetAllUses(wspc, index, bm, mainparam, host, builder);
+	uses.Add(wspc[index]);
+	Index<String> libraries;
 	
-	for(int i = 0; i < uses.дайСчёт(); i++) {
-		int f = wspc.package.найди(UnixPath(uses[i]));
+	for(int i = 0; i < uses.GetCount(); i++) {
+		int f = wspc.package.Find(UnixPath(uses[i]));
 		if(f >= 0) {
-			const Пакет& pk = wspc.package[f];
-			::Индекс<Ткст> config = PackageConfig(wspc, f, bm, mainparam, host, builder);
-			Вектор<Ткст> pklibs = разбей(Gather(pk.library, config.дайКлючи()), ' ');
+			const Package& pk = wspc.package[f];
+			Index<String> config = PackageConfig(wspc, f, bm, mainparam, host, builder);
+			Vector<String> pklibs = Split(Gather(pk.library, config.GetKeys()), ' ');
 			FindAppend(libraries, pklibs);
 		}
 	}
-	return libraries.подбериКлючи();
+	return libraries.PickKeys();
 }
 
-bool MakeBuild::Build(const РОбласть& wspc, Ткст mainparam, Ткст outfile, bool clear_console)
+bool MakeBuild::Build(const Workspace& wspc, String mainparam, String outfile, bool clear_console)
 {
 	InitBlitz();
 
-	Ткст hfile = outfile + ".xxx";
-	сохраниФайл(hfile, "");
-	start_time = дайФВремя(hfile); // Defensive way to get correct filetime of start
+	String hfile = outfile + ".xxx";
+	SaveFile(hfile, "");
+	start_time = GetFileTime(hfile); // Defensive way to get correct filetime of start
 	DeleteFile(hfile);
 	
 	ClearErrorEditor();
 	BeginBuilding(clear_console);
 	bool ok = true;
-	main_conf.очисть();
-	add_includes.очисть();
-	if(wspc.дайСчёт()) {
-		for(int i = 0; i < wspc.дайСчёт(); i++) {
-			const Пакет& pk = wspc.package[i];
-			for(int j = 0; j < pk.дайСчёт(); j++)
+	main_conf.Clear();
+	add_includes.Clear();
+	if(wspc.GetCount()) {
+		for(int i = 0; i < wspc.GetCount(); i++) {
+			const Package& pk = wspc.package[i];
+			for(int j = 0; j < pk.GetCount(); j++)
 				if(pk[j] == "main.conf") {
-					Ткст pn = wspc[i];
-					Ткст p = SourcePath(pn, "main.conf");
-					main_conf << "// " << pn << "\r\n" << загрузиФайл(p) << "\r\n";
-					вКонсоль("Found " + p);
+					String pn = wspc[i];
+					String p = SourcePath(pn, "main.conf");
+					main_conf << "// " << pn << "\r\n" << LoadFile(p) << "\r\n";
+					PutConsole("Найден " + p);
 				}
 		}
 
-		if(main_conf.дайСчёт()) {
-			ВекторМап<Ткст, Ткст> bm = GetMethodVars(method);
-			Хост host;
+		if(main_conf.GetCount()) {
+			VectorMap<String, String> bm = GetMethodVars(method);
+			Host host;
 			CreateHost(host, false, false);
-			Один<Построитель> b = CreateBuilder(&host);
+			One<Builder> b = CreateBuilder(&host);
 			if(b) {
-				Индекс<Ткст> mcfg = PackageConfig(wspc, 0, bm, mainparam, host, *b, NULL);
-				Ткст outdir = OutDir(mcfg, wspc[0], bm, false);
-				Ткст path = приставьИмяф(outdir, "main.conf.h");
+				Index<String> mcfg = PackageConfig(wspc, 0, bm, mainparam, host, *b, NULL);
+				String outdir = OutDir(mcfg, wspc[0], bm, false);
+				String path = AppendFileName(outdir, "main.conf.h");
 				RealizePath(path);
-				сохраниИзменёнФайл(path, main_conf);
-				вКонсоль("Сохраняется " + path);
+				SaveChangedFile(path, main_conf);
+				PutConsole("Сохраняется " + path);
 				PutVerbose(main_conf);
 				add_includes << outdir << ';';
 			}
 		}
 
-		Вектор<int> build_order;
-		if(cfg.найди("SO") < 0) {
-			for(int i = 1; i < wspc.дайСчёт(); i++)
-				build_order.добавь(i);
+		Vector<int> build_order;
+		if(cfg.Find("SO") < 0) {
+			for(int i = 1; i < wspc.GetCount(); i++)
+				build_order.Add(i);
 		}
 		else {
-			Индекс<int> remaining;
-			for(int i = 1; i < wspc.дайСчёт(); i++)
-				remaining.добавь(i);
-			while(!remaining.пустой()) {
+			Index<int> remaining;
+			for(int i = 1; i < wspc.GetCount(); i++)
+				remaining.Add(i);
+			while(!remaining.IsEmpty()) {
 				int t;
-				for(t = 0; t < remaining.дайСчёт(); t++) {
-					const Пакет& pk = wspc.package[remaining[t]];
+				for(t = 0; t < remaining.GetCount(); t++) {
+					const Package& pk = wspc.package[remaining[t]];
 					bool delay = false;
-					for(int u = 0; u < pk.uses.дайСчёт(); u++) {
-						if(remaining.найди(wspc.package.найди(UnixPath(pk.uses[u].text))) >= 0) {
+					for(int u = 0; u < pk.uses.GetCount(); u++) {
+						if(remaining.Find(wspc.package.Find(UnixPath(pk.uses[u].text))) >= 0) {
 							delay = true;
 							break;
 						}
@@ -486,32 +486,32 @@ bool MakeBuild::Build(const РОбласть& wspc, Ткст mainparam, Ткст
 					if(!delay)
 						break;
 				}
-				if(t >= remaining.дайСчёт()) // Progress even if circular references present
+				if(t >= remaining.GetCount()) // Progress even if circular references present
 					t = 0;
-				build_order.добавь(remaining[t]);
-				remaining.удали(t);
+				build_order.Add(remaining[t]);
+				remaining.Remove(t);
 			}
 		}
 
-		Ткст mainpackage = wspc[0];
-		Вектор<Ткст> linkfile, immfile;
-		Ткст linkopt = Merge(" ", GetMethodVars(method).дай("COMMON_LINK", Null),
-		                       GetMethodVars(method).дай(targetmode ? "RELEASE_LINK" : "DEBUG_LINK", Null));
-		if(linkopt.дайСчёт())
+		String mainpackage = wspc[0];
+		Vector<String> linkfile, immfile;
+		String linkopt = Merge(" ", GetMethodVars(method).Get("COMMON_LINK", Null),
+		                       GetMethodVars(method).Get(targetmode ? "RELEASE_LINK" : "DEBUG_LINK", Null));
+		if(linkopt.GetCount())
 			linkopt << ' ';
 		ok = true;
 		int ms = msecs();
-		for(int i = 0; i < build_order.дайСчёт() && (ok || !stoponerrors); i++) {
+		for(int i = 0; i < build_order.GetCount() && (ok || !stoponerrors); i++) {
 			int px = build_order[i];
-			ok = постройПакет(wspc, px, i, build_order.дайСчёт() + 1,
+			ok = BuildPackage(wspc, px, i, build_order.GetCount() + 1,
 				              mainparam, Null, linkfile, immfile, linkopt) && ok;
 			if(msecs() - ms >= 200) {
-				DoProcessСобытиеs();
+				DoProcessEvents();
 				ms = msecs();
 			}
 		}
 		if(ok || !stoponerrors) {
-			ok = постройПакет(wspc, 0, build_order.дайСчёт(), build_order.дайСчёт() + 1,
+			ok = BuildPackage(wspc, 0, build_order.GetCount(), build_order.GetCount() + 1,
 			                  mainparam, outfile, linkfile, immfile, linkopt, ok) && ok;
 		}
 	}
@@ -521,65 +521,65 @@ bool MakeBuild::Build(const РОбласть& wspc, Ткст mainparam, Ткст
 	return ok;
 }
 
-void MakeBuild::BuildWorkspace(РОбласть& wspc, Хост& host, Построитель& builder)
+void MakeBuild::BuildWorkspace(Workspace& wspc, Host& host, Builder& builder)
 {
-	Индекс<Ткст> p = PackageConfig(GetIdeWorkspace(), 0, GetMethodVars(method), mainconfigparam,
+	Index<String> p = PackageConfig(GetIdeWorkspace(), 0, GetMethodVars(method), mainconfigparam,
 	                                host, builder);
-	wspc.скан(GetMain(), p.дайКлючи());
+	wspc.Scan(GetMain(), p.GetKeys());
 }
 
 bool MakeBuild::Build()
 {
-	if(GetMethodVars(method).дайСчёт() == 0) {
-		вКонсоль(GetInvalidBuildMethodError(method));
+	if(GetMethodVars(method).GetCount() == 0) {
+		PutConsole(GetInvalidBuildMethodError(method));
 		ConsoleShow();
 		return false;
 	}
-	Хост host;
+	Host host;
 	CreateHost(host, false, false);
-	Один<Построитель> builder = CreateBuilder(&host);
+	One<Builder> builder = CreateBuilder(&host);
 	if(!builder)
 		return false;
-	РОбласть wspc;
+	Workspace wspc;
 	BuildWorkspace(wspc, host, *builder);
 	return Build(wspc, mainconfigparam, Null);
 }
 
-void MakeBuild::очистьПакет(const РОбласть& wspc, int package)
+void MakeBuild::CleanPackage(const Workspace& wspc, int package)
 {
-	вКонсоль(фмт("Очищается %s", wspc[package]));
-	Хост host;
+	PutConsole(Format("Очистка %s", wspc[package]));
+	Host host;
 	CreateHost(host, false, false);
-	Один<Построитель> builder = CreateBuilder(&host);
+	One<Builder> builder = CreateBuilder(&host);
 	if(!builder)
 		return;
-	Ткст outdir = OutDir(PackageConfig(wspc, package, GetMethodVars(method), mainconfigparam,
+	String outdir = OutDir(PackageConfig(wspc, package, GetMethodVars(method), mainconfigparam,
 	                       host, *builder), wspc[package], GetMethodVars(method));
-	// TODO: almost perfect, but target will be detected after build. if build does not occur the target is empty :(
+	// СДЕЛАТЬ: almost perfect, but target will be detected after build. if build does not occur the target is empty :(
 	// How to make sure we know target? Target directory is where android project sandbox is.
 	builder->target = target;
-	builder->очистьПакет(wspc[package], outdir);
+	builder->CleanPackage(wspc[package], outdir);
 }
 
 void MakeBuild::Clean()
 {
 	ConsoleClear();
 
-	Хост host;
+	Host host;
 	CreateHost(host, false, false);
-	Один<Построитель> builder = CreateBuilder(&host);
+	One<Builder> builder = CreateBuilder(&host);
 	if(!builder)
 		return;
 	builder->target = target;
 	
-	РОбласть wspc;
+	Workspace wspc;
 	BuildWorkspace(wspc, host, *builder);
-	for(int i = 0; i < wspc.дайСчёт(); i++)
-		очистьПакет(wspc, i);
+	for(int i = 0; i < wspc.GetCount(); i++)
+		CleanPackage(wspc, i);
 	
 	builder->AfterClean();
 	
-	вКонсоль("...готово");
+	PutConsole("...готово");
 }
 
 void MakeBuild::RebuildAll()
@@ -588,7 +588,7 @@ void MakeBuild::RebuildAll()
 	Build();
 }
 
-Ткст MakeBuild::GetInvalidBuildMethodError(const Ткст& method)
+String MakeBuild::GetInvalidBuildMethodError(const String& method)
 {
 	return "Неверный метод построения " + method + " (" + GetMethodPath(method) + ").";
 }

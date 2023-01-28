@@ -17,7 +17,7 @@
  *   disclaimer in the documentation and/or other materials
  *   provided with the distribution.
  *
- *   Neither the имя of the copyright holder nor the names
+ *   Neither the name of the copyright holder nor the names
  *   of any other contributors may be used to endorse or
  *   promote products derived from this software without
  *   specific prior written permission.
@@ -61,7 +61,7 @@ write_bn(unsigned char *buf, const BIGNUM *bn, int bn_bytes)
 {
     unsigned char *p = buf;
 
-    /* лево space for bn size which will be written below. */
+    /* Left space for bn size which will be written below. */
     p += 4;
 
     *p = 0;
@@ -69,7 +69,7 @@ write_bn(unsigned char *buf, const BIGNUM *bn, int bn_bytes)
     if(!(*(p + 1) & 0x80)) {
         memmove(p, p + 1, --bn_bytes);
     }
-    _libssh2_htonu32(p - 4, bn_bytes);  /* пост write bn size. */
+    _libssh2_htonu32(p - 4, bn_bytes);  /* Post write bn size. */
 
     return p + bn_bytes;
 }
@@ -261,45 +261,45 @@ _libssh2_dsa_sha1_verify(libssh2_dsa_ctx * dsactx,
 
 /* _libssh2_ecdsa_get_curve_type
  *
- * returns ключ curve тип that maps to libssh2_curve_type
+ * returns key curve type that maps to libssh2_curve_type
  *
  */
 
 libssh2_curve_type
 _libssh2_ecdsa_get_curve_type(libssh2_ecdsa_ctx *ec_ctx)
 {
-    const EC_GROUP *группа = EC_KEY_get0_group(ec_ctx);
-    return EC_GROUP_get_curve_name(группа);
+    const EC_GROUP *group = EC_KEY_get0_group(ec_ctx);
+    return EC_GROUP_get_curve_name(group);
 }
 
 /* _libssh2_ecdsa_curve_type_from_name
  *
- * returns 0 for success, ключ curve тип that maps to libssh2_curve_type
+ * returns 0 for success, key curve type that maps to libssh2_curve_type
  *
  */
 
 int
-_libssh2_ecdsa_curve_type_from_name(const char *имя,
+_libssh2_ecdsa_curve_type_from_name(const char *name,
                                     libssh2_curve_type *out_type)
 {
     int ret = 0;
-    libssh2_curve_type тип;
+    libssh2_curve_type type;
 
-    if(имя == NULL || strlen(имя) != 19)
+    if(name == NULL || strlen(name) != 19)
         return -1;
 
-    if(strcmp(имя, "ecdsa-sha2-nistp256") == 0)
-        тип = LIBSSH2_EC_CURVE_NISTP256;
-    else if(strcmp(имя, "ecdsa-sha2-nistp384") == 0)
-        тип = LIBSSH2_EC_CURVE_NISTP384;
-    else if(strcmp(имя, "ecdsa-sha2-nistp521") == 0)
-        тип = LIBSSH2_EC_CURVE_NISTP521;
+    if(strcmp(name, "ecdsa-sha2-nistp256") == 0)
+        type = LIBSSH2_EC_CURVE_NISTP256;
+    else if(strcmp(name, "ecdsa-sha2-nistp384") == 0)
+        type = LIBSSH2_EC_CURVE_NISTP384;
+    else if(strcmp(name, "ecdsa-sha2-nistp521") == 0)
+        type = LIBSSH2_EC_CURVE_NISTP521;
     else {
         ret = -1;
     }
 
     if(ret == 0 && out_type) {
-        *out_type = тип;
+        *out_type = type;
     }
 
     return ret;
@@ -307,7 +307,7 @@ _libssh2_ecdsa_curve_type_from_name(const char *имя,
 
 /* _libssh2_ecdsa_curve_name_with_octal_new
  *
- * Creates a new public ключ given an octal string, length and тип
+ * Creates a new public key given an octal string, length and type
  *
  */
 
@@ -355,7 +355,7 @@ _libssh2_ecdsa_verify(libssh2_ecdsa_ctx * ctx,
 {
     int ret = 0;
     EC_KEY *ec_key = (EC_KEY*)ctx;
-    libssh2_curve_type тип = _libssh2_ecdsa_get_curve_type(ec_key);
+    libssh2_curve_type type = _libssh2_ecdsa_get_curve_type(ec_key);
 
 #ifdef HAVE_OPAQUE_STRUCTS
     ECDSA_SIG *ecdsa_sig = ECDSA_SIG_new();
@@ -375,13 +375,13 @@ _libssh2_ecdsa_verify(libssh2_ecdsa_ctx * ctx,
     BN_bin2bn(s, s_len, ecdsa_sig_.s);
 #endif
 
-    if(тип == LIBSSH2_EC_CURVE_NISTP256) {
+    if(type == LIBSSH2_EC_CURVE_NISTP256) {
         LIBSSH2_ECDSA_VERIFY(256);
     }
-    else if(тип == LIBSSH2_EC_CURVE_NISTP384) {
+    else if(type == LIBSSH2_EC_CURVE_NISTP384) {
         LIBSSH2_ECDSA_VERIFY(384);
     }
-    else if(тип == LIBSSH2_EC_CURVE_NISTP521) {
+    else if(type == LIBSSH2_EC_CURVE_NISTP521) {
         LIBSSH2_ECDSA_VERIFY(512);
     }
 
@@ -440,7 +440,7 @@ _libssh2_cipher_crypt(_libssh2_cipher_ctx * ctx,
 
 typedef struct
 {
-    AES_KEY       ключ;
+    AES_KEY       key;
     EVP_CIPHER_CTX *aes_ctx;
     unsigned char ctr[AES_BLOCK_SIZE];
 } aes_ctr_ctx;
@@ -450,8 +450,8 @@ static EVP_CIPHER * aes_192_ctr_cipher = NULL;
 static EVP_CIPHER * aes_256_ctr_cipher = NULL;
 
 static int
-aes_ctr_init(EVP_CIPHER_CTX *ctx, const unsigned char *ключ,
-             const unsigned char *iv, int enc) /* init ключ */
+aes_ctr_init(EVP_CIPHER_CTX *ctx, const unsigned char *key,
+             const unsigned char *iv, int enc) /* init key */
 {
     /*
      * variable "c" is leaked from this scope, but is later freed
@@ -489,7 +489,7 @@ aes_ctr_init(EVP_CIPHER_CTX *ctx, const unsigned char *ключ,
         return 0;
     }
 
-    if(EVP_EncryptInit(c->aes_ctx, aes_cipher, ключ, NULL) != 1) {
+    if(EVP_EncryptInit(c->aes_ctx, aes_cipher, key, NULL) != 1) {
 #ifdef HAVE_OPAQUE_STRUCTS
         EVP_CIPHER_CTX_free(c->aes_ctx);
 #else
@@ -566,10 +566,10 @@ aes_ctr_cleanup(EVP_CIPHER_CTX *ctx) /* cleanup ctx */
 }
 
 static const EVP_CIPHER *
-make_ctr_evp (size_t keylen, EVP_CIPHER **aes_ctr_cipher, int тип)
+make_ctr_evp (size_t keylen, EVP_CIPHER **aes_ctr_cipher, int type)
 {
 #ifdef HAVE_OPAQUE_STRUCTS
-    *aes_ctr_cipher = EVP_CIPHER_meth_new(тип, 16, keylen);
+    *aes_ctr_cipher = EVP_CIPHER_meth_new(type, 16, keylen);
     if(*aes_ctr_cipher) {
         EVP_CIPHER_meth_set_iv_length(*aes_ctr_cipher, 16);
         EVP_CIPHER_meth_set_init(*aes_ctr_cipher, aes_ctr_init);
@@ -577,7 +577,7 @@ make_ctr_evp (size_t keylen, EVP_CIPHER **aes_ctr_cipher, int тип)
         EVP_CIPHER_meth_set_cleanup(*aes_ctr_cipher, aes_ctr_cleanup);
     }
 #else
-    (*aes_ctr_cipher)->nid = тип;
+    (*aes_ctr_cipher)->nid = type;
     (*aes_ctr_cipher)->block_size = 16;
     (*aes_ctr_cipher)->key_len = keylen;
     (*aes_ctr_cipher)->iv_len = 16;
@@ -689,7 +689,7 @@ void _libssh2_openssl_crypto_exit(void)
 #endif
 }
 
-/* TODO: Optionally call a passphrase callback specified by the
+/* СДЕЛАТЬ: Optionally call a passphrase callback specified by the
  * calling program
  */
 static int
@@ -786,7 +786,7 @@ gen_publickey_from_rsa(LIBSSH2_SESSION *session, RSA *rsa,
 {
     int            e_bytes, n_bytes;
     unsigned long  len;
-    unsigned char *ключ;
+    unsigned char *key;
     unsigned char *p;
     const BIGNUM * e;
     const BIGNUM * n;
@@ -802,15 +802,15 @@ gen_publickey_from_rsa(LIBSSH2_SESSION *session, RSA *rsa,
     /* Key form is "ssh-rsa" + e + n. */
     len = 4 + 7 + 4 + e_bytes + 4 + n_bytes;
 
-    ключ = LIBSSH2_ALLOC(session, len);
-    if(ключ == NULL) {
+    key = LIBSSH2_ALLOC(session, len);
+    if(key == NULL) {
         return NULL;
     }
 
-    /* Process ключ encoding. */
-    p = ключ;
+    /* Process key encoding. */
+    p = key;
 
-    _libssh2_htonu32(p, 7);  /* Key тип. */
+    _libssh2_htonu32(p, 7);  /* Key type. */
     p += 4;
     memcpy(p, "ssh-rsa", 7);
     p += 7;
@@ -818,8 +818,8 @@ gen_publickey_from_rsa(LIBSSH2_SESSION *session, RSA *rsa,
     p = write_bn(p, e, e_bytes);
     p = write_bn(p, n, n_bytes);
 
-    *key_len = (size_t)(p - ключ);
-    return ключ;
+    *key_len = (size_t)(p - key);
+    return key;
 }
 
 static int
@@ -831,17 +831,17 @@ gen_publickey_from_rsa_evp(LIBSSH2_SESSION *session,
                            EVP_PKEY *pk)
 {
     RSA*           rsa = NULL;
-    unsigned char *ключ;
+    unsigned char *key;
     unsigned char *method_buf = NULL;
     size_t  key_len;
 
     _libssh2_debug(session,
                    LIBSSH2_TRACE_AUTH,
-                   "Computing public ключ from RSA private ключ envelope");
+                   "Computing public key from RSA private key envelope");
 
     rsa = EVP_PKEY_get1_RSA(pk);
     if(rsa == NULL) {
-        /* Assume memory allocation Ошибка... what else could it be ? */
+        /* Assume memory allocation error... what else could it be ? */
         goto __alloc_error;
     }
 
@@ -850,8 +850,8 @@ gen_publickey_from_rsa_evp(LIBSSH2_SESSION *session,
         goto __alloc_error;
     }
 
-    ключ = gen_publickey_from_rsa(session, rsa, &key_len);
-    if(ключ == NULL) {
+    key = gen_publickey_from_rsa(session, rsa, &key_len);
+    if(key == NULL) {
         goto __alloc_error;
     }
     RSA_free(rsa);
@@ -859,7 +859,7 @@ gen_publickey_from_rsa_evp(LIBSSH2_SESSION *session,
     memcpy(method_buf, "ssh-rsa", 7);
     *method         = method_buf;
     *method_len     = 7;
-    *pubkeydata     = ключ;
+    *pubkeydata     = key;
     *pubkeydata_len = key_len;
     return 0;
 
@@ -873,7 +873,7 @@ gen_publickey_from_rsa_evp(LIBSSH2_SESSION *session,
 
     return _libssh2_error(session,
                           LIBSSH2_ERROR_ALLOC,
-                          "Unable to allocate memory for private ключ data");
+                          "Unable to allocate memory for private key data");
 }
 
 static int _libssh2_rsa_new_additional_parameters(RSA *rsa)
@@ -964,9 +964,9 @@ gen_publickey_from_rsa_openssh_priv_data(LIBSSH2_SESSION *session,
 
     _libssh2_debug(session,
                    LIBSSH2_TRACE_AUTH,
-                   "Computing RSA keys from private ключ data");
+                   "Computing RSA keys from private key data");
 
-    /* public ключ data */
+    /* public key data */
     if(_libssh2_get_bignum_bytes(decrypted, &n, &nlen)) {
         _libssh2_error(session, LIBSSH2_ERROR_PROTO,
                        "RSA no n");
@@ -979,7 +979,7 @@ gen_publickey_from_rsa_openssh_priv_data(LIBSSH2_SESSION *session,
         return -1;
     }
 
-    /* private ключ data */
+    /* private key data */
     if(_libssh2_get_bignum_bytes(decrypted, &d, &dlen)) {
         _libssh2_error(session, LIBSSH2_ERROR_PROTO,
                        "RSA no d");
@@ -1015,7 +1015,7 @@ gen_publickey_from_rsa_openssh_priv_data(LIBSSH2_SESSION *session,
                               coeff, coefflen)) != 0) {
         _libssh2_debug(session,
                        LIBSSH2_TRACE_AUTH,
-                       "Could not create RSA private ключ");
+                       "Could not create RSA private key");
         goto fail;
     }
 
@@ -1048,7 +1048,7 @@ fail:
 
     return _libssh2_error(session,
                           LIBSSH2_ERROR_ALLOC,
-                          "Unable to allocate memory for private ключ data");
+                          "Unable to allocate memory for private key data");
 }
 
 static int
@@ -1073,7 +1073,7 @@ _libssh2_rsa_new_openssh_private(libssh2_rsa_ctx ** rsa,
     fp = fopen(filename, "r");
     if(!fp) {
         _libssh2_error(session, LIBSSH2_ERROR_FILE,
-                       "Unable to open OpenSSH RSA private ключ file");
+                       "Unable to open OpenSSH RSA private key file");
         return -1;
     }
 
@@ -1083,12 +1083,12 @@ _libssh2_rsa_new_openssh_private(libssh2_rsa_ctx ** rsa,
         return rc;
     }
 
-    /* We have a new ключ file, now try and parse it using supported types  */
+    /* We have a new key file, now try and parse it using supported types  */
     rc = _libssh2_get_string(decrypted, &buf, NULL);
 
     if(rc != 0 || buf == NULL) {
         _libssh2_error(session, LIBSSH2_ERROR_PROTO,
-                       "Public ключ тип in decrypted ключ data not found");
+                       "Public key type in decrypted key data not found");
         return -1;
     }
 
@@ -1161,7 +1161,7 @@ gen_publickey_from_dsa(LIBSSH2_SESSION* session, DSA *dsa,
 {
     int            p_bytes, q_bytes, g_bytes, k_bytes;
     unsigned long  len;
-    unsigned char *ключ;
+    unsigned char *key;
     unsigned char *p;
 
     const BIGNUM * p_bn;
@@ -1189,15 +1189,15 @@ gen_publickey_from_dsa(LIBSSH2_SESSION* session, DSA *dsa,
     /* Key form is "ssh-dss" + p + q + g + pub_key. */
     len = 4 + 7 + 4 + p_bytes + 4 + q_bytes + 4 + g_bytes + 4 + k_bytes;
 
-    ключ = LIBSSH2_ALLOC(session, len);
-    if(ключ == NULL) {
+    key = LIBSSH2_ALLOC(session, len);
+    if(key == NULL) {
         return NULL;
     }
 
-    /* Process ключ encoding. */
-    p = ключ;
+    /* Process key encoding. */
+    p = key;
 
-    _libssh2_htonu32(p, 7);  /* Key тип. */
+    _libssh2_htonu32(p, 7);  /* Key type. */
     p += 4;
     memcpy(p, "ssh-dss", 7);
     p += 7;
@@ -1207,8 +1207,8 @@ gen_publickey_from_dsa(LIBSSH2_SESSION* session, DSA *dsa,
     p = write_bn(p, g, g_bytes);
     p = write_bn(p, pub_key, k_bytes);
 
-    *key_len = (size_t)(p - ключ);
-    return ключ;
+    *key_len = (size_t)(p - key);
+    return key;
 }
 
 static int
@@ -1220,17 +1220,17 @@ gen_publickey_from_dsa_evp(LIBSSH2_SESSION *session,
                            EVP_PKEY *pk)
 {
     DSA*           dsa = NULL;
-    unsigned char *ключ;
+    unsigned char *key;
     unsigned char *method_buf = NULL;
     size_t  key_len;
 
     _libssh2_debug(session,
                    LIBSSH2_TRACE_AUTH,
-                   "Computing public ключ from DSA private ключ envelope");
+                   "Computing public key from DSA private key envelope");
 
     dsa = EVP_PKEY_get1_DSA(pk);
     if(dsa == NULL) {
-        /* Assume memory allocation Ошибка... what else could it be ? */
+        /* Assume memory allocation error... what else could it be ? */
         goto __alloc_error;
     }
 
@@ -1239,8 +1239,8 @@ gen_publickey_from_dsa_evp(LIBSSH2_SESSION *session,
         goto __alloc_error;
     }
 
-    ключ = gen_publickey_from_dsa(session, dsa, &key_len);
-    if(ключ == NULL) {
+    key = gen_publickey_from_dsa(session, dsa, &key_len);
+    if(key == NULL) {
         goto __alloc_error;
     }
     DSA_free(dsa);
@@ -1248,7 +1248,7 @@ gen_publickey_from_dsa_evp(LIBSSH2_SESSION *session,
     memcpy(method_buf, "ssh-dss", 7);
     *method         = method_buf;
     *method_len     = 7;
-    *pubkeydata     = ключ;
+    *pubkeydata     = key;
     *pubkeydata_len = key_len;
     return 0;
 
@@ -1262,7 +1262,7 @@ gen_publickey_from_dsa_evp(LIBSSH2_SESSION *session,
 
     return _libssh2_error(session,
                           LIBSSH2_ERROR_ALLOC,
-                          "Unable to allocate memory for private ключ data");
+                          "Unable to allocate memory for private key data");
 }
 
 static int
@@ -1281,7 +1281,7 @@ gen_publickey_from_dsa_openssh_priv_data(LIBSSH2_SESSION *session,
 
     _libssh2_debug(session,
                    LIBSSH2_TRACE_AUTH,
-                   "Computing DSA keys from private ключ data");
+                   "Computing DSA keys from private key data");
 
     if(_libssh2_get_bignum_bytes(decrypted, &p, &plen)) {
         _libssh2_error(session, LIBSSH2_ERROR_PROTO,
@@ -1303,13 +1303,13 @@ gen_publickey_from_dsa_openssh_priv_data(LIBSSH2_SESSION *session,
 
     if(_libssh2_get_bignum_bytes(decrypted, &pub_key, &pub_len)) {
         _libssh2_error(session, LIBSSH2_ERROR_PROTO,
-                       "DSA no public ключ");
+                       "DSA no public key");
         return -1;
     }
 
     if(_libssh2_get_bignum_bytes(decrypted, &priv_key, &priv_len)) {
         _libssh2_error(session, LIBSSH2_ERROR_PROTO,
-                       "DSA no private ключ");
+                       "DSA no private key");
         return -1;
     }
 
@@ -1318,7 +1318,7 @@ gen_publickey_from_dsa_openssh_priv_data(LIBSSH2_SESSION *session,
     if(rc != 0) {
         _libssh2_debug(session,
                        LIBSSH2_ERROR_PROTO,
-                       "Could not create DSA private ключ");
+                       "Could not create DSA private key");
         goto fail;
     }
 
@@ -1348,7 +1348,7 @@ fail:
 
     return _libssh2_error(session,
                           LIBSSH2_ERROR_ALLOC,
-                          "Unable to allocate memory for private ключ data");
+                          "Unable to allocate memory for private key data");
 }
 
 static int
@@ -1373,7 +1373,7 @@ _libssh2_dsa_new_openssh_private(libssh2_dsa_ctx ** dsa,
     fp = fopen(filename, "r");
     if(!fp) {
         _libssh2_error(session, LIBSSH2_ERROR_FILE,
-                       "Unable to open OpenSSH DSA private ключ file");
+                       "Unable to open OpenSSH DSA private key file");
         return -1;
     }
 
@@ -1383,12 +1383,12 @@ _libssh2_dsa_new_openssh_private(libssh2_dsa_ctx ** dsa,
         return rc;
     }
 
-    /* We have a new ключ file, now try and parse it using supported types  */
+    /* We have a new key file, now try and parse it using supported types  */
     rc = _libssh2_get_string(decrypted, &buf, NULL);
 
     if(rc != 0 || buf == NULL) {
         _libssh2_error(session, LIBSSH2_ERROR_PROTO,
-                       "Public ключ тип in decrypted ключ data not found");
+                       "Public key type in decrypted key data not found");
         return -1;
     }
 
@@ -1469,7 +1469,7 @@ _libssh2_curve25519_new(LIBSSH2_SESSION *session,
                         unsigned char **out_public_key,
                         unsigned char **out_private_key)
 {
-    EVP_PKEY *ключ = NULL;
+    EVP_PKEY *key = NULL;
     EVP_PKEY_CTX *pctx = NULL;
     unsigned char *priv = NULL, *pub = NULL;
     size_t privLen, pubLen;
@@ -1480,7 +1480,7 @@ _libssh2_curve25519_new(LIBSSH2_SESSION *session,
         return -1;
 
     if(EVP_PKEY_keygen_init(pctx) != 1 ||
-       EVP_PKEY_keygen(pctx, &ключ) != 1) {
+       EVP_PKEY_keygen(pctx, &key) != 1) {
         goto cleanExit;
     }
 
@@ -1490,7 +1490,7 @@ _libssh2_curve25519_new(LIBSSH2_SESSION *session,
         if(priv == NULL)
             goto cleanExit;
 
-        if(EVP_PKEY_get_raw_private_key(ключ, priv, &privLen) != 1 ||
+        if(EVP_PKEY_get_raw_private_key(key, priv, &privLen) != 1 ||
            privLen != LIBSSH2_ED25519_KEY_LEN) {
             goto cleanExit;
         }
@@ -1505,7 +1505,7 @@ _libssh2_curve25519_new(LIBSSH2_SESSION *session,
         if(pub == NULL)
             goto cleanExit;
 
-        if(EVP_PKEY_get_raw_public_key(ключ, pub, &pubLen) != 1 ||
+        if(EVP_PKEY_get_raw_public_key(key, pub, &pubLen) != 1 ||
            pubLen != LIBSSH2_ED25519_KEY_LEN) {
             goto cleanExit;
         }
@@ -1521,8 +1521,8 @@ cleanExit:
 
     if(pctx)
         EVP_PKEY_CTX_free(pctx);
-    if(ключ)
-        EVP_PKEY_free(ключ);
+    if(key)
+        EVP_PKEY_free(key);
     if(priv)
         LIBSSH2_FREE(session, priv);
     if(pub)
@@ -1548,12 +1548,12 @@ gen_publickey_from_ed_evp(LIBSSH2_SESSION *session,
     unsigned char *bufPos = NULL;
 
     _libssh2_debug(session, LIBSSH2_TRACE_AUTH,
-                   "Computing public ключ from ED private ключ envelope");
+                   "Computing public key from ED private key envelope");
 
     methodBuf = LIBSSH2_ALLOC(session, sizeof(methodName) - 1);
     if(!methodBuf) {
         _libssh2_error(session, LIBSSH2_ERROR_ALLOC,
-                       "Unable to allocate memory for private ключ data");
+                       "Unable to allocate memory for private key data");
         goto fail;
     }
     memcpy(methodBuf, methodName, sizeof(methodName) - 1);
@@ -1564,12 +1564,12 @@ gen_publickey_from_ed_evp(LIBSSH2_SESSION *session,
         goto fail;
     }
 
-    /* Key form is: type_len(4) + тип(11) + pub_key_len(4) + pub_key(32). */
+    /* Key form is: type_len(4) + type(11) + pub_key_len(4) + pub_key(32). */
     bufLen = 4 + sizeof(methodName) - 1  + 4 + rawKeyLen;
     bufPos = keyBuf = LIBSSH2_ALLOC(session, bufLen);
     if(!keyBuf) {
         _libssh2_error(session, LIBSSH2_ERROR_ALLOC,
-                       "Unable to allocate memory for private ключ data");
+                       "Unable to allocate memory for private key data");
         goto fail;
     }
 
@@ -1608,7 +1608,7 @@ gen_publickey_from_ed25519_openssh_priv_data(LIBSSH2_SESSION *session,
 {
     libssh2_ed25519_ctx *ctx = NULL;
     unsigned char *method_buf = NULL;
-    unsigned char *ключ = NULL;
+    unsigned char *key = NULL;
     int i, ret = 0;
     unsigned char *pub_key, *priv_key, *buf;
     size_t key_len = 0, tmp_len = 0;
@@ -1616,25 +1616,25 @@ gen_publickey_from_ed25519_openssh_priv_data(LIBSSH2_SESSION *session,
 
     _libssh2_debug(session,
                    LIBSSH2_TRACE_AUTH,
-                   "Computing ED25519 keys from private ключ data");
+                   "Computing ED25519 keys from private key data");
 
     if(_libssh2_get_string(decrypted, &pub_key, &tmp_len) ||
        tmp_len != LIBSSH2_ED25519_KEY_LEN) {
         _libssh2_error(session, LIBSSH2_ERROR_PROTO,
-                       "Wrong public ключ length");
+                       "Wrong public key length");
         return -1;
     }
 
     if(_libssh2_get_string(decrypted, &priv_key, &tmp_len) ||
        tmp_len != LIBSSH2_ED25519_PRIVATE_KEY_LEN) {
         _libssh2_error(session, LIBSSH2_ERROR_PROTO,
-                       "Wrong private ключ length");
+                       "Wrong private key length");
         ret = -1;
         goto clean_exit;
     }
 
-    /* first 32 bytes of priv_key is the private ключ, the last 32 bytes are
-       the public ключ */
+    /* first 32 bytes of priv_key is the private key, the last 32 bytes are
+       the public key */
     ctx = EVP_PKEY_new_raw_private_key(EVP_PKEY_ED25519, NULL,
                                        (const unsigned char *)priv_key,
                                        LIBSSH2_ED25519_KEY_LEN);
@@ -1676,23 +1676,23 @@ gen_publickey_from_ed25519_openssh_priv_data(LIBSSH2_SESSION *session,
     if(ret == 0) {
         _libssh2_debug(session,
                        LIBSSH2_TRACE_AUTH,
-                       "Computing public ключ from ED25519 "
-                       "private ключ envelope");
+                       "Computing public key from ED25519 "
+                       "private key envelope");
 
         method_buf = LIBSSH2_ALLOC(session, 11);  /* ssh-ed25519. */
         if(method_buf == NULL) {
             goto clean_exit;
         }
 
-        /* Key form is: type_len(4) + тип(11) + pub_key_len(4) +
+        /* Key form is: type_len(4) + type(11) + pub_key_len(4) +
            pub_key(32). */
         key_len = LIBSSH2_ED25519_KEY_LEN + 19;
-        ключ = LIBSSH2_CALLOC(session, key_len);
-        if(ключ == NULL) {
+        key = LIBSSH2_CALLOC(session, key_len);
+        if(key == NULL) {
             goto clean_exit;
         }
 
-        p = ключ;
+        p = key;
 
         _libssh2_store_str(&p, "ssh-ed25519", 11);
         _libssh2_store_str(&p, (const char *)pub_key, LIBSSH2_ED25519_KEY_LEN);
@@ -1708,9 +1708,9 @@ gen_publickey_from_ed25519_openssh_priv_data(LIBSSH2_SESSION *session,
             *method_len = 11;
 
         if(pubkeydata != NULL)
-            *pubkeydata = ключ;
+            *pubkeydata = key;
         else
-            LIBSSH2_FREE(session, ключ);
+            LIBSSH2_FREE(session, key);
 
         if(pubkeydata_len != NULL)
             *pubkeydata_len = key_len;
@@ -1731,8 +1731,8 @@ clean_exit:
     if(method_buf)
         LIBSSH2_FREE(session, method_buf);
 
-    if(ключ)
-        LIBSSH2_FREE(session, ключ);
+    if(key)
+        LIBSSH2_FREE(session, key);
 
     return -1;
 }
@@ -1759,7 +1759,7 @@ _libssh2_ed25519_new_private(libssh2_ed25519_ctx ** ed_ctx,
     fp = fopen(filename, "r");
     if(!fp) {
         _libssh2_error(session, LIBSSH2_ERROR_FILE,
-                       "Unable to open ED25519 private ключ file");
+                       "Unable to open ED25519 private key file");
         return -1;
     }
 
@@ -1769,12 +1769,12 @@ _libssh2_ed25519_new_private(libssh2_ed25519_ctx ** ed_ctx,
         return rc;
     }
 
-    /* We have a new ключ file, now try and parse it using supported types  */
+    /* We have a new key file, now try and parse it using supported types  */
     rc = _libssh2_get_string(decrypted, &buf, NULL);
 
     if(rc != 0 || buf == NULL) {
         _libssh2_error(session, LIBSSH2_ERROR_PROTO,
-                       "Public ключ тип in decrypted ключ data not found");
+                       "Public key type in decrypted key data not found");
         return -1;
     }
 
@@ -1822,7 +1822,7 @@ _libssh2_ed25519_new_private_frommemory(libssh2_ed25519_ctx ** ed_ctx,
         if(EVP_PKEY_id(ctx) != EVP_PKEY_ED25519) {
             _libssh2_ed25519_free(ctx);
             return _libssh2_error(session, LIBSSH2_ERROR_PROTO,
-                                  "Private ключ is not an ED25519 ключ");
+                                  "Private key is not an ED25519 key");
         }
 
         *ed_ctx = ctx;
@@ -1850,7 +1850,7 @@ _libssh2_ed25519_new_public(libssh2_ed25519_ctx ** ed_ctx,
                                       raw_pub_key, key_len);
     if(!ctx)
         return _libssh2_error(session, LIBSSH2_ERROR_PROTO,
-                              "could not create ED25519 public ключ");
+                              "could not create ED25519 public key");
 
     if(ed_ctx != NULL)
         *ed_ctx = ctx;
@@ -2031,7 +2031,7 @@ _libssh2_sha1(const unsigned char *message, unsigned long len,
     EVP_MD_CTX * ctx = EVP_MD_CTX_new();
 
     if(ctx == NULL)
-        return 1; /* Ошибка */
+        return 1; /* error */
 
     if(EVP_DigestInit(ctx, EVP_get_digestbyname("sha1"))) {
         EVP_DigestUpdate(ctx, message, len);
@@ -2050,7 +2050,7 @@ _libssh2_sha1(const unsigned char *message, unsigned long len,
         return 0; /* success */
     }
 #endif
-    return 1; /* Ошибка */
+    return 1; /* error */
 }
 
 int
@@ -2083,7 +2083,7 @@ _libssh2_sha256(const unsigned char *message, unsigned long len,
     EVP_MD_CTX * ctx = EVP_MD_CTX_new();
 
     if(ctx == NULL)
-        return 1; /* Ошибка */
+        return 1; /* error */
 
     if(EVP_DigestInit(ctx, EVP_get_digestbyname("sha256"))) {
         EVP_DigestUpdate(ctx, message, len);
@@ -2102,7 +2102,7 @@ _libssh2_sha256(const unsigned char *message, unsigned long len,
         return 0; /* success */
     }
 #endif
-    return 1; /* Ошибка */
+    return 1; /* error */
 }
 
 int
@@ -2135,7 +2135,7 @@ _libssh2_sha384(const unsigned char *message, unsigned long len,
     EVP_MD_CTX * ctx = EVP_MD_CTX_new();
 
     if(ctx == NULL)
-        return 1; /* Ошибка */
+        return 1; /* error */
 
     if(EVP_DigestInit(ctx, EVP_get_digestbyname("sha384"))) {
         EVP_DigestUpdate(ctx, message, len);
@@ -2154,7 +2154,7 @@ _libssh2_sha384(const unsigned char *message, unsigned long len,
         return 0; /* success */
     }
 #endif
-    return 1; /* Ошибка */
+    return 1; /* error */
 }
 
 int
@@ -2187,7 +2187,7 @@ _libssh2_sha512(const unsigned char *message, unsigned long len,
     EVP_MD_CTX * ctx = EVP_MD_CTX_new();
 
     if(ctx == NULL)
-        return 1; /* Ошибка */
+        return 1; /* error */
 
     if(EVP_DigestInit(ctx, EVP_get_digestbyname("sha512"))) {
         EVP_DigestUpdate(ctx, message, len);
@@ -2206,7 +2206,7 @@ _libssh2_sha512(const unsigned char *message, unsigned long len,
         return 0; /* success */
     }
 #endif
-    return 1; /* Ошибка */
+    return 1; /* error */
 }
 
 int
@@ -2245,18 +2245,18 @@ gen_publickey_from_ec_evp(LIBSSH2_SESSION *session,
     EC_KEY *ec = NULL;
     unsigned char *p;
     unsigned char *method_buf = NULL;
-    unsigned char *ключ;
+    unsigned char *key;
     size_t  key_len = 0;
     unsigned char *octal_value = NULL;
     size_t octal_len;
     const EC_POINT *public_key;
-    const EC_GROUP *группа;
+    const EC_GROUP *group;
     BN_CTX *bn_ctx;
-    libssh2_curve_type тип;
+    libssh2_curve_type type;
 
     _libssh2_debug(session,
        LIBSSH2_TRACE_AUTH,
-       "Computing public ключ from EC private ключ envelope");
+       "Computing public key from EC private key envelope");
 
     bn_ctx = BN_CTX_new();
     if(bn_ctx == NULL)
@@ -2269,8 +2269,8 @@ gen_publickey_from_ec_evp(LIBSSH2_SESSION *session,
     }
 
     public_key = EC_KEY_get0_public_key(ec);
-    группа = EC_KEY_get0_group(ec);
-    тип = _libssh2_ecdsa_get_curve_type(ec);
+    group = EC_KEY_get0_group(ec);
+    type = _libssh2_ecdsa_get_curve_type(ec);
 
     method_buf = LIBSSH2_ALLOC(session, 19);
     if(method_buf == NULL) {
@@ -2278,22 +2278,22 @@ gen_publickey_from_ec_evp(LIBSSH2_SESSION *session,
             "out of memory");
     }
 
-    if(тип == LIBSSH2_EC_CURVE_NISTP256)
+    if(type == LIBSSH2_EC_CURVE_NISTP256)
         memcpy(method_buf, "ecdsa-sha2-nistp256", 19);
-    else if(тип == LIBSSH2_EC_CURVE_NISTP384)
+    else if(type == LIBSSH2_EC_CURVE_NISTP384)
         memcpy(method_buf, "ecdsa-sha2-nistp384", 19);
-    else if(тип == LIBSSH2_EC_CURVE_NISTP521)
+    else if(type == LIBSSH2_EC_CURVE_NISTP521)
         memcpy(method_buf, "ecdsa-sha2-nistp521", 19);
     else {
         _libssh2_debug(session,
             LIBSSH2_TRACE_ERROR,
-            "Unsupported EC private ключ тип");
+            "Unsupported EC private key type");
         rc = -1;
         goto clean_exit;
     }
 
     /* get length */
-    octal_len = EC_POINT_point2oct(группа, public_key,
+    octal_len = EC_POINT_point2oct(group, public_key,
                                    POINT_CONVERSION_UNCOMPRESSED,
                                    NULL, 0, bn_ctx);
     if(octal_len > EC_MAX_POINT_LEN) {
@@ -2308,36 +2308,36 @@ gen_publickey_from_ec_evp(LIBSSH2_SESSION *session,
     }
 
     /* convert to octal */
-    if(EC_POINT_point2oct(группа, public_key, POINT_CONVERSION_UNCOMPRESSED,
+    if(EC_POINT_point2oct(group, public_key, POINT_CONVERSION_UNCOMPRESSED,
        octal_value, octal_len, bn_ctx) != octal_len) {
            rc = -1;
            goto clean_exit;
     }
 
-    /* Key form is: type_len(4) + тип(19) + domain_len(4) + domain(8) +
+    /* Key form is: type_len(4) + type(19) + domain_len(4) + domain(8) +
        pub_key_len(4) + pub_key(~65). */
     key_len = 4 + 19 + 4 + 8 + 4 + octal_len;
-    ключ = LIBSSH2_ALLOC(session, key_len);
-    if(ключ == NULL) {
+    key = LIBSSH2_ALLOC(session, key_len);
+    if(key == NULL) {
         rc = -1;
         goto  clean_exit;
     }
 
-    /* Process ключ encoding. */
-    p = ключ;
+    /* Process key encoding. */
+    p = key;
 
-    /* Key тип */
+    /* Key type */
     _libssh2_store_str(&p, (const char *)method_buf, 19);
 
-    /* Имя domain */
+    /* Name domain */
     _libssh2_store_str(&p, (const char *)method_buf + 11, 8);
 
-    /* Public ключ */
+    /* Public key */
     _libssh2_store_str(&p, (const char *)octal_value, octal_len);
 
     *method         = method_buf;
     *method_len     = 19;
-    *pubkeydata     = ключ;
+    *pubkeydata     = key;
     *pubkeydata_len = key_len;
 
 clean_exit:
@@ -2379,7 +2379,7 @@ gen_publickey_from_ecdsa_openssh_priv_data(LIBSSH2_SESSION *session,
 
     _libssh2_debug(session,
                    LIBSSH2_TRACE_AUTH,
-                   "Computing ECDSA keys from private ключ data");
+                   "Computing ECDSA keys from private key data");
 
     if(_libssh2_get_string(decrypted, &curve, &curvelen) ||
         curvelen == 0) {
@@ -2403,7 +2403,7 @@ gen_publickey_from_ecdsa_openssh_priv_data(LIBSSH2_SESSION *session,
     if((rc = _libssh2_ecdsa_curve_name_with_octal_new(&ec_key, point_buf,
         pointlen, curve_type)) != 0) {
         _libssh2_error(session, LIBSSH2_ERROR_PROTO,
-                       "ECDSA could not create ключ");
+                       "ECDSA could not create key");
         goto fail;
     }
 
@@ -2442,7 +2442,7 @@ fail:
 
     return _libssh2_error(session,
                           LIBSSH2_ERROR_ALLOC,
-                          "Unable to allocate memory for private ключ data");
+                          "Unable to allocate memory for private key data");
 
 
 }
@@ -2456,7 +2456,7 @@ _libssh2_ecdsa_new_openssh_private(libssh2_ecdsa_ctx ** ec_ctx,
     FILE *fp;
     int rc;
     unsigned char *buf = NULL;
-    libssh2_curve_type тип;
+    libssh2_curve_type type;
     struct string_buf *decrypted = NULL;
 
     if(session == NULL) {
@@ -2470,7 +2470,7 @@ _libssh2_ecdsa_new_openssh_private(libssh2_ecdsa_ctx ** ec_ctx,
     fp = fopen(filename, "r");
     if(!fp) {
         _libssh2_error(session, LIBSSH2_ERROR_FILE,
-                       "Unable to open OpenSSH ECDSA private ключ file");
+                       "Unable to open OpenSSH ECDSA private key file");
         return -1;
     }
 
@@ -2480,19 +2480,19 @@ _libssh2_ecdsa_new_openssh_private(libssh2_ecdsa_ctx ** ec_ctx,
         return rc;
     }
 
-    /* We have a new ключ file, now try and parse it using supported types  */
+    /* We have a new key file, now try and parse it using supported types  */
     rc = _libssh2_get_string(decrypted, &buf, NULL);
 
     if(rc != 0 || buf == NULL) {
         _libssh2_error(session, LIBSSH2_ERROR_PROTO,
-                       "Public ключ тип in decrypted ключ data not found");
+                       "Public key type in decrypted key data not found");
         return -1;
     }
 
-    rc = _libssh2_ecdsa_curve_type_from_name((const char *)buf, &тип);
+    rc = _libssh2_ecdsa_curve_type_from_name((const char *)buf, &type);
 
     if(rc == 0) {
-        rc = gen_publickey_from_ecdsa_openssh_priv_data(session, тип,
+        rc = gen_publickey_from_ecdsa_openssh_priv_data(session, type,
                                                         decrypted, NULL, 0,
                                                         NULL, 0, ec_ctx);
     }
@@ -2531,8 +2531,8 @@ _libssh2_ecdsa_new_private(libssh2_ecdsa_ctx ** ec_ctx,
 /*
  * _libssh2_ecdsa_create_key
  *
- * Creates a local private ключ based on input curve
- * and returns octal значение and octal length
+ * Creates a local private key based on input curve
+ * and returns octal value and octal length
  *
  */
 
@@ -2548,21 +2548,21 @@ _libssh2_ecdsa_create_key(LIBSSH2_SESSION *session,
     unsigned char octal_value[EC_MAX_POINT_LEN];
     const EC_POINT *public_key = NULL;
     EC_KEY *private_key = NULL;
-    const EC_GROUP *группа = NULL;
+    const EC_GROUP *group = NULL;
 
-    /* create ключ */
+    /* create key */
     BN_CTX *bn_ctx = BN_CTX_new();
     if(!bn_ctx)
         return -1;
 
     private_key = EC_KEY_new_by_curve_name(curve_type);
-    группа = EC_KEY_get0_group(private_key);
+    group = EC_KEY_get0_group(private_key);
 
     EC_KEY_generate_key(private_key);
     public_key = EC_KEY_get0_public_key(private_key);
 
     /* get length */
-    octal_len = EC_POINT_point2oct(группа, public_key,
+    octal_len = EC_POINT_point2oct(group, public_key,
                                    POINT_CONVERSION_UNCOMPRESSED,
                                    NULL, 0, bn_ctx);
     if(octal_len > EC_MAX_POINT_LEN) {
@@ -2571,7 +2571,7 @@ _libssh2_ecdsa_create_key(LIBSSH2_SESSION *session,
     }
 
     /* convert to octal */
-    if(EC_POINT_point2oct(группа, public_key, POINT_CONVERSION_UNCOMPRESSED,
+    if(EC_POINT_point2oct(group, public_key, POINT_CONVERSION_UNCOMPRESSED,
        octal_value, octal_len, bn_ctx) != octal_len) {
            ret = -1;
            goto clean_exit;
@@ -2603,8 +2603,8 @@ clean_exit:
 
 /* _libssh2_ecdh_gen_k
  *
- * Computes the shared secret K given a local private ключ,
- * remote public ключ and length
+ * Computes the shared secret K given a local private key,
+ * remote public key and length
  */
 
 int
@@ -2843,7 +2843,7 @@ _libssh2_pub_priv_openssh_keyfile(LIBSSH2_SESSION *session,
     fp = fopen(privatekey, "r");
     if(!fp) {
         _libssh2_error(session, LIBSSH2_ERROR_FILE,
-                       "Unable to open private ключ file");
+                       "Unable to open private key file");
         return -1;
     }
 
@@ -2852,16 +2852,16 @@ _libssh2_pub_priv_openssh_keyfile(LIBSSH2_SESSION *session,
     fclose(fp);
     if(rc) {
         _libssh2_error(session, LIBSSH2_ERROR_FILE,
-                       "Not an OpenSSH ключ file");
+                       "Not an OpenSSH key file");
         return rc;
     }
 
-    /* We have a new ключ file, now try and parse it using supported types  */
+    /* We have a new key file, now try and parse it using supported types  */
     rc = _libssh2_get_string(decrypted, &buf, NULL);
 
     if(rc != 0 || buf == NULL) {
         _libssh2_error(session, LIBSSH2_ERROR_PROTO,
-                       "Public ключ тип in decrypted ключ data not found");
+                       "Public key type in decrypted key data not found");
         return -1;
     }
 
@@ -2896,11 +2896,11 @@ _libssh2_pub_priv_openssh_keyfile(LIBSSH2_SESSION *session,
 #endif
 #if LIBSSH2_ECDSA
     {
-        libssh2_curve_type тип;
+        libssh2_curve_type type;
 
         if(_libssh2_ecdsa_curve_type_from_name((const char *)buf,
-                                               &тип) == 0) {
-            rc = gen_publickey_from_ecdsa_openssh_priv_data(session, тип,
+                                               &type) == 0) {
+            rc = gen_publickey_from_ecdsa_openssh_priv_data(session, type,
                                                             decrypted,
                                                             method, method_len,
                                                             pubkeydata,
@@ -2915,7 +2915,7 @@ _libssh2_pub_priv_openssh_keyfile(LIBSSH2_SESSION *session,
 
     if(rc != 0) {
         _libssh2_error(session, LIBSSH2_ERROR_FILE,
-                       "Unsupported OpenSSH ключ тип");
+                       "Unsupported OpenSSH key type");
     }
 
     return rc;
@@ -2938,15 +2938,15 @@ _libssh2_pub_priv_keyfile(LIBSSH2_SESSION *session,
 
     _libssh2_debug(session,
                    LIBSSH2_TRACE_AUTH,
-                   "Computing public ключ from private ключ file: %s",
+                   "Computing public key from private key file: %s",
                    privatekey);
 
     bp = BIO_new_file(privatekey, "r");
     if(bp == NULL) {
         return _libssh2_error(session,
                               LIBSSH2_ERROR_FILE,
-                              "Unable to extract public ключ from private ключ "
-                              "file: Unable to open private ключ file");
+                              "Unable to extract public key from private key "
+                              "file: Unable to open private key file");
     }
 
     BIO_reset(bp);
@@ -2955,7 +2955,7 @@ _libssh2_pub_priv_keyfile(LIBSSH2_SESSION *session,
 
     if(pk == NULL) {
 
-        /* Try OpenSSH формат */
+        /* Try OpenSSH format */
         rc = _libssh2_pub_priv_openssh_keyfile(session,
                                                method,
                                                method_len,
@@ -2964,10 +2964,10 @@ _libssh2_pub_priv_keyfile(LIBSSH2_SESSION *session,
         if(rc != 0) {
             return _libssh2_error(session,
                                   LIBSSH2_ERROR_FILE,
-                                  "Unable to extract public ключ "
-                                  "from private ключ file: "
+                                  "Unable to extract public key "
+                                  "from private key file: "
                                   "Wrong passphrase or invalid/unrecognized "
-                                  "private ключ file формат");
+                                  "private key file format");
         }
 
         return 0;
@@ -2976,7 +2976,7 @@ _libssh2_pub_priv_keyfile(LIBSSH2_SESSION *session,
 #ifdef HAVE_OPAQUE_STRUCTS
     pktype = EVP_PKEY_id(pk);
 #else
-    pktype = pk->тип;
+    pktype = pk->type;
 #endif
 
     switch(pktype) {
@@ -3008,9 +3008,9 @@ _libssh2_pub_priv_keyfile(LIBSSH2_SESSION *session,
     default :
         st = _libssh2_error(session,
                             LIBSSH2_ERROR_FILE,
-                            "Unable to extract public ключ "
-                            "from private ключ file: "
-                            "Unsupported private ключ file формат");
+                            "Unable to extract public key "
+                            "from private key file: "
+                            "Unsupported private key file format");
         break;
     }
 
@@ -3045,7 +3045,7 @@ _libssh2_pub_priv_openssh_keyfilememory(LIBSSH2_SESSION *session,
 
     if(key_type != NULL && (strlen(key_type) > 11 || strlen(key_type) < 7)) {
         _libssh2_error(session, LIBSSH2_ERROR_PROTO,
-                       "тип is invalid");
+                       "type is invalid");
         return -1;
     }
 
@@ -3059,12 +3059,12 @@ _libssh2_pub_priv_openssh_keyfilememory(LIBSSH2_SESSION *session,
         return rc;
     }
 
-   /* We have a new ключ file, now try and parse it using supported types  */
+   /* We have a new key file, now try and parse it using supported types  */
    rc = _libssh2_get_string(decrypted, &buf, NULL);
 
    if(rc != 0 || buf == NULL) {
        _libssh2_error(session, LIBSSH2_ERROR_PROTO,
-                      "Public ключ тип in decrypted ключ data not found");
+                      "Public key type in decrypted key data not found");
        return -1;
    }
 
@@ -3107,11 +3107,11 @@ _libssh2_pub_priv_openssh_keyfilememory(LIBSSH2_SESSION *session,
 #endif
 #if LIBSSH2_ECDSA
 {
-   libssh2_curve_type тип;
+   libssh2_curve_type type;
 
-   if(_libssh2_ecdsa_curve_type_from_name((const char *)buf, &тип) == 0) {
+   if(_libssh2_ecdsa_curve_type_from_name((const char *)buf, &type) == 0) {
        if(key_type == NULL || strcmp("ssh-ecdsa", key_type) == 0) {
-           rc = gen_publickey_from_ecdsa_openssh_priv_data(session, тип,
+           rc = gen_publickey_from_ecdsa_openssh_priv_data(session, type,
                                                            decrypted,
                                                            method, method_len,
                                                            pubkeydata,
@@ -3158,7 +3158,7 @@ _libssh2_pub_priv_keyfilememory(LIBSSH2_SESSION *session,
 
     _libssh2_debug(session,
                    LIBSSH2_TRACE_AUTH,
-                   "Computing public ключ from private ключ.");
+                   "Computing public key from private key.");
 
     bp = BIO_new_mem_buf((char *)privatekeydata, privatekeydata_len);
     if(!bp) {
@@ -3170,7 +3170,7 @@ _libssh2_pub_priv_keyfilememory(LIBSSH2_SESSION *session,
     BIO_free(bp);
 
     if(pk == NULL) {
-        /* Try OpenSSH формат */
+        /* Try OpenSSH format */
         st = _libssh2_pub_priv_openssh_keyfilememory(session, NULL, NULL,
                                                      method,
                                                      method_len,
@@ -3182,10 +3182,10 @@ _libssh2_pub_priv_keyfilememory(LIBSSH2_SESSION *session,
         if(st != 0) {
             return _libssh2_error(session,
                                   LIBSSH2_ERROR_FILE,
-                                  "Unable to extract public ключ "
-                                  "from private ключ file: "
+                                  "Unable to extract public key "
+                                  "from private key file: "
                                   "Wrong passphrase or invalid/unrecognized "
-                                  "private ключ file формат");
+                                  "private key file format");
         }
 
         return 0;
@@ -3194,7 +3194,7 @@ _libssh2_pub_priv_keyfilememory(LIBSSH2_SESSION *session,
 #ifdef HAVE_OPAQUE_STRUCTS
     pktype = EVP_PKEY_id(pk);
 #else
-    pktype = pk->тип;
+    pktype = pk->type;
 #endif
 
     switch(pktype) {
@@ -3223,9 +3223,9 @@ _libssh2_pub_priv_keyfilememory(LIBSSH2_SESSION *session,
     default :
         st = _libssh2_error(session,
                             LIBSSH2_ERROR_FILE,
-                            "Unable to extract public ключ "
-                            "from private ключ file: "
-                            "Unsupported private ключ file формат");
+                            "Unable to extract public key "
+                            "from private key file: "
+                            "Unsupported private key file format");
         break;
     }
 
@@ -3236,7 +3236,7 @@ _libssh2_pub_priv_keyfilememory(LIBSSH2_SESSION *session,
 void
 _libssh2_dh_init(_libssh2_dh_ctx *dhctx)
 {
-    *dhctx = BN_new();                          /* случ from client */
+    *dhctx = BN_new();                          /* Random from client */
 }
 
 int

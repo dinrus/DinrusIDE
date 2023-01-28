@@ -200,13 +200,13 @@ _tiffUnmapProc(thandle_t fd, void* base, toff_t size)
  * Open a TIFF file descriptor for read/writing.
  */
 TIFF*
-TIFFFdOpen(int fd, const char* имя, const char* mode)
+TIFFFdOpen(int fd, const char* name, const char* mode)
 {
 	TIFF* tif;
 
 	fd_as_handle_union_t fdh;
 	fdh.fd = fd;
-	tif = TIFFClientOpen(имя, mode,
+	tif = TIFFClientOpen(name, mode,
 	    fdh.h,
 	    _tiffReadProc, _tiffWriteProc,
 	    _tiffSeekProc, _tiffCloseProc, _tiffSizeProc,
@@ -220,7 +220,7 @@ TIFFFdOpen(int fd, const char* имя, const char* mode)
  * Open a TIFF file for read/writing.
  */
 TIFF*
-TIFFOpen(const char* имя, const char* mode)
+TIFFOpen(const char* name, const char* mode)
 {
 	static const char module[] = "TIFFOpen";
 	int m, fd;
@@ -235,17 +235,17 @@ TIFFOpen(const char* имя, const char* mode)
 	m |= O_BINARY;
 #endif
 
-	fd = open(имя, m, 0666);
+	fd = open(name, m, 0666);
 	if (fd < 0) {
 		if (errno > 0 && strerror(errno) != NULL ) {
-			TIFFErrorExt(0, module, "%s: %s", имя, strerror(errno) );
+			TIFFErrorExt(0, module, "%s: %s", name, strerror(errno) );
 		} else {
-			TIFFErrorExt(0, module, "%s: Cannot open", имя);
+			TIFFErrorExt(0, module, "%s: Cannot open", name);
 		}
 		return ((TIFF *)0);
 	}
 
-	tif = TIFFFdOpen((int)fd, имя, mode);
+	tif = TIFFFdOpen((int)fd, name, mode);
 	if(!tif)
 		close(fd);
 	return tif;
@@ -257,7 +257,7 @@ TIFFOpen(const char* имя, const char* mode)
  * Open a TIFF file with a Unicode filename, for read/writing.
  */
 TIFF*
-TIFFOpenW(const wchar_t* имя, const char* mode)
+TIFFOpenW(const wchar_t* name, const char* mode)
 {
 	static const char module[] = "TIFFOpenW";
 	int m, fd;
@@ -274,23 +274,23 @@ TIFFOpenW(const wchar_t* имя, const char* mode)
 	m |= O_BINARY;
 #endif
 
-	fd = _wopen(имя, m, 0666);
+	fd = _wopen(name, m, 0666);
 	if (fd < 0) {
-		TIFFErrorExt(0, module, "%ls: Cannot open", имя);
+		TIFFErrorExt(0, module, "%ls: Cannot open", name);
 		return ((TIFF *)0);
 	}
 
 	mbname = NULL;
-	mbsize = WideCharToMultiByte(CP_ACP, 0, имя, -1, NULL, 0, NULL, NULL);
+	mbsize = WideCharToMultiByte(CP_ACP, 0, name, -1, NULL, 0, NULL, NULL);
 	if (mbsize > 0) {
 		mbname = _TIFFmalloc(mbsize);
 		if (!mbname) {
 			TIFFErrorExt(0, module,
-			"Can't allocate space for filename conversion буфер");
+			"Can't allocate space for filename conversion buffer");
 			return ((TIFF*)0);
 		}
 
-		WideCharToMultiByte(CP_ACP, 0, имя, -1, mbname, mbsize,
+		WideCharToMultiByte(CP_ACP, 0, name, -1, mbname, mbsize,
 				    NULL, NULL);
 	}
 
@@ -380,5 +380,5 @@ TIFFErrorHandler _TIFFerrorHandler = unixErrorHandler;
  * mode: c
  * c-basic-offset: 8
  * fill-column: 78
- * стоп:
+ * End:
  */

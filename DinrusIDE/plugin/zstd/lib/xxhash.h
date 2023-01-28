@@ -1,6 +1,6 @@
 /*
- * xxHash - Extremely Fast Хэш algorithm
- * Header Файл
+ * xxHash - Extremely Fast Hash algorithm
+ * Header File
  * Copyright (c) 2012-2020, Yann Collet, Facebook, Inc.
  *
  * You can contact the author at :
@@ -14,12 +14,12 @@
 
 /* Notice extracted from xxHash homepage :
 
-xxHash is an extremely fast Хэш algorithm, running at RAM speed limits.
+xxHash is an extremely fast Hash algorithm, running at RAM speed limits.
 It also successfully passes all tests from the SMHasher suite.
 
 Comparison (single thread, Windows Seven 32 bits, using SMHasher on a Core 2 Duo @3GHz)
 
-Имя            Speed       Q.Score   Author
+Name            Speed       Q.Score   Author
 xxHash          5.4 GB/s     10
 CrapWow         3.2 GB/s      2       Andrew
 MumurHash 3a    2.7 GB/s     10       Austin Appleby
@@ -39,7 +39,7 @@ It depends on successfully passing SMHasher test set.
 
 A 64-bits version, named XXH64, is available since r35.
 It offers much better speed, but for 64-bits applications only.
-Имя     Speed on 64 bits    Speed on 32 bits
+Name     Speed on 64 bits    Speed on 32 bits
 XXH64       13.8 GB/s            1.9 GB/s
 XXH32        6.8 GB/s            6.0 GB/s
 */
@@ -94,10 +94,10 @@ If you want to include _and expose_ xxHash functions from within your own librar
 but also want to avoid symbol collisions with another library which also includes xxHash,
 
 you can use XXH_NAMESPACE, to automatically prefix any public symbol from xxhash library
-with the значение of XXH_NAMESPACE (so avoid to keep it NULL and avoid numeric values).
+with the value of XXH_NAMESPACE (so avoid to keep it NULL and avoid numeric values).
 
 Note that no change is required within the calling program as long as it includes `xxhash.h` :
-regular symbol имя will be automatically translated by this header.
+regular symbol name will be automatically translated by this header.
 */
 #ifdef XXH_NAMESPACE
 #  define XXH_CAT(A,B) A##B
@@ -135,7 +135,7 @@ XXH_PUBLIC_API unsigned XXH_versionNumber (void);
 
 
 /* ****************************
-*  Simple Хэш Functions
+*  Simple Hash Functions
 ******************************/
 typedef unsigned int       XXH32_hash_t;
 typedef unsigned long long XXH64_hash_t;
@@ -157,10 +157,10 @@ XXH64() :
 
 
 /* ****************************
-*  Streaming Хэш Functions
+*  Streaming Hash Functions
 ******************************/
-typedef struct XXH32_state_s XXH32_state_t;   /* incomplete тип */
-typedef struct XXH64_state_s XXH64_state_t;   /* incomplete тип */
+typedef struct XXH32_state_s XXH32_state_t;   /* incomplete type */
+typedef struct XXH64_state_s XXH64_state_t;   /* incomplete type */
 
 /*! State allocation, compatible with dynamic libraries */
 
@@ -188,13 +188,13 @@ For small input, prefer `XXH32()` and `XXH64()` .
 
 XXH state must first be allocated, using XXH*_createState() .
 
-старт a new hash by initializing state with a seed, using XXH*_reset().
+Start a new hash by initializing state with a seed, using XXH*_reset().
 
 Then, feed the hash state by calling XXH*_update() as many times as necessary.
 Obviously, input must be allocated and read accessible.
-The function returns an Ошибка code, with 0 meaning OK, and any other значение meaning there is an Ошибка.
+The function returns an error code, with 0 meaning OK, and any other value meaning there is an error.
 
-Finally, a hash значение can be produced anytime, by using XXH*_digest().
+Finally, a hash value can be produced anytime, by using XXH*_digest().
 This function returns the nn-bits hash as an int or long long.
 
 It's still possible to continue inserting input into the hash state after a digest,
@@ -218,9 +218,9 @@ XXH_PUBLIC_API void XXH64_copyState(XXH64_state_t* restrict dst_state, const XXH
 /* **************************
 *  Canonical representation
 ****************************/
-/* дефолт result тип for XXH functions are primitive unsigned 32 and 64 bits.
+/* Default result type for XXH functions are primitive unsigned 32 and 64 bits.
 *  The canonical representation uses human-readable write convention, aka big-endian (large digits first).
-*  These functions allow transformation of hash result into and from its canonical формат.
+*  These functions allow transformation of hash result into and from its canonical format.
 *  This way, hash values can be written into a file / memory, and remain comparable on different systems and programs.
 */
 typedef struct { unsigned char digest[4]; } XXH32_canonical_t;
@@ -256,7 +256,7 @@ XXH_PUBLIC_API XXH64_hash_t XXH64_hashFromCanonical(const XXH64_canonical_t* src
        unsigned v2;
        unsigned v3;
        unsigned v4;
-       unsigned mem32[4];   /* буфер defined as U32 for alignment */
+       unsigned mem32[4];   /* buffer defined as U32 for alignment */
        unsigned memsize;
        unsigned reserved;   /* never read nor write, will be removed in a future version */
    };   /* typedef'd to XXH32_state_t */
@@ -267,7 +267,7 @@ XXH_PUBLIC_API XXH64_hash_t XXH64_hashFromCanonical(const XXH64_canonical_t* src
        unsigned long long v2;
        unsigned long long v3;
        unsigned long long v4;
-       unsigned long long mem64[4];   /* буфер defined as U64 for alignment */
+       unsigned long long mem64[4];   /* buffer defined as U64 for alignment */
        unsigned memsize;
        unsigned reserved[2];          /* never read nor write, will be removed in a future version */
    };   /* typedef'd to XXH64_state_t */

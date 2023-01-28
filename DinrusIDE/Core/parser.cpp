@@ -1,37 +1,37 @@
 #include "Core.h"
 
-namespace РНЦПДинрус {
+namespace Upp {
 
 #define LLOG(x)    // DLOG(x)
 #define LTIMING(x) // RTIMING(x)
 
-void СиПарсер::выведиОш(const char *s) {
-	LLOG("СиПарсер::Ошибка: " << s);
-	LLOG(~Ткст(term, min((int)strlen((const char *)term), 512)));
-	Поз pos = дайПоз();
-	Ошибка err(фн + фмт("(%d,%d): ", line, pos.дайКолонку()) + s);
+void CParser::ThrowError(const char *s) {
+	LLOG("CParser::Error: " << s);
+	LLOG(~String(term, min((int)strlen((const char *)term), 512)));
+	Pos pos = GetPos();
+	Error err(fn + Format("(%d,%d): ", line, pos.GetColumn()) + s);
 //	err.term = (const char *)term;
 	throw err;
 }
 
-СиПарсер& СиПарсер::пропустиКомменты(bool b)
+CParser& CParser::SkipComments(bool b)
 {
 	skipcomments = b;
 	term = wspc;
-	пробелы0();
+	Spaces0();
 	return *this;
 }
 
-СиПарсер& СиПарсер::гнездиКомменты(bool b)
+CParser& CParser::NestComments(bool b)
 {
 	nestcomments = b;
 	term = wspc;
-	пробелы0();
+	Spaces0();
 	return *this;
 }
 
-bool СиПарсер::пробелы0() {
-	LTIMING("пробелы");
+bool CParser::Spaces0() {
+	LTIMING("Spaces");
 	if(!term)
 		return false;
 	if((byte)*term > ' ' &&
@@ -41,7 +41,7 @@ bool СиПарсер::пробелы0() {
 	for(;;) {
 		if(*term == LINEINFO_ESC) {
 			term++;
-			фн.очисть();
+			fn.Clear();
 			while(*term) {
 				if(*term == LINEINFO_ESC) {
 					++term;
@@ -58,7 +58,7 @@ bool СиПарсер::пробелы0() {
 					}
 					break;
 				}
-				фн.конкат(*term++);
+				fn.Cat(*term++);
 			}
 			continue;
 		}
@@ -82,7 +82,7 @@ bool СиПарсер::пробелы0() {
 					}
 					else if(term[0] == '/' && term[1] == '*')
 						count++;
-					
+
 					if(*term++ == '\n') {
 						line++;
 						lineptr = term;
@@ -114,18 +114,18 @@ bool СиПарсер::пробелы0() {
 	return true;
 }
 
-Ткст СиПарсер::LineInfoComment(const Ткст& file, int line, int column)
+String CParser::LineInfoComment(const String& file, int line, int column)
 {
-	return Ткст().конкат() << (char)LINEINFO_ESC << file << '\3'
+	return String().Cat() << (char)LINEINFO_ESC << file << '\3'
 	                      << line << '\3' << column << (char)LINEINFO_ESC;
 }
 
-Ткст СиПарсер::GetLineInfoComment(int tabsize) const
+String CParser::GetLineInfoComment(int tabsize) const
 {
-	return LineInfoComment(дайИмяф(), дайСтроку(), дайКолонку(tabsize));
+	return LineInfoComment(GetFileName(), GetLine(), GetColumn(tabsize));
 }
 
-const char *СиПарсер::ид0_ли(const char *s) const {
+const char *CParser::IsId0(const char *s) const {
 	const char *t = term + 1;
 	s++;
 	while(*s) {
@@ -137,80 +137,80 @@ const char *СиПарсер::ид0_ли(const char *s) const {
 	return IsAlNum(*t) || *t == '_' ? NULL : t;
 }
 
-bool СиПарсер::ид0(const char *s) {
-	LTIMING("Ид");
-	const char *t = ид0_ли(s);
+bool CParser::Id0(const char *s) {
+	LTIMING("Id");
+	const char *t = IsId0(s);
 	if(!t)
 		return false;
 	term = t;
-	сделайПробелы();
+	DoSpaces();
 	return true;
 }
 
-void СиПарсер::передайИд(const char *s) {
-	LTIMING("передайИд");
-	if(!Ид(s))
-		выведиОш(Ткст("missing '") + s + "\'");
+void CParser::PassId(const char *s) {
+	LTIMING("PassId");
+	if(!Id(s))
+		ThrowError(String("отсутствует '") + s + "\'");
 }
 
-void СиПарсер::передайСим(char c) {
-	LTIMING("передайСим");
-	if(!char(c))
-		выведиОш(Ткст("missing '") + c + "\'");
+void CParser::PassChar(char c) {
+	LTIMING("PassChar");
+	if(!Char(c))
+		ThrowError(String("отсутствует '") + c + "\'");
 }
 
-void СиПарсер::передайСим2(char c1, char c2) {
-	LTIMING("передайСим2");
-	if(!сим2(c1, c2))
-		выведиОш(Ткст("missing '") + c1 + c2 + "\'");
+void CParser::PassChar2(char c1, char c2) {
+	LTIMING("PassChar2");
+	if(!Char2(c1, c2))
+		ThrowError(String("отсутствует '") + c1 + c2 + "\'");
 }
 
-void СиПарсер::передайСим3(char c1, char c2, char c3) {
-	LTIMING("передайСим3");
-	if(!сим3(c1, c2, c3))
-		выведиОш(Ткст("missing '") + c1 + c2 + c3 + "\'");
+void CParser::PassChar3(char c1, char c2, char c3) {
+	LTIMING("PassChar3");
+	if(!Char3(c1, c2, c3))
+		ThrowError(String("отсутствует '") + c1 + c2 + c3 + "\'");
 }
 
-Ткст СиПарсер::читайИд() {
-	if(!ид_ли())
-		выведиОш("missing ид");
-	Ткст result;
+String CParser::ReadId() {
+	if(!IsId())
+		ThrowError("отсутствует id");
+	String result;
 	const char *b = term;
 	const char *p = b;
 	while(iscid(*p))
 		p++;
 	term = p;
-	сделайПробелы();
-	return Ткст(b, (int)(uintptr_t)(p - b));
+	DoSpaces();
+	return String(b, (int)(uintptr_t)(p - b));
 }
 
-Ткст СиПарсер::ReadIdt() {
-	if(!ид_ли())
-		выведиОш("missing ид");
-	ТкстБуф result;
+String CParser::ReadIdt() {
+	if(!IsId())
+		ThrowError("отсутствует id");
+	StringBuffer result;
 	int lvl = 0;
 	while(IsAlNum(*term) || *term == '_' || *term == '<' || *term == '>' ||
 	      *term == ':' || (*term == ',' || *term == ' ' ) && lvl > 0 ) {
 		if(*term == '<') lvl++;
 		if(*term == '>') lvl--;
-		result.конкат(*term++);
+		result.Cat(*term++);
 	}
-	сделайПробелы();
-	return Ткст(result);
+	DoSpaces();
+	return String(result);
 }
 
-bool СиПарсер::цел_ли() const {
-	LTIMING("цел_ли");
+bool CParser::IsInt() const {
+	LTIMING("IsInt");
 	const char *t = term;
 	if(*t == '-' || *t == '+') {
 		t++;
 		while(*t <= ' ')
 			t++;
 	}
-	return цифра_ли(*t);
+	return IsDigit(*t);
 }
 
-int  СиПарсер::знак()
+int  CParser::Sgn()
 {
 	int sign = 1;
 	if(*term == '-') {
@@ -220,64 +220,64 @@ int  СиПарсер::знак()
 	else
 	if(*term == '+')
 		term++;
-	пробелы();
+	Spaces();
 	return sign;
 }
 
-int  СиПарсер::читайЦел() {
-	LTIMING("читайЦел");
+int  CParser::ReadInt() {
+	LTIMING("ReadInt");
 	int n;
 	bool overflow = false;
-	const char *t = сканЦел<char, byte, dword, int, 10>(n, term, overflow);
-	if(!t) выведиОш("missing number");
-	if(overflow) выведиОш("number is too big");
+	const char *t = ScanInt<char, byte, dword, int, 10>(n, term, overflow);
+	if(!t) ThrowError("отсутствует число");
+	if(overflow) ThrowError("число слишком большое");
 	term = t;
-	сделайПробелы();
+	DoSpaces();
 	return n;
 }
 
-int СиПарсер::читайЦел(int min, int max)
+int CParser::ReadInt(int min, int max)
 {
-	int n = читайЦел();
+	int n = ReadInt();
 	if(n < min || n > max)
-		выведиОш("number is out of range");
+		ThrowError("число вне диапазона");
 	return n;
 }
 
-int64 СиПарсер::читайЦел64()
+int64 CParser::ReadInt64()
 {
-	LTIMING("читайЦел64");
+	LTIMING("ReadInt64");
 	int64 n;
 	bool overflow = false;
-	const char *t = сканЦел<char, byte, uint64, int64, 10>(n, term, overflow);
-	if(!t) выведиОш("missing number");
-	if(overflow) выведиОш("number is too big");
+	const char *t = ScanInt<char, byte, uint64, int64, 10>(n, term, overflow);
+	if(!t) ThrowError("отсутствует число");
+	if(overflow) ThrowError("число слишком большое");
 	term = t;
-	сделайПробелы();
+	DoSpaces();
 	return n;
 }
 
-int64 СиПарсер::читайЦел64(int64 min, int64 max)
+int64 CParser::ReadInt64(int64 min, int64 max)
 {
-	int64 n = читайЦел64();
+	int64 n = ReadInt64();
 	if(n < min || n > max)
-		выведиОш("number is out of range");
+		ThrowError("число вне диапазона");
 	return n;
 }
 
-bool СиПарсер::число_ли(int base) const
+bool CParser::IsNumber(int base) const
 {
-    if(цифра_ли(*term)) {
+    if(IsDigit(*term)) {
         int q = *term - '0';
         return q >= 0 && q < base;
     }
-	int q = взаг(*term) - 'A';
+	int q = ToUpper(*term) - 'A';
     return q >= 0 && q < base - 10;
 }
 
-uint32  СиПарсер::читайЧисло(int base)
+uint32  CParser::ReadNumber(int base)
 {
-	LTIMING("читайЧисло");
+	LTIMING("ReadNumber");
 
 	uint32 n;
 	bool overflow = false;
@@ -285,22 +285,22 @@ uint32  СиПарсер::читайЧисло(int base)
 
 	switch(base) {
 	case 10:
-		t = сканБцел<char, byte, uint32, 10>(n, term, overflow);
+		t = ScanUint<char, byte, uint32, 10>(n, term, overflow);
 		break;
 	case 8:
-		t = сканБцел<char, byte, uint32, 8>(n, term, overflow);
+		t = ScanUint<char, byte, uint32, 8>(n, term, overflow);
 		break;
 	case 2:
-		t = сканБцел<char, byte, uint32, 2>(n, term, overflow);
+		t = ScanUint<char, byte, uint32, 2>(n, term, overflow);
 		break;
 	case 16:
-		t = сканБцел<char, byte, uint32, 16>(n, term, overflow);
+		t = ScanUint<char, byte, uint32, 16>(n, term, overflow);
 		break;
 	default:
 		uint32 n = 0;
 		int q = ctoi(*term);
 		if(q < 0 || q >= base)
-			выведиОш("missing number");
+			ThrowError("отсутствует число");
 		for(;;) {
 			int c = ctoi(*term);
 			if(c < 0 || c >= base)
@@ -308,22 +308,22 @@ uint32  СиПарсер::читайЧисло(int base)
 			uint32 n1 = n;
 			n = base * n + c;
 			if(n1 > n)
-				выведиОш("number is too big");
+				ThrowError("число слишком большое");
 			term++;
 		}
-		сделайПробелы();
+		DoSpaces();
 		return n;
 	}
-	if(!t) выведиОш("missing number");
-	if(overflow) выведиОш("number is too big");
+	if(!t) ThrowError("отсутсвует число");
+	if(overflow) ThrowError("число слишком большое");
 	term = t;
-	сделайПробелы();
+	DoSpaces();
 	return n;
 }
 
-uint64  СиПарсер::читайЧисло64(int base)
+uint64  CParser::ReadNumber64(int base)
 {
-	LTIMING("читайЧисло64");
+	LTIMING("ReadNumber64");
 
 	uint32 n;
 	bool overflow = false;
@@ -331,22 +331,22 @@ uint64  СиПарсер::читайЧисло64(int base)
 
 	switch(base) {
 	case 10:
-		t = сканБцел<char, byte, uint32, 10>(n, term, overflow);
+		t = ScanUint<char, byte, uint32, 10>(n, term, overflow);
 		break;
 	case 8:
-		t = сканБцел<char, byte, uint32, 8>(n, term, overflow);
+		t = ScanUint<char, byte, uint32, 8>(n, term, overflow);
 		break;
 	case 2:
-		t = сканБцел<char, byte, uint32, 2>(n, term, overflow);
+		t = ScanUint<char, byte, uint32, 2>(n, term, overflow);
 		break;
 	case 16:
-		t = сканБцел<char, byte, uint32, 16>(n, term, overflow);
+		t = ScanUint<char, byte, uint32, 16>(n, term, overflow);
 		break;
 	default:
 		uint64 n = 0;
 		int q = ctoi(*term);
 		if(q < 0 || q >= base)
-			выведиОш("missing number");
+			ThrowError("отсутсвует число");
 		for(;;) {
 			int c = ctoi(*term);
 			if(c < 0 || c >= base)
@@ -354,20 +354,20 @@ uint64  СиПарсер::читайЧисло64(int base)
 			uint64 n1 = n;
 			n = base * n + c;
 			if(n1 > n)
-				выведиОш("number is too big");
+				ThrowError("число слишком большое");
 			term++;
 		}
-		сделайПробелы();
+		DoSpaces();
 		return n;
 	}
-	if(!t) выведиОш("missing number");
-	if(overflow) выведиОш("number is too big");
+	if(!t) ThrowError("отсутсвует число");
+	if(overflow) ThrowError("число слишком большое");
 	term = t;
-	сделайПробелы();
+	DoSpaces();
 	return n;
 }
 
-bool СиПарсер::дво2_ли() const
+bool CParser::IsDouble2() const
 {
 	const char *t = term;
 	if(*t == '-' || *t == '+') {
@@ -380,10 +380,10 @@ bool СиПарсер::дво2_ли() const
 		while(*t <= ' ')
 			t++;
 	}
-	return цифра_ли(*t);
+	return IsDigit(*t);
 }
 
-dword СиПарсер::читайГекс()
+dword CParser::ReadHex()
 {
 	int hex = 0;
 	while(IsXDigit(*++term))
@@ -391,7 +391,7 @@ dword СиПарсер::читайГекс()
 	return hex;
 }
 
-bool СиПарсер::читайГекс(dword& hex, int n)
+bool CParser::ReadHex(dword& hex, int n)
 {
 	hex = 0;
 	while(n--) {
@@ -403,67 +403,67 @@ bool СиПарсер::читайГекс(dword& hex, int n)
 	return true;
 }
 
-Ткст СиПарсер::читай1Ткст(int delim, bool chkend) {
-	if(!сим_ли(delim))
-		выведиОш("missing string");
+String CParser::ReadOneString(int delim, bool chkend) {
+	if(!IsChar(delim))
+		ThrowError("отсутствует ткст");
 	term++;
-	ТкстБуф result;
+	StringBuffer result;
 	for(;;) {
 		if(*term == delim) {
 			term++;
-			сделайПробелы();
-			return Ткст(result);
+			DoSpaces();
+			return String(result);
 		}
 		else
 		if(*term == '\\') {
 			switch(*++term) {
-			case 'a': result.конкат('\a'); term++; break;
-			case 'b': result.конкат('\b'); term++; break;
-			case 't': result.конкат('\t'); term++; break;
-			case 'v': result.конкат('\v'); term++; break;
-			case 'n': result.конкат('\n'); term++; break;
-			case 'r': result.конкат('\r'); term++; break;
-			case 'f': result.конкат('\f'); term++; break;
+			case 'a': result.Cat('\a'); term++; break;
+			case 'b': result.Cat('\b'); term++; break;
+			case 't': result.Cat('\t'); term++; break;
+			case 'v': result.Cat('\v'); term++; break;
+			case 'n': result.Cat('\n'); term++; break;
+			case 'r': result.Cat('\r'); term++; break;
+			case 'f': result.Cat('\f'); term++; break;
 			case 'x': {
-				int hex = читайГекс();
-				result.конкат(hex);
+				int hex = ReadHex();
+				result.Cat(hex);
 				break;
 			}
 			case 'u':
 				if(uescape) {
 					dword hex;
-					if(!читайГекс(hex, 4))
-						выведиОш("Incomplete universal character");
+					if(!ReadHex(hex, 4))
+						ThrowError("Незавершённый универсальный символ");
 					if(hex >= 0xD800 && hex < 0xDBFF) {
 						if(term[0] == '\\' && term[1] == 'u') {
 							term++;
 							dword hex2;
-							if(!читайГекс(hex2, 4))
-								выведиОш("Incomplete universal character");
+							if(!ReadHex(hex2, 4))
+								ThrowError("Незавершённый универсальный символ");
 							if(hex2 >= 0xDC00 && hex2 <= 0xDFFF) {
-								result.конкат(вУтф8(((hex & 0x3ff) << 10) | (hex2 & 0x3ff) + 0x10000));
+								result.Cat(ToUtf8(((hex & 0x3ff) << 10) | (hex2 & 0x3ff) + 0x10000));
 								break;
 							}
 						}
-						выведиОш("Invalid UTF-16 surrogate pair");
+						ThrowError("Неверная сурогатная пара UTF-16");
 					}
 					else
-						result.конкат(вУтф8(hex));
+						result.Cat(ToUtf8(hex));
 				}
 				else
-					result.конкат(*term++);
+					result.Cat(*term++);
 				break;
 			case 'U':
 				if(uescape) {
 					dword hex;
-					if(!читайГекс(hex, 8))
-						выведиОш("Incomplete universal character");
+					if(!ReadHex(hex, 8))
+						ThrowError("Незавершённый универсальный символ");
 					if(hex > 0x10ffff)
-						выведиОш("Universal character is out of unicode range");
-					result.конкат(вУтф8(hex));
+						ThrowError("Универсальный символ вне диапазона Юникода");
+					result.Cat(ToUtf8(hex));
 				}
 				else
-					result.конкат(*term++);
+					result.Cat(*term++);
 				break;
 			default:
 				if(*term >= '0' && *term <= '7') {
@@ -472,49 +472,49 @@ bool СиПарсер::читайГекс(dword& hex, int n)
 						oct = 8 * oct + *term++ - '0';
 					if(*term >= '0' && *term <= '7')
 						oct = 8 * oct + *term++ - '0';
-					result.конкат(oct);
+					result.Cat(oct);
 				}
 				else
-					result.конкат(*term++);
+					result.Cat(*term++);
 				break;
 			}
 		}
 		else {
 			if((byte)*term < ' ' && *term != '\t') {
 				if(chkend) {
-					выведиОш("Unterminated string");
-					return Ткст(result);
+					ThrowError("Незавершённый ткст");
+					return String(result);
 				}
 				if(*term == '\0')
-					return Ткст(result);
+					return String(result);
 			}
-			result.конкат(*term++);
+			result.Cat(*term++);
 		}
 	}
-	сделайПробелы();
-	return Ткст(result);
+	DoSpaces();
+	return String(result);
 }
 
-Ткст СиПарсер::читай1Ткст(bool chkend)
+String CParser::ReadOneString(bool chkend)
 {
-	return читай1Ткст('\"', chkend);
+	return ReadOneString('\"', chkend);
 }
 
-Ткст СиПарсер::читайТкст(int delim, bool chkend) {
-	LTIMING("читайТкст");
-	Ткст result;
+String CParser::ReadString(int delim, bool chkend) {
+	LTIMING("ReadString");
+	String result;
 	do
-		result.конкат(читай1Ткст(delim, chkend));
-	while(сим_ли(delim));
+		result.Cat(ReadOneString(delim, chkend));
+	while(IsChar(delim));
 	return result;
 }
 
-Ткст СиПарсер::читайТкст(bool chkend)
+String CParser::ReadString(bool chkend)
 {
-	return читайТкст('\"', chkend);
+	return ReadString('\"', chkend);
 }
 
-char СиПарсер::дайСим()
+char CParser::GetChar()
 {
 	char c = *term++;
 	if(c == '\n') {
@@ -524,22 +524,22 @@ char СиПарсер::дайСим()
 	return c;
 }
 
-void СиПарсер::пропусти()
+void CParser::Skip()
 {
-	LTIMING("пропусти");
-	if(ид_ли())
+	LTIMING("Skip");
+	if(IsId())
 		while(iscid(*term))
 			term++;
 	else
-	if(число_ли())
-		while(цифра_ли(*term))
+	if(IsNumber())
+		while(IsDigit(*term))
 			term++;
 	else
-	if(ткст_ли())
-		читайТкст();
+	if(IsString())
+		ReadString();
 	else
-	if(сим_ли('\''))
-		читайТкст('\'', false);
+	if(IsChar('\''))
+		ReadString('\'', false);
 	else
 	if(*term) {
 		if(*term == '\n') {
@@ -548,27 +548,27 @@ void СиПарсер::пропусти()
 		}
 		term++;
 	}
-	сделайПробелы();
+	DoSpaces();
 }
 
-СиПарсер::Поз СиПарсер::дайПоз() const
+CParser::Pos CParser::GetPos() const
 {
-	Поз p;
+	Pos p;
 	p.line = line;
-	p.фн = фн;
+	p.fn = fn;
 	p.ptr = term;
 	p.wspc = wspc;
 	p.lineptr = lineptr;
 	return p;
 }
 
-int СиПарсер::Поз::дайКолонку(int tabsize) const
+int CParser::Pos::GetColumn(int tabsize) const
 {
 	int pos = 1;
 	for(const char *s = lineptr; s < ptr; s++) {
-		if(*s == СиПарсер::LINEINFO_ESC) {
+		if(*s == CParser::LINEINFO_ESC) {
 			s++;
-			while(s < ptr && *s != СиПарсер::LINEINFO_ESC)
+			while(s < ptr && *s != CParser::LINEINFO_ESC)
 				if(*s++ == '\3')
 					pos = atoi(s);
 		}
@@ -581,43 +581,43 @@ int СиПарсер::Поз::дайКолонку(int tabsize) const
 	return pos;
 }
 
-int СиПарсер::дайКолонку(int tabsize) const
+int CParser::GetColumn(int tabsize) const
 {
-	return дайПоз().дайКолонку(tabsize);
+	return GetPos().GetColumn(tabsize);
 }
 
-void СиПарсер::устПоз(const СиПарсер::Поз& p)
+void CParser::SetPos(const CParser::Pos& p)
 {
-	LLOG("устПоз " << p.фн << ":" << p.line);
+	LLOG("SetPos " << p.fn << ":" << p.line);
 	line = p.line;
-	фн = p.фн;
+	fn = p.fn;
 	term = p.ptr;
 	wspc = p.wspc;
 	lineptr = p.lineptr;
 	if(skipspaces)
-		сделайПробелы();
+		DoSpaces();
 }
 
-СиПарсер::СиПарсер(const char *ptr)
+CParser::CParser(const char *ptr)
 : term(ptr), wspc(ptr), lineptr(ptr)
 {
 	line = 1;
 	skipspaces = skipcomments = true;
 	nestcomments = false;
 	uescape = true;
-	пробелы();
+	Spaces();
 }
 
-СиПарсер::СиПарсер(const char *ptr, const char *фн, int line)
-: term(ptr), wspc(ptr), lineptr(ptr), line(line), фн(фн)
+CParser::CParser(const char *ptr, const char *fn, int line)
+: term(ptr), wspc(ptr), lineptr(ptr), line(line), fn(fn)
 {
 	skipspaces = skipcomments = true;
 	nestcomments = false;
 	uescape = true;
-	пробелы();
+	Spaces();
 }
 
-СиПарсер::СиПарсер()
+CParser::CParser()
 {
 	term = lineptr = wspc = NULL;
 	line = 0;
@@ -626,25 +626,25 @@ void СиПарсер::устПоз(const СиПарсер::Поз& p)
 	uescape = true;
 }
 
-void СиПарсер::уст(const char *_ptr, const char *_fn, int _line)
+void CParser::Set(const char *_ptr, const char *_fn, int _line)
 {
 	term = lineptr = wspc = _ptr;
-	фн = _fn;
+	fn = _fn;
 	line = _line;
 	if(skipspaces)
-		пробелы();
-	LLOG("уст " << фн << ":" << line);
+		Spaces();
+	LLOG("Set " << fn << ":" << line);
 }
 
-void СиПарсер::уст(const char *_ptr)
+void CParser::Set(const char *_ptr)
 {
-	уст(_ptr, "", 1);
+	Set(_ptr, "", 1);
 }
 
-inline void NextCStringLine(ТкстБуф& t, const char *linepfx, int& pl)
+inline void NextCStringLine(StringBuffer& t, const char *linepfx, int& pl)
 {
 	t << "\"\r\n" << (linepfx ? linepfx : "") << "\"";
-	pl = t.дайДлину();
+	pl = t.GetLength();
 }
 
 inline int HexDigit(int c)
@@ -652,7 +652,7 @@ inline int HexDigit(int c)
 	return "0123456789ABCDEF"[c & 15];
 }
 
-static inline void sCatHex(ТкстБуф& t, word q)
+static inline void sCatHex(StringBuffer& t, word q)
 {
 	char h[6];
 	h[0] = '\\';
@@ -661,31 +661,31 @@ static inline void sCatHex(ТкстБуф& t, word q)
 	h[3] = HexDigit(q >> 8);
 	h[4] = HexDigit(q >> 4);
 	h[5] = HexDigit(q);
-	t.конкат(h, 6);
+	t.Cat(h, 6);
 }
 
-Ткст какТкстСи(const char *s, const char *lim, int linemax, const char *linepfx, dword flags)
+String AsCString(const char *s, const char *lim, int linemax, const char *linepfx, dword flags)
 {
-	ТкстБуф t;
-	t.конкат('\"');
+	StringBuffer t;
+	t.Cat('\"');
 	int pl = 0;
 	bool wasspace = false;
-	byte cs = дайДефНабСим();
-	bool toutf8 = дайДефНабСим() != CHARSET_UTF8;
+	byte cs = GetDefaultCharset();
+	bool toutf8 = GetDefaultCharset() != CHARSET_UTF8;
 	while(s < lim) {
-		if(t.дайДлину() - pl > linemax && (!(flags & ASCSTRING_SMART) || wasspace))
+		if(t.GetLength() - pl > linemax && (!(flags & ASCSTRING_SMART) || wasspace))
 			NextCStringLine(t, linepfx, pl);
 		wasspace = *s == ' ';
 		switch(*s) {
-		case '\a': t.конкат("\\a"); break;
-		case '\b': t.конкат("\\b"); break;
-		case '\f': t.конкат("\\f"); break;
-		case '\t': t.конкат("\\t"); break;
-		case '\v': t.конкат("\\v"); break;
-		case '\r': t.конкат("\\r"); break;
-		case '\"': t.конкат("\\\""); break;
-		case '\\': t.конкат("\\\\"); break;
-		case '\n': t.конкат("\\n"); wasspace = true; break;
+		case '\a': t.Cat("\\a"); break;
+		case '\b': t.Cat("\\b"); break;
+		case '\f': t.Cat("\\f"); break;
+		case '\t': t.Cat("\\t"); break;
+		case '\v': t.Cat("\\v"); break;
+		case '\r': t.Cat("\\r"); break;
+		case '\"': t.Cat("\\\""); break;
+		case '\\': t.Cat("\\\\"); break;
+		case '\n': t.Cat("\\n"); wasspace = true; break;
 		default:
 			if(flags & ASCSTRING_JSON) {
 				if((byte)*s < 32) {
@@ -699,9 +699,9 @@ static inline void sCatHex(ТкстБуф& t, word q)
 					}
 					else {
 						const char *s0 = s;
-						dword c = toutf8 ? вЮникод((byte)*s++, cs) : достаньУтф8(s, lim);
+						dword c = toutf8 ? ToUnicode((byte)*s++, cs) : FetchUtf8(s, lim);
 						if(c < 0x10000)
-							t.конкат(s0, s);
+							t.Cat(s0, s);
 						else {
 							c -= 0x10000;
 							sCatHex(t, wchar(0xD800 + (0x3ff & (c >> 10))));
@@ -710,7 +710,7 @@ static inline void sCatHex(ТкстБуф& t, word q)
 					}
 				}
 				else
-					t.конкат(*s++);
+					t.Cat(*s++);
 				continue; // skip s++
 			}
 			else {
@@ -721,27 +721,27 @@ static inline void sCatHex(ТкстБуф& t, word q)
 					h[1] = (3 & (q >> 6)) + '0';
 					h[2] = (7 & (q >> 3)) + '0';
 					h[3] = (7 & q) + '0';
-					t.конкат(h, 4);
+					t.Cat(h, 4);
 				}
 				else
-					t.конкат(*s);
+					t.Cat(*s);
 			}
 			break;
 		}
 		s++;
 	}
-	t.конкат('\"');
-	return Ткст(t);
+	t.Cat('\"');
+	return String(t);
 }
 
-Ткст какТкстСи(const char *s, int linemax, const char *linepfx, dword flags)
+String AsCString(const char *s, int linemax, const char *linepfx, dword flags)
 {
-	return какТкстСи(s, s + strlen(s), linemax, linepfx, flags);
+	return AsCString(s, s + strlen(s), linemax, linepfx, flags);
 }
 
-Ткст какТкстСи(const Ткст& s, int linemax, const char *linepfx, dword flags)
+String AsCString(const String& s, int linemax, const char *linepfx, dword flags)
 {
-	return какТкстСи(s, s.стоп(), linemax, linepfx, flags);
+	return AsCString(s, s.End(), linemax, linepfx, flags);
 }
 
 }

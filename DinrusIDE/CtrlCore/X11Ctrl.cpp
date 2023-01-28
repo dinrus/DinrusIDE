@@ -2,17 +2,17 @@
 
 #ifdef GUI_X11
 
-namespace РНЦП {
+namespace Upp {
 
-void Ктрл::GuiPlatformConstruct()
+void Ctrl::GuiPlatformConstruct()
 {
 }
 
-void Ктрл::GuiPlatformDestruct()
+void Ctrl::GuiPlatformDestruct()
 {
 }
 
-void Ктрл::GuiPlatformRemove()
+void Ctrl::GuiPlatformRemove()
 {
 	if(popupgrab) {
 		EndPopupGrab();
@@ -20,88 +20,88 @@ void Ктрл::GuiPlatformRemove()
 	}
 }
 
-void Ктрл::GuiPlatformGetTopRect(Прям& r) const
+void Ctrl::GuiPlatformGetTopRect(Rect& r) const
 {
 }
 
-Ткст Ктрл::Имя() const {
-	return имя0();
+String Ctrl::Name() const {
+	return Name0();
 }
 
-bool Ктрл::GuiPlatformRefreshFrameSpecial(const Прям&)
-{
-	return false;
-}
-
-
-bool Ктрл::GuiPlatformSetFullRefreshSpecial()
+bool Ctrl::GuiPlatformRefreshFrameSpecial(const Rect&)
 {
 	return false;
 }
 
-void Ктрл::GuiPlatformSelection(PasteClip& d)
+
+bool Ctrl::GuiPlatformSetFullRefreshSpecial()
 {
-	d.fmt.очисть();
-	d.тип = 2;
+	return false;
+}
+
+void Ctrl::GuiPlatformSelection(PasteClip& d)
+{
+	d.fmt.Clear();
+	d.type = 2;
 }
 
 void GuiPlatformAdjustDragImage(ImageBuffer& b)
 {
-	if(Ктрл::IsCompositedGui()) {
-		Рисунок h = Rescale(b, 64, 64);
+	if(Ctrl::IsCompositedGui()) {
+		Image h = Rescale(b, 64, 64);
 		b = h;
 	}
 }
 
 bool GuiPlatformHasSizeGrip()
 {
-	return _NET_Supported().найди(XAtom("_NET_WM_MOVERESIZE")) >= 0;
+	return _NET_Supported().Find(XAtom("_NET_WM_MOVERESIZE")) >= 0;
 }
 
-void GuiPlatformGripResize(ТопОкно *q)
+void GuiPlatformGripResize(TopWindow *q)
 {
-	if(_NET_Supported().найди(XAtom("_NET_WM_MOVERESIZE")) >= 0) {
+	if(_NET_Supported().Find(XAtom("_NET_WM_MOVERESIZE")) >= 0) {
 		XUngrabPointer(Xdisplay, CurrentTime); // 2008-02-25 cxl/mdelfe... compiz fix... who has grabbed it anyway?...
-		XClientMessageСобытие m;
-		m.тип = ClientMessage;
+		XClientMessageEvent m;
+		m.type = ClientMessage;
 		m.serial = 0;
 		m.send_event = XTrue;
 		m.window = q->GetWindow();
 		m.message_type = XAtom("_NET_WM_MOVERESIZE");
-		m.формат = 32;
-		Точка p = дайПозМыши();
+		m.format = 32;
+		Point p = GetMousePos();
 		m.data.l[0] = p.x;
 		m.data.l[1] = p.y;
 		m.data.l[2] = 4;
 		m.data.l[3] = 0;
 		m.data.l[4] = 0;
-		XSendСобытие(Xdisplay, Xroot, 0, SubstructureNotifyMask|SubstructureRedirectMask,
-		           (XСобытие*)&m);
+		XSendEvent(Xdisplay, Xroot, 0, SubstructureNotifyMask|SubstructureRedirectMask,
+		           (XEvent*)&m);
 	}
 }
 
-Цвет GuiPlatformGetScreenPixel(int x, int y)
+Color GuiPlatformGetScreenPixel(int x, int y)
 {
-	// TODO
-	return чёрный;
+	// СДЕЛАТЬ
+	return Black;
 }
 
 void GuiPlatformAfterMenuPopUp()
 {
 	XSync(Xdisplay, false);
-	Ктрл::обработайСобытия();
+	Ctrl::ProcessEvents();
 }
 
-void Ктрл::PaintCaret(SystemDraw& w)
+void Ctrl::PaintCaret(SystemDraw& w)
 {
-	ЗамкниГип __;
+	GuiLock __;
 	if(this == caretCtrl && WndCaretVisible)
 		w.DrawRect(caretx, carety, caretcx, caretcy, InvertColor);
 }
 
-void Ктрл::устКаретку(int x, int y, int cx, int cy)
+void Ctrl::SetCaret(int x, int y, int cx, int cy)
 {
-	ЗамкниГип __;
+	GuiLock __;
 	if(this == caretCtrl)
 		RefreshCaret();
 	caretx = x;
@@ -113,8 +113,8 @@ void Ктрл::устКаретку(int x, int y, int cx, int cy)
 		RefreshCaret();
 }
 
-void Ктрл::SyncCaret() {
-	ЗамкниГип __;
+void Ctrl::SyncCaret() {
+	GuiLock __;
 	if(focusCtrl != caretCtrl) {
 		RefreshCaret();
 		caretCtrl = focusCtrl;

@@ -134,7 +134,7 @@ GLM_FUNC_QUALIFIER glm_vec4 glm_vec4_floor(glm_vec4 x)
 #	endif
 }
 
-/* trunc TODO
+/* trunc СДЕЛАТЬ
 GLM_FUNC_QUALIFIER glm_vec4 glm_vec4_trunc(glm_vec4 x)
 {
 	return glm_vec4();
@@ -198,8 +198,8 @@ GLM_FUNC_QUALIFIER glm_vec4 glm_vec4_mix(glm_vec4 v1, glm_vec4 v2, glm_vec4 a)
 
 GLM_FUNC_QUALIFIER glm_vec4 glm_vec4_step(glm_vec4 edge, glm_vec4 x)
 {
-	glm_vec4 const сравни = _mm_cmple_ps(x, edge);
-	return _mm_movemask_ps(сравни) == 0 ? _mm_set1_ps(1.0f) : _mm_setzero_ps();
+	glm_vec4 const cmp = _mm_cmple_ps(x, edge);
+	return _mm_movemask_ps(cmp) == 0 ? _mm_set1_ps(1.0f) : _mm_setzero_ps();
 }
 
 GLM_FUNC_QUALIFIER glm_vec4 glm_vec4_smoothstep(glm_vec4 edge0, glm_vec4 edge1, glm_vec4 x)

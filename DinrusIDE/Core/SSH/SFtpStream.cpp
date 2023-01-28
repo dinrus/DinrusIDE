@@ -1,53 +1,53 @@
 #include "SSH.h"
 
-namespace РНЦПДинрус {
+namespace Upp {
 
-void SFtpStream::устПоз(int64 pos)
+void SFtpStream::SetPos(int64 pos)
 {
-	sftp->перейди(handle, pos);
+	sftp->Seek(handle, pos);
 }
 
-void SFtpStream::устРазмПотока(int64 size)
+void SFtpStream::SetStreamSize(int64 size)
 {
-	// TODO
+	// СДЕЛАТЬ
 }
 
-dword SFtpStream::читай(int64 at, void *ptr, dword size)
+dword SFtpStream::Read(int64 at, void *ptr, dword size)
 {
-	устПоз(at);
-	int n = sftp->дай(handle, ptr, size);
-	if(sftp->ошибка_ли()) устОш();
+	SetPos(at);
+	int n = sftp->Get(handle, ptr, size);
+	if(sftp->IsError()) SetError();
 	return dword(n);
 }
 
-void SFtpStream::пиши(int64 at, const void *данные, dword size)
+void SFtpStream::Write(int64 at, const void *data, dword size)
 {
-	устПоз(at);
-	sftp->помести(handle, данные, size);
-	if(sftp->ошибка_ли()) устОш();
+	SetPos(at);
+	sftp->Put(handle, data, size);
+	if(sftp->IsError()) SetError();
 }
 
-void SFtpStream::открой()
+void SFtpStream::Close()
 {
 	if(handle) {
-		слей();
-		sftp->открой(handle);
+		Flush();
+		sftp->Close(handle);
 		handle = nullptr;
 	}
 }
 
-bool SFtpStream::открыт() const
+bool SFtpStream::IsOpen() const
 {
 	return handle;
 }
 
-bool SFtpStream::открой(SFtp& sftp_, const char *filename, dword mode, int acm)
+bool SFtpStream::Open(SFtp& sftp_, const char *filename, dword mode, int acm)
 {
-	if(открыт())
-		открой();
+	if(IsOpen())
+		Close();
 	sftp = &sftp_;
 	int iomode = mode & ~SHAREMASK;
-	handle = sftp->открой(filename,
+	handle = sftp->Open(filename,
 						iomode == READ
 							? SFtp::READ
 							: iomode == CREATE
@@ -59,11 +59,11 @@ bool SFtpStream::открой(SFtp& sftp_, const char *filename, dword mode, int
 	if(handle) {
 		SFtpAttrs attrs;
 		if(!sftp->GetAttrs(handle, attrs)) {
-			sftp->открой(handle);
+			sftp->Close(handle);
 			handle = nullptr;
 			return false;
 		}
-		иницОткр(mode, attrs.filesize);
+		OpenInit(mode, attrs.filesize);
 	}
 	return handle;
 }
@@ -71,7 +71,7 @@ bool SFtpStream::открой(SFtp& sftp_, const char *filename, dword mode, int
 SFtpStream::SFtpStream(SFtp& sftp, const char *filename, dword mode, int acm)
 : SFtpStream()
 {
-	открой(sftp, filename, mode, acm);
+	Open(sftp, filename, mode, acm);
 }
 
 SFtpStream::SFtpStream()
@@ -82,7 +82,7 @@ SFtpStream::SFtpStream()
 
 SFtpStream::~SFtpStream()
 {
-	открой();
+	Close();
 }
 
 };

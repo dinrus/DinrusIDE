@@ -71,7 +71,7 @@
                 FT_UShort  *atag,
                 FT_ULong   *asize )
   {
-    FT_Error   Ошибка;
+    FT_Error   error;
     FT_UShort  tag;
     FT_ULong   size;
 
@@ -90,7 +90,7 @@
       *atag = tag;
     }
 
-    return Ошибка;
+    return error;
   }
 
 
@@ -99,7 +99,7 @@
                       const char*  header_string,
                       size_t       header_length )
   {
-    FT_Error   Ошибка;
+    FT_Error   error;
     FT_UShort  tag;
     FT_ULong   dummy;
 
@@ -107,8 +107,8 @@
     if ( FT_STREAM_SEEK( 0 ) )
       goto Exit;
 
-    Ошибка = read_pfb_tag( stream, &tag, &dummy );
-    if ( Ошибка )
+    error = read_pfb_tag( stream, &tag, &dummy );
+    if ( error )
       goto Exit;
 
     /* We assume that the first segment in a PFB is always encoded as   */
@@ -119,16 +119,16 @@
 
     if ( !FT_FRAME_ENTER( header_length ) )
     {
-      Ошибка = T1_Err_Ok;
+      error = T1_Err_Ok;
 
       if ( ft_memcmp( stream->cursor, header_string, header_length ) != 0 )
-        Ошибка = T1_Err_Unknown_File_Format;
+        error = T1_Err_Unknown_File_Format;
 
       FT_FRAME_EXIT();
     }
 
   Exit:
-    return Ошибка;
+    return error;
   }
 
 
@@ -138,7 +138,7 @@
                  FT_Memory      memory,
                  PSAux_Service  psaux )
   {
-    FT_Error   Ошибка;
+    FT_Error   error;
     FT_UShort  tag;
     FT_ULong   size;
 
@@ -154,15 +154,15 @@
     parser->in_memory    = 0;
     parser->single_block = 0;
 
-    /* check the header формат */
-    Ошибка = check_type1_format( stream, "%!PS-AdobeFont", 14 );
-    if ( Ошибка )
+    /* check the header format */
+    error = check_type1_format( stream, "%!PS-AdobeFont", 14 );
+    if ( error )
     {
-      if ( Ошибка != T1_Err_Unknown_File_Format )
+      if ( error != T1_Err_Unknown_File_Format )
         goto Exit;
 
-      Ошибка = check_type1_format( stream, "%!FontType", 10 );
-      if ( Ошибка )
+      error = check_type1_format( stream, "%!FontType", 10 );
+      if ( error )
       {
         FT_TRACE2(( "[not a Type1 font]\n" ));
         goto Exit;
@@ -190,13 +190,13 @@
     if ( FT_STREAM_SEEK( 0L ) )
       goto Exit;
 
-    Ошибка = read_pfb_tag( stream, &tag, &size );
-    if ( Ошибка )
+    error = read_pfb_tag( stream, &tag, &size );
+    if ( error )
       goto Exit;
 
     if ( tag != 0x8001U )
     {
-      /* assume that this is a PFA file for now; an Ошибка will */
+      /* assume that this is a PFA file for now; an error will */
       /* be produced later when more things are checked        */
       if ( FT_STREAM_SEEK( 0L ) )
         goto Exit;
@@ -221,7 +221,7 @@
     }
     else
     {
-      /* read segment in memory -- this is clumsy, but so does the формат */
+      /* read segment in memory -- this is clumsy, but so does the format */
       if ( FT_ALLOC( parser->base_dict, size )       ||
            FT_STREAM_READ( parser->base_dict, size ) )
         goto Exit;
@@ -233,10 +233,10 @@
     parser->root.limit  = parser->root.cursor + parser->base_len;
 
   Exit:
-    if ( Ошибка && !parser->in_memory )
+    if ( error && !parser->in_memory )
       FT_FREE( parser->base_dict );
 
-    return Ошибка;
+    return error;
   }
 
 
@@ -263,13 +263,13 @@
   {
     FT_Stream  stream = parser->stream;
     FT_Memory  memory = parser->root.memory;
-    FT_Error   Ошибка  = T1_Err_Ok;
+    FT_Error   error  = T1_Err_Ok;
     FT_ULong   size;
 
 
     if ( parser->in_pfb )
     {
-      /* in the case of the PFB формат, the private dictionary can be  */
+      /* in the case of the PFB format, the private dictionary can be  */
       /* made of several segments.  We thus first read the number of   */
       /* segments to compute the total size of the private dictionary  */
       /* then re-read them into memory.                                */
@@ -280,8 +280,8 @@
       parser->private_len = 0;
       for (;;)
       {
-        Ошибка = read_pfb_tag( stream, &tag, &size );
-        if ( Ошибка )
+        error = read_pfb_tag( stream, &tag, &size );
+        if ( error )
           goto Fail;
 
         if ( tag != 0x8002U )
@@ -294,12 +294,12 @@
       }
 
       /* Check that we have a private dictionary there */
-      /* and allocate private dictionary буфер        */
+      /* and allocate private dictionary buffer        */
       if ( parser->private_len == 0 )
       {
         FT_ERROR(( "T1_Get_Private_Dict:"
                    " invalid private dictionary section\n" ));
-        Ошибка = T1_Err_Invalid_File_Format;
+        error = T1_Err_Invalid_File_Format;
         goto Fail;
       }
 
@@ -310,10 +310,10 @@
       parser->private_len = 0;
       for (;;)
       {
-        Ошибка = read_pfb_tag( stream, &tag, &size );
-        if ( Ошибка || tag != 0x8002U )
+        error = read_pfb_tag( stream, &tag, &size );
+        if ( error || tag != 0x8002U )
         {
-          Ошибка = T1_Err_Ok;
+          error = T1_Err_Ok;
           break;
         }
 
@@ -355,7 +355,7 @@
         {
           FT_ERROR(( "T1_Get_Private_Dict:"
                      " could not find `eexec' keyword\n" ));
-          Ошибка = T1_Err_Invalid_File_Format;
+          error = T1_Err_Invalid_File_Format;
           goto Exit;
         }
       }
@@ -375,7 +375,7 @@
           goto Found;
 
         T1_Skip_PS_Token( parser );
-        if ( parser->root.Ошибка )
+        if ( parser->root.error )
           break;
         T1_Skip_Spaces  ( parser );
         cur = parser->root.cursor;
@@ -412,7 +412,7 @@
       {
         FT_ERROR(( "T1_Get_Private_Dict:"
                    " `eexec' not properly terminated\n" ));
-        Ошибка = T1_Err_Invalid_File_Format;
+        error = T1_Err_Invalid_File_Format;
         goto Exit;
       }
 
@@ -435,7 +435,7 @@
       }
 
       /* now determine whether the private dictionary is encoded in binary */
-      /* or hexadecimal ASCII формат -- decode it accordingly              */
+      /* or hexadecimal ASCII format -- decode it accordingly              */
 
       /* we need to access the next 4 bytes (after the final \r following */
       /* the `eexec' keyword); if they all are hexadecimal digits, then   */
@@ -479,7 +479,7 @@
 
   Fail:
   Exit:
-    return Ошибка;
+    return error;
   }
 
 

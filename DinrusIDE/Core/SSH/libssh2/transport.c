@@ -15,7 +15,7 @@
  *   disclaimer in the documentation and/or other materials
  *   provided with the distribution.
  *
- *   Neither the имя of the copyright holder nor the names
+ *   Neither the name of the copyright holder nor the names
  *   of any other contributors may be used to endorse or
  *   promote products derived from this software without
  *   specific prior written permission.
@@ -63,7 +63,7 @@ debugdump(LIBSSH2_SESSION * session,
     size_t i;
     size_t c;
     unsigned int width = 0x10;
-    char буфер[256];  /* Must be enough for width*4 + about 30 or so */
+    char buffer[256];  /* Must be enough for width*4 + about 30 or so */
     size_t used;
     static const char *hex_chars = "0123456789ABCDEF";
 
@@ -72,49 +72,49 @@ debugdump(LIBSSH2_SESSION * session,
         return;
     }
 
-    used = snprintf(буфер, sizeof(буфер), "=> %s (%d bytes)\n",
+    used = snprintf(buffer, sizeof(buffer), "=> %s (%d bytes)\n",
                     desc, (int) size);
     if(session->tracehandler)
         (session->tracehandler)(session, session->tracehandler_context,
-                                буфер, used);
+                                buffer, used);
     else
-        fprintf(stderr, "%s", буфер);
+        fprintf(stderr, "%s", buffer);
 
     for(i = 0; i < size; i += width) {
 
-        used = snprintf(буфер, sizeof(буфер), "%04lx: ", (long)i);
+        used = snprintf(buffer, sizeof(buffer), "%04lx: ", (long)i);
 
         /* hex not disabled, show it */
         for(c = 0; c < width; c++) {
             if(i + c < size) {
-                буфер[used++] = hex_chars[(ptr[i + c] >> 4) & 0xF];
-                буфер[used++] = hex_chars[ptr[i + c] & 0xF];
+                buffer[used++] = hex_chars[(ptr[i + c] >> 4) & 0xF];
+                buffer[used++] = hex_chars[ptr[i + c] & 0xF];
             }
             else {
-                буфер[used++] = ' ';
-                буфер[used++] = ' ';
+                buffer[used++] = ' ';
+                buffer[used++] = ' ';
             }
 
-            буфер[used++] = ' ';
+            buffer[used++] = ' ';
             if((width/2) - 1 == c)
-                буфер[used++] = ' ';
+                buffer[used++] = ' ';
         }
 
-        буфер[used++] = ':';
-        буфер[used++] = ' ';
+        buffer[used++] = ':';
+        buffer[used++] = ' ';
 
         for(c = 0; (c < width) && (i + c < size); c++) {
-            буфер[used++] = isprint(ptr[i + c]) ?
+            buffer[used++] = isprint(ptr[i + c]) ?
                 ptr[i + c] : UNPRINTABLE_CHAR;
         }
-        буфер[used++] = '\n';
-        буфер[used] = 0;
+        buffer[used++] = '\n';
+        buffer[used] = 0;
 
         if(session->tracehandler)
             (session->tracehandler)(session, session->tracehandler_context,
-                                    буфер, used);
+                                    buffer, used);
         else
-            fprintf(stderr, "%s", буфер);
+            fprintf(stderr, "%s", buffer);
     }
 }
 #else
@@ -183,9 +183,9 @@ fullpacket(LIBSSH2_SESSION * session, int encrypted /* 1 or 0 */ )
                                       session->fullpacket_payload_len,
                                       &session->remote.mac_abstract);
 
-            /* сравни the calculated hash with the MAC we just read from
+            /* Compare the calculated hash with the MAC we just read from
              * the network. The read one is at the very end of the payload
-             * буфер. Note that 'payload_len' here is the packet_length
+             * buffer. Note that 'payload_len' here is the packet_length
              * field which includes the padding but not the MAC.
              */
             if(memcmp(macbuf, p->payload + session->fullpacket_payload_len,
@@ -208,7 +208,7 @@ fullpacket(LIBSSH2_SESSION * session, int encrypted /* 1 or 0 */ )
 
         if(compressed && session->remote.comp_abstract) {
             /*
-             * The буфер for the decompression (remote.comp_abstract) is
+             * The buffer for the decompression (remote.comp_abstract) is
              * initialised in time when it is needed so as long it is NULL we
              * cannot decompress.
              */
@@ -260,15 +260,15 @@ fullpacket(LIBSSH2_SESSION * session, int encrypted /* 1 or 0 */ )
  *
  * Collect a packet into the input queue.
  *
- * Returns packet тип added to input queue (0 if nothing added), or a
- * negative Ошибка number.
+ * Returns packet type added to input queue (0 if nothing added), or a
+ * negative error number.
  */
 
 /*
  * This function reads the binary stream as specified in chapter 6 of RFC4253
  * "The Secure Shell (SSH) Transport Layer Protocol"
  *
- * DOES NOT call _libssh2_error() for ANY Ошибка case.
+ * DOES NOT call _libssh2_error() for ANY error case.
  */
 int _libssh2_transport_read(LIBSSH2_SESSION * session)
 {
@@ -287,12 +287,12 @@ int _libssh2_transport_read(LIBSSH2_SESSION * session)
 
     /*
      * All channels, systems, subsystems, etc eventually make it down here
-     * when looking for more incoming data. If a ключ exchange is going on
+     * when looking for more incoming data. If a key exchange is going on
      * (LIBSSH2_STATE_EXCHANGING_KEYS bit is set) then the remote end will
-     * ONLY send ключ exchange related traffic. In non-blocking mode, there is
+     * ONLY send key exchange related traffic. In non-blocking mode, there is
      * a chance to break out of the kex_exchange function with an EAGAIN
      * status, and never come back to it. If LIBSSH2_STATE_EXCHANGING_KEYS is
-     * active, then we must redirect to the ключ exchange. However, if
+     * active, then we must redirect to the key exchange. However, if
      * kex_exchange is active (as in it is the one that calls this execution
      * of packet_read, then don't redirect, as that would be an infinite loop!
      */
@@ -300,11 +300,11 @@ int _libssh2_transport_read(LIBSSH2_SESSION * session)
     if(session->state & LIBSSH2_STATE_EXCHANGING_KEYS &&
         !(session->state & LIBSSH2_STATE_KEX_ACTIVE)) {
 
-        /* Whoever wants a packet won't get anything until the ключ re-exchange
+        /* Whoever wants a packet won't get anything until the key re-exchange
          * is done!
          */
         _libssh2_debug(session, LIBSSH2_TRACE_TRANS, "Redirecting into the"
-                       " ключ re-exchange from _libssh2_transport_read");
+                       " key re-exchange from _libssh2_transport_read");
         rc = _libssh2_kex_exchange(session, 1, &session->startup_key_state);
         if(rc)
             return rc;
@@ -337,15 +337,15 @@ int _libssh2_transport_read(LIBSSH2_SESSION * session)
 
         /* read/use a whole big chunk into a temporary area stored in
            the LIBSSH2_SESSION struct. We will decrypt data from that
-           буфер into the packet буфер so this temp one doesn't have
+           buffer into the packet buffer so this temp one doesn't have
            to be able to keep a whole SSH packet, just be large enough
            so that we can read big chunks from the network layer. */
 
-        /* how much data there is remaining in the буфер to deal with
+        /* how much data there is remaining in the buffer to deal with
            before we should read more from the network */
         remainbuf = p->writeidx - p->readidx;
 
-        /* if remainbuf turns negative we have a bad internal Ошибка */
+        /* if remainbuf turns negative we have a bad internal error */
         assert(remainbuf >= 0);
 
         if(remainbuf < blocksize) {
@@ -353,7 +353,7 @@ int _libssh2_transport_read(LIBSSH2_SESSION * session)
                little data to deal with, read more */
             ssize_t nread;
 
-            /* move any remainder to the start of the буфер so
+            /* move any remainder to the start of the buffer so
                that we can do a full refill */
             if(remainbuf) {
                 memmove(p->buf, &p->buf[p->readidx], remainbuf);
@@ -365,21 +365,21 @@ int _libssh2_transport_read(LIBSSH2_SESSION * session)
                 p->readidx = p->writeidx = 0;
             }
 
-            /* now read a big chunk from the network into the temp буфер */
+            /* now read a big chunk from the network into the temp buffer */
             nread =
                 LIBSSH2_RECV(session, &p->buf[remainbuf],
                               PACKETBUFSIZE - remainbuf,
                               LIBSSH2_SOCKET_RECV_FLAGS(session));
             if(nread <= 0) {
                 /* check if this is due to EAGAIN and return the special
-                   return code if so, Ошибка out normally otherwise */
+                   return code if so, error out normally otherwise */
                 if((nread < 0) && (nread == -EAGAIN)) {
                     session->socket_block_directions |=
                         LIBSSH2_SESSION_BLOCK_INBOUND;
                     return LIBSSH2_ERROR_EAGAIN;
                 }
                 _libssh2_debug(session, LIBSSH2_TRACE_SOCKET,
-                               "Ошибка recving %d bytes (got %d)",
+                               "Error recving %d bytes (got %d)",
                                PACKETBUFSIZE - remainbuf, -nread);
                 return LIBSSH2_ERROR_SOCKET_RECV;
             }
@@ -396,7 +396,7 @@ int _libssh2_transport_read(LIBSSH2_SESSION * session)
             remainbuf = p->writeidx - p->readidx;
         }
 
-        /* how much data to deal with from the буфер */
+        /* how much data to deal with from the buffer */
         numbytes = remainbuf;
 
         if(!p->total_num) {
@@ -427,7 +427,7 @@ int _libssh2_transport_read(LIBSSH2_SESSION * session)
             }
             else {
                 /* the data is plain, just copy it verbatim to
-                   the working block буфер */
+                   the working block buffer */
                 memcpy(block, &p->buf[p->readidx], blocksize);
             }
 
@@ -457,7 +457,7 @@ int _libssh2_transport_read(LIBSSH2_SESSION * session)
                 p->packet_length - 1 +
                 (encrypted ? session->remote.mac->mac_len : 0);
 
-            /* RFC4253 section 6.1 Maximum Packet длина says:
+            /* RFC4253 section 6.1 Maximum Packet Length says:
              *
              * "All implementations MUST be able to process
              * packets with uncompressed payload length of 32768
@@ -469,20 +469,20 @@ int _libssh2_transport_read(LIBSSH2_SESSION * session)
                 return LIBSSH2_ERROR_OUT_OF_BOUNDARY;
             }
 
-            /* дай a packet handle put data into. We get one to
+            /* Get a packet handle put data into. We get one to
                hold all data, including padding and MAC. */
             p->payload = LIBSSH2_ALLOC(session, total_num);
             if(!p->payload) {
                 return LIBSSH2_ERROR_ALLOC;
             }
             p->total_num = total_num;
-            /* init write pointer to start of payload буфер */
+            /* init write pointer to start of payload buffer */
             p->wptr = p->payload;
 
             if(blocksize > 5) {
                 /* copy the data from index 5 to the end of
-                   the blocksize from the temporary буфер to
-                   the start of the decrypted буфер */
+                   the blocksize from the temporary buffer to
+                   the start of the decrypted buffer */
                 if(blocksize - 5 <= (int) total_num) {
                     memcpy(p->wptr, &block[5], blocksize - 5);
                     p->wptr += blocksize - 5;       /* advance write pointer */
@@ -505,13 +505,13 @@ int _libssh2_transport_read(LIBSSH2_SESSION * session)
         remainpack = p->total_num - p->data_num;
 
         if(numbytes > remainpack) {
-            /* if we have more data in the буфер than what is going into this
+            /* if we have more data in the buffer than what is going into this
                particular packet, we limit this round to this packet only */
             numbytes = remainpack;
         }
 
         if(encrypted) {
-            /* по the end of the incoming stream, there is a MAC,
+            /* At the end of the incoming stream, there is a MAC,
                and we don't want to decrypt that since we need it
                "raw". We MUST however decrypt the padding data
                since it is used for the hash later on. */
@@ -547,7 +547,7 @@ int _libssh2_transport_read(LIBSSH2_SESSION * session)
             /* now decrypt the lot */
             rc = decrypt(session, &p->buf[p->readidx], p->wptr, numdecrypt);
             if(rc != LIBSSH2_ERROR_NONE) {
-                p->total_num = 0;   /* no packet буфер available */
+                p->total_num = 0;   /* no packet buffer available */
                 return rc;
             }
 
@@ -563,7 +563,7 @@ int _libssh2_transport_read(LIBSSH2_SESSION * session)
         }
 
         /* if there are bytes to copy that aren't decrypted, simply
-           copy them as-is to the target буфер */
+           copy them as-is to the target buffer */
         if(numbytes > 0) {
 
             if(numbytes <= (int)(p->total_num - (p->wptr - p->payload))) {
@@ -597,8 +597,8 @@ int _libssh2_transport_read(LIBSSH2_SESSION * session)
                      * that returns LIBSSH2_ERROR_EAGAIN but the packAdd_state
                      * is idle, then the packet has been added to the brigade,
                      * but some immediate action that was taken based on the
-                     * packet тип (such as ключ re-exchange) is not yet
-                     * complete.  очисть the way for a new packet to be read
+                     * packet type (such as key re-exchange) is not yet
+                     * complete.  Clear the way for a new packet to be read
                      * in.
                      */
                     session->readPack_encrypted = encrypted;
@@ -608,7 +608,7 @@ int _libssh2_transport_read(LIBSSH2_SESSION * session)
                 return rc;
             }
 
-            p->total_num = 0;   /* no packet буфер available */
+            p->total_num = 0;   /* no packet buffer available */
 
             return rc;
         }
@@ -635,7 +635,7 @@ send_existing(LIBSSH2_SESSION *session, const unsigned char *data,
         /* When we are about to complete the sending of a packet, it is vital
            that the caller doesn't try to send a new/different packet since
            we don't add this one up until the previous one has been sent. To
-           make the caller really notice his/hers flaw, we return Ошибка for
+           make the caller really notice his/hers flaw, we return error for
            this case */
         return LIBSSH2_ERROR_BAD_USE;
     }
@@ -649,7 +649,7 @@ send_existing(LIBSSH2_SESSION *session, const unsigned char *data,
                        LIBSSH2_SOCKET_SEND_FLAGS(session));
     if(rc < 0)
         _libssh2_debug(session, LIBSSH2_TRACE_SOCKET,
-                       "Ошибка sending %d bytes: %d", length, -rc);
+                       "Error sending %d bytes: %d", length, -rc);
     else {
         _libssh2_debug(session, LIBSSH2_TRACE_SOCKET,
                        "Sent %d/%d bytes at %p+%d", rc, length, p->outbuf,
@@ -713,7 +713,7 @@ int _libssh2_transport_send(LIBSSH2_SESSION *session,
     int total_length;
 #ifdef RANDOM_PADDING
     int rand_max;
-    int seed = data[0];         /* FIXME: make this random */
+    int seed = data[0];         /* ИСПРАВИТЬ: make this random */
 #endif
     struct transportpacket *p = &session->packet;
     int encrypted;
@@ -724,18 +724,18 @@ int _libssh2_transport_send(LIBSSH2_SESSION *session,
     size_t orgdata_len = data_len;
 
     /*
-     * If the last read operation was interrupted in the middle of a ключ
-     * exchange, we must complete that ключ exchange before continuing to write
+     * If the last read operation was interrupted in the middle of a key
+     * exchange, we must complete that key exchange before continuing to write
      * further data.
      *
      * See the similar block in _libssh2_transport_read for more details.
      */
     if(session->state & LIBSSH2_STATE_EXCHANGING_KEYS &&
         !(session->state & LIBSSH2_STATE_KEX_ACTIVE)) {
-        /* Don't write any new packets if we're still in the middle of a ключ
+        /* Don't write any new packets if we're still in the middle of a key
          * exchange. */
         _libssh2_debug(session, LIBSSH2_TRACE_TRANS, "Redirecting into the"
-                       " ключ re-exchange from _libssh2_transport_send");
+                       " key re-exchange from _libssh2_transport_send");
         rc = _libssh2_kex_exchange(session, 1, &session->startup_key_state);
         if(rc)
             return rc;
@@ -767,12 +767,12 @@ int _libssh2_transport_send(LIBSSH2_SESSION *session,
 
     if(encrypted && compressed && session->local.comp_abstract) {
         /* the idea here is that these function must fail if the output gets
-           larger than what fits in the assigned буфер so thus they don't
+           larger than what fits in the assigned buffer so thus they don't
            check the input size as we don't know how much it compresses */
         size_t dest_len = MAX_SSH_PACKET_LEN-5-256;
         size_t dest2_len = dest_len;
 
-        /* compress directly to the target буфер */
+        /* compress directly to the target buffer */
         rc = session->local.comp->comp(session,
                                        &p->outbuf[5], &dest_len,
                                        data, data_len,
@@ -781,7 +781,7 @@ int _libssh2_transport_send(LIBSSH2_SESSION *session,
             return rc;     /* compression failure */
 
         if(data2 && data2_len) {
-            /* compress directly to the target буфер right after where the
+            /* compress directly to the target buffer right after where the
                previous call put data */
             dest2_len -= dest_len;
 
@@ -800,7 +800,7 @@ int _libssh2_transport_send(LIBSSH2_SESSION *session,
     }
     else {
         if((data_len + data2_len) >= (MAX_SSH_PACKET_LEN-0x100))
-            /* too large packet, return Ошибка for this until we make this
+            /* too large packet, return error for this until we make this
                function split it up and send multiple SSH packets */
             return LIBSSH2_ERROR_INVAL;
 
@@ -835,7 +835,7 @@ int _libssh2_transport_send(LIBSSH2_SESSION *session,
         padding_length += blocksize;
     }
 #ifdef RANDOM_PADDING
-    /* FIXME: we can add padding here, but that also makes the packets
+    /* ИСПРАВИТЬ: we can add padding here, but that also makes the packets
        bigger etc */
 
     /* now we can add 'blocksize' to the padding_length N number of times
@@ -889,7 +889,7 @@ int _libssh2_transport_send(LIBSSH2_SESSION *session,
                         LIBSSH2_SOCKET_SEND_FLAGS(session));
     if(ret < 0)
         _libssh2_debug(session, LIBSSH2_TRACE_SOCKET,
-                       "Ошибка sending %d bytes: %d", total_length, -ret);
+                       "Error sending %d bytes: %d", total_length, -ret);
     else {
         _libssh2_debug(session, LIBSSH2_TRACE_SOCKET, "Sent %d/%d bytes at %p",
                        ret, total_length, p->outbuf);

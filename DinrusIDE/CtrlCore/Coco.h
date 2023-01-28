@@ -1,6 +1,6 @@
 #define GUI_COCOA
 
-namespace РНЦП {
+namespace Upp {
 
 struct PointCG; // represents CGPoint, used to isolate Cocoa/AppKit includes
 struct RectCG; // represents CGRect, used to isolate Cocoa/AppKit includes
@@ -10,58 +10,58 @@ class SystemDraw : public Draw {
 
 	virtual void BeginOp();
 	virtual void EndOp();
-	virtual void OffsetOp(Точка p);
-	virtual bool ClipOp(const Прям& r);
-	virtual bool ClipoffOp(const Прям& r);
-	virtual bool ExcludeClipOp(const Прям& r);
-	virtual bool IntersectClipOp(const Прям& r);
-	virtual bool IsPaintingOp(const Прям& r) const;
-	virtual Прям GetPaintRect() const;
+	virtual void OffsetOp(Point p);
+	virtual bool ClipOp(const Rect& r);
+	virtual bool ClipoffOp(const Rect& r);
+	virtual bool ExcludeClipOp(const Rect& r);
+	virtual bool IntersectClipOp(const Rect& r);
+	virtual bool IsPaintingOp(const Rect& r) const;
+	virtual Rect GetPaintRect() const;
 
-	virtual	void DrawRectOp(int x, int y, int cx, int cy, Цвет color);
-	virtual void SysDrawImageOp(int x, int y, const Рисунок& img, Цвет color);
-	virtual void DrawLineOp(int x1, int y1, int x2, int y2, int width, Цвет color);
+	virtual	void DrawRectOp(int x, int y, int cx, int cy, Color color);
+	virtual void SysDrawImageOp(int x, int y, const Image& img, Color color);
+	virtual void DrawLineOp(int x1, int y1, int x2, int y2, int width, Color color);
 
-	virtual void DrawPolyPolylineOp(const Точка *vertices, int vertex_count,
+	virtual void DrawPolyPolylineOp(const Point *vertices, int vertex_count,
 	                                const int *counts, int count_count,
-	                                int width, Цвет color, Цвет doxor);
-	virtual void DrawPolyPolyPolygonOp(const Точка *vertices, int vertex_count,
+	                                int width, Color color, Color doxor);
+	virtual void DrawPolyPolyPolygonOp(const Point *vertices, int vertex_count,
 	                                   const int *subpolygon_counts, int scc,
 	                                   const int *disjunct_polygon_counts, int dpcc,
-	                                   Цвет color, int width, Цвет outline,
-	                                   uint64 pattern, Цвет doxor);
-	virtual void DrawArcOp(const Прям& rc, Точка start, Точка end, int width, Цвет color);
+	                                   Color color, int width, Color outline,
+	                                   uint64 pattern, Color doxor);
+	virtual void DrawArcOp(const Rect& rc, Point start, Point end, int width, Color color);
 
-	virtual void DrawEllipseOp(const Прям& r, Цвет color, int pen, Цвет pencolor);
-	virtual void DrawTextOp(int x, int y, int angle, const wchar *text, Шрифт font,
-		                    Цвет ink, int n, const int *dx);
+	virtual void DrawEllipseOp(const Rect& r, Color color, int pen, Color pencolor);
+	virtual void DrawTextOp(int x, int y, int angle, const wchar *text, Font font,
+		                    Color ink, int n, const int *dx);
 
 private:
-	Вектор<Точка> offset;
-	Вектор<Прям>  clip;
+	Vector<Point> offset;
+	Vector<Rect>  clip;
 
-	Цвет  fill = Null;
+	Color  fill = Null;
 
-	void   сунь();
-	void   вынь();
+	void   Push();
+	void   Pop();
 	
 	void  *handle;
 	void  *nsview;
 	
-	RectCG MakeRectCG(const Прям& r) const;
-	void   ClipCG(const Прям& r);
-	Прям   GetClip() const         { return clip.дайСчёт() ? clip.верх() : Прям(-999999, -999999, 999999, 999999); }
-	RectCG Преобр(int x, int y, int cx, int cy);
-	RectCG Преобр(const Прям& r);
-	PointCG Преобр(int x, int y);
+	RectCG MakeRectCG(const Rect& r) const;
+	void   ClipCG(const Rect& r);
+	Rect   GetClip() const         { return clip.GetCount() ? clip.Top() : Rect(-999999, -999999, 999999, 999999); }
+	RectCG Convert(int x, int y, int cx, int cy);
+	RectCG Convert(const Rect& r);
+	PointCG Convert(int x, int y);
 
-	void  уст(Цвет c);
-	void  SetStroke(Цвет c);
+	void  Set(Color c);
+	void  SetStroke(Color c);
 
-	void иниц(void *cgContext, void *nsview);
+	void Init(void *cgContext, void *nsview);
 
-	void Stroke(int width, Цвет color, bool fill);
-	void делайПуть(const Точка *pp, const Точка *end);
+	void Stroke(int width, Color color, bool fill);
+	void DoPath(const Point *pp, const Point *end);
 
 	SystemDraw() {}
 	
@@ -71,37 +71,37 @@ private:
 	friend struct BackDraw__;
 
 public:
-	Точка    дайСмещ() const       { return offset.дайСчёт() ? offset.верх() : Точка(0, 0); }
+	Point    GetOffset() const       { return offset.GetCount() ? offset.Top() : Point(0, 0); }
 	void    *GetCGHandle() const      { return handle; }
 
 	bool     CanSetSurface()          { return false; }
-	static void слей() {}
+	static void Flush() {}
 
 	SystemDraw(void *cgContext, void *nsview);
 	~SystemDraw();
 };
 
  
-inline void устПоверхность(SystemDraw& w, const Прям& dest, const КЗСА *pixels, Размер srcsz, Точка poff)
-{ // TODO: Unless we can do this...
+inline void SetSurface(SystemDraw& w, const Rect& dest, const RGBA *pixels, Size srcsz, Point poff)
+{ // СДЕЛАТЬ: Unless we can do this...
 	NEVER();
 }
 
 class ImageDraw : public SystemDraw {
 	ImageBuffer ib;
 	
-	Один<ImageDraw> alpha;
+	One<ImageDraw> alpha;
 
-	void иниц(int cx, int cy);
+	void Init(int cx, int cy);
 
 public:
 	Draw& Alpha();
 
-	operator Рисунок() const;
+	operator Image() const;
 
-	Рисунок GetStraight() const;
+	Image GetStraight() const;
 
-	ImageDraw(Размер sz);
+	ImageDraw(Size sz);
 	ImageDraw(int cx, int cy);
 	~ImageDraw();
 };
@@ -111,31 +111,31 @@ struct BackDraw__ : public SystemDraw {
 };
 
 class BackDraw : public BackDraw__ { // Dummy only, as we are running in GlobalBackBuffer mode
-	Размер        size;
+	Size        size;
 	Draw       *painting;
-	Точка       painting_offset;
+	Point       painting_offset;
 	ImageBuffer ib;
 	
 public:
-	virtual bool  IsPaintingOp(const Прям& r) const;
+	virtual bool  IsPaintingOp(const Rect& r) const;
 
 public:
-	void  помести(SystemDraw& w, int x, int y)             {}
-	void  помести(SystemDraw& w, Точка p)                  { помести(w, p.x, p.y); }
+	void  Put(SystemDraw& w, int x, int y)             {}
+	void  Put(SystemDraw& w, Point p)                  { Put(w, p.x, p.y); }
 
-	void создай(SystemDraw& w, int cx, int cy)         {}
-	void создай(SystemDraw& w, Размер sz)                { создай(w, sz.cx, sz.cy); }
-	void разрушь()                                     {}
+	void Create(SystemDraw& w, int cx, int cy)         {}
+	void Create(SystemDraw& w, Size sz)                { Create(w, sz.cx, sz.cy); }
+	void Destroy()                                     {}
 
-	void SetPaintingDraw(Draw& w, Точка off)           { painting = &w; painting_offset = off; }
+	void SetPaintingDraw(Draw& w, Point off)           { painting = &w; painting_offset = off; }
 
-	Точка дайСмещ() const                            { return Точка(0, 0); }
+	Point GetOffset() const                            { return Point(0, 0); }
 
 	BackDraw();
 	~BackDraw();
 };
 
-Рисунок GetIconForFile(const char *path);
+Image GetIconForFile(const char *path);
 
 #ifndef PLATFORM_WIN32
 #include <CtrlCore/stdids.h>

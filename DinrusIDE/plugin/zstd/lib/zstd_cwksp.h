@@ -45,9 +45,9 @@ typedef enum {
 } ZSTD_cwksp_alloc_phase_e;
 
 /**
- * Zstd fits all its internal datastructures into a single continuous буфер,
- * so that it only needs to perform a single OS allocation (or so that a буфер
- * can be provided to it and it can perform no allocations at all). This буфер
+ * Zstd fits all its internal datastructures into a single continuous buffer,
+ * so that it only needs to perform a single OS allocation (or so that a buffer
+ * can be provided to it and it can perform no allocations at all). This buffer
  * is called the workspace.
  *
  * Several optimizations complicate that process of allocating memory ranges
@@ -64,7 +64,7 @@ typedef enum {
  *   - The matchstate tables have a unique requirement that they don't need
  *     their memory to be totally cleared, but they do need the memory to have
  *     some bound, i.e., a guarantee that all values in the memory they've been
- *     allocated is less than some maximum значение (which is the starting значение
+ *     allocated is less than some maximum value (which is the starting value
  *     for the indices that they will then use for compression). When this
  *     guarantee is provided to them, they can use the memory without any setup
  *     work. When it can't, they have to clear the area.
@@ -79,10 +79,10 @@ typedef enum {
  *   multiple compressions **even when the compression parameters change** and
  *   we need to resize some of the objects (where possible).
  *
- * To attempt to manage this буфер, given these constraints, the ZSTD_cwksp
+ * To attempt to manage this buffer, given these constraints, the ZSTD_cwksp
  * abstraction was created. It works as follows:
  *
- * РОбласть Выкладка:
+ * Workspace Layout:
  *
  * [                        ... workspace ...                         ]
  * [objects][tables ... ->] free space [<- ... aligned][<- ... buffers]
@@ -91,21 +91,21 @@ typedef enum {
  * following categories, and are allocated separately:
  *
  * - Static objects: this is optionally the enclosing ZSTD_CCtx or ZSTD_CDict,
- *   so that literally everything fits in a single буфер. Note: if present,
+ *   so that literally everything fits in a single buffer. Note: if present,
  *   this must be the first object in the workspace, since ZSTD_free{CCtx,
  *   CDict}() rely on a pointer comparison to see whether one or two frees are
  *   required.
  *
- * - фиксирован size objects: these are fixed-size, fixed-count objects that are
+ * - Fixed size objects: these are fixed-size, fixed-count objects that are
  *   nonetheless "dynamically" allocated in the workspace so that we can
  *   control how they're initialized separately from the broader ZSTD_CCtx.
  *   Examples:
- *   - Entropy РОбласть
+ *   - Entropy Workspace
  *   - 2 x ZSTD_compressedBlockState_t
  *   - CDict dictionary contents
  *
  * - Tables: these are any of several different datastructures (hash tables,
- *   chain tables, binary trees) that all respect a common формат: they are
+ *   chain tables, binary trees) that all respect a common format: they are
  *   uint32_t arrays, all of whose values are between 0 and (nextSrc - base).
  *   Their sizes depend on the cparams.
  *
@@ -119,7 +119,7 @@ typedef enum {
  * Allocating Memory:
  *
  * The various types of objects must be allocated in order, so they can be
- * correctly packed into the workspace буфер. That order is:
+ * correctly packed into the workspace buffer. That order is:
  *
  * 1. Objects
  * 2. Buffers
@@ -201,7 +201,7 @@ MEM_STATIC void ZSTD_cwksp_internal_advance_phase(
              * calculation. However, I believe this can only happen when the
              * workspace is too large, and specifically when it is too large
              * by a larger margin than the space that will be consumed. */
-            /* TODO: cleaner, compiler warning friendly way to do this??? */
+            /* СДЕЛАТЬ: cleaner, compiler warning friendly way to do this??? */
             ws->allocStart = (BYTE*)ws->allocStart - ((size_t)ws->allocStart & (sizeof(U32)-1));
             if (ws->allocStart < ws->tableValidEnd) {
                 ws->tableValidEnd = ws->allocStart;
@@ -212,7 +212,7 @@ MEM_STATIC void ZSTD_cwksp_internal_advance_phase(
 }
 
 /**
- * Returns whether this object/буфер/etc was allocated in this workspace.
+ * Returns whether this object/buffer/etc was allocated in this workspace.
  */
 MEM_STATIC int ZSTD_cwksp_owns_buffer(const ZSTD_cwksp* ws, const void* ptr) {
     return (ptr != NULL) && (ws->workspace <= ptr) && (ptr <= ws->workspaceEnd);
@@ -373,7 +373,7 @@ MEM_STATIC void ZSTD_cwksp_mark_tables_clean(ZSTD_cwksp* ws) {
 }
 
 /**
- * обнули the part of the allocated tables not already marked clean.
+ * Zero the part of the allocated tables not already marked clean.
  */
 MEM_STATIC void ZSTD_cwksp_clean_tables(ZSTD_cwksp* ws) {
     DEBUGLOG(4, "cwksp: ZSTD_cwksp_clean_tables");
@@ -404,7 +404,7 @@ MEM_STATIC void ZSTD_cwksp_clear_tables(ZSTD_cwksp* ws) {
 }
 
 /**
- * Invalidates all буфер, aligned, and table allocations.
+ * Invalidates all buffer, aligned, and table allocations.
  * Object allocations remain valid.
  */
 MEM_STATIC void ZSTD_cwksp_clear(ZSTD_cwksp* ws) {
@@ -438,9 +438,9 @@ MEM_STATIC void ZSTD_cwksp_clear(ZSTD_cwksp* ws) {
 }
 
 /**
- * The provided workspace takes ownership of the буфер [start, start+size).
- * Любое existing values in the workspace are ignored (the previously managed
- * буфер, if present, must be separately freed).
+ * The provided workspace takes ownership of the buffer [start, start+size).
+ * Any existing values in the workspace are ignored (the previously managed
+ * buffer, if present, must be separately freed).
  */
 MEM_STATIC void ZSTD_cwksp_init(ZSTD_cwksp* ws, void* start, size_t size) {
     DEBUGLOG(4, "cwksp: init'ing workspace with %zd bytes", size);
@@ -488,7 +488,7 @@ MEM_STATIC int ZSTD_cwksp_reserve_failed(const ZSTD_cwksp* ws) {
 }
 
 /*-*************************************
-*  Functions Checking освободи Space
+*  Functions Checking Free Space
 ***************************************/
 
 MEM_STATIC size_t ZSTD_cwksp_available_space(ZSTD_cwksp* ws) {

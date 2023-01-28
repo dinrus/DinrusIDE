@@ -2,24 +2,24 @@
 
 #ifdef GUI_X11
 
-namespace РНЦП {
+namespace Upp {
 
 #define LTIMING(x)
 #define LLOG(x)    // DLOG(x)
 
 int    gtk_antialias = -1;
 int    gtk_hinting = -1;
-Ткст gtk_hintstyle;
-Ткст gtk_rgba;
+String gtk_hintstyle;
+String gtk_rgba;
 
-XftFont *CreateXftFont(Шрифт font, int angle)
+XftFont *CreateXftFont(Font font, int angle)
 {
 	LTIMING("CreateXftFont");
 	XftFont *xftfont;
 	double sina, cosa;
-	int hg = абс(font.дайВысоту());
+	int hg = abs(font.GetHeight());
 	if(hg == 0) hg = max(GetStdFontCy(), 10);
-	Ткст face = font.GetFaceName();
+	String face = font.GetFaceName();
 	FcPattern *p = FcPatternCreate();
 	FcPatternAddString(p, FC_FAMILY, (FcChar8*)~face);
 	FcPatternAddInteger(p, FC_SLANT, font.IsItalic() ? FC_SLANT_ITALIC : FC_SLANT_ROMAN);
@@ -66,12 +66,12 @@ XftFont *CreateXftFont(Шрифт font, int angle)
 #define FONTCACHE 37
 
 struct XftEntry {
-	Шрифт     font;
+	Font     font;
 	int      angle;
 	XftFont *xftfont;
 };
 
-XftFont *GetXftFont(XftEntry *cache, Шрифт fnt, int angle)
+XftFont *GetXftFont(XftEntry *cache, Font fnt, int angle)
 {
 	XftEntry be;
 	be = cache[0];
@@ -96,21 +96,21 @@ XftFont *GetXftFont(XftEntry *cache, Шрифт fnt, int angle)
 	return be.xftfont;
 }
 
-XftFont *GetXftMetricFont(Шрифт fnt, int angle)
+XftFont *GetXftMetricFont(Font fnt, int angle)
 { // Using different global cache for metrics to avoid MT locking issues
 	static XftEntry cache[FONTCACHE];
 	ONCELOCK {
 		for(int i = 0; i < FONTCACHE; i++)
-			cache[i].font.устВысоту(-30000);
+			cache[i].font.Height(-30000);
 	}
 	Std(fnt);
 	return GetXftFont(cache, fnt, angle);
 }
 
-CommonFontInfo XftGetFontInfoSys(Шрифт font)
+CommonFontInfo XftGetFontInfoSys(Font font)
 {
 	CommonFontInfo fi;
-	Ткст path;
+	String path;
 	XftFont *xftfont = GetXftMetricFont(font, 0);
 	if(xftfont) {
 		fi.ascent = (int16)xftfont->ascent;
@@ -121,17 +121,17 @@ CommonFontInfo XftGetFontInfoSys(Шрифт font)
 		fi.maxwidth = (int16)xftfont->max_advance_width;
 		fi.avewidth = fi.maxwidth;
 		fi.default_char = '?';
-		fi.fixedpitch = font.GetFaceInfo() & Шрифт::FIXEDPITCH;
+		fi.fixedpitch = font.GetFaceInfo() & Font::FIXEDPITCH;
 
-		char *фн = NULL;
-		XftPatternGetString(xftfont->pattern, XFT_FILE, 0, &фн);
-		if(фн && strlen(фн) < 250)
-			strcpy(fi.path, фн);
+		char *fn = NULL;
+		XftPatternGetString(xftfont->pattern, XFT_FILE, 0, &fn);
+		if(fn && strlen(fn) < 250)
+			strcpy(fi.path, fn);
 	}
 	return fi;
 }
 
-GlyphInfo XftGetGlyphInfoSys(Шрифт font, int chr)
+GlyphInfo XftGetGlyphInfoSys(Font font, int chr)
 {
 	wchar h = chr;
 	XGlyphInfo info;
@@ -143,42 +143,42 @@ GlyphInfo XftGetGlyphInfoSys(Шрифт font, int chr)
 	return gi;
 }
 
-ИНИЦБЛОК {
+INITBLOCK {
 	// it is probably not quite required as Xft is based on FC, but to be sure to have 
 	// consistent metrics hook Xft metrics into Draw/FontFc.cpp
 
-	extern CommonFontInfo (*GetFontInfoSysXft)(Шрифт font);
-	extern GlyphInfo (*GetGlyphInfoSysXft)(Шрифт font, int chr);
+	extern CommonFontInfo (*GetFontInfoSysXft)(Font font);
+	extern GlyphInfo (*GetGlyphInfoSysXft)(Font font, int chr);
 
 	GetFontInfoSysXft = XftGetFontInfoSys;
 	GetGlyphInfoSysXft = XftGetGlyphInfoSys;
 }
 
-void SystemDraw::DrawTextOp(int x, int y, int angle, const wchar *text, Шрифт font,
-                            Цвет ink, int n, const int *dx) {
-	ЗамкниГип __;
+void SystemDraw::DrawTextOp(int x, int y, int angle, const wchar *text, Font font,
+                            Color ink, int n, const int *dx) {
+	GuiLock __;
 	LTIMING("DrawText");
-	LLOG("DrawText " << вУтф8(ШТкст(text, n)) << " color:" << ink << " font:" << font);
-	//TODO - X11 seems to crash when displaying too long strings (?)
+	LLOG("DrawText " << ToUtf8(WString(text, n)) << " color:" << ink << " font:" << font);
+	//СДЕЛАТЬ - X11 seems to crash when displaying too long strings (?)
 	int ox = x + actual_offset.x;
 	int oy = y + actual_offset.y;
-	устПП(ink);
+	SetForeground(ink);
 	XftColor c;
-	c.color.red = ink.дайК() << 8;
-	c.color.green = ink.дайЗ() << 8;
-	c.color.blue = ink.дайС() << 8;
+	c.color.red = ink.GetR() << 8;
+	c.color.green = ink.GetG() << 8;
+	c.color.blue = ink.GetB() << 8;
 	c.color.alpha = 0xffff;
-	c.pixel = GetXPixel(ink.дайК(), ink.дайЗ(), ink.дайС());
+	c.pixel = GetXPixel(ink.GetR(), ink.GetG(), ink.GetB());
 
 	static XftEntry cache[FONTCACHE];
 	ONCELOCK {
 		for(int i = 0; i < FONTCACHE; i++)
-			cache[i].font.устВысоту(-30000);
+			cache[i].font.Height(-30000);
 	}
 	font.RealizeStd();
 	XftFont *xftfont = GetXftFont(cache, font, angle);
 	
-	Размер offset = Точка(0, 0);
+	Size offset = Point(0, 0);
 	double sina = 0, cosa = 1;
 	int ascent = font.Info().GetAscent();
 	if(angle) {
@@ -186,7 +186,7 @@ void SystemDraw::DrawTextOp(int x, int y, int angle, const wchar *text, Шриф
 		offset.cx = fround(ascent * sina);
 		offset.cy = fround(ascent * cosa);
 	}
-	int hg = абс(font.дайВысоту());
+	int hg = abs(font.GetHeight());
 	if(hg == 0) hg = 10;
 	int underline_thickness = max(hg / 20, 1);
 	int underline_position = max(hg / 15, int(font.Info().GetDescent() > 0));
@@ -228,7 +228,7 @@ void SystemDraw::DrawTextOp(int x, int y, int angle, const wchar *text, Шриф
 	else {
 	//	if(dx) {
 			int xpos = ox;
-			Буфер<XftCharSpec> ch(n);
+			Buffer<XftCharSpec> ch(n);
 			for(int i = 0; i < n; i++) {
 				ch[i].ucs4 = text[i];
 				ch[i].x = xpos;
@@ -241,16 +241,16 @@ void SystemDraw::DrawTextOp(int x, int y, int angle, const wchar *text, Шриф
 	//		XftDrawString16(xftdraw, &c, xftfont, ox, oy + ascent,
 	//		                (FcChar16 *)text, n);
 		LLOG("XftColor: r=" << c.color.red << ", g=" << c.color.green << ", b=" << c.color.blue
-			 << ", alpha=" << c.color.alpha << ", pixel=" << фмтЦелГекс(c.pixel));
+			 << ", alpha=" << c.color.alpha << ", pixel=" << FormatIntHex(c.pixel));
 		if(font.IsUnderline() || font.IsStrikeout()) {
 			int cx;
 			if(dx && n > 0) {
 				cx = 0;
-				сумма(cx, dx, dx + n - 1);
+				Sum(cx, dx, dx + n - 1);
 				cx += font[text[n - 1]];
 			}
 			else
-				cx = дайРазмТекста(text, font, n).cx;
+				cx = GetTextSize(text, font, n).cx;
 			if(font.IsUnderline())
 				DrawRect(x, y + ascent + underline_position, cx, underline_thickness, ink);
 			if(font.IsStrikeout())

@@ -1,67 +1,67 @@
 #include "umake.h"
 
-void обработайСобытия() {}
+void ProcessEvents() {}
 
-Консоль::Консоль() {
+Console::Console() {
 	verbosebuild = false;
-	processes.устСчёт(1);
+	processes.SetCount(1);
 	console_lock = -1;
 	wrap_text = true;
 	console = false;
 	serial = 0;
 }
 
-void Консоль::приставь(const Ткст& s) {
+void Console::Append(const String& s) {
 	if(!SilentMode)
 		Cout() << s;
 }
 
-int Консоль::слей()
+int Console::Flush()
 {
 	bool done_output = false;
 	int num_running = 0;
-	for(int i = 0; i < processes.дайСчёт(); i++)
+	for(int i = 0; i < processes.GetCount(); i++)
 		if(!!processes[i].process)
 			num_running++;
 	if(num_running) {
 		int time = msecs();
-		for(int i = 0; i < processes.дайСчёт(); i++) {
-			Слот& slot = processes[i];
+		for(int i = 0; i < processes.GetCount(); i++) {
+			Slot& slot = processes[i];
 			if(!!slot.process) {
-				Группа& группа = groups.дайДобавь(slot.группа);
-				группа.msecs += (time - slot.last_msecs) / num_running;
-				группа.raw_msecs += time - slot.last_msecs;
+				Group& group = groups.GetAdd(slot.group);
+				group.msecs += (time - slot.last_msecs) / num_running;
+				group.raw_msecs += time - slot.last_msecs;
 				slot.last_msecs = time;
 			}
 		}
 	}
 	bool running = false;
-	for(int i = 0; i < processes.дайСчёт(); i++) {
-		Слот& slot = processes[i];
+	for(int i = 0; i < processes.GetCount(); i++) {
+		Slot& slot = processes[i];
 		if(!slot.process)
 			continue;
-		Ткст s;
-		slot.process->читай(s);
-		if(!пусто_ли(s)) {
+		String s;
+		slot.process->Read(s);
+		if(!IsNull(s)) {
 			done_output = true;
 			if(slot.outfile)
-				slot.outfile->помести(s);
+				slot.outfile->Put(s);
 			if(!slot.quiet) {
 				if(console_lock < 0 || console_lock == i) {
 					console_lock = i;
-					приставь(s);
+					Append(s);
 				}
 				else
-					slot.output.конкат(s);
+					slot.output.Cat(s);
 			}
 		}
-		if(!slot.process->пущен()) {
-			глуши(i);
+		if(!slot.process->IsRunning()) {
+			Kill(i);
 			if(slot.exitcode != 0 && verbosebuild)
-				spooled_output.конкат("Ошибка executing " + slot.cmdline + "\n");
+				spooled_output.Cat("Ошибка при выполнении " + slot.cmdline + "\n");
 			if(console_lock == i)
 				console_lock = -1;
-			слейКонсоль();
+			FlushConsole();
 			CheckEndGroup();
 			continue;
 		}
@@ -70,227 +70,227 @@ int Консоль::слей()
 	return !running ? -1 : done_output ? 1 : 0;
 }
 
-int Консоль::выполни(Один<ПроцессИнк> p, const char *command, Поток *out, bool q)
+int Console::Execute(One<AProcess> p, const char *command, Stream *out, bool q)
 {
-	жди();
-	if(!пуск(pick(p), command, out, q, 0))
+	Wait();
+	if(!Run(pick(p), command, out, q, 0))
 		return -1;
-	жди();
+	Wait();
 	return processes[0].exitcode;
 }
 
-int Консоль::выполни(const char *command, Поток *out, const char *envptr, bool q, bool)
+int Console::Execute(const char *command, Stream *out, const char *envptr, bool q, bool)
 {
 	try {
-		жди();
-		Один<ПроцессИнк> p;
-		if(p.создай<ЛокальнПроцесс>().старт(command, envptr))
-			return выполни(pick(p), command, out, q);
+		Wait();
+		One<AProcess> p;
+		if(p.Create<LocalProcess>().Start(command, envptr))
+			return Execute(pick(p), command, out, q);
 	}
-	catch(Искл e) {
+	catch(Exc e) {
 	}
-	обработайСобытия();
+	ProcessEvents();
 	return Null;
 }
 
-int Консоль::разместиСлот()
+int Console::AllocSlot()
 {
 	int sleep = 0;
 	for(;;) {
-		for(int i = 0; i < processes.дайСчёт(); i++)
-			if(!пущен(i))
+		for(int i = 0; i < processes.GetCount(); i++)
+			if(!IsRunning(i))
 				return i;
-		switch(слей()) {
+		switch(Flush()) {
 			case -1: break;
 			case  0: sleep = min(sleep + 5, 20); break;
 			case +1: sleep = 0; break;
 		}
-		спи(sleep);
-		обработайСобытия();
+		Sleep(sleep);
+		ProcessEvents();
 	}
 }
 
-bool Консоль::пуск(const char *cmdline, Поток *out, const char *envptr, bool quiet, int slot, Ткст ключ, int blitz_count)
+bool Console::Run(const char *cmdline, Stream *out, const char *envptr, bool quiet, int slot, String key, int blitz_count)
 {
 	try {
-		жди(slot);
-		Один<ПроцессИнк> sproc;
-		return sproc.создай<ЛокальнПроцесс>().старт(cmdline, envptr) &&
-		       пуск(pick(sproc), cmdline, out, quiet, slot, ключ, blitz_count);
+		Wait(slot);
+		One<AProcess> sproc;
+		return sproc.Create<LocalProcess>().Start(cmdline, envptr) &&
+		       Run(pick(sproc), cmdline, out, quiet, slot, key, blitz_count);
 	}
-	catch(Искл e) {
-		приставь(e);
+	catch(Exc e) {
+		Append(e);
 	}
-	обработайСобытия();
+	ProcessEvents();
 	return false;
 }
 
-bool Консоль::пуск(Один<ПроцессИнк> process, const char *cmdline, Поток *out, bool quiet, int slot, Ткст ключ, int blitz_count)
+bool Console::Run(One<AProcess> process, const char *cmdline, Stream *out, bool quiet, int slot, String key, int blitz_count)
 {
 	if(!process) {
 		if(verbosebuild)
-			spooled_output << "Ошибка running " << cmdline << "\n";
-		слейКонсоль();
+			spooled_output << "Ошибка при запуске " << cmdline << "\n";
+		FlushConsole();
 		return false;
 	}
 	else if(verbosebuild)
 		spooled_output << cmdline << "\n";
-	жди(slot);
-	Слот& pslot = processes[slot];
+	Wait(slot);
+	Slot& pslot = processes[slot];
 	pslot.process = pick(process);
 	pslot.cmdline = cmdline;
 	pslot.outfile = out;
 	pslot.output = Null;
 	pslot.quiet = quiet;
-	pslot.ключ = ключ;
-	pslot.группа = current_group;
+	pslot.key = key;
+	pslot.group = current_group;
 	pslot.last_msecs = msecs();
 	pslot.serial = ++serial;
-	groups.дайДобавь(pslot.группа).count += blitz_count;
-	if(processes.дайСчёт() == 1)
-		жди(slot);
+	groups.GetAdd(pslot.group).count += blitz_count;
+	if(processes.GetCount() == 1)
+		Wait(slot);
 	return true;
 }
 
-void Консоль::слейКонсоль()
+void Console::FlushConsole()
 {
 	if(console_lock < 0) {
-		приставь(spooled_output);
+		Append(spooled_output);
 		spooled_output = Null;
 	}
 }
 
-void Консоль::BeginGroup(Ткст группа)
+void Console::BeginGroup(String group)
 {
-	слей();
-	groups.дайДобавь(current_group).finished = true;
-	groups.дайДобавь(current_group = группа);
+	Flush();
+	groups.GetAdd(current_group).finished = true;
+	groups.GetAdd(current_group = group);
 	CheckEndGroup();
 }
 
-void Консоль::EndGroup()
+void Console::EndGroup()
 {
-	groups.дайДобавь(current_group).finished = true;
+	groups.GetAdd(current_group).finished = true;
 	CheckEndGroup();
 	current_group = Null;
 }
 
-bool Консоль::пущен()
+bool Console::IsRunning()
 {
-	for(int i = 0; i < processes.дайСчёт(); i++)
-		if(пущен(i))
+	for(int i = 0; i < processes.GetCount(); i++)
+		if(IsRunning(i))
 			return true;
 	return false;
 }
 
-bool Консоль::пущен(int slot)
+bool Console::IsRunning(int slot)
 {
-	if(slot < 0 || slot >= processes.дайСчёт() || !processes[slot].process)
+	if(slot < 0 || slot >= processes.GetCount() || !processes[slot].process)
 		return false;
-	return processes[slot].process->пущен();
+	return processes[slot].process->IsRunning();
 }
 
-void Консоль::жди(int slot)
+void Console::Wait(int slot)
 {
 	int sleep = 0;
 	while(processes[slot].process) {
-		обработайСобытия();
-		switch(слей()) {
+		ProcessEvents();
+		switch(Flush()) {
 			case -1: return;
 			case  0: sleep = min(sleep + 5, 20); break;
 			case +1: sleep = 0; break;
 		}
-		спи(sleep);
-		// Ктрл::гипСпи(sleep);
+		Sleep(sleep);
+		// Ctrl::GuiSleep(sleep);
 	}
 }
 
-bool Консоль::жди()
+bool Console::Wait()
 {
 	int sleep = 0;
 	for(;;) {
-		обработайСобытия();
-		switch(слей()) {
-			case -1: return error_keys.пустой();
+		ProcessEvents();
+		switch(Flush()) {
+			case -1: return error_keys.IsEmpty();
 			case  0: sleep = min(sleep + 5, 20); break;
 			case +1: sleep = 0; break;
 		}
-		спи(sleep);
-		// Ктрл::гипСпи(sleep);
+		Sleep(sleep);
+		// Ctrl::GuiSleep(sleep);
 	}
 }
 
-void Консоль::OnFinish(Событие<> cb)
+void Console::OnFinish(Event<> cb)
 {
-	Финишер& f = finisher.добавь();
+	Finisher& f = finisher.Add();
 	f.serial = serial;
 	f.cb = cb;
 }
 
-void Консоль::глуши()
+void Console::Kill()
 {
-	for(int i = 0; i < processes.дайСчёт(); i++)
-		глуши(i);
+	for(int i = 0; i < processes.GetCount(); i++)
+		Kill(i);
 }
 
-void Консоль::глуши(int islot)
+void Console::Kill(int islot)
 {
-	Слот& slot = processes[islot];
+	Slot& slot = processes[islot];
 	if(slot.process) {
-		slot.process->глуши();
-		slot.exitcode = slot.process->дайКодВыхода();
-		if(slot.exitcode != 0 && !пусто_ли(slot.ключ))
-			error_keys.добавь(slot.ключ);
-		slot.process.очисть();
-		spooled_output.конкат(slot.output);
+		slot.process->Kill();
+		slot.exitcode = slot.process->GetExitCode();
+		if(slot.exitcode != 0 && !IsNull(slot.key))
+			error_keys.Add(slot.key);
+		slot.process.Clear();
+		spooled_output.Cat(slot.output);
 		if(console_lock == islot)
 			console_lock = -1;
-		слейКонсоль();
+		FlushConsole();
 	}
 	CheckEndGroup();
 
 	int minserial = INT_MAX;
-	for(int i = 0; i < processes.дайСчёт(); i++)
+	for(int i = 0; i < processes.GetCount(); i++)
 		minserial = min(processes[i].serial, minserial);
 	int i = 0;
-	while(i < finisher.дайСчёт()) {
-		const Финишер& f = finisher[i];
+	while(i < finisher.GetCount()) {
+		const Finisher& f = finisher[i];
 		if(f.serial > minserial)
 			i++;
 		else {
 			f.cb();
-			finisher.удали(i);
+			finisher.Remove(i);
 		}
 	}
 }
 
-void Консоль::устСлоты(int s)
+void Console::SetSlots(int s)
 {
-	глуши();
-	processes.устСчёт(s);
+	Kill();
+	processes.SetCount(s);
 }
 
-void Консоль::CheckEndGroup()
+void Console::CheckEndGroup()
 {
-	for(int g = groups.дайСчёт(); --g >= 0;) {
-		Ткст gname = groups.дайКлюч(g);
-		Группа& группа = groups[g];
-		if(!пусто_ли(gname) && группа.finished) {
-			int p = processes.дайСчёт();
-			while(--p >= 0 && !(!!processes[p].process && processes[p].группа == gname))
+	for(int g = groups.GetCount(); --g >= 0;) {
+		String gname = groups.GetKey(g);
+		Group& group = groups[g];
+		if(!IsNull(gname) && group.finished) {
+			int p = processes.GetCount();
+			while(--p >= 0 && !(!!processes[p].process && processes[p].group == gname))
 				;
 			if(p < 0) {
-				if(группа.count > 0) {
-					Ткст msg = фмтЧ("%s: %d file(s) built in %s, %d msecs / file",
-						gname, группа.count, PrintTime(группа.msecs), группа.msecs / группа.count);
+				if(group.count > 0) {
+					String msg = NFormat("%s: %d файл(-ов) построено за %s, %d мсек / файл",
+						gname, group.count, PrintTime(group.msecs), group.msecs / group.count);
 					msg << '\n';
-					spooled_output.конкат(msg);
+					spooled_output.Cat(msg);
 					if(console_lock < 0) {
-						приставь(spooled_output);
+						Append(spooled_output);
 						spooled_output = Null;
 					}
 				}
-				groups.удали(g);
+				groups.Remove(g);
 			}
 		}
 	}

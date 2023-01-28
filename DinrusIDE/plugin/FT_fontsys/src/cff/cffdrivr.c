@@ -70,7 +70,7 @@
 
   /*************************************************************************/
   /*                                                                       */
-  /* <Функция>                                                            */
+  /* <Function>                                                            */
   /*    cff_get_kerning                                                    */
   /*                                                                       */
   /* <Description>                                                         */
@@ -90,7 +90,7 @@
   /*                   formats.                                            */
   /*                                                                       */
   /* <Return>                                                              */
-  /*    FreeType Ошибка code.  0 means success.                             */
+  /*    FreeType error code.  0 means success.                             */
   /*                                                                       */
   /* <Note>                                                                */
   /*    Only horizontal layouts (left-to-right & right-to-left) are        */
@@ -98,7 +98,7 @@
   /*    kernings, are out of scope of this method (the basic driver        */
   /*    interface is meant to be simple).                                  */
   /*                                                                       */
-  /*    They can be implemented by формат-specific interfaces.             */
+  /*    They can be implemented by format-specific interfaces.             */
   /*                                                                       */
   FT_CALLBACK_DEF( FT_Error )
   cff_get_kerning( FT_Face     ttface,          /* TT_Face */
@@ -125,7 +125,7 @@
 
   /*************************************************************************/
   /*                                                                       */
-  /* <Функция>                                                            */
+  /* <Function>                                                            */
   /*    Load_Glyph                                                         */
   /*                                                                       */
   /* <Description>                                                         */
@@ -147,7 +147,7 @@
   /*                   whether to hint the outline, etc).                  */
   /*                                                                       */
   /* <Return>                                                              */
-  /*    FreeType Ошибка code.  0 means success.                             */
+  /*    FreeType error code.  0 means success.                             */
   /*                                                                       */
   FT_CALLBACK_DEF( FT_Error )
   Load_Glyph( FT_GlyphSlot  cffslot,        /* CFF_GlyphSlot */
@@ -155,7 +155,7 @@
               FT_UInt       glyph_index,
               FT_Int32      load_flags )
   {
-    FT_Error       Ошибка;
+    FT_Error       error;
     CFF_GlyphSlot  slot = (CFF_GlyphSlot)cffslot;
     CFF_Size       size = (CFF_Size)cffsize;
 
@@ -179,12 +179,12 @@
     }
 
     /* now load the glyph outline if necessary */
-    Ошибка = cff_slot_load( slot, size, glyph_index, load_flags );
+    error = cff_slot_load( slot, size, glyph_index, load_flags );
 
     /* force drop-out mode to 2 - irrelevant now */
     /* slot->outline.dropout_mode = 2; */
 
-    return Ошибка;
+    return error;
   }
 
 
@@ -196,7 +196,7 @@
                     FT_Fixed*  advances )
   {
     FT_UInt       nn;
-    FT_Error      Ошибка = CFF_Err_Ok;
+    FT_Error      error = CFF_Err_Ok;
     FT_GlyphSlot  slot  = face->glyph;
 
 
@@ -204,8 +204,8 @@
 
     for ( nn = 0; nn < count; nn++ )
     {
-      Ошибка = Load_Glyph( slot, face->size, start + nn, flags );
-      if ( Ошибка )
+      error = Load_Glyph( slot, face->size, start + nn, flags );
+      if ( error )
         break;
 
       advances[nn] = ( flags & FT_LOAD_VERTICAL_LAYOUT )
@@ -213,7 +213,7 @@
                      : slot->linearHoriAdvance;
     }
 
-    return Ошибка;
+    return error;
   }
 
 
@@ -225,38 +225,38 @@
   static FT_Error
   cff_get_glyph_name( CFF_Face    face,
                       FT_UInt     glyph_index,
-                      FT_Pointer  буфер,
+                      FT_Pointer  buffer,
                       FT_UInt     buffer_max )
   {
     CFF_Font    font   = (CFF_Font)face->extra.data;
     FT_String*  gname;
     FT_UShort   sid;
-    FT_Error    Ошибка;
+    FT_Error    error;
 
 
     if ( !font->psnames )
     {
       FT_ERROR(( "cff_get_glyph_name:"
-                 " cannot get glyph имя from CFF & CEF fonts\n"
+                 " cannot get glyph name from CFF & CEF fonts\n"
                  "                   "
                  " without the `PSNames' module\n" ));
-      Ошибка = CFF_Err_Unknown_File_Format;
+      error = CFF_Err_Unknown_File_Format;
       goto Exit;
     }
 
     /* first, locate the sid in the charset table */
     sid = font->charset.sids[glyph_index];
 
-    /* now, lookup the имя itself */
+    /* now, lookup the name itself */
     gname = cff_index_get_sid_string( font, sid );
 
     if ( gname )
-      FT_STRCPYN( буфер, gname, buffer_max );
+      FT_STRCPYN( buffer, gname, buffer_max );
 
-    Ошибка = CFF_Err_Ok;
+    error = CFF_Err_Ok;
 
   Exit:
-    return Ошибка;
+    return error;
   }
 
 
@@ -267,7 +267,7 @@
     CFF_Font            cff;
     CFF_Charset         charset;
     FT_Service_PsCMaps  psnames;
-    FT_String*          имя;
+    FT_String*          name;
     FT_UShort           sid;
     FT_UInt             i;
 
@@ -284,14 +284,14 @@
       sid = charset->sids[i];
 
       if ( sid > 390 )
-        имя = cff_index_get_string( cff, sid - 391 );
+        name = cff_index_get_string( cff, sid - 391 );
       else
-        имя = (FT_String *)psnames->adobe_std_strings( sid );
+        name = (FT_String *)psnames->adobe_std_strings( sid );
 
-      if ( !имя )
+      if ( !name )
         continue;
 
-      if ( !ft_strcmp( glyph_name, имя ) )
+      if ( !ft_strcmp( glyph_name, name ) )
         return i;
     }
 
@@ -322,7 +322,7 @@
                         PS_FontInfoRec*  afont_info )
   {
     CFF_Font  cff   = (CFF_Font)face->extra.data;
-    FT_Error  Ошибка = CFF_Err_Ok;
+    FT_Error  error = CFF_Err_Ok;
 
 
     if ( cff && cff->font_info == NULL )
@@ -357,7 +357,7 @@
       *afont_info = *cff->font_info;
 
   Fail:
-    return Ошибка;
+    return error;
   }
 
 
@@ -404,13 +404,13 @@
                      TT_CMapInfo  *cmap_info )
   {
     FT_CMap   cmap  = FT_CMAP( charmap );
-    FT_Error  Ошибка = CFF_Err_Ok;
+    FT_Error  error = CFF_Err_Ok;
     FT_Face    face    = FT_CMAP_FACE( cmap );
     FT_Library library = FT_FACE_LIBRARY( face );
 
 
     cmap_info->language = 0;
-    cmap_info->формат   = 0;
+    cmap_info->format   = 0;
 
     if ( cmap->clazz != &FT_CFF_CMAP_ENCODING_CLASS_REC_GET &&
          cmap->clazz != &FT_CFF_CMAP_UNICODE_CLASS_REC_GET  )
@@ -422,10 +422,10 @@
 
 
       if ( service && service->get_cmap_info )
-        Ошибка = service->get_cmap_info( charmap, cmap_info );
+        error = service->get_cmap_info( charmap, cmap_info );
     }
 
-    return Ошибка;
+    return error;
   }
 
 
@@ -444,7 +444,7 @@
                const char*  *ordering,
                FT_Int       *supplement )
   {
-    FT_Error  Ошибка = CFF_Err_Ok;
+    FT_Error  error = CFF_Err_Ok;
     CFF_Font  cff   = (CFF_Font)face->extra.data;
 
 
@@ -455,7 +455,7 @@
 
       if ( dict->cid_registry == 0xFFFFU )
       {
-        Ошибка = CFF_Err_Invalid_Argument;
+        error = CFF_Err_Invalid_Argument;
         goto Fail;
       }
 
@@ -491,7 +491,7 @@
     }
       
   Fail:
-    return Ошибка;
+    return error;
   }
 
 
@@ -499,7 +499,7 @@
   cff_get_is_cid( CFF_Face  face,
                   FT_Bool  *is_cid )
   {
-    FT_Error  Ошибка = CFF_Err_Ok;
+    FT_Error  error = CFF_Err_Ok;
     CFF_Font  cff   = (CFF_Font)face->extra.data;
 
 
@@ -514,7 +514,7 @@
         *is_cid = 1;
     }
 
-    return Ошибка;
+    return error;
   }
 
 
@@ -523,7 +523,7 @@
                                 FT_UInt   glyph_index,
                                 FT_UInt  *cid )
   {
-    FT_Error  Ошибка = CFF_Err_Ok;
+    FT_Error  error = CFF_Err_Ok;
     CFF_Font  cff;
 
 
@@ -537,13 +537,13 @@
 
       if ( dict->cid_registry == 0xFFFFU )
       {
-        Ошибка = CFF_Err_Invalid_Argument;
+        error = CFF_Err_Invalid_Argument;
         goto Fail;
       }
 
       if ( glyph_index > cff->num_glyphs )
       {
-        Ошибка = CFF_Err_Invalid_Argument;
+        error = CFF_Err_Invalid_Argument;
         goto Fail;
       }
 
@@ -554,7 +554,7 @@
     }
 
   Fail:
-    return Ошибка;
+    return error;
   }
 
 

@@ -38,7 +38,7 @@ FT_BEGIN_HEADER
                                  FT_Face       *aface );
 
 
-  /* создай a new FT_Face given a буфер and a driver имя. */
+  /* Create a new FT_Face given a buffer and a driver name. */
   /* From ftmac.c.                                          */
   FT_LOCAL( FT_Error )
   open_face_from_buffer( FT_Library   library,

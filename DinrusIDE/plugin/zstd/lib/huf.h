@@ -26,7 +26,7 @@ extern "C" {
 /* *** library symbols visibility *** */
 /* Note : when linking with -fvisibility=hidden on gcc, or by default on Visual,
  *        HUF symbols remain "private" (internal symbols for library only).
- *        уст macro FSE_DLL_EXPORT to 1 if you want HUF symbols visible on DLL interface */
+ *        Set macro FSE_DLL_EXPORT to 1 if you want HUF symbols visible on DLL interface */
 #if defined(FSE_DLL_EXPORT) && (FSE_DLL_EXPORT==1) && defined(__GNUC__) && (__GNUC__ >= 4)
 #  define HUF_PUBLIC_API __attribute__ ((visibility ("default")))
 #elif defined(FSE_DLL_EXPORT) && (FSE_DLL_EXPORT==1)   /* Visual expected */
@@ -43,26 +43,26 @@ extern "C" {
 /* ========================== */
 
 /** HUF_compress() :
- *  Compress content from буфер 'src', of size 'srcSize', into буфер 'dst'.
- * 'dst' буфер must be already allocated.
+ *  Compress content from buffer 'src', of size 'srcSize', into buffer 'dst'.
+ * 'dst' buffer must be already allocated.
  *  Compression runs faster if `dstCapacity` >= HUF_compressBound(srcSize).
  * `srcSize` must be <= `HUF_BLOCKSIZE_MAX` == 128 KB.
  * @return : size of compressed data (<= `dstCapacity`).
- *  особый values : if return == 0, srcData is not compressible => Nothing is stored within dst !!!
+ *  Special values : if return == 0, srcData is not compressible => Nothing is stored within dst !!!
  *                   if HUF_isError(return), compression failed (more details using HUF_getErrorName())
  */
 HUF_PUBLIC_API size_t HUF_compress(void* dst, size_t dstCapacity,
                              const void* src, size_t srcSize);
 
 /** HUF_decompress() :
- *  Decompress HUF data from буфер 'cSrc', of size 'cSrcSize',
- *  into already allocated буфер 'dst', of minimum size 'dstSize'.
+ *  Decompress HUF data from buffer 'cSrc', of size 'cSrcSize',
+ *  into already allocated buffer 'dst', of minimum size 'dstSize'.
  * `originalSize` : **must** be the ***exact*** size of original (uncompressed) data.
  *  Note : in contrast with FSE, HUF_decompress can regenerate
  *         RLE (cSrcSize==1) and uncompressed (cSrcSize==dstSize) data,
  *         because it knows size to regenerate (originalSize).
  * @return : size of regenerated data (== originalSize),
- *           or an Ошибка code, which can be tested using HUF_isError()
+ *           or an error code, which can be tested using HUF_isError()
  */
 HUF_PUBLIC_API size_t HUF_decompress(void* dst,  size_t originalSize,
                                const void* cSrc, size_t cSrcSize);
@@ -72,9 +72,9 @@ HUF_PUBLIC_API size_t HUF_decompress(void* dst,  size_t originalSize,
 #define HUF_BLOCKSIZE_MAX (128 * 1024)                  /**< maximum input size for a single block compressed with HUF_compress */
 HUF_PUBLIC_API size_t HUF_compressBound(size_t size);   /**< maximum compressed size (worst case) */
 
-/* Ошибка Management */
-HUF_PUBLIC_API unsigned    HUF_isError(size_t code);       /**< tells if a return значение is an Ошибка code */
-HUF_PUBLIC_API const char* HUF_getErrorName(size_t code);  /**< provides Ошибка code string (useful for debugging) */
+/* Error Management */
+HUF_PUBLIC_API unsigned    HUF_isError(size_t code);       /**< tells if a return value is an error code */
+HUF_PUBLIC_API const char* HUF_getErrorName(size_t code);  /**< provides error code string (useful for debugging) */
 
 
 /* ***   Advanced function   *** */
@@ -114,20 +114,20 @@ HUF_PUBLIC_API size_t HUF_compress4X_wksp (void* dst, size_t dstCapacity,
 
 
 /* *** Constants *** */
-#define HUF_TABLELOG_MAX      12      /* max runtime значение of tableLog (due to static allocation); can be modified up to HUF_ABSOLUTEMAX_TABLELOG */
-#define HUF_TABLELOG_DEFAULT  11      /* default tableLog значение when none specified */
+#define HUF_TABLELOG_MAX      12      /* max runtime value of tableLog (due to static allocation); can be modified up to HUF_ABSOLUTEMAX_TABLELOG */
+#define HUF_TABLELOG_DEFAULT  11      /* default tableLog value when none specified */
 #define HUF_SYMBOLVALUE_MAX  255
 
-#define HUF_TABLELOG_ABSOLUTEMAX  15  /* absolute limit of HUF_MAX_TABLELOG. Beyond that значение, code does not work */
+#define HUF_TABLELOG_ABSOLUTEMAX  15  /* absolute limit of HUF_MAX_TABLELOG. Beyond that value, code does not work */
 #if (HUF_TABLELOG_MAX > HUF_TABLELOG_ABSOLUTEMAX)
-#  Ошибка "HUF_TABLELOG_MAX is too large !"
+#  error "HUF_TABLELOG_MAX is too large !"
 #endif
 
 
 /* ****************************************
 *  Static allocation
 ******************************************/
-/* HUF буфер bounds */
+/* HUF buffer bounds */
 #define HUF_CTABLEBOUND 129
 #define HUF_BLOCKBOUND(size) (size + (size>>8) + 8)   /* only true when incompressible is pre-filtered with fast heuristic */
 #define HUF_COMPRESSBOUND(size) (HUF_CTABLEBOUND + HUF_BLOCKBOUND(size))   /* Macro version, useful for static allocation */
@@ -135,10 +135,10 @@ HUF_PUBLIC_API size_t HUF_compress4X_wksp (void* dst, size_t dstCapacity,
 /* static allocation of HUF's Compression Table */
 #define HUF_CTABLE_SIZE_U32(maxSymbolValue)   ((maxSymbolValue)+1)   /* Use tables of U32, for proper alignment */
 #define HUF_CTABLE_SIZE(maxSymbolValue)       (HUF_CTABLE_SIZE_U32(maxSymbolValue) * sizeof(U32))
-#define HUF_CREATE_STATIC_CTABLE(имя, maxSymbolValue) \
-    U32 имя##hb[HUF_CTABLE_SIZE_U32(maxSymbolValue)]; \
-    void* имя##hv = &(имя##hb); \
-    HUF_CElt* имя = (HUF_CElt*)(имя##hv)   /* no final ; */
+#define HUF_CREATE_STATIC_CTABLE(name, maxSymbolValue) \
+    U32 name##hb[HUF_CTABLE_SIZE_U32(maxSymbolValue)]; \
+    void* name##hv = &(name##hb); \
+    HUF_CElt* name = (HUF_CElt*)(name##hv)   /* no final ; */
 
 /* static allocation of HUF's DTable */
 typedef U32 HUF_DTable;
@@ -176,7 +176,7 @@ size_t HUF_decompress4X2_DCtx_wksp(HUF_DTable* dctx, void* dst, size_t dstSize, 
  *  1. count symbol occurrence from source[] into table count[] using FSE_count() (exposed within "fse.h")
  *  2. (optional) refine tableLog using HUF_optimalTableLog()
  *  3. build Huffman table from count using HUF_buildCTable()
- *  4. save Huffman table to memory буфер using HUF_writeCTable()
+ *  4. save Huffman table to memory buffer using HUF_writeCTable()
  *  5. encode the data stream using HUF_compress4X_usingCTable()
  *
  *  The following API allows targeting specific sub-functions for advanced tasks.
@@ -184,7 +184,7 @@ size_t HUF_decompress4X2_DCtx_wksp(HUF_DTable* dctx, void* dst, size_t dstSize, 
  *  or to save and regenerate 'CTable' using external methods.
  */
 unsigned HUF_optimalTableLog(unsigned maxTableLog, size_t srcSize, unsigned maxSymbolValue);
-typedef struct HUF_CElt_s HUF_CElt;   /* incomplete тип */
+typedef struct HUF_CElt_s HUF_CElt;   /* incomplete type */
 size_t HUF_buildCTable (HUF_CElt* CTable, const unsigned* count, unsigned maxSymbolValue, unsigned maxNbBits);   /* @return : maxNbBits; CTable and count can overlap. In which case, CTable will overwrite count content */
 size_t HUF_writeCTable (void* dst, size_t maxDstSize, const HUF_CElt* CTable, unsigned maxSymbolValue, unsigned huffLog);
 size_t HUF_compress4X_usingCTable(void* dst, size_t dstSize, const void* src, size_t srcSize, const HUF_CElt* CTable);
@@ -208,7 +208,7 @@ size_t HUF_compress4X_repeat(void* dst, size_t dstSize,
                        HUF_CElt* hufTable, HUF_repeat* repeat, int preferRepeat, int bmi2);
 
 /** HUF_buildCTable_wksp() :
- *  Same as HUF_buildCTable(), but using externally allocated scratch буфер.
+ *  Same as HUF_buildCTable(), but using externally allocated scratch buffer.
  * `workSpace` must be aligned on 4-bytes boundaries, and its size must be >= HUF_CTABLE_WORKSPACE_SIZE.
  */
 #define HUF_CTABLE_WORKSPACE_SIZE_U32 (2*HUF_SYMBOLVALUE_MAX +1 +1)
@@ -218,9 +218,9 @@ size_t HUF_buildCTable_wksp (HUF_CElt* tree,
                              void* workSpace, size_t wkspSize);
 
 /*! HUF_readStats() :
- *  читай compact Huffman tree, saved by HUF_writeCTable().
- * `huffWeight` is destination буфер.
- * @return : size read from `src` , or an Ошибка Code .
+ *  Read compact Huffman tree, saved by HUF_writeCTable().
+ * `huffWeight` is destination buffer.
+ * @return : size read from `src` , or an error Code .
  *  Note : Needed by HUF_readCTable() and HUF_readDTableXn() . */
 size_t HUF_readStats(BYTE* huffWeight, size_t hwSize,
                      U32* rankStats, U32* nbSymbolsPtr, U32* tableLogPtr,
@@ -231,9 +231,9 @@ size_t HUF_readStats(BYTE* huffWeight, size_t hwSize,
 size_t HUF_readCTable (HUF_CElt* CTable, unsigned* maxSymbolValuePtr, const void* src, size_t srcSize, unsigned *hasZeroWeights);
 
 /** HUF_getNbBits() :
- *  читай nbBits from CTable symbolTable, for symbol `symbolValue` presumed <= HUF_SYMBOLVALUE_MAX
+ *  Read nbBits from CTable symbolTable, for symbol `symbolValue` presumed <= HUF_SYMBOLVALUE_MAX
  *  Note 1 : is not inlined, as HUF_CElt definition is private
- *  Note 2 : const void* used, so that it can provide a statically allocated table as argument (which uses тип U32) */
+ *  Note 2 : const void* used, so that it can provide a statically allocated table as argument (which uses type U32) */
 U32 HUF_getNbBits(const void* symbolTable, U32 symbolValue);
 
 /*
@@ -256,7 +256,7 @@ U32 HUF_selectDecoder (size_t dstSize, size_t cSrcSize);
  *
  *  The space used depends on HUF_TABLELOG_MAX, ranging from ~1500 bytes when
  *  HUF_TABLE_LOG_MAX=12 to ~1850 bytes when HUF_TABLE_LOG_MAX=15.
- *  Буфер overflow errors may potentially occur if code modifications result in
+ *  Buffer overflow errors may potentially occur if code modifications result in
  *  a required workspace size greater than that specified in the following
  *  macro.
  */

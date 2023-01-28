@@ -1,19 +1,19 @@
 #include "Android.h"
 
-namespace РНЦП {
+namespace Upp {
 
-static const Ткст TOOLCHAIN_CLANG = "clang";
+static const String TOOLCHAIN_CLANG = "clang";
 
-Ткст AndroidNDK::GetDownloadUrl()
+String AndroidNDK::GetDownloadUrl()
 {
-	return "https://developer.android.com/ndk/downloads/Индекс.html";
+	return "https://developer.android.com/ndk/downloads/index.html";
 }
 
 AndroidNDK::AndroidNDK()
 {
 }
 
-AndroidNDK::AndroidNDK(const Ткст& path)
+AndroidNDK::AndroidNDK(const String& path)
 {
 	this->path = path;
 }
@@ -24,70 +24,70 @@ AndroidNDK::~AndroidNDK()
 
 bool AndroidNDK::Validate() const
 {
-	if(!дирЕсть(path) || !файлЕсть(GetNdkBuildPath()))
+	if(!DirectoryExists(path) || !FileExists(GetNdkBuildPath()))
 		return false;
 	
 	return true;
 }
 
-Ткст AndroidNDK::FindDefaultPlatform() const
+String AndroidNDK::FindDefaultPlatform() const
 {
-	Вектор<Ткст> platforms = FindPlatforms();
+	Vector<String> platforms = FindPlatforms();
 	
 	Android::NormalizeVersions(platforms);
-	сортируй(platforms, StdGreater<Ткст>());
+	Sort(platforms, StdGreater<String>());
 	Android::RemoveVersionsNormalization(platforms);
 	
-	return !platforms.пустой() ? platforms[0] : "";
+	return !platforms.IsEmpty() ? platforms[0] : "";
 }
 
-Ткст AndroidNDK::FindDefaultToolchain() const
+String AndroidNDK::FindDefaultToolchain() const
 {
-	Индекс<Ткст> toolchains(FindToolchains());
+	Index<String> toolchains(FindToolchains());
 	
-	int clangIdx = toolchains.найди(TOOLCHAIN_CLANG);
+	int clangIdx = toolchains.Find(TOOLCHAIN_CLANG);
 	if (clangIdx >= 0) {
 		return toolchains[clangIdx];
 	}
 	
-	SortIndex(toolchains, StdGreater<Ткст>());
-	return !toolchains.пустой() ? toolchains[toolchains.дайСчёт()] : "";
+	SortIndex(toolchains, StdGreater<String>());
+	return !toolchains.IsEmpty() ? toolchains[toolchains.GetCount()] : "";
 }
 
-Ткст AndroidNDK::FindDefaultCppRuntime() const
+String AndroidNDK::FindDefaultCppRuntime() const
 {
 	return "c++_shared";
 }
 
-Вектор<Ткст> AndroidNDK::FindPlatforms() const
+Vector<String> AndroidNDK::FindPlatforms() const
 {
-	Вектор<Ткст> platforms;
+	Vector<String> platforms;
 	
-	for(ФайлПоиск ff(приставьИмяф(GetPlatformsDir(), "*")); ff; ff.следщ()) {
-		if(!ff.скрыт_ли() && ff.папка_ли())
-			platforms.добавь(ff.дайИмя());
+	for(FindFile ff(AppendFileName(GetPlatformsDir(), "*")); ff; ff.Next()) {
+		if(!ff.IsHidden() && ff.IsFolder())
+			platforms.Add(ff.GetName());
 	}
 	
 	return platforms;
 }
 
-Вектор<Ткст> AndroidNDK::FindToolchains() const
+Vector<String> AndroidNDK::FindToolchains() const
 {
-	Вектор<Ткст> toolchains;
+	Vector<String> toolchains;
 	
-	for(ФайлПоиск ff(приставьИмяф(GetToolchainsDir(), "*")); ff; ff.следщ()) {
-		if(!ff.скрыт_ли() && ff.папка_ли()) {
-			Ткст имя = ff.дайИмя();
-			if(имя.начинаетсяС("llvm")) {
-				toolchains.добавь(TOOLCHAIN_CLANG);
+	for(FindFile ff(AppendFileName(GetToolchainsDir(), "*")); ff; ff.Next()) {
+		if(!ff.IsHidden() && ff.IsFolder()) {
+			String name = ff.GetName();
+			if(name.StartsWith("llvm")) {
+				toolchains.Add(TOOLCHAIN_CLANG);
 				continue;
 			}
 			
-			Вектор<Ткст> nameParts = разбей(имя, "-");
-			if(nameParts.дайСчёт() > 1) {
-				Ткст toolchain = nameParts[nameParts.дайСчёт() - 1];
-				if(найдиИндекс(toolchains, toolchain) == -1)
-					toolchains.добавь(toolchain);
+			Vector<String> nameParts = Split(name, "-");
+			if(nameParts.GetCount() > 1) {
+				String toolchain = nameParts[nameParts.GetCount() - 1];
+				if(FindIndex(toolchains, toolchain) == -1)
+					toolchains.Add(toolchain);
 			}
 		}
 	}
@@ -95,38 +95,38 @@ bool AndroidNDK::Validate() const
 	return toolchains;
 }
 
-Вектор<Ткст> AndroidNDK::FindCppRuntimes() const
+Vector<String> AndroidNDK::FindCppRuntimes() const
 {
-	Вектор<Ткст> runtimes;
+	Vector<String> runtimes;
 	
 	// Values from NDK documentation
-	runtimes.добавь("c++_static");
-	runtimes.добавь("c++_shared");
-	runtimes.добавь("system");
-	runtimes.добавь("none");
+	runtimes.Add("c++_static");
+	runtimes.Add("c++_shared");
+	runtimes.Add("system");
+	runtimes.Add("none");
 	
 	return runtimes;
 }
 
-Ткст AndroidNDK::GetIncludeDir() const
+String AndroidNDK::GetIncludeDir() const
 {
-	Ткст dir;
+	String dir;
 	dir << GetPlatformsDir() << DIR_SEPS << FindDefaultPlatform() << DIR_SEPS;
-	// TODO: decide how to implement architecture selection.
+	// СДЕЛАТЬ: decide how to implement architecture selection.
 	dir << "arch-arm" << DIR_SEPS;
 	dir << "usr" << DIR_SEPS << "include";
 	
-	return дирЕсть(dir) ? dir : "";
+	return DirectoryExists(dir) ? dir : "";
 }
 
-Ткст AndroidNDK::GetCppIncludeDir(const Ткст& cppRuntime) const
+String AndroidNDK::GetCppIncludeDir(const String& cppRuntime) const
 {
-	Ткст nest = GetSourcesDir() + DIR_SEPS + "cxx-stl" + DIR_SEPS;
+	String nest = GetSourcesDir() + DIR_SEPS + "cxx-stl" + DIR_SEPS;
 	if(cppRuntime == "system") {
 		return nest + "system" + DIR_SEPS + "include";
 	}
 	else
-	if(cppRuntime.начинаетсяС("c++")) {
+	if(cppRuntime.StartsWith("c++")) {
 		return nest + "llvm-libc++" + DIR_SEPS + "include";
 	}
 	

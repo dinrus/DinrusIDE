@@ -20,7 +20,7 @@
 #include "zstd_compress_literals.h"
 
 /*-*************************************
-*  Superblock entropy буфер structs
+*  Superblock entropy buffer structs
 ***************************************/
 /** ZSTD_hufCTablesMetadata_t :
  *  Stores Literals Block Type for a super-block in hType, and
@@ -29,7 +29,7 @@
  *  This metadata is populated in ZSTD_buildSuperBlockEntropy_literal() */
 typedef struct {
     symbolEncodingType_e hType;
-    BYTE hufDesBuffer[500]; /* TODO give имя to this значение */
+    BYTE hufDesBuffer[500]; /* СДЕЛАТЬ give name to this value */
     size_t hufDesSize;
 } ZSTD_hufCTablesMetadata_t;
 
@@ -42,9 +42,9 @@ typedef struct {
     symbolEncodingType_e llType;
     symbolEncodingType_e ofType;
     symbolEncodingType_e mlType;
-    BYTE fseTablesBuffer[500]; /* TODO give имя to this значение */
+    BYTE fseTablesBuffer[500]; /* СДЕЛАТЬ give name to this value */
     size_t fseTablesSize;
-    size_t lastCountSize; /* This is to account for bug in 1.3.4. ещё detail in ZSTD_compressSubBlock_sequences() */
+    size_t lastCountSize; /* This is to account for bug in 1.3.4. More detail in ZSTD_compressSubBlock_sequences() */
 } ZSTD_fseCTablesMetadata_t;
 
 typedef struct {
@@ -55,9 +55,9 @@ typedef struct {
 
 /** ZSTD_buildSuperBlockEntropy_literal() :
  *  Builds entropy for the super-block literals.
- *  Stores literals block тип (raw, rle, compressed, repeat) and
+ *  Stores literals block type (raw, rle, compressed, repeat) and
  *  huffman description table to hufMetadata.
- *  @return : size of huffman description table or Ошибка code */
+ *  @return : size of huffman description table or error code */
 static size_t ZSTD_buildSuperBlockEntropy_literal(void* const src, size_t srcSize,
                                             const ZSTD_hufCTables_t* prevHuf,
                                                   ZSTD_hufCTables_t* nextHuf,
@@ -159,7 +159,7 @@ static size_t ZSTD_buildSuperBlockEntropy_literal(void* const src, size_t srcSiz
 /** ZSTD_buildSuperBlockEntropy_sequences() :
  *  Builds entropy for the super-block sequences.
  *  Stores symbol compression modes and fse table to fseMetadata.
- *  @return : size of fse tables or Ошибка code */
+ *  @return : size of fse tables or error code */
 static size_t ZSTD_buildSuperBlockEntropy_sequences(seqStore_t* seqStorePtr,
                                               const ZSTD_fseCTables_t* prevEntropy,
                                                     ZSTD_fseCTables_t* nextEntropy,
@@ -269,7 +269,7 @@ static size_t ZSTD_buildSuperBlockEntropy_sequences(seqStore_t* seqStorePtr,
 
 /** ZSTD_buildSuperBlockEntropy() :
  *  Builds entropy for the super-block.
- *  @return : 0 on success or Ошибка code */
+ *  @return : 0 on success or error code */
 static size_t
 ZSTD_buildSuperBlockEntropy(seqStore_t* seqStorePtr,
                       const ZSTD_entropyCTables_t* prevEntropy,
@@ -307,7 +307,7 @@ ZSTD_buildSuperBlockEntropy(seqStore_t* seqStorePtr,
  *  We write the header when writeEntropy=1 and set entropyWrriten=1 when we succeeded
  *  in writing the header, otherwise it is set to 0.
  *
- *  hufMetadata->hType has literals block тип info.
+ *  hufMetadata->hType has literals block type info.
  *      If it is set_basic, all sub-blocks literals section will be Raw_Literals_Block.
  *      If it is set_rle, all sub-blocks literals section will be RLE_Literals_Block.
  *      If it is set_compressed, first sub-block's literals section will be Compressed_Literals_Block
@@ -315,7 +315,7 @@ ZSTD_buildSuperBlockEntropy(seqStore_t* seqStorePtr,
  *      and the following sub-blocks' literals sections will be Treeless_Literals_Block.
  *  @return : compressed size of literals section of a sub-block
  *            Or 0 if it unable to compress.
- *            Or Ошибка code */
+ *            Or error code */
 static size_t ZSTD_compressSubBlock_literal(const HUF_CElt* hufTable,
                                     const ZSTD_hufCTablesMetadata_t* hufMetadata,
                                     const BYTE* literals, size_t litSize,
@@ -331,7 +331,7 @@ static size_t ZSTD_compressSubBlock_literal(const HUF_CElt* hufTable,
     symbolEncodingType_e hType = writeEntropy ? hufMetadata->hType : set_repeat;
     size_t cLitSize = 0;
 
-    (void)bmi2; /* TODO bmi2... */
+    (void)bmi2; /* СДЕЛАТЬ bmi2... */
 
     DEBUGLOG(5, "ZSTD_compressSubBlock_literal (litSize=%zu, lhSize=%zu, writeEntropy=%d)", litSize, lhSize, writeEntropy);
 
@@ -354,7 +354,7 @@ static size_t ZSTD_compressSubBlock_literal(const HUF_CElt* hufTable,
         DEBUGLOG(5, "ZSTD_compressSubBlock_literal (hSize=%zu)", hufMetadata->hufDesSize);
     }
 
-    /* TODO bmi2 */
+    /* СДЕЛАТЬ bmi2 */
     {   const size_t cSize = singleStream ? HUF_compress1X_usingCTable(op, oend-op, literals, litSize, hufTable)
                                           : HUF_compress4X_usingCTable(op, oend-op, literals, litSize, hufTable);
         op += cSize;
@@ -408,19 +408,19 @@ static size_t ZSTD_seqDecompressedSize(seqStore_t const* seqStore, const seqDef*
     const seqDef* const sstart = sequences;
     const seqDef* const send = sequences + nbSeq;
     const seqDef* sp = sstart;
-    size_t matchLengthсумма = 0;
-    size_t litLengthсумма = 0;
+    size_t matchLengthSum = 0;
+    size_t litLengthSum = 0;
     while (send-sp > 0) {
         ZSTD_sequenceLength const seqLen = ZSTD_getSequenceLength(seqStore, sp);
-        litLengthсумма += seqLen.litLength;
-        matchLengthсумма += seqLen.matchLength;
+        litLengthSum += seqLen.litLength;
+        matchLengthSum += seqLen.matchLength;
         sp++;
     }
-    assert(litLengthсумма <= litSize);
+    assert(litLengthSum <= litSize);
     if (!lastSequence) {
-        assert(litLengthсумма == litSize);
+        assert(litLengthSum == litSize);
     }
-    return matchLengthсумма + litSize;
+    return matchLengthSum + litSize;
 }
 
 /** ZSTD_compressSubBlock_sequences() :
@@ -432,7 +432,7 @@ static size_t ZSTD_seqDecompressedSize(seqStore_t const* seqStore, const seqDef*
  *  The following sub-blocks will always have repeat mode.
  *  @return : compressed size of sequences section of a sub-block
  *            Or 0 if it is unable to compress
- *            Or Ошибка code. */
+ *            Or error code. */
 static size_t ZSTD_compressSubBlock_sequences(const ZSTD_fseCTables_t* fseTables,
                                               const ZSTD_fseCTablesMetadata_t* fseMetadata,
                                               const seqDef* sequences, size_t nbSeq,
@@ -451,7 +451,7 @@ static size_t ZSTD_compressSubBlock_sequences(const ZSTD_fseCTables_t* fseTables
 
     *entropyWritten = 0;
     /* Sequences Header */
-    RETURN_ERROR_IF((oend-op) < 3 /*max nbSeq Размер*/ + 1 /*seqHead*/,
+    RETURN_ERROR_IF((oend-op) < 3 /*max nbSeq Size*/ + 1 /*seqHead*/,
                     dstSize_tooSmall, "");
     if (nbSeq < 0x7F)
         *op++ = (BYTE)nbSeq;
@@ -463,7 +463,7 @@ static size_t ZSTD_compressSubBlock_sequences(const ZSTD_fseCTables_t* fseTables
         return op - ostart;
     }
 
-    /* seqHead : flags for FSE encoding тип */
+    /* seqHead : flags for FSE encoding type */
     seqHead = op++;
 
     DEBUGLOG(5, "ZSTD_compressSubBlock_sequences (seqHeadSize=%u)", (unsigned)(op-ostart));
@@ -491,8 +491,8 @@ static size_t ZSTD_compressSubBlock_sequences(const ZSTD_fseCTables_t* fseTables
         FORWARD_IF_ERROR(bitstreamSize, "ZSTD_encodeSequences failed");
         op += bitstreamSize;
         /* zstd versions <= 1.3.4 mistakenly report corruption when
-         * FSE_readNCount() receives a буфер < 4 bytes.
-         * фиксирован by https://github.com/facebook/zstd/pull/1146.
+         * FSE_readNCount() receives a buffer < 4 bytes.
+         * Fixed by https://github.com/facebook/zstd/pull/1146.
          * This can happen when the last set_compressed table present is 2
          * bytes and the bitstream is only one byte.
          * In this exceedingly rare case, we will simply emit an uncompressed
@@ -510,9 +510,9 @@ static size_t ZSTD_compressSubBlock_sequences(const ZSTD_fseCTables_t* fseTables
         DEBUGLOG(5, "ZSTD_compressSubBlock_sequences (bitstreamSize=%zu)", bitstreamSize);
     }
 
-    /* zstd versions <= 1.4.0 mistakenly report Ошибка when
+    /* zstd versions <= 1.4.0 mistakenly report error when
      * sequences section body size is less than 3 bytes.
-     * фиксирован by https://github.com/facebook/zstd/pull/1664.
+     * Fixed by https://github.com/facebook/zstd/pull/1664.
      * This can happen when the previous sequences section block is compressed
      * with rle mode and the current block's sequences section is compressed
      * with repeat mode where sequences section body size can be 1 byte.
@@ -568,7 +568,7 @@ static size_t ZSTD_compressSubBlock(const ZSTD_entropyCTables_t* entropy,
         if (cSeqSize == 0) return 0;
         op += cSeqSize;
     }
-    /* пиши block header */
+    /* Write block header */
     {   size_t cSize = (op-ostart)-ZSTD_blockHeaderSize;
         U32 const cBlockHeader24 = lastBlock + (((U32)bt_compressed)<<1) + (U32)(cSize << 3);
         MEM_writeLE24(ostart, cBlockHeader24);
@@ -599,7 +599,7 @@ static size_t ZSTD_estimateSubBlockSize_literal(const BYTE* literals, size_t lit
     return 0;
 }
 
-static size_t ZSTD_estimateSubBlockSize_symbolType(symbolEncodingType_e тип,
+static size_t ZSTD_estimateSubBlockSize_symbolType(symbolEncodingType_e type,
                         const BYTE* codeTable, unsigned maxCode,
                         size_t nbSeq, const FSE_CTable* fseCTable,
                         const U32* additionalBits,
@@ -614,11 +614,11 @@ static size_t ZSTD_estimateSubBlockSize_symbolType(symbolEncodingType_e тип,
     unsigned max = maxCode;
 
     HIST_countFast_wksp(countWksp, &max, codeTable, nbSeq, workspace, wkspSize);  /* can't fail */
-    if (тип == set_basic) {
+    if (type == set_basic) {
         cSymbolTypeSizeEstimateInBits = ZSTD_crossEntropyCost(defaultNorm, defaultNormLog, countWksp, max);
-    } else if (тип == set_rle) {
+    } else if (type == set_rle) {
         cSymbolTypeSizeEstimateInBits = 0;
-    } else if (тип == set_compressed || тип == set_repeat) {
+    } else if (type == set_compressed || type == set_repeat) {
         cSymbolTypeSizeEstimateInBits = ZSTD_fseBitCost(fseCTable, countWksp, max);
     }
     if (ZSTD_isError(cSymbolTypeSizeEstimateInBits)) return nbSeq * 10;

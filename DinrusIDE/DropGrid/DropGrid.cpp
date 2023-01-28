@@ -1,6 +1,6 @@
 #include "DropGrid.h"
 
-namespace РНЦП {
+namespace Upp {
 
 DropGrid::PopUpGrid::PopUpGrid()
 {
@@ -13,39 +13,39 @@ DropGrid::PopUpGrid::PopUpGrid()
 	SearchHideRows(false);
 	SearchDisplay(false);
 	ResizePanel();
-	ПриЛевКлике = THISBACK(CloseData);
+	WhenLeftClick = THISBACK(CloseData);
 	WhenEnter = THISBACK(CloseData);
 	WhenEscape = THISBACK(CloseNoData);
 	GridCtrl::WhenClose = THISBACK(CloseNoData);
 }
 
-void DropGrid::PopUpGrid::PopUp(Ктрл *owner, const Прям &r)
+void DropGrid::PopUpGrid::PopUp(Ctrl *owner, const Rect &r)
 {
-	закрой();
-	устПрям(r);
-	Ктрл::PopUp(owner, true, true, GUI_DropShadows());
-	устФокус();
+	Close();
+	SetRect(r);
+	Ctrl::PopUp(owner, true, true, GUI_DropShadows());
+	SetFocus();
 }
 
 void DropGrid::PopUpGrid::CloseNoData()
 {
 	WhenCloseNoData();
-	откл();
+	Deactivate();
 }
 
 void DropGrid::PopUpGrid::CloseData()
 {
 	WhenCloseData();
-	откл();
+	Deactivate();
 }
 
-void DropGrid::PopUpGrid::откл()
+void DropGrid::PopUpGrid::Deactivate()
 {
-	if(открыт() && IsPopUp())
+	if(IsOpen() && IsPopUp())
 	{
 		WhenPopDown();
 		IgnoreMouseClick();
-		GridCtrl::закрой();
+		GridCtrl::Close();
 		WhenClose();
 	}
 }
@@ -54,13 +54,13 @@ DropGrid::DropGrid()
 {
 	list.WhenCloseData = THISBACK(CloseData);
 	list.WhenCloseNoData = THISBACK(CloseNoData);
-	list.WhenClose = THISBACK(закрой);
+	list.WhenClose = THISBACK(Close);
 	list.WhenSearchCursor = THISBACK(SearchCursor);
 	list.BackPaint();
-	drop.AddButton().Main().WhenPush = THISBACK(сбрось);
-	drop.устСтиль(drop.StyleFrame());
+	drop.AddButton().Main().WhenPush = THISBACK(Drop);
+	drop.SetStyle(drop.StyleFrame());
 	drop.NoDisplay();
-	drop.добавьК(*this);
+	drop.AddTo(*this);
 	list_width = 0;
 	list_height = 0;
 	drop_lines = 16;
@@ -79,29 +79,29 @@ DropGrid::DropGrid()
 	Searching(true);
 	must_change = false;
 	null_action = true;
-	дисплей = this;
+	display = this;
 	change = false;
 	nodrop = false;
 	clear_button = false;
 	
-	must_change_str = t_("выдели a значение.");
+	must_change_str = t_("Select a value.");
 
 	clear.SetButton(1);
 	clear <<= THISBACK(DoClearValue);
 }
 
-void DropGrid::закрой()
+void DropGrid::Close()
 {
-	Прям r = list.дайПрям();
-	list_width = r.устШирину();
-	list_height = r.устВысоту();
-	устФокус();
+	Rect r = list.GetRect();
+	list_width = r.Width();
+	list_height = r.Height();
+	SetFocus();
 }
 
 void DropGrid::CloseData()
 {
 	UpdateValue();
-	DoAction(list.дайКурсор());
+	DoAction(list.GetCursor());
 }
 
 void DropGrid::CloseNoData()
@@ -110,14 +110,14 @@ void DropGrid::CloseNoData()
 		list.SetCursorId(rowid);
 }
 
-void DropGrid::сбрось()
+void DropGrid::Drop()
 {
-	if(!редактируем_ли())
+	if(!IsEditable())
 		return;
 	
 	WhenDrop();
 
-	GridDisplay &dsp = list.дайДисплей();
+	GridDisplay &dsp = list.GetDisplay();
 	if(!header)
 	{
 		list.HideRow(0, false);
@@ -126,26 +126,26 @@ void DropGrid::сбрось()
 	else
 		dsp.SetHorzMargin();
 
-	list.UpdateRows(true); //TODO: try to avoid it..
+	list.UpdateRows(true); //СДЕЛАТЬ: try to avoid it..
 
-	Прям rs = дайПрямЭкрана();
-	int width = rs.устШирину();
+	Rect rs = GetScreenRect();
+	int width = rs.Width();
 	int resize_height = list.GetResizePanelHeight();
-	int list_height = max(list.дайВысоту(), list.GD_ROW_HEIGHT + list.GD_HDR_HEIGHT * header);
+	int list_height = max(list.GetHeight(), list.GD_ROW_HEIGHT + list.GD_HDR_HEIGHT * header);
 	int height = list_height + 4 + resize_height;
 	int drop_height = drop_lines * list.GD_ROW_HEIGHT + header * list.GD_HDR_HEIGHT + 4 + resize_height;
 	if(!display_all && height > drop_height)
 		height = drop_height;
 
-	list.resize_panel.устМинРазм(Размер(width, height));
+	list.resize_panel.SetMinSize(Size(width, height));
 
 	if(list_width > width)
 		width = list_width;
 	if(display_all && list_height > height) //check this
 		height = list_height;
 
-	Прям rw = Ктрл::GetWorkArea();
-	Прям r;
+	Rect rw = Ctrl::GetWorkArea();
+	Rect r;
 	r.left   = rs.left;
 	r.right  = rs.left + width;
 	r.top    = rs.bottom;
@@ -178,29 +178,29 @@ void DropGrid::сбрось()
 	if(searching)
 		list.ClearFound();
 	list.PopUp(this, r);
-	list.курсорПоЦентру();
+	list.CenterCursor();
 }
 
 
-void DropGrid::рисуй(Draw& w)
+void DropGrid::Paint(Draw& w)
 {
-	Размер sz = дайРазм();
-	Размер isz = clear.дайСтдРазм();
-	if(clear_button && !notnull && включен_ли() && выделен())
+	Size sz = GetSize();
+	Size isz = clear.GetStdSize();
+	if(clear_button && !notnull && IsEnabled() && IsSelected())
 	{
-		clear.покажи();
+		clear.Show();
 		clear.RightPos(3, isz.cx).TopPos((sz.cy - isz.cy) / 2, isz.cy);
 	}
 	else
-		clear.скрой();
+		clear.Hide();
 	
-	bool hf = естьФокус();
+	bool hf = HasFocus();
 	bool isnull = rowid < 0;
-	Цвет fg = hf ? SColorHighlightText() : включен_ли() ? SColorText() : SColorDisabled();
-	Цвет bg = !включен_ли() || !редактируем_ли() 
-		? EditField::дефСтиль().disabled
+	Color fg = hf ? SColorHighlightText() : IsEnabled() ? SColorText() : SColorDisabled();
+	Color bg = !IsEnabled() || !IsEditable() 
+		? EditField::StyleDefault().disabled
 	    : notnull && isnull 
-	    	? смешай(SColorPaper, Цвет(255, 0, 0), 32)
+	    	? Blend(SColorPaper, Color(255, 0, 0), 32)
 	        : hf ? SColorHighlight() : SColorPaper();
 
 	const int d = 0;
@@ -209,8 +209,8 @@ void DropGrid::рисуй(Draw& w)
 		w.DrawRect(d, d, sz.cx - d * 2, sz.cy - d * 2, bg);
 	else
 	{
-		Шрифт fnt(StdFont());
-		рисуй0(w, 1, 1, d, d, sz.cx - d * 2, sz.cy - d * 2, Format0(Null, rowid), 0, fg, bg, fnt);
+		Font fnt(StdFont());
+		Paint0(w, 1, 1, d, d, sz.cx - d * 2, sz.cy - d * 2, Format0(Null, rowid), 0, fg, bg, fnt);
 	}
 
 	if(hf)
@@ -218,35 +218,35 @@ void DropGrid::рисуй(Draw& w)
 }
 
 
-void DropGrid::леваяВнизу(Точка p, dword keyflags)
+void DropGrid::LeftDown(Point p, dword keyflags)
 {
 	WhenLeftDown();
 	if(nodrop)
-		устФокус();
+		SetFocus();
 	else
-		сбрось();	
+		Drop();	
 }
 
-void DropGrid::сфокусирован()
+void DropGrid::GotFocus()
 {
-	drop.освежиФрейм();
+	drop.RefreshFrame();
 }
 
-void DropGrid::расфокусирован()
+void DropGrid::LostFocus()
 {
-	drop.освежиФрейм();
+	drop.RefreshFrame();
 }
 
-void DropGrid::сериализуй(Поток& s)
+void DropGrid::Serialize(Stream& s)
 {
 	s % rowid;
-	if(s.грузится())
+	if(s.IsLoading())
 		list.SetCursorId(rowid);
 }
 
-bool DropGrid::прими()
+bool DropGrid::Accept()
 {
-	if(!Ктрл::прими())
+	if(!Ctrl::Accept())
 		return false;
 	if(must_change && !change)
 	{
@@ -257,51 +257,51 @@ bool DropGrid::прими()
 	return true;
 }
 
-Размер DropGrid::дайМинРазм() const
+Size DropGrid::GetMinSize() const
 {
-	return drop.дайМинРазм();
+	return drop.GetMinSize();
 }
 
 void DropGrid::State(int reason)
 {
 	if(reason == ENABLE)
 	{
-		bool b = включен_ли();
+		bool b = IsEnabled();
 		for(int i = 0; i < drop.GetButtonCount(); i++)
-			drop.GetButton(i).вкл(b);
+			drop.GetButton(i).Enable(b);
 	}
-	Ктрл::State(reason);
+	Ctrl::State(reason);
 }
 
-void DropGrid::рисуй0(Draw &w, int lm, int rm, int x, int y, int cx, int cy, const Значение &val, dword style, Цвет &fg, Цвет &bg, Шрифт &fnt, bool found, int fs, int fe)
+void DropGrid::Paint0(Draw &w, int lm, int rm, int x, int y, int cx, int cy, const Value &val, dword style, Color &fg, Color &bg, Font &fnt, bool found, int fs, int fe)
 {
-	real_size.очисть();
+	real_size.Clear();
 	
 	w.DrawRect(x, y, cx, cy, bg);
 	int nx = x + lm;
 	int ny = y + tm;
 	int ncx = cx - lm - rm;
 
-	if(IsType< Вектор<Ткст> >(val))
+	if(IsType< Vector<String> >(val))
 	{
-		const Вектор<Ткст> &v = ValueTo< Вектор<Ткст> >(val);
+		const Vector<String> &v = ValueTo< Vector<String> >(val);
 		const char * SPACE = " ";
 
 		int tcx = 0;
-		int scx = дайРазмТекста(SPACE, fnt).cx;
+		int scx = GetTextSize(SPACE, fnt).cx;
 
-		int cnt = v.дайСчёт();
-		Размер isz = GridImg::Dots2().дайРазм();
+		int cnt = v.GetCount();
+		Size isz = GridImg::Dots2().GetSize();
 		for(int i = 0; i < cnt; i++)
 		{
 			bool iscol = (i + 1) & 1;
 			if(!display_columns && iscol)
 				continue;
 			fnt.Bold(iscol);
-			Размер tsz = дайРазмТекста(v[i], fnt);
+			Size tsz = GetTextSize(v[i], fnt);
 			DrawText(w, nx, x + lm + tcx,
 			         ny, tcx + tsz.cx > ncx - isz.cx ? ncx - tcx: tsz.cx + isz.cx, cy,
-			         GD::VCENTER, ШТкст(v[i]), fnt, fg, bg, found, fs, fe, false);
+			         GD::VCENTER, WString(v[i]), fnt, fg, bg, found, fs, fe, false);
 			tcx += tsz.cx + scx;
 		}
 	}
@@ -310,20 +310,20 @@ void DropGrid::рисуй0(Draw &w, int lm, int rm, int x, int y, int cx, int cy
 }
 
 
-void DropGrid::рисуй(Draw &w, int x, int y, int cx, int cy, const Значение &val, dword style, Цвет &fg, Цвет &bg, Шрифт &fnt, bool found, int fs, int fe)
+void DropGrid::Paint(Draw &w, int x, int y, int cx, int cy, const Value &val, dword style, Color &fg, Color &bg, Font &fnt, bool found, int fs, int fe)
 {
-	рисуй0(w, lm, rm, x, y, cx, cy, val, style, fg, bg, fnt, found, fs, fe);
+	Paint0(w, lm, rm, x, y, cx, cy, val, style, fg, bg, fnt, found, fs, fe);
 }
 
-DropGrid& DropGrid::устШирину(int w)
+DropGrid& DropGrid::Width(int w)
 {
-	list_width = Ктрл::VertLayoutZoom(w);
+	list_width = Ctrl::VertLayoutZoom(w);
 	return *this;
 }
 
-DropGrid& DropGrid::устВысоту(int h)
+DropGrid& DropGrid::Height(int h)
 {
-	list_height = Ктрл::VertLayoutZoom(h);
+	list_height = Ctrl::VertLayoutZoom(h);
 	return *this;
 }
 
@@ -347,17 +347,17 @@ DropGrid& DropGrid::SetValueColumn(int n)
 
 DropGrid& DropGrid::AddValueColumn(int n)
 {
-	value_cols.добавь(n);
+	value_cols.Add(n);
 	return *this;
 }
 
 DropGrid& DropGrid::AddValueColumns(int first /* = -1*/, int last /* = -1*/)
 {
 	int s = first < 0 ? 0: first;
-	int e = last < 0 ? list.дайСчётКолонок() - 1: last;
+	int e = last < 0 ? list.GetColumnCount() - 1: last;
 
 	for(int i = s; i <= e; i++)
-		 value_cols.добавь(i);
+		 value_cols.Add(i);
 
 	return *this;
 }
@@ -397,7 +397,7 @@ DropGrid& DropGrid::ColorRows(bool b)
 	return *this;
 }
 
-DropGrid& DropGrid::неПусто(bool b)
+DropGrid& DropGrid::NotNull(bool b)
 {
 	notnull = b;
 	return *this;
@@ -409,9 +409,9 @@ DropGrid& DropGrid::ValueAsKey(bool b)
 	return *this;
 }
 
-DropGrid& DropGrid::устДисплей(GridDisplay &d)
+DropGrid& DropGrid::SetDisplay(GridDisplay &d)
 {
-	дисплей = &d;
+	display = &d;
 	return *this;
 }
 
@@ -458,9 +458,9 @@ DropGrid& DropGrid::ClearButton(bool b /* = true*/)
 {
 	clear_button = b;
 	if(b)
-		Ктрл::добавь(clear);
+		Ctrl::Add(clear);
 	else
-		Ктрл::удалиОтпрыск(&clear);
+		Ctrl::RemoveChild(&clear);
 	
 	return *this;
 }
@@ -473,80 +473,80 @@ DropGrid& DropGrid::NoDrop(bool b /* = true*/)
 	return *this;
 }
 
-int DropGrid::дайСчёт() const
+int DropGrid::GetCount() const
 {
-	return list.дайСчёт();
+	return list.GetCount();
 }
 
-Значение DropGrid::дайДанные() const
+Value DropGrid::GetData() const
 {
 	return valuekey
-		? значение
+		? value
 	    : rowid >= 0
-	    	? list.дай(key_col)
+	    	? list.Get(key_col)
 	    	: notnull 
-	    		? ОшибкаНеПусто()
+	    		? NotNullError()
 	    		: Null;
 }
 
-Значение DropGrid::дайЗначение() const
+Value DropGrid::GetValue() const
 {
-	return значение;
+	return value;
 }
 
-Значение DropGrid::дайЗначение(int r) const
+Value DropGrid::GetValue(int r) const
 {
 	return MakeValue(r);
 }
 
-Значение DropGrid::найдиЗначение(const Значение& v) const
+Value DropGrid::FindValue(const Value& v) const
 {
-	int r = list.найди(v, key_col);
+	int r = list.Find(v, key_col);
 	if(r < 0)
 		return Null;
 
 	return MakeValue(r);
 }
 
-Вектор<Ткст> DropGrid::FindVector(const Значение& v) const
+Vector<String> DropGrid::FindVector(const Value& v) const
 {
-	int r = list.найди(v, key_col);
+	int r = list.Find(v, key_col);
 	if(r < 0)
-		return Вектор<Ткст>();
+		return Vector<String>();
 
 	return MakeVector(r);
 }
 
-bool DropGrid::FindMove(const Значение& v)
+bool DropGrid::FindMove(const Value& v)
 {
-	int r = list.найди(v, key_col);
+	int r = list.Find(v, key_col);
 	if(r >= 0)
 		list.Move(r);
 	return r >= 0;
 }
 
-Значение DropGrid::дайКлюч() const
+Value DropGrid::GetKey() const
 {
-	return rowid >= 0 ? list.дай(key_col) : Null;
+	return rowid >= 0 ? list.Get(key_col) : Null;
 }
 
 void DropGrid::UpdateValue()
 {
-	if(!list.курсор_ли())
+	if(!list.IsCursor())
 		return;
 
-	значение = MakeValue();
+	value = MakeValue();
 }
 
-void DropGrid::устДанные(const Значение& v)
+void DropGrid::SetData(const Value& v)
 {
-	int row = list.найди(v, key_col);
+	int row = list.Find(v, key_col);
 	if(row >= 0)
 	{
-		list.устКурсор(row);
+		list.SetCursor(row);
 		UpdateValue();
 		DoAction(row, data_action, false);
-		освежи();
+		Refresh();
 	}
 	else
 		ClearValue();
@@ -572,32 +572,32 @@ void DropGrid::DoAction(int row, bool action, bool chg)
 	}
 }
 
-GridCtrl::ItemRect& DropGrid::добавьКолонку(const char *имя, int width, bool idx)
+GridCtrl::ItemRect& DropGrid::AddColumn(const char *name, int width, bool idx)
 {
-	return list.добавьКолонку(имя, width, idx);
+	return list.AddColumn(name, width, idx);
 }
 
-GridCtrl::ItemRect& DropGrid::добавьКолонку(Ид id, const char *имя, int width, bool idx)
+GridCtrl::ItemRect& DropGrid::AddColumn(Id id, const char *name, int width, bool idx)
 {
-	return list.добавьКолонку(id, имя, width, idx);
+	return list.AddColumn(id, name, width, idx);
 }
 
-GridCtrl::ItemRect& DropGrid::добавьИндекс(const char *имя)
+GridCtrl::ItemRect& DropGrid::AddIndex(const char *name)
 {
-	return list.добавьИндекс(имя);
+	return list.AddIndex(name);
 }
 
-GridCtrl::ItemRect& DropGrid::добавьИндекс(Ид id)
+GridCtrl::ItemRect& DropGrid::AddIndex(Id id)
 {
-	return list.добавьИндекс(id);
+	return list.AddIndex(id);
 }
 
-MultiButton::SubButton& DropGrid::AddButton(int тип, const Callback &cb)
+MultiButton::SubButton& DropGrid::AddButton(int type, const Callback &cb)
 {
 	MultiButton::SubButton& btn = drop.InsertButton(1);
 	
-	Рисунок img;
-	switch(тип)
+	Image img;
+	switch(type)
 	{
 		case BTN_PLUS:
 			img = GridImg::SelPlus;
@@ -621,7 +621,7 @@ MultiButton::SubButton& DropGrid::AddButton(int тип, const Callback &cb)
 			img = GridImg::SelCross;
 			break;
 	}
-	btn.устРисунок(img);
+	btn.SetImage(img);
 	btn.SetMonoImage(Grayscale(img));
 	btn.WhenPush = cb;
 	return btn;
@@ -647,10 +647,10 @@ MultiButton::SubButton& DropGrid::AddClear()
 	return AddButton(BTN_CLEAN, THISBACK(ClearValue));
 }
 
-MultiButton::SubButton& DropGrid::добавьТекст(const char* label, const Callback& cb)
+MultiButton::SubButton& DropGrid::AddText(const char* label, const Callback& cb)
 {
 	MultiButton::SubButton& btn = drop.InsertButton(1);
-	btn.устНадпись(label);
+	btn.SetLabel(label);
 	btn.WhenPush = cb;
 	return btn;
 }
@@ -663,31 +663,31 @@ MultiButton::SubButton& DropGrid::GetButton(int n)
 void DropGrid::DoClearValue()
 {
 	ClearValue();
-	устФокус();
+	SetFocus();
 }
 
 void DropGrid::ClearValue()
 {
 	change = false;
-	значение = Null;
+	value = Null;
 	rowid = -1;
 	list.ClearCursor();
 	if(null_action)
 		UpdateActionRefresh();
 	else
-		обновиОсвежи();
+		UpdateRefresh();
 }
 
-void DropGrid::переустанов()
+void DropGrid::Reset()
 {
-	list.переустанов();
+	list.Reset();
 	ClearValue();
-	value_cols.очисть();
+	value_cols.Clear();
 }
 
-void DropGrid::очисть()
+void DropGrid::Clear()
 {
-	list.очисть();
+	list.Clear();
 	ClearValue();
 }
 
@@ -696,89 +696,89 @@ void DropGrid::Ready(bool b /* = true*/)
 	list.Ready(b);
 }
 
-Значение DropGrid::дай(int c) const
+Value DropGrid::Get(int c) const
 {
-	return list.дай(c);
+	return list.Get(c);
 }
 
-Значение DropGrid::дай(Ид id) const
+Value DropGrid::Get(Id id) const
 {
-	return list.дай(id);
+	return list.Get(id);
 }
 
-Значение DropGrid::дай(int r, int c) const
+Value DropGrid::Get(int r, int c) const
 {
-	return list.дай(r, c);
+	return list.Get(r, c);
 }
 
-Значение DropGrid::дай(int r, Ид id) const
+Value DropGrid::Get(int r, Id id) const
 {
-	return list.дай(r, id);
+	return list.Get(r, id);
 }
 
-Значение DropGrid::дайПредш(int c) const
-{
-	int r = list.GetPrevCursor();
-	return r >= 0 ? дай(r, c) : Null;
-}
-
-Значение DropGrid::дайПредш(Ид id) const
+Value DropGrid::GetPrev(int c) const
 {
 	int r = list.GetPrevCursor();
-	return r >= 0 ? дай(r, id) : Null;
+	return r >= 0 ? Get(r, c) : Null;
 }
 
-void DropGrid::уст(int c, const Значение& v)
+Value DropGrid::GetPrev(Id id) const
 {
-	list.уст(c, v);
+	int r = list.GetPrevCursor();
+	return r >= 0 ? Get(r, id) : Null;
 }
 
-void DropGrid::уст(Ид id, const Значение& v)
+void DropGrid::Set(int c, const Value& v)
 {
-	list.уст(id, v);
+	list.Set(c, v);
 }
 
-void DropGrid::уст(int r, int c, const Значение& v)
+void DropGrid::Set(Id id, const Value& v)
 {
-	list.уст(r, c, v);
+	list.Set(id, v);
 }
 
-void DropGrid::уст(int r, Ид id, const Значение& v)
+void DropGrid::Set(int r, int c, const Value& v)
 {
-	list.уст(r, id, v);
+	list.Set(r, c, v);
 }
 
-void DropGrid::уст(int r, const Вектор<Значение> &v, int data_offset, int column_offset)
+void DropGrid::Set(int r, Id id, const Value& v)
 {
-	list.уст(r, v, data_offset, column_offset);
+	list.Set(r, id, v);
 }
 
-void DropGrid::добавь(const Вектор<Значение> &v, int offset, int count, bool hidden)
+void DropGrid::Set(int r, const Vector<Value> &v, int data_offset, int column_offset)
 {
-	list.добавь(v, offset, count, hidden);
+	list.Set(r, v, data_offset, column_offset);
 }
 
-Ткст DropGrid::дайТкст(Ид id)
+void DropGrid::Add(const Vector<Value> &v, int offset, int count, bool hidden)
 {
-	return list.дайТкст(id);
+	list.Add(v, offset, count, hidden);
 }
 
-Значение& DropGrid::operator() (int r, int c)
+String DropGrid::GetString(Id id)
+{
+	return list.GetString(id);
+}
+
+Value& DropGrid::operator() (int r, int c)
 {
 	return list(r, c);
 }
 
-Значение& DropGrid::operator() (int c)
+Value& DropGrid::operator() (int c)
 {
 	return list(c);
 }
 
-Значение& DropGrid::operator() (Ид id)
+Value& DropGrid::operator() (Id id)
 {
 	return list(id);
 }
 
-Значение& DropGrid::operator() (int r, Ид id)
+Value& DropGrid::operator() (int r, Id id)
 {
 	return list(r, id);
 }
@@ -788,14 +788,14 @@ GridCtrl::ItemRect& DropGrid::GetRow(int r)
 	return list.GetRow(r);
 }
 
-int DropGrid::найди(const Значение& v, int col, int opt)
+int DropGrid::Find(const Value& v, int col, int opt)
 {
-	return list.найди(v, col, 0, opt);
+	return list.Find(v, col, 0, opt);
 }
 
-int DropGrid::найди(const Значение& v, Ид id, int opt)
+int DropGrid::Find(const Value& v, Id id, int opt)
 {
-	return list.найди(v, id, opt);
+	return list.Find(v, id, opt);
 }
 
 int DropGrid::GetCurrentRow() const
@@ -808,10 +808,10 @@ void DropGrid::CancelUpdate()
 	int prevrow = list.GetPrevCursor();
 	if(prevrow >= 0)
 	{
-		list.устКурсор(prevrow);
+		list.SetCursor(prevrow);
 		UpdateValue();
 		rowid = list.GetRowId(prevrow);
-		освежи();
+		Refresh();
 	}
 	else
 		ClearValue();
@@ -820,44 +820,44 @@ void DropGrid::CancelUpdate()
 void DropGrid::Change(int dir)
 {
 	int c = -1;
-	if(!list.курсор_ли())
+	if(!list.IsCursor())
 	{
 		if(dir < 0)
-			list.идиВКон();
+			list.GoEnd();
 		else
-			list.идиВНач();
+			list.GoBegin();
 
-		c = list.дайКурсор();
+		c = list.GetCursor();
 	}
 	else
-		c = list.дайКурсор() + dir;
+		c = list.GetCursor() + dir;
 
 	if(list.IsValidCursor(c) && list.IsRowClickable(c))
 	{
-		list.устКурсор(c);
+		list.SetCursor(c);
 		UpdateValue();
 		DoAction(c);
 	}
 
-	освежи();
+	Refresh();
 }
 
 void DropGrid::SearchCursor()
 {
-	if(!list.курсор_ли())
+	if(!list.IsCursor())
 		return;
 	
 	if(trowid < -1)
 		trowid = rowid;
 	
-	значение = list.дай(value_col);
+	value = list.Get(value_col);
 	rowid = list.GetRowId();
-	освежи();
+	Refresh();
 }
 
-bool DropGrid::Ключ(dword k, int)
+bool DropGrid::Key(dword k, int)
 {
-	if(толькочтен_ли()) return false;
+	if(IsReadOnly()) return false;
 
 	if(drop_enter && k == K_ENTER)
 		k = K_ALT_DOWN;
@@ -865,7 +865,7 @@ bool DropGrid::Ключ(dword k, int)
 	switch(k)
 	{
 		case K_ALT_DOWN:
-			сбрось();
+			Drop();
 			break;
 		case K_DOWN:
 		case K_RIGHT:
@@ -881,9 +881,9 @@ bool DropGrid::Ключ(dword k, int)
 		default:
 			if(searching && k >= 32 && k < 65536)
 			{
-				if(!list.открыт())
-					сбрось();
-				list.ищи(k);
+				if(!list.IsOpen())
+					Drop();
+				list.Search(k);
 			}
 			return false;
 	}
@@ -892,7 +892,7 @@ bool DropGrid::Ключ(dword k, int)
 
 int DropGrid::AddColumns(int cnt)
 {
-	if(!list.дайСчётКолонок())
+	if(!list.GetColumnCount())
 	{
 		if(cnt <= 2)
 		{
@@ -901,21 +901,21 @@ int DropGrid::AddColumns(int cnt)
 		}
 		if(cnt == 1)
 		{
-			list.добавьКолонку();
+			list.AddColumn();
 			key_col = value_col = 0;
 		}
 		else if(cnt == 2)
 		{
-			list.добавьИндекс();
-			list.добавьКолонку();
+			list.AddIndex();
+			list.AddColumn();
 			key_col = 0;
 			value_col = 1;
 		}
 		else
 			for(int i = 0; i < cnt; i++)
-				list.добавьКолонку();
+				list.AddColumn();
 	}
-	return list.дайСчёт();
+	return list.GetCount();
 }
 
 void DropGrid::GoTop()
@@ -930,26 +930,26 @@ int DropGrid::SetIndex(int n)
 	n = list.GetRowId(n);
 	if(n >= 0)
 	{
-		list.устКурсор(n);
+		list.SetCursor(n);
 		UpdateValue();
 		DoAction(n);
 	}
 	return r;
 }
 
-int DropGrid::дайИндекс() const
+int DropGrid::GetIndex() const
 {
 	return rowid;
 }
 
-bool DropGrid::выделен()
+bool DropGrid::IsSelected()
 {
 	return rowid >= 0;
 }
 
-bool DropGrid::пустой()
+bool DropGrid::IsEmpty()
 {
-	return list.пустой();
+	return list.IsEmpty();
 }
 
 bool DropGrid::IsChange()
@@ -967,70 +967,70 @@ void DropGrid::ClearChange()
 	change = false;
 }
 
-Вектор<Ткст> DropGrid::MakeVector(int r) const
+Vector<String> DropGrid::MakeVector(int r) const
 {
-	Вектор<Ткст> v;
-	int cnt = value_cols.дайСчёт();
+	Vector<String> v;
+	int cnt = value_cols.GetCount();
 	int fc = list.GetFixedColumnCount();
 	if(cnt > 0)
 	{
 		for(int i = 0; i < cnt; i++)
 		{
-			Значение val = list.дай(r, value_cols[i]);
-			if(пусто_ли(val))
+			Value val = list.Get(r, value_cols[i]);
+			if(IsNull(val))
 				continue;
-			v.добавь(list.GetColumnName(value_cols[i]));
-			v.добавь(list.GetStdConvertedColumn(value_cols[i] + fc, val));
+			v.Add(list.GetColumnName(value_cols[i]));
+			v.Add(list.GetStdConvertedColumn(value_cols[i] + fc, val));
 		}
 	}
 	return v;
 }
 
-Значение DropGrid::MakeValue(int r, bool columns) const
+Value DropGrid::MakeValue(int r, bool columns) const
 {
 	if(r < 0)
-		r = list.дайКурсор();
+		r = list.GetCursor();
 
 	if(r < 0)
 		return Null;
 
-	int cnt = value_cols.дайСчёт();
+	int cnt = value_cols.GetCount();
 	if(cnt > 0)
 	{
-		Ткст v;
+		String v;
 		int fc = list.GetFixedColumnCount();
 		for(int i = 0; i < cnt; i++)
 		{
-			Значение val = list.дай(r, value_cols[i]);
-			if(пусто_ли(val))
+			Value val = list.Get(r, value_cols[i]);
+			if(IsNull(val))
 				continue;
 			if(columns)
 			{
 				v += list.GetColumnName(value_cols[i]);
 				v += ' ';
 			}
-			v += (Ткст) list.GetStdConvertedColumn(value_cols[i] + fc, val);
+			v += (String) list.GetStdConvertedColumn(value_cols[i] + fc, val);
 			v += ' ';
 		}
 		return v;
 	}
 	else
-		return list.дай(r, value_col);
+		return list.Get(r, value_col);
 }
 
-Значение DropGrid::Format0(const Значение& q, int rowid) const
+Value DropGrid::Format0(const Value& q, int rowid) const
 {
-	int r = rowid >= 0 ? list.FindRow(rowid + list.GetFixedCount()) : list.найди(q, key_col);
+	int r = rowid >= 0 ? list.FindRow(rowid + list.GetFixedCount()) : list.Find(q, key_col);
 	if(r < 0)
 		return Null;
 
-	if(value_cols.дайСчёт() > 0)
-		return RawPickToValue< Вектор<Ткст> >(MakeVector(r));
+	if(value_cols.GetCount() > 0)
+		return RawPickToValue< Vector<String> >(MakeVector(r));
 	else
-		return list.GetConvertedColumn(value_col + list.GetFixedColumnCount(), list.дай(r, value_col));
+		return list.GetConvertedColumn(value_col + list.GetFixedColumnCount(), list.Get(r, value_col));
 }
 
-Значение DropGrid::фмт(const Значение& q) const
+Value DropGrid::Format(const Value& q) const
 {
 	return Format0(q, -1);
 }
@@ -1040,23 +1040,23 @@ GridCtrl::ItemRect& DropGrid::AddRow(int n, int size)
 	return list.AddRow(n, size);
 }
 
-DropGrid& DropGrid::добавьСепаратор(Цвет c)
+DropGrid& DropGrid::AddSeparator(Color c)
 {
-	list.добавьСепаратор(c);
+	list.AddSeparator(c);
 	return *this;
 }
 
 //$-
-#define E__Addv0(I)    list.уст(q, I - 1, p##I)
+#define E__Addv0(I)    list.Set(q, I - 1, p##I)
 #define E__AddF0(I) \
-DropGrid& DropGrid::добавь(__List##I(E__Value)) { \
+DropGrid& DropGrid::Add(__List##I(E__Value)) { \
 	int q = AddColumns(I); \
 	__List##I(E__Addv0); \
 	return *this; \
 }
 __Expand(E__AddF0)
 
-#define E__Addv1(I)    list.уст(q, I - 1, p##I)
+#define E__Addv1(I)    list.Set(q, I - 1, p##I)
 #define E__AddF1(I) \
 GridCtrl::ItemRect& DropGrid::AddRow(__List##I(E__Value)) { \
 	int q = AddColumns(I); \

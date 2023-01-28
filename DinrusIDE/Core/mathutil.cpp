@@ -1,6 +1,6 @@
 #include "Core.h"
 
-namespace РНЦПДинрус {
+namespace Upp {
 
 // iscale: computes x * y / z.
 
@@ -102,60 +102,60 @@ int itimesceil(int x, int y)
 
 // fround: converts double to nearest integer. Checks integer limits.
 
-int fround(double значение)
+int fround(double value)
 {
-	return значение >= INT_MAX ? INT_MAX : значение <= INT_MIN ? INT_MIN
-		: (int)floor(значение + 0.5);
+	return value >= INT_MAX ? INT_MAX : value <= INT_MIN ? INT_MIN
+		: (int)floor(value + 0.5);
 }
 
 // ffloor: converts double to integer rounding towards -infinity. Checks integer limits.
 
-int ffloor(double значение)
+int ffloor(double value)
 {
-	return значение >= INT_MAX ? INT_MAX : значение <= INT_MIN ? INT_MIN
-		: (int)floor(значение);
+	return value >= INT_MAX ? INT_MAX : value <= INT_MIN ? INT_MIN
+		: (int)floor(value);
 }
 
 // fceil: converts double to integer rounding towards +infinity. Checks integer limits.
 
-int fceil(double значение)
+int fceil(double value)
 {
-	return значение >= INT_MAX ? INT_MAX : значение <= INT_MIN ? INT_MIN
-		: (int)ceil(значение);
+	return value >= INT_MAX ? INT_MAX : value <= INT_MIN ? INT_MIN
+		: (int)ceil(value);
 }
 
 // fround: converts double to nearest integer. Checks integer limits.
 
-int64 fround64(double значение)
+int64 fround64(double value)
 {
-	return значение >= (double)INT64_MAX ? INT64_MAX : значение <= (double)INT64_MIN ? INT64_MIN
-		: (int64)floor(значение + 0.5);
+	return value >= (double)INT64_MAX ? INT64_MAX : value <= (double)INT64_MIN ? INT64_MIN
+		: (int64)floor(value + 0.5);
 }
 
 // ffloor: converts double to integer rounding towards -infinity. Checks integer limits.
 
-int64 ffloor64(double значение)
+int64 ffloor64(double value)
 {
-	return значение >= (double)INT64_MAX ? INT64_MAX : значение <= (double)INT64_MIN ? INT64_MIN
-		: (int64)floor(значение);
+	return value >= (double)INT64_MAX ? INT64_MAX : value <= (double)INT64_MIN ? INT64_MIN
+		: (int64)floor(value);
 }
 
 // fceil: converts double to integer rounding towards +infinity. Checks integer limits.
 
-int64 fceil64(double значение)
+int64 fceil64(double value)
 {
-	return значение >= (double)INT64_MAX ? INT64_MAX : значение <= (double)INT64_MIN ? INT64_MIN
-		: (int64)ceil(значение);
+	return value >= (double)INT64_MAX ? INT64_MAX : value <= (double)INT64_MIN ? INT64_MIN
+		: (int64)ceil(value);
 }
 
-// какТкст: converts double numbers to strings.
+// asString: converts double numbers to strings.
 
-Ткст какТкст(double x, int digits)
+String AsString(double x, int digits)
 {
-	return фмтГ(x, digits);
+	return FormatG(x, digits);
 }
 
-// modulo: working версия of math function `fmod'.
+// modulo: working version of math function `fmod'.
 
 double modulo(double x, double y)
 {
@@ -164,7 +164,7 @@ double modulo(double x, double y)
 
 int ilog10(double d)
 {
-	if(пусто_ли(d) || d == 0)
+	if(IsNull(d) || d == 0)
 		return Null;
 	return fceil(log10(fabs(d)));
 }
@@ -189,7 +189,7 @@ double ipow10(int i)
 
 double normalize(double d, int& exp)
 {
-	if(пусто_ли(d) || d == 0)
+	if(IsNull(d) || d == 0)
 	{
 		exp = Null;
 		return d;
@@ -206,7 +206,7 @@ double normalize(double d, int& exp)
 double roundr(double d, int digits)
 {
 	int i = ilog10(d);
-	if(пусто_ли(i))
+	if(IsNull(i))
 		return d;
 	double fac = ipow10(i - digits);
 	return floor(d / fac + 0.5) * fac;
@@ -215,7 +215,7 @@ double roundr(double d, int digits)
 double floorr(double d, int digits)
 {
 	int i = ilog10(d);
-	if(пусто_ли(i))
+	if(IsNull(i))
 		return d;
 	double fac = ipow10(i - digits);
 	return floor(d / fac) * fac;
@@ -224,7 +224,7 @@ double floorr(double d, int digits)
 double ceilr(double d, int digits)
 {
 	int i = ilog10(d);
-	if(пусто_ли(i))
+	if(IsNull(i))
 		return d;
 	double fac = ipow10(i - digits);
 	return ceil(d / fac) * fac;

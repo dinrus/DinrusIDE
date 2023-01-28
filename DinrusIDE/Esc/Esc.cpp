@@ -1,7 +1,7 @@
 #include <Esc/Esc.h>
 
 
-namespace РНЦП {
+namespace Upp {
 
 #ifdef _MSC_VER
 #pragma inline_depth(255)
@@ -12,44 +12,44 @@ namespace РНЦП {
 
 void Esc::OutOfMemory()
 {
-	выведиОш("Вне памяти");
+	ThrowError("Out of memory");
 }
 
 void Esc::TestLimit()
 {
 	LTIMING("TestLimit");
-	if(!пусто_ли(op_limit))
+	if(!IsNull(op_limit))
 		if(op_limit < 0)
-			выведиОш("out of operations limit - considered frozen");
+			ThrowError("out of operations limit - considered frozen");
 	if(EscValue::GetTotalCount() >= EscValue::GetMaxTotalCount())
 		OutOfMemory();
 }
 
-EscValue Esc::дай(const SRVal& val)
+EscValue Esc::Get(const SRVal& val)
 {
-	LTIMING("дай");
+	LTIMING("Get");
 	if(skipexp)
 		return (int64)1;
 	EscValue v = val.lval ? *val.lval : val.rval;
 	if(val.sbs.IsArray()) {
-		const Вектор<EscValue>& sbs = val.sbs.дайМассив();
-		for(int i = 0; i < sbs.дайСчёт(); i++) {
+		const Vector<EscValue>& sbs = val.sbs.GetArray();
+		for(int i = 0; i < sbs.GetCount(); i++) {
 			const EscValue& ss = sbs[i];
 			if(v.IsMap()) //!!!! (problem with a[1, 2]
 				v = v.MapGet(ss);
 			else
 			if(v.IsArray()) {
-				int count = v.дайСчёт();
-				if(ss.IsArray() && ss.дайМассив().дайСчёт() >= 2) {
+				int count = v.GetCount();
+				if(ss.IsArray() && ss.GetArray().GetCount() >= 2) {
 					EscValue v1 = ss.ArrayGet(0);
 					EscValue v2 = ss.ArrayGet(1);
-					int i = v1.дайЦел();
+					int i = v1.GetInt();
 					int n = count - i;
-					if(ss.дайСчёт() == 2)
-						n = v2.цел_ли() ? v2.дайЦел() : n;
+					if(ss.GetCount() == 2)
+						n = v2.IsInt() ? v2.GetInt() : n;
 					else {
-						if(v2.цел_ли()) {
-							n = v2.дайЦел();
+						if(v2.IsInt()) {
+							n = v2.GetInt();
 							if(n < 0)
 								n += count;
 							n -= i;
@@ -58,37 +58,37 @@ EscValue Esc::дай(const SRVal& val)
 					if(i >= 0 && n >= 0 && i + n <= count)
 						v = v.ArrayGet(i, n);
 					else
-						выведиОш("slice out of range");
+						ThrowError("slice out of range");
 				}
 				else {
-					int64 i = Цел(ss, "Индекс");
+					int64 i = Int(ss, "index");
 					if(i < 0)
 						i += count;
 					if(i >= 0 && i < count)
 						v = v.ArrayGet((int)i);
 					else
-						выведиОш("Индекс out of range");
+						ThrowError("index out of range");
 				}
 			}
 			else
-				выведиОш("invalid indirection");
+				ThrowError("invalid indirection");
 			TestLimit();
 		}
 	}
 	return v;
 }
 
-void Esc::присвой(EscValue& val, const Вектор<EscValue>& sbs, int si, const EscValue& src)
+void Esc::Assign(EscValue& val, const Vector<EscValue>& sbs, int si, const EscValue& src)
 {
-	LTIMING("присвой");
+	LTIMING("Assign");
 	const EscValue& ss = sbs[si++];
-	if(val.проц_ли())
+	if(val.IsVoid())
 		val.SetEmptyMap();
 	if(val.IsMap()) {
-		if(si < sbs.дайСчёт()) {
+		if(si < sbs.GetCount()) {
 			EscValue x = val.MapGet(ss);
 			val.MapSet(ss, 0.0);
-			присвой(x, sbs, si, src);
+			Assign(x, sbs, si, src);
 			val.MapSet(ss, x);
 		}
 		else
@@ -97,97 +97,97 @@ void Esc::присвой(EscValue& val, const Вектор<EscValue>& sbs, int s
 	}
 	else
 	if(val.IsArray()) {
-		if(si < sbs.дайСчёт()) {
+		if(si < sbs.GetCount()) {
 			if(ss.IsArray())
-				выведиОш("slice must be last subscript");
-			int64 i = Цел(ss, "Индекс");
-			if(i >= 0 && i < val.дайСчёт()) {
+				ThrowError("slice must be last subscript");
+			int64 i = Int(ss, "index");
+			if(i >= 0 && i < val.GetCount()) {
 				EscValue x = val.ArrayGet((int)i);
 				val.ArraySet((int)i, 0.0);
-				присвой(x, sbs, si, src);
+				Assign(x, sbs, si, src);
 				if(!val.ArraySet((int)i, x))
 					OutOfMemory();
 				return;
 			}
 		}
 		else {
-			int count = val.дайСчёт();
+			int count = val.GetCount();
 			if(ss.IsArray()) {
-				if(!src.IsArray() || ss.дайМассив().дайСчёт() < 2)
-					выведиОш("only array can be assigned to the slice");
+				if(!src.IsArray() || ss.GetArray().GetCount() < 2)
+					ThrowError("only array can be assigned to the slice");
 				EscValue v1 = ss.ArrayGet(0);
 				EscValue v2 = ss.ArrayGet(1);
-				int i = v1.цел_ли() ? v1.дайЦел() : 0;
+				int i = v1.IsInt() ? v1.GetInt() : 0;
 				int n = count - i;
-				if(ss.дайСчёт() == 2)
-					n = v2.цел_ли() ? v2.дайЦел() : n;
+				if(ss.GetCount() == 2)
+					n = v2.IsInt() ? v2.GetInt() : n;
 				else {
-					if(v2.цел_ли()) {
-						n = v2.дайЦел();
+					if(v2.IsInt()) {
+						n = v2.GetInt();
 						if(n < 0)
 							n += count;
 						n -= i;
 					}
 				}
 				if(i >= 0 && n >= 0 && i + n <= count) {
-					val.замени(i, n, src);
+					val.Replace(i, n, src);
 					return;
 				}
 				else
-					выведиОш("slice out of range");
+					ThrowError("slice out of range");
 			}
 			else {
-				int64 i = ss.проц_ли() ? val.дайСчёт() : Цел(ss, "Индекс");
+				int64 i = ss.IsVoid() ? val.GetCount() : Int(ss, "index");
 				if(i < 0)
 					i = count + i;
 				if(i >= 0 && i < INT_MAX) {
 					if(!val.ArraySet((int)i, src))
-						выведиОш("out of memory");
+						ThrowError("out of memory");
 					return;
 				}
 			}
 		}
 	}
-	выведиОш("invalid indirection");
+	ThrowError("invalid indirection");
 }
 
-void Esc::присвой(const SRVal& val, const EscValue& src)
+void Esc::Assign(const SRVal& val, const EscValue& src)
 {
 	if(skipexp)
 		return;
 	if(!val.lval)
-		выведиОш("l-значение required");
-	if(val.sbs.IsArray() && val.sbs.дайСчёт())
-		присвой(*val.lval, val.sbs.дайМассив(), 0, src);
+		ThrowError("l-value required");
+	if(val.sbs.IsArray() && val.sbs.GetCount())
+		Assign(*val.lval, val.sbs.GetArray(), 0, src);
 	else
 		*val.lval = src;
 }
 
-EscValue Esc::ExecuteLambda(const Ткст& id, EscValue lambda, SRVal self, Вектор<SRVal>& arg)
+EscValue Esc::ExecuteLambda(const String& id, EscValue lambda, SRVal self, Vector<SRVal>& arg)
 {
 	LTIMING("ExecuteLambda");
 	if(!lambda.IsLambda())
-		выведиОш(фмт("'%s' is not a lambda", id));
+		ThrowError(Format("'%s' is not a lambda", id));
 	const EscLambda& l = lambda.GetLambda();
-	if(!l.varargs && arg.дайСчёт() > l.arg.дайСчёт()
-	   || arg.дайСчёт() < l.arg.дайСчёт() - l.def.дайСчёт())
-		выведиОш("invalid number of arguments in call to '" + id + "'");
+	if(!l.varargs && arg.GetCount() > l.arg.GetCount()
+	   || arg.GetCount() < l.arg.GetCount() - l.def.GetCount())
+		ThrowError("invalid number of arguments in call to '" + id + "'");
 	Esc sub(global, l.code, op_limit, l.filename, l.line);
-	sub.self = дай(self);
-	for(int i = 0; i < l.arg.дайСчёт(); i++) {
-		sub.var.дайДобавь(l.arg[i]) =
-			i < arg.дайСчёт() ? дай(arg[i])
-		                       : Evaluatex(l.def[i - (l.arg.дайСчёт() - l.def.дайСчёт())], global, op_limit);
+	sub.self = Get(self);
+	for(int i = 0; i < l.arg.GetCount(); i++) {
+		sub.var.GetAdd(l.arg[i]) =
+			i < arg.GetCount() ? Get(arg[i])
+		                       : Evaluatex(l.def[i - (l.arg.GetCount() - l.def.GetCount())], global, op_limit);
 		TestLimit();
 	}
 	EscValue retval;
-	Массив<EscValue> argvar;
+	Array<EscValue> argvar;
 	if(l.escape) {
-		argvar = sub.var.подбериЗначения();
-		for(int i = l.arg.дайСчёт(); i < arg.дайСчёт(); i++) {
-			argvar.добавь(дай(arg[i]));
+		argvar = sub.var.PickValues();
+		for(int i = l.arg.GetCount(); i < arg.GetCount(); i++) {
+			argvar.Add(Get(arg[i]));
 		}
-		EscValue v = дай(self);
+		EscValue v = Get(self);
 		EscEscape e(*this, v, argvar);
 		e.id = id;
 		l.escape(e);
@@ -196,37 +196,37 @@ EscValue Esc::ExecuteLambda(const Ткст& id, EscValue lambda, SRVal self, В�
 	}
 	else {
 		if(l.varargs) {
-			EscValue& argv = sub.var.дайДобавь("argv");
+			EscValue& argv = sub.var.GetAdd("argv");
 			argv.SetEmptyArray();
-			for(int i = l.arg.дайСчёт(); i < arg.дайСчёт(); i++)
-				argv.ArrayAdd(дай(arg[i]));
+			for(int i = l.arg.GetCount(); i < arg.GetCount(); i++)
+				argv.ArrayAdd(Get(arg[i]));
 		}
-		sub.пуск();
+		sub.Run();
 		retval = sub.return_value;
-		argvar = sub.var.подбериЗначения();
+		argvar = sub.var.PickValues();
 	}
-	for(int i = 0; i < l.inout.дайСчёт(); i++)
-		if(l.inout[i] && i < arg.дайСчёт() && arg[i].lval)
-			присвой(arg[i], argvar[i]);
+	for(int i = 0; i < l.inout.GetCount(); i++)
+		if(l.inout[i] && i < arg.GetCount() && arg[i].lval)
+			Assign(arg[i], argvar[i]);
 	if(self.lval)
-		присвой(self, sub.self);
+		Assign(self, sub.self);
 	return retval;
 }
 
-void Esc::Subscript(Esc::SRVal& r, Esc::SRVal _self, Ткст id)
+void Esc::Subscript(Esc::SRVal& r, Esc::SRVal _self, String id)
 {
 	LTIMING("Subscript");
 	for(;;) {
 		TestLimit();
-		if(char('['))
-			if(char(']'))
+		if(Char('['))
+			if(Char(']'))
 				r.sbs.ArrayAdd(EscValue());
 			else {
 				EscValue v1, v2;
-				if(!сим_ли(',') && !сим_ли(':'))
+				if(!IsChar(',') && !IsChar(':'))
 					v1 = GetExp();
-				if(char(',')) {
-					if(!сим_ли(']'))
+				if(Char(',')) {
+					if(!IsChar(']'))
 						v2 = GetExp();
 					EscValue x;
 					x.ArrayAdd(v1);
@@ -234,8 +234,8 @@ void Esc::Subscript(Esc::SRVal& r, Esc::SRVal _self, Ткст id)
 					r.sbs.ArrayAdd(x);
 				}
 				else
-				if(char(':')) {
-					if(!сим_ли(']'))
+				if(Char(':')) {
+					if(!IsChar(']'))
 						v2 = GetExp();
 					EscValue x;
 					x.ArrayAdd(v1);
@@ -245,41 +245,41 @@ void Esc::Subscript(Esc::SRVal& r, Esc::SRVal _self, Ткст id)
 				}
 				else
 					r.sbs.ArrayAdd(v1);
-				передайСим(']');
+				PassChar(']');
 			}
 		else
-		if(char('.')) {
+		if(Char('.')) {
 			_self = r;
-			r.sbs.ArrayAdd(id = читайИд());
+			r.sbs.ArrayAdd(id = ReadId());
 		}
 		else
-		if(char('(')) {
-			LTIMING("call фн");
-			Вектор<SRVal> arg;
-			if(!char(')'))
+		if(Char('(')) {
+			LTIMING("call fn");
+			Vector<SRVal> arg;
+			if(!Char(')'))
 				for(;;) {
 					LTIMING("make args");
-					Exp(arg.добавь());
-					if(char(')')) break;
-					передайСим(',');
+					Exp(arg.Add());
+					if(Char(')')) break;
+					PassChar(',');
 				}
-			if(!сим2_ли('!', '=') && char('!')) {
-				прекрати(_self);
-				EscValue g = дай(_self);
-				if(!_self.lval || (!g.проц_ли() && !g.IsMap()))
-					выведиОш("l-значение map or l-значение void expected on the right side of !");
-				if(g.проц_ли()) {
+			if(!IsChar2('!', '=') && Char('!')) {
+				Term(_self);
+				EscValue g = Get(_self);
+				if(!_self.lval || (!g.IsVoid() && !g.IsMap()))
+					ThrowError("l-value map or l-value void expected on the right side of !");
+				if(g.IsVoid()) {
 					EscValue v;
 					v.SetEmptyMap();
-					присвой(_self, v);
+					Assign(_self, v);
 				}
 			}
 			if(!skipexp)
 				try {
-					r = ExecuteLambda(id, дай(r), _self, arg);
+					r = ExecuteLambda(id, Get(r), _self, arg);
 				}
-				catch(Искл e) {
-					throw Ошибка(фмт("%s.%s(): %s", дай(r).GetTypeName(), id, e));
+				catch(Exc e) {
+					throw Error(Format("%s.%s(): %s", Get(r).GetTypeName(), id, e));
 				}
 		}
 		else
@@ -289,126 +289,126 @@ void Esc::Subscript(Esc::SRVal& r, Esc::SRVal _self, Ткст id)
 
 void Esc::Subscript(Esc::SRVal& r)
 {
-	Subscript(r, SRVal(), Ткст());
+	Subscript(r, SRVal(), String());
 }
 
-void Esc::прекрати(SRVal& r)
+void Esc::Term(SRVal& r)
 {
 	r.sbs = EscValue();
 
 	op_limit--;
 	TestLimit();
-	if(сим2('0', 'x') || сим2('0', 'X')) {
-		r = читайЧисло64(16);
+	if(Char2('0', 'x') || Char2('0', 'X')) {
+		r = ReadNumber64(16);
 		return;
 	}
-	if(сим2('0', 'b') || сим2('0', 'B')) {
-		r = читайЧисло64(2);
+	if(Char2('0', 'b') || Char2('0', 'B')) {
+		r = ReadNumber64(2);
 		return;
 	}
-	if(сим2_ли('0', '.')) {
-		r = читайДво();
+	if(IsChar2('0', '.')) {
+		r = ReadDouble();
 		return;
 	}
-	if(char('0')) {
-		r = число_ли() ? читайЧисло64(8) : 0;
+	if(Char('0')) {
+		r = IsNumber() ? ReadNumber64(8) : 0;
 		return;
 	}
-	if(число_ли()) {
-		// TODO: int64 !
-		r = читайДво();
+	if(IsNumber()) {
+		// СДЕЛАТЬ: int64 !
+		r = ReadDouble();
 		return;
 	}
-	if(ткст_ли()) {
-		r = EscValue(вУтф32(читайТкст()));
+	if(IsString()) {
+		r = EscValue(ToUtf32(ReadString()));
 		return;
 	}
-	if(сим_ли('\'')) {
-		ШТкст s = вУтф32(читайТкст('\''));
-		if(s.дайДлину() != 1)
-			выведиОш("invalid character literal");
+	if(IsChar('\'')) {
+		WString s = ToUtf32(ReadString('\''));
+		if(s.GetLength() != 1)
+			ThrowError("invalid character literal");
 		r = (int64)s[0];
 		return;
 	}
-	if(char('@')) {
+	if(Char('@')) {
 		r = ReadLambda(*this);
 		Subscript(r);
 		return;
 	}
-	if(Ид("void")) {
+	if(Id("void")) {
 		r = EscValue();
 		return;
 	}
-	if(char('{')) {
+	if(Char('{')) {
 		EscValue map;
 		map.SetEmptyMap();
-		if(!char('}'))
+		if(!Char('}'))
 			for(;;) {
 				EscValue v = GetExp();
-				передайСим(':');
+				PassChar(':');
 				map.MapSet(v, GetExp());
-				if(char('}'))
+				if(Char('}'))
 					break;
-				передайСим(',');
+				PassChar(',');
 				TestLimit();
 			}
 		r = map;
 		Subscript(r);
 		return;
 	}
-	if(char('[')) {
+	if(Char('[')) {
 		EscValue array;
 		array.SetEmptyArray();
-		if(!char(']'))
+		if(!Char(']'))
 			for(;;) {
 				array.ArrayAdd(GetExp());
-				if(char(']'))
+				if(Char(']'))
 					break;
-				передайСим(',');
+				PassChar(',');
 				TestLimit();
 			}
 		r = array;
 		Subscript(r);
 		return;
 	}
-	if(char('(')) {
+	if(Char('(')) {
 		Exp(r);
-		передайСим(')');
+		PassChar(')');
 		Subscript(r);
 		return;
 	}
 
 	SRVal _self;
 	bool  _global = false;
-	if(char('.')) {
+	if(Char('.')) {
 		if(!self.IsMap())
-			выведиОш("member-access in non-member code");
+			ThrowError("member-access in non-member code");
 		_self.lval = &self;
 	}
 	else
-	if(char(':'))
+	if(Char(':'))
 		_global = true;
-	if(ид_ли()) {
-		Ткст id = читайИд();
+	if(IsId()) {
+		String id = ReadId();
 		EscValue method;
-		int locali = var.найди(id);
+		int locali = var.Find(id);
 		int ii;
 
 		if(id == "self") {
 			if(!self.IsMap())
-				выведиОш("self in non-member code");
+				ThrowError("self in non-member code");
 			_self.lval = &self;
 			r = self;
 		}
 		else
-		if(!_self.lval && !_global && locali < 0 && сим_ли('(') &&
+		if(!_self.lval && !_global && locali < 0 && IsChar('(') &&
 		   self.IsMap() && (method = self.MapGet(id)).IsLambda()) {
 		    _self.lval = &self;
 			r = method;
 		}
 		else
-		if(!_self.lval && !_global && locali < 0 && сим_ли('(') &&
-		   (ii = global.найди(id)) >= 0 && global[ii].IsLambda()) {
+		if(!_self.lval && !_global && locali < 0 && IsChar('(') &&
+		   (ii = global.Find(id)) >= 0 && global[ii].IsLambda()) {
 			r = global[ii];
 		}
 		else
@@ -418,114 +418,114 @@ void Esc::прекрати(SRVal& r)
 		}
 		else
 		if(_global)
-			r.lval = &global.дайПомести(id);
+			r.lval = &global.GetPut(id);
 		else
-			r.lval = &var.дайПомести(id);
+			r.lval = &var.GetPut(id);
 
 		try {
 			Subscript(r, _self, id);
 		}
-		catch(СиПарсер::Ошибка e) {
-			throw СиПарсер::Ошибка(id + ": " + e);
+		catch(CParser::Error e) {
+			throw CParser::Error(id + ": " + e);
 		}
 	}
 	else
-		выведиОш("invalid expression");
+		ThrowError("invalid expression");
 }
 
-Ткст Lims(const Ткст& s)
+String Lims(const String& s)
 {
-	return s.дайДлину() > 80 ? s.середина(0, 80) : s;
+	return s.GetLength() > 80 ? s.Mid(0, 80) : s;
 }
 
 double Esc::Number(const EscValue& a, const char *oper)
 {
-	if(!a.число_ли())
-		выведиОш(Ткст().конкат() << "number expected for '" << oper << "', encountered " << Lims(a.вТкст()));
+	if(!a.IsNumber())
+		ThrowError(String().Cat() << "number expected for '" << oper << "', encountered " << Lims(a.ToString()));
 	return a.GetNumber();
 }
 
-int64 Esc::Цел(const EscValue& a, const char *oper)
+int64 Esc::Int(const EscValue& a, const char *oper)
 {
-	if(!a.число_ли())
-		выведиОш(Ткст().конкат() << "integer expected for '" << oper << "', encountered " << Lims(a.вТкст()));
-	return a.дайЦел64();
+	if(!a.IsNumber())
+		ThrowError(String().Cat() << "integer expected for '" << oper << "', encountered " << Lims(a.ToString()));
+	return a.GetInt64();
 }
 
 double Esc::Number(const Esc::SRVal& a, const char *oper)
 {
-	return Number(дай(a), oper);
+	return Number(Get(a), oper);
 }
 
-int64 Esc::Цел(const Esc::SRVal& a, const char *oper)
+int64 Esc::Int(const Esc::SRVal& a, const char *oper)
 {
-	return Цел(дай(a), oper);
+	return Int(Get(a), oper);
 }
 
 void Esc::Unary(Esc::SRVal& r)
 {
-	if(сим2('+', '+')) {
+	if(Char2('+', '+')) {
 		Unary(r);
-		EscValue v = дай(r);
+		EscValue v = Get(r);
 		if(v.IsInt64())
-			присвой(r, Цел(v, "++") + 1);
+			Assign(r, Int(v, "++") + 1);
 		else
-			присвой(r, Number(v, "++") + 1);
+			Assign(r, Number(v, "++") + 1);
 	}
 	else
-	if(сим2('-', '-')) {
+	if(Char2('-', '-')) {
 		Unary(r);
-		EscValue v = дай(r);
+		EscValue v = Get(r);
 		if(v.IsInt64())
-			присвой(r, Цел(v, "--") - 1);
+			Assign(r, Int(v, "--") - 1);
 		else
-			присвой(r, Number(v, "--") - 1);
+			Assign(r, Number(v, "--") - 1);
 	}
 	else
-	if(char('-')) {
+	if(Char('-')) {
 		Unary(r);
-		EscValue v = дай(r);
+		EscValue v = Get(r);
 		if(v.IsInt64())
-			r = -Цел(v, "-");
+			r = -Int(v, "-");
 		else
 			r = -Number(v, "-");
 	}
 	else
-	if(char('+')) {
+	if(Char('+')) {
 		Unary(r);
-		EscValue v = дай(r);
+		EscValue v = Get(r);
 		if(v.IsInt64())
-			r = Цел(v, "+");
+			r = Int(v, "+");
 		else
 			r = Number(v, "+");
 	}
 	else
-	if(char('!')) {
+	if(Char('!')) {
 		Unary(r);
-		r = (int64)!IsTrue(дай(r));
+		r = (int64)!IsTrue(Get(r));
 	}
 	else
-	if(char('~')) {
+	if(Char('~')) {
 		Unary(r);
-		r = ~Цел(дай(r), "~");
+		r = ~Int(Get(r), "~");
 	}
 	else
-		прекрати(r);
+		Term(r);
 
-	if(сим2('+', '+')) {
-		EscValue v = дай(r);
+	if(Char2('+', '+')) {
+		EscValue v = Get(r);
 		if(v.IsInt64())
-			присвой(r, Цел(v, "++") + 1);
+			Assign(r, Int(v, "++") + 1);
 		else
-			присвой(r, Number(v, "++") + 1);
+			Assign(r, Number(v, "++") + 1);
 		r = v;
 	}
-	if(сим2('-', '-')) {
-		EscValue v = дай(r);
+	if(Char2('-', '-')) {
+		EscValue v = Get(r);
 		if(v.IsInt64())
-			присвой(r, Цел(v, "--") - 1);
+			Assign(r, Int(v, "--") - 1);
 		else
-			присвой(r, Number(v, "--") - 1);
+			Assign(r, Number(v, "--") - 1);
 		r = v;
 	}
 }
@@ -534,11 +534,11 @@ EscValue Esc::MulArray(EscValue array, EscValue times)
 {
 	EscValue r;
 	r.SetEmptyArray();
-	for(int n = times.дайЦел(); n > 0; n >>= 1) {
+	for(int n = times.GetInt(); n > 0; n >>= 1) {
 		if(n & 1)
-			if(!r.приставь(array))
+			if(!r.Append(array))
 				OutOfMemory();
-		if(!array.приставь(array))
+		if(!array.Append(array))
 			OutOfMemory();
 		TestLimit();
 	}
@@ -549,76 +549,76 @@ void Esc::Mul(Esc::SRVal& r)
 {
 	Unary(r);
 	for(;;)
-		if(!сим2_ли('*', '=') && char('*')) {
-			EscValue x = дай(r);
+		if(!IsChar2('*', '=') && Char('*')) {
+			EscValue x = Get(r);
 			SRVal w;
 			Unary(w);
-			EscValue y = дай(w);
-			if(x.IsArray() && y.цел_ли())
+			EscValue y = Get(w);
+			if(x.IsArray() && y.IsInt())
 				r = MulArray(x, y);
 			else
-			if(y.IsArray() && x.цел_ли())
+			if(y.IsArray() && x.IsInt())
 				r = MulArray(y, x);
 			else
 			if(x.IsInt64() && y.IsInt64())
-				r = Цел(x, "*") * Цел(y, "*");
+				r = Int(x, "*") * Int(y, "*");
 			else
 				r = Number(x, "*") * Number(y, "*");
 		}
 		else
-		if(!сим2_ли('/', '=') && char('/')) {
+		if(!IsChar2('/', '=') && Char('/')) {
 			SRVal w;
 			Unary(w);
-			EscValue x = дай(r);
-			EscValue y = дай(w);
+			EscValue x = Get(r);
+			EscValue y = Get(w);
 			double b = Number(y, "/");
 			if(b == 0)
-				выведиОш("divide by zero");
+				ThrowError("divide by zero");
 			r = Number(x, "/") / b;
 		}
 		else
-		if(!сим2_ли('%', '=') && char('%')) {
+		if(!IsChar2('%', '=') && Char('%')) {
 			SRVal w;
 			Unary(w);
-			int64 b = Цел(w, "%");
+			int64 b = Int(w, "%");
 			if(b == 0)
-				выведиОш("divide by zero");
-			r = Цел(r, "%") % b;
+				ThrowError("divide by zero");
+			r = Int(r, "%") % b;
 		}
 		else
 			return;
 }
 
-void Esc::добавь(Esc::SRVal& r)
+void Esc::Add(Esc::SRVal& r)
 {
 	Mul(r);
 	for(;;)
-		if(!сим2_ли('+', '=') && char('+')) {
-			EscValue v = дай(r);
+		if(!IsChar2('+', '=') && Char('+')) {
+			EscValue v = Get(r);
 			SRVal w;
 			Mul(w);
-			EscValue b = дай(w);
+			EscValue b = Get(w);
 			if(v.IsArray() && b.IsArray()) {
-				if(!v.замени(v.дайСчёт(), 0, b))
+				if(!v.Replace(v.GetCount(), 0, b))
 					OutOfMemory();
 				r = v;
 			}
 			else
-			if(!(v.IsArray() && b.проц_ли())) {
+			if(!(v.IsArray() && b.IsVoid())) {
 				if(v.IsInt64() && b.IsInt64())
-					r = Цел(v, "+") + Цел(b, "+");
+					r = Int(v, "+") + Int(b, "+");
 				else
 					r = Number(v, "+") + Number(b, "+");
 			}
 		}
 		else
-		if(!сим2_ли('-', '=') && char('-')) {
+		if(!IsChar2('-', '=') && Char('-')) {
 			SRVal w;
 			Mul(w);
-			EscValue v = дай(r);
-			EscValue b = дай(w);
+			EscValue v = Get(r);
+			EscValue b = Get(w);
 			if(v.IsInt64() && b.IsInt64())
-				r = Цел(v, "-") - Цел(b, "-");
+				r = Int(v, "-") - Int(b, "-");
 			else
 				r = Number(v, "-") - Number(b, "-");
 		}
@@ -628,27 +628,27 @@ void Esc::добавь(Esc::SRVal& r)
 
 void Esc::Shift(Esc::SRVal& r)
 {
-	добавь(r);
+	Add(r);
 	for(;;)
-		if(сим2('<', '<')) {
-			EscValue v = дай(r);
+		if(Char2('<', '<')) {
+			EscValue v = Get(r);
 			SRVal w;
-			добавь(w);
-			EscValue b = дай(w);
+			Add(w);
+			EscValue b = Get(w);
 			if(v.IsArray() && b.IsArray()) {
-				if(!v.замени(v.дайСчёт(), 0, b))
+				if(!v.Replace(v.GetCount(), 0, b))
 					OutOfMemory();
-				присвой(r, v);
+				Assign(r, v);
 			}
 			else
-			if(!(v.IsArray() && b.проц_ли()))
-				r = Цел(v, "<<") << Цел(b, "<<");
+			if(!(v.IsArray() && b.IsVoid()))
+				r = Int(v, "<<") << Int(b, "<<");
 		}
 		else
-		if(сим2('>', '>')) {
+		if(Char2('>', '>')) {
 			SRVal w;
-			добавь(w);
-			r = Цел(r, ">>") >> Цел(w,  ">>");
+			Add(w);
+			r = Int(r, ">>") >> Int(w,  ">>");
 		}
 		else
 			return;
@@ -658,30 +658,30 @@ double Esc::DoCompare(const EscValue& a, const EscValue& b, const char *op)
 {
 	LTIMING("DoCompare");
 	if(a.IsInt64() && b.IsInt64())
-		return сравниЗнак(a.дайЦел64(), b.дайЦел64());
-	if(a.число_ли() && b.число_ли())
-		return сравниЗнак(a.GetNumber(), b.GetNumber());
+		return SgnCompare(a.GetInt64(), b.GetInt64());
+	if(a.IsNumber() && b.IsNumber())
+		return SgnCompare(a.GetNumber(), b.GetNumber());
 	if(a.IsArray() && b.IsArray()) {
-		const Вектор<EscValue>& x = a.дайМассив();
-		const Вектор<EscValue>& y = b.дайМассив();
+		const Vector<EscValue>& x = a.GetArray();
+		const Vector<EscValue>& y = b.GetArray();
 		int i = 0;
 		for(;;) {
-			if(i >= x.дайСчёт())
-				return i < y.дайСчёт() ? -1 : 0;
-			if(i >= y.дайСчёт())
-				return i < x.дайСчёт() ? 1 : 0;
+			if(i >= x.GetCount())
+				return i < y.GetCount() ? -1 : 0;
+			if(i >= y.GetCount())
+				return i < x.GetCount() ? 1 : 0;
 			double q = DoCompare(x[i], y[i], op);
 			if(q) return q;
 			i++;
 		}
 	}
-	if(a.проц_ли() && b.проц_ли())
+	if(a.IsVoid() && b.IsVoid())
 		return 0;
-	if(!a.проц_ли() && b.проц_ли())
+	if(!a.IsVoid() && b.IsVoid())
 		return 1;
-	if(a.проц_ли() && !b.проц_ли())
+	if(a.IsVoid() && !b.IsVoid())
 		return -1;
-	выведиОш("invalid values for comparison " + a.GetTypeName() + ' ' + op + ' ' + b.GetTypeName());
+	ThrowError("invalid values for comparison " + a.GetTypeName() + ' ' + op + ' ' + b.GetTypeName());
 	return 0;
 }
 
@@ -689,23 +689,23 @@ double Esc::DoCompare(const SRVal& a, const char *op)
 {
 	SRVal w;
 	Shift(w);
-	return DoCompare(дай(a), дай(w), op);
+	return DoCompare(Get(a), Get(w), op);
 }
 
-void Esc::сравни(Esc::SRVal& r)
+void Esc::Compare(Esc::SRVal& r)
 {
 	Shift(r);
 	for(;;)
-		if(сим2('>', '='))
+		if(Char2('>', '='))
 			r = DoCompare(r, ">=") >= 0;
 		else
-		if(сим2('<', '='))
+		if(Char2('<', '='))
 			r = DoCompare(r, "<=") <= 0;
 		else
-		if(char('>'))
+		if(Char('>'))
 			r = DoCompare(r, ">") > 0;
 		else
-		if(char('<'))
+		if(Char('<'))
 			r = DoCompare(r, "<") < 0;
 		else
 			return;
@@ -713,18 +713,18 @@ void Esc::сравни(Esc::SRVal& r)
 
 void Esc::Equal(Esc::SRVal& r)
 {
-	сравни(r);
+	Compare(r);
 	for(;;)
-		if(сим2('=', '=')) {
+		if(Char2('=', '=')) {
 			SRVal w;
-			сравни(w);
-			r = дай(r) == дай(w);
+			Compare(w);
+			r = Get(r) == Get(w);
 		}
 		else
-		if(сим2('!', '=')) {
+		if(Char2('!', '=')) {
 			SRVal w;
-			сравни(w);
-			r = дай(r) != дай(w);
+			Compare(w);
+			r = Get(r) != Get(w);
 		}
 		else
 			return;
@@ -733,43 +733,43 @@ void Esc::Equal(Esc::SRVal& r)
 void Esc::BinAnd(Esc::SRVal& r)
 {
 	Equal(r);
-	while(!сим2_ли('&', '&') && char('&')) {
+	while(!IsChar2('&', '&') && Char('&')) {
 		SRVal w;
 		Equal(w);
-		r = Цел(r, "&") & Цел(w, "&");
+		r = Int(r, "&") & Int(w, "&");
 	}
 }
 
 void Esc::BinXor(Esc::SRVal& r)
 {
 	BinAnd(r);
-	while(char('^')) {
+	while(Char('^')) {
 		SRVal w;
 		BinAnd(w);
-		r = Цел(r, "^") ^ Цел(w, "^");
+		r = Int(r, "^") ^ Int(w, "^");
 	}
 }
 
 void Esc::BinOr(Esc::SRVal& r)
 {
 	BinXor(r);
-	while(!сим2_ли('|', '|') && char('|')) {
+	while(!IsChar2('|', '|') && Char('|')) {
 		SRVal w;
 		BinXor(w);
-		r = Цел(r, "|") | Цел(w, "|");
+		r = Int(r, "|") | Int(w, "|");
 	}
 }
 
 void Esc::And(Esc::SRVal& r)
 {
 	BinOr(r);
-	if(сим2_ли('&', '&')) {
-		bool b = IsTrue(дай(r));
-		while(сим2('&', '&')) {
+	if(IsChar2('&', '&')) {
+		bool b = IsTrue(Get(r));
+		while(Char2('&', '&')) {
 			SRVal w;
 			if(b) {
 				BinOr(w);
-				b = b && IsTrue(дай(w));
+				b = b && IsTrue(Get(w));
 			}
 			else {
 				skipexp++;
@@ -784,9 +784,9 @@ void Esc::And(Esc::SRVal& r)
 void Esc::Or(Esc::SRVal& r)
 {
 	And(r);
-	if(сим2_ли('|', '|')) {
-		bool b = IsTrue(дай(r));
-		while(сим2('|', '|')) {
+	if(IsChar2('|', '|')) {
+		bool b = IsTrue(Get(r));
+		while(Char2('|', '|')) {
 			SRVal w;
 			if(b) {
 				skipexp++;
@@ -795,7 +795,7 @@ void Esc::Or(Esc::SRVal& r)
 			}
 			else {
 				And(w);
-				b = b || IsTrue(дай(w));
+				b = b || IsTrue(Get(w));
 			}
 		}
 		r = b;
@@ -805,12 +805,12 @@ void Esc::Or(Esc::SRVal& r)
 void Esc::Cond(Esc::SRVal& r)
 {
 	Or(r);
-	if(char('?')) {
-		bool t = IsTrue(дай(r));
+	if(Char('?')) {
+		bool t = IsTrue(Get(r));
 		SRVal dummy;
 		if(t) {
 			Cond(r);
-			передайСим(':');
+			PassChar(':');
 			skipexp++;
 			Cond(dummy);
 			skipexp--;
@@ -819,81 +819,81 @@ void Esc::Cond(Esc::SRVal& r)
 			skipexp++;
 			Cond(dummy);
 			skipexp--;
-			передайСим(':');
+			PassChar(':');
 			Cond(r);
 		}
 	}
 }
 
-void Esc::присвой(Esc::SRVal& r)
+void Esc::Assign(Esc::SRVal& r)
 {
 	Cond(r);
-	if(char('=')) {
+	if(Char('=')) {
 		SRVal w;
-		присвой(w);
-		присвой(r, дай(w));
+		Assign(w);
+		Assign(r, Get(w));
 	}
 	else
-	if(сим2('+', '=')) {
-		EscValue v = дай(r);
+	if(Char2('+', '=')) {
+		EscValue v = Get(r);
 		SRVal w;
 		Cond(w);
-		EscValue b = дай(w);
+		EscValue b = Get(w);
 		if(v.IsArray() && b.IsArray()) {
-			if(!v.замени(v.дайСчёт(), 0, b))
+			if(!v.Replace(v.GetCount(), 0, b))
 				OutOfMemory();
-			присвой(r, v);
+			Assign(r, v);
 		}
 		else
-		if(!(v.IsArray() && b.проц_ли())) {
+		if(!(v.IsArray() && b.IsVoid())) {
 			if(v.IsInt64() && b.IsInt64())
-				присвой(r, Цел(v, "+=") + Цел(b, "+="));
+				Assign(r, Int(v, "+=") + Int(b, "+="));
 			else
-				присвой(r, Number(v, "+=") + Number(b, "+="));
+				Assign(r, Number(v, "+=") + Number(b, "+="));
 		}
 	}
 	else
-	if(сим2('-', '=')) {
+	if(Char2('-', '=')) {
 		SRVal w;
 		Cond(w);
-		EscValue v = дай(r);
-		EscValue b = дай(w);
+		EscValue v = Get(r);
+		EscValue b = Get(w);
 		if(v.IsInt64() && b.IsInt64())
-			присвой(r, Цел(v, "-=") - Цел(b, "-="));
+			Assign(r, Int(v, "-=") - Int(b, "-="));
 		else
-			присвой(r, Number(v, "-=") - Number(b, "-="));
+			Assign(r, Number(v, "-=") - Number(b, "-="));
 	}
 	else
-	if(сим2('*', '=')) {
+	if(Char2('*', '=')) {
 		SRVal w;
 		Cond(w);
-		EscValue x = дай(r);
-		EscValue y = дай(w);
+		EscValue x = Get(r);
+		EscValue y = Get(w);
 		if(x.IsInt64() && y.IsInt64())
-			присвой(r, Цел(x, "*=") * Цел(y, "*="));
+			Assign(r, Int(x, "*=") * Int(y, "*="));
 		else
-			присвой(r, Number(x, "*=") * Number(y, "*="));
+			Assign(r, Number(x, "*=") * Number(y, "*="));
 	}
 	else
-	if(сим2('/', '=')) {
+	if(Char2('/', '=')) {
 		SRVal w;
 		Cond(w);
-		EscValue v = дай(r);
-		EscValue b = дай(w);
+		EscValue v = Get(r);
+		EscValue b = Get(w);
 		double q = Number(v, "/=");
 		if(q == 0)
-			выведиОш("divide by zero");
-		присвой(r, Number(b, "/=") / q);
+			ThrowError("divide by zero");
+		Assign(r, Number(b, "/=") / q);
 	}
 	else
-	if(сим2('%', '=')) {
+	if(Char2('%', '=')) {
 		SRVal w;
 		Cond(w);
-		int64 a = Цел(r, "%=");
-		int64 b = Цел(w, "%=");
+		int64 a = Int(r, "%=");
+		int64 b = Int(w, "%=");
 		if(b == 0)
-			выведиОш("divide by zero");
-		присвой(r, a % b);
+			ThrowError("divide by zero");
+		Assign(r, a % b);
 	}
 }
 
@@ -902,57 +902,57 @@ int Esc::stack_level = 50;
 void Esc::Exp(Esc::SRVal& r)
 {
 	LTIMING("Exp");
-	пробелы();
+	Spaces();
 	stack_level--;
 	if(stack_level <= 0)
-		выведиОш("stack overflow");
-	присвой(r);
+		ThrowError("stack overflow");
+	Assign(r);
 	stack_level++;
 }
 
 EscValue Esc::GetExp() {
 	SRVal r;
 	Exp(r);
-	return дай(r);
+	return Get(r);
 }
 
-void Esc::пропустиТерм()
+void Esc::SkipTerm()
 {
-	if(кф_ли())
-		выведиОш("unexpected end of file");
-	СиПарсер::пропустиТерм();
-	пробелы();
+	if(IsEof())
+		ThrowError("unexpected end of file");
+	CParser::SkipTerm();
+	Spaces();
 }
 
 void Esc::SkipExp()
 {
 	int level = 0;
 	for(;;) {
-		if(сим_ли(';'))
+		if(IsChar(';'))
 			return;
-		if(сим_ли(')') && level == 0)
+		if(IsChar(')') && level == 0)
 			return;
-		if(char(')'))
+		if(Char(')'))
 			level--;
 		else
-		if(char('('))
+		if(Char('('))
 			level++;
 		else
-			пропустиТерм();
-		if(кф_ли())
-			выведиОш("unexpected end of file");
+			SkipTerm();
+		if(IsEof())
+			ThrowError("unexpected end of file");
 	}
 }
 
-void SkipBlock(СиПарсер& p)
+void SkipBlock(CParser& p)
 {
 	int level = 1;
-	while(level > 0 && !p.кф_ли()) {
-		if(p.сим('{')) level++;
+	while(level > 0 && !p.IsEof()) {
+		if(p.Char('{')) level++;
 		else
-		if(p.сим('}')) level--;
+		if(p.Char('}')) level--;
 		else
-			p.пропустиТерм();
+			p.SkipTerm();
 	}
 }
 
@@ -960,80 +960,80 @@ void Esc::SkipStatement()
 {
 	stack_level--;
 	if(stack_level <= 0)
-		выведиОш("stack overflow");
-	if(Ид("if")) {
-		передайСим('(');
+		ThrowError("stack overflow");
+	if(Id("if")) {
+		PassChar('(');
 		SkipExp();
-		передайСим(')');
+		PassChar(')');
 		SkipStatement();
-		if(Ид("else"))
+		if(Id("else"))
 			SkipStatement();
 	}
 	else
-	if(Ид("for")) {
-		передайСим('(');
-		if(!сим_ли(';'))
+	if(Id("for")) {
+		PassChar('(');
+		if(!IsChar(';'))
 			SkipExp();
-		передайСим(';');
-		if(!сим_ли(';'))
+		PassChar(';');
+		if(!IsChar(';'))
 			SkipExp();
-		передайСим(';');
-		if(!сим_ли(')'))
+		PassChar(';');
+		if(!IsChar(')'))
 			SkipExp();
-		передайСим(')');
+		PassChar(')');
 		SkipStatement();
 	}
 	else
-	if(Ид("while") || Ид("switch")) {
-		передайСим('(');
+	if(Id("while") || Id("switch")) {
+		PassChar('(');
 		SkipExp();
-		передайСим(')');
+		PassChar(')');
 		SkipStatement();
 	}
 	else
-	if(Ид("do")) {
+	if(Id("do")) {
 		SkipBlock(*this);
-		передайИд("while");
-		передайСим('(');
+		PassId("while");
+		PassChar('(');
 		SkipExp();
-		передайСим(')');
-		передайСим(';');
+		PassChar(')');
+		PassChar(';');
 	}
 	else
-	if(char('{'))
+	if(Char('{'))
 		SkipBlock(*this);
 	else {
 		SkipExp();
-		передайСим(';');
+		PassChar(';');
 	}
 	stack_level++;
 }
 
 bool  Esc::PCond()
 {
-	передайСим('(');
+	PassChar('(');
 	bool c = IsTrue(GetExp());
-	передайСим(')');
+	PassChar(')');
 	return c;
 }
 
 void Esc::FinishSwitch()
 {
 	while(no_break && no_return && no_continue) {
-		if(Ид("case")) {
+		if(Id("case")) {
 			SRVal r;
 			Exp(r);
-			передайСим(':');
+			PassChar(':');
 		}
 		else
-		if(Ид("default"))
-			передайСим(':');
+		if(Id("default"))
+			PassChar(':');
 		else
-			if(char('}'))
+			if(Char('}'))
 				return;
 		DoStatement();
 	}
-	while(!char('}'))
+	while(!Char('}'))
 		SkipStatement();
 }
 
@@ -1041,38 +1041,38 @@ void  Esc::DoStatement()
 {
 	op_limit--;
 	TestLimit();
-	if(Ид("if"))
+	if(Id("if"))
 		if(PCond()) {
 			DoStatement();
-			if(Ид("else"))
+			if(Id("else"))
 				SkipStatement();
 		}
 		else {
 			SkipStatement();
-			if(Ид("else"))
+			if(Id("else"))
 				DoStatement();
 		}
 	else
-	if(Ид("do")) {
+	if(Id("do")) {
 		loop++;
-		Поз pos = дайПоз();
+		Pos pos = GetPos();
 		do {
-			устПоз(pos);
+			SetPos(pos);
 			DoStatement();
-			передайИд("while");
+			PassId("while");
 			no_continue = true;
 		}
 		while(PCond() && no_break && no_return);
-		передайСим(';');
+		PassChar(';');
 		no_break = true;
 		loop--;
 	}
 	else
-	if(Ид("while")) {
+	if(Id("while")) {
 		loop++;
-		Поз pos = дайПоз();
+		Pos pos = GetPos();
 		for(;;) {
-			устПоз(pos);
+			SetPos(pos);
 			if(!PCond() || !no_break || !no_return || !no_continue) {
 				SkipStatement();
 				break;
@@ -1084,34 +1084,34 @@ void  Esc::DoStatement()
 		loop--;
 	}
 	else
-	if(Ид("for")) {
+	if(Id("for")) {
 		loop++;
-		передайСим('(');
+		PassChar('(');
 		SRVal var;
-		if(!сим_ли(';'))
+		if(!IsChar(';'))
 			Exp(var);
-		if(Ид("in") || char(':')) {
+		if(Id("in") || Char(':')) {
 			EscValue range = GetExp();
-			передайСим(')');
-			Поз stmt = дайПоз();
+			PassChar(')');
+			Pos stmt = GetPos();
 			int i = 0;
 			for(;;) {
-				устПоз(stmt);
+				SetPos(stmt);
 				if(range.IsArray()) {
-					if(i >= range.дайСчёт())
+					if(i >= range.GetCount())
 						break;
-					присвой(var, (int64)i);
+					Assign(var, (int64)i);
 				}
 				else
 				if(range.IsMap()) {
-					const ВекторМап<EscValue, EscValue>& map = range.дайМап();
-					if(i >= map.дайСчёт())
+					const VectorMap<EscValue, EscValue>& map = range.GetMap();
+					if(i >= map.GetCount())
 						break;
-					if(map.отлинкован(i)) {
+					if(map.IsUnlinked(i)) {
 						i++;
 						continue;
 					}
-					присвой(var, map.дайКлюч(i));
+					Assign(var, map.GetKey(i));
 				}
 				if(!no_break || !no_return || !no_continue) {
 					SkipStatement();
@@ -1124,27 +1124,27 @@ void  Esc::DoStatement()
 			SkipStatement();
 		}
 		else {
-			передайСим(';');
-			Поз cond;
-			if(!сим_ли(';')) {
-				cond = дайПоз();
+			PassChar(';');
+			Pos cond;
+			if(!IsChar(';')) {
+				cond = GetPos();
 				SkipExp();
 			}
-			передайСим(';');
-			Поз after;
-			if(!сим_ли(')')) {
-				after = дайПоз();
+			PassChar(';');
+			Pos after;
+			if(!IsChar(')')) {
+				after = GetPos();
 				SkipExp();
 			}
-			передайСим(')');
-			Поз stmt = дайПоз();
+			PassChar(')');
+			Pos stmt = GetPos();
 			for(;;) {
 				bool c = true;
 				if(cond.ptr) {
-					устПоз(cond);
+					SetPos(cond);
 					c = IsTrue(GetExp());
 				}
-				устПоз(stmt);
+				SetPos(stmt);
 				if(!c || !no_break || !no_return || !no_continue) {
 					SkipStatement();
 					break;
@@ -1152,7 +1152,7 @@ void  Esc::DoStatement()
 				DoStatement();
 				no_continue = true;
 				if(after.ptr) {
-					устПоз(after);
+					SetPos(after);
 					SRVal r;
 					Exp(r);
 				}
@@ -1162,57 +1162,57 @@ void  Esc::DoStatement()
 		loop--;
 	}
 	else
-	if(Ид("break")) {
+	if(Id("break")) {
 		if(!loop)
-			выведиОш("misplaced 'break'");
+			ThrowError("misplaced 'break'");
 		no_break = false;
-		передайСим(';');
+		PassChar(';');
 	}
 	else
-	if(Ид("continue")) {
+	if(Id("continue")) {
 		if(!loop)
-			выведиОш("misplaced 'continue'");
+			ThrowError("misplaced 'continue'");
 		no_continue = false;
-		передайСим(';');
+		PassChar(';');
 	}
 	else
-	if(Ид("case"))
-		выведиОш("misplaced 'case'");
+	if(Id("case"))
+		ThrowError("misplaced 'case'");
 	else
-	if(Ид("default"))
-		выведиОш("misplaced 'default'");
+	if(Id("default"))
+		ThrowError("misplaced 'default'");
 	else
-	if(Ид("else"))
-		выведиОш("misplaced 'else'");
+	if(Id("else"))
+		ThrowError("misplaced 'else'");
 	else
-	if(Ид("return")) {
+	if(Id("return")) {
 		no_return = false;
-		if(!char(';')) {
+		if(!Char(';')) {
 			return_value = GetExp();
-			передайСим(';');
+			PassChar(';');
 		}
 		else
 			return_value = EscValue();
 	}
 	else
-	if(Ид("switch")) {
+	if(Id("switch")) {
 		loop++;
-		передайСим('(');
+		PassChar('(');
 		EscValue a = GetExp();
-		передайСим(')');
-		передайСим('{');
-		while(!char('}')) {
-			if(Ид("case")) {
+		PassChar(')');
+		PassChar('{');
+		while(!Char('}')) {
+			if(Id("case")) {
 				EscValue b = GetExp();
-				передайСим(':');
+				PassChar(':');
 				if(a == b) {
 					FinishSwitch();
 					break;
 				}
 			}
 			else
-			if(Ид("default")) {
-				передайСим(':');
+			if(Id("default")) {
+				PassChar(':');
 				FinishSwitch();
 				break;
 			}
@@ -1223,45 +1223,45 @@ void  Esc::DoStatement()
 		no_break = true;
 	}
 	else
-	if(char('#')) {
-		int тип = 0;
-		if(char('.'))
-			тип = 1;
+	if(Char('#')) {
+		int type = 0;
+		if(Char('.'))
+			type = 1;
 		else
-		if(char(':'))
-			тип = 2;
-		Ткст id = читайИд();
+		if(Char(':'))
+			type = 2;
+		String id = ReadId();
 		EscValue l = ReadLambda(*this);
-		if(тип == 1) {
-			if(self.проц_ли())
-				выведиОш("no instance");
+		if(type == 1) {
+			if(self.IsVoid())
+				ThrowError("no instance");
 			self.MapSet(id, l);
 		}
 		else
-		if(тип == 2)
-			global.дайДобавь(id) = l;
+		if(type == 2)
+			global.GetAdd(id) = l;
 		else
-			var.дайДобавь(id) = l;
+			var.GetAdd(id) = l;
 	}
 	else
-	if(char('{')) {
-		while(!char('}') && no_break && no_return && no_continue)
+	if(Char('{')) {
+		while(!Char('}') && no_break && no_return && no_continue)
 			DoStatement();
 	}
 	else
-	if(!char(';')) {
+	if(!Char(';')) {
 		SRVal v;
 		Exp(v);
-		передайСим(';');
+		PassChar(';');
 	}
 }
 
-void  Esc::пуск()
+void  Esc::Run()
 {
 	no_return = no_break = no_continue = true;
 	loop = 0;
 	skipexp = 0;
-	while(!кф_ли() && no_return && no_break && no_continue)
+	while(!IsEof() && no_return && no_break && no_continue)
 		DoStatement();
 }
 

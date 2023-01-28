@@ -554,8 +554,8 @@ static int matches(const struct itemplate *t, uint8_t *data,
                 opx->segment |= SEG_32BIT;
 	    }
             if (segsize != osize) {
-                opx->тип =
-                    (opx->тип & ~SIZE_MASK)
+                opx->type =
+                    (opx->type & ~SIZE_MASK)
                     | ((osize == 16) ? BITS16 : BITS32);
             }
 	    break;
@@ -989,12 +989,12 @@ static int matches(const struct itemplate *t, uint8_t *data,
         ins->prefixes[PPS_ASIZE] = asize == 16 ? P_A16 : P_A32;
     }
 
-    /* фиксируй: check for redundant REX prefixes */
+    /* Fix: check for redundant REX prefixes */
 
     return data - origdata;
 }
 
-/* Условие names for disassembly, sorted by x86 code */
+/* Condition names for disassembly, sorted by x86 code */
 static const char * const condition_name[16] = {
     "o", "no", "c", "nc", "z", "nz", "na", "a",
     "s", "ns", "pe", "po", "l", "nl", "ng", "g"
@@ -1186,7 +1186,7 @@ int32_t disasm(uint8_t *data, char *output, int outbufsize, int segsize,
 			(!(tmp_ins.oprs[i].segment & SEG_RMREG) &&
 			 !(REG_EA & ~(*p)->opd[i]) &&
 			 !((*p)->opd[i] & REG_SMASK)) ||
-			/* регистрируй тип mismatch (eg FS vs REG_DESS):
+			/* Register type mismatch (eg FS vs REG_DESS):
 			   die. */
 			((((*p)->opd[i] & (REGISTER | FPUREG)) ||
 			  (tmp_ins.oprs[i].segment & SEG_RMREG)) &&
@@ -1229,17 +1229,17 @@ int32_t disasm(uint8_t *data, char *output, int outbufsize, int segsize,
     if (!best_p)
         return 0;               /* no instruction was matched */
 
-    /* подбери the best match */
+    /* Pick the best match */
     p = best_p;
     length = best_length;
 
     slen = 0;
 
-    /* TODO: snprintf returns the значение that the string would have if
-     *      the буфер were long enough, and not the actual length of
+    /* СДЕЛАТЬ: snprintf returns the value that the string would have if
+     *      the buffer were long enough, and not the actual length of
      *      the returned string, so each instance of using the return
-     *      значение of snprintf should actually be checked to assure that
-     *      the return значение is "sane."  Maybe a macro wrapper could
+     *      value of snprintf should actually be checked to assure that
+     *      the return value is "sane."  Maybe a macro wrapper could
      *      be used for that purpose.
      */
     for (i = 0; i < MAXPREFIX; i++) {

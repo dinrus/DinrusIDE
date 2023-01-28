@@ -1,11 +1,11 @@
 #include "CodeEditor.h"
 
-namespace РНЦП {
+namespace Upp {
 
 #define LLOG(x)    // DLOG(x)
 #define LTIMING(x) // RTIMING(x)
 
-#define IMAGEVECTOR Вектор
+#define IMAGEVECTOR Vector
 #define IMAGECLASS  CodeEditorImg
 #define IMAGEFILE   <CodeEditor/CodeEditor.iml>
 #include <Draw/iml_source.h>
@@ -15,72 +15,72 @@ namespace РНЦП {
 
 void RegisterSyntaxModules();
 
-ИНИЦБЛОК {
+INITBLOCK {
 	RegisterSyntaxModules();
 }
 
-Один<EditorSyntax> РедакторКода::дайСинтакс(int line)
+One<EditorSyntax> CodeEditor::GetSyntax(int line)
 {
-	LTIMING("дайСинтакс");
-	Один<EditorSyntax> syntax = EditorSyntax::создай(highlight);
+	LTIMING("GetSyntax");
+	One<EditorSyntax> syntax = EditorSyntax::Create(highlight);
 	syntax->SpellCheckComments(spellcheck_comments);
 	int ln = 0;
 	for(int i = 0; i < __countof(syntax_cache); i++)
 		if(line >= syntax_cache[i].line && syntax_cache[i].line > 0) {
-			syntax->уст(syntax_cache[i].data);
+			syntax->Set(syntax_cache[i].data);
 			ln = syntax_cache[i].line;
 			LLOG("Found " << line << " " << syntax_cache[i].line);
 			break;
 		}
-	line = min(line, дайСчётСтрок());
+	line = min(line, GetLineCount());
 	if(line - ln > 10000) { // optimization hack for huge files
-		syntax = EditorSyntax::создай(highlight);
+		syntax = EditorSyntax::Create(highlight);
 		ln = line - 10000;
 	}
 	while(ln < line) {
-		ШТкст l = дайШСтроку(ln);
+		WString l = GetWLine(ln);
 		CTIMING("ScanSyntax3");
-		syntax->ScanSyntax(l, l.стоп(), ln, GetTabSize());
+		syntax->ScanSyntax(l, l.End(), ln, GetTabSize());
 		ln++;
 		static int d[] = { 0, 100, 2000, 10000, 50000 };
 		for(int i = 0; i < __countof(d); i++)
 			if(ln == cline - d[i]) {
-				syntax_cache[i + 1].data = syntax->дай();
+				syntax_cache[i + 1].data = syntax->Get();
 				syntax_cache[i + 1].line = ln;
 			}
 	}
-	syntax_cache[0].data = syntax->дай();
+	syntax_cache[0].data = syntax->Get();
 	syntax_cache[0].line = ln;
 	return pick(syntax);
 }
 
-void РедакторКода::Highlight(const Ткст& h)
+void CodeEditor::Highlight(const String& h)
 {
 	highlight = h;
-	устЦвет(СтрокРедакт::INK_NORMAL, hl_style[HighlightSetup::INK_NORMAL].color);
-	устЦвет(СтрокРедакт::INK_DISABLED, hl_style[HighlightSetup::INK_DISABLED].color);
-	устЦвет(СтрокРедакт::INK_SELECTED, hl_style[HighlightSetup::INK_SELECTED].color);
-	устЦвет(СтрокРедакт::PAPER_NORMAL, hl_style[HighlightSetup::PAPER_NORMAL].color);
-	устЦвет(СтрокРедакт::PAPER_READONLY, hl_style[HighlightSetup::PAPER_READONLY].color);
-	устЦвет(СтрокРедакт::PAPER_SELECTED, hl_style[HighlightSetup::PAPER_SELECTED].color);
-	устЦвет(СтрокРедакт::WHITESPACE, hl_style[HighlightSetup::WHITESPACE].color);
-	устЦвет(СтрокРедакт::WARN_WHITESPACE, hl_style[HighlightSetup::WARN_WHITESPACE].color);
-	освежи();
+	SetColor(LineEdit::INK_NORMAL, hl_style[HighlightSetup::INK_NORMAL].color);
+	SetColor(LineEdit::INK_DISABLED, hl_style[HighlightSetup::INK_DISABLED].color);
+	SetColor(LineEdit::INK_SELECTED, hl_style[HighlightSetup::INK_SELECTED].color);
+	SetColor(LineEdit::PAPER_NORMAL, hl_style[HighlightSetup::PAPER_NORMAL].color);
+	SetColor(LineEdit::PAPER_READONLY, hl_style[HighlightSetup::PAPER_READONLY].color);
+	SetColor(LineEdit::PAPER_SELECTED, hl_style[HighlightSetup::PAPER_SELECTED].color);
+	SetColor(LineEdit::WHITESPACE, hl_style[HighlightSetup::WHITESPACE].color);
+	SetColor(LineEdit::WARN_WHITESPACE, hl_style[HighlightSetup::WARN_WHITESPACE].color);
+	Refresh();
 	EditorBarLayout();
 }
 
-void РедакторКода::DirtyFrom(int line) {
+void CodeEditor::DirtyFrom(int line) {
 	for(int i = 0; i < __countof(syntax_cache); i++)
 		if(syntax_cache[i].line >= line)
-			syntax_cache[i].очисть();
+			syntax_cache[i].Clear();
 
 	if(check_edited) {
-		bar.очистьОшибки(line);
-		bar.освежи();
+		bar.ClearErrors(line);
+		bar.Refresh();
 	}
 }
 
-inline bool коммент_ли(int a, int b) {
+inline bool IsComment(int a, int b) {
 	return a == '/' && b == '*' || a == '*' && b == '/' || a == '/' && b == '/';
 }
 
@@ -88,301 +88,301 @@ inline bool RBR(int c) {
 	return isbrkt(c);
 }
 
-Ткст РедакторКода::дайОсвежиИнфо(int pos)
+String CodeEditor::GetRefreshInfo(int pos)
 {
-	int ii = дайСтроку(pos) + 1;
-	return ii < дайСчётСтрок() ? дайСинтакс(ii)->дай() : Ткст();
+	int ii = GetLine(pos) + 1;
+	return ii < GetLineCount() ? GetSyntax(ii)->Get() : String();
 }
 
-void РедакторКода::проверьОсвежиСинтакс(int64 pos, const ШТкст& text)
+void CodeEditor::CheckSyntaxRefresh(int64 pos, const WString& text)
 {
-	дайСинтакс(дайСтроку(pos))->проверьОсвежиСинтакс(*this, pos, text);
+	GetSyntax(GetLine(pos))->CheckSyntaxRefresh(*this, pos, text);
 }
 
-void РедакторКода::вставьПеред(int pos, const ШТкст& text)
+void CodeEditor::PreInsert(int pos, const WString& text)
 {
-	refresh_info = дайОсвежиИнфо(pos);
+	refresh_info = GetRefreshInfo(pos);
 }
 
-void РедакторКода::вставьПосле(int pos, const ШТкст& text) {
+void CodeEditor::PostInsert(int pos, const WString& text) {
 	if(check_edited)
-		bar.SetEdited(дайСтроку(pos));
+		bar.SetEdited(GetLine(pos));
 	if(!IsFullRefresh()) {
-		if(text.дайСчёт() > 200 || дайОсвежиИнфо(pos) != refresh_info || text.найди('\n') >= 0)
-			освежи();
+		if(text.GetCount() > 200 || GetRefreshInfo(pos) != refresh_info || text.Find('\n') >= 0)
+			Refresh();
 		else
-			проверьОсвежиСинтакс(pos, text);
+			CheckSyntaxRefresh(pos, text);
 	}
 	WhenUpdate();
 	EditorBarLayout();
 }
 
-void РедакторКода::удалиПеред(int pos, int size) {
+void CodeEditor::PreRemove(int pos, int size) {
 	if(IsFullRefresh()) return;
 	if(size > 200)
-		освежи();
+		Refresh();
 	else {
-		ШТкст text = дайШ(pos, size);
-		if(text.найди('\n') >= 0)
-			освежи();
+		WString text = GetW(pos, size);
+		if(text.Find('\n') >= 0)
+			Refresh();
 		else {
-			проверьОсвежиСинтакс(pos, text);
-			refresh_info = дайОсвежиИнфо(pos);
+			CheckSyntaxRefresh(pos, text);
+			refresh_info = GetRefreshInfo(pos);
 		}
 	}
 }
 
-void РедакторКода::удалиПосле(int pos, int size) {
+void CodeEditor::PostRemove(int pos, int size) {
 	if(check_edited)
-		bar.SetEdited(дайСтроку(pos));
+		bar.SetEdited(GetLine(pos));
 	WhenUpdate();
 	EditorBarLayout();
-	if(дайОсвежиИнфо(pos) != refresh_info)
-		освежи();
+	if(GetRefreshInfo(pos) != refresh_info)
+		Refresh();
 }
 
-void РедакторКода::очистьСтроки() {
-	bar.очистьСтроки();
+void CodeEditor::ClearLines() {
+	bar.ClearLines();
 }
 
-void РедакторКода::вставьСтроки(int line, int count) {
+void CodeEditor::InsertLines(int line, int count) {
 	if(IsView())
 		return;
-	bar.вставьСтроки(line, count);
-	if(line <= line2.дайСчёт())
-		line2.вставь(line, дайСтроку2(line), count);
+	bar.InsertLines(line, count);
+	if(line <= line2.GetCount())
+		line2.Insert(line, GetLine2(line), count);
 	EditorBarLayout();
 }
 
-void РедакторКода::удалиСтроки(int line, int count) {
-	bar.удалиСтроки(line, count);
-	if(line + count <= line2.дайСчёт())
-		line2.удали(line, count);
+void CodeEditor::RemoveLines(int line, int count) {
+	bar.RemoveLines(line, count);
+	if(line + count <= line2.GetCount())
+		line2.Remove(line, count);
 	EditorBarLayout();
 }
 
-void РедакторКода::Renumber2()
+void CodeEditor::Renumber2()
 {
 	if(IsView())
 		return;
-	line2.устСчёт(дайСчётСтрок());
-	for(int i = 0; i < дайСчётСтрок(); i++)
+	line2.SetCount(GetLineCount());
+	for(int i = 0; i < GetLineCount(); i++)
 		line2[i] = i;
 }
 
-int РедакторКода::дайСтроку2(int i) const
+int CodeEditor::GetLine2(int i) const
 {
-	return line2.дайСчёт() ? line2[min(line2.дайСчёт() - 1, i)] : 0;
+	return line2.GetCount() ? line2[min(line2.GetCount() - 1, i)] : 0;
 }
 
-void РедакторКода::NewScrollPos() {
-	bar.промотай();
+void CodeEditor::NewScrollPos() {
+	bar.Scroll();
 }
 
-Ткст РедакторКода::дайВставьТекст()
+String CodeEditor::GetPasteText()
 {
-	Ткст h;
+	String h;
 	WhenPaste(h);
 	return h;
 }
 
-bool РедакторКода::IsCursorBracket(int64 pos) const
+bool CodeEditor::IsCursorBracket(int64 pos) const
 {
 	return pos == highlight_bracket_pos0 && hilite_bracket;
 }
 
-bool РедакторКода::IsMatchingBracket(int64 pos) const
+bool CodeEditor::IsMatchingBracket(int64 pos) const
 {
 	return pos == highlight_bracket_pos && (hilite_bracket == 1 || hilite_bracket == 2 && bracket_flash);
 }
 
-void РедакторКода::проверьФигСкобы()
+void CodeEditor::CheckBrackets()
 {
 	CancelBracketHighlight(highlight_bracket_pos0);
 	CancelBracketHighlight(highlight_bracket_pos);
-	if(!выделение_ли()) {
-		if(дайСинтакс(GetCursorLine())->проверьФигСкобы(*this, highlight_bracket_pos0, highlight_bracket_pos)) {
-			освежиСтроку(дайСтроку(highlight_bracket_pos0));
-			освежиСтроку(дайСтроку(highlight_bracket_pos));
+	if(!IsSelection()) {
+		if(GetSyntax(GetCursorLine())->CheckBrackets(*this, highlight_bracket_pos0, highlight_bracket_pos)) {
+			RefreshLine(GetLine(highlight_bracket_pos0));
+			RefreshLine(GetLine(highlight_bracket_pos));
 			bracket_start = GetTimeClick();
 		}
 	}
 	WhenSelection();
 }
 
-void РедакторКода::копируйСлово() {
-	int64 p = дайКурсор64();
-	if(iscidl(дайСим(p)) || (p > 0 && iscidl(дайСим(--p)))) {
-		int64 e = дайДлину64();
+void CodeEditor::CopyWord() {
+	int64 p = GetCursor64();
+	if(iscidl(GetChar(p)) || (p > 0 && iscidl(GetChar(--p)))) {
+		int64 e = GetLength64();
 		int64 f = p;
-		while(--p >= 0 && iscidl(дайСим(p))) {}
+		while(--p >= 0 && iscidl(GetChar(p))) {}
 		++p;
-		while(++f < e && iscidl(дайСим(f)));
-		ШТкст txt = дайШ(p, ограничьРазм(f - p));
+		while(++f < e && iscidl(GetChar(f)));
+		WString txt = GetW(p, LimitSize(f - p));
 		WriteClipboardUnicodeText(txt);
-		AppendClipboardText(txt.вТкст());
+		AppendClipboardText(txt.ToString());
 	}
 }
 
-void РедакторКода::дублируйСтроку()
+void CodeEditor::DuplicateLine()
 {
-	if(толькочтен_ли()) return;
-	int i = дайСтроку(cursor);
-	int pos = дайПоз32(i);
-	int len = дайДлинуСтроки(i);
-	вставь(pos + len, "\n" + дайШ(pos, len));
+	if(IsReadOnly()) return;
+	int i = GetLine(cursor);
+	int pos = GetPos32(i);
+	int len = GetLineLength(i);
+	Insert(pos + len, "\n" + GetW(pos, len));
 }
 
-void РедакторКода::поменяйСимы() {
-	if(толькочтен_ли()) return;
-	int i = дайСтроку(cursor);
-	int j = дайПоз32(i);
-	if (j < cursor && cursor - j < дайДлинуСтроки(i)) {
+void CodeEditor::SwapChars() {
+	if(IsReadOnly()) return;
+	int i = GetLine(cursor);
+	int j = GetPos32(i);
+	if (j < cursor && cursor - j < GetLineLength(i)) {
 		int p = (int)cursor;
-		ШТкст txt(дайСим(p-1),1);
-		удали(p-1,1);
-		вставь(p, txt, true);
-		поместиКаретку(p);
+		WString txt(GetChar(p-1),1);
+		Remove(p-1,1);
+		Insert(p, txt, true);
+		PlaceCaret(p);
 	}
 }
 
-void РедакторКода::помести(int chr)
+void CodeEditor::Put(int chr)
 {
-	вставь((int)cursor++, ШТкст(chr, 1), true);
+	Insert((int)cursor++, WString(chr, 1), true);
 }
 
-void РедакторКода::FinishPut()
+void CodeEditor::FinishPut()
 {
-	поместиКаретку(cursor);
+	PlaceCaret(cursor);
 	Action();
 }
 
-void РедакторКода::перефмтКоммент()
+void CodeEditor::ReformatComment()
 {
-	if(толькочтен_ли()) return;
+	if(IsReadOnly()) return;
 	NextUndo();
-	дайСинтакс(дайСтроку(cursor))->перефмтКоммент(*this);
+	GetSyntax(GetLine(cursor))->ReformatComment(*this);
 }
 
-void РедакторКода::CancelBracketHighlight(int64& pos)
+void CodeEditor::CancelBracketHighlight(int64& pos)
 {
 	if(pos >= 0) {
-		освежиСтроку(дайСтроку(pos));
+		RefreshLine(GetLine(pos));
 		pos = -1;
 	}
 }
 
-void РедакторКода::Periodic()
+void CodeEditor::Periodic()
 {
 	bool b = (((GetTimeClick() - bracket_start) >> 8) & 1) == 0;
 	if(b != bracket_flash && EditorSyntax::hilite_bracket == 2) {
 		bracket_flash = b;
 		if(highlight_bracket_pos0 >= 0)
-			освежиСтроку(дайСтроку(highlight_bracket_pos0));
+			RefreshLine(GetLine(highlight_bracket_pos0));
 		if(highlight_bracket_pos >= 0)
-			освежиСтроку(дайСтроку(highlight_bracket_pos));
+			RefreshLine(GetLine(highlight_bracket_pos));
 	}
 }
 
-void РедакторКода::SelectionChanged()
+void CodeEditor::SelectionChanged()
 {
 	int64 l, h;
-	ШТкст nilluminated;
-	bool sel = дайВыделение(l, h);
+	WString nilluminated;
+	bool sel = GetSelection(l, h);
 	bool ill = false;
 	if(sel && h - l < 128) {
 		for(int64 i = l; i < h; i++) {
-			int c = дайСим(i);
+			int c = GetChar(i);
 			if(c == '\n') {
-				nilluminated.очисть();
+				nilluminated.Clear();
 				break;
 			}
 			if(!IsSpace(c))
 				ill = true;
-			nilluminated.конкат(c);
+			nilluminated.Cat(c);
 		}
 	}
 	if(!ill)
-		nilluminated.очисть();
+		nilluminated.Clear();
 	if(illuminated != nilluminated) {
 		illuminated = nilluminated;
-		освежи();
+		Refresh();
 	}
 	if(!foundsel) {
 		if(!persistent_find_replace)
-			закройНайдиЗам();
+			CloseFindReplace();
 		found = false;
 		notfoundfw = notfoundbk = false;
-		findreplace.amend.откл();
+		findreplace.amend.Disable();
 	}
-	проверьФигСкобы();
-	bar.освежи();
+	CheckBrackets();
+	bar.Refresh();
 }
 
-void РедакторКода::Illuminate(const ШТкст& text)
+void CodeEditor::Illuminate(const WString& text)
 {
 	if(illuminated != text) {
 		illuminated = text;
-		освежи();
+		Refresh();
 	}
 }
 
-bool РедакторКода::InsertRS(int chr, int count) {
-	if(толькочтен_ли()) return true;
-	if(выделение_ли()) {
+bool CodeEditor::InsertRS(int chr, int count) {
+	if(IsReadOnly()) return true;
+	if(IsSelection()) {
 		InsertChar(chr, count);
 		return true;
 	}
 	return false;
 }
 
-void РедакторКода::IndentInsert(int chr, int count) {
+void CodeEditor::IndentInsert(int chr, int count) {
 	if(InsertRS(chr)) return;
-	Один<EditorSyntax> s = дайСинтакс(GetCursorLine());
+	One<EditorSyntax> s = GetSyntax(GetCursorLine());
 	if(s)
 		s->IndentInsert(*this, chr, count);
 	else
 		InsertChar(chr, count);
 }
 
-void РедакторКода::сделай(Событие<Ткст&> op)
+void CodeEditor::Make(Event<String&> op)
 {
-	if(толькочтен_ли()) return;
-	Точка cursor = GetColumnLine(дайКурсор32());
-	Точка scroll = дайПозПромота();
+	if(IsReadOnly()) return;
+	Point cursor = GetColumnLine(GetCursor32());
+	Point scroll = GetScrollPos();
 	int l, h;
-	bool is_sel = дайВыделение32(l, h);
-	if(!is_sel) { l = 0; h = дайДлину32(); }
+	bool is_sel = GetSelection32(l, h);
+	if(!is_sel) { l = 0; h = GetLength32(); }
 	if(h <= l)
 	{
-		бипВосклицание();
+		BeepExclamation();
 		return;
 	}
-	l = дайПоз32(дайСтроку(l));
-	h = дайПоз32(дайСтроку(h - 1) + 1);
-	Ткст substring = дай(l, h - l);
-	Ткст out = substring;
+	l = GetPos32(GetLine(l));
+	h = GetPos32(GetLine(h - 1) + 1);
+	String substring = Get(l, h - l);
+	String out = substring;
 	op(out);
 	if(out == substring)
 	{
-		бипИнформация();
+		BeepInformation();
 		return;
 	}
-	удали(l, h - l);
-	вставь(l, out.вШТкст());
+	Remove(l, h - l);
+	Insert(l, out.ToWString());
 	if(is_sel)
-		устВыделение(l, l + out.дайДлину());
-	устКурсор(GetGPos(cursor.y, cursor.x));
+		SetSelection(l, l + out.GetLength());
+	SetCursor(GetGPos(cursor.y, cursor.x));
 	SetScrollPos(scroll);
 }
 
-void РедакторКода::TabsOrSpaces(Ткст& out, bool maketabs)
+void CodeEditor::TabsOrSpaces(String& out, bool maketabs)
 {
-	Ткст substring = out;
-	out.очисть();
+	String substring = out;
+	out.Clear();
 	int tab = GetTabSize();
 	if(tab <= 0) tab = 8;
-	for(const char *p = substring.старт(), *e = substring.стоп(); p < e;)
+	for(const char *p = substring.Begin(), *e = substring.End(); p < e;)
 	{
 		int pos = 0;
 		for(; p < e; p++)
@@ -394,110 +394,110 @@ void РедакторКода::TabsOrSpaces(Ткст& out, bool maketabs)
 				break;
 		if(maketabs)
 		{
-			out.конкат('\t', pos / tab);
+			out.Cat('\t', pos / tab);
 			const char *b = p;
 			while(p < e && *p++ != '\n')
 				;
-			out.конкат(b, int(p - b));
+			out.Cat(b, int(p - b));
 		}
 		else
 		{
-			out.конкат(' ', pos);
+			out.Cat(' ', pos);
 			for(; p < e && *p != '\n'; p++)
 				if(*p == '\t')
 				{
 					int npos = (pos / tab + 1) * tab;
-					out.конкат(' ', npos - pos);
+					out.Cat(' ', npos - pos);
 					pos = npos;
 				}
 				else
 				{
-					out.конкат(*p);
+					out.Cat(*p);
 					pos++;
 				}
 			if(p < e)
-				out.конкат(*p++);
+				out.Cat(*p++);
 		}
 	}
 }
 
-void РедакторКода::MakeTabsOrSpaces(bool maketabs)
+void CodeEditor::MakeTabsOrSpaces(bool maketabs)
 {
-	сделай(THISBACK1(TabsOrSpaces, maketabs));
+	Make(THISBACK1(TabsOrSpaces, maketabs));
 }
 
-void РедакторКода::LineEnds(Ткст& out)
+void CodeEditor::LineEnds(String& out)
 {
-	Ткст substring = out;
-	out.очисть();
+	String substring = out;
+	out.Clear();
 	const char *q = ~substring;
 	const char *b = q;
-	for(const char *p = b, *e = substring.стоп(); p < e; p++)
+	for(const char *p = b, *e = substring.End(); p < e; p++)
 	{
 		if(*p == '\n') {
-			out.конкат(b, q);
-			out.конкат("\r\n");
+			out.Cat(b, q);
+			out.Cat("\r\n");
 			b = q = p + 1;
 		}
 		else
 		if(*p != '\t' && *p != ' ' && *p != '\r')
 			q = p + 1;
 	}
-	out.конкат(b, substring.стоп());
+	out.Cat(b, substring.End());
 }
 
-void РедакторКода::MakeLineEnds()
+void CodeEditor::MakeLineEnds()
 {
-	сделай(THISBACK(LineEnds));
+	Make(THISBACK(LineEnds));
 }
 
-void РедакторКода::MoveNextWord(bool sel) {
-	int64 p = дайКурсор64();
-	int64 e = дайДлину64();
-	if(iscidl(дайСим(p)))
-		while(p < e && iscidl(дайСим(p))) p++;
+void CodeEditor::MoveNextWord(bool sel) {
+	int64 p = GetCursor64();
+	int64 e = GetLength64();
+	if(iscidl(GetChar(p)))
+		while(p < e && iscidl(GetChar(p))) p++;
 	else
-		while(p < e && !iscidl(дайСим(p))) p++;
-	поместиКаретку(p, sel);
+		while(p < e && !iscidl(GetChar(p))) p++;
+	PlaceCaret(p, sel);
 }
 
-void РедакторКода::MovePrevWord(bool sel) {
-	int64 p = дайКурсор64();
+void CodeEditor::MovePrevWord(bool sel) {
+	int64 p = GetCursor64();
 	if(p == 0) return;
-	if(iscidl(дайСим(p - 1)))
-		while(p > 0 && iscidl(дайСим(p - 1))) p--;
+	if(iscidl(GetChar(p - 1)))
+		while(p > 0 && iscidl(GetChar(p - 1))) p--;
 	else
-		while(p > 0 && !iscidl(дайСим(p - 1))) p--;
-	поместиКаретку(p, sel);
+		while(p > 0 && !iscidl(GetChar(p - 1))) p--;
+	PlaceCaret(p, sel);
 }
 
-void РедакторКода::MoveNextBrk(bool sel) {
-	int64 p = дайКурсор64();
-	int64 e = дайДлину64();
-	if(!islbrkt(дайСим(p)))
-		while(p < e && !islbrkt(дайСим(p))) p++;
+void CodeEditor::MoveNextBrk(bool sel) {
+	int64 p = GetCursor64();
+	int64 e = GetLength64();
+	if(!islbrkt(GetChar(p)))
+		while(p < e && !islbrkt(GetChar(p))) p++;
 	else {
 		int lvl = 1;
 		p++;
 		for(;;) {
 			if(p >= e) break;
-			int c = дайСим(p++);
+			int c = GetChar(p++);
 			if(islbrkt(c)) lvl++;
 			if(isrbrkt(c) && --lvl == 0) break;
 		}
 	}
-	поместиКаретку(p, sel);
+	PlaceCaret(p, sel);
 }
 
-void РедакторКода::MovePrevBrk(bool sel) {
-	int64 p = дайКурсор64();
+void CodeEditor::MovePrevBrk(bool sel) {
+	int64 p = GetCursor64();
 	if(p < 2) return;
-	if(!isrbrkt(дайСим(p - 1))) {
-		if(p < дайДлину64() - 1 && isrbrkt(дайСим(p)))
+	if(!isrbrkt(GetChar(p - 1))) {
+		if(p < GetLength64() - 1 && isrbrkt(GetChar(p)))
 			p++;
 		else {
-			while(p > 0 && !isrbrkt(дайСим(p - 1))) p--;
-			поместиКаретку(p, sel);
+			while(p > 0 && !isrbrkt(GetChar(p - 1))) p--;
+			PlaceCaret(p, sel);
 			return;
 		}
 	}
@@ -505,315 +505,315 @@ void РедакторКода::MovePrevBrk(bool sel) {
 	p -= 2;
 	for(;;) {
 		if(p <= 1) break;
-		int c = дайСим(p);
+		int c = GetChar(p);
 		if(isrbrkt(c)) lvl++;
 		if(islbrkt(c) && --lvl == 0) break;
 		p--;
 	}
-	поместиКаретку(p, sel);
+	PlaceCaret(p, sel);
 }
 
 bool isspctab(int c) {
 	return c == ' ' || c == '\t';
 }
 
-void РедакторКода::DeleteWord() {
-	if(толькочтен_ли() || удалиВыделение()) return;
-	int p = дайКурсор32();
-	int e = дайДлину32();
-	int c = дайСим(p);
+void CodeEditor::DeleteWord() {
+	if(IsReadOnly() || RemoveSelection()) return;
+	int p = GetCursor32();
+	int e = GetLength32();
+	int c = GetChar(p);
 	if(iscidl(c))
-		while(p < e && iscidl(дайСим(p))) p++;
+		while(p < e && iscidl(GetChar(p))) p++;
 	else
 	if(isspctab(c))
-		while(p < e && isspctab(дайСим(p))) p++;
+		while(p < e && isspctab(GetChar(p))) p++;
 	else {
 		DeleteChar();
 		return;
 	}
-	удали(дайКурсор32(), p - дайКурсор32());
+	Remove(GetCursor32(), p - GetCursor32());
 }
 
-void РедакторКода::DeleteWordBack() {
-	if(толькочтен_ли() || удалиВыделение()) return;
-	int p = дайКурсор32();
+void CodeEditor::DeleteWordBack() {
+	if(IsReadOnly() || RemoveSelection()) return;
+	int p = GetCursor32();
 	if(p < 1) return;
-	int c = дайСим(p - 1);
-	if(iscidl(дайСим(p - 1)))
-		while(p > 1 && iscidl(дайСим(p - 1))) p--;
+	int c = GetChar(p - 1);
+	if(iscidl(GetChar(p - 1)))
+		while(p > 1 && iscidl(GetChar(p - 1))) p--;
 	else
 	if(isspctab(c))
-		while(p > 1 && isspctab(дайСим(p - 1))) p--;
+		while(p > 1 && isspctab(GetChar(p - 1))) p--;
 	else {
 		Backspace();
 		return;
 	}
-	удали(p, дайКурсор32() - p);
-	поместиКаретку(p);
+	Remove(p, GetCursor32() - p);
+	PlaceCaret(p);
 }
 
-void РедакторКода::SetLineSelection(int l, int h) {
-	устВыделение(дайПоз64(l), дайПоз64(h));
+void CodeEditor::SetLineSelection(int l, int h) {
+	SetSelection(GetPos64(l), GetPos64(h));
 }
 
-bool РедакторКода::GetLineSelection(int& l, int& h) {
+bool CodeEditor::GetLineSelection(int& l, int& h) {
 	int64 ll, hh;
-	if(!дайВыделение(ll, hh)) return false;
-	l = дайСтроку(ll);
-	h = дайПозСтроки64(hh);
-	if(hh && h < дайСчётСтрок()) h++;
+	if(!GetSelection(ll, hh)) return false;
+	l = GetLine(ll);
+	h = GetLinePos64(hh);
+	if(hh && h < GetLineCount()) h++;
 	SetLineSelection(l, h);
 	return true;
 }
 
-void РедакторКода::SwapUpDown(bool up)
+void CodeEditor::SwapUpDown(bool up)
 {
 	int l, h;
-	if(дайВыделение(l, h)) {
-		l = дайСтроку(l);
+	if(GetSelection(l, h)) {
+		l = GetLine(l);
 		int hh = h;
 		h = GetLinePos(hh);
-		if(hh && h < дайСчётСтрок()) h++;
+		if(hh && h < GetLineCount()) h++;
 	}
 	else {
-		l = дайСтроку(cursor);
+		l = GetLine(cursor);
 		h = l + 1;
 	}
 	if(up) {
 		if(l == 0)
 			return;
-		вставь(дайПоз(h), дайШСтроку(l - 1) + "\n");
-		удали(дайПоз(l - 1), дайДлинуСтроки(l - 1) + 1);
-		устВыделение(дайПоз(l - 1), дайПоз(h - 1));
+		Insert(GetPos(h), GetWLine(l - 1) + "\n");
+		Remove(GetPos(l - 1), GetLineLength(l - 1) + 1);
+		SetSelection(GetPos(l - 1), GetPos(h - 1));
 	}
 	else {
-		if(h >= дайСчётСтрок() - 1)
+		if(h >= GetLineCount() - 1)
 			return;
-		ШТкст line = дайШСтроку(h) + "\n";
-		удали(дайПоз(h), дайДлинуСтроки(h) + 1);
-		вставь(дайПоз(l), line);
-		устВыделение(дайПоз(l + 1), дайПоз(h + 1));
+		WString line = GetWLine(h) + "\n";
+		Remove(GetPos(h), GetLineLength(h) + 1);
+		Insert(GetPos(l), line);
+		SetSelection(GetPos(l + 1), GetPos(h + 1));
 	}
 }
 
-void РедакторКода::TabRight() {
-	if(толькочтен_ли()) return;
+void CodeEditor::TabRight() {
+	if(IsReadOnly()) return;
 	int l, h;
 	if(!GetLineSelection(l, h)) return;
 	int ll = l;
-	Ткст tab(indent_spaces ? ' ' : '\t', indent_spaces ? GetTabSize() : 1);
+	String tab(indent_spaces ? ' ' : '\t', indent_spaces ? GetTabSize() : 1);
 	while(l < h)
-		вставь(дайПоз32(l++), tab);
+		Insert(GetPos32(l++), tab);
 	SetLineSelection(ll, h);
 }
 
-void РедакторКода::TabLeft() {
-	if(толькочтен_ли()) return;
+void CodeEditor::TabLeft() {
+	if(IsReadOnly()) return;
 	int l, h;
 	if(!GetLineSelection(l, h)) return;
 	int ll = l;
 	while(l < h) {
-		ШТкст ln = дайШСтроку(l);
+		WString ln = GetWLine(l);
 		int spc = 0;
 		while(spc < tabsize && ln[spc] == ' ') spc++;
 		if(spc < tabsize && ln[spc] == '\t') spc++;
-		удали(дайПоз32(l++), spc);
+		Remove(GetPos32(l++), spc);
 	}
 	SetLineSelection(ll, h);
 }
 
-bool РедакторКода::GetWordPos(int64 pos, int64& l, int64& h) {
+bool CodeEditor::GetWordPos(int64 pos, int64& l, int64& h) {
 	l = h = pos;
-	if(!iscidl(дайСим(pos))) return false;
-	while(l > 0 && iscidl(дайСим(l - 1))) l--;
-	while(iscidl(дайСим(h))) h++;
+	if(!iscidl(GetChar(pos))) return false;
+	while(l > 0 && iscidl(GetChar(l - 1))) l--;
+	while(iscidl(GetChar(h))) h++;
 	return true;
 }
 
-Ткст РедакторКода::GetWord(int64 pos)
+String CodeEditor::GetWord(int64 pos)
 {
 	int64 l, h;
 	GetWordPos(pos, l, h);
-	return дай(l, ограничьРазм(h - l));
+	return Get(l, LimitSize(h - l));
 }
 
-Ткст РедакторКода::GetWord()
+String CodeEditor::GetWord()
 {
 	return GetWord(cursor);
 }
 
-void РедакторКода::леваяДКлик(Точка p, dword keyflags) {
+void CodeEditor::LeftDouble(Point p, dword keyflags) {
 	int64 l, h;
-	int64 pos = дайПозМыши(p);
+	int64 pos = GetMousePos(p);
 	if(GetWordPos(pos, l, h))
-		устВыделение(l, h);
+		SetSelection(l, h);
 	else
-		устВыделение(pos, pos + 1);
+		SetSelection(pos, pos + 1);
 	selkind = SEL_WORDS;
-	устФокус();
+	SetFocus();
 	SetCapture();
 }
 
-void РедакторКода::LeftTriple(Точка p, dword keyflags)
+void CodeEditor::LeftTriple(Point p, dword keyflags)
 {
-	СтрокРедакт::LeftTriple(p, keyflags);
+	LineEdit::LeftTriple(p, keyflags);
 	selkind = SEL_LINES;
-	устФокус();
+	SetFocus();
 	SetCapture();
 }
 
-void РедакторКода::леваяВнизу(Точка p, dword keyflags) {
+void CodeEditor::LeftDown(Point p, dword keyflags) {
 	if((keyflags & K_CTRL) && WhenCtrlClick) {
-		WhenCtrlClick(дайПозМыши(p));
+		WhenCtrlClick(GetMousePos(p));
 		return;
 	}
-	СтрокРедакт::леваяВнизу(p, keyflags);
+	LineEdit::LeftDown(p, keyflags);
 	WhenLeftDown();
-	закройНайдиЗам();
+	CloseFindReplace();
 	selkind = SEL_CHARS;
 }
 
-void РедакторКода::Подсказка::рисуй(Draw& w)
+void CodeEditor::Tip::Paint(Draw& w)
 {
-	Прям r = дайРазм();
+	Rect r = GetSize();
 	w.DrawRect(r, SColorInfo());
 	r.left++;
 	if(d)
-		d->рисуй(w, r, v, SColorText(), SColorPaper(), 0);
+		d->Paint(w, r, v, SColorText(), SColorPaper(), 0);
 }
 
-РедакторКода::Подсказка::Подсказка()
+CodeEditor::Tip::Tip()
 {
-	устФрейм(фреймЧёрный());
+	SetFrame(BlackFrame());
 	BackPaint();
 }
 
-void РедакторКода::SyncTip()
+void CodeEditor::SyncTip()
 {
 	MouseTip mt;
 	mt.pos = tippos;
-	if(tippos >= 0 && видим_ли() && WhenTip(mt)) {
-		tip.d = mt.дисплей;
-		tip.v = mt.значение;
-		Точка p = РНЦП::дайПозМыши();
-		Размер sz = tip.дайРазмФрейма(mt.sz);
-		tip.устПрям(p.x, p.y + 24, sz.cx, sz.cy);
-		if(!tip.открыт())
+	if(tippos >= 0 && IsVisible() && WhenTip(mt)) {
+		tip.d = mt.display;
+		tip.v = mt.value;
+		Point p = Upp::GetMousePos();
+		Size sz = tip.AddFrameSize(mt.sz);
+		tip.SetRect(p.x, p.y + 24, sz.cx, sz.cy);
+		if(!tip.IsOpen())
 			tip.PopUp(this, false, false, true);
-		tip.освежи();
+		tip.Refresh();
 	}
 	else
 		CloseTip();
 }
 
-bool РедакторКода::MouseSelSpecial(Точка p, dword flags) {
-	if((flags & K_MOUSELEFT) && естьФокус() && HasCapture() && !(flags & K_ALT) && selkind != SEL_CHARS) {
-		int64 c = дайПозМыши(p);
+bool CodeEditor::MouseSelSpecial(Point p, dword flags) {
+	if((flags & K_MOUSELEFT) && HasFocus() && HasCapture() && !(flags & K_ALT) && selkind != SEL_CHARS) {
+		int64 c = GetMousePos(p);
 		int64 l, h;
 		
 		if(selkind == SEL_LINES) {
 			l = c;
-			int i = дайПозСтроки64(l);
+			int i = GetLinePos64(l);
 			l = c - l;
-			h = min(l + дайДлинуСтроки(i) + 1, дайДлину64() - 1);
+			h = min(l + GetLineLength(i) + 1, GetLength64() - 1);
 			c = c < anchor ? l : h;
 		}
 		else
-			c = iscidl(дайСим(c - 1)) && GetWordPos(c, l, h) ? c < anchor ? l : h : c;
-		поместиКаретку(c, mpos != c);
+			c = iscidl(GetChar(c - 1)) && GetWordPos(c, l, h) ? c < anchor ? l : h : c;
+		PlaceCaret(c, mpos != c);
 		return true;
 	}
 	return false;
 }
 
-void РедакторКода::леваяПовтори(Точка p, dword flags)
+void CodeEditor::LeftRepeat(Point p, dword flags)
 {
 	if(!MouseSelSpecial(p, flags))
-		СтрокРедакт::леваяПовтори(p, flags);
+		LineEdit::LeftRepeat(p, flags);
 }
 
-void РедакторКода::двигМыши(Точка p, dword flags) {
+void CodeEditor::MouseMove(Point p, dword flags) {
 	if(!MouseSelSpecial(p, flags))
-		СтрокРедакт::двигМыши(p, flags);
-	if(выделение_ли()) return;
-	int64 h = дайПозМыши(p);
+		LineEdit::MouseMove(p, flags);
+	if(IsSelection()) return;
+	int64 h = GetMousePos(p);
 	tippos = h < INT_MAX ? (int)h : -1;
 	SyncTip();
 }
 
-Рисунок РедакторКода::рисКурсора(Точка p, dword keyflags)
+Image CodeEditor::CursorImage(Point p, dword keyflags)
 {
 	if(WhenCtrlClick && (keyflags & K_CTRL))
-		return Рисунок::Hand();
-	if(tip.открыт())
-		return Рисунок::Arrow();
-	return СтрокРедакт::рисКурсора(p, keyflags);
+		return Image::Hand();
+	if(tip.IsOpen())
+		return Image::Arrow();
+	return LineEdit::CursorImage(p, keyflags);
 }
 
-void РедакторКода::выходМыши()
+void CodeEditor::MouseLeave()
 {
 	tippos = -1;
-	СтрокРедакт::выходМыши();
+	LineEdit::MouseLeave();
 }
 
-ШТкст РедакторКода::GetI()
+WString CodeEditor::GetI()
 {
 	int64 l, h;
-	ШТкст ft;
-	if((дайВыделение(l, h) || GetWordPos(дайКурсор64(), l, h)) && h - l < 60)
+	WString ft;
+	if((GetSelection(l, h) || GetWordPos(GetCursor64(), l, h)) && h - l < 60)
 		while(l < h) {
-			int c = дайСим(l++);
+			int c = GetChar(l++);
 			if(c == '\n')
 				break;
-			ft.конкат(c);
+			ft.Cat(c);
 		}
 	return ft;
 }
 
-//void РедакторКода::FindWord(bool back)
+//void CodeEditor::FindWord(bool back)
 //{
-//	ШТкст I = GetI();
-//	if(!пусто_ли(I))
-//		найди(back, I, true, false, false, false, false);
+//	WString I = GetI();
+//	if(!IsNull(I))
+//		Find(back, I, true, false, false, false, false);
 //}
 
-void РедакторКода::SetI(Ктрл *edit)
+void CodeEditor::SetI(Ctrl *edit)
 {
 	*edit <<= GetI();
 }
 
-void РедакторКода::идиК() {
-	Ткст line = какТкст(GetCursorLine());
-	if(редактируйТекст(line, t_("иди to"), t_("Строка:")))
-		устКурсор(дайПоз64(atoi(line) - 1));
+void CodeEditor::Goto() {
+	String line = AsString(GetCursorLine());
+	if(EditText(line, t_("Go to"), t_("Line:")))
+		SetCursor(GetPos64(atoi(line) - 1));
 }
 
-bool РедакторКода::ToggleSimpleComment(int &start_line, int &end_line, bool usestars)
+bool CodeEditor::ToggleSimpleComment(int &start_line, int &end_line, bool usestars)
 {
-	if(толькочтен_ли()) return true;
+	if(IsReadOnly()) return true;
 
 	int l, h;
-	if(!дайВыделение32(l, h))
+	if(!GetSelection32(l, h))
 		return true;
 
 	int pos = h;
-	start_line = дайСтроку(l);
-	end_line = дайПозСтроки32(pos);
+	start_line = GetLine(l);
+	end_line = GetLinePos32(pos);
 
 	if(usestars && start_line == end_line) {
 		Enclose("/*", "*/", l, h);
 		return true;
 	}
 
-	if(pos && end_line < дайСчётСтрок()) end_line++;
+	if(pos && end_line < GetLineCount()) end_line++;
 	SetLineSelection(start_line, end_line);
 
 	return false;
 }
 
-void РедакторКода::ToggleLineComments(bool usestars)
+void CodeEditor::ToggleLineComments(bool usestars)
 {
-	if(толькочтен_ли()) return;
+	if(IsReadOnly()) return;
 
 	int start_line, end_line;
 	if(ToggleSimpleComment(start_line, end_line))
@@ -824,36 +824,36 @@ void РедакторКода::ToggleLineComments(bool usestars)
 	bool is_commented = true;
 
 	if(usestars) {
-		is_commented &= дайСим(дайПоз64(start_line) + 0) == '/' &&
-						дайСим(дайПоз64(start_line) + 1) == '*';
+		is_commented &= GetChar(GetPos64(start_line) + 0) == '/' &&
+						GetChar(GetPos64(start_line) + 1) == '*';
 
-		is_commented &= дайСим(дайПоз64(end_line - 1) + 1) == '*' &&
-						дайСим(дайПоз64(end_line - 1) + 2) == '/';
+		is_commented &= GetChar(GetPos64(end_line - 1) + 1) == '*' &&
+						GetChar(GetPos64(end_line - 1) + 2) == '/';
 	}
 
 	for(int line = start_line + us; is_commented && (line < end_line - us * 2); ++line)
-		is_commented &= дайСим(дайПоз64(line)) == (usestars ? ' ' : '/') &&
-						дайСим(дайПоз64(line)+1) == (usestars ? '*' : '/');
+		is_commented &= GetChar(GetPos64(line)) == (usestars ? ' ' : '/') &&
+						GetChar(GetPos64(line)+1) == (usestars ? '*' : '/');
 
 	if(!is_commented) {
 
 		if(usestars) {
-			вставь(дайПоз32(end_line)," */\n");
-			вставь(дайПоз32(start_line),"/*\n");
+			Insert(GetPos32(end_line)," */\n");
+			Insert(GetPos32(start_line),"/*\n");
 		}
 
 		for(int line = start_line + us; line < end_line + us; ++line)
-			вставь(дайПоз32(line), usestars ? " * " : "//");
+			Insert(GetPos32(line), usestars ? " * " : "//");
 	}
 	else
 	{
 		int line = start_line;
 		if(usestars)
-			удали(дайПоз32(start_line), 3);
+			Remove(GetPos32(start_line), 3);
 		for(; line < end_line - us * 2; ++line)
-			удали(дайПоз32(line), 2 + us);
+			Remove(GetPos32(line), 2 + us);
 		if(usestars)
-			удали(дайПоз32(line), 4);
+			Remove(GetPos32(line), 4);
 	}
 
 	if(usestars)
@@ -862,57 +862,57 @@ void РедакторКода::ToggleLineComments(bool usestars)
 		SetLineSelection(start_line, end_line);
 }
 
-void РедакторКода::ToggleStarComments()
+void CodeEditor::ToggleStarComments()
 {
-	if(толькочтен_ли()) return;
+	if(IsReadOnly()) return;
 
 	int start_line, end_line;
 	if(ToggleSimpleComment(start_line, end_line))
 		return;
 
 	bool is_commented =
-		дайСим(дайПоз64(start_line)) == '/' &&
-		дайСим(дайПоз64(start_line)+1) == '*' &&
-		дайСим(дайПоз64(start_line)+2) == '\n' &&
-		дайСим(дайПоз64(end_line-1)) == '*' &&
-		дайСим(дайПоз64(end_line-1)+1) == '/' &&
-		дайСим(дайПоз64(end_line-1)+2) == '\n';
+		GetChar(GetPos64(start_line)) == '/' &&
+		GetChar(GetPos64(start_line)+1) == '*' &&
+		GetChar(GetPos64(start_line)+2) == '\n' &&
+		GetChar(GetPos64(end_line-1)) == '*' &&
+		GetChar(GetPos64(end_line-1)+1) == '/' &&
+		GetChar(GetPos64(end_line-1)+2) == '\n';
 
 	if(!is_commented) {
 		// Backwards because inserting changes the end line #
-		вставь(дайПоз32(end_line),"*/\n");
-		вставь(дайПоз32(start_line),"/*\n");
+		Insert(GetPos32(end_line),"*/\n");
+		Insert(GetPos32(start_line),"/*\n");
 		SetLineSelection(start_line, end_line+2);
 	} else {
 		// Backwards because inserting changes the end line #
-		удали(дайПоз32(end_line-1),3);
-		удали(дайПоз32(start_line),3);
+		Remove(GetPos32(end_line-1),3);
+		Remove(GetPos32(start_line),3);
 		SetLineSelection(start_line, end_line-2);
 	}
 }
 
-void РедакторКода::Enclose(const char *c1, const char *c2, int l, int h)
+void CodeEditor::Enclose(const char *c1, const char *c2, int l, int h)
 {
-	if(толькочтен_ли()) return;
+	if(IsReadOnly()) return;
 
-	if((l < 0 || h < 0) && !дайВыделение32(l, h))
+	if((l < 0 || h < 0) && !GetSelection32(l, h))
 		return;
-	вставь(l, ШТкст(c1));
-	вставь(h + (int)strlen(c1), ШТкст(c2));
-	очистьВыделение();
-	устКурсор(h + (int)strlen(c1) + (int)strlen(c2));
+	Insert(l, WString(c1));
+	Insert(h + (int)strlen(c1), WString(c2));
+	ClearSelection();
+	SetCursor(h + (int)strlen(c1) + (int)strlen(c2));
 }
 
-bool РедакторКода::Ключ(dword code, int count) {
-	Время key_time = дайСисВремя();
+bool CodeEditor::Key(dword code, int count) {
+	Time key_time = GetSysTime();
 	double diff;
-	if(!пусто_ли(last_key_time) && (diff = int(key_time - last_key_time)) <= 3)
+	if(!IsNull(last_key_time) && (diff = int(key_time - last_key_time)) <= 3)
 		stat_edit_time += diff;
 	last_key_time = key_time;
 
 	NextUndo();
 	if(code == replace_key) {
-		замени();
+		Replace();
 		return true;
 	}
 	switch(code) {
@@ -929,10 +929,10 @@ bool РедакторКода::Ключ(dword code, int count) {
 		DeleteWordBack();
 		return true;
 	case K_BACKSPACE:
-		if(!толькочтен_ли() && !IsAnySelection() && indent_spaces) {
-			int c = дайКурсор32();
-			Точка ixln = GetIndexLine(c);
-			ШТкст ln = дайШСтроку(ixln.y);
+		if(!IsReadOnly() && !IsAnySelection() && indent_spaces) {
+			int c = GetCursor32();
+			Point ixln = GetIndexLine(c);
+			WString ln = GetWLine(ixln.y);
 			bool white = true;
 			int startindex = -1, pos = 0, tabsz = GetTabSize();
 			for(int i = 0; i < ixln.x; i++) {
@@ -949,15 +949,15 @@ bool РедакторКода::Ключ(dword code, int count) {
 			}
 			if(white && startindex >= 0) {
 				int count = ixln.x - startindex;
-				поместиКаретку(c - count);
-				удали(c - count, count);
+				PlaceCaret(c - count);
+				Remove(c - count, count);
 				Action();
 				return true;
 			}
 		}
 		break;
 	case K_SHIFT_CTRL_TAB:
-		return СтрокРедакт::Ключ(K_TAB, count);
+		return LineEdit::Key(K_TAB, count);
 	case K_ENTER:
 		IndentInsert('\n', count);
 		return true;
@@ -978,9 +978,9 @@ bool РедакторКода::Ключ(dword code, int count) {
 		break;
 	case K_F3:
 		if(sel)
-			найдиПредш();
+			FindPrev();
 		else
-			найдиСледщ();
+			FindNext();
 		return true;
 //	case K_CTRL_F3:
 //		FindWord(sel);
@@ -1004,8 +1004,8 @@ bool РедакторКода::Ключ(dword code, int count) {
 		Zoom(-1);
 		return true;
 	case K_TAB:
-		if(!толькочтен_ли()) {
-			if(выделение_ли()) {
+		if(!IsReadOnly()) {
+			if(IsSelection()) {
 				if(sel)
 					TabLeft();
 				else
@@ -1013,14 +1013,14 @@ bool РедакторКода::Ключ(dword code, int count) {
 				return true;
 			}
 			if(!sel && indent_spaces) {
-				int x = GetColumnLine(дайКурсор64()).x;
+				int x = GetColumnLine(GetCursor64()).x;
 				int add = GetTabSize() - x % GetTabSize();
 				InsertChar(' ', add, false);
 				return true;
 			}
 		}
 	default:
-		if(выделение_ли() && auto_enclose) {
+		if(IsSelection() && auto_enclose) {
 			if(code == '(') {
 				Enclose("(", ")");
 				return true;
@@ -1055,12 +1055,12 @@ bool РедакторКода::Ключ(dword code, int count) {
 		}
 		if(wordwrap && code > 0 && code < 65535) {
 			int limit = GetBorderColumn();
-			int pos = дайКурсор32();
+			int pos = GetCursor32();
 			int lp = pos;
-			int l = дайПозСтроки32(lp);
-			if(limit > 10 && GetColumnLine(pos).x >= limit && lp == дайДлинуСтроки(l)) {
-				int lp0 = дайПоз32(l);
-				ШТкст ln = дайШСтроку(l);
+			int l = GetLinePos32(lp);
+			if(limit > 10 && GetColumnLine(pos).x >= limit && lp == GetLineLength(l)) {
+				int lp0 = GetPos32(l);
+				WString ln = GetWLine(l);
 				int wl = (int)GetGPos(l, limit) - lp0;
 				while(wl > 0 && ln[wl - 1] != ' ')
 					wl--;
@@ -1068,15 +1068,15 @@ bool РедакторКода::Ключ(dword code, int count) {
 				while(sl > 0 && ln[wl - 1] != '\n' && ln[sl - 1] == ' ')
 					sl--;
 				wordwrap = false;
-				удали(lp0 + sl, pos - (lp0 + sl));
-				устКурсор(lp0 + sl);
-				помести('\n');
+				Remove(lp0 + sl, pos - (lp0 + sl));
+				SetCursor(lp0 + sl);
+				Put('\n');
 				for(int i = 0; i < wl && findarg(ln[i], ' ', '\t') >= 0; i++)
-					помести(ln[i]);
-				for(int i = wl; i < ln.дайСчёт(); i++)
-					помести(ln[i]);
+					Put(ln[i]);
+				for(int i = wl; i < ln.GetCount(); i++)
+					Put(ln[i]);
 				while(count--)
-					помести(code);
+					Put(code);
 				FinishPut();
 				wordwrap = true;
 				return true;
@@ -1087,51 +1087,51 @@ bool РедакторКода::Ключ(dword code, int count) {
 			IndentInsert(code, 1);
 			return true;
 		}
-		if(code == 9 && выделение_ли())
+		if(code == 9 && IsSelection())
 			return true;
 	}
-	if(дайНабсим() != CHARSET_UTF8)
-		if(code >= 128 && code < 65536 && изЮникода((wchar)code, дайНабсим()) == DEFAULTCHAR)
+	if(GetCharset() != CHARSET_UTF8)
+		if(code >= 128 && code < 65536 && FromUnicode((wchar)code, GetCharset()) == DEFAULTCHAR)
 			return true;
-	return СтрокРедакт::Ключ(code, count);
+	return LineEdit::Key(code, count);
 }
 
-void РедакторКода::ForwardWhenBreakpoint(int i) {
+void CodeEditor::ForwardWhenBreakpoint(int i) {
 	WhenBreakpoint(i);
 }
 
-void РедакторКода::GotoLine(int line)
+void CodeEditor::GotoLine(int line)
 {
-	устКурсор(дайПоз64(дайНомСтр(line)));
+	SetCursor(GetPos64(GetLineNo(line)));
 }
 
-void РедакторКода::сериализуй(Поток& s) {
+void CodeEditor::Serialize(Stream& s) {
 	int version = 0;
 	s / version;
 	SerializeFind(s);
 }
 
-void РедакторКода::SetLineInfo(const LineInfo& lf)
+void CodeEditor::SetLineInfo(const LineInfo& lf)
 {
-	bar.SetLineInfo(lf, дайСчётСтрок());
+	bar.SetLineInfo(lf, GetLineCount());
 }
 
-void РедакторКода::HighlightLine(int line, Вектор<СтрокРедакт::Highlight>& hl, int64 pos)
+void CodeEditor::HighlightLine(int line, Vector<LineEdit::Highlight>& hl, int64 pos)
 {
 	CTIMING("HighlightLine");
 	HighlightOutput hls(hl);
-	ШТкст l = дайШСтроку(line);
-	дайСинтакс(line)->Highlight(l.старт(), l.стоп(), hls, this, line, pos);
-	if(illuminated.дайСчёт()) {
+	WString l = GetWLine(line);
+	GetSyntax(line)->Highlight(l.Begin(), l.End(), hls, this, line, pos);
+	if(illuminated.GetCount()) {
 		int q = 0;
-		while(q < l.дайСчёт() && q < hl.дайСчёт()) {
-			q = l.найди(illuminated, q);
+		while(q < l.GetCount() && q < hl.GetCount()) {
+			q = l.Find(illuminated, q);
 			if(q < 0)
 				break;
-			int n = illuminated.дайСчёт();
+			int n = illuminated.GetCount();
 			if(n > 1 || !iscid(illuminated[0]) ||
-			   (q == 0 || !iscid(l[q - 1])) && (q + n >= l.дайСчёт() || !iscid(l[q + n])))
-				while(n-- && q < hl.дайСчёт()) {
+			   (q == 0 || !iscid(l[q - 1])) && (q + n >= l.GetCount() || !iscid(l[q + n])))
+				while(n-- && q < hl.GetCount()) {
 					const HlStyle& st = hl_style[PAPER_SELWORD];
 					hl[q].paper = st.color;
 					if(st.bold)
@@ -1144,65 +1144,65 @@ void РедакторКода::HighlightLine(int line, Вектор<СтрокР
 	}
 }
 
-void РедакторКода::PutI(WithDropChoice<EditString>& edit)
+void CodeEditor::PutI(WithDropChoice<EditString>& edit)
 {
-	edit.AddButton().SetMonoImage(CodeEditorImg::I()).Подсказка(t_("уст word/selection (Ктрл+I)"))
+	edit.AddButton().SetMonoImage(CodeEditorImg::I()).Tip(t_("Установить word/selection (Ctrl+I)"))
 	    <<= THISBACK1(SetI, &edit);
 }
 
-void РедакторКода::Zoom(int d)
+void CodeEditor::Zoom(int d)
 {
-	Шрифт f = дайШрифт();
+	Font f = GetFont();
 	int h = f.GetCy();
-	int q = f.дайВысоту();
+	int q = f.GetHeight();
 	while(f.GetCy() == h && (d < 0 ? f.GetCy() > 5 : f.GetCy() < 80))
-		f.устВысоту(q += d);
-	устШрифт(f);
+		f.Height(q += d);
+	SetFont(f);
 	EditorBarLayout();
 }
 
-void РедакторКода::колесоМыши(Точка p, int zdelta, dword keyFlags) {
+void CodeEditor::MouseWheel(Point p, int zdelta, dword keyFlags) {
 	if(keyFlags & K_CTRL) {
-		Zoom(зн(zdelta));
+		Zoom(sgn(zdelta));
 	}
 	else
-		СтрокРедакт::колесоМыши(p, zdelta, keyFlags);
+		LineEdit::MouseWheel(p, zdelta, keyFlags);
 }
 
-void РедакторКода::очисть()
+void CodeEditor::Clear()
 {
 	for(SyntaxPos& p : syntax_cache)
-		p.очисть();
-	СтрокРедакт::очисть();
+		p.Clear();
+	LineEdit::Clear();
 	found = notfoundfw = notfoundbk = false;
 }
 
-РедакторКода::РедакторКода() {
+CodeEditor::CodeEditor() {
 	bracket_flash = false;
 	highlight_bracket_pos0 = 0;
 	bracket_start = 0;
 	stat_edit_time = 0;
 	last_key_time = Null;
-	устШрифт(CourierZ(12));
-	добавьФрейм(bar);
+	SetFont(CourierZ(12));
+	AddFrame(bar);
 	bar.SetEditor(this);
 	UndoSteps(10000);
-	иницНайтиЗаменить();
+	InitFindReplace();
 	bar.WhenBreakpoint = THISBACK(ForwardWhenBreakpoint);
-	bar.WhenAnnotationMove = WhenAnnotationMove.прокси();
-	bar.WhenAnnotationClick = WhenAnnotationClick.прокси();
-	bar.WhenAnnotationRightClick = WhenAnnotationRightClick.прокси();
+	bar.WhenAnnotationMove = WhenAnnotationMove.Proxy();
+	bar.WhenAnnotationClick = WhenAnnotationClick.Proxy();
+	bar.WhenAnnotationRightClick = WhenAnnotationRightClick.Proxy();
 	barline = true;
 	sb.WithSizeGrip();
 	DefaultHlStyles();
 	Highlight(Null);
-	sb.y.безАвтоСкрой();
-	sb.y.добавьФрейм(topsbbutton);
-	sb.y.добавьФрейм(topsbbutton1);
-	topsbbutton.скрой();
-	topsbbutton1.скрой();
+	sb.y.NoAutoHide();
+	sb.y.AddFrame(topsbbutton);
+	sb.y.AddFrame(topsbbutton1);
+	topsbbutton.Hide();
+	topsbbutton1.Hide();
 	highlight_bracket_pos = 10;
-	устОбрвызВремени(-20, THISBACK(Periodic), TIMEID_PERIODIC);
+	SetTimeCallback(-20, THISBACK(Periodic), TIMEID_PERIODIC);
 	auto_enclose = false;
 	mark_lines = true;
 	check_edited = false;
@@ -1212,6 +1212,6 @@ void РедакторКода::очисть()
 	wordwrap = false;
 }
 
-РедакторКода::~РедакторКода() {}
+CodeEditor::~CodeEditor() {}
 
 }

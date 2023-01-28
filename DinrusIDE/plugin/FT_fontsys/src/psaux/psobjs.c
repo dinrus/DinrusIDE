@@ -47,7 +47,7 @@
 
   /*************************************************************************/
   /*                                                                       */
-  /* <Функция>                                                            */
+  /* <Function>                                                            */
   /*    ps_table_new                                                       */
   /*                                                                       */
   /* <Description>                                                         */
@@ -63,14 +63,14 @@
   /*              reallocations.                                           */
   /*                                                                       */
   /* <Return>                                                              */
-  /*    FreeType Ошибка code.  0 means success.                             */
+  /*    FreeType error code.  0 means success.                             */
   /*                                                                       */
   FT_LOCAL_DEF( FT_Error )
   ps_table_new( PS_Table   table,
                 FT_Int     count,
                 FT_Memory  memory )
   {
-    FT_Error  Ошибка;
+    FT_Error  error;
 
 
     table->memory = memory;
@@ -88,10 +88,10 @@
     *(PS_Table_FuncsRec*)&table->funcs = ps_table_funcs;
 
   Exit:
-    if ( Ошибка )
+    if ( error )
       FT_FREE( table->elements );
 
-    return Ошибка;
+    return error;
   }
 
 
@@ -118,14 +118,14 @@
   {
     FT_Memory  memory   = table->memory;
     FT_Byte*   old_base = table->block;
-    FT_Error   Ошибка;
+    FT_Error   error;
 
 
     /* allocate new base block */
     if ( FT_ALLOC( table->block, new_size ) )
     {
       table->block = old_base;
-      return Ошибка;
+      return error;
     }
 
     /* copy elements and shift offsets */
@@ -144,7 +144,7 @@
 
   /*************************************************************************/
   /*                                                                       */
-  /* <Функция>                                                            */
+  /* <Function>                                                            */
   /*    ps_table_add                                                       */
   /*                                                                       */
   /* <Description>                                                         */
@@ -161,7 +161,7 @@
   /*    length :: The length in bytes of the source object.                */
   /*                                                                       */
   /* <Return>                                                              */
-  /*    FreeType Ошибка code.  0 means success.  An Ошибка is returned if a  */
+  /*    FreeType error code.  0 means success.  An error is returned if a  */
   /*    reallocation fails.                                                */
   /*                                                                       */
   FT_LOCAL_DEF( FT_Error )
@@ -185,7 +185,7 @@
     /* grow the base block if needed */
     if ( table->cursor + length > table->capacity )
     {
-      FT_Error    Ошибка;
+      FT_Error    error;
       FT_Offset   new_size = table->capacity;
       FT_PtrDist  in_offset;
 
@@ -202,9 +202,9 @@
         new_size  = FT_PAD_CEIL( new_size, 1024 );
       }
 
-      Ошибка = reallocate_t1_table( table, new_size );
-      if ( Ошибка )
-        return Ошибка;
+      error = reallocate_t1_table( table, new_size );
+      if ( error )
+        return error;
 
       if ( in_offset >= 0 )
         object = table->block + in_offset;
@@ -222,7 +222,7 @@
 
   /*************************************************************************/
   /*                                                                       */
-  /* <Функция>                                                            */
+  /* <Function>                                                            */
   /*    ps_table_done                                                      */
   /*                                                                       */
   /* <Description>                                                         */
@@ -240,7 +240,7 @@
   ps_table_done( PS_Table  table )
   {
     FT_Memory  memory = table->memory;
-    FT_Error   Ошибка;
+    FT_Error   error;
     FT_Byte*   old_base = table->block;
 
 
@@ -256,7 +256,7 @@
     table->capacity = table->cursor;
     FT_FREE( old_base );
 
-    FT_UNUSED( Ошибка );
+    FT_UNUSED( error );
   }
 
 
@@ -341,7 +341,7 @@
   {
     FT_Byte*      cur   = *acur;
     FT_Int        embed = 0;
-    FT_Error      Ошибка = PSaux_Err_Invalid_File_Format;
+    FT_Error      error = PSaux_Err_Invalid_File_Format;
     unsigned int  i;
 
 
@@ -354,7 +354,7 @@
 
       if ( c == '\\' )
       {
-        /* красный Book 3rd ed., section `Literal устТекст Strings', p. 29:     */
+        /* Red Book 3rd ed., section `Literal Text Strings', p. 29:     */
         /* A backslash can introduce three different types              */
         /* of escape sequences:                                         */
         /*   - a special escaped char like \r, \n, etc.                 */
@@ -362,7 +362,7 @@
         /*   - none of the above in which case the backslash is ignored */
 
         if ( cur == limit )
-          /* Ошибка (or to be ignored?) */
+          /* error (or to be ignored?) */
           break;
 
         switch ( *cur )
@@ -397,7 +397,7 @@
         embed--;
         if ( embed == 0 )
         {
-          Ошибка = PSaux_Err_Ok;
+          error = PSaux_Err_Ok;
           break;
         }
       }
@@ -405,7 +405,7 @@
 
     *acur = cur;
 
-    return Ошибка;
+    return error;
   }
 
 
@@ -456,12 +456,12 @@
   {
     FT_Byte*  cur;
     FT_Int    embed = 0;
-    FT_Error  Ошибка = PSaux_Err_Ok;
+    FT_Error  error = PSaux_Err_Ok;
 
 
     FT_ASSERT( **acur == '{' );
 
-    for ( cur = *acur; cur < limit && Ошибка == PSaux_Err_Ok; ++cur )
+    for ( cur = *acur; cur < limit && error == PSaux_Err_Ok; ++cur )
     {
       switch ( *cur )
       {
@@ -479,11 +479,11 @@
         break;
 
       case '(':
-        Ошибка = skip_literal_string( &cur, limit );
+        error = skip_literal_string( &cur, limit );
         break;
 
       case '<':
-        Ошибка = skip_string( &cur, limit );
+        error = skip_string( &cur, limit );
         break;
 
       case '%':
@@ -494,11 +494,11 @@
 
   end:
     if ( embed != 0 )
-      Ошибка = PSaux_Err_Invalid_File_Format;
+      error = PSaux_Err_Invalid_File_Format;
 
     *acur = cur;
 
-    return Ошибка;
+    return error;
   }
 
 
@@ -514,12 +514,12 @@
   ps_parser_skip_PS_token( PS_Parser  parser )
   {
     /* Note: PostScript allows any non-delimiting, non-whitespace        */
-    /*       character in a имя (PS Реф Manual, 3rd ed, p31).           */
+    /*       character in a name (PS Ref Manual, 3rd ed, p31).           */
     /*       PostScript delimiters are (, ), <, >, [, ], {, }, /, and %. */
 
     FT_Byte*  cur   = parser->cursor;
     FT_Byte*  limit = parser->limit;
-    FT_Error  Ошибка = PSaux_Err_Ok;
+    FT_Error  error = PSaux_Err_Ok;
 
 
     skip_spaces( &cur, limit );             /* this also skips comments */
@@ -537,13 +537,13 @@
 
     if ( *cur == '{' )                              /* {...} */
     {
-      Ошибка = skip_procedure( &cur, limit );
+      error = skip_procedure( &cur, limit );
       goto Exit;
     }
 
     if ( *cur == '(' )                              /* (...) */
     {
-      Ошибка = skip_literal_string( &cur, limit );
+      error = skip_literal_string( &cur, limit );
       goto Exit;
     }
 
@@ -555,7 +555,7 @@
         cur++;
       }
       else
-        Ошибка = skip_string( &cur, limit );
+        error = skip_string( &cur, limit );
 
       goto Exit;
     }
@@ -567,7 +567,7 @@
       {
         FT_ERROR(( "ps_parser_skip_PS_token:"
                    " unexpected closing delimiter `>'\n" ));
-        Ошибка = PSaux_Err_Invalid_File_Format;
+        error = PSaux_Err_Invalid_File_Format;
         goto Exit;
       }
       cur++;
@@ -597,10 +597,10 @@
                  " but invalid at this point\n",
                  *cur ));
 
-      Ошибка = PSaux_Err_Invalid_File_Format;
+      error = PSaux_Err_Invalid_File_Format;
     }
 
-    parser->Ошибка  = Ошибка;
+    parser->error  = error;
     parser->cursor = cur;
   }
 
@@ -624,7 +624,7 @@
     FT_Int    embed;
 
 
-    token->тип  = T1_TOKEN_TYPE_NONE;
+    token->type  = T1_TOKEN_TYPE_NONE;
     token->start = 0;
     token->limit = 0;
 
@@ -641,7 +641,7 @@
     {
       /************* check for literal string *****************/
     case '(':
-      token->тип  = T1_TOKEN_TYPE_STRING;
+      token->type  = T1_TOKEN_TYPE_STRING;
       token->start = cur;
 
       if ( skip_literal_string( &cur, limit ) == PSaux_Err_Ok )
@@ -650,7 +650,7 @@
 
       /************* check for programs/array *****************/
     case '{':
-      token->тип  = T1_TOKEN_TYPE_ARRAY;
+      token->type  = T1_TOKEN_TYPE_ARRAY;
       token->start = cur;
 
       if ( skip_procedure( &cur, limit ) == PSaux_Err_Ok )
@@ -662,7 +662,7 @@
       /*      since this is semantically equivalent to "[";   */
       /*      in practice it doesn't matter (?)               */
     case '[':
-      token->тип  = T1_TOKEN_TYPE_ARRAY;
+      token->type  = T1_TOKEN_TYPE_ARRAY;
       embed        = 1;
       token->start = cur++;
 
@@ -671,7 +671,7 @@
       ps_parser_skip_spaces( parser );
       cur = parser->cursor;
 
-      while ( cur < limit && !parser->Ошибка )
+      while ( cur < limit && !parser->error )
       {
         /* XXX: this is wrong because it does not      */
         /*      skip comments, procedures, and strings */
@@ -698,17 +698,17 @@
       /* ************ otherwise, it is any token **************/
     default:
       token->start = cur;
-      token->тип  = ( *cur == '/' ? T1_TOKEN_TYPE_KEY : T1_TOKEN_TYPE_ANY );
+      token->type  = ( *cur == '/' ? T1_TOKEN_TYPE_KEY : T1_TOKEN_TYPE_ANY );
       ps_parser_skip_PS_token( parser );
       cur = parser->cursor;
-      if ( !parser->Ошибка )
+      if ( !parser->error )
         token->limit = cur;
     }
 
     if ( !token->limit )
     {
       token->start = 0;
-      token->тип  = T1_TOKEN_TYPE_NONE;
+      token->type  = T1_TOKEN_TYPE_NONE;
     }
 
     parser->cursor = cur;
@@ -732,7 +732,7 @@
     /* this also handles leading whitespace */
     ps_parser_to_token( parser, &master );
 
-    if ( master.тип == T1_TOKEN_TYPE_ARRAY )
+    if ( master.type == T1_TOKEN_TYPE_ARRAY )
     {
       FT_Byte*  old_cursor = parser->cursor;
       FT_Byte*  old_limit  = parser->limit;
@@ -750,7 +750,7 @@
 
 
         ps_parser_to_token( parser, &token );
-        if ( !token.тип )
+        if ( !token.type )
           break;
 
         if ( tokens != NULL && cur < limit )
@@ -933,7 +933,7 @@
     FT_PtrDist  len = 0;
     FT_Int      count;
     FT_String*  result;
-    FT_Error    Ошибка;
+    FT_Error    error;
 
 
     /* XXX: some stupid fonts have a `Notice' or `Copyright' string     */
@@ -1032,12 +1032,12 @@
     FT_Byte*     limit;
     FT_UInt      count;
     FT_UInt      idx;
-    FT_Error     Ошибка;
+    FT_Error     error;
 
 
     /* this also skips leading whitespace */
     ps_parser_to_token( parser, &token );
-    if ( !token.тип )
+    if ( !token.type )
       goto Fail;
 
     count = 1;
@@ -1046,7 +1046,7 @@
     limit = token.limit;
 
     /* we must detect arrays in /FontBBox */
-    if ( field->тип == T1_FIELD_TYPE_BBOX )
+    if ( field->type == T1_FIELD_TYPE_BBOX )
     {
       T1_TokenRec  token2;
       FT_Byte*     old_cur   = parser->cursor;
@@ -1061,13 +1061,13 @@
       parser->cursor = old_cur;
       parser->limit  = old_limit;
 
-      if ( token2.тип == T1_TOKEN_TYPE_ARRAY )
+      if ( token2.type == T1_TOKEN_TYPE_ARRAY )
         goto FieldArray;
     }
-    else if ( token.тип == T1_TOKEN_TYPE_ARRAY )
+    else if ( token.type == T1_TOKEN_TYPE_ARRAY )
     {
     FieldArray:
-      /* if this is an array and we have no blend, an Ошибка occurs */
+      /* if this is an array and we have no blend, an error occurs */
       if ( max_objects == 0 )
         goto Fail;
 
@@ -1088,7 +1088,7 @@
 
       skip_spaces( &cur, limit );
 
-      switch ( field->тип )
+      switch ( field->type )
       {
       case T1_FIELD_TYPE_BOOL:
         val = ps_tobool( &cur, limit );
@@ -1136,15 +1136,15 @@
           if ( cur >= limit )
             break;
 
-          /* we allow both a string or a имя   */
+          /* we allow both a string or a name   */
           /* for cases like /FontName (foo) def */
-          if ( token.тип == T1_TOKEN_TYPE_KEY )
+          if ( token.type == T1_TOKEN_TYPE_KEY )
           {
             /* don't include leading `/' */
             len--;
             cur++;
           }
-          else if ( token.тип == T1_TOKEN_TYPE_STRING )
+          else if ( token.type == T1_TOKEN_TYPE_STRING )
           {
             /* don't include delimiting parentheses    */
             /* XXX we don't handle <<...>> here        */
@@ -1156,11 +1156,11 @@
           else
           {
             FT_ERROR(( "ps_parser_load_field:"
-                       " expected a имя or string\n"
+                       " expected a name or string\n"
                        "                     "
-                       " but found token of тип %d instead\n",
-                       token.тип ));
-            Ошибка = PSaux_Err_Invalid_File_Format;
+                       " but found token of type %d instead\n",
+                       token.type ));
+            error = PSaux_Err_Invalid_File_Format;
             goto Exit;
           }
 
@@ -1197,7 +1197,7 @@
           {
             FT_ERROR(( "ps_parser_load_field:"
                        " expected four integers in bounding box\n" ));
-            Ошибка = PSaux_Err_Invalid_File_Format;
+            error = PSaux_Err_Invalid_File_Format;
             goto Exit;
           }
 
@@ -1209,7 +1209,7 @@
         break;
 
       default:
-        /* an Ошибка occurred */
+        /* an error occurred */
         goto Fail;
       }
     }
@@ -1221,13 +1221,13 @@
     FT_UNUSED( pflags );
 #endif
 
-    Ошибка = PSaux_Err_Ok;
+    error = PSaux_Err_Ok;
 
   Exit:
-    return Ошибка;
+    return error;
 
   Fail:
-    Ошибка = PSaux_Err_Invalid_File_Format;
+    error = PSaux_Err_Invalid_File_Format;
     goto Exit;
   }
 
@@ -1245,22 +1245,22 @@
     T1_TokenRec  elements[T1_MAX_TABLE_ELEMENTS];
     T1_Token     token;
     FT_Int       num_elements;
-    FT_Error     Ошибка = PSaux_Err_Ok;
+    FT_Error     error = PSaux_Err_Ok;
     FT_Byte*     old_cursor;
     FT_Byte*     old_limit;
     T1_FieldRec  fieldrec = *(T1_Field)field;
 
 
-    fieldrec.тип = T1_FIELD_TYPE_INTEGER;
-    if ( field->тип == T1_FIELD_TYPE_FIXED_ARRAY ||
-         field->тип == T1_FIELD_TYPE_BBOX        )
-      fieldrec.тип = T1_FIELD_TYPE_FIXED;
+    fieldrec.type = T1_FIELD_TYPE_INTEGER;
+    if ( field->type == T1_FIELD_TYPE_FIXED_ARRAY ||
+         field->type == T1_FIELD_TYPE_BBOX        )
+      fieldrec.type = T1_FIELD_TYPE_FIXED;
 
     ps_parser_to_token_array( parser, elements,
                               T1_MAX_TABLE_ELEMENTS, &num_elements );
     if ( num_elements < 0 )
     {
-      Ошибка = PSaux_Err_Ignore;
+      error = PSaux_Err_Ignore;
       goto Exit;
     }
     if ( (FT_UInt)num_elements > field->array_max )
@@ -1271,7 +1271,7 @@
 
     /* we store the elements count if necessary;           */
     /* we further assume that `count_offset' can't be zero */
-    if ( field->тип != T1_FIELD_TYPE_BBOX && field->count_offset != 0 )
+    if ( field->type != T1_FIELD_TYPE_BBOX && field->count_offset != 0 )
       *(FT_Byte*)( (FT_Byte*)objects[0] + field->count_offset ) =
         (FT_Byte)num_elements;
 
@@ -1296,7 +1296,7 @@
     parser->limit  = old_limit;
 
   Exit:
-    return Ошибка;
+    return error;
   }
 
 
@@ -1317,7 +1317,7 @@
                       FT_Long*   pnum_bytes,
                       FT_Bool    delimiters )
   {
-    FT_Error  Ошибка = PSaux_Err_Ok;
+    FT_Error  error = PSaux_Err_Ok;
     FT_Byte*  cur;
 
 
@@ -1332,7 +1332,7 @@
       if ( *cur != '<' )
       {
         FT_ERROR(( "ps_parser_to_bytes: Missing starting delimiter `<'\n" ));
-        Ошибка = PSaux_Err_Invalid_File_Format;
+        error = PSaux_Err_Invalid_File_Format;
         goto Exit;
       }
 
@@ -1349,7 +1349,7 @@
       if ( cur < parser->limit && *cur != '>' )
       {
         FT_ERROR(( "ps_parser_to_bytes: Missing closing delimiter `>'\n" ));
-        Ошибка = PSaux_Err_Invalid_File_Format;
+        error = PSaux_Err_Invalid_File_Format;
         goto Exit;
       }
 
@@ -1359,7 +1359,7 @@
     parser->cursor = cur;
 
   Exit:
-    return Ошибка;
+    return error;
   }
 
 
@@ -1419,7 +1419,7 @@
                   FT_Byte*   limit,
                   FT_Memory  memory )
   {
-    parser->Ошибка  = PSaux_Err_Ok;
+    parser->error  = PSaux_Err_Ok;
     parser->base   = base;
     parser->limit  = limit;
     parser->cursor = base;
@@ -1445,7 +1445,7 @@
 
   /*************************************************************************/
   /*                                                                       */
-  /* <Функция>                                                            */
+  /* <Function>                                                            */
   /*    t1_builder_init                                                    */
   /*                                                                       */
   /* <Description>                                                         */
@@ -1508,7 +1508,7 @@
 
   /*************************************************************************/
   /*                                                                       */
-  /* <Функция>                                                            */
+  /* <Function>                                                            */
   /*    t1_builder_done                                                    */
   /*                                                                       */
   /* <Description>                                                         */
@@ -1569,14 +1569,14 @@
                          FT_Pos      x,
                          FT_Pos      y )
   {
-    FT_Error  Ошибка;
+    FT_Error  error;
 
 
-    Ошибка = t1_builder_check_points( builder, 1 );
-    if ( !Ошибка )
+    error = t1_builder_check_points( builder, 1 );
+    if ( !error )
       t1_builder_add_point( builder, x, y, 1 );
 
-    return Ошибка;
+    return error;
   }
 
 
@@ -1585,7 +1585,7 @@
   t1_builder_add_contour( T1_Builder  builder )
   {
     FT_Outline*  outline = builder->current;
-    FT_Error     Ошибка;
+    FT_Error     error;
 
 
     /* this might happen in invalid fonts */
@@ -1601,8 +1601,8 @@
       return PSaux_Err_Ok;
     }
 
-    Ошибка = FT_GLYPHLOADER_CHECK_POINTS( builder->loader, 0, 1 );
-    if ( !Ошибка )
+    error = FT_GLYPHLOADER_CHECK_POINTS( builder->loader, 0, 1 );
+    if ( !error )
     {
       if ( outline->n_contours > 0 )
         outline->contours[outline->n_contours - 1] =
@@ -1611,7 +1611,7 @@
       outline->n_contours++;
     }
 
-    return Ошибка;
+    return error;
   }
 
 
@@ -1621,22 +1621,22 @@
                           FT_Pos      x,
                           FT_Pos      y )
   {
-    FT_Error  Ошибка = PSaux_Err_Invalid_File_Format;
+    FT_Error  error = PSaux_Err_Invalid_File_Format;
 
 
     /* test whether we are building a new contour */
 
     if ( builder->parse_state == T1_Parse_Have_Path )
-      Ошибка = PSaux_Err_Ok;
+      error = PSaux_Err_Ok;
     else
     {
       builder->parse_state = T1_Parse_Have_Path;
-      Ошибка = t1_builder_add_contour( builder );
-      if ( !Ошибка )
-        Ошибка = t1_builder_add_point1( builder, x, y );
+      error = t1_builder_add_contour( builder );
+      if ( !error )
+        error = t1_builder_add_point1( builder, x, y );
     }
 
-    return Ошибка;
+    return error;
   }
 
 
@@ -1695,13 +1695,13 @@
   /*************************************************************************/
 
   FT_LOCAL_DEF( void )
-  t1_decrypt( FT_Byte*   буфер,
+  t1_decrypt( FT_Byte*   buffer,
               FT_Offset  length,
               FT_UShort  seed )
   {
-    PS_Conv_EexecDecode( &буфер,
-                         буфер + length,
-                         буфер,
+    PS_Conv_EexecDecode( &buffer,
+                         buffer + length,
+                         buffer,
                          length,
                          &seed );
   }

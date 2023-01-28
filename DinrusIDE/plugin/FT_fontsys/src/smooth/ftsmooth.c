@@ -61,12 +61,12 @@
                        const FT_Matrix*  matrix,
                        const FT_Vector*  delta )
   {
-    FT_Error  Ошибка = Smooth_Err_Ok;
+    FT_Error  error = Smooth_Err_Ok;
 
 
-    if ( slot->формат != render->glyph_format )
+    if ( slot->format != render->glyph_format )
     {
-      Ошибка = Smooth_Err_Invalid_Argument;
+      error = Smooth_Err_Invalid_Argument;
       goto Exit;
     }
 
@@ -77,7 +77,7 @@
       FT_Outline_Translate( &slot->outline, delta->x, delta->y );
 
   Exit:
-    return Ошибка;
+    return error;
   }
 
 
@@ -89,7 +89,7 @@
   {
     FT_MEM_ZERO( cbox, sizeof ( *cbox ) );
 
-    if ( slot->формат == render->glyph_format )
+    if ( slot->format == render->glyph_format )
       FT_Outline_Get_CBox( &slot->outline, cbox );
   }
 
@@ -102,7 +102,7 @@
                             const FT_Vector*  origin,
                             FT_Render_Mode    required_mode )
   {
-    FT_Error     Ошибка;
+    FT_Error     error;
     FT_Outline*  outline = NULL;
     FT_BBox      cbox;
     FT_UInt      width, height, pitch;
@@ -118,10 +118,10 @@
     FT_Raster_Params  params;
 
 
-    /* check glyph image формат */
-    if ( slot->формат != render->glyph_format )
+    /* check glyph image format */
+    if ( slot->format != render->glyph_format )
     {
-      Ошибка = Smooth_Err_Invalid_Argument;
+      error = Smooth_Err_Invalid_Argument;
       goto Exit;
     }
 
@@ -171,10 +171,10 @@
     height_org = height;
 #endif
 
-    /* release old bitmap буфер */
+    /* release old bitmap buffer */
     if ( slot->internal->flags & FT_GLYPH_OWN_BITMAP )
     {
-      FT_FREE( bitmap->буфер );
+      FT_FREE( bitmap->buffer );
       slot->internal->flags &= ~FT_GLYPH_OWN_BITMAP;
     }
 
@@ -241,7 +241,7 @@
     /* translate outline to render it into the bitmap */
     FT_Outline_Translate( outline, -x_shift, -y_shift );
 
-    if ( FT_ALLOC( bitmap->буфер, (FT_ULong)pitch * height ) )
+    if ( FT_ALLOC( bitmap->buffer, (FT_ULong)pitch * height ) )
       goto Exit;
 
     slot->internal->flags |= FT_GLYPH_OWN_BITMAP;
@@ -270,7 +270,7 @@
     }
 
     /* render outline into the bitmap */
-    Ошибка = render->raster_render( render->raster, &params );
+    error = render->raster_render( render->raster, &params );
 
     /* deflate outline if needed */
     {
@@ -294,12 +294,12 @@
 #else /* !FT_CONFIG_OPTION_SUBPIXEL_RENDERING */
 
     /* render outline into bitmap */
-    Ошибка = render->raster_render( render->raster, &params );
+    error = render->raster_render( render->raster, &params );
 
     /* expand it horizontally */
     if ( hmul )
     {
-      FT_Byte*  line = bitmap->буфер;
+      FT_Byte*  line = bitmap->buffer;
       FT_UInt   hh;
 
 
@@ -325,8 +325,8 @@
     /* expand it vertically */
     if ( vmul )
     {
-      FT_Byte*  read  = bitmap->буфер + ( height - height_org ) * pitch;
-      FT_Byte*  write = bitmap->буфер;
+      FT_Byte*  read  = bitmap->buffer + ( height - height_org ) * pitch;
+      FT_Byte*  write = bitmap->buffer;
       FT_UInt   hh;
 
 
@@ -349,16 +349,16 @@
     FT_Outline_Translate( outline, x_shift, y_shift );
 
     /*
-     * XXX: on 16bit system, we return an Ошибка for huge bitmap
+     * XXX: on 16bit system, we return an error for huge bitmap
      * to prevent an overflow.
      */
     if ( x_left > FT_INT_MAX || y_top > FT_INT_MAX )
       return Smooth_Err_Invalid_Pixel_Size;
 
-    if ( Ошибка )
+    if ( error )
       goto Exit;
 
-    slot->формат      = FT_GLYPH_FORMAT_BITMAP;
+    slot->format      = FT_GLYPH_FORMAT_BITMAP;
     slot->bitmap_left = (FT_Int)x_left;
     slot->bitmap_top  = (FT_Int)y_top;
 
@@ -366,7 +366,7 @@
     if ( outline && origin )
       FT_Outline_Translate( outline, -origin->x, -origin->y );
 
-    return Ошибка;
+    return error;
   }
 
 
@@ -392,14 +392,14 @@
                         FT_Render_Mode    mode,
                         const FT_Vector*  origin )
   {
-    FT_Error  Ошибка;
+    FT_Error  error;
 
-    Ошибка = ft_smooth_render_generic( render, slot, mode, origin,
+    error = ft_smooth_render_generic( render, slot, mode, origin,
                                       FT_RENDER_MODE_LCD );
-    if ( !Ошибка )
+    if ( !error )
       slot->bitmap.pixel_mode = FT_PIXEL_MODE_LCD;
 
-    return Ошибка;
+    return error;
   }
 
 
@@ -410,14 +410,14 @@
                           FT_Render_Mode    mode,
                           const FT_Vector*  origin )
   {
-    FT_Error  Ошибка;
+    FT_Error  error;
 
-    Ошибка = ft_smooth_render_generic( render, slot, mode, origin,
+    error = ft_smooth_render_generic( render, slot, mode, origin,
                                       FT_RENDER_MODE_LCD_V );
-    if ( !Ошибка )
+    if ( !error )
       slot->bitmap.pixel_mode = FT_PIXEL_MODE_LCD_V;
 
-    return Ошибка;
+    return error;
   }
 
 

@@ -2,78 +2,78 @@
 
 bool SilentMode;
 
-Ткст GetUmkFile(const char *фн)
+String GetUmkFile(const char *fn)
 {
-	if(дирЕсть(фн) || *фн == '.')
+	if(DirectoryExists(fn) || *fn == '.')
 		return Null;
-	Ткст h = конфигФайл(фн);
-	if(файлЕсть(h))
+	String h = ConfigFile(fn);
+	if(FileExists(h))
 		return h;
-	Ткст cfgdir = дайПапкуФайла(дайПапкуФайла(конфигФайл("x")));
+	String cfgdir = GetFileFolder(GetFileFolder(ConfigFile("x")));
 	ONCELOCK
-		PutVerbose("Конфиг directory: " << cfgdir);
-	return дайФайлПоПути(фн,
+		PutVerbose("Пака конфигурации: " << cfgdir);
+	return GetFileOnPath(fn,
 	                     cfgdir + "/umk" + ';' +
 	                     cfgdir + "/theide" + ';' +
 	                     cfgdir + "/ide" + ';' +
-	                     дайДомПапку() + ';' +
-	                     дайПапкуФайла(дайФПутьИсп()));
+	                     GetHomeDirectory() + ';' +
+	                     GetFileFolder(GetExeFilePath()));
 }
 
-Ткст GetBuildMethodPath(Ткст method)
+String GetBuildMethodPath(String method)
 {
-	if(дайРасшф(method) != ".bm")
+	if(GetFileExt(method) != ".bm")
 		method << ".bm";
 	return GetUmkFile(method);
 }
 
-Ткст Иср::GetDefaultMethod()
+String Ide::GetDefaultMethod()
 {
-	return "GCC";
+	return "CLANG";
 }
 
-ВекторМап<Ткст, Ткст> Иср::GetMethodVars(const Ткст& method)
+VectorMap<String, String> Ide::GetMethodVars(const String& method)
 {
-	ВекторМап<Ткст, Ткст> map;
+	VectorMap<String, String> map;
 	LoadVarFile(GetMethodName(method), map);
 	return map;
 }
 
-Ткст Иср::GetMethodName(const Ткст& method)
+String Ide::GetMethodName(const String& method)
 {
 	return GetBuildMethodPath(method);
 }
 
-void поместиТ(const char *s)
+void Puts(const char *s)
 {
 	if(!SilentMode)
 		Cout() << s;
 }
 
-Ткст GetAndroidSDKPath()
+String GetAndroidSDKPath()
 {
-	return Ткст();
+	return String();
 }
 
 #ifdef flagMAIN
 
-ГЛАВНАЯ_КОНСОЛЬН_ПРИЛ
+CONSOLE_APP_MAIN
 {
 #ifdef PLATFORM_POSIX
 	setlinebuf(stdout);
 	CreateBuildMethods();
 #endif
 
-	Иср ide;
+	Ide ide;
 	TheIde(&ide);
-	ide.console.устСлоты(цпбЯдра());
+	ide.console.SetSlots(CPU_Cores());
 	ide.console.console = true;
 
 	ide.debug.def.blitz = ide.release.def.blitz = 0;
 	ide.debug.def.debug = 2;
 	ide.release.def.debug = 0;
-	ide.debug.package.очисть();
-	ide.release.package.очисть();
+	ide.debug.package.Clear();
+	ide.release.package.Clear();
 	ide.debug.linkmode = ide.release.linkmode = 0;
 	ide.release.createmap = ide.debug.createmap = false;
 	ide.targetmode = 0;
@@ -85,13 +85,13 @@ void поместиТ(const char *s)
 	bool deletedir = true;
 	int  exporting = 0;
 	bool run = false;
-	Ткст mkf;
+	String mkf;
 
-	Вектор<Ткст> param, runargs;
+	Vector<String> param, runargs;
 
-	const Вектор<Ткст>& args = комСтрока();
-	for(int i = 0; i < args.дайСчёт(); i++) {
-		Ткст a = args[i];
+	const Vector<String>& args = CommandLine();
+	for(int i = 0; i < args.GetCount(); i++) {
+		String a = args[i];
 		if(*a == '-') {
 			for(const char *s = ~a + 1; *s; s++)
 				switch(*s) {
@@ -112,140 +112,140 @@ void поместиТ(const char *s)
 				case 'M': {
 					makefile = true;
 					if(s[1] == '=') {
-						mkf = нормализуйПуть(s + 2);
-						PutVerbose("Generating Makefile: " + mkf);
+						mkf = NormalizePath(s + 2);
+						PutVerbose("Генерируется Makefile: " + mkf);
 						goto endopt;
 					}
 					else
-						PutVerbose("Generating Makefile");
+						PutVerbose("Генерируется Makefile");
 					break;
 				}
 				case 'H': {
 					int n = 0;
-					while(цифра_ли(s[1])) {
+					while(IsDigit(s[1])) {
 						n = 10 * n + s[1] - '0';
 						s++;
 					}
 					n = minmax(n, 1, 32);
-					PutVerbose("Hydra threads: " + какТкст(n));
-					ide.console.устСлоты(n);
+					PutVerbose("Нити Hydra: " + AsString(n));
+					ide.console.SetSlots(n);
 					break;
 				}
 				default:
 					SilentMode = false;
-					поместиТ("Invalid build option(s)");
-					устКодВыхода(3);
+					Puts("Неверная опция(-и) построения");
+					SetExitCode(3);
 					return;
 				}
 		endopt:;
 		}
 		else
 		if(*a == '+')
-			ide.mainconfigparam = фильтруй(~a + 1, [](int c) { return c == ',' ? ' ' : c; });
+			ide.mainconfigparam = Filter(~a + 1, [](int c) { return c == ',' ? ' ' : c; });
 		else
 		if(*a == '!') {
 			run = true;
-			for(int j = i + 1; j < args.дайСчёт(); j++)
-				runargs.добавь(args[j]);
+			for(int j = i + 1; j < args.GetCount(); j++)
+				runargs.Add(args[j]);
 			if(runargs)
-				PutVerbose("уст to execute the result with args: " << Join(runargs, " "));
+				PutVerbose("Установить на выполнение результата с аргами: " << Join(runargs, " "));
 			else
-				PutVerbose("уст to execute the result");
+				PutVerbose("Установить на выполнение результата");
 			break;
 		}
 		else
-			param.добавь(a);
+			param.Add(a);
 	}
 
-	if(param.дайСчёт() >= 2) {
-		Ткст v = GetUmkFile(param[0] + ".var");
-		if(пусто_ли(v)) {
+	if(param.GetCount() >= 2) {
+		String v = GetUmkFile(param[0] + ".var");
+		if(IsNull(v)) {
 		#ifdef PLATFORM_POSIX
-			Вектор<Ткст> h = разбей(param[0], [](int c) { return c == ':' || c == ',' ? c : 0; });
+			Vector<String> h = Split(param[0], [](int c) { return c == ':' || c == ',' ? c : 0; });
 		#else
-			Вектор<Ткст> h = разбей(param[0], ',');
+			Vector<String> h = Split(param[0], ',');
 		#endif
-			for(int i = 0; i < h.дайСчёт(); i++)
-				h[i] = дайПолнПуть(обрежьОба(h[i]));
-			Ткст x = Join(h, ";");
-			SetVar("РНЦП", x, false);
-			PutVerbose("Inline assembly: " + x);
-			Ткст outdir = GetDefaultUppOut();
-			реализуйДир(outdir);
+			for(int i = 0; i < h.GetCount(); i++)
+				h[i] = GetFullPath(TrimBoth(h[i]));
+			String x = Join(h, ";");
+			SetVar("UPP", x, false);
+			PutVerbose("Инлайн сборки: " + x);
+			String outdir = GetDefaultUppOut();
+			RealizeDirectory(outdir);
 			SetVar("OUTPUT", outdir, false);
 		}
 		else {
 			if(!LoadVars(v)) {
-				поместиТ("Invalid assembly\n");
-				устКодВыхода(2);
+				Puts("Неверная сборка\n");
+				SetExitCode(2);
 				return;
 			}
-			PutVerbose("Assembly file: " + v);
-			PutVerbose("Assembly: " + GetVar("РНЦП"));
+			PutVerbose("Файл сборки: " + v);
+			PutVerbose("Сборка: " + GetVar("UPP"));
 		}
-		PutVerbose("Output directory: " + GetVar("OUTPUT"));
-		v = SourcePath(param[1], дайТитулф(param[1]) + ".upp");
-		PutVerbose("Main package: " + v);
-		if(!файлЕсть(v)) {
-			поместиТ("Пакет does not exist\n");
-			устКодВыхода(2);
+		PutVerbose("Папка вывода: " + GetVar("OUTPUT"));
+		v = SourcePath(param[1], GetFileTitle(param[1]) + ".upp");
+		PutVerbose("Главный пакет: " + v);
+		if(!FileExists(v)) {
+			Puts("Пакета не существует\n");
+			SetExitCode(2);
 			return;
 		}
 		ide.main = param[1];
-		ide.wspc.скан(ide.main);
-		const РОбласть& wspc = ide.роблИср();
-		if(!wspc.дайСчёт()) {
-			поместиТ("Empty assembly\n");
-			устКодВыхода(4);
+		ide.wspc.Scan(ide.main);
+		const Workspace& wspc = ide.IdeWorkspace();
+		if(!wspc.GetCount()) {
+			Puts("Пустая сборка\n");
+			SetExitCode(4);
 			return;
 		}
-		Индекс<Ткст> missing;
-		for(int i = 0; i < wspc.дайСчёт(); i++) {
-			Ткст p = wspc[i];
-			if(!файлЕсть(PackagePath(p)))
-				missing.найдиДобавь(p);
+		Index<String> missing;
+		for(int i = 0; i < wspc.GetCount(); i++) {
+			String p = wspc[i];
+			if(!FileExists(PackagePath(p)))
+				missing.FindAdd(p);
 		}
-		if(missing.дайСчёт()) {
-			поместиТ("Missing package(s): " << Join(missing.дайКлючи(), " ") << "\n");
-			устКодВыхода(5);
+		if(missing.GetCount()) {
+			Puts("Отсутствующий пакет(-ы): " << Join(missing.GetKeys(), " ") << "\n");
+			SetExitCode(5);
 			return;
 		}
-		if(пусто_ли(ide.mainconfigparam)) {
-			const Массив<Пакет::Конфиг>& f = wspc.дайПакет(0).config;
-			if(f.дайСчёт())
+		if(IsNull(ide.mainconfigparam)) {
+			const Array<Package::Config>& f = wspc.GetPackage(0).config;
+			if(f.GetCount())
 				ide.mainconfigparam = f[0].param;
 		}
-		PutVerbose("Build flags: " << ide.mainconfigparam);
-		Ткст m = 2 < param.дайСчёт() ? param[2] : "CLANG";
-		Ткст bp = GetBuildMethodPath(m);
-		PutVerbose("Build method: " + bp);
-		if(bp.дайСчёт() == 0) {
+		PutVerbose("Флаги построения: " << ide.mainconfigparam);
+		String m = 2 < param.GetCount() ? param[2] : "CLANG";
+		String bp = GetBuildMethodPath(m);
+		PutVerbose("Методы построения: " + bp);
+		if(bp.GetCount() == 0) {
 			SilentMode = false;
-			поместиТ("Invalid build method\n");
-			устКодВыхода(3);
+			Puts("Неверный метод построения\n");
+			SetExitCode(3);
 			return;
 		}
 
-		if(3 < param.дайСчёт()) {
+		if(3 < param.GetCount()) {
 			ide.debug.target_override = ide.release.target_override = true;
-			ide.debug.target = ide.release.target = нормализуйПуть(param[3]);
-			PutVerbose("Target override: " << ide.debug.target);
+			ide.debug.target = ide.release.target = NormalizePath(param[3]);
+			PutVerbose("Цель переписана: " << ide.debug.target);
 		}
 
 		ide.method = m;
 
 		if(ccfile) {
-			ide.SaveCCJ(дайДиректориюФайла(PackagePath(ide.main)) + "compile_commands.json", false);
-			устКодВыхода(0);
+			ide.SaveCCJ(GetFileDirectory(PackagePath(ide.main)) + "compile_commands.json", false);
+			SetExitCode(0);
 			return;
 		}
 
 		if(clean)
 			ide.Clean();
 		if(exporting) {
-			mkf = дайПолнПуть(mkf);
+			mkf = GetFullPath(mkf);
 			Cout() << mkf << '\n';
-			реализуйДир(mkf);
+			RealizeDirectory(mkf);
 			if(makefile)
 				ide.ExportMakefile(mkf);
 			else
@@ -253,36 +253,36 @@ void поместиТ(const char *s)
 		}
 		else
 		if(makefile) {
-			ide.SaveMakeFile(пусто_ли(mkf) ? "Makefile" : mkf, false);
-			устКодВыхода(0);
+			ide.SaveMakeFile(IsNull(mkf) ? "Makefile" : mkf, false);
+			SetExitCode(0);
 		}
 		else
 		if(ide.Build()) {
-			устКодВыхода(0);
+			SetExitCode(0);
 			if(run) {
-				Вектор<char *> args;
-				Вектор<Буфер<char>> буфер;
-				auto добавь = [&](const Ткст& s) {
-					auto& b = буфер.добавь();
-					b.размести(s.дайСчёт() + 1);
-					memcpy(b, s, s.дайСчёт() + 1);
-					args.добавь(b);
+				Vector<char *> args;
+				Vector<Buffer<char>> buffer;
+				auto Add = [&](const String& s) {
+					auto& b = buffer.Add();
+					b.Alloc(s.GetCount() + 1);
+					memcpy(b, s, s.GetCount() + 1);
+					args.Add(b);
 				};
-				добавь(ide.target);
-				for(const Ткст& s : runargs)
-					добавь(s);
-				args.добавь(NULL);
-				устКодВыхода(execv(ide.target, args.begin()));
+				Add(ide.target);
+				for(const String& s : runargs)
+					Add(s);
+				args.Add(NULL);
+				SetExitCode(execv(ide.target, args.begin()));
 			}
 		}
 		else
-			устКодВыхода(1);
+			SetExitCode(1);
 	}
 	else
-		поместиТ("Usage: [-options] umk assembly main_package [build_method] [+flags] [output]\n\n"
-		     "Examples: umk examples Bombs GCC -ab +GUI,SHARED ~/bombs\n"
-		     "          umk examples,uppsrc Bombs ~/GCC.bm -rv +GUI,SHARED ~/bin\n\n"
-		     "See https://www.ultimatepp.org/app$ide$umk$en-us.html for details\n");
+		Puts("Использование: [-опции] umk сборка главный_пакет [метод построения] [+флаги] [вывод]\n\n"
+		     "Примеры: umk examples Bombs GCC -ab +GUI,SHARED ~/bombs\n"
+		     "          umk examples,src Bombs ~/GCC.bm -rv +GUI,SHARED ~/bin\n\n"
+		     "Смотрите детали в https://www.ultimatepp.org/app$ide$umk$en-us.html\n");
 }
 
 #endif

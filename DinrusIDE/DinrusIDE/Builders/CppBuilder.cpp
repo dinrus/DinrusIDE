@@ -1,125 +1,125 @@
 #include "Builders.h"
 
-void поместиВремяКомпиляции(int time, int count)
+void PutCompileTime(int time, int count)
 {
-	вКонсоль(Ткст().конкат() << count << " файлов(а) скомпилировано за " << GetPrintTime(time)
+	PutConsole(String().Cat() << count << " файлов(а) скомпилировано за " << GetPrintTime(time)
 	           << " " << int(msecs() - time) / count << " мсек/файл");
 }
 
-Ткст ПостроительСиПП::GetTargetExt() const
+String CppBuilder::GetTargetExt() const
 {
-	if(!естьФлаг("WIN32") && !естьФлаг("WINCE"))
-		return естьФлаг("DLL") ? ".so" : "";
+	if(!HasFlag("WIN32") && !HasFlag("WINCE"))
+		return HasFlag("DLL") ? ".so" : "";
 	else
-		return естьФлаг("DLL") ? ".dll" : ".exe";
+		return HasFlag("DLL") ? ".dll" : ".exe";
 }
 
-void ПостроительСиПП::очистьПакет(const Ткст& package, const Ткст& outdir)
+void CppBuilder::CleanPackage(const String& package, const String& outdir)
 {
 	DeleteFolderDeep(outdir);
 }
 
 // POSIX lib files have names in form of libXXXXXX.so.ver.minver(.rel)
 // so we can't simply get file extension
-Ткст ПостроительСиПП::GetSrcType(Ткст фн) const
+String CppBuilder::GetSrcType(String fn) const
 {
-	фн = впроп(фн);
-	Ткст ext = дайРасшф(фн);
-	if(!естьФлаг("POSIX") || ext == ".so")
+	fn = ToLower(fn);
+	String ext = GetFileExt(fn);
+	if(!HasFlag("POSIX") || ext == ".so")
 		return ext;
-	int soPos = фн.найдирек(".so");
+	int soPos = fn.ReverseFind(".so");
 	if(soPos < 0)
 		return ext;
-	фн = фн.середина(soPos + 3);
-	const char *c = ~фн;
+	fn = fn.Mid(soPos + 3);
+	const char *c = ~fn;
 	while(*c)
 	{
-		if(*c != '.' && !цифра_ли(*c))
+		if(*c != '.' && !IsDigit(*c))
 			return ext;
 		c++;
 	}
 	return ".so";
 }
 
-// from complete lib имя/path (libXXX.so.ver.minVer) gets the soname (libXXX.so.ver)
-Ткст ПостроительСиПП::GetSoname(Ткст libName) const
+// from complete lib name/path (libXXX.so.ver.minVer) gets the soname (libXXX.so.ver)
+String CppBuilder::GetSoname(String libName) const
 {
 	
-	Ткст soname = дайИмяф(libName);
-	int soLen = soname.дайСчёт();
-	int soPos = впроп(soname).найдирек(".so");
+	String soname = GetFileName(libName);
+	int soLen = soname.GetCount();
+	int soPos = ToLower(soname).ReverseFind(".so");
 	if(soPos < 0)
 		soPos = soLen;
 	else
 		soPos += 3;
-	if(soname.середина(soPos, 1) == ".")
+	if(soname.Mid(soPos, 1) == ".")
 	{
 		soPos++;
-		while(soPos < soLen && цифра_ли(soname[soPos]))
+		while(soPos < soLen && IsDigit(soname[soPos]))
 			soPos++;
 	}
-	return soname.лево(soPos);
+	return soname.Left(soPos);
 }
 
-// from complete lib имя/path (libXXX.so.ver.minVer) gets the link имя (libXXX.so)
-Ткст ПостроительСиПП::GetSoLinkName(Ткст libName) const
+// from complete lib name/path (libXXX.so.ver.minVer) gets the link name (libXXX.so)
+String CppBuilder::GetSoLinkName(String libName) const
 {
 	
-	Ткст linkName = дайИмяф(libName);
-	int soPos = впроп(linkName).найдирек(".so");
+	String linkName = GetFileName(libName);
+	int soPos = ToLower(linkName).ReverseFind(".so");
 	if(soPos < 0)
-		soPos = linkName.дайСчёт();
+		soPos = linkName.GetCount();
 	else
 		soPos += 3;
-	return linkName.лево(soPos);
+	return linkName.Left(soPos);
 }
 
-Ткст ПостроительСиПП::GetSharedLibPath(const Ткст& package) const
+String CppBuilder::GetSharedLibPath(const String& package) const
 {
-	Ткст outfn;
-	if(естьФлаг("POSIX"))
+	String outfn;
+	if(HasFlag("POSIX"))
 	   outfn << "lib";
 	for(const char *p = package; *p; p++)
-		outfn.конкат(IsAlNum(*p) || *p == '-' ? *p : '_');
-	if(!пусто_ли(version) && !естьФлаг("POSIX"))
+		outfn.Cat(IsAlNum(*p) || *p == '-' ? *p : '_');
+	if(!IsNull(version) && !HasFlag("POSIX"))
 		outfn << version;
-	outfn << (естьФлаг("WIN32") || естьФлаг("WINCE") ? ".dll" : ".so");
-	if(естьФлаг("POSIX"))
+	outfn << (HasFlag("WIN32") || HasFlag("WINCE") ? ".dll" : ".so");
+	if(HasFlag("POSIX"))
 	{
-		Точка p = ExtractVersion();
-		int ver = пусто_ли(p.x) ? 1 : p.x;
-		int minver = пусто_ли(p.y) ? 0 : p.y;
+		Point p = ExtractVersion();
+		int ver = IsNull(p.x) ? 1 : p.x;
+		int minver = IsNull(p.y) ? 0 : p.y;
 		outfn << '.' << ver << '.' << minver;
 	}
-	return CatAnyPath(дайПапкуФайла(target), outfn);
+	return CatAnyPath(GetFileFolder(target), outfn);
 }
 
-int ПостроительСиПП::разместиСлот()
+int CppBuilder::AllocSlot()
 {
-	return host->разместиСлот();
+	return host->AllocSlot();
 }
 
-bool ПостроительСиПП::пуск(const char *cmdline, int slot, Ткст ключ, int blitz_count)
+bool CppBuilder::Run(const char *cmdline, int slot, String key, int blitz_count)
 {
-	return host->пуск(CmdX(cmdline), slot, ключ, blitz_count);
+	return host->Run(CmdX(cmdline), slot, key, blitz_count);
 }
 
-bool ПостроительСиПП::пуск(const char *cmdline, Поток& out, int slot, Ткст ключ, int blitz_count)
+bool CppBuilder::Run(const char *cmdline, Stream& out, int slot, String key, int blitz_count)
 {
-	return host->пуск(CmdX(cmdline), out, slot, ключ, blitz_count);
+	return host->Run(CmdX(cmdline), out, slot, key, blitz_count);
 }
 
-bool ПостроительСиПП::жди()
+bool CppBuilder::Wait()
 {
-	return host->жди();
+	return host->Wait();
 }
 
-bool ПостроительСиПП::жди(int slot)
+bool CppBuilder::Wait(int slot)
 {
-	return host->жди(slot);
+	return host->Wait(slot);
 }
 
-void ПостроительСиПП::OnFinish(Событие<>  cb)
+void CppBuilder::OnFinish(Event<>  cb)
 {
 	host->OnFinish(cb);
 }
@@ -132,17 +132,17 @@ int CharFilterEol(int c) {
 	return c == '\n' || c == '\r' ? c : 0;
 }
 
-Вектор<Ткст> Cuprep(const Ткст& m, const ВекторМап<Ткст, Ткст>& mac,
-                      const Вектор<Ткст>& inc) {
-	Ткст r;
-	Ткст q = фильтруй(m, CasFilter);
+Vector<String> Cuprep(const String& m, const VectorMap<String, String>& mac,
+                      const Vector<String>& inc) {
+	String r;
+	String q = Filter(m, CasFilter);
 	const char *s = q;
 	while(*s)
 		if(*s == '$') {
-			Ткст v;
+			String v;
 			s++;
 			if(*s == '$') {
-				r.конкат('$');
+				r.Cat('$');
 				s++;
 			}
 			else
@@ -160,28 +160,28 @@ int CharFilterEol(int c) {
 					}
 					if(*s == '\0')
 						break;
-					v.конкат(*s++);
+					v.Cat(*s++);
 				}
 				if(pinc)
-					for(int i = 0; i < inc.дайСчёт(); i++)
-						if(inc[i].найди(' '))
+					for(int i = 0; i < inc.GetCount(); i++)
+						if(inc[i].Find(' '))
 							r << v << '"' << inc[i] << "\" ";
 						else
 							r << v << inc[i] << ' ';
 				else
-					r.конкат(mac.дай(v, Null));
+					r.Cat(mac.Get(v, Null));
 			}
 			else
-				r.конкат('$');
+				r.Cat('$');
 		}
 		else
-			r.конкат(*s++);
-	return разбей(r, CharFilterEol);
+			r.Cat(*s++);
+	return Split(r, CharFilterEol);
 }
 
-bool ПостроительСиПП::Cd(const Ткст& cmd) {
-	if(cmd.дайДлину() > 2 && впроп(cmd.середина(0, 3)) == "cd ") {
-		Ткст path = cmd.середина(3);
+bool CppBuilder::Cd(const String& cmd) {
+	if(cmd.GetLength() > 2 && ToLower(cmd.Mid(0, 3)) == "cd ") {
+		String path = cmd.Mid(3);
 	#ifdef PLATFOTM_POSIX
 		chdir(path);
 	#endif
@@ -193,267 +193,267 @@ bool ПостроительСиПП::Cd(const Ткст& cmd) {
 	return false;
 }
 
-bool ПостроительСиПП::Cp(const Ткст& cmd, const Ткст& package, bool& Ошибка) {
-	if(cmd.дайДлину() > 2 && впроп(cmd.середина(0, 3)) == "cp ") {
-		Вектор<Ткст> path = разбей(cmd.середина(3), ' ');
-		if(path.дайСчёт() == 2) {
-			Ткст p = дайПапкуФайла(PackagePath(package));
-			Ткст p1 = нормализуйПуть(path[0], p);
-			Ткст p2 = нормализуйПуть(path[1], p);
+bool CppBuilder::Cp(const String& cmd, const String& package, bool& error) {
+	if(cmd.GetLength() > 2 && ToLower(cmd.Mid(0, 3)) == "cp ") {
+		Vector<String> path = Split(cmd.Mid(3), ' ');
+		if(path.GetCount() == 2) {
+			String p = GetFileFolder(PackagePath(package));
+			String p1 = NormalizePath(path[0], p);
+			String p2 = NormalizePath(path[1], p);
 			RealizePath(p2);
-			if(!файлЕсть(p1)) {
-				вКонсоль("FAILED: " + cmd);
-				Ошибка = true;
+			if(!FileExists(p1)) {
+				PutConsole("FAILED: " + cmd);
+				error = true;
 			}
-			сохраниФайл(p2, загрузиФайл(p1));
+			SaveFile(p2, LoadFile(p1));
 		}
 		return true;
 	}
 	return false;
 }
 
-static void AddPath(ВекторМап<Ткст, Ткст>& out, Ткст ключ, Ткст path)
+static void AddPath(VectorMap<String, String>& out, String key, String path)
 {
-	out.добавь(ключ, path);
-	out.добавь(ключ + "_WIN", WinPath(path));
-	out.добавь(ключ + "_UNIX", UnixPath(path));
+	out.Add(key, path);
+	out.Add(key + "_WIN", WinPath(path));
+	out.Add(key + "_UNIX", UnixPath(path));
 }
 
-void sGatherAllExt(Вектор<Ткст>& files, Вектор<Ткст>& dirs, const Ткст& pp, const Ткст& p)
+void sGatherAllExt(Vector<String>& files, Vector<String>& dirs, const String& pp, const String& p)
 {
-	dirs.добавь(p);
-	ФайлПоиск ff(pp + "/" + p + "/*.*");
+	dirs.Add(p);
+	FindFile ff(pp + "/" + p + "/*.*");
 	while(ff) {
-		Ткст n = Merge("/", p, ff.дайИмя());
-		if(ff.файл_ли())
-			files.добавь(n);
+		String n = Merge("/", p, ff.GetName());
+		if(ff.IsFile())
+			files.Add(n);
 		else
-		if(ff.папка_ли()) {
+		if(ff.IsFolder()) {
 			sGatherAllExt(files, dirs, pp, n);
 		}
-		ff.следщ();
+		ff.Next();
 	}
 }
 
 // gather files based on pattern -- pattern should be normalized
-// if pattern doesn't contain wildcards is taken as a file имя
-static void sGatherFiles(Индекс<Ткст> &files, const Ткст &pattern)
+// if pattern doesn't contain wildcards is taken as a file name
+static void sGatherFiles(Index<String> &files, const String &pattern)
 {
 	if(!HasWildcards(pattern))
 	{
-		if(файлЕсть(pattern))
-			files.найдиДобавь(pattern);
+		if(FileExists(pattern))
+			files.FindAdd(pattern);
 		return;
 	}
-	ФайлПоиск ff(pattern);
+	FindFile ff(pattern);
 	while(ff)
 	{
-		if(ff.файл_ли())
-			files.найдиДобавь(ff.дайПуть());
-		ff.следщ();
+		if(ff.IsFile())
+			files.FindAdd(ff.GetPath());
+		ff.Next();
 	}
-	ff.ищи(приставьИмяф(дайПапкуФайла(pattern), "*.*"));
+	ff.Search(AppendFileName(GetFileFolder(pattern), "*.*"));
 	while(ff)
 	{
-		if(ff.папка_ли())
-			sGatherFiles(files, приставьИмяф(ff.дайПуть(), дайИмяф(pattern)));
-		ff.следщ();
+		if(ff.IsFolder())
+			sGatherFiles(files, AppendFileName(ff.GetPath(), GetFileName(pattern)));
+		ff.Next();
 	}
 }
 
 // gather folders based on pattern -- pattern should be normalized
-// if pattern doesn't contain wildcards is taken as a folder имя
-static void sGatherFolders(Индекс<Ткст> &folders, const Ткст &pattern)
+// if pattern doesn't contain wildcards is taken as a folder name
+static void sGatherFolders(Index<String> &folders, const String &pattern)
 {
-	if(pattern.найди("*") < 0)
+	if(pattern.Find("*") < 0)
 	{
-		if(дирЕсть(pattern))
-			folders.найдиДобавь(pattern);
+		if(DirectoryExists(pattern))
+			folders.FindAdd(pattern);
 		return;
 	}
-	Ткст pth = дайПапкуФайла(pattern);
-	Ткст pat = дайИмяф(pattern);
-	if(дирЕсть(pth))
-		folders.найдиДобавь(pth);
-	ФайлПоиск ff(pattern);
+	String pth = GetFileFolder(pattern);
+	String pat = GetFileName(pattern);
+	if(DirectoryExists(pth))
+		folders.FindAdd(pth);
+	FindFile ff(pattern);
 	while(ff)
 	{
-		if(ff.папка_ли())
-			sGatherFolders(folders, приставьИмяф(ff.дайПуть(), pat));
-		ff.следщ();
+		if(ff.IsFolder())
+			sGatherFolders(folders, AppendFileName(ff.GetPath(), pat));
+		ff.Next();
 	}
 }
 
-Вектор<Ткст> ReadPatterns(СиПарсер& p)
+Vector<String> ReadPatterns(CParser& p)
 {
-	Вектор<Ткст> out;
-	while(!p.кф_ли() && !p.сим(';')) {
-		out << читайЗнач(p);
-		p.сим(',');
+	Vector<String> out;
+	while(!p.IsEof() && !p.Char(';')) {
+		out << ReadValue(p);
+		p.Char(',');
 	}
 	return out;
 }
 
-static bool CheckImportCondition(СиПарсер &p, Вектор<Ткст> const &flag)
+static bool CheckImportCondition(CParser &p, Vector<String> const &flag)
 {
 	// no condition == true
-	if(!p.сим_ли('('))
+	if(!p.IsChar('('))
 		return true;
-	Ткст s = ReadWhen(p);
+	String s = ReadWhen(p);
 	return MatchWhen(s, flag);
 }
 
-static void ExtExclude(СиПарсер& p, Ткст const &packageFolder, Индекс<Ткст>& x, Вектор<Ткст> const &flag)
+static void ExtExclude(CParser& p, String const &packageFolder, Index<String>& x, Vector<String> const &flag)
 {
 	bool apply = CheckImportCondition(p, flag);
-	Вектор<Ткст> e = ReadPatterns(p);
+	Vector<String> e = ReadPatterns(p);
 	if(apply) {
-		for(int i = 0; i < e.дайСчёт(); i++)
-			e[i] = нормализуйПуть(e[i], packageFolder);
-		Вектор<int> remove;
-		for(int i = 0; i < x.дайСчёт(); i++)
-			for(int j = 0; j < e.дайСчёт(); j++) {
+		for(int i = 0; i < e.GetCount(); i++)
+			e[i] = NormalizePath(e[i], packageFolder);
+		Vector<int> remove;
+		for(int i = 0; i < x.GetCount(); i++)
+			for(int j = 0; j < e.GetCount(); j++) {
 				if(PatternMatch(e[j], x[i])) {
-					remove.добавь(i);
+					remove.Add(i);
 					break;
 				}
 			}
-		x.удали(remove);
+		x.Remove(remove);
 	}
 }
 
-Вектор<Ткст> ПостроительСиПП::CustomStep(const Ткст& pf, const Ткст& package_, bool& Ошибка)
+Vector<String> CppBuilder::CustomStep(const String& pf, const String& package_, bool& error)
 {
-	Ткст package = Nvl(package_, mainpackage);
-	Ткст path = (*pf == '.' && pf[1] != '.') ? target : SourcePath(package, pf);
-	Ткст file = path;
-	Ткст ext = впроп(дайРасшф(pf));
+	String package = Nvl(package_, mainpackage);
+	String path = (*pf == '.' && pf[1] != '.') ? target : SourcePath(package, pf);
+	String file = path;
+	String ext = ToLower(GetFileExt(pf));
 	if(ext == ".ext") {
-		Вектор<Ткст> const &flags = config.дайКлючи();
+		Vector<String> const &flags = config.GetKeys();
 
-		Ткст packageFolder = дайПапкуФайла(path);
+		String packageFolder = GetFileFolder(path);
 		
-		Индекс<Ткст> pkg_files;
-		Пакет pkg;
-		pkg.грузи(PackagePath(package));
-		for(int i = 0; i < pkg.дайСчёт(); i++)
-			pkg_files.добавь(pkg[i]);
+		Index<String> pkg_files;
+		Package pkg;
+		pkg.Load(PackagePath(package));
+		for(int i = 0; i < pkg.GetCount(); i++)
+			pkg_files.Add(pkg[i]);
 		
-		Индекс<Ткст> out;
-		Индекс<Ткст> include_path;
-		Ткст f = загрузиФайл(path);
+		Index<String> out;
+		Index<String> include_path;
+		String f = LoadFile(path);
 		try {
-			СиПарсер p(f);
-			while(!p.кф_ли()) {
-				if(p.ид("files")) {
+			CParser p(f);
+			while(!p.IsEof()) {
+				if(p.Id("files")) {
 					bool apply = CheckImportCondition(p, flags);
-					Вектор<Ткст> e = ReadPatterns(p);
+					Vector<String> e = ReadPatterns(p);
 					if(apply) {
-						Индекс<Ткст> files;
-						for(int iPat = 0; iPat < e.дайСчёт(); iPat++)
-							sGatherFiles(files, нормализуйПуть(e[iPat], packageFolder));
-						for(int i = 0; i < files.дайСчёт(); i++)
+						Index<String> files;
+						for(int iPat = 0; iPat < e.GetCount(); iPat++)
+							sGatherFiles(files, NormalizePath(e[iPat], packageFolder));
+						for(int i = 0; i < files.GetCount(); i++)
 						{
-							Ткст f = files[i];
-							if(pkg_files.найди(f) < 0)
-								out.найдиДобавь(f);
+							String f = files[i];
+							if(pkg_files.Find(f) < 0)
+								out.FindAdd(f);
 						}
 					}
 				}
-				if(p.ид("exclude")) {
+				if(p.Id("exclude")) {
 					ExtExclude(p, packageFolder, out, flags);
 				}
-				if(p.ид("include_path")) {
+				if(p.Id("include_path")) {
 					bool apply = CheckImportCondition(p, flags);
-					Вектор<Ткст> e = ReadPatterns(p);
+					Vector<String> e = ReadPatterns(p);
 					if(apply) {
-						Индекс<Ткст> dirs;
-						for(int iPat = 0; iPat < e.дайСчёт(); iPat++)
-							sGatherFolders(dirs, нормализуйПуть(e[iPat], packageFolder));
-						for(int i = 0; i < dirs.дайСчёт(); i++) {
-							Ткст d = dirs[i];
-							include_path.найдиДобавь(d);
+						Index<String> dirs;
+						for(int iPat = 0; iPat < e.GetCount(); iPat++)
+							sGatherFolders(dirs, NormalizePath(e[iPat], packageFolder));
+						for(int i = 0; i < dirs.GetCount(); i++) {
+							String d = dirs[i];
+							include_path.FindAdd(d);
 						}
 					}
 				}
-				if(p.ид("exclude_path")) {
+				if(p.Id("exclude_path")) {
 					ExtExclude(p, packageFolder, include_path, flags);
 				}
 				else {
-					p.передайИд("includes");
+					p.PassId("includes");
 					bool apply = CheckImportCondition(p, flags);
-					Вектор<Ткст> e = ReadPatterns(p);
+					Vector<String> e = ReadPatterns(p);
 					if(apply) {
-						Индекс<Ткст> files;
-						for(int iPat = 0; iPat < e.дайСчёт(); iPat++)
-							sGatherFiles(files, нормализуйПуть(e[iPat], packageFolder));
-						for(int i = 0; i < files.дайСчёт(); i++)
-							include_path.найдиДобавь(дайПапкуФайла(files[i]));
+						Index<String> files;
+						for(int iPat = 0; iPat < e.GetCount(); iPat++)
+							sGatherFiles(files, NormalizePath(e[iPat], packageFolder));
+						for(int i = 0; i < files.GetCount(); i++)
+							include_path.FindAdd(GetFileFolder(files[i]));
 					}
 				}
 			}
 		}
-		catch(СиПарсер::Ошибка) {
-			вКонсоль("Неверный файл .ext");
-			Ошибка = true;
-			return Вектор<Ткст>();
+		catch(CParser::Error) {
+			PutConsole("Неверный файл .ext");
+			error = true;
+			return Vector<String>();
 		}
 		
-		for(int i = 0; i < include_path.дайСчёт(); i++)
-			include.добавь(include_path[i]);
+		for(int i = 0; i < include_path.GetCount(); i++)
+			include.Add(include_path[i]);
 		
-		Вектор<Ткст> o;
-		for(int i = 0; i < out.дайСчёт(); i++)
-			o.добавь(SourcePath(package, out[i]));
+		Vector<String> o;
+		for(int i = 0; i < out.GetCount(); i++)
+			o.Add(SourcePath(package, out[i]));
 		return o;
 	}
-	for(int i = 0; i < wspc.дайСчёт(); i++) {
-		const Массив< ::CustomStep >& mv = wspc.дайПакет(i).custom;
-		for(int j = 0; j < mv.дайСчёт(); j++) {
+	for(int i = 0; i < wspc.GetCount(); i++) {
+		const Array< ::CustomStep >& mv = wspc.GetPackage(i).custom;
+		for(int j = 0; j < mv.GetCount(); j++) {
 			const ::CustomStep& m = mv[j];
-			if(MatchWhen(m.when, config.дайКлючи()) && m.MatchExt(ext)) {
-				ВекторМап<Ткст, Ткст> mac;
+			if(MatchWhen(m.when, config.GetKeys()) && m.MatchExt(ext)) {
+				VectorMap<String, String> mac;
 				AddPath(mac, "PATH", file);
 				AddPath(mac, "RELPATH", pf);
-				AddPath(mac, "DIR", дайПапкуФайла(PackagePath(package)));
-				AddPath(mac, "FILEDIR", дайПапкуФайла(file));
-				AddPath(mac, "ПАКЕТ", package);
-				mac.добавь("FILE", дайИмяф(file));
-				mac.добавь("TITLE", дайТитулф(file));
+				AddPath(mac, "DIR", GetFileFolder(PackagePath(package)));
+				AddPath(mac, "FILEDIR", GetFileFolder(file));
+				AddPath(mac, "PACKAGE", package);
+				mac.Add("FILE", GetFileName(file));
+				mac.Add("TITLE", GetFileTitle(file));
 				AddPath(mac, "EXEPATH", target);
-				AddPath(mac, "EXEDIR", дайПапкуФайла(target));
-				mac.добавь("EXEFILE", дайИмяф(target));
-				mac.добавь("EXETITLE", дайТитулф(target));
+				AddPath(mac, "EXEDIR", GetFileFolder(target));
+				mac.Add("EXEFILE", GetFileName(target));
+				mac.Add("EXETITLE", GetFileTitle(target));
 				AddPath(mac, "OUTDIR", outdir);
 				//BW
-				AddPath(mac, "OUTDIR", дайПапкуФайла(target));
-				AddPath(mac, "OUTFILE", дайИмяф(target));
-				AddPath(mac, "OUTTITLE", дайТитулф(target));
+				AddPath(mac, "OUTDIR", GetFileFolder(target));
+				AddPath(mac, "OUTFILE", GetFileName(target));
+				AddPath(mac, "OUTTITLE", GetFileTitle(target));
 
-				mac.добавь("INCLUDE", Join(include, ";"));
+				mac.Add("INCLUDE", Join(include, ";"));
 
-				Вектор<Ткст> out = Cuprep(m.output, mac, include);
-				bool dirty = out.пустой();
-				for(int i = 0; !dirty && i < out.дайСчёт(); i++)
-					dirty = (дайФВремя(file) > дайФВремя(out[i]));
+				Vector<String> out = Cuprep(m.output, mac, include);
+				bool dirty = out.IsEmpty();
+				for(int i = 0; !dirty && i < out.GetCount(); i++)
+					dirty = (GetFileTime(file) > GetFileTime(out[i]));
 				if(dirty) {
 					HdependTimeDirty();
-					вКонсоль(дайИмяф(file));
-					Вектор<Ткст> cmd = Cuprep(m.command, mac, include);
-					Ткст cmdtext;
-					for(int c = 0; c < cmd.дайСчёт(); c++) {
+					PutConsole(GetFileName(file));
+					Vector<String> cmd = Cuprep(m.command, mac, include);
+					String cmdtext;
+					for(int c = 0; c < cmd.GetCount(); c++) {
 						PutVerbose(cmd[c]);
-						if(!Cd(cmd[c]) && !Cp(cmd[c], package, Ошибка)) {
-							Ткст ctext = cmd[c];
+						if(!Cd(cmd[c]) && !Cp(cmd[c], package, error)) {
+							String ctext = cmd[c];
 							const char *cm = ctext;
 							if(*cm == '?')
 								cm++;
-							if(*ctext != '?' && выполни(cm)) {
-								for(int t = 0; t < out.дайСчёт(); t++)
+							if(*ctext != '?' && Execute(cm)) {
+								for(int t = 0; t < out.GetCount(); t++)
 									DeleteFile(out[t]);
-								вКонсоль("ПРОВАЛ: " + ctext);
-								Ошибка = true;
-								return Вектор<Ткст>();
+								PutConsole("ПРОВАЛ: " + ctext);
+								error = true;
+								return Vector<String>();
 							}
 						}
 					}
@@ -462,101 +462,101 @@ static void ExtExclude(СиПарсер& p, Ткст const &packageFolder, Ин�
 			}
 		}
 	}
-	Вектор<Ткст> out;
-	out.добавь(path);
+	Vector<String> out;
+	out.Add(path);
 	return out;
 }
 
-Ткст ПостроительСиПП::Includes(const char *sep, const Ткст& package, const Пакет& pkg)
+String CppBuilder::Includes(const char *sep, const String& package, const Package& pkg)
 {
-	Ткст cc;
-	for(int i = 0; i < include.дайСчёт(); i++)
+	String cc;
+	for(int i = 0; i < include.GetCount(); i++)
 		cc << sep << GetPathQ(include[i]);
 	cc << sep << GetPathQ(outdir);
 	return cc;
 }
 
-Вектор<Ткст> RepoInfo(const Ткст& package)
+Vector<String> RepoInfo(const String& package)
 {
-	Вектор<Ткст> info;
-	Ткст d = дайПапкуФайла(PackagePath(package));
+	Vector<String> info;
+	String d = GetFileFolder(PackagePath(package));
 	int repo = GetRepoKind(d);
 	if(repo == SVN_DIR) {
-		Ткст v = Sys("svnversion " + d);
-		if(цифра_ли(*v))
-			info.добавь("#define bmSVN_REVISION " + какТкстСи(обрежьОба(v)));
+		String v = Sys("svnversion " + d);
+		if(IsDigit(*v))
+			info.Add("#define bmSVN_REVISION " + AsCString(TrimBoth(v)));
 		v = Sys("svn info " + d);
-		ТкстПоток in(v);
-		while(!in.кф_ли()) {
-			Ткст l = in.дайСтроку();
-			if(l.начинаетсяС("URL: ")) {
-				info.добавь("#define bmSVN_URL " + какТкстСи(обрежьОба(l.середина(5))));
+		StringStream in(v);
+		while(!in.IsEof()) {
+			String l = in.GetLine();
+			if(l.StartsWith("URL: ")) {
+				info.Add("#define bmSVN_URL " + AsCString(TrimBoth(l.Mid(5))));
 				break;
 			}
 		}
 	}
 	if(repo == GIT_DIR) {
-		Ткст v = Sys("git rev-list --count HEAD");
-		if(цифра_ли(*v))
-			info.добавь("#define bmGIT_REVCOUNT " + какТкстСи(обрежьОба(v)));
+		String v = Sys("git rev-list --count HEAD");
+		if(IsDigit(*v))
+			info.Add("#define bmGIT_REVCOUNT " + AsCString(TrimBoth(v)));
 	}
 	return info;
 }
 
-void ПостроительСиПП::SaveBuildInfo(const Ткст& package)
+void CppBuilder::SaveBuildInfo(const String& package)
 {
-	Ткст path = приставьИмяф(outdir, "build_info.h");
+	String path = AppendFileName(outdir, "build_info.h");
 	RealizePath(path);
-	ФайлВывод info(path);
-	Время t = дайСисВремя();
+	FileOut info(path);
+	Time t = GetSysTime();
 	info << "#define bmYEAR   " << (int)t.year << "\r\n";
-	info << "#define бмМЕСЯЦ  " << (int)t.month << "\r\n";
-	info << "#define бмДЕНЬ    " << (int)t.day << "\r\n";
-	info << "#define бмЧАС   " << (int)t.hour << "\r\n";
-	info << "#define бмМИНУТА " << (int)t.minute << "\r\n";
-	info << "#define бмСЕКУНДА " << (int)t.second << "\r\n";
-	info << фмт("#define бмВРЕМЯ   Время(%d, %d, %d, %d, %d, %d)\r\n",
+	info << "#define bmMONTH  " << (int)t.month << "\r\n";
+	info << "#define bmDAY    " << (int)t.day << "\r\n";
+	info << "#define bmHOUR   " << (int)t.hour << "\r\n";
+	info << "#define bmMINUTE " << (int)t.minute << "\r\n";
+	info << "#define bmSECOND " << (int)t.second << "\r\n";
+	info << Format("#define bmTIME   Time(%d, %d, %d, %d, %d, %d)\r\n",
 	        (int)t.year, (int)t.month, (int)t.day, (int)t.hour, (int)t.minute, (int)t.second);
-	info << "#define bmMACHINE " << какТкстСи(дайИмяКомпа()) << "\r\n";
-	info << "#define bmUSER    " << какТкстСи(дайИмяПользователя()) << "\r\n";
+	info << "#define bmMACHINE " << AsCString(GetComputerName()) << "\r\n";
+	info << "#define bmUSER    " << AsCString(GetUserName()) << "\r\n";
 
 	if(package == mainpackage)
 		info << Join(RepoInfo(package), "\r\n");
 }
 
-Ткст ПостроительСиПП::DefinesTargetTime(const char *sep, const Ткст& package, const Пакет& pkg)
+String CppBuilder::DefinesTargetTime(const char *sep, const String& package, const Package& pkg)
 {
-	Ткст cc;
-	for(int i = 0; i < config.дайСчёт(); i++)
+	String cc;
+	for(int i = 0; i < config.GetCount(); i++)
 		cc << sep << "flag" << config[i];
 	if(main_conf)
 		cc << sep << "MAIN_CONF";
-	targettime = дайФВремя(target);
+	targettime = GetFileTime(target);
 	
 	return cc;
 }
 
-Ткст ПостроительСиПП::IncludesDefinesTargetTime(const Ткст& package, const Пакет& pkg)
+String CppBuilder::IncludesDefinesTargetTime(const String& package, const Package& pkg)
 {
-	Ткст cc = Includes(" -I", package, pkg);
+	String cc = Includes(" -I", package, pkg);
 	cc << DefinesTargetTime(" -D", package, pkg);
 	return cc;
 }
 
-bool ПостроительСиПП::HasAnyDebug() const
+bool CppBuilder::HasAnyDebug() const
 {
-	return естьФлаг("DEBUG") || естьФлаг("DEBUG_MINIMAL") || естьФлаг("DEBUG_FULL");
+	return HasFlag("DEBUG") || HasFlag("DEBUG_MINIMAL") || HasFlag("DEBUG_FULL");
 }
 
-Ткст SourceToObjName(const Ткст& package, const Ткст& srcfile_)
+String SourceToObjName(const String& package, const String& srcfile_)
 {
-	Ткст srcfile = srcfile_;
-	srcfile.обрежьКонец(".cpp");
-	int q = дайПапкуФайла(PackagePath(package)).дайСчёт() + 1;
-	if(q >= srcfile.дайСчёт())
-		return дайТитулф(srcfile);
-	Ткст r;
+	String srcfile = srcfile_;
+	srcfile.TrimEnd(".cpp");
+	int q = GetFileFolder(PackagePath(package)).GetCount() + 1;
+	if(q >= srcfile.GetCount())
+		return GetFileTitle(srcfile);
+	String r;
 	for(const char *s = ~srcfile + q; *s; s++)
-		r.конкат(findarg(*s, '/', '\\') >= 0 ? '_' : *s);
+		r.Cat(findarg(*s, '/', '\\') >= 0 ? '_' : *s);
 	return r;
 }

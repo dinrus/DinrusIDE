@@ -1,4 +1,4 @@
-class Обнул;
+class Nuller;
 
 inline int strlen8(const char *s) { return s ? (int)strlen(s) : 0; }
 int strlen16(const char16 *s);
@@ -23,166 +23,166 @@ inline int cmpval__(wchar x)              { return x; }
 int find(const char *text, int len, const char *needle, int nlen, int from);
 int find(const wchar *text, int len, const wchar *needle, int nlen, int from);
 
-class Ткст;
-class ШТкст;
-class ТкстБуф;
-class ШТкстБуф;
+class String;
+class WString;
+class StringBuffer;
+class WStringBuffer;
 
-class Поток;
+class Stream;
 
 template <class B>
-class АТкст : public B {
+class AString : public B {
 	typedef typename B::tchar  tchar;
 	typedef typename B::bchar  bchar;
-	typedef typename B::Буфер буфер;
-	typedef typename B::Ткст Ткст;
+	typedef typename B::Buffer buffer;
+	typedef typename B::String String;
 
 public:
-	void очисть()                                              { B::освободи(); B::обнули(); }
-	int  дайДлину() const                                    { return B::дайСчёт(); }
-	bool пустой() const                                      { return B::дайСчёт() == 0; }
+	void Clear()                                              { B::Free(); B::Zero(); }
+	int  GetLength() const                                    { return B::GetCount(); }
+	bool IsEmpty() const                                      { return B::GetCount() == 0; }
 
-	const tchar *стоп() const                                  { return B::старт() + дайДлину(); }
-	const tchar *end() const                                  { return стоп(); }
-	const tchar *последний() const                                 { return стоп() - !!B::дайСчёт(); }
-	const tchar *дайОбх(int i) const                         { ПРОВЕРЬ(i >= 0 && i <= B::дайСчёт()); return B::старт() + i; }
+	const tchar *End() const                                  { return B::Begin() + GetLength(); }
+	const tchar *end() const                                  { return End(); }
+	const tchar *Last() const                                 { return End() - !!B::GetCount(); }
+	const tchar *GetIter(int i) const                         { ASSERT(i >= 0 && i <= B::GetCount()); return B::Begin() + i; }
 
-	int operator*() const                                     { return *B::старт(); }
-	int operator[](int i) const                               { ПРОВЕРЬ(i >= 0 && i <= B::дайСчёт()); return B::старт()[i]; }
+	int operator*() const                                     { return *B::Begin(); }
+	int operator[](int i) const                               { ASSERT(i >= 0 && i <= B::GetCount()); return B::Begin()[i]; }
 
-	operator const tchar *() const                            { return B::старт(); }
-	const tchar *operator~() const                            { return B::старт(); }
-	operator const bchar *() const                            { return (bchar *)B::старт(); }
-	operator const void *() const                             { return B::старт(); }
+	operator const tchar *() const                            { return B::Begin(); }
+	const tchar *operator~() const                            { return B::Begin(); }
+	operator const bchar *() const                            { return (bchar *)B::Begin(); }
+	operator const void *() const                             { return B::Begin(); }
 
-	void вставь(int pos, int c)                               { *B::вставь(pos, 1, NULL) = c; }
-	void вставь(int pos, const tchar *s, int count)           { B::вставь(pos, count, s); }
-	void вставь(int pos, const Ткст& s)                     { вставь(pos, s, s.дайСчёт()); }
-	void вставь(int pos, const char *s);
+	void Insert(int pos, int c)                               { *B::Insert(pos, 1, NULL) = c; }
+	void Insert(int pos, const tchar *s, int count)           { B::Insert(pos, count, s); }
+	void Insert(int pos, const String& s)                     { Insert(pos, s, s.GetCount()); }
+	void Insert(int pos, const char *s);
 	
-	void обрежьПоследн(int count = 1)                              { B::обрежь(B::дайСчёт() - count); }
+	void TrimLast(int count = 1)                              { B::Trim(B::GetCount() - count); }
 
-	void  конкат(int c)                                          { B::конкат(c); }
-	void  конкат(const tchar *s, int len)                        { B::конкат(s, len); }
-	void  конкат(const tchar *s);
-	void  конкат(const Ткст& s)                                { конкат(~s, s.дайДлину()); }
-	void  конкат(int c, int count);
-	void  конкат(const tchar *s, const tchar *lim)               { ПРОВЕРЬ(s <= lim); конкат(s, int(lim - s)); }
-	void  конкат(const Ткст& s, int len)                       { B::конкат(~s, len); }
-	void  конкат(const bchar *s, int len)                        { конкат((const tchar *) s, len); }
+	void  Cat(int c)                                          { B::Cat(c); }
+	void  Cat(const tchar *s, int len)                        { B::Cat(s, len); }
+	void  Cat(const tchar *s);
+	void  Cat(const String& s)                                { Cat(~s, s.GetLength()); }
+	void  Cat(int c, int count);
+	void  Cat(const tchar *s, const tchar *lim)               { ASSERT(s <= lim); Cat(s, int(lim - s)); }
+	void  Cat(const String& s, int len)                       { B::Cat(~s, len); }
+	void  Cat(const bchar *s, int len)                        { Cat((const tchar *) s, len); }
 
-	Ткст& конкат()                                             { return *(Ткст *)this; }
+	String& Cat()                                             { return *(String *)this; }
 
-	int    сравни(const Ткст& s) const                     { return B::сравни(s); }
-	int    сравни(const tchar *s) const;
+	int    Compare(const String& s) const                     { return B::Compare(s); }
+	int    Compare(const tchar *s) const;
 
-	bool   равен(const Ткст& s) const                     { return B::равен(s); }
-	bool   равен(const tchar *s) const                      { return B::равен(s); }
+	bool   IsEqual(const String& s) const                     { return B::IsEqual(s); }
+	bool   IsEqual(const tchar *s) const                      { return B::IsEqual(s); }
 
-	Ткст середина(int pos, int length) const;
-	Ткст середина(int pos) const                                 { return середина(pos, дайДлину() - pos); }
-	Ткст право(int count) const                             { return середина(дайДлину() - count); }
-	Ткст лево(int count) const                              { return середина(0, count); }
+	String Mid(int pos, int length) const;
+	String Mid(int pos) const                                 { return Mid(pos, GetLength() - pos); }
+	String Right(int count) const                             { return Mid(GetLength() - count); }
+	String Left(int count) const                              { return Mid(0, count); }
 
-	int    найди(int chr, int from = 0) const;
-	int    найдирек(int chr, int from) const;
-	int    найдирек(int chr) const;
+	int    Find(int chr, int from = 0) const;
+	int    ReverseFind(int chr, int from) const;
+	int    ReverseFind(int chr) const;
 
-	int    найди(int len, const tchar *s, int from) const      { return find(B::старт(), B::дайСчёт(), s, len, from); }
-	int    найди(const tchar *s, int from = 0) const           { return найди(strlen__(s), s, from); }
-	int    найди(const Ткст& s, int from = 0) const          { return найди(s.дайСчёт(), ~s, from); }
+	int    Find(int len, const tchar *s, int from) const      { return find(B::Begin(), B::GetCount(), s, len, from); }
+	int    Find(const tchar *s, int from = 0) const           { return Find(strlen__(s), s, from); }
+	int    Find(const String& s, int from = 0) const          { return Find(s.GetCount(), ~s, from); }
 
-	int    найдиПосле(const tchar *s, int from = 0) const      { int n = strlen__(s); int q = найди(n, s, from); return q < 0 ? -1 : q + n; }
-	int    найдиПосле(const Ткст& s, int from = 0) const     { int n = s.дайСчёт(); int q = найди(n, ~s, from); return q < 0 ? -1 : q + n; }
+	int    FindAfter(const tchar *s, int from = 0) const      { int n = strlen__(s); int q = Find(n, s, from); return q < 0 ? -1 : q + n; }
+	int    FindAfter(const String& s, int from = 0) const     { int n = s.GetCount(); int q = Find(n, ~s, from); return q < 0 ? -1 : q + n; }
 	
-	int    найдирек(int len, const tchar *s, int from) const;
-	int    найдирек(const tchar *s, int from) const;
-	int    найдирек(const Ткст& s, int from) const       { return найдирек(s.дайСчёт(), ~s, from); }
-	int    найдирек(const tchar *s) const                  { return дайДлину() ? найдирек(s, дайДлину()-1) : -1;}
-	int    найдирек(const Ткст& s) const                 { return дайДлину() ? найдирек(s, дайДлину()-1) : -1;}
+	int    ReverseFind(int len, const tchar *s, int from) const;
+	int    ReverseFind(const tchar *s, int from) const;
+	int    ReverseFind(const String& s, int from) const       { return ReverseFind(s.GetCount(), ~s, from); }
+	int    ReverseFind(const tchar *s) const                  { return GetLength() ? ReverseFind(s, GetLength()-1) : -1;}
+	int    ReverseFind(const String& s) const                 { return GetLength() ? ReverseFind(s, GetLength()-1) : -1;}
 
-	int    найдирекПосле(int len, const tchar *s, int from) const;
-	int    найдирекПосле(const tchar *s, int from) const;
-	int    найдирекПосле(const Ткст& s, int from) const  { return найдирекПосле(s.дайСчёт(), ~s, from); }
-	int    найдирекПосле(const tchar *s) const             { return дайДлину() ? найдирекПосле(s, дайДлину()-1) : -1;}
-	int    найдирекПосле(const Ткст& s) const            { return дайДлину() ? найдирекПосле(s, дайДлину()-1) : -1;}
+	int    ReverseFindAfter(int len, const tchar *s, int from) const;
+	int    ReverseFindAfter(const tchar *s, int from) const;
+	int    ReverseFindAfter(const String& s, int from) const  { return ReverseFindAfter(s.GetCount(), ~s, from); }
+	int    ReverseFindAfter(const tchar *s) const             { return GetLength() ? ReverseFindAfter(s, GetLength()-1) : -1;}
+	int    ReverseFindAfter(const String& s) const            { return GetLength() ? ReverseFindAfter(s, GetLength()-1) : -1;}
 	
-	void   замени(const tchar *find, int findlen, const tchar *replace, int replacelen);
-	void   замени(const Ткст& find, const Ткст& replace);
-	void   замени(const tchar *find, const tchar *replace);
-	void   замени(const Ткст& find, const tchar *replace);
-	void   замени(const tchar *find, const Ткст& replace);
+	void   Replace(const tchar *find, int findlen, const tchar *replace, int replacelen);
+	void   Replace(const String& find, const String& replace);
+	void   Replace(const tchar *find, const tchar *replace);
+	void   Replace(const String& find, const tchar *replace);
+	void   Replace(const tchar *find, const String& replace);
 	
-	bool   начинаетсяС(const tchar *s, int len) const;
-	bool   начинаетсяС(const tchar *s) const;
-	bool   начинаетсяС(const Ткст& s) const                  { return начинаетсяС(~s, s.дайДлину()); }
+	bool   StartsWith(const tchar *s, int len) const;
+	bool   StartsWith(const tchar *s) const;
+	bool   StartsWith(const String& s) const                  { return StartsWith(~s, s.GetLength()); }
 
-	bool   обрежьСтарт(const tchar *s, int len)                 { if(!начинаетсяС(s, len)) return false; B::удали(0, len); return true; }
-	bool   обрежьСтарт(const tchar *s)                          { return обрежьСтарт(s, strlen__(s)); }
-	bool   обрежьСтарт(const Ткст& s)                         { return обрежьСтарт(~s, s.дайДлину()); }
+	bool   TrimStart(const tchar *s, int len)                 { if(!StartsWith(s, len)) return false; B::Remove(0, len); return true; }
+	bool   TrimStart(const tchar *s)                          { return TrimStart(s, strlen__(s)); }
+	bool   TrimStart(const String& s)                         { return TrimStart(~s, s.GetLength()); }
 
-	bool   заканчиваетсяНа(const tchar *s, int len) const;
-	bool   заканчиваетсяНа(const tchar *s) const;
-	bool   заканчиваетсяНа(const Ткст& s) const                    { return заканчиваетсяНа(~s, s.дайДлину()); }
+	bool   EndsWith(const tchar *s, int len) const;
+	bool   EndsWith(const tchar *s) const;
+	bool   EndsWith(const String& s) const                    { return EndsWith(~s, s.GetLength()); }
 	
-	bool   обрежьКонец(const tchar *s, int len)                   { if(!заканчиваетсяНа(s, len)) return false; обрежьПоследн(len); return true; }
-	bool   обрежьКонец(const tchar *s)                            { return обрежьКонец(s, strlen__(s)); }
-	bool   обрежьКонец(const Ткст& s)                           { return обрежьКонец(~s, s.дайДлину()); }
+	bool   TrimEnd(const tchar *s, int len)                   { if(!EndsWith(s, len)) return false; TrimLast(len); return true; }
+	bool   TrimEnd(const tchar *s)                            { return TrimEnd(s, strlen__(s)); }
+	bool   TrimEnd(const String& s)                           { return TrimEnd(~s, s.GetLength()); }
 
-	int    найдиПервыйИз(int len, const tchar *set, int from = 0) const;
-	int    найдиПервыйИз(const tchar *set, int from = 0) const  { return найдиПервыйИз(strlen__(set), set, from); }
-	int    найдиПервыйИз(const Ткст& set, int from = 0) const { return найдиПервыйИз(set.дайСчёт(), ~set, from); }
+	int    FindFirstOf(int len, const tchar *set, int from = 0) const;
+	int    FindFirstOf(const tchar *set, int from = 0) const  { return FindFirstOf(strlen__(set), set, from); }
+	int    FindFirstOf(const String& set, int from = 0) const { return FindFirstOf(set.GetCount(), ~set, from); }
 	
-	friend bool operator<(const Ткст& a, const Ткст& b)   { return a.сравни(b) < 0; }
-	friend bool operator<(const Ткст& a, const tchar *b)    { return a.сравни(b) < 0; }
-	friend bool operator<(const tchar *a, const Ткст& b)    { return b.сравни(a) > 0; }
+	friend bool operator<(const String& a, const String& b)   { return a.Compare(b) < 0; }
+	friend bool operator<(const String& a, const tchar *b)    { return a.Compare(b) < 0; }
+	friend bool operator<(const tchar *a, const String& b)    { return b.Compare(a) > 0; }
 
-	friend bool operator<=(const Ткст& a, const Ткст& b)  { return a.сравни(b) <= 0; }
-	friend bool operator<=(const Ткст& a, const tchar *b)   { return a.сравни(b) <= 0; }
-	friend bool operator<=(const tchar *a, const Ткст& b)   { return b.сравни(a) >= 0; }
+	friend bool operator<=(const String& a, const String& b)  { return a.Compare(b) <= 0; }
+	friend bool operator<=(const String& a, const tchar *b)   { return a.Compare(b) <= 0; }
+	friend bool operator<=(const tchar *a, const String& b)   { return b.Compare(a) >= 0; }
 
-	friend bool operator>(const Ткст& a, const Ткст& b)   { return a.сравни(b) > 0; }
-	friend bool operator>(const Ткст& a, const tchar *b)    { return a.сравни(b) > 0; }
-	friend bool operator>(const tchar *a, const Ткст& b)    { return b.сравни(a) < 0; }
+	friend bool operator>(const String& a, const String& b)   { return a.Compare(b) > 0; }
+	friend bool operator>(const String& a, const tchar *b)    { return a.Compare(b) > 0; }
+	friend bool operator>(const tchar *a, const String& b)    { return b.Compare(a) < 0; }
 
-	friend bool operator>=(const Ткст& a, const Ткст& b)   { return a.сравни(b) >= 0; }
-	friend bool operator>=(const Ткст& a, const tchar *b)    { return a.сравни(b) >= 0; }
-	friend bool operator>=(const tchar *a, const Ткст& b)    { return b.сравни(a) <= 0; }
+	friend bool operator>=(const String& a, const String& b)   { return a.Compare(b) >= 0; }
+	friend bool operator>=(const String& a, const tchar *b)    { return a.Compare(b) >= 0; }
+	friend bool operator>=(const tchar *a, const String& b)    { return b.Compare(a) <= 0; }
 
-	friend bool operator==(const Ткст& a, const Ткст& b)   { return a.равен(b); }
-	friend bool operator!=(const Ткст& a, const Ткст& b)   { return !a.равен(b); }
-	friend bool operator==(const Ткст& a, const tchar *b)    { return a.равен(b); }
-	friend bool operator==(const tchar *a, const Ткст& b)    { return b.равен(a); }
-	friend bool operator!=(const Ткст& a, const tchar *b)    { return !a.равен(b); }
-	friend bool operator!=(const tchar *a, const Ткст& b)    { return !b.равен(a); }
+	friend bool operator==(const String& a, const String& b)   { return a.IsEqual(b); }
+	friend bool operator!=(const String& a, const String& b)   { return !a.IsEqual(b); }
+	friend bool operator==(const String& a, const tchar *b)    { return a.IsEqual(b); }
+	friend bool operator==(const tchar *a, const String& b)    { return b.IsEqual(a); }
+	friend bool operator!=(const String& a, const tchar *b)    { return !a.IsEqual(b); }
+	friend bool operator!=(const tchar *a, const String& b)    { return !b.IsEqual(a); }
 
-	friend Ткст operator+(const Ткст& a, const Ткст& b)  { Ткст c(a); c += b; return c; }
-	friend Ткст operator+(const Ткст& a, const tchar *b)   { Ткст c(a); c += b; return c; }
-	friend Ткст operator+(const Ткст& a, tchar b)          { Ткст c(a); c += b; return c; }
-	friend Ткст operator+(Ткст&& a, const Ткст& b)       { Ткст c(pick(a)); c += b; return c; }
-	friend Ткст operator+(Ткст&& a, const tchar *b)        { Ткст c(pick(a)); c += b; return c; }
-	friend Ткст operator+(Ткст&& a, tchar b)               { Ткст c(pick(a)); c += b; return c; }
-	friend Ткст operator+(const tchar *a, const Ткст& b)   { Ткст c(a); c += b; return c; }
-	friend Ткст operator+(tchar a, const Ткст& b)          { Ткст c(a, 1); c += b; return c; }
+	friend String operator+(const String& a, const String& b)  { String c(a); c += b; return c; }
+	friend String operator+(const String& a, const tchar *b)   { String c(a); c += b; return c; }
+	friend String operator+(const String& a, tchar b)          { String c(a); c += b; return c; }
+	friend String operator+(String&& a, const String& b)       { String c(pick(a)); c += b; return c; }
+	friend String operator+(String&& a, const tchar *b)        { String c(pick(a)); c += b; return c; }
+	friend String operator+(String&& a, tchar b)               { String c(pick(a)); c += b; return c; }
+	friend String operator+(const tchar *a, const String& b)   { String c(a); c += b; return c; }
+	friend String operator+(tchar a, const String& b)          { String c(a, 1); c += b; return c; }
 };
 
-class Ткст0 : Движимое<Ткст0> {
+class String0 : Moveable<String0> {
 	enum { // 
-		KIND = 14,    // chr[KIND] is Ткст tier flag, 0 - small, 31 - medium, 32..254 ref alloc, 255 - read alloc from Реф
+		KIND = 14,    // chr[KIND] is String tier flag, 0 - small, 31 - medium, 32..254 ref alloc, 255 - read alloc from Ref
 		SLEN = 15,    // chr[SLEN] stores the length of small tier strings (up to 14 bytes)
 		LLEN = 2,     // chr[LLEN] stores the length of medium (< 32) and large tier strings
-		SPECIAL = 13, // chr[SPECIAL]: stores Значение тип
+		SPECIAL = 13, // chr[SPECIAL]: stores Value type
 	};
-	enum { // chr[KIND] predefined values, if > MEDIUM, it is Rc тип; if <255, also stores alloc
-		SMALL = 0, // SVO ending zero, also has to be 0 because of дайОсобый, also flag of small
+	enum { // chr[KIND] predefined values, if > MEDIUM, it is Rc type; if <255, also stores alloc
+		SMALL = 0, // SVO ending zero, also has to be 0 because of GetSpecial, also flag of small
 	    MEDIUM = 31 // medium, ptr points to 32 bytes block on heap
 	};
 
 	struct Rc {
-		Атомар refcount;
+		Atomic refcount;
 		int    alloc;
 
-		char *дайУк() const  { return (char*)(this + 1); }
+		char *GetPtr() const  { return (char*)(this + 1); }
 	};
 
 	union {
@@ -196,12 +196,12 @@ class Ткст0 : Движимое<Ткст0> {
 	};
 
 
-#if defined(_ОТЛАДКА) && defined(COMPILER_GCC)
+#if defined(_DEBUG) && defined(COMPILER_GCC)
 	int          len;
 	const char  *s;
 #endif
 
-#ifdef _ОТЛАДКА
+#ifdef _DEBUG
 	void Dsyn();
 #else
 	void Dsyn() {}
@@ -211,17 +211,17 @@ class Ткст0 : Движимое<Ткст0> {
 	char   SLen() const          { return chr[SLEN]; }
 	dword& LLen()                { return w[LLEN]; }
 	dword  LLen() const          { return w[LLEN]; }
-	bool   смолл_ли() const       { return chr[KIND] == SMALL; }
+	bool   IsSmall() const       { return chr[KIND] == SMALL; }
 	bool   IsLarge() const       { return chr[KIND] != SMALL; }
 	bool   IsMedium() const      { return chr[KIND] == MEDIUM; }
-	bool   реф_ли() const         { return (byte)chr[KIND] > MEDIUM; }
-	Rc    *Реф() const           { return (Rc *)ptr - 1; }
-	bool   IsShared() const      { return Реф()->refcount != 1; }
-	bool   IsSharedRef() const   { return реф_ли() && IsShared(); }
-	int    LAlloc() const        { int b = (byte)chr[KIND]; return b == 255 ? Реф()->alloc : b; }
-	dword  LEqual(const Ткст0& s) const;
+	bool   IsRef() const         { return (byte)chr[KIND] > MEDIUM; }
+	Rc    *Ref() const           { return (Rc *)ptr - 1; }
+	bool   IsShared() const      { return Ref()->refcount != 1; }
+	bool   IsSharedRef() const   { return IsRef() && IsShared(); }
+	int    LAlloc() const        { int b = (byte)chr[KIND]; return b == 255 ? Ref()->alloc : b; }
+	dword  LEqual(const String0& s) const;
 
-	void LSet(const Ткст0& s);
+	void LSet(const String0& s);
 	void LFree();
 	void LCat(int c);
 	hash_t LHashValue() const;
@@ -229,84 +229,84 @@ class Ткст0 : Движимое<Ткст0> {
 	void UnShare();
 	void SetSLen(int l);
 
-	char *Ук()                   { return смолл_ли() ? chr : ptr; }
+	char *Ptr()                   { return IsSmall() ? chr : ptr; }
 	char *Alloc_(int count, char& kind);
-	char *размести(int count, char& kind);
+	char *Alloc(int count, char& kind);
 
-	static Ткст0::Rc voidptr[2];
+	static String0::Rc voidptr[2];
 
-	void разверни(Ткст0& b);
+	void Swap(String0& b);
 	
-	// interface for Значение
+	// interface for Value
 	static dword StW(byte st)     { return MAKE4B(0, st, 0, 0); }
 	void SetSpecial0(byte st)     { w[3] = StW(st); }
-	void устОсобо(byte st)      { ПРОВЕРЬ(смолл_ли() && дайСчёт() == 0); SetSpecial0(st); }
-	byte дайОсобый() const       { return (chr[SLEN] | chr[KIND]) == 0 ? chr[SPECIAL] : 0; }
+	void SetSpecial(byte st)      { ASSERT(IsSmall() && GetCount() == 0); SetSpecial0(st); }
+	byte GetSpecial() const       { return (chr[SLEN] | chr[KIND]) == 0 ? chr[SPECIAL] : 0; }
 	byte GetSt() const            { return chr[SPECIAL]; }
 	dword GetStW() const          { return w[3]; }
-	bool особый_ли() const        { return !v[7] && v[6]; }
-	bool особый_ли(byte st) const { return w[3] == StW(st); }
+	bool IsSpecial() const        { return !v[7] && v[6]; }
+	bool IsSpecial(byte st) const { return w[3] == StW(st); }
 	
-	friend class Ткст;
-	friend class ТкстБуф;
-	friend class Значение;
-	friend class ТекстКтрл;
+	friend class String;
+	friend class StringBuffer;
+	friend class Value;
+	friend class TextCtrl;
 
 protected:
-	void обнули()                     { q[0] = q[1] = 0; Dsyn(); }
-	void устСмолл(const Ткст0& s) { q[0] = s.q[0]; q[1] = s.q[1]; }
-	void освободи()                     { if(IsLarge()) LFree(); }
-	void подбери0(Ткст0&& s) {
-		устСмолл(s);
-		s.обнули();
+	void Zero()                     { q[0] = q[1] = 0; Dsyn(); }
+	void SetSmall(const String0& s) { q[0] = s.q[0]; q[1] = s.q[1]; }
+	void Free()                     { if(IsLarge()) LFree(); }
+	void Pick0(String0&& s) {
+		SetSmall(s);
+		s.Zero();
 	}
-	void уст0(const Ткст0& s) {
-		if(s.смолл_ли()) устСмолл(s); else LSet(s);
+	void Set0(const String0& s) {
+		if(s.IsSmall()) SetSmall(s); else LSet(s);
 		Dsyn();
 	}
-	void присвой(const Ткст0& s) {
-		if(s.смолл_ли()) {
-			освободи();
-			устСмолл(s);
+	void Assign(const String0& s) {
+		if(s.IsSmall()) {
+			Free();
+			SetSmall(s);
 		}
 		else
 			if(this != &s) {
-				освободи();
+				Free();
 				LSet(s);
 			}
 		Dsyn();
 	}
-	void  уст0(const char *s, int len);
+	void  Set0(const char *s, int len);
 	void  SetL(const char *s, int len);
-	char *вставь(int pos, int count, const char *str);
+	char *Insert(int pos, int count, const char *str);
 
 	typedef char         tchar;
 	typedef byte         bchar;
-	typedef ТкстБуф Буфер;
-	typedef РНЦПДинрус::Ткст  Ткст;
+	typedef StringBuffer Buffer;
+	typedef Upp::String  String;
 
-	int    CompareL(const Ткст0& s) const;
+	int    CompareL(const String0& s) const;
 
 public:
-	bool LEq(const Ткст0& s) const;
-	bool равен(const Ткст0& s) const {
+	bool LEq(const String0& s) const;
+	bool IsEqual(const String0& s) const {
 		uint64 q1 = q[1];
 		uint64 sq1 = s.q[1];
 		return q1 == sq1 && q[0] == s.q[0] || ((q1 | sq1) & MAKE8B(0,0,0,0,0,0,255,0)) && LEq(s);
 	}
-	bool равен(const char *s) const;
+	bool IsEqual(const char *s) const;
 
-	int    сравни(const Ткст0& s) const;
+	int    Compare(const String0& s) const;
 
-	hash_t дайХэшЗнач() const {
+	hash_t GetHashValue() const {
 #ifdef HASH64
-		return chr[KIND] ? LHashValue() : (hash_t)комбинируйХэш(q[0], q[1]);
+		return chr[KIND] ? LHashValue() : (hash_t)CombineHash(q[0], q[1]);
 #else
-		return chr[KIND] ? LHashValue() : (hash_t)комбинируйХэш(w[0], w[1], w[2], w[3]);
+		return chr[KIND] ? LHashValue() : (hash_t)CombineHash(w[0], w[1], w[2], w[3]);
 #endif
 	}
 
-	void конкат(int c) {
+	void Cat(int c) {
 		if(SLen() < 14)
 			chr[int(SLen()++)] = c;
 		else
@@ -314,409 +314,409 @@ public:
 		Dsyn();
 	}
 
-	void конкат(const char *s, int len);
-	void уст(const char *s, int len);
+	void Cat(const char *s, int len);
+	void Set(const char *s, int len);
 
-	void уст(int i, int chr);
-	void обрежь(int pos);
+	void Set(int i, int chr);
+	void Trim(int pos);
 
-	const char *старт() const   { return смолл_ли() ? chr : ptr; }
-	const char *begin() const   { return старт(); }
-	const char *стоп() const     { return старт() + дайДлину(); }
-	const char *end() const     { return стоп(); }
+	const char *Begin() const   { return IsSmall() ? chr : ptr; }
+	const char *begin() const   { return Begin(); }
+	const char *End() const     { return Begin() + GetLength(); }
+	const char *end() const     { return End(); }
 
-	int operator[](int i) const { ПРОВЕРЬ(i >= 0 && i <= дайСчёт()); return старт()[i]; }
+	int operator[](int i) const { ASSERT(i >= 0 && i <= GetCount()); return Begin()[i]; }
 
-	operator const char *() const   { return старт(); }
-	const char *operator~() const   { return старт(); }
+	operator const char *() const   { return Begin(); }
+	const char *operator~() const   { return Begin(); }
 
-	void удали(int pos, int count = 1);
-	void очисть()                { освободи(); обнули(); }
+	void Remove(int pos, int count = 1);
+	void Clear()                { Free(); Zero(); }
 
-	int дайСчёт() const        { return смолл_ли() ? chr[SLEN] : w[LLEN]; }
-	int дайДлину() const       { return дайСчёт(); }
-	int дайРазмест() const        { return смолл_ли() ? 14 : LAlloc(); }
+	int GetCount() const        { return IsSmall() ? chr[SLEN] : w[LLEN]; }
+	int GetLength() const       { return GetCount(); }
+	int GetAlloc() const        { return IsSmall() ? 14 : LAlloc(); }
 
-	void резервируй(int r);
+	void Reserve(int r);
 	
-	Ткст0()                   {}
-	~Ткст0()                  { освободи(); }
+	String0()                   {}
+	~String0()                  { Free(); }
 };
 
-class Ткст : public Движимое<Ткст, АТкст<Ткст0> > {
-	void разверни(Ткст& b)                                   { Ткст0::разверни(b); }
+class String : public Moveable<String, AString<String0> > {
+	void Swap(String& b)                                   { String0::Swap(b); }
 
-#ifdef _ОТЛАДКА
+#ifdef _DEBUG
 #ifndef COMPILER_GCC
 	int          len;
 	const char  *s;
 #endif
-	friend class Ткст0;
+	friend class String0;
 #endif
 
-	void присвойДлин(const char *s, int slen);
+	void AssignLen(const char *s, int slen);
 	
 	enum SSPECIAL { SPECIAL };
 	
 	template <class T>
-	Ткст(const T& x, byte st, SSPECIAL) {
+	String(const T& x, byte st, SSPECIAL) {
 		*(T*)chr = x;
 		SetSpecial0(st);
 	}
-	Ткст(SSPECIAL) {}
+	String(SSPECIAL) {}
 
-	friend class Значение;
+	friend class Value;
 	
 public:
-	const Ткст& operator+=(char c)                       { конкат(c); return *this; }
-	const Ткст& operator+=(const char *s)                { конкат(s); return *this; }
-	const Ткст& operator+=(const Ткст& s)              { конкат(s); return *this; }
+	const String& operator+=(char c)                       { Cat(c); return *this; }
+	const String& operator+=(const char *s)                { Cat(s); return *this; }
+	const String& operator+=(const String& s)              { Cat(s); return *this; }
 
-	Ткст& operator=(const char *s);
-	Ткст& operator=(const Ткст& s)                     { Ткст0::присвой(s); return *this; }
-	Ткст& operator=(Ткст&& s)                          { if(this != &s) { освободи(); подбери0(pick(s)); } return *this; }
-	Ткст& operator=(ТкстБуф& b)                     { *this = Ткст(b); return *this; }
+	String& operator=(const char *s);
+	String& operator=(const String& s)                     { String0::Assign(s); return *this; }
+	String& operator=(String&& s)                          { if(this != &s) { Free(); Pick0(pick(s)); } return *this; }
+	String& operator=(StringBuffer& b)                     { *this = String(b); return *this; }
 
-	void   сожми()                                        { *this = Ткст(старт(), дайДлину()); }
-	int    дайСчётСим() const;
+	void   Shrink()                                        { *this = String(Begin(), GetLength()); }
+	int    GetCharCount() const;
 
-	Ткст()                                               { обнули(); }
-	Ткст(const Обнул&)                                  { обнули(); }
-	Ткст(const Ткст& s)                                { Ткст0::уст0(s); }
-	Ткст(Ткст&& s)                                     { Ткст0::подбери0(pick(s)); }
-	Ткст(const char *s);
-	Ткст(const Ткст& s, int n)                         { ПРОВЕРЬ(n >= 0 && n <= s.дайДлину()); Ткст0::уст0(~s, n); }
-	Ткст(const char *s, int n)                           { Ткст0::уст0(s, n); }
-	Ткст(const byte *s, int n)                           { Ткст0::уст0((const char *)s, n); }
-	Ткст(const char *s, const char *lim)                 { Ткст0::уст0(s, (int)(lim - s)); }
-	Ткст(int chr, int count)                             { Ткст0::обнули(); конкат(chr, count); }
-	Ткст(ТкстБуф& b);
+	String()                                               { Zero(); }
+	String(const Nuller&)                                  { Zero(); }
+	String(const String& s)                                { String0::Set0(s); }
+	String(String&& s)                                     { String0::Pick0(pick(s)); }
+	String(const char *s);
+	String(const String& s, int n)                         { ASSERT(n >= 0 && n <= s.GetLength()); String0::Set0(~s, n); }
+	String(const char *s, int n)                           { String0::Set0(s, n); }
+	String(const byte *s, int n)                           { String0::Set0((const char *)s, n); }
+	String(const char *s, const char *lim)                 { String0::Set0(s, (int)(lim - s)); }
+	String(int chr, int count)                             { String0::Zero(); Cat(chr, count); }
+	String(StringBuffer& b);
 
 
-	Ткст(char16 *s);
-	Ткст(wchar *s);
+	String(char16 *s);
+	String(wchar *s);
 
-	ШТкст вШТкст() const;
-	const Ткст& вТкст() const                         { return *this; }
+	WString ToWString() const;
+	const String& ToString() const                         { return *this; }
 
-	static Ткст дайПроц();
-	bool   проц_ли() const;
+	static String GetVoid();
+	bool   IsVoid() const;
 	
-	friend void разверни(Ткст& a, Ткст& b)                 { a.разверни(b); }
+	friend void Swap(String& a, String& b)                 { a.Swap(b); }
 	
-	Ткст(const std::string& s)                           { Ткст0::уст0(s.c_str(), (int)s.length()); }
-	std::string вСтд() const                              { return std::string(старт(), стоп()); }
+	String(const std::string& s)                           { String0::Set0(s.c_str(), (int)s.length()); }
+	std::string ToStd() const                              { return std::string(Begin(), End()); }
 	
-	template <class Делец>
-	static Ткст сделай(int alloc, Делец m);
+	template <class Maker>
+	static String Make(int alloc, Maker m);
 };
 
-inline std::string to_string(const Ткст& s)              { return std::string(s.старт(), s.стоп()); }
+inline std::string to_string(const String& s)              { return std::string(s.Begin(), s.End()); }
 
-class ТкстБуф : БезКопий {
+class StringBuffer : NoCopy {
 	char   *pbegin;
 	char   *pend;
 	char   *limit;
-	char    буфер[256];
+	char    buffer[256];
 
-	friend class Ткст;
+	friend class String;
 
-	typedef Ткст0::Rc Rc;
+	typedef String0::Rc Rc;
 
-	char *размести(int len, int& alloc);
-	void  переразмести(dword n, const char *cat = NULL, int l = 0);
+	char *Alloc(int len, int& alloc);
+	void  Realloc(dword n, const char *cat = NULL, int l = 0);
 	void  ReallocL(const char *s, int l);
-	void  расширь();
-	void  обнули()                    { pbegin = pend = буфер; limit = pbegin + 255; }
-	void  освободи();
-	void  уст(Ткст& s);
+	void  Expand();
+	void  Zero()                    { pbegin = pend = buffer; limit = pbegin + 255; }
+	void  Free();
+	void  Set(String& s);
 
 public:
-	char *старт()                   { *pend = '\0'; return pbegin; }
-	char *begin()                   { return старт(); }
-	char *стоп()                     { *pend = '\0'; return pend; }
-	char *end()                     { return стоп(); }
+	char *Begin()                   { *pend = '\0'; return pbegin; }
+	char *begin()                   { return Begin(); }
+	char *End()                     { *pend = '\0'; return pend; }
+	char *end()                     { return End(); }
 
-	char& operator*()               { return *старт(); }
-	char& operator[](int i)         { return старт()[i]; }
-	operator char*()                { return старт(); }
-	operator byte*()                { return (byte *)старт(); }
-	operator void*()                { return старт(); }
-	char *operator~()               { return старт(); }
+	char& operator*()               { return *Begin(); }
+	char& operator[](int i)         { return Begin()[i]; }
+	operator char*()                { return Begin(); }
+	operator byte*()                { return (byte *)Begin(); }
+	operator void*()                { return Begin(); }
+	char *operator~()               { return Begin(); }
 
-	void устДлину(int l);
-	void устСчёт(int l)            { устДлину(l); }
-	int  дайДлину() const          { return (int)(pend - pbegin); }
-	int  дайСчёт() const           { return дайДлину(); }
-	void длинткт();
-	void очисть()                    { освободи(); обнули(); }
-	void резервируй(int r)             { int l = дайДлину(); устДлину(l + r); устДлину(l); }
-	void сожми();
+	void SetLength(int l);
+	void SetCount(int l)            { SetLength(l); }
+	int  GetLength() const          { return (int)(pend - pbegin); }
+	int  GetCount() const           { return GetLength(); }
+	void Strlen();
+	void Clear()                    { Free(); Zero(); }
+	void Reserve(int r)             { int l = GetLength(); SetLength(l + r); SetLength(l); }
+	void Shrink();
 
-	void конкат(int c)                        { if(pend >= limit) расширь(); *pend++ = c; }
-	void конкат(int c, int count);
-	void конкат(const char *s, int l);
-	void конкат(const char *s, const char *e) { конкат(s, int(e - s)); }
-	void конкат(const char *s);
-	void конкат(const Ткст& s)              { конкат(s, s.дайДлину()); }
+	void Cat(int c)                        { if(pend >= limit) Expand(); *pend++ = c; }
+	void Cat(int c, int count);
+	void Cat(const char *s, int l);
+	void Cat(const char *s, const char *e) { Cat(s, int(e - s)); }
+	void Cat(const char *s);
+	void Cat(const String& s)              { Cat(s, s.GetLength()); }
 
-	int  дайРазмест() const           { return (int)(limit - pbegin); }
+	int  GetAlloc() const           { return (int)(limit - pbegin); }
 
-	void operator=(Ткст& s)       { освободи(); уст(s); }
+	void operator=(String& s)       { Free(); Set(s); }
 
-	ТкстБуф()                  { обнули(); }
-	ТкстБуф(Ткст& s)         { уст(s); }
-	ТкстБуф(int len)           { обнули(); устДлину(len); }
-	~ТкстБуф()                 { if(pbegin != буфер) освободи(); }
+	StringBuffer()                  { Zero(); }
+	StringBuffer(String& s)         { Set(s); }
+	StringBuffer(int len)           { Zero(); SetLength(len); }
+	~StringBuffer()                 { if(pbegin != buffer) Free(); }
 };
 
-inline bool  пустой(const Ткст& s)      { return s.пустой(); }
+inline bool  IsEmpty(const String& s)      { return s.IsEmpty(); }
 
-Ткст фмтУк(const void *p);
-
-template <class T>
-inline Ткст какТкст(const T& x)
-{
-	return x.вТкст();
-}
+String FormatPtr(const void *p);
 
 template <class T>
-inline Ткст какТкст(T *x)
+inline String AsString(const T& x)
 {
-	return фмтУк(x);
-}
-
-force_inline Ткст& operator<<(Ткст& s, const char *x)
-{
-	s.конкат(x, strlen__(x));
-	return s;
-}
-
-force_inline Ткст& operator<<(Ткст& s, char *x)
-{
-	s.конкат(x);
-	return s;
-}
-
-inline Ткст& operator<<(Ткст& s, const Ткст &x)
-{
-	s.конкат(x);
-	return s;
-}
-
-inline Ткст& operator<<(Ткст& s, char x)
-{
-	s.конкат((int) x);
-	return s;
-}
-
-inline Ткст& operator<<(Ткст& s, const void *x)
-{
-	s << фмтУк(x);
-	return s;
-}
-
-inline Ткст& operator<<(Ткст& s, void *x)
-{
-	s << фмтУк(x);
-	return s;
+	return x.ToString();
 }
 
 template <class T>
-inline Ткст& operator<<(Ткст& s, const T& x)
+inline String AsString(T *x)
 {
-	s.конкат(какТкст(x));
+	return FormatPtr(x);
+}
+
+force_inline String& operator<<(String& s, const char *x)
+{
+	s.Cat(x, strlen__(x));
 	return s;
 }
 
-template<>
-inline Ткст& operator<<(Ткст& s, const char * const &x)
+force_inline String& operator<<(String& s, char *x)
 {
-	s.конкат(x);
+	s.Cat(x);
 	return s;
 }
 
-template<>
-inline Ткст& operator<<(Ткст& s, const Ткст &x)
+inline String& operator<<(String& s, const String &x)
 {
-	s.конкат(x);
+	s.Cat(x);
 	return s;
 }
 
-template<>
-inline Ткст& operator<<(Ткст& s, const char& x)
+inline String& operator<<(String& s, char x)
 {
-	s.конкат(x);
+	s.Cat((int) x);
 	return s;
 }
 
-force_inline Ткст& operator<<(Ткст&& s, const char *x)
+inline String& operator<<(String& s, const void *x)
 {
-	s.конкат(x, strlen__(x));
+	s << FormatPtr(x);
 	return s;
 }
 
-force_inline Ткст& operator<<(Ткст&& s, char *x)
+inline String& operator<<(String& s, void *x)
 {
-	s.конкат(x);
-	return s;
-}
-
-inline Ткст& operator<<(Ткст&& s, const Ткст &x)
-{
-	s.конкат(x);
-	return s;
-}
-
-inline Ткст& operator<<(Ткст&& s, char x)
-{
-	s.конкат((int) x);
-	return s;
-}
-
-inline Ткст& operator<<(Ткст&& s, const void *x)
-{
-	s << фмтУк(x);
-	return s;
-}
-
-inline Ткст& operator<<(Ткст&& s, void *x)
-{
-	s << фмтУк(x);
+	s << FormatPtr(x);
 	return s;
 }
 
 template <class T>
-inline Ткст& operator<<(Ткст&& s, const T& x)
+inline String& operator<<(String& s, const T& x)
 {
-	s.конкат(какТкст(x));
+	s.Cat(AsString(x));
 	return s;
 }
 
 template<>
-inline Ткст& operator<<(Ткст&& s, const char * const &x)
+inline String& operator<<(String& s, const char * const &x)
 {
-	s.конкат(x);
+	s.Cat(x);
 	return s;
 }
 
 template<>
-inline Ткст& operator<<(Ткст&& s, const Ткст &x)
+inline String& operator<<(String& s, const String &x)
 {
-	s.конкат(x);
+	s.Cat(x);
 	return s;
 }
 
 template<>
-inline Ткст& operator<<(Ткст&& s, const char& x)
+inline String& operator<<(String& s, const char& x)
 {
-	s.конкат(x);
+	s.Cat(x);
+	return s;
+}
+
+force_inline String& operator<<(String&& s, const char *x)
+{
+	s.Cat(x, strlen__(x));
+	return s;
+}
+
+force_inline String& operator<<(String&& s, char *x)
+{
+	s.Cat(x);
+	return s;
+}
+
+inline String& operator<<(String&& s, const String &x)
+{
+	s.Cat(x);
+	return s;
+}
+
+inline String& operator<<(String&& s, char x)
+{
+	s.Cat((int) x);
+	return s;
+}
+
+inline String& operator<<(String&& s, const void *x)
+{
+	s << FormatPtr(x);
+	return s;
+}
+
+inline String& operator<<(String&& s, void *x)
+{
+	s << FormatPtr(x);
+	return s;
+}
+
+template <class T>
+inline String& operator<<(String&& s, const T& x)
+{
+	s.Cat(AsString(x));
 	return s;
 }
 
 template<>
-inline bool  пусто_ли(const Ткст& s)       { return s.пустой(); }
+inline String& operator<<(String&& s, const char * const &x)
+{
+	s.Cat(x);
+	return s;
+}
 
 template<>
-inline Ткст какТкст(const Ткст& s)     { return s; }
+inline String& operator<<(String&& s, const String &x)
+{
+	s.Cat(x);
+	return s;
+}
 
 template<>
-inline hash_t дайХэшЗнач(const Ткст& s) { return s.дайХэшЗнач(); }
+inline String& operator<<(String&& s, const char& x)
+{
+	s.Cat(x);
+	return s;
+}
 
-int CompareNoCase(const Ткст& a, const Ткст& b);
-int CompareNoCase(const Ткст& a, const char *b);
+template<>
+inline bool  IsNull(const String& s)       { return s.IsEmpty(); }
+
+template<>
+inline String AsString(const String& s)     { return s; }
+
+template<>
+inline hash_t GetHashValue(const String& s) { return s.GetHashValue(); }
+
+int CompareNoCase(const String& a, const String& b);
+int CompareNoCase(const String& a, const char *b);
 
 inline
-int CompareNoCase(const char *a, const Ткст& b) {
+int CompareNoCase(const char *a, const String& b) {
 	return -CompareNoCase(b, a);
 }
 
-Ткст обрежьЛево(const Ткст& s);
-Ткст обрежьПраво(const Ткст& s);
-Ткст обрежьОба(const Ткст& s);
+String TrimLeft(const String& s);
+String TrimRight(const String& s);
+String TrimBoth(const String& s);
 
-Ткст обрежьЛево(const char *prefix, int len, const Ткст& s);
-force_inline Ткст обрежьЛево(const char *prefix, const Ткст& s)    { return обрежьЛево(prefix, (int)strlen(prefix), s); }
-force_inline Ткст обрежьЛево(const Ткст& prefix, const Ткст& s)  { return обрежьЛево(~prefix, prefix.дайСчёт(), s); }
+String TrimLeft(const char *prefix, int len, const String& s);
+force_inline String TrimLeft(const char *prefix, const String& s)    { return TrimLeft(prefix, (int)strlen(prefix), s); }
+force_inline String TrimLeft(const String& prefix, const String& s)  { return TrimLeft(~prefix, prefix.GetCount(), s); }
 
-Ткст обрежьПраво(const char *suffix, int len, const Ткст& s);
-force_inline Ткст обрежьПраво(const char *suffix, const Ткст& s)   { return обрежьПраво(suffix, (int)strlen(suffix), s); }
-force_inline Ткст обрежьПраво(const Ткст& suffix, const Ткст& s) { return обрежьПраво(~suffix, suffix.дайСчёт(), s); }
+String TrimRight(const char *suffix, int len, const String& s);
+force_inline String TrimRight(const char *suffix, const String& s)   { return TrimRight(suffix, (int)strlen(suffix), s); }
+force_inline String TrimRight(const String& suffix, const String& s) { return TrimRight(~suffix, suffix.GetCount(), s); }
 
-inline ТкстБуф& operator<<(ТкстБуф& s, const char *x)
+inline StringBuffer& operator<<(StringBuffer& s, const char *x)
 {
-	s.конкат(x);
+	s.Cat(x);
 	return s;
 }
 
-inline ТкстБуф& operator<<(ТкстБуф& s, char *x)
+inline StringBuffer& operator<<(StringBuffer& s, char *x)
 {
-	s.конкат(x);
+	s.Cat(x);
 	return s;
 }
 
-inline ТкстБуф& operator<<(ТкстБуф& s, const Ткст &x)
+inline StringBuffer& operator<<(StringBuffer& s, const String &x)
 {
-	s.конкат(x);
+	s.Cat(x);
 	return s;
 }
 
-inline ТкстБуф& operator<<(ТкстБуф& s, char x)
+inline StringBuffer& operator<<(StringBuffer& s, char x)
 {
-	s.конкат((int) x);
+	s.Cat((int) x);
 	return s;
 }
 
-inline ТкстБуф& operator<<(ТкстБуф& s, const void *x)
+inline StringBuffer& operator<<(StringBuffer& s, const void *x)
 {
-	s << фмтУк(x);
+	s << FormatPtr(x);
 	return s;
 }
 
-inline ТкстБуф& operator<<(ТкстБуф& s, void *x)
+inline StringBuffer& operator<<(StringBuffer& s, void *x)
 {
-	s << фмтУк(x);
-	return s;
-}
-
-template <class T>
-inline ТкстБуф& operator<<(ТкстБуф& s, const T& x)
-{
-	s.конкат(какТкст(x));
-	return s;
-}
-
-template<>
-inline ТкстБуф& operator<<(ТкстБуф& s, const char * const &x)
-{
-	s.конкат(x);
-	return s;
-}
-
-template<>
-inline ТкстБуф& operator<<(ТкстБуф& s, const Ткст &x)
-{
-	s.конкат(x);
-	return s;
-}
-
-template<>
-inline ТкстБуф& operator<<(ТкстБуф& s, const char& x)
-{
-	s.конкат(x);
+	s << FormatPtr(x);
 	return s;
 }
 
 template <class T>
-void RawCat(Ткст& s, const T& x)
+inline StringBuffer& operator<<(StringBuffer& s, const T& x)
 {
-	s.конкат((const char *)&x, sizeof(x));
+	s.Cat(AsString(x));
+	return s;
+}
+
+template<>
+inline StringBuffer& operator<<(StringBuffer& s, const char * const &x)
+{
+	s.Cat(x);
+	return s;
+}
+
+template<>
+inline StringBuffer& operator<<(StringBuffer& s, const String &x)
+{
+	s.Cat(x);
+	return s;
+}
+
+template<>
+inline StringBuffer& operator<<(StringBuffer& s, const char& x)
+{
+	s.Cat(x);
+	return s;
 }
 
 template <class T>
-void RawCat(ТкстБуф& s, const T& x)
+void RawCat(String& s, const T& x)
 {
-	s.конкат((const char *)&x, sizeof(x));
+	s.Cat((const char *)&x, sizeof(x));
+}
+
+template <class T>
+void RawCat(StringBuffer& s, const T& x)
+{
+	s.Cat((const char *)&x, sizeof(x));
 }
 
 class WString0 {
@@ -726,226 +726,226 @@ class WString0 {
 	int    length;
 	int    alloc;
 
-#ifdef _ОТЛАДКА
+#ifdef _DEBUG
 	void Dsyn();
 #else
 	void Dsyn() {}
 #endif
 
-	static Атомар voidptr[2];
+	static Atomic voidptr[2];
 
 	bool    IsRc() const  { return alloc > SMALL; }
-	Атомар& Rc()          { return *((Атомар *)ptr - 1); }
+	Atomic& Rc()          { return *((Atomic *)ptr - 1); }
 	bool    IsShared()    { return IsRc() && Rc() > 1; }
 
-	wchar  *размести(int& count);
+	wchar  *Alloc(int& count);
 	void    LCat(int c);
 	void    UnShare();
 
-	friend class ШТкстБуф;
-	friend class ШТкст;
+	friend class WStringBuffer;
+	friend class WString;
 
 protected:
 	typedef wchar         tchar;
 	typedef int16         bchar;
-	typedef ШТкстБуф Буфер;
-	typedef ШТкст       Ткст;
+	typedef WStringBuffer Buffer;
+	typedef WString       String;
 
-	void    обнули()                       { static wchar e[2]; length = alloc = 0; ptr = e; Dsyn(); ПРОВЕРЬ(*ptr == 0); }
-	void    уст0(const wchar *s, int length);
-	void    уст0(const WString0& s);
-	void    подбери0(WString0&& s)          { ptr = s.ptr; length = s.length; alloc = s.alloc; s.обнули(); Dsyn(); }
-	void    освободи();
-	void    FFree()                      { if(alloc > 0) освободи(); }
-	void    разверни(WString0& b)            { РНЦПДинрус::разверни(ptr, b.ptr); РНЦПДинрус::разверни(length, b.length); РНЦПДинрус::разверни(alloc, b.alloc); Dsyn(); b.Dsyn(); }
-	wchar  *вставь(int pos, int count, const wchar *данные);
+	void    Zero()                       { static wchar e[2]; length = alloc = 0; ptr = e; Dsyn(); ASSERT(*ptr == 0); }
+	void    Set0(const wchar *s, int length);
+	void    Set0(const WString0& s);
+	void    Pick0(WString0&& s)          { ptr = s.ptr; length = s.length; alloc = s.alloc; s.Zero(); Dsyn(); }
+	void    Free();
+	void    FFree()                      { if(alloc > 0) Free(); }
+	void    Swap(WString0& b)            { Upp::Swap(ptr, b.ptr); Upp::Swap(length, b.length); Upp::Swap(alloc, b.alloc); Dsyn(); b.Dsyn(); }
+	wchar  *Insert(int pos, int count, const wchar *data);
 
 public:
-	const wchar *старт() const           { return ptr; }
-	const wchar *стоп() const             { return старт() + дайДлину(); }
-	const wchar *begin() const           { return старт(); }
-	const wchar *end() const             { return стоп(); }
+	const wchar *Begin() const           { return ptr; }
+	const wchar *End() const             { return Begin() + GetLength(); }
+	const wchar *begin() const           { return Begin(); }
+	const wchar *end() const             { return End(); }
 	int   operator[](int i) const        { return ptr[i]; }
 
-	operator const wchar *() const       { return старт(); }
-	const wchar *operator~() const       { return старт(); }
+	operator const wchar *() const       { return Begin(); }
+	const wchar *operator~() const       { return Begin(); }
 
-	void конкат(int c)                      { if(!IsRc() && length < alloc) { ptr[length++] = c; ptr[length] = 0; } else LCat(c); Dsyn(); }
-	void конкат(const wchar *s, int length);
-	void уст(const wchar *s, int length);
+	void Cat(int c)                      { if(!IsRc() && length < alloc) { ptr[length++] = c; ptr[length] = 0; } else LCat(c); Dsyn(); }
+	void Cat(const wchar *s, int length);
+	void Set(const wchar *s, int length);
 
-	int  дайСчёт() const                { return length; }
-	int  дайДлину() const               { return length; }
-	int  дайРазмест() const                { return alloc; }
+	int  GetCount() const                { return length; }
+	int  GetLength() const               { return length; }
+	int  GetAlloc() const                { return alloc; }
 
-	hash_t   дайХэшЗнач() const             { return memhash(ptr, length * sizeof(wchar)); }
-	bool     равен(const WString0& s) const { return s.length == length && memeq_t(ptr, s.ptr, length); }
-	bool     равен(const wchar *s) const    { int l = strlen__(s); return l == дайСчёт() && memeq_t(begin(), s, l); }
-	int      сравни(const WString0& s) const;
+	hash_t   GetHashValue() const             { return memhash(ptr, length * sizeof(wchar)); }
+	bool     IsEqual(const WString0& s) const { return s.length == length && memeq_t(ptr, s.ptr, length); }
+	bool     IsEqual(const wchar *s) const    { int l = strlen__(s); return l == GetCount() && memeq_t(begin(), s, l); }
+	int      Compare(const WString0& s) const;
 
-	void удали(int pos, int count = 1);
-	void вставь(int pos, const wchar *s, int count);
-	void очисть()                         { освободи(); обнули(); }
+	void Remove(int pos, int count = 1);
+	void Insert(int pos, const wchar *s, int count);
+	void Clear()                         { Free(); Zero(); }
 
-	void уст(int pos, int ch);
-	void обрежь(int pos);
+	void Set(int pos, int ch);
+	void Trim(int pos);
 
-	WString0()                           { обнули(); }
-	~WString0()                          { освободи(); }
+	WString0()                           { Zero(); }
+	~WString0()                          { Free(); }
 
-//	WString0& operator=(const WString0& s) { освободи(); уст0(s); return *this; }
+//	WString0& operator=(const WString0& s) { Free(); Set0(s); return *this; }
 };
 
-class ШТкст : public Движимое<ШТкст, АТкст<WString0> >
+class WString : public Moveable<WString, AString<WString0> >
 {
-	void разверни(ШТкст& b)                                   { WString0::разверни(b); }
+	void Swap(WString& b)                                   { WString0::Swap(b); }
 
-#ifdef _ОТЛАДКА
+#ifdef _DEBUG
 	int          len;
 	const wchar *s;
 	friend class WString0;
 #endif
 
 public:
-	РНЦП::Ткст вТкст() const;
+	UPP::String ToString() const;
 
-	const ШТкст& operator+=(wchar c)                      { конкат(c); return *this; }
-	const ШТкст& operator+=(const wchar *s)               { конкат(s); return *this; }
-	const ШТкст& operator+=(const ШТкст& s)             { конкат(s); return *this; }
+	const WString& operator+=(wchar c)                      { Cat(c); return *this; }
+	const WString& operator+=(const wchar *s)               { Cat(s); return *this; }
+	const WString& operator+=(const WString& s)             { Cat(s); return *this; }
 
-	ШТкст& operator<<(wchar c)                            { конкат(c); return *this; }
-	ШТкст& operator<<(const ШТкст& s)                   { конкат(s); return *this; }
-	ШТкст& operator<<(const wchar *s)                     { конкат(s); return *this; }
+	WString& operator<<(wchar c)                            { Cat(c); return *this; }
+	WString& operator<<(const WString& s)                   { Cat(s); return *this; }
+	WString& operator<<(const wchar *s)                     { Cat(s); return *this; }
 
-	ШТкст& operator=(const wchar *s);
-	ШТкст& operator=(const ШТкст& s)                    { if(this != &s) { WString0::FFree(); WString0::уст0(s); } return *this; }
-	ШТкст& operator=(ШТкст&& s)                         { if(this != &s) { WString0::FFree(); WString0::подбери0(pick(s)); } return *this; }
-	ШТкст& operator=(ШТкстБуф& b)                    { *this = ШТкст(b); return *this; }
-//	ШТкст& operator<<=(const ШТкст& s)                  { if(this != &s) { WString0::освободи(); WString0::уст0(s, s.дайСчёт()); } return *this; }
+	WString& operator=(const wchar *s);
+	WString& operator=(const WString& s)                    { if(this != &s) { WString0::FFree(); WString0::Set0(s); } return *this; }
+	WString& operator=(WString&& s)                         { if(this != &s) { WString0::FFree(); WString0::Pick0(pick(s)); } return *this; }
+	WString& operator=(WStringBuffer& b)                    { *this = WString(b); return *this; }
+//	WString& operator<<=(const WString& s)                  { if(this != &s) { WString0::Free(); WString0::Set0(s, s.GetCount()); } return *this; }
 
-	void   сожми()                                         { *this = ШТкст(старт(), дайДлину()); }
+	void   Shrink()                                         { *this = WString(Begin(), GetLength()); }
 
-	ШТкст()                                               {}
-	ШТкст(const Обнул&)                                  {}
-	ШТкст(const ШТкст& s)                               { WString0::уст0(s); }
-	ШТкст(ШТкст&& s)                                    { WString0::подбери0(pick(s)); }
-	ШТкст(const wchar *s)                                 { WString0::уст0(s, strlen__(s)); }
-	ШТкст(const ШТкст& s, int n)                        { ПРОВЕРЬ(n >= 0 && n <= s.дайДлину()); WString0::уст0(~s, n); }
-	ШТкст(const wchar *s, int n)                          { WString0::уст0(s, n); }
-	ШТкст(const wchar *s, const wchar *lim)               { WString0::уст0(s, (int)(lim - s)); }
-	ШТкст(int chr, int count)                             { WString0::обнули(); конкат(chr, count); }
-	ШТкст(ШТкстБуф& b);
+	WString()                                               {}
+	WString(const Nuller&)                                  {}
+	WString(const WString& s)                               { WString0::Set0(s); }
+	WString(WString&& s)                                    { WString0::Pick0(pick(s)); }
+	WString(const wchar *s)                                 { WString0::Set0(s, strlen__(s)); }
+	WString(const WString& s, int n)                        { ASSERT(n >= 0 && n <= s.GetLength()); WString0::Set0(~s, n); }
+	WString(const wchar *s, int n)                          { WString0::Set0(s, n); }
+	WString(const wchar *s, const wchar *lim)               { WString0::Set0(s, (int)(lim - s)); }
+	WString(int chr, int count)                             { WString0::Zero(); Cat(chr, count); }
+	WString(WStringBuffer& b);
 
-	ШТкст(const char *s);
-	ШТкст(const char *s, int n);
-	ШТкст(const char *s, const char *lim);
+	WString(const char *s);
+	WString(const char *s, int n);
+	WString(const char *s, const char *lim);
 
-	ШТкст(const char16 *s);
+	WString(const char16 *s);
 
-	static ШТкст дайПроц();
-	bool   проц_ли() const                                   { return alloc < 0; }
+	static WString GetVoid();
+	bool   IsVoid() const                                   { return alloc < 0; }
 
-	friend void разверни(ШТкст& a, ШТкст& b)                { a.разверни(b); }
-	friend ШТкст operator+(const ШТкст& a, char b)      { ШТкст c(a); c += b; return c; }
-	friend ШТкст operator+(ШТкст&& a, char b)           { ШТкст c(pick(a)); c += b; return c; }
-	friend ШТкст operator+(char a, const ШТкст& b)      { ШТкст c(a, 1); c += b; return c; }
+	friend void Swap(WString& a, WString& b)                { a.Swap(b); }
+	friend WString operator+(const WString& a, char b)      { WString c(a); c += b; return c; }
+	friend WString operator+(WString&& a, char b)           { WString c(pick(a)); c += b; return c; }
+	friend WString operator+(char a, const WString& b)      { WString c(a, 1); c += b; return c; }
 
 #ifndef _HAVE_NO_STDWSTRING
-	ШТкст(const std::wstring& s);
-	operator std::wstring() const                           { return вСтд(); }
-	std::wstring вСтд() const;
+	WString(const std::wstring& s);
+	operator std::wstring() const                           { return ToStd(); }
+	std::wstring ToStd() const;
 #endif
 };
 
 #ifndef _HAVE_NO_STDWSTRING
-inline std::wstring to_string(const ШТкст& s)             { return s.вСтд(); }
+inline std::wstring to_string(const WString& s)             { return s.ToStd(); }
 #endif
 
-class ШТкстБуф : БезКопий {
+class WStringBuffer : NoCopy {
 	wchar   *pbegin;
 	wchar   *pend;
 	wchar   *limit;
 
-	friend class ШТкст;
+	friend class WString;
 
-	wchar *размести(int len, int& alloc);
-	void   расширь(dword n, const wchar *cat = NULL, int l = 0);
-	void   расширь();
-	void   обнули();
-	void   освободи();
-	void   уст(ШТкст& s);
+	wchar *Alloc(int len, int& alloc);
+	void   Expand(dword n, const wchar *cat = NULL, int l = 0);
+	void   Expand();
+	void   Zero();
+	void   Free();
+	void   Set(WString& s);
 
 public:
-	wchar *старт()                   { *pend = '\0'; return pbegin; }
-	wchar *begin()                   { return старт(); }
-	wchar *стоп()                     { *pend = '\0'; return pend; }
-	wchar *end()                     { return стоп(); }
+	wchar *Begin()                   { *pend = '\0'; return pbegin; }
+	wchar *begin()                   { return Begin(); }
+	wchar *End()                     { *pend = '\0'; return pend; }
+	wchar *end()                     { return End(); }
 
-	wchar& operator*()               { return *старт(); }
-	wchar& operator[](int i)         { return старт()[i]; }
-	operator wchar*()                { return старт(); }
-	operator int16*()                { return (int16 *)старт(); }
-	operator void*()                 { return старт(); }
-	wchar *operator~()               { return старт(); }
+	wchar& operator*()               { return *Begin(); }
+	wchar& operator[](int i)         { return Begin()[i]; }
+	operator wchar*()                { return Begin(); }
+	operator int16*()                { return (int16 *)Begin(); }
+	operator void*()                 { return Begin(); }
+	wchar *operator~()               { return Begin(); }
 
-	void  устДлину(int l);
-	void  устСчёт(int l)            { устДлину(l); }
-	int   дайДлину() const          { return (int)(pend - pbegin); }
-	int   дайСчёт() const           { return дайДлину(); }
-	void  длинткт()                   { устДлину(strlen__(pbegin)); }
-	void  очисть()                    { освободи(); обнули(); }
-	void  резервируй(int r)             { int l = дайДлину(); устДлину(l + r); устДлину(l); }
+	void  SetLength(int l);
+	void  SetCount(int l)            { SetLength(l); }
+	int   GetLength() const          { return (int)(pend - pbegin); }
+	int   GetCount() const           { return GetLength(); }
+	void  Strlen()                   { SetLength(strlen__(pbegin)); }
+	void  Clear()                    { Free(); Zero(); }
+	void  Reserve(int r)             { int l = GetLength(); SetLength(l + r); SetLength(l); }
 
-	void  конкат(int c)                          { if(pend >= limit) расширь(); *pend++ = c; }
-	void  конкат(int c, int count);
-	void  конкат(const wchar *s, int l);
-	void  конкат(const wchar *s, const wchar *e) { конкат(s, int(e - s)); }
-	void  конкат(const wchar *s)                 { конкат(s, strlen__(s)); }
-	void  конкат(const ШТкст& s)               { конкат(s, s.дайДлину()); }
-	void  конкат(const char *s)                  { конкат(ШТкст(s)); }
+	void  Cat(int c)                          { if(pend >= limit) Expand(); *pend++ = c; }
+	void  Cat(int c, int count);
+	void  Cat(const wchar *s, int l);
+	void  Cat(const wchar *s, const wchar *e) { Cat(s, int(e - s)); }
+	void  Cat(const wchar *s)                 { Cat(s, strlen__(s)); }
+	void  Cat(const WString& s)               { Cat(s, s.GetLength()); }
+	void  Cat(const char *s)                  { Cat(WString(s)); }
 
-	int   дайРазмест() const           { return (int)(limit - pbegin); }
+	int   GetAlloc() const           { return (int)(limit - pbegin); }
 
-	void operator=(ШТкст& s)       { освободи(); уст(s); }
+	void operator=(WString& s)       { Free(); Set(s); }
 
-	ШТкстБуф()                  { обнули(); }
-	ШТкстБуф(ШТкст& s)        { уст(s); }
-	ШТкстБуф(int len)           { обнули(); устДлину(len); }
-	~ШТкстБуф()                 { освободи(); }
+	WStringBuffer()                  { Zero(); }
+	WStringBuffer(WString& s)        { Set(s); }
+	WStringBuffer(int len)           { Zero(); SetLength(len); }
+	~WStringBuffer()                 { Free(); }
 };
 
-inline bool  пустой(const ШТкст& s)      { return s.пустой(); }
+inline bool  IsEmpty(const WString& s)      { return s.IsEmpty(); }
 
 template<>
-inline bool  пусто_ли(const ШТкст& s)       { return s.пустой(); }
+inline bool  IsNull(const WString& s)       { return s.IsEmpty(); }
 
 //template<>
-//inline Ткст какТкст(const ШТкст& s)     { return s; }
+//inline String AsString(const WString& s)     { return s; }
 
 template<>
-inline hash_t дайХэшЗнач(const ШТкст& s) { return memhash(~s, 2 * s.дайДлину()); }
+inline hash_t GetHashValue(const WString& s) { return memhash(~s, 2 * s.GetLength()); }
 
-ШТкст обрежьЛево(const ШТкст& str);
-ШТкст обрежьПраво(const ШТкст& s);
+WString TrimLeft(const WString& str);
+WString TrimRight(const WString& s);
 
-int CompareNoCase(const ШТкст& a, const ШТкст& b);
-int CompareNoCase(const ШТкст& a, const wchar *b);
+int CompareNoCase(const WString& a, const WString& b);
+int CompareNoCase(const WString& a, const wchar *b);
 
 inline
-int CompareNoCase(const wchar *a, const ШТкст& b) {
+int CompareNoCase(const wchar *a, const WString& b) {
 	return -CompareNoCase(b, a);
 }
 
-template<> inline Ткст какТкст(const char * const &s)    { return s; }
-template<> inline Ткст какТкст(char * const &s)          { return s; }
-template<> inline Ткст какТкст(const char *s)            { return s; }
-template<> inline Ткст какТкст(char *s)                  { return s; }
-template<> inline Ткст какТкст(const char& a)            { return Ткст(a, 1); }
-template<> inline Ткст какТкст(const signed char& a)     { return Ткст(a, 1); }
-template<> inline Ткст какТкст(const unsigned char& a)   { return Ткст(a, 1); }
-template<> inline Ткст какТкст(const bool& a)            { return a ? "true" : "false"; }
-template<> inline Ткст какТкст(const std::string& s)     { return Ткст(s); }
-template<> inline Ткст какТкст(const std::wstring& s)    { return ШТкст(s).вТкст(); }
+template<> inline String AsString(const char * const &s)    { return s; }
+template<> inline String AsString(char * const &s)          { return s; }
+template<> inline String AsString(const char *s)            { return s; }
+template<> inline String AsString(char *s)                  { return s; }
+template<> inline String AsString(const char& a)            { return String(a, 1); }
+template<> inline String AsString(const signed char& a)     { return String(a, 1); }
+template<> inline String AsString(const unsigned char& a)   { return String(a, 1); }
+template<> inline String AsString(const bool& a)            { return a ? "true" : "false"; }
+template<> inline String AsString(const std::string& s)     { return String(s); }
+template<> inline String AsString(const std::wstring& s)    { return WString(s).ToString(); }
 
 unsigned ctoi(int c);
 
@@ -969,10 +969,10 @@ int CharFilterDefaultToUpperAscii(int c);
 int CharFilterCrLf(int c);
 int CharFilterNoCrLf(int c);
 
-Ткст фильтруй(const char *s, int (*filter)(int));
-Ткст FilterWhile(const char *s, int (*filter)(int));
+String Filter(const char *s, int (*filter)(int));
+String FilterWhile(const char *s, int (*filter)(int));
 
-ШТкст фильтруй(const wchar *s, int (*filter)(int));
-ШТкст FilterWhile(const wchar *s, int (*filter)(int));
+WString Filter(const wchar *s, int (*filter)(int));
+WString FilterWhile(const wchar *s, int (*filter)(int));
 
 #include "AString.hpp"

@@ -16,7 +16,7 @@
  *   disclaimer in the documentation and/or other materials
  *   provided with the distribution.
  *
- *   Neither the имя of the copyright holder nor the names
+ *   Neither the name of the copyright holder nor the names
  *   of any other contributors may be used to endorse or
  *   promote products derived from this software without
  *   specific prior written permission.
@@ -81,7 +81,7 @@ int _libssh2_error_flags(LIBSSH2_SESSION* session, int errcode,
         }
         else
             /* Out of memory: this code path is very unlikely */
-            session->err_msg = "former Ошибка forgotten (OOM)";
+            session->err_msg = "former error forgotten (OOM)";
     }
     else
         session->err_msg = errmsg;
@@ -118,8 +118,8 @@ static int wsa2errno(void)
 
     default:
         /* It is most important to ensure errno does not stay at EAGAIN
-         * when a different Ошибка occurs so just set errno to a generic
-         * Ошибка */
+         * when a different error occurs so just set errno to a generic
+         * error */
         return EIO;
     }
 }
@@ -130,14 +130,14 @@ static int wsa2errno(void)
  * Replacement for the standard recv, return -errno on failure.
  */
 ssize_t
-_libssh2_recv(libssh2_socket_t sock, void *буфер, size_t length,
+_libssh2_recv(libssh2_socket_t sock, void *buffer, size_t length,
               int flags, void **abstract)
 {
     ssize_t rc;
 
     (void) abstract;
 
-    rc = recv(sock, буфер, length, flags);
+    rc = recv(sock, buffer, length, flags);
 #ifdef WIN32
     if(rc < 0)
         return -wsa2errno();
@@ -163,14 +163,14 @@ _libssh2_recv(libssh2_socket_t sock, void *буфер, size_t length,
  * Replacement for the standard send, return -errno on failure.
  */
 ssize_t
-_libssh2_send(libssh2_socket_t sock, const void *буфер, size_t length,
+_libssh2_send(libssh2_socket_t sock, const void *buffer, size_t length,
               int flags, void **abstract)
 {
     ssize_t rc;
 
     (void) abstract;
 
-    rc = send(sock, буфер, length, flags);
+    rc = send(sock, buffer, length, flags);
 #ifdef WIN32
     if(rc < 0)
         return -wsa2errno();
@@ -216,19 +216,19 @@ _libssh2_ntohu64(const unsigned char *buf)
 /* _libssh2_htonu32
  */
 void
-_libssh2_htonu32(unsigned char *buf, uint32_t значение)
+_libssh2_htonu32(unsigned char *buf, uint32_t value)
 {
-    buf[0] = (значение >> 24) & 0xFF;
-    buf[1] = (значение >> 16) & 0xFF;
-    buf[2] = (значение >> 8) & 0xFF;
-    buf[3] = значение & 0xFF;
+    buf[0] = (value >> 24) & 0xFF;
+    buf[1] = (value >> 16) & 0xFF;
+    buf[2] = (value >> 8) & 0xFF;
+    buf[3] = value & 0xFF;
 }
 
 /* _libssh2_store_u32
  */
-void _libssh2_store_u32(unsigned char **buf, uint32_t значение)
+void _libssh2_store_u32(unsigned char **buf, uint32_t value)
 {
-    _libssh2_htonu32(*buf, значение);
+    _libssh2_htonu32(*buf, value);
     *buf += sizeof(uint32_t);
 }
 
@@ -266,7 +266,7 @@ static const short base64_reverse_table[256] = {
 
 /* libssh2_base64_decode
  *
- * Decode a base64 chunk and store it into a newly alloc'd буфер
+ * Decode a base64 chunk and store it into a newly alloc'd buffer
  */
 LIBSSH2_API int
 libssh2_base64_decode(LIBSSH2_SESSION *session, char **data,
@@ -311,7 +311,7 @@ libssh2_base64_decode(LIBSSH2_SESSION *session, char **data,
            octet */
         LIBSSH2_FREE(session, *data);
         *data = NULL;
-        return _libssh2_error(session, LIBSSH2_ERROR_INVAL, "Invalid base64");
+        return _libssh2_error(session, LIBSSH2_ERROR_INVAL, "Неверное base64");
     }
 
     *datalen = len;
@@ -397,7 +397,7 @@ size_t _libssh2_base64_encode(LIBSSH2_SESSION *session,
 
     return strlen(base64data); /* return the length of the new data */
 }
-/* ---- стоп of Base64 Encoding ---- */
+/* ---- End of Base64 Encoding ---- */
 
 LIBSSH2_API void
 libssh2_free(LIBSSH2_SESSION *session, void *ptr)
@@ -425,10 +425,10 @@ libssh2_trace_sethandler(LIBSSH2_SESSION *session, void *handler_context,
 }
 
 void
-_libssh2_debug(LIBSSH2_SESSION * session, int context, const char *формат, ...)
+_libssh2_debug(LIBSSH2_SESSION * session, int context, const char *format, ...)
 {
-    char буфер[1536];
-    int len, msglen, buflen = sizeof(буфер);
+    char buffer[1536];
+    int len, msglen, buflen = sizeof(buffer);
     va_list vargs;
     struct timeval now;
     static int firstsec;
@@ -452,7 +452,7 @@ _libssh2_debug(LIBSSH2_SESSION * session, int context, const char *формат,
         return;
     }
 
-    /* найди the first matching context string for this message */
+    /* Find the first matching context string for this message */
     for(contextindex = 0; contextindex < ARRAY_SIZE(contexts);
          contextindex++) {
         if((context & (1 << contextindex)) != 0) {
@@ -467,7 +467,7 @@ _libssh2_debug(LIBSSH2_SESSION * session, int context, const char *формат,
     }
     now.tv_sec -= firstsec;
 
-    len = snprintf(буфер, buflen, "[libssh2] %d.%06d %s: ",
+    len = snprintf(buffer, buflen, "[libssh2] %d.%06d %s: ",
                    (int)now.tv_sec, (int)now.tv_usec, contexttext);
 
     if(len >= buflen)
@@ -475,17 +475,17 @@ _libssh2_debug(LIBSSH2_SESSION * session, int context, const char *формат,
     else {
         buflen -= len;
         msglen = len;
-        va_start(vargs, формат);
-        len = vsnprintf(буфер + msglen, buflen, формат, vargs);
+        va_start(vargs, format);
+        len = vsnprintf(buffer + msglen, buflen, format, vargs);
         va_end(vargs);
         msglen += len < buflen ? len : buflen - 1;
     }
 
     if(session->tracehandler)
-        (session->tracehandler)(session, session->tracehandler_context, буфер,
+        (session->tracehandler)(session, session->tracehandler_context, buffer,
                                 msglen);
     else
-        fprintf(stderr, "%s\n", буфер);
+        fprintf(stderr, "%s\n", buffer);
 }
 
 #else
@@ -605,7 +605,7 @@ void _libssh2_list_insert(struct list_node *after, /* insert before this */
 /*
  * gettimeofday
  * Implementation according to:
- * The Open Группа Основа Specifications Issue 6
+ * The Open Group Base Specifications Issue 6
  * IEEE Std 1003.1, 2004 Edition
  */
 
@@ -624,7 +624,7 @@ void _libssh2_list_insert(struct list_node *after, /* insert before this */
  *  Danny Smith <dannysmith@users.sourceforge.net>
  */
 
-/* смещение between 1/1/1601 and 1/1/1970 in 100 nanosec units */
+/* Offset between 1/1/1601 and 1/1/1970 in 100 nanosec units */
 #define _W32_FT_OFFSET (116444736000000000)
 
 int __cdecl _libssh2_gettimeofday(struct timeval *tp, void *tzp)
@@ -639,8 +639,8 @@ int __cdecl _libssh2_gettimeofday(struct timeval *tp, void *tzp)
         tp->tv_usec = (long)((_now.ns100 / 10) % 1000000);
         tp->tv_sec = (long)((_now.ns100 - _W32_FT_OFFSET) / 10000000);
     }
-    /* Always return 0 as per Open Группа Основа Specifications Issue 6.
-       Do not set errno on Ошибка.  */
+    /* Always return 0 as per Open Group Base Specifications Issue 6.
+       Do not set errno on error.  */
     return 0;
 }
 
@@ -657,7 +657,7 @@ void *_libssh2_calloc(LIBSSH2_SESSION* session, size_t size)
 }
 
 /* XOR operation on buffers input1 and input2, result in output.
-   It is safe to use an input буфер as the output буфер. */
+   It is safe to use an input buffer as the output buffer. */
 void _libssh2_xor_data(unsigned char *output,
                        const unsigned char *input1,
                        const unsigned char *input2,
@@ -669,7 +669,7 @@ void _libssh2_xor_data(unsigned char *output,
         *output++ = *input1++ ^ *input2++;
 }
 
-/* Increments an AES CTR буфер to prepare it for use with the
+/* Increments an AES CTR buffer to prepare it for use with the
    next AES block. */
 void _libssh2_aes_ctr_increment(unsigned char *ctr,
                                 size_t length)
@@ -707,7 +707,7 @@ void _libssh2_explicit_zero(void *buf, size_t size)
 #endif
 }
 
-/* String буфер */
+/* String buffer */
 
 struct string_buf* _libssh2_string_buf_new(LIBSSH2_SESSION *session)
 {
@@ -841,8 +841,8 @@ int _libssh2_get_bignum_bytes(struct string_buf *buf, unsigned char **outbuf,
 }
 
 /* Given the current location in buf, _libssh2_check_length ensures
-   callers can read the next len number of bytes out of the буфер
-   before reading the буфер content */
+   callers can read the next len number of bytes out of the buffer
+   before reading the buffer content */
 
 int _libssh2_check_length(struct string_buf *buf, size_t len)
 {
@@ -857,7 +857,7 @@ int _libssh2_bcrypt_pbkdf(const char *pass,
                           size_t passlen,
                           const uint8_t *salt,
                           size_t saltlen,
-                          uint8_t *ключ,
+                          uint8_t *key,
                           size_t keylen,
                           unsigned int rounds)
 {
@@ -866,7 +866,7 @@ int _libssh2_bcrypt_pbkdf(const char *pass,
                         passlen,
                         salt,
                         saltlen,
-                        ключ,
+                        key,
                         keylen,
                         rounds);
 }

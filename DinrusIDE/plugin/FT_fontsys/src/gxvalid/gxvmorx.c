@@ -5,7 +5,7 @@
 /*    TrueTypeGX/AAT morx table validation (body).                         */
 /*                                                                         */
 /*  Copyright 2005, 2008 by                                                */
-/*  suzuki toshiya, Masatake YAMATO, красный Hat K.K.,                         */
+/*  suzuki toshiya, Masatake YAMATO, Red Hat K.K.,                         */
 /*  David Turner, Robert Wilhelm, and Werner Lemberg.                      */
 /*                                                                         */
 /*  This file is part of the FreeType project, and may only be used,       */
@@ -71,7 +71,7 @@
 #ifdef GXV_LOAD_UNUSED_VARS
       FT_ULong  subFeatureFlags;
 #endif
-      FT_ULong  тип;
+      FT_ULong  type;
       FT_ULong  rest;
 
 
@@ -87,23 +87,23 @@
       GXV_TRACE(( "validating chain subtable %d/%d (%d bytes)\n",
                   i + 1, nSubtables, length ));
 
-      тип = coverage & 0x0007;
+      type = coverage & 0x0007;
       rest = length - ( 4 + 4 + 4 );
       GXV_LIMIT_CHECK( rest );
 
       /* morx coverage consists of mort_coverage & 16bit padding */
       gxv_mort_coverage_validate( (FT_UShort)( ( coverage >> 16 ) | coverage ),
                                   valid );
-      if ( тип > 5 )
+      if ( type > 5 )
         FT_INVALID_FORMAT;
 
-      func = fmt_funcs_table[тип];
+      func = fmt_funcs_table[type];
       if ( func == NULL )
-        GXV_TRACE(( "morx тип %d is reserved\n", тип ));
+        GXV_TRACE(( "morx type %d is reserved\n", type ));
 
       func( p, p + rest, valid );
 
-      /* TODO: subFeatureFlags should be unique in a table? */
+      /* СДЕЛАТЬ: subFeatureFlags should be unique in a table? */
       p += rest;
     }
 
@@ -151,7 +151,7 @@
 
     valid->subtable_length = chainLength;
 
-    /* TODO: defaultFlags should be compared with the flags in tables */
+    /* СДЕЛАТЬ: defaultFlags should be compared with the flags in tables */
 
     GXV_EXIT;
   }

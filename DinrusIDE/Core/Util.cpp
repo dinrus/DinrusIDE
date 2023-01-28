@@ -9,20 +9,20 @@
 #	include <cxxabi.h>
 #endif
 
-namespace РНЦПДинрус {
+namespace Upp {
 
 bool PanicMode;
 
-bool    режимПаники_ли() { return PanicMode; }
+bool    IsPanicMode() { return PanicMode; }
 
 static  void (*sPanicMessageBox)(const char *title, const char *text);
 
-void устБоксСообПаники(void (*mb)(const char *title, const char *text))
+void InstallPanicMessageBox(void (*mb)(const char *title, const char *text))
 {
 	sPanicMessageBox = mb;
 }
 
-void боксСообПаники(const char *title, const char *text)
+void PanicMessageBox(const char *title, const char *text)
 {
 	PanicMode = true;
 	if(sPanicMessageBox)
@@ -44,7 +44,7 @@ void AddStackTrace(char * str, int len)
 	const size_t max_depth = 100;
     void *stack_addrs[max_depth];
     char **stack_strings;
-    const char msg[] = "\nТрассировка стэка:\n";
+    const char msg[] = "\nStack trace:\n";
 
     size_t stack_depth = backtrace(stack_addrs, max_depth);
     stack_strings = backtrace_symbols(stack_addrs, stack_depth);
@@ -84,7 +84,7 @@ void AddStackTrace(char * str, int len)
 #endif
 
 
-void    паника(const char *msg)
+void    Panic(const char *msg)
 {
 #ifdef PLATFORM_POSIX
 	signal(SIGILL, SIG_DFL);
@@ -95,8 +95,8 @@ void    паника(const char *msg)
 	if(PanicMode)
 		return;
 	PanicMode = true;
-	RLOG("****************** ПАНИКА: " << msg << "\n");
-	боксСообПаники("Фатальная ошибка", msg);
+	RLOG("****************** PANIC: " << msg << "\n");
+	PanicMessageBox("Fatal error", msg);
 
 #ifdef PLATFORM_WIN32
 #	ifdef __NOASSEMBLY__
@@ -104,7 +104,7 @@ void    паника(const char *msg)
 			DebugBreak();
 #		endif
 #	else
-#		if defined(_ОТЛАДКА) && defined(CPU_X86)
+#		if defined(_DEBUG) && defined(CPU_X86)
 #			ifdef COMPILER_MSC
 				_asm int 3
 #			endif
@@ -115,40 +115,40 @@ void    паника(const char *msg)
 #	endif
 #else
 #endif
-#ifdef _ОТЛАДКА
-	__ВСЁ__;
+#ifdef _DEBUG
+	__BREAK__;
 #endif
 	abort();
 }
 
 static void (*s_assert_hook)(const char *);
 
-void    устХукНеудачаАссертации(void (*h)(const char *))
+void    SetAssertFailedHook(void (*h)(const char *))
 {
 	s_assert_hook = h;
 }
 
-void    неуспехПроверки(const char *file, int line, const char *cond)
+void    AssertFailed(const char *file, int line, const char *cond)
 {
 	if(PanicMode)
 		return;
 	PanicMode = true;
 	char s[2048];
-	sprintf(s, "Неудача ассертации в %s, строка %d\n%s\n", file, line, cond);
+	sprintf(s, "Assertion failed in %s, line %d\n%s\n", file, line, cond);
 #if defined(PLATFORM_LINUX) && defined(COMPILER_GCC) && defined(flagSTACKTRACE)
 	AddStackTrace(s, sizeof(s));
 #endif
 
 	if(s_assert_hook)
 		(*s_assert_hook)(s);
-	RLOG("****************** НЕУДАЧА АССЕРТАЦИИ: " << s << "\n");
+	RLOG("****************** ASSERT FAILED: " << s << "\n");
 #ifdef PLATFORM_POSIX
 	RLOG("LastErrorMessage: " << strerror(errno)); // do not translate
 #else
-	RLOG("LastErrorMessage: " << дайПоследнОшСооб());
+	RLOG("LastErrorMessage: " << GetLastErrorMessage());
 #endif
 
-	боксСообПаники("Фатальная ошибка", s);
+	PanicMessageBox("Fatal error", s);
 
 #ifdef PLATFORM_WIN32
 #	ifdef __NOASSEMBLY__
@@ -156,7 +156,7 @@ void    неуспехПроверки(const char *file, int line, const char *c
 			DebugBreak();
 #		endif
 #	else
-#		if defined(_ОТЛАДКА) && defined(CPU_X86)
+#		if defined(_DEBUG) && defined(CPU_X86)
 #			ifdef COMPILER_MSC
 				_asm int 3
 #			endif
@@ -168,7 +168,7 @@ void    неуспехПроверки(const char *file, int line, const char *c
 #else
 #endif
 
-	__ВСЁ__;
+	__BREAK__;
 	abort();
 }
 
@@ -207,36 +207,36 @@ int msecs(int prev)
 }
 */
 
-void ТаймСтоп::переустанов()
+void TimeStop::Reset()
 {
 	starttime = (double)usecs();
 }
 
-ТаймСтоп::ТаймСтоп()
+TimeStop::TimeStop()
 {
-	переустанов();
+	Reset();
 }
 
-Ткст ТаймСтоп::вТкст() const
+String TimeStop::ToString() const
 {
-	double time = прошло();
+	double time = Elapsed();
 	if(time < 1e3)
-		return Ткст() << time << " us";
+		return String() << time << " us";
 	if(time < 1e6)
-		return Ткст() << time / 1e3 << " ms";
-	return Ткст() << time / 1e6 << " s";
+		return String() << time / 1e3 << " ms";
+	return String() << time / 1e6 << " s";
 }
 
-int RegisterTypeNo__(const char *тип)
+int RegisterTypeNo__(const char *type)
 {
 	INTERLOCKED {
-		static Индекс<Ткст> types;
-		return types.найдиДобавь(тип);
+		static Index<String> types;
+		return types.FindAdd(type);
 	}
 	return -1;
 }
 
-char *перманентнаяКопия(const char *s)
+char *PermanentCopy(const char *s)
 {
 	char *t = (char *)MemoryAllocPermanent(strlen(s) + 1);
 	strcpy(t, s);
@@ -244,7 +244,7 @@ char *перманентнаяКопия(const char *s)
 }
 
 #ifndef PLATFORM_WIN32
-void спи(int msec)
+void Sleep(int msec)
 {
 	::timespec tval;
 	tval.tv_sec = msec / 1000;
@@ -253,31 +253,31 @@ void спи(int msec)
 }
 #endif
 
-int памсравнИ(const void *dest, const void *ист, int count)
+int MemICmp(const void *dest, const void *src, int count)
 {
 
 	const byte *a = (const byte *)dest;
-	const byte *b = (const byte *)ист;
+	const byte *b = (const byte *)src;
 	const byte *l = a + count;
 	while(a < l) {
-		if(взаг(*a) != взаг(*b))
-			return взаг(*a) - взаг(*b);
+		if(ToUpper(*a) != ToUpper(*b))
+			return ToUpper(*a) - ToUpper(*b);
 		a++;
 		b++;
 	}
 	return 0;
 }
 
-Поток& пакуй16(Поток& s, Точка& p) {
-	return пакуй16(s, p.x, p.y);
+Stream& Pack16(Stream& s, Point& p) {
+	return Pack16(s, p.x, p.y);
 }
 
-Поток& пакуй16(Поток& s, Размер& sz) {
-	return пакуй16(s, sz.cx, sz.cy);
+Stream& Pack16(Stream& s, Size& sz) {
+	return Pack16(s, sz.cx, sz.cy);
 }
 
-Поток& пакуй16(Поток& s, Прям& r) {
-	return пакуй16(s, r.left, r.top, r.right, r.bottom);
+Stream& Pack16(Stream& s, Rect& r) {
+	return Pack16(s, r.left, r.top, r.right, r.bottom);
 }
 
 int InScListIndex(const char *s, const char *list)
@@ -307,37 +307,37 @@ bool InScList(const char *s, const char *list)
 	return InScListIndex(s, list) >= 0;
 }
 
-Ткст времяФмт(double s) {
-	if(s < 0.000001) return спринтф("%5.2f ns", s * 1.0e9);
-	if(s < 0.001) return спринтф("%5.2f us", s * 1.0e6);
-	if(s < 1) return спринтф("%5.2f ms", s * 1.0e3);
-	return спринтф("%5.2f s ", s);
+String timeFormat(double s) {
+	if(s < 0.000001) return Sprintf("%5.2f ns", s * 1.0e9);
+	if(s < 0.001) return Sprintf("%5.2f us", s * 1.0e6);
+	if(s < 1) return Sprintf("%5.2f ms", s * 1.0e3);
+	return Sprintf("%5.2f s ", s);
 }
 
-Ткст Garble(const char *s, const char *e)
+String Garble(const char *s, const char *e)
 {
 	int c = 0xAA;
-	Ткст result;
+	String result;
 	if(!e)
 		e = s + strlen(s);
 	while(s != e)
 	{
-		result.конкат(*s++ ^ (char)c);
+		result.Cat(*s++ ^ (char)c);
 		if((c <<= 1) & 0x100)
 			c ^= 0x137;
 	}
 	return result;
 }
 
-Ткст Garble(const Ткст& s)
+String Garble(const String& s)
 {
-	return Garble(~s, ~s + s.дайДлину());
+	return Garble(~s, ~s + s.GetLength());
 }
 
-Ткст кодируй64(const Ткст& s)
+String Encode64(const String& s)
 {
-	Ткст enc;
-	int l = s.дайДлину();
+	String enc;
+	int l = s.GetLength();
 	enc << l << ':';
 	for(int i = 0; i < l;)
 	{
@@ -345,83 +345,83 @@ bool InScList(const char *s, const char *list)
 		if(i < l) a = s[i++];
 		if(i < l) b = s[i++];
 		if(i < l) c = s[i++];
-		enc.конкат(' ' + 1 + ((a >> 2) & 0x3F));
-		enc.конкат(' ' + 1 + ((a << 4) & 0x30) + ((b >> 4) & 0x0F));
-		enc.конкат(' ' + 1 + ((b << 2) & 0x3C) + ((c >> 6) & 0x03));
-		enc.конкат(' ' + 1 + (c & 0x3F));
+		enc.Cat(' ' + 1 + ((a >> 2) & 0x3F));
+		enc.Cat(' ' + 1 + ((a << 4) & 0x30) + ((b >> 4) & 0x0F));
+		enc.Cat(' ' + 1 + ((b << 2) & 0x3C) + ((c >> 6) & 0x03));
+		enc.Cat(' ' + 1 + (c & 0x3F));
 	}
 	return enc;
 }
 
-Ткст декодируй64(const Ткст& s)
+String Decode64(const String& s)
 {
-	if(!цифра_ли(*s))
+	if(!IsDigit(*s))
 		return s;
 	const char *p = s;
 	char *h;
 	int len = strtol(p, &h, 10);
 	p = h;
-	if(*p++ != ':' || len < 0 || (len + 2) / 3 * 4 > (s.стоп() - p))
+	if(*p++ != ':' || len < 0 || (len + 2) / 3 * 4 > (s.End() - p))
 		return s; // invalid encoding
 	if(len == 0)
 		return Null;
-	Ткст dec;
+	String dec;
 	for(;;)
 	{
 		byte ea = *p++ - ' ' - 1, eb = *p++ - ' ' - 1, ec = *p++ - ' ' - 1, ed = *p++ - ' ' - 1;
 		byte out[3] = { byte((ea << 2) | (eb >> 4)), byte((eb << 4) | (ec >> 2)), byte((ec << 6) | (ed >> 0)) };
 		switch(len)
 		{
-		case 1:  dec.конкат(out[0]); return dec;
-		case 2:  dec.конкат(out, 2); return dec;
-		case 3:  dec.конкат(out, 3); return dec;
-		default: dec.конкат(out, 3); len -= 3; break;
+		case 1:  dec.Cat(out[0]); return dec;
+		case 2:  dec.Cat(out, 2); return dec;
+		case 3:  dec.Cat(out, 3); return dec;
+		default: dec.Cat(out, 3); len -= 3; break;
 		}
 	}
 }
 
-Ткст гексТкст(const byte *s, int count, int sep, int sepchr)
+String HexString(const byte *s, int count, int sep, int sepchr)
 {
-	ПРОВЕРЬ(count >= 0);
+	ASSERT(count >= 0);
 	if(count == 0)
-		return Ткст();
-	ТкстБуф b(2 * count + (count - 1) / sep);
+		return String();
+	StringBuffer b(2 * count + (count - 1) / sep);
 	static const char itoc[] = "0123456789abcdef";
 	int i = 0;
 	char *t = b;
 	for(;;) {
 		for(int q = 0; q < sep; q++) {
 			if(i >= count)
-				return Ткст(b);
+				return String(b);
 			*t++ = itoc[(s[i] & 0xf0) >> 4];
 			*t++ = itoc[s[i] & 0x0f];
 			i++;
 		}
 		if(i >= count)
-			return Ткст(b);
+			return String(b);
 		*t++ = sepchr;
 	}
 }
 
-Ткст гексТкст(const Ткст& s, int sep, int sepchr)
+String HexString(const String& s, int sep, int sepchr)
 {
-	return гексТкст(~s, s.дайСчёт(), sep, sepchr);
+	return HexString(~s, s.GetCount(), sep, sepchr);
 }
 
-Ткст кодируйГекс(const byte *s, int count, int sep, int sepchr)
+String HexEncode(const byte *s, int count, int sep, int sepchr)
 {
-	return гексТкст(s, count, sep, sepchr);
+	return HexString(s, count, sep, sepchr);
 }
 
-Ткст кодируйГекс(const Ткст& s, int sep, int sepchr)
+String HexEncode(const String& s, int sep, int sepchr)
 {
-	return гексТкст(s, sep, sepchr);
+	return HexString(s, sep, sepchr);
 }
 
-Ткст сканГексТкст(const char *s, const char *lim)
+String ScanHexString(const char *s, const char *lim)
 {
-	Ткст r;
-	r.резервируй(int(lim - s) / 2);
+	String r;
+	r.Reserve(int(lim - s) / 2);
 	for(;;) {
 		byte b = 0;
 		while(!IsXDigit(*s)) {
@@ -434,27 +434,27 @@ bool InScList(const char *s, const char *list)
 			return r;
 		while(!IsXDigit(*s)) {
 			if(s >= lim) {
-				r.конкат(b);
+				r.Cat(b);
 				return r;
 			}
 			s++;
 		}
 		b = (b << 4) + ctoi(*s++);
-		r.конкат(b);
+		r.Cat(b);
 		if(s >= lim)
 			return r;
 	}
 }
 
-Ткст декодируйГекс(const char *s, const char *lim)
+String HexDecode(const char *s, const char *lim)
 {
-	return сканГексТкст(s, lim);
+	return ScanHexString(s, lim);
 }
 
 
-Ткст нормализуйПробелы(const char *s)
+String NormalizeSpaces(const char *s)
 {
-	ТкстБуф r;
+	StringBuffer r;
 	while(*s && (byte)*s <= ' ')
 		s++;
 	while(*s) {
@@ -462,17 +462,17 @@ bool InScList(const char *s, const char *list)
 			while(*s && (byte)*s <= ' ')
 				s++;
 			if(*s)
-				r.конкат(' ');
+				r.Cat(' ');
 		}
 		else
-			r.конкат(*s++);
+			r.Cat(*s++);
 	}
-	return Ткст(r);
+	return String(r);
 }
 
-Ткст нормализуйПробелы(const char *s, const char *end)
+String NormalizeSpaces(const char *s, const char *end)
 {
-	ТкстБуф r;
+	StringBuffer r;
 	while(*s && (byte)*s <= ' ')
 		s++;
 	while(s < end) {
@@ -480,67 +480,67 @@ bool InScList(const char *s, const char *list)
 			while(s < end && (byte)*s <= ' ')
 				s++;
 			if(*s)
-				r.конкат(' ');
+				r.Cat(' ');
 		}
 		else
-			r.конкат(*s++);
+			r.Cat(*s++);
 	}
-	return Ткст(r);
+	return String(r);
 }
 
-Ткст CsvString(const Ткст& text)
+String CsvString(const String& text)
 {
-	Ткст r;
+	String r;
 	r << '\"';
 	const char *s = text;
 	while(*s) {
 		if(*s == '\"')
 			r << "\"\"";
 		else
-			r.конкат(*s);
+			r.Cat(*s);
 		s++;
 	}
 	r << '\"';
 	return r;
 }
 
-Вектор<Ткст> GetCsvLine(Поток& s, int separator, byte charset)
+Vector<String> GetCsvLine(Stream& s, int separator, byte charset)
 {
-	Вектор<Ткст> r;
+	Vector<String> r;
 	bool instring = false;
-	Ткст val;
-	byte dcs = дайДефНабСим();
+	String val;
+	byte dcs = GetDefaultCharset();
 	for(;;) {
-		int c = s.дай();
+		int c = s.Get();
 		if(c == '\n' && instring)
-			val.конкат(c);
+			val.Cat(c);
 		else
 		if(c == '\n' || c < 0) {
-			if(val.дайСчёт())
-				r.добавь(вНабсим(dcs, val, charset));
+			if(val.GetCount())
+				r.Add(ToCharset(dcs, val, charset));
 			return r;
 		}
 		else
 		if(c == separator && !instring) {
-			r.добавь(вНабсим(dcs, val, charset));
-			val.очисть();
+			r.Add(ToCharset(dcs, val, charset));
+			val.Clear();
 		}
 		else
 		if(c == '\"') {
-			if(instring && s.прекрати() == '\"') {
-				s.дай();
-				val.конкат('\"');
+			if(instring && s.Term() == '\"') {
+				s.Get();
+				val.Cat('\"');
 			}
 			else
 				instring = !instring;
 		}
 		else
 		if(c != '\r')
-			val.конкат(c);
+			val.Cat(c);
 	}
 }
 
-Ткст сожмиЛог(const char *s)
+String CompressLog(const char *s)
 {
 	static bool breaker[256];
 	ONCELOCK {
@@ -548,28 +548,28 @@ bool InScList(const char *s, const char *list)
 		breaker[i] = IsSpace(i) || findarg(i, '<', '>', '\"', '\'', ',', '.', '[', ']', '{', '}', '(', ')') >= 0;
 	}
 
-	ТкстБуф result;
+	StringBuffer result;
 	while(*s) {
 		const char *b = s;
 		while(breaker[(byte)*s])
 			s++;
-		result.конкат(b, s);
+		result.Cat(b, s);
 		if(!*s)
 			break;
 		b = s;
 		while(*s && !breaker[(byte)*s])
 			s++;
 		if(s - b > 200) {
-			result.конкат(b, 20);
-			result.конкат("....", 4);
+			result.Cat(b, 20);
+			result.Cat("....", 4);
 			result << "[" << int(s - b) << " bytes]";
-			result.конкат("....", 4);
-			result.конкат(s - 20, 20);
+			result.Cat("....", 4);
+			result.Cat(s - 20, 20);
 		}
 		else
-			result.конкат(b, s);
+			result.Cat(b, s);
 	}
-	return Ткст(result);
+	return String(result);
 }
 
 int ChNoInvalid(int c)
@@ -578,181 +578,181 @@ int ChNoInvalid(int c)
 }
 
 #ifdef PLATFORM_WIN32
-Ткст вСисНабсим(const Ткст& ист, int cp)
+String ToSystemCharset(const String& src, int cp)
 {
-	Вектор<char16> s = вУтф16(ист);
-	int l = s.дайСчёт() * 8;
-	ТкстБуф b(l);
-	int q = WideCharToMultiByte(cp, 0, s, s.дайСчёт(), b, l, NULL, NULL);
+	Vector<char16> s = ToUtf16(src);
+	int l = s.GetCount() * 8;
+	StringBuffer b(l);
+	int q = WideCharToMultiByte(cp, 0, s, s.GetCount(), b, l, NULL, NULL);
 	if(q <= 0)
-		return ист;
-	b.устСчёт(q);
-	return Ткст(b);
+		return src;
+	b.SetCount(q);
+	return String(b);
 }
 
-Ткст вСисНабсим(const Ткст& ист)
+String ToSystemCharset(const String& src)
 {
-	return вСисНабсим(ист, CP_ACP);
+	return ToSystemCharset(src, CP_ACP);
 }
 
-Ткст изНабсимаВин32(const Ткст& ист, int cp)
+String FromWin32Charset(const String& src, int cp)
 {
-	Буфер<char16> b(ист.дайДлину());
-	int q = MultiByteToWideChar(cp, MB_PRECOMPOSED, ~ист, ист.дайДлину(), b, ист.дайДлину());
+	Buffer<char16> b(src.GetLength());
+	int q = MultiByteToWideChar(cp, MB_PRECOMPOSED, ~src, src.GetLength(), b, src.GetLength());
 	if(q <= 0)
-		return ист;
-	return вУтф8(b, q);
+		return src;
+	return ToUtf8(b, q);
 }
 
-Ткст изНабсимаОЕМ(const Ткст& ист)
+String FromOEMCharset(const String& src)
 {
-	return изНабсимаВин32(ист, CP_OEMCP);
+	return FromWin32Charset(src, CP_OEMCP);
 }
 
-Ткст изСисНабсима(const Ткст& ист)
+String FromSystemCharset(const String& src)
 {
-	return изНабсимаВин32(ист, CP_ACP);
+	return FromWin32Charset(src, CP_ACP);
 }
 
 #else
-Ткст вСисНабсим(const Ткст& ист)
+String ToSystemCharset(const String& src)
 {
-	return главнаяПущена() ? фильтруй(вНабсим(GetLNGCharset(GetSystemLNG()), ист), ChNoInvalid)
-	                       : ист;
+	return IsMainRunning() ? Filter(ToCharset(GetLNGCharset(GetSystemLNG()), src), ChNoInvalid)
+	                       : src;
 }
 
-Ткст изСисНабсима(const Ткст& ист)
+String FromSystemCharset(const String& src)
 {
-	return главнаяПущена() ? фильтруй(вНабсим(CHARSET_DEFAULT, ист, GetLNGCharset(GetSystemLNG())), ChNoInvalid) : ист;
+	return IsMainRunning() ? Filter(ToCharset(CHARSET_DEFAULT, src, GetLNGCharset(GetSystemLNG())), ChNoInvalid) : src;
 }
 #endif
 
-Вектор<char16> вСисНабсимШ(const ШТкст& ист)
+Vector<char16> ToSystemCharsetW(const WString& src)
 {
-	Вектор<char16> h = вУтф16(ист);
-	h.добавь(0);
+	Vector<char16> h = ToUtf16(src);
+	h.Add(0);
 	return h;
 }
 
-Вектор<char16> вСисНабсимШ(const Ткст& ист)
+Vector<char16> ToSystemCharsetW(const String& src)
 {
-	Вектор<char16> h = вУтф16(ист);
-	h.добавь(0);
+	Vector<char16> h = ToUtf16(src);
+	h.Add(0);
 	return h;
 }
 
-Вектор<char16> вСисНабсимШ(const wchar *ист)
+Vector<char16> ToSystemCharsetW(const wchar *src)
 {
-	Вектор<char16> h = вУтф16(ист);
-	h.добавь(0);
+	Vector<char16> h = ToUtf16(src);
+	h.Add(0);
 	return h;
 }
 
-Вектор<char16> вСисНабсимШ(const char *ист)
+Vector<char16> ToSystemCharsetW(const char *src)
 {
-	Вектор<char16> h = вУтф16(ист);
-	h.добавь(0);
+	Vector<char16> h = ToUtf16(src);
+	h.Add(0);
 	return h;
 }
 
-Ткст изСисНабсимаШ(const char16 *ист)
+String FromSystemCharsetW(const char16 *src)
 {
-	return вУтф8(ист);
+	return ToUtf8(src);
 }
 
-static СтатическийСтопор sGCfgLock;
+static StaticMutex sGCfgLock;
 
-static ВекторМап<Ткст, Ткст>& sGCfg()
+static VectorMap<String, String>& sGCfg()
 {
-	static ВекторМап<Ткст, Ткст> h;
+	static VectorMap<String, String> h;
 	return h;
 }
 
-static Вектор<Событие<>>& sGFlush()
+static Vector<Event<>>& sGFlush()
 {
-	static Вектор<Событие<>> h;
+	static Vector<Event<>> h;
 	return h;
 }
 
-static ВекторМап<Ткст, Событие<Поток&>>& sGSerialize()
+static VectorMap<String, Event<Stream&>>& sGSerialize()
 {
-	static ВекторМап<Ткст, Событие<Поток&>> h;
+	static VectorMap<String, Event<Stream&>> h;
 	return h;
 }
 
-void    региструйГлобКонфиг(const char *имя)
+void    RegisterGlobalConfig(const char *name)
 {
-	Стопор::Замок __(sGCfgLock);
-	ПРОВЕРЬ(sGCfg().найди(имя) < 0);
-	sGCfg().добавь(имя);
+	Mutex::Lock __(sGCfgLock);
+	ASSERT(sGCfg().Find(name) < 0);
+	sGCfg().Add(name);
 }
 
-void    региструйГлобСериализуй(const char *имя, Событие<Поток&> WhenSerialize)
+void    RegisterGlobalSerialize(const char *name, Event<Stream&> WhenSerialize)
 {
-	Стопор::Замок __(sGCfgLock);
-	региструйГлобКонфиг(имя);
-	sGSerialize().добавь(имя, WhenSerialize);
+	Mutex::Lock __(sGCfgLock);
+	RegisterGlobalConfig(name);
+	sGSerialize().Add(name, WhenSerialize);
 }
 
-void    региструйГлобКонфиг(const char *имя, Событие<>  WhenFlush)
+void    RegisterGlobalConfig(const char *name, Event<>  WhenFlush)
 {
-	Стопор::Замок __(sGCfgLock);
-	региструйГлобКонфиг(имя);
-	sGFlush().добавь(WhenFlush);
+	Mutex::Lock __(sGCfgLock);
+	RegisterGlobalConfig(name);
+	sGFlush().Add(WhenFlush);
 }
 
-Ткст дайДанныеГлобКонфига(const char *имя)
+String GetGlobalConfigData(const char *name)
 {
-	Стопор::Замок __(sGCfgLock);
-	return sGCfg().дайДобавь(имя);
+	Mutex::Lock __(sGCfgLock);
+	return sGCfg().GetAdd(name);
 }
 
-void устДанныеГлобКонфига(const char *имя, const Ткст& данные)
+void SetGlobalConfigData(const char *name, const String& data)
 {
-	Стопор::Замок __(sGCfgLock);
-	sGCfg().дайДобавь(имя) = данные;
+	Mutex::Lock __(sGCfgLock);
+	sGCfg().GetAdd(name) = data;
 }
 
-bool грузиИзГлоба(Событие<Поток&> x, const char *имя)
+bool LoadFromGlobal(Event<Stream&> x, const char *name)
 {
-	ТкстПоток ss(дайДанныеГлобКонфига(имя));
-	return ss.кф_ли() || грузи(x, ss);
+	StringStream ss(GetGlobalConfigData(name));
+	return ss.IsEof() || Load(x, ss);
 }
 
-void сохраниВГлоб(Событие<Поток&> x, const char *имя)
+void StoreToGlobal(Event<Stream&> x, const char *name)
 {
-	ТкстПоток ss;
-	сохрани(x, ss);
-	устДанныеГлобКонфига(имя, ss);
+	StringStream ss;
+	Store(x, ss);
+	SetGlobalConfigData(name, ss);
 }
 
-void  сериализуйГлобКонфиги(Поток& s)
+void  SerializeGlobalConfigs(Stream& s)
 {
-	Стопор::Замок __(sGCfgLock);
-	for(int i = 0; i < sGFlush().дайСчёт(); i++)
+	Mutex::Lock __(sGCfgLock);
+	for(int i = 0; i < sGFlush().GetCount(); i++)
 		sGFlush()[i]();
-	int версия = 0;
-	s / версия;
-	int count = sGCfg().дайСчёт();
+	int version = 0;
+	s / version;
+	int count = sGCfg().GetCount();
 	s / count;
 	for(int i = 0; i < count; i++) {
-		Ткст имя;
-		if(s.сохраняется())
-			имя = sGCfg().дайКлюч(i);
-		s % имя;
-		int q = sGCfg().найди(имя);
+		String name;
+		if(s.IsStoring())
+			name = sGCfg().GetKey(i);
+		s % name;
+		int q = sGCfg().Find(name);
 		if(q >= 0) {
-			int w = sGSerialize().найди(имя);
+			int w = sGSerialize().Find(name);
 			if(w >= 0) {
-				Ткст h;
-				if(s.сохраняется()) {
-					ТкстПоток ss;
+				String h;
+				if(s.IsStoring()) {
+					StringStream ss;
 					sGSerialize()[w](ss);
 					h = ss;
 				}
 				s % h;
-				if(s.грузится()) {
-					ТкстПоток ss(h);
+				if(s.IsLoading()) {
+					StringStream ss(h);
 					sGSerialize()[w](ss);
 				}
 			}
@@ -760,33 +760,33 @@ void  сериализуйГлобКонфиги(Поток& s)
 				s % sGCfg()[q];
 		}
 		else {
-			Ткст dummy;
+			String dummy;
 			s % dummy;
 		}
 	}
 	s.Magic();
 }
 
-ПрервиИскл::ПрервиИскл() :
-	Искл(t_("Прервано пользователем.")) {}
+AbortExc::AbortExc() :
+	Exc(t_("Aborted by user.")) {}
 
 #ifdef PLATFORM_WIN32
 
-Ткст дайОшСооб(DWORD dwError) {
+String GetErrorMessage(DWORD dwError) {
 	char h[2048];
 	sprintf(h, "%08x", (int)dwError);
-#ifdef PLATFORM_WINCE //TODO
+#ifdef PLATFORM_WINCE //СДЕЛАТЬ
 	return h;
 #else
 	FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
 		          NULL, dwError, 0, h, 2048, NULL);
-	Ткст result = h;
-	Ткст modf;
+	String result = h;
+	String modf;
 	const char* s = result;
 	BYTE c;
 	while((c = *s++) != 0)
 		if(c <= ' ') {
-			if(!modf.пустой() && modf[modf.дайДлину() - 1] != ' ')
+			if(!modf.IsEmpty() && modf[modf.GetLength() - 1] != ' ')
 				modf += ' ';
 		}
 		else if(c == '%' && *s >= '0' && *s <= '9') {
@@ -796,30 +796,30 @@ void  сериализуйГлобКонфиги(Поток& s)
 		else
 			modf += (char)c;
 	const char* p = modf;
-	for(s = p + modf.дайДлину(); s > p && s[-1] == ' '; s--);
-	return изСисНабсима(modf.лево((int)(s - p)));
+	for(s = p + modf.GetLength(); s > p && s[-1] == ' '; s--);
+	return FromSystemCharset(modf.Left((int)(s - p)));
 #endif
 }
 
-Ткст дайПоследнОшСооб() {
-	return дайОшСооб(GetLastError()) + " (" + какТкст(GetLastError()) + ")";
+String GetLastErrorMessage() {
+	return GetErrorMessage(GetLastError()) + " (" + AsString(GetLastError()) + ")";
 }
 
 #endif
 
 #ifdef PLATFORM_POSIX
 
-Ткст дайОшСооб(int errorno)
+String GetErrorMessage(int errorno)
 {
 	// Linux strerror_r declaration might be different than posix
 	// hence we are using strerror with mutex... (cxl 2008-07-17)
-	static СтатическийСтопор m;
-	Стопор::Замок __(m);
-	return изСисНабсима(strerror(errorno));
+	static StaticMutex m;
+	Mutex::Lock __(m);
+	return FromSystemCharset(strerror(errorno));
 }
 
-Ткст дайПоследнОшСооб() {
-	return дайОшСооб(errno) + " (" + какТкст(errno) + ")";
+String GetLastErrorMessage() {
+	return GetErrorMessage(errno) + " (" + AsString(errno) + ")";
 }
 
 #endif
@@ -827,26 +827,26 @@ void  сериализуйГлобКонфиги(Поток& s)
 #ifdef PLATFORM_POSIX
 #ifndef PLATFORM_COCOA
 
-Ткст CurrentSoundTheme = "freedesktop";
+String CurrentSoundTheme = "freedesktop";
 
-static void LinuxBeep(const char *имя)
+static void LinuxBeep(const char *name)
 {
-	static Ткст player;
+	static String player;
 	ONCELOCK {
 		const char *players[] = { "play", "ogg123", "gst123", "gst-play-1.0" };
 		for(int i = 0; i < __countof(players); i++)
-			if(Sys("which " + Ткст(players[i])).дайСчёт()) {
+			if(Sys("which " + String(players[i])).GetCount()) {
 				player = players[i];
 				break;
 			}
 	}
 
-	if(player.дайСчёт()) {
-		Ткст фн = "/usr/share/sounds/" + CurrentSoundTheme + "/stereo/dialog-" + имя;
-		IGNORE_RESULT(system(player + " -q " + фн +
-		              (файлЕсть(фн + ".ogg") ? ".ogg" :
-		               файлЕсть(фн + ".oga") ? ".oga" :
-	                       файлЕсть(фн + ".wav") ? ".wav" :
+	if(player.GetCount()) {
+		String fn = "/usr/share/sounds/" + CurrentSoundTheme + "/stereo/dialog-" + name;
+		IGNORE_RESULT(system(player + " -q " + fn +
+		              (FileExists(fn + ".ogg") ? ".ogg" :
+		               FileExists(fn + ".oga") ? ".oga" :
+	                       FileExists(fn + ".wav") ? ".wav" :
 	                       ".*")
 		             + " >/dev/null 2>/dev/null&"));
 	}
@@ -866,7 +866,7 @@ void DoCocoBeep()
 
 #endif
 
-void бипИнформация()
+void BeepInformation()
 {
 #ifdef PLATFORM_WIN32
 	MessageBeep(MB_ICONINFORMATION);
@@ -877,7 +877,7 @@ void бипИнформация()
 #endif
 }
 
-void бипВосклицание()
+void BeepExclamation()
 {
 #ifdef PLATFORM_WIN32
 	MessageBeep(MB_ICONEXCLAMATION);
@@ -888,18 +888,18 @@ void бипВосклицание()
 #endif
 }
 
-void бипОшибка()
+void BeepError()
 {
 #ifdef PLATFORM_WIN32
 	MessageBeep(MB_ICONERROR);
 #elif defined(PLATFORM_COCOA)
 	DoCocoBeep();
 #else
-	LinuxBeep("Ошибка");
+	LinuxBeep("error");
 #endif
 }
 
-void бипВопрос()
+void BeepQuestion()
 {
 #ifdef PLATFORM_WIN32
 	MessageBeep(MB_ICONQUESTION);
@@ -922,20 +922,20 @@ int errno; // missing and zlib needs it
 
 
 template <class CHR, class T>
-T Replace__(const T& s, const Вектор<T>& find, const Вектор<T>& replace)
+T Replace__(const T& s, const Vector<T>& find, const Vector<T>& replace)
 {
-	ПРОВЕРЬ(find.дайСчёт() == replace.дайСчёт());
+	ASSERT(find.GetCount() == replace.GetCount());
 
 	T r;
 	int i = 0;
-	while(i < s.дайСчёт()) {
+	while(i < s.GetCount()) {
 		int best = -1;
 		int bestlen = 0;
-		int len = s.дайСчёт() - i;
+		int len = s.GetCount() - i;
 		const CHR *q = ~s + i;
-		for(int j = 0; j < replace.дайСчёт(); j++) {
+		for(int j = 0; j < replace.GetCount(); j++) {
 			const T& m = find[j];
-			int l = m.дайСчёт();
+			int l = m.GetCount();
 			if(l <= len && l > bestlen && memcmp(~m, q, l * sizeof(CHR)) == 0) {
 				bestlen = l;
 				best = j;
@@ -943,48 +943,48 @@ T Replace__(const T& s, const Вектор<T>& find, const Вектор<T>& repl
 		}
 		if(best >= 0) {
 			i += bestlen;
-			r.конкат(replace[best]);
+			r.Cat(replace[best]);
 		}
 		else {
-			r.конкат(*q);
+			r.Cat(*q);
 			i++;
 		}
 	}
 	return r;
 }
 
-Ткст замени(const Ткст& s, const Вектор<Ткст>& find, const Вектор<Ткст>& replace)
+String Replace(const String& s, const Vector<String>& find, const Vector<String>& replace)
 {
 	return Replace__<char>(s, find, replace);
 }
 
-Ткст замени(const Ткст& s, const ВекторМап<Ткст, Ткст>& fr)
+String Replace(const String& s, const VectorMap<String, String>& fr)
 {
-	return Replace__<char>(s, fr.дайКлючи(), fr.дайЗначения());
+	return Replace__<char>(s, fr.GetKeys(), fr.GetValues());
 }
 
-ШТкст замени(const ШТкст& s, const Вектор<ШТкст>& find, const Вектор<ШТкст>& replace)
+WString Replace(const WString& s, const Vector<WString>& find, const Vector<WString>& replace)
 {
 	return Replace__<wchar>(s, find, replace);
 }
 
-ШТкст замени(const ШТкст& s, const ВекторМап<ШТкст, ШТкст>& fr)
+WString Replace(const WString& s, const VectorMap<WString, WString>& fr)
 {
-	return Replace__<wchar>(s, fr.дайКлючи(), fr.дайЗначения());
+	return Replace__<wchar>(s, fr.GetKeys(), fr.GetValues());
 }
 
 
-Ткст (*GetP7Signature__)(const void *данные, int length, const Ткст& cert_pem, const Ткст& pkey_pem);
+String (*GetP7Signature__)(const void *data, int length, const String& cert_pem, const String& pkey_pem);
 
-Ткст GetP7Signature(const void *данные, int length, const Ткст& cert_pem, const Ткст& pkey_pem)
+String GetP7Signature(const void *data, int length, const String& cert_pem, const String& pkey_pem)
 {
-	ПРОВЕРЬ_(GetP7Signature__, "Missing SSL support (Core/SSL)");
-	return (*GetP7Signature__)(данные, length, cert_pem, pkey_pem);
+	ASSERT_(GetP7Signature__, "Missing SSL support (Core/SSL)");
+	return (*GetP7Signature__)(data, length, cert_pem, pkey_pem);
 }
 
-Ткст GetP7Signature(const Ткст& данные, const Ткст& cert_pem, const Ткст& pkey_pem)
+String GetP7Signature(const String& data, const String& cert_pem, const String& pkey_pem)
 {
-	return GetP7Signature(данные, данные.дайДлину(), cert_pem, pkey_pem);
+	return GetP7Signature(data, data.GetLength(), cert_pem, pkey_pem);
 }
 
 }

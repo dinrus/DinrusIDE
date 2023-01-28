@@ -25,7 +25,7 @@
 /*
  * TIFF Library.
  *
- * Directory читай Support Routines.
+ * Directory Read Support Routines.
  */
 
 /* Suggested pending improvements:
@@ -41,7 +41,7 @@
 #define FAILED_FII    ((uint32) -1)
 
 /*
- * Largest 64-bit signed integer значение.
+ * Largest 64-bit signed integer value.
  */
 #define TIFF_INT64_MAX ((int64)(TIFF_UINT64_MAX >> 1))
 
@@ -64,90 +64,90 @@ enum TIFFReadDirEntryErr {
 	TIFFReadDirEntryErrAlloc = 7,
 };
 
-static enum TIFFReadDirEntryErr TIFFReadDirEntryByte(TIFF* tif, TIFFDirEntry* direntry, uint8* значение);
-static enum TIFFReadDirEntryErr TIFFReadDirEntryShort(TIFF* tif, TIFFDirEntry* direntry, uint16* значение);
-static enum TIFFReadDirEntryErr TIFFReadDirEntryLong(TIFF* tif, TIFFDirEntry* direntry, uint32* значение);
-static enum TIFFReadDirEntryErr TIFFReadDirEntryLong8(TIFF* tif, TIFFDirEntry* direntry, uint64* значение);
-static enum TIFFReadDirEntryErr TIFFReadDirEntryFloat(TIFF* tif, TIFFDirEntry* direntry, float* значение);
-static enum TIFFReadDirEntryErr TIFFReadDirEntryDouble(TIFF* tif, TIFFDirEntry* direntry, double* значение);
-static enum TIFFReadDirEntryErr TIFFReadDirEntryIfd8(TIFF* tif, TIFFDirEntry* direntry, uint64* значение);
+static enum TIFFReadDirEntryErr TIFFReadDirEntryByte(TIFF* tif, TIFFDirEntry* direntry, uint8* value);
+static enum TIFFReadDirEntryErr TIFFReadDirEntryShort(TIFF* tif, TIFFDirEntry* direntry, uint16* value);
+static enum TIFFReadDirEntryErr TIFFReadDirEntryLong(TIFF* tif, TIFFDirEntry* direntry, uint32* value);
+static enum TIFFReadDirEntryErr TIFFReadDirEntryLong8(TIFF* tif, TIFFDirEntry* direntry, uint64* value);
+static enum TIFFReadDirEntryErr TIFFReadDirEntryFloat(TIFF* tif, TIFFDirEntry* direntry, float* value);
+static enum TIFFReadDirEntryErr TIFFReadDirEntryDouble(TIFF* tif, TIFFDirEntry* direntry, double* value);
+static enum TIFFReadDirEntryErr TIFFReadDirEntryIfd8(TIFF* tif, TIFFDirEntry* direntry, uint64* value);
 
-static enum TIFFReadDirEntryErr TIFFReadDirEntryArray(TIFF* tif, TIFFDirEntry* direntry, uint32* count, uint32 desttypesize, void** значение);
-static enum TIFFReadDirEntryErr TIFFReadDirEntryByteArray(TIFF* tif, TIFFDirEntry* direntry, uint8** значение);
-static enum TIFFReadDirEntryErr TIFFReadDirEntrySbyteArray(TIFF* tif, TIFFDirEntry* direntry, int8** значение);
-static enum TIFFReadDirEntryErr TIFFReadDirEntryShortArray(TIFF* tif, TIFFDirEntry* direntry, uint16** значение);
-static enum TIFFReadDirEntryErr TIFFReadDirEntrySshortArray(TIFF* tif, TIFFDirEntry* direntry, int16** значение);
-static enum TIFFReadDirEntryErr TIFFReadDirEntryLongArray(TIFF* tif, TIFFDirEntry* direntry, uint32** значение);
-static enum TIFFReadDirEntryErr TIFFReadDirEntrySlongArray(TIFF* tif, TIFFDirEntry* direntry, int32** значение);
-static enum TIFFReadDirEntryErr TIFFReadDirEntryLong8Array(TIFF* tif, TIFFDirEntry* direntry, uint64** значение);
-static enum TIFFReadDirEntryErr TIFFReadDirEntrySlong8Array(TIFF* tif, TIFFDirEntry* direntry, int64** значение);
-static enum TIFFReadDirEntryErr TIFFReadDirEntryFloatArray(TIFF* tif, TIFFDirEntry* direntry, float** значение);
-static enum TIFFReadDirEntryErr TIFFReadDirEntryDoubleArray(TIFF* tif, TIFFDirEntry* direntry, double** значение);
-static enum TIFFReadDirEntryErr TIFFReadDirEntryIfd8Array(TIFF* tif, TIFFDirEntry* direntry, uint64** значение);
+static enum TIFFReadDirEntryErr TIFFReadDirEntryArray(TIFF* tif, TIFFDirEntry* direntry, uint32* count, uint32 desttypesize, void** value);
+static enum TIFFReadDirEntryErr TIFFReadDirEntryByteArray(TIFF* tif, TIFFDirEntry* direntry, uint8** value);
+static enum TIFFReadDirEntryErr TIFFReadDirEntrySbyteArray(TIFF* tif, TIFFDirEntry* direntry, int8** value);
+static enum TIFFReadDirEntryErr TIFFReadDirEntryShortArray(TIFF* tif, TIFFDirEntry* direntry, uint16** value);
+static enum TIFFReadDirEntryErr TIFFReadDirEntrySshortArray(TIFF* tif, TIFFDirEntry* direntry, int16** value);
+static enum TIFFReadDirEntryErr TIFFReadDirEntryLongArray(TIFF* tif, TIFFDirEntry* direntry, uint32** value);
+static enum TIFFReadDirEntryErr TIFFReadDirEntrySlongArray(TIFF* tif, TIFFDirEntry* direntry, int32** value);
+static enum TIFFReadDirEntryErr TIFFReadDirEntryLong8Array(TIFF* tif, TIFFDirEntry* direntry, uint64** value);
+static enum TIFFReadDirEntryErr TIFFReadDirEntrySlong8Array(TIFF* tif, TIFFDirEntry* direntry, int64** value);
+static enum TIFFReadDirEntryErr TIFFReadDirEntryFloatArray(TIFF* tif, TIFFDirEntry* direntry, float** value);
+static enum TIFFReadDirEntryErr TIFFReadDirEntryDoubleArray(TIFF* tif, TIFFDirEntry* direntry, double** value);
+static enum TIFFReadDirEntryErr TIFFReadDirEntryIfd8Array(TIFF* tif, TIFFDirEntry* direntry, uint64** value);
 
-static enum TIFFReadDirEntryErr TIFFReadDirEntryPersampleShort(TIFF* tif, TIFFDirEntry* direntry, uint16* значение);
+static enum TIFFReadDirEntryErr TIFFReadDirEntryPersampleShort(TIFF* tif, TIFFDirEntry* direntry, uint16* value);
 #if 0
-static enum TIFFReadDirEntryErr TIFFReadDirEntryPersampleDouble(TIFF* tif, TIFFDirEntry* direntry, double* значение);
+static enum TIFFReadDirEntryErr TIFFReadDirEntryPersampleDouble(TIFF* tif, TIFFDirEntry* direntry, double* value);
 #endif
 
-static void TIFFReadDirEntryCheckedByte(TIFF* tif, TIFFDirEntry* direntry, uint8* значение);
-static void TIFFReadDirEntryCheckedSbyte(TIFF* tif, TIFFDirEntry* direntry, int8* значение);
-static void TIFFReadDirEntryCheckedShort(TIFF* tif, TIFFDirEntry* direntry, uint16* значение);
-static void TIFFReadDirEntryCheckedSshort(TIFF* tif, TIFFDirEntry* direntry, int16* значение);
-static void TIFFReadDirEntryCheckedLong(TIFF* tif, TIFFDirEntry* direntry, uint32* значение);
-static void TIFFReadDirEntryCheckedSlong(TIFF* tif, TIFFDirEntry* direntry, int32* значение);
-static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckedLong8(TIFF* tif, TIFFDirEntry* direntry, uint64* значение);
-static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckedSlong8(TIFF* tif, TIFFDirEntry* direntry, int64* значение);
-static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckedRational(TIFF* tif, TIFFDirEntry* direntry, double* значение);
-static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckedSrational(TIFF* tif, TIFFDirEntry* direntry, double* значение);
-static void TIFFReadDirEntryCheckedFloat(TIFF* tif, TIFFDirEntry* direntry, float* значение);
-static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckedDouble(TIFF* tif, TIFFDirEntry* direntry, double* значение);
+static void TIFFReadDirEntryCheckedByte(TIFF* tif, TIFFDirEntry* direntry, uint8* value);
+static void TIFFReadDirEntryCheckedSbyte(TIFF* tif, TIFFDirEntry* direntry, int8* value);
+static void TIFFReadDirEntryCheckedShort(TIFF* tif, TIFFDirEntry* direntry, uint16* value);
+static void TIFFReadDirEntryCheckedSshort(TIFF* tif, TIFFDirEntry* direntry, int16* value);
+static void TIFFReadDirEntryCheckedLong(TIFF* tif, TIFFDirEntry* direntry, uint32* value);
+static void TIFFReadDirEntryCheckedSlong(TIFF* tif, TIFFDirEntry* direntry, int32* value);
+static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckedLong8(TIFF* tif, TIFFDirEntry* direntry, uint64* value);
+static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckedSlong8(TIFF* tif, TIFFDirEntry* direntry, int64* value);
+static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckedRational(TIFF* tif, TIFFDirEntry* direntry, double* value);
+static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckedSrational(TIFF* tif, TIFFDirEntry* direntry, double* value);
+static void TIFFReadDirEntryCheckedFloat(TIFF* tif, TIFFDirEntry* direntry, float* value);
+static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckedDouble(TIFF* tif, TIFFDirEntry* direntry, double* value);
 
-static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeByteSbyte(int8 значение);
-static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeByteShort(uint16 значение);
-static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeByteSshort(int16 значение);
-static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeByteLong(uint32 значение);
-static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeByteSlong(int32 значение);
-static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeByteLong8(uint64 значение);
-static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeByteSlong8(int64 значение);
+static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeByteSbyte(int8 value);
+static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeByteShort(uint16 value);
+static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeByteSshort(int16 value);
+static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeByteLong(uint32 value);
+static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeByteSlong(int32 value);
+static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeByteLong8(uint64 value);
+static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeByteSlong8(int64 value);
 
-static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeSbyteByte(uint8 значение);
-static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeSbyteShort(uint16 значение);
-static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeSbyteSshort(int16 значение);
-static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeSbyteLong(uint32 значение);
-static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeSbyteSlong(int32 значение);
-static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeSbyteLong8(uint64 значение);
-static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeSbyteSlong8(int64 значение);
+static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeSbyteByte(uint8 value);
+static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeSbyteShort(uint16 value);
+static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeSbyteSshort(int16 value);
+static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeSbyteLong(uint32 value);
+static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeSbyteSlong(int32 value);
+static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeSbyteLong8(uint64 value);
+static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeSbyteSlong8(int64 value);
 
-static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeShortSbyte(int8 значение);
-static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeShortSshort(int16 значение);
-static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeShortLong(uint32 значение);
-static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeShortSlong(int32 значение);
-static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeShortLong8(uint64 значение);
-static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeShortSlong8(int64 значение);
+static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeShortSbyte(int8 value);
+static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeShortSshort(int16 value);
+static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeShortLong(uint32 value);
+static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeShortSlong(int32 value);
+static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeShortLong8(uint64 value);
+static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeShortSlong8(int64 value);
 
-static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeSshortShort(uint16 значение);
-static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeSshortLong(uint32 значение);
-static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeSshortSlong(int32 значение);
-static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeSshortLong8(uint64 значение);
-static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeSshortSlong8(int64 значение);
+static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeSshortShort(uint16 value);
+static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeSshortLong(uint32 value);
+static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeSshortSlong(int32 value);
+static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeSshortLong8(uint64 value);
+static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeSshortSlong8(int64 value);
 
-static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeLongSbyte(int8 значение);
-static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeLongSshort(int16 значение);
-static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeLongSlong(int32 значение);
-static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeLongLong8(uint64 значение);
-static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeLongSlong8(int64 значение);
+static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeLongSbyte(int8 value);
+static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeLongSshort(int16 value);
+static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeLongSlong(int32 value);
+static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeLongLong8(uint64 value);
+static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeLongSlong8(int64 value);
 
-static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeSlongLong(uint32 значение);
-static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeSlongLong8(uint64 значение);
-static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeSlongSlong8(int64 значение);
+static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeSlongLong(uint32 value);
+static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeSlongLong8(uint64 value);
+static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeSlongSlong8(int64 value);
 
-static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeLong8Sbyte(int8 значение);
-static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeLong8Sshort(int16 значение);
-static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeLong8Slong(int32 значение);
-static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeLong8Slong8(int64 значение);
+static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeLong8Sbyte(int8 value);
+static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeLong8Sshort(int16 value);
+static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeLong8Slong(int32 value);
+static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeLong8Slong8(int64 value);
 
-static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeSlong8Long8(uint64 значение);
+static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeSlong8Long8(uint64 value);
 
 static enum TIFFReadDirEntryErr TIFFReadDirEntryData(TIFF* tif, uint64 offset, tmsize_t size, void* dest);
 static void TIFFReadDirEntryOutputErr(TIFF* tif, enum TIFFReadDirEntryErr err, const char* module, const char* tagname, int recover);
@@ -166,7 +166,7 @@ static int TIFFFetchStripThing(TIFF* tif, TIFFDirEntry* dir, uint32 nstrips, uin
 static int TIFFFetchSubjectDistance(TIFF*, TIFFDirEntry*);
 static void ChopUpSingleUncompressedStrip(TIFF*);
 static void TryChopUpUncompressedBigTiff(TIFF*);
-static uint64 TIFFReadUInt64(const uint8 *значение);
+static uint64 TIFFReadUInt64(const uint8 *value);
 static int _TIFFGetMaxColorChannels(uint16 photometric);
 
 static int _TIFFFillStrilesInternal( TIFF *tif, int loadStripByteCount );
@@ -181,25 +181,25 @@ typedef union _UInt64Aligned_t
 } UInt64Aligned_t;
 
 /*
-  Unaligned safe copy of a uint64 значение from an octet array.
+  Unaligned safe copy of a uint64 value from an octet array.
 */
-static uint64 TIFFReadUInt64(const uint8 *значение)
+static uint64 TIFFReadUInt64(const uint8 *value)
 {
 	UInt64Aligned_t result;
 
-	result.c[0]=значение[0];
-	result.c[1]=значение[1];
-	result.c[2]=значение[2];
-	result.c[3]=значение[3];
-	result.c[4]=значение[4];
-	result.c[5]=значение[5];
-	result.c[6]=значение[6];
-	result.c[7]=значение[7];
+	result.c[0]=value[0];
+	result.c[1]=value[1];
+	result.c[2]=value[2];
+	result.c[3]=value[3];
+	result.c[4]=value[4];
+	result.c[5]=value[5];
+	result.c[6]=value[6];
+	result.c[7]=value[7];
 
 	return result.l;
 }
 
-static enum TIFFReadDirEntryErr TIFFReadDirEntryByte(TIFF* tif, TIFFDirEntry* direntry, uint8* значение)
+static enum TIFFReadDirEntryErr TIFFReadDirEntryByte(TIFF* tif, TIFFDirEntry* direntry, uint8* value)
 {
 	enum TIFFReadDirEntryErr err;
 	if (direntry->tdir_count!=1)
@@ -208,7 +208,7 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntryByte(TIFF* tif, TIFFDirEntry* di
 	{
 		case TIFF_BYTE:
 		case TIFF_UNDEFINED:	/* Support to read TIFF_UNDEFINED with field_readcount==1 */
-			TIFFReadDirEntryCheckedByte(tif,direntry,значение);
+			TIFFReadDirEntryCheckedByte(tif,direntry,value);
 			return(TIFFReadDirEntryErrOk);
 		case TIFF_SBYTE:
 			{
@@ -217,7 +217,7 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntryByte(TIFF* tif, TIFFDirEntry* di
 				err=TIFFReadDirEntryCheckRangeByteSbyte(m);
 				if (err!=TIFFReadDirEntryErrOk)
 					return(err);
-				*значение=(uint8)m;
+				*value=(uint8)m;
 				return(TIFFReadDirEntryErrOk);
 			}
 		case TIFF_SHORT:
@@ -227,7 +227,7 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntryByte(TIFF* tif, TIFFDirEntry* di
 				err=TIFFReadDirEntryCheckRangeByteShort(m);
 				if (err!=TIFFReadDirEntryErrOk)
 					return(err);
-				*значение=(uint8)m;
+				*value=(uint8)m;
 				return(TIFFReadDirEntryErrOk);
 			}
 		case TIFF_SSHORT:
@@ -237,7 +237,7 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntryByte(TIFF* tif, TIFFDirEntry* di
 				err=TIFFReadDirEntryCheckRangeByteSshort(m);
 				if (err!=TIFFReadDirEntryErrOk)
 					return(err);
-				*значение=(uint8)m;
+				*value=(uint8)m;
 				return(TIFFReadDirEntryErrOk);
 			}
 		case TIFF_LONG:
@@ -247,7 +247,7 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntryByte(TIFF* tif, TIFFDirEntry* di
 				err=TIFFReadDirEntryCheckRangeByteLong(m);
 				if (err!=TIFFReadDirEntryErrOk)
 					return(err);
-				*значение=(uint8)m;
+				*value=(uint8)m;
 				return(TIFFReadDirEntryErrOk);
 			}
 		case TIFF_SLONG:
@@ -257,7 +257,7 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntryByte(TIFF* tif, TIFFDirEntry* di
 				err=TIFFReadDirEntryCheckRangeByteSlong(m);
 				if (err!=TIFFReadDirEntryErrOk)
 					return(err);
-				*значение=(uint8)m;
+				*value=(uint8)m;
 				return(TIFFReadDirEntryErrOk);
 			}
 		case TIFF_LONG8:
@@ -269,7 +269,7 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntryByte(TIFF* tif, TIFFDirEntry* di
 				err=TIFFReadDirEntryCheckRangeByteLong8(m);
 				if (err!=TIFFReadDirEntryErrOk)
 					return(err);
-				*значение=(uint8)m;
+				*value=(uint8)m;
 				return(TIFFReadDirEntryErrOk);
 			}
 		case TIFF_SLONG8:
@@ -281,7 +281,7 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntryByte(TIFF* tif, TIFFDirEntry* di
 				err=TIFFReadDirEntryCheckRangeByteSlong8(m);
 				if (err!=TIFFReadDirEntryErrOk)
 					return(err);
-				*значение=(uint8)m;
+				*value=(uint8)m;
 				return(TIFFReadDirEntryErrOk);
 			}
 		default:
@@ -289,7 +289,7 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntryByte(TIFF* tif, TIFFDirEntry* di
 	}
 }
 
-static enum TIFFReadDirEntryErr TIFFReadDirEntryShort(TIFF* tif, TIFFDirEntry* direntry, uint16* значение)
+static enum TIFFReadDirEntryErr TIFFReadDirEntryShort(TIFF* tif, TIFFDirEntry* direntry, uint16* value)
 {
 	enum TIFFReadDirEntryErr err;
 	if (direntry->tdir_count!=1)
@@ -300,7 +300,7 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntryShort(TIFF* tif, TIFFDirEntry* d
 			{
 				uint8 m;
 				TIFFReadDirEntryCheckedByte(tif,direntry,&m);
-				*значение=(uint16)m;
+				*value=(uint16)m;
 				return(TIFFReadDirEntryErrOk);
 			}
 		case TIFF_SBYTE:
@@ -310,11 +310,11 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntryShort(TIFF* tif, TIFFDirEntry* d
 				err=TIFFReadDirEntryCheckRangeShortSbyte(m);
 				if (err!=TIFFReadDirEntryErrOk)
 					return(err);
-				*значение=(uint16)m;
+				*value=(uint16)m;
 				return(TIFFReadDirEntryErrOk);
 			}
 		case TIFF_SHORT:
-			TIFFReadDirEntryCheckedShort(tif,direntry,значение);
+			TIFFReadDirEntryCheckedShort(tif,direntry,value);
 			return(TIFFReadDirEntryErrOk);
 		case TIFF_SSHORT:
 			{
@@ -323,7 +323,7 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntryShort(TIFF* tif, TIFFDirEntry* d
 				err=TIFFReadDirEntryCheckRangeShortSshort(m);
 				if (err!=TIFFReadDirEntryErrOk)
 					return(err);
-				*значение=(uint16)m;
+				*value=(uint16)m;
 				return(TIFFReadDirEntryErrOk);
 			}
 		case TIFF_LONG:
@@ -333,7 +333,7 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntryShort(TIFF* tif, TIFFDirEntry* d
 				err=TIFFReadDirEntryCheckRangeShortLong(m);
 				if (err!=TIFFReadDirEntryErrOk)
 					return(err);
-				*значение=(uint16)m;
+				*value=(uint16)m;
 				return(TIFFReadDirEntryErrOk);
 			}
 		case TIFF_SLONG:
@@ -343,7 +343,7 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntryShort(TIFF* tif, TIFFDirEntry* d
 				err=TIFFReadDirEntryCheckRangeShortSlong(m);
 				if (err!=TIFFReadDirEntryErrOk)
 					return(err);
-				*значение=(uint16)m;
+				*value=(uint16)m;
 				return(TIFFReadDirEntryErrOk);
 			}
 		case TIFF_LONG8:
@@ -355,7 +355,7 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntryShort(TIFF* tif, TIFFDirEntry* d
 				err=TIFFReadDirEntryCheckRangeShortLong8(m);
 				if (err!=TIFFReadDirEntryErrOk)
 					return(err);
-				*значение=(uint16)m;
+				*value=(uint16)m;
 				return(TIFFReadDirEntryErrOk);
 			}
 		case TIFF_SLONG8:
@@ -367,7 +367,7 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntryShort(TIFF* tif, TIFFDirEntry* d
 				err=TIFFReadDirEntryCheckRangeShortSlong8(m);
 				if (err!=TIFFReadDirEntryErrOk)
 					return(err);
-				*значение=(uint16)m;
+				*value=(uint16)m;
 				return(TIFFReadDirEntryErrOk);
 			}
 		default:
@@ -375,7 +375,7 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntryShort(TIFF* tif, TIFFDirEntry* d
 	}
 }
 
-static enum TIFFReadDirEntryErr TIFFReadDirEntryLong(TIFF* tif, TIFFDirEntry* direntry, uint32* значение)
+static enum TIFFReadDirEntryErr TIFFReadDirEntryLong(TIFF* tif, TIFFDirEntry* direntry, uint32* value)
 {
 	enum TIFFReadDirEntryErr err;
 	if (direntry->tdir_count!=1)
@@ -386,7 +386,7 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntryLong(TIFF* tif, TIFFDirEntry* di
 			{
 				uint8 m;
 				TIFFReadDirEntryCheckedByte(tif,direntry,&m);
-				*значение=(uint32)m;
+				*value=(uint32)m;
 				return(TIFFReadDirEntryErrOk);
 			}
 		case TIFF_SBYTE:
@@ -396,14 +396,14 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntryLong(TIFF* tif, TIFFDirEntry* di
 				err=TIFFReadDirEntryCheckRangeLongSbyte(m);
 				if (err!=TIFFReadDirEntryErrOk)
 					return(err);
-				*значение=(uint32)m;
+				*value=(uint32)m;
 				return(TIFFReadDirEntryErrOk);
 			}
 		case TIFF_SHORT:
 			{
 				uint16 m;
 				TIFFReadDirEntryCheckedShort(tif,direntry,&m);
-				*значение=(uint32)m;
+				*value=(uint32)m;
 				return(TIFFReadDirEntryErrOk);
 			}
 		case TIFF_SSHORT:
@@ -413,11 +413,11 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntryLong(TIFF* tif, TIFFDirEntry* di
 				err=TIFFReadDirEntryCheckRangeLongSshort(m);
 				if (err!=TIFFReadDirEntryErrOk)
 					return(err);
-				*значение=(uint32)m;
+				*value=(uint32)m;
 				return(TIFFReadDirEntryErrOk);
 			}
 		case TIFF_LONG:
-			TIFFReadDirEntryCheckedLong(tif,direntry,значение);
+			TIFFReadDirEntryCheckedLong(tif,direntry,value);
 			return(TIFFReadDirEntryErrOk);
 		case TIFF_SLONG:
 			{
@@ -426,7 +426,7 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntryLong(TIFF* tif, TIFFDirEntry* di
 				err=TIFFReadDirEntryCheckRangeLongSlong(m);
 				if (err!=TIFFReadDirEntryErrOk)
 					return(err);
-				*значение=(uint32)m;
+				*value=(uint32)m;
 				return(TIFFReadDirEntryErrOk);
 			}
 		case TIFF_LONG8:
@@ -438,7 +438,7 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntryLong(TIFF* tif, TIFFDirEntry* di
 				err=TIFFReadDirEntryCheckRangeLongLong8(m);
 				if (err!=TIFFReadDirEntryErrOk)
 					return(err);
-				*значение=(uint32)m;
+				*value=(uint32)m;
 				return(TIFFReadDirEntryErrOk);
 			}
 		case TIFF_SLONG8:
@@ -450,7 +450,7 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntryLong(TIFF* tif, TIFFDirEntry* di
 				err=TIFFReadDirEntryCheckRangeLongSlong8(m);
 				if (err!=TIFFReadDirEntryErrOk)
 					return(err);
-				*значение=(uint32)m;
+				*value=(uint32)m;
 				return(TIFFReadDirEntryErrOk);
 			}
 		default:
@@ -458,7 +458,7 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntryLong(TIFF* tif, TIFFDirEntry* di
 	}
 }
 
-static enum TIFFReadDirEntryErr TIFFReadDirEntryLong8(TIFF* tif, TIFFDirEntry* direntry, uint64* значение)
+static enum TIFFReadDirEntryErr TIFFReadDirEntryLong8(TIFF* tif, TIFFDirEntry* direntry, uint64* value)
 {
 	enum TIFFReadDirEntryErr err;
 	if (direntry->tdir_count!=1)
@@ -469,7 +469,7 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntryLong8(TIFF* tif, TIFFDirEntry* d
 			{
 				uint8 m;
 				TIFFReadDirEntryCheckedByte(tif,direntry,&m);
-				*значение=(uint64)m;
+				*value=(uint64)m;
 				return(TIFFReadDirEntryErrOk);
 			}
 		case TIFF_SBYTE:
@@ -479,14 +479,14 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntryLong8(TIFF* tif, TIFFDirEntry* d
 				err=TIFFReadDirEntryCheckRangeLong8Sbyte(m);
 				if (err!=TIFFReadDirEntryErrOk)
 					return(err);
-				*значение=(uint64)m;
+				*value=(uint64)m;
 				return(TIFFReadDirEntryErrOk);
 			}
 		case TIFF_SHORT:
 			{
 				uint16 m;
 				TIFFReadDirEntryCheckedShort(tif,direntry,&m);
-				*значение=(uint64)m;
+				*value=(uint64)m;
 				return(TIFFReadDirEntryErrOk);
 			}
 		case TIFF_SSHORT:
@@ -496,14 +496,14 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntryLong8(TIFF* tif, TIFFDirEntry* d
 				err=TIFFReadDirEntryCheckRangeLong8Sshort(m);
 				if (err!=TIFFReadDirEntryErrOk)
 					return(err);
-				*значение=(uint64)m;
+				*value=(uint64)m;
 				return(TIFFReadDirEntryErrOk);
 			}
 		case TIFF_LONG:
 			{
 				uint32 m;
 				TIFFReadDirEntryCheckedLong(tif,direntry,&m);
-				*значение=(uint64)m;
+				*value=(uint64)m;
 				return(TIFFReadDirEntryErrOk);
 			}
 		case TIFF_SLONG:
@@ -513,11 +513,11 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntryLong8(TIFF* tif, TIFFDirEntry* d
 				err=TIFFReadDirEntryCheckRangeLong8Slong(m);
 				if (err!=TIFFReadDirEntryErrOk)
 					return(err);
-				*значение=(uint64)m;
+				*value=(uint64)m;
 				return(TIFFReadDirEntryErrOk);
 			}
 		case TIFF_LONG8:
-			err=TIFFReadDirEntryCheckedLong8(tif,direntry,значение);
+			err=TIFFReadDirEntryCheckedLong8(tif,direntry,value);
 			return(err);
 		case TIFF_SLONG8:
 			{
@@ -528,7 +528,7 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntryLong8(TIFF* tif, TIFFDirEntry* d
 				err=TIFFReadDirEntryCheckRangeLong8Slong8(m);
 				if (err!=TIFFReadDirEntryErrOk)
 					return(err);
-				*значение=(uint64)m;
+				*value=(uint64)m;
 				return(TIFFReadDirEntryErrOk);
 			}
 		default:
@@ -536,7 +536,7 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntryLong8(TIFF* tif, TIFFDirEntry* d
 	}
 }
 
-static enum TIFFReadDirEntryErr TIFFReadDirEntryFloat(TIFF* tif, TIFFDirEntry* direntry, float* значение)
+static enum TIFFReadDirEntryErr TIFFReadDirEntryFloat(TIFF* tif, TIFFDirEntry* direntry, float* value)
 {
 	enum TIFFReadDirEntryErr err;
 	if (direntry->tdir_count!=1)
@@ -547,42 +547,42 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntryFloat(TIFF* tif, TIFFDirEntry* d
 			{
 				uint8 m;
 				TIFFReadDirEntryCheckedByte(tif,direntry,&m);
-				*значение=(float)m;
+				*value=(float)m;
 				return(TIFFReadDirEntryErrOk);
 			}
 		case TIFF_SBYTE:
 			{
 				int8 m;
 				TIFFReadDirEntryCheckedSbyte(tif,direntry,&m);
-				*значение=(float)m;
+				*value=(float)m;
 				return(TIFFReadDirEntryErrOk);
 			}
 		case TIFF_SHORT:
 			{
 				uint16 m;
 				TIFFReadDirEntryCheckedShort(tif,direntry,&m);
-				*значение=(float)m;
+				*value=(float)m;
 				return(TIFFReadDirEntryErrOk);
 			}
 		case TIFF_SSHORT:
 			{
 				int16 m;
 				TIFFReadDirEntryCheckedSshort(tif,direntry,&m);
-				*значение=(float)m;
+				*value=(float)m;
 				return(TIFFReadDirEntryErrOk);
 			}
 		case TIFF_LONG:
 			{
 				uint32 m;
 				TIFFReadDirEntryCheckedLong(tif,direntry,&m);
-				*значение=(float)m;
+				*value=(float)m;
 				return(TIFFReadDirEntryErrOk);
 			}
 		case TIFF_SLONG:
 			{
 				int32 m;
 				TIFFReadDirEntryCheckedSlong(tif,direntry,&m);
-				*значение=(float)m;
+				*value=(float)m;
 				return(TIFFReadDirEntryErrOk);
 			}
 		case TIFF_LONG8:
@@ -597,9 +597,9 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntryFloat(TIFF* tif, TIFFDirEntry* d
 				 * of 64-bit integers into floating point
 				 * values.
 				 */
-				*значение = _TIFFUInt64ToFloat(m);
+				*value = _TIFFUInt64ToFloat(m);
 #else
-				*значение=(float)m;
+				*value=(float)m;
 #endif
 				return(TIFFReadDirEntryErrOk);
 			}
@@ -609,7 +609,7 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntryFloat(TIFF* tif, TIFFDirEntry* d
 				err=TIFFReadDirEntryCheckedSlong8(tif,direntry,&m);
 				if (err!=TIFFReadDirEntryErrOk)
 					return(err);
-				*значение=(float)m;
+				*value=(float)m;
 				return(TIFFReadDirEntryErrOk);
 			}
 		case TIFF_RATIONAL:
@@ -618,7 +618,7 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntryFloat(TIFF* tif, TIFFDirEntry* d
 				err=TIFFReadDirEntryCheckedRational(tif,direntry,&m);
 				if (err!=TIFFReadDirEntryErrOk)
 					return(err);
-				*значение=(float)m;
+				*value=(float)m;
 				return(TIFFReadDirEntryErrOk);
 			}
 		case TIFF_SRATIONAL:
@@ -627,11 +627,11 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntryFloat(TIFF* tif, TIFFDirEntry* d
 				err=TIFFReadDirEntryCheckedSrational(tif,direntry,&m);
 				if (err!=TIFFReadDirEntryErrOk)
 					return(err);
-				*значение=(float)m;
+				*value=(float)m;
 				return(TIFFReadDirEntryErrOk);
 			}
 		case TIFF_FLOAT:
-			TIFFReadDirEntryCheckedFloat(tif,direntry,значение);
+			TIFFReadDirEntryCheckedFloat(tif,direntry,value);
 			return(TIFFReadDirEntryErrOk);
 		case TIFF_DOUBLE:
 			{
@@ -641,7 +641,7 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntryFloat(TIFF* tif, TIFFDirEntry* d
 					return(err);
 				if ((m > FLT_MAX) || (m < FLT_MIN))
 					return(TIFFReadDirEntryErrRange);
-				*значение=(float)m;
+				*value=(float)m;
 				return(TIFFReadDirEntryErrOk);
 			}
 		default:
@@ -649,7 +649,7 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntryFloat(TIFF* tif, TIFFDirEntry* d
 	}
 }
 
-static enum TIFFReadDirEntryErr TIFFReadDirEntryDouble(TIFF* tif, TIFFDirEntry* direntry, double* значение)
+static enum TIFFReadDirEntryErr TIFFReadDirEntryDouble(TIFF* tif, TIFFDirEntry* direntry, double* value)
 {
 	enum TIFFReadDirEntryErr err;
 	if (direntry->tdir_count!=1)
@@ -660,42 +660,42 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntryDouble(TIFF* tif, TIFFDirEntry* 
 			{
 				uint8 m;
 				TIFFReadDirEntryCheckedByte(tif,direntry,&m);
-				*значение=(double)m;
+				*value=(double)m;
 				return(TIFFReadDirEntryErrOk);
 			}
 		case TIFF_SBYTE:
 			{
 				int8 m;
 				TIFFReadDirEntryCheckedSbyte(tif,direntry,&m);
-				*значение=(double)m;
+				*value=(double)m;
 				return(TIFFReadDirEntryErrOk);
 			}
 		case TIFF_SHORT:
 			{
 				uint16 m;
 				TIFFReadDirEntryCheckedShort(tif,direntry,&m);
-				*значение=(double)m;
+				*value=(double)m;
 				return(TIFFReadDirEntryErrOk);
 			}
 		case TIFF_SSHORT:
 			{
 				int16 m;
 				TIFFReadDirEntryCheckedSshort(tif,direntry,&m);
-				*значение=(double)m;
+				*value=(double)m;
 				return(TIFFReadDirEntryErrOk);
 			}
 		case TIFF_LONG:
 			{
 				uint32 m;
 				TIFFReadDirEntryCheckedLong(tif,direntry,&m);
-				*значение=(double)m;
+				*value=(double)m;
 				return(TIFFReadDirEntryErrOk);
 			}
 		case TIFF_SLONG:
 			{
 				int32 m;
 				TIFFReadDirEntryCheckedSlong(tif,direntry,&m);
-				*значение=(double)m;
+				*value=(double)m;
 				return(TIFFReadDirEntryErrOk);
 			}
 		case TIFF_LONG8:
@@ -710,9 +710,9 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntryDouble(TIFF* tif, TIFFDirEntry* 
 				 * of 64-bit integers into floating point
 				 * values.
 				 */
-				*значение = _TIFFUInt64ToDouble(m);
+				*value = _TIFFUInt64ToDouble(m);
 #else
-				*значение = (double)m;
+				*value = (double)m;
 #endif
 				return(TIFFReadDirEntryErrOk);
 			}
@@ -722,31 +722,31 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntryDouble(TIFF* tif, TIFFDirEntry* 
 				err=TIFFReadDirEntryCheckedSlong8(tif,direntry,&m);
 				if (err!=TIFFReadDirEntryErrOk)
 					return(err);
-				*значение=(double)m;
+				*value=(double)m;
 				return(TIFFReadDirEntryErrOk);
 			}
 		case TIFF_RATIONAL:
-			err=TIFFReadDirEntryCheckedRational(tif,direntry,значение);
+			err=TIFFReadDirEntryCheckedRational(tif,direntry,value);
 			return(err);
 		case TIFF_SRATIONAL:
-			err=TIFFReadDirEntryCheckedSrational(tif,direntry,значение);
+			err=TIFFReadDirEntryCheckedSrational(tif,direntry,value);
 			return(err);
 		case TIFF_FLOAT:
 			{
 				float m;
 				TIFFReadDirEntryCheckedFloat(tif,direntry,&m);
-				*значение=(double)m;
+				*value=(double)m;
 				return(TIFFReadDirEntryErrOk);
 			}
 		case TIFF_DOUBLE:
-			err=TIFFReadDirEntryCheckedDouble(tif,direntry,значение);
+			err=TIFFReadDirEntryCheckedDouble(tif,direntry,value);
 			return(err);
 		default:
 			return(TIFFReadDirEntryErrType);
 	}
 }
 
-static enum TIFFReadDirEntryErr TIFFReadDirEntryIfd8(TIFF* tif, TIFFDirEntry* direntry, uint64* значение)
+static enum TIFFReadDirEntryErr TIFFReadDirEntryIfd8(TIFF* tif, TIFFDirEntry* direntry, uint64* value)
 {
 	enum TIFFReadDirEntryErr err;
 	if (direntry->tdir_count!=1)
@@ -758,12 +758,12 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntryIfd8(TIFF* tif, TIFFDirEntry* di
 			{
 				uint32 m;
 				TIFFReadDirEntryCheckedLong(tif,direntry,&m);
-				*значение=(uint64)m;
+				*value=(uint64)m;
 				return(TIFFReadDirEntryErrOk);
 			}
 		case TIFF_LONG8:
 		case TIFF_IFD8:
-			err=TIFFReadDirEntryCheckedLong8(tif,direntry,значение);
+			err=TIFFReadDirEntryCheckedLong8(tif,direntry,value);
 			return(err);
 		default:
 			return(TIFFReadDirEntryErrType);
@@ -832,7 +832,7 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntryDataAndRealloc(
 
 static enum TIFFReadDirEntryErr TIFFReadDirEntryArrayWithLimit(
     TIFF* tif, TIFFDirEntry* direntry, uint32* count, uint32 desttypesize,
-    void** значение, uint64 maxcount)
+    void** value, uint64 maxcount)
 {
 	int typesize;
 	uint32 datasize;
@@ -845,14 +845,14 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntryArrayWithLimit(
 
 	if ((target_count64==0)||(typesize==0))
 	{
-		*значение=0;
+		*value=0;
 		return(TIFFReadDirEntryErrOk);
 	}
         (void) desttypesize;
 
         /* 
          * As a sanity check, make sure we have no more than a 2GB tag array 
-         * in either the current data тип or the dest data тип.  This also
+         * in either the current data type or the dest data type.  This also
          * avoids problems with overflow of tmsize_t on 32bit systems.
          */
 	if ((uint64)(2147483647/typesize)<target_count64)
@@ -921,17 +921,17 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntryArrayWithLimit(
 			}
 		}
 	}
-	*значение=data;
+	*value=data;
 	return(TIFFReadDirEntryErrOk);
 }
 
-static enum TIFFReadDirEntryErr TIFFReadDirEntryArray(TIFF* tif, TIFFDirEntry* direntry, uint32* count, uint32 desttypesize, void** значение)
+static enum TIFFReadDirEntryErr TIFFReadDirEntryArray(TIFF* tif, TIFFDirEntry* direntry, uint32* count, uint32 desttypesize, void** value)
 {
     return TIFFReadDirEntryArrayWithLimit(tif, direntry, count,
-                                          desttypesize, значение, ~((uint64)0));
+                                          desttypesize, value, ~((uint64)0));
 }
 
-static enum TIFFReadDirEntryErr TIFFReadDirEntryByteArray(TIFF* tif, TIFFDirEntry* direntry, uint8** значение)
+static enum TIFFReadDirEntryErr TIFFReadDirEntryByteArray(TIFF* tif, TIFFDirEntry* direntry, uint8** value)
 {
 	enum TIFFReadDirEntryErr err;
 	uint32 count;
@@ -956,7 +956,7 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntryByteArray(TIFF* tif, TIFFDirEntr
 	err=TIFFReadDirEntryArray(tif,direntry,&count,1,&origdata);
 	if ((err!=TIFFReadDirEntryErrOk)||(origdata==0))
 	{
-		*значение=0;
+		*value=0;
 		return(err);
 	}
 	switch (direntry->tdir_type)
@@ -964,7 +964,7 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntryByteArray(TIFF* tif, TIFFDirEntr
 		case TIFF_ASCII:
 		case TIFF_UNDEFINED:
 		case TIFF_BYTE:
-			*значение=(uint8*)origdata;
+			*value=(uint8*)origdata;
 			return(TIFFReadDirEntryErrOk);
 		case TIFF_SBYTE:
 			{
@@ -981,7 +981,7 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntryByteArray(TIFF* tif, TIFFDirEntr
 					}
 					m++;
 				}
-				*значение=(uint8*)origdata;
+				*value=(uint8*)origdata;
 				return(TIFFReadDirEntryErrOk);
 			}
 	}
@@ -1108,11 +1108,11 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntryByteArray(TIFF* tif, TIFFDirEntr
 		_TIFFfree(data);
 		return(err);
 	}
-	*значение=data;
+	*value=data;
 	return(TIFFReadDirEntryErrOk);
 }
 
-static enum TIFFReadDirEntryErr TIFFReadDirEntrySbyteArray(TIFF* tif, TIFFDirEntry* direntry, int8** значение)
+static enum TIFFReadDirEntryErr TIFFReadDirEntrySbyteArray(TIFF* tif, TIFFDirEntry* direntry, int8** value)
 {
 	enum TIFFReadDirEntryErr err;
 	uint32 count;
@@ -1136,7 +1136,7 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntrySbyteArray(TIFF* tif, TIFFDirEnt
 	err=TIFFReadDirEntryArray(tif,direntry,&count,1,&origdata);
 	if ((err!=TIFFReadDirEntryErrOk)||(origdata==0))
 	{
-		*значение=0;
+		*value=0;
 		return(err);
 	}
 	switch (direntry->tdir_type)
@@ -1157,11 +1157,11 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntrySbyteArray(TIFF* tif, TIFFDirEnt
 					}
 					m++;
 				}
-				*значение=(int8*)origdata;
+				*value=(int8*)origdata;
 				return(TIFFReadDirEntryErrOk);
 			}
 		case TIFF_SBYTE:
-			*значение=(int8*)origdata;
+			*value=(int8*)origdata;
 			return(TIFFReadDirEntryErrOk);
 	}
 	data=(int8*)_TIFFmalloc(count);
@@ -1287,11 +1287,11 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntrySbyteArray(TIFF* tif, TIFFDirEnt
 		_TIFFfree(data);
 		return(err);
 	}
-	*значение=data;
+	*value=data;
 	return(TIFFReadDirEntryErrOk);
 }
 
-static enum TIFFReadDirEntryErr TIFFReadDirEntryShortArray(TIFF* tif, TIFFDirEntry* direntry, uint16** значение)
+static enum TIFFReadDirEntryErr TIFFReadDirEntryShortArray(TIFF* tif, TIFFDirEntry* direntry, uint16** value)
 {
 	enum TIFFReadDirEntryErr err;
 	uint32 count;
@@ -1314,15 +1314,15 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntryShortArray(TIFF* tif, TIFFDirEnt
 	err=TIFFReadDirEntryArray(tif,direntry,&count,2,&origdata);
 	if ((err!=TIFFReadDirEntryErrOk)||(origdata==0))
 	{
-		*значение=0;
+		*value=0;
 		return(err);
 	}
 	switch (direntry->tdir_type)
 	{
 		case TIFF_SHORT:
-			*значение=(uint16*)origdata;
+			*value=(uint16*)origdata;
 			if (tif->tif_flags&TIFF_SWAB)
-				TIFFSwabArrayOfShort(*значение,count);  
+				TIFFSwabArrayOfShort(*value,count);  
 			return(TIFFReadDirEntryErrOk);
 		case TIFF_SSHORT:
 			{
@@ -1341,7 +1341,7 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntryShortArray(TIFF* tif, TIFFDirEnt
 					}
 					m++;
 				}
-				*значение=(uint16*)origdata;
+				*value=(uint16*)origdata;
 				return(TIFFReadDirEntryErrOk);
 			}
 	}
@@ -1459,11 +1459,11 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntryShortArray(TIFF* tif, TIFFDirEnt
 		_TIFFfree(data);
 		return(err);
 	}
-	*значение=data;
+	*value=data;
 	return(TIFFReadDirEntryErrOk);
 }
 
-static enum TIFFReadDirEntryErr TIFFReadDirEntrySshortArray(TIFF* tif, TIFFDirEntry* direntry, int16** значение)
+static enum TIFFReadDirEntryErr TIFFReadDirEntrySshortArray(TIFF* tif, TIFFDirEntry* direntry, int16** value)
 {
 	enum TIFFReadDirEntryErr err;
 	uint32 count;
@@ -1486,7 +1486,7 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntrySshortArray(TIFF* tif, TIFFDirEn
 	err=TIFFReadDirEntryArray(tif,direntry,&count,2,&origdata);
 	if ((err!=TIFFReadDirEntryErrOk)||(origdata==0))
 	{
-		*значение=0;
+		*value=0;
 		return(err);
 	}
 	switch (direntry->tdir_type)
@@ -1508,13 +1508,13 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntrySshortArray(TIFF* tif, TIFFDirEn
 					}
 					m++;
 				}
-				*значение=(int16*)origdata;
+				*value=(int16*)origdata;
 				return(TIFFReadDirEntryErrOk);
 			}
 		case TIFF_SSHORT:
-			*значение=(int16*)origdata;
+			*value=(int16*)origdata;
 			if (tif->tif_flags&TIFF_SWAB)
-				TIFFSwabArrayOfShort((uint16*)(*значение),count);
+				TIFFSwabArrayOfShort((uint16*)(*value),count);
 			return(TIFFReadDirEntryErrOk);
 	}
 	data=(int16*)_TIFFmalloc(count*2);
@@ -1626,11 +1626,11 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntrySshortArray(TIFF* tif, TIFFDirEn
 		_TIFFfree(data);
 		return(err);
 	}
-	*значение=data;
+	*value=data;
 	return(TIFFReadDirEntryErrOk);
 }
 
-static enum TIFFReadDirEntryErr TIFFReadDirEntryLongArray(TIFF* tif, TIFFDirEntry* direntry, uint32** значение)
+static enum TIFFReadDirEntryErr TIFFReadDirEntryLongArray(TIFF* tif, TIFFDirEntry* direntry, uint32** value)
 {
 	enum TIFFReadDirEntryErr err;
 	uint32 count;
@@ -1653,15 +1653,15 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntryLongArray(TIFF* tif, TIFFDirEntr
 	err=TIFFReadDirEntryArray(tif,direntry,&count,4,&origdata);
 	if ((err!=TIFFReadDirEntryErrOk)||(origdata==0))
 	{
-		*значение=0;
+		*value=0;
 		return(err);
 	}
 	switch (direntry->tdir_type)
 	{
 		case TIFF_LONG:
-			*значение=(uint32*)origdata;
+			*value=(uint32*)origdata;
 			if (tif->tif_flags&TIFF_SWAB)
-				TIFFSwabArrayOfLong(*значение,count);
+				TIFFSwabArrayOfLong(*value,count);
 			return(TIFFReadDirEntryErrOk);
 		case TIFF_SLONG:
 			{
@@ -1680,7 +1680,7 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntryLongArray(TIFF* tif, TIFFDirEntr
 					}
 					m++;
 				}
-				*значение=(uint32*)origdata;
+				*value=(uint32*)origdata;
 				return(TIFFReadDirEntryErrOk);
 			}
 	}
@@ -1795,11 +1795,11 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntryLongArray(TIFF* tif, TIFFDirEntr
 		_TIFFfree(data);
 		return(err);
 	}
-	*значение=data;
+	*value=data;
 	return(TIFFReadDirEntryErrOk);
 }
 
-static enum TIFFReadDirEntryErr TIFFReadDirEntrySlongArray(TIFF* tif, TIFFDirEntry* direntry, int32** значение)
+static enum TIFFReadDirEntryErr TIFFReadDirEntrySlongArray(TIFF* tif, TIFFDirEntry* direntry, int32** value)
 {
 	enum TIFFReadDirEntryErr err;
 	uint32 count;
@@ -1822,7 +1822,7 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntrySlongArray(TIFF* tif, TIFFDirEnt
 	err=TIFFReadDirEntryArray(tif,direntry,&count,4,&origdata);
 	if ((err!=TIFFReadDirEntryErrOk)||(origdata==0))
 	{
-		*значение=0;
+		*value=0;
 		return(err);
 	}
 	switch (direntry->tdir_type)
@@ -1844,13 +1844,13 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntrySlongArray(TIFF* tif, TIFFDirEnt
 					}
 					m++;
 				}
-				*значение=(int32*)origdata;
+				*value=(int32*)origdata;
 				return(TIFFReadDirEntryErrOk);
 			}
 		case TIFF_SLONG:
-			*значение=(int32*)origdata;
+			*value=(int32*)origdata;
 			if (tif->tif_flags&TIFF_SWAB)
-				TIFFSwabArrayOfLong((uint32*)(*значение),count);
+				TIFFSwabArrayOfLong((uint32*)(*value),count);
 			return(TIFFReadDirEntryErrOk);
 	}
 	data=(int32*)_TIFFmalloc(count*4);
@@ -1956,12 +1956,12 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntrySlongArray(TIFF* tif, TIFFDirEnt
 		_TIFFfree(data);
 		return(err);
 	}
-	*значение=data;
+	*value=data;
 	return(TIFFReadDirEntryErrOk);
 }
 
 static enum TIFFReadDirEntryErr TIFFReadDirEntryLong8ArrayWithLimit(
-        TIFF* tif, TIFFDirEntry* direntry, uint64** значение, uint64 maxcount)
+        TIFF* tif, TIFFDirEntry* direntry, uint64** value, uint64 maxcount)
 {
 	enum TIFFReadDirEntryErr err;
 	uint32 count;
@@ -1984,15 +1984,15 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntryLong8ArrayWithLimit(
 	err=TIFFReadDirEntryArrayWithLimit(tif,direntry,&count,8,&origdata,maxcount);
 	if ((err!=TIFFReadDirEntryErrOk)||(origdata==0))
 	{
-		*значение=0;
+		*value=0;
 		return(err);
 	}
 	switch (direntry->tdir_type)
 	{
 		case TIFF_LONG8:
-			*значение=(uint64*)origdata;
+			*value=(uint64*)origdata;
 			if (tif->tif_flags&TIFF_SWAB)
-				TIFFSwabArrayOfLong8(*значение,count);
+				TIFFSwabArrayOfLong8(*value,count);
 			return(TIFFReadDirEntryErrOk);
 		case TIFF_SLONG8:
 			{
@@ -2011,7 +2011,7 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntryLong8ArrayWithLimit(
 					}
 					m++;
 				}
-				*значение=(uint64*)origdata;
+				*value=(uint64*)origdata;
 				return(TIFFReadDirEntryErrOk);
 			}
 	}
@@ -2123,16 +2123,16 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntryLong8ArrayWithLimit(
 		_TIFFfree(data);
 		return(err);
 	}
-	*значение=data;
+	*value=data;
 	return(TIFFReadDirEntryErrOk);
 }
 
-static enum TIFFReadDirEntryErr TIFFReadDirEntryLong8Array(TIFF* tif, TIFFDirEntry* direntry, uint64** значение)
+static enum TIFFReadDirEntryErr TIFFReadDirEntryLong8Array(TIFF* tif, TIFFDirEntry* direntry, uint64** value)
 {
-    return TIFFReadDirEntryLong8ArrayWithLimit(tif, direntry, значение, ~((uint64)0));
+    return TIFFReadDirEntryLong8ArrayWithLimit(tif, direntry, value, ~((uint64)0));
 }
 
-static enum TIFFReadDirEntryErr TIFFReadDirEntrySlong8Array(TIFF* tif, TIFFDirEntry* direntry, int64** значение)
+static enum TIFFReadDirEntryErr TIFFReadDirEntrySlong8Array(TIFF* tif, TIFFDirEntry* direntry, int64** value)
 {
 	enum TIFFReadDirEntryErr err;
 	uint32 count;
@@ -2155,7 +2155,7 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntrySlong8Array(TIFF* tif, TIFFDirEn
 	err=TIFFReadDirEntryArray(tif,direntry,&count,8,&origdata);
 	if ((err!=TIFFReadDirEntryErrOk)||(origdata==0))
 	{
-		*значение=0;
+		*value=0;
 		return(err);
 	}
 	switch (direntry->tdir_type)
@@ -2177,13 +2177,13 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntrySlong8Array(TIFF* tif, TIFFDirEn
 					}
 					m++;
 				}
-				*значение=(int64*)origdata;
+				*value=(int64*)origdata;
 				return(TIFFReadDirEntryErrOk);
 			}
 		case TIFF_SLONG8:
-			*значение=(int64*)origdata;
+			*value=(int64*)origdata;
 			if (tif->tif_flags&TIFF_SWAB)
-				TIFFSwabArrayOfLong8((uint64*)(*значение),count);
+				TIFFSwabArrayOfLong8((uint64*)(*value),count);
 			return(TIFFReadDirEntryErrOk);
 	}
 	data=(int64*)_TIFFmalloc(count*8);
@@ -2278,11 +2278,11 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntrySlong8Array(TIFF* tif, TIFFDirEn
 			break;
 	}
 	_TIFFfree(origdata);
-	*значение=data;
+	*value=data;
 	return(TIFFReadDirEntryErrOk);
 }
 
-static enum TIFFReadDirEntryErr TIFFReadDirEntryFloatArray(TIFF* tif, TIFFDirEntry* direntry, float** значение)
+static enum TIFFReadDirEntryErr TIFFReadDirEntryFloatArray(TIFF* tif, TIFFDirEntry* direntry, float** value)
 {
 	enum TIFFReadDirEntryErr err;
 	uint32 count;
@@ -2309,7 +2309,7 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntryFloatArray(TIFF* tif, TIFFDirEnt
 	err=TIFFReadDirEntryArray(tif,direntry,&count,4,&origdata);
 	if ((err!=TIFFReadDirEntryErrOk)||(origdata==0))
 	{
-		*значение=0;
+		*value=0;
 		return(err);
 	}
 	switch (direntry->tdir_type)
@@ -2318,7 +2318,7 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntryFloatArray(TIFF* tif, TIFFDirEnt
 			if (tif->tif_flags&TIFF_SWAB)
 				TIFFSwabArrayOfLong((uint32*)origdata,count);  
 			TIFFCvtIEEEDoubleToNative(tif,count,(float*)origdata);
-			*значение=(float*)origdata;
+			*value=(float*)origdata;
 			return(TIFFReadDirEntryErrOk);
 	}
 	data=(float*)_TIFFmalloc(count*sizeof(float));
@@ -2522,12 +2522,12 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntryFloatArray(TIFF* tif, TIFFDirEnt
 			break;
 	}
 	_TIFFfree(origdata);
-	*значение=data;
+	*value=data;
 	return(TIFFReadDirEntryErrOk);
 }
 
 static enum TIFFReadDirEntryErr
-TIFFReadDirEntryDoubleArray(TIFF* tif, TIFFDirEntry* direntry, double** значение)
+TIFFReadDirEntryDoubleArray(TIFF* tif, TIFFDirEntry* direntry, double** value)
 {
 	enum TIFFReadDirEntryErr err;
 	uint32 count;
@@ -2554,7 +2554,7 @@ TIFFReadDirEntryDoubleArray(TIFF* tif, TIFFDirEntry* direntry, double** знач
 	err=TIFFReadDirEntryArray(tif,direntry,&count,8,&origdata);
 	if ((err!=TIFFReadDirEntryErrOk)||(origdata==0))
 	{
-		*значение=0;
+		*value=0;
 		return(err);
 	}
 	switch (direntry->tdir_type)
@@ -2563,7 +2563,7 @@ TIFFReadDirEntryDoubleArray(TIFF* tif, TIFFDirEntry* direntry, double** знач
 			if (tif->tif_flags&TIFF_SWAB)
 				TIFFSwabArrayOfLong8((uint64*)origdata,count);
 			TIFFCvtIEEEDoubleToNative(tif,count,(double*)origdata);
-			*значение=(double*)origdata;
+			*value=(double*)origdata;
 			return(TIFFReadDirEntryErrOk);
 	}
 	data=(double*)_TIFFmalloc(count*sizeof(double));
@@ -2760,11 +2760,11 @@ TIFFReadDirEntryDoubleArray(TIFF* tif, TIFFDirEntry* direntry, double** знач
 			break;
 	}
 	_TIFFfree(origdata);
-	*значение=data;
+	*value=data;
 	return(TIFFReadDirEntryErrOk);
 }
 
-static enum TIFFReadDirEntryErr TIFFReadDirEntryIfd8Array(TIFF* tif, TIFFDirEntry* direntry, uint64** значение)
+static enum TIFFReadDirEntryErr TIFFReadDirEntryIfd8Array(TIFF* tif, TIFFDirEntry* direntry, uint64** value)
 {
 	enum TIFFReadDirEntryErr err;
 	uint32 count;
@@ -2783,16 +2783,16 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntryIfd8Array(TIFF* tif, TIFFDirEntr
 	err=TIFFReadDirEntryArray(tif,direntry,&count,8,&origdata);
 	if ((err!=TIFFReadDirEntryErrOk)||(origdata==0))
 	{
-		*значение=0;
+		*value=0;
 		return(err);
 	}
 	switch (direntry->tdir_type)
 	{
 		case TIFF_LONG8:
 		case TIFF_IFD8:
-			*значение=(uint64*)origdata;
+			*value=(uint64*)origdata;
 			if (tif->tif_flags&TIFF_SWAB)
-				TIFFSwabArrayOfLong8(*значение,count);
+				TIFFSwabArrayOfLong8(*value,count);
 			return(TIFFReadDirEntryErrOk);
 	}
 	data=(uint64*)_TIFFmalloc(count*8);
@@ -2821,11 +2821,11 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntryIfd8Array(TIFF* tif, TIFFDirEntr
 			break;
 	}
 	_TIFFfree(origdata);
-	*значение=data;
+	*value=data;
 	return(TIFFReadDirEntryErrOk);
 }
 
-static enum TIFFReadDirEntryErr TIFFReadDirEntryPersampleShort(TIFF* tif, TIFFDirEntry* direntry, uint16* значение)
+static enum TIFFReadDirEntryErr TIFFReadDirEntryPersampleShort(TIFF* tif, TIFFDirEntry* direntry, uint16* value)
 {
 	enum TIFFReadDirEntryErr err;
 	uint16* m;
@@ -2838,11 +2838,11 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntryPersampleShort(TIFF* tif, TIFFDi
 		return(err);
 	na=m;
 	nb=tif->tif_dir.td_samplesperpixel;
-	*значение=*na++;
+	*value=*na++;
 	nb--;
 	while (nb>0)
 	{
-		if (*na++!=*значение)
+		if (*na++!=*value)
 		{
 			err=TIFFReadDirEntryErrPsdif;
 			break;
@@ -2854,7 +2854,7 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntryPersampleShort(TIFF* tif, TIFFDi
 }
 
 #if 0
-static enum TIFFReadDirEntryErr TIFFReadDirEntryPersampleDouble(TIFF* tif, TIFFDirEntry* direntry, double* значение)
+static enum TIFFReadDirEntryErr TIFFReadDirEntryPersampleDouble(TIFF* tif, TIFFDirEntry* direntry, double* value)
 {
 	enum TIFFReadDirEntryErr err;
 	double* m;
@@ -2867,11 +2867,11 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntryPersampleDouble(TIFF* tif, TIFFD
 		return(err);
 	na=m;
 	nb=tif->tif_dir.td_samplesperpixel;
-	*значение=*na++;
+	*value=*na++;
 	nb--;
 	while (nb>0)
 	{
-		if (*na++!=*значение)
+		if (*na++!=*value)
 		{
 			err=TIFFReadDirEntryErrPsdif;
 			break;
@@ -2883,48 +2883,48 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntryPersampleDouble(TIFF* tif, TIFFD
 }
 #endif
 
-static void TIFFReadDirEntryCheckedByte(TIFF* tif, TIFFDirEntry* direntry, uint8* значение)
+static void TIFFReadDirEntryCheckedByte(TIFF* tif, TIFFDirEntry* direntry, uint8* value)
 {
 	(void) tif;
-	*значение=*(uint8*)(&direntry->tdir_offset);
+	*value=*(uint8*)(&direntry->tdir_offset);
 }
 
-static void TIFFReadDirEntryCheckedSbyte(TIFF* tif, TIFFDirEntry* direntry, int8* значение)
+static void TIFFReadDirEntryCheckedSbyte(TIFF* tif, TIFFDirEntry* direntry, int8* value)
 {
 	(void) tif;
-	*значение=*(int8*)(&direntry->tdir_offset);
+	*value=*(int8*)(&direntry->tdir_offset);
 }
 
-static void TIFFReadDirEntryCheckedShort(TIFF* tif, TIFFDirEntry* direntry, uint16* значение)
+static void TIFFReadDirEntryCheckedShort(TIFF* tif, TIFFDirEntry* direntry, uint16* value)
 {
-	*значение = direntry->tdir_offset.toff_short;
-	/* *значение=*(uint16*)(&direntry->tdir_offset); */
+	*value = direntry->tdir_offset.toff_short;
+	/* *value=*(uint16*)(&direntry->tdir_offset); */
 	if (tif->tif_flags&TIFF_SWAB)
-		TIFFSwabShort(значение);
+		TIFFSwabShort(value);
 }
 
-static void TIFFReadDirEntryCheckedSshort(TIFF* tif, TIFFDirEntry* direntry, int16* значение)
+static void TIFFReadDirEntryCheckedSshort(TIFF* tif, TIFFDirEntry* direntry, int16* value)
 {
-	*значение=*(int16*)(&direntry->tdir_offset);
+	*value=*(int16*)(&direntry->tdir_offset);
 	if (tif->tif_flags&TIFF_SWAB)
-		TIFFSwabShort((uint16*)значение);
+		TIFFSwabShort((uint16*)value);
 }
 
-static void TIFFReadDirEntryCheckedLong(TIFF* tif, TIFFDirEntry* direntry, uint32* значение)
+static void TIFFReadDirEntryCheckedLong(TIFF* tif, TIFFDirEntry* direntry, uint32* value)
 {
-	*значение=*(uint32*)(&direntry->tdir_offset);
+	*value=*(uint32*)(&direntry->tdir_offset);
 	if (tif->tif_flags&TIFF_SWAB)
-		TIFFSwabLong(значение);
+		TIFFSwabLong(value);
 }
 
-static void TIFFReadDirEntryCheckedSlong(TIFF* tif, TIFFDirEntry* direntry, int32* значение)
+static void TIFFReadDirEntryCheckedSlong(TIFF* tif, TIFFDirEntry* direntry, int32* value)
 {
-	*значение=*(int32*)(&direntry->tdir_offset);
+	*value=*(int32*)(&direntry->tdir_offset);
 	if (tif->tif_flags&TIFF_SWAB)
-		TIFFSwabLong((uint32*)значение);
+		TIFFSwabLong((uint32*)value);
 }
 
-static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckedLong8(TIFF* tif, TIFFDirEntry* direntry, uint64* значение)
+static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckedLong8(TIFF* tif, TIFFDirEntry* direntry, uint64* value)
 {
 	if (!(tif->tif_flags&TIFF_BIGTIFF))
 	{
@@ -2932,18 +2932,18 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckedLong8(TIFF* tif, TIFFDirE
 		uint32 offset = direntry->tdir_offset.toff_long;
 		if (tif->tif_flags&TIFF_SWAB)
 			TIFFSwabLong(&offset);
-		err=TIFFReadDirEntryData(tif,offset,8,значение);
+		err=TIFFReadDirEntryData(tif,offset,8,value);
 		if (err!=TIFFReadDirEntryErrOk)
 			return(err);
 	}
 	else
-		*значение = direntry->tdir_offset.toff_long8;
+		*value = direntry->tdir_offset.toff_long8;
 	if (tif->tif_flags&TIFF_SWAB)
-		TIFFSwabLong8(значение);
+		TIFFSwabLong8(value);
 	return(TIFFReadDirEntryErrOk);
 }
 
-static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckedSlong8(TIFF* tif, TIFFDirEntry* direntry, int64* значение)
+static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckedSlong8(TIFF* tif, TIFFDirEntry* direntry, int64* value)
 {
 	if (!(tif->tif_flags&TIFF_BIGTIFF))
 	{
@@ -2951,18 +2951,18 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckedSlong8(TIFF* tif, TIFFDir
 		uint32 offset = direntry->tdir_offset.toff_long;
 		if (tif->tif_flags&TIFF_SWAB)
 			TIFFSwabLong(&offset);
-		err=TIFFReadDirEntryData(tif,offset,8,значение);
+		err=TIFFReadDirEntryData(tif,offset,8,value);
 		if (err!=TIFFReadDirEntryErrOk)
 			return(err);
 	}
 	else
-		*значение=*(int64*)(&direntry->tdir_offset);
+		*value=*(int64*)(&direntry->tdir_offset);
 	if (tif->tif_flags&TIFF_SWAB)
-		TIFFSwabLong8((uint64*)значение);
+		TIFFSwabLong8((uint64*)value);
 	return(TIFFReadDirEntryErrOk);
 }
 
-static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckedRational(TIFF* tif, TIFFDirEntry* direntry, double* значение)
+static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckedRational(TIFF* tif, TIFFDirEntry* direntry, double* value)
 {
 	UInt64Aligned_t m;
 
@@ -2987,13 +2987,13 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckedRational(TIFF* tif, TIFFD
         /* sanitizers do not like division by 0.0: */
         /* http://bugzilla.maptools.org/show_bug.cgi?id=2644 */
 	if (m.i[0]==0 || m.i[1]==0)
-		*значение=0.0;
+		*value=0.0;
 	else
-		*значение=(double)m.i[0]/(double)m.i[1];
+		*value=(double)m.i[0]/(double)m.i[1];
 	return(TIFFReadDirEntryErrOk);
 }
 
-static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckedSrational(TIFF* tif, TIFFDirEntry* direntry, double* значение)
+static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckedSrational(TIFF* tif, TIFFDirEntry* direntry, double* value)
 {
 	UInt64Aligned_t m;
 	assert(sizeof(double)==8);
@@ -3018,13 +3018,13 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckedSrational(TIFF* tif, TIFF
         /* sanitizers do not like division by 0.0: */
         /* http://bugzilla.maptools.org/show_bug.cgi?id=2644 */
 	if ((int32)m.i[0]==0 || m.i[1]==0)
-		*значение=0.0;
+		*value=0.0;
 	else
-		*значение=(double)((int32)m.i[0])/(double)m.i[1];
+		*value=(double)((int32)m.i[0])/(double)m.i[1];
 	return(TIFFReadDirEntryErrOk);
 }
 
-static void TIFFReadDirEntryCheckedFloat(TIFF* tif, TIFFDirEntry* direntry, float* значение)
+static void TIFFReadDirEntryCheckedFloat(TIFF* tif, TIFFDirEntry* direntry, float* value)
 {
          union
 	 {
@@ -3035,12 +3035,12 @@ static void TIFFReadDirEntryCheckedFloat(TIFF* tif, TIFFDirEntry* direntry, floa
 	assert(sizeof(uint32)==4);
 	assert(sizeof(float_union)==4);
 	float_union.i=*(uint32*)(&direntry->tdir_offset);
-	*значение=float_union.f;
+	*value=float_union.f;
 	if (tif->tif_flags&TIFF_SWAB)
-		TIFFSwabLong((uint32*)значение);
+		TIFFSwabLong((uint32*)value);
 }
 
-static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckedDouble(TIFF* tif, TIFFDirEntry* direntry, double* значение)
+static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckedDouble(TIFF* tif, TIFFDirEntry* direntry, double* value)
 {
 	assert(sizeof(double)==8);
 	assert(sizeof(uint64)==8);
@@ -3051,7 +3051,7 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckedDouble(TIFF* tif, TIFFDir
 		uint32 offset = direntry->tdir_offset.toff_long;
 		if (tif->tif_flags&TIFF_SWAB)
 			TIFFSwabLong(&offset);
-		err=TIFFReadDirEntryData(tif,offset,8,значение);
+		err=TIFFReadDirEntryData(tif,offset,8,value);
 		if (err!=TIFFReadDirEntryErrOk)
 			return(err);
 	}
@@ -3059,324 +3059,324 @@ static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckedDouble(TIFF* tif, TIFFDir
 	{
 	       UInt64Aligned_t uint64_union;
 	       uint64_union.l=direntry->tdir_offset.toff_long8;
-	       *значение=uint64_union.d;
+	       *value=uint64_union.d;
 	}
 	if (tif->tif_flags&TIFF_SWAB)
-		TIFFSwabLong8((uint64*)значение);
+		TIFFSwabLong8((uint64*)value);
 	return(TIFFReadDirEntryErrOk);
 }
 
-static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeByteSbyte(int8 значение)
+static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeByteSbyte(int8 value)
 {
-	if (значение<0)
+	if (value<0)
 		return(TIFFReadDirEntryErrRange);
 	else
 		return(TIFFReadDirEntryErrOk);
 }
 
-static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeByteShort(uint16 значение)
+static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeByteShort(uint16 value)
 {
-	if (значение>0xFF)
+	if (value>0xFF)
 		return(TIFFReadDirEntryErrRange);
 	else
 		return(TIFFReadDirEntryErrOk);
 }
 
-static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeByteSshort(int16 значение)
+static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeByteSshort(int16 value)
 {
-	if ((значение<0)||(значение>0xFF))
+	if ((value<0)||(value>0xFF))
 		return(TIFFReadDirEntryErrRange);
 	else
 		return(TIFFReadDirEntryErrOk);
 }
 
-static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeByteLong(uint32 значение)
+static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeByteLong(uint32 value)
 {
-	if (значение>0xFF)
+	if (value>0xFF)
 		return(TIFFReadDirEntryErrRange);
 	else
 		return(TIFFReadDirEntryErrOk);
 }
 
-static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeByteSlong(int32 значение)
+static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeByteSlong(int32 value)
 {
-	if ((значение<0)||(значение>0xFF))
+	if ((value<0)||(value>0xFF))
 		return(TIFFReadDirEntryErrRange);
 	else
 		return(TIFFReadDirEntryErrOk);
 }
 
-static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeByteLong8(uint64 значение)
+static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeByteLong8(uint64 value)
 {
-	if (значение>0xFF)
+	if (value>0xFF)
 		return(TIFFReadDirEntryErrRange);
 	else
 		return(TIFFReadDirEntryErrOk);
 }
 
-static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeByteSlong8(int64 значение)
+static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeByteSlong8(int64 value)
 {
-	if ((значение<0)||(значение>0xFF))
+	if ((value<0)||(value>0xFF))
 		return(TIFFReadDirEntryErrRange);
 	else
 		return(TIFFReadDirEntryErrOk);
 }
 
-static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeSbyteByte(uint8 значение)
+static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeSbyteByte(uint8 value)
 {
-	if (значение>0x7F)
+	if (value>0x7F)
 		return(TIFFReadDirEntryErrRange);
 	else
 		return(TIFFReadDirEntryErrOk);
 }
 
-static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeSbyteShort(uint16 значение)
+static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeSbyteShort(uint16 value)
 {
-	if (значение>0x7F)
+	if (value>0x7F)
 		return(TIFFReadDirEntryErrRange);
 	else
 		return(TIFFReadDirEntryErrOk);
 }
 
-static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeSbyteSshort(int16 значение)
+static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeSbyteSshort(int16 value)
 {
-	if ((значение<-0x80)||(значение>0x7F))
+	if ((value<-0x80)||(value>0x7F))
 		return(TIFFReadDirEntryErrRange);
 	else
 		return(TIFFReadDirEntryErrOk);
 }
 
-static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeSbyteLong(uint32 значение)
+static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeSbyteLong(uint32 value)
 {
-	if (значение>0x7F)
+	if (value>0x7F)
 		return(TIFFReadDirEntryErrRange);
 	else
 		return(TIFFReadDirEntryErrOk);
 }
 
-static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeSbyteSlong(int32 значение)
+static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeSbyteSlong(int32 value)
 {
-	if ((значение<-0x80)||(значение>0x7F))
+	if ((value<-0x80)||(value>0x7F))
 		return(TIFFReadDirEntryErrRange);
 	else
 		return(TIFFReadDirEntryErrOk);
 }
 
-static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeSbyteLong8(uint64 значение)
+static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeSbyteLong8(uint64 value)
 {
-	if (значение>0x7F)
+	if (value>0x7F)
 		return(TIFFReadDirEntryErrRange);
 	else
 		return(TIFFReadDirEntryErrOk);
 }
 
-static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeSbyteSlong8(int64 значение)
+static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeSbyteSlong8(int64 value)
 {
-	if ((значение<-0x80)||(значение>0x7F))
+	if ((value<-0x80)||(value>0x7F))
 		return(TIFFReadDirEntryErrRange);
 	else
 		return(TIFFReadDirEntryErrOk);
 }
 
-static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeShortSbyte(int8 значение)
+static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeShortSbyte(int8 value)
 {
-	if (значение<0)
+	if (value<0)
 		return(TIFFReadDirEntryErrRange);
 	else
 		return(TIFFReadDirEntryErrOk);
 }
 
-static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeShortSshort(int16 значение)
+static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeShortSshort(int16 value)
 {
-	if (значение<0)
+	if (value<0)
 		return(TIFFReadDirEntryErrRange);
 	else
 		return(TIFFReadDirEntryErrOk);
 }
 
-static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeShortLong(uint32 значение)
+static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeShortLong(uint32 value)
 {
-	if (значение>0xFFFF)
+	if (value>0xFFFF)
 		return(TIFFReadDirEntryErrRange);
 	else
 		return(TIFFReadDirEntryErrOk);
 }
 
-static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeShortSlong(int32 значение)
+static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeShortSlong(int32 value)
 {
-	if ((значение<0)||(значение>0xFFFF))
+	if ((value<0)||(value>0xFFFF))
 		return(TIFFReadDirEntryErrRange);
 	else
 		return(TIFFReadDirEntryErrOk);
 }
 
-static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeShortLong8(uint64 значение)
+static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeShortLong8(uint64 value)
 {
-	if (значение>0xFFFF)
+	if (value>0xFFFF)
 		return(TIFFReadDirEntryErrRange);
 	else
 		return(TIFFReadDirEntryErrOk);
 }
 
-static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeShortSlong8(int64 значение)
+static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeShortSlong8(int64 value)
 {
-	if ((значение<0)||(значение>0xFFFF))
+	if ((value<0)||(value>0xFFFF))
 		return(TIFFReadDirEntryErrRange);
 	else
 		return(TIFFReadDirEntryErrOk);
 }
 
-static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeSshortShort(uint16 значение)
+static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeSshortShort(uint16 value)
 {
-	if (значение>0x7FFF)
+	if (value>0x7FFF)
 		return(TIFFReadDirEntryErrRange);
 	else
 		return(TIFFReadDirEntryErrOk);
 }
 
-static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeSshortLong(uint32 значение)
+static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeSshortLong(uint32 value)
 {
-	if (значение>0x7FFF)
+	if (value>0x7FFF)
 		return(TIFFReadDirEntryErrRange);
 	else
 		return(TIFFReadDirEntryErrOk);
 }
 
-static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeSshortSlong(int32 значение)
+static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeSshortSlong(int32 value)
 {
-	if ((значение<-0x8000)||(значение>0x7FFF))
+	if ((value<-0x8000)||(value>0x7FFF))
 		return(TIFFReadDirEntryErrRange);
 	else
 		return(TIFFReadDirEntryErrOk);
 }
 
-static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeSshortLong8(uint64 значение)
+static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeSshortLong8(uint64 value)
 {
-	if (значение>0x7FFF)
+	if (value>0x7FFF)
 		return(TIFFReadDirEntryErrRange);
 	else
 		return(TIFFReadDirEntryErrOk);
 }
 
-static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeSshortSlong8(int64 значение)
+static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeSshortSlong8(int64 value)
 {
-	if ((значение<-0x8000)||(значение>0x7FFF))
+	if ((value<-0x8000)||(value>0x7FFF))
 		return(TIFFReadDirEntryErrRange);
 	else
 		return(TIFFReadDirEntryErrOk);
 }
 
-static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeLongSbyte(int8 значение)
+static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeLongSbyte(int8 value)
 {
-	if (значение<0)
+	if (value<0)
 		return(TIFFReadDirEntryErrRange);
 	else
 		return(TIFFReadDirEntryErrOk);
 }
 
-static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeLongSshort(int16 значение)
+static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeLongSshort(int16 value)
 {
-	if (значение<0)
+	if (value<0)
 		return(TIFFReadDirEntryErrRange);
 	else
 		return(TIFFReadDirEntryErrOk);
 }
 
-static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeLongSlong(int32 значение)
+static enum TIFFReadDirEntryErr TIFFReadDirEntryCheckRangeLongSlong(int32 value)
 {
-	if (значение<0)
-		return(TIFFReadDirEntryErrRange);
-	else
-		return(TIFFReadDirEntryErrOk);
-}
-
-static enum TIFFReadDirEntryErr
-TIFFReadDirEntryCheckRangeLongLong8(uint64 значение)
-{
-	if (значение > TIFF_UINT32_MAX)
+	if (value<0)
 		return(TIFFReadDirEntryErrRange);
 	else
 		return(TIFFReadDirEntryErrOk);
 }
 
 static enum TIFFReadDirEntryErr
-TIFFReadDirEntryCheckRangeLongSlong8(int64 значение)
+TIFFReadDirEntryCheckRangeLongLong8(uint64 value)
 {
-	if ((значение < 0) || (значение > (int64) TIFF_UINT32_MAX))
+	if (value > TIFF_UINT32_MAX)
 		return(TIFFReadDirEntryErrRange);
 	else
 		return(TIFFReadDirEntryErrOk);
 }
 
 static enum TIFFReadDirEntryErr
-TIFFReadDirEntryCheckRangeSlongLong(uint32 значение)
+TIFFReadDirEntryCheckRangeLongSlong8(int64 value)
 {
-	if (значение > 0x7FFFFFFFUL)
-		return(TIFFReadDirEntryErrRange);
-	else
-		return(TIFFReadDirEntryErrOk);
-}
-
-/* Check that the 8-byte unsigned значение can fit in a 4-byte unsigned range */
-static enum TIFFReadDirEntryErr
-TIFFReadDirEntryCheckRangeSlongLong8(uint64 значение)
-{
-	if (значение > 0x7FFFFFFF)
-		return(TIFFReadDirEntryErrRange);
-	else
-		return(TIFFReadDirEntryErrOk);
-}
-
-/* Check that the 8-byte signed значение can fit in a 4-byte signed range */
-static enum TIFFReadDirEntryErr
-TIFFReadDirEntryCheckRangeSlongSlong8(int64 значение)
-{
-        if ((значение < 0-((int64) 0x7FFFFFFF+1)) || (значение > 0x7FFFFFFF))
+	if ((value < 0) || (value > (int64) TIFF_UINT32_MAX))
 		return(TIFFReadDirEntryErrRange);
 	else
 		return(TIFFReadDirEntryErrOk);
 }
 
 static enum TIFFReadDirEntryErr
-TIFFReadDirEntryCheckRangeLong8Sbyte(int8 значение)
+TIFFReadDirEntryCheckRangeSlongLong(uint32 value)
 {
-	if (значение < 0)
+	if (value > 0x7FFFFFFFUL)
+		return(TIFFReadDirEntryErrRange);
+	else
+		return(TIFFReadDirEntryErrOk);
+}
+
+/* Check that the 8-byte unsigned value can fit in a 4-byte unsigned range */
+static enum TIFFReadDirEntryErr
+TIFFReadDirEntryCheckRangeSlongLong8(uint64 value)
+{
+	if (value > 0x7FFFFFFF)
+		return(TIFFReadDirEntryErrRange);
+	else
+		return(TIFFReadDirEntryErrOk);
+}
+
+/* Check that the 8-byte signed value can fit in a 4-byte signed range */
+static enum TIFFReadDirEntryErr
+TIFFReadDirEntryCheckRangeSlongSlong8(int64 value)
+{
+        if ((value < 0-((int64) 0x7FFFFFFF+1)) || (value > 0x7FFFFFFF))
 		return(TIFFReadDirEntryErrRange);
 	else
 		return(TIFFReadDirEntryErrOk);
 }
 
 static enum TIFFReadDirEntryErr
-TIFFReadDirEntryCheckRangeLong8Sshort(int16 значение)
+TIFFReadDirEntryCheckRangeLong8Sbyte(int8 value)
 {
-	if (значение < 0)
+	if (value < 0)
 		return(TIFFReadDirEntryErrRange);
 	else
 		return(TIFFReadDirEntryErrOk);
 }
 
 static enum TIFFReadDirEntryErr
-TIFFReadDirEntryCheckRangeLong8Slong(int32 значение)
+TIFFReadDirEntryCheckRangeLong8Sshort(int16 value)
 {
-	if (значение < 0)
+	if (value < 0)
 		return(TIFFReadDirEntryErrRange);
 	else
 		return(TIFFReadDirEntryErrOk);
 }
 
 static enum TIFFReadDirEntryErr
-TIFFReadDirEntryCheckRangeLong8Slong8(int64 значение)
+TIFFReadDirEntryCheckRangeLong8Slong(int32 value)
 {
-	if (значение < 0)
+	if (value < 0)
 		return(TIFFReadDirEntryErrRange);
 	else
 		return(TIFFReadDirEntryErrOk);
 }
 
 static enum TIFFReadDirEntryErr
-TIFFReadDirEntryCheckRangeSlong8Long8(uint64 значение)
+TIFFReadDirEntryCheckRangeLong8Slong8(int64 value)
 {
-	if (значение > TIFF_INT64_MAX)
+	if (value < 0)
+		return(TIFFReadDirEntryErrRange);
+	else
+		return(TIFFReadDirEntryErrOk);
+}
+
+static enum TIFFReadDirEntryErr
+TIFFReadDirEntryCheckRangeSlong8Long8(uint64 value)
+{
+	if (value > TIFF_INT64_MAX)
 		return(TIFFReadDirEntryErrRange);
 	else
 		return(TIFFReadDirEntryErrOk);
@@ -3418,17 +3418,17 @@ static void TIFFReadDirEntryOutputErr(TIFF* tif, enum TIFFReadDirEntryErr err, c
 				break;
 			case TIFFReadDirEntryErrType:
 				TIFFErrorExt(tif->tif_clientdata, module,
-					     "Incompatible тип for \"%s\"",
+					     "Incompatible type for \"%s\"",
 					     tagname);
 				break;
 			case TIFFReadDirEntryErrIo:
 				TIFFErrorExt(tif->tif_clientdata, module,
-					     "IO Ошибка during reading of \"%s\"",
+					     "IO error during reading of \"%s\"",
 					     tagname);
 				break;
 			case TIFFReadDirEntryErrRange:
 				TIFFErrorExt(tif->tif_clientdata, module,
-					     "Incorrect значение for \"%s\"",
+					     "Incorrect value for \"%s\"",
 					     tagname);
 				break;
 			case TIFFReadDirEntryErrPsdif:
@@ -3438,7 +3438,7 @@ static void TIFFReadDirEntryOutputErr(TIFF* tif, enum TIFFReadDirEntryErr err, c
 				break;
 			case TIFFReadDirEntryErrSizesan:
 				TIFFErrorExt(tif->tif_clientdata, module,
-				"Sanity check on size of \"%s\" значение failed",
+				"Sanity check on size of \"%s\" value failed",
 					     tagname);
 				break;
 			case TIFFReadDirEntryErrAlloc:
@@ -3459,17 +3459,17 @@ static void TIFFReadDirEntryOutputErr(TIFF* tif, enum TIFFReadDirEntryErr err, c
 				break;
 			case TIFFReadDirEntryErrType:
 				TIFFWarningExt(tif->tif_clientdata, module,
-				"Incompatible тип for \"%s\"; tag ignored",
+				"Incompatible type for \"%s\"; tag ignored",
 					       tagname);
 				break;
 			case TIFFReadDirEntryErrIo:
 				TIFFWarningExt(tif->tif_clientdata, module,
-			"IO Ошибка during reading of \"%s\"; tag ignored",
+			"IO error during reading of \"%s\"; tag ignored",
 					       tagname);
 				break;
 			case TIFFReadDirEntryErrRange:
 				TIFFWarningExt(tif->tif_clientdata, module,
-				"Incorrect значение for \"%s\"; tag ignored",
+				"Incorrect value for \"%s\"; tag ignored",
 					       tagname);
 				break;
 			case TIFFReadDirEntryErrPsdif:
@@ -3479,7 +3479,7 @@ static void TIFFReadDirEntryOutputErr(TIFF* tif, enum TIFFReadDirEntryErr err, c
 				break;
 			case TIFFReadDirEntryErrSizesan:
 				TIFFWarningExt(tif->tif_clientdata, module,
-		"Sanity check on size of \"%s\" значение failed; tag ignored",
+		"Sanity check on size of \"%s\" value failed; tag ignored",
 					       tagname);
 				break;
 			case TIFFReadDirEntryErrAlloc:
@@ -3496,7 +3496,7 @@ static void TIFFReadDirEntryOutputErr(TIFF* tif, enum TIFFReadDirEntryErr err, c
 
 /*
  * Return the maximum number of color channels specified for a given photometric
- * тип. 0 is returned if photometric тип isn't supported or no default значение
+ * type. 0 is returned if photometric type isn't supported or no default value
  * is defined by the specification.
  */
 static int _TIFFGetMaxColorChannels( uint16 photometric )
@@ -3526,7 +3526,7 @@ static int _TIFFGetMaxColorChannels( uint16 photometric )
 static int ByteCountLooksBad(TIFF* tif)
 {
     /*
-        * Assume we have wrong StripByteCount значение (in case
+        * Assume we have wrong StripByteCount value (in case
         * of single strip) in following cases:
         *   - it is equal to zero along with StripOffset;
         *   - it is larger than file itself (in case of uncompressed
@@ -3567,8 +3567,8 @@ static int ByteCountLooksBad(TIFF* tif)
 
 
 /*
- * читай the next TIFF directory from a file and convert it to the internal
- * формат. We read directories sequentially.
+ * Read the next TIFF directory from a file and convert it to the internal
+ * format. We read directories sequentially.
  */
 int
 TIFFReadDirectory(TIFF* tif)
@@ -3629,13 +3629,13 @@ TIFFReadDirectory(TIFF* tif)
 	/*
 	 * Electronic Arts writes gray-scale TIFF files
 	 * without a PlanarConfiguration directory entry.
-	 * Thus we setup a default значение here, even though
-	 * the TIFF spec says there is no default значение.
+	 * Thus we setup a default value here, even though
+	 * the TIFF spec says there is no default value.
 	 */
 	TIFFSetField(tif,TIFFTAG_PLANARCONFIG,PLANARCONFIG_CONTIG);
 	/*
-	 * настрой default значение and then make a pass over
-	 * the fields to check тип and tag information,
+	 * Setup default value and then make a pass over
+	 * the fields to check type and tag information,
 	 * and to extract info required to size data
 	 * structures.  A second pass is made afterwards
 	 * to read in everything not taken in the first pass.
@@ -3643,12 +3643,12 @@ TIFFReadDirectory(TIFF* tif)
 	 * in order to merge in codec-private tag definitions (otherwise
 	 * we may get complaints about unknown tags).  However, the
 	 * Compression tag may be dependent on the SamplesPerPixel
-	 * tag значение because older TIFF specs permitted Compression
+	 * tag value because older TIFF specs permitted Compression
 	 * to be written as a SamplesPerPixel-count tag entry.
 	 * Thus if we don't first figure out the correct SamplesPerPixel
-	 * tag значение then we may end up ignoring the Compression tag
-	 * значение because it has an incorrect count значение (if the
-	 * true значение of SamplesPerPixel is not 1).
+	 * tag value then we may end up ignoring the Compression tag
+	 * value because it has an incorrect count value (if the
+	 * true value of SamplesPerPixel is not 1).
 	 */
 	dp=TIFFReadDirectoryFindEntry(tif,dir,dircount,TIFFTAG_SAMPLESPERPIXEL);
 	if (dp)
@@ -3661,22 +3661,22 @@ TIFFReadDirectory(TIFF* tif)
 	if (dp)
 	{
 		/*
-		 * The 5.0 spec says the Compression tag has one значение, while
-		 * earlier specs say it has one значение per sample.  Because of
-		 * this, we accept the tag if one значение is supplied with either
+		 * The 5.0 spec says the Compression tag has one value, while
+		 * earlier specs say it has one value per sample.  Because of
+		 * this, we accept the tag if one value is supplied with either
 		 * count.
 		 */
-		uint16 значение;
+		uint16 value;
 		enum TIFFReadDirEntryErr err;
-		err=TIFFReadDirEntryShort(tif,dp,&значение);
+		err=TIFFReadDirEntryShort(tif,dp,&value);
 		if (err==TIFFReadDirEntryErrCount)
-			err=TIFFReadDirEntryPersampleShort(tif,dp,&значение);
+			err=TIFFReadDirEntryPersampleShort(tif,dp,&value);
 		if (err!=TIFFReadDirEntryErrOk)
 		{
 			TIFFReadDirEntryOutputErr(tif,err,module,"Compression",0);
 			goto bad;
 		}
-		if (!TIFFSetField(tif,TIFFTAG_COMPRESSION,значение))
+		if (!TIFFSetField(tif,TIFFTAG_COMPRESSION,value))
 			goto bad;
 		dp->tdir_ignore = TRUE;
 	}
@@ -3757,7 +3757,7 @@ TIFFReadDirectory(TIFF* tif)
 	 * XXX: OJPEG hack.
 	 * If a) compression is OJPEG, b) planarconfig tag says it's separate,
 	 * c) strip offsets/bytecounts tag are both present and
-	 * d) both contain exactly one значение, then we consistently find
+	 * d) both contain exactly one value, then we consistently find
 	 * that the buggy implementation of the buggy compression scheme
 	 * matches contig planarconfig best. So we 'fix-up' the tag here
 	 */
@@ -3775,7 +3775,7 @@ TIFFReadDirectory(TIFF* tif)
 			{
 				tif->tif_dir.td_planarconfig=PLANARCONFIG_CONTIG;
 				TIFFWarningExt(tif->tif_clientdata,module,
-				    "Planarconfig tag значение assumed incorrect, "
+				    "Planarconfig tag value assumed incorrect, "
 				    "assuming data is contig instead of chunky");
 			}
 		}
@@ -3789,7 +3789,7 @@ TIFFReadDirectory(TIFF* tif)
 		goto bad;
 	}
 	/*
-	 * настрой appropriate structures (by strip or by tile)
+	 * Setup appropriate structures (by strip or by tile)
 	 */
 	if (!TIFFFieldSet(tif, FIELD_TILEDIMENSIONS)) {
 		tif->tif_dir.td_nstrips = TIFFNumberOfStrips(tif);  
@@ -3848,26 +3848,26 @@ TIFFReadDirectory(TIFF* tif)
 					/*
 					 * The MinSampleValue, MaxSampleValue, BitsPerSample
 					 * DataType and SampleFormat tags are supposed to be
-					 * written as one значение/sample, but some vendors
-					 * incorrectly write one значение only -- so we accept
+					 * written as one value/sample, but some vendors
+					 * incorrectly write one value only -- so we accept
 					 * that as well (yuck). Other vendors write correct
-					 * значение for NumberOfSamples, but incorrect one for
+					 * value for NumberOfSamples, but incorrect one for
 					 * BitsPerSample and friends, and we will read this
 					 * too.
 					 */
 					{
-						uint16 значение;
+						uint16 value;
 						enum TIFFReadDirEntryErr err;
-						err=TIFFReadDirEntryShort(tif,dp,&значение);
+						err=TIFFReadDirEntryShort(tif,dp,&value);
 						if (err==TIFFReadDirEntryErrCount)
-							err=TIFFReadDirEntryPersampleShort(tif,dp,&значение);
+							err=TIFFReadDirEntryPersampleShort(tif,dp,&value);
 						if (err!=TIFFReadDirEntryErrOk)
 						{
 							fip = TIFFFieldWithTag(tif,dp->tdir_tag);
 							TIFFReadDirEntryOutputErr(tif,err,module,fip ? fip->field_name : "unknown tagname",0);
 							goto bad;
 						}
-						if (!TIFFSetField(tif,dp->tdir_tag,значение))
+						if (!TIFFSetField(tif,dp->tdir_tag,value))
 							goto bad;
 						if( dp->tdir_tag == TIFFTAG_BITSPERSAMPLE )
 						    bitspersample_read = TRUE;
@@ -3917,7 +3917,7 @@ TIFFReadDirectory(TIFF* tif)
 						uint32 countpersample;
 						uint32 countrequired;
 						uint32 incrementpersample;
-						uint16* значение=NULL;
+						uint16* value=NULL;
 						/* It would be dangerous to instantiate those tag values */
 						/* since if td_bitspersample has not yet been read (due to */
 						/* unordered tags), it could be read afterwards with a */
@@ -3957,7 +3957,7 @@ TIFFReadDirectory(TIFF* tif)
 						if (dp->tdir_count!=(uint64)countrequired)
 							err=TIFFReadDirEntryErrCount;
 						else
-							err=TIFFReadDirEntryShortArray(tif,dp,&значение);
+							err=TIFFReadDirEntryShortArray(tif,dp,&value);
 						if (err!=TIFFReadDirEntryErrOk)
 						{
 							fip = TIFFFieldWithTag(tif,dp->tdir_tag);
@@ -3965,8 +3965,8 @@ TIFFReadDirectory(TIFF* tif)
 						}
 						else
 						{
-							TIFFSetField(tif,dp->tdir_tag,значение,значение+incrementpersample,значение+2*incrementpersample);
-							_TIFFfree(значение);
+							TIFFSetField(tif,dp->tdir_tag,value,value+incrementpersample,value+2*incrementpersample);
+							_TIFFfree(value);
 						}
 					}
 					break;
@@ -3974,17 +3974,17 @@ TIFFReadDirectory(TIFF* tif)
 				case TIFFTAG_OSUBFILETYPE:
 					{
 						uint16 valueo;
-						uint32 значение;
+						uint32 value;
 						if (TIFFReadDirEntryShort(tif,dp,&valueo)==TIFFReadDirEntryErrOk)
 						{
 							switch (valueo)
 							{
-								case OFILETYPE_REDUCEDIMAGE: значение=FILETYPE_REDUCEDIMAGE; break;
-								case OFILETYPE_PAGE: значение=FILETYPE_PAGE; break;
-								default: значение=0; break;
+								case OFILETYPE_REDUCEDIMAGE: value=FILETYPE_REDUCEDIMAGE; break;
+								case OFILETYPE_PAGE: value=FILETYPE_PAGE; break;
+								default: value=0; break;
 							}
-							if (значение!=0)
-								TIFFSetField(tif,TIFFTAG_SUBFILETYPE,значение);
+							if (value!=0)
+								TIFFSetField(tif,TIFFTAG_SUBFILETYPE,value);
 						}
 					}
 					break;
@@ -4035,13 +4035,13 @@ TIFFReadDirectory(TIFF* tif)
 	 * OJPEG hack:
 	 * - If a) compression is OJPEG, and b) photometric tag is missing,
 	 * then we consistently find that photometric should be YCbCr
-	 * - If a) compression is OJPEG, and b) photometric tag says it's дайКЗС,
+	 * - If a) compression is OJPEG, and b) photometric tag says it's RGB,
 	 * then we consistently find that the buggy implementation of the
 	 * buggy compression scheme matches photometric YCbCr instead.
 	 * - If a) compression is OJPEG, and b) bitspersample tag is missing,
 	 * then we consistently find bitspersample should be 8.
 	 * - If a) compression is OJPEG, b) samplesperpixel tag is missing,
-	 * and c) photometric is дайКЗС or YCbCr, then we consistently find
+	 * and c) photometric is RGB or YCbCr, then we consistently find
 	 * samplesperpixel should be 3
 	 * - If a) compression is OJPEG, b) samplesperpixel tag is missing,
 	 * and c) photometric is MINISWHITE or MINISBLACK, then we consistently
@@ -4060,8 +4060,8 @@ TIFFReadDirectory(TIFF* tif)
 		{
 			tif->tif_dir.td_photometric=PHOTOMETRIC_YCBCR;
 			TIFFWarningExt(tif->tif_clientdata, module,
-			    "Photometric tag значение assumed incorrect, "
-			    "assuming data is YCbCr instead of дайКЗС");
+			    "Photometric tag value assumed incorrect, "
+			    "assuming data is YCbCr instead of RGB");
 		}
 		if (!TIFFFieldSet(tif,FIELD_BITSPERSAMPLE))
 		{
@@ -4076,7 +4076,7 @@ TIFFReadDirectory(TIFF* tif)
 			{
 				TIFFWarningExt(tif->tif_clientdata,module,
 				    "SamplesPerPixel tag is missing, "
-				    "assuming correct SamplesPerPixel значение is 3");
+				    "assuming correct SamplesPerPixel value is 3");
 				if (!TIFFSetField(tif,TIFFTAG_SAMPLESPERPIXEL,3))
 					goto bad;
 			}
@@ -4084,7 +4084,7 @@ TIFFReadDirectory(TIFF* tif)
 			{
 				TIFFWarningExt(tif->tif_clientdata,module,
 				    "SamplesPerPixel tag is missing, "
-				    "applying correct SamplesPerPixel значение of 3");
+				    "applying correct SamplesPerPixel value of 3");
 				if (!TIFFSetField(tif,TIFFTAG_SAMPLESPERPIXEL,3))
 					goto bad;
 			}
@@ -4093,7 +4093,7 @@ TIFFReadDirectory(TIFF* tif)
 			{
 				/*
 				 * SamplesPerPixel tag is missing, but is not required
-				 * by spec.  Assume correct SamplesPerPixel значение of 1.
+				 * by spec.  Assume correct SamplesPerPixel value of 1.
 				 */
 				if (!TIFFSetField(tif,TIFFTAG_SAMPLESPERPIXEL,1))
 					goto bad;
@@ -4102,7 +4102,7 @@ TIFFReadDirectory(TIFF* tif)
 	}
 
 	/*
-	 * сделай sure all non-color channels are extrasamples.
+	 * Make sure all non-color channels are extrasamples.
 	 * If it's not the case, define them as such.
 	 */
         color_channels = _TIFFGetMaxColorChannels(tif->tif_dir.td_photometric);
@@ -4110,7 +4110,7 @@ TIFFReadDirectory(TIFF* tif)
                 uint16 old_extrasamples;
                 uint16 *new_sampleinfo;
 
-                TIFFWarningExt(tif->tif_clientdata,module, "сумма of Photometric тип-related "
+                TIFFWarningExt(tif->tif_clientdata,module, "Sum of Photometric type-related "
                     "color channels and ExtraSamples doesn't match SamplesPerPixel. "
                     "Defining non-color channels as ExtraSamples.");
 
@@ -4178,9 +4178,9 @@ TIFFReadDirectory(TIFF* tif)
                            && !(tif->tif_flags&TIFF_ISTILED)
 			   && ByteCountLooksBad(tif)) {
 			/*
-			 * XXX: Plexus (and others) sometimes give a значение of
+			 * XXX: Plexus (and others) sometimes give a value of
 			 * zero for a tag when they don't know what the
-			 * correct значение is!  Try and handle the simple case
+			 * correct value is!  Try and handle the simple case
 			 * of estimating the size of a one strip image.
 			 */
 			TIFFWarningExt(tif->tif_clientdata, module,
@@ -4256,7 +4256,7 @@ TIFFReadDirectory(TIFF* tif)
 	 * The following makes an attempt at breaking such images
 	 * into strips closer to the recommended 8k bytes.  A
 	 * side effect, however, is that the RowsPerStrip tag
-	 * значение may be changed.
+	 * value may be changed.
 	 */
 	if ((tif->tif_dir.td_planarconfig==PLANARCONFIG_CONTIG)&&
 	    (tif->tif_dir.td_nstrips==1)&&
@@ -4278,7 +4278,7 @@ TIFFReadDirectory(TIFF* tif)
         }
 
         /*
-         * очисть the dirty directory flag. 
+         * Clear the dirty directory flag. 
          */
 	tif->tif_flags &= ~TIFF_DIRTYDIRECT;
 	tif->tif_flags &= ~TIFF_DIRTYSTRIP;
@@ -4333,7 +4333,7 @@ TIFFReadDirectoryCheckOrder(TIFF* tif, TIFFDirEntry* dir, uint16 dircount)
 		if (o->tdir_tag<m)
 		{
 			TIFFWarningExt(tif->tif_clientdata,module,
-			    "Invalid TIFF directory; tags are not sorted in ascending order");
+			    "Неверное TIFF directory; tags are not sorted in ascending order");
 			break;
 		}
 		m=o->tdir_tag+1;
@@ -4387,7 +4387,7 @@ TIFFReadDirectoryFindFieldInfo(TIFF* tif, uint16 tagid, uint32* fii)
 }
 
 /*
- * читай custom directory from the arbitrary offset.
+ * Read custom directory from the arbitrary offset.
  * The code is very similar to TIFFReadDirectory().
  */
 int
@@ -4440,7 +4440,7 @@ TIFFReadCustomDirectory(TIFF* tif, toff_t diroff,
 				dp->tdir_ignore = TRUE;
 			else
 			{
-				/* check data тип */
+				/* check data type */
 				while ((fip->field_type!=TIFF_ANY)&&(fip->field_type!=dp->tdir_type))
 				{
 					fii++;
@@ -4455,7 +4455,7 @@ TIFFReadCustomDirectory(TIFF* tif, toff_t diroff,
 				if (fii==0xFFFF)
 				{
 					TIFFWarningExt(tif->tif_clientdata, module,
-					    "Wrong data тип %d for \"%s\"; tag ignored",
+					    "Wrong data type %d for \"%s\"; tag ignored",
 					    dp->tdir_type,fip->field_name);
 					dp->tdir_ignore = TRUE;
 				}
@@ -4543,7 +4543,7 @@ EstimateStripByteCounts(TIFF* tif, TIFFDirEntry* dir, uint16 dircount)
 			typewidth = TIFFDataWidth((TIFFDataType) dp->tdir_type);
 			if (typewidth == 0) {
 				TIFFErrorExt(tif->tif_clientdata, module,
-				    "Cannot determine size of unknown tag тип %d",
+				    "Cannot determine size of unknown tag type %d",
 				    dp->tdir_type);
 				return -1;
 			}
@@ -4565,7 +4565,7 @@ EstimateStripByteCounts(TIFF* tif, TIFFDirEntry* dir, uint16 dircount)
 			space+=datasize;
 		}
 		if( filesize < space )
-                    /* we should perhaps return in Ошибка ? */
+                    /* we should perhaps return in error ? */
                     space = filesize;
                 else
                     space = filesize - space;
@@ -4672,7 +4672,7 @@ TIFFCheckDirOffset(TIFF* tif, uint64 diroff)
 }
 
 /*
- * Check the count field of a directory entry against a known значение.  The
+ * Check the count field of a directory entry against a known value.  The
  * caller is expected to skip/ignore the tag if there is a mismatch.
  */
 static int
@@ -4698,8 +4698,8 @@ CheckDirCount(TIFF* tif, TIFFDirEntry* dir, uint32 count)
 }
 
 /*
- * читай IFD structure from the specified offset. If the pointer to
- * nextdiroff variable has been specified, read it too. Функция returns a
+ * Read IFD structure from the specified offset. If the pointer to
+ * nextdiroff variable has been specified, read it too. Function returns a
  * number of fields in the directory or 0 if failed.
  */
 static uint16
@@ -4724,7 +4724,7 @@ TIFFFetchDirectory(TIFF* tif, uint64 diroff, TIFFDirEntry** pdir,
 	if (!isMapped(tif)) {
 		if (!SeekOK(tif, tif->tif_diroff)) {
 			TIFFErrorExt(tif->tif_clientdata, module,
-				"%s: перейди Ошибка accessing TIFF directory",
+				"%s: Seek error accessing TIFF directory",
 				tif->tif_name);
 			return 0;
 		}
@@ -4776,7 +4776,7 @@ TIFFFetchDirectory(TIFF* tif, uint64 diroff, TIFFDirEntry** pdir,
 			return 0;
 		}
 		/*
-		 * читай offset to next directory for sequential scans if
+		 * Read offset to next directory for sequential scans if
 		 * needed.
 		 */
 		if (nextdiroff)
@@ -4809,7 +4809,7 @@ TIFFFetchDirectory(TIFF* tif, uint64 diroff, TIFFDirEntry** pdir,
 		/*
 		 * Check for integer overflow when validating the dir_off,
 		 * otherwise a very high offset may cause an OOB read and
-		 * crash the client. сделай two comparisons instead of
+		 * crash the client. Make two comparisons instead of
 		 *
 		 *  off + sizeof(uint16) > tif->tif_size
 		 *
@@ -5005,11 +5005,11 @@ TIFFFetchNormalTag(TIFF* tif, TIFFDirEntry* dp, int recover)
 					    }
 					}
 					if (mb+1<(uint32)dp->tdir_count)
-						TIFFWarningExt(tif->tif_clientdata,module,"ASCII значение for tag \"%s\" contains null byte in значение; значение incorrectly truncated during reading due to implementation limitations",fip->field_name);
+						TIFFWarningExt(tif->tif_clientdata,module,"ASCII value for tag \"%s\" contains null byte in value; value incorrectly truncated during reading due to implementation limitations",fip->field_name);
 					else if (mb+1>(uint32)dp->tdir_count)
 					{
 						uint8* o;
-						TIFFWarningExt(tif->tif_clientdata,module,"ASCII значение for tag \"%s\" does not end in null byte",fip->field_name);
+						TIFFWarningExt(tif->tif_clientdata,module,"ASCII value for tag \"%s\" does not end in null byte",fip->field_name);
 						if ((uint32)dp->tdir_count+1!=dp->tdir_count+1)
 							o=NULL;
 						else
@@ -5254,7 +5254,7 @@ TIFFFetchNormalTag(TIFF* tif, TIFFDirEntry* dp, int recover)
 						int m;
 						if( data != 0 && dp->tdir_count > 0 && data[dp->tdir_count-1] != '\0' )
 						{
-						    TIFFWarningExt(tif->tif_clientdata,module,"ASCII значение for tag \"%s\" does not end in null byte. Forcing it to be null",fip->field_name);
+						    TIFFWarningExt(tif->tif_clientdata,module,"ASCII value for tag \"%s\" does not end in null byte. Forcing it to be null",fip->field_name);
 						    data[dp->tdir_count-1] = '\0';
 						}
 						m=TIFFSetField(tif,dp->tdir_tag,(uint16)(dp->tdir_count),data);
@@ -5431,7 +5431,7 @@ TIFFFetchNormalTag(TIFF* tif, TIFFDirEntry* dp, int recover)
 					int m;
 					if( data != 0 && dp->tdir_count > 0 && data[dp->tdir_count-1] != '\0' )
 					{
-					    TIFFWarningExt(tif->tif_clientdata,module,"ASCII значение for tag \"%s\" does not end in null byte. Forcing it to be null",fip->field_name);
+					    TIFFWarningExt(tif->tif_clientdata,module,"ASCII value for tag \"%s\" does not end in null byte. Forcing it to be null",fip->field_name);
                                             data[dp->tdir_count-1] = '\0';
 					}
 					m=TIFFSetField(tif,dp->tdir_tag,(uint32)(dp->tdir_count),data);
@@ -5735,7 +5735,7 @@ TIFFFetchSubjectDistance(TIFF* tif, TIFFDirEntry* dir)
 			/*
 			 * XXX: Numerator 0xFFFFFFFF means that we have infinite
 			 * distance. Indicate that with a negative floating point
-			 * SubjectDistance значение.
+			 * SubjectDistance value.
 			 */
 			n=-1.0;
 		else
@@ -5789,7 +5789,7 @@ static void allocChoppedUpStripArrays(TIFF* tif, uint32 nstrips,
 
     /*
      * Fill the strip information arrays with new bytecounts and offsets
-     * that reflect the broken-up формат.
+     * that reflect the broken-up format.
      */
     for (i = 0; i < nstrips; i++)
     {
@@ -5802,7 +5802,7 @@ static void allocChoppedUpStripArrays(TIFF* tif, uint32 nstrips,
     }
 
     /*
-     * замени old single strip info with multi-strip info.
+     * Replace old single strip info with multi-strip info.
      */
     td->td_stripsperimage = td->td_nstrips = nstrips;
     TIFFSetField(tif, TIFFTAG_ROWSPERSTRIP, rowsperstrip);
@@ -5819,7 +5819,7 @@ static void allocChoppedUpStripArrays(TIFF* tif, uint32 nstrips,
 
 
 /*
- * замени a single strip (tile) of uncompressed data by multiple strips
+ * Replace a single strip (tile) of uncompressed data by multiple strips
  * (tiles), each approximately STRIP_SIZE_DEFAULT bytes. This is useful for
  * dealing with large images or for dealing with machines with a limited
  * amount memory.
@@ -5851,7 +5851,7 @@ ChopUpSingleUncompressedStrip(TIFF* tif)
 		rowblock = 1;
 	rowblockbytes = TIFFVTileSize64(tif, rowblock);
 	/*
-	 * сделай the rows hold at least one scanline, but fill specified amount
+	 * Make the rows hold at least one scanline, but fill specified amount
 	 * of data if possible.
 	 */
 	if (rowblockbytes > STRIP_SIZE_DEFAULT) {
@@ -5890,7 +5890,7 @@ ChopUpSingleUncompressedStrip(TIFF* tif)
 
 
 /*
- * замени a file with contiguous strips > 2 GB of uncompressed data by
+ * Replace a file with contiguous strips > 2 GB of uncompressed data by
  * multiple smaller strips. This is useful for
  * dealing with large images or for dealing with machines with a limited
  * amount memory.
@@ -5994,7 +5994,7 @@ static uint64 _TIFFUnsanitizedAddUInt64AndInt(uint64 a, int b)
     return a + b;
 }
 
-/* читай the значение of [Strip|Tile]смещение or [Strip|Tile]ByteCount around
+/* Read the value of [Strip|Tile]Offset or [Strip|Tile]ByteCount around
  * strip/tile of number strile. Also fetch the neighbouring values using a
  * 4096 byte page size.
  */
@@ -6018,7 +6018,7 @@ int _TIFFPartialReadStripArray( TIFF* tif, TIFFDirEntry* dirent,
     int iStartBefore;
     int i;
     const uint32 arraySize = tif->tif_dir.td_stripoffsetbyteallocsize;
-    unsigned char буфер[2 * IO_CACHE_PAGE_SIZE];
+    unsigned char buffer[2 * IO_CACHE_PAGE_SIZE];
 
     assert( dirent->tdir_count > 4 );
 
@@ -6037,7 +6037,7 @@ int _TIFFPartialReadStripArray( TIFF* tif, TIFFDirEntry* dirent,
     else
     {
         TIFFErrorExt(tif->tif_clientdata, module,
-                 "Invalid тип for [Strip|Tile][смещение/ByteCount] tag");
+                 "Неверное type for [Strip|Tile][Offset/ByteCount] tag");
         panVals[strile] = 0;
         return 0;
     }
@@ -6091,7 +6091,7 @@ int _TIFFPartialReadStripArray( TIFF* tif, TIFFDirEntry* dirent,
     }
 
     nToRead = (tmsize_t)(nOffsetEndPage - nOffsetStartPage);
-    nRead = TIFFReadFile(tif, буфер, nToRead);
+    nRead = TIFFReadFile(tif, buffer, nToRead);
     if( nRead < nToRead )
     {
         TIFFErrorExt(tif->tif_clientdata, module,
@@ -6110,7 +6110,7 @@ int _TIFFPartialReadStripArray( TIFF* tif, TIFFDirEntry* dirent,
         {
             uint16 val;
             memcpy(&val,
-                   буфер + (nOffset - nOffsetStartPage) + i * sizeofvalint,
+                   buffer + (nOffset - nOffsetStartPage) + i * sizeofvalint,
                    sizeof(val));
             if( bSwab )
                 TIFFSwabShort(&val);
@@ -6120,7 +6120,7 @@ int _TIFFPartialReadStripArray( TIFF* tif, TIFFDirEntry* dirent,
         {
             uint32 val;
             memcpy(&val,
-                   буфер + (nOffset - nOffsetStartPage) + i * sizeofvalint,
+                   buffer + (nOffset - nOffsetStartPage) + i * sizeofvalint,
                    sizeof(val));
             if( bSwab )
                 TIFFSwabLong(&val);
@@ -6130,7 +6130,7 @@ int _TIFFPartialReadStripArray( TIFF* tif, TIFFDirEntry* dirent,
         {
             uint64 val;
             memcpy(&val,
-                   буфер + (nOffset - nOffsetStartPage) + i * sizeofvalint,
+                   buffer + (nOffset - nOffsetStartPage) + i * sizeofvalint,
                    sizeof(val));
             if( bSwab )
                 TIFFSwabLong8(&val);
@@ -6168,7 +6168,7 @@ static int _TIFFFetchStrileValue(TIFF* tif,
             /* for the offset array. */
             if( strile > filesize / sizeof(uint32) )
             {
-                TIFFErrorExt(tif->tif_clientdata, module, "Файл too short");
+                TIFFErrorExt(tif->tif_clientdata, module, "File too short");
                 return 0;
             }
         }
@@ -6263,7 +6263,7 @@ static uint64 _TIFFGetStrileOffsetOrByteCountValue(TIFF *tif, uint32 strile,
                 if( pbErr )
                     *pbErr = 1;
                 /* Do not return, as we want this function to always */
-                /* return the same значение if called several times with */
+                /* return the same value if called several times with */
                 /* the same arguments */
             }
         }
@@ -6286,13 +6286,13 @@ static uint64 _TIFFGetStrileOffsetOrByteCountValue(TIFF *tif, uint32 strile,
     return (*parray)[strile];
 }
 
-/* Return the значение of the TileOffsets/StripOffsets array for the specified tile/strile */
+/* Return the value of the TileOffsets/StripOffsets array for the specified tile/strile */
 uint64 TIFFGetStrileOffset(TIFF *tif, uint32 strile)
 {
     return TIFFGetStrileOffsetWithErr(tif, strile, NULL);
 }
 
-/* Return the значение of the TileOffsets/StripOffsets array for the specified tile/strile */
+/* Return the value of the TileOffsets/StripOffsets array for the specified tile/strile */
 uint64 TIFFGetStrileOffsetWithErr(TIFF *tif, uint32 strile, int *pbErr)
 {
     TIFFDirectory *td = &tif->tif_dir;
@@ -6301,13 +6301,13 @@ uint64 TIFFGetStrileOffsetWithErr(TIFF *tif, uint32 strile, int *pbErr)
                                &(td->td_stripoffset_p), pbErr);
 }
 
-/* Return the значение of the TileByteCounts/StripByteCounts array for the specified tile/strile */
+/* Return the value of the TileByteCounts/StripByteCounts array for the specified tile/strile */
 uint64 TIFFGetStrileByteCount(TIFF *tif, uint32 strile)
 {
     return TIFFGetStrileByteCountWithErr(tif, strile, NULL);
 }
 
-/* Return the значение of the TileByteCounts/StripByteCounts array for the specified tile/strile */
+/* Return the value of the TileByteCounts/StripByteCounts array for the specified tile/strile */
 uint64 TIFFGetStrileByteCountWithErr(TIFF *tif, uint32 strile, int *pbErr)
 {
     TIFFDirectory *td = &tif->tif_dir;
@@ -6346,7 +6346,7 @@ static int _TIFFFillStrilesInternal( TIFF *tif, int loadStripByteCount )
     if( td->td_stripoffset_p != NULL )
             return 1;
 
-    /* If tdir_count was cancelled, then we already got there, but in Ошибка */
+    /* If tdir_count was cancelled, then we already got there, but in error */
     if( td->td_stripoffset_entry.tdir_count == 0 )
             return 0;
 
@@ -6391,5 +6391,5 @@ static int _TIFFFillStrilesInternal( TIFF *tif, int loadStripByteCount )
  * mode: c
  * c-basic-offset: 8
  * fill-column: 78
- * стоп:
+ * End:
  */

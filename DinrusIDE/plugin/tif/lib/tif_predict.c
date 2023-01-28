@@ -25,7 +25,7 @@
 /*
  * TIFF Library.
  *
- * Predictor Тэг Support (used by multiple codecs).
+ * Predictor Tag Support (used by multiple codecs).
  */
 #include "tiffiop.h"
 #include "tif_predict.h"
@@ -74,7 +74,7 @@ PredictorSetup(TIFF* tif)
 		case PREDICTOR_FLOATINGPOINT:
 			if (td->td_sampleformat != SAMPLEFORMAT_IEEEFP) {
 				TIFFErrorExt(tif->tif_clientdata, module,
-				    "Floating point \"Predictor\" not supported with %d data формат",
+				    "Floating point \"Predictor\" not supported with %d data format",
 				    td->td_sampleformat);
 				return 0;
 			}
@@ -90,7 +90,7 @@ PredictorSetup(TIFF* tif)
 			break;
 		default:
 			TIFFErrorExt(tif->tif_clientdata, module,
-			    "\"Predictor\" значение %d not supported",
+			    "\"Predictor\" value %d not supported",
 			    sp->predictor);
 			return 0;
 	}
@@ -183,7 +183,7 @@ PredictorSetupDecode(TIFF* tif)
 			tif->tif_postdecode = _TIFFNoPostDecode;
 		}
 		/*
-		 * Allocate буфер to keep the decoded bytes before
+		 * Allocate buffer to keep the decoded bytes before
 		 * rearranging in the right order
 		 */
 	}
@@ -714,14 +714,14 @@ PredictorEncodeTile(TIFF* tif, uint8* bp0, tmsize_t cc0, uint16 s)
 	assert(sp->encodetile != NULL);
 
         /* 
-         * Do predictor manipulation in a working буфер to avoid altering
-         * the callers буфер. http://trac.osgeo.org/gdal/ticket/1965
+         * Do predictor manipulation in a working buffer to avoid altering
+         * the callers buffer. http://trac.osgeo.org/gdal/ticket/1965
          */
         working_copy = (uint8*) _TIFFmalloc(cc0);
         if( working_copy == NULL )
         {
             TIFFErrorExt(tif->tif_clientdata, module, 
-                         "Out of memory allocating " TIFF_SSIZE_FORMAT " byte temp буфер.",
+                         "Out of memory allocating " TIFF_SSIZE_FORMAT " byte temp buffer.",
                          cc0 );
             return 0;
         }
@@ -847,7 +847,7 @@ TIFFPredictorInit(TIFF* tif)
 	sp->setupencode = tif->tif_setupencode;
 	tif->tif_setupencode = PredictorSetupEncode;
 
-	sp->predictor = 1;			/* default значение */
+	sp->predictor = 1;			/* default value */
 	sp->encodepfunc = NULL;			/* no predictor routine */
 	sp->decodepfunc = NULL;			/* no predictor routine */
 	return 1;
@@ -875,5 +875,5 @@ TIFFPredictorCleanup(TIFF* tif)
  * mode: c
  * c-basic-offset: 8
  * fill-column: 78
- * стоп:
+ * End:
  */

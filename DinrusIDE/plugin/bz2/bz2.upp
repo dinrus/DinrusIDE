@@ -1,4 +1,4 @@
-description "BZ2 compressor/decompressor\3770,128,128";
+description "Компрессор/декомпрессор BZ2\3770,128,128";
 
 options(BUILDER_OPTION) NOWARNINGS;
 

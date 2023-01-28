@@ -7,24 +7,24 @@
 #define IMAGEFILE <TabBar/TabBar.iml>
 #include <Draw/iml_source.h>
 
-namespace РНЦП {
+namespace Upp {
 
-// ЛинФрейм
-void ЛинФрейм::выложиФрейм(Прям &r)
+// AlignedFrame
+void AlignedFrame::FrameLayout(Rect &r)
 {
 	switch(layout)
 	{
 		case LEFT:
-			выложиФреймСлева(r, this, framesize);
+			LayoutFrameLeft(r, this, framesize);
 			break;
 		case TOP:
-			выложиФреймСверху(r, this, framesize);
+			LayoutFrameTop(r, this, framesize);
 			break;
 		case RIGHT:
-			выложиФреймСправа(r, this, framesize);
+			LayoutFrameRight(r, this, framesize);
 			break;
 		case BOTTOM:
-			выложиФреймСнизу(r, this, framesize);
+			LayoutFrameBottom(r, this, framesize);
 			break;
 	}
 	r.top += border;
@@ -33,17 +33,17 @@ void ЛинФрейм::выложиФрейм(Прям &r)
 	r.bottom -= border;
 }
 
-void ЛинФрейм::добавьРазмФрейма(Размер& sz)
+void AlignedFrame::FrameAddSize(Size& sz)
 {
 	sz += border * 2;
-	вертикален() ? sz.cx += framesize : sz.cy += framesize;
+	IsVert() ? sz.cx += framesize : sz.cy += framesize;
 }
 
-void ЛинФрейм::рисуйФрейм(Draw& w, const Прям& r)
+void AlignedFrame::FramePaint(Draw& w, const Rect& r)
 {
 	if(border > 0)
 	{
-		Прям n = r;
+		Rect n = r;
 		switch(layout)
 		{
 			case LEFT:
@@ -59,48 +59,48 @@ void ЛинФрейм::рисуйФрейм(Draw& w, const Прям& r)
 				n.bottom -= framesize;
 				break;
 		}
-		ViewFrame().рисуйФрейм(w, n);
+		ViewFrame().FramePaint(w, n);
 	}
 	else
-		ФреймКтрл<Ктрл>::рисуйФрейм(w, r);
+		FrameCtrl<Ctrl>::FramePaint(w, r);
 }
 
-ЛинФрейм& ЛинФрейм::устРазмФрейма(int sz, bool refresh)
+AlignedFrame& AlignedFrame::SetFrameSize(int sz, bool refresh)
 {
 	framesize = sz; 
-	if (refresh) освежиВыкладкуРодителя(); 
+	if (refresh) RefreshParentLayout(); 
 	return *this;	
 }
 
-void ЛинФрейм::фиксируй(Размер& sz)
+void AlignedFrame::Fix(Size& sz)
 {
-	if(вертикален())
-		разверни(sz.cx, sz.cy);
+	if(IsVert())
+		Swap(sz.cx, sz.cy);
 }
 
-void ЛинФрейм::фиксируй(Точка& p)
+void AlignedFrame::Fix(Point& p)
 {
-	if(вертикален())
-		разверни(p.x, p.y);
+	if(IsVert())
+		Swap(p.x, p.y);
 }
 
-Размер ЛинФрейм::фиксирован(const Размер& sz)
+Size AlignedFrame::Fixed(const Size& sz)
 {
-	return вертикален() ? Размер(sz.cy, sz.cx) : Размер(sz.cx, sz.cy);
+	return IsVert() ? Size(sz.cy, sz.cx) : Size(sz.cx, sz.cy);
 }
 
-Точка ЛинФрейм::фиксирован(const Точка& p)
+Point AlignedFrame::Fixed(const Point& p)
 {
-	return вертикален() ? Точка(p.y, p.x) : Точка(p.x, p.y);
+	return IsVert() ? Point(p.y, p.x) : Point(p.x, p.y);
 }
 
-// БарТабПромота
-БарТабПромота::БарТабПромота()
+// TabScrollBar
+TabScrollBar::TabScrollBar()
 {
-	очисть();
+	Clear();
 }
 
-void БарТабПромота::очисть()
+void TabScrollBar::Clear()
 {
 	total = 0;
 	pos = 0;
@@ -108,14 +108,14 @@ void БарТабПромота::очисть()
 	start_pos = 0;
 	new_pos = 0;
 	old_pos = 0;
-	sz.очисть();
+	sz.Clear();
 	ready = false;	
 }
 
-void БарТабПромота::обновиПоз(bool update)
+void TabScrollBar::UpdatePos(bool update)
 {
-	sz = дайРазм();
-	фиксируй(sz);
+	sz = GetSize();
+	Fix(sz);
 	if(total <= 0 || sz.cx <= 0)
 		cs = ics = 0;
 	else
@@ -134,112 +134,112 @@ void БарТабПромота::обновиПоз(bool update)
 	ps = total > sz.cx ? pos * ics : 0;
 }
 
-void БарТабПромота::рисуй(Draw &w)
+void TabScrollBar::Paint(Draw &w)
 {
 	if(!ready)
 	{
-		обновиПоз();
+		UpdatePos();
 		ready = true;
 	}
-	Размер rsz = дайРазм();
+	Size rsz = GetSize();
 	#ifdef TABBAR_DEBUG
-	w.DrawRect(rsz, красный);
+	w.DrawRect(rsz, Red);
 	#else
-	w.DrawRect(rsz, белый);
+	w.DrawRect(rsz, White);
 	#endif
-	Точка p;
+	Point p;
 	
 	if(total > sz.cx) {
-		p = Точка(ffloor(pos), 1);
-		rsz = Размер(fceil(size), (вертикален() ? rsz.cx : rsz.cy) - 2);
+		p = Point(ffloor(pos), 1);
+		rsz = Size(fceil(size), (IsVert() ? rsz.cx : rsz.cy) - 2);
 	}
 	else {
-		p = Точка(0, 1);
-		rsz = Размер(sz.cx, (вертикален() ? rsz.cx : rsz.cy) - 2);
+		p = Point(0, 1);
+		rsz = Size(sz.cx, (IsVert() ? rsz.cx : rsz.cy) - 2);
 	}
-	фиксируй(p);
-	фиксируй(rsz);
-	w.DrawRect(p.x, p.y, rsz.cx, rsz.cy, синий);
+	Fix(p);
+	Fix(rsz);
+	w.DrawRect(p.x, p.y, rsz.cx, rsz.cy, Blue);
 }
 
-void БарТабПромота::Выкладка()
+void TabScrollBar::Layout()
 {
-	обновиПоз(false);
+	UpdatePos(false);
 }
 
-void БарТабПромота::леваяВнизу(Точка p, dword keyflags)
+void TabScrollBar::LeftDown(Point p, dword keyflags)
 {
 	SetCapture();
-	фиксируй(p);
+	Fix(p);
 	old_pos = new_pos = p.x;
 	if(p.x < pos || p.x > pos + size)
 		start_pos = size / 2;
 	else
 		start_pos = tabs(p.x - pos);
-	обновиПоз();
+	UpdatePos();
 	UpdateActionRefresh();	
 }
 
-void БарТабПромота::леваяВверху(Точка p, dword keyflags)
+void TabScrollBar::LeftUp(Point p, dword keyflags)
 {
 	ReleaseCapture();
-	фиксируй(p);
+	Fix(p);
 	old_pos = p.x;
 }
 
-void БарТабПромота::двигМыши(Точка p, dword keyflags)
+void TabScrollBar::MouseMove(Point p, dword keyflags)
 {
 	if(!HasCapture())
 		return;
 
-	фиксируй(p);
+	Fix(p);
 	new_pos = p.x;
-	обновиПоз();
+	UpdatePos();
 	UpdateActionRefresh();
 }
 
-void БарТабПромота::колесоМыши(Точка p, int zdelta, dword keyflags)
+void TabScrollBar::MouseWheel(Point p, int zdelta, dword keyflags)
 {
-	добавьПоз(-zdelta / 4, true);
+	AddPos(-zdelta / 4, true);
 	UpdateActionRefresh();
 }
 
-int БарТабПромота::дайПоз() const
+int TabScrollBar::GetPos() const
 {
 	return ffloor(ps);
 }
 
-void БарТабПромота::устПоз(int p, bool dontscale)
+void TabScrollBar::SetPos(int p, bool dontscale)
 {
 	pos = total > 0 ? dontscale ? p : iscale(p, sz.cx, total) : 0;
-	обновиПоз(false);
-	освежи();
+	UpdatePos(false);
+	Refresh();
 }
 
-void БарТабПромота::добавьПоз(int p, bool dontscale)
+void TabScrollBar::AddPos(int p, bool dontscale)
 {
 	pos += total > 0 ? dontscale ? p : iscale(p, sz.cx, total) : 0;
-	обновиПоз(false);
-	освежи();
+	UpdatePos(false);
+	Refresh();
 }
 
-int БарТабПромота::дайВсего() const
+int TabScrollBar::GetTotal() const
 {
 	return total;
 }
 
-void БарТабПромота::устВсего(int t)
+void TabScrollBar::SetTotal(int t)
 {
 	bool upd = total < t;
 	total = t;
-	обновиПоз(upd);
-	освежи();
+	UpdatePos(upd);
+	Refresh();
 }
 
-void БарТабПромота::добавьВсего(int t)
+void TabScrollBar::AddTotal(int t)
 {
-	sz = дайРазм();
-	фиксируй(sz);
+	sz = GetSize();
+	Fix(sz);
 	total += t;
 	if(total <= 0 || sz.cx <= 0)
 		cs = ics = 0;
@@ -250,53 +250,53 @@ void БарТабПромота::добавьВсего(int t)
 	pos = (int)(ps * cs);		
 	old_pos = new_pos = (int)(pos - start_pos);
 	
-	освежи();
+	Refresh();
 }
 
-void БарТабПромота::идиВКон()
+void TabScrollBar::GoEnd()
 {
 	pos = total;
-	обновиПоз(false);
-	освежи();
+	UpdatePos(false);
+	Refresh();
 }
 
-void БарТабПромота::идиВНач()
+void TabScrollBar::GoBegin()
 {
 	pos = 0;
-	обновиПоз(false);
-	освежи();
+	UpdatePos(false);
+	Refresh();
 }
 
-void БарТабПромота::уст(const БарТабПромота& t)
+void TabScrollBar::Set(const TabScrollBar& t)
 {
 	total = t.total;
 	pos = t.pos;
 	ps = t.ps;
-	освежи();
+	Refresh();
 }
 
-bool БарТабПромота::проматываем() const
+bool TabScrollBar::IsScrollable() const
 {
 	// Note: sz already 'fixed'
 	return total > sz.cx && sz.cx > 0;
 }
 
-// Группа
+// Group
 
-void БарТаб::Группа::сериализуй(Поток& s)
+void TabBar::Group::Serialize(Stream& s)
 {
-	s % имя % active % count % first % last;
+	s % name % active % count % first % last;
 }
 
 
-// БарТаб
+// TabBar
 
-БарТаб::БарТаб()
+TabBar::TabBar()
 {
-	очисть();
+	Clear();
 
 	id = 0;
-	дисплей = NULL;
+	display = NULL;
 	crosses = true;
 	crosses_side = RIGHT;
 	grouping = true;
@@ -311,9 +311,9 @@ void БарТаб::Группа::сериализуй(Поток& s)
 	mintabcount = 1;
 	scrollbar_sz = TB_SBHEIGHT;
 	allowreorder = true;
-	style = &дефСтиль();
+	style = &StyleDefault();
 	
-	// иниц sorting
+	// Init sorting
 	groupsort = false;
 	tabsort = false;
 	stacksort = true;
@@ -322,38 +322,38 @@ void БарТаб::Группа::сериализуй(Поток& s)
 	valuesorter_inst.vo = &Single<StdValueOrder>();
 	stacksorter_inst.vo = &Single<StdValueOrder>();
 	tabsorter = &keysorter_inst;
-	groupsorter = &Single<СортТабГруппу>();
+	groupsorter = &Single<TabGroupSort>();
 	stacksorter = &stacksorter_inst;
 
-	устЛин(TOP);
-	устРазмФрейма(дайВысоту(false));
+	SetAlign(TOP);
+	SetFrameSize(GetHeight(false));
 	BackPaint();
 	
-	ConfirmClose = [](Значение) { return true; };
+	ConfirmClose = [](Value) { return true; };
 	ConfirmCloseAll = []() { return true; };
-	ConfirmCloseSome = [](МассивЗнач) { return true; };
+	ConfirmCloseSome = [](ValueArray) { return true; };
 }
 
-int БарТаб::GetLR( int c, int jd )
+int TabBar::GetLR( int c, int jd )
 {
 	int new_tab;
 	if ( jd == JumpDirLeft )
-		new_tab = дайПредш( c );
+		new_tab = GetPrev( c );
 	else
-		new_tab = дайСледщ( c );
+		new_tab = GetNext( c );
 	return new_tab;
 }
 
-int БарТаб::GetTabStackLR( int jd )
+int TabBar::GetTabStackLR( int jd )
 {
 	int nt = -1;
-	if ( естьКурсор() ) {
-		int c = дайКурсор();
+	if ( HasCursor() ) {
+		int c = GetCursor();
     
 		if ( IsStacking() ) {
 			int c_stack = tabs[ c ].stack;
 			if ( jd == JumpDirLeft )
-				nt = найдиКонСтэка( c_stack );
+				nt = FindStackTail( c_stack );
 			else
 				nt = c + 1;
 		}
@@ -361,24 +361,24 @@ int БарТаб::GetTabStackLR( int jd )
 	return nt;
 }
 
-int БарТаб::GetTabLR( int jd )
+int TabBar::GetTabLR( int jd )
 {
 	int lt = -1;
 	bool js_NeedReset = true;
 
-	if ( естьКурсор() ) {
-	    int c = дайКурсор();
-	    int tc = дайСчёт();
+	if ( HasCursor() ) {
+	    int c = GetCursor();
+	    int tc = GetCount();
     
 		if ( IsStacking() ) {
 			int c_stack = tabs[ c ].stack;
 
 			if ( jd == JumpDirRight && jump_stack.IsReset() ) {
         
-				int c_stack_count = дайСчётСтэка( c_stack );
+				int c_stack_count = GetStackCount( c_stack );
 
 		        if ( c_stack_count > 1 ) {
-					jump_stack.активируй( c_stack_count - 1, jd );
+					jump_stack.Activate( c_stack_count - 1, jd );
 					js_NeedReset = false;
 				}
 			}
@@ -388,11 +388,11 @@ int БарТаб::GetTabLR( int jd )
 				if ( ( lt >= 0 ) && ( lt < tc ) ) {
         
 					int lt_stack = tabs[ lt ].stack;
-					int lt_stack_count = дайСчётСтэка( lt_stack );
+					int lt_stack_count = GetStackCount( lt_stack );
 					
 					if ( lt_stack_count > 1 ) {
-						lt = найдиНачСтэка( lt_stack );
-						jump_stack.активируй( lt_stack_count - 1, jd );
+						lt = FindStackHead( lt_stack );
+						jump_stack.Activate( lt_stack_count - 1, jd );
 						js_NeedReset = false;
 					}
 				}
@@ -406,7 +406,7 @@ int БарТаб::GetTabLR( int jd )
 						if ( jump_stack.IsFull() ) {
 							lt = GetLR( c, jd );
 						} else {
-							lt = найдиКонСтэка( c_stack );
+							lt = FindStackTail( c_stack );
 							++jump_stack.Rest;
 							js_NeedReset = false;
 						}
@@ -419,24 +419,24 @@ int БарТаб::GetTabLR( int jd )
 	}
 
 	if ( js_NeedReset )
-		jump_stack.переустанов();
+		jump_stack.Reset();
 	return lt;
 }
 
-void БарТаб::уст(const БарТаб& t)
+void TabBar::Set(const TabBar& t)
 {
-	копируйБазНастройки(t);
+	CopyBaseSettings(t);
 	
 	id = t.id;
 	
-	tabs.очисть();
+	tabs.Clear();
 	tabs <<= t.tabs;
-	groups.очисть();
+	groups.Clear();
 	groups <<= t.groups;
-	separators.очисть();
+	separators.Clear();
 	separators <<= t.separators;
 	
-	группа = t.группа;
+	group = t.group;
 	stackcount = t.stackcount;
 	
 	active = t.active;
@@ -444,82 +444,82 @@ void БарТаб::уст(const БарТаб& t)
 	highlight = -1;
 	target = -1;
 	
-	mouse.очисть();
-	oldp.очисть();
+	mouse.Clear();
+	oldp.Clear();
 	
-	sc.уст(t.sc);
-	устЛин(t.дайЛин());
+	sc.Set(t.sc);
+	SetAlign(t.GetAlign());
 }
 
-int БарТаб::дайСледщИд()
+int TabBar::GetNextId()
 {
 	return id++;
 }
 
-void БарТаб::сКонтекстнМеню(Бар& bar)
+void TabBar::ContextMenu(Bar& bar)
 {
-	int ii = дайПодсвет(); // Need copy to freeze it, [=] copies 'this' and thus reference to highlight
-	if (дайКурсор() >= 0 && ii >= 0 && !IsCancelClose(ii))
-		bar.добавь(tabs.дайСчёт() > mintabcount, t_("закрой"), [=] {
-			if (!CancelClose(tabs[ii].ключ)) {
-				WhenClose(tabs[ii].ключ);
-				TabClosed(tabs[ii].ключ);
-				tabs.удали(ii);
+	int ii = GetHighlight(); // Need copy to freeze it, [=] copies 'this' and thus reference to highlight
+	if (GetCursor() >= 0 && ii >= 0 && !IsCancelClose(ii))
+		bar.Add(tabs.GetCount() > mintabcount, t_("Закрыть"), [=] {
+			if (!CancelClose(tabs[ii].key)) {
+				WhenClose(tabs[ii].key);
+				TabClosed(tabs[ii].key);
+				tabs.Remove(ii);
 				MakeGroups();
 				Repos();
-				устКурсор(-1);
+				SetCursor(-1);
 			}
 		});
 	if (ii >= 0 && !IsCancelCloseAll(ii))
-		bar.добавь(t_("Закрыть другие"), [=] { CloseAll(ii); });
-    if (ii >= 0 && ii < дайСчёт() - 1 && !IsCancelCloseAll(-1, ii + 1))
-		bar.добавь(t_("Закрыть вкладки справа"), [=] { CloseAll(-1, ii + 1); });
+		bar.Add(t_("Закрыть другие"), [=] { CloseAll(ii); });
+    if (ii >= 0 && ii < GetCount() - 1 && !IsCancelCloseAll(-1, ii + 1))
+		bar.Add(t_("Закрыть вкладки справа"), [=] { CloseAll(-1, ii + 1); });
 	if (mintabcount <= 0 && !IsCancelCloseAll(-1))
-		bar.добавь(t_("Закрыть все"), [=] { CloseAll(-1); });
-	bar.добавь(false, t_("Док"), [=] {});
+		bar.Add(t_("Закрыть все"), [=] { CloseAll(-1); });
+	bar.Add(false, t_("Док"), [=] {});
 	if(ii >= 1)
-		bar.Sub(t_("Move left before"), [=](Бар& bar) {
+		bar.Sub(t_("Move left before"), [=](Bar& bar) {
 			for(int i = 0; i < ii; i++)
-			   bar.добавь(tabs[i].значение.вТкст(), [=] {
-				tabs.перемести(ii,i);
-				устКурсор0(i);
+			   bar.Add(tabs[i].value.ToString(), [=] {
+				tabs.Move(ii,i);
+				SetCursor0(i);
 				Repos();
-				освежи();
+				Refresh();
 			});;
 		});
-	if(tabs.дайСчёт() - 2 >= ii && ii >= 0)
-		bar.Sub(t_("Move right after"),  [=](Бар& bar)  {
-			for(int i = ii+1; i < tabs.дайСчёт(); i++)
-				bar.добавь(tabs[i].значение.вТкст(),[=] {
-				tabs.перемести(ii,i+1);
-				устКурсор0(i);
+	if(tabs.GetCount() - 2 >= ii && ii >= 0)
+		bar.Sub(t_("Move right after"),  [=](Bar& bar)  {
+			for(int i = ii+1; i < tabs.GetCount(); i++)
+				bar.Add(tabs[i].value.ToString(),[=] {
+				tabs.Move(ii,i+1);
+				SetCursor0(i);
 				Repos();
-				освежи();
+				Refresh();
 			});
 		});
 	if(grouping && ii >= 0) {
-		if(группа > 0)
-			bar.добавь(t_("Закрыть группу"), THISBACK(CloseGroup));
+		if(group > 0)
+			bar.Add(t_("Закрыть группу"), THISBACK(CloseGroup));
 		bar.Separator();
-		int cnt = groups.дайСчёт();
+		int cnt = groups.GetCount();
 		for(int i = 0; i < cnt; i++)
 		{
-			Ткст имя = фмт("%s (%d)", groups[i].имя, groups[i].count);
-			Бар::Элемент &it = bar.добавь(имя, THISBACK1(GoGrouping, i));
-			if(i == группа)
-				it.Рисунок(TabBarImg::CHK);
+			String name = Format("%s (%d)", groups[i].name, groups[i].count);
+			Bar::Item &it = bar.Add(name, THISBACK1(GoGrouping, i));
+			if(i == group)
+				it.Image(TabBarImg::CHK);
 			if(i == 0 && cnt > 1)
 				bar.Separator();
 		}
 	}
 }
 
-void БарТаб::CloseAll(int exception, int last_closed)
+void TabBar::CloseAll(int exception, int last_closed)
 {
-	МассивЗнач vv;
-	for(int i = last_closed; i < tabs.дайСчёт(); i++)
+	ValueArray vv;
+	for(int i = last_closed; i < tabs.GetCount(); i++)
 		if(i != exception)
-			vv.добавь(tabs[i].ключ);
+			vv.Add(tabs[i].key);
 		
 	if(exception < 0 && last_closed == 0 ? !ConfirmCloseAll() || CancelCloseAll()
 	                                     : !ConfirmCloseSome(vv) || CancelCloseSome(vv))
@@ -529,62 +529,62 @@ void БарТаб::CloseAll(int exception, int last_closed)
 	if(exception < 0 && last_closed == 0)
 		WhenCloseAll();
 
-	for(int i = tabs.дайСчёт() - 1; i >= last_closed; i--)
+	for(int i = tabs.GetCount() - 1; i >= last_closed; i--)
 		if(i != exception) {
-			if (!CancelClose(tabs[i].ключ) && ConfirmClose(tabs[i].ключ)) {
-				WhenClose(tabs[i].ключ);
-				TabClosed(tabs[i].ключ);
-				tabs.удали(i);
+			if (!CancelClose(tabs[i].key) && ConfirmClose(tabs[i].key)) {
+				WhenClose(tabs[i].key);
+				TabClosed(tabs[i].key);
+				tabs.Remove(i);
 			}
 		}
 
-	устКурсор(last_closed ? last_closed - 1 : 0);
+	SetCursor(last_closed ? last_closed - 1 : 0);
 	
 	MakeGroups();
 	Repos();
-	освежи();
+	Refresh();
 }
 
-void БарТаб::CloseGroup()
+void TabBar::CloseGroup()
 {
-	if(группа <= 0)
+	if(group <= 0)
 		return;
-	Значение v = дайДанные();
-	DoCloseGroup(группа);
-	устДанные(v);
+	Value v = GetData();
+	DoCloseGroup(group);
+	SetData(v);
 }
 
-bool БарТаб::IsCancelClose(int id)
+bool TabBar::IsCancelClose(int id)
 {
 	if (CancelCloseAll())
 		return true;
 	
 	if (CancelCloseSome) {
-		МассивЗнач vv;
-		vv.добавь(tabs[id].ключ);
+		ValueArray vv;
+		vv.Add(tabs[id].key);
 		if (CancelCloseSome(vv))
 			return true;
 	}
 	
-	if (CancelClose(tabs[id].ключ))
+	if (CancelClose(tabs[id].key))
 		return true;
 	return false;
 }
 
-bool БарТаб::IsCancelCloseAll(int exception, int last_closed)
+bool TabBar::IsCancelCloseAll(int exception, int last_closed)
 {
-	МассивЗнач vv;
-	for(int i = last_closed; i < tabs.дайСчёт(); i++)
+	ValueArray vv;
+	for(int i = last_closed; i < tabs.GetCount(); i++)
 		if(i != exception)
-			vv.добавь(tabs[i].ключ);
+			vv.Add(tabs[i].key);
 		
 	if(exception < 0 && last_closed == 0 ? CancelCloseAll() : CancelCloseSome(vv))
 		return true;
 	
 	if (CancelClose) {
-		for(int i = tabs.дайСчёт() - 1; i >= last_closed; i--)
+		for(int i = tabs.GetCount() - 1; i >= last_closed; i--)
 			if(i != exception) {
-				if (!CancelClose(tabs[i].ключ))
+				if (!CancelClose(tabs[i].key))
 					return false;
 			}
 		return true;
@@ -592,27 +592,27 @@ bool БарТаб::IsCancelCloseAll(int exception, int last_closed)
 	return false; 
 }
 
-БарТаб::Вкладка::Вкладка()
+TabBar::Tab::Tab()
 {
 	id = -1;
 	stack = -1;
 	visible = true;
 	itn = 0;
-	items.устСчёт(5);
+	items.SetCount(5);
 
-	pos = cross_pos = tab_pos = Точка(0, 0);
-	cross_size = size = tab_size = Размер(0, 0);
+	pos = cross_pos = tab_pos = Point(0, 0);
+	cross_size = size = tab_size = Size(0, 0);
 }
 
-void БарТаб::Вкладка::уст(const Вкладка& t)
+void TabBar::Tab::Set(const Tab& t)
 {
 	id = t.id;
 	
 	img = t.img;
 	col = t.col;
-	ключ = t.ключ;
-	значение = t.значение;
-	группа = t.группа;
+	key = t.key;
+	value = t.value;
+	group = t.group;
 	
 	stackid = t.stackid;
 	stack = t.stack;
@@ -631,12 +631,12 @@ void БарТаб::Вкладка::уст(const Вкладка& t)
 	items <<= t.items;
 }
 
-void БарТаб::Вкладка::сериализуй(Поток& s)
+void TabBar::Tab::Serialize(Stream& s)
 {
-	s % id % ключ % значение % группа % stackid % stack % visible;
+	s % id % key % value % group % stackid % stack % visible;
 }
 
-bool БарТаб::Вкладка::естьМышь(const Точка& p) const
+bool TabBar::Tab::HasMouse(const Point& p) const
 {
 	if(!visible)
 		return false;
@@ -645,7 +645,7 @@ bool БарТаб::Вкладка::естьМышь(const Точка& p) const
 	       p.y >= tab_pos.y && p.y < tab_pos.y + tab_size.cy;
 }
 
-bool БарТаб::Вкладка::HasMouseCross(const Точка& p) const
+bool TabBar::Tab::HasMouseCross(const Point& p) const
 {
 	if(!visible)
 		return false;
@@ -654,115 +654,115 @@ bool БарТаб::Вкладка::HasMouseCross(const Точка& p) const
 	       p.y >= cross_pos.y && p.y < cross_pos.y + cross_size.cy;
 }
 
-int БарТаб::FindGroup(const Ткст& g) const
+int TabBar::FindGroup(const String& g) const
 {
-	for(int i = 0; i < groups.дайСчёт(); i++)
-		if(groups[i].имя == g)
+	for(int i = 0; i < groups.GetCount(); i++)
+		if(groups[i].name == g)
 			return i;
 	return -1;
 }
 
-void БарТаб::вСтэк()
+void TabBar::DoStacking()
 {
-	Значение v = дайДанные();
+	Value v = GetData();
 		
-	// переустанов stack info
-	for (int i = 0; i < tabs.дайСчёт(); i++) {
-		Вкладка &t = tabs[i];
+	// Reset stack info
+	for (int i = 0; i < tabs.GetCount(); i++) {
+		Tab &t = tabs[i];
 		t.stack = -1;
 		t.stackid = GetStackId(t);
 	}
-	// создай stacks
-	Вектор< Массив<Вкладка> > tstack;
-	for (int i = 0; i < tabs.дайСчёт(); i++) {
-		Вкладка &ti = tabs[i];
+	// Create stacks
+	Vector< Array<Tab> > tstack;
+	for (int i = 0; i < tabs.GetCount(); i++) {
+		Tab &ti = tabs[i];
 		if (ti.stack < 0) {
-			ti.stack = tstack.дайСчёт();
-			Массив<Вкладка> &ttabs = tstack.добавь();
-			ttabs.добавь(ti);
-			for (int j = i + 1; j < tabs.дайСчёт(); j++)	{
-				Вкладка &tj = tabs[j];
-				if (tj.stack < 0 && tj.stackid == ti.stackid && (!grouping || tj.группа == ti.группа)) {
+			ti.stack = tstack.GetCount();
+			Array<Tab> &ttabs = tstack.Add();
+			ttabs.Add(ti);
+			for (int j = i + 1; j < tabs.GetCount(); j++)	{
+				Tab &tj = tabs[j];
+				if (tj.stack < 0 && tj.stackid == ti.stackid && (!grouping || tj.group == ti.group)) {
 					tj.stack = ti.stack;
-					ttabs.добавь(tj);
+					ttabs.Add(tj);
 				}
 			}
 		}
 	}
-	stackcount = tstack.дайСчёт();
+	stackcount = tstack.GetCount();
 	// Recombine
-	tabs.устСчёт(0);
-	for (int i = 0; i < tstack.дайСчёт(); i++) {
+	tabs.SetCount(0);
+	for (int i = 0; i < tstack.GetCount(); i++) {
 		if (stacksort)
 			StableSort(tstack[i], *stacksorter);
-		tabs.приставьПодбор(pick(tstack[i]));
+		tabs.AppendPick(pick(tstack[i]));
 	}
 	highlight = -1;
-	устДанные(v);
+	SetData(v);
 	MakeGroups();
 	Repos();
 }
 
-void БарТаб::изСтэка()
+void TabBar::DoUnstacking()
 {
 	stackcount = 0;
-	for (int i = 0; i < tabs.дайСчёт(); i++)
+	for (int i = 0; i < tabs.GetCount(); i++)
 		tabs[i].stack = -1;
 	highlight = -1;
 	MakeGroups();
 	Repos();
-	if (естьКурсор())
-		устКурсор(-1);
+	if (HasCursor())
+		SetCursor(-1);
 	else
-		освежи();
+		Refresh();
 }
 
-void БарТаб::SortStack(int stackix)
+void TabBar::SortStack(int stackix)
 {
 	if (!stacksort) return;
 	
-	int head = найдиНачСтэка(stackix);
+	int head = FindStackHead(stackix);
 	int tail = head;
-	while (tail < tabs.дайСчёт() && tabs[tail].stack == stackix)
+	while (tail < tabs.GetCount() && tabs[tail].stack == stackix)
 		++tail;
 	SortStack(stackix, head, tail-1);
 }
 
-void БарТаб::SortStack(int stackix, int head, int tail)
+void TabBar::SortStack(int stackix, int head, int tail)
 {
 	if (!stacksort) return;
 	
 	int headid = tabs[head].id;
-	StableSort(СубДиапазон(tabs, head, tail - head).пиши(), *stacksorter);
+	StableSort(SubRange(tabs, head, tail - head).Write(), *stacksorter);
 	while (tabs[head].id != headid)
-		циклируйТабСтэк(head, stackix);
+		CycleTabStack(head, stackix);
 }
 
-void БарТаб::MakeGroups()
+void TabBar::MakeGroups()
 {
 	for(const auto& tab : tabs)
-		if(FindGroup(tab.группа) < 0)
-			NewGroup(tab.группа);
+		if(FindGroup(tab.group) < 0)
+			NewGroup(tab.group);
 	
-	groups[0].count = tabs.дайСчёт();
+	groups[0].count = tabs.GetCount();
 	groups[0].first = 0;
-	groups[0].last = tabs.дайСчёт() - 1;
+	groups[0].last = tabs.GetCount() - 1;
 
 	if (groupsort)
 		StableSort(tabs, *groupsorter);
 
-	for(int i = 1; i < groups.дайСчёт(); i++)
+	for(int i = 1; i < groups.GetCount(); i++)
 	{
 		groups[i].count = 0;
 		groups[i].first = 10000000;
 		groups[i].last = 0;
 	}
 
-	for(int i = 0; i < tabs.дайСчёт(); i++)
+	for(int i = 0; i < tabs.GetCount(); i++)
 	{
-		Вкладка &tab = tabs[i];
-		int n = FindGroup(tab.группа);
-		ПРОВЕРЬ(n >= 0);
+		Tab &tab = tabs[i];
+		int n = FindGroup(tab.group);
+		ASSERT(n >= 0);
 		if (n > 0) {
 			if(groups[n].active < 0)
 				groups[n].active = tab.id;
@@ -776,44 +776,44 @@ void БарТаб::MakeGroups()
 		}
 	}
 	
-	int cnt = groups.дайСчёт() - 1;
+	int cnt = groups.GetCount() - 1;
 	for(int i = cnt; i > 0; i--)
 		if(groups[i].count == 0)
-			groups.удали(i);
+			groups.Remove(i);
 		
-	if(группа > groups.дайСчёт() - 1 && группа > 0)
-		группа--;
+	if(group > groups.GetCount() - 1 && group > 0)
+		group--;
 }
 
-void БарТаб::GoGrouping(int n)
+void TabBar::GoGrouping(int n)
 {
-	Значение c = дайДанные();
-	группа = n;
-	Ткст g = дайИмяГруппы();
-	for(int i = 0; i < tabs.дайСчёт(); i++)
-		if(tabs[i].группа == g)
-			c = дайКлюч(i);
+	Value c = GetData();
+	group = n;
+	String g = GetGroupName();
+	for(int i = 0; i < tabs.GetCount(); i++)
+		if(tabs[i].group == g)
+			c = GetKey(i);
 	Repos();
-	синхБарПромота();
-	устДанные(c);
-	освежи();
+	SyncScrollBar();
+	SetData(c);
+	Refresh();
 }
 
-void БарТаб::DoGrouping(int n)
+void TabBar::DoGrouping(int n)
 {
-	группа = n;
+	group = n;
 	Repos();
-	синхБарПромота();
+	SyncScrollBar();
 }
 
 
-void БарТаб::DoCloseGroup(int n)
+void TabBar::DoCloseGroup(int n)
 {
-	int cnt = groups.дайСчёт();
+	int cnt = groups.GetCount();
 	if(cnt <= 0)
 		return;
 
-	Ткст groupName = groups[n].имя;
+	String groupName = groups[n].name;
 	
 	/*
 		do WhenCloseSome()/CancelCloseSome() checking
@@ -827,23 +827,23 @@ void БарТаб::DoCloseGroup(int n)
 	
 	if(WhenCloseSome || CancelCloseSome)
 	{
-		МассивЗнач vv;
+		ValueArray vv;
 		int nTabs = 0;
-		for(int i = 0; i < tabs.дайСчёт(); i++)
-			if(groupName == tabs[i].группа) {
-				vv.добавь(tabs[i].ключ);
+		for(int i = 0; i < tabs.GetCount(); i++)
+			if(groupName == tabs[i].group) {
+				vv.Add(tabs[i].key);
 				nTabs++;
 			}
 		// at first, we check for CancelCloseSome()
-		if(vv.дайСчёт() && !CancelCloseSome(vv) && ConfirmCloseSome(vv)) {
+		if(vv.GetCount() && !CancelCloseSome(vv) && ConfirmCloseSome(vv)) {
 			// we didn't cancel globally, now we check CancelClose()
-			// for each tab -- группа gets removed ONLY if ALL of
-			// группа tabs are closed
-			vv.очисть();
-			Вектор<int>vi;
-			for(int i = tabs.дайСчёт() - 1; i >= 0; i--) {
-				if(groupName == tabs[i].группа && tabs.дайСчёт() > 1) {
-					Значение v = tabs[i].ключ;
+			// for each tab -- group gets removed ONLY if ALL of
+			// group tabs are closed
+			vv.Clear();
+			Vector<int>vi;
+			for(int i = tabs.GetCount() - 1; i >= 0; i--) {
+				if(groupName == tabs[i].group && tabs.GetCount() > 1) {
+					Value v = tabs[i].key;
 					if(!CancelClose(v) && ConfirmClose(v))
 					{
 						nTabs--;
@@ -856,90 +856,90 @@ void БарТаб::DoCloseGroup(int n)
 			}
 			// and now do the true removal
 			WhenCloseSome(vv);
-			for(int i = 0; i < vv.дайСчёт(); i++)
+			for(int i = 0; i < vv.GetCount(); i++)
 			{
 				if (!CancelClose(vv[i]) && ConfirmClose(vv[i])) {
 					WhenClose(vv[i]);
 					TabClosed(vv[i]);
-					tabs.удали(vi[i]);
+					tabs.Remove(vi[i]);
 				}
 			}
-			// remove группа if all of its tabs get closed
+			// remove group if all of its tabs get closed
 			if(!nTabs) {
 				if(cnt == n)
-					группа--;
+					group--;
 				if(cnt > 1)
-					groups.удали(n);
+					groups.Remove(n);
 			}
 			MakeGroups();
 			Repos();
-			устКурсор(-1);
+			SetCursor(-1);
 		}
 		return;
 	}
 
 	// previous code path, taken if WhenCancelSome()/WhenCloseSome()
-	for(int i = tabs.дайСчёт() - 1; i >= 0; i--)
+	for(int i = tabs.GetCount() - 1; i >= 0; i--)
 	{
-		if(groupName == tabs[i].группа && tabs.дайСчёт() > 1) {
-			Значение v = tabs[i].значение; // should be ключ ??
+		if(groupName == tabs[i].group && tabs.GetCount() > 1) {
+			Value v = tabs[i].value; // should be key ??
 			if (!CancelClose(v) && ConfirmClose(v)) {
 				WhenClose(v);
 				TabClosed(v);
-				tabs.удали(i);
+				tabs.Remove(i);
 			}
 		}
 	}
 
 	if (cnt == n)
-		группа--;
+		group--;
 
 	if(cnt > 1) // what if CancelClose suppressed some tab closing ?
-		groups.удали(n);
+		groups.Remove(n);
 	MakeGroups();
 	Repos();
-	устКурсор(-1);
+	SetCursor(-1);
 }
 
-void БарТаб::NewGroup(const Ткст &имя)
+void TabBar::NewGroup(const String &name)
 {
-	Группа &g = groups.добавь();
-	g.имя = имя;
+	Group &g = groups.Add();
+	g.name = name;
 	g.count = 0;
 	g.first = 10000000;
 	g.last = 0;
 	g.active = -1;
 }
 
-Рисунок БарТаб::линРисунок(int align, const Рисунок& img)
+Image TabBar::AlignImage(int align, const Image& img)
 {
 	switch(align) {
-		case ЛинФрейм::LEFT: 
+		case AlignedFrame::LEFT: 
 			return RotateAntiClockwise(img);
-		case ЛинФрейм::RIGHT: 
+		case AlignedFrame::RIGHT: 
 			return RotateClockwise(img);
-		case ЛинФрейм::BOTTOM:
+		case AlignedFrame::BOTTOM:
 			return MirrorVert(img);
 		default:
 			return img;
 	}
 }
 
-Значение БарТаб::линЗначение(int align, const Значение &v, const Размер &sz)
+Value TabBar::AlignValue(int align, const Value &v, const Size &sz)
 {
-	Размер isz = sz;
-	if(align == ЛинФрейм::LEFT || align == ЛинФрейм::RIGHT)
-		разверни(isz.cx, isz.cy);
+	Size isz = sz;
+	if(align == AlignedFrame::LEFT || align == AlignedFrame::RIGHT)
+		Swap(isz.cx, isz.cy);
 
 	ImageDraw w(isz.cx, isz.cy);
 	w.DrawRect(isz, SColorFace());
 	ChPaint(w, isz, v);
-	return линРисунок(align, (Рисунок)w);
+	return AlignImage(align, (Image)w);
 }
 
-void БарТаб::ЭлтТаба::очисть()
+void TabBar::TabItem::Clear()
 {
-	text.очисть();
+	text.Clear();
 	ink = Null;
 	img = Null;
 	side = LEFT;
@@ -948,38 +948,38 @@ void БарТаб::ЭлтТаба::очисть()
 	stacked_tab = -1;
 }
 
-БарТаб::ЭлтТаба& БарТаб::Вкладка::добавьЭлт()
+TabBar::TabItem& TabBar::Tab::AddItem()
 {
-	if(itn < items.дайСчёт())
+	if(itn < items.GetCount())
 	{
-		ЭлтТаба& ti = items[itn++];
-		ti.очисть();
+		TabItem& ti = items[itn++];
+		ti.Clear();
 		return ti;
 	}
 	else
 	{
 		++itn;
-		return items.добавь();
+		return items.Add();
 	}
 }
 
-void БарТаб::Вкладка::очисть()
+void TabBar::Tab::Clear()
 {
 	itn = 0;
 }
 
-БарТаб::ЭлтТаба& БарТаб::Вкладка::добавьРисунок(const Рисунок& img, int side)
+TabBar::TabItem& TabBar::Tab::AddImage(const Image& img, int side)
 {
-	ЭлтТаба& ti = добавьЭлт();
+	TabItem& ti = AddItem();
 	ti.img = img;
-	ti.size = img.дайРазм();
+	ti.size = img.GetSize();
 	ti.side = side;
 	return ti;
 }
 
-БарТаб::ЭлтТаба& БарТаб::Вкладка::добавьЗнач(const Значение& q, const Шрифт& font, const Цвет& ink)
+TabBar::TabItem& TabBar::Tab::AddValue(const Value& q, const Font& font, const Color& ink)
 {
-	ЭлтТаба& ti = добавьЭлт();
+	TabItem& ti = AddItem();
 	
 	ti.font = font;
 	ti.ink = ink;
@@ -987,33 +987,33 @@ void БарТаб::Вкладка::очисть()
 	if(IsType<AttrText>(q)) {
 		const AttrText& t = ValueTo<AttrText>(q);
 		ti.text = t.text;
-		if(!пусто_ли(t.font))
+		if(!IsNull(t.font))
 			ti.font = t.font;
 		
-		if(!пусто_ли(t.ink))
+		if(!IsNull(t.ink))
 			ti.ink = t.ink;
 	}
 	else
-		ti.text = ткст_ли(q) ? q : стдПреобр().фмт(q);
+		ti.text = IsString(q) ? q : StdConvert().Format(q);
 	
-	ti.size = дайРазмТекста(ti.text, ti.font);
+	ti.size = GetTextSize(ti.text, ti.font);
 	return ti;
 }
 
-БарТаб::ЭлтТаба& БарТаб::Вкладка::добавьТекст(const ШТкст& s, const Шрифт& font, const Цвет& ink)
+TabBar::TabItem& TabBar::Tab::AddText(const WString& s, const Font& font, const Color& ink)
 {
-	ЭлтТаба& ti = добавьЭлт();
+	TabItem& ti = AddItem();
 
 	ti.font = font;
 	ti.ink = ink;
 	ti.text = s;
-	ti.size = дайРазмТекста(ti.text, ti.font);
+	ti.size = GetTextSize(ti.text, ti.font);
 	return ti;
 }
 
-БарТаб::ЭлтТаба& БарТаб::Вкладка::добавьМеста(int space, int side)
+TabBar::TabItem& TabBar::Tab::AddSpace(int space, int side)
 {
-	ЭлтТаба& ti = добавьЭлт();
+	TabItem& ti = AddItem();
 	
 	ti.size.cx = space;
 	ti.size.cy = 0;
@@ -1021,95 +1021,95 @@ void БарТаб::Вкладка::очисть()
 	return ti;
 }
 
-void БарТаб::ComposeTab(Вкладка& tab, const Шрифт &font, Цвет ink, int style)
+void TabBar::ComposeTab(Tab& tab, const Font &font, Color ink, int style)
 {
-	if(PaintIcons() && tab.естьИконка())
+	if(PaintIcons() && tab.HasIcon())
 	{
-		tab.добавьРисунок(tab.img);
-		tab.добавьМеста(DPI(TB_SPACEICON));
+		tab.AddImage(tab.img);
+		tab.AddSpace(DPI(TB_SPACEICON));
 	}
-	tab.добавьЗнач(tab.значение, font, ink).кликаем();
+	tab.AddValue(tab.value, font, ink).Clickable();
 }
 
-void БарТаб::ComposeStackedTab(Вкладка& tab, const Вкладка& stacked_tab, const Шрифт& font, Цвет ink, int style)
+void TabBar::ComposeStackedTab(Tab& tab, const Tab& stacked_tab, const Font& font, Color ink, int style)
 {
-	tab.добавьРисунок(stacked_tab.img);
-	tab.добавьТекст("|...", font, ink);
+	tab.AddImage(stacked_tab.img);
+	tab.AddText("|...", font, ink);
 }
 
-int БарТаб::GetTextAngle()
+int TabBar::GetTextAngle()
 {
-	return ЛинФрейм::вертикален() ? (дайЛин() == LEFT ? 900 : 2700) : 0;
+	return AlignedFrame::IsVert() ? (GetAlign() == LEFT ? 900 : 2700) : 0;
 }
 
-Точка БарТаб::GetTextPosition(int align, const Прям& r, int cy, int space) const
+Point TabBar::GetTextPosition(int align, const Rect& r, int cy, int space) const
 {
-	Точка 	p;
+	Point 	p;
 	
 	if(align == LEFT)
 	{
 		p.y = r.bottom - space;
-		p.x = r.left + (r.дайШирину() - cy) / 2;
+		p.x = r.left + (r.GetWidth() - cy) / 2;
 	}
 	else if(align == RIGHT)
 	{
 		p.y = r.top + space;
-		p.x = r.right - (r.дайШирину() - cy) / 2;
+		p.x = r.right - (r.GetWidth() - cy) / 2;
 	}
 	else
 	{
 		p.x = r.left + space;
-		p.y = r.top + (r.дайВысоту() - cy) / 2;
+		p.y = r.top + (r.GetHeight() - cy) / 2;
 	}
 	return p;
 }
 
-Точка БарТаб::GetImagePosition(int align, const Прям& r, int cx, int cy, int space, int side, int offset) const
+Point TabBar::GetImagePosition(int align, const Rect& r, int cx, int cy, int space, int side, int offset) const
 {
-	Точка p;
+	Point p;
 
 	if (align == LEFT)
 	{
-		p.x = r.left + (r.дайШирину() - cy) / 2 + offset;
+		p.x = r.left + (r.GetWidth() - cy) / 2 + offset;
 		p.y = side == LEFT ? r.bottom - space - cx : r.top + space;
 	}
 	else if (align == RIGHT)
 	{
-		p.x = r.right - (r.дайШирину() + cy) / 2 - offset;
+		p.x = r.right - (r.GetWidth() + cy) / 2 - offset;
 		p.y = side == LEFT ? r.top + space : r.bottom - space - cx;
 	}
 	else if (align == TOP)
 	{
 		p.x = side == LEFT ? r.left + space : r.right - cx - space;
-		p.y = r.top + (r.дайВысоту() - cy) / 2 + offset;
+		p.y = r.top + (r.GetHeight() - cy) / 2 + offset;
 	}
 	else if (align == BOTTOM)
 	{
 		p.x = side == LEFT ? r.left + space : r.right - cx - space;
-		p.y = r.bottom - (r.дайВысоту() + cy) / 2 - offset;
+		p.y = r.bottom - (r.GetHeight() + cy) / 2 - offset;
 	}
 	return p;
 }
 
-void БарТаб::PaintTabItems(Вкладка& t, Draw &w, const Прям& rn, int align)
+void TabBar::PaintTabItems(Tab& t, Draw &w, const Rect& rn, int align)
 {
 	int pos_left = TB_MARGIN;
-	int pos_right = (вертикален() ? rn.дайВысоту() : rn.дайШирину()) - TB_MARGIN;
+	int pos_right = (IsVert() ? rn.GetHeight() : rn.GetWidth()) - TB_MARGIN;
 	
 	for(int i = 0; i < t.itn; i++)
 	{
-		const ЭлтТаба& ti = t.items[i];
+		const TabItem& ti = t.items[i];
 		
-		Точка p(0, 0);
+		Point p(0, 0);
 		int pos = ti.side == LEFT ? pos_left : pos_right - ti.size.cx;
 		
-		if(!пусто_ли(ti.img))
+		if(!IsNull(ti.img))
 		{
 			p = GetImagePosition(align, rn, ti.size.cx, ti.size.cy, pos, LEFT);
-			w.DrawImage(p.x, p.y, вертикален() ? линРисунок(align, ti.img) : ti.img);
+			w.DrawImage(p.x, p.y, IsVert() ? AlignImage(align, ti.img) : ti.img);
 		}
 		
-		if(!пусто_ли(ti.text))
+		if(!IsNull(ti.text))
 		{
 			p = GetTextPosition(align, rn, ti.size.cy, pos);
 			w.DrawText(p.x, p.y, GetTextAngle(), ti.text, ti.font, ti.ink);
@@ -1123,26 +1123,26 @@ void БарТаб::PaintTabItems(Вкладка& t, Draw &w, const Прям& rn,
 		
 		if(ti.stacked_tab >= 0 && ti.clickable)
 		{
-			Вкладка& st = tabs[ti.stacked_tab];
+			Tab& st = tabs[ti.stacked_tab];
 			
 			if(align == RIGHT)
 			{
-				st.tab_pos = Точка(rn.left, rn.top + pos);
-				st.tab_size = Размер(rn.дайШирину(), ti.size.cx);	
+				st.tab_pos = Point(rn.left, rn.top + pos);
+				st.tab_size = Size(rn.GetWidth(), ti.size.cx);	
 			}
 			else if(align == LEFT)
 			{
-				st.tab_pos = Точка(rn.left, rn.bottom - pos - ti.size.cx);
-				st.tab_size = Размер(rn.дайШирину(), ti.size.cx);	
+				st.tab_pos = Point(rn.left, rn.bottom - pos - ti.size.cx);
+				st.tab_size = Size(rn.GetWidth(), ti.size.cx);	
 			}
 			else
 			{
-				st.tab_pos = Точка(rn.left + pos, rn.top);
-				st.tab_size = Размер(ti.size.cx, rn.дайВысоту());
+				st.tab_pos = Point(rn.left + pos, rn.top);
+				st.tab_size = Size(ti.size.cx, rn.GetHeight());
 			}
 			
 			#ifdef TABBAR_DEBUG
-			DrawFrame(w, Прям(st.tab_pos, st.tab_size), красный);
+			DrawFrame(w, Rect(st.tab_pos, st.tab_size), Red);
 			#endif
 		}
 				
@@ -1153,12 +1153,12 @@ void БарТаб::PaintTabItems(Вкладка& t, Draw &w, const Прям& rn,
 	}
 }
 
-void БарТаб::рисуйТаб(Draw &w, const Размер &sz, int n, bool enable, bool dragsample)
+void TabBar::PaintTab(Draw &w, const Size &sz, int n, bool enable, bool dragsample)
 {
-	БарТаб::Вкладка &t = tabs[n];
-	const Стиль& s = *style;
-	int align = дайЛин();
-	int cnt = dragsample ? 1 : tabs.дайСчёт();
+	TabBar::Tab &t = tabs[n];
+	const Style& s = *style;
+	int align = GetAlign();
+	int cnt = dragsample ? 1 : tabs.GetCount();
 	
 	bool ac = (n == active && enable);
 	bool hl = (n == highlight && enable) || (stacking && highlight >= 0 && tabs[highlight].stack == t.stack);
@@ -1169,7 +1169,7 @@ void БарТаб::рисуйТаб(Draw &w, const Размер &sz, int n, bool
 
 	int c = align == LEFT ? cnt - n : n;	
 	int lx = n > 0 ? s.extendleft : 0;
-	int x = t.pos.x - sc.дайПоз() - lx + s.margin;
+	int x = t.pos.x - sc.GetPos() - lx + s.margin;
 	
 	int dy = -s.sel.top * ac;
 	int sel = s.sel.top;
@@ -1180,57 +1180,57 @@ void БарТаб::рисуйТаб(Draw &w, const Размер &sz, int n, bool
 	{
 		dy = -dy;
 		sel = s.sel.bottom;
-		df = фиксирован(sz).cy;
+		df = Fixed(sz).cy;
 	}
 
-	Размер  sa = Размер(t.size.cx + lx + s.sel.right + s.sel.left, t.size.cy + s.sel.bottom);
-	Точка pa = Точка(x - s.sel.left, IsBR() ? df - sa.cy : 0);
+	Size  sa = Size(t.size.cx + lx + s.sel.right + s.sel.left, t.size.cy + s.sel.bottom);
+	Point pa = Point(x - s.sel.left, IsBR() ? df - sa.cy : 0);
 
-	Размер  sn = Размер(t.size.cx + lx, t.size.cy - s.sel.top);
-	Точка pn = Точка(x, IsBR() ? df - sn.cy - s.sel.top : s.sel.top);
+	Size  sn = Size(t.size.cx + lx, t.size.cy - s.sel.top);
+	Point pn = Point(x, IsBR() ? df - sn.cy - s.sel.top : s.sel.top);
 
-	Прям ra(фиксирован(pa), фиксирован(sa));
-	Прям rn(фиксирован(pn), фиксирован(sn));
+	Rect ra(Fixed(pa), Fixed(sa));
+	Rect rn(Fixed(pn), Fixed(sn));
 	
-	t.tab_pos = (ac ? ra : rn).верхЛево();
-	t.tab_size = (ac ? ra : rn).дайРазм();
+	t.tab_pos = (ac ? ra : rn).TopLeft();
+	t.tab_size = (ac ? ra : rn).GetSize();
 
-	const Значение& sv = (cnt == 1 ? s.both : c == 0 ? s.first : c == cnt - 1 ? s.last : s.normal)[ndx];
+	const Value& sv = (cnt == 1 ? s.both : c == 0 ? s.first : c == cnt - 1 ? s.last : s.normal)[ndx];
 	
-	Рисунок img = линЗначение(align, sv, t.tab_size);
+	Image img = AlignValue(align, sv, t.tab_size);
 	
-	if(!пусто_ли(t.col))
+	if(!IsNull(t.col))
 	{
 		img = Colorize(img, t.col);
 	}
 
 	if(dragsample)
 	{
-		w.DrawImage(Прям(Точка(0, 0), t.tab_size), img);
-		rn = Прям(фиксирован(Точка(s.sel.left * ac, sel * ac + dy)), фиксирован(sn));
+		w.DrawImage(Rect(Point(0, 0), t.tab_size), img);
+		rn = Rect(Fixed(Point(s.sel.left * ac, sel * ac + dy)), Fixed(sn));
 	}
 	else
 	{
-		w.DrawImage(Прям(t.tab_pos, t.tab_size), img);
-		rn = Прям(фиксирован(Точка(pn.x, pn.y + dy)), фиксирован(sn));
+		w.DrawImage(Rect(t.tab_pos, t.tab_size), img);
+		rn = Rect(Fixed(Point(pn.x, pn.y + dy)), Fixed(sn));
 	}
 	
 	#ifdef TABBAR_DEBUG
-	DrawFrame(w, rn, зелёный);
+	DrawFrame(w, rn, Green);
 	#endif
 		
-	if (дисплей)
-		дисплей->рисуй(w, rn, t.значение, s.text_color[ndx], SColorDisabled(), ndx);
+	if (display)
+		display->Paint(w, rn, t.value, s.text_color[ndx], SColorDisabled(), ndx);
 
-	t.очисть();
+	t.Clear();
 
 	if(crosses && cnt > mintabcount && !dragsample && !IsCancelClose(n)) {
-		ЭлтТаба& ti = t.добавьЭлт();
+		TabItem& ti = t.AddItem();
 		ti.img = s.crosses[cross == n ? 2 : ac || hl ? 1 : 0];
 		ti.side = crosses_side;
 		ti.cross = true;
-		ti.size = s.crosses[0].дайРазм();
-		t.добавьМеста(DPI(3), crosses_side);
+		ti.size = s.crosses[0].GetSize();
+		t.AddSpace(DPI(3), crosses_side);
 	}
 	
 	ComposeTab(t, s.font, s.text_color[ndx], ndx);
@@ -1238,8 +1238,8 @@ void БарТаб::рисуйТаб(Draw &w, const Размер &sz, int n, bool
 	if (stacking) {
 		int ix = n + 1;
 
-		while (ix < tabs.дайСчёт() && tabs[ix].stack == t.stack) {
-			Вкладка &q = tabs[ix];
+		while (ix < tabs.GetCount() && tabs[ix].stack == t.stack) {
+			Tab &q = tabs[ix];
 			int ndx = !enable ? CTRL_DISABLED :
 					   highlight == ix ? CTRL_HOT : CTRL_NORMAL;
 
@@ -1256,82 +1256,82 @@ void БарТаб::рисуйТаб(Draw &w, const Размер &sz, int n, bool
 	PaintTabItems(t, w, rn, align);
 }
 
-void БарТаб::рисуй(Draw &w)
+void TabBar::Paint(Draw &w)
 {
-	int align = дайЛин();
-	const Стиль &st = *style;
-	Размер ctrlsz = дайРазм();
-	Размер sz = GetBarSize(ctrlsz);
+	int align = GetAlign();
+	const Style &st = *style;
+	Size ctrlsz = GetSize();
+	Size sz = GetBarSize(ctrlsz);
 	
 	if (align == BOTTOM || align == RIGHT)
-		w.смещение(ctrlsz.cx - sz.cx, ctrlsz.cy - sz.cy);
+		w.Offset(ctrlsz.cx - sz.cx, ctrlsz.cy - sz.cy);
 	
 	#ifdef TABBAR_DEBUG
-	w.DrawRect(sz, жёлтый);
+	w.DrawRect(sz, Yellow);
 	#else
 	w.DrawRect(sz, SColorFace());
 	#endif
 
-	if(вертикален())
-		w.DrawRect(align == LEFT ? sz.cx - 1 : 0, 0, 1, sz.cy, смешай(SColorDkShadow, SColorShadow));
+	if(IsVert())
+		w.DrawRect(align == LEFT ? sz.cx - 1 : 0, 0, 1, sz.cy, Blend(SColorDkShadow, SColorShadow));
 	else
-		w.DrawRect(0, align == TOP ? sz.cy - 1 : 0, sz.cx, 1, смешай(SColorDkShadow, SColorShadow));
+		w.DrawRect(0, align == TOP ? sz.cy - 1 : 0, sz.cx, 1, Blend(SColorDkShadow, SColorShadow));
 
-	if (!tabs.дайСчёт()) {
+	if (!tabs.GetCount()) {
 		if (align == BOTTOM || align == RIGHT)
-			w.стоп();
+			w.End();
 		return;
 	}
 	
-	int limt = sc.дайПоз() + (вертикален() ? sz.cy : sz.cx);	
+	int limt = sc.GetPos() + (IsVert() ? sz.cy : sz.cx);	
 	int first = 0;
-	int last = tabs.дайСчёт() - 1;
-	// найди first visible tab
-	for(int i = 0; i < tabs.дайСчёт(); i++) {
-		Вкладка &tab = tabs[i]; 
-		if (tab.pos.x + tab.size.cx > sc.дайПоз()) {
+	int last = tabs.GetCount() - 1;
+	// Find first visible tab
+	for(int i = 0; i < tabs.GetCount(); i++) {
+		Tab &tab = tabs[i]; 
+		if (tab.pos.x + tab.size.cx > sc.GetPos()) {
 			first = i;
 			break;
 		}
 	}
-	// найди last visible tab
-	for(int i = first + 1; i < tabs.дайСчёт(); i++) { 
+	// Find last visible tab
+	for(int i = first + 1; i < tabs.GetCount(); i++) { 
 		if (tabs[i].visible && tabs[i].pos.x > limt) {
 			last = i;
 			break;
 		}
 	}
-	// Draw active группа
+	// Draw active group
 	for (int i = first; i <= last; i++) {
 		if(tabs[i].visible && i != active)
-			рисуйТаб(w, sz, i, включен_ли());
+			PaintTab(w, sz, i, IsEnabled());
 	}
-	// очисть tab_size for non-visible tabs to prevent mouse handling bugs
+	// Clear tab_size for non-visible tabs to prevent mouse handling bugs
 	for (int i = 0; i < first; i++)
-		tabs[i].tab_size = Размер(0, 0);	
-	for (int i = last + 1; i < tabs.дайСчёт(); i++)
-		tabs[i].tab_size = Размер(0, 0);		
+		tabs[i].tab_size = Size(0, 0);	
+	for (int i = last + 1; i < tabs.GetCount(); i++)
+		tabs[i].tab_size = Size(0, 0);		
 	// Draw inactive groups
 	if (inactivedisabled)
 		for (int i = first; i <= last; i++) {
-			if(!tabs[i].visible && i != active && (!stacking || начСтэка_ли(i)))
-				рисуйТаб(w, sz, i, !включен_ли());
+			if(!tabs[i].visible && i != active && (!stacking || IsStackHead(i)))
+				PaintTab(w, sz, i, !IsEnabled());
 		}
 			
 	// Draw selected tab
 	if(active >= first && active <= last)
-		рисуйТаб(w, sz, active, true);
+		PaintTab(w, sz, active, true);
 	
 	// Separators
 	if (grouping && groupseps) {
-		int cy = вертикален() ? sz.cx : sz.cy;
-		for (int i = 0; i < separators.дайСчёт(); i++) {
+		int cy = IsVert() ? sz.cx : sz.cy;
+		for (int i = 0; i < separators.GetCount(); i++) {
 			int x = separators[i];
-			if (x > sc.дайПоз() && x < limt) {
-				// рисуй separator
-				ChPaint(w, Прям(фиксирован(Точка(x - sc.дайПоз() + дайСтиль().sel.left, 0)), 
-					фиксирован(Размер(TB_SPACE - дайСтиль().sel.left, cy-1))), 
-					st.group_separators[вертикален() ? 1 : 0]);						
+			if (x > sc.GetPos() && x < limt) {
+				// Paint separator
+				ChPaint(w, Rect(Fixed(Point(x - sc.GetPos() + GetStyle().sel.left, 0)), 
+					Fixed(Size(TB_SPACE - GetStyle().sel.left, cy-1))), 
+					st.group_separators[IsVert() ? 1 : 0]);						
 			}
 		}
 	}
@@ -1341,24 +1341,24 @@ void БарТаб::рисуй(Draw &w)
 	{
 		// Draw target marker
 		int drag = isctrl ? highlight : active;
-		if(target != drag && target != дайСледщ(drag, true))
+		if(target != drag && target != GetNext(drag, true))
 		{
-			last = дайПоследн();
-			first = дайПерв();
-			int x = (target == last + 1 ? tabs[last].право() : tabs[target].pos.x)
-			        - sc.дайПоз() - (target <= first ? 1 : 2)
+			last = GetLast();
+			first = GetFirst();
+			int x = (target == last + 1 ? tabs[last].Right() : tabs[target].pos.x)
+			        - sc.GetPos() - (target <= first ? 1 : 2)
 			        + st.margin - (target > 0 ? st.extendleft : 0);
 
-			if (горизонтален())
+			if (IsHorz())
 				DrawVertDrop(w, x + 1, 0, sz.cy);
 			else
 				DrawHorzDrop(w, 0, x + 1, sz.cx);
 		}
 		// Draw transparent drag image
-		Точка mouse = дайПозМыши() - дайПрямЭкрана().верхЛево();
-		Размер isz = dragtab.дайРазм();
+		Point mouse = GetMousePos() - GetScreenRect().TopLeft();
+		Size isz = dragtab.GetSize();
 		int p = 0;
-		int sep = TB_SBSEPARATOR * sc.видим_ли();
+		int sep = TB_SBSEPARATOR * sc.IsVisible();
 		
 		int top = drag == active ? st.sel.bottom : st.sel.top;
 		if (align == BOTTOM || align == RIGHT)
@@ -1366,44 +1366,44 @@ void БарТаб::рисуй(Draw &w)
 		else
 			p = int(drag != active) * top;
 		
-		if (горизонтален())
+		if (IsHorz())
 			w.DrawImage(mouse.x - isz.cx / 2, p, isz.cx, isz.cy, dragtab);
 		else
 			w.DrawImage(p, mouse.y - isz.cy / 2, isz.cx, isz.cy, dragtab);
 	}
 	
 	if (align == BOTTOM || align == RIGHT)
-		w.стоп();	
+		w.End();	
 
 	// If not in a frame fill any spare area
 	if (!InFrame())
 		w.DrawRect(GetClientArea(), SColorFace());
 }
 
-Рисунок БарТаб::дайСэиплТяга()
+Image TabBar::GetDragSample()
 {
 	int h = drag_highlight;
 	if(stacking)
-		h = найдиНачСтэка(tabs[h].stack);
-	return дайСэиплТяга(h);
+		h = FindStackHead(tabs[h].stack);
+	return GetDragSample(h);
 }
 
-Рисунок БарТаб::дайСэиплТяга(int n)
+Image TabBar::GetDragSample(int n)
 {
-	if (n < 0) return Рисунок();
-	Вкладка &t = tabs[n];
+	if (n < 0) return Image();
+	Tab &t = tabs[n];
 
-	Размер tsz(t.tab_size);
+	Size tsz(t.tab_size);
 	ImageDraw iw(tsz);
 	iw.DrawRect(tsz, SColorFace()); //this need to be fixed - if inactive tab is dragged gray edges are visible
 	
-	рисуйТаб(iw, tsz, n, true, true);
+	PaintTab(iw, tsz, n, true, true);
 	
-	Рисунок img = iw;
+	Image img = iw;
 	ImageBuffer ib(img);
 	Unmultiply(ib);
-	КЗСА *s = ~ib;
-	КЗСА *e = s + ib.дайДлину();
+	RGBA *s = ~ib;
+	RGBA *e = s + ib.GetLength();
 	while(s < e) {
 		s->a = 180;
 		s++;
@@ -1412,98 +1412,98 @@ void БарТаб::рисуй(Draw &w)
 	return ib;
 }
 
-void БарТаб::промотай()
+void TabBar::Scroll()
 {
-	освежи();
+	Refresh();
 }
 
-int БарТаб::дайШирину(int n)
+int TabBar::GetWidth(int n)
 {
-	return дайСтдРазм(tabs[n]).cx + дайЭкстраШир(n);
+	return GetStdSize(tabs[n]).cx + GetExtraWidth(n);
 }
 
-int БарТаб::дайЭкстраШир(int n)
+int TabBar::GetExtraWidth(int n)
 {
-	return DPI(TB_MARGIN) * 2 + (DPI(TB_SPACE) + дайСтиль().crosses[0].дайРазм().cx) * (crosses && !IsCancelClose(n));	
+	return DPI(TB_MARGIN) * 2 + (DPI(TB_SPACE) + GetStyle().crosses[0].GetSize().cx) * (crosses && !IsCancelClose(n));	
 }
 
-Размер БарТаб::дайСтдРазм(const Значение &q)
+Size TabBar::GetStdSize(const Value &q)
 {
-	if (дисплей)
-		return дисплей->дайСтдРазм(q);
-	else if (q.дайТип() == STRING_V || q.дайТип() == WSTRING_V)
-		return дайРазмТекста(ШТкст(q), дайСтиль().font);
+	if (display)
+		return display->GetStdSize(q);
+	else if (q.GetType() == STRING_V || q.GetType() == WSTRING_V)
+		return GetTextSize(WString(q), GetStyle().font);
 	else
-		return дайРазмТекста("A Вкладка", дайСтиль().font);	
+		return GetTextSize("A Tab", GetStyle().font);	
 }
 
-Размер БарТаб::GetStackedSize(const Вкладка &t)
+Size TabBar::GetStackedSize(const Tab &t)
 {
-	if (!пусто_ли(t.img))
-		return t.img.дайРазм();
-	return дайРазмТекста("...", дайСтиль().font, 3);
+	if (!IsNull(t.img))
+		return t.img.GetSize();
+	return GetTextSize("...", GetStyle().font, 3);
 }
 
-Размер БарТаб::дайСтдРазм(const Вкладка &t)
+Size TabBar::GetStdSize(const Tab &t)
 {
-	return (PaintIcons() && t.естьИконка()) ? (дайСтдРазм(t.значение) + Размер(TB_ICON + 2, 0)) : дайСтдРазм(t.значение);
+	return (PaintIcons() && t.HasIcon()) ? (GetStdSize(t.value) + Size(TB_ICON + 2, 0)) : GetStdSize(t.value);
 }
 
-БарТаб& БарТаб::добавь(const Значение &значение, Рисунок icon, Ткст группа, bool make_active)
+TabBar& TabBar::Add(const Value &value, Image icon, String group, bool make_active)
 {
-	return вставьКлюч(tabs.дайСчёт(), значение, значение, icon, группа, make_active);
+	return InsertKey(tabs.GetCount(), value, value, icon, group, make_active);
 }
 
-БарТаб& БарТаб::вставь(int ix, const Значение &значение, Рисунок icon, Ткст группа, bool make_active)
+TabBar& TabBar::Insert(int ix, const Value &value, Image icon, String group, bool make_active)
 {
-	return вставьКлюч(tabs.дайСчёт(), значение, значение, icon, группа, make_active);
+	return InsertKey(tabs.GetCount(), value, value, icon, group, make_active);
 }
 
-БарТаб& БарТаб::добавьКлюч(const Значение &ключ, const Значение &значение, Рисунок icon, Ткст группа, bool make_active)
+TabBar& TabBar::AddKey(const Value &key, const Value &value, Image icon, String group, bool make_active)
 {
-	return вставьКлюч(tabs.дайСчёт(), ключ, значение, icon, группа, make_active);
+	return InsertKey(tabs.GetCount(), key, value, icon, group, make_active);
 }
 
-БарТаб& БарТаб::вставьКлюч(int ix, const Значение &ключ, const Значение &значение, Рисунок icon, Ткст группа, bool make_active)
+TabBar& TabBar::InsertKey(int ix, const Value &key, const Value &value, Image icon, String group, bool make_active)
 {
-	int id = InsertKey0(ix, ключ, значение, icon, группа);
+	int id = InsertKey0(ix, key, value, icon, group);
 	
 	SortTabs0();
 	MakeGroups();	
 	Repos();
 	active = -1;
 	if (make_active || (!allownullcursor && active < 0)) 
-		устКурсор((groupsort || stacking) ? найдиИд(id) : ( minmax(ix, 0, tabs.дайСчёт() - 1)));		
+		SetCursor((groupsort || stacking) ? FindId(id) : ( minmax(ix, 0, tabs.GetCount() - 1)));		
 	return *this;	
 }
 
-int БарТаб::InsertKey0(int ix, const Значение &ключ, const Значение &значение, Рисунок icon, Ткст группа)
+int TabBar::InsertKey0(int ix, const Value &key, const Value &value, Image icon, String group)
 {
-	ПРОВЕРЬ(ix >= 0);
+	ASSERT(ix >= 0);
 	int g = 0;
-	if (!группа.пустой()) {
-		g = FindGroup(группа);
+	if (!group.IsEmpty()) {
+		g = FindGroup(group);
 		if (g < 0) {
-			NewGroup(группа);
-			g = groups.дайСчёт() - 1;
+			NewGroup(group);
+			g = groups.GetCount() - 1;
 		}
 	}
 	
-	группа = groups[g].имя;
-	Вкладка t;
-	t.значение = значение;
-	t.ключ = ключ;
+	group = groups[g].name;
+	Tab t;
+	t.value = value;
+	t.key = key;
 	t.img = icon;
-	t.id = дайСледщИд();
-	t.группа = Nvl(обрежьОба(группа), "Unnamed Группа");	
+	t.id = GetNextId();
+	t.group = Nvl(TrimBoth(group), "Unnamed Group");	
 	if (stacking) {
 		t.stackid = GetStackId(t);
 		
-		// Override Индекс
+		// Override index
 		int tail = -1;
-		for (int i = 0; i < tabs.дайСчёт(); i++) {
-			if (tabs[i].stackid == t.stackid && (!grouping || tabs[i].группа == t.группа)) {
-				tail = найдиКонСтэка(tabs[i].stack);
+		for (int i = 0; i < tabs.GetCount(); i++) {
+			if (tabs[i].stackid == t.stackid && (!grouping || tabs[i].group == t.group)) {
+				tail = FindStackTail(tabs[i].stack);
 				break;
 			}
 		}
@@ -1513,124 +1513,124 @@ int БарТаб::InsertKey0(int ix, const Значение &ключ, const З�
 			tail++;
 		}
 		else {
-			ix = (ix < tabs.дайСчёт()) ? найдиНачСтэка(tabs[ix].stack) : ix;
+			ix = (ix < tabs.GetCount()) ? FindStackHead(tabs[ix].stack) : ix;
 			t.stack = stackcount++;
 		}
-		tabs.вставь(ix, t);
+		tabs.Insert(ix, t);
 		if (tail >= 0)
-			SortStack(t.stack, найдиНачСтэка(t.stack), ix);	
+			SortStack(t.stack, FindStackHead(t.stack), ix);	
 			
 	}
 	else
-		tabs.вставь(ix, t);
+		tabs.Insert(ix, t);
 	return t.id;
 }
 
-int БарТаб::дайШирину() const
+int TabBar::GetWidth() const
 {
-	if (!tabs.дайСчёт()) return 0;
-	int ix = дайПоследн();
-	const Стиль& s = дефСтиль();
-	if (начСтэка_ли(ix)) 
-		return tabs[ix].право() + s.margin * 2;
+	if (!tabs.GetCount()) return 0;
+	int ix = GetLast();
+	const Style& s = StyleDefault();
+	if (IsStackHead(ix)) 
+		return tabs[ix].Right() + s.margin * 2;
 	int stack = tabs[ix].stack;
 	ix--;
 	while (ix >= 0 && tabs[ix].stack == stack)
 		ix--;
-	return tabs[ix + 1].право() + s.margin * 2;
+	return tabs[ix + 1].Right() + s.margin * 2;
 	
 }
 
-int БарТаб::дайВысоту(bool scrollbar) const
+int TabBar::GetHeight(bool scrollbar) const
 {
-	return БарТаб::дайВысотуСтиля() + TB_SBSEPARATOR * int(scrollbar);
+	return TabBar::GetStyleHeight() + TB_SBSEPARATOR * int(scrollbar);
 }
 
-int БарТаб::дайВысотуСтиля() const
+int TabBar::GetStyleHeight() const
 {
-	const Стиль& s = дайСтиль();
+	const Style& s = GetStyle();
 	return s.tabheight + s.sel.top;
 }
 
-void БарТаб::Repos()
+void TabBar::Repos()
 {
-	if(!tabs.дайСчёт())
+	if(!tabs.GetCount())
 		return;
 
-	Ткст g = дайИмяГруппы();
+	String g = GetGroupName();
 	int j;
 	bool first = true;
 	j = 0;
-	separators.очисть();
-	for(int i = 0; i < tabs.дайСчёт(); i++)
-		j = позТаба(g, first, i, j, false);
+	separators.Clear();
+	for(int i = 0; i < tabs.GetCount(); i++)
+		j = TabPos(g, first, i, j, false);
 	if (inactivedisabled)
-		for(int i = 0; i < tabs.дайСчёт(); i++)
+		for(int i = 0; i < tabs.GetCount(); i++)
 			if (!tabs[i].visible)
-				j = позТаба(g, first, i, j, true);
-	синхБарПромота();
+				j = TabPos(g, first, i, j, true);
+	SyncScrollBar();
 }
 
-Размер БарТаб::GetBarSize(Размер ctrlsz) const
+Size TabBar::GetBarSize(Size ctrlsz) const
 {
-	return вертикален() ? Размер(дайРазмФрейма() - scrollbar_sz * int(sc.показан_ли()), ctrlsz.cy) 
-			: Размер(ctrlsz.cx, дайРазмФрейма() - scrollbar_sz * int(sc.показан_ли()));
+	return IsVert() ? Size(GetFrameSize() - scrollbar_sz * int(sc.IsShown()), ctrlsz.cy) 
+			: Size(ctrlsz.cx, GetFrameSize() - scrollbar_sz * int(sc.IsShown()));
 }
 
-Прям БарТаб::GetClientArea() const
+Rect TabBar::GetClientArea() const
 {
-	Прям rect = дайРазм();
-	switch (дайЛин()) {
+	Rect rect = GetSize();
+	switch (GetAlign()) {
 		case TOP:
-			rect.top += дайРазмФрейма();	
+			rect.top += GetFrameSize();	
 			break;
 		case BOTTOM:
-			rect.bottom -= дайРазмФрейма();	
+			rect.bottom -= GetFrameSize();	
 			break;
 		case LEFT:
-			rect.left += дайРазмФрейма();	
+			rect.left += GetFrameSize();	
 			break;
 		case RIGHT:
-			rect.right -= дайРазмФрейма();	
+			rect.right -= GetFrameSize();	
 			break;
 	};
 	return rect;	
 }
 
-int БарТаб::позТаба(const Ткст &g, bool &first, int i, int j, bool inactive)
+int TabBar::TabPos(const String &g, bool &first, int i, int j, bool inactive)
 {
-	bool ishead = начСтэка_ли(i);
-	bool v = пусто_ли(g) ? true : g == tabs[i].группа;
-	Вкладка& t = tabs[i];
+	bool ishead = IsStackHead(i);
+	bool v = IsNull(g) ? true : g == tabs[i].group;
+	Tab& t = tabs[i];
 
 	if(ishead && (v || inactive))
 	{
 		t.visible = v;
 		t.pos.y = 0;
-		t.size.cy = дайВысотуСтиля();
+		t.size.cy = GetStyleHeight();
 				
 		// Normal visible or inactive but greyed out tabs
-		t.pos.x = first ? 0 : tabs[j].право();
+		t.pos.x = first ? 0 : tabs[j].Right();
 		
 		// Separators
-		if (groupseps && grouping && !first && t.группа != tabs[j].группа) {
-			separators.добавь(t.pos.x);
+		if (groupseps && grouping && !first && t.group != tabs[j].group) {
+			separators.Add(t.pos.x);
 			t.pos.x += TB_SPACE;
 		}
 		
-		int cx = дайСтдРазм(t).cx;
+		int cx = GetStdSize(t).cx;
 
 		// Stacked/shortened tabs
 		if (stacking) {
-			for(int n = i + 1; n < tabs.дайСчёт() && tabs[n].stack == t.stack; n++)
+			for(int n = i + 1; n < tabs.GetCount() && tabs[n].stack == t.stack; n++)
 				cx += GetStackedSize(tabs[n]).cx;
 		}
 			
-		t.size.cx = cx + дайЭкстраШир(i);
+		t.size.cx = cx + GetExtraWidth(i);
 
 		if (stacking) {
-			for(int n = i + 1; n < tabs.дайСчёт() && tabs[n].stack == t.stack; n++) {
-				Вкладка &q = tabs[n];
+			for(int n = i + 1; n < tabs.GetCount() && tabs[n].stack == t.stack; n++) {
+				Tab &q = tabs[n];
 				q.visible = false;
 				q.pos = t.pos;
 				q.size = t.size;
@@ -1642,51 +1642,51 @@ int БарТаб::позТаба(const Ткст &g, bool &first, int i, int j, b
 	}
 	else if (!(v || inactive)) {
 		t.visible = false;
-		t.pos.x = sc.дайВсего() + GetBarSize(дайРазм()).cx;
+		t.pos.x = sc.GetTotal() + GetBarSize(GetSize()).cx;
 	}
 	return j;
 }
 
-void БарТаб::покажиФреймБараПром(bool b)
+void TabBar::ShowScrollbarFrame(bool b)
 {
-	устРазмФрейма((b ? sc.дайРазмФрейма() : TB_SBSEPARATOR) + дайВысоту(b), false);
-	sc.покажи(b);
-	освежиВыкладкуРодителя();
+	SetFrameSize((b ? sc.GetFrameSize() : TB_SBSEPARATOR) + GetHeight(b), false);
+	sc.Show(b);
+	RefreshParentLayout();
 }
 
-void БарТаб::синхБарПромота(bool synctotal)
+void TabBar::SyncScrollBar(bool synctotal)
 {
 	if (synctotal)
-		sc.устВсего(дайШирину());
+		sc.SetTotal(GetWidth());
 	if (autoscrollhide) {
-		bool v = sc.проматываем();
-		if (sc.показан_ли() != v) {
-			постОбрвыз(THISBACK1(покажиФреймБараПром, v));
+		bool v = sc.IsScrollable();
+		if (sc.IsShown() != v) {
+			PostCallback(THISBACK1(ShowScrollbarFrame, v));
 		}
 	}
 	else {
-		устРазмФрейма(sc.дайРазмФрейма() + дайВысоту(true), false);
-		sc.покажи();
+		SetFrameSize(sc.GetFrameSize() + GetHeight(true), false);
+		sc.Show();
 	}
 }
 
-int БарТаб::найдиИд(int id) const
+int TabBar::FindId(int id) const
 {
-	for(int i = 0; i < tabs.дайСчёт(); i++)
+	for(int i = 0; i < tabs.GetCount(); i++)
 		if(tabs[i].id == id)
 			return i;
 	return -1;
 }
 
-int БарТаб::дайСледщ(int n, bool drag) const
+int TabBar::GetNext(int n, bool drag) const
 {
-	for(int i = n + 1; i < tabs.дайСчёт(); i++)
+	for(int i = n + 1; i < tabs.GetCount(); i++)
 		if(tabs[i].visible)
 			return i;
-	return drag ? tabs.дайСчёт() : -1;
+	return drag ? tabs.GetCount() : -1;
 }
 
-int БарТаб::дайПредш(int n, bool drag) const
+int TabBar::GetPrev(int n, bool drag) const
 {
 	for(int i = n - 1; i >= 0; i--)
 		if(tabs[i].visible)
@@ -1694,7 +1694,7 @@ int БарТаб::дайПредш(int n, bool drag) const
 	return -1;
 }
 
-void БарТаб::очисть()
+void TabBar::Clear()
 {
 	highlight = -1;
 	drag_highlight = -1;
@@ -1702,24 +1702,24 @@ void БарТаб::очисть()
 	target = -1;
 	cross = -1;
 	stackcount = 0;
-	tabs.очисть();
-	groups.очисть();
+	tabs.Clear();
+	groups.Clear();
 	NewGroup(t_("TabBarGroupAll\aAll"));
-	группа = 0;
-	освежи();
-	jump_stack.переустанов();
+	group = 0;
+	Refresh();
+	jump_stack.Reset();
 }
 
-БарТаб& БарТаб::сКроссами(bool b, int side)
+TabBar& TabBar::Crosses(bool b, int side)
 {
 	crosses = b;
 	crosses_side = side;
 	Repos();
-	освежи();
+	Refresh();
 	return *this;
 }
 
-БарТаб& БарТаб::сортируйТабы(bool b)
+TabBar& TabBar::SortTabs(bool b)
 {
 	tabsort = b;
 	if (b)
@@ -1727,293 +1727,293 @@ void БарТаб::очисть()
 	return *this;
 }
 
-БарТаб& БарТаб::сортируйТабыРаз()
+TabBar& TabBar::SortTabsOnce()
 {
 	DoTabSort(*tabsorter);
 	return *this;
 }
 
-БарТаб& БарТаб::сортируйТабыРаз(СортТаб &sort)
+TabBar& TabBar::SortTabsOnce(TabSort &sort)
 {
 	DoTabSort(sort);
 	return *this;
 }
 
-БарТаб& БарТаб::сортируйТабы(СортТаб &sort)
+TabBar& TabBar::SortTabs(TabSort &sort)
 {
 	tabsorter = &sort;
-	return сортируйТабы(true);	
+	return SortTabs(true);	
 }
 
-БарТаб& БарТаб::сортируйЗначТабов(ПорядокЗнач &sort)
+TabBar& TabBar::SortTabValues(ValueOrder &sort)
 {
 	valuesorter_inst.vo = &sort;
 	tabsorter = &valuesorter_inst;
-	return сортируйТабы(true);	
+	return SortTabs(true);	
 }
 
-БарТаб& БарТаб::сортируйЗначТабовРаз(ПорядокЗнач &sort)
+TabBar& TabBar::SortTabValuesOnce(ValueOrder &sort)
 {
-	СортЗначТаба q;
+	TabValueSort q;
 	q.vo = &sort;
 	DoTabSort(q);
 	return *this;	
 }
 
-БарТаб& БарТаб::сортируйКлючиТабов(ПорядокЗнач &sort)
+TabBar& TabBar::SortTabKeys(ValueOrder &sort)
 {
 	keysorter_inst.vo = &sort;
 	tabsorter = &keysorter_inst;
-	return сортируйТабы(true);	
+	return SortTabs(true);	
 }
 
-БарТаб& БарТаб::сортируйКлючиТабовРаз(ПорядокЗнач &sort)
+TabBar& TabBar::SortTabKeysOnce(ValueOrder &sort)
 {
-	СортКлючТаба q;
+	TabKeySort q;
 	q.vo = &sort;
 	DoTabSort(q);
 	return *this;		
 }
 
-БарТаб& БарТаб::сортируйГруппы(bool b)
+TabBar& TabBar::SortGroups(bool b)
 {
 	groupsort = b;
 	if (!b) return *this;;
 	
-	Значение v = дайДанные();
+	Value v = GetData();
 	MakeGroups();
 	Repos();
-	if (!пусто_ли(v))
-		устДанные(v);
-	освежи();
+	if (!IsNull(v))
+		SetData(v);
+	Refresh();
 	return *this;	
 }
 
-БарТаб& БарТаб::сортируйГруппыРаз()
+TabBar& TabBar::SortGroupsOnce()
 {
 	if (!grouping) return *this;;
 	
-	Значение v = дайДанные();
+	Value v = GetData();
 	MakeGroups();
 	Repos();
-	if (!пусто_ли(v))
-		устДанные(v);
-	освежи();
+	if (!IsNull(v))
+		SetData(v);
+	Refresh();
 	return *this;	
 }
 
-БарТаб& БарТаб::сортируйГруппыРаз(СортТаб &sort)
+TabBar& TabBar::SortGroupsOnce(TabSort &sort)
 {
-	СортТаб *current = groupsorter;
+	TabSort *current = groupsorter;
 	groupsorter = &sort;
-	сортируйГруппыРаз();
+	SortGroupsOnce();
 	groupsorter = current;	
 	return *this;
 }
 
-БарТаб& БарТаб::сортируйГруппы(СортТаб &sort)
+TabBar& TabBar::SortGroups(TabSort &sort)
 {
 	groupsorter = &sort;
-	return сортируйГруппы(true);	
+	return SortGroups(true);	
 }
 
-БарТаб& БарТаб::сортируйСтэки(bool b)
+TabBar& TabBar::SortStacks(bool b)
 {
 	stacksort = b;
 	if (stacking) {
-		вСтэк();
-		освежи();
+		DoStacking();
+		Refresh();
 	}
 	return *this;
 }
 
-БарТаб& БарТаб::сортируйСтэкиРаз()
+TabBar& TabBar::SortStacksOnce()
 {
 	if (stacking) {
-		вСтэк();
-		освежи();
+		DoStacking();
+		Refresh();
 	}
 	return *this;
 }
 
-БарТаб& БарТаб::сортируйСтэкиРаз(СортТаб &sort)
+TabBar& TabBar::SortStacksOnce(TabSort &sort)
 {
-	СортТаб *current = stacksorter;
+	TabSort *current = stacksorter;
 	stacksorter = &sort;
-	сортируйСтэкиРаз();
+	SortStacksOnce();
 	stacksorter = current;
 	return *this;
 }
 
-БарТаб& БарТаб::сортируйСтэки(СортТаб &sort)
+TabBar& TabBar::SortStacks(TabSort &sort)
 {
 	stacksorter = &sort;
-	return сортируйСтэки(true);	
+	return SortStacks(true);	
 }
 
-БарТаб& БарТаб::сортируйСтэки(ПорядокЗнач &sort)
+TabBar& TabBar::SortStacks(ValueOrder &sort)
 {
 	stacksorter_inst.vo = &sort;
 	stacksorter = &stacksorter_inst;
-	return сортируйСтэки(true);	
+	return SortStacks(true);	
 }
 
-void БарТаб::DoTabSort(СортТаб &sort)
+void TabBar::DoTabSort(TabSort &sort)
 {
-	Значение v = дайДанные();
+	Value v = GetData();
 	StableSort(tabs, sort);
 	Repos();
-	if (!пусто_ли(v))
-		устДанные(v);
-	освежи();
+	if (!IsNull(v))
+		SetData(v);
+	Refresh();
 }
 
-void БарТаб::SortTabs0()
+void TabBar::SortTabs0()
 {
 	if (tabsort)
 		StableSort(tabs, *tabsorter);
 }
 
-БарТаб& БарТаб::сГруппингом(bool b)
+TabBar& TabBar::Grouping(bool b)
 {
 	grouping = b;
 	Repos(); 
-	освежи();	
+	Refresh();	
 	return *this;
 }
 
-БарТаб& БарТаб::сКонтекстнМеню(bool b)
+TabBar& TabBar::ContextMenu(bool b)
 {
 	contextmenu = b;
 	return *this;
 }
 
-БарТаб& БарТаб::сСепараторамиГрупп(bool b)
+TabBar& TabBar::GroupSeparators(bool b)
 {
 	groupseps = b;
 	Repos();
-	освежи();
+	Refresh();
 	return *this;
 }
 
-БарТаб& БарТаб::автоСкрыватьПромот(bool b)
+TabBar& TabBar::AutoScrollHide(bool b)
 {
 	autoscrollhide = b;
-	sc.скрой();
-	устРазмФрейма(дайВысоту(false), false);
-	синхБарПромота(дайШирину());
+	sc.Hide();
+	SetFrameSize(GetHeight(false), false);
+	SyncScrollBar(GetWidth());
 	return *this;
 }
 
-БарТаб& БарТаб::неактивныйОтключен(bool b)
+TabBar& TabBar::InactiveDisabled(bool b)
 {
 	inactivedisabled = b; 
 	Repos(); 
-	освежи();	
+	Refresh();	
 	return *this;
 }
 
-БарТаб& БарТаб::курсорПустоДопустим(bool b)
+TabBar& TabBar::AllowNullCursor(bool b)
 {
 	allownullcursor = b;
 	return *this;
 }
 
-БарТаб& БарТаб::сИконками(bool v)
+TabBar& TabBar::Icons(bool v)
 {
 	icons = v;
 	Repos();
-	освежи();
+	Refresh();
 	return *this;
 }
 
-БарТаб& БарТаб::сСтэкингом(bool b)
+TabBar& TabBar::Stacking(bool b)
 {
 	stacking = b;	
 	if (b)
-		вСтэк();
+		DoStacking();
 	else
-		изСтэка();
-	освежи();
+		DoUnstacking();
+	Refresh();
 	return *this;
 }
 
-void БарТаб::FrameSet()
+void TabBar::FrameSet()
 {
-	int al = дайЛин();
-	Ктрл::очистьФреймы();
-	sc.очисть();
-	sc.устРазмФрейма(scrollbar_sz).устЛин((al >= 2) ? al - 2 : al + 2);
-	sc <<= THISBACK(промотай);
-	sc.скрой();
+	int al = GetAlign();
+	Ctrl::ClearFrames();
+	sc.Clear();
+	sc.SetFrameSize(scrollbar_sz).SetAlign((al >= 2) ? al - 2 : al + 2);
+	sc <<= THISBACK(Scroll);
+	sc.Hide();
 	
-	if (sc.отпрыск_ли()) sc.удали();
+	if (sc.IsChild()) sc.Remove();
 	switch (al) {
 		case LEFT:
-			Ктрл::добавь(sc.LeftPos(дайВысоту(), scrollbar_sz).VSizePos());
+			Ctrl::Add(sc.LeftPos(GetHeight(), scrollbar_sz).VSizePos());
 			break;
 		case RIGHT:
-			Ктрл::добавь(sc.RightPos(дайВысоту(), scrollbar_sz).VSizePos());
+			Ctrl::Add(sc.RightPos(GetHeight(), scrollbar_sz).VSizePos());
 			break;
 		case TOP:
-			Ктрл::добавь(sc.TopPos(дайВысоту(), scrollbar_sz).HSizePos());
+			Ctrl::Add(sc.TopPos(GetHeight(), scrollbar_sz).HSizePos());
 			break;
 		case BOTTOM:
-			Ктрл::добавь(sc.BottomPos(дайВысоту(), scrollbar_sz).HSizePos());
+			Ctrl::Add(sc.BottomPos(GetHeight(), scrollbar_sz).HSizePos());
 			break;			
 	};
 
-	синхБарПромота(true);
+	SyncScrollBar(true);
 }
 
-БарТаб& БарТаб::устТолщинуПромота(int sz)
+TabBar& TabBar::SetScrollThickness(int sz)
 {
 	scrollbar_sz = max(sz + 2, 3);
 	FrameSet(); 
-	освежиВыкладку();
+	RefreshLayout();
 	return *this;	
 }
 
-void БарТаб::Выкладка()
+void TabBar::Layout()
 {
-	if (autoscrollhide && tabs.дайСчёт()) 
-		синхБарПромота(false); 
+	if (autoscrollhide && tabs.GetCount()) 
+		SyncScrollBar(false); 
 	Repos();
 }
 
-int БарТаб::найдиЗначение(const Значение &v) const
+int TabBar::FindValue(const Value &v) const
 {
-	for (int i = 0; i < tabs.дайСчёт(); i++)
-		if (tabs[i].значение == v)
+	for (int i = 0; i < tabs.GetCount(); i++)
+		if (tabs[i].value == v)
 			return i;
 	return -1;
 }
 
-int БарТаб::найдиКлюч(const Значение &v) const
+int TabBar::FindKey(const Value &v) const
 {
-	for (int i = 0; i < tabs.дайСчёт(); i++)
-		if (tabs[i].ключ == v)
+	for (int i = 0; i < tabs.GetCount(); i++)
+		if (tabs[i].key == v)
 			return i;
 	return -1;
 }
 
-bool БарТаб::начСтэка_ли(int n) const
+bool TabBar::IsStackHead(int n) const
 {
 	return tabs[n].stack < 0 
 		|| n == 0 
 		|| (n > 0 && tabs[n - 1].stack != tabs[n].stack);
 }
 
-bool БарТаб::конСтэка_ли(int n) const
+bool TabBar::IsStackTail(int n) const
 {
 	return tabs[n].stack < 0
-		|| n >= tabs.дайСчёт() - 1
-		|| (n < tabs.дайСчёт() && tabs[n + 1].stack != tabs[n].stack);
+		|| n >= tabs.GetCount() - 1
+		|| (n < tabs.GetCount() && tabs[n + 1].stack != tabs[n].stack);
 }
 
-int БарТаб::дайСчётСтэка(int stackix) const
+int TabBar::GetStackCount(int stackix) const
 {
-	int tc = tabs.дайСчёт();
+	int tc = tabs.GetCount();
 	int L = 0;
 
 	for ( int i = 0; i < tc; ++i ) 
@@ -2023,7 +2023,7 @@ int БарТаб::дайСчётСтэка(int stackix) const
 	return L;
 }
 
-int БарТаб::найдиНачСтэка(int stackix) const
+int TabBar::FindStackHead(int stackix) const
 {
 	int i = 0;
 	while (tabs[i].stack != stackix)
@@ -2031,108 +2031,108 @@ int БарТаб::найдиНачСтэка(int stackix) const
 	return i;
 }
 
-int БарТаб::найдиКонСтэка(int stackix) const
+int TabBar::FindStackTail(int stackix) const
 {
-	int i = tabs.дайСчёт() - 1;
+	int i = tabs.GetCount() - 1;
 	while (tabs[i].stack != stackix)
 		i--;
 	return i;
 }
 
-int БарТаб::устНачСтэка(Вкладка &t)
-// Returns Индекс of stack head
+int TabBar::SetStackHead(Tab &t)
+// Returns index of stack head
 {
-	ПРОВЕРЬ(stacking);
+	ASSERT(stacking);
 	int id = t.id;
 	int stack = t.stack;
-	int head = найдиНачСтэка(stack);
+	int head = FindStackHead(stack);
 	while (tabs[head].id != id)
-		циклируйТабСтэк(head, stack);
+		CycleTabStack(head, stack);
 	return head;
 }
 
-int БарТаб::циклируйТабСтэк(int n)
-// Returns Индекс of stack head
+int TabBar::CycleTabStack(int n)
+// Returns index of stack head
 {
-	int head = найдиНачСтэка(n);
-	циклируйТабСтэк(head, n);
+	int head = FindStackHead(n);
+	CycleTabStack(head, n);
 	return head;
 }
 
-void БарТаб::циклируйТабСтэк(int head, int n)
+void TabBar::CycleTabStack(int head, int n)
 {
-	// разверни tab to end of stack
+	// Swap tab to end of stack
 	int ix = head;
-	while (!конСтэка_ли(ix)) {
-		tabs.разверни(ix, ix + 1);
+	while (!IsStackTail(ix)) {
+		tabs.Swap(ix, ix + 1);
 		++ix;
 	}
 }
 
-Значение БарТаб::дайДанные() const
+Value TabBar::GetData() const
 {
-	return (естьКурсор() && active < дайСчёт())
-		? дайКлюч(active)
-		: Значение();
+	return (HasCursor() && active < GetCount())
+		? GetKey(active)
+		: Value();
 }
 
-void БарТаб::устДанные(const Значение &ключ)
+void TabBar::SetData(const Value &key)
 {
-	int n = найдиКлюч(ключ); 
+	int n = FindKey(key); 
 	if (n >= 0) {
 		if (stacking && tabs[n].stack >= 0)
-			n = устНачСтэка(tabs[n]);
-		устКурсор(n);
+			n = SetStackHead(tabs[n]);
+		SetCursor(n);
 	}
 }
 
-void БарТаб::уст(int n, const Значение &newkey, const Значение &newvalue)
+void TabBar::Set(int n, const Value &newkey, const Value &newvalue)
 {
-	уст(n, newkey, newvalue, tabs[n].img);
+	Set(n, newkey, newvalue, tabs[n].img);
 }
 
-void БарТаб::уст(int n, const Значение &newkey, const Значение &newvalue, Рисунок icon)
+void TabBar::Set(int n, const Value &newkey, const Value &newvalue, Image icon)
 {
-	ПРОВЕРЬ(n >= 0 && n < tabs.дайСчёт());
-	tabs[n].ключ = newkey;
-	tabs[n].значение = newvalue;
+	ASSERT(n >= 0 && n < tabs.GetCount());
+	tabs[n].key = newkey;
+	tabs[n].value = newvalue;
 	tabs[n].img = icon;
 	if (stacking) {
-		Ткст id = tabs[n].stackid;
+		String id = tabs[n].stackid;
 		tabs[n].stackid = GetStackId(tabs[n]);
 		if (tabs[n].stackid != id) {
-			tabs.удали(n);
-			InsertKey0(дайСчёт(), newkey, newvalue, tabs[n].img, tabs[n].группа);
+			tabs.Remove(n);
+			InsertKey0(GetCount(), newkey, newvalue, tabs[n].img, tabs[n].group);
 		}
 	}
 	Repos();
-	освежи();
+	Refresh();
 }
 
-void БарТаб::устЗначение(const Значение &ключ, const Значение &newvalue)
+void TabBar::SetValue(const Value &key, const Value &newvalue)
 {
-	уст(найдиКлюч(ключ), ключ, newvalue);
+	Set(FindKey(key), key, newvalue);
 }
 
-void БарТаб::устЗначение(int n, const Значение &newvalue)
+void TabBar::SetValue(int n, const Value &newvalue)
 {
-	уст(n, tabs[n].ключ, newvalue);
+	Set(n, tabs[n].key, newvalue);
 }
 
-void БарТаб::устКлюч(int n, const Значение &newkey)
+void TabBar::SetKey(int n, const Value &newkey)
 {
-	уст(n, newkey, tabs[n].значение);	
+	Set(n, newkey, tabs[n].value);	
 }
 
-void БарТаб::устИконку(int n, Рисунок icon)
+void TabBar::SetIcon(int n, Image icon)
 {
-	ПРОВЕРЬ(n >= 0 && n < tabs.дайСчёт());
+	ASSERT(n >= 0 && n < tabs.GetCount());
 	tabs[n].img = icon;
 	Repos();
-	освежи();
+	Refresh();
 }
 
-void БарТаб::леваяВнизу(Точка p, dword keyflags)
+void TabBar::LeftDown(Point p, dword keyflags)
 {
 	p = AdjustMouse(p);
 	SetCapture();
@@ -2140,8 +2140,8 @@ void БарТаб::леваяВнизу(Точка p, dword keyflags)
 	if(keyflags & K_SHIFT)
 	{
 		highlight = -1;
-		освежи();
-		фиксируй(p);
+		Refresh();
+		Fix(p);
 		oldp = p;
 		return;
 	}
@@ -2153,87 +2153,87 @@ void БарТаб::леваяВнизу(Точка p, dword keyflags)
 		return;
 
 	if(cross != -1) {
-		if (cross < tabs.дайСчёт()) {
+		if (cross < tabs.GetCount()) {
 			int tempCross = cross;
-			Значение v = tabs[cross].ключ;
-			МассивЗнач vv;
-			vv.добавь(v);
+			Value v = tabs[cross].key;
+			ValueArray vv;
+			vv.Add(v);
 			int ix = cross;
 			if (!CancelClose(v) && !CancelCloseSome(vv) && ConfirmClose(v)) {
 				WhenClose(v);
 				WhenCloseSome(vv);
 				TabClosed(v);
-				закрой(ix);
+				Close(ix);
 			}
-			if (tempCross >= 0 && tempCross < tabs.дайСчёт())
+			if (tempCross >= 0 && tempCross < tabs.GetCount())
 				ProcessMouse(tempCross, p);
 		}
 	}
 	else if(highlight >= 0) {
 		if (stacking && highlight == active) {
-			циклируйТабСтэк(tabs[active].stack);
+			CycleTabStack(tabs[active].stack);
 			Repos();
 			CursorChanged();
 			UpdateActionRefresh();
 		}
 		else
-			устКурсор0(highlight, true);
+			SetCursor0(highlight, true);
 	}
 }
 
-void БарТаб::леваяВверху(Точка p, dword keyflags)
+void TabBar::LeftUp(Point p, dword keyflags)
 {
 	ReleaseCapture();
 }
 
-void БарТаб::леваяДКлик(Точка p, dword keysflags)
+void TabBar::LeftDouble(Point p, dword keysflags)
 {
 	WhenLeftDouble();
 }
 
-void БарТаб::праваяВнизу(Точка p, dword keyflags)
+void TabBar::RightDown(Point p, dword keyflags)
 {
 	if (contextmenu)
 	{
 		// 2014/03/07 needed on X11 otherwise may crash
 		// if focus is nowhere (probable bug somewhere else...)
-		if(!дайАктивныйКтрл())
-			дайРодителя()->устФокус();
-		БарМеню::выполни(THISBACK(сКонтекстнМеню), дайПозМыши());
+		if(!GetActiveCtrl())
+			GetParent()->SetFocus();
+		MenuBar::Execute(THISBACK(ContextMenu), GetMousePos());
 	}
 }
 
-void БарТаб::MiddleDown(Точка p, dword keyflags)
+void TabBar::MiddleDown(Point p, dword keyflags)
 {
     if (highlight >= 0)
     {
-        Значение v = tabs[highlight].ключ;
-        МассивЗнач vv;
-        vv.добавь(v);
+        Value v = tabs[highlight].key;
+        ValueArray vv;
+        vv.Add(v);
         int highlightBack = highlight;
         if (!CancelClose(v) && !CancelCloseSome(vv) && ConfirmCloseSome(vv) && ConfirmClose(v)) {
-            // highlight can be changed by the prompt. When reading "v", it can be invalid. I use the значение from before the prompt to fix it
-            Значение v = tabs[highlightBack].ключ;
+            // highlight can be changed by the prompt. When reading "v", it can be invalid. I use the value from before the prompt to fix it
+            Value v = tabs[highlightBack].key;
             // 2014/03/06 - FIRST the callbacks, THEN remove the tab
             // otherwise keys in WhenCloseSome() are invalid
             WhenClose(v);
             WhenCloseSome(vv);
             TabClosed(v);
-            закрой(highlightBack);
+            Close(highlightBack);
         }
     }
 }
 
-void БарТаб::MiddleUp(Точка p, dword keyflags)
+void TabBar::MiddleUp(Point p, dword keyflags)
 {
 }
 
-int БарТаб::GetTargetTab(Точка p)
+int TabBar::GetTargetTab(Point p)
 {
-	p.x += sc.дайПоз();
+	p.x += sc.GetPos();
 
-	int f = дайПерв();
-	int l = дайПоследн();
+	int f = GetFirst();
+	int l = GetLast();
 	
 	if(tabs[f].visible && p.x < tabs[f].pos.x + tabs[f].size.cx / 2)
 		return f;
@@ -2248,37 +2248,37 @@ int БарТаб::GetTargetTab(Точка p)
 		}
 	
 	if(stacking)
-		l = найдиНачСтэка(tabs[l].stack);
+		l = FindStackHead(tabs[l].stack);
 		
 	if(t == l)
-		t = tabs.дайСчёт();
+		t = tabs.GetCount();
 	else
-	 	t = дайСледщ(t);
+	 	t = GetNext(t);
 
 	return t;
 }
 
-void БарТаб::колесоМыши(Точка p, int zdelta, dword keyflags)
+void TabBar::MouseWheel(Point p, int zdelta, dword keyflags)
 {
-	sc.добавьПоз(-zdelta / 4, true);
-	промотай();
-	двигМыши(p, 0);
+	sc.AddPos(-zdelta / 4, true);
+	Scroll();
+	MouseMove(p, 0);
 }
 
-Точка БарТаб::AdjustMouse(Точка const &p) const
+Point TabBar::AdjustMouse(Point const &p) const
 {
-	int align = дайЛин();
+	int align = GetAlign();
 	if(align == TOP || align == LEFT)
 		return p;
 
-	Размер ctrlsz = дайРазм();
-	Размер sz = GetBarSize(ctrlsz);
-	return Точка(p.x - ctrlsz.cx + sz.cx, p.y - ctrlsz.cy + sz.cy);
+	Size ctrlsz = GetSize();
+	Size sz = GetBarSize(ctrlsz);
+	return Point(p.x - ctrlsz.cx + sz.cx, p.y - ctrlsz.cy + sz.cy);
 }
 
-bool БарТаб::ProcessMouse(int i, const Точка& p)
+bool TabBar::ProcessMouse(int i, const Point& p)
 {
-	if(i >= 0 && i < tabs.дайСчёт() && tabs[i].естьМышь(p))
+	if(i >= 0 && i < tabs.GetCount() && tabs[i].HasMouse(p))
 	{
 		if (stacking && ProcessStackMouse(i, p))
 			return true;
@@ -2293,11 +2293,11 @@ bool БарТаб::ProcessMouse(int i, const Точка& p)
 	return false;
 }
 
-bool БарТаб::ProcessStackMouse(int i, const Точка& p)
+bool TabBar::ProcessStackMouse(int i, const Point& p)
 {
 	int j = i + 1;
-	while (j < tabs.дайСчёт() && tabs[j].stack == tabs[i].stack) {
-		if (Прям(tabs[j].tab_pos, tabs[j].tab_size).содержит(p)) {
+	while (j < tabs.GetCount() && tabs[j].stack == tabs[i].stack) {
+		if (Rect(tabs[j].tab_pos, tabs[j].tab_size).Contains(p)) {
 			cross = -1;
 			if (highlight != j)
 				SetHighlight(j);
@@ -2308,28 +2308,28 @@ bool БарТаб::ProcessStackMouse(int i, const Точка& p)
 	return false;	
 }
 
-void БарТаб::SetHighlight(int n)
+void TabBar::SetHighlight(int n)
 {
 	highlight = n;
 	WhenHighlight();
-	освежи();
+	Refresh();
 }
 
-void БарТаб::устЦвет(int n, Цвет c)
+void TabBar::SetColor(int n, Color c)
 {
 	tabs[n].col = c;
-	освежи();
+	Refresh();
 }
 
-void БарТаб::двигМыши(Точка p, dword keyflags)
+void TabBar::MouseMove(Point p, dword keyflags)
 {
 	p = AdjustMouse(p);
 	if(HasCapture() && (keyflags & K_SHIFT))
 	{
-		фиксируй(p);
-		sc.добавьПоз(p.x - oldp.x, true);
+		Fix(p);
+		sc.AddPos(p.x - oldp.x, true);
 		oldp = p;
-		освежи();
+		Refresh();
 		return;
 	}
 	
@@ -2339,7 +2339,7 @@ void БарТаб::двигМыши(Точка p, dword keyflags)
 	if(ProcessMouse(active, p))
 		return;
 		
-	for(int i = 0; i < tabs.дайСчёт(); i++)
+	for(int i = 0; i < tabs.GetCount(); i++)
 	{
 		if(i == active)
 			continue;
@@ -2352,41 +2352,41 @@ void БарТаб::двигМыши(Точка p, dword keyflags)
 	{
 		highlight = cross = -1;
 		WhenHighlight();
-		освежи();
+		Refresh();
 	}
 }
 
-void БарТаб::выходМыши()
+void TabBar::MouseLeave()
 {
 	if(isdrag)
 		return;
 	highlight = cross = -1;
 	WhenHighlight();
-	освежи();
+	Refresh();
 }
 
-void БарТаб::тягИБрос(Точка p, PasteClip& d)
+void TabBar::DragAndDrop(Point p, PasteClip& d)
 {
-	фиксируй(p);
+	Fix(p);
 	int c = GetTargetTab(p);
 	int tab = isctrl ? drag_highlight : active;
 
-	if (&GetInternal<БарТаб>(d) != this || tabsort || c < 0 || !allowreorder) return;
+	if (&GetInternal<TabBar>(d) != this || tabsort || c < 0 || !allowreorder) return;
 
 	if (stacking) {
-		tab = найдиНачСтэка(tabs[tab].stack);
-		if(c < tabs.дайСчёт())
-			c = найдиНачСтэка(tabs[c].stack);
+		tab = FindStackHead(tabs[tab].stack);
+		if(c < tabs.GetCount())
+			c = FindStackHead(tabs[c].stack);
 	}
 
-	bool sametab = c == tab || c == дайСледщ(tab, true);
-	bool internal = AcceptInternal<БарТаб>(d, "tabs");
+	bool sametab = c == tab || c == GetNext(tab, true);
+	bool internal = AcceptInternal<TabBar>(d, "tabs");
 
 	if (CancelDragAndDrop && CancelDragAndDrop(tab, c > tab ? c-1 : c)) 
 	{
 		target = -1;
 		isdrag = false;
-		d.отклони();
+		d.Reject();
 		return;
 	}
 	
@@ -2399,31 +2399,31 @@ void БарТаб::тягИБрос(Точка p, PasteClip& d)
 		if (stacking) {
 			int ix = tab + 1;
 			int stack = tabs[tab].stack;
-			while (ix < tabs.дайСчёт() && tabs[ix].stack == stack)
+			while (ix < tabs.GetCount() && tabs[ix].stack == stack)
 				ix++;
 			count = ix - tab;
 		}
-		// копируй tabs
-		Массив<Вкладка> stacktemp;
-		stacktemp.устСчёт(count);
-		//копируй(&stacktemp[0], &tabs[tab], count);
+		// Copy tabs
+		Array<Tab> stacktemp;
+		stacktemp.SetCount(count);
+		//Copy(&stacktemp[0], &tabs[tab], count);
 		for(int i = 0; i < count; i++)
-			stacktemp[i].уст(tabs[tab + i]);
-		// удали
-		tabs.удали(tab, count);
+			stacktemp[i].Set(tabs[tab + i]);
+		// Remove
+		tabs.Remove(tab, count);
 		if (tab < c)
 			c -= count;
 		// Re-insert
-		tabs.вставьПодбор(c, pick(stacktemp));
+		tabs.InsertPick(c, pick(stacktemp));
 		
-		active = id >= 0 ? найдиИд(id) : -1;
+		active = id >= 0 ? FindId(id) : -1;
 		isdrag = false;
 		target = -1;
 		MakeGroups();
 		Repos();
-		освежи();
-		синх();
-		двигМыши(p, 0);
+		Refresh();
+		Sync();
+		MouseMove(p, 0);
 	}
 	else if(isdrag)
 	{
@@ -2434,59 +2434,59 @@ void БарТаб::тягИБрос(Точка p, PasteClip& d)
 		}
 		else
 			target = c;
-		освежи();
+		Refresh();
 	}
 }
 
-void БарТаб::режимОтмены()
+void TabBar::CancelMode()
 {
 	isdrag = false;
 	target = -1;
-	освежи();
+	Refresh();
 }
 
-void БарТаб::леваяТяг(Точка p, dword keyflags)
+void TabBar::LeftDrag(Point p, dword keyflags)
 {
 	if(keyflags & K_SHIFT)
 		return;
 	if(highlight < 0)
 		return;
 
-	синх();
+	Sync();
 	isdrag = true;
-	dragtab = дайСэиплТяга();
+	dragtab = GetDragSample();
 	DoDragAndDrop(InternalClip(*this, "tabs"));
 }
 
-void БарТаб::тягВойди()
+void TabBar::DragEnter()
 {
 }
 
-void БарТаб::тягПокинь()
+void TabBar::DragLeave()
 {
 	target = -1;
-	освежи();
+	Refresh();
 }
 
-void БарТаб::тягПовтори(Точка p)
+void TabBar::DragRepeat(Point p)
 {
 	if(target >= 0)
 	{
-		Точка dx = GetDragScroll(this, p, 16);
-		фиксируй(dx);
+		Point dx = GetDragScroll(this, p, 16);
+		Fix(dx);
 		if(dx.x != 0)
-			sc.добавьПоз(dx.x);
+			sc.AddPos(dx.x);
 	}
 }
 
-bool БарТаб::устКурсор0(int n, bool action)
+bool TabBar::SetCursor0(int n, bool action)
 {
-	if(tabs.дайСчёт() == 0)
+	if(tabs.GetCount() == 0)
 		return false;
 
 	if(n < 0)
 	{
-		n = max(0, найдиИд(дайАктивГруппы()));
+		n = max(0, FindId(GetGroupActive()));
 		active = -1;
 		highlight = -1;
 		drag_highlight = -1;
@@ -2494,17 +2494,17 @@ bool БарТаб::устКурсор0(int n, bool action)
 			return true;
 	}
 
-	bool is_all = группаВсе_ли();
-	bool same_group = tabs[n].группа == дайИмяГруппы();
+	bool is_all = IsGroupAll();
+	bool same_group = tabs[n].group == GetGroupName();
 
 	if((same_group || is_all) && active == n)
 		return false;
 
 	bool repos = false;
 
-	if (!начСтэка_ли(n)) 
+	if (!IsStackHead(n)) 
 	{
-		n = устНачСтэка(tabs[n]);
+		n = SetStackHead(tabs[n]);
 		repos = true;		
 	}
 
@@ -2512,24 +2512,24 @@ bool БарТаб::устКурсор0(int n, bool action)
 
 	if(!is_all && !same_group) 
 	{
-		устГруппу(tabs[n].группа);
+		SetGroup(tabs[n].group);
 		repos = true;
 	}
 	if (repos)
 		Repos();
 
-	устАктивГруппы(tabs[n].id);
+	SetGroupActive(tabs[n].id);
 
-	int cx = tabs[n].pos.x - sc.дайПоз();
+	int cx = tabs[n].pos.x - sc.GetPos();
 	if(cx < 0)
-		sc.добавьПоз(cx - 10);
+		sc.AddPos(cx - 10);
 	else
 	{
-		Размер sz = Ктрл::дайРазм();
-		фиксируй(sz);
-		cx = tabs[n].pos.x + tabs[n].size.cx - sz.cx - sc.дайПоз();
+		Size sz = Ctrl::GetSize();
+		Fix(sz);
+		cx = tabs[n].pos.x + tabs[n].size.cx - sz.cx - sc.GetPos();
 		if(cx > 0)
-			sc.добавьПоз(cx + 10);
+			sc.AddPos(cx + 10);
 	}
 	
 	if(action)
@@ -2538,85 +2538,85 @@ bool БарТаб::устКурсор0(int n, bool action)
 		UpdateAction();
 	}
 
-	освежи();
+	Refresh();
 
-	if(Ктрл::естьМышь())
+	if(Ctrl::HasMouse())
 	{
-		освежи();
-		синх();
-		двигМыши(GetMouseViewPos(), 0);
+		Refresh();
+		Sync();
+		MouseMove(GetMouseViewPos(), 0);
 	}
 	return true;
 }
 
-void БарТаб::устКурсор(int n)
+void TabBar::SetCursor(int n)
 {
-	устКурсор0(n, true);
+	SetCursor0(n, true);
 }
 
-void БарТаб::устГруппуТабов(int n, const Ткст &группа)
+void TabBar::SetTabGroup(int n, const String &group)
 {
-	ПРОВЕРЬ(n >= 0 && n < tabs.дайСчёт());
-	int g = FindGroup(группа);
+	ASSERT(n >= 0 && n < tabs.GetCount());
+	int g = FindGroup(group);
 	if (g <= 0) 
-		NewGroup(группа);
+		NewGroup(group);
 	else if (groups[g].active == tabs[n].id)
-		устАктивГруппы(tabs[n].id);
-	tabs[n].группа = группа;
+		SetGroupActive(tabs[n].id);
+	tabs[n].group = group;
 	MakeGroups();
 	Repos();
 }
 
-void БарТаб::закройСилой(int n, bool action)
+void TabBar::CloseForce(int n, bool action)
 {
-	if(n < 0 || n >= tabs.дайСчёт())
+	if(n < 0 || n >= tabs.GetCount())
 		return;
 	if(n == active)
 	{
-		int c = найдиИд(tabs[n].id);
-		int nc = дайСледщ(c);
+		int c = FindId(tabs[n].id);
+		int nc = GetNext(c);
 		if(nc < 0)
-			nc = max(0, дайПредш(c));
-		устАктивГруппы(tabs[nc].id);
+			nc = max(0, GetPrev(c));
+		SetGroupActive(tabs[nc].id);
 	}
-	sc.добавьВсего(-tabs[n].size.cx);
-	tabs.удали(n);
+	sc.AddTotal(-tabs[n].size.cx);
+	tabs.Remove(n);
 	MakeGroups();
 	Repos();
 	
 	if(n == active)
-		устКурсор0(-1, action);
+		SetCursor0(-1, action);
 	else {
 		if (n < active)
 			active--;
-		освежи();
-		if (n == highlight && Ктрл::естьМышь()) {
-			//TODO: That must be refactored
+		Refresh();
+		if (n == highlight && Ctrl::HasMouse()) {
+			//СДЕЛАТЬ: That must be refactored
 			highlight = -1;
 			drag_highlight = -1;
-			освежи();
-			синх();
-			двигМыши(GetMouseViewPos(), 0);
+			Refresh();
+			Sync();
+			MouseMove(GetMouseViewPos(), 0);
 		}	
 	}
 }
 
-void БарТаб::закрой(int n, bool action)
+void TabBar::Close(int n, bool action)
 {
-	if(tabs.дайСчёт() <= mintabcount)
+	if(tabs.GetCount() <= mintabcount)
 		return;
 
-	закройСилой(n, action);
+	CloseForce(n, action);
 }
 
-void БарТаб::закройКлюч(const Значение &ключ)
+void TabBar::CloseKey(const Value &key)
 {
-	int tabix = найдиКлюч(ключ);
+	int tabix = FindKey(key);
 	if (tabix < 0) return;
-	закрой(tabix);
+	Close(tabix);
 }
 
-БарТаб::Стиль& БарТаб::Стиль::DefaultCrosses()
+TabBar::Style& TabBar::Style::DefaultCrosses()
 {
 	crosses[0] = TabBarImg::CR0();
 	crosses[1] = TabBarImg::CR1();
@@ -2624,7 +2624,7 @@ void БарТаб::закройКлюч(const Значение &ключ)
 	return *this;
 }
 
-БарТаб::Стиль& БарТаб::Стиль::Variant1Crosses()
+TabBar::Style& TabBar::Style::Variant1Crosses()
 {
 	crosses[0] = TabBarImg::VARIANT1_CR0();
 	crosses[1] = TabBarImg::VARIANT1_CR1();
@@ -2632,7 +2632,7 @@ void БарТаб::закройКлюч(const Значение &ключ)
 	return *this;	
 }
 
-БарТаб::Стиль& БарТаб::Стиль::Variant2Crosses()
+TabBar::Style& TabBar::Style::Variant2Crosses()
 {
 	crosses[0] = TabBarImg::VARIANT2_CR0();
 	crosses[1] = TabBarImg::VARIANT2_CR1();
@@ -2640,37 +2640,37 @@ void БарТаб::закройКлюч(const Значение &ключ)
 	return *this;	
 }
 
-БарТаб::Стиль& БарТаб::Стиль::сСепараторамиГрупп(Значение horz, Значение vert)
+TabBar::Style& TabBar::Style::GroupSeparators(Value horz, Value vert)
 {
 	group_separators[0] = horz;
 	group_separators[0] = vert;
 	return *this;
 }
 
-БарТаб::Стиль& БарТаб::Стиль::DefaultGroupSeparators()
+TabBar::Style& TabBar::Style::DefaultGroupSeparators()
 {
-	return сСепараторамиГрупп(TabBarImg::SEP(), TabBarImg::SEPV());	
+	return GroupSeparators(TabBarImg::SEP(), TabBarImg::SEPV());	
 }
 
-Вектор<Значение> БарТаб::дайКлючи() const
+Vector<Value> TabBar::GetKeys() const
 {
-	Вектор<Значение> keys;
-	keys.устСчёт(tabs.дайСчёт());
-	for (int i = 0; i < tabs.дайСчёт(); i++)
-		keys[i] = tabs[i].ключ;
+	Vector<Value> keys;
+	keys.SetCount(tabs.GetCount());
+	for (int i = 0; i < tabs.GetCount(); i++)
+		keys[i] = tabs[i].key;
 	return keys;
 }
 
-Вектор<Рисунок> БарТаб::дайИконки() const
+Vector<Image> TabBar::GetIcons() const
 {
-	Вектор<Рисунок> img;
-	img.устСчёт(tabs.дайСчёт());
-	for (int i = 0; i < tabs.дайСчёт(); i++)
+	Vector<Image> img;
+	img.SetCount(tabs.GetCount());
+	for (int i = 0; i < tabs.GetCount(); i++)
 		img[i] = tabs[i].img;
 	return img;
 }
 
-БарТаб& БарТаб::копируйБазНастройки(const БарТаб& src)
+TabBar& TabBar::CopyBaseSettings(const TabBar& src)
 {
 	crosses = src.crosses;
 	crosses_side = src.crosses_side;
@@ -2690,22 +2690,22 @@ void БарТаб::закройКлюч(const Значение &ключ)
 	return *this;
 }
 
-БарТаб& БарТаб::крпируйНастройки(const БарТаб &src)
+TabBar& TabBar::CopySettings(const TabBar &src)
 {
 	
-	копируйБазНастройки(src);
+	CopyBaseSettings(src);
 	
 	if (stacking != src.stacking)
-		сСтэкингом(src.stacking);
+		Stacking(src.stacking);
 	else {
 		MakeGroups();
 		Repos();
-		освежи();
+		Refresh();
 	}
 	return *this;
 }
 
-void БарТаб::сериализуй(Поток& s)
+void TabBar::Serialize(Stream& s)
 {
 	int version = 1;
 	s / version;
@@ -2732,39 +2732,39 @@ void БарТаб::сериализуй(Поток& s)
 	drag_highlight = -1;
 	target = -1;
 	
-	int n = groups.дайСчёт();
+	int n = groups.GetCount();
 	s % n;
-	groups.устСчёт(clamp(n, 0, 10000));
+	groups.SetCount(clamp(n, 0, 10000));
 	
-	for(int i = 0; i < groups.дайСчёт(); i++)
+	for(int i = 0; i < groups.GetCount(); i++)
 		s % groups[i];
 	
-	n = tabs.дайСчёт();
+	n = tabs.GetCount();
 	s % n;
-	tabs.устСчёт(clamp(n, 0, 10000));
+	tabs.SetCount(clamp(n, 0, 10000));
 	
-	for(int i = 0; i < tabs.дайСчёт(); i++)
+	for(int i = 0; i < tabs.GetCount(); i++)
 		s % tabs[i];
 	
-	int g = дайГруппу();
+	int g = GetGroup();
 	s % g;
-	группа = g;
+	group = g;
 	
 	Repos();
 }
 
-БарТаб& БарТаб::устСтиль(const БарТаб::Стиль& s)	{
+TabBar& TabBar::SetStyle(const TabBar::Style& s)	{
 	if(style != &s) {
 		style = &s;
-		освежиВыкладку();
-		освежи();
+		RefreshLayout();
+		Refresh();
 	}
 	return *this;
 }
 
-CH_STYLE(БарТаб, Стиль, дефСтиль)
+CH_STYLE(TabBar, Style, StyleDefault)
 {
-	присвой(КтрлВкладка::дефСтиль());
+	Assign(TabCtrl::StyleDefault());
 #ifdef PLATFORM_WIN32
 	if(IsWinVista())
 		Variant2Crosses();

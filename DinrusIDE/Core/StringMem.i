@@ -1,13 +1,13 @@
-// These are Ткст methods which are best inlined in heap allocator
+// These are String methods which are best inlined in heap allocator
 
-void Ткст0::LSet(const Ткст0& s)
+void String0::LSet(const String0& s)
 {
 	w[2] = s.w[2];
 	w[3] = s.w[3];
-	if(s.реф_ли()) {
+	if(s.IsRef()) {
 		ptr = s.ptr;
 		if(ptr != (char *)(voidptr + 1))
-			атомнИнк(s.Реф()->refcount);
+			AtomicInc(s.Ref()->refcount);
 	}
 	else {
 		ptr = (char *)MemoryAlloc32_i();
@@ -15,13 +15,13 @@ void Ткст0::LSet(const Ткст0& s)
 	}
 }
 
-void Ткст0::LFree()
+void String0::LFree()
 {
-	if(реф_ли()) {
+	if(IsRef()) {
 		if(ptr != (char *)(voidptr + 1)) {
-			Rc *rc = Реф();
-			ПРОВЕРЬ(rc->refcount > 0);
-			if(атомнДек(rc->refcount) == 0) MemoryFree(rc);
+			Rc *rc = Ref();
+			ASSERT(rc->refcount > 0);
+			if(AtomicDec(rc->refcount) == 0) MemoryFree(rc);
 		}
 	}
 	else
@@ -29,7 +29,7 @@ void Ткст0::LFree()
 }
 
 force_inline
-char *Ткст0::Alloc_(int count, char& kind)
+char *String0::Alloc_(int count, char& kind)
 {
 	if(count < 32) {
 		kind = MEDIUM;
@@ -40,15 +40,15 @@ char *Ткст0::Alloc_(int count, char& kind)
 	rc->alloc = count == INT_MAX ? INT_MAX : (int)sz - sizeof(Rc) - 1;
 	rc->refcount = 1;
 	kind = min(rc->alloc, 255);
-	return rc->дайУк();
+	return rc->GetPtr();
 }
 
-char *Ткст0::размести(int count, char& kind)
+char *String0::Alloc(int count, char& kind)
 {
 	return Alloc_(count, kind);
 }
 
-void Ткст0::SetL(const char *s, int len)
+void String0::SetL(const char *s, int len)
 {
 	ptr = Alloc_(len, chr[KIND]);
 	memcpy8(ptr, s, len);
@@ -57,9 +57,9 @@ void Ткст0::SetL(const char *s, int len)
 	SLen() = 15;
 }
 
-void Ткст0::LCat(int c)
+void String0::LCat(int c)
 {
-	if(смолл_ли()) {
+	if(IsSmall()) {
 		qword *x = (qword *)MemoryAlloc32_i();
 		x[0] = q[0];
 		x[1] = q[1];
@@ -69,18 +69,18 @@ void Ткст0::LCat(int c)
 		qptr = x;
 	}
 	int l = LLen();
-	if(реф_ли() ? !IsShared() && l < (int)Реф()->alloc : l < 31) {
+	if(IsRef() ? !IsShared() && l < (int)Ref()->alloc : l < 31) {
 		ptr[l] = c;
 		ptr[LLen() = l + 1] = 0;
 	}
 	else {
-		char *s = вставь(l, 1, NULL);
+		char *s = Insert(l, 1, NULL);
 		s[0] = c;
 		s[1] = 0;
 	}
 }
 
-char *ТкстБуф::размести(int count, int& alloc)
+char *StringBuffer::Alloc(int count, int& alloc)
 {
 	if(count <= 31) {
 		char *s = (char *)MemoryAlloc32_i();
@@ -96,27 +96,27 @@ char *ТкстБуф::размести(int count, int& alloc)
 	}
 }
 
-void ТкстБуф::уст(Ткст& s)
+void StringBuffer::Set(String& s)
 {
 	s.UnShare();
-	int l = s.дайДлину();
-	if(s.дайРазмест() == 14) {
+	int l = s.GetLength();
+	if(s.GetAlloc() == 14) {
 		pbegin = (char *)MemoryAlloc32_i();
 		limit = pbegin + 31;
-		memcpy8(pbegin, s.старт(), l);
+		memcpy8(pbegin, s.Begin(), l);
 		pend = pbegin + l;
 	}
 	else {
 		pbegin = s.ptr;
 		pend = pbegin + l;
-		limit = pbegin + s.дайРазмест();
+		limit = pbegin + s.GetAlloc();
 	}
-	s.обнули();
+	s.Zero();
 }
 
-void ТкстБуф::освободи()
+void StringBuffer::Free()
 {
-	if(pbegin == буфер)
+	if(pbegin == buffer)
 		return;
 	int all = (int)(limit - pbegin);
 	if(all == 31)

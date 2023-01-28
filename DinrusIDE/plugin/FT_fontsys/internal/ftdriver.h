@@ -130,17 +130,17 @@ FT_BEGIN_HEADER
   /*                                                                       */
   /*    slot_object_size :: The size of a glyph object in bytes.           */
   /*                                                                       */
-  /*    init_face        :: The формат-specific face constructor.          */
+  /*    init_face        :: The format-specific face constructor.          */
   /*                                                                       */
-  /*    done_face        :: The формат-specific face destructor.           */
+  /*    done_face        :: The format-specific face destructor.           */
   /*                                                                       */
-  /*    init_size        :: The формат-specific size constructor.          */
+  /*    init_size        :: The format-specific size constructor.          */
   /*                                                                       */
-  /*    done_size        :: The формат-specific size destructor.           */
+  /*    done_size        :: The format-specific size destructor.           */
   /*                                                                       */
-  /*    init_slot        :: The формат-specific slot constructor.          */
+  /*    init_slot        :: The format-specific slot constructor.          */
   /*                                                                       */
-  /*    done_slot        :: The формат-specific slot destructor.           */
+  /*    done_slot        :: The format-specific slot destructor.           */
   /*                                                                       */
   /*                                                                       */
   /*    load_glyph       :: A function handle to load a glyph to a slot.   */
@@ -148,7 +148,7 @@ FT_BEGIN_HEADER
   /*                                                                       */
   /*    get_kerning      :: A function handle to return the unscaled       */
   /*                        kerning for a given pair of glyphs.  Can be    */
-  /*                        set to 0 if the формат doesn't support         */
+  /*                        set to 0 if the format doesn't support         */
   /*                        kerning.                                       */
   /*                                                                       */
   /*    attach_file      :: This function handle is used to read           */
@@ -161,7 +161,7 @@ FT_BEGIN_HEADER
   /*                        widths of `count' glyphs (in font units),      */
   /*                        starting at `first'.  The `vertical' flag must */
   /*                        be set to get vertical advance heights.  The   */
-  /*                        `advances' буфер is caller-allocated.         */
+  /*                        `advances' buffer is caller-allocated.         */
   /*                        Currently not implemented.  The idea of this   */
   /*                        function is to be able to perform              */
   /*                        device-independent text layout without loading */
@@ -255,20 +255,20 @@ FT_BEGIN_HEADER
   /* <Description>                                                         */
   /*    Used to initialize an instance of FT_Driver_ClassRec struct.       */
   /*                                                                       */
-  /*    When FT_CONFIG_OPTION_PIC is defined a создай funtion will need    */
+  /*    When FT_CONFIG_OPTION_PIC is defined a Create funtion will need    */
   /*    to called with a pointer where the allocated stracture is returned.*/
-  /*    And when it is no longer needed a разрушь function needs           */
+  /*    And when it is no longer needed a Destroy function needs           */
   /*    to be called to release that allocation.                           */
   /*    fcinit.c (ft_create_default_module_classes) already contains       */
   /*    a mechanism to call these functions for the default modules        */
   /*    described in ftmodule.h                                            */
   /*                                                                       */
-  /*    Notice that the created создай and разрушь functions call          */
+  /*    Notice that the created Create and Destroy functions call          */
   /*    pic_init and pic_free function to allow you to manually allocate   */
   /*    and initialize any additional global data, like module specific    */
   /*    interface, and put them in the global pic container defined in     */
   /*    ftpic.h. if you don't need them just implement the functions as    */
-  /*    empty to resolve the link Ошибка.                                   */
+  /*    empty to resolve the link error.                                   */
   /*                                                                       */
   /*    When FT_CONFIG_OPTION_PIC is not defined the struct will be        */
   /*    allocated in the global scope (or the scope where the macro        */
@@ -367,17 +367,17 @@ FT_BEGIN_HEADER
                             FT_Module_Class**  output_class )                \
   {                                                                          \
     FT_Driver_Class  clazz;                                                  \
-    FT_Error         Ошибка;                                                  \
+    FT_Error         error;                                                  \
     FT_Memory        memory = library->memory;                               \
                                                                              \
     if ( FT_ALLOC( clazz, sizeof(*clazz) ) )                                 \
-      return Ошибка;                                                          \
+      return error;                                                          \
                                                                              \
-    Ошибка = class_##_pic_init( library );                                    \
-    if(Ошибка)                                                                \
+    error = class_##_pic_init( library );                                    \
+    if(error)                                                                \
     {                                                                        \
       FT_FREE( clazz );                                                      \
-      return Ошибка;                                                          \
+      return error;                                                          \
     }                                                                        \
                                                                              \
     FT_DEFINE_ROOT_MODULE(flags_,size_,name_,version_,requires_,interface_,  \

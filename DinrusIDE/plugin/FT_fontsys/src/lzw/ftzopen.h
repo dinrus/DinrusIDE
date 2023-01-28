@@ -82,14 +82,14 @@
    *    Of course, state->prefix_size is the number of prefix/suffix slots
    *    in the arrays, corresponding to codes 256..255+prefix_size.
    *
-   *  - `free_ent' is the Индекс of the next free entry in the `prefix'
+   *  - `free_ent' is the index of the next free entry in the `prefix'
    *    and `suffix' arrays.  This means that the corresponding `next free
    *    code' is really `256+free_ent'.
    *
-   *    Moreover, `max_free' is the maximum значение that `free_ent' can reach.
+   *    Moreover, `max_free' is the maximum value that `free_ent' can reach.
    *
    *    `max_free' corresponds to `(1 << max_bits) - 256'.  Note that this
-   *    значение is always <= 0xFF00, which means that both `free_ent' and
+   *    value is always <= 0xFF00, which means that both `free_ent' and
    *    `max_free' can be stored in an FT_UInt variable, even on 16-bit
    *    machines.
    *
@@ -97,7 +97,7 @@
    *    prefix/suffix table.
    *
    *  - `num_bits' is the current number of code bits, starting at 9 and
-   *    growing each time `free_ent' reaches the значение of `free_bits'.  The
+   *    growing each time `free_ent' reaches the value of `free_bits'.  The
    *    latter is computed as follows
    *
    *      if num_bits < max_bits:
@@ -105,7 +105,7 @@
    *      else:
    *         free_bits = max_free + 1
    *
-   *    Since the значение of `max_free + 1' can never be reached by
+   *    Since the value of `max_free + 1' can never be reached by
    *    `free_ent', `num_bits' cannot grow larger than `max_bits'.
    */
 
@@ -125,7 +125,7 @@
     FT_UInt      max_free;    /* (1 << max_bits) - 256             */
 
     FT_UInt      num_bits;    /* current code bit number */
-    FT_UInt      free_ent;    /* Индекс of next free entry */
+    FT_UInt      free_ent;    /* index of next free entry */
     FT_UInt      free_bits;   /* if reached by free_ent, increment num_bits */
     FT_UInt      old_code;
     FT_UInt      old_char;
@@ -160,7 +160,7 @@
 
   FT_LOCAL( FT_ULong )
   ft_lzwstate_io( FT_LzwState  state,
-                  FT_Byte*     буфер,
+                  FT_Byte*     buffer,
                   FT_ULong     out_size );
 
 /* */

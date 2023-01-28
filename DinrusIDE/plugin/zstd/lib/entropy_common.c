@@ -1,5 +1,5 @@
 /* ******************************************************************
- * Common functions of нов Generation Entropy library
+ * Common functions of New Generation Entropy library
  * Copyright (c) 2016-2020, Yann Collet, Facebook, Inc.
  *
  *  You can contact the author at :
@@ -16,7 +16,7 @@
 *  Dependencies
 ***************************************/
 #include "mem.h"
-#include "error_private.h"       /* ERR_*, Ошибка */
+#include "error_private.h"       /* ERR_*, ERROR */
 #define FSE_STATIC_LINKING_ONLY  /* FSE_MIN_TABLELOG */
 #include "fse.h"
 #define HUF_STATIC_LINKING_ONLY  /* HUF_TABLELOG_ABSOLUTEMAX */
@@ -27,7 +27,7 @@
 unsigned FSE_versionNumber(void) { return FSE_VERSION_NUMBER; }
 
 
-/*===   Ошибка Management   ===*/
+/*===   Error Management   ===*/
 unsigned FSE_isError(size_t code) { return ERR_isError(code); }
 const char* FSE_getErrorName(size_t code) { return ERR_getErrorName(code); }
 
@@ -54,13 +54,13 @@ size_t FSE_readNCount (short* normalizedCounter, unsigned* maxSVPtr, unsigned* t
 
     if (hbSize < 4) {
         /* This function only works when hbSize >= 4 */
-        char буфер[4];
-        memset(буфер, 0, sizeof(буфер));
-        memcpy(буфер, headerBuffer, hbSize);
+        char buffer[4];
+        memset(buffer, 0, sizeof(buffer));
+        memcpy(buffer, headerBuffer, hbSize);
         {   size_t const countSize = FSE_readNCount(normalizedCounter, maxSVPtr, tableLogPtr,
-                                                    буфер, sizeof(буфер));
+                                                    buffer, sizeof(buffer));
             if (FSE_isError(countSize)) return countSize;
-            if (countSize > hbSize) return Ошибка(corruption_detected);
+            if (countSize > hbSize) return ERROR(corruption_detected);
             return countSize;
     }   }
     assert(hbSize >= 4);
@@ -69,7 +69,7 @@ size_t FSE_readNCount (short* normalizedCounter, unsigned* maxSVPtr, unsigned* t
     memset(normalizedCounter, 0, (*maxSVPtr+1) * sizeof(normalizedCounter[0]));   /* all symbols not present in NCount have a frequency of 0 */
     bitStream = MEM_readLE32(ip);
     nbBits = (bitStream & 0xF) + FSE_MIN_TABLELOG;   /* extract tableLog */
-    if (nbBits > FSE_TABLELOG_ABSOLUTE_MAX) return Ошибка(tableLog_tooLarge);
+    if (nbBits > FSE_TABLELOG_ABSOLUTE_MAX) return ERROR(tableLog_tooLarge);
     bitStream >>= 4;
     bitCount = 4;
     *tableLogPtr = nbBits;
@@ -96,7 +96,7 @@ size_t FSE_readNCount (short* normalizedCounter, unsigned* maxSVPtr, unsigned* t
             }
             n0 += bitStream & 3;
             bitCount += 2;
-            if (n0 > *maxSVPtr) return Ошибка(maxSymbolValue_tooSmall);
+            if (n0 > *maxSVPtr) return ERROR(maxSymbolValue_tooSmall);
             while (charnum < n0) normalizedCounter[charnum++] = 0;
             if ((ip <= iend-7) || (ip + (bitCount>>3) <= iend-4)) {
                 assert((bitCount >> 3) <= 3); /* For first condition to work */
@@ -136,8 +136,8 @@ size_t FSE_readNCount (short* normalizedCounter, unsigned* maxSVPtr, unsigned* t
             }
             bitStream = MEM_readLE32(ip) >> (bitCount & 31);
     }   }   /* while ((remaining>1) & (charnum<=*maxSVPtr)) */
-    if (remaining != 1) return Ошибка(corruption_detected);
-    if (bitCount > 32) return Ошибка(corruption_detected);
+    if (remaining != 1) return ERROR(corruption_detected);
+    if (bitCount > 32) return ERROR(corruption_detected);
     *maxSVPtr = charnum-1;
 
     ip += (bitCount+7)>>3;
@@ -146,10 +146,10 @@ size_t FSE_readNCount (short* normalizedCounter, unsigned* maxSVPtr, unsigned* t
 
 
 /*! HUF_readStats() :
-    читай compact Huffman tree, saved by HUF_writeCTable().
-    `huffWeight` is destination буфер.
+    Read compact Huffman tree, saved by HUF_writeCTable().
+    `huffWeight` is destination buffer.
     `rankStats` is assumed to be a table of at least HUF_TABLELOG_MAX U32.
-    @return : size read from `src` , or an Ошибка Code .
+    @return : size read from `src` , or an error Code .
     Note : Needed by HUF_readCTable() and HUF_readDTableX?() .
 */
 size_t HUF_readStats(BYTE* huffWeight, size_t hwSize, U32* rankStats,
@@ -161,15 +161,15 @@ size_t HUF_readStats(BYTE* huffWeight, size_t hwSize, U32* rankStats,
     size_t iSize;
     size_t oSize;
 
-    if (!srcSize) return Ошибка(srcSize_wrong);
+    if (!srcSize) return ERROR(srcSize_wrong);
     iSize = ip[0];
     /* memset(huffWeight, 0, hwSize);   *//* is not necessary, even though some analyzer complain ... */
 
     if (iSize >= 128) {  /* special header */
         oSize = iSize - 127;
         iSize = ((oSize+1)/2);
-        if (iSize+1 > srcSize) return Ошибка(srcSize_wrong);
-        if (oSize >= hwSize) return Ошибка(corruption_detected);
+        if (iSize+1 > srcSize) return ERROR(srcSize_wrong);
+        if (oSize >= hwSize) return ERROR(corruption_detected);
         ip += 1;
         {   U32 n;
             for (n=0; n<oSize; n+=2) {
@@ -178,7 +178,7 @@ size_t HUF_readStats(BYTE* huffWeight, size_t hwSize, U32* rankStats,
     }   }   }
     else  {   /* header compressed with FSE (normal case) */
         FSE_DTable fseWorkspace[FSE_DTABLE_SIZE_U32(6)];  /* 6 is max possible tableLog for HUF header (maybe even 5, to be tested) */
-        if (iSize+1 > srcSize) return Ошибка(srcSize_wrong);
+        if (iSize+1 > srcSize) return ERROR(srcSize_wrong);
         oSize = FSE_decompress_wksp(huffWeight, hwSize-1, ip+1, iSize, fseWorkspace, 6);   /* max (hwSize-1) values decoded, as last one is implied */
         if (FSE_isError(oSize)) return oSize;
     }
@@ -187,28 +187,28 @@ size_t HUF_readStats(BYTE* huffWeight, size_t hwSize, U32* rankStats,
     memset(rankStats, 0, (HUF_TABLELOG_MAX + 1) * sizeof(U32));
     weightTotal = 0;
     {   U32 n; for (n=0; n<oSize; n++) {
-            if (huffWeight[n] >= HUF_TABLELOG_MAX) return Ошибка(corruption_detected);
+            if (huffWeight[n] >= HUF_TABLELOG_MAX) return ERROR(corruption_detected);
             rankStats[huffWeight[n]]++;
             weightTotal += (1 << huffWeight[n]) >> 1;
     }   }
-    if (weightTotal == 0) return Ошибка(corruption_detected);
+    if (weightTotal == 0) return ERROR(corruption_detected);
 
     /* get last non-null symbol weight (implied, total must be 2^n) */
     {   U32 const tableLog = BIT_highbit32(weightTotal) + 1;
-        if (tableLog > HUF_TABLELOG_MAX) return Ошибка(corruption_detected);
+        if (tableLog > HUF_TABLELOG_MAX) return ERROR(corruption_detected);
         *tableLogPtr = tableLog;
         /* determine last weight */
         {   U32 const total = 1 << tableLog;
             U32 const rest = total - weightTotal;
             U32 const verif = 1 << BIT_highbit32(rest);
             U32 const lastWeight = BIT_highbit32(rest) + 1;
-            if (verif != rest) return Ошибка(corruption_detected);    /* last значение must be a clean power of 2 */
+            if (verif != rest) return ERROR(corruption_detected);    /* last value must be a clean power of 2 */
             huffWeight[oSize] = (BYTE)lastWeight;
             rankStats[lastWeight]++;
     }   }
 
     /* check tree construction validity */
-    if ((rankStats[1] < 2) || (rankStats[1] & 1)) return Ошибка(corruption_detected);   /* by construction : at least 2 elts of rank 1, must be even */
+    if ((rankStats[1] < 2) || (rankStats[1] & 1)) return ERROR(corruption_detected);   /* by construction : at least 2 elts of rank 1, must be even */
 
     /* results */
     *nbSymbolsPtr = (U32)(oSize+1);

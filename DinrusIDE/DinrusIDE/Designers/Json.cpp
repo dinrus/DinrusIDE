@@ -2,104 +2,104 @@
 
 JsonViewDes::JsonViewDes()
 {
-	tree.устДисплей(QTFDisplay());
+	tree.SetDisplay(QTFDisplay());
 }
 
 void JsonViewDes::CopyPath()
 {
-	int id = tree.дайКурсор();
-	Ткст path;
+	int id = tree.GetCursor();
+	String path;
 	while(id) {
-		Значение k = tree.дай(id);
-		if(!пусто_ли(k)) {
-			if(число_ли(k))
-				path = "[" + какТкст(k) + "]" + path;
-			if(ткст_ли(k))
-				path = "[" + какТкстСи(Ткст(k)) + "]" + path;
+		Value k = tree.Get(id);
+		if(!IsNull(k)) {
+			if(IsNumber(k))
+				path = "[" + AsString(k) + "]" + path;
+			if(IsString(k))
+				path = "[" + AsCString(String(k)) + "]" + path;
 		}
-		id = tree.дайРодителя(id);
+		id = tree.GetParent(id);
 	}
 	WriteClipboardText(path);
 }
 
-Ткст JsonViewDes::загрузи0(const Ткст& json)
+String JsonViewDes::Load0(const String& json)
 {
-	Ткст parsingError;
+	String parsingError;
 	
-	СиПарсер p(json);
+	CParser p(json);
 	try {
-		tree.открой(AddNode(0, Null, "JSON", ParseJSON(p)));
+		tree.Open(AddNode(0, Null, "JSON", ParseJSON(p)));
 	}
-	catch(const СиПарсер::Ошибка& e) {
+	catch(const CParser::Error& e) {
 		parsingError << e;
 	}
 	
 	return parsingError;
 }
 
-int JsonViewDes::AddNode(int parent_id, const Значение& id, const Ткст& имя, const Значение& v)
+int JsonViewDes::AddNode(int parent_id, const Value& id, const String& name, const Value& v)
 {
-	if(ошибка_ли(v)) {
-		// TODO: замени with JsonExc or something that is more accurate in this situation.
-		Ткст errorText = дайТекстОш(v);
-		errorText.удали(0, errorText.найди(" ") + 1);
-		throw Искл(errorText);
+	if(IsError(v)) {
+		// СДЕЛАТЬ: Replace with JsonExc or something that is more accurate in this situation.
+		String errorText = GetErrorText(v);
+		errorText.Remove(0, errorText.Find(" ") + 1);
+		throw Exc(errorText);
 	}
 	else
-	if(v.является<МапЗнач>()) {
-		МапЗнач m = v;
-		parent_id = tree.добавь(parent_id, IdeCommonImg::JsonStruct(), id, "[G1 [* " + имя);
-		for(int i = 0; i < m.дайСчёт(); i++)
-			AddNode(parent_id, m.дайКлюч(i), "[@B \1" + Ткст(m.дайКлюч(i)) + "\1:]", m.дайЗначение(i));
+	if(v.Is<ValueMap>()) {
+		ValueMap m = v;
+		parent_id = tree.Add(parent_id, IdeCommonImg::JsonStruct(), id, "[G1 [* " + name);
+		for(int i = 0; i < m.GetCount(); i++)
+			AddNode(parent_id, m.GetKey(i), "[@B \1" + String(m.GetKey(i)) + "\1:]", m.GetValue(i));
 	}
 	else
-	if(v.является<МассивЗнач>()) {
-		parent_id = tree.добавь(parent_id, IdeCommonImg::JsonArray(), id, "[G1 [* " + имя);
-		for(int i = 0; i < v.дайСчёт(); i++)
-			AddNode(parent_id, i, "[@c " + какТкст(i) + ":]", v[i]);
+	if(v.Is<ValueArray>()) {
+		parent_id = tree.Add(parent_id, IdeCommonImg::JsonArray(), id, "[G1 [* " + name);
+		for(int i = 0; i < v.GetCount(); i++)
+			AddNode(parent_id, i, "[@c " + AsString(i) + ":]", v[i]);
 	}
 	else {
-		Ткст qtf = "[G1 [* " + имя + "]";
-		Рисунок img = IdeCommonImg::JsonNumber();
-		if(ткст_ли(v)) {
+		String qtf = "[G1 [* " + name + "]";
+		Image img = IdeCommonImg::JsonNumber();
+		if(IsString(v)) {
 			img = IdeCommonImg::JsonString();
-			if(пусто_ли(v))
+			if(IsNull(v))
 				qtf << "[*@g  Null";
 			else
-				qtf << "[@r \1 " + какТкстСи(Ткст(v));
+				qtf << "[@r \1 " + AsCString(String(v));
 		}
 		else {
-			if(v.является<bool>())
+			if(v.Is<bool>())
 				img = IdeCommonImg::JsonBool();
-			if(пусто_ли(v))
+			if(IsNull(v))
 				qtf << "[*@g  Null";
 			else
-				qtf << "\1 " + какТкст(v);
+				qtf << "\1 " + AsString(v);
 		}
-		parent_id = tree.добавь(parent_id, img, id, qtf);
+		parent_id = tree.Add(parent_id, img, id, qtf);
 	}
 	return parent_id;
 }
 
-struct JsonDesModule : public МодульИСР {
-	virtual Ткст       GetID() { return "JsonDesModule"; }
+struct JsonDesModule : public IdeModule {
+	virtual String       GetID() { return "JsonDesModule"; }
 
 	virtual bool         AcceptsFile(const char *path) {
-		return впроп(дайРасшф(path)) == ".json";
+		return ToLower(GetFileExt(path)) == ".json";
 	}
 
 	virtual IdeDesigner *CreateDesigner(const char *path, byte) {
 		if(!AcceptsFile(path))
 			return NULL;
 		JsonViewDes *d = new JsonViewDes;
-		if(d->грузи(path))
+		if(d->Load(path))
 			return d;
 		delete d;
 		return NULL;
 	}
 };
 
-ИНИЦИАЛИЗАТОР(JsonViewDes)
+INITIALIZER(JsonViewDes)
 {
-	регМодульИСР(Single<JsonDesModule>());
+	RegisterIdeModule(Single<JsonDesModule>());
 }

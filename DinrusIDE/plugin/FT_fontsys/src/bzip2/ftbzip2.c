@@ -44,7 +44,7 @@
 #ifdef FT_CONFIG_OPTION_USE_BZIP2
 
 #ifdef FT_CONFIG_OPTION_PIC
-#Ошибка "bzip2 code does not support PIC yet"
+#error "bzip2 code does not support PIC yet"
 #endif
 
 #define BZ_NO_STDIO /* Do not need FILE */
@@ -71,7 +71,7 @@
                   int        size )
   {
     FT_ULong    sz = (FT_ULong)size * items;
-    FT_Error    Ошибка;
+    FT_Error    error;
     FT_Pointer  p  = NULL;
 
 
@@ -105,9 +105,9 @@
     FT_Memory  memory;         /* memory allocator            */
     bz_stream  bzstream;       /* bzlib input stream          */
 
-    FT_Byte    input[FT_BZIP2_BUFFER_SIZE];  /* input read буфер  */
+    FT_Byte    input[FT_BZIP2_BUFFER_SIZE];  /* input read buffer  */
 
-    FT_Byte    буфер[FT_BZIP2_BUFFER_SIZE]; /* output буфер      */
+    FT_Byte    buffer[FT_BZIP2_BUFFER_SIZE]; /* output buffer      */
     FT_ULong   pos;                          /* position in output */
     FT_Byte*   cursor;
     FT_Byte*   limit;
@@ -119,7 +119,7 @@
   static FT_Error
   ft_bzip2_check_header( FT_Stream  stream )
   {
-    FT_Error  Ошибка = Bzip2_Err_Ok;
+    FT_Error  error = Bzip2_Err_Ok;
     FT_Byte   head[4];
 
 
@@ -133,12 +133,12 @@
          head[1] != 0x5a  ||
          head[2] != 0x68  )  /* only support bzip2 (huffman) */
     {
-      Ошибка = Bzip2_Err_Invalid_File_Format;
+      error = Bzip2_Err_Invalid_File_Format;
       goto Exit;
     }
 
   Exit:
-    return Ошибка;
+    return error;
   }
 
 
@@ -148,14 +148,14 @@
                       FT_Stream     source )
   {
     bz_stream*  bzstream = &zip->bzstream;
-    FT_Error    Ошибка    = Bzip2_Err_Ok;
+    FT_Error    error    = Bzip2_Err_Ok;
 
 
     zip->stream = stream;
     zip->source = source;
     zip->memory = stream->memory;
 
-    zip->limit  = zip->буфер + FT_BZIP2_BUFFER_SIZE;
+    zip->limit  = zip->buffer + FT_BZIP2_BUFFER_SIZE;
     zip->cursor = zip->limit;
     zip->pos    = 0;
 
@@ -163,8 +163,8 @@
     {
       stream = source;
 
-      Ошибка = ft_bzip2_check_header( stream );
-      if ( Ошибка )
+      error = ft_bzip2_check_header( stream );
+      if ( error )
         goto Exit;
 
       if ( FT_STREAM_SEEK( 0 ) )
@@ -177,14 +177,14 @@
     bzstream->opaque  = zip->memory;
 
     bzstream->avail_in = 0;
-    bzstream->next_in  = (char*)zip->буфер;
+    bzstream->next_in  = (char*)zip->buffer;
 
     if ( BZ2_bzDecompressInit( bzstream, 0, 0 ) != BZ_OK ||
          bzstream->next_in == NULL                       )
-      Ошибка = Bzip2_Err_Invalid_File_Format;
+      error = Bzip2_Err_Invalid_File_Format;
 
   Exit:
-    return Ошибка;
+    return error;
   }
 
 
@@ -215,7 +215,7 @@
   ft_bzip2_file_reset( FT_BZip2File  zip )
   {
     FT_Stream  stream = zip->source;
-    FT_Error   Ошибка;
+    FT_Error   error;
 
 
     if ( !FT_STREAM_SEEK( 0 ) )
@@ -228,16 +228,16 @@
       bzstream->avail_in  = 0;
       bzstream->next_in   = (char*)zip->input;
       bzstream->avail_out = 0;
-      bzstream->next_out  = (char*)zip->буфер;
+      bzstream->next_out  = (char*)zip->buffer;
 
-      zip->limit  = zip->буфер + FT_BZIP2_BUFFER_SIZE;
+      zip->limit  = zip->buffer + FT_BZIP2_BUFFER_SIZE;
       zip->cursor = zip->limit;
       zip->pos    = 0;
 
       BZ2_bzDecompressInit( bzstream, 0, 0 );
     }
 
-    return Ошибка;
+    return error;
   }
 
 
@@ -280,10 +280,10 @@
   ft_bzip2_file_fill_output( FT_BZip2File  zip )
   {
     bz_stream*  bzstream = &zip->bzstream;
-    FT_Error    Ошибка    = Bzip2_Err_Ok;
+    FT_Error    error    = Bzip2_Err_Ok;
 
 
-    zip->cursor         = zip->буфер;
+    zip->cursor         = zip->buffer;
     bzstream->next_out  = (char*)zip->cursor;
     bzstream->avail_out = FT_BZIP2_BUFFER_SIZE;
 
@@ -294,8 +294,8 @@
 
       if ( bzstream->avail_in == 0 )
       {
-        Ошибка = ft_bzip2_file_fill_input( zip );
-        if ( Ошибка )
+        error = ft_bzip2_file_fill_input( zip );
+        if ( error )
           break;
       }
 
@@ -305,26 +305,26 @@
       {
         zip->limit = (FT_Byte*)bzstream->next_out;
         if ( zip->limit == zip->cursor )
-          Ошибка = Bzip2_Err_Invalid_Stream_Operation;
+          error = Bzip2_Err_Invalid_Stream_Operation;
         break;
       }
       else if ( err != BZ_OK )
       {
-        Ошибка = Bzip2_Err_Invalid_Stream_Operation;
+        error = Bzip2_Err_Invalid_Stream_Operation;
         break;
       }
     }
 
-    return Ошибка;
+    return error;
   }
 
 
-  /* fill output буфер; `count' must be <= FT_BZIP2_BUFFER_SIZE */
+  /* fill output buffer; `count' must be <= FT_BZIP2_BUFFER_SIZE */
   static FT_Error
   ft_bzip2_file_skip_output( FT_BZip2File  zip,
                              FT_ULong      count )
   {
-    FT_Error  Ошибка = Bzip2_Err_Ok;
+    FT_Error  error = Bzip2_Err_Ok;
     FT_ULong  delta;
 
 
@@ -341,39 +341,39 @@
       if ( count == 0 )
         break;
 
-      Ошибка = ft_bzip2_file_fill_output( zip );
-      if ( Ошибка )
+      error = ft_bzip2_file_fill_output( zip );
+      if ( error )
         break;
     }
 
-    return Ошибка;
+    return error;
   }
 
 
   static FT_ULong
   ft_bzip2_file_io( FT_BZip2File  zip,
                     FT_ULong      pos,
-                    FT_Byte*      буфер,
+                    FT_Byte*      buffer,
                     FT_ULong      count )
   {
     FT_ULong  result = 0;
-    FT_Error  Ошибка;
+    FT_Error  error;
 
 
-    /* переустанов inflate stream if we're seeking backwards.        */
+    /* Reset inflate stream if we're seeking backwards.        */
     /* Yes, that is not too efficient, but it saves memory :-) */
     if ( pos < zip->pos )
     {
-      Ошибка = ft_bzip2_file_reset( zip );
-      if ( Ошибка )
+      error = ft_bzip2_file_reset( zip );
+      if ( error )
         goto Exit;
     }
 
     /* skip unwanted bytes */
     if ( pos > zip->pos )
     {
-      Ошибка = ft_bzip2_file_skip_output( zip, (FT_ULong)( pos - zip->pos ) );
-      if ( Ошибка )
+      error = ft_bzip2_file_skip_output( zip, (FT_ULong)( pos - zip->pos ) );
+      if ( error )
         goto Exit;
     }
 
@@ -390,8 +390,8 @@
       if ( delta >= count )
         delta = count;
 
-      FT_MEM_COPY( буфер, zip->cursor, delta );
-      буфер      += delta;
+      FT_MEM_COPY( buffer, zip->cursor, delta );
+      buffer      += delta;
       result      += delta;
       zip->cursor += delta;
       zip->pos    += delta;
@@ -400,8 +400,8 @@
       if ( count == 0 )
         break;
 
-      Ошибка = ft_bzip2_file_fill_output( zip );
-      if ( Ошибка )
+      error = ft_bzip2_file_fill_output( zip );
+      if ( error )
         break;
     }
 
@@ -440,13 +440,13 @@
   static FT_ULong
   ft_bzip2_stream_io( FT_Stream  stream,
                       FT_ULong   pos,
-                      FT_Byte*   буфер,
+                      FT_Byte*   buffer,
                       FT_ULong   count )
   {
     FT_BZip2File  zip = (FT_BZip2File)stream->descriptor.pointer;
 
 
-    return ft_bzip2_file_io( zip, pos, буфер, count );
+    return ft_bzip2_file_io( zip, pos, buffer, count );
   }
 
 
@@ -454,7 +454,7 @@
   FT_Stream_OpenBzip2( FT_Stream  stream,
                        FT_Stream  source )
   {
-    FT_Error      Ошибка;
+    FT_Error      error;
     FT_Memory     memory = source->memory;
     FT_BZip2File  zip = NULL;
 
@@ -463,8 +463,8 @@
      *  check the header right now; this prevents allocating unnecessary
      *  objects when we don't need them
      */
-    Ошибка = ft_bzip2_check_header( source );
-    if ( Ошибка )
+    error = ft_bzip2_check_header( source );
+    if ( error )
       goto Exit;
 
     FT_ZERO( stream );
@@ -472,8 +472,8 @@
 
     if ( !FT_QNEW( zip ) )
     {
-      Ошибка = ft_bzip2_file_init( zip, stream, source );
-      if ( Ошибка )
+      error = ft_bzip2_file_init( zip, stream, source );
+      if ( error )
       {
         FT_FREE( zip );
         goto Exit;
@@ -489,7 +489,7 @@
     stream->close = ft_bzip2_stream_close;
 
   Exit:
-    return Ошибка;
+    return error;
   }
 
 #else  /* !FT_CONFIG_OPTION_USE_BZIP2 */

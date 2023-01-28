@@ -39,7 +39,7 @@
  * full-block strategy.
  * When there are a lot of small blocks due to frequent flush in streaming mode
  * the overhead of headers can make the compressed data to be larger than the
- * return значение of ZSTD_compressBound().
+ * return value of ZSTD_compressBound().
  */
 size_t ZSTD_compressBound(size_t srcSize) {
     return ZSTD_COMPRESSBOUND(srcSize);
@@ -47,7 +47,7 @@ size_t ZSTD_compressBound(size_t srcSize) {
 
 
 /*-*************************************
-*  Контекст memory management
+*  Context memory management
 ***************************************/
 struct ZSTD_CDict_s {
     const void* dictContent;
@@ -393,13 +393,13 @@ ZSTD_bounds ZSTD_cParam_getBounds(ZSTD_cParameter param)
     case ZSTD_c_format:
         ZSTD_STATIC_ASSERT(ZSTD_f_zstd1 < ZSTD_f_zstd1_magicless);
         bounds.lowerBound = ZSTD_f_zstd1;
-        bounds.upperBound = ZSTD_f_zstd1_magicless;   /* note : how to ensure at compile time that this is the highest значение enum ? */
+        bounds.upperBound = ZSTD_f_zstd1_magicless;   /* note : how to ensure at compile time that this is the highest value enum ? */
         return bounds;
 
     case ZSTD_c_forceAttachDict:
         ZSTD_STATIC_ASSERT(ZSTD_dictDefaultAttach < ZSTD_dictForceCopy);
         bounds.lowerBound = ZSTD_dictDefaultAttach;
-        bounds.upperBound = ZSTD_dictForceLoad;       /* note : how to ensure at compile time that this is the highest значение enum ? */
+        bounds.upperBound = ZSTD_dictForceLoad;       /* note : how to ensure at compile time that this is the highest value enum ? */
         return bounds;
 
     case ZSTD_c_literalCompressionMode:
@@ -419,20 +419,20 @@ ZSTD_bounds ZSTD_cParam_getBounds(ZSTD_cParameter param)
         return bounds;
 
     default:
-        bounds.Ошибка = Ошибка(parameter_unsupported);
+        bounds.error = ERROR(parameter_unsupported);
         return bounds;
     }
 }
 
 /* ZSTD_cParam_clampBounds:
- * Clamps the значение into the bounded range.
+ * Clamps the value into the bounded range.
  */
-static size_t ZSTD_cParam_clampBounds(ZSTD_cParameter cParam, int* значение)
+static size_t ZSTD_cParam_clampBounds(ZSTD_cParameter cParam, int* value)
 {
     ZSTD_bounds const bounds = ZSTD_cParam_getBounds(cParam);
-    if (ZSTD_isError(bounds.Ошибка)) return bounds.Ошибка;
-    if (*значение < bounds.lowerBound) *значение = bounds.lowerBound;
-    if (*значение > bounds.upperBound) *значение = bounds.upperBound;
+    if (ZSTD_isError(bounds.error)) return bounds.error;
+    if (*value < bounds.lowerBound) *value = bounds.lowerBound;
+    if (*value > bounds.upperBound) *value = bounds.upperBound;
     return 0;
 }
 
@@ -479,9 +479,9 @@ static int ZSTD_isUpdateAuthorized(ZSTD_cParameter param)
     }
 }
 
-size_t ZSTD_CCtx_setParameter(ZSTD_CCtx* cctx, ZSTD_cParameter param, int значение)
+size_t ZSTD_CCtx_setParameter(ZSTD_CCtx* cctx, ZSTD_cParameter param, int value)
 {
-    DEBUGLOG(4, "ZSTD_CCtx_setParameter (%i, %i)", (int)param, значение);
+    DEBUGLOG(4, "ZSTD_CCtx_setParameter (%i, %i)", (int)param, value);
     if (cctx->streamStage != zcss_init) {
         if (ZSTD_isUpdateAuthorized(param)) {
             cctx->cParamsChanged = 1;
@@ -492,7 +492,7 @@ size_t ZSTD_CCtx_setParameter(ZSTD_CCtx* cctx, ZSTD_cParameter param, int зна
     switch(param)
     {
     case ZSTD_c_nbWorkers:
-        RETURN_ERROR_IF((значение!=0) && cctx->staticSize, parameter_unsupported,
+        RETURN_ERROR_IF((value!=0) && cctx->staticSize, parameter_unsupported,
                         "MT not compatible with static alloc");
         break;
 
@@ -525,99 +525,99 @@ size_t ZSTD_CCtx_setParameter(ZSTD_CCtx* cctx, ZSTD_cParameter param, int зна
 
     default: RETURN_ERROR(parameter_unsupported, "unknown parameter");
     }
-    return ZSTD_CCtxParams_setParameter(&cctx->requestedParams, param, значение);
+    return ZSTD_CCtxParams_setParameter(&cctx->requestedParams, param, value);
 }
 
 size_t ZSTD_CCtxParams_setParameter(ZSTD_CCtx_params* CCtxParams,
-                                    ZSTD_cParameter param, int значение)
+                                    ZSTD_cParameter param, int value)
 {
-    DEBUGLOG(4, "ZSTD_CCtxParams_setParameter (%i, %i)", (int)param, значение);
+    DEBUGLOG(4, "ZSTD_CCtxParams_setParameter (%i, %i)", (int)param, value);
     switch(param)
     {
     case ZSTD_c_format :
-        BOUNDCHECK(ZSTD_c_format, значение);
-        CCtxParams->формат = (ZSTD_format_e)значение;
-        return (size_t)CCtxParams->формат;
+        BOUNDCHECK(ZSTD_c_format, value);
+        CCtxParams->format = (ZSTD_format_e)value;
+        return (size_t)CCtxParams->format;
 
     case ZSTD_c_compressionLevel : {
-        FORWARD_IF_ERROR(ZSTD_cParam_clampBounds(param, &значение), "");
-        if (значение) {  /* 0 : does not change current level */
-            CCtxParams->compressionLevel = значение;
+        FORWARD_IF_ERROR(ZSTD_cParam_clampBounds(param, &value), "");
+        if (value) {  /* 0 : does not change current level */
+            CCtxParams->compressionLevel = value;
         }
         if (CCtxParams->compressionLevel >= 0) return (size_t)CCtxParams->compressionLevel;
-        return 0;  /* return тип (size_t) cannot represent negative values */
+        return 0;  /* return type (size_t) cannot represent negative values */
     }
 
     case ZSTD_c_windowLog :
-        if (значение!=0)   /* 0 => use default */
-            BOUNDCHECK(ZSTD_c_windowLog, значение);
-        CCtxParams->cParams.windowLog = (U32)значение;
+        if (value!=0)   /* 0 => use default */
+            BOUNDCHECK(ZSTD_c_windowLog, value);
+        CCtxParams->cParams.windowLog = (U32)value;
         return CCtxParams->cParams.windowLog;
 
     case ZSTD_c_hashLog :
-        if (значение!=0)   /* 0 => use default */
-            BOUNDCHECK(ZSTD_c_hashLog, значение);
-        CCtxParams->cParams.hashLog = (U32)значение;
+        if (value!=0)   /* 0 => use default */
+            BOUNDCHECK(ZSTD_c_hashLog, value);
+        CCtxParams->cParams.hashLog = (U32)value;
         return CCtxParams->cParams.hashLog;
 
     case ZSTD_c_chainLog :
-        if (значение!=0)   /* 0 => use default */
-            BOUNDCHECK(ZSTD_c_chainLog, значение);
-        CCtxParams->cParams.chainLog = (U32)значение;
+        if (value!=0)   /* 0 => use default */
+            BOUNDCHECK(ZSTD_c_chainLog, value);
+        CCtxParams->cParams.chainLog = (U32)value;
         return CCtxParams->cParams.chainLog;
 
     case ZSTD_c_searchLog :
-        if (значение!=0)   /* 0 => use default */
-            BOUNDCHECK(ZSTD_c_searchLog, значение);
-        CCtxParams->cParams.searchLog = (U32)значение;
-        return (size_t)значение;
+        if (value!=0)   /* 0 => use default */
+            BOUNDCHECK(ZSTD_c_searchLog, value);
+        CCtxParams->cParams.searchLog = (U32)value;
+        return (size_t)value;
 
     case ZSTD_c_minMatch :
-        if (значение!=0)   /* 0 => use default */
-            BOUNDCHECK(ZSTD_c_minMatch, значение);
-        CCtxParams->cParams.minMatch = значение;
+        if (value!=0)   /* 0 => use default */
+            BOUNDCHECK(ZSTD_c_minMatch, value);
+        CCtxParams->cParams.minMatch = value;
         return CCtxParams->cParams.minMatch;
 
     case ZSTD_c_targetLength :
-        BOUNDCHECK(ZSTD_c_targetLength, значение);
-        CCtxParams->cParams.targetLength = значение;
+        BOUNDCHECK(ZSTD_c_targetLength, value);
+        CCtxParams->cParams.targetLength = value;
         return CCtxParams->cParams.targetLength;
 
     case ZSTD_c_strategy :
-        if (значение!=0)   /* 0 => use default */
-            BOUNDCHECK(ZSTD_c_strategy, значение);
-        CCtxParams->cParams.strategy = (ZSTD_strategy)значение;
+        if (value!=0)   /* 0 => use default */
+            BOUNDCHECK(ZSTD_c_strategy, value);
+        CCtxParams->cParams.strategy = (ZSTD_strategy)value;
         return (size_t)CCtxParams->cParams.strategy;
 
     case ZSTD_c_contentSizeFlag :
         /* Content size written in frame header _when known_ (default:1) */
-        DEBUGLOG(4, "set content size flag = %u", (значение!=0));
-        CCtxParams->fParams.contentSizeFlag = значение != 0;
+        DEBUGLOG(4, "set content size flag = %u", (value!=0));
+        CCtxParams->fParams.contentSizeFlag = value != 0;
         return CCtxParams->fParams.contentSizeFlag;
 
     case ZSTD_c_checksumFlag :
         /* A 32-bits content checksum will be calculated and written at end of frame (default:0) */
-        CCtxParams->fParams.checksumFlag = значение != 0;
+        CCtxParams->fParams.checksumFlag = value != 0;
         return CCtxParams->fParams.checksumFlag;
 
     case ZSTD_c_dictIDFlag : /* When applicable, dictionary's dictID is provided in frame header (default:1) */
-        DEBUGLOG(4, "set dictIDFlag = %u", (значение!=0));
-        CCtxParams->fParams.noDictIDFlag = !значение;
+        DEBUGLOG(4, "set dictIDFlag = %u", (value!=0));
+        CCtxParams->fParams.noDictIDFlag = !value;
         return !CCtxParams->fParams.noDictIDFlag;
 
     case ZSTD_c_forceMaxWindow :
-        CCtxParams->forceWindow = (значение != 0);
+        CCtxParams->forceWindow = (value != 0);
         return CCtxParams->forceWindow;
 
     case ZSTD_c_forceAttachDict : {
-        const ZSTD_dictAttachPref_e pref = (ZSTD_dictAttachPref_e)значение;
+        const ZSTD_dictAttachPref_e pref = (ZSTD_dictAttachPref_e)value;
         BOUNDCHECK(ZSTD_c_forceAttachDict, pref);
         CCtxParams->attachDictPref = pref;
         return CCtxParams->attachDictPref;
     }
 
     case ZSTD_c_literalCompressionMode : {
-        const ZSTD_literalCompressionMode_e lcm = (ZSTD_literalCompressionMode_e)значение;
+        const ZSTD_literalCompressionMode_e lcm = (ZSTD_literalCompressionMode_e)value;
         BOUNDCHECK(ZSTD_c_literalCompressionMode, lcm);
         CCtxParams->literalCompressionMode = lcm;
         return CCtxParams->literalCompressionMode;
@@ -625,195 +625,195 @@ size_t ZSTD_CCtxParams_setParameter(ZSTD_CCtx_params* CCtxParams,
 
     case ZSTD_c_nbWorkers :
 #ifndef ZSTD_MULTITHREAD
-        RETURN_ERROR_IF(значение!=0, parameter_unsupported, "not compiled with multithreading");
+        RETURN_ERROR_IF(value!=0, parameter_unsupported, "not compiled with multithreading");
         return 0;
 #else
-        FORWARD_IF_ERROR(ZSTD_cParam_clampBounds(param, &значение), "");
-        CCtxParams->nbWorkers = значение;
+        FORWARD_IF_ERROR(ZSTD_cParam_clampBounds(param, &value), "");
+        CCtxParams->nbWorkers = value;
         return CCtxParams->nbWorkers;
 #endif
 
     case ZSTD_c_jobSize :
 #ifndef ZSTD_MULTITHREAD
-        RETURN_ERROR_IF(значение!=0, parameter_unsupported, "not compiled with multithreading");
+        RETURN_ERROR_IF(value!=0, parameter_unsupported, "not compiled with multithreading");
         return 0;
 #else
-        /* Adjust to the minimum non-default значение. */
-        if (значение != 0 && значение < ZSTDMT_JOBSIZE_MIN)
-            значение = ZSTDMT_JOBSIZE_MIN;
-        FORWARD_IF_ERROR(ZSTD_cParam_clampBounds(param, &значение), "");
-        assert(значение >= 0);
-        CCtxParams->jobSize = значение;
+        /* Adjust to the minimum non-default value. */
+        if (value != 0 && value < ZSTDMT_JOBSIZE_MIN)
+            value = ZSTDMT_JOBSIZE_MIN;
+        FORWARD_IF_ERROR(ZSTD_cParam_clampBounds(param, &value), "");
+        assert(value >= 0);
+        CCtxParams->jobSize = value;
         return CCtxParams->jobSize;
 #endif
 
     case ZSTD_c_overlapLog :
 #ifndef ZSTD_MULTITHREAD
-        RETURN_ERROR_IF(значение!=0, parameter_unsupported, "not compiled with multithreading");
+        RETURN_ERROR_IF(value!=0, parameter_unsupported, "not compiled with multithreading");
         return 0;
 #else
-        FORWARD_IF_ERROR(ZSTD_cParam_clampBounds(ZSTD_c_overlapLog, &значение), "");
-        CCtxParams->overlapLog = значение;
+        FORWARD_IF_ERROR(ZSTD_cParam_clampBounds(ZSTD_c_overlapLog, &value), "");
+        CCtxParams->overlapLog = value;
         return CCtxParams->overlapLog;
 #endif
 
     case ZSTD_c_rsyncable :
 #ifndef ZSTD_MULTITHREAD
-        RETURN_ERROR_IF(значение!=0, parameter_unsupported, "not compiled with multithreading");
+        RETURN_ERROR_IF(value!=0, parameter_unsupported, "not compiled with multithreading");
         return 0;
 #else
-        FORWARD_IF_ERROR(ZSTD_cParam_clampBounds(ZSTD_c_overlapLog, &значение), "");
-        CCtxParams->rsyncable = значение;
+        FORWARD_IF_ERROR(ZSTD_cParam_clampBounds(ZSTD_c_overlapLog, &value), "");
+        CCtxParams->rsyncable = value;
         return CCtxParams->rsyncable;
 #endif
 
     case ZSTD_c_enableLongDistanceMatching :
-        CCtxParams->ldmParams.enableLdm = (значение!=0);
+        CCtxParams->ldmParams.enableLdm = (value!=0);
         return CCtxParams->ldmParams.enableLdm;
 
     case ZSTD_c_ldmHashLog :
-        if (значение!=0)   /* 0 ==> auto */
-            BOUNDCHECK(ZSTD_c_ldmHashLog, значение);
-        CCtxParams->ldmParams.hashLog = значение;
+        if (value!=0)   /* 0 ==> auto */
+            BOUNDCHECK(ZSTD_c_ldmHashLog, value);
+        CCtxParams->ldmParams.hashLog = value;
         return CCtxParams->ldmParams.hashLog;
 
     case ZSTD_c_ldmMinMatch :
-        if (значение!=0)   /* 0 ==> default */
-            BOUNDCHECK(ZSTD_c_ldmMinMatch, значение);
-        CCtxParams->ldmParams.minMatchLength = значение;
+        if (value!=0)   /* 0 ==> default */
+            BOUNDCHECK(ZSTD_c_ldmMinMatch, value);
+        CCtxParams->ldmParams.minMatchLength = value;
         return CCtxParams->ldmParams.minMatchLength;
 
     case ZSTD_c_ldmBucketSizeLog :
-        if (значение!=0)   /* 0 ==> default */
-            BOUNDCHECK(ZSTD_c_ldmBucketSizeLog, значение);
-        CCtxParams->ldmParams.bucketSizeLog = значение;
+        if (value!=0)   /* 0 ==> default */
+            BOUNDCHECK(ZSTD_c_ldmBucketSizeLog, value);
+        CCtxParams->ldmParams.bucketSizeLog = value;
         return CCtxParams->ldmParams.bucketSizeLog;
 
     case ZSTD_c_ldmHashRateLog :
-        RETURN_ERROR_IF(значение > ZSTD_WINDOWLOG_MAX - ZSTD_HASHLOG_MIN,
+        RETURN_ERROR_IF(value > ZSTD_WINDOWLOG_MAX - ZSTD_HASHLOG_MIN,
                         parameter_outOfBound, "Param out of bounds!");
-        CCtxParams->ldmParams.hashRateLog = значение;
+        CCtxParams->ldmParams.hashRateLog = value;
         return CCtxParams->ldmParams.hashRateLog;
 
     case ZSTD_c_targetCBlockSize :
-        if (значение!=0)   /* 0 ==> default */
-            BOUNDCHECK(ZSTD_c_targetCBlockSize, значение);
-        CCtxParams->targetCBlockSize = значение;
+        if (value!=0)   /* 0 ==> default */
+            BOUNDCHECK(ZSTD_c_targetCBlockSize, value);
+        CCtxParams->targetCBlockSize = value;
         return CCtxParams->targetCBlockSize;
 
     case ZSTD_c_srcSizeHint :
-        if (значение!=0)    /* 0 ==> default */
-            BOUNDCHECK(ZSTD_c_srcSizeHint, значение);
-        CCtxParams->srcSizeHint = значение;
+        if (value!=0)    /* 0 ==> default */
+            BOUNDCHECK(ZSTD_c_srcSizeHint, value);
+        CCtxParams->srcSizeHint = value;
         return CCtxParams->srcSizeHint;
 
     default: RETURN_ERROR(parameter_unsupported, "unknown parameter");
     }
 }
 
-size_t ZSTD_CCtx_getParameter(ZSTD_CCtx* cctx, ZSTD_cParameter param, int* значение)
+size_t ZSTD_CCtx_getParameter(ZSTD_CCtx* cctx, ZSTD_cParameter param, int* value)
 {
-    return ZSTD_CCtxParams_getParameter(&cctx->requestedParams, param, значение);
+    return ZSTD_CCtxParams_getParameter(&cctx->requestedParams, param, value);
 }
 
 size_t ZSTD_CCtxParams_getParameter(
-        ZSTD_CCtx_params* CCtxParams, ZSTD_cParameter param, int* значение)
+        ZSTD_CCtx_params* CCtxParams, ZSTD_cParameter param, int* value)
 {
     switch(param)
     {
     case ZSTD_c_format :
-        *значение = CCtxParams->формат;
+        *value = CCtxParams->format;
         break;
     case ZSTD_c_compressionLevel :
-        *значение = CCtxParams->compressionLevel;
+        *value = CCtxParams->compressionLevel;
         break;
     case ZSTD_c_windowLog :
-        *значение = (int)CCtxParams->cParams.windowLog;
+        *value = (int)CCtxParams->cParams.windowLog;
         break;
     case ZSTD_c_hashLog :
-        *значение = (int)CCtxParams->cParams.hashLog;
+        *value = (int)CCtxParams->cParams.hashLog;
         break;
     case ZSTD_c_chainLog :
-        *значение = (int)CCtxParams->cParams.chainLog;
+        *value = (int)CCtxParams->cParams.chainLog;
         break;
     case ZSTD_c_searchLog :
-        *значение = CCtxParams->cParams.searchLog;
+        *value = CCtxParams->cParams.searchLog;
         break;
     case ZSTD_c_minMatch :
-        *значение = CCtxParams->cParams.minMatch;
+        *value = CCtxParams->cParams.minMatch;
         break;
     case ZSTD_c_targetLength :
-        *значение = CCtxParams->cParams.targetLength;
+        *value = CCtxParams->cParams.targetLength;
         break;
     case ZSTD_c_strategy :
-        *значение = (unsigned)CCtxParams->cParams.strategy;
+        *value = (unsigned)CCtxParams->cParams.strategy;
         break;
     case ZSTD_c_contentSizeFlag :
-        *значение = CCtxParams->fParams.contentSizeFlag;
+        *value = CCtxParams->fParams.contentSizeFlag;
         break;
     case ZSTD_c_checksumFlag :
-        *значение = CCtxParams->fParams.checksumFlag;
+        *value = CCtxParams->fParams.checksumFlag;
         break;
     case ZSTD_c_dictIDFlag :
-        *значение = !CCtxParams->fParams.noDictIDFlag;
+        *value = !CCtxParams->fParams.noDictIDFlag;
         break;
     case ZSTD_c_forceMaxWindow :
-        *значение = CCtxParams->forceWindow;
+        *value = CCtxParams->forceWindow;
         break;
     case ZSTD_c_forceAttachDict :
-        *значение = CCtxParams->attachDictPref;
+        *value = CCtxParams->attachDictPref;
         break;
     case ZSTD_c_literalCompressionMode :
-        *значение = CCtxParams->literalCompressionMode;
+        *value = CCtxParams->literalCompressionMode;
         break;
     case ZSTD_c_nbWorkers :
 #ifndef ZSTD_MULTITHREAD
         assert(CCtxParams->nbWorkers == 0);
 #endif
-        *значение = CCtxParams->nbWorkers;
+        *value = CCtxParams->nbWorkers;
         break;
     case ZSTD_c_jobSize :
 #ifndef ZSTD_MULTITHREAD
         RETURN_ERROR(parameter_unsupported, "not compiled with multithreading");
 #else
         assert(CCtxParams->jobSize <= INT_MAX);
-        *значение = (int)CCtxParams->jobSize;
+        *value = (int)CCtxParams->jobSize;
         break;
 #endif
     case ZSTD_c_overlapLog :
 #ifndef ZSTD_MULTITHREAD
         RETURN_ERROR(parameter_unsupported, "not compiled with multithreading");
 #else
-        *значение = CCtxParams->overlapLog;
+        *value = CCtxParams->overlapLog;
         break;
 #endif
     case ZSTD_c_rsyncable :
 #ifndef ZSTD_MULTITHREAD
         RETURN_ERROR(parameter_unsupported, "not compiled with multithreading");
 #else
-        *значение = CCtxParams->rsyncable;
+        *value = CCtxParams->rsyncable;
         break;
 #endif
     case ZSTD_c_enableLongDistanceMatching :
-        *значение = CCtxParams->ldmParams.enableLdm;
+        *value = CCtxParams->ldmParams.enableLdm;
         break;
     case ZSTD_c_ldmHashLog :
-        *значение = CCtxParams->ldmParams.hashLog;
+        *value = CCtxParams->ldmParams.hashLog;
         break;
     case ZSTD_c_ldmMinMatch :
-        *значение = CCtxParams->ldmParams.minMatchLength;
+        *value = CCtxParams->ldmParams.minMatchLength;
         break;
     case ZSTD_c_ldmBucketSizeLog :
-        *значение = CCtxParams->ldmParams.bucketSizeLog;
+        *value = CCtxParams->ldmParams.bucketSizeLog;
         break;
     case ZSTD_c_ldmHashRateLog :
-        *значение = CCtxParams->ldmParams.hashRateLog;
+        *value = CCtxParams->ldmParams.hashRateLog;
         break;
     case ZSTD_c_targetCBlockSize :
-        *значение = (int)CCtxParams->targetCBlockSize;
+        *value = (int)CCtxParams->targetCBlockSize;
         break;
     case ZSTD_c_srcSizeHint :
-        *значение = (int)CCtxParams->srcSizeHint;
+        *value = (int)CCtxParams->srcSizeHint;
         break;
     default: RETURN_ERROR(parameter_unsupported, "unknown parameter");
     }
@@ -932,7 +932,7 @@ size_t ZSTD_CCtx_refCDict(ZSTD_CCtx* cctx, const ZSTD_CDict* cdict)
 {
     RETURN_ERROR_IF(cctx->streamStage != zcss_init, stage_wrong,
                     "Can't ref a dict when ctx not in init stage.");
-    /* освободи the existing local cdict (if any) to save memory. */
+    /* Free the existing local cdict (if any) to save memory. */
     ZSTD_clearAllDicts(cctx);
     cctx->cdict = cdict;
     return 0;
@@ -979,7 +979,7 @@ size_t ZSTD_CCtx_reset(ZSTD_CCtx* cctx, ZSTD_ResetDirective reset)
 
 /** ZSTD_checkCParams() :
     control CParam values remain within authorized range.
-    @return : 0, or an Ошибка code if one значение is beyond authorized range */
+    @return : 0, or an error code if one value is beyond authorized range */
 size_t ZSTD_checkCParams(ZSTD_compressionParameters cParams)
 {
     BOUNDCHECK(ZSTD_c_windowLog, (int)cParams.windowLog);
@@ -998,10 +998,10 @@ size_t ZSTD_checkCParams(ZSTD_compressionParameters cParams)
 static ZSTD_compressionParameters
 ZSTD_clampCParams(ZSTD_compressionParameters cParams)
 {
-#   define CLAMP_TYPE(cParam, val, тип) {                                \
+#   define CLAMP_TYPE(cParam, val, type) {                                \
         ZSTD_bounds const bounds = ZSTD_cParam_getBounds(cParam);         \
-        if ((int)val<bounds.lowerBound) val=(тип)bounds.lowerBound;      \
-        else if ((int)val>bounds.upperBound) val=(тип)bounds.upperBound; \
+        if ((int)val<bounds.lowerBound) val=(type)bounds.lowerBound;      \
+        else if ((int)val>bounds.upperBound) val=(type)bounds.upperBound; \
     }
 #   define CLAMP(cParam, val) CLAMP_TYPE(cParam, val, unsigned)
     CLAMP(ZSTD_c_windowLog, cParams.windowLog);
@@ -1245,7 +1245,7 @@ ZSTD_frameProgression ZSTD_getFrameProgression(const ZSTD_CCtx* cctx)
         fp.ingested = cctx->consumedSrcSize + buffered;
         fp.consumed = cctx->consumedSrcSize;
         fp.produced = cctx->producedCSize;
-        fp.flushed  = cctx->producedCSize;   /* simplified; some data might still be left within streaming output буфер */
+        fp.flushed  = cctx->producedCSize;   /* simplified; some data might still be left within streaming output buffer */
         fp.currentJobID = 0;
         fp.nbActiveWorkers = 0;
         return fp;
@@ -1262,7 +1262,7 @@ size_t ZSTD_toFlushNow(ZSTD_CCtx* cctx)
     }
 #endif
     (void)cctx;
-    return 0;   /* over-simplification; could also check if context is currently running in streaming mode, and in which case, report how many bytes are left to be flushed within output буфер */
+    return 0;   /* over-simplification; could also check if context is currently running in streaming mode, and in which case, report how many bytes are left to be flushed within output buffer */
 }
 
 static void ZSTD_assertEqualCParams(ZSTD_compressionParameters cParams1,
@@ -1300,14 +1300,14 @@ static void ZSTD_invalidateMatchState(ZSTD_matchState_t* ms)
 
     ms->nextToUpdate = ms->window.dictLimit;
     ms->loadedDictEnd = 0;
-    ms->opt.litLengthсумма = 0;  /* force reset of btopt stats */
+    ms->opt.litLengthSum = 0;  /* force reset of btopt stats */
     ms->dictMatchState = NULL;
 }
 
 /**
  * Indicates whether this compression proceeds directly from user-provided
- * source буфер to user-provided destination буфер (ZSTDb_not_buffered), or
- * whether the context needs to буфер the input/output (ZSTDb_buffered).
+ * source buffer to user-provided destination buffer (ZSTDb_not_buffered), or
+ * whether the context needs to buffer the input/output (ZSTDb_buffered).
  */
 typedef enum {
     ZSTDb_not_buffered,
@@ -1527,8 +1527,8 @@ static size_t ZSTD_resetCCtx_internal(ZSTD_CCtx* zc,
 
         ZSTD_reset_compressedBlockState(zc->blockState.prevCBlock);
 
-        /* ZSTD_wildcopy() is used to copy into the literals буфер,
-         * so we have to oversize the буфер by WILDCOPY_OVERLENGTH bytes.
+        /* ZSTD_wildcopy() is used to copy into the literals buffer,
+         * so we have to oversize the buffer by WILDCOPY_OVERLENGTH bytes.
          */
         zc->seqStore.litStart = ZSTD_cwksp_reserve_buffer(ws, blockSize + WILDCOPY_OVERLENGTH);
         zc->seqStore.maxNbLit = blockSize;
@@ -1541,7 +1541,7 @@ static size_t ZSTD_resetCCtx_internal(ZSTD_CCtx* zc,
 
         /* ldm bucketOffsets table */
         if (params.ldmParams.enableLdm) {
-            /* TODO: avoid memset? */
+            /* СДЕЛАТЬ: avoid memset? */
             size_t const ldmBucketSize =
                   ((size_t)1) << (params.ldmParams.hashLog -
                                   params.ldmParams.bucketSizeLog);
@@ -1567,7 +1567,7 @@ static size_t ZSTD_resetCCtx_internal(ZSTD_CCtx* zc,
 
         /* ldm hash table */
         if (params.ldmParams.enableLdm) {
-            /* TODO: avoid memset? */
+            /* СДЕЛАТЬ: avoid memset? */
             size_t const ldmHSize = ((size_t)1) << params.ldmParams.hashLog;
             zc->ldmState.hashTable = (ldmEntry_t*)ZSTD_cwksp_reserve_aligned(ws, ldmHSize * sizeof(ldmEntry_t));
             memset(zc->ldmState.hashTable, 0, ldmHSize * sizeof(ldmEntry_t));
@@ -1711,7 +1711,7 @@ static size_t ZSTD_resetCCtx_byCopyingCDict(ZSTD_CCtx* cctx,
                chainSize * sizeof(U32));
     }
 
-    /* обнули the hashTable3, since the cdict never fills it */
+    /* Zero the hashTable3, since the cdict never fills it */
     {   int const h3log = cctx->blockState.matchState.hashLog3;
         size_t const h3Size = h3log ? ((size_t)1 << h3log) : 0;
         assert(cdict->matchState.hashLog3 == 0);
@@ -1763,8 +1763,8 @@ static size_t ZSTD_resetCCtx_usingCDict(ZSTD_CCtx* cctx,
  *  Only works during stage ZSTDcs_init (i.e. after creation, but before first call to ZSTD_compressContinue()).
  *  The "context", in this case, refers to the hash and chain tables,
  *  entropy tables, and dictionary references.
- * `windowLog` значение is enforced if != 0, otherwise значение is copied from srcCCtx.
- * @return : 0, or an Ошибка code */
+ * `windowLog` value is enforced if != 0, otherwise value is copied from srcCCtx.
+ * @return : 0, or an error code */
 static size_t ZSTD_copyCCtx_internal(ZSTD_CCtx* dstCCtx,
                             const ZSTD_CCtx* srcCCtx,
                             ZSTD_frameParameters fParams,
@@ -1830,7 +1830,7 @@ static size_t ZSTD_copyCCtx_internal(ZSTD_CCtx* dstCCtx,
  *  Duplicate an existing context `srcCCtx` into another one `dstCCtx`.
  *  Only works during stage ZSTDcs_init (i.e. after creation, but before first call to ZSTD_compressContinue()).
  *  pledgedSrcSize==0 means "unknown".
-*   @return : 0, or an Ошибка code */
+*   @return : 0, or an error code */
 size_t ZSTD_copyCCtx(ZSTD_CCtx* dstCCtx, const ZSTD_CCtx* srcCCtx, unsigned long long pledgedSrcSize)
 {
     ZSTD_frameParameters fParams = { 1 /*content*/, 0 /*checksum*/, 0 /*noDictID*/ };
@@ -1849,7 +1849,7 @@ size_t ZSTD_copyCCtx(ZSTD_CCtx* dstCCtx, const ZSTD_CCtx* srcCCtx, unsigned long
 /*! ZSTD_reduceTable() :
  *  reduce table indexes by `reducerValue`, or squash to zero.
  *  PreserveMark preserves "unsorted mark" for btlazy2 strategy.
- *  It must be set to a clear 0/1 значение, to remove branch during inlining.
+ *  It must be set to a clear 0/1 value, to remove branch during inlining.
  *  Presume table size is a multiple of ZSTD_ROWSIZE
  *  to help auto-vectorization */
 FORCE_INLINE_TEMPLATE void
@@ -1924,7 +1924,7 @@ static void ZSTD_reduceIndex (ZSTD_matchState_t* ms, ZSTD_CCtx_params const* par
 *  Block entropic compression
 *********************************************************/
 
-/* See doc/zstd_compression_format.md for detailed формат description */
+/* See doc/zstd_compression_format.md for detailed format description */
 
 void ZSTD_seqToCodes(const seqStore_t* seqStorePtr)
 {
@@ -2007,7 +2007,7 @@ ZSTD_compressSequences_internal(seqStore_t* seqStorePtr,
     }
 
     /* Sequences Header */
-    RETURN_ERROR_IF((oend-op) < 3 /*max nbSeq Размер*/ + 1 /*seqHead*/,
+    RETURN_ERROR_IF((oend-op) < 3 /*max nbSeq Size*/ + 1 /*seqHead*/,
                     dstSize_tooSmall, "Can't fit seq hdr in output buf!");
     if (nbSeq < 128) {
         *op++ = (BYTE)nbSeq;
@@ -2027,7 +2027,7 @@ ZSTD_compressSequences_internal(seqStore_t* seqStorePtr,
         return (size_t)(op - ostart);
     }
 
-    /* seqHead : flags for FSE encoding тип */
+    /* seqHead : flags for FSE encoding type */
     seqHead = op++;
     assert(op <= oend);
 
@@ -2127,8 +2127,8 @@ ZSTD_compressSequences_internal(seqStore_t* seqStorePtr,
         op += bitstreamSize;
         assert(op <= oend);
         /* zstd versions <= 1.3.4 mistakenly report corruption when
-         * FSE_readNCount() receives a буфер < 4 bytes.
-         * фиксирован by https://github.com/facebook/zstd/pull/1146.
+         * FSE_readNCount() receives a buffer < 4 bytes.
+         * Fixed by https://github.com/facebook/zstd/pull/1146.
          * This can happen when the last set_compressed table present is 2
          * bytes and the bitstream is only one byte.
          * In this exceedingly rare case, we will simply emit an uncompressed
@@ -2165,7 +2165,7 @@ ZSTD_compressSequences(seqStore_t* seqStorePtr,
     /* When srcSize <= dstCapacity, there is enough space to write a raw uncompressed block.
      * Since we ran out of space, block must be not compressible, so fall back to raw uncompressed block.
      */
-    if ((cSize == Ошибка(dstSize_tooSmall)) & (srcSize <= dstCapacity))
+    if ((cSize == ERROR(dstSize_tooSmall)) & (srcSize <= dstCapacity))
         return 0;  /* block not compressed */
     FORWARD_IF_ERROR(cSize, "ZSTD_compressSequences_internal failed");
 
@@ -2448,7 +2448,7 @@ static size_t ZSTD_compressBlock_internal(ZSTD_CCtx* zc,
 
     if (frame &&
         /* We don't want to emit our first block as a RLE even if it qualifies because
-         * doing so will cause the decoder (cli only) to throw a "should consume all input Ошибка."
+         * doing so will cause the decoder (cli only) to throw a "should consume all input error."
          * This is only an issue for zstd <= v1.4.3
          */
         !zc->isFirstBlock &&
@@ -2481,7 +2481,7 @@ static size_t ZSTD_compressBlock_targetCBlockSize_body(ZSTD_CCtx* zc,
     DEBUGLOG(6, "Attempting ZSTD_compressSuperBlock()");
     if (bss == ZSTDbss_compress) {
         if (/* We don't want to emit our first block as a RLE even if it qualifies because
-            * doing so will cause the decoder (cli only) to throw a "should consume all input Ошибка."
+            * doing so will cause the decoder (cli only) to throw a "should consume all input error."
             * This is only an issue for zstd <= v1.4.3
             */
             !zc->isFirstBlock &&
@@ -2510,7 +2510,7 @@ static size_t ZSTD_compressBlock_targetCBlockSize_body(ZSTD_CCtx* zc,
          */
         {
             size_t const cSize = ZSTD_compressSuperBlock(zc, dst, dstCapacity, src, srcSize, lastBlock);
-            if (cSize != Ошибка(dstSize_tooSmall)) {
+            if (cSize != ERROR(dstSize_tooSmall)) {
                 size_t const maxCSize = srcSize - ZSTD_minGain(srcSize, zc->appliedParams.cParams.strategy);
                 FORWARD_IF_ERROR(cSize, "ZSTD_compressSuperBlock failed");
                 if (cSize != 0 && cSize < maxCSize + ZSTD_blockHeaderSize) {
@@ -2575,9 +2575,9 @@ static void ZSTD_overflowCorrectIfNeeded(ZSTD_matchState_t* ms,
 /*! ZSTD_compress_frameChunk() :
 *   Compress a chunk of data into one or multiple blocks.
 *   All blocks will be terminated, all input will be consumed.
-*   Функция will issue an Ошибка if there is not enough `dstCapacity` to hold the compressed content.
-*   Фрейм is supposed already started (header already produced)
-*   @return : compressed size, or an Ошибка code
+*   Function will issue an error if there is not enough `dstCapacity` to hold the compressed content.
+*   Frame is supposed already started (header already produced)
+*   @return : compressed size, or an error code
 */
 static size_t ZSTD_compress_frameChunk (ZSTD_CCtx* cctx,
                                      void* dst, size_t dstCapacity,
@@ -2674,7 +2674,7 @@ static size_t ZSTD_writeFrameHeader(void* dst, size_t dstCapacity,
     DEBUGLOG(4, "ZSTD_writeFrameHeader : dictIDFlag : %u ; dictID : %u ; dictIDSizeCode : %u",
                 !params->fParams.noDictIDFlag, (unsigned)dictID, (unsigned)dictIDSizeCode);
 
-    if (params->формат == ZSTD_f_zstd1) {
+    if (params->format == ZSTD_f_zstd1) {
         MEM_writeLE32(dst, ZSTD_MAGICNUMBER);
         pos = 4;
     }
@@ -2702,7 +2702,7 @@ static size_t ZSTD_writeFrameHeader(void* dst, size_t dstCapacity,
 /* ZSTD_writeLastEmptyBlock() :
  * output an empty Block with end-of-frame mark to complete a frame
  * @return : size of data written into `dst` (== ZSTD_blockHeaderSize (defined in zstd_internal.h))
- *           or an Ошибка code if `dstCapacity` is too small (<ZSTD_blockHeaderSize)
+ *           or an error code if `dstCapacity` is too small (<ZSTD_blockHeaderSize)
  */
 size_t ZSTD_writeLastEmptyBlock(void* dst, size_t dstCapacity)
 {
@@ -2781,7 +2781,7 @@ static size_t ZSTD_compressContinue_internal (ZSTD_CCtx* cctx,
             RETURN_ERROR_IF(
                 cctx->consumedSrcSize+1 > cctx->pledgedSrcSizePlusOne,
                 srcSize_wrong,
-                "Ошибка : pledgedSrcSize = %u, while realSrcSize >= %u",
+                "error : pledgedSrcSize = %u, while realSrcSize >= %u",
                 (unsigned)cctx->pledgedSrcSizePlusOne-1,
                 (unsigned)cctx->consumedSrcSize);
         }
@@ -2815,7 +2815,7 @@ size_t ZSTD_compressBlock(ZSTD_CCtx* cctx, void* dst, size_t dstCapacity, const 
 }
 
 /*! ZSTD_loadDictionaryContent() :
- *  @return : 0, or an Ошибка code
+ *  @return : 0, or an error code
  */
 static size_t ZSTD_loadDictionaryContent(ZSTD_matchState_t* ms,
                                          ldmState_t* ls,
@@ -2903,7 +2903,7 @@ size_t ZSTD_loadCEntropy(ZSTD_compressedBlockState_t* bs, void* workspace,
                          short* offcodeNCount, unsigned* offcodeMaxValue,
                          const void* const dict, size_t dictSize)
 {
-    const BYTE* dictPtr = (const BYTE*)dict;    /* skip magic num and dict ИД */
+    const BYTE* dictPtr = (const BYTE*)dict;    /* skip magic num and dict ID */
     const BYTE* const dictEnd = dictPtr + dictSize;
     dictPtr += 8;
     bs->entropy.huf.repeatMode = HUF_repeat_check;
@@ -2976,12 +2976,12 @@ size_t ZSTD_loadCEntropy(ZSTD_compressedBlockState_t* bs, void* workspace,
     return dictPtr - (const BYTE*)dict;
 }
 
-/* Dictionary формат :
+/* Dictionary format :
  * See :
- * https://github.com/facebook/zstd/blob/master/doc/zstd_compression_format.md#dictionary-формат
+ * https://github.com/facebook/zstd/blob/master/doc/zstd_compression_format.md#dictionary-format
  */
 /*! ZSTD_loadZstdDictionary() :
- * @return : dictID, or an Ошибка code
+ * @return : dictID, or an error code
  *  assumptions : magic number supposed already checked
  *                dictSize supposed >= 8
  */
@@ -3034,7 +3034,7 @@ static size_t ZSTD_loadZstdDictionary(ZSTD_compressedBlockState_t* bs,
 }
 
 /** ZSTD_compress_insertDictionary() :
-*   @return : dictID, or an Ошибка code */
+*   @return : dictID, or an error code */
 static size_t
 ZSTD_compress_insertDictionary(ZSTD_compressedBlockState_t* bs,
                                ZSTD_matchState_t* ms,
@@ -3077,7 +3077,7 @@ ZSTD_compress_insertDictionary(ZSTD_compressedBlockState_t* bs,
 #define ZSTD_USE_CDICT_PARAMS_DICTSIZE_MULTIPLIER (6)
 
 /*! ZSTD_compressBegin_internal() :
- * @return : 0, or an Ошибка code */
+ * @return : 0, or an error code */
 static size_t ZSTD_compressBegin_internal(ZSTD_CCtx* cctx,
                                     const void* dict, size_t dictSize,
                                     ZSTD_dictContentType_e dictContentType,
@@ -3138,7 +3138,7 @@ size_t ZSTD_compressBegin_advanced_internal(ZSTD_CCtx* cctx,
 }
 
 /*! ZSTD_compressBegin_advanced() :
-*   @return : 0, or an Ошибка code */
+*   @return : 0, or an error code */
 size_t ZSTD_compressBegin_advanced(ZSTD_CCtx* cctx,
                              const void* dict, size_t dictSize,
                                    ZSTD_parameters params, unsigned long long pledgedSrcSize)
@@ -3169,7 +3169,7 @@ size_t ZSTD_compressBegin(ZSTD_CCtx* cctx, int compressionLevel)
 
 /*! ZSTD_writeEpilogue() :
 *   Ends a frame.
-*   @return : nb of bytes written into dst (or an Ошибка code) */
+*   @return : nb of bytes written into dst (or an error code) */
 static size_t ZSTD_writeEpilogue(ZSTD_CCtx* cctx, void* dst, size_t dstCapacity)
 {
     BYTE* const ostart = (BYTE*)dst;
@@ -3227,7 +3227,7 @@ size_t ZSTD_compressEnd (ZSTD_CCtx* cctx,
         RETURN_ERROR_IF(
             cctx->pledgedSrcSizePlusOne != cctx->consumedSrcSize+1,
             srcSize_wrong,
-             "Ошибка : pledgedSrcSize = %u, while realSrcSize = %u",
+             "error : pledgedSrcSize = %u, while realSrcSize = %u",
             (unsigned)cctx->pledgedSrcSizePlusOne-1,
             (unsigned)cctx->consumedSrcSize);
     }
@@ -3371,7 +3371,7 @@ static size_t ZSTD_initCDict_internal(
     cdict->entropyWorkspace = (U32*)ZSTD_cwksp_reserve_object(&cdict->workspace, HUF_WORKSPACE_SIZE);
 
 
-    /* переустанов the state to no dictionary */
+    /* Reset the state to no dictionary */
     ZSTD_reset_compressedBlockState(&cdict->cBlockState);
     FORWARD_IF_ERROR(ZSTD_reset_matchState(
         &cdict->matchState,
@@ -3485,7 +3485,7 @@ size_t ZSTD_freeCDict(ZSTD_CDict* cdict)
  *                 to determine how large workspace must be.
  *  cParams : use ZSTD_getCParams() to transform a compression level
  *            into its relevants cParams.
- * @return : pointer to ZSTD_CDict*, or NULL if Ошибка (size too small)
+ * @return : pointer to ZSTD_CDict*, or NULL if error (size too small)
  *  Note : there is no corresponding "free" function.
  *         Since workspace was allocated externally, it must be freed externally.
  */
@@ -3734,7 +3734,7 @@ size_t ZSTD_initCStream_usingCDict(ZSTD_CStream* zcs, const ZSTD_CDict* cdict)
 
 /* ZSTD_initCStream_advanced() :
  * pledgedSrcSize must be exact.
- * if srcSize is not known at init time, use значение ZSTD_CONTENTSIZE_UNKNOWN.
+ * if srcSize is not known at init time, use value ZSTD_CONTENTSIZE_UNKNOWN.
  * dict is loaded with default parameters ZSTD_dct_auto and ZSTD_dlm_byCopy. */
 size_t ZSTD_initCStream_advanced(ZSTD_CStream* zcs,
                                  const void* dict, size_t dictSize,
@@ -3832,7 +3832,7 @@ static size_t ZSTD_compressStream_generic(ZSTD_CStream* zcs,
             if ( (flushMode == ZSTD_e_end)
               && ((size_t)(oend-op) >= ZSTD_compressBound(iend-ip))  /* enough dstCapacity */
               && (zcs->inBuffPos == 0) ) {
-                /* shortcut to compression pass directly into output буфер */
+                /* shortcut to compression pass directly into output buffer */
                 size_t const cSize = ZSTD_compressEnd(zcs,
                                                 op, oend-op, ip, iend-ip);
                 DEBUGLOG(4, "ZSTD_compressEnd : cSize=%u", (unsigned)cSize);
@@ -3870,7 +3870,7 @@ static size_t ZSTD_compressStream_generic(ZSTD_CStream* zcs,
                 size_t oSize = oend-op;
                 unsigned const lastBlock = (flushMode == ZSTD_e_end) && (ip==iend);
                 if (oSize >= ZSTD_compressBound(iSize))
-                    cDst = op;   /* compress into output буфер, to skip flush stage */
+                    cDst = op;   /* compress into output buffer, to skip flush stage */
                 else
                     cDst = zcs->outBuff, oSize = zcs->outBuffSize;
                 cSize = lastBlock ?
@@ -3892,7 +3892,7 @@ static size_t ZSTD_compressStream_generic(ZSTD_CStream* zcs,
                 if (cDst == op) {  /* no need to flush */
                     op += cSize;
                     if (zcs->frameEnded) {
-                        DEBUGLOG(5, "Фрейм completed directly in outBuffer");
+                        DEBUGLOG(5, "Frame completed directly in outBuffer");
                         someMoreWork = 0;
                         ZSTD_CCtx_reset(zcs, ZSTD_reset_session_only);
                     }
@@ -3921,7 +3921,7 @@ static size_t ZSTD_compressStream_generic(ZSTD_CStream* zcs,
                 }
                 zcs->outBuffContentSize = zcs->outBuffFlushedSize = 0;
                 if (zcs->frameEnded) {
-                    DEBUGLOG(5, "Фрейм completed on flush");
+                    DEBUGLOG(5, "Frame completed on flush");
                     someMoreWork = 0;
                     ZSTD_CCtx_reset(zcs, ZSTD_reset_session_only);
                     break;
@@ -3967,8 +3967,8 @@ size_t ZSTD_compressStream2( ZSTD_CCtx* cctx,
 {
     DEBUGLOG(5, "ZSTD_compressStream2, endOp=%u ", (unsigned)endOp);
     /* check conditions */
-    RETURN_ERROR_IF(output->pos > output->size, GENERIC, "invalid буфер");
-    RETURN_ERROR_IF(input->pos  > input->size, GENERIC, "invalid буфер");
+    RETURN_ERROR_IF(output->pos > output->size, GENERIC, "invalid buffer");
+    RETURN_ERROR_IF(input->pos  > input->size, GENERIC, "invalid buffer");
     assert(cctx!=NULL);
 
     /* transparent initialization stage */
@@ -4020,7 +4020,7 @@ size_t ZSTD_compressStream2( ZSTD_CCtx* cctx,
     if (cctx->appliedParams.nbWorkers > 0) {
         int const forceMaxProgress = (endOp == ZSTD_e_flush || endOp == ZSTD_e_end);
         size_t flushMin;
-        assert(forceMaxProgress || endOp == ZSTD_e_continue /* Protection for a new flush тип */);
+        assert(forceMaxProgress || endOp == ZSTD_e_continue /* Protection for a new flush type */);
         if (cctx->cParamsChanged) {
             ZSTDMT_updateCParams_whileCompressing(cctx->mtctx, &cctx->requestedParams);
             cctx->cParamsChanged = 0;
@@ -4247,7 +4247,7 @@ static ZSTD_compressionParameters ZSTD_getCParams_internal(int compressionLevel,
 
 /*! ZSTD_getCParams() :
  * @return ZSTD_compressionParameters structure for a selected compression level, srcSize and dictSize.
- *  Размер values are optional, provide 0 if not known or unused */
+ *  Size values are optional, provide 0 if not known or unused */
 ZSTD_compressionParameters ZSTD_getCParams(int compressionLevel, unsigned long long srcSizeHint, size_t dictSize)
 {
     if (srcSizeHint == 0) srcSizeHint = ZSTD_CONTENTSIZE_UNKNOWN;

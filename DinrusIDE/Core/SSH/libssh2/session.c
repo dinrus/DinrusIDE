@@ -16,7 +16,7 @@
  *   disclaimer in the documentation and/or other materials
  *   provided with the distribution.
  *
- *   Neither the имя of the copyright holder nor the names
+ *   Neither the name of the copyright holder nor the names
  *   of any other contributors may be used to endorse or
  *   promote products derived from this software without
  *   specific prior written permission.
@@ -89,7 +89,7 @@ LIBSSH2_REALLOC_FUNC(libssh2_default_realloc)
  * banner_receive
  *
  * Wait for a hello from the remote host
- * Allocate a буфер and store the banner in session->remote.banner
+ * Allocate a buffer and store the banner in session->remote.banner
  * Returns: 0 on success, LIBSSH2_ERROR_EAGAIN if read would block, negative
  * on failure
  */
@@ -122,7 +122,7 @@ banner_receive(LIBSSH2_SESSION * session)
             if(session->api_block_mode || (ret != -EAGAIN))
                 /* ignore EAGAIN when non-blocking */
                 _libssh2_debug(session, LIBSSH2_TRACE_SOCKET,
-                               "Ошибка recving %d bytes: %d", 1, -ret);
+                               "Error recving %d bytes: %d", 1, -ret);
         }
         else
             _libssh2_debug(session, LIBSSH2_TRACE_SOCKET,
@@ -136,7 +136,7 @@ banner_receive(LIBSSH2_SESSION * session)
                 return LIBSSH2_ERROR_EAGAIN;
             }
 
-            /* Some kinda Ошибка */
+            /* Some kinda error */
             session->banner_TxRx_state = libssh2_NB_state_idle;
             session->banner_TxRx_total_send = 0;
             return LIBSSH2_ERROR_SOCKET_RECV;
@@ -176,7 +176,7 @@ banner_receive(LIBSSH2_SESSION * session)
     session->remote.banner = LIBSSH2_ALLOC(session, banner_len + 1);
     if(!session->remote.banner) {
         return _libssh2_error(session, LIBSSH2_ERROR_ALLOC,
-                              "Ошибка allocating space for remote banner");
+                              "Error allocating space for remote banner");
     }
     memcpy(session->remote.banner, session->banner_TxRx_banner, banner_len);
     session->remote.banner[banner_len] = '\0';
@@ -238,7 +238,7 @@ banner_send(LIBSSH2_SESSION * session)
                         LIBSSH2_SOCKET_SEND_FLAGS(session));
     if(ret < 0)
         _libssh2_debug(session, LIBSSH2_TRACE_SOCKET,
-                       "Ошибка sending %d bytes: %d",
+                       "Error sending %d bytes: %d",
                        banner_len - session->banner_TxRx_total_send, -ret);
     else
         _libssh2_debug(session, LIBSSH2_TRACE_SOCKET,
@@ -333,7 +333,7 @@ session_nonblock(libssh2_socket_t sockfd,   /* operate on this */
 #endif
 
 #if(SETBLOCK == 0)
-#Ошибка "no non-blocking method was found/used/set"
+#error "no non-blocking method was found/used/set"
 #endif
 }
 
@@ -352,7 +352,7 @@ get_socket_nonblocking(int sockfd)
     int flags = fcntl(sockfd, F_GETFL, 0);
 
     if(flags == -1) {
-        /* Assume blocking on Ошибка */
+        /* Assume blocking on error */
         return 1;
     }
     return (flags & O_NONBLOCK);
@@ -367,7 +367,7 @@ get_socket_nonblocking(int sockfd)
 
     if(getsockopt
         (sockfd, SOL_SOCKET, SO_ERROR, (void *) &option_value, &option_len)) {
-        /* Assume blocking on Ошибка */
+        /* Assume blocking on error */
         return 1;
     }
     return (int) option_value;
@@ -379,7 +379,7 @@ get_socket_nonblocking(int sockfd)
     /* BeOS */
     long b;
     if(getsockopt(sockfd, SOL_SOCKET, SO_NONBLOCK, &b, sizeof(b))) {
-        /* Assume blocking on Ошибка */
+        /* Assume blocking on error */
         return 1;
     }
     return (int) b;
@@ -412,7 +412,7 @@ get_socket_nonblocking(int sockfd)
 #endif
 
 #if(GETBLOCK == 0)
-#Ошибка "no non-blocking method was found/used/get"
+#error "no non-blocking method was found/used/get"
 #endif
 }
 
@@ -466,7 +466,7 @@ libssh2_banner_set(LIBSSH2_SESSION * session, const char *banner)
  * Allocate and initialize a libssh2 session structure. Allows for malloc
  * callbacks in case the calling program has its own memory manager It's
  * allowable (but unadvisable) to define some but not all of the malloc
- * callbacks An additional pointer значение may be optionally passed to be sent
+ * callbacks An additional pointer value may be optionally passed to be sent
  * to the callbacks (so they know who's asking)
  */
 LIBSSH2_API LIBSSH2_SESSION *
@@ -501,7 +501,7 @@ libssh2_session_init_ex(LIBSSH2_ALLOC_FUNC((*my_alloc)),
         session->api_timeout = 0; /* timeout-free API by default */
         session->api_block_mode = 1; /* blocking API by default */
         _libssh2_debug(session, LIBSSH2_TRACE_TRANS,
-                       "нов session resource allocated");
+                       "New session resource allocated");
         _libssh2_init_if_needed();
     }
     return session;
@@ -571,7 +571,7 @@ libssh2_session_callback_set(LIBSSH2_SESSION * session,
  * _libssh2_wait_socket()
  *
  * Utility function that waits for action on the socket. Returns 0 when ready
- * to run again or Ошибка on timeout.
+ * to run again or error on timeout.
  */
 int _libssh2_wait_socket(LIBSSH2_SESSION *session, time_t start_time)
 {
@@ -584,8 +584,8 @@ int _libssh2_wait_socket(LIBSSH2_SESSION *session, time_t start_time)
 
     /* since libssh2 often sets EAGAIN internally before this function is
        called, we can decrease some amount of confusion in user programs by
-       resetting the Ошибка code in this function to reduce the risk of EAGAIN
-       being stored as Ошибка when a blocking function has returned */
+       resetting the error code in this function to reduce the risk of EAGAIN
+       being stored as error when a blocking function has returned */
     session->err_code = LIBSSH2_ERROR_NONE;
 
     rc = libssh2_keepalive_send(session, &seconds_to_next);
@@ -673,7 +673,7 @@ int _libssh2_wait_socket(LIBSSH2_SESSION *session, time_t start_time)
     }
     if(rc < 0) {
         return _libssh2_error(session, LIBSSH2_ERROR_TIMEOUT,
-                              "Ошибка waiting on socket");
+                              "Error waiting on socket");
     }
 
     return 0; /* ready to try again */
@@ -797,7 +797,7 @@ session_startup(LIBSSH2_SESSION *session, libssh2_socket_t sock)
             LIBSSH2_FREE(session, session->startup_data);
             session->startup_data = NULL;
             return _libssh2_error(session, LIBSSH2_ERROR_PROTO,
-                                  "Invalid response received from server");
+                                  "Неверное response received from server");
         }
         LIBSSH2_FREE(session, session->startup_data);
         session->startup_data = NULL;
@@ -807,7 +807,7 @@ session_startup(LIBSSH2_SESSION *session, libssh2_socket_t sock)
         return 0;
     }
 
-    /* just for safety return some Ошибка */
+    /* just for safety return some error */
     return LIBSSH2_ERROR_INVAL;
 }
 
@@ -934,7 +934,7 @@ session_free(LIBSSH2_SESSION *session)
         }
     }
 
-    /* освободи banner(s) */
+    /* Free banner(s) */
     if(session->remote.banner) {
         LIBSSH2_FREE(session, session->remote.banner);
     }
@@ -942,7 +942,7 @@ session_free(LIBSSH2_SESSION *session)
         LIBSSH2_FREE(session, session->local.banner);
     }
 
-    /* освободи preference(s) */
+    /* Free preference(s) */
     if(session->kex_prefs) {
         LIBSSH2_FREE(session, session->kex_prefs);
     }
@@ -983,7 +983,7 @@ session_free(LIBSSH2_SESSION *session)
     }
 
     /*
-     * сделай sure all memory used in the state variables are free
+     * Make sure all memory used in the state variables are free
      */
     if(session->kexinit_data) {
         LIBSSH2_FREE(session, session->kexinit_data);
@@ -1052,7 +1052,7 @@ session_free(LIBSSH2_SESSION *session)
         LIBSSH2_FREE(session, session->sftpInit_sftp);
     }
 
-    /* освободи payload буфер */
+    /* Free payload buffer */
     if(session->packet.total_num) {
         LIBSSH2_FREE(session, session->packet.payload);
     }
@@ -1085,7 +1085,7 @@ session_free(LIBSSH2_SESSION *session)
         LIBSSH2_FREE(session, session->server_hostkey);
     }
 
-    /* Ошибка string */
+    /* error string */
     if(session->err_msg &&
        ((session->err_flags & LIBSSH2_ERR_FLAG_DUP) != 0)) {
         LIBSSH2_FREE(session, (char *)session->err_msg);
@@ -1188,7 +1188,7 @@ libssh2_session_disconnect_ex(LIBSSH2_SESSION *session, int reason,
 LIBSSH2_API const char *
 libssh2_session_methods(LIBSSH2_SESSION * session, int method_type)
 {
-    /* All methods have char *имя as their first element */
+    /* All methods have char *name as their first element */
     const LIBSSH2_KEX_METHOD *method = NULL;
 
     switch(method_type) {
@@ -1232,7 +1232,7 @@ libssh2_session_methods(LIBSSH2_SESSION * session, int method_type)
 
     default:
         _libssh2_error(session, LIBSSH2_ERROR_INVAL,
-                       "Invalid parameter specified for method_type");
+                       "Неверное parameter specified for method_type");
         return NULL;
     }
 
@@ -1242,7 +1242,7 @@ libssh2_session_methods(LIBSSH2_SESSION * session, int method_type)
         return NULL;
     }
 
-    return method->имя;
+    return method->name;
 }
 
 /* libssh2_session_abstract
@@ -1256,7 +1256,7 @@ libssh2_session_abstract(LIBSSH2_SESSION * session)
 
 /* libssh2_session_last_error
  *
- * Returns Ошибка code and populates an Ошибка string into errmsg If want_buf is
+ * Returns error code and populates an error string into errmsg If want_buf is
  * non-zero then the string placed into errmsg must be freed by the calling
  * program. Otherwise it is assumed to be owned by libssh2
  */
@@ -1266,7 +1266,7 @@ libssh2_session_last_error(LIBSSH2_SESSION * session, char **errmsg,
 {
     size_t msglen = 0;
 
-    /* No Ошибка to report */
+    /* No error to report */
     if(!session->err_code) {
         if(errmsg) {
             if(want_buf) {
@@ -1286,20 +1286,20 @@ libssh2_session_last_error(LIBSSH2_SESSION * session, char **errmsg,
     }
 
     if(errmsg) {
-        const char *Ошибка = session->err_msg ? session->err_msg : "";
+        const char *error = session->err_msg ? session->err_msg : "";
 
-        msglen = strlen(Ошибка);
+        msglen = strlen(error);
 
         if(want_buf) {
-            /* сделай a copy so the calling program can own it */
+            /* Make a copy so the calling program can own it */
             *errmsg = LIBSSH2_ALLOC(session, msglen + 1);
             if(*errmsg) {
-                memcpy(*errmsg, Ошибка, msglen);
+                memcpy(*errmsg, error, msglen);
                 (*errmsg)[msglen] = 0;
             }
         }
         else
-            *errmsg = (char *)Ошибка;
+            *errmsg = (char *)error;
     }
 
     if(errmsg_len) {
@@ -1311,7 +1311,7 @@ libssh2_session_last_error(LIBSSH2_SESSION * session, char **errmsg,
 
 /* libssh2_session_last_errno
  *
- * Returns Ошибка code
+ * Returns error code
  */
 LIBSSH2_API int
 libssh2_session_last_errno(LIBSSH2_SESSION * session)
@@ -1321,11 +1321,11 @@ libssh2_session_last_errno(LIBSSH2_SESSION * session)
 
 /* libssh2_session_set_last_error
  *
- * Sets the internal Ошибка code for the session.
+ * Sets the internal error code for the session.
  *
  * This function is available specifically to be used by high level
  * language wrappers (i.e. Python or Perl) that may extend the library
- * features while still relying on its Ошибка reporting mechanism.
+ * features while still relying on its error reporting mechanism.
  */
 LIBSSH2_API int
 libssh2_session_set_last_error(LIBSSH2_SESSION* session,
@@ -1338,19 +1338,19 @@ libssh2_session_set_last_error(LIBSSH2_SESSION* session,
 
 /* Libssh2_session_flag
  *
- * Set/дай session flags
+ * Set/Get session flags
  *
- * Return Ошибка code.
+ * Return error code.
  */
 LIBSSH2_API int
-libssh2_session_flag(LIBSSH2_SESSION * session, int flag, int значение)
+libssh2_session_flag(LIBSSH2_SESSION * session, int flag, int value)
 {
     switch(flag) {
     case LIBSSH2_FLAG_SIGPIPE:
-        session->flag.sigpipe = значение;
+        session->flag.sigpipe = value;
         break;
     case LIBSSH2_FLAG_COMPRESS:
-        session->flag.compress = значение;
+        session->flag.compress = value;
         break;
     default:
         /* unknown flag */
@@ -1380,7 +1380,7 @@ _libssh2_session_set_blocking(LIBSSH2_SESSION *session, int blocking)
 /* libssh2_session_set_blocking
  *
  * Set a channel's blocking mode on or off, similar to a socket's
- * fcntl(fd, F_SETFL, O_NONBLOCK); тип command
+ * fcntl(fd, F_SETFL, O_NONBLOCK); type command
  */
 LIBSSH2_API void
 libssh2_session_set_blocking(LIBSSH2_SESSION * session, int blocking)
@@ -1454,7 +1454,7 @@ libssh2_poll_channel_read(LIBSSH2_CHANNEL *channel, int extended)
                     packet->data[0] == SSH_MSG_CHANNEL_DATA) {
                 return 1;
             }
-            /* else - no data of any тип is ready to be read */
+            /* else - no data of any type is ready to be read */
         }
         packet = _libssh2_list_next(&packet->node);
     }
@@ -1507,10 +1507,10 @@ libssh2_poll(LIBSSH2_POLLFD * fds, unsigned int nfds, long timeout)
            we really want to, at least if the compiler is a C99 capable one */
         return -1;
 #endif
-    /* настрой sockets for polling */
+    /* Setup sockets for polling */
     for(i = 0; i < nfds; i++) {
         fds[i].revents = 0;
-        switch(fds[i].тип) {
+        switch(fds[i].type) {
         case LIBSSH2_POLLFD_SOCKET:
             sockets[i].fd = fds[i].fd.socket;
             sockets[i].events = fds[i].events;
@@ -1536,7 +1536,7 @@ libssh2_poll(LIBSSH2_POLLFD * fds, unsigned int nfds, long timeout)
         default:
             if(session)
                 _libssh2_error(session, LIBSSH2_ERROR_INVALID_POLL_TYPE,
-                               "Invalid descriptor passed to libssh2_poll()");
+                               "Неверное descriptor passed to libssh2_poll()");
             return -1;
         }
     }
@@ -1550,7 +1550,7 @@ libssh2_poll(LIBSSH2_POLLFD * fds, unsigned int nfds, long timeout)
     FD_ZERO(&wfds);
     for(i = 0; i < nfds; i++) {
         fds[i].revents = 0;
-        switch(fds[i].тип) {
+        switch(fds[i].type) {
         case LIBSSH2_POLLFD_SOCKET:
             if(fds[i].events & LIBSSH2_POLLFD_POLLIN) {
                 FD_SET(fds[i].fd.socket, &rfds);
@@ -1583,7 +1583,7 @@ libssh2_poll(LIBSSH2_POLLFD * fds, unsigned int nfds, long timeout)
         default:
             if(session)
                 _libssh2_error(session, LIBSSH2_ERROR_INVALID_POLL_TYPE,
-                               "Invalid descriptor passed to libssh2_poll()");
+                               "Неверное descriptor passed to libssh2_poll()");
             return -1;
         }
     }
@@ -1605,7 +1605,7 @@ libssh2_poll(LIBSSH2_POLLFD * fds, unsigned int nfds, long timeout)
 
         for(i = 0; i < nfds; i++) {
             if(fds[i].events != fds[i].revents) {
-                switch(fds[i].тип) {
+                switch(fds[i].type) {
                 case LIBSSH2_POLLFD_CHANNEL:
                     if((fds[i].events & LIBSSH2_POLLFD_POLLIN) &&
                         /* Want to be ready for read */
@@ -1695,7 +1695,7 @@ libssh2_poll(LIBSSH2_POLLFD * fds, unsigned int nfds, long timeout)
 
         if(sysret > 0) {
             for(i = 0; i < nfds; i++) {
-                switch(fds[i].тип) {
+                switch(fds[i].type) {
                 case LIBSSH2_POLLFD_SOCKET:
                     fds[i].revents = sockets[i].revents;
                     sockets[i].revents = 0; /* In case we loop again, be
@@ -1759,7 +1759,7 @@ libssh2_poll(LIBSSH2_POLLFD * fds, unsigned int nfds, long timeout)
 
         if(sysret > 0) {
             for(i = 0; i < nfds; i++) {
-                switch(fds[i].тип) {
+                switch(fds[i].type) {
                 case LIBSSH2_POLLFD_SOCKET:
                     if(FD_ISSET(fds[i].fd.socket, &rfds)) {
                         fds[i].revents |= LIBSSH2_POLLFD_POLLIN;
@@ -1804,7 +1804,7 @@ libssh2_poll(LIBSSH2_POLLFD * fds, unsigned int nfds, long timeout)
 /*
  * libssh2_session_block_directions
  *
- * дай blocked direction when a function returns LIBSSH2_ERROR_EAGAIN
+ * Get blocked direction when a function returns LIBSSH2_ERROR_EAGAIN
  * Returns LIBSSH2_SOCKET_BLOCK_INBOUND if recv() blocked
  * or LIBSSH2_SOCKET_BLOCK_OUTBOUND if send() blocked
  */
@@ -1815,7 +1815,7 @@ libssh2_session_block_directions(LIBSSH2_SESSION *session)
 }
 
 /* libssh2_session_banner_get
- * дай the remote banner (server ИД string)
+ * Get the remote banner (server ID string)
  */
 
 LIBSSH2_API const char *

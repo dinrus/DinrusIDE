@@ -1,34 +1,34 @@
 #include <CtrlLib/CtrlLib.h>
 
-namespace РНЦП {
+namespace Upp {
 
-const Точка Calendar::nullday = Точка(-1, -1);
+const Point Calendar::nullday = Point(-1, -1);
 
-void PopUpCtrl::PopUp(Ктрл *owner, const Прям& rt)
+void PopUpCtrl::PopUp(Ctrl *owner, const Rect& rt)
 {
-	закрой();
-	переустанов();
-	устПрям(rt);
-	Ктрл::PopUp(owner, true, true, GUI_DropShadows());
+	Close();
+	Reset();
+	SetRect(rt);
+	Ctrl::PopUp(owner, true, true, GUI_DropShadows());
 }
 
-void PopUpCtrl::откл()
+void PopUpCtrl::Deactivate()
 {
 	if(WhenDeactivate)
 	{
 		WhenDeactivate();
 	}
-	else if(открыт() && IsPopUp())
+	else if(IsOpen() && IsPopUp())
 	{
 		WhenPopDown();
 		IgnoreMouseClick();
-		закрой();
+		Close();
 	}
 }
 
 bool PopUpCtrl::IsPopUp() const
 {
-	return popup || Ктрл::IsPopUp();
+	return popup || Ctrl::IsPopUp();
 }
 
 void PopUpCtrl::SetPopUp(bool b /* = true*/)
@@ -38,18 +38,18 @@ void PopUpCtrl::SetPopUp(bool b /* = true*/)
 
 Calendar::Calendar()
 {
-	устФрейм(фреймЧёрный());
+	SetFrame(BlackFrame());
 
-	добавь(spin_year);
-	добавь(spin_month);
-	добавь(spin_all);
+	Add(spin_year);
+	Add(spin_month);
+	Add(spin_all);
 
 	spin_month.SetCallbacks(THISBACK(OnMonthLeft), THISBACK(OnMonthRight));
-	spin_month.SetTips(t_("Previous month"), t_("следщ month"));
+	spin_month.SetTips(t_("Предыдущий месяц"), t_("Следующий месяц"));
 	spin_year.SetCallbacks(THISBACK(OnYearLeft), THISBACK(OnYearRight));
-	spin_year.SetTips(t_("Previous year"), t_("следщ year"));
+	spin_year.SetTips(t_("Предыдущий год"), t_("Следующий год"));
 	spin_all.SetCallbacks(THISBACK(OnMonthLeft), THISBACK(OnMonthRight));
-	spin_all.SetTips(t_("Previous month"), t_("следщ month"));
+	spin_all.SetTips(t_("Предыдущий месяц"), t_("Следующий месяц"));
 
 	time_mode = false;
 	swap_month_year = false;
@@ -57,15 +57,15 @@ Calendar::Calendar()
 	first_day = MONDAY;
 	selall = true;
 	bs = 5;
-	устСтиль(дефСтиль());
-	переустанов();
+	SetStyle(StyleDefault());
+	Reset();
 	
-	вычислиРазм();
+	ComputeSize();
 }
 
-void Calendar::переустанов()
+void Calendar::Reset()
 {
-	today = дайСисВремя();
+	today = GetSysTime();
 	view = today;
 	view.day = 0;
 	sel = today;
@@ -75,16 +75,16 @@ void Calendar::переустанов()
 
 	newday = oldday = nullday;
 	newweek = oldweek = -1;
-	stoday = фмт("%s: %s", t_("Today"), time_mode ? фмт(today) : фмт(Дата(today)));
+	stoday = Format("%s: %s", t_("Сегодня"), time_mode ? Format(today) : Format(Date(today)));
 
 	UpdateFields();
 }
 
-Calendar& Calendar::устСтиль(const Стиль& s)
+Calendar& Calendar::SetStyle(const Style& s)
 {
 	style = &s;
 	nbg = CtrlImg::Bg();
-	освежи();
+	Refresh();
 	return *this;
 }
 
@@ -123,18 +123,18 @@ void Calendar::OnYearRight()
 
 void Calendar::UpdateFields()
 {
-	Ткст month = имяМесяца(view.month - 1);
-	Ткст year = какТкст(view.year);
-	spin_month.устТекст(month);
-	spin_year.устТекст(year);
+	String month = MonthName(view.month - 1);
+	String year = AsString(view.year);
+	spin_month.SetText(month);
+	spin_year.SetText(year);
 	if(swap_month_year)
-		spin_all.устТекст(month + " " + year);
+		spin_all.SetText(month + " " + year);
 	else
-		spin_all.устТекст(year + " " + month);
-	освежи();
+		spin_all.SetText(year + " " + month);
+	Refresh();
 }
 
-int	Calendar::деньНедели(int day, int month, int year, int zelleroffset)
+int	Calendar::DayOfWeek(int day, int month, int year, int zelleroffset)
 {
 	if(month < 3)
 	{
@@ -153,8 +153,8 @@ int Calendar::WeekOfYear(int day, int month, int year) /* ISO-8601 */
 	const static int mnth[12] = {0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334};
 	int weeknum;
 
-	bool cleapyear = високосенГод(year);
-	bool bleapyear = високосенГод(year - 1);
+	bool cleapyear = IsLeapYear(year);
+	bool bleapyear = IsLeapYear(year - 1);
 
 	int daynum = day + mnth[month - 1];
 	if(cleapyear && month > 2)
@@ -200,12 +200,12 @@ int Calendar::WeekOfYear(int day, int month, int year) /* ISO-8601 */
 	return weeknum;
 }
 
-void Calendar::леваяВнизу(Точка p, dword keyflags)
+void Calendar::LeftDown(Point p, dword keyflags)
 {
 	if(WhenWeek && newweek >= 0) {
 		if(PopUpCtrl::IsPopUp())
-			откл();
-		Дата d = view;
+			Deactivate();
+		Date d = view;
 		int wday = days[newweek][0];
 		d.day = wday;
 		if(wday < 0) {
@@ -259,7 +259,7 @@ void Calendar::леваяВнизу(Точка p, dword keyflags)
 	else if(!istoday)
 		return;
 
-	Время tm = istoday ? today : view;
+	Time tm = istoday ? today : view;
 
 	if(time_mode)
 		WhenTime(tm);
@@ -273,7 +273,7 @@ void Calendar::леваяВнизу(Точка p, dword keyflags)
 	if(PopUpCtrl::IsPopUp())
 	{
 		sel = tm;
-		откл();
+		Deactivate();
 		WhenAction();
 	}
 	else
@@ -284,24 +284,24 @@ void Calendar::леваяВнизу(Точка p, dword keyflags)
 		if(refall)
 		{
 			view.day = 0;
-			освежи();
-			синх();
+			Refresh();
+			Sync();
 			oldday = nullday;
-			двигМыши(p, 0);
+			MouseMove(p, 0);
 			return;
 		}
 
-		освежи();
+		Refresh();
 		if(istoday)
 			SetDate(tm);
 		else
-			освежи();
+			Refresh();
 	}
 
 	WhenSelect();
 }
 
-void Calendar::двигМыши(Точка p, dword keyflags)
+void Calendar::MouseMove(Point p, dword keyflags)
 {
 	newday = GetDay(p);
 	if(newday != oldday)
@@ -312,7 +312,7 @@ void Calendar::двигМыши(Точка p, dword keyflags)
 			if(b)
 			{
 				view.day = 0;
-				освежи();
+				Refresh();
 			}
 		}
 		if(newday != nullday)
@@ -321,36 +321,36 @@ void Calendar::двигМыши(Точка p, dword keyflags)
 			if(b)
 			{
 				view.day = Day(newday);
-				освежи();
+				Refresh();
 			}
 		}
 		oldday = newday;
 	}
 	newweek = GetWeek(p);
 	if(newweek != oldweek && WhenWeek) {
-		освежи();
+		Refresh();
 		oldweek = newweek;
 	}
 	istoday = MouseOnToday(p);
 	if(istoday != wastoday)
 	{
 		wastoday = istoday;
-		освежи();
+		Refresh();
 	}
 }
 
-Рисунок Calendar::рисКурсора(Точка p, dword keyflags)
+Image Calendar::CursorImage(Point p, dword keyflags)
 {
 	bool b = (selall == false ? Day(newday) > 0 : true);
 	if((newday != nullday && b) || istoday)
-		return Рисунок::Hand();
+		return Image::Hand();
 	else
-		return Рисунок::Arrow();
+		return Image::Arrow();
 }
 
-bool Calendar::MouseOnToday(Точка p)
+bool Calendar::MouseOnToday(Point p)
 {
-	Размер sz = дайРазм();
+	Size sz = GetSize();
 	int x0 = (sz.cx - sztoday.cx) / 2;
 	int x1 = x0 + sztoday.cx;
 	int y0 = sz.cy - (rh + sztoday.cy) / 2;
@@ -358,7 +358,7 @@ bool Calendar::MouseOnToday(Точка p)
 	return (p.x >= x0 && p.x <= x1 && p.y >= y0 && p.y <= y1);
 }
 
-Точка Calendar::GetDay(Точка p)
+Point Calendar::GetDay(Point p)
 {
 	for(int i = 0; i < rows; i++)
 	{
@@ -371,14 +371,14 @@ bool Calendar::MouseOnToday(Точка p)
 				int x0 = bs + 2 + (int)((j + 1) * colw);
 				int x1 = x0 + cw;
 				if(p.x >= x0 && p.x < x1)
-					return Точка(j, i);
+					return Point(j, i);
 			}
 		}
 	}
-	return Точка(-1, -1);
+	return Point(-1, -1);
 }
 
-int Calendar::GetWeek(Точка p)
+int Calendar::GetWeek(Point p)
 {
 	for(int i = 0; i < rows; i++)
 	{
@@ -390,13 +390,13 @@ int Calendar::GetWeek(Точка p)
 	return -1;
 }
 
-Размер Calendar::вычислиРазм()
+Size Calendar::ComputeSize()
 {
-	const Стиль &st = *style;
-	Шрифт fnt = st.font;
-	spin_all.устШрифт(fnt);
-	spin_month.устШрифт(fnt);
-	spin_year.устШрифт(fnt);
+	const Style &st = *style;
+	Font fnt = st.font;
+	spin_all.SetFont(fnt);
+	spin_month.SetFont(fnt);
+	spin_year.SetFont(fnt);
 
 	spin_all.SetLeftImage(st.spinleftimg);
 	spin_all.SetRightImage(st.spinrightimg);
@@ -409,15 +409,15 @@ int Calendar::GetWeek(Точка p)
 	spin_month.SetHighlight(st.spinhighlight);
 	spin_year.SetHighlight(st.spinhighlight);
 
-	Размер sz = IsPopUp() ? Размер(-1, -1) : дайРазм();
-	Размер tsz = дайРазмТекста("WW", fnt.NoBold().NoUnderline());
-	Размер rsz;
+	Size sz = IsPopUp() ? Size(-1, -1) : GetSize();
+	Size tsz = GetTextSize("WW", fnt.NoBold().NoUnderline());
+	Size rsz;
 
 	fh = tsz.cy;
 
 	colw = (float)(tsz.cx + 6);
 	rowh = (float)(tsz.cy + 4);
-	hs = /*spin_all.дайВысоту()*/tsz.cy + 4;
+	hs = /*spin_all.GetHeight()*/tsz.cy + 4;
 
 	rsz.cx = bs * 2 + 2 + (int)(colw * (cols + 1));
 	rsz.cy = (int)(rowh * (rows + 2) + hs);
@@ -441,15 +441,15 @@ int Calendar::GetWeek(Точка p)
 	return rsz;
 }
 
-void Calendar::рисуй(Draw &w)
+void Calendar::Paint(Draw &w)
 {
-	const Стиль &st = *style;
-	Шрифт fnt = st.font;
+	const Style &st = *style;
+	Font fnt = st.font;
 
-	Размер sz = дайРазм();
+	Size sz = GetSize();
 
-	Размер tsz;
-	Ткст str;
+	Size tsz;
+	String str;
 	int d = 1;
 	int m = view.month;
 	int y = view.year;
@@ -457,7 +457,7 @@ void Calendar::рисуй(Draw &w)
 	if(w.IsPainting(0, 0, sz.cx, hs))
 	{
 		w.DrawImage(0, 0, sz.cx, hs, nbg);
-		curdate = фмт("%s %d", имяМесяца(view.month - 1), view.year);
+		curdate = Format("%s %d", MonthName(view.month - 1), view.year);
 	}
 	w.DrawRect(0, hs, sz.cx, sz.cy - ts - hs, st.bgmain);
 
@@ -465,25 +465,25 @@ void Calendar::рисуй(Draw &w)
 	{
 		int y = (int) (hs + (rowh - fh) / 2.0);
 		fnt.NoBold().NoUnderline();
-		tsz = дайРазмТекста(t_("Wk"), fnt);
+		tsz = GetTextSize(t_("Wk"), fnt);
 		w.DrawText(bs + (cw - tsz.cx) / 2, y, t_("Wk"), fnt, st.week);
 
 		for(int i = 0; i < cols; i++)
 		{
-			const Ткст &s = DyName((i + first_day) % 7);
-			tsz = дайРазмТекста(s, fnt);
+			const String &s = DyName((i + first_day) % 7);
+			tsz = GetTextSize(s, fnt);
 			w.DrawText(bs  + 2 + (int)((i + 1) * colw) + (cw - tsz.cx) / 2, y, s, fnt, st.dayname);
 		}
 	}
 
 	if(w.IsPainting(0, sz.cy - ts, sz.cx, ts))
 	{
-		sztoday = дайРазмТекста(stoday, fnt.Bold().Underline(istoday));
+		sztoday = GetTextSize(stoday, fnt.Bold().Underline(istoday));
 		w.DrawRect(0, sz.cy - ts, sz.cx, ts, st.bgtoday);
 		w.DrawText((sz.cx - sztoday.cx) / 2, sz.cy - (ts + sztoday.cy) / 2, stoday, fnt, istoday ? st.selecttoday : st.today);
 	}
 
-	int fd = деньНедели(1, view.month, view.year);
+	int fd = DayOfWeek(1, view.month, view.year);
 
 	if(fd > 0)
 	{
@@ -492,7 +492,7 @@ void Calendar::рисуй(Draw &w)
 			m = 12;
 			y -= 1;
 		}
-		d = дайДниМесяца(m, y) - fd + 1;
+		d = GetDaysOfMonth(m, y) - fd + 1;
 	}
 	
 	for(int i = 0; i < rows; i++)
@@ -500,17 +500,17 @@ void Calendar::рисуй(Draw &w)
 		int yp = 2 + (int) ((i + 1) * rowh + hs);
 		int yc = (rh - fh) / 2;
 
-		str = какТкст(WeekOfYear(d, m, y));
+		str = AsString(WeekOfYear(d, m, y));
 		
-		Шрифт wfnt = fnt;
+		Font wfnt = fnt;
 		wfnt.NoBold().NoUnderline();
-		Цвет wcolor = st.week;
+		Color wcolor = st.week;
 		if(newweek >= 0 && WhenWeek && newweek == i) {
 			wfnt.Bold().Underline();
 			wcolor = st.selectday;
 		}
 		
-		w.DrawText(bs + (cw - дайРазмТекста(str, wfnt).cx) / 2, yp + yc, str, wfnt, wcolor);
+		w.DrawText(bs + (cw - GetTextSize(str, wfnt).cx) / 2, yp + yc, str, wfnt, wcolor);
 
 		for(int j = 0; j < cols; j++)
 		{
@@ -518,8 +518,8 @@ void Calendar::рисуй(Draw &w)
 
 			if(w.IsPainting(xp, yp, cw, rh))
 			{
-				Цвет fg = st.fgmain;
-				Цвет bg = st.bgmain;
+				Color fg = st.fgmain;
+				Color bg = st.bgmain;
 
 				fnt.NoBold().NoUnderline();
 				bool special = false;
@@ -588,11 +588,11 @@ void Calendar::рисуй(Draw &w)
 					DrawFrame(w, xp, yp, cw, rh, st.bgmain);
 				}
 
-				str = какТкст(абс(d));
-				w.DrawText(xp + (cw - дайРазмТекста(str, fnt).cx) / 2, yp + yc , str, fnt, fg);
+				str = AsString(abs(d));
+				w.DrawText(xp + (cw - GetTextSize(str, fnt).cx) / 2, yp + yc , str, fnt, fg);
 			}
 
-			if(++d > дайДниМесяца(m, y))
+			if(++d > GetDaysOfMonth(m, y))
 			{
 				d = 1;
 				if(++m > 12)
@@ -614,21 +614,21 @@ void Calendar::State(int reason)
 {
 	if(reason == OPEN)
 	{
-		вычислиРазм();
+		ComputeSize();
 
 		int yw = 0;
 		int mw = 0;
 		for(int i = 0; i < 12; i++)
-			mw = max(mw, spin_month.дайШирину(имяМесяца(i)));
+			mw = max(mw, spin_month.GetWidth(MonthName(i)));
 
 		if(one_button)
 		{
-			yw = spin_year.дайШирину(" 0000", false);
+			yw = spin_year.GetWidth(" 0000", false);
 			spin_all.HCenterPos(mw + yw, 0).TopPos(0, hs);
 		}
 		else
 		{
-			yw = spin_year.дайШирину("0000");
+			yw = spin_year.GetWidth("0000");
 
 			spin_month.TopPos(0, hs);
 			spin_year.TopPos(0, hs);
@@ -646,76 +646,76 @@ void Calendar::State(int reason)
 	}
 }
 
-bool Calendar::Ключ(dword ключ, int count)
+bool Calendar::Key(dword key, int count)
 {
-	if(ключ == K_ESCAPE)
+	if(key == K_ESCAPE)
 	{
-		откл();
+		Deactivate();
 		return true;
 	}
 
-	return Ктрл::Ключ(ключ, count);
+	return Ctrl::Key(key, count);
 }
 
-void Calendar::выходМыши()
+void Calendar::MouseLeave()
 {
 	if(istoday)
 	{
 		istoday = false;
 		wastoday = false;
-		освежи();
+		Refresh();
 	}
 	else
-		двигМыши(Точка(-1, -1), 0);
+		MouseMove(Point(-1, -1), 0);
 }
 
-Дата Calendar::GetDate() const
+Date Calendar::GetDate() const
 {
 	return sel;
 }
 
 void Calendar::SetDate(int y, int m, int d)
 {
-	SetDate(Дата(y, m, d));
+	SetDate(Date(y, m, d));
 }
 
-void Calendar::SetDate(const Дата &dt)
+void Calendar::SetDate(const Date &dt)
 {
-	sel = !пусто_ли(dt) && dt.пригоден() ? Время(dt.year, dt.month, dt.day, 0, 0, 0) : today;
+	sel = !IsNull(dt) && dt.IsValid() ? Time(dt.year, dt.month, dt.day, 0, 0, 0) : today;
 	view = sel;
 	view.day = 0;
 	UpdateFields();
 }
 
-Дата Calendar::дайВремя() const
+Date Calendar::GetTime() const
 {
 	return sel;
 }
 
 void Calendar::SetTime(int y, int m, int d, int h, int n, int s)
 {
-	SetTime(Время(y, m, d, h, n, s));
+	SetTime(Time(y, m, d, h, n, s));
 }
 
-void Calendar::SetTime(const Время &tm)
+void Calendar::SetTime(const Time &tm)
 {
-	sel = !пусто_ли(tm) && tm.пригоден() ? tm : today;
+	sel = !IsNull(tm) && tm.IsValid() ? tm : today;
 	view = sel;
 	view.day = 0;
 	UpdateFields();
 }
 
-void Calendar::PopUp(Ктрл *owner, Прям &rt)
+void Calendar::PopUp(Ctrl *owner, Rect &rt)
 {
-	закрой();
-	переустанов();
+	Close();
+	Reset();
 	SetPopUp(true);
-	устПрям(rt);
-	Ктрл::PopUp(owner, true, true, GUI_DropShadows());
-	устФокус();
+	SetRect(rt);
+	Ctrl::PopUp(owner, true, true, GUI_DropShadows());
+	SetFocus();
 }
 
-void Calendar::SetView(const Время &v)
+void Calendar::SetView(const Time &v)
 {
 	view = v;
 	view.day = 0;
@@ -724,23 +724,23 @@ void Calendar::SetView(const Время &v)
 
 // Clock
 
-void LineCtrl::рисуй(Draw& w)
+void LineCtrl::Paint(Draw& w)
 {
-	Размер sz = дайРазм();
-	w.DrawRect(sz, Цвет(240, 240, 240));
+	Size sz = GetSize();
+	w.DrawRect(sz, Color(240, 240, 240));
 
 	if(real_pos < 0)
 		return;
 
 	if(sz.cx > sz.cy)
-		w.DrawRect(Прям(0, 0, min(sz.cx, real_pos), sz.cy), смешай(SColorHighlight(), белый, 200));
+		w.DrawRect(Rect(0, 0, min(sz.cx, real_pos), sz.cy), Blend(SColorHighlight(), White, 200));
 	else
-		w.DrawRect(Прям(0, max(0, real_pos), sz.cx, sz.cy), смешай(SColorHighlight(), белый, 200));
+		w.DrawRect(Rect(0, max(0, real_pos), sz.cx, sz.cy), Blend(SColorHighlight(), White, 200));
 }
 
-void LineCtrl::устПоз(Точка p)
+void LineCtrl::SetPos(Point p)
 {
-	Размер sz = дайРазм();
+	Size sz = GetSize();
 
 	bool vh = sz.cy > sz.cx;
 	int mp = max(sz.cx, sz.cy);
@@ -752,38 +752,38 @@ void LineCtrl::устПоз(Точка p)
 		real_pos = mp;
 
 	pos = (vh ? mp - real_pos : real_pos) * 100 / mp;
-	освежи();
+	Refresh();
 	WhenAction();
 }
 
-int LineCtrl::дайПоз()
+int LineCtrl::GetPos()
 {
 	return pos;
 }
 
-void LineCtrl::устПоз(int p)
+void LineCtrl::SetPos(int p)
 {
-	Размер sz = дайРазм();
+	Size sz = GetSize();
 	pos = p;
 	real_pos = p * max(sz.cx, sz.cy) / 100;
 	if(sz.cy > sz.cx)
 		real_pos = sz.cy - real_pos;
-	освежи();
+	Refresh();
 }
 
-void LineCtrl::леваяВнизу(Точка p, dword keyflags)
+void LineCtrl::LeftDown(Point p, dword keyflags)
 {
 	SetCapture();
-	устПоз(p);
+	SetPos(p);
 }
 
-void LineCtrl::двигМыши(Точка p, dword keyflags)
+void LineCtrl::MouseMove(Point p, dword keyflags)
 {
 	if(HasCapture())
-		устПоз(p);
+		SetPos(p);
 }
 
-void LineCtrl::леваяВверху(Точка p, dword keyflags)
+void LineCtrl::LeftUp(Point p, dword keyflags)
 {
 	ReleaseCapture();
 }
@@ -797,15 +797,15 @@ LineCtrl::LineCtrl()
 
 //Clock
 
-Clock& Clock::устСтиль(const Стиль& s)
+Clock& Clock::SetStyle(const Style& s)
 {
 	style = &s;
 	nbg = CtrlImg::Bg();
-	освежи();
+	Refresh();
 	return *this;
 }
 
-void Clock::PaintPtr(int n, Draw& w, ТочкаПЗ p, double pos, double m, double rd, int d, Цвет color, Точка cf)
+void Clock::PaintPtr(int n, Draw& w, Pointf p, double pos, double m, double rd, int d, Color color, Point cf)
 {
 	double dx = m * sin(pos * 2 * M_PI);
 	double dy = m * cos(pos * 2 * M_PI);
@@ -818,37 +818,37 @@ void Clock::PaintPtr(int n, Draw& w, ТочкаПЗ p, double pos, double m, dou
 	w.DrawLine(lines[n].s, lines[n].e, d, color);
 }
 
-void Clock::PaintCenteredText(Draw& w, int x, int y, const char *text, const Шрифт& fnt, Цвет c)
+void Clock::PaintCenteredText(Draw& w, int x, int y, const char *text, const Font& fnt, Color c)
 {
-	Размер tsz = дайРазмТекста(text, fnt);
+	Size tsz = GetTextSize(text, fnt);
 	w.DrawText(x - tsz.cx / 2, y - tsz.cy / 2, text, fnt, c);
 }
 
-void Clock::PaintCenteredImage(Draw &w, int x, int y, const Рисунок& img)
+void Clock::PaintCenteredImage(Draw &w, int x, int y, const Image& img)
 {
-	Размер isz = img.дайРазм();
+	Size isz = img.GetSize();
 	w.DrawImage(x - isz.cx / 2, y - isz.cy / 2, img);
 }
 
-bool Clock::Ключ(dword ключ, int count)
+bool Clock::Key(dword key, int count)
 {
-	if(ключ == K_TAB || ключ == K_SHIFT_TAB)
+	if(key == K_TAB || key == K_SHIFT_TAB)
 	{
-		if(ed_minute.естьФокус())
-			ed_hour.устФокус();
-		else if(ed_hour.естьФокус())
-			ed_minute.устФокус();
+		if(ed_minute.HasFocus())
+			ed_hour.SetFocus();
+		else if(ed_hour.HasFocus())
+			ed_minute.SetFocus();
 		else
-			ed_hour.устФокус();
+			ed_hour.SetFocus();
 		return true;
 	}
-	return Ктрл::Ключ(ключ, count);
+	return Ctrl::Key(key, count);
 }
 
 void Clock::CalcSizes()
 {
 	int margin = 3;
-	sz = дайРазм();
+	sz = GetSize();
 	int cx = sz.cx - 7 * 2;
 	int cy = sz.cy - 2 * margin - hs;
 	cm.x = cx / 2 + 7;
@@ -857,9 +857,9 @@ void Clock::CalcSizes()
 	cf.y = cf.x;
 }
 
-void Clock::рисуй(Draw& w)
+void Clock::Paint(Draw& w)
 {
-	const Стиль &st = *style;
+	const Style &st = *style;
 
 	CalcSizes();
 
@@ -871,16 +871,16 @@ void Clock::рисуй(Draw& w)
 	if(colon)
 		PaintCenteredText(w, sz.cx / 2, hs / 2 - 1, " : ", StdFont().Bold(), SColorHighlightText());
 
-	//w.DrawEllipse(cm.x - r / 2, cm.y - r / 2, cf.x, cf.x, смешай(st.header, белый, 250), PEN_NULL, чёрный);
+	//w.DrawEllipse(cm.x - r / 2, cm.y - r / 2, cf.x, cf.x, Blend(st.header, White, 250), PEN_NULL, Black);
 
-	Шрифт fnt = st.font;
-	fnt.устВысоту(max(6, min(16, fnt.дайВысоту() * int(cf.x) / Ктрл::VertLayoutZoom(65))));
+	Font fnt = st.font;
+	fnt.Height(max(6, min(16, fnt.GetHeight() * int(cf.x) / Ctrl::VertLayoutZoom(65))));
 
 	for(int i = 1; i <= 12; i++) {
 		PaintCenteredText(w,
 		                  int(cm.x + 0.8 * sin(i * M_PI / 6.0) * cf.x),
 		                  int(cm.y - 0.8 * cos(i * M_PI / 6.0) * cf.y),
-		                  какТкст(i), fnt.Bold(i % 3 == 0), SColorText());
+		                  AsString(i), fnt.Bold(i % 3 == 0), SColorText());
 	}
 
 	for(int i = 1; i <= 60; i++) {
@@ -896,7 +896,7 @@ void Clock::рисуй(Draw& w)
 	if(seconds)
 		PaintPtr(2, w, cm, cur_time / 60.0, 0.75, 5.0, 2, cur_line == 2 ? st.arrowhl : st.arrowsecond, cf);
 	
-	w.стоп();
+	w.End();
 }
 
 int Clock::GetDir(int pp, int cp)
@@ -918,23 +918,23 @@ int Clock::GetDir(int pp, int cp)
 	return dir;
 }
 
-Clock::минмакс Clock::SetMinMax(int v, int min, int max)
+Clock::MinMax Clock::SetMinMax(int v, int min, int max)
 {
-	минмакс mm;
+	MinMax mm;
 	if(v > max)
 	{
 		mm.diff = 1;
-		mm.значение = min;
+		mm.value = min;
 	}
 	else if(v < min)
 	{
 		mm.diff = -1;
-		mm.значение = max;
+		mm.value = max;
 	}
 	else
 	{
 		mm.diff = 0;
-		mm.значение = v;
+		mm.value = v;
 	}
 	return mm;
 }
@@ -949,14 +949,14 @@ int Clock::IncFactor(int dir, int pp, int cp)
 	return 0;
 }
 
-void Clock::двигМыши(Точка p, dword keyflags)
+void Clock::MouseMove(Point p, dword keyflags)
 {
 	if(!HasCapture())
 	{
 		cur_line = GetPointedLine(p);
 		if(cur_line != prv_line)
 		{
-			освежи();
+			Refresh();
 			prv_line = cur_line;
 		}
 		if(cur_line < 0)
@@ -981,19 +981,19 @@ void Clock::двигМыши(Точка p, dword keyflags)
 				else if(inc < 0)
 					h -= 12;
 
-				sel.hour = SetMinMax(h, 0, 23).значение;
+				sel.hour = SetMinMax(h, 0, 23).value;
 			}
 			else if(cur_line == 1)
 			{
-				sel.hour = SetMinMax(sel.hour + inc, 0, 23).значение;
+				sel.hour = SetMinMax(sel.hour + inc, 0, 23).value;
 				sel.minute = cp;
 			}
 			else
 			{
-				минмакс mm = SetMinMax(sel.minute + inc, 0, 59);
+				MinMax mm = SetMinMax(sel.minute + inc, 0, 59);
 				int hour = int(sel.hour) + mm.diff;
-				sel.hour = SetMinMax(hour, 0, 23).значение;
-				sel.minute = mm.значение;
+				sel.hour = SetMinMax(hour, 0, 23).value;
+				sel.minute = mm.value;
 				sel.second = cp;
 			}
 
@@ -1003,37 +1003,37 @@ void Clock::двигМыши(Точка p, dword keyflags)
 	}
 }
 
-void Clock::леваяВнизу(Точка p, dword keyflags)
+void Clock::LeftDown(Point p, dword keyflags)
 {
 	if(cur_line >= 0)
 		SetCapture();
 	else if(accept_time)
 	{
-		откл();
+		Deactivate();
 		WhenAction();
 	}
 }
 
-void Clock::леваяВверху(Точка p, dword keyflags)
+void Clock::LeftUp(Point p, dword keyflags)
 {
 	ReleaseCapture();
 	if(cur_point >= 0)
 	{
 		cur_point = -1;
 		prv_point = -1;
-		освежи();
+		Refresh();
 	}
 }
 
-Рисунок Clock::рисКурсора(Точка p, dword keyflags)
+Image Clock::CursorImage(Point p, dword keyflags)
 {
 	if(cur_line >= 0 || accept_time)
 		return CtrlImg::HandCursor();
 	else
-		return Рисунок::Arrow();
+		return Image::Arrow();
 }
 
-int Clock::GetPointedLine(Точка p)
+int Clock::GetPointedLine(Point p)
 {
 	for(int i = 0; i < 2 + int(seconds); i++)
 		if(IsLine(lines[i].s, lines[i].e, p))
@@ -1041,7 +1041,7 @@ int Clock::GetPointedLine(Точка p)
 	return -1;
 }
 
-bool Clock::IsLine(ТочкаПЗ s, ТочкаПЗ e, ТочкаПЗ p, double tolerance)
+bool Clock::IsLine(Pointf s, Pointf e, Pointf p, double tolerance)
 {
 	double minx = min(s.x, e.x);
 	double maxx = max(s.x, e.x);
@@ -1063,14 +1063,14 @@ bool Clock::IsLine(ТочкаПЗ s, ТочкаПЗ e, ТочкаПЗ p, double 
 	return u / l < tolerance * tolerance;
 }
 
-bool Clock::IsCircle(ТочкаПЗ p, ТочкаПЗ s, double r)
+bool Clock::IsCircle(Pointf p, Pointf s, double r)
 {
 	double dx = p.x - s.x;
 	double dy = p.y - s.y;
 	return dx * dx + dy * dy < r * r;
 }
 
-int Clock::GetPoint(ТочкаПЗ p, double tolerance /* = 4.0*/)
+int Clock::GetPoint(Pointf p, double tolerance /* = 4.0*/)
 {
 	double tcx = 0.95 * cf.x;
 	double tcy = 0.95 * cf.y;
@@ -1096,17 +1096,17 @@ int Clock::GetPoint(ТочкаПЗ p, double tolerance /* = 4.0*/)
 
 void Clock::Timer()
 {
-	освежи();
+	Refresh();
 }
 
 void Clock::UpdateFields()
 {
 	ed_hour <<= sel.hour;
 	ed_minute <<= sel.minute;
-	ln_minute.устПоз(sel.minute * 100 / 59);
-	ln_hour.устПоз(sel.hour * 100 / 23);
-	spin_hour.устТекст(фмт("%.2d", sel.hour));
-	spin_minute.устТекст(фмт("%.2d", sel.minute));
+	ln_minute.SetPos(sel.minute * 100 / 59);
+	ln_hour.SetPos(sel.hour * 100 / 23);
+	spin_hour.SetText(Format("%.2d", sel.hour));
+	spin_minute.SetText(Format("%.2d", sel.minute));
 }
 
 void Clock::SetHourEdit()
@@ -1123,41 +1123,41 @@ void Clock::SetMinuteEdit()
 
 void Clock::SetHourLine()
 {
-	sel.hour = ln_hour.дайПоз() * 23 / 100;
+	sel.hour = ln_hour.GetPos() * 23 / 100;
 	UpdateTime();
 }
 
 void Clock::SetMinuteLine()
 {
-	sel.minute = ln_minute.дайПоз() * 59 / 100;
+	sel.minute = ln_minute.GetPos() * 59 / 100;
 	UpdateTime();
 }
 
 void Clock::SetHourLeft()
 {
-	sel.hour = SetMinMax(sel.hour - 1, 0, 23).значение;
+	sel.hour = SetMinMax(sel.hour - 1, 0, 23).value;
 	UpdateTime();
 }
 
 void Clock::SetHourRight()
 {
-	sel.hour = SetMinMax(sel.hour + 1, 0, 23).значение;
+	sel.hour = SetMinMax(sel.hour + 1, 0, 23).value;
 	UpdateTime();
 }
 
 void Clock::SetMinuteLeft()
 {
-	минмакс mm = SetMinMax(sel.minute - 1, 0, 59);
-	sel.minute = mm.значение;
-	sel.hour = SetMinMax(sel.hour + mm.diff, 0, 23).значение;
+	MinMax mm = SetMinMax(sel.minute - 1, 0, 59);
+	sel.minute = mm.value;
+	sel.hour = SetMinMax(sel.hour + mm.diff, 0, 23).value;
 	UpdateTime();
 }
 
 void Clock::SetMinuteRight()
 {
-	минмакс mm = SetMinMax(sel.minute + 1, 0, 59);
-	sel.minute = mm.значение;
-	sel.hour = SetMinMax(sel.hour + mm.diff, 0, 23).значение;
+	MinMax mm = SetMinMax(sel.minute + 1, 0, 59);
+	sel.minute = mm.value;
+	sel.hour = SetMinMax(sel.hour + mm.diff, 0, 23).value;
 	UpdateTime();
 }
 
@@ -1165,31 +1165,31 @@ void Clock::UpdateTime()
 {
 	cur_time = int(sel.hour) * 3600 + int(sel.minute) * 60 + int(sel.second);
 	UpdateFields();
-	освежи();
+	Refresh();
 }
 
-Размер Clock::вычислиРазм()
+Size Clock::ComputeSize()
 {
-	const Стиль &st = *style;
-	spin_hour.устШрифт(st.font);
-	spin_minute.устШрифт(st.font);
-	Шрифт fnt = st.font;
-	Размер tsz = дайРазмТекста("W", st.font);
+	const Style &st = *style;
+	spin_hour.SetFont(st.font);
+	spin_minute.SetFont(st.font);
+	Font fnt = st.font;
+	Size tsz = GetTextSize("W", st.font);
 	hs = tsz.cy + 4;
-	//TODO: найди better scaling method.
+	//СДЕЛАТЬ: Find better scaling method.
 	double d = fnt == StdFont() ? 1 : tsz.cy / double(tsz.cx);
-	return Размер(int(150.0 * d), int(157.0 * d));
+	return Size(int(150.0 * d), int(157.0 * d));
 }
 
 void Clock::State(int reason)
 {
 	if(reason == OPEN)
 	{
-		вычислиРазм();
-		//spin_hour.LeftPos(0, spin_hour.дайШирину("00")).TopPos(0, hs);
-		//spin_minute.RightPos(0, spin_minute.дайШирину("00")).TopPos(0, hs);
-		int shw = spin_hour.дайШирину("00");
-		int smw = spin_minute.дайШирину("00");
+		ComputeSize();
+		//spin_hour.LeftPos(0, spin_hour.GetWidth("00")).TopPos(0, hs);
+		//spin_minute.RightPos(0, spin_minute.GetWidth("00")).TopPos(0, hs);
+		int shw = spin_hour.GetWidth("00");
+		int smw = spin_minute.GetWidth("00");
 		spin_hour.HCenterPos(shw, -shw / 2).TopPos(0, hs);
 		spin_minute.HCenterPos(smw, smw / 2).TopPos(0, hs);
 		ln_minute.RightPos(0, 5).VSizePos(hs, 0);
@@ -1197,24 +1197,24 @@ void Clock::State(int reason)
 	}
 }
 
-Значение Clock::дайДанные() const
+Value Clock::GetData() const
 {
 	return sel;
 }
 
-void Clock::устДанные(const Значение& v)
+void Clock::SetData(const Value& v)
 {
-	SetTime((Время) v);
+	SetTime((Time) v);
 }
 
-Время Clock::дайВремя() const
+Time Clock::GetTime() const
 {
 	return sel;
 }
 
-void Clock::SetTime(const Время& tm)
+void Clock::SetTime(const Time& tm)
 {
-	sel = !пусто_ли(tm) && tm.пригоден() ? tm : дайСисВремя();
+	sel = !IsNull(tm) && tm.IsValid() ? tm : GetSysTime();
 	UpdateTime();
 }
 
@@ -1226,34 +1226,34 @@ void Clock::SetTime(int h, int n, int s)
 	UpdateTime();
 }
 
-void Clock::переустанов()
+void Clock::Reset()
 {
-	sel = дайСисВремя();
+	sel = GetSysTime();
 	UpdateTime();
 }
 
 Clock::Clock()
 {
-	sel = дайСисВремя();
+	sel = GetSysTime();
 	UpdateTime();
 
-	добавь(ed_hour);
-	добавь(ed_minute);
-	добавь(ln_hour);
-	добавь(ln_minute);
-	добавь(spin_hour);
-	добавь(spin_minute);
+	Add(ed_hour);
+	Add(ed_minute);
+	Add(ln_hour);
+	Add(ln_minute);
+	Add(spin_hour);
+	Add(spin_minute);
 
-	ed_hour.мин(0).макс(23);
-	ed_minute.мин(0).макс(59);
+	ed_hour.Min(0).Max(23);
+	ed_minute.Min(0).Max(59);
 	ed_hour <<= THISBACK(SetHourEdit);
 	ed_minute <<= THISBACK(SetMinuteEdit);
 	ln_hour <<= THISBACK(SetHourLine);
 	ln_minute <<= THISBACK(SetMinuteLine);
 	spin_hour.SetCallbacks(THISBACK(SetHourLeft), THISBACK(SetHourRight));
-	spin_hour.SetTips(t_("Previous hour"), t_("следщ hour"));
+	spin_hour.SetTips(t_("Предыдущий час"), t_("Следующий час"));
 	spin_minute.SetCallbacks(THISBACK(SetMinuteLeft), THISBACK(SetMinuteRight));
-	spin_minute.SetTips(t_("Previous minute"), t_("следщ minute"));
+	spin_minute.SetTips(t_("Предыдущая минута"), t_("Следующая минута"));
 
 	cur_line = -1;
 	prv_line = -1;
@@ -1264,15 +1264,15 @@ Clock::Clock()
 	prv_point = -1;
 	cur_point = -1;
 
-	устСтиль(дефСтиль());
+	SetStyle(StyleDefault());
 	seconds = true;
 	colon = false;
 	accept_time = false;
 
-	устФрейм(фреймЧёрный());
+	SetFrame(BlackFrame());
 	BackPaint();
 	
-	вычислиРазм();
+	ComputeSize();
 }
 
 // CalendarClock
@@ -1281,74 +1281,74 @@ CalendarClock::CalendarClock(int m) : mode(m)
 {
 	if(mode == MODE_TIME)
 	{
-		добавь(clock);
-		clock.устФрейм(фреймПусто());
-		calendar.устФрейм(фреймПусто());
-		устФрейм(фреймЧёрный());
+		Add(clock);
+		clock.SetFrame(NullFrame());
+		calendar.SetFrame(NullFrame());
+		SetFrame(BlackFrame());
 		calendar.TimeMode();
 		calendar.WhenTime = THISBACK(UpdateTime);
 	}
 
-	добавь(calendar);
-	calendar.WhenDeactivate = THISBACK(откл);
-	clock.WhenDeactivate = THISBACK(откл);
+	Add(calendar);
+	calendar.WhenDeactivate = THISBACK(Deactivate);
+	clock.WhenDeactivate = THISBACK(Deactivate);
 }
 
-void CalendarClock::UpdateTime(Время &tm)
+void CalendarClock::UpdateTime(Time &tm)
 {
 	tm.hour = clock.GetHour();
 	tm.minute = clock.GetMinute();
 	tm.second = clock.GetSecond();
 }
 
-void CalendarClock::PopUp(Ктрл *owner, const Прям& rt)
+void CalendarClock::PopUp(Ctrl *owner, const Rect& rt)
 {
-	закрой();
-	calendar.переустанов();
-	clock.переустанов();
+	Close();
+	calendar.Reset();
+	clock.Reset();
 	calendar.SetPopUp(true);
 	clock.SetPopUp(true);
-	устПрям(rt);
-	Ктрл::PopUp(owner, true, true, GUI_DropShadows());
-	устФокус();
+	SetRect(rt);
+	Ctrl::PopUp(owner, true, true, GUI_DropShadows());
+	SetFocus();
 }
 
-Размер CalendarClock::вычислиРазм()
+Size CalendarClock::ComputeSize()
 {
 	calendar_size = calendar.GetPopUpSize();
 	clock_size = clock.GetPopUpSize();
 	return mode == MODE_DATE ? calendar_size
-	                         : Размер(calendar_size.cx + clock_size.cx + 2, max(calendar_size.cy, clock_size.cy));
+	                         : Size(calendar_size.cx + clock_size.cx + 2, max(calendar_size.cy, clock_size.cy));
 }
 
-void CalendarClock::Выкладка()
+void CalendarClock::Layout()
 {
-	sz = вычислиРазм();
+	sz = ComputeSize();
 	calendar.LeftPos(0, calendar_size.cx).VSizePos(0, 0);
 	clock.RightPos(0, clock_size.cx).VSizePos(0, 0);
 }
 
-void CalendarClock::откл()
+void CalendarClock::Deactivate()
 {
-	if(открыт() && IsPopUp())
+	if(IsOpen() && IsPopUp())
 	{
 		WhenPopDown();
 		IgnoreMouseUp();
-		закрой();
+		Close();
 		calendar.SetPopUp(false);
 		clock.SetPopUp(false);
 	}
 }
 
-bool CalendarClock::Ключ(dword ключ, int count)
+bool CalendarClock::Key(dword key, int count)
 {
-	if(ключ == K_ESCAPE)
+	if(key == K_ESCAPE)
 	{
-		откл();
+		Deactivate();
 		return true;
 	}
 
-	return Ктрл::Ключ(ключ, count);
+	return Ctrl::Key(key, count);
 }
 
 DropDate::DropDate() : DateTimeCtrl<EditDate>(CalendarClock::MODE_DATE)
@@ -1356,7 +1356,7 @@ DropDate::DropDate() : DateTimeCtrl<EditDate>(CalendarClock::MODE_DATE)
 
 DropDate& DropDate::SetDate(int y, int m, int d)
 {
-	EditDate::устДанные(Дата(y, m, d));
+	EditDate::SetData(Date(y, m, d));
 	return *this;
 }
 
@@ -1365,7 +1365,7 @@ DropTime::DropTime() : DateTimeCtrl<EditTime>(CalendarClock::MODE_TIME)
 
 DropTime& DropTime::SetTime(int y, int m, int d, int h, int n, int s)
 {
-	EditTime::устДанные(Время(y, m, d, h, n, s));
+	EditTime::SetData(Time(y, m, d, h, n, s));
 	return *this;
 }
 
@@ -1373,15 +1373,15 @@ DropTime& DropTime::SetTime(int y, int m, int d, int h, int n, int s)
 
 FlatButton::FlatButton()
 {
-	hl = смешай(SColorHighlight, белый, 200);
-	bg = смешай(SColorHighlight, белый, 50);
+	hl = Blend(SColorHighlight, White, 200);
+	bg = Blend(SColorHighlight, White, 50);
 	fg = SColorPaper;
 	left = true;
 	highlight = true;
 	Transparent();
 }
 
-void FlatButton::DrawFrame(Draw &w, const Прям& r, Цвет lc, Цвет tc, Цвет rc, Цвет bc)
+void FlatButton::DrawFrame(Draw &w, const Rect& r, Color lc, Color tc, Color rc, Color bc)
 {
 	w.DrawRect(r.left, r.top, r.left + 1, r.bottom, lc);
 	w.DrawRect(r.right - 1, r.top, r.right, r.bottom, rc);
@@ -1389,31 +1389,31 @@ void FlatButton::DrawFrame(Draw &w, const Прям& r, Цвет lc, Цвет tc,
 	w.DrawRect(r.left, r.bottom - 1, r.right, r.bottom, bc);
 }
 
-void FlatButton::рисуй(Draw &w)
+void FlatButton::Paint(Draw &w)
 {
-	Размер sz = дайРазм();
-	Размер isz = img.дайРазм();
+	Size sz = GetSize();
+	Size isz = img.GetSize();
 
 	int dx = IsPush() * (left ? -1 : 1);
 	int dy = IsPush();
 
-	Точка p((sz.cx - isz.cx) / 2 + dx, (sz.cy - isz.cy) / 2 + dy);
+	Point p((sz.cx - isz.cx) / 2 + dx, (sz.cy - isz.cy) / 2 + dy);
 
 	if(highlight)
-		w.DrawImage(p.x, p.y, img, естьМышь() ? SColorHighlightText() : чёрный);
+		w.DrawImage(p.x, p.y, img, HasMouse() ? SColorHighlightText() : Black);
 	else
 		w.DrawImage(p.x, p.y, img);
 }
 
 FlatSpin::FlatSpin()
 {
-	tsz.очисть();
-	left.устРисунок(CtrlImg::smallleft());
-	right.устРисунок(CtrlImg::smallright());
-	добавь(left);
-	добавь(right);
-	left.устЛев();
-	right.устПрав();
+	tsz.Clear();
+	left.SetImage(CtrlImg::smallleft());
+	right.SetImage(CtrlImg::smallright());
+	Add(left);
+	Add(right);
+	left.SetLeft();
+	right.SetRight();
 	Transparent();
 	font = StdFont().Bold();
 	selected = false;
@@ -1426,17 +1426,17 @@ FlatSpin& FlatSpin::Selectable(bool b /* = true*/)
 	return *this;
 }
 
-void FlatSpin::устШрифт(const Шрифт& fnt)
+void FlatSpin::SetFont(const Font& fnt)
 {
 	font = fnt;
 	font.Bold();
 }
 
-int FlatSpin::дайШирину(const Ткст& s, bool with_buttons)
+int FlatSpin::GetWidth(const String& s, bool with_buttons)
 {
-	Размер sl = left.GetImage().дайРазм();
-	Размер sr = right.GetImage().дайРазм();
-	int width = дайРазмТекста(s, font).cx;
+	Size sl = left.GetImage().GetSize();
+	Size sr = right.GetImage().GetSize();
+	int width = GetTextSize(s, font).cx;
 
 	if(with_buttons)
 		width += sl.cx + max(8, sl.cx / 2) + sr.cx + max(8, sr.cx / 2);
@@ -1444,76 +1444,76 @@ int FlatSpin::дайШирину(const Ткст& s, bool with_buttons)
 	return width;
 }
 
-int FlatSpin::дайВысоту()
+int FlatSpin::GetHeight()
 {
-	int ih = max(left.GetImage().дайРазм().cy + 8, right.GetImage().дайРазм().cy + 8);
-	return max(font.дайВысоту(), ih);
+	int ih = max(left.GetImage().GetSize().cy + 8, right.GetImage().GetSize().cy + 8);
+	return max(font.GetHeight(), ih);
 }
 
-void FlatSpin::устТекст(const Ткст& s)
+void FlatSpin::SetText(const String& s)
 {
 	text = s;
-	tsz = дайРазмТекста(text, font);
-	освежи();
+	tsz = GetTextSize(text, font);
+	Refresh();
 }
 
 void FlatSpin::SetTips(const char *tipl, const char *tipr)
 {
-	left.Подсказка(tipl);
-	right.Подсказка(tipr);
+	left.Tip(tipl);
+	right.Tip(tipr);
 }
 
-void FlatSpin::SetCallbacks(const Событие<>& cbl, const Событие<>& cbr)
+void FlatSpin::SetCallbacks(const Event<>& cbl, const Event<>& cbr)
 {
 	left.WhenAction = cbl;
 	right.WhenAction = cbr;
 }
 
-void FlatSpin::Выкладка()
+void FlatSpin::Layout()
 {
-	left.LeftPos(0, left.GetImage().дайРазм().cx + 8).VSizePos();
-	right.RightPos(0, right.GetImage().дайРазм().cx + 8).VSizePos();
+	left.LeftPos(0, left.GetImage().GetSize().cx + 8).VSizePos();
+	right.RightPos(0, right.GetImage().GetSize().cx + 8).VSizePos();
 }
 
-void FlatSpin::рисуй(Draw& w)
+void FlatSpin::Paint(Draw& w)
 {
-	Размер sz = дайРазм();
+	Size sz = GetSize();
 	w.DrawText((sz.cx - tsz.cx) / 2, (sz.cy - tsz.cy) / 2, text, font.Underline(selected), SColorHighlightText());
 }
 
-Рисунок FlatSpin::рисКурсора(Точка p, dword keyflags)
+Image FlatSpin::CursorImage(Point p, dword keyflags)
 {
 	if(selectable && selected)
 		return CtrlImg::HandCursor();
 	else
-		return Рисунок::Arrow();
+		return Image::Arrow();
 }
 
-void FlatSpin::выходМыши()
+void FlatSpin::MouseLeave()
 {
 	selected = false;
-	освежи();
+	Refresh();
 }
 
-void FlatSpin::двигМыши(Точка p, dword keyflags)
+void FlatSpin::MouseMove(Point p, dword keyflags)
 {
 	if(!selectable)
 		return;
 
-	Размер sz = дайРазм();
+	Size sz = GetSize();
 	bool s = selected;
 	selected = p.x >= (sz.cx - tsz.cx) / 2 && p.x <= (sz.cx + tsz.cx) / 2;
 	if(s != selected)
-		освежи();
+		Refresh();
 }
 
-void FlatSpin::леваяВнизу(Точка p, dword keyflags)
+void FlatSpin::LeftDown(Point p, dword keyflags)
 {
 	if(selected)
 		WhenAction();
 }
 
-CH_STYLE(Clock, Стиль, дефСтиль)
+CH_STYLE(Clock, Style, StyleDefault)
 {
 	header        = SColorHighlight;
 	bgmain        = SColorPaper;
@@ -1525,19 +1525,19 @@ CH_STYLE(Clock, Стиль, дефСтиль)
 	font          = StdFont();
 }
 
-CH_STYLE(Calendar, Стиль, дефСтиль)
+CH_STYLE(Calendar, Style, StyleDefault)
 {
 	header        = SColorHighlight;
 
 	bgmain        = SColorPaper;
 	bgtoday       = SColorPaper;
-	bgselect      = AdjustIfDark(Цвет(255, 254, 220));
+	bgselect      = AdjustIfDark(Color(255, 254, 220));
 
 	fgmain        = SColorText;
 	fgtoday       = SBlack;
 	fgselect      = SBlack;
 
-	outofmonth    = AdjustIfDark(Цвет(180, 180, 180));
+	outofmonth    = AdjustIfDark(Color(180, 180, 180));
 	curdate       = SWhite;
 	today         = SColorText;
 	selecttoday   = SColorMark;

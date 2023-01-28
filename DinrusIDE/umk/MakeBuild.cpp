@@ -1,32 +1,32 @@
 #include "umake.h"
 
-void Иср::ConsoleShow()
+void Ide::ConsoleShow()
 {
 }
 
-void Иср::ConsoleSync()
+void Ide::ConsoleSync()
 {
 }
 
-Вектор<Ткст> Иср::PickErrors()
+Vector<String> Ide::PickErrors()
 {
 	return console.PickErrors();
 }
 
-void Иср::DoProcessСобытиеs()
+void Ide::DoProcessEvents()
 {
 }
 
-void Иср::ReQualifyCodeBase()
+void Ide::ReQualifyCodeBase()
 {
 }
 
-Ткст Иср::GetMain()
+String Ide::GetMain()
 {
 	return main;
 }
 
-void Иср::BeginBuilding(bool clear_console)
+void Ide::BeginBuilding(bool clear_console)
 {
 	SetupDefaultMethod();
 	SetHdependDirs();
@@ -34,32 +34,32 @@ void Иср::BeginBuilding(bool clear_console)
 	build_time = msecs();
 }
 
-void Иср::EndBuilding(bool ok)
+void Ide::EndBuilding(bool ok)
 {
 	console.EndGroup();
-	console.жди();
-	Вектор<Ткст> errors = console.PickErrors();
-	for(Ткст p: errors)
+	console.Wait();
+	Vector<String> errors = console.PickErrors();
+	for(String p: errors)
 		DeleteFile(p);
-	if(!errors.пустой())
+	if(!errors.IsEmpty())
 		ok = false;
-	вКонсоль("");
-	вКонсоль((ok ? "OK. " : "There were errors. ") + GetPrintTime(build_time));
+	PutConsole("");
+	PutConsole((ok ? "OK. " : "Имелись ошибки. ") + GetPrintTime(build_time));
 }
 
-void Иср::ConsoleClear()
+void Ide::ConsoleClear()
 {
 }
 
-void Иср::SetupDefaultMethod()
+void Ide::SetupDefaultMethod()
 {
 }
 
-void Иср::ClearErrorEditor()
+void Ide::ClearErrorEditor()
 {
 }
 
-void Иср::SetErrorEditor()
+void Ide::SetErrorEditor()
 {
 }
 

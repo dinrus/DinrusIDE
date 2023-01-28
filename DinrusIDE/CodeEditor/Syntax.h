@@ -4,30 +4,30 @@
 #define CTIMING(x) // RTIMING(x)
 
 struct HlStyle {
-	Цвет color;
+	Color color;
 	bool  bold;
 	bool  italic;
 	bool  underline;
 };
 
-struct Isx : Движимое<Isx> { // '(', '[' position
+struct Isx : Moveable<Isx> { // '(', '[' position
 	int    line;
 	int    pos;
 	
-	void сериализуй(Поток& s)    { s % line % pos; }
+	void Serialize(Stream& s)    { s % line % pos; }
 
 	friend bool operator==(Isx a, Isx b) { return a.line == b.line && a.pos == b.pos; }
 	friend bool operator!=(Isx a, Isx b) { return !(a == b); }
 };
 
-struct IfState : Движимое<IfState> {
+struct IfState : Moveable<IfState> {
 	enum        { IF = '0', ELIF, ELSE, ELSE_ERROR, ENDIF_ERROR };
 
-	ШТкст iftext;
+	WString iftext;
 	short   ifline;
 	char    state;
 
-	void сериализуй(Поток& s)         { s % iftext % ifline % state; }
+	void Serialize(Stream& s)         { s % iftext % ifline % state; }
 
 	bool operator==(const IfState& b) const {
 		return iftext == b.iftext && state == b.state && ifline == b.ifline;
@@ -36,7 +36,7 @@ struct IfState : Движимое<IfState> {
 	IfState()                         { ifline = state = 0; }
 };
 
-struct HighlightSetup { // Global highlighting настройки
+struct HighlightSetup { // Global highlighting settings
 public:
 #define HL_COLOR(x, a, b)      x,
 	enum {
@@ -55,10 +55,10 @@ public:
 	static bool    no_parenthesis_indent;
 
 	static const HlStyle& GetHlStyle(int i);
-	static void           SetHlStyle(int i, Цвет c, bool bold = false, bool italic = false, bool underline = false);
+	static void           SetHlStyle(int i, Color c, bool bold = false, bool italic = false, bool underline = false);
 	static void           LoadHlStyles(const char *s);
-	static Ткст         StoreHlStyles();
-	static void           тёмнаяТема();
+	static String         StoreHlStyles();
+	static void           DarkTheme();
 	static void           WhiteTheme();
 	static void           DefaultHlStyles();
 
@@ -67,77 +67,77 @@ public:
 };
 
 struct HighlightOutput : HighlightSetup {
-	Вектор<СтрокРедакт::Highlight>& v;
-	СтрокРедакт::Highlight          def;
+	Vector<LineEdit::Highlight>& v;
+	LineEdit::Highlight          def;
 	int                          pos;
 
 public:
 	void SetChar(int pos, int chr)                    { v[pos].chr = chr; }
-	void уст(int pos, int count, const HlStyle& ink);
+	void Set(int pos, int count, const HlStyle& ink);
 	void SetFlags(int pos, int count, word flags);
-	void устШрифт(int pos, int count, const HlStyle& f);
-	void SetPaper(int pos, int count, Цвет paper);
-	void устЧернила(int pos, int count, Цвет ink);
+	void SetFont(int pos, int count, const HlStyle& f);
+	void SetPaper(int pos, int count, Color paper);
+	void SetInk(int pos, int count, Color ink);
 	void SetFlags(int count, word flags)              { SetFlags(pos, count, flags); }
-	void помести(int count, const HlStyle& ink)           { уст(pos, count, ink); pos += count; }
-	void помести(int count, const HlStyle& ink, Цвет paper);
-	void помести(int count, const HlStyle& ink, const HlStyle& paper);
-	void помести(const HlStyle& ink)                      { помести(1, ink); }
-	void помести(const HlStyle& ink, word flags)          { помести(1, ink); v[pos - 1].flags = flags; }
+	void Put(int count, const HlStyle& ink)           { Set(pos, count, ink); pos += count; }
+	void Put(int count, const HlStyle& ink, Color paper);
+	void Put(int count, const HlStyle& ink, const HlStyle& paper);
+	void Put(const HlStyle& ink)                      { Put(1, ink); }
+	void Put(const HlStyle& ink, word flags)          { Put(1, ink); v[pos - 1].flags = flags; }
 	void Flags(word flags)                            { v[pos - 1].flags = flags; }
-	int  дайСчёт() const                             { return v.дайСчёт(); }
+	int  GetCount() const                             { return v.GetCount(); }
 
 	const wchar *CString(const wchar *p);
 	
-	HighlightOutput(Вектор<СтрокРедакт::Highlight>& v);
+	HighlightOutput(Vector<LineEdit::Highlight>& v);
 	~HighlightOutput();
 };
 
 class EditorSyntax : public HighlightSetup { // Inheriting to make static members available
 	struct SyntaxDef {
-		Событие<Один<EditorSyntax>&> factory;
-		Ткст                    patterns;
-		Ткст                    description;
+		Event<One<EditorSyntax>&> factory;
+		String                    patterns;
+		String                    description;
 	};
 	
-	static МассивМап<Ткст, SyntaxDef>& defs();
+	static ArrayMap<String, SyntaxDef>& defs();
 
 protected:
 	bool                    ignore_errors;
 	int                     comments_lang;
 	
 public:
-	virtual void            очисть();
+	virtual void            Clear();
 	virtual void            ScanSyntax(const wchar *ln, const wchar *e, int line, int tab_size);
-	virtual void            сериализуй(Поток& s);
-	virtual void            IndentInsert(РедакторКода& editor, int chr, int count);
-	virtual bool            проверьФигСкобы(РедакторКода& e, int64& bpos0, int64& bpos); // TODO: замени with generic mechanism
-	virtual void            проверьОсвежиСинтакс(РедакторКода& e, int64 pos, const ШТкст& text);
+	virtual void            Serialize(Stream& s);
+	virtual void            IndentInsert(CodeEditor& editor, int chr, int count);
+	virtual bool            CheckBrackets(CodeEditor& e, int64& bpos0, int64& bpos); // СДЕЛАТЬ: Replace with generic mechanism
+	virtual void            CheckSyntaxRefresh(CodeEditor& e, int64 pos, const WString& text);
 	virtual bool            CanAssist() const;
 	virtual void            Highlight(const wchar *s, const wchar *end, HighlightOutput& hls,
-	                                  РедакторКода *editor, int line, int64 pos);
-	virtual Вектор<IfState> PickIfStack();
-	virtual void            перефмтКоммент(РедакторКода& e);
+	                                  CodeEditor *editor, int line, int64 pos);
+	virtual Vector<IfState> PickIfStack();
+	virtual void            ReformatComment(CodeEditor& e);
 	virtual ~EditorSyntax();
 
-	static Цвет IfColor(char ifstate);
+	static Color IfColor(char ifstate);
 
-	void    уст(const Ткст& s)           { CTIMING("уст"); if(s.дайСчёт() == 0) очисть(); else грузиИзТкст(*this, s); }
-	Ткст  дай()                          { CTIMING("дай"); return сохраниКакТкст(*this); }
+	void    Set(const String& s)           { CTIMING("Set"); if(s.GetCount() == 0) Clear(); else LoadFromString(*this, s); }
+	String  Get()                          { CTIMING("Get"); return StoreAsString(*this); }
 	
 	void    IgnoreErrors()                 { ignore_errors = true; }
 	void    SpellCheckComments(int lang)   { comments_lang = lang; }
 
-	EditorSyntax()                         { очисть(); ignore_errors = false; }
+	EditorSyntax()                         { Clear(); ignore_errors = false; }
 
-	static void регистрируй(const char *id, Событие<Один<EditorSyntax>&> factory,
+	static void Register(const char *id, Event<One<EditorSyntax>&> factory,
 	                     const char *exts, const char *description);
-	static Один<EditorSyntax> создай(const char *id);
-	static Ткст            GetSyntaxForFilename(const char *фн);
-	static int               GetSyntaxCount()             { return defs().дайСчёт(); }
-	static Ткст            дайСинтакс(int i)             { return defs().дайКлюч(i); }
-	static Ткст            GetSyntaxDescription(int i);
-	static Ткст            GetSyntaxPatterns(int i)     { return defs()[i].patterns; }
+	static One<EditorSyntax> Create(const char *id);
+	static String            GetSyntaxForFilename(const char *fn);
+	static int               GetSyntaxCount()             { return defs().GetCount(); }
+	static String            GetSyntax(int i)             { return defs().GetKey(i); }
+	static String            GetSyntaxDescription(int i);
+	static String            GetSyntaxPatterns(int i)     { return defs()[i].patterns; }
 };
 
 #endif

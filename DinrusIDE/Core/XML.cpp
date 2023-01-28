@@ -1,107 +1,107 @@
 #include "Core.h"
 
-namespace РНЦПДинрус {
+namespace Upp {
 
 #define LLOG(x)  // LOG(x)
 
-static inline void sDeXmlChar(ТкстБуф& result, char chr, byte charset, bool escapelf)
+static inline void sDeXmlChar(StringBuffer& result, char chr, byte charset, bool escapelf)
 {
-	/**/ if(chr == '<')  result.конкат("&lt;");
-	else if(chr == '>')  result.конкат("&gt;");
-	else if(chr == '&')  result.конкат("&amp;");
-	else if(chr == '\'') result.конкат("&apos;");
-	else if(chr == '\"') result.конкат("&quot;");
+	/**/ if(chr == '<')  result.Cat("&lt;");
+	else if(chr == '>')  result.Cat("&gt;");
+	else if(chr == '&')  result.Cat("&amp;");
+	else if(chr == '\'') result.Cat("&apos;");
+	else if(chr == '\"') result.Cat("&quot;");
 	else if((byte)chr < ' ' && (escapelf || chr != '\n' && chr != '\t' && chr != '\r'))
-		result.конкат(фмт("&#x%02x;", (byte)chr));
-	else if(!(chr & 0x80) || charset == CHARSET_UTF8) result.конкат(chr);
-	else result.конкат(вУтф8(вЮникод(chr, charset)));
+		result.Cat(Format("&#x%02x;", (byte)chr));
+	else if(!(chr & 0x80) || charset == CHARSET_UTF8) result.Cat(chr);
+	else result.Cat(ToUtf8(ToUnicode(chr, charset)));
 }
 
-Ткст DeXml(const char *s, byte charset, bool escapelf)
+String DeXml(const char *s, byte charset, bool escapelf)
 {
 	if(charset == CHARSET_DEFAULT)
-		charset = дайДефНабСим();
-	ТкстБуф result;
+		charset = GetDefaultCharset();
+	StringBuffer result;
 	for(; *s; s++)
 		sDeXmlChar(result, *s, charset, escapelf);
-	return Ткст(result);
+	return String(result);
 }
 
-Ткст DeXml(const char *s, const char *end, byte charset, bool escapelf)
+String DeXml(const char *s, const char *end, byte charset, bool escapelf)
 {
 	if(charset == CHARSET_DEFAULT)
-		charset = дайДефНабСим();
-	ТкстБуф result;
+		charset = GetDefaultCharset();
+	StringBuffer result;
 	for(; s < end; s++)
 		sDeXmlChar(result, *s, charset, escapelf);
-	return Ткст(result);
+	return String(result);
 }
 
-Ткст DeXml(const Ткст& s, byte charset, bool escapelf)
+String DeXml(const String& s, byte charset, bool escapelf)
 {
-	return DeXml(~s, s.стоп(), charset, escapelf);
+	return DeXml(~s, s.End(), charset, escapelf);
 }
 
-Ткст XmlHeader(const char *encoding, const char *версия, const char *standalone)
+String XmlHeader(const char *encoding, const char *version, const char *standalone)
 {
-	ТкстБуф r;
-	r << "<?xml версия=\"" << версия << "\"";
+	StringBuffer r;
+	r << "<?xml version=\"" << version << "\"";
 	if(encoding)
 		r << " encoding=\"" << encoding << "\"";
 	if(standalone)
 		r << " standalone=\"" << standalone << "\"";
 	r << " ?>\r\n";
-	return Ткст(r);
+	return String(r);
 }
 
-Ткст XmlPI(const char *text)
+String XmlPI(const char *text)
 {
-	ТкстБуф r;
+	StringBuffer r;
 	r << "<?" << text << "?>\r\n";
-	return Ткст(r);
+	return String(r);
 }
 
-Ткст XmlDecl(const char *text)
+String XmlDecl(const char *text)
 {
-	ТкстБуф r;
+	StringBuffer r;
 	r << "<!" << text << ">\r\n";
-	return Ткст(r);
+	return String(r);
 }
 
-Ткст XmlDocType(const char *text)
+String XmlDocType(const char *text)
 {
-	return XmlDecl("DOCTYPE " + Ткст(text));
+	return XmlDecl("DOCTYPE " + String(text));
 }
 
-Ткст XmlDoc(const char *имя, const char *xmlbody)
+String XmlDoc(const char *name, const char *xmlbody)
 {
-	return XmlHeader() + XmlDocType(имя) + ТэгРяр(имя)(xmlbody);
+	return XmlHeader() + XmlDocType(name) + XmlTag(name)(xmlbody);
 }
 
-Ткст XmlComment(const char *text)
+String XmlComment(const char *text)
 {
-	ТкстБуф out;
+	StringBuffer out;
 	out << "<!-- " << text << " -->\r\n";
-	return Ткст(out);
+	return String(out);
 }
 
-Ткст  ТэгРяр::operator()()
+String  XmlTag::operator()()
 {
 	return tag + "/>";
 }
 
-ТэгРяр& ТэгРяр::Тэг(const char *s)
+XmlTag& XmlTag::Tag(const char *s)
 {
-	tag.очисть();
-	end.очисть();
+	tag.Clear();
+	end.Clear();
 	tag << '<' << s;
 	end << "</" << s << '>';
 	return *this;
 }
 
-Ткст  ТэгРяр::operator()(const char *text)
+String  XmlTag::operator()(const char *text)
 {
-	ТкстБуф r;
+	StringBuffer r;
 	r << tag << ">";
 	const char *s = text;
 	bool wastag = true;
@@ -115,12 +115,12 @@ static inline void sDeXmlChar(ТкстБуф& result, char chr, byte charset, bo
 			if(first)
 				r << "\r\n";
 			if(wastag && (wasslash || s[1] != '/'))
-				r.конкат('\t');
+				r.Cat('\t');
 		}
 		else
 		if(first) {
 			r << text << end;
-			return Ткст(r);
+			return String(r);
 		}
 		first = false;
 		wasslash = false;
@@ -137,53 +137,53 @@ static inline void sDeXmlChar(ТкстБуф& result, char chr, byte charset, bo
 			s++;
 		if(*s == '\n')
 			s++;
-		r.конкат(b, s);
+		r.Cat(b, s);
 	}
 	if(!first)
 		r << "\r\n";
 	r << end;
-	return Ткст(r);
+	return String(r);
 }
 
-Ткст  ТэгРяр::устТекст(const char *text, byte charset)
+String  XmlTag::Text(const char *text, byte charset)
 {
-	ТкстБуф r;
+	StringBuffer r;
 	return r << tag << '>' << DeXml(text, charset) << end;
 }
 
-Ткст ТэгРяр::PreservedText(const char *text, byte charset)
+String XmlTag::PreservedText(const char *text, byte charset)
 {
-	ТкстБуф r;
-	return r << tag << " xml:пробелы=\"preserve\">" << DeXml(text, charset) << end;
+	StringBuffer r;
+	return r << tag << " xml:spaces=\"preserve\">" << DeXml(text, charset) << end;
 }
 
-ТэгРяр& ТэгРяр::operator()(const char *attr, const char *val)
+XmlTag& XmlTag::operator()(const char *attr, const char *val)
 {
 	tag << ' ' << attr << "=\"" << DeXml(val, CHARSET_DEFAULT, true) << "\"";
 	return *this;
 }
 
-ТэгРяр& ТэгРяр::operator()(const char *attr, int q)
+XmlTag& XmlTag::operator()(const char *attr, int q)
 {
-	return operator()(attr, какТкст(q));
+	return operator()(attr, AsString(q));
 }
 
-ТэгРяр& ТэгРяр::operator()(const char *attr, double q)
+XmlTag& XmlTag::operator()(const char *attr, double q)
 {
-	return operator()(attr, какТкст(q));
+	return operator()(attr, AsString(q));
 }
 
 force_inline
-Ткст ПарсерРяр::Преобр(ТкстБуф& b)
+String XmlParser::Convert(StringBuffer& b)
 {
 	if(acharset == scharset)
 		return b;
-	return вНабсим(acharset, b, scharset);
+	return ToCharset(acharset, b, scharset);
 }
 
-void ПарсерРяр::Сущ(ТкстБуф& out)
+void XmlParser::Ent(StringBuffer& out)
 {
-	грузиЕщё();
+	LoadMore();
 	int outconst = 0;
 	const char *t = ++term;
 	if(*t == '#') {
@@ -192,10 +192,10 @@ void ПарсерРяр::Сущ(ТкстБуф& out)
 				;
 		}
 		else {
-			while(цифра_ли(*t))
+			while(IsDigit(*t))
 				outconst = 10 * outconst + *t++ - '0';
 		}
-		out.конкат(вУтф8(outconst));
+		out.Cat(ToUtf8(outconst));
 		if(*t == ';')
 			t++;
 		term = t;
@@ -205,16 +205,16 @@ void ПарсерРяр::Сущ(ТкстБуф& out)
 	while(*t && *t != ';')
 		t++;
 	if(*t == ';') {
-		int q = entity.найди(Ткст(b, t));
+		int q = entity.Find(String(b, t));
 		if(q >= 0) {
-			out.конкат(entity[q]);
+			out.Cat(entity[q]);
 			term = t + 1;
 			return;
 		}
 	}
 	if(!relaxed)
-		throw ОшибкаРяр("Unknown entity");
-	out.конкат('&');
+		throw XmlError("Unknown entity");
+	out.Cat('&');
 }
 
 inline static bool IsXmlNameChar(int c)
@@ -222,76 +222,76 @@ inline static bool IsXmlNameChar(int c)
 	return IsAlNum(c) || c == '.' || c == '-' || c == '_' || c == ':';
 }
 
-void ПарсерРяр::грузиЕщё0()
-{ // WARNING: Invalidates pointers to буфер
-	if(in && !in->кф_ли()) {
+void XmlParser::LoadMore0()
+{ // WARNING: Invalidates pointers to buffer
+	if(in && !in->IsEof()) {
 		int pos = int(term - begin);
 		if(len - pos < MCHARS) {
-			LLOG("грузиЕщё0 " << pos << ", " << len);
-			begincolumn = дайКолонку0();
+			LLOG("LoadMore0 " << pos << ", " << len);
+			begincolumn = GetColumn0();
 			len -= pos;
-			memmove(буфер, term, len);
-			term = begin = буфер;
-			len += in->дай(~буфер + len, CHUNK);
-			буфер[len] = '\0';
+			memmove(buffer, term, len);
+			term = begin = buffer;
+			len += in->Get(~buffer + len, CHUNK);
+			buffer[len] = '\0';
 		}
 	}
 }
 
-bool ПарсерРяр::ещё()
-{ // WARNING: Invalidates pointers to буфер
-	begincolumn = дайКолонку();
-	if(!in || in->кф_ли())
+bool XmlParser::More()
+{ // WARNING: Invalidates pointers to buffer
+	begincolumn = GetColumn();
+	if(!in || in->IsEof())
 		return false;
-	LLOG("ещё " << (int)CHUNK);
-	len = in->дай(буфер, CHUNK);
-	буфер[len] = '\0';
-	term = begin = буфер;
+	LLOG("More " << (int)CHUNK);
+	len = in->Get(buffer, CHUNK);
+	buffer[len] = '\0';
+	term = begin = buffer;
 	return len;
 }
 
-void ПарсерРяр::пропустиПробелы()
+void XmlParser::SkipWhites()
 {
-	while(естьЕщё() && (byte)*term <= ' ') {
+	while(HasMore() && (byte)*term <= ' ') {
 		if(*term == '\n')
 			line++;
 		term++;
 	}
-	грузиЕщё();
+	LoadMore();
 }
 
-void ПарсерРяр::читайАтр(ТкстБуф& attrval, int c)
+void XmlParser::ReadAttr(StringBuffer& attrval, int c)
 {
 	term++;
-	while(естьЕщё() && *term != c)
+	while(HasMore() && *term != c)
 		if(*term == '&')
-			Сущ(attrval);
+			Ent(attrval);
 		else
-			attrval.конкат(*term++);
+			attrval.Cat(*term++);
 	if(*term == c)
 		term++;
 }
 
-void ПарсерРяр::следщ()
+void XmlParser::Next()
 {
-	nattr.очисть();
+	nattr.Clear();
 	nattr1 = nattrval1 = Null;
 	if(empty_tag) {
 		empty_tag = false;
-		тип = XML_END;
+		type = XML_END;
 		LLOG("XML_END (empty tag) " << tagtext);
 		return;
 	}
 
-	тип = Null;
-	ТкстБуф raw_text;
+	type = Null;
+	StringBuffer raw_text;
 	for(;;) {
-		if(!естьЕщё()) {
-			тип = XML_EOF;
+		if(!HasMore()) {
+			type = XML_EOF;
 			LLOG("XML_EOF");
 			return;
 		}
-		грузиЕщё();
+		LoadMore();
 		if(*term == '<') {
 			if(term[1] == '!' && term[2] == '[' &&
 			   term[3] == 'C' && term[4] == 'D' && term[5] == 'A' && term[6] == 'T' && term[7] == 'A' &&
@@ -299,18 +299,18 @@ void ПарсерРяр::следщ()
 				term += 9;
 				LLOG("CDATA");
 				for(;;) {
-					if(!естьЕщё())
-						throw ОшибкаРяр("Unterminated CDATA");
-					грузиЕщё();
+					if(!HasMore())
+						throw XmlError("Unterminated CDATA");
+					LoadMore();
 					if(term[0] == ']' && term[1] == ']' && term[2] == '>') { // ]]>
 						term += 3;
 						break;
 					}
 					if(*term == '\n')
 						line++;
-					raw_text.конкат(*term++);
+					raw_text.Cat(*term++);
 				}
-				тип = XML_TEXT;
+				type = XML_TEXT;
 				continue;
 			}
 			else
@@ -319,48 +319,48 @@ void ПарсерРяр::следщ()
 		if(*term == '\n')
 			line++;
 		if(*term == '&') {
-			Сущ(raw_text);
-			тип = XML_TEXT;
+			Ent(raw_text);
+			type = XML_TEXT;
 		}
 		else {
 			if((byte)*term > ' ')
-				тип = XML_TEXT;
-			raw_text.конкат(*term++);
+				type = XML_TEXT;
+			raw_text.Cat(*term++);
 		}
 	}
-	cdata = Преобр(raw_text);
+	cdata = Convert(raw_text);
 
-	if(cdata.дайСчёт() && (npreserve || preserveall))
-		тип = XML_TEXT;
+	if(cdata.GetCount() && (npreserve || preserveall))
+		type = XML_TEXT;
 	
-	if(тип == XML_TEXT)
+	if(type == XML_TEXT)
 		return;
 	
 	term++;
-	грузиЕщё();
+	LoadMore();
 	if(*term == '!') {
-		tagtext.очисть();
-		тип = XML_DECL;
+		tagtext.Clear();
+		type = XML_DECL;
 		term++;
 		if(term[0] == '-' && term[1] == '-') {
-			тип = XML_COMMENT;
+			type = XML_COMMENT;
 			term += 2;
 			for(;;) {
-				грузиЕщё();
+				LoadMore();
 				if(term[0] == '-' && term[1] == '-' && term[2] == '>')
 					break;
-				if(!естьЕщё())
-					throw ОшибкаРяр("Unterminated comment");
+				if(!HasMore())
+					throw XmlError("Unterminated comment");
 				if(*term == '\n')
 					line++;
-				tagtext.конкат(*term++);
+				tagtext.Cat(*term++);
 			}
 			term += 3;
 			return;
 		}
 		bool intdt = false;
 		for(;;) {
-			грузиЕщё();
+			LoadMore();
 			if (*term == '[')
 				intdt = true;
 			if(*term == '>' && intdt == false) {
@@ -368,423 +368,423 @@ void ПарсерРяр::следщ()
 				break;
 			}
 			if(intdt == true && term[0] == ']' && term[1] == '>') {
-				tagtext.конкат(*term++);
+				tagtext.Cat(*term++);
 				term++;
 				break;
 			}
-			if(!естьЕщё())
-				throw ОшибкаРяр("Unterminated declaration");
+			if(!HasMore())
+				throw XmlError("Unterminated declaration");
 			if(*term == '\n')
 				line++;
-			tagtext.конкат(*term++);
+			tagtext.Cat(*term++);
 		}
 		LLOG("XML_DECL " << tagtext);
 	}
 	else
 	if(*term == '?') {
-		tagtext.очисть();
-		тип = XML_PI;
+		tagtext.Clear();
+		type = XML_PI;
 		term++;
 		for(;;) {
-			грузиЕщё();
+			LoadMore();
 			if(term[0] == '?' && term[1] == '>') {
 				term += 2;
 				LLOG("XML_PI " << tagtext);
-				if(!tagtext.начинаетсяС("xml "))
+				if(!tagtext.StartsWith("xml "))
 					return;
-				int q = tagtext.найди("encoding");
+				int q = tagtext.Find("encoding");
 				if(q < 0)
 					return;
-				q = tagtext.найди('\"', q);
+				q = tagtext.Find('\"', q);
 				if(q < 0)
 					return;
 				q++;
-				int w = tagtext.найди('\"', q);
+				int w = tagtext.Find('\"', q);
 				if(w < 0)
 					return;
-				q = набсимПоИмени(tagtext.середина(q, w));
+				q = CharsetByName(tagtext.Mid(q, w));
 				if(q)
 					scharset = q;
 				return;
 			}
-			if(!естьЕщё())
-				throw ОшибкаРяр("Unterminated processing инфо");
+			if(!HasMore())
+				throw XmlError("Unterminated processing info");
 			if(*term == '\n')
 				line++;
-			tagtext.конкат(*term++);
+			tagtext.Cat(*term++);
 		}
 	}
 	else
 	if(*term == '/') {
-		тип = XML_END;
+		type = XML_END;
 		term++;
 		const char *t = term;
 		while(IsXmlNameChar(*term))
 			term++;
-		tagtext = Ткст(t, term);
+		tagtext = String(t, term);
 		LLOG("XML_END " << tagtext);
 		if(*term != '>')
-			throw ОшибкаРяр("Unterminated end-tag");
+			throw XmlError("Unterminated end-tag");
 		term++;
 	}
 	else {
-		тип = XML_TAG;
+		type = XML_TAG;
 		const char *t = term;
 		while(IsXmlNameChar(*term))
 			term++;
-		tagtext = Ткст(t, term);
+		tagtext = String(t, term);
 		LLOG("XML_TAG " << tagtext);
 		for(;;) {
-			пропустиПробелы();
+			SkipWhites();
 			if(*term == '>') {
 				term++;
 				break;
 			}
 			if(term[0] == '/' && term[1] == '>') {
-				cdata.очисть();
+				cdata.Clear();
 				empty_tag = true;
 				term += 2;
 				break;
 			}
-			if(!естьЕщё())
-				throw ОшибкаРяр("Unterminated tag");
-			грузиЕщё();
+			if(!HasMore())
+				throw XmlError("Unterminated tag");
+			LoadMore();
 			const char *t = term++;
 			while((byte)*term > ' ' && *term != '=' && *term != '>')
 				term++;
-			Ткст attr(t, term);
-			пропустиПробелы();
+			String attr(t, term);
+			SkipWhites();
 			if(*term == '=') {
 				term++;
-				пропустиПробелы();
-				ТкстБуф attrval;
+				SkipWhites();
+				StringBuffer attrval;
 				if(*term == '\"')
-					читайАтр(attrval, '\"');
+					ReadAttr(attrval, '\"');
 				else
 				if(*term == '\'')
-					читайАтр(attrval, '\'');
+					ReadAttr(attrval, '\'');
 				else
-					while(естьЕщё() && (byte)*term > ' ' && *term != '>' && *term != '/')
+					while(HasMore() && (byte)*term > ' ' && *term != '>' && *term != '/')
 						if(*term == '&')
-							Сущ(attrval);
+							Ent(attrval);
 						else
-							attrval.конкат(*term++);
-				if(attr == "xml:space" && attrval.дайДлину() == 8 && !memcmp(~attrval, "preserve", 8))
+							attrval.Cat(*term++);
+				if(attr == "xml:space" && attrval.GetLength() == 8 && !memcmp(~attrval, "preserve", 8))
 					npreserve = true;
-				Ткст aval = Преобр(attrval);
-				if(пусто_ли(nattr1)) {
+				String aval = Convert(attrval);
+				if(IsNull(nattr1)) {
 					nattr1 = attr;
 					nattrval1 = aval;
 				}
 				else
-					nattr.добавь(attr, aval);
+					nattr.Add(attr, aval);
 			}
 		}
 	}
 }
 
-void ПарсерРяр::регСущность(const Ткст& ид, const Ткст& text)
+void XmlParser::RegisterEntity(const String& id, const String& text)
 {
-	entity.добавь(ид, text);
+	entity.Add(id, text);
 }
 
-bool   ПарсерРяр::кф_ли()
+bool   XmlParser::IsEof()
 {
-	return тип == XML_EOF;
+	return type == XML_EOF;
 }
 
-bool   ПарсерРяр::тэг_ли()
+bool   XmlParser::IsTag()
 {
-	return тип == XML_TAG;
+	return type == XML_TAG;
 }
 
-Ткст ПарсерРяр::читайТэг(bool next)
+String XmlParser::ReadTag(bool next)
 {
-	if(тип != XML_TAG)
-		throw ОшибкаРяр("Expected tag");
-	LLOG("читайТэг " << tagtext);
-	Ткст h = tagtext;
+	if(type != XML_TAG)
+		throw XmlError("Expected tag");
+	LLOG("ReadTag " << tagtext);
+	String h = tagtext;
 	if(next) {
 		if(!raw)
-			stack.добавь(Nesting(h, npreserve));
+			stack.Add(Nesting(h, npreserve));
 		attr = pick(nattr);
 		attr1 = nattr1;
 		attrval1 = nattrval1;
-		следщ();
+		Next();
 	}
 	return h;
 }
 
-bool  ПарсерРяр::Тэг(const char *tag)
+bool  XmlParser::Tag(const char *tag)
 {
-	if(тэг_ли() && tagtext == tag) {
-		LLOG("Тэг " << tagtext);
+	if(IsTag() && tagtext == tag) {
+		LLOG("Tag " << tagtext);
 		if(!raw)
-			stack.добавь(Nesting(tagtext, npreserve));
+			stack.Add(Nesting(tagtext, npreserve));
 		attr = pick(nattr);
 		attr1 = nattr1;
 		attrval1 = nattrval1;
-		следщ();
+		Next();
 		return true;
 	}
 	return false;
 }
 
-bool  ПарсерРяр::Тэг(const Ткст& tag)
+bool  XmlParser::Tag(const String& tag)
 {
-	if(тэг_ли() && tagtext == tag) {
-		LLOG("Тэг " << tagtext);
+	if(IsTag() && tagtext == tag) {
+		LLOG("Tag " << tagtext);
 		if(!raw)
-			stack.добавь(Nesting(tagtext, npreserve));
+			stack.Add(Nesting(tagtext, npreserve));
 		attr = pick(nattr);
 		attr1 = nattr1;
 		attrval1 = nattrval1;
-		следщ();
+		Next();
 		return true;
 	}
 	return false;
 }
 
-void  ПарсерРяр::передайТэг(const char *tag)
+void  XmlParser::PassTag(const char *tag)
 {
-	if(!Тэг(tag))
-		throw ОшибкаРяр(Ткст().конкат() << '\'' << tag << "\' tag expected");
+	if(!Tag(tag))
+		throw XmlError(String().Cat() << '\'' << tag << "\' tag expected");
 }
 
-void  ПарсерРяр::передайТэг(const Ткст& tag)
+void  XmlParser::PassTag(const String& tag)
 {
-	if(!Тэг(tag))
-		throw ОшибкаРяр(Ткст().конкат() << '\'' << tag << "\' tag expected");
+	if(!Tag(tag))
+		throw XmlError(String().Cat() << '\'' << tag << "\' tag expected");
 }
 
-Ткст ПарсерРяр::читайКонец(bool next)
+String XmlParser::ReadEnd(bool next)
 {
-	if(тип != XML_END)
-		throw ОшибкаРяр("Expected end-tag");
-	Ткст x = tagtext;
+	if(type != XML_END)
+		throw XmlError("Expected end-tag");
+	String x = tagtext;
 	if(next)
-		следщ();
+		Next();
 	return x;
 }
 
-bool  ПарсерРяр::конец_ли()
+bool  XmlParser::IsEnd()
 {
-	return тип == XML_END;
+	return type == XML_END;
 }
 
-bool  ПарсерРяр::стоп()
+bool  XmlParser::End()
 {
-	if(кф_ли())
-		throw ОшибкаРяр("Unexpected end of file");
-	if(конец_ли()) {
-		LLOG("завершиТэг " << tagtext);
+	if(IsEof())
+		throw XmlError("Unexpected end of file");
+	if(IsEnd()) {
+		LLOG("EndTag " << tagtext);
 		if(!raw) {
-			if(stack.пустой())
-				throw ОшибкаРяр(фмт("Unexpected end-tag: </%s>", tagtext));
-			if(stack.верх().tag != tagtext && !relaxed) {
-				LLOG("Тэг/end-tag mismatch: <" << stack.верх().tag << "> </" << tagtext << ">");
-				throw ОшибкаРяр(фмт("Тэг/end-tag mismatch: <%s> </%s>", stack.верх().tag, tagtext));
+			if(stack.IsEmpty())
+				throw XmlError(Format("Unexpected end-tag: </%s>", tagtext));
+			if(stack.Top().tag != tagtext && !relaxed) {
+				LLOG("Tag/end-tag mismatch: <" << stack.Top().tag << "> </" << tagtext << ">");
+				throw XmlError(Format("Tag/end-tag mismatch: <%s> </%s>", stack.Top().tag, tagtext));
 			}
-			stack.сбрось();
+			stack.Drop();
 		}
-		npreserve = (!stack.пустой() && stack.верх().preserve_blanks);
-		следщ();
+		npreserve = (!stack.IsEmpty() && stack.Top().preserve_blanks);
+		Next();
 		return true;
 	}
 	return false;
 }
 
-bool ПарсерРяр::стоп(const char *tag)
+bool XmlParser::End(const char *tag)
 {
-	if(конец_ли() && tagtext == tag) {
-		следщ();
+	if(IsEnd() && tagtext == tag) {
+		Next();
 		return true;
 	}
 	return false;
 }
 
-bool ПарсерРяр::стоп(const Ткст& tag)
+bool XmlParser::End(const String& tag)
 {
-	if(конец_ли() && tagtext == tag) {
-		следщ();
+	if(IsEnd() && tagtext == tag) {
+		Next();
 		return true;
 	}
 	return false;
 }
 
-void  ПарсерРяр::передайКонец()
+void  XmlParser::PassEnd()
 {
-	if(!стоп())
-		throw ОшибкаРяр(Ткст().конкат() << "Expected \'" << (stack.дайСчёт() ? stack.верх().tag : Ткст()) << "\' end-tag");
+	if(!End())
+		throw XmlError(String().Cat() << "Expected \'" << (stack.GetCount() ? stack.Top().tag : String()) << "\' end-tag");
 }
 
-void ПарсерРяр::передайКонец(const char *tag)
+void XmlParser::PassEnd(const char *tag)
 {
-	if(!стоп(tag))
-		throw ОшибкаРяр(Ткст().конкат() << "Expected \'" << tag << "\' end-tag");
+	if(!End(tag))
+		throw XmlError(String().Cat() << "Expected \'" << tag << "\' end-tag");
 }
 
-bool  ПарсерРяр::TagE(const char *tag)
+bool  XmlParser::TagE(const char *tag)
 {
-	if(Тэг(tag)) {
-		пропустиКонец();
+	if(Tag(tag)) {
+		SkipEnd();
 		return true;
 	}
 	return false;
 }
 
-void  ПарсерРяр::PassTagE(const char *tag)
+void  XmlParser::PassTagE(const char *tag)
 {
-	передайТэг(tag);
-	пропустиКонец();
+	PassTag(tag);
+	SkipEnd();
 }
 
-bool ПарсерРяр::TagElseSkip(const char *tag)
+bool XmlParser::TagElseSkip(const char *tag)
 {
-	if(Тэг(tag))
+	if(Tag(tag))
 		return true;
-	пропусти();
+	Skip();
 	return false;
 }
 
-bool ПарсерРяр::LoopTag(const char *tag)
+bool XmlParser::LoopTag(const char *tag)
 {
-	while(!стоп()) {
-		if(Тэг(tag))
+	while(!End()) {
+		if(Tag(tag))
 			return true;
-		пропусти();
+		Skip();
 	}
 	return false;
 }
 
-ВекторМап<Ткст, Ткст> ПарсерРяр::PickAttrs()
+VectorMap<String, String> XmlParser::PickAttrs()
 {
-	if(!пусто_ли(attr1))
-		pick(const_cast<ВекторМап<Ткст, Ткст>&>(attr).вставь(0, attr1, attrval1));
+	if(!IsNull(attr1))
+		pick(const_cast<VectorMap<String, String>&>(attr).Insert(0, attr1, attrval1));
 	return pick(attr);
 }
 
-int   ПарсерРяр::Цел(const char *ид, int опр) const
+int   XmlParser::Int(const char *id, int def) const
 {
-	if(ид == attr1) return сканЦел(attrval1);
-	int q = attr.найди(ид);
-	return q < 0 ? опр : сканЦел(attr[q]);
+	if(id == attr1) return ScanInt(attrval1);
+	int q = attr.Find(id);
+	return q < 0 ? def : ScanInt(attr[q]);
 }
 
-double ПарсерРяр::Дво(const char *ид, double опр) const
+double XmlParser::Double(const char *id, double def) const
 {
-	if(ид == attr1) return сканДво(attrval1);
-	int q = attr.найди(ид);
-	return q < 0 ? опр : сканДво(attr[q]);
+	if(id == attr1) return ScanDouble(attrval1);
+	int q = attr.Find(id);
+	return q < 0 ? def : ScanDouble(attr[q]);
 }
 
-bool  ПарсерРяр::текст_ли()
+bool  XmlParser::IsText()
 {
 	if(npreserve || preserveall)
-		return cdata.дайСчёт();
-	const char *e = cdata.стоп();
-	for(const char *s = cdata.старт(); s < e; s++)
+		return cdata.GetCount();
+	const char *e = cdata.End();
+	for(const char *s = cdata.Begin(); s < e; s++)
 		if((byte)*s > ' ')
 			return true;
 	return false;
 }
 
-Ткст ПарсерРяр::читайТекст()
+String XmlParser::ReadText()
 {
-	Ткст h = cdata;
-	cdata.очисть();
-	if(тип == XML_TEXT)
-		следщ();
+	String h = cdata;
+	cdata.Clear();
+	if(type == XML_TEXT)
+		Next();
 	return h;
 }
 
-Ткст ПарсерРяр::ReadTextE()
+String XmlParser::ReadTextE()
 {
-	ТкстБуф out;
+	StringBuffer out;
 	for(;;) {
-		Ткст t = читайТекст();
-		if(!пусто_ли(t))
-			out.конкат(t);
-		else if(конец_ли()) {
-			передайКонец();
-			return Ткст(out);
+		String t = ReadText();
+		if(!IsNull(t))
+			out.Cat(t);
+		else if(IsEnd()) {
+			PassEnd();
+			return String(out);
 		}
 		else
-			пропусти();
+			Skip();
 	}
 }
 
-bool   ПарсерРяр::декл_ли()
+bool   XmlParser::IsDecl()
 {
-	return тип == XML_DECL;
+	return type == XML_DECL;
 }
 
-Ткст ПарсерРяр::читайДекл(bool next)
+String XmlParser::ReadDecl(bool next)
 {
-	if(!декл_ли())
-		throw ОшибкаРяр("Declaration expected");
-	Ткст h = tagtext;
+	if(!IsDecl())
+		throw XmlError("Declaration expected");
+	String h = tagtext;
 	if(next)
-		следщ();
+		Next();
 	return h;
 }
 
-bool   ПарсерРяр::IsPI()
+bool   XmlParser::IsPI()
 {
-	return тип == XML_PI;
+	return type == XML_PI;
 }
 
-Ткст ПарсерРяр::ReadPI(bool next)
+String XmlParser::ReadPI(bool next)
 {
 	if(!IsPI())
-		throw ОшибкаРяр("Processing инфо expected");
-	Ткст h = tagtext;
+		throw XmlError("Processing info expected");
+	String h = tagtext;
 	if(next)
-		следщ();
+		Next();
 	return h;
 }
 
-bool   ПарсерРяр::коммент_ли()
+bool   XmlParser::IsComment()
 {
-	return тип == XML_COMMENT;
+	return type == XML_COMMENT;
 }
 
-Ткст ПарсерРяр::читайКоммент(bool next)
+String XmlParser::ReadComment(bool next)
 {
-	if(!коммент_ли())
-		throw ОшибкаРяр("Comment expected");
-	Ткст h = tagtext;
+	if(!IsComment())
+		throw XmlError("Comment expected");
+	String h = tagtext;
 	if(next)
-		следщ();
+		Next();
 	return h;
 }
 
-void ПарсерРяр::пропусти()
+void XmlParser::Skip()
 {
-	if(кф_ли())
-		throw ОшибкаРяр("Unexpected end of file");
-	if(cdata.дайСчёт() && тип != XML_TEXT)
-		cdata.очисть();
+	if(IsEof())
+		throw XmlError("Unexpected end of file");
+	if(cdata.GetCount() && type != XML_TEXT)
+		cdata.Clear();
 	else
-	if(тэг_ли() && !raw) {
-		Ткст n = читайТэг();
-		while(!стоп()) {
-			if(кф_ли())
-				throw ОшибкаРяр("Unexpected end of file expected when skipping tag \'" + n + "\'");
-			пропусти();
+	if(IsTag() && !raw) {
+		String n = ReadTag();
+		while(!End()) {
+			if(IsEof())
+				throw XmlError("Unexpected end of file expected when skipping tag \'" + n + "\'");
+			Skip();
 		}
 	}
 	else
-		следщ();
+		Next();
 }
 
-void ПарсерРяр::пропустиКонец()
+void XmlParser::SkipEnd()
 {
-	while(!конец_ли()) пропусти();
-	передайКонец();
+	while(!IsEnd()) Skip();
+	PassEnd();
 }
 
-int ПарсерРяр::дайКолонку0() const
+int XmlParser::GetColumn0() const
 {
 	const char *s = term;
 	int n = 0;
@@ -795,13 +795,13 @@ int ПарсерРяр::дайКолонку0() const
 	return n + begincolumn;
 }
 
-void ПарсерРяр::иниц()
+void XmlParser::Init()
 {
-	регСущность("lt", "<");
-	регСущность("gt", ">");
-	регСущность("amp", "&");
-	регСущность("apos", "\'");
-	регСущность("quot", "\"");
+	RegisterEntity("lt", "<");
+	RegisterEntity("gt", ">");
+	RegisterEntity("amp", "&");
+	RegisterEntity("apos", "\'");
+	RegisterEntity("quot", "\"");
 	relaxed = false;
 	empty_tag = false;
 	npreserve = false;
@@ -811,383 +811,383 @@ void ПарсерРяр::иниц()
 	in = NULL;
 	len = 0;
 	raw = false;
-	acharset = дайДефНабСим();
+	acharset = GetDefaultCharset();
 	scharset = CHARSET_UTF8;
 }
 
-ПарсерРяр::ПарсерРяр(const char *s)
+XmlParser::XmlParser(const char *s)
 {
-	иниц();
+	Init();
 	begin = term = s;
 	len = INT_MAX;
-	try { // Need to catch first Ошибка as construction is usually outside try-catch client block
-		следщ();
+	try { // Need to catch first error as construction is usually outside try-catch client block
+		Next();
 	}
-	catch(ОшибкаРяр) {
+	catch(XmlError) {
 		begin = term = s;
 		len = INT_MAX;
 	}
 }
 
-ПарсерРяр::ПарсерРяр(Поток& in_)
+XmlParser::XmlParser(Stream& in_)
 {
-	иниц();
-	буфер.размести(CHUNK + MCHARS + 1);
+	Init();
+	buffer.Alloc(CHUNK + MCHARS + 1);
 	begin = term = "";
 	in = &in_;
 	try {
-		следщ();
+		Next();
 	}
-	catch(ОшибкаРяр) {
+	catch(XmlError) {
 		begin = term = "";
 	}
 }
 
-int УзелРяр::найдиТэг(const char *_tag) const
+int XmlNode::FindTag(const char *_tag) const
 {
-	Ткст tag = _tag;
-	for(int i = 0; i < node.дайСчёт(); i++)
-		if(node[i].тип == XML_TAG && node[i].text == tag)
+	String tag = _tag;
+	for(int i = 0; i < node.GetCount(); i++)
+		if(node[i].type == XML_TAG && node[i].text == tag)
 			return i;
 	return -1;
 }
 
-УзелРяр& УзелРяр::добавь(const char *tag)
+XmlNode& XmlNode::Add(const char *tag)
 {
-	УзелРяр& m = node.добавь();
-	m.создайТэг(tag);
+	XmlNode& m = node.Add();
+	m.CreateTag(tag);
 	return m;
 }
 
-УзелРяр& УзелРяр::дайДобавь(const char *tag)
+XmlNode& XmlNode::GetAdd(const char *tag)
 {
-	int q = найдиТэг(tag);
-	return q >= 0 ? node[q] : добавь(tag);
+	int q = FindTag(tag);
+	return q >= 0 ? node[q] : Add(tag);
 }
 
-const УзелРяр& УзелРяр::Проц()
+const XmlNode& XmlNode::Void()
 {
-	static УзелРяр h;
+	static XmlNode h;
 	return h;
 }
 
-const УзелРяр& УзелРяр::operator[](const char *tag) const
+const XmlNode& XmlNode::operator[](const char *tag) const
 {
-	int q = найдиТэг(tag);
-	return q < 0 ? Проц() : node[q];
+	int q = FindTag(tag);
+	return q < 0 ? Void() : node[q];
 }
 
-void УзелРяр::удали(int i)
+void XmlNode::Remove(int i)
 {
-	node.удали(i);
+	node.Remove(i);
 }
 
-void УзелРяр::удали(const char *tag)
+void XmlNode::Remove(const char *tag)
 {
-	int q = найдиТэг(tag);
+	int q = FindTag(tag);
 	if(q >= 0)
-		node.удали(q);
+		node.Remove(q);
 }
 
-Ткст УзелРяр::собериТекст() const
+String XmlNode::GatherText() const
 {
-	Ткст r;
-	for(int i = 0; i < дайСчёт(); i++)
-		if(node[i].текст_ли())
-			r << node[i].дайТекст();
+	String r;
+	for(int i = 0; i < GetCount(); i++)
+		if(node[i].IsText())
+			r << node[i].GetText();
 	return r;
 }
 
-bool УзелРяр::естьТэги() const
+bool XmlNode::HasTags() const
 {
-	for(int i = 0; i < дайСчёт(); i++)
-		if(node[i].тэг_ли())
+	for(int i = 0; i < GetCount(); i++)
+		if(node[i].IsTag())
 			return true;
 	return false;
 }
 
-int  УзелРяр::целАтр(const char *ид, int опр) const
+int  XmlNode::AttrInt(const char *id, int def) const
 {
-	Ткст x = Атр(ид);
-	СиПарсер p(x);
-	return p.цел_ли() ? p.читайЦел() : опр;
+	String x = Attr(id);
+	CParser p(x);
+	return p.IsInt() ? p.ReadInt() : def;
 }
 
-УзелРяр& УзелРяр::устАтр(const char *ид, const Ткст& text)
+XmlNode& XmlNode::SetAttr(const char *id, const String& text)
 {
 	if(!attr)
-		attr.создай();
-	attr->дайДобавь(ид) = text;
+		attr.Create();
+	attr->GetAdd(id) = text;
 	return *this;
 }
 
-void УзелРяр::устАтры(ВекторМап<Ткст, Ткст>&& a)
+void XmlNode::SetAttrs(VectorMap<String, String>&& a)
 {
-	if(a.дайСчёт() == 0)
-		attr.очисть();
+	if(a.GetCount() == 0)
+		attr.Clear();
 	else {
 		if(!attr)
-			attr.создай();
+			attr.Create();
 		*attr = pick(a);
 	}
 }
 
-УзелРяр& УзелРяр::устАтр(const char *ид, int i)
+XmlNode& XmlNode::SetAttr(const char *id, int i)
 {
-	устАтр(ид, какТкст(i));
+	SetAttr(id, AsString(i));
 	return *this;
 }
 
-void УзелРяр::сожми()
+void XmlNode::Shrink()
 {
 	if(attr) {
-		if(attr->дайСчёт() == 0)
-			attr.очисть();
+		if(attr->GetCount() == 0)
+			attr.Clear();
 		else
-			attr->сожми();
+			attr->Shrink();
 	}
-	node.сожми();
+	node.Shrink();
 }
 
-УзелРяр::УзелРяр(const УзелРяр& n, int)
+XmlNode::XmlNode(const XmlNode& n, int)
 {
-	тип = n.тип;
+	type = n.type;
 	text = n.text;
 	node = clone(n.node);
 	if(n.attr) {
-		attr.создай();
+		attr.Create();
 		*attr = clone(*n.attr);
 	}
 }
 
-bool Ignore(ПарсерРяр& p, dword style)
+bool Ignore(XmlParser& p, dword style)
 {
-	if((XML_IGNORE_DECLS & style) && p.декл_ли() ||
+	if((XML_IGNORE_DECLS & style) && p.IsDecl() ||
 	   (XML_IGNORE_PIS & style) && p.IsPI() ||
-	   (XML_IGNORE_COMMENTS & style) && p.коммент_ли()) {
-		p.пропусти();
+	   (XML_IGNORE_COMMENTS & style) && p.IsComment()) {
+		p.Skip();
 		return true;
 	}
 	return false;
 }
 
-static УзелРяр sReadXmlNode(ПарсерРяр& p, ФильтрРазбораРяр *filter, dword style)
+static XmlNode sReadXmlNode(XmlParser& p, ParseXmlFilter *filter, dword style)
 {
-	УзелРяр m;
-	if(p.тэг_ли()) {
-		Ткст tag = p.читайТэг();
-		if(!filter || filter->сделайТэг(tag)) {
-			m.создайТэг(tag);
-			m.устАтры(p.PickAttrs());
-			while(!p.стоп())
+	XmlNode m;
+	if(p.IsTag()) {
+		String tag = p.ReadTag();
+		if(!filter || filter->DoTag(tag)) {
+			m.CreateTag(tag);
+			m.SetAttrs(p.PickAttrs());
+			while(!p.End())
 				if(!Ignore(p, style)) {
-					УзелРяр n = sReadXmlNode(p, filter, style);
-					if(n.дайТип() != XML_DOC) // tag was ignored
-						m.добавь() = pick(n);
+					XmlNode n = sReadXmlNode(p, filter, style);
+					if(n.GetType() != XML_DOC) // tag was ignored
+						m.Add() = pick(n);
 				}
 			if(filter)
-				filter->завершиТэг();
+				filter->EndTag();
 		}
 		else
-			p.пропустиКонец();
+			p.SkipEnd();
 		return m;
 	}
 	if(p.IsPI()) {
 		m.CreatePI(p.ReadPI());
 		return m;
 	}
-	if(p.декл_ли()) {
-		m.создайДекл(p.читайДекл());
+	if(p.IsDecl()) {
+		m.CreateDecl(p.ReadDecl());
 		return m;
 	}
-	if(p.коммент_ли()) {
-		m.создайКоммент(p.читайКоммент());
+	if(p.IsComment()) {
+		m.CreateComment(p.ReadComment());
 		return m;
 	}
-	if(p.текст_ли()) {
-		m.создайТекст(p.читайТекст());
-		m.сожми();
+	if(p.IsText()) {
+		m.CreateText(p.ReadText());
+		m.Shrink();
 		return m;
 	}
-	p.читайТекст(); // skip empty text
+	p.ReadText(); // skip empty text
 	return m;
 }
 
-void ФильтрРазбораРяр::завершиТэг() {}
+void ParseXmlFilter::EndTag() {}
 
-УзелРяр разбериРЯР(ПарсерРяр& p, dword style, ФильтрРазбораРяр *filter)
+XmlNode ParseXML(XmlParser& p, dword style, ParseXmlFilter *filter)
 {
-	УзелРяр r;
-	while(!p.кф_ли())
+	XmlNode r;
+	while(!p.IsEof())
 		if(!Ignore(p, style)) {
-			УзелРяр n = sReadXmlNode(p, filter, style);
-			if(n.дайТип() != XML_DOC) // tag was ignored
-				r.добавь() = pick(n);
+			XmlNode n = sReadXmlNode(p, filter, style);
+			if(n.GetType() != XML_DOC) // tag was ignored
+				r.Add() = pick(n);
 		}
 	return r;
 }
 
-УзелРяр разбериРЯР(ПарсерРяр& p, dword style)
+XmlNode ParseXML(XmlParser& p, dword style)
 {
-	return разбериРЯР(p, style, NULL);
+	return ParseXML(p, style, NULL);
 }
 
-УзелРяр разбериРЯР(const char *s, dword style)
+XmlNode ParseXML(const char *s, dword style)
 {
-	ПарсерРяр p(s);
-	return разбериРЯР(p, style);
+	XmlParser p(s);
+	return ParseXML(p, style);
 }
 
-УзелРяр разбериРЯР(Поток& in, dword style)
+XmlNode ParseXML(Stream& in, dword style)
 {
-	ПарсерРяр p(in);
-	return разбериРЯР(p, style);
+	XmlParser p(in);
+	return ParseXML(p, style);
 }
 
-УзелРяр разбериФайлРЯР(const char *path, dword style)
+XmlNode ParseXMLFile(const char *path, dword style)
 {
-	ФайлВвод in(path);
+	FileIn in(path);
 	if(!in)
-		throw ОшибкаРяр("Unable to open intput file!");
-	return разбериРЯР(in, style);
+		throw XmlError("Unable to open intput file!");
+	return ParseXML(in, style);
 }
 
-УзелРяр разбериРЯР(ПарсерРяр& p, ФильтрРазбораРяр& filter, dword style)
+XmlNode ParseXML(XmlParser& p, ParseXmlFilter& filter, dword style)
 {
-	return разбериРЯР(p, style, &filter);
+	return ParseXML(p, style, &filter);
 }
 
-УзелРяр разбериРЯР(const char *s, ФильтрРазбораРяр& filter, dword style)
+XmlNode ParseXML(const char *s, ParseXmlFilter& filter, dword style)
 {
-	ПарсерРяр p(s);
-	return разбериРЯР(p, filter, style);
+	XmlParser p(s);
+	return ParseXML(p, filter, style);
 }
 
-УзелРяр разбериРЯР(Поток& in, ФильтрРазбораРяр& filter, dword style)
+XmlNode ParseXML(Stream& in, ParseXmlFilter& filter, dword style)
 {
-	ПарсерРяр p(in);
-	return разбериРЯР(p, filter, style);
+	XmlParser p(in);
+	return ParseXML(p, filter, style);
 }
 
-УзелРяр разбериФайлРЯР(const char *path, ФильтрРазбораРяр& filter, dword style)
+XmlNode ParseXMLFile(const char *path, ParseXmlFilter& filter, dword style)
 {
-	ФайлВвод in(path);
+	FileIn in(path);
 	if(!in)
-		throw ОшибкаРяр("Unable to open intput file!");
-	return разбериРЯР(in, filter, style);
+		throw XmlError("Unable to open intput file!");
+	return ParseXML(in, filter, style);
 }
 
-bool ShouldPreserve(const Ткст& s)
+bool ShouldPreserve(const String& s)
 {
 	if(*s == ' ' || *s == '\t' || *s == '\n')
 		return true;
-	const char *l = s.последний();
+	const char *l = s.Last();
 	if(*l == ' ' || *l == '\t' || *l == '\n')
 		return true;
-	l = s.стоп();
+	l = s.End();
 	for(const char *x = s; x < l; x++)
 		if(*x == '\t' || *x == '\n' || *x == ' ' && x[1] == ' ')
 			return true;
 	return false;
 }
 
-static void sAsXML(Поток& out, const УзелРяр& node, dword style, const Ткст& indent)
+static void sAsXML(Stream& out, const XmlNode& node, dword style, const String& indent)
 {
 	if(style & XML_HEADER) {
-		Ткст h = XmlHeader();
+		String h = XmlHeader();
 		if(!(style & XML_PRETTY))
-			h.обрежь(h.дайСчёт() - 2);
+			h.Trim(h.GetCount() - 2);
 		out << h;
 	}
 	if(style & XML_DOCTYPE)
-		for(int i = 0; i < node.дайСчёт(); i++) {
-			const УзелРяр& m = node.Узел(i);
-			if(m.дайТип() == XML_TAG) {
-				Ткст h = XmlDocType(m.дайТекст());
-				h.обрежь(h.дайСчёт() - 2);
+		for(int i = 0; i < node.GetCount(); i++) {
+			const XmlNode& m = node.Node(i);
+			if(m.GetType() == XML_TAG) {
+				String h = XmlDocType(m.GetText());
+				h.Trim(h.GetCount() - 2);
 				out << h;
 				break;
 			}
 		}
 	style &= ~(XML_HEADER|XML_DOCTYPE);
-	switch(node.дайТип()) {
+	switch(node.GetType()) {
 	case XML_PI:
-		out << indent << "<?" << node.дайТекст() << "?>\r\n";
+		out << indent << "<?" << node.GetText() << "?>\r\n";
 		break;
 	case XML_DECL:
-		out << indent << "<!" << node.дайТекст() << ">\r\n";
+		out << indent << "<!" << node.GetText() << ">\r\n";
 		break;
 	case XML_COMMENT:
-		out << indent << "<!--" << node.дайТекст() << "-->\r\n";
+		out << indent << "<!--" << node.GetText() << "-->\r\n";
 		break;
 	case XML_DOC:
-		for(int i = 0; i < node.дайСчёт(); i++)
-			sAsXML(out, node.Узел(i), style, indent);
+		for(int i = 0; i < node.GetCount(); i++)
+			sAsXML(out, node.Node(i), style, indent);
 		break;
 	case XML_TEXT:
-		out << DeXml(node.дайТекст());
+		out << DeXml(node.GetText());
 		break;
 	case XML_TAG:
-		ТэгРяр tag(node.дайТекст());
-		for(int i = 0; i < node.дайСчётАтров(); i++)
-			tag(node.идАтра(i), node.Атр(i));
-		if(node.дайСчёт()) {
-			out << indent << tag.дайНачало();
-			Ткст indent2 = (style & XML_PRETTY) && node[0].тэг_ли() && node[node.дайСчёт() - 1].тэг_ли() ?
-			                 indent + '\t' : Ткст();
-			for(int i = 0; i < node.дайСчёт(); i++)
-				sAsXML(out, node.Узел(i), style, indent2);
-			if(indent2.дайСчёт())
+		XmlTag tag(node.GetText());
+		for(int i = 0; i < node.GetAttrCount(); i++)
+			tag(node.AttrId(i), node.Attr(i));
+		if(node.GetCount()) {
+			out << indent << tag.GetBegin();
+			String indent2 = (style & XML_PRETTY) && node[0].IsTag() && node[node.GetCount() - 1].IsTag() ?
+			                 indent + '\t' : String();
+			for(int i = 0; i < node.GetCount(); i++)
+				sAsXML(out, node.Node(i), style, indent2);
+			if(indent2.GetCount())
 				out << indent;
-			out << tag.дайКонец();
+			out << tag.GetEnd();
 		}
 		else
 			out << indent << tag();
 	}
 }
 
-void какРЯР(Поток& out, const УзелРяр& n, dword style)
+void AsXML(Stream& out, const XmlNode& n, dword style)
 {
 	sAsXML(out, n, style, style & XML_PRETTY ? "\r\n" : "");
 }
 
-Ткст какРЯР(const УзелРяр& n, dword style)
+String AsXML(const XmlNode& n, dword style)
 {
-	ТкстПоток ss;
-	какРЯР(ss, n, style);
-	return ss.дайРез();
+	StringStream ss;
+	AsXML(ss, n, style);
+	return ss.GetResult();
 }
 
-bool какФайлРЯР(const char *path, const УзелРяр& n, dword style)
+bool AsXMLFile(const char *path, const XmlNode& n, dword style)
 {
-	ФайлВывод out(path);
+	FileOut out(path);
 	if(!out)
 		return false;
-	какРЯР(out, n, style);
-	out.закрой();
-	return !out.ошибка_ли();
+	AsXML(out, n, style);
+	out.Close();
+	return !out.IsError();
 }
 
-bool IgnoreXmlPaths::сделайТэг(const Ткст& ид)
+bool IgnoreXmlPaths::DoTag(const String& id)
 {
-	Ткст new_path;
-	if(path.дайСчёт())
-		new_path = path.верх();
-	new_path << '/' << ид;
-	if(list.найди(new_path) >= 0)
+	String new_path;
+	if(path.GetCount())
+		new_path = path.Top();
+	new_path << '/' << id;
+	if(list.Find(new_path) >= 0)
 		return false;
-	path.добавь(new_path);
+	path.Add(new_path);
 	return true;
 }
 
-void IgnoreXmlPaths::завершиТэг()
+void IgnoreXmlPaths::EndTag()
 {
-	path.сбрось();
+	path.Drop();
 }
 
 IgnoreXmlPaths::IgnoreXmlPaths(const char *s)
 {
-	list = разбей(s, ';');
+	list = Split(s, ';');
 }
 
 }

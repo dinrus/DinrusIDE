@@ -42,7 +42,7 @@
 
   /*************************************************************************/
   /*                                                                       */
-  /* It is not necessary to do any Ошибка checking for the                  */
+  /* It is not necessary to do any error checking for the                  */
   /* allocation-related functions.  This will be done by the higher level  */
   /* routines like ft_mem_alloc() or ft_mem_realloc().                     */
   /*                                                                       */
@@ -51,7 +51,7 @@
 
   /*************************************************************************/
   /*                                                                       */
-  /* <Функция>                                                            */
+  /* <Function>                                                            */
   /*    ft_alloc                                                           */
   /*                                                                       */
   /* <Description>                                                         */
@@ -77,7 +77,7 @@
 
   /*************************************************************************/
   /*                                                                       */
-  /* <Функция>                                                            */
+  /* <Function>                                                            */
   /*    ft_realloc                                                         */
   /*                                                                       */
   /* <Description>                                                         */
@@ -110,7 +110,7 @@
 
   /*************************************************************************/
   /*                                                                       */
-  /* <Функция>                                                            */
+  /* <Function>                                                            */
   /*    ft_free                                                            */
   /*                                                                       */
   /* <Description>                                                         */
@@ -155,7 +155,7 @@
 
   /*************************************************************************/
   /*                                                                       */
-  /* <Функция>                                                            */
+  /* <Function>                                                            */
   /*    ft_ansi_stream_close                                               */
   /*                                                                       */
   /* <Description>                                                         */
@@ -177,7 +177,7 @@
 
   /*************************************************************************/
   /*                                                                       */
-  /* <Функция>                                                            */
+  /* <Function>                                                            */
   /*    ft_ansi_stream_io                                                  */
   /*                                                                       */
   /* <Description>                                                         */
@@ -188,19 +188,19 @@
   /*                                                                       */
   /*    offset :: The position in the data stream to start reading.        */
   /*                                                                       */
-  /*    буфер :: The address of буфер to store the read data.            */
+  /*    buffer :: The address of buffer to store the read data.            */
   /*                                                                       */
   /*    count  :: The number of bytes to read from the stream.             */
   /*                                                                       */
   /* <Return>                                                              */
   /*    The number of bytes actually read.  If `count' is zero (this is,   */
-  /*    the function is used for seeking), a non-zero return значение         */
-  /*    indicates an Ошибка.                                                */
+  /*    the function is used for seeking), a non-zero return value         */
+  /*    indicates an error.                                                */
   /*                                                                       */
   FT_CALLBACK_DEF( unsigned long )
   ft_ansi_stream_io( FT_Stream       stream,
                      unsigned long   offset,
-                     unsigned char*  буфер,
+                     unsigned char*  buffer,
                      unsigned long   count )
   {
     FT_FILE*  file;
@@ -214,7 +214,7 @@
     if ( stream->pos != offset )
       ft_fseek( file, offset, SEEK_SET );
 
-    return (unsigned long)ft_fread( буфер, 1, count, file );
+    return (unsigned long)ft_fread( buffer, 1, count, file );
   }
 
 

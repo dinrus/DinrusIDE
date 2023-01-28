@@ -1,67 +1,67 @@
 #include "DinrusIDE.h"
 
-class InsertColorDlg : public WithInsertColorLayout<ТопОкно> {
-	typedef InsertColorDlg ИМЯ_КЛАССА;
+class InsertColorDlg : public WithInsertColorLayout<TopWindow> {
+	typedef InsertColorDlg CLASSNAME;
 
-	Ткст r[5];
+	String r[5];
 	bool canceled = true;
-	
-	void синх();
-	void выдели(int i);
-	
+
+	void Sync();
+	void Select(int i);
+
 	RGBACtrl rgbactrl;
 
 public:
-	Ткст result;
+	String result;
 
 	InsertColorDlg();
 	bool IsCanceled();
 };
 
-void InsertColorDlg::выдели(int i)
+void InsertColorDlg::Select(int i)
 {
 	result = r[i];
 	canceled = false;
 	Break(IDOK);
 }
 
-void InsertColorDlg::синх()
+void InsertColorDlg::Sync()
 {
-	КЗСА c0 = rgbactrl.дайЦвет();
-	КЗСА c = rgbactrl.дай();
-	r[0] = фмт("%d, %d, %d, %d", c.a, c.r, c.g, c.b);
-	rgba.устНадпись(r[0]);
-	r[1] = c.a == 255 ? фмт("Цвет(%d, %d, %d)", c.r, c.g, c.b)
-	                  : фмт("%d * Цвет(%d, %d, %d)", c.a, c0.r, c0.g, c0.b);
-	color.устНадпись(r[1]);
-	r[2] = фмт("%02x%02x%02x%02x", c.a, c.r, c.g, c.b);
-	ahex.устНадпись(r[2]);
-	r[3] = фмт("%02x%02x%02x", c.r, c.g, c.b);
-	hex.устНадпись(r[3]);
-	r[4] = фмт("(%d.%d.%d)", c.r, c.g, c.b);
-	qtf.устНадпись(r[4]);
+	RGBA c0 = rgbactrl.GetColor();
+	RGBA c = rgbactrl.Get();
+	r[0] = Format("%d, %d, %d, %d", c.a, c.r, c.g, c.b);
+	rgba.SetLabel(r[0]);
+	r[1] = c.a == 255 ? Format("Цвет(%d, %d, %d)", c.r, c.g, c.b)
+	                  : Format("%d * Цвет(%d, %d, %d)", c.a, c0.r, c0.g, c0.b);
+	color.SetLabel(r[1]);
+	r[2] = Format("%02x%02x%02x%02x", c.a, c.r, c.g, c.b);
+	ahex.SetLabel(r[2]);
+	r[3] = Format("%02x%02x%02x", c.r, c.g, c.b);
+	hex.SetLabel(r[3]);
+	r[4] = Format("(%d.%d.%d)", c.r, c.g, c.b);
+	qtf.SetLabel(r[4]);
 }
 
 InsertColorDlg::InsertColorDlg()
 {
 	CtrlLayoutCancel(*this, "Вставить цвет");
-	rgbactrl <<= THISBACK(синх);
-	rgba <<= THISBACK1(выдели, 0);
-	color <<= THISBACK1(выдели, 1);
-	ahex <<= THISBACK1(выдели, 2);
-	hex <<= THISBACK1(выдели, 3);
-	qtf <<= THISBACK1(выдели, 4);
-	синх();
+	rgbactrl <<= THISBACK(Sync);
+	rgba <<= THISBACK1(Select, 0);
+	color <<= THISBACK1(Select, 1);
+	ahex <<= THISBACK1(Select, 2);
+	hex <<= THISBACK1(Select, 3);
+	qtf <<= THISBACK1(Select, 4);
+	Sync();
 
-	int m = color.дайПоз().y.GetA();
-	int cx = color.дайПоз().x.GetA();
-	int cy = rgbactrl.дайВысоту(cx - 2 * m);
-	Прям r = дайПрям();
+	int m = color.GetPos().y.GetA();
+	int cx = color.GetPos().x.GetA();
+	int cy = rgbactrl.GetHeight(cx - 2 * m);
+	Rect r = GetRect();
 	r.bottom = r.top + cy + 2 * m;
-	rgbactrl.устПрям(m, m, cx - 2 * m, cy);
-	добавь(rgbactrl);
-	устМинРазм(r.дайРазм());
-	устПрям(r);
+	rgbactrl.SetRect(m, m, cx - 2 * m, cy);
+	Add(rgbactrl);
+	SetMinSize(r.GetSize());
+	SetRect(r);
 }
 
 bool InsertColorDlg::IsCanceled()
@@ -69,55 +69,55 @@ bool InsertColorDlg::IsCanceled()
 	return canceled;
 }
 
-void Иср::InsertColor()
+void Ide::InsertColor()
 {
-	if(editor.толькочтен_ли())
+	if(editor.IsReadOnly())
 		return;
 	InsertColorDlg dlg;
-	dlg.выполни();
+	dlg.Execute();
 	if (!dlg.IsCanceled())
-		editor.Paste(dlg.result.вШТкст());
+		editor.Paste(dlg.result.ToWString());
 }
 
-void Иср::InsertLay(const Ткст& фн)
+void Ide::InsertLay(const String& fn)
 {
-	if(editor.толькочтен_ли())
+	if(editor.IsReadOnly())
 		return;
-	Ткст s;
-	s << "#define LAYOUTFILE <" << фн << ">\n"
+	String s;
+	s << "#define LAYOUTFILE <" << fn << ">\n"
 	  << "#include <CtrlCore/lay.h>\n";
-	editor.Paste(s.вШТкст());
+	editor.Paste(s.ToWString());
 }
 
-void Иср::InsertIml(const Пакет& pkg, const Ткст& фн, Ткст classname)
+void Ide::InsertIml(const Package& pkg, const String& fn, String classname)
 {
-	if(editor.толькочтен_ли())
+	if(editor.IsReadOnly())
 		return;
-	if(!редактируйТекст(classname, "Вставить .iml include", "Img class"))
+	if(!EditText(classname, "Вставить включение .iml", "Img class"))
 		return;
-	Ткст h;
+	String h;
 	h << "#define IMAGECLASS " << classname << "\n"
-	  << "#define IMAGEFILE <" << фн << ">\n";
-	editor.Paste((h + "#include <Draw/iml_header.h>\n").вШТкст());
+	  << "#define IMAGEFILE <" << fn << ">\n";
+	editor.Paste((h + "#include <Draw/iml_header.h>\n").ToWString());
 	ClearClipboard();
-	int q = фн.найдирек('.');
+	int q = fn.ReverseFind('.');
 	if(q >= 0) {
-		Ткст fn0 = фн.середина(0, q);
+		String fn0 = fn.Mid(0, q);
 
-		Индекс<Ткст> done;
+		Index<String> done;
 		auto Variant = [&](const char *add, const char *m) {
-			if(done.найди(m) >= 0)
+			if(done.Find(m) >= 0)
 				return;
-			Ткст фн = fn0 + add + ".iml";
-			for(int i = 0; i < pkg.дайСчёт(); i++) {
-				if(фн.заканчиваетсяНа('/' + pkg[i])) {
-					h << "#define IMAGEFILE" << m << " <" << фн << ">\n";
-					done.добавь(m);
+			String fn = fn0 + add + ".iml";
+			for(int i = 0; i < pkg.GetCount(); i++) {
+				if(fn.EndsWith('/' + pkg[i])) {
+					h << "#define IMAGEFILE" << m << " <" << fn << ">\n";
+					done.Add(m);
 					break;
 				}
 			}
 		};
-		
+
 		Variant("HD_DARK", "_DARK_UHD");
 		Variant("HD_DK", "_DARK_UHD");
 		Variant("HDDK", "_DARK_UHD");
@@ -128,27 +128,27 @@ void Иср::InsertIml(const Пакет& pkg, const Ткст& фн, Ткст cla
 		Variant("DK_UHD", "_DARK_UHD");
 		Variant("DKHD", "_DARK_UHD");
 		Variant("DKUHD", "_DARK_UHD");
-	
+
 		Variant("HD", "_UHD");
-		
+
 		Variant("DK", "_DARK");
 		Variant("DARK", "_DARK");
 	}
-	
+
 	h << "#include <Draw/iml_source.h>\n";
-	
+
 	AppendClipboardText(h);
-	PromptOK("Часть .cpp сохранена в буфер обмена");
+	PromptOK("Часть .cpp сохранена в buffer обмена");
 }
 
-void Иср::InsertText(const Ткст& text)
+void Ide::InsertText(const String& text)
 {
-	if(editor.толькочтен_ли())
+	if(editor.IsReadOnly())
 		return;
-	editor.Paste(text.вШТкст());
+	editor.Paste(text.ToWString());
 }
 
-Ткст SelectInsertFile()
+String SelectInsertFile()
 {
 	return SelectFileOpen(
 		"Все файлы (*.*)\t*.*\n"
@@ -163,141 +163,141 @@ void Иср::InsertText(const Ткст& text)
 	);
 }
 
-void Иср::InsertFilePath(bool c)
+void Ide::InsertFilePath(bool c)
 {
-	if(editor.толькочтен_ли())
+	if(editor.IsReadOnly())
 		return;
-	Ткст path = SelectInsertFile();
-	path.замени("\\", "/");
-	if(path.дайСчёт()) {
+	String path = SelectInsertFile();
+	path.Replace("\\", "/");
+	if(path.GetCount()) {
 		if(c)
-			path = какТкстСи(path);
-		editor.Paste(path.вШТкст());
+			path = AsCString(path);
+		editor.Paste(path.ToWString());
 	}
 }
 
 
-void Иср::InsertAs(const Ткст& data)
+void Ide::InsertAs(const String& data)
 {
-	WithInsertAsLayout<ТопОкно> dlg;
+	WithInsertAsLayout<TopWindow> dlg;
 	CtrlLayoutOKCancel(dlg, "Вставить данные");
-	if(data.дайСчёт() > 20*1024)
+	if(data.GetCount() > 20*1024)
 		Exclamation("Данные слишком большие по размеру!&(Предел равен 20KB.)");
-	Ткст f[6];
+	String f[6];
 	f[0] = data;
-	f[1] = кодируй64(data);
+	f[1] = Encode64(data);
 	f[2] = data;
 	f[3] = LZ4Compress(data);
 	f[4] = ZCompress(data);
 	f[5] = LZMACompress(data);
 	for(int i = 0; i < 6; i++)
-		dlg.формат.устНадпись(i, dlg.формат.GetLabel(i) + " (" + какТкст(f[i].дайСчёт()) + ")");
-	
-	if(dlg.выполни() != IDOK)
+		dlg.format.SetLabel(i, dlg.format.GetLabel(i) + " (" + AsString(f[i].GetCount()) + ")");
+
+	if(dlg.Execute() != IDOK)
 		return;
-	int i = ~dlg.формат;
+	int i = ~dlg.format;
 	if(i < 0 || i >= 6)
 		return;
-	Ткст d = f[i];
-	WriteClipboardText(какТкст(d.дайСчёт()));
+	String d = f[i];
+	WriteClipboardText(AsString(d.GetCount()));
 	if(i == 0 || i == 1)
-		editor.Paste(какТкстСи(d).вШТкст());
+		editor.Paste(AsCString(d).ToWString());
 	else {
-		for(int i = 0; i < d.дайСчёт(); i += 256) {
-			int e = min(i + 256, d.дайСчёт());
-			Ткст h;
+		for(int i = 0; i < d.GetCount(); i += 256) {
+			int e = min(i + 256, d.GetCount());
+			String h;
 			for(int j = i; j < e; j++)
-				h << какТкст((int)(byte)d[j]) << ',';
+				h << AsString((int)(byte)d[j]) << ',';
 			h << '\n';
-			editor.Paste(h.вШТкст());
+			editor.Paste(h.ToWString());
 		}
 	}
 }
 
-void Иср::InsertAs()
+void Ide::InsertAs()
 {
-	if(editor.толькочтен_ли())
+	if(editor.IsReadOnly())
 		return;
-	Ткст txt = ReadClipboardText();
-	if(txt.дайСчёт())
+	String txt = ReadClipboardText();
+	if(txt.GetCount())
 		InsertAs(txt);
 }
 
-void Иср::InsertFileBase64()
+void Ide::InsertFileBase64()
 {
-	if(editor.толькочтен_ли())
+	if(editor.IsReadOnly())
 		return;
-	Ткст path = SelectInsertFile();
-	path.замени("\\", "/");
-	if(path.дайСчёт()) {
-		if(дайДлинуф(path) >= 20*1024) {
+	String path = SelectInsertFile();
+	path.Replace("\\", "/");
+	if(path.GetCount()) {
+		if(GetFileLength(path) >= 20*1024) {
 			Exclamation("Файл слишком большой!&(Предел равен 20KB.)");
 			return;
 		}
-		InsertAs(загрузиФайл(path));
+		InsertAs(LoadFile(path));
 	}
 }
 
-void Иср::InsertMenu(Бар& bar)
+void Ide::InsertMenu(Bar& bar)
 {
 	if(bar.IsScanKeys())
 		return;
-	bar.добавь("Вставить цвет..", THISBACK(InsertColor));
+	bar.Add("Вставить цвет..", THISBACK(InsertColor));
 	int pi = GetPackageIndex();
-	const РОбласть& wspc = роблИср();
-	if(pi >= 0 && pi < wspc.дайСчёт()) {
-		Ткст pn = wspc[pi];
-		const Пакет& p = wspc.дайПакет(pi);
+	const Workspace& wspc = IdeWorkspace();
+	if(pi >= 0 && pi < wspc.GetCount()) {
+		String pn = wspc[pi];
+		const Package& p = wspc.GetPackage(pi);
 		int n = 0;
-		for(int i = 0; i < p.дайСчёт() && n < 12; i++) {
-			Ткст фн = p[i];
-			Ткст ext = впроп(дайРасшф(фн));
-			Ткст pp = pn + '/' + фн;
+		for(int i = 0; i < p.GetCount() && n < 12; i++) {
+			String fn = p[i];
+			String ext = ToLower(GetFileExt(fn));
+			String pp = pn + '/' + fn;
 			if(ext == ".lay") {
-				bar.добавь(фн + " include", THISBACK1(InsertLay, pp));
+				bar.Add(fn + " include", THISBACK1(InsertLay, pp));
 				n++;
 			}
 			if(ext == ".iml") {
-				Ткст c = дайТитулф(фн);
-				c.уст(0, взаг(c[0]));
-				bar.добавь(фн + " include", [=] { InsertIml(роблИср().дайПакет(pi), pp, c.заканчиваетсяНа("Img") ? c : c + "Img"); });
+				String c = GetFileTitle(fn);
+				c.Set(0, ToUpper(c[0]));
+				bar.Add(fn + " include", [=] { InsertIml(IdeWorkspace().GetPackage(pi), pp, c.EndsWith("Img") ? c : c + "Img"); });
 				n++;
 			}
 			if(ext == ".tpp") {
-				Ткст s;
+				String s;
 				s << "#define TOPICFILE <" << pp << "/all.i>\n"
 				  << "#include <Core/topic_group.h>\n";
-				bar.добавь(фн + " include", THISBACK1(InsertText, s));
+				bar.Add(fn + " include", THISBACK1(InsertText, s));
 				n++;
 			}
 		}
 	}
-	bar.добавь("Вставить путь к файлу..", THISBACK1(InsertFilePath, false));
-	bar.добавь("Вставить путь к файлу как строку Си..", THISBACK1(InsertFilePath, true));
-	bar.добавь("Вставить буфер обмена как..", [=] { InsertAs(); });
-	bar.добавь("Вставить файл как..", THISBACK(InsertFileBase64));
+	bar.Add("Вставить путь к файлу..", THISBACK1(InsertFilePath, false));
+	bar.Add("Вставить путь к файлу как строку Си..", THISBACK1(InsertFilePath, true));
+	bar.Add("Вставить buffer обмена как..", [=] { InsertAs(); });
+	bar.Add("Вставить файл как..", THISBACK(InsertFileBase64));
 }
 
-void Иср::InsertInclude(Бар& bar)
+void Ide::InsertInclude(Bar& bar)
 {
 	if(bar.IsScanKeys()) // this takes time and contains no keys
 		return;
-	const РОбласть& w = GetIdeWorkspace();
-	Ткст all;
-	for(int i = 0; i < w.дайСчёт(); i++) {
-		const Пакет& p = w.дайПакет(i);
-		for(int j = 0; j < p.дайСчёт(); j++)
-			if(findarg(впроп(дайРасшф(p[j])), ".h", ".hpp") >= 0) {
-				Ткст h; h << "#include <" << w[i] << "/" << p[j] << '>';
-				bar.добавь(h, THISBACK1(InsertText, h + '\n'));
+	const Workspace& w = GetIdeWorkspace();
+	String all;
+	for(int i = 0; i < w.GetCount(); i++) {
+		const Package& p = w.GetPackage(i);
+		for(int j = 0; j < p.GetCount(); j++)
+			if(findarg(ToLower(GetFileExt(p[j])), ".h", ".hpp") >= 0) {
+				String h; h << "#include <" << w[i] << "/" << p[j] << '>';
+				bar.Add(h, THISBACK1(InsertText, h + '\n'));
 				all << h << '\n';
 				break;
 			}
 	}
-	bar.добавь("Все #includes", THISBACK1(InsertText, all));
+	bar.Add("Все #includes", THISBACK1(InsertText, all));
 }
 
-void Иср::ToggleWordwrap()
+void Ide::ToggleWordwrap()
 {
 	RLOG("===========");
 	RDUMPHEX((int)*(byte *)&wordwrap);
@@ -310,19 +310,20 @@ void Иср::ToggleWordwrap()
 	RLOG(".........");
 }
 
-void Иср::EditorMenu(Бар& bar)
+void Ide::EditorMenu(Bar& bar)
 {
+//	bar.Sub("Ассист", [=](Bar& bar) { AssistMenu(bar); });
 	InsertAdvanced(bar);
 	bar.MenuSeparator();
 	OnlineSearchMenu(bar);
-    bar.добавь(IsClipboardAvailableText() && (editor.выделение_ли() || editor.дайДлину() < 1024*1024),
+    bar.Add(IsClipboardAvailableText() && (editor.IsSelection() || editor.GetLength() < 1024*1024),
             "Сравнить с буфером обмена..", [=]() {
-        ДиффДлг dlg;
-        dlg.diff.left.удалиФрейм(dlg.p);
-        dlg.diff.уст(ReadClipboardText(), editor.выделение_ли() ? editor.дайВыделение()
-                                                               : editor.дай());
-		dlg.Титул("Сравнить с буфером обмена");
-        dlg.пуск();
+        DiffDlg dlg;
+        dlg.diff.left.RemoveFrame(dlg.p);
+        dlg.diff.Set(ReadClipboardText(), editor.IsSelection() ? editor.GetSelection()
+                                                               : editor.Get());
+		dlg.Title("Сравнить с буфером обмена");
+        dlg.Run();
     });
 	bar.MenuSeparator();
 	editor.StdBar(bar);

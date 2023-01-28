@@ -1,9 +1,9 @@
 #include "CodeEditor.h"
 
-namespace РНЦП {
+namespace Upp {
 
 #define LTIMING(x)  // RTIMING(x)
-
+//Сравнение строк
 bool cmps(const wchar *q, const char *s, int& n) {
 	const wchar *t = q;
 	while(*q)
@@ -12,19 +12,19 @@ bool cmps(const wchar *q, const char *s, int& n) {
 	n += int(q - t);
 	return *q == *s;
 }
-
+//Проверка регистра на заглавные
 bool IsUpperString(const char *q)
 {
 	while(*q)
 	{
-		if(*q != '_' && (*q < '0' || *q > '9') && !проп_ли(*q))
+		if(*q != '_' && (*q < '0' || *q > '9') && !IsUpper(*q))
 			return false;
 		q++;
     }
 	return true;
 }
-
-Цвет CSyntax::BlockColor(int level)
+//Цвет блока
+Color CSyntax::BlockColor(int level)
 {
 	if(hilite_scope == 1)
 		return  GetHlStyle(level & 1 ? PAPER_BLOCK1 : PAPER_NORMAL).color;
@@ -34,40 +34,40 @@ bool IsUpperString(const char *q)
 	}
 	return GetHlStyle(PAPER_NORMAL).color;
 }
-
-void CSyntax::Bracket(int64 pos, HighlightOutput& hls, РедакторКода *editor) // TODO:SYNTAX: Cleanup passing bracket info
+//
+void CSyntax::Bracket(int64 pos, HighlightOutput& hls, CodeEditor *editor) // СДЕЛАТЬ:SYNTAX: Cleanup passing bracket info
 {
 	if(!editor)
 		return;
 	if(editor->IsCursorBracket(pos)) {
 		HlStyle& h = hl_style[PAPER_BRACKET0];
 		hls.SetPaper(hls.pos, 1, h.color);
-		hls.устШрифт(hls.pos, 1, h);
+		hls.SetFont(hls.pos, 1, h);
 	}
 	if(editor->IsMatchingBracket(pos)) {
 		HlStyle& h = hl_style[PAPER_BRACKET];
 		hls.SetPaper(hls.pos, 1, h.color);
-		hls.устШрифт(hls.pos, 1, h);
+		hls.SetFont(hls.pos, 1, h);
 	}
 }
-
+//Подсветка числа
 const wchar *HighlightNumber(HighlightOutput& hls, const wchar *p, bool ts, bool octal, bool css)
 {
 	int c = octal ? HighlightSetup::INK_CONST_OCT : HighlightSetup::INK_CONST_INT;
 	const wchar *t = p;
-	while(цифра_ли(*p)) p++;
+	while(IsDigit(*p)) p++;
 	int fixdigits = int(p - t);
 	bool u = false;
 	if(*p == '.') {
 		c = HighlightSetup::INK_CONST_FLOAT;
 		p++;
 	}
-	while(цифра_ли(*p)) p++;
+	while(IsDigit(*p)) p++;
 	if(*p == 'e' || *p == 'E') {
 		c = HighlightSetup::INK_CONST_FLOAT;
 		p++;
 		p += *p == '-' || *p == '+';
-		while(цифра_ли(*p)) p++;
+		while(IsDigit(*p)) p++;
 		if(*p == 'f' || *p == 'F')
 			p++;
 	}
@@ -82,51 +82,51 @@ const wchar *HighlightNumber(HighlightOutput& hls, const wchar *p, bool ts, bool
 	for(int i = 0; i < n; i++) {
 		if(t[i] == 'e')
 			ts = false;
-		hls.помести(HighlightSetup::hl_style[c],
+		hls.Put(HighlightSetup::hl_style[c],
 		        c == HighlightSetup::INK_CONST_OCT || (fixdigits < 5 && n - fixdigits < 5)
 		             || i == fixdigits || !ts ? 0 :
-		        i < fixdigits ? decode((fixdigits - i) % 3, 1, СтрокРедакт::SHIFT_L, 0, СтрокРедакт::SHIFT_R, 0) :
-		                        decode((i - fixdigits) % 3, 1, СтрокРедакт::SHIFT_R, 0, СтрокРедакт::SHIFT_L, 0));
+		        i < fixdigits ? decode((fixdigits - i) % 3, 1, LineEdit::SHIFT_L, 0, LineEdit::SHIFT_R, 0) :
+		                        decode((i - fixdigits) % 3, 1, LineEdit::SHIFT_R, 0, LineEdit::SHIFT_L, 0));
 	}
 	return p;
 }
-
+//Подсветка гекса
 const wchar *HighlightHexBin(HighlightOutput& hls, const wchar *p, int plen, bool thousands_separator)
 {
-	hls.помести(plen, HighlightSetup::hl_style[HighlightSetup::INK_CONST_HEX]);
+	hls.Put(plen, HighlightSetup::hl_style[HighlightSetup::INK_CONST_HEX]);
 	p += plen;
 	const wchar *t = p;
 	while(IsXDigit(*p))
 		p++;
 	int n = int(p - t);
 	for(int i = 0; i < n; i++) {
-		hls.помести(HighlightSetup::hl_style[HighlightSetup::INK_CONST_HEX],
-		        thousands_separator && ((n - i) & 1) ? СтрокРедакт::SHIFT_L : 0);
+		hls.Put(HighlightSetup::hl_style[HighlightSetup::INK_CONST_HEX],
+		        thousands_separator && ((n - i) & 1) ? LineEdit::SHIFT_L : 0);
 	}
 	return p;
 }
-
+//Комментарии
 const wchar *CSyntax::DoComment(HighlightOutput& hls, const wchar *p, const wchar *e)
 {
-	ШТкст w;
-	for(const wchar *s = p; s < e && буква_ли(*s); s++)
-		w.конкат(взаг(*s));
-	int n = w.дайСчёт();
+	WString w;
+	for(const wchar *s = p; s < e && IsLetter(*s); s++)
+		w.Cat(ToUpper(*s));
+	int n = w.GetCount();
 	word flags = 0;
 	if(n) {
 		if(comments_lang && !SpellWord(w, comments_lang))
-			flags = СтрокРедакт::SPELLERROR;
+			flags = LineEdit::SPELLERROR;
 	}
 	else
-		for(const wchar *s = p; s < e && !буква_ли(*s); s++)
+		for(const wchar *s = p; s < e && !IsLetter(*s); s++)
 			n++;
 	hls.SetFlags(n, flags);
-	static ШТкст todo = "TODO";
-	static ШТкст fixme = "FIXME";
-	if(w.дайСчёт() >= 4 && w.дайСчёт() <= 5 && findarg(w, todo, fixme) >= 0)
-		hls.помести(n, hl_style[INK_COMMENT_WORD], hl_style[PAPER_COMMENT_WORD]);
+	static WString todo = "СДЕЛАТЬ";
+	static WString fixme = "ИСПРАВИТЬ";
+	if(w.GetCount() >= 6 && w.GetCount() <= 9 && findarg(w, todo, fixme) >= 0)
+		hls.Put(n, hl_style[INK_COMMENT_WORD], hl_style[PAPER_COMMENT_WORD]);
 	else
-		hls.помести(n, hl_style[INK_COMMENT]);
+		hls.Put(n, hl_style[INK_COMMENT]);
 	return p + n;
 }
 
@@ -140,20 +140,20 @@ bool CSyntax::RawString(const wchar *p, int& n) {
 		s++;
 	if(*s++ != '\"')
 		return false;
-	ШТкст rs;
+	WString rs;
 	while(*s != '(') {
 		if(*s == '\0')
 			return false;
-		rs.конкат(*s++);
+		rs.Cat(*s++);
 	}
 	raw_string = ")";
-	raw_string.конкат(rs);
-	raw_string.конкат('\"');
+	raw_string.Cat(rs);
+	raw_string.Cat('\"');
 	n = int(s + 1 - p);
 	return true;
 };
 
-void CSyntax::Highlight(const wchar *ltext, const wchar *e, HighlightOutput& hls, РедакторКода *editor, int line, int64 pos)
+void CSyntax::Highlight(const wchar *ltext, const wchar *e, HighlightOutput& hls, CodeEditor *editor, int line, int64 pos)
 {
 	ONCELOCK {
 		InitKeywords();
@@ -164,10 +164,10 @@ void CSyntax::Highlight(const wchar *ltext, const wchar *e, HighlightOutput& hls
 	int tabsize = editor ? editor->GetTabSize() : 4;
 	
 	LTIMING("HighlightLine");
-	if(highlight < 0 || highlight >= keyword.дайСчёт())
+	if(highlight < 0 || highlight >= keyword.GetCount())
 		return;
 	CSyntax next;
-	next.уст(дай());
+	next.Set(Get());
 	next.ScanSyntax(ltext, e, line + 1, tabsize);
 	bool macro = next.macro != MACRO_OFF;
 	
@@ -182,18 +182,18 @@ void CSyntax::Highlight(const wchar *ltext, const wchar *e, HighlightOutput& hls
 	
 	Grounding(p, e);
 	if(highlight == HIGHLIGHT_CALC) {
-		if(editor && line == editor->дайСчётСтрок() - 1 || *p == '$')
+		if(editor && line == editor->GetLineCount() - 1 || *p == '$')
 			hls.SetPaper(0, linelen + 1, hl_style[PAPER_BLOCK1].color);
 	}
 	else
 		hls.SetPaper(0, linelen + 1,
 		             macro ? hl_style[PAPER_MACRO].color : hl_style[PAPER_NORMAL].color);
-	int block_level = bid.дайСчёт() - 1;
-	Ткст cppid;
+	int block_level = bid.GetCount() - 1;
+	String cppid;
 	if(!comment && highlight != HIGHLIGHT_CALC) {
 		if(!macro) {
 			int i = 0, bid = 0, pos = 0;
-			while(bid < this->bid.дайСчёт() - 1
+			while(bid < this->bid.GetCount() - 1
 			&& (i >= linelen || p[i] == ' ' || p[i] == '\t')) {
 				hls.SetPaper(i, 1, BlockColor(bid));
 				if(i < linelen && p[i] == '\t' || ++pos >= tabsize) {
@@ -202,33 +202,33 @@ void CSyntax::Highlight(const wchar *ltext, const wchar *e, HighlightOutput& hls
 				}
 				i++;
 			}
-			hls.SetPaper(i, 1 + max(0, linelen - i), BlockColor(this->bid.дайСчёт() - 1));
+			hls.SetPaper(i, 1 + max(0, linelen - i), BlockColor(this->bid.GetCount() - 1));
 		}
 		while(*p == ' ' || *p == '\t') {
 			p++;
-			hls.помести(hl_style[INK_NORMAL]);
+			hls.Put(hl_style[INK_NORMAL]);
 		}
 		if(*p == '#' && findarg(highlight, HIGHLIGHT_CPP, HIGHLIGHT_CS) >= 0) {
-			static Индекс<Ткст> macro;
+			static Index<String> macro;
 			ONCELOCK {
 				static const char *pd[] = {
-					"include", "define", "Ошибка", "if", "elif", "else", "endif",
+					"include", "define", "error", "if", "elif", "else", "endif",
 					"ifdef", "ifndef", "line", "undef", "pragma",
 					// CLR
 					"using"
 				};
 				for(int i = 0; i < __countof(pd); i++)
-					macro.добавь(pd[i]);
+					macro.Add(pd[i]);
 			}
 			const wchar *q = p + 1;
 			while(*q == ' ' || *q == '\t')
 				q++;
-			ТкстБуф id;
+			StringBuffer id;
 			while(IsAlpha(*q))
-				id.конкат(*q++);
+				id.Cat(*q++);
 			cppid = id;
-			int mq = macro.найди(cppid);
-			hls.помести(mq < 0 ? 1 : int(q - p), hl_style[INK_MACRO]);
+			int mq = macro.Find(cppid);
+			hls.Put(mq < 0 ? 1 : int(q - p), hl_style[INK_MACRO]);
 			if(mq == 0)
 				include = true;
 			p = q;
@@ -237,21 +237,21 @@ void CSyntax::Highlight(const wchar *ltext, const wchar *e, HighlightOutput& hls
 	int lindent = int(p - ltext);
 	int lbrace = -1;
 	int lbclose = -1;
-	Цвет lbcolor = Null;
+	Color lbcolor = Null;
 	bool is_comment = false;
 	while(p < e) {
 		int  raw_n = 0;
 		dword pair = MAKELONG(p[0], p[1]);
 		if(pair == MAKELONG('/', '*') && highlight != HIGHLIGHT_JSON || comment) {
 			if(!comment) {
-				hls.помести(2, hl_style[INK_COMMENT]);
+				hls.Put(2, hl_style[INK_COMMENT]);
 				p += 2;
 			}
 			for(const wchar *ce = p; ce < e - 1; ce++)
 				if(ce[0] == '*' && ce[1] == '/') {
 					while(p < ce)
 						p = DoComment(hls, p, ce);
-					hls.помести(2, hl_style[INK_COMMENT]);
+					hls.Put(2, hl_style[INK_COMMENT]);
 					p += 2;
 					comment = false;
 					goto comment_ended;
@@ -263,8 +263,8 @@ void CSyntax::Highlight(const wchar *ltext, const wchar *e, HighlightOutput& hls
 		comment_ended:;
 		}
 		else
-		if(raw_string.дайСчёт() || RawString(p, raw_n)) {
-			hls.помести(raw_n, hl_style[INK_CONST_STRING]);
+		if(raw_string.GetCount() || RawString(p, raw_n)) {
+			hls.Put(raw_n, hl_style[INK_CONST_STRING]);
 			p += raw_n;
 			const wchar *b = p;
 			while(p < e) {
@@ -277,16 +277,16 @@ void CSyntax::Highlight(const wchar *ltext, const wchar *e, HighlightOutput& hls
 					r++;
 				}
 				if(*r == '\0') {
-					hls.помести(int(p - b), hl_style[INK_RAW_STRING]);
-					hls.помести(int(s - p), hl_style[INK_CONST_STRING]);
+					hls.Put(int(p - b), hl_style[INK_RAW_STRING]);
+					hls.Put(int(s - p), hl_style[INK_CONST_STRING]);
 					b = p = s;
-					raw_string.очисть();
+					raw_string.Clear();
 					break;
 				}
 				p++;
 			}
 			if(p != b)
-				hls.помести(int(p - b), hl_style[INK_RAW_STRING]);
+				hls.Put(int(p - b), hl_style[INK_RAW_STRING]);
 		}
 		else
 		if(linecomment && linecont || pair == MAKELONG('/', '/') &&
@@ -302,16 +302,16 @@ void CSyntax::Highlight(const wchar *ltext, const wchar *e, HighlightOutput& hls
 			p = hls.CString(p);
 		else
 		if(*p == '(') {
-			brk.добавь(')');
+			brk.Add(')');
 			Bracket(int(p - ltext) + pos, hls, editor);
-			hls.помести(hl_style[INK_PAR0 + max(pl++, 0) % 4]);
+			hls.Put(hl_style[INK_PAR0 + max(pl++, 0) % 4]);
 			p++;
 		}
 		else
 		if(*p == '{') {
-			brk.добавь(was_namespace ? 0 : '}');
+			brk.Add(was_namespace ? 0 : '}');
 			Bracket(int(p - ltext) + pos, hls, editor);
-			hls.помести(hl_style[INK_PAR0 + max(cl, 0) % 4]);
+			hls.Put(hl_style[INK_PAR0 + max(cl, 0) % 4]);
 			if(was_namespace)
 				was_namespace = false;
 			else {
@@ -324,26 +324,26 @@ void CSyntax::Highlight(const wchar *ltext, const wchar *e, HighlightOutput& hls
 		}
 		else
 		if(*p == '[') {
-			brk.добавь(']');
+			brk.Add(']');
 			Bracket(int(p - ltext) + pos, hls, editor);
-			hls.помести(hl_style[INK_PAR0 + max(bl++, 0) % 4]);
+			hls.Put(hl_style[INK_PAR0 + max(bl++, 0) % 4]);
 			p++;
 		}
 		else
 		if(*p == ')' || *p == '}' || *p == ']') {
-			int bc = brk.дайСчёт() ? brk.вынь() : 0;
+			int bc = brk.GetCount() ? brk.Pop() : 0;
 			if(*p == '}' && hilite_scope && block_level > 0 && bc)
 				hls.SetPaper(hls.pos, linelen + 1 - hls.pos, BlockColor(--block_level));
 			Bracket(int(p - ltext) + pos, hls, editor);
 			int& l = *p == ')' ? pl : *p == '}' ? cl : bl;
 			if(bc && (bc != *p || l <= 0) || bc == 0 && *p != '}') {
-				hls.помести(p == ltext || ignore_errors ? hl_style[INK_PAR0] : hl_style[INK_ERROR]);
-				brk.очисть();
+				hls.Put(p == ltext || ignore_errors ? hl_style[INK_PAR0] : hl_style[INK_ERROR]);
+				brk.Clear();
 				cl = bl = pl = 0;
 			}
 			else {
 				if(bc) --l;
-				hls.помести(1, hl_style[INK_PAR0 + l % 4]);
+				hls.Put(1, hl_style[INK_PAR0 + l % 4]);
 			}
 			p++;
 		}
@@ -351,15 +351,15 @@ void CSyntax::Highlight(const wchar *ltext, const wchar *e, HighlightOutput& hls
 		if(highlight == HIGHLIGHT_CSS ? *p == '#' : findarg(pair, MAKELONG('0', 'x'), MAKELONG('0', 'X'), MAKELONG('0', 'b'), MAKELONG('0', 'B')) >= 0)
 			p = HighlightHexBin(hls, p, 1 + (highlight != HIGHLIGHT_CSS), thousands_separator);
 		else
-		if(цифра_ли(*p))
+		if(IsDigit(*p))
 			p = HighlightNumber(hls, p, thousands_separator, *p == '0', highlight == HIGHLIGHT_CSS);
 		else
 		if(pair == MAKELONG('t', '_') && p[2] == '(' && p[3] == '\"') {
 			int pos0 = hls.pos;
-			hls.помести(3, hl_style[INK_UPP]);
+			hls.Put(3, hl_style[INK_UPP]);
 			p = hls.CString(p + 3);
 			if(*p == ')') {
-				hls.помести(hl_style[INK_UPP]);
+				hls.Put(hl_style[INK_UPP]);
 				p++;
 			}
 			hls.SetPaper(pos0, hls.pos - pos0, hl_style[PAPER_LNG].color);
@@ -367,10 +367,10 @@ void CSyntax::Highlight(const wchar *ltext, const wchar *e, HighlightOutput& hls
 		else
 		if(pair == MAKELONG('t', 't') && p[3] == '(' && p[4] == '\"') {
 			int pos0 = hls.pos;
-			hls.помести(4, hl_style[INK_UPP]);
+			hls.Put(4, hl_style[INK_UPP]);
 			p = hls.CString(p + 4);
 			if(*p == ')') {
-				hls.помести(hl_style[INK_UPP]);
+				hls.Put(hl_style[INK_UPP]);
 				p++;
 			}
 			hls.SetPaper(pos0, hls.pos - pos0, hl_style[PAPER_LNG].color);
@@ -378,16 +378,16 @@ void CSyntax::Highlight(const wchar *ltext, const wchar *e, HighlightOutput& hls
 		else
 		if(iscib(*p)) {
 			const wchar *q = p;
-			ТкстБуф id;
+			StringBuffer id;
 			while((iscidl(*q) || highlight == HIGHLIGHT_CSS && *q == '-') && q < e)
-				id.конкат(*q++);
-			Ткст iid = id;
+				id.Cat(*q++);
+			String iid = id;
 			if(highlight == HIGHLIGHT_SQL)
-				iid = взаг(iid);
-			int uq = kw_upp.найди(iid);
+				iid = ToUpper(iid);
+			int uq = kw_upp.Find(iid);
 			int nq = -1;
-			hls.помести(int(q - p), !include && (nq = keyword[highlight].найди(iid)) >= 0 ? hl_style[INK_KEYWORD] :
-			                    имя[highlight].найди(iid) >= 0 ? hl_style[INK_UPP] :
+			hls.Put(int(q - p), !include && (nq = keyword[highlight].Find(iid)) >= 0 ? hl_style[INK_KEYWORD] :
+			                    name[highlight].Find(iid) >= 0 ? hl_style[INK_UPP] :
 			                    uq >= 0 ? uq < kw_macros ? hl_style[INK_UPPMACROS] :
 			                              uq < kw_logs ? hl_style[INK_UPPLOGS] :
 			                              uq < kw_sql_base ? hl_style[INK_SQLBASE] :
@@ -402,24 +402,24 @@ void CSyntax::Highlight(const wchar *ltext, const wchar *e, HighlightOutput& hls
 		else {
 			if(*p == ';')
 				was_namespace = false;
-			hls.помести(strchr("!+-*^/%~&|=[]:?<>.", *p) ? hl_style[INK_OPERATOR] : hl_style[INK_NORMAL]);
+			hls.Put(strchr("!+-*^/%~&|=[]:?<>.", *p) ? hl_style[INK_OPERATOR] : hl_style[INK_NORMAL]);
 			p++;
 		}
 	}
-	if(hilite_ifdef && !пусто_ли(cppid) && !is_comment) {
-		if((cppid == "else" || cppid == "elif" || cppid == "endif") && !ifstack.пустой()) {
-			ШТкстБуф ifln;
-			ifln.конкат(" // ");
-			ifln.конкат(ifstack.верх().iftext);
-			if(ifstack.верх().ifline && hilite_ifdef == 2) {
-				ifln.конкат(", line ");
-				ifln.конкат(фмтЦел(ifstack.верх().ifline));
+	if(hilite_ifdef && !IsNull(cppid) && !is_comment) {
+		if((cppid == "else" || cppid == "elif" || cppid == "endif") && !ifstack.IsEmpty()) {
+			WStringBuffer ifln;
+			ifln.Cat(" // ");
+			ifln.Cat(ifstack.Top().iftext);
+			if(ifstack.Top().ifline && hilite_ifdef == 2) {
+				ifln.Cat(", line ");
+				ifln.Cat(FormatInt(ifstack.Top().ifline));
 			}
-			ifln.конкат('\t');
+			ifln.Cat('\t');
 			int start = linelen;
-			ШТкст ifs(ifln);
-			hls.уст(start, ifs.дайДлину(), hl_style[INK_IFDEF]);
-			for(int i = 0; i < ifs.дайСчёт(); i++)
+			WString ifs(ifln);
+			hls.Set(start, ifs.GetLength(), hl_style[INK_IFDEF]);
+			for(int i = 0; i < ifs.GetCount(); i++)
 				hls.SetChar(start + i, ifs[i]);
 		}
 	}
@@ -430,7 +430,7 @@ void CSyntax::Highlight(const wchar *ltext, const wchar *e, HighlightOutput& hls
 			hls.SetPaper(lbclose, linelen + 1 - lbclose, lbcolor);
 	}
 	if(findarg(cppid, "else", "elif", "endif", "if", "ifdef", "ifndef") >= 0)
-	   hls.SetPaper(0, hls.v.дайСчёт(), hl_style[PAPER_IFDEF].color);
+	   hls.SetPaper(0, hls.v.GetCount(), hl_style[PAPER_IFDEF].color);
 }
 
 }

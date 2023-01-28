@@ -1,10 +1,10 @@
-extern СтатическийСтопор ValueCacheMutex;
+extern StaticMutex ValueCacheMutex;
 
-LRUCache<Значение>& TheValueCache();
+LRUCache<Value>& TheValueCache();
 
-typedef LRUCache<Значение>::Делец ValueMaker;
+typedef LRUCache<Value>::Maker ValueMaker;
 
-Значение MakeValue(ValueMaker& m);
+Value MakeValue(ValueMaker& m);
 
 bool IsValueCacheActive();
 
@@ -16,20 +16,20 @@ void SetupValueCache(int limit_low, int limit_high, double ratio);
 template <class P>
 int ValueCacheRemove(P what)
 {
-	Стопор::Замок __(ValueCacheMutex);
-	return TheValueCache().удали(what);
+	Mutex::Lock __(ValueCacheMutex);
+	return TheValueCache().Remove(what);
 }
 
 template <class P>
 int ValueCacheRemoveOne(P what)
 {
-	Стопор::Замок __(ValueCacheMutex);
-	return TheValueCache().удали(what);
+	Mutex::Lock __(ValueCacheMutex);
+	return TheValueCache().Remove(what);
 }
 
 template <class P>
 void ValueCacheAdjustSize(P getsize)
 {
-	Стопор::Замок __(ValueCacheMutex);
-	TheValueCache().настройРазм(getsize);
+	Mutex::Lock __(ValueCacheMutex);
+	TheValueCache().AdjustSize(getsize);
 }

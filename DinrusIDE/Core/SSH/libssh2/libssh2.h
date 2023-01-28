@@ -16,7 +16,7 @@
  *   disclaimer in the documentation and/or other materials
  *   provided with the distribution.
  *
- *   Neither the имя of the copyright holder nor the names
+ *   Neither the name of the copyright holder nor the names
  *   of any other contributors may be used to endorse or
  *   promote products derived from this software without
  *   specific prior written permission.
@@ -43,26 +43,26 @@
 #define LIBSSH2_COPYRIGHT "2004-2019 The libssh2 project and its contributors."
 
 /* We use underscore instead of dash when appending DEV in dev versions just
-   to make the BANNER define (used by ист/session.c) be a valid SSH
-   banner. отпусти versions have no appended strings and may of course not
+   to make the BANNER define (used by src/session.c) be a valid SSH
+   banner. Release versions have no appended strings and may of course not
    have dashes either. */
 #define LIBSSH2_VERSION "1.9.0-20201117"
 
-/* The numeric версия number is also available "in parts" by using these
+/* The numeric version number is also available "in parts" by using these
    defines: */
 #define LIBSSH2_VERSION_MAJOR 1
 #define LIBSSH2_VERSION_MINOR 9
 #define LIBSSH2_VERSION_PATCH 0
 
-/* This is the numeric версия of the libssh2 версия number, meant for easier
+/* This is the numeric version of the libssh2 version number, meant for easier
    parsing and comparions by programs. The LIBSSH2_VERSION_NUM define will
    always follow this syntax:
 
          0xXXYYZZ
 
-   Where XX, YY and ZZ are the main версия, release and patch numbers in
+   Where XX, YY and ZZ are the main version, release and patch numbers in
    hexadecimal (using 8 bits each). All three numbers are always represented
-   using two digits.  1.2 would appear as "0x010200" while версия 9.11.7
+   using two digits.  1.2 would appear as "0x010200" while version 9.11.7
    appears as "0x090b07".
 
    This 6-digit (24 bits) hexadecimal number does not show pre-release number,
@@ -76,7 +76,7 @@
  * timestamp is not stored in the source code repo, as the timestamp is
  * properly set in the tarballs by the maketgz script.
  *
- * The формат of the date should follow this template:
+ * The format of the date should follow this template:
  *
  * "Mon Feb 12 11:35:33 UTC 2007"
  */
@@ -213,7 +213,7 @@ typedef off_t libssh2_struct_stat_size;
 
 #ifndef LIBSSH2_STRUCT_STAT_SIZE_FORMAT
 #  ifdef __VMS
-/* We have to roll our own формат here because %z is a C99-ism we don't
+/* We have to roll our own format here because %z is a C99-ism we don't
    have. */
 #    if __USE_OFF64_T || __USING_STD_STAT
 #      define LIBSSH2_STRUCT_STAT_SIZE_FORMAT      "%Ld"
@@ -233,8 +233,8 @@ typedef off_t libssh2_struct_stat_size;
 #define LIBSSH2_SSH_DEFAULT_BANNER            LIBSSH2_SSH_BANNER
 #define LIBSSH2_SSH_DEFAULT_BANNER_WITH_CRLF  LIBSSH2_SSH_DEFAULT_BANNER "\r\n"
 
-/* дефолт generate and safe prime sizes for
-   diffie-hellman-группа-exchange-sha1 */
+/* Default generate and safe prime sizes for
+   diffie-hellman-group-exchange-sha1 */
 #define LIBSSH2_DH_GEX_MINGROUP     2048
 #define LIBSSH2_DH_GEX_OPTGROUP     4096
 #define LIBSSH2_DH_GEX_MAXGROUP     8192
@@ -264,11 +264,11 @@ typedef off_t libssh2_struct_stat_size;
    overshooting spec limits */
 #define LIBSSH2_PACKET_MAXPAYLOAD   40000
 
-/* разместпам callbacks */
-#define LIBSSH2_ALLOC_FUNC(имя)   void *имя(size_t count, void **abstract)
-#define LIBSSH2_REALLOC_FUNC(имя) void *имя(void *ptr, size_t count, \
+/* Malloc callbacks */
+#define LIBSSH2_ALLOC_FUNC(name)   void *name(size_t count, void **abstract)
+#define LIBSSH2_REALLOC_FUNC(name) void *name(void *ptr, size_t count, \
                                               void **abstract)
-#define LIBSSH2_FREE_FUNC(имя)    void имя(void *ptr, void **abstract)
+#define LIBSSH2_FREE_FUNC(name)    void name(void *ptr, void **abstract)
 
 typedef struct _LIBSSH2_USERAUTH_KBDINT_PROMPT
 {
@@ -284,56 +284,56 @@ typedef struct _LIBSSH2_USERAUTH_KBDINT_RESPONSE
 } LIBSSH2_USERAUTH_KBDINT_RESPONSE;
 
 /* 'publickey' authentication callback */
-#define LIBSSH2_USERAUTH_PUBLICKEY_SIGN_FUNC(имя) \
-  int имя(LIBSSH2_SESSION *session, unsigned char **sig, size_t *sig_len, \
-           const unsigned char *данные, size_t data_len, void **abstract)
+#define LIBSSH2_USERAUTH_PUBLICKEY_SIGN_FUNC(name) \
+  int name(LIBSSH2_SESSION *session, unsigned char **sig, size_t *sig_len, \
+           const unsigned char *data, size_t data_len, void **abstract)
 
 /* 'keyboard-interactive' authentication callback */
 #define LIBSSH2_USERAUTH_KBDINT_RESPONSE_FUNC(name_) \
- void name_(const char *имя, int name_len, const char *instruction, \
+ void name_(const char *name, int name_len, const char *instruction, \
             int instruction_len, int num_prompts, \
             const LIBSSH2_USERAUTH_KBDINT_PROMPT *prompts,              \
             LIBSSH2_USERAUTH_KBDINT_RESPONSE *responses, void **abstract)
 
 /* Callbacks for special SSH packets */
-#define LIBSSH2_IGNORE_FUNC(имя) \
- void имя(LIBSSH2_SESSION *session, const char *message, int message_len, \
+#define LIBSSH2_IGNORE_FUNC(name) \
+ void name(LIBSSH2_SESSION *session, const char *message, int message_len, \
            void **abstract)
 
-#define LIBSSH2_DEBUG_FUNC(имя) \
- void имя(LIBSSH2_SESSION *session, int always_display, const char *message, \
-           int message_len, const char *язык, int language_len, \
+#define LIBSSH2_DEBUG_FUNC(name) \
+ void name(LIBSSH2_SESSION *session, int always_display, const char *message, \
+           int message_len, const char *language, int language_len, \
            void **abstract)
 
-#define LIBSSH2_DISCONNECT_FUNC(имя) \
- void имя(LIBSSH2_SESSION *session, int reason, const char *message, \
-           int message_len, const char *язык, int language_len, \
+#define LIBSSH2_DISCONNECT_FUNC(name) \
+ void name(LIBSSH2_SESSION *session, int reason, const char *message, \
+           int message_len, const char *language, int language_len, \
            void **abstract)
 
-#define LIBSSH2_PASSWD_CHANGEREQ_FUNC(имя) \
- void имя(LIBSSH2_SESSION *session, char **newpw, int *newpw_len, \
+#define LIBSSH2_PASSWD_CHANGEREQ_FUNC(name) \
+ void name(LIBSSH2_SESSION *session, char **newpw, int *newpw_len, \
            void **abstract)
 
-#define LIBSSH2_MACERROR_FUNC(имя) \
- int имя(LIBSSH2_SESSION *session, const char *packet, int packet_len, \
+#define LIBSSH2_MACERROR_FUNC(name) \
+ int name(LIBSSH2_SESSION *session, const char *packet, int packet_len, \
           void **abstract)
 
-#define LIBSSH2_X11_OPEN_FUNC(имя) \
- void имя(LIBSSH2_SESSION *session, LIBSSH2_CHANNEL *channel, \
+#define LIBSSH2_X11_OPEN_FUNC(name) \
+ void name(LIBSSH2_SESSION *session, LIBSSH2_CHANNEL *channel, \
            const char *shost, int sport, void **abstract)
 
-#define LIBSSH2_CHANNEL_CLOSE_FUNC(имя) \
-  void имя(LIBSSH2_SESSION *session, void **session_abstract, \
+#define LIBSSH2_CHANNEL_CLOSE_FUNC(name) \
+  void name(LIBSSH2_SESSION *session, void **session_abstract, \
             LIBSSH2_CHANNEL *channel, void **channel_abstract)
 
 /* I/O callbacks */
-#define LIBSSH2_RECV_FUNC(имя)                                         \
-    ssize_t имя(libssh2_socket_t socket,                               \
-                 void *буфер, size_t length,                           \
+#define LIBSSH2_RECV_FUNC(name)                                         \
+    ssize_t name(libssh2_socket_t socket,                               \
+                 void *buffer, size_t length,                           \
                  int flags, void **abstract)
-#define LIBSSH2_SEND_FUNC(имя)                                         \
-    ssize_t имя(libssh2_socket_t socket,                               \
-                 const void *буфер, size_t length,                     \
+#define LIBSSH2_SEND_FUNC(name)                                         \
+    ssize_t name(libssh2_socket_t socket,                               \
+                 const void *buffer, size_t length,                     \
                  int flags, void **abstract)
 
 /* libssh2_session_callback_set() constants */
@@ -368,18 +368,18 @@ typedef struct _LIBSSH2_KNOWNHOSTS                  LIBSSH2_KNOWNHOSTS;
 typedef struct _LIBSSH2_AGENT                       LIBSSH2_AGENT;
 
 typedef struct _LIBSSH2_POLLFD {
-    unsigned char тип; /* LIBSSH2_POLLFD_* below */
+    unsigned char type; /* LIBSSH2_POLLFD_* below */
 
     union {
-        libssh2_socket_t socket; /* Файл descriptors -- examined with
+        libssh2_socket_t socket; /* File descriptors -- examined with
                                     system select() call */
         LIBSSH2_CHANNEL *channel; /* Examined by checking internal state */
-        LIBSSH2_LISTENER *listener; /* читай polls only -- are inbound
+        LIBSSH2_LISTENER *listener; /* Read polls only -- are inbound
                                        connections waiting to be accepted? */
     } fd;
 
-    unsigned long events; /* Requested Событиеs */
-    unsigned long revents; /* Returned Событиеs */
+    unsigned long events; /* Requested Events */
+    unsigned long revents; /* Returned Events */
 } LIBSSH2_POLLFD;
 
 /* Poll FD Descriptor Types */
@@ -388,34 +388,34 @@ typedef struct _LIBSSH2_POLLFD {
 #define LIBSSH2_POLLFD_LISTENER     3
 
 /* Note: Win32 Doesn't actually have a poll() implementation, so some of these
-   values are faked with select() данные */
-/* Poll FD events/revents -- Свер sys/poll.h where possible */
-#define LIBSSH2_POLLFD_POLLIN           0x0001 /* Данные available to be read or
+   values are faked with select() data */
+/* Poll FD events/revents -- Match sys/poll.h where possible */
+#define LIBSSH2_POLLFD_POLLIN           0x0001 /* Data available to be read or
                                                   connection available --
                                                   All */
-#define LIBSSH2_POLLFD_POLLPRI          0x0002 /* приоритет данные available to
+#define LIBSSH2_POLLFD_POLLPRI          0x0002 /* Priority data available to
                                                   be read -- Socket only */
-#define LIBSSH2_POLLFD_POLLEXT          0x0002 /* Extended данные available to
+#define LIBSSH2_POLLFD_POLLEXT          0x0002 /* Extended data available to
                                                   be read -- Channel only */
 #define LIBSSH2_POLLFD_POLLOUT          0x0004 /* Can may be written --
                                                   Socket/Channel */
 /* revents only */
-#define LIBSSH2_POLLFD_POLLERR          0x0008 /* Ошибка Условие -- Socket */
+#define LIBSSH2_POLLFD_POLLERR          0x0008 /* Error Condition -- Socket */
 #define LIBSSH2_POLLFD_POLLHUP          0x0010 /* HangUp/EOF -- Socket */
 #define LIBSSH2_POLLFD_SESSION_CLOSED   0x0010 /* Session Disconnect */
 #define LIBSSH2_POLLFD_POLLNVAL         0x0020 /* Invalid request -- Socket
                                                   Only */
-#define LIBSSH2_POLLFD_POLLEX           0x0040 /* Exception Условие --
+#define LIBSSH2_POLLFD_POLLEX           0x0040 /* Exception Condition --
                                                   Socket/Win32 */
 #define LIBSSH2_POLLFD_CHANNEL_CLOSED   0x0080 /* Channel Disconnect */
 #define LIBSSH2_POLLFD_LISTENER_CLOSED  0x0080 /* Listener Disconnect */
 
 #define HAVE_LIBSSH2_SESSION_BLOCK_DIRECTION
-/* Block направление Types */
+/* Block Direction Types */
 #define LIBSSH2_SESSION_BLOCK_INBOUND                  0x0001
 #define LIBSSH2_SESSION_BLOCK_OUTBOUND                 0x0002
 
-/* Хэш Types */
+/* Hash Types */
 #define LIBSSH2_HOSTKEY_HASH_MD5                            1
 #define LIBSSH2_HOSTKEY_HASH_SHA1                           2
 #define LIBSSH2_HOSTKEY_HASH_SHA256                         3
@@ -437,7 +437,7 @@ typedef struct _LIBSSH2_POLLFD {
 #define SSH_DISCONNECT_MAC_ERROR                            5
 #define SSH_DISCONNECT_COMPRESSION_ERROR                    6
 #define SSH_DISCONNECT_SERVICE_NOT_AVAILABLE                7
-#define SSH_DISCONNECT_PROTOCOL_VERSION_NOT_SРНЦПORTED       8
+#define SSH_DISCONNECT_PROTOCOL_VERSION_NOT_SUPPORTED       8
 #define SSH_DISCONNECT_HOST_KEY_NOT_VERIFIABLE              9
 #define SSH_DISCONNECT_CONNECTION_LOST                      10
 #define SSH_DISCONNECT_BY_APPLICATION                       11
@@ -446,14 +446,14 @@ typedef struct _LIBSSH2_POLLFD {
 #define SSH_DISCONNECT_NO_MORE_AUTH_METHODS_AVAILABLE       14
 #define SSH_DISCONNECT_ILLEGAL_USER_NAME                    15
 
-/* Ошибка Codes (defined by libssh2) */
+/* Error Codes (defined by libssh2) */
 #define LIBSSH2_ERROR_NONE                      0
 
-/* The library once used -1 as a generic Ошибка return значение on numerous places
+/* The library once used -1 as a generic error return value on numerous places
    through the code, which subsequently was converted to
-   LIBSSH2_ERROR_SOCKET_NONE uses over time. As this is a generic Ошибка code,
+   LIBSSH2_ERROR_SOCKET_NONE uses over time. As this is a generic error code,
    the goal is to never ever return this code but instead make sure that a
-   more accurate and descriptive Ошибка code is used. */
+   more accurate and descriptive error code is used. */
 #define LIBSSH2_ERROR_SOCKET_NONE               -1
 
 #define LIBSSH2_ERROR_BANNER_RECV               -2
@@ -489,7 +489,7 @@ typedef struct _LIBSSH2_POLLFD {
 #define LIBSSH2_ERROR_SOCKET_TIMEOUT            -30
 #define LIBSSH2_ERROR_SFTP_PROTOCOL             -31
 #define LIBSSH2_ERROR_REQUEST_DENIED            -32
-#define LIBSSH2_ERROR_METHOD_NOT_SРНЦПORTED      -33
+#define LIBSSH2_ERROR_METHOD_NOT_SUPPORTED      -33
 #define LIBSSH2_ERROR_INVAL                     -34
 #define LIBSSH2_ERROR_INVALID_POLL_TYPE         -35
 #define LIBSSH2_ERROR_PUBLICKEY_PROTOCOL        -36
@@ -506,7 +506,7 @@ typedef struct _LIBSSH2_POLLFD {
 #define LIBSSH2_ERROR_CHANNEL_WINDOW_FULL       -47
 #define LIBSSH2_ERROR_KEYFILE_AUTH_FAILED       -48
 
-/* this is a define to provide the old (<= 1.2.7) имя */
+/* this is a define to provide the old (<= 1.2.7) name */
 #define LIBSSH2_ERROR_BANNER_NONE LIBSSH2_ERROR_BANNER_RECV
 
 /* Global API */
@@ -515,23 +515,23 @@ typedef struct _LIBSSH2_POLLFD {
 /*
  * libssh2_init()
  *
- * инициализуй the libssh2 functions.  This typically initialize the
+ * Initialize the libssh2 functions.  This typically initialize the
  * crypto library.  It uses a global state, and is not thread safe --
  * you must make sure this function is not called concurrently.
  *
  * Flags can be:
  * 0:                              Normal initialize
- * LIBSSH2_INIT_NO_CRYPTO:         делай not initialize the crypto library (ie.
+ * LIBSSH2_INIT_NO_CRYPTO:         Do not initialize the crypto library (ie.
  *                                 OPENSSL_add_cipher_algoritms() for OpenSSL
  *
- * Returns 0 if succeeded, or a negative значение for Ошибка.
+ * Returns 0 if succeeded, or a negative value for error.
  */
 LIBSSH2_API int libssh2_init(int flags);
 
 /*
  * libssh2_exit()
  *
- * выход the libssh2 functions and free's all memory used internal.
+ * Exit the libssh2 functions and free's all memory used internal.
  */
 LIBSSH2_API void libssh2_exit(void);
 
@@ -547,7 +547,7 @@ LIBSSH2_API void libssh2_free(LIBSSH2_SESSION *session, void *ptr);
  *
  * Fills algs with a list of supported acryptographic algorithms. Returns a
  * non-negative number (number of supported algorithms) on success or a
- * negative number (an Ошибка code) on failure.
+ * negative number (an error code) on failure.
  *
  * NOTE: on success, algs must be deallocated (by calling libssh2_free) when
  * not needed anymore
@@ -589,7 +589,7 @@ LIBSSH2_API const char *libssh2_hostkey_hash(LIBSSH2_SESSION *session,
                                              int hash_type);
 
 LIBSSH2_API const char *libssh2_session_hostkey(LIBSSH2_SESSION *session,
-                                                size_t *len, int *тип);
+                                                size_t *len, int *type);
 
 LIBSSH2_API int libssh2_session_method_pref(LIBSSH2_SESSION *session,
                                             int method_type,
@@ -606,7 +606,7 @@ LIBSSH2_API int libssh2_session_set_last_error(LIBSSH2_SESSION* session,
 LIBSSH2_API int libssh2_session_block_directions(LIBSSH2_SESSION *session);
 
 LIBSSH2_API int libssh2_session_flag(LIBSSH2_SESSION *session, int flag,
-                                     int значение);
+                                     int value);
 LIBSSH2_API const char *libssh2_session_banner_get(LIBSSH2_SESSION *session);
 
 /* Userauth API */
@@ -689,7 +689,7 @@ libssh2_userauth_publickey_frommemory(LIBSSH2_SESSION *session,
 /*
  * response_callback is provided with filled by library prompts array,
  * but client must allocate and fill individual responses. Responses
- * array is already allocated. Responses данные will be freed by libssh2
+ * array is already allocated. Responses data will be freed by libssh2
  * after callback return, but before subsequent callback invocation.
  */
 LIBSSH2_API int
@@ -713,7 +713,7 @@ LIBSSH2_API int libssh2_poll(LIBSSH2_POLLFD *fds, unsigned int nfds,
 #define LIBSSH2_CHANNEL_PACKET_DEFAULT  32768
 #define LIBSSH2_CHANNEL_MINADJUST       1024
 
-/* Extended Данные Handling */
+/* Extended Data Handling */
 #define LIBSSH2_CHANNEL_EXTENDED_DATA_NORMAL        0
 #define LIBSSH2_CHANNEL_EXTENDED_DATA_IGNORE        1
 #define LIBSSH2_CHANNEL_EXTENDED_DATA_MERGE         2
@@ -755,13 +755,13 @@ libssh2_channel_forward_accept(LIBSSH2_LISTENER *listener);
 LIBSSH2_API int libssh2_channel_setenv_ex(LIBSSH2_CHANNEL *channel,
                                           const char *varname,
                                           unsigned int varname_len,
-                                          const char *значение,
+                                          const char *value,
                                           unsigned int value_len);
 
-#define libssh2_channel_setenv(channel, varname, значение)                 \
+#define libssh2_channel_setenv(channel, varname, value)                 \
     libssh2_channel_setenv_ex((channel), (varname),                     \
-                              (unsigned int)strlen(varname), (значение),   \
-                              (unsigned int)strlen(значение))
+                              (unsigned int)strlen(varname), (value),   \
+                              (unsigned int)strlen(value))
 
 LIBSSH2_API int libssh2_channel_request_auth_agent(LIBSSH2_CHANNEL *channel);
 
@@ -875,12 +875,12 @@ LIBSSH2_API void libssh2_channel_handle_extended_data(LIBSSH2_CHANNEL *channel,
 LIBSSH2_API int libssh2_channel_handle_extended_data2(LIBSSH2_CHANNEL *channel,
                                                       int ignore_mode);
 
-/* libssh2_channel_ignore_extended_data() is defined below for BC with версия
+/* libssh2_channel_ignore_extended_data() is defined below for BC with version
  * 0.1
  *
  * Future uses should use libssh2_channel_handle_extended_data() directly if
- * LIBSSH2_CHANNEL_EXTENDED_DATA_MERGE is passed, extended данные will be read
- * (FIFO) from the standard данные channel
+ * LIBSSH2_CHANNEL_EXTENDED_DATA_MERGE is passed, extended data will be read
+ * (FIFO) from the standard data channel
  */
 /* DEPRECATED */
 #define libssh2_channel_ignore_extended_data(channel, ignore) \
@@ -933,7 +933,7 @@ libssh2_scp_send64(LIBSSH2_SESSION *session, const char *path, int mode,
 
 LIBSSH2_API int libssh2_base64_decode(LIBSSH2_SESSION *session, char **dest,
                                       unsigned int *dest_len,
-                                      const char *ист, unsigned int src_len);
+                                      const char *src, unsigned int src_len);
 
 LIBSSH2_API
 const char *libssh2_version(int req_version_num);
@@ -944,15 +944,15 @@ const char *libssh2_version(int req_version_num);
 struct libssh2_knownhost {
     unsigned int magic;  /* magic stored by the library */
     void *node; /* handle to the internal representation of this host */
-    char *имя; /* this is NULL if no plain text host имя exists */
-    char *ключ;  /* ключ in base64/printable формат */
+    char *name; /* this is NULL if no plain text host name exists */
+    char *key;  /* key in base64/printable format */
     int typemask;
 };
 
 /*
  * libssh2_knownhost_init
  *
- * иниц a collection of known hosts. Returns the pointer to a collection.
+ * Init a collection of known hosts. Returns the pointer to a collection.
  *
  */
 LIBSSH2_API LIBSSH2_KNOWNHOSTS *
@@ -961,37 +961,37 @@ libssh2_knownhost_init(LIBSSH2_SESSION *session);
 /*
  * libssh2_knownhost_add
  *
- * добавь a host and its associated ключ to the collection of known hosts.
+ * Add a host and its associated key to the collection of known hosts.
  *
- * The 'тип' argument specifies on what формат the given host and keys are:
+ * The 'type' argument specifies on what format the given host and keys are:
  *
  * plain  - ascii "hostname.domain.tld"
  * sha1   - SHA1(<salt> <host>) base64-encoded!
  * custom - another hash
  *
- * If 'sha1' is selected as тип, the salt must be provided to the salt
+ * If 'sha1' is selected as type, the salt must be provided to the salt
  * argument. This too base64 encoded.
  *
  * The SHA-1 hash is what OpenSSH can be told to use in known_hosts files.  If
- * a custom тип is used, salt is ignored and you must provide the host
+ * a custom type is used, salt is ignored and you must provide the host
  * pre-hashed when checking for it in the libssh2_knownhost_check() function.
  *
- * The keylen parameter may be omitted (zero) if the ключ is provided as a
+ * The keylen parameter may be omitted (zero) if the key is provided as a
  * NULL-terminated base64-encoded string.
  */
 
-/* host формат (2 bits) */
+/* host format (2 bits) */
 #define LIBSSH2_KNOWNHOST_TYPE_MASK    0xffff
 #define LIBSSH2_KNOWNHOST_TYPE_PLAIN   1
 #define LIBSSH2_KNOWNHOST_TYPE_SHA1    2 /* always base64 encoded */
 #define LIBSSH2_KNOWNHOST_TYPE_CUSTOM  3
 
-/* ключ формат (2 bits) */
+/* key format (2 bits) */
 #define LIBSSH2_KNOWNHOST_KEYENC_MASK     (3<<16)
 #define LIBSSH2_KNOWNHOST_KEYENC_RAW      (1<<16)
 #define LIBSSH2_KNOWNHOST_KEYENC_BASE64   (2<<16)
 
-/* тип of ключ (4 bits) */
+/* type of key (4 bits) */
 #define LIBSSH2_KNOWNHOST_KEY_MASK         (15<<18)
 #define LIBSSH2_KNOWNHOST_KEY_SHIFT        18
 #define LIBSSH2_KNOWNHOST_KEY_RSA1         (1<<18)
@@ -1007,33 +1007,33 @@ LIBSSH2_API int
 libssh2_knownhost_add(LIBSSH2_KNOWNHOSTS *hosts,
                       const char *host,
                       const char *salt,
-                      const char *ключ, size_t keylen, int typemask,
+                      const char *key, size_t keylen, int typemask,
                       struct libssh2_knownhost **store);
 
 /*
  * libssh2_knownhost_addc
  *
- * добавь a host and its associated ключ to the collection of known hosts.
+ * Add a host and its associated key to the collection of known hosts.
  *
  * Takes a comment argument that may be NULL.  A NULL comment indicates
- * there is no comment and the entry will end directly after the ключ
+ * there is no comment and the entry will end directly after the key
  * when written out to a file.  An empty string "" comment will indicate an
- * empty comment which will cause a single space to be written after the ключ.
+ * empty comment which will cause a single space to be written after the key.
  *
- * The 'тип' argument specifies on what формат the given host and keys are:
+ * The 'type' argument specifies on what format the given host and keys are:
  *
  * plain  - ascii "hostname.domain.tld"
  * sha1   - SHA1(<salt> <host>) base64-encoded!
  * custom - another hash
  *
- * If 'sha1' is selected as тип, the salt must be provided to the salt
+ * If 'sha1' is selected as type, the salt must be provided to the salt
  * argument. This too base64 encoded.
  *
  * The SHA-1 hash is what OpenSSH can be told to use in known_hosts files.  If
- * a custom тип is used, salt is ignored and you must provide the host
+ * a custom type is used, salt is ignored and you must provide the host
  * pre-hashed when checking for it in the libssh2_knownhost_check() function.
  *
- * The keylen parameter may be omitted (zero) if the ключ is provided as a
+ * The keylen parameter may be omitted (zero) if the key is provided as a
  * NULL-terminated base64-encoded string.
  */
 
@@ -1041,22 +1041,22 @@ LIBSSH2_API int
 libssh2_knownhost_addc(LIBSSH2_KNOWNHOSTS *hosts,
                        const char *host,
                        const char *salt,
-                       const char *ключ, size_t keylen,
+                       const char *key, size_t keylen,
                        const char *comment, size_t commentlen, int typemask,
                        struct libssh2_knownhost **store);
 
 /*
  * libssh2_knownhost_check
  *
- * Check a host and its associated ключ against the collection of known hosts.
+ * Check a host and its associated key against the collection of known hosts.
  *
- * The тип is the тип/формат of the given host имя.
+ * The type is the type/format of the given host name.
  *
  * plain  - ascii "hostname.domain.tld"
  * custom - prehashed base64 encoded. Note that this cannot use any salts.
  *
  *
- * 'knownhost' may be set to NULL if you don't care about that инфо.
+ * 'knownhost' may be set to NULL if you don't care about that info.
  *
  * Returns:
  *
@@ -1071,7 +1071,7 @@ libssh2_knownhost_addc(LIBSSH2_KNOWNHOSTS *hosts,
 
 LIBSSH2_API int
 libssh2_knownhost_check(LIBSSH2_KNOWNHOSTS *hosts,
-                        const char *host, const char *ключ, size_t keylen,
+                        const char *host, const char *key, size_t keylen,
                         int typemask,
                         struct libssh2_knownhost **knownhost);
 
@@ -1080,14 +1080,14 @@ libssh2_knownhost_check(LIBSSH2_KNOWNHOSTS *hosts,
 LIBSSH2_API int
 libssh2_knownhost_checkp(LIBSSH2_KNOWNHOSTS *hosts,
                          const char *host, int port,
-                         const char *ключ, size_t keylen,
+                         const char *key, size_t keylen,
                          int typemask,
                          struct libssh2_knownhost **knownhost);
 
 /*
  * libssh2_knownhost_del
  *
- * удали a host from the collection of known hosts. The 'entry' struct is
+ * Remove a host from the collection of known hosts. The 'entry' struct is
  * retrieved by a call to libssh2_knownhost_check().
  *
  */
@@ -1098,7 +1098,7 @@ libssh2_knownhost_del(LIBSSH2_KNOWNHOSTS *hosts,
 /*
  * libssh2_knownhost_free
  *
- * освободи an entire collection of known hosts.
+ * Free an entire collection of known hosts.
  *
  */
 LIBSSH2_API void
@@ -1107,23 +1107,23 @@ libssh2_knownhost_free(LIBSSH2_KNOWNHOSTS *hosts);
 /*
  * libssh2_knownhost_readline()
  *
- * Pass in a line of a file of 'тип'. It makes libssh2 read this line.
+ * Pass in a line of a file of 'type'. It makes libssh2 read this line.
  *
- * LIBSSH2_KNOWNHOST_FILE_OPENSSH is the only supported тип.
+ * LIBSSH2_KNOWNHOST_FILE_OPENSSH is the only supported type.
  *
  */
 LIBSSH2_API int
 libssh2_knownhost_readline(LIBSSH2_KNOWNHOSTS *hosts,
-                           const char *line, size_t len, int тип);
+                           const char *line, size_t len, int type);
 
 /*
  * libssh2_knownhost_readfile
  *
- * добавь hosts+ключ pairs from a given file.
+ * Add hosts+key pairs from a given file.
  *
- * Returns a negative значение for Ошибка or number of successfully added hosts.
+ * Returns a negative value for error or number of successfully added hosts.
  *
- * This implementation currently only knows one 'тип' (openssh), all others
+ * This implementation currently only knows one 'type' (openssh), all others
  * are reserved for future use.
  */
 
@@ -1131,7 +1131,7 @@ libssh2_knownhost_readline(LIBSSH2_KNOWNHOSTS *hosts,
 
 LIBSSH2_API int
 libssh2_knownhost_readfile(LIBSSH2_KNOWNHOSTS *hosts,
-                           const char *filename, int тип);
+                           const char *filename, int type);
 
 /*
  * libssh2_knownhost_writeline()
@@ -1139,31 +1139,31 @@ libssh2_knownhost_readfile(LIBSSH2_KNOWNHOSTS *hosts,
  * Ask libssh2 to convert a known host to an output line for storage.
  *
  * Note that this function returns LIBSSH2_ERROR_BUFFER_TOO_SMALL if the given
- * output буфер is too small to hold the desired output.
+ * output buffer is too small to hold the desired output.
  *
- * This implementation currently only knows one 'тип' (openssh), all others
+ * This implementation currently only knows one 'type' (openssh), all others
  * are reserved for future use.
  *
  */
 LIBSSH2_API int
 libssh2_knownhost_writeline(LIBSSH2_KNOWNHOSTS *hosts,
                             struct libssh2_knownhost *known,
-                            char *буфер, size_t buflen,
-                            size_t *outlen, /* the amount of written данные */
-                            int тип);
+                            char *buffer, size_t buflen,
+                            size_t *outlen, /* the amount of written data */
+                            int type);
 
 /*
  * libssh2_knownhost_writefile
  *
- * пиши hosts+ключ pairs to a given file.
+ * Write hosts+key pairs to a given file.
  *
- * This implementation currently only knows one 'тип' (openssh), all others
+ * This implementation currently only knows one 'type' (openssh), all others
  * are reserved for future use.
  */
 
 LIBSSH2_API int
 libssh2_knownhost_writefile(LIBSSH2_KNOWNHOSTS *hosts,
-                            const char *filename, int тип);
+                            const char *filename, int type);
 
 /*
  * libssh2_knownhost_get()
@@ -1186,16 +1186,16 @@ libssh2_knownhost_get(LIBSSH2_KNOWNHOSTS *hosts,
 
 struct libssh2_agent_publickey {
     unsigned int magic;              /* magic stored by the library */
-    void *node;     /* handle to the internal representation of ключ */
-    unsigned char *blob;           /* public ключ blob */
-    size_t blob_len;               /* length of the public ключ blob */
-    char *comment;                 /* comment in printable формат */
+    void *node;     /* handle to the internal representation of key */
+    unsigned char *blob;           /* public key blob */
+    size_t blob_len;               /* length of the public key blob */
+    char *comment;                 /* comment in printable format */
 };
 
 /*
  * libssh2_agent_init
  *
- * иниц an ssh-agent handle. Returns the pointer to the handle.
+ * Init an ssh-agent handle. Returns the pointer to the handle.
  *
  */
 LIBSSH2_API LIBSSH2_AGENT *
@@ -1206,7 +1206,7 @@ libssh2_agent_init(LIBSSH2_SESSION *session);
  *
  * Connect to an ssh-agent.
  *
- * Returns 0 if succeeded, or a negative значение for Ошибка.
+ * Returns 0 if succeeded, or a negative value for error.
  */
 LIBSSH2_API int
 libssh2_agent_connect(LIBSSH2_AGENT *agent);
@@ -1216,7 +1216,7 @@ libssh2_agent_connect(LIBSSH2_AGENT *agent);
  *
  * Request an ssh-agent to list identities.
  *
- * Returns 0 if succeeded, or a negative значение for Ошибка.
+ * Returns 0 if succeeded, or a negative value for error.
  */
 LIBSSH2_API int
 libssh2_agent_list_identities(LIBSSH2_AGENT *agent);
@@ -1229,7 +1229,7 @@ libssh2_agent_list_identities(LIBSSH2_AGENT *agent);
  * next.
  *
  * Returns:
- * 0 if a fine public ключ was stored in 'store'
+ * 0 if a fine public key was stored in 'store'
  * 1 if end of public keys
  * [negative] on errors
  */
@@ -1241,9 +1241,9 @@ libssh2_agent_get_identity(LIBSSH2_AGENT *agent,
 /*
  * libssh2_agent_userauth()
  *
- * делай publickey user authentication with the help of ssh-agent.
+ * Do publickey user authentication with the help of ssh-agent.
  *
- * Returns 0 if succeeded, or a negative значение for Ошибка.
+ * Returns 0 if succeeded, or a negative value for error.
  */
 LIBSSH2_API int
 libssh2_agent_userauth(LIBSSH2_AGENT *agent,
@@ -1253,9 +1253,9 @@ libssh2_agent_userauth(LIBSSH2_AGENT *agent,
 /*
  * libssh2_agent_disconnect()
  *
- * открой a connection to an ssh-agent.
+ * Close a connection to an ssh-agent.
  *
- * Returns 0 if succeeded, or a negative значение for Ошибка.
+ * Returns 0 if succeeded, or a negative value for error.
  */
 LIBSSH2_API int
 libssh2_agent_disconnect(LIBSSH2_AGENT *agent);
@@ -1263,7 +1263,7 @@ libssh2_agent_disconnect(LIBSSH2_AGENT *agent);
 /*
  * libssh2_agent_free()
  *
- * освободи an ssh-agent handle.  This function also frees the internal
+ * Free an ssh-agent handle.  This function also frees the internal
  * collection of public keys.
  */
 LIBSSH2_API void
@@ -1291,7 +1291,7 @@ libssh2_agent_get_identity_path(LIBSSH2_AGENT *agent);
 /*
  * libssh2_keepalive_config()
  *
- * уст how often keepalive messages should be sent.  WANT_REPLY
+ * Set how often keepalive messages should be sent.  WANT_REPLY
  * indicates whether the keepalive messages should request a response
  * from the server.  INTERVAL is number of seconds that can pass
  * without any I/O, use 0 (the default) to disable keepalives.  To

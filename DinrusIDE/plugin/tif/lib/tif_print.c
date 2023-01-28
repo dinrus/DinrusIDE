@@ -38,8 +38,8 @@ _TIFFprintAsciiBounded(FILE* fd, const char* cp, size_t max_chars);
 static const char * const photoNames[] = {
     "min-is-white",				/* PHOTOMETRIC_MINISWHITE */
     "min-is-black",				/* PHOTOMETRIC_MINISBLACK */
-    "дайКЗС color",				/* PHOTOMETRIC_RGB */
-    "palette color (дайКЗС from colormap)",	/* PHOTOMETRIC_PALETTE */
+    "RGB color",				/* PHOTOMETRIC_RGB */
+    "palette color (RGB from colormap)",	/* PHOTOMETRIC_PALETTE */
     "transparency mask",			/* PHOTOMETRIC_MASK */
     "separated",				/* PHOTOMETRIC_SEPARATED */
     "YCbCr",					/* PHOTOMETRIC_YCBCR */
@@ -126,7 +126,7 @@ _TIFFPrintField(FILE* fd, const TIFFField *fip,
 			break;
 		}
 		else {
-			fprintf(fd, "<unsupported data тип in TIFFPrint>");
+			fprintf(fd, "<unsupported data type in TIFFPrint>");
 			break;
 		}
 
@@ -144,7 +144,7 @@ _TIFFPrettyPrintField(TIFF* tif, const TIFFField *fip, FILE* fd, uint32 tag,
         (void) tif;
 
 	/* do not try to pretty print auto-defined fields */
-	if (strncmp(fip->field_name,"Тэг ", 4) == 0) {
+	if (strncmp(fip->field_name,"Tag ", 4) == 0) {
 		return 0;
 	}
         
@@ -177,7 +177,7 @@ _TIFFPrettyPrintField(TIFF* tif, const TIFFField *fip, FILE* fd, uint32 tag,
 
 		case TIFFTAG_WHITEPOINT:
 			if (value_count == 2 && fip->field_type == TIFF_RATIONAL) {
-				fprintf(fd, "  белый Точка: %g-%g\n",
+				fprintf(fd, "  White Point: %g-%g\n",
 					((float *)raw_data)[0], ((float *)raw_data)[1]);
 				return 1;
 			} 
@@ -263,15 +263,15 @@ TIFFPrintDirectory(TIFF* tif, FILE* fd, long flags)
 		    (unsigned long) td->td_subfiletype, (long) td->td_subfiletype);
 	}
 	if (TIFFFieldSet(tif,FIELD_IMAGEDIMENSIONS)) {
-		fprintf(fd, "  Рисунок устШирину: %lu Рисунок длина: %lu",
+		fprintf(fd, "  Image Width: %lu Image Length: %lu",
 		    (unsigned long) td->td_imagewidth, (unsigned long) td->td_imagelength);
 		if (TIFFFieldSet(tif,FIELD_IMAGEDEPTH))
-			fprintf(fd, " Рисунок Depth: %lu",
+			fprintf(fd, " Image Depth: %lu",
 			    (unsigned long) td->td_imagedepth);
 		fprintf(fd, "\n");
 	}
 	if (TIFFFieldSet(tif,FIELD_TILEDIMENSIONS)) {
-		fprintf(fd, "  Tile устШирину: %lu Tile длина: %lu",
+		fprintf(fd, "  Tile Width: %lu Tile Length: %lu",
 		    (unsigned long) td->td_tilewidth, (unsigned long) td->td_tilelength);
 		if (TIFFFieldSet(tif,FIELD_TILEDEPTH))
 			fprintf(fd, " Tile Depth: %lu",
@@ -307,7 +307,7 @@ TIFFPrintDirectory(TIFF* tif, FILE* fd, long flags)
 	if (TIFFFieldSet(tif,FIELD_BITSPERSAMPLE))
 		fprintf(fd, "  Bits/Sample: %u\n", td->td_bitspersample);
 	if (TIFFFieldSet(tif,FIELD_SAMPLEFORMAT)) {
-		fprintf(fd, "  Sample фмт: ");
+		fprintf(fd, "  Sample Format: ");
 		switch (td->td_sampleformat) {
 		case SAMPLEFORMAT_VOID:
 			fprintf(fd, "void\n");
@@ -337,7 +337,7 @@ TIFFPrintDirectory(TIFF* tif, FILE* fd, long flags)
 		const TIFFCodec* c = TIFFFindCODEC(td->td_compression);
 		fprintf(fd, "  Compression Scheme: ");
 		if (c)
-			fprintf(fd, "%s\n", c->имя);
+			fprintf(fd, "%s\n", c->name);
 		else
 			fprintf(fd, "%u (0x%x)\n",
 			    td->td_compression, td->td_compression);
@@ -412,7 +412,7 @@ TIFFPrintDirectory(TIFF* tif, FILE* fd, long flags)
 			fprintf(fd, "halftone or dithered scan\n");
 			break;
 		case THRESHHOLD_ERRORDIFFUSE:
-			fprintf(fd, "Ошибка diffused\n");
+			fprintf(fd, "error diffused\n");
 			break;
 		default:
 			fprintf(fd, "%u (0x%x)\n",
@@ -476,13 +476,13 @@ TIFFPrintDirectory(TIFF* tif, FILE* fd, long flags)
 			fprintf(fd, "%lu\n", (unsigned long) td->td_rowsperstrip);
 	}
 	if (TIFFFieldSet(tif,FIELD_MINSAMPLEVALUE))
-		fprintf(fd, "  мин Sample Значение: %u\n", td->td_minsamplevalue);
+		fprintf(fd, "  Min Sample Value: %u\n", td->td_minsamplevalue);
 	if (TIFFFieldSet(tif,FIELD_MAXSAMPLEVALUE))
-		fprintf(fd, "  макс Sample Значение: %u\n", td->td_maxsamplevalue);
+		fprintf(fd, "  Max Sample Value: %u\n", td->td_maxsamplevalue);
 	if (TIFFFieldSet(tif,FIELD_SMINSAMPLEVALUE)) {
 		int i;
 		int count = (tif->tif_flags & TIFF_PERSAMPLE) ? td->td_samplesperpixel : 1;
-		fprintf(fd, "  SMin Sample Значение:");
+		fprintf(fd, "  SMin Sample Value:");
 		for (i = 0; i < count; ++i)
 			fprintf(fd, " %g", td->td_sminsamplevalue[i]);
 		fprintf(fd, "\n");
@@ -490,7 +490,7 @@ TIFFPrintDirectory(TIFF* tif, FILE* fd, long flags)
 	if (TIFFFieldSet(tif,FIELD_SMAXSAMPLEVALUE)) {
 		int i;
 		int count = (tif->tif_flags & TIFF_PERSAMPLE) ? td->td_samplesperpixel : 1;
-		fprintf(fd, "  SMax Sample Значение:");
+		fprintf(fd, "  SMax Sample Value:");
 		for (i = 0; i < count; ++i)
 			fprintf(fd, " %g", td->td_smaxsamplevalue[i]);
 		fprintf(fd, "\n");
@@ -514,7 +514,7 @@ TIFFPrintDirectory(TIFF* tif, FILE* fd, long flags)
 		fprintf(fd, "  Page Number: %u-%u\n",
 		    td->td_pagenumber[0], td->td_pagenumber[1]);
 	if (TIFFFieldSet(tif,FIELD_COLORMAP)) {
-		fprintf(fd, "  Цвет Map: ");
+		fprintf(fd, "  Color Map: ");
 		if (flags & TIFFPRINT_COLORMAP) {
 			fprintf(fd, "\n");
 			n = 1L<<td->td_bitspersample;
@@ -529,14 +529,14 @@ TIFFPrintDirectory(TIFF* tif, FILE* fd, long flags)
 	}
 	if (TIFFFieldSet(tif,FIELD_REFBLACKWHITE)) {
 		int i;
-		fprintf(fd, "  Reference чёрный/белый:\n");
+		fprintf(fd, "  Reference Black/White:\n");
 		for (i = 0; i < 3; i++)
 		fprintf(fd, "    %2d: %5g %5g\n", i,
 			td->td_refblackwhite[2*i+0],
 			td->td_refblackwhite[2*i+1]);
 	}
 	if (TIFFFieldSet(tif,FIELD_TRANSFERFUNCTION)) {
-		fprintf(fd, "  Transfer Функция: ");
+		fprintf(fd, "  Transfer Function: ");
 		if (flags & TIFFPRINT_CURVES) {
 			fprintf(fd, "\n");
 			n = 1L<<td->td_bitspersample;
@@ -609,10 +609,10 @@ TIFFPrintDirectory(TIFF* tif, FILE* fd, long flags)
 					value_count = fip->field_readcount;
 				if (fip->field_tag == TIFFTAG_DOTRANGE
 				    && strcmp(fip->field_name,"DotRange") == 0) {
-					/* TODO: This is an evil exception and should not have been
+					/* СДЕЛАТЬ: This is an evil exception and should not have been
 					   handled this way ... likely best if we move it into
 					   the directory structure with an explicit field in 
-					   libtiff 4.1 and assign it a FIELD_ значение */
+					   libtiff 4.1 and assign it a FIELD_ value */
 					static uint16 dotrange[2];
 					raw_data = dotrange;
 					TIFFGetField(tif, tag, dotrange+0, dotrange+1);
@@ -701,10 +701,10 @@ _TIFFprintAsciiBounded(FILE* fd, const char* cp, size_t max_chars)
 }
 
 void
-_TIFFprintAsciiTag(FILE* fd, const char* имя, const char* значение)
+_TIFFprintAsciiTag(FILE* fd, const char* name, const char* value)
 {
-	fprintf(fd, "  %s: \"", имя);
-	_TIFFprintAscii(fd, значение);
+	fprintf(fd, "  %s: \"", name);
+	_TIFFprintAscii(fd, value);
 	fprintf(fd, "\"\n");
 }
 
@@ -714,5 +714,5 @@ _TIFFprintAsciiTag(FILE* fd, const char* имя, const char* значение)
  * mode: c
  * c-basic-offset: 8
  * fill-column: 78
- * стоп:
+ * End:
  */

@@ -1,27 +1,27 @@
 #ifndef S_PAINTER_FILLERS_H
 #define S_PAINTER_FILLERS_H
 
-namespace РНЦП {
+namespace Upp {
 
 struct SolidFiller : Rasterizer::Filler {
-	КЗСА *t;
-	КЗСА  c;
+	RGBA *t;
+	RGBA  c;
 	bool  invert;
 	
-	void старт(int minx, int maxx);
+	void Start(int minx, int maxx);
 	void Render(int val);
 	void Render(int val, int len);
 };
 
 struct SpanFiller : Rasterizer::Filler {
-	КЗСА       *t;
-	const КЗСА *s;
+	RGBA       *t;
+	const RGBA *s;
 	int         y;
-	КЗСА       *буфер;
+	RGBA       *buffer;
 	SpanSource *ss;
 	int         alpha;
 	
-	void старт(int minx, int maxx);
+	void Start(int minx, int maxx);
 	void Render(int val);
 	void Render(int val, int len);
 };
@@ -29,27 +29,27 @@ struct SpanFiller : Rasterizer::Filler {
 struct SubpixelFiller : Rasterizer::Filler {
 	int16        *sbuffer;
 	int16        *begin;
-	КЗСА         *t, *end;
+	RGBA         *t, *end;
 	int16        *v;
-	КЗСА         *s;
-	КЗСА          color;
+	RGBA         *s;
+	RGBA          color;
 	SpanSource   *ss;
 	int           alpha;
-	КЗСА         *буфер;
+	RGBA         *buffer;
 	int           y;
 	bool          invert;
 
-	void пиши(int len);
+	void Write(int len);
 	void RenderN(int val, int h, int n);
 
-	void старт(int minx, int maxx);
+	void Start(int minx, int maxx);
 	void Render(int val);
 	void Render(int val, int len);
-	void стоп();
+	void End();
 };
 
 struct ClipFiller : Rasterizer::Filler {
-	Буфер<byte> буфер;
+	Buffer<byte> buffer;
 	byte        *t;
 	int          x;
 	int          cx;
@@ -62,12 +62,12 @@ struct ClipFiller : Rasterizer::Filler {
 
 	virtual void Render(int val);
 	virtual void Render(int val, int len);
-	virtual void старт(int x, int len);
+	virtual void Start(int x, int len);
 
-	void   очисть();
-	void   финиш(ClippingLine& cl);
+	void   Clear();
+	void   Finish(ClippingLine& cl);
 	
-	void   иниц(int cx);
+	void   Init(int cx);
 };
 
 struct MaskFillerFilter : Rasterizer::Filler {
@@ -76,23 +76,23 @@ struct MaskFillerFilter : Rasterizer::Filler {
 	int                 empty;
 	int                 full;
 
-	void старт(int minx, int maxx);
+	void Start(int minx, int maxx);
 	void Render(int val, int len);
 	void Render(int val);
-	void стоп() { t->стоп(); }
+	void End() { t->End(); }
 	
-	void уст(Rasterizer::Filler *f, const byte *m) { t = f; mask = m; empty = full = 0; }
+	void Set(Rasterizer::Filler *f, const byte *m) { t = f; mask = m; empty = full = 0; }
 };
 
 struct NoAAFillerFilter : Rasterizer::Filler {
 	Rasterizer::Filler *t;
 
-	void старт(int minx, int maxx);
+	void Start(int minx, int maxx);
 	void Render(int val, int len);
 	void Render(int val);
-	void стоп() { t->стоп(); }
+	void End() { t->End(); }
 	
-	void уст(Rasterizer::Filler *f)                 { t = f; }
+	void Set(Rasterizer::Filler *f)                 { t = f; }
 };
 
 }

@@ -1,159 +1,159 @@
 #include "Core.h"
 
-namespace РНЦПДинрус {
+namespace Upp {
 
-const Обнул Null;
+const Nuller Null;
 
 #define LTIMING(x) // RTIMING(x)
 
-ОшибкаТипаЗначения::ОшибкаТипаЗначения(const Ткст& text, const Значение& ист, int target)
-:	Искл(text), ист(ист), target(target) {}
+ValueTypeError::ValueTypeError(const String& text, const Value& src, int target)
+:	Exc(text), src(src), target(target) {}
 
-hash_t Значение::дайДрЗначХэш() const {
-	if(пусто_ли())
+hash_t Value::GetOtherHashValue() const {
+	if(IsNull())
 		return 0;
-	byte st = данные.GetSt();
+	byte st = data.GetSt();
 	if(st == REF)
-		return ptr()->дайХэшЗнач();
-	return svo[st]->дайХэшЗнач(&данные);
+		return ptr()->GetHashValue();
+	return svo[st]->GetHashValue(&data);
 }
 
-void Значение::отпустиРеф()
+void Value::RefRelease()
 {
-	ПРОВЕРЬ(реф_ли()); // Check that svo тип is not registered as Реф
-	ptr()->отпусти();
+	ASSERT(IsRef()); // Check that svo type is not registered as Ref
+	ptr()->Release();
 }
 
-void Значение::RefRetain()
+void Value::RefRetain()
 {
 	ptr()->Retain();
 }
 
-Значение& Значение::operator=(const Значение& v) {
+Value& Value::operator=(const Value& v) {
 	if(this == &v) return *this;
-	Значение h = v; // сделай copy a 'v' can be reference to МапЗнач/Массив contained element
-	освободиРеф();   // e.g. json = json["foo"]
-	данные = h.данные;
-	if(реф_ли())
+	Value h = v; // Make copy a 'v' can be reference to ValueMap/Array contained element
+	FreeRef();   // e.g. json = json["foo"]
+	data = h.data;
+	if(IsRef())
 		ptr()->Retain();
 	return *this;
 }
 
-void Значение::устЛардж(const Значение& v)
+void Value::SetLarge(const Value& v)
 {
-	if(v.реф_ли()) {
-		данные.устСмолл(v.данные);
+	if(v.IsRef()) {
+		data.SetSmall(v.data);
 		RefRetain();
 	}
 	else
-		данные.LSet(v.данные);
+		data.LSet(v.data);
 }
 
-dword Значение::дайТип() const
+dword Value::GetType() const
 {
-	if(ткст_ли())
+	if(IsString())
 		return STRING_V;
-	byte st = данные.GetSt();
-	return st == REF ? дайРефТип() : st == VOIDV ? VOID_V : st;
+	byte st = data.GetSt();
+	return st == REF ? GetRefType() : st == VOIDV ? VOID_V : st;
 }
 
-bool Значение::пусто_ли() const
+bool Value::IsNull() const
 {
-	if(ткст_ли())
-		return данные.дайСчёт() == 0;
-	int st = данные.GetSt();
+	if(IsString())
+		return data.GetCount() == 0;
+	int st = data.GetSt();
 	if(st == VOIDV)
 		return true;
 	if(st == REF)
-		return ptr()->пусто_ли();
-	return svo[st]->пусто_ли(&данные);
+		return ptr()->IsNull();
+	return svo[st]->IsNull(&data);
 }
 
-bool Значение::полиРавны(const Значение& v) const
+bool Value::IsPolyEqual(const Value& v) const
 {
-	int st = данные.дайОсобый();
+	int st = data.GetSpecial();
 	if(st == REF)
-		return ptr()->полиРавны(v);
-	if(svo[st] && svo[st]->полиРавны(&данные, v))
+		return ptr()->IsPolyEqual(v);
+	if(svo[st] && svo[st]->IsPolyEqual(&data, v))
 		return true;
-	return пусто_ли() && v.пусто_ли();
+	return IsNull() && v.IsNull();
 }
 
-bool Значение::operator==(const Значение& v) const {
-	if(ткст_ли() && v.ткст_ли())
-		return данные == v.данные;
-	if(дайТип() != v.дайТип()) {
-		if(полиРавны(v) || v.полиРавны(*this))
+bool Value::operator==(const Value& v) const {
+	if(IsString() && v.IsString())
+		return data == v.data;
+	if(GetType() != v.GetType()) {
+		if(IsPolyEqual(v) || v.IsPolyEqual(*this))
 			return true;
 	}
 	else {
-		int st = данные.дайОсобый();
+		int st = data.GetSpecial();
 		if(st == REF) {
-			if(ptr()->равен(v.ptr()))
+			if(ptr()->IsEqual(v.ptr()))
 				return true;
 		}
 		else
 		if(st != VOIDV) {
-			if(svo[st]->равен(&данные, &v.данные))
+			if(svo[st]->IsEqual(&data, &v.data))
 				return true;
 		}
 	}
-	return пусто_ли() && v.пусто_ли();
+	return IsNull() && v.IsNull();
 }
 
-int Значение::полиСравни(const Значение& v) const
+int Value::PolyCompare(const Value& v) const
 {
-	int st = данные.дайОсобый();
+	int st = data.GetSpecial();
 	if(st == REF)
-		return ptr()->полиСравни(v);
+		return ptr()->PolyCompare(v);
 	if(st != VOIDV)
-		return svo[st]->полиСравни(&данные, v);
+		return svo[st]->PolyCompare(&data, v);
 	return 0;
 }
 
-int Значение::сравни2(const Значение& v) const
+int Value::Compare2(const Value& v) const
 {
-	if(ткст_ли() && v.ткст_ли())
-		return сравниЗнак(данные, v.данные);
-	dword stw = данные.GetStW();
-	if(stw == v.данные.GetStW()) {
-		if(stw == Ткст::StW(INT64_V))
-			return сравниЗнак(дайСыройСмолл<int64>(), v.дайСыройСмолл<int64>());
-		if(stw == Ткст::StW(DATE_V))
-			return сравниЗнак(дайСыройСмолл<Дата>(), v.дайСыройСмолл<Дата>());
-		if(stw == Ткст::StW(TIME_V))
-			return сравниЗнак(дайСыройСмолл<Время>(), v.дайСыройСмолл<Время>());
+	if(IsString() && v.IsString())
+		return SgnCompare(data, v.data);
+	dword stw = data.GetStW();
+	if(stw == v.data.GetStW()) {
+		if(stw == String::StW(INT64_V))
+			return SgnCompare(GetSmallRaw<int64>(), v.GetSmallRaw<int64>());
+		if(stw == String::StW(DATE_V))
+			return SgnCompare(GetSmallRaw<Date>(), v.GetSmallRaw<Date>());
+		if(stw == String::StW(TIME_V))
+			return SgnCompare(GetSmallRaw<Time>(), v.GetSmallRaw<Time>());
 	}
-	bool a = пусто_ли();
-	bool b = v.пусто_ли();
+	bool a = IsNull();
+	bool b = v.IsNull();
 	if(a || b)
-		return сравниЗнак(b, a);
-	int st = данные.дайОсобый();
-	if(дайТип() == v.дайТип()) {
+		return SgnCompare(b, a);
+	int st = data.GetSpecial();
+	if(GetType() == v.GetType()) {
 		if(st == REF)
-			return ptr()->сравни(v.ptr());
+			return ptr()->Compare(v.ptr());
 		if(st != VOIDV)
-			return svo[st]->сравни(&данные, &v.данные);
+			return svo[st]->Compare(&data, &v.data);
 	}
 	if(st != VOIDV) {
-		int q = полиСравни(v);
+		int q = PolyCompare(v);
 		if(q) return q;
-		return -v.полиСравни(*this);
+		return -v.PolyCompare(*this);
 	}
 	return 0;
 }
 
-bool Значение::одинаково(const Значение& b) const
+bool Value::IsSame(const Value& b) const
 {
-	const Значение& a = *this;
-	if(a.является<МапЗнач>() && b.является<МапЗнач>())
-		return МапЗнач(a).одинаково(МапЗнач(b));
+	const Value& a = *this;
+	if(a.Is<ValueMap>() && b.Is<ValueMap>())
+		return ValueMap(a).IsSame(ValueMap(b));
 	else
-	if(a.является<МассивЗнач>() && b.является<МассивЗнач>()) {
-		if(a.дайСчёт() != b.дайСчёт())
+	if(a.Is<ValueArray>() && b.Is<ValueArray>()) {
+		if(a.GetCount() != b.GetCount())
 			return false;
-		for(int i = 0; i < a.дайСчёт(); i++)
-			if(!a[i].одинаково(b[i]))
+		for(int i = 0; i < a.GetCount(); i++)
+			if(!a[i].IsSame(b[i]))
 				return false;
 		return true;
 	}
@@ -161,132 +161,132 @@ bool Значение::одинаково(const Значение& b) const
 		return a == b;
 }
 
-Значение::Значение(const ШТкст& s) { иницРеф(new RichValueRep<ШТкст>(s), WSTRING_V); Magic(); }
+Value::Value(const WString& s) { InitRef(new RichValueRep<WString>(s), WSTRING_V); Magic(); }
 
-Значение::operator ШТкст() const
+Value::operator WString() const
 {
-	if(пусто_ли()) return Null;
-	return дайТип() == WSTRING_V ? To<ШТкст>() : ((Ткст)(*this)).вШТкст();
+	if(IsNull()) return Null;
+	return GetType() == WSTRING_V ? To<WString>() : ((String)(*this)).ToWString();
 }
 
-Дата Значение::дайДрДату() const
+Date Value::GetOtherDate() const
 {
-	if(пусто_ли()) return Null;
-	return дайСмолл<Время>();
+	if(IsNull()) return Null;
+	return GetSmall<Time>();
 }
 
-Время Значение::дайДрВремя() const
+Time Value::GetOtherTime() const
 {
-	if(пусто_ли()) return Null;
-	return воВремя(дайСмолл<Дата>());
+	if(IsNull()) return Null;
+	return ToTime(GetSmall<Date>());
 }
 
-Ткст Значение::дайДрТкст() const
+String Value::GetOtherString() const
 {
-	if(пусто_ли()) return Null;
-	if(является<Ткст>())
-		return To<Ткст>();
-	return To<ШТкст>().вТкст();
+	if(IsNull()) return Null;
+	if(Is<String>())
+		return To<String>();
+	return To<WString>().ToString();
 }
 
-int Значение::дайДрЦел() const
+int Value::GetOtherInt() const
 {
-	if(пусто_ли()) return Null;
-	return данные.особый_ли(BOOL_V) ? (int)дайСмолл<bool>() :
-	       данные.особый_ли(INT64_V) ? (int)дайСмолл<int64>() :
-	       (int)дайСмолл<double>();
+	if(IsNull()) return Null;
+	return data.IsSpecial(BOOL_V) ? (int)GetSmall<bool>() :
+	       data.IsSpecial(INT64_V) ? (int)GetSmall<int64>() :
+	       (int)GetSmall<double>();
 }
 
-int64 Значение::дайДрЦел64() const
+int64 Value::GetOtherInt64() const
 {
-	if(пусто_ли()) return Null;
-	return данные.особый_ли(BOOL_V) ? (int64)дайСмолл<bool>() :
-	       данные.особый_ли(INT_V) ? (int64)дайСмолл<int>() :
-	       (int64)дайСмолл<double>();
+	if(IsNull()) return Null;
+	return data.IsSpecial(BOOL_V) ? (int64)GetSmall<bool>() :
+	       data.IsSpecial(INT_V) ? (int64)GetSmall<int>() :
+	       (int64)GetSmall<double>();
 }
 
-double Значение::дайДрДво() const
+double Value::GetOtherDouble() const
 {
-	if(пусто_ли()) return Null;
-	return данные.особый_ли(BOOL_V) ? (double)дайСмолл<bool>() :
-	       данные.особый_ли(INT_V) ? (double)дайСмолл<int>() :
-	       (double)дайСмолл<int64>();
+	if(IsNull()) return Null;
+	return data.IsSpecial(BOOL_V) ? (double)GetSmall<bool>() :
+	       data.IsSpecial(INT_V) ? (double)GetSmall<int>() :
+	       (double)GetSmall<int64>();
 }
 
-bool Значение::дайДрБул() const
+bool Value::GetOtherBool() const
 {
-	if(пусто_ли()) return Null;
-	return данные.особый_ли(DOUBLE_V) ? (bool)дайСмолл<double>() :
-	       данные.особый_ли(INT_V) ? (bool)дайСмолл<int>() :
-	       (bool)дайСмолл<int64>();
+	if(IsNull()) return Null;
+	return data.IsSpecial(DOUBLE_V) ? (bool)GetSmall<double>() :
+	       data.IsSpecial(INT_V) ? (bool)GetSmall<int>() :
+	       (bool)GetSmall<int64>();
 }
 
-ВекторМап<dword, Значение::Проц *(*)()>& Значение::Typemap()
+VectorMap<dword, Value::Void *(*)()>& Value::Typemap()
 {
-	static ВекторМап<dword, Значение::Проц *(*)()> x;
+	static VectorMap<dword, Value::Void *(*)()> x;
 	return x;
 }
 
-Индекс<Ткст>& Значение::индексИмени()
+Index<String>& Value::NameNdx()
 {
-	static Индекс<Ткст> x;
+	static Index<String> x;
 	return x;
 }
 
-Индекс<dword>& Значение::индексТипа()
+Index<dword>& Value::TypeNdx()
 {
-	static Индекс<dword> x;
+	static Index<dword> x;
 	return x;
 }
 
-void Значение::добавьИмя(dword тип, const char *имя)
+void Value::AddName(dword type, const char *name)
 {
-	индексИмени().добавь(имя);
-	индексТипа().добавь(тип);
+	NameNdx().Add(name);
+	TypeNdx().Add(type);
 }
 
-int Значение::дайТип(const char *имя)
+int Value::GetType(const char *name)
 {
-	int q = индексИмени().найди(имя);
+	int q = NameNdx().Find(name);
 	if(q < 0)
 		return Null;
-	return индексТипа()[q];
+	return TypeNdx()[q];
 }
 
-Ткст Значение::дайИмя(dword тип)
+String Value::GetName(dword type)
 {
-	int q = индексТипа().найди(тип);
+	int q = TypeNdx().Find(type);
 	if(q < 0)
 		return Null;
-	return индексИмени()[q];
+	return NameNdx()[q];
 }
 
-SVO_FN(s_String, Ткст);
+SVO_FN(s_String, String);
 SVO_FN(s_int, int);
 SVO_FN(s_double, double);
 SVO_FN(s_int64, int64);
 SVO_FN(s_bool, bool);
-SVO_FN(s_date, Дата);
-SVO_FN(s_time, Время);
+SVO_FN(s_date, Date);
+SVO_FN(s_time, Time);
 
 struct SvoVoidFn {
-	static bool       пусто_ли(const void *p)                      { return true; }
-	static void       сериализуй(void *p, Поток& s)              {}
-	static void       вРяр(void *p, РярВВ& xio)               {}
-	static void       вДжейсон(void *p, ДжейсонВВ& jio)             {}
-	static hash_t     дайХэшЗнач(const void *p)                { return 0; }
-	static bool       равен(const void *p1, const void *p2)    { return true; }
-	static bool       полиРавны(const void *p, const Значение& v) { return false; }
-	static Ткст     какТкст(const void *p)                    { return Ткст(); }
+	static bool       IsNull(const void *p)                      { return true; }
+	static void       Serialize(void *p, Stream& s)              {}
+	static void       Xmlize(void *p, XmlIO& xio)               {}
+	static void       Jsonize(void *p, JsonIO& jio)             {}
+	static hash_t     GetHashValue(const void *p)                { return 0; }
+	static bool       IsEqual(const void *p1, const void *p2)    { return true; }
+	static bool       IsPolyEqual(const void *p, const Value& v) { return false; }
+	static String     AsString(const void *p)                    { return String(); }
 };
 
-static Значение::Sval s_void = {
-	SvoVoidFn::пусто_ли, SvoVoidFn::сериализуй,SvoVoidFn::вРяр, SvoVoidFn::вДжейсон,
-	SvoVoidFn::дайХэшЗнач, SvoVoidFn::равен,
-	SvoVoidFn::полиРавны, SvoVoidFn::какТкст
+static Value::Sval s_void = {
+	SvoVoidFn::IsNull, SvoVoidFn::Serialize,SvoVoidFn::Xmlize, SvoVoidFn::Jsonize,
+	SvoVoidFn::GetHashValue, SvoVoidFn::IsEqual,
+	SvoVoidFn::IsPolyEqual, SvoVoidFn::AsString
 };
 
-Значение::Sval *Значение::svo[256] = {
+Value::Sval *Value::svo[256] = {
 	&s_String, // STRING_V
 	&s_int, // INT_V
 
@@ -309,258 +309,258 @@ static Значение::Sval s_void = {
 	NULL, //VALUEMAP_V   = 12;
 };
 
-Значение::Проц *создайДанМассивЗач()
+Value::Void *ValueArrayDataCreate()
 {
-	return new МассивЗнач::Данные;
+	return new ValueArray::Data;
 }
 
-Значение::Проц *создайДанМапЗач()
+Value::Void *ValueMapDataCreate()
 {
-	return new МапЗнач::Данные;
+	return new ValueMap::Data;
 }
 
-void Значение::регистрируйСтд()
+void Value::RegisterStd()
 {
 	ONCELOCK {
-		Значение::регистрируй<ШТкст>("ШТкст");
-		Значение::регистрируй<Комплекс>("Комплекс");
-		Значение::регистрируй(VALUEARRAY_V, создайДанМассивЗач, "МассивЗнач");
-		Значение::регистрируй(VALUEMAP_V, создайДанМапЗач, "МапЗнач");
-		Значение::добавьИмя(STRING_V, "Ткст");
-		Значение::добавьИмя(INT_V, "int");
-		Значение::добавьИмя(DOUBLE_V, "double");
-		Значение::добавьИмя(VOID_V, "void");
-		Значение::добавьИмя(DATE_V, "Дата");
-		Значение::добавьИмя(TIME_V, "Время");
-		Значение::добавьИмя(INT64_V, "int64");
-		Значение::добавьИмя(BOOL_V, "bool");
-		Значение::добавьИмя(ERROR_V, "Ошибка");
+		Value::Register<WString>("WString");
+		Value::Register<Complex>("Complex");
+		Value::Register(VALUEARRAY_V, ValueArrayDataCreate, "ValueArray");
+		Value::Register(VALUEMAP_V, ValueMapDataCreate, "ValueMap");
+		Value::AddName(STRING_V, "String");
+		Value::AddName(INT_V, "int");
+		Value::AddName(DOUBLE_V, "double");
+		Value::AddName(VOID_V, "void");
+		Value::AddName(DATE_V, "Date");
+		Value::AddName(TIME_V, "Time");
+		Value::AddName(INT64_V, "int64");
+		Value::AddName(BOOL_V, "bool");
+		Value::AddName(ERROR_V, "error");
 	};
 }
 
 void ValueRegisterHelper()
 {
-	Значение::регистрируйСтд();
+	Value::RegisterStd();
 }
 
-ИНИЦБЛОК {
+INITBLOCK {
 	ValueRegisterHelper();
 }
 
-void Значение::сериализуй(Поток& s) {
-	регистрируйСтд();
-	dword тип;
-	if(s.грузится()) {
-		s / тип;
-		if(тип >= 0x8000000)
-			s.загрузиОш();
-		освободи();
-		int st = тип == VOID_V ? VOIDV : тип == STRING_V ? STRING : тип;
+void Value::Serialize(Stream& s) {
+	RegisterStd();
+	dword type;
+	if(s.IsLoading()) {
+		s / type;
+		if(type >= 0x8000000)
+			s.LoadError();
+		Free();
+		int st = type == VOID_V ? VOIDV : type == STRING_V ? STRING : type;
 		if(st == STRING)
-			s % данные;
+			s % data;
 		else
 		if(st >= 0 && st < 255 && svo[st]) {
-			данные.устОсобо((byte)тип);
-			svo[st]->сериализуй(&данные, s);
+			data.SetSpecial((byte)type);
+			svo[st]->Serialize(&data, s);
 		}
 		else {
-			typedef Проц* (*vp)();
-			vp *cr = Typemap().найдиУк(тип);
+			typedef Void* (*vp)();
+			vp *cr = Typemap().FindPtr(type);
 			if(cr) {
-				Проц *p = (**cr)();
-				p->сериализуй(s);
-				иницРеф(p, тип);
+				Void *p = (**cr)();
+				p->Serialize(s);
+				InitRef(p, type);
 			}
 			else {
-				освободи();
-				данные.устОсобо(3);
-				if(тип != VOID_V && тип != ERROR_V)
-					s.загрузиОш();
+				Free();
+				data.SetSpecial(3);
+				if(type != VOID_V && type != ERROR_V)
+					s.LoadError();
 			}
 		}
 	}
 	else {
-		тип = дайТип();
-		ПРОВЕРЬ(тип < 0x8000000); // only Values with assigned real тип ИД can be serialized
-		s / тип;
-		int st = данные.дайОсобый();
-		ПРОВЕРЬ_(!тип || тип == ERROR_V || тип == UNKNOWN_V || st == STRING ||
-		        (реф_ли() ? Typemap().найди(тип) >= 0 : st < 255 && svo[st]),
-		        дайИмя() + " не зарегистрировано для сериализации");
+		type = GetType();
+		ASSERT(type < 0x8000000); // only Values with assigned real type ID can be serialized
+		s / type;
+		int st = data.GetSpecial();
+		ASSERT_(!type || type == ERROR_V || type == UNKNOWN_V || st == STRING ||
+		        (IsRef() ? Typemap().Find(type) >= 0 : st < 255 && svo[st]),
+		        GetName() + " не требуется для сериализации");
 		if(st == VOIDV)
 			return;
 		if(st == STRING)
-			s % данные;
+			s % data;
 		else
-		if(реф_ли())
-			ptr()->сериализуй(s);
+		if(IsRef())
+			ptr()->Serialize(s);
 		else
-			svo[st]->сериализуй(&данные, s);
+			svo[st]->Serialize(&data, s);
 	}
 }
 
-static Ткст s_binary("serialized_binary");
+static String s_binary("serialized_binary");
 
-void Значение::вРяр(РярВВ& xio)
+void Value::Xmlize(XmlIO& xio)
 {
-	регистрируйСтд();
-	if(xio.сохраняется()) {
-		if(ошибка_ли()) {
-			Значение v = Null;
-			v.вРяр(xio);
+	RegisterStd();
+	if(xio.IsStoring()) {
+		if(IsError()) {
+			Value v = Null;
+			v.Xmlize(xio);
 			return;
 		}
-		dword тип = дайТип();
-		Ткст имя = дайИмя(тип);
-		if(имя.дайСчёт() == 0) {
-			xio.устАтр("тип", s_binary);
-			Ткст s = гексТкст(сохраниКакТкст(*this));
-			РНЦПДинрус::вРяр(xio, s);
+		dword type = GetType();
+		String name = GetName(type);
+		if(name.GetCount() == 0) {
+			xio.SetAttr("type", s_binary);
+			String s = HexString(StoreAsString(*this));
+			Upp::Xmlize(xio, s);
 		}
 		else {
-			xio.устАтр("тип", имя);
-			int st = данные.дайОсобый();
-			ПРОВЕРЬ_(!тип || тип == ERROR_V || тип == UNKNOWN_V || st == STRING ||
-			        (реф_ли() ? Typemap().найди(тип) >= 0 : st < 255 && svo[st]),
-			        дайИмя() + " не зарегистрировано для xml-изации");
+			xio.SetAttr("type", name);
+			int st = data.GetSpecial();
+			ASSERT_(!type || type == ERROR_V || type == UNKNOWN_V || st == STRING ||
+			        (IsRef() ? Typemap().Find(type) >= 0 : st < 255 && svo[st]),
+			        GetName() + " не зарегистрирован для xml-изации");
 			if(st == VOIDV)
 				return;
 			if(st == STRING)
-				РНЦПДинрус::вРяр(xio, данные);
+				Upp::Xmlize(xio, data);
 			else
-			if(реф_ли())
-				ptr()->вРяр(xio);
+			if(IsRef())
+				ptr()->Xmlize(xio);
 			else
-				svo[st]->вРяр(&данные, xio);
+				svo[st]->Xmlize(&data, xio);
 		}
 	}
 	else {
-		Ткст имя = xio.дайАтр("тип");
-		if(РНЦПДинрус::пусто_ли(имя))
-			*this = Значение();
+		String name = xio.GetAttr("type");
+		if(Upp::IsNull(name))
+			*this = Value();
 		else
-		if(имя == s_binary) {
-			Ткст s;
-			РНЦПДинрус::вРяр(xio, s);
+		if(name == s_binary) {
+			String s;
+			Upp::Xmlize(xio, s);
 			try {
-				грузиИзТкст(*this, сканГексТкст(s));
+				LoadFromString(*this, ScanHexString(s));
 			}
 			catch(LoadingError) {
-				throw ОшибкаРяр("xmlize serialized_binary Ошибка");
+				throw XmlError("Ошибка при xml-изации сериализованного бинарника");
 			}
 		}
 		else {
-			int тип = дайТип(имя);
-			if(РНЦПДинрус::пусто_ли(тип))
-				throw ОшибкаРяр("неверное значение типа");
-			освободи();
-			int st = (dword)тип == VOID_V ? VOIDV : (dword)тип == STRING_V ? STRING : тип;
+			int type = GetType(name);
+			if(Upp::IsNull(type))
+				throw XmlError("Неправильный тип значения");
+			Free();
+			int st = (dword)type == VOID_V ? VOIDV : (dword)type == STRING_V ? STRING : type;
 			if(st == STRING)
-				РНЦПДинрус::вРяр(xio, данные);
+				Upp::Xmlize(xio, data);
 			else
 			if(st < 255 && svo[st]) {
-				данные.устОсобо((byte)тип);
-				svo[st]->вРяр(&данные, xio);
+				data.SetSpecial((byte)type);
+				svo[st]->Xmlize(&data, xio);
 			}
 			else {
-				typedef Проц* (*vp)();
-				vp *cr = Typemap().найдиУк(тип);
+				typedef Void* (*vp)();
+				vp *cr = Typemap().FindPtr(type);
 				if(cr) {
-					Проц *p = (**cr)();
-					p->вРяр(xio);
-					иницРеф(p, тип);
+					Void *p = (**cr)();
+					p->Xmlize(xio);
+					InitRef(p, type);
 				}
 				else
-					throw ОшибкаРяр("неверное значение типа");
+					throw XmlError("Неправильный тип значения");
 			}
 		}
 	}
 }
 
-void Значение::вДжейсон(ДжейсонВВ& jio)
+void Value::Jsonize(JsonIO& jio)
 {
-	регистрируйСтд();
-	if(jio.сохраняется()) {
-		if(пусто_ли())
-			jio.уст(Null);
+	RegisterStd();
+	if(jio.IsStoring()) {
+		if(IsNull())
+			jio.Set(Null);
 		else {
-			dword тип = дайТип();
-			Ткст имя = дайИмя(тип);
-			if(имя.дайСчёт() == 0) {
-				Ткст s = гексТкст(сохраниКакТкст(*this));
-				jio("тип", s_binary)
-				   ("значение", s);
+			dword type = GetType();
+			String name = GetName(type);
+			if(name.GetCount() == 0) {
+				String s = HexString(StoreAsString(*this));
+				jio("type", s_binary)
+				   ("value", s);
 			}
 			else {
-				int st = данные.дайОсобый();
-				ПРОВЕРЬ_(!тип || тип == ERROR_V || тип == UNKNOWN_V || st == STRING ||
-				        (реф_ли() ? Typemap().найди(тип) >= 0 : st < 255 && svo[st]),
-				        дайИмя() + " не зарегистрировано для json-изации");
+				int st = data.GetSpecial();
+				ASSERT_(!type || type == ERROR_V || type == UNKNOWN_V || st == STRING ||
+				        (IsRef() ? Typemap().Find(type) >= 0 : st < 255 && svo[st]),
+				        GetName() + " не зарегистрирован для json-изации");
 				if(st == VOIDV)
 					return;
-				ДжейсонВВ hio;
+				JsonIO hio;
 				if(st == STRING) {
-					Ткст h = данные;
-					РНЦПДинрус::вДжейсон(hio, h);
+					String h = data;
+					Upp::Jsonize(hio, h);
 				}
 				else {
-					if(реф_ли())
-						ptr()->вДжейсон(hio);
+					if(IsRef())
+						ptr()->Jsonize(hio);
 					else
-						svo[st]->вДжейсон(&данные, hio);
+						svo[st]->Jsonize(&data, hio);
 				}
-				МапЗнач m;
-				m.добавь("тип", имя);
-				m.добавь("значение", hio.дайРез());
-				jio.уст(m);
+				ValueMap m;
+				m.Add("type", name);
+				m.Add("value", hio.GetResult());
+				jio.Set(m);
 			}
 		}
 	}
 	else {
-		Значение g = jio.дай();
-		if(g.пусто_ли())
+		Value g = jio.Get();
+		if(g.IsNull())
 			*this = Null;
 		else {
-			Ткст имя = g["тип"];
-			Значение  val = g["значение"];
-			if(имя == s_binary) {
-				if(!РНЦПДинрус::ткст_ли(val))
-					throw JsonizeError("serialized_binary Ошибка");
-				Ткст s = val;
+			String name = g["type"];
+			Value  val = g["value"];
+			if(name == s_binary) {
+				if(!Upp::IsString(val))
+					throw JsonizeError("Ошибка сериализонанного бинарника");
+				String s = val;
 				try {
-					грузиИзТкст(*this, сканГексТкст(s));
+					LoadFromString(*this, ScanHexString(s));
 				}
 				catch(LoadingError) {
-					throw JsonizeError("serialized_binary Ошибка");
+					throw JsonizeError("Ошибка сериализаванного бинарника");
 				}
 			}
 			else {
-				int тип = дайТип(имя);
-				if(РНЦПДинрус::пусто_ли(тип))
-					throw JsonizeError("invalid Значение тип");
-				освободи();
-				int st = (dword)тип == VOID_V ? VOIDV : (dword)тип == STRING_V ? STRING : тип;
+				int type = GetType(name);
+				if(Upp::IsNull(type))
+					throw JsonizeError("Неверный тип значения");
+				Free();
+				int st = (dword)type == VOID_V ? VOIDV : (dword)type == STRING_V ? STRING : type;
 				if(st == STRING) {
-					if(!РНЦПДинрус::ткст_ли(val))
-						throw JsonizeError("serialized_binary Ошибка");
-					данные = val;
+					if(!Upp::IsString(val))
+						throw JsonizeError("serialized_binary Error");
+					data = val;
 				}
 				else {
-					ДжейсонВВ hio(val);
+					JsonIO hio(val);
 					if(st < 255 && svo[st]) {
-						данные.устОсобо((byte)тип);
-						svo[st]->вДжейсон(&данные, hio);
+						data.SetSpecial((byte)type);
+						svo[st]->Jsonize(&data, hio);
 					}
 					else {
-						typedef Проц* (*vp)();
-						vp *cr = Typemap().найдиУк(тип);
+						typedef Void* (*vp)();
+						vp *cr = Typemap().FindPtr(type);
 						if(cr) {
-							Проц *p = (**cr)();
-							p->вДжейсон(hio);
-							иницРеф(p, тип);
+							Void *p = (**cr)();
+							p->Jsonize(hio);
+							InitRef(p, type);
 						}
 						else
-							throw JsonizeError("invalid Значение тип");
+							throw JsonizeError("Неверный тип значения");
 					}
 				}
 			}
@@ -568,193 +568,193 @@ void Значение::вДжейсон(ДжейсонВВ& jio)
 	}
 }
 
-void Значение::регистрируй(dword w, Проц* (*c)(), const char *имя) {
+void Value::Register(dword w, Void* (*c)(), const char *name) {
 #ifdef flagCHECKINIT
-	RLOG("регистрируй valuetype " << w);
+	RLOG("Register valuetype " << w);
 #endif
-	проверьНаОН(); // all needs to be registered at file level scope
-	ПРОВЕРЬ(w != UNKNOWN_V);
-	ПРОВЕРЬ(w < 0x8000000);
-	CHECK(Typemap().дайДобавь(w, c) == c);
-	добавьИмя(w, имя);
+	AssertST(); // all needs to be registered at file level scope
+	ASSERT(w != UNKNOWN_V);
+	ASSERT(w < 0x8000000);
+	CHECK(Typemap().GetAdd(w, c) == c);
+	AddName(w, name);
 }
 
-Ткст  Значение::вТкст() const {
-	if(пусто_ли())
+String  Value::ToString() const {
+	if(IsNull())
 		return Null;
-	if(ткст_ли())
-		return данные;
-	if(реф_ли())
-		return ptr()->какТкст();
-	int st = данные.дайОсобый();
-	return svo[st]->какТкст(&данные);
+	if(IsString())
+		return data;
+	if(IsRef())
+		return ptr()->AsString();
+	int st = data.GetSpecial();
+	return svo[st]->AsString(&data);
 }
 
-int Значение::дайСчёт() const
+int Value::GetCount() const
 {
-	if(реф_ли()) {
-		dword t = дайРефТип();
+	if(IsRef()) {
+		dword t = GetRefType();
 		if(t == VALUEARRAY_V)
-			return ((МассивЗнач::Данные *)ptr())->данные.дайСчёт();
+			return ((ValueArray::Data *)ptr())->data.GetCount();
 		if(t == VALUEMAP_V)
-			return ((МапЗнач::Данные *)ptr())->значение.дайСчёт();
+			return ((ValueMap::Data *)ptr())->value.GetCount();
 	}
 	return 0;
 }
 
-const Значение& Значение::operator[](int i) const
+const Value& Value::operator[](int i) const
 {
-	if(реф_ли()) {
-		dword t = дайРефТип();
+	if(IsRef()) {
+		dword t = GetRefType();
 		if(t == VALUEARRAY_V)
-			return ((МассивЗнач::Данные *)ptr())->данные[i];
+			return ((ValueArray::Data *)ptr())->data[i];
 		if(t == VALUEMAP_V)
-			return ((МапЗнач::Данные *)ptr())->значение[i];
+			return ((ValueMap::Data *)ptr())->value[i];
 	}
-	return значОш();
+	return ErrorValue();
 }
 
-const Вектор<Значение>& Значение::GetVA() const
+const Vector<Value>& Value::GetVA() const
 {
-	if(реф_ли()) {
-		if(является<МассивЗнач>())
-			return ((МассивЗнач::Данные *)ptr())->данные;
-		if(является<МапЗнач>())
-			return ((МапЗнач::Данные *)ptr())->значение.данные->данные;
+	if(IsRef()) {
+		if(Is<ValueArray>())
+			return ((ValueArray::Data *)ptr())->data;
+		if(Is<ValueMap>())
+			return ((ValueMap::Data *)ptr())->value.data->data;
 	}
-	return МассивЗнач::VoidData;
+	return ValueArray::VoidData;
 }
 
 force_inline
-Вектор<Значение>& Значение::UnShareArray()
+Vector<Value>& Value::UnShareArray()
 {
-	МассивЗнач::Данные *данные = (МассивЗнач::Данные *)ptr();
-	if(данные->GetRefCount() != 1) {
-		МассивЗнач::Данные *d = new МассивЗнач::Данные;
-		d->данные = clone(данные->данные);
-		данные->отпусти();
+	ValueArray::Data *data = (ValueArray::Data *)ptr();
+	if(data->GetRefCount() != 1) {
+		ValueArray::Data *d = new ValueArray::Data;
+		d->data = clone(data->data);
+		data->Release();
 		ptr() = d;
-		данные = d;
+		data = d;
 	}
-	return данные->данные;
+	return data->data;
 }
 
-Значение& Значение::по(int i)
+Value& Value::At(int i)
 {
-	if(пусто_ли())
-		*this = МассивЗнач();
-	ПРОВЕРЬ(i >= 0 && реф_ли());
-	dword t = дайРефТип();
+	if(IsNull())
+		*this = ValueArray();
+	ASSERT(i >= 0 && IsRef());
+	dword t = GetRefType();
 	if(t == VALUEMAP_V) {
-		МассивЗнач& va = МапЗнач::UnShare((МапЗнач::Данные*&)ptr()).значение;
-		ПРОВЕРЬ(i < va.дайСчёт());
-		return va.по(i);
+		ValueArray& va = ValueMap::UnShare((ValueMap::Data*&)ptr()).value;
+		ASSERT(i < va.GetCount());
+		return va.At(i);
 	}
-	ПРОВЕРЬ(t == VALUEARRAY_V);
-	return UnShareArray().по(i);
+	ASSERT(t == VALUEARRAY_V);
+	return UnShareArray().At(i);
 }
 
-void Значение::добавь(const Значение& s)
+void Value::Add(const Value& s)
 {
-	if(пусто_ли()) {
-		if(реф_ли()) отпустиРеф();
-		МассивЗнач::Данные *d = new МассивЗнач::Данные;
-		d->данные.добавь(s);
-		иницРеф(d, VALUEARRAY_V);
+	if(IsNull()) {
+		if(IsRef()) RefRelease();
+		ValueArray::Data *d = new ValueArray::Data;
+		d->data.Add(s);
+		InitRef(d, VALUEARRAY_V);
 		Magic();
 		return;
 	}
-	ПРОВЕРЬ(реф_ли() && дайРефТип() == VALUEARRAY_V);
-	UnShareArray().добавь(s);
+	ASSERT(IsRef() && GetRefType() == VALUEARRAY_V);
+	UnShareArray().Add(s);
 }
 
-const Значение& Значение::operator[](const Ткст& ключ) const
+const Value& Value::operator[](const String& key) const
 {
-	if(реф_ли() && дайРефТип() == VALUEMAP_V)
-		return ((МапЗнач::Данные *)ptr())->дай(ключ);
-	return значОш();
+	if(IsRef() && GetRefType() == VALUEMAP_V)
+		return ((ValueMap::Data *)ptr())->Get(key);
+	return ErrorValue();
 }
 
-Значение& Значение::дайДобавь(const Значение& ключ)
+Value& Value::GetAdd(const Value& key)
 {
-	if(пусто_ли()) {
-		if(реф_ли()) отпустиРеф();
-		МапЗнач::Данные *d = new МапЗнач::Данные;
-		Значение& h = d->дайДобавь(ключ);
-		иницРеф(d, VALUEMAP_V);
+	if(IsNull()) {
+		if(IsRef()) RefRelease();
+		ValueMap::Data *d = new ValueMap::Data;
+		Value& h = d->GetAdd(key);
+		InitRef(d, VALUEMAP_V);
 		Magic();
 		return h;
 	}
-	if(дайТип() == VALUEARRAY_V) {
-		МапЗнач m = *this;
+	if(GetType() == VALUEARRAY_V) {
+		ValueMap m = *this;
 		*this = m;
 	}
-	ПРОВЕРЬ(дайТип() == VALUEMAP_V);
-	return МапЗнач::UnShare((МапЗнач::Данные*&)ptr()).дайДобавь(ключ);
+	ASSERT(GetType() == VALUEMAP_V);
+	return ValueMap::UnShare((ValueMap::Data*&)ptr()).GetAdd(key);
 }
 
-Значение& Значение::operator()(const Ткст& ключ)
+Value& Value::operator()(const String& key)
 {
-	return дайДобавь(ключ);
+	return GetAdd(key);
 }
 
-Значение& Значение::operator()(const char *ключ)
+Value& Value::operator()(const char *key)
 {
-	return дайДобавь(ключ);
+	return GetAdd(key);
 }
 
-Значение& Значение::operator()(const Ид& ключ)
+Value& Value::operator()(const Id& key)
 {
-	return дайДобавь(~ключ);
+	return GetAdd(~key);
 }
 
-Ткст Значение::дайИмя() const
+String Value::GetName() const
 {
-	if(реф_ли()) {
-		Проц *p = ptr(); // supress CLANG warning
+	if(IsRef()) {
+		Void *p = ptr(); // supress CLANG warning
 		return typeid(*p).name();
 	}
-	if(ткст_ли())
-		return "Ткст";
-	static Кортеж<byte, const char *> tp[] = {
+	if(IsString())
+		return "String";
+	static Tuple<byte, const char *> tp[] = {
 		{ (byte)INT_V, "int" },
 		{ (byte)DOUBLE_V, "double" },
 		{ (byte)VOIDV, "void" },
-		{ (byte)DATE_V, "Дата" },
-		{ (byte)TIME_V, "Время" },
+		{ (byte)DATE_V, "Date" },
+		{ (byte)TIME_V, "Time" },
 		{ (byte)INT64_V, "int64" },
 		{ (byte)BOOL_V, "bool" },
 	};
-	Кортеж<byte, const char *> *x = найдиКортеж(tp, __countof(tp), данные.дайОсобый());
-	return x ? Ткст(x->b) : какТкст(дайТип());
+	Tuple<byte, const char *> *x = FindTuple(tp, __countof(tp), data.GetSpecial());
+	return x ? String(x->b) : AsString(GetType());
 }
 
-class ValueErrorCls : public RichValueRep<Ткст> {
+class ValueErrorCls : public RichValueRep<String> {
 public:
-	virtual dword      дайТип() const             { return ERROR_V; }
-	virtual bool       пусто_ли() const              { return true; }
-	virtual void       сериализуй(Поток& s)        {}
-	virtual Ткст     какТкст() const            { return "<Ошибка: \'" + v + "\'>"; }
+	virtual dword      GetType() const             { return ERROR_V; }
+	virtual bool       IsNull() const              { return true; }
+	virtual void       Serialize(Stream& s)        {}
+	virtual String     AsString() const            { return "<error: \'" + v + "\'>"; }
 
-	ValueErrorCls(const Ткст& s) : RichValueRep<Ткст>(s)  {}
+	ValueErrorCls(const String& s) : RichValueRep<String>(s)  {}
 };
 
-Значение значОш(const Ткст& s) {
-	return Значение(new ValueErrorCls(s), ERROR_V);
+Value ErrorValue(const String& s) {
+	return Value(new ValueErrorCls(s), ERROR_V);
 }
 
-Значение значОш(const char *s) {
-	return значОш(Ткст(s));
+Value ErrorValue(const char *s) {
+	return ErrorValue(String(s));
 }
 
-const Значение& значОш() {
-	static Значение v = значОш(Ткст());
+const Value& ErrorValue() {
+	static Value v = ErrorValue(String());
 	return v;
 }
 
-Ткст дайТекстОш(const Значение& v) {
-	ПРОВЕРЬ(ошибка_ли(v));
-	return ((RichValueRep<Ткст> *)v.дайПроцУк())->дай();
+String GetErrorText(const Value& v) {
+	ASSERT(IsError(v));
+	return ((RichValueRep<String> *)v.GetVoidPtr())->Get();
 }
 
 }

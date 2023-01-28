@@ -3,9 +3,9 @@
 #define LTIMING(x)  // RTIMING(x)
 // #define LSTAT
 
-namespace РНЦПДинрус {
+namespace Upp {
 
-#ifdef КУЧА_РНЦП
+#ifdef UPP_HEAP
 
 #include "HeapImp.h"
 
@@ -15,12 +15,12 @@ namespace РНЦПДинрус {
 // also able to deal with bigger blocks, those are directly allocated / freed from system
 
 BlkHeader_<4096> HugeHeapDetail::freelist[20][1]; // only single global Huge heap...
-Куча::HugePage *Куча::huge_pages;
+Heap::HugePage *Heap::huge_pages;
 
 #ifdef LSTAT
 static int hstat[65536];
 
-ЭКЗИТБЛОК {
+EXITBLOCK {
 	int cnt = 0;
 	for(int i = 0; i < 65536; i++) {
 		cnt += hstat[i];
@@ -37,24 +37,24 @@ void  MemoryLimitKb(int kb)
 	sKBLimit = kb;
 }
 
-static ПрофильПамяти *sPeak;
+static MemoryProfile *sPeak;
 
-ПрофильПамяти *PeakMemoryProfile()
+MemoryProfile *PeakMemoryProfile()
 {
 	if(sPeak)
 		return sPeak;
-	sPeak = (ПрофильПамяти *)MemoryAllocPermanent(sizeof(ПрофильПамяти));
-	memset((void *)sPeak, 0, sizeof(ПрофильПамяти));
+	sPeak = (MemoryProfile *)MemoryAllocPermanent(sizeof(MemoryProfile));
+	memset((void *)sPeak, 0, sizeof(MemoryProfile));
 	return NULL;
 }
 
-Куча::HugePage *Куча::free_huge_pages;
-int             Куча::free_hpages;
+Heap::HugePage *Heap::free_huge_pages;
+int             Heap::free_hpages;
 
-void *Куча::HugeAlloc(size_t count) // count in 4kb pages
+void *Heap::HugeAlloc(size_t count) // count in 4kb pages
 {
 	LTIMING("HugeAlloc");
-	ПРОВЕРЬ(count);
+	ASSERT(count);
 
 #ifdef LSTAT
 	if(count < 65536)
@@ -66,10 +66,10 @@ void *Куча::HugeAlloc(size_t count) // count in 4kb pages
 	auto MaxMem = [&] {
 		if(huge_4KB_count > huge_4KB_count_max) {
 			huge_4KB_count_max = huge_4KB_count;
-			if(4 * (Куча::huge_4KB_count - Куча::free_4KB) > sKBLimit)
-				паника("MemoryLimitKb breached!");
+			if(4 * (Heap::huge_4KB_count - Heap::free_4KB) > sKBLimit)
+				Panic("Брешь в MemoryLimitKb!");
 			if(sPeak)
-				сделай(*sPeak);
+				Make(*sPeak);
 		}
 	};
 
@@ -77,7 +77,7 @@ void *Куча::HugeAlloc(size_t count) // count in 4kb pages
 		for(int i = 0; i < __countof(D::freelist); i++)
 			Dbl_Self(D::freelist[i]);
 	}
-		
+
 	if(count > sys_block_limit) { // we are wasting 4KB to store just 4 bytes here, but this is n MB after all..
 		LTIMING("SysAlloc");
 		byte *sysblk = (byte *)SysAllocRaw((count + 1) * 4096, 0);
@@ -89,17 +89,17 @@ void *Куча::HugeAlloc(size_t count) // count in 4kb pages
 		MaxMem();
 		return h;
 	}
-	
-	LTIMING("Huge размести");
+
+	LTIMING("Huge Alloc");
 
 	word wcount = (word)count;
-	
+
 	for(int pass = 0; pass < 2; pass++) {
 		for(int i = Cv(wcount); i < __countof(D::freelist); i++) {
 			BlkHeader *l = D::freelist[i];
 			BlkHeader *h = l->next;
 			while(h != l) {
-				word sz = h->дайРазм();
+				word sz = h->GetSize();
 				if(sz >= count) {
 					if(h->IsFirst() && h->IsLast()) // this is whole free page
 						free_hpages--;
@@ -130,16 +130,16 @@ void *Куча::HugeAlloc(size_t count) // count in 4kb pages
 			AddChunk((BlkHeader *)ptr, HPAGE);
 		}
 	}
-	паника("выведи of memory");
+	Panic("Нехватка памяти");
 	return NULL;
 }
 
-int Куча::HugeFree(void *ptr)
+int Heap::HugeFree(void *ptr)
 {
 	LTIMING("HugeFree");
 	BlkHeader *h = (BlkHeader *)ptr;
 	if(h->size == 0) {
-		LTIMING("Sys освободи");
+		LTIMING("Sys Free");
 		byte *sysblk = (byte *)h - 4096;
 		size_t count = *((size_t *)sysblk);
 		SysFreeRaw(sysblk, (count + 1) * 4096);
@@ -148,13 +148,13 @@ int Куча::HugeFree(void *ptr)
 		sys_size -= 4096 * count;
 		return 0;
 	}
-	LTIMING("Huge освободи");
-	huge_4KB_count -= h->дайРазм();
-	h = BlkHeap::освободи(h);
-	int sz = h->дайРазм();
+	LTIMING("Huge Free");
+	huge_4KB_count -= h->GetSize();
+	h = BlkHeap::Free(h);
+	int sz = h->GetSize();
 	if(h->IsFirst() && h->IsLast()) {
 		if(free_hpages >= max_free_hpages) { // we have enough pages in the reserve, return to the system
-			LTIMING("освободи Huge Page");
+			LTIMING("Free Huge Page");
 			h->UnlinkFree();
 			HugePage *p = NULL;
 			while(huge_pages) { // remove the page from the set of huge pages
@@ -175,7 +175,7 @@ int Куча::HugeFree(void *ptr)
 	return sz;
 }
 
-bool Куча::HugeTryRealloc(void *ptr, size_t count)
+bool Heap::HugeTryRealloc(void *ptr, size_t count)
 {
 	return count <= HPAGE && BlkHeap::TryRealloc(ptr, count, huge_4KB_count);
 }

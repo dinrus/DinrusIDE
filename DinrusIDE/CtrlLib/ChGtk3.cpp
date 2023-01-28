@@ -2,37 +2,37 @@
 
 #ifdef GUI_GTK
 
-namespace РНЦП {
+namespace Upp {
 
-int GtkSettingsInt(const char *имя)
+int GtkSettingsInt(const char *name)
 {
 	gint h = Null;
-	g_object_get(gtk_settings_get_default(), имя, &h, NULL);
+	g_object_get(gtk_settings_get_default(), name, &h, NULL);
 	return h;
 }
 
-int GtkSettingsBool(const char *имя)
+int GtkSettingsBool(const char *name)
 {
 	gboolean h = false;
-	g_object_get(gtk_settings_get_default(), имя, &h, NULL);
+	g_object_get(gtk_settings_get_default(), name, &h, NULL);
 	return h;
 }
 
-Ткст GtkSettingsString(const char *имя)
+String GtkSettingsString(const char *name)
 {
 	const char *h = "";
-	g_object_get(gtk_settings_get_default(), имя, &h, NULL);
+	g_object_get(gtk_settings_get_default(), name, &h, NULL);
 	return h;
 }
 
 void SetupFont()
 {
-	int fontface = Шрифт::ARIAL;
+	int fontface = Font::ARIAL;
 	int fontheight = 13;
 	bool bold = false;
 	bool italic = false;
 
-	Ткст font_name = GtkSettingsString("gtk-font-имя");
+	String font_name = GtkSettingsString("gtk-font-name");
 
 //	double xdpi = Nvl(GtkSettingsInt("gtk-xft-dpi"), 72 * 1024);
 	
@@ -43,8 +43,8 @@ void SetupFont()
 		int h = atoi(q);
 		if(h)
 			fontheight = h;
-		Ткст face(font_name, q);
-		fontface = Шрифт::FindFaceNameIndex(face);
+		String face(font_name, q);
+		fontface = Font::FindFaceNameIndex(face);
 
 		if(fontface == 0) {
 			for(;;) {
@@ -61,33 +61,33 @@ void SetupFont()
 					;
 				else
 					continue;
-				face = Ткст(~face, q);
+				face = String(~face, q);
 			}
-			fontface = Шрифт::FindFaceNameIndex(face);
+			fontface = Font::FindFaceNameIndex(face);
 			if(fontface == 0) {
-				if(взаг(face[0]) == 'M')
-					fontface = Шрифт::COURIER;
+				if(ToUpper(face[0]) == 'M')
+					fontface = Font::COURIER;
 				else
-				if(взаг(face[0]) == 'S' && взаг(face[1]) == 'e')
-					fontface = Шрифт::ROMAN;
+				if(ToUpper(face[0]) == 'S' && ToUpper(face[1]) == 'e')
+					fontface = Font::ROMAN;
 				else
-					fontface = Шрифт::ARIAL;
+					fontface = Font::ARIAL;
 			}
 		}
 	}
-	Шрифт gui_font = Шрифт(fontface, fround(Ктрл::SCL(fontheight) * xdpi / 72)).Bold(bold).Italic(italic);
-	Шрифт::SetDefaultFont(gui_font);
+	Font gui_font = Font(fontface, fround(Ctrl::SCL(fontheight) * xdpi / 72)).Bold(bold).Italic(italic);
+	Font::SetDefaultFont(gui_font);
 }
 
-static Рисунок sCurrentImage;
+static Image sCurrentImage;
 static GtkBorder sMargin;
 
-Рисунок CairoImage(int cx, int cy, Событие<cairo_t *> draw)
+Image CairoImage(int cx, int cy, Event<cairo_t *> draw)
 {
-	Рисунок m[2];
+	Image m[2];
 	for(int i = 0; i < 2; i++) {
 		ImageDraw iw(DPI(cx), DPI(cy));
-		iw.DrawRect(0, 0, DPI(cx), DPI(cy), i ? чёрный() : белый());
+		iw.DrawRect(0, 0, DPI(cx), DPI(cy), i ? Black() : White());
 		cairo_t *cr = iw;
 #if GTK_CHECK_VERSION(3, 20, 0)
 		cairo_surface_set_device_scale(cairo_get_target(cr), DPI(1), DPI(1));
@@ -99,7 +99,7 @@ static GtkBorder sMargin;
 	return sCurrentImage;
 }
 
-Рисунок CairoImage(GtkStyleContext *ctx, int cx = 40, int cy = 32)
+Image CairoImage(GtkStyleContext *ctx, int cx = 40, int cy = 32)
 {
 	return CairoImage(cx, cy, [&](cairo_t *cr) {
 		gtk_render_background(ctx, cr, 0, 0, cx, cy);
@@ -107,16 +107,16 @@ static GtkBorder sMargin;
 	});
 }
 
-Цвет GetInkColor(GtkStyleContext *ctx, dword flags)
+Color GetInkColor(GtkStyleContext *ctx, dword flags)
 {
 	GdkRGBA color;
 	gtk_style_context_get_color(ctx, (GtkStateFlags)flags, &color);
-	КЗСА rgba;
+	RGBA rgba;
 	rgba.r = int(255 * color.red);
 	rgba.g = int(255 * color.green);
 	rgba.b = int(255 * color.blue);
 	rgba.a = int(255 * color.alpha);
-	КЗСА t = SColorPaper();
+	RGBA t = SColorPaper();
 	AlphaBlend(&t, &rgba, 1);
 	return t;
 }
@@ -142,21 +142,21 @@ void Gtk_State(int state, dword flags = 0)
 	gtk_style_context_set_state(sCtx, sFlags);
 }
 
-static Размер sCurrentSize;
+static Size sCurrentSize;
 
-void Gtk_New(const char *имя, int state = 0, dword flags = 0)
+void Gtk_New(const char *name, int state = 0, dword flags = 0)
 {
 	Gtk_Free();
 	sCtx = NULL;
-	for(const Ткст& element : разбей(имя, ' ')) {
+	for(const String& element : Split(name, ' ')) {
 		GtkWidgetPath *path = sCtx ? gtk_widget_path_copy(gtk_style_context_get_path(sCtx))
 		                           : gtk_widget_path_new();
-		Вектор<Ткст> s = разбей(element, '.');
-		if(s.дайСчёт()) {
+		Vector<String> s = Split(element, '.');
+		if(s.GetCount()) {
 			gtk_widget_path_append_type(path, G_TYPE_NONE);
 			gtk_widget_path_iter_set_object_name(path, -1, s[0]);
 		}
-		for(int i = 1; i < s.дайСчёт(); i++)
+		for(int i = 1; i < s.GetCount(); i++)
 			gtk_widget_path_iter_add_class(path, -1, s[i]);
 
 		GtkStyleContext *context2 = gtk_style_context_new();
@@ -166,7 +166,7 @@ void Gtk_New(const char *имя, int state = 0, dword flags = 0)
 		Gtk_Free();
 		sCtx = context2;
 	}
-	ПРОВЕРЬ(sCtx);
+	ASSERT(sCtx);
 	gtk_style_context_set_scale(sCtx, DPI(1));
 	Gtk_State(state, flags);
 	
@@ -188,18 +188,18 @@ void Gtk_New(const char *имя, int state = 0, dword flags = 0)
 	sCurrentSize.cy = min_height;
 }
 
-Размер GtkSize()
+Size GtkSize()
 {
 	return sCurrentSize;
 }
 
-void GtkSize(Размер& sz)
+void GtkSize(Size& sz)
 {
 	sz.cx = max(sz.cx, sCurrentSize.cx);
 	sz.cy = max(sz.cy, sCurrentSize.cy);
 }
 
-Цвет GetInkColor()
+Color GetInkColor()
 {
 	return GetInkColor(sCtx, sFlags);
 }
@@ -208,7 +208,7 @@ void SOImages(int imli, dword flags)
 {
 	for(int st = 0; st < 4; st++) {
 		Gtk_State(st, flags);
-		CtrlsImg::уст(imli++, CairoImage(14, 14, [&](cairo_t *cr) {
+		CtrlsImg::Set(imli++, CairoImage(14, 14, [&](cairo_t *cr) {
 			gtk_render_background(sCtx, cr, 0, 0, 14, 14);
 			gtk_render_frame(sCtx, cr,  0, 0, 14, 14);
 			gtk_render_check(sCtx, cr, 0, 0, 14, 14);
@@ -216,34 +216,34 @@ void SOImages(int imli, dword flags)
 	}
 }
 
-Рисунок CairoImage(int cx = 40, int cy = 32)
+Image CairoImage(int cx = 40, int cy = 32)
 {
 	return CairoImage(sCtx, cx, cy);
 }
 
-Цвет GetBackgroundColor()
+Color GetBackgroundColor()
 {
-	Рисунок m = CairoImage(30, 30);
-	Рисунок b = CreateImage(m.дайРазм(), SColorPaper());
+	Image m = CairoImage(30, 30);
+	Image b = CreateImage(m.GetSize(), SColorPaper());
 	Over(b, m);
 	return AvgColor(b);
 }
 
-Цвет GetInkColorBk()
+Color GetInkColorBk()
 {
-	Цвет ink = GetInkColor();
-	Цвет bk = GetBackgroundColor();
+	Color ink = GetInkColor();
+	Color bk = GetBackgroundColor();
 	if(Diff(ink, bk) < 100) {
-		Цвет dk = SColorText();
-		Цвет wh = SColorPaper();
-		if(тёмен(wh))
-			разверни(dk, wh);
-		return тёмен(bk) ? wh : dk;
+		Color dk = SColorText();
+		Color wh = SColorPaper();
+		if(IsDark(wh))
+			Swap(dk, wh);
+		return IsDark(bk) ? wh : dk;
 	}
 	return ink;
 }
 
-Рисунок Gtk_Icon(const char *icon_name, int size)
+Image Gtk_Icon(const char *icon_name, int size)
 {
 	GdkPixbuf *pixbuf = gtk_icon_theme_load_icon_for_scale(gtk_icon_theme_get_default(), icon_name,
 		                                                   size, 2, (GtkIconLookupFlags)0, NULL);
@@ -251,12 +251,12 @@ void SOImages(int imli, dword flags)
 		int cx = gdk_pixbuf_get_width(pixbuf);
 		int cy = gdk_pixbuf_get_height(pixbuf);
 	
-		Рисунок m = CairoImage(cx, cy, [&](cairo_t *cr) {
+		Image m = CairoImage(cx, cy, [&](cairo_t *cr) {
 			gdk_cairo_set_source_pixbuf(cr, pixbuf, 0, 0);
 			cairo_paint(cr);
 		});
 		
-		Размер sz = m.дайРазм();
+		Size sz = m.GetSize();
 		
 		g_object_unref(pixbuf);
 	
@@ -265,16 +265,16 @@ void SOImages(int imli, dword flags)
 	return Null;
 }
 
-Рисунок Gtk_IconAdjusted(const char *icon_name, int size)
+Image Gtk_IconAdjusted(const char *icon_name, int size)
 { // checks that icons is visible over SColorFace, fixes it if not (by painting it gray)
-	Рисунок m = Gtk_Icon(icon_name, size);
+	Image m = Gtk_Icon(icon_name, size);
 	if(Diff(AvgColor(m), SColorFace()) > 80)
 		return m;
-	Цвет ink = серый();
+	Color ink = Gray();
 	if(Diff(ink, SColorFace()) > 100)
-		ink = серыйЦвет(IsDarkTheme() ? 200 : 50);
-	ImagePainter iw(m.дайРазм());
-	iw.очисть(обнулиКЗСА());
+		ink = GrayColor(IsDarkTheme() ? 200 : 50);
+	ImagePainter iw(m.GetSize());
+	iw.Clear(RGBAZero());
 	iw.DrawImage(0, 0, m, ink);
 	m = iw;
 	return m;
@@ -293,20 +293,20 @@ void ChHostSkin()
 		Gtk_State(CTRL_DISABLED);
 		SColorDisabled_Write(GetInkColor());
 		if(Diff(SColorText(), SColorDisabled()) < 30 || Diff(SColorFace(), SColorDisabled()) < 70)
-			SColorDisabled_Write(серый());
+			SColorDisabled_Write(Gray());
 	Gtk_New("entry selection");
 		SColorHighlight_Write(GetBackgroundColor());
 		SColorHighlightText_Write(GetInkColor());
 	Gtk_New("label.view");
 		SColorLabel_Write(GetInkColor());
 
-	Цвет tooltip_ink, tooltip_paper;
+	Color tooltip_ink, tooltip_paper;
     Gtk_New("tooltip.background");
 		tooltip_paper = GetBackgroundColor();
     Gtk_New("tooltip.color");
 		tooltip_ink = GetInkColor();
 	if(Diff(tooltip_paper, tooltip_ink) < 100) { // ink color too close to background color, fix it
-		tooltip_paper = тёмен(SColorText()) ? светлоЖёлтый() : серыйЦвет(79);
+		tooltip_paper = IsDark(SColorText()) ? LtYellow() : GrayColor(79);
 		tooltip_ink = SColorText();;
 	}
 	SColorInfo_Write(tooltip_paper);
@@ -314,7 +314,7 @@ void ChHostSkin()
 
 	ChBaseSkin();
 
-#if 0 // TODO (?)
+#if 0 // СДЕЛАТЬ (?)
 		{ SColorLight_Write, 2*5 + 0 },
 		{ SColorShadow_Write, 3*5 + 0 },
 #endif
@@ -327,17 +327,17 @@ void ChHostSkin()
 	SOImages(CtrlsImg::I_O1, GTK_STATE_FLAG_CHECKED);
 	SOImages(CtrlsImg::I_O2, GTK_STATE_FLAG_INCONSISTENT);
 
-	CtrlImg::уст(CtrlImg::I_MenuCheck0, CtrlsImg::O0());
+	CtrlImg::Set(CtrlImg::I_MenuCheck0, CtrlsImg::O0());
 	{
-		БарМеню::Стиль& s = БарМеню::дефСтиль().пиши();
+		MenuBar::Style& s = MenuBar::StyleDefault().Write();
 		s.pullshift.y = 0;
 
 		Gtk_New("menu");
-		Рисунок m = CairoImage(128, 64);
+		Image m = CairoImage(128, 64);
 		s.pullshift.y = 0;
 		int mg = DPI(2);
 		s.popupframe = WithHotSpot(m, mg, mg);
-		Размер sz = m.дайРазм();
+		Size sz = m.GetSize();
 		s.popupbody = Crop(m, mg, mg, sz.cx - 2 * mg, sz.cy - 2 * mg);
 		s.leftgap = DPI(16) + Zx(6);
 		SColorMenu_Write(GetBackgroundColor());
@@ -347,12 +347,12 @@ void ChHostSkin()
 		s.menutext = GetInkColor();
 		Gtk_State(CTRL_HOT);
 		s.itemtext = GetInkColor();
-		Цвет c = AvgColor(m);
+		Color c = AvgColor(m);
 		if(Diff(c, s.menutext) < 100) // menutext color too close to background color, fix it
-			s.menutext = тёмен(c) ? белый() : чёрный();
-		s.элт = Hot3(CairoImage(32, 16));
+			s.menutext = IsDark(c) ? White() : Black();
+		s.item = Hot3(CairoImage(32, 16));
 		
-		m = CreateImage(Размер(DPI(32), DPI(16)), SColorFace());
+		m = CreateImage(Size(DPI(32), DPI(16)), SColorFace());
 		Gtk_New("frame");
 		Over(m, CairoImage(DPI(32), DPI(16)));
 		Gtk_New("frame border");
@@ -360,11 +360,11 @@ void ChHostSkin()
 		Gtk_New("menubar");
 		Over(m, CairoImage(DPI(32), DPI(16)));
 		s.look = Hot3(m);
-		Цвет dk = SColorText();
-		Цвет wh = SColorPaper();
-		if(тёмен(wh))
-			разверни(dk, wh);
-		s.topitemtext[0] = тёмен(AvgColor(m)) ? wh : dk;
+		Color dk = SColorText();
+		Color wh = SColorPaper();
+		if(IsDark(wh))
+			Swap(dk, wh);
+		s.topitemtext[0] = IsDark(AvgColor(m)) ? wh : dk;
 		s.topitem[1] = s.topitem[0] = Null;
 		s.topitemtext[1] = s.topitemtext[0];
 		Gtk_New("menubar menuitem", CTRL_HOT);
@@ -372,25 +372,25 @@ void ChHostSkin()
 		s.topitem[2] = Hot3(CairoImage(32, 16));
 		s.topitemtext[2] = GetInkColor();
 	}
-	CtrlImg::уст(CtrlImg::I_MenuCheck1, CtrlsImg::O1());
-	CtrlImg::уст(CtrlImg::I_MenuRadio0, CtrlsImg::S0());
-	CtrlImg::уст(CtrlImg::I_MenuRadio1, CtrlsImg::S1());
+	CtrlImg::Set(CtrlImg::I_MenuCheck1, CtrlsImg::O1());
+	CtrlImg::Set(CtrlImg::I_MenuRadio0, CtrlsImg::S0());
+	CtrlImg::Set(CtrlImg::I_MenuRadio1, CtrlsImg::S1());
 
 	for(int i = 0; i < 6; i++)
-		CtrlsImg::уст(CtrlsImg::I_DA + i, CtrlsImg::дай(CtrlsImg::I_kDA + i));
+		CtrlsImg::Set(CtrlsImg::I_DA + i, CtrlsImg::Get(CtrlsImg::I_kDA + i));
 	
 	{
 		Gtk_New("button");
-		Цвет ink;
-		Цвет text[4];
-		Рисунок button[4];
+		Color ink;
+		Color text[4];
+		Image button[4];
 		for(int pass = 0; pass < 2; pass++) {
-			Кнопка::Стиль& s = pass ? Кнопка::StyleOk().пиши() : Кнопка::StyleNormal().пиши();
+			Button::Style& s = pass ? Button::StyleOk().Write() : Button::StyleNormal().Write();
 			s.focusmargin = DPI(4);
 			for(int i = 0; i < 4; i++) {
 				Gtk_State(i);
 				s.look[i] = Hot3(CairoImage());
-				Цвет ink = i == CTRL_DISABLED ? GetInkColor() : GetInkColorBk();
+				Color ink = i == CTRL_DISABLED ? GetInkColor() : GetInkColorBk();
 				s.monocolor[i] = s.textcolor[i] = ink;
 				if(pass == 0) {
 					button[i] = WithHotSpots(CairoImage(100, 100), DPI(4), DPI(4), 0, 0);
@@ -405,21 +405,21 @@ void ChHostSkin()
 		ChSynthetic(button, text);
 
 		{
-			auto& s = ToolButton::дефСтиль().пиши();
-			s.look[CTRL_NORMAL] = Рисунок();
+			auto& s = ToolButton::StyleDefault().Write();
+			s.look[CTRL_NORMAL] = Image();
 			s.look[CTRL_HOT] = button[CTRL_HOT];
 			s.look[CTRL_PRESSED] = button[CTRL_PRESSED];
-			s.look[CTRL_DISABLED] = Рисунок();
+			s.look[CTRL_DISABLED] = Image();
 			s.look[CTRL_CHECKED] = button[CTRL_PRESSED];
 			s.look[CTRL_HOTCHECKED] = button[CTRL_HOT];
 		}
 	}
 
-	auto DialogIcon = [](int i, const char *s) { CtrlImg::уст(i, Gtk_Icon(s, DPI(48))); };
+	auto DialogIcon = [](int i, const char *s) { CtrlImg::Set(i, Gtk_Icon(s, DPI(48))); };
 	DialogIcon(CtrlImg::I_information, "gtk-dialog-info");
 	DialogIcon(CtrlImg::I_question, "gtk-dialog-question");
 	DialogIcon(CtrlImg::I_exclamation, "gtk-dialog-warning");
-	DialogIcon(CtrlImg::I_error, "gtk-dialog-Ошибка");
+	DialogIcon(CtrlImg::I_error, "gtk-dialog-error");
 	
 	YesButtonImage_Write(Gtk_IconAdjusted("gtk-yes", DPI(16)));
 	NoButtonImage_Write(Gtk_IconAdjusted("gtk-no", DPI(16)));
@@ -427,7 +427,7 @@ void ChHostSkin()
 	RetryButtonImage_Write(Gtk_IconAdjusted("gtk-refresh", DPI(16)));
 
 	{
-		ПромотБар::Стиль& s = ПромотБар::дефСтиль().пиши();
+		ScrollBar::Style& s = ScrollBar::StyleDefault().Write();
 		static gboolean stepper;
 		static gint minslider;
 		ONCELOCK {
@@ -437,7 +437,7 @@ void ChHostSkin()
 		if(!stepper)
 			s.arrowsize = 0;
 		Gtk_New("scrollbar.horizontal.bottom");
-		Размер sz = GtkSize();
+		Size sz = GtkSize();
 		Gtk_New("scrollbar.horizontal.bottom contents");
 		GtkSize(sz);
 		Gtk_New("scrollbar.horizontal.bottom contents trough");
@@ -452,7 +452,7 @@ void ChHostSkin()
 
 		for(int status = CTRL_NORMAL; status <= CTRL_DISABLED; status++) {
 			Gtk_New("scrollbar.horizontal.bottom", status);
-			Рисунок m = CairoImage(sz.cx, sz.cy);
+			Image m = CairoImage(sz.cx, sz.cy);
 			Gtk_New("scrollbar.horizontal.bottom contents", status);
 			Over(m, CairoImage(sz.cx, sz.cy));
 			Gtk_New("scrollbar.horizontal.bottom contents trough", status);
@@ -460,26 +460,26 @@ void ChHostSkin()
 			s.hupper[status] = s.hlower[status] = WithHotSpot(m, CH_SCROLLBAR_IMAGE, 0);;
 			s.vupper[status] = s.vlower[status] = WithHotSpot(RotateAntiClockwise(m), CH_SCROLLBAR_IMAGE, 0); // we have problems getting this right for vertical
 			Gtk_New("scrollbar.horizontal.bottom contents trough slider", status);
-			Рисунок thumb = CairoImage(sz.cx, sz.cy- sMargin.top - sMargin.bottom);
+			Image thumb = CairoImage(sz.cx, sz.cy- sMargin.top - sMargin.bottom);
 			s.hthumb[status] = WithHotSpot(thumb, CH_SCROLLBAR_IMAGE, 0);
 			s.vthumb[status] = WithHotSpot(RotateClockwise(thumb), CH_SCROLLBAR_IMAGE, 0);
 		}
 	}
 	
 	{
-		БарМеню::Стиль& s = БарМеню::дефСтиль().пиши();
+		MenuBar::Style& s = MenuBar::StyleDefault().Write();
 		s.pullshift.y = 0;
 
 		Gtk_New("menu");
-		Рисунок m = CairoImage(128, 64);
-		ImageDraw im(m.дайРазм());
-		im.DrawRect(m.дайРазм(), SColorFace()); // fix dark corners in some themes
+		Image m = CairoImage(128, 64);
+		ImageDraw im(m.GetSize());
+		im.DrawRect(m.GetSize(), SColorFace()); // fix dark corners in some themes
 		im.DrawImage(0, 0, m);
 		m = im;
 		s.pullshift.y = 0;
 		int mg = DPI(2);
 		s.popupframe = WithHotSpot(m, mg, mg);
-		Размер sz = m.дайРазм();
+		Size sz = m.GetSize();
 		s.popupbody = Crop(m, mg, mg, sz.cx - 2 * mg, sz.cy - 2 * mg);
 		s.leftgap = DPI(16) + Zx(6);
 		SColorMenu_Write(GetBackgroundColor());
@@ -489,12 +489,12 @@ void ChHostSkin()
 		s.menutext = GetInkColor();
 		Gtk_State(CTRL_HOT);
 		s.itemtext = GetInkColor();
-		Цвет c = AvgColor(m);
+		Color c = AvgColor(m);
 		if(Diff(c, s.menutext) < 100) // menutext color too close to background color, fix it
-			s.menutext = тёмен(c) ? белый() : чёрный();
-		s.элт = Hot3(CairoImage(32, 16));
+			s.menutext = IsDark(c) ? White() : Black();
+		s.item = Hot3(CairoImage(32, 16));
 		
-		m = CreateImage(Размер(DPI(32), DPI(16)), SColorFace());
+		m = CreateImage(Size(DPI(32), DPI(16)), SColorFace());
 		Gtk_New("frame");
 		Over(m, CairoImage(DPI(32), DPI(16)));
 		Gtk_New("frame border");
@@ -502,11 +502,11 @@ void ChHostSkin()
 		Gtk_New("menubar");
 		Over(m, CairoImage(DPI(32), DPI(16)));
 		s.look = Hot3(m);
-		Цвет dk = SColorText();
-		Цвет wh = SColorPaper();
-		if(тёмен(wh))
-			разверни(dk, wh);
-		s.topitemtext[0] = тёмен(AvgColor(m)) ? wh : dk;
+		Color dk = SColorText();
+		Color wh = SColorPaper();
+		if(IsDark(wh))
+			Swap(dk, wh);
+		s.topitemtext[0] = IsDark(AvgColor(m)) ? wh : dk;
 		s.topitem[1] = s.topitem[0] = Null;
 		s.topitemtext[1] = s.topitemtext[0];
 		Gtk_New("menubar menuitem", CTRL_HOT);
@@ -515,19 +515,19 @@ void ChHostSkin()
 		s.topitemtext[2] = GetInkColor();
 	}
 
-	SwapOKCancel_Write(Environment().дай("KDE_FULL_SESSION", Ткст()) != "true");
+	SwapOKCancel_Write(Environment().Get("KDE_FULL_SESSION", String()) != "true");
 
 	Gtk_Free();
 }
 
-Рисунок GtkThemeIcon(const char *имя, int rsz)
+Image GtkThemeIcon(const char *name, int rsz)
 {
-	return Gtk_Icon(имя, rsz);
+	return Gtk_Icon(name, rsz);
 }
 
 #else
 
-Рисунок Gtk_Icon(const char *icon_name, int size)
+Image Gtk_Icon(const char *icon_name, int size)
 {
 	GdkPixbuf *pixbuf = gtk_icon_theme_load_icon(gtk_icon_theme_get_default(), icon_name,
 		                                         size, (GtkIconLookupFlags)0, NULL);
@@ -535,12 +535,12 @@ void ChHostSkin()
 		int cx = gdk_pixbuf_get_width(pixbuf);
 		int cy = gdk_pixbuf_get_height(pixbuf);
 	
-		Рисунок m = CairoImage(cx, cy, [&](cairo_t *cr) {
+		Image m = CairoImage(cx, cy, [&](cairo_t *cr) {
 			gdk_cairo_set_source_pixbuf(cr, pixbuf, 0, 0);
 			cairo_paint(cr);
 		});
 		
-		Размер sz = m.дайРазм();
+		Size sz = m.GetSize();
 		
 		g_object_unref(pixbuf);
 	
@@ -549,37 +549,37 @@ void ChHostSkin()
 	return Null;
 }
 
-Рисунок GtkThemeIcon(const char *имя, int rsz)
+Image GtkThemeIcon(const char *name, int rsz)
 {
-	return Gtk_Icon(имя, rsz);
+	return Gtk_Icon(name, rsz);
 }
 
 void ChHostSkin()
 {
 	SetupFont();
 #if 0
-	static Цвет paper;
+	static Color paper;
 	ONCELOCK {
 		GtkStyleContext *ctx = gtk_widget_get_style_context((GtkWidget *)gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0));
 		gtk_style_context_set_state(ctx, GTK_STATE_FLAG_NORMAL);
 		paper = AvgColor(CairoImage(ctx));
 	}
-	if(тёмен(paper)) {
-		SColorText_Write(белый());
-		SColorPaper_Write(чёрный());
-		SColorMenuText_Write(белый());
-		SColorFace_Write(серыйЦвет(60));
-		SColorMenu_Write(серыйЦвет(70));
-		SColorHighlight_Write(серыйЦвет(120));
-		SColorInfo_Write(серыйЦвет(79));
+	if(IsDark(paper)) {
+		SColorText_Write(White());
+		SColorPaper_Write(Black());
+		SColorMenuText_Write(White());
+		SColorFace_Write(GrayColor(60));
+		SColorMenu_Write(GrayColor(70));
+		SColorHighlight_Write(GrayColor(120));
+		SColorInfo_Write(GrayColor(79));
 		SColorInfoText_Write(SColorText());
 	}
 	else
 #endif
 	{
-		SColorFace_Write(Цвет(242, 241, 240));
-		SColorMenu_Write(Цвет(242, 241, 240));
-		SColorHighlight_Write(Цвет(50, 50, 250));
+		SColorFace_Write(Color(242, 241, 240));
+		SColorMenu_Write(Color(242, 241, 240));
+		SColorHighlight_Write(Color(50, 50, 250));
 	}
 
 	ChStdSkin();

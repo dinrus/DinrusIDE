@@ -32,9 +32,9 @@
 #include FT_FREETYPE_H
 
 #ifdef FREETYPE_H
-#Ошибка "freetype.h of FreeType 1 has been loaded!"
-#Ошибка "Please fix the directory search order for header files"
-#Ошибка "so that freetype.h of FreeType 2 is found first."
+#error "freetype.h of FreeType 1 has been loaded!"
+#error "Please fix the directory search order for header files"
+#error "so that freetype.h of FreeType 2 is found first."
 #endif
 
 
@@ -46,7 +46,7 @@ FT_BEGIN_HEADER
   /* <Section>                                                             */
   /*    gx_validation                                                      */
   /*                                                                       */
-  /* <Титул>                                                               */
+  /* <Title>                                                               */
   /*    TrueTypeGX/AAT Validation                                          */
   /*                                                                       */
   /* <Abstract>                                                            */
@@ -182,7 +182,7 @@ FT_BEGIN_HEADER
   *    Validate various TrueTypeGX tables to assure that all offsets and
   *    indices are valid.  The idea is that a higher-level library which
   *    actually does the text layout can access those tables without
-  *    Ошибка checking (which can be quite time consuming).
+  *    error checking (which can be quite time consuming).
   *
   * @input:
   *    face ::
@@ -202,14 +202,14 @@ FT_BEGIN_HEADER
   *       The array itself must be allocated by a client.
   *
   * @return:
-  *   FreeType Ошибка code.  0~means success.
+  *   FreeType error code.  0~means success.
   *
   * @note:
-  *   This function only works with TrueTypeGX fonts, returning an Ошибка
+  *   This function only works with TrueTypeGX fonts, returning an error
   *   otherwise.
   *
   *   After use, the application should deallocate the buffers pointed to by
-  *   each `tables' element, by calling @FT_TrueTypeGX_Free.  A NULL значение
+  *   each `tables' element, by calling @FT_TrueTypeGX_Free.  A NULL value
   *   indicates that the table either doesn't exist in the font, the
   *   application hasn't asked for validation, or the validator doesn't have
   *   the ability to validate the sfnt table.
@@ -229,18 +229,18 @@ FT_BEGIN_HEADER
   *    FT_TrueTypeGX_Free
   *
   * @description:
-  *    освободи the буфер allocated by TrueTypeGX validator.
+  *    Free the buffer allocated by TrueTypeGX validator.
   *
   * @input:
   *    face ::
   *       A handle to the input face.
   *
   *    table ::
-  *       The pointer to the буфер allocated by
+  *       The pointer to the buffer allocated by
   *       @FT_TrueTypeGX_Validate.
   *
   * @note:
-  *   This function must be used to free the буфер allocated by
+  *   This function must be used to free the buffer allocated by
   *   @FT_TrueTypeGX_Validate only.
   */
   FT_EXPORT( void )
@@ -258,7 +258,7 @@ FT_BEGIN_HEADER
   * @description:
   *    A list of bit-field constants used with @FT_ClassicKern_Validate
   *    to indicate the classic kern dialect or dialects.  If the selected
-  *    тип doesn't fit, @FT_ClassicKern_Validate regards the table as
+  *    type doesn't fit, @FT_ClassicKern_Validate regards the table as
   *    invalid.
   *
   * @values:
@@ -285,14 +285,14 @@ FT_BEGIN_HEADER
   *    FT_ClassicKern_Validate
   *
   * @description:
-  *    Validate classic (16-bit формат) kern table to assure that the offsets
+  *    Validate classic (16-bit format) kern table to assure that the offsets
   *    and indices are valid.  The idea is that a higher-level library which
-  *    actually does the text layout can access those tables without Ошибка
+  *    actually does the text layout can access those tables without error
   *    checking (which can be quite time consuming).
   *
   *    The `kern' table validator in @FT_TrueTypeGX_Validate deals with both
-  *    the new 32-bit формат and the classic 16-bit формат, while
-  *    FT_ClassicKern_Validate only supports the classic 16-bit формат.
+  *    the new 32-bit format and the classic 16-bit format, while
+  *    FT_ClassicKern_Validate only supports the classic 16-bit format.
   *
   * @input:
   *    face ::
@@ -307,11 +307,11 @@ FT_BEGIN_HEADER
   *       A pointer to the kern table.
   *
   * @return:
-  *   FreeType Ошибка code.  0~means success.
+  *   FreeType error code.  0~means success.
   *
   * @note:
   *   After use, the application should deallocate the buffers pointed to by
-  *   `ckern_table', by calling @FT_ClassicKern_Free.  A NULL значение
+  *   `ckern_table', by calling @FT_ClassicKern_Free.  A NULL value
   *   indicates that the table doesn't exist in the font.
   */
   FT_EXPORT( FT_Error )
@@ -328,18 +328,18 @@ FT_BEGIN_HEADER
   *    FT_ClassicKern_Free
   *
   * @description:
-  *    освободи the буфер allocated by classic Kern validator.
+  *    Free the buffer allocated by classic Kern validator.
   *
   * @input:
   *    face ::
   *       A handle to the input face.
   *
   *    table ::
-  *       The pointer to the буфер that is allocated by
+  *       The pointer to the buffer that is allocated by
   *       @FT_ClassicKern_Validate.
   *
   * @note:
-  *   This function must be used to free the буфер allocated by
+  *   This function must be used to free the buffer allocated by
   *   @FT_ClassicKern_Validate only.
   */
   FT_EXPORT( void )

@@ -1,4 +1,4 @@
-description "Non-GUI code. Streams, NTL containers, concrete types, Value, XML, C parsing etc...\377B128,0,0";
+description "Код не-ГИП. Потоки, контейнеры  NTL, конкретные типы, Value, XML, разбор C и проч...\377B128,0,0";
 
 noblitz;
 

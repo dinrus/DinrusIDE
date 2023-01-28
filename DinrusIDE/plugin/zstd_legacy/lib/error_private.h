@@ -1,5 +1,5 @@
 /* ******************************************************************
-   Ошибка codes and messages
+   Error codes and messages
    Copyright (C) 2013-2016, Yann Collet
 
    BSD 2-Clause License (http://www.opensource.org/licenses/bsd-license.php)
@@ -60,46 +60,46 @@
 *  Customization (error_public.h)
 ******************************************/
 typedef ZSTD_ErrorCode ERR_enum;
-#define PREFIX(имя) ZSTD_error_##имя
+#define PREFIX(name) ZSTD_error_##name
 
 
 /*-****************************************
-*  Ошибка codes handling
+*  Error codes handling
 ******************************************/
-#ifdef Ошибка
-#  undef Ошибка   /* reported already defined on VS 2015 (Rich Geldreich) */
+#ifdef ERROR
+#  undef ERROR   /* reported already defined on VS 2015 (Rich Geldreich) */
 #endif
-#define Ошибка(имя) ((size_t)-PREFIX(имя))
+#define ERROR(name) ((size_t)-PREFIX(name))
 
-ERR_STATIC unsigned ERR_isError(size_t code) { return (code > Ошибка(maxCode)); }
+ERR_STATIC unsigned ERR_isError(size_t code) { return (code > ERROR(maxCode)); }
 
 ERR_STATIC ERR_enum ERR_getErrorCode(size_t code) { if (!ERR_isError(code)) return (ERR_enum)0; return (ERR_enum) (0-code); }
 
 
 /*-****************************************
-*  Ошибка Strings
+*  Error Strings
 ******************************************/
 
 ERR_STATIC const char* ERR_getErrorString(ERR_enum code)
 {
-    static const char* notErrorCode = "Unspecified Ошибка code";
+    static const char* notErrorCode = "Unspecified error code";
     switch( code )
     {
-    case PREFIX(no_error): return "No Ошибка detected";
-    case PREFIX(GENERIC):  return "Ошибка (generic)";
+    case PREFIX(no_error): return "No error detected";
+    case PREFIX(GENERIC):  return "Error (generic)";
     case PREFIX(prefix_unknown): return "Unknown frame descriptor";
     case PREFIX(frameParameter_unsupported): return "Unsupported frame parameter";
-    case PREFIX(frameParameter_unsupportedBy32bits): return "Фрейм parameter unsupported in 32-bits mode";
+    case PREFIX(frameParameter_unsupportedBy32bits): return "Frame parameter unsupported in 32-bits mode";
     case PREFIX(compressionParameter_unsupported): return "Compression parameter is out of bound";
-    case PREFIX(init_missing): return "Контекст should be init first";
-    case PREFIX(memory_allocation): return "Allocation Ошибка : not enough memory";
+    case PREFIX(init_missing): return "Context should be init first";
+    case PREFIX(memory_allocation): return "Allocation error : not enough memory";
     case PREFIX(stage_wrong): return "Operation not authorized at current processing stage";
-    case PREFIX(dstSize_tooSmall): return "Destination буфер is too small";
+    case PREFIX(dstSize_tooSmall): return "Destination buffer is too small";
     case PREFIX(srcSize_wrong): return "Src size incorrect";
     case PREFIX(corruption_detected): return "Corrupted block detected";
     case PREFIX(checksum_wrong): return "Restored data doesn't match checksum";
     case PREFIX(tableLog_tooLarge): return "tableLog requires too much memory : unsupported";
-    case PREFIX(maxSymbolValue_tooLarge): return "Unsupported max Symbol Значение : too large";
+    case PREFIX(maxSymbolValue_tooLarge): return "Unsupported max Symbol Value : too large";
     case PREFIX(maxSymbolValue_tooSmall): return "Specified maxSymbolValue is too small";
     case PREFIX(dictionary_corrupted): return "Dictionary is corrupted";
     case PREFIX(dictionary_wrong): return "Dictionary mismatch";

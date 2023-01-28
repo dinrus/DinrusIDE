@@ -147,14 +147,14 @@ FT_BEGIN_HEADER
   typedef struct T1_FieldRec_*   T1_Field;
 
 
-  /* simple enumeration тип used to identify token types */
+  /* simple enumeration type used to identify token types */
   typedef enum  T1_TokenType_
   {
     T1_TOKEN_TYPE_NONE = 0,
     T1_TOKEN_TYPE_ANY,
     T1_TOKEN_TYPE_STRING,
     T1_TOKEN_TYPE_ARRAY,
-    T1_TOKEN_TYPE_KEY, /* aka `имя' */
+    T1_TOKEN_TYPE_KEY, /* aka `name' */
 
     /* do not remove */
     T1_TOKEN_TYPE_MAX
@@ -167,12 +167,12 @@ FT_BEGIN_HEADER
   {
     FT_Byte*      start;   /* first character of token in input stream */
     FT_Byte*      limit;   /* first character after the token          */
-    T1_TokenType  тип;    /* тип of token                            */
+    T1_TokenType  type;    /* type of token                            */
 
   } T1_TokenRec;
 
 
-  /* enumeration тип used to identify object fields */
+  /* enumeration type used to identify object fields */
   typedef enum  T1_FieldType_
   {
     T1_FIELD_TYPE_NONE = 0,
@@ -216,12 +216,12 @@ FT_BEGIN_HEADER
                          FT_Pointer  parser );
 
 
-  /* structure тип used to model object fields */
+  /* structure type used to model object fields */
   typedef struct  T1_FieldRec_
   {
     const char*         ident;        /* field identifier               */
     T1_FieldLocation    location;
-    T1_FieldType        тип;         /* тип of field                  */
+    T1_FieldType        type;         /* type of field                  */
     T1_Field_ParseFunc  reader;
     FT_UInt             offset;       /* offset of field in object      */
     FT_Byte             size;         /* size of field in bytes         */
@@ -411,11 +411,11 @@ FT_BEGIN_HEADER
   /* <Fields>                                                              */
   /*    cursor :: The current position in the text.                        */
   /*                                                                       */
-  /*    base   :: старт of the processed text.                             */
+  /*    base   :: Start of the processed text.                             */
   /*                                                                       */
-  /*    limit  :: стоп of the processed text.                               */
+  /*    limit  :: End of the processed text.                               */
   /*                                                                       */
-  /*    Ошибка  :: The last Ошибка returned.                                 */
+  /*    error  :: The last error returned.                                 */
   /*                                                                       */
   /*    memory :: The object used for memory operations (alloc/realloc).   */
   /*                                                                       */
@@ -426,7 +426,7 @@ FT_BEGIN_HEADER
     FT_Byte*   cursor;
     FT_Byte*   base;
     FT_Byte*   limit;
-    FT_Error   Ошибка;
+    FT_Error   error;
     FT_Memory  memory;
 
     PS_Parser_FuncsRec  funcs;
@@ -497,7 +497,7 @@ FT_BEGIN_HEADER
   } T1_Builder_FuncsRec;
 
 
-  /* an enumeration тип to handle charstring parsing states */
+  /* an enumeration type to handle charstring parsing states */
   typedef enum  T1_ParseState_
   {
     T1_Parse_Start,
@@ -548,7 +548,7 @@ FT_BEGIN_HEADER
   /*                                                                       */
   /*    load_points  :: If this flag is not set, no points are loaded.     */
   /*                                                                       */
-  /*    no_recurse   :: уст but not used.                                  */
+  /*    no_recurse   :: Set but not used.                                  */
   /*                                                                       */
   /*    metrics_only :: A boolean indicating that we only want to compute  */
   /*                    the metrics of a given glyph, not load all of its  */
@@ -743,8 +743,8 @@ FT_BEGIN_HEADER
   /*                                                                       */
   /*    FontInfo  :: The result will be stored here.                       */
   /*                                                                       */
-  /*    get_index :: A user provided function to get a glyph Индекс by its  */
-  /*                 имя.                                                 */
+  /*    get_index :: A user provided function to get a glyph index by its  */
+  /*                 name.                                                 */
   /*                                                                       */
   typedef struct  AFM_ParserRec_
   {
@@ -754,7 +754,7 @@ FT_BEGIN_HEADER
     AFM_FontInfo  FontInfo;
 
     FT_Int
-    (*get_index)( const char*  имя,
+    (*get_index)( const char*  name,
                   FT_Offset    len,
                   void*        user_data );
 
@@ -800,7 +800,7 @@ FT_BEGIN_HEADER
     const T1_Decoder_FuncsRec*  t1_decoder_funcs;
 
     void
-    (*t1_decrypt)( FT_Byte*   буфер,
+    (*t1_decrypt)( FT_Byte*   buffer,
                    FT_Offset  length,
                    FT_UShort  seed );
 
@@ -811,7 +811,7 @@ FT_BEGIN_HEADER
 
   } PSAux_ServiceRec, *PSAux_Service;
 
-  /* backwards-compatible тип definition */
+  /* backwards-compatible type definition */
   typedef PSAux_ServiceRec   PSAux_Interface;
 
 

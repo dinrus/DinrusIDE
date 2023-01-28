@@ -5,7 +5,7 @@
 #endif
 
 #ifdef PLATFORM_WIN32
-#define Ук Ук_
+#define Ptr Ptr_
 #define byte byte_
 #define CY win32_CY_
 
@@ -18,34 +18,34 @@
 
 #include <shlobj.h>
 
-#undef Ук
+#undef Ptr
 #undef byte
 #undef CY
 #endif
 
-namespace РНЦПДинрус {
+namespace Upp {
 
-static СтатическийСтопор sHlock;
+static StaticMutex sHlock;
 
 static char sHomeDir[_MAX_PATH + 1];
 static char Argv0__[_MAX_PATH + 1];
 
-void    устДомПапку(const char *dir)
+void    SetHomeDirectory(const char *dir)
 {
 	INTERLOCKED_(sHlock) {
 		strcpy(sHomeDir, dir);
 	}
 }
 
-Ткст  дайДомПапку() {
-	Ткст r;
+String  GetHomeDirectory() {
+	String r;
 	INTERLOCKED_(sHlock) {
 		if(!*sHomeDir)
 			strcpy(sHomeDir,
 			#ifdef PLATFORM_WIN32
-				дайСреду("HOMEDRIVE") + дайСреду("HOMEPATH")
+				GetEnv("HOMEDRIVE") + GetEnv("HOMEPATH")
 			#else
-				Nvl(дайСреду("HOME"), "/root")
+				Nvl(GetEnv("HOME"), "/root")
 			#endif
 			);
 		r = sHomeDir;
@@ -57,12 +57,12 @@ void    устДомПапку(const char *dir)
 
 #ifdef PLATFORM_WIN32
 
-Ткст дайСреду(const char *ид)
+String GetEnv(const char *id)
 {
-	return ШТкст(_wgetenv(вСисНабсимШ(ид))).вТкст();
+	return WString(_wgetenv(ToSystemCharsetW(id))).ToString();
 }
 
-Ткст дайФПутьИсп()
+String GetExeFilePath()
 {
 	return GetModuleFileName();
 }
@@ -71,9 +71,9 @@ void    устДомПапку(const char *dir)
 
 #ifdef PLATFORM_POSIX
 
-Ткст дайСреду(const char *ид)
+String GetEnv(const char *id)
 {
-	return изСисНабсима(getenv(ид));
+	return FromSystemCharset(getenv(id));
 }
 
 static void sSetArgv0__(const char *title)
@@ -94,9 +94,9 @@ const char *procexepath_() {
 #else
 		sprintf(link, "/proc/%d/exe", getpid());
 #endif
-		ФайлПоиск ff(link);
+		FindFile ff(link);
 		if(ff) {
-			if(ff.симссылка_ли()) {
+			if(ff.IsSymLink()) {
 				int ret = readlink(link, h, _MAX_PATH);
 				if(ret > 0 && ret < _MAX_PATH)
 					h[ret] = '\0';
@@ -110,7 +110,7 @@ const char *procexepath_() {
 	return h;
 }
 
-Ткст дайФПутьИсп()
+String GetExeFilePath()
 {
 	static char exepath[_MAX_PATH + 1];
 	ONCELOCK {
@@ -118,17 +118,17 @@ const char *procexepath_() {
 		if(*exe)
 			strcpy(exepath, exe);
 		else {
-			Ткст x = Argv0__;
-			if(полнпуть_ли(x) && файлЕсть(x))
+			String x = Argv0__;
+			if(IsFullPath(x) && FileExists(x))
 				strcpy(exepath, x);
 			else {
-				strcpy(exepath, дайФайлИзДомПапки("upp"));
-				Вектор<Ткст> p = разбей(изСисНабсима(систСреда().дай("PATH")), ':');
-				if(x.найди('/') >= 0)
-					p.добавь(дайТекДир());
-				for(int i = 0; i < p.дайСчёт(); i++) {
-					Ткст ep = нормализуйПуть(приставьИмяф(p[i], x));
-					if(файлЕсть(ep))
+				strcpy(exepath, GetHomeDirFile("upp"));
+				Vector<String> p = Split(FromSystemCharset(Environment().Get("PATH")), ':');
+				if(x.Find('/') >= 0)
+					p.Add(GetCurrentDirectory());
+				for(int i = 0; i < p.GetCount(); i++) {
+					String ep = NormalizePath(AppendFileName(p[i], x));
+					if(FileExists(ep))
 						strcpy(exepath, ep);
 				}
 			}
@@ -139,26 +139,26 @@ const char *procexepath_() {
 
 #endif
 
-Ткст дайФайлИзПапкиИсп(const char *filename)
+String GetExeDirFile(const char *filename)
 {
-	return приставьИмяф(дайПапкуФайла(дайФПутьИсп()), filename);
+	return AppendFileName(GetFileFolder(GetExeFilePath()), filename);
 }
 
-Ткст дайПапкуИсп()
+String GetExeFolder()
 {
-	return дайПапкуФайла(дайФПутьИсп());
+	return GetFileFolder(GetExeFilePath());
 }
 
-Ткст дайТитулИсп()
+String GetExeTitle()
 {
-	return дайТитулф(дайФПутьИсп());
+	return GetFileTitle(GetExeFilePath());
 }
 
 #ifdef PLATFORM_COCOA
-Ткст дайПапкуПрил()
+String GetAppFolder()
 {
-	Ткст p = дайПапкуИсп();
-	return p.обрежьКонец("/Contents/MacOS") && дайРасшф(p) == ".app" ? p : Ткст();
+	String p = GetExeFolder();
+	return p.TrimEnd("/Contents/MacOS") && GetFileExt(p) == ".app" ? p : String();
 }
 #endif
 
@@ -166,183 +166,183 @@ void SyncLogPath__();
 
 static char sAppName[256];
 
-Ткст дайИмяПрил()
+String GetAppName()
 {
-	return Nvl(Ткст(sAppName), дайТитулИсп());
+	return Nvl(String(sAppName), GetExeTitle());
 }
 
-void устИмяПрил(const Ткст& имя)
+void SetAppName(const String& name)
 {
-	strcpy(sAppName, имя);
+	strcpy(sAppName, name);
 	SyncLogPath__();
 }
 
 static char sConfigGroup[256] = "u++";
 
-void устКонфигГруппу(const char *группа)
+void SetConfigGroup(const char *group)
 {
-	strcpy(sConfigGroup, группа);
+	strcpy(sConfigGroup, group);
 	SyncLogPath__();
 }
 
-Ткст дайКонфигГруппу()
+String GetConfigGroup()
 {
 	return sConfigGroup;
 }
 
-Ткст дайВремПапку()
+String GetTempDirectory()
 {
-	return дайВремПуть();
+	return GetTempPath();
 }
 
-Ткст времФайл(const char *filename)
+String TempFile(const char *filename)
 {
-	return приставьИмяф(дайВремПапку(), filename);
+	return AppendFileName(GetTempDirectory(), filename);
 }
 
-Ткст  дайФайлИзДомПапки(const char *fp) {
-	return приставьИмяф(дайДомПапку(), fp);
+String  GetHomeDirFile(const char *fp) {
+	return AppendFileName(GetHomeDirectory(), fp);
 }
 
 static bool sHomecfg;
 
-void используйКонфигДомПапки(bool b)
+void UseHomeDirectoryConfig(bool b)
 {
 	sHomecfg = b;
 }
 
 static char sConfigFolder[_MAX_PATH + 1];
 
-void SetConfigDirectory(const Ткст& s)
+void SetConfigDirectory(const String& s)
 {
 	strcpy(sConfigFolder, s);
 	SyncLogPath__();
 }
 
-void копируйПапку(const char *dst, const char *ист)
+void CopyFolder(const char *dst, const char *src)
 {
-	реализуйДир(dst);
-	ФайлПоиск ff(Ткст(ист) + "/*.*");
+	RealizeDirectory(dst);
+	FindFile ff(String(src) + "/*.*");
 	while(ff) {
-		Ткст s = приставьИмяф(ист, ff.дайИмя());
-		Ткст d = приставьИмяф(dst, ff.дайИмя());
-		if(ff.файл_ли()) {
-			ФайлВвод in(s);
-			ФайлВывод out(d);
-			копируйПоток(out, in);
+		String s = AppendFileName(src, ff.GetName());
+		String d = AppendFileName(dst, ff.GetName());
+		if(ff.IsFile()) {
+			FileIn in(s);
+			FileOut out(d);
+			CopyStream(out, in);
 		}
 		else
-		if(ff.папка_ли() && *ff.дайИмя() != '.')
-			копируйПапку(d, s);
-		ff.следщ();
+		if(ff.IsFolder() && *ff.GetName() != '.')
+			CopyFolder(d, s);
+		ff.Next();
 	}
 }
 
-Ткст  конфигФайл(const char *file) {
+String  ConfigFile(const char *file) {
 	if(*sConfigFolder)
-		return приставьИмяф(sConfigFolder, file);
+		return AppendFileName(sConfigFolder, file);
 #if defined(PLATFORM_WIN32)
 	if(sHomecfg) {
-		Ткст p = дайФайлИзДомПапки(дайИмяПрил());
+		String p = GetHomeDirFile(GetAppName());
 		ONCELOCK
-			реализуйДир(p);
-		return приставьИмяф(p, file);
+			RealizeDirectory(p);
+		return AppendFileName(p, file);
 	}
-	return дайФайлИзПапкиИсп(file);
+	return GetExeDirFile(file);
 #elif defined(PLATFORM_POSIX)
 	static char cfgd[_MAX_PATH + 1];
 	static bool sandboxed = true;
 	ONCELOCK {
-		Ткст cfgdir;
-		Ткст h = дайПапкуИсп();
+		String cfgdir;
+		String h = GetExeFolder();
 		if(!sHomecfg)
-			while(h.дайСчёт() > 1 && дирЕсть(h)) {
-				Ткст pp = приставьИмяф(h, ".config");
-				ФайлПоиск ff(pp);
-				if(ff && ff.папка_ли() && ff.записываемый()) {
+			while(h.GetCount() > 1 && DirectoryExists(h)) {
+				String pp = AppendFileName(h, ".config");
+				FindFile ff(pp);
+				if(ff && ff.IsFolder() && ff.CanWrite()) {
 					cfgdir = pp;
 					break;
 				}
-				h = дайПапкуФайла(h);
+				h = GetFileFolder(h);
 			}
-		if(пусто_ли(cfgdir)) {
+		if(IsNull(cfgdir)) {
 			sandboxed = false;
-			cfgdir = дайСреду("XDG_CONFIG_HOME");
+			cfgdir = GetEnv("XDG_CONFIG_HOME");
 		}
-		if(пусто_ли(cfgdir) || !дирЕсть(cfgdir))
-			cfgdir = дайФайлИзДомПапки(".config");
+		if(IsNull(cfgdir) || !DirectoryExists(cfgdir))
+			cfgdir = GetHomeDirFile(".config");
 		if(*sConfigGroup)
-			cfgdir = приставьИмяф(cfgdir, дайКонфигГруппу());
+			cfgdir = AppendFileName(cfgdir, GetConfigGroup());
 		strcpy(cfgd, cfgdir);
 	}
-	Ткст pp = приставьИмяф(cfgd, дайИмяПрил());
-	bool exists = дирЕсть(pp);
-	реализуйДир(pp);
+	String pp = AppendFileName(cfgd, GetAppName());
+	bool exists = DirectoryExists(pp);
+	RealizeDirectory(pp);
 	if(!exists && !sandboxed) { // migrate config files from the old path
-		Ткст old = дайФайлИзДомПапки(".upp/" + дайТитулИсп());
-		if(дирЕсть(old))
-			копируйПапку(pp, old);
+		String old = GetHomeDirFile(".upp/" + GetExeTitle());
+		if(DirectoryExists(old))
+			CopyFolder(pp, old);
 	}
-	return приставьИмяф(pp, file);
+	return AppendFileName(pp, file);
 #else
 	NEVER();
-	return дайФайлИзПапкиИсп(file);
+	return GetExeDirFile(file);
 #endif//PLATFORM
 }
 
-Ткст дайКонфигПапку()
+String GetConfigFolder()
 {
-	return дайПапкуФайла(конфигФайл("x"));
+	return GetFileFolder(ConfigFile("x"));
 }
 
-Ткст  конфигФайл() {
-	return конфигФайл(дайИмяПрил() + ".cfg");
+String  ConfigFile() {
+	return ConfigFile(GetAppName() + ".cfg");
 }
 
-Ткст argv0;
+String argv0;
 
-Вектор<ШТкст>& coreCmdLine__()
+Vector<WString>& coreCmdLine__()
 {
-	static Вектор<ШТкст> h;
+	static Vector<WString> h;
 	return h;
 }
 
-const Вектор<Ткст>& комСтрока()
+const Vector<String>& CommandLine()
 {
-	static Вектор<Ткст> cmd;
+	static Vector<String> cmd;
 	ONCELOCK {
-		auto& ист = coreCmdLine__();
-		for(int i = 0; i < ист.дайСчёт(); i++)
-			cmd.добавь(ист[i].вТкст());
+		auto& src = coreCmdLine__();
+		for(int i = 0; i < src.GetCount(); i++)
+			cmd.Add(src[i].ToString());
 	}
 	return cmd;
 }
 
-Ткст дайАргз0()
+String GetArgv0()
 {
 	return Argv0__;
 }
 
-ВекторМап<ШТкст, ШТкст>& EnvMap()
+VectorMap<WString, WString>& EnvMap()
 {
-	static ВекторМап<ШТкст, ШТкст> x;
+	static VectorMap<WString, WString> x;
 	return x;
 }
 
-const ВекторМап<Ткст, Ткст>& систСреда()
+const VectorMap<String, String>& Environment()
 {
-	ВекторМап<Ткст, Ткст> *ptr;
+	VectorMap<String, String> *ptr;
 	INTERLOCKED {
-		static МассивМап< byte, ВекторМап<Ткст, Ткст> > charset_env;
-		byte cs = дайДефНабСим();
-		int f = charset_env.найди(cs);
+		static ArrayMap< byte, VectorMap<String, String> > charset_env;
+		byte cs = GetDefaultCharset();
+		int f = charset_env.Find(cs);
 		if(f >= 0)
 			ptr = &charset_env[f];
 		else {
-			ptr = &charset_env.добавь(cs);
-			const ВекторМап<ШТкст, ШТкст>& env_map = EnvMap();
-			for(int i = 0; i < env_map.дайСчёт(); i++)
-				ptr->добавь(env_map.дайКлюч(i).вТкст(), env_map[i].вТкст());
+			ptr = &charset_env.Add(cs);
+			const VectorMap<WString, WString>& env_map = EnvMap();
+			for(int i = 0; i < env_map.GetCount(); i++)
+				ptr->Add(env_map.GetKey(i).ToString(), env_map[i].ToString());
 		}
 	}
 	return *ptr;
@@ -351,60 +351,60 @@ const ВекторМап<Ткст, Ткст>& систСреда()
 static int exitcode;
 static bool sMainRunning;
 
-void  устКодВыхода(int code) { exitcode = code; }
-int   дайКодВыхода()         { return exitcode; }
+void  SetExitCode(int code) { exitcode = code; }
+int   GetExitCode()         { return exitcode; }
 
-bool  главнаяПущена()
+bool  IsMainRunning()
 {
 	return sMainRunning;
 }
 
-void загрузиЯзФайлы(const char *dir)
+void LoadLangFiles(const char *dir)
 {
-	ФайлПоиск ff(приставьИмяф(dir, "*.tr"));
+	FindFile ff(AppendFileName(dir, "*.tr"));
 	while(ff) {
-		LoadLngFile(приставьИмяф(dir, ff.дайИмя()));
-		ff.следщ();
+		LoadLngFile(AppendFileName(dir, ff.GetName()));
+		ff.Next();
 	}
 }
 
-void иницОбщее()
+void CommonInit()
 {
 #ifdef PLATFORM_WIN32
-	загрузиЯзФайлы(дайПапкуФайла(дайФПутьИсп()));
+	LoadLangFiles(GetFileFolder(GetExeFilePath()));
 #else
-	загрузиЯзФайлы(дайДомПапку());
+	LoadLangFiles(GetHomeDirectory());
 #endif
 
-	Вектор<ШТкст>& cmd = coreCmdLine__();
-	static ШТкст exp_cmd = "--export-tr";
-	static ШТкст brk_cmd = "--memory-breakpoint__";
+	Vector<WString>& cmd = coreCmdLine__();
+	static WString exp_cmd = "--export-tr";
+	static WString brk_cmd = "--memory-breakpoint__";
 	
-	for(int i = 0; i < cmd.дайСчёт();) {
+	for(int i = 0; i < cmd.GetCount();) {
 		if(cmd[i] == exp_cmd) {
 			{
 				i++;
 				int lang = 0;
 				int lang2 = 0;
 				byte charset = CHARSET_UTF8;
-				Ткст фн = "all";
-				if(i < cmd.дайСчёт())
-					if(cmd[i].дайДлину() == 4 || cmd[i].дайДлину() == 5) {
-						lang = LNGFromText(cmd[i].вТкст());
-						фн = cmd[i].вТкст();
+				String fn = "all";
+				if(i < cmd.GetCount())
+					if(cmd[i].GetLength() == 4 || cmd[i].GetLength() == 5) {
+						lang = LNGFromText(cmd[i].ToString());
+						fn = cmd[i].ToString();
 						int c = cmd[i][4];
 						if(c >= '0' && c <= '8')
 							charset = c - '0' + CHARSET_WIN1250;
 						if(c >= 'A' && c <= 'J')
 							charset = c - 'A' + CHARSET_ISO8859_1;
 					}
-				фн << ".tr";
-				if(++i < cmd.дайСчёт() && (cmd[i].дайДлину() == 4 || cmd[i].дайДлину() == 5))
-					lang2 = LNGFromText(cmd[i].вТкст());
+				fn << ".tr";
+				if(++i < cmd.GetCount() && (cmd[i].GetLength() == 4 || cmd[i].GetLength() == 5))
+					lang2 = LNGFromText(cmd[i].ToString());
 			#ifdef PLATFORM_WIN32
-				ФайлВывод out(дайФайлИзПапкиИсп(фн));
+				FileOut out(GetExeDirFile(fn));
 			#else
-				ФайлВывод out(дайФайлИзДомПапки(фн));
+				FileOut out(GetHomeDirFile(fn));
 			#endif
 				if(lang) {
 					if(lang2)
@@ -413,17 +413,17 @@ void иницОбщее()
 						SaveLngFile(out, SetLNGCharset(lang, charset));
 				}
 				else {
-					Индекс<int> l = GetLngSet();
-					for(int i = 0; i < l.дайСчёт(); i++)
+					Index<int> l = GetLngSet();
+					for(int i = 0; i < l.GetCount(); i++)
 						SaveLngFile(out, SetLNGCharset(l[i], charset));
 				}
 			}
 			exit(0);
 		}
-	#if defined(_ОТЛАДКА) && defined(КУЧА_РНЦП)
-		if(cmd[i] == brk_cmd && i + 1 < cmd.дайСчёт()) {
-			MemoryBreakpoint(atoi(cmd[i + 1].вТкст()));
-			cmd.удали(i, 2);
+	#if defined(_DEBUG) && defined(UPP_HEAP)
+		if(cmd[i] == brk_cmd && i + 1 < cmd.GetCount()) {
+			MemoryBreakpoint(atoi(cmd[i + 1].ToString()));
+			cmd.Remove(i, 2);
 		}
 		else
 			i++;
@@ -434,23 +434,23 @@ void иницОбщее()
 	sMainRunning = true;
 }
 
-void выход(int code)
+void Exit(int code)
 {
-	устКодВыхода(code);
-	throw ИсклВыхода();
+	SetExitCode(code);
+	throw ExitExc();
 }
 
 void MemorySetMainBegin__();
 void MemorySetMainEnd__();
 
-void выполниПрил__(void (*app)())
+void AppExecute__(void (*app)())
 {
 	try {
 		MemorySetMainBegin__();
 		(*app)();
 		MemorySetMainEnd__();
 	}
-	catch(ИсклВыхода) {
+	catch(ExitExc) {
 		return;
 	}
 }
@@ -459,20 +459,20 @@ void выполниПрил__(void (*app)())
 
 void s_ill_handler(int)
 {
-	паника("Illegal instruction!");
+	Panic("Недопустимая инструкция!");
 }
 
 void s_segv_handler(int)
 {
-	паника("Invalid memory access!");
+	Panic("Неверный доступ к памяти!");
 }
 
 void s_fpe_handler(int)
 {
-	паника("Invalid arithmetic operation!");
+	Panic("Неверная арифметическая операция!");
 }
 
-void иницПрил__(int argc, const char **argv, const char **envptr)
+void AppInit__(int argc, const char **argv, const char **envptr)
 {
 	SetLanguage(LNG_ENGLISH);
 	sSetArgv0__(argv[0]);
@@ -481,15 +481,15 @@ void иницПрил__(int argc, const char **argv, const char **envptr)
 		const char *b = var;
 		while(*var && *var != '=')
 			var++;
-		Ткст varname(b, var);
+		String varname(b, var);
 		if(*var == '=')
 			var++;
-		EnvMap().добавь(varname.вШТкст(), Ткст(var).вШТкст());
+		EnvMap().Add(varname.ToWString(), String(var).ToWString());
 	}
-	Вектор<ШТкст>& cmd = coreCmdLine__();
+	Vector<WString>& cmd = coreCmdLine__();
 	for(int i = 1; i < argc; i++)
-		cmd.добавь(изСисНабсима(argv[i]).вШТкст());
-	иницОбщее();
+		cmd.Add(FromSystemCharset(argv[i]).ToWString());
+	CommonInit();
 	signal(SIGILL, s_ill_handler);
 	signal(SIGSEGV, s_segv_handler);
 	signal(SIGBUS, s_segv_handler);
@@ -499,15 +499,15 @@ void иницПрил__(int argc, const char **argv, const char **envptr)
 
 #if defined(PLATFORM_WIN32)
 
-void иницПрилСреду__()
+void AppInitEnvironment__()
 {
 	SetLanguage(LNG_('E', 'N', 'U', 'S'));
 	int nArgs;
     LPWSTR *szArglist = CommandLineToArgvW(GetCommandLineW(), &nArgs);
 	if(szArglist) {
-		strcpy(Argv0__, изСисНабсимаШ(szArglist[0]));
+		strcpy(Argv0__, FromSystemCharsetW(szArglist[0]));
 		for(int i = 1; i < nArgs; i++)
-			coreCmdLine__().добавь(изСисНабсимаШ(szArglist[i]).вШТкст());
+			coreCmdLine__().Add(FromSystemCharsetW(szArglist[i]).ToWString());
 		LocalFree(szArglist);
     }
 		
@@ -519,28 +519,28 @@ void иницПрилСреду__()
 			ptr++;
 		while(*ptr && *ptr != '=')
 			ptr++;
-		ШТкст varname = вУтф32(b, int(ptr - b));
+		WString varname = ToUtf32(b, int(ptr - b));
 		if(*ptr)
 			ptr++;
 		b = ptr;
 		while(*ptr)
 			ptr++;
-		EnvMap().дайДобавь(взаг(varname)) = вУтф32(b, int(ptr - b));
+		EnvMap().GetAdd(ToUpper(varname)) = ToUtf32(b, int(ptr - b));
 	}
 	FreeEnvironmentStringsW(env);
 
-	иницОбщее();
+	CommonInit();
 }
 
-void иницПрил__(int argc, const char **argv)
+void AppInit__(int argc, const char **argv)
 {
-	иницПрилСреду__();
+	AppInitEnvironment__();
 }
 #endif
 
-void выходПрил__()
+void AppExit__()
 {
-	Нить::шатдаунНитей();
+	Thread::ShutdownThreads();
 	sMainRunning = false;
 #ifdef PLATFORM_POSIX
 	MemoryIgnoreLeaksBegin(); // Qt leaks on app exit...
@@ -549,9 +549,9 @@ void выходПрил__()
 
 #ifdef flagTURTLE
 
-void Turtle_PutLink(const Ткст& link);
+void Turtle_PutLink(const String& link);
 
-void запустиВебБраузер(const Ткст& url)
+void LaunchWebBrowser(const String& url)
 {
 	Turtle_PutLink(url);
 }
@@ -566,20 +566,20 @@ static auxthread_t auxthread__ sShellExecuteOpen(void *str)
 	return 0;
 }
 
-void запустиВебБраузер(const Ткст& url)
+void LaunchWebBrowser(const String& url)
 {
-	Вектор<WCHAR> wurl = вСисНабсимШ(url);
+	Vector<WCHAR> wurl = ToSystemCharsetW(url);
 	if ((int64)(ShellExecuteW(NULL, L"open", wurl, NULL, L".", SW_SHOWDEFAULT)) <= 32) {
-		int l = sizeof(wchar) * wurl.дайСчёт() + 1;
+		int l = sizeof(wchar) * wurl.GetCount() + 1;
 		char *curl = (char *)malloc(l);
 		memcpy(curl, wurl, l);
-		стартВспомНити(sShellExecuteOpen, curl);
+		StartAuxThread(sShellExecuteOpen, curl);
 	}
 }
 #endif
 
 #ifdef PLATFORM_POSIX
-void    запустиВебБраузер(const Ткст& url)
+void    LaunchWebBrowser(const String& url)
 {
 #ifdef PLATFORM_MACOS
 	IGNORE_RESULT(system("open " + url));
@@ -588,11 +588,11 @@ void    запустиВебБраузер(const Ткст& url)
 		"htmlview", "xdg-open", "x-www-browser", "firefox", "konqueror", "opera", "epiphany", "galeon", "netscape"
 	};
 	for(int i = 0; i < __countof(browser); i++)
-		if(system("which " + Ткст(browser[i])) == 0) {
-			Ткст u = url;
-			u.замени("'", "'\\''");
+		if(system("which " + String(browser[i])) == 0) {
+			String u = url;
+			u.Replace("'", "'\\''");
 			IGNORE_RESULT(
-				system(Ткст(browser[i]) + " '" + u + "' &")
+				system(String(browser[i]) + " '" + u + "' &")
 			);
 			break;
 		}
@@ -602,27 +602,27 @@ void    запустиВебБраузер(const Ткст& url)
 
 #endif
 
-Ткст sDataPath;
+String sDataPath;
 
-void устПутьДан(const char *path)
+void SetDataPath(const char *path)
 {
 	sDataPath = path;
 }
 
-Ткст дайФайлДан(const char *filename)
+String GetDataFile(const char *filename)
 {
-	if(sDataPath.дайСчёт())
-		return приставьИмяф(sDataPath, filename);
-	Ткст s = дайСреду("РНЦП_MAIN__");
-	return s.дайСчёт() ? приставьИмяф(s, filename) : дайФайлИзПапкиИсп(filename);
+	if(sDataPath.GetCount())
+		return AppendFileName(sDataPath, filename);
+	String s = GetEnv("UPP_MAIN__");
+	return s.GetCount() ? AppendFileName(s, filename) : GetExeDirFile(filename);
 }
 
-Ткст загрузиФайлДан(const char *filename)
+String LoadDataFile(const char *filename)
 {
-	return загрузиФайл(дайФайлДан(filename));
+	return LoadFile(GetDataFile(filename));
 }
 
-Ткст дайИмяКомпа()
+String GetComputerName()
 {
 #if defined(PLATFORM_WIN32)
 	WCHAR temp[256];
@@ -636,7 +636,7 @@ void устПутьДан(const char *path)
 	return temp;
 }
 
-Ткст дайИмяПользователя()
+String GetUserName()
 {
 #if defined(PLATFORM_WIN32)
 	WCHAR temp[256];
@@ -645,59 +645,59 @@ void устПутьДан(const char *path)
 	::GetUserNameW(temp, &w);
 	return temp;
 #else
-	return Nvl(дайСреду("USER"), "root");
+	return Nvl(GetEnv("USER"), "root");
 #endif
 }
 
-Ткст дайМенеджерРабСтола()
+String GetDesktopManager()
 {
 #if defined(PLATFORM_WIN32) && !defined(PLATFORM_WINCE)
 	return "windows";
 #endif
 #ifdef PLATFORM_POSIX
-    if(дайСреду("GNOME_DESKTOP_SESSION_ID").дайСчёт())
+    if(GetEnv("GNOME_DESKTOP_SESSION_ID").GetCount())
 		return "gnome";
-	if(дайСреду("KDE_FULL_SESSION").дайСчёт() || дайСреду("KDEDIR").дайСчёт())
+	if(GetEnv("KDE_FULL_SESSION").GetCount() || GetEnv("KDEDIR").GetCount())
         return "kde";
-	return дайСреду("DESKTOP_SESSION");
+	return GetEnv("DESKTOP_SESSION");
 #endif	
 }
 
 #if defined(PLATFORM_WIN32)
 
-Ткст GetShellFolder(int clsid) 
+String GetShellFolder(int clsid) 
 {
 	WCHAR path[MAX_PATH];
 	if(SHGetFolderPathW(NULL, clsid, NULL, /*SHGFP_TYPE_CURRENT*/0, path) == S_OK)
-		return изСисНабсимаШ(path);
+		return FromSystemCharsetW(path);
 	return Null;
 }
 
-Ткст дайПапкуРабСтола()	  { return GetShellFolder(CSIDL_DESKTOP); }
-Ткст дайПапкуПрограм()	  { return GetShellFolder(CSIDL_PROGRAM_FILES); }
-Ткст дайПапкуПрограмХ86() { return GetShellFolder(0x2a); }
-Ткст дайПапкуДанныхПрил()	  { return GetShellFolder(CSIDL_APPDATA);}
-Ткст дайПапкуМузыки()		  { return GetShellFolder(CSIDL_MYMUSIC);}
-Ткст дайПапкуФото()	  { return GetShellFolder(CSIDL_MYPICTURES);}
-Ткст дайПапкуВидео()		  { return GetShellFolder(CSIDL_MYVIDEO);}
-Ткст дайПапкуДокументов()	  { return GetShellFolder(/*CSIDL_MYDOCUMENTS*/0x0005);}
-Ткст дайПапкуШаблонов()	  { return GetShellFolder(CSIDL_TEMPLATES);}
+String GetDesktopFolder()	  { return GetShellFolder(CSIDL_DESKTOP); }
+String GetProgramsFolder()	  { return GetShellFolder(CSIDL_PROGRAM_FILES); }
+String GetProgramsFolderX86() { return GetShellFolder(0x2a); }
+String GetAppDataFolder()	  { return GetShellFolder(CSIDL_APPDATA);}
+String GetMusicFolder()		  { return GetShellFolder(CSIDL_MYMUSIC);}
+String GetPicturesFolder()	  { return GetShellFolder(CSIDL_MYPICTURES);}
+String GetVideoFolder()		  { return GetShellFolder(CSIDL_MYVIDEO);}
+String GetDocumentsFolder()	  { return GetShellFolder(/*CSIDL_MYDOCUMENTS*/0x0005);}
+String GetTemplatesFolder()	  { return GetShellFolder(CSIDL_TEMPLATES);}
 
-#define MY_DEFINE_KNOWN_FOLDER(имя, l, w1, w2, b1, b2, b3, b4, b5, b6, b7, b8) \
-static const GUID имя = { l, w1, w2, { b1, b2,  b3,  b4,  b5,  b6,  b7,  b8 } }
+#define MY_DEFINE_KNOWN_FOLDER(name, l, w1, w2, b1, b2, b3, b4, b5, b6, b7, b8) \
+static const GUID name = { l, w1, w2, { b1, b2,  b3,  b4,  b5,  b6,  b7,  b8 } }
 
 MY_DEFINE_KNOWN_FOLDER(MY_FOLDERID_Downloads, 0x374de290, 0x123f, 0x4565, 0x91, 0x64, 0x39, 0xc4, 0x92, 0x5e, 0x46, 0x7b);
 
-Ткст дайПапкуЗагрузок()	
+String GetDownloadFolder()	
 {
 	static HRESULT (STDAPICALLTYPE * SHGetKnownFolderPath)(const void *rfid, DWORD dwFlags, HANDLE hToken, PWSTR *ppszPath);
 	ONCELOCK {
-		фнДлл(SHGetKnownFolderPath, "shell32.dll", "SHGetKnownFolderPath");
+		DllFn(SHGetKnownFolderPath, "shell32.dll", "SHGetKnownFolderPath");
 	}
 	if(SHGetKnownFolderPath) {
 		PWSTR path = NULL;
 		if(SHGetKnownFolderPath(&MY_FOLDERID_Downloads, 0, NULL, &path) == S_OK && path) {
-			Ткст s = изСисНабсимаШ(path);
+			String s = FromSystemCharsetW(path);
 			CoTaskMemFree(path);
 			return s;
 		}
@@ -708,83 +708,83 @@ MY_DEFINE_KNOWN_FOLDER(MY_FOLDERID_Downloads, 0x374de290, 0x123f, 0x4565, 0x91, 
 
 #ifdef PLATFORM_POSIX
 
-Ткст GetPathXdg(Ткст xdgConfigHome, Ткст xdgConfigDirs)
+String GetPathXdg(String xdgConfigHome, String xdgConfigDirs)
 {
-	Ткст ret;
-	if(файлЕсть(ret = приставьИмяф(xdgConfigHome, "user-dirs.dirs")))
+	String ret;
+	if(FileExists(ret = AppendFileName(xdgConfigHome, "user-dirs.dirs")))
 		return ret;
-  	if(файлЕсть(ret = приставьИмяф(xdgConfigDirs, "user-dirs.defaults")))
+  	if(FileExists(ret = AppendFileName(xdgConfigDirs, "user-dirs.defaults")))
   		return ret;
-  	if(файлЕсть(ret = приставьИмяф(xdgConfigDirs, "user-dirs.dirs")))
+  	if(FileExists(ret = AppendFileName(xdgConfigDirs, "user-dirs.dirs")))
   		return ret;
   	return Null;
 }
 
-Ткст GetPathDataXdg(Ткст fileConfig, const char *folder) 
+String GetPathDataXdg(String fileConfig, const char *folder) 
 {
-	НастройкиТекста настройки;
-	настройки.грузи(fileConfig);
-	Ткст v = настройки.дай(folder);
+	TextSettings settings;
+	settings.Load(fileConfig);
+	String v = settings.Get(folder);
 	if(*v == '\"')
-		v = v.середина(1);
-	if(*v.последний() == '\"')
-		v.обрежь(v.дайСчёт() - 1);
-	Ткст r;
+		v = v.Mid(1);
+	if(*v.Last() == '\"')
+		v.Trim(v.GetCount() - 1);
+	String r;
 	const char *s = v;
 	while(*s) {
 		if(*s == '$') {
-			СиПарсер p(s + 1);
-			p.безПропускаПробелов();
-			p.пробелы();
-			if(p.ид_ли()) {
-				Ткст ид = p.читайИд();
-				r.конкат(дайСреду(ид));
-				s = p.дайУк();
+			CParser p(s + 1);
+			p.NoSkipSpaces();
+			p.Spaces();
+			if(p.IsId()) {
+				String id = p.ReadId();
+				r.Cat(GetEnv(id));
+				s = p.GetPtr();
 			}
 			else {
-				r.конкат('$');
+				r.Cat('$');
 				s++;
 			}
 		}
 		else
-			r.конкат(*s++);
+			r.Cat(*s++);
 	}
 	return r;
 }
 
-Ткст GetShellFolder(const char *local, const char *users) 
+String GetShellFolder(const char *local, const char *users) 
 {
-	Ткст xdgConfigHome = дайСреду("XDG_CONFIG_HOME");
+	String xdgConfigHome = GetEnv("XDG_CONFIG_HOME");
 	if (xdgConfigHome == "")		// By default
-		xdgConfigHome = приставьИмяф(дайДомПапку(), ".config");
-	Ткст xdgConfigDirs = дайСреду("XDG_CONFIG_DIRS");
+		xdgConfigHome = AppendFileName(GetHomeDirectory(), ".config");
+	String xdgConfigDirs = GetEnv("XDG_CONFIG_DIRS");
 	if (xdgConfigDirs == "")			// By default
 		xdgConfigDirs = "/etc/xdg";
-	Ткст xdgFileConfigData = GetPathXdg(xdgConfigHome, xdgConfigDirs);
-	Ткст ret = GetPathDataXdg(xdgFileConfigData, local);
+	String xdgFileConfigData = GetPathXdg(xdgConfigHome, xdgConfigDirs);
+	String ret = GetPathDataXdg(xdgFileConfigData, local);
 	if (ret == "" && *users != '\0')
 		return GetPathDataXdg(xdgFileConfigData, users);
 	else
 		return ret;
 }
 
-Ткст дайПапкуРабСтола()
+String GetDesktopFolder()
 {
-	Ткст ret = GetShellFolder("XDG_DESKTOP_DIR", "DESKTOP");
-	if (ret.пустой())
-		return приставьИмяф(дайДомПапку(), "Desktop");
+	String ret = GetShellFolder("XDG_DESKTOP_DIR", "DESKTOP");
+	if (ret.IsEmpty())
+		return AppendFileName(GetHomeDirectory(), "Desktop");
 	else
 		return ret;
 }
 
-Ткст дайПапкуПрограм()  { return Ткст("/usr/bin"); }
-Ткст дайПапкуДанныхПрил()   { return дайДомПапку(); }
-Ткст дайПапкуМузыки()	    { return GetShellFolder("XDG_MUSIC_DIR", "MUSIC"); }
-Ткст дайПапкуФото()  { return GetShellFolder("XDG_PICTURES_DIR", "PICTURES"); }
-Ткст дайПапкуВидео()     { return GetShellFolder("XDG_VIDEOS_DIR", "VIDEOS"); }
-Ткст дайПапкуДокументов() { return GetShellFolder("XDG_DOCUMENTS_DIR", "DOCUMENTS"); }
-Ткст дайПапкуШаблонов() { return GetShellFolder("XDG_TEMPLATES_DIR", "XDG_TEMPLATES_DIR"); }
-Ткст дайПапкуЗагрузок()  { return GetShellFolder("XDG_DOWNLOAD_DIR", "XDG_DOWNLOAD_DIR"); }
+String GetProgramsFolder()  { return String("/usr/bin"); }
+String GetAppDataFolder()   { return GetHomeDirectory(); }
+String GetMusicFolder()	    { return GetShellFolder("XDG_MUSIC_DIR", "MUSIC"); }
+String GetPicturesFolder()  { return GetShellFolder("XDG_PICTURES_DIR", "PICTURES"); }
+String GetVideoFolder()     { return GetShellFolder("XDG_VIDEOS_DIR", "VIDEOS"); }
+String GetDocumentsFolder() { return GetShellFolder("XDG_DOCUMENTS_DIR", "DOCUMENTS"); }
+String GetTemplatesFolder() { return GetShellFolder("XDG_TEMPLATES_DIR", "XDG_TEMPLATES_DIR"); }
+String GetDownloadFolder()  { return GetShellFolder("XDG_DOWNLOAD_DIR", "XDG_DOWNLOAD_DIR"); }
 
 #endif
 

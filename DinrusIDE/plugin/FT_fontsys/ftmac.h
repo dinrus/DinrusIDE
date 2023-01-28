@@ -51,7 +51,7 @@ FT_BEGIN_HEADER
   /* <Section>                                                             */
   /*    mac_specific                                                       */
   /*                                                                       */
-  /* <Титул>                                                               */
+  /* <Title>                                                               */
   /*    Mac Specific Interface                                             */
   /*                                                                       */
   /* <Abstract>                                                            */
@@ -66,11 +66,11 @@ FT_BEGIN_HEADER
 
   /*************************************************************************/
   /*                                                                       */
-  /* <Функция>                                                            */
+  /* <Function>                                                            */
   /*    FT_New_Face_From_FOND                                              */
   /*                                                                       */
   /* <Description>                                                         */
-  /*    создай a new face object from a FOND resource.                     */
+  /*    Create a new face object from a FOND resource.                     */
   /*                                                                       */
   /* <InOut>                                                               */
   /*    library    :: A handle to the library resource.                    */
@@ -85,7 +85,7 @@ FT_BEGIN_HEADER
   /*    aface      :: A handle to a new face object.                       */
   /*                                                                       */
   /* <Return>                                                              */
-  /*    FreeType Ошибка code.  0~means success.                             */
+  /*    FreeType error code.  0~means success.                             */
   /*                                                                       */
   /* <Notes>                                                               */
   /*    This function can be used to create @FT_Face objects from fonts    */
@@ -93,7 +93,7 @@ FT_BEGIN_HEADER
   /*                                                                       */
   /*    {                                                                  */
   /*      fond = GetResource( 'FOND', fontName );                          */
-  /*      Ошибка = FT_New_Face_From_FOND( library, fond, 0, &face );        */
+  /*      error = FT_New_Face_From_FOND( library, fond, 0, &face );        */
   /*    }                                                                  */
   /*                                                                       */
   FT_EXPORT( FT_Error )
@@ -106,25 +106,25 @@ FT_BEGIN_HEADER
 
   /*************************************************************************/
   /*                                                                       */
-  /* <Функция>                                                            */
+  /* <Function>                                                            */
   /*    FT_GetFile_From_Mac_Name                                           */
   /*                                                                       */
   /* <Description>                                                         */
   /*    Return an FSSpec for the disk file containing the named font.      */
   /*                                                                       */
   /* <Input>                                                               */
-  /*    fontName   :: Mac OS имя of the font (e.g., Times нов Roman       */
+  /*    fontName   :: Mac OS name of the font (e.g., Times New Roman       */
   /*                  Bold).                                               */
   /*                                                                       */
   /* <Output>                                                              */
   /*    pathSpec   :: FSSpec to the file.  For passing to                  */
   /*                  @FT_New_Face_From_FSSpec.                            */
   /*                                                                       */
-  /*    face_index :: Индекс of the face.  For passing to                   */
+  /*    face_index :: Index of the face.  For passing to                   */
   /*                  @FT_New_Face_From_FSSpec.                            */
   /*                                                                       */
   /* <Return>                                                              */
-  /*    FreeType Ошибка code.  0~means success.                             */
+  /*    FreeType error code.  0~means success.                             */
   /*                                                                       */
   FT_EXPORT( FT_Error )
   FT_GetFile_From_Mac_Name( const char*  fontName,
@@ -135,24 +135,24 @@ FT_BEGIN_HEADER
 
   /*************************************************************************/
   /*                                                                       */
-  /* <Функция>                                                            */
+  /* <Function>                                                            */
   /*    FT_GetFile_From_Mac_ATS_Name                                       */
   /*                                                                       */
   /* <Description>                                                         */
   /*    Return an FSSpec for the disk file containing the named font.      */
   /*                                                                       */
   /* <Input>                                                               */
-  /*    fontName   :: Mac OS имя of the font in ATS framework.            */
+  /*    fontName   :: Mac OS name of the font in ATS framework.            */
   /*                                                                       */
   /* <Output>                                                              */
   /*    pathSpec   :: FSSpec to the file. For passing to                   */
   /*                  @FT_New_Face_From_FSSpec.                            */
   /*                                                                       */
-  /*    face_index :: Индекс of the face. For passing to                    */
+  /*    face_index :: Index of the face. For passing to                    */
   /*                  @FT_New_Face_From_FSSpec.                            */
   /*                                                                       */
   /* <Return>                                                              */
-  /*    FreeType Ошибка code.  0~means success.                             */
+  /*    FreeType error code.  0~means success.                             */
   /*                                                                       */
   FT_EXPORT( FT_Error )
   FT_GetFile_From_Mac_ATS_Name( const char*  fontName,
@@ -163,27 +163,27 @@ FT_BEGIN_HEADER
 
   /*************************************************************************/
   /*                                                                       */
-  /* <Функция>                                                            */
+  /* <Function>                                                            */
   /*    FT_GetFilePath_From_Mac_ATS_Name                                   */
   /*                                                                       */
   /* <Description>                                                         */
-  /*    Return a pathname of the disk file and face Индекс for given font   */
-  /*    имя which is handled by ATS framework.                            */
+  /*    Return a pathname of the disk file and face index for given font   */
+  /*    name which is handled by ATS framework.                            */
   /*                                                                       */
   /* <Input>                                                               */
-  /*    fontName    :: Mac OS имя of the font in ATS framework.           */
+  /*    fontName    :: Mac OS name of the font in ATS framework.           */
   /*                                                                       */
   /* <Output>                                                              */
-  /*    path        :: Буфер to store pathname of the file.  For passing  */
+  /*    path        :: Buffer to store pathname of the file.  For passing  */
   /*                   to @FT_New_Face.  The client must allocate this     */
-  /*                   буфер before calling this function.                */
+  /*                   buffer before calling this function.                */
   /*                                                                       */
-  /*    maxPathSize :: Lengths of the буфер `path' that client allocated. */
+  /*    maxPathSize :: Lengths of the buffer `path' that client allocated. */
   /*                                                                       */
-  /*    face_index  :: Индекс of the face.  For passing to @FT_New_Face.    */
+  /*    face_index  :: Index of the face.  For passing to @FT_New_Face.    */
   /*                                                                       */
   /* <Return>                                                              */
-  /*    FreeType Ошибка code.  0~means success.                             */
+  /*    FreeType error code.  0~means success.                             */
   /*                                                                       */
   FT_EXPORT( FT_Error )
   FT_GetFilePath_From_Mac_ATS_Name( const char*  fontName,
@@ -195,11 +195,11 @@ FT_BEGIN_HEADER
 
   /*************************************************************************/
   /*                                                                       */
-  /* <Функция>                                                            */
+  /* <Function>                                                            */
   /*    FT_New_Face_From_FSSpec                                            */
   /*                                                                       */
   /* <Description>                                                         */
-  /*    создай a new face object from a given resource and typeface Индекс  */
+  /*    Create a new face object from a given resource and typeface index  */
   /*    using an FSSpec to the font file.                                  */
   /*                                                                       */
   /* <InOut>                                                               */
@@ -208,13 +208,13 @@ FT_BEGIN_HEADER
   /* <Input>                                                               */
   /*    spec       :: FSSpec to the font file.                             */
   /*                                                                       */
-  /*    face_index :: The Индекс of the face within the resource.  The      */
-  /*                  first face has Индекс~0.                              */
+  /*    face_index :: The index of the face within the resource.  The      */
+  /*                  first face has index~0.                              */
   /* <Output>                                                              */
   /*    aface      :: A handle to a new face object.                       */
   /*                                                                       */
   /* <Return>                                                              */
-  /*    FreeType Ошибка code.  0~means success.                             */
+  /*    FreeType error code.  0~means success.                             */
   /*                                                                       */
   /* <Note>                                                                */
   /*    @FT_New_Face_From_FSSpec is identical to @FT_New_Face except       */
@@ -230,11 +230,11 @@ FT_BEGIN_HEADER
 
   /*************************************************************************/
   /*                                                                       */
-  /* <Функция>                                                            */
+  /* <Function>                                                            */
   /*    FT_New_Face_From_FSRef                                             */
   /*                                                                       */
   /* <Description>                                                         */
-  /*    создай a new face object from a given resource and typeface Индекс  */
+  /*    Create a new face object from a given resource and typeface index  */
   /*    using an FSRef to the font file.                                   */
   /*                                                                       */
   /* <InOut>                                                               */
@@ -243,13 +243,13 @@ FT_BEGIN_HEADER
   /* <Input>                                                               */
   /*    spec       :: FSRef to the font file.                              */
   /*                                                                       */
-  /*    face_index :: The Индекс of the face within the resource.  The      */
-  /*                  first face has Индекс~0.                              */
+  /*    face_index :: The index of the face within the resource.  The      */
+  /*                  first face has index~0.                              */
   /* <Output>                                                              */
   /*    aface      :: A handle to a new face object.                       */
   /*                                                                       */
   /* <Return>                                                              */
-  /*    FreeType Ошибка code.  0~means success.                             */
+  /*    FreeType error code.  0~means success.                             */
   /*                                                                       */
   /* <Note>                                                                */
   /*    @FT_New_Face_From_FSRef is identical to @FT_New_Face except        */

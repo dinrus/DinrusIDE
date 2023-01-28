@@ -5,119 +5,119 @@
 typedef struct {
 	dword state[4];                                   /* state (ABCD) */
 	dword count[2];        /* number of bits, modulo 2^64 (lsb first) */
-	unsigned char буфер[64];                         /* input буфер */
-} РНЦП_MD5_CTX;
+	unsigned char buffer[64];                         /* input buffer */
+} UPP_MD5_CTX;
 
-class Md5Stream : public ПотокВывода {
-	РНЦП_MD5_CTX context;
+class Md5Stream : public OutStream {
+	UPP_MD5_CTX context;
 
-	virtual  void  выведи(const void *данные, dword size);
+	virtual  void  Out(const void *data, dword size);
 
 public:
-	void   финиш(byte *hash16);
-	Ткст FinishString();
-	Ткст FinishStringS();
-	void   переустанов();
+	void   Finish(byte *hash16);
+	String FinishString();
+	String FinishStringS();
+	void   Reset();
 	
 	Md5Stream();
 	~Md5Stream();
 };
 
-void    MD5(byte *hash16, const void *данные, dword size);
-void    MD5(byte *hash16, const Ткст& данные);
-Ткст  MD5String(const void *данные, dword size);
-Ткст  MD5String(const Ткст& данные);
-Ткст  MD5StringS(const void *данные, dword size);
-Ткст  MD5StringS(const Ткст& данные);
+void    MD5(byte *hash16, const void *data, dword size);
+void    MD5(byte *hash16, const String& data);
+String  MD5String(const void *data, dword size);
+String  MD5String(const String& data);
+String  MD5StringS(const void *data, dword size);
+String  MD5StringS(const String& data);
 
 typedef struct {
     uint32_t state[5];
     uint32_t count[2];
-    unsigned char буфер[64];
-} РНЦП_SHA1_CTX;
+    unsigned char buffer[64];
+} UPP_SHA1_CTX;
 
-class Sha1Stream : public ПотокВывода {
-	РНЦП_SHA1_CTX ctx[1];
+class Sha1Stream : public OutStream {
+	UPP_SHA1_CTX ctx[1];
 
-	virtual  void  выведи(const void *данные, dword size);
+	virtual  void  Out(const void *data, dword size);
 
 	void  Cleanup()                      { memset(ctx, 0, sizeof(ctx)); }
 
 public:
-	void   финиш(byte *hash20);
-	Ткст FinishString();
-	Ткст FinishStringS();
+	void   Finish(byte *hash20);
+	String FinishString();
+	String FinishStringS();
 
-	void   переустанов();
-	void   нов()                         { переустанов(); }
+	void   Reset();
+	void   New()                         { Reset(); }
 	
 	Sha1Stream();
 	~Sha1Stream();
 };
 
-void    SHA1(byte *hash20, const void *данные, dword size);
-void    SHA1(byte *hash20, const Ткст& s);
-Ткст  SHA1String(const void *данные, dword size);
-Ткст  SHA1String(const Ткст& данные);
-Ткст  SHA1StringS(const void *данные, dword size);
-Ткст  SHA1StringS(const Ткст& данные);
+void    SHA1(byte *hash20, const void *data, dword size);
+void    SHA1(byte *hash20, const String& s);
+String  SHA1String(const void *data, dword size);
+String  SHA1String(const String& data);
+String  SHA1StringS(const void *data, dword size);
+String  SHA1StringS(const String& data);
 
-class Sha256Stream : public ПотокВывода {
-	byte  буфер[128];
+class Sha256Stream : public OutStream {
+	byte  buffer[128];
 
-	virtual  void  выведи(const void *данные, dword size);
+	virtual  void  Out(const void *data, dword size);
 
 	void  Cleanup();
 
 public:
-	void   финиш(byte *hash32);
-	Ткст FinishString();
-	Ткст FinishStringS();
+	void   Finish(byte *hash32);
+	String FinishString();
+	String FinishStringS();
 
-	void   переустанов();
-	void   нов()                         { переустанов(); }
+	void   Reset();
+	void   New()                         { Reset(); }
 	
 	Sha256Stream(); 
 	~Sha256Stream();
 };
 
-void    SHA256(byte *hash32, const void *данные, dword size);
-void    SHA256(byte *hash32, const Ткст& s);
-Ткст  SHA256String(const void *данные, dword size);
-Ткст  SHA256String(const Ткст& данные);
-Ткст  SHA256StringS(const void *данные, dword size);
-Ткст  SHA256StringS(const Ткст& данные);
+void    SHA256(byte *hash32, const void *data, dword size);
+void    SHA256(byte *hash32, const String& s);
+String  SHA256String(const void *data, dword size);
+String  SHA256String(const String& data);
+String  SHA256StringS(const void *data, dword size);
+String  SHA256StringS(const String& data);
 
-class ххХэшПоток : public ПотокВывода {
+class xxHashStream : public OutStream {
 	byte context[8 * 8];
 	
-	virtual  void  выведи(const void *данные, dword size);
+	virtual  void  Out(const void *data, dword size);
 
 public:
-	int финиш();
+	int Finish();
 	
-	void переустанов(dword seed = 0);
+	void Reset(dword seed = 0);
 	
-	ххХэшПоток(dword seed = 0);
+	xxHashStream(dword seed = 0);
 };
 
-int xxHash(const void *данные, size_t len);
-int xxHash(const Ткст& s);
+int xxHash(const void *data, size_t len);
+int xxHash(const String& s);
 
-class ххХэш64Поток : public ПотокВывода {
+class xxHash64Stream : public OutStream {
 	byte context[12 * 8];
 	
-	virtual  void  выведи(const void *данные, dword size);
+	virtual  void  Out(const void *data, dword size);
 
 public:
-	int64 финиш();
+	int64 Finish();
 	
-	void переустанов(dword seed = 0);
+	void Reset(dword seed = 0);
 	
-	ххХэш64Поток(dword seed = 0);
+	xxHash64Stream(dword seed = 0);
 };
 
-int64 xxHash64(const void *данные, size_t len);
-int64 xxHash64(const Ткст& s);
+int64 xxHash64(const void *data, size_t len);
+int64 xxHash64(const String& s);
 
 #endif

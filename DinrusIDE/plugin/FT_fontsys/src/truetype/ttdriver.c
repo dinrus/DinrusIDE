@@ -72,7 +72,7 @@
 
   /*************************************************************************/
   /*                                                                       */
-  /* <Функция>                                                            */
+  /* <Function>                                                            */
   /*    tt_get_kerning                                                     */
   /*                                                                       */
   /* <Description>                                                         */
@@ -92,7 +92,7 @@
   /*                   formats.                                            */
   /*                                                                       */
   /* <Return>                                                              */
-  /*    FreeType Ошибка code.  0 means success.                             */
+  /*    FreeType error code.  0 means success.                             */
   /*                                                                       */
   /* <Note>                                                                */
   /*    Only horizontal layouts (left-to-right & right-to-left) are        */
@@ -100,7 +100,7 @@
   /*    kernings, are out of scope of this method (the basic driver        */
   /*    interface is meant to be simple).                                  */
   /*                                                                       */
-  /*    They can be implemented by формат-specific interfaces.             */
+  /*    They can be implemented by format-specific interfaces.             */
   /*                                                                       */
   static FT_Error
   tt_get_kerning( FT_Face     ttface,          /* TT_Face */
@@ -136,7 +136,7 @@
     TT_Face  face  = (TT_Face) ttface;
 
 
-    /* XXX: TODO: check for sbits */
+    /* XXX: СДЕЛАТЬ: check for sbits */
 
     if ( flags & FT_LOAD_VERTICAL_LAYOUT )
     {
@@ -187,7 +187,7 @@
   {
     TT_Face   ttface = (TT_Face)size->face;
     TT_Size   ttsize = (TT_Size)size;
-    FT_Error  Ошибка  = TT_Err_Ok;
+    FT_Error  error  = TT_Err_Ok;
 
 
     ttsize->strike_index = strike_index;
@@ -205,12 +205,12 @@
       FT_Size_Metrics*  metrics = &size->metrics;
 
 
-      Ошибка = sfnt->load_strike_metrics( ttface, strike_index, metrics );
-      if ( Ошибка )
+      error = sfnt->load_strike_metrics( ttface, strike_index, metrics );
+      if ( error )
         ttsize->strike_index = 0xFFFFFFFFUL;
     }
 
-    return Ошибка;
+    return error;
   }
 
 #endif /* TT_CONFIG_OPTION_EMBEDDED_BITMAPS */
@@ -221,7 +221,7 @@
                    FT_Size_Request  req )
   {
     TT_Size   ttsize = (TT_Size)size;
-    FT_Error  Ошибка  = TT_Err_Ok;
+    FT_Error  error  = TT_Err_Ok;
 
 
 #ifdef TT_CONFIG_OPTION_EMBEDDED_BITMAPS
@@ -233,9 +233,9 @@
       FT_ULong      strike_index;
 
 
-      Ошибка = sfnt->set_sbit_strike( ttface, req, &strike_index );
+      error = sfnt->set_sbit_strike( ttface, req, &strike_index );
 
-      if ( Ошибка )
+      if ( error )
         ttsize->strike_index = 0xFFFFFFFFUL;
       else
         return tt_size_select( size, strike_index );
@@ -247,17 +247,17 @@
 
     if ( FT_IS_SCALABLE( size->face ) )
     {
-      Ошибка = tt_size_reset( ttsize );
+      error = tt_size_reset( ttsize );
       ttsize->root.metrics = ttsize->metrics;
     }
 
-    return Ошибка;
+    return error;
   }
 
 
   /*************************************************************************/
   /*                                                                       */
-  /* <Функция>                                                            */
+  /* <Function>                                                            */
   /*    Load_Glyph                                                         */
   /*                                                                       */
   /* <Description>                                                         */
@@ -279,7 +279,7 @@
   /*                   whether to hint the outline, etc).                  */
   /*                                                                       */
   /* <Return>                                                              */
-  /*    FreeType Ошибка code.  0 means success.                             */
+  /*    FreeType error code.  0 means success.                             */
   /*                                                                       */
   static FT_Error
   Load_Glyph( FT_GlyphSlot  ttslot,         /* TT_GlyphSlot */
@@ -290,7 +290,7 @@
     TT_GlyphSlot  slot = (TT_GlyphSlot)ttslot;
     TT_Size       size = (TT_Size)ttsize;
     FT_Face       face = ttslot->face;
-    FT_Error      Ошибка;
+    FT_Error      error;
 
 
     if ( !slot )
@@ -331,12 +331,12 @@
     }
 
     /* now load the glyph outline if necessary */
-    Ошибка = TT_Load_Glyph( size, slot, glyph_index, load_flags );
+    error = TT_Load_Glyph( size, slot, glyph_index, load_flags );
 
     /* force drop-out mode to 2 - irrelevant now */
     /* slot->outline.dropout_mode = 2; */
 
-    return Ошибка;
+    return error;
   }
 
 
@@ -449,7 +449,7 @@
 
       sizeof ( TT_DriverRec ),
 
-      "truetype",      /* driver имя                           */
+      "truetype",      /* driver name                           */
       0x10000L,        /* driver version == 1.0                 */
       0x20000L,        /* driver requires FreeType 2.0 or above */
 

@@ -11,31 +11,31 @@
 	#endif
 #endif
 
-namespace РНЦПДинрус {
+namespace Upp {
 
 #define LLOG(x)  LOG(x)
 
-Ткст LNGAsText(int d)
+String LNGAsText(int d)
 {
-	Ткст result;
+	String result;
 	int c = (d >> 15) & 31;
 	if(c) {
-		result.конкат(c + 'A' - 1);
+		result.Cat(c + 'A' - 1);
 		c = (d >> 10) & 31;
 		if(c) {
-			result.конкат(c + 'A' - 1);
+			result.Cat(c + 'A' - 1);
 			c = (d >> 5) & 31;
 			if(c) {
-				result.конкат('-');
-				result.конкат(c + 'A' - 1);
+				result.Cat('-');
+				result.Cat(c + 'A' - 1);
 				c = d & 31;
-				if(c) result.конкат(c + 'A' - 1);
+				if(c) result.Cat(c + 'A' - 1);
 			}
 		}
 	}
 	c = (d >> 20) & 255;
 	if(c)
-		result << ' ' << имяНабСим(c);
+		result << ' ' << CharsetName(c);
 	return result;
 }
 
@@ -54,20 +54,20 @@ int LNGFromText(const char *s)
 {
 	int l = 0;
 	if(IsAlpha(*s)) {
-		l = (взаг(*s++) - 'A' + 1) << 15;
+		l = (ToUpper(*s++) - 'A' + 1) << 15;
 		if(IsAlpha(*s)) {
-			l |= (взаг(*s++) - 'A' + 1) << 10;
+			l |= (ToUpper(*s++) - 'A' + 1) << 10;
 			if(*s && !IsAlpha(*s))
 				s++;
 			if(IsAlpha(*s)) {
-				l |= (взаг(*s++) - 'A' + 1) << 5;
+				l |= (ToUpper(*s++) - 'A' + 1) << 5;
 				if(IsAlpha(*s)) {
-					l |= (взаг(*s++) - 'A' + 1);
+					l |= (ToUpper(*s++) - 'A' + 1);
 					while(*s && *s != ' ')
 						s++;
 					if(*s == ' ') {
 						s++;
-						int cs = набсимПоИмени(s);
+						int cs = CharsetByName(s);
 						if(cs > 0)
 							l |= (cs << 20);
 						else
@@ -83,16 +83,16 @@ int LNGFromText(const char *s)
 
 #ifdef PLATFORM_WIN32
 
-Ткст GetUserLocale(dword тип)
+String GetUserLocale(dword type)
 {
 #ifdef PLATFORM_WINCE
 	wchar h[256];
-	int n = ::GetLocaleInfo(GetUserDefaultLCID(), тип, h, 256);
-	return n ? ШТкст(h, n - 1).вТкст() : Ткст();
+	int n = ::GetLocaleInfo(GetUserDefaultLCID(), type, h, 256);
+	return n ? WString(h, n - 1).ToString() : String();
 #else
 	char h[256];
-	int n =:: GetLocaleInfo(GetUserDefaultLCID(), тип, h, 256);
-	return n ? Ткст(h, n - 1) : Ткст();
+	int n =:: GetLocaleInfo(GetUserDefaultLCID(), type, h, 256);
+	return n ? String(h, n - 1) : String();
 #endif
 }
 
@@ -115,48 +115,48 @@ int GetSystemLNG()
 int GetSystemLNG() {
 	static int lang;
 	ONCELOCK {
-		Ткст s = систСреда().дай("LANG", Null);
+		String s = Environment().Get("LANG", Null);
 		lang = LNGFromText(s);
 		if(!lang)
 			lang = LNG_ENGLISH;
 		const char *q = strchr(s, '.');
 		if(q)
-			lang = SetLNGCharset(lang, набсимПоИмени(q + 1));
+			lang = SetLNGCharset(lang, CharsetByName(q + 1));
 	};
 	return lang;
 };
 
 #endif
 
-class LangConvertClass : public Преобр {
-	virtual Значение  фмт(const Значение& q) const {
+class LangConvertClass : public Convert {
+	virtual Value  Format(const Value& q) const {
 		return LNGAsText((int)q);
 	}
 
-	virtual Значение  скан(const Значение& text) const {
-		if(пусто_ли(text)) return 0;
-		int q = LNGFromText((Ткст)text);
-		if(!q) return значОш(t_("Invalid язык specification."));
+	virtual Value  Scan(const Value& text) const {
+		if(IsNull(text)) return 0;
+		int q = LNGFromText((String)text);
+		if(!q) return ErrorValue(t_("Неверная спецификация языка."));
 		return (int) q;
 	}
 
-	virtual int    фильтруй(int chr) const {
-		return chr == ' ' || chr == '-' || цифра_ли(chr) ? chr : IsAlpha(chr) ? взаг(chr) : 0;
+	virtual int    Filter(int chr) const {
+		return chr == ' ' || chr == '-' || IsDigit(chr) ? chr : IsAlpha(chr) ? ToUpper(chr) : 0;
 	}
 };
 
-Преобр& преобрЯЗ()
+Convert& LNGConvert()
 {
 	return Single<LangConvertClass>();
 }
 
 void SetLanguage(int lang) {
 	if(lang != LNG_CURRENT)
-		устДефНабСим(GetLNGCharset(lang));
+		SetDefaultCharset(GetLNGCharset(lang));
 	SetCurrentLanguage(lang);
 }
 
-ИНИЦБЛОК {
+INITBLOCK {
 	SetLanguage(LNG_('E', 'N', 'U', 'S'));
 }
 
@@ -165,18 +165,18 @@ void SetLanguage(const char *s)
 	SetLanguage(LNGFromText(s));
 }
 
-Ткст GetCurrentLanguageString()
+String GetCurrentLanguageString()
 {
 	return LNGAsText(GetCurrentLanguage());
 }
 
-Ткст GetLangName(int язык)
+String GetLangName(int language)
 {
-	return GetLanguageInfo(язык).english_name;
+	return GetLanguageInfo(language).english_name;
 }
 
-Ткст GetNativeLangName(int язык) {
-	return GetLanguageInfo(язык).native_name.вТкст();
+String GetNativeLangName(int language) {
+	return GetLanguageInfo(language).native_name.ToString();
 }
 
 }

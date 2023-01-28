@@ -1,31 +1,31 @@
 #include "zstd.h"
 
-namespace РНЦП {
+namespace Upp {
 	
 namespace Legacy {
 	
 // we simply store data as series of complete Zstd frames, as library gives us no easy way
 // to do it in MT
 
-void ZstdCompressStream::открой(Поток& out_, int level_)
+void ZstdCompressStream::Open(Stream& out_, int level_)
 {
 	out = &out_;
 	level = level_;
-	сотриОш();
+	ClearError();
 	pos = 0;
-	размести();
+	Alloc();
 }
 
-void ZstdCompressStream::размести()
+void ZstdCompressStream::Alloc()
 {
 	int N = 16;
 	int sz = concurrent ? N * BLOCK_BYTES : BLOCK_BYTES;
-	буфер.размести(sz);
-	outbuf.размести(N * ZSTD_compressBound(BLOCK_BYTES));
-	outsz.размести(N);
-	Поток::буфер = ~буфер;
-	wrlim = ~буфер + sz;
-	ptr = ~буфер;
+	buffer.Alloc(sz);
+	outbuf.Alloc(N * ZSTD_compressBound(BLOCK_BYTES));
+	outsz.Alloc(N);
+	Stream::buffer = ~buffer;
+	wrlim = ~buffer + sz;
+	ptr = ~buffer;
 }
 
 #ifdef _MULTITHREADED
@@ -33,21 +33,21 @@ void ZstdCompressStream::Co(bool b)
 {
 	FlushOut();
 	concurrent = b;
-	размести();
+	Alloc();
 }
 #endif
 
 void ZstdCompressStream::FlushOut()
 {
-	if(ptr == (byte *)~буфер)
+	if(ptr == (byte *)~buffer)
 		return;
 	
-	СоРабота co;
+	CoWork co;
 	
 	int osz = (int)ZSTD_compressBound(BLOCK_BYTES);
 	byte *t = ~outbuf;
 	int   ii = 0;
-	for(byte *s = ~буфер; s < ptr; s += BLOCK_BYTES) {
+	for(byte *s = ~buffer; s < ptr; s += BLOCK_BYTES) {
 		int origsize = min((int)BLOCK_BYTES, int(ptr - s));
 #ifdef _MULTITHREADED
 		if(concurrent)
@@ -62,25 +62,25 @@ void ZstdCompressStream::FlushOut()
 	}
 	
 	if(concurrent)
-		co.финиш();
+		co.Finish();
 	
 	t = ~outbuf;
 	for(int i = 0; i < ii; i++) {
 		int clen = outsz[i];
 		if(clen < 0) {
-			устОш();
+			SetError();
 			return;
 		}
-		out->помести(t, clen);
+		out->Put(t, clen);
 		t += osz;
 	}
 	
-	int origsize = int(ptr - ~буфер);
+	int origsize = int(ptr - ~buffer);
 	pos += origsize;
-	ptr = ~буфер;
+	ptr = ~buffer;
 }
 
-void ZstdCompressStream::закрой()
+void ZstdCompressStream::Close()
 {
 	if(out) {
 		FlushOut();
@@ -88,23 +88,23 @@ void ZstdCompressStream::закрой()
 	}
 }
 
-bool ZstdCompressStream::открыт() const
+bool ZstdCompressStream::IsOpen() const
 {
-	return out && out->открыт();
+	return out && out->IsOpen();
 }
 
-void ZstdCompressStream::_помести(int w)
+void ZstdCompressStream::_Put(int w)
 {
 	FlushOut();
 	*ptr++ = w;
 }
 
-void ZstdCompressStream::_помести(const void *data, dword size)
+void ZstdCompressStream::_Put(const void *data, dword size)
 {
 	const char *s = reinterpret_cast<const char *>(data);
 
 	while(size > 0) {
-		if(ошибка_ли() || out && out->ошибка_ли())
+		if(IsError() || out && out->IsError())
 			return;
 		dword n = dword(wrlim - ptr);
 		if(size >= n) {
@@ -131,7 +131,7 @@ ZstdCompressStream::ZstdCompressStream()
 
 ZstdCompressStream::~ZstdCompressStream()
 {
-	закрой();
+	Close();
 }
 
 };

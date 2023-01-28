@@ -1,45 +1,45 @@
 #include "Core.h"
 
-namespace РНЦПДинрус {
+namespace Upp {
 
-namespace Ини {
-	INI_BOOL(HttpRequest_Trace, false, "Activates HTTP requests tracing")
-	INI_BOOL(HttpRequest_TraceBody, false, "Activates HTTP requests body tracing")
-	INI_BOOL(HttpRequest_TraceShort, false, "Activates HTTP requests short tracing")
+namespace Ini {
+	INI_BOOL(HttpRequest_Trace, false, "Активирует трассировку запросов HTTP")
+	INI_BOOL(HttpRequest_TraceBody, false, "Активирует ьрассировку тел запросов HTTP")
+	INI_BOOL(HttpRequest_TraceShort, false, "Активирует краткую трассировку запросов")
 };
 
-#define LLOG(x)      LOG_(Ини::HttpRequest_Trace, x)
-#define LLOGB(x)     LOG_(Ини::HttpRequest_TraceBody, x)
-#define LLOGS(x)     LOG_( Ини::HttpRequest_Trace || Ини::HttpRequest_TraceShort, x)
-#define LLOGSS(x)    LOG_(!Ини::HttpRequest_Trace && Ини::HttpRequest_TraceShort, x)
-	
-#ifdef _ОТЛАДКА
+#define LLOG(x)      LOG_(Ini::HttpRequest_Trace, x)
+#define LLOGB(x)     LOG_(Ini::HttpRequest_TraceBody, x)
+#define LLOGS(x)     LOG_( Ini::HttpRequest_Trace || Ini::HttpRequest_TraceShort, x)
+#define LLOGSS(x)    LOG_(!Ini::HttpRequest_Trace && Ini::HttpRequest_TraceShort, x)
+
+#ifdef _DEBUG
 _DBG_
 // #define ENDZIP // only activate if zip pipe is in the question
 #endif
 
 void HttpRequest::Trace(bool b)
 {
-	Ини::HttpRequest_Trace = b;
-	Ини::HttpRequest_TraceBody = b;
+	Ini::HttpRequest_Trace = b;
+	Ini::HttpRequest_TraceBody = b;
 }
 
 void HttpRequest::TraceHeader(bool b)
 {
-	Ини::HttpRequest_Trace = b;
+	Ini::HttpRequest_Trace = b;
 }
 
 void HttpRequest::TraceBody(bool b)
 {
-	Ини::HttpRequest_TraceBody = b;
+	Ini::HttpRequest_TraceBody = b;
 }
 
 void HttpRequest::TraceShort(bool b)
 {
-	Ини::HttpRequest_TraceShort = b;
+	Ini::HttpRequest_TraceShort = b;
 }
 
-void HttpRequest::иниц()
+void HttpRequest::Init()
 {
 	port = 0;
 	proxy_port = 0;
@@ -73,12 +73,12 @@ void HttpRequest::иниц()
 
 HttpRequest::HttpRequest()
 {
-	иниц();
+	Init();
 }
 
 HttpRequest::HttpRequest(const char *url)
 {
-	иниц();
+	Init();
 	Url(url);
 }
 
@@ -102,28 +102,28 @@ HttpRequest& HttpRequest::Url(const char *u)
 	while(*u && *u != ':' && *u != '/' && *u != '?')
 		u++;
 	hasurlvar = *u == '?' && u[1];
-	host = Ткст(t, u);
+	host = String(t, u);
 	port = 0;
 	if(*u == ':')
-		port = сканЦел(u + 1, &u);
+		port = ScanInt(u + 1, &u);
 	path = u;
-	int q = path.найди('#');
+	int q = path.Find('#');
 	if(q >= 0)
-		path.обрежь(q);
+		path.Trim(q);
 	return *this;
 }
 
-void ParseProxyUrl(const char *p, Ткст& proxy_host, int& proxy_port)
+void ParseProxyUrl(const char *p, String& proxy_host, int& proxy_port)
 {
 	const char *t = p;
 	while(*p && *p != ':')
 		p++;
-	proxy_host = Ткст(t, p);
-	if(*p++ == ':' && цифра_ли(*p))
-		proxy_port = сканЦел(p);
+	proxy_host = String(t, p);
+	if(*p++ == ':' && IsDigit(*p))
+		proxy_port = ScanInt(p);
 }
 
-HttpRequest& HttpRequest::прокси(const char *url)
+HttpRequest& HttpRequest::Proxy(const char *url)
 {
 	proxy_port = 80;
 	ParseProxyUrl(url, proxy_host, proxy_port);
@@ -137,59 +137,59 @@ HttpRequest& HttpRequest::SSLProxy(const char *url)
 	return *this;
 }
 
-HttpRequest& HttpRequest::PostStream(Поток& s, int64 len)
+HttpRequest& HttpRequest::PostStream(Stream& s, int64 len)
 {
 	POST();
 	poststream = &s;
 	postlen = Nvl(len, s.GetLeft());
-	postdata.очисть();
+	postdata.Clear();
 	return *this;
 }
 
-HttpRequest& HttpRequest::пост(const char *ид, const Ткст& данные)
+HttpRequest& HttpRequest::Post(const char *id, const String& data)
 {
 	POST();
-	if(postdata.дайСчёт())
+	if(postdata.GetCount())
 		postdata << '&';
-	postdata << ид << '=' << UrlEncode(данные);
+	postdata << id << '=' << UrlEncode(data);
 	return *this;
 }
 
-HttpRequest& HttpRequest::Part(const char *ид, const Ткст& данные,
+HttpRequest& HttpRequest::Part(const char *id, const String& data,
                                const char *content_type, const char *filename)
 {
-	if(пусто_ли(multipart)) {
+	if(IsNull(multipart)) {
 		POST();
-		multipart = какТкст(Uuid::создай());
-		ContentType("multipart/form-данные; boundary=" + multipart);
+		multipart = AsString(Uuid::Create());
+		ContentType("multipart/form-data; boundary=" + multipart);
 	}
 	postdata << "--" << multipart << "\r\n"
-	         << "Content-Disposition: form-данные; имя=\"" << ид << "\"";
+	         << "Content-Disposition: form-data; name=\"" << id << "\"";
 	if(filename && *filename)
 		postdata << "; filename=\"" << filename << "\"";
 	postdata << "\r\n";
 	if(content_type && *content_type)
 		postdata << "Content-Type: " << content_type << "\r\n";
-	postdata << "\r\n" << данные << "\r\n";
+	postdata << "\r\n" << data << "\r\n";
 	return *this;
 }
 
-HttpRequest& HttpRequest::UrlVar(const char *ид, const Ткст& данные)
+HttpRequest& HttpRequest::UrlVar(const char *id, const String& data)
 {
-	int c = *path.последний();
+	int c = *path.Last();
 	if(hasurlvar && c != '&')
 		path << '&';
 	if(!hasurlvar && c != '?')
 		path << '?';
-	path << ид << '=' << UrlEncode(данные);
+	path << id << '=' << UrlEncode(data);
 	hasurlvar = true;
 	return *this;
 }
 
-Ткст HttpRequest::CalculateDigest(const Ткст& authenticate) const
+String HttpRequest::CalculateDigest(const String& authenticate) const
 {
 	const char *p = authenticate;
-	Ткст realm, qop, nonce, opaque;
+	String realm, qop, nonce, opaque;
 	while(*p) {
 		if(!IsAlNum(*p)) {
 			p++;
@@ -199,8 +199,8 @@ HttpRequest& HttpRequest::UrlVar(const char *ид, const Ткст& данные)
 			const char *b = p;
 			while(IsAlNum(*p))
 				p++;
-			Ткст var = впроп(Ткст(b, p));
-			Ткст значение;
+			String var = ToLower(String(b, p));
+			String value;
 			while(*p && (byte)*p <= ' ')
 				p++;
 			if(*p == '=') {
@@ -211,7 +211,7 @@ HttpRequest& HttpRequest::UrlVar(const char *ид, const Ткст& данные)
 					p++;
 					while(*p && *p != '\"')
 						if(*p != '\\' || *++p)
-							значение.конкат(*p++);
+							value.Cat(*p++);
 					if(*p == '\"')
 						p++;
 				}
@@ -219,65 +219,65 @@ HttpRequest& HttpRequest::UrlVar(const char *ид, const Ткст& данные)
 					b = p;
 					while(*p && *p != ',' && (byte)*p > ' ')
 						p++;
-					значение = Ткст(b, p);
+					value = String(b, p);
 				}
 			}
 			if(var == "realm")
-				realm = значение;
+				realm = value;
 			else if(var == "qop")
-				qop = значение;
+				qop = value;
 			else if(var == "nonce")
-				nonce = значение;
+				nonce = value;
 			else if(var == "opaque")
-				opaque = значение;
+				opaque = value;
 		}
 	}
-	Ткст hv1, hv2;
+	String hv1, hv2;
 	hv1 << username << ':' << realm << ':' << password;
-	Ткст ha1 = MD5String(hv1);
+	String ha1 = MD5String(hv1);
 	hv2 << (method == METHOD_GET ? "GET" : method == METHOD_PUT ? "PUT" : method == METHOD_POST ? "POST" : "READ")
 	<< ':' << path;
-	Ткст ha2 = MD5String(hv2);
+	String ha2 = MD5String(hv2);
 	int nc = 1;
-	Ткст cnonce = фмтЦелГекс(случ(), 8);
-	Ткст hv;
+	String cnonce = FormatIntHex(Random(), 8);
+	String hv;
 	hv << ha1
 	   << ':' << nonce
-	   << ':' << фмтЦелГекс(nc, 8)
+	   << ':' << FormatIntHex(nc, 8)
 	   << ':' << cnonce
 	   << ':' << qop << ':' << ha2;
-	Ткст ha = MD5String(hv);
-	Ткст auth;
-	auth << "username=" << какТкстСи(username)
-	     << ", realm=" << какТкстСи(realm)
-	     << ", nonce=" << какТкстСи(nonce)
-	     << ", uri=" << какТкстСи(path)
-	     << ", qop=" << какТкстСи(qop)
-	     << ", nc=" << какТкстСи(фмтЦелГекс(nc, 8))
+	String ha = MD5String(hv);
+	String auth;
+	auth << "username=" << AsCString(username)
+	     << ", realm=" << AsCString(realm)
+	     << ", nonce=" << AsCString(nonce)
+	     << ", uri=" << AsCString(path)
+	     << ", qop=" << AsCString(qop)
+	     << ", nc=" << AsCString(FormatIntHex(nc, 8))
 	     << ", cnonce=" << cnonce
-	     << ", response=" << какТкстСи(ha);
-	if(!пусто_ли(opaque))
-		auth << ", opaque=" << какТкстСи(opaque);
+	     << ", response=" << AsCString(ha);
+	if(!IsNull(opaque))
+		auth << ", opaque=" << AsCString(opaque);
 	return auth;
 }
 
-HttpRequest& HttpRequest::Header(const char *ид, const Ткст& данные)
+HttpRequest& HttpRequest::Header(const char *id, const String& data)
 {
-	request_headers << ид << ": " << данные << "\r\n";
+	request_headers << id << ": " << data << "\r\n";
 	return *this;
 }
 
 HttpRequest& HttpRequest::Cookie(const HttpCookie& c)
 {
-	cookies.дайДобавь(Ткст(c.ид).конкат() << '?' << c.domain << '?' << c.path) = c;
+	cookies.GetAdd(String(c.id).Cat() << '?' << c.domain << '?' << c.path) = c;
 	return *this;
 }
 
-HttpRequest& HttpRequest::Cookie(const Ткст& ид, const Ткст& значение, const Ткст& domain, const Ткст& path)
+HttpRequest& HttpRequest::Cookie(const String& id, const String& value, const String& domain, const String& path)
 {
 	HttpCookie c;
-	c.ид = ид;
-	c.значение = значение;
+	c.id = id;
+	c.value = value;
 	c.domain = domain;
 	c.path = path;
 	return Cookie(c);
@@ -286,18 +286,18 @@ HttpRequest& HttpRequest::Cookie(const Ткст& ид, const Ткст& знач�
 HttpRequest& HttpRequest::CopyCookies(const HttpRequest& r)
 {
 	const HttpHeader& h = r.GetHttpHeader();
-	for(int i = 0; i < h.cookies.дайСчёт(); i++)
+	for(int i = 0; i < h.cookies.GetCount(); i++)
 		Cookie(h.cookies[i]);
 	return *this;
 }
 
 void HttpRequest::HttpError(const char *s)
 {
-	if(ошибка_ли())
+	if(IsError())
 		return;
-	Ошибка = фмт(t_("%s:%d: ") + Ткст(s), host, port);
-	LLOGS("HTTP Ошибка: " << Ошибка);
-	открой();
+	error = Format(t_("%s:%d: ") + String(s), host, port);
+	LLOGS("HTTP ERROR: " << error);
+	Close();
 	phase = FAILED;
 }
 
@@ -306,12 +306,12 @@ void HttpRequest::StartPhase(int s)
 	waitevents = WAIT_READ;
 	phase = s;
 	LLOG("Starting status " << s << " '" << GetPhaseName() << "', url: " << host);
-	данные.очисть();
+	data.Clear();
 }
 
-void HttpRequest::нов()
+void HttpRequest::New()
 {
-	сотриОш();
+	ClearError();
 	ClearAbort();
 	waitevents = 0;
 	phase = BEGIN;
@@ -319,22 +319,22 @@ void HttpRequest::нов()
 
 void HttpRequest::NewRequest()
 {
-	нов();
-	иниц();
+	New();
+	Init();
 	host = proxy_host = proxy_username = proxy_password = ssl_proxy_host =
 	ssl_proxy_username = ssl_proxy_password = path =
 	custom_method = accept = agent = contenttype = username = password =
 	authorization = request_headers = postdata = multipart = Null;
 }
 
-void HttpRequest::очисть()
+void HttpRequest::Clear()
 {
-	TcpSocket::очисть();
+	TcpSocket::Clear();
 	NewRequest();
-	cookies.очисть();
+	cookies.Clear();
 }
 
-bool HttpRequest::делай()
+bool HttpRequest::Do()
 {
 	switch(phase) {
 	case BEGIN:
@@ -343,7 +343,7 @@ bool HttpRequest::делай()
 		start_time = msecs();
 		GlobalTimeout(timeout);
 	case START:
-		старт();
+		Start();
 		break;
 	case DNS:
 		Dns();
@@ -377,7 +377,7 @@ bool HttpRequest::делай()
 	case BODY:
 		if(ReadingBody())
 			break;
-		финиш();
+		Finish();
 		break;
 	case CHUNK_HEADER:
 		ReadingChunkHeader();
@@ -388,9 +388,9 @@ bool HttpRequest::делай()
 		StartPhase(CHUNK_CRLF);
 		break;
 	case CHUNK_CRLF:
-		if(chunk_crlf.дайСчёт() < 2)
-			chunk_crlf.конкат(TcpSocket::дай(2 - chunk_crlf.дайСчёт()));
-		if(chunk_crlf.дайСчёт() < 2)
+		if(chunk_crlf.GetCount() < 2)
+			chunk_crlf.Cat(TcpSocket::Get(2 - chunk_crlf.GetCount()));
+		if(chunk_crlf.GetCount() < 2)
 			break;
 		if(chunk_crlf != "\r\n")
 			HttpError("missing ending CRLF in chunked transfer");
@@ -399,8 +399,8 @@ bool HttpRequest::делай()
 	case TRAILER:
 		if(ReadingHeader())
 			break;
-		header.ParseAdd(данные);
-		финиш();
+		header.ParseAdd(data);
+		Finish();
 		break;
 	case FINISHED:
 	case FAILED:
@@ -411,7 +411,7 @@ bool HttpRequest::делай()
 	}
 
 	if(phase != FAILED) {
-		if(IsSocketError() || ошибка_ли())
+		if(IsSocketError() || IsError())
 			phase = FAILED;
 		else
 		if(msecs(start_time) >= timeout)
@@ -420,10 +420,10 @@ bool HttpRequest::делай()
 		if(IsAbort())
 			HttpError("connection was aborted");
 	}
-	
+
 	if(phase == FAILED) {
 		if(retry_count++ < max_retries) {
-			LLOGS("HTTP retry on Ошибка " << GetErrorDesc());
+			LLOGS("HTTP retry on error " << GetErrorDesc());
 			start_time = msecs();
 			GlobalTimeout(timeout);
 			StartPhase(START);
@@ -433,21 +433,21 @@ bool HttpRequest::делай()
 	return phase != FINISHED && phase != FAILED;
 }
 
-void HttpRequest::старт()
+void HttpRequest::Start()
 {
 	LLOG("HTTP START");
-	открой();
-	сотриОш();
+	Close();
+	ClearError();
 	gzip = false;
-	z.очисть();
-	header.очисть();
+	z.Clear();
+	header.Clear();
 	status_code = 0;
-	reason_phrase.очисть();
-	body.очисть();
+	reason_phrase.Clear();
+	body.Clear();
 	WhenStart();
 
 	bool ssl_connect = ssl && !ssl_get_proxy;
-	bool use_proxy = !пусто_ли(ssl_connect ? ssl_proxy_host : proxy_host);
+	bool use_proxy = !IsNull(ssl_connect ? ssl_proxy_host : proxy_host);
 
 	int p = use_proxy ? (ssl_connect ? ssl_proxy_port : proxy_port) : port;
 	if(!p)
@@ -458,9 +458,9 @@ void HttpRequest::старт()
 	SSLServerNameIndication(host);
 
 	StartPhase(DNS);
-	if(пусто_ли(GetTimeout()) && timeout == INT_MAX) {
+	if(IsNull(GetTimeout()) && timeout == INT_MAX) {
 		if(WhenWait) {
-			addrinfo.старт(phost, p);
+			addrinfo.Start(phost, p);
 			while(addrinfo.InProgress()) {
 				Sleep(GetWaitStep());
 				WhenWait();
@@ -469,11 +469,11 @@ void HttpRequest::старт()
 			}
 		}
 		else
-			addrinfo.выполни(phost, p);
+			addrinfo.Execute(phost, p);
 		StartConnect();
 	}
 	else
-		addrinfo.старт(phost, p);
+		addrinfo.Start(phost, p);
 }
 
 void HttpRequest::Dns()
@@ -494,23 +494,23 @@ void HttpRequest::StartConnect()
 	LLOG("HTTP StartConnect");
 	if(!Connect(addrinfo))
 		return;
-	addrinfo.очисть();
-	if(ssl && ssl_proxy_host.дайСчёт() && !ssl_get_proxy) {
+	addrinfo.Clear();
+	if(ssl && ssl_proxy_host.GetCount() && !ssl_get_proxy) {
 		StartPhase(SSLPROXYREQUEST);
 		waitevents = WAIT_WRITE;
-		Ткст host_port = host;
+		String host_port = host;
 		if(port)
 			host_port << ':' << port;
 		else
 			host_port << ":443";
-		данные << "CONNECT " << host_port << " HTTP/1.1\r\n"
-		     << "Хост: " << host_port << "\r\n";
-		if(!пусто_ли(ssl_proxy_username))
-			данные << "прокси-Authorization: Basic "
+		data << "CONNECT " << host_port << " HTTP/1.1\r\n"
+		     << "Host: " << host_port << "\r\n";
+		if(!IsNull(ssl_proxy_username))
+			data << "Proxy-Authorization: Basic "
 			        << Base64Encode(proxy_username + ':' + proxy_password) << "\r\n";
-		данные << "\r\n";
+		data << "\r\n";
 		count = 0;
-		LLOG("HTTPS proxy request:\n" << данные);
+		LLOG("HTTPS proxy request:\n" << data);
 	}
 	else
 		AfterConnect();
@@ -518,12 +518,12 @@ void HttpRequest::StartConnect()
 
 void HttpRequest::ProcessSSLProxyResponse()
 {
-	LLOG("HTTPS proxy response:\n" << данные);
-	int q = min(данные.найди('\r'), данные.найди('\n'));
+	LLOG("HTTPS proxy response:\n" << data);
+	int q = min(data.Find('\r'), data.Find('\n'));
 	if(q >= 0)
-		данные.обрежь(q);
-	if(!данные.начинаетсяС("HTTP") || данные.найди(" 2") < 0) {
-		HttpError("Invalid proxy reply: " + данные);
+		data.Trim(q);
+	if(!data.StartsWith("HTTP") || data.Find(" 2") < 0) {
+		HttpError("Неправильный ответ прокси: " + data);
 		return;
 	}
 	AfterConnect();
@@ -545,83 +545,83 @@ void HttpRequest::StartRequest()
 	StartPhase(REQUEST);
 	waitevents = WAIT_WRITE;
 	count = 0;
-	Ткст ctype = contenttype;
-	if((method == METHOD_POST || method == METHOD_PUT) && пусто_ли(ctype))
+	String ctype = contenttype;
+	if((method == METHOD_POST || method == METHOD_PUT) && IsNull(ctype))
 		ctype = "application/x-www-form-urlencoded";
 	static const char *smethod[] = {
 		"GET", "POST", "HEAD", "PUT", "DELETE", "TRACE", "OPTIONS", "CONNECT", "PATCH",
 	};
-	ПРОВЕРЬ(method >= 0 && method <= 8);
-	данные = Nvl(custom_method, smethod[method]);
-	данные << ' ';
-	Ткст host_port = host;
+	ASSERT(method >= 0 && method <= 8);
+	data = Nvl(custom_method, smethod[method]);
+	data << ' ';
+	String host_port = host;
 	if(port)
 		host_port << ':' << port;
-	Ткст url;
+	String url;
 	url << (ssl && ssl_get_proxy ? "https://" : "http://") << host_port << Nvl(path, "/");
-	if(!пусто_ли(proxy_host) && (!ssl || ssl_get_proxy))
-		данные << url;
+	if(!IsNull(proxy_host) && (!ssl || ssl_get_proxy))
+		data << url;
 	else {
 		if(*path != '/')
-			данные << '/';
-		данные << path;
+			data << '/';
+		data << path;
 	}
-	данные << " HTTP/1.1\r\n";
-	Ткст pd = postdata;
+	data << " HTTP/1.1\r\n";
+	String pd = postdata;
 
-	if(!пусто_ли(multipart))
+	if(!IsNull(multipart))
 		pd << "--" << multipart << "--\r\n";
 	if(method == METHOD_GET || method == METHOD_HEAD) {
-		pd.очисть();
+		pd.Clear();
 		poststream = NULL;
 	}
 	if(std_headers) {
-		данные << "URL: " << url << "\r\n"
-		     << "Хост: " << (ssl_get_proxy ? phost : host_port) << "\r\n"
+		data << "URL: " << url << "\r\n"
+		     << "Host: " << (ssl_get_proxy ? phost : host_port) << "\r\n"
 		     << "Connection: " << (keep_alive ? "keep-alive\r\n" : "close\r\n")
-		     << "прими: " << Nvl(accept, "*/*") << "\r\n"
-		     << "прими-Encoding: gzip\r\n"
+		     << "Accept: " << Nvl(accept, "*/*") << "\r\n"
+		     << "Accept-Encoding: gzip\r\n"
 		     << "User-Agent: " << Nvl(agent, "U++ HTTP request") << "\r\n";
-		int64 len = poststream ? postlen : pd.дайСчёт();
+		int64 len = poststream ? postlen : pd.GetCount();
 		if(len > 0 || method == METHOD_POST || method == METHOD_PUT)
-			данные << "Content-длина: " << len << "\r\n";
-		if(ctype.дайСчёт())
-			данные << "Content-Type: " << ctype << "\r\n";
+			data << "Content-Length: " << len << "\r\n";
+		if(ctype.GetCount())
+			data << "Content-Type: " << ctype << "\r\n";
 	}
-	ВекторМап<Ткст, Кортеж<Ткст, int> > cms;
-	for(int i = 0; i < cookies.дайСчёт(); i++) {
+	VectorMap<String, Tuple<String, int> > cms;
+	for(int i = 0; i < cookies.GetCount(); i++) {
 		const HttpCookie& c = cookies[i];
-		if(host.заканчиваетсяНа(c.domain) && path.начинаетсяС(c.path)) {
-			Кортеж<Ткст, int>& m = cms.дайДобавь(c.ид, сделайКортеж(Ткст(), -1));
-			if(c.path.дайДлину() > m.b) {
-				m.a = c.значение;
-				m.b = c.path.дайДлину();
+		if(host.EndsWith(c.domain) && path.StartsWith(c.path)) {
+			Tuple<String, int>& m = cms.GetAdd(c.id, MakeTuple(String(), -1));
+			if(c.path.GetLength() > m.b) {
+				m.a = c.value;
+				m.b = c.path.GetLength();
 			}
 		}
 	}
-	Ткст cs;
-	for(int i = 0; i < cms.дайСчёт(); i++) {
+	String cs;
+	for(int i = 0; i < cms.GetCount(); i++) {
 		if(i)
 			cs << "; ";
-		cs << cms.дайКлюч(i) << '=' << cms[i].a;
+		cs << cms.GetKey(i) << '=' << cms[i].a;
 	}
-	if(cs.дайСчёт())
-		данные << "Cookie: " << cs << "\r\n";
-	if(!пусто_ли(proxy_host) && !пусто_ли(proxy_username))
-		 данные << "прокси-Authorization: Basic " << Base64Encode(proxy_username + ':' + proxy_password) << "\r\n";
-	if(!пусто_ли(authorization))
-		данные << "Authorization: " << authorization << "\r\n";
+	if(cs.GetCount())
+		data << "Cookie: " << cs << "\r\n";
+	if(!IsNull(proxy_host) && !IsNull(proxy_username))
+		 data << "Proxy-Authorization: Basic " << Base64Encode(proxy_username + ':' + proxy_password) << "\r\n";
+	if(!IsNull(authorization))
+		data << "Authorization: " << authorization << "\r\n";
 	else
-	if(!force_digest && (!пусто_ли(username) || !пусто_ли(password)))
-		данные << "Authorization: Basic " << Base64Encode(username + ":" + password) << "\r\n";
-	данные << request_headers;
+	if(!force_digest && (!IsNull(username) || !IsNull(password)))
+		data << "Authorization: Basic " << Base64Encode(username + ":" + password) << "\r\n";
+	data << request_headers;
 	LLOG("HTTP REQUEST " << host << ":" << port);
-	if (pd.дайСчёт() || method == METHOD_POST || method == METHOD_PUT)
-	    LLOGSS("HTTP Request " << smethod[method] << " " << url << " данные:" << ctype << "(" << pd.дайСчёт() << ")");
+	if (pd.GetCount() || method == METHOD_POST || method == METHOD_PUT)
+	    LLOGSS("HTTP Request " << smethod[method] << " " << url << " data:" << ctype << "(" << pd.GetCount() << ")");
 	else
 	    LLOGSS("HTTP Request " << smethod[method] << " " << url);
-	LLOG("HTTP request:\n" << данные);
-	данные << "\r\n" << pd;
+	LLOG("HTTP request:\n" << data);
+	data << "\r\n" << pd;
 	LLOGB("HTTP request body:\n" << pd);
 }
 
@@ -629,12 +629,12 @@ bool HttpRequest::SendingData(bool request)
 {
 	const int upload_chunk =  64*1024;
 
-	if(count < данные.дайДлину())
+	if(count < data.GetLength())
 		for(;;) {
-			int n = min(upload_chunk, данные.дайДлину() - (int)count);
-			n = TcpSocket::помести(~данные + count, n);
+			int n = min(upload_chunk, data.GetLength() - (int)count);
+			n = TcpSocket::Put(~data + count, n);
 			if(n == 0) {
-				if(count < данные.дайДлину())
+				if(count < data.GetLength())
 					return true;
 				if(poststream && request)
 					break;
@@ -644,39 +644,39 @@ bool HttpRequest::SendingData(bool request)
 		}
 	if(poststream && request)
 		for(;;) {
-			Буфер<byte> буфер(upload_chunk);
-			int n = poststream->дай(буфер, (int)min((int64)upload_chunk, postlen + данные.дайДлину() - count));
+			Buffer<byte> buffer(upload_chunk);
+			int n = poststream->Get(buffer, (int)min((int64)upload_chunk, postlen + data.GetLength() - count));
 			if(n < 0) {
-				HttpError("Ошибка reading input stream");
+				HttpError("ошибка при чтении входящего потока");
 				return false;
 			}
 			if(n == 0)
 				break;
-			n = TcpSocket::помести(буфер, n);
+			n = TcpSocket::Put(buffer, n);
 			if(n == 0)
 				break;
 			count += n;
 		}
-	return count < данные.дайДлину() + postlen;
+	return count < data.GetLength() + postlen;
 }
 
 bool HttpRequest::ReadingHeader()
 {
 	for(;;) {
-		int c = TcpSocket::дай();
+		int c = TcpSocket::Get();
 		if(c < 0)
-			return !кф_ли();
+			return !IsEof();
 		else
-			данные.конкат(c);
-		if(данные.дайСчёт() == 2 && данные[0] == '\r' && данные[1] == '\n') // header is empty
+			data.Cat(c);
+		if(data.GetCount() == 2 && data[0] == '\r' && data[1] == '\n') // header is empty
 			return false;
-		if(данные.дайСчёт() >= 3) {
-			const char *h = данные.последний();
+		if(data.GetCount() >= 3) {
+			const char *h = data.Last();
 			if(h[0] == '\n' && h[-1] == '\r' && h[-2] == '\n') // empty ending line after non-empty header
 				return false;
 		}
-		if(данные.дайСчёт() > max_header_size) {
-			HttpError("HTTP header exceeded " + какТкст(max_header_size));
+		if(data.GetCount() > max_header_size) {
+			HttpError("Заголовок HTTP превышает " + AsString(max_header_size));
 			return true;
 		}
 	}
@@ -685,15 +685,15 @@ bool HttpRequest::ReadingHeader()
 void HttpRequest::ReadingChunkHeader()
 {
 	for(;;) {
-		int c = TcpSocket::дай();
+		int c = TcpSocket::Get();
 		if(c < 0)
 			break;
 		else
 		if(c == '\n') {
-			int n = сканЦел(~данные, NULL, 16);
-			LLOG("HTTP Chunk header: 0x" << данные << " = " << n);
-			if(пусто_ли(n)) {
-				HttpError("invalid chunk header");
+			int n = ScanInt(~data, NULL, 16);
+			LLOG("HTTP Chunk header: 0x" << data << " = " << n);
+			if(IsNull(n)) {
+				HttpError("неверный заголовок чанка");
 				break;
 			}
 			if(n == 0) {
@@ -702,20 +702,20 @@ void HttpRequest::ReadingChunkHeader()
 			}
 			count += n;
 			StartPhase(CHUNK_BODY);
-			chunk_crlf.очисть();
+			chunk_crlf.Clear();
 			break;
 		}
 		if(c != '\r')
-			данные.конкат(c);
+			data.Cat(c);
 	}
 }
 
-Ткст HttpRequest::GetRedirectUrl()
+String HttpRequest::GetRedirectUrl()
 {
-	Ткст redirect_url = обрежьЛево(header["location"]);
-	if(redirect_url.начинаетсяС("http://") || redirect_url.начинаетсяС("https://"))
+	String redirect_url = TrimLeft(header["location"]);
+	if(redirect_url.StartsWith("http://") || redirect_url.StartsWith("https://"))
 		return redirect_url;
-	Ткст h = (ssl ? "https://" : "http://") + host;
+	String h = (ssl ? "https://" : "http://") + host;
 	if(*redirect_url != '/')
 		h << '/';
 	h << redirect_url;
@@ -735,24 +735,24 @@ int64 HttpRequest::GetContentLength()
 void HttpRequest::StartBody()
 {
 	LLOG("HTTP Header received: ");
-	LLOG(данные);
-	header.очисть();
-	if(!header.Parse(данные)) {
-		HttpError("invalid HTTP header");
+	LLOG(data);
+	header.Clear();
+	if(!header.Parse(data)) {
+		HttpError("неверный заголовок HTTP");
 		return;
 	}
-	
+
 	if(!header.Response(protocol, status_code, reason_phrase)) {
-		HttpError("invalid HTTP response");
+		HttpError("неверный ответ HTTP");
 		return;
 	}
-	
+
 	LLOG("HTTP status code: " << status_code);
 
 	content_length = count = GetContentLength();
 	has_content_length = HasContentLength();
-	
-	
+
+
 	if(method == METHOD_HEAD)
 		phase = FINISHED;
 	else
@@ -763,30 +763,30 @@ void HttpRequest::StartBody()
 	}
 	else
 		StartPhase(BODY);
-	body.очисть();
+	body.Clear();
 	gzip = GetHeader("content-encoding") == "gzip";
 	if(gzip) {
 		gzip = true;
-		z.WhenOut = callback(this, &HttpRequest::выведи);
+		z.WhenOut = callback(this, &HttpRequest::Out);
 		z.ChunkSize(chunk).GZip().Decompress();
 	}
 }
 
-void HttpRequest::выведи(const void *ptr, int size)
+void HttpRequest::Out(const void *ptr, int size)
 {
-	LLOG("HTTP выведи " << size);
-	if(z.ошибка_ли()) {
-		HttpError("gzip формат Ошибка");
+	LLOG("HTTP Out " << size);
+	if(z.IsError()) {
+		HttpError("ошибка формата gzip");
 		return;
 	}
-	if(body.дайСчёт() + size > max_content_size) {
-		HttpError("content length exceeded " + какТкст(max_content_size));
+	if(body.GetCount() + size > max_content_size) {
+		HttpError("длина контента превышает " + AsString(max_content_size));
 		return;
 	}
 	if(WhenContent && (status_code >= 200 && status_code < 300 || all_content))
 		WhenContent(ptr, size);
 	else
-		body.конкат((const char *)ptr, size);
+		body.Cat((const char *)ptr, size);
 }
 
 
@@ -797,40 +797,40 @@ bool HttpRequest::ReadingBody()
 	if(has_content_length && content_length == 0)
 		return false;
 
-	Ткст s = TcpSocket::дай(has_content_length && content_length > 0 || chunked_encoding ?
+	String s = TcpSocket::Get(has_content_length && content_length > 0 || chunked_encoding ?
 	                          (int)min((int64)chunk, count) : chunk);
-	if(s.дайСчёт()) {
+	if(s.GetCount()) {
 	#ifndef ENDZIP
 		if(gzip)
-			z.помести(~s, s.дайСчёт());
+			z.Put(~s, s.GetCount());
 		else
 	#endif
-			выведи(~s, s.дайСчёт());
+			Out(~s, s.GetCount());
 		if(count > 0) {
-			count -= s.дайСчёт();
-			return !кф_ли() && count > 0;
+			count -= s.GetCount();
+			return !IsEof() && count > 0;
 		}
 	}
-	return !кф_ли();
+	return !IsEof();
 }
 /*
 bool HttpRequest::ReadingBody()
 {
 	LLOG("HTTP reading body " << count);
-	Ткст s = TcpSocket::дай((int)min((int64)chunk, count));
-	if(s.дайСчёт() == 0)
-		return !кф_ли() && count;
+	String s = TcpSocket::Get((int)min((int64)chunk, count));
+	if(s.GetCount() == 0)
+		return !IsEof() && count;
 #ifndef ENDZIP
 	if(gzip)
-		z.помести(~s, s.дайСчёт());
+		z.Put(~s, s.GetCount());
 	else
 #endif
-		выведи(~s, s.дайСчёт());
+		Out(~s, s.GetCount());
 	if(count > 0) {
-		count -= s.дайСчёт();
-		return !кф_ли() && count > 0;
+		count -= s.GetCount();
+		return !IsEof() && count > 0;
 	}
-	return !кф_ли();
+	return !IsEof();
 }
 */
 
@@ -841,27 +841,27 @@ void HttpRequest::CopyCookies()
 
 bool HttpRequest::ResolveDigestAuthentication()
 {
-	Ткст authenticate = header["www-authenticate"];
-	if(authenticate.начинаетсяС("Digest")) {
+	String authenticate = header["www-authenticate"];
+	if(authenticate.StartsWith("Digest")) {
 		SetDigest(CalculateDigest(authenticate));
 		return true;
 	}
 	return false;
 }
 
-void HttpRequest::финиш()
+void HttpRequest::Finish()
 {
 	if(gzip) {
 	#ifdef ENDZIP
 		body = GZDecompress(body);
-		if(body.проц_ли()) {
-			HttpError("gzip decompress at finish Ошибка");
+		if(body.IsVoid()) {
+			HttpError("ошибка расжатия gzip на финише");
 			return;
 		}
 	#else
-		z.стоп();
-		if(z.ошибка_ли()) {
-			HttpError("gzip формат Ошибка (finish)");
+		z.End();
+		if(z.IsError()) {
+			HttpError("ошибка формата gzip (финиш)");
 			return;
 		}
 	#endif
@@ -871,17 +871,17 @@ void HttpRequest::финиш()
 		if(keep_alive)
 			StartRequest();
 		else
-			старт();
+			Start();
 		return;
 	}
-	открой();
+	Close();
 	if(status_code >= 300 && status_code < 400) {
-		Ткст url = GetRedirectUrl();
+		String url = GetRedirectUrl();
 		GET();
-		if(url.дайСчёт() && redirect_count++ < max_redirects) {
+		if(url.GetCount() && redirect_count++ < max_redirects) {
 			LLOG("--- HTTP redirect " << url);
 			Url(url);
-			старт();
+			Start();
 			retry_count = 0;
 			return;
 		}
@@ -889,35 +889,35 @@ void HttpRequest::финиш()
 	phase = FINISHED;
 }
 
-Ткст HttpRequest::выполни()
+String HttpRequest::Execute()
 {
-	нов();
-	while(делай())
-		LLOG("HTTP выполни: " << GetPhaseName());
-	LLOGSS("HTTP Reply: " << status_code << " " << reason_phrase <<" size:" << GetContent().дайСчёт() << " тип:" << GetHeader("content-тип"));
-	return IsSuccess() ? GetContent() : Ткст::дайПроц();
+	New();
+	while(Do())
+		LLOG("HTTP Execute: " << GetPhaseName());
+	LLOGSS("HTTP Reply: " << status_code << " " << reason_phrase <<" size:" << GetContent().GetCount() << " type:" << GetHeader("content-type"));
+	return IsSuccess() ? GetContent() : String::GetVoid();
 }
 
-Ткст HttpRequest::GetPhaseName() const
+String HttpRequest::GetPhaseName() const
 {
 	static const char *m[] = {
-		"Иниtial state",
-		"старт",
-		"Resolving host имя",
-		"SSL proxy request",
-		"SSL proxy response",
-		"SSL handshake",
-		"Sending request",
-		"Receiving header",
-		"Receiving content",
-		"Receiving chunk header",
-		"Receiving content chunk",
-		"Receiving content chunk ending",
-		"Receiving trailer",
-		"Request with continue",
-		"Waiting for continue header",
-		"Finished",
-		"Failed",
+		"Начальное состояние",
+		"Старт",
+		"Разрешение имени хоста",
+		"Запрос прокси SSL",
+		"Ответ прокси SSL",
+		"Рукопожатие SSL",
+		"Отправка запроса",
+		"Получение заголовка",
+		"Получение контента",
+		"Получение заголовка чанка",
+		"Получение чанка контента",
+		"Завершение получения чанка контента",
+		"Получение завершения",
+		"Запрос с continue",
+		"Ожидание заголовка continue",
+		"Завершено",
+		"Неудача",
 	};
 	return phase >= 0 && phase <= FAILED ? m[phase] : "";
 }

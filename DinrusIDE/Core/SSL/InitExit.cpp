@@ -2,11 +2,11 @@
 
 #define LLOG(x) // DLOG(x)
 
-namespace РНЦПДинрус {
+namespace Upp {
 
-#ifdef КУЧА_РНЦП
+#ifdef UPP_HEAP
 
-static int64 РНЦП_SSL_alloc = 0;
+static int64 UPP_SSL_alloc = 0;
 
 #if OPENSSL_VERSION_NUMBER >= 0x10100000L
 static void *SslAlloc(size_t size, const char *file, int line)
@@ -17,11 +17,11 @@ static void *SslAlloc(size_t size)
 	size_t alloc = size + sizeof(int64);
 	int64 *aptr = (int64 *)MemoryAllocSz(alloc);
 	*aptr++ = (int64)alloc;
-	РНЦП_SSL_alloc += alloc;
-	LLOG("РНЦП_SSL_MALLOC(" << (int64)size << ", size " << size
+	UPP_SSL_alloc += alloc;
+	LLOG("UPP_SSL_MALLOC(" << (int64)size << ", size " << size
          << ", " << file << " " << line
 	     << ") -> " << aptr << ", MemorySize: " << GetMemoryBlockSize(aptr)
-	     << ", total = " << РНЦП_SSL_alloc << ", thread: " << Нить::дайИдТекущ());
+	     << ", total = " << UPP_SSL_alloc << ", thread: " << Thread::GetCurrentId());
 	return aptr;
 }
 
@@ -34,12 +34,12 @@ static void SslFree(void *ptr)
 	if(!ptr)
 		return;
 	int64 *aptr = (int64 *)ptr - 1;
-	РНЦП_SSL_alloc -= *aptr;
-	LLOG("РНЦП_SSL_FREE(" << ptr << ", size " << *aptr
+	UPP_SSL_alloc -= *aptr;
+	LLOG("UPP_SSL_FREE(" << ptr << ", size " << *aptr
 	                     << ", " << file << " " << line
-	                     << "), MemorySize: " << GetMemoryBlockSize(aptr) << ", total = " << РНЦП_SSL_alloc << ", thread: " << Нить::дайИдТекущ());
+	                     << "), MemorySize: " << GetMemoryBlockSize(aptr) << ", total = " << UPP_SSL_alloc << ", thread: " << Thread::GetCurrentId());
 	if(*aptr !=  GetMemoryBlockSize(aptr))
-		паника("SslFree corrupted");
+		Panic("SslFree corrupted");
 	MemoryFree(aptr);
 }
 
@@ -51,7 +51,7 @@ static void *SslRealloc(void *ptr, size_t size)
 {
 	LLOG("SslRealloc " << ptr << ", " << size);
 	if(!ptr) {
-		LLOG("РНЦП_SSL_REALLOC by размести:");
+		LLOG("UPP_SSL_REALLOC by Alloc:");
 #if OPENSSL_VERSION_NUMBER >= 0x10100000L
 		return SslAlloc(size, file, line);
 #else
@@ -59,43 +59,43 @@ static void *SslRealloc(void *ptr, size_t size)
 #endif
 	}
 	int64 *aptr = (int64 *)ptr - 1;
-	if((int64)(size + sizeof(int64)) <= *aptr) { // TODO: делай we really want this?
-		LLOG("РНЦП_SSL_REALLOC(" << ptr << ", " << (int64)size << ", alloc " << *aptr << ") -> keep same block" << ", thread: " << Нить::дайИдТекущ());
+	if((int64)(size + sizeof(int64)) <= *aptr) { // СДЕЛАТЬ: Do we really want this?
+		LLOG("UPP_SSL_REALLOC(" << ptr << ", " << (int64)size << ", alloc " << *aptr << ") -> keep same block" << ", thread: " << Thread::GetCurrentId());
 		return ptr;
 	}
 	size_t newalloc = size + sizeof(int64);
 	int64 *newaptr = (int64 *)MemoryAllocSz(newalloc);
 	if(!newaptr) {
-		LLOG("РНЦП_SSL_REALLOC(" << ptr << ", " << (int64)size << ", alloc " << newalloc << ") -> fail" << ", thread: " << Нить::дайИдТекущ());
+		LLOG("UPP_SSL_REALLOC(" << ptr << ", " << (int64)size << ", alloc " << newalloc << ") -> fail" << ", thread: " << Thread::GetCurrentId());
 		return NULL;
 	}
 	*newaptr++ = newalloc;
 	memcpy(newaptr, ptr, min<int>((int)(*aptr - sizeof(int64)), (int)size));
-	РНЦП_SSL_alloc += newalloc - *aptr;
-	LLOG("РНЦП_SSL_REALLOC(" << ptr << ", " << (int64)size << ", alloc " << newalloc
+	UPP_SSL_alloc += newalloc - *aptr;
+	LLOG("UPP_SSL_REALLOC(" << ptr << ", " << (int64)size << ", alloc " << newalloc
 	     << ", " << file << " " << line
-	     << ") -> " << newaptr << ", total = " << РНЦП_SSL_alloc << ", thread: " << Нить::дайИдТекущ());
+	     << ") -> " << newaptr << ", total = " << UPP_SSL_alloc << ", thread: " << Thread::GetCurrentId());
 	MemoryFree(aptr);
 	return newaptr;
 }
 
 #endif
 
-void TcpSocketИниt();
+void TcpSocketInit();
 
-ИНИЦИАЛИЗАТОР(SSL)
+INITIALIZER(SSL)
 {
 	MemoryIgnoreLeaksBlock __;
-	LLOG("SslИниt");
-	TcpSocketИниt();
-#ifdef КУЧА_РНЦП
+	LLOG("SslInit");
+	TcpSocketInit();
+#ifdef UPP_HEAP
 	CRYPTO_set_mem_functions(SslAlloc, SslRealloc, SslFree);
 #endif
 	SSL_library_init();
 	SSL_load_error_strings();
 }
 
-ЭКЗИТБЛОК
+EXITBLOCK
 {
 	MemoryIgnoreLeaksBlock __;
 	CONF_modules_unload(1);
@@ -115,7 +115,7 @@ void TcpSocketИниt();
 }
 
 
-static thread_local bool sThreadИниt;
+static thread_local bool sThreadInit;
 static thread_local void (*sPrevExit)();
 
 static void sslExitThread()
@@ -130,13 +130,13 @@ static void sslExitThread()
 		(*sPrevExit)();
 }
 
-void SslИниtThread()
+void SslInitThread()
 {
 	MemoryIgnoreLeaksBlock __;
-	if(sThreadИниt || Нить::главная_ли())
+	if(sThreadInit || Thread::IsMain())
 		return;
-	sThreadИниt = true;
-	sPrevExit = Нить::приВыходе(sslExitThread);
+	sThreadInit = true;
+	sPrevExit = Thread::AtExit(sslExitThread);
 }
 
 }

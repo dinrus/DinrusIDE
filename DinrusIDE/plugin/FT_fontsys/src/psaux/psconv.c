@@ -238,7 +238,7 @@
   FT_LOCAL_DEF( FT_UInt )
   PS_Conv_StringDecode( FT_Byte**  cursor,
                         FT_Byte*   limit,
-                        FT_Byte*   буфер,
+                        FT_Byte*   buffer,
                         FT_Offset  n )
   {
     FT_Byte*  p;
@@ -252,7 +252,7 @@
 
       if ( *p != '\\' )
       {
-        буфер[r++] = *p;
+        buffer[r++] = *p;
 
         continue;
       }
@@ -305,13 +305,13 @@
               b = b * 8 + *p - '0';
             else
             {
-              буфер[r++] = b;
+              buffer[r++] = b;
               b = *p;
             }
           }
           else
           {
-            буфер[r++] = b;
+            buffer[r++] = b;
             b = *p;
           }
         }
@@ -320,7 +320,7 @@
         break;
       }
 
-      буфер[r++] = b;
+      buffer[r++] = b;
     }
 
     *cursor = p;
@@ -333,7 +333,7 @@
   FT_LOCAL_DEF( FT_UInt )
   PS_Conv_ASCIIHexDecode( FT_Byte**  cursor,
                           FT_Byte*   limit,
-                          FT_Byte*   буфер,
+                          FT_Byte*   buffer,
                           FT_Offset  n )
   {
     FT_Byte*  p;
@@ -369,13 +369,13 @@
       pad = ( pad << 4 ) | c;
       if ( pad & 0x100 )
       {
-        буфер[w++] = (FT_Byte)pad;
+        buffer[w++] = (FT_Byte)pad;
         pad         = 0x01;
       }
     }
 
     if ( pad != 0x01 )
-      буфер[w++] = (FT_Byte)( pad << 4 );
+      buffer[w++] = (FT_Byte)( pad << 4 );
 
     *cursor = p + r;
 
@@ -401,11 +401,11 @@
 
       if ( r & 1 )
       {
-        *буфер = (FT_Byte)(*буфер + c);
-        буфер++;
+        *buffer = (FT_Byte)(*buffer + c);
+        buffer++;
       }
       else
-        *буфер = (FT_Byte)(c << 4);
+        *buffer = (FT_Byte)(c << 4);
 
       r++;
     }
@@ -422,7 +422,7 @@
   FT_LOCAL_DEF( FT_UInt )
   PS_Conv_EexecDecode( FT_Byte**   cursor,
                        FT_Byte*    limit,
-                       FT_Byte*    буфер,
+                       FT_Byte*    buffer,
                        FT_Offset   n,
                        FT_UShort*  seed )
   {
@@ -444,7 +444,7 @@
 
 
       s         = ( (val + s)*52845U + 22719 ) & 0xFFFFU;
-      буфер[r] = (FT_Byte) b;
+      buffer[r] = (FT_Byte) b;
     }
 
     *cursor = p + n;
@@ -458,7 +458,7 @@
 
 
       s = (FT_UShort)( ( *p + s ) * 52845U + 22719 );
-      *буфер++ = b;
+      *buffer++ = b;
     }
     *cursor = p;
     *seed   = s;

@@ -1,6 +1,6 @@
 #include "Core.h"
 
-namespace РНЦПДинрус {
+namespace Upp {
 /*
  * SHA256
  *
@@ -24,7 +24,7 @@ namespace РНЦПДинрус {
 
 struct SHA256_CTX
 {
-   byte  данные[64];
+   byte  data[64];
    dword datalen;
    dword bitlen[2];
    dword state[8];
@@ -45,12 +45,12 @@ dword k[64] =
 	0x90befffa, 0xa4506ceb, 0xbef9a3f7, 0xc67178f2
 };
 
-static void sha256_transform(SHA256_CTX *ctx, const byte *данные)
+static void sha256_transform(SHA256_CTX *ctx, const byte *data)
 {
 	dword a, b, c, d, e, f, g, h, i, j, t1, t2, m[64];
 	
 	for (i = 0, j = 0; i < 16; ++i, j += 4)
-		m[i] = (данные[j] << 24) | (данные[j+1] << 16) | (данные[j+2] << 8) | (данные[j+3]);
+		m[i] = (data[j] << 24) | (data[j+1] << 16) | (data[j+2] << 8) | (data[j+3]);
 	for (; i < 64; ++i)
 		m[i] = SIG1(m[i-2]) + m[i-7] + SIG0(m[i-15]) + m[i-16];
 
@@ -102,17 +102,17 @@ static void sha256_init(SHA256_CTX *ctx)
 	ctx->state[7] = 0x5be0cd19;
 }
 
-static void sha256_update(SHA256_CTX *ctx, const byte *данные, dword len)
+static void sha256_update(SHA256_CTX *ctx, const byte *data, dword len)
 {
 	dword i;
  
 	for (i=0; i < len; ++i)
 	{
-		ctx->данные[ctx->datalen] = данные[i];
+		ctx->data[ctx->datalen] = data[i];
 		ctx->datalen++;
 		if (ctx->datalen == 64)
 		{
-			sha256_transform(ctx,ctx->данные);
+			sha256_transform(ctx,ctx->data);
 			DBL_INT_ADD(ctx->bitlen[0],ctx->bitlen[1],512);
 			ctx->datalen = 0;
 		}
@@ -125,33 +125,33 @@ static void sha256_final(SHA256_CTX *ctx, byte *hash)
  
 	i = ctx->datalen;
  
-	// Pad whatever данные is left in the буфер.
+	// Pad whatever data is left in the buffer.
 	if (ctx->datalen < 56)
 	{
-		ctx->данные[i++] = 0x80;
+		ctx->data[i++] = 0x80;
 		while (i < 56)
-			ctx->данные[i++] = 0x00;
+			ctx->data[i++] = 0x00;
 	}
 	else
 	{
-		ctx->данные[i++] = 0x80;
+		ctx->data[i++] = 0x80;
 		while (i < 64)
-			ctx->данные[i++] = 0x00;
-		sha256_transform(ctx,ctx->данные);
-		memset(ctx->данные,0,56);
+			ctx->data[i++] = 0x00;
+		sha256_transform(ctx,ctx->data);
+		memset(ctx->data,0,56);
 	}
  
-	// приставь to the padding the total message's length in bits and transform.
+	// Append to the padding the total message's length in bits and transform.
 	DBL_INT_ADD(ctx->bitlen[0],ctx->bitlen[1],ctx->datalen * 8);
-	ctx->данные[63] = byte(ctx->bitlen[0]);
-	ctx->данные[62] = byte(ctx->bitlen[0] >> 8);
-	ctx->данные[61] = byte(ctx->bitlen[0] >> 16);
-	ctx->данные[60] = byte(ctx->bitlen[0] >> 24);
-	ctx->данные[59] = byte(ctx->bitlen[1]);
-	ctx->данные[58] = byte(ctx->bitlen[1] >> 8);
-	ctx->данные[57] = byte(ctx->bitlen[1] >> 16);
-	ctx->данные[56] = byte(ctx->bitlen[1] >> 24);
-	sha256_transform(ctx,ctx->данные);
+	ctx->data[63] = byte(ctx->bitlen[0]);
+	ctx->data[62] = byte(ctx->bitlen[0] >> 8);
+	ctx->data[61] = byte(ctx->bitlen[0] >> 16);
+	ctx->data[60] = byte(ctx->bitlen[0] >> 24);
+	ctx->data[59] = byte(ctx->bitlen[1]);
+	ctx->data[58] = byte(ctx->bitlen[1] >> 8);
+	ctx->data[57] = byte(ctx->bitlen[1] >> 16);
+	ctx->data[56] = byte(ctx->bitlen[1] >> 24);
+	sha256_transform(ctx,ctx->data);
  
 	// Since this implementation uses little endian byte ordering and SHA uses
 	// big endian, reverse all the bytes when copying the final state to the
@@ -173,42 +173,42 @@ void Sha256Stream::Cleanup()
 {
 	STATIC_ASSERT(sizeof(SHA256_CTX) < 128);
 
-	memset(буфер, 0, sizeof(буфер));
+	memset(buffer, 0, sizeof(buffer));
 }
 
-void Sha256Stream::выведи(const void *данные, dword length)
+void Sha256Stream::Out(const void *data, dword length)
 {
-	sha256_update((SHA256_CTX *)буфер, (const byte *)данные, length);
+	sha256_update((SHA256_CTX *)buffer, (const byte *)data, length);
 }
 
-void Sha256Stream::финиш(byte *hash32)
+void Sha256Stream::Finish(byte *hash32)
 {
-	слей();
-	sha256_final((SHA256_CTX *)буфер, hash32);
+	Flush();
+	sha256_final((SHA256_CTX *)buffer, hash32);
 	Cleanup();
 }
 
-Ткст Sha256Stream::FinishString()
+String Sha256Stream::FinishString()
 {
 	byte hash[32];
-	финиш(hash);
-	return гексТкст(hash, 32);
+	Finish(hash);
+	return HexString(hash, 32);
 }
 
-Ткст Sha256Stream::FinishStringS()
+String Sha256Stream::FinishStringS()
 {
 	byte hash[32];
-	финиш(hash);
-	return гексТкст(hash, 32, 4);
+	Finish(hash);
+	return HexString(hash, 32, 4);
 }
 
-void Sha256Stream::переустанов() {
-	sha256_init((SHA256_CTX *)буфер);
+void Sha256Stream::Reset() {
+	sha256_init((SHA256_CTX *)buffer);
 }
 
 Sha256Stream::Sha256Stream()
 {
-	переустанов();
+	Reset();
 }
 
 Sha256Stream::~Sha256Stream()
@@ -216,40 +216,40 @@ Sha256Stream::~Sha256Stream()
 	Cleanup();
 }
 
-void SHA256(byte *hash20, const void *данные, dword size)
+void SHA256(byte *hash20, const void *data, dword size)
 {
 	Sha256Stream sha1;
-	sha1.помести(данные, size);
-	sha1.финиш(hash20);
+	sha1.Put(data, size);
+	sha1.Finish(hash20);
 }
 
-void SHA256(byte *hash20, const Ткст& s)
+void SHA256(byte *hash20, const String& s)
 {
-	return SHA256(hash20, s, s.дайДлину());
+	return SHA256(hash20, s, s.GetLength());
 }
 
-Ткст SHA256String(const void *данные, dword size)
+String SHA256String(const void *data, dword size)
 {
 	Sha256Stream sha1;
-	sha1.помести(данные, size);
+	sha1.Put(data, size);
 	return sha1.FinishString();
 }
 
-Ткст SHA256String(const Ткст& данные)
+String SHA256String(const String& data)
 {
-	return SHA256String(~данные, данные.дайДлину());
+	return SHA256String(~data, data.GetLength());
 }
 
-Ткст  SHA256StringS(const void *данные, dword size)
+String  SHA256StringS(const void *data, dword size)
 {
 	Sha256Stream sha1;
-	sha1.помести(данные, size);
+	sha1.Put(data, size);
 	return sha1.FinishStringS();
 }
 
-Ткст  SHA256StringS(const Ткст& данные)
+String  SHA256StringS(const String& data)
 {
-	return SHA256StringS(~данные, данные.дайДлину());
+	return SHA256StringS(~data, data.GetLength());
 }
 
 }

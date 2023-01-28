@@ -3,35 +3,35 @@
 int64 NewInVectorSerial();
 
 template <class T>
-void InVector<T>::иниц()
+void InVector<T>::Init()
 {
 	serial = NewInVectorSerial();
 	slave = 0;
-	переустанов();
+	Reset();
 }
 
 template <class T>
 InVector<T>::InVector()
 {
-	иниц();
+	Init();
 }
 
 template <class T>
-void InVector<T>::переустанов()
+void InVector<T>::Reset()
 {
 	hcount = count = 0;
 	SetBlkPar();
 }
 
 template <class T>
-void InVector<T>::очисть()
+void InVector<T>::Clear()
 {
 	if(slave)
-		Slave()->очисть();
-	данные.очисть();
-	индекс.очисть();
-	переустанов();
-	очистьКэш();
+		Slave()->Clear();
+	data.Clear();
+	index.Clear();
+	Reset();
+	ClearCache();
 }
 
 void SetInvectorCache__(int64 serial, int blki, int offset, int end);
@@ -44,11 +44,11 @@ force_inline void InVector<T>::SetCache(int blki, int offset) const
 #ifdef flagIVTEST
 	Check(0, 0);
 #endif
-	SetInvectorCache__(serial, blki, offset, offset + данные[blki].дайСчёт());
+	SetInvectorCache__(serial, blki, offset, offset + data[blki].GetCount());
 }
 
 template <class T>
-force_inline void InVector<T>::очистьКэш() const
+force_inline void InVector<T>::ClearCache() const
 {
 	ClearInvectorCache__();
 }
@@ -64,17 +64,17 @@ template <class T>
 int InVector<T>::FindBlock0(int& pos, int& off) const
 {
 	LLOG("FindBlock " << pos);
-	ПРОВЕРЬ(pos >= 0 && pos <= count);
+	ASSERT(pos >= 0 && pos <= count);
 	if(pos == count) {
 		LLOG("Found last");
-		pos = данные.верх().дайСчёт();
+		pos = data.Top().GetCount();
 		off = count - pos;
-		return данные.дайСчёт() - 1;
+		return data.GetCount() - 1;
 	}
 	int blki = 0;
 	int offset = 0;
-	for(int i = индекс.дайСчёт(); --i >= 0;) {
-		int n = индекс[i][blki];
+	for(int i = index.GetCount(); --i >= 0;) {
+		int n = index[i][blki];
 		if(pos >= n) {
 			blki++;
 			pos -= n;
@@ -82,7 +82,7 @@ int InVector<T>::FindBlock0(int& pos, int& off) const
 		}
 		blki += blki;
 	}
-	int n = данные[blki].дайСчёт();
+	int n = data[blki].GetCount();
 	if(pos >= n) {
 		blki++;
 		pos -= n;
@@ -106,62 +106,62 @@ template <class T>
 const T& InVector<T>::operator[](int i) const
 {
 	LLOG("operator[] " << i);
-	ПРОВЕРЬ(i >= 0 && i < count);
+	ASSERT(i >= 0 && i < count);
 	int blki = FindBlock(i);
-	return данные[blki][i];
+	return data[blki][i];
 }
 
 template <class T>
 T& InVector<T>::operator[](int i)
 {
 	LLOG("operator[] " << i);
-	ПРОВЕРЬ(i >= 0 && i < count);
+	ASSERT(i >= 0 && i < count);
 	int blki = FindBlock(i);
-	return данные[blki][i];
+	return data[blki][i];
 }
 
 template <class T>
-void InVector<T>::реиндексируй()
+void InVector<T>::Reindex()
 {
 	LLOG("--- Reindexing");
-	очистьКэш();
+	ClearCache();
 	SetBlkPar();
-	индекс.очисть();
+	index.Clear();
 	if(slave)
-		Slave()->реиндексируй();
+		Slave()->Reindex();
 	hcount = 0;
-	Вектор<T> *ds = данные.старт();
-	Вектор<T> *dend = данные.стоп();
-	int n = данные.дайСчёт();
+	Vector<T> *ds = data.Begin();
+	Vector<T> *dend = data.End();
+	int n = data.GetCount();
 	if(n <= 2)
 		return;
-	Вектор<int>& w = индекс.добавь();
+	Vector<int>& w = index.Add();
 	hcount = 2;
-	w.устСчёт((n + 1) >> 1);
-	int *t = w.старт();
+	w.SetCount((n + 1) >> 1);
+	int *t = w.Begin();
 	while(ds != dend) {
-		*t = (ds++)->дайСчёт();
+		*t = (ds++)->GetCount();
 		if(ds == dend)
 			break;
-		*t++ += (ds++)->дайСчёт();
+		*t++ += (ds++)->GetCount();
 	}
-	int *s = w.старт();
-	int *end = w.стоп();
-	n = w.дайСчёт();
+	int *s = w.Begin();
+	int *end = w.End();
+	n = w.GetCount();
 	while(n > 2) {
-		Вектор<int>& w = индекс.добавь();
+		Vector<int>& w = index.Add();
 		hcount += hcount;
-		w.устСчёт((n + 1) >> 1);
-		t = w.старт();
+		w.SetCount((n + 1) >> 1);
+		t = w.Begin();
 		while(s != end) {
 			*t = *s++;
 			if(s == end)
 				break;
 			*t++ += *s++;
 		}
-		s = w.старт();
-		end = w.стоп();
-		n = w.дайСчёт();
+		s = w.Begin();
+		end = w.End();
+		n = w.GetCount();
 	}
 #ifdef flagIVTEST
 	Check(0, 0);
@@ -171,155 +171,155 @@ void InVector<T>::реиндексируй()
 template <class T>
 void InVector<T>::SetBlkPar()
 {
-#if defined(_ОТЛАДКА) && defined(flagIVTEST)
+#if defined(_DEBUG) && defined(flagIVTEST)
 	blk_high = 11;
 	blk_low = 5;
 #else
-	int n = 2500 + данные.дайСчёт() / 4;
+	int n = 2500 + data.GetCount() / 4;
 	blk_high = minmax(n / (int)sizeof(T), 16, 65000);
 	blk_low = minmax(n / 3 / (int)sizeof(T), 16, 65000);
 #endif
 }
 
 template <class T>
-void InVector<T>::Индекс(int q, int n)
+void InVector<T>::Index(int q, int n)
 {
-	for(int i = 0; i < индекс.дайСчёт(); i++)
-		индекс[i].по(q >>= 1, 0) += n;
+	for(int i = 0; i < index.GetCount(); i++)
+		index[i].At(q >>= 1, 0) += n;
 }
 
 template <class T>
-T *InVector<T>::вставь0(int ii, int blki, int pos, int off, const T *val)
+T *InVector<T>::Insert0(int ii, int blki, int pos, int off, const T *val)
 {
-	if(данные[blki].дайСчёт() > blk_high) {
+	if(data[blki].GetCount() > blk_high) {
 		if(slave)
-			Slave()->разбей(blki, данные[blki].дайСчёт() / 2);
-		Вектор<T>& x = данные.вставь(blki + 1);
-		x.вставьРазбей(0, данные[blki], данные[blki].дайСчёт() / 2);
-		данные[blki].сожми();
-		реиндексируй();
+			Slave()->Split(blki, data[blki].GetCount() / 2);
+		Vector<T>& x = data.Insert(blki + 1);
+		x.InsertSplit(0, data[blki], data[blki].GetCount() / 2);
+		data[blki].Shrink();
+		Reindex();
 		pos = ii;
 		blki = FindBlock(pos, off);
 	}
 	LLOG("blki: " << blki << ", pos: " << pos);
 	count++;
 	if(slave) {
-		Slave()->счёт(1);
-		Slave()->Индекс(blki, 1);
-		Slave()->вставь(blki, pos);
+		Slave()->Count(1);
+		Slave()->Index(blki, 1);
+		Slave()->Insert(blki, pos);
 	}
-	Индекс(blki, 1);
+	Index(blki, 1);
 	if(val)
-		данные[blki].вставь(pos, *val);
+		data[blki].Insert(pos, *val);
 	else
-		данные[blki].вставь(pos);
+		data[blki].Insert(pos);
 	SetCache(blki, off);
-	return &данные[blki][pos];
+	return &data[blki][pos];
 }
 
 template <class T>
-T *InVector<T>::вставь0(int ii, const T *val)
+T *InVector<T>::Insert0(int ii, const T *val)
 {
-	ПРОВЕРЬ(ii >= 0 && ii <= дайСчёт());
-	if(данные.дайСчёт() == 0) {
+	ASSERT(ii >= 0 && ii <= GetCount());
+	if(data.GetCount() == 0) {
 		count++;
-		очистьКэш();
+		ClearCache();
 		if(slave) {
 			Slave()->Count(1);
 			Slave()->AddFirst();
 		}
 		if(val) {
-			данные.добавь().добавь(*val);
-			return &данные[0][0];
+			data.Add().Add(*val);
+			return &data[0][0];
 		}
-		return &данные.добавь().добавь();
+		return &data.Add().Add();
 	}
 	int pos = ii;
 	int off;
 	int blki = FindBlock(pos, off);
-	return вставь0(ii, blki, pos, off, val);
+	return Insert0(ii, blki, pos, off, val);
 }
 
 template <class T>
-template <class Диапазон>
-void InVector<T>::Insert_(int ii, const Диапазон& r, bool опр)
+template <class Range>
+void InVector<T>::Insert_(int ii, const Range& r, bool def)
 {
-	int n = r.дайСчёт();
+	int n = r.GetCount();
 
-	ПРОВЕРЬ(ii >= 0 && ii <= дайСчёт() && n >= 0 && !slave);
+	ASSERT(ii >= 0 && ii <= GetCount() && n >= 0 && !slave);
 
 	if(n <= 0)
 		return;
 	
 	auto s = r.begin();
 
-	if(данные.дайСчёт() == 0) {
+	if(data.GetCount() == 0) {
 		int m = (blk_high + blk_low) / 2;
 		count = n;
 		while(n > 0) {
 			int n1 = min(m, n);
-			if(опр)
-				данные.добавь().устСчёт(n1);
+			if(def)
+				data.Add().SetCount(n1);
 			else
-				данные.добавь().приставьДиапазон(СубДиапазон(s, n1));
+				data.Add().AppendRange(SubRange(s, n1));
 			s += n1;
 			n -= n1;
 		}
-		реиндексируй();
+		Reindex();
 		return;
 	}
 
 	int pos = ii;
 	int off;
 	int blki = FindBlock(pos, off);
-	int bc = данные[blki].дайСчёт();
+	int bc = data[blki].GetCount();
 	
 	count += n;
 
 	if(bc + n < blk_high) { // block will not be bigger than threshold after insert
-		if(опр)
-			данные[blki].вставьН(pos, n);
+		if(def)
+			data[blki].InsertN(pos, n);
 		else
-			данные[blki].вставьДиапазон(pos, СубДиапазон(s, n));
-		Индекс(blki, n);
+			data[blki].InsertRange(pos, SubRange(s, n));
+		Index(blki, n);
 		SetCache(blki, off);
 	}
 	else
 	if(bc - pos + n < blk_high) { // splitting into 2 blocks is enough
-		Вектор<T>& t = данные.вставь(blki + 1);
-		if(опр)
-			t.вставьН(0, n);
+		Vector<T>& t = data.Insert(blki + 1);
+		if(def)
+			t.InsertN(0, n);
 		else
-			t.вставьДиапазон(0, СубДиапазон(s, n));
-		t.вставьРазбей(n, данные[blki], pos);
-		данные[blki].сожми();
-		реиндексируй();
+			t.InsertRange(0, SubRange(s, n));
+		t.InsertSplit(n, data[blki], pos);
+		data[blki].Shrink();
+		Reindex();
 	}
 	else { // need to insert several blocks
 		int m = (blk_high + blk_low) / 2;
 		int bn = (n + m - 1) / m;
 		int ti;
 		if(pos) { // need to split first block
-			ti = blki + 1; // TODO should add some of данные to splitted blocks
-			данные.вставьН(ti, bn + 1);
-			данные[ti + bn].вставьРазбей(0, данные[blki], pos);
-			данные[blki].сожми();
+			ti = blki + 1; // СДЕЛАТЬ should add some of data to splitted blocks
+			data.InsertN(ti, bn + 1);
+			data[ti + bn].InsertSplit(0, data[blki], pos);
+			data[blki].Shrink();
 		}
 		else {
 			ti = blki;
-			данные.вставьН(ti, bn);
+			data.InsertN(ti, bn);
 		}
 		for(int i = 0; i < bn; i++) {
 			int q = min(m, n);
-			if(опр)
-				данные[ti + i].устСчёт(q);
+			if(def)
+				data[ti + i].SetCount(q);
 			else
-				данные[ti + i].приставьДиапазон(СубДиапазон(s, q));
+				data[ti + i].AppendRange(SubRange(s, q));
 			s += q;
 			n -= q;
 		}
-		ПРОВЕРЬ(n == 0);
-		реиндексируй();
+		ASSERT(n == 0);
+		Reindex();
 	}
 #ifdef flagIVTEST
 	Check(0, 0);
@@ -329,29 +329,29 @@ void InVector<T>::Insert_(int ii, const Диапазон& r, bool опр)
 template <class T>
 void InVector<T>::Join(int blki)
 {
-	данные[blki].приставьПодбор(pick(данные[blki + 1]));
-	данные.удали(blki + 1);
+	data[blki].AppendPick(pick(data[blki + 1]));
+	data.Remove(blki + 1);
 }
 
 template <class T>
 force_inline bool InVector<T>::JoinSmall(int blki)
 {
-	if(blki < данные.дайСчёт()) {
-		int n = данные[blki].дайСчёт();
+	if(blki < data.GetCount()) {
+		int n = data[blki].GetCount();
 		if(n == 0) {
 			if(slave)
 				Slave()->RemoveBlk(blki, 1);
-			данные.удали(blki);
+			data.Remove(blki);
 			return true;
 		}
 		if(n < blk_low) {
-			if(blki > 0 && данные[blki - 1].дайСчёт() + n <= blk_high) {
+			if(blki > 0 && data[blki - 1].GetCount() + n <= blk_high) {
 				if(slave)
 					Slave()->Join(blki - 1);
 				Join(blki - 1);
 				return true;
 			}
-			if(blki + 1 < данные.дайСчёт() && n + данные[blki + 1].дайСчёт() <= blk_high) {
+			if(blki + 1 < data.GetCount() && n + data[blki + 1].GetCount() <= blk_high) {
 				if(slave)
 					Slave()->Join(blki);
 				Join(blki);
@@ -363,9 +363,9 @@ force_inline bool InVector<T>::JoinSmall(int blki)
 }
 
 template <class T>
-void InVector<T>::удали(int pos, int n)
+void InVector<T>::Remove(int pos, int n)
 {
-	ПРОВЕРЬ(pos >= 0 && pos + n <= дайСчёт());
+	ASSERT(pos >= 0 && pos + n <= GetCount());
 	if(n == 0)
 		return;
 	int off;
@@ -373,42 +373,42 @@ void InVector<T>::удали(int pos, int n)
 	count -= n;
 	if(slave)
 		Slave()->Count(-n);
-	if(pos + n < данные[blki].дайСчёт()) {
+	if(pos + n < data[blki].GetCount()) {
 		if(slave)
-			Slave()->удали(blki, pos, n);
-		данные[blki].удали(pos, n);
+			Slave()->Remove(blki, pos, n);
+		data[blki].Remove(pos, n);
 		if(JoinSmall(blki))
-			реиндексируй();
+			Reindex();
 		else {
 			if(slave)
-				Slave()->Индекс(blki, -n);
-			Индекс(blki, -n);
+				Slave()->Index(blki, -n);
+			Index(blki, -n);
 			SetCache(blki, off);
 		}
 	}
 	else {
 		int b1 = blki;
-		int nn = min(n, данные[b1].дайСчёт() - pos);
+		int nn = min(n, data[b1].GetCount() - pos);
 		if(slave)
-			Slave()->удали(b1, pos, nn);
-		данные[b1++].удали(pos, nn);
+			Slave()->Remove(b1, pos, nn);
+		data[b1++].Remove(pos, nn);
 		n -= nn;
 		int b2 = b1;
-		while(b2 < данные.дайСчёт() && n >= данные[b2].дайСчёт()) {
-			n -= min(n, данные[b2].дайСчёт());
+		while(b2 < data.GetCount() && n >= data[b2].GetCount()) {
+			n -= min(n, data[b2].GetCount());
 			b2++;
 		}
 		if(slave)
 			Slave()->RemoveBlk(b1, b2 - b1);
-		данные.удали(b1, b2 - b1);
-		if(b1 < данные.дайСчёт()) {
+		data.Remove(b1, b2 - b1);
+		if(b1 < data.GetCount()) {
 			if(slave)
-				Slave()->удали(b1, 0, n);
-			данные[b1].удали(0, n);
+				Slave()->Remove(b1, 0, n);
+			data[b1].Remove(0, n);
 		}
 		JoinSmall(blki + 1);
 		JoinSmall(blki);
-		реиндексируй();
+		Reindex();
 	}
 #ifdef flagIVTEST
 	Check(0, 0);
@@ -416,29 +416,29 @@ void InVector<T>::удали(int pos, int n)
 }
 
 template <class T>
-void InVector<T>::устСчёт(int n)
+void InVector<T>::SetCount(int n)
 {
-	if(n < дайСчёт())
-		обрежь(n);
+	if(n < GetCount())
+		Trim(n);
 	else
-		вставьН(дайСчёт(), n - дайСчёт());
+		InsertN(GetCount(), n - GetCount());
 }
 
 template <class T>
-void InVector<T>::сожми()
+void InVector<T>::Shrink()
 {
-	for(int i = 0; i < данные.дайСчёт(); i++)
-		данные[i].сожми();
-	данные.сожми();
-	for(int i = 0; i < индекс.дайСчёт(); i++)
-		индекс[i].сожми();
-	индекс.сожми();
+	for(int i = 0; i < data.GetCount(); i++)
+		data[i].Shrink();
+	data.Shrink();
+	for(int i = 0; i < index.GetCount(); i++)
+		index[i].Shrink();
+	index.Shrink();
 }
 
 template <class T>
-void InVector<T>::уст(int i, const T& x, int count)
+void InVector<T>::Set(int i, const T& x, int count)
 {
-	Обходчик it = дайОбх(i);
+	Iterator it = GetIter(i);
 	while(count-- > 0)
 		*it++ = x;
 }
@@ -446,8 +446,8 @@ void InVector<T>::уст(int i, const T& x, int count)
 template <class T>
 InVector<T>::InVector(const InVector<T>& v, int)
 {
-	данные <<= v.данные;
-	индекс <<= v.индекс;
+	data <<= v.data;
+	index <<= v.index;
 	count = v.count;
 	hcount = v.hcount;
 	blk_high = v.blk_high;
@@ -457,10 +457,10 @@ InVector<T>::InVector(const InVector<T>& v, int)
 }
 
 template <class T>
-void InVector<T>::подбери(InVector&& v)
+void InVector<T>::Pick(InVector&& v)
 {
-	данные = pick(v.данные);
-	индекс = pick(v.индекс);
+	data = pick(v.data);
+	index = pick(v.index);
 	count = v.count;
 	hcount = v.hcount;
 	blk_high = v.blk_high;
@@ -468,15 +468,15 @@ void InVector<T>::подбери(InVector&& v)
 	serial = v.serial;
 	slave = v.slave;
 
-	v.иниц();
+	v.Init();
 }
 
 
 template <class T>
 template <class L>
-int InVector<T>::найдиВерхнГран(const T& val, const L& less, int& off, int& pos) const
+int InVector<T>::FindUpperBound(const T& val, const L& less, int& off, int& pos) const
 {
-	if(данные.дайСчёт() == 0) {
+	if(data.GetCount() == 0) {
 		pos = off = 0;
 		return 0;
 	}
@@ -484,11 +484,11 @@ int InVector<T>::найдиВерхнГран(const T& val, const L& less, int& 
 	int ii = 0;
 	int offset = 0;
 	int half = hcount;
-	for(int i = индекс.дайСчёт(); --i >= 0;) {
+	for(int i = index.GetCount(); --i >= 0;) {
 		int m = blki + half;
-		if(m - 1 < данные.дайСчёт() && !less(val, данные[m - 1].верх())) {
+		if(m - 1 < data.GetCount() && !less(val, data[m - 1].Top())) {
 			blki = m;
-			offset += индекс[i][ii];
+			offset += index[i][ii];
 			ii++;
 		}
 		ii += ii;
@@ -497,17 +497,17 @@ int InVector<T>::найдиВерхнГран(const T& val, const L& less, int& 
 #ifdef flagIVTEST
 	Check(blki, offset);
 #endif
-	if(blki < данные.дайСчёт()) {
-		if(!less(val, данные[blki].верх()))
-			offset += данные[blki++].дайСчёт();
-		if(blki < данные.дайСчёт()) {
-			pos = РНЦПДинрус::найдиВерхнГран(данные[blki], val, less);
+	if(blki < data.GetCount()) {
+		if(!less(val, data[blki].Top()))
+			offset += data[blki++].GetCount();
+		if(blki < data.GetCount()) {
+			pos = Upp::FindUpperBound(data[blki], val, less);
 			off = offset;
 			SetCache(blki, offset);
 			return blki;
 		}
 	}
-	pos = данные.верх().дайСчёт();
+	pos = data.Top().GetCount();
 	off = count - pos;
 	blki--;
 	SetCache(blki, off);
@@ -516,9 +516,9 @@ int InVector<T>::найдиВерхнГран(const T& val, const L& less, int& 
 
 template <class T>
 template <class L>
-int InVector<T>::найдиНижнГран(const T& val, const L& less, int& off, int& pos) const
+int InVector<T>::FindLowerBound(const T& val, const L& less, int& off, int& pos) const
 {
-	if(данные.дайСчёт() == 0) {
+	if(data.GetCount() == 0) {
 		pos = off = 0;
 		return 0;
 	}
@@ -526,11 +526,11 @@ int InVector<T>::найдиНижнГран(const T& val, const L& less, int& of
 	int ii = 0;
 	int offset = 0;
 	int half = hcount;
-	for(int i = индекс.дайСчёт(); --i >= 0;) {
+	for(int i = index.GetCount(); --i >= 0;) {
 		int m = blki + half;
-		if(m < данные.дайСчёт() && less(данные[m][0], val)) {
+		if(m < data.GetCount() && less(data[m][0], val)) {
 			blki = m;
-			offset += индекс[i][ii];
+			offset += index[i][ii];
 			ii++;
 		}
 		ii += ii;
@@ -539,17 +539,17 @@ int InVector<T>::найдиНижнГран(const T& val, const L& less, int& of
 #ifdef flagIVTEST
 	Check(blki, offset);
 #endif
-	if(blki < данные.дайСчёт()) {
-		if(blki + 1 < данные.дайСчёт() && less(данные[blki + 1][0], val))
-			offset += данные[blki++].дайСчёт();
-		if(blki < данные.дайСчёт()) {
-			pos = РНЦПДинрус::найдиНижнГран(данные[blki], val, less);
+	if(blki < data.GetCount()) {
+		if(blki + 1 < data.GetCount() && less(data[blki + 1][0], val))
+			offset += data[blki++].GetCount();
+		if(blki < data.GetCount()) {
+			pos = Upp::FindLowerBound(data[blki], val, less);
 			off = offset;
 			SetCache(blki, offset);
 			return blki;
 		}
 	}
-	pos = данные.верх().дайСчёт();
+	pos = data.Top().GetCount();
 	off = count - pos;
 	blki--;
 	SetCache(blki, off);
@@ -560,40 +560,40 @@ template <class T>
 template <class L>
 int InVector<T>::InsertUpperBound(const T& val, const L& less)
 {
-	if(данные.дайСчёт() == 0) {
+	if(data.GetCount() == 0) {
 		count++;
-		очистьКэш();
+		ClearCache();
 		if(slave) {
-			Slave()->счёт(1);
+			Slave()->Count(1);
 			Slave()->AddFirst();
 		}
-		данные.добавь().вставь(0) = val;
+		data.Add().Insert(0) = val;
 		return 0;
 	}
 	int off;
 	int pos;
-	int blki = найдиВерхнГран(val, less, off, pos);
-	вставь0(off + pos, blki, pos, off, &val);
+	int blki = FindUpperBound(val, less, off, pos);
+	Insert0(off + pos, blki, pos, off, &val);
 	return off + pos;
 }
 
 template <class T>
 template <class L>
-int InVector<T>::найди(const T& val, const L& less) const
+int InVector<T>::Find(const T& val, const L& less) const
 {
-	int i = найдиНижнГран(val, less);
-	return i < дайСчёт() && !less(val, (*this)[i]) ? i : -1;
+	int i = FindLowerBound(val, less);
+	return i < GetCount() && !less(val, (*this)[i]) ? i : -1;
 }
 
 
 template <class T>
-void InVector<T>::SetIter(КонстОбходчик& it, int ii) const
+void InVector<T>::SetIter(ConstIterator& it, int ii) const
 {
 	if(count) {
 		it.v = this;
 		it.blki = FindBlock(ii, it.offset);
-		it.begin = данные[it.blki].старт();
-		it.end = данные[it.blki].стоп();
+		it.begin = data[it.blki].Begin();
+		it.end = data[it.blki].End();
 		it.ptr = it.begin + ii;
 	}
 	else
@@ -601,13 +601,13 @@ void InVector<T>::SetIter(КонстОбходчик& it, int ii) const
 }
 
 template <class T>
-void InVector<T>::SetBegin(КонстОбходчик& it) const
+void InVector<T>::SetBegin(ConstIterator& it) const
 {
 	if(count) {
 		it.v = this;
 		it.blki = 0;
-		it.ptr = it.begin = данные[0].старт();
-		it.end = данные[0].стоп();
+		it.ptr = it.begin = data[0].Begin();
+		it.end = data[0].End();
 		it.offset = 0;
 	}
 	else
@@ -615,14 +615,14 @@ void InVector<T>::SetBegin(КонстОбходчик& it) const
 }
 
 template <class T>
-void InVector<T>::SetEnd(КонстОбходчик& it) const
+void InVector<T>::SetEnd(ConstIterator& it) const
 {
 	if(count) {
 		it.v = this;
-		it.blki = данные.дайСчёт() - 1;
-		it.begin = данные.верх().старт();
-		it.ptr = it.end = данные.верх().стоп();
-		it.offset = count - данные.верх().дайСчёт();
+		it.blki = data.GetCount() - 1;
+		it.begin = data.Top().Begin();
+		it.ptr = it.end = data.Top().End();
+		it.offset = count - data.Top().GetCount();
 	}
 	else {
 		it.v = this;
@@ -633,64 +633,64 @@ void InVector<T>::SetEnd(КонстОбходчик& it) const
 }
 
 template <typename T>
-force_inline typename InVector<T>::КонстОбходчик& InVector<T>::КонстОбходчик::operator+=(int d)
+force_inline typename InVector<T>::ConstIterator& InVector<T>::ConstIterator::operator+=(int d)
 {
 	if(d >= 0 ? d < end - ptr : -d < ptr - begin)
 		ptr += d;
 	else
-		v->SetIter(*this, дайИндекс() + d);
-	ПРОВЕРЬ(end - begin == v->данные[blki].дайСчёт());
+		v->SetIter(*this, GetIndex() + d);
+	ASSERT(end - begin == v->data[blki].GetCount());
 	return *this;
 }
 
 template <typename T>
-void InVector<T>::КонстОбходчик::NextBlk()
+void InVector<T>::ConstIterator::NextBlk()
 {
-	ПРОВЕРЬ(end - begin == v->данные[blki].дайСчёт());
-	if(blki + 1 < v->данные.дайСчёт()) {
-		offset += v->данные[blki].дайСчёт();
+	ASSERT(end - begin == v->data[blki].GetCount());
+	if(blki + 1 < v->data.GetCount()) {
+		offset += v->data[blki].GetCount();
 		++blki;
-		ptr = begin = v->данные[blki].старт();
-		end = v->данные[blki].стоп();
+		ptr = begin = v->data[blki].Begin();
+		end = v->data[blki].End();
 	}
 }
 
 template <typename T>
-void InVector<T>::КонстОбходчик::PrevBlk()
+void InVector<T>::ConstIterator::PrevBlk()
 {
 	--blki;
-	begin = v->данные[blki].старт();
-	ptr = end = v->данные[blki].стоп();
-	offset -= v->данные[blki].дайСчёт();
+	begin = v->data[blki].Begin();
+	ptr = end = v->data[blki].End();
+	offset -= v->data[blki].GetCount();
 }
 
 template <typename T>
-void InVector<T>::разверни(InVector& b)
+void InVector<T>::Swap(InVector& b)
 {
-	РНЦПДинрус::разверни(данные, b.данные);
-	РНЦПДинрус::разверни(индекс, b.индекс);
-	РНЦПДинрус::разверни(count, b.count);
-	РНЦПДинрус::разверни(hcount, b.hcount);
-	РНЦПДинрус::разверни(serial, b.serial);
-	РНЦПДинрус::разверни(blk_high, b.blk_high);
-	РНЦПДинрус::разверни(blk_low, b.blk_low);
-	РНЦПДинрус::разверни(slave, b.slave);
+	Upp::Swap(data, b.data);
+	Upp::Swap(index, b.index);
+	Upp::Swap(count, b.count);
+	Upp::Swap(hcount, b.hcount);
+	Upp::Swap(serial, b.serial);
+	Upp::Swap(blk_high, b.blk_high);
+	Upp::Swap(blk_low, b.blk_low);
+	Upp::Swap(slave, b.slave);
 }
 
 template <class T>
-void InVector<T>::вРяр(РярВВ& xio, const char *itemtag)
+void InVector<T>::Xmlize(XmlIO& xio, const char *itemtag)
 {
-	контейнерВРяр(xio, itemtag, *this);
+	XmlizeContainer(xio, itemtag, *this);
 }
 
 template <class T>
-void InVector<T>::вДжейсон(ДжейсонВВ& jio)
+void InVector<T>::Jsonize(JsonIO& jio)
 {
 	JsonizeArray<InVector<T>>(jio, *this);
 }
 
 template <class T>
-Ткст InVector<T>::вТкст() const
+String InVector<T>::ToString() const
 {
 	return AsStringArray(*this);
 }
@@ -698,25 +698,25 @@ template <class T>
 template <class T>
 void InVector<T>::DumpIndex() const
 {
-	Ткст h;
-	RLOG("------- InVector dump, count: " << дайСчёт() << ", индекс depth: " << индекс.дайСчёт());
+	String h;
+	RLOG("------- InVector dump, count: " << GetCount() << ", index depth: " << index.GetCount());
 	int64 alloc = 0;
-	for(int i = 0; i < данные.дайСчёт(); i++) {
+	for(int i = 0; i < data.GetCount(); i++) {
 		if(i)
 			h << ", ";
-		h << данные[i].дайСчёт() << " (" << данные[i].дайРазмест() << ")";
-		alloc += данные[i].дайРазмест();
+		h << data[i].GetCount() << " (" << data[i].GetAlloc() << ")";
+		alloc += data[i].GetAlloc();
 	}
-	RLOG("Данные blocks: " << данные.дайСчёт() << ", sizeof: " << данные.дайСчёт() * sizeof(Вектор<T>));
+	RLOG("Data blocks: " << data.GetCount() << ", sizeof: " << data.GetCount() * sizeof(Vector<T>));
 	RLOG("Total alloc: " << alloc);
 	RLOG(h);
-	for(int j = 0; j < индекс.дайСчёт(); j++) {
-		h.очисть();
-		h << индекс[j].дайСчёт() << ": ";
-		for(int k = 0; k < индекс[j].дайСчёт(); k++) {
+	for(int j = 0; j < index.GetCount(); j++) {
+		h.Clear();
+		h << index[j].GetCount() << ": ";
+		for(int k = 0; k < index[j].GetCount(); k++) {
 			if(k)
 				h << ", ";
-			h << индекс[j][k];
+			h << index[j][k];
 		}
 		RLOG(h);
 	}
@@ -729,20 +729,20 @@ void InVector<T>::Check(int blki, int offset) const
 {
 	int off = 0;
 	int all = 0;
-	for(int i = 0; i < данные.дайСчёт(); i++) {
+	for(int i = 0; i < data.GetCount(); i++) {
 		if(i < blki)
-			off += данные[i].дайСчёт();
-		all += данные[i].дайСчёт();
+			off += data[i].GetCount();
+		all += data[i].GetCount();
 	}
-	ПРОВЕРЬ(off == offset);
-	ПРОВЕРЬ(all == count);
+	ASSERT(off == offset);
+	ASSERT(all == count);
 }
 #endif
 
 template <class T>
 void InArray<T>::Delete(IVIter it, int count)
 {
-	ПРОВЕРЬ(count >= 0);
+	ASSERT(count >= 0);
 	while(count--)
 		delete (T *)*it++;
 }
@@ -750,31 +750,31 @@ void InArray<T>::Delete(IVIter it, int count)
 template <class T>
 void InArray<T>::Delete(int i, int count)
 {
-	Delete(iv.дайОбх(i), count);
+	Delete(iv.GetIter(i), count);
 }
 
 template <class T>
-void InArray<T>::иниц(int i, int count)
+void InArray<T>::Init(int i, int count)
 {
-	ПРОВЕРЬ(count >= 0);
-	IVIter it = iv.дайОбх(i);
+	ASSERT(count >= 0);
+	IVIter it = iv.GetIter(i);
 	while(count--)
 		*it++ = new T;
 }
 
 template <class T>
-void InArray<T>::вставьН(int i, int count)
+void InArray<T>::InsertN(int i, int count)
 {
-	iv.вставьН(i, count);
-	иниц(i, count);
+	iv.InsertN(i, count);
+	Init(i, count);
 }
 
 template <class T>
-template <class Диапазон>
-void InArray<T>::вставьДиапазон(int i, const Диапазон& r)
+template <class Range>
+void InArray<T>::InsertRange(int i, const Range& r)
 {
-	int count = r.дайСчёт();
-	iv.вставьН(i, count);
+	int count = r.GetCount();
+	iv.InsertN(i, count);
 	IVIter it = iv.begin() + i;
 	auto s = r.begin();
 	while(count--)
@@ -782,80 +782,80 @@ void InArray<T>::вставьДиапазон(int i, const Диапазон& r)
 }
 
 template <class T>
-void InArray<T>::удали(int i, int count)
+void InArray<T>::Remove(int i, int count)
 {
 	Delete(i, count);
-	iv.удали(i, count);
+	iv.Remove(i, count);
 }
 
 template <class T>
-void InArray<T>::устСчёт(int n)
+void InArray<T>::SetCount(int n)
 {
-	if(n < дайСчёт())
-		обрежь(n);
+	if(n < GetCount())
+		Trim(n);
 	else
-		вставьН(дайСчёт(), n - дайСчёт());
+		InsertN(GetCount(), n - GetCount());
 }
 
 template <class T>
-void InArray<T>::очисть()
+void InArray<T>::Clear()
 {
-	освободи();
-	iv.очисть();
+	Free();
+	iv.Clear();
 }
 
 template <class T>
-void InArray<T>::уст(int i, const T& x, int count)
+void InArray<T>::Set(int i, const T& x, int count)
 {
-	Обходчик it = дайОбх(i);
+	Iterator it = GetIter(i);
 	while(count-- > 0)
 		*it++ = x;
 }
 
 template <class T>
-void InArray<T>::SetIter(КонстОбходчик& it, int ii) const
+void InArray<T>::SetIter(ConstIterator& it, int ii) const
 {
-	it.it = iv.дайОбх(ii);
+	it.it = iv.GetIter(ii);
 }
 
 template <class T>
-void InArray<T>::SetBegin(КонстОбходчик& it) const
+void InArray<T>::SetBegin(ConstIterator& it) const
 {
-	it.it = iv.старт();
+	it.it = iv.Begin();
 }
 
 template <class T>
-void InArray<T>::SetEnd(КонстОбходчик& it) const
+void InArray<T>::SetEnd(ConstIterator& it) const
 {
-	it.it = iv.стоп();
+	it.it = iv.End();
 }
 
 template <class T>
 InArray<T>::InArray(const InArray& v, int)
 {
-	int n = v.дайСчёт();
-	iv.устСчёт(v.дайСчёт());
-	КонстОбходчик s = v.старт();
-	IVIter it = iv.старт();
+	int n = v.GetCount();
+	iv.SetCount(v.GetCount());
+	ConstIterator s = v.Begin();
+	IVIter it = iv.Begin();
 	while(n--)
 		*it++ = new T(clone(*s++));
 }
 
-#ifdef РНЦП
+#ifdef UPP
 template <class T>
-void InArray<T>::вРяр(РярВВ& xio, const char *itemtag)
+void InArray<T>::Xmlize(XmlIO& xio, const char *itemtag)
 {
-	контейнерВРяр(xio, itemtag, *this);
+	XmlizeContainer(xio, itemtag, *this);
 }
 
 template <class T>
-void InArray<T>::вДжейсон(ДжейсонВВ& jio)
+void InArray<T>::Jsonize(JsonIO& jio)
 {
 	JsonizeArray<InArray<T>>(jio, *this);
 }
 
 template <class T>
-Ткст InArray<T>::вТкст() const
+String InArray<T>::ToString() const
 {
 	return AsStringArray(*this);
 }

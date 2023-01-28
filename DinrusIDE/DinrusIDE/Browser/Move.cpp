@@ -1,89 +1,89 @@
 #include "Browser.h"
 
-struct MoveTopicDlg : public WithMoveTopicLayout<ТопОкно> {
-	typedef MoveTopicDlg ИМЯ_КЛАССА;
+struct MoveTopicDlg : public WithMoveTopicLayout<TopWindow> {
+	typedef MoveTopicDlg CLASSNAME;
 
 public:
 
-	void Пакет();
+	void Package();
 
 	MoveTopicDlg();
 };
 
-void MoveTopicDlg::Пакет()
+void MoveTopicDlg::Package()
 {
-	Ткст g = ~группа;
-	группа.очисть();
-	группа.добавь("src", "Справочник (src)");
-	группа.добавь("srcdoc", "Документы (srcdoc)");
-	группа.добавь("srcimp", "Реализация (srcimp)");
-	ФайлПоиск ff(SourcePath(~package, "*.tpp"));
+	String g = ~group;
+	group.Clear();
+	group.Add("src", "Справочник (src)");
+	group.Add("srcdoc", "Документы (srcdoc)");
+	group.Add("srcimp", "Реализация (srcimp)");
+	FindFile ff(SourcePath(~package, "*.tpp"));
 	while(ff) {
-		if(ff.папка_ли()) {
-			Ткст h = дайТитулф(ff.дайИмя());
+		if(ff.IsFolder()) {
+			String h = GetFileTitle(ff.GetName());
 			if(h != "src" && h != "srcdoc" && h != "srcimp")
-				группа.добавь(h);
+				group.Add(h);
 		}
-		ff.следщ();
+		ff.Next();
 	}
-	if(группа.HasKey(g))
-		группа <<= g;
+	if(group.HasKey(g))
+		group <<= g;
 	else
-		группа.идиВНач();
+		group.GoBegin();
 }
 
 MoveTopicDlg::MoveTopicDlg()
 {
-	CtrlLayoutOKCancel(*this, "Перместить тематику");
+	CtrlLayoutOKCancel(*this, "Переместить тематику");
 
-	topic.неПусто();
-	topic.максдлин(30);
-	topic.устФильтр(CharFilterID);
+	topic.NotNull();
+	topic.MaxLen(30);
+	topic.SetFilter(CharFilterID);
 
-	package <<= THISBACK(Пакет);
-	const РОбласть& w = GetIdeWorkspace();
-	for(int i = 0; i < w.дайСчёт(); i++)
-		package.добавь(w[i]);
-	package.идиВНач();
-	Пакет();
+	package <<= THISBACK(Package);
+	const Workspace& w = GetIdeWorkspace();
+	for(int i = 0; i < w.GetCount(); i++)
+		package.Add(w[i]);
+	package.GoBegin();
+	Package();
 }
 
 void TopicEditor::MoveTopic()
 {
 	MoveTopicDlg dlg;
-	Ткст p = GetCurrentTopicPath();
+	String p = GetCurrentTopicPath();
 	TopicLink tl = ParseTopicFilePath(p);
 	dlg.package <<= tl.package;
-	dlg.Пакет();
-	dlg.группа <<= tl.группа;
-	Ткст tn;
+	dlg.Package();
+	dlg.group <<= tl.group;
+	String tn;
 	int    lng;
 	ParseTopicFileName(p, tn, lng);
 	dlg.topic <<= tn;
 	dlg.lang <<= lng;
-	if(dlg.пуск() != IDOK)
+	if(dlg.Run() != IDOK)
 		return;
-	Ткст np = приставьИмяф(SourcePath(~dlg.package, (Ткст)~dlg.группа + ".tpp"),
-	                           (Ткст)~dlg.topic + "_" + впроп(LNGAsText(~dlg.lang)) + ".tpp");
-	if(ФайлПоиск(np)) {
+	String np = AppendFileName(SourcePath(~dlg.package, (String)~dlg.group + ".tpp"),
+	                           (String)~dlg.topic + "_" + ToLower(LNGAsText(~dlg.lang)) + ".tpp");
+	if(FindFile(np)) {
 		if(!PromptYesNo("Целевой файл уже существует!&Переписать его?"))
 			return;
-		удалифл(np);
+		FileDelete(np);
 	}
-	слей();
-	реализуйДир(дайПапкуФайла(np));
-	Ткст pi = форсируйРасш(p, ".tppi");
-	if(!сохраниФайл(np, загрузиФайл(p))) {
+	Flush();
+	RealizeDirectory(GetFileFolder(np));
+	String pi = ForceExt(p, ".tppi");
+	if(!SaveFile(np, LoadFile(p))) {
 		Exclamation("Операция не удалась!");
 		TopicCursor();
 		return;
 	}
-	сохраниФайл(форсируйРасш(np, ".tppi"), загрузиФайл(pi));
+	SaveFile(ForceExt(np, ".tppi"), LoadFile(pi));
 	serial++;
-	удалифл(p);
-	удалифл(pi);
+	FileDelete(p);
+	FileDelete(pi);
 	InvalidateTopicInfoPath(p);
 	InvalidateTopicInfoPath(np);
-	TheIde()->исрСлейФайл();
+	TheIde()->IdeFlushFile();
 	TheIde()->IdeOpenTopicFile(np);
 }

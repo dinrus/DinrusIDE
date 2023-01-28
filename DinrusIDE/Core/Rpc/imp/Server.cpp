@@ -3,33 +3,33 @@
 
 #define LLOG(x)  //  DLOG(x)
 
-namespace РНЦПДинрус {
+namespace Upp {
 
 typedef void (*RpcFnPtr)(RpcData&);
 
-static СтатическийСтопор RpcMapMutex;
+static StaticMutex RpcMapMutex;
 
-ВекторМап<Ткст, RpcFnPtr>& RpcMap(const char *группа)
+VectorMap<String, RpcFnPtr>& RpcMap(const char *group)
 {
-	static ВекторМап<Ткст, ВекторМап< Ткст, void (*)(RpcData&) > > mm;
-	return mm.дайДобавь(группа);
+	static VectorMap<String, VectorMap< String, void (*)(RpcData&) > > mm;
+	return mm.GetAdd(group);
 }
 
-void регистрируй(const char *имя, void (*method)(RpcData&), const char *группа)
+void Register(const char *name, void (*method)(RpcData&), const char *group)
 {
-	Стопор::Замок __(RpcMapMutex);
-	RpcMap(группа).добавь(имя, method);
+	Mutex::Lock __(RpcMapMutex);
+	RpcMap(group).Add(name, method);
 }
 
-RpcFnPtr RpcMapGet(const char *группа, const char *имя)
+RpcFnPtr RpcMapGet(const char *group, const char *name)
 {
-	Стопор::Замок __(RpcMapMutex);
-	return RpcMap(группа).дай(имя, NULL);
+	Mutex::Lock __(RpcMapMutex);
+	return RpcMap(group).Get(name, NULL);
 }
 
-Ткст (*sRpcMethodFilter)(const Ткст& methodname);
+String (*sRpcMethodFilter)(const String& methodname);
 
-void SetRpcMethodFilter(Ткст (*filter)(const Ткст& methodname))
+void SetRpcMethodFilter(String (*filter)(const String& methodname))
 {
 	sRpcMethodFilter = filter;
 }
@@ -47,11 +47,11 @@ void ThrowRpcError(const char *s)
 	ThrowRpcError(RPC_SERVER_PROCESSING_ERROR, s);
 }
 
-static Поток *rpc_trace, *suppressed_rpc_trace;
+static Stream *rpc_trace, *suppressed_rpc_trace;
 static int rpc_trace_level;
 static bool rpc_trace_compress = true;
 
-void SetRpcServerTrace(Поток& s, int level)
+void SetRpcServerTrace(Stream& s, int level)
 {
 	rpc_trace = &s;
 	rpc_trace_level = level;
@@ -73,224 +73,224 @@ void SuppressRpcServerTraceForMethodCall()
 	rpc_trace = NULL;
 }
 
-bool CallRpcMethod(RpcData& данные, const char *группа, Ткст methodname, const Ткст& request)
+bool CallRpcMethod(RpcData& data, const char *group, String methodname, const String& request)
 {
-	LLOG("method имя: " << methodname);
+	LLOG("method name: " << methodname);
 	if(sRpcMethodFilter)
 		methodname = (*sRpcMethodFilter)(methodname);
 	if(rpc_trace) {
 		*rpc_trace << "RPC Request:\n";
 		if(rpc_trace_compress)
-			*rpc_trace << сожмиЛог(request);
+			*rpc_trace << CompressLog(request);
 		else
 			*rpc_trace << request;
 		*rpc_trace << '\n';
 	}
-	void (*фн)(RpcData&) = RpcMapGet(группа, methodname);
-	if(!фн)
+	void (*fn)(RpcData&) = RpcMapGet(group, methodname);
+	if(!fn)
 		return false;
-	(*фн)(данные);
+	(*fn)(data);
 	return true;
 }
 
 struct XmlRpcDo {
 	TcpSocket& http;
-	RpcData    данные;
-	Ткст     request;
-	Ткст     группа;
-	Ткст     methodname;
-	Значение      ид;
+	RpcData    data;
+	String     request;
+	String     group;
+	String     methodname;
+	Value      id;
 	bool       json;
 	bool       shorted;
 
-	Ткст XmlResult();
-	Ткст DoXmlRpc();
-	Ткст JsonRpcError(int code, const char *text, const Значение& ид);
-	Ткст JsonResult();
-	Ткст ProcessJsonRpc(const Значение& v);
-	Ткст DoJsonRpc();
-	Ткст RpcExecute();
-	void   RpcResponse(const Ткст& r);
+	String XmlResult();
+	String DoXmlRpc();
+	String JsonRpcError(int code, const char *text, const Value& id);
+	String JsonResult();
+	String ProcessJsonRpc(const Value& v);
+	String DoJsonRpc();
+	String RpcExecute();
+	void   RpcResponse(const String& r);
 	void   EndRpc();
 	bool   Perform();
-	
-	XmlRpcDo(TcpSocket& http, const char *группа);
+
+	XmlRpcDo(TcpSocket& http, const char *group);
 };
 
-XmlRpcDo::XmlRpcDo(TcpSocket& http, const char *группа)
-:	http(http), группа(группа)
+XmlRpcDo::XmlRpcDo(TcpSocket& http, const char *group)
+:	http(http), group(group)
 {
 	shorted = false;
 }
 
-Ткст XmlRpcDo::XmlResult()
+String XmlRpcDo::XmlResult()
 {
-	Ткст r = XmlHeader();
+	String r = XmlHeader();
 	r << "<methodResponse>\r\n";
-	if(массивЗнач_ли(данные.out)) {
-		МассивЗнач va = данные.out;
-		if(va.дайСчёт() && ошибка_ли(va[0])) {
+	if(IsValueArray(data.out)) {
+		ValueArray va = data.out;
+		if(va.GetCount() && IsError(va[0])) {
 			LLOG("ProcessingError");
-			Ткст e = дайТекстОш(данные.out[0]);
+			String e = GetErrorText(data.out[0]);
 			if(rpc_trace)
-				*rpc_trace << "Processing Ошибка: " << e << '\n';
-			return FormatXmlRpcError(RPC_SERVER_PROCESSING_ERROR, "Processing Ошибка: " + e);
+				*rpc_trace << "Processing error: " << e << '\n';
+			return FormatXmlRpcError(RPC_SERVER_PROCESSING_ERROR, "Ошибка обработки: " + e);
 		}
-		r << FormatXmlRpcParams(данные.out, false);
+		r << FormatXmlRpcParams(data.out, false);
 	}
 	r << "\r\n</methodResponse>\r\n";
 	return r;
 }
 
-Ткст XmlRpcDo::DoXmlRpc()
+String XmlRpcDo::DoXmlRpc()
 {
-	ПарсерРяр p(request);
+	XmlParser p(request);
 	try {
 		p.ReadPI();
-		p.передайТэг("methodCall");
-		p.передайТэг("methodName");
-		methodname = p.читайТекст();
-		p.передайКонец();
-		данные.in = ParseXmlRpcParams(p);
-		if(!CallRpcMethod(данные, группа, methodname, request))
+		p.PassTag("methodCall");
+		p.PassTag("methodName");
+		methodname = p.ReadText();
+		p.PassEnd();
+		data.in = ParseXmlRpcParams(p);
+		if(!CallRpcMethod(data, group, methodname, request))
 			return FormatXmlRpcError(RPC_UNKNOWN_METHOD_ERROR, "\'" + methodname + "\' method is unknown");
-		if(!данные.rpc && !shorted)
+		if(!data.rpc && !shorted)
 			return Null;
 		return XmlResult();
 	}
 	catch(RpcError e) {
-		LLOG("Processing Ошибка: " << e.text);
+		LLOG("Processing error: " << e.text);
 		if(rpc_trace)
-			*rpc_trace << "Processing Ошибка: " << e.text << '\n';
+			*rpc_trace << "Processing error: " << e.text << '\n';
 		return FormatXmlRpcError(e.code, e.text);
 	}
-	catch(ОшибкаРяр e) {
-		LLOG("ОшибкаРяр " << e << ": " << p.дайУк());
+	catch(XmlError e) {
+		LLOG("XmlError " << e << ": " << p.GetPtr());
 		if(rpc_trace)
-			*rpc_trace << "ОшибкаРяр: " << e << '\n';
-		return FormatXmlRpcError(RPC_SERVER_XML_ERROR, "XML Ошибка: " + e);
+			*rpc_trace << "XmlError: " << e << '\n';
+		return FormatXmlRpcError(RPC_SERVER_XML_ERROR, "Ошибка XML: " + e);
 	}
 	catch(ValueTypeMismatch) {
-		LLOG("ValueTypeMismatch at parameter " << данные.ii);
+		LLOG("ValueTypeMismatch at parameter " << data.ii);
 		if(rpc_trace)
-			*rpc_trace << "ValueTypeMismatch at parameter " << данные.ii << '\n';
-		return FormatXmlRpcError(RPC_SERVER_PARAM_ERROR, "Parameter mismatch at parameter " + какТкст(данные.ii));
+			*rpc_trace << "ValueTypeMismatch at parameter " << data.ii << '\n';
+		return FormatXmlRpcError(RPC_SERVER_PARAM_ERROR, "Несовпадение параметра " + AsString(data.ii));
 	}
 	return Null;
 }
 
-Ткст XmlRpcDo::JsonRpcError(int code, const char *text, const Значение& ид)
+String XmlRpcDo::JsonRpcError(int code, const char *text, const Value& id)
 {
 	Json m;
 	m("jsonrpc", "2.0");
-	МапЗнач err;
-	err.добавь("code", code);
-	err.добавь("message", text);
-	m("Ошибка", err);
-	m("ид", ид);
+	ValueMap err;
+	err.Add("code", code);
+	err.Add("message", text);
+	m("error", err);
+	m("id", id);
 	return m;
 }
 
-Ткст XmlRpcDo::JsonResult()
+String XmlRpcDo::JsonResult()
 {
-	if(массивЗнач_ли(данные.out)) {
-		МассивЗнач va = данные.out;
-		Значение result = Null;
-		if(va.дайСчёт()) {
-			if(ошибка_ли(va[0])) {
+	if(IsValueArray(data.out)) {
+		ValueArray va = data.out;
+		Value result = Null;
+		if(va.GetCount()) {
+			if(IsError(va[0])) {
 				LLOG("ProcessingError");
-				Ткст e = дайТекстОш(данные.out[0]);
+				String e = GetErrorText(data.out[0]);
 				if(rpc_trace)
-					*rpc_trace << "Processing Ошибка: " << e << '\n';
-				return JsonRpcError(RPC_SERVER_PROCESSING_ERROR, "Processing Ошибка: " + e, ид);
+					*rpc_trace << "Processing error: " << e << '\n';
+				return JsonRpcError(RPC_SERVER_PROCESSING_ERROR, "Ошибка обработки: " + e, id);
 			}
 			result = JsonRpcData(va[0]);
 		}
 		Json json;
 		json("jsonrpc", "2.0");
-		if(result.является<RawJsonText>())
+		if(result.Is<RawJsonText>())
 			json.CatRaw("result", result.To<RawJsonText>().json);
 		else
 			json("result", result);
-		json("ид", ид);
+		json("id", id);
 		return json;
 	}
-	return JsonRpcError(RPC_UNKNOWN_METHOD_ERROR, "Method not found", ид);
+	return JsonRpcError(RPC_UNKNOWN_METHOD_ERROR, "Метод не найден", id);
 }
 
-Ткст XmlRpcDo::ProcessJsonRpc(const Значение& v)
+String XmlRpcDo::ProcessJsonRpc(const Value& v)
 {
 	LLOG("Parsed JSON request: " << v);
-	ид = v["ид"];
-	methodname = какТкст(v["method"]);
-	Значение param = v["params"];
-	if(param.является<МапЗнач>())
-		данные.in_map = param;
+	id = v["id"];
+	methodname = AsString(v["method"]);
+	Value param = v["params"];
+	if(param.Is<ValueMap>())
+		data.in_map = param;
 	else
-		данные.in = param;
+		data.in = param;
 	try {
-		if(CallRpcMethod(данные, группа, methodname, request)) {
-			if(!данные.rpc && !shorted)
+		if(CallRpcMethod(data, group, methodname, request)) {
+			if(!data.rpc && !shorted)
 				return Null;
 			return JsonResult();
 		}
-		return JsonRpcError(RPC_UNKNOWN_METHOD_ERROR, "Method not found", ид);
+		return JsonRpcError(RPC_UNKNOWN_METHOD_ERROR, "Метод не найден", id);
 	}
 	catch(RpcError e) {
-		LLOG("Processing Ошибка: " << e.text);
+		LLOG("Processing error: " << e.text);
 		if(rpc_trace)
-			*rpc_trace << "Processing Ошибка: " << e.text << '\n';
-		return JsonRpcError(e.code, e.text, ид);
+			*rpc_trace << "Processing error: " << e.text << '\n';
+		return JsonRpcError(e.code, e.text, id);
 	}
 	catch(ValueTypeMismatch) {
-		LLOG("ValueTypeMismatch at parameter " << данные.ii);
+		LLOG("ValueTypeMismatch at parameter " << data.ii);
 		if(rpc_trace)
-			*rpc_trace << "ValueTypeMismatch at parameter " << данные.ii << '\n';
-		return JsonRpcError(RPC_SERVER_PARAM_ERROR, "Invalid params", ид);
+			*rpc_trace << "ValueTypeMismatch at parameter " << data.ii << '\n';
+		return JsonRpcError(RPC_SERVER_PARAM_ERROR, "Неверные параметры", id);
 	}
 }
 
-Ткст XmlRpcDo::DoJsonRpc()
+String XmlRpcDo::DoJsonRpc()
 {
 	try {
-		Значение v = ParseJSON(request);
-		if(v.является<МапЗнач>())
+		Value v = ParseJSON(request);
+		if(v.Is<ValueMap>())
 			return ProcessJsonRpc(v);
-		if(v.является<МассивЗнач>()) {
+		if(v.Is<ValueArray>()) {
 			JsonArray a;
-			for(int i = 0; i < v.дайСчёт(); i++)
+			for(int i = 0; i < v.GetCount(); i++)
 				a.CatRaw(ProcessJsonRpc(v[i]));
-			return v.дайСчёт() ? ~a : Ткст();
+			return v.GetCount() ? ~a : String();
 		}
 	}
-	catch(СиПарсер::Ошибка e) {}	
-	return AsJSON(JsonRpcError(RPC_SERVER_JSON_ERROR, "Parse Ошибка", Null));
+	catch(CParser::Error e) {}
+	return AsJSON(JsonRpcError(RPC_SERVER_JSON_ERROR, "Ошибка разбора", Null));
 }
 
-Ткст XmlRpcDo::RpcExecute()
+String XmlRpcDo::RpcExecute()
 {
 	json = false;
 	try {
-		СиПарсер p(request);
-		json = p.сим('{') || p.сим('[');
+		CParser p(request);
+		json = p.Char('{') || p.Char('[');
 	}
-	catch(СиПарсер::Ошибка) {}
+	catch(CParser::Error) {}
 
-	Ткст r;
-	Ткст mn;
-	ТаймСтоп tm;
+	String r;
+	String mn;
+	TimeStop tm;
 	if(json)
 		r = DoJsonRpc();
 	else
 	    r = DoXmlRpc();
 
 	if(rpc_trace) {
-		mn << " (" << tm.прошло() << " ms)";
+		mn << " (" << tm.Elapsed() << " ms)";
 		if(rpc_trace_level == 0)
 			*rpc_trace << "Rpc " << mn << " finished OK \n";
 		else {
 			if(rpc_trace_compress)
-				*rpc_trace << "Rpc " << mn << " response:\n" << сожмиЛог(r) << '\n';
+				*rpc_trace << "Rpc " << mn << " response:\n" << CompressLog(r) << '\n';
 			else
 				*rpc_trace << "Rpc " << mn << " response:\n" << r << '\n';
 		}
@@ -303,22 +303,22 @@ XmlRpcDo::XmlRpcDo(TcpSocket& http, const char *группа)
 	return r;
 }
 
-void XmlRpcDo::RpcResponse(const Ткст& r)
+void XmlRpcDo::RpcResponse(const String& r)
 {
 	LLOG("--------- Server response:\n" << r << "=============");
-	Ткст response;
-	Ткст ts = WwwFormat(GetUtcTime());
+	String response;
+	String ts = WwwFormat(GetUtcTime());
 	response <<
 		"HTTP/1.0 200 OK\r\n"
-		"Дата: " << ts << "\r\n"
-		"Server: U++ RPC server\r\n"
-		"Content-длина: " << r.дайСчёт() << "\r\n"
+		"Date: " << ts << "\r\n"
+		"Server: DinrusPro RPC server\r\n"
+		"Content-Length: " << r.GetCount() << "\r\n"
 		"Connection: close\r\n"
 		"Content-Type: application/" << (json ? "json" : "xml") << "\r\n\r\n"
 		<< r;
 	LLOG(response);
-	if(r.дайСчёт())
-		http.помести(response);
+	if(r.GetCount())
+		http.Put(response);
 }
 
 void XmlRpcDo::EndRpc()
@@ -338,47 +338,47 @@ bool XmlRpcDo::Perform()
 {
 	LLOG("=== Accepted connection ===================================================");
 	HttpHeader hdr;
-	if(hdr.читай(http) && hdr.GetMethod() == "POST") {
+	if(hdr.Read(http) && hdr.GetMethod() == "POST") {
 		int len = atoi(hdr["content-length"]);
 		if(len > 0 && len < 1024 * 1024 * 1024) {
-			request = http.дайВсе(len);
-			данные.peeraddr = http.GetPeerAddr();
-			данные.rpc = this;
-			Ткст r = RpcExecute();
-			if(данные.rpc)
+			request = http.GetAll(len);
+			data.peeraddr = http.GetPeerAddr();
+			data.rpc = this;
+			String r = RpcExecute();
+			if(data.rpc)
 				RpcResponse(r);
 			return true;
 		}
 	}
-	http.помести("HTTP/1.0 400 Bad request\r\n"
-	         "Server: U++\r\n\r\n");
+	http.Put("HTTP/1.0 400 Bad request\r\n"
+	         "Server: DinrusPro\r\n\r\n");
 	return false;
 }
 
-bool RpcPerform(TcpSocket& http, const char *группа)
+bool RpcPerform(TcpSocket& http, const char *group)
 {
-	return XmlRpcDo(http, группа).Perform();
+	return XmlRpcDo(http, group).Perform();
 }
 
-Ткст RpcExecuteShorted(const Ткст& request_)
+String RpcExecuteShorted(const String& request_)
 {
 	HttpRequest dummy;
 	XmlRpcDo h(dummy, "");
 	h.request = request_;
 	h.shorted = true;
-	h.данные.peeraddr = "127.0.0.1";
+	h.data.peeraddr = "127.0.0.1";
 	return h.RpcExecute();
 }
 
-bool RpcServerLoop(int port, const char *группа)
+bool RpcServerLoop(int port, const char *group)
 {
 	TcpSocket rpc;
 	if(!rpc.Listen(port, 5))
 		return false;
 	for(;;) {
 		TcpSocket http;
-		if(http.прими(rpc))
-			RpcPerform(http, группа);
+		if(http.Accept(rpc))
+			RpcPerform(http, group);
 	}
 }
 

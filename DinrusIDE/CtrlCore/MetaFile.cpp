@@ -2,43 +2,43 @@
 
 #ifdef GUI_WIN
 
-namespace РНЦП {
+namespace Upp {
 
 #ifndef PLATFORM_WINCE
 
-void ВинМетаФайл::иниц() {
+void WinMetaFile::Init() {
 	hemf = NULL;
 }
 
-void ВинМетаФайл::рисуй(Draw& w, const Прям& r) const {
-	w.DrawRect(r, белый());
+void WinMetaFile::Paint(Draw& w, const Rect& r) const {
+	w.DrawRect(r, White());
 	if(!hemf)
 		return;
 	SystemDraw *h = dynamic_cast<SystemDraw *>(&w);
 	if(h)
-		PlayEnhMetaFile(h->дайУк(), hemf, r);
+		PlayEnhMetaFile(h->GetHandle(), hemf, r);
 	else {
-		Размер sz = r.дайРазм();
+		Size sz = r.GetSize();
 		SystemImageDraw iw(sz);
-		рисуй(iw, sz);
+		Paint(iw, sz);
 		w.DrawImage(r.left, r.top, iw);
 	}
 }
 
-void ВинМетаФайл::рисуй(Draw& w, int x, int y, int cx, int cy) const {
-	рисуй(w, RectC(x, y, cx, cy));
+void WinMetaFile::Paint(Draw& w, int x, int y, int cx, int cy) const {
+	Paint(w, RectC(x, y, cx, cy));
 }
 
-void ВинМетаФайл::ReadClipboard() {
-	очисть();
+void WinMetaFile::ReadClipboard() {
+	Clear();
 	if(::IsClipboardFormatAvailable(CF_ENHMETAFILE) && ::OpenClipboard(NULL)) {
 		HENHMETAFILE hemf = (HENHMETAFILE) ::GetClipboardData(CF_ENHMETAFILE);
-		if(hemf) прикрепи(hemf);
+		if(hemf) Attach(hemf);
 		::CloseClipboard();
 	}
 }
 
-void ВинМетаФайл::WriteClipboard() const {
+void WinMetaFile::WriteClipboard() const {
 	if(hemf && ::OpenClipboard(NULL)) {
 		::EmptyClipboard();
 		::SetClipboardData(CF_ENHMETAFILE, CopyEnhMetaFile(hemf, NULL));
@@ -46,26 +46,26 @@ void ВинМетаФайл::WriteClipboard() const {
 	}
 }
 
-void ВинМетаФайл::очисть() {
+void WinMetaFile::Clear() {
 	if(hemf)
 		::DeleteEnhMetaFile(hemf);
 	hemf = NULL;
 }
 
-/* TODO: удали picks
-void ВинМетаФайл::подбери(pick_ ВинМетаФайл& src) {
+/* СДЕЛАТЬ: Remove picks
+void WinMetaFile::Pick(pick_ WinMetaFile& src) {
 	hemf = src.hemf;
 	size = src.size;
 	src.hemf = (HENHMETAFILE)(intptr_t) 0xffffffff;
 }
 
-void ВинМетаФайл::копируй(const ВинМетаФайл& src) {
+void WinMetaFile::Copy(const WinMetaFile& src) {
 	hemf = ::CopyEnhMetaFile(src.hemf, NULL);
 	size = src.size;
 }
 */
-void ВинМетаФайл::прикрепи(HENHMETAFILE _hemf) {
-	очисть();
+void WinMetaFile::Attach(HENHMETAFILE _hemf) {
+	Clear();
 	ENHMETAHEADER info;
 	memset(&info, 0, sizeof(info));
 	info.iType = EMR_HEADER;
@@ -81,9 +81,9 @@ void ВинМетаФайл::прикрепи(HENHMETAFILE _hemf) {
 	}
 }
 
-HENHMETAFILE ВинМетаФайл::открепи()
+HENHMETAFILE WinMetaFile::Detach()
 {
-	size = Размер(0, 0);
+	size = Size(0, 0);
 	HENHMETAFILE out = hemf;
 	hemf = NULL;
 	return out;
@@ -92,7 +92,7 @@ HENHMETAFILE ВинМетаФайл::открепи()
 #pragma pack(push, 1)
 struct PLACEABLE_METAFILEHEADER
 {
-    DWORD   ключ;
+    DWORD   key;
     WORD    hmf;
     short   left, top, right, bottom;
     WORD    inch;
@@ -101,9 +101,9 @@ struct PLACEABLE_METAFILEHEADER
 };
 #pragma pack(pop)
 
-void ВинМетаФайл::уст(const void *data, dword len)
+void WinMetaFile::Set(const void *data, dword len)
 {
-	очисть();
+	Clear();
 
 	if(len <= sizeof(ENHMETAHEADER))
 		return;
@@ -112,139 +112,139 @@ void ВинМетаФайл::уст(const void *data, dword len)
 
 	HENHMETAFILE hemf;
 	if((hemf = ::SetEnhMetaFileBits(len, (const BYTE *)data)) != NULL)
-		прикрепи(hemf);
+		Attach(hemf);
 	else
 	if(first == (int)0x9AC6CDD7) {
 		if ( len <= 22 ) return;
 		const PLACEABLE_METAFILEHEADER *mfh = (const PLACEABLE_METAFILEHEADER *)data;
-		прикрепи(::SetWinMetaFileBits(len - 22, (const BYTE *)data + 22, NULL, NULL));
-		size = 600 * Размер(mfh->right - mfh->left, mfh->bottom - mfh->top) / 2540;
+		Attach(::SetWinMetaFileBits(len - 22, (const BYTE *)data + 22, NULL, NULL));
+		size = 600 * Size(mfh->right - mfh->left, mfh->bottom - mfh->top) / 2540;
 		return;
 	}
 	else
-		прикрепи(::SetWinMetaFileBits(len, (const BYTE *)data, NULL, NULL));
+		Attach(::SetWinMetaFileBits(len, (const BYTE *)data, NULL, NULL));
 }
 
-Ткст ВинМетаФайл::дай() const
+String WinMetaFile::Get() const
 {
 	int size = ::GetEnhMetaFileBits(hemf, 0, 0);
-	ТкстБуф b(size);
+	StringBuffer b(size);
 	::GetEnhMetaFileBits(hemf, size, (BYTE *)~b);
-	return Ткст(b);
+	return String(b);
 }
 
-void ВинМетаФайл::сериализуй(Поток& s) {
+void WinMetaFile::Serialize(Stream& s) {
 	dword size = 0;
-	if(s.сохраняется()) {
+	if(s.IsStoring()) {
 		if(hemf) {
 			size = ::GetEnhMetaFileBits(hemf, 0, 0);
 			s % size;
-			Буфер<byte> буфер(size);
-			::GetEnhMetaFileBits(hemf, size, буфер);
-			s.SerializeRaw(буфер, size);
+			Buffer<byte> buffer(size);
+			::GetEnhMetaFileBits(hemf, size, buffer);
+			s.SerializeRaw(buffer, size);
 		}
 		else
 			s % size;
 	}
 	else {
-		очисть();
+		Clear();
 		s % size;
 		if(size) {
-			Буфер<byte> буфер(size);
-			s.SerializeRaw(буфер, size);
-			HENHMETAFILE hemf = ::SetEnhMetaFileBits(size, буфер);
-			прикрепи(hemf);
+			Buffer<byte> buffer(size);
+			s.SerializeRaw(buffer, size);
+			HENHMETAFILE hemf = ::SetEnhMetaFileBits(size, buffer);
+			Attach(hemf);
 		}
 	}
 }
 
-ВинМетаФайл::ВинМетаФайл(void *data, int len)
+WinMetaFile::WinMetaFile(void *data, int len)
 {
-	иниц();
-	уст(data, len);
+	Init();
+	Set(data, len);
 }
 
-ВинМетаФайл::ВинМетаФайл(const Ткст& data)
+WinMetaFile::WinMetaFile(const String& data)
 {
-	иниц();
-	уст(data);
+	Init();
+	Set(data);
 }
 
-ВинМетаФайл::ВинМетаФайл(HENHMETAFILE hemf) {
-	иниц();
-	прикрепи(hemf);
+WinMetaFile::WinMetaFile(HENHMETAFILE hemf) {
+	Init();
+	Attach(hemf);
 }
 
-ВинМетаФайл::ВинМетаФайл(HENHMETAFILE hemf, Размер sz) {
-	иниц();
-	прикрепи(hemf);
+WinMetaFile::WinMetaFile(HENHMETAFILE hemf, Size sz) {
+	Init();
+	Attach(hemf);
 	size = sz;
 }
 
-ВинМетаФайл::ВинМетаФайл(const char *file) {
-	иниц();
-	грузи(file);
+WinMetaFile::WinMetaFile(const char *file) {
+	Init();
+	Load(file);
 }
 
 struct cDrawWMF : DataDrawer {
 	int  y;
-	Размер sz;
-	ВинМетаФайл wmf;
+	Size sz;
+	WinMetaFile wmf;
 
-	virtual void открой(const Ткст& data, int cx, int cy);
+	virtual void Open(const String& data, int cx, int cy);
 	virtual void Render(ImageBuffer& ib);
 };
 
-void cDrawWMF::открой(const Ткст& data, int cx, int cy)
+void cDrawWMF::Open(const String& data, int cx, int cy)
 {
 	y = 0;
-	wmf.уст(data);
-	sz = Размер(cx, cy);
+	wmf.Set(data);
+	sz = Size(cx, cy);
 }
 
 void cDrawWMF::Render(ImageBuffer& ib)
 {
 	if(wmf) {
-		ImageDraw iw(ib.дайРазм());
-		wmf.рисуй(iw, 0, -y, sz.cx, sz.cy);
-		y += ib.дайВысоту();
-		Рисунок img(iw);
+		ImageDraw iw(ib.GetSize());
+		wmf.Paint(iw, 0, -y, sz.cx, sz.cy);
+		y += ib.GetHeight();
+		Image img(iw);
 		ib = img;
 	}
 	else
-		Fill(~ib, обнулиКЗСА(), ib.дайДлину());
+		Fill(~ib, RGBAZero(), ib.GetLength());
 }
 
-ИНИЦБЛОК
+INITBLOCK
 {
-	DataDrawer::регистрируй<cDrawWMF>("wmf");
+	DataDrawer::Register<cDrawWMF>("wmf");
 };
 
-void DrawWMF(Draw& w, int x, int y, int cx, int cy, const Ткст& wmf)
+void DrawWMF(Draw& w, int x, int y, int cx, int cy, const String& wmf)
 {
 	w.DrawData(x, y, cx, cy, wmf, "wmf");
 }
 
-void DrawWMF(Draw& w, int x, int y, const Ткст& wmf)
+void DrawWMF(Draw& w, int x, int y, const String& wmf)
 {
-	ВинМетаФайл h(wmf);
-	Размер sz = h.дайРазм();
+	WinMetaFile h(wmf);
+	Size sz = h.GetSize();
 	DrawWMF(w, x, y, sz.cx, sz.cy, wmf);
 }
 
-Чертёж LoadWMF(const char *path, int cx, int cy)
+Drawing LoadWMF(const char *path, int cx, int cy)
 {
 	DrawingDraw iw(cx, cy);
-	DrawWMF(iw, 0, 0, cx, cy, загрузиФайл(path));
+	DrawWMF(iw, 0, 0, cx, cy, LoadFile(path));
 	return iw;
 }
 
-Чертёж LoadWMF(const char *path)
+Drawing LoadWMF(const char *path)
 {
-	Ткст wmf = загрузиФайл(path);
-	ВинМетаФайл h(wmf);
+	String wmf = LoadFile(path);
+	WinMetaFile h(wmf);
 	if(h) {
-		Размер sz = h.дайРазм();
+		Size sz = h.GetSize();
 		DrawingDraw iw(sz.cx, sz.cy);
 		DrawWMF(iw, 0, 0, sz.cx, sz.cy, wmf);
 		return iw;
@@ -252,32 +252,32 @@ void DrawWMF(Draw& w, int x, int y, const Ткст& wmf)
 	return Null;
 }
 
-bool WinMetaFileDraw::создай(HDC hdc, int cx, int cy, const char *app, const char *имя, const char *file) {
-	if(handle) закрой();
+bool WinMetaFileDraw::Create(HDC hdc, int cx, int cy, const char *app, const char *name, const char *file) {
+	if(handle) Close();
 
-	Ткст s;
-	if(app) s.конкат(app);
-	s.конкат('\0');
-	if(имя) s.конкат(имя);
-	s.конкат('\0');
+	String s;
+	if(app) s.Cat(app);
+	s.Cat('\0');
+	if(name) s.Cat(name);
+	s.Cat('\0');
 
 	bool del = false;
 	if(!hdc) {
 		hdc = ::GetWindowDC((HWND) NULL);
 		del = true;
 	}
-	size = Размер(iscale(cx, 2540, 600), iscale(cy, 2540, 600));
+	size = Size(iscale(cx, 2540, 600), iscale(cy, 2540, 600));
 
-	Прям r = size;
+	Rect r = size;
 
-	HDC mfdc = ::CreateEnhMetaFile(hdc, file, r, имя || app ? (const char *)s : NULL);
+	HDC mfdc = ::CreateEnhMetaFile(hdc, file, r, name || app ? (const char *)s : NULL);
 	if(!mfdc)
 		return false;
-	Размер px(max(1, ::GetDeviceCaps(mfdc, HORZRES)),  max(1, ::GetDeviceCaps(mfdc, VERTRES)));
-	Размер mm(max(1, ::GetDeviceCaps(mfdc, HORZSIZE)), max(1, ::GetDeviceCaps(mfdc, VERTSIZE)));
-	прикрепи(mfdc);
+	Size px(max(1, ::GetDeviceCaps(mfdc, HORZRES)),  max(1, ::GetDeviceCaps(mfdc, VERTRES)));
+	Size mm(max(1, ::GetDeviceCaps(mfdc, HORZSIZE)), max(1, ::GetDeviceCaps(mfdc, VERTSIZE)));
+	Attach(mfdc);
 
-	иниц();
+	Init();
 
 	style = DOTS;
 
@@ -294,39 +294,39 @@ bool WinMetaFileDraw::создай(HDC hdc, int cx, int cy, const char *app, con
 		hdc = NULL;
 	}
 
-	actual_offset = Точка(0, 0);
+	actual_offset = Point(0, 0);
 
 	return true;
 }
 
-bool WinMetaFileDraw::создай(int cx, int cy, const char *app, const char *имя, const char *file) {
-	return создай(NULL, cx, cy, app, имя, file);
+bool WinMetaFileDraw::Create(int cx, int cy, const char *app, const char *name, const char *file) {
+	return Create(NULL, cx, cy, app, name, file);
 }
 
-ВинМетаФайл WinMetaFileDraw::закрой() {
-	HDC hdc = открепи();
-	ПРОВЕРЬ(hdc);
-	return ВинМетаФайл(CloseEnhMetaFile(hdc), size);
+WinMetaFile WinMetaFileDraw::Close() {
+	HDC hdc = Detach();
+	ASSERT(hdc);
+	return WinMetaFile(CloseEnhMetaFile(hdc), size);
 }
 
 WinMetaFileDraw::~WinMetaFileDraw() {
-	if(handle) закрой();
+	if(handle) Close();
 }
 
-WinMetaFileDraw::WinMetaFileDraw(HDC hdc, int cx, int cy, const char *app, const char *имя, const char *file) {
-	создай(hdc, cx, cy, app, имя, file);
+WinMetaFileDraw::WinMetaFileDraw(HDC hdc, int cx, int cy, const char *app, const char *name, const char *file) {
+	Create(hdc, cx, cy, app, name, file);
 }
 
-WinMetaFileDraw::WinMetaFileDraw(int cx, int cy, const char *app, const char *имя, const char *file) {
-	создай(cx, cy, app, имя, file);
+WinMetaFileDraw::WinMetaFileDraw(int cx, int cy, const char *app, const char *name, const char *file) {
+	Create(cx, cy, app, name, file);
 }
 
-Ткст AsWMF(const Чертёж& iw)
+String AsWMF(const Drawing& iw)
 {
-	Размер sz = iw.дайРазм();
+	Size sz = iw.GetSize();
 	WinMetaFileDraw wd(sz.cx, sz.cy);
 	wd.DrawDrawing(0, 0, sz.cx, sz.cy, iw);
-	return wd.закрой().дай();
+	return wd.Close().Get();
 }
 
 #endif

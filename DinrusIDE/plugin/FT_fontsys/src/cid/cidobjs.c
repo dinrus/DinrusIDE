@@ -131,7 +131,7 @@
   cid_size_init( FT_Size  cidsize )     /* CID_Size */
   {
     CID_Size           size  = (CID_Size)cidsize;
-    FT_Error           Ошибка = CID_Err_Ok;
+    FT_Error           error = CID_Err_Ok;
     PSH_Globals_Funcs  funcs = cid_size_get_globals_funcs( size );
 
 
@@ -143,12 +143,12 @@
       PS_Private    priv = &dict->private_dict;
 
 
-      Ошибка = funcs->create( cidsize->face->memory, priv, &globals );
-      if ( !Ошибка )
+      error = funcs->create( cidsize->face->memory, priv, &globals );
+      if ( !error )
         cidsize->internal = (FT_Size_Internal)(void*)globals;
     }
 
-    return Ошибка;
+    return error;
   }
 
 
@@ -181,7 +181,7 @@
 
   /*************************************************************************/
   /*                                                                       */
-  /* <Функция>                                                            */
+  /* <Function>                                                            */
   /*    cid_face_done                                                      */
   /*                                                                       */
   /* <Description>                                                         */
@@ -253,7 +253,7 @@
 
   /*************************************************************************/
   /*                                                                       */
-  /* <Функция>                                                            */
+  /* <Function>                                                            */
   /*    cid_face_init                                                      */
   /*                                                                       */
   /* <Description>                                                         */
@@ -272,7 +272,7 @@
   /*    face       :: The newly built face object.                         */
   /*                                                                       */
   /* <Return>                                                              */
-  /*    FreeType Ошибка code.  0 means success.                             */
+  /*    FreeType error code.  0 means success.                             */
   /*                                                                       */
   FT_LOCAL_DEF( FT_Error )
   cid_face_init( FT_Stream      stream,
@@ -282,7 +282,7 @@
                  FT_Parameter*  params )
   {
     CID_Face          face = (CID_Face)cidface;
-    FT_Error          Ошибка;
+    FT_Error          error;
     PSAux_Service     psaux;
     PSHinter_Service  pshinter;
 
@@ -311,15 +311,15 @@
       face->pshinter = pshinter;
     }
 
-    /* open the tokenizer; this will also check the font формат */
+    /* open the tokenizer; this will also check the font format */
     if ( FT_STREAM_SEEK( 0 ) )
       goto Exit;
 
-    Ошибка = cid_face_open( face, face_index );
-    if ( Ошибка )
+    error = cid_face_open( face, face_index );
+    if ( error )
       goto Exit;
 
-    /* if we just wanted to check the формат, leave successfully now */
+    /* if we just wanted to check the format, leave successfully now */
     if ( face_index < 0 )
       goto Exit;
 
@@ -328,7 +328,7 @@
     if ( face_index != 0 )
     {
       FT_ERROR(( "cid_face_init: invalid face index\n" ));
-      Ошибка = CID_Err_Invalid_Argument;
+      error = CID_Err_Invalid_Argument;
       goto Exit;
     }
 
@@ -353,9 +353,9 @@
       if ( info->is_fixed_pitch )
         cidface->face_flags |= FT_FACE_FLAG_FIXED_WIDTH;
 
-      /* XXX: TODO: add kerning with .afm support */
+      /* XXX: СДЕЛАТЬ: add kerning with .afm support */
 
-      /* get style имя -- be careful, some broken fonts only */
+      /* get style name -- be careful, some broken fonts only */
       /* have a /FontName dictionary entry!                   */
       cidface->family_name = info->family_name;
       /* assume "Regular" style if we don't know better */
@@ -405,7 +405,7 @@
       if ( info->weight )
       {
         if ( !ft_strcmp( info->weight, "Bold"  ) ||
-             !ft_strcmp( info->weight, "чёрный" ) )
+             !ft_strcmp( info->weight, "Black" ) )
           cidface->style_flags |= FT_STYLE_FLAG_BOLD;
       }
 
@@ -434,13 +434,13 @@
     }
 
   Exit:
-    return Ошибка;
+    return error;
   }
 
 
   /*************************************************************************/
   /*                                                                       */
-  /* <Функция>                                                            */
+  /* <Function>                                                            */
   /*    cid_driver_init                                                    */
   /*                                                                       */
   /* <Description>                                                         */
@@ -450,7 +450,7 @@
   /*    driver :: A handle to the target driver object.                    */
   /*                                                                       */
   /* <Return>                                                              */
-  /*    FreeType Ошибка code.  0 means success.                             */
+  /*    FreeType error code.  0 means success.                             */
   /*                                                                       */
   FT_LOCAL_DEF( FT_Error )
   cid_driver_init( FT_Module  driver )
@@ -463,7 +463,7 @@
 
   /*************************************************************************/
   /*                                                                       */
-  /* <Функция>                                                            */
+  /* <Function>                                                            */
   /*    cid_driver_done                                                    */
   /*                                                                       */
   /* <Description>                                                         */

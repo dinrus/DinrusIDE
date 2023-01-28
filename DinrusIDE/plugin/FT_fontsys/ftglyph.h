@@ -37,9 +37,9 @@
 #include FT_FREETYPE_H
 
 #ifdef FREETYPE_H
-#Ошибка "freetype.h of FreeType 1 has been loaded!"
-#Ошибка "Please fix the directory search order for header files"
-#Ошибка "so that freetype.h of FreeType 2 is found first."
+#error "freetype.h of FreeType 1 has been loaded!"
+#error "Please fix the directory search order for header files"
+#error "so that freetype.h of FreeType 2 is found first."
 #endif
 
 
@@ -51,7 +51,7 @@ FT_BEGIN_HEADER
   /* <Section>                                                             */
   /*    glyph_management                                                   */
   /*                                                                       */
-  /* <Титул>                                                               */
+  /* <Title>                                                               */
   /*    Glyph Management                                                   */
   /*                                                                       */
   /* <Abstract>                                                            */
@@ -65,7 +65,7 @@ FT_BEGIN_HEADER
   /*************************************************************************/
 
 
-  /* forward declaration to a private тип */
+  /* forward declaration to a private type */
   typedef struct FT_Glyph_Class_  FT_Glyph_Class;
 
 
@@ -94,14 +94,14 @@ FT_BEGIN_HEADER
   /*                                                                       */
   /* <Description>                                                         */
   /*    The root glyph structure contains a given glyph image plus its     */
-  /*    advance width in 16.16 fixed float формат.                         */
+  /*    advance width in 16.16 fixed float format.                         */
   /*                                                                       */
   /* <Fields>                                                              */
   /*    library :: A handle to the FreeType library object.                */
   /*                                                                       */
   /*    clazz   :: A pointer to the glyph's class.  Private.               */
   /*                                                                       */
-  /*    формат  :: The формат of the glyph's image.                        */
+  /*    format  :: The format of the glyph's image.                        */
   /*                                                                       */
   /*    advance :: A 16.16 vector that gives the glyph's advance width.    */
   /*                                                                       */
@@ -109,7 +109,7 @@ FT_BEGIN_HEADER
   {
     FT_Library             library;
     const FT_Glyph_Class*  clazz;
-    FT_Glyph_Format        формат;
+    FT_Glyph_Format        format;
     FT_Vector              advance;
 
   } FT_GlyphRec;
@@ -151,10 +151,10 @@ FT_BEGIN_HEADER
   /*                                                                       */
   /* <Note>                                                                */
   /*    You can typecast an @FT_Glyph to @FT_BitmapGlyph if you have       */
-  /*    `glyph->формат == FT_GLYPH_FORMAT_BITMAP'.  This lets you access   */
+  /*    `glyph->format == FT_GLYPH_FORMAT_BITMAP'.  This lets you access   */
   /*    the bitmap's contents easily.                                      */
   /*                                                                       */
-  /*    The corresponding pixel буфер is always owned by @FT_BitmapGlyph  */
+  /*    The corresponding pixel buffer is always owned by @FT_BitmapGlyph  */
   /*    and is thus created and destroyed with it.                         */
   /*                                                                       */
   typedef struct  FT_BitmapGlyphRec_
@@ -195,7 +195,7 @@ FT_BEGIN_HEADER
   /*                                                                       */
   /* <Note>                                                                */
   /*    You can typecast an @FT_Glyph to @FT_OutlineGlyph if you have      */
-  /*    `glyph->формат == FT_GLYPH_FORMAT_OUTLINE'.  This lets you access  */
+  /*    `glyph->format == FT_GLYPH_FORMAT_OUTLINE'.  This lets you access  */
   /*    the outline's content easily.                                      */
   /*                                                                       */
   /*    As the outline is extracted from a glyph slot, its coordinates are */
@@ -215,7 +215,7 @@ FT_BEGIN_HEADER
 
   /*************************************************************************/
   /*                                                                       */
-  /* <Функция>                                                            */
+  /* <Function>                                                            */
   /*    FT_Get_Glyph                                                       */
   /*                                                                       */
   /* <Description>                                                         */
@@ -229,7 +229,7 @@ FT_BEGIN_HEADER
   /*    aglyph :: A handle to the glyph object.                            */
   /*                                                                       */
   /* <Return>                                                              */
-  /*    FreeType Ошибка code.  0~means success.                             */
+  /*    FreeType error code.  0~means success.                             */
   /*                                                                       */
   FT_EXPORT( FT_Error )
   FT_Get_Glyph( FT_GlyphSlot  slot,
@@ -238,7 +238,7 @@ FT_BEGIN_HEADER
 
   /*************************************************************************/
   /*                                                                       */
-  /* <Функция>                                                            */
+  /* <Function>                                                            */
   /*    FT_Glyph_Copy                                                      */
   /*                                                                       */
   /* <Description>                                                         */
@@ -250,10 +250,10 @@ FT_BEGIN_HEADER
   /*                                                                       */
   /* <Output>                                                              */
   /*    target :: A handle to the target glyph object.  0~in case of       */
-  /*              Ошибка.                                                   */
+  /*              error.                                                   */
   /*                                                                       */
   /* <Return>                                                              */
-  /*    FreeType Ошибка code.  0~means success.                             */
+  /*    FreeType error code.  0~means success.                             */
   /*                                                                       */
   FT_EXPORT( FT_Error )
   FT_Glyph_Copy( FT_Glyph   source,
@@ -262,11 +262,11 @@ FT_BEGIN_HEADER
 
   /*************************************************************************/
   /*                                                                       */
-  /* <Функция>                                                            */
+  /* <Function>                                                            */
   /*    FT_Glyph_Transform                                                 */
   /*                                                                       */
   /* <Description>                                                         */
-  /*    Transform a glyph image if its формат is scalable.                 */
+  /*    Transform a glyph image if its format is scalable.                 */
   /*                                                                       */
   /* <InOut>                                                               */
   /*    glyph  :: A handle to the target glyph object.                     */
@@ -278,7 +278,7 @@ FT_BEGIN_HEADER
   /*              expressed in 1/64th of a pixel.                          */
   /*                                                                       */
   /* <Return>                                                              */
-  /*    FreeType Ошибка code (if not 0, the glyph формат is not scalable).  */
+  /*    FreeType error code (if not 0, the glyph format is not scalable).  */
   /*                                                                       */
   /* <Note>                                                                */
   /*    The 2x2 transformation matrix is also applied to the glyph's       */
@@ -350,7 +350,7 @@ FT_BEGIN_HEADER
 
   /*************************************************************************/
   /*                                                                       */
-  /* <Функция>                                                            */
+  /* <Function>                                                            */
   /*    FT_Glyph_Get_CBox                                                  */
   /*                                                                       */
   /* <Description>                                                         */
@@ -381,13 +381,13 @@ FT_BEGIN_HEADER
   /*                                                                       */
   /*    If the glyph has been loaded with @FT_LOAD_NO_SCALE, `bbox_mode'   */
   /*    must be set to @FT_GLYPH_BBOX_UNSCALED to get unscaled font        */
-  /*    units in 26.6 pixel формат.  The значение @FT_GLYPH_BBOX_SUBPIXELS    */
-  /*    is another имя for this constant.                                 */
+  /*    units in 26.6 pixel format.  The value @FT_GLYPH_BBOX_SUBPIXELS    */
+  /*    is another name for this constant.                                 */
   /*                                                                       */
   /*    If the font is tricky and the glyph has been loaded with           */
   /*    @FT_LOAD_NO_SCALE, the resulting CBox is meaningless.  To get      */
   /*    reasonable values for the CBox it is necessary to load the glyph   */
-  /*    at a large ppem значение (so that the hinting instructions can        */
+  /*    at a large ppem value (so that the hinting instructions can        */
   /*    properly shift and scale the subglyphs), then extracting the CBox  */
   /*    which can be eventually converted back to font units.              */
   /*                                                                       */
@@ -425,11 +425,11 @@ FT_BEGIN_HEADER
 
   /*************************************************************************/
   /*                                                                       */
-  /* <Функция>                                                            */
+  /* <Function>                                                            */
   /*    FT_Glyph_To_Bitmap                                                 */
   /*                                                                       */
   /* <Description>                                                         */
-  /*    Преобр a given glyph object to a bitmap glyph object.             */
+  /*    Convert a given glyph object to a bitmap glyph object.             */
   /*                                                                       */
   /* <InOut>                                                               */
   /*    the_glyph   :: A pointer to a handle to the target glyph.          */
@@ -445,20 +445,20 @@ FT_BEGIN_HEADER
   /*                                                                       */
   /*    destroy     :: A boolean that indicates that the original glyph    */
   /*                   image should be destroyed by this function.  It is  */
-  /*                   never destroyed in case of Ошибка.                   */
+  /*                   never destroyed in case of error.                   */
   /*                                                                       */
   /* <Return>                                                              */
-  /*    FreeType Ошибка code.  0~means success.                             */
+  /*    FreeType error code.  0~means success.                             */
   /*                                                                       */
   /* <Note>                                                                */
-  /*    This function does nothing if the glyph формат isn't scalable.     */
+  /*    This function does nothing if the glyph format isn't scalable.     */
   /*                                                                       */
   /*    The glyph image is translated with the `origin' vector before      */
   /*    rendering.                                                         */
   /*                                                                       */
   /*    The first parameter is a pointer to an @FT_Glyph handle, that will */
   /*    be _replaced_ by this function (with newly allocated data).        */
-  /*    Typically, you would use (omitting Ошибка handling):                */
+  /*    Typically, you would use (omitting error handling):                */
   /*                                                                       */
   /*                                                                       */
   /*      {                                                                */
@@ -467,17 +467,17 @@ FT_BEGIN_HEADER
   /*                                                                       */
   /*                                                                       */
   /*        // load glyph                                                  */
-  /*        Ошибка = FT_Load_Char( face, glyph_index, FT_LOAD_DEFAUT );     */
+  /*        error = FT_Load_Char( face, glyph_index, FT_LOAD_DEFAUT );     */
   /*                                                                       */
   /*        // extract glyph image                                         */
-  /*        Ошибка = FT_Get_Glyph( face->glyph, &glyph );                   */
+  /*        error = FT_Get_Glyph( face->glyph, &glyph );                   */
   /*                                                                       */
   /*        // convert to a bitmap (default render mode + destroying old)  */
-  /*        if ( glyph->формат != FT_GLYPH_FORMAT_BITMAP )                 */
+  /*        if ( glyph->format != FT_GLYPH_FORMAT_BITMAP )                 */
   /*        {                                                              */
-  /*          Ошибка = FT_Glyph_To_Bitmap( &glyph, FT_RENDER_MODE_NORMAL,   */
+  /*          error = FT_Glyph_To_Bitmap( &glyph, FT_RENDER_MODE_NORMAL,   */
   /*                                      0, 1 );                          */
-  /*          if ( Ошибка ) // `glyph' unchanged                            */
+  /*          if ( error ) // `glyph' unchanged                            */
   /*            ...                                                        */
   /*        }                                                              */
   /*                                                                       */
@@ -492,7 +492,7 @@ FT_BEGIN_HEADER
   /*      }                                                                */
   /*                                                                       */
   /*                                                                       */
-  /*    Here another example, again without Ошибка handling:                */
+  /*    Here another example, again without error handling:                */
   /*                                                                       */
   /*                                                                       */
   /*      {                                                                */
@@ -502,7 +502,7 @@ FT_BEGIN_HEADER
   /*        ...                                                            */
   /*                                                                       */
   /*        for ( idx = 0; i < MAX_GLYPHS; i++ )                           */
-  /*          Ошибка = FT_Load_Glyph( face, idx, FT_LOAD_DEFAULT ) ||       */
+  /*          error = FT_Load_Glyph( face, idx, FT_LOAD_DEFAULT ) ||       */
   /*                  FT_Get_Glyph ( face->glyph, &glyph[idx] );           */
   /*                                                                       */
   /*        ...                                                            */
@@ -515,7 +515,7 @@ FT_BEGIN_HEADER
   /*          ...                                                          */
   /*                                                                       */
   /*          // after this call, `bitmap' no longer points into           */
-  /*          // the `glyphs' array (and the old значение isn't destroyed)    */
+  /*          // the `glyphs' array (and the old value isn't destroyed)    */
   /*          FT_Glyph_To_Bitmap( &bitmap, FT_RENDER_MODE_MONO, 0, 0 );    */
   /*                                                                       */
   /*          ...                                                          */
@@ -538,11 +538,11 @@ FT_BEGIN_HEADER
 
   /*************************************************************************/
   /*                                                                       */
-  /* <Функция>                                                            */
+  /* <Function>                                                            */
   /*    FT_Done_Glyph                                                      */
   /*                                                                       */
   /* <Description>                                                         */
-  /*    разрушь a given glyph.                                             */
+  /*    Destroy a given glyph.                                             */
   /*                                                                       */
   /* <Input>                                                               */
   /*    glyph :: A handle to the target glyph object.                      */
@@ -565,7 +565,7 @@ FT_BEGIN_HEADER
 
   /*************************************************************************/
   /*                                                                       */
-  /* <Функция>                                                            */
+  /* <Function>                                                            */
   /*    FT_Matrix_Multiply                                                 */
   /*                                                                       */
   /* <Description>                                                         */
@@ -587,18 +587,18 @@ FT_BEGIN_HEADER
 
   /*************************************************************************/
   /*                                                                       */
-  /* <Функция>                                                            */
+  /* <Function>                                                            */
   /*    FT_Matrix_Invert                                                   */
   /*                                                                       */
   /* <Description>                                                         */
-  /*    Invert a 2x2 matrix.  Return an Ошибка if it can't be inverted.     */
+  /*    Invert a 2x2 matrix.  Return an error if it can't be inverted.     */
   /*                                                                       */
   /* <InOut>                                                               */
   /*    matrix :: A pointer to the target matrix.  Remains untouched in    */
-  /*              case of Ошибка.                                           */
+  /*              case of error.                                           */
   /*                                                                       */
   /* <Return>                                                              */
-  /*    FreeType Ошибка code.  0~means success.                             */
+  /*    FreeType error code.  0~means success.                             */
   /*                                                                       */
   FT_EXPORT( FT_Error )
   FT_Matrix_Invert( FT_Matrix*  matrix );
@@ -617,4 +617,4 @@ FT_END_HEADER
 
 /* Local Variables: */
 /* coding: utf-8    */
-/* стоп:             */
+/* End:             */

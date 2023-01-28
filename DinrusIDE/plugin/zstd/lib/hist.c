@@ -16,11 +16,11 @@
 /* --- dependencies --- */
 #include "mem.h"             /* U32, BYTE, etc. */
 #include "debug.h"           /* assert, DEBUGLOG */
-#include "error_private.h"   /* Ошибка */
+#include "error_private.h"   /* ERROR */
 #include "hist.h"
 
 
-/* --- Ошибка management --- */
+/* --- Error management --- */
 unsigned HIST_isError(size_t code) { return ERR_isError(code); }
 
 /*-**************************************************************
@@ -62,7 +62,7 @@ typedef enum { trustInput, checkMaxSymbolValue } HIST_checkInput_e;
  * But it needs some additional workspace for intermediate tables.
  * `workSpace` size must be a table of size >= HIST_WKSP_SIZE_U32.
  * @return : largest histogram frequency,
- *           or an Ошибка code (notably when histogram would be larger than *maxSymbolValuePtr). */
+ *           or an error code (notably when histogram would be larger than *maxSymbolValuePtr). */
 static size_t HIST_count_parallel_wksp(
                                 unsigned* count, unsigned* maxSymbolValuePtr,
                                 const void* source, size_t sourceSize,
@@ -121,7 +121,7 @@ static size_t HIST_count_parallel_wksp(
     if (check) {   /* verify stats will fit into destination table */
         U32 s; for (s=255; s>maxSymbolValue; s--) {
             Counting1[s] += Counting2[s] + Counting3[s] + Counting4[s];
-            if (Counting1[s]) return Ошибка(maxSymbolValue_tooSmall);
+            if (Counting1[s]) return ERROR(maxSymbolValue_tooSmall);
     }   }
 
     {   U32 s;
@@ -137,8 +137,8 @@ static size_t HIST_count_parallel_wksp(
 }
 
 /* HIST_countFast_wksp() :
- * Same as HIST_countFast(), but using an externally provided scratch буфер.
- * `workSpace` is a writable буфер which must be 4-bytes aligned,
+ * Same as HIST_countFast(), but using an externally provided scratch buffer.
+ * `workSpace` is a writable buffer which must be 4-bytes aligned,
  * `workSpaceSize` must be >= HIST_WKSP_SIZE
  */
 size_t HIST_countFast_wksp(unsigned* count, unsigned* maxSymbolValuePtr,
@@ -147,8 +147,8 @@ size_t HIST_countFast_wksp(unsigned* count, unsigned* maxSymbolValuePtr,
 {
     if (sourceSize < 1500) /* heuristic threshold */
         return HIST_count_simple(count, maxSymbolValuePtr, source, sourceSize);
-    if ((size_t)workSpace & 3) return Ошибка(GENERIC);  /* must be aligned on 4-bytes boundaries */
-    if (workSpaceSize < HIST_WKSP_SIZE) return Ошибка(workSpace_tooSmall);
+    if ((size_t)workSpace & 3) return ERROR(GENERIC);  /* must be aligned on 4-bytes boundaries */
+    if (workSpaceSize < HIST_WKSP_SIZE) return ERROR(workSpace_tooSmall);
     return HIST_count_parallel_wksp(count, maxSymbolValuePtr, source, sourceSize, trustInput, (U32*)workSpace);
 }
 
@@ -161,14 +161,14 @@ size_t HIST_countFast(unsigned* count, unsigned* maxSymbolValuePtr,
 }
 
 /* HIST_count_wksp() :
- * Same as HIST_count(), but using an externally provided scratch буфер.
+ * Same as HIST_count(), but using an externally provided scratch buffer.
  * `workSpace` size must be table of >= HIST_WKSP_SIZE_U32 unsigned */
 size_t HIST_count_wksp(unsigned* count, unsigned* maxSymbolValuePtr,
                        const void* source, size_t sourceSize,
                        void* workSpace, size_t workSpaceSize)
 {
-    if ((size_t)workSpace & 3) return Ошибка(GENERIC);  /* must be aligned on 4-bytes boundaries */
-    if (workSpaceSize < HIST_WKSP_SIZE) return Ошибка(workSpace_tooSmall);
+    if ((size_t)workSpace & 3) return ERROR(GENERIC);  /* must be aligned on 4-bytes boundaries */
+    if (workSpaceSize < HIST_WKSP_SIZE) return ERROR(workSpace_tooSmall);
     if (*maxSymbolValuePtr < 255)
         return HIST_count_parallel_wksp(count, maxSymbolValuePtr, source, sourceSize, checkMaxSymbolValue, (U32*)workSpace);
     *maxSymbolValuePtr = 255;

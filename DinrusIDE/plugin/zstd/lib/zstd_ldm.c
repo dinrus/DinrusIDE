@@ -28,7 +28,7 @@ void ZSTD_ldm_adjustParameters(ldmParams_t* params,
     if (!params->bucketSizeLog) params->bucketSizeLog = LDM_BUCKET_SIZE_LOG;
     if (!params->minMatchLength) params->minMatchLength = LDM_MIN_MATCH_LENGTH;
     if (cParams->strategy >= ZSTD_btopt) {
-      /* дай out of the way of the optimal parser */
+      /* Get out of the way of the optimal parser */
       U32 const minMatch = MAX(cParams->targetLength, params->minMatchLength);
       assert(minMatch >= ZSTD_LDM_MINMATCH_MIN);
       assert(minMatch <= ZSTD_LDM_MINMATCH_MAX);
@@ -64,11 +64,11 @@ size_t ZSTD_ldm_getMaxNbSeq(ldmParams_t params, size_t maxChunkSize)
 /** ZSTD_ldm_getSmallHash() :
  *  numBits should be <= 32
  *  If numBits==0, returns 0.
- *  @return : the most significant numBits of значение. */
-static U32 ZSTD_ldm_getSmallHash(U64 значение, U32 numBits)
+ *  @return : the most significant numBits of value. */
+static U32 ZSTD_ldm_getSmallHash(U64 value, U32 numBits)
 {
     assert(numBits <= 32);
-    return numBits == 0 ? 0 : (U32)(значение >> (64 - numBits));
+    return numBits == 0 ? 0 : (U32)(value >> (64 - numBits));
 }
 
 /** ZSTD_ldm_getChecksum() :
@@ -105,7 +105,7 @@ static ldmEntry_t* ZSTD_ldm_getBucket(
 }
 
 /** ZSTD_ldm_insertEntry() :
- *  вставь the entry with corresponding hash into the hash table */
+ *  Insert the entry with corresponding hash into the hash table */
 static void ZSTD_ldm_insertEntry(ldmState_t* ldmState,
                                  size_t const hash, const ldmEntry_t entry,
                                  ldmParams_t const ldmParams)
@@ -304,7 +304,7 @@ static size_t ZSTD_ldm_generateSequences_internal(
            continue;
         }
 
-        /* дай the best entry and compute the match lengths */
+        /* Get the best entry and compute the match lengths */
         {
             ldmEntry_t* const bucket =
                 ZSTD_ldm_getBucket(ldmState,
@@ -371,12 +371,12 @@ static size_t ZSTD_ldm_generateSequences_internal(
             continue;
         }
 
-        /* сверь found */
+        /* Match found */
         mLength = forwardMatchLength + backwardMatchLength;
         ip -= backwardMatchLength;
 
         {
-            /* сохрани the sequence:
+            /* Store the sequence:
              * ip = current - backwardMatchLength
              * The match is at (bestEntry->offset - backwardMatchLength)
              */
@@ -386,14 +386,14 @@ static size_t ZSTD_ldm_generateSequences_internal(
 
             /* Out of sequence storage */
             if (rawSeqStore->size == rawSeqStore->capacity)
-                return Ошибка(dstSize_tooSmall);
+                return ERROR(dstSize_tooSmall);
             seq->litLength = (U32)(ip - anchor);
             seq->matchLength = (U32)mLength;
             seq->offset = offset;
             rawSeqStore->size++;
         }
 
-        /* вставь the current entry into the hash table */
+        /* Insert the current entry into the hash table */
         ZSTD_ldm_makeEntryAndInsertByTag(ldmState, rollingHash, hBits,
                                          (U32)(lastHashed - base),
                                          *params);
@@ -471,7 +471,7 @@ size_t ZSTD_ldm_generateSequences(
          *
          * kMaxChunkSize should be small enough that we don't lose too much of
          * the window through early invalidation.
-         * TODO: * Test the chunk size.
+         * СДЕЛАТЬ: * Test the chunk size.
          *       * Try invalidation after the sequence generation and test the
          *         the offset against maxDist directly.
          *
@@ -507,14 +507,14 @@ void ZSTD_ldm_skipSequences(rawSeqStore_t* rawSeqStore, size_t srcSize, U32 cons
     while (srcSize > 0 && rawSeqStore->pos < rawSeqStore->size) {
         rawSeq* seq = rawSeqStore->seq + rawSeqStore->pos;
         if (srcSize <= seq->litLength) {
-            /* пропусти past srcSize literals */
+            /* Skip past srcSize literals */
             seq->litLength -= (U32)srcSize;
             return;
         }
         srcSize -= seq->litLength;
         seq->litLength = 0;
         if (srcSize < seq->matchLength) {
-            /* пропусти past the first srcSize of the match */
+            /* Skip past the first srcSize of the match */
             seq->matchLength -= (U32)srcSize;
             if (seq->matchLength < minMatch) {
                 /* The match is too short, omit it */
@@ -548,7 +548,7 @@ static rawSeq maybeSplitSequence(rawSeqStore_t* rawSeqStore,
         rawSeqStore->pos++;
         return sequence;
     }
-    /* вырежь the sequence short (offset == 0 ==> rest is literals). */
+    /* Cut the sequence short (offset == 0 ==> rest is literals). */
     if (remaining <= sequence.litLength) {
         sequence.offset = 0;
     } else if (remaining < sequence.litLength + sequence.matchLength) {
@@ -557,7 +557,7 @@ static rawSeq maybeSplitSequence(rawSeqStore_t* rawSeqStore,
             sequence.offset = 0;
         }
     }
-    /* пропусти past `remaining` bytes for the future sequences. */
+    /* Skip past `remaining` bytes for the future sequences. */
     ZSTD_ldm_skipSequences(rawSeqStore, remaining, minMatch);
     return sequence;
 }
@@ -585,7 +585,7 @@ size_t ZSTD_ldm_blockCompress(rawSeqStore_t* rawSeqStore,
         rawSeq const sequence = maybeSplitSequence(rawSeqStore,
                                                    (U32)(iend - ip), minMatch);
         int i;
-        /* стоп signal */
+        /* End signal */
         if (sequence.offset == 0)
             break;
 
@@ -594,7 +594,7 @@ size_t ZSTD_ldm_blockCompress(rawSeqStore_t* rawSeqStore,
         /* Fill tables for block compressor */
         ZSTD_ldm_limitTableUpdate(ms, ip);
         ZSTD_ldm_fillFastTables(ms, ip);
-        /* выполни the block compressor */
+        /* Run the block compressor */
         DEBUGLOG(5, "pos %u : calling block compressor on segment of size %u", (unsigned)(ip-istart), sequence.litLength);
         {
             size_t const newLitLength =
@@ -604,7 +604,7 @@ size_t ZSTD_ldm_blockCompress(rawSeqStore_t* rawSeqStore,
             for (i = ZSTD_REP_NUM - 1; i > 0; i--)
                 rep[i] = rep[i-1];
             rep[0] = sequence.offset;
-            /* сохрани the sequence */
+            /* Store the sequence */
             ZSTD_storeSeq(seqStore, newLitLength, ip - newLitLength, iend,
                           sequence.offset + ZSTD_REP_MOVE,
                           sequence.matchLength - MINMATCH);

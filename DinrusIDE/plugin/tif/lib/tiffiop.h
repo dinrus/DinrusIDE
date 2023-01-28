@@ -58,7 +58,7 @@ extern void *lfind(const void *, const void *, size_t *, size_t,
 #if !defined(HAVE_SNPRINTF) && !defined(HAVE__SNPRINTF)
 #undef snprintf
 #define snprintf _TIFF_snprintf_f
-extern int snprintf(char* str, size_t size, const char* формат, ...);
+extern int snprintf(char* str, size_t size, const char* format, ...);
 #endif
 
 #include "tiffio.h"
@@ -81,26 +81,26 @@ extern int snprintf(char* str, size_t size, const char* формат, ...);
 #define TIFF_TMSIZE_T_MAX (tmsize_t)(TIFF_SIZE_T_MAX >> 1)
 
 /*
- * Largest 32-bit unsigned integer значение.
+ * Largest 32-bit unsigned integer value.
  */
 #define TIFF_UINT32_MAX 0xFFFFFFFFU
 
 /*
- * Largest 64-bit unsigned integer значение.
+ * Largest 64-bit unsigned integer value.
  */
 #define TIFF_UINT64_MAX (((uint64)(TIFF_UINT32_MAX)) << 32 | TIFF_UINT32_MAX)
 
 typedef struct client_info {
     struct client_info *next;
     void *data;
-    char *имя;
+    char *name;
 } TIFFClientInfoLink;
 
 /*
  * Typedefs for ``method pointers'' used internally.
  * these are deprecated and provided only for backwards compatibility.
  */
-typedef unsigned char tidataval_t;    /* internal image data значение тип */
+typedef unsigned char tidataval_t;    /* internal image data value type */
 typedef tidataval_t* tidata_t;        /* reference to internal image data */
 
 typedef void (*TIFFVoidMethod)(TIFF*);
@@ -113,7 +113,7 @@ typedef uint32 (*TIFFStripMethod)(TIFF*, uint32);
 typedef void (*TIFFTileMethod)(TIFF*, uint32*, uint32*);
 
 struct tiff {
-	char*                tif_name;         /* имя of open file */
+	char*                tif_name;         /* name of open file */
 	int                  tif_fd;           /* open file descriptor */
 	int                  tif_mode;         /* open mode (O_*) */
 	uint32               tif_flags;
@@ -125,7 +125,7 @@ struct tiff {
 	#define TIFF_BEENWRITING 0x00040U /* written 1+ scanlines to file */
 	#define TIFF_SWAB        0x00080U /* byte swap file information */
 	#define TIFF_NOBITREV    0x00100U /* inhibit bit reversal logic */
-	#define TIFF_MYBUFFER    0x00200U /* my raw data буфер; free on close */
+	#define TIFF_MYBUFFER    0x00200U /* my raw data buffer; free on close */
 	#define TIFF_ISTILED     0x00400U /* file is tile, not strip- based */
 	#define TIFF_MAPPED      0x00800U /* file is mapped into memory */
 	#define TIFF_POSTENCODE  0x01000U /* need call to postencode routine */
@@ -139,7 +139,7 @@ struct tiff {
         #define TIFF_BUF4WRITE  0x100000U /* rawcc bytes are for writing */
         #define TIFF_DIRTYSTRIP 0x200000U /* stripoffsets/stripbytecount dirty*/
         #define TIFF_PERSAMPLE  0x400000U /* get/set per sample tags as arrays */
-        #define TIFF_BUFFERMMAP 0x800000U /* read буфер (tif_rawdata) points into mmap() memory */
+        #define TIFF_BUFFERMMAP 0x800000U /* read buffer (tif_rawdata) points into mmap() memory */
         #define TIFF_DEFERSTRILELOAD 0x1000000U /* defer strip/tile offset/bytecount array loading. */
         #define TIFF_LAZYSTRILELOAD  0x2000000U /* lazy/ondemand loading of strip/tile offset/bytecount values. Only used if TIFF_DEFERSTRILELOAD is set and in read-only mode */
         #define TIFF_CHOPPEDUPARRAYS 0x4000000U /* set when allocChoppedUpStripArrays() has modified strip array */
@@ -157,7 +157,7 @@ struct tiff {
 	} tif_header;
 	uint16               tif_header_size;  /* file's header block and its length */
 	uint32               tif_row;          /* current scanline */
-	uint16               tif_curdir;       /* current directory (Индекс) */
+	uint16               tif_curdir;       /* current directory (index) */
 	uint32               tif_curstrip;     /* current strip for read/write */
 	uint64               tif_curoff;       /* current offset for read/write */
 	uint64               tif_dataoff;      /* current offset for writing dir */
@@ -192,12 +192,12 @@ struct tiff {
 	/* input/output buffering */
 	tmsize_t             tif_scanlinesize; /* # of bytes in a scanline */
 	tmsize_t             tif_scanlineskew; /* scanline skew for reading strips */
-	uint8*               tif_rawdata;      /* raw data буфер */
-	tmsize_t             tif_rawdatasize;  /* # of bytes in raw data буфер */
+	uint8*               tif_rawdata;      /* raw data buffer */
+	tmsize_t             tif_rawdatasize;  /* # of bytes in raw data buffer */
         tmsize_t             tif_rawdataoff;   /* rawdata offset within strip */
         tmsize_t             tif_rawdataloaded;/* amount of data in rawdata */
-	uint8*               tif_rawcp;        /* current spot in raw буфер */
-	tmsize_t             tif_rawcc;        /* bytes unread from raw буфер */
+	uint8*               tif_rawcp;        /* current spot in raw buffer */
+	tmsize_t             tif_rawcc;        /* bytes unread from raw buffer */
 	/* memory-mapped file support */
 	uint8*               tif_base;         /* base of mapped file */
 	tmsize_t             tif_size;         /* size of mapped file region (bytes, thus tmsize_t) */
@@ -224,7 +224,7 @@ struct tiff {
 	size_t               tif_nfieldscompat;
 };
 
-#define isPseudoTag(t) (t > 0xffff)            /* is tag значение normal or pseudo */
+#define isPseudoTag(t) (t > 0xffff)            /* is tag value normal or pseudo */
 
 #define isTiled(tif) (((tif)->tif_flags & TIFF_ISTILED) != 0)
 #define isMapped(tif) (((tif)->tif_flags & TIFF_MAPPED) != 0)
@@ -246,7 +246,7 @@ struct tiff {
 	((*(tif)->tif_unmapproc)((tif)->tif_clientdata,(addr),(size)))
 
 /*
- * дефолт читай/перейди/пиши definitions.
+ * Default Read/Seek/Write definitions.
  */
 #ifndef ReadOK
 #define ReadOK(tif, buf, size) \
@@ -365,7 +365,7 @@ extern int TIFFSetCompressionScheme(TIFF* tif, int scheme);
 extern int TIFFSetDefaultCompressionState(TIFF* tif);
 extern uint32 _TIFFDefaultStripSize(TIFF* tif, uint32 s);
 extern void _TIFFDefaultTileSize(TIFF* tif, uint32* tw, uint32* th);
-extern int _TIFFDataSize(TIFFDataType тип);
+extern int _TIFFDataSize(TIFFDataType type);
 
 extern void _TIFFsetByteArray(void**, void*, uint32);
 extern void _TIFFsetString(char**, char*);
@@ -470,5 +470,5 @@ extern TIFFCodec _TIFFBuiltinCODECS[];
  * mode: c
  * c-basic-offset: 8
  * fill-column: 78
- * стоп:
+ * End:
  */

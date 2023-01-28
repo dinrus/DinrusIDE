@@ -182,7 +182,7 @@ THE SOFTWARE.
     {
       FT_TRACE1(( "pcf_cmap_char_next: charcode 0x%x > 32bit API" ));
       *acharcode = 0;
-      /* XXX: result should be changed to indicate an overflow Ошибка */
+      /* XXX: result should be changed to indicate an overflow error */
     }
     else
       *acharcode = (FT_UInt32)charcode;
@@ -232,9 +232,9 @@ THE SOFTWARE.
 
           if ( prop )
           {
-            FT_FREE( prop->имя );
+            FT_FREE( prop->name );
             if ( prop->isString )
-              FT_FREE( prop->значение.atom );
+              FT_FREE( prop->value.atom );
           }
         }
       }
@@ -267,15 +267,15 @@ THE SOFTWARE.
                  FT_Parameter*  params )
   {
     PCF_Face  face  = (PCF_Face)pcfface;
-    FT_Error  Ошибка = PCF_Err_Ok;
+    FT_Error  error = PCF_Err_Ok;
 
     FT_UNUSED( num_params );
     FT_UNUSED( params );
     FT_UNUSED( face_index );
 
 
-    Ошибка = pcf_load_font( stream, face );
-    if ( Ошибка )
+    error = pcf_load_font( stream, face );
+    if ( error )
     {
       PCF_Face_Done( pcfface );
 
@@ -293,12 +293,12 @@ THE SOFTWARE.
         if ( FT_ERROR_BASE( error2 ) == FT_Err_Unimplemented_Feature )
           goto Fail;
 
-        Ошибка = error2;
+        error = error2;
       }
 #endif /* FT_CONFIG_OPTION_USE_ZLIB */
 
 #ifdef FT_CONFIG_OPTION_USE_LZW
-      if ( Ошибка )
+      if ( error )
       {
         FT_Error  error3;
 
@@ -308,12 +308,12 @@ THE SOFTWARE.
         if ( FT_ERROR_BASE( error3 ) == FT_Err_Unimplemented_Feature )
           goto Fail;
 
-        Ошибка = error3;
+        error = error3;
       }
 #endif /* FT_CONFIG_OPTION_USE_LZW */
 
 #ifdef FT_CONFIG_OPTION_USE_BZIP2
-      if ( Ошибка )
+      if ( error )
       {
         FT_Error  error4;
 
@@ -323,11 +323,11 @@ THE SOFTWARE.
         if ( FT_ERROR_BASE( error4 ) == FT_Err_Unimplemented_Feature )
           goto Fail;
 
-        Ошибка = error4;
+        error = error4;
       }
 #endif /* FT_CONFIG_OPTION_USE_BZIP2 */
 
-      if ( Ошибка )
+      if ( error )
         goto Fail;
 
       face->comp_source = stream;
@@ -335,8 +335,8 @@ THE SOFTWARE.
 
       stream = pcfface->stream;
 
-      Ошибка = pcf_load_font( stream, face );
-      if ( Ошибка )
+      error = pcf_load_font( stream, face );
+      if ( error )
         goto Fail;
 
 #else /* !(FT_CONFIG_OPTION_USE_ZLIB ||
@@ -391,10 +391,10 @@ THE SOFTWARE.
           charmap.encoding_id = TT_MS_ID_UNICODE_CS;
         }
 
-        Ошибка = FT_CMap_New( &pcf_cmap_class, NULL, &charmap, NULL );
+        error = FT_CMap_New( &pcf_cmap_class, NULL, &charmap, NULL );
 
 #if 0
-        /* выдели default charmap */
+        /* Select default charmap */
         if ( pcfface->num_charmaps )
           pcfface->charmap = pcfface->charmaps[0];
 #endif
@@ -402,12 +402,12 @@ THE SOFTWARE.
     }
 
   Exit:
-    return Ошибка;
+    return error;
 
   Fail:
     FT_TRACE2(( "[not a valid PCF file]\n" ));
     PCF_Face_Done( pcfface );
-    Ошибка = PCF_Err_Unknown_File_Format;  /* Ошибка */
+    error = PCF_Err_Unknown_File_Format;  /* error */
     goto Exit;
   }
 
@@ -435,33 +435,33 @@ THE SOFTWARE.
   {
     PCF_Face         face  = (PCF_Face)size->face;
     FT_Bitmap_Size*  bsize = size->face->available_sizes;
-    FT_Error         Ошибка = PCF_Err_Invalid_Pixel_Size;
+    FT_Error         error = PCF_Err_Invalid_Pixel_Size;
     FT_Long          height;
 
 
     height = FT_REQUEST_HEIGHT( req );
     height = ( height + 32 ) >> 6;
 
-    switch ( req->тип )
+    switch ( req->type )
     {
     case FT_SIZE_REQUEST_TYPE_NOMINAL:
       if ( height == ( ( bsize->y_ppem + 32 ) >> 6 ) )
-        Ошибка = PCF_Err_Ok;
+        error = PCF_Err_Ok;
       break;
 
     case FT_SIZE_REQUEST_TYPE_REAL_DIM:
       if ( height == ( face->accel.fontAscent +
                        face->accel.fontDescent ) )
-        Ошибка = PCF_Err_Ok;
+        error = PCF_Err_Ok;
       break;
 
     default:
-      Ошибка = PCF_Err_Unimplemented_Feature;
+      error = PCF_Err_Unimplemented_Feature;
       break;
     }
 
-    if ( Ошибка )
-      return Ошибка;
+    if ( error )
+      return error;
     else
       return PCF_Size_Select( size, 0 );
   }
@@ -475,7 +475,7 @@ THE SOFTWARE.
   {
     PCF_Face    face   = (PCF_Face)FT_SIZE_FACE( size );
     FT_Stream   stream;
-    FT_Error    Ошибка  = PCF_Err_Ok;
+    FT_Error    error  = PCF_Err_Ok;
     FT_Bitmap*  bitmap = &slot->bitmap;
     PCF_Metric  metric;
     FT_Offset   bytes;
@@ -487,7 +487,7 @@ THE SOFTWARE.
 
     if ( !face || glyph_index >= (FT_UInt)face->root.num_glyphs )
     {
-      Ошибка = PCF_Err_Invalid_Argument;
+      error = PCF_Err_Invalid_Argument;
       goto Exit;
     }
 
@@ -533,16 +533,16 @@ THE SOFTWARE.
     /* XXX: to do: are there cases that need repadding the bitmap? */
     bytes = bitmap->pitch * bitmap->rows;
 
-    Ошибка = ft_glyphslot_alloc_bitmap( slot, bytes );
-    if ( Ошибка )
+    error = ft_glyphslot_alloc_bitmap( slot, bytes );
+    if ( error )
       goto Exit;
 
     if ( FT_STREAM_SEEK( metric->bits )          ||
-         FT_STREAM_READ( bitmap->буфер, bytes ) )
+         FT_STREAM_READ( bitmap->buffer, bytes ) )
       goto Exit;
 
     if ( PCF_BIT_ORDER( face->bitmapsFormat ) != MSBFirst )
-      BitOrderInvert( bitmap->буфер, bytes );
+      BitOrderInvert( bitmap->buffer, bytes );
 
     if ( ( PCF_BYTE_ORDER( face->bitmapsFormat ) !=
            PCF_BIT_ORDER( face->bitmapsFormat )  ) )
@@ -553,16 +553,16 @@ THE SOFTWARE.
         break;
 
       case 2:
-        TwoByteSwap( bitmap->буфер, bytes );
+        TwoByteSwap( bitmap->buffer, bytes );
         break;
 
       case 4:
-        FourByteSwap( bitmap->буфер, bytes );
+        FourByteSwap( bitmap->buffer, bytes );
         break;
       }
     }
 
-    slot->формат      = FT_GLYPH_FORMAT_BITMAP;
+    slot->format      = FT_GLYPH_FORMAT_BITMAP;
     slot->bitmap_left = metric->leftSideBearing;
     slot->bitmap_top  = metric->ascent;
 
@@ -580,7 +580,7 @@ THE SOFTWARE.
     FT_TRACE4(( " --- ok\n" ));
 
   Exit:
-    return Ошибка;
+    return error;
   }
 
 
@@ -603,12 +603,12 @@ THE SOFTWARE.
     {
       if ( prop->isString )
       {
-        aproperty->тип   = BDF_PROPERTY_TYPE_ATOM;
-        aproperty->u.atom = prop->значение.atom;
+        aproperty->type   = BDF_PROPERTY_TYPE_ATOM;
+        aproperty->u.atom = prop->value.atom;
       }
       else
       {
-        if ( prop->значение.l > 0x7FFFFFFFL || prop->значение.l < ( -1 - 0x7FFFFFFFL ) )
+        if ( prop->value.l > 0x7FFFFFFFL || prop->value.l < ( -1 - 0x7FFFFFFFL ) )
         {
           FT_TRACE1(( "pcf_get_bdf_property: " ));
           FT_TRACE1(( "too large integer 0x%x is truncated\n" ));
@@ -617,8 +617,8 @@ THE SOFTWARE.
          * This really doesn't seem to be a problem, because this is
          * sufficient for any meaningful values.
          */
-        aproperty->тип      = BDF_PROPERTY_TYPE_INTEGER;
-        aproperty->u.integer = (FT_Int32)prop->значение.l;
+        aproperty->type      = BDF_PROPERTY_TYPE_INTEGER;
+        aproperty->u.integer = (FT_Int32)prop->value.l;
       }
       return 0;
     }
@@ -662,11 +662,11 @@ THE SOFTWARE.
 
   FT_CALLBACK_DEF( FT_Module_Interface )
   pcf_driver_requester( FT_Module    module,
-                        const char*  имя )
+                        const char*  name )
   {
     FT_UNUSED( module );
 
-    return ft_service_list_lookup( pcf_services, имя );
+    return ft_service_list_lookup( pcf_services, name );
   }
 
 

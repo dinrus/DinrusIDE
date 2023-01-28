@@ -1,13 +1,13 @@
 #include "bmp.h"
 
-namespace РНЦП {
+namespace Upp {
 
 #include "bmphdr.h"
 
-Вектор<Рисунок> ReadIcon(Ткст data, bool just_best)
+Vector<Image> ReadIcon(String data, bool just_best)
 {
-	ВекторМап<Размер, Tuple2<int, Рисунок> > best;
-	Вектор<Рисунок> out;
+	VectorMap<Size, Tuple2<int, Image> > best;
+	Vector<Image> out;
 	const byte *in = data;
 	int count = Peek16le(in + OFFSETOF(BMP_ICONDIR, idCount));
 	if(count < 0 || count > 100)
@@ -22,10 +22,10 @@ namespace РНЦП {
 		int hdrsize = Peek32le(hdr + OFFSETOF(BMP_INFOHEADER, biSize));
 		if(hdr + hdrsize > end)
 			return out;
-		Размер bmpsz(
+		Size bmpsz(
 			Peek32le(hdr + OFFSETOF(BMP_INFOHEADER, biWidth)),
 			Peek32le(hdr + OFFSETOF(BMP_INFOHEADER, biHeight)));
-		Размер size(bmpsz.cx, bmpsz.cy >> 1);
+		Size size(bmpsz.cx, bmpsz.cy >> 1);
 		if(size.cx < 0 || size.cx > 10000 || size.cy < 0 || size.cy > 10000)
 			return out;
 		int compression = Peek32le(hdr + OFFSETOF(BMP_INFOHEADER, biCompression));
@@ -63,11 +63,11 @@ namespace РНЦП {
 
 		if(clrused == 0 && bitcount <= 8)
 			clrused = 1 << bitcount;
-		Вектор<КЗСА> palette;
+		Vector<RGBA> palette;
 		if(bitcount <= 8) {
-			palette.устСчёт(clrused);
+			palette.SetCount(clrused);
 			for(int i = 0; i < clrused; i++, hdr += 4) {
-				КЗСА rgba;
+				RGBA rgba;
 				rgba.r = hdr[OFFSETOF(BMP_RGB, rgbRed)];
 				rgba.g = hdr[OFFSETOF(BMP_RGB, rgbGreen)];
 				rgba.b = hdr[OFFSETOF(BMP_RGB, rgbBlue)];
@@ -76,92 +76,92 @@ namespace РНЦП {
 			}
 		}
 
-		ImageBuffer буфер(size);
+		ImageBuffer buffer(size);
 		for(int y = 0; y < size.cy; y++, hdr += rowbytes) {
 			if(hdr + rowbytes > end)
 				return out;
-			fmt.читай(буфер[size.cy - y - 1], hdr, size.cx, palette.старт());
+			fmt.Read(buffer[size.cy - y - 1], hdr, size.cx, palette.Begin());
 		}
 		for(int y = 0; y < size.cy; y++, hdr += maskbytes) {
 			if(hdr + maskbytes > end)
 				return out;
 			const byte *in = hdr;
-			КЗСА *out = буфер[size.cy - y - 1];
+			RGBA *out = buffer[size.cy - y - 1];
 			int cx = size.cx;
 			while(cx >= 8) {
 				byte b = *in++;
-				if(b & 0x80) out[0] = обнулиКЗСА();
-				if(b & 0x40) out[1] = обнулиКЗСА();
-				if(b & 0x20) out[2] = обнулиКЗСА();
-				if(b & 0x10) out[3] = обнулиКЗСА();
-				if(b & 0x08) out[4] = обнулиКЗСА();
-				if(b & 0x04) out[5] = обнулиКЗСА();
-				if(b & 0x02) out[6] = обнулиКЗСА();
-				if(b & 0x01) out[7] = обнулиКЗСА();
+				if(b & 0x80) out[0] = RGBAZero();
+				if(b & 0x40) out[1] = RGBAZero();
+				if(b & 0x20) out[2] = RGBAZero();
+				if(b & 0x10) out[3] = RGBAZero();
+				if(b & 0x08) out[4] = RGBAZero();
+				if(b & 0x04) out[5] = RGBAZero();
+				if(b & 0x02) out[6] = RGBAZero();
+				if(b & 0x01) out[7] = RGBAZero();
 				out += 8;
 				cx -= 8;
 			}
 			if(cx) {
 				byte b = *in++;
 				do {
-					if(b & 0x80) *out = обнулиКЗСА();
+					if(b & 0x80) *out = RGBAZero();
 					out++;
 					b <<= 1;
 				}
 				while(--cx);
 			}
 		}
-		Рисунок m = буфер;
+		Image m = buffer;
 		if(just_best) {
-			int q = best.найди(m.дайРазм());
-			auto x = сделайКортеж(bitcount, m);
+			int q = best.Find(m.GetSize());
+			auto x = MakeTuple(bitcount, m);
 			if(q < 0)
-				best.добавь(m.дайРазм(), x);
+				best.Add(m.GetSize(), x);
 			else
 			if(bitcount > best[q].a)
 				best[q] = x;
 		}
 		else
-			out.добавь(m);
+			out.Add(m);
 	}
 	if(just_best)
 		for(auto x : best)
-			out.добавь(x.b);
+			out.Add(x.b);
 	return out;
 }
 
-Ткст WriteIcon(const Вектор<Рисунок>& icons, int flags)
+String WriteIcon(const Vector<Image>& icons, int flags)
 {
-	Вектор<byte> bpp;
-	if(flags & WI_32BIT) bpp.добавь(32);
-	if(flags & WI_8BIT) bpp.добавь(8);
-	if(flags & WI_4BIT) bpp.добавь(4);
-	if(flags & WI_MONO) bpp.добавь(1);
-	ПРОВЕРЬ(!bpp.пустой());
-	int hdrsize =  sizeof(BMP_ICONDIR) + icons.дайСчёт() * bpp.дайСчёт() * sizeof(BMP_ICONDIRENTRY);
-	ТкстБуф out;
-	out.устСчёт(hdrsize);
+	Vector<byte> bpp;
+	if(flags & WI_32BIT) bpp.Add(32);
+	if(flags & WI_8BIT) bpp.Add(8);
+	if(flags & WI_4BIT) bpp.Add(4);
+	if(flags & WI_MONO) bpp.Add(1);
+	ASSERT(!bpp.IsEmpty());
+	int hdrsize =  sizeof(BMP_ICONDIR) + icons.GetCount() * bpp.GetCount() * sizeof(BMP_ICONDIRENTRY);
+	StringBuffer out;
+	out.SetCount(hdrsize);
 	memset(~out, 0, hdrsize);
 	Poke16le(~out + OFFSETOF(BMP_ICONDIR, idType), flags & WI_CURSOR ? 2 : 1);
-	Poke16le(~out + OFFSETOF(BMP_ICONDIR, idCount), icons.дайСчёт() * bpp.дайСчёт());
+	Poke16le(~out + OFFSETOF(BMP_ICONDIR, idCount), icons.GetCount() * bpp.GetCount());
 	int icx = 0;
-	for(int b = 0; b < bpp.дайСчёт(); b++) {
+	for(int b = 0; b < bpp.GetCount(); b++) {
 		int bits = bpp[b];
-		RasterFormat формат;
+		RasterFormat format;
 		switch(bits) {
-			case 1: формат.Set1mf(); break;
-			case 4: формат.Set4mf(); break;
-			case 8: формат.Set8(); break;
-			default: формат.Set32le(0xff0000, 0x00ff00, 0x0000ff, 0xff000000); break;
+			case 1: format.Set1mf(); break;
+			case 4: format.Set4mf(); break;
+			case 8: format.Set8(); break;
+			default: format.Set32le(0xff0000, 0x00ff00, 0x0000ff, 0xff000000); break;
 		}
-		for(int i = 0; i < icons.дайСчёт(); i++) {
-			int out_offset = out.дайДлину();
-			Рисунок img = icons[i];
-			Размер sz = img.дайРазм();
+		for(int i = 0; i < icons.GetCount(); i++) {
+			int out_offset = out.GetLength();
+			Image img = icons[i];
+			Size sz = img.GetSize();
 			int rowbytes = ((sz.cx * bits + 31) >> 3) & -4;
 			int maskbytes = ((sz.cx + 31) >> 3) & -4;
 			BMP_INFOHEADER bmih;
-			обнули(bmih);
+			Zero(bmih);
 			bmih.biSize = sizeof(bmih);
 			bmih.biWidth = sz.cx;
 			bmih.biHeight = 2 * sz.cy;
@@ -169,11 +169,11 @@ namespace РНЦП {
 			bmih.biPlanes = 1;
 			bmih.biCompression = 0; //BI_RGB
 			bmih.biSizeImage = sz.cy * (rowbytes + maskbytes);
-			Один<PaletteCv> cv;
-			out.конкат((const char *)&bmih, sizeof(bmih));
+			One<PaletteCv> cv;
+			out.Cat((const char *)&bmih, sizeof(bmih));
 			if(bits <= 8) {
 				int ncolors = 1 << bits;
-				Буфер<КЗСА> palette(ncolors, обнулиКЗСА());
+				Buffer<RGBA> palette(ncolors, RGBAZero());
 				ImageRaster ir(img);
 				CreatePalette(ir, ~palette, ncolors);
 				cv = new PaletteCv();
@@ -184,18 +184,18 @@ namespace РНЦП {
 					quad.rgbGreen = palette[c].g;
 					quad.rgbBlue = palette[c].b;
 					quad.rgbReserved = 0;
-					out.конкат((const char *)&quad, sizeof(quad));
+					out.Cat((const char *)&quad, sizeof(quad));
 				}
 			}
-			int bmpoff = out.дайДлину();
-			out.конкат(0, bmih.biSizeImage);
+			int bmpoff = out.GetLength();
+			out.Cat(0, bmih.biSizeImage);
 			byte *data = (byte *)~out + bmpoff;
 			for(int y = sz.cy; --y >= 0; data += rowbytes)
-				формат.пиши(data, img[y], sz.cx, ~cv);
+				format.Write(data, img[y], sz.cx, ~cv);
 			for(int y = sz.cy; --y >= 0; data += maskbytes) {
 				int cx = sz.cx;
 				byte *out = data;
-				const КЗСА *in = img[y];
+				const RGBA *in = img[y];
 				while(cx >= 8) {
 					byte b = 0;
 					if(!in[0].a) b |= 0x80;
@@ -226,11 +226,11 @@ namespace РНЦП {
 			//entry[OFFSETOF(BMP_ICONDIRENTRY, bColorCount)];
 			//Poke16le(entry + OFFSETOF(BMP_ICONDIRENTRY, wPlanes)
 			//Poke16le(entry + OFFSETOF(BMP_ICONDIRENTRY, wBitCount)
-			Poke32le(entry + OFFSETOF(BMP_ICONDIRENTRY, dwBytesInRes), out.дайДлину() - out_offset);
+			Poke32le(entry + OFFSETOF(BMP_ICONDIRENTRY, dwBytesInRes), out.GetLength() - out_offset);
 			Poke32le(entry + OFFSETOF(BMP_ICONDIRENTRY, dwImageOffset), out_offset);
 		}
 	}
-	return Ткст(out);
+	return String(out);
 }
 
 }

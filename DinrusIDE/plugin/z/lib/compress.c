@@ -1,22 +1,22 @@
-/* compress.c -- compress a memory буфер
+/* compress.c -- compress a memory buffer
  * Copyright (C) 1995-2005, 2014, 2016 Jean-loup Gailly, Mark Adler
  * For conditions of distribution and use, see copyright notice in zlib.h
  */
 
-/* @(#) $Ид$ */
+/* @(#) $Id$ */
 
 #define ZLIB_INTERNAL
 #include "zlib.h"
 
 /* ===========================================================================
-     Compresses the source буфер into the destination буфер. The level
+     Compresses the source buffer into the destination buffer. The level
    parameter has the same meaning as in deflateInit.  sourceLen is the byte
-   length of the source буфер. Upon entry, destLen is the total size of the
-   destination буфер, which must be at least 0.1% larger than sourceLen plus
-   12 bytes. Upon exit, destLen is the actual size of the compressed буфер.
+   length of the source buffer. Upon entry, destLen is the total size of the
+   destination buffer, which must be at least 0.1% larger than sourceLen plus
+   12 bytes. Upon exit, destLen is the actual size of the compressed buffer.
 
      compress2 returns Z_OK if success, Z_MEM_ERROR if there was not enough
-   memory, Z_BUF_ERROR if there was not enough room in the output буфер,
+   memory, Z_BUF_ERROR if there was not enough room in the output buffer,
    Z_STREAM_ERROR if the level parameter is invalid.
 */
 int ZEXPORT compress2 (dest, destLen, source, sourceLen, level)

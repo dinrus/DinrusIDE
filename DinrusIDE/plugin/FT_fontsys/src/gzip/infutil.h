@@ -12,7 +12,7 @@
 #define _INFUTIL_H
 
 typedef enum {
-      TYPE,     /* get тип bits (3, including end bit) */
+      TYPE,     /* get type bits (3, including end bit) */
       LENS,     /* get lengths for stored */
       STORED,   /* processing stored block */
       TABLE,    /* get table lengths */
@@ -21,7 +21,7 @@ typedef enum {
       CODES,    /* processing fixed or dynamic block */
       DRY,      /* output remaining window bytes */
       DONE,     /* finished last block, done */
-      BAD}      /* got a data Ошибка--stuck here */
+      BAD}      /* got a data error--stuck here */
 inflate_block_mode;
 
 /* inflate blocks semi-private state */
@@ -35,7 +35,7 @@ struct inflate_blocks_state {
     uInt left;          /* if STORED, bytes left to copy */
     struct {
       uInt table;               /* table lengths (14 bits) */
-      uInt Индекс;               /* Индекс into blens (or border) */
+      uInt index;               /* index into blens (or border) */
       uIntf *blens;             /* bit lengths of codes */
       uInt bb;                  /* bit length tree depth */
       inflate_huft *tb;         /* bit length decoding tree */
@@ -48,8 +48,8 @@ struct inflate_blocks_state {
   uInt last;            /* true if this block is the last block */
 
   /* mode independent information */
-  uInt bitk;            /* bits in bit буфер */
-  uLong bitb;           /* bit буфер */
+  uInt bitk;            /* bits in bit buffer */
+  uLong bitb;           /* bit buffer */
   inflate_huft *hufts;  /* single malloc for tree space */
   Bytef *window;        /* sliding window */
   Bytef *end;           /* one byte after sliding window */
@@ -80,7 +80,7 @@ struct inflate_blocks_state {
 #define WRAP {if(q==s->end&&s->read!=s->window){q=s->window;m=(uInt)WAVAIL;}}
 #define FLUSH {UPDOUT r=inflate_flush(s,z,r); LOADOUT}
 #define NEEDOUT {if(m==0){WRAP if(m==0){FLUSH WRAP if(m==0) LEAVE}}r=Z_OK;}
-#define OUTBYTE(a) {*q++=(Байт)(a);m--;}
+#define OUTBYTE(a) {*q++=(Byte)(a);m--;}
 /*   load local pointers */
 #define LOAD {LOADIN LOADOUT}
 

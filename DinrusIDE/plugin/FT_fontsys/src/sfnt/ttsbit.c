@@ -52,7 +52,7 @@
 
   /*************************************************************************/
   /*                                                                       */
-  /* <Функция>                                                            */
+  /* <Function>                                                            */
   /*    blit_sbit                                                          */
   /*                                                                       */
   /* <Description>                                                         */
@@ -97,7 +97,7 @@
 
     /* first of all, compute starting write position */
     line_incr = target->pitch;
-    line_buff = target->буфер;
+    line_buff = target->buffer;
 
     if ( line_incr < 0 )
       line_buff -= line_incr * ( target->rows - 1 );
@@ -161,7 +161,7 @@
           } while ( count >= 0 );
         }
 
-        /* restore `count' to correct значение */
+        /* restore `count' to correct value */
         count += 8;
       }
 
@@ -223,11 +223,11 @@
 
   /*************************************************************************/
   /*                                                                       */
-  /* <Функция>                                                            */
+  /* <Function>                                                            */
   /*    Load_SBit_Const_Metrics                                            */
   /*                                                                       */
   /* <Description>                                                         */
-  /*    Loads the metrics for `EBLC' index tables формат 2 and 5.          */
+  /*    Loads the metrics for `EBLC' index tables format 2 and 5.          */
   /*                                                                       */
   /* <Input>                                                               */
   /*    range  :: The target range.                                        */
@@ -235,17 +235,17 @@
   /*    stream :: The input stream.                                        */
   /*                                                                       */
   /* <Return>                                                              */
-  /*    FreeType Ошибка code.  0 means success.                             */
+  /*    FreeType error code.  0 means success.                             */
   /*                                                                       */
   static FT_Error
   Load_SBit_Const_Metrics( TT_SBit_Range  range,
                            FT_Stream      stream )
   {
-    FT_Error  Ошибка;
+    FT_Error  error;
 
 
     if ( FT_READ_ULONG( range->image_size ) )
-      return Ошибка;
+      return error;
 
     return FT_STREAM_READ_FIELDS( sbit_metrics_fields, &range->metrics );
   }
@@ -253,11 +253,11 @@
 
   /*************************************************************************/
   /*                                                                       */
-  /* <Функция>                                                            */
+  /* <Function>                                                            */
   /*    Load_SBit_Range_Codes                                              */
   /*                                                                       */
   /* <Description>                                                         */
-  /*    Loads the range codes for `EBLC' index tables формат 4 and 5.      */
+  /*    Loads the range codes for `EBLC' index tables format 4 and 5.      */
   /*                                                                       */
   /* <Input>                                                               */
   /*    range        :: The target range.                                  */
@@ -267,14 +267,14 @@
   /*    load_offsets :: A flag whether to load the glyph offset table.     */
   /*                                                                       */
   /* <Return>                                                              */
-  /*    FreeType Ошибка code.  0 means success.                             */
+  /*    FreeType error code.  0 means success.                             */
   /*                                                                       */
   static FT_Error
   Load_SBit_Range_Codes( TT_SBit_Range  range,
                          FT_Stream      stream,
                          FT_Bool        load_offsets )
   {
-    FT_Error   Ошибка;
+    FT_Error   error;
     FT_ULong   count, n, size;
     FT_Memory  memory = stream->memory;
 
@@ -312,13 +312,13 @@
     FT_FRAME_EXIT();
 
   Exit:
-    return Ошибка;
+    return error;
   }
 
 
   /*************************************************************************/
   /*                                                                       */
-  /* <Функция>                                                            */
+  /* <Function>                                                            */
   /*    Load_SBit_Range                                                    */
   /*                                                                       */
   /* <Description>                                                         */
@@ -330,13 +330,13 @@
   /*    stream :: The input stream.                                        */
   /*                                                                       */
   /* <Return>                                                              */
-  /*    FreeType Ошибка code.  0 means success.                             */
+  /*    FreeType error code.  0 means success.                             */
   /*                                                                       */
   static FT_Error
   Load_SBit_Range( TT_SBit_Range  range,
                    FT_Stream      stream )
   {
-    FT_Error   Ошибка;
+    FT_Error   error;
     FT_Memory  memory = stream->memory;
 
 
@@ -353,7 +353,7 @@
 
         if ( range->last_glyph < range->first_glyph )
         {
-          Ошибка = SFNT_Err_Invalid_File_Format;
+          error = SFNT_Err_Invalid_File_Format;
           goto Exit;
         }
 
@@ -376,31 +376,31 @@
       break;
 
     case 2:   /* all glyphs have identical metrics */
-      Ошибка = Load_SBit_Const_Metrics( range, stream );
+      error = Load_SBit_Const_Metrics( range, stream );
       break;
 
     case 4:
-      Ошибка = Load_SBit_Range_Codes( range, stream, 1 );
+      error = Load_SBit_Range_Codes( range, stream, 1 );
       break;
 
     case 5:
-      Ошибка = Load_SBit_Const_Metrics( range, stream );
-      if ( !Ошибка )
-        Ошибка = Load_SBit_Range_Codes( range, stream, 0 );
+      error = Load_SBit_Const_Metrics( range, stream );
+      if ( !error )
+        error = Load_SBit_Range_Codes( range, stream, 0 );
       break;
 
     default:
-      Ошибка = SFNT_Err_Invalid_File_Format;
+      error = SFNT_Err_Invalid_File_Format;
     }
 
   Exit:
-    return Ошибка;
+    return error;
   }
 
 
   /*************************************************************************/
   /*                                                                       */
-  /* <Функция>                                                            */
+  /* <Function>                                                            */
   /*    tt_face_load_eblc                                                  */
   /*                                                                       */
   /* <Description>                                                         */
@@ -412,13 +412,13 @@
   /*    stream :: The input stream.                                        */
   /*                                                                       */
   /* <Return>                                                              */
-  /*    FreeType Ошибка code.  0 means success.                             */
+  /*    FreeType error code.  0 means success.                             */
   /*                                                                       */
   FT_LOCAL_DEF( FT_Error )
   tt_face_load_eblc( TT_Face    face,
                      FT_Stream  stream )
   {
-    FT_Error   Ошибка  = SFNT_Err_Ok;
+    FT_Error   error  = SFNT_Err_Ok;
     FT_Memory  memory = stream->memory;
     FT_Fixed   version;
     FT_ULong   num_strikes;
@@ -476,10 +476,10 @@
     face->num_sbit_strikes = 0;
 
     /* this table is optional */
-    Ошибка = face->goto_table( face, TTAG_EBLC, stream, 0 );
-    if ( Ошибка )
-      Ошибка = face->goto_table( face, TTAG_bloc, stream, 0 );
-    if ( Ошибка )
+    error = face->goto_table( face, TTAG_EBLC, stream, 0 );
+    if ( error )
+      error = face->goto_table( face, TTAG_bloc, stream, 0 );
+    if ( error )
       goto Exit;
 
     table_base = FT_STREAM_POS();
@@ -496,7 +496,7 @@
          num_strikes >= 0x10000L    )
     {
       FT_ERROR(( "tt_face_load_sbit_strikes: invalid table version\n" ));
-      Ошибка = SFNT_Err_Invalid_File_Format;
+      error = SFNT_Err_Invalid_File_Format;
 
       goto Exit;
     }
@@ -569,7 +569,7 @@
         range  = strike->sbit_ranges;
         while ( count2 > 0 )
         {
-          /* читай the header */
+          /* Read the header */
           if ( FT_STREAM_SEEK( range->table_offset ) ||
                FT_FRAME_ENTER( 8L )                  )
             goto Exit;
@@ -580,8 +580,8 @@
 
           FT_FRAME_EXIT();
 
-          Ошибка = Load_SBit_Range( range, stream );
-          if ( Ошибка )
+          error = Load_SBit_Range( range, stream );
+          if ( error )
             goto Exit;
 
           count2--;
@@ -594,13 +594,13 @@
     }
 
   Exit:
-    return Ошибка;
+    return error;
   }
 
 
   /*************************************************************************/
   /*                                                                       */
-  /* <Функция>                                                            */
+  /* <Function>                                                            */
   /*    tt_face_free_eblc                                                  */
   /*                                                                       */
   /* <Description>                                                         */
@@ -672,7 +672,7 @@
     metrics->ascender  = strike->hori.ascender << 6;
     metrics->descender = strike->hori.descender << 6;
 
-    /* XXX: является this correct? */
+    /* XXX: Is this correct? */
     metrics->max_advance = ( strike->hori.min_origin_SB  +
                              strike->hori.max_width      +
                              strike->hori.min_advance_SB ) << 6;
@@ -685,7 +685,7 @@
 
   /*************************************************************************/
   /*                                                                       */
-  /* <Функция>                                                            */
+  /* <Function>                                                            */
   /*    find_sbit_range                                                    */
   /*                                                                       */
   /* <Description>                                                         */
@@ -703,7 +703,7 @@
   /*    aglyph_offset :: The offset of the glyph data in `EBDT' table.     */
   /*                                                                       */
   /* <Return>                                                              */
-  /*    FreeType Ошибка code.  0 means the glyph index was found.           */
+  /*    FreeType error code.  0 means the glyph index was found.           */
   /*                                                                       */
   static FT_Error
   find_sbit_range( FT_UInt          glyph_index,
@@ -788,7 +788,7 @@
 
   /*************************************************************************/
   /*                                                                       */
-  /* <Функция>                                                            */
+  /* <Function>                                                            */
   /*    tt_find_sbit_image                                                 */
   /*                                                                       */
   /* <Description>                                                         */
@@ -810,7 +810,7 @@
   /*    aglyph_offset :: The offset of the glyph data in `EBDT' table.     */
   /*                                                                       */
   /* <Return>                                                              */
-  /*    FreeType Ошибка code.  0 means success.  Returns                    */
+  /*    FreeType error code.  0 means success.  Returns                    */
   /*    SFNT_Err_Invalid_Argument if no sbit exists for the requested      */
   /*    glyph.                                                             */
   /*                                                                       */
@@ -822,7 +822,7 @@
                       TT_SBit_Strike  *astrike,
                       FT_ULong        *aglyph_offset )
   {
-    FT_Error        Ошибка;
+    FT_Error        error;
     TT_SBit_Strike  strike;
 
 
@@ -832,9 +832,9 @@
 
     strike = &face->sbit_strikes[strike_index];
 
-    Ошибка = find_sbit_range( glyph_index, strike,
+    error = find_sbit_range( glyph_index, strike,
                              arange, aglyph_offset );
-    if ( Ошибка )
+    if ( error )
       goto Fail;
 
     *astrike = strike;
@@ -853,7 +853,7 @@
 
   /*************************************************************************/
   /*                                                                       */
-  /* <Функция>                                                            */
+  /* <Function>                                                            */
   /*    tt_load_sbit_metrics                                               */
   /*                                                                       */
   /* <Description>                                                         */
@@ -868,13 +868,13 @@
   /*    big_metrics :: A big SBit metrics structure for the glyph.         */
   /*                                                                       */
   /* <Return>                                                              */
-  /*    FreeType Ошибка code.  0 means success.                             */
+  /*    FreeType error code.  0 means success.                             */
   /*                                                                       */
   /* <Note>                                                                */
   /*    The stream cursor must be positioned at the glyph's offset within  */
   /*    the `EBDT' table before the call.                                  */
   /*                                                                       */
-  /*    If the image формат uses variable metrics, the stream cursor is    */
+  /*    If the image format uses variable metrics, the stream cursor is    */
   /*    positioned just after the metrics header in the `EBDT' table on    */
   /*    function exit.                                                     */
   /*                                                                       */
@@ -883,7 +883,7 @@
                         TT_SBit_Range    range,
                         TT_SBit_Metrics  metrics )
   {
-    FT_Error  Ошибка = SFNT_Err_Ok;
+    FT_Error  error = SFNT_Err_Ok;
 
 
     switch ( range->image_format )
@@ -946,13 +946,13 @@
    }
 
   Exit:
-    return Ошибка;
+    return error;
   }
 
 
   /*************************************************************************/
   /*                                                                       */
-  /* <Функция>                                                            */
+  /* <Function>                                                            */
   /*    crop_bitmap                                                        */
   /*                                                                       */
   /* <Description>                                                         */
@@ -996,7 +996,7 @@
     /* them if they're empty.                                              */
     /*                                                                     */
     {
-      line     = (FT_Byte*)map->буфер;
+      line     = (FT_Byte*)map->buffer;
       rows     = map->rows;
       line_len = map->pitch;
 
@@ -1023,7 +1023,7 @@
       /* now, crop the empty upper lines */
       if ( count > 0 )
       {
-        line = (FT_Byte*)map->буфер;
+        line = (FT_Byte*)map->buffer;
 
         FT_MEM_MOVE( line, line + count * line_len,
                      ( rows - count ) * line_len );
@@ -1042,7 +1042,7 @@
     /* second, crop the lower lines                                        */
     /*                                                                     */
     {
-      line = (FT_Byte*)map->буфер + ( rows - 1 ) * line_len;
+      line = (FT_Byte*)map->buffer + ( rows - 1 ) * line_len;
 
       for ( count = 0; count < rows; count++ )
       {
@@ -1076,7 +1076,7 @@
       FT_Byte*  limit;
 
 
-      line  = (FT_Byte*)map->буфер;
+      line  = (FT_Byte*)map->buffer;
       limit = line + rows * line_len;
 
       for ( ; line < limit; line += line_len )
@@ -1084,7 +1084,7 @@
           goto Found_Left;
 
       /* shift the whole glyph one pixel to the left */
-      line  = (FT_Byte*)map->буфер;
+      line  = (FT_Byte*)map->buffer;
       limit = line + rows * line_len;
 
       for ( ; line < limit; line += line_len )
@@ -1129,7 +1129,7 @@
       FT_Byte   mask;
 
 
-      line  = (FT_Byte*)map->буфер + ( right >> 3 );
+      line  = (FT_Byte*)map->buffer + ( right >> 3 );
       limit = line + rows * line_len;
       mask  = (FT_Byte)( 0x80 >> ( right & 7 ) );
 
@@ -1164,14 +1164,14 @@
                     TT_SBit_Metrics  metrics,
                     FT_Stream        stream )
   {
-    FT_Error  Ошибка;
+    FT_Error  error;
 
 
     /* check that the source bitmap fits into the target pixmap */
     if ( x_offset < 0 || x_offset + metrics->width  > map->width ||
          y_offset < 0 || y_offset + metrics->height > map->rows  )
     {
-      Ошибка = SFNT_Err_Invalid_Argument;
+      error = SFNT_Err_Invalid_Argument;
 
       goto Exit;
     }
@@ -1220,7 +1220,7 @@
         glyph_size = ( glyph_height * line_bits + 7 ) >> 3;
         break;
 
-      default:  /* invalid формат */
+      default:  /* invalid format */
         return SFNT_Err_Invalid_File_Format;
       }
 
@@ -1238,7 +1238,7 @@
     }
 
   Exit:
-    return Ошибка;
+    return error;
   }
 
 
@@ -1256,20 +1256,20 @@
   {
     FT_Memory   memory = stream->memory;
     FT_Bitmap*  map    = &slot->bitmap;
-    FT_Error    Ошибка;
+    FT_Error    error;
 
 
     /* place stream at beginning of glyph data and read metrics */
     if ( FT_STREAM_SEEK( ebdt_pos + glyph_offset ) )
       goto Exit;
 
-    Ошибка = tt_load_sbit_metrics( stream, range, metrics );
-    if ( Ошибка )
+    error = tt_load_sbit_metrics( stream, range, metrics );
+    if ( error )
       goto Exit;
 
-    /* This function is recursive.  по the top-level call, we  */
+    /* This function is recursive.  At the top-level call, we  */
     /* compute the dimensions of the higher-level glyph to     */
-    /* allocate the final pixmap буфер.                       */
+    /* allocate the final pixmap buffer.                       */
     if ( depth == 0 )
     {
       FT_Long  size;
@@ -1310,8 +1310,8 @@
       if ( size == 0 )
         goto Exit;     /* exit successfully! */
 
-      Ошибка = ft_glyphslot_alloc_bitmap( slot, size );
-      if (Ошибка)
+      error = ft_glyphslot_alloc_bitmap( slot, size );
+      if (error)
         goto Exit;
     }
 
@@ -1325,10 +1325,10 @@
       return Load_SBit_Single( map, x_offset, y_offset, strike->bit_depth,
                                range->image_format, metrics, stream );
 
-    case 8:  /* compound формат */
+    case 8:  /* compound format */
       if ( FT_STREAM_SKIP( 1L ) )
       {
-        Ошибка = SFNT_Err_Invalid_Stream_Skip;
+        error = SFNT_Err_Invalid_Stream_Skip;
         goto Exit;
       }
       /* fallthrough */
@@ -1336,11 +1336,11 @@
     case 9:
       break;
 
-    default: /* invalid image формат */
+    default: /* invalid image format */
       return SFNT_Err_Invalid_File_Format;
     }
 
-    /* All right, we have a compound формат.  First of all, read */
+    /* All right, we have a compound format.  First of all, read */
     /* the array of elements.                                    */
     {
       TT_SBit_Component  components = NULL;
@@ -1377,15 +1377,15 @@
 
 
         /* find the range for this element */
-        Ошибка = find_sbit_range( comp->glyph_code,
+        error = find_sbit_range( comp->glyph_code,
                                  strike,
                                  &elem_range,
                                  &elem_offset );
-        if ( Ошибка )
+        if ( error )
           goto Fail_Memory;
 
         /* now load the element, recursively */
-        Ошибка = Load_SBit_Image( strike,
+        error = Load_SBit_Image( strike,
                                  elem_range,
                                  ebdt_pos,
                                  elem_offset,
@@ -1395,7 +1395,7 @@
                                  stream,
                                  &elem_metrics,
                                  depth + 1 );
-        if ( Ошибка )
+        if ( error )
           goto Fail_Memory;
       }
 
@@ -1404,13 +1404,13 @@
     }
 
   Exit:
-    return Ошибка;
+    return error;
   }
 
 
   /*************************************************************************/
   /*                                                                       */
-  /* <Функция>                                                            */
+  /* <Function>                                                            */
   /*    tt_face_load_sbit_image                                            */
   /*                                                                       */
   /* <Description>                                                         */
@@ -1435,11 +1435,11 @@
   /*    metrics      :: A big sbit metrics structure for the glyph image.  */
   /*                                                                       */
   /* <Return>                                                              */
-  /*    FreeType Ошибка code.  0 means success.  Returns an Ошибка if no     */
+  /*    FreeType error code.  0 means success.  Returns an error if no     */
   /*    glyph sbit exists for the index.                                   */
   /*                                                                       */
   /*  <Note>                                                               */
-  /*    The `map.буфер' field is always freed before the glyph is loaded. */
+  /*    The `map.buffer' field is always freed before the glyph is loaded. */
   /*                                                                       */
   FT_LOCAL_DEF( FT_Error )
   tt_face_load_sbit_image( TT_Face              face,
@@ -1450,7 +1450,7 @@
                            FT_Bitmap           *map,
                            TT_SBit_MetricsRec  *metrics )
   {
-    FT_Error        Ошибка;
+    FT_Error        error;
     FT_ULong        ebdt_pos, glyph_offset;
 
     TT_SBit_Strike  strike;
@@ -1458,24 +1458,24 @@
 
 
     /* Check whether there is a glyph sbit for the current index */
-    Ошибка = tt_find_sbit_image( face, glyph_index, strike_index,
+    error = tt_find_sbit_image( face, glyph_index, strike_index,
                                 &range, &strike, &glyph_offset );
-    if ( Ошибка )
+    if ( error )
       goto Exit;
 
     /* now, find the location of the `EBDT' table in */
     /* the font file                                 */
-    Ошибка = face->goto_table( face, TTAG_EBDT, stream, 0 );
-    if ( Ошибка )
-      Ошибка = face->goto_table( face, TTAG_bdat, stream, 0 );
-    if ( Ошибка )
+    error = face->goto_table( face, TTAG_EBDT, stream, 0 );
+    if ( error )
+      error = face->goto_table( face, TTAG_bdat, stream, 0 );
+    if ( error )
       goto Exit;
 
     ebdt_pos = FT_STREAM_POS();
 
-    Ошибка = Load_SBit_Image( strike, range, ebdt_pos, glyph_offset,
+    error = Load_SBit_Image( strike, range, ebdt_pos, glyph_offset,
                              face->root.glyph, 0, 0, stream, metrics, 0 );
-    if ( Ошибка )
+    if ( error )
       goto Exit;
 
     /* setup vertical metrics if needed */
@@ -1499,7 +1499,7 @@
       crop_bitmap( map, metrics );
 
   Exit:
-    return Ошибка;
+    return error;
   }
 
 #endif /* FT_CONFIG_OPTION_OLD_INTERNALS */

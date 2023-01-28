@@ -3,45 +3,45 @@
 
 #include <CtrlLib/CtrlLib.h>
 
-namespace РНЦП {
+namespace Upp {
 
-class RasterPlayer : public Ктрл {
+class RasterPlayer : public Ctrl {
 private:
-	virtual void рисуй(Draw& w);
+	virtual void Paint(Draw& w);
 	bool IsKilled();
 	
-	РНЦП::Массив<Рисунок> images;
-	РНЦП::Массив<int> delays;
+	Upp::Array<Image> images;
+	Upp::Array<int> delays;
 	int ind;
-	Цвет background;
+	Color background;
 	double speed;
 	bool mt;
 		
-	ТаймСтоп tTime;
+	TimeStop tTime;
 	double tFrame_ms;
 
 public:
 	RasterPlayer();
 	virtual ~RasterPlayer() noexcept;
 
-	bool грузи(const Ткст &fileName);
-	bool LoadBuffer(const Ткст &буфер);
+	bool Load(const String &fileName);
+	bool LoadBuffer(const String &buffer);
 
 	void Play();
-	void стоп();
-	bool пущен()	{return running;}
+	void Stop();
+	bool IsRunning()	{return running;}
 	void NextFrame();
-	inline void следщСтраница() {NextFrame();};
-	RasterPlayer& SetBackground(Цвет c)	{background = c; освежи(); return *this;}
-	RasterPlayer& SetSpeed(double s = 1)	{speed = s; освежи(); return *this;}
+	inline void NextPage() {NextFrame();};
+	RasterPlayer& SetBackground(Color c)	{background = c; Refresh(); return *this;}
+	RasterPlayer& SetSpeed(double s = 1)	{speed = s; Refresh(); return *this;}
 	RasterPlayer& SetMT(bool _mt = false);
 	
-	Событие<> WhenShown;
+	Event<> WhenShown;
 	
-	int GetPageCount() 	{return images.дайСчёт();};
-	int дайСчётФреймов() {return images.дайСчёт();};	
-	int дайСтраницу() 		{return ind;};
-	void устСтраницу(int i) {ind = minmax(i, 0, images.дайСчёт());};
+	int GetPageCount() 	{return images.GetCount();};
+	int GetFrameCount() {return images.GetCount();};	
+	int GetPage() 		{return ind;};
+	void SetPage(int i) {ind = minmax(i, 0, images.GetCount());};
 	
 #ifdef _MULTITHREADED	
 	friend void RasterPlayerThread(RasterPlayer *animatedClip);
@@ -49,7 +49,7 @@ public:
 	void TimerFun();
 	
 protected:
-	volatile Атомар running, kill;
+	volatile Atomic running, kill;
 };
 
 }

@@ -91,7 +91,7 @@
   FT_LOCAL_DEF( FT_Error )
   T1_Size_Init( T1_Size  size )
   {
-    FT_Error           Ошибка = T1_Err_Ok;
+    FT_Error           error = T1_Err_Ok;
     PSH_Globals_Funcs  funcs = T1_Size_Get_Globals_Funcs( size );
 
 
@@ -101,13 +101,13 @@
       T1_Face      face = (T1_Face)size->root.face;
 
 
-      Ошибка = funcs->create( size->root.face->memory,
+      error = funcs->create( size->root.face->memory,
                              &face->type1.private_dict, &globals );
-      if ( !Ошибка )
+      if ( !error )
         size->root.internal = (FT_Size_Internal)(void*)globals;
     }
 
-    return Ошибка;
+    return error;
   }
 
 
@@ -180,7 +180,7 @@
 
   /*************************************************************************/
   /*                                                                       */
-  /* <Функция>                                                            */
+  /* <Function>                                                            */
   /*    T1_Face_Done                                                       */
   /*                                                                       */
   /* <Description>                                                         */
@@ -266,7 +266,7 @@
 
   /*************************************************************************/
   /*                                                                       */
-  /* <Функция>                                                            */
+  /* <Function>                                                            */
   /*    T1_Face_Init                                                       */
   /*                                                                       */
   /* <Description>                                                         */
@@ -285,7 +285,7 @@
   /*    face       :: The face record to build.                            */
   /*                                                                       */
   /* <Return>                                                              */
-  /*    FreeType Ошибка code.  0 means success.                             */
+  /*    FreeType error code.  0 means success.                             */
   /*                                                                       */
   FT_LOCAL_DEF( FT_Error )
   T1_Face_Init( FT_Stream      stream,
@@ -294,7 +294,7 @@
                 FT_Int         num_params,
                 FT_Parameter*  params )
   {
-    FT_Error            Ошибка;
+    FT_Error            error;
     FT_Service_PsCMaps  psnames;
     PSAux_Service       psaux;
     T1_Font             type1 = &face->type1;
@@ -317,12 +317,12 @@
     face->pshinter = FT_Get_Module_Interface( FT_FACE_LIBRARY( face ),
                                               "pshinter" );
 
-    /* open the tokenizer; this will also check the font формат */
-    Ошибка = T1_Open_Face( face );
-    if ( Ошибка )
+    /* open the tokenizer; this will also check the font format */
+    error = T1_Open_Face( face );
+    if ( error )
       goto Exit;
 
-    /* if we just wanted to check the формат, leave successfully now */
+    /* if we just wanted to check the format, leave successfully now */
     if ( face_index < 0 )
       goto Exit;
 
@@ -330,7 +330,7 @@
     if ( face_index > 0 )
     {
       FT_ERROR(( "T1_Face_Init: invalid face index\n" ));
-      Ошибка = T1_Err_Invalid_Argument;
+      error = T1_Err_Invalid_Argument;
       goto Exit;
     }
 
@@ -357,7 +357,7 @@
       if ( face->blend )
         root->face_flags |= FT_FACE_FLAG_MULTIPLE_MASTERS;
 
-      /* XXX: TODO -- add kerning with .afm support */
+      /* XXX: СДЕЛАТЬ -- add kerning with .afm support */
 
 
       /* The following code to extract the family and the style is very   */
@@ -366,7 +366,7 @@
       /*                                                                  */
       /*   http://blogs.msdn.com/text/archive/2007/04/23/wpf-font-selection-model.aspx */
 
-      /* get style имя -- be careful, some broken fonts only */
+      /* get style name -- be careful, some broken fonts only */
       /* have a `/FontName' dictionary entry!                 */
       root->family_name = info->family_name;
       root->style_name  = NULL;
@@ -433,7 +433,7 @@
       if ( info->weight )
       {
         if ( !ft_strcmp( info->weight, "Bold"  ) ||
-             !ft_strcmp( info->weight, "чёрный" ) )
+             !ft_strcmp( info->weight, "Black" ) )
           root->style_flags |= FT_STYLE_FLAG_BOLD;
       }
 
@@ -465,13 +465,13 @@
         FT_Pos  max_advance;
 
 
-        Ошибка = T1_Compute_Max_Advance( face, &max_advance );
+        error = T1_Compute_Max_Advance( face, &max_advance );
 
-        /* in case of Ошибка, keep the standard width */
-        if ( !Ошибка )
+        /* in case of error, keep the standard width */
+        if ( !error )
           root->max_advance_width = (FT_Short)FIXED_TO_INT( max_advance );
         else
-          Ошибка = T1_Err_Ok;   /* clear Ошибка */
+          error = T1_Err_Ok;   /* clear error */
       }
 
       root->max_advance_height = root->height;
@@ -498,10 +498,10 @@
         charmap.encoding_id = TT_MS_ID_UNICODE_CS;
         charmap.encoding    = FT_ENCODING_UNICODE;
 
-        Ошибка = FT_CMap_New( cmap_classes->unicode, NULL, &charmap, NULL );
-        if ( Ошибка && FT_Err_No_Unicode_Glyph_Name != Ошибка )
+        error = FT_CMap_New( cmap_classes->unicode, NULL, &charmap, NULL );
+        if ( error && FT_Err_No_Unicode_Glyph_Name != error )
           goto Exit;
-        Ошибка = FT_Err_Ok;
+        error = FT_Err_Ok;
 
         /* now, generate an Adobe Standard encoding when appropriate */
         charmap.platform_id = TT_PLATFORM_ADOBE;
@@ -538,10 +538,10 @@
         }
 
         if ( clazz )
-          Ошибка = FT_CMap_New( clazz, NULL, &charmap, NULL );
+          error = FT_CMap_New( clazz, NULL, &charmap, NULL );
 
 #if 0
-        /* выдели default charmap */
+        /* Select default charmap */
         if (root->num_charmaps)
           root->charmap = root->charmaps[0];
 #endif
@@ -549,13 +549,13 @@
     }
 
   Exit:
-    return Ошибка;
+    return error;
   }
 
 
   /*************************************************************************/
   /*                                                                       */
-  /* <Функция>                                                            */
+  /* <Function>                                                            */
   /*    T1_Driver_Init                                                     */
   /*                                                                       */
   /* <Description>                                                         */
@@ -565,7 +565,7 @@
   /*    driver :: A handle to the target driver object.                    */
   /*                                                                       */
   /* <Return>                                                              */
-  /*    FreeType Ошибка code.  0 means success.                             */
+  /*    FreeType error code.  0 means success.                             */
   /*                                                                       */
   FT_LOCAL_DEF( FT_Error )
   T1_Driver_Init( T1_Driver  driver )
@@ -578,7 +578,7 @@
 
   /*************************************************************************/
   /*                                                                       */
-  /* <Функция>                                                            */
+  /* <Function>                                                            */
   /*    T1_Driver_Done                                                     */
   /*                                                                       */
   /* <Description>                                                         */

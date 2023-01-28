@@ -49,7 +49,7 @@
 /* The output of this file is used in `gxvfeat.c'.                         */
 /* ----------------------------------------------------------------------- */
 /* Compile: gcc `pkg-config --cflags freetype2` gxvfgen.c -o gxvfgen       */
-/* выполни: ./gxvfgen > tmp.c                                                  */
+/* Run: ./gxvfgen > tmp.c                                                  */
 /*                                                                         */
 /***************************************************************************/
 
@@ -58,9 +58,9 @@
   /*******************************************************************/
 
   /*
-   * If you add a new setting to a feature, check the number of настройки
-   * in the feature.  If the number is greater than the значение defined as
-   * FEATREG_MAX_SETTING, update the значение.
+   * If you add a new setting to a feature, check the number of settings
+   * in the feature.  If the number is greater than the value defined as
+   * FEATREG_MAX_SETTING, update the value.
    */
 #define FEATREG_MAX_SETTING  12
 
@@ -114,8 +114,8 @@
         "Logos",
         "Rebus Pictures",
         "Diphthong Ligatures",
-        "вКвадрате Ligatures",
-        "вКвадрате Ligatures, Abbreviated",
+        "Squared Ligatures",
+        "Squared Ligatures, Abbreviated",
         NULL
       }
     }, {                                    /* 2 */
@@ -173,8 +173,8 @@
       {
         "Word Initial Swashes",
         "Word Final Swashes",
-        "Строка Initial Swashes",
-        "Строка Final Swashes",
+        "Line Initial Swashes",
+        "Line Final Swashes",
         "Non-Final Swashes",
         NULL
       }
@@ -182,8 +182,8 @@
       "Diacritics",
       1,
       {
-        "покажи Diacritics",
-        "скрой Diacritics",
+        "Show Diacritics",
+        "Hide Diacritics",
         "Decompose Diacritics",
         NULL
       }
@@ -215,7 +215,7 @@
       "Overlapping Characters",
       0,
       {
-        /* "Prevent нахлёст", */
+        /* "Prevent Overlap", */
         "Turns on the feature",
         NULL
       }
@@ -225,7 +225,7 @@
       {
         "Hyphens to Em Dash",
         "Hyphens to En Dash",
-        "Unslashed обнули",
+        "Unslashed Zero",
         "Form Interrobang",
         "Smart Quotes",
         "Periods to Ellipsis",
@@ -260,7 +260,7 @@
       1,
       {
         "No Alternates",
-        /* TODO */
+        /* СДЕЛАТЬ */
         NULL
       }
     }, {                                    /* 18 */
@@ -272,16 +272,16 @@
         "Design Level 3",
         "Design Level 4",
         "Design Level 5",
-        /* TODO */
+        /* СДЕЛАТЬ */
         NULL
       }
     }, {                                    /* 19 */
-      "Стиль Options",
+      "Style Options",
       1,
       {
-        "No Стиль Options",
-        "Дисплей устТекст",
-        "Engraved устТекст",
+        "No Style Options",
+        "Display Text",
+        "Engraved Text",
         "Illuminated Caps",
         "Tilling Caps",
         "Tall Caps",
@@ -313,7 +313,7 @@
         NULL
       }
     }, {                                    /* 22 */
-      "устТекст Spacing",
+      "Text Spacing",
       1,
       {
         "Proportional",
@@ -357,7 +357,7 @@
       "Kana Spacing",
       1,
       {
-        "Full устШирину",
+        "Full Width",
         "Proportional",
         NULL
       }
@@ -365,7 +365,7 @@
       "Ideographic Spacing",
       1,
       {
-        "Full устШирину",
+        "Full Width",
         "Proportional",
         NULL
       }
@@ -385,7 +385,7 @@
     EMPTYFEAT, EMPTYFEAT, EMPTYFEAT, EMPTYFEAT, EMPTYFEAT, /* 91-95 */
     EMPTYFEAT, EMPTYFEAT, EMPTYFEAT,                       /* 96-98 */
     EMPTYFEAT, /* 99 */ {                   /* 100 => 22 */
-      "устТекст Spacing",
+      "Text Spacing",
       1,
       {
         "Proportional",
@@ -398,7 +398,7 @@
       "Kana Spacing",
       1,
       {
-        "Full устШирину",
+        "Full Width",
         "Proportional",
         NULL
       }
@@ -406,7 +406,7 @@
       "Ideographic Spacing",
       1,
       {
-        "Full устШирину",
+        "Full Width",
         "Proportional",
         NULL
       }
@@ -416,7 +416,7 @@
       {
         "Half-width",
         "Proportional",
-        "дефолт Roman",
+        "Default Roman",
         "Full-width Roman",
         NULL
       }

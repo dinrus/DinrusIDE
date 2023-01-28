@@ -1,38 +1,38 @@
 #include "Draw.h"
 
-namespace РНЦП {
+namespace Upp {
 
 struct cDrawRasterData : DataDrawer {
 	int                cx;
-	ТкстПоток       ss;
-	Один<StreamRaster>  raster;
+	StringStream       ss;
+	One<StreamRaster>  raster;
 	RescaleImage       si;
 
-	virtual void открой(const Ткст& data, int cx, int cy);
+	virtual void Open(const String& data, int cx, int cy);
 	virtual void Render(ImageBuffer& ib);
 };
 
-void cDrawRasterData::открой(const Ткст& data, int _cx, int cy)
+void cDrawRasterData::Open(const String& data, int _cx, int cy)
 {
 	cx = _cx;
-	ss.открой(data);
+	ss.Open(data);
 	raster = StreamRaster::OpenAny(ss);
 	if(raster)
-		si.создай(Размер(cx, cy), *raster, raster->дайРазм());
+		si.Create(Size(cx, cy), *raster, raster->GetSize());
 }
 
 void cDrawRasterData::Render(ImageBuffer& ib)
 {
-	for(int y = 0; y < ib.дайВысоту(); y++)
-		si.дай(ib[y]);
+	for(int y = 0; y < ib.GetHeight(); y++)
+		si.Get(ib[y]);
 }
 
-ИНИЦБЛОК
+INITBLOCK
 {
-	DataDrawer::регистрируй<cDrawRasterData>("image_data");
+	DataDrawer::Register<cDrawRasterData>("image_data");
 };
 
-void DrawRasterData(Draw& w, int x, int y, int cx, int cy, const Ткст& data)
+void DrawRasterData(Draw& w, int x, int y, int cx, int cy, const String& data)
 {
 	w.DrawData(x, y, cx, cy, data, "image_data");
 }

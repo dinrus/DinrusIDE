@@ -1,17 +1,17 @@
 #include "Core.h"
 
-namespace РНЦПДинрус {
+namespace Upp {
 
 /* Faster, but consuming more memory....
-PteBase::Prec *PteBase::добавьУк()
+PteBase::Prec *PteBase::PtrAdd()
 {
-	атомнИнк(prec->n);
+	AtomicInc(prec->n);
 	return prec;
 }
 
-void PteBase::отпустиУк(Prec *prec)
+void PteBase::PtrRelease(Prec *prec)
 {
-	if(prec && атомнДек(prec->n) == 0)
+	if(prec && AtomicDec(prec->n) == 0)
 		delete prec;
 }
 
@@ -23,11 +23,11 @@ PteBase::PteBase()
 }
 */
 
-static СтатическийСтопор sPteLock;
+static StaticMutex sPteLock;
 
-PteBase::Prec *PteBase::добавьУк()
+PteBase::Prec *PteBase::PtrAdd()
 {
-	Стопор::Замок __(sPteLock);
+	Mutex::Lock __(sPteLock);
 	if(prec)
 		++prec->n;
 	else {
@@ -38,9 +38,9 @@ PteBase::Prec *PteBase::добавьУк()
 	return const_cast<Prec *>(prec);
 }
 
-void PteBase::отпустиУк(Prec *prec)
+void PteBase::PtrRelease(Prec *prec)
 {
-	Стопор::Замок __(sPteLock);
+	Mutex::Lock __(sPteLock);
 	if(prec && --prec->n == 0) {
 		if(prec->ptr)
 			prec->ptr->prec = NULL;
@@ -55,30 +55,30 @@ PteBase::PteBase()
 
 PteBase::~PteBase()
 {
-	Стопор::Замок __(sPteLock);
+	Mutex::Lock __(sPteLock);
 	if(prec)
 		prec->ptr = NULL;
 }
 
-void УкОснова::отпусти()
+void PtrBase::Release()
 {
-	PteBase::отпустиУк(prec);
+	PteBase::PtrRelease(prec);
 }
 
-void УкОснова::уст(PteBase *p)
+void PtrBase::Set(PteBase *p)
 {
-	prec = p ? p->добавьУк() : NULL;
+	prec = p ? p->PtrAdd() : NULL;
 }
 
-void УкОснова::присвой(PteBase *p)
+void PtrBase::Assign(PteBase *p)
 {
-	отпусти();
-	уст(p);
+	Release();
+	Set(p);
 }
 
-УкОснова::~УкОснова()
+PtrBase::~PtrBase()
 {
-	отпусти();
+	Release();
 }
 
 }

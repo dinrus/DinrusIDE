@@ -25,7 +25,7 @@
     Notes
 
     Mac suitcase files can (and often do!) contain multiple fonts.  To
-    support this I use the face_index argument of FT_(Open|нов)_Face()
+    support this I use the face_index argument of FT_(Open|New)_Face()
     functions, and pretend the suitcase file is a collection.
 
     Warning: fbit and NFNT bitmap resources are not supported yet.  In old
@@ -37,22 +37,22 @@
     The Mac FOND support works roughly like this:
 
     - Check whether the offered stream points to a Mac suitcase file.  This
-      is done by checking the file тип: it has to be 'FFIL' or 'tfil'.  The
+      is done by checking the file type: it has to be 'FFIL' or 'tfil'.  The
       stream that gets passed to our init_face() routine is a stdio stream,
       which isn't usable for us, since the FOND resources live in the
       resource fork.  So we just grab the stream->pathname field.
 
-    - читай the FOND resource into memory, then check whether there is a
+    - Read the FOND resource into memory, then check whether there is a
       TrueType font and/or(!) a Type 1 font available.
 
     - If there is a Type 1 font available (as a separate `LWFN' file), read
       its data into memory, massage it slightly so it becomes PFB data, wrap
       it into a memory stream, load the Type 1 driver and delegate the rest
-      of the work to it by calling FT_Open_Face().  (XXX TODO: after this
+      of the work to it by calling FT_Open_Face().  (XXX СДЕЛАТЬ: after this
       has been done, the kerning data from the FOND resource should be
       appended to the face: On the Mac there are usually no AFM files
       available.  However, this is tricky since we need to map Mac char
-      codes to ps glyph names to glyph ИД's...)
+      codes to ps glyph names to glyph ID's...)
 
     - If there is a TrueType font (an `sfnt' resource), read it into memory,
       wrap it into a memory stream, load the TrueType driver and delegate
@@ -134,7 +134,7 @@
 
 
   /* Private function.                                         */
-  /* The FSSpec тип has been discouraged for a long time,     */
+  /* The FSSpec type has been discouraged for a long time,     */
   /* unfortunately an FSRef replacement API for                */
   /* ATSFontGetFileSpecification() is only available in        */
   /* Mac OS X 10.5 and later.                                  */
@@ -279,7 +279,7 @@
     if ( noErr != FSPathMakeRef( pathname, &ref, FALSE ) )
       return FT_Err_Cannot_Open_Resource;
 
-    /* at present, no support for dfont формат */
+    /* at present, no support for dfont format */
     err = FSOpenResourceFile( &ref, 0, NULL, fsRdPerm, res );
     if ( noErr == err )
       return err;
@@ -292,7 +292,7 @@
   }
 
 
-  /* Return the file тип for given pathname */
+  /* Return the file type for given pathname */
   static OSType
   get_file_type_from_path( const UInt8*  pathname )
   {
@@ -311,7 +311,7 @@
   }
 
 
-  /* Given a PostScript font имя, create the Macintosh LWFN file имя. */
+  /* Given a PostScript font name, create the Macintosh LWFN file name. */
   static void
   create_lwfn_name( char*   ps_name,
                     Str255  lwfn_file_name )
@@ -345,7 +345,7 @@
   static short
   count_faces_sfnt( char*  fond_data )
   {
-    /* The count is 1 greater than the значение in the FOND.  */
+    /* The count is 1 greater than the value in the FOND.  */
     /* Isn't that cute? :-)                                */
 
     return EndianS16_BtoN( *( (short*)( fond_data +
@@ -377,7 +377,7 @@
 
 
   /* Look inside the FOND data, answer whether there should be an SFNT
-     resource, and answer the имя of a possible LWFN Type 1 file.
+     resource, and answer the name of a possible LWFN Type 1 file.
 
      Thanks to Paul Miller (paulm@profoundeffects.com) for the fix
      to load a face OTHER than the first one in the FOND!
@@ -568,20 +568,20 @@
   }
 
 
-  /* читай Type 1 data from the POST resources inside the LWFN file,
-     return a PFB буфер.  This is somewhat convoluted because the FT2
+  /* Read Type 1 data from the POST resources inside the LWFN file,
+     return a PFB buffer.  This is somewhat convoluted because the FT2
      PFB parser wants the ASCII header as one chunk, and the LWFN
      chunks are often not organized that way, so we glue chunks
-     of the same тип together. */
+     of the same type together. */
   static FT_Error
   read_lwfn( FT_Memory      memory,
              ResFileRefNum  res,
              FT_Byte**      pfb_data,
              FT_ULong*      size )
   {
-    FT_Error       Ошибка = FT_Err_Ok;
+    FT_Error       error = FT_Err_Ok;
     ResID          res_id;
-    unsigned char  *буфер, *p, *size_p = NULL;
+    unsigned char  *buffer, *p, *size_p = NULL;
     FT_ULong       total_size = 0;
     FT_ULong       old_total_size = 0;
     FT_ULong       post_size, pfb_chunk_size;
@@ -592,7 +592,7 @@
     UseResFile( res );
 
     /* First pass: load all POST resources, and determine the size of */
-    /* the output буфер.                                             */
+    /* the output buffer.                                             */
     res_id    = 501;
     last_code = -1;
 
@@ -618,19 +618,19 @@
       /* detect integer overflows */
       if ( total_size < old_total_size )
       {
-        Ошибка = FT_Err_Array_Too_Large;
-        goto Ошибка;
+        error = FT_Err_Array_Too_Large;
+        goto Error;
       }
 
       old_total_size = total_size;
     }
 
-    if ( FT_ALLOC( буфер, (FT_Long)total_size ) )
-      goto Ошибка;
+    if ( FT_ALLOC( buffer, (FT_Long)total_size ) )
+      goto Error;
 
-    /* Second pass: append all POST data to the буфер, add PFB fields. */
-    /* Glue all consecutive chunks of the same тип together.           */
-    p              = буфер;
+    /* Second pass: append all POST data to the buffer, add PFB fields. */
+    /* Glue all consecutive chunks of the same type together.           */
+    p              = buffer;
     res_id         = 501;
     last_code      = -1;
     pfb_chunk_size = 0;
@@ -680,16 +680,16 @@
       last_code = code;
     }
 
-    *pfb_data = буфер;
+    *pfb_data = buffer;
     *size = total_size;
 
-  Ошибка:
+  Error:
     CloseResFile( res );
-    return Ошибка;
+    return error;
   }
 
 
-  /* создай a new FT_Face from a file path to an LWFN file. */
+  /* Create a new FT_Face from a file path to an LWFN file. */
   static FT_Error
   FT_New_Face_From_LWFN( FT_Library    library,
                          const UInt8*  pathname,
@@ -698,7 +698,7 @@
   {
     FT_Byte*       pfb_data;
     FT_ULong       pfb_size;
-    FT_Error       Ошибка;
+    FT_Error       error;
     ResFileRefNum  res;
 
 
@@ -707,10 +707,10 @@
 
     pfb_data = NULL;
     pfb_size = 0;
-    Ошибка = read_lwfn( library->memory, res, &pfb_data, &pfb_size );
+    error = read_lwfn( library->memory, res, &pfb_data, &pfb_size );
     CloseResFile( res ); /* PFB is already loaded, useless anymore */
-    if ( Ошибка )
-      return Ошибка;
+    if ( error )
+      return error;
 
     return open_face_from_buffer( library,
                                   pfb_data,
@@ -721,7 +721,7 @@
   }
 
 
-  /* создай a new FT_Face from an SFNT resource, specified by res ИД. */
+  /* Create a new FT_Face from an SFNT resource, specified by res ID. */
   static FT_Error
   FT_New_Face_From_SFNT( FT_Library  library,
                          ResID       sfnt_id,
@@ -731,7 +731,7 @@
     Handle     sfnt = NULL;
     FT_Byte*   sfnt_data;
     size_t     sfnt_size;
-    FT_Error   Ошибка  = FT_Err_Ok;
+    FT_Error   error  = FT_Err_Ok;
     FT_Memory  memory = library->memory;
     int        is_cff, is_sfnt_ps;
 
@@ -744,7 +744,7 @@
     if ( FT_ALLOC( sfnt_data, (FT_Long)sfnt_size ) )
     {
       ReleaseResource( sfnt );
-      return Ошибка;
+      return error;
     }
 
     ft_memcpy( sfnt_data, *sfnt, sfnt_size );
@@ -777,25 +777,25 @@
       FT_FREE( stream );
     }
   Try_OpenType:
-    Ошибка = open_face_from_buffer( library,
+    error = open_face_from_buffer( library,
                                    sfnt_data,
                                    sfnt_size,
                                    face_index,
                                    is_cff ? "cff" : "truetype",
                                    aface );
   Exit:
-    return Ошибка;
+    return error;
   }
 
 
-  /* создай a new FT_Face from a file path to a suitcase file. */
+  /* Create a new FT_Face from a file path to a suitcase file. */
   static FT_Error
   FT_New_Face_From_Suitcase( FT_Library    library,
                              const UInt8*  pathname,
                              FT_Long       face_index,
                              FT_Face*      aface )
   {
-    FT_Error       Ошибка = FT_Err_Cannot_Open_Resource;
+    FT_Error       error = FT_Err_Cannot_Open_Resource;
     ResFileRefNum  res_ref;
     ResourceIndex  res_index;
     Handle         fond;
@@ -819,16 +819,16 @@
       num_faces_in_fond  = count_faces( fond, pathname );
       num_faces_in_res  += num_faces_in_fond;
 
-      if ( 0 <= face_index && face_index < num_faces_in_fond && Ошибка )
-        Ошибка = FT_New_Face_From_FOND( library, fond, face_index, aface );
+      if ( 0 <= face_index && face_index < num_faces_in_fond && error )
+        error = FT_New_Face_From_FOND( library, fond, face_index, aface );
 
       face_index -= num_faces_in_fond;
     }
 
     CloseResFile( res_ref );
-    if ( FT_Err_Ok == Ошибка && NULL != aface && NULL != *aface )
+    if ( FT_Err_Ok == error && NULL != aface && NULL != *aface )
       (*aface)->num_faces = num_faces_in_res;
-    return Ошибка;
+    return error;
   }
 
 
@@ -847,7 +847,7 @@
     Str255    lwfn_file_name;
     UInt8     path_lwfn[PATH_MAX];
     OSErr     err;
-    FT_Error  Ошибка = FT_Err_Ok;
+    FT_Error  error = FT_Err_Ok;
 
 
     GetResInfo( fond, &fond_id, &fond_type, fond_name );
@@ -879,29 +879,29 @@
         if ( noErr != err )
           goto found_no_lwfn_file;
 
-        Ошибка = lookup_lwfn_by_fond( path_fond, lwfn_file_name,
+        error = lookup_lwfn_by_fond( path_fond, lwfn_file_name,
                                      path_lwfn, sizeof ( path_lwfn ) );
-        if ( FT_Err_Ok == Ошибка )
+        if ( FT_Err_Ok == error )
           have_lwfn = 1;
       }
     }
 
     if ( have_lwfn && ( !have_sfnt || PREFER_LWFN ) )
-      Ошибка = FT_New_Face_From_LWFN( library,
+      error = FT_New_Face_From_LWFN( library,
                                      path_lwfn,
                                      face_index,
                                      aface );
     else
-      Ошибка = FT_Err_Unknown_File_Format;
+      error = FT_Err_Unknown_File_Format;
 
   found_no_lwfn_file:
-    if ( have_sfnt && FT_Err_Ok != Ошибка )
-      Ошибка = FT_New_Face_From_SFNT( library,
+    if ( have_sfnt && FT_Err_Ok != error )
+      error = FT_New_Face_From_SFNT( library,
                                      sfnt_id,
                                      face_index,
                                      aface );
 
-    return Ошибка;
+    return error;
   }
 
 
@@ -913,24 +913,24 @@
                              FT_Face*      aface )
   {
     OSType    file_type;
-    FT_Error  Ошибка;
+    FT_Error  error;
 
 
-    /* LWFN is a (very) specific file формат, check for it explicitly */
+    /* LWFN is a (very) specific file format, check for it explicitly */
     file_type = get_file_type_from_path( pathname );
     if ( file_type == TTAG_LWFN )
       return FT_New_Face_From_LWFN( library, pathname, face_index, aface );
 
-    /* Otherwise the file тип doesn't matter (there are more than  */
+    /* Otherwise the file type doesn't matter (there are more than  */
     /* `FFIL' and `tfil').  Just try opening it as a font suitcase; */
     /* if it works, fine.                                           */
 
-    Ошибка = FT_New_Face_From_Suitcase( library, pathname, face_index, aface );
-    if ( Ошибка == 0 )
-      return Ошибка;
+    error = FT_New_Face_From_Suitcase( library, pathname, face_index, aface );
+    if ( error == 0 )
+      return error;
 
     /* let it fall through to normal loader (.ttf, .otf, etc.); */
-    /* we signal this by returning no Ошибка and no FT_Face      */
+    /* we signal this by returning no error and no FT_Face      */
     *aface = NULL;
     return 0;
   }
@@ -938,7 +938,7 @@
 
   /*************************************************************************/
   /*                                                                       */
-  /* <Функция>                                                            */
+  /* <Function>                                                            */
   /*    FT_New_Face                                                        */
   /*                                                                       */
   /* <Description>                                                         */
@@ -954,21 +954,21 @@
                FT_Face*     aface )
   {
     FT_Open_Args  args;
-    FT_Error      Ошибка;
+    FT_Error      error;
 
 
     /* test for valid `library' and `aface' delayed to FT_Open_Face() */
     if ( !pathname )
       return FT_Err_Invalid_Argument;
 
-    Ошибка  = FT_Err_Ok;
+    error  = FT_Err_Ok;
     *aface = NULL;
 
     /* try resourcefork based font: LWFN, FFIL */
-    Ошибка = FT_New_Face_From_Resource( library, (UInt8 *)pathname,
+    error = FT_New_Face_From_Resource( library, (UInt8 *)pathname,
                                        face_index, aface );
-    if ( Ошибка != 0 || *aface != NULL )
-      return Ошибка;
+    if ( error != 0 || *aface != NULL )
+      return error;
 
     /* let it fall through to normal loader (.ttf, .otf, etc.) */
     args.flags    = FT_OPEN_PATHNAME;
@@ -979,7 +979,7 @@
 
   /*************************************************************************/
   /*                                                                       */
-  /* <Функция>                                                            */
+  /* <Function>                                                            */
   /*    FT_New_Face_From_FSRef                                             */
   /*                                                                       */
   /* <Description>                                                         */
@@ -994,7 +994,7 @@
                           FT_Long       face_index,
                           FT_Face*      aface )
   {
-    FT_Error      Ошибка;
+    FT_Error      error;
     FT_Open_Args  args;
     OSErr   err;
     UInt8   pathname[PATH_MAX];
@@ -1005,11 +1005,11 @@
 
     err = FSRefMakePath( ref, pathname, sizeof ( pathname ) );
     if ( err )
-      Ошибка = FT_Err_Cannot_Open_Resource;
+      error = FT_Err_Cannot_Open_Resource;
 
-    Ошибка = FT_New_Face_From_Resource( library, pathname, face_index, aface );
-    if ( Ошибка != 0 || *aface != NULL )
-      return Ошибка;
+    error = FT_New_Face_From_Resource( library, pathname, face_index, aface );
+    if ( error != 0 || *aface != NULL )
+      return error;
 
     /* fallback to datafork font */
     args.flags    = FT_OPEN_PATHNAME;
@@ -1020,7 +1020,7 @@
 
   /*************************************************************************/
   /*                                                                       */
-  /* <Функция>                                                            */
+  /* <Function>                                                            */
   /*    FT_New_Face_From_FSSpec                                            */
   /*                                                                       */
   /* <Description>                                                         */

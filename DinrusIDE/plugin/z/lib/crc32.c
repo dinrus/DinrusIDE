@@ -2,14 +2,14 @@
  * Copyright (C) 1995-2006, 2010, 2011, 2012, 2016 Mark Adler
  * For conditions of distribution and use, see copyright notice in zlib.h
  *
- * Thanks to Rodney коричневый <rbrown64@csc.com.au> for his contribution of faster
+ * Thanks to Rodney Brown <rbrown64@csc.com.au> for his contribution of faster
  * CRC methods: exclusive-oring 32 bits of data at a time, and pre-computing
  * tables for updating the shift register in one step with three exclusive-ors
  * instead of four steps with four exclusive-ors.  This results in about a
  * factor of two increase in speed on a Power PC G4 (PPC7455) using gcc -O3.
  */
 
-/* @(#) $Ид$ */
+/* @(#) $Id$ */
 
 /*
   Note on the use of DYNAMIC_CRC_TABLE: there is no mutex or semaphore
@@ -105,7 +105,7 @@ local void make_crc_table()
         for (n = 0; n < (int)(sizeof(p)/sizeof(unsigned char)); n++)
             poly |= (z_crc_t)1 << (31 - p[n]);
 
-        /* generate a crc for every 8-bit значение */
+        /* generate a crc for every 8-bit value */
         for (n = 0; n < 256; n++) {
             c = (z_crc_t)n;
             for (k = 0; k < 8; k++)
@@ -114,7 +114,7 @@ local void make_crc_table()
         }
 
 #ifdef BYFOUR
-        /* generate crc for each значение followed by one, two, and three zeros,
+        /* generate crc for each value followed by one, two, and three zeros,
            and then the byte reversal of those as well as the first table */
         for (n = 0; n < 256; n++) {
             c = crc_table[0][n];
@@ -245,15 +245,15 @@ unsigned long ZEXPORT crc32(crc, buf, len)
 #ifdef BYFOUR
 
 /*
-   This BYFOUR code accesses the passed unsigned char * буфер with a 32-bit
-   integer pointer тип. This violates the strict aliasing rule, where a
+   This BYFOUR code accesses the passed unsigned char * buffer with a 32-bit
+   integer pointer type. This violates the strict aliasing rule, where a
    compiler can assume, for optimization purposes, that two pointers to
    fundamentally different types won't ever point to the same memory. This can
    manifest as a problem only if one of the pointers is written to. This code
    only reads from those pointers. So long as this code remains isolated in
    this compilation unit, there won't be a problem. For this reason, this code
    should not be copied and pasted into a compilation unit in which other code
-   writes to the буфер that is passed to these routines.
+   writes to the buffer that is passed to these routines.
  */
 
 /* ========================================================================= */

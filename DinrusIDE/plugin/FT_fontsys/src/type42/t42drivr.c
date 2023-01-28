@@ -2,7 +2,7 @@
 /*                                                                         */
 /*  t42drivr.c                                                             */
 /*                                                                         */
-/*    наибольш-level Type 42 driver interface (body).                          */
+/*    High-level Type 42 driver interface (body).                          */
 /*                                                                         */
 /*  Copyright 2002, 2003, 2004, 2006, 2007, 2009 by Roberto Alameda.       */
 /*                                                                         */
@@ -58,10 +58,10 @@
   static FT_Error
   t42_get_glyph_name( T42_Face    face,
                       FT_UInt     glyph_index,
-                      FT_Pointer  буфер,
+                      FT_Pointer  buffer,
                       FT_UInt     buffer_max )
   {
-    FT_STRCPYN( буфер, face->type1.glyph_names[glyph_index], buffer_max );
+    FT_STRCPYN( buffer, face->type1.glyph_names[glyph_index], buffer_max );
 
     return T42_Err_Ok;
   }
@@ -210,7 +210,7 @@
       0x10000L,
       0x20000L,
 
-      0,    /* формат interface */
+      0,    /* format interface */
 
       (FT_Module_Constructor)T42_Driver_Init,
       (FT_Module_Destructor) T42_Driver_Done,

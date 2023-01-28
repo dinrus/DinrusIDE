@@ -1,6 +1,6 @@
 #include "AndroidBuilder.h"
 
-namespace РНЦП {
+namespace Upp {
 
 AndroidBuilderCommands::AndroidBuilderCommands(
 	AndroidProject* projectPtr, AndroidSDK* sdkPtr, Jdk* jdkPtr)
@@ -8,19 +8,19 @@ AndroidBuilderCommands::AndroidBuilderCommands(
 	, sdkPtr(sdkPtr)
 	, jdkPtr(jdkPtr)
 {
-	ПРОВЕРЬ_(projectPtr, "Project is not initialized.");
-	ПРОВЕРЬ_(sdkPtr, "Android sdk is not initialized.");
-	ПРОВЕРЬ_(jdkPtr, "JDK is not initialized.");
+	ASSERT_(projectPtr, "Проект не инициирован.");
+	ASSERT_(sdkPtr, "Android sdk не инициирован.");
+	ASSERT_(jdkPtr, "JDK не инициирован.");
 }
 
-Ткст AndroidBuilderCommands::PreperCompileJavaSourcesCommand(
-		const Вектор<Ткст>& sources)
+String AndroidBuilderCommands::PreperCompileJavaSourcesCommand(
+		const Vector<String>& sources)
 {
-	Ткст cmd;
+	String cmd;
 	
 	cmd << NormalizeExePath(jdkPtr->GetJavacPath());
 	
-	if (jdkPtr->дайВерсию().IsGreaterOrEqual(9)) {
+	if (jdkPtr->GetVersion().IsGreaterOrEqual(9)) {
 		cmd << " -source 1.8 -target 1.8";
 	}
 	
@@ -31,9 +31,9 @@ AndroidBuilderCommands::AndroidBuilderCommands(
 	cmd << projectPtr->GetBuildDir();
 	cmd << " -sourcepath ";
 	cmd << projectPtr->GetJavaDir() << " ";
-	for(int i = 0; i < sources.дайСчёт(); ++i) {
+	for(int i = 0; i < sources.GetCount(); ++i) {
 		cmd << sources[i];
-		if(i < sources.дайСчёт() - 1)
+		if(i < sources.GetCount() - 1)
 			cmd << " ";
 	}
 	

@@ -1,4 +1,4 @@
-#define CHRSET_(ид, s) CHARSET_##ид,
+#define CHRSET_(id, s) CHARSET_##id,
 
 enum {
 	CHARSET_DEFAULT,
@@ -16,7 +16,7 @@ enum {
 	DEFAULTCHAR = 0x1f
 };
 
-#define CHRSET_(ид, s) extern word CHRTAB_##ид[128];
+#define CHRSET_(id, s) extern word CHRTAB_##id[128];
 
 #include "CharSet.i"
 
@@ -24,99 +24,99 @@ enum {
 
 #include "Utf.hpp"
 
-inline bool ведущийУтф8_ли(int c) {	return (c & 0xc0) != 0x80; }
+inline bool IsUtf8Lead(int c) {	return (c & 0xc0) != 0x80; }
 
-wchar читайСуррогПару(const char16 *s, const char16 *lim);
+wchar ReadSurrogatePair(const char16 *s, const char16 *lim);
 
-wchar достаньУтф8(const char *&s, const char *lim, bool& ok);
-inline wchar достаньУтф8(const char *&s, const char *lim) { bool ok; return достаньУтф8(s, lim, ok); }
+wchar FetchUtf8(const char *&s, const char *lim, bool& ok);
+inline wchar FetchUtf8(const char *&s, const char *lim) { bool ok; return FetchUtf8(s, lim, ok); }
 
-dword достаньУтф8(const char *&s, bool& ok);
-inline wchar достаньУтф8(const char *&s)                { bool ok; return достаньУтф8(s, ok); }
+dword FetchUtf8(const char *&s, bool& ok);
+inline wchar FetchUtf8(const char *&s)                { bool ok; return FetchUtf8(s, ok); }
 
-bool   проверьУтф8(const char *s, int len);
-inline bool   проверьУтф8(const char *s)                { return проверьУтф8(s, (int)strlen8(s)); }
-inline bool   проверьУтф8(const Ткст& s)              { return проверьУтф8(~s, s.дайСчёт()); }
+bool   CheckUtf8(const char *s, int len);
+inline bool   CheckUtf8(const char *s)                { return CheckUtf8(s, (int)strlen8(s)); }
+inline bool   CheckUtf8(const String& s)              { return CheckUtf8(~s, s.GetCount()); }
 
-int    длинаУтф8(const wchar *s, int len);
-inline int    длинаУтф8(const wchar *s)                 { return длинаУтф8(s, strlen32(s)); }
-inline int    длинаУтф8(wchar code)                     { return длинаУтф8(&code, 1); }
-inline int    длинаУтф8(const ШТкст& s)               { return длинаУтф8(~s, s.дайСчёт()); }
+int    Utf8Len(const wchar *s, int len);
+inline int    Utf8Len(const wchar *s)                 { return Utf8Len(s, strlen32(s)); }
+inline int    Utf8Len(wchar code)                     { return Utf8Len(&code, 1); }
+inline int    Utf8Len(const WString& s)               { return Utf8Len(~s, s.GetCount()); }
 
-int    длинаУтф8(const char16 *s, int len);
-inline int    длинаУтф8(const char16 *s)                { return длинаУтф8(s, strlen16(s)); }
-inline int    длинаУтф8(const Вектор<char16>& s)        { return длинаУтф8(s, s.дайСчёт()); }
+int    Utf8Len(const char16 *s, int len);
+inline int    Utf8Len(const char16 *s)                { return Utf8Len(s, strlen16(s)); }
+inline int    Utf8Len(const Vector<char16>& s)        { return Utf8Len(s, s.GetCount()); }
 
-void   вУтф8(char *t, const wchar *s, int len);
-Ткст вУтф8(const wchar *s, int len);
-inline Ткст вУтф8(const wchar *s)                  { return вУтф8(s, strlen32(s)); }
-inline Ткст вУтф8(wchar code)                      { return вУтф8(&code, 1); }
-inline Ткст вУтф8(const ШТкст& s)                { return вУтф8(~s, s.дайСчёт()); }
+void   ToUtf8(char *t, const wchar *s, int len);
+String ToUtf8(const wchar *s, int len);
+inline String ToUtf8(const wchar *s)                  { return ToUtf8(s, strlen32(s)); }
+inline String ToUtf8(wchar code)                      { return ToUtf8(&code, 1); }
+inline String ToUtf8(const WString& s)                { return ToUtf8(~s, s.GetCount()); }
 
-void   вУтф8(char *t, const char16 *s, int len);
-Ткст вУтф8(const char16 *s, int len);
-inline Ткст вУтф8(const char16 *s)                 { return вУтф8(s, strlen16(s)); }
-inline Ткст вУтф8(const Вектор<char16>& s)         { return вУтф8(s, s.дайСчёт()); }
+void   ToUtf8(char *t, const char16 *s, int len);
+String ToUtf8(const char16 *s, int len);
+inline String ToUtf8(const char16 *s)                 { return ToUtf8(s, strlen16(s)); }
+inline String ToUtf8(const Vector<char16>& s)         { return ToUtf8(s, s.GetCount()); }
 
-int длинаУтф16(const wchar *s, int len);
-inline int длинаУтф16(const wchar *s)                   { return длинаУтф16(s, strlen32(s)); }
-inline int длинаУтф16(const ШТкст& s)                 { return длинаУтф16(s, s.дайСчёт()); }
-inline int длинаУтф16(wchar code)                       { return длинаУтф16(&code, 1); }
+int Utf16Len(const wchar *s, int len);
+inline int Utf16Len(const wchar *s)                   { return Utf16Len(s, strlen32(s)); }
+inline int Utf16Len(const WString& s)                 { return Utf16Len(s, s.GetCount()); }
+inline int Utf16Len(wchar code)                       { return Utf16Len(&code, 1); }
 
-int длинаУтф16(const char *s, int len);
-inline int длинаУтф16(const char *s)                    { return длинаУтф16(s, (int)strlen8(s)); }
-inline int длинаУтф16(const Ткст& s)                  { return длинаУтф16(~s, s.дайСчёт()); }
+int Utf16Len(const char *s, int len);
+inline int Utf16Len(const char *s)                    { return Utf16Len(s, (int)strlen8(s)); }
+inline int Utf16Len(const String& s)                  { return Utf16Len(~s, s.GetCount()); }
 
-int вУтф16(char16 *t, const wchar *s, int len);
-Вектор<char16> вУтф16(const wchar *s, int len);
-inline Вектор<char16> вУтф16(const wchar *s)         { return вУтф16(s, strlen32(s)); }
-inline Вектор<char16> вУтф16(const ШТкст& s)       { return вУтф16(s, s.дайСчёт()); }
-inline Вектор<char16> вУтф16(wchar code)             { return вУтф16(&code, 1); }
+int ToUtf16(char16 *t, const wchar *s, int len);
+Vector<char16> ToUtf16(const wchar *s, int len);
+inline Vector<char16> ToUtf16(const wchar *s)         { return ToUtf16(s, strlen32(s)); }
+inline Vector<char16> ToUtf16(const WString& s)       { return ToUtf16(s, s.GetCount()); }
+inline Vector<char16> ToUtf16(wchar code)             { return ToUtf16(&code, 1); }
 
-int вУтф16(char16 *t, const char *s, int len);
-Вектор<char16> вУтф16(const char *s, int len);
-inline Вектор<char16> вУтф16(const char *s)          { return вУтф16(s, (int)strlen8(s)); }
-inline Вектор<char16> вУтф16(const Ткст& s)        { return вУтф16(~s, s.дайСчёт()); }
+int ToUtf16(char16 *t, const char *s, int len);
+Vector<char16> ToUtf16(const char *s, int len);
+inline Vector<char16> ToUtf16(const char *s)          { return ToUtf16(s, (int)strlen8(s)); }
+inline Vector<char16> ToUtf16(const String& s)        { return ToUtf16(~s, s.GetCount()); }
 
-int     длинаУтф32(const char16 *s, int len);
-inline  int длинаУтф32(const char16 *s)                 { return длинаУтф32(s, strlen16(s)); }
-inline  int длинаУтф32(const Вектор<char16>& s)         { return длинаУтф32(s, s.дайСчёт()); }
+int     Utf32Len(const char16 *s, int len);
+inline  int Utf32Len(const char16 *s)                 { return Utf32Len(s, strlen16(s)); }
+inline  int Utf32Len(const Vector<char16>& s)         { return Utf32Len(s, s.GetCount()); }
 
-int    длинаУтф32(const char *s, int len);
-inline int длинаУтф32(const char *s)                    { return длинаУтф32(s, (int)strlen8(s)); }
-inline int длинаУтф32(const Ткст& s)                  { return длинаУтф32(~s, s.дайСчёт()); }
+int    Utf32Len(const char *s, int len);
+inline int Utf32Len(const char *s)                    { return Utf32Len(s, (int)strlen8(s)); }
+inline int Utf32Len(const String& s)                  { return Utf32Len(~s, s.GetCount()); }
 
-void           вУтф32(wchar *t, const char16 *s, int len);
-ШТкст        вУтф32(const char16 *s, int len);
-inline ШТкст вУтф32(const char16 *s)               { return вУтф32(s, strlen16(s)); }
-inline ШТкст вУтф32(const Вектор<char16>& s)       { return вУтф32(s, s.дайСчёт()); }
+void           ToUtf32(wchar *t, const char16 *s, int len);
+WString        ToUtf32(const char16 *s, int len);
+inline WString ToUtf32(const char16 *s)               { return ToUtf32(s, strlen16(s)); }
+inline WString ToUtf32(const Vector<char16>& s)       { return ToUtf32(s, s.GetCount()); }
 
-void           вУтф32(wchar *t, const char *s, int len);
-ШТкст        вУтф32(const char *s, int len);
-inline ШТкст вУтф32(const char *s)                 { return вУтф32(s, (int)strlen8(s)); }
-inline ШТкст вУтф32(const Ткст& s)               { return вУтф32(~s, s.дайСчёт()); }
+void           ToUtf32(wchar *t, const char *s, int len);
+WString        ToUtf32(const char *s, int len);
+inline WString ToUtf32(const char *s)                 { return ToUtf32(s, (int)strlen8(s)); }
+inline WString ToUtf32(const String& s)               { return ToUtf32(~s, s.GetCount()); }
 
 enum { MAX_DECOMPOSED = 18 };
 
-int           декомпонируйЮникод(wchar codepoint, wchar t[MAX_DECOMPOSED], bool only_canonical = false);
-ШТкст       декомпонируйЮникод(wchar codepoint, bool only_canonical = false);
-wchar         компонируйЮникод(const ШТкст& t);
+int           UnicodeDecompose(wchar codepoint, wchar t[MAX_DECOMPOSED], bool only_canonical = false);
+WString       UnicodeDecompose(wchar codepoint, bool only_canonical = false);
+wchar         UnicodeCompose(const WString& t);
 
-void  устДефНабСим(byte charset);
-byte  дайДефНабСим();
+void  SetDefaultCharset(byte charset);
+byte  GetDefaultCharset();
 
-byte  разрешиНабСим(byte charset);
+byte  ResolveCharset(byte charset);
 
-byte  добавьНабСим(const char *имя, const word *table);
-byte  добавьНабСимЕ(const char *имя, word *table);
+byte  AddCharSet(const char *name, const word *table);
+byte  AddCharSetE(const char *name, word *table);
 
-const char *имяНабСим(byte charset);
-int счётНабСим();
-int набсимПоИмени(const char *имя);
+const char *CharsetName(byte charset);
+int CharsetCount();
+int CharsetByName(const char *name);
 
-void преобразуйНабСим(char *t, byte tcharset, const char *s, byte scharset, int n);
+void ConvertCharset(char *t, byte tcharset, const char *s, byte scharset, int n);
 
-Ткст  вНабсим(byte charset, const Ткст& s, byte scharset = CHARSET_DEFAULT, int defchar = DEFAULTCHAR);
+String  ToCharset(byte charset, const String& s, byte scharset = CHARSET_DEFAULT, int defchar = DEFAULTCHAR);
 
 extern word unicode_fast_upper__[2048];
 extern word unicode_fast_lower__[2048];
@@ -134,128 +134,128 @@ bool  IsLetter_(wchar c);
 bool  IsUpper_(wchar c);
 bool  IsLower_(wchar c);
 
-inline wchar взаг(wchar c)     { return c < 2048 ? unicode_fast_upper__[c] : ToUpperRest_(c); }
-inline wchar впроп(wchar c)     { return c < 2048 ? unicode_fast_lower__[c] : ToLowerRest_(c); }
-inline char  вАски(wchar c)     { return c < 2048 ? unicode_fast_ascii__[c] : ToAsciiRest_(c); }
-inline char  вАскиЗаг(wchar c){ return c < 2048 ? unicode_fast_upper_ascii__[c] : (char)взаг(ToAsciiRest_(c)); }
-inline char  вАскиПроп(wchar c){ return c < 2048 ? unicode_fast_lower_ascii__[c] : (char)впроп(ToAsciiRest_(c)); }
-inline bool  заг_ли(wchar c)     { return c < 2048 ? unicode_fast_info__[c] & 1 : IsLower_(c); }
-inline bool  проп_ли(wchar c)     { return c < 2048 ? unicode_fast_info__[c] & 2 : IsUpper_(c); }
-inline bool  буква_ли(wchar c)    { return c < 2048 ? unicode_fast_info__[c] & 4 : IsLetter_(c); }
+inline wchar ToUpper(wchar c)     { return c < 2048 ? unicode_fast_upper__[c] : ToUpperRest_(c); }
+inline wchar ToLower(wchar c)     { return c < 2048 ? unicode_fast_lower__[c] : ToLowerRest_(c); }
+inline char  ToAscii(wchar c)     { return c < 2048 ? unicode_fast_ascii__[c] : ToAsciiRest_(c); }
+inline char  ToUpperAscii(wchar c){ return c < 2048 ? unicode_fast_upper_ascii__[c] : (char)ToUpper(ToAsciiRest_(c)); }
+inline char  ToLowerAscii(wchar c){ return c < 2048 ? unicode_fast_lower_ascii__[c] : (char)ToLower(ToAsciiRest_(c)); }
+inline bool  IsLower(wchar c)     { return c < 2048 ? unicode_fast_info__[c] & 1 : IsLower_(c); }
+inline bool  IsUpper(wchar c)     { return c < 2048 ? unicode_fast_info__[c] & 2 : IsUpper_(c); }
+inline bool  IsLetter(wchar c)    { return c < 2048 ? unicode_fast_info__[c] & 4 : IsLetter_(c); }
 
-inline bool слеванаправо(wchar c)         { return (wchar)c >= 1470 && IsRTL_(c); }
-inline bool метка_ли(wchar c)        { return c < 0x300 ? false : c <= 0x36f ? true : IsMark_(c); }
+inline bool IsRTL(wchar c)         { return (wchar)c >= 1470 && IsRTL_(c); }
+inline bool IsMark(wchar c)        { return c < 0x300 ? false : c <= 0x36f ? true : IsMark_(c); }
 
-inline bool буква_ли(int c)        { return буква_ли((wchar) c); }
-inline bool проп_ли(int c)         { return проп_ли((wchar) c); }
-inline bool заг_ли(int c)         { return заг_ли((wchar) c); }
-inline int  взаг(int c)         { return взаг((wchar) c); }
-inline int  впроп(int c)         { return впроп((wchar) c); }
-inline char вАски(int c)         { return вАски((wchar) c); }
-inline char вАскиЗаг(int c)    { return вАскиЗаг((wchar) c); }
-inline char вАскиПроп(int c)    { return вАскиЗаг((wchar) c); }
+inline bool IsLetter(int c)        { return IsLetter((wchar) c); }
+inline bool IsUpper(int c)         { return IsUpper((wchar) c); }
+inline bool IsLower(int c)         { return IsLower((wchar) c); }
+inline int  ToUpper(int c)         { return ToUpper((wchar) c); }
+inline int  ToLower(int c)         { return ToLower((wchar) c); }
+inline char ToAscii(int c)         { return ToAscii((wchar) c); }
+inline char ToUpperAscii(int c)    { return ToUpperAscii((wchar) c); }
+inline char ToLowerAscii(int c)    { return ToUpperAscii((wchar) c); }
 
-inline bool  буква_ли(char c)      { return буква_ли((wchar)(byte) c); }
-inline bool  проп_ли(char c)       { return проп_ли((wchar)(byte) c); }
-inline bool  заг_ли(char c)       { return заг_ли((wchar)(byte) c); }
-inline wchar взаг(char c)       { return взаг((wchar)(byte) c); }
-inline wchar впроп(char c)       { return впроп((wchar)(byte) c); }
-inline char  вАски(char c)       { return вАски((wchar)(byte) c); }
-inline char  вАскиЗаг(char c)  { return вАскиЗаг((wchar)(byte) c); }
-inline char  вАскиПроп(char c)  { return вАскиПроп((wchar)(byte) c); }
+inline bool  IsLetter(char c)      { return IsLetter((wchar)(byte) c); }
+inline bool  IsUpper(char c)       { return IsUpper((wchar)(byte) c); }
+inline bool  IsLower(char c)       { return IsLower((wchar)(byte) c); }
+inline wchar ToUpper(char c)       { return ToUpper((wchar)(byte) c); }
+inline wchar ToLower(char c)       { return ToLower((wchar)(byte) c); }
+inline char  ToAscii(char c)       { return ToAscii((wchar)(byte) c); }
+inline char  ToUpperAscii(char c)  { return ToUpperAscii((wchar)(byte) c); }
+inline char  ToLowerAscii(char c)  { return ToLowerAscii((wchar)(byte) c); }
 
-inline bool  буква_ли(signed char c) { return буква_ли((wchar)(byte) c); }
-inline bool  проп_ли(signed char c)  { return проп_ли((wchar)(byte) c); }
-inline bool  заг_ли(signed char c)  { return заг_ли((wchar)(byte) c); }
-inline wchar взаг(signed char c)  { return взаг((wchar)(byte) c); }
-inline wchar впроп(signed char c)  { return впроп((wchar)(byte) c); }
-inline char  вАски(signed char c)  { return вАски((wchar)(byte) c); }
-inline char  вАскиЗаг(signed char c)  { return вАскиЗаг((wchar)(byte) c); }
-inline char  вАскиПроп(signed char c)  { return вАскиПроп((wchar)(byte) c); }
+inline bool  IsLetter(signed char c) { return IsLetter((wchar)(byte) c); }
+inline bool  IsUpper(signed char c)  { return IsUpper((wchar)(byte) c); }
+inline bool  IsLower(signed char c)  { return IsLower((wchar)(byte) c); }
+inline wchar ToUpper(signed char c)  { return ToUpper((wchar)(byte) c); }
+inline wchar ToLower(signed char c)  { return ToLower((wchar)(byte) c); }
+inline char  ToAscii(signed char c)  { return ToAscii((wchar)(byte) c); }
+inline char  ToUpperAscii(signed char c)  { return ToUpperAscii((wchar)(byte) c); }
+inline char  ToLowerAscii(signed char c)  { return ToLowerAscii((wchar)(byte) c); }
 
-inline bool  буква_ли(char16 c)      { return буква_ли((wchar) c); }
-inline bool  проп_ли(char16 c)       { return проп_ли((wchar) c); }
-inline bool  заг_ли(char16 c)       { return заг_ли((wchar) c); }
-inline wchar взаг(char16 c)       { return взаг((wchar) c); }
-inline wchar впроп(char16 c)       { return впроп((wchar) c); }
-inline char  вАски(char16 c)       { return вАски((wchar) c); }
-inline char  вАскиЗаг(char16 c)  { return вАскиЗаг((wchar) c); }
-inline char  вАскиПроп(char16 c)  { return вАскиПроп((wchar) c); }
+inline bool  IsLetter(char16 c)      { return IsLetter((wchar) c); }
+inline bool  IsUpper(char16 c)       { return IsUpper((wchar) c); }
+inline bool  IsLower(char16 c)       { return IsLower((wchar) c); }
+inline wchar ToUpper(char16 c)       { return ToUpper((wchar) c); }
+inline wchar ToLower(char16 c)       { return ToLower((wchar) c); }
+inline char  ToAscii(char16 c)       { return ToAscii((wchar) c); }
+inline char  ToUpperAscii(char16 c)  { return ToUpperAscii((wchar) c); }
+inline char  ToLowerAscii(char16 c)  { return ToLowerAscii((wchar) c); }
 
-inline bool цифра_ли(int c)         { return c >= '0' && c <= '9'; }
+inline bool IsDigit(int c)         { return c >= '0' && c <= '9'; }
 inline bool IsAlpha(int c)         { return c >= 'A' && c <= 'Z' || c >= 'a' && c <= 'z'; }
-inline bool IsAlNum(int c)         { return цифра_ли(c) || IsAlpha(c); }
-inline bool IsLeNum(int c)         { return цифра_ли(c) || буква_ли(c); }
+inline bool IsAlNum(int c)         { return IsDigit(c) || IsAlpha(c); }
+inline bool IsLeNum(int c)         { return IsDigit(c) || IsLetter(c); }
 inline bool IsPunct(int c)         { return c != ' ' && !IsAlNum(c); }
 inline bool IsSpace(int c)         { return c == ' ' || c == '\f' || c == '\n' || c == '\r' || c == '\v' || c == '\t'; }
-inline bool IsXDigit(int c)        { return цифра_ли(c) || c >= 'A' && c <= 'F' || c >= 'a' && c <= 'f'; }
+inline bool IsXDigit(int c)        { return IsDigit(c) || c >= 'A' && c <= 'F' || c >= 'a' && c <= 'f'; }
 
 bool IsDoubleWidth(int c);
 
-Ткст утф8ВАски(const Ткст& ист);
-Ткст утф8ВАскиЗаг(const Ткст& ист);
-Ткст утф8ВАскиПроп(const Ткст& ист);
+String Utf8ToAscii(const String& src);
+String Utf8ToUpperAscii(const String& src);
+String Utf8ToLowerAscii(const String& src);
 
-void взаг(char16 *t, const char16 *s, int len);
-void впроп(char16 *t, const char16 *s, int len);
-void вАски(char16 *t, const char16 *s, int len);
+void ToUpper(char16 *t, const char16 *s, int len);
+void ToLower(char16 *t, const char16 *s, int len);
+void ToAscii(char16 *t, const char16 *s, int len);
 
-void взаг(char16 *s, int len);
-void впроп(char16 *s, int len);
-void вАски(char16 *s, int len);
+void ToUpper(char16 *s, int len);
+void ToLower(char16 *s, int len);
+void ToAscii(char16 *s, int len);
 
-bool буква_ли(int c, byte charset);
-bool проп_ли(int c, byte charset);
-bool заг_ли(int c, byte charset);
-int  взаг(int c, byte charset);
-int  впроп(int c, byte charset);
-int  вАски(int c, byte charset);
+bool IsLetter(int c, byte charset);
+bool IsUpper(int c, byte charset);
+bool IsLower(int c, byte charset);
+int  ToUpper(int c, byte charset);
+int  ToLower(int c, byte charset);
+int  ToAscii(int c, byte charset);
 
-void взаг(char *t, const char *s, int len, byte charset = CHARSET_DEFAULT);
-void впроп(char *t, const char *s, int len, byte charset = CHARSET_DEFAULT);
-void вАски(char *t, const char *s, int len, byte charset = CHARSET_DEFAULT);
+void ToUpper(char *t, const char *s, int len, byte charset = CHARSET_DEFAULT);
+void ToLower(char *t, const char *s, int len, byte charset = CHARSET_DEFAULT);
+void ToAscii(char *t, const char *s, int len, byte charset = CHARSET_DEFAULT);
 
-void взаг(char *s, int len, byte charset = CHARSET_DEFAULT);
-void впроп(char *s, int len, byte charset = CHARSET_DEFAULT);
-void вАски(char *s, int len, byte charset = CHARSET_DEFAULT);
+void ToUpper(char *s, int len, byte charset = CHARSET_DEFAULT);
+void ToLower(char *s, int len, byte charset = CHARSET_DEFAULT);
+void ToAscii(char *s, int len, byte charset = CHARSET_DEFAULT);
 
-ШТкст иницШапки(const wchar *s);
-ШТкст иницШапки(const ШТкст& s);
-ШТкст взаг(const ШТкст& w);
-ШТкст впроп(const ШТкст& w);
-ШТкст вАски(const ШТкст& w);
+WString InitCaps(const wchar *s);
+WString InitCaps(const WString& s);
+WString ToUpper(const WString& w);
+WString ToLower(const WString& w);
+WString ToAscii(const WString& w);
 
-Ткст  иницШапки(const char *s, byte charset = CHARSET_DEFAULT);
-Ткст  взаг(const Ткст& s, byte charset = CHARSET_DEFAULT);
-Ткст  впроп(const Ткст& s, byte charset = CHARSET_DEFAULT);
-Ткст  вАски(const Ткст& s, byte charset = CHARSET_DEFAULT);
-Ткст  вАскиЗаг(const Ткст& s, byte charset = CHARSET_DEFAULT);
-Ткст  вАскиПроп(const Ткст& s, byte charset = CHARSET_DEFAULT);
+String  InitCaps(const char *s, byte charset = CHARSET_DEFAULT);
+String  ToUpper(const String& s, byte charset = CHARSET_DEFAULT);
+String  ToLower(const String& s, byte charset = CHARSET_DEFAULT);
+String  ToAscii(const String& s, byte charset = CHARSET_DEFAULT);
+String  ToUpperAscii(const String& s, byte charset = CHARSET_DEFAULT);
+String  ToLowerAscii(const String& s, byte charset = CHARSET_DEFAULT);
 
-Ткст  взаг(const char *s, byte charset = CHARSET_DEFAULT);
-Ткст  впроп(const char *s, byte charset = CHARSET_DEFAULT);
-Ткст  вАски(const char *s, byte charset = CHARSET_DEFAULT);
+String  ToUpper(const char *s, byte charset = CHARSET_DEFAULT);
+String  ToLower(const char *s, byte charset = CHARSET_DEFAULT);
+String  ToAscii(const char *s, byte charset = CHARSET_DEFAULT);
 
-ШТкст загрузиМПБПотокаШ(Поток& in, byte def_charset);
-ШТкст загрузиМПБПотокаШ(Поток& in);
-Ткст  загрузиМПБПотока(Поток& in, byte def_charset);
-Ткст  загрузиМПБПотока(Поток& in);
-ШТкст загрузиМПБФайлаШ(const char *path, byte def_charset);
-ШТкст загрузиМПБФайлаШ(const char *path);
-Ткст  загрузиМПБФайла(const char *path, byte def_charset);
-Ткст  загрузиМПБФайла(const char *path);
-bool    сохраниМПБПотока(Поток& out, const ШТкст& данные);
-bool    сохраниМПБФайла(const char *path, const ШТкст& данные);
-bool    сохраниМПБПотокаУтф8(Поток& out, const Ткст& данные);
-bool    сохраниМПБФайлаУтф8(const char *path, const Ткст& данные);
+WString LoadStreamBOMW(Stream& in, byte def_charset);
+WString LoadStreamBOMW(Stream& in);
+String  LoadStreamBOM(Stream& in, byte def_charset);
+String  LoadStreamBOM(Stream& in);
+WString LoadFileBOMW(const char *path, byte def_charset);
+WString LoadFileBOMW(const char *path);
+String  LoadFileBOM(const char *path, byte def_charset);
+String  LoadFileBOM(const char *path);
+bool    SaveStreamBOM(Stream& out, const WString& data);
+bool    SaveFileBOM(const char *path, const WString& data);
+bool    SaveStreamBOMUtf8(Stream& out, const String& data);
+bool    SaveFileBOMUtf8(const char *path, const String& data);
 
-bool    естьМпбУтф8(Поток& in);
+bool    Utf8BOM(Stream& in);
 
-ШТкст вЮникод(const Ткст& ист, byte charset);
-ШТкст вЮникод(const char *ист, int n, byte charset);
-Ткст  изБуфераЮникода(const wchar *ист, int len, byte charset = CHARSET_DEFAULT, int defchar = DEFAULTCHAR);
-Ткст  изБуфераЮникода(const wchar *ист);
-Ткст  изЮникода(const ШТкст& ист, byte charset = CHARSET_DEFAULT, int defchar = DEFAULTCHAR);
+WString ToUnicode(const String& src, byte charset);
+WString ToUnicode(const char *src, int n, byte charset);
+String  FromUnicodeBuffer(const wchar *src, int len, byte charset = CHARSET_DEFAULT, int defchar = DEFAULTCHAR);
+String  FromUnicodeBuffer(const wchar *src);
+String  FromUnicode(const WString& src, byte charset = CHARSET_DEFAULT, int defchar = DEFAULTCHAR);
 
-int  вЮникод(int chr, byte charset);
-int  изЮникода(wchar wchr, byte charset, int defchar = DEFAULTCHAR);
+int  ToUnicode(int chr, byte charset);
+int  FromUnicode(wchar wchr, byte charset, int defchar = DEFAULTCHAR);

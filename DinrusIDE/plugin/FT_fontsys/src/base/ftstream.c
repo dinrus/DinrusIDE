@@ -57,7 +57,7 @@
   FT_Stream_Seek( FT_Stream  stream,
                   FT_ULong   pos )
   {
-    FT_Error  Ошибка = FT_Err_Ok;
+    FT_Error  error = FT_Err_Ok;
 
 
     if ( stream->read )
@@ -68,7 +68,7 @@
                    " invalid i/o; pos = 0x%lx, size = 0x%lx\n",
                    pos, stream->size ));
 
-        Ошибка = FT_Err_Invalid_Stream_Operation;
+        error = FT_Err_Invalid_Stream_Operation;
       }
     }
     /* note that seeking to the first position after the file is valid */
@@ -78,13 +78,13 @@
                  " invalid i/o; pos = 0x%lx, size = 0x%lx\n",
                  pos, stream->size ));
 
-      Ошибка = FT_Err_Invalid_Stream_Operation;
+      error = FT_Err_Invalid_Stream_Operation;
     }
 
-    if ( !Ошибка )
+    if ( !error )
       stream->pos = pos;
 
-    return Ошибка;
+    return error;
   }
 
 
@@ -108,20 +108,20 @@
 
   FT_BASE_DEF( FT_Error )
   FT_Stream_Read( FT_Stream  stream,
-                  FT_Byte*   буфер,
+                  FT_Byte*   buffer,
                   FT_ULong   count )
   {
-    return FT_Stream_ReadAt( stream, stream->pos, буфер, count );
+    return FT_Stream_ReadAt( stream, stream->pos, buffer, count );
   }
 
 
   FT_BASE_DEF( FT_Error )
   FT_Stream_ReadAt( FT_Stream  stream,
                     FT_ULong   pos,
-                    FT_Byte*   буфер,
+                    FT_Byte*   buffer,
                     FT_ULong   count )
   {
-    FT_Error  Ошибка = FT_Err_Ok;
+    FT_Error  error = FT_Err_Ok;
     FT_ULong  read_bytes;
 
 
@@ -135,14 +135,14 @@
     }
 
     if ( stream->read )
-      read_bytes = stream->read( stream, pos, буфер, count );
+      read_bytes = stream->read( stream, pos, buffer, count );
     else
     {
       read_bytes = stream->size - pos;
       if ( read_bytes > count )
         read_bytes = count;
 
-      FT_MEM_COPY( буфер, stream->base + pos, read_bytes );
+      FT_MEM_COPY( buffer, stream->base + pos, read_bytes );
     }
 
     stream->pos = pos + read_bytes;
@@ -153,16 +153,16 @@
                  " invalid read; expected %lu bytes, got %lu\n",
                  count, read_bytes ));
 
-      Ошибка = FT_Err_Invalid_Stream_Operation;
+      error = FT_Err_Invalid_Stream_Operation;
     }
 
-    return Ошибка;
+    return error;
   }
 
 
   FT_BASE_DEF( FT_ULong )
   FT_Stream_TryRead( FT_Stream  stream,
-                     FT_Byte*   буфер,
+                     FT_Byte*   buffer,
                      FT_ULong   count )
   {
     FT_ULong  read_bytes = 0;
@@ -172,14 +172,14 @@
       goto Exit;
 
     if ( stream->read )
-      read_bytes = stream->read( stream, stream->pos, буфер, count );
+      read_bytes = stream->read( stream, stream->pos, buffer, count );
     else
     {
       read_bytes = stream->size - stream->pos;
       if ( read_bytes > count )
         read_bytes = count;
 
-      FT_MEM_COPY( буфер, stream->base + stream->pos, read_bytes );
+      FT_MEM_COPY( buffer, stream->base + stream->pos, read_bytes );
     }
 
     stream->pos += read_bytes;
@@ -194,11 +194,11 @@
                           FT_ULong   count,
                           FT_Byte**  pbytes )
   {
-    FT_Error  Ошибка;
+    FT_Error  error;
 
 
-    Ошибка = FT_Stream_EnterFrame( stream, count );
-    if ( !Ошибка )
+    error = FT_Stream_EnterFrame( stream, count );
+    if ( !error )
     {
       *pbytes = (FT_Byte*)stream->cursor;
 
@@ -207,7 +207,7 @@
       stream->limit  = 0;
     }
 
-    return Ошибка;
+    return error;
   }
 
 
@@ -234,7 +234,7 @@
   FT_Stream_EnterFrame( FT_Stream  stream,
                         FT_ULong   count )
   {
-    FT_Error  Ошибка = FT_Err_Ok;
+    FT_Error  error = FT_Err_Ok;
     FT_ULong  read_bytes;
 
 
@@ -254,14 +254,14 @@
                    " frame size (%lu) larger than stream size (%lu)\n",
                    count, stream->size ));
 
-        Ошибка = FT_Err_Invalid_Stream_Operation;
+        error = FT_Err_Invalid_Stream_Operation;
         goto Exit;
       }
 
 #ifdef FT_DEBUG_MEMORY
       /* assume _ft_debug_file and _ft_debug_lineno are already set */
-      stream->base = (unsigned char*)ft_mem_qalloc( memory, count, &Ошибка );
-      if ( Ошибка )
+      stream->base = (unsigned char*)ft_mem_qalloc( memory, count, &error );
+      if ( error )
         goto Exit;
 #else
       if ( FT_QALLOC( stream->base, count ) )
@@ -277,7 +277,7 @@
                    count, read_bytes ));
 
         FT_FREE( stream->base );
-        Ошибка = FT_Err_Invalid_Stream_Operation;
+        error = FT_Err_Invalid_Stream_Operation;
       }
       stream->cursor = stream->base;
       stream->limit  = stream->cursor + count;
@@ -293,7 +293,7 @@
                    " invalid i/o; pos = 0x%lx, count = %lu, size = 0x%lx\n",
                    stream->pos, count, stream->size ));
 
-        Ошибка = FT_Err_Invalid_Stream_Operation;
+        error = FT_Err_Invalid_Stream_Operation;
         goto Exit;
       }
 
@@ -304,7 +304,7 @@
     }
 
   Exit:
-    return Ошибка;
+    return error;
   }
 
 
@@ -318,7 +318,7 @@
     /*                                                                    */
     /*  In this case, the loader code handles the 0-length table          */
     /*  gracefully; however, stream.cursor is really set to 0 by the      */
-    /*  FT_Stream_EnterFrame() call, and this is not an Ошибка.            */
+    /*  FT_Stream_EnterFrame() call, and this is not an error.            */
     /*                                                                    */
     FT_ASSERT( stream );
 
@@ -448,14 +448,14 @@
 
   FT_BASE_DEF( FT_Char )
   FT_Stream_ReadChar( FT_Stream  stream,
-                      FT_Error*  Ошибка )
+                      FT_Error*  error )
   {
     FT_Byte  result = 0;
 
 
     FT_ASSERT( stream );
 
-    *Ошибка = FT_Err_Ok;
+    *error = FT_Err_Ok;
 
     if ( stream->read )
     {
@@ -474,7 +474,7 @@
     return result;
 
   Fail:
-    *Ошибка = FT_Err_Invalid_Stream_Operation;
+    *error = FT_Err_Invalid_Stream_Operation;
     FT_ERROR(( "FT_Stream_ReadChar:"
                " invalid i/o; pos = 0x%lx, size = 0x%lx\n",
                stream->pos, stream->size ));
@@ -485,7 +485,7 @@
 
   FT_BASE_DEF( FT_UShort )
   FT_Stream_ReadUShort( FT_Stream  stream,
-                       FT_Error*  Ошибка )
+                       FT_Error*  error )
   {
     FT_Byte   reads[2];
     FT_Byte*  p = 0;
@@ -494,7 +494,7 @@
 
     FT_ASSERT( stream );
 
-    *Ошибка = FT_Err_Ok;
+    *error = FT_Err_Ok;
 
     if ( stream->pos + 1 < stream->size )
     {
@@ -521,7 +521,7 @@
     return result;
 
   Fail:
-    *Ошибка = FT_Err_Invalid_Stream_Operation;
+    *error = FT_Err_Invalid_Stream_Operation;
     FT_ERROR(( "FT_Stream_ReadUShort:"
                " invalid i/o; pos = 0x%lx, size = 0x%lx\n",
                stream->pos, stream->size ));
@@ -532,7 +532,7 @@
 
   FT_BASE_DEF( FT_UShort )
   FT_Stream_ReadUShortLE( FT_Stream  stream,
-                         FT_Error*  Ошибка )
+                         FT_Error*  error )
   {
     FT_Byte   reads[2];
     FT_Byte*  p = 0;
@@ -541,7 +541,7 @@
 
     FT_ASSERT( stream );
 
-    *Ошибка = FT_Err_Ok;
+    *error = FT_Err_Ok;
 
     if ( stream->pos + 1 < stream->size )
     {
@@ -568,7 +568,7 @@
     return result;
 
   Fail:
-    *Ошибка = FT_Err_Invalid_Stream_Operation;
+    *error = FT_Err_Invalid_Stream_Operation;
     FT_ERROR(( "FT_Stream_ReadUShortLE:"
                " invalid i/o; pos = 0x%lx, size = 0x%lx\n",
                stream->pos, stream->size ));
@@ -579,7 +579,7 @@
 
   FT_BASE_DEF( FT_ULong )
   FT_Stream_ReadUOffset( FT_Stream  stream,
-                        FT_Error*  Ошибка )
+                        FT_Error*  error )
   {
     FT_Byte   reads[3];
     FT_Byte*  p = 0;
@@ -588,7 +588,7 @@
 
     FT_ASSERT( stream );
 
-    *Ошибка = FT_Err_Ok;
+    *error = FT_Err_Ok;
 
     if ( stream->pos + 2 < stream->size )
     {
@@ -615,7 +615,7 @@
     return result;
 
   Fail:
-    *Ошибка = FT_Err_Invalid_Stream_Operation;
+    *error = FT_Err_Invalid_Stream_Operation;
     FT_ERROR(( "FT_Stream_ReadUOffset:"
                " invalid i/o; pos = 0x%lx, size = 0x%lx\n",
                stream->pos, stream->size ));
@@ -626,7 +626,7 @@
 
   FT_BASE_DEF( FT_ULong )
   FT_Stream_ReadULong( FT_Stream  stream,
-                      FT_Error*  Ошибка )
+                      FT_Error*  error )
   {
     FT_Byte   reads[4];
     FT_Byte*  p = 0;
@@ -635,7 +635,7 @@
 
     FT_ASSERT( stream );
 
-    *Ошибка = FT_Err_Ok;
+    *error = FT_Err_Ok;
 
     if ( stream->pos + 3 < stream->size )
     {
@@ -662,7 +662,7 @@
     return result;
 
   Fail:
-    *Ошибка = FT_Err_Invalid_Stream_Operation;
+    *error = FT_Err_Invalid_Stream_Operation;
     FT_ERROR(( "FT_Stream_ReadULong:"
                " invalid i/o; pos = 0x%lx, size = 0x%lx\n",
                stream->pos, stream->size ));
@@ -673,7 +673,7 @@
 
   FT_BASE_DEF( FT_ULong )
   FT_Stream_ReadULongLE( FT_Stream  stream,
-                        FT_Error*  Ошибка )
+                        FT_Error*  error )
   {
     FT_Byte   reads[4];
     FT_Byte*  p = 0;
@@ -682,7 +682,7 @@
 
     FT_ASSERT( stream );
 
-    *Ошибка = FT_Err_Ok;
+    *error = FT_Err_Ok;
 
     if ( stream->pos + 3 < stream->size )
     {
@@ -709,7 +709,7 @@
     return result;
 
   Fail:
-    *Ошибка = FT_Err_Invalid_Stream_Operation;
+    *error = FT_Err_Invalid_Stream_Operation;
     FT_ERROR(( "FT_Stream_ReadULongLE:"
                " invalid i/o; pos = 0x%lx, size = 0x%lx\n",
                stream->pos, stream->size ));
@@ -723,7 +723,7 @@
                         const FT_Frame_Field*  fields,
                         void*                  structure )
   {
-    FT_Error  Ошибка;
+    FT_Error  error;
     FT_Bool   frame_accessed = 0;
     FT_Byte*  cursor;
 
@@ -732,19 +732,19 @@
 
     cursor = stream->cursor;
 
-    Ошибка = FT_Err_Ok;
+    error = FT_Err_Ok;
     do
     {
-      FT_ULong  значение;
+      FT_ULong  value;
       FT_Int    sign_shift;
       FT_Byte*  p;
 
 
-      switch ( fields->значение )
+      switch ( fields->value )
       {
       case ft_frame_start:  /* access a new frame */
-        Ошибка = FT_Stream_EnterFrame( stream, fields->offset );
-        if ( Ошибка )
+        error = FT_Stream_EnterFrame( stream, fields->offset );
+        if ( error )
           goto Exit;
 
         frame_accessed = 1;
@@ -760,11 +760,11 @@
 
           if ( cursor + len > stream->limit )
           {
-            Ошибка = FT_Err_Invalid_Stream_Operation;
+            error = FT_Err_Invalid_Stream_Operation;
             goto Exit;
           }
 
-          if ( fields->значение == ft_frame_bytes )
+          if ( fields->value == ft_frame_bytes )
           {
             p = (FT_Byte*)structure + fields->offset;
             FT_MEM_COPY( p, cursor, len );
@@ -776,43 +776,43 @@
 
       case ft_frame_byte:
       case ft_frame_schar:  /* read a single byte */
-        значение = FT_NEXT_BYTE(cursor);
+        value = FT_NEXT_BYTE(cursor);
         sign_shift = 24;
         break;
 
       case ft_frame_short_be:
       case ft_frame_ushort_be:  /* read a 2-byte big-endian short */
-        значение = FT_NEXT_USHORT(cursor);
+        value = FT_NEXT_USHORT(cursor);
         sign_shift = 16;
         break;
 
       case ft_frame_short_le:
       case ft_frame_ushort_le:  /* read a 2-byte little-endian short */
-        значение = FT_NEXT_USHORT_LE(cursor);
+        value = FT_NEXT_USHORT_LE(cursor);
         sign_shift = 16;
         break;
 
       case ft_frame_long_be:
       case ft_frame_ulong_be:  /* read a 4-byte big-endian long */
-        значение = FT_NEXT_ULONG(cursor);
+        value = FT_NEXT_ULONG(cursor);
         sign_shift = 0;
         break;
 
       case ft_frame_long_le:
       case ft_frame_ulong_le:  /* read a 4-byte little-endian long */
-        значение = FT_NEXT_ULONG_LE(cursor);
+        value = FT_NEXT_ULONG_LE(cursor);
         sign_shift = 0;
         break;
 
       case ft_frame_off3_be:
       case ft_frame_uoff3_be:  /* read a 3-byte big-endian long */
-        значение = FT_NEXT_UOFF3(cursor);
+        value = FT_NEXT_UOFF3(cursor);
         sign_shift = 8;
         break;
 
       case ft_frame_off3_le:
       case ft_frame_uoff3_le:  /* read a 3-byte little-endian long */
-        значение = FT_NEXT_UOFF3_LE(cursor);
+        value = FT_NEXT_UOFF3_LE(cursor);
         sign_shift = 8;
         break;
 
@@ -822,29 +822,29 @@
         goto Exit;
       }
 
-      /* now, compute the signed значение is necessary */
-      if ( fields->значение & FT_FRAME_OP_SIGNED )
-        значение = (FT_ULong)( (FT_Int32)( значение << sign_shift ) >> sign_shift );
+      /* now, compute the signed value is necessary */
+      if ( fields->value & FT_FRAME_OP_SIGNED )
+        value = (FT_ULong)( (FT_Int32)( value << sign_shift ) >> sign_shift );
 
-      /* finally, store the значение in the object */
+      /* finally, store the value in the object */
 
       p = (FT_Byte*)structure + fields->offset;
       switch ( fields->size )
       {
       case (8 / FT_CHAR_BIT):
-        *(FT_Byte*)p = (FT_Byte)значение;
+        *(FT_Byte*)p = (FT_Byte)value;
         break;
 
       case (16 / FT_CHAR_BIT):
-        *(FT_UShort*)p = (FT_UShort)значение;
+        *(FT_UShort*)p = (FT_UShort)value;
         break;
 
       case (32 / FT_CHAR_BIT):
-        *(FT_UInt32*)p = (FT_UInt32)значение;
+        *(FT_UInt32*)p = (FT_UInt32)value;
         break;
 
       default:  /* for 64-bit systems */
-        *(FT_ULong*)p = (FT_ULong)значение;
+        *(FT_ULong*)p = (FT_ULong)value;
       }
 
       /* go to next field */
@@ -857,7 +857,7 @@
     if ( frame_accessed )
       FT_Stream_ExitFrame( stream );
 
-    return Ошибка;
+    return error;
   }
 
 

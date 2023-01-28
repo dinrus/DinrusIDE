@@ -132,7 +132,7 @@
 #    include <errno.h>
 #    define zstrerror() strerror(errno)
 #  else
-#    define zstrerror() "stdio Ошибка (consult errno)"
+#    define zstrerror() "stdio error (consult errno)"
 #  endif
 #endif
 
@@ -151,8 +151,8 @@
 #  define DEF_MEM_LEVEL  MAX_MEM_LEVEL
 #endif
 
-/* default i/o буфер size -- double this for output when reading (this and
-   twice this must be able to fit in an unsigned тип) */
+/* default i/o buffer size -- double this for output when reading (this and
+   twice this must be able to fit in an unsigned type) */
 #define GZBUFSIZE 8192
 
 /* gzip modes, also provide a little integrity check on the passed structure */
@@ -176,11 +176,11 @@ typedef struct {
         /* used for both reading and writing */
     int mode;               /* see gzip modes above */
     int fd;                 /* file descriptor */
-    char *path;             /* path or fd for Ошибка messages */
-    unsigned size;          /* буфер size, zero if not allocated yet */
-    unsigned want;          /* requested буфер size, default is GZBUFSIZE */
-    unsigned char *in;      /* input буфер (double-sized when writing) */
-    unsigned char *out;     /* output буфер (double-sized when reading) */
+    char *path;             /* path or fd for error messages */
+    unsigned size;          /* buffer size, zero if not allocated yet */
+    unsigned want;          /* requested buffer size, default is GZBUFSIZE */
+    unsigned char *in;      /* input buffer (double-sized when writing) */
+    unsigned char *out;     /* output buffer (double-sized when reading) */
     int direct;             /* 0 if processing gzip, 1 if transparent */
         /* just for reading */
     int how;                /* 0: get header, 1: copy, 2: decompress */
@@ -193,9 +193,9 @@ typedef struct {
         /* seek request */
     z_off64_t skip;         /* amount to skip (already rewound if backwards) */
     int seek;               /* true if seek request pending */
-        /* Ошибка information */
-    int err;                /* Ошибка code */
-    char *msg;              /* Ошибка message */
+        /* error information */
+    int err;                /* error code */
+    char *msg;              /* error message */
         /* zlib inflate or deflate stream */
     z_stream strm;          /* stream structure in-place (not a pointer) */
 } gz_state;
@@ -204,11 +204,11 @@ typedef gz_state FAR *gz_statep;
 /* shared functions */
 void ZLIB_INTERNAL gz_error OF((gz_statep, int, const char *));
 #if defined UNDER_CE
-char ZLIB_INTERNAL *gz_strwinerror OF((DWORD Ошибка));
+char ZLIB_INTERNAL *gz_strwinerror OF((DWORD error));
 #endif
 
-/* GT_OFF(x), where x is an unsigned значение, is true if x > maximum z_off64_t
-   значение -- needed when comparing unsigned to z_off64_t, which is signed
+/* GT_OFF(x), where x is an unsigned value, is true if x > maximum z_off64_t
+   value -- needed when comparing unsigned to z_off64_t, which is signed
    (possible z_off64_t types off_t, off64_t, and long are all signed) */
 #ifdef INT_MAX
 #  define GT_OFF(x) (sizeof(int) == sizeof(z_off64_t) && (x) > INT_MAX)

@@ -2,13 +2,13 @@
 
 #define LTIMING(x)  // RTIMING(x)
 
-namespace РНЦП {
+namespace Upp {
 
-ТекстКтрл::ТекстКтрл()
+TextCtrl::TextCtrl()
 {
 	Unicode();
 	undosteps = 1000;
-	очисть();
+	Clear();
 	undoserial = 0;
 	incundoserial = false;
 	undo_op = false;
@@ -20,8 +20,8 @@ namespace РНЦП {
 	color[PAPER_NORMAL] = SColorPaper;
 	color[PAPER_READONLY] = SColorFace;
 	color[PAPER_SELECTED] = SColorHighlight;
-	color[WHITESPACE] = смешай(SColorLight, SColorHighlight);
-	color[WARN_WHITESPACE] = смешай(SColorLight, SRed);
+	color[WHITESPACE] = Blend(SColorLight, SColorHighlight);
+	color[WARN_WHITESPACE] = Blend(SColorLight, SRed);
 	processtab = true;
 	processenter = true;
 	nobg = false;
@@ -29,7 +29,7 @@ namespace РНЦП {
 #ifdef CPU_64
 	max_total = 2047 * 1024 * 1024;
 #else
-#ifdef _ОТЛАДКА
+#ifdef _DEBUG
 	max_total = 100 * 1024 * 1024;
 #else
 	max_total = 200 * 1024 * 1024;
@@ -39,168 +39,168 @@ namespace РНЦП {
 	truncated = false;
 }
 
-ТекстКтрл::~ТекстКтрл() {}
+TextCtrl::~TextCtrl() {}
 
-void ТекстКтрл::MiddleDown(Точка p, dword flags)
+void TextCtrl::MiddleDown(Point p, dword flags)
 {
-	if(толькочтен_ли())
+	if(IsReadOnly())
 		return;
 	if(AcceptText(Selection())) {
-		ШТкст w = дайШТкст(Selection());
+		WString w = GetWString(Selection());
 		selclick = false;
-		леваяВнизу(p, flags);
+		LeftDown(p, flags);
 		Paste(w);
 		Action();
 	}
 }
 
-void ТекстКтрл::режимОтмены()
+void TextCtrl::CancelMode()
 {
 	selclick = false;
 	dropcaret = Null;
 	isdrag = false;
 }
 
-void ТекстКтрл::очисть()
+void TextCtrl::Clear()
 {
-	ЗамкниГип __;
+	GuiLock __;
 	view = NULL;
 	viewlines = 0;
 	cline = 0;
 	cpos = 0;
 	total = 0;
 	truncated = false;
-	lin.очисть();
-	очистьСтроки();
-	lin.добавь();
-	вставьСтроки(0, 1);
+	lin.Clear();
+	ClearLines();
+	lin.Add();
+	InsertLines(0, 1);
 	DirtyFrom(0);
-	undo.очисть();
-	redo.очисть();
+	undo.Clear();
+	redo.Clear();
 	ClearDirty();
 	anchor = -1;
 	cursor = 0;
 	SetSb();
-	поместиКаретку(0);
+	PlaceCaret(0);
 	SelectionChanged();
-	освежи();
+	Refresh();
 }
 
-void ТекстКтрл::DirtyFrom(int line) {}
-void ТекстКтрл::SelectionChanged() {}
-void ТекстКтрл::очистьСтроки() {}
-void ТекстКтрл::вставьСтроки(int line, int count) {}
-void ТекстКтрл::удалиСтроки(int line, int count) {}
-void ТекстКтрл::вставьПеред(int pos, const ШТкст& text) {}
-void ТекстКтрл::вставьПосле(int pos, const ШТкст& text) {}
-void ТекстКтрл::удалиПеред(int pos, int size) {}
-void ТекстКтрл::удалиПосле(int pos, int size) {}
-void ТекстКтрл::освежиСтроку(int i) {}
-void ТекстКтрл::инвалидируйСтроку(int i) {}
-void ТекстКтрл::SetSb() {}
-void ТекстКтрл::поместиКаретку(int64 newcursor, bool sel) {}
+void TextCtrl::DirtyFrom(int line) {}
+void TextCtrl::SelectionChanged() {}
+void TextCtrl::ClearLines() {}
+void TextCtrl::InsertLines(int line, int count) {}
+void TextCtrl::RemoveLines(int line, int count) {}
+void TextCtrl::PreInsert(int pos, const WString& text) {}
+void TextCtrl::PostInsert(int pos, const WString& text) {}
+void TextCtrl::PreRemove(int pos, int size) {}
+void TextCtrl::PostRemove(int pos, int size) {}
+void TextCtrl::RefreshLine(int i) {}
+void TextCtrl::InvalidateLine(int i) {}
+void TextCtrl::SetSb() {}
+void TextCtrl::PlaceCaret(int64 newcursor, bool sel) {}
 
-int ТекстКтрл::RemoveRectSelection() { return 0; }
-ШТкст ТекстКтрл::CopyRectSelection() { return Null; }
-int ТекстКтрл::PasteRectSelection(const ШТкст& s) { return 0; }
+int TextCtrl::RemoveRectSelection() { return 0; }
+WString TextCtrl::CopyRectSelection() { return Null; }
+int TextCtrl::PasteRectSelection(const WString& s) { return 0; }
 
-void   ТекстКтрл::CachePos(int64 pos)
+void   TextCtrl::CachePos(int64 pos)
 {
-	ЗамкниГип __;
+	GuiLock __;
 	int64 p = pos;
-	cline = дайПозСтроки64(p);
+	cline = GetLinePos64(p);
 	cpos = pos - p;
 }
 
-void   ТекстКтрл::CacheLinePos(int linei)
+void   TextCtrl::CacheLinePos(int linei)
 {
-	ЗамкниГип __;
-	if(linei >= 0 && linei < дайСчётСтрок()) {
-		cpos = дайПоз64(linei);
+	GuiLock __;
+	if(linei >= 0 && linei < GetLineCount()) {
+		cpos = GetPos64(linei);
 		cline = linei;
 	}
 }
 
-bool   ТекстКтрл::IsUnicodeCharset(byte charset)
+bool   TextCtrl::IsUnicodeCharset(byte charset)
 {
 	return findarg(charset, CHARSET_UTF8, CHARSET_UTF8_BOM, CHARSET_UTF16_LE, CHARSET_UTF16_BE,
 	                        CHARSET_UTF16_LE_BOM, CHARSET_UTF16_BE_BOM) >= 0;
 }
 
-int   ТекстКтрл::загрузи0(Поток& in, byte charset_, bool view) {
-	ЗамкниГип __;
-	очисть();
-	lin.очисть();
-	очистьСтроки();
+int   TextCtrl::Load0(Stream& in, byte charset_, bool view) {
+	GuiLock __;
+	Clear();
+	lin.Clear();
+	ClearLines();
 	total = 0;
-	устНабсим(charset_);
+	SetCharset(charset_);
 	truncated = false;
 	viewlines = 0;
 	this->view = NULL;
 	view_all = false;
-	offset256.очисть();
-	total256.очисть();
+	offset256.Clear();
+	total256.Clear();
 	view_cache[0].blk = view_cache[1].blk = -1;
 	if(view) {
 		this->view = &in;
-		устТолькоЧтен();
+		SetReadOnly();
 	}
 	if(charset == CHARSET_UTF8_BOM && in.GetLeft() >= 3) {
-		int64 pos = in.дайПоз();
+		int64 pos = in.GetPos();
 		byte h[3];
-		if(!(in.дай(h, 3) == 3 && h[0] == 0xEF && h[1] == 0xBB && h[2] == 0xBF))
-			in.перейди(pos);
+		if(!(in.Get(h, 3) == 3 && h[0] == 0xEF && h[1] == 0xBB && h[2] == 0xBF))
+			in.Seek(pos);
 		charset = CHARSET_UTF8;
 	}
 	int be16 = findarg(charset, CHARSET_UTF16_LE_BOM, CHARSET_UTF16_BE_BOM);
 	if(be16 >= 0 && in.GetLeft() >= 2) {
-		int64 pos = in.дайПоз();
+		int64 pos = in.GetPos();
 		dword h = in.Get16le();
 		if(h != (be16 ? 0xfffe : 0xfeff))
-			in.перейди(pos);
+			in.Seek(pos);
 		charset = be16 ? CHARSET_UTF16_BE : CHARSET_UTF16_LE;
 	}
 	
 	if(view) {
-		view_loading_pos = in.дайПоз();
+		view_loading_pos = in.GetPos();
 		view_loading_lock = 0;
 		ViewLoading();
-		поместиКаретку(0);
+		PlaceCaret(0);
 		return 0;
 	}
 
-	int m = загрузиСтроки(lin, INT_MAX, total, in, charset, max_line_len, max_total, truncated);
+	int m = LoadLines(lin, INT_MAX, total, in, charset, max_line_len, max_total, truncated);
 
-	вставьСтроки(0, lin.дайСчёт());
+	InsertLines(0, lin.GetCount());
 	Update();
 	SetSb();
-	поместиКаретку(0);
+	PlaceCaret(0);
 	return m;
 }
 
-int ТекстКтрл::загрузиСтроки(Вектор<Ln>& ls, int n, int64& total, Поток& in, byte charset,
+int TextCtrl::LoadLines(Vector<Ln>& ls, int n, int64& total, Stream& in, byte charset,
                         int max_line_len, int max_total, bool& truncated,
                         int *view_line_count) const
 {
-	ТкстБуф ln;
+	StringBuffer ln;
 	bool cr = false;
 	byte b8 = 0;
-	auto line_count = [&] { return view_line_count ? *view_line_count : ls.дайСчёт(); };
+	auto line_count = [&] { return view_line_count ? *view_line_count : ls.GetCount(); };
 	if(charset == CHARSET_UTF16_LE || charset == CHARSET_UTF16_BE) {
-		ШТкстБуф wln;
+		WStringBuffer wln;
 		auto put_wln = [&]() {
 			if(view_line_count)
 				(*view_line_count)++;
 			else {
-				Ln& ln = ls.добавь();
-				ln.len = wln.дайСчёт();
-				ln.text = вУтф8(~wln, ln.len);
+				Ln& ln = ls.Add();
+				ln.len = wln.GetCount();
+				ln.text = ToUtf8(~wln, ln.len);
 			}
 		};
 		for(;;) {
 			int c = charset == CHARSET_UTF16_LE ? in.Get16le() : in.Get16be();
 			if(c < 0) {
-				total += wln.дайСчёт();
+				total += wln.GetCount();
 				put_wln();
 				goto finish;
 			}
@@ -209,15 +209,15 @@ int ТекстКтрл::загрузиСтроки(Вектор<Ln>& ls, int n, 
 			else
 			if(c == '\n') {
 			truncate_line:
-				total += wln.дайСчёт() + 1;
+				total += wln.GetCount() + 1;
 				put_wln();
 				if(line_count() >= n)
 					goto finish;
-				wln.очисть();
+				wln.Clear();
 			}
 			else {
-				wln.конкат(c);
-				if(wln.дайСчёт() >= max_line_len)
+				wln.Cat(c);
+				if(wln.GetCount() >= max_line_len)
 					goto truncate_line;
 			}
 		}
@@ -226,10 +226,10 @@ int ТекстКтрл::загрузиСтроки(Вектор<Ln>& ls, int n, 
 		for(;;) {
 			byte h[200];
 			int size;
-			int64 pos = in.дайПоз();
+			int64 pos = in.GetPos();
 			const byte *s = in.GetSzPtr(size);
 			if(size == 0)  {
-				size = in.дай(h, 200);
+				size = in.Get(h, 200);
 				s = h;
 				if(size == 0)
 					break;
@@ -238,7 +238,7 @@ int ТекстКтрл::загрузиСтроки(Вектор<Ln>& ls, int n, 
 			const byte *e = s + size;
 			while(s < e) {
 				const byte *b = s;
-				const byte *ee = s + min(size_t(e - s), size_t(max_line_len - ln.дайСчёт()));
+				const byte *ee = s + min(size_t(e - s), size_t(max_line_len - ln.GetCount()));
 				{
 					while(s < ee && *s != '\r' && *s != '\n') {
 						b8 |= *s++;
@@ -249,29 +249,29 @@ int ТекстКтрл::загрузиСтроки(Вектор<Ln>& ls, int n, 
 					}
 				}
 				if(b < s) {
-					if(s - b + ln.дайСчёт() > max_total)
-						ln.конкат((const char *)b, max_total - ln.дайСчёт());
+					if(s - b + ln.GetCount() > max_total)
+						ln.Cat((const char *)b, max_total - ln.GetCount());
 					else
-						ln.конкат((const char *)b, (const char *)s);
+						ln.Cat((const char *)b, (const char *)s);
 				}
 				auto put_ln = [&]() -> bool {
 					if(view_line_count) {
 						(*view_line_count)++;
-						total += charset == CHARSET_UTF8 && (b8 & 0x80) ? длинаУтф32(~ln, ln.дайСчёт())
-						                                                : ln.дайСчёт();
+						total += charset == CHARSET_UTF8 && (b8 & 0x80) ? Utf32Len(~ln, ln.GetCount())
+						                                                : ln.GetCount();
 					}
 					else {
-						Ln& l = ls.добавь();
+						Ln& l = ls.Add();
 						if(charset == CHARSET_UTF8) {
-							l.len = (b8 & 0x80) ? длинаУтф32(~ln, ln.дайСчёт()) : ln.дайСчёт();
+							l.len = (b8 & 0x80) ? Utf32Len(~ln, ln.GetCount()) : ln.GetCount();
 							l.text = ln;
 						}
 						else {
-							l.len = ln.дайСчёт();
-							l.text = вНабсим(CHARSET_UTF8, ln, charset);
+							l.len = ln.GetCount();
+							l.text = ToCharset(CHARSET_UTF8, ln, charset);
 						}
 						if(total + l.len + 1 > max_total) {
-							ls.сбрось();
+							ls.Drop();
 							truncated = true;
 							return false;
 						}
@@ -279,18 +279,18 @@ int ТекстКтрл::загрузиСтроки(Вектор<Ln>& ls, int n, 
 					}
 					return true;
 				};
-				while(ln.дайСчёт() >= max_line_len) {
+				while(ln.GetCount() >= max_line_len) {
 					int ei = max_line_len;
 					if(charset == CHARSET_UTF8)
-						while(ei > 0 && ei > max_line_len - 6 && !((byte)ln[ei] < 128 || ведущийУтф8_ли((byte)ln[ei]))) // break lse at whole utf8 codepoint if possible
+						while(ei > 0 && ei > max_line_len - 6 && !((byte)ln[ei] < 128 || IsUtf8Lead((byte)ln[ei]))) // break lse at whole utf8 codepoint if possible
 							ei--;
-					Ткст nln(~ln + ei, ln.дайСчёт() - ei);
-					ln.устСчёт(ei);
+					String nln(~ln + ei, ln.GetCount() - ei);
+					ln.SetCount(ei);
 					truncated = true;
 					if(!put_ln())
 						goto out_of_limit;
 					if(line_count() >= n) {
-						in.перейди(s - posptr + pos);
+						in.Seek(s - posptr + pos);
 						goto finish;
 					}
 					ln = nln;
@@ -304,10 +304,10 @@ int ТекстКтрл::загрузиСтроки(Вектор<Ln>& ls, int n, 
 						goto out_of_limit;
 					s++;
 					if(line_count() >= n) {
-						in.перейди(s - posptr + pos);
+						in.Seek(s - posptr + pos);
 						goto finish;
 					}
-					ln.очисть();
+					ln.Clear();
 					b8 = 0;
 				}
 			}
@@ -316,43 +316,43 @@ int ТекстКтрл::загрузиСтроки(Вектор<Ln>& ls, int n, 
 
 out_of_limit:
 	{
-		ШТкст w = вЮникод(~ln, ln.дайСчёт(), charset);
-		if(total + w.дайДлину() <= max_total) {
+		WString w = ToUnicode(~ln, ln.GetCount(), charset);
+		if(total + w.GetLength() <= max_total) {
 			if(view_line_count) {
 				(*view_line_count)++;
-				total += w.дайСчёт();
+				total += w.GetCount();
 			}
 			else {
-				Ln& ln = ls.добавь();
-				ln.len = w.дайСчёт();
-				ln.text = вУтф8(~w, ln.len);
+				Ln& ln = ls.Add();
+				ln.len = w.GetCount();
+				ln.text = ToUtf8(~w, ln.len);
 				total += ln.len;
 			}
 		}
 	}
 finish:
-	return ls.дайСчёт() > 1 ? cr ? LE_CRLF : LE_LF : LE_DEFAULT;
+	return ls.GetCount() > 1 ? cr ? LE_CRLF : LE_LF : LE_DEFAULT;
 }
 
-void ТекстКтрл::ViewLoading()
+void TextCtrl::ViewLoading()
 {
-	ЗамкниГип __;
+	GuiLock __;
 	if(view_all || !view)
 		return;
 	int start = msecs();
-	view->перейди(view_loading_pos);
+	view->Seek(view_loading_pos);
 	int lines0 = viewlines;
 	for(;;) {
-		offset256.добавь(view->дайПоз());
-		Вектор<Ln> l;
+		offset256.Add(view->GetPos());
+		Vector<Ln> l;
 		bool b;
 		int64 t = 0;
 
 		int line_count = 0;
-		загрузиСтроки(l, 256, t, *view, charset, 10000, INT_MAX, b, &line_count);
+		LoadLines(l, 256, t, *view, charset, 10000, INT_MAX, b, &line_count);
 		viewlines += line_count;
 		total += t;
-		total256.добавь((int)t);
+		total256.Add((int)t);
 		
 	#ifdef CPU_32
 		enum { MAX_LINES = 128000000 };
@@ -360,45 +360,45 @@ void ТекстКтрл::ViewLoading()
 		enum { MAX_LINES = INT_MAX - 512 };
 	#endif
 
-		if(view->кф_ли() || viewlines > INT_MAX - 512) {
-			WhenViewMapping(view->дайПоз());
+		if(view->IsEof() || viewlines > INT_MAX - 512) {
+			WhenViewMapping(view->GetPos());
 			view_all = true;
 			break;
 		}
 		
 		if(view_loading_lock) {
-			view_loading_pos = view->дайПоз();
+			view_loading_pos = view->GetPos();
 			WhenViewMapping(view_loading_pos);
 			break;
 		}
 		
 		if(msecs(start) > 20) {
-			view_loading_pos = view->дайПоз();
-			постОбрвыз([=] { ViewLoading(); });
+			view_loading_pos = view->GetPos();
+			PostCallback([=] { ViewLoading(); });
 			WhenViewMapping(view_loading_pos);
 			break;
 		}
 	}
-	вставьСтроки(lines0, viewlines - lines0);
+	InsertLines(lines0, viewlines - lines0);
 	SetSb();
 	Update();
 }
 
-void ТекстКтрл::UnlockViewMapping()
+void TextCtrl::UnlockViewMapping()
 {
 	view_loading_lock--;
 	ViewLoading();
 }
 
-void ТекстКтрл::ждиВид(int line, bool progress)
+void TextCtrl::WaitView(int line, bool progress)
 {
 	if(view) {
 		if(progress) {
 			LockViewMapping();
-			Progress pi("Сканируется файл");
+			Progress pi("Сканируется указанный файл");
 			pi.Delay(1000);
 			while(view && !view_all && viewlines < line) {
-				if(pi.SetCanceled(int(view_loading_pos >> 10), int(view->дайРазм()) >> 10))
+				if(pi.SetCanceled(int(view_loading_pos >> 10), int(view->GetSize()) >> 10))
 					break;
 				ViewLoading();
 			}
@@ -410,9 +410,9 @@ void ТекстКтрл::ждиВид(int line, bool progress)
 	}
 }
 
-void ТекстКтрл::SerializeViewMap(Поток& s)
+void TextCtrl::SerializeViewMap(Stream& s)
 {
-	ЗамкниГип __;
+	GuiLock __;
 	int version = 0;
 	s / version;
 	s.Magic(327845692);
@@ -423,28 +423,28 @@ void ТекстКтрл::SerializeViewMap(Поток& s)
 	  % total256
 	  % offset256
 	;
-	if(s.грузится()) {
+	if(s.IsLoading()) {
 		SetSb();
 		Update();
-		освежи();
+		Refresh();
 	}
 }
 
-const ТекстКтрл::Ln& ТекстКтрл::GetLn(int i) const
+const TextCtrl::Ln& TextCtrl::GetLn(int i) const
 {
 	if(view) {
-		ЗамкниГип __;
+		GuiLock __;
 		int blk = i >> 8;
 		if(view_cache[0].blk != blk)
-			разверни(view_cache[0], view_cache[1]); // trivial LRU
+			Swap(view_cache[0], view_cache[1]); // trivial LRU
 		if(view_cache[0].blk != blk) {
-			разверни(view_cache[0], view_cache[1]); // trivial LRU
-			view->перейди(offset256[blk]);
+			Swap(view_cache[0], view_cache[1]); // trivial LRU
+			view->Seek(offset256[blk]);
 			int64 t = 0;
 			bool b;
-			view_cache[0].line.очисть();
+			view_cache[0].line.Clear();
 			view_cache[0].blk = blk;
-			загрузиСтроки(view_cache[0].line, 256, t, *view, charset, 5000, INT_MAX, b);
+			LoadLines(view_cache[0].line, 256, t, *view, charset, 5000, INT_MAX, b);
 		}
 		return view_cache[0].line[i & 255];
 	}
@@ -452,20 +452,20 @@ const ТекстКтрл::Ln& ТекстКтрл::GetLn(int i) const
 		return lin[i];
 }
 
-const Ткст& ТекстКтрл::дайУтф8Строку(int i) const
+const String& TextCtrl::GetUtf8Line(int i) const
 {
 	return GetLn(i).text;
 }
 
-int ТекстКтрл::дайДлинуСтроки(int i) const
+int TextCtrl::GetLineLength(int i) const
 {
 	return GetLn(i).len;
 }
 
-void   ТекстКтрл::сохрани(Поток& s, byte charset, int line_endings) const {
+void   TextCtrl::Save(Stream& s, byte charset, int line_endings) const {
 	if(charset == CHARSET_UTF8_BOM) {
 		static byte bom[] = { 0xEF, 0xBB, 0xBF };
-		s.помести(bom, 3);
+		s.Put(bom, 3);
 		charset = CHARSET_UTF8;
 	}
 	if(charset == CHARSET_UTF16_LE_BOM) {
@@ -476,8 +476,8 @@ void   ТекстКтрл::сохрани(Поток& s, byte charset, int line_
 		s.Put16be(0xfeff);
 		charset = CHARSET_UTF16_BE;
 	}
-	charset = разрешиНабСим(charset);
-	Ткст le = "\n";
+	charset = ResolveCharset(charset);
+	String le = "\n";
 #ifdef PLATFORM_WIN32
 	if(line_endings == LE_DEFAULT)
 		le = "\r\n";
@@ -486,26 +486,26 @@ void   ТекстКтрл::сохрани(Поток& s, byte charset, int line_
 		le = "\r\n";
 	int be16 = findarg(charset, CHARSET_UTF16_LE, CHARSET_UTF16_BE);
 	if(be16 >= 0) {
-		Ткст wle;
-		for(int i = 0; i < le.дайСчёт(); i++) {
+		String wle;
+		for(int i = 0; i < le.GetCount(); i++) {
 			if(be16)
-				wle.конкат(0);
-			wle.конкат(le[i]);
+				wle.Cat(0);
+			wle.Cat(le[i]);
 			if(!be16)
-				wle.конкат(0);
+				wle.Cat(0);
 		}
-		for(int i = 0; i < дайСчётСтрок(); i++) {
+		for(int i = 0; i < GetLineCount(); i++) {
 			if(i)
-				s.помести(wle);
-			ШТкст txt = дайШСтроку(i);
-			const wchar *e = txt.стоп();
+				s.Put(wle);
+			WString txt = GetWLine(i);
+			const wchar *e = txt.End();
 			if(be16)
 				for(const wchar *w = txt; w != e; w++)
 					if(*w < 0x10000)
 						s.Put16be((word)*w);
 					else {
 						char16 h[2];
-						вУтф16(h, w, 1);
+						ToUtf16(h, w, 1);
 						s.Put16be(h[0]);
 						s.Put16be(h[1]);
 					}
@@ -515,71 +515,71 @@ void   ТекстКтрл::сохрани(Поток& s, byte charset, int line_
 						s.Put16le((word)*w);
 					else {
 						char16 h[2];
-						вУтф16(h, w, 1);
+						ToUtf16(h, w, 1);
 						s.Put16le(h[0]);
 						s.Put16le(h[1]);
 					}
 		}
 		return;
 	}
-	for(int i = 0; i < дайСчётСтрок(); i++) {
+	for(int i = 0; i < GetLineCount(); i++) {
 		if(i)
-			s.помести(le);
+			s.Put(le);
 		if(charset == CHARSET_UTF8)
-			s.помести(дайУтф8Строку(i));
+			s.Put(GetUtf8Line(i));
 		else {
-			Ткст txt = изЮникода(дайШСтроку(i), charset);
-			const char *e = txt.стоп();
+			String txt = FromUnicode(GetWLine(i), charset);
+			const char *e = txt.End();
 			for(const char *w = txt; w != e; w++)
-				s.помести(*w == DEFAULTCHAR ? '?' : *w);
+				s.Put(*w == DEFAULTCHAR ? '?' : *w);
 		}
 	}
 }
 
-void   ТекстКтрл::уст(const Ткст& s, byte charset) {
-	ТкстПоток ss(s);
-	грузи(ss, charset);
+void   TextCtrl::Set(const String& s, byte charset) {
+	StringStream ss(s);
+	Load(ss, charset);
 }
 
-Ткст ТекстКтрл::дай(byte charset) const
+String TextCtrl::Get(byte charset) const
 {
-	ТкстПоток ss;
-	сохрани(ss, charset);
+	StringStream ss;
+	Save(ss, charset);
 	return ss;
 }
 
-int ТекстКтрл::GetInvalidCharPos(byte charset) const
+int TextCtrl::GetInvalidCharPos(byte charset) const
 {
 	int q = 0;
 	if(!IsUnicodeCharset(charset))
-		for(int i = 0; i < дайСчётСтрок(); i++) {
-			ШТкст txt = дайШСтроку(i);
-			ШТкст ctxt = вЮникод(изЮникода(txt, charset), charset);
-			for(int w = 0; w < txt.дайДлину(); w++)
+		for(int i = 0; i < GetLineCount(); i++) {
+			WString txt = GetWLine(i);
+			WString ctxt = ToUnicode(FromUnicode(txt, charset), charset);
+			for(int w = 0; w < txt.GetLength(); w++)
 				if(txt[w] != ctxt[w])
 					return q + w;
-			q += txt.дайДлину() + 1;
+			q += txt.GetLength() + 1;
 		}
 	return -1;
 }
 
-void   ТекстКтрл::ClearDirty()
+void   TextCtrl::ClearDirty()
 {
 	dirty = 0;
 	ClearModify();
 	WhenState();
 }
 
-ТекстКтрл::ОтмениДанные ТекстКтрл::PickUndoData()
+TextCtrl::UndoData TextCtrl::PickUndoData()
 {
-	ОтмениДанные data;
+	UndoData data;
 	data.undo = pick(undo);
 	data.redo = pick(redo);
 	data.undoserial = undoserial;
 	return data;
 }
 
-void ТекстКтрл::SetPickUndoData(ТекстКтрл::ОтмениДанные&& data)
+void TextCtrl::SetPickUndoData(TextCtrl::UndoData&& data)
 {
 	undo = pick(data.undo);
 	redo = pick(data.redo);
@@ -587,36 +587,36 @@ void ТекстКтрл::SetPickUndoData(ТекстКтрл::ОтмениДан�
 	incundoserial = true;
 }
 
-void ТекстКтрл::уст(const ШТкст& s)
+void TextCtrl::Set(const WString& s)
 {
-	очисть();
-	вставь0(0, s);
+	Clear();
+	Insert0(0, s);
 }
 
-void  ТекстКтрл::устДанные(const Значение& v)
+void  TextCtrl::SetData(const Value& v)
 {
-	уст((ШТкст)v);
+	Set((WString)v);
 }
 
-Значение ТекстКтрл::дайДанные() const
+Value TextCtrl::GetData() const
 {
-	return дайШ();
+	return GetW();
 }
 
-Ткст ТекстКтрл::GetEncodedLine(int i, byte charset) const
+String TextCtrl::GetEncodedLine(int i, byte charset) const
 {
-	charset = разрешиНабСим(charset);
-	Ткст h = дайУтф8Строку(i);
-	return charset == CHARSET_UTF8 ? h : изЮникода(вУтф32(h), charset);
+	charset = ResolveCharset(charset);
+	String h = GetUtf8Line(i);
+	return charset == CHARSET_UTF8 ? h : FromUnicode(ToUtf32(h), charset);
 }
 
-int   ТекстКтрл::дайПозСтроки64(int64& pos) const {
-	ЗамкниГип __;
+int   TextCtrl::GetLinePos64(int64& pos) const {
+	GuiLock __;
 	if(pos < cpos && cpos - pos < pos && !view) {
 		int i = cline;
 		int64 ps = cpos;
 		for(;;) {
-			ps -= дайДлинуСтроки(--i) + 1;
+			ps -= GetLineLength(--i) + 1;
 			if(ps <= pos) {
 				pos = pos - ps;
 				return i;
@@ -626,7 +626,7 @@ int   ТекстКтрл::дайПозСтроки64(int64& pos) const {
 	else {
 		int i = 0;
 		if(view) {
-			ЗамкниГип __;
+			GuiLock __;
 			int blk = 0;
 			for(;;) {
 				int n = total256[blk];
@@ -634,9 +634,9 @@ int   ТекстКтрл::дайПозСтроки64(int64& pos) const {
 					break;
 				pos -= n;
 				blk++;
-				if(blk >= total256.дайСчёт()) {
-					pos = дайДлинуСтроки(дайСчётСтрок() - 1);
-					return дайСчётСтрок() - 1;
+				if(blk >= total256.GetCount()) {
+					pos = GetLineLength(GetLineCount() - 1);
+					return GetLineCount() - 1;
 				}
 			}
 			i = blk << 8;
@@ -647,29 +647,29 @@ int   ТекстКтрл::дайПозСтроки64(int64& pos) const {
 			i = cline;
 		}
 		for(;;) {
-			int n = дайДлинуСтроки(i) + 1;
+			int n = GetLineLength(i) + 1;
 			if(pos < n) return i;
 			pos -= n;
 			i++;
-			if(i >= дайСчётСтрок()) {
-				pos = дайДлинуСтроки(дайСчётСтрок() - 1);
-				return дайСчётСтрок() - 1;
+			if(i >= GetLineCount()) {
+				pos = GetLineLength(GetLineCount() - 1);
+				return GetLineCount() - 1;
 			}
 		}
 	}
 	return 0; // just silencing GCC warning, cannot get here
 }
 
-int64  ТекстКтрл::дайПоз64(int ln, int lpos) const {
-	ЗамкниГип __;
-	ln = minmax(ln, 0, дайСчётСтрок() - 1);
+int64  TextCtrl::GetPos64(int ln, int lpos) const {
+	GuiLock __;
+	ln = minmax(ln, 0, GetLineCount() - 1);
 	int i;
 	int64 pos;
 	if(ln < cline && cline - ln < ln && !view) {
 		pos = cpos;
 		i = cline;
 		while(i > ln)
-			pos -= дайДлинуСтроки(--i) + 1;
+			pos -= GetLineLength(--i) + 1;
 	}
 	else {
 		pos = 0;
@@ -686,88 +686,88 @@ int64  ТекстКтрл::дайПоз64(int ln, int lpos) const {
 			i = cline;
 		}
 		while(i < ln)
-			pos += дайДлинуСтроки(i++) + 1;
+			pos += GetLineLength(i++) + 1;
 	}
-	return pos + min(дайДлинуСтроки(ln), lpos);
+	return pos + min(GetLineLength(ln), lpos);
 }
 
-ШТкст ТекстКтрл::дайШ(int64 pos, int size) const
+WString TextCtrl::GetW(int64 pos, int size) const
 {
-	int i = дайПозСтроки64(pos);
-	ШТкстБуф r;
+	int i = GetLinePos64(pos);
+	WStringBuffer r;
 	for(;;) {
-		if(i >= дайСчётСтрок()) break;
-		ШТкст ln = дайШСтроку(i++);
-		int sz = min(ограничьРазм(ln.дайДлину() - pos), size);
-		if(pos == 0 && sz == ln.дайДлину())
-			r.конкат(ln);
+		if(i >= GetLineCount()) break;
+		WString ln = GetWLine(i++);
+		int sz = min(LimitSize(ln.GetLength() - pos), size);
+		if(pos == 0 && sz == ln.GetLength())
+			r.Cat(ln);
 		else
-			r.конкат(ln.середина((int)pos, sz));
+			r.Cat(ln.Mid((int)pos, sz));
 		size -= sz;
 		if(size == 0) break;
 #ifdef PLATFORM_WIN32
-		r.конкат('\r');
+		r.Cat('\r');
 #endif
-		r.конкат('\n');
+		r.Cat('\n');
 		size--;
 		if(size == 0) break;
 		pos = 0;
 	}
-	return ШТкст(r);
+	return WString(r);
 }
 
-Ткст ТекстКтрл::дай(int64 pos, int size, byte charset) const
+String TextCtrl::Get(int64 pos, int size, byte charset) const
 {
 	if(charset == CHARSET_UTF8) {
-		int i = дайПозСтроки64(pos);
-		ТкстБуф r;
+		int i = GetLinePos64(pos);
+		StringBuffer r;
 		for(;;) {
-			if(i >= дайСчётСтрок()) break;
-			int sz = min(ограничьРазм(дайДлинуСтроки(i) - pos), size);
-			const Ткст& h = дайУтф8Строку(i);
+			if(i >= GetLineCount()) break;
+			int sz = min(LimitSize(GetLineLength(i) - pos), size);
+			const String& h = GetUtf8Line(i);
 			const char *s = h;
-			int n = h.дайСчёт();
+			int n = h.GetCount();
 			i++;
 			if(pos == 0 && sz == n)
-				r.конкат(s, n);
+				r.Cat(s, n);
 			else
-				r.конкат(вУтф32(s, n).середина((int)pos, sz).вТкст());
+				r.Cat(ToUtf32(s, n).Mid((int)pos, sz).ToString());
 			size -= sz;
 			if(size == 0) break;
 	#ifdef PLATFORM_WIN32
-			r.конкат('\r');
+			r.Cat('\r');
 	#endif
-			r.конкат('\n');
+			r.Cat('\n');
 			size--;
 			if(size == 0) break;
 			pos = 0;
 		}
-		return Ткст(r);
+		return String(r);
 	}
-	return изЮникода(дайШ(pos, size), charset);
+	return FromUnicode(GetW(pos, size), charset);
 }
 
-int  ТекстКтрл::дайСим(int64 pos) const {
-	if(pos < 0 || pos >= дайДлину64())
+int  TextCtrl::GetChar(int64 pos) const {
+	if(pos < 0 || pos >= GetLength64())
 		return 0;
-	int i = дайПозСтроки64(pos);
-	ШТкст ln = дайШСтроку(i);
-	int c = ln.дайДлину() == pos ? '\n' : ln[(int)pos];
+	int i = GetLinePos64(pos);
+	WString ln = GetWLine(i);
+	int c = ln.GetLength() == pos ? '\n' : ln[(int)pos];
 	return c;
 }
 
-int ТекстКтрл::дайПозСтроки32(int& pos) const
+int TextCtrl::GetLinePos32(int& pos) const
 {
 	int64 p = pos;
-	int l = дайПозСтроки64(p);
+	int l = GetLinePos64(p);
 	pos = (int)p;
 	return l;
 }
 
-bool ТекстКтрл::дайВыделение32(int& l, int& h) const
+bool TextCtrl::GetSelection32(int& l, int& h) const
 {
 	int64 ll, hh;
-	bool b = дайВыделение(ll, hh);
+	bool b = GetSelection(ll, hh);
 	if(hh >= INT_MAX) {
 		l = h = (int)cursor;
 		return false;
@@ -777,137 +777,137 @@ bool ТекстКтрл::дайВыделение32(int& l, int& h) const
 	return b;
 }
 
-int ТекстКтрл::дайКурсор32() const
+int TextCtrl::GetCursor32() const
 {
-	int64 h = дайКурсор64();
+	int64 h = GetCursor64();
 	return h < INT_MAX ? (int)h : 0;
 }
 
-int ТекстКтрл::дайДлину32() const
+int TextCtrl::GetLength32() const
 {
-	int64 h = дайДлину64();
+	int64 h = GetLength64();
 	return h < INT_MAX ? (int)h : 0;
 }
 
-int ТекстКтрл::вставь0(int pos, const ШТкст& txt) { // TODO: Do this with utf8
-	ЗамкниГип __;
+int TextCtrl::Insert0(int pos, const WString& txt) { // СДЕЛАТЬ: Do this with utf8
+	GuiLock __;
 	int inspos = pos;
-	вставьПеред(inspos, txt);
+	PreInsert(inspos, txt);
 	if(pos < cpos)
 		cpos = cline = 0;
-	int i = дайПозСтроки32(pos);
+	int i = GetLinePos32(pos);
 	DirtyFrom(i);
 	int size = 0;
 
-	ШТкстБуф lnb;
-	Вектор<ШТкст> iln;
+	WStringBuffer lnb;
+	Vector<WString> iln;
 	const wchar *s = txt;
-	while(s < txt.стоп())
+	while(s < txt.End())
 		if(*s >= ' ') {
 			const wchar *b = s;
 			while(*s >= ' ') // txt is zero teminated...
 				s++;
 			int sz = int(s - b);
-			lnb.конкат(b, sz);
+			lnb.Cat(b, sz);
 			size += sz;
 		}
 		else
 		if(*s == '\t') {
-			lnb.конкат(*s);
+			lnb.Cat(*s);
 			size++;
 			s++;
 		}
 		else
 		if(*s == '\n') {
-			iln.добавь(lnb);
+			iln.Add(lnb);
 			size++;
-			lnb.очисть();
+			lnb.Clear();
 			s++;
 		}
 		else
 			s++;
-	ШТкст ln = lnb;
-	ШТкст l = дайШСтроку(i);
-	if(iln.дайСчёт()) {
-		iln[0] = l.середина(0, pos) + iln[0];
-		ln.конкат(l.середина(pos));
-		устСтроку(i, ln);
-		инвалидируйСтроку(i);
-		вставьСтроку(i, iln.дайСчёт());
-		for(int j = 0; j < iln.дайСчёт(); j++)
-			устСтроку(i + j, iln[j]);
-		вставьСтроки(i, iln.дайСчёт());
-		освежи();
+	WString ln = lnb;
+	WString l = GetWLine(i);
+	if(iln.GetCount()) {
+		iln[0] = l.Mid(0, pos) + iln[0];
+		ln.Cat(l.Mid(pos));
+		SetLine(i, ln);
+		InvalidateLine(i);
+		LineInsert(i, iln.GetCount());
+		for(int j = 0; j < iln.GetCount(); j++)
+			SetLine(i + j, iln[j]);
+		InsertLines(i, iln.GetCount());
+		Refresh();
 	}
 	else {
-		устСтроку(i, l.середина(0, pos) + ln + l.середина(pos));
-		инвалидируйСтроку(i);
-		освежиСтроку(i);
+		SetLine(i, l.Mid(0, pos) + ln + l.Mid(pos));
+		InvalidateLine(i);
+		RefreshLine(i);
 	}
 	total += size;
 	SetSb();
 	Update();
-	очистьВыделение();
-	вставьПосле(inspos, txt);
+	ClearSelection();
+	PostInsert(inspos, txt);
 	return size;
 }
 
-void ТекстКтрл::удали0(int pos, int size) {
-	ЗамкниГип __;
+void TextCtrl::Remove0(int pos, int size) {
+	GuiLock __;
 	int rmpos = pos, rmsize = size;
-	удалиПеред(rmpos, rmsize);
+	PreRemove(rmpos, rmsize);
 	total -= size;
 	if(pos < cpos)
 		cpos = cline = 0;
-	int i = дайПозСтроки32(pos);
+	int i = GetLinePos32(pos);
 	DirtyFrom(i);
-	ШТкст ln = дайШСтроку(i);
-	int sz = min(ограничьРазм(ln.дайДлину() - pos), size);
-	ln.удали(pos, sz);
+	WString ln = GetWLine(i);
+	int sz = min(LimitSize(ln.GetLength() - pos), size);
+	ln.Remove(pos, sz);
 	size -= sz;
-	устСтроку(i, ln);
+	SetLine(i, ln);
 	if(size == 0) {
-		инвалидируйСтроку(i);
-		освежиСтроку(i);
+		InvalidateLine(i);
+		RefreshLine(i);
 	}
 	else {
 		size--;
 		int j = i + 1;
 		for(;;) {
-			int sz = дайДлинуСтроки(j) + 1;
+			int sz = GetLineLength(j) + 1;
 			if(sz > size) break;
 			j++;
 			size -= sz;
 		}
-		ШТкст p1 = дайШСтроку(i);
-		ШТкст p2 = дайШСтроку(j);
-		p1.вставь(p1.дайДлину(), p2.середина(size, p2.дайДлину() - size));
-		устСтроку(i, p1);
-		удалиСтроку(i + 1, j - i);
-		удалиСтроки(i + 1, j - i);
-		инвалидируйСтроку(i);
-		освежи();
+		WString p1 = GetWLine(i);
+		WString p2 = GetWLine(j);
+		p1.Insert(p1.GetLength(), p2.Mid(size, p2.GetLength() - size));
+		SetLine(i, p1);
+		LineRemove(i + 1, j - i);
+		RemoveLines(i + 1, j - i);
+		InvalidateLine(i);
+		Refresh();
 	}
 	Update();
-	очистьВыделение();
-	удалиПосле(rmpos, rmsize);
+	ClearSelection();
+	PostRemove(rmpos, rmsize);
 	SetSb();
 }
 
-void ТекстКтрл::Undodo()
+void TextCtrl::Undodo()
 {
-	while(undo.дайСчёт() > undosteps)
-		undo.сбросьГолову();
-	redo.очисть();
+	while(undo.GetCount() > undosteps)
+		undo.DropHead();
+	redo.Clear();
 }
 
-void ТекстКтрл::NextUndo()
+void TextCtrl::NextUndo()
 {
 	undoserial += incundoserial;
 	incundoserial = false;
 }
 
-void ТекстКтрл::IncDirty() {
+void TextCtrl::IncDirty() {
 	dirty++;
 	if(dirty == 0 || dirty == 1)
 	{
@@ -919,7 +919,7 @@ void ТекстКтрл::IncDirty() {
 	}
 }
 
-void ТекстКтрл::DecDirty() {
+void TextCtrl::DecDirty() {
 	dirty--;
 	if(dirty == 0 || dirty == -1)
 	{
@@ -931,17 +931,17 @@ void ТекстКтрл::DecDirty() {
 	}
 }
 
-int ТекстКтрл::InsertU(int pos, const ШТкст& txt, bool typing) {
-	int sz = вставь0(pos, txt);
+int TextCtrl::InsertU(int pos, const WString& txt, bool typing) {
+	int sz = Insert0(pos, txt);
 	if(undosteps) {
-		if(undo.дайСчёт() > 1 && typing && *txt != '\n' && IsDirty()) {
-			UndoRec& u = undo.дайХвост();
+		if(undo.GetCount() > 1 && typing && *txt != '\n' && IsDirty()) {
+			UndoRec& u = undo.Tail();
 			if(u.typing && u.pos + u.size == pos) {
-				u.size += txt.дайДлину();
+				u.size += txt.GetLength();
 				return sz;
 			}
 		}
-		UndoRec& u = undo.добавьХвост();
+		UndoRec& u = undo.AddTail();
 		incundoserial = true;
 		IncDirty();
 		u.serial = undoserial;
@@ -952,86 +952,86 @@ int ТекстКтрл::InsertU(int pos, const ШТкст& txt, bool typing) {
 	return sz;
 }
 
-void ТекстКтрл::RemoveU(int pos, int size) {
+void TextCtrl::RemoveU(int pos, int size) {
 	if(size + pos > total)
 		size = int(total - pos);
 	if(size <= 0) return;
 	if(undosteps) {
-		UndoRec& u = undo.добавьХвост();
+		UndoRec& u = undo.AddTail();
 		incundoserial = true;
 		IncDirty();
 		u.serial = undoserial;
 		u.pos = pos;
 		u.size = 0;
-		u.устТекст(дай(pos, size, CHARSET_UTF8));
+		u.SetText(Get(pos, size, CHARSET_UTF8));
 		u.typing = false;
 	}
-	удали0(pos, size);
+	Remove0(pos, size);
 }
 
-int ТекстКтрл::вставь(int pos, const ШТкст& _txt, bool typing) {
-	if(pos + _txt.дайСчёт() > max_total)
+int TextCtrl::Insert(int pos, const WString& _txt, bool typing) {
+	if(pos + _txt.GetCount() > max_total)
 		return 0;
-	ШТкст txt = _txt;
+	WString txt = _txt;
 	if(!IsUnicodeCharset(charset))
-		for(int i = 0; i < txt.дайСчёт(); i++)
-			if(изЮникода(txt[i], charset) == DEFAULTCHAR)
-				txt.уст(i, '?');
+		for(int i = 0; i < txt.GetCount(); i++)
+			if(FromUnicode(txt[i], charset) == DEFAULTCHAR)
+				txt.Set(i, '?');
 	int sz = InsertU(pos, txt, typing);
 	Undodo();
 	return sz;
 }
 
-int ТекстКтрл::вставь(int pos, const Ткст& txt, byte charset)
+int TextCtrl::Insert(int pos, const String& txt, byte charset)
 {
-	return вставь(pos, вЮникод(txt, charset), false);
+	return Insert(pos, ToUnicode(txt, charset), false);
 }
 
-void ТекстКтрл::удали(int pos, int size) {
+void TextCtrl::Remove(int pos, int size) {
 	RemoveU(pos, size);
 	Undodo();
 }
 
-void ТекстКтрл::Undo() {
-	if(undo.пустой()) return;
+void TextCtrl::Undo() {
+	if(undo.IsEmpty()) return;
 	undo_op = true;
 	int nc = 0;
-	int s = undo.дайХвост().serial;
-	while(undo.дайСчёт()) {
-		const UndoRec& u = undo.дайХвост();
+	int s = undo.Tail().serial;
+	while(undo.GetCount()) {
+		const UndoRec& u = undo.Tail();
 		if(u.serial != s)
 			break;
-		UndoRec& r = redo.добавьХвост();
+		UndoRec& r = redo.AddTail();
 		r.serial = s;
 		r.typing = false;
 		nc = r.pos = u.pos;
 		CachePos(r.pos);
 		if(u.size) {
 			r.size = 0;
-			r.устТекст(дай(u.pos, u.size, CHARSET_UTF8));
-			удали0(u.pos, u.size);
+			r.SetText(Get(u.pos, u.size, CHARSET_UTF8));
+			Remove0(u.pos, u.size);
 		}
 		else {
-			ШТкст text = вУтф32(u.дайТекст());
-			r.size = вставь0(u.pos, text);
+			WString text = ToUtf32(u.GetText());
+			r.size = Insert0(u.pos, text);
 			nc += r.size;
 		}
-		undo.сбросьХвост();
+		undo.DropTail();
 		DecDirty();
 	}
-	очистьВыделение();
-	поместиКаретку(nc, false);
+	ClearSelection();
+	PlaceCaret(nc, false);
 	Action();
 	undo_op = false;
 }
 
-void ТекстКтрл::Redo() {
-	if(!redo.дайСчёт()) return;
+void TextCtrl::Redo() {
+	if(!redo.GetCount()) return;
 	NextUndo();
-	int s = redo.дайХвост().serial;
+	int s = redo.Tail().serial;
 	int nc = 0;
-	while(redo.дайСчёт()) {
-		const UndoRec& r = redo.дайХвост();
+	while(redo.GetCount()) {
+		const UndoRec& r = redo.Tail();
 		if(r.serial != s)
 			break;
 		nc = r.pos + r.size;
@@ -1039,34 +1039,34 @@ void ТекстКтрл::Redo() {
 		if(r.size)
 			RemoveU(r.pos, r.size);
 		else
-			nc += InsertU(r.pos, вУтф32(r.дайТекст()));
-		redo.сбросьХвост();
+			nc += InsertU(r.pos, ToUtf32(r.GetText()));
+		redo.DropTail();
 		IncDirty();
 	}
-	очистьВыделение();
-	поместиКаретку(nc, false);
+	ClearSelection();
+	PlaceCaret(nc, false);
 	Action();
 }
 
-void  ТекстКтрл::очистьВыделение() {
+void  TextCtrl::ClearSelection() {
 	if(anchor >= 0) {
 		anchor = -1;
-		освежи();
+		Refresh();
 		SelectionChanged();
 		WhenSel();
 	}
 }
 
-void   ТекстКтрл::устВыделение(int64 l, int64 h) {
+void   TextCtrl::SetSelection(int64 l, int64 h) {
 	if(l != h) {
-		поместиКаретку(minmax(l, (int64)0, total), false);
-		поместиКаретку(minmax(h, (int64)0, total), true);
+		PlaceCaret(minmax(l, (int64)0, total), false);
+		PlaceCaret(minmax(h, (int64)0, total), true);
 	}
 	else
-		устКурсор(l);
+		SetCursor(l);
 }
 
-bool   ТекстКтрл::дайВыделение(int64& l, int64& h) const {
+bool   TextCtrl::GetSelection(int64& l, int64& h) const {
 	if(anchor < 0 || anchor == cursor) {
 		l = h = cursor;
 		return false;
@@ -1078,147 +1078,147 @@ bool   ТекстКтрл::дайВыделение(int64& l, int64& h) const {
 	}
 }
 
-Ткст ТекстКтрл::дайВыделение(byte charset) const {
+String TextCtrl::GetSelection(byte charset) const {
 	int64 l, h;
-	if(дайВыделение(l, h))
-		return дай(l, ограничьРазм(h - l), charset);
-	return Ткст();
+	if(GetSelection(l, h))
+		return Get(l, LimitSize(h - l), charset);
+	return String();
 }
 
-ШТкст ТекстКтрл::GetSelectionW() const {
+WString TextCtrl::GetSelectionW() const {
 	int64 l, h;
-	if(дайВыделение(l, h))
-		return дайШ(l, ограничьРазм(h - l));
-	return ШТкст();
+	if(GetSelection(l, h))
+		return GetW(l, LimitSize(h - l));
+	return WString();
 }
 
-bool   ТекстКтрл::удалиВыделение() {
+bool   TextCtrl::RemoveSelection() {
 	int64 l, h;
 	if(anchor < 0) return false;
 	if(IsRectSelection())
 		l = RemoveRectSelection();
 	else {
-		if(!дайВыделение(l, h))
+		if(!GetSelection(l, h))
 			return false;
-		удали((int)l, int(h - l));
+		Remove((int)l, int(h - l));
 	}
 	anchor = -1;
-	освежи();
-	поместиКаретку(l);
+	Refresh();
+	PlaceCaret(l);
 	Action();
 	return true;
 }
 
-void ТекстКтрл::освежиСтроки(int l1, int l2) {
+void TextCtrl::RefreshLines(int l1, int l2) {
 	int h = max(l1, l2);
 	for(int i = min(l1, l2); i <= h; i++)
-		освежиСтроку(i);
+		RefreshLine(i);
 }
 
-void ТекстКтрл::вырежь() {
-	if(!толькочтен_ли() && IsAnySelection()) {
-		копируй();
-		удалиВыделение();
+void TextCtrl::Cut() {
+	if(!IsReadOnly() && IsAnySelection()) {
+		Copy();
+		RemoveSelection();
 	}
 }
 
-void ТекстКтрл::копируй() {
+void TextCtrl::Copy() {
 	int64 l, h;
-	if(!дайВыделение(l, h) && !IsAnySelection()) {
-		int i = дайСтроку(cursor);
-		l = дайПоз64(i);
-		h = l + дайДлинуСтроки(i) + 1;
+	if(!GetSelection(l, h) && !IsAnySelection()) {
+		int i = GetLine(cursor);
+		l = GetPos64(i);
+		h = l + GetLineLength(i) + 1;
 	}
-	ШТкст txt;
+	WString txt;
 	if(IsRectSelection())
 		txt = CopyRectSelection();
 	else
-		txt = дайШ(l, ограничьРазм(h - l));
+		txt = GetW(l, LimitSize(h - l));
 	ClearClipboard();
 	AppendClipboardUnicodeText(txt);
-	AppendClipboardText(txt.вТкст());
+	AppendClipboardText(txt.ToString());
 }
 
-void ТекстКтрл::выбериВсе() {
-	устВыделение();
+void TextCtrl::SelectAll() {
+	SetSelection();
 }
 
-int  ТекстКтрл::Paste(const ШТкст& text) {
-	if(толькочтен_ли()) return 0;
+int  TextCtrl::Paste(const WString& text) {
+	if(IsReadOnly()) return 0;
 	int n;
 	if(IsRectSelection())
 		n = PasteRectSelection(text);
 	else {
-		удалиВыделение();
-		n = вставь((int)cursor, text);
-		поместиКаретку(cursor + n);
+		RemoveSelection();
+		n = Insert((int)cursor, text);
+		PlaceCaret(cursor + n);
 	}
-	освежи();
+	Refresh();
 	return n;
 }
 
-Ткст ТекстКтрл::дайВставьТекст()
+String TextCtrl::GetPasteText()
 {
 	return Null;
 }
 
-void ТекстКтрл::Paste() {
-	ШТкст w = ReadClipboardUnicodeText();
-	if(w.пустой())
-		w = ReadClipboardText().вШТкст();
-	if(w.пустой())
-		w = дайВставьТекст().вШТкст();
+void TextCtrl::Paste() {
+	WString w = ReadClipboardUnicodeText();
+	if(w.IsEmpty())
+		w = ReadClipboardText().ToWString();
+	if(w.IsEmpty())
+		w = GetPasteText().ToWString();
 	Paste(w);
 	Action();
 }
 
-void ТекстКтрл::StdBar(Бар& menu) {
+void TextCtrl::StdBar(Bar& menu) {
 	NextUndo();
 	if(undosteps) {
-		menu.добавь(undo.дайСчёт() && редактируем_ли(), t_("Undo"), CtrlImg::undo(), THISBACK(Undo))
-			.Ключ(K_ALT_BACKSPACE)
-			.Ключ(K_CTRL_Z);
-		menu.добавь(redo.дайСчёт() && редактируем_ли(), t_("Redo"), CtrlImg::redo(), THISBACK(Redo))
-			.Ключ(K_SHIFT|K_ALT_BACKSPACE)
-			.Ключ(K_SHIFT_CTRL_Z);
+		menu.Add(undo.GetCount() && IsEditable(), t_("Отменить"), CtrlImg::undo(), THISBACK(Undo))
+			.Key(K_ALT_BACKSPACE)
+			.Key(K_CTRL_Z);
+		menu.Add(redo.GetCount() && IsEditable(), t_("Восстановить"), CtrlImg::redo(), THISBACK(Redo))
+			.Key(K_SHIFT|K_ALT_BACKSPACE)
+			.Key(K_SHIFT_CTRL_Z);
 		menu.Separator();
 	}
-	menu.добавь(редактируем_ли() && IsAnySelection(),
-			t_("вырежь"), CtrlImg::cut(), THISBACK(вырежь))
-		.Ключ(K_SHIFT_DELETE)
-		.Ключ(K_CTRL_X);
-	menu.добавь(IsAnySelection(),
-			t_("копируй"), CtrlImg::copy(), THISBACK(копируй))
-		.Ключ(K_CTRL_INSERT)
-		.Ключ(K_CTRL_C);
-	bool canpaste = редактируем_ли() && IsClipboardAvailableText();
-	menu.добавь(canpaste,
-			t_("Paste"), CtrlImg::paste(), THISBACK(DoPaste))
-		.Ключ(K_SHIFT_INSERT)
-		.Ключ(K_CTRL_V);
-	СтрокРедакт *e = dynamic_cast<СтрокРедакт *>(this);
+	menu.Add(IsEditable() && IsAnySelection(),
+			t_("Вырезать"), CtrlImg::cut(), THISBACK(Cut))
+		.Key(K_SHIFT_DELETE)
+		.Key(K_CTRL_X);
+	menu.Add(IsAnySelection(),
+			t_("Копировать"), CtrlImg::copy(), THISBACK(Copy))
+		.Key(K_CTRL_INSERT)
+		.Key(K_CTRL_C);
+	bool canpaste = IsEditable() && IsClipboardAvailableText();
+	menu.Add(canpaste,
+			t_("Вставить"), CtrlImg::paste(), THISBACK(DoPaste))
+		.Key(K_SHIFT_INSERT)
+		.Key(K_CTRL_V);
+	LineEdit *e = dynamic_cast<LineEdit *>(this);
 	if(e) {
-		menu.добавь(canpaste,
-				 t_("Paste in column"), CtrlImg::paste_vert(), callback(e, &СтрокРедакт::DoPasteColumn))
-			.Ключ(K_ALT_V|K_SHIFT);
-		menu.добавь(e->IsRectSelection(),
-				 t_("сортируй"), CtrlImg::sort(), callback(e, &СтрокРедакт::сортируй));
+		menu.Add(canpaste,
+				 t_("Вставить в столбец"), CtrlImg::paste_vert(), callback(e, &LineEdit::DoPasteColumn))
+			.Key(K_ALT_V|K_SHIFT);
+		menu.Add(e->IsRectSelection(),
+				 t_("Сортировать"), CtrlImg::sort(), callback(e, &LineEdit::Sort));
 	}
-	menu.добавь(редактируем_ли() && IsAnySelection(),
-			t_("Erase"), CtrlImg::remove(), THISBACK(DoRemoveSelection))
-		.Ключ(K_DELETE);
+	menu.Add(IsEditable() && IsAnySelection(),
+			t_("Стереть"), CtrlImg::remove(), THISBACK(DoRemoveSelection))
+		.Key(K_DELETE);
 	menu.Separator();
-	menu.добавь(дайДлину64(),
-			t_("выдели all"), CtrlImg::select_all(), THISBACK(выбериВсе))
-		.Ключ(K_CTRL_A);
+	menu.Add(GetLength64(),
+			t_("Выделить Все"), CtrlImg::select_all(), THISBACK(SelectAll))
+		.Key(K_CTRL_A);
 }
 
-Ткст ТекстКтрл::GetSelectionData(const Ткст& fmt) const
+String TextCtrl::GetSelectionData(const String& fmt) const
 {
 	return GetTextClip(GetSelectionW(), fmt);
 }
 
-void ТекстКтрл::ПозРедакт::сериализуй(Поток& s) {
+void TextCtrl::EditPos::Serialize(Stream& s) {
 	int version = 1;
 	s / version;
 	if(version >= 1)

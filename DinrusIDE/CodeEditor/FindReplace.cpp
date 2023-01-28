@@ -1,16 +1,16 @@
 #include "CodeEditor.h"
 
-namespace РНЦП {
+namespace Upp {
 
-void РедакторКода::иницНайтиЗаменить()
+void CodeEditor::InitFindReplace()
 {
-	findreplace.find.AddButton().SetMonoImage(CtrlImg::smallright()).Подсказка("Wildcard")
+	findreplace.find.AddButton().SetMonoImage(CtrlImg::smallright()).Tip("Wildcard")
 		<<= THISBACK(FindWildcard);
-	findreplace.replace.AddButton().SetMonoImage(CtrlImg::smallright()).Подсказка("Wildcard")
+	findreplace.replace.AddButton().SetMonoImage(CtrlImg::smallright()).Tip("Wildcard")
 		<<= THISBACK(ReplaceWildcard);
 	PutI(findreplace.find);
 	PutI(findreplace.replace);
-	findreplace.amend <<= THISBACK(замени);
+	findreplace.amend <<= THISBACK(Replace);
 	findreplace.amend_all <<= THISBACK1(ReplaceAll, false);
 	findreplace.amend_rest <<= THISBACK1(ReplaceAll, true);
 	findreplace.prev <<= THISBACK(DoFindBack);
@@ -21,123 +21,123 @@ void РедакторКода::иницНайтиЗаменить()
 	                 <<= findreplace.incremental <<= findreplace.regexp
 	                 <<= findreplace.ignorecase <<= THISBACK(IncrementalFind);
 	ff_start_pos = -1;
-	findreplace.find_all << [=] { найдиВсе(); };
+	findreplace.find_all << [=] { FindAll(); };
 }
 
-ДиалогНайтиЗаменить::ДиалогНайтиЗаменить()
+FindReplaceDlg::FindReplaceDlg()
 {
 	find.NoUpDownKeys();
 	samecase <<= true;
 	close.Cancel();
-	prev.устРисунок(CtrlImg::SmallUp());
-	amend.устРисунок(CodeEditorImg::Replace());
-	amend_all.устРисунок(CodeEditorImg::ReplaceAll());
-	amend_rest.устРисунок(CodeEditorImg::ReplaceRest());
-	find_all.устРисунок(CodeEditorImg::FindAll());
+	prev.SetImage(CtrlImg::SmallUp());
+	amend.SetImage(CodeEditorImg::Replace());
+	amend_all.SetImage(CodeEditorImg::ReplaceAll());
+	amend_rest.SetImage(CodeEditorImg::ReplaceRest());
+	find_all.SetImage(CodeEditorImg::FindAll());
 	incremental <<= true;
-	mode <<= THISBACK(синх);
-	mode.скрой();
-	синх();
+	mode <<= THISBACK(Sync);
+	mode.Hide();
+	Sync();
 	
 	find.NullText("Найти");
 	replace.NullText("Заменить");
 }
 
-void ДиалогНайтиЗаменить::синх()
+void FindReplaceDlg::Sync()
 {
-	samecase.вкл(ignorecase);
+	samecase.Enable(ignorecase);
 	bool b = !regexp;
-	wildcards.вкл(b);
-	prev.вкл(b);
-	ignorecase.вкл(b);
-	wholeword.вкл(b);
-	incremental_from_cursor.вкл(инкрементален_ли());
-	b = !mode.видим_ли() || ~mode == 0;
-	replace.вкл(b);
+	wildcards.Enable(b);
+	prev.Enable(b);
+	ignorecase.Enable(b);
+	wholeword.Enable(b);
+	incremental_from_cursor.Enable(IsIncremental());
+	b = !mode.IsVisible() || ~mode == 0;
+	replace.Enable(b);
 }
 
-dword РедакторКода::find_next_key = K_F3;
-dword РедакторКода::find_prev_key = K_SHIFT_F3;
-dword РедакторКода::replace_key = K_CTRL_R;
+dword CodeEditor::find_next_key = K_F3;
+dword CodeEditor::find_prev_key = K_SHIFT_F3;
+dword CodeEditor::replace_key = K_CTRL_R;
 
-bool ДиалогНайтиЗаменить::Ключ(dword ключ, int cnt) {
-	if(ключ == K_CTRL_I) {
-		if(find.естьФокус()) {
+bool FindReplaceDlg::Key(dword key, int cnt) {
+	if(key == K_CTRL_I) {
+		if(find.HasFocus()) {
 			find <<= itext;
 			return true;
 		}
-		if(replace.естьФокус()) {
+		if(replace.HasFocus()) {
 			replace <<= itext;
 			return true;
 		}
 	}
-	if(ключ == K_ENTER) {
+	if(key == K_ENTER) {
 		next.WhenAction();
 		return true;
 	}
-	if(findarg(ключ, K_TAB, K_SHIFT_TAB) >= 0 && replace.показан_ли()) {
-		if(find.естьФокус())
-			replace.устФокус();
+	if(findarg(key, K_TAB, K_SHIFT_TAB) >= 0 && replace.IsShown()) {
+		if(find.HasFocus())
+			replace.SetFocus();
 		else
-			find.устФокус();
+			find.SetFocus();
 		return true;
 	}
-	if(ключ == K_ESCAPE) {
+	if(key == K_ESCAPE) {
 		close.WhenAction();
 		return true;
 	}
-	return ТопОкно::Ключ(ключ, cnt);
+	return TopWindow::Key(key, cnt);
 }
 
-void ДиалогНайтиЗаменить::настрой(bool doreplace)
+void FindReplaceDlg::Setup(bool doreplace)
 {
 	CtrlLayout(*this);
-	close.устРисунок(CodeEditorImg::Cancel());
-	close.Подсказка("Закрыть (Esc)");
+	close.SetImage(CodeEditorImg::Cancel());
+	close.Tip("Закрыть (Esc)");
 	close.Normal();
-	close.устНадпись("");
-	next.устРисунок(CtrlImg::SmallDown());
-	next.Подсказка("Найти далее (" + GetKeyDesc(РедакторКода::find_next_key) + ")");
+	close.SetLabel("");
+	next.SetImage(CtrlImg::SmallDown());
+	next.Tip("Найти далее (" + GetKeyDesc(CodeEditor::find_next_key) + ")");
 	next.Normal();
-	next.устНадпись("");
-	prev.Подсказка("Найти ранее (" + GetKeyDesc(РедакторКода::find_prev_key) + ")");
-	amend.Подсказка("Заменить (" + GetKeyDesc(РедакторКода::replace_key) + ")");
-	find_all.покажи();
-	find_all.Подсказка("Найти все");
-	amend.откл();
+	next.SetLabel("");
+	prev.Tip("Найти ранее (" + GetKeyDesc(CodeEditor::find_prev_key) + ")");
+	amend.Tip("Заменить (" + GetKeyDesc(CodeEditor::replace_key) + ")");
+	find_all.Show();
+	find_all.Tip("Найти все");
+	amend.Disable();
 	replacing = doreplace;
-	replace.покажи(replacing);
-	amend.покажи(replacing);
-	amend_all.покажи(replacing);
-	amend_rest.покажи(replacing);
-	устВысоту(doreplace ? GetLayoutSize().cy : replace.дайПрям().top);
-	устФрейм(фреймВерхнСепаратора());
-	синх();
+	replace.Show(replacing);
+	amend.Show(replacing);
+	amend_all.Show(replacing);
+	amend_rest.Show(replacing);
+	Height(doreplace ? GetLayoutSize().cy : replace.GetRect().top);
+	SetFrame(TopSeparatorFrame());
+	Sync();
 }
 
-void РедакторКода::устНайден(int fi, int тип, const ШТкст& text)
+void CodeEditor::SetFound(int fi, int type, const WString& text)
 {
-	Found& f = foundwild.по(fi);
-	f.тип = тип;
+	Found& f = foundwild.At(fi);
+	f.type = type;
 	f.text = text;
 }
 
-int РедакторКода::сверь(const wchar *f, const wchar *s, int line, bool we, bool ignorecase, int fi)
+int CodeEditor::Match(const wchar *f, const wchar *s, int line, bool we, bool ignorecase, int fi)
 {
 	const wchar *b = s;
 	int n = 0;
-	ШТкст ln;
+	WString ln;
 	while(*f) {
 		if(*f == WILDANY) {
 			f++;
-			ШТкст wild;
+			WString wild;
 			for(;;) {
-				int nn = сверь(f, s, line, we, ignorecase, fi + 1);
+				int nn = Match(f, s, line, we, ignorecase, fi + 1);
 				if(nn >= 0) {
-					устНайден(fi, WILDANY, wild);
+					SetFound(fi, WILDANY, wild);
 					return int(s - b) + n + nn;
 				}
-				wild.конкат(*s ? *s : '\n');
+				wild.Cat(*s ? *s : '\n');
 				if(!*s++) return -1;
 			}
 			return -1;
@@ -145,7 +145,7 @@ int РедакторКода::сверь(const wchar *f, const wchar *s, int lin
 		else
 		if(*f == WILDONE) {
 			if(!*s) return -1;
-			устНайден(fi++, WILDONE, ШТкст(*s, 1));
+			SetFound(fi++, WILDONE, WString(*s, 1));
 			s++;
 		}
 		else
@@ -155,7 +155,7 @@ int РедакторКода::сверь(const wchar *f, const wchar *s, int lin
 			s++;
 			while(*s == ' ' || *s == '\t')
 				s++;
-			устНайден(fi++, WILDSPACE, ШТкст(wb, s));
+			SetFound(fi++, WILDSPACE, WString(wb, s));
 		}
 		else
 		if(*f == WILDNUMBER) {
@@ -164,7 +164,7 @@ int РедакторКода::сверь(const wchar *f, const wchar *s, int lin
 			s++;
 			while(*s >= '0' && *s <= '9')
 				s++;
-			устНайден(fi++, WILDNUMBER, ШТкст(wb, s));
+			SetFound(fi++, WILDNUMBER, WString(wb, s));
 		}
 		else
 		if(*f == WILDID) {
@@ -172,17 +172,17 @@ int РедакторКода::сверь(const wchar *f, const wchar *s, int lin
 			if(!iscib(*s)) return -1;
 			s++;
 			while(iscidl(*s)) s++;
-			устНайден(fi++, WILDID, ШТкст(wb, s));
+			SetFound(fi++, WILDID, WString(wb, s));
 		}
 		else
 		if(*f == '\n') {
-			if(*s != '\0' || ++line >= дайСчётСтрок()) return -1;
+			if(*s != '\0' || ++line >= GetLineCount()) return -1;
 			n += int(s - b) + 1;
-			ln = дайШСтроку(line);
+			ln = GetWLine(line);
 			s = b = ln;
 		}
 		else {
-			if(ignorecase ? взаг(*s) != взаг(*f) : *s != *f) return -1;
+			if(ignorecase ? ToUpper(*s) != ToUpper(*f) : *s != *f) return -1;
 			s++;
 		}
 		f++;
@@ -190,68 +190,68 @@ int РедакторКода::сверь(const wchar *f, const wchar *s, int lin
 	return we && iscidl(*s) ? -1 : int(s - b) + n;
 }
 
-bool РедакторКода::найди(bool back, bool block)
+bool CodeEditor::Find(bool back, bool block)
 {
 	foundsel = true;
-	if(notfoundfw) двигайВНачТекста();
-	if(notfoundbk) двигайВКонТекста();
+	if(notfoundfw) MoveTextBegin();
+	if(notfoundbk) MoveTextEnd();
 	foundsel = false;
 	int64 cursor, pos;
 	if(found)
-		дайВыделение(pos, cursor);
+		GetSelection(pos, cursor);
 	else
-		дайВыделение(cursor, pos);
+		GetSelection(cursor, pos);
 	pos = cursor;
-	bool b = найдиОт(pos, back, block);
-	findreplace.amend.вкл(b);
+	bool b = FindFrom(pos, back, block);
+	findreplace.amend.Enable(b);
 	return b;
 }
 
-bool РедакторКода::найдиРегВыр(int64 pos, bool block)
+bool CodeEditor::RegExpFind(int64 pos, bool block)
 {
-	RegExp regex((Ткст)~findreplace.find);
+	RegExp regex((String)~findreplace.find);
 	
-	int line = дайПозСтроки64(pos);
-	Ткст ln = вУтф8(дайШСтроку(line).середина(ограничьРазм(pos)));
+	int line = GetLinePos64(pos);
+	String ln = ToUtf8(GetWLine(line).Mid(LimitSize(pos)));
 	for(;;) {
-		if(regex.сверь(ln)) {
-			for(int i = 0; i < regex.дайСчёт(); i++)
-				устНайден(i, WILDANY, regex.дайТкст(i).вШТкст());
-			int off = regex.дайСмещ();
-			int len = длинаУтф32(~ln + off, regex.дайДлину());
-			pos = дайПоз64(line, длинаУтф32(~ln, off) + (int)pos);
-			foundtext = дайШ(pos, len);
+		if(regex.Match(ln)) {
+			for(int i = 0; i < regex.GetCount(); i++)
+				SetFound(i, WILDANY, regex.GetString(i).ToWString());
+			int off = regex.GetOffset();
+			int len = Utf32Len(~ln + off, regex.GetLength());
+			pos = GetPos64(line, Utf32Len(~ln, off) + (int)pos);
+			foundtext = GetW(pos, len);
 			if(!block) {
 				foundsel = true;
-				устВыделение(pos, pos + len);
+				SetSelection(pos, pos + len);
 				foundsel = false;
-				курсорПоЦентру();
+				CenterCursor();
 			}
 			foundpos = pos;
 			foundsize = len;
 			found = true;
 			return true;
 		}
-		if(++line >= дайСчётСтрок()) {
-			ждиВид(line);
-			if(line >= дайСчётСтрок())
+		if(++line >= GetLineCount()) {
+			WaitView(line);
+			if(line >= GetLineCount())
 				return false;
 		}
-		ln = дайУтф8Строку(line);
+		ln = GetUtf8Line(line);
 		pos = 0;
 		if(!SearchProgress(line))
 			return false;
 	}
 }
 
-void РедакторКода::найдиВсе()
+void CodeEditor::FindAll()
 {
-	Вектор<Кортеж<int64, int>> found;
+	Vector<Tuple<int64, int>> found;
 	foundpos = 0;
-	while(найдиОт(foundpos, false, true)) {
-		found.добавь(сделайКортеж(foundpos, foundsize));
+	while(FindFrom(foundpos, false, true)) {
+		found.Add(MakeTuple(foundpos, foundsize));
 		foundpos += foundsize;
-		if(found.дайСчёт() >= 10000) {
+		if(found.GetCount() >= 10000) {
 			Exclamation("Слишком много совпадений, будут показаны только первые 10000.");
 			break;
 		}
@@ -259,11 +259,11 @@ void РедакторКода::найдиВсе()
 	WhenFindAll(found);
 }
 
-bool РедакторКода::найдиОт(int64 pos, bool back, bool block)
+bool CodeEditor::FindFrom(int64 pos, bool back, bool block)
 {
 	notfoundbk = notfoundfw = false;
 	if(findreplace.regexp) {
-		if(найдиРегВыр(pos, block))
+		if(RegExpFind(pos, block))
 			return true;
 		if(back)
 			notfoundbk = true;
@@ -271,8 +271,8 @@ bool РедакторКода::найдиОт(int64 pos, bool back, bool block)
 			notfoundfw = true;
 		return false;
 	}
-	ШТкст text = ~findreplace.find;
-	ШТкст ft;
+	WString text = ~findreplace.find;
+	WString ft;
 	const wchar *s = text;
 	while(*s) {
 		int c = *s++;
@@ -280,18 +280,18 @@ bool РедакторКода::найдиОт(int64 pos, bool back, bool block)
 			c = *s++;
 			if(c == '\0') break;
 			if(c == 'n')
-				ft.конкат('\n');
+				ft.Cat('\n');
 			else
 			if(c == 't')
-				ft.конкат('\t');
+				ft.Cat('\t');
 			else
 			if(c >= ' ')
-				ft.конкат(c);
+				ft.Cat(c);
 		}
 		else
 		if(c >= ' ') {
 			if(findreplace.wildcards)
-				ft.конкат(c == '*' ? WILDANY :
+				ft.Cat(c == '*' ? WILDANY :
 					   c == '?' ? WILDONE :
 					   c == '%' ? WILDSPACE :
 					   c == '#' ? WILDNUMBER :
@@ -299,31 +299,31 @@ bool РедакторКода::найдиОт(int64 pos, bool back, bool block)
 								  c
 				);
 			else
-				ft.конкат(c);
+				ft.Cat(c);
 		}
 	}
 	bool wb = findreplace.wholeword ? iscidl(*ft) : false;
-	bool we = findreplace.wholeword ? iscidl(*ft.последний()) : false;
-	if(ft.пустой()) return false;
-	foundwild.очисть();
-	int line = дайПозСтроки64(pos);
-	ШТкст ln = дайШСтроку(line);
+	bool we = findreplace.wholeword ? iscidl(*ft.Last()) : false;
+	if(ft.IsEmpty()) return false;
+	foundwild.Clear();
+	int line = GetLinePos64(pos);
+	WString ln = GetWLine(line);
 	const wchar *l = ln;
 	s = l + pos;
 	bool ignorecase = findreplace.ignorecase;
 	for(;;) {
 		for(;;) {
 			if(!wb || (s == l || !iscidl(s[-1]))) {
-				int n = сверь(ft, s, line, we, ignorecase);
+				int n = Match(ft, s, line, we, ignorecase);
 				if(n >= 0) {
-					int64 pos = дайПоз64(line, int(s - l));
-					foundtext = дайШ(pos, n);
+					int64 pos = GetPos64(line, int(s - l));
+					foundtext = GetW(pos, n);
 					if(!back || pos + n < cursor) {
 						if(!block) {
 							foundsel = true;
-							устВыделение(pos, pos + n);
+							SetSelection(pos, pos + n);
 							foundsel = false;
-							курсорПоЦентру();
+							CenterCursor();
 						}
 						foundpos = pos;
 						foundsize = n;
@@ -340,20 +340,20 @@ bool РедакторКода::найдиОт(int64 pos, bool back, bool block)
 		}
 		if(back) {
 			if(--line < 0) break;
-			ln = дайШСтроку(line);
+			ln = GetWLine(line);
 			l = ln;
-			s = ln.стоп();
+			s = ln.End();
 		}
 		else {
-			if(++line >= дайСчётСтрок()) {
-				ждиВид(line);
-				if(line >= дайСчётСтрок())
+			if(++line >= GetLineCount()) {
+				WaitView(line);
+				if(line >= GetLineCount())
 					break;
 			}
-			ln = дайШСтроку(line);
+			ln = GetWLine(line);
 			l = s = ln;
 		}
-		if(!SearchProgress(back ? дайСчётСтрок() - line : line))
+		if(!SearchProgress(back ? GetLineCount() - line : line))
 			break;
 	}
 	if(back)
@@ -363,36 +363,36 @@ bool РедакторКода::найдиОт(int64 pos, bool back, bool block)
 	return false;
 }
 
-void РедакторКода::FindReplaceAddHistory()
+void CodeEditor::FindReplaceAddHistory()
 {
-	if(!пусто_ли(findreplace.find))
+	if(!IsNull(findreplace.find))
 		findreplace.find.AddHistory();
-	if(!пусто_ли(findreplace.replace))
+	if(!IsNull(findreplace.replace))
 		findreplace.replace.AddHistory();
 }
 
-void РедакторКода::NoFindError()
+void CodeEditor::NoFindError()
 {
-	findreplace.find.Ошибка(false);
+	findreplace.find.Error(false);
 }
 
-void РедакторКода::NotFound()
+void CodeEditor::NotFound()
 {
-	findreplace.find.Ошибка();
-	if(!findreplace.инкрементален_ли())
-		устФокус();
-	findreplace.amend.откл();
+	findreplace.find.Error();
+	if(!findreplace.IsIncremental())
+		SetFocus();
+	findreplace.amend.Disable();
 }
 
-bool РедакторКода::найди(bool back, bool blockreplace, bool replace)
+bool CodeEditor::Find(bool back, bool blockreplace, bool replace)
 {
 	NoFindError();
-	if(найди(back, blockreplace)) {
+	if(Find(back, blockreplace)) {
 		if(!blockreplace) {
-			if(!findreplace.открыт())
+			if(!findreplace.IsOpen())
 				OpenNormalFindReplace(replace);
-			if(!findreplace.инкрементален_ли())
-				устФокус();
+			if(!findreplace.IsIncremental())
+				SetFocus();
 		}
 		return true;
 	}
@@ -402,28 +402,28 @@ bool РедакторКода::найди(bool back, bool blockreplace, bool rep
 	}
 }
 
-ШТкст РедакторКода::GetWild(int тип, int& i)
+WString CodeEditor::GetWild(int type, int& i)
 {
 	for(;;) {
-		if(i >= foundwild.дайСчёт()) break;
+		if(i >= foundwild.GetCount()) break;
 		Found& f = foundwild[i++];
-		if(f.тип == тип) return f.text;
+		if(f.type == type) return f.text;
 	}
-	for(int j = 0; j < foundwild.дайСчёт(); j++) {
+	for(int j = 0; j < foundwild.GetCount(); j++) {
 		Found& f = foundwild[j++];
-		if(f.тип == тип) return f.text;
+		if(f.type == type) return f.text;
 	}
-	return ШТкст();
+	return WString();
 }
 
-ШТкст РедакторКода::GetReplaceText()
+WString CodeEditor::GetReplaceText()
 {
-	ШТкст rs = ~findreplace.replace;
+	WString rs = ~findreplace.replace;
 	bool wildcards = findreplace.wildcards;
 	bool samecase = findreplace.ignorecase && findreplace.samecase;
 
 	int anyi = 0, onei = 0, spacei = 0, numberi = 0, idi = 0;
-	ШТкст rt;
+	WString rt;
 	const wchar *s = rs;
 	while(*s) {
 		int c = *s++;
@@ -431,18 +431,18 @@ bool РедакторКода::найди(bool back, bool blockreplace, bool rep
 			c = *s++;
 			if(c == '\0') break;
 			if(c == 'n')
-				rt.конкат('\n');
+				rt.Cat('\n');
 			else
 			if(c == 't')
-				rt.конкат('\t');
+				rt.Cat('\t');
 			else
 			if(c >= ' ')
-				rt.конкат(c);
+				rt.Cat(c);
 		}
 		else
 		if(c >= ' ') {
 			if(wildcards) {
-				ШТкст w;
+				WString w;
 				if(c == '*')
 					w = GetWild(WILDANY, anyi);
 				else
@@ -462,68 +462,68 @@ bool РедакторКода::найди(bool back, bool blockreplace, bool rep
 					c = *s++;
 					if(c == '\0') break;
 					if(c == '@') {
-						rt << какТкст(replacei).вШТкст();
+						rt << AsString(replacei).ToWString();
 						continue;
 					}
 					if(c == '#') {
-						rt << какТкст(replacei + 1).вШТкст();
+						rt << AsString(replacei + 1).ToWString();
 						continue;
 					}
 					if(c >= '1' && c <= '9') {
 						c -= '1';
-						w = c < foundwild.дайСчёт() ? foundwild[c].text : ШТкст();
+						w = c < foundwild.GetCount() ? foundwild[c].text : WString();
 					}
 					else {
-						rt.конкат('@');
-						if(c >= ' ' && c < 255) rt.конкат(c);
+						rt.Cat('@');
+						if(c >= ' ' && c < 255) rt.Cat(c);
 						continue;
 					}
 				}
 				else {
-					rt.конкат(c);
+					rt.Cat(c);
 					continue;
 				}
 				if(*s == '+') {
-					w = взаг(w);
+					w = ToUpper(w);
 					s++;
 				}
 				else
 				if(*s == '-') {
-					w = впроп(w);
+					w = ToLower(w);
 					s++;
 				}
 				else
 				if(*s == '!') {
-					w = иницШапки(w);
+					w = InitCaps(w);
 					s++;
 				}
-				rt.конкат(w);
+				rt.Cat(w);
 			}
 			else
-				rt.конкат(c);
+				rt.Cat(c);
 		}
 	}
 	if(samecase) {
-		if(foundtext.дайСчёт() && rt.дайСчёт()) {
-			if(проп_ли(foundtext[0]))
-				rt.уст(0, взаг(rt[0]));
-			if(заг_ли(foundtext[0]))
-				rt.уст(0, впроп(rt[0]));
+		if(foundtext.GetCount() && rt.GetCount()) {
+			if(IsUpper(foundtext[0]))
+				rt.Set(0, ToUpper(rt[0]));
+			if(IsLower(foundtext[0]))
+				rt.Set(0, ToLower(rt[0]));
 		}
-		if(foundtext.дайСчёт() > 1) {
-			if(проп_ли(foundtext[1]))
-				for(int i = 1; i < rt.дайСчёт(); i++)
-					rt.уст(i, взаг(rt[i]));
-			if(заг_ли(foundtext[1]))
-				for(int i = 1; i < rt.дайСчёт(); i++)
-					rt.уст(i, впроп(rt[i]));
+		if(foundtext.GetCount() > 1) {
+			if(IsUpper(foundtext[1]))
+				for(int i = 1; i < rt.GetCount(); i++)
+					rt.Set(i, ToUpper(rt[i]));
+			if(IsLower(foundtext[1]))
+				for(int i = 1; i < rt.GetCount(); i++)
+					rt.Set(i, ToLower(rt[i]));
 		}
 	}
 	replacei++;
 	return rt;
 }
 
-void РедакторКода::замени()
+void CodeEditor::Replace()
 {
 	if(!findreplace.replacing)
 		return;
@@ -532,38 +532,38 @@ void РедакторКода::замени()
 	if(!found) return;
 	bool h = persistent_find_replace;
 	persistent_find_replace = true; // avoid closing of findreplace by selection change
-	if(удалиВыделение()) {
+	if(RemoveSelection()) {
 		Paste(GetReplaceText());
-		найди(false, false, true);
+		Find(false, false, true);
 	}
 	persistent_find_replace = h;
 }
 
-int РедакторКода::BlockReplace()
+int CodeEditor::BlockReplace()
 {
 	NextUndo();
-	освежи(); // Setting full-refresh here avoids Pre/пост удали/вставь costs
+	Refresh(); // Setting full-refresh here avoids Pre/Post Remove/Insert costs
 	int l, h;
-	if(!дайВыделение32(l, h)) return 0;
-	поместиКаретку(l);
+	if(!GetSelection32(l, h)) return 0;
+	PlaceCaret(l);
 	int count = 0;
 	foundpos = l;
-	Индекс<int> ln;
+	Index<int> ln;
 	StartSearchProgress(l, h);
-	while(foundpos < дайДлину() && найдиОт(foundpos, false, true) && foundpos + foundsize <= h) {
+	while(foundpos < GetLength() && FindFrom(foundpos, false, true) && foundpos + foundsize <= h) {
 		CachePos(foundpos);
 		if(~findreplace.mode == 0) {
-			удали((int)foundpos, foundsize);
-			ШТкст rt = GetReplaceText();
-			вставь((int)foundpos, rt);
-			foundpos += rt.дайСчёт();
-			if(foundsize + rt.дайСчёт() == 0 && foundpos < дайДлину())
+			Remove((int)foundpos, foundsize);
+			WString rt = GetReplaceText();
+			Insert((int)foundpos, rt);
+			foundpos += rt.GetCount();
+			if(foundsize + rt.GetCount() == 0 && foundpos < GetLength())
 				foundpos++;
-			h = h - foundsize + rt.дайСчёт();
+			h = h - foundsize + rt.GetCount();
 			count++;
 		}
 		else {
-			ln.найдиДобавь(дайСтроку(foundpos));
+			ln.FindAdd(GetLine(foundpos));
 			foundpos += foundsize;
 		}
 	}
@@ -572,269 +572,269 @@ int РедакторКода::BlockReplace()
 	EndSearchProgress();
 	Progress pi("Удаление строк");
 	if(~findreplace.mode != 0) {
-		очистьВыделение();
-		int ll = дайСтроку(l);
-		int lh = дайСтроку(h);
-		if(дайПоз64(lh) == h)
+		ClearSelection();
+		int ll = GetLine(l);
+		int lh = GetLine(h);
+		if(GetPos64(lh) == h)
 			lh--;
 		bool mm = ~findreplace.mode == 1;
-		Ткст replace;
-		pi.устВсего(lh - ll + 1);
+		String replace;
+		pi.SetTotal(lh - ll + 1);
 		for(int i = ll; i <= lh; i++) {
-			pi.уст(i, lh - ll + 1);
+			pi.Set(i, lh - ll + 1);
 			if(pi.Canceled())
 				return 0;
-			if((ln.найди(i) >= 0) == mm) {
-				replace << дайУтф8Строку(i) << "\n";
+			if((ln.Find(i) >= 0) == mm) {
+				replace << GetUtf8Line(i) << "\n";
 				count++;
 			}
 		}
-		int pos = дайПоз32(ll);
-		удали(pos, дайПоз32(дайСтроку(h)) - pos);
-		устВыделение(pos, pos + вставь(pos, replace));
+		int pos = GetPos32(ll);
+		Remove(pos, GetPos32(GetLine(h)) - pos);
+		SetSelection(pos, pos + Insert(pos, replace));
 	}
 	else
-		устВыделение(l, h);
+		SetSelection(l, h);
 	return count;
 }
 
-void РедакторКода::OpenNormalFindReplace0(bool replace)
+void CodeEditor::OpenNormalFindReplace0(bool replace)
 {
-	findreplace.incremental.вкл(дайДлину64() < 2000000);
-	findreplace.настрой(replace);
-	findreplace.find_all.покажи(!replace && WhenFindAll);
+	findreplace.incremental.Enable(GetLength64() < 2000000);
+	findreplace.Setup(replace);
+	findreplace.find_all.Show(!replace && WhenFindAll);
 	findreplace.itext = GetI();
-	findreplace.prev.покажи();
+	findreplace.prev.Show();
 	findreplace.next <<= THISBACK(DoFind);
 	findreplace.close <<= THISBACK(EscapeFindReplace);
-	if(!findreplace.открыт())
-		вставьФрейм(найдиФрейм(sb), findreplace);
+	if(!findreplace.IsOpen())
+		InsertFrame(FindFrame(sb), findreplace);
 	WhenOpenFindReplace();
-	findreplace.find.устФокус();
+	findreplace.find.SetFocus();
 }
 
-void РедакторКода::OpenNormalFindReplace(bool replace)
+void CodeEditor::OpenNormalFindReplace(bool replace)
 {
 	OpenNormalFindReplace0(replace);
 //	if(!findreplace.incremental_from_cursor)
 //		IncrementalFind();
 }
 
-void РедакторКода::FindReplace(bool pick_selection, bool pick_text, bool replace)
+void CodeEditor::FindReplace(bool pick_selection, bool pick_text, bool replace)
 {
-	if(толькочтен_ли())
+	if(IsReadOnly())
 		replace = false;
 	
-	if(findreplace.открыт())
-		закройНайдиЗам();
+	if(findreplace.IsOpen())
+		CloseFindReplace();
 
-	ff_start_pos = дайКурсор32();
+	ff_start_pos = GetCursor32();
 
 	replacei = 0;
-	ШТкст find_text;
+	WString find_text;
 	int find_pos = -1;
 	
-	findreplace.настрой(replace);
+	findreplace.Setup(replace);
 	
 	if(pick_text || pick_selection)
 	{
-		if(выделение_ли()) {
+		if(IsSelection()) {
 			int l, h;
-			дайВыделение32(l, h);
+			GetSelection32(l, h);
 			if(h - l < 100) {
 				find_text = GetSelectionW();
-				if(find_text.найди('\n') >= 0)
-					find_text.очисть();
+				if(find_text.Find('\n') >= 0)
+					find_text.Clear();
 			}
 		}
 		else
 		if(pick_text) {
 			int l, h;
-			l = h = дайКурсор32();
-			while(l > 0 && CharFilterCIdent(дайСим(l - 1)))
+			l = h = GetCursor32();
+			while(l > 0 && CharFilterCIdent(GetChar(l - 1)))
 				l--;
-			while(h < дайДлину64() && CharFilterCIdent(дайСим(h)))
+			while(h < GetLength64() && CharFilterCIdent(GetChar(h)))
 				h++;
-			find_text = дай(l, h - l).вШТкст();
+			find_text = Get(l, h - l).ToWString();
 			find_pos = h;
 		}
-		if(find_text.дайСчёт())
+		if(find_text.GetCount())
 			findreplace.find <<= find_text;
 	}
-	if(выделение_ли() && replace) {
+	if(IsSelection() && replace) {
 		findreplace.itext = GetI();
 		SetLayout_BlockReplaceLayout(findreplace);
-		findreplace.устПрям(WithBlockReplaceLayout<EmptyClass>::GetLayoutSize());
-		findreplace.Титул(t_("Замена в выделении"));
-		findreplace.find_all.скрой();
-		findreplace.amend.скрой();
-		findreplace.amend_all.скрой();
-		findreplace.amend_rest.скрой();
-		findreplace.prev.скрой();
+		findreplace.SetRect(WithBlockReplaceLayout<EmptyClass>::GetLayoutSize());
+		findreplace.Title(t_("Замена в выделении"));
+		findreplace.find_all.Hide();
+		findreplace.amend.Hide();
+		findreplace.amend_all.Hide();
+		findreplace.amend_rest.Hide();
+		findreplace.prev.Hide();
 		findreplace.next.Ok() <<= findreplace.Breaker(IDOK);
 		findreplace.close.Cancel() <<= findreplace.Breaker(IDCANCEL);
-		findreplace.close.устРисунок(Null);
-		findreplace.close.Подсказка("");
-		findreplace.next.устРисунок(Null);
-		findreplace.next.Подсказка("");
-		findreplace.mode.покажи();
+		findreplace.close.SetImage(Null);
+		findreplace.close.Tip("");
+		findreplace.next.SetImage(Null);
+		findreplace.next.Tip("");
+		findreplace.mode.Show();
 		findreplace.mode <<= 0;
-		findreplace.синх();
-		if(findreplace.выполни() == IDOK)
+		findreplace.Sync();
+		if(findreplace.Execute() == IDOK)
 			BlockReplace();
-		findreplace.mode.скрой();
+		findreplace.mode.Hide();
 	}
 	else {
 		if(find_pos >= 0)
-			устКурсор(find_pos);
+			SetCursor(find_pos);
 		OpenNormalFindReplace(replace);
-		findreplace.find.устФокус();
+		findreplace.find.SetFocus();
 	}
 }
 
-void РедакторКода::ReplaceAll(bool rest)
+void CodeEditor::ReplaceAll(bool rest)
 {
 	int l, h;
-	дайВыделение32(l, h);
+	GetSelection32(l, h);
 	int c = min(l, h);
 	findreplace.mode <<= 0;
-	устВыделение(rest * c, дайДлину64());
+	SetSelection(rest * c, GetLength64());
 	BlockReplace();
-	устКурсор(c);
+	SetCursor(c);
 }
 
-void РедакторКода::InsertWildcard(const char *s)
+void CodeEditor::InsertWildcard(const char *s)
 {
 	iwc = s;
 }
 
-void FindWildcardMenu(Обрвыз1<const char *> cb, Точка p, bool tablf, Ктрл *owner, bool regexp)
+void FindWildcardMenu(Callback1<const char *> cb, Point p, bool tablf, Ctrl *owner, bool regexp)
 {
-	БарМеню menu;
+	MenuBar menu;
 	if(regexp) {
-		menu.добавь(t_("Один или более пробелов"), callback1(cb, " +"));
-		menu.добавь(t_("Один или более любых символов"), callback1(cb, ".+"));
-		menu.добавь(t_("Слово"), callback1(cb, "\\w+"));
-		menu.добавь(t_("Число"), callback1(cb, "\\d+"));
-		menu.добавь(t_("Любой символ"), callback1(cb, "."));
+		menu.Add(t_("Один или более пробелов"), callback1(cb, " +"));
+		menu.Add(t_("Один или более любых символов"), callback1(cb, ".+"));
+		menu.Add(t_("Слово"), callback1(cb, "\\w+"));
+		menu.Add(t_("Число"), callback1(cb, "\\d+"));
+		menu.Add(t_("Любой символ"), callback1(cb, "."));
 		if(tablf) {
 			menu.Separator();
-			menu.добавь(t_("Таб"), callback1(cb, "\\t"));
+			menu.Add(t_("Таб"), callback1(cb, "\\t"));
 		}
 	}
 	else {
-		menu.добавь(t_("Один или более пробелов"), callback1(cb, "%"));
-		menu.добавь(t_("Один или более любых символо"), callback1(cb, "*"));
-		menu.добавь(t_("Идентификатор C++"), callback1(cb, "$"));
-		menu.добавь(t_("Число"), callback1(cb, "#"));
-		menu.добавь(t_("Любой символ"), callback1(cb, "?"));
+		menu.Add(t_("Один или более пробелов"), callback1(cb, "%"));
+		menu.Add(t_("Один или более любых символо"), callback1(cb, "*"));
+		menu.Add(t_("Идентификатор C++"), callback1(cb, "$"));
+		menu.Add(t_("Число"), callback1(cb, "#"));
+		menu.Add(t_("Любой символ"), callback1(cb, "?"));
 		if(tablf) {
 			menu.Separator();
-			menu.добавь(t_("Таб"), callback1(cb, "\\t"));
-			menu.добавь(t_("Строка feed"), callback1(cb, "\\n"));
+			menu.Add(t_("Таб"), callback1(cb, "\\t"));
+			menu.Add(t_("Line feed"), callback1(cb, "\\n"));
 		}
 	}
-	menu.выполни(owner, p);
+	menu.Execute(owner, p);
 }
 
-void РедакторКода::FindWildcard()
+void CodeEditor::FindWildcard()
 {
 	int l, h;
-	findreplace.find.дайВыделение(l, h);
-	iwc.очисть();
-	FindWildcardMenu(THISBACK(InsertWildcard), findreplace.find.GetPushScreenRect().верхПраво(), true,
+	findreplace.find.GetSelection(l, h);
+	iwc.Clear();
+	FindWildcardMenu(THISBACK(InsertWildcard), findreplace.find.GetPushScreenRect().TopRight(), true,
 	                 &findreplace, findreplace.regexp);
-	if(iwc.дайСчёт()) {
+	if(iwc.GetCount()) {
 		if(!findreplace.regexp)
 			findreplace.wildcards = true;
-		findreplace.find.устФокус();
-		findreplace.find.устВыделение(l, h);
-		findreplace.find.удалиВыделение();
-		findreplace.find.вставь(iwc);
+		findreplace.find.SetFocus();
+		findreplace.find.SetSelection(l, h);
+		findreplace.find.RemoveSelection();
+		findreplace.find.Insert(iwc);
 	}
 }
 
-void РедакторКода::ReplaceWildcard()
+void CodeEditor::ReplaceWildcard()
 {
-	БарМеню menu;
-	Ткст ptxt;
+	MenuBar menu;
+	String ptxt;
 	if(findreplace.regexp)
 		ptxt = t_("Сверен подобразец %d");
 	else {
-		menu.добавь(t_("Matched пробелы"), THISBACK1(InsertWildcard, "%"));
-		menu.добавь(t_("Matched one or more any characters"), THISBACK1(InsertWildcard, "*"));
-		menu.добавь(t_("Matched C++ identifier"), THISBACK1(InsertWildcard, "$"));
-		menu.добавь(t_("Matched number"), THISBACK1(InsertWildcard, "#"));
-		menu.добавь(t_("Matched any character"), THISBACK1(InsertWildcard, "?"));
+		menu.Add(t_("Matched spaces"), THISBACK1(InsertWildcard, "%"));
+		menu.Add(t_("Matched one or more any characters"), THISBACK1(InsertWildcard, "*"));
+		menu.Add(t_("Matched C++ identifier"), THISBACK1(InsertWildcard, "$"));
+		menu.Add(t_("Matched number"), THISBACK1(InsertWildcard, "#"));
+		menu.Add(t_("Matched any character"), THISBACK1(InsertWildcard, "?"));
 		ptxt = t_("Matched wildcard %d");
 	}
-	menu.добавь(t_("0-based replace Индекс"), THISBACK1(InsertWildcard, "@@"));
-	menu.добавь(t_("1-based replace Индекс"), THISBACK1(InsertWildcard, "@#"));
+	menu.Add(t_("0-based replace index"), THISBACK1(InsertWildcard, "@@"));
+	menu.Add(t_("1-based replace index"), THISBACK1(InsertWildcard, "@#"));
 	menu.Separator();
 	for(int i = 1; i <= 9; i++)
-		menu.добавь(фмт(ptxt, i), THISBACK1(InsertWildcard, "@"+какТкст(i)));
+		menu.Add(Format(ptxt, i), THISBACK1(InsertWildcard, "@"+AsString(i)));
 	menu.Separator();
-	menu.добавь(t_("To upper"), THISBACK1(InsertWildcard, "+"));
-	menu.добавь(t_("To lower"), THISBACK1(InsertWildcard, "-"));
-	menu.добавь(t_("иницШапки"), THISBACK1(InsertWildcard, "!"));
+	menu.Add(t_("Взаг"), THISBACK1(InsertWildcard, "+"));
+	menu.Add(t_("Впроп"), THISBACK1(InsertWildcard, "-"));
+	menu.Add(t_("Озаглавь"), THISBACK1(InsertWildcard, "!"));
 	menu.Separator();
-	menu.добавь(t_("Вкладка"), THISBACK1(InsertWildcard, "\\t"));
-	menu.добавь(t_("Строка feed"), THISBACK1(InsertWildcard, "\\n"));
+	menu.Add(t_("Таб"), THISBACK1(InsertWildcard, "\\t"));
+	menu.Add(t_("Лайнфид"), THISBACK1(InsertWildcard, "\\n"));
 	int l, h;
-	findreplace.replace.дайВыделение(l, h);
-	iwc.очисть();
-	menu.выполни(&findreplace, findreplace.replace.GetPushScreenRect().верхПраво());
-	if(iwc.дайСчёт()) {
+	findreplace.replace.GetSelection(l, h);
+	iwc.Clear();
+	menu.Execute(&findreplace, findreplace.replace.GetPushScreenRect().TopRight());
+	if(iwc.GetCount()) {
 		if(!findreplace.regexp)
 			findreplace.wildcards = true;
-		findreplace.replace.устФокус();
-		findreplace.replace.устВыделение(l, h);
-		findreplace.replace.удалиВыделение();
-		findreplace.replace.вставь(iwc);
+		findreplace.replace.SetFocus();
+		findreplace.replace.SetSelection(l, h);
+		findreplace.replace.RemoveSelection();
+		findreplace.replace.Insert(iwc);
 	}
 }
 
-void РедакторКода::закройНайдиЗам()
+void CodeEditor::CloseFindReplace()
 {
-	if(findreplace.открыт()) {
+	if(findreplace.IsOpen()) {
 		FindReplaceAddHistory();
-		удалиФрейм(findreplace);
+		RemoveFrame(findreplace);
 	}
 }
 
-void РедакторКода::EscapeFindReplace()
+void CodeEditor::EscapeFindReplace()
 {
-	закройНайдиЗам();
-	if(ff_start_pos >= 0 && ff_start_pos < дайДлину64() && findreplace.инкрементален_ли() && do_ff_restore_pos) {
-		устКурсор(ff_start_pos);
+	CloseFindReplace();
+	if(ff_start_pos >= 0 && ff_start_pos < GetLength64() && findreplace.IsIncremental() && do_ff_restore_pos) {
+		SetCursor(ff_start_pos);
 		ff_start_pos = -1;
 	}
 }
 
-void РедакторКода::IncrementalFind()
+void CodeEditor::IncrementalFind()
 {
 	NoFindError();
-	findreplace.синх();
-	if(!findreplace.инкрементален_ли() || findreplace.дайТопКтрл() == &findreplace) // || we are block replace
+	findreplace.Sync();
+	if(!findreplace.IsIncremental() || findreplace.GetTopCtrl() == &findreplace) // || we are block replace
 		return;
-	bool b = найдиОт(ff_start_pos >= 0 && ff_start_pos < дайДлину64()
+	bool b = FindFrom(ff_start_pos >= 0 && ff_start_pos < GetLength64()
 	                  && findreplace.incremental_from_cursor ? ff_start_pos : 0, false, false);
-	findreplace.amend.вкл(b);
+	findreplace.amend.Enable(b);
 	if(!b)
 		NotFound();
 }
 
-void РедакторКода::DoFind()
+void CodeEditor::DoFind()
 {
-	найди(false, false);
+	Find(false, false);
 }
 
-void РедакторКода::DoFindBack()
+void CodeEditor::DoFindBack()
 {
-	найди(true, false);
+	Find(true, false);
 }
 
-void РедакторКода::SerializeFind(Поток& s)
+void CodeEditor::SerializeFind(Stream& s)
 {
 	int version = 2;
 	s / version;
@@ -851,20 +851,20 @@ void РедакторКода::SerializeFind(Поток& s)
 	findreplace.replace.SerializeList(s);
 }
 
-Ткст ReadList(WithDropChoice<EditString>& e)
+String ReadList(WithDropChoice<EditString>& e)
 {
-	ТкстПоток ss;
+	StringStream ss;
 	e.SerializeList(ss);
 	return ss;
 }
 
-void WriteList(WithDropChoice<EditString>& e, const Ткст& data)
+void WriteList(WithDropChoice<EditString>& e, const String& data)
 {
-	ТкстПоток ss(data);
+	StringStream ss(data);
 	e.SerializeList(ss);
 }
 
-РедакторКода::FindReplaceData РедакторКода::GetFindReplaceData()
+CodeEditor::FindReplaceData CodeEditor::GetFindReplaceData()
 {
 	FindReplaceData r;
 	r.find = ~findreplace.find;
@@ -879,7 +879,7 @@ void WriteList(WithDropChoice<EditString>& e, const Ткст& data)
 	return r;
 }
 
-void РедакторКода::SetFindReplaceData(const FindReplaceData& r)
+void CodeEditor::SetFindReplaceData(const FindReplaceData& r)
 {
 	findreplace.find <<= r.find;
 	findreplace.replace <<= r.replace;
@@ -893,68 +893,68 @@ void РедакторКода::SetFindReplaceData(const FindReplaceData& r)
 	WriteList(findreplace.replace, r.replace_list);
 }
 
-void РедакторКода::FindPrevNext(bool prev)
+void CodeEditor::FindPrevNext(bool prev)
 {
 	StartSearchProgress(-1, -1);
-	if(!findreplace.открыт()) {
-		ШТкст find_text;
-		if(выделение_ли()) {
+	if(!findreplace.IsOpen()) {
+		WString find_text;
+		if(IsSelection()) {
 			int l, h;
-			дайВыделение32(l, h);
+			GetSelection32(l, h);
 			if(h - l < 100) {
 				find_text = GetSelectionW();
-				if(find_text.найди('\n') >= 0)
-					find_text.очисть();
+				if(find_text.Find('\n') >= 0)
+					find_text.Clear();
 			}
 		}
-		if(find_text.дайСчёт())
+		if(find_text.GetCount())
 			findreplace.find <<= find_text;
 		OpenNormalFindReplace0(false);
 	}
-	if(найди(prev, false))
+	if(Find(prev, false))
 		NoFindError();
 	else
 		NotFound();
 	EndSearchProgress();
 }
 
-void РедакторКода::найдиСледщ()
+void CodeEditor::FindNext()
 {
 	FindPrevNext(false);
 }
 
-void РедакторКода::найдиПредш()
+void CodeEditor::FindPrev()
 {
 	FindPrevNext(true);
 }
 
-void РедакторКода::StartSearchProgress(int64, int64)
+void CodeEditor::StartSearchProgress(int64, int64)
 {
 	search_canceled = false;
-	search_progress.создай();
-	search_progress->устТекст("Сканируется этот файл");
+	search_progress.Create();
+	search_progress->SetText("Сканируется файл");
 	search_time0 = msecs();
 }
 
-bool РедакторКода::SearchProgress(int line)
+bool CodeEditor::SearchProgress(int line)
 {
 	if(search_progress && !search_canceled && msecs(search_time0) > 20) {
 		search_time0 = msecs();
-		search_progress->создай();
-		search_canceled = IsView() ? search_progress->SetCanceled(int(дайПоз64(line) >> 8), int(дайРазмОбзора() >> 8))
-		                           : search_progress->SetCanceled(line, дайСчётСтрок());
+		search_progress->Create();
+		search_canceled = IsView() ? search_progress->SetCanceled(int(GetPos64(line) >> 8), int(GetViewSize() >> 8))
+		                           : search_progress->SetCanceled(line, GetLineCount());
 	}
 	return !search_canceled;
 }
 
-bool РедакторКода::SearchCanceled()
+bool CodeEditor::SearchCanceled()
 {
 	return search_canceled;
 }
 
-void РедакторКода::EndSearchProgress()
+void CodeEditor::EndSearchProgress()
 {
-	search_progress.очисть();
+	search_progress.Clear();
 	search_canceled = false;
 }
 

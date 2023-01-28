@@ -17,7 +17,7 @@
  *   disclaimer in the documentation and/or other materials
  *   provided with the distribution.
  *
- *   Neither the имя of the copyright holder nor the names
+ *   Neither the name of the copyright holder nor the names
  *   of any other contributors may be used to endorse or
  *   promote products derived from this software without
  *   specific prior written permission.
@@ -41,11 +41,11 @@
 
 /*
  * MAX_SFTP_OUTGOING_SIZE MUST not be larger than 32500 or so. This is the
- * amount of данные sent in each FXP_WRITE packet
+ * amount of data sent in each FXP_WRITE packet
  */
 #define MAX_SFTP_OUTGOING_SIZE 30000
 
-/* MAX_SFTP_READ_SIZE is how much данные is asked for at max in each FXP_READ
+/* MAX_SFTP_READ_SIZE is how much data is asked for at max in each FXP_READ
  * packets.
  */
 #define MAX_SFTP_READ_SIZE 30000
@@ -54,12 +54,12 @@ struct sftp_pipeline_chunk {
     struct list_node node;
     libssh2_uint64_t offset; /* READ: offset at which to start reading
                                 WRITE: not used */
-    size_t len; /* WRITE: size of the данные to write
+    size_t len; /* WRITE: size of the data to write
                    READ: how many bytes that was asked for */
     size_t sent;
     ssize_t lefttosend; /* if 0, the entire packet has been sent off */
     uint32_t request_id;
-    unsigned char packet[1]; /* данные */
+    unsigned char packet[1]; /* data */
 };
 
 struct sftp_zombie_requests {
@@ -75,7 +75,7 @@ struct _LIBSSH2_SFTP_PACKET
 {
     struct list_node node;   /* linked list header */
     uint32_t request_id;
-    unsigned char *данные;
+    unsigned char *data;
     size_t data_len;              /* payload size */
 };
 
@@ -103,15 +103,15 @@ struct _LIBSSH2_SFTP_HANDLE
         {
             libssh2_uint64_t offset;
             libssh2_uint64_t offset_sent;
-            size_t acked; /* container for acked данные that hasn't been
+            size_t acked; /* container for acked data that hasn't been
                              returned to caller yet, used for sftp_write */
 
-            /* 'данные' is used by sftp_read() and is allocated данные that has
+            /* 'data' is used by sftp_read() and is allocated data that has
                been received already from the server but wasn't returned to
                the caller yet. It is of size 'data_len' and 'data_left is the
                number of bytes not yet returned, counted from the end of the
-               буфер. */
-            unsigned char *данные;
+               buffer. */
+            unsigned char *data;
             size_t data_len;
             size_t data_left;
 
@@ -140,11 +140,11 @@ struct _LIBSSH2_SFTP
 {
     LIBSSH2_CHANNEL *channel;
 
-    uint32_t request_id, версия;
+    uint32_t request_id, version;
 
     struct list_head packets;
 
-    /* Список of FXP_READ responses to ignore because EOF already received. */
+    /* List of FXP_READ responses to ignore because EOF already received. */
     struct list_head zombie_requests;
 
     /* a list of _LIBSSH2_SFTP_HANDLE structs */
@@ -153,13 +153,13 @@ struct _LIBSSH2_SFTP
     uint32_t last_errno;
 
     /* Holder for partial packet, use in libssh2_sftp_packet_read() */
-    unsigned char partial_size[4];      /* буфер for size field   */
+    unsigned char partial_size[4];      /* buffer for size field   */
     size_t partial_size_len;            /* size field length       */
-    unsigned char *partial_packet;      /* The данные                */
+    unsigned char *partial_packet;      /* The data                */
     uint32_t partial_len;               /* Desired number of bytes */
     size_t partial_received;            /* Bytes received so far   */
 
-    /* Время that libssh2_sftp_packet_requirev() started reading */
+    /* Time that libssh2_sftp_packet_requirev() started reading */
     time_t requirev_start;
 
     /* State variables used in libssh2_sftp_open_ex() */

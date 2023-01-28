@@ -44,7 +44,7 @@
                         FT_Bitmap*  bitmap,
                         FT_Memory   memory )
   {
-    FT_Error  Ошибка;
+    FT_Error  error;
     FT_Int    pitch = bitmap->pitch;
     FT_ULong  size;
 
@@ -54,10 +54,10 @@
 
     size = (FT_ULong)( pitch * bitmap->rows );
 
-    if ( !FT_ALLOC( sbit->буфер, size ) )
-      FT_MEM_COPY( sbit->буфер, bitmap->буфер, size );
+    if ( !FT_ALLOC( sbit->buffer, size ) )
+      FT_MEM_COPY( sbit->buffer, bitmap->buffer, size );
 
-    return Ошибка;
+    return error;
   }
 
 
@@ -72,7 +72,7 @@
 
 
     for ( ; count > 0; sbit++, count-- )
-      FT_FREE( sbit->буфер );
+      FT_FREE( sbit->buffer );
 
     FTC_GNode_Done( FTC_GNODE( snode ), cache );
 
@@ -90,10 +90,10 @@
 
   /*
    *  This function tries to load a small bitmap within a given FTC_SNode.
-   *  Note that it returns a non-zero Ошибка code _only_ in the case of
+   *  Note that it returns a non-zero error code _only_ in the case of
    *  out-of-memory condition.  For all other errors (e.g., corresponding
    *  to a bad font file), this function will mark the sbit as `unavailable'
-   *  and return a значение of 0.
+   *  and return a value of 0.
    *
    *  You should also read the comment within the @ftc_snode_compare
    *  function below to see how out-of-memory is handled during a lookup.
@@ -104,7 +104,7 @@
                   FT_UInt      gindex,
                   FT_ULong    *asize )
   {
-    FT_Error          Ошибка;
+    FT_Error          error;
     FTC_GNode         gnode  = FTC_GNODE( snode );
     FTC_Family        family = gnode->family;
     FT_Memory         memory = manager->memory;
@@ -122,10 +122,10 @@
     sbit  = snode->sbits + ( gindex - gnode->gindex );
     clazz = (FTC_SFamilyClass)family->clazz;
 
-    sbit->буфер = 0;
+    sbit->buffer = 0;
 
-    Ошибка = clazz->family_load_glyph( family, gindex, manager, &face );
-    if ( Ошибка )
+    error = clazz->family_load_glyph( family, gindex, manager, &face );
+    if ( error )
       goto BadGlyph;
 
     {
@@ -135,7 +135,7 @@
       FT_Pos        xadvance, yadvance; /* FT_GlyphSlot->advance.{x|y} */
 
 
-      if ( slot->формат != FT_GLYPH_FORMAT_BITMAP )
+      if ( slot->format != FT_GLYPH_FORMAT_BITMAP )
       {
         FT_TRACE0(( "ftc_snode_load:"
                     " glyph loaded didn't return a bitmap\n" ));
@@ -144,7 +144,7 @@
 
       /* Check that our values fit into 8-bit containers!       */
       /* If this is not the case, our bitmap is too large       */
-      /* and we will leave it as `missing' with sbit.буфер = 0 */
+      /* and we will leave it as `missing' with sbit.buffer = 0 */
 
 #define CHECK_CHAR( d )  ( temp = (FT_Char)d, temp == d )
 #define CHECK_BYTE( d )  ( temp = (FT_Byte)d, temp == d )
@@ -173,11 +173,11 @@
       sbit->top       = (FT_Char)slot->bitmap_top;
       sbit->xadvance  = (FT_Char)xadvance;
       sbit->yadvance  = (FT_Char)yadvance;
-      sbit->формат    = (FT_Byte)bitmap->pixel_mode;
+      sbit->format    = (FT_Byte)bitmap->pixel_mode;
       sbit->max_grays = (FT_Byte)(bitmap->num_grays - 1);
 
-      /* copy the bitmap into a new буфер -- ignore Ошибка */
-      Ошибка = ftc_sbit_copy_bitmap( sbit, bitmap, memory );
+      /* copy the bitmap into a new buffer -- ignore error */
+      error = ftc_sbit_copy_bitmap( sbit, bitmap, memory );
 
       /* now, compute size */
       if ( asize )
@@ -186,21 +186,21 @@
     } /* glyph loading successful */
 
     /* ignore the errors that might have occurred --   */
-    /* we mark unloaded glyphs with `sbit.буфер == 0' */
+    /* we mark unloaded glyphs with `sbit.buffer == 0' */
     /* and `width == 255', `height == 0'               */
     /*                                                 */
-    if ( Ошибка && Ошибка != FTC_Err_Out_Of_Memory )
+    if ( error && error != FTC_Err_Out_Of_Memory )
     {
     BadGlyph:
       sbit->width  = 255;
       sbit->height = 0;
-      sbit->буфер = NULL;
-      Ошибка        = FTC_Err_Ok;
+      sbit->buffer = NULL;
+      error        = FTC_Err_Ok;
       if ( asize )
         *asize = 0;
     }
 
-    return Ошибка;
+    return error;
   }
 
 
@@ -210,7 +210,7 @@
                  FTC_Cache   cache )
   {
     FT_Memory   memory = cache->memory;
-    FT_Error    Ошибка;
+    FT_Error    error;
     FTC_SNode   snode  = NULL;
     FT_UInt     gindex = gquery->gindex;
     FTC_Family  family = gquery->family;
@@ -223,7 +223,7 @@
     total = clazz->family_get_count( family, cache->manager );
     if ( total == 0 || gindex >= total )
     {
-      Ошибка = FTC_Err_Invalid_Argument;
+      error = FTC_Err_Invalid_Argument;
       goto Exit;
     }
 
@@ -245,11 +245,11 @@
         snode->sbits[node_count].width = 255;
       }
 
-      Ошибка = ftc_snode_load( snode,
+      error = ftc_snode_load( snode,
                               cache->manager,
                               gindex,
                               NULL );
-      if ( Ошибка )
+      if ( error )
       {
         FTC_SNode_Free( snode, cache );
         snode = NULL;
@@ -258,7 +258,7 @@
 
   Exit:
     *psnode = snode;
-    return Ошибка;
+    return error;
   }
 
 
@@ -295,7 +295,7 @@
 
     for ( ; count > 0; count--, sbit++ )
     {
-      if ( sbit->буфер )
+      if ( sbit->buffer )
       {
         pitch = sbit->pitch;
         if ( pitch < 0 )
@@ -350,7 +350,7 @@
        *
        *  Here, we want to load a small bitmap on-demand; we thus
        *  need to call the `ftc_snode_load' function which may return
-       *  a non-zero Ошибка code only when we are out of memory (OOM).
+       *  a non-zero error code only when we are out of memory (OOM).
        *
        *  The correct thing to do is to use @FTC_CACHE_TRYLOOP and
        *  @FTC_CACHE_TRYLOOP_END in order to implement a retry loop
@@ -360,26 +360,26 @@
        *  However, we need to `lock' the node before this operation to
        *  prevent it from being flushed within the loop.
        *
-       *  When we exit the loop, we unlock the node, then check the `Ошибка'
+       *  When we exit the loop, we unlock the node, then check the `error'
        *  variable.  If it is non-zero, this means that the cache was
        *  completely flushed and that no usable memory was found to load
        *  the bitmap.
        *
-       *  We then prefer to return a значение of 0 (i.e., NO MATCH).  This
+       *  We then prefer to return a value of 0 (i.e., NO MATCH).  This
        *  ensures that the caller will try to allocate a new node.
        *  This operation consequently _fail_ and the lookup function
-       *  returns the appropriate OOM Ошибка code.
+       *  returns the appropriate OOM error code.
        *
-       *  Note that `буфер == NULL && width == 255' is a hack used to
+       *  Note that `buffer == NULL && width == 255' is a hack used to
        *  tag `unavailable' bitmaps in the array.  We should never try
        *  to load these.
        *
        */
 
-      if ( sbit->буфер == NULL && sbit->width == 255 )
+      if ( sbit->buffer == NULL && sbit->width == 255 )
       {
         FT_ULong  size;
-        FT_Error  Ошибка;
+        FT_Error  error;
 
 
         ftcsnode->ref_count++;  /* lock node to prevent flushing */
@@ -387,13 +387,13 @@
 
         FTC_CACHE_TRYLOOP( cache )
         {
-          Ошибка = ftc_snode_load( snode, cache->manager, gindex, &size );
+          error = ftc_snode_load( snode, cache->manager, gindex, &size );
         }
         FTC_CACHE_TRYLOOP_END( list_changed );
 
         ftcsnode->ref_count--;  /* unlock the node */
 
-        if ( Ошибка )
+        if ( error )
           result = 0;
         else
           cache->manager->cur_weight += size;

@@ -1,5 +1,5 @@
 /*
-xxHash - Fast Хэш algorithm
+xxHash - Fast Hash algorithm
 Copyright (C) 2012-2015, Yann Collet
 
 BSD 2-Clause License (http://www.opensource.org/licenses/bsd-license.php)
@@ -45,16 +45,16 @@ You can contact the author at :
 #endif
 
 /* XXH_ACCEPT_NULL_INPUT_POINTER :
- * If the input pointer is a null pointer, xxHash default behavior is to trigger a memory access Ошибка, since it is a bad pointer.
+ * If the input pointer is a null pointer, xxHash default behavior is to trigger a memory access error, since it is a bad pointer.
  * When this option is enabled, xxHash output for null input pointers will be the same as a null-length input.
  * By default, this option is disabled. To enable it, uncomment below define :
  */
 /* #define XXH_ACCEPT_NULL_INPUT_POINTER 1 */
 
 /* XXH_FORCE_NATIVE_FORMAT :
- * By default, xxHash library provides endian-independant Хэш values, based on little-endian convention.
+ * By default, xxHash library provides endian-independant Hash values, based on little-endian convention.
  * Results are therefore identical for little-endian and big-endian CPU.
- * This comes at a performance cost for big-endian CPU, since some swapping is required to emulate little-endian формат.
+ * This comes at a performance cost for big-endian CPU, since some swapping is required to emulate little-endian format.
  * Should endian-independance be of no importance for your application, you may set the #define below to 1.
  * It will improve speed for Big-endian CPU.
  * This option has no impact on Little_Endian CPU.
@@ -236,7 +236,7 @@ FORCE_INLINE U64 XXH_readLE64(const void* ptr, XXH_endianess endian)
 
 
 /*****************************
-*  Simple Хэш Functions
+*  Simple Hash Functions
 *****************************/
 FORCE_INLINE U32 XXH32_endian_align(const void* input, size_t len, U32 seed, XXH_endianess endian, XXH_alignment align)
 {
@@ -484,7 +484,7 @@ unsigned long long XXH64 (const void* input, size_t len, unsigned long long seed
 }
 
 /****************************************************
-*  Advanced Хэш Functions
+*  Advanced Hash Functions
 ****************************************************/
 
 /*** Allocation ***/
@@ -515,7 +515,7 @@ typedef struct
 
 XXH32_state_t* XXH32_createState(void)
 {
-    XXH_STATIC_ASSERT(sizeof(XXH32_state_t) >= sizeof(XXH_istate32_t));   /* A compilation Ошибка here means XXH32_state_t is not large enough */
+    XXH_STATIC_ASSERT(sizeof(XXH32_state_t) >= sizeof(XXH_istate32_t));   /* A compilation error here means XXH32_state_t is not large enough */
     return (XXH32_state_t*)XXH_malloc(sizeof(XXH32_state_t));
 }
 XXH_errorcode XXH32_freeState(XXH32_state_t* statePtr)
@@ -526,7 +526,7 @@ XXH_errorcode XXH32_freeState(XXH32_state_t* statePtr)
 
 XXH64_state_t* XXH64_createState(void)
 {
-    XXH_STATIC_ASSERT(sizeof(XXH64_state_t) >= sizeof(XXH_istate64_t));   /* A compilation Ошибка here means XXH64_state_t is not large enough */
+    XXH_STATIC_ASSERT(sizeof(XXH64_state_t) >= sizeof(XXH_istate64_t));   /* A compilation error here means XXH64_state_t is not large enough */
     return (XXH64_state_t*)XXH_malloc(sizeof(XXH64_state_t));
 }
 XXH_errorcode XXH64_freeState(XXH64_state_t* statePtr)
@@ -536,7 +536,7 @@ XXH_errorcode XXH64_freeState(XXH64_state_t* statePtr)
 }
 
 
-/*** Хэш feed ***/
+/*** Hash feed ***/
 
 XXH_errorcode XXH32_reset(XXH32_state_t* state_in, U32 seed)
 {
@@ -577,7 +577,7 @@ FORCE_INLINE XXH_errorcode XXH32_update_endian (XXH32_state_t* state_in, const v
 
     state->total_len += len;
 
-    if (state->memsize + len < 16)   /* fill in tmp буфер */
+    if (state->memsize + len < 16)   /* fill in tmp buffer */
     {
         XXH_memcpy((BYTE*)(state->mem32) + state->memsize, input, len);
         state->memsize += (U32)len;
@@ -731,7 +731,7 @@ FORCE_INLINE XXH_errorcode XXH64_update_endian (XXH64_state_t* state_in, const v
 
     state->total_len += len;
 
-    if (state->memsize + len < 32)   /* fill in tmp буфер */
+    if (state->memsize + len < 32)   /* fill in tmp buffer */
     {
         XXH_memcpy(((BYTE*)state->mem64) + state->memsize, input, len);
         state->memsize += (U32)len;

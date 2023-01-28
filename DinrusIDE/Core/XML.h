@@ -1,47 +1,47 @@
-Ткст DeXml(const char *s, byte charset = CHARSET_DEFAULT, bool escapelf = false);
-Ткст DeXml(const char *s, const char *end, byte charset = CHARSET_DEFAULT, bool escapelf = false);
-Ткст DeXml(const Ткст& s, byte charset = CHARSET_DEFAULT, bool escapelf = false);
-Ткст XmlPI(const char *text);
-Ткст XmlHeader(const char *encoding = "UTF-8", const char *версия = "1.0", const char *standalone = NULL);
-Ткст XmlDecl(const char *text);
-Ткст XmlDocType(const char *text);
-Ткст XmlDoc(const char *имя, const char *xmlbody);
-Ткст XmlComment(const char *text);
+String DeXml(const char *s, byte charset = CHARSET_DEFAULT, bool escapelf = false);
+String DeXml(const char *s, const char *end, byte charset = CHARSET_DEFAULT, bool escapelf = false);
+String DeXml(const String& s, byte charset = CHARSET_DEFAULT, bool escapelf = false);
+String XmlPI(const char *text);
+String XmlHeader(const char *encoding = "UTF-8", const char *version = "1.0", const char *standalone = NULL);
+String XmlDecl(const char *text);
+String XmlDocType(const char *text);
+String XmlDoc(const char *name, const char *xmlbody);
+String XmlComment(const char *text);
 
-class ТэгРяр : Движимое<ТэгРяр> {
-	Ткст tag;
-	Ткст end;
+class XmlTag : Moveable<XmlTag> {
+	String tag;
+	String end;
 
 public:
-	ТэгРяр& Тэг(const char *s);
+	XmlTag& Tag(const char *s);
 
-	Ткст  operator()();
-	Ткст  operator()(const char *text);
-	Ткст  operator()(const Ткст& text)                        { return operator()(~text); }
-	Ткст  устТекст(const char *s, byte charset = CHARSET_DEFAULT);
-	Ткст  устТекст(const Ткст& s, byte charset = CHARSET_DEFAULT) { return устТекст(~s, charset); }
-	Ткст  PreservedText(const char *s, byte charset = CHARSET_DEFAULT);
-	Ткст  PreservedText(const Ткст& s, byte charset = CHARSET_DEFAULT) { return PreservedText(~s, charset); }
+	String  operator()();
+	String  operator()(const char *text);
+	String  operator()(const String& text)                        { return operator()(~text); }
+	String  Text(const char *s, byte charset = CHARSET_DEFAULT);
+	String  Text(const String& s, byte charset = CHARSET_DEFAULT) { return Text(~s, charset); }
+	String  PreservedText(const char *s, byte charset = CHARSET_DEFAULT);
+	String  PreservedText(const String& s, byte charset = CHARSET_DEFAULT) { return PreservedText(~s, charset); }
 	
-	Ткст  дайНачало() const                                      { return tag + '>'; }
-	Ткст  дайКонец() const                                        { return end; }
+	String  GetBegin() const                                      { return tag + '>'; }
+	String  GetEnd() const                                        { return end; }
 
-	ТэгРяр& operator()(const char *attr, const char *val);
-	ТэгРяр& operator()(const char *attr, int q);
-	ТэгРяр& operator()(const char *attr, double q);
+	XmlTag& operator()(const char *attr, const char *val);
+	XmlTag& operator()(const char *attr, int q);
+	XmlTag& operator()(const char *attr, double q);
 
-	ТэгРяр() {}
-	ТэгРяр(const char *tag)                                       { Тэг(tag); }
+	XmlTag() {}
+	XmlTag(const char *tag)                                       { Tag(tag); }
 };
 
 enum { XML_DOC, XML_TAG, XML_END, XML_TEXT, XML_DECL, XML_PI, XML_COMMENT, XML_EOF };
 
-struct ОшибкаРяр : public Искл
+struct XmlError : public Exc
 {
-	ОшибкаРяр(const char *s) : Искл(s) {}
+	XmlError(const char *s) : Exc(s) {}
 };
 
-class ПарсерРяр {
+class XmlParser {
 	enum {
 #ifdef flagTEST_XML // This is for testing purposes only to increase boundary condition frequency
 		MCHARS = 128,
@@ -53,29 +53,29 @@ class ПарсерРяр {
 	};
 	
 	struct Nesting {
-		Nesting(Ткст tag = Null, bool blanks = false) : tag(tag), preserve_blanks(blanks) {}
-		Ткст tag;
+		Nesting(String tag = Null, bool blanks = false) : tag(tag), preserve_blanks(blanks) {}
+		String tag;
 		bool   preserve_blanks;
 	};
 
-	ВекторМап<Ткст, Ткст> entity;
+	VectorMap<String, String> entity;
 
-	Поток                   *in;
-	Буфер<char>              буфер;
+	Stream                   *in;
+	Buffer<char>              buffer;
 	int                       len;
 	int                       begincolumn;
 	const char               *begin;
 	const char               *term;
 
-	Ткст                    attr1, attrval1;
-	ВекторМап<Ткст, Ткст> attr;
-	Массив<Nesting>            stack;
+	String                    attr1, attrval1;
+	VectorMap<String, String> attr;
+	Array<Nesting>            stack;
 
-	int                       тип;
-	Ткст                    nattr1, nattrval1;
-	ВекторМап<Ткст, Ткст> nattr;
-	Ткст                    tagtext;
-	Ткст                    cdata;
+	int                       type;
+	String                    nattr1, nattrval1;
+	VectorMap<String, String> nattr;
+	String                    tagtext;
+	String                    cdata;
 	bool                      empty_tag;
 	bool                      npreserve, preserveall;
 	bool                      relaxed;
@@ -86,165 +86,165 @@ class ПарсерРяр {
 	byte                      acharset;
 	byte                      scharset;
 
-	void                      иниц();
-	void                      грузиЕщё0();
-	void                      грузиЕщё()              { if(len - (term - begin) < MCHARS) грузиЕщё0(); }
-	bool                      ещё();
-	bool                      естьЕщё()               { return *term || ещё(); }
-	void                      Сущ(ТкстБуф& out);
-	void                      следщ();
-	void                      читайАтр(ТкстБуф& b, int c);
-	Ткст                      читайТэг(bool next);
-	Ткст                      читайКонец(bool next);
-	Ткст                      читайДекл(bool next);
-	Ткст                      ReadPI(bool next);
-	Ткст                      читайКоммент(bool next);
-	int                       дайКолонку0() const;
-	Ткст                      Преобр(ТкстБуф& b);
+	void                      Init();
+	void                      LoadMore0();
+	void                      LoadMore()              { if(len - (term - begin) < MCHARS) LoadMore0(); }
+	bool                      More();
+	bool                      HasMore()               { return *term || More(); }
+	void                      Ent(StringBuffer& out);
+	void                      Next();
+	void                      ReadAttr(StringBuffer& b, int c);
+	String                    ReadTag(bool next);
+	String                    ReadEnd(bool next);
+	String                    ReadDecl(bool next);
+	String                    ReadPI(bool next);
+	String                    ReadComment(bool next);
+	int                       GetColumn0() const;
+	String                    Convert(StringBuffer& b);
 
 public:
-	void   пропустиПробелы();
+	void   SkipWhites();
 	
-	void   регСущность(const Ткст& ид, const Ткст& text);
+	void   RegisterEntity(const String& id, const String& text);
 
-	bool   кф_ли();
-	const char *дайУк() const                                { return term; }
+	bool   IsEof();
+	const char *GetPtr() const                                { return term; }
 
-	bool   тэг_ли();
-	Ткст PeekTag()                                          { return читайТэг(false); }
-	Ткст читайТэг()                                          { return читайТэг(true); }
-	bool   Тэг(const char *tag);
-	bool   Тэг(const Ткст& tag);
-	void   передайТэг(const char *tag);
-	void   передайТэг(const Ткст& tag);
-	bool   конец_ли();
-	Ткст PeekEnd()                                          { return читайКонец(false); }
-	Ткст читайКонец()                                          { return читайКонец(true); }
-	bool   стоп();
-	bool   стоп(const char *tag);
-	bool   стоп(const Ткст& tag);
-	void   передайКонец();
-	void   передайКонец(const char *tag);
+	bool   IsTag();
+	String PeekTag()                                          { return ReadTag(false); }
+	String ReadTag()                                          { return ReadTag(true); }
+	bool   Tag(const char *tag);
+	bool   Tag(const String& tag);
+	void   PassTag(const char *tag);
+	void   PassTag(const String& tag);
+	bool   IsEnd();
+	String PeekEnd()                                          { return ReadEnd(false); }
+	String ReadEnd()                                          { return ReadEnd(true); }
+	bool   End();
+	bool   End(const char *tag);
+	bool   End(const String& tag);
+	void   PassEnd();
+	void   PassEnd(const char *tag);
 	bool   TagE(const char *tag);
 	void   PassTagE(const char *tag);
 	bool   TagElseSkip(const char *tag);
 	bool   LoopTag(const char *tag);
 
-	int    дайСчётАтров() const                               { return attr.дайСчёт() + !пусто_ли(attr1); }
-	Ткст   дайАтр(int i) const                               { return i ? attr.дайКлюч(i - 1) : attr1; }
-	bool   атр_ли(const char *ид) const                       { return attr1 == ид || attr.найди(ид) >= 0; }
-	Ткст operator[](int i) const                            { return i ? attr[i - 1] : attrval1; }
-	Ткст operator[](const char *ид) const                   { return attr1 == ид ? attrval1 : attr.дай(ид, Null); }
-	int    Цел(const char *ид, int опр = Null) const;
-	double Дво(const char *ид, double опр = Null) const;
+	int    GetAttrCount() const                               { return attr.GetCount() + !IsNull(attr1); }
+	String GetAttr(int i) const                               { return i ? attr.GetKey(i - 1) : attr1; }
+	bool   IsAttr(const char *id) const                       { return attr1 == id || attr.Find(id) >= 0; }
+	String operator[](int i) const                            { return i ? attr[i - 1] : attrval1; }
+	String operator[](const char *id) const                   { return attr1 == id ? attrval1 : attr.Get(id, Null); }
+	int    Int(const char *id, int def = Null) const;
+	double Double(const char *id, double def = Null) const;
 
-	bool   текст_ли();
-	Ткст PeekText()                                         { return cdata; }
-	Ткст читайТекст();
-	Ткст ReadTextE();
+	bool   IsText();
+	String PeekText()                                         { return cdata; }
+	String ReadText();
+	String ReadTextE();
 
-	bool   декл_ли();
-	Ткст PeekDecl()                                         { return читайДекл(false); }
-	Ткст читайДекл()                                         { return читайДекл(true); }
+	bool   IsDecl();
+	String PeekDecl()                                         { return ReadDecl(false); }
+	String ReadDecl()                                         { return ReadDecl(true); }
 
 	bool   IsPI();
-	Ткст PeekPI()                                           { return ReadPI(false); }
-	Ткст ReadPI()                                           { return ReadPI(true); }
+	String PeekPI()                                           { return ReadPI(false); }
+	String ReadPI()                                           { return ReadPI(true); }
 
-	bool   коммент_ли();
-	Ткст PeekComment()                                      { return читайКоммент(false); }
-	Ткст читайКоммент()                                      { return читайКоммент(true); }
+	bool   IsComment();
+	String PeekComment()                                      { return ReadComment(false); }
+	String ReadComment()                                      { return ReadComment(true); }
 
-	void   пропусти();
-	void   пропустиКонец();
+	void   Skip();
+	void   SkipEnd();
 
-	ВекторМап<Ткст, Ткст> PickAttrs();
+	VectorMap<String, String> PickAttrs();
 
-	int    дайСтроку() const                                    { return line; }
-	int    дайКолонку() const                                  { return дайКолонку0() + 1; }
+	int    GetLine() const                                    { return line; }
+	int    GetColumn() const                                  { return GetColumn0() + 1; }
 
 	void   Relaxed(bool b = true)                             { relaxed = b; }
 	void   PreserveAllWhiteSpaces(bool b = true)              { preserveall = b; }
-	void   дайРяд(bool b = true)                                 { raw = b; }
+	void   Raw(bool b = true)                                 { raw = b; }
 
-	ПарсерРяр(const char *s);
-	ПарсерРяр(Поток& in);
+	XmlParser(const char *s);
+	XmlParser(Stream& in);
 };
 
-class УзелРяр : Движимое< УзелРяр, DeepCopyOption<УзелРяр> > {
-	int                              тип;
-	Ткст                           text;
-	Массив<УзелРяр>                   node;
-	Один< ВекторМап<Ткст, Ткст> > attr;
+class XmlNode : Moveable< XmlNode, DeepCopyOption<XmlNode> > {
+	int                              type;
+	String                           text;
+	Array<XmlNode>                   node;
+	One< VectorMap<String, String> > attr;
 
 public:
-	static const УзелРяр& Проц();
-	bool           проц_ли() const                             { return this == &Проц(); }
+	static const XmlNode& Void();
+	bool           IsVoid() const                             { return this == &Void(); }
 
-	int            дайТип() const                            { return тип; }
-	Ткст         дайТекст() const                            { return text; }
-	Ткст         дайТэг() const                             { return text; }
-	bool           тэг_ли() const                              { return тип == XML_TAG; }
-	bool           тэг_ли(const char *tag) const               { return тэг_ли() && text == tag; }
-	bool           текст_ли() const                             { return тип == XML_TEXT; }
+	int            GetType() const                            { return type; }
+	String         GetText() const                            { return text; }
+	String         GetTag() const                             { return text; }
+	bool           IsTag() const                              { return type == XML_TAG; }
+	bool           IsTag(const char *tag) const               { return IsTag() && text == tag; }
+	bool           IsText() const                             { return type == XML_TEXT; }
 
-	void           очисть()                                    { text.очисть(); attr.очисть(); node.очисть(); тип = -1; }
-	void           создайТэг(const char *tag)                 { тип = XML_TAG; text = tag; }
-	void           создайТекст(const Ткст& txt)              { тип = XML_TEXT; text = txt; }
-	void           CreatePI(const Ткст& pi)                 { тип = XML_PI; text = pi; }
-	void           создайДекл(const Ткст& decl)             { тип = XML_DECL; text = decl; }
-	void           создайКоммент(const Ткст& comment)       { тип = XML_COMMENT; text = comment; }
-	void           создайДок()                           { очисть(); }
-	bool           пустой() const                            { return тип == XML_DOC && node.дайСчёт() == 0; }
-	operator bool() const                                     { return !пустой(); }
+	void           Clear()                                    { text.Clear(); attr.Clear(); node.Clear(); type = -1; }
+	void           CreateTag(const char *tag)                 { type = XML_TAG; text = tag; }
+	void           CreateText(const String& txt)              { type = XML_TEXT; text = txt; }
+	void           CreatePI(const String& pi)                 { type = XML_PI; text = pi; }
+	void           CreateDecl(const String& decl)             { type = XML_DECL; text = decl; }
+	void           CreateComment(const String& comment)       { type = XML_COMMENT; text = comment; }
+	void           CreateDocument()                           { Clear(); }
+	bool           IsEmpty() const                            { return type == XML_DOC && node.GetCount() == 0; }
+	operator bool() const                                     { return !IsEmpty(); }
 
-	int            дайСчёт() const                           { return node.дайСчёт(); }
-	УзелРяр&       по(int i)                                  { return node.по(i); }
-	const УзелРяр& Узел(int i) const                          { return node[i]; }
-	const УзелРяр& operator[](int i) const                    { return i >= 0 && i < node.дайСчёт() ? node[i] : Проц(); }
-	const УзелРяр& operator[](const char *tag) const;
-	УзелРяр&       добавь()                                      { return node.добавь(); }
-	void           удали(int i);
-	void           добавьТекст(const Ткст& txt)                 { добавь().создайТекст(txt); }
-	int            найдиТэг(const char *tag) const;
-	УзелРяр&       добавь(const char *tag);
-	УзелРяр&       дайДобавь(const char *tag);
-	УзелРяр&       operator()(const char *tag)                { return дайДобавь(tag); }
-	void           удали(const char *tag);
+	int            GetCount() const                           { return node.GetCount(); }
+	XmlNode&       At(int i)                                  { return node.At(i); }
+	const XmlNode& Node(int i) const                          { return node[i]; }
+	const XmlNode& operator[](int i) const                    { return i >= 0 && i < node.GetCount() ? node[i] : Void(); }
+	const XmlNode& operator[](const char *tag) const;
+	XmlNode&       Add()                                      { return node.Add(); }
+	void           Remove(int i);
+	void           AddText(const String& txt)                 { Add().CreateText(txt); }
+	int            FindTag(const char *tag) const;
+	XmlNode&       Add(const char *tag);
+	XmlNode&       GetAdd(const char *tag);
+	XmlNode&       operator()(const char *tag)                { return GetAdd(tag); }
+	void           Remove(const char *tag);
 
-	Ткст         собериТекст() const;
-	Ткст         operator~() const                          { return собериТекст(); }
-	bool           естьТэги() const;
+	String         GatherText() const;
+	String         operator~() const                          { return GatherText(); }
+	bool           HasTags() const;
 
-	int            дайСчётАтров() const                       { return attr ? attr->дайСчёт() : 0; }
-	Ткст         идАтра(int i) const                        { return attr->дайКлюч(i); }
-	Ткст         Атр(int i) const                          { return (*attr)[i]; }
-	Ткст         Атр(const char *ид) const                 { return attr ? attr->дай(ид, Null) : Ткст(); }
-	УзелРяр&       устАтр(const char *ид, const Ткст& val);
-	int            целАтр(const char *ид, int опр = Null) const;
-	УзелРяр&       устАтр(const char *ид, int val);
+	int            GetAttrCount() const                       { return attr ? attr->GetCount() : 0; }
+	String         AttrId(int i) const                        { return attr->GetKey(i); }
+	String         Attr(int i) const                          { return (*attr)[i]; }
+	String         Attr(const char *id) const                 { return attr ? attr->Get(id, Null) : String(); }
+	XmlNode&       SetAttr(const char *id, const String& val);
+	int            AttrInt(const char *id, int def = Null) const;
+	XmlNode&       SetAttr(const char *id, int val);
 
-	void           устАтры(ВекторМап<Ткст, Ткст>&& a);
+	void           SetAttrs(VectorMap<String, String>&& a);
 	
-	void           сожми();
+	void           Shrink();
 	
-	rval_default(УзелРяр);
+	rval_default(XmlNode);
 
-	УзелРяр(const УзелРяр& n, int);
+	XmlNode(const XmlNode& n, int);
 	
-	УзелРяр()                                                 { тип = XML_DOC; }
+	XmlNode()                                                 { type = XML_DOC; }
 
-	typedef Массив<УзелРяр>::КонстОбходчик КонстОбходчик;
-	КонстОбходчик          старт() const                      { return node.старт(); }
-	КонстОбходчик          стоп() const                        { return node.стоп(); }
+	typedef Array<XmlNode>::ConstIterator ConstIterator;
+	ConstIterator          Begin() const                      { return node.Begin(); }
+	ConstIterator          End() const                        { return node.End(); }
 
-	typedef УзелРяр        value_type;
-	typedef КонстОбходчик  const_iterator;
-	typedef const УзелРяр& const_reference;
+	typedef XmlNode        value_type;
+	typedef ConstIterator  const_iterator;
+	typedef const XmlNode& const_reference;
 	typedef int            size_type;
 	typedef int            difference_type;
-	const_iterator         begin() const                      { return старт(); }
-	const_iterator         end() const                        { return стоп(); }
+	const_iterator         begin() const                      { return Begin(); }
+	const_iterator         end() const                        { return End(); }
 };
 
 enum {
@@ -253,29 +253,29 @@ enum {
 	XML_IGNORE_COMMENTS = 0x04,
 };
 
-struct ФильтрРазбораРяр {
-	virtual bool сделайТэг(const Ткст& tag) = 0;
-	virtual void завершиТэг();
+struct ParseXmlFilter {
+	virtual bool DoTag(const String& tag) = 0;
+	virtual void EndTag();
 };
 
-УзелРяр разбериРЯР(ПарсерРяр& p, dword style = XML_IGNORE_DECLS|XML_IGNORE_PIS|XML_IGNORE_COMMENTS);
-УзелРяр разбериРЯР(const char *s, dword style = XML_IGNORE_DECLS|XML_IGNORE_PIS|XML_IGNORE_COMMENTS);
-УзелРяр разбериРЯР(Поток& in, dword style = XML_IGNORE_DECLS|XML_IGNORE_PIS|XML_IGNORE_COMMENTS);
-УзелРяр разбериФайлРЯР(const char *path, dword style = XML_IGNORE_DECLS|XML_IGNORE_PIS|XML_IGNORE_COMMENTS);
+XmlNode ParseXML(XmlParser& p, dword style = XML_IGNORE_DECLS|XML_IGNORE_PIS|XML_IGNORE_COMMENTS);
+XmlNode ParseXML(const char *s, dword style = XML_IGNORE_DECLS|XML_IGNORE_PIS|XML_IGNORE_COMMENTS);
+XmlNode ParseXML(Stream& in, dword style = XML_IGNORE_DECLS|XML_IGNORE_PIS|XML_IGNORE_COMMENTS);
+XmlNode ParseXMLFile(const char *path, dword style = XML_IGNORE_DECLS|XML_IGNORE_PIS|XML_IGNORE_COMMENTS);
 
-УзелРяр разбериРЯР(ПарсерРяр& p, ФильтрРазбораРяр& filter, dword style = XML_IGNORE_DECLS|XML_IGNORE_PIS|XML_IGNORE_COMMENTS);
-УзелРяр разбериРЯР(const char *s, ФильтрРазбораРяр& filter, dword style = XML_IGNORE_DECLS|XML_IGNORE_PIS|XML_IGNORE_COMMENTS);
-УзелРяр разбериРЯР(Поток& in, ФильтрРазбораРяр& filter, dword style = XML_IGNORE_DECLS|XML_IGNORE_PIS|XML_IGNORE_COMMENTS);
-УзелРяр разбериФайлРЯР(const char *path, ФильтрРазбораРяр& filter, dword style = XML_IGNORE_DECLS|XML_IGNORE_PIS|XML_IGNORE_COMMENTS);
+XmlNode ParseXML(XmlParser& p, ParseXmlFilter& filter, dword style = XML_IGNORE_DECLS|XML_IGNORE_PIS|XML_IGNORE_COMMENTS);
+XmlNode ParseXML(const char *s, ParseXmlFilter& filter, dword style = XML_IGNORE_DECLS|XML_IGNORE_PIS|XML_IGNORE_COMMENTS);
+XmlNode ParseXML(Stream& in, ParseXmlFilter& filter, dword style = XML_IGNORE_DECLS|XML_IGNORE_PIS|XML_IGNORE_COMMENTS);
+XmlNode ParseXMLFile(const char *path, ParseXmlFilter& filter, dword style = XML_IGNORE_DECLS|XML_IGNORE_PIS|XML_IGNORE_COMMENTS);
 
-class IgnoreXmlPaths : public ФильтрРазбораРяр {
+class IgnoreXmlPaths : public ParseXmlFilter {
 public:
-	virtual bool сделайТэг(const Ткст& ид);
-	virtual void завершиТэг();
+	virtual bool DoTag(const String& id);
+	virtual void EndTag();
 
 private:
-	Индекс<Ткст>  list;
-	Вектор<Ткст> path;
+	Index<String>  list;
+	Vector<String> path;
 
 public:
 	IgnoreXmlPaths(const char *s);
@@ -287,6 +287,6 @@ enum {
 	XML_PRETTY =  0x04,
 };
 
-void    какРЯР(Поток& out, const УзелРяр& n, dword style = XML_HEADER|XML_DOCTYPE|XML_PRETTY);
-Ткст  какРЯР(const УзелРяр& n, dword style = XML_HEADER|XML_DOCTYPE|XML_PRETTY);
-bool    какФайлРЯР(const char *path, const УзелРяр& n, dword style = XML_HEADER|XML_DOCTYPE|XML_PRETTY);
+void    AsXML(Stream& out, const XmlNode& n, dword style = XML_HEADER|XML_DOCTYPE|XML_PRETTY);
+String  AsXML(const XmlNode& n, dword style = XML_HEADER|XML_DOCTYPE|XML_PRETTY);
+bool    AsXMLFile(const char *path, const XmlNode& n, dword style = XML_HEADER|XML_DOCTYPE|XML_PRETTY);

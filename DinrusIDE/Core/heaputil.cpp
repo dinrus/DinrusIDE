@@ -1,39 +1,39 @@
 #include "Core.h"
 
-#ifdef КУЧА_РНЦП
+#ifdef UPP_HEAP
 
 #ifdef PLATFORM_POSIX
 #include <sys/mman.h>
 #endif
 
-namespace РНЦПДинрус {
+namespace Upp {
 
 #include "HeapImp.h"
 
 void OutOfMemoryPanic(size_t size)
 {
 	char h[200];
-	sprintf(h, "выведи of memory!\nnU++ allocated memory: %d KB", MemoryUsedKb());
-	паника(h);
+	sprintf(h, "Нехватка памяти!\nРазмешённая U++ память: %d KB", MemoryUsedKb());
+	Panic(h);
 }
 
-size_t Куча::huge_4KB_count;
-int    Куча::free_4KB;
-size_t Куча::big_size;
-size_t Куча::big_count;
-size_t Куча::sys_size;
-size_t Куча::sys_count;
-size_t Куча::huge_chunks;
-size_t Куча::huge_4KB_count_max;
+size_t Heap::huge_4KB_count;
+int    Heap::free_4KB;
+size_t Heap::big_size;
+size_t Heap::big_count;
+size_t Heap::sys_size;
+size_t Heap::sys_count;
+size_t Heap::huge_chunks;
+size_t Heap::huge_4KB_count_max;
 
 int MemoryUsedKb()
 {
-	return int(4 * (Куча::huge_4KB_count - Куча::free_4KB));
+	return int(4 * (Heap::huge_4KB_count - Heap::free_4KB));
 }
 
 int MemoryUsedKbMax()
 {
-	return int(4 * Куча::huge_4KB_count_max);
+	return int(4 * Heap::huge_4KB_count_max);
 }
 
 void *SysAllocRaw(size_t size, size_t reqsize)
@@ -66,12 +66,12 @@ void  SysFreeRaw(void *ptr, size_t size)
 
 void *MemoryAllocPermanent(size_t size)
 {
-	Стопор::Замок __(Куча::mutex);
+	Mutex::Lock __(Heap::mutex);
 	if(size > 10000)
 		return SysAllocRaw(size, size);
 	static byte *ptr = NULL;
 	static byte *limit = NULL;
-	ПРОВЕРЬ(size < INT_MAX);
+	ASSERT(size < INT_MAX);
 	if(ptr + size >= limit) {
 		ptr = (byte *)SysAllocRaw(16384, 16384);
 		limit = ptr + 16384;
@@ -81,26 +81,26 @@ void *MemoryAllocPermanent(size_t size)
 	return p;
 }
 
-void паникаКучи(const char *text, void *pos, int size)
+void HeapPanic(const char *text, void *pos, int size)
 {
 	RLOG("\n\n" << text << "\n");
-	гексДамп(VppLog(), pos, size, 1024);
-	паника(text);
+	HexDump(VppLog(), pos, size, 1024);
+	Panic(text);
 }
 
 #ifdef HEAPDBG
 
-void *Куча::DbgFreeCheckK(void *p, int k)
+void *Heap::DbgFreeCheckK(void *p, int k)
 {
-	Page *page = дайСтраницу(p);
-	ПРОВЕРЬ((byte *)page + sizeof(Page) <= (byte *)p && (byte *)p < (byte *)page + 4096);
-	ПРОВЕРЬ((4096 - ((uintptr_t)p & (uintptr_t)4095)) % Ksz(k) == 0);
-	ПРОВЕРЬ(page->klass == k);
+	Page *page = GetPage(p);
+	ASSERT((byte *)page + sizeof(Page) <= (byte *)p && (byte *)p < (byte *)page + 4096);
+	ASSERT((4096 - ((uintptr_t)p & (uintptr_t)4095)) % Ksz(k) == 0);
+	ASSERT(page->klass == k);
 	DbgFreeCheck((FreeLink *)p + 1, Ksz(k) - sizeof(FreeLink));
 	return p;
 }
 
-void Куча::DbgFreeFillK(void *p, int k)
+void Heap::DbgFreeFillK(void *p, int k)
 {
 	DbgFreeFill((FreeLink *)p + 1, Ksz(k) - sizeof(FreeLink));
 }
@@ -108,16 +108,16 @@ void Куча::DbgFreeFillK(void *p, int k)
 #endif
 
 
-void Куча::сделай(ПрофильПамяти& f)
+void Heap::Make(MemoryProfile& f)
 {
-	Стопор::Замок __(mutex);
-	memset((void *)&f, 0, sizeof(ПрофильПамяти));
+	Mutex::Lock __(mutex);
+	memset((void *)&f, 0, sizeof(MemoryProfile));
 	for(int i = 0; i < NKLASS; i++) {
 		int qq = Ksz(i) / 4;
 		Page *p = work[i]->next;
 		while(p != work[i]) {
 			f.allocated[qq] += p->active;
-			f.fragments[qq] += p->счёт() - p->active;
+			f.fragments[qq] += p->Count() - p->active;
 			p = p->next;
 		}
 		p = full[i]->next;
@@ -135,11 +135,11 @@ void Куча::сделай(ПрофильПамяти& f)
 	}
 	DLink *m = large->next;
 	while(m != large) {
-		LargeHeap::BlkHeader *h = m->дайПерв();
+		LargeHeap::BlkHeader *h = m->GetFirst();
 		for(;;) {
 			if(h->IsFree()) {
 				f.large_fragments_count++;
-				int sz = LUNIT * h->дайРазм();
+				int sz = LUNIT * h->GetSize();
 				f.large_fragments_total += sz;
 				if(h->size < 2048)
 					f.large_fragments[sz >> 8]++;
@@ -157,10 +157,10 @@ void Куча::сделай(ПрофильПамяти& f)
 
 	f.sys_count = (int)sys_count;
 	f.sys_total = sys_size;
-	
+
 	f.huge_count = int(big_count - sys_count);
 	f.huge_total = big_size - sys_size; // this is not 100% correct, but approximate
-	
+
 	f.master_chunks = (int)huge_chunks;
 
 	HugePage *pg = huge_pages;
@@ -168,7 +168,7 @@ void Куча::сделай(ПрофильПамяти& f)
 		BlkPrefix *h = (BlkPrefix *)pg->page;
 		for(;;) {
 			if(h->IsFree()) {
-				word sz = h->дайРазм();
+				word sz = h->GetSize();
 				f.huge_fragments[sz]++;
 				f.huge_fragments_count++;
 				f.huge_fragments_total += sz;
@@ -181,18 +181,18 @@ void Куча::сделай(ПрофильПамяти& f)
 	}
 }
 
-void Куча::DumpLarge()
+void Heap::DumpLarge()
 {
-	Стопор::Замок __(mutex);
+	Mutex::Lock __(mutex);
 	DLink *m = large->next;
 	auto& out = VppLog();
 	while(m != large) {
-		LargeHeap::BlkHeader *h = m->дайПерв();
+		LargeHeap::BlkHeader *h = m->GetFirst();
 		out << h << ": ";
 		for(;;) {
 			if(h->IsFree())
 				out << "#";
-			out << h->дайРазм() * 0.25 << ' ';
+			out << h->GetSize() * 0.25 << ' ';
 			if(h->IsLast())
 				break;
 			h = h->GetNextHeader();
@@ -202,9 +202,9 @@ void Куча::DumpLarge()
 	}
 }
 
-void Куча::DumpHuge()
+void Heap::DumpHuge()
 {
-	Стопор::Замок __(mutex);
+	Mutex::Lock __(mutex);
 	HugePage *pg = huge_pages;
 	auto& out = VppLog();
 	while(pg) {
@@ -213,7 +213,7 @@ void Куча::DumpHuge()
 		for(;;) {
 			if(h->IsFree())
 				out << "#";
-			out << 4 * h->дайРазм() << ' ';
+			out << 4 * h->GetSize() << ' ';
 			if(h->IsLast())
 				break;
 			h = h->GetNextHeader(4096);
@@ -223,19 +223,19 @@ void Куча::DumpHuge()
 	}
 }
 
-Ткст какТкст(const ПрофильПамяти& mem)
+String AsString(const MemoryProfile& mem)
 {
-	Ткст text;
-#ifdef КУЧА_РНЦП
+	String text;
+#ifdef UPP_HEAP
 	int acount = 0;
 	size_t asize = 0;
 	int fcount = 0;
 	size_t fsize = 0;
-	text << "Memory peak: " << MemoryUsedKbMax() << " KB, текущ: " << MemoryUsedKb() << "KB \n";
+	text << "Пик памяти: " << MemoryUsedKbMax() << " КБ, текущая: " << MemoryUsedKb() << "КБ \n";
 	for(int i = 0; i < 1024; i++)
 		if(mem.allocated[i]) {
 			int sz = 4 * i;
-			text << фмт("%4d B, %7d allocated (%6d KB), %6d fragments (%6d KB)\n",
+			text << Format("%4d Б, %7d размещено (%6d KB), %6d фрагментов (%6d КБ)\n",
 			              sz, mem.allocated[i], (mem.allocated[i] * sz) >> 10,
 			              mem.fragments[i], (mem.fragments[i] * sz) >> 10);
 			acount += mem.allocated[i];
@@ -243,28 +243,28 @@ void Куча::DumpHuge()
 			fcount += mem.fragments[i];
 			fsize += mem.fragments[i] * sz;
 		}
-	text << фмт(" TOTAL, %7d allocated (%6d KB), %6d fragments (%6d KB)\n",
+	text << Format(" ВСЕГО, %7d размещено (%6d КБ), %6d фрагментов (%6d КБ)\n",
 	              acount, int(asize >> 10), fcount, int(fsize >> 10));
-	text << "Empty 4KB pages " << mem.freepages << " (" << mem.freepages * 4 << " KB)\n";
-	text << "Large block count " << mem.large_count
-	     << ", total size " << (mem.large_total >> 10) << " KB\n";
-	text << "Large fragments count " << mem.large_fragments_count
-	     << ", total size " << (mem.large_fragments_total >> 10) << " KB\n";
-	text << "Huge block count " << mem.huge_count
-	     << ", total size " << int(mem.huge_total >> 10) << " KB\n";
-	text << "Huge fragments count " << mem.huge_fragments_count
-	     << ", total size " << 4 * mem.huge_fragments_total << " KB\n";
-	text << "Sys block count " << mem.sys_count
-	     << ", total size " << int(mem.sys_total >> 10) << " KB\n";
-	text << Куча::HPAGE * 4 / 1024 << "MB master blocks " << mem.master_chunks << "\n";
-	text << "\nLarge fragments:\n";
+	text << "Пустые 4КБ страницы " << mem.freepages << " (" << mem.freepages * 4 << " КБ)\n";
+	text << "Счёт блоков Large " << mem.large_count
+	     << ", общий размер " << (mem.large_total >> 10) << " КБ\n";
+	text << "Счёт фрагментов Large " << mem.large_fragments_count
+	     << ", общий размер " << (mem.large_fragments_total >> 10) << " КБ\n";
+	text << "Счёт блоков Huge " << mem.huge_count
+	     << ", общий размер " << int(mem.huge_total >> 10) << " КБ\n";
+	text << "Счёт фрагментов Huge " << mem.huge_fragments_count
+	     << ", общий размер " << 4 * mem.huge_fragments_total << " КБ\n";
+	text << "Счёт блоков Syst " << mem.sys_count
+	     << ", общий размер " << int(mem.sys_total >> 10) << " КБ\n";
+	text << Heap::HPAGE * 4 / 1024 << "МБ мастер-блоки " << mem.master_chunks << "\n";
+	text << "\nФрагменты Large:\n";
 	for(int i = 0; i < 2048; i++)
 		if(mem.large_fragments[i])
-			text << 256.0 * i / 1024 << " KB: " << mem.large_fragments[i] << "\n";
-	text << "\nHuge fragments:\n";
+			text << 256.0 * i / 1024 << " КБ: " << mem.large_fragments[i] << "\n";
+	text << "\nФрагменты Huge:\n";
 	for(int i = 0; i < 65535; i++)
 		if(mem.huge_fragments[i])
-			text << i * 4 << " KB: " << mem.huge_fragments[i] << "\n";
+			text << i * 4 << " КБ: " << mem.huge_fragments[i] << "\n";
 #endif
 	return text;
 }
@@ -273,7 +273,7 @@ void Куча::DumpHuge()
 int stat[65536];
 int bigstat;
 
-void Куча::Stat(size_t sz)
+void Heap::Stat(size_t sz)
 {
 	if(sz < 65536)
 		stat[sz]++;
@@ -281,22 +281,22 @@ void Куча::Stat(size_t sz)
 		bigstat++;
 }
 
-ЭКЗИТБЛОК {
+EXITBLOCK {
 	int sum = 0;
 	for(int i = 0; i < 65536; i++)
 		sum += stat[i];
 	sum += bigstat;
 	int total = 0;
-	VppLog() << спринтф("Allocation statistics: (total allocations: %d)\n", sum);
+	VppLog() << Sprintf("Allocation statistics: (total allocations: %d)\n", sum);
 	for(int i = 0; i < 65536; i++)
 		if(stat[i]) {
 			total += stat[i];
-			VppLog() << спринтф("%5d %8dx %2d%%, total %8dx %2d%%\n",
+			VppLog() << Sprintf("%5d %8dx %2d%%, total %8dx %2d%%\n",
 			                    i, stat[i], 100 * stat[i] / sum, total, 100 * total / sum);
 		}
 	if(bigstat) {
 		total += bigstat;
-		VppLog() << спринтф(">64KB %8dx %2d%%, total %8dx %2d%%\n",
+		VppLog() << Sprintf(">64KB %8dx %2d%%, total %8dx %2d%%\n",
 		                    bigstat, 100 * bigstat / sum, total, 100 * total / sum);
 	}
 }

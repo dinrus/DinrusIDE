@@ -1,6 +1,6 @@
 #include "Core.h"
 
-namespace РНЦПДинрус {
+namespace Upp {
 
 static int s_month[] = {
 	31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31
@@ -11,107 +11,107 @@ static int s_month_off[] = {
 	181, 212, 243, 273, 304, 334
 };
 
-bool високосенГод(int year)
+bool IsLeapYear(int year)
 {
 	return ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0);
 }
 
-void Дата::сериализуй(Поток& s)
+void Date::Serialize(Stream& s)
 {
 	s % day % month % year;
 }
 
-int  дайДниМесяца(int m, int y) {
-	ПРОВЕРЬ(m >= 1 && m <= 12);
-	return s_month[m - 1] + (m == 2) * високосенГод(y);
+int  GetDaysOfMonth(int m, int y) {
+	ASSERT(m >= 1 && m <= 12);
+	return s_month[m - 1] + (m == 2) * IsLeapYear(y);
 }
 
-bool Дата::пригоден() const {
-	return year == -32768 || month >= 1 && month <= 12 && day >= 1 && day <= дайДниМесяца(month, year);
+bool Date::IsValid() const {
+	return year == -32768 || month >= 1 && month <= 12 && day >= 1 && day <= GetDaysOfMonth(month, year);
 }
 
-Ткст имяДня(int i, int lang)
+String DayName(int i, int lang)
 {
 	static const char *day[] = {
 		tt_("date\vSunday"), tt_("date\vMonday"), tt_("date\vTuesday"),
 		tt_("date\vWednesday"), tt_("date\vThursday"), tt_("date\vFriday"), tt_("date\vSaturday")
 	};
-	return i >= 0 && i < 7 ? Nvl(GetLngString(lang, day[i]), GetENUS(day[i])) : Ткст();
+	return i >= 0 && i < 7 ? Nvl(GetLngString(lang, day[i]), GetENUS(day[i])) : String();
 }
 
-Ткст DyName(int i, int lang)
+String DyName(int i, int lang)
 {
 	static const char *day[] = {
 		tt_("date\vSu"), tt_("date\vMo"), tt_("date\vTu"),
 		tt_("date\vWe"), tt_("date\vTh"), tt_("date\vFr"), tt_("date\vSa")
 	};
-	return i >= 0 && i < 7 ? Nvl(GetLngString(lang, day[i]), GetENUS(day[i])) : Ткст();
+	return i >= 0 && i < 7 ? Nvl(GetLngString(lang, day[i]), GetENUS(day[i])) : String();
 }
 
-Ткст имяМесяца(int i, int lang)
+String MonthName(int i, int lang)
 {
 	static const char *month[] = {
 		tt_("date\vJanuary"), tt_("date\vFebruary"), tt_("date\vMarch"), tt_("date\vApril"), tt_("date\vMay"),
 		tt_("date\vJune"), tt_("date\vJuly"), tt_("date\vAugust"), tt_("date\vSeptember"), tt_("date\vOctober"),
 		tt_("date\vNovember"), tt_("date\vDecember")
 	};
-	return i >= 0 && i < 12 ? Nvl(GetLngString(lang, month[i]), GetENUS(month[i])) : Ткст();
+	return i >= 0 && i < 12 ? Nvl(GetLngString(lang, month[i]), GetENUS(month[i])) : String();
 }
 
-Ткст MonName(int i, int lang)
+String MonName(int i, int lang)
 {
 	static const char *month[] = {
 		tt_("sdate\vJan"), tt_("sdate\vFeb"), tt_("sdate\vMar"), tt_("sdate\vApr"), tt_("sdate\vMay"),
 		tt_("sdate\vJun"), tt_("sdate\vJul"), tt_("sdate\vAug"), tt_("sdate\vSep"), tt_("sdate\vOct"),
 		tt_("sdate\vNov"), tt_("sdate\vDec")
 	};
-	return i >= 0 && i < 12 ? Nvl(GetLngString(lang, month[i]), GetENUS(month[i])) : Ткст();
+	return i >= 0 && i < 12 ? Nvl(GetLngString(lang, month[i]), GetENUS(month[i])) : String();
 }
 
 static thread_local char s_date_format_thread[64];
 static char s_date_format_main[64] = "%2:02d/%3:02d/%1:4d";
 
-void   устФорматДаты(const char *fmt)
+void   SetDateFormat(const char *fmt)
 {
 	strncpy(s_date_format_thread, fmt, 63);
-	if(Нить::главная_ли())
+	if(Thread::IsMain())
 		strncpy(s_date_format_main, fmt, 63);
 }
 
-Ткст   фмт(Дата date) {
-	Ткст  s;
-	if(пусто_ли(date))
-		return Ткст();
-	return фмт(*s_date_format_thread ? s_date_format_thread : s_date_format_main, date.year, date.month, date.day, деньНедели(date));
+String   Format(Date date) {
+	String  s;
+	if(IsNull(date))
+		return String();
+	return Format(*s_date_format_thread ? s_date_format_thread : s_date_format_main, date.year, date.month, date.day, DayOfWeek(date));
 }
 
 static thread_local char s_date_scan_thread[64];
 static char s_date_scan_main[64] = "mdy";
 
-void   устСканДат(const char *scan)
+void   SetDateScan(const char *scan)
 {
 	strncpy(s_date_scan_thread, scan, 63);
-	if(Нить::главная_ли())
+	if(Thread::IsMain())
 		strncpy(s_date_scan_main, scan, 63);
 }
 
-const char *тктВДату(Дата& d, const char *s, Дата опр)
+const char *StrToDate(Date& d, const char *s, Date def)
 {
-	return тктВДату(*s_date_scan_thread ? s_date_scan_thread : s_date_scan_main, d, s, опр);
+	return StrToDate(*s_date_scan_thread ? s_date_scan_thread : s_date_scan_main, d, s, def);
 }
 
-const char *тктВДату(const char *fmt, Дата& d, const char *s, Дата опр)
+const char *StrToDate(const char *fmt, Date& d, const char *s, Date def)
 {
 	if(*s == 0) {
 		d = Null;
 		return s;
 	}
-	d = Nvl(опр, дайСисДату());
+	d = Nvl(def, GetSysDate());
 	while(*fmt) {
-		while(*s && !цифра_ли(*s) && !IsAlpha(*s) && (byte)*s < 128)
+		while(*s && !IsDigit(*s) && !IsAlpha(*s) && (byte)*s < 128)
 			s++;
 		int n;
-		if(цифра_ли(*s)) {
+		if(IsDigit(*s)) {
 			char *q;
 			n = strtoul(s, &q, 10);
 			s = q;
@@ -120,12 +120,12 @@ const char *тктВДату(const char *fmt, Дата& d, const char *s, Дат
 		if(IsAlpha(*s) || (byte)*s >= 128) {
 			if(*fmt != 'm')
 				return NULL;
-			Ткст m;
+			String m;
 			while(IsAlpha(*s) || (byte)*s >= 128)
-				m.конкат(*s++);
-			m = взаг(m);
+				m.Cat(*s++);
+			m = ToUpper(m);
 			for(int i = 0; i < 12; i++)
-				if(m == взаг(имяМесяца(i)) || m == взаг(MonName(i))) {
+				if(m == ToUpper(MonthName(i)) || m == ToUpper(MonName(i))) {
 					n = i + 1;
 					goto found;
 				}
@@ -149,7 +149,7 @@ const char *тктВДату(const char *fmt, Дата& d, const char *s, Дат
 			break;
 		case 'y':
 			d.year = n;
-			if(d.year < 35) d.year += 2000; // Check again in 2030.... // TODO: сделай this automatic
+			if(d.year < 35) d.year += 2000; // Check again in 2030.... // СДЕЛАТЬ: Make this automatic
 			else
 			if(d.year < 100) d.year += 1900;
 			break;
@@ -158,43 +158,43 @@ const char *тктВДату(const char *fmt, Дата& d, const char *s, Дат
 		}
 		fmt++;
 	}
-	return d.пригоден() ? s : NULL;
+	return d.IsValid() ? s : NULL;
 }
 
-const char *тктВДату(Дата& d, const char *s)
+const char *StrToDate(Date& d, const char *s)
 {
-	return тктВДату(d, s, Null);
+	return StrToDate(d, s, Null);
 }
 
-Дата сканДату(const char *fmt, const char *s, Дата опр)
+Date ScanDate(const char *fmt, const char *s, Date def)
 {
-	Дата d;
-	if(тктВДату(fmt, d, s, опр))
+	Date d;
+	if(StrToDate(fmt, d, s, def))
 		return d;
-	return опр;
+	return def;
 }
 
-Дата сканДату(const char *s, Дата опр)
+Date ScanDate(const char *s, Date def)
 {
-	Дата d;
-	if(тктВДату(d, s, опр))
+	Date d;
+	if(StrToDate(d, s, def))
 		return d;
-	return опр;
+	return def;
 }
 
 static thread_local char s_date_seps_thread[64];
 static char s_date_seps_main[64] = "A/\a .-";
 
-void   устФильтрДат(const char *seps)
+void   SetDateFilter(const char *seps)
 {
 	strncpy(s_date_seps_thread, seps, 63);
-	if(Нить::главная_ли())
+	if(Thread::IsMain())
 		strncpy(s_date_seps_main, seps, 63);
 }
 
 int  CharFilterDate(int c)
 {
-	if(цифра_ли(c))
+	if(IsDigit(c))
 		return c;
 	const char *s = *s_date_seps_thread ? s_date_seps_thread : s_date_seps_main;
 	bool letters = false;
@@ -209,8 +209,8 @@ int  CharFilterDate(int c)
 		upper = true;
 		s++;
 	}
-	if(letters && буква_ли(c))
-		return upper ? взаг(c) : c;
+	if(letters && IsLetter(c))
+		return upper ? ToUpper(c) : c;
 	;
 	int r = 0;
 	while(*s) {
@@ -233,21 +233,21 @@ int  CharFilterDate(int c)
 	return 0;
 }
 
-int Дата::дай() const
+int Date::Get() const
 {
-	if(пусто_ли(*this))
+	if(IsNull(*this))
 		return Null;
 	int y400 = (year / 400 ) - 2;
 	int ym = year - y400 * 400;
 	return y400 * (400 * 365 + 100 - 3) +
 	        ym * 365 + s_month_off[month - 1] + (day - 1) +
 	       (ym - 1) / 4 - (ym - 1) / 100 + (ym - 1) / 400 + 1 +
-	       (month > 2) * високосенГод(ym);
+	       (month > 2) * IsLeapYear(ym);
 }
 
-void Дата::уст(int d)
+void Date::Set(int d)
 {
-	if(пусто_ли(d)) {
+	if(IsNull(d)) {
 		*this = Null;
 		return;
 	}
@@ -290,110 +290,110 @@ void Дата::уст(int d)
 	day = d + 1;
 }
 
-int Дата::сравни(Дата b) const
+int Date::Compare(Date b) const
 {
-	int q = сравниЗнак(year, b.year);
+	int q = SgnCompare(year, b.year);
 	if(q) return q;
-	q = сравниЗнак(month, b.month);
-	return q ? q : сравниЗнак(day, b.day);
+	q = SgnCompare(month, b.month);
+	return q ? q : SgnCompare(day, b.day);
 }
 
-bool operator<(Дата a, Дата b) {
-	return a.сравни(b) < 0;
+bool operator<(Date a, Date b) {
+	return a.Compare(b) < 0;
 }
 
-int   operator-(Дата a, Дата b)    { return a.дай() - b.дай(); }
-Дата  operator+(Дата a, int b)     { Дата q; q.уст(a.дай() + b); return q; }
-Дата  operator+(int a, Дата b)     { Дата q; q.уст(b.дай() + a); return q; }
-Дата  operator-(Дата a, int b)     { Дата q; q.уст(a.дай() - b); return q; }
-Дата& operator+=(Дата& a, int b)   { a.уст(a.дай() + b); return a; }
-Дата& operator-=(Дата& a, int b)   { a.уст(a.дай() - b); return a; }
+int   operator-(Date a, Date b)    { return a.Get() - b.Get(); }
+Date  operator+(Date a, int b)     { Date q; q.Set(a.Get() + b); return q; }
+Date  operator+(int a, Date b)     { Date q; q.Set(b.Get() + a); return q; }
+Date  operator-(Date a, int b)     { Date q; q.Set(a.Get() - b); return q; }
+Date& operator+=(Date& a, int b)   { a.Set(a.Get() + b); return a; }
+Date& operator-=(Date& a, int b)   { a.Set(a.Get() - b); return a; }
 
-int деньНедели(Дата date) {
-	return (date.дай() + 6) % 7;
+int DayOfWeek(Date date) {
+	return (date.Get() + 6) % 7;
 }
 
-Дата последнДеньМесяца(Дата d) {
-	d.day = дайДниМесяца(d.month, d.year);
+Date LastDayOfMonth(Date d) {
+	d.day = GetDaysOfMonth(d.month, d.year);
 	return d;
 }
 
-Дата первДеньМесяца(Дата d) {
+Date FirstDayOfMonth(Date d) {
 	d.day = 1;
 	return d;
 }
 
-Дата последнДеньГода(Дата d)
+Date LastDayOfYear(Date d)
 {
 	d.day = 31;
 	d.month = 12;
 	return d;
 }
 
-Дата первДеньГода(Дата d)
+Date FirstDayOfYear(Date d)
 {
 	d.day = 1;
 	d.month = 1;
 	return d;
 }
 
-int деньГода(Дата d) {
-	return 1 + d - первДеньГода(d);
+int DayOfYear(Date d) {
+	return 1 + d - FirstDayOfYear(d);
 }
 
-Дата добавьМесяцы(Дата date, int months) {
+Date AddMonths(Date date, int months) {
 	months += date.month - 1;
 	int year = idivfloor(months, 12);
 	months -= 12 * year;
 	year += date.year;
 	date.year = year;
 	date.month = months + 1;
-	date.day = min(date.day, последнДеньМесяца(date).day);
+	date.day = min(date.day, LastDayOfMonth(date).day);
 	return date;
 }
 
-int дайМесяцы(Дата since, Дата till)
+int GetMonths(Date since, Date till)
 {
 	return 12 * till.year + till.month - (12 * since.year + since.month) + (till.day >= since.day) - 1;
 }
 
-int GetMonthsP(Дата since, Дата till)
+int GetMonthsP(Date since, Date till)
 {
 	return 12 * till.year + till.month - (12 * since.year + since.month) + (till.day > since.day);
 }
 
-Дата добавьГоды(Дата date, int years) {
+Date AddYears(Date date, int years) {
 	date.year += years;
-	date.day = min(date.day, последнДеньМесяца(date).day);
+	date.day = min(date.day, LastDayOfMonth(date).day);
 	return date;
 }
 
-Дата дайДатуНедели(int year, int week)
+Date GetWeekDate(int year, int week)
 {
-	int jan1 = Дата(year, 1, 1).дай();
+	int jan1 = Date(year, 1, 1).Get();
 	int start = (jan1 - 584390) / 7 * 7 + 584390; // 584390 = 03.01.1600 Monday
 	if(jan1 - start > 3)
 		start += 7;
-	Дата d;
-	d.уст(start + 7 * (week - 1));
+	Date d;
+	d.Set(start + 7 * (week - 1));
 	return d;
 }
 
-int дайНеделю(Дата d, int& year)
+int GetWeek(Date d, int& year)
 {
 	year = d.year;
-	Дата d0 = дайДатуНедели(year + 1, 1);
+	Date d0 = GetWeekDate(year + 1, 1);
 	if(d >= d0)
 		year++;
 	else {
-		d0 = дайДатуНедели(year, 1);
+		d0 = GetWeekDate(year, 1);
 		if(d < d0)
-			d0 = дайДатуНедели(--year, 1);
+			d0 = GetWeekDate(--year, 1);
 	}
 	return (d - d0) / 7 + 1;
 }
 
-Дата пасха(int year)
+Date EasterDay(int year)
 {
     int a = year % 19;
     int b = year >> 2;
@@ -403,25 +403,25 @@ int дайНеделю(Дата d, int& year)
     e += (29578 - a - e * 32) >> 10;
     e -= ((year % 7) + b - d + e + 2) % 7;
     d = e >> 5;
-    return Дата(year, d + 3, e - d * 31);
+    return Date(year, d + 3, e - d * 31);
 }
 
-void Время::сериализуй(Поток& s)
+void Time::Serialize(Stream& s)
 {
 	s % day % month % year % hour % minute % second;
 }
 
 #ifdef PLATFORM_WIN32
-Время::Время(ФВремя filetime)
+Time::Time(FileTime filetime)
 {
 	SYSTEMTIME tm, tml;
-	ФВремя ft;
+	FileTime ft;
 	FileTimeToSystemTime(&filetime, &tm);
 	SystemTimeToTzSpecificLocalTime(NULL, &tm, &tml);
-	*this = Время(tml.wYear, tml.wMonth, tml.wDay, tml.wHour, tml.wMinute, tml.wSecond);
+	*this = Time(tml.wYear, tml.wMonth, tml.wDay, tml.wHour, tml.wMinute, tml.wSecond);
 }
 
-ФВремя Время::какФВремя() const
+FileTime Time::AsFileTime() const
 {
 	SYSTEMTIME tm;
 	tm.wYear = year;
@@ -431,7 +431,7 @@ void Время::сериализуй(Поток& s)
 	tm.wMinute = minute;
 	tm.wSecond = second;
 	tm.wMilliseconds = 0;
-	ФВремя ft, filetime;
+	FileTime ft, filetime;
 	SystemTimeToFileTime(&tm, &ft);
 	LocalFileTimeToFileTime(&ft, &filetime);
 	return filetime;
@@ -439,15 +439,15 @@ void Время::сериализуй(Поток& s)
 #endif
 
 #ifdef PLATFORM_POSIX
-Время::Время(ФВремя filetime) {
+Time::Time(FileTime filetime) {
 	struct tm time_r;
 	struct tm *time = localtime_r(&filetime.ft, &time_r);
 	if(time)
-		*this = Время(time->tm_year + 1900, time->tm_mon + 1, time->tm_mday,
+		*this = Time(time->tm_year + 1900, time->tm_mon + 1, time->tm_mday,
 	                 time->tm_hour, time->tm_min, time->tm_sec);
 }
 
-ФВремя Время::какФВремя() const {
+FileTime Time::AsFileTime() const {
 	struct tm time;
 	time.tm_year = year - 1900;
 	time.tm_mon = month - 1;
@@ -460,30 +460,30 @@ void Время::сериализуй(Поток& s)
 }
 #endif
 
-bool operator==(Время a, Время b) {
+bool operator==(Time a, Time b) {
 	return a.day == b.day && a.month == b.month && a.year == b.year &&
 		   a.hour == b.hour && a.minute == b.minute && a.second == b.second;
 }
 
-int Время::сравни(Время b) const
+int Time::Compare(Time b) const
 {
-	int q = Дата::сравни(b);
+	int q = Date::Compare(b);
 	if(q) return q;
-	q = сравниЗнак(hour, b.hour);
+	q = SgnCompare(hour, b.hour);
 	if(q) return q;
-	q = сравниЗнак(minute, b.minute);
+	q = SgnCompare(minute, b.minute);
 	if(q) return q;
-	return сравниЗнак(second, b.second);
+	return SgnCompare(second, b.second);
 }
 
-bool operator<(Время a, Время b) {
-	return a.сравни(b) < 0;
+bool operator<(Time a, Time b) {
+	return a.Compare(b) < 0;
 }
 
-void Время::уст(int64 scalar)
+void Time::Set(int64 scalar)
 {
 	int q = (int)(scalar / (24 * 3600));
-	Дата::уст(q);
+	Date::Set(q);
 	int n = int(scalar - (int64)q * 24 * 3600);
 	hour = n / 3600;
 	n %= 3600;
@@ -491,41 +491,41 @@ void Время::уст(int64 scalar)
 	second = n % 60;
 }
 
-int64 Время::дай() const
+int64 Time::Get() const
 {
-	return Дата::дай() * (int64)24 * 3600 + hour * 3600 + minute * 60 + second;
+	return Date::Get() * (int64)24 * 3600 + hour * 3600 + minute * 60 + second;
 }
 
-bool Время::пригоден() const
+bool Time::IsValid() const
 {
 	return year == -32768 ||
-	       Дата::пригоден() && hour >= 0 && hour < 24 && minute >= 0 && minute < 60 && second >= 0 && second < 60;
+	       Date::IsValid() && hour >= 0 && hour < 24 && minute >= 0 && minute < 60 && second >= 0 && second < 60;
 }
 
-int64 operator-(Время a, Время b) {
-	return a.дай() - b.дай();
+int64 operator-(Time a, Time b) {
+	return a.Get() - b.Get();
 }
 
-Время operator+(Время time, int64 secs) {
-	time.уст(time.дай() + secs);
+Time operator+(Time time, int64 secs) {
+	time.Set(time.Get() + secs);
 	return time;
 }
 
-Время  operator+(int64 seconds, Время a)          { return a + seconds; }
-Время  operator-(Время a, int64 secs)             { return a + (-secs); }
-Время& operator+=(Время& a, int64 secs)           { a = a + secs; return a; }
-Время& operator-=(Время& a, int64 secs)           { a = a - secs; return a; }
+Time  operator+(int64 seconds, Time a)          { return a + seconds; }
+Time  operator-(Time a, int64 secs)             { return a + (-secs); }
+Time& operator+=(Time& a, int64 secs)           { a = a + secs; return a; }
+Time& operator-=(Time& a, int64 secs)           { a = a - secs; return a; }
 
-Ткст фмт(Время time, bool seconds)
+String Format(Time time, bool seconds)
 {
-	if(пусто_ли(time)) return Ткст();
-	return фмт(Дата(time)) + (seconds ? фмт(" %02d:%02d:%02d", time.hour, time.minute, time.second)
-	                                     : фмт(" %02d:%02d", time.hour, time.minute));
+	if(IsNull(time)) return String();
+	return Format(Date(time)) + (seconds ? Format(" %02d:%02d:%02d", time.hour, time.minute, time.second)
+	                                     : Format(" %02d:%02d", time.hour, time.minute));
 }
 
-const char *тктВоВремя(const char *datefmt, Время& d, const char *s)
+const char *StrToTime(const char *datefmt, Time& d, const char *s)
 {
-	s = тктВДату(datefmt, d, s);
+	s = StrToDate(datefmt, d, s);
 	if(!s)
 		return NULL;
 	d.hour = d.minute = d.second = 0;
@@ -533,7 +533,7 @@ const char *тктВоВремя(const char *datefmt, Время& d, const char 
 		while(*s == ' ' || *s == ':')
 			s++;
 		int n;
-		if(цифра_ли(*s)) {
+		if(IsDigit(*s)) {
 			char *q;
 			n = strtoul(s, &q, 10);
 			s = q;
@@ -546,65 +546,65 @@ const char *тктВоВремя(const char *datefmt, Время& d, const char 
 	return s;
 }
 
-const char *тктВоВремя(Время& d, const char *s)
+const char *StrToTime(Time& d, const char *s)
 {
-	return тктВоВремя(*s_date_scan_thread ? s_date_scan_thread : s_date_scan_main, d, s);
+	return StrToTime(*s_date_scan_thread ? s_date_scan_thread : s_date_scan_main, d, s);
 }
 
-Время сканВремя(const char *datefmt, const char *s, Время опр)
+Time ScanTime(const char *datefmt, const char *s, Time def)
 {
-	Время tm;
-	if(тктВоВремя(datefmt, tm, s))
+	Time tm;
+	if(StrToTime(datefmt, tm, s))
 		return tm;
-	return опр;
+	return def;
 }
 
-Время сканВремя(const char *s, Время опр)
+Time ScanTime(const char *s, Time def)
 {
-	Время tm;
-	if(тктВоВремя(tm, s))
+	Time tm;
+	if(StrToTime(tm, s))
 		return tm;
-	return опр;
+	return def;
 }
 
 #ifdef PLATFORM_WIN32
 
-Время дайСисВремя() {
+Time GetSysTime() {
 	SYSTEMTIME st;
 	GetLocalTime(&st);
-	return Время(st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond);
+	return Time(st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond);
 }
 
-Время GetUtcTime() {
+Time GetUtcTime() {
 	SYSTEMTIME st;
 	GetSystemTime(&st);
-	return Время(st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond);
+	return Time(st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond);
 }
 
 #endif
 
 #ifdef PLATFORM_POSIX
 
-Время дайСисВремя() {
-	return Время(time(NULL));
+Time GetSysTime() {
+	return Time(time(NULL));
 }
 
-Время GetUtcTime()
+Time GetUtcTime()
 {
 	time_t gmt = time(NULL);
 	struct tm timer;
 	struct tm *utc = gmtime_r(&gmt, &timer);
-	return Время(utc->tm_year + 1900, utc->tm_mon + 1, utc->tm_mday,
+	return Time(utc->tm_year + 1900, utc->tm_mon + 1, utc->tm_mday,
 	            utc->tm_hour, utc->tm_min, utc->tm_sec);
 }
 
 #endif
 
-Дата дайСисДату() {
-	return дайСисВремя();
+Date GetSysDate() {
+	return GetSysTime();
 }
 
-bool устСисВремя(Время time)
+bool SetSysTime(Time time)
 {
 #ifdef PLATFORM_POSIX
 	struct tm      tmp_time;
@@ -637,15 +637,15 @@ bool устСисВремя(Время time)
 #endif
 }
 
-int дайЧПояс()
+int GetTimeZone()
 {
 	static int zone;
 	ONCELOCK {
 		for(;;) { // This is somewhat ugly, but unified approach to get time zone offset
-			Время t0 = дайСисВремя();
-			Время gmtime = GetUtcTime();
-			Время ltime = дайСисВремя();
-			if(дайСисВремя() - t0 < 1) { // сделай sure that there is not much time between calls
+			Time t0 = GetSysTime();
+			Time gmtime = GetUtcTime();
+			Time ltime = GetSysTime();
+			if(GetSysTime() - t0 < 1) { // Make sure that there is not much time between calls
 				zone = (int)(ltime - gmtime) / 60; // Round to minutes
 				break;
 			}
@@ -654,29 +654,29 @@ int дайЧПояс()
 	return zone;
 }
 
-Ткст FormatTimeZone(int n)
+String FormatTimeZone(int n)
 {
-	return (n < 0 ? "-" : "+") + фмт("%02.2d%02.2d", абс(n) / 60, абс(n) % 60);
+	return (n < 0 ? "-" : "+") + Format("%02.2d%02.2d", abs(n) / 60, abs(n) % 60);
 }
 
-Ткст дайТкстЧПояса()
+String GetTimeZoneText()
 {
-	return FormatTimeZone(дайЧПояс());
+	return FormatTimeZone(GetTimeZone());
 }
 
-int сканЧПояс(const char *s)
+int ScanTimeZone(const char *s)
 {
 	int n = atoi(s);
-	int hour = абс(n) / 100;
-	int minutes = абс(n) % 100;
+	int hour = abs(n) / 100;
+	int minutes = abs(n) % 100;
 	if(hour >= 0 && hour <= 12 && minutes >= 0 && minutes < 60)
-		return зн(n) * (hour * 60 + minutes);
+		return sgn(n) * (hour * 60 + minutes);
 	return 0;
 }
 
-int GetLeapSeconds(Дата dt)
+int GetLeapSeconds(Date dt)
 {
-	static Кортеж<int, int> sLeapSeconds[] = {
+	static Tuple<int, int> sLeapSeconds[] = {
 		{ 1972,6 }, { 1972,12 }, { 1973,12 }, { 1974,12 }, { 1975,12 }, { 1976,12 }, { 1977,12 },
 		{ 1978,12 }, { 1979,12 }, { 1981,6 }, { 1982,6 }, { 1983,6 }, { 1985,6 }, { 1987,12 },
 		{ 1989,12 }, { 1990,12 }, { 1992,6 }, { 1993,6 }, { 1994,6 }, { 1995,12 }, { 1997,6 },
@@ -692,14 +692,14 @@ int GetLeapSeconds(Дата dt)
 	return ls[minmax(12 * (dt.year - 1970) + dt.month - 1, 0, __countof(ls) - 1)];
 }
 
-int64 GetUTCSeconds(Время tm)
+int64 GetUTCSeconds(Time tm)
 {
-	return tm - Время(1970, 1, 1) + GetLeapSeconds(tm);
+	return tm - Time(1970, 1, 1) + GetLeapSeconds(tm);
 }
 
-Время TimeFromUTC(int64 seconds)
+Time TimeFromUTC(int64 seconds)
 {
-	Время tm = Время(1970, 1, 1) + seconds;
+	Time tm = Time(1970, 1, 1) + seconds;
 	return tm - GetLeapSeconds(tm);
 }
 

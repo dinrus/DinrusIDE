@@ -3,7 +3,7 @@
 
 #include <Core/Core.h>
 
-namespace РНЦП {
+namespace Upp {
 	
 class BuilderUtils final {
 public:
@@ -12,20 +12,23 @@ public:
 	BuilderUtils& operator=(BuilderUtils&) = delete;
 	~BuilderUtils() = delete;
 	
-	static bool IsJavaFile(const Ткст& path);
-	static bool IsHeaderFile(const Ткст& path);
-	static bool IsCFile(const Ткст& path);
-	static bool IsDinrusFile(const Ткст& path);
-	static bool IsCppFile(const Ткст& path);
-	static bool IsCppOrCFile(const Ткст& path);
-	static bool IsObjectFile(const Ткст& path);
-	static bool IsXmlFile(const Ткст& path);
+	//РНЦП Динрус
+	static bool IsDlangFile(const String& path);
 	
-	static bool IsTranslationFile(const Ткст& path);
+	static bool IsJavaFile(const String& path);
+	static bool IsHeaderFile(const String& path);
+	static bool IsCFile(const String& path);
+	static bool IsDinrusFile(const String& path);
+	static bool IsCppFile(const String& path);
+	static bool IsCppOrCFile(const String& path);
+	static bool IsObjectFile(const String& path);
+	static bool IsXmlFile(const String& path);
+	
+	static bool IsTranslationFile(const String& path);
 	
 private:
-	static bool   HasExt(const Ткст& path, const Индекс<Ткст>& exts);
-	static Ткст NormalizeAndGetFileExt(const Ткст& path);
+	static bool   HasExt(const String& path, const Index<String>& exts);
+	static String NormalizeAndGetFileExt(const String& path);
 };
 	
 }

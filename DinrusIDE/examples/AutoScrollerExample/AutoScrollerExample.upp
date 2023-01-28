@@ -1,0 +1,13 @@
+description "how to extend a control with automatic scroll bars\377";
+
+uses
+	CtrlLib,
+	AutoScroller;
+
+file
+	main.cpp,
+	Layouts.lay;
+
+mainconfig
+	"" = "GUI";
+

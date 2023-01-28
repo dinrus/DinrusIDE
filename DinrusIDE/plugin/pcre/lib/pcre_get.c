@@ -19,7 +19,7 @@ modification, are permitted provided that the following conditions are met:
       notice, this list of conditions and the following disclaimer in the
       documentation and/or other materials provided with the distribution.
 
-    * Neither the имя of the University of Cambridge nor the names of its
+    * Neither the name of the University of Cambridge nor the names of its
       contributors may be used to endorse or promote products derived from
       this software without specific prior written permission.
 
@@ -51,7 +51,7 @@ for these functions came from Scott Wimer. */
 
 
 /*************************************************
-*           найди number for named string         *
+*           Find number for named string         *
 *************************************************/
 
 /* This function is used by the get_first_set() function below, as well
@@ -59,7 +59,7 @@ as being generally available. It assumes that names are unique.
 
 Arguments:
   code        the compiled regex
-  stringname  the имя whose number is required
+  stringname  the name whose number is required
 
 Returns:      the number of the named parentheses, or a negative number
                 (PCRE_ERROR_NOSUBSTRING) if not found
@@ -129,7 +129,7 @@ return PCRE_ERROR_NOSUBSTRING;
 
 
 /*************************************************
-*     найди (multiple) entries for named string   *
+*     Find (multiple) entries for named string   *
 *************************************************/
 
 /* This is used by the get_first_set() function below, as well as being
@@ -137,7 +137,7 @@ generally available. It is used when duplicated names are permitted.
 
 Arguments:
   code        the compiled regex
-  stringname  the имя whose entries required
+  stringname  the name whose entries required
   firstptr    where to put the pointer to the first entry
   lastptr     where to put the pointer to the last entry
 
@@ -240,7 +240,7 @@ return PCRE_ERROR_NOSUBSTRING;
 
 
 /*************************************************
-*    найди first set of multiple named strings    *
+*    Find first set of multiple named strings    *
 *************************************************/
 
 /* This function allows for duplicate names in the table of named substrings.
@@ -248,13 +248,13 @@ It returns the number of the first one that was set in a pattern match.
 
 Arguments:
   code         the compiled regex
-  stringname   the имя of the capturing substring
+  stringname   the name of the capturing substring
   ovector      the vector of matched substrings
   stringcount  number of captured substrings
 
 Returns:       the number of the first that is set,
                or the number of the last one if none are set,
-               or a negative number on Ошибка
+               or a negative number on error
 */
 
 #if defined COMPILE_PCRE8
@@ -308,10 +308,10 @@ return GET2(entry, 0);
 
 
 /*************************************************
-*      Copy captured string to given буфер      *
+*      Copy captured string to given buffer      *
 *************************************************/
 
-/* This function copies a single captured substring into a given буфер.
+/* This function copies a single captured substring into a given buffer.
 Note that we use memcpy() rather than strncpy() in case there are binary zeros
 in the string.
 
@@ -323,29 +323,29 @@ Arguments:
                    that was zero, in which case it should be 1/3
                    of the offset table size)
   stringnumber   the number of the required substring
-  буфер         where to put the substring
-  size           the size of the буфер
+  buffer         where to put the substring
+  size           the size of the buffer
 
 Returns:         if successful:
                    the length of the copied string, not including the zero
                    that is put on the end; can be zero
                  if not successful:
-                   PCRE_ERROR_NOMEMORY (-6) буфер too small
+                   PCRE_ERROR_NOMEMORY (-6) buffer too small
                    PCRE_ERROR_NOSUBSTRING (-7) no such captured substring
 */
 
 #if defined COMPILE_PCRE8
 PCRE_EXP_DEFN int PCRE_CALL_CONVENTION
 pcre_copy_substring(const char *subject, int *ovector, int stringcount,
-  int stringnumber, char *буфер, int size)
+  int stringnumber, char *buffer, int size)
 #elif defined COMPILE_PCRE16
 PCRE_EXP_DEFN int PCRE_CALL_CONVENTION
 pcre16_copy_substring(PCRE_SPTR16 subject, int *ovector, int stringcount,
-  int stringnumber, PCRE_UCHAR16 *буфер, int size)
+  int stringnumber, PCRE_UCHAR16 *buffer, int size)
 #elif defined COMPILE_PCRE32
 PCRE_EXP_DEFN int PCRE_CALL_CONVENTION
 pcre32_copy_substring(PCRE_SPTR32 subject, int *ovector, int stringcount,
-  int stringnumber, PCRE_UCHAR32 *буфер, int size)
+  int stringnumber, PCRE_UCHAR32 *buffer, int size)
 #endif
 {
 int yield;
@@ -354,19 +354,19 @@ if (stringnumber < 0 || stringnumber >= stringcount)
 stringnumber *= 2;
 yield = ovector[stringnumber+1] - ovector[stringnumber];
 if (size < yield + 1) return PCRE_ERROR_NOMEMORY;
-memcpy(буфер, subject + ovector[stringnumber], IN_UCHARS(yield));
-буфер[yield] = 0;
+memcpy(buffer, subject + ovector[stringnumber], IN_UCHARS(yield));
+buffer[yield] = 0;
 return yield;
 }
 
 
 
 /*************************************************
-*   Copy named captured string to given буфер   *
+*   Copy named captured string to given buffer   *
 *************************************************/
 
-/* This function copies a single captured substring into a given буфер,
-identifying it by имя. If the regex permits duplicate names, the first
+/* This function copies a single captured substring into a given buffer,
+identifying it by name. If the regex permits duplicate names, the first
 substring that is set is chosen.
 
 Arguments:
@@ -377,15 +377,15 @@ Arguments:
                    (i.e. the yield of the pcre_exec call, unless
                    that was zero, in which case it should be 1/3
                    of the offset table size)
-  stringname     the имя of the required substring
-  буфер         where to put the substring
-  size           the size of the буфер
+  stringname     the name of the required substring
+  buffer         where to put the substring
+  size           the size of the buffer
 
 Returns:         if successful:
                    the length of the copied string, not including the zero
                    that is put on the end; can be zero
                  if not successful:
-                   PCRE_ERROR_NOMEMORY (-6) буфер too small
+                   PCRE_ERROR_NOMEMORY (-6) buffer too small
                    PCRE_ERROR_NOSUBSTRING (-7) no such captured substring
 */
 
@@ -393,27 +393,27 @@ Returns:         if successful:
 PCRE_EXP_DEFN int PCRE_CALL_CONVENTION
 pcre_copy_named_substring(const pcre *code, const char *subject,
   int *ovector, int stringcount, const char *stringname,
-  char *буфер, int size)
+  char *buffer, int size)
 #elif defined COMPILE_PCRE16
 PCRE_EXP_DEFN int PCRE_CALL_CONVENTION
 pcre16_copy_named_substring(const pcre16 *code, PCRE_SPTR16 subject,
   int *ovector, int stringcount, PCRE_SPTR16 stringname,
-  PCRE_UCHAR16 *буфер, int size)
+  PCRE_UCHAR16 *buffer, int size)
 #elif defined COMPILE_PCRE32
 PCRE_EXP_DEFN int PCRE_CALL_CONVENTION
 pcre32_copy_named_substring(const pcre32 *code, PCRE_SPTR32 subject,
   int *ovector, int stringcount, PCRE_SPTR32 stringname,
-  PCRE_UCHAR32 *буфер, int size)
+  PCRE_UCHAR32 *buffer, int size)
 #endif
 {
 int n = get_first_set(code, stringname, ovector, stringcount);
 if (n <= 0) return n;
 #if defined COMPILE_PCRE8
-return pcre_copy_substring(subject, ovector, stringcount, n, буфер, size);
+return pcre_copy_substring(subject, ovector, stringcount, n, buffer, size);
 #elif defined COMPILE_PCRE16
-return pcre16_copy_substring(subject, ovector, stringcount, n, буфер, size);
+return pcre16_copy_substring(subject, ovector, stringcount, n, buffer, size);
 #elif defined COMPILE_PCRE32
-return pcre32_copy_substring(subject, ovector, stringcount, n, буфер, size);
+return pcre32_copy_substring(subject, ovector, stringcount, n, buffer, size);
 #endif
 }
 
@@ -494,7 +494,7 @@ return 0;
 
 
 /*************************************************
-*   освободи store obtained by get_substring_list    *
+*   Free store obtained by get_substring_list    *
 *************************************************/
 
 /* This function exists for the benefit of people calling PCRE from non-C
@@ -586,7 +586,7 @@ return yield;
 *   Copy named captured string to new store      *
 *************************************************/
 
-/* This function copies a single captured substring, identified by имя, into
+/* This function copies a single captured substring, identified by name, into
 new store. If the regex permits duplicate names, the first substring that is
 set is chosen.
 
@@ -598,7 +598,7 @@ Arguments:
                    (i.e. the yield of the pcre_exec call, unless
                    that was zero, in which case it should be 1/3
                    of the offset table size)
-  stringname     the имя of the required substring
+  stringname     the name of the required substring
   stringptr      where to put the pointer
 
 Returns:         if successful:
@@ -641,7 +641,7 @@ return pcre32_get_substring(subject, ovector, stringcount, n, stringptr);
 
 
 /*************************************************
-*       освободи store obtained by get_substring     *
+*       Free store obtained by get_substring     *
 *************************************************/
 
 /* This function exists for the benefit of people calling PCRE from non-C
@@ -666,4 +666,4 @@ pcre32_free_substring(PCRE_SPTR32 pointer)
 (PUBL(free))((void *)pointer);
 }
 
-/* стоп of pcre_get.c */
+/* End of pcre_get.c */

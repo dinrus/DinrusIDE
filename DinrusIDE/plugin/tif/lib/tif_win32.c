@@ -28,7 +28,7 @@
  */
 
 /*
-  CreateFileA/CreateFileW return тип 'HANDLE'.
+  CreateFileA/CreateFileW return type 'HANDLE'.
 
   thandle_t is declared like
 
@@ -40,10 +40,10 @@
 
   #ifdef STRICT
     typedef void *HANDLE;
-  #define DECLARE_HANDLE(имя) struct имя##__ { int unused; }; typedef struct имя##__ *имя
+  #define DECLARE_HANDLE(name) struct name##__ { int unused; }; typedef struct name##__ *name
   #else
     typedef PVOID HANDLE;
-  #define DECLARE_HANDLE(имя) typedef HANDLE имя
+  #define DECLARE_HANDLE(name) typedef HANDLE name
   #endif
 
   See http://bugzilla.maptools.org/show_bug.cgi?id=1941 for problems in WIN64
@@ -223,7 +223,7 @@ _tiffUnmapProc(thandle_t fd, void* base, toff_t size)
  * string, which forces the file to be opened unmapped.
  */
 TIFF*
-TIFFFdOpen(int ifd, const char* имя, const char* mode)
+TIFFFdOpen(int ifd, const char* name, const char* mode)
 {
 	TIFF* tif;
 	int fSuppressMap;
@@ -237,7 +237,7 @@ TIFFFdOpen(int ifd, const char* имя, const char* mode)
 			break;
 		}
 	}
-	tif = TIFFClientOpen(имя, mode, (thandle_t)ifd, /* FIXME: WIN64 cast to pointer warning */
+	tif = TIFFClientOpen(name, mode, (thandle_t)ifd, /* ИСПРАВИТЬ: WIN64 cast to pointer warning */
 			_tiffReadProc, _tiffWriteProc,
 			_tiffSeekProc, _tiffCloseProc, _tiffSizeProc,
 			fSuppressMap ? _tiffDummyMapProc : _tiffMapProc,
@@ -253,7 +253,7 @@ TIFFFdOpen(int ifd, const char* имя, const char* mode)
  * Open a TIFF file for read/writing.
  */
 TIFF*
-TIFFOpen(const char* имя, const char* mode)
+TIFFOpen(const char* name, const char* mode)
 {
 	static const char module[] = "TIFFOpen";
 	thandle_t fd;
@@ -272,17 +272,17 @@ TIFFOpen(const char* имя, const char* mode)
 		default:			return ((TIFF*)0);
 	}
         
-	fd = (thandle_t)CreateFileA(имя,
+	fd = (thandle_t)CreateFileA(name,
 		(m == O_RDONLY)?GENERIC_READ:(GENERIC_READ | GENERIC_WRITE),
 		FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, dwMode,
 		(m == O_RDONLY)?FILE_ATTRIBUTE_READONLY:FILE_ATTRIBUTE_NORMAL,
 		NULL);
 	if (fd == INVALID_HANDLE_VALUE) {
-		TIFFErrorExt(0, module, "%s: Cannot open", имя);
+		TIFFErrorExt(0, module, "%s: Cannot open", name);
 		return ((TIFF *)0);
 	}
 
-	tif = TIFFFdOpen((int)fd, имя, mode);   /* FIXME: WIN64 cast from pointer to int warning */
+	tif = TIFFFdOpen((int)fd, name, mode);   /* ИСПРАВИТЬ: WIN64 cast from pointer to int warning */
 	if(!tif)
 		CloseHandle(fd);
 	return tif;
@@ -292,7 +292,7 @@ TIFFOpen(const char* имя, const char* mode)
  * Open a TIFF file with a Unicode filename, for read/writing.
  */
 TIFF*
-TIFFOpenW(const wchar_t* имя, const char* mode)
+TIFFOpenW(const wchar_t* name, const char* mode)
 {
 	static const char module[] = "TIFFOpenW";
 	thandle_t fd;
@@ -313,31 +313,31 @@ TIFFOpenW(const wchar_t* имя, const char* mode)
 		default:			return ((TIFF*)0);
 	}
 
-	fd = (thandle_t)CreateFileW(имя,
+	fd = (thandle_t)CreateFileW(name,
 		(m == O_RDONLY)?GENERIC_READ:(GENERIC_READ|GENERIC_WRITE),
 		FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, dwMode,
 		(m == O_RDONLY)?FILE_ATTRIBUTE_READONLY:FILE_ATTRIBUTE_NORMAL,
 		NULL);
 	if (fd == INVALID_HANDLE_VALUE) {
-		TIFFErrorExt(0, module, "%S: Cannot open", имя);
+		TIFFErrorExt(0, module, "%S: Cannot open", name);
 		return ((TIFF *)0);
 	}
 
 	mbname = NULL;
-	mbsize = WideCharToMultiByte(CP_ACP, 0, имя, -1, NULL, 0, NULL, NULL);
+	mbsize = WideCharToMultiByte(CP_ACP, 0, name, -1, NULL, 0, NULL, NULL);
 	if (mbsize > 0) {
 		mbname = (char *)_TIFFmalloc(mbsize);
 		if (!mbname) {
 			TIFFErrorExt(0, module,
-			"Can't allocate space for filename conversion буфер");
+			"Can't allocate space for filename conversion buffer");
 			return ((TIFF*)0);
 		}
 
-		WideCharToMultiByte(CP_ACP, 0, имя, -1, mbname, mbsize,
+		WideCharToMultiByte(CP_ACP, 0, name, -1, mbname, mbsize,
 				    NULL, NULL);
 	}
 
-	tif = TIFFFdOpen((int)fd,    /* FIXME: WIN64 cast from pointer to int warning */
+	tif = TIFFFdOpen((int)fd,    /* ИСПРАВИТЬ: WIN64 cast from pointer to int warning */
 			 (mbname != NULL) ? mbname : "<unknown>", mode);
 	if(!tif)
 		CloseHandle(fd);
@@ -431,5 +431,5 @@ TIFFErrorHandler _TIFFerrorHandler = Win32ErrorHandler;
  * mode: c
  * c-basic-offset: 8
  * fill-column: 78
- * стоп:
+ * End:
  */

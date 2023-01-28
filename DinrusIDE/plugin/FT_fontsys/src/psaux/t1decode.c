@@ -110,7 +110,7 @@
 
   /*************************************************************************/
   /*                                                                       */
-  /* <Функция>                                                            */
+  /* <Function>                                                            */
   /*    t1_lookup_glyph_by_stdcharcode                                     */
   /*                                                                       */
   /* <Description>                                                         */
@@ -144,12 +144,12 @@
 
     for ( n = 0; n < decoder->num_glyphs; n++ )
     {
-      FT_String*  имя = (FT_String*)decoder->glyph_names[n];
+      FT_String*  name = (FT_String*)decoder->glyph_names[n];
 
 
-      if ( имя                               &&
-           имя[0] == glyph_name[0]           &&
-           ft_strcmp( имя, glyph_name ) == 0 )
+      if ( name                               &&
+           name[0] == glyph_name[0]           &&
+           ft_strcmp( name, glyph_name ) == 0 )
         return n;
     }
 
@@ -159,7 +159,7 @@
 
   /*************************************************************************/
   /*                                                                       */
-  /* <Функция>                                                            */
+  /* <Function>                                                            */
   /*    t1operator_seac                                                    */
   /*                                                                       */
   /* <Description>                                                         */
@@ -179,7 +179,7 @@
   /*    achar   :: The accent character's StandardEncoding charcode.       */
   /*                                                                       */
   /* <Return>                                                              */
-  /*    FreeType Ошибка code.  0 means success.                             */
+  /*    FreeType error code.  0 means success.                             */
   /*                                                                       */
   static FT_Error
   t1operator_seac( T1_Decoder  decoder,
@@ -189,7 +189,7 @@
                    FT_Int      bchar,
                    FT_Int      achar )
   {
-    FT_Error     Ошибка;
+    FT_Error     error;
     FT_Int       bchar_index, achar_index;
 #if 0
     FT_Int       n_base_points;
@@ -256,8 +256,8 @@
 
 
       /* reallocate subglyph array if necessary */
-      Ошибка = FT_GlyphLoader_CheckSubGlyphs( loader, 2 );
-      if ( Ошибка )
+      error = FT_GlyphLoader_CheckSubGlyphs( loader, 2 );
+      if ( error )
         goto Exit;
 
       subg = loader->current.subglyphs;
@@ -279,7 +279,7 @@
       /* set up remaining glyph fields */
       glyph->num_subglyphs = 2;
       glyph->subglyphs     = loader->base.subglyphs;
-      glyph->формат        = FT_GLYPH_FORMAT_COMPOSITE;
+      glyph->format        = FT_GLYPH_FORMAT_COMPOSITE;
 
       loader->current.num_subglyphs = 2;
       goto Exit;
@@ -292,9 +292,9 @@
 
     /* the seac operator must not be nested */
     decoder->seac = TRUE;
-    Ошибка = t1_decoder_parse_glyph( decoder, bchar_index );
+    error = t1_decoder_parse_glyph( decoder, bchar_index );
     decoder->seac = FALSE;
-    if ( Ошибка )
+    if ( error )
       goto Exit;
 
     /* save the left bearing and width of the base character */
@@ -314,9 +314,9 @@
 
     /* the seac operator must not be nested */
     decoder->seac = TRUE;
-    Ошибка = t1_decoder_parse_glyph( decoder, achar_index );
+    error = t1_decoder_parse_glyph( decoder, achar_index );
     decoder->seac = FALSE;
-    if ( Ошибка )
+    if ( error )
       goto Exit;
 
     /* restore the left side bearing and   */
@@ -329,13 +329,13 @@
     decoder->builder.pos_y = 0;
 
   Exit:
-    return Ошибка;
+    return error;
   }
 
 
   /*************************************************************************/
   /*                                                                       */
-  /* <Функция>                                                            */
+  /* <Function>                                                            */
   /*    t1_decoder_parse_charstrings                                       */
   /*                                                                       */
   /* <Description>                                                         */
@@ -349,14 +349,14 @@
   /*    charstring_len  :: The length in bytes of the charstring stream.   */
   /*                                                                       */
   /* <Return>                                                              */
-  /*    FreeType Ошибка code.  0 means success.                             */
+  /*    FreeType error code.  0 means success.                             */
   /*                                                                       */
   FT_LOCAL_DEF( FT_Error )
   t1_decoder_parse_charstrings( T1_Decoder  decoder,
                                 FT_Byte*    charstring_base,
                                 FT_UInt     charstring_len )
   {
-    FT_Error         Ошибка;
+    FT_Error         error;
     T1_Decoder_Zone  zone;
     FT_Byte*         ip;
     FT_Byte*         limit;
@@ -403,13 +403,13 @@
                  sizeof( decoder->buildchar[0] ) * decoder->len_buildchar );
 
     FT_TRACE4(( "\n"
-                "старт charstring\n" ));
+                "Start charstring\n" ));
 
     zone->base           = charstring_base;
     limit = zone->limit  = charstring_base + charstring_len;
     ip    = zone->cursor = zone->base;
 
-    Ошибка = PSaux_Err_Ok;
+    error = PSaux_Err_Ok;
 
     x = orig_x = builder->pos_x;
     y = orig_y = builder->pos_y;
@@ -425,7 +425,7 @@
     {
       FT_Long*     top   = decoder->top;
       T1_Operator  op    = op_none;
-      FT_Int32     значение = 0;
+      FT_Int32     value = 0;
 
 
       FT_ASSERT( known_othersubr_result_cnt == 0   ||
@@ -445,7 +445,7 @@
       /*                                                                   */
       /*                                                                   */
 
-      /* first of all, decompress operator or значение */
+      /* first of all, decompress operator or value */
       switch ( *ip++ )
       {
       case 1:
@@ -559,7 +559,7 @@
           goto Syntax_Error;
         }
 
-        значение = (FT_Int32)( ( (FT_Long)ip[0] << 24 ) |
+        value = (FT_Int32)( ( (FT_Long)ip[0] << 24 ) |
                             ( (FT_Long)ip[1] << 16 ) |
                             ( (FT_Long)ip[2] << 8  ) |
                                        ip[3]         );
@@ -572,7 +572,7 @@
         /* stuff like `<large1> <large2> <num> div <num> div' or           */
         /* <large1> <large2> <num> div div'.  This is probably not allowed */
         /* anyway.                                                         */
-        if ( значение > 32000 || значение < -32000 )
+        if ( value > 32000 || value < -32000 )
         {
           if ( large_int )
           {
@@ -585,7 +585,7 @@
         else
         {
           if ( !large_int )
-            значение <<= 16;
+            value <<= 16;
         }
 
         break;
@@ -594,7 +594,7 @@
         if ( ip[-1] >= 32 )
         {
           if ( ip[-1] < 247 )
-            значение = (FT_Int32)ip[-1] - 139;
+            value = (FT_Int32)ip[-1] - 139;
           else
           {
             if ( ++ip > limit )
@@ -605,13 +605,13 @@
             }
 
             if ( ip[-2] < 251 )
-              значение =  ( ( (FT_Int32)ip[-2] - 247 ) << 8 ) + ip[-1] + 108;
+              value =  ( ( (FT_Int32)ip[-2] - 247 ) << 8 ) + ip[-1] + 108;
             else
-              значение = -( ( ( (FT_Int32)ip[-2] - 251 ) << 8 ) + ip[-1] + 108 );
+              value = -( ( ( (FT_Int32)ip[-2] - 251 ) << 8 ) + ip[-1] + 108 );
           }
 
           if ( !large_int )
-            значение <<= 16;
+            value <<= 16;
         }
         else
         {
@@ -648,7 +648,7 @@
 
       /*********************************************************************/
       /*                                                                   */
-      /*  сунь значение on stack, or process operator                         */
+      /*  Push value on stack, or process operator                         */
       /*                                                                   */
       /*                                                                   */
       if ( op == op_none )
@@ -661,12 +661,12 @@
 
 #ifdef FT_DEBUG_LEVEL_TRACE
         if ( large_int )
-          FT_TRACE4(( " %ld", значение ));
+          FT_TRACE4(( " %ld", value ));
         else
-          FT_TRACE4(( " %ld", Fix2Int( значение ) ));
+          FT_TRACE4(( " %ld", Fix2Int( value ) ));
 #endif
 
-        *top++       = значение;
+        *top++       = value;
         decoder->top = top;
       }
       else if ( op == op_callothersubr )  /* callothersubr */
@@ -693,7 +693,7 @@
         /* remove all operands to callothersubr from the stack     */
         /*                                                         */
         /* for handled othersubrs, where we know the number of     */
-        /* arguments, we increase the stack by the значение of        */
+        /* arguments, we increase the stack by the value of        */
         /* known_othersubr_result_cnt                              */
         /*                                                         */
         /* for unhandled othersubrs the following pops adjust the  */
@@ -707,7 +707,7 @@
         known_othersubr_result_cnt   = 0;
         unknown_othersubr_result_cnt = 0;
 
-        /* XXX TODO: The checks to `arg_count == <whatever>'       */
+        /* XXX СДЕЛАТЬ: The checks to `arg_count == <whatever>'       */
         /* might not be correct; an othersubr expects a certain    */
         /* number of operands on the PostScript stack (as opposed  */
         /* to the T1 stack) but it doesn't have to put them there  */
@@ -749,9 +749,9 @@
 
           decoder->flex_state        = 1;
           decoder->num_flex_vectors  = 0;
-          if ( ( Ошибка = t1_builder_start_point( builder, x, y ) )
+          if ( ( error = t1_builder_start_point( builder, x, y ) )
                  != PSaux_Err_Ok                                   ||
-               ( Ошибка = t1_builder_check_points( builder, 6 ) )
+               ( error = t1_builder_check_points( builder, 6 ) )
                  != PSaux_Err_Ok                                   )
             goto Fail;
           break;
@@ -988,7 +988,7 @@
 
         case 28:
           /* 0 28 callothersubr pop                               */
-          /* => push random значение from interval [0, 1) onto stack */
+          /* => push random value from interval [0, 1) onto stack */
           if ( arg_cnt != 0 )
             goto Unexpected_OtherSubr;
 
@@ -1183,7 +1183,7 @@
         case op_hlineto:
           FT_TRACE4(( " hlineto" ));
 
-          if ( ( Ошибка = t1_builder_start_point( builder, x, y ) )
+          if ( ( error = t1_builder_start_point( builder, x, y ) )
                  != PSaux_Err_Ok )
             goto Fail;
 
@@ -1205,9 +1205,9 @@
         case op_hvcurveto:
           FT_TRACE4(( " hvcurveto" ));
 
-          if ( ( Ошибка = t1_builder_start_point( builder, x, y ) )
+          if ( ( error = t1_builder_start_point( builder, x, y ) )
                  != PSaux_Err_Ok                                   ||
-               ( Ошибка = t1_builder_check_points( builder, 3 ) )
+               ( error = t1_builder_check_points( builder, 3 ) )
                  != PSaux_Err_Ok                                   )
             goto Fail;
 
@@ -1223,7 +1223,7 @@
         case op_rlineto:
           FT_TRACE4(( " rlineto" ));
 
-          if ( ( Ошибка = t1_builder_start_point( builder, x, y ) )
+          if ( ( error = t1_builder_start_point( builder, x, y ) )
                  != PSaux_Err_Ok )
             goto Fail;
 
@@ -1231,7 +1231,7 @@
           y += top[1];
 
         Add_Line:
-          if ( ( Ошибка = t1_builder_add_point1( builder, x, y ) )
+          if ( ( error = t1_builder_add_point1( builder, x, y ) )
                  != PSaux_Err_Ok )
             goto Fail;
           break;
@@ -1252,9 +1252,9 @@
         case op_rrcurveto:
           FT_TRACE4(( " rrcurveto" ));
 
-          if ( ( Ошибка = t1_builder_start_point( builder, x, y ) )
+          if ( ( error = t1_builder_start_point( builder, x, y ) )
                  != PSaux_Err_Ok                                   ||
-               ( Ошибка = t1_builder_check_points( builder, 3 ) )
+               ( error = t1_builder_check_points( builder, 3 ) )
                  != PSaux_Err_Ok                                   )
             goto Fail;
 
@@ -1274,9 +1274,9 @@
         case op_vhcurveto:
           FT_TRACE4(( " vhcurveto" ));
 
-          if ( ( Ошибка = t1_builder_start_point( builder, x, y ) )
+          if ( ( error = t1_builder_start_point( builder, x, y ) )
                  != PSaux_Err_Ok                                   ||
-               ( Ошибка = t1_builder_check_points( builder, 3 ) )
+               ( error = t1_builder_check_points( builder, 3 ) )
                  != PSaux_Err_Ok                                   )
             goto Fail;
 
@@ -1292,7 +1292,7 @@
         case op_vlineto:
           FT_TRACE4(( " vlineto" ));
 
-          if ( ( Ошибка = t1_builder_start_point( builder, x, y ) )
+          if ( ( error = t1_builder_start_point( builder, x, y ) )
                  != PSaux_Err_Ok )
             goto Fail;
 
@@ -1315,7 +1315,7 @@
           FT_TRACE4(( " div" ));
 
           /* if `large_int' is set, we divide unscaled numbers; */
-          /* otherwise, we divide numbers in 16.16 формат --    */
+          /* otherwise, we divide numbers in 16.16 format --    */
           /* in both cases, it is the same operation            */
           *top = FT_DivFix( top[0], top[1] );
           ++top;
@@ -1529,7 +1529,7 @@
     FT_TRACE4(( "..end..\n\n" ));
 
   Fail:
-    return Ошибка;
+    return error;
 
   Syntax_Error:
     return PSaux_Err_Syntax_Error;

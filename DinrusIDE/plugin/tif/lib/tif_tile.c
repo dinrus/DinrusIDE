@@ -25,12 +25,12 @@
 /*
  * TIFF Library.
  *
- * Tiled Рисунок Support Routines.
+ * Tiled Image Support Routines.
  */
 #include "tiffiop.h"
 
 /*
- * Compute which tile an (x,y,z,s) значение is in.
+ * Compute which tile an (x,y,z,s) value is in.
  */
 uint32
 TIFFComputeTile(TIFF* tif, uint32 x, uint32 y, uint32 z, uint16 s)
@@ -221,7 +221,7 @@ TIFFVTileSize64(TIFF* tif, uint32 nrows)
 		    ||(ycbcrsubsampling[1] != 1 && ycbcrsubsampling[1] != 2 && ycbcrsubsampling[1] != 4))
 		{
 			TIFFErrorExt(tif->tif_clientdata,module,
-				     "Invalid YCbCr subsampling (%dx%d)", 
+				     "Неверное YCbCr subsampling (%dx%d)", 
 				     ycbcrsubsampling[0], 
 				     ycbcrsubsampling[1] );
 			return 0;
@@ -264,7 +264,7 @@ TIFFTileSize(TIFF* tif)
 
 /*
  * Compute a default tile size based on the image
- * characteristics and a requested значение.  If a
+ * characteristics and a requested value.  If a
  * request is <1 then we choose a size according
  * to certain heuristics.
  */
@@ -295,5 +295,5 @@ _TIFFDefaultTileSize(TIFF* tif, uint32* tw, uint32* th)
  * mode: c
  * c-basic-offset: 8
  * fill-column: 78
- * стоп:
+ * End:
  */

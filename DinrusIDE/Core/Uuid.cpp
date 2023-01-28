@@ -1,45 +1,45 @@
 #include "Core.h"
 
-namespace РНЦПДинрус {
+namespace Upp {
 
 //#BLITZ_APPROVE
 
-ИНИЦБЛОК {
-	Значение::регистрируй<Uuid>("Uuid");
+INITBLOCK {
+	Value::Register<Uuid>("Uuid");
 }
 
-void Uuid::сериализуй(Поток& s) {
-	int версия = 0;
-	s / версия % v[0] % v[1];
+void Uuid::Serialize(Stream& s) {
+	int version = 0;
+	s / version % v[0] % v[1];
 }
 
-void Uuid::вДжейсон(ДжейсонВВ& jio)
+void Uuid::Jsonize(JsonIO& jio)
 {
-	Ткст h;
-	if(jio.сохраняется()) {
-		h = фмт(*this);
-		jio.уст(h);
+	String h;
+	if(jio.IsStoring()) {
+		h = Format(*this);
+		jio.Set(h);
 	}
 	else
-		*this = ScanUuid((Ткст)jio.дай());
+		*this = ScanUuid((String)jio.Get());
 }
 
-void Uuid::нов()
+void Uuid::New()
 {
 	do
-		случ64(v, 2);
-	while(экзПусто_ли());
+		Random64(v, 2);
+	while(IsNullInstance());
 }
 
-Ткст фмт(const Uuid& ид) {
-	return спринтф("%08X%08X%08X%08X", LODWORD(ид.v[0]), HIDWORD(ид.v[0]), LODWORD(ид.v[1]), HIDWORD(ид.v[1]));
+String Format(const Uuid& id) {
+	return Sprintf("%08X%08X%08X%08X", LODWORD(id.v[0]), HIDWORD(id.v[0]), LODWORD(id.v[1]), HIDWORD(id.v[1]));
 }
 
-Ткст FormatWithDashes(const Uuid& ид) {
-	return спринтф("%08X-%04X-%04X-%04X-%04X%08X", LODWORD(ид.v[0]),
-	               HIWORD(HIDWORD(ид.v[0])), LOWORD(HIDWORD(ид.v[0])),
-	               HIWORD(LODWORD(ид.v[1])), LOWORD(LODWORD(ид.v[1])),
-	               HIDWORD(ид.v[1]));
+String FormatWithDashes(const Uuid& id) {
+	return Sprintf("%08X-%04X-%04X-%04X-%04X%08X", LODWORD(id.v[0]),
+	               HIWORD(HIDWORD(id.v[0])), LOWORD(HIDWORD(id.v[0])),
+	               HIWORD(LODWORD(id.v[1])), LOWORD(LODWORD(id.v[1])),
+	               HIDWORD(id.v[1]));
 }
 
 dword scanX(const char *s)
@@ -56,52 +56,52 @@ dword scanX(const char *s)
 
 Uuid ScanUuid(const char *s)
 {
-	Uuid ид;
-	Ткст xu;
+	Uuid id;
+	String xu;
 	while(*s) {
 		if(IsXDigit(*s))
-			xu.конкат(*s);
+			xu.Cat(*s);
 		s++;
 	}
-	if(xu.дайСчёт() < 32)
+	if(xu.GetCount() < 32)
 		return Null;
-	ид.v[0] = MAKEQWORD(scanX(~xu), scanX(~xu + 8));
-	ид.v[1] = MAKEQWORD(scanX(~xu + 16), scanX(~xu + 24));
-	return ид;
+	id.v[0] = MAKEQWORD(scanX(~xu), scanX(~xu + 8));
+	id.v[1] = MAKEQWORD(scanX(~xu + 16), scanX(~xu + 24));
+	return id;
 }
 
-void Uuid::вРяр(РярВВ& xio)
+void Uuid::Xmlize(XmlIO& xio)
 {
-	Ткст h;
-	if(xio.сохраняется())
-		h = фмт(*this);
-	xio.Атр("значение", h);
-	if(xio.грузится())
+	String h;
+	if(xio.IsStoring())
+		h = Format(*this);
+	xio.Attr("value", h);
+	if(xio.IsLoading())
 		*this = ScanUuid(h);
 }
 
-Ткст Uuid::вТкст() const
+String Uuid::ToString() const
 {
-	return фмт(*this);
+	return Format(*this);
 }
 
-Ткст Uuid::ToStringWithDashes() const
+String Uuid::ToStringWithDashes() const
 {
 	return FormatWithDashes(*this);
 }
 
-Ткст дамп(const Uuid& ид) {
-	return "UUID: " + фмт(ид);
+String Dump(const Uuid& id) {
+	return "UUID: " + Format(id);
 }
 
-struct UuidValueGenClass : ГенЗначения
+struct UuidValueGenClass : ValueGen
 {
-	virtual Значение дай() {
-		return фмт(Uuid::создай());
+	virtual Value Get() {
+		return Format(Uuid::Create());
 	}
 };
 
-ГенЗначения& UuidValueGen()
+ValueGen& UuidValueGen()
 {
 	return Single<UuidValueGenClass>();
 }

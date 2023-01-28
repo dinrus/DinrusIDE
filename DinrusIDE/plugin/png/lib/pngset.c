@@ -1,10 +1,10 @@
 
 /* pngset.c - storage of image information into info struct
  *
- * последний changed in libpng 1.2.56 [December 17, 2015]
+ * Last changed in libpng 1.2.56 [December 17, 2015]
  * Copyright (c) 1998-2002,2004,2006-2015 Glenn Randers-Pehrson
  * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
- * (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Группа 42, Inc.)
+ * (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
  *
  * This code is released under the libpng license.
  * For conditions of distribution and use, see the disclaimer
@@ -192,7 +192,7 @@ png_set_hIST(png_structp png_ptr, png_infop info_ptr, png_uint_16p hist)
        > PNG_MAX_PALETTE_LENGTH)
    {
       png_warning(png_ptr,
-         "Invalid palette size, hIST allocation skipped.");
+         "Неверное palette size, hIST allocation skipped.");
       return;
    }
 
@@ -258,14 +258,14 @@ png_set_IHDR(png_structp png_ptr, png_infop info_ptr,
 
    /* Check for potential overflow */
    if (width > (PNG_UINT_32_MAX
-                 >> 3)      /* 8-byte КЗСА pixels */
+                 >> 3)      /* 8-byte RGBA pixels */
                  - 64       /* bigrowbuf hack */
                  - 1        /* filter byte */
                  - 7*8      /* rounding of width to multiple of 8 pixels */
                  - 8)       /* extra max_pixel_depth pad */
    {
       info_ptr->rowbytes = (png_size_t)0;
-      png_error(png_ptr, "Рисунок width is too large for this architecture");
+      png_error(png_ptr, "Image width is too large for this architecture");
    }
    else
       info_ptr->rowbytes = PNG_ROWBYTES(info_ptr->pixel_depth, width);
@@ -291,7 +291,7 @@ png_set_oFFs(png_structp png_ptr, png_infop info_ptr,
 #ifdef PNG_pCAL_SUPPORTED
 void PNGAPI
 png_set_pCAL(png_structp png_ptr, png_infop info_ptr,
-   png_charp purpose, png_int_32 X0, png_int_32 X1, int тип, int nparams,
+   png_charp purpose, png_int_32 X0, png_int_32 X1, int type, int nparams,
    png_charp units, png_charpp params)
 {
    png_uint_32 length;
@@ -313,10 +313,10 @@ png_set_pCAL(png_structp png_ptr, png_infop info_ptr,
    }
    png_memcpy(info_ptr->pcal_purpose, purpose, (png_size_t)length);
 
-   png_debug(3, "storing X0, X1, тип, and nparams in info");
+   png_debug(3, "storing X0, X1, type, and nparams in info");
    info_ptr->pcal_X0 = X0;
    info_ptr->pcal_X1 = X1;
-   info_ptr->pcal_type = (png_byte)тип;
+   info_ptr->pcal_type = (png_byte)type;
    info_ptr->pcal_nparams = (png_byte)nparams;
 
    length = png_strlen(units) + 1;
@@ -462,10 +462,10 @@ png_set_PLTE(png_structp png_ptr, png_infop info_ptr,
    if (num_palette < 0 || num_palette > (int) max_palette_length)
    {
       if (info_ptr->color_type == PNG_COLOR_TYPE_PALETTE)
-         png_error(png_ptr, "Invalid palette length");
+         png_error(png_ptr, "Неверное palette length");
       else
       {
-         png_warning(png_ptr, "Invalid palette length");
+         png_warning(png_ptr, "Неверное palette length");
          return;
       }
    }
@@ -599,7 +599,7 @@ png_set_sRGB_gAMA_and_cHRM(png_structp png_ptr, png_infop info_ptr,
 #ifdef PNG_iCCP_SUPPORTED
 void PNGAPI
 png_set_iCCP(png_structp png_ptr, png_infop info_ptr,
-             png_charp имя, int compression_type,
+             png_charp name, int compression_type,
              png_charp profile, png_uint_32 proflen)
 {
    png_charp new_iccp_name;
@@ -608,17 +608,17 @@ png_set_iCCP(png_structp png_ptr, png_infop info_ptr,
 
    png_debug1(1, "in %s storage function", "iCCP");
 
-   if (png_ptr == NULL || info_ptr == NULL || имя == NULL || profile == NULL)
+   if (png_ptr == NULL || info_ptr == NULL || name == NULL || profile == NULL)
       return;
 
-   length = png_strlen(имя)+1;
+   length = png_strlen(name)+1;
    new_iccp_name = (png_charp)png_malloc_warn(png_ptr, length);
    if (new_iccp_name == NULL)
    {
         png_warning(png_ptr, "Insufficient memory to process iCCP chunk.");
       return;
    }
-   png_memcpy(new_iccp_name, имя, length);
+   png_memcpy(new_iccp_name, name, length);
    new_iccp_profile = (png_charp)png_malloc_warn(png_ptr, proflen);
    if (new_iccp_profile == NULL)
    {
@@ -669,7 +669,7 @@ png_set_text_2(png_structp png_ptr, png_infop info_ptr, png_textp text_ptr,
    if (png_ptr == NULL || info_ptr == NULL || num_text == 0)
       return(0);
 
-   /* сделай sure we have enough space in the "text" array in info_struct
+   /* Make sure we have enough space in the "text" array in info_struct
     * to hold all of the incoming text_ptr objects.
     */
    if (info_ptr->num_text + num_text > info_ptr->max_text)
@@ -724,10 +724,10 @@ png_set_text_2(png_structp png_ptr, png_infop info_ptr, png_textp text_ptr,
       png_size_t lang_len, lang_key_len;
       png_textp textp = &(info_ptr->text[info_ptr->num_text]);
 
-      if (text_ptr[i].ключ == NULL)
+      if (text_ptr[i].key == NULL)
           continue;
 
-      key_len = png_strlen(text_ptr[i].ключ);
+      key_len = png_strlen(text_ptr[i].key);
 
       if (text_ptr[i].compression <= 0)
       {
@@ -773,22 +773,22 @@ png_set_text_2(png_structp png_ptr, png_infop info_ptr, png_textp text_ptr,
          textp->compression = text_ptr[i].compression;
       }
 
-      textp->ключ = (png_charp)png_malloc_warn(png_ptr,
+      textp->key = (png_charp)png_malloc_warn(png_ptr,
          (png_uint_32)
          (key_len + text_length + lang_len + lang_key_len + 4));
-      if (textp->ключ == NULL)
+      if (textp->key == NULL)
          return(1);
       png_debug2(2, "Allocated %lu bytes at %p in png_set_text",
                  (png_uint_32)
                  (key_len + lang_len + lang_key_len + text_length + 4),
-                 textp->ключ);
+                 textp->key);
 
-      png_memcpy(textp->ключ, text_ptr[i].ключ,(png_size_t)(key_len));
-      *(textp->ключ + key_len) = '\0';
+      png_memcpy(textp->key, text_ptr[i].key,(png_size_t)(key_len));
+      *(textp->key + key_len) = '\0';
 #ifdef PNG_iTXt_SUPPORTED
       if (text_ptr[i].compression > 0)
       {
-         textp->lang = textp->ключ + key_len + 1;
+         textp->lang = textp->key + key_len + 1;
          png_memcpy(textp->lang, text_ptr[i].lang, lang_len);
          *(textp->lang + lang_len) = '\0';
          textp->lang_key = textp->lang + lang_len + 1;
@@ -803,7 +803,7 @@ png_set_text_2(png_structp png_ptr, png_infop info_ptr, png_textp text_ptr,
          textp->lang=NULL;
          textp->lang_key=NULL;
 #endif
-         textp->text = textp->ключ + key_len + 1;
+         textp->text = textp->key + key_len + 1;
       }
       if (text_length)
          png_memcpy(textp->text, text_ptr[i].text,
@@ -847,7 +847,7 @@ png_set_tIME(png_structp png_ptr, png_infop info_ptr, png_timep mod_time)
        mod_time->hour  > 23   || mod_time->minute > 59 ||
        mod_time->second > 60)
    {
-      png_warning(png_ptr, "Ignoring invalid time значение");
+      png_warning(png_ptr, "Ignoring invalid time value");
       return;
    }
 
@@ -868,7 +868,7 @@ png_set_tRNS(png_structp png_ptr, png_infop info_ptr,
 
    if (num_trans < 0 || num_trans > PNG_MAX_PALETTE_LENGTH)
       {
-        png_warning(png_ptr, "Ignoring invalid num_trans значение");
+        png_warning(png_ptr, "Ignoring invalid num_trans value");
         return;
       }
 
@@ -958,23 +958,23 @@ png_set_sPLT(png_structp png_ptr,
       png_sPLT_tp from = entries + i;
       png_uint_32 length;
 
-      length = png_strlen(from->имя) + 1;
-      to->имя = (png_charp)png_malloc_warn(png_ptr, length);
-      if (to->имя == NULL)
+      length = png_strlen(from->name) + 1;
+      to->name = (png_charp)png_malloc_warn(png_ptr, length);
+      if (to->name == NULL)
       {
          png_warning(png_ptr,
            "Out of memory while processing sPLT chunk");
          continue;
       }
-      png_memcpy(to->имя, from->имя, length);
+      png_memcpy(to->name, from->name, length);
       to->entries = (png_sPLT_entryp)png_malloc_warn(png_ptr,
           (png_uint_32)(from->nentries * png_sizeof(png_sPLT_entry)));
       if (to->entries == NULL)
       {
          png_warning(png_ptr,
            "Out of memory while processing sPLT chunk");
-         png_free(png_ptr, to->имя);
-         to->имя = NULL;
+         png_free(png_ptr, to->name);
+         to->name = NULL;
          continue;
       }
       png_memcpy(to->entries, from->entries,
@@ -1023,9 +1023,9 @@ png_set_unknown_chunks(png_structp png_ptr,
       png_unknown_chunkp to = np + info_ptr->unknown_chunks_num + i;
       png_unknown_chunkp from = unknowns + i;
 
-      png_memcpy((png_charp)to->имя, (png_charp)from->имя,
-          png_sizeof(from->имя));
-      to->имя[png_sizeof(to->имя)-1] = '\0';
+      png_memcpy((png_charp)to->name, (png_charp)from->name,
+          png_sizeof(from->name));
+      to->name[png_sizeof(to->name)-1] = '\0';
       to->size = from->size;
       /* Note our location in the read or write sequence */
       to->location = (png_byte)(png_ptr->mode & 0xff);
@@ -1199,7 +1199,7 @@ png_set_invalid(png_structp png_ptr, png_infop info_ptr, int mask)
 
 #ifndef PNG_1_0_X
 #ifdef PNG_ASSEMBLER_CODE_SUPPORTED
-/* Функция was added to libpng 1.2.0 and should always exist by default */
+/* Function was added to libpng 1.2.0 and should always exist by default */
 void PNGAPI
 png_set_asm_flags (png_structp png_ptr, png_uint_32 asm_flags)
 {
@@ -1261,7 +1261,7 @@ png_set_benign_errors(png_structp png_ptr, int allowed)
 /* Check that the tEXt or zTXt keyword is valid per PNG 1.0 specification,
  * and if invalid, correct the keyword rather than discarding the entire
  * chunk.  The PNG 1.0 specification requires keywords 1-79 characters in
- * length, forbids leading or trailing whitespace, multiple internal пробелы,
+ * length, forbids leading or trailing whitespace, multiple internal spaces,
  * and the non-break space (0x80) from ISO 8859-1.  Returns keyword length.
  *
  * The new_key is allocated to hold the corrected keyword and must be freed
@@ -1269,7 +1269,7 @@ png_set_benign_errors(png_structp png_ptr, int allowed)
  * static keywords without having to have duplicate copies of the strings.
  */
 png_size_t /* PRIVATE */
-png_check_keyword(png_structp png_ptr, png_charp ключ, png_charpp new_key)
+png_check_keyword(png_structp png_ptr, png_charp key, png_charpp new_key)
 {
    png_size_t key_len;
    png_charp kp, dp;
@@ -1280,13 +1280,13 @@ png_check_keyword(png_structp png_ptr, png_charp ключ, png_charpp new_key)
 
    *new_key = NULL;
 
-   if (ключ == NULL || (key_len = png_strlen(ключ)) == 0)
+   if (key == NULL || (key_len = png_strlen(key)) == 0)
    {
       png_warning(png_ptr, "zero length keyword");
       return ((png_size_t)0);
    }
 
-   png_debug1(2, "Keyword to be checked is '%s'", ключ);
+   png_debug1(2, "Keyword to be checked is '%s'", key);
 
    *new_key = (png_charp)png_malloc_warn(png_ptr, (png_uint_32)(key_len + 2));
    if (*new_key == NULL)
@@ -1295,8 +1295,8 @@ png_check_keyword(png_structp png_ptr, png_charp ключ, png_charpp new_key)
       return ((png_size_t)0);
    }
 
-   /* замени non-printing characters with a blank and print a warning */
-   for (kp = ключ, dp = *new_key; *kp != '\0'; kp++, dp++)
+   /* Replace non-printing characters with a blank and print a warning */
+   for (kp = key, dp = *new_key; *kp != '\0'; kp++, dp++)
    {
       if ((png_byte)*kp < 0x20 ||
          ((png_byte)*kp > 0x7E && (png_byte)*kp < 0xA1))
@@ -1323,7 +1323,7 @@ png_check_keyword(png_structp png_ptr, png_charp ключ, png_charpp new_key)
    kp = *new_key + key_len - 1;
    if (*kp == ' ')
    {
-      png_warning(png_ptr, "trailing пробелы removed from keyword");
+      png_warning(png_ptr, "trailing spaces removed from keyword");
 
       while (key_len && *kp == ' ')
       {
@@ -1336,7 +1336,7 @@ png_check_keyword(png_structp png_ptr, png_charp ключ, png_charpp new_key)
    kp = *new_key;
    if (*kp == ' ')
    {
-      png_warning(png_ptr, "leading пробелы removed from keyword");
+      png_warning(png_ptr, "leading spaces removed from keyword");
 
       while (*kp == ' ')
       {
@@ -1345,9 +1345,9 @@ png_check_keyword(png_structp png_ptr, png_charp ключ, png_charpp new_key)
       }
    }
 
-   png_debug1(2, "Checking for multiple internal пробелы in '%s'", kp);
+   png_debug1(2, "Checking for multiple internal spaces in '%s'", kp);
 
-   /* Remove multiple internal пробелы. */
+   /* Remove multiple internal spaces. */
    for (kflag = 0, dp = *new_key; *kp != '\0'; kp++)
    {
       if (*kp == ' ' && kflag == 0)
@@ -1368,13 +1368,13 @@ png_check_keyword(png_structp png_ptr, png_charp ключ, png_charpp new_key)
    }
    *dp = '\0';
    if (kwarn)
-      png_warning(png_ptr, "extra interior пробелы removed from keyword");
+      png_warning(png_ptr, "extra interior spaces removed from keyword");
 
    if (key_len == 0)
    {
       png_free(png_ptr, *new_key);
        *new_key=NULL;
-      png_warning(png_ptr, "обнули length keyword");
+      png_warning(png_ptr, "Zero length keyword");
    }
 
    if (key_len > 79)

@@ -1,5 +1,5 @@
 /*
- *  xxHash - Fast Хэш algorithm
+ *  xxHash - Fast Hash algorithm
  *  Copyright (c) 2012-2020, Yann Collet, Facebook, Inc.
  *
  *  You can contact the author at :
@@ -40,16 +40,16 @@
 #endif
 
 /*!XXH_ACCEPT_NULL_INPUT_POINTER :
- * If the input pointer is a null pointer, xxHash default behavior is to trigger a memory access Ошибка, since it is a bad pointer.
+ * If the input pointer is a null pointer, xxHash default behavior is to trigger a memory access error, since it is a bad pointer.
  * When this option is enabled, xxHash output for null input pointers will be the same as a null-length input.
  * By default, this option is disabled. To enable it, uncomment below define :
  */
 /* #define XXH_ACCEPT_NULL_INPUT_POINTER 1 */
 
 /*!XXH_FORCE_NATIVE_FORMAT :
- * By default, xxHash library provides endian-independent Хэш values, based on little-endian convention.
+ * By default, xxHash library provides endian-independent Hash values, based on little-endian convention.
  * Results are therefore identical for little-endian and big-endian CPU.
- * This comes at a performance cost for big-endian CPU, since some swapping is required to emulate little-endian формат.
+ * This comes at a performance cost for big-endian CPU, since some swapping is required to emulate little-endian format.
  * Should endian-independence be of no importance for your application, you may set the #define below to 1,
  * to improve speed for Big-endian CPU.
  * This option has no impact on Little_Endian CPU.
@@ -134,7 +134,7 @@ static void* XXH_memcpy(void* dest, const void* src, size_t size) { return memcp
     typedef unsigned short     U16;
     typedef unsigned int       U32;
     typedef   signed int       S32;
-    typedef unsigned long long U64;   /* if your compiler doesn't support unsigned long long, replace by another 64-bit тип here. Note that xxhash.h will also need to be updated. */
+    typedef unsigned long long U64;   /* if your compiler doesn't support unsigned long long, replace by another 64-bit type here. Note that xxhash.h will also need to be updated. */
 #  endif
 #endif
 
@@ -317,7 +317,7 @@ XXH_PUBLIC_API void XXH64_copyState(XXH64_state_t* restrict dstState, const XXH6
 
 
 /* ***************************
-*  Simple Хэш Functions
+*  Simple Hash Functions
 *****************************/
 
 static U32 XXH32_round(U32 seed, U32 input)
@@ -525,7 +525,7 @@ XXH_PUBLIC_API unsigned long long XXH64 (const void* input, size_t len, unsigned
 
 
 /* **************************************************
-*  Advanced Хэш Functions
+*  Advanced Hash Functions
 ****************************************************/
 
 XXH_PUBLIC_API XXH32_state_t* XXH32_createState(void)
@@ -549,7 +549,7 @@ XXH_PUBLIC_API XXH_errorcode XXH64_freeState(XXH64_state_t* statePtr)
 }
 
 
-/*** Хэш feed ***/
+/*** Hash feed ***/
 
 XXH_PUBLIC_API XXH_errorcode XXH32_reset(XXH32_state_t* statePtr, unsigned int seed)
 {
@@ -589,7 +589,7 @@ FORCE_INLINE_TEMPLATE XXH_errorcode XXH32_update_endian (XXH32_state_t* state, c
     state->total_len_32 += (unsigned)len;
     state->large_len |= (len>=16) | (state->total_len_32>=16);
 
-    if (state->memsize + len < 16)  {   /* fill in tmp буфер */
+    if (state->memsize + len < 16)  {   /* fill in tmp buffer */
         XXH_memcpy((BYTE*)(state->mem32) + state->memsize, input, len);
         state->memsize += (unsigned)len;
         return XXH_OK;
@@ -708,7 +708,7 @@ FORCE_INLINE_TEMPLATE XXH_errorcode XXH64_update_endian (XXH64_state_t* state, c
 
     state->total_len += len;
 
-    if (state->memsize + len < 32) {  /* fill in tmp буфер */
+    if (state->memsize + len < 32) {  /* fill in tmp buffer */
         if (input != NULL) {
             XXH_memcpy(((BYTE*)state->mem64) + state->memsize, input, len);
         }
@@ -716,7 +716,7 @@ FORCE_INLINE_TEMPLATE XXH_errorcode XXH64_update_endian (XXH64_state_t* state, c
         return XXH_OK;
     }
 
-    if (state->memsize) {   /* tmp буфер is full */
+    if (state->memsize) {   /* tmp buffer is full */
         XXH_memcpy(((BYTE*)state->mem64) + state->memsize, input, 32-state->memsize);
         state->v1 = XXH64_round(state->v1, XXH_readLE64(state->mem64+0, endian));
         state->v2 = XXH64_round(state->v2, XXH_readLE64(state->mem64+1, endian));
@@ -833,10 +833,10 @@ XXH_PUBLIC_API unsigned long long XXH64_digest (const XXH64_state_t* state_in)
 *  Canonical representation
 ****************************/
 
-/*! дефолт XXH result types are basic unsigned 32 and 64 bits.
+/*! Default XXH result types are basic unsigned 32 and 64 bits.
 *   The canonical representation follows human-readable write convention, aka big-endian (large digits first).
-*   These functions allow transformation of hash result into and from its canonical формат.
-*   This way, hash values can be written into a file or буфер, and remain comparable across different systems and programs.
+*   These functions allow transformation of hash result into and from its canonical format.
+*   This way, hash values can be written into a file or buffer, and remain comparable across different systems and programs.
 */
 
 XXH_PUBLIC_API void XXH32_canonicalFromHash(XXH32_canonical_t* dst, XXH32_hash_t hash)

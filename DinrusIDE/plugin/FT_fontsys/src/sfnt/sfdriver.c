@@ -2,7 +2,7 @@
 /*                                                                         */
 /*  sfdriver.c                                                             */
 /*                                                                         */
-/*    наибольш-level SFNT driver interface (body).                             */
+/*    High-level SFNT driver interface (body).                             */
 /*                                                                         */
 /*  Copyright 1996-2007, 2009-2011 by                                      */
 /*  David Turner, Robert Wilhelm, and Werner Lemberg.                      */
@@ -127,9 +127,9 @@
       if ( idx >= face->num_tables )
         return SFNT_Err_Table_Missing;
 
-      *tag    = face->dir_tables[idx].Тэг;
-      *offset = face->dir_tables[idx].смещение;
-      *length = face->dir_tables[idx].длина;
+      *tag    = face->dir_tables[idx].Tag;
+      *offset = face->dir_tables[idx].Offset;
+      *length = face->dir_tables[idx].Length;
     }
 
     return SFNT_Err_Ok;
@@ -153,18 +153,18 @@
   static FT_Error
   sfnt_get_glyph_name( TT_Face     face,
                        FT_UInt     glyph_index,
-                       FT_Pointer  буфер,
+                       FT_Pointer  buffer,
                        FT_UInt     buffer_max )
   {
     FT_String*  gname;
-    FT_Error    Ошибка;
+    FT_Error    error;
 
 
-    Ошибка = tt_face_get_ps_name( face, glyph_index, &gname );
-    if ( !Ошибка )
-      FT_STRCPYN( буфер, gname, buffer_max );
+    error = tt_face_get_ps_name( face, glyph_index, &gname );
+    if ( !error )
+      FT_STRCPYN( buffer, gname, buffer_max );
 
-    return Ошибка;
+    return error;
   }
 
 
@@ -187,10 +187,10 @@
     for ( i = 0; i < max_gid; i++ )
     {
       FT_String*  gname;
-      FT_Error    Ошибка = tt_face_get_ps_name( face, i, &gname );
+      FT_Error    error = tt_face_get_ps_name( face, i, &gname );
 
 
-      if ( Ошибка )
+      if ( error )
         continue;
 
       if ( !ft_strcmp( glyph_name, gname ) )
@@ -225,26 +225,26 @@
     if ( face->postscript_name )
       return face->postscript_name;
 
-    /* scan the имя table to see whether we have a Postscript имя here, */
+    /* scan the name table to see whether we have a Postscript name here, */
     /* either in Macintosh or Windows platform encodings                  */
     found_win   = -1;
     found_apple = -1;
 
     for ( n = 0; n < face->num_names; n++ )
     {
-      TT_NameEntryRec*  имя = face->name_table.names + n;
+      TT_NameEntryRec*  name = face->name_table.names + n;
 
 
-      if ( имя->nameID == 6 && имя->stringLength > 0 )
+      if ( name->nameID == 6 && name->stringLength > 0 )
       {
-        if ( имя->platformID == 3     &&
-             имя->encodingID == 1     &&
-             имя->languageID == 0x409 )
+        if ( name->platformID == 3     &&
+             name->encodingID == 1     &&
+             name->languageID == 0x409 )
           found_win = n;
 
-        if ( имя->platformID == 1 &&
-             имя->encodingID == 0 &&
-             имя->languageID == 0 )
+        if ( name->platformID == 1 &&
+             name->encodingID == 0 &&
+             name->languageID == 0 )
           found_apple = n;
       }
     }
@@ -252,27 +252,27 @@
     if ( found_win != -1 )
     {
       FT_Memory         memory = face->root.memory;
-      TT_NameEntryRec*  имя   = face->name_table.names + found_win;
-      FT_UInt           len    = имя->stringLength / 2;
-      FT_Error          Ошибка  = SFNT_Err_Ok;
+      TT_NameEntryRec*  name   = face->name_table.names + found_win;
+      FT_UInt           len    = name->stringLength / 2;
+      FT_Error          error  = SFNT_Err_Ok;
 
-      FT_UNUSED( Ошибка );
+      FT_UNUSED( error );
 
 
-      if ( !FT_ALLOC( result, имя->stringLength + 1 ) )
+      if ( !FT_ALLOC( result, name->stringLength + 1 ) )
       {
         FT_Stream   stream = face->name_table.stream;
         FT_String*  r      = (FT_String*)result;
-        FT_Byte*    p      = (FT_Byte*)имя->string;
+        FT_Byte*    p      = (FT_Byte*)name->string;
 
 
-        if ( FT_STREAM_SEEK( имя->stringOffset ) ||
-             FT_FRAME_ENTER( имя->stringLength ) )
+        if ( FT_STREAM_SEEK( name->stringOffset ) ||
+             FT_FRAME_ENTER( name->stringLength ) )
         {
           FT_FREE( result );
-          имя->stringLength = 0;
-          имя->stringOffset = 0;
-          FT_FREE( имя->string );
+          name->stringLength = 0;
+          name->stringOffset = 0;
+          FT_FREE( name->string );
 
           goto Exit;
         }
@@ -294,11 +294,11 @@
     if ( found_apple != -1 )
     {
       FT_Memory         memory = face->root.memory;
-      TT_NameEntryRec*  имя   = face->name_table.names + found_apple;
-      FT_UInt           len    = имя->stringLength;
-      FT_Error          Ошибка  = SFNT_Err_Ok;
+      TT_NameEntryRec*  name   = face->name_table.names + found_apple;
+      FT_UInt           len    = name->stringLength;
+      FT_Error          error  = SFNT_Err_Ok;
 
-      FT_UNUSED( Ошибка );
+      FT_UNUSED( error );
 
 
       if ( !FT_ALLOC( result, len + 1 ) )
@@ -306,12 +306,12 @@
         FT_Stream  stream = face->name_table.stream;
 
 
-        if ( FT_STREAM_SEEK( имя->stringOffset ) ||
+        if ( FT_STREAM_SEEK( name->stringOffset ) ||
              FT_STREAM_READ( result, len )        )
         {
-          имя->stringOffset = 0;
-          имя->stringLength = 0;
-          FT_FREE( имя->string );
+          name->stringOffset = 0;
+          name->stringLength = 0;
+          FT_FREE( name->string );
           FT_FREE( result );
           goto Exit;
         }
@@ -345,33 +345,33 @@
                        const char*  *acharset_registry )
   {
     BDF_PropertyRec  encoding, registry;
-    FT_Error         Ошибка;
+    FT_Error         error;
 
 
     /* XXX: I don't know whether this is correct, since
      *      tt_face_find_bdf_prop only returns something correct if we have
      *      previously selected a size that is listed in the BDF table.
-     *      Should we change the BDF table формат to include single offsets
+     *      Should we change the BDF table format to include single offsets
      *      for `CHARSET_REGISTRY' and `CHARSET_ENCODING'?
      */
-    Ошибка = tt_face_find_bdf_prop( face, "CHARSET_REGISTRY", &registry );
-    if ( !Ошибка )
+    error = tt_face_find_bdf_prop( face, "CHARSET_REGISTRY", &registry );
+    if ( !error )
     {
-      Ошибка = tt_face_find_bdf_prop( face, "CHARSET_ENCODING", &encoding );
-      if ( !Ошибка )
+      error = tt_face_find_bdf_prop( face, "CHARSET_ENCODING", &encoding );
+      if ( !error )
       {
-        if ( registry.тип == BDF_PROPERTY_TYPE_ATOM &&
-             encoding.тип == BDF_PROPERTY_TYPE_ATOM )
+        if ( registry.type == BDF_PROPERTY_TYPE_ATOM &&
+             encoding.type == BDF_PROPERTY_TYPE_ATOM )
         {
           *acharset_encoding = encoding.u.atom;
           *acharset_registry = registry.u.atom;
         }
         else
-          Ошибка = SFNT_Err_Invalid_Argument;
+          error = SFNT_Err_Invalid_Argument;
       }
     }
 
-    return Ошибка;
+    return error;
   }
 
 
@@ -493,7 +493,7 @@
     FT_Size_RequestRec  req;
 
 
-    req.тип           = FT_SIZE_REQUEST_TYPE_NOMINAL;
+    req.type           = FT_SIZE_REQUEST_TYPE_NOMINAL;
     req.width          = (FT_F26Dot6)x_ppem;
     req.height         = (FT_F26Dot6)y_ppem;
     req.horiResolution = 0;
@@ -641,7 +641,7 @@
     0,  /* not a font driver or renderer */
     sizeof( FT_ModuleRec ),
 
-    "sfnt",     /* driver имя                            */
+    "sfnt",     /* driver name                            */
     0x10000L,   /* driver version 1.0                     */
     0x20000L,   /* driver requires FreeType 2.0 or higher */
 

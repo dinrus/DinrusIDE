@@ -38,7 +38,7 @@
 
 #define BZ_VERSION  "1.0.6, 6-Sept-2010"
 
-typedef char            Сhar;
+typedef char            Char;
 typedef unsigned char   Bool;
 typedef unsigned char   UChar;
 typedef int             Int32;
@@ -63,7 +63,7 @@ extern void BZ2_bz__AssertH__fail ( int errcode );
 #define AssertD(cond,msg) \
    { if (!(cond)) {       \
       fprintf ( stderr,   \
-        "\n\nlibbzip2(отладочное построение): внутренняя ошибка\n\t%s\n", msg );\
+        "\n\nlibbzip2(debug build): internal error\n\t%s\n", msg );\
       exit(1); \
    }}
 #else
@@ -237,7 +237,7 @@ typedef
       Bool     inUse[256];
       UChar    unseqToSeq[256];
 
-      /* the буфер for bit stream creation */
+      /* the buffer for bit stream creation */
       UInt32   bsBuff;
       Int32    bsLive;
 
@@ -259,7 +259,7 @@ typedef
       UChar    len     [BZ_N_GROUPS][BZ_MAX_ALPHA_SIZE];
       Int32    code    [BZ_N_GROUPS][BZ_MAX_ALPHA_SIZE];
       Int32    rfreq   [BZ_N_GROUPS][BZ_MAX_ALPHA_SIZE];
-      /* second dimension: only 3 needed; 4 makes Индекс calculations faster */
+      /* second dimension: only 3 needed; 4 makes index calculations faster */
       UInt32   len_pack[BZ_MAX_ALPHA_SIZE][4];
 
    }
@@ -358,7 +358,7 @@ typedef
       Bool     blockRandomised;
       BZ_RAND_DECLS;
 
-      /* the буфер for bit stream reading */
+      /* the buffer for bit stream reading */
       UInt32   bsBuff;
       Int32    bsLive;
 

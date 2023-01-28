@@ -1,140 +1,140 @@
 struct BoundsPainter : public NilPainter {
-	virtual void   двигОп(const ТочкаПЗ& p, bool rel);
-	virtual void   линияОп(const ТочкаПЗ& p, bool rel);
-	virtual void   квадрОп(const ТочкаПЗ& p1, const ТочкаПЗ& p, bool rel);
-	virtual void   квадрОп(const ТочкаПЗ& p, bool rel);
-	virtual void   кубОп(const ТочкаПЗ& p1, const ТочкаПЗ& p2, const ТочкаПЗ& p, bool rel);
-	virtual void   кубОп(const ТочкаПЗ& p2, const ТочкаПЗ& p, bool rel);
-	virtual void   дугОп(const ТочкаПЗ& c, const ТочкаПЗ& r, double angle, double sweep, bool rel);
-	virtual void   SvgArcOp(const ТочкаПЗ& r, double xangle, bool large, bool sweep,
-	                        const ТочкаПЗ& p, bool rel);
-	virtual void   закройОп();
-	virtual void   делиОп();
+	virtual void   MoveOp(const Pointf& p, bool rel);
+	virtual void   LineOp(const Pointf& p, bool rel);
+	virtual void   QuadraticOp(const Pointf& p1, const Pointf& p, bool rel);
+	virtual void   QuadraticOp(const Pointf& p, bool rel);
+	virtual void   CubicOp(const Pointf& p1, const Pointf& p2, const Pointf& p, bool rel);
+	virtual void   CubicOp(const Pointf& p2, const Pointf& p, bool rel);
+	virtual void   ArcOp(const Pointf& c, const Pointf& r, double angle, double sweep, bool rel);
+	virtual void   SvgArcOp(const Pointf& r, double xangle, bool large, bool sweep,
+	                        const Pointf& p, bool rel);
+	virtual void   CloseOp();
+	virtual void   DivOp();
 	
 	virtual void   ClipOp();
 
-	virtual void   TextOp(const ТочкаПЗ& p, const wchar *text, Шрифт fnt, int n = -1,
+	virtual void   TextOp(const Pointf& p, const wchar *text, Font fnt, int n = -1,
 	                      const double *dx = NULL);
-	virtual void   симвОп(const ТочкаПЗ& p, int ch, Шрифт fnt);
+	virtual void   CharacterOp(const Pointf& p, int ch, Font fnt);
 
 	virtual void   TransformOp(const Xform2D& m);
 	virtual void   BeginOp();
 	virtual void   EndOp();
 
 	
-	void финиш(double width = 0);
+	void Finish(double width = 0);
 
-	Рисовало& sw;
-	ПрямПЗ    boundingbox;
-	ТочкаПЗ   current, qcontrol, ccontrol;
+	Painter& sw;
+	Rectf    boundingbox;
+	Pointf   current, qcontrol, ccontrol;
 
-	Массив<Xform2D> mtx;
-	ПрямПЗ      svg_boundingbox;
+	Array<Xform2D> mtx;
+	Rectf      svg_boundingbox;
 	NilPainter nil;
 
-	void  Bounds(ТочкаПЗ p);
+	void  Bounds(Pointf p);
 
-	void  Quadratic(const ТочкаПЗ& p1, const ТочкаПЗ& p);
-	void  Cubic(const ТочкаПЗ& p1, const ТочкаПЗ& p2, const ТочкаПЗ& p);
+	void  Quadratic(const Pointf& p1, const Pointf& p);
+	void  Cubic(const Pointf& p1, const Pointf& p2, const Pointf& p);
 
-	void  нов();
-	const ПрямПЗ& дай() { return boundingbox; }
+	void  New();
+	const Rectf& Get() { return boundingbox; }
 	
 	bool  compute_svg_boundingbox;
 
-	BoundsPainter(Рисовало& sw) : sw(sw) { нов(); mtx.добавь(); svg_boundingbox = Null; compute_svg_boundingbox = false; }
+	BoundsPainter(Painter& sw) : sw(sw) { New(); mtx.Add(); svg_boundingbox = Null; compute_svg_boundingbox = false; }
 };
 
 struct SvgParser {
-	Рисовало& sw;
+	Painter& sw;
 
 	void ParseSVG(const char *svg, const char *folder);
 
-	struct стоп : Движимое<стоп> {
-		КЗСА   color;
+	struct Stop : Moveable<Stop> {
+		RGBA   color;
 		double offset;
 	};
 	
 	struct Gradient {
 		bool   resolved;
 		bool   radial;
-		ТочкаПЗ a, b, c, f;
+		Pointf a, b, c, f;
 		double r;
 		int    style;
-		bool   user_space; // TODO: Cascade!
-		Ткст transform;
+		bool   user_space; // СДЕЛАТЬ: Cascade!
+		String transform;
 
-		Вектор<стоп> stop;
+		Vector<Stop> stop;
 		
-		Ткст href;
+		String href;
 	};
 	
-	МассивМап<Ткст, Gradient> gradient;
+	ArrayMap<String, Gradient> gradient;
 	
 	struct State {
 		double opacity;
 	
 		int    fill_gradient;
-		Цвет  fill;
+		Color  fill;
 		double fill_opacity;
 		
 		int    stroke_gradient;
-		Цвет  stroke;
+		Color  stroke;
 		double stroke_width;
 		double stroke_opacity;
 		
-		Ткст dash_array;
+		String dash_array;
 		double dash_offset;
 		
 		int    text_anchor; // 0 left, 1 middle, 2 right
 		
-		Шрифт   font;
+		Font   font;
 		
-		const УзелРяр *n;
+		const XmlNode *n;
 	};
 	
-	const УзелРяр *current = NULL;
-	Массив<State>   state;
+	const XmlNode *current = NULL;
+	Array<State>   state;
 	bool           closed;
-	ТочкаПЗ         prev;
+	Pointf         prev;
 	Xform2D        lastTransform;
 	BoundsPainter  bp;
-	ВекторМап<Ткст, const УзелРяр*> idmap;
-	ВекторМап<Ткст, Ткст> classes;
+	VectorMap<String, const XmlNode*> idmap;
+	VectorMap<String, String> classes;
 
-	void переустанов();
+	void Reset();
 
-	static Цвет GetTextColor(const Ткст& color);
-	static Цвет дайЦвет(const Ткст& text);
+	static Color GetTextColor(const String& color);
+	static Color GetColor(const String& text);
 	
-	void    ProcessValue(const Ткст& ключ, const Ткст& значение);
-	void    Стиль(const char *style);
+	void    ProcessValue(const String& key, const String& value);
+	void    Style(const char *style);
 	Xform2D Transform(const char *transform);
 	
-	Ткст Txt(const char *id)                  { return current ? current->Атр(id) : Ткст(); }
-	double Dbl(const char *id, double def = 0)  { return Nvl(тктДво(Txt(id)), def); }
+	String Txt(const char *id)                  { return current ? current->Attr(id) : String(); }
+	double Dbl(const char *id, double def = 0)  { return Nvl(StrDbl(Txt(id)), def); }
 	
-	void StartElement(const УзелРяр& n);
+	void StartElement(const XmlNode& n);
 	void EndElement();
 	void StrokeFinishElement();
 	void FinishElement();
 	void DoGradient(int gi, bool stroke);
-	void Poly(const УзелРяр& n, bool line);
-	void Items(const УзелРяр& n, int depth);
-	void Element(const УзелРяр& n, int depth, bool dosymbols = false);
-	void ParseGradient(const УзелРяр& n, bool radial);
+	void Poly(const XmlNode& n, bool line);
+	void Items(const XmlNode& n, int depth);
+	void Element(const XmlNode& n, int depth, bool dosymbols = false);
+	void ParseGradient(const XmlNode& n, bool radial);
 	void ResolveGradient(int i);
-	void MapIds(const УзелРяр& n);
+	void MapIds(const XmlNode& n);
 
-	bool   ReadBool(СиПарсер& p);
-	double читайДво(СиПарсер& p);
-	ТочкаПЗ ReadPoint0(СиПарсер& p, bool rel);
-	ТочкаПЗ ReadPoint(СиПарсер& p, bool rel);
+	bool   ReadBool(CParser& p);
+	double ReadDouble(CParser& p);
+	Pointf ReadPoint0(CParser& p, bool rel);
+	Pointf ReadPoint(CParser& p, bool rel);
 	void   Path(const char *s);
 	
 	bool Parse(const char *xml);
 
-	Событие<Ткст, Ткст&> resloader;
+	Event<String, String&> resloader;
 	
-	SvgParser(Рисовало& sw);
+	SvgParser(Painter& sw);
 };

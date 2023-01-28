@@ -1,28 +1,28 @@
 #include "RichText.h"
 
-namespace РНЦП {
+namespace Upp {
 
-Цвет (*QTFColor[])() = {
-	чёрный, светлоСерый, белый, красный, зелёный, синий, светлоКрасный, белоСерый, светлоЦыан, жёлтый
+Color (*QTFColor[])() = {
+	Black, LtGray, White, Red, Green, Blue, LtRed, WhiteGray, LtCyan, Yellow
 };
 
-Цвет NullColorF()
+Color NullColorF()
 {
 	return Null;
 }
 
-static Цвет (*QTFColorl[])() = {
-	/*a*/белый, /*b*/синий, /*c*/цыан, /*d*/белый, /*e*/белый, /*f*/белый, /*g*/ зелёный, /*h*/белый,
-	/*i*/белый, /*j*/белый, /*k*/чёрный, /*l*/светлоСерый, /*m*/магента, /*n*/NullColorF, /*o*/коричневый, /*p*/белый,
-	/*q*/белый, /*r*/красный, /*s*/белый, /*t*/белый, /*u*/белый, /*v*/белый, /*w*/белоСерый, /*x*/белый,
-	/*y*/жёлтый, /*z*/ белый
+static Color (*QTFColorl[])() = {
+	/*a*/White, /*b*/Blue, /*c*/Cyan, /*d*/White, /*e*/White, /*f*/White, /*g*/ Green, /*h*/White,
+	/*i*/White, /*j*/White, /*k*/Black, /*l*/LtGray, /*m*/Magenta, /*n*/NullColorF, /*o*/Brown, /*p*/White,
+	/*q*/White, /*r*/Red, /*s*/White, /*t*/White, /*u*/White, /*v*/White, /*w*/WhiteGray, /*x*/White,
+	/*y*/Yellow, /*z*/ White
 };
 
-static Цвет (*QTFColorL[])() = {
-	/*A*/белый, /*B*/светлоСиний, /*C*/светлоЦыан, /*D*/белый, /*E*/белый, /*F*/белый, /*G*/светлоЗелёный, /*H*/белый,
-	/*I*/белый, /*J*/белый, /*K*/серый, /*L*/белоСерый, /*M*/светлоМагента, /*N*/NullColorF, /*O*/коричневый, /*P*/белый,
-	/*Q*/белый, /*R*/светлоКрасный, /*S*/белый, /*T*/белый, /*U*/белый, /*V*/белый, /*W*/белый, /*X*/белый,
-	/*Y*/светлоЖёлтый, /*Z*/белый
+static Color (*QTFColorL[])() = {
+	/*A*/White, /*B*/LtBlue, /*C*/LtCyan, /*D*/White, /*E*/White, /*F*/White, /*G*/LtGreen, /*H*/White,
+	/*I*/White, /*J*/White, /*K*/Gray, /*L*/WhiteGray, /*M*/LtMagenta, /*N*/NullColorF, /*O*/Brown, /*P*/White,
+	/*Q*/White, /*R*/LtRed, /*S*/White, /*T*/White, /*U*/White, /*V*/White, /*W*/White, /*X*/White,
+	/*Y*/LtYellow, /*Z*/White
 };
 
 int QTFFontHeight[] = {
@@ -32,51 +32,51 @@ int QTFFontHeight[] = {
 class RichQtfParser {
 	void       *context;
 	const char *term;
-	ШТкст     text;
+	WString     text;
 	RichPara    paragraph;
 	RichTable   tablepart;
 	bool        istable;
 	bool        breakpage;
 	int         accesskey;
 
-	struct PFormat : public RichPara::фмт {
+	struct PFormat : public RichPara::Format {
 		byte                  charset;
 	};
 
-	struct Вкладка {
-		RichCell::фмт формат;
+	struct Tab {
+		RichCell::Format format;
 		int              vspan, hspan;
 		RichTxt          text;
 		RichTable        table;
 		int              cell;
-		Вектор<int>      rown;
+		Vector<int>      rown;
 
-		void Old()                    { RichTable::фмт fmt; fmt.grid = 10; table.устФормат(fmt); }
+		void Old()                    { RichTable::Format fmt; fmt.grid = 10; table.SetFormat(fmt); }
 
-		Вкладка()                         { cell = 0; vspan = hspan = 0; }
+		Tab()                         { cell = 0; vspan = hspan = 0; }
 	};
 
-	PFormat          формат;
-	Массив<PFormat>   fstack;
-	Вектор<Uuid>     styleid;
-	Вектор<int>      stylenext;
-	Массив<Вкладка>       table;
+	PFormat          format;
+	Array<PFormat>   fstack;
+	Vector<Uuid>     styleid;
+	Vector<int>      stylenext;
+	Array<Tab>       table;
 	bool             oldtab;
 
-	bool   Ключ(int c)                 { if(*term == c) { term++; return true; } return false; }
+	bool   Key(int c)                 { if(*term == c) { term++; return true; } return false; }
 	bool   Key2(int c, int d);
 	bool   Key2(int c)                { return Key2(c, c); }
 	int    GetNumber();
-	int    читайЧисло();
-	Ткст дайТекст(int delim);
-	Ткст GetText2(int delim1, int delim2);
-	Цвет  дайЦвет();
+	int    ReadNumber();
+	String GetText(int delim);
+	String GetText2(int delim1, int delim2);
+	Color  GetColor();
 	void   Number2(int& a, int& b);
 
-	void   слей();
-	void   устФормат();
+	void   Flush();
+	void   SetFormat();
 	void   FlushStyles();
-	void   Ошибка(const char *s);
+	void   Error(const char *s);
 
 	void   ReadObject();
 
@@ -89,10 +89,10 @@ class RichQtfParser {
 
 	void       EndPart();
 
-	void       конкат(int chr);
+	void       Cat(int chr);
 
 public:
-	struct Искл {};
+	struct Exc {};
 
 	RichText target;
 
@@ -106,10 +106,10 @@ void init_s_nodeqtf();
 RichQtfParser::RichQtfParser(void *context_)
 : context(context_)
 {
-	формат.Face(Шрифт::ARIAL);
-	формат.устВысоту(100);
-	формат.charset = дайДефНабСим();
-	формат.language = 0;
+	format.Face(Font::ARIAL);
+	format.Height(100);
+	format.charset = GetDefaultCharset();
+	format.language = 0;
 	breakpage = false;
 	istable = false;
 	oldtab = false;
@@ -128,24 +128,24 @@ bool RichQtfParser::Key2(int c, int d)
 int  RichQtfParser::GetNumber()
 {
 	int n = 0;
-	int зн = 1;
+	int sgn = 1;
 	if(*term == '-') {
-		зн = -1;
+		sgn = -1;
 		term++;
 	}
-	while(цифра_ли(*term))
+	while(IsDigit(*term))
 		n = n * 10 + *term++ - '0';
-	return зн * n;
+	return sgn * n;
 }
 
-Ткст RichQtfParser::дайТекст(int delim) {
-	Ткст s;
+String RichQtfParser::GetText(int delim) {
+	String s;
 	for(;;) {
 		if(*term == '\0') return s;
 		if(*term == '`') {
 			term++;
 			if(*term == '\0') return s;
-			s.конкат(*term++);
+			s.Cat(*term++);
 		}
 		else
 		if(*term == delim) {
@@ -153,18 +153,18 @@ int  RichQtfParser::GetNumber()
 			return s;
 		}
 		else
-			s.конкат(*term++);
+			s.Cat(*term++);
 	}
 }
 
-Ткст RichQtfParser::GetText2(int delim1, int delim2) {
-	Ткст s;
+String RichQtfParser::GetText2(int delim1, int delim2) {
+	String s;
 	for(;;) {
 		if(*term == '\0') return s;
 		if(*term == '`') {
 			term++;
 			if(*term == '\0') return s;
-			s.конкат(*term++);
+			s.Cat(*term++);
 		}
 		else
 		if(term[0] == delim1 && term[1] == delim2) {
@@ -172,14 +172,14 @@ int  RichQtfParser::GetNumber()
 			return s;
 		}
 		else
-			s.конкат(*term++);
+			s.Cat(*term++);
 	}
 }
 
-int RichQtfParser::читайЧисло()
+int RichQtfParser::ReadNumber()
 {
-	if(!цифра_ли(*term))
-		Ошибка("Expected number");
+	if(!IsDigit(*term))
+		Error("Expected number");
 	return GetNumber();
 }
 
@@ -187,7 +187,7 @@ void RichQtfParser::Number2(int& a, int& b)
 {
 	a = -1;
 	b = -1;
-	if(цифра_ли(*term))
+	if(IsDigit(*term))
 		a = GetNumber();
 	if(*term == '/') {
 		term++;
@@ -195,21 +195,21 @@ void RichQtfParser::Number2(int& a, int& b)
 	}
 }
 
-Цвет RichQtfParser::дайЦвет()
+Color RichQtfParser::GetColor()
 {
 	int c = *term++;
 	if(c == '(') {
 		byte r = GetNumber();
-		if(Ключ(')')) {
+		if(Key(')')) {
 			r &= 255;
-			return Цвет(r, r, r);
+			return Color(r, r, r);
 		}
-		Ключ('.');
+		Key('.');
 		byte g = GetNumber();
-		Ключ('.');
+		Key('.');
 		byte b = GetNumber();
-		Ключ(')');
-		return Цвет(r & 255, g & 255, b & 255);
+		Key(')');
+		return Color(r & 255, g & 255, b & 255);
 	}
 	else
 	if(c >= '0' && c <= '9')
@@ -221,46 +221,46 @@ void RichQtfParser::Number2(int& a, int& b)
 	if(c >= 'A' && c <= 'Z')
 		return QTFColorL[c - 'A']();
 	else
-		return красный;
+		return Red;
 }
 
-void RichQtfParser::устФормат()
+void RichQtfParser::SetFormat()
 {
-	paragraph.формат = формат;
+	paragraph.format = format;
 }
 
-void RichQtfParser::слей() {
-	if(text.дайДлину()) {
-		ПРОВЕРЬ(!istable);
-		paragraph.конкат(text, формат);
-		text.очисть();
+void RichQtfParser::Flush() {
+	if(text.GetLength()) {
+		ASSERT(!istable);
+		paragraph.Cat(text, format);
+		text.Clear();
 	}
 }
 
 void RichQtfParser::EndPart()
 {
 	if(istable) {
-		if(paragraph.дайСчёт() == 0 && text.дайСчёт() == 0)
-			if(table.дайСчёт())
-				table.верх().text.CatPick(pick(tablepart));
+		if(paragraph.GetCount() == 0 && text.GetCount() == 0)
+			if(table.GetCount())
+				table.Top().text.CatPick(pick(tablepart));
 			else
 				target.CatPick(pick(tablepart));
 		else {
-			paragraph.part.очисть();
-			text.очисть();
+			paragraph.part.Clear();
+			text.Clear();
 		}
 	}
 	else {
-		слей();
-		if(table.дайСчёт())
-			table.верх().text.конкат(paragraph, target.GetStyles());
+		Flush();
+		if(table.GetCount())
+			table.Top().text.Cat(paragraph, target.GetStyles());
 		else {
 			if(breakpage)
-				paragraph.формат.newpage = true;
-			target.конкат(paragraph);
+				paragraph.format.newpage = true;
+			target.Cat(paragraph);
 		}
-		paragraph.part.очисть();
-		устФормат();
+		paragraph.part.Clear();
+		SetFormat();
 		breakpage = false;
 	}
 	istable = false;
@@ -268,7 +268,7 @@ void RichQtfParser::EndPart()
 
 void RichQtfParser::ReadObject()
 {
-	слей();
+	Flush();
 	RichObject obj;
 	if(*term == '#') {
 		term++;
@@ -280,40 +280,40 @@ void RichQtfParser::ReadObject()
 		term++;
 	}
 	else {
-		Ткст тип;
+		String type;
 		while(IsAlNum(*term) || *term == '_')
-			тип.конкат(*term++);
-		Размер sz;
-		Ключ(':');
-		sz.cx = читайЧисло();
+			type.Cat(*term++);
+		Size sz;
+		Key(':');
+		sz.cx = ReadNumber();
 		bool keepratio = false;
-		if(Ключ('&'))
+		if(Key('&'))
 			keepratio = true;
 		else
-			Ключ('*');
-		sz.cy = читайЧисло();
+			Key('*');
+		sz.cy = ReadNumber();
 		int yd = 0;
-		if(Ключ('/'))
+		if(Key('/'))
 			yd = GetNumber();
 		while(*term && (byte)*term < 32)
 			term++;
-		Ткст odata;
-		if(Ключ('`'))
+		String odata;
+		if(Key('`'))
 			while(*term) {
 				if(*term == '`') {
 					term++;
 					if(*term == '`')
-						odata.конкат('`');
+						odata.Cat('`');
 					else
 						break;
 				}
 				else
 				if((byte)*term >= 32)
-					odata.конкат(*term);
+					odata.Cat(*term);
 				term++;
 			}
 		else
-		if(Ключ('(')) {
+		if(Key('(')) {
 			const char *b = term;
 			while(*term && *term != ')')
 				term++;
@@ -322,7 +322,7 @@ void RichQtfParser::ReadObject()
 				term++;
 		}
 		else {
-			ТкстБуф data;
+			StringBuffer data;
 			for(;;) {
 				while(*term < 32 && *term > 0) term++;
 				if((byte)*term >= ' ' && (byte)*term <= 127 || *term == '\0') break;
@@ -330,54 +330,54 @@ void RichQtfParser::ReadObject()
 				for(int i = 0; i < 7; i++) {
 					while((byte)*term < 32 && (byte)*term > 0) term++;
 					if((byte)*term >= ' ' && (byte)*term <= 127 || *term == '\0') break;
-					data.конкат((*term++ & 0x7f) | ((seven << 7) & 0x80));
+					data.Cat((*term++ & 0x7f) | ((seven << 7) & 0x80));
 					seven >>= 1;
 				}
 			}
 			odata = data;
 		}
-		obj.читай(тип, odata, sz, context);
+		obj.Read(type, odata, sz, context);
 		obj.KeepRatio(keepratio);
 		obj.SetYDelta(yd);
 	}
-	paragraph.конкат(obj, формат);
+	paragraph.Cat(obj, format);
 }
 
 int NoLow(int c) {
 	return (byte)c >= 32 ? c : 0;
 }
 
-void RichQtfParser::Ошибка(const char *s) {
+void RichQtfParser::Error(const char *s) {
 	RichPara::CharFormat ef;
-	(Шрифт&) ef = Arial(84).Bold().Underline();
-	ef.ink = красный;
-	ШТкст e;
-	e << "Ошибка: " << s;
+	(Font&) ef = Arial(84).Bold().Underline();
+	ef.ink = Red;
+	WString e;
+	e << "ERROR: " << s;
 	if(*term)
-		e << ": " << фильтруй(Ткст(term, min<int>((int)strlen(term), 20)), NoLow).вШТкст();
+		e << ": " << Filter(String(term, min<int>((int)strlen(term), 20)), NoLow).ToWString();
 	else
 		e << ".";
-	paragraph.конкат(e, ef);
-	target.конкат(paragraph);
+	paragraph.Cat(e, ef);
+	target.Cat(paragraph);
 	FlushStyles();
-	throw Искл();
+	throw Exc();
 }
 
 void RichQtfParser::FlushStyles()
 {
-	for(int i = 0; i < styleid.дайСчёт(); i++)
-		if(stylenext[i] >= 0 && stylenext[i] < styleid.дайСчёт()) {
-			RichStyle s = target.дайСтиль(styleid[i]);
+	for(int i = 0; i < styleid.GetCount(); i++)
+		if(stylenext[i] >= 0 && stylenext[i] < styleid.GetCount()) {
+			RichStyle s = target.GetStyle(styleid[i]);
 			s.next = styleid[stylenext[i]];
-			target.устСтиль(styleid[i], s);
+			target.SetStyle(styleid[i], s);
 		}
 }
 
 RichTable& RichQtfParser::Table()
 {
-	if(table.дайСчёт() == 0)
-		Ошибка("Not in table");
-	return table.верх().table;
+	if(table.GetCount() == 0)
+		Error("Not in table");
+	return table.Top().table;
 }
 
 void RichQtfParser::S(int& x, int a)
@@ -389,46 +389,46 @@ void RichQtfParser::S(int& x, int a)
 void RichQtfParser::TableFormat(bool bw)
 {
 	RichTable& tab = Table();
-	RichTable::фмт tabformat = tab.дайФормат();
-	Вкладка& t = table.верх();
+	RichTable::Format tabformat = tab.GetFormat();
+	Tab& t = table.Top();
 	int a, b;
 	for(;;) {
-		if(bw && цифра_ли(*term)) {
+		if(bw && IsDigit(*term)) {
 			t.hspan = GetNumber();
 		}
 		else
 		if(*term == '\0')
-			Ошибка("Unexpected end of text in cell формат");
+			Error("Unexpected end of text in cell format");
 		else
 		switch(*term++) {
 		case ' ':
-			tab.устФормат(tabformat);
+			tab.SetFormat(tabformat);
 			return;
 		case ';': break;
-		case '<': tabformat.lm = читайЧисло(); break;
-		case '>': tabformat.rm = читайЧисло(); break;
-		case 'B': tabformat.before = читайЧисло(); break;
-		case 'A': tabformat.after = читайЧисло(); break;
-		case 'f': tabformat.frame = читайЧисло(); break;
+		case '<': tabformat.lm = ReadNumber(); break;
+		case '>': tabformat.rm = ReadNumber(); break;
+		case 'B': tabformat.before = ReadNumber(); break;
+		case 'A': tabformat.after = ReadNumber(); break;
+		case 'f': tabformat.frame = ReadNumber(); break;
 		case '_':
-		case 'F': tabformat.framecolor = дайЦвет(); break;
-		case 'g': tabformat.grid = читайЧисло(); break;
-		case 'G': tabformat.gridcolor = дайЦвет(); break;
+		case 'F': tabformat.framecolor = GetColor(); break;
+		case 'g': tabformat.grid = ReadNumber(); break;
+		case 'G': tabformat.gridcolor = GetColor(); break;
 		case 'h': tabformat.header = GetNumber(); break;
 		case '~': tabformat.frame = tabformat.grid = 0; break;
-		case '^': t.формат.align = ALIGN_TOP; break;
-		case '=': t.формат.align = ALIGN_CENTER; break;
-		case 'v': t.формат.align = ALIGN_BOTTOM; break;
-		case 'l': Number2(a, b); S(t.формат.border.left, a); S(t.формат.margin.left, b); break;
-		case 'r': Number2(a, b); S(t.формат.border.right, a); S(t.формат.margin.right, b); break;
-		case 't': Number2(a, b); S(t.формат.border.top, a); S(t.формат.margin.top, b); break;
-		case 'b': Number2(a, b); S(t.формат.border.bottom, a); S(t.формат.margin.bottom, b); break;
-		case 'H': t.формат.minheight = читайЧисло(); break;
-		case '@': t.формат.color = дайЦвет(); break;
-		case 'R': t.формат.bordercolor = дайЦвет(); break;
-		case '!': t.формат = RichCell::фмт(); break;
-		case 'o': t.формат.round = true; break;
-		case 'k': t.формат.keep = true; break;
+		case '^': t.format.align = ALIGN_TOP; break;
+		case '=': t.format.align = ALIGN_CENTER; break;
+		case 'v': t.format.align = ALIGN_BOTTOM; break;
+		case 'l': Number2(a, b); S(t.format.border.left, a); S(t.format.margin.left, b); break;
+		case 'r': Number2(a, b); S(t.format.border.right, a); S(t.format.margin.right, b); break;
+		case 't': Number2(a, b); S(t.format.border.top, a); S(t.format.margin.top, b); break;
+		case 'b': Number2(a, b); S(t.format.border.bottom, a); S(t.format.margin.bottom, b); break;
+		case 'H': t.format.minheight = ReadNumber(); break;
+		case '@': t.format.color = GetColor(); break;
+		case 'R': t.format.bordercolor = GetColor(); break;
+		case '!': t.format = RichCell::Format(); break;
+		case 'o': t.format.round = true; break;
+		case 'k': t.format.keep = true; break;
 		case 'K': tabformat.keep = true; break;
 		case 'P': tabformat.newpage = true; break;
 		case 'T':
@@ -439,20 +439,20 @@ void RichQtfParser::TableFormat(bool bw)
 		case 'a':
 			Number2(a, b);
 			if(a >= 0)
-				t.формат.border.left = t.формат.border.right = t.формат.border.top = t.формат.border.bottom = a;
+				t.format.border.left = t.format.border.right = t.format.border.top = t.format.border.bottom = a;
 			if(b >= 0)
-				t.формат.margin.left = t.формат.margin.right = t.формат.margin.top = t.формат.margin.bottom = b;
+				t.format.margin.left = t.format.margin.right = t.format.margin.top = t.format.margin.bottom = b;
 			break; //!!cell all lines
 		case '*':
 			tabformat.frame = tabformat.grid =
-			t.формат.border.left = t.формат.border.right = t.формат.border.top = t.формат.border.bottom =
-			t.формат.margin.left = t.формат.margin.right = t.формат.margin.top = t.формат.margin.bottom = 0;
+			t.format.border.left = t.format.border.right = t.format.border.top = t.format.border.bottom =
+			t.format.margin.left = t.format.margin.right = t.format.margin.top = t.format.margin.bottom = 0;
 			break;
 		case '-': t.hspan = GetNumber(); break;
 		case '+':
 		case '|': t.vspan = GetNumber(); break;
 		default:
-			Ошибка("Invalid cell формат");
+			Error("Неверное cell format");
 		}
 	}
 }
@@ -461,71 +461,71 @@ void RichQtfParser::FinishCell()
 {
 	EndPart();
 	RichTable& t = Table();
-	Вкладка& b = table.верх();
+	Tab& b = table.Top();
 	int i, j;
 	if(oldtab) {
-		i = b.rown.дайСчёт() - 1;
-		j = b.rown.верх();
-		b.rown.верх()++;
+		i = b.rown.GetCount() - 1;
+		j = b.rown.Top();
+		b.rown.Top()++;
 	}
 	else {
-		i = b.cell / t.дайКолонки();
-		j = b.cell % t.дайКолонки();
+		i = b.cell / t.GetColumns();
+		j = b.cell % t.GetColumns();
 	}
 	t.SetPick(i, j, pick(b.text));
-	b.text.очисть();
-	t.устФормат(i, j, b.формат);
+	b.text.Clear();
+	t.SetFormat(i, j, b.format);
 	t.SetSpan(i, j, b.vspan, b.hspan);
-	if(oldtab && b.rown.дайСчёт() > 1 && j + 1 < b.rown[0])
-		b.формат = t.дайФормат(0, j + 1);
+	if(oldtab && b.rown.GetCount() > 1 && j + 1 < b.rown[0])
+		b.format = t.GetFormat(0, j + 1);
 	else {
 		b.cell++;
 		b.vspan = 0;
 		b.hspan = oldtab;
 	}
-	b.формат.keep = false;
-	b.формат.round = false;
+	b.format.keep = false;
+	b.format.round = false;
 }
 
 void RichQtfParser::FinishTable()
 {
 	FinishCell();
-	while(table.верх().cell % Table().дайКолонки())
+	while(table.Top().cell % Table().GetColumns())
 		FinishCell();
 	tablepart = pick(Table());
 	istable = true;
-	table.сбрось();
+	table.Drop();
 }
 
 void RichQtfParser::FinishOldTable()
 {
 	FinishCell();
-	Индекс<int>  pos;
-	Вектор<int> srow;
+	Index<int>  pos;
+	Vector<int> srow;
 	RichTable& t = Table();
-	Вкладка& b = table.верх();
+	Tab& b = table.Top();
 	for(int i = 0; i < t.GetRows(); i++) {
-		int& s = srow.добавь();
+		int& s = srow.Add();
 		s = 0;
 		int nx = b.rown[i];
 		for(int j = 0; j < nx; j++)
 			s += t.GetSpan(i, j).cx;
 		int xn = 0;
 		for(int j = 0; j < nx; j++) {
-			pos.найдиДобавь(xn * 10000 / s);
+			pos.FindAdd(xn * 10000 / s);
 			xn += t.GetSpan(i, j).cx;
 		}
 	}
-	Вектор<int> h = pos.подбериКлючи();
-	if(h.дайСчёт() == 0)
-		Ошибка("table");
-	сортируй(h);
+	Vector<int> h = pos.PickKeys();
+	if(h.GetCount() == 0)
+		Error("table");
+	Sort(h);
 	pos = pick(h);
-	pos.добавь(10000);
+	pos.Add(10000);
 	RichTable tab;
-	tab.устФормат(t.дайФормат());
-	for(int i = 0; i < pos.дайСчёт() - 1; i++) {
-		tab.добавьКолонку(pos[i + 1] - pos[i]);
+	tab.SetFormat(t.GetFormat());
+	for(int i = 0; i < pos.GetCount() - 1; i++) {
+		tab.AddColumn(pos[i + 1] - pos[i]);
 	}
 	for(int i = 0; i < t.GetRows(); i++) {
 		int s = srow[i];
@@ -533,35 +533,35 @@ void RichQtfParser::FinishOldTable()
 		int xn = 0;
 		int xi = 0;
 		for(int j = 0; j < nx; j++) {
-			Размер span = t.GetSpan(i, j);
+			Size span = t.GetSpan(i, j);
 			xn += span.cx;
-			int nxi = pos.найди(xn * 10000 / s);
+			int nxi = pos.Find(xn * 10000 / s);
 			tab.SetPick(i, xi, t.GetPick(i, j));
-			tab.устФормат(i, xi, t.дайФормат(i, j));
+			tab.SetFormat(i, xi, t.GetFormat(i, j));
 			tab.SetSpan(i, xi, max(span.cy - 1, 0), nxi - xi - 1);
 			xi = nxi;
 		}
 	}
-	table.сбрось();
-	if(table.дайСчёт())
-		table.верх().text.CatPick(pick(tab));
+	table.Drop();
+	if(table.GetCount())
+		table.Top().text.CatPick(pick(tab));
 	else
 		target.CatPick(pick(tab));
 	oldtab = false;
 }
 
-void RichQtfParser::конкат(int chr)
+void RichQtfParser::Cat(int chr)
 {
-	if(accesskey && взаг(вАски(chr)) == LOBYTE(accesskey)) {
-		слей();
-		формат.Underline(!формат.IsUnderline());
-		text.конкат(chr);
-		слей();
-		формат.Underline(!формат.IsUnderline());
+	if(accesskey && ToUpper(ToAscii(chr)) == LOBYTE(accesskey)) {
+		Flush();
+		format.Underline(!format.IsUnderline());
+		text.Cat(chr);
+		Flush();
+		format.Underline(!format.IsUnderline());
 		accesskey = 0;
 	}
 	else if(chr >= ' ') {
-		text.конкат(chr);
+		text.Cat(chr);
 	}
 }
 
@@ -587,186 +587,186 @@ void RichQtfParser::Parse(const char *qtf, int _accesskey)
 	accesskey = _accesskey;
 	term = qtf;
 	while(*term) {
-		if(Ключ('[')) {
-			слей();
-			fstack.добавь(формат);
+		if(Key('[')) {
+			Flush();
+			fstack.Add(format);
 			for(;;) {
 				int c = *term;
 				if(!c)
-					Ошибка("Unexpected end of text");
+					Error("Unexpected end of text");
 				term++;
 				if(c == ' ' || c == '\n') break;
 				switch(c) {
 				case 's': {
 					Uuid id;
 					c = *term;
-					if(Ключ('\"') || Ключ('\''))
-						id = target.GetStyleId(дайТекст(c));
+					if(Key('\"') || Key('\''))
+						id = target.GetStyleId(GetText(c));
 					else {
-						int i = читайЧисло();
-						if(i >= 0 && i < styleid.дайСчёт())
+						int i = ReadNumber();
+						if(i >= 0 && i < styleid.GetCount())
 							id = styleid[i];
 						else
 							id = RichStyle::GetDefaultId();
 					}
-					const RichStyle& s = target.дайСтиль(id);
-					bool p = формат.newpage;
-					int lng = формат.language;
-					(RichPara::фмт&) формат = s.формат;
-					формат.styleid = id;
-					формат.language = lng;
-					формат.newpage = p;
+					const RichStyle& s = target.GetStyle(id);
+					bool p = format.newpage;
+					int lng = format.language;
+					(RichPara::Format&) format = s.format;
+					format.styleid = id;
+					format.language = lng;
+					format.newpage = p;
 					break;
 				}
-				case '/': формат.Italic(!формат.IsItalic()); break;
-				case '*': формат.Bold(!формат.IsBold()); break;
-				case '_': формат.Underline(!формат.IsUnderline()); break;
-				case 'T': формат.NonAntiAliased(!формат.IsNonAntiAliased()); break;
-				case '-': формат.Strikeout(!формат.IsStrikeout()); break;
-				case 'c': формат.capitals = !формат.capitals; break;
-				case 'd': формат.dashed = !формат.dashed; break;
-				case '`': формат.sscript = формат.sscript == 1 ? 0 : 1; break;
-				case ',': формат.sscript = формат.sscript == 2 ? 0 : 2; break;
-				case '^': формат.link = дайТекст('^'); break;
-				case 'I': формат.indexentry = вУтф32(дайТекст(';')); break;
-				case '+': формат.устВысоту(GetNumber()); break;
-				case '@': формат.ink = дайЦвет(); break;
-				case '$': формат.paper = дайЦвет(); break;
-				case 'A': формат.Face(Шрифт::ARIAL); break;
-				case 'R': формат.Face(Шрифт::ROMAN); break;
-				case 'C': формат.Face(Шрифт::COURIER); break;
-				case 'G': формат.Face(Шрифт::STDFONT); break;
+				case '/': format.Italic(!format.IsItalic()); break;
+				case '*': format.Bold(!format.IsBold()); break;
+				case '_': format.Underline(!format.IsUnderline()); break;
+				case 'T': format.NonAntiAliased(!format.IsNonAntiAliased()); break;
+				case '-': format.Strikeout(!format.IsStrikeout()); break;
+				case 'c': format.capitals = !format.capitals; break;
+				case 'd': format.dashed = !format.dashed; break;
+				case '`': format.sscript = format.sscript == 1 ? 0 : 1; break;
+				case ',': format.sscript = format.sscript == 2 ? 0 : 2; break;
+				case '^': format.link = GetText('^'); break;
+				case 'I': format.indexentry = ToUtf32(GetText(';')); break;
+				case '+': format.Height(GetNumber()); break;
+				case '@': format.ink = GetColor(); break;
+				case '$': format.paper = GetColor(); break;
+				case 'A': format.Face(Font::ARIAL); break;
+				case 'R': format.Face(Font::ROMAN); break;
+				case 'C': format.Face(Font::COURIER); break;
+				case 'G': format.Face(Font::STDFONT); break;
 				case 'S':
 #ifdef PLATFORM_WIN32
-					формат.Face(Шрифт::SYMBOL);
+					format.Face(Font::SYMBOL);
 #endif
 					break;
 				case '.': {
 					int n = GetNumber();
-					if(n >= Шрифт::GetFaceCount())
-						Ошибка("Invalid face number");
-					формат.Face(n); break;
+					if(n >= Font::GetFaceCount())
+						Error("Неверное face number");
+					format.Face(n); break;
 				}
 				case '!': {
-						Ткст фн = дайТекст('!');
-						int i = Шрифт::FindFaceNameIndex(фн);
+						String fn = GetText('!');
+						int i = Font::FindFaceNameIndex(fn);
 						if(i < 0)
-							i = Шрифт::ARIAL;
-						формат.Face(i);
+							i = Font::ARIAL;
+						format.Face(i);
 					}
 					break;
 				case '{': {
-						Ткст cs = дайТекст('}');
-						if(cs.дайДлину() == 1) {
+						String cs = GetText('}');
+						if(cs.GetLength() == 1) {
 							int c = *cs;
 							if(c == '_')
-								формат.charset = CHARSET_UTF8;
+								format.charset = CHARSET_UTF8;
 							if(c >= '0' && c <= '8')
-								формат.charset = c - '0' + CHARSET_WIN1250;
+								format.charset = c - '0' + CHARSET_WIN1250;
 							if(c >= 'A' && c <= 'Z')
-								формат.charset = c - '0' + CHARSET_ISO8859_1;
+								format.charset = c - '0' + CHARSET_ISO8859_1;
 						}
 						else {
-							for(int i = 0; i < счётНабСим(); i++)
-								if(stricmp(имяНабСим(i), cs) == 0) {
-									формат.charset = i;
+							for(int i = 0; i < CharsetCount(); i++)
+								if(stricmp(CharsetName(i), cs) == 0) {
+									format.charset = i;
 									break;
 								}
 						}
 						break;
 					}
 				case '%': {
-						Ткст h;
+						String h;
 						if(*term == '-') {
-							формат.language = 0;
+							format.language = 0;
 							term++;
 						}
 						else
 						if(*term == '%') {
-							формат.language = LNG_ENGLISH;
+							format.language = LNG_ENGLISH;
 							term++;
 						}
 						else {
-							while(*term && h.дайДлину() < 5)
-								h.конкат(*term++);
-							формат.language = LNGFromText(h);
+							while(*term && h.GetLength() < 5)
+								h.Cat(*term++);
+							format.language = LNGFromText(h);
 						}
 						break;
 					}
 				case 'g':
-					формат.Face(Шрифт::STDFONT);
-					формат.устВысоту(GetRichTextScreenStdFontHeight());
+					format.Face(Font::STDFONT);
+					format.Height(GetRichTextScreenStdFontHeight());
 					break;
 				default:
 					if(c >= '0' && c <= '9') {
-						формат.устВысоту(QTFFontHeight[c - '0']);
+						format.Height(QTFFontHeight[c - '0']);
 						break;
 					}
 					switch(c) {
-					case ':': формат.label = дайТекст(':'); break;
-					case '<': формат.align = ALIGN_LEFT; break;
-					case '>': формат.align = ALIGN_RIGHT; break;
-					case '=': формат.align = ALIGN_CENTER; break;
-					case '#': формат.align = ALIGN_JUSTIFY; break;
-					case 'l': формат.lm = GetNumber(); break;
-					case 'r': формат.rm = GetNumber(); break;
-					case 'i': формат.indent = GetNumber(); break;
-					case 'b': формат.before = GetNumber(); break;
-					case 'a': формат.after = GetNumber(); break;
-					case 'P': формат.newpage = !формат.newpage; break;
-					case 'F': формат.firstonpage = !формат.firstonpage; break;
-					case 'k': формат.keep = !формат.keep; break;
-					case 'K': формат.keepnext = !формат.keepnext; break;
-					case 'H': формат.ruler = GetNumber(); break;
-					case 'h': формат.rulerink = дайЦвет(); break;
-					case 'L': формат.rulerstyle = GetNumber(); break;
-					case 'Q': формат.orphan = !формат.orphan; break;
-					case 'n': формат.before_number = дайТекст(';'); break;
-					case 'm': формат.after_number = дайТекст(';'); break;
+					case ':': format.label = GetText(':'); break;
+					case '<': format.align = ALIGN_LEFT; break;
+					case '>': format.align = ALIGN_RIGHT; break;
+					case '=': format.align = ALIGN_CENTER; break;
+					case '#': format.align = ALIGN_JUSTIFY; break;
+					case 'l': format.lm = GetNumber(); break;
+					case 'r': format.rm = GetNumber(); break;
+					case 'i': format.indent = GetNumber(); break;
+					case 'b': format.before = GetNumber(); break;
+					case 'a': format.after = GetNumber(); break;
+					case 'P': format.newpage = !format.newpage; break;
+					case 'F': format.firstonpage = !format.firstonpage; break;
+					case 'k': format.keep = !format.keep; break;
+					case 'K': format.keepnext = !format.keepnext; break;
+					case 'H': format.ruler = GetNumber(); break;
+					case 'h': format.rulerink = GetColor(); break;
+					case 'L': format.rulerstyle = GetNumber(); break;
+					case 'Q': format.orphan = !format.orphan; break;
+					case 'n': format.before_number = GetText(';'); break;
+					case 'm': format.after_number = GetText(';'); break;
 					case 'N': {
-						memset8(формат.number, 0, sizeof(формат.number));
-						формат.reset_number = false;
+						memset8(format.number, 0, sizeof(format.number));
+						format.reset_number = false;
 						int i = 0;
 						while(i < 8) {
 							int c;
-							if(Ключ('-'))
+							if(Key('-'))
 								c = RichPara::NUMBER_NONE;
 							else
-							if(Ключ('1'))
+							if(Key('1'))
 								c = RichPara::NUMBER_1;
 							else
-							if(Ключ('0'))
+							if(Key('0'))
 								c = RichPara::NUMBER_0;
 							else
-							if(Ключ('a'))
+							if(Key('a'))
 								c = RichPara::NUMBER_a;
 							else
-							if(Ключ('A'))
+							if(Key('A'))
 								c = RichPara::NUMBER_A;
 							else
-							if(Ключ('i'))
+							if(Key('i'))
 								c = RichPara::NUMBER_i;
 							else
-							if(Ключ('I'))
+							if(Key('I'))
 								c = RichPara::NUMBER_I;
 							else
 								break;
-							формат.number[i++] = c;
+							format.number[i++] = c;
 						}
-						if(Ключ('!'))
-							формат.reset_number = true;
+						if(Key('!'))
+							format.reset_number = true;
 						break;
 					}
-					case 'o': формат.bullet = RichPara::BULLET_ROUND;
-					          формат.indent = 150; break;
+					case 'o': format.bullet = RichPara::BULLET_ROUND;
+					          format.indent = 150; break;
 					case 'O':
-						if(Ключ('_'))
-							формат.bullet = RichPara::BULLET_NONE;
+						if(Key('_'))
+							format.bullet = RichPara::BULLET_NONE;
 						else {
 							int c = *term++;
 							if(!c)
-								Ошибка("Unexpected end of text");
-							формат.bullet =
+								Error("Unexpected end of text");
+							format.bullet =
 							                c == '1' ? RichPara::BULLET_ROUNDWHITE :
 							                c == '2' ? RichPara::BULLET_BOX :
 							                c == '3' ? RichPara::BULLET_BOXWHITE :
@@ -776,43 +776,43 @@ void RichQtfParser::Parse(const char *qtf, int _accesskey)
 						break;
 					case 'p':
 						switch(*term++) {
-						case 0:   Ошибка("Unexpected end of text");
-						case 'h': формат.linespacing = RichPara::LSP15; break;
-						case 'd': формат.linespacing = RichPara::LSP20; break;
-						case 'w': формат.linespacing = RichPara::LSP115; break;
-						default:  формат.linespacing = RichPara::LSP10;
+						case 0:   Error("Unexpected end of text");
+						case 'h': format.linespacing = RichPara::LSP15; break;
+						case 'd': format.linespacing = RichPara::LSP20; break;
+						case 'w': format.linespacing = RichPara::LSP115; break;
+						default:  format.linespacing = RichPara::LSP10;
 						}
 						break;
 					case 't':
 						if(*term == 'P') {
 							term++;
-							формат.newhdrftr = true;
-							формат.header_qtf = GetText2('^', '^');
-							формат.footer_qtf = GetText2('^', '^');
+							format.newhdrftr = true;
+							format.header_qtf = GetText2('^', '^');
+							format.footer_qtf = GetText2('^', '^');
 						}
 						else
-						if(цифра_ли(*term))
-							формат.tabsize = читайЧисло();
+						if(IsDigit(*term))
+							format.tabsize = ReadNumber();
 						break;
 					case '~': {
-							if(Ключ('~'))
-								формат.tab.очисть();
+							if(Key('~'))
+								format.tab.Clear();
 							else {
-								RichPara::Вкладка tab;
-								Ключ('<');
-								if(Ключ('>'))
+								RichPara::Tab tab;
+								Key('<');
+								if(Key('>'))
 									tab.align = ALIGN_RIGHT;
-								if(Ключ('='))
+								if(Key('='))
 									tab.align = ALIGN_CENTER;
-								if(Ключ('.'))
+								if(Key('.'))
 									tab.fillchar = 1;
-								if(Ключ('-'))
+								if(Key('-'))
 									tab.fillchar = 2;
-								if(Ключ('_'))
+								if(Key('_'))
 									tab.fillchar = 3;
-								int rightpos = Ключ('>') ? RichPara::TAB_RIGHTPOS : 0;
-								tab.pos = rightpos | читайЧисло();
-								формат.tab.добавь(tab);
+								int rightpos = Key('>') ? RichPara::TAB_RIGHTPOS : 0;
+								tab.pos = rightpos | ReadNumber();
+								format.tab.Add(tab);
 							}
 						}
 						break;
@@ -821,43 +821,43 @@ void RichQtfParser::Parse(const char *qtf, int _accesskey)
 					}
 				}
 			}
-			устФормат();
+			SetFormat();
 		}
 		else
-		if(Ключ(']')) {
-			слей();
-			if(fstack.дайСчёт()) {
-				формат = fstack.верх();
-				fstack.сбрось();
+		if(Key(']')) {
+			Flush();
+			if(fstack.GetCount()) {
+				format = fstack.Top();
+				fstack.Drop();
 			}
 			else
-				Ошибка("Unmatched ']'");
+				Error("Unmatched ']'");
 		}
 		else
 		if(Key2('{')) {
 			if(oldtab)
-				Ошибка("{{ in ++ table");
-			if(text.дайДлину() || paragraph.дайСчёт())
+				Error("{{ in ++ table");
+			if(text.GetLength() || paragraph.GetCount())
 				EndPart();
-			table.добавь();
-			int r = цифра_ли(*term) ? читайЧисло() : 1;
-			Table().добавьКолонку(r);
-			while(Ключ(':'))
-				Table().добавьКолонку(читайЧисло());
+			table.Add();
+			int r = IsDigit(*term) ? ReadNumber() : 1;
+			Table().AddColumn(r);
+			while(Key(':'))
+				Table().AddColumn(ReadNumber());
 			if(breakpage) {
 				RichTable& tab = Table();
-				RichTable::фмт tabformat = tab.дайФормат();
+				RichTable::Format tabformat = tab.GetFormat();
 				tabformat.newpage = true;
-				tab.устФормат(tabformat);
+				tab.SetFormat(tabformat);
 				breakpage = false;
 			}
 			TableFormat();
-			устФормат();
+			SetFormat();
 		}
 		else
 		if(Key2('}')) {
 			if(oldtab)
-				Ошибка("}} in ++ table");
+				Error("}} in ++ table");
 			FinishTable();
 		}
 		else
@@ -865,11 +865,11 @@ void RichQtfParser::Parse(const char *qtf, int _accesskey)
 			if(oldtab)
 				FinishOldTable();
 			else {
-				слей();
-				if(text.дайДлину() || paragraph.дайСчёт())
+				Flush();
+				if(text.GetLength() || paragraph.GetCount())
 					EndPart();
-				Вкладка& b = table.добавь();
-				b.rown.добавь(0);
+				Tab& b = table.Add();
+				b.rown.Add(0);
 				b.hspan = 1;
 				b.Old();
 				oldtab = true;
@@ -880,7 +880,7 @@ void RichQtfParser::Parse(const char *qtf, int _accesskey)
 		else
 		if(Key2('-')) {
 			FinishCell();
-			table.верх().rown.добавь(0);
+			table.Top().rown.Add(0);
 		}
 		else
 		if(Key2(':')) {
@@ -899,15 +899,15 @@ void RichQtfParser::Parse(const char *qtf, int _accesskey)
 		}
 		else
 		if(Key2('@', '$')) {
-			Ткст xu;
+			String xu;
 			while(isxdigit(*term))
-				xu.конкат(*term++);
+				xu.Cat(*term++);
 			int c = stou(~xu, NULL, 16);
 			if(c >= 32)
-				конкат(c);
+				Cat(c);
 			if(*term == ';')
 				term++;
-			устФормат();
+			SetFormat();
 		}
 		else
 		if(Key2('^', 'H'))
@@ -917,110 +917,110 @@ void RichQtfParser::Parse(const char *qtf, int _accesskey)
 			target.SetFooterQtf(GetText2('^', '^'));
 		else
 		if(Key2('{', ':')) {
-			слей();
-			Ткст field = дайТекст(':');
-			Ткст param = дайТекст(':');
-			Ид fid(field);
-			if(RichPara::fieldtype().найди(fid) >= 0)
-				paragraph.конкат(fid, param, формат);
-			Ключ('}');
+			Flush();
+			String field = GetText(':');
+			String param = GetText(':');
+			Id fid(field);
+			if(RichPara::fieldtype().Find(fid) >= 0)
+				paragraph.Cat(fid, param, format);
+			Key('}');
 		}
 		else
-		if(Ключ('&')) {
-			устФормат();
+		if(Key('&')) {
+			SetFormat();
 			EndPart();
 		}
 		else
 		if(Key2('$')) {
-			слей();
+			Flush();
 			int i = GetNumber();
 			Uuid id;
 			RichStyle style;
-			style.формат = формат;
-			if(Ключ(','))
-				stylenext.по(i, 0) = GetNumber();
+			style.format = format;
+			if(Key(','))
+				stylenext.At(i, 0) = GetNumber();
 			else
-				stylenext.по(i, 0) = i;
-			if(Ключ('#')) {
-				Ткст xu;
+				stylenext.At(i, 0) = i;
+			if(Key('#')) {
+				String xu;
 				while(isxdigit(*term))
-					xu.конкат(*term++);
-				if(xu.дайДлину() != 32)
-					Ошибка("Invalid UUID !");
+					xu.Cat(*term++);
+				if(xu.GetLength() != 32)
+					Error("Неверное UUID !");
 				id = ScanUuid(xu);
 			}
 			else
 				if(i)
-					id = Uuid::создай();
+					id = Uuid::Create();
 				else
 					id = RichStyle::GetDefaultId();
-			if(Ключ(':'))
-				style.имя = дайТекст(']');
-			if(fstack.дайСчёт()) {
-				формат = fstack.верх();
-				fstack.сбрось();
+			if(Key(':'))
+				style.name = GetText(']');
+			if(fstack.GetCount()) {
+				format = fstack.Top();
+				fstack.Drop();
 			}
-			target.устСтиль(id, style);
-			styleid.по(i, RichStyle::GetDefaultId()) = id;
+			target.SetStyle(id, style);
+			styleid.At(i, RichStyle::GetDefaultId()) = id;
 			if(id == RichStyle::GetDefaultId()) {
-				bool p = формат.newpage;
-				int lng = формат.language;
-				(RichPara::фмт&) формат = style.формат;
-				формат.styleid = id;
-				формат.language = lng;
-				формат.newpage = p;
+				bool p = format.newpage;
+				int lng = format.language;
+				(RichPara::Format&) format = style.format;
+				format.styleid = id;
+				format.language = lng;
+				format.newpage = p;
 			}
 		}
 		else
 		if(*term == '_') {
-			устФормат();
-			text.конкат(160);
+			SetFormat();
+			text.Cat(160);
 			term++;
 		}
 		else
 		if(Key2('-', '|')) {
-			устФормат();
-			text.конкат(9);
+			SetFormat();
+			text.Cat(9);
 		}
 		else
 		if(*term == '\1') {
 			if(istable)
 				EndPart();
-			устФормат();
+			SetFormat();
 			const char *b = ++term;
 			for(; *term && *term != '\1'; term++) {
 				if((byte)*term == '\n') {
-					text.конкат(вЮникод(b, (int)(term - b), формат.charset));
+					text.Cat(ToUnicode(b, (int)(term - b), format.charset));
 					EndPart();
 					b = term + 1;
 				}
 				if((byte)*term == '\t') {
-					text.конкат(вЮникод(b, (int)(term - b), формат.charset));
-					text.конкат(9);
+					text.Cat(ToUnicode(b, (int)(term - b), format.charset));
+					text.Cat(9);
 					b = term + 1;
 				}
 			}
-			text.конкат(вЮникод(b, (int)(term - b), формат.charset));
+			text.Cat(ToUnicode(b, (int)(term - b), format.charset));
 			if(*term == '\1')
 				term++;
 		}
 		else {
-			if(!Ключ('`')) Ключ('\\');
+			if(!Key('`')) Key('\\');
 			if((byte)*term >= ' ') {
-				устФормат();
+				SetFormat();
 				do {
 					if(istable)
 						EndPart();
-					if(формат.charset == CHARSET_UTF8) {
+					if(format.charset == CHARSET_UTF8) {
 						bool ok = true;
-						wchar c = достаньУтф8(term, ok);
+						wchar c = FetchUtf8(term, ok);
 						if(ok)
-							конкат(c);
+							Cat(c);
 						else
-							Ошибка("Invalid UTF-8 sequence");
+							Error("Неверное UTF-8 sequence");
 					}
 					else
-						конкат(вЮникод((byte)*term++, формат.charset));
+						Cat(ToUnicode((byte)*term++, format.charset));
 				}
 				while((byte)*term >= 128 || s_nodeqtf[(byte)*term]);
 			}
@@ -1032,7 +1032,7 @@ void RichQtfParser::Parse(const char *qtf, int _accesskey)
 	if(oldtab)
 		FinishOldTable();
 	else
-		while(table.дайСчёт())
+		while(table.GetCount())
 			FinishTable();
 	EndPart();
 	FlushStyles();
@@ -1044,7 +1044,7 @@ bool ParseQTF(RichText& txt, const char *qtf, int accesskey, void *context)
 	try {
 		p.Parse(qtf, accesskey);
 	}
-	catch(RichQtfParser::Искл) {
+	catch(RichQtfParser::Exc) {
 		return false;
 	}
 	txt = pick(p.target);
@@ -1057,13 +1057,13 @@ RichText ParseQTF(const char *qtf, int accesskey, void *context)
 	try {
 		p.Parse(qtf, accesskey);
 	}
-	catch(RichQtfParser::Искл) {}
+	catch(RichQtfParser::Exc) {}
 	return pick(p.target);
 }
 
-Ткст QtfRichObject::вТкст() const
+String QtfRichObject::ToString() const
 {
-	return Ткст("@@#").конкат() << uintptr_t(&obj) << ";";
+	return String("@@#").Cat() << uintptr_t(&obj) << ";";
 }
 
 QtfRichObject::QtfRichObject(const RichObject& o)

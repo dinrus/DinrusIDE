@@ -1,19 +1,19 @@
 #include "Draw.h"
 
-namespace РНЦП {
+namespace Upp {
 
 #define LTIMING(x) // RTIMING(x)
 
 int ImageBuffer::ScanKind() const
 {
-	const КЗСА *s = pixels;
-	const КЗСА *ee = pixels + (дайДлину() & ~3);
+	const RGBA *s = pixels;
+	const RGBA *ee = pixels + (GetLength() & ~3);
 	while(s < ee) {
 		if((s[0].a & s[1].a & s[2].a & s[3].a) != 255)
 			return IMAGE_ALPHA;
 		s += 4;
 	}
-	const КЗСА *e = pixels + дайДлину();
+	const RGBA *e = pixels + GetLength();
 	while(s < e) {
 		if(s->a != 255)
 			return IMAGE_ALPHA;
@@ -22,21 +22,21 @@ int ImageBuffer::ScanKind() const
 	return IMAGE_OPAQUE;
 }
 
-void ImageBuffer::SetHotSpots(const Рисунок& src)
+void ImageBuffer::SetHotSpots(const Image& src)
 {
 	SetHotSpot(src.GetHotSpot());
 	Set2ndSpot(src.Get2ndSpot());
 }
 
-void ImageBuffer::создай(int cx, int cy)
+void ImageBuffer::Create(int cx, int cy)
 {
-	ПРОВЕРЬ(cx >= 0 && cy >= 0);
+	ASSERT(cx >= 0 && cy >= 0);
 	size.cx = cx;
 	size.cy = cy;
-	pixels.размести(дайДлину());
-#ifdef _ОТЛАДКА
-	КЗСА *s = pixels;
-	КЗСА *e = pixels + дайДлину();
+	pixels.Alloc(GetLength());
+#ifdef _DEBUG
+	RGBA *s = pixels;
+	RGBA *e = pixels + GetLength();
 	byte  a = 0;
 	while(s < e) {
 		s->a = a;
@@ -52,8 +52,8 @@ void ImageBuffer::создай(int cx, int cy)
 
 void ImageBuffer::InitAttrs()
 {
-	spot2 = hotspot = Точка(0, 0);
-	dots = Размер(0, 0);
+	spot2 = hotspot = Point(0, 0);
+	dots = Size(0, 0);
 	resolution = IMAGE_RESOLUTION_NONE;
 	paintonce = false;
 }
@@ -67,57 +67,57 @@ void ImageBuffer::CopyAttrs(const ImageBuffer& img)
 	PaintOnceHint(img.IsPaintOnceHint());
 }
 
-void ImageBuffer::CopyAttrs(const Рисунок& img)
+void ImageBuffer::CopyAttrs(const Image& img)
 {
 	if(img.data)
-		CopyAttrs(img.data->буфер);
+		CopyAttrs(img.data->buffer);
 	else
 		InitAttrs();
 }
 
 void ImageBuffer::DeepCopy(const ImageBuffer& img)
 {
-	создай(img.дайРазм());
+	Create(img.GetSize());
 	CopyAttrs(img);
-	memcpy_t(~pixels, ~img.pixels, дайДлину());
+	memcpy_t(~pixels, ~img.pixels, GetLength());
 }
 
-void ImageBuffer::уст(Рисунок& img)
+void ImageBuffer::Set(Image& img)
 {
 	if(img.data)
 		if(img.data->refcount == 1) {
-			size = img.дайРазм();
+			size = img.GetSize();
 			kind = IMAGE_UNKNOWN;
 			CopyAttrs(img);
-			pixels = pick(img.data->буфер.pixels);
-			img.очисть();
+			pixels = pick(img.data->buffer.pixels);
+			img.Clear();
 		}
 		else {
-			DeepCopy(img.data->буфер);
+			DeepCopy(img.data->buffer);
 			kind = IMAGE_UNKNOWN;
-			img.очисть();
+			img.Clear();
 		}
 	else
-		создай(0, 0);
+		Create(0, 0);
 }
 
 
-void ImageBuffer::operator=(Рисунок& img)
+void ImageBuffer::operator=(Image& img)
 {
-	очисть();
-	уст(img);
+	Clear();
+	Set(img);
 }
 
 void ImageBuffer::operator=(ImageBuffer& img)
 {
-	очисть();
-	Рисунок m = img;
-	уст(m);
+	Clear();
+	Image m = img;
+	Set(m);
 }
 
-ImageBuffer::ImageBuffer(Рисунок& img)
+ImageBuffer::ImageBuffer(Image& img)
 {
-	уст(img);
+	Set(img);
 }
 
 ImageBuffer::ImageBuffer(ImageBuffer& b)
@@ -128,133 +128,133 @@ ImageBuffer::ImageBuffer(ImageBuffer& b)
 	CopyAttrs(b);
 }
 
-void ImageBuffer::SetDPI(Размер dpi) 
+void ImageBuffer::SetDPI(Size dpi) 
 {
 	dots.cx = int(600.*size.cx/dpi.cx);
 	dots.cy = int(600.*size.cy/dpi.cy);
 }
 
-Размер ImageBuffer::GetDPI() 
+Size ImageBuffer::GetDPI() 
 {
-	return Размер(dots.cx ? int(600.*size.cx/dots.cx) : 0, dots.cy ? int(600.*size.cy/dots.cy) : 0);
+	return Size(dots.cx ? int(600.*size.cx/dots.cx) : 0, dots.cy ? int(600.*size.cy/dots.cy) : 0);
 }
 
-void Рисунок::уст(ImageBuffer& b)
+void Image::Set(ImageBuffer& b)
 {
-	if(b.дайШирину() == 0 || b.дайВысоту() == 0)
+	if(b.GetWidth() == 0 || b.GetHeight() == 0)
 		data = NULL;
 	else
-		data = new Данные(b);
+		data = new Data(b);
 }
 
-void Рисунок::очисть()
+void Image::Clear()
 {
 	if(data)
-		data->отпусти();
+		data->Release();
 	data = NULL;
 }
 
-Рисунок& Рисунок::operator=(ImageBuffer& img)
+Image& Image::operator=(ImageBuffer& img)
 {
 	if(data)
-		data->отпусти();
-	уст(img);
+		data->Release();
+	Set(img);
 	return *this;
 }
 
-Рисунок& Рисунок::operator=(const Рисунок& img)
+Image& Image::operator=(const Image& img)
 {
-	Данные *d = data;
+	Data *d = data;
 	data = img.data;
 	if(data)
 		data->Retain();
 	if(d)
-		d->отпусти();
+		d->Release();
 	return *this;
 }
 
-Точка Рисунок::GetHotSpot() const
+Point Image::GetHotSpot() const
 {
-	return data ? data->буфер.GetHotSpot() : Точка(0, 0);
+	return data ? data->buffer.GetHotSpot() : Point(0, 0);
 }
 
-Точка Рисунок::Get2ndSpot() const
+Point Image::Get2ndSpot() const
 {
-	return data ? data->буфер.Get2ndSpot() : Точка(0, 0);
+	return data ? data->buffer.Get2ndSpot() : Point(0, 0);
 }
 
-Размер Рисунок::GetDots() const
+Size Image::GetDots() const
 {
-	return data ? data->буфер.GetDots() : Размер(0, 0);
+	return data ? data->buffer.GetDots() : Size(0, 0);
 }
 
-Размер Рисунок::GetDPI() const
+Size Image::GetDPI() const
 {
-	Размер size = дайРазм();
-	Размер dots = GetDots();
-	return data ?  Размер(int(600.*size.cx/dots.cx), int(600.*size.cy/dots.cy)): Размер(0, 0);
+	Size size = GetSize();
+	Size dots = GetDots();
+	return data ?  Size(int(600.*size.cx/dots.cx), int(600.*size.cy/dots.cy)): Size(0, 0);
 }
 
-int Рисунок::GetResolution() const
+int Image::GetResolution() const
 {
-	return data ? data->буфер.GetResolution() : IMAGE_RESOLUTION_NONE;
+	return data ? data->buffer.GetResolution() : IMAGE_RESOLUTION_NONE;
 }
 
-int Рисунок::GetKindNoScan() const
+int Image::GetKindNoScan() const
 {
-	return data ? data->буфер.GetKind() : IMAGE_ALPHA;
+	return data ? data->buffer.GetKind() : IMAGE_ALPHA;
 }
 
-int Рисунок::Данные::GetKind()
+int Image::Data::GetKind()
 {
-	int k = буфер.GetKind();
+	int k = buffer.GetKind();
 	if(k != IMAGE_UNKNOWN)
 		return k;
-	k = буфер.ScanKind();
-	буфер.SetKind(k);
+	k = buffer.ScanKind();
+	buffer.SetKind(k);
 	return k;
 }
 
-int Рисунок::GetKind() const
+int Image::GetKind() const
 {
 	return data ? data->GetKind() : IMAGE_EMPTY;
 }
 
-void Рисунок::сериализуй(Поток& s)
+void Image::Serialize(Stream& s)
 {
-	Точка spot2 = Get2ndSpot();
+	Point spot2 = Get2ndSpot();
 	int version = spot2.x || spot2.y; // version 1 only if we need 2nd spot, to improve BW compatibility
 	s / version;
-	Размер sz = дайРазм();
-	Точка p = GetHotSpot();
-	Размер dots = GetDots();
+	Size sz = GetSize();
+	Point p = GetHotSpot();
+	Size dots = GetDots();
 	s % sz % p % dots;
-	Точка p2(0, 0);
+	Point p2(0, 0);
 	if(version >= 1) {
 		p2 = spot2;
 		s % p2;
 	}
-	int64 len = (int64)sz.cx * (int64)sz.cy * (int64)sizeof(КЗСА);
-	if(s.грузится()) {
+	int64 len = (int64)sz.cx * (int64)sz.cy * (int64)sizeof(RGBA);
+	if(s.IsLoading()) {
 		if(len) {
 			ImageBuffer b;
 			if(len < 6 * 1024 * 1024) {
-				b.создай(sz);
-				if(!s.дайВсе(~b, (int)len)) {
-					очисть();
-					s.загрузиОш();
+				b.Create(sz);
+				if(!s.GetAll(~b, (int)len)) {
+					Clear();
+					s.LoadError();
 					return;
 				}
 			}
 			else {
 				Huge h;
-				if(!s.дайВсе(h, (size_t)len)) {
-					очисть();
-					s.загрузиОш();
+				if(!s.GetAll(h, (size_t)len)) {
+					Clear();
+					s.LoadError();
 					return;
 				}
-				b.создай(sz);
-				h.дай(~b);
+				b.Create(sz);
+				h.Get(~b);
 			}
 
 			b.SetDots(dots);
@@ -263,74 +263,74 @@ void Рисунок::сериализуй(Поток& s)
 			*this = b;
 		}
 		else
-			очисть();
+			Clear();
 	}
 	else
-		s.помести64(~*this, len);
+		s.Put64(~*this, len);
 }
-ИНИЦБЛОК {
-	Значение::регистрируй<Рисунок>("Рисунок");
+INITBLOCK {
+	Value::Register<Image>("Image");
 }
 
-bool Рисунок::operator==(const Рисунок& img) const
+bool Image::operator==(const Image& img) const
 {
-	static_assert(sizeof(КЗСА) == 4, "sizeof(КЗСА)");
-	return одинаково(img) ||
-	   дайРазм() == img.дайРазм() &&
+	static_assert(sizeof(RGBA) == 4, "sizeof(RGBA)");
+	return IsSame(img) ||
+	   GetSize() == img.GetSize() &&
 	   GetHotSpot() == img.GetHotSpot() &&
 	   Get2ndSpot() == img.Get2ndSpot() &&
 	   GetDots() == img.GetDots() &&
 	   GetResolution() == img.GetResolution() &&
-	   memeq_t(~*this, ~img, дайДлину());
+	   memeq_t(~*this, ~img, GetLength());
 }
 
-bool Рисунок::operator!=(const Рисунок& img) const
+bool Image::operator!=(const Image& img) const
 {
 	return !operator==(img);
 }
 
-hash_t Рисунок::дайХэшЗнач() const
+hash_t Image::GetHashValue() const
 {
-	return memhash(~*this, дайДлину() * sizeof(КЗСА));
+	return memhash(~*this, GetLength() * sizeof(RGBA));
 }
 
-Рисунок::Рисунок(const Рисунок& img)
+Image::Image(const Image& img)
 {
 	data = img.data;
 	if(data)
 		data->Retain();
 }
 
-Рисунок::Рисунок(Рисунок (*фн)())
+Image::Image(Image (*fn)())
 {
 	data = NULL;
-	*this = (*фн)();
+	*this = (*fn)();
 }
 
-Рисунок::Рисунок(const Значение& src)
+Image::Image(const Value& src)
 {
 	data = NULL;
-	*this = src.дай<Рисунок>();
+	*this = src.Get<Image>();
 }
 
-Рисунок::Рисунок(ImageBuffer& b)
+Image::Image(ImageBuffer& b)
 {
-	уст(b);
+	Set(b);
 }
 
-Рисунок::~Рисунок()
+Image::~Image()
 {
 	if(data)
-		data->отпусти();
+		data->Release();
 }
 
-Ткст Рисунок::вТкст() const
+String Image::ToString() const
 {
-	return Ткст("Рисунок ").конкат() << дайРазм();
+	return String("Image ").Cat() << GetSize();
 }
 
-Рисунок::Данные::Данные(ImageBuffer& b)
-:	буфер(b)
+Image::Data::Data(ImageBuffer& b)
+:	buffer(b)
 {
 	paintcount = 0;
 	paintonly = false;
@@ -342,21 +342,21 @@ hash_t Рисунок::дайХэшЗнач() const
 	}
 }
 
-void Рисунок::SetAuxData(uint64 adata)
+void Image::SetAuxData(uint64 adata)
 {
 	if(data)
 		data->aux_data = adata;
 }
 
-uint64 Рисунок::GetAuxData() const
+uint64 Image::GetAuxData() const
 {
 	return data ? data->aux_data : 0;
 }
 
-static void sMultiply(ImageBuffer& b, int (*op)(КЗСА *t, const КЗСА *s, int len))
+static void sMultiply(ImageBuffer& b, int (*op)(RGBA *t, const RGBA *s, int len))
 {
 	if(b.GetKind() != IMAGE_OPAQUE && b.GetKind() != IMAGE_EMPTY)
-		(*op)(~b, ~b, b.дайДлину());
+		(*op)(~b, ~b, b.GetLength());
 }
 
 void Premultiply(ImageBuffer& b)
@@ -369,49 +369,49 @@ void Unmultiply(ImageBuffer& b)
 	sMultiply(b, Unmultiply);
 }
 
-static Рисунок sMultiply(const Рисунок& img, int (*op)(КЗСА *t, const КЗСА *s, int len))
+static Image sMultiply(const Image& img, int (*op)(RGBA *t, const RGBA *s, int len))
 {
 	int k = img.GetKind();
 	if(k == IMAGE_OPAQUE || k == IMAGE_EMPTY)
 		return img;
-	ImageBuffer ib(img.дайРазм());
+	ImageBuffer ib(img.GetSize());
 	ib.CopyAttrs(img);
-	ib.SetKind((*op)(~ib, ~img, ib.дайДлину()));
+	ib.SetKind((*op)(~ib, ~img, ib.GetLength()));
 	return ib;
 }
 
-Рисунок Premultiply(const Рисунок& img)
+Image Premultiply(const Image& img)
 {
 	return sMultiply(img, Premultiply);
 }
 
-Рисунок Unmultiply(const Рисунок& img)
+Image Unmultiply(const Image& img)
 {
 	return sMultiply(img, Unmultiply);
 }
 
-Ткст StoreImageAsString(const Рисунок& img)
+String StoreImageAsString(const Image& img)
 {
 	if(img.GetKind() == IMAGE_EMPTY)
 		return Null;
-	int тип = img.GetKind() == IMAGE_OPAQUE ? 3 : 4;
-	тип |= decode(img.GetResolution(), IMAGE_RESOLUTION_STANDARD, 0x40, IMAGE_RESOLUTION_UHD, 0x80, 0);
-	ТкстПоток ss;
-	ss.помести(тип);
-	Размер sz = img.дайРазм();
+	int type = img.GetKind() == IMAGE_OPAQUE ? 3 : 4;
+	type |= decode(img.GetResolution(), IMAGE_RESOLUTION_STANDARD, 0x40, IMAGE_RESOLUTION_UHD, 0x80, 0);
+	StringStream ss;
+	ss.Put(type);
+	Size sz = img.GetSize();
 	ss.Put16le(sz.cx);
 	ss.Put16le(sz.cy);
-	Точка p = img.GetHotSpot();
+	Point p = img.GetHotSpot();
 	ss.Put16le(p.x);
 	ss.Put16le(p.y);
-	Размер dots = img.GetDots();
+	Size dots = img.GetDots();
 	ss.Put16le(dots.cx);
 	ss.Put16le(dots.cy);
-	const КЗСА *s = img;
-	const КЗСА *e = s + img.дайДлину();
-	Буфер<byte> b(тип * img.дайДлину());
+	const RGBA *s = img;
+	const RGBA *e = s + img.GetLength();
+	Buffer<byte> b(type * img.GetLength());
 	byte *t = b;
-	if(тип == 3)
+	if(type == 3)
 		while(s < e) {
 			*t++ = s->r;
 			*t++ = s->g;
@@ -426,47 +426,47 @@ static Рисунок sMultiply(const Рисунок& img, int (*op)(КЗСА *t
 			*t++ = s->a;
 			s++;
 		}
-	ПамЧтенПоток m(b, тип * img.дайДлину());
+	MemReadStream m(b, type * img.GetLength());
 	ZCompress(ss, m);
 	return ss;
 }
 
-Рисунок  LoadImageFromString(const Ткст& src)
+Image  LoadImageFromString(const String& src)
 {
-	if(src.дайДлину() < 13)
+	if(src.GetLength() < 13)
 		return Null;
-	ТкстПоток ss(src);
-	int тип = ss.дай();
-	int resolution = decode(тип & 0xc0, 0x40, IMAGE_RESOLUTION_STANDARD, 0x80, IMAGE_RESOLUTION_UHD, 0);
-	тип &= 0x3f;
-	Размер sz;
+	StringStream ss(src);
+	int type = ss.Get();
+	int resolution = decode(type & 0xc0, 0x40, IMAGE_RESOLUTION_STANDARD, 0x80, IMAGE_RESOLUTION_UHD, 0);
+	type &= 0x3f;
+	Size sz;
 	sz.cx = ss.Get16le();
 	sz.cy = ss.Get16le();
 	if(sz.cx < 0 || sz.cy < 0)
 		return Null;
-	Точка p;
+	Point p;
 	p.x = ss.Get16le();
 	p.y = ss.Get16le();
 	if(p.x < 0 || p.y < 0)
 		return Null;
-	Размер dots;
+	Size dots;
 	dots.cx = ss.Get16le();
 	dots.cy = ss.Get16le();
 	if(dots.cx < 0 || dots.cy < 0)
 		return Null;
-	ТкстПоток out;
+	StringStream out;
 	ZDecompress(out, ss);
-	Ткст data = out;
-	if(data.дайДлину() != тип * sz.cx * sz.cy)
-		return Рисунок();
+	String data = out;
+	if(data.GetLength() != type * sz.cx * sz.cy)
+		return Image();
 	ImageBuffer ib(sz);
 	ib.SetHotSpot(p);
 	ib.SetDots(dots);
 	ib.SetResolution(resolution);
-	КЗСА *t = ib;
-	const КЗСА *e = t + ib.дайДлину();
+	RGBA *t = ib;
+	const RGBA *e = t + ib.GetLength();
 	const byte *s = data;
-	if(тип == 3)
+	if(type == 3)
 		while(t < e) {
 			t->r = *s++;
 			t->g = *s++;
@@ -475,7 +475,7 @@ static Рисунок sMultiply(const Рисунок& img, int (*op)(КЗСА *t
 			t++;
 		}
 	else
-	if(тип == 4)
+	if(type == 4)
 		while(t < e) {
 			t->r = *s++;
 			t->g = *s++;
@@ -484,29 +484,29 @@ static Рисунок sMultiply(const Рисунок& img, int (*op)(КЗСА *t
 			t++;
 		}
 	else
-		return Рисунок();
+		return Image();
 	return ib;
 }
 
-Размер GetImageStringSize(const Ткст& src)
+Size GetImageStringSize(const String& src)
 {
-	if(src.дайДлину() < 13)
-		return Размер(0, 0);
-	ТкстПоток ss(src);
-	ss.дай();
-	Размер sz;
+	if(src.GetLength() < 13)
+		return Size(0, 0);
+	StringStream ss(src);
+	ss.Get();
+	Size sz;
 	sz.cx = ss.Get16le();
 	sz.cy = ss.Get16le();
 	return sz;
 }
 
-Размер GetImageStringDots(const Ткст& src)
+Size GetImageStringDots(const String& src)
 {
-	if(src.дайДлину() < 13)
-		return Размер(0, 0);
-	ТкстПоток ss(src);
+	if(src.GetLength() < 13)
+		return Size(0, 0);
+	StringStream ss(src);
 	ss.SeekCur(9);
-	Размер sz;
+	Size sz;
 	sz.cx = ss.Get16le();
 	sz.cy = ss.Get16le();
 	return sz;

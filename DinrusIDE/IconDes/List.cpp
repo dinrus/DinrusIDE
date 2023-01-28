@@ -1,12 +1,12 @@
 #include "IconDes.h"
 
-namespace РНЦП {
+namespace Upp {
 
-Ткст IconDes::FormatImageName(const Слот& c)
+String IconDes::FormatImageName(const Slot& c)
 {
-	Размер sz = c.image.дайРазм();
-	Ткст r;
-	r << c.имя << " " << sz.cx << " x " << sz.cy;
+	Size sz = c.image.GetSize();
+	String r;
+	r << c.name << " " << sz.cx << " x " << sz.cy;
 	if(c.flags & IML_IMAGE_FLAG_FIXED)
 		r << " Fxd";
 	else {
@@ -29,21 +29,21 @@ void IconDes::SyncList()
 	if(syncinglist)
 		return;
 	syncinglist++;
-	int sc = ilist.дайПромотку();
-	int q = ilist.дайКлюч();
-	ilist.очисть();
-	Ткст s = взаг((Ткст)~search);
-	for(int i = 0; i < slot.дайСчёт(); i++) {
-		Слот& c = slot[i];
-		if(взаг(c.имя).найди(s) >= 0)
-			ilist.добавь(i, FormatImageName(c), c.image);
+	int sc = ilist.GetScroll();
+	int q = ilist.GetKey();
+	ilist.Clear();
+	String s = ToUpper((String)~search);
+	for(int i = 0; i < slot.GetCount(); i++) {
+		Slot& c = slot[i];
+		if(ToUpper(c.name).Find(s) >= 0)
+			ilist.Add(i, FormatImageName(c), c.image);
 	}
 	ilist.ScrollTo(sc);
 	ilist.FindSetCursor(q);
 	syncinglist--;
 }
 
-void IconDes::ищи()
+void IconDes::Search()
 {
 	SyncList();
 }
@@ -51,7 +51,7 @@ void IconDes::ищи()
 void IconDes::GoTo(int q)
 {
 	ilist.FindSetCursor(q);
-	if(ilist.курсор_ли())
+	if(ilist.IsCursor())
 		return;
 	search <<= Null;
 	SyncList();
@@ -63,20 +63,20 @@ static int sCharFilterCid(int c)
 	return IsAlNum(c) || c == '_' ? c : 0;
 }
 
-void IconDes::PlaceDlg(ТопОкно& dlg)
+void IconDes::PlaceDlg(TopWindow& dlg)
 {
-	Прям r = ilist.дайПрямЭкрана();
-	Размер sz = dlg.дайРазм();
-	dlg.NoCenter().устПрям(max(0, r.left + (r.устШирину() - sz.cx) / 2), r.bottom + 32, sz.cx, sz.cy);
+	Rect r = ilist.GetScreenRect();
+	Size sz = dlg.GetSize();
+	dlg.NoCenter().SetRect(max(0, r.left + (r.Width() - sz.cx) / 2), r.bottom + 32, sz.cx, sz.cy);
 }
 
-void IconDes::PrepareImageDlg(WithImageLayout<ТопОкно>& dlg)
+void IconDes::PrepareImageDlg(WithImageLayout<TopWindow>& dlg)
 {
-	CtrlLayoutOKCancel(dlg, "нов image");
+	CtrlLayoutOKCancel(dlg, "New image");
 	dlg.cx <<= 16;
 	dlg.cy <<= 16;
 	if(IsCurrent()) {
-		Размер sz = GetImageSize();
+		Size sz = GetImageSize();
 		dlg.cx <<= sz.cx;
 		dlg.cy <<= sz.cy;
 
@@ -88,20 +88,20 @@ void IconDes::PrepareImageDlg(WithImageLayout<ТопОкно>& dlg)
 		dlg.uhd <<= !!(flags & IML_IMAGE_FLAG_UHD);
 		dlg.dark <<= !!(flags & IML_IMAGE_FLAG_DARK);
 		
-		dlg.uhd ^= dlg.dark ^= dlg.exp ^= dlg.fixed_colors ^= dlg.fixed_size ^= dlg.fixed ^= dlg.имя ^=
+		dlg.uhd ^= dlg.dark ^= dlg.exp ^= dlg.fixed_colors ^= dlg.fixed_size ^= dlg.fixed ^= dlg.name ^=
 			[&] { dlg.Break(-1000); };
 	}
-	dlg.имя.устФильтр(sCharFilterCid);
+	dlg.name.SetFilter(sCharFilterCid);
 }
 
-void IconDes::SyncDlg(WithImageLayout<ТопОкно>& dlg)
+void IconDes::SyncDlg(WithImageLayout<TopWindow>& dlg)
 {
 	bool b = !dlg.fixed;
-	dlg.fixed_colors.вкл(b);
-	dlg.fixed_size.вкл(b);
+	dlg.fixed_colors.Enable(b);
+	dlg.fixed_size.Enable(b);
 }
 
-dword IconDes::GetFlags(WithImageLayout<ТопОкно>& dlg)
+dword IconDes::GetFlags(WithImageLayout<TopWindow>& dlg)
 {
 	dword flags = 0;
 	if(dlg.fixed)
@@ -117,39 +117,39 @@ dword IconDes::GetFlags(WithImageLayout<ТопОкно>& dlg)
 	return flags;
 }
 
-void IconDes::PrepareImageSizeDlg(WithImageSizeLayout<ТопОкно>& dlg)
+void IconDes::PrepareImageSizeDlg(WithImageSizeLayout<TopWindow>& dlg)
 {
-	CtrlLayoutOKCancel(dlg, "нов image");
+	CtrlLayoutOKCancel(dlg, "New image");
 	dlg.cx <<= 16;
 	dlg.cy <<= 16;
 	if(IsCurrent()) {
-		Размер sz = GetImageSize();
+		Size sz = GetImageSize();
 		dlg.cx <<= sz.cx;
 		dlg.cy <<= sz.cy;
 	}
 }
 
-bool CheckName(WithImageLayout<ТопОкно>& dlg)
+bool CheckName(WithImageLayout<TopWindow>& dlg)
 {
-	Ткст n = ~dlg.имя;
-	СиПарсер p(n);
-	if(p.ид_ли()) return true;
-	Exclamation("Invalid имя!");
+	String n = ~dlg.name;
+	CParser p(n);
+	if(p.IsId()) return true;
+	Exclamation("Неверное name!");
 	return false;
 }
 
 void IconDes::InsertRemoved(int q)
 {
-	if(q >= 0 && q < removed.дайСчёт()) {
-		int ii = ilist.курсор_ли() ? (int)ilist.дайКлюч() : 0;
-		slot.вставь(ii) = removed[q];
-		removed.удали(q);
+	if(q >= 0 && q < removed.GetCount()) {
+		int ii = ilist.IsCursor() ? (int)ilist.GetKey() : 0;
+		slot.Insert(ii) = removed[q];
+		removed.Remove(q);
 		SyncList();
 		GoTo(ii);
 	}
 }
 
-void SetRes(Рисунок& m, int resolution)
+void SetRes(Image& m, int resolution)
 {
 	ImageBuffer ib(m);
 	ib.SetResolution(findarg(resolution, IMAGE_RESOLUTION_STANDARD, IMAGE_RESOLUTION_UHD,
@@ -158,10 +158,10 @@ void SetRes(Рисунок& m, int resolution)
 	m = ib;
 }
 
-IconDes::Слот& IconDes::ImageInsert(int ii, const Ткст& имя, const Рисунок& m, bool exp)
+IconDes::Slot& IconDes::ImageInsert(int ii, const String& name, const Image& m, bool exp)
 {
-	Слот& c = slot.вставь(ii);
-	c.имя = имя;
+	Slot& c = slot.Insert(ii);
+	c.name = name;
 	c.image = m;
 	c.exp = exp;
 	SyncList();
@@ -169,60 +169,60 @@ IconDes::Слот& IconDes::ImageInsert(int ii, const Ткст& имя, const Р
 	return c;
 }
 
-IconDes::Слот& IconDes::ImageInsert(const Ткст& имя, const Рисунок& m, bool exp)
+IconDes::Slot& IconDes::ImageInsert(const String& name, const Image& m, bool exp)
 {
-	int ii = ilist.курсор_ли() ? (int)ilist.дайКлюч() : 0;
-	if(ii == slot.дайСчёт() - 1)
-		ii = slot.дайСчёт();
-	return ImageInsert(ii, имя, m, exp);
+	int ii = ilist.IsCursor() ? (int)ilist.GetKey() : 0;
+	if(ii == slot.GetCount() - 1)
+		ii = slot.GetCount();
+	return ImageInsert(ii, name, m, exp);
 }
 
 void IconDes::InsertImage()
 {
-	WithImageLayout<ТопОкно> dlg;
+	WithImageLayout<TopWindow> dlg;
 	PrepareImageDlg(dlg);
 	for(;;) {
 		SyncDlg(dlg);
-		int c = dlg.пуск();
+		int c = dlg.Run();
 		if(c == IDCANCEL)
 			return;
 		if(c == IDOK && CheckName(dlg))
 			break;
 	}
-	Рисунок m = CreateImage(Размер(~dlg.cx, ~dlg.cy), Null);
-	ImageInsert(~dlg.имя, m, dlg.exp).flags = GetFlags(dlg);
+	Image m = CreateImage(Size(~dlg.cx, ~dlg.cy), Null);
+	ImageInsert(~dlg.name, m, dlg.exp).flags = GetFlags(dlg);
 }
 
 void IconDes::Slice()
 {
 	if(!IsCurrent())
 		return;
-	Рисунок src = Current().image;
-	Размер isz = src.дайРазм();
+	Image src = Current().image;
+	Size isz = src.GetSize();
 	int cc = min(isz.cx, isz.cy);
 	if(!cc)
 		return;
-	WithImageLayout<ТопОкно> dlg;
+	WithImageLayout<TopWindow> dlg;
 	PrepareImageDlg(dlg);
-	dlg.имя <<= Current().имя;
+	dlg.name <<= Current().name;
 	dlg.cx <<= cc;
 	dlg.cy <<= cc;
-	dlg.Титул("Slice image");
+	dlg.Title("Slice image");
 	for(;;) {
 		SyncDlg(dlg);
-		int c = dlg.пуск();
+		int c = dlg.Run();
 		if(c == IDCANCEL)
 			return;
 		if(c == IDOK && CheckName(dlg))
 			break;
 	}
-	Ткст s = ~dlg.имя;
+	String s = ~dlg.name;
 	int n = 0;
-	int ii = ilist.дайКлюч();
+	int ii = ilist.GetKey();
 	for(int y = 0; y < isz.cy; y += (int)~dlg.cy)
 		for(int x = 0; x < isz.cx; x += (int)~dlg.cx) {
-			Рисунок m = Crop(src, x, y, ~dlg.cx, ~dlg.cy);
-			ImageInsert(++ii, s + какТкст(n++), m, ~dlg.exp).flags = GetFlags(dlg);
+			Image m = Crop(src, x, y, ~dlg.cx, ~dlg.cy);
+			ImageInsert(++ii, s + AsString(n++), m, ~dlg.exp).flags = GetFlags(dlg);
 		}
 }
 
@@ -230,15 +230,15 @@ void IconDes::Duplicate()
 {
 	if(!IsCurrent())
 		return;
-	Слот& c = Current();
-	ImageInsert(c.имя, c.image);
+	Slot& c = Current();
+	ImageInsert(c.name, c.image);
 	EditImage();
 }
 
 void IconDes::InsertPaste()
 {
-	Рисунок m = ReadClipboardImage();
-	if(пусто_ли(m)) {
+	Image m = ReadClipboardImage();
+	if(IsNull(m)) {
 		Exclamation("Clipboard does not contain an image.");
 		return;
 	}
@@ -248,51 +248,51 @@ void IconDes::InsertPaste()
 }
 
 struct FileImage : ImageMaker {
-	Ткст filename;
-	Размер   size;
+	String filename;
+	Size   size;
 	
-	virtual Ткст Ключ() const { return filename + '/' + какТкст(size); }
-	virtual Рисунок сделай() const {
-		if(дайДлинуф(filename) > 1024 * 1024 * 20)
+	virtual String Key() const { return filename + '/' + AsString(size); }
+	virtual Image Make() const {
+		if(GetFileLength(filename) > 1024 * 1024 * 20)
 			return Null;
-		Рисунок m = StreamRaster::LoadFileAny(filename);
-		Размер sz = m.дайРазм();
+		Image m = StreamRaster::LoadFileAny(filename);
+		Size sz = m.GetSize();
 		if(sz.cx > size.cx || sz.cy > size.cy) {
 			if(sz.cx * size.cy > sz.cy * size.cx)
-				sz = дайСоотношение(sz, size.cx, 0);
+				sz = GetRatioSize(sz, size.cx, 0);
 			else
-				sz = дайСоотношение(sz, 0, size.cy);
+				sz = GetRatioSize(sz, 0, size.cy);
 			return Rescale(m, sz);
 		}
 		return m;
 	}
 };
 
-struct ImgPreview : Дисплей {
-	virtual void рисуй(Draw& w, const Прям& r, const Значение& q, Цвет ink, Цвет paper, dword style) const {
-		if(!пусто_ли(q)) {
+struct ImgPreview : Display {
+	virtual void Paint(Draw& w, const Rect& r, const Value& q, Color ink, Color paper, dword style) const {
+		if(!IsNull(q)) {
 			FileImage im;
-			im.size = r.дайРазм();
+			im.size = r.GetSize();
 			im.filename = q;
 			w.DrawRect(r, SColorPaper);
-			Рисунок m = MakeImage(im);
-			Точка p = r.позЦентра(m.дайРазм());
+			Image m = MakeImage(im);
+			Point p = r.CenterPos(m.GetSize());
 			w.DrawImage(p.x, p.y, m);
 		}
 	}
 };
 
-static void sLoadImage(const Ткст& path, Рисунок& result)
+static void sLoadImage(const String& path, Image& result)
 {
-	if(findarg(впроп(дайРасшф(path)), ".png", ".gif", ".jpeg", ".jpg") < 0)
+	if(findarg(ToLower(GetFileExt(path)), ".png", ".gif", ".jpeg", ".jpg") < 0)
 		return;
-	ФайлВвод in(path);
+	FileIn in(path);
 	if(!in)
 		return;
-	Один<StreamRaster> r = StreamRaster::OpenAny(in);
+	One<StreamRaster> r = StreamRaster::OpenAny(in);
 	if(!r)
 		return;
-	Размер sz = r->дайРазм();
+	Size sz = r->GetSize();
 	if(sz.cx > 80 || sz.cy > 80)
 		return;
 	result = r->GetImage();
@@ -302,7 +302,7 @@ FileSel& IconDes::ImgFile()
 {
 	static FileSel sel;
 	ONCELOCK {
-		sel.Type("Рисунок files", "*.png *.bmp *.jpg *.jpeg *.gif *.ico");
+		sel.Type("Image files", "*.png *.bmp *.jpg *.jpeg *.gif *.ico");
 		sel.AllFilesType();
 		sel.Multi();
 		sel.WhenIconLazy = sLoadImage;
@@ -319,22 +319,22 @@ int CharFilterImageId(int c)
 void IconDes::InsertFile()
 {
 	if(!ImgFile().ExecuteOpen()) return;
-	for(int i = 0; i < ImgFile().дайСчёт(); i++) {
-		Ткст фн = ImgFile()[i];
-		Индекс<Рисунок> ml;
-		if(впроп(дайРасшф(фн)) == ".ico")
-			for(Рисунок m : ReadIcon(загрузиФайл(фн), true))
-				ml.найдиДобавь(m);
+	for(int i = 0; i < ImgFile().GetCount(); i++) {
+		String fn = ImgFile()[i];
+		Index<Image> ml;
+		if(ToLower(GetFileExt(fn)) == ".ico")
+			for(Image m : ReadIcon(LoadFile(fn), true))
+				ml.FindAdd(m);
 		else {
-			Рисунок mm = StreamRaster::LoadFileAny(фн);
-			if(пусто_ли(mm))
-				Exclamation(DeQtf(фн) + " not an image.");
+			Image mm = StreamRaster::LoadFileAny(fn);
+			if(IsNull(mm))
+				Exclamation(DeQtf(fn) + " not an image.");
 			else
-				ml.добавь(mm);
+				ml.Add(mm);
 		}
 		int ii = 0;
-		for(Рисунок m : ml) {
-			Ткст id = фильтруй(дайТитулф(фн), CharFilterImageId);
+		for(Image m : ml) {
+			String id = Filter(GetFileTitle(fn), CharFilterImageId);
 			if(!IsAlpha(*id) && *id != '_')
 				id = '_' + id;
 			if(ii)
@@ -348,27 +348,27 @@ void IconDes::InsertFile()
 
 void IconDes::ExportPngs()
 {
-	Ткст dir = SelectDirectory();
-	if(!dir.пустой())
-		for(int i = 0; i < дайСчёт(); i++) {
+	String dir = SelectDirectory();
+	if(!dir.IsEmpty())
+		for(int i = 0; i < GetCount(); i++) {
 			dword f = GetFlags(i);
-			Ткст n = дайИмя(i);
+			String n = GetName(i);
 			if(f & IML_IMAGE_FLAG_UHD)
 				n << ".uhd";
 			if(f & IML_IMAGE_FLAG_DARK)
 				n << ".dark";
-			PNGEncoder().сохраниФайл(приставьИмяф(dir, n + ".png"), GetImage(i));
+			PNGEncoder().SaveFile(AppendFileName(dir, n + ".png"), GetImage(i));
 		}
 }
 
 void IconDes::InsertIml()
 {
-	Массив<ImlImage> iml;
+	Array<ImlImage> iml;
 	int f;
 	if(LoadIml(SelectLoadFile("Iml files\t*.iml"), iml, f))
 		for(const ImlImage& m : iml) {
-			ImageInsert(m.имя, m.image, m.exp).flags = m.flags;
-			GoTo((int)ilist.дайКлюч() + 1);
+			ImageInsert(m.name, m.image, m.exp).flags = m.flags;
+			GoTo((int)ilist.GetKey() + 1);
 		}
 }
 
@@ -379,28 +379,28 @@ void IconDes::ListCursor()
 
 void IconDes::EditImageSize()
 {
-	Слот& c = Current();
-	WithImageSizeLayout<ТопОкно> dlg;
+	Slot& c = Current();
+	WithImageSizeLayout<TopWindow> dlg;
 	PrepareImageSizeDlg(dlg);
 	dlg.Breaker(dlg.cx);
 	dlg.Breaker(dlg.cy);
-	Рисунок img = c.image;
-	dlg.cx <<= img.дайШирину();
-	dlg.cy <<= img.дайВысоту();
+	Image img = c.image;
+	dlg.cx <<= img.GetWidth();
+	dlg.cy <<= img.GetHeight();
 	for(;;) {
-		switch(dlg.пуск()) {
+		switch(dlg.Run()) {
 		case IDCANCEL:
 			c.image = img;
-			переустанов();
+			Reset();
 			return;
 		case IDOK:
-			переустанов();
+			Reset();
 			SyncList();
 			return;
 		}
-		c.image = CreateImage(Размер(minmax((int)~dlg.cx, 1, 8192), minmax((int)~dlg.cy, 1, 8192)), Null);
-		РНЦП::копируй(c.image, Точка(0, 0), img, img.дайРазм());
-		переустанов();
+		c.image = CreateImage(Size(minmax((int)~dlg.cx, 1, 8192), minmax((int)~dlg.cy, 1, 8192)), Null);
+		UPP::Copy(c.image, Point(0, 0), img, img.GetSize());
+		Reset();
 	}
 }
 
@@ -412,111 +412,111 @@ void IconDes::EditImage()
 		EditImageSize();
 		return;
 	}
-	Слот& c = Current();
-	WithImageLayout<ТопОкно> dlg;
+	Slot& c = Current();
+	WithImageLayout<TopWindow> dlg;
 	PrepareImageDlg(dlg);
-	dlg.Титул("Рисунок");
+	dlg.Title("Image");
 	dlg.Breaker(dlg.cx);
 	dlg.Breaker(dlg.cy);
-	Рисунок img = c.image;
+	Image img = c.image;
 	dword flags = c.flags;
 	bool exp = c.exp;
-	Ткст имя = c.имя;
+	String name = c.name;
 	
-	dlg.cx <<= img.дайШирину();
-	dlg.cy <<= img.дайВысоту();
-	dlg.имя <<= c.имя;
+	dlg.cx <<= img.GetWidth();
+	dlg.cy <<= img.GetHeight();
+	dlg.name <<= c.name;
 	dlg.exp <<= c.exp;
 	for(;;) {
 		SyncDlg(dlg);
-		switch(dlg.пуск()) {
+		switch(dlg.Run()) {
 		case IDCANCEL:
 			c.image = img;
 			c.flags = flags;
 			c.exp = exp;
-			c.имя = имя;
-			переустанов();
+			c.name = name;
+			Reset();
 			return;
 		case IDOK:
 			if(CheckName(dlg)) {
-				c.имя = ~dlg.имя;
+				c.name = ~dlg.name;
 				c.exp = ~dlg.exp;
 				c.flags = GetFlags(dlg);
-				ilist.уст(1, FormatImageName(c));
-				int q = ilist.дайКлюч();
-				переустанов();
+				ilist.Set(1, FormatImageName(c));
+				int q = ilist.GetKey();
+				Reset();
 				SyncList();
 				GoTo(q);
 				return;
 			}
 		}
-		c.имя = ~dlg.имя;
+		c.name = ~dlg.name;
 		c.flags = GetFlags(dlg);
-		c.image = CreateImage(Размер(minmax((int)~dlg.cx, 1, 8192), minmax((int)~dlg.cy, 1, 8192)), Null);
+		c.image = CreateImage(Size(minmax((int)~dlg.cx, 1, 8192), minmax((int)~dlg.cy, 1, 8192)), Null);
 		c.exp = ~dlg.exp;
-		РНЦП::копируй(c.image, Точка(0, 0), img, img.дайРазм());
+		UPP::Copy(c.image, Point(0, 0), img, img.GetSize());
 		SetHotSpots(c.image, img.GetHotSpot(), img.Get2ndSpot());
-		переустанов();
+		Reset();
 	}
 }
 
 void IconDes::RemoveImage()
 {
-	if(!IsCurrent() || !PromptYesNo("удали current image?"))
+	if(!IsCurrent() || !PromptYesNo("Remove current image?"))
 		return;
-	int ii = ilist.дайКлюч();
-	while(removed.дайСчёт() > 12)
-		removed.удали(0);
-	Слот& r = removed.добавь();
+	int ii = ilist.GetKey();
+	while(removed.GetCount() > 12)
+		removed.Remove(0);
+	Slot& r = removed.Add();
 	r = slot[ii];
-	if(r.image.дайШирину() <= 128 && r.image.дайВысоту() <= 128)
-		r.base_image = Rescale(r.image, Размер(16, 16));
+	if(r.image.GetWidth() <= 128 && r.image.GetHeight() <= 128)
+		r.base_image = Rescale(r.image, Size(16, 16));
 	else
 		r.base_image = IconDesImg::LargeImage();
-	slot.удали(ii);
-	ilist.анулируйКурсор();
+	slot.Remove(ii);
+	ilist.KillCursor();
 	SyncList();
-	if(ii < slot.дайСчёт())
+	if(ii < slot.GetCount())
 		GoTo(ii);
 	else
-		ilist.идиВКон();
+		ilist.GoEnd();
 }
 
 void IconDes::ChangeSlot(int d)
 {
 	if(!IsCurrent())
 		return;
-	int c = ilist.дайКурсор();
+	int c = ilist.GetCursor();
 	d = c + d;
-	if(d >= 0 && d < ilist.дайСчёт())
-		ilist.устКурсор(d);
+	if(d >= 0 && d < ilist.GetCount())
+		ilist.SetCursor(d);
 }
 
-void IconDes::ListMenu(Бар& bar)
+void IconDes::ListMenu(Bar& bar)
 {
 	using namespace IconDesKeys;
 	if(single_mode)
-		bar.добавь(IsCurrent(), AK_RESIZE_SINGLE, IconDesImg::Edit(), THISBACK(EditImage));
+		bar.Add(IsCurrent(), AK_RESIZE_SINGLE, IconDesImg::Edit(), THISBACK(EditImage));
 	else {
-		bar.добавь(AK_INSERT_IMAGE, IconDesImg::Insert(), THISBACK(InsertImage));
-		bar.добавь(IsCurrent(), AK_IMAGE, IconDesImg::Edit(), THISBACK(EditImage));
-		bar.добавь(IsCurrent(), AK_REMOVE_IMAGE, IconDesImg::Remove(), THISBACK(RemoveImage));
-		bar.добавь(IsCurrent(), AK_DUPLICATE, IconDesImg::Duplicate(), THISBACK(Duplicate));
-		bar.добавь(AK_INSERT_CLIP, IconDesImg::InsertPaste(), THISBACK(InsertPaste));
-		bar.добавь(AK_INSERT_FILE, IconDesImg::InsertFile(), THISBACK(InsertFile));
-		bar.добавь(AK_INSERT_IML, IconDesImg::InsertIml(), THISBACK(InsertIml));
-		bar.добавь(AK_EXPORT_PNGS, IconDesImg::ExportPngs(), THISBACK(ExportPngs));
+		bar.Add(AK_INSERT_IMAGE, IconDesImg::Insert(), THISBACK(InsertImage));
+		bar.Add(IsCurrent(), AK_IMAGE, IconDesImg::Edit(), THISBACK(EditImage));
+		bar.Add(IsCurrent(), AK_REMOVE_IMAGE, IconDesImg::Remove(), THISBACK(RemoveImage));
+		bar.Add(IsCurrent(), AK_DUPLICATE, IconDesImg::Duplicate(), THISBACK(Duplicate));
+		bar.Add(AK_INSERT_CLIP, IconDesImg::InsertPaste(), THISBACK(InsertPaste));
+		bar.Add(AK_INSERT_FILE, IconDesImg::InsertFile(), THISBACK(InsertFile));
+		bar.Add(AK_INSERT_IML, IconDesImg::InsertIml(), THISBACK(InsertIml));
+		bar.Add(AK_EXPORT_PNGS, IconDesImg::ExportPngs(), THISBACK(ExportPngs));
 		bar.Separator();
-		int q = ilist.дайКлюч();
-		bar.добавь(IsCurrent() && q > 0, AK_MOVE_UP, IconDesImg::MoveUp(),
+		int q = ilist.GetKey();
+		bar.Add(IsCurrent() && q > 0, AK_MOVE_UP, IconDesImg::MoveUp(),
 		        THISBACK1(MoveSlot, -1));
-		bar.добавь(IsCurrent() && q < slot.дайСчёт() - 1, AK_MOVE_DOWN, IconDesImg::MoveDown(),
+		bar.Add(IsCurrent() && q < slot.GetCount() - 1, AK_MOVE_DOWN, IconDesImg::MoveDown(),
 		        THISBACK1(MoveSlot, 1));
-		if(removed.дайСчёт()) {
+		if(removed.GetCount()) {
 			bar.Separator();
-			for(int i = removed.дайСчёт() - 1; i >= 0; i--) {
-				Слот& r = removed[i];
-				bar.добавь("Вставить " + FormatImageName(r), r.base_image, THISBACK1(InsertRemoved, i));
+			for(int i = removed.GetCount() - 1; i >= 0; i--) {
+				Slot& r = removed[i];
+				bar.Add("Insert " + FormatImageName(r), r.base_image, THISBACK1(InsertRemoved, i));
 			}
 		}
 	}
@@ -525,41 +525,41 @@ void IconDes::ListMenu(Бар& bar)
 	ListMenuEx(bar);
 }
 
-void IconDes::ListMenuEx(Бар& bar) {}
+void IconDes::ListMenuEx(Bar& bar) {}
 
 
-void IconDes::очисть()
+void IconDes::Clear()
 {
-	ilist.очисть();
-	slot.очисть();
-	переустанов();
+	ilist.Clear();
+	slot.Clear();
+	Reset();
 }
 
-IconDes::Слот& IconDes::добавьРисунок(const Ткст& имя, const Рисунок& image, bool exp)
+IconDes::Slot& IconDes::AddImage(const String& name, const Image& image, bool exp)
 {
-	int q = slot.дайСчёт();
-	Слот& c = slot.добавь();
-	c.имя = имя;
+	int q = slot.GetCount();
+	Slot& c = slot.Add();
+	c.name = name;
 	c.image = image;
 	c.exp = exp;
-	ilist.добавь(q, FormatImageName(c), c.image);
-	ilist.идиВНач();
+	ilist.Add(q, FormatImageName(c), c.image);
+	ilist.GoBegin();
 	return c;
 }
 
-int IconDes::дайСчёт() const
+int IconDes::GetCount() const
 {
-	return slot.дайСчёт();
+	return slot.GetCount();
 }
 
-Рисунок IconDes::GetImage(int ii) const
+Image IconDes::GetImage(int ii) const
 {
 	return slot[ii].image;
 }
 
-Ткст IconDes::дайИмя(int ii) const
+String IconDes::GetName(int ii) const
 {
-	return slot[ii].имя;
+	return slot[ii].name;
 }
 
 dword IconDes::GetFlags(int ii) const
@@ -567,21 +567,21 @@ dword IconDes::GetFlags(int ii) const
 	return slot[ii].flags;
 }
 
-bool IconDes::FindName(const Ткст& имя)
+bool IconDes::FindName(const String& name)
 {
-	for(int i = 0; i < slot.дайСчёт(); i++)
-		if(slot[i].имя == имя) {
+	for(int i = 0; i < slot.GetCount(); i++)
+		if(slot[i].name == name) {
 			GoTo(i);
 			return true;
 		}
 	return false;
 }
 
-Ткст IconDes::GetCurrentName() const
+String IconDes::GetCurrentName() const
 {
-	if(ilist.курсор_ли())
-		return дайИмя(ilist.дайКлюч());
-	return Ткст();
+	if(ilist.IsCursor())
+		return GetName(ilist.GetKey());
+	return String();
 }
 
 bool IconDes::GetExport(int ii) const
@@ -593,22 +593,22 @@ void IconDes::MoveSlot(int d)
 {
 	if(!IsCurrent())
 		return;
-	int c = ilist.дайКлюч();
+	int c = ilist.GetKey();
 	d = c + d;
-	if(d >= 0 && d < slot.дайСчёт()) {
-		slot.разверни(c, d);
+	if(d >= 0 && d < slot.GetCount()) {
+		slot.Swap(c, d);
 		search <<= Null;
 		SyncList();
 		GoTo(d);
 	}
 }
 
-void IconDes::вставьТиБ(int line, PasteClip& d)
+void IconDes::DnDInsert(int line, PasteClip& d)
 {
-	if(GetInternalPtr<КтрлМассив>(d, "icondes-icon") == &ilist && IsCurrent() &&
-	   line >= 0 && line <= slot.дайСчёт() && d.прими()) {
-		int c = ilist.дайКлюч();
-		slot.перемести(c, line);
+	if(GetInternalPtr<ArrayCtrl>(d, "icondes-icon") == &ilist && IsCurrent() &&
+	   line >= 0 && line <= slot.GetCount() && d.Accept()) {
+		int c = ilist.GetKey();
+		slot.Move(c, line);
 		if(c <= line)
 			line--;
 		search <<= Null;
@@ -617,9 +617,9 @@ void IconDes::вставьТиБ(int line, PasteClip& d)
 	}
 }
 
-void IconDes::тяни()
+void IconDes::Drag()
 {
-	ilist.DoDragAndDrop(InternalClip(ilist, "icondes-icon"), ilist.дайСэиплТяга(), DND_MOVE);
+	ilist.DoDragAndDrop(InternalClip(ilist, "icondes-icon"), ilist.GetDragSample(), DND_MOVE);
 }
 
 }

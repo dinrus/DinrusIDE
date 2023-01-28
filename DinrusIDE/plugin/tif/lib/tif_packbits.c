@@ -78,7 +78,7 @@ PackBitsEncode(TIFF* tif, uint8* buf, tmsize_t cc, uint16 s)
 	lastliteral = 0;
 	while (cc > 0) {
 		/*
-		 * найди the longest string of identical bytes.
+		 * Find the longest string of identical bytes.
 		 */
 		b = *bp++;
 		cc--;
@@ -91,7 +91,7 @@ PackBitsEncode(TIFF* tif, uint8* buf, tmsize_t cc, uint16 s)
 			 * Be careful about writing the last
 			 * literal.  Must write up to that point
 			 * and then copy the remainder to the
-			 * front of the буфер.
+			 * front of the buffer.
 			 */
 			if (state == LITERAL || state == LITERAL_RUN) {
 				slop = (long)(op - lastliteral);
@@ -238,7 +238,7 @@ PackBitsDecode(TIFF* tif, uint8* op, tmsize_t occ, uint16 s)
 			if( occ < (tmsize_t)n )
 			{
 				TIFFWarningExt(tif->tif_clientdata, module,
-				    "Discarding %lu bytes to avoid буфер overrun",
+				    "Discarding %lu bytes to avoid buffer overrun",
 				    (unsigned long) ((tmsize_t)n - occ));
 				n = (long)occ;
 			}
@@ -257,7 +257,7 @@ PackBitsDecode(TIFF* tif, uint8* op, tmsize_t occ, uint16 s)
 			if (occ < (tmsize_t)(n + 1))
 			{
 				TIFFWarningExt(tif->tif_clientdata, module,
-				    "Discarding %lu bytes to avoid буфер overrun",
+				    "Discarding %lu bytes to avoid buffer overrun",
 				    (unsigned long) ((tmsize_t)n - occ + 1));
 				n = (long)occ - 1;
 			}
@@ -305,5 +305,5 @@ TIFFInitPackBits(TIFF* tif, int scheme)
  * mode: c
  * c-basic-offset: 8
  * fill-column: 78
- * стоп:
+ * End:
  */

@@ -25,7 +25,7 @@
 /*
  * TIFF Library.
  *
- * Directory Тэг дай & Set Routines.
+ * Directory Tag Get & Set Routines.
  * (and also some miscellaneous stuff)
  */
 #include "tiffiop.h"
@@ -71,7 +71,7 @@ void _TIFFsetDoubleArray(double** dpp, double* dp, uint32 n)
     { setByteArray((void**) dpp, (void*) dp, n, sizeof (double)); }
 
 static void
-setDoubleArrayOneValue(double** vpp, double значение, size_t nmemb)
+setDoubleArrayOneValue(double** vpp, double value, size_t nmemb)
 {
 	if (*vpp)
 		_TIFFfree(*vpp);
@@ -79,7 +79,7 @@ setDoubleArrayOneValue(double** vpp, double значение, size_t nmemb)
 	if (*vpp)
 	{
 		while (nmemb--)
-			((double*)*vpp)[nmemb] = значение;
+			((double*)*vpp)[nmemb] = value;
 	}
 }
 
@@ -122,8 +122,8 @@ setExtraSamples(TIFF* tif, va_list ap, uint32* v)
                 !(td->td_samplesperpixel - td->td_extrasamples > 1))
         {
                 TIFFWarningExt(tif->tif_clientdata,module,
-                    "ExtraSamples tag значение is changing, "
-                    "but TransferFunction was read with a different значение. Cancelling it");
+                    "ExtraSamples tag value is changing, "
+                    "but TransferFunction was read with a different value. Cancelling it");
                 TIFFClrFieldBit(tif,FIELD_TRANSFERFUNCTION);
                 _TIFFfree(td->td_transferfunction[0]);
                 td->td_transferfunction[0] = NULL;
@@ -159,7 +159,7 @@ checkInkNamesString(TIFF* tif, uint32 slen, const char* s)
 	}
 bad:
 	TIFFErrorExt(tif->tif_clientdata, "TIFFSetField",
-	    "%s: Invalid InkNames значение; expecting %d names, found %d",
+	    "%s: Invalid InkNames value; expecting %d names, found %d",
 	    tif->tif_name,
 	    td->td_samplesperpixel,
 	    td->td_samplesperpixel-i);
@@ -238,7 +238,7 @@ _TIFFVSetField(TIFF* tif, uint32 tag, va_list ap)
 			tif->tif_flags &= ~TIFF_CODERSETUP;
 		}
 		/*
-		 * настрой new compression routine state.
+		 * Setup new compression routine state.
 		 */
 		if( (status = TIFFSetCompressionScheme(tif, v)) != 0 )
 		    td->td_compression = (uint16) v;
@@ -274,8 +274,8 @@ _TIFFVSetField(TIFF* tif, uint32 tag, va_list ap)
             if( td->td_sminsamplevalue != NULL )
             {
                 TIFFWarningExt(tif->tif_clientdata,module,
-                    "SamplesPerPixel tag значение is changing, "
-                    "but SMinSampleValue tag was read with a different значение. Cancelling it");
+                    "SamplesPerPixel tag value is changing, "
+                    "but SMinSampleValue tag was read with a different value. Cancelling it");
                 TIFFClrFieldBit(tif,FIELD_SMINSAMPLEVALUE);
                 _TIFFfree(td->td_sminsamplevalue);
                 td->td_sminsamplevalue = NULL;
@@ -283,8 +283,8 @@ _TIFFVSetField(TIFF* tif, uint32 tag, va_list ap)
             if( td->td_smaxsamplevalue != NULL )
             {
                 TIFFWarningExt(tif->tif_clientdata,module,
-                    "SamplesPerPixel tag значение is changing, "
-                    "but SMaxSampleValue tag was read with a different значение. Cancelling it");
+                    "SamplesPerPixel tag value is changing, "
+                    "but SMaxSampleValue tag was read with a different value. Cancelling it");
                 TIFFClrFieldBit(tif,FIELD_SMAXSAMPLEVALUE);
                 _TIFFfree(td->td_smaxsamplevalue);
                 td->td_smaxsamplevalue = NULL;
@@ -295,8 +295,8 @@ _TIFFVSetField(TIFF* tif, uint32 tag, va_list ap)
                 !(td->td_samplesperpixel - td->td_extrasamples > 1))
             {
                     TIFFWarningExt(tif->tif_clientdata,module,
-                        "SamplesPerPixel tag значение is changing, "
-                        "but TransferFunction was read with a different значение. Cancelling it");
+                        "SamplesPerPixel tag value is changing, "
+                        "but TransferFunction was read with a different value. Cancelling it");
                     TIFFClrFieldBit(tif,FIELD_TRANSFERFUNCTION);
                     _TIFFfree(td->td_transferfunction[0]);
                     td->td_transferfunction[0] = NULL;
@@ -515,15 +515,15 @@ _TIFFVSetField(TIFF* tif, uint32 tag, va_list ap)
 		}
 
 		/*
-		 * найди the existing entry for this custom значение.
+		 * Find the existing entry for this custom value.
 		 */
 		tv = NULL;
 		for (iCustom = 0; iCustom < td->td_customValueCount; iCustom++) {
 			if (td->td_customValues[iCustom].info->field_tag == tag) {
 				tv = td->td_customValues + iCustom;
-				if (tv->значение != NULL) {
-					_TIFFfree(tv->значение);
-					tv->значение = NULL;
+				if (tv->value != NULL) {
+					_TIFFfree(tv->value);
+					tv->value = NULL;
 				}
 				break;
 			}
@@ -551,18 +551,18 @@ _TIFFVSetField(TIFF* tif, uint32 tag, va_list ap)
 
 			tv = td->td_customValues + (td->td_customValueCount - 1);
 			tv->info = fip;
-			tv->значение = NULL;
+			tv->value = NULL;
 			tv->count = 0;
 		}
 
 		/*
-		 * Set custom значение ... save a copy of the custom tag значение.
+		 * Set custom value ... save a copy of the custom tag value.
 		 */
 		tv_size = _TIFFDataSize(fip->field_type);
 		if (tv_size == 0) {
 			status = 0;
 			TIFFErrorExt(tif->tif_clientdata, module,
-			    "%s: Bad field тип %d for \"%s\"",
+			    "%s: Bad field type %d for \"%s\"",
 			    tif->tif_name, fip->field_type,
 			    fip->field_name);
 			goto end;
@@ -584,7 +584,7 @@ _TIFFVSetField(TIFF* tif, uint32 tag, va_list ap)
 				ma=(uint32)(strlen(mb)+1);
 			}
 			tv->count=ma;
-			setByteArray(&tv->значение,mb,ma,1);
+			setByteArray(&tv->value,mb,ma,1);
 		}
 		else
 		{
@@ -604,7 +604,7 @@ _TIFFVSetField(TIFF* tif, uint32 tag, va_list ap)
 			if (tv->count == 0) {
 				status = 0;
 				TIFFErrorExt(tif->tif_clientdata, module,
-					     "%s: Null count for \"%s\" (тип "
+					     "%s: Null count for \"%s\" (type "
 					     "%d, writecount %d, passcount %d)",
 					     tif->tif_name,
 					     fip->field_name,
@@ -614,23 +614,23 @@ _TIFFVSetField(TIFF* tif, uint32 tag, va_list ap)
 				goto end;
 			}
 
-			tv->значение = _TIFFCheckMalloc(tif, tv->count, tv_size,
+			tv->value = _TIFFCheckMalloc(tif, tv->count, tv_size,
 			    "custom tag binary object");
-			if (!tv->значение) {
+			if (!tv->value) {
 				status = 0;
 				goto end;
 			}
 
 			if (fip->field_tag == TIFFTAG_DOTRANGE 
 			    && strcmp(fip->field_name,"DotRange") == 0) {
-				/* TODO: This is an evil exception and should not have been
+				/* СДЕЛАТЬ: This is an evil exception and should not have been
 				   handled this way ... likely best if we move it into
 				   the directory structure with an explicit field in 
-				   libtiff 4.1 and assign it a FIELD_ значение */
+				   libtiff 4.1 and assign it a FIELD_ value */
 				uint16 v2[2];
 				v2[0] = (uint16)va_arg(ap, int);
 				v2[1] = (uint16)va_arg(ap, int);
-				_TIFFmemcpy(tv->значение, &v2, 4);
+				_TIFFmemcpy(tv->value, &v2, 4);
 			}
 
 			else if (fip->field_passcount
@@ -638,10 +638,10 @@ _TIFFVSetField(TIFF* tif, uint32 tag, va_list ap)
 				  || fip->field_writecount == TIFF_VARIABLE2
 				  || fip->field_writecount == TIFF_SPP
 				  || tv->count > 1) {
-				_TIFFmemcpy(tv->значение, va_arg(ap, void *),
+				_TIFFmemcpy(tv->value, va_arg(ap, void *),
 				    tv->count * tv_size);
 			} else {
-				char *val = (char *)tv->значение;
+				char *val = (char *)tv->value;
 				assert( tv->count == 1 );
 
 				switch (fip->field_type) {
@@ -733,7 +733,7 @@ badvalue:
         {
 		const TIFFField* fip2=TIFFFieldWithTag(tif,tag);
 		TIFFErrorExt(tif->tif_clientdata, module,
-		     "%s: Bad значение %u for \"%s\" tag",
+		     "%s: Bad value %u for \"%s\" tag",
 		     tif->tif_name, v,
 		     fip2 ? fip2->field_name : "Unknown");
 		va_end(ap);
@@ -743,7 +743,7 @@ badvalue32:
         {
 		const TIFFField* fip2=TIFFFieldWithTag(tif,tag);
 		TIFFErrorExt(tif->tif_clientdata, module,
-		     "%s: Bad значение %u for \"%s\" tag",
+		     "%s: Bad value %u for \"%s\" tag",
 		     tif->tif_name, v32,
 		     fip2 ? fip2->field_name : "Unknown");
 		va_end(ap);
@@ -753,7 +753,7 @@ badvaluedouble:
         {
         const TIFFField* fip2=TIFFFieldWithTag(tif,tag);
         TIFFErrorExt(tif->tif_clientdata, module,
-             "%s: Bad значение %f for \"%s\" tag",
+             "%s: Bad value %f for \"%s\" tag",
              tif->tif_name, dblval,
              fip2 ? fip2->field_name : "Unknown");
         va_end(ap);
@@ -763,12 +763,12 @@ badvaluedouble:
 
 /*
  * Return 1/0 according to whether or not
- * it is permissible to set the tag's значение.
+ * it is permissible to set the tag's value.
  * Note that we allow ImageLength to be changed
  * so that we can append and extend to images.
  * Any other tag may not be altered once writing
- * has commenced, unless its значение has no effect
- * on the формат of the data that is written.
+ * has commenced, unless its value has no effect
+ * on the format of the data that is written.
  */
 static int
 OkToChangeTag(TIFF* tif, uint32 tag)
@@ -785,7 +785,7 @@ OkToChangeTag(TIFF* tif, uint32 tag)
 		 * Consult info table to see if tag can be changed
 		 * after we've started writing.  We only allow changes
 		 * to those tags that don't/shouldn't affect the
-		 * compression and/or формат of the data.
+		 * compression and/or format of the data.
 		 */
 		TIFFErrorExt(tif->tif_clientdata, "TIFFSetField",
 		    "%s: Cannot modify tag \"%s\" while writing",
@@ -796,7 +796,7 @@ OkToChangeTag(TIFF* tif, uint32 tag)
 }
 
 /*
- * Record the значение of a field in the
+ * Record the value of a field in the
  * internal directory structure.  The
  * field will be written to the file
  * when/if the directory structure is
@@ -815,7 +815,7 @@ TIFFSetField(TIFF* tif, uint32 tag, ...)
 }
 
 /*
- * очисть the contents of the field in the internal structure.
+ * Clear the contents of the field in the internal structure.
  */
 int
 TIFFUnsetField(TIFF* tif, uint32 tag)
@@ -842,7 +842,7 @@ TIFFUnsetField(TIFF* tif, uint32 tag)
 
         if( i < td->td_customValueCount )
         {
-            _TIFFfree(tv->значение);
+            _TIFFfree(tv->value);
             for( ; i < td->td_customValueCount-1; i++) {
                 td->td_customValues[i] = td->td_customValues[i+1];
             }
@@ -896,9 +896,9 @@ _TIFFVGetField(TIFF* tif, uint32 tag, va_list ap)
                 TIFFTagValue *tv = td->td_customValues + i;
                 if (tv->info->field_tag != standard_tag)
                     continue;
-                if( tv->значение == NULL )
+                if( tv->value == NULL )
                     return 0;
-                val = *(uint16 *)tv->значение;
+                val = *(uint16 *)tv->value;
                 /* Truncate to SamplesPerPixel, since the */
                 /* setting code for INKNAMES assume that there are SamplesPerPixel */
                 /* inknames. */
@@ -961,7 +961,7 @@ _TIFFVGetField(TIFF* tif, uint32 tag, va_list ap)
 				*va_arg(ap, double**) = td->td_sminsamplevalue;
 			else
 			{
-				/* libtiff historically treats this as a single значение. */
+				/* libtiff historically treats this as a single value. */
 				uint16 i;
 				double v = td->td_sminsamplevalue[0];
 				for (i=1; i < td->td_samplesperpixel; ++i)
@@ -975,7 +975,7 @@ _TIFFVGetField(TIFF* tif, uint32 tag, va_list ap)
 				*va_arg(ap, double**) = td->td_smaxsamplevalue;
 			else
 			{
-				/* libtiff historically treats this as a single значение. */
+				/* libtiff historically treats this as a single value. */
 				uint16 i;
 				double v = td->td_smaxsamplevalue[0];
 				for (i=1; i < td->td_samplesperpixel; ++i)
@@ -1118,7 +1118,7 @@ _TIFFVGetField(TIFF* tif, uint32 tag, va_list ap)
 				}
 
 				/*
-				 * Do we have a custom значение?
+				 * Do we have a custom value?
 				 */
 				ret_val = 0;
 				for (i = 0; i < td->td_customValueCount; i++) {
@@ -1132,16 +1132,16 @@ _TIFFVGetField(TIFF* tif, uint32 tag, va_list ap)
 							*va_arg(ap, uint32*) = (uint32)tv->count;
 						else  /* Assume TIFF_VARIABLE */
 							*va_arg(ap, uint16*) = (uint16)tv->count;
-						*va_arg(ap, void **) = tv->значение;
+						*va_arg(ap, void **) = tv->value;
 						ret_val = 1;
 					} else if (fip->field_tag == TIFFTAG_DOTRANGE
 						   && strcmp(fip->field_name,"DotRange") == 0) {
-						/* TODO: This is an evil exception and should not have been
+						/* СДЕЛАТЬ: This is an evil exception and should not have been
 						   handled this way ... likely best if we move it into
 						   the directory structure with an explicit field in 
-						   libtiff 4.1 and assign it a FIELD_ значение */
-						*va_arg(ap, uint16*) = ((uint16 *)tv->значение)[0];
-						*va_arg(ap, uint16*) = ((uint16 *)tv->значение)[1];
+						   libtiff 4.1 and assign it a FIELD_ value */
+						*va_arg(ap, uint16*) = ((uint16 *)tv->value)[0];
+						*va_arg(ap, uint16*) = ((uint16 *)tv->value)[1];
 						ret_val = 1;
 					} else {
 						if (fip->field_type == TIFF_ASCII
@@ -1149,10 +1149,10 @@ _TIFFVGetField(TIFF* tif, uint32 tag, va_list ap)
 						    || fip->field_readcount == TIFF_VARIABLE2
 						    || fip->field_readcount == TIFF_SPP
 						    || tv->count > 1) {
-							*va_arg(ap, void **) = tv->значение;
+							*va_arg(ap, void **) = tv->value;
 							ret_val = 1;
 						} else {
-							char *val = (char *)tv->значение;
+							char *val = (char *)tv->value;
 							assert( tv->count == 1 );
 							switch (fip->field_type) {
 							case TIFF_BYTE:
@@ -1224,7 +1224,7 @@ _TIFFVGetField(TIFF* tif, uint32 tag, va_list ap)
 }
 
 /*
- * Return the значение of a field in the
+ * Return the value of a field in the
  * internal directory structure.
  */
 int
@@ -1261,7 +1261,7 @@ TIFFVGetField(TIFF* tif, uint32 tag, va_list ap)
 }
 
 /*
- * отпусти storage associated with a directory.
+ * Release storage associated with a directory.
  */
 void
 TIFFFreeDirectory(TIFF* tif)
@@ -1290,8 +1290,8 @@ TIFFFreeDirectory(TIFF* tif)
 
 	/* Cleanup custom tag values */
 	for( i = 0; i < td->td_customValueCount; i++ ) {
-		if (td->td_customValues[i].значение)
-			_TIFFfree(td->td_customValues[i].значение);
+		if (td->td_customValues[i].value)
+			_TIFFfree(td->td_customValues[i].value);
 	}
 
 	td->td_customValueCount = 0;
@@ -1303,7 +1303,7 @@ TIFFFreeDirectory(TIFF* tif)
 #undef CleanupField
 
 /*
- * Client Тэг extension support (from Niles Ritter).
+ * Client Tag extension support (from Niles Ritter).
  */
 static TIFFExtendProc _TIFFextender = (TIFFExtendProc) NULL;
 
@@ -1316,7 +1316,7 @@ TIFFSetTagExtender(TIFFExtendProc extender)
 }
 
 /*
- * настрой for a new directory.  Should we automatically call
+ * Setup for a new directory.  Should we automatically call
  * TIFFWriteDirectory() if the current one is dirty?
  *
  * The newly created directory will not exist on the file till
@@ -1341,7 +1341,7 @@ TIFFCreateCustomDirectory(TIFF* tif, const TIFFFieldArray* infoarray)
 	TIFFDefaultDirectory(tif);
 
 	/*
-	 * переустанов the field definitions to match the application provided list. 
+	 * Reset the field definitions to match the application provided list. 
 	 * Hopefully TIFFDefaultDirectory() won't have done anything irreversable
 	 * based on it's assumption this is an image directory.
 	 */
@@ -1365,7 +1365,7 @@ TIFFCreateEXIFDirectory(TIFF* tif)
 }
 
 /*
- * настрой a default directory structure.
+ * Setup a default directory structure.
  */
 int
 TIFFDefaultDirectory(TIFF* tif)
@@ -1455,7 +1455,7 @@ TIFFAdvanceDirectory(TIFF* tif, uint64* nextdir, uint64* off)
 			poffb=poffa+sizeof(uint16);
 			if (((uint64)poffa!=poff)||(poffb<poffa)||(poffb<(tmsize_t)sizeof(uint16))||(poffb>tif->tif_size))
 			{
-				TIFFErrorExt(tif->tif_clientdata,module,"Ошибка fetching directory count");
+				TIFFErrorExt(tif->tif_clientdata,module,"Error fetching directory count");
                                   *nextdir=0;
 				return(0);
 			}
@@ -1466,7 +1466,7 @@ TIFFAdvanceDirectory(TIFF* tif, uint64* nextdir, uint64* off)
 			poffd=poffc+sizeof(uint32);
 			if ((poffc<poffb)||(poffc<dircount*12)||(poffd<poffc)||(poffd<(tmsize_t)sizeof(uint32))||(poffd>tif->tif_size))
 			{
-				TIFFErrorExt(tif->tif_clientdata,module,"Ошибка fetching directory link");
+				TIFFErrorExt(tif->tif_clientdata,module,"Error fetching directory link");
 				return(0);
 			}
 			if (off!=NULL)
@@ -1485,7 +1485,7 @@ TIFFAdvanceDirectory(TIFF* tif, uint64* nextdir, uint64* off)
 			poffb=poffa+sizeof(uint64);
 			if (((uint64)poffa!=poff)||(poffb<poffa)||(poffb<(tmsize_t)sizeof(uint64))||(poffb>tif->tif_size))
 			{
-				TIFFErrorExt(tif->tif_clientdata,module,"Ошибка fetching directory count");
+				TIFFErrorExt(tif->tif_clientdata,module,"Error fetching directory count");
 				return(0);
 			}
 			_TIFFmemcpy(&dircount64,tif->tif_base+poffa,sizeof(uint64));
@@ -1501,7 +1501,7 @@ TIFFAdvanceDirectory(TIFF* tif, uint64* nextdir, uint64* off)
 			poffd=poffc+sizeof(uint64);
 			if ((poffc<poffb)||(poffc<dircount16*20)||(poffd<poffc)||(poffd<(tmsize_t)sizeof(uint64))||(poffd>tif->tif_size))
 			{
-				TIFFErrorExt(tif->tif_clientdata,module,"Ошибка fetching directory link");
+				TIFFErrorExt(tif->tif_clientdata,module,"Error fetching directory link");
 				return(0);
 			}
 			if (off!=NULL)
@@ -1520,7 +1520,7 @@ TIFFAdvanceDirectory(TIFF* tif, uint64* nextdir, uint64* off)
 			uint32 nextdir32;
 			if (!SeekOK(tif, *nextdir) ||
 			    !ReadOK(tif, &dircount, sizeof (uint16))) {
-				TIFFErrorExt(tif->tif_clientdata, module, "%s: Ошибка fetching directory count",
+				TIFFErrorExt(tif->tif_clientdata, module, "%s: Error fetching directory count",
 				    tif->tif_name);
 				return (0);
 			}
@@ -1533,7 +1533,7 @@ TIFFAdvanceDirectory(TIFF* tif, uint64* nextdir, uint64* off)
 				(void) TIFFSeekFile(tif,
 				    dircount*12, SEEK_CUR);
 			if (!ReadOK(tif, &nextdir32, sizeof (uint32))) {
-				TIFFErrorExt(tif->tif_clientdata, module, "%s: Ошибка fetching directory link",
+				TIFFErrorExt(tif->tif_clientdata, module, "%s: Error fetching directory link",
 				    tif->tif_name);
 				return (0);
 			}
@@ -1547,7 +1547,7 @@ TIFFAdvanceDirectory(TIFF* tif, uint64* nextdir, uint64* off)
 			uint16 dircount16;
 			if (!SeekOK(tif, *nextdir) ||
 			    !ReadOK(tif, &dircount64, sizeof (uint64))) {
-				TIFFErrorExt(tif->tif_clientdata, module, "%s: Ошибка fetching directory count",
+				TIFFErrorExt(tif->tif_clientdata, module, "%s: Error fetching directory count",
 				    tif->tif_name);
 				return (0);
 			}
@@ -1555,7 +1555,7 @@ TIFFAdvanceDirectory(TIFF* tif, uint64* nextdir, uint64* off)
 				TIFFSwabLong8(&dircount64);
 			if (dircount64>0xFFFF)
 			{
-				TIFFErrorExt(tif->tif_clientdata, module, "Ошибка fetching directory count");
+				TIFFErrorExt(tif->tif_clientdata, module, "Error fetching directory count");
 				return(0);
 			}
 			dircount16 = (uint16)dircount64;
@@ -1567,7 +1567,7 @@ TIFFAdvanceDirectory(TIFF* tif, uint64* nextdir, uint64* off)
 				    dircount16*20, SEEK_CUR);
 			if (!ReadOK(tif, nextdir, sizeof (uint64))) {
 				TIFFErrorExt(tif->tif_clientdata, module,
-                                             "%s: Ошибка fetching directory link",
+                                             "%s: Error fetching directory link",
 				    tif->tif_name);
 				return (0);
 			}
@@ -1633,7 +1633,7 @@ TIFFSetDirectory(TIFF* tif, uint16 dirn)
 	 */
 	tif->tif_curdir = (dirn - n) - 1;
 	/*
-	 * переустанов tif_dirnumber counter and start new list of seen directories.
+	 * Reset tif_dirnumber counter and start new list of seen directories.
 	 * We need this to prevent IFD loops.
 	 */
 	tif->tif_dirnumber = 0;
@@ -1651,7 +1651,7 @@ TIFFSetSubDirectory(TIFF* tif, uint64 diroff)
 {
 	tif->tif_nextdiroff = diroff;
 	/*
-	 * переустанов tif_dirnumber counter and start new list of seen directories.
+	 * Reset tif_dirnumber counter and start new list of seen directories.
 	 * We need this to prevent IFD loops.
 	 */
 	tif->tif_dirnumber = 0;
@@ -1694,7 +1694,7 @@ TIFFUnlinkDirectory(TIFF* tif, uint16 dirn)
 		return (0);
 	}
 	/*
-	 * иди to the directory before the one we want
+	 * Go to the directory before the one we want
 	 * to unlink and nab the offset of the link
 	 * field we'll need to patch.
 	 */
@@ -1723,7 +1723,7 @@ TIFFUnlinkDirectory(TIFF* tif, uint16 dirn)
 	if (!TIFFAdvanceDirectory(tif, &nextdir, NULL))
 		return (0);
 	/*
-	 * иди back and patch the link field of the preceding
+	 * Go back and patch the link field of the preceding
 	 * directory to point to the offset of the directory
 	 * that follows.
 	 */
@@ -1736,7 +1736,7 @@ TIFFUnlinkDirectory(TIFF* tif, uint16 dirn)
 		if (tif->tif_flags & TIFF_SWAB)
 			TIFFSwabLong(&nextdir32);
 		if (!WriteOK(tif, &nextdir32, sizeof (uint32))) {
-			TIFFErrorExt(tif->tif_clientdata, module, "Ошибка writing directory link");
+			TIFFErrorExt(tif->tif_clientdata, module, "Error writing directory link");
 			return (0);
 		}
 	}
@@ -1745,7 +1745,7 @@ TIFFUnlinkDirectory(TIFF* tif, uint16 dirn)
 		if (tif->tif_flags & TIFF_SWAB)
 			TIFFSwabLong8(&nextdir);
 		if (!WriteOK(tif, &nextdir, sizeof (uint64))) {
-			TIFFErrorExt(tif->tif_clientdata, module, "Ошибка writing directory link");
+			TIFFErrorExt(tif->tif_clientdata, module, "Error writing directory link");
 			return (0);
 		}
 	}
@@ -1781,5 +1781,5 @@ TIFFUnlinkDirectory(TIFF* tif, uint16 dirn)
  * mode: c
  * c-basic-offset: 8
  * fill-column: 78
- * стоп:
+ * End:
  */

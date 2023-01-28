@@ -91,7 +91,7 @@
 #define FT_STRUCTURE  WinPE32_SectionRec
 
     FT_FRAME_START( 40 ),
-      FT_FRAME_BYTES     ( имя, 8 ),
+      FT_FRAME_BYTES     ( name, 8 ),
       FT_FRAME_SKIP_BYTES( 4 ),
       FT_FRAME_ULONG_LE  ( virtual_address ),
       FT_FRAME_ULONG_LE  ( size_of_raw_data ),
@@ -121,7 +121,7 @@
 #define FT_STRUCTURE  WinPE_RsrcDirEntryRec
 
     FT_FRAME_START( 8 ),
-      FT_FRAME_ULONG_LE( имя ),
+      FT_FRAME_ULONG_LE( name ),
       FT_FRAME_ULONG_LE( offset ),
     FT_FRAME_END
   };
@@ -209,7 +209,7 @@
   fnt_font_load( FNT_Font   font,
                  FT_Stream  stream )
   {
-    FT_Error          Ошибка;
+    FT_Error          error;
     FT_WinFNT_Header  header = &font->header;
     FT_Bool           new_format;
     FT_UInt           size;
@@ -225,7 +225,7 @@
          header->version != 0x300 )
     {
       FT_TRACE2(( "[not a valid FNT file]\n" ));
-      Ошибка = FNT_Err_Unknown_File_Format;
+      error = FNT_Err_Unknown_File_Format;
       goto Exit;
     }
 
@@ -235,7 +235,7 @@
     if ( header->file_size < size )
     {
       FT_TRACE2(( "[not a valid FNT file]\n" ));
-      Ошибка = FNT_Err_Unknown_File_Format;
+      error = FNT_Err_Unknown_File_Format;
       goto Exit;
     }
 
@@ -253,7 +253,7 @@
     if ( header->file_type & 1 )
     {
       FT_TRACE2(( "[can't handle vector FNT fonts]\n" ));
-      Ошибка = FNT_Err_Unknown_File_Format;
+      error = FNT_Err_Unknown_File_Format;
       goto Exit;
     }
 
@@ -263,7 +263,7 @@
       goto Exit;
 
   Exit:
-    return Ошибка;
+    return error;
   }
 
 
@@ -271,7 +271,7 @@
   fnt_face_get_dll_font( FNT_Face  face,
                          FT_Int    face_index )
   {
-    FT_Error         Ошибка;
+    FT_Error         error;
     FT_Stream        stream = FT_FACE( face )->stream;
     FT_Memory        memory = FT_FACE( face )->memory;
     WinMZ_HeaderRec  mz_header;
@@ -284,7 +284,7 @@
          FT_STREAM_READ_FIELDS( winmz_header_fields, &mz_header ) )
       goto Exit;
 
-    Ошибка = FNT_Err_Unknown_File_Format;
+    error = FNT_Err_Unknown_File_Format;
     if ( mz_header.magic == WINFNT_MZ_MAGIC )
     {
       /* yes, now look for an NE header in the file */
@@ -297,7 +297,7 @@
            FT_STREAM_READ_FIELDS( winne_header_fields, &ne_header ) )
         goto Exit;
 
-      Ошибка = FNT_Err_Unknown_File_Format;
+      error = FNT_Err_Unknown_File_Format;
       if ( ne_header.magic == WINFNT_NE_MAGIC )
       {
         /* good, now look into the resource table for each FNT resource */
@@ -344,7 +344,7 @@
         if ( !font_count || !font_offset )
         {
           FT_TRACE2(( "this file doesn't contain any FNT resources\n" ));
-          Ошибка = FNT_Err_Invalid_File_Format;
+          error = FNT_Err_Invalid_File_Format;
           goto Exit;
         }
 
@@ -353,7 +353,7 @@
         if ( font_count * 118UL > stream->size )
         {
           FT_TRACE2(( "invalid number of faces\n" ));
-          Ошибка = FNT_Err_Invalid_File_Format;
+          error = FNT_Err_Invalid_File_Format;
           goto Exit;
         }
 
@@ -361,7 +361,7 @@
 
         if ( face_index >= font_count )
         {
-          Ошибка = FNT_Err_Invalid_Argument;
+          error = FNT_Err_Invalid_Argument;
           goto Exit;
         }
         else if ( face_index < 0 )
@@ -381,7 +381,7 @@
 
         FT_FRAME_EXIT();
 
-        Ошибка = fnt_font_load( face->font, stream );
+        error = fnt_font_load( face->font, stream );
       }
       else if ( ne_header.magic == WINFNT_PE_MAGIC )
       {
@@ -413,11 +413,11 @@
 
         if ( pe32_header.magic != WINFNT_PE_MAGIC /* check full signature */ ||
              pe32_header.machine != 0x014c /* i386 */                        ||
-             pe32_header.size_of_optional_header != 0xe0 /* FIXME */         ||
+             pe32_header.size_of_optional_header != 0xe0 /* ИСПРАВИТЬ */         ||
              pe32_header.magic32 != 0x10b                                    )
         {
           FT_TRACE2(( "this file has an invalid PE header\n" ));
-          Ошибка = FNT_Err_Invalid_File_Format;
+          error = FNT_Err_Invalid_File_Format;
           goto Exit;
         }
 
@@ -429,8 +429,8 @@
                                       &pe32_section ) )
             goto Exit;
 
-          FT_TRACE2(( "имя %.8s, va %04lx, size %04lx, offset %04lx\n",
-                      pe32_section.имя, pe32_section.virtual_address,
+          FT_TRACE2(( "name %.8s, va %04lx, size %04lx, offset %04lx\n",
+                      pe32_section.name, pe32_section.virtual_address,
                       pe32_section.size_of_raw_data,
                       pe32_section.pointer_to_raw_data ));
 
@@ -440,11 +440,11 @@
         }
 
         FT_TRACE2(( "this file doesn't contain any resources\n" ));
-        Ошибка = FNT_Err_Invalid_File_Format;
+        error = FNT_Err_Invalid_File_Format;
         goto Exit;
 
       Found_rsrc_section:
-        FT_TRACE2(( "found resources section %.8s\n", pe32_section.имя ));
+        FT_TRACE2(( "found resources section %.8s\n", pe32_section.name ));
 
         if ( FT_STREAM_SEEK( pe32_section.pointer_to_raw_data )        ||
              FT_STREAM_READ_FIELDS( winpe_rsrc_dir_fields, &root_dir ) )
@@ -462,7 +462,7 @@
 
           if ( !(dir_entry1.offset & 0x80000000UL ) /* DataIsDirectory */ )
           {
-            Ошибка = FNT_Err_Invalid_File_Format;
+            error = FNT_Err_Invalid_File_Format;
             goto Exit;
           }
 
@@ -486,7 +486,7 @@
 
             if ( !(dir_entry2.offset & 0x80000000UL ) /* DataIsDirectory */ )
             {
-              Ошибка = FNT_Err_Invalid_File_Format;
+              error = FNT_Err_Invalid_File_Format;
               goto Exit;
             }
 
@@ -510,11 +510,11 @@
 
               if ( dir_entry2.offset & 0x80000000UL /* DataIsDirectory */ )
               {
-                Ошибка = FNT_Err_Invalid_File_Format;
+                error = FNT_Err_Invalid_File_Format;
                 goto Exit;
               }
 
-              if ( dir_entry1.имя == 8 /* RT_FONT */ )
+              if ( dir_entry1.name == 8 /* RT_FONT */ )
               {
                 if ( FT_STREAM_SEEK( root_dir_offset + dir_entry3.offset ) ||
                      FT_STREAM_READ_FIELDS( winpe_rsrc_data_entry_fields,
@@ -523,7 +523,7 @@
 
                 FT_TRACE2(( "found font #%lu, offset %04lx, "
                             "size %04lx, cp %lu\n",
-                            dir_entry2.имя,
+                            dir_entry2.name,
                             pe32_section.pointer_to_raw_data +
                               data_entry.offset_to_data -
                               pe32_section.virtual_address,
@@ -539,16 +539,16 @@
                                            pe32_section.virtual_address;
                   face->font->fnt_size = data_entry.size;
 
-                  Ошибка = fnt_font_load( face->font, stream );
-                  if ( Ошибка )
+                  error = fnt_font_load( face->font, stream );
+                  if ( error )
                   {
-                    FT_TRACE2(( "font #%lu load Ошибка %d\n",
-                                dir_entry2.имя, Ошибка ));
+                    FT_TRACE2(( "font #%lu load error %d\n",
+                                dir_entry2.name, error ));
                     goto Fail;
                   }
                   else
                     FT_TRACE2(( "font #%lu successfully loaded\n",
-                                dir_entry2.имя ));
+                                dir_entry2.name ));
                 }
 
                 face->root.num_faces++;
@@ -561,23 +561,23 @@
       if ( !face->root.num_faces )
       {
         FT_TRACE2(( "this file doesn't contain any RT_FONT resources\n" ));
-        Ошибка = FNT_Err_Invalid_File_Format;
+        error = FNT_Err_Invalid_File_Format;
         goto Exit;
       }
 
       if ( face_index >= face->root.num_faces )
       {
-        Ошибка = FNT_Err_Invalid_Argument;
+        error = FNT_Err_Invalid_Argument;
         goto Exit;
       }
     }
 
   Fail:
-    if ( Ошибка )
+    if ( error )
       fnt_font_done( face );
 
   Exit:
-    return Ошибка;
+    return error;
   }
 
 
@@ -689,7 +689,7 @@
                  FT_Int         num_params,
                  FT_Parameter*  params )
   {
-    FT_Error   Ошибка;
+    FT_Error   error;
     FT_Memory  memory = FT_FACE_MEMORY( face );
 
     FT_UNUSED( num_params );
@@ -697,11 +697,11 @@
 
 
     /* try to load font from a DLL */
-    Ошибка = fnt_face_get_dll_font( face, face_index );
-    if ( !Ошибка && face_index < 0 )
+    error = fnt_face_get_dll_font( face, face_index );
+    if ( !error && face_index < 0 )
       goto Exit;
 
-    if ( Ошибка == FNT_Err_Unknown_File_Format )
+    if ( error == FNT_Err_Unknown_File_Format )
     {
       /* this didn't work; try to load a single FNT font */
       FNT_Font  font;
@@ -715,18 +715,18 @@
       font->offset   = 0;
       font->fnt_size = stream->size;
 
-      Ошибка = fnt_font_load( font, stream );
+      error = fnt_font_load( font, stream );
 
-      if ( !Ошибка )
+      if ( !error )
       {
         if ( face_index > 0 )
-          Ошибка = FNT_Err_Invalid_Argument;
+          error = FNT_Err_Invalid_Argument;
         else if ( face_index < 0 )
           goto Exit;
       }
     }
 
-    if ( Ошибка )
+    if ( error )
       goto Fail;
 
     /* we now need to fill the root FT_Face fields */
@@ -783,7 +783,7 @@
          *
          * the nominal height is larger than the bbox's height
          *
-         * => nominal_point_size contains incorrect значение;
+         * => nominal_point_size contains incorrect value;
          *    use pixel_height as the nominal height
          */
         if ( bsize->y_ppem > ( font->header.pixel_height << 6 ) )
@@ -815,14 +815,14 @@
 /*        charmap.encoding_id = TT_MAC_ID_ROMAN; */
         }
 
-        Ошибка = FT_CMap_New( fnt_cmap_class,
+        error = FT_CMap_New( fnt_cmap_class,
                              NULL,
                              &charmap,
                              NULL );
-        if ( Ошибка )
+        if ( error )
           goto Fail;
 
-        /* выдели default charmap */
+        /* Select default charmap */
         if ( root->num_charmaps )
           root->charmap = root->charmaps[0];
       }
@@ -835,12 +835,12 @@
 
       if ( font->header.face_name_offset >= font->header.file_size )
       {
-        FT_TRACE2(( "invalid family имя offset\n" ));
-        Ошибка = FNT_Err_Invalid_File_Format;
+        FT_TRACE2(( "invalid family name offset\n" ));
+        error = FNT_Err_Invalid_File_Format;
         goto Fail;
       }
       family_size = font->header.file_size - font->header.face_name_offset;
-      /* Some broken fonts don't delimit the face имя with a final */
+      /* Some broken fonts don't delimit the face name with a final */
       /* NULL byte -- the frame is erroneously one byte too small.  */
       /* We thus allocate one more byte, setting it explicitly to   */
       /* zero.                                                      */
@@ -877,7 +877,7 @@
     FNT_Face_Done( face );
 
   Exit:
-    return Ошибка;
+    return error;
   }
 
 
@@ -906,32 +906,32 @@
     FNT_Face          face    = (FNT_Face)size->face;
     FT_WinFNT_Header  header  = &face->font->header;
     FT_Bitmap_Size*   bsize   = size->face->available_sizes;
-    FT_Error          Ошибка   = FNT_Err_Invalid_Pixel_Size;
+    FT_Error          error   = FNT_Err_Invalid_Pixel_Size;
     FT_Long           height;
 
 
     height = FT_REQUEST_HEIGHT( req );
     height = ( height + 32 ) >> 6;
 
-    switch ( req->тип )
+    switch ( req->type )
     {
     case FT_SIZE_REQUEST_TYPE_NOMINAL:
       if ( height == ( ( bsize->y_ppem + 32 ) >> 6 ) )
-        Ошибка = FNT_Err_Ok;
+        error = FNT_Err_Ok;
       break;
 
     case FT_SIZE_REQUEST_TYPE_REAL_DIM:
       if ( height == header->pixel_height )
-        Ошибка = FNT_Err_Ok;
+        error = FNT_Err_Ok;
       break;
 
     default:
-      Ошибка = FNT_Err_Unimplemented_Feature;
+      error = FNT_Err_Unimplemented_Feature;
       break;
     }
 
-    if ( Ошибка )
-      return Ошибка;
+    if ( error )
+      return error;
     else
       return FNT_Size_Select( size );
   }
@@ -945,7 +945,7 @@
   {
     FNT_Face    face   = (FNT_Face)FT_SIZE_FACE( size );
     FNT_Font    font;
-    FT_Error    Ошибка  = FNT_Err_Ok;
+    FT_Error    error  = FNT_Err_Ok;
     FT_Byte*    p;
     FT_Int      len;
     FT_Bitmap*  bitmap = &slot->bitmap;
@@ -957,7 +957,7 @@
 
     if ( !face )
     {
-      Ошибка = FNT_Err_Invalid_Argument;
+      error = FNT_Err_Invalid_Argument;
       goto Exit;
     }
 
@@ -966,7 +966,7 @@
     if ( !font ||
          glyph_index >= (FT_UInt)( FT_FACE( face )->num_glyphs ) )
     {
-      Ошибка = FNT_Err_Invalid_Argument;
+      error = FNT_Err_Invalid_Argument;
       goto Exit;
     }
 
@@ -991,7 +991,7 @@
     if ( offset >= font->header.file_size )
     {
       FT_TRACE2(( "invalid FNT offset\n" ));
-      Ошибка = FNT_Err_Invalid_File_Format;
+      error = FNT_Err_Invalid_File_Format;
       goto Exit;
     }
 
@@ -1013,16 +1013,16 @@
       if ( offset + pitch * bitmap->rows >= font->header.file_size )
       {
         FT_TRACE2(( "invalid bitmap width\n" ));
-        Ошибка = FNT_Err_Invalid_File_Format;
+        error = FNT_Err_Invalid_File_Format;
         goto Exit;
       }
 
       /* note: since glyphs are stored in columns and not in rows we */
       /*       can't use ft_glyphslot_set_bitmap                     */
-      if ( FT_ALLOC_MULT( bitmap->буфер, pitch, bitmap->rows ) )
+      if ( FT_ALLOC_MULT( bitmap->buffer, pitch, bitmap->rows ) )
         goto Exit;
 
-      column = (FT_Byte*)bitmap->буфер;
+      column = (FT_Byte*)bitmap->buffer;
 
       for ( ; pitch > 0; pitch--, column++ )
       {
@@ -1037,7 +1037,7 @@
     slot->internal->flags = FT_GLYPH_OWN_BITMAP;
     slot->bitmap_left     = 0;
     slot->bitmap_top      = font->header.ascent;
-    slot->формат          = FT_GLYPH_FORMAT_BITMAP;
+    slot->format          = FT_GLYPH_FORMAT_BITMAP;
 
     /* now set up metrics */
     slot->metrics.width        = bitmap->width << 6;
@@ -1050,7 +1050,7 @@
                                     bitmap->rows << 6 );
 
   Exit:
-    return Ошибка;
+    return error;
   }
 
 

@@ -5,28 +5,28 @@
 
 extern bool SilentMode;
 
-class Консоль {
+class Console {
 public:
-	virtual void приставь(const Ткст& s);
+	virtual void Append(const String& s);
 
 protected:
-	struct Слот {
-		Слот() : outfile(NULL), quiet(true), exitcode(Null) {}
+	struct Slot {
+		Slot() : outfile(NULL), quiet(true), exitcode(Null) {}
 
-		Один<ПроцессИнк>     process;
-		Ткст            cmdline;
-		Ткст            output;
-		Ткст            ключ;
-		Ткст            группа;
-		Поток            *outfile;
+		One<AProcess>     process;
+		String            cmdline;
+		String            output;
+		String            key;
+		String            group;
+		Stream            *outfile;
 		bool              quiet;
 		int               exitcode;
 		int               last_msecs;
 		int               serial;
 	};
 
-	struct Группа {
-		Группа() : count(0), start_time(::msecs()), finished(false), msecs(0), raw_msecs(0) {}
+	struct Group {
+		Group() : count(0), start_time(::msecs()), finished(false), msecs(0), raw_msecs(0) {}
 
 		int               count;
 		int               start_time;
@@ -35,144 +35,144 @@ protected:
 		int               raw_msecs;
 	};
 
-	struct Финишер {
+	struct Finisher {
 		int               serial;
-		Событие<>           cb;
+		Event<>           cb;
 	};
 
-	Массив<Слот> processes;
-	Массив<Финишер> finisher;
-	МассивМап<Ткст, Группа> groups;
-	Вектор<Ткст> error_keys;
-	Ткст current_group;
-	Ткст spooled_output;
+	Array<Slot> processes;
+	Array<Finisher> finisher;
+	ArrayMap<String, Group> groups;
+	Vector<String> error_keys;
+	String current_group;
+	String spooled_output;
 	int console_lock;
 	bool wrap_text;
 	int  serial;
 
 	void CheckEndGroup();
-	void слейКонсоль();
+	void FlushConsole();
 
 public:
 	bool console;
 	bool verbosebuild;
 
-	int  выполни(const char *cmdline, Поток *out = NULL, const char *envptr = NULL, bool quiet = false, bool noconvert = false);
-	int  выполни(Один<ПроцессИнк> process, const char *cmdline, Поток *out = NULL, bool quiet = false);
-	int  дайСчётСлотов() const { return processes.дайСчёт(); }
-	int  разместиСлот();
-	bool пуск(const char *cmdline, Поток *out = NULL, const char *endptr = NULL, bool quiet = false, int slot = 0, Ткст ключ = Null, int blitz_count = 1);
-	bool пуск(Один<ПроцессИнк> process, const char *cmdline, Поток *out = NULL, bool quiet = false, int slot = 0, Ткст ключ = Null, int blitz_count = 1);
-	void BeginGroup(Ткст группа);
+	int  Execute(const char *cmdline, Stream *out = NULL, const char *envptr = NULL, bool quiet = false, bool noconvert = false);
+	int  Execute(One<AProcess> process, const char *cmdline, Stream *out = NULL, bool quiet = false);
+	int  GetSlotCount() const { return processes.GetCount(); }
+	int  AllocSlot();
+	bool Run(const char *cmdline, Stream *out = NULL, const char *endptr = NULL, bool quiet = false, int slot = 0, String key = Null, int blitz_count = 1);
+	bool Run(One<AProcess> process, const char *cmdline, Stream *out = NULL, bool quiet = false, int slot = 0, String key = Null, int blitz_count = 1);
+	void BeginGroup(String group);
 	void EndGroup();
 
-	Консоль& operator<<(const Ткст& s)      { приставь(s); return *this; }
+	Console& operator<<(const String& s)      { Append(s); return *this; }
 
-	bool пущен();
-	bool пущен(int slot);
-	int  слей();
-	void глуши(int slot);
-	void глуши();
-	void сотриОш()                         { error_keys.очисть(); }
-	Вектор<Ткст> PickErrors()               { Вектор<Ткст> e = pick(error_keys); error_keys.очисть(); return e; }
-	void жди(int slot);
-	bool жди();
+	bool IsRunning();
+	bool IsRunning(int slot);
+	int  Flush();
+	void Kill(int slot);
+	void Kill();
+	void ClearError()                         { error_keys.Clear(); }
+	Vector<String> PickErrors()               { Vector<String> e = pick(error_keys); error_keys.Clear(); return e; }
+	void Wait(int slot);
+	bool Wait();
 
-	void OnFinish(Событие<> cb);
+	void OnFinish(Event<> cb);
 
 	void WrapText(bool w)                     { wrap_text = w; }
 
-	void устСлоты(int s);
+	void SetSlots(int s);
 
-	Консоль();
+	Console();
 };
 
-struct Иср : public КонтекстИср, public MakeBuild {
-	РОбласть wspc;
-	Консоль   console;
-	Ткст    onefile;
-	Ткст    mainconfigpatam;
+struct Ide : public IdeContext, public MakeBuild {
+	Workspace wspc;
+	Console   console;
+	String    onefile;
+	String    mainconfigpatam;
 	bool      verbose;
-	Ткст    main;
+	String    main;
 	int       build_time;
 
-	virtual bool             вербозно_ли() const;
-	virtual void             вКонсоль(const char *s);
+	virtual bool             IsVerbose() const;
+	virtual void             PutConsole(const char *s);
 	virtual void             PutVerbose(const char *s);
 	virtual void             PutLinking() {}
 	virtual void             PutLinkingEnd(bool ok) {}
 
-	virtual const РОбласть& роблИср() const ;
-	virtual bool             строитсяИср() const ;
-	virtual Ткст           исрДайОдинФайл() const ;
-	virtual int              выполниВКонсИср(const char *cmdline, Поток *out = NULL, const char *envptr = NULL, bool quiet = false, bool = false);
-	virtual int              выполниВКонсИсрСВводом(const char *cmdline, Поток *out, const char *envptr, bool quiet, bool = false);
-	virtual int              выполниВКонсИср(Один<ПроцессИнк> process, const char *cmdline, Поток *out = NULL, bool quiet = false);
-	virtual int              разместиСлотКонсИср();
-	virtual bool             пускКонсИср(const char *cmdline, Поток *out = NULL, const char *envptr = NULL, bool quiet = false, int slot = 0, Ткст ключ = Null, int blitz_count = 1);
-	virtual bool             пускКонсИср(Один<ПроцессИнк> process, const char *cmdline, Поток *out = NULL, bool quiet = false, int slot = 0, Ткст ключ = Null, int blitz_count = 1);
-	virtual void             слейКонсИср();
-	virtual void             начниГруппуКонсИср(Ткст группа);
-	virtual void             завершиГруппуКонсИср();
-	virtual bool             ждиКонсИср();
-	virtual bool             ждиКонсИср(int slot);
-	virtual void             приФинишеКонсИср(Событие<> cb);
+	virtual const Workspace& IdeWorkspace() const ;
+	virtual bool             IdeIsBuilding() const ;
+	virtual String           IdeGetOneFile() const ;
+	virtual int              IdeConsoleExecute(const char *cmdline, Stream *out = NULL, const char *envptr = NULL, bool quiet = false, bool = false);
+	virtual int              IdeConsoleExecuteWithInput(const char *cmdline, Stream *out, const char *envptr, bool quiet, bool = false);
+	virtual int              IdeConsoleExecute(One<AProcess> process, const char *cmdline, Stream *out = NULL, bool quiet = false);
+	virtual int              IdeConsoleAllocSlot();
+	virtual bool             IdeConsoleRun(const char *cmdline, Stream *out = NULL, const char *envptr = NULL, bool quiet = false, int slot = 0, String key = Null, int blitz_count = 1);
+	virtual bool             IdeConsoleRun(One<AProcess> process, const char *cmdline, Stream *out = NULL, bool quiet = false, int slot = 0, String key = Null, int blitz_count = 1);
+	virtual void             IdeConsoleFlush();
+	virtual void             IdeConsoleBeginGroup(String group);
+	virtual void             IdeConsoleEndGroup();
+	virtual bool             IdeConsoleWait();
+	virtual bool             IdeConsoleWait(int slot);
+	virtual void             IdeConsoleOnFinish(Event<> cb);
 
-	virtual bool      исрОтладка_ли() const ;
-	virtual void      исрЗавершиОтладку();
-	virtual void      исрУстНиз(Ктрл& ctrl);
-	virtual void      исрАктивируйНиз();
-	virtual void      исрУдалиНиз(Ктрл& ctrl);
-	virtual void      исрУстПраво(Ктрл& ctrl);
-	virtual void      исрУдалиПраво(Ктрл& ctrl);
+	virtual bool      IdeIsDebug() const ;
+	virtual void      IdeEndDebug();
+	virtual void      IdeSetBottom(Ctrl& ctrl);
+	virtual void      IdeActivateBottom();
+	virtual void      IdeRemoveBottom(Ctrl& ctrl);
+	virtual void      IdeSetRight(Ctrl& ctrl);
+	virtual void      IdeRemoveRight(Ctrl& ctrl);
 
-	virtual Ткст    исрДайИмяф() const ;
-	virtual int       исрДайСтрокуф();
-	virtual Ткст    исрДайСтроку(int i) const ;
+	virtual String    IdeGetFileName() const ;
+	virtual int       IdeGetFileLine();
+	virtual String    IdeGetLine(int i) const ;
 
-	virtual void      исрУстПозОтладки(const Ткст& фн, int line, const Рисунок& img, int i);
-	virtual void      исрСкройУк();
-	virtual bool      исрОтладБлокируй();
-	virtual bool      исрОтладРазблокируй();
-	virtual bool      исрОтладБлокировка_ли() const ;
-	virtual void      исрУстБар();
-	virtual void      IdeGotoCodeRef(Ткст link);
-	virtual void      IdeOpenTopicFile(const Ткст& file);
-	virtual void      исрСлейФайл();
-	virtual Ткст    исрДайИмяф();
-	virtual Ткст    IdeGetNestFolder();
+	virtual void      IdeSetDebugPos(const String& fn, int line, const Image& img, int i);
+	virtual void      IdeHidePtr();
+	virtual bool      IdeDebugLock();
+	virtual bool      IdeDebugUnLock();
+	virtual bool      IdeIsDebugLock() const ;
+	virtual void      IdeSetBar();
+	virtual void      IdeGotoCodeRef(String link);
+	virtual void      IdeOpenTopicFile(const String& file);
+	virtual void      IdeFlushFile();
+	virtual String    IdeGetFileName();
+	virtual String    IdeGetNestFolder();
 
 	virtual void           ConsoleShow();
 	virtual void           ConsoleSync();
 	virtual void           ConsoleClear();
 	virtual void           SetupDefaultMethod();
-	virtual Вектор<Ткст> PickErrors();
+	virtual Vector<String> PickErrors();
 	virtual void           BeginBuilding(bool clear_console);
 	virtual void           EndBuilding(bool ok);
 	virtual void           ClearErrorEditor();
-	virtual void           DoProcessСобытиеs();
+	virtual void           DoProcessEvents();
 	virtual void           ReQualifyCodeBase();
 	virtual void           SetErrorEditor();
-	virtual Ткст         GetMain();
+	virtual String         GetMain();
 
-	virtual Ткст                    GetDefaultMethod();
-	virtual ВекторМап<Ткст, Ткст> GetMethodVars(const Ткст& method);
-	virtual Ткст                    GetMethodName(const Ткст& method);
+	virtual String                    GetDefaultMethod();
+	virtual VectorMap<String, String> GetMethodVars(const String& method);
+	virtual String                    GetMethodName(const String& method);
 
 	virtual bool IsPersistentFindReplace() { return false; }
 
-	virtual Ткст    IdeGetIncludePath() { return Null; }
+	virtual String    IdeGetIncludePath() { return Null; }
 
-	virtual int       IdeGetHydraThreads() { return цпбЯдра(); }
-	virtual Ткст    IdeGetCurrentBuildMethod() { return Null; }
-	virtual Ткст    IdeGetCurrentMainPackage() { return Null; }
-	virtual void      IdePutErrorLine(const Ткст&) {}
-	virtual void      IdeGotoFileAndId(const Ткст& path, const Ткст& id) {}
+	virtual int       IdeGetHydraThreads() { return CPU_Cores(); }
+	virtual String    IdeGetCurrentBuildMethod() { return Null; }
+	virtual String    IdeGetCurrentMainPackage() { return Null; }
+	virtual void      IdePutErrorLine(const String&) {}
+	virtual void      IdeGotoFileAndId(const String& path, const String& id) {}
 
-	void ExportMakefile(const Ткст& ep);
-	void ExportProject(const Ткст& ep, bool all, bool deletedir = true);
+	void ExportMakefile(const String& ep);
+	void ExportProject(const String& ep, bool all, bool deletedir = true);
 
-	Иср();
+	Ide();
 };
 
 #endif

@@ -1,101 +1,101 @@
 #include "Docking.h"
 
-namespace РНЦП {
+namespace Upp {
 
 int ToolWin::GetTitleCy() const
 {
 	return max(GetStdFontCy() + DPI(4), DPI(16));
 }
 
-int ToolWin::дайГраницу() const
+int ToolWin::GetBorder() const
 {
 	return DPI(2);
 }
 
-Прям ToolWin::GetMargins() const
+Rect ToolWin::GetMargins() const
 {
-	Прям r;
-	r.left = r.right = r.top = r.bottom = дайГраницу();
+	Rect r;
+	r.left = r.right = r.top = r.bottom = GetBorder();
 	r.top += GetTitleCy();
 	return r;
 }
 
-Размер ToolWin::AddMargins(Размер sz) const
+Size ToolWin::AddMargins(Size sz) const
 {
-	Прям m = GetMargins();
-	sz += Размер(m.left + m.right, m.top + m.bottom);
+	Rect m = GetMargins();
+	sz += Size(m.left + m.right, m.top + m.bottom);
 	return sz;
 }
 
-void ToolWin::добавьРазмФрейма(Размер& sz)
+void ToolWin::FrameAddSize(Size& sz)
 {
 	sz = AddMargins(sz);
 }
 
-void ToolWin::выложиФрейм(Прям& r)
+void ToolWin::FrameLayout(Rect& r)
 {
-	if(дайРодителя()) {
-		close.скрой();
+	if(GetParent()) {
+		close.Hide();
 		return;
 	}
-	close.покажи();
+	close.Show();
 	int c = GetTitleCy();
-	int b = дайГраницу();
+	int b = GetBorder();
 	close.SetFrameRect(r.right - c - b + 1, r.top + b, c - 1, c - 1);
-	Прям m = GetMargins();
+	Rect m = GetMargins();
 	r.left += m.left;
 	r.right -= m.right;
 	r.top += m.top;
 	r.bottom -= m.bottom;
 }
 
-void ToolWin::рисуйФрейм(Draw& w, const Прям& rr)
+void ToolWin::FramePaint(Draw& w, const Rect& rr)
 {
-	if(дайРодителя())
+	if(GetParent())
 		return;
-	int bn = дайГраницу();
-	Прям r = rr;
+	int bn = GetBorder();
+	Rect r = rr;
 	for(int i = 0; i < bn; i++) {
 		DrawFrame(w, r, decode(i, 0, SColorShadow(), 1, SColorLight(), SColorFace()));
-		r.дефлируй(1);
+		r.Deflate(1);
 	}
 	int fcy = GetStdFontCy();
 	int titlecy = GetTitleCy();
-	w.DrawRect(r.left, r.top, r.дайШирину(), titlecy, смешай(SColorFace(), SColorShadow()));
+	w.DrawRect(r.left, r.top, r.GetWidth(), titlecy, Blend(SColorFace(), SColorShadow()));
 	DrawTextEllipsis(w, r.left + fcy / 4, r.top + (titlecy - fcy) / 2,
-	                 r.дайШирину() - fcy / 2 - DPI(16), дайТитул(), "...", StdFont(), SColorText());
+	                 r.GetWidth() - fcy / 2 - DPI(16), GetTitle(), "...", StdFont(), SColorText());
 }
 
 void ToolWin::StartMouseDrag0()
 {
-	p0 = дайПозМыши();
-	rect0 = дайПрям();
+	p0 = GetMousePos();
+	rect0 = GetRect();
 	UnIgnoreMouse();
 	SetCapture();
 }
 
 void ToolWin::StartMouseDrag()
 {
-	if(HasCapture() || !пусто_ли(dragdir))
+	if(HasCapture() || !IsNull(dragdir))
 		return;
-	dragdir = Точка(0, 0);
+	dragdir = Point(0, 0);
 	StartMouseDrag0();
 }
 
-void ToolWin::двигМыши(Точка, dword)
+void ToolWin::MouseMove(Point, dword)
 {
-	if(!HasCapture() || дайРодителя())
+	if(!HasCapture() || GetParent())
 		return;
-	Прям r = rect0;
-	Точка off = дайПозМыши() - p0;
-	Ук<Ктрл> _this = this;
-	if(dragdir == Точка(0, 0)) {
-		r.смещение(off);
+	Rect r = rect0;
+	Point off = GetMousePos() - p0;
+	Ptr<Ctrl> _this = this;
+	if(dragdir == Point(0, 0)) {
+		r.Offset(off);
 		Moving();
 	}
 	else {
-		Размер minsz = дайМинРазм();
-		Размер maxsz = дайМаксРазм();
+		Size minsz = GetMinSize();
+		Size maxsz = GetMaxSize();
 		if(dragdir.x == -1)
 			r.left = minmax(r.left + off.x, r.right - maxsz.cx, r.right - minsz.cx);
 		if(dragdir.x == 1)
@@ -106,66 +106,66 @@ void ToolWin::двигМыши(Точка, dword)
 			r.bottom = minmax(r.bottom + off.y, r.top + minsz.cy, r.top + maxsz.cy);
 	}
 	if(_this)
-		устПрям(r);
+		SetRect(r);
 }
 
-void ToolWin::леваяВверху(Точка, dword)
+void ToolWin::LeftUp(Point, dword)
 {
-	Ук<Ктрл> _this = this;
-	if(dragdir == Точка(0, 0))
+	Ptr<Ctrl> _this = this;
+	if(dragdir == Point(0, 0))
 		MoveEnd();
 	if(_this)
 		dragdir = Null;
 }
 
-Рисунок ToolWin::рисКурсора(Точка, dword)
+Image ToolWin::CursorImage(Point, dword)
 {
-	Точка dir = HasCapture() ? dragdir : GetDir(дайПозМыши() - дайПрямЭкрана().верхЛево());
-	if(пусто_ли(dir))
-		return Рисунок::Arrow();
-	static Рисунок (*im[9])() = {
-		Рисунок::SizeTopLeft, Рисунок::SizeLeft, Рисунок::SizeBottomLeft,
-		Рисунок::SizeTop, Рисунок::Arrow, Рисунок::SizeBottom,
-		Рисунок::SizeTopRight, Рисунок::SizeRight, Рисунок::SizeBottomRight,
+	Point dir = HasCapture() ? dragdir : GetDir(GetMousePos() - GetScreenRect().TopLeft());
+	if(IsNull(dir))
+		return Image::Arrow();
+	static Image (*im[9])() = {
+		Image::SizeTopLeft, Image::SizeLeft, Image::SizeBottomLeft,
+		Image::SizeTop, Image::Arrow, Image::SizeBottom,
+		Image::SizeTopRight, Image::SizeRight, Image::SizeBottomRight,
 	};
 	return (*im[(dir.x + 1) * 3 + (dir.y + 1)])();
 }
 
-Рисунок ToolWin::FrameMouseEvent(int event, Точка p, int zdelta, dword keyflags)
+Image ToolWin::FrameMouseEvent(int event, Point p, int zdelta, dword keyflags)
 {
-	if(дайРодителя())
-		return Рисунок::Arrow();
+	if(GetParent())
+		return Image::Arrow();
 	switch(event) {
 	case LEFTDOWN:
 		StartMouseDrag0();
 		dragdir = GetDir(p);
-		if(пусто_ли(dragdir))
+		if(IsNull(dragdir))
 			break;
-		if(dragdir == Точка(0, 0))
+		if(dragdir == Point(0, 0))
 			MoveBegin();
 		break;
 	case MOUSEMOVE:
-		двигМыши(p, keyflags);
+		MouseMove(p, keyflags);
 		break;
 	case LEFTUP:
-		леваяВверху(p, keyflags);
+		LeftUp(p, keyflags);
 		break;
 	case CURSORIMAGE:
-		return рисКурсора(p, keyflags);
+		return CursorImage(p, keyflags);
 	}
-	return Рисунок::Arrow();
+	return Image::Arrow();
 }
 
-Точка ToolWin::GetDir(Точка p) const
+Point ToolWin::GetDir(Point p) const
 {
-	Размер sz = дайРазм();
-	int b = дайГраницу();
+	Size sz = GetSize();
+	int b = GetBorder();
 	if(p.x >= b && p.y > b && p.x < sz.cx - b && p.y < b + GetTitleCy())
-		return Точка(0, 0);
-	if(Прям(sz).дефлят(b).содержит(p))
+		return Point(0, 0);
+	if(Rect(sz).Deflated(b).Contains(p))
 		return Null;
 	b *= 4;
-	Точка r(0, 0);
+	Point r(0, 0);
 	if(p.x < b)
 		r.x = -1;
 	if(p.x >= sz.cx - b)
@@ -177,33 +177,33 @@ void ToolWin::леваяВверху(Точка, dword)
 	return r;
 }
 
-void ToolWin::SetClientRect(Прям r)
+void ToolWin::SetClientRect(Rect r)
 {
-	Прям m = GetMargins();
+	Rect m = GetMargins();
 	r.left += m.left;
 	r.right += m.right;
 	r.top += m.top;
 	r.bottom += m.bottom;
-	устПрям(r);
+	SetRect(r);
 }
 
-void ToolWin::PlaceClientRect(Прям r)
+void ToolWin::PlaceClientRect(Rect r)
 {
-	Размер sz = r.дайРазм();
-	Точка pt = дайПозМыши();
-	int b = дайГраницу();
+	Size sz = r.GetSize();
+	Point pt = GetMousePos();
+	int b = GetBorder();
 	int t = GetTitleCy();
 	if(!(pt.x >= r.left + b && pt.x < r.right - b))
 		r.left = pt.x - sz.cx / 2;
 	if(!(pt.y >= r.top + b && pt.y < r.top + b + t))
 		r.top = pt.y - b - t / 2;
-	r.устРазм(sz);
-	Прям m = GetMargins();
+	r.SetSize(sz);
+	Rect m = GetMargins();
 	r.left -= m.left;
 	r.right += m.right;
 	r.top -= m.top;
 	r.bottom += m.bottom;
-	устПрям(r);
+	SetRect(r);
 }
 
 void ToolWin::DoClose()
@@ -220,11 +220,11 @@ void ToolWin::MoveEnd() {}
 ToolWin::ToolWin()
 {
 	dragdir = Null;
-	добавь(close);
-	close.Рисунок(CtrlImg::cross());
+	Add(close);
+	close.Image(CtrlImg::cross());
 	close <<= THISBACK(DoClose);
-	close.Подсказка(t_("закрой"));
-	добавьФрейм(*this);
+	close.Tip(t_("Закрыть"));
+	AddFrame(*this);
 	FrameLess();
 }
 

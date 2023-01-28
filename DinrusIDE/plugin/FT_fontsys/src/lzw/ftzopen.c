@@ -112,7 +112,7 @@
     if ( state->stack_top >= state->stack_size )
     {
       FT_Memory  memory = state->memory;
-      FT_Error   Ошибка;
+      FT_Error   error;
       FT_Offset  old_size = state->stack_size;
       FT_Offset  new_size = old_size;
 
@@ -140,7 +140,7 @@
     FT_UInt    old_size = state->prefix_size;
     FT_UInt    new_size = old_size;
     FT_Memory  memory   = state->memory;
-    FT_Error   Ошибка;
+    FT_Error   error;
 
 
     if ( new_size == 0 )  /* first allocation -> 9 bits */
@@ -236,7 +236,7 @@
 
   FT_LOCAL_DEF( FT_ULong )
   ft_lzwstate_io( FT_LzwState  state,
-                  FT_Byte*     буфер,
+                  FT_Byte*     buffer,
                   FT_ULong     out_size )
   {
     FT_ULong  result = 0;
@@ -284,8 +284,8 @@
 
         old_code = old_char = (FT_UInt)c;
 
-        if ( буфер )
-          буфер[result] = (FT_Byte)old_char;
+        if ( buffer )
+          buffer[result] = (FT_Byte)old_char;
 
         if ( ++result >= out_size )
           goto Exit;
@@ -353,8 +353,8 @@
         {
           --state->stack_top;
 
-          if ( буфер )
-            буфер[result] = state->stack[state->stack_top];
+          if ( buffer )
+            buffer[result] = state->stack[state->stack_top];
 
           if ( ++result == out_size )
             goto Exit;

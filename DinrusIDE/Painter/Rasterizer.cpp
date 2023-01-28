@@ -25,26 +25,26 @@
 
 #define LLOG(x) // DLOG(x)
 
-namespace РНЦП {
+namespace Upp {
 
-void Rasterizer::создай(int cx, int cy, bool subpixel)
+void Rasterizer::Create(int cx, int cy, bool subpixel)
 {
-	освободи();
+	Free();
 
 	mx = subpixel ? 3 * 256 : 256;
 	sz.cx = cx;
 	sz.cy = cy;
 
-	cell.размести(sz.cy + 1); // one more for overrun
+	cell.Alloc(sz.cy + 1); // one more for overrun
 
 	STATIC_ASSERT(sizeof(CellArray) == 128);
 
-	cliprect = РазмерПЗ(sz);
-	иниц();
-	переустанов(); // TODO: Can be removed (cell is just constructed, иниц called above)
+	cliprect = Sizef(sz);
+	Init();
+	Reset(); // СДЕЛАТЬ: Can be removed (cell is just constructed, Init called above)
 }
 
-void Rasterizer::освободи()
+void Rasterizer::Free()
 {
 	if(cell)
 		for(int i = 0; i <= sz.cy; i++)
@@ -52,14 +52,14 @@ void Rasterizer::освободи()
 				MemoryFree(cell[i].ptr);
 }
 
-void Rasterizer::иниц()
+void Rasterizer::Init()
 {
-	p0 = ТочкаПЗ(0, 0);
+	p0 = Pointf(0, 0);
 	min_y = INT_MAX;
 	max_y = INT_MIN;
 }
 
-void Rasterizer::переустанов()
+void Rasterizer::Reset()
 {
 	for(int i = min_y; i <= max_y; i++) {
 		if(cell[i].alloc != SVO_ALLOC) {
@@ -68,12 +68,12 @@ void Rasterizer::переустанов()
 		}
 		cell[i].count = 0;
 	}
-	иниц();
+	Init();
 }
 
-void Rasterizer::SetClip(const ПрямПЗ& rect)
+void Rasterizer::SetClip(const Rectf& rect)
 {
-	cliprect = rect & РазмерПЗ(sz);
+	cliprect = rect & Sizef(sz);
 }
 
 force_inline
@@ -129,7 +129,7 @@ inline void Rasterizer::RenderHLine(int ey, int x1, int y1, int x2, int y2)
 			delta--;
 			mod += dx;
 		}
-		c = AddCells(ey, абс(ex2 - ex1) + 1);
+		c = AddCells(ey, abs(ex2 - ex1) + 1);
 		c->x = ex1;
 		c->cover = delta;
 		c->area = fx1 * delta;
@@ -173,7 +173,7 @@ inline void Rasterizer::RenderHLine(int ey, int x1, int y1, int x2, int y2)
 			delta--;
 			mod += dx;
 		}
-		c = AddCells(ey, абс(ex2 - ex1) + 1);
+		c = AddCells(ey, abs(ex2 - ex1) + 1);
 		c->x = ex1;
 		c->cover = delta;
 		c->area = (fx1 + 256) * delta;
@@ -220,7 +220,7 @@ void Rasterizer::LineRaw(int x1, int y1, int x2, int y2)
 	int ey1 = y1 >> 8;
 	int ey2 = y2 >> 8;
 
-	ПРОВЕРЬ(ey1 >= 0 && ey1 <= sz.cy && ey2 >= 0 && ey2 <= sz.cy);
+	ASSERT(ey1 >= 0 && ey1 <= sz.cy && ey2 >= 0 && ey2 <= sz.cy);
 
 	if(ey1 < min_y) {
 		if(ey1 < 0) return;
@@ -335,7 +335,7 @@ void Rasterizer::LineRaw(int x1, int y1, int x2, int y2)
 	RenderHLine(ey1, x_from, 256 - first, x2, fy2);
 }
 
-void Rasterizer::Filler::стоп() {}
+void Rasterizer::Filler::End() {}
 
 void Rasterizer::Render(int y, Rasterizer::Filler& g, bool evenodd)
 {
@@ -343,10 +343,10 @@ void Rasterizer::Render(int y, Rasterizer::Filler& g, bool evenodd)
 	CellArray& a = cell[y];
 	if(a.count == 0)
 		return;
-	Cell *c = a.дай();
+	Cell *c = a.Get();
 	Cell *e = c + a.count;
-	сортируй(СубДиапазон(c, e));
-	g.старт(c->x, (e - 1)->x);
+	Sort(SubRange(c, e));
+	g.Start(c->x, (e - 1)->x);
 	int cover = 0;
 	while(c < e) {
 		int x = c->x;
@@ -360,25 +360,25 @@ void Rasterizer::Render(int y, Rasterizer::Filler& g, bool evenodd)
 		}
 		if(evenodd) {
 			if(area) {
-				int h = абс(((cover << 9) - area) >> 9) & 511;
+				int h = abs(((cover << 9) - area) >> 9) & 511;
 				g.Render(h > 256 ? 512 - h : h);
 				x++;
 			}
 			if(c < e && c->x > x) {
-				int h = абс(cover) & 511;
+				int h = abs(cover) & 511;
 				g.Render(h > 256 ? 512 - h : h, c->x - x);
 			}
 		}
 		else {
 			if(area) {
-				g.Render(min(абс(((cover << 9) - area) >> 9), 256));
+				g.Render(min(abs(((cover << 9) - area) >> 9), 256));
 				x++;
 			}
 			if(c < e && c->x > x)
-				g.Render(min(абс(cover), 256), c->x - x);
+				g.Render(min(abs(cover), 256), c->x - x);
 		}
 	}
-	g.стоп();
+	g.End();
 }
 
 }

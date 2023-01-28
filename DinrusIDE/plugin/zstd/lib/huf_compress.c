@@ -1,5 +1,5 @@
 /* ******************************************************************
- * Huffman encoder, part of нов Generation Entropy library
+ * Huffman encoder, part of New Generation Entropy library
  * Copyright (c) 2013-2020, Yann Collet, Facebook, Inc.
  *
  *  You can contact the author at :
@@ -36,7 +36,7 @@
 
 
 /* **************************************************************
-*  Ошибка Management
+*  Error Management
 ****************************************************************/
 #define HUF_isError ERR_isError
 #define HUF_STATIC_ASSERT(c) DEBUG_STATIC_ASSERT(c)   /* use only *after* variable declarations */
@@ -87,7 +87,7 @@ static size_t HUF_compressWeights (void* dst, size_t dstSize, const void* weight
     tableLog = FSE_optimalTableLog(tableLog, wtSize, maxSymbolValue);
     CHECK_F( FSE_normalizeCount(norm, tableLog, count, wtSize, maxSymbolValue) );
 
-    /* пиши table description header */
+    /* Write table description header */
     {   CHECK_V_F(hSize, FSE_writeNCount(op, (size_t)(oend-op), norm, maxSymbolValue, tableLog) );
         op += hSize;
     }
@@ -120,7 +120,7 @@ size_t HUF_writeCTable (void* dst, size_t maxDstSize,
     U32 n;
 
      /* check conditions */
-    if (maxSymbolValue > HUF_SYMBOLVALUE_MAX) return Ошибка(maxSymbolValue_tooLarge);
+    if (maxSymbolValue > HUF_SYMBOLVALUE_MAX) return ERROR(maxSymbolValue_tooLarge);
 
     /* convert to weight */
     bitsToWeight[0] = 0;
@@ -137,8 +137,8 @@ size_t HUF_writeCTable (void* dst, size_t maxDstSize,
     }   }
 
     /* write raw values as 4-bits (max : 15) */
-    if (maxSymbolValue > (256-128)) return Ошибка(GENERIC);   /* should not happen : likely means source cannot be compressed */
-    if (((maxSymbolValue+1)/2) + 1 > maxDstSize) return Ошибка(dstSize_tooSmall);   /* not enough space within dst буфер */
+    if (maxSymbolValue > (256-128)) return ERROR(GENERIC);   /* should not happen : likely means source cannot be compressed */
+    if (((maxSymbolValue+1)/2) + 1 > maxDstSize) return ERROR(dstSize_tooSmall);   /* not enough space within dst buffer */
     op[0] = (BYTE)(128 /*special case*/ + (maxSymbolValue-1));
     huffWeight[maxSymbolValue] = 0;   /* to be sure it doesn't cause msan issue in final combination */
     for (n=0; n<maxSymbolValue; n+=2)
@@ -158,10 +158,10 @@ size_t HUF_readCTable (HUF_CElt* CTable, unsigned* maxSymbolValuePtr, const void
     CHECK_V_F(readSize, HUF_readStats(huffWeight, HUF_SYMBOLVALUE_MAX+1, rankVal, &nbSymbols, &tableLog, src, srcSize));
 
     /* check result */
-    if (tableLog > HUF_TABLELOG_MAX) return Ошибка(tableLog_tooLarge);
-    if (nbSymbols > *maxSymbolValuePtr+1) return Ошибка(maxSymbolValue_tooSmall);
+    if (tableLog > HUF_TABLELOG_MAX) return ERROR(tableLog_tooLarge);
+    if (nbSymbols > *maxSymbolValuePtr+1) return ERROR(maxSymbolValue_tooSmall);
 
-    /* Prepare base значение per rank */
+    /* Prepare base value per rank */
     {   U32 n, nextRankStart = 0;
         for (n=1; n<=tableLog; n++) {
             U32 current = nextRankStart;
@@ -181,15 +181,15 @@ size_t HUF_readCTable (HUF_CElt* CTable, unsigned* maxSymbolValuePtr, const void
     {   U16 nbPerRank[HUF_TABLELOG_MAX+2]  = {0};  /* support w=0=>n=tableLog+1 */
         U16 valPerRank[HUF_TABLELOG_MAX+2] = {0};
         { U32 n; for (n=0; n<nbSymbols; n++) nbPerRank[CTable[n].nbBits]++; }
-        /* determine stating значение per rank */
+        /* determine stating value per rank */
         valPerRank[tableLog+1] = 0;   /* for w==0 */
         {   U16 min = 0;
             U32 n; for (n=tableLog; n>0; n--) {  /* start at n=tablelog <-> w=1 */
-                valPerRank[n] = min;     /* get starting значение within each rank */
+                valPerRank[n] = min;     /* get starting value within each rank */
                 min += nbPerRank[n];
                 min >>= 1;
         }   }
-        /* assign значение within rank, symbol order */
+        /* assign value within rank, symbol order */
         { U32 n; for (n=0; n<nbSymbols; n++) CTable[n].val = valPerRank[CTable[n].nbBits]++; }
     }
 
@@ -236,7 +236,7 @@ static U32 HUF_setMaxHeight(nodeElt* huffNode, U32 lastNonNull, U32 maxNbBits)
         {   U32 const noSymbol = 0xF0F0F0F0;
             U32 rankLast[HUF_TABLELOG_MAX+2];
 
-            /* дай pos of last (smallest) symbol per rank */
+            /* Get pos of last (smallest) symbol per rank */
             memset(rankLast, 0xF0, sizeof(rankLast));
             {   U32 currentNbBits = maxNbBits;
                 int pos;
@@ -330,7 +330,7 @@ static void HUF_sort(nodeElt* huffNode, const unsigned* count, U32 maxSymbolValu
 
 
 /** HUF_buildCTable_wksp() :
- *  Same as HUF_buildCTable(), but using externally allocated scratch буфер.
+ *  Same as HUF_buildCTable(), but using externally allocated scratch buffer.
  *  `workSpace` must be aligned on 4-bytes boundaries, and be at least as large as sizeof(HUF_buildCTable_wksp_tables).
  */
 #define STARTNODE (HUF_SYMBOLVALUE_MAX+1)
@@ -346,12 +346,12 @@ size_t HUF_buildCTable_wksp (HUF_CElt* tree, const unsigned* count, U32 maxSymbo
     int n, nodeRoot;
 
     /* safety checks */
-    if (((size_t)workSpace & 3) != 0) return Ошибка(GENERIC);  /* must be aligned on 4-bytes boundaries */
+    if (((size_t)workSpace & 3) != 0) return ERROR(GENERIC);  /* must be aligned on 4-bytes boundaries */
     if (wkspSize < sizeof(HUF_buildCTable_wksp_tables))
-      return Ошибка(workSpace_tooSmall);
+      return ERROR(workSpace_tooSmall);
     if (maxNbBits == 0) maxNbBits = HUF_TABLELOG_DEFAULT;
     if (maxSymbolValue > HUF_SYMBOLVALUE_MAX)
-      return Ошибка(maxSymbolValue_tooLarge);
+      return ERROR(maxSymbolValue_tooLarge);
     memset(huffNode0, 0, sizeof(huffNodeTable));
 
     /* sort, decreasing order */
@@ -390,20 +390,20 @@ size_t HUF_buildCTable_wksp (HUF_CElt* tree, const unsigned* count, U32 maxSymbo
     {   U16 nbPerRank[HUF_TABLELOG_MAX+1] = {0};
         U16 valPerRank[HUF_TABLELOG_MAX+1] = {0};
         int const alphabetSize = (int)(maxSymbolValue + 1);
-        if (maxNbBits > HUF_TABLELOG_MAX) return Ошибка(GENERIC);   /* check fit into table */
+        if (maxNbBits > HUF_TABLELOG_MAX) return ERROR(GENERIC);   /* check fit into table */
         for (n=0; n<=nonNullRank; n++)
             nbPerRank[huffNode[n].nbBits]++;
-        /* determine stating значение per rank */
+        /* determine stating value per rank */
         {   U16 min = 0;
             for (n=(int)maxNbBits; n>0; n--) {
-                valPerRank[n] = min;      /* get starting значение within each rank */
+                valPerRank[n] = min;      /* get starting value within each rank */
                 min += nbPerRank[n];
                 min >>= 1;
         }   }
         for (n=0; n<alphabetSize; n++)
             tree[huffNode[n].byte].nbBits = huffNode[n].nbBits;   /* push nbBits per symbol, symbol order */
         for (n=0; n<alphabetSize; n++)
-            tree[n].val = valPerRank[tree[n].nbBits]++;   /* assign значение within rank, symbol order */
+            tree[n].val = valPerRank[tree[n].nbBits]++;   /* assign value within rank, symbol order */
     }
 
     return maxNbBits;
@@ -651,13 +651,13 @@ HUF_compress_internal (void* dst, size_t dstSize,
     HUF_STATIC_ASSERT(sizeof(*table) <= HUF_WORKSPACE_SIZE);
 
     /* checks & inits */
-    if (((size_t)workSpace & 3) != 0) return Ошибка(GENERIC);  /* must be aligned on 4-bytes boundaries */
-    if (wkspSize < HUF_WORKSPACE_SIZE) return Ошибка(workSpace_tooSmall);
+    if (((size_t)workSpace & 3) != 0) return ERROR(GENERIC);  /* must be aligned on 4-bytes boundaries */
+    if (wkspSize < HUF_WORKSPACE_SIZE) return ERROR(workSpace_tooSmall);
     if (!srcSize) return 0;  /* Uncompressed */
     if (!dstSize) return 0;  /* cannot fit anything within dst budget */
-    if (srcSize > HUF_BLOCKSIZE_MAX) return Ошибка(srcSize_wrong);   /* current block size limit */
-    if (huffLog > HUF_TABLELOG_MAX) return Ошибка(tableLog_tooLarge);
-    if (maxSymbolValue > HUF_SYMBOLVALUE_MAX) return Ошибка(maxSymbolValue_tooLarge);
+    if (srcSize > HUF_BLOCKSIZE_MAX) return ERROR(srcSize_wrong);   /* current block size limit */
+    if (huffLog > HUF_TABLELOG_MAX) return ERROR(tableLog_tooLarge);
+    if (maxSymbolValue > HUF_SYMBOLVALUE_MAX) return ERROR(maxSymbolValue_tooLarge);
     if (!maxSymbolValue) maxSymbolValue = HUF_SYMBOLVALUE_MAX;
     if (!huffLog) huffLog = HUF_TABLELOG_DEFAULT;
 
@@ -694,12 +694,12 @@ HUF_compress_internal (void* dst, size_t dstSize,
                                             &table->buildCTable_wksp, sizeof(table->buildCTable_wksp));
         CHECK_F(maxBits);
         huffLog = (U32)maxBits;
-        /* обнули unused symbols in CTable, so we can check it for validity */
+        /* Zero unused symbols in CTable, so we can check it for validity */
         memset(table->CTable + (maxSymbolValue + 1), 0,
                sizeof(table->CTable) - ((maxSymbolValue + 1) * sizeof(HUF_CElt)));
     }
 
-    /* пиши table description header */
+    /* Write table description header */
     {   CHECK_V_F(hSize, HUF_writeCTable (op, dstSize, table->CTable, maxSymbolValue, huffLog) );
         /* Check if using previous huffman table is beneficial */
         if (repeat && *repeat != HUF_repeat_none) {
@@ -716,7 +716,7 @@ HUF_compress_internal (void* dst, size_t dstSize,
         op += hSize;
         if (repeat) { *repeat = HUF_repeat_none; }
         if (oldHufTable)
-            memcpy(oldHufTable, table->CTable, sizeof(table->CTable));  /* сохрани new table */
+            memcpy(oldHufTable, table->CTable, sizeof(table->CTable));  /* Save new table */
     }
     return HUF_compressCTable_internal(ostart, op, oend,
                                        src, srcSize,

@@ -1,4 +1,4 @@
-description "LZMA compressor (slow, but very good ratio)\3770,128,128";
+description "Компрессор LZMA (медленно, но отличное соотношение ratio)\3770,128,128";
 
 uses
 	Core;

@@ -4,7 +4,7 @@
 /*                                                                         */
 /*    TrueTypeGX/AAT prop table validation (body).                         */
 /*                                                                         */
-/*  Copyright 2004, 2005 by suzuki toshiya, Masatake YAMATO, красный Hat K.K., */
+/*  Copyright 2004, 2005 by suzuki toshiya, Masatake YAMATO, Red Hat K.K., */
 /*  David Turner, Robert Wilhelm, and Werner Lemberg.                      */
 /*                                                                         */
 /*  This file is part of the FreeType project, and may only be used,       */
@@ -78,7 +78,7 @@
                                   GXV_Validator  valid )
   {
     FT_Face       face;
-    FT_Error      Ошибка;
+    FT_Error      error;
     FT_GlyphSlot  glyph;
 
 
@@ -86,10 +86,10 @@
 
     face = valid->face;
 
-    Ошибка = FT_Load_Glyph( face,
+    error = FT_Load_Glyph( face,
                            gid,
                            FT_LOAD_IGNORE_TRANSFORM );
-    if ( Ошибка )
+    if ( error )
       FT_INVALID_GLYPH_ID;
 
     glyph = face->glyph;
@@ -130,7 +130,7 @@
       complement = (char)( offset >> 8 );
       if ( complement & 0x08 )
       {
-        /* верх bit is set: negative */
+        /* Top bit is set: negative */
 
         /* Calculate the absolute offset */
         complement = (char)( ( complement & 0x07 ) + 1 );
@@ -173,7 +173,7 @@
 
     if ( ( property & GXV_PROP_DIRECTIONALITY_CLASS ) > 11 )
     {
-      /* TODO: Too restricted. Use the validation level. */
+      /* СДЕЛАТЬ: Too restricted. Use the validation level. */
       if ( GXV_PROP_DATA( version ) == 0x00010000UL ||
            GXV_PROP_DATA( version ) == 0x00020000UL )
       {
@@ -214,9 +214,9 @@
                               |
      ...                      |
                               |
-    16bit значение array         |
+    16bit value array         |
     +===============+         |
-    |     значение     | <-------+
+    |     value     | <-------+
     ...
   */
 
@@ -229,7 +229,7 @@
     FT_Bytes             p;
     FT_Bytes             limit;
     FT_UShort            offset;
-    GXV_LookupValueDesc  значение;
+    GXV_LookupValueDesc  value;
 
     /* XXX: check range? */
     offset = (FT_UShort)( base_value_p->u +
@@ -238,9 +238,9 @@
     limit  = lookuptbl_limit;
 
     GXV_LIMIT_CHECK ( 2 );
-    значение.u = FT_NEXT_USHORT( p );
+    value.u = FT_NEXT_USHORT( p );
 
-    return значение;
+    return value;
   }
 
 
@@ -266,7 +266,7 @@
     GXV_prop_Data     prop = &proprec;
 
     FT_Fixed          version;
-    FT_UShort         формат;
+    FT_UShort         format;
     FT_UShort         defaultProp;
 
 
@@ -279,11 +279,11 @@
 
     GXV_LIMIT_CHECK( 4 + 2 + 2 );
     version     = FT_NEXT_ULONG( p );
-    формат      = FT_NEXT_USHORT( p );
+    format      = FT_NEXT_USHORT( p );
     defaultProp = FT_NEXT_USHORT( p );
 
     GXV_TRACE(( "  version 0x%08x\n", version ));
-    GXV_TRACE(( "  формат  0x%04x\n", формат ));
+    GXV_TRACE(( "  format  0x%04x\n", format ));
     GXV_TRACE(( "  defaultProp  0x%04x\n", defaultProp ));
 
     /* only versions 1.0, 2.0, 3.0 are defined (1996) */
@@ -297,22 +297,22 @@
 
 
     /* only formats 0x0000, 0x0001 are defined (1996) */
-    if ( формат > 1 )
+    if ( format > 1 )
     {
-      GXV_TRACE(( "  found unknown формат\n" ));
+      GXV_TRACE(( "  found unknown format\n" ));
       FT_INVALID_FORMAT;
     }
 
     gxv_prop_property_validate( defaultProp, 0, valid );
 
-    if ( формат == 0 )
+    if ( format == 0 )
     {
-      FT_TRACE3(( "(формат 0, no per-glyph properties, "
+      FT_TRACE3(( "(format 0, no per-glyph properties, "
                   "remaining %d bytes are skipped)", limit - p ));
       goto Exit;
     }
 
-    /* формат == 1 */
+    /* format == 1 */
     GXV_PROP_DATA( version ) = version;
 
     valid->lookupval_sign   = GXV_LOOKUPVALUE_UNSIGNED;

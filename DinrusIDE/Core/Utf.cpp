@@ -1,13 +1,13 @@
 #include "Core.h"
 
-namespace РНЦПДинрус {
+namespace Upp {
 
-bool проверьУтф8(const char *s, int len)
+bool CheckUtf8(const char *s, int len)
 {
 	return FromUtf8_([](wchar) {}, s, len);
 }
 
-int длинаУтф8(const wchar *s, int len)
+int Utf8Len(const wchar *s, int len)
 {
 	int rlen = 0;
 	for(const wchar *lim = s + len; s < lim; s++)
@@ -15,41 +15,41 @@ int длинаУтф8(const wchar *s, int len)
 	return rlen;
 }
 
-void вУтф8(char *t, const wchar *s, int len)
+void ToUtf8(char *t, const wchar *s, int len)
 {
 	for(const wchar *lim = s + len; s < lim; s++)
 		ToUtf8_([&](char c) { *t++ = c; }, *s);
 }
 
-Ткст вУтф8(const wchar *s, int len)
+String ToUtf8(const wchar *s, int len)
 {
-	Ткст r;
+	String r;
 	for(const wchar *lim = s + len; s < lim; s++)
-		ToUtf8_([&](char c) { r.конкат(c); }, *s);
+		ToUtf8_([&](char c) { r.Cat(c); }, *s);
 	return r;
 }
 
-int длинаУтф8(const char16 *s, int len)
+int Utf8Len(const char16 *s, int len)
 {
 	int rlen = 0;
 	FromUtf16_([&](wchar code) { ToUtf8_([&](char c) { rlen++; }, code); }, s, len);
 	return rlen;
 }
 
-void вУтф8(char *t, const char16 *s, int len)
+void ToUtf8(char *t, const char16 *s, int len)
 {
 	FromUtf16_([&](wchar code) { ToUtf8_([&](char c) { *t++ = c; }, code); }, s, len);
 }
 
-Ткст вУтф8(const char16 *s, int len)
+String ToUtf8(const char16 *s, int len)
 {
-	ТкстБуф r;
-	r.резервируй(len);
-	FromUtf16_([&](wchar code) { ToUtf8_([&](char c) { r.конкат(c); }, code); }, s, len);
-	return Ткст(r);
+	StringBuffer r;
+	r.Reserve(len);
+	FromUtf16_([&](wchar code) { ToUtf8_([&](char c) { r.Cat(c); }, code); }, s, len);
+	return String(r);
 }
 
-int длинаУтф16(const wchar *s, int len)
+int Utf16Len(const wchar *s, int len)
 {
 	int rlen = 0;
 	for(const wchar *lim = s + len; s < lim; s++)
@@ -57,7 +57,7 @@ int длинаУтф16(const wchar *s, int len)
 	return rlen;
 }
 
-int вУтф16(char16 *t, const wchar *s, int len)
+int ToUtf16(char16 *t, const wchar *s, int len)
 {
 	char16 *t0 = t;
 	for(const wchar *lim = s + len; s < lim; s++)
@@ -65,16 +65,16 @@ int вУтф16(char16 *t, const wchar *s, int len)
 	return int(t - t0);
 }
 
-Вектор<char16> вУтф16(const wchar *s, int len)
+Vector<char16> ToUtf16(const wchar *s, int len)
 {
-	Вектор<char16> r;
-	r.резервируй(len);
+	Vector<char16> r;
+	r.Reserve(len);
 	for(const wchar *lim = s + len; s < lim; s++)
-		ToUtf16_([&](char16 c) { r.добавь(c); }, *s);
+		ToUtf16_([&](char16 c) { r.Add(c); }, *s);
 	return r;
 }
 
-int длинаУтф16(const char *s, int len)
+int Utf16Len(const char *s, int len)
 {
 	int rlen = 0;
 	FromUtf8_([&](wchar code) {
@@ -83,7 +83,7 @@ int длинаУтф16(const char *s, int len)
 	return rlen;
 }
 
-int вУтф16(char16 *t, const char *s, int len)
+int ToUtf16(char16 *t, const char *s, int len)
 {
 	char16 *t0 = t;
 	FromUtf8_([&](wchar code) {
@@ -92,92 +92,92 @@ int вУтф16(char16 *t, const char *s, int len)
 	return int(t - t0);
 }
 
-Вектор<char16> вУтф16(const char *s, int len)
+Vector<char16> ToUtf16(const char *s, int len)
 {
-	Вектор<char16> r;
+	Vector<char16> r;
 	FromUtf8_([&](wchar code) {
-		ToUtf16_([&](char16 c) { r.добавь(c); } , code);
+		ToUtf16_([&](char16 c) { r.Add(c); } , code);
 	}, s, len);
 	return r;
 }
 
-int длинаУтф32(const char *s, int len)
+int Utf32Len(const char *s, int len)
 {
 	int rlen = 0;
 	FromUtf8_([&](wchar) { rlen++; }, s, len);
 	return rlen;
 }
 
-void вУтф32(wchar *t, const char *s, int len)
+void ToUtf32(wchar *t, const char *s, int len)
 {
 	FromUtf8_([&](wchar c) { *t++ = c; }, s, len);
 }
 
-ШТкст вУтф32(const char *s, int len)
+WString ToUtf32(const char *s, int len)
 {
-	ШТкстБуф r;
-	FromUtf8_([&](wchar c) { r.конкат(c); }, s, len);
-	return ШТкст(r);
+	WStringBuffer r;
+	FromUtf8_([&](wchar c) { r.Cat(c); }, s, len);
+	return WString(r);
 }
 
-int длинаУтф32(const char16 *s, int len)
+int Utf32Len(const char16 *s, int len)
 {
 	int rlen = 0;
 	FromUtf16_([&](wchar) { rlen++; }, s, len);
 	return rlen;
 }
 
-void вУтф32(wchar *t, const char16 *s, int len)
+void ToUtf32(wchar *t, const char16 *s, int len)
 {
 	FromUtf16_([&](wchar c) { *t++ = c; }, s, len);
 }
 
-ШТкст вУтф32(const char16 *s, int len)
+WString ToUtf32(const char16 *s, int len)
 {
-	ШТкстБуф r;
-	r.резервируй(len);
-	FromUtf16_([&](wchar c) { r.конкат(c); }, s, len);
-	return ШТкст(r);
+	WStringBuffer r;
+	r.Reserve(len);
+	FromUtf16_([&](wchar c) { r.Cat(c); }, s, len);
+	return WString(r);
 }
 
-Ткст утф8ВАски(const Ткст& ист)
+String Utf8ToAscii(const String& src)
 {
-	ТкстБуф r(ист.дайДлину());
-	const char *s = ист.begin();
-	const char *lim = ист.end();
+	StringBuffer r(src.GetLength());
+	const char *s = src.begin();
+	const char *lim = src.end();
 
 	char *t = r;
 	while(s < lim)
-		*t++ = (byte)*s < 128 ? *s++ : вАски(достаньУтф8(s, lim));
-	r.устДлину(int(t - ~r));
-	return Ткст(r);
+		*t++ = (byte)*s < 128 ? *s++ : ToAscii(FetchUtf8(s, lim));
+	r.SetLength(int(t - ~r));
+	return String(r);
 }
 
-Ткст утф8ВАскиЗаг(const Ткст& ист)
+String Utf8ToUpperAscii(const String& src)
 {
-	ТкстБуф r(ист.дайДлину());
-	const char *s = ист.begin();
-	const char *lim = ист.end();
+	StringBuffer r(src.GetLength());
+	const char *s = src.begin();
+	const char *lim = src.end();
 
 	char *t = r;
 	while(s < lim) {
-		*t++ = (byte)*s <= 'Z' ? *s++ : вАскиЗаг(достаньУтф8(s, lim));
+		*t++ = (byte)*s <= 'Z' ? *s++ : ToUpperAscii(FetchUtf8(s, lim));
 	}
-	r.устДлину(int(t - ~r));
-	return Ткст(r);
+	r.SetLength(int(t - ~r));
+	return String(r);
 }
 
-Ткст утф8ВАскиПроп(const Ткст& ист)
+String Utf8ToLowerAscii(const String& src)
 {
-	ТкстБуф r(ист.дайДлину());
-	const char *s = ист.begin();
-	const char *lim = ист.end();
+	StringBuffer r(src.GetLength());
+	const char *s = src.begin();
+	const char *lim = src.end();
 
 	char *t = r;
 	while(s < lim)
-		*t++ = вАскиПроп(достаньУтф8(s, lim));
-	r.устДлину(int(t - ~r));
-	return Ткст(r);
+		*t++ = ToLowerAscii(FetchUtf8(s, lim));
+	r.SetLength(int(t - ~r));
+	return String(r);
 }
 
 };

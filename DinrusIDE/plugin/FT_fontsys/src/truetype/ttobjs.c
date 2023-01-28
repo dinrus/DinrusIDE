@@ -60,7 +60,7 @@
 
   /*************************************************************************/
   /*                                                                       */
-  /* <Функция>                                                            */
+  /* <Function>                                                            */
   /*    tt_glyphzone_done                                                  */
   /*                                                                       */
   /* <Description>                                                         */
@@ -92,7 +92,7 @@
 
   /*************************************************************************/
   /*                                                                       */
-  /* <Функция>                                                            */
+  /* <Function>                                                            */
   /*    tt_glyphzone_new                                                   */
   /*                                                                       */
   /* <Description>                                                         */
@@ -109,7 +109,7 @@
   /*    zone        :: A pointer to the target glyph zone record.          */
   /*                                                                       */
   /* <Return>                                                              */
-  /*    FreeType Ошибка code.  0 means success.                             */
+  /*    FreeType error code.  0 means success.                             */
   /*                                                                       */
   FT_LOCAL_DEF( FT_Error )
   tt_glyphzone_new( FT_Memory     memory,
@@ -117,7 +117,7 @@
                     FT_Short      maxContours,
                     TT_GlyphZone  zone )
   {
-    FT_Error  Ошибка;
+    FT_Error  error;
 
 
     FT_MEM_ZERO( zone, sizeof ( *zone ) );
@@ -137,16 +137,16 @@
       zone->max_contours = maxContours;
     }
 
-    return Ошибка;
+    return error;
   }
 #endif /* TT_USE_BYTECODE_INTERPRETER */
 
 
-  /* сравни the face with a list of well-known `tricky' fonts. */
+  /* Compare the face with a list of well-known `tricky' fonts. */
   /* This list shall be expanded as we find more of them.       */
 
   static FT_Bool
-  tt_check_trickyness_family( FT_String*  имя )
+  tt_check_trickyness_family( FT_String*  name )
   {
 
 #define TRICK_NAMES_MAX_CHARACTERS  16
@@ -169,7 +169,7 @@
 
 
     for ( nn = 0; nn < TRICK_NAMES_COUNT; nn++ )
-      if ( ft_strstr( имя, trick_names[nn] ) )
+      if ( ft_strstr( name, trick_names[nn] ) )
         return TRUE;
 
     return FALSE;
@@ -187,7 +187,7 @@
   tt_synth_sfnt_checksum( FT_Stream  stream,
                           FT_ULong   length )
   {
-    FT_Error   Ошибка;
+    FT_Error   error;
     FT_UInt32  checksum = 0;
     int        i;
 
@@ -213,29 +213,29 @@
   tt_get_sfnt_checksum( TT_Face    face,
                         FT_UShort  i )
   {
-#if 0 /* if we believe the written значение, use following part. */
-    if ( face->dir_tables[i].Checkсумма )
-      return face->dir_tables[i].Checkсумма;
+#if 0 /* if we believe the written value, use following part. */
+    if ( face->dir_tables[i].CheckSum )
+      return face->dir_tables[i].CheckSum;
 #endif
 
     if ( !face->goto_table )
       return 0;
 
     if ( face->goto_table( face,
-                           face->dir_tables[i].Тэг,
+                           face->dir_tables[i].Tag,
                            face->root.stream,
                            NULL ) )
       return 0;
 
     return (FT_ULong)tt_synth_sfnt_checksum( face->root.stream,
-                                             face->dir_tables[i].длина );
+                                             face->dir_tables[i].Length );
   }
 
 
   typedef struct tt_sfnt_id_rec_
   {
-    FT_ULong  Checkсумма;
-    FT_ULong  длина;
+    FT_ULong  CheckSum;
+    FT_ULong  Length;
 
   } tt_sfnt_id_rec;
 
@@ -337,7 +337,7 @@
     {
       checksum = 0;
 
-      switch( face->dir_tables[i].Тэг )
+      switch( face->dir_tables[i].Tag )
       {
       case TTAG_cvt:
         k = TRICK_SFNT_ID_cvt;
@@ -359,12 +359,12 @@
       }
 
       for ( j = 0; j < TRICK_SFNT_IDS_NUM_FACES; j++ )
-        if ( face->dir_tables[i].длина == sfnt_id[j][k].длина )
+        if ( face->dir_tables[i].Length == sfnt_id[j][k].Length )
         {
           if ( !checksum )
             checksum = tt_get_sfnt_checksum( face, i );
 
-          if ( sfnt_id[j][k].Checkсумма == checksum )
+          if ( sfnt_id[j][k].CheckSum == checksum )
             num_matched_ids[j]++;
 
           if ( num_matched_ids[j] == TRICK_SFNT_IDS_PER_FACE )
@@ -374,11 +374,11 @@
 
     for ( j = 0; j < TRICK_SFNT_IDS_NUM_FACES; j++ )
     {
-      if ( !has_cvt  && !sfnt_id[j][TRICK_SFNT_ID_cvt].длина )
+      if ( !has_cvt  && !sfnt_id[j][TRICK_SFNT_ID_cvt].Length )
         num_matched_ids[j] ++;
-      if ( !has_fpgm && !sfnt_id[j][TRICK_SFNT_ID_fpgm].длина )
+      if ( !has_fpgm && !sfnt_id[j][TRICK_SFNT_ID_fpgm].Length )
         num_matched_ids[j] ++;
-      if ( !has_prep && !sfnt_id[j][TRICK_SFNT_ID_prep].длина )
+      if ( !has_prep && !sfnt_id[j][TRICK_SFNT_ID_prep].Length )
         num_matched_ids[j] ++;
       if ( num_matched_ids[j] == TRICK_SFNT_IDS_PER_FACE )
         return TRUE;
@@ -394,12 +394,12 @@
     if ( !face )
       return FALSE;
 
-    /* For first, check the face имя for quick check. */
+    /* For first, check the face name for quick check. */
     if ( face->family_name                               &&
          tt_check_trickyness_family( face->family_name ) )
       return TRUE;
 
-    /* Type42 fonts may lack `имя' tables, we thus try to identify */
+    /* Type42 fonts may lack `name' tables, we thus try to identify */
     /* tricky fonts by checking the checksums of Type42-persistent  */
     /* sfnt tables (`cvt', `fpgm', and `prep').                     */
     if ( tt_check_trickyness_sfnt_ids( (TT_Face)face ) )
@@ -441,13 +441,13 @@
         result = TRUE;
       else
       {
-        /* FIXME: Need to test glyphname == .notdef ? */
-        FT_Error Ошибка;
+        /* ИСПРАВИТЬ: Need to test glyphname == .notdef ? */
+        FT_Error error;
         char buf[8];
 
 
-        Ошибка = FT_Get_Glyph_Name( ttface, glyph_index, buf, 8 );
-        if ( !Ошибка                                            &&
+        error = FT_Get_Glyph_Name( ttface, glyph_index, buf, 8 );
+        if ( !error                                            &&
              buf[0] == '.' && !ft_strncmp( buf, ".notdef", 8 ) )
           result = TRUE;
       }
@@ -459,7 +459,7 @@
 
   /*************************************************************************/
   /*                                                                       */
-  /* <Функция>                                                            */
+  /* <Function>                                                            */
   /*    tt_face_init                                                       */
   /*                                                                       */
   /* <Description>                                                         */
@@ -478,7 +478,7 @@
   /*    face       :: The newly built face object.                         */
   /*                                                                       */
   /* <Return>                                                              */
-  /*    FreeType Ошибка code.  0 means success.                             */
+  /*    FreeType error code.  0 means success.                             */
   /*                                                                       */
   FT_LOCAL_DEF( FT_Error )
   tt_face_init( FT_Stream      stream,
@@ -487,7 +487,7 @@
                 FT_Int         num_params,
                 FT_Parameter*  params )
   {
-    FT_Error      Ошибка;
+    FT_Error      error;
     FT_Library    library;
     SFNT_Service  sfnt;
     TT_Face       face = (TT_Face)ttface;
@@ -503,8 +503,8 @@
       goto Exit;
 
     /* check that we have a valid TrueType file */
-    Ошибка = sfnt->init_face( stream, face, face_index, num_params, params );
-    if ( Ошибка )
+    error = sfnt->init_face( stream, face, face_index, num_params, params );
+    if ( error )
       goto Exit;
 
     /* We must also be able to accept Mac/GX fonts, as well as OT ones. */
@@ -522,20 +522,20 @@
     ttface->face_flags |= FT_FACE_FLAG_HINTER;
 #endif
 
-    /* If we are performing a simple font формат check, exit immediately. */
+    /* If we are performing a simple font format check, exit immediately. */
     if ( face_index < 0 )
       return TT_Err_Ok;
 
-    /* грузи font directory */
-    Ошибка = sfnt->load_face( stream, face, face_index, num_params, params );
-    if ( Ошибка )
+    /* Load font directory */
+    error = sfnt->load_face( stream, face, face_index, num_params, params );
+    if ( error )
       goto Exit;
 
     if ( tt_check_trickyness( ttface ) )
       ttface->face_flags |= FT_FACE_FLAG_TRICKY;
 
-    Ошибка = tt_face_load_hdmx( face, stream );
-    if ( Ошибка )
+    error = tt_face_load_hdmx( face, stream );
+    if ( error )
       goto Exit;
 
     if ( FT_IS_SCALABLE( ttface ) )
@@ -544,13 +544,13 @@
 #ifdef FT_CONFIG_OPTION_INCREMENTAL
 
       if ( !ttface->internal->incremental_interface )
-        Ошибка = tt_face_load_loca( face, stream );
-      if ( !Ошибка )
-        Ошибка = tt_face_load_cvt( face, stream );
-      if ( !Ошибка )
-        Ошибка = tt_face_load_fpgm( face, stream );
-      if ( !Ошибка )
-        Ошибка = tt_face_load_prep( face, stream );
+        error = tt_face_load_loca( face, stream );
+      if ( !error )
+        error = tt_face_load_cvt( face, stream );
+      if ( !error )
+        error = tt_face_load_fpgm( face, stream );
+      if ( !error )
+        error = tt_face_load_prep( face, stream );
 
       /* Check the scalable flag based on `loca'. */
       if ( !ttface->internal->incremental_interface &&
@@ -568,14 +568,14 @@
 
 #else
 
-      if ( !Ошибка )
-        Ошибка = tt_face_load_loca( face, stream );
-      if ( !Ошибка )
-        Ошибка = tt_face_load_cvt( face, stream );
-      if ( !Ошибка )
-        Ошибка = tt_face_load_fpgm( face, stream );
-      if ( !Ошибка )
-        Ошибка = tt_face_load_prep( face, stream );
+      if ( !error )
+        error = tt_face_load_loca( face, stream );
+      if ( !error )
+        error = tt_face_load_cvt( face, stream );
+      if ( !error )
+        error = tt_face_load_fpgm( face, stream );
+      if ( !error )
+        error = tt_face_load_prep( face, stream );
 
       /* Check the scalable flag based on `loca'. */
       if ( ttface->num_fixed_sizes          &&
@@ -621,17 +621,17 @@
     TT_Init_Glyph_Loading( face );
 
   Exit:
-    return Ошибка;
+    return error;
 
   Bad_Format:
-    Ошибка = TT_Err_Unknown_File_Format;
+    error = TT_Err_Unknown_File_Format;
     goto Exit;
   }
 
 
   /*************************************************************************/
   /*                                                                       */
-  /* <Функция>                                                            */
+  /* <Function>                                                            */
   /*    tt_face_done                                                       */
   /*                                                                       */
   /* <Description>                                                         */
@@ -695,11 +695,11 @@
 
   /*************************************************************************/
   /*                                                                       */
-  /* <Функция>                                                            */
+  /* <Function>                                                            */
   /*    tt_size_run_fpgm                                                   */
   /*                                                                       */
   /* <Description>                                                         */
-  /*    выполни the font program.                                              */
+  /*    Run the font program.                                              */
   /*                                                                       */
   /* <Input>                                                               */
   /*    size     :: A handle to the size object.                           */
@@ -707,7 +707,7 @@
   /*    pedantic :: Set if bytecode execution should be pedantic.          */
   /*                                                                       */
   /* <Return>                                                              */
-  /*    FreeType Ошибка code.  0 means success.                             */
+  /*    FreeType error code.  0 means success.                             */
   /*                                                                       */
   FT_LOCAL_DEF( FT_Error )
   tt_size_run_fpgm( TT_Size  size,
@@ -715,7 +715,7 @@
   {
     TT_Face         face = (TT_Face)size->root.face;
     TT_ExecContext  exec;
-    FT_Error        Ошибка;
+    FT_Error        error;
 
 
     /* debugging instances have their own context */
@@ -768,32 +768,32 @@
 
     if ( face->font_program_size > 0 )
     {
-      Ошибка = TT_Goto_CodeRange( exec, tt_coderange_font, 0 );
+      error = TT_Goto_CodeRange( exec, tt_coderange_font, 0 );
 
-      if ( !Ошибка )
+      if ( !error )
       {
         FT_TRACE4(( "Executing `fpgm' table.\n" ));
 
-        Ошибка = face->interpreter( exec );
+        error = face->interpreter( exec );
       }
     }
     else
-      Ошибка = TT_Err_Ok;
+      error = TT_Err_Ok;
 
-    if ( !Ошибка )
+    if ( !error )
       TT_Save_Context( exec, size );
 
-    return Ошибка;
+    return error;
   }
 
 
   /*************************************************************************/
   /*                                                                       */
-  /* <Функция>                                                            */
+  /* <Function>                                                            */
   /*    tt_size_run_prep                                                   */
   /*                                                                       */
   /* <Description>                                                         */
-  /*    выполни the control значение program.                                     */
+  /*    Run the control value program.                                     */
   /*                                                                       */
   /* <Input>                                                               */
   /*    size     :: A handle to the size object.                           */
@@ -801,7 +801,7 @@
   /*    pedantic :: Set if bytecode execution should be pedantic.          */
   /*                                                                       */
   /* <Return>                                                              */
-  /*    FreeType Ошибка code.  0 means success.                             */
+  /*    FreeType error code.  0 means success.                             */
   /*                                                                       */
   FT_LOCAL_DEF( FT_Error )
   tt_size_run_prep( TT_Size  size,
@@ -809,7 +809,7 @@
   {
     TT_Face         face = (TT_Face)size->root.face;
     TT_ExecContext  exec;
-    FT_Error        Ошибка;
+    FT_Error        error;
 
 
     /* debugging instances have their own context */
@@ -839,24 +839,24 @@
 
     if ( face->cvt_program_size > 0 )
     {
-      Ошибка = TT_Goto_CodeRange( exec, tt_coderange_cvt, 0 );
+      error = TT_Goto_CodeRange( exec, tt_coderange_cvt, 0 );
 
-      if ( !Ошибка && !size->debug )
+      if ( !error && !size->debug )
       {
         FT_TRACE4(( "Executing `prep' table.\n" ));
 
-        Ошибка = face->interpreter( exec );
+        error = face->interpreter( exec );
       }
     }
     else
-      Ошибка = TT_Err_Ok;
+      error = TT_Err_Ok;
 
     /* save as default graphics state */
     size->GS = exec->GS;
 
     TT_Save_Context( exec, size );
 
-    return Ошибка;
+    return error;
   }
 
 #endif /* TT_USE_BYTECODE_INTERPRETER */
@@ -911,7 +911,7 @@
   tt_size_init_bytecode( FT_Size  ftsize,
                          FT_Bool  pedantic )
   {
-    FT_Error   Ошибка;
+    FT_Error   error;
     TT_Size    size = (TT_Size)ftsize;
     TT_Face    face = (TT_Face)ftsize->face;
     FT_Memory  memory = face->root.memory;
@@ -962,8 +962,8 @@
     /* there are 4 phantom points (do we need this?) */
     n_twilight += 4;
 
-    Ошибка = tt_glyphzone_new( memory, n_twilight, 0, &size->twilight );
-    if ( Ошибка )
+    error = tt_glyphzone_new( memory, n_twilight, 0, &size->twilight );
+    if ( error )
       goto Exit;
 
     size->twilight.n_points = n_twilight;
@@ -982,13 +982,13 @@
     }
 
     /* Fine, now run the font program! */
-    Ошибка = tt_size_run_fpgm( size, pedantic );
+    error = tt_size_run_fpgm( size, pedantic );
 
   Exit:
-    if ( Ошибка )
+    if ( error )
       tt_size_done_bytecode( ftsize );
 
-    return Ошибка;
+    return error;
   }
 
 
@@ -996,13 +996,13 @@
   tt_size_ready_bytecode( TT_Size  size,
                           FT_Bool  pedantic )
   {
-    FT_Error  Ошибка = TT_Err_Ok;
+    FT_Error  error = TT_Err_Ok;
 
 
     if ( !size->bytecode_ready )
     {
-      Ошибка = tt_size_init_bytecode( (FT_Size)size, pedantic );
-      if ( Ошибка )
+      error = tt_size_init_bytecode( (FT_Size)size, pedantic );
+      if ( error )
         goto Exit;
     }
 
@@ -1033,13 +1033,13 @@
 
       size->GS = tt_default_graphics_state;
 
-      Ошибка = tt_size_run_prep( size, pedantic );
-      if ( !Ошибка )
+      error = tt_size_run_prep( size, pedantic );
+      if ( !error )
         size->cvt_ready = 1;
     }
 
   Exit:
-    return Ошибка;
+    return error;
   }
 
 #endif /* TT_USE_BYTECODE_INTERPRETER */
@@ -1047,7 +1047,7 @@
 
   /*************************************************************************/
   /*                                                                       */
-  /* <Функция>                                                            */
+  /* <Function>                                                            */
   /*    tt_size_init                                                       */
   /*                                                                       */
   /* <Description>                                                         */
@@ -1057,13 +1057,13 @@
   /*    size :: A handle to the size object.                               */
   /*                                                                       */
   /* <Return>                                                              */
-  /*    FreeType Ошибка code.  0 means success.                             */
+  /*    FreeType error code.  0 means success.                             */
   /*                                                                       */
   FT_LOCAL_DEF( FT_Error )
   tt_size_init( FT_Size  ttsize )           /* TT_Size */
   {
     TT_Size   size  = (TT_Size)ttsize;
-    FT_Error  Ошибка = TT_Err_Ok;
+    FT_Error  error = TT_Err_Ok;
 
 #ifdef TT_USE_BYTECODE_INTERPRETER
     size->bytecode_ready = 0;
@@ -1073,13 +1073,13 @@
     size->ttmetrics.valid = FALSE;
     size->strike_index    = 0xFFFFFFFFUL;
 
-    return Ошибка;
+    return error;
   }
 
 
   /*************************************************************************/
   /*                                                                       */
-  /* <Функция>                                                            */
+  /* <Function>                                                            */
   /*    tt_size_done                                                       */
   /*                                                                       */
   /* <Description>                                                         */
@@ -1105,11 +1105,11 @@
 
   /*************************************************************************/
   /*                                                                       */
-  /* <Функция>                                                            */
+  /* <Function>                                                            */
   /*    tt_size_reset                                                      */
   /*                                                                       */
   /* <Description>                                                         */
-  /*    переустанов a TrueType size when resolutions and character dimensions    */
+  /*    Reset a TrueType size when resolutions and character dimensions    */
   /*    have been changed.                                                 */
   /*                                                                       */
   /* <Input>                                                               */
@@ -1119,7 +1119,7 @@
   tt_size_reset( TT_Size  size )
   {
     TT_Face           face;
-    FT_Error          Ошибка = TT_Err_Ok;
+    FT_Error          error = TT_Err_Ok;
     FT_Size_Metrics*  metrics;
 
 
@@ -1181,16 +1181,16 @@
     size->cvt_ready = 0;
 #endif /* TT_USE_BYTECODE_INTERPRETER */
 
-    if ( !Ошибка )
+    if ( !error )
       size->ttmetrics.valid = TRUE;
 
-    return Ошибка;
+    return error;
   }
 
 
   /*************************************************************************/
   /*                                                                       */
-  /* <Функция>                                                            */
+  /* <Function>                                                            */
   /*    tt_driver_init                                                     */
   /*                                                                       */
   /* <Description>                                                         */
@@ -1200,7 +1200,7 @@
   /*    driver :: A handle to the target driver object.                    */
   /*                                                                       */
   /* <Return>                                                              */
-  /*    FreeType Ошибка code.  0 means success.                             */
+  /*    FreeType error code.  0 means success.                             */
   /*                                                                       */
   FT_LOCAL_DEF( FT_Error )
   tt_driver_init( FT_Module  ttdriver )     /* TT_Driver */
@@ -1226,7 +1226,7 @@
 
   /*************************************************************************/
   /*                                                                       */
-  /* <Функция>                                                            */
+  /* <Function>                                                            */
   /*    tt_driver_done                                                     */
   /*                                                                       */
   /* <Description>                                                         */
@@ -1257,7 +1257,7 @@
 
   /*************************************************************************/
   /*                                                                       */
-  /* <Функция>                                                            */
+  /* <Function>                                                            */
   /*    tt_slot_init                                                       */
   /*                                                                       */
   /* <Description>                                                         */
@@ -1267,7 +1267,7 @@
   /*    slot :: A handle to the slot object.                               */
   /*                                                                       */
   /* <Return>                                                              */
-  /*    FreeType Ошибка code.  0 means success.                             */
+  /*    FreeType error code.  0 means success.                             */
   /*                                                                       */
   FT_LOCAL_DEF( FT_Error )
   tt_slot_init( FT_GlyphSlot  slot )

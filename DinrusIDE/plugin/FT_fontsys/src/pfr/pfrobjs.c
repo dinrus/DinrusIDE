@@ -71,21 +71,21 @@
                  FT_Parameter*  params )
   {
     PFR_Face  face = (PFR_Face)pfrface;
-    FT_Error  Ошибка;
+    FT_Error  error;
 
     FT_UNUSED( num_params );
     FT_UNUSED( params );
 
 
     /* load the header and check it */
-    Ошибка = pfr_header_load( &face->header, stream );
-    if ( Ошибка )
+    error = pfr_header_load( &face->header, stream );
+    if ( error )
       goto Exit;
 
     if ( !pfr_header_check( &face->header ) )
     {
       FT_TRACE4(( "pfr_face_init: not a valid PFR font\n" ));
-      Ошибка = PFR_Err_Unknown_File_Format;
+      error = PFR_Err_Unknown_File_Format;
       goto Exit;
     }
 
@@ -94,10 +94,10 @@
       FT_UInt  num_faces;
 
 
-      Ошибка = pfr_log_font_count( stream,
+      error = pfr_log_font_count( stream,
                                   face->header.log_dir_offset,
                                   &num_faces );
-      if ( Ошибка )
+      if ( error )
         goto Exit;
 
       pfrface->num_faces = num_faces;
@@ -109,23 +109,23 @@
     if ( face_index >= pfrface->num_faces )
     {
       FT_ERROR(( "pfr_face_init: invalid face index\n" ));
-      Ошибка = PFR_Err_Invalid_Argument;
+      error = PFR_Err_Invalid_Argument;
       goto Exit;
     }
 
     /* load the face */
-    Ошибка = pfr_log_font_load(
+    error = pfr_log_font_load(
                &face->log_font, stream, face_index,
                face->header.log_dir_offset,
                FT_BOOL( face->header.phy_font_max_size_high != 0 ) );
-    if ( Ошибка )
+    if ( error )
       goto Exit;
 
     /* now load the physical font descriptor */
-    Ошибка = pfr_phy_font_load( &face->phy_font, stream,
+    error = pfr_phy_font_load( &face->phy_font, stream,
                                face->log_font.phys_offset,
                                face->log_font.phys_size );
-    if ( Ошибка )
+    if ( error )
       goto Exit;
 
     /* now set up all root face fields */
@@ -154,7 +154,7 @@
           else
           {
             FT_ERROR(( "pfr_face_init: font doesn't contain glyphs\n" ));
-            Ошибка = PFR_Err_Invalid_File_Format;
+            error = PFR_Err_Invalid_File_Format;
             goto Exit;
           }
         }
@@ -174,15 +174,15 @@
       if ( phy_font->num_kern_pairs > 0 )
         pfrface->face_flags |= FT_FACE_FLAG_KERNING;
 
-      /* If no family имя was found in the "undocumented" auxiliary
-       * data, use the font ИД instead.  This sucks but is better than
+      /* If no family name was found in the "undocumented" auxiliary
+       * data, use the font ID instead.  This sucks but is better than
        * nothing.
        */
       pfrface->family_name = phy_font->family_name;
       if ( pfrface->family_name == NULL )
         pfrface->family_name = phy_font->font_id;
 
-      /* note that the style имя can be NULL in certain PFR fonts,
+      /* note that the style name can be NULL in certain PFR fonts,
        * probably meaning "Regular"
        */
       pfrface->style_name = phy_font->style_name;
@@ -257,10 +257,10 @@
         charmap.encoding_id = TT_MS_ID_UNICODE_CS;
         charmap.encoding    = FT_ENCODING_UNICODE;
 
-        Ошибка = FT_CMap_New( &pfr_cmap_class_rec, NULL, &charmap, NULL );
+        error = FT_CMap_New( &pfr_cmap_class_rec, NULL, &charmap, NULL );
 
 #if 0
-        /* выдели default charmap */
+        /* Select default charmap */
         if ( pfrface->num_charmaps )
           pfrface->charmap = pfrface->charmaps[0];
 #endif
@@ -272,7 +272,7 @@
     }
 
   Exit:
-    return Ошибка;
+    return error;
   }
 
 
@@ -315,7 +315,7 @@
   {
     PFR_Slot     slot    = (PFR_Slot)pfrslot;
     PFR_Size     size    = (PFR_Size)pfrsize;
-    FT_Error     Ошибка;
+    FT_Error     error;
     PFR_Face     face    = (PFR_Face)pfrslot->face;
     PFR_Char     gchar;
     FT_Outline*  outline = &pfrslot->outline;
@@ -327,35 +327,35 @@
 
     if ( !face || gindex >= face->phy_font.num_chars )
     {
-      Ошибка = PFR_Err_Invalid_Argument;
+      error = PFR_Err_Invalid_Argument;
       goto Exit;
     }
 
     /* try to load an embedded bitmap */
     if ( ( load_flags & ( FT_LOAD_NO_SCALE | FT_LOAD_NO_BITMAP ) ) == 0 )
     {
-      Ошибка = pfr_slot_load_bitmap( slot, size, gindex );
-      if ( Ошибка == 0 )
+      error = pfr_slot_load_bitmap( slot, size, gindex );
+      if ( error == 0 )
         goto Exit;
     }
 
     if ( load_flags & FT_LOAD_SBITS_ONLY )
     {
-      Ошибка = PFR_Err_Invalid_Argument;
+      error = PFR_Err_Invalid_Argument;
       goto Exit;
     }
 
     gchar               = face->phy_font.chars + gindex;
-    pfrslot->формат     = FT_GLYPH_FORMAT_OUTLINE;
+    pfrslot->format     = FT_GLYPH_FORMAT_OUTLINE;
     outline->n_points   = 0;
     outline->n_contours = 0;
     gps_offset          = face->header.gps_section_offset;
 
     /* load the glyph outline (FT_LOAD_NO_RECURSE isn't supported) */
-    Ошибка = pfr_glyph_load( &slot->glyph, face->root.stream,
+    error = pfr_glyph_load( &slot->glyph, face->root.stream,
                             gps_offset, gchar->gps_offset, gchar->gps_size );
 
-    if ( !Ошибка )
+    if ( !error )
     {
       FT_BBox            cbox;
       FT_Glyph_Metrics*  metrics = &pfrslot->metrics;
@@ -401,7 +401,7 @@
 #if 0 /* some fonts seem to be broken here! */
 
       /* Apply the font matrix, if any.                 */
-      /* TODO: Test existing fonts with unusual matrix  */
+      /* СДЕЛАТЬ: Test existing fonts with unusual matrix  */
       /* whether we have to adjust Units per EM.        */
       {
         FT_Matrix font_matrix;
@@ -447,7 +447,7 @@
     }
 
   Exit:
-    return Ошибка;
+    return error;
   }
 
 
@@ -466,7 +466,7 @@
                         FT_Vector*  kerning )
   {
     PFR_Face     face     = (PFR_Face)pfrface;
-    FT_Error     Ошибка    = PFR_Err_Ok;
+    FT_Error     error    = PFR_Err_Ok;
     PFR_PhyFont  phy_font = &face->phy_font;
     FT_UInt32    code1, code2, pair;
 
@@ -491,31 +491,31 @@
 
     /* now search the list of kerning items */
     {
-      PFR_KernItem  элт   = phy_font->kern_items;
+      PFR_KernItem  item   = phy_font->kern_items;
       FT_Stream     stream = pfrface->stream;
 
 
-      for ( ; элт; элт = элт->next )
+      for ( ; item; item = item->next )
       {
-        if ( pair >= элт->pair1 && pair <= элт->pair2 )
+        if ( pair >= item->pair1 && pair <= item->pair2 )
           goto FoundPair;
       }
       goto Exit;
 
-    FoundPair: /* we found an элт, now parse it and find the значение if any */
-      if ( FT_STREAM_SEEK( элт->offset )                       ||
-           FT_FRAME_ENTER( элт->pair_count * элт->pair_size ) )
+    FoundPair: /* we found an item, now parse it and find the value if any */
+      if ( FT_STREAM_SEEK( item->offset )                       ||
+           FT_FRAME_ENTER( item->pair_count * item->pair_size ) )
         goto Exit;
 
       {
-        FT_UInt    count       = элт->pair_count;
-        FT_UInt    size        = элт->pair_size;
+        FT_UInt    count       = item->pair_count;
+        FT_UInt    size        = item->pair_size;
         FT_UInt    power       = (FT_UInt)ft_highpow2( (FT_UInt32)count );
         FT_UInt    probe       = power * size;
         FT_UInt    extra       = count - power;
         FT_Byte*   base        = stream->cursor;
-        FT_Bool    twobytes    = FT_BOOL( элт->flags & 1 );
-        FT_Bool    twobyte_adj = FT_BOOL( элт->flags & 2 );
+        FT_Bool    twobytes    = FT_BOOL( item->flags & 1 );
+        FT_Bool    twobyte_adj = FT_BOOL( item->flags & 2 );
         FT_Byte*   p;
         FT_UInt32  cpair;
 
@@ -568,16 +568,16 @@
 
         if ( cpair == pair )
         {
-          FT_Int  значение;
+          FT_Int  value;
 
 
         Found:
           if ( twobyte_adj )
-            значение = FT_PEEK_SHORT( p );
+            value = FT_PEEK_SHORT( p );
           else
-            значение = p[0];
+            value = p[0];
 
-          kerning->x = элт->base_adj + значение;
+          kerning->x = item->base_adj + value;
         }
       }
 
@@ -585,7 +585,7 @@
     }
 
   Exit:
-    return Ошибка;
+    return error;
   }
 
 /* END */

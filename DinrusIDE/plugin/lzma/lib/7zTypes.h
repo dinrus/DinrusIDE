@@ -65,7 +65,7 @@ typedef int WRes;
 #define RINOK(x) { int __result__ = (x); if (__result__ != 0) return __result__; }
 #endif
 
-typedef unsigned char Байт;
+typedef unsigned char Byte;
 typedef short Int16;
 typedef unsigned short UInt16;
 
@@ -155,42 +155,42 @@ typedef int BoolInt;
 typedef struct IByteIn IByteIn;
 struct IByteIn
 {
-  Байт (*читай)(const IByteIn *p); /* reads one byte, returns 0 in case of EOF or Ошибка */
+  Byte (*Read)(const IByteIn *p); /* reads one byte, returns 0 in case of EOF or error */
 };
-#define IByteIn_Read(p) (p)->читай(p)
+#define IByteIn_Read(p) (p)->Read(p)
 
 
 typedef struct IByteOut IByteOut;
 struct IByteOut
 {
-  void (*пиши)(const IByteOut *p, Байт b);
+  void (*Write)(const IByteOut *p, Byte b);
 };
-#define IByteOut_Write(p, b) (p)->пиши(p, b)
+#define IByteOut_Write(p, b) (p)->Write(p, b)
 
 
 typedef struct ISeqInStream ISeqInStream;
 struct ISeqInStream
 {
-  SRes (*читай)(const ISeqInStream *p, void *buf, size_t *size);
+  SRes (*Read)(const ISeqInStream *p, void *buf, size_t *size);
     /* if (input(*size) != 0 && output(*size) == 0) means end_of_stream.
        (output(*size) < input(*size)) is allowed */
 };
-#define ISeqInStream_Read(p, buf, size) (p)->читай(p, buf, size)
+#define ISeqInStream_Read(p, buf, size) (p)->Read(p, buf, size)
 
 /* it can return SZ_ERROR_INPUT_EOF */
 SRes SeqInStream_Read(const ISeqInStream *stream, void *buf, size_t size);
 SRes SeqInStream_Read2(const ISeqInStream *stream, void *buf, size_t size, SRes errorType);
-SRes SeqInStream_ReadByte(const ISeqInStream *stream, Байт *buf);
+SRes SeqInStream_ReadByte(const ISeqInStream *stream, Byte *buf);
 
 
 typedef struct ISeqOutStream ISeqOutStream;
 struct ISeqOutStream
 {
-  size_t (*пиши)(const ISeqOutStream *p, const void *buf, size_t size);
+  size_t (*Write)(const ISeqOutStream *p, const void *buf, size_t size);
     /* Returns: result - the number of actually written bytes.
-       (result < size) means Ошибка */
+       (result < size) means error */
 };
-#define ISeqOutStream_Write(p, buf, size) (p)->пиши(p, buf, size)
+#define ISeqOutStream_Write(p, buf, size) (p)->Write(p, buf, size)
 
 typedef enum
 {
@@ -203,11 +203,11 @@ typedef enum
 typedef struct ISeekInStream ISeekInStream;
 struct ISeekInStream
 {
-  SRes (*читай)(const ISeekInStream *p, void *buf, size_t *size);  /* same as ISeqInStream::читай */
-  SRes (*перейди)(const ISeekInStream *p, Int64 *pos, ESzSeek origin);
+  SRes (*Read)(const ISeekInStream *p, void *buf, size_t *size);  /* same as ISeqInStream::Read */
+  SRes (*Seek)(const ISeekInStream *p, Int64 *pos, ESzSeek origin);
 };
-#define ISeekInStream_Read(p, buf, size)   (p)->читай(p, buf, size)
-#define ISeekInStream_Seek(p, pos, origin) (p)->перейди(p, pos, origin)
+#define ISeekInStream_Read(p, buf, size)   (p)->Read(p, buf, size)
+#define ISeekInStream_Seek(p, pos, origin) (p)->Seek(p, pos, origin)
 
 
 typedef struct ILookInStream ILookInStream;
@@ -217,24 +217,24 @@ struct ILookInStream
     /* if (input(*size) != 0 && output(*size) == 0) means end_of_stream.
        (output(*size) > input(*size)) is not allowed
        (output(*size) < input(*size)) is allowed */
-  SRes (*пропусти)(const ILookInStream *p, size_t offset);
+  SRes (*Skip)(const ILookInStream *p, size_t offset);
     /* offset must be <= output(*size) of Look */
 
-  SRes (*читай)(const ILookInStream *p, void *buf, size_t *size);
-    /* reads directly (without буфер). It's same as ISeqInStream::читай */
-  SRes (*перейди)(const ILookInStream *p, Int64 *pos, ESzSeek origin);
+  SRes (*Read)(const ILookInStream *p, void *buf, size_t *size);
+    /* reads directly (without buffer). It's same as ISeqInStream::Read */
+  SRes (*Seek)(const ILookInStream *p, Int64 *pos, ESzSeek origin);
 };
 
 #define ILookInStream_Look(p, buf, size)   (p)->Look(p, buf, size)
-#define ILookInStream_Skip(p, offset)      (p)->пропусти(p, offset)
-#define ILookInStream_Read(p, buf, size)   (p)->читай(p, buf, size)
-#define ILookInStream_Seek(p, pos, origin) (p)->перейди(p, pos, origin)
+#define ILookInStream_Skip(p, offset)      (p)->Skip(p, offset)
+#define ILookInStream_Read(p, buf, size)   (p)->Read(p, buf, size)
+#define ILookInStream_Seek(p, pos, origin) (p)->Seek(p, pos, origin)
 
 
 SRes LookInStream_LookRead(const ILookInStream *stream, void *buf, size_t *size);
 SRes LookInStream_SeekTo(const ILookInStream *stream, UInt64 offset);
 
-/* reads via ILookInStream::читай */
+/* reads via ILookInStream::Read */
 SRes LookInStream_Read2(const ILookInStream *stream, void *buf, size_t size, SRes errorType);
 SRes LookInStream_Read(const ILookInStream *stream, void *buf, size_t size);
 
@@ -249,7 +249,7 @@ typedef struct
   size_t size; /* it's data size */
   
   /* the following variables must be set outside */
-  Байт *buf;
+  Byte *buf;
   size_t bufSize;
 } CLookToRead2;
 
@@ -283,7 +283,7 @@ struct ICompressProgress
 {
   SRes (*Progress)(const ICompressProgress *p, UInt64 inSize, UInt64 outSize);
     /* Returns: result. (result != SZ_OK) means break.
-       Значение (UInt64)(Int64)-1 for size means unknown значение. */
+       Value (UInt64)(Int64)-1 for size means unknown value. */
 };
 #define ICompressProgress_Progress(p, inSize, outSize) (p)->Progress(p, inSize, outSize)
 
@@ -294,12 +294,12 @@ typedef const ISzAlloc * ISzAllocPtr;
 
 struct ISzAlloc
 {
-  void *(*размести)(ISzAllocPtr p, size_t size);
-  void (*освободи)(ISzAllocPtr p, void *address); /* address can be 0 */
+  void *(*Alloc)(ISzAllocPtr p, size_t size);
+  void (*Free)(ISzAllocPtr p, void *address); /* address can be 0 */
 };
 
-#define ISzAlloc_Alloc(p, size) (p)->размести(p, size)
-#define ISzAlloc_Free(p, a) (p)->освободи(p, a)
+#define ISzAlloc_Alloc(p, size) (p)->Alloc(p, size)
+#define ISzAlloc_Free(p, a) (p)->Free(p, a)
 
 /* deprecated */
 #define IAlloc_Alloc(p, size) ISzAlloc_Alloc(p, size)
@@ -311,12 +311,12 @@ struct ISzAlloc
 
 #ifndef MY_offsetof
   #ifdef offsetof
-    #define MY_offsetof(тип, m) offsetof(тип, m)
+    #define MY_offsetof(type, m) offsetof(type, m)
     /*
-    #define MY_offsetof(тип, m) FIELD_OFFSET(тип, m)
+    #define MY_offsetof(type, m) FIELD_OFFSET(type, m)
     */
   #else
-    #define MY_offsetof(тип, m) ((size_t)&(((тип *)0)->m))
+    #define MY_offsetof(type, m) ((size_t)&(((type *)0)->m))
   #endif
 #endif
 
@@ -325,10 +325,10 @@ struct ISzAlloc
 #ifndef MY_container_of
 
 /*
-#define MY_container_of(ptr, тип, m) container_of(ptr, тип, m)
-#define MY_container_of(ptr, тип, m) CONTAINING_RECORD(ptr, тип, m)
-#define MY_container_of(ptr, тип, m) ((тип *)((char *)(ptr) - offsetof(тип, m)))
-#define MY_container_of(ptr, тип, m) (&((тип *)0)->m == (ptr), ((тип *)(((char *)(ptr)) - MY_offsetof(тип, m))))
+#define MY_container_of(ptr, type, m) container_of(ptr, type, m)
+#define MY_container_of(ptr, type, m) CONTAINING_RECORD(ptr, type, m)
+#define MY_container_of(ptr, type, m) ((type *)((char *)(ptr) - offsetof(type, m)))
+#define MY_container_of(ptr, type, m) (&((type *)0)->m == (ptr), ((type *)(((char *)(ptr)) - MY_offsetof(type, m))))
 */
 
 /*
@@ -337,21 +337,21 @@ struct ISzAlloc
     GCC 4.8.1 : classes with non-public variable members"
 */
 
-#define MY_container_of(ptr, тип, m) ((тип *)((char *)(1 ? (ptr) : &((тип *)0)->m) - MY_offsetof(тип, m)))
+#define MY_container_of(ptr, type, m) ((type *)((char *)(1 ? (ptr) : &((type *)0)->m) - MY_offsetof(type, m)))
 
 
 #endif
 
-#define CONTAINER_FROM_VTBL_SIMPLE(ptr, тип, m) ((тип *)(ptr))
+#define CONTAINER_FROM_VTBL_SIMPLE(ptr, type, m) ((type *)(ptr))
 
 /*
-#define CONTAINER_FROM_VTBL(ptr, тип, m) CONTAINER_FROM_VTBL_SIMPLE(ptr, тип, m)
+#define CONTAINER_FROM_VTBL(ptr, type, m) CONTAINER_FROM_VTBL_SIMPLE(ptr, type, m)
 */
-#define CONTAINER_FROM_VTBL(ptr, тип, m) MY_container_of(ptr, тип, m)
+#define CONTAINER_FROM_VTBL(ptr, type, m) MY_container_of(ptr, type, m)
 
-#define CONTAINER_FROM_VTBL_CLS(ptr, тип, m) CONTAINER_FROM_VTBL_SIMPLE(ptr, тип, m)
+#define CONTAINER_FROM_VTBL_CLS(ptr, type, m) CONTAINER_FROM_VTBL_SIMPLE(ptr, type, m)
 /*
-#define CONTAINER_FROM_VTBL_CLS(ptr, тип, m) CONTAINER_FROM_VTBL(ptr, тип, m)
+#define CONTAINER_FROM_VTBL_CLS(ptr, type, m) CONTAINER_FROM_VTBL(ptr, type, m)
 */
 
 

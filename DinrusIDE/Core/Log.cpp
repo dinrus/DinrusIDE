@@ -1,21 +1,21 @@
 #include "Core.h"
 
-namespace РНЦПДинрус {
+namespace Upp {
 
-СтатическийСтопор log_mutex;
+StaticMutex log_mutex;
 
 #ifdef PLATFORM_WINCE
-const char *изСисНабСима(const wchar *s)
+const char *FromSysChrSet(const wchar *s)
 {
 	static char out[256];
-	изЮникода(out, s, wstrlen(s), CHARSET_DEFAULT);
+	FromUnicode(out, s, wstrlen(s), CHARSET_DEFAULT);
 	return out;
 }
 
-const wchar *вСисНабСим(const char *s)
+const wchar *ToSysChrSet(const char *s)
 {
 	static wchar out[1024];
-	вЮникод(out, s, strlen(s), CHARSET_DEFAULT);
+	ToUnicode(out, s, strlen(s), CHARSET_DEFAULT);
 	return out;
 }
 #endif
@@ -41,15 +41,15 @@ struct LogOut {
 	
 	int   prev_msecs;
 	
-	void  создай(bool append);
-	void  создай()                                     { создай(options & LOG_APPEND); }
-	void  закрой();
-	void  Строка(const char *буфер, int len, int depth);
-	bool  открыт() const;
+	void  Create(bool append);
+	void  Create()                                     { Create(options & LOG_APPEND); }
+	void  Close();
+	void  Line(const char *buffer, int len, int depth);
+	bool  IsOpen() const;
 	void  Rotate();
 };
 
-bool LogOut::открыт() const
+bool LogOut::IsOpen() const
 {
 #ifdef PLATFORM_POSIX
 	return hfile >= 0;
@@ -62,9 +62,9 @@ void LogOut::Rotate()
 {
 }
 
-void LogOut::создай(bool append)
+void LogOut::Create(bool append)
 {
-	закрой();
+	Close();
 	
 	line_begin = true;
 	
@@ -72,30 +72,30 @@ void LogOut::создай(bool append)
 	if(rotn) {
 		char next[512];
 		for(int rot = rotn; rot >= 0; rot--) {
-			char текущ[512];
+			char current[512];
 			if(rot == 0)
-				strcpy(текущ, filepath);
+				strcpy(current, filepath);
 			else
-				sprintf(текущ, rot > 1 && (options & LOG_ROTATE_GZIP) ? "%s.%d.gz" : "%s.%d",
+				sprintf(current, rot > 1 && (options & LOG_ROTATE_GZIP) ? "%s.%d.gz" : "%s.%d",
 				        filepath, rot);
-			if(файлЕсть(текущ)) {
+			if(FileExists(current)) {
 				if(rot == rotn)
-					удалифл(текущ);
+					FileDelete(current);
 				else
-				if((options & LOG_ROTATE_GZIP) && rot == 1 && !режимПаники_ли()) {
-					GZCompressFile(next, текущ); // Should be OK to use heap in создай...
+				if((options & LOG_ROTATE_GZIP) && rot == 1 && !IsPanicMode()) {
+					GZCompressFile(next, current); // Should be OK to use heap in Create...
 				}
 				else
-					переместифл(текущ, next);
+					FileMove(current, next);
 			}
-			strcpy(next, текущ);
+			strcpy(next, current);
 		}
 	}
 	
 	filesize = 0;
 
 #ifdef PLATFORM_WIN32
-	hfile = CreateFile(вСисНабСим(filepath),
+	hfile = CreateFile(ToSysChrSet(filepath),
 		GENERIC_READ|GENERIC_WRITE,
 		FILE_SHARE_READ|FILE_SHARE_WRITE,
 		NULL,
@@ -110,7 +110,7 @@ void LogOut::создай(bool append)
 	if(append)
 		filesize = (int)lseek(hfile, 0, SEEK_END);
 #endif
-	Время t = дайСисВремя();
+	Time t = GetSysTime();
 #ifdef PLATFORM_WINCE
 	wchar exe[512];
 #else
@@ -120,7 +120,7 @@ void LogOut::создай(bool append)
 	*user = 0;
 
 #ifdef PLATFORM_WIN32
-	GetModuleFileName(прилДайУк(), exe, 512);
+	GetModuleFileName(AppGetHandle(), exe, 512);
 #ifndef PLATFORM_WINCE
 	dword w = 2048;
 	::GetUserNameA(user, &w);
@@ -134,7 +134,7 @@ void LogOut::создай(bool append)
 
 	char h[1200];
 	sprintf(h, "* %s %02d.%02d.%04d %02d:%02d:%02d, user: %s\n",
-	           изСисНабСима(exe),
+	           FromSysChrSet(exe),
 	           t.day, t.month, t.year, t.hour, t.minute, t.second, user);
 #ifdef PLATFORM_WIN32
 	dword n;
@@ -160,7 +160,7 @@ void LogOut::создай(bool append)
 #endif
 }
 
-void LogOut::закрой()
+void LogOut::Close()
 {
 #ifdef PLATFORM_POSIX
 	if(hfile >= 0)
@@ -173,11 +173,11 @@ void LogOut::закрой()
 #endif
 }
 
-void LogOut::Строка(const char *s, int len, int depth)
+void LogOut::Line(const char *s, int len, int depth)
 {
-	Стопор::Замок __(log_mutex);
+	Mutex::Lock __(log_mutex);
 	
-	ПРОВЕРЬ(len < 600);
+	ASSERT(len < 600);
 
 	char h[600];
 	char *p = h;
@@ -192,7 +192,7 @@ void LogOut::Строка(const char *s, int len, int depth)
 		prev_msecs = t;
 	}
 	if((options & (LOG_TIMESTAMP|LOG_TIMESTAMP_UTC)) && line_begin) {
-		Время t = (options & LOG_TIMESTAMP_UTC) ? GetUtcTime() : дайСисВремя();
+		Time t = (options & LOG_TIMESTAMP_UTC) ? GetUtcTime() : GetSysTime();
 		ll = sprintf(p, "%02d.%02d.%04d %02d:%02d:%02d ",
 		                t.day, t.month, t.year, t.hour, t.minute, t.second);
 		if(ll < 0)
@@ -215,9 +215,9 @@ void LogOut::Строка(const char *s, int len, int depth)
 		for(const char *s = beg; *s; s++)
 			putc(*s, stderr);
 	if(options & LOG_COUTW)
-		Cout().помести(h, count);
+		Cout().Put(h, count);
 	if(options & LOG_CERRW)
-		Cerr().помести(h, count);
+		Cerr().Put(h, count);
 #ifdef PLATFORM_WIN32
 	if(options & LOG_FILE)
 		if(hfile != INVALID_HANDLE_VALUE) {
@@ -235,13 +235,13 @@ void LogOut::Строка(const char *s, int len, int depth)
 				write(hfile, h, count)
 			);
 	if(options & LOG_DBG)
-		Cerr().помести(h, count);
+		Cerr().Put(h, count);
 	if(options & LOG_SYS)
 		syslog(LOG_INFO|LOG_USER, "%s", beg);
 #endif
 	filesize += count;
 	if(sizelimit > 0 && filesize > sizelimit)
-		создай(false);
+		Create(false);
 }
 
 #ifdef PLATFORM_POSIX
@@ -251,19 +251,19 @@ static LogOut sLog = { LOG_FILE, 10 * 1024 * 1024 };
 #endif
 
 struct ThreadLog {
-	char  буфер[512];
+	char  buffer[512];
 	int   len;
 	int   line_depth;
 	int   depth;
 	
-	void  помести(int w);
+	void  Put(int w);
 };
 
 static thread_local ThreadLog sTh;
 
-static void sStdLogLine(const char *буфер, int len, int line_depth)
+static void sStdLogLine(const char *buffer, int len, int line_depth)
 {
-	sLog.Строка(буфер, len, line_depth);
+	sLog.Line(buffer, len, line_depth);
 }
 
 static void (*sLogLine)(const char *, int, int) = sStdLogLine;
@@ -275,7 +275,7 @@ LogLineFn SetUppLog(LogLineFn log_line)
 	return h;
 }
 
-void ThreadLog::помести(int w)
+void ThreadLog::Put(int w)
 {
 	if(w == LOG_BEGIN)
 		depth = min(depth + 1, 20);
@@ -283,9 +283,9 @@ void ThreadLog::помести(int w)
 	if(w == LOG_END)
 		depth = max(depth - 1, 0);
 	else {
-		буфер[len++] = w;
+		buffer[len++] = w;
 		if(w == '\n' || len > 500) {
-			sLogLine(буфер, len, line_depth);
+			sLogLine(buffer, len, line_depth);
 			len = 0;
 		}
 		if(w != '\r')
@@ -293,42 +293,42 @@ void ThreadLog::помести(int w)
 	}
 }
 
-class LogStream : public Поток {
+class LogStream : public Stream {
 protected:
-	virtual void    _помести(int w);
-	virtual void    _помести(const void *данные, dword size);
-	virtual int64   дайРазм() const;
+	virtual void    _Put(int w);
+	virtual void    _Put(const void *data, dword size);
+	virtual int64   GetSize() const;
 
 public:
-	virtual   bool  открыт() const;
+	virtual   bool  IsOpen() const;
 };
 
-int64 LogStream::дайРазм() const
+int64 LogStream::GetSize() const
 {
 	return sLog.filesize;
 }
 
-bool LogStream::открыт() const
+bool LogStream::IsOpen() const
 {
-	return sLog.открыт();
+	return sLog.IsOpen();
 }
 
-void LogStream::_помести(int w)
+void LogStream::_Put(int w)
 {
-	sTh.помести(w);
+	sTh.Put(w);
 }
 
-void  LogStream::_помести(const void *данные, dword size)
+void  LogStream::_Put(const void *data, dword size)
 {
-	const byte *q = (byte *)данные;
+	const byte *q = (byte *)data;
 	while(size--)
-		sTh.помести(*q++);
+		sTh.Put(*q++);
 }
 
 #ifdef flagCHECKINIT
 
-void начниИницБлок__(const char *фн, int line) {
-	RLOG(фн << " " << line << " init block");
+void InitBlockBegin__(const char *fn, int line) {
+	RLOG(fn << " " << line << " init block");
 #ifdef HEAPDBG
 	MemoryCheckDebug();
 #else
@@ -336,8 +336,8 @@ void начниИницБлок__(const char *фн, int line) {
 #endif
 }
 
-void завершиИницБлок__(const char *фн, int line) {
-	RLOG(фн << " " << line << " init block finished");
+void InitBlockEnd__(const char *fn, int line) {
+	RLOG(fn << " " << line << " init block finished");
 #ifdef HEAPDBG
 	MemoryCheckDebug();
 #else
@@ -348,17 +348,17 @@ void завершиИницБлок__(const char *фн, int line) {
 #endif
 
 #ifdef PLATFORM_WIN32
-static void sLogFile(char *фн, const char *app = ".log")
+static void sLogFile(char *fn, const char *app = ".log")
 {
 #ifdef PLATFORM_WINCE
 	wchar wfn[256];
 	::GetModuleFileName(NULL, wfn, 512);
-	strcpy(фн, изСисНабСима(wfn));
+	strcpy(fn, FromSysChrSet(wfn));
 #else
-	::GetModuleFileName(NULL, фн, 512);
+	::GetModuleFileName(NULL, fn, 512);
 #endif
-	char *e = фн + strlen(фн), *s = e;
-	while(s > фн && *--s != '\\' && *s != '.')
+	char *e = fn + strlen(fn), *s = e;
+	while(s > fn && *--s != '\\' && *s != '.')
 		;
 	strcpy(*s == '.' ? s : e, app);
 }
@@ -373,21 +373,21 @@ static char sLogPath[1024];
 
 void SyncLogPath__()
 {
-	Стопор::Замок __(log_mutex);
-	strcpy(sLogPath, конфигФайл(дайТитулИсп()));
+	Mutex::Lock __(log_mutex);
+	strcpy(sLogPath, ConfigFile(GetExeTitle()));
 }
 
-static void sLogFile(char *фн, const char *app = ".log")
+static void sLogFile(char *fn, const char *app = ".log")
 {
-	Стопор::Замок __(log_mutex);
+	Mutex::Lock __(log_mutex);
 	if(!*sLogPath)
 		SyncLogPath__();
-	strcpy(фн, sLogPath);
-	strcat(фн, app);
+	strcpy(fn, sLogPath);
+	strcat(fn, app);
 }
 #endif
 
-static Поток *__logstream;
+static Stream *__logstream;
 
 void SetVppLogSizeLimit(int limit) { sLog.sizelimit = limit; }
 void SetVppLogNoDeleteOnStartup()  { sLog.options |= LOG_APPEND; }
@@ -400,7 +400,7 @@ LogStream& StdLogStream()
 		LogStream *strm = new(lb) LogStream;
 		if(*sLog.filepath == '\0')
 			sLogFile(sLog.filepath);
-		sLog.создай();
+		sLog.Create();
 		s = strm;
 	}
 	return *s;
@@ -408,14 +408,14 @@ LogStream& StdLogStream()
 
 void CloseStdLog()
 {
-	StdLogStream().закрой();
+	StdLogStream().Close();
 }
 
 void ReopenLog()
 {
-	if(sLog.открыт()) {
-		sLog.закрой();
-		sLog.создай();
+	if(sLog.IsOpen()) {
+		sLog.Close();
+		sLog.Create();
 	}
 }
 
@@ -428,39 +428,39 @@ void StdLogSetup(dword options, const char *filepath, int filesize_limit)
 	ReopenLog();
 }
 
-Ткст GetStdLogPath()
+String GetStdLogPath()
 {
 	return sLog.filepath;
 }
 
-Поток& StdLog()
+Stream& StdLog()
 {
 	return StdLogStream();
 }
 
-void SetVppLog(Поток& log) {
+void SetVppLog(Stream& log) {
 	__logstream = &log;
 }
 
-void SetUppLog(Поток& log) {
+void SetUppLog(Stream& log) {
 	__logstream = &log;
 }
 
-Поток& UppLog() {
+Stream& UppLog() {
 	if(!__logstream) __logstream = &StdLog();
 	return *__logstream;
 }
 
-Поток& VppLog() {
+Stream& VppLog() {
 	return UppLog();
 }
 
-void SetVppLogName(const Ткст& file) {
+void SetVppLogName(const String& file) {
 	strcpy(sLog.filepath, file);
 	ReopenLog();
 }
 
-namespace Ини {
+namespace Ini {
 	INI_BOOL(user_log, false, "Activates logging of user actions");
 };
 

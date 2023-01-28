@@ -34,9 +34,9 @@
 #include FT_FREETYPE_H
 
 #ifdef FREETYPE_H
-#Ошибка "freetype.h of FreeType 1 has been loaded!"
-#Ошибка "Please fix the directory search order for header files"
-#Ошибка "so that freetype.h of FreeType 2 is found first."
+#error "freetype.h of FreeType 1 has been loaded!"
+#error "Please fix the directory search order for header files"
+#error "so that freetype.h of FreeType 2 is found first."
 #endif
 
 
@@ -48,7 +48,7 @@ FT_BEGIN_HEADER
   /* <Section>                                                             */
   /*    ot_validation                                                      */
   /*                                                                       */
-  /* <Титул>                                                               */
+  /* <Title>                                                               */
   /*    OpenType Validation                                                */
   /*                                                                       */
   /* <Abstract>                                                            */
@@ -118,7 +118,7 @@ FT_BEGIN_HEADER
   *    Validate various OpenType tables to assure that all offsets and
   *    indices are valid.  The idea is that a higher-level library which
   *    actually does the text layout can access those tables without
-  *    Ошибка checking (which can be quite time consuming).
+  *    error checking (which can be quite time consuming).
   *
   * @input:
   *    face ::
@@ -145,14 +145,14 @@ FT_BEGIN_HEADER
   *       A pointer to the JSTF table.
   *
   * @return:
-  *   FreeType Ошибка code.  0~means success.
+  *   FreeType error code.  0~means success.
   *
   * @note:
-  *   This function only works with OpenType fonts, returning an Ошибка
+  *   This function only works with OpenType fonts, returning an error
   *   otherwise.
   *
   *   After use, the application should deallocate the five tables with
-  *   @FT_OpenType_Free.  A NULL значение indicates that the table either
+  *   @FT_OpenType_Free.  A NULL value indicates that the table either
   *   doesn't exist in the font, or the application hasn't asked for
   *   validation.
   */
@@ -173,18 +173,18 @@ FT_BEGIN_HEADER
   *    FT_OpenType_Free
   *
   * @description:
-  *    освободи the буфер allocated by OpenType validator.
+  *    Free the buffer allocated by OpenType validator.
   *
   * @input:
   *    face ::
   *       A handle to the input face.
   *
   *    table ::
-  *       The pointer to the буфер that is allocated by
+  *       The pointer to the buffer that is allocated by
   *       @FT_OpenType_Validate.
   *
   * @note:
-  *   This function must be used to free the буфер allocated by
+  *   This function must be used to free the buffer allocated by
   *   @FT_OpenType_Validate only.
   */
   FT_EXPORT( void )

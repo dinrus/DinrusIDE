@@ -2,7 +2,7 @@
 
 // #define LOGAF
 
-namespace РНЦПДинрус {
+namespace Upp {
 
 static bool  sIgnoreNonMainLeaks;
 static bool  sIgnoreNonUppThreadsLeaks;
@@ -19,7 +19,7 @@ void MemoryIgnoreNonMainLeaks()
 }
 
 void MemoryIgnoreNonUppThreadsLeaks()
-{ // ignore leaks in threads not launched by U++ Нить
+{ // ignore leaks in threads not launched by U++ Thread
 	sIgnoreNonUppThreadsLeaks = true;
 }
 
@@ -35,26 +35,26 @@ void MemorySetMainEnd__()
 
 };
 
-#if (defined(TESTLEAKS) || defined(HEAPDBG)) && defined(COMPILER_GCC) && defined(КУЧА_РНЦП)
+#if (defined(TESTLEAKS) || defined(HEAPDBG)) && defined(COMPILER_GCC) && defined(UPP_HEAP)
 
-int сНачСчётДиагПам;
+int sMemDiagInitCount;
 
 #endif
 
-namespace РНЦПДинрус {
+namespace Upp {
 
 extern bool AppNormalExit;
 
-#if defined(КУЧА_РНЦП)
+#if defined(UPP_HEAP)
 
 #include "HeapImp.h"
 
 #if defined(HEAPDBG)
 
 extern bool PanicMode;
-void паникаКучи(const char *text, void *pos, int size);
+void HeapPanic(const char *text, void *pos, int size);
 
-static СтатическийСтопор sHeapLock2;
+static StaticMutex sHeapLock2;
 
 struct alignas(16) DbgBlkHeader {
 	size_t        size;
@@ -62,14 +62,14 @@ struct alignas(16) DbgBlkHeader {
 	DbgBlkHeader *next;
 	dword         serial;
 
-	void линкуйся() {
+	void LinkSelf() {
 		next = prev = this;
 	}
-	void отлинкуй() {
+	void Unlink() {
 		prev->next = next;
 		next->prev = prev;
 	}
-	void вставь(DbgBlkHeader *lnk) {
+	void Insert(DbgBlkHeader *lnk) {
 		lnk->prev = this;
 		lnk->next = next;
 		next->prev = lnk;
@@ -89,7 +89,7 @@ static void DbgHeapPanic(const char *text, DbgBlkHeader *p)
 	char b[100];
 	strcpy(h, text);
 	strcat(h, DbgFormat(b, p));
-	паникаКучи(h, p + 1, (int)(uintptr_t)p->size);
+	HeapPanic(h, p + 1, (int)(uintptr_t)p->size);
 }
 
 static DbgBlkHeader dbg_live = { 0, &dbg_live, &dbg_live, 0 };
@@ -99,13 +99,13 @@ static thread_local dword s_ignoreleaks;
 
 void MemoryIgnoreLeaksBegin()
 {
-	Стопор::Замок __(sHeapLock2);
+	Mutex::Lock __(sHeapLock2);
 	s_ignoreleaks++;
 }
 
 void MemoryIgnoreLeaksEnd()
 {
-	Стопор::Замок __(sHeapLock2);
+	Mutex::Lock __(sHeapLock2);
 	s_ignoreleaks--;
 }
 
@@ -119,17 +119,17 @@ void *MemoryAllocSz_(size_t& size);
 void  DbgSet(DbgBlkHeader *p, size_t size)
 {
 	bool allow_leak = s_ignoreleaks ||
-	                  sIgnoreNonUppThreadsLeaks && !Нить::рнцп_ли() && !Нить::главная_ли()
-#if (defined(TESTLEAKS) || defined(HEAPDBG)) && defined(COMPILER_GCC) && defined(КУЧА_РНЦП)
-	                  || сНачСчётДиагПам == 0
+	                  sIgnoreNonUppThreadsLeaks && !Thread::IsUpp() && !Thread::IsMain()
+#if (defined(TESTLEAKS) || defined(HEAPDBG)) && defined(COMPILER_GCC) && defined(UPP_HEAP)
+	                  || sMemDiagInitCount == 0
 #endif
 	;
 
 	p->serial = allow_leak ? 0 : ~ ++serial_number ^ (dword)(uintptr_t) p;
 	p->size = size;
 	if(s_allocbreakpoint && s_allocbreakpoint == serial_number)
-		__ВСЁ__;
-	dbg_live.вставь(p);
+		__BREAK__;
+	dbg_live.Insert(p);
 	Poke32le((byte *)(p + 1) + p->size, p->serial);
 }
 
@@ -137,7 +137,7 @@ void *MemoryAllocSz(size_t& size)
 {
 	if(PanicMode)
 		return malloc(size);
-	Стопор::Замок __(sHeapLock2);
+	Mutex::Lock __(sHeapLock2);
 	size += sizeof(DbgBlkHeader) + sizeof(dword);
 	DbgBlkHeader *p = (DbgBlkHeader *)MemoryAllocSz_(size);
 	size -= sizeof(DbgBlkHeader) + sizeof(dword);
@@ -173,10 +173,10 @@ void MemoryFree(void *ptr)
 	if(PanicMode)
 		return;
 	if(!ptr) return;
-	Стопор::Замок __(sHeapLock2);
+	Mutex::Lock __(sHeapLock2);
 	DbgBlkHeader *p = (DbgBlkHeader *)ptr - 1;
 	DbgCheck(p);
-	p->отлинкуй();
+	p->Unlink();
 	MemoryFree_(p);
 }
 
@@ -185,14 +185,14 @@ bool MemoryTryRealloc_(void *ptr, size_t& newsize);
 bool MemoryTryRealloc__(void *ptr, size_t& newsize)
 {
 	if(!ptr || PanicMode) return false;
-	Стопор::Замок __(sHeapLock2);
+	Mutex::Lock __(sHeapLock2);
 	DbgBlkHeader *p = (DbgBlkHeader *)ptr - 1;
 	DbgCheck(p);
 	size_t sz = newsize;
 	sz += sizeof(DbgBlkHeader) + sizeof(dword);
 	if(MemoryTryRealloc_((DbgBlkHeader *)ptr - 1, sz)) {
 		newsize = sz - sizeof(DbgBlkHeader) - sizeof(dword);
-		p->отлинкуй();
+		p->Unlink();
 		DbgSet(p, newsize);
 		return true;
 	}
@@ -215,11 +215,11 @@ void MemoryCheckDebug()
 	if(PanicMode)
 		return;
 	MemoryCheck();
-	Стопор::Замок __(sHeapLock2);
+	Mutex::Lock __(sHeapLock2);
 	DbgBlkHeader *p = dbg_live.next;
 	while(p != &dbg_live) {
 		if((dword)Peek32le((byte *)(p + 1) + p->size) != p->serial)
-			DbgHeapPanic("HEAP CHECK: Куча is corrupted ", p);
+			DbgHeapPanic("ПРОВЕРКА КУЧИ: Куча повреждена ", p);
 		p = p->next;
 	}
 	while(p != &dbg_live);
@@ -232,12 +232,12 @@ void MemoryDumpLeaks()
 #ifdef PLATFORM_MACOS
 	return; // ignore leaks in macos
 #endif
-	if(главнаяПущена()) {
-		VppLog() << "Application was terminated in a non-standard way (e.g. exit(x) call or Ктрл+C)\n";
+	if(IsMainRunning()) {
+		VppLog() << "Приложение было закрыто нестандартным образом (напр., вызовом exit(x) или Ctrl+C)\n";
 	}
 #ifndef PLATFORM_POSIX
 	if(s_ignoreleaks)
-		паника("Ignore leaks старт/стоп mismatch!");
+		Panic("Ignore leaks Begin/End mismatch!");
 #endif
 	MemoryCheckDebug();
 	DbgBlkHeader *p = dbg_live.next;
@@ -247,12 +247,12 @@ void MemoryDumpLeaks()
 		dword serial = (unsigned int)~(p->serial ^ (uintptr_t)p);
 		if(p->serial && (!sIgnoreNonMainLeaks || serial >= serial_main_begin && serial < serial_main_end)) {
 			if(!leaks)
-				VppLog() << "\n\nHeap leaks detected:\n";
+				VppLog() << "\n\nОбнаружены утечки кучи:\n";
 			leaks = true;
 			char b[100];
 			DbgFormat(b, p);
 			VppLog() << '\n' << b << ": ";
-			гексДамп(VppLog(), p + 1, (int)(uintptr_t)p->size, 64);
+			HexDump(VppLog(), p + 1, (int)(uintptr_t)p->size, 64);
 			if(++n > 16) {
 				while(p->next != &dbg_live && n < 10000000) {
 					++n;
@@ -268,14 +268,14 @@ void MemoryDumpLeaks()
 		return;
 #ifdef PLATFORM_WIN32
 	MessageBox(::GetActiveWindow(),
-	           "Куча leaks detected !",
+	           "Heap leaks detected !",
 	           "Warning",
 	           MB_ICONSTOP|MB_OK|MB_APPLMODAL);
 #else
-	if(!режимПаники_ли())
-		паника("Куча leaks detected!");
+	if(!IsPanicMode())
+		Panic("Обнаружены утечки памяти кучи!");
 #endif
-	Куча::AuxFinalCheck();
+	Heap::AuxFinalCheck();
 }
 
 #ifdef COMPILER_MSC
@@ -283,13 +283,13 @@ void MemoryDumpLeaks()
 #pragma warning(disable: 4074)
 #pragma init_seg(compiler)
 
-ЭКЗИТБЛОК { MemoryDumpLeaks(); }
+EXITBLOCK { MemoryDumpLeaks(); }
 
 #endif
 
 #ifdef COMPILER_GCC
 
-void диагностикаИницПамяти()
+void MemoryInitDiagnostics()
 {
 }
 
@@ -301,18 +301,18 @@ void диагностикаИницПамяти()
 
 }
 
-#if (defined(TESTLEAKS) || defined(HEAPDBG)) && defined(COMPILER_GCC) && defined(КУЧА_РНЦП)
+#if (defined(TESTLEAKS) || defined(HEAPDBG)) && defined(COMPILER_GCC) && defined(UPP_HEAP)
 
 MemDiagCls::MemDiagCls()
 {
-	if(сНачСчётДиагПам++ == 0)
-		РНЦП::диагностикаИницПамяти();
+	if(sMemDiagInitCount++ == 0)
+		UPP::MemoryInitDiagnostics();
 }
 
 MemDiagCls::~MemDiagCls()
 {
-	if(--сНачСчётДиагПам == 0)
-		РНЦП::MemoryDumpLeaks();
+	if(--sMemDiagInitCount == 0)
+		UPP::MemoryDumpLeaks();
 }
 
 static const MemDiagCls sMemDiagHelper __attribute__ ((init_priority (101)));

@@ -2,68 +2,68 @@
 
 #include <Esc/Esc.h>
 
-EscValue ScriptBuilder::ExecuteIf(const char *фн, Вектор<EscValue>& args)
+EscValue ScriptBuilder::ExecuteIf(const char *fn, Vector<EscValue>& args)
 {
 	CheckParse();
 	EscValue out;
-	int f = globals.найди(фн);
+	int f = globals.Find(fn);
 	if(f < 0)
 		return out;
 	try
 	{
-		out = ::выполни(globals, NULL, globals[f], args, 50000);
+		out = ::Execute(globals, NULL, globals[f], args, 50000);
 	}
-	catch(Искл e)
+	catch(Exc e)
 	{
 		script_error = true;
-		вКонсоль(e);
+		PutConsole(e);
 	}
 	return out;
 }
 
-EscValue ScriptBuilder::ExecuteIf(const char *фн)
+EscValue ScriptBuilder::ExecuteIf(const char *fn)
 {
-	Вектор<EscValue> args;
-	return ExecuteIf(фн, args);
+	Vector<EscValue> args;
+	return ExecuteIf(fn, args);
 }
 
-EscValue ScriptBuilder::ExecuteIf(const char *фн, EscValue arg)
+EscValue ScriptBuilder::ExecuteIf(const char *fn, EscValue arg)
 {
-	Вектор<EscValue> args;
-	args.добавь(arg);
-	return ExecuteIf(фн, args);
+	Vector<EscValue> args;
+	args.Add(arg);
+	return ExecuteIf(fn, args);
 }
 
-EscValue ScriptBuilder::ExecuteIf(const char *фн, EscValue arg1, EscValue arg2)
+EscValue ScriptBuilder::ExecuteIf(const char *fn, EscValue arg1, EscValue arg2)
 {
-	Вектор<EscValue> args;
-	args.добавь(arg1);
-	args.добавь(arg2);
-	return ExecuteIf(фн, args);
+	Vector<EscValue> args;
+	args.Add(arg1);
+	args.Add(arg2);
+	return ExecuteIf(fn, args);
 }
 
-EscValue ScriptBuilder::ExecuteIf(const char *фн, EscValue arg1, EscValue arg2, EscValue arg3)
+EscValue ScriptBuilder::ExecuteIf(const char *fn, EscValue arg1, EscValue arg2, EscValue arg3)
 {
-	Вектор<EscValue> args;
-	args.добавь(arg1);
-	args.добавь(arg2);
-	args.добавь(arg3);
-	return ExecuteIf(фн, args);
+	Vector<EscValue> args;
+	args.Add(arg1);
+	args.Add(arg2);
+	args.Add(arg3);
+	return ExecuteIf(fn, args);
 }
 
 void ScriptBuilder::ESC_Execute(EscEscape& e)
 {
-	e = выполни(Ткст(e[0])) ? 0 : 1;
+	e = Execute(String(e[0])) ? 0 : 1;
 }
 
 void ScriptBuilder::ESC_PutConsole(EscEscape& e)
 {
-	вКонсоль(Ткст(e[0]));
+	PutConsole(String(e[0]));
 }
 
 void ScriptBuilder::ESC_PutVerbose(EscEscape& e)
 {
-	PutVerbose(Ткст(e[0]));
+	PutVerbose(String(e[0]));
 }
 
 void ScriptBuilder::CheckParse()
@@ -73,217 +73,217 @@ void ScriptBuilder::CheckParse()
 	script_error = false;
 	is_parsed = true;
 	StdLib(globals);
-	Escape(globals, "выполни(cmdline)", THISBACK(ESC_Execute));
-	Escape(globals, "вКонсоль(text)", THISBACK(ESC_PutConsole));
+	Escape(globals, "Execute(cmdline)", THISBACK(ESC_Execute));
+	Escape(globals, "PutConsole(text)", THISBACK(ESC_PutConsole));
 	Escape(globals, "PutVerbose(text)", THISBACK(ESC_PutVerbose));
 	EscValue inclist;
 	inclist.SetEmptyArray();
-	for(int i = 0; i < include.дайСчёт(); i++)
+	for(int i = 0; i < include.GetCount(); i++)
 		inclist.ArrayAdd(GetPathQ(include[i]));
-	globals.дайДобавь("INCLUDE") = inclist;
+	globals.GetAdd("INCLUDE") = inclist;
 	EscValue liblist;
 	liblist.SetEmptyArray();
-	for(int i = 0; i < libpath.дайСчёт(); i++)
+	for(int i = 0; i < libpath.GetCount(); i++)
 		liblist.ArrayAdd(GetPathQ(libpath[i]));
-	globals.дайДобавь("LIBPATH") = liblist;
+	globals.GetAdd("LIBPATH") = liblist;
 
 	try
 	{
-		Ткст sdata = загрузиФайл(script);
-		if(пусто_ли(sdata))
-			throw Искл(фмт("%s: not found or empty", script));
-		СиПарсер parser(sdata, script, 1);
-		while(!parser.кф_ли()) {
-			Ткст id = parser.читайИд();
-			globals.дайДобавь(id) = ReadLambda(parser);
+		String sdata = LoadFile(script);
+		if(IsNull(sdata))
+			throw Exc(Format("%s: не найден или пуст", script));
+		CParser parser(sdata, script, 1);
+		while(!parser.IsEof()) {
+			String id = parser.ReadId();
+			globals.GetAdd(id) = ReadLambda(parser);
 		}
 	}
-	catch(Искл e)
+	catch(Exc e)
 	{
 		script_error = true;
-		вКонсоль(e);
+		PutConsole(e);
 	}
 }
 
-bool ScriptBuilder::постройПакет(const Ткст& package, Вектор<Ткст>& linkfile, Вектор<Ткст>&, Ткст& linkoptions,
-	const Вектор<Ткст>& all_uses, const Вектор<Ткст>& all_libraries, int)
+bool ScriptBuilder::BuildPackage(const String& package, Vector<String>& linkfile, Vector<String>&, String& linkoptions,
+	const Vector<String>& all_uses, const Vector<String>& all_libraries, int)
 {
 	int i;
-	Ткст packagepath = PackagePath(package);
-	Пакет pkg;
-	pkg.грузи(packagepath);
-	Ткст packagedir = дайПапкуФайла(packagepath);
+	String packagepath = PackagePath(package);
+	Package pkg;
+	pkg.Load(packagepath);
+	String packagedir = GetFileFolder(packagepath);
 	ChDir(packagedir);
 	PutVerbose("cd " + packagedir);
-	Вектор<Ткст> obj;
+	Vector<String> obj;
 	script_error = false;
 
-	Ткст gfl = Gather(pkg.option, config.дайКлючи());
+	String gfl = Gather(pkg.option, config.GetKeys());
 
-	Вектор<Ткст> sfile;
-	Вектор<Ткст> soptions;
-	bool           Ошибка = false;
+	Vector<String> sfile;
+	Vector<String> soptions;
+	bool           error = false;
 
-	for(i = 0; i < pkg.дайСчёт(); i++) {
-		if(!строитсяИср())
+	for(i = 0; i < pkg.GetCount(); i++) {
+		if(!IdeIsBuilding())
 			return false;
 		if(!pkg[i].separator) {
-			Ткст gop = Gather(pkg[i].option, config.дайКлючи());
-			Вектор<Ткст> srcfile = CustomStep(pkg[i], package, Ошибка);
-			if(srcfile.дайСчёт() == 0)
-				Ошибка = true;
-			for(int j = 0; j < srcfile.дайСчёт(); j++) {
-				Ткст фн = srcfile[j];
-				Ткст ext = впроп(дайРасшф(фн));
+			String gop = Gather(pkg[i].option, config.GetKeys());
+			Vector<String> srcfile = CustomStep(pkg[i], package, error);
+			if(srcfile.GetCount() == 0)
+				error = true;
+			for(int j = 0; j < srcfile.GetCount(); j++) {
+				String fn = srcfile[j];
+				String ext = ToLower(GetFileExt(fn));
 				if(ext == ".c" || ext == ".cpp" || ext == ".cc" || ext == ".cxx" ||
-				   (ext == ".rc" && естьФлаг("WIN32"))) {
-					sfile.добавь(фн);
-					soptions.добавь(gfl + " " + gop);
+				   (ext == ".rc" && HasFlag("WIN32"))) {
+					sfile.Add(fn);
+					soptions.Add(gfl + " " + gop);
 				}
 				else
 				if(ext == ".o")
-					obj.добавь(фн);
+					obj.Add(fn);
 				else
 				if(ext == ".a" || ext == ".so")
-					linkfile.добавь(фн);
+					linkfile.Add(fn);
 			}
 		}
 	}
 
 /*
-	if(естьФлаг("BLITZ")) {
+	if(HasFlag("BLITZ")) {
 		Blitz b = BlitzStep(sfile, soptions, obj, ".o");
 		if(b.build) {
-			вКонсоль("BLITZ:" + b.info);
+			PutConsole("BLITZ:" + b.info);
 			int time = msecs();
-			if(выполни(cc + " " + GetPathQ(b.path) + " -o " + GetPathQ(b.object)) == 0)
-				поместиВремяКомпиляции(time, b.count);
+			if(Execute(cc + " " + GetPathQ(b.path) + " -o " + GetPathQ(b.object)) == 0)
+				PutCompileTime(time, b.count);
 			else
-				Ошибка = true;
+				error = true;
 		}
 	}
 */
 	int time = msecs();
 	int ccount = 0;
-	for(i = 0; i < sfile.дайСчёт() && !script_error; i++) {
-		if(!строитсяИср())
+	for(i = 0; i < sfile.GetCount() && !script_error; i++) {
+		if(!IdeIsBuilding())
 			return false;
-		Ткст фн = sfile[i];
-		Ткст ext = впроп(дайРасшф(фн));
+		String fn = sfile[i];
+		String ext = ToLower(GetFileExt(fn));
 //		bool rc = ext == ".rc";
-		Ткст objfile = ExecuteIf("objectfile", фн);
+		String objfile = ExecuteIf("objectfile", fn);
 		if(script_error)
 			return false;
-		if(пусто_ли(objfile))
-			objfile = CatAnyPath(outdir, дайТитулф(фн) + ".o");
-		if(HdependFileTime(фн) > дайФВремя(objfile)) {
-			вКонсоль(дайИмяф(фн));
+		if(IsNull(objfile))
+			objfile = CatAnyPath(outdir, GetFileTitle(fn) + ".o");
+		if(HdependFileTime(fn) > GetFileTime(objfile)) {
+			PutConsole(GetFileName(fn));
 			int time = msecs();
-			if(!ExecuteIf("compile", GetPathQ(фн), GetPathQ(objfile), soptions[i]).GetNumber()) {
+			if(!ExecuteIf("compile", GetPathQ(fn), GetPathQ(objfile), soptions[i]).GetNumber()) {
 				DeleteFile(objfile);
-				Ошибка = true;
+				error = true;
 			}
-			PutVerbose("compiled in " + GetPrintTime(time));
+			PutVerbose("скомпилировано за " + GetPrintTime(time));
 			ccount++;
 		}
-		obj.добавь(objfile);
+		obj.Add(objfile);
 	}
 	if(ccount)
-		поместиВремяКомпиляции(time, ccount);
+		PutCompileTime(time, ccount);
 
-	if(Ошибка || script_error)
+	if(error || script_error)
 		return false;
 
-	linkoptions << Gather(pkg.link, config.дайКлючи());
+	linkoptions << Gather(pkg.link, config.GetKeys());
 
-	Вектор<Ткст> libs = разбей(Gather(pkg.library, config.дайКлючи()), ' ');
-	linkfile.приставь(libs);
+	Vector<String> libs = Split(Gather(pkg.library, config.GetKeys()), ' ');
+	linkfile.Append(libs);
 
 	time = msecs();
-	if(!естьФлаг("MAIN")) {
-		if(естьФлаг("NOLIB")) {
-			linkfile.приставь(obj);
+	if(!HasFlag("MAIN")) {
+		if(HasFlag("NOLIB")) {
+			linkfile.Append(obj);
 			return true;
 		}
-		Ткст product = ExecuteIf("libraryfile", package);
-		if(пусто_ли(product))
+		String product = ExecuteIf("libraryfile", package);
+		if(IsNull(product))
 			product = CatAnyPath(outdir, GetAnyFileName(package) + ".a");
-		Время producttime = дайФВремя(product);
-		if(obj.дайСчёт())
-			linkfile.добавь("*" + product); //!! ugly
-		for(int i = 0; i < obj.дайСчёт(); i++)
-			if(дайФВремя(obj[i]) > producttime) {
-				вКонсоль("Creating library...");
+		Time producttime = GetFileTime(product);
+		if(obj.GetCount())
+			linkfile.Add("*" + product); //!! ugly
+		for(int i = 0; i < obj.GetCount(); i++)
+			if(GetFileTime(obj[i]) > producttime) {
+				PutConsole("Создаётся библиотека...");
 				DeleteFile(product);
 				EscValue objlist;
 				objlist.SetEmptyArray();
-				for(int i = 0; i < obj.дайСчёт(); i++)
+				for(int i = 0; i < obj.GetCount(); i++)
 					objlist.ArrayAdd(GetPathQ(obj[i]));
 				if(!ExecuteIf("library", objlist, product).GetNumber()) {
 					DeleteFile(product);
-					Ошибка = true;
+					error = true;
 					return false;
 				}
-				вКонсоль(Ткст().конкат() << product << " (" << дайИнфОФайле(product).length
-				           << " B) created in " << GetPrintTime(time));
+				PutConsole(String().Cat() << product << " (" << GetFileInfo(product).length
+				           << " B) создано за " << GetPrintTime(time));
 				break;
 			}
 		return true;
 	}
 
-	obj.приставь(linkfile);
+	obj.Append(linkfile);
 	linkfile = pick(obj);
 	return true;
 }
 
-bool ScriptBuilder::Link(const Вектор<Ткст>& linkfile, const Ткст& linkoptions, bool)
+bool ScriptBuilder::Link(const Vector<String>& linkfile, const String& linkoptions, bool)
 {
 	PutLinking();
 	int time = msecs();
-	for(int i = 0; i < linkfile.дайСчёт(); i++)
-		if(дайФВремя(linkfile[i]) >= targettime) {
+	for(int i = 0; i < linkfile.GetCount(); i++)
+		if(GetFileTime(linkfile[i]) >= targettime) {
 			EscValue objlist;
 			objlist.SetEmptyArray();
 			EscValue liblist;
 			liblist.SetEmptyArray();
-			for(i = 0; i < linkfile.дайСчёт(); i++)
+			for(i = 0; i < linkfile.GetCount(); i++)
 				if(*linkfile[i] == '*')
-					liblist.ArrayAdd(GetPathQ(linkfile[i].середина(1)));
+					liblist.ArrayAdd(GetPathQ(linkfile[i].Mid(1)));
 				else
 					objlist.ArrayAdd(GetPathQ(linkfile[i]));
-			Вектор<EscValue> linkargs;
-			linkargs.добавь(objlist);
-			linkargs.добавь(liblist);
-			linkargs.добавь(GetPathQ(target));
-			linkargs.добавь(linkoptions);
-			вКонсоль("Linking...");
-			bool Ошибка = false;
-			CustomStep(".pre-link", Null, Ошибка);
-			if(!Ошибка && !ExecuteIf("link", linkargs).GetNumber()) {
+			Vector<EscValue> linkargs;
+			linkargs.Add(objlist);
+			linkargs.Add(liblist);
+			linkargs.Add(GetPathQ(target));
+			linkargs.Add(linkoptions);
+			PutConsole("Компоновка...");
+			bool error = false;
+			CustomStep(".pre-link", Null, error);
+			if(!error && !ExecuteIf("link", linkargs).GetNumber()) {
 				DeleteFile(target);
 				return false;
 			}
-			CustomStep(".post-link", Null, Ошибка);
-			вКонсоль(Ткст().конкат() << target << " (" << дайИнфОФайле(target).length
-				<< " B) linked in " << GetPrintTime(time));
-			return !Ошибка;
+			CustomStep(".post-link", Null, error);
+			PutConsole(String().Cat() << target << " (" << GetFileInfo(target).length
+				<< " B) скомпоновано за " << GetPrintTime(time));
+			return !error;
 		}
-	вКонсоль(Ткст().конкат() << target << " (" << дайИнфОФайле(target).length
-	           << " B) is up to date.");
+	PutConsole(String().Cat() << target << " (" << GetFileInfo(target).length
+	           << " B) в свежем состоянии.");
 	return true;
 }
 
-bool ScriptBuilder::Preprocess(const Ткст& package, const Ткст& file, const Ткст& target, bool)
+bool ScriptBuilder::Preprocess(const String& package, const String& file, const String& target, bool)
 {
 	return ExecuteIf("preprocess", file, target).GetNumber();
 }
 
-Построитель *CreateScriptBuilder()
+Builder *CreateScriptBuilder()
 {
 	return new ScriptBuilder;
 }
 
-ИНИЦИАЛИЗАТОР(ScriptBuilder)
+INITIALIZER(ScriptBuilder)
 {
 	RegisterBuilder("SCRIPT", CreateScriptBuilder);
 }
@@ -292,55 +292,55 @@ bool ScriptBuilder::Preprocess(const Ткст& package, const Ткст& file, co
 EscValue LayoutItem::CreateEsc() const
 {
 	EscValue ctrl;
-	Ткст tp = тип;
-	Ткст tm;
+	String tp = type;
+	String tm;
 	if(ParseTemplate(tp, tm)) {
 		CreateMethods(ctrl, tp, true);
-		ctrl("CtrlPaint") = ctrl("рисуй");
+		ctrl("CtrlPaint") = ctrl("Paint");
 		CreateMethods(ctrl, tm, false);
 	}
 	else
 		CreateMethods(ctrl, tp, false);
-	for(int q = 0; q < property.дайСчёт(); q++) {
-		EscValue& w = ctrl(property[q].имя);
-		const Значение& v = ~property[q];
-		if(IsType<Шрифт>(v))
+	for(int q = 0; q < property.GetCount(); q++) {
+		EscValue& w = ctrl(property[q].name);
+		const Value& v = ~property[q];
+		if(IsType<Font>(v))
 			w = EscFont(v);
-		if(ткст_ли(v))
-			w = (ШТкст)v;
-		if(число_ли(v))
+		if(IsString(v))
+			w = (WString)v;
+		if(IsNumber(v))
 			w = (double)v;
-		if(IsType<Цвет>(v))
+		if(IsType<Color>(v))
 			w = EscColor(v);
 	}
-	ctrl("тип") = (ШТкст)тип;
-	ctrl("дайРазм") = ReadLambda(фмт("() { return Размер(%d, %d); }",
+	ctrl("type") = (WString)type;
+	ctrl("GetSize") = ReadLambda(Format("() { return Size(%d, %d); }",
 	                                    csize.cx, csize.cy));
-	ctrl("дайПрям") = ReadLambda(фмт("() { return Прям(0, 0, %d, %d); }",
+	ctrl("GetRect") = ReadLambda(Format("() { return Rect(0, 0, %d, %d); }",
 	                                    csize.cx, csize.cy));
 	return ctrl;
 }
 
-EscValue LayoutItem::ExecuteMethod(const char *method, Вектор<EscValue>& arg) const
+EscValue LayoutItem::ExecuteMethod(const char *method, Vector<EscValue>& arg) const
 {
 	try {
 		EscValue self = CreateEsc();
-		return ::выполни(UscGlobal(), &self, method, arg, 50000);
+		return ::Execute(UscGlobal(), &self, method, arg, 50000);
 	}
-	catch(СиПарсер::Ошибка& e) {
-		вКонсоль(e + "\n");
+	catch(CParser::Error& e) {
+		PutConsole(e + "\n");
 	}
 	return EscValue();
 }
 
 EscValue LayoutItem::ExecuteMethod(const char *method) const
 {
-	Вектор<EscValue> arg;
+	Vector<EscValue> arg;
 	return ExecuteMethod(method, arg);
 }
 
-Размер LayoutItem::дайМинРазм()
+Size LayoutItem::GetMinSize()
 {
-	return SizeEsc(ExecuteMethod("дайМинРазм"));
+	return SizeEsc(ExecuteMethod("GetMinSize"));
 }
 */

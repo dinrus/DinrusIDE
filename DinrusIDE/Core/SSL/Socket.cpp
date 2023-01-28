@@ -2,14 +2,14 @@
 
 #define LLOG(x)  // DLOG(x)
 
-namespace РНЦПДинрус {
+namespace Upp {
 
 struct TcpSocket::SSLImp : TcpSocket::SSL {
-	virtual bool  старт();
-	virtual bool  жди(dword flags, int end_time);
-	virtual int   Send(const void *буфер, int maxlen);
-	virtual int   Recv(void *буфер, int maxlen);
-	virtual void  открой();
+	virtual bool  Start();
+	virtual bool  Wait(dword flags, int end_time);
+	virtual int   Send(const void *buffer, int maxlen);
+	virtual int   Recv(void *buffer, int maxlen);
+	virtual void  Close();
 	virtual dword Handshake();
 
 	TcpSocket&     socket;
@@ -18,7 +18,7 @@ struct TcpSocket::SSLImp : TcpSocket::SSL {
 	SslCertificate cert;
 
 	int            GetErrorCode(int res);
-	Ткст         дайТекстОш(int code) const;
+	String         GetErrorText(int code) const;
 	void           SetSSLError(const char *context);
 	void           SetSSLResError(const char *context, int res);
 	bool           IsAgain(int res) const;
@@ -32,13 +32,13 @@ TcpSocket::SSL *TcpSocket::CreateSSLImp(TcpSocket& socket)
 	return new TcpSocket::SSLImp(socket);
 }
 
-void ИниtCreateSSL()
+void InitCreateSSL()
 {
 	TcpSocket::CreateSSL = TcpSocket::CreateSSLImp;
 }
 
-ИНИЦИАЛИЗАТОР(SSLSocket) {
-	ИниtCreateSSL();
+INITIALIZER(SSLSocket) {
+	InitCreateSSL();
 }
 
 TcpSocket::SSLImp::~SSLImp()
@@ -50,7 +50,7 @@ TcpSocket::SSLImp::~SSLImp()
 void TcpSocket::SSLImp::SetSSLError(const char *context)
 {
 	int code;
-	Ткст text = SslGetLastError(code);
+	String text = SslGetLastError(code);
 	socket.SetSockError(context, code, text);
 }
 
@@ -61,9 +61,9 @@ int TcpSocket::SSLImp::GetErrorCode(int res)
 	return SSL_get_error(ssl, res);
 }
 
-Ткст TcpSocket::SSLImp::дайТекстОш(int code) const
+String TcpSocket::SSLImp::GetErrorText(int code) const
 {
-	Ткст out;
+	String out;
 	switch(code) {
 #define SSLERR(c) case c: out = #c; break;
 		SSLERR(SSL_ERROR_NONE)
@@ -89,7 +89,7 @@ void TcpSocket::SSLImp::SetSSLResError(const char *context, int res)
 		socket.SetSockError(context);
 		return;
 	}
-	Ткст txt = дайТекстОш(code);
+	String txt = GetErrorText(code);
 	int err = ERR_get_error();
 	if(err) {
 		char h[260];
@@ -108,39 +108,39 @@ bool TcpSocket::SSLImp::IsAgain(int res) const
 	       res == SSL_ERROR_WANT_ACCEPT;
 }
 
-bool TcpSocket::SSLImp::старт()
+bool TcpSocket::SSLImp::Start()
 {
-	LLOG("SSL старт");
+	LLOG("SSL Start");
 
 #if 0 // bug hunting
 	int n = socket.GetTimeout(); _DBG_
 	socket.Timeout(Null);
-	socket.жди(WAIT_WRITE);
+	socket.Wait(WAIT_WRITE);
 	socket.Timeout(n);
 #endif
 
 	ERR_clear_error();
 
-	if(!context.создай(socket.mode == CONNECT ? const_cast<SSL_METHOD *>(SSLv23_client_method())
+	if(!context.Create(socket.mode == CONNECT ? const_cast<SSL_METHOD *>(SSLv23_client_method())
 	                                          : const_cast<SSL_METHOD *>(SSLv23_server_method()))) {
-		SetSSLError("старт: SSL context.");
+		SetSSLError("Start: SSL context.");
 		return false;
 	}
-	if(socket.cert.дайСчёт())
+	if(socket.cert.GetCount())
 		context.UseCertificate(socket.cert, socket.pkey, socket.asn1);
 	if(!(ssl = SSL_new(context))) {
-		SetSSLError("старт: SSL_new");
+		SetSSLError("Start: SSL_new");
 		return false;
 	}
 
-	if(socket.sni.дайСчёт()) {
-		Буфер<char> h(socket.sni.дайСчёт() + 1);
+	if(socket.sni.GetCount()) {
+		Buffer<char> h(socket.sni.GetCount() + 1);
 		strcpy(~h, ~socket.sni);
 		SSL_set_tlsext_host_name(ssl, h);
 	}
 
 	if(!SSL_set_fd(ssl, (int)socket.GetSOCKET())) {
-		SetSSLError("старт: SSL_set_fd");
+		SetSSLError("Start: SSL_set_fd");
 		return false;
 	}
 	return true;
@@ -173,35 +173,35 @@ dword TcpSocket::SSLImp::Handshake()
 		return 0;
 	}
 	socket.mode = SSL_CONNECTED;
-	cert.уст(SSL_get_peer_certificate(ssl));
-	SSLInfo& f = socket.sslinfo.создай();
+	cert.Set(SSL_get_peer_certificate(ssl));
+	SSLInfo& f = socket.sslinfo.Create();
 	f.cipher = SSL_get_cipher(ssl);
-	if(!cert.пустой()) {
+	if(!cert.IsEmpty()) {
 		f.cert_avail = true;
 		f.cert_subject = cert.GetSubjectName();
 		f.cert_issuer = cert.GetIssuerName();
 		f.cert_serial = cert.GetSerialNumber();
 		f.cert_notbefore = cert.GetNotBefore();
 		f.cert_notafter = cert.GetNotAfter();
-		f.cert_version = cert.дайВерсию();
+		f.cert_version = cert.GetVersion();
 		f.cert_verified = SSL_get_verify_result(ssl) == X509_V_OK;
 	}
 	return 0;
 }
 
-bool TcpSocket::SSLImp::жди(dword flags, int end_time)
+bool TcpSocket::SSLImp::Wait(dword flags, int end_time)
 {
-	LLOG("SSL жди");
+	LLOG("SSL Wait");
 	if((flags & WAIT_READ) && SSL_pending(ssl) > 0)
 		return true;
 	return socket.RawWait(flags, end_time);
 }
 
-int TcpSocket::SSLImp::Send(const void *буфер, int maxlen)
+int TcpSocket::SSLImp::Send(const void *buffer, int maxlen)
 {
 	LLOG("SSL Send " << maxlen);
 	ERR_clear_error();
-	int res = SSL_write(ssl, (const char *)буфер, maxlen);
+	int res = SSL_write(ssl, (const char *)buffer, maxlen);
 	if(res > 0)
 		return res;
 	if(res == 0)
@@ -212,11 +212,11 @@ int TcpSocket::SSLImp::Send(const void *буфер, int maxlen)
 	return 0;
 }
 
-int TcpSocket::SSLImp::Recv(void *буфер, int maxlen)
+int TcpSocket::SSLImp::Recv(void *buffer, int maxlen)
 {
 	LLOG("SSL Recv " << maxlen);
 	ERR_clear_error();
-	int res = SSL_read(ssl, (char *)буфер, maxlen);
+	int res = SSL_read(ssl, (char *)buffer, maxlen);
 	if(res > 0)
 		return res;
 	if(res == 0)
@@ -227,9 +227,9 @@ int TcpSocket::SSLImp::Recv(void *буфер, int maxlen)
 	return 0;
 }
 
-void TcpSocket::SSLImp::открой()
+void TcpSocket::SSLImp::Close()
 {
-	LLOG("SSL открой");
+	LLOG("SSL Close");
 	SSL_shutdown(ssl);
 	socket.RawClose();
 	SSL_free(ssl);

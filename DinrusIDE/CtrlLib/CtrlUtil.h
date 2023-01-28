@@ -1,49 +1,49 @@
-void анимируй(Ктрл& c, const Прям& target, int тип = -1);
-void анимируй(Ктрл& c, int x, int y, int cx, int cy, int тип = -1);
+void Animate(Ctrl& c, const Rect& target, int type = -1);
+void Animate(Ctrl& c, int x, int y, int cx, int cy, int type = -1);
 
-bool CtrlLibDisplayError(const Значение& ev);
+bool CtrlLibDisplayError(const Value& ev);
 
-bool редактируйТекст(Ткст& s, const char *title, const char *label, int (*filter)(int), int maxlen = 0);
-bool редактируйТекст(Ткст& s, const char *title, const char *label, int maxlen = 0);
-bool EditTextNotNull(Ткст& s, const char *title, const char *label, int (*filter)(int), int maxlen = 0);
-bool EditTextNotNull(Ткст& s, const char *title, const char *label, int maxlen = 0);
+bool EditText(String& s, const char *title, const char *label, int (*filter)(int), int maxlen = 0);
+bool EditText(String& s, const char *title, const char *label, int maxlen = 0);
+bool EditTextNotNull(String& s, const char *title, const char *label, int (*filter)(int), int maxlen = 0);
+bool EditTextNotNull(String& s, const char *title, const char *label, int maxlen = 0);
 
-bool редактируйТекст(ШТкст& s, const char *title, const char *label, int (*filter)(int), int maxlen = 0);
-bool редактируйТекст(ШТкст& s, const char *title, const char *label, int maxlen = 0);
-bool EditTextNotNull(ШТкст& s, const char *title, const char *label, int (*filter)(int), int maxlen = 0);
-bool EditTextNotNull(ШТкст& s, const char *title, const char *label, int maxlen = 0);
+bool EditText(WString& s, const char *title, const char *label, int (*filter)(int), int maxlen = 0);
+bool EditText(WString& s, const char *title, const char *label, int maxlen = 0);
+bool EditTextNotNull(WString& s, const char *title, const char *label, int (*filter)(int), int maxlen = 0);
+bool EditTextNotNull(WString& s, const char *title, const char *label, int maxlen = 0);
 
 bool EditNumber(int& n, const char *title, const char *label, int min = INT_MIN, int max = INT_MAX, bool notnull = false);
 bool EditNumber(double& n, const char *title, const char *label, double min = -DBL_MAX, double max = DBL_MAX, bool notnull = false);
 
-bool EditDateDlg(Дата& d, const char *title, const char *label, Дата min = Дата::наименьш(), Дата max = Дата::наибольш(), bool notnull = false);
+bool EditDateDlg(Date& d, const char *title, const char *label, Date min = Date::Low(), Date max = Date::High(), bool notnull = false);
 
-void покажи2(Ктрл& ctrl1, Ктрл& ctrl, bool show = true);
-void скрой2(Ктрл& ctrl1, Ктрл& ctrl);
+void Show2(Ctrl& ctrl1, Ctrl& ctrl, bool show = true);
+void Hide2(Ctrl& ctrl1, Ctrl& ctrl);
 
-#ifndef PLATFORM_WINCE //TODO?
-void обновиФайл(const char *filename);
+#ifndef PLATFORM_WINCE //СДЕЛАТЬ?
+void UpdateFile(const char *filename);
 void SelfUpdate();
 bool SelfUpdateSelf();
 #endif
 
 void WindowsList();
-void WindowsMenu(Бар& bar);
+void WindowsMenu(Bar& bar);
 
 class DelayCallback : public Pte<DelayCallback> {
-	Событие<>  target;
+	Event<>  target;
 	int      delay;
 
 public:
 	void     Invoke();
-	void     operator<<=(Событие<> x)   { target = x; }
+	void     operator<<=(Event<> x)   { target = x; }
 	void     SetDelay(int ms)         { delay = ms; }
-	Событие<>  дай()                    { return callback(this, &DelayCallback::Invoke); }
-	Событие<>  operator~()              { return дай(); }
-	operator Событие<>()                { return дай(); }
+	Event<>  Get()                    { return callback(this, &DelayCallback::Invoke); }
+	Event<>  operator~()              { return Get(); }
+	operator Event<>()                { return Get(); }
 
 	DelayCallback()                   { delay = 2000; }
-	~DelayCallback()                  { глушиОбрвызВремени(this); }
+	~DelayCallback()                  { KillTimeCallback(this); }
 };
 
 #ifdef GUI_WIN
@@ -56,38 +56,38 @@ struct Win32PrintDlg_;
 
 class PrinterJob {
 #ifdef GUI_WIN
-	Один<Win32PrintDlg_> pdlg;
+	One<Win32PrintDlg_> pdlg;
 	bool Execute0(bool dodlg);
 #endif
 #ifdef PLATFORM_POSIX
-	Размер                pgsz;
-	Размер                GetDefaultPageSize(Ткст *имя = NULL);
+	Size                pgsz;
+	Size                GetDefaultPageSize(String *name = NULL);
 #endif
-	Один<Draw>           draw;
-	Вектор<int>         page;
+	One<Draw>           draw;
+	Vector<int>         page;
 	int                 from, to, current;
 	bool                landscape;
-	Ткст              имя;
-	Ткст              options;
+	String              name;
+	String              options;
 	bool                dlgSuccess;
 	bool                Execute0();
 	
 public:
 	Draw&               GetDraw();
 	operator            Draw&()                         { return GetDraw(); }
-	const Вектор<int>&  GetPages() const                { return page; }
+	const Vector<int>&  GetPages() const                { return page; }
 	int                 operator[](int i) const         { return page[i]; }
-	int                 GetPageCount() const            { return page.дайСчёт(); }
+	int                 GetPageCount() const            { return page.GetCount(); }
 
-	bool                выполни();
+	bool                Execute();
 
 	PrinterJob& Landscape(bool b = true)                { landscape = b; return *this; }
 	PrinterJob& MinMaxPage(int minpage, int maxpage);
 	PrinterJob& PageCount(int n)                        { return MinMaxPage(0, n - 1); }
 	PrinterJob& CurrentPage(int currentpage);
-	PrinterJob& Имя(const char *_name)                 { имя = _name; return *this; }
+	PrinterJob& Name(const char *_name)                 { name = _name; return *this; }
 
-	PrinterJob(const char *имя = NULL);
+	PrinterJob(const char *name = NULL);
 	~PrinterJob();
 };
 
@@ -97,219 +97,219 @@ public:
 
 #ifdef GUI_X11
 
-class ИконкаТрея : Ктрл {
-	virtual bool HookProc(XСобытие *event);
-	virtual void рисуй(Draw& draw);
-	virtual void леваяВнизу(Точка p, dword keyflags);
-	virtual void леваяВверху(Точка p, dword keyflags);
-	virtual void леваяДКлик(Точка p, dword keyflags);
-	virtual void праваяВнизу(Точка p, dword keyflags);
+class TrayIcon : Ctrl {
+	virtual bool HookProc(XEvent *event);
+	virtual void Paint(Draw& draw);
+	virtual void LeftDown(Point p, dword keyflags);
+	virtual void LeftUp(Point p, dword keyflags);
+	virtual void LeftDouble(Point p, dword keyflags);
+	virtual void RightDown(Point p, dword keyflags);
 
 private:
 	void AddToTray();
 
 	Window traywin;
-	Рисунок  icon;
-	void DoMenu(Бар& bar);
+	Image  icon;
+	void DoMenu(Bar& bar);
 	void Call(int code, unsigned long d1, unsigned long d2, unsigned long d3);
-	void Message(int тип, const char *title, const char *text, int timeout);
+	void Message(int type, const char *title, const char *text, int timeout);
 
 public:
-	virtual void    леваяВнизу();
-	virtual void    леваяВверху();
-	virtual void    леваяДКлик();
-	virtual void    Menu(Бар& bar);
+	virtual void    LeftDown();
+	virtual void    LeftUp();
+	virtual void    LeftDouble();
+	virtual void    Menu(Bar& bar);
 	virtual void    BalloonLeftDown();
 	virtual void    BalloonShow();
 	virtual void    BalloonHide();
 	virtual void    BalloonTimeout();
 
-	Событие<>         WhenLeftDown;
-	Событие<>         WhenLeftUp;
-	Событие<>         WhenLeftDouble;
-	Событие<Бар&> WhenBar;
-	Событие<>         WhenBalloonLeftDown;
-	Событие<>         WhenBalloonShow;
-	Событие<>         WhenBalloonHide;
-	Событие<>         WhenBalloonTimeout;
+	Event<>         WhenLeftDown;
+	Event<>         WhenLeftUp;
+	Event<>         WhenLeftDouble;
+	Event<Bar&> WhenBar;
+	Event<>         WhenBalloonLeftDown;
+	Event<>         WhenBalloonShow;
+	Event<>         WhenBalloonHide;
+	Event<>         WhenBalloonTimeout;
 
 	void            Break()                                { EndLoop(0); }
-	void            пуск()                                  { циклСобытий(this); }
+	void            Run()                                  { EventLoop(this); }
 
-	void            покажи(bool b = true);
-	void            скрой()                                 { покажи(false); }
-	bool            видим_ли() const                      { return true; }
+	void            Show(bool b = true);
+	void            Hide()                                 { Show(false); }
+	bool            IsVisible() const                      { return true; }
 
 	void            Info(const char *title, const char *text, int timeout = 10)    { Message(1, title, text, timeout); }
 	void            Warning(const char *title, const char *text, int timeout = 10) { Message(2, title, text, timeout); }
-	void            Ошибка(const char *title, const char *text, int timeout = 10)   { Message(3, title, text, timeout); }
+	void            Error(const char *title, const char *text, int timeout = 10)   { Message(3, title, text, timeout); }
 
-	ИконкаТрея&  Иконка(const Рисунок &img)                      { icon = img; освежи(); return *this; }
-	ИконкаТрея&  Подсказка(const char *text)                       { Ктрл::Подсказка(text); return *this; }
+	TrayIcon&  Icon(const Image &img)                      { icon = img; Refresh(); return *this; }
+	TrayIcon&  Tip(const char *text)                       { Ctrl::Tip(text); return *this; }
 
-	typedef ИконкаТрея ИМЯ_КЛАССА;
+	typedef TrayIcon CLASSNAME;
 
-	ИконкаТрея();
+	TrayIcon();
 };
 
 #endif
 
 #ifdef GUI_GTK
 
-class ИконкаТрея {
+class TrayIcon {
 private:
 	GtkStatusIcon *tray_icon;
-	Ткст         tooltip;
+	String         tooltip;
 	ImageGdk       image;
 	bool           active;
 
-	static gboolean DoButtonPress(GtkStatusIcon *, GdkСобытиеButton *e, gpointer user_data);
-	static gboolean DoButtonRelease(GtkStatusIcon *, GdkСобытиеButton *e, gpointer user_data);
+	static gboolean DoButtonPress(GtkStatusIcon *, GdkEventButton *e, gpointer user_data);
+	static gboolean DoButtonRelease(GtkStatusIcon *, GdkEventButton *e, gpointer user_data);
 	static void     PopupMenu(GtkStatusIcon *, guint, guint32, gpointer user_data);
 	static void     DoActivate(GtkStatusIcon *, gpointer user_data);
 
-	void DoMenu(Бар& bar);
+	void DoMenu(Bar& bar);
 	void ExecuteMenu();
 
-	void синх();
+	void Sync();
 
-	void Message(int тип, const char *title, const char *text, int timeout);
+	void Message(int type, const char *title, const char *text, int timeout);
 
 public:
-	virtual void    Menu(Бар& bar);
-	virtual void    леваяВнизу();
-	virtual void    леваяВверху();
-	virtual void    леваяДКлик();
+	virtual void    Menu(Bar& bar);
+	virtual void    LeftDown();
+	virtual void    LeftUp();
+	virtual void    LeftDouble();
 
-	Событие<>         WhenLeftDown;
-	Событие<>         WhenLeftUp;
-	Событие<>         WhenLeftDouble;
-	Событие<Бар&> WhenBar;
+	Event<>         WhenLeftDown;
+	Event<>         WhenLeftUp;
+	Event<>         WhenLeftDouble;
+	Event<Bar&> WhenBar;
 
 	void            Break();
-	void            пуск();
+	void            Run();
 
-	void            покажи(bool b = true);
-	void            скрой()                                 { покажи(false); }
-	bool            видим_ли() const;
+	void            Show(bool b = true);
+	void            Hide()                                 { Show(false); }
+	bool            IsVisible() const;
 
 	// Not implemented by GTK:
 	void            Info(const char *title, const char *text, int timeout = 10)    { Message(1, title, text, timeout); }
 	void            Warning(const char *title, const char *text, int timeout = 10) { Message(2, title, text, timeout); }
-	void            Ошибка(const char *title, const char *text, int timeout = 10)   { Message(3, title, text, timeout); }
+	void            Error(const char *title, const char *text, int timeout = 10)   { Message(3, title, text, timeout); }
 
-	ИконкаТрея&  Иконка(const Рисунок &img)                      { if(image.уст(img)) синх(); return *this; }
-	ИконкаТрея&  Подсказка(const char *text)                       { if(tooltip != text) tooltip = text; синх(); return *this; }
+	TrayIcon&  Icon(const Image &img)                      { if(image.Set(img)) Sync(); return *this; }
+	TrayIcon&  Tip(const char *text)                       { if(tooltip != text) tooltip = text; Sync(); return *this; }
 
-	typedef ИконкаТрея ИМЯ_КЛАССА;
+	typedef TrayIcon CLASSNAME;
 
-	ИконкаТрея();
-	~ИконкаТрея();
+	TrayIcon();
+	~TrayIcon();
 };
 
 #endif
 
 #ifdef GUI_WIN
 
-class ИконкаТрея : private Ктрл {
-	Рисунок           icon;
+class TrayIcon : private Ctrl {
+	Image           icon;
 	bool            visible;
-	Ткст          tip;
+	String          tip;
 	NOTIFYICONDATAW nid;
 	HWND            hwnd;
 
 	void Notify(dword msg);
-	void DoMenu(Бар& bar);
-	void Message(int тип, const char *title, const char *text, int timeout = 10);
+	void DoMenu(Bar& bar);
+	void Message(int type, const char *title, const char *text, int timeout = 10);
 
 protected:
 	virtual LRESULT WindowProc(UINT message, WPARAM wParam, LPARAM lParam);
 
 public:
-	virtual void    Menu(Бар& bar);
-	virtual void    леваяВнизу();
-	virtual void    леваяВверху();
-	virtual void    леваяДКлик();
+	virtual void    Menu(Bar& bar);
+	virtual void    LeftDown();
+	virtual void    LeftUp();
+	virtual void    LeftDouble();
 	virtual void    BalloonLeftDown();
 	virtual void    BalloonShow();
 	virtual void    BalloonHide();
 	virtual void    BalloonTimeout();
 
-	Событие<>         WhenLeftDown;
-	Событие<>         WhenLeftUp;
-	Событие<>         WhenLeftDouble;
-	Событие<Бар&> WhenBar;
-	Событие<>         WhenBalloonLeftDown;
-	Событие<>         WhenBalloonShow;
-	Событие<>         WhenBalloonHide;
-	Событие<>         WhenBalloonTimeout;
+	Event<>         WhenLeftDown;
+	Event<>         WhenLeftUp;
+	Event<>         WhenLeftDouble;
+	Event<Bar&> WhenBar;
+	Event<>         WhenBalloonLeftDown;
+	Event<>         WhenBalloonShow;
+	Event<>         WhenBalloonHide;
+	Event<>         WhenBalloonTimeout;
 
-	void            покажи(bool b = true);
-	void            скрой()                                 { покажи(false); }
-	bool            видим_ли() const                      { return visible; }
+	void            Show(bool b = true);
+	void            Hide()                                 { Show(false); }
+	bool            IsVisible() const                      { return visible; }
 	void            Break()                                { EndLoop(0); }
-	void            пуск()                                  { циклСобытий(this); }
+	void            Run()                                  { EventLoop(this); }
 
 	void            Info(const char *title, const char *text, int timeout = 10)    { Message(1, title, text, timeout); }
 	void            Warning(const char *title, const char *text, int timeout = 10) { Message(2, title, text, timeout); }
-	void            Ошибка(const char *title, const char *text, int timeout = 10)   { Message(3, title, text, timeout); }
+	void            Error(const char *title, const char *text, int timeout = 10)   { Message(3, title, text, timeout); }
 
-	ИконкаТрея&  Иконка(const Рисунок &img);
-	ИконкаТрея&  Подсказка(const char *text);
+	TrayIcon&  Icon(const Image &img);
+	TrayIcon&  Tip(const char *text);
 
-	typedef ИконкаТрея ИМЯ_КЛАССА;
+	typedef TrayIcon CLASSNAME;
 
-	ИконкаТрея();
-	~ИконкаТрея();
+	TrayIcon();
+	~TrayIcon();
 };
 
 class FileSelNative {
 protected:
-	struct FileType : Движимое<FileType> {
-		Ткст имя;
-		Ткст ext;
+	struct FileType : Moveable<FileType> {
+		String name;
+		String ext;
 	};
 
-	Вектор<FileType> тип;
+	Vector<FileType> type;
 
 	int    activetype;
-	Ткст activedir;
-	Ткст defext;
+	String activedir;
+	String defext;
 	bool   rdonly;
 	bool   multi;
 	bool   readonly;
 	bool   asking;
 
-	Вектор<Ткст> filename;
+	Vector<String> filename;
 
 public:
-	void сериализуй(Поток& s);
+	void Serialize(Stream& s);
 
-	void нов()                                   { filename.очисть(); }
-	bool IsNew() const                           { return filename.пустой(); }
-	bool выполни(bool open, const char *title = NULL);
-	bool ExecuteOpen(const char *title = NULL)   { return выполни(true, title); }
-	bool ExecuteSaveAs(const char *title = NULL) { return выполни(false, title); }
+	void New()                                   { filename.Clear(); }
+	bool IsNew() const                           { return filename.IsEmpty(); }
+	bool Execute(bool open, const char *title = NULL);
+	bool ExecuteOpen(const char *title = NULL)   { return Execute(true, title); }
+	bool ExecuteSaveAs(const char *title = NULL) { return Execute(false, title); }
 	bool ExecuteSelectDir(const char *title = NULL);
 
-	Ткст дай() const;
-	void  уст(const Ткст& s)                   { filename.по(0) = s; }
+	String Get() const;
+	void  Set(const String& s)                   { filename.At(0) = s; }
 
-	operator Ткст() const                      { return дай(); }
-	void operator=(const Ткст& s)              { уст(s); }
+	operator String() const                      { return Get(); }
+	void operator=(const String& s)              { Set(s); }
 
-	Ткст operator~() const                     { return дай(); }
-	void operator<<=(const Ткст& s)            { уст(s); }
+	String operator~() const                     { return Get(); }
+	void operator<<=(const String& s)            { Set(s); }
 
-	int   дайСчёт() const                       { return filename.дайСчёт(); }
-	const Ткст& operator[](int i) const        { return filename[i]; }
+	int   GetCount() const                       { return filename.GetCount(); }
+	const String& operator[](int i) const        { return filename[i]; }
 
 	bool   GetReadOnly() const                   { return readonly; }
-	Ткст GetActiveDir() const                  { return activedir; }
+	String GetActiveDir() const                  { return activedir; }
 
-	FileSelNative& Type(const char *имя, const char *ext);
+	FileSelNative& Type(const char *name, const char *ext);
 	FileSelNative& AllFilesType();
-	FileSelNative& ActiveDir(const Ткст& dir)   { activedir = dir; return *this; }
+	FileSelNative& ActiveDir(const String& dir)   { activedir = dir; return *this; }
 	FileSelNative& ActiveType(int i)              { activetype = i; return *this;  }
 	FileSelNative& DefaultExt(const char *ext)    { defext = ext; return *this; }
 	FileSelNative& Multi(bool b = true)           { multi = b; return *this; }
@@ -330,10 +330,10 @@ typedef FileSel FileSelNative;
 
 #if defined(GUI_GTK) || defined(PLATFORM_COCOA)
 class FileSelNative {
-	Вектор<Ткст> path;
-	Вектор< Tuple2<Ткст, Ткст> > тип;
+	Vector<String> path;
+	Vector< Tuple2<String, String> > type;
 	
-	Ткст ipath;
+	String ipath;
 	bool   confirm;
 	bool   multi;
 	bool   hidden;
@@ -341,36 +341,36 @@ class FileSelNative {
 	bool   Execute0(int mode, const char *title);
 
 public:
-	void сериализуй(Поток& s);
+	void Serialize(Stream& s);
 
-	void нов()                                            { path.очисть(); }
-	bool IsNew() const                                    { return path.пустой(); }
+	void New()                                            { path.Clear(); }
+	bool IsNew() const                                    { return path.IsEmpty(); }
 
-	bool   выполни(bool open, const char *title = NULL)   { return Execute0(open, title); }
-	bool   ExecuteOpen(const char *title = NULL)          { return выполни(true, title); }
-	bool   ExecuteSaveAs(const char *title = NULL)        { return выполни(false, title); }
+	bool   Execute(bool open, const char *title = NULL)   { return Execute0(open, title); }
+	bool   ExecuteOpen(const char *title = NULL)          { return Execute(true, title); }
+	bool   ExecuteSaveAs(const char *title = NULL)        { return Execute(false, title); }
 	bool   ExecuteSelectDir(const char *title = NULL)     { return Execute0(2, title); }
 
-	Ткст дай() const                                    { return path.дайСчёт() ? path[0] : Ткст::дайПроц(); }
-	operator Ткст() const                               { return дай(); }
-	Ткст operator~() const                              { return дай(); }
+	String Get() const                                    { return path.GetCount() ? path[0] : String::GetVoid(); }
+	operator String() const                               { return Get(); }
+	String operator~() const                              { return Get(); }
 	
-	void   уст(const Ткст& s)                           { ipath = s; }
-	void   operator=(const Ткст& s)                     { уст(s); }
-	void   operator<<=(const Ткст& s)                   { уст(s); }
+	void   Set(const String& s)                           { ipath = s; }
+	void   operator=(const String& s)                     { Set(s); }
+	void   operator<<=(const String& s)                   { Set(s); }
 
-	int    дайСчёт() const                               { return path.дайСчёт(); }
-	const  Ткст& operator[](int i) const                { return path[i]; }
+	int    GetCount() const                               { return path.GetCount(); }
+	const  String& operator[](int i) const                { return path[i]; }
 
-	Ткст GetActiveDir() const                           { return ipath; }
+	String GetActiveDir() const                           { return ipath; }
 
-	FileSelNative& Type(const char *имя, const char *ext) { тип.добавь(сделайКортеж(Ткст(имя), Ткст(ext))); return *this; }
+	FileSelNative& Type(const char *name, const char *ext) { type.Add(MakeTuple(String(name), String(ext))); return *this; }
 	FileSelNative& AllFilesType();
 	FileSelNative& Asking(bool b = true)                   { confirm = b; return *this; }
 	FileSelNative& NoAsking()                              { return Asking(false); }
 	FileSelNative& Multi(bool b = true)                    { multi = b; return *this; }
 	FileSelNative& ShowHidden(bool b = true)               { hidden = b; return *this; }
-	FileSelNative& ActiveDir(const Ткст& dir)            { ipath = dir; return *this; }
+	FileSelNative& ActiveDir(const String& dir)            { ipath = dir; return *this; }
 	FileSelNative& ActiveType(int i)                       { activetype = i; return *this; }
 
 	FileSelNative();
@@ -384,7 +384,7 @@ class CtrlMapper {
 
 public:
 	template <class T>
-	CtrlMapper& operator()(Ктрл& ctrl, T& val) { if(toctrls) ctrl <<= val; else val = ~ctrl; return *this; }
+	CtrlMapper& operator()(Ctrl& ctrl, T& val) { if(toctrls) ctrl <<= val; else val = ~ctrl; return *this; }
 	
 	CtrlMapper& ToCtrls()                      { toctrls = true; return *this; }
 	CtrlMapper& ToValues()                     { toctrls = false; return *this; }
@@ -392,94 +392,94 @@ public:
 
 class CtrlRetriever {
 public:
-	struct Элемент {
-		virtual void уст() {}
+	struct Item {
+		virtual void Set() {}
 		virtual void Retrieve() = 0;
-		virtual ~Элемент() {}
+		virtual ~Item() {}
 	};
 
 private:
-	struct CtrlItem0 : Элемент {
-		Ктрл  *ctrl;
+	struct CtrlItem0 : Item {
+		Ctrl  *ctrl;
 	};
 
 	template <class T>
 	struct CtrlItem : CtrlItem0 {
-		T     *значение;
+		T     *value;
 
-		virtual void уст()       { *ctrl <<= *значение; }
-		virtual void Retrieve()  { *значение = ~*ctrl; }
+		virtual void Set()       { *ctrl <<= *value; }
+		virtual void Retrieve()  { *value = ~*ctrl; }
 		virtual ~CtrlItem() {}
 	};
 
-	Массив<Элемент> элт;
+	Array<Item> item;
 
 public:
-	void помести(Элемент *newitem)                       { элт.добавь(newitem); }
+	void Put(Item *newitem)                       { item.Add(newitem); }
 
-	void помести(Один<Элемент>&& newitem)                 { элт.добавь(newitem.открепи()); }
-
-	template <class T>
-	void помести(Ктрл& ctrl, T& val);
+	void Put(One<Item>&& newitem)                 { item.Add(newitem.Detach()); }
 
 	template <class T>
-	CtrlRetriever& operator()(Ктрл& ctrl, T& val) { помести(ctrl, val); return *this; }
+	void Put(Ctrl& ctrl, T& val);
 
-	void уст();
+	template <class T>
+	CtrlRetriever& operator()(Ctrl& ctrl, T& val) { Put(ctrl, val); return *this; }
+
+	void Set();
 	void Retrieve();
 
-	Событие<>  operator^=(Событие<> cb);
-	Событие<>  operator<<(Событие<> cb);
+	Event<>  operator^=(Event<> cb);
+	Event<>  operator<<(Event<> cb);
 	
-	void переустанов()                                  { элт.очисть(); }
+	void Reset()                                  { item.Clear(); }
 
 // Backward compatibility
-	Событие<>  operator<<=(Событие<> cb)              { return *this ^= cb; }
+	Event<>  operator<<=(Event<> cb)              { return *this ^= cb; }
 };
 
 template <class T>
-void CtrlRetriever::помести(Ктрл& ctrl, T& val)
+void CtrlRetriever::Put(Ctrl& ctrl, T& val)
 {
 	CtrlItem<T> *m = new CtrlItem<T>();
 	m->ctrl = &ctrl;
-	m->значение = &val;
-	m->уст();
-	помести(m);
+	m->value = &val;
+	m->Set();
+	Put(m);
 }
 
-class ИдКтрлы {
+class IdCtrls {
 protected:
-	struct Элемент {
-		Ид    id;
-		Ктрл *ctrl;
+	struct Item {
+		Id    id;
+		Ctrl *ctrl;
 	};
-	Массив<Элемент> элт;
+	Array<Item> item;
 
 public:
-	void        переустанов()                              { элт.очисть(); }
+	void        Reset()                              { item.Clear(); }
 
-	void            добавь(Ид id, Ктрл& ctrl);
-	ИдКтрлы&        operator()(Ид id, Ктрл& ctrl)    { добавь(id, ctrl); return *this; }
-	int             дайСчёт() const                 { return элт.дайСчёт(); }
-	Ктрл&           operator[](int i)                { return *элт[i].ctrl; }
-	const Ктрл&     operator[](int i) const          { return *элт[i].ctrl; }
-	Ид              дайКлюч(int i) const              { return элт[i].id; }
-	Ид              operator()(int i) const          { return элт[i].id; }
+	void            Add(Id id, Ctrl& ctrl);
+	IdCtrls&        operator()(Id id, Ctrl& ctrl)    { Add(id, ctrl); return *this; }
+	int             GetCount() const                 { return item.GetCount(); }
+	Ctrl&           operator[](int i)                { return *item[i].ctrl; }
+	const Ctrl&     operator[](int i) const          { return *item[i].ctrl; }
+	Id              GetKey(int i) const              { return item[i].id; }
+	Id              operator()(int i) const          { return item[i].id; }
 
-	bool            прими();
+	bool            Accept();
 	void            ClearModify();
-	bool            изменено();
-	void            вкл(bool b = true);
-	void            откл()                        { вкл(false); }
-	void            устПусто();
+	bool            IsModified();
+	void            Enable(bool b = true);
+	void            Disable()                        { Enable(false); }
+	void            SetNull();
 	
-	Событие<>         operator<<(Событие<> action);
-	Событие<>         operator^=(Событие<> action);
+	Event<>         operator<<(Event<> action);
+	Event<>         operator^=(Event<> action);
 
-	МапЗнач        дай() const;
-	void            уст(const МапЗнач& m);
-	МапЗнач        operator~() const                { return дай(); }
-	const МапЗнач& operator<<=(const МапЗнач& m)   { уст(m); return m; }
+	ValueMap        Get() const;
+	void            Set(const ValueMap& m);
+	ValueMap        operator~() const                { return Get(); }
+	const ValueMap& operator<<=(const ValueMap& m)   { Set(m); return m; }
 };
 
 class FileSelButton : public FileSel
@@ -488,21 +488,21 @@ public:
 	enum MODE { MODE_OPEN, MODE_SAVE, MODE_DIR };
 	FileSelButton(MODE mode = MODE_OPEN, const char *title = NULL);
 	
-	void               прикрепи(Ктрл& parent);
-	void               открепи();
-	void               Титул(Ткст t)      { title = t; }
-	Ткст             дайТитул() const     { return title; }
+	void               Attach(Ctrl& parent);
+	void               Detach();
+	void               Title(String t)      { title = t; }
+	String             GetTitle() const     { return title; }
 	
-	Событие<>            WhenSelected;
+	Event<>            WhenSelected;
 	
-	FileSelButton&     Подсказка(const char *txt) { button.Подсказка(txt); return *this; }
+	FileSelButton&     Tip(const char *txt) { button.Tip(txt); return *this; }
 	
 private:
 	void               OnAction();
 
 private:
-	ФреймПраво<Кнопка> button;
-	Ткст             title;
+	FrameRight<Button> button;
+	String             title;
 	MODE               mode;
 };
 
@@ -510,21 +510,21 @@ struct OpenFileButton  : FileSelButton { OpenFileButton(const char *title = NULL
 struct SaveFileButton  : FileSelButton { SaveFileButton(const char *title = NULL) : FileSelButton(MODE_SAVE, title) {} };
 struct SelectDirButton : FileSelButton { SelectDirButton(const char *title = NULL) : FileSelButton(MODE_DIR,  title) {} };
 
-void уст(КтрлМассив& array, int ii, ИдКтрлы& m);
-void дай(КтрлМассив& array, int ii, ИдКтрлы& m);
+void Set(ArrayCtrl& array, int ii, IdCtrls& m);
+void Get(ArrayCtrl& array, int ii, IdCtrls& m);
 
 void   UpdateSetDir(const char *path);
 void   UpdateSetUpdater(const char *exename);
-Ткст UpdateGetDir();
+String UpdateGetDir();
 
-void обновиФайл(Ткст dst, Ткст src);
+void UpdateFile(String dst, String src);
 
 void MemoryProfileInfo();
 
-struct sPaintRedirectCtrl : Ктрл {
-	Ктрл *ctrl;
+struct sPaintRedirectCtrl : Ctrl {
+	Ctrl *ctrl;
 	
-	virtual void рисуй(Draw& w) {
-		ctrl->рисуй(w);
+	virtual void Paint(Draw& w) {
+		ctrl->Paint(w);
 	}
 };

@@ -2,7 +2,7 @@
 
 #define LLOG(x)
 
-namespace РНЦП {
+namespace Upp {
 
 extern dword fbKEYtoK(dword chr);
 
@@ -28,26 +28,26 @@ dword SDL2GUI::GetModKeys()
 	return modkeys;
 }
 
-void SDL2GUI::HandleSDLСобытие(SDL_Событие* event)
+void SDL2GUI::HandleSDLEvent(SDL_Event* event)
 {
-	LLOG("HandleSDLСобытие " << event->тип);
-	SDL_Событие next_event;
+	LLOG("HandleSDLEvent " << event->type);
+	SDL_Event next_event;
 	dword keycode;
-	switch(event->тип) {
-//		case SDL_ACTIVEEVENT: //SDL_ActiveСобытие
+	switch(event->type) {
+//		case SDL_ACTIVEEVENT: //SDL_ActiveEvent
 //			break;
 	case SDL_TEXTINPUT: {
 			//send respective keyup things as char events as well
-		ШТкст text = event->text.text;
-		for(int i = 0; i < text.дайСчёт(); i++) {
+		WString text = event->text.text;
+		for(int i = 0; i < text.GetCount(); i++) {
 			int c = text[i];
 			if(c != 127)
-				Ктрл::DoKeyFB(c, 1);
+				Ctrl::DoKeyFB(c, 1);
 		}
 		break;
 	}
 	case SDL_KEYDOWN:
-		switch(event->ключ.keysym.sym) {
+		switch(event->key.keysym.sym) {
 			case SDLK_LSHIFT: modkeys |= KM_LSHIFT; break;
 			case SDLK_RSHIFT: modkeys |= KM_RSHIFT; break;
 			case SDLK_LCTRL: modkeys |= KM_LCTRL; break;
@@ -56,22 +56,22 @@ void SDL2GUI::HandleSDLСобытие(SDL_Событие* event)
 			case SDLK_RALT: modkeys |= KM_RALT; break;
 		}
 		
-		keycode = fbKEYtoK((dword)event->ключ.keysym.sym);
+		keycode = fbKEYtoK((dword)event->key.keysym.sym);
 		
 		if(keycode != K_SPACE) { //dont send space on keydown
 			static int repeat_count;
-			SDL_PumpСобытиеs();
-			if(SDL_PeepСобытиеs(&next_event, 1, SDL_PEEKEVENT, SDL_KEYDOWN, SDL_KEYDOWN) &&
-			   next_event.ключ.keysym.sym == event->ключ.keysym.sym) {
+			SDL_PumpEvents();
+			if(SDL_PeepEvents(&next_event, 1, SDL_PEEKEVENT, SDL_KEYDOWN, SDL_KEYDOWN) &&
+			   next_event.key.keysym.sym == event->key.keysym.sym) {
 				repeat_count++; // Keyboard repeat compression
 				break;
 			}
-			Ктрл::DoKeyFB(keycode, 1 + repeat_count);
+			Ctrl::DoKeyFB(keycode, 1 + repeat_count);
 			repeat_count = 0;
 		}
 		break;
-	case SDL_KEYUP: //SDL_KeyboardСобытие
-		switch(event->ключ.keysym.sym) {
+	case SDL_KEYUP: //SDL_KeyboardEvent
+		switch(event->key.keysym.sym) {
 			case SDLK_LSHIFT: modkeys &= ~KM_LSHIFT; break;
 			case SDLK_RSHIFT: modkeys &= ~KM_RSHIFT; break;
 			case SDLK_LCTRL: modkeys &= ~KM_LCTRL; break;
@@ -80,28 +80,28 @@ void SDL2GUI::HandleSDLСобытие(SDL_Событие* event)
 			case SDLK_RALT: modkeys &= ~KM_RALT; break;
 		}
 
-		Ктрл::DoKeyFB(fbKEYtoK((dword)event->ключ.keysym.sym) | K_KEYUP, 1);
+		Ctrl::DoKeyFB(fbKEYtoK((dword)event->key.keysym.sym) | K_KEYUP, 1);
 		break;
 	case SDL_MOUSEMOTION:
-		SDL_PumpСобытиеs();
-		if(SDL_PeepСобытиеs(&next_event, 1, SDL_PEEKEVENT, SDL_MOUSEMOTION, SDL_MOUSEMOTION) > 0)
-			break; // двигМыши compression
-		Ктрл::DoMouseFB(Ктрл::MOUSEMOVE, Точка(event->motion.x, event->motion.y));
+		SDL_PumpEvents();
+		if(SDL_PeepEvents(&next_event, 1, SDL_PEEKEVENT, SDL_MOUSEMOTION, SDL_MOUSEMOTION) > 0)
+			break; // MouseMove compression
+		Ctrl::DoMouseFB(Ctrl::MOUSEMOVE, Point(event->motion.x, event->motion.y));
 		break;
 	case SDL_MOUSEWHEEL:
-		Ктрл::DoMouseFB(Ктрл::MOUSEWHEEL, дайПозМыши(), зн(event->wheel.y) * 120);
+		Ctrl::DoMouseFB(Ctrl::MOUSEWHEEL, GetMousePos(), sgn(event->wheel.y) * 120);
 		break;
 	case SDL_MOUSEBUTTONDOWN: {
-			Точка p(event->button.x, event->button.y);
+			Point p(event->button.x, event->button.y);
 			int bi = event->button.button;
 			dword ct = SDL_GetTicks();
-			if(isdblclick[bi] && (абс(int(ct) - int(lastbdowntime[bi])) < 400))
+			if(isdblclick[bi] && (abs(int(ct) - int(lastbdowntime[bi])) < 400))
 			{
 				switch(bi)
 				{
-					case SDL_BUTTON_LEFT: Ктрл::DoMouseFB(Ктрл::LEFTDOUBLE, p); break;
-					case SDL_BUTTON_RIGHT: Ктрл::DoMouseFB(Ктрл::RIGHTDOUBLE, p); break;
-					case SDL_BUTTON_MIDDLE: Ктрл::DoMouseFB(Ктрл::MIDDLEDOUBLE, p); break;
+					case SDL_BUTTON_LEFT: Ctrl::DoMouseFB(Ctrl::LEFTDOUBLE, p); break;
+					case SDL_BUTTON_RIGHT: Ctrl::DoMouseFB(Ctrl::RIGHTDOUBLE, p); break;
+					case SDL_BUTTON_MIDDLE: Ctrl::DoMouseFB(Ctrl::MIDDLEDOUBLE, p); break;
 				}
 				isdblclick[bi] = 0; //reset, to go ahead sending repeats
 			}
@@ -111,9 +111,9 @@ void SDL2GUI::HandleSDLСобытие(SDL_Событие* event)
 				isdblclick[bi] = 0; //prepare for repeat
 				switch(bi)
 				{
-					case SDL_BUTTON_LEFT: mouseb |= (1<<0); Ктрл::DoMouseFB(Ктрл::LEFTDOWN, p); break;
-					case SDL_BUTTON_RIGHT: mouseb |= (1<<1); Ктрл::DoMouseFB(Ктрл::RIGHTDOWN, p); break;
-					case SDL_BUTTON_MIDDLE: mouseb |= (1<<2); Ктрл::DoMouseFB(Ктрл::MIDDLEDOWN, p); break;
+					case SDL_BUTTON_LEFT: mouseb |= (1<<0); Ctrl::DoMouseFB(Ctrl::LEFTDOWN, p); break;
+					case SDL_BUTTON_RIGHT: mouseb |= (1<<1); Ctrl::DoMouseFB(Ctrl::RIGHTDOWN, p); break;
+					case SDL_BUTTON_MIDDLE: mouseb |= (1<<2); Ctrl::DoMouseFB(Ctrl::MIDDLEDOWN, p); break;
 				}
 			}
 		}
@@ -122,27 +122,27 @@ void SDL2GUI::HandleSDLСобытие(SDL_Событие* event)
 			int bi = event->button.button;
 			isdblclick[bi] = 1; //indicate maybe a dblclick
 	
-			Точка p(event->button.x, event->button.y);
+			Point p(event->button.x, event->button.y);
 			switch(bi)
 			{
-				case SDL_BUTTON_LEFT: mouseb &= ~(1<<0); Ктрл::DoMouseFB(Ктрл::LEFTUP, p); break;
-				case SDL_BUTTON_RIGHT: mouseb &= ~(1<<1); Ктрл::DoMouseFB(Ктрл::RIGHTUP, p); break;
-				case SDL_BUTTON_MIDDLE: mouseb &= ~(1<<2); Ктрл::DoMouseFB(Ктрл::MIDDLEUP, p); break;
+				case SDL_BUTTON_LEFT: mouseb &= ~(1<<0); Ctrl::DoMouseFB(Ctrl::LEFTUP, p); break;
+				case SDL_BUTTON_RIGHT: mouseb &= ~(1<<1); Ctrl::DoMouseFB(Ctrl::RIGHTUP, p); break;
+				case SDL_BUTTON_MIDDLE: mouseb &= ~(1<<2); Ctrl::DoMouseFB(Ctrl::MIDDLEUP, p); break;
 			}
 		}
 		break;
-/*		case SDL_VIDEORESIZE: //SDL_ResizeСобытие
+/*		case SDL_VIDEORESIZE: //SDL_ResizeEvent
 		{
 			width = event->resize.w;
 			height = event->resize.h;
 	
 			SDL_FreeSurface(screen);
 			screen = CreateScreen(width, height, bpp, videoflags);
-			ПРОВЕРЬ(screen);
-			Ктрл::SetFramebufferSize(Размер(width, height));
+			ASSERT(screen);
+			Ctrl::SetFramebufferSize(Size(width, height));
 		}
 			break;
-		case SDL_VIDEOEXPOSE: //SDL_ExposeСобытие
+		case SDL_VIDEOEXPOSE: //SDL_ExposeEvent
 			break;*/
 	case SDL_WINDOWEVENT:
         switch (event->window.event) {
@@ -168,11 +168,11 @@ void SDL2GUI::HandleSDLСобытие(SDL_Событие* event)
             break;
         case SDL_WINDOWEVENT_ENTER:
 			sdlMouseIsIn = true;
-			Ктрл::PaintAll();
+			Ctrl::PaintAll();
             break;
         case SDL_WINDOWEVENT_LEAVE:
 			sdlMouseIsIn = false;
-			Ктрл::PaintAll();
+			Ctrl::PaintAll();
             break;
         case SDL_WINDOWEVENT_FOCUS_GAINED:
             break;
@@ -182,45 +182,45 @@ void SDL2GUI::HandleSDLСобытие(SDL_Событие* event)
             break;
         }
 		break;
-	case SDL_QUIT: //SDL_QuitСобытие
-		Ктрл::окончиСессию();
+	case SDL_QUIT: //SDL_QuitEvent
+		Ctrl::EndSession();
 		break;
 	}
 }
 
-bool SDL2GUI::обработайСобытие(bool *quit)
+bool SDL2GUI::ProcessEvent(bool *quit)
 {
 	bool ret = false;
-	SDL_Событие event;
-	if(SDL_PollСобытие(&event)) {
-		if(event.тип == SDL_QUIT && quit)
+	SDL_Event event;
+	if(SDL_PollEvent(&event)) {
+		if(event.type == SDL_QUIT && quit)
 			*quit = true;
-		HandleSDLСобытие(&event);
+		HandleSDLEvent(&event);
 		ret = true;
 	}
 	return ret;
 }
 
 
-void SDL2GUI::WaitСобытие(int ms)
+void SDL2GUI::WaitEvent(int ms)
 {
-	SDL_WaitСобытиеTimeout(NULL, ms);
+	SDL_WaitEventTimeout(NULL, ms);
 }
 
-bool SDL2GUI::ожидаетСобытие()
+bool SDL2GUI::IsWaitingEvent()
 {
-	SDL_PumpСобытиеs();
-	SDL_Событие events;
-	return SDL_PeepСобытиеs(&events, 1, SDL_PEEKEVENT, SDL_FIRSTEVENT, SDL_LASTEVENT) > 0;
+	SDL_PumpEvents();
+	SDL_Event events;
+	return SDL_PeepEvents(&events, 1, SDL_PEEKEVENT, SDL_FIRSTEVENT, SDL_LASTEVENT) > 0;
 }
 
 SDL_TimerID waketimer_id = 0;
 Uint32 WakeCb(Uint32 interval, void *param)
 {
-	//wake up message que, FIXME maybe it can be done better?
-	SDL_Событие event;
-	event.тип=SDL_USEREVENT;
-	SDL_PushСобытие(&event);
+	//wake up message que, ИСПРАВИТЬ maybe it can be done better?
+	SDL_Event event;
+	event.type=SDL_USEREVENT;
+	SDL_PushEvent(&event);
 	return 0;
 }
 

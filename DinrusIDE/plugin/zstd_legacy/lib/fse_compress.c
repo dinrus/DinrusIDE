@@ -62,7 +62,7 @@
 
 
 /* **************************************************************
-*  Ошибка Management
+*  Error Management
 ****************************************************************/
 #define FSE_STATIC_ASSERT(c) { enum { FSE_static_assert = 1/(int)(!!(c)) }; }   /* use only *after* variable declarations */
 
@@ -78,25 +78,25 @@ typedef U32 CTable_max_t[FSE_CTABLE_SIZE_U32(FSE_MAX_TABLELOG, FSE_MAX_SYMBOL_VA
 ****************************************************************/
 /*
   designed to be included
-  for тип-specific functions (template emulation in C)
+  for type-specific functions (template emulation in C)
   Objective is to write these functions only once, for improved maintenance
 */
 
 /* safety checks */
 #ifndef FSE_FUNCTION_EXTENSION
-#  Ошибка "FSE_FUNCTION_EXTENSION must be defined"
+#  error "FSE_FUNCTION_EXTENSION must be defined"
 #endif
 #ifndef FSE_FUNCTION_TYPE
-#  Ошибка "FSE_FUNCTION_TYPE must be defined"
+#  error "FSE_FUNCTION_TYPE must be defined"
 #endif
 
-/* Функция names */
+/* Function names */
 #define FSE_CAT(X,Y) X##Y
 #define FSE_FUNCTION_NAME(X,Y) FSE_CAT(X,Y)
 #define FSE_TYPE_NAME(X,Y) FSE_CAT(X,Y)
 
 
-/* Функция templates */
+/* Function templates */
 size_t FSE_buildCTable(FSE_CTable* ct, const short* normalizedCounter, unsigned maxSymbolValue, unsigned tableLog)
 {
     U32 const tableSize = 1 << tableLog;
@@ -122,7 +122,7 @@ size_t FSE_buildCTable(FSE_CTable* ct, const short* normalizedCounter, unsigned 
     {   U32 u;
         cumul[0] = 0;
         for (u=1; u<=maxSymbolValue+1; u++) {
-            if (normalizedCounter[u-1]==-1) {  /* наименьш proba symbol */
+            if (normalizedCounter[u-1]==-1) {  /* Low proba symbol */
                 cumul[u] = cumul[u-1] + 1;
                 tableSymbol[highThreshold--] = (FSE_FUNCTION_TYPE)(u-1);
             } else {
@@ -139,16 +139,16 @@ size_t FSE_buildCTable(FSE_CTable* ct, const short* normalizedCounter, unsigned 
             for (nbOccurences=0; nbOccurences<normalizedCounter[symbol]; nbOccurences++) {
                 tableSymbol[position] = (FSE_FUNCTION_TYPE)symbol;
                 position = (position + step) & tableMask;
-                while (position > highThreshold) position = (position + step) & tableMask;   /* наименьш proba area */
+                while (position > highThreshold) position = (position + step) & tableMask;   /* Low proba area */
         }   }
 
-        if (position!=0) return Ошибка(GENERIC);   /* Must have gone through all positions */
+        if (position!=0) return ERROR(GENERIC);   /* Must have gone through all positions */
     }
 
     /* Build table */
     {   U32 u; for (u=0; u<tableSize; u++) {
         FSE_FUNCTION_TYPE s = tableSymbol[u];   /* note : static analyzer may not understand tableSymbol is properly initialized */
-        tableU16[cumul[s]++] = (U16) (tableSize+u);   /* TableU16 : sorted by symbol order; gives next state значение */
+        tableU16[cumul[s]++] = (U16) (tableSize+u);   /* TableU16 : sorted by symbol order; gives next state value */
     }   }
 
     /* Build Symbol Transformation Table */
@@ -208,7 +208,7 @@ static size_t FSE_writeNCount_generic (void* header, size_t headerBufferSize,
 
     bitStream = 0;
     bitCount  = 0;
-    /* Table Размер */
+    /* Table Size */
     bitStream += (tableLog-FSE_MIN_TABLELOG) << bitCount;
     bitCount  += 4;
 
@@ -224,7 +224,7 @@ static size_t FSE_writeNCount_generic (void* header, size_t headerBufferSize,
             while (charnum >= start+24) {
                 start+=24;
                 bitStream += 0xFFFFU << bitCount;
-                if ((!writeIsSafe) && (out > oend-2)) return Ошибка(dstSize_tooSmall);   /* Buffer overflow */
+                if ((!writeIsSafe) && (out > oend-2)) return ERROR(dstSize_tooSmall);   /* Buffer overflow */
                 out[0] = (BYTE) bitStream;
                 out[1] = (BYTE)(bitStream>>8);
                 out+=2;
@@ -238,7 +238,7 @@ static size_t FSE_writeNCount_generic (void* header, size_t headerBufferSize,
             bitStream += (charnum-start) << bitCount;
             bitCount += 2;
             if (bitCount>16) {
-                if ((!writeIsSafe) && (out > oend - 2)) return Ошибка(dstSize_tooSmall);   /* Buffer overflow */
+                if ((!writeIsSafe) && (out > oend - 2)) return ERROR(dstSize_tooSmall);   /* Buffer overflow */
                 out[0] = (BYTE)bitStream;
                 out[1] = (BYTE)(bitStream>>8);
                 out += 2;
@@ -248,7 +248,7 @@ static size_t FSE_writeNCount_generic (void* header, size_t headerBufferSize,
         {   short count = normalizedCounter[charnum++];
             const short max = (short)((2*threshold-1)-remaining);
             remaining -= FSE_abs(count);
-            if (remaining<1) return Ошибка(GENERIC);
+            if (remaining<1) return ERROR(GENERIC);
             count++;   /* +1 for extra accuracy */
             if (count>=threshold) count += max;   /* [0..max[ [max..threshold[ (...) [threshold+max 2*threshold[ */
             bitStream += count << bitCount;
@@ -258,7 +258,7 @@ static size_t FSE_writeNCount_generic (void* header, size_t headerBufferSize,
             while (remaining<threshold) nbBits--, threshold>>=1;
         }
         if (bitCount>16) {
-            if ((!writeIsSafe) && (out > oend - 2)) return Ошибка(dstSize_tooSmall);   /* Buffer overflow */
+            if ((!writeIsSafe) && (out > oend - 2)) return ERROR(dstSize_tooSmall);   /* Buffer overflow */
             out[0] = (BYTE)bitStream;
             out[1] = (BYTE)(bitStream>>8);
             out += 2;
@@ -267,26 +267,26 @@ static size_t FSE_writeNCount_generic (void* header, size_t headerBufferSize,
     }   }
 
     /* flush remaining bitStream */
-    if ((!writeIsSafe) && (out > oend - 2)) return Ошибка(dstSize_tooSmall);   /* Buffer overflow */
+    if ((!writeIsSafe) && (out > oend - 2)) return ERROR(dstSize_tooSmall);   /* Buffer overflow */
     out[0] = (BYTE)bitStream;
     out[1] = (BYTE)(bitStream>>8);
     out+= (bitCount+7) /8;
 
-    if (charnum > maxSymbolValue + 1) return Ошибка(GENERIC);
+    if (charnum > maxSymbolValue + 1) return ERROR(GENERIC);
 
     return (out-ostart);
 }
 
 
-size_t FSE_writeNCount (void* буфер, size_t bufferSize, const short* normalizedCounter, unsigned maxSymbolValue, unsigned tableLog)
+size_t FSE_writeNCount (void* buffer, size_t bufferSize, const short* normalizedCounter, unsigned maxSymbolValue, unsigned tableLog)
 {
-    if (tableLog > FSE_MAX_TABLELOG) return Ошибка(GENERIC);   /* Unsupported */
-    if (tableLog < FSE_MIN_TABLELOG) return Ошибка(GENERIC);   /* Unsupported */
+    if (tableLog > FSE_MAX_TABLELOG) return ERROR(GENERIC);   /* Unsupported */
+    if (tableLog < FSE_MIN_TABLELOG) return ERROR(GENERIC);   /* Unsupported */
 
     if (bufferSize < FSE_NCountWriteBound(maxSymbolValue, tableLog))
-        return FSE_writeNCount_generic(буфер, bufferSize, normalizedCounter, maxSymbolValue, tableLog, 0);
+        return FSE_writeNCount_generic(buffer, bufferSize, normalizedCounter, maxSymbolValue, tableLog, 0);
 
-    return FSE_writeNCount_generic(буфер, bufferSize, normalizedCounter, maxSymbolValue, tableLog, 1);
+    return FSE_writeNCount_generic(buffer, bufferSize, normalizedCounter, maxSymbolValue, tableLog, 1);
 }
 
 
@@ -380,7 +380,7 @@ static size_t FSE_count_parallel(unsigned* count, unsigned* maxSymbolValuePtr,
     if (checkMax) {   /* verify stats will fit into destination table */
         U32 s; for (s=255; s>maxSymbolValue; s--) {
             Counting1[s] += Counting2[s] + Counting3[s] + Counting4[s];
-            if (Counting1[s]) return Ошибка(maxSymbolValue_tooSmall);
+            if (Counting1[s]) return ERROR(maxSymbolValue_tooSmall);
     }   }
 
     { U32 s; for (s=0; s<=maxSymbolValue; s++) {
@@ -427,8 +427,8 @@ Allocation is manual (C standard does not support variable-size structures).
 size_t FSE_sizeof_CTable (unsigned maxSymbolValue, unsigned tableLog)
 {
     size_t size;
-    FSE_STATIC_ASSERT((size_t)FSE_CTABLE_SIZE_U32(FSE_MAX_TABLELOG, FSE_MAX_SYMBOL_VALUE)*4 >= sizeof(CTable_max_t));   /* A compilation Ошибка here means FSE_CTABLE_SIZE_U32 is not large enough */
-    if (tableLog > FSE_MAX_TABLELOG) return Ошибка(GENERIC);
+    FSE_STATIC_ASSERT((size_t)FSE_CTABLE_SIZE_U32(FSE_MAX_TABLELOG, FSE_MAX_SYMBOL_VALUE)*4 >= sizeof(CTable_max_t));   /* A compilation error here means FSE_CTABLE_SIZE_U32 is not large enough */
+    if (tableLog > FSE_MAX_TABLELOG) return ERROR(GENERIC);
     size = FSE_CTABLE_SIZE_U32 (tableLog, maxSymbolValue) * sizeof(U32);
     return size;
 }
@@ -541,7 +541,7 @@ static size_t FSE_normalizeM2(short* norm, U32 tableLog, const unsigned* count, 
                 U32 sEnd = (U32)(end >> vStepLog);
                 U32 weight = sEnd - sStart;
                 if (weight < 1)
-                    return Ошибка(GENERIC);
+                    return ERROR(GENERIC);
                 norm[s] = (short)weight;
                 tmpTotal = end;
     }   }   }
@@ -556,9 +556,9 @@ size_t FSE_normalizeCount (short* normalizedCounter, unsigned tableLog,
 {
     /* Sanity checks */
     if (tableLog==0) tableLog = FSE_DEFAULT_TABLELOG;
-    if (tableLog < FSE_MIN_TABLELOG) return Ошибка(GENERIC);   /* Unsupported size */
-    if (tableLog > FSE_MAX_TABLELOG) return Ошибка(tableLog_tooLarge);   /* Unsupported size */
-    if (tableLog < FSE_minTableLog(total, maxSymbolValue)) return Ошибка(GENERIC);   /* Too small tableLog, compression potentially impossible */
+    if (tableLog < FSE_MIN_TABLELOG) return ERROR(GENERIC);   /* Unsupported size */
+    if (tableLog > FSE_MAX_TABLELOG) return ERROR(tableLog_tooLarge);   /* Unsupported size */
+    if (tableLog < FSE_minTableLog(total, maxSymbolValue)) return ERROR(GENERIC);   /* Too small tableLog, compression potentially impossible */
 
     {   U32 const rtbTable[] = {     0, 473195, 504333, 520860, 550000, 700000, 750000, 830000 };
 
@@ -605,7 +605,7 @@ size_t FSE_normalizeCount (short* normalizedCounter, unsigned tableLog,
             nTotal += abs(normalizedCounter[s]);
         if (nTotal != (1U<<tableLog))
             printf("Warning !!! Total == %u != %u !!!", nTotal, 1U<<tableLog);
-        дайСим();
+        getchar();
     }
 #endif
 
@@ -626,7 +626,7 @@ size_t FSE_buildCTable_raw (FSE_CTable* ct, unsigned nbBits)
     unsigned s;
 
     /* Sanity checks */
-    if (nbBits < 1) return Ошибка(GENERIC);             /* min size */
+    if (nbBits < 1) return ERROR(GENERIC);             /* min size */
 
     /* header */
     tableU16[-2] = (U16) nbBits;
@@ -777,7 +777,7 @@ size_t FSE_compress2 (void* dst, size_t dstSize, const void* src, size_t srcSize
     errorCode = FSE_normalizeCount (norm, tableLog, count, srcSize, maxSymbolValue);
     if (FSE_isError(errorCode)) return errorCode;
 
-    /* пиши table description header */
+    /* Write table description header */
     errorCode = FSE_writeNCount (op, oend-op, norm, maxSymbolValue, tableLog);
     if (FSE_isError(errorCode)) return errorCode;
     op += errorCode;

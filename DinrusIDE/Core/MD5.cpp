@@ -1,26 +1,26 @@
 #include "Core.h"
 
-namespace РНЦПДинрус {
+namespace Upp {
 
-#define MD5_CTX РНЦП_MD5_CTX
+#define MD5_CTX UPP_MD5_CTX
 
-/* MD5C.C - RSA Данные Security, Inc., MD5 message-digest algorithm
+/* MD5C.C - RSA Data Security, Inc., MD5 message-digest algorithm
 */
 
-/* Copyright (C) 1991-2, RSA Данные Security, Inc. Created 1991. All
+/* Copyright (C) 1991-2, RSA Data Security, Inc. Created 1991. All
 rights reserved.
 
 License to copy and use this software is granted provided that it
-is identified as the "RSA Данные Security, Inc. MD5 Message-Digest
+is identified as the "RSA Data Security, Inc. MD5 Message-Digest
 Algorithm" in all material mentioning or referencing this software
 or this function.
 
 License is also granted to make and use derivative works provided
-that such works are identified as "derived from the RSA Данные
+that such works are identified as "derived from the RSA Data
 Security, Inc. MD5 Message-Digest Algorithm" in all material
 mentioning or referencing the derived work.
 
-RSA Данные Security, Inc. makes no representations concerning either
+RSA Data Security, Inc. makes no representations concerning either
 the merchantability of this software or the suitability of this
 software for any particular purpose. It is provided "as is"
 without express or implied warranty of any kind.
@@ -98,10 +98,10 @@ Rotation is separate from addition to prevent recomputation.
 
 /* MD5 initialization. Begins an MD5 operation, writing a new context.
 */
-void MD5Иниt (MD5_CTX *context)
+void MD5Init (MD5_CTX *context)
 {
 	context->count[0] = context->count[1] = 0;
-	/* грузи magic initialization constants.
+	/* Load magic initialization constants.
 */
 	context->state[0] = 0x67452301;
 	context->state[1] = 0xefcdab89;
@@ -118,35 +118,35 @@ void MD5Update (MD5_CTX *context, const unsigned char *input, dword inputLen)
 //unsigned char *input;                                /* input block */
 //unsigned int inputLen;                     /* length of input block */
 {
-	unsigned int i, индекс, partLen;
+	unsigned int i, index, partLen;
 
 	/* Compute number of bytes mod 64 */
-	индекс = (unsigned int)((context->count[0] >> 3) & 0x3F);
+	index = (unsigned int)((context->count[0] >> 3) & 0x3F);
 
 	/* Update number of bits */
 	if ((context->count[0] += ((dword)inputLen << 3)) < ((dword)inputLen << 3))
 		context->count[1]++;
 	context->count[1] += ((dword)inputLen >> 29);
 
-	partLen = 64 - индекс;
+	partLen = 64 - index;
 
 	/* Transform as many times as possible.
 */
 	if (inputLen >= partLen) {
 		MD5_memcpy
-			((void *)&context->буфер[индекс], (void *)input, partLen);
-		MD5Transform (context->state, context->буфер);
+			((void *)&context->buffer[index], (void *)input, partLen);
+		MD5Transform (context->state, context->buffer);
 
 		for (i = partLen; i + 63 < inputLen; i += 64)
 			MD5Transform (context->state, &input[i]);
 
-		индекс = 0;
+		index = 0;
 	}
 	else
 		i = 0;
 
-	/* Буфер remaining input */
-	MD5_memcpy((void *)&context->буфер[индекс], (void *)&input[i],
+	/* Buffer remaining input */
+	MD5_memcpy((void *)&context->buffer[index], (void *)&input[i],
 	inputLen-i);
 }
 
@@ -156,21 +156,21 @@ void MD5Update (MD5_CTX *context, const unsigned char *input, dword inputLen)
 void MD5Final (unsigned char *digest, MD5_CTX *context)
 {
 	unsigned char bits[8];
-	unsigned int индекс, padLen;
+	unsigned int index, padLen;
 
-	/* сохрани number of bits */
+	/* Save number of bits */
 	Encode (bits, context->count, 8);
 
 	/* Pad out to 56 mod 64.
 */
-	индекс = (unsigned int)((context->count[0] >> 3) & 0x3f);
-	padLen = (индекс < 56) ? (56 - индекс) : (120 - индекс);
+	index = (unsigned int)((context->count[0] >> 3) & 0x3f);
+	padLen = (index < 56) ? (56 - index) : (120 - index);
 	MD5Update (context, PADDING, padLen);
 
-	/* приставь length (before padding) */
+	/* Append length (before padding) */
 	MD5Update (context, bits, 8);
 
-	/* сохрани state in digest */
+	/* Store state in digest */
 	Encode (digest, context->state, 16);
 
 	/* Zeroize sensitive information.
@@ -297,7 +297,7 @@ static void Decode (dword *output, const unsigned char *input, unsigned int len)
 		(((dword)input[j+2]) << 16) | (((dword)input[j+3]) << 24);
 }
 
-/* Note: замени "for loop" with standard memcpy if possible.
+/* Note: Replace "for loop" with standard memcpy if possible.
 */
 
 static void MD5_memcpy (void * output, const void * input, unsigned int len)
@@ -305,48 +305,48 @@ static void MD5_memcpy (void * output, const void * input, unsigned int len)
 	memcpy(output, input, len);
 }
 
-/* Note: замени "for loop" with standard memset if possible.
+/* Note: Replace "for loop" with standard memset if possible.
 */
-static void MD5_memset (void * output, int значение, unsigned int len)
+static void MD5_memset (void * output, int value, unsigned int len)
 {
-	memset(output, значение, len);
+	memset(output, value, len);
 }
 
 // ------------------ U++ code starts here: ----------------------
 
-void Md5Stream::выведи(const void *данные, dword size)
+void Md5Stream::Out(const void *data, dword size)
 {
-	MD5Update (&context, (const unsigned char *)данные, size);
+	MD5Update (&context, (const unsigned char *)data, size);
 }
 
-void Md5Stream::финиш(byte *hash16)
+void Md5Stream::Finish(byte *hash16)
 {
-	слей();
+	Flush();
 	MD5Final(hash16, &context);
 }
 
-Ткст Md5Stream::FinishString()
+String Md5Stream::FinishString()
 {
 	byte hash[16];
-	финиш(hash);
-	return гексТкст(hash, 16);
+	Finish(hash);
+	return HexString(hash, 16);
 }
 
-Ткст Md5Stream::FinishStringS()
+String Md5Stream::FinishStringS()
 {
 	byte hash[16];
-	финиш(hash);
-	return гексТкст(hash, 16, 4);
+	Finish(hash);
+	return HexString(hash, 16, 4);
 }
 
-void Md5Stream::переустанов()
+void Md5Stream::Reset()
 {
-	MD5Иниt (&context);
+	MD5Init (&context);
 }
 
 Md5Stream::Md5Stream()
 {
-	переустанов();
+	Reset();
 }
 
 Md5Stream::~Md5Stream()
@@ -354,40 +354,40 @@ Md5Stream::~Md5Stream()
 	memset(&context, 0, sizeof(context));
 }
 
-void MD5(byte *hash16, const void *данные, dword size)
+void MD5(byte *hash16, const void *data, dword size)
 {
 	Md5Stream md5;
-	md5.помести(данные, size);
-	md5.финиш(hash16);
+	md5.Put(data, size);
+	md5.Finish(hash16);
 }
 
-Ткст MD5String(const void *данные, dword size)
+String MD5String(const void *data, dword size)
 {
 	Md5Stream md5;
-	md5.помести(данные, size);
+	md5.Put(data, size);
 	return md5.FinishString();
 }
 
-void MD5(byte *hash16, const Ткст& данные)
+void MD5(byte *hash16, const String& data)
 {
-	return MD5(hash16, ~данные, данные.дайСчёт());
+	return MD5(hash16, ~data, data.GetCount());
 }
 
-Ткст MD5String(const Ткст& данные)
+String MD5String(const String& data)
 {
-	return MD5String(~данные, данные.дайСчёт());
+	return MD5String(~data, data.GetCount());
 }
 
-Ткст MD5StringS(const void *данные, dword size)
+String MD5StringS(const void *data, dword size)
 {
 	Md5Stream md5;
-	md5.помести(данные, size);
+	md5.Put(data, size);
 	return md5.FinishStringS();
 }
 
-Ткст MD5StringS(const Ткст& данные)
+String MD5StringS(const String& data)
 {
-	return MD5StringS(~данные, данные.дайСчёт());
+	return MD5StringS(~data, data.GetCount());
 }
 
 }

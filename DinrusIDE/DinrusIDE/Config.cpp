@@ -1,39 +1,39 @@
 #include "DinrusIDE.h"
 
-#define METHOD_NAME "Иср::" << UPP_FUNCTION_NAME << "(): "
+#define METHOD_NAME "Ide::" << UPP_FUNCTION_NAME << "(): "
 
-void Иср::SerializeWorkspace(Поток& s) {
+void Ide::SerializeWorkspace(Stream& s) {
 	int i;
 	int version = 21;
 	s / version;
 	s.Magic(0x12354);
-	if(s.сохраняется()) {
-		for(i = 0; i < filedata.дайСчёт(); i++) {
-			Ткст фн = filedata.дайКлюч(i);
-			if(!фн.пустой() && файлЕсть(фн)) {
-				s % фн;
+	if(s.IsStoring()) {
+		for(i = 0; i < filedata.GetCount(); i++) {
+			String fn = filedata.GetKey(i);
+			if(!fn.IsEmpty() && FileExists(fn)) {
+				s % fn;
 				s % filedata[i].editpos;
 				if(version >= 1)
 					s % filedata[i].columnline;
 			}
 		}
-		Ткст h;
+		String h;
 		s % h;
 	}
 	else {
-		Ткст фн;
-		filedata.очисть();
+		String fn;
+		filedata.Clear();
 		for(;;) {
-			s % фн;
-			if(фн.пустой()) break;
-			FileData& fd = filedata.дайДобавь(фн);
-			fd.очисть();
+			s % fn;
+			if(fn.IsEmpty()) break;
+			FileData& fd = filedata.GetAdd(fn);
+			fd.Clear();
 			s % fd.editpos;
 			if(version >= 1)
 				s % fd.columnline;
 		}
 	}
-	Ткст pk = GetActivePackage();
+	String pk = GetActivePackage();
 	s % pk;
 	package.FindSetCursor(pk);
 	s % tablru;
@@ -67,11 +67,11 @@ void Иср::SerializeWorkspace(Поток& s) {
 	for(i = 0; i < 10; i++) {
 		s % bookmark[i];
 	}
-	editor.сериализуй(s);
+	editor.Serialize(s);
 	if(version >= 5)
 		s % editorsplit;
 	if(version == 6) {
-		Ткст n;
+		String n;
 		int v;
 		s / v;
 		for(int i = 0; i < 10; i++) {
@@ -81,29 +81,29 @@ void Иср::SerializeWorkspace(Поток& s) {
 	}
 	if(version >= 8) {
 		bool dummyb = false;
-		Ткст dummy;
+		String dummy;
 		s % dummyb;
 		s % dummy;
 	}
 	SerializeFindInFiles(s);
-	Ткст om;
+	String om;
 	s % om;
 	s % recentoutput;
 	s % recentflags;
 	s / editortabsize / indent_amount % indent_spaces;
 	if(version < 15)
-		for(int j = 0; j < дайСчётМодульИСР(); j++)
-			дайМодульИСР(j).сериализуй(s);
+		for(int j = 0; j < GetIdeModuleCount(); j++)
+			GetIdeModule(j).Serialize(s);
 	else {
-		ВекторМап<Ткст, Ткст> module_cfg;
-		for(int j = 0; j < дайСчётМодульИСР(); j++) {
-			МодульИСР& m = дайМодульИСР(j);
-			module_cfg.добавь(m.GetID(), сохраниКакТкст(m));
+		VectorMap<String, String> module_cfg;
+		for(int j = 0; j < GetIdeModuleCount(); j++) {
+			IdeModule& m = GetIdeModule(j);
+			module_cfg.Add(m.GetID(), StoreAsString(m));
 		}
 		s % module_cfg;
-		for(int j = 0; j < дайСчётМодульИСР(); j++) {
-			МодульИСР& m = дайМодульИСР(j);
-			грузиИзТкст(m, module_cfg.дай(m.GetID(), Ткст()));
+		for(int j = 0; j < GetIdeModuleCount(); j++) {
+			IdeModule& m = GetIdeModule(j);
+			LoadFromString(m, module_cfg.Get(m.GetID(), String()));
 		}
 	}
 	SerializeWorkspaceConfigs(s);
@@ -126,66 +126,68 @@ void Иср::SerializeWorkspace(Поток& s) {
 		SerializePlacement(s);
 	if(version >= 20)
 		s % difflru;
+//	if(version >= 22)
+	//	editor.SerializeNavigatorWorkspace(s);
 }
 
-void Иср::SerializeLastMain(Поток& s)
+void Ide::SerializeLastMain(Stream& s)
 {
 	s % main;
-	Ткст varsname = GetVarsName();
+	String varsname = GetVarsName();
 	s % varsname;
 	s % pocfg;
-	if(s.грузится())
+	if(s.IsLoading())
 		LoadVars(varsname);
 }
 
-void Иср::EditorMode()
+void Ide::EditorMode()
 {
 	Logd() << METHOD_NAME;
-	
+
 	editormode = true;
 	main = Null;
 	pocfg = Null;
-	
-	// TODO: This is probably bug with CtrlLib tool bar. If
+
+	// СДЕЛАТЬ: This is probably bug with CtrlLib tool bar. If
 	// we did not call clear here - we will have blocked two icons
 	// in editor mode :(. This should be investigated with
 	// appropriate test case.
-	toolbar.очисть();
+	toolbar.Clear();
 	SetBar();
-	
+
 	editor.SyncNavigator();
 }
 
-bool Иср::IsEditorMode() const
+bool Ide::IsEditorMode() const
 {
 	return editormode;
 }
 
-void Иср::SaveLastMain()
+void Ide::SaveLastMain()
 {
-	сохраниВФайл(THISBACK(SerializeLastMain), конфигФайл("lastmain.cfg"));
+	StoreToFile(THISBACK(SerializeLastMain), ConfigFile("lastmain.cfg"));
 }
 
-void Иср::LoadLastMain()
+void Ide::LoadLastMain()
 {
 	bool editor = IsEditorMode();
-	грузиИзФайла(THISBACK(SerializeLastMain), конфигФайл("lastmain.cfg"));
+	LoadFromFile(THISBACK(SerializeLastMain), ConfigFile("lastmain.cfg"));
 	if(editor)
 		main = Null;
 }
 
-void Sentinel(Поток& s, const char *txt)
+void Sentinel(Stream& s, const char *txt)
 {
-	Ткст h;
+	String h;
 	h << "<123456789:" << txt << ":123456789>";
-	Буфер<char> hh(h.дайДлину());
-	memcpy(hh, h, h.дайДлину());
-	s.SerializeRaw((byte *)~hh, h.дайДлину());
+	Buffer<char> hh(h.GetLength());
+	memcpy(hh, h, h.GetLength());
+	s.SerializeRaw((byte *)~hh, h.GetLength());
 }
 
-void Иср::сериализуй(Поток& s)
+void Ide::Serialize(Stream& s)
 {
-	int version = 20;
+	int version = 25;
 	Sentinel(s, "before 12341234");
 	s.Magic(0x12341234);
 	Sentinel(s, "after magic");
@@ -201,11 +203,11 @@ void Иср::сериализуй(Поток& s)
 	if (version >= 12)
 		s % weframe;
 	else {
-		Сплиттер dummy;
+		Splitter dummy;
 		s % dummy;
 	}
-	package.сериализуйНастройки(s);
-	filelist.сериализуйНастройки(s);
+	package.SerializeSettings(s);
+	filelist.SerializeSettings(s);
 	s % editorfont;
 	s % tfont;
 	s % veditorfont;
@@ -264,23 +266,33 @@ void Иср::сериализуй(Поток& s)
 	s % default_charset;
 	s % header_guards;
 	s % insert_include;
-	сериализуйГлобКонфиги(s);
-	doc.сериализуй(s);
+//	if(version >= 23)
+	//	s % libclang_options;
+	//if(version >= 24)
+	//	s % libclang_coptions;
+	SerializeGlobalConfigs(s);
+	doc.Serialize(s);
 	s % right_split;
 	s % splash_screen;
 	s % editor.auto_assist;
-	if(version >= 9)
-		s % auto_rescan;
-	if(version >= 10)
-		s % auto_check;
+//	if(version >= 9)
+	//	s % AutoIndexer;
+	if(version >= 10) {
+		bool dummy = false;
+		s % dummy;
+	}
+	if(version >= 21) {
+		bool dummy = false;
+		s % dummy;
+	}
 	s % editor.commentdp;
 	s % bordercolumn;
 	s % bordercolor;
 	if(version >= 20)
 		s % find_pick_sel % find_pick_text % deactivate_save;
 	s % hydra1_threads;
-	if(s.грузится())
-		console.устСлоты(hydra1_threads);
+	if(s.IsLoading())
+		console.SetSlots(hydra1_threads);
 	if(version < 14) {
 		int dummy_gdb_selector = 0;
 		s % dummy_gdb_selector;
@@ -311,7 +323,7 @@ void Иср::сериализуй(Поток& s)
 	s % astyle_TabSpaceConversionMode;
 	s % astyle_TestBox;
 	if(version >= 6 && version < 8) {
-		Ткст dummy;
+		String dummy;
 		s % dummy;
 	}
 	s % HostConsole;
@@ -328,52 +340,52 @@ void Иср::сериализуй(Поток& s)
 	}
 
 #ifdef PLATFORM_WIN32
-	if(s.грузится() && HostConsole == "/usr/bin/xterm -e")
-		HostConsole = "powershell.exe";
+	if(s.IsLoading() && HostConsole == "/usr/bin/xterm -e")
+		HostConsole = "bash.exe";
 #endif
 }
 
-Время Иср::ConfigTime()
+Time Ide::ConfigTime()
 {
-	return дайВремяф(конфигФайл());
+	return FileGetTime(ConfigFile());
 }
 
-void Иср::SaveConfig()
+void Ide::SaveConfig()
 {
-	сохраниИзменёнФайл(конфигФайл(), сохраниКакТкст(*this));
-	if(дайКлючИни("DebugClipboard") == "1") {
-		сохраниИзменёнФайл(конфигФайл() + ".bak", сохраниКакТкст(*this));
-		сохраниВФайл(*this, конфигФайл() + ".bak1");
+	SaveChangedFile(ConfigFile(), StoreAsString(*this));
+	if(GetIniKey("DebugClipboard") == "1") {
+		SaveChangedFile(ConfigFile() + ".bak", StoreAsString(*this));
+		StoreToFile(*this, ConfigFile() + ".bak1");
 	}
-	сохраниИзменёнФайл(конфигФайл("ide.ключ"), сохраниКлючи());
-	сохраниИзменёнФайл(конфигФайл("ide.colors"), editor.StoreHlStyles());
+	SaveChangedFile(ConfigFile("ide.key"), StoreKeys());
+	SaveChangedFile(ConfigFile("ide.colors"), editor.StoreHlStyles());
 	config_time = ConfigTime();
 }
 
-void Иср::SaveConfigOnTime()
+void Ide::SaveConfigOnTime()
 {
 	if(ConfigTime() == config_time)
 		SaveConfig();
 }
 
-void Иср::LoadConfig()
+void Ide::LoadConfig()
 {
-	if(!грузиИзФайла(*this) && дайКлючИни("DebugClipboard") == "1") {
+	if(!LoadFromFile(*this) && GetIniKey("DebugClipboard") == "1") {
 		Exclamation("Неудачная загрузка конфигурации!");
-		if(!грузиИзФайла(*this, конфигФайл() + ".bak")) {
+		if(!LoadFromFile(*this, ConfigFile() + ".bak")) {
 			Exclamation("Неудачный бэкап конфигурации .bak!");
-			if(!грузиИзФайла(*this, конфигФайл() + ".bak1"))
+			if(!LoadFromFile(*this, ConfigFile() + ".bak1"))
 				Exclamation("Неудачный бэкап конфигурации .bak1!");
 		}
 	}
-	восстановиКлючи(загрузиФайл(конфигФайл("ide.ключ")));
+	RestoreKeys(LoadFile(ConfigFile("ide.key")));
 	if(hlstyle_is_default)
 		editor.DefaultHlStyles();
 	else
-		editor.LoadHlStyles(загрузиФайл(конфигФайл("ide.colors")));
-	config_time = дайВремяф(конфигФайл());
+		editor.LoadHlStyles(LoadFile(ConfigFile("ide.colors")));
+	config_time = FileGetTime(ConfigFile());
 	UpdateFormat();
-	if(filelist.курсор_ли()) {
+	if(filelist.IsCursor()) {
 		FlushFile();
 		FileCursor();
 	}

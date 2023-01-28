@@ -41,7 +41,7 @@
     /* horizontal in-place FIR filter */
     if ( mode == FT_RENDER_MODE_LCD && width >= 4 )
     {
-      FT_Byte*  line = bitmap->буфер;
+      FT_Byte*  line = bitmap->buffer;
 
 
       for ( ; height > 0; height--, line += bitmap->pitch )
@@ -98,7 +98,7 @@
     /* vertical in-place FIR filter */
     else if ( mode == FT_RENDER_MODE_LCD_V && height >= 4 )
     {
-      FT_Byte*  column = bitmap->буфер;
+      FT_Byte*  column = bitmap->buffer;
       FT_Int    pitch  = bitmap->pitch;
 
 
@@ -184,7 +184,7 @@
     /* horizontal in-place intra-pixel filter */
     if ( mode == FT_RENDER_MODE_LCD && width >= 3 )
     {
-      FT_Byte*  line = bitmap->буфер;
+      FT_Byte*  line = bitmap->buffer;
 
 
       for ( ; height > 0; height--, line += pitch )
@@ -223,7 +223,7 @@
     }
     else if ( mode == FT_RENDER_MODE_LCD_V && height >= 3 )
     {
-      FT_Byte*  column = bitmap->буфер;
+      FT_Byte*  column = bitmap->buffer;
 
 
       for ( ; width > 0; width--, column++ )
@@ -285,7 +285,7 @@
   {
     static const FT_Byte  light_filter[5] =
                             { 0x00, 0x55, 0x56, 0x55, 0x00 };
-    /* the values here sum up to a значение larger than 256, */
+    /* the values here sum up to a value larger than 256, */
     /* providing a cheap gamma correction                 */
     static const FT_Byte  default_filter[5] =
                             { 0x10, 0x40, 0x70, 0x40, 0x10 };

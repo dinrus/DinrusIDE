@@ -2,85 +2,85 @@
 
 #define METHOD_NAME "AndroidModuleMakeFileCreator::" << UPP_FUNCTION_NAME << "(): "
 
-namespace РНЦП {
+namespace Upp {
 
-AndroidModuleMakeFileCreator::AndroidModuleMakeFileCreator(const Индекс<Ткст>& builderConfig)
+AndroidModuleMakeFileCreator::AndroidModuleMakeFileCreator(const Index<String>& builderConfig)
 	: config(builderConfig)
 {
 }
 
-void AndroidModuleMakeFileCreator::AddSources(Вектор<Ткст>& sources)
+void AndroidModuleMakeFileCreator::AddSources(Vector<String>& sources)
 {
-	for(const Ткст& source : sources) {
+	for(const String& source : sources) {
 		makeFile.AddSourceFile(source);
 	}
 }
 
-void AndroidModuleMakeFileCreator::AddSources(Индекс<Ткст>& sources)
+void AndroidModuleMakeFileCreator::AddSources(Index<String>& sources)
 {
-	for(const Ткст& source : sources) {
+	for(const String& source : sources) {
 		makeFile.AddSourceFile(source);
 	}
 }
 
-void AndroidModuleMakeFileCreator::AddInclude(const Ткст& path)
+void AndroidModuleMakeFileCreator::AddInclude(const String& path)
 {
 	makeFile.AddInclude(path);
 }
 
-void AndroidModuleMakeFileCreator::AddIncludes(const Массив<OptItem>& uses)
+void AndroidModuleMakeFileCreator::AddIncludes(const Array<OptItem>& uses)
 {
 	for(const OptItem& use : uses) {
 		makeFile.AddInclude(AndroidBuilderUtils::GetAssemblyDir(use.text));
 	}
 }
 
-void AndroidModuleMakeFileCreator::добавьФлаги(const Массив<OptItem>& flags)
+void AndroidModuleMakeFileCreator::AddFlags(const Array<OptItem>& flags)
 {
 	for(const OptItem& flag : flags) {
 		makeFile.AddCppFlag(flag.text);
 	}
 }
 
-void AndroidModuleMakeFileCreator::AddLdLibraries(const Массив<OptItem>& libraries)
+void AndroidModuleMakeFileCreator::AddLdLibraries(const Array<OptItem>& libraries)
 {
-	Вектор<Ткст> libs = разбей(Gather(libraries, config.дайКлючи()), ' ');
-	for(const Ткст& lib : libs) {
+	Vector<String> libs = Split(Gather(libraries, config.GetKeys()), ' ');
+	for(const String& lib : libs) {
 		makeFile.AddLdLibrary(lib);
 	}
 }
 
-void AndroidModuleMakeFileCreator::AddStaticModuleLibrary(Массив<OptItem>& staticLibraries)
+void AndroidModuleMakeFileCreator::AddStaticModuleLibrary(Array<OptItem>& staticLibraries)
 {
-	Вектор<Ткст> slibs = разбей(Gather(staticLibraries, config.дайКлючи()), ' ');
-	for(const Ткст& slib : slibs) {
+	Vector<String> slibs = Split(Gather(staticLibraries, config.GetKeys()), ' ');
+	for(const String& slib : slibs) {
 		makeFile.AddStaticModuleLibrary(slib);
 	}
 }
 
-void AndroidModuleMakeFileCreator::AddSharedLibraries(const Массив<OptItem>& uses)
+void AndroidModuleMakeFileCreator::AddSharedLibraries(const Array<OptItem>& uses)
 {
 	for(const OptItem& use : uses) {
 		makeFile.AddSharedLibrary(use.text);
 	}
 }
 
-bool AndroidModuleMakeFileCreator::сохрани(const Ткст& path)
+bool AndroidModuleMakeFileCreator::Save(const String& path)
 {
-	Ткст directory = дайДиректориюФайла(path);
-	if (!реализуйДир(directory)) {
-		Loge() << METHOD_NAME << "Creating module directory failed \"" << directory << "\".";
+	String directory = GetFileDirectory(path);
+	if (!RealizeDirectory(directory)) {
+		Loge() << METHOD_NAME << "Неудача при создании директории модуля \"" << directory << "\".";
 		return false;
 	}
 	
-	Ткст data = создай();
-	if (файлЕсть(path) && загрузиФайл(path) == data) {
-		Logi() << METHOD_NAME << "Following file \"" << path << "\" content is the same as previous one.";
+	String data = Create();
+	if (FileExists(path) && LoadFile(path) == data) {
+		Logi() << METHOD_NAME << "Содержимое файла \"" << path << "\" такое же, как в предыдущем.";
 		return true;
 	}
 	
-	if (!сохраниФайл(path, создай())) {
-		Loge() << METHOD_NAME << "Saving module file failed \"" << path << "\".";
+	if (!SaveFile(path, Create())) {
+		Loge() << METHOD_NAME << "Неудачное сохранение файла модуля \"" << path << "\".";
 		return false;
 	}
 	

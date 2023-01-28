@@ -16,7 +16,7 @@
  *   disclaimer in the documentation and/or other materials
  *   provided with the distribution.
  *
- *   Neither the имя of the copyright holder nor the names
+ *   Neither the name of the copyright holder nor the names
  *   of any other contributors may be used to endorse or
  *   promote products derived from this software without
  *   specific prior written permission.
@@ -55,7 +55,7 @@
 
 /* libssh2_userauth_list
  *
- * Список authentication methods
+ * List authentication methods
  * Will yield successful login if "none" happens to be allowable for this user
  * Not a common configuration for any SSH server though
  * username should be NULL, or a null terminated string
@@ -72,7 +72,7 @@ static char *userauth_list(LIBSSH2_SESSION *session, const char *username,
     int rc;
 
     if(session->userauth_list_state == libssh2_NB_state_idle) {
-        /* обнули the whole thing out */
+        /* Zero the whole thing out */
         memset(&session->userauth_list_packet_requirev_state, 0,
                sizeof(session->userauth_list_packet_requirev_state));
 
@@ -136,7 +136,7 @@ static char *userauth_list(LIBSSH2_SESSION *session, const char *username,
 
         if(session->userauth_list_data[0] == SSH_MSG_USERAUTH_SUCCESS) {
             /* Wow, who'dve thought... */
-            _libssh2_error(session, LIBSSH2_ERROR_NONE, "No Ошибка");
+            _libssh2_error(session, LIBSSH2_ERROR_NONE, "No error");
             LIBSSH2_FREE(session, session->userauth_list_data);
             session->userauth_list_data = NULL;
             session->state |= LIBSSH2_STATE_AUTHENTICATED;
@@ -174,7 +174,7 @@ static char *userauth_list(LIBSSH2_SESSION *session, const char *username,
 
 /* libssh2_userauth_list
  *
- * Список authentication methods
+ * List authentication methods
  * Will yield successful login if "none" happens to be allowable for this user
  * Not a common configuration for any SSH server though
  * username should be NULL, or a null terminated string
@@ -220,7 +220,7 @@ userauth_password(LIBSSH2_SESSION *session,
     int rc;
 
     if(session->userauth_pswd_state == libssh2_NB_state_idle) {
-        /* обнули the whole thing out */
+        /* Zero the whole thing out */
         memset(&session->userauth_pswd_packet_requirev_state, 0,
                sizeof(session->userauth_pswd_packet_requirev_state));
 
@@ -233,7 +233,7 @@ userauth_password(LIBSSH2_SESSION *session,
         session->userauth_pswd_data0 =
             (unsigned char) ~SSH_MSG_USERAUTH_PASSWD_CHANGEREQ;
 
-        /* TODO: remove this alloc with a fixed буфер in the session
+        /* СДЕЛАТЬ: remove this alloc with a fixed buffer in the session
            struct */
         s = session->userauth_pswd_data =
             LIBSSH2_ALLOC(session, session->userauth_pswd_data_len);
@@ -494,13 +494,13 @@ memory_read_publickey(LIBSSH2_SESSION * session, unsigned char **method,
 
     if(pubkeyfiledata_len <= 1) {
         return _libssh2_error(session, LIBSSH2_ERROR_FILE,
-                              "Invalid data in public ключ file");
+                              "Неверное data in public key file");
     }
 
     pubkey = LIBSSH2_ALLOC(session, pubkeyfiledata_len);
     if(!pubkey) {
         return _libssh2_error(session, LIBSSH2_ERROR_ALLOC,
-                              "Unable to allocate memory for public ключ data");
+                              "Unable to allocate memory for public key data");
     }
 
     memcpy(pubkey, pubkeyfiledata, pubkeyfiledata_len);
@@ -514,14 +514,14 @@ memory_read_publickey(LIBSSH2_SESSION * session, unsigned char **method,
     if(!pubkey_len) {
         LIBSSH2_FREE(session, pubkey);
         return _libssh2_error(session, LIBSSH2_ERROR_FILE,
-                              "Missing public ключ data");
+                              "Missing public key data");
     }
 
     sp1 = memchr(pubkey, ' ', pubkey_len);
     if(sp1 == NULL) {
         LIBSSH2_FREE(session, pubkey);
         return _libssh2_error(session, LIBSSH2_ERROR_FILE,
-                              "Invalid public ключ data");
+                              "Неверное public key data");
     }
 
     sp1++;
@@ -536,7 +536,7 @@ memory_read_publickey(LIBSSH2_SESSION * session, unsigned char **method,
                               (char *) sp1, sp2 - sp1)) {
         LIBSSH2_FREE(session, pubkey);
         return _libssh2_error(session, LIBSSH2_ERROR_FILE,
-                                  "Invalid ключ data, not base64 encoded");
+                                  "Неверное key data, not base64 encoded");
     }
 
     /* Wasting some bytes here (okay, more than some), but since it's likely
@@ -555,11 +555,11 @@ memory_read_publickey(LIBSSH2_SESSION * session, unsigned char **method,
 /*
  * file_read_publickey
  *
- * читай a public ключ from an id_???.pub style file
+ * Read a public key from an id_???.pub style file
  *
- * Returns an allocated string containing the decoded ключ in *pubkeydata
+ * Returns an allocated string containing the decoded key in *pubkeydata
  * on success.
- * Returns an allocated string containing the ключ method (e.g. "ssh-dss")
+ * Returns an allocated string containing the key method (e.g. "ssh-dss")
  * in method on success.
  */
 static int
@@ -575,13 +575,13 @@ file_read_publickey(LIBSSH2_SESSION * session, unsigned char **method,
     size_t pubkey_len = 0, sp_len;
     unsigned int tmp_len;
 
-    _libssh2_debug(session, LIBSSH2_TRACE_AUTH, "Loading public ключ file: %s",
+    _libssh2_debug(session, LIBSSH2_TRACE_AUTH, "Loading public key file: %s",
                    pubkeyfile);
-    /* читай Public Key */
+    /* Read Public Key */
     fd = fopen(pubkeyfile, FOPEN_READTEXT);
     if(!fd) {
         return _libssh2_error(session, LIBSSH2_ERROR_FILE,
-                              "Unable to open public ключ file");
+                              "Unable to open public key file");
     }
     while(!feof(fd) && 1 == fread(&c, 1, 1, fd) && c != '\r' && c != '\n') {
         pubkey_len++;
@@ -591,20 +591,20 @@ file_read_publickey(LIBSSH2_SESSION * session, unsigned char **method,
     if(pubkey_len <= 1) {
         fclose(fd);
         return _libssh2_error(session, LIBSSH2_ERROR_FILE,
-                              "Invalid data in public ключ file");
+                              "Неверное data in public key file");
     }
 
     pubkey = LIBSSH2_ALLOC(session, pubkey_len);
     if(!pubkey) {
         fclose(fd);
         return _libssh2_error(session, LIBSSH2_ERROR_ALLOC,
-                              "Unable to allocate memory for public ключ data");
+                              "Unable to allocate memory for public key data");
     }
     if(fread(pubkey, 1, pubkey_len, fd) != pubkey_len) {
         LIBSSH2_FREE(session, pubkey);
         fclose(fd);
         return _libssh2_error(session, LIBSSH2_ERROR_FILE,
-                              "Unable to read public ключ from file");
+                              "Unable to read public key from file");
     }
     fclose(fd);
     /*
@@ -617,14 +617,14 @@ file_read_publickey(LIBSSH2_SESSION * session, unsigned char **method,
     if(!pubkey_len) {
         LIBSSH2_FREE(session, pubkey);
         return _libssh2_error(session, LIBSSH2_ERROR_FILE,
-                              "Missing public ключ data");
+                              "Missing public key data");
     }
 
     sp1 = memchr(pubkey, ' ', pubkey_len);
     if(sp1 == NULL) {
         LIBSSH2_FREE(session, pubkey);
         return _libssh2_error(session, LIBSSH2_ERROR_FILE,
-                              "Invalid public ключ data");
+                              "Неверное public key data");
     }
 
     sp1++;
@@ -640,7 +640,7 @@ file_read_publickey(LIBSSH2_SESSION * session, unsigned char **method,
                               (char *) sp1, sp2 - sp1)) {
         LIBSSH2_FREE(session, pubkey);
         return _libssh2_error(session, LIBSSH2_ERROR_FILE,
-                              "Invalid ключ data, not base64 encoded");
+                              "Неверное key data, not base64 encoded");
     }
 
     /* Wasting some bytes here (okay, more than some), but since it's likely
@@ -668,9 +668,9 @@ memory_read_privatekey(LIBSSH2_SESSION * session,
 
     *hostkey_method = NULL;
     *hostkey_abstract = NULL;
-    while(*hostkey_methods_avail && (*hostkey_methods_avail)->имя) {
+    while(*hostkey_methods_avail && (*hostkey_methods_avail)->name) {
         if((*hostkey_methods_avail)->initPEMFromMemory
-             && strncmp((*hostkey_methods_avail)->имя, (const char *) method,
+             && strncmp((*hostkey_methods_avail)->name, (const char *) method,
                         method_len) == 0) {
             *hostkey_method = *hostkey_methods_avail;
             break;
@@ -679,7 +679,7 @@ memory_read_privatekey(LIBSSH2_SESSION * session,
     }
     if(!*hostkey_method) {
         return _libssh2_error(session, LIBSSH2_ERROR_METHOD_NONE,
-                              "No handler for specified private ключ");
+                              "No handler for specified private key");
     }
 
     if((*hostkey_method)->
@@ -687,14 +687,14 @@ memory_read_privatekey(LIBSSH2_SESSION * session,
                           (unsigned char *) passphrase,
                           hostkey_abstract)) {
         return _libssh2_error(session, LIBSSH2_ERROR_FILE,
-                              "Unable to initialize private ключ from file");
+                              "Unable to initialize private key from file");
     }
 
     return 0;
 }
 
 /* libssh2_file_read_privatekey
- * читай a PEM encoded private ключ from an id_??? style file
+ * Read a PEM encoded private key from an id_??? style file
  */
 static int
 file_read_privatekey(LIBSSH2_SESSION * session,
@@ -706,13 +706,13 @@ file_read_privatekey(LIBSSH2_SESSION * session,
     const LIBSSH2_HOSTKEY_METHOD **hostkey_methods_avail =
         libssh2_hostkey_methods();
 
-    _libssh2_debug(session, LIBSSH2_TRACE_AUTH, "Loading private ключ file: %s",
+    _libssh2_debug(session, LIBSSH2_TRACE_AUTH, "Loading private key file: %s",
                    privkeyfile);
     *hostkey_method = NULL;
     *hostkey_abstract = NULL;
-    while(*hostkey_methods_avail && (*hostkey_methods_avail)->имя) {
+    while(*hostkey_methods_avail && (*hostkey_methods_avail)->name) {
         if((*hostkey_methods_avail)->initPEM
-            && strncmp((*hostkey_methods_avail)->имя, (const char *) method,
+            && strncmp((*hostkey_methods_avail)->name, (const char *) method,
                        method_len) == 0) {
             *hostkey_method = *hostkey_methods_avail;
             break;
@@ -721,14 +721,14 @@ file_read_privatekey(LIBSSH2_SESSION * session,
     }
     if(!*hostkey_method) {
         return _libssh2_error(session, LIBSSH2_ERROR_METHOD_NONE,
-                              "No handler for specified private ключ");
+                              "No handler for specified private key");
     }
 
     if((*hostkey_method)->
         initPEM(session, privkeyfile, (unsigned char *) passphrase,
                 hostkey_abstract)) {
         return _libssh2_error(session, LIBSSH2_ERROR_FILE,
-                              "Unable to initialize private ключ from file");
+                              "Unable to initialize private key from file");
     }
 
     return 0;
@@ -843,7 +843,7 @@ userauth_hostbased_fromfile(LIBSSH2_SESSION *session,
         unsigned char buf[5];
         struct iovec datavec[4];
 
-        /* обнули the whole thing out */
+        /* Zero the whole thing out */
         memset(&session->userauth_host_packet_requirev_state, 0,
                sizeof(session->userauth_host_packet_requirev_state));
 
@@ -856,7 +856,7 @@ userauth_hostbased_fromfile(LIBSSH2_SESSION *session,
                 return rc;
         }
         else {
-            /* Compute public ключ from private ключ. */
+            /* Compute public key from private key. */
             rc = _libssh2_pub_priv_keyfile(session,
                                            &session->userauth_host_method,
                                            &session->userauth_host_method_len,
@@ -878,7 +878,7 @@ userauth_hostbased_fromfile(LIBSSH2_SESSION *session,
             local_username_len + pubkeydata_len + 52;
 
         /*
-         * Preallocate space for an overall length,  method имя again,
+         * Preallocate space for an overall length,  method name again,
          * and the signature, which won't be any larger than the size of
          * the publickeydata itself
          */
@@ -1043,12 +1043,12 @@ userauth_hostbased_fromfile(LIBSSH2_SESSION *session,
         }
     }
 
-    /* This public ключ is not allowed for this user on this server */
+    /* This public key is not allowed for this user on this server */
     LIBSSH2_FREE(session, session->userauth_host_data);
     session->userauth_host_data = NULL;
     return _libssh2_error(session, LIBSSH2_ERROR_PUBLICKEY_UNVERIFIED,
-                          "Invalid signature for supplied public ключ, or bad "
-                          "username/public ключ combination");
+                          "Неверное signature for supplied public key, or bad "
+                          "username/public key combination");
 }
 
 /* libssh2_userauth_hostbased_fromfile_ex
@@ -1098,19 +1098,19 @@ _libssh2_userauth_publickey(LIBSSH2_SESSION *session,
 
         /*
          * The call to _libssh2_ntohu32 later relies on pubkeydata having at
-         * least 4 valid bytes containing the length of the method имя.
+         * least 4 valid bytes containing the length of the method name.
          */
         if(pubkeydata_len < 4)
             return _libssh2_error(session, LIBSSH2_ERROR_PUBLICKEY_UNVERIFIED,
-                                  "Invalid public ключ, too short");
+                                  "Неверное public key, too short");
 
-        /* обнули the whole thing out */
+        /* Zero the whole thing out */
         memset(&session->userauth_pblc_packet_requirev_state, 0,
                sizeof(session->userauth_pblc_packet_requirev_state));
 
         /*
          * As an optimisation, userauth_publickey_fromfile reuses a
-         * previously allocated copy of the method имя to avoid an extra
+         * previously allocated copy of the method name to avoid an extra
          * allocation/free.
          * For other uses, we allocate and populate it here.
          */
@@ -1123,27 +1123,27 @@ _libssh2_userauth_publickey(LIBSSH2_SESSION *session,
                    data */
                 return _libssh2_error(session,
                                       LIBSSH2_ERROR_PUBLICKEY_UNVERIFIED,
-                                      "Invalid public ключ");
+                                      "Неверное public key");
 
             session->userauth_pblc_method =
                 LIBSSH2_ALLOC(session, session->userauth_pblc_method_len);
             if(!session->userauth_pblc_method) {
                 return _libssh2_error(session, LIBSSH2_ERROR_ALLOC,
                                       "Unable to allocate memory "
-                                      "for public ключ data");
+                                      "for public key data");
             }
             memcpy(session->userauth_pblc_method, pubkeydata + 4,
                    session->userauth_pblc_method_len);
         }
         /*
-         * The length of the method имя read from plaintext prefix in the
-         * file must match length embedded in the ключ.
-         * TODO: The data should match too but we don't check that. Should we?
+         * The length of the method name read from plaintext prefix in the
+         * file must match length embedded in the key.
+         * СДЕЛАТЬ: The data should match too but we don't check that. Should we?
          */
         else if(session->userauth_pblc_method_len !=
                  _libssh2_ntohu32(pubkeydata))
             return _libssh2_error(session, LIBSSH2_ERROR_PUBLICKEY_UNVERIFIED,
-                                  "Invalid public ключ");
+                                  "Неверное public key");
 
         /*
          * 45 = packet_type(1) + username_len(4) + servicename_len(4) +
@@ -1156,7 +1156,7 @@ _libssh2_userauth_publickey(LIBSSH2_SESSION *session,
             45;
 
         /*
-         * Preallocate space for an overall length, method имя again, and the
+         * Preallocate space for an overall length, method name again, and the
          * signature, which won't be any larger than the size of the
          * publickeydata itself.
          *
@@ -1241,7 +1241,7 @@ _libssh2_userauth_publickey(LIBSSH2_SESSION *session,
                            "Pubkey authentication prematurely successful");
             /*
              * God help any SSH server that allows an UNVERIFIED
-             * public ключ to validate the user
+             * public key to validate the user
              */
             LIBSSH2_FREE(session, session->userauth_pblc_data);
             session->userauth_pblc_data = NULL;
@@ -1255,7 +1255,7 @@ _libssh2_userauth_publickey(LIBSSH2_SESSION *session,
         }
 
         if(session->userauth_pblc_data[0] == SSH_MSG_USERAUTH_FAILURE) {
-            /* This public ключ is not allowed for this user on this server */
+            /* This public key is not allowed for this user on this server */
             LIBSSH2_FREE(session, session->userauth_pblc_data);
             session->userauth_pblc_data = NULL;
             LIBSSH2_FREE(session, session->userauth_pblc_packet);
@@ -1308,7 +1308,7 @@ _libssh2_userauth_publickey(LIBSSH2_SESSION *session,
             session->userauth_pblc_packet = NULL;
             session->userauth_pblc_state = libssh2_NB_state_idle;
             return _libssh2_error(session, LIBSSH2_ERROR_PUBLICKEY_UNVERIFIED,
-                                  "Callback returned Ошибка");
+                                  "Callback returned error");
         }
 
         /*
@@ -1409,13 +1409,13 @@ _libssh2_userauth_publickey(LIBSSH2_SESSION *session,
         return 0;
     }
 
-    /* This public ключ is not allowed for this user on this server */
+    /* This public key is not allowed for this user on this server */
     LIBSSH2_FREE(session, session->userauth_pblc_data);
     session->userauth_pblc_data = NULL;
     session->userauth_pblc_state = libssh2_NB_state_idle;
     return _libssh2_error(session, LIBSSH2_ERROR_PUBLICKEY_UNVERIFIED,
-                          "Invalid signature for supplied public ключ, or bad "
-                          "username/public ключ combination");
+                          "Неверное signature for supplied public key, or bad "
+                          "username/public key combination");
 }
 
  /*
@@ -1456,7 +1456,7 @@ userauth_publickey_frommemory(LIBSSH2_SESSION *session,
                 return rc;
         }
         else if(privatekeydata_len && privatekeydata) {
-            /* Compute public ключ from private ключ. */
+            /* Compute public key from private key. */
             if(_libssh2_pub_priv_keyfilememory(session,
                                             &session->userauth_pblc_method,
                                             &session->userauth_pblc_method_len,
@@ -1464,12 +1464,12 @@ userauth_publickey_frommemory(LIBSSH2_SESSION *session,
                                             privatekeydata, privatekeydata_len,
                                             passphrase))
                 return _libssh2_error(session, LIBSSH2_ERROR_FILE,
-                                      "Unable to extract public ключ "
-                                      "from private ключ.");
+                                      "Unable to extract public key "
+                                      "from private key.");
         }
         else {
             return _libssh2_error(session, LIBSSH2_ERROR_FILE,
-                                  "Invalid data in public and private ключ.");
+                                  "Неверное data in public and private key.");
         }
     }
 
@@ -1517,7 +1517,7 @@ userauth_publickey_fromfile(LIBSSH2_SESSION *session,
                 return rc;
         }
         else {
-            /* Compute public ключ from private ключ. */
+            /* Compute public key from private key. */
             rc = _libssh2_pub_priv_keyfile(session,
                                            &session->userauth_pblc_method,
                                            &session->userauth_pblc_method_len,
@@ -1650,15 +1650,15 @@ userauth_keyboard_interactive(LIBSSH2_SESSION * session,
         session->userauth_kybd_prompts = NULL;
         session->userauth_kybd_responses = NULL;
 
-        /* обнули the whole thing out */
+        /* Zero the whole thing out */
         memset(&session->userauth_kybd_packet_requirev_state, 0,
                sizeof(session->userauth_kybd_packet_requirev_state));
 
         session->userauth_kybd_packet_len =
             1                   /* byte    SSH_MSG_USERAUTH_REQUEST */
-            + 4 + username_len  /* string  user имя (ISO-10646 UTF-8, as
+            + 4 + username_len  /* string  user name (ISO-10646 UTF-8, as
                                    defined in [RFC-3629]) */
-            + 4 + 14            /* string  service имя (US-ASCII) */
+            + 4 + 14            /* string  service name (US-ASCII) */
             + 4 + 20            /* string  "keyboard-interactive" (US-ASCII) */
             + 4 + 0             /* string  language tag (as defined in
                                    [RFC-3066]) */
@@ -1675,10 +1675,10 @@ userauth_keyboard_interactive(LIBSSH2_SESSION * session,
 
         *s++ = SSH_MSG_USERAUTH_REQUEST;
 
-        /* user имя */
+        /* user name */
         _libssh2_store_str(&s, username, username_len);
 
-        /* service имя */
+        /* service name */
         _libssh2_store_str(&s, "ssh-connection", sizeof("ssh-connection") - 1);
 
         /* "keyboard-interactive" */
@@ -1765,13 +1765,13 @@ userauth_keyboard_interactive(LIBSSH2_SESSION * session,
             s = session->userauth_kybd_data + 1;
 
             if(session->userauth_kybd_data_len >= 5) {
-                /* string    имя (ISO-10646 UTF-8) */
+                /* string    name (ISO-10646 UTF-8) */
                 session->userauth_kybd_auth_name_len = _libssh2_ntohu32(s);
                 s += 4;
             }
             else {
                 _libssh2_error(session, LIBSSH2_ERROR_BUFFER_TOO_SMALL,
-                               "userauth keyboard data буфер too small"
+                               "userauth keyboard data buffer too small"
                                "to get length");
                 goto cleanup;
             }
@@ -1783,7 +1783,7 @@ userauth_keyboard_interactive(LIBSSH2_SESSION * session,
                 if(!session->userauth_kybd_auth_name) {
                     _libssh2_error(session, LIBSSH2_ERROR_ALLOC,
                                    "Unable to allocate memory for "
-                                   "keyboard-interactive 'имя' "
+                                   "keyboard-interactive 'name' "
                                    "request field");
                     goto cleanup;
                 }
@@ -1796,8 +1796,8 @@ userauth_keyboard_interactive(LIBSSH2_SESSION * session,
                 }
                 else {
                     _libssh2_error(session, LIBSSH2_ERROR_BUFFER_TOO_SMALL,
-                                   "userauth keyboard data буфер too small"
-                                   "for auth имя");
+                                   "userauth keyboard data buffer too small"
+                                   "for auth name");
                     goto cleanup;
                 }
             }
@@ -1811,7 +1811,7 @@ userauth_keyboard_interactive(LIBSSH2_SESSION * session,
             }
             else {
                 _libssh2_error(session, LIBSSH2_ERROR_BUFFER_TOO_SMALL,
-                               "userauth keyboard data буфер too small"
+                               "userauth keyboard data buffer too small"
                                "for auth instruction length");
                 goto cleanup;
             }
@@ -1836,7 +1836,7 @@ userauth_keyboard_interactive(LIBSSH2_SESSION * session,
                 }
                 else {
                     _libssh2_error(session, LIBSSH2_ERROR_BUFFER_TOO_SMALL,
-                                   "userauth keyboard data буфер too small"
+                                   "userauth keyboard data buffer too small"
                                    "for auth instruction");
                     goto cleanup;
                 }
@@ -1850,7 +1850,7 @@ userauth_keyboard_interactive(LIBSSH2_SESSION * session,
             }
             else {
                 _libssh2_error(session, LIBSSH2_ERROR_BUFFER_TOO_SMALL,
-                               "userauth keyboard data буфер too small"
+                               "userauth keyboard data buffer too small"
                                "for auth language tag length");
                 goto cleanup;
             }
@@ -1862,7 +1862,7 @@ userauth_keyboard_interactive(LIBSSH2_SESSION * session,
             }
             else {
                 _libssh2_error(session, LIBSSH2_ERROR_BUFFER_TOO_SMALL,
-                               "userauth keyboard data буфер too small"
+                               "userauth keyboard data buffer too small"
                                "for auth language tag");
                 goto cleanup;
             }
@@ -1875,7 +1875,7 @@ userauth_keyboard_interactive(LIBSSH2_SESSION * session,
             }
             else {
                 _libssh2_error(session, LIBSSH2_ERROR_BUFFER_TOO_SMALL,
-                               "userauth keyboard data буфер too small"
+                               "userauth keyboard data buffer too small"
                                "for auth num keyboard prompts");
                 goto cleanup;
             }
@@ -1920,7 +1920,7 @@ userauth_keyboard_interactive(LIBSSH2_SESSION * session,
                     }
                     else {
                         _libssh2_error(session, LIBSSH2_ERROR_BUFFER_TOO_SMALL,
-                                       "userauth keyboard data буфер too "
+                                       "userauth keyboard data buffer too "
                                        "small for auth keyboard "
                                        "prompt length");
                         goto cleanup;
@@ -1946,7 +1946,7 @@ userauth_keyboard_interactive(LIBSSH2_SESSION * session,
                     }
                     else {
                         _libssh2_error(session, LIBSSH2_ERROR_BUFFER_TOO_SMALL,
-                                       "userauth keyboard data буфер too "
+                                       "userauth keyboard data buffer too "
                                        "small for auth keyboard prompt");
                         goto cleanup;
                     }
@@ -1957,7 +1957,7 @@ userauth_keyboard_interactive(LIBSSH2_SESSION * session,
                     }
                     else {
                         _libssh2_error(session, LIBSSH2_ERROR_BUFFER_TOO_SMALL,
-                                       "userauth keyboard data буфер too "
+                                       "userauth keyboard data buffer too "
                                        "small for auth keyboard prompt echo");
                         goto cleanup;
                     }

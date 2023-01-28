@@ -4,7 +4,7 @@
 /*                                                                         */
 /*    TrueTypeGX/AAT feat table validation (specification).                */
 /*                                                                         */
-/*  Copyright 2004, 2005 by suzuki toshiya, Masatake YAMATO, красный Hat K.K., */
+/*  Copyright 2004, 2005 by suzuki toshiya, Masatake YAMATO, Red Hat K.K., */
 /*  David Turner, Robert Wilhelm, and Werner Lemberg.                      */
 /*                                                                         */
 /*  This file is part of the FreeType project, and may only be used,       */
@@ -40,7 +40,7 @@
   /*************************************************************************/
   /*************************************************************************/
 
-  /* TODO: ещё compact формат */
+  /* СДЕЛАТЬ: More compact format */
   typedef struct  GXV_Feature_RegistryRec_
   {
     FT_Bool  existence;
@@ -78,10 +78,10 @@
     {1, 0, 1,  7},   /* Ornament Sets */
     {1, 0, 1,  1},   /* Character Alternatives */
     {1, 0, 1,  5},   /* Design Complexity */
-    {1, 0, 1,  6},   /* Стиль Options */
+    {1, 0, 1,  6},   /* Style Options */
     {1, 0, 1, 11},   /* Character Shape */
     {1, 0, 1,  2},   /* Number Case */
-    {1, 0, 1,  4},   /* устТекст Spacing */
+    {1, 0, 1,  4},   /* Text Spacing */
     {1, 0, 1, 10},   /* Transliteration */
     {1, 0, 1,  9},   /* Annotation */
     {1, 0, 1,  2},   /* Kana Spacing */
@@ -159,7 +159,7 @@
     {0, 0, 0,  0},   /* __EMPTY__ */
     {0, 0, 0,  0},   /* __EMPTY__ */
     {0, 0, 0,  0},   /* __EMPTY__ */
-    {1, 0, 1,  4},   /* устТекст Spacing */
+    {1, 0, 1,  4},   /* Text Spacing */
     {1, 0, 1,  2},   /* Kana Spacing */
     {1, 0, 1,  2},   /* Ideographic Spacing */
     {1, 0, 1,  4},   /* CJK Roman Spacing */

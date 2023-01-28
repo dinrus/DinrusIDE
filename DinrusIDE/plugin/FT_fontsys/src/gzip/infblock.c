@@ -10,23 +10,23 @@
 #include "infutil.h"
 
 
-/* simplify the use of the inflate_huft тип with some defines */
+/* simplify the use of the inflate_huft type with some defines */
 #define exop word.what.Exop
 #define bits word.what.Bits
 
 /* Table for deflate from PKZIP's appnote.txt. */
-local const uInt border[] = { /* Порядок of the bit length code lengths */
+local const uInt border[] = { /* Order of the bit length code lengths */
         16, 17, 18, 0, 8, 7, 9, 6, 10, 5, 11, 4, 12, 3, 13, 2, 14, 1, 15};
 
 /*
    Notes beyond the 1.93a appnote.txt:
 
-   1. расстояние pointers never point before the beginning of the output
+   1. Distance pointers never point before the beginning of the output
       stream.
-   2. расстояние pointers can point back across blocks, up to 32k away.
+   2. Distance pointers can point back across blocks, up to 32k away.
    3. There is an implied maximum of 7 bits for the bit length table and
       15 bits for the actual data.
-   4. If only one code exists, then it is encoded using one bit.  (обнули
+   4. If only one code exists, then it is encoded using one bit.  (Zero
       would be more efficient, but perhaps a little confusing.)  If two
       codes exist, they are coded using one bit each (0 and 1).
    5. There is no way of sending zero distance codes--a dummy must be
@@ -44,15 +44,15 @@ local const uInt border[] = { /* Порядок of the bit length code lengths *
       Huffman codes, but the last two had better not show up in the data.
    7. Unzip can check dynamic Huffman blocks for complete code sets.
       The exception is that a single code would not be complete (see #4).
-   8. The five bits following the block тип is really the number of
+   8. The five bits following the block type is really the number of
       literal codes sent minus 257.
-   9. длина codes 8,16,16 are interpreted as 13 length codes of 8 bits
+   9. Length codes 8,16,16 are interpreted as 13 length codes of 8 bits
       (1+6+6).  Therefore, to output three times the length, you output
       three codes (1+1+1), whereas to output four times the same length,
       you only need two codes (1+3).  Hmm.
   10. In the tree reconstruction algorithm, Code = Code + Increment
       only if BitLength(i) is not zero.  (Pretty obvious.)
-  11. Correction: 4 Bits: # of Bit длина codes - 4     (4 - 19)
+  11. Correction: 4 Bits: # of Bit Length codes - 4     (4 - 19)
   12. Note: length code 284 can represent 227-258, but length code 285
       really is 258.  The last length deserves its own, short code
       since it gets used a lot in very redundant files.  The length
@@ -122,8 +122,8 @@ z_streamp z,
 int r )
 {
   uInt t;               /* temporary storage */
-  uLong b;              /* bit буфер */
-  uInt k;               /* bits in bit буфер */
+  uLong b;              /* bit buffer */
+  uInt k;               /* bits in bit buffer */
   Bytef *p;             /* input data pointer */
   uInt n;               /* bytes available there */
   Bytef *q;             /* output window write pointer */
@@ -177,7 +177,7 @@ int r )
         case 3:                         /* illegal */
           DUMPBITS(3)
           s->mode = BAD;
-          z->msg = (char*)"invalid block тип";
+          z->msg = (char*)"invalid block type";
           r = Z_DATA_ERROR;
           LEAVE
       }

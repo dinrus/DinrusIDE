@@ -56,10 +56,10 @@
   static FT_Error
   t1_get_glyph_name( T1_Face     face,
                      FT_UInt     glyph_index,
-                     FT_Pointer  буфер,
+                     FT_Pointer  buffer,
                      FT_UInt     buffer_max )
   {
-    FT_STRCPYN( буфер, face->type1.glyph_names[glyph_index], buffer_max );
+    FT_STRCPYN( buffer, face->type1.glyph_names[glyph_index], buffer_max );
 
     return T1_Err_Ok;
   }
@@ -225,7 +225,7 @@
 
   /*************************************************************************/
   /*                                                                       */
-  /* <Функция>                                                            */
+  /* <Function>                                                            */
   /*    Get_Kerning                                                        */
   /*                                                                       */
   /* <Description>                                                         */
@@ -245,7 +245,7 @@
   /*                   formats.                                            */
   /*                                                                       */
   /* <Return>                                                              */
-  /*    FreeType Ошибка code.  0 means success.                             */
+  /*    FreeType error code.  0 means success.                             */
   /*                                                                       */
   /* <Note>                                                                */
   /*    Only horizontal layouts (left-to-right & right-to-left) are        */
@@ -253,7 +253,7 @@
   /*    kernings are out of scope of this method (the basic driver         */
   /*    interface is meant to be simple).                                  */
   /*                                                                       */
-  /*    They can be implemented by формат-specific interfaces.             */
+  /*    They can be implemented by format-specific interfaces.             */
   /*                                                                       */
   static FT_Error
   Get_Kerning( T1_Face     face,
@@ -291,7 +291,7 @@
       0x10000L,
       0x20000L,
 
-      0,   /* формат interface */
+      0,   /* format interface */
 
       (FT_Module_Constructor)T1_Driver_Init,
       (FT_Module_Destructor) T1_Driver_Done,

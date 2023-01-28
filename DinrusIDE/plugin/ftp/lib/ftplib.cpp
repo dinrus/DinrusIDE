@@ -6,7 +6,7 @@
 /*                                                                         */
 /* This library is free software; you can redistribute it and/or           */
 /* modify it under the terms of the GNU Library General Public             */
-/* License as published by the освободи Software Foundation; either            */
+/* License as published by the Free Software Foundation; either            */
 /* version 2 of the License, or (at your option) any later version.        */
 /*                                                                         */
 /* This library is distributed in the hope that it will be useful,         */
@@ -16,7 +16,7 @@
 /*                                                                         */
 /* You should have received a copy of the GNU Library General Public       */
 /* License along with this progam; if not, write to the                    */
-/* освободи Software Foundation, Inc., 59 Temple Place - Suite 330,            */
+/* Free Software Foundation, Inc., 59 Temple Place - Suite 330,            */
 /* Boston, MA 02111-1307, USA.                                             */
 /*                                                                         */
 /***************************************************************************/
@@ -82,7 +82,7 @@ struct NetBuf {
 
 /*
 static const char version[] =
-	"ftplib отпусти 3.1-1 9/16/00, copyright 1996-2000 Thomas Pfau";
+	"ftplib Release 3.1-1 9/16/00, copyright 1996-2000 Thomas Pfau";
 */
 
 GLOBALDEF int ftplib_debug = 0;
@@ -122,7 +122,7 @@ void *memccpy(void *dest, const void *src, int c, size_t n)
 /*
 * socket_wait - wait for socket to receive or flush data
 *
-* return 1 if no user callback, otherwise, return значение returned by
+* return 1 if no user callback, otherwise, return value returned by
 * user callback
 */
 static int socket_wait(netbuf *ctl, int write)
@@ -137,7 +137,7 @@ static int socket_wait(netbuf *ctl, int write)
 	else
 		rfd = &fd;
 	FD_ZERO(&fd);
-	int idle_end = РНЦП::msecs() + 1000 * ctl->idletimeout_secs;
+	int idle_end = UPP::msecs() + 1000 * ctl->idletimeout_secs;
 	do
 	{
 		FD_SET(ctl->handle,&fd);
@@ -154,7 +154,7 @@ static int socket_wait(netbuf *ctl, int write)
 			rv = 1;
 			break;
 		}
-		else if(РНЦП::msecs(idle_end) >= 0) {
+		else if(UPP::msecs(idle_end) >= 0) {
 			rv = 0;
 			sprintf(ctl->perror, "idle timeout expired (%d secs)", ctl->idletimeout_secs);
 			break;
@@ -167,7 +167,7 @@ static int socket_wait(netbuf *ctl, int write)
 /*
 * read a line of text
 *
-* return -1 on Ошибка or bytecount
+* return -1 on error or bytecount
 */
 static int readline(char *buf,int max,netbuf *ctl)
 {
@@ -244,7 +244,7 @@ static int readline(char *buf,int max,netbuf *ctl)
 /*
 * write lines of text
 *
-* return -1 on Ошибка or bytecount
+* return -1 on error or bytecount
 */
 static int writeline(char *buf, int len, netbuf *nData)
 {
@@ -309,7 +309,7 @@ static int readresp(char c, netbuf *nControl)
 	char match[5];
 	if (readline(nControl->response,256,nControl) == -1)
 	{
-		strcpy(nControl->perror, "Контрол socket read failed");
+		strcpy(nControl->perror, "Control socket read failed");
 		return 0;
 	}
 	if (ftplib_debug > 1)
@@ -323,7 +323,7 @@ static int readresp(char c, netbuf *nControl)
 		{
 			if (readline(nControl->response,256,nControl) == -1)
 			{
-				strcpy(nControl->perror, "Контрол socket read failed");
+				strcpy(nControl->perror, "Control socket read failed");
 				return 0;
 			}
 			if (ftplib_debug > 1)
@@ -418,8 +418,8 @@ GLOBALDEF int FtpConnect(const char *host, netbuf **nControl, char perror[],
 	tm.tv_usec = (idletime_msecs % 1000) * 1000;
 	memset(&sin,0,sizeof(sin));
 	sin.sin_family = AF_INET;
-	РНЦП::Ткст lhost = host;
-	int pnum = lhost.найди(':');
+	UPP::String lhost = host;
+	int pnum = lhost.Find(':');
 	if (pnum < 0)
 	{
 #if defined(VMS)
@@ -433,9 +433,9 @@ GLOBALDEF int FtpConnect(const char *host, netbuf **nControl, char perror[],
 	}
 	else
 	{
-		РНЦП::Ткст port = lhost.середина(pnum + 1);
-		lhost.обрежь(pnum);
-		if(РНЦП::цифра_ли(*port))
+		UPP::String port = lhost.Mid(pnum + 1);
+		lhost.Trim(pnum);
+		if(UPP::IsDigit(*port))
 			sin.sin_port = htons((short)atoi(port));
 		else {
 			pse = getservbyname(port,"tcp");
@@ -468,12 +468,12 @@ GLOBALDEF int FtpConnect(const char *host, netbuf **nControl, char perror[],
 		net_close(sControl);
 		return 0;
 	}
-	LLOG("connect(" << фмтЦелГекс(sin.sin_addr.s_addr) << ", port " << фмтЦелГекс(sin.sin_port, 4) << ")");
+	LLOG("connect(" << FormatIntHex(sin.sin_addr.s_addr) << ", port " << FormatIntHex(sin.sin_port, 4) << ")");
 	if (connect(sControl, (struct sockaddr *)&sin, sizeof(sin)) == -1)
 	{
 		if(idlecb && FtpLastError() == ERRPENDING) {
 		#ifdef PLATFORM_POSIX
-			int idle_end = РНЦП::GetTickCount() + 1000 * idletimeout_secs;
+			int idle_end = UPP::GetTickCount() + 1000 * idletimeout_secs;
 		#else
 			int idle_end = GetTickCount() + 1000 * idletimeout_secs;
 		#endif
@@ -484,7 +484,7 @@ GLOBALDEF int FtpConnect(const char *host, netbuf **nControl, char perror[],
 					return 0;
 				}
 		#ifdef PLATFORM_POSIX
-				if((int)(РНЦП::GetTickCount() - idle_end) >= 0)
+				if((int)(UPP::GetTickCount() - idle_end) >= 0)
 		#else
 				if((int)(GetTickCount() - idle_end) >= 0)
 		#endif
@@ -506,7 +506,7 @@ GLOBALDEF int FtpConnect(const char *host, netbuf **nControl, char perror[],
 		return 0;
 	}
 	ctrl = new NetBuf;
-	РНЦП::обнули(*ctrl);
+	UPP::Zero(*ctrl);
 	ctrl->buf = new char[FTPLIB_BUFSIZ];
 	ctrl->handle = sControl;
 	ctrl->dir = FTPLIB_CONTROL;
@@ -534,7 +534,7 @@ GLOBALDEF int FtpConnect(const char *host, netbuf **nControl, char perror[],
 /*
 * FtpOptions - change connection options
 *
-* returns 1 if successful, 0 on Ошибка
+* returns 1 if successful, 0 on error
 */
 GLOBALDEF int FtpOptions(int opt, uintptr_t val, netbuf *nControl)
 {
@@ -591,7 +591,7 @@ static int FtpSendCmd(const char *cmd, char expresp, netbuf *nControl)
 	if (ftplib_debug > 2)
 		fprintf(stderr,"%s\n",cmd);
 	if ((strlen(cmd) + 3) > sizeof(buf)) {
-		LLOG("-> буфер size exceeded");
+		LLOG("-> buffer size exceeded");
 		return 0;
 	}
 	sprintf(buf,"%s\r\n",cmd);
@@ -603,7 +603,7 @@ static int FtpSendCmd(const char *cmd, char expresp, netbuf *nControl)
 	if (net_write(nControl->handle,buf,strlen(buf)) <= 0)
 	{
 		strcpy(nControl->perror, "write");
-		LLOG("-> write Ошибка");
+		LLOG("-> write error");
 		return 0;
 	}
 	return readresp(expresp, nControl);
@@ -658,12 +658,12 @@ static int FtpOpenPort(netbuf *nControl, netbuf **nData, int mode, int dir)
 		return -1;
 	if ((dir != FTPLIB_READ) && (dir != FTPLIB_WRITE))
 	{
-		sprintf(nControl->response, "Invalid direction %d\n", dir);
+		sprintf(nControl->response, "Неверное direction %d\n", dir);
 		return -1;
 	}
 	if ((mode != FTPLIB_ASCII) && (mode != FTPLIB_IMAGE))
 	{
-		sprintf(nControl->response, "Invalid mode %c\n", mode);
+		sprintf(nControl->response, "Неверное mode %c\n", mode);
 		return -1;
 	}
 	l = sizeof(sin);
@@ -734,7 +734,7 @@ static int FtpOpenPort(netbuf *nControl, netbuf **nData, int mode, int dir)
 				break;
 			int err = FtpLastError();
 			if(err != SOCKERR(ETIMEDOUT) || retry >= 10) {
-				sprintf(nControl->perror, "data connect Ошибка: %d", err);
+				sprintf(nControl->perror, "data connect error: %d", err);
 				net_close(sData);
 				return -1;
 			}
@@ -797,7 +797,7 @@ static int FtpOpenPort(netbuf *nControl, netbuf **nData, int mode, int dir)
 		}
 	}
 	ctrl = new NetBuf;
-	РНЦП::обнули(*ctrl);
+	UPP::Zero(*ctrl);
 	if (mode == 'A')
 		ctrl->buf = new char[FTPLIB_BUFSIZ];
 	ctrl->handle = sData;
@@ -836,7 +836,7 @@ static int FtpAcceptConnection(netbuf *nData, netbuf *nControl)
 		tv.tv_sec = nData->idletimeout_secs;
 	}
 
-	int end_time = РНЦП::msecs() + 1000 * nData->idletimeout_secs;
+	int end_time = UPP::msecs() + 1000 * nData->idletimeout_secs;
 	for(;;) {
 		fd_set mask;
 		FD_ZERO(&mask);
@@ -855,7 +855,7 @@ static int FtpAcceptConnection(netbuf *nData, netbuf *nControl)
 			return 0;
 		}
 		else if (i == 0) {
-			if(РНЦП::msecs(end_time) >= 0) {
+			if(UPP::msecs(end_time) >= 0) {
 				strcpy(nControl->response, "timed out waiting for connection");
 				net_close(nData->handle);
 				nData->handle = 0;
@@ -937,7 +937,7 @@ GLOBALDEF int FtpAccess(const char *path, int typ, int mode, netbuf *nControl,
 		dir = FTPLIB_WRITE;
 		break;
 	default:
-		sprintf(nControl->response, "Invalid open тип %d\n", typ);
+		sprintf(nControl->response, "Неверное open type %d\n", typ);
 		return 0;
 	}
 	if (path != NULL)
@@ -1050,7 +1050,7 @@ GLOBALDEF int FtpClose(netbuf *nData)
 	switch (nData->dir)
 	{
 	case FTPLIB_WRITE:
-		/* potential problem - if буфер flush fails, how to notify user? */
+		/* potential problem - if buffer flush fails, how to notify user? */
 		if (nData->buf != NULL)
 			writeline(NULL, 0, nData);
 	case FTPLIB_READ:
@@ -1099,9 +1099,9 @@ GLOBALDEF int FtpSite(const char *cmd, netbuf *nControl)
 /*
 * FtpSysType - send a SYST command
 *
-* Fills in the user буфер with the remote system тип.  If more
+* Fills in the user buffer with the remote system type.  If more
 * information from the response is required, the user can parse
-* it out of the response буфер returned by FtpLastResponse().
+* it out of the response buffer returned by FtpLastResponse().
 *
 * return 1 if command successful, 0 otherwise
 */

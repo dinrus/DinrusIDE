@@ -35,7 +35,7 @@
     T42_Parser     parser;
     T1_Font        type1 = &face->type1;
     FT_Memory      memory = face->root.memory;
-    FT_Error       Ошибка;
+    FT_Error       error;
 
     PSAux_Service  psaux  = (PSAux_Service)face->psaux;
 
@@ -47,21 +47,21 @@
     if ( FT_ALLOC( face->ttf_data, 12 ) )
       goto Exit;
 
-    Ошибка = t42_parser_init( parser,
+    error = t42_parser_init( parser,
                              face->root.stream,
                              memory,
                              psaux);
-    if ( Ошибка )
+    if ( error )
       goto Exit;
 
-    Ошибка = t42_parse_dict( face, &loader,
+    error = t42_parse_dict( face, &loader,
                             parser->base_dict, parser->base_len );
-    if ( Ошибка )
+    if ( error )
       goto Exit;
 
     if ( type1->font_type != 42 )
     {
-      Ошибка = T42_Err_Unknown_File_Format;
+      error = T42_Err_Unknown_File_Format;
       goto Exit;
     }
 
@@ -72,7 +72,7 @@
     if ( !loader.charstrings.init )
     {
       FT_ERROR(( "T42_Open_Face: no charstrings array in face\n" ));
-      Ошибка = T42_Err_Invalid_File_Format;
+      error = T42_Err_Invalid_File_Format;
     }
 
     loader.charstrings.init  = 0;
@@ -96,10 +96,10 @@
 
 
       /* OK, we do the following: for each element in the encoding   */
-      /* table, look up the index of the glyph having the same имя  */
+      /* table, look up the index of the glyph having the same name  */
       /* as defined in the CharStrings array.                        */
       /* The index is then stored in type1.encoding.char_index, and  */
-      /* the имя in type1.encoding.char_name                        */
+      /* the name in type1.encoding.char_name                        */
 
       min_char = 0;
       max_char = 0;
@@ -121,7 +121,7 @@
               type1->encoding.char_index[charcode] = (FT_UShort)idx;
               type1->encoding.char_name [charcode] = (char*)glyph_name;
 
-              /* Change min/max encoded char only if glyph имя is */
+              /* Change min/max encoded char only if glyph name is */
               /* not /.notdef                                      */
               if ( ft_strcmp( (const char*)".notdef",
                               (const char*)glyph_name ) != 0 )
@@ -143,7 +143,7 @@
 
   Exit:
     t42_loader_done( &loader );
-    return Ошибка;
+    return error;
   }
 
 
@@ -157,7 +157,7 @@
                  FT_Int         num_params,
                  FT_Parameter*  params )
   {
-    FT_Error            Ошибка;
+    FT_Error            error;
     FT_Service_PsCMaps  psnames;
     PSAux_Service       psaux;
     FT_Face             root  = (FT_Face)&face->root;
@@ -180,12 +180,12 @@
                                            "psaux" );
     psaux = (PSAux_Service)face->psaux;
 
-    /* open the tokenizer, this will also check the font формат */
-    Ошибка = T42_Open_Face( face );
-    if ( Ошибка )
+    /* open the tokenizer, this will also check the font format */
+    error = T42_Open_Face( face );
+    if ( error )
       goto Exit;
 
-    /* if we just wanted to check the формат, leave successfully now */
+    /* if we just wanted to check the format, leave successfully now */
     if ( face_index < 0 )
       goto Exit;
 
@@ -193,7 +193,7 @@
     if ( face_index > 0 )
     {
       FT_ERROR(( "T42_Face_Init: invalid face index\n" ));
-      Ошибка = T42_Err_Invalid_Argument;
+      error = T42_Err_Invalid_Argument;
       goto Exit;
     }
 
@@ -220,9 +220,9 @@
     root->face_flags |= FT_FACE_FLAG_HINTER;
 #endif
 
-    /* XXX: TODO -- add kerning with .afm support */
+    /* XXX: СДЕЛАТЬ -- add kerning with .afm support */
 
-    /* get style имя -- be careful, some broken fonts only */
+    /* get style name -- be careful, some broken fonts only */
     /* have a `/FontName' dictionary entry!                 */
     root->family_name = info->family_name;
     /* assume "Regular" style if we don't know better */
@@ -269,7 +269,7 @@
     root->num_fixed_sizes = 0;
     root->available_sizes = 0;
 
-    /* грузи the TTF font embedded in the T42 font */
+    /* Load the TTF font embedded in the T42 font */
     {
       FT_Open_Args  args;
 
@@ -285,11 +285,11 @@
         args.params     = params;
       }
 
-      Ошибка = FT_Open_Face( FT_FACE_LIBRARY( face ),
+      error = FT_Open_Face( FT_FACE_LIBRARY( face ),
                             &args, 0, &face->ttf_face );
     }
 
-    if ( Ошибка )
+    if ( error )
       goto Exit;
 
     FT_Done_Size( face->ttf_face->size );
@@ -335,10 +335,10 @@
         charmap.encoding_id = TT_MS_ID_UNICODE_CS;
         charmap.encoding    = FT_ENCODING_UNICODE;
 
-        Ошибка = FT_CMap_New( cmap_classes->unicode, NULL, &charmap, NULL );
-        if ( Ошибка && FT_Err_No_Unicode_Glyph_Name != Ошибка )
+        error = FT_CMap_New( cmap_classes->unicode, NULL, &charmap, NULL );
+        if ( error && FT_Err_No_Unicode_Glyph_Name != error )
           goto Exit;
-        Ошибка = FT_Err_Ok;
+        error = FT_Err_Ok;
 
         /* now, generate an Adobe Standard encoding when appropriate */
         charmap.platform_id = TT_PLATFORM_ADOBE;
@@ -375,17 +375,17 @@
         }
 
         if ( clazz )
-          Ошибка = FT_CMap_New( clazz, NULL, &charmap, NULL );
+          error = FT_CMap_New( clazz, NULL, &charmap, NULL );
 
 #if 0
-        /* выдели default charmap */
+        /* Select default charmap */
         if ( root->num_charmaps )
           root->charmap = root->charmaps[0];
 #endif
       }
     }
   Exit:
-    return Ошибка;
+    return error;
   }
 
 
@@ -446,7 +446,7 @@
 
   /*************************************************************************/
   /*                                                                       */
-  /* <Функция>                                                            */
+  /* <Function>                                                            */
   /*    T42_Driver_Init                                                    */
   /*                                                                       */
   /* <Description>                                                         */
@@ -456,7 +456,7 @@
   /*    driver :: A handle to the target driver object.                    */
   /*                                                                       */
   /* <Return>                                                              */
-  /*    FreeType Ошибка code.  0 means success.                             */
+  /*    FreeType error code.  0 means success.                             */
   /*                                                                       */
   FT_LOCAL_DEF( FT_Error )
   T42_Driver_Init( T42_Driver  driver )
@@ -484,15 +484,15 @@
     FT_Face   face = size->root.face;
     T42_Face  t42face = (T42_Face)face;
     FT_Size   ttsize;
-    FT_Error  Ошибка   = T42_Err_Ok;
+    FT_Error  error   = T42_Err_Ok;
 
 
-    Ошибка = FT_New_Size( t42face->ttf_face, &ttsize );
+    error = FT_New_Size( t42face->ttf_face, &ttsize );
     size->ttsize = ttsize;
 
     FT_Activate_Size( ttsize );
 
-    return Ошибка;
+    return error;
   }
 
 
@@ -501,16 +501,16 @@
                     FT_Size_Request  req )
   {
     T42_Face  face = (T42_Face)size->root.face;
-    FT_Error  Ошибка;
+    FT_Error  error;
 
 
     FT_Activate_Size( size->ttsize );
 
-    Ошибка = FT_Request_Size( face->ttf_face, req );
-    if ( !Ошибка )
+    error = FT_Request_Size( face->ttf_face, req );
+    if ( !error )
       ( (FT_Size)size )->metrics = face->ttf_face->size->metrics;
 
-    return Ошибка;
+    return error;
   }
 
 
@@ -519,16 +519,16 @@
                    FT_ULong  strike_index )
   {
     T42_Face  face = (T42_Face)size->root.face;
-    FT_Error  Ошибка;
+    FT_Error  error;
 
 
     FT_Activate_Size( size->ttsize );
 
-    Ошибка = FT_Select_Size( face->ttf_face, (FT_Int)strike_index );
-    if ( !Ошибка )
+    error = FT_Select_Size( face->ttf_face, (FT_Int)strike_index );
+    if ( !error )
       ( (FT_Size)size )->metrics = face->ttf_face->size->metrics;
 
-    return Ошибка;
+    return error;
 
   }
 
@@ -556,7 +556,7 @@
     FT_Face       face    = slot->root.face;
     T42_Face      t42face = (T42_Face)face;
     FT_GlyphSlot  ttslot;
-    FT_Error      Ошибка   = T42_Err_Ok;
+    FT_Error      error   = T42_Err_Ok;
 
 
     if ( face->glyph == NULL )
@@ -566,11 +566,11 @@
     }
     else
     {
-      Ошибка = FT_New_GlyphSlot( t42face->ttf_face, &ttslot );
+      error = FT_New_GlyphSlot( t42face->ttf_face, &ttslot );
       slot->ttslot = ttslot;
     }
 
-    return Ошибка;
+    return error;
   }
 
 
@@ -599,7 +599,7 @@
     slot->control_data  = 0;
     slot->control_len   = 0;
     slot->other         = 0;
-    slot->формат        = FT_GLYPH_FORMAT_NONE;
+    slot->format        = FT_GLYPH_FORMAT_NONE;
 
     slot->linearHoriAdvance = 0;
     slot->linearVertAdvance = 0;
@@ -612,26 +612,26 @@
                       FT_UInt       glyph_index,
                       FT_Int32      load_flags )
   {
-    FT_Error         Ошибка;
+    FT_Error         error;
     T42_GlyphSlot    t42slot = (T42_GlyphSlot)glyph;
     T42_Size         t42size = (T42_Size)size;
     FT_Driver_Class  ttclazz = ((T42_Driver)glyph->face->driver)->ttclazz;
 
 
     t42_glyphslot_clear( t42slot->ttslot );
-    Ошибка = ttclazz->load_glyph( t42slot->ttslot,
+    error = ttclazz->load_glyph( t42slot->ttslot,
                                  t42size->ttsize,
                                  glyph_index,
                                  load_flags | FT_LOAD_NO_BITMAP );
 
-    if ( !Ошибка )
+    if ( !error )
     {
       glyph->metrics = t42slot->ttslot->metrics;
 
       glyph->linearHoriAdvance = t42slot->ttslot->linearHoriAdvance;
       glyph->linearVertAdvance = t42slot->ttslot->linearVertAdvance;
 
-      glyph->формат  = t42slot->ttslot->формат;
+      glyph->format  = t42slot->ttslot->format;
       glyph->outline = t42slot->ttslot->outline;
 
       glyph->bitmap      = t42slot->ttslot->bitmap;
@@ -645,7 +645,7 @@
       glyph->control_len   = t42slot->ttslot->control_len;
     }
 
-    return Ошибка;
+    return error;
   }
 
 

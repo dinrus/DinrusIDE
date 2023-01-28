@@ -2,18 +2,18 @@
 
 #include <plugin/pcre/Pcre.h>
 
-namespace РНЦП {
+namespace Upp {
 
-Ткст AndroidSDK::GetDownloadUrl()
+String AndroidSDK::GetDownloadUrl()
 {
-	return "https://developer.android.com/studio/Индекс.html";
+	return "https://developer.android.com/studio/index.html";
 }
 
 AndroidSDK::AndroidSDK()
 {
 }
 
-AndroidSDK::AndroidSDK(const Ткст& path, bool deduceValues)
+AndroidSDK::AndroidSDK(const String& path, bool deduceValues)
 {
 	this->path = path;
 	if(deduceValues)
@@ -42,72 +42,72 @@ void AndroidSDK::DeduceBuildToolsRelease()
 
 bool AndroidSDK::Validate() const
 {
-	if(!дирЕсть(path) || !файлЕсть(AndroidPath())) return false;
+	if(!DirectoryExists(path) || !FileExists(AndroidPath())) return false;
 	
 	return true;
 }
 
 bool AndroidSDK::ValidatePlatform() const
 {
-	return дирЕсть(ConcretePlatformDir());
+	return DirectoryExists(ConcretePlatformDir());
 }
 
 bool AndroidSDK::ValidateBuildTools() const
 {
-	return дирЕсть(ConcreteBuildToolsDir());
+	return DirectoryExists(ConcreteBuildToolsDir());
 }
 
-Вектор<Ткст> AndroidSDK::FindPlatforms() const
+Vector<String> AndroidSDK::FindPlatforms() const
 {
-	Вектор<Ткст> platforms;
+	Vector<String> platforms;
 	
-	for(ФайлПоиск ff(приставьИмяф(PlatformsDir(), "*")); ff; ff.следщ()) {
-		if(!ff.скрыт_ли() && ff.папка_ли())
-			platforms.добавь(ff.дайИмя());
+	for(FindFile ff(AppendFileName(PlatformsDir(), "*")); ff; ff.Next()) {
+		if(!ff.IsHidden() && ff.IsFolder())
+			platforms.Add(ff.GetName());
 	}
 	
 	return platforms;
 }
 
-Вектор<Ткст> AndroidSDK::FindBuildToolsReleases() const
+Vector<String> AndroidSDK::FindBuildToolsReleases() const
 {
-	Вектор<Ткст> buildTools;
+	Vector<String> buildTools;
 	
-	for(ФайлПоиск ff(приставьИмяф(BuildToolsDir(), "*")); ff; ff.следщ()) {
-		if(!ff.скрыт_ли() && ff.папка_ли())
-			buildTools.добавь(ff.дайИмя());
+	for(FindFile ff(AppendFileName(BuildToolsDir(), "*")); ff; ff.Next()) {
+		if(!ff.IsHidden() && ff.IsFolder())
+			buildTools.Add(ff.GetName());
 	}
 	
 	return buildTools;
 }
 
-Вектор<AndroidDevice> AndroidSDK::FindDevices() const
+Vector<AndroidDevice> AndroidSDK::FindDevices() const
 {
-	Вектор<AndroidDevice> devices;
+	Vector<AndroidDevice> devices;
 	
-	Ткст out;
+	String out;
 	if(Sys(NormalizeExePath(AdbPath()) + " devices -l", out) == 0) {
-		Вектор<Ткст> lines;
-		Вектор<Ткст> outputLines = разбей(out, "\n");
-		for(int i = 0; i < outputLines.дайСчёт(); i++) {
-			if(!outputLines[i].начинаетсяС("*") && !outputLines[i].начинаетсяС(" "))
-				lines.добавь(outputLines[i]);
+		Vector<String> lines;
+		Vector<String> outputLines = Split(out, "\n");
+		for(int i = 0; i < outputLines.GetCount(); i++) {
+			if(!outputLines[i].StartsWith("*") && !outputLines[i].StartsWith(" "))
+				lines.Add(outputLines[i]);
 		}
 		
-		for(int i = 1; i < lines.дайСчёт(); i++) {
+		for(int i = 1; i < lines.GetCount(); i++) {
 			AndroidDevice device;
 			
-			Вектор<Ткст> elements = разбей(lines[i], " ");
-			for(int j = 0; j < elements.дайСчёт(); j++) {
+			Vector<String> elements = Split(lines[i], " ");
+			for(int j = 0; j < elements.GetCount(); j++) {
 				if(j == 0)
 					device.SetSerial(elements[j]);
 				else if(j == 1)
 					device.SetState(elements[j]);
 				else {
-					Вектор<Ткст> element = разбей(elements[j], ":");
-					if(element.дайСчёт() == 2) {
-						Ткст tag  = element[0];
-						Ткст data = element[1];
+					Vector<String> element = Split(elements[j], ":");
+					if(element.GetCount() == 2) {
+						String tag  = element[0];
+						String data = element[1];
 						if(tag == "usb")
 							device.SetUsb(data);
 						else
@@ -116,69 +116,69 @@ bool AndroidSDK::ValidateBuildTools() const
 					}
 				}
 			}
-			devices.добавь(device);
+			devices.Add(device);
 		}
 	}
 	
 	return devices;
 }
 
-Вектор<AndroidVirtualDevice> AndroidSDK::FindVirtualDevices() const
+Vector<AndroidVirtualDevice> AndroidSDK::FindVirtualDevices() const
 {
-	Вектор<AndroidVirtualDevice> avdes;
+	Vector<AndroidVirtualDevice> avdes;
 	
-	Ткст out;
+	String out;
 	if(Sys(NormalizeExePath(AndroidPath()) + " list avd", out) == 0) {
-		Вектор<Ткст> lines = разбей(out, "\n");
+		Vector<String> lines = Split(out, "\n");
 		
 		AndroidVirtualDevice avd;
-		for(int i = 0; i < lines.дайСчёт(); i++) {
-			Вектор<Ткст> line = разбей(lines[i], ":");
-			if(line.дайСчёт() == 2) {
-				Ткст tag  = line[0];
-				Ткст data = line[1];
-				if(data.начинаетсяС(" "))
-					data.удали(0);
-				if(tag.найди("Имя") > -1) {
-					if(!avd.дайИмя().пустой() && avd.дайИмя() != data)
-						avdes.добавь(avd);
+		for(int i = 0; i < lines.GetCount(); i++) {
+			Vector<String> line = Split(lines[i], ":");
+			if(line.GetCount() == 2) {
+				String tag  = line[0];
+				String data = line[1];
+				if(data.StartsWith(" "))
+					data.Remove(0);
+				if(tag.Find("Name") > -1) {
+					if(!avd.GetName().IsEmpty() && avd.GetName() != data)
+						avdes.Add(avd);
 					avd.SetName(data);
 				}
 				else
-				if(tag.найди("Device") > -1)
+				if(tag.Find("Device") > -1)
 					avd.SetDeviceType(data);
 				else
-				if(tag.найди("Path") > -1)
+				if(tag.Find("Path") > -1)
 					avd.SetPath(data);
 				else
-				if(tag.найди("Target") > -1)
+				if(tag.Find("Target") > -1)
 					avd.SetTarget(data);
 				else
-				if(tag.найди("Тэг/ABI") > -1)
+				if(tag.Find("Tag/ABI") > -1)
 					avd.SetAbi(data);
 				
-				// TODO: implement all possible tags
+				// СДЕЛАТЬ: implement all possible tags
 			}
 		}
 		
-		if(!avd.дайИмя().пустой())
-			avdes.добавь(avd);
+		if(!avd.GetName().IsEmpty())
+			avdes.Add(avd);
 	}
 	
 	return avdes;
 }
 
-Ткст AndroidSDK::FindDefaultPlatform() const
+String AndroidSDK::FindDefaultPlatform() const
 {
-	Вектор<Ткст> platforms = FindPlatforms();
-	if(platforms.дайСчёт()) {
+	Vector<String> platforms = FindPlatforms();
+	if(platforms.GetCount()) {
 		Android::NormalizeVersions(platforms);
-		сортируй(platforms, StdGreater<Ткст>());
+		Sort(platforms, StdGreater<String>());
 		Android::RemoveVersionsNormalization(platforms);
 		
 		int idx = 0;
-		for(int i = 0; i < platforms.дайСчёт(); i++) {
-			if(RegExp("^android-[0-9]*$").сверь(platforms[i])) {
+		for(int i = 0; i < platforms.GetCount(); i++) {
+			if(RegExp("^android-[0-9]*$").Match(platforms[i])) {
 				idx = i;
 				break;
 			}
@@ -188,14 +188,14 @@ bool AndroidSDK::ValidateBuildTools() const
 	return "";
 }
 
-Ткст AndroidSDK::FindDefaultBuildToolsRelease() const
+String AndroidSDK::FindDefaultBuildToolsRelease() const
 {
-	Вектор<Ткст> releases = FindBuildToolsReleases();
-	if(releases.дайСчёт()) {
-		сортируй(releases, StdGreater<Ткст>());
+	Vector<String> releases = FindBuildToolsReleases();
+	if(releases.GetCount()) {
+		Sort(releases, StdGreater<String>());
 		int idx = 0;
-		for(int i = 0; i < releases.дайСчёт(); i++) {
-			if(RegExp("^[1-9][0-9.]*$").сверь(releases[i])) {
+		for(int i = 0; i < releases.GetCount(); i++) {
+			if(RegExp("^[1-9][0-9.]*$").Match(releases[i])) {
 				idx = i;
 				break;
 			}
@@ -207,37 +207,37 @@ bool AndroidSDK::ValidateBuildTools() const
 
 // ---------------------------------------------------------------
 
-Ткст AndroidSDK::BinDir() const
+String AndroidSDK::BinDir() const
 {
 	return path + DIR_SEPS + "bin";
 }
 
-Ткст AndroidSDK::BuildToolsDir() const
+String AndroidSDK::BuildToolsDir() const
 {
 	return path + DIR_SEPS + "build-tools";
 }
 
-Ткст AndroidSDK::PlatformsDir() const
+String AndroidSDK::PlatformsDir() const
 {
 	return path + DIR_SEPS + "platforms";
 }
 
-Ткст AndroidSDK::ConcreteBuildToolsDir() const
+String AndroidSDK::ConcreteBuildToolsDir() const
 {
 	return BuildToolsDir() + DIR_SEPS + buildToolsRelease;
 }
 
-Ткст AndroidSDK::ConcretePlatformDir() const
+String AndroidSDK::ConcretePlatformDir() const
 {
 	return PlatformsDir() + DIR_SEPS + platform;
 }
 
-Ткст AndroidSDK::PlatformToolsDir() const
+String AndroidSDK::PlatformToolsDir() const
 {
 	return path + DIR_SEPS + "platform-tools";
 }
 
-Ткст AndroidSDK::ToolsDir() const
+String AndroidSDK::ToolsDir() const
 {
 	return path + DIR_SEPS + "tools";
 }

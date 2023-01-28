@@ -1,7 +1,7 @@
 #include "Core.h"
 
-namespace РНЦПДинрус {
-	
+namespace Upp {
+
 static bool sTrace;
 
 #define LLOG(x)  if(sTrace) RLOG((client ? "WS CLIENT " : "WS SERVER ") << x)
@@ -11,67 +11,67 @@ void WebSocket::Trace(bool b)
 	sTrace = b;
 }
 
-Ткст WebSocket::FormatBlock(const Ткст& s)
+String WebSocket::FormatBlock(const String& s)
 {
-	return какТкстСи(s.дайСчёт() < 500 ? s : s.середина(0, 500), INT_MAX, NULL, ASCSTRING_OCTALHI);
+	return AsCString(s.GetCount() < 500 ? s : s.Mid(0, 500), INT_MAX, NULL, ASCSTRING_OCTALHI);
 }
 
 WebSocket::WebSocket()
 {
-	очисть();
+	Clear();
 
-	static Ткст request_headers_const =
-	    "прими: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\n"
-		"прими-Language: cs,en-US;q=0.7,en;q=0.3\r\n"
+	static String request_headers_const =
+	    "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\n"
+		"Accept-Language: cs,en-US;q=0.7,en;q=0.3\r\n"
 		"Sec-WebSocket-Version: 13\r\n"
 		"Sec-WebSocket-Extensions: permessage-deflate\r\n"
 		"Connection: keep-alive, Upgrade\r\n"
 		"Pragma: no-cache\r\n"
-		"Кэш-Контрол: no-cache\r\n"
+		"Cache-Control: no-cache\r\n"
 		"Upgrade: websocket\r\n";
     request_headers = request_headers_const;
 }
 
-void WebSocket::очисть()
+void WebSocket::Clear()
 {
 	socket = &std_socket;
 	opcode = 0;
 	current_opcode = 0;
-	данные.очисть();
+	data.Clear();
 	data_pos = 0;
-	in_queue.очисть();
-	out_queue.очисть();
+	in_queue.Clear();
+	out_queue.Clear();
 	out_at = 0;
-	Ошибка.очисть();
-	socket->очисть();
+	error.Clear();
+	socket->Clear();
 	close_sent = close_received = false;
 	client = false;
 }
 
-void WebSocket::ошибка(const Ткст& err)
+void WebSocket::Error(const String& err)
 {
-	LLOG("Ошибка: " << err);
-	Ошибка = err;
+	LLOG("ERROR: " << err);
+	error = err;
 }
 
-bool WebSocket::прими(TcpSocket& listen_socket)
+bool WebSocket::Accept(TcpSocket& listen_socket)
 {
-	очисть();
-	if(!socket->прими(listen_socket)) {
-		ошибка("прими has failed");
+	Clear();
+	if(!socket->Accept(listen_socket)) {
+		Error("Неудачный акцепт");
 		return false;
 	}
 	opcode = HTTP_REQUEST_HEADER;
 	return true;
 }
 
-WebSocket& WebSocket::Header(const char *ид, const Ткст& данные)
+WebSocket& WebSocket::Header(const char *id, const String& data)
 {
-	request_headers << ид << ": " << данные << "\r\n";
+	request_headers << id << ": " << data << "\r\n";
 	return *this;
 }
 
-bool WebSocket::Connect(const Ткст& url)
+bool WebSocket::Connect(const String& url)
 {
 	const char *u = url;
 	bool ssl = memcmp(u, "wss", 3) == 0;
@@ -84,43 +84,43 @@ bool WebSocket::Connect(const Ткст& url)
 	t = u;
 	while(*u && *u != ':' && *u != '/' && *u != '?')
 		u++;
-	Ткст host = Ткст(t, u);
+	String host = String(t, u);
 	int port = ssl ? 443 : 80;
 	if(*u == ':')
-		port = сканЦел(u + 1, &u);
-	
-	return Connect(url.начинаетсяС("wss:") ? "https:" + url.середина(4)
-	               : url.начинаетсяС("ws:") ? "http:" + url.середина(3) : url,
+		port = ScanInt(u + 1, &u);
+
+	return Connect(url.StartsWith("wss:") ? "https:" + url.Mid(4)
+	               : url.StartsWith("ws:") ? "http:" + url.Mid(3) : url,
 	               host, ssl, port);
 }
 
-bool WebSocket::Connect(const Ткст& uri_, const Ткст& host_, bool ssl_, int port)
+bool WebSocket::Connect(const String& uri_, const String& host_, bool ssl_, int port)
 {
-	очисть();
-	
+	Clear();
+
 	client = true;
 	redirect = 0;
-	
+
 	uri = uri_;
 	host = host_;
 	ssl = ssl_;
-	
+
 	if(socket->IsBlocking()) {
-		if(!addrinfo.выполни(host, port)) {
-			ошибка("Not found");
+		if(!addrinfo.Execute(host, port)) {
+			Error("Не найдено");
 			return false;
 		}
 		LLOG("DNS resolved");
 		StartConnect();
 		while(opcode != READING_FRAME_HEADER) {
-			делай0();
-			if(ошибка_ли())
+			Do0();
+			if(IsError())
 				return false;
 		}
 	}
 	else {
 		opcode = DNS;
-		addrinfo.старт(host, port);
+		addrinfo.Start(host, port);
 	}
 	return true;
 }
@@ -128,13 +128,13 @@ bool WebSocket::Connect(const Ткст& uri_, const Ткст& host_, bool ssl_, 
 void WebSocket::SendRequest()
 {
 	LLOG("Sending connection request");
-	Ткст h;
+	String h;
 	for(int i = 0; i < 16; i++)
-		h.конкат(случ());
-	выведи( // needs to be the first thing to sent after the connection is established
+		h.Cat(Random());
+	Out( // needs to be the first thing to sent after the connection is established
 	    "GET " + uri + " HTTP/1.1\r\n"
-	    "Хост: " + host + "\r\n" +
-		"Sec-WebSocket-Ключ: " + Base64Encode(h) + "\r\n" +
+	    "Host: " + host + "\r\n" +
+		"Sec-WebSocket-Key: " + Base64Encode(h) + "\r\n" +
 	    request_headers +
 	    "\r\n"
 	);
@@ -144,12 +144,12 @@ void WebSocket::SendRequest()
 void WebSocket::StartConnect()
 {
 	if(!socket->Connect(addrinfo)) {
-		ошибка("Connect has failed");
+		Error("Неудачный коннект");
 		return;
 	}
-	
+
 	LLOG("Connect issued");
-	
+
 	if(IsBlocking()) {
 		if(ssl) {
 			socket->StartSSL();
@@ -159,10 +159,10 @@ void WebSocket::StartConnect()
 		SendRequest();
 		return;
 	}
-	
+
 	if(ssl) {
 		if(!socket->StartSSL()) {
-			ошибка("Unable to start SSL handshake");
+			Error("Не удаётся начало рукопожатия SSL");
 			return;
 		}
 		LLOG("Started SSL handshake");
@@ -176,8 +176,8 @@ void WebSocket::Dns()
 {
 	if(addrinfo.InProgress())
 		return;
-	if(!addrinfo.дайРез()) {
-		ошибка("DNS lookup failed");
+	if(!addrinfo.GetResult()) {
+		Error("Поиск DNS не удался");
 		return;
 	}
 	LLOG("DNS resolved");
@@ -195,24 +195,24 @@ void WebSocket::SSLHandshake()
 bool WebSocket::ReadHttpHeader()
 {
 	for(;;) {
-		int c = socket->дай();
+		int c = socket->Get();
 		if(c < 0)
 			return false;
 		else
-			данные.конкат(c);
-		if(данные.дайСчёт() == 2 && данные[0] == '\r' && данные[1] == '\n') { // header is empty
-			ошибка("Empty HTTP header");
+			data.Cat(c);
+		if(data.GetCount() == 2 && data[0] == '\r' && data[1] == '\n') { // header is empty
+			Error("Пустой заголовок HTTP");
 			return false;
 		}
-		if(данные.дайСчёт() >= 3) {
-			const char *h = данные.последний();
+		if(data.GetCount() >= 3) {
+			const char *h = data.Last();
 			if(h[0] == '\n' && h[-1] == '\r' && h[-2] == '\n') { // empty ending line after non-empty header
-				LLOG("HTTP header received: " << FormatBlock(данные));
+				LLOG("HTTP header received: " << FormatBlock(data));
 				return true;
 			}
 		}
-		if(данные.дайСчёт() > 100000) {
-			ошибка("HTTP header size exceeded");
+		if(data.GetCount() > 100000) {
+			Error("Превышающий размер заголовка HTTP");
 			return false;
 		}
 	}
@@ -222,30 +222,30 @@ void WebSocket::RequestHeader()
 {
 	if(ReadHttpHeader()) {
 		HttpHeader hdr;
-		if(!hdr.Parse(данные)) {
-			ошибка("Invalid HTTP header");
+		if(!hdr.Parse(data)) {
+			Error("Неверный заголовок HTTP");
 			return;
 		}
-		Ткст dummy;
+		String dummy;
 		hdr.Request(dummy, uri, dummy);
-		Ткст ключ = hdr["sec-websocket-ключ"];
-		if(пусто_ли(ключ)) {
-			ошибка("Invalid HTTP header: missing sec-websocket-ключ");
+		String key = hdr["sec-websocket-key"];
+		if(IsNull(key)) {
+			Error("Неверный заголовок HTTP: отсутствует sec-websocket-key");
 			return;
 		}
-	
+
 		byte sha1[20];
-		SHA1(sha1, ключ + "258EAFA5-E914-47DA-95CA-C5AB0DC85B11");
-		
-		выведи(
+		SHA1(sha1, key + "258EAFA5-E914-47DA-95CA-C5AB0DC85B11");
+
+		Out(
 			"HTTP/1.1 101 Switching Protocols\r\n"
 			"Upgrade: websocket\r\n"
 			"Connection: Upgrade\r\n"
-			"Sec-WebSocket-прими: " + Base64Encode((char *)sha1, 20) + "\r\n\r\n"
+			"Sec-WebSocket-Accept: " + Base64Encode((char *)sha1, 20) + "\r\n\r\n"
 		);
-		
+
 		LLOG("HTTP request header received, sending response");
-		данные.очисть();
+		data.Clear();
 		opcode = READING_FRAME_HEADER;
 	}
 }
@@ -254,8 +254,8 @@ void WebSocket::ResponseHeader()
 {
 	if(ReadHttpHeader()) {
 		HttpHeader h;
-		h.Parse(данные);
-		int code = h.дайКод();
+		h.Parse(data);
+		int code = h.GetCode();
 		if(code >= 300 && code < 400) {
 			int r = redirect + 1;
 			if(r++ < 5) {
@@ -264,42 +264,42 @@ void WebSocket::ResponseHeader()
 				return;
 			}
 		}
-		if(впроп(h["upgrade"]) != "websocket") {
-			ошибка("Повреждённый заголовок ответа сервера HTTP");
+		if(ToLower(h["upgrade"]) != "websocket") {
+			Error("Неверный заголовок ответа сервера HTTP");
 			return;
 		}
-		LLOG("Получен заголовок ответа HTTP");
+		LLOG("HTTP response header received");
 		opcode = READING_FRAME_HEADER;
-		данные.очисть();
+		data.Clear();
 	}
 }
 
 void WebSocket::FrameHeader()
 {
 	for(;;) {
-		int c = socket->дай();
+		int c = socket->Get();
 		if(c < 0)
 			return;
-		данные.конкат(c);
-		
-		LLOG("Receiving frame header, текущ header len: " << данные.дайСчёт());
+		data.Cat(c);
+
+		LLOG("Receiving frame header, current header len: " << data.GetCount());
 
 		int ii = 0;
 		bool ok = true;
-		auto дай = [&]() -> byte {
-			if(ii < данные.дайСчёт())
-				return данные[ii++];
+		auto Get = [&]() -> byte {
+			if(ii < data.GetCount())
+				return data[ii++];
 			ok = false;
 			return 0;
 		};
 		auto GetLen = [&](int count) -> int64 {
 			int64 len = 0;
 			while(count--)
-				len = (len << 8) | дай();
+				len = (len << 8) | Get();
 			return len;
 		};
-		int new_opcode = дай();
-		length = дай();
+		int new_opcode = Get();
+		length = Get();
 		mask = length & 128;
 		length &= 127;
 		if(length == 127)
@@ -307,83 +307,83 @@ void WebSocket::FrameHeader()
 		if(length == 126)
 			length = GetLen(2);
 		if(mask) {
-			ключ[0] = дай();
-			ключ[1] = дай();
-			ключ[2] = дай();
-			ключ[3] = дай();
+			key[0] = Get();
+			key[1] = Get();
+			key[2] = Get();
+			key[3] = Get();
 		}
 
 		if(ok) {
-			LLOG("Фрейм header received, len: " << length << ", code " << new_opcode);
+			LLOG("Frame header received, len: " << length << ", code " << new_opcode);
 			opcode = new_opcode;
-			данные.очисть();
+			data.Clear();
 			data_pos = 0;
 			return;
 		}
 	}
 }
 
-void WebSocket::открой(const Ткст& msg, bool wait_reply)
+void WebSocket::Close(const String& msg, bool wait_reply)
 {
 	LLOG("Sending CLOSE");
 	SendRaw(CLOSE|FIN, msg, MASK);
 	close_sent = true;
 	if(IsBlocking())
-		while((wait_reply ? открыт() : out_queue.дайСчёт()) && !ошибка_ли() && socket->открыт())
-			делай0();
+		while((wait_reply ? IsOpen() : out_queue.GetCount()) && !IsError() && socket->IsOpen())
+			Do0();
 }
 
 void WebSocket::FrameData()
 {
-	Буфер<char> буфер(32768);
+	Buffer<char> buffer(32768);
 	while(data_pos < length) {
-		int n = socket->дай(~буфер, (int)min(length - data_pos, (int64)32768));
+		int n = socket->Get(~buffer, (int)min(length - data_pos, (int64)32768));
 		if(n == 0)
 			return;
 		if(mask)
-			for(int i = 0; i < n; i++) // TODO: Optimize
-				буфер[i] ^= ключ[(i + data_pos) & 3];
-		данные.конкат(~буфер, n); // TODO: разбей long данные
+			for(int i = 0; i < n; i++) // СДЕЛАТЬ: Optimize
+				buffer[i] ^= key[(i + data_pos) & 3];
+		data.Cat(~buffer, n); // СДЕЛАТЬ: Split long data
 		data_pos += n;
-		LLOG("Фрейм данные chunk received, chunk len: " << n);
+		LLOG("Frame data chunk received, chunk len: " << n);
 	}
-	LLOG("Фрейм данные received");
+	LLOG("Frame data received");
 	int op = opcode & 15;
 	switch(op) {
 	case PING:
 		LLOG("PING");
-		SendRaw(PONG|FIN, данные, MASK);
+		SendRaw(PONG|FIN, data, MASK);
 		break;
 	case CLOSE:
 		LLOG("CLOSE received");
 		close_received = true;
 		if(!close_sent)
-			открой(данные);
-		socket->открой();
+			Close(data);
+		socket->Close();
 		break;
 	default:
-		Input& m = in_queue.добавьХвост();
+		Input& m = in_queue.AddTail();
 		m.opcode = opcode;
-		m.данные = данные;
-		LLOG((m.opcode & TEXT ? "TEXT: " : "BINARY: ") << FormatBlock(данные));
-		LLOG("Input queue count is now " << in_queue.дайСчёт());
+		m.data = data;
+		LLOG((m.opcode & TEXT ? "TEXT: " : "BINARY: ") << FormatBlock(data));
+		LLOG("Input queue count is now " << in_queue.GetCount());
 		break;
 	}
-	данные.очисть();
+	data.Clear();
 	opcode = READING_FRAME_HEADER;
 }
 
-void WebSocket::делай0()
+void WebSocket::Do0()
 {
 	int prev_opcode;
 	do {
 		prev_opcode = opcode;
 		if(findarg(opcode, DNS, SSL_HANDSHAKE) < 0) {
 			Output();
-			if(socket->кф_ли() && !(close_sent || close_received))
-				ошибка("Сокет неожиданно закрылся");
+			if(socket->IsEof() && !(close_sent || close_received))
+				Error("Сокет неожиданно закрылся");
 		}
-		if(ошибка_ли())
+		if(IsError())
 			return;
 		switch(opcode) {
 		case DNS:
@@ -409,128 +409,128 @@ void WebSocket::делай0()
 	while(!IsBlocking() && opcode != prev_opcode);
 }
 
-void WebSocket::делай()
+void WebSocket::Do()
 {
-	ПРОВЕРЬ(!IsBlocking());
-	делай0();
+	ASSERT(!IsBlocking());
+	Do0();
 }
 
-Ткст WebSocket::Receive()
+String WebSocket::Receive()
 {
 	current_opcode = 0;
 	do {
-		делай0();
-		if(in_queue.дайСчёт()) {
-			Ткст s = in_queue.дайГолову().данные;
-			current_opcode = in_queue.дайГолову().opcode;
-			in_queue.сбросьГолову();
+		Do0();
+		if(in_queue.GetCount()) {
+			String s = in_queue.Head().data;
+			current_opcode = in_queue.Head().opcode;
+			in_queue.DropHead();
 			return s;
 		}
 	}
-	while(IsBlocking() && socket->открыт() && !ошибка_ли());
-	return Ткст::дайПроц();
+	while(IsBlocking() && socket->IsOpen() && !IsError());
+	return String::GetVoid();
 }
 
-void WebSocket::выведи(const Ткст& s)
+void WebSocket::Out(const String& s)
 {
-	out_queue.добавьХвост(s);
-	while((IsBlocking() || close_sent) && socket->открыт() && !ошибка_ли() && out_queue.дайСчёт())
+	out_queue.AddTail(s);
+	while((IsBlocking() || close_sent) && socket->IsOpen() && !IsError() && out_queue.GetCount())
 		Output();
 }
 
 void WebSocket::Output()
 {
-	if(socket->открыт()) {
-		while(out_queue.дайСчёт()) {
-			const Ткст& s = out_queue.дайГолову();
-			int n = socket->помести(~s + out_at, s.дайСчёт() - out_at);
+	if(socket->IsOpen()) {
+		while(out_queue.GetCount()) {
+			const String& s = out_queue.Head();
+			int n = socket->Put(~s + out_at, s.GetCount() - out_at);
 			if(n == 0)
 				break;
 			LLOG("Sent " << n << " bytes: " << FormatBlock(s));
 			out_at += n;
-			if(out_at >= s.дайСчёт()) {
+			if(out_at >= s.GetCount()) {
 				out_at = 0;
-				out_queue.сбросьГолову();
-				LLOG("Block sent complete, " << out_queue.дайСчёт() << " remaining blocks in queue");
+				out_queue.DropHead();
+				LLOG("Block sent complete, " << out_queue.GetCount() << " remaining blocks in queue");
 			}
 		}
 	}
 }
 
-void WebSocket::SendRaw(int hdr, const Ткст& данные, dword mask)
+void WebSocket::SendRaw(int hdr, const String& data, dword mask)
 {
-	if(ошибка_ли())
+	if(IsError())
 		return;
-	
-	ПРОВЕРЬ(!close_sent);
-	LLOG("Send " << данные.дайСчёт() << " bytes, hdr: " << hdr);
-	
-	Ткст header;
-	header.конкат(hdr);
-	int len = данные.дайСчёт();
+
+	ASSERT(!close_sent);
+	LLOG("Send " << data.GetCount() << " bytes, hdr: " << hdr);
+
+	String header;
+	header.Cat(hdr);
+	int len = data.GetCount();
 	if(len > 65535) {
-		header.конкат(127 | mask);
-		header.конкат(0);
-		header.конкат(0);
-		header.конкат(0);
-		header.конкат(0);
-		header.конкат(byte(len >> 24));
-		header.конкат(byte(len >> 16));
-		header.конкат(byte(len >> 8));
-		header.конкат(byte(len));
+		header.Cat(127 | mask);
+		header.Cat(0);
+		header.Cat(0);
+		header.Cat(0);
+		header.Cat(0);
+		header.Cat(byte(len >> 24));
+		header.Cat(byte(len >> 16));
+		header.Cat(byte(len >> 8));
+		header.Cat(byte(len));
 	}
 	else
 	if(len > 125) {
-		header.конкат(126 | mask);
-		header.конкат(byte(len >> 8));
-		header.конкат(byte(len));
+		header.Cat(126 | mask);
+		header.Cat(byte(len >> 8));
+		header.Cat(byte(len));
 	}
 	else
-		header.конкат((int)len | mask);
+		header.Cat((int)len | mask);
 
 	if(mask) {
 		byte Cle[4];
 		for(int i = 0; i < 4; i++)
-			header.конкат(Cle[i] = (byte)случ());
+			header.Cat(Cle[i] = (byte)Random());
 
-		выведи(header);
+		Out(header);
 
-		if(данные.дайСчёт()) {
-			ТкстБуф buf(данные.дайСчёт());
-			int n = данные.дайСчёт();
+		if(data.GetCount()) {
+			StringBuffer buf(data.GetCount());
+			int n = data.GetCount();
 			for(int i = 0; i < n; i++)
-				buf[i] = данные[i] ^ Cle[i & 3];
-			выведи(buf);
+				buf[i] = data[i] ^ Cle[i & 3];
+			Out(buf);
 		}
 	}
 	else {
-		выведи(header);
-	
-		if(данные.дайСчёт() == 0)
+		Out(header);
+
+		if(data.GetCount() == 0)
 			return;
-		выведи(данные);
+		Out(data);
 	}
 }
 
 bool WebSocket::WebAccept(TcpSocket& socket_, HttpHeader& hdr)
 {
 	socket = &socket_;
-	Ткст ключ = hdr["sec-websocket-ключ"];
-	if(пусто_ли(ключ))
+	String key = hdr["sec-websocket-key"];
+	if(IsNull(key))
 		return false;
-	
+
 	byte sha1[20];
-	SHA1(sha1, ключ + "258EAFA5-E914-47DA-95CA-C5AB0DC85B11");
-	
-	выведи(
+	SHA1(sha1, key + "258EAFA5-E914-47DA-95CA-C5AB0DC85B11");
+
+	Out(
 		"HTTP/1.1 101 Switching Protocols\r\n"
 		"Upgrade: websocket\r\n"
 		"Connection: Upgrade\r\n"
-		"Sec-WebSocket-прими: " + Base64Encode((char *)sha1, 20) + "\r\n\r\n"
+		"Sec-WebSocket-Accept: " + Base64Encode((char *)sha1, 20) + "\r\n\r\n"
 	);
 
 	LLOG("HTTP request header received, sending response");
-	данные.очисть();
+	data.Clear();
 	opcode = READING_FRAME_HEADER;
 	return true;
 }
@@ -538,7 +538,7 @@ bool WebSocket::WebAccept(TcpSocket& socket_, HttpHeader& hdr)
 bool WebSocket::WebAccept(TcpSocket& socket)
 {
 	HttpHeader hdr;
-	if(!hdr.читай(socket))
+	if(!hdr.Read(socket))
 		return false;
 	return WebAccept(socket, hdr);
 }

@@ -1,6 +1,6 @@
 #include "Core.h"
 
-namespace РНЦПДинрус {
+namespace Upp {
 
 #ifdef PLATFORM_POSIX
 //#BLITZ_APPROVE
@@ -11,7 +11,7 @@ namespace РНЦПДинрус {
 
 #define LLOG(x) // DLOG(x)
 
-void ЛокальнПроцесс::иниц() {
+void LocalProcess::Init() {
 #ifdef PLATFORM_WIN32
 	hProcess = hOutputRead = hErrorRead = hInputWrite = NULL;
 #endif
@@ -24,7 +24,7 @@ void ЛокальнПроцесс::иниц() {
 	convertcharset = true;
 }
 
-void ЛокальнПроцесс::освободи() {
+void LocalProcess::Free() {
 #ifdef PLATFORM_WIN32
 	if(hProcess) {
 		CloseHandle(hProcess);
@@ -44,7 +44,7 @@ void ЛокальнПроцесс::освободи() {
 	}
 #endif
 #ifdef PLATFORM_POSIX
-	LLOG("\nLocalProcess::освободи, pid = " << (int)getpid());
+	LLOG("\nLocalProcess::Free, pid = " << (int)getpid());
 	LLOG("rpipe[" << rpipe[0] << ", " << rpipe[1] << "]");
 	LLOG("wpipe[" << wpipe[0] << ", " << wpipe[1] << "]");
 	if(rpipe[0] >= 0) { close(rpipe[0]); rpipe[0] = -1; }
@@ -68,18 +68,18 @@ static void sNoBlock(int fd)
 #ifdef PLATFORM_WIN32
 bool Win32CreateProcess(const char *command, const char *envptr, STARTUPINFOW& si, PROCESS_INFORMATION& pi, const char *cd)
 { // provides conversion of charset for cmdline
-	Вектор<WCHAR> cmd = вСисНабсимШ(command);
-	cmd.добавь(0);
+	Vector<WCHAR> cmd = ToSystemCharsetW(command);
+	cmd.Add(0);
 	return CreateProcessW(NULL, cmd, NULL, NULL, TRUE, NORMAL_PRIORITY_CLASS, (void *)envptr,
-	                      cd ? вСисНабсимШ(cd).begin() : NULL, &si, &pi);
+	                      cd ? ToSystemCharsetW(cd).begin() : NULL, &si, &pi);
 }
 #endif
 
-bool ЛокальнПроцесс::DoStart(const char *command, const Вектор<Ткст> *арг, bool spliterr, const char *envptr, const char *cd)
+bool LocalProcess::DoStart(const char *command, const Vector<String> *arg, bool spliterr, const char *envptr, const char *cd)
 {
-	LLOG("ЛокальнПроцесс::старт(\"" << command << "\")");
+	LLOG("LocalProcess::Start(\"" << command << "\")");
 
-	глуши();
+	Kill();
 	exit_code = Null;
 
 	while(*command && (byte)*command <= ' ')
@@ -123,13 +123,13 @@ bool ЛокальнПроцесс::DoStart(const char *command, const Векто
 	si.hStdInput  = hInputRead;
 	si.hStdOutput = hOutputWrite;
 	si.hStdError  = hErrorWrite;
-	Ткст cmdh;
-	if(арг) {
+	String cmdh;
+	if(arg) {
 		cmdh = command;
-		for(int i = 0; i < арг->дайСчёт(); i++) {
+		for(int i = 0; i < arg->GetCount(); i++) {
 			cmdh << ' ';
-			Ткст argument = (*арг)[i];
-			if(argument.дайСчёт() && argument.найдиПервыйИз(" \t\n\v\"") < 0)
+			String argument = (*arg)[i];
+			if(argument.GetCount() && argument.FindFirstOf(" \t\n\v\"") < 0)
 				cmdh << argument;
 			else {
 				cmdh << '\"';
@@ -141,17 +141,17 @@ bool ЛокальнПроцесс::DoStart(const char *command, const Векто
 						num_backslashes++;
 					}
 					if(*s == '\0') {
-						cmdh.конкат('\\', 2 * num_backslashes);
+						cmdh.Cat('\\', 2 * num_backslashes);
 						break;
 					}
 					else
 					if(*s == '\"') {
-						cmdh.конкат('\\', 2 * num_backslashes + 1);
+						cmdh.Cat('\\', 2 * num_backslashes + 1);
 						cmdh << '\"';
 					}
 					else {
-						cmdh.конкат('\\', num_backslashes);
-						cmdh.конкат(*s);
+						cmdh.Cat('\\', num_backslashes);
+						cmdh.Cat(*s);
 					}
 					s++;
 				}
@@ -170,43 +170,43 @@ bool ЛокальнПроцесс::DoStart(const char *command, const Векто
 		CloseHandle(pi.hThread);
 	}
 	else {
-		освободи();
+		Free();
 		return false;
 	}
 	return true;
 #endif
 #ifdef PLATFORM_POSIX
-	Буфер<char> cmd_buf;
-	Вектор<char *> арги;
+	Buffer<char> cmd_buf;
+	Vector<char *> args;
 
-	Ткст app;
-	if(арг) {
+	String app;
+	if(arg) {
 		app = command;
 		int n = strlen(command) + 1;
-		for(int i = 0; i < арг->дайСчёт(); i++)
-			n += (*арг)[i].дайСчёт() + 1;
-		cmd_buf.размести(n + 1);
+		for(int i = 0; i < arg->GetCount(); i++)
+			n += (*arg)[i].GetCount() + 1;
+		cmd_buf.Alloc(n + 1);
 		char *p = cmd_buf;
-		арги.добавь(p);
+		args.Add(p);
 		int l = strlen(command) + 1;
 		memcpy(p, command, l);
 		p += l;
-		for(int i = 0; i < арг->дайСчёт(); i++) {
-			арги.добавь(p);
-			l = (*арг)[i].дайСчёт() + 1;
-			memcpy(p, ~(*арг)[i], l);
+		for(int i = 0; i < arg->GetCount(); i++) {
+			args.Add(p);
+			l = (*arg)[i].GetCount() + 1;
+			memcpy(p, ~(*arg)[i], l);
 			p += l;
 		}
 	}
 	else { // parse command line for execve
-		cmd_buf.размести(strlen(command) + 1);
+		cmd_buf.Alloc(strlen(command) + 1);
 		char *cmd_out = cmd_buf;
 		const char *p = command;
 		while(*p)
 			if((byte)*p <= ' ')
 				p++;
 			else {
-				арги.добавь(cmd_out);
+				args.Add(cmd_out);
 				while(*p && (byte)*p > ' ') {
 					int c = *p;
 					if(c == '\\') {
@@ -231,27 +231,27 @@ bool ЛокальнПроцесс::DoStart(const char *command, const Векто
 				*cmd_out++ = '\0';
 			}
 	}
-	
-	if(арги.дайСчёт() == 0)
+
+	if(args.GetCount() == 0)
 		return false;
 
-	арги.добавь(NULL);
+	args.Add(NULL);
 
-	Ткст app_full = дайФайлПоПути(арги[0], getenv("PATH"), true);
-	if(пусто_ли(app_full))
+	String app_full = GetFileOnPath(args[0], getenv("PATH"), true);
+	if(IsNull(app_full))
 		return false;
-	
-	Буфер<char> arg0(app_full.дайСчёт() + 1);
-	memcpy(~arg0, ~app_full, app_full.дайСчёт() + 1);
-	арги[0] = ~arg0;
+
+	Buffer<char> arg0(app_full.GetCount() + 1);
+	memcpy(~arg0, ~app_full, app_full.GetCount() + 1);
+	args[0] = ~arg0;
 
 	if(pipe(rpipe) || pipe(wpipe))
 		return false;
 
 	if(spliterr && pipe(epipe))
 		return false;
-	
-	LLOG("\nLocalProcess::старт");
+
+	LLOG("\nLocalProcess::Start");
 	LLOG("rpipe[" << rpipe[0] << ", " << rpipe[1] << "]");
 	LLOG("wpipe[" << wpipe[0] << ", " << wpipe[1] << "]");
 	LLOG("epipe[" << epipe[0] << ", " << epipe[1] << "]");
@@ -264,7 +264,7 @@ bool ЛокальнПроцесс::DoStart(const char *command, const Векто
 	LLOG("\tfork, pid = " << (int)pid << ", getpid = " << (int)getpid());
 	if(pid < 0)
 		return false;
-//		throw Искл(фмтЧ(t_("fork() Ошибка; Ошибка code = %d"), errno));
+//		throw Exc(NFormat(t_("fork() error; error code = %d"), errno));
 
 	if(pid) {
 		LLOG("parent process - continue");
@@ -286,7 +286,7 @@ bool ЛокальнПроцесс::DoStart(const char *command, const Векто
 		LLOG("\tfork2, pid2 = " << (int)pid2 << ", getpid = " << (int)getpid());
 		if (pid2 < 0) {
 			LLOG("fork2 failed");
-			выход(1);
+			Exit(1);
 		}
 		if (pid2) {
 			LLOG("exiting intermediary process");
@@ -298,10 +298,10 @@ bool ЛокальнПроцесс::DoStart(const char *command, const Векто
 				sNoBlock(epipe[0]);
 				close(epipe[1]); epipe[1]=-1;
 			}
-			// we call exec instead of выход, because exit doesn't behave nicelly with threads
+			// we call exec instead of Exit, because exit doesn't behave nicelly with threads
 			execl("/usr/bin/true", "[closing fork]", (char*)NULL);
-			// only call выход when execl fails
-			выход(0);
+			// only call Exit when execl fails
+			Exit(0);
 		}
 	}
 
@@ -320,36 +320,36 @@ bool ЛокальнПроцесс::DoStart(const char *command, const Векто
 	}
 	rpipe[0] = rpipe[1] = wpipe[0] = wpipe[1] = epipe[0] = epipe[1] = -1;
 #if DO_LLOG
-	LLOG(арги.дайСчёт() << "arguments:");
-	for(int a = 0; a < арги.дайСчёт(); a++)
-		LLOG("[" << a << "]: <" << (арги[a] ? арги[a] : "NULL") << ">");
+	LLOG(args.GetCount() << "arguments:");
+	for(int a = 0; a < args.GetCount(); a++)
+		LLOG("[" << a << "]: <" << (args[a] ? args[a] : "NULL") << ">");
 #endif
 
 	if(cd)
 		(void)!chdir(cd); // that (void)! strange thing is to silence GCC warning
 
-	LLOG("running execve, app = " << app << ", #арги = " << арги.дайСчёт());
+	LLOG("running execve, app = " << app << ", #args = " << args.GetCount());
 	if(envptr) {
 		const char *from = envptr;
-		Вектор<const char *> env;
+		Vector<const char *> env;
 		while(*from) {
-			env.добавь(from);
+			env.Add(from);
 			from += strlen(from) + 1;
 		}
-		env.добавь(NULL);
-		execve(app_full, арги.старт(), (char *const *)env.старт());
+		env.Add(NULL);
+		execve(app_full, args.Begin(), (char *const *)env.Begin());
 	}
 	else
-		execv(app_full, арги.старт());
+		execv(app_full, args.Begin());
 	LLOG("execve failed, errno = " << errno);
-//	printf("Ошибка running '%s', Ошибка code %d\n", command, errno);
+//	printf("Error running '%s', error code %d\n", command, errno);
 	exit(-errno);
 	return true;
 #endif
 }
 
 #ifdef PLATFORM_POSIX
-bool ЛокальнПроцесс::DecodeExitCode(int status)
+bool LocalProcess::DecodeExitCode(int status)
 {
 	if(WIFEXITED(status)) {
 		exit_code = (byte)WEXITSTATUS(status);
@@ -357,7 +357,7 @@ bool ЛокальнПроцесс::DecodeExitCode(int status)
 	}
 	else if(WIFSIGNALED(status) || WIFSTOPPED(status)) {
 		static const struct {
-			const char *имя;
+			const char *name;
 			int         code;
 		}
 		signal_map[] = {
@@ -380,7 +380,7 @@ SIGDEF(SIGIO) SIGDEF(SIGWINCH)
 		for(int i = 0; i < __countof(signal_map); i++)
 			if(signal_map[i].code == sig)
 			{
-				exit_string << " (" << signal_map[i].имя << ")";
+				exit_string << " (" << signal_map[i].name << ")";
 				break;
 			}
 		exit_string << "\n";
@@ -390,38 +390,38 @@ SIGDEF(SIGIO) SIGDEF(SIGWINCH)
 }
 #endif//PLATFORM_POSIX
 
-void ЛокальнПроцесс::глуши() {
+void LocalProcess::Kill() {
 #ifdef PLATFORM_WIN32
-	if(hProcess && пущен()) {
+	if(hProcess && IsRunning()) {
 		TerminateProcess(hProcess, (DWORD)-1);
 		exit_code = 255;
 	}
 #endif
 #ifdef PLATFORM_POSIX
-	if(пущен()) {
-		LLOG("\nLocalProcess::глуши, pid = " << (int)pid);
+	if(IsRunning()) {
+		LLOG("\nLocalProcess::Kill, pid = " << (int)pid);
 		exit_code = 255;
 		kill(pid, SIGTERM);
-		дайКодВыхода();
+		GetExitCode();
 		int status;
 		if(pid && waitpid(pid, &status, 0) == pid)
 			DecodeExitCode(status);
-		exit_string = "Child process has been killed.\n";
+		exit_string = "Процесс-отпрыск прерван.\n";
 	}
 #endif
-	освободи();
+	Free();
 }
 
-void ЛокальнПроцесс::открепи()
+void LocalProcess::Detach()
 {
 #ifdef PLATFORM_POSIX
 	if (doublefork)
 		waitpid(pid, 0, WUNTRACED);
 #endif
-	освободи();
+	Free();
 }
 
-bool ЛокальнПроцесс::пущен() {
+bool LocalProcess::IsRunning() {
 #ifdef PLATFORM_WIN32
 	dword exitcode;
 	if(!hProcess)
@@ -435,84 +435,84 @@ bool ЛокальнПроцесс::пущен() {
 	return false;
 #endif
 #ifdef PLATFORM_POSIX
-	if(!pid || !пусто_ли(exit_code)) {
-		LLOG("пущен() -> no");
+	if(!pid || !IsNull(exit_code)) {
+		LLOG("IsRunning() -> no");
 		return false;
 	}
 	int status = 0, wp;
 	if(!( (wp = waitpid(pid, &status, WNOHANG | WUNTRACED)) == pid &&
 	      DecodeExitCode(status) ))
 		return true;
-	LLOG("пущен() -> no, just exited, exit code = " << exit_code);
+	LLOG("IsRunning() -> no, just exited, exit code = " << exit_code);
 	return false;
 #endif
 }
 
-int  ЛокальнПроцесс::дайКодВыхода() {
+int  LocalProcess::GetExitCode() {
 #ifdef PLATFORM_WIN32
-	return пущен() ? (int)Null : exit_code;
+	return IsRunning() ? (int)Null : exit_code;
 #endif
 #ifdef PLATFORM_POSIX
-	if(!пущен())
+	if(!IsRunning())
 		return Nvl(exit_code, -1);
 	int status;
 	if(!( waitpid(pid, &status, WNOHANG | WUNTRACED) == pid && 
 	      DecodeExitCode(status) ))
 		return -1;
-	LLOG("дайКодВыхода() -> " << exit_code << " (just exited)");
+	LLOG("GetExitCode() -> " << exit_code << " (just exited)");
 	return exit_code;
 #endif
 }
 
-Ткст ЛокальнПроцесс::дайСообВыхода() {
+String LocalProcess::GetExitMessage() {
 #ifdef PLATFORM_POSIX
-	if (!пущен() && дайКодВыхода() == -1)
+	if (!IsRunning() && GetExitCode() == -1)
 		return exit_string;
 	else
 #endif
-		return Ткст();
+		return String();
 }
 
-bool ЛокальнПроцесс::читай(Ткст& res) {
-	Ткст dummy;
-	return читай2(res, dummy);
+bool LocalProcess::Read(String& res) {
+	String dummy;
+	return Read2(res, dummy);
 }
 
-bool ЛокальнПроцесс::читай2(Ткст& reso, Ткст& rese)
+bool LocalProcess::Read2(String& reso, String& rese)
 {
-	LLOG("ЛокальнПроцесс::читай2");
+	LLOG("LocalProcess::Read2");
 	reso = wreso;
 	rese = wrese;
-	wreso.очисть();
-	wrese.очисть();
+	wreso.Clear();
+	wrese.Clear();
 
 #ifdef PLATFORM_WIN32
-	LLOG("ЛокальнПроцесс::читай");
-	bool was_running = пущен();
-	char буфер[1024];
+	LLOG("LocalProcess::Read");
+	bool was_running = IsRunning();
+	char buffer[1024];
 	dword n;
 	if(hOutputRead && PeekNamedPipe(hOutputRead, NULL, 0, NULL, &n, NULL) && n &&
-	   ReadFile(hOutputRead, буфер, sizeof(буфер), &n, NULL) && n)
-		reso.конкат(буфер, n);
+	   ReadFile(hOutputRead, buffer, sizeof(buffer), &n, NULL) && n)
+		reso.Cat(buffer, n);
 
 	if(hErrorRead && PeekNamedPipe(hErrorRead, NULL, 0, NULL, &n, NULL) && n &&
-	   ReadFile(hErrorRead, буфер, sizeof(буфер), &n, NULL) && n)
-		rese.конкат(буфер, n);
+	   ReadFile(hErrorRead, buffer, sizeof(buffer), &n, NULL) && n)
+		rese.Cat(buffer, n);
 
 	if(convertcharset) {
-		reso = изНабсимаОЕМ(reso);
-		rese = изНабсимаОЕМ(rese);
+		reso = FromOEMCharset(reso);
+		rese = FromOEMCharset(rese);
 	}
-	
-	return reso.дайСчёт() || rese.дайСчёт() || was_running;
+
+	return reso.GetCount() || rese.GetCount() || was_running;
 #endif
 #ifdef PLATFORM_POSIX
-	Ткст res[2];
-	bool was_running = пущен() || wpipe[0] >= 0 || epipe[0] >= 0;
+	String res[2];
+	bool was_running = IsRunning() || wpipe[0] >= 0 || epipe[0] >= 0;
 	for (int wp=0; wp<2;wp++) {
 		int *pipe = wp ? epipe : wpipe;
 		if (pipe[0] < 0) {
-			LLOG("пайп["<<wp<<"] closed");
+			LLOG("Pipe["<<wp<<"] closed");
 			continue;
 		}
 		fd_set set[1];
@@ -521,47 +521,47 @@ bool ЛокальнПроцесс::читай2(Ткст& reso, Ткст& rese)
 		timeval tval = { 0, 0 };
 		int sv;
 		if((sv = select(pipe[0]+1, set, NULL, NULL, &tval)) > 0) {
-			LLOG("читай() -> select");
-			char буфер[1024];
-			int done = read(pipe[0], буфер, sizeof(буфер));
-			LLOG("читай(), read -> " << done);
+			LLOG("Read() -> select");
+			char buffer[1024];
+			int done = read(pipe[0], buffer, sizeof(buffer));
+			LLOG("Read(), read -> " << done);
 			if(done > 0)
-				res[wp].конкат(буфер, done);
+				res[wp].Cat(buffer, done);
 			else if (done == 0) {
 				close(pipe[0]);
 				pipe[0] = -1;
 			}
 		}
-		LLOG("пайп["<<wp<<"]=="<<pipe[0]<<" sv:"<<sv);
+		LLOG("Pipe["<<wp<<"]=="<<pipe[0]<<" sv:"<<sv);
 		if(sv < 0) {
 			LLOG("select -> " << sv);
 		}
 	}
 	if(convertcharset) {
-		reso << изСисНабсима(res[0]);
-		rese << изСисНабсима(res[1]);
+		reso << FromSystemCharset(res[0]);
+		rese << FromSystemCharset(res[1]);
 	} else {
 		reso << res[0];
 		rese << res[1];
 	}
-	return !пусто_ли(res[0]) || !пусто_ли(res[1]) || was_running;
+	return !IsNull(res[0]) || !IsNull(res[1]) || was_running;
 #endif
 }
 
-void ЛокальнПроцесс::пиши(Ткст s)
+void LocalProcess::Write(String s)
 {
 	if(convertcharset)
-		s = вСисНабсим(s);
+		s = ToSystemCharset(s);
 #ifdef PLATFORM_WIN32
 	if (hInputWrite) {
 		bool ret = true;
 		dword n;
-		for(int wn = 0; ret && wn < s.дайДлину(); wn += n) {
-			ret = WriteFile(hInputWrite, ~s + wn, s.дайДлину(), &n, NULL);
-			Ткст ho = wreso;
-			Ткст he = wrese;
+		for(int wn = 0; ret && wn < s.GetLength(); wn += n) {
+			ret = WriteFile(hInputWrite, ~s + wn, s.GetLength(), &n, NULL);
+			String ho = wreso;
+			String he = wrese;
 			wreso = wrese = Null;
-			читай2(wreso, wrese);
+			Read2(wreso, wrese);
 			wreso = ho + wreso;
 			wrese = he + wrese;
 		}
@@ -570,20 +570,20 @@ void ЛокальнПроцесс::пиши(Ткст s)
 #ifdef PLATFORM_POSIX
 	if (rpipe[1] >= 0) {
 		int ret=1;
-		for(int wn = 0; (ret > 0 || errno == EINTR) && wn < s.дайДлину(); wn += ret) {
-			Ткст ho = wreso;
-			Ткст he = wrese;
+		for(int wn = 0; (ret > 0 || errno == EINTR) && wn < s.GetLength(); wn += ret) {
+			String ho = wreso;
+			String he = wrese;
 			wreso = wrese = Null;
-			читай2(wreso, wrese);
+			Read2(wreso, wrese);
 			wreso = ho + wreso;
 			wrese = he + wrese;
-			ret = write(rpipe[1], ~s + wn, s.дайДлину() - wn);
+			ret = write(rpipe[1], ~s + wn, s.GetLength() - wn);
 		}
 	}
 #endif
 }
 
-void ЛокальнПроцесс::закройЧтен()
+void LocalProcess::CloseRead()
 {
 #ifdef PLATFORM_WIN32
 	if(hOutputRead) {
@@ -599,7 +599,7 @@ void ЛокальнПроцесс::закройЧтен()
 #endif
 }
 
-void ЛокальнПроцесс::закройЗап()
+void LocalProcess::CloseWrite()
 {
 #ifdef PLATFORM_WIN32
 	if(hInputWrite) {
@@ -615,54 +615,54 @@ void ЛокальнПроцесс::закройЗап()
 #endif
 }
 
-int ЛокальнПроцесс::финиш(Ткст& out)
+int LocalProcess::Finish(String& out)
 {
-	out.очисть();
-	while(пущен()) {
-		Ткст h = дай();
-		if(пусто_ли(h))
-			Sleep(1); // p.жди would be much better here!
+	out.Clear();
+	while(IsRunning()) {
+		String h = Get();
+		if(IsNull(h))
+			Sleep(1); // p.Wait would be much better here!
 		else
-			out.конкат(h);
+			out.Cat(h);
 	}
-	LLOG("финиш: About to read the rest of output");
+	LLOG("Finish: About to read the rest of output");
 	for(;;) {
-		Ткст h = дай();
-		if(h.проц_ли())
+		String h = Get();
+		if(h.IsVoid())
 			break;
-		out.конкат(h);
+		out.Cat(h);
 	}
-	return дайКодВыхода();
+	return GetExitCode();
 }
 
-int Sys(const char *cmd, Ткст& out, bool convertcharset)
+int Sys(const char *cmd, String& out, bool convertcharset)
 {
-	ЛокальнПроцесс p;
-	p.преобразуйНабСим(convertcharset);
-	if(!p.старт(cmd))
+	LocalProcess p;
+	p.ConvertCharset(convertcharset);
+	if(!p.Start(cmd))
 		return -1;
-	return p.финиш(out);
+	return p.Finish(out);
 }
 
-Ткст Sys(const char *cmd, bool convertcharset)
+String Sys(const char *cmd, bool convertcharset)
 {
-	Ткст r;
-	return Sys(cmd, r, convertcharset) ? Ткст::дайПроц() : r;
+	String r;
+	return Sys(cmd, r, convertcharset) ? String::GetVoid() : r;
 }
 
-int Sys(const char *cmd, const Вектор<Ткст>& арг, Ткст& out, bool convertcharset)
+int Sys(const char *cmd, const Vector<String>& arg, String& out, bool convertcharset)
 {
-	ЛокальнПроцесс p;
-	p.преобразуйНабСим(convertcharset);
-	if(!p.старт(cmd, арг))
+	LocalProcess p;
+	p.ConvertCharset(convertcharset);
+	if(!p.Start(cmd, arg))
 		return -1;
-	return p.финиш(out);
+	return p.Finish(out);
 }
 
-Ткст Sys(const char *cmd, const Вектор<Ткст>& арг, bool convertcharset)
+String Sys(const char *cmd, const Vector<String>& arg, bool convertcharset)
 {
-	Ткст r;
-	return Sys(cmd, арг, r, convertcharset) ? Ткст::дайПроц() : r;
+	String r;
+	return Sys(cmd, arg, r, convertcharset) ? String::GetVoid() : r;
 }
 
 }

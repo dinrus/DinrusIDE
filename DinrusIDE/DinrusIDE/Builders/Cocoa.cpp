@@ -7,31 +7,31 @@
 
 void GccBuilder::CocoaAppBundle()
 {
-	if(!естьФлаг("OSX") || !естьФлаг("GUI"))
+	if(!HasFlag("OSX") || !HasFlag("GUI"))
 		return;
 
-	Ткст icns = дайПапкуФайла(дайПапкуФайла(target)) + "/Resources/icons.icns";
+	String icns = GetFileFolder(GetFileFolder(target)) + "/Resources/icons.icns";
 	RealizePath(icns);
-	Время icns_tm = Nvl(дайФВремя(icns), Время::наименьш());
+	Time icns_tm = Nvl(GetFileTime(icns), Time::Low());
 	bool convert_icons = false;
 
-	SortedVectorMap<int, Рисунок> imgs;
-	for(ФайлПоиск ff(PackageDirectory(mainpackage) + "/icon*.png"); ff; ff.следщ()) {
-		Рисунок m = StreamRaster::LoadFileAny(ff.дайПуть());
-		Размер sz = m.дайРазм();
+	SortedVectorMap<int, Image> imgs;
+	for(FindFile ff(PackageDirectory(mainpackage) + "/icon*.png"); ff; ff.Next()) {
+		Image m = StreamRaster::LoadFileAny(ff.GetPath());
+		Size sz = m.GetSize();
 		if(sz.cx == sz.cy) {
-			imgs.добавь(sz.cx, m);
-			PutVerbose("Found icon " << ff.дайИмя());
-			if((Время)ff.дайВремяПоследнЗаписи() >= icns_tm)
+			imgs.Add(sz.cx, m);
+			PutVerbose("Найдена иконка " << ff.GetName());
+			if((Time)ff.GetLastWriteTime() >= icns_tm)
 				convert_icons = true;
 		}
 	}
-	if(imgs.дайСчёт() && convert_icons) {
-		Ткст icons = приставьИмяф(outdir, "icons.iconset");
-		реализуйДир(icons);
-		вКонсоль("Exporting bundle icons to " + icons);
+	if(imgs.GetCount() && convert_icons) {
+		String icons = AppendFileName(outdir, "icons.iconset");
+		RealizeDirectory(icons);
+		PutConsole("Набор иконок экспортируется в " + icons);
 		
-		for(Ткст фн : {
+		for(String fn : {
 			"icon_16x16.png",
 			"icon_16x16@2x.png",
 			"icon_32x32.png",
@@ -43,35 +43,35 @@ void GccBuilder::CocoaAppBundle()
 			"icon_512x512.png",
 			"icon_512x512@2x.png",
 		}) {
-			int n = atoi(~фн + strlen("icon_"));
-			if(фн.найди("@2x") >= 0)
+			int n = atoi(~fn + strlen("icon_"));
+			if(fn.Find("@2x") >= 0)
 				n *= 2;
-			int q = imgs.найдиНижнГран(n);
-			Рисунок img = q >= 0 && q < imgs.дайСчёт() ? imgs[q] : imgs[imgs.дайСчёт() - 1];
-			PutVerbose(Ткст() << "Exporting " << фн << " from "
-			                    << img.дайРазм().cx << "x" << img.дайРазм().cx);
-			PNGEncoder().сохраниФайл(приставьИмяф(icons, фн), Rescale(img, n, n));
+			int q = imgs.FindLowerBound(n);
+			Image img = q >= 0 && q < imgs.GetCount() ? imgs[q] : imgs[imgs.GetCount() - 1];
+			PutVerbose(String() << "Экспортируется " << fn << " из "
+			                    << img.GetSize().cx << "x" << img.GetSize().cx);
+			PNGEncoder().SaveFile(AppendFileName(icons, fn), Rescale(img, n, n));
 		}
 
-		выполни(Ткст() << "iconutil --convert icns --output " << icns << " " << icons);
+		Execute(String() << "iconutil --convert icns --output " << icns << " " << icons);
 	}
 
-	if(пусто_ли(Info_plist)) {
+	if(IsNull(Info_plist)) {
 		Info_plist
 			<< "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
 			<< "<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">\n"
 			<< "<plist version=\"1.0\">\n"
 			<< "<dict>\n"
-			<< "    <ключ>CFBundleExecutable</ключ>\n"
-			<< "    <string>" << дайИмяф(target) << "</string>\n"
-			<< "    <ключ>NSHighResolutionCapable</ключ>\n"
+			<< "    <key>CFBundleExecutable</key>\n"
+			<< "    <string>" << GetFileName(target) << "</string>\n"
+			<< "    <key>NSHighResolutionCapable</key>\n"
 		    << "    <string>True</string>\n"
-		    << "	<ключ>LSMinimumSystemVersion</ключ>\n"
+		    << "	<key>LSMinimumSystemVersion</key>\n"
 			<< "    <string>10.13.0</string>\n"
 		;
-		if(imgs.дайСчёт())
+		if(imgs.GetCount())
 			Info_plist
-				<< "    <ключ>CFBundleIconFile</ключ>\n"
+				<< "    <key>CFBundleIconFile</key>\n"
 				<< "	<string>icons.icns</string>\n"
 			;
 		Info_plist
@@ -79,12 +79,12 @@ void GccBuilder::CocoaAppBundle()
 			<< "</plist>\n"
 		;
 	}
-	Ткст Info_plist_path = дайПапкуФайла(дайПапкуФайла(target)) + "/Info.plist";
-	if(загрузиФайл(Info_plist_path) != Info_plist) {
-		if(файлЕсть(Info_plist_path))
-			выполни("defaults delete " + Info_plist_path); // Force MacOS to reload plist
-		сохраниФайл(Info_plist_path, Info_plist);
-		вКонсоль("Saving " << Info_plist_path);
+	String Info_plist_path = GetFileFolder(GetFileFolder(target)) + "/Info.plist";
+	if(LoadFile(Info_plist_path) != Info_plist) {
+		if(FileExists(Info_plist_path))
+			Execute("defaults delete " + Info_plist_path); // Force MacOS to reload plist
+		SaveFile(Info_plist_path, Info_plist);
+		PutConsole("Сохраняется " << Info_plist_path);
 	}
 }
 

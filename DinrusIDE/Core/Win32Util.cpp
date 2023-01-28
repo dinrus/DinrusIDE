@@ -1,19 +1,19 @@
 #include "Core.h"
 
-namespace РНЦПДинрус {
+namespace Upp {
 
 #ifdef PLATFORM_WIN32
 
 static HINSTANCE app_instance;
 
-HINSTANCE прилДайУк()
+HINSTANCE AppGetHandle()
 {
 	if(!app_instance)
 		app_instance = GetModuleHandle(NULL);
 	return app_instance;
 }
 
-void прилУстУк(HINSTANCE dll_instance) { app_instance = dll_instance; }
+void AppSetHandle(HINSTANCE dll_instance) { app_instance = dll_instance; }
 
 #ifndef PLATFORM_WINCE
 bool IsWin2K()
@@ -49,168 +49,168 @@ bool IsWin7()
 }
 #endif
 
-Ткст какТкст(const wchar_t *буфер) {
-	if(!буфер)
+String AsString(const wchar_t *buffer) {
+	if(!buffer)
 		return Null;
-	return какТкст(буфер, (int)wcslen(буфер));
+	return AsString(buffer, (int)wcslen(buffer));
 }
 
-Ткст какТкст(const wchar_t *буфер, int count) { // Преобр with code page...
-	if(!буфер)
+String AsString(const wchar_t *buffer, int count) { // Convert with code page...
+	if(!buffer)
 		return Null;
-	ТкстБуф temp(count);
+	StringBuffer temp(count);
 	for(char *p = temp, *e = p + count; p < e;)
-		*p++ = (char)*буфер++;
-	return Ткст(temp);
+		*p++ = (char)*buffer++;
+	return String(temp);
 }
 
-Ткст какТкст(const wchar_t *буфер, const wchar_t *end) {
-	if(!буфер)
+String AsString(const wchar_t *buffer, const wchar_t *end) {
+	if(!buffer)
 		return Null;
-	return какТкст(буфер, (int)(end - буфер));
+	return AsString(buffer, (int)(end - buffer));
 }
 
-Ткст дайТкстВинРега(const char *значение, const char *path, HKEY base_key, dword wow) {
-	HKEY ключ = 0;
-	if(RegOpenKeyEx(base_key, path, 0, KEY_READ|wow, &ключ) != ERROR_SUCCESS)
-		return Ткст::дайПроц();
-	dword тип, len;
-	if(RegQueryValueEx(ключ, значение, 0, &тип, NULL, &len) != ERROR_SUCCESS)
+String GetWinRegString(const char *value, const char *path, HKEY base_key, dword wow) {
+	HKEY key = 0;
+	if(RegOpenKeyEx(base_key, path, 0, KEY_READ|wow, &key) != ERROR_SUCCESS)
+		return String::GetVoid();
+	dword type, len;
+	if(RegQueryValueEx(key, value, 0, &type, NULL, &len) != ERROR_SUCCESS)
 	{
-		RegCloseKey(ключ);
-		return Ткст::дайПроц();
+		RegCloseKey(key);
+		return String::GetVoid();
 	}
-	ТкстБуф raw_len(len);
-	if(RegQueryValueEx(ключ, значение, 0, 0, (byte *)~raw_len, &len) != ERROR_SUCCESS)
+	StringBuffer raw_len(len);
+	if(RegQueryValueEx(key, value, 0, 0, (byte *)~raw_len, &len) != ERROR_SUCCESS)
 	{
-		RegCloseKey(ключ);
-		return Ткст::дайПроц();
+		RegCloseKey(key);
+		return String::GetVoid();
 	}
-	if(len > 0 && (тип == REG_SZ || тип == REG_EXPAND_SZ))
+	if(len > 0 && (type == REG_SZ || type == REG_EXPAND_SZ))
 		len--;
-	raw_len.устДлину(len);
-	RegCloseKey(ключ);
-	return Ткст(raw_len);
+	raw_len.SetLength(len);
+	RegCloseKey(key);
+	return String(raw_len);
 }
 
-int дайЦелВинРега(const char *значение, const char *path, HKEY base_key, dword wow) {
-	HKEY ключ = 0;
-	if(RegOpenKeyEx(base_key, path, 0, KEY_READ|wow, &ключ) != ERROR_SUCCESS)
+int GetWinRegInt(const char *value, const char *path, HKEY base_key, dword wow) {
+	HKEY key = 0;
+	if(RegOpenKeyEx(base_key, path, 0, KEY_READ|wow, &key) != ERROR_SUCCESS)
 		return Null;
-	int данные;
-	dword тип, length = sizeof(данные);
-	if(RegQueryValueEx(ключ, значение, 0, &тип, (byte *)&данные, &length) != ERROR_SUCCESS)
-		данные = Null;
-	RegCloseKey(ключ);
-	return данные;
+	int data;
+	dword type, length = sizeof(data);
+	if(RegQueryValueEx(key, value, 0, &type, (byte *)&data, &length) != ERROR_SUCCESS)
+		data = Null;
+	RegCloseKey(key);
+	return data;
 }
 
-bool устТкстВинРега(const Ткст& string, const char *значение, const char *path, HKEY base_key, dword wow) {
-	HKEY ключ = 0;
+bool SetWinRegString(const String& string, const char *value, const char *path, HKEY base_key, dword wow) {
+	HKEY key = 0;
 	if(RegCreateKeyEx(base_key, path, 0, NULL, REG_OPTION_NON_VOLATILE,
-		KEY_ALL_ACCESS|wow, NULL, &ключ, NULL) != ERROR_SUCCESS)
+		KEY_ALL_ACCESS|wow, NULL, &key, NULL) != ERROR_SUCCESS)
 		return false;
-	bool ok = (RegSetValueEx(ключ, значение, 0,	REG_SZ, string, string.дайДлину() + 1) == ERROR_SUCCESS);
-	RegCloseKey(ключ);
+	bool ok = (RegSetValueEx(key, value, 0,	REG_SZ, string, string.GetLength() + 1) == ERROR_SUCCESS);
+	RegCloseKey(key);
 	return ok;
 }
 
-bool SetWinRegExpandString(const Ткст& string, const char *значение, const char *path, HKEY base_key, dword wow) {
-	HKEY ключ = 0;
+bool SetWinRegExpandString(const String& string, const char *value, const char *path, HKEY base_key, dword wow) {
+	HKEY key = 0;
 	if(RegCreateKeyEx(base_key, path, 0, NULL, REG_OPTION_NON_VOLATILE,
-		KEY_ALL_ACCESS|wow, NULL, &ключ, NULL) != ERROR_SUCCESS)
+		KEY_ALL_ACCESS|wow, NULL, &key, NULL) != ERROR_SUCCESS)
 		return false;
-	bool ok = (RegSetValueEx(ключ, значение, 0,	REG_EXPAND_SZ, string, string.дайДлину() + 1) == ERROR_SUCCESS);
-	RegCloseKey(ключ);
+	bool ok = (RegSetValueEx(key, value, 0,	REG_EXPAND_SZ, string, string.GetLength() + 1) == ERROR_SUCCESS);
+	RegCloseKey(key);
 	return ok;
 }
 
-bool устЦелВинРега(int данные, const char *значение, const char *path, HKEY base_key, dword wow)
+bool SetWinRegInt(int data, const char *value, const char *path, HKEY base_key, dword wow)
 {
-	HKEY ключ = 0;
-	if(RegCreateKeyEx(base_key, path, 0, NULL, REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS|wow, NULL, &ключ, NULL) != ERROR_SUCCESS)
+	HKEY key = 0;
+	if(RegCreateKeyEx(base_key, path, 0, NULL, REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS|wow, NULL, &key, NULL) != ERROR_SUCCESS)
 		return false;
-	bool ok = (RegSetValueEx(ключ, значение, 0, REG_DWORD, (const byte *)&данные, sizeof(данные)) == ERROR_SUCCESS);
-	RegCloseKey(ключ);
+	bool ok = (RegSetValueEx(key, value, 0, REG_DWORD, (const byte *)&data, sizeof(data)) == ERROR_SUCCESS);
+	RegCloseKey(key);
 	return ok;
 }
 
-void удалиВинРег(const Ткст& ключ, HKEY base, dword wow) {
+void DeleteWinReg(const String& key, HKEY base, dword wow) {
 	HKEY hkey;
-	if(RegOpenKeyEx(base, ключ, 0, KEY_READ|wow, &hkey) != ERROR_SUCCESS)
+	if(RegOpenKeyEx(base, key, 0, KEY_READ|wow, &hkey) != ERROR_SUCCESS)
 		return;
-	Вектор<Ткст> subkeys;
+	Vector<String> subkeys;
 	char temp[_MAX_PATH];
 	dword len;
 	for(dword dw = 0; len = sizeof(temp), RegEnumKeyEx(hkey, dw, temp, &len, 0, 0, 0, 0) == ERROR_SUCCESS; dw++)
-		subkeys.добавь(temp);
+		subkeys.Add(temp);
 	RegCloseKey(hkey);
-	while(!subkeys.пустой())
-		удалиВинРег(ключ + '\\' + subkeys.вынь(), base);
+	while(!subkeys.IsEmpty())
+		DeleteWinReg(key + '\\' + subkeys.Pop(), base);
 
 	static LONG (WINAPI *RegDeleteKeyEx)(HKEY, LPCTSTR, REGSAM, DWORD);
-	фнДлл(RegDeleteKeyEx, "Advapi32.dll", "RegDeleteKeyExA");
+	DllFn(RegDeleteKeyEx, "Advapi32.dll", "RegDeleteKeyExA");
 
 	if(wow && RegDeleteKeyEx)
-		RegDeleteKeyEx(base, ключ, wow, 0);
+		RegDeleteKeyEx(base, key, wow, 0);
 	else
-		RegDeleteKey(base, ключ);
+		RegDeleteKey(base, key);
 }
 
-Ткст GetSystemDirectory() {
+String GetSystemDirectory() {
 	WCHAR temp[MAX_PATH];
 	*temp = 0;
 	::GetSystemDirectoryW(temp, sizeof(temp));
-	return изСисНабсимаШ(temp);
+	return FromSystemCharsetW(temp);
 }
 
-Ткст GetWindowsDirectory() {
+String GetWindowsDirectory() {
 	WCHAR temp[MAX_PATH];
 	*temp = 0;
 	GetWindowsDirectoryW(temp, sizeof(temp));
-	return изСисНабсимаШ(temp);
+	return FromSystemCharsetW(temp);
 }
 
-void *дайФнДлл(const char *dll, const char *фн)
+void *GetDllFn(const char *dll, const char *fn)
 {
 	if(HMODULE hDLL = LoadLibrary(dll))
-		return (void *)GetProcAddress(hDLL, фн);
+		return (void *)GetProcAddress(hDLL, fn);
 	return NULL;
 }
 
-Ткст GetModuleFileName(HINSTANCE instance) {
+String GetModuleFileName(HINSTANCE instance) {
 	WCHAR h[_MAX_PATH];
 	GetModuleFileNameW(instance, h, _MAX_PATH);
-	return изСисНабсимаШ(h);
+	return FromSystemCharsetW(h);
 }
 
 #ifdef DEPRECATED
-bool СинхОбъект::жди(int ms)
+bool SyncObject::Wait(int ms)
 {
 	return WaitForSingleObject(handle, ms);
 }
 
-bool СинхОбъект::жди()
+bool SyncObject::Wait()
 {
-	return жди(INFINITE);
+	return Wait(INFINITE);
 }
 
-СинхОбъект::СинхОбъект()
+SyncObject::SyncObject()
 {
 	handle = NULL;
 }
 
-СинхОбъект::~СинхОбъект()
+SyncObject::~SyncObject()
 {
 	if(handle) CloseHandle(handle);
 }
 
-СобытиеВин32::СобытиеВин32()
+Win32Event::Win32Event()
 {
 	handle = CreateEvent(NULL, FALSE, FALSE, NULL);
 }
 
-void СобытиеВин32::уст()
+void Win32Event::Set()
 {
 	SetEvent(handle);
 }

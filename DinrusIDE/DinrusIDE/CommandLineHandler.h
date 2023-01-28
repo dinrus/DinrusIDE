@@ -3,26 +3,26 @@
 
 #include <Core/Core.h>
 
-// TODO: All TheIDE command line arguments should be consume in this file.
+// СДЕЛАТЬ: All TheIDE command line arguments should be consume in this file.
 
-namespace РНЦП {
+namespace Upp {
 
 class ACommandLineHandler {
 public:
-	ACommandLineHandler(const Вектор<Ткст>& args);
+	ACommandLineHandler(const Vector<String>& args);
 	
-	Вектор<Ткст> GetArgs() { return clone(args); }
+	Vector<String> GetArgs() { return clone(args); }
 	
 public:
 	virtual bool Handle() = 0;
 	
 protected:
-	Вектор<Ткст> args;
+	Vector<String> args;
 };
 
 class BaseCommandLineHandler final : public ACommandLineHandler {
 public:
-	BaseCommandLineHandler(const Вектор<Ткст>& args);
+	BaseCommandLineHandler(const Vector<String>& args);
 	
 public:
 	bool Handle() override;
@@ -36,7 +36,7 @@ private:
 
 class MainCommandLineHandler final : public ACommandLineHandler {
 public:
-	MainCommandLineHandler(const Вектор<Ткст>& args);
+	MainCommandLineHandler(const Vector<String>& args);
 	
 public:
 	bool Handle() override;

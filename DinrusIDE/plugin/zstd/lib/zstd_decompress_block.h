@@ -35,9 +35,9 @@
 
 /* ZSTD_decompressBlock_internal() :
  * decompress block, starting at `src`,
- * into destination буфер `dst`.
+ * into destination buffer `dst`.
  * @return : decompressed block size,
- *           or an Ошибка code (which can be tested using ZSTD_isError())
+ *           or an error code (which can be tested using ZSTD_isError())
  */
 size_t ZSTD_decompressBlock_internal(ZSTD_DCtx* dctx,
                                void* dst, size_t dstCapacity,

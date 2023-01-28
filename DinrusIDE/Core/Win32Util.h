@@ -16,56 +16,56 @@ bool IsWinVista();
 bool IsWin7();
 #endif
 
-HINSTANCE прилДайУк();
-void      прилУстУк(HINSTANCE dll_instance);
+HINSTANCE AppGetHandle();
+void      AppSetHandle(HINSTANCE dll_instance);
 
-Ткст какТкст(const wchar_t *буфер);
-Ткст какТкст(const wchar_t *буфер, int count);
-Ткст какТкст(const wchar_t *буфер, const wchar_t *end);
+String AsString(const wchar_t *buffer);
+String AsString(const wchar_t *buffer, int count);
+String AsString(const wchar_t *buffer, const wchar_t *end);
 
-Ткст дайТкстВинРега(const char *значение, const char *path, HKEY base_key = HKEY_LOCAL_MACHINE, dword wow = 0);
-int    дайЦелВинРега(const char *значение, const char *path, HKEY base_key = HKEY_LOCAL_MACHINE, dword wow = 0);
-bool   устТкстВинРега(const Ткст& string, const char *значение, const char *path, HKEY base_key = HKEY_LOCAL_MACHINE, dword wow = 0);
-bool   SetWinRegExpandString(const Ткст& string, const char *значение, const char *path, HKEY base_key, dword wow = 0);
-bool   устЦелВинРега(int данные, const char *значение, const char *path, HKEY base_key = HKEY_LOCAL_MACHINE, dword wow = 0);
-void   удалиВинРег(const Ткст& ключ, HKEY base = HKEY_LOCAL_MACHINE, dword wow = 0);
+String GetWinRegString(const char *value, const char *path, HKEY base_key = HKEY_LOCAL_MACHINE, dword wow = 0);
+int    GetWinRegInt(const char *value, const char *path, HKEY base_key = HKEY_LOCAL_MACHINE, dword wow = 0);
+bool   SetWinRegString(const String& string, const char *value, const char *path, HKEY base_key = HKEY_LOCAL_MACHINE, dword wow = 0);
+bool   SetWinRegExpandString(const String& string, const char *value, const char *path, HKEY base_key, dword wow = 0);
+bool   SetWinRegInt(int data, const char *value, const char *path, HKEY base_key = HKEY_LOCAL_MACHINE, dword wow = 0);
+void   DeleteWinReg(const String& key, HKEY base = HKEY_LOCAL_MACHINE, dword wow = 0);
 
-void  *дайФнДлл(const char *dll, const char *фн);
+void  *GetDllFn(const char *dll, const char *fn);
 
 template <class T>
-void   фнДлл(T& x, const char *dll, const char *фн)
+void   DllFn(T& x, const char *dll, const char *fn)
 {
-	x = (T)дайФнДлл(dll, фн);
+	x = (T)GetDllFn(dll, fn);
 }
 
 bool Win32CreateProcess(const char *command, const char *envptr, STARTUPINFOW& si, PROCESS_INFORMATION& pi, const char *cd);
 
 #ifndef PLATFORM_WINCE
-Ткст GetSystemDirectory();
-Ткст GetWindowsDirectory();
+String GetSystemDirectory();
+String GetWindowsDirectory();
 #endif
-Ткст GetModuleFileName(HINSTANCE instance = прилДайУк());
+String GetModuleFileName(HINSTANCE instance = AppGetHandle());
 
 #ifdef DEPRECATED
-class СинхОбъект {
+class SyncObject {
 protected:
 	HANDLE     handle;
 
 public:
-	bool       жди(int time_ms);
-	bool       жди();
+	bool       Wait(int time_ms);
+	bool       Wait();
 
-	HANDLE     дайУк() const { return handle; }
+	HANDLE     GetHandle() const { return handle; }
 
-	СинхОбъект();
-	~СинхОбъект();
+	SyncObject();
+	~SyncObject();
 };
 
-class СобытиеВин32 : public СинхОбъект {
+class Win32Event : public SyncObject {
 public:
-	void       уст();
+	void       Set();
 
-	СобытиеВин32();
+	Win32Event();
 };
 #endif
 

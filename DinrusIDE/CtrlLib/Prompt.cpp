@@ -1,46 +1,46 @@
 #include "CtrlLib.h"
 
-namespace РНЦП {
+namespace Upp {
 
-struct PromptDlgWnd__ : ТопОкно {
+struct PromptDlgWnd__ : TopWindow {
 	bool    esc;
-	Кнопка *b;
+	Button *b;
 
-	virtual bool горячаяКлав(dword ключ) {
-		if(ТопОкно::горячаяКлав(ключ))
+	virtual bool HotKey(dword key) {
+		if(TopWindow::HotKey(key))
 			return true;
-		if(IsAlpha(ключ))
-			return ТопОкно::горячаяКлав(K_ALT_A + взаг((int)ключ) - 'A');
-		if(ключ == K_ESCAPE && esc)
+		if(IsAlpha(key))
+			return TopWindow::HotKey(K_ALT_A + ToUpper((int)key) - 'A');
+		if(key == K_ESCAPE && esc)
 			b->PseudoPush();
 		return false;
 	}
 };
 
-static void sAdd(Ктрл& dlg, int fcy, int bcy, int& bx, int bcx, int gap, Кнопка& b, const char *button, const Рисунок& img)
+static void sAdd(Ctrl& dlg, int fcy, int bcy, int& bx, int bcx, int gap, Button& b, const char *button, const Image& img)
 {
 	if(button) {
 		dlg << b.BottomPos(fcy, bcy).LeftPos(bx, bcx);
-		b.устНадпись(button);
-		if(!пусто_ли(img))
-			b.устРисунок(img);
+		b.SetLabel(button);
+		if(!IsNull(img))
+			b.SetImage(img);
 		bx += gap + bcx;
 	}
 }
 
 void sExecutePrompt(PromptDlgWnd__ *dlg, int *result)
 {
-	dlg->открой();
-	Вектор<Ктрл *> wins = Ктрл::дайТопОкна();
-	for(int i = 0; i < wins.дайСчёт(); i++) {
-		ТопОкно *w = dynamic_cast<ТопОкно *>(wins[i]);
-		if(w && w->наиверхнее_ли()) {
-			dlg->наиверхнее();
+	dlg->Open();
+	Vector<Ctrl *> wins = Ctrl::GetTopWindows();
+	for(int i = 0; i < wins.GetCount(); i++) {
+		TopWindow *w = dynamic_cast<TopWindow *>(wins[i]);
+		if(w && w->IsTopMost()) {
+			dlg->TopMost();
 			break;
 		}
 	}
-	*result = dlg->пускПрилМодально();
-	dlg->закрой();
+	*result = dlg->RunAppModal();
+	dlg->Close();
 }
                         
 RedirectPromptFn RedirectPrompt;
@@ -50,24 +50,24 @@ void RedirectPrompts(RedirectPromptFn r)
 	RedirectPrompt = r;
 }
 
-ВекторМап<Ткст, int> dsa_history;
+VectorMap<String, int> dsa_history;
 
 void ClearPromptOptHistory()
 {
-	ЗамкниГип __;
-	dsa_history.очисть();
+	GuiLock __;
+	dsa_history.Clear();
 }
 
-void ClearPromptOptHistory(Врата<Ткст> filter)
+void ClearPromptOptHistory(Gate<String> filter)
 {
-	ЗамкниГип __;
-	for(int i = 0; i < dsa_history.дайСчёт(); i++)
-		if(filter(dsa_history.дайКлюч(i)))
-			dsa_history.отлинкуй(i);
-	dsa_history.смети();
+	GuiLock __;
+	for(int i = 0; i < dsa_history.GetCount(); i++)
+		if(filter(dsa_history.GetKey(i)))
+			dsa_history.Unlink(i);
+	dsa_history.Sweep();
 }
 
-void SerializePromptOptHistory(Поток& s)
+void SerializePromptOptHistory(Stream& s)
 {
 	int version = 0;
 	s / version;
@@ -75,72 +75,72 @@ void SerializePromptOptHistory(Поток& s)
 }
 
 int Prompt(int dontshowagain, const char *dsa_id_, int beep,
-           Событие<const Ткст&> WhenLink,
-           const char *title, const Рисунок& iconbmp, const char *qtf, bool okcancel,
+           Event<const String&> WhenLink,
+           const char *title, const Image& iconbmp, const char *qtf, bool okcancel,
            const char *button1, const char *button2, const char *button3,
 		   int cx,
-		   Рисунок im1, Рисунок im2, Рисунок im3)
+		   Image im1, Image im2, Image im3)
 {
 	if(RedirectPrompt)
 		return (*RedirectPrompt)(WhenLink, title, iconbmp, qtf, okcancel,
                                  button1, button2, button3,
                                  cx, im1, im2, im3);
-	Ткст dsa_id;
+	String dsa_id;
 	if(dontshowagain) {
 		dsa_id = dsa_id_;
-		if(пусто_ли(dsa_id)) {
-			Ткст body = title;
+		if(IsNull(dsa_id)) {
+			String body = title;
 			body << "\1" << qtf;
 			if(button1) body << "\1" << button1;
 			if(button2) body << "\1" << button2;
 			if(button3) body << "\1" << button3;
 			dsa_id = SHA256String(body);
 		}
-		ЗамкниГип __;
-		int q = dsa_history.найди(dsa_id);
+		GuiLock __;
+		int q = dsa_history.Find(dsa_id);
 		if(q >= 0)
 			return dsa_history[q];
 	}
 	switch(beep) {
 	case BEEP_INFORMATION:
-		бипИнформация();
+		BeepInformation();
 		break;
 	case BEEP_EXCLAMATION:
-		бипВосклицание();
+		BeepExclamation();
 		break;
 	case BEEP_QUESTION:
-		бипВопрос();
+		BeepQuestion();
 		break;
 	case BEEP_ERROR:
-		бипОшибка();
+		BeepError();
 		break;
 	}
 	int fcy = Draw::GetStdFontCy();
-	войдиВСтопорГип(); // Ктрл derived classes can only be initialized with ЗамкниГип
+	EnterGuiMutex(); // Ctrl derived classes can only be initialized with GuiLock
 	PromptDlgWnd__ dlg;
 	RichTextCtrl qtfctrl;
-	Иконка         icon;
-	Опция       dsa;
-	dsa.устНадпись(t_("Больше не показывать"));
+	Icon         icon;
+	Option       dsa;
+	dsa.SetLabel(t_("Больше не показывать это"));
 	qtfctrl.WhenLink = WhenLink;
-	icon.устРисунок(iconbmp);
-	Кнопка b1, b2, b3;
-	qtfctrl.SetQTF(Ткст("[g ") + qtf, GetRichTextStdScreenZoom());
-	int bcy = Ктрл::VertLayoutZoom(24);
-	int bcx = Ктрл::HorzLayoutZoom(72);
+	icon.SetImage(iconbmp);
+	Button b1, b2, b3;
+	qtfctrl.SetQTF(String("[g ") + qtf, GetRichTextStdScreenZoom());
+	int bcy = Ctrl::VertLayoutZoom(24);
+	int bcx = Ctrl::HorzLayoutZoom(72);
 	if(button1)
-		bcx = max(2 * fcy + дайРазмТекста(button1, Draw::GetStdFont()).cx, bcx);
+		bcx = max(2 * fcy + GetTextSize(button1, Draw::GetStdFont()).cx, bcx);
 	if(button2)
-		bcx = max(2 * fcy + дайРазмТекста(button2, Draw::GetStdFont()).cx, bcx);
+		bcx = max(2 * fcy + GetTextSize(button2, Draw::GetStdFont()).cx, bcx);
 	if(button3)
-		bcx = max(2 * fcy + дайРазмТекста(button3, Draw::GetStdFont()).cx, bcx);
-	Размер bsz = icon.дайСтдРазм();
+		bcx = max(2 * fcy + GetTextSize(button3, Draw::GetStdFont()).cx, bcx);
+	Size bsz = icon.GetStdSize();
 	if(cx == 0) {
-		cx = qtfctrl.дайШирину();
+		cx = qtfctrl.GetWidth();
 		if(!cx)
 			cx = 350;
 		if(dontshowagain)
-			cx = max(cx, dsa.дайМинРазм().cx);
+			cx = max(cx, dsa.GetMinSize().cx);
 		cx += 2 * fcy;
 		if(bsz.cx)
 			cx += bsz.cx + fcy;
@@ -151,17 +151,17 @@ int Prompt(int dontshowagain, const char *dsa_id_, int beep,
 	int qcx = cx - 2 * fcy;
 	if(bsz.cx)
 		qcx -= bsz.cx + fcy;
-	int ccy = qtfctrl.дайВысоту(qcx);
+	int ccy = qtfctrl.GetHeight(qcx);
 	int qcy = min(Zy(400), ccy);
 	if(qcy <= ccy) {
-		qcx += размПромотБара() + fcy;
-		cx += размПромотБара() + fcy;
+		qcx += ScrollBarSize() + fcy;
+		cx += ScrollBarSize() + fcy;
 	}
 	int mcy = max(qcy, bsz.cy);
 	int cy = mcy + 48 * fcy / 10;
 	if(dontshowagain)
 		cy += fcy;
-	dlg.устПрям(Размер(cx, cy));
+	dlg.SetRect(Size(cx, cy));
 	dlg << icon.TopPos(fcy, bsz.cy).LeftPos(fcy, bsz.cx);
 	dlg << qtfctrl.TopPos(fcy + (mcy - qcy) / 2, qcy).RightPos(fcy, qcx);
 	if(okcancel) {
@@ -197,40 +197,40 @@ int Prompt(int dontshowagain, const char *dsa_id_, int beep,
 		sAdd(dlg, fcy, bcy, bx, bcx, gap, b3, button3, im3);
 	}
 	dlg.WhenClose = dlg.Breaker(button3 ? -1 : 0);
-	dlg.Титул(title);
-	покиньСтопорГип();
+	dlg.Title(title);
+	LeaveGuiMutex();
 	int result;
-	Ктрл::Call(callback2(sExecutePrompt, &dlg, &result));
+	Ctrl::Call(callback2(sExecutePrompt, &dlg, &result));
 	if(dontshowagain && dsa && (dontshowagain > 0 || result > 0))
-		dsa_history.добавь(dsa_id, result);
+		dsa_history.Add(dsa_id, result);
 	return result;
 }
 
-int Prompt(Событие<const Ткст&> WhenLink,
-           const char *title, const Рисунок& icon, const char *qtf, bool okcancel,
+int Prompt(Event<const String&> WhenLink,
+           const char *title, const Image& icon, const char *qtf, bool okcancel,
            const char *button1, const char *button2, const char *button3,
-		   int cx, Рисунок im1, Рисунок im2, Рисунок im3)
+		   int cx, Image im1, Image im2, Image im3)
 {
 	return Prompt(false, NULL, BEEP_NONE, WhenLink, title, icon, qtf, okcancel, button1, button2, button3, cx, im1, im2, im3);
 }
 
-int Prompt(const char *title, const Рисунок& icon, const char *qtf, bool okcancel,
+int Prompt(const char *title, const Image& icon, const char *qtf, bool okcancel,
            const char *button1, const char *button2, const char *button3,
 		   int cx)
 {
-	return Prompt(callback(запустиВебБраузер), title,
+	return Prompt(callback(LaunchWebBrowser), title,
 	              icon, qtf, okcancel, button1, button2, button3, cx, Null, Null, Null);
 }
 
-int Prompt(Событие<const Ткст&> WhenLink,
-            const char *title, const Рисунок& icon, const char *qtf, bool okcancel,
+int Prompt(Event<const String&> WhenLink,
+            const char *title, const Image& icon, const char *qtf, bool okcancel,
             const char *button1, const char *button2, const char *button3, int cx)
 {
 	return Prompt(false, NULL, BEEP_NONE, WhenLink, title, icon, qtf, okcancel,
 	              button1, button2, button3, cx, Null, Null, Null);
 }
 
-int Prompt(const char *title, const Рисунок& icon, const char *qtf,
+int Prompt(const char *title, const Image& icon, const char *qtf,
            const char *button1, const char *button2, const char *button3,
 		   int cx)
 {
@@ -238,38 +238,38 @@ int Prompt(const char *title, const Рисунок& icon, const char *qtf,
 }
 
 void PromptOK(const char *qtf) {
-	бипИнформация();
-	Prompt(Ктрл::дайИмяПрил(), CtrlImg::information(), qtf, t_("OK"));
+	BeepInformation();
+	Prompt(Ctrl::GetAppName(), CtrlImg::information(), qtf, t_("OK"));
 }
 
 void Exclamation(const char *qtf) {
-	бипВосклицание();
-	Prompt(Ктрл::дайИмяПрил(), CtrlImg::exclamation(), qtf, t_("OK"));
+	BeepExclamation();
+	Prompt(Ctrl::GetAppName(), CtrlImg::exclamation(), qtf, t_("OK"));
 }
 
-void ShowExc(const Искл& exc) {
-	бипВосклицание();
-	Prompt(Ктрл::дайИмяПрил(), CtrlImg::exclamation(), DeQtf(exc), t_("OK"));
+void ShowExc(const Exc& exc) {
+	BeepExclamation();
+	Prompt(Ctrl::GetAppName(), CtrlImg::exclamation(), DeQtf(exc), t_("OK"));
 }
 
 void ErrorOK(const char *qtf) {
-	бипОшибка();
-	Prompt(Ктрл::дайИмяПрил(), CtrlImg::error(), qtf, t_("OK"));
+	BeepError();
+	Prompt(Ctrl::GetAppName(), CtrlImg::error(), qtf, t_("OK"));
 }
 
 int PromptOKCancel(const char *qtf) {
-	бипВопрос();
-	return Prompt(Ктрл::дайИмяПрил(), CtrlImg::question(), qtf, t_("OK"), t_("Отмена"));
+	BeepQuestion();
+	return Prompt(Ctrl::GetAppName(), CtrlImg::question(), qtf, t_("OK"), t_("Отмена"));
 }
 
 int PromptOKCancelAll(const char *qtf) {
-	бипВопрос();
-	return Prompt(Ктрл::дайИмяПрил(), CtrlImg::question(), qtf, t_("OK"), t_("Отмена"), t_("Все"));
+	BeepQuestion();
+	return Prompt(Ctrl::GetAppName(), CtrlImg::question(), qtf, t_("OK"), t_("Отмена"), t_("Все"));
 }
 
 int ErrorOKCancel(const char *qtf) {
-	бипОшибка();
-	return Prompt(Ктрл::дайИмяПрил(), CtrlImg::error(), qtf, t_("OK"), t_("Отмена"));
+	BeepError();
+	return Prompt(Ctrl::GetAppName(), CtrlImg::error(), qtf, t_("OK"), t_("Отмена"));
 }
 
 CH_IMAGE(YesButtonImage, Null);
@@ -278,128 +278,128 @@ CH_IMAGE(AbortButtonImage, Null);
 CH_IMAGE(RetryButtonImage, Null);
 
 int PromptYesNo(const char *qtf) {
-	бипВопрос();
-	return Prompt(callback(запустиВебБраузер),
-	              Ктрл::дайИмяПрил(), CtrlImg::question(), qtf, false,
+	BeepQuestion();
+	return Prompt(callback(LaunchWebBrowser),
+	              Ctrl::GetAppName(), CtrlImg::question(), qtf, false,
 	              t_("&Да"), t_("&Нет"), NULL, 0,
 	              YesButtonImage(), NoButtonImage(), Null);
 }
 
 int PromptYesNoAll(const char *qtf) {
-	бипВопрос();
-	return Prompt(callback(запустиВебБраузер),
-	              Ктрл::дайИмяПрил(), CtrlImg::question(), qtf, false,
+	BeepQuestion();
+	return Prompt(callback(LaunchWebBrowser),
+	              Ctrl::GetAppName(), CtrlImg::question(), qtf, false,
 	              t_("&Да"), t_("&Нет"), t_("Все"), 0,
 	              YesButtonImage(), NoButtonImage(), Null);
 }
 
 int ErrorYesNo(const char *qtf) {
-	бипОшибка();
-	return Prompt(callback(запустиВебБраузер),
-	              Ктрл::дайИмяПрил(), CtrlImg::error(), qtf, false,
+	BeepError();
+	return Prompt(callback(LaunchWebBrowser),
+	              Ctrl::GetAppName(), CtrlImg::error(), qtf, false,
 	              t_("&Да"), t_("&Нет"), NULL, 0,
 	              YesButtonImage(), NoButtonImage(), Null);
 }
 
 int PromptYesNoCancel(const char *qtf) {
-	бипВопрос();
-	return Prompt(callback(запустиВебБраузер),
-	              Ктрл::дайИмяПрил(), CtrlImg::question(), qtf, true,
+	BeepQuestion();
+	return Prompt(callback(LaunchWebBrowser),
+	              Ctrl::GetAppName(), CtrlImg::question(), qtf, true,
 	              t_("&Да"), t_("&Нет"), t_("Отмена"), 0,
 	              YesButtonImage(), NoButtonImage(), Null);
 }
 
 int ErrorYesNoCancel(const char *qtf) {
-	бипОшибка();
-	return Prompt(callback(запустиВебБраузер),
-	              Ктрл::дайИмяПрил(), CtrlImg::error(), qtf, true,
+	BeepError();
+	return Prompt(callback(LaunchWebBrowser),
+	              Ctrl::GetAppName(), CtrlImg::error(), qtf, true,
 	              t_("&Да"), t_("&Нет"), t_("Отмена"), 0,
 	              YesButtonImage(), NoButtonImage(), Null);
 }
 
 int ErrorYesNoAll(const char *qtf) {
-	бипОшибка();
-	return Prompt(callback(запустиВебБраузер),
-	              Ктрл::дайИмяПрил(), CtrlImg::error(), qtf, true,
+	BeepError();
+	return Prompt(callback(LaunchWebBrowser),
+	              Ctrl::GetAppName(), CtrlImg::error(), qtf, true,
 	              t_("&Да"), t_("&Нет"), t_("Все"), 0,
 	              YesButtonImage(), NoButtonImage(), Null);
 }
 
 int PromptAbortRetry(const char *qtf) {
-	бипВосклицание();
-	return Prompt(callback(запустиВебБраузер),
-	              Ктрл::дайИмяПрил(), CtrlImg::exclamation(), qtf, false,
+	BeepExclamation();
+	return Prompt(callback(LaunchWebBrowser),
+	              Ctrl::GetAppName(), CtrlImg::exclamation(), qtf, false,
 	              t_("&Прервать"), t_("&Повторить"), NULL, 0,
 	              AbortButtonImage(), RetryButtonImage(), Null);
 }
 
 int ErrorAbortRetry(const char *qtf) {
-	бипОшибка();
-	return Prompt(callback(запустиВебБраузер),
-	              Ктрл::дайИмяПрил(), CtrlImg::error(), qtf, false,
+	BeepError();
+	return Prompt(callback(LaunchWebBrowser),
+	              Ctrl::GetAppName(), CtrlImg::error(), qtf, false,
 	              t_("&Прервать"), t_("&Повторить"), NULL, 0,
 	              AbortButtonImage(), RetryButtonImage(), Null);
 }
 
 int PromptRetryCancel(const char *qtf) {
-	бипВосклицание();
-	return Prompt(callback(запустиВебБраузер),
-	              Ктрл::дайИмяПрил(), CtrlImg::exclamation(), qtf, true,
+	BeepExclamation();
+	return Prompt(callback(LaunchWebBrowser),
+	              Ctrl::GetAppName(), CtrlImg::exclamation(), qtf, true,
 	              t_("&Повторить"), t_("Отмена"), NULL, 0,
 	              RetryButtonImage(), Null, Null);
 }
 
 int ErrorRetryCancel(const char *qtf) {
-	бипОшибка();
-	return Prompt(callback(запустиВебБраузер),
-	              Ктрл::дайИмяПрил(), CtrlImg::error(), qtf, true,
+	BeepError();
+	return Prompt(callback(LaunchWebBrowser),
+	              Ctrl::GetAppName(), CtrlImg::error(), qtf, true,
 	              t_("&Повторить"), t_("Отмена"), NULL, 0,
 	              RetryButtonImage(), Null, Null);
 }
 
 int PromptAbortRetryIgnore(const char *qtf) {
-	бипВосклицание();
-	return Prompt(callback(запустиВебБраузер),
-	              Ктрл::дайИмяПрил(), CtrlImg::exclamation(), qtf, false,
+	BeepExclamation();
+	return Prompt(callback(LaunchWebBrowser),
+	              Ctrl::GetAppName(), CtrlImg::exclamation(), qtf, false,
 	              t_("&Прервать"), t_("&Повторить"), t_("&Игнорировать"), 0,
 	              AbortButtonImage(), RetryButtonImage(), Null);
 }
 
 int ErrorAbortRetryIgnore(const char *qtf) {
-	бипОшибка();
-	return Prompt(callback(запустиВебБраузер),
-	              Ктрл::дайИмяПрил(), CtrlImg::error(), qtf, false,
+	BeepError();
+	return Prompt(callback(LaunchWebBrowser),
+	              Ctrl::GetAppName(), CtrlImg::error(), qtf, false,
 	              t_("&Прервать"), t_("&Повторить"), t_("&Игнорировать"), 0,
 	              AbortButtonImage(), RetryButtonImage(), Null);
 }
 
 int PromptSaveDontSaveCancel(const char *qtf) {
-	бипВопрос();
-	return Prompt(callback(запустиВебБраузер),
-	              Ктрл::дайИмяПрил(), CtrlImg::question(), qtf, true,
-	              t_("&Сохранить"), t_("&Не сохранять"), t_("Отмена"), 0,
+	BeepQuestion();
+	return Prompt(callback(LaunchWebBrowser),
+	              Ctrl::GetAppName(), CtrlImg::question(), qtf, true,
+	              t_("&Сохранить"), t_("&Не сохранять"), t_("Отммена"), 0,
 	              CtrlImg::save(), NoButtonImage(), Null);
 }
 
-int PromptOpt(const char *opt_id, int beep, Событие<const Ткст&> WhenLink,
-              const char *title, const Рисунок& icon, const char *qtf, bool okcancel,
+int PromptOpt(const char *opt_id, int beep, Event<const String&> WhenLink,
+              const char *title, const Image& icon, const char *qtf, bool okcancel,
               const char *button1, const char *button2, const char *button3,
-		      int cx, Рисунок im1, Рисунок im2, Рисунок im3)
+		      int cx, Image im1, Image im2, Image im3)
 {
 	return Prompt(true, opt_id, beep, WhenLink, title, icon, qtf, okcancel, button1, button2, button3, cx, im1, im2, im3);
 }
 
 int PromptOpt(const char *opt_id, int beep,
-              const char *title, const Рисунок& icon, const char *qtf, bool okcancel,
+              const char *title, const Image& icon, const char *qtf, bool okcancel,
               const char *button1, const char *button2, const char *button3,
 		      int cx)
 {
-	return PromptOpt(opt_id, beep, callback(запустиВебБраузер), title,
+	return PromptOpt(opt_id, beep, callback(LaunchWebBrowser), title,
 	              icon, qtf, okcancel, button1, button2, button3, cx, Null, Null, Null);
 }
 
 int PromptOpt(const char *opt_id, int beep,
-              const char *title, const Рисунок& icon, const char *qtf,
+              const char *title, const Image& icon, const char *qtf,
               const char *button1, const char *button2, const char *button3,
 		      int cx)
 {
@@ -407,143 +407,143 @@ int PromptOpt(const char *opt_id, int beep,
 }
 
 void PromptOKOpt(const char *qtf, const char *opt_id) {
-	PromptOpt(opt_id, BEEP_INFORMATION, Ктрл::дайИмяПрил(), CtrlImg::information(), qtf, t_("OK"));
+	PromptOpt(opt_id, BEEP_INFORMATION, Ctrl::GetAppName(), CtrlImg::information(), qtf, t_("OK"));
 }
 
 void ExclamationOpt(const char *qtf, const char *opt_id) {
-	PromptOpt(opt_id, BEEP_EXCLAMATION,  Ктрл::дайИмяПрил(), CtrlImg::exclamation(), qtf, t_("OK"));
+	PromptOpt(opt_id, BEEP_EXCLAMATION,  Ctrl::GetAppName(), CtrlImg::exclamation(), qtf, t_("OK"));
 }
 
-void ShowExcOpt(const Искл& exc, const char *opt_id) {
-	PromptOpt(opt_id, BEEP_EXCLAMATION, Ктрл::дайИмяПрил(), CtrlImg::exclamation(), DeQtf(exc), t_("OK"));
+void ShowExcOpt(const Exc& exc, const char *opt_id) {
+	PromptOpt(opt_id, BEEP_EXCLAMATION, Ctrl::GetAppName(), CtrlImg::exclamation(), DeQtf(exc), t_("OK"));
 }
 
 void ErrorOKOpt(const char *qtf, const char *opt_id) {
-	PromptOpt(opt_id, BEEP_ERROR, Ктрл::дайИмяПрил(), CtrlImg::error(), qtf, t_("OK"));
+	PromptOpt(opt_id, BEEP_ERROR, Ctrl::GetAppName(), CtrlImg::error(), qtf, t_("OK"));
 }
 
 int PromptOKCancelOpt(const char *qtf, const char *opt_id) {
-	return PromptOpt(opt_id, BEEP_QUESTION, Ктрл::дайИмяПрил(), CtrlImg::question(), qtf, t_("OK"), t_("Отмена"));
+	return PromptOpt(opt_id, BEEP_QUESTION, Ctrl::GetAppName(), CtrlImg::question(), qtf, t_("OK"), t_("Отмена"));
 }
 
 int PromptOKCancelAllOpt(const char *qtf, const char *opt_id) {
-	return PromptOpt(opt_id, BEEP_QUESTION, Ктрл::дайИмяПрил(), CtrlImg::question(), qtf, t_("OK"), t_("Отмена"), t_("Все"));
+	return PromptOpt(opt_id, BEEP_QUESTION, Ctrl::GetAppName(), CtrlImg::question(), qtf, t_("OK"), t_("Отмена"), t_("Все"));
 }
 
 int ErrorOKCancelOpt(const char *qtf, const char *opt_id) {
-	return PromptOpt(opt_id, BEEP_ERROR, Ктрл::дайИмяПрил(), CtrlImg::error(), qtf, t_("OK"), t_("Отмена"));
+	return PromptOpt(opt_id, BEEP_ERROR, Ctrl::GetAppName(), CtrlImg::error(), qtf, t_("OK"), t_("Отмена"));
 }
 
 int PromptYesNoOpt(const char *qtf, const char *opt_id) {
-	return PromptOpt(opt_id, BEEP_QUESTION, callback(запустиВебБраузер),
-	              Ктрл::дайИмяПрил(), CtrlImg::question(), qtf, false,
+	return PromptOpt(opt_id, BEEP_QUESTION, callback(LaunchWebBrowser),
+	              Ctrl::GetAppName(), CtrlImg::question(), qtf, false,
 	              t_("&Да"), t_("&Нет"), NULL, 0,
 	              YesButtonImage(), NoButtonImage(), Null);
 }
 
 int PromptYesNoAllOpt(const char *qtf, const char *opt_id) {
-	return PromptOpt(opt_id, BEEP_QUESTION, callback(запустиВебБраузер),
-	              Ктрл::дайИмяПрил(), CtrlImg::question(), qtf, false,
+	return PromptOpt(opt_id, BEEP_QUESTION, callback(LaunchWebBrowser),
+	              Ctrl::GetAppName(), CtrlImg::question(), qtf, false,
 	              t_("&Да"), t_("&Нет"), t_("Все"), 0,
 	              YesButtonImage(), NoButtonImage(), Null);
 }
 
 int ErrorYesNoOpt(const char *qtf, const char *opt_id) {
-	return PromptOpt(opt_id, BEEP_ERROR, callback(запустиВебБраузер),
-	              Ктрл::дайИмяПрил(), CtrlImg::error(), qtf, false,
+	return PromptOpt(opt_id, BEEP_ERROR, callback(LaunchWebBrowser),
+	              Ctrl::GetAppName(), CtrlImg::error(), qtf, false,
 	              t_("&Да"), t_("&Нет"), NULL, 0,
 	              YesButtonImage(), NoButtonImage(), Null);
 }
 
 int PromptYesNoCancelOpt(const char *qtf, const char *opt_id) {
-	return PromptOpt(opt_id, BEEP_QUESTION, callback(запустиВебБраузер),
-	              Ктрл::дайИмяПрил(), CtrlImg::question(), qtf, true,
+	return PromptOpt(opt_id, BEEP_QUESTION, callback(LaunchWebBrowser),
+	              Ctrl::GetAppName(), CtrlImg::question(), qtf, true,
 	              t_("&Да"), t_("&Нет"), t_("Отмена"), 0,
 	              YesButtonImage(), NoButtonImage(), Null);
 }
 
 int ErrorYesNoCancelOpt(const char *qtf, const char *opt_id) {
-	return PromptOpt(opt_id, BEEP_ERROR, callback(запустиВебБраузер),
-	              Ктрл::дайИмяПрил(), CtrlImg::error(), qtf, true,
-	              t_("&Да"), t_("&Нет"), t_("Отмена"), 0,
+	return PromptOpt(opt_id, BEEP_ERROR, callback(LaunchWebBrowser),
+	              Ctrl::GetAppName(), CtrlImg::error(), qtf, true,
+	              t_("&Да"), t_("&Нет"), t_("ОТмена"), 0,
 	              YesButtonImage(), NoButtonImage(), Null);
 }
 
 int ErrorYesNoAllOpt(const char *qtf, const char *opt_id) {
-	return PromptOpt(opt_id, BEEP_ERROR, callback(запустиВебБраузер),
-	              Ктрл::дайИмяПрил(), CtrlImg::error(), qtf, true,
+	return PromptOpt(opt_id, BEEP_ERROR, callback(LaunchWebBrowser),
+	              Ctrl::GetAppName(), CtrlImg::error(), qtf, true,
 	              t_("&Да"), t_("&Нет"), t_("Все"), 0,
 	              YesButtonImage(), NoButtonImage(), Null);
 }
 
 int PromptAbortRetryOpt(const char *qtf, const char *opt_id) {
-	return PromptOpt(opt_id, BEEP_EXCLAMATION, callback(запустиВебБраузер),
-	              Ктрл::дайИмяПрил(), CtrlImg::exclamation(), qtf, false,
+	return PromptOpt(opt_id, BEEP_EXCLAMATION, callback(LaunchWebBrowser),
+	              Ctrl::GetAppName(), CtrlImg::exclamation(), qtf, false,
 	              t_("&Прервать"), t_("&Повторить"), NULL, 0,
 	              AbortButtonImage(), RetryButtonImage(), Null);
 }
 
 int ErrorAbortRetryOpt(const char *qtf, const char *opt_id) {
-	return PromptOpt(opt_id, BEEP_ERROR, callback(запустиВебБраузер),
-	              Ктрл::дайИмяПрил(), CtrlImg::error(), qtf, false,
+	return PromptOpt(opt_id, BEEP_ERROR, callback(LaunchWebBrowser),
+	              Ctrl::GetAppName(), CtrlImg::error(), qtf, false,
 	              t_("&Прервать"), t_("&Повторить"), NULL, 0,
 	              AbortButtonImage(), RetryButtonImage(), Null);
 }
 
 int PromptRetryCancelOpt(const char *qtf, const char *opt_id) {
-	return PromptOpt(opt_id, BEEP_EXCLAMATION, callback(запустиВебБраузер),
-	              Ктрл::дайИмяПрил(), CtrlImg::exclamation(), qtf, true,
+	return PromptOpt(opt_id, BEEP_EXCLAMATION, callback(LaunchWebBrowser),
+	              Ctrl::GetAppName(), CtrlImg::exclamation(), qtf, true,
 	              t_("&Повторить"), t_("Отмена"), NULL, 0,
 	              RetryButtonImage(), Null, Null);
 }
 
 int ErrorRetryCancelOpt(const char *qtf, const char *opt_id) {
-	return PromptOpt(opt_id, BEEP_ERROR, callback(запустиВебБраузер),
-	              Ктрл::дайИмяПрил(), CtrlImg::error(), qtf, true,
+	return PromptOpt(opt_id, BEEP_ERROR, callback(LaunchWebBrowser),
+	              Ctrl::GetAppName(), CtrlImg::error(), qtf, true,
 	              t_("&Повторить"), t_("Отмена"), NULL, 0,
 	              RetryButtonImage(), Null, Null);
 }
 
 int PromptAbortRetryIgnoreOpt(const char *qtf, const char *opt_id) {
-	return PromptOpt(opt_id, BEEP_EXCLAMATION, callback(запустиВебБраузер),
-	              Ктрл::дайИмяПрил(), CtrlImg::exclamation(), qtf, false,
+	return PromptOpt(opt_id, BEEP_EXCLAMATION, callback(LaunchWebBrowser),
+	              Ctrl::GetAppName(), CtrlImg::exclamation(), qtf, false,
 	              t_("&Прервать"), t_("&Повторить"), t_("&Игнорировать"), 0,
 	              AbortButtonImage(), RetryButtonImage(), Null);
 }
 
 int ErrorAbortRetryIgnoreOpt(const char *qtf, const char *opt_id) {
-	return PromptOpt(opt_id, BEEP_ERROR, callback(запустиВебБраузер),
-	              Ктрл::дайИмяПрил(), CtrlImg::error(), qtf, false,
+	return PromptOpt(opt_id, BEEP_ERROR, callback(LaunchWebBrowser),
+	              Ctrl::GetAppName(), CtrlImg::error(), qtf, false,
 	              t_("&Прервать"), t_("&Повторить"), t_("&Игнорировать"), 0,
 	              AbortButtonImage(), RetryButtonImage(), Null);
 }
 
 int PromptSaveDontSaveCancelOpt(const char *qtf, const char *opt_id) {
-	return PromptOpt(opt_id, BEEP_QUESTION, callback(запустиВебБраузер),
-	              Ктрл::дайИмяПрил(), CtrlImg::question(), qtf, true,
+	return PromptOpt(opt_id, BEEP_QUESTION, callback(LaunchWebBrowser),
+	              Ctrl::GetAppName(), CtrlImg::question(), qtf, true,
 	              t_("&Сохранить"), t_("&Не сохранять"), t_("Отмена"), 0,
 	              CtrlImg::save(), NoButtonImage(), Null);
 }
 
-int PromptOpt1(const char *opt_id, int beep, Событие<const Ткст&> WhenLink,
-              const char *title, const Рисунок& icon, const char *qtf, bool okcancel,
+int PromptOpt1(const char *opt_id, int beep, Event<const String&> WhenLink,
+              const char *title, const Image& icon, const char *qtf, bool okcancel,
               const char *button1, const char *button2, const char *button3,
-		      int cx, Рисунок im1, Рисунок im2, Рисунок im3)
+		      int cx, Image im1, Image im2, Image im3)
 {
 	return Prompt(-1, opt_id, beep, WhenLink, title, icon, qtf, okcancel, button1, button2, button3, cx, im1, im2, im3);
 }
 
 int PromptOpt1(const char *opt_id, int beep,
-              const char *title, const Рисунок& icon, const char *qtf, bool okcancel,
+              const char *title, const Image& icon, const char *qtf, bool okcancel,
               const char *button1, const char *button2, const char *button3,
 		      int cx)
 {
-	return PromptOpt1(opt_id, beep, callback(запустиВебБраузер), title,
+	return PromptOpt1(opt_id, beep, callback(LaunchWebBrowser), title,
 	              icon, qtf, okcancel, button1, button2, button3, cx, Null, Null, Null);
 }
 
 int PromptOpt1(const char *opt_id, int beep,
-              const char *title, const Рисунок& icon, const char *qtf,
+              const char *title, const Image& icon, const char *qtf,
               const char *button1, const char *button2, const char *button3,
 		      int cx)
 {
@@ -551,121 +551,121 @@ int PromptOpt1(const char *opt_id, int beep,
 }
 
 void PromptOKOpt1(const char *qtf, const char *opt_id) {
-	PromptOpt1(opt_id, BEEP_INFORMATION, Ктрл::дайИмяПрил(), CtrlImg::information(), qtf, t_("OK"));
+	PromptOpt1(opt_id, BEEP_INFORMATION, Ctrl::GetAppName(), CtrlImg::information(), qtf, t_("OK"));
 }
 
 void ExclamationOpt1(const char *qtf, const char *opt_id) {
-	PromptOpt1(opt_id, BEEP_EXCLAMATION,  Ктрл::дайИмяПрил(), CtrlImg::exclamation(), qtf, t_("OK"));
+	PromptOpt1(opt_id, BEEP_EXCLAMATION,  Ctrl::GetAppName(), CtrlImg::exclamation(), qtf, t_("OK"));
 }
 
-void ShowExcOpt1(const Искл& exc, const char *opt_id) {
-	PromptOpt1(opt_id, BEEP_EXCLAMATION, Ктрл::дайИмяПрил(), CtrlImg::exclamation(), DeQtf(exc), t_("OK"));
+void ShowExcOpt1(const Exc& exc, const char *opt_id) {
+	PromptOpt1(opt_id, BEEP_EXCLAMATION, Ctrl::GetAppName(), CtrlImg::exclamation(), DeQtf(exc), t_("OK"));
 }
 
 void ErrorOKOpt1(const char *qtf, const char *opt_id) {
-	PromptOpt1(opt_id, BEEP_ERROR, Ктрл::дайИмяПрил(), CtrlImg::error(), qtf, t_("OK"));
+	PromptOpt1(opt_id, BEEP_ERROR, Ctrl::GetAppName(), CtrlImg::error(), qtf, t_("OK"));
 }
 
 int PromptOKCancelOpt1(const char *qtf, const char *opt_id) {
-	return PromptOpt1(opt_id, BEEP_QUESTION, Ктрл::дайИмяПрил(), CtrlImg::question(), qtf, t_("OK"), t_("Отмена"));
+	return PromptOpt1(opt_id, BEEP_QUESTION, Ctrl::GetAppName(), CtrlImg::question(), qtf, t_("OK"), t_("Отмена"));
 }
 
 int PromptOKCancelAllOpt1(const char *qtf, const char *opt_id) {
-	return PromptOpt1(opt_id, BEEP_QUESTION, Ктрл::дайИмяПрил(), CtrlImg::question(), qtf, t_("OK"), t_("Отмена"), t_("Все"));
+	return PromptOpt1(opt_id, BEEP_QUESTION, Ctrl::GetAppName(), CtrlImg::question(), qtf, t_("OK"), t_("Отмена"), t_("Все"));
 }
 
 int ErrorOKCancelOpt1(const char *qtf, const char *opt_id) {
-	return PromptOpt1(opt_id, BEEP_ERROR, Ктрл::дайИмяПрил(), CtrlImg::error(), qtf, t_("OK"), t_("Отмена"));
+	return PromptOpt1(opt_id, BEEP_ERROR, Ctrl::GetAppName(), CtrlImg::error(), qtf, t_("OK"), t_("Отмена"));
 }
 
 int PromptYesNoOpt1(const char *qtf, const char *opt_id) {
-	return PromptOpt1(opt_id, BEEP_QUESTION, callback(запустиВебБраузер),
-	              Ктрл::дайИмяПрил(), CtrlImg::question(), qtf, false,
+	return PromptOpt1(opt_id, BEEP_QUESTION, callback(LaunchWebBrowser),
+	              Ctrl::GetAppName(), CtrlImg::question(), qtf, false,
 	              t_("&Да"), t_("&Нет"), NULL, 0,
 	              YesButtonImage(), NoButtonImage(), Null);
 }
 
 int PromptYesNoAllOpt1(const char *qtf, const char *opt_id) {
-	return PromptOpt1(opt_id, BEEP_QUESTION, callback(запустиВебБраузер),
-	              Ктрл::дайИмяПрил(), CtrlImg::question(), qtf, false,
-	              t_("&Да"), t_("&Нет"), t_("All"), 0,
+	return PromptOpt1(opt_id, BEEP_QUESTION, callback(LaunchWebBrowser),
+	              Ctrl::GetAppName(), CtrlImg::question(), qtf, false,
+	              t_("&Да"), t_("&Нет"), t_("Все"), 0,
 	              YesButtonImage(), NoButtonImage(), Null);
 }
 
 int ErrorYesNoOpt1(const char *qtf, const char *opt_id) {
-	return PromptOpt1(opt_id, BEEP_ERROR, callback(запустиВебБраузер),
-	              Ктрл::дайИмяПрил(), CtrlImg::error(), qtf, false,
+	return PromptOpt1(opt_id, BEEP_ERROR, callback(LaunchWebBrowser),
+	              Ctrl::GetAppName(), CtrlImg::error(), qtf, false,
 	              t_("&Да"), t_("&Нет"), NULL, 0,
 	              YesButtonImage(), NoButtonImage(), Null);
 }
 
 int PromptYesNoCancelOpt1(const char *qtf, const char *opt_id) {
-	return PromptOpt1(opt_id, BEEP_QUESTION, callback(запустиВебБраузер),
-	              Ктрл::дайИмяПрил(), CtrlImg::question(), qtf, true,
-	              t_("&Да"), t_("&Нет"), t_("Отмена"), 0,
+	return PromptOpt1(opt_id, BEEP_QUESTION, callback(LaunchWebBrowser),
+	              Ctrl::GetAppName(), CtrlImg::question(), qtf, true,
+	              t_("&Да"), t_("&Нет"), t_("ОТмена"), 0,
 	              YesButtonImage(), NoButtonImage(), Null);
 }
 
 int ErrorYesNoCancelOpt1(const char *qtf, const char *opt_id) {
-	return PromptOpt1(opt_id, BEEP_ERROR, callback(запустиВебБраузер),
-	              Ктрл::дайИмяПрил(), CtrlImg::error(), qtf, true,
+	return PromptOpt1(opt_id, BEEP_ERROR, callback(LaunchWebBrowser),
+	              Ctrl::GetAppName(), CtrlImg::error(), qtf, true,
 	              t_("&Да"), t_("&Нет"), t_("Отмена"), 0,
 	              YesButtonImage(), NoButtonImage(), Null);
 }
 
 int ErrorYesNoAllOpt1(const char *qtf, const char *opt_id) {
-	return PromptOpt1(opt_id, BEEP_ERROR, callback(запустиВебБраузер),
-	              Ктрл::дайИмяПрил(), CtrlImg::error(), qtf, true,
-	              t_("&Да"), t_("&Нет"), t_("All"), 0,
+	return PromptOpt1(opt_id, BEEP_ERROR, callback(LaunchWebBrowser),
+	              Ctrl::GetAppName(), CtrlImg::error(), qtf, true,
+	              t_("&Да"), t_("&Нет"), t_("Все"), 0,
 	              YesButtonImage(), NoButtonImage(), Null);
 }
 
 int PromptAbortRetryOpt1(const char *qtf, const char *opt_id) {
-	return PromptOpt1(opt_id, BEEP_EXCLAMATION, callback(запустиВебБраузер),
-	              Ктрл::дайИмяПрил(), CtrlImg::exclamation(), qtf, false,
+	return PromptOpt1(opt_id, BEEP_EXCLAMATION, callback(LaunchWebBrowser),
+	              Ctrl::GetAppName(), CtrlImg::exclamation(), qtf, false,
 	              t_("&Прервать"), t_("&Повторить"), NULL, 0,
 	              AbortButtonImage(), RetryButtonImage(), Null);
 }
 
 int ErrorAbortRetryOpt1(const char *qtf, const char *opt_id) {
-	return PromptOpt1(opt_id, BEEP_ERROR, callback(запустиВебБраузер),
-	              Ктрл::дайИмяПрил(), CtrlImg::error(), qtf, false,
+	return PromptOpt1(opt_id, BEEP_ERROR, callback(LaunchWebBrowser),
+	              Ctrl::GetAppName(), CtrlImg::error(), qtf, false,
 	              t_("&Прервать"), t_("&Повторить"), NULL, 0,
 	              AbortButtonImage(), RetryButtonImage(), Null);
 }
 
 int PromptRetryCancelOpt1(const char *qtf, const char *opt_id) {
-	return PromptOpt1(opt_id, BEEP_EXCLAMATION, callback(запустиВебБраузер),
-	              Ктрл::дайИмяПрил(), CtrlImg::exclamation(), qtf, true,
+	return PromptOpt1(opt_id, BEEP_EXCLAMATION, callback(LaunchWebBrowser),
+	              Ctrl::GetAppName(), CtrlImg::exclamation(), qtf, true,
 	              t_("&Повторить"), t_("Отмена"), NULL, 0,
 	              RetryButtonImage(), Null, Null);
 }
 
 int ErrorRetryCancelOpt1(const char *qtf, const char *opt_id) {
-	return PromptOpt1(opt_id, BEEP_ERROR, callback(запустиВебБраузер),
-	              Ктрл::дайИмяПрил(), CtrlImg::error(), qtf, true,
+	return PromptOpt1(opt_id, BEEP_ERROR, callback(LaunchWebBrowser),
+	              Ctrl::GetAppName(), CtrlImg::error(), qtf, true,
 	              t_("&Повторить"), t_("Отмена"), NULL, 0,
 	              RetryButtonImage(), Null, Null);
 }
 
 int PromptAbortRetryIgnoreOpt1(const char *qtf, const char *opt_id) {
-	return PromptOpt1(opt_id, BEEP_EXCLAMATION, callback(запустиВебБраузер),
-	              Ктрл::дайИмяПрил(), CtrlImg::exclamation(), qtf, false,
+	return PromptOpt1(opt_id, BEEP_EXCLAMATION, callback(LaunchWebBrowser),
+	              Ctrl::GetAppName(), CtrlImg::exclamation(), qtf, false,
 	              t_("&Прервать"), t_("&Повторить"), t_("&Игнорировать"), 0,
 	              AbortButtonImage(), RetryButtonImage(), Null);
 }
 
 int ErrorAbortRetryIgnoreOpt1(const char *qtf, const char *opt_id) {
-	return PromptOpt1(opt_id, BEEP_ERROR, callback(запустиВебБраузер),
-	              Ктрл::дайИмяПрил(), CtrlImg::error(), qtf, false,
+	return PromptOpt1(opt_id, BEEP_ERROR, callback(LaunchWebBrowser),
+	              Ctrl::GetAppName(), CtrlImg::error(), qtf, false,
 	              t_("&Прервать"), t_("&Повторить"), t_("&Игнорировать"), 0,
 	              AbortButtonImage(), RetryButtonImage(), Null);
 }
 
 int PromptSaveDontSaveCancelOpt1(const char *qtf, const char *opt_id) {
-	return PromptOpt1(opt_id, BEEP_QUESTION, callback(запустиВебБраузер),
-	              Ктрл::дайИмяПрил(), CtrlImg::question(), qtf, true,
-	              t_("&Сохранить"), t_("&Don't сохрани"), t_("Отмена"), 0,
+	return PromptOpt1(opt_id, BEEP_QUESTION, callback(LaunchWebBrowser),
+	              Ctrl::GetAppName(), CtrlImg::question(), qtf, true,
+	              t_("&Сохранить"), t_("&Не сохранять"), t_("Отмена"), 0,
 	              CtrlImg::save(), NoButtonImage(), Null);
 }
 

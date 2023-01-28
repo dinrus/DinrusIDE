@@ -48,43 +48,43 @@
 
 #include GUIPLATFORM_INCLUDE
 
-namespace РНЦП {
+namespace Upp {
 
-ИНИЦИАЛИЗУЙ(CtrlCore)
+INITIALIZE(CtrlCore)
 
-void войдиВСтопорГип();
-bool пробуйВойтиВСтопорГип();
-void покиньСтопорГип();
+void EnterGuiMutex();
+bool TryEnterGuiMutex();
+void LeaveGuiMutex();
 
-int  покиньВсеСтопорыГип();
-void войдиВСтопорГип(int n);
+int  LeaveGuiMutexAll();
+void EnterGuiMutex(int n);
 
-bool уНитиЕстьЗамокГип();
-int  дайУровеньЗамкаГип();
+bool ThreadHasGuiLock();
+int  GetGuiLockLevel();
 
-struct ЗамкниГип {
-	ЗамкниГип()  { войдиВСтопорГип(); }
-	~ЗамкниГип() { покиньСтопорГип(); }
+struct GuiLock {
+	GuiLock()  { EnterGuiMutex(); }
+	~GuiLock() { LeaveGuiMutex(); }
 };
 
-class ОтомкниГип {
+class GuiUnlock {
 	int n;
 
 public:
-	ОтомкниГип()  { n = покиньВсеСтопорыГип(); }
-	~ОтомкниГип() { войдиВСтопорГип(n); }
+	GuiUnlock()  { n = LeaveGuiMutexAll(); }
+	~GuiUnlock() { EnterGuiMutex(n); }
 };
 
 bool ScreenInPaletteMode(); // Deprecated
 
 typedef ImageDraw SystemImageDraw;
 
-void устПоверхность(Draw& w, const Прям& dest, const КЗСА *pixels, Размер srcsz, Точка poff);
-void устПоверхность(Draw& w, int x, int y, int cx, int cy, const КЗСА *pixels);
+void SetSurface(Draw& w, const Rect& dest, const RGBA *pixels, Size srcsz, Point poff);
+void SetSurface(Draw& w, int x, int y, int cx, int cy, const RGBA *pixels);
 
 enum {
 	K_DELTA        = 0x200000,
-	K_CHAR_LIM     = 0x200000, // lower that this, ключ in Ключ is Unicode codepoint
+	K_CHAR_LIM     = 0x200000, // lower that this, key in Key is Unicode codepoint
 
 	K_ALT          = 0x1000000,
 	K_SHIFT        = 0x800000,
@@ -114,120 +114,120 @@ enum {
 
 #include "MKeys.h"
 
-bool дайШифт();
-bool дайКтрл();
-bool дайАльт();
-bool дайКапсЛок();
-bool дайЛевуюМыши();
-bool дайПравуюМыши();
-bool дайСреднююМыши();
+bool GetShift();
+bool GetCtrl();
+bool GetAlt();
+bool GetCapsLock();
+bool GetMouseLeft();
+bool GetMouseRight();
+bool GetMouseMiddle();
 
 #ifdef PLATFORM_COCOA
-bool дайОпцию();
+bool GetOption();
 #endif
 
 enum {
 	DELAY_MINIMAL = 0
 };
 
-void  устОбрвызВремени(int delay_ms, Функция<void ()> cb, void *id = NULL); // delay_ms < 0 -> periodic
-void  глушиОбрвызВремени(void *id);
-bool  естьОбрвызВремени(void *id);
+void  SetTimeCallback(int delay_ms, Function<void ()> cb, void *id = NULL); // delay_ms < 0 -> periodic
+void  KillTimeCallback(void *id);
+bool  ExistsTimeCallback(void *id);
 dword GetTimeClick();
 
 inline
-void  постОбрвыз(Функция<void ()> cb, void *id = NULL)  { устОбрвызВремени(1, cb, id); }
+void  PostCallback(Function<void ()> cb, void *id = NULL)  { SetTimeCallback(1, cb, id); }
 
-class ОбрвызВремени
+class TimeCallback
 {
 public:
-	~ОбрвызВремени()                               { глуши(); (void)dummy; }
+	~TimeCallback()                               { Kill(); (void)dummy; }
 
-	void уст(int delay, Функция<void ()> cb)     { РНЦП::устОбрвызВремени(delay, cb, this); }
-	void пост(Функция<void ()> cb)               { РНЦП::постОбрвыз(cb, this); }
-	void глуши()                                   { РНЦП::глушиОбрвызВремени(this); }
-	void глушиУст(int delay, Функция<void ()> cb) { глуши(); уст(delay, cb); }
-	void глушиПост(Функция<void ()> cb)           { глуши(); пост(cb); }
+	void Set(int delay, Function<void ()> cb)     { UPP::SetTimeCallback(delay, cb, this); }
+	void Post(Function<void ()> cb)               { UPP::PostCallback(cb, this); }
+	void Kill()                                   { UPP::KillTimeCallback(this); }
+	void KillSet(int delay, Function<void ()> cb) { Kill(); Set(delay, cb); }
+	void KillPost(Function<void ()> cb)           { Kill(); Post(cb); }
 
 private:
 	byte dummy;
 };
 
-class Ктрл;
+class Ctrl;
 
-class КтрлФрейм {
+class CtrlFrame {
 public:
-	virtual void выложиФрейм(Прям& r) = 0;
-	virtual void добавьРазмФрейма(Размер& sz) = 0;
-	virtual void рисуйФрейм(Draw& w, const Прям& r);
-	virtual void добавьКФрейму(Ктрл& parent);
-	virtual void удалиФрейм();
-	virtual int  рисуйПоверх() const;
+	virtual void FrameLayout(Rect& r) = 0;
+	virtual void FrameAddSize(Size& sz) = 0;
+	virtual void FramePaint(Draw& w, const Rect& r);
+	virtual void FrameAdd(Ctrl& parent);
+	virtual void FrameRemove();
+	virtual int  OverPaint() const;
 
-	КтрлФрейм() {}
-	virtual ~КтрлФрейм() {}
+	CtrlFrame() {}
+	virtual ~CtrlFrame() {}
 
 private:
-	КтрлФрейм(const КтрлФрейм&);
-	void operator=(const КтрлФрейм&);
+	CtrlFrame(const CtrlFrame&);
+	void operator=(const CtrlFrame&);
 };
 
-struct КлассФреймаПусто : public КтрлФрейм {
-	virtual void выложиФрейм(Прям& r);
-	virtual void рисуйФрейм(Draw& w, const Прям& r);
-	virtual void добавьРазмФрейма(Размер& sz);
+struct NullFrameClass : public CtrlFrame {
+	virtual void FrameLayout(Rect& r);
+	virtual void FramePaint(Draw& w, const Rect& r);
+	virtual void FrameAddSize(Size& sz);
 };
 
-КтрлФрейм& фреймПусто();
+CtrlFrame& NullFrame();
 
-class ФреймГраницы : public КтрлФрейм {
+class BorderFrame : public CtrlFrame {
 public:
-	virtual void выложиФрейм(Прям& r);
-	virtual void рисуйФрейм(Draw& w, const Прям& r);
-	virtual void добавьРазмФрейма(Размер& sz);
+	virtual void FrameLayout(Rect& r);
+	virtual void FramePaint(Draw& w, const Rect& r);
+	virtual void FrameAddSize(Size& sz);
 
 protected:
 	const ColorF *border;
 
 public:
-	ФреймГраницы(const ColorF *border) : border(border) {}
+	BorderFrame(const ColorF *border) : border(border) {}
 };
 
-КтрлФрейм& фреймИнсет();
-КтрлФрейм& фреймАутсет();
-КтрлФрейм& фреймКнопка();
-КтрлФрейм& фреймТонкийИнсет();
-КтрлФрейм& фреймТонкийАутсет();
-КтрлФрейм& фреймЧёрный();
-КтрлФрейм& фреймБелый();
+CtrlFrame& InsetFrame();
+CtrlFrame& OutsetFrame();
+CtrlFrame& ButtonFrame();
+CtrlFrame& ThinInsetFrame();
+CtrlFrame& ThinOutsetFrame();
+CtrlFrame& BlackFrame();
+CtrlFrame& WhiteFrame();
 
-КтрлФрейм& XPFieldFrame();
+CtrlFrame& XPFieldFrame();
 
-КтрлФрейм& фреймПоле();
-// КтрлФрейм& EditFieldFrame(); //TODO remove
+CtrlFrame& FieldFrame();
+// CtrlFrame& EditFieldFrame(); //СДЕЛАТЬ remove
 
-КтрлФрейм& фреймВерхнСепаратора();
-КтрлФрейм& фреймНижнСепаратора();
-КтрлФрейм& фреймЛевСепаратора();
-КтрлФрейм& фреймПравСепаратора();
+CtrlFrame& TopSeparatorFrame();
+CtrlFrame& BottomSeparatorFrame();
+CtrlFrame& LeftSeparatorFrame();
+CtrlFrame& RightSeparatorFrame();
 
-КтрлФрейм& фреймПравПроёма();
+CtrlFrame& RightGapFrame();
 
-void выложиФреймСлева(Прям& r, Ктрл *ctrl, int cx);
-void выложиФреймСправа(Прям& r, Ктрл *ctrl, int cx);
-void выложиФреймСверху(Прям& r, Ктрл *ctrl, int cy);
-void выложиФреймСнизу(Прям& r, Ктрл *ctrl, int cy);
+void LayoutFrameLeft(Rect& r, Ctrl *ctrl, int cx);
+void LayoutFrameRight(Rect& r, Ctrl *ctrl, int cx);
+void LayoutFrameTop(Rect& r, Ctrl *ctrl, int cy);
+void LayoutFrameBottom(Rect& r, Ctrl *ctrl, int cy);
 
-Точка дайПозМыши();
-dword дайФлагиМыши();
+Point GetMousePos();
+dword GetMouseFlags();
 
 #define IMAGECLASS CtrlCoreImg
 #define IMAGEFILE <CtrlCore/CtrlCore.iml>
 #include <Draw/iml_header.h>
 
-class ТопОкно;
-class ИконкаТрея;
-class ГЛКтрл;
+class TopWindow;
+class TrayIcon;
+class GLCtrl;
 
 enum {
 	DND_NONE = 0,
@@ -239,22 +239,22 @@ enum {
 	DND_EXACTIMAGE = 0x80000000,
 };
 
-struct ЦельЮБроса;
+struct UDropTarget;
 
-struct ClipData : Движимое<ClipData> {
-	Значение  data;
-	Ткст (*render)(const Значение& data);
+struct ClipData : Moveable<ClipData> {
+	Value  data;
+	String (*render)(const Value& data);
 
-	Ткст  Render() const                   { return render ? (*render)(data) : ~data; }
+	String  Render() const                   { return render ? (*render)(data) : ~data; }
 
-	ClipData(const Значение& data, Ткст (*render)(const Значение& data));
-	ClipData(const Ткст& data);
+	ClipData(const Value& data, String (*render)(const Value& data));
+	ClipData(const String& data);
 	ClipData();
 };
 
 class PasteClip {
-	friend struct ЦельЮБроса;
-	friend class  Ктрл;
+	friend struct UDropTarget;
+	friend class  Ctrl;
 	friend PasteClip sMakeDropClip(bool paste);
 
 	GUIPLATFORM_PASTECLIP_DECLS
@@ -263,24 +263,24 @@ class PasteClip {
 	byte         allowed;
 	bool         paste;
 	bool         accepted;
-	Ткст       fmt;
-	Ткст       data;
+	String       fmt;
+	String       data;
 
 	void GuiPlatformConstruct();
 
 public:
 	bool   IsAvailable(const char *fmt) const;
-	Ткст дай(const char *fmt) const;
+	String Get(const char *fmt) const;
 
-	bool   прими();
+	bool   Accept();
 
-	bool   прими(const char *fmt);
-	Ткст дайФормат()                  { return fmt; }
-	Ткст дай() const                  { return data; }
-	operator Ткст() const             { return дай(); }
-	Ткст operator ~() const           { return дай(); }
+	bool   Accept(const char *fmt);
+	String GetFormat()                  { return fmt; }
+	String Get() const                  { return data; }
+	operator String() const             { return Get(); }
+	String operator ~() const           { return Get(); }
 
-	void   отклони()                     { accepted = false; }
+	void   Reject()                     { accepted = false; }
 
 	int    GetAction() const            { return action; }
 	int    GetAllowedActions() const    { return allowed; }
@@ -294,56 +294,56 @@ public:
 	PasteClip();
 };
 
-Ткст  Unicode__(const ШТкст& w);
-ШТкст Unicode__(const Ткст& s);
+String  Unicode__(const WString& w);
+WString Unicode__(const String& s);
 
 void GuiPlatformAdjustDragImage(ImageBuffer& b);
 
-Рисунок MakeDragImage(const Рисунок& arrow, Рисунок sample);
+Image MakeDragImage(const Image& arrow, Image sample);
 
 const char *ClipFmtsText();
 bool        AcceptText	(PasteClip& clip);
-Ткст      дайТкст(PasteClip& clip);
-ШТкст     дайШТкст(PasteClip& clip);
-Ткст      GetTextClip(const Ткст& text, const Ткст& fmt);
-Ткст      GetTextClip(const ШТкст& text, const Ткст& fmt);
-void        приставь(ВекторМап<Ткст, ClipData>& data, const Ткст& text);
-void        приставь(ВекторМап<Ткст, ClipData>& data, const ШТкст& text);
+String      GetString(PasteClip& clip);
+WString     GetWString(PasteClip& clip);
+String      GetTextClip(const String& text, const String& fmt);
+String      GetTextClip(const WString& text, const String& fmt);
+void        Append(VectorMap<String, ClipData>& data, const String& text);
+void        Append(VectorMap<String, ClipData>& data, const WString& text);
 
 const char *ClipFmtsImage();
 bool        AcceptImage(PasteClip& clip);
-Рисунок       GetImage(PasteClip& clip);
-Ткст      GetImageClip(const Рисунок& m, const Ткст& fmt);
-void        приставь(ВекторМап<Ткст, ClipData>& data, const Рисунок& img);
+Image       GetImage(PasteClip& clip);
+String      GetImageClip(const Image& m, const String& fmt);
+void        Append(VectorMap<String, ClipData>& data, const Image& img);
 
 bool            IsAvailableFiles(PasteClip& clip);
 bool            AcceptFiles(PasteClip& clip);
-Вектор<Ткст>  GetClipFiles(const Ткст& data);
-Вектор<Ткст>  GetFiles(PasteClip& clip);
-void            AppendFiles(ВекторМап<Ткст, ClipData>& data, const Вектор<Ткст>& files);
+Vector<String>  GetClipFiles(const String& data);
+Vector<String>  GetFiles(PasteClip& clip);
+void            AppendFiles(VectorMap<String, ClipData>& data, const Vector<String>& files);
 
 template <class T>
-Ткст ClipFmt()
+String ClipFmt()
 {
-	return Ткст("U++ тип: ") + typeid(T).name();
+	return String("U++ type: ") + typeid(T).name();
 }
 
 template <class T>
-bool   прими(PasteClip& clip)
+bool   Accept(PasteClip& clip)
 {
-	return clip.прими(ClipFmt<T>());
+	return clip.Accept(ClipFmt<T>());
 }
 
-Ткст GetInternalDropId__(const char *тип, const char *id);
+String GetInternalDropId__(const char *type, const char *id);
 void NewInternalDrop__(const void *ptr);
 const void *GetInternalDropPtr__();
 
 template <class T>
-ВекторМап<Ткст, ClipData> InternalClip(const T& x, const char *id = "")
+VectorMap<String, ClipData> InternalClip(const T& x, const char *id = "")
 {
 	NewInternalDrop__(&x);
-	ВекторМап<Ткст, ClipData> d;
-	d.добавь(GetInternalDropId__(typeid(T).name(), id));
+	VectorMap<String, ClipData> d;
+	d.Add(GetInternalDropId__(typeid(T).name(), id));
 	return d;
 }
 
@@ -356,7 +356,7 @@ bool IsAvailableInternal(PasteClip& d, const char *id = "")
 template <class T>
 bool AcceptInternal(PasteClip& d, const char *id = "")
 {
-	return d.прими(GetInternalDropId__(typeid(T).name(), id));
+	return d.Accept(GetInternalDropId__(typeid(T).name(), id));
 }
 
 template <class T>
@@ -373,7 +373,7 @@ const T *GetInternalPtr(PasteClip& d, const char *id = "")
 
 enum { PEN_DOWN = 1, PEN_UP = 2 };
 
-struct ИнфОПере {
+struct PenInfo {
 	int    action = 0;
 	bool   barrel = false;
 	bool   inverted = false;
@@ -381,10 +381,10 @@ struct ИнфОПере {
 	bool   history = false;
 	double pressure = Null;
 	double rotation = Null;
-	ТочкаПЗ tilt = Null;
+	Pointf tilt = Null;
 };
 
-class Ктрл : public Pte<Ктрл> {
+class Ctrl : public Pte<Ctrl> {
 public:
 	enum PlacementConstants {
 		CENTER   = 0,
@@ -408,87 +408,87 @@ public:
 	public:
 		bool  operator==(Logc q) const { return data == q.data; }
 		bool  operator!=(Logc q) const { return data != q.data; }
-		int   дайЛин() const         { return (data >> 30) & 3; }
+		int   GetAlign() const         { return (data >> 30) & 3; }
 		int   GetA() const             { return LSGN(data >> 15); }
-		int   дайС() const             { return LSGN(data); }
-		void  устЛин(int align)      { data = (data & ~(3 << 30)) | (align << 30); }
+		int   GetB() const             { return LSGN(data); }
+		void  SetAlign(int align)      { data = (data & ~(3 << 30)) | (align << 30); }
 		void  SetA(int a)              { data = (data & ~(0x7fff << 15)) | ((a & 0x7fff) << 15); }
 		void  SetB(int b)              { data = (data & ~0x7fff) | (b & 0x7fff); }
-		bool  пустой() const;
+		bool  IsEmpty() const;
 
 		Logc(int al, int a, int b)     { data = (al << 30) | ((a & 0x7fff) << 15) | (b & 0x7fff); }
 		Logc()                         { data = 0xffffffff; }
 	};
 
-	struct ПозЛога : Движимое<ПозЛога> {
+	struct LogPos : Moveable<LogPos> {
 		Logc x, y;
 
-		bool operator==(ПозЛога b) const   { return x == b.x && y == b.y; }
-		bool operator!=(ПозЛога b) const   { return !(*this == b); }
+		bool operator==(LogPos b) const   { return x == b.x && y == b.y; }
+		bool operator!=(LogPos b) const   { return !(*this == b); }
 
-		ПозЛога(Logc x, Logc y)            : x(x), y(y) {}
-		ПозЛога()                          {}
+		LogPos(Logc x, Logc y)            : x(x), y(y) {}
+		LogPos()                          {}
 	};
 
-	static Logc позЛев(int pos, int size)       { return Logc(LEFT, pos, size); }
-	static Logc позПрав(int pos, int size)      { return Logc(RIGHT, pos, size); }
-	static Logc позВерх(int pos, int size)        { return Logc(TOP, pos, size); }
-	static Logc позНиз(int pos, int size)     { return Logc(BOTTOM, pos, size); }
-	static Logc позРазмер(int lpos, int rpos)      { return Logc(SIZE, lpos, rpos); }
-	static Logc позЦентр(int size, int offset)  { return Logc(CENTER, offset, size); }
-	static Logc позЦентр(int size)              { return Logc(CENTER, 0, size); }
+	static Logc PosLeft(int pos, int size)       { return Logc(LEFT, pos, size); }
+	static Logc PosRight(int pos, int size)      { return Logc(RIGHT, pos, size); }
+	static Logc PosTop(int pos, int size)        { return Logc(TOP, pos, size); }
+	static Logc PosBottom(int pos, int size)     { return Logc(BOTTOM, pos, size); }
+	static Logc PosSize(int lpos, int rpos)      { return Logc(SIZE, lpos, rpos); }
+	static Logc PosCenter(int size, int offset)  { return Logc(CENTER, offset, size); }
+	static Logc PosCenter(int size)              { return Logc(CENTER, 0, size); }
 
-	typedef bool (*ХукМыш)(Ктрл *ctrl, bool inframe, int event, Точка p,
+	typedef bool (*MouseHook)(Ctrl *ctrl, bool inframe, int event, Point p,
 	                          int zdelta, dword keyflags);
-	typedef bool (*ХукКлав)(Ктрл *ctrl, dword ключ, int count);
-	typedef bool (*ХукСост)(Ктрл *ctrl, int reason);
+	typedef bool (*KeyHook)(Ctrl *ctrl, dword key, int count);
+	typedef bool (*StateHook)(Ctrl *ctrl, int reason);
 
 	static dword KEYtoK(dword);
 
 private:
-	Ктрл(Ктрл&);
-	void operator=(Ктрл&);
+	Ctrl(Ctrl&);
+	void operator=(Ctrl&);
 
 private:
-	struct Фрейм : Движимое<Фрейм> {
-		КтрлФрейм *frame;
-		Прям16     view;
+	struct Frame : Moveable<Frame> {
+		CtrlFrame *frame;
+		Rect16     view;
 
-		Фрейм()    { view.очисть(); }
+		Frame()    { view.Clear(); }
 	};
-	Ктрл        *parent;
+	Ctrl        *parent;
 
-	struct Промот : Движимое<Промот> {
-		Прям rect;
+	struct Scroll : Moveable<Scroll> {
+		Rect rect;
 		int  dx;
 		int  dy;
 	};
 
-	struct КтрлПеремест : Движимое<КтрлПеремест> {
-		Ук<Ктрл>  ctrl;
-		Прям       from;
-		Прям       to;
+	struct MoveCtrl : Moveable<MoveCtrl> {
+		Ptr<Ctrl>  ctrl;
+		Rect       from;
+		Rect       to;
 	};
 
-	friend struct ЦельЮБроса;
+	friend struct UDropTarget;
 
-	struct Верх {
+	struct Top {
 		GUIPLATFORM_CTRL_TOP_DECLS
-		Вектор<Промот> scroll;
-		ВекторМап<Ктрл *, КтрлПеремест> move;
-		ВекторМап<Ктрл *, КтрлПеремест> scroll_move;
-		Ук<Ктрл>      owner;
+		Vector<Scroll> scroll;
+		VectorMap<Ctrl *, MoveCtrl> move;
+		VectorMap<Ctrl *, MoveCtrl> scroll_move;
+		Ptr<Ctrl>      owner;
 	};
 
-	Верх         *top;
+	Top         *top;
 	int          exitcode;
 
-	Ктрл        *prev, *next;
-	Ктрл        *firstchild, *lastchild;//16
-	ПозЛога       pos;//8
-	Прям16       rect;
-	Mitor<Фрейм> frame;//16
-	Ткст       info;//16
+	Ctrl        *prev, *next;
+	Ctrl        *firstchild, *lastchild;//16
+	LogPos       pos;//8
+	Rect16       rect;
+	Mitor<Frame> frame;//16
+	String       info;//16
 	int16        caretx, carety, caretcx, caretcy;//8
 
 	byte         overpaint;
@@ -516,16 +516,16 @@ private:
 	bool         akv:1;
 	bool         destroying:1;
 
-	static  Ук<Ктрл> eventCtrl;
-	static  Ук<Ктрл> mouseCtrl;
-	static  Точка     mousepos;
-	static  Точка     leftmousepos, rightmousepos, middlemousepos;
-	static  Ук<Ктрл> focusCtrl;
-	static  Ук<Ктрл> focusCtrlWnd;
-	static  Ук<Ктрл> lastActiveWnd;
-	static  Ук<Ктрл> caretCtrl;
-	static  Прям      caretRect;
-	static  Ук<Ктрл> captureCtrl;
+	static  Ptr<Ctrl> eventCtrl;
+	static  Ptr<Ctrl> mouseCtrl;
+	static  Point     mousepos;
+	static  Point     leftmousepos, rightmousepos, middlemousepos;
+	static  Ptr<Ctrl> focusCtrl;
+	static  Ptr<Ctrl> focusCtrlWnd;
+	static  Ptr<Ctrl> lastActiveWnd;
+	static  Ptr<Ctrl> caretCtrl;
+	static  Rect      caretRect;
+	static  Ptr<Ctrl> captureCtrl;
 	static  bool      ignoreclick;
 	static  bool      ignoremouseup;
 	static  bool      ignorekeyup;
@@ -534,49 +534,49 @@ private:
 	static  bool      globalbackpaint;
 	static  bool      globalbackbuffer;
 	static  bool      painting;
-	static  int       СобытиеLevel;
+	static  int       EventLevel;
 	static  int       LoopLevel;
-	static  Ктрл     *LoopCtrl;
-	static  int64     СобытиеLoopNo;
+	static  Ctrl     *LoopCtrl;
+	static  int64     EventLoopNo;
 	static  int64     EndSessionLoopNo;
 	static  int64     eventid;
 
-	static  Ук<Ктрл>           defferedSetFocus;
-	static  Вектор< Ук<Ктрл> > defferedChildLostFocus;
+	static  Ptr<Ctrl>           defferedSetFocus;
+	static  Vector< Ptr<Ctrl> > defferedChildLostFocus;
 
-	static  Ук<Ктрл> repeatTopCtrl;
-	static  Точка     repeatMousePos;
+	static  Ptr<Ctrl> repeatTopCtrl;
+	static  Point     repeatMousePos;
 	
-	static  ИнфОПере   pen;
+	static  PenInfo   pen;
 	static  bool      is_pen_event;
 
-	static  Вектор<ХукМыш>& mousehook();
-	static  Вектор<ХукКлав>&   keyhook();
-	static  Вектор<ХукСост>& statehook();
+	static  Vector<MouseHook>& mousehook();
+	static  Vector<KeyHook>&   keyhook();
+	static  Vector<StateHook>& statehook();
 
-	static Ук<Ктрл> фокусируйКтрл() { return focusCtrl; }
-	static void      фокусируйКтрл(Ук<Ктрл> fc) { focusCtrl = fc; }
+	static Ptr<Ctrl> FocusCtrl() { return focusCtrl; }
+	static void      FocusCtrl(Ptr<Ctrl> fc) { focusCtrl = fc; }
 
 	void    StateDeep(int state);
 
-	void    удалиОтпрыск0(Ктрл *q);
+	void    RemoveChild0(Ctrl *q);
 
-	static int       найдиПереместиКтрл(const ВекторМап<Ктрл *, КтрлПеремест>& m, Ктрл *x);
-	static КтрлПеремест *найдиПереместиУкКтрл(ВекторМап<Ктрл *, КтрлПеремест>& m, Ктрл *x);
+	static int       FindMoveCtrl(const VectorMap<Ctrl *, MoveCtrl>& m, Ctrl *x);
+	static MoveCtrl *FindMoveCtrlPtr(VectorMap<Ctrl *, MoveCtrl>& m, Ctrl *x);
 
-	Размер    PosVal(int v) const;
+	Size    PosVal(int v) const;
 	void    Lay1(int& pos, int& r, int align, int a, int b, int sz) const;
-	Прям    вычислиПрям(ПозЛога pos, const Прям& prect, const Прям& pview) const;
-	Прям    вычислиПрям(const Прям& prect, const Прям& pview) const;
-	void    обновиПрям0(bool sync = true);
-	void    обновиПрям(bool sync = true);
-	void    устПоз0(ПозЛога p, bool inframe);
-	void    SetWndRect(const Прям& r);
+	Rect    CalcRect(LogPos pos, const Rect& prect, const Rect& pview) const;
+	Rect    CalcRect(const Rect& prect, const Rect& pview) const;
+	void    UpdateRect0(bool sync = true);
+	void    UpdateRect(bool sync = true);
+	void    SetPos0(LogPos p, bool inframe);
+	void    SetWndRect(const Rect& r);
 	void    SyncMoves();
 
 	static  void  EndIgnore();
 	static  void  LRep();
-	static  bool  NotDrag(Точка p);
+	static  bool  NotDrag(Point p);
 	static  void  LHold();
 	static  void  LRepeat();
 	static  void  RRep();
@@ -588,15 +588,15 @@ private:
 	static  void  KillRepeat();
 	static  void  CheckMouseCtrl();
 	static  void  DoCursorShape();
-	static  Рисунок& CursorOverride();
+	static  Image& CursorOverride();
 	bool    IsMouseActive() const;
-	Рисунок   MouseEvent0(int event, Точка p, int zdelta, dword keyflags);
-	Рисунок   MouseEventH(int event, Точка p, int zdelta, dword keyflags);
-	Рисунок   FrameMouseEventH(int event, Точка p, int zdelta, dword keyflags);
-	Рисунок   MСобытие0(int e, Точка p, int zd);
-	Рисунок   DispatchMouse(int e, Точка p, int zd = 0);
-	Рисунок   DispatchMouseEvent(int e, Точка p, int zd = 0);
-	void    LogMouseEvent(const char *f, const Ктрл *ctrl, int event, Точка p, int zdelta, dword keyflags);
+	Image   MouseEvent0(int event, Point p, int zdelta, dword keyflags);
+	Image   MouseEventH(int event, Point p, int zdelta, dword keyflags);
+	Image   FrameMouseEventH(int event, Point p, int zdelta, dword keyflags);
+	Image   MEvent0(int e, Point p, int zd);
+	Image   DispatchMouse(int e, Point p, int zd = 0);
+	Image   DispatchMouseEvent(int e, Point p, int zd = 0);
+	void    LogMouseEvent(const char *f, const Ctrl *ctrl, int event, Point p, int zdelta, dword keyflags);
 
 	struct CallBox;
 	static void PerformCall(CallBox *cbox);
@@ -612,45 +612,45 @@ private:
 	void    SetFocusWnd();
 	void    KillFocusWnd();
 
-	static Ук<Ктрл> dndctrl;
-	static Точка     dndpos;
+	static Ptr<Ctrl> dndctrl;
+	static Point     dndpos;
 	static bool      dndframe;
 	static PasteClip dndclip;
 
-	void    ТиБ(Точка p, PasteClip& clip);
+	void    DnD(Point p, PasteClip& clip);
 	static void DnDRepeat();
 	static void DnDLeave();
 
 	void    SyncLayout(int force = 0);
-	bool    AddScroll(const Прям& sr, int dx, int dy);
-	Прям    GetClippedView();
-	void    ScrollRefresh(const Прям& r, int dx, int dy);
-	void    промотайКтрл(Верх *top, Ктрл *q, const Прям& r, Прям cr, int dx, int dy);
-	void    синхПромот();
-	void    Refresh0(const Прям& area);
+	bool    AddScroll(const Rect& sr, int dx, int dy);
+	Rect    GetClippedView();
+	void    ScrollRefresh(const Rect& r, int dx, int dy);
+	void    ScrollCtrl(Top *top, Ctrl *q, const Rect& r, Rect cr, int dx, int dy);
+	void    SyncScroll();
+	void    Refresh0(const Rect& area);
 	void    PaintCaret(SystemDraw& w);
-	void    CtrlPaint(SystemDraw& w, const Прям& clip);
+	void    CtrlPaint(SystemDraw& w, const Rect& clip);
 	void    RemoveFullRefresh();
-	bool    PaintOpaqueAreas(SystemDraw& w, const Прям& r, const Прям& clip, bool nochild = false);
-	void    GatherTransparentAreas(Вектор<Прям>& area, SystemDraw& w, Прям r, const Прям& clip);
-	Ктрл   *FindBestOpaque(const Прям& clip);
-	void    ExcludeDHCtrls(SystemDraw& w, const Прям& r, const Прям& clip);
-	void    UpdateArea0(SystemDraw& draw, const Прям& clip, int backpaint);
-	void    UpdateArea(SystemDraw& draw, const Прям& clip);
-	Ктрл   *дайВерхПрям(Прям& r, bool inframe, bool clip = true);
-	void    DoSync(Ктрл *q, Прям r, bool inframe);
+	bool    PaintOpaqueAreas(SystemDraw& w, const Rect& r, const Rect& clip, bool nochild = false);
+	void    GatherTransparentAreas(Vector<Rect>& area, SystemDraw& w, Rect r, const Rect& clip);
+	Ctrl   *FindBestOpaque(const Rect& clip);
+	void    ExcludeDHCtrls(SystemDraw& w, const Rect& r, const Rect& clip);
+	void    UpdateArea0(SystemDraw& draw, const Rect& clip, int backpaint);
+	void    UpdateArea(SystemDraw& draw, const Rect& clip);
+	Ctrl   *GetTopRect(Rect& r, bool inframe, bool clip = true);
+	void    DoSync(Ctrl *q, Rect r, bool inframe);
 	void    SetInfoPart(int i, const char *txt);
-	Ткст  GetInfoPart(int i) const;
+	String  GetInfoPart(int i) const;
 
-	Прям    GetPreeditScreenRect();
+	Rect    GetPreeditScreenRect();
 	void    SyncPreedit();
-	void    ShowPreedit(const ШТкст& text, int cursor = INT_MAX);
+	void    ShowPreedit(const WString& text, int cursor = INT_MAX);
 	static void HidePreedit();
-	static void PreeditSync(void (*enable_preedit)(Ктрл *top, bool enable));
+	static void PreeditSync(void (*enable_preedit)(Ctrl *top, bool enable));
 
 // System window interface...
 	void WndShow(bool b);
-	void WndSetPos(const Прям& rect);
+	void WndSetPos(const Rect& rect);
 
 	bool IsWndOpen() const;
 
@@ -658,46 +658,46 @@ private:
 	bool HasWndCapture() const;
 	bool ReleaseWndCapture();
 
-	static void устКурсорМыши(const Рисунок& m);
+	static void SetMouseCursor(const Image& m);
 
-	static void DoDeactivate(Ук<Ктрл> pfocusCtrl, Ук<Ктрл> nfocusCtrl);
-	static void DoKillFocus(Ук<Ктрл> pfocusCtrl, Ук<Ктрл> nfocusCtrl);
-	static void DoSetFocus(Ук<Ктрл> pfocusCtrl, Ук<Ктрл> nfocusCtrl, bool activate);
+	static void DoDeactivate(Ptr<Ctrl> pfocusCtrl, Ptr<Ctrl> nfocusCtrl);
+	static void DoKillFocus(Ptr<Ctrl> pfocusCtrl, Ptr<Ctrl> nfocusCtrl);
+	static void DoSetFocus(Ptr<Ctrl> pfocusCtrl, Ptr<Ctrl> nfocusCtrl, bool activate);
 
-	bool устФокус0(bool activate);
-	void активируйОкно();
+	bool SetFocus0(bool activate);
+	void ActivateWnd();
 	void ClickActivateWnd();
-	bool устФокусОкна();
-	bool естьФокусОкна() const;
+	bool SetWndFocus();
+	bool HasWndFocus() const;
 
-	void WndInvalidateRect(const Прям& r);
+	void WndInvalidateRect(const Rect& r);
 
-	void WndScrollView(const Прям& r, int dx, int dy);
+	void WndScrollView(const Rect& r, int dx, int dy);
 
-	void устППОкна();
-	bool ппОкна_ли() const;
+	void SetWndForeground();
+	bool IsWndForeground() const;
 
 	void WndEnable(bool b);
 
-	Прям GetWndScreenRect() const;
+	Rect GetWndScreenRect() const;
 
-	void обновиОкно();
-	void обновиОкно(const Прям& r);
+	void WndUpdate();
+	void WndUpdate(const Rect& r);
 
-	void освободиОкно();
-	void разрушьОкно();
+	void WndFree();
+	void WndDestroy();
 
 	void SysEndLoop();
 
-	Ткст имя0() const;
+	String Name0() const;
 
-	static void иницТаймер();
+	static void InitTimer();
 
-	static Ткст appname;
+	static String appname;
 
-	static Размер Bsize;
-	static Размер Dsize;
-	static Размер Csize;
+	static Size Bsize;
+	static Size Dsize;
+	static Size Csize;
 	static bool IsNoLayoutZoom;
 	static void Csizeinit();
 	static void (*skin)();
@@ -711,21 +711,21 @@ private:
 	friend class DHCtrl;
 	friend class TopFrameDraw;
 	friend class ViewDraw;
-	friend class ТопОкно;
-	friend class ИконкаТрея;
-	friend class ГЛКтрл;
+	friend class TopWindow;
+	friend class TrayIcon;
+	friend class GLCtrl;
 	friend class WaitCursor;
 	friend struct UDropSource;
 	friend class DnDAction;
 	friend class PasteClip;
 
-	typedef Ктрл ИМЯ_КЛАССА;
+	typedef Ctrl CLASSNAME;
 
 	void        GuiPlatformConstruct();
 	void        GuiPlatformDestruct();
 	void        GuiPlatformRemove();
-	void        GuiPlatformGetTopRect(Прям& r) const;
-	bool        GuiPlatformRefreshFrameSpecial(const Прям& r);
+	void        GuiPlatformGetTopRect(Rect& r) const;
+	bool        GuiPlatformRefreshFrameSpecial(const Rect& r);
 	bool        GuiPlatformSetFullRefreshSpecial();
 	static void GuiPlatformSelection(PasteClip& d);
 
@@ -739,9 +739,9 @@ private:
 	
 	bool IsDHCtrl() const;
 	
-	struct СобытиеLevelDo {
-		СобытиеLevelDo() { СобытиеLevel++; };
-		~СобытиеLevelDo() { СобытиеLevel--; };
+	struct EventLevelDo {
+		EventLevelDo() { EventLevel++; };
+		~EventLevelDo() { EventLevel--; };
 	};
 
 private:
@@ -750,7 +750,7 @@ private:
 protected:
 	static void     TimerProc(dword time);
 
-			Ктрл&   Unicode()                         { unicode = true; return *this; }
+			Ctrl&   Unicode()                         { unicode = true; return *this; }
 
 public:
 	enum StateReason {
@@ -818,291 +818,291 @@ public:
 		EXCLUDEPAINT,
 	};
 
-	static  Вектор<Ктрл *> дайТопКтрлы();
-	static  Вектор<Ктрл *> дайТопОкна();
-	static  void   закройТопКтрлы();
+	static  Vector<Ctrl *> GetTopCtrls();
+	static  Vector<Ctrl *> GetTopWindows();
+	static  void   CloseTopCtrls();
 
-	static  void   устХукМыши(ХукМыш hook);
-	static  void   DeinstallMouseHook(ХукМыш hook);
+	static  void   InstallMouseHook(MouseHook hook);
+	static  void   DeinstallMouseHook(MouseHook hook);
 
-	static  void   InstallKeyHook(ХукКлав hook);
-	static  void   DeinstallKeyHook(ХукКлав hook);
+	static  void   InstallKeyHook(KeyHook hook);
+	static  void   DeinstallKeyHook(KeyHook hook);
 
-	static  void   InstallStateHook(ХукСост hook);
-	static  void   DeinstallStateHook(ХукСост hook);
+	static  void   InstallStateHook(StateHook hook);
+	static  void   DeinstallStateHook(StateHook hook);
 	
-	static  int    RegisterSystemHotKey(dword ключ, Функция<void ()> cb);
+	static  int    RegisterSystemHotKey(dword key, Function<void ()> cb);
 	static  void   UnregisterSystemHotKey(int id);
 
-	virtual bool   прими();
-	virtual void   отклони();
-	virtual void   устДанные(const Значение& data);
-	virtual Значение  дайДанные() const;
-	virtual void   сериализуй(Поток& s);
-	virtual void   вДжейсон(ДжейсонВВ& jio);
-	virtual void   вРяр(РярВВ& xio);
+	virtual bool   Accept();
+	virtual void   Reject();
+	virtual void   SetData(const Value& data);
+	virtual Value  GetData() const;
+	virtual void   Serialize(Stream& s);
+	virtual void   Jsonize(JsonIO& jio);
+	virtual void   Xmlize(XmlIO& xio);
 	virtual void   SetModify();
 	virtual void   ClearModify();
-	virtual bool   изменено() const;
+	virtual bool   IsModified() const;
 
-	virtual void   рисуй(Draw& w);
-	virtual int    рисуйПоверх() const;
+	virtual void   Paint(Draw& w);
+	virtual int    OverPaint() const;
 
-	virtual void   режимОтмены();
+	virtual void   CancelMode();
 
-	virtual void   активируй();
-	virtual void   дезактивируй();
-	virtual void   дезактивируйПо(Ктрл *new_focus);
+	virtual void   Activate();
+	virtual void   Deactivate();
+	virtual void   DeactivateBy(Ctrl *new_focus);
 
-	virtual Рисунок  FrameMouseEvent(int event, Точка p, int zdelta, dword keyflags);
-	virtual Рисунок  MouseEvent(int event, Точка p, int zdelta, dword keyflags);
-	virtual void   входМыши(Точка p, dword keyflags);
-	virtual void   двигМыши(Точка p, dword keyflags);
-	virtual void   леваяВнизу(Точка p, dword keyflags);
-	virtual void   леваяДКлик(Точка p, dword keyflags);
-	virtual void   LeftTriple(Точка p, dword keyflags);
-	virtual void   леваяПовтори(Точка p, dword keyflags);
-	virtual void   леваяТяг(Точка p, dword keyflags);
-	virtual void   LeftHold(Точка p, dword keyflags);
-	virtual void   леваяВверху(Точка p, dword keyflags);
-	virtual void   праваяВнизу(Точка p, dword keyflags);
-	virtual void   RightDouble(Точка p, dword keyflags);
-	virtual void   RightTriple(Точка p, dword keyflags);
-	virtual void   RightRepeat(Точка p, dword keyflags);
-	virtual void   RightDrag(Точка p, dword keyflags);
-	virtual void   RightHold(Точка p, dword keyflags);
-	virtual void   RightUp(Точка p, dword keyflags);
-	virtual void   MiddleDown(Точка p, dword keyflags);
-	virtual void   MiddleDouble(Точка p, dword keyflags);
-	virtual void   MiddleTriple(Точка p, dword keyflags);
-	virtual void   MiddleRepeat(Точка p, dword keyflags);
-	virtual void   MiddleDrag(Точка p, dword keyflags);
-	virtual void   MiddleHold(Точка p, dword keyflags);
-	virtual void   MiddleUp(Точка p, dword keyflags);
-	virtual void   колесоМыши(Точка p, int zdelta, dword keyflags);
-	virtual void   выходМыши();
+	virtual Image  FrameMouseEvent(int event, Point p, int zdelta, dword keyflags);
+	virtual Image  MouseEvent(int event, Point p, int zdelta, dword keyflags);
+	virtual void   MouseEnter(Point p, dword keyflags);
+	virtual void   MouseMove(Point p, dword keyflags);
+	virtual void   LeftDown(Point p, dword keyflags);
+	virtual void   LeftDouble(Point p, dword keyflags);
+	virtual void   LeftTriple(Point p, dword keyflags);
+	virtual void   LeftRepeat(Point p, dword keyflags);
+	virtual void   LeftDrag(Point p, dword keyflags);
+	virtual void   LeftHold(Point p, dword keyflags);
+	virtual void   LeftUp(Point p, dword keyflags);
+	virtual void   RightDown(Point p, dword keyflags);
+	virtual void   RightDouble(Point p, dword keyflags);
+	virtual void   RightTriple(Point p, dword keyflags);
+	virtual void   RightRepeat(Point p, dword keyflags);
+	virtual void   RightDrag(Point p, dword keyflags);
+	virtual void   RightHold(Point p, dword keyflags);
+	virtual void   RightUp(Point p, dword keyflags);
+	virtual void   MiddleDown(Point p, dword keyflags);
+	virtual void   MiddleDouble(Point p, dword keyflags);
+	virtual void   MiddleTriple(Point p, dword keyflags);
+	virtual void   MiddleRepeat(Point p, dword keyflags);
+	virtual void   MiddleDrag(Point p, dword keyflags);
+	virtual void   MiddleHold(Point p, dword keyflags);
+	virtual void   MiddleUp(Point p, dword keyflags);
+	virtual void   MouseWheel(Point p, int zdelta, dword keyflags);
+	virtual void   MouseLeave();
 	
-	virtual void   Pen(Точка p, const ИнфОПере& pen, dword keyflags);
+	virtual void   Pen(Point p, const PenInfo& pen, dword keyflags);
 	
-	virtual Точка  GetPreedit();
-	virtual Шрифт   GetPreeditFont();
+	virtual Point  GetPreedit();
+	virtual Font   GetPreeditFont();
 
-	virtual void   тягИБрос(Точка p, PasteClip& d);
-	virtual void   FrameDragAndDrop(Точка p, PasteClip& d);
-	virtual void   тягПовтори(Точка p);
-	virtual void   тягВойди();
-	virtual void   тягПокинь();
-	virtual Ткст GetDropData(const Ткст& fmt) const;
-	virtual Ткст GetSelectionData(const Ткст& fmt) const;
+	virtual void   DragAndDrop(Point p, PasteClip& d);
+	virtual void   FrameDragAndDrop(Point p, PasteClip& d);
+	virtual void   DragRepeat(Point p);
+	virtual void   DragEnter();
+	virtual void   DragLeave();
+	virtual String GetDropData(const String& fmt) const;
+	virtual String GetSelectionData(const String& fmt) const;
 
-	virtual Рисунок  рисКурсора(Точка p, dword keyflags);
+	virtual Image  CursorImage(Point p, dword keyflags);
 
-	virtual bool   Ключ(dword ключ, int count);
-	virtual void   сфокусирован();
-	virtual void   расфокусирован();
-	virtual bool   горячаяКлав(dword ключ);
+	virtual bool   Key(dword key, int count);
+	virtual void   GotFocus();
+	virtual void   LostFocus();
+	virtual bool   HotKey(dword key);
 
-	virtual dword  дайКлючиДоступа() const;
-	virtual void   присвойКлючиДоступа(dword used);
+	virtual dword  GetAccessKeys() const;
+	virtual void   AssignAccessKeys(dword used);
 
 	virtual void   PostInput(); // Deprecated
 
-	virtual void   ChildFrameMouseEvent(Ктрл *child, int event, Точка p, int zdelta, dword keyflags);
-	virtual void   ChildMouseEvent(Ктрл *child, int event, Точка p, int zdelta, dword keyflags);
-	virtual void   отпрыскФок();
-	virtual void   отпрыскРасфок();
-	virtual void   отпрыскДобавлен(Ктрл *child);
-	virtual void   отпрыскУдалён(Ктрл *child);
+	virtual void   ChildFrameMouseEvent(Ctrl *child, int event, Point p, int zdelta, dword keyflags);
+	virtual void   ChildMouseEvent(Ctrl *child, int event, Point p, int zdelta, dword keyflags);
+	virtual void   ChildGotFocus();
+	virtual void   ChildLostFocus();
+	virtual void   ChildAdded(Ctrl *child);
+	virtual void   ChildRemoved(Ctrl *child);
 	virtual void   ParentChange();
 
 	virtual void   State(int reason);
 
-	virtual void   Выкладка();
+	virtual void   Layout();
 
-	virtual Размер   дайМинРазм() const;
-	virtual Размер   дайСтдРазм() const;
-	virtual Размер   дайМаксРазм() const;
+	virtual Size   GetMinSize() const;
+	virtual Size   GetStdSize() const;
+	virtual Size   GetMaxSize() const;
 
 	virtual bool   IsShowEnabled() const;
 
-	virtual Прям   дайПлотныйПрям() const;
-	virtual Прям   дайПроцПрям() const ;
+	virtual Rect   GetOpaqueRect() const;
+	virtual Rect   GetVoidRect() const ;
 
-	virtual void   обновлено();
+	virtual void   Updated();
 
-	virtual void   закрой();
+	virtual void   Close();
 
 	virtual bool   IsOcxChild();
 
-	virtual Ткст дайОпис() const;
+	virtual String GetDesc() const;
 
-	virtual void   устМинРазм(Размер sz) {}
+	virtual void   SetMinSize(Size sz) {}
 
-	Событие<>          WhenAction;
+	Event<>          WhenAction;
 
-	void             добавьОтпрыск(Ктрл *child);
-	void             добавьОтпрыск(Ктрл *child, Ктрл *insafter);
-	void             добавьОтпрыскПеред(Ктрл *child, Ктрл *insbefore);
-	void             удалиОтпрыск(Ктрл *child);
-	Ктрл            *дайРодителя() const           { return parent; }
-	Ктрл            *GetLastChild() const        { return lastchild; }
-	Ктрл            *дайПервОтпрыск() const       { return firstchild; }
-	Ктрл            *дайПредш() const             { return parent ? prev : NULL; }
-	Ктрл            *дайСледщ() const             { return parent ? next : NULL; }
-	int              GetChildIndex(const Ктрл *child) const;
-	Ктрл            *GetIndexChild(int i) const;
+	void             AddChild(Ctrl *child);
+	void             AddChild(Ctrl *child, Ctrl *insafter);
+	void             AddChildBefore(Ctrl *child, Ctrl *insbefore);
+	void             RemoveChild(Ctrl *child);
+	Ctrl            *GetParent() const           { return parent; }
+	Ctrl            *GetLastChild() const        { return lastchild; }
+	Ctrl            *GetFirstChild() const       { return firstchild; }
+	Ctrl            *GetPrev() const             { return parent ? prev : NULL; }
+	Ctrl            *GetNext() const             { return parent ? next : NULL; }
+	int              GetChildIndex(const Ctrl *child) const;
+	Ctrl            *GetIndexChild(int i) const;
 	int              GetChildCount() const;
 	template <class T>
 	T               *GetAscendant() const;
 
-	int              GetViewChildIndex(const Ктрл *child) const;
+	int              GetViewChildIndex(const Ctrl *child) const;
 	int              GetViewChildCount() const;
-	Ктрл            *GetViewIndexChild(int ii) const;
+	Ctrl            *GetViewIndexChild(int ii) const;
 
-	bool             отпрыск_ли() const             { return parent; }
+	bool             IsChild() const             { return parent; }
 
-	Ктрл            *отпрыскИзТочки(Точка& pt) const;
+	Ctrl            *ChildFromPoint(Point& pt) const;
 
-	bool             пп_ли() const;
-	void             устПП();
+	bool             IsForeground() const;
+	void             SetForeground();
 
-	const Ктрл      *дайТопКтрл() const;
-	Ктрл            *дайТопКтрл();
-	const Ктрл      *дайВладельца() const;
-	Ктрл            *дайВладельца();
-	const Ктрл      *GetTopCtrlOwner() const;
-	Ктрл            *GetTopCtrlOwner();
+	const Ctrl      *GetTopCtrl() const;
+	Ctrl            *GetTopCtrl();
+	const Ctrl      *GetOwner() const;
+	Ctrl            *GetOwner();
+	const Ctrl      *GetTopCtrlOwner() const;
+	Ctrl            *GetTopCtrlOwner();
 
-	Ктрл            *GetOwnerCtrl();
-	const Ктрл      *GetOwnerCtrl() const;
+	Ctrl            *GetOwnerCtrl();
+	const Ctrl      *GetOwnerCtrl() const;
 
-	const ТопОкно *дайТопОкно() const;
-	ТопОкно       *дайТопОкно();
+	const TopWindow *GetTopWindow() const;
+	TopWindow       *GetTopWindow();
 
-	const ТопОкно *дайГлавнОкно() const;
-	ТопОкно       *дайГлавнОкно();
+	const TopWindow *GetMainWindow() const;
+	TopWindow       *GetMainWindow();
 
-	Ктрл&            устФрейм(int i, КтрлФрейм& frm);
-	Ктрл&            устФрейм(КтрлФрейм& frm)            { return устФрейм(0, frm); }
-	Ктрл&            добавьФрейм(КтрлФрейм& frm);
-	const КтрлФрейм& дайФрейм(int i = 0) const           { return *frame[i].frame; }
-	КтрлФрейм&       дайФрейм(int i = 0)                 { return *frame[i].frame; }
-	void             удалиФрейм(int i);
-	void             удалиФрейм(КтрлФрейм& frm);
-	void             вставьФрейм(int i, КтрлФрейм& frm);
-	int              найдиФрейм(КтрлФрейм& frm);
-	int              дайСчётФреймов() const               { return frame.дайСчёт(); }
-	void             очистьФреймы();
+	Ctrl&            SetFrame(int i, CtrlFrame& frm);
+	Ctrl&            SetFrame(CtrlFrame& frm)            { return SetFrame(0, frm); }
+	Ctrl&            AddFrame(CtrlFrame& frm);
+	const CtrlFrame& GetFrame(int i = 0) const           { return *frame[i].frame; }
+	CtrlFrame&       GetFrame(int i = 0)                 { return *frame[i].frame; }
+	void             RemoveFrame(int i);
+	void             RemoveFrame(CtrlFrame& frm);
+	void             InsertFrame(int i, CtrlFrame& frm);
+	int              FindFrame(CtrlFrame& frm);
+	int              GetFrameCount() const               { return frame.GetCount(); }
+	void             ClearFrames();
 
-	bool        открыт() const;
+	bool        IsOpen() const;
 
 	void        Shutdown()                               { destroying = true; }
 	bool        IsShutdown() const                       { return destroying; }
 
-	Ктрл&       устПоз(ПозЛога p, bool inframe);
+	Ctrl&       SetPos(LogPos p, bool inframe);
 
-	Ктрл&       устПоз(ПозЛога p);
-	Ктрл&       устПоз(Logc x, Logc y)                   { return устПоз(ПозЛога(x, y)); }
-	Ктрл&       SetPosX(Logc x);
-	Ктрл&       SetPosY(Logc y);
+	Ctrl&       SetPos(LogPos p);
+	Ctrl&       SetPos(Logc x, Logc y)                   { return SetPos(LogPos(x, y)); }
+	Ctrl&       SetPosX(Logc x);
+	Ctrl&       SetPosY(Logc y);
 
-	void        устПрям(const Прям& r);
-	void        устПрям(int x, int y, int cx, int cy);
+	void        SetRect(const Rect& r);
+	void        SetRect(int x, int y, int cx, int cy);
 	void        SetRectX(int x, int cx);
 	void        SetRectY(int y, int cy);
 
-	Ктрл&       SetFramePos(ПозЛога p);
-	Ктрл&       SetFramePos(Logc x, Logc y)              { return SetFramePos(ПозЛога(x, y)); }
-	Ктрл&       SetFramePosX(Logc x);
-	Ктрл&       SetFramePosY(Logc y);
+	Ctrl&       SetFramePos(LogPos p);
+	Ctrl&       SetFramePos(Logc x, Logc y)              { return SetFramePos(LogPos(x, y)); }
+	Ctrl&       SetFramePosX(Logc x);
+	Ctrl&       SetFramePosY(Logc y);
 
-	void        SetFrameRect(const Прям& r);
+	void        SetFrameRect(const Rect& r);
 	void        SetFrameRect(int x, int y, int cx, int cy);
 	void        SetFrameRectX(int x, int cx);
 	void        SetFrameRectY(int y, int cy);
 
 	bool        InFrame() const                          { return inframe; }
 	bool        InView() const                           { return !inframe; }
-	ПозЛога      дайПоз() const                           { return pos; }
+	LogPos      GetPos() const                           { return pos; }
 
-	void        освежиВыкладку()                          { SyncLayout(1); }
+	void        RefreshLayout()                          { SyncLayout(1); }
 	void        RefreshLayoutDeep()                      { SyncLayout(2); }
-	void        освежиВыкладкуРодителя()                    { if(parent) parent->освежиВыкладку(); }
+	void        RefreshParentLayout()                    { if(parent) parent->RefreshLayout(); }
 	
 	void        UpdateLayout()                           { SyncLayout(); }
 	void        UpdateParentLayout()                     { if(parent) parent->UpdateLayout(); }
 
-	Ктрл&       LeftPos(int a, int size = STDSIZE);
-	Ктрл&       RightPos(int a, int size = STDSIZE);
-	Ктрл&       TopPos(int a, int size = STDSIZE);
-	Ктрл&       BottomPos(int a, int size = STDSIZE);
-	Ктрл&       HSizePos(int a = 0, int b = 0);
-	Ктрл&       VSizePos(int a = 0, int b = 0);
-	Ктрл&       SizePos();
-	Ктрл&       HCenterPos(int size = STDSIZE, int delta = 0);
-	Ктрл&       VCenterPos(int size = STDSIZE, int delta = 0);
+	Ctrl&       LeftPos(int a, int size = STDSIZE);
+	Ctrl&       RightPos(int a, int size = STDSIZE);
+	Ctrl&       TopPos(int a, int size = STDSIZE);
+	Ctrl&       BottomPos(int a, int size = STDSIZE);
+	Ctrl&       HSizePos(int a = 0, int b = 0);
+	Ctrl&       VSizePos(int a = 0, int b = 0);
+	Ctrl&       SizePos();
+	Ctrl&       HCenterPos(int size = STDSIZE, int delta = 0);
+	Ctrl&       VCenterPos(int size = STDSIZE, int delta = 0);
 
-	Ктрл&       LeftPosZ(int a, int size = STDSIZE);
-	Ктрл&       RightPosZ(int a, int size = STDSIZE);
-	Ктрл&       TopPosZ(int a, int size = STDSIZE);
-	Ктрл&       BottomPosZ(int a, int size = STDSIZE);
-	Ктрл&       HSizePosZ(int a = 0, int b = 0);
-	Ктрл&       VSizePosZ(int a = 0, int b = 0);
-	Ктрл&       HCenterPosZ(int size = STDSIZE, int delta = 0);
-	Ктрл&       VCenterPosZ(int size = STDSIZE, int delta = 0);
+	Ctrl&       LeftPosZ(int a, int size = STDSIZE);
+	Ctrl&       RightPosZ(int a, int size = STDSIZE);
+	Ctrl&       TopPosZ(int a, int size = STDSIZE);
+	Ctrl&       BottomPosZ(int a, int size = STDSIZE);
+	Ctrl&       HSizePosZ(int a = 0, int b = 0);
+	Ctrl&       VSizePosZ(int a = 0, int b = 0);
+	Ctrl&       HCenterPosZ(int size = STDSIZE, int delta = 0);
+	Ctrl&       VCenterPosZ(int size = STDSIZE, int delta = 0);
 
-	Прям        дайПрям() const;
-	Прям        дайПрямЭкрана() const;
+	Rect        GetRect() const;
+	Rect        GetScreenRect() const;
 
-	Прям        GetView() const;
-	Прям        GetScreenView() const;
-	Размер        дайРазм() const;
+	Rect        GetView() const;
+	Rect        GetScreenView() const;
+	Size        GetSize() const;
 
-	Прям        GetVisibleScreenRect() const;
-	Прям        GetVisibleScreenView() const;
+	Rect        GetVisibleScreenRect() const;
+	Rect        GetVisibleScreenView() const;
 
-	Прям        GetWorkArea() const;
+	Rect        GetWorkArea() const;
 
-	Размер        дайРазмФрейма(int cx, int cy) const;
-	Размер        дайРазмФрейма(Размер sz) const              { return дайРазмФрейма(sz.cx, sz.cy); }
+	Size        AddFrameSize(int cx, int cy) const;
+	Size        AddFrameSize(Size sz) const              { return AddFrameSize(sz.cx, sz.cy); }
 
-	void        освежи(const Прям& r);
-	void        освежи(int x, int y, int cx, int cy);
-	void        освежи();
+	void        Refresh(const Rect& r);
+	void        Refresh(int x, int y, int cx, int cy);
+	void        Refresh();
 	bool        IsFullRefresh() const                    { return fullrefresh; }
 
-	void        освежиФрейм(const Прям& r);
-	void        освежиФрейм(int x, int y, int cx, int cy);
-	void        освежиФрейм();
+	void        RefreshFrame(const Rect& r);
+	void        RefreshFrame(int x, int y, int cx, int cy);
+	void        RefreshFrame();
 	
 	static bool IsPainting()                             { return painting; }
 
-	void        промотайОбзор(const Прям& r, int dx, int dy);
-	void        промотайОбзор(int x, int y, int cx, int cy, int dx, int dy);
-	void        промотайОбзор(int dx, int dy);
-	void        промотайОбзор(const Прям& r, Размер delta)    { промотайОбзор(r, delta.cx, delta.cy); }
-	void        промотайОбзор(Размер delta)                   { промотайОбзор(delta.cx, delta.cy); }
+	void        ScrollView(const Rect& r, int dx, int dy);
+	void        ScrollView(int x, int y, int cx, int cy, int dx, int dy);
+	void        ScrollView(int dx, int dy);
+	void        ScrollView(const Rect& r, Size delta)    { ScrollView(r, delta.cx, delta.cy); }
+	void        ScrollView(Size delta)                   { ScrollView(delta.cx, delta.cy); }
 
-	void        синх();
-	void        синх(const Прям& r);
+	void        Sync();
+	void        Sync(const Rect& r);
 
-	static Рисунок OverrideCursor(const Рисунок& m);
+	static Image OverrideCursor(const Image& m);
 
 	void        DrawCtrl(Draw& w, int x = 0, int y = 0);
 	void        DrawCtrlWithParent(Draw& w, int x = 0, int y = 0);
 
-	bool    HasChild(Ктрл *ctrl) const;
-	bool    HasChildDeep(Ктрл *ctrl) const;
+	bool    HasChild(Ctrl *ctrl) const;
+	bool    HasChildDeep(Ctrl *ctrl) const;
 
-	Ктрл&   IgnoreMouse(bool b = true)                   { ignoremouse = b; return *this; }
-	Ктрл&   NoIgnoreMouse()                              { return IgnoreMouse(false); }
+	Ctrl&   IgnoreMouse(bool b = true)                   { ignoremouse = b; return *this; }
+	Ctrl&   NoIgnoreMouse()                              { return IgnoreMouse(false); }
 	bool    IsIgnoreMouse() const                        { return ignoremouse; }
-	bool    естьМышь() const;
+	bool    HasMouse() const;
 	bool    HasMouseDeep() const;
-	bool    HasMouseInFrame(const Прям& r) const;
-	bool    HasMouseIn(const Прям& r) const;
-	Точка   GetMouseViewPos() const;
-	static Ктрл *GetMouseCtrl();
+	bool    HasMouseInFrame(const Rect& r) const;
+	bool    HasMouseIn(const Rect& r) const;
+	Point   GetMouseViewPos() const;
+	static Ctrl *GetMouseCtrl();
 
 	static void IgnoreMouseClick();
 	static void IgnoreMouseUp();
@@ -1112,143 +1112,143 @@ public:
 	bool    ReleaseCapture();
 	bool    HasCapture() const;
 	static bool  ReleaseCtrlCapture();
-	static Ктрл *GetCaptureCtrl();
+	static Ctrl *GetCaptureCtrl();
 
-	bool    устФокус();
-	bool    естьФокус() const                   { return фокусируйКтрл() == this; }
+	bool    SetFocus();
+	bool    HasFocus() const                   { return FocusCtrl() == this; }
 	bool    HasFocusDeep() const;
-	Ктрл&   WantFocus(bool ft = true)          { wantfocus = ft; return *this; }
-	Ктрл&   NoWantFocus()                      { return WantFocus(false); }
+	Ctrl&   WantFocus(bool ft = true)          { wantfocus = ft; return *this; }
+	Ctrl&   NoWantFocus()                      { return WantFocus(false); }
 	bool	IsWantFocus() const                { return wantfocus; }
 	bool    SetWantFocus();
-	Ктрл&   InitFocus(bool ft = true)          { initfocus = ft; return *this; }
-	Ктрл&   NoInitFocus()                      { return InitFocus(false); }
+	Ctrl&   InitFocus(bool ft = true)          { initfocus = ft; return *this; }
+	Ctrl&   NoInitFocus()                      { return InitFocus(false); }
 	bool    IsInitFocus() const                { return initfocus; }
-	Ктрл   *GetFocusChild() const              { return HasChild(фокусируйКтрл()) ? ~фокусируйКтрл() : NULL; }
-	Ктрл   *GetFocusChildDeep() const          { return HasChildDeep(фокусируйКтрл()) ? ~фокусируйКтрл() : NULL; }
+	Ctrl   *GetFocusChild() const              { return HasChild(FocusCtrl()) ? ~FocusCtrl() : NULL; }
+	Ctrl   *GetFocusChildDeep() const          { return HasChildDeep(FocusCtrl()) ? ~FocusCtrl() : NULL; }
 
 	void    CancelModeDeep();
 
-	void    устКаретку(int x, int y, int cx, int cy);
-	void    устКаретку(const Прям& r);
-	Прям    дайКаретку() const;
-	void    анулируйКаретку();
+	void    SetCaret(int x, int y, int cx, int cy);
+	void    SetCaret(const Rect& r);
+	Rect    GetCaret() const;
+	void    KillCaret();
 	
 	static void  CancelPreedit();
 	
-	void   CancelMyPreedit()                   { if(естьФокус()) CancelPreedit(); }
+	void   CancelMyPreedit()                   { if(HasFocus()) CancelPreedit(); }
 
-	static Ктрл *GetFocusCtrl()                { return фокусируйКтрл(); }
+	static Ctrl *GetFocusCtrl()                { return FocusCtrl(); }
 
-	static Ктрл *GetСобытиеTopCtrl()             { return eventCtrl; }
+	static Ctrl *GetEventTopCtrl()             { return eventCtrl; }
 
-	static bool  IterateFocusForward(Ктрл *ctrl, Ктрл *top, bool noframe = false, bool init = false, bool all = false);
-	static bool  IterateFocusBackward(Ктрл *ctrl, Ктрл *top, bool noframe = false, bool all = false);
+	static bool  IterateFocusForward(Ctrl *ctrl, Ctrl *top, bool noframe = false, bool init = false, bool all = false);
+	static bool  IterateFocusBackward(Ctrl *ctrl, Ctrl *top, bool noframe = false, bool all = false);
 
 	static dword AccessKeyBit(int accesskey);
 	dword   GetAccessKeysDeep() const;
 	void    DistributeAccessKeys();
 	bool    VisibleAccessKeys();
 
-	void    покажи(bool show = true);
-	void    скрой()                             { покажи(false); }
-	bool    показан_ли() const                    { return visible; }
-	bool    видим_ли() const;
+	void    Show(bool show = true);
+	void    Hide()                             { Show(false); }
+	bool    IsShown() const                    { return visible; }
+	bool    IsVisible() const;
 
-	void    вкл(bool enable = true);
-	void    откл()                          { вкл(false); }
-	bool    включен_ли() const                  { return enabled; }
+	void    Enable(bool enable = true);
+	void    Disable()                          { Enable(false); }
+	bool    IsEnabled() const                  { return enabled; }
 
-	Ктрл&   устРедактируем(bool editable = true);
-	Ктрл&   устТолькоЧтен()                      { return устРедактируем(false); }
-	bool    редактируем_ли() const                 { return editable; }
-	bool    толькочтен_ли() const                 { return !editable; }
+	Ctrl&   SetEditable(bool editable = true);
+	Ctrl&   SetReadOnly()                      { return SetEditable(false); }
+	bool    IsEditable() const                 { return editable; }
+	bool    IsReadOnly() const                 { return !editable; }
 
 	void    ClearModifyDeep();
 	bool    IsModifiedDeep() const;
 	bool    IsModifySet() const                { return modify; } // deprecated
 
-	void    обновиОсвежи();
+	void    UpdateRefresh();
 	void    Update();
 	void    Action();
 	void    UpdateAction();
 	void    UpdateActionRefresh();
 
-	Ктрл&   BackPaint(int bp = FULLBACKPAINT)  { backpaint = bp; return *this; }
-	Ктрл&   TransparentBackPaint()             { backpaint = TRANSPARENTBACKPAINT; return *this; }
-	Ктрл&   NoBackPaint()                      { return BackPaint(NOBACKPAINT); }
-	Ктрл&   BackPaintHint();
+	Ctrl&   BackPaint(int bp = FULLBACKPAINT)  { backpaint = bp; return *this; }
+	Ctrl&   TransparentBackPaint()             { backpaint = TRANSPARENTBACKPAINT; return *this; }
+	Ctrl&   NoBackPaint()                      { return BackPaint(NOBACKPAINT); }
+	Ctrl&   BackPaintHint();
 	int     GetBackPaint() const               { return backpaint; }
-	Ктрл&   Transparent(bool bp = true)        { transparent = bp; return *this; }
-	Ктрл&   NoTransparent()                    { return Transparent(false); }
+	Ctrl&   Transparent(bool bp = true)        { transparent = bp; return *this; }
+	Ctrl&   NoTransparent()                    { return Transparent(false); }
 	bool    IsTransparent() const              { return transparent; }
 
-	Ктрл&   Info(const char *txt)              { info = txt; return *this; }
-	Ткст  GetInfo() const                    { return info; }
+	Ctrl&   Info(const char *txt)              { info = txt; return *this; }
+	String  GetInfo() const                    { return info; }
 
-	Ктрл&   Подсказка(const char *txt);
-	Ктрл&   HelpLine(const char *txt);
-	Ктрл&   Description(const char *txt);
-	Ктрл&   HelpTopic(const char *txt);
-	Ктрл&   LayoutId(const char *txt);
+	Ctrl&   Tip(const char *txt);
+	Ctrl&   HelpLine(const char *txt);
+	Ctrl&   Description(const char *txt);
+	Ctrl&   HelpTopic(const char *txt);
+	Ctrl&   LayoutId(const char *txt);
 
-	Ткст  GetTip() const;
-	Ткст  GetHelpLine() const;
-	Ткст  GetDescription() const;
-	Ткст  GetHelpTopic() const;
-	Ткст  дайИдВыкладки() const;
-	void    ClearInfo()                        { info.очисть(); }
+	String  GetTip() const;
+	String  GetHelpLine() const;
+	String  GetDescription() const;
+	String  GetHelpTopic() const;
+	String  GetLayoutId() const;
+	void    ClearInfo()                        { info.Clear(); }
 
-	void    добавь(Ктрл& ctrl)                    { добавьОтпрыск(&ctrl); }
-	Ктрл&   operator<<(Ктрл& ctrl)             { добавь(ctrl); return *this; }
+	void    Add(Ctrl& ctrl)                    { AddChild(&ctrl); }
+	Ctrl&   operator<<(Ctrl& ctrl)             { Add(ctrl); return *this; }
 
-	void    удали();
+	void    Remove();
 
-	Значение        operator~() const             { return дайДанные(); }
-	const Значение& operator<<=(const Значение& v)   { устДанные(v); return v; }
-	bool         экзПусто_ли() const        { return дайДанные().пусто_ли(); }
+	Value        operator~() const             { return GetData(); }
+	const Value& operator<<=(const Value& v)   { SetData(v); return v; }
+	bool         IsNullInstance() const        { return GetData().IsNull(); }
 
 	Callback     operator<<=(Callback  action) { WhenAction = action; return action; }
 
-	Событие<>&     operator<<(Событие<> action)    { return WhenAction << action; }
-	Событие<>&     operator^=(Событие<> action)    { return WhenAction = action; }
+	Event<>&     operator<<(Event<> action)    { return WhenAction << action; }
+	Event<>&     operator^=(Event<> action)    { return WhenAction = action; }
 
-	void    устОбрвызВремени(int delay_ms, Функция<void ()> cb, int id = 0);
-	void    глушиОбрвызВремени(int id = 0);
-	void    KillSetTimeCallback(int delay_ms, Функция<void ()> cb, int id);
-	bool    естьОбрвызВремени(int id = 0) const;
-	void    постОбрвыз(Функция<void ()> cb, int id = 0);
-	void    KillPostCallback(Функция<void ()> cb, int id);
+	void    SetTimeCallback(int delay_ms, Function<void ()> cb, int id = 0);
+	void    KillTimeCallback(int id = 0);
+	void    KillSetTimeCallback(int delay_ms, Function<void ()> cb, int id);
+	bool    ExistsTimeCallback(int id = 0) const;
+	void    PostCallback(Function<void ()> cb, int id = 0);
+	void    KillPostCallback(Function<void ()> cb, int id);
 	
 	enum { TIMEID_COUNT = 1 };
 
-	static Ктрл *дайАктивныйКтрл();
-	static Ктрл *GetActiveWindow();
+	static Ctrl *GetActiveCtrl();
+	static Ctrl *GetActiveWindow();
 
-	static Ктрл *GetVisibleChild(Ктрл *ctrl, Точка p, bool pointinframe);
+	static Ctrl *GetVisibleChild(Ctrl *ctrl, Point p, bool pointinframe);
 
-	void   PopUp(Ктрл *owner = NULL, bool savebits = true, bool activate = true, bool dropshadow = false,
+	void   PopUp(Ctrl *owner = NULL, bool savebits = true, bool activate = true, bool dropshadow = false,
 	             bool topmost = false);
 
 	void   SetAlpha(byte alpha);
 
-	static bool ожидаетСобытие();
-	static bool обработайСобытие(bool *quit = NULL);
-	static bool обработайСобытия(bool *quit = NULL);
-	static int  GetСобытиеLevel()     { return СобытиеLevel; }
+	static bool IsWaitingEvent();
+	static bool ProcessEvent(bool *quit = NULL);
+	static bool ProcessEvents(bool *quit = NULL);
+	static int  GetEventLevel()     { return EventLevel; }
 
 	bool   IsPopUp() const          { return popup; }
 
 
-	static void  циклСобытий(Ктрл *loopctrl = NULL);
+	static void  EventLoop(Ctrl *loopctrl = NULL);
 	static int   GetLoopLevel()     { return LoopLevel; }
-	static Ктрл *GetLoopCtrl()      { return LoopCtrl; }
+	static Ctrl *GetLoopCtrl()      { return LoopCtrl; }
 
 	void   EndLoop();
 	void   EndLoop(int code);
 	bool   InLoop() const;
 	bool   InCurrentLoop() const;
-	int    дайКодВыхода() const;
+	int    GetExitCode() const;
 
 	static PasteClip& Clipboard();
 	static PasteClip& Selection();
@@ -1257,31 +1257,31 @@ public:
 	
 	static void RegisterDropFormats(const char *fmts); // MacOS requires drop formats to be registered
 
-	int    DoDragAndDrop(const char *fmts, const Рисунок& sample, dword actions,
-	                     const ВекторМап<Ткст, ClipData>& data);
-	int    DoDragAndDrop(const char *fmts, const Рисунок& sample = Null, dword actions = DND_ALL);
-	int    DoDragAndDrop(const ВекторМап<Ткст, ClipData>& data, const Рисунок& sample = Null,
+	int    DoDragAndDrop(const char *fmts, const Image& sample, dword actions,
+	                     const VectorMap<String, ClipData>& data);
+	int    DoDragAndDrop(const char *fmts, const Image& sample = Null, dword actions = DND_ALL);
+	int    DoDragAndDrop(const VectorMap<String, ClipData>& data, const Image& sample = Null,
 	                     dword actions = DND_ALL);
-	static Ктрл *GetDragAndDropSource();
-	static Ктрл *GetDragAndDropTarget();
+	static Ctrl *GetDragAndDropSource();
+	static Ctrl *GetDragAndDropTarget();
 	bool   IsDragAndDropSource()    { return this == GetDragAndDropSource(); }
 	bool   IsDragAndDropTarget()    { return this == GetDragAndDropTarget(); }
-	static Размер  StdSampleSize()    { return Размер(DPI(126), DPI(106)); }
+	static Size  StdSampleSize()    { return Size(DPI(126), DPI(106)); }
 	
-	static ИнфОПере GetPenInfo()     { return pen; }
+	static PenInfo GetPenInfo()     { return pen; }
 	
 public:
 	static void SetSkin(void (*skin)());
 
 	static const char *GetZoomText();
-	static void SetZoomSize(Размер sz, Размер bsz = Размер(0, 0));
+	static void SetZoomSize(Size sz, Size bsz = Size(0, 0));
 	static int  HorzLayoutZoom(int cx);
 	static double HorzLayoutZoomf(double cx);
 	static int  VertLayoutZoom(int cy);
-	static Размер LayoutZoom(int cx, int cy);
-	static Размер LayoutZoom(Размер sz);
+	static Size LayoutZoom(int cx, int cy);
+	static Size LayoutZoom(Size sz);
 	static void NoLayoutZoom();
-	static void GetZoomRatio(Размер& m, Размер& d);
+	static void GetZoomRatio(Size& m, Size& d);
 	
 	static void SetUHDEnabled(bool set = true);
 	static bool IsUHDEnabled();
@@ -1292,19 +1292,19 @@ public:
 	static bool ClickFocus();
 	static void ClickFocus(bool cf);
 
-	static Прям   GetVirtualWorkArea();
-	static Прям   GetVirtualScreenArea();
-	static Прям   GetPrimaryWorkArea();
-	static Прям   GetPrimaryScreenArea();
-	static void   GetWorkArea(Массив<Прям>& rc);
-	static Прям   GetWorkArea(Точка pt);
-	static Прям   GetMouseWorkArea()                     { return GetWorkArea(дайПозМыши()); }
+	static Rect   GetVirtualWorkArea();
+	static Rect   GetVirtualScreenArea();
+	static Rect   GetPrimaryWorkArea();
+	static Rect   GetPrimaryScreenArea();
+	static void   GetWorkArea(Array<Rect>& rc);
+	static Rect   GetWorkArea(Point pt);
+	static Rect   GetMouseWorkArea()                     { return GetWorkArea(GetMousePos()); }
 	static int    GetKbdDelay();
 	static int    GetKbdSpeed();
 	static bool   IsAlphaSupported();
-	static Прям   GetDefaultWindowRect();
-	static Ткст дайИмяПрил();
-	static void   устИмяПрил(const Ткст& appname);
+	static Rect   GetDefaultWindowRect();
+	static String GetAppName();
+	static void   SetAppName(const String& appname);
 	static bool   IsCompositedGui();
 
 	static void   GlobalBackPaint(bool b = true);
@@ -1313,12 +1313,12 @@ public:
 
 	static void   ReSkin();
 
-	Ткст        Имя() const;
-	static Ткст Имя(Ктрл *ctrl);
+	String        Name() const;
+	static String Name(Ctrl *ctrl);
 
-#ifdef _ОТЛАДКА
+#ifdef _DEBUG
 	virtual void   Dump() const;
-	virtual void   Dump(Поток& s) const;
+	virtual void   Dump(Stream& s) const;
 
 	static bool LogMessages;
 #endif
@@ -1327,81 +1327,81 @@ public:
 
 	static bool MemoryCheck;
 
-	static void гипСпи(int ms);
+	static void GuiSleep(int ms);
 
 	static void SetTimerGranularity(int ms);
 
-	static void Call(Функция<void ()> cb);
+	static void Call(Function<void ()> cb);
 
-	static bool шатдаунНитей_ли()                     { return Нить::шатдаунНитей_ли(); }
-	static void шатдаунНитей();
+	static bool IsShutdownThreads()                     { return Thread::IsShutdownThreads(); }
+	static void ShutdownThreads();
 	
-	static int64 GetСобытиеId()                           { return eventid; }
+	static int64 GetEventId()                           { return eventid; }
 
-	Ктрл();
-	virtual ~Ктрл();
+	Ctrl();
+	virtual ~Ctrl();
 
-private: // support for for(Ктрл& q : *this)
-	class КтрлКонстОбходчик {
+private: // support for for(Ctrl& q : *this)
+	class CtrlConstIterator {
 	protected:
-		friend class Ктрл;
-		const Ктрл *q;
+		friend class Ctrl;
+		const Ctrl *q;
 	
 	public:
-		void operator++()                           { q = q->дайСледщ(); }
-		bool operator!=(КтрлКонстОбходчик& b) const { return q != b.q; }
-		const Ктрл& operator*() const               { return *q; }
+		void operator++()                           { q = q->GetNext(); }
+		bool operator!=(CtrlConstIterator& b) const { return q != b.q; }
+		const Ctrl& operator*() const               { return *q; }
 	};
 	
-	class КтрлОбходчик : public КтрлКонстОбходчик { // support for(Ктрл *q : *this)
-		friend class Ктрл;
+	class CtrlIterator : public CtrlConstIterator { // support for(Ctrl *q : *this)
+		friend class Ctrl;
 	
 	public:
-		Ктрл& operator*()                           { return *const_cast<Ктрл *>(q); }
+		Ctrl& operator*()                           { return *const_cast<Ctrl *>(q); }
 	};
 
 public:
-	КтрлКонстОбходчик begin() const { КтрлКонстОбходчик c; c.q = дайПервОтпрыск(); return c; }
-	КтрлОбходчик begin()            { КтрлОбходчик c; c.q = дайПервОтпрыск(); return c; }
-	КтрлКонстОбходчик end() const   { КтрлКонстОбходчик c; c.q = NULL; return c; }
-	КтрлОбходчик end()              { КтрлОбходчик c; c.q = NULL; return c; }
+	CtrlConstIterator begin() const { CtrlConstIterator c; c.q = GetFirstChild(); return c; }
+	CtrlIterator begin()            { CtrlIterator c; c.q = GetFirstChild(); return c; }
+	CtrlConstIterator end() const   { CtrlConstIterator c; c.q = NULL; return c; }
+	CtrlIterator end()              { CtrlIterator c; c.q = NULL; return c; }
 };
 
-inline Размер GetScreenSize()  { return Ктрл::GetVirtualScreenArea().дайРазм(); } // Deprecated
+inline Size GetScreenSize()  { return Ctrl::GetVirtualScreenArea().GetSize(); } // Deprecated
 
 bool   GuiPlatformHasSizeGrip();
-void   GuiPlatformGripResize(ТопОкно *q);
-Цвет  GuiPlatformGetScreenPixel(int x, int y);
+void   GuiPlatformGripResize(TopWindow *q);
+Color  GuiPlatformGetScreenPixel(int x, int y);
 void   GuiPlatformAfterMenuPopUp();
 
-inline int  Zx(int cx) { return Ктрл::HorzLayoutZoom(cx); }
-inline double Zxf(double cx) { return Ктрл::HorzLayoutZoomf(cx); }
-inline int  Zy(int cy) { return Ктрл::VertLayoutZoom(cy); }
-inline Размер Zsz(int cx, int cy) { return Размер(Zx(cx), Zy(cy)); }
-inline Размер Zsz(Размер sz) { return Zsz(sz.cx, sz.cy); }
+inline int  Zx(int cx) { return Ctrl::HorzLayoutZoom(cx); }
+inline double Zxf(double cx) { return Ctrl::HorzLayoutZoomf(cx); }
+inline int  Zy(int cy) { return Ctrl::VertLayoutZoom(cy); }
+inline Size Zsz(int cx, int cy) { return Size(Zx(cx), Zy(cy)); }
+inline Size Zsz(Size sz) { return Zsz(sz.cx, sz.cy); }
 inline int  InvZx(int cx) { return 100000 * cx / Zx(100000); }
 inline double InvZxf(double cx) { return 100000 * cx / Zx(100000); }
 
-Шрифт FontZ(int face, int height = 0);
+Font FontZ(int face, int height = 0);
 
-Шрифт StdFontZ(int height = 0);
-Шрифт SansSerifZ(int height = 0);
-Шрифт SerifZ(int height = 0);
-Шрифт MonospaceZ(int height = 0);
-Шрифт RomanZ(int height = 0);
-Шрифт ArialZ(int height = 0);
-Шрифт CourierZ(int height = 0);
+Font StdFontZ(int height = 0);
+Font SansSerifZ(int height = 0);
+Font SerifZ(int height = 0);
+Font MonospaceZ(int height = 0);
+Font RomanZ(int height = 0);
+Font ArialZ(int height = 0);
+Font CourierZ(int height = 0);
 
-Шрифт ScreenSansZ(int height = 0); // deprecated
-Шрифт ScreenSerifZ(int height = 0); // deprecated
-Шрифт ScreenFixedZ(int height = 0); // deprecated
+Font ScreenSansZ(int height = 0); // deprecated
+Font ScreenSerifZ(int height = 0); // deprecated
+Font ScreenFixedZ(int height = 0); // deprecated
 
 int   EditFieldIsThin();
-Значение TopSeparator1();
-Значение TopSeparator2();
+Value TopSeparator1();
+Value TopSeparator2();
 int   FrameButtonWidth();
 int   ScrollBarArrowSize();
-Цвет FieldFrameColor();
+Color FieldFrameColor();
 
 enum { GUISTYLE_FLAT, GUISTYLE_CLASSIC, GUISTYLE_XP, GUISTYLE_X };
 int GUI_GlobalStyle();
@@ -1434,124 +1434,124 @@ void GUI_DblClickTime_Write(int);
 void GUI_WheelScrollLines_Write(int);
 
 void  EditFieldIsThin_Write(int);
-void  TopSeparator1_Write(Значение);
-void  TopSeparator2_Write(Значение);
+void  TopSeparator1_Write(Value);
+void  TopSeparator2_Write(Value);
 void  FrameButtonWidth_Write(int);
 void  ScrollBarArrowSize_Write(int);
-void  FieldFrameColor_Write(Цвет);
+void  FieldFrameColor_Write(Color);
 
-Ткст Имя(const Ктрл *ctrl);
-Ткст Desc(const Ктрл *ctrl);
-void   Dump(const Ктрл *ctrl);
+String Name(const Ctrl *ctrl);
+String Desc(const Ctrl *ctrl);
+void   Dump(const Ctrl *ctrl);
 
-inline Ктрл *operator<<(Ктрл *parent, Ктрл& child)
+inline Ctrl *operator<<(Ctrl *parent, Ctrl& child)
 {
-	parent->добавь(child);
+	parent->Add(child);
 	return parent;
 }
 
-inline hash_t дайХэшЗнач(Ктрл *x)
+inline hash_t GetHashValue(Ctrl *x)
 {
 	return (hash_t)(intptr_t)x;
 }
 
-Ткст GetKeyDesc(dword ключ);
+String GetKeyDesc(dword key);
 
-Вектор< Ук<Ктрл> > отклКтрлы(const Вектор<Ктрл *>& ctrl, Ктрл *exclude = NULL);
-void вклКтрлы(const Вектор< Ук<Ктрл> >& ctrl);
+Vector< Ptr<Ctrl> > DisableCtrls(const Vector<Ctrl *>& ctrl, Ctrl *exclude = NULL);
+void EnableCtrls(const Vector< Ptr<Ctrl> >& ctrl);
 
 template <class T>
-class ФреймКтрл : public T, public КтрлФрейм {
+class FrameCtrl : public T, public CtrlFrame {
 public:
-	virtual void добавьКФрейму(Ктрл& parent) { parent.добавь(*this); }
-	virtual void удалиФрейм()          { this->Ктрл::удали(); }
+	virtual void FrameAdd(Ctrl& parent) { parent.Add(*this); }
+	virtual void FrameRemove()          { this->Ctrl::Remove(); }
 
-	ФреймКтрл()                         { this->NoWantFocus(); }
+	FrameCtrl()                         { this->NoWantFocus(); }
 };
 
 template <class T>
-class FrameLR : public ФреймКтрл<T> {
+class FrameLR : public FrameCtrl<T> {
 public:
-	virtual void добавьРазмФрейма(Размер& sz) { sz.cx += (cx ? cx : sz.cy) * this->показан_ли(); }
+	virtual void FrameAddSize(Size& sz) { sz.cx += (cx ? cx : sz.cy) * this->IsShown(); }
 
 protected:
 	int cx;
 
 public:
-	FrameLR& устШирину(int _cx)             { cx = _cx; this->освежиВыкладкуРодителя(); return *this; }
-	int      дайШирину() const           { return cx; }
+	FrameLR& Width(int _cx)             { cx = _cx; this->RefreshParentLayout(); return *this; }
+	int      GetWidth() const           { return cx; }
 	FrameLR()                           { cx = 0; }
 };
 
 template <class T>
-class ФреймЛево : public FrameLR<T> {
+class FrameLeft : public FrameLR<T> {
 public:
-	virtual void выложиФрейм(Прям& r) {
-		выложиФреймСлева(r, this, this->cx ? this->cx : FrameButtonWidth());
+	virtual void FrameLayout(Rect& r) {
+		LayoutFrameLeft(r, this, this->cx ? this->cx : FrameButtonWidth());
 	}
 };
 
 template <class T>
-class ФреймПраво : public FrameLR<T> {
+class FrameRight : public FrameLR<T> {
 public:
-	virtual void выложиФрейм(Прям& r) {
-		выложиФреймСправа(r, this, this->cx ? this->cx : FrameButtonWidth());
+	virtual void FrameLayout(Rect& r) {
+		LayoutFrameRight(r, this, this->cx ? this->cx : FrameButtonWidth());
 	}
 };
 
 template <class T>
-class FrameTB : public ФреймКтрл<T> {
+class FrameTB : public FrameCtrl<T> {
 public:
-	virtual void добавьРазмФрейма(Размер& sz) { sz.cy += (cy ? cy : sz.cx) * this->показан_ли(); }
+	virtual void FrameAddSize(Size& sz) { sz.cy += (cy ? cy : sz.cx) * this->IsShown(); }
 
 protected:
 	int cy;
 
 public:
-	FrameTB& устВысоту(int _cy)            { cy = _cy; this->освежиВыкладкуРодителя(); return *this; }
-	int      дайВысоту() const          { return cy; }
+	FrameTB& Height(int _cy)            { cy = _cy; this->RefreshParentLayout(); return *this; }
+	int      GetHeight() const          { return cy; }
 	FrameTB()                           { cy = 0; }
 };
 
 template <class T>
-class ФреймВерх : public FrameTB<T> {
+class FrameTop : public FrameTB<T> {
 public:
-	virtual void выложиФрейм(Прям& r) {
-		выложиФреймСверху(r, this, this->cy ? this->cy : r.устШирину());
+	virtual void FrameLayout(Rect& r) {
+		LayoutFrameTop(r, this, this->cy ? this->cy : r.Width());
 	}
 };
 
 template <class T>
-class ФреймНиз : public FrameTB<T> {
+class FrameBottom : public FrameTB<T> {
 public:
-	virtual void выложиФрейм(Прям& r) {
-		выложиФреймСнизу(r, this, this->cy ? this->cy : r.устШирину());
+	virtual void FrameLayout(Rect& r) {
+		LayoutFrameBottom(r, this, this->cy ? this->cy : r.Width());
 	}
 };
 
 class Modality {
-	Ук<Ктрл>           active;
+	Ptr<Ctrl>           active;
 	bool                fore_only;
-	Вектор< Ук<Ктрл> > enable;
+	Vector< Ptr<Ctrl> > enable;
 
 public:
-	void старт(Ктрл *modal, bool fore_only = false);
-	void стоп();
+	void Begin(Ctrl *modal, bool fore_only = false);
+	void End();
 
-	~Modality()      { стоп(); }
+	~Modality()      { End(); }
 };
 
-class LocalLoop : public Ктрл {
+class LocalLoop : public Ctrl {
 public:
-	virtual void режимОтмены();
+	virtual void CancelMode();
 
 private:
-	Ктрл *master;
+	Ctrl *master;
 
 public:
-	void  пуск();
-	void  SetMaster(Ктрл& m)      { master = &m; }
-	Ктрл& GetMaster() const       { return *master; }
+	void  Run();
+	void  SetMaster(Ctrl& m)      { master = &m; }
+	Ctrl& GetMaster() const       { return *master; }
 
 	LocalLoop()                   { master = NULL; }
 };
@@ -1560,84 +1560,84 @@ enum {
 	DRAWDRAGRECT_SOLID, DRAWDRAGRECT_NORMAL, DRAWDRAGRECT_DASHED
 };
 
-bool PointLoop(Ктрл& ctrl, const Вектор<Рисунок>& ani, int ani_ms);
-bool PointLoop(Ктрл& ctrl, const Рисунок& img);
+bool PointLoop(Ctrl& ctrl, const Vector<Image>& ani, int ani_ms);
+bool PointLoop(Ctrl& ctrl, const Image& img);
 
-class ПрямТрэкер : public LocalLoop {
+class RectTracker : public LocalLoop {
 public:
-	virtual void  леваяВверху(Точка, dword);
-	virtual void  RightUp(Точка, dword);
-	virtual void  двигМыши(Точка p, dword);
-	virtual void  Pen(Точка p, const ИнфОПере &pn, dword);
-	virtual Рисунок рисКурсора(Точка, dword);
-	virtual void  рисуй(Draw& w);
+	virtual void  LeftUp(Point, dword);
+	virtual void  RightUp(Point, dword);
+	virtual void  MouseMove(Point p, dword);
+	virtual void  Pen(Point p, const PenInfo &pn, dword);
+	virtual Image CursorImage(Point, dword);
+	virtual void  Paint(Draw& w);
 
 public:
 	struct Rounder {
-		virtual Прям Round(const Прям& r) = 0;
+		virtual Rect Round(const Rect& r) = 0;
 	};
 
 protected:
-	Рисунок           master_image;
+	Image           master_image;
 
-	Прям            rect;
+	Rect            rect;
 	int             tx, ty;
-	Прям            maxrect;
-	Размер            minsize, maxsize;
+	Rect            maxrect;
+	Size            minsize, maxsize;
 	bool            keepratio;
-	Прям            clip;
-	Цвет           color;
-	Рисунок           cursorimage;
+	Rect            clip;
+	Color           color;
+	Image           cursorimage;
 	int             width;
 	int             pattern;
 	int             animation;
 	int             panim;
 	Rounder        *rounder;
 
-	Прям            org;
-	Прям            o;
-	Точка           op;
+	Rect            org;
+	Rect            o;
+	Point           op;
 
-	Прям            Round(const Прям& r);
+	Rect            Round(const Rect& r);
 
-	virtual void    RefreshRect(const Прям& old, const Прям& r);
-	virtual void    DrawRect(Draw& w, Прям r1);
+	virtual void    RefreshRect(const Rect& old, const Rect& r);
+	virtual void    DrawRect(Draw& w, Rect r1);
 
 public:
-	Событие<Прям>  sync;
-	Событие<Прям&> round;
+	Event<Rect>  sync;
+	Event<Rect&> round;
 
-	ПрямТрэкер&    SetCursorImage(const Рисунок& m) { cursorimage = m; return *this; }
-	ПрямТрэкер&    минРазм(Размер sz)               { minsize = sz; return *this; }
-	ПрямТрэкер&    максРазм(Размер sz)               { maxsize = sz; return *this; }
-	ПрямТрэкер&    максПрям(const Прям& mr)        { maxrect = mr; return *this; }
-	ПрямТрэкер&    Clip(const Прям& c)            { clip = c; return *this; }
-	ПрямТрэкер&    устШирину(int n)                   { width = n; return *this; }
-	ПрямТрэкер&    устЦвет(Цвет c)              { color = c; return *this; }
-	ПрямТрэкер&    образец(int p)                 { pattern = p; return *this; }
-	ПрямТрэкер&    Dashed()                       { return образец(DRAWDRAGRECT_DASHED); }
-	ПрямТрэкер&    Solid()                        { return образец(DRAWDRAGRECT_SOLID); }
-	ПрямТрэкер&    Normal()                       { return образец(DRAWDRAGRECT_NORMAL); }
-	ПрямТрэкер&    Animation(int step_ms = 40)    { animation = step_ms; return *this; }
-	ПрямТрэкер&    KeepRatio(bool b)              { keepratio = b; return *this; }
-	ПрямТрэкер&    Round(Rounder& r)              { rounder = &r; return *this; }
+	RectTracker&    SetCursorImage(const Image& m) { cursorimage = m; return *this; }
+	RectTracker&    MinSize(Size sz)               { minsize = sz; return *this; }
+	RectTracker&    MaxSize(Size sz)               { maxsize = sz; return *this; }
+	RectTracker&    MaxRect(const Rect& mr)        { maxrect = mr; return *this; }
+	RectTracker&    Clip(const Rect& c)            { clip = c; return *this; }
+	RectTracker&    Width(int n)                   { width = n; return *this; }
+	RectTracker&    SetColor(Color c)              { color = c; return *this; }
+	RectTracker&    Pattern(int p)                 { pattern = p; return *this; }
+	RectTracker&    Dashed()                       { return Pattern(DRAWDRAGRECT_DASHED); }
+	RectTracker&    Solid()                        { return Pattern(DRAWDRAGRECT_SOLID); }
+	RectTracker&    Normal()                       { return Pattern(DRAWDRAGRECT_NORMAL); }
+	RectTracker&    Animation(int step_ms = 40)    { animation = step_ms; return *this; }
+	RectTracker&    KeepRatio(bool b)              { keepratio = b; return *this; }
+	RectTracker&    Round(Rounder& r)              { rounder = &r; return *this; }
 
-	Прям            дай()                          { return rect; }
+	Rect            Get()                          { return rect; }
 
-	Прям  Track(const Прям& r, int tx = ALIGN_RIGHT, int ty = ALIGN_BOTTOM);
+	Rect  Track(const Rect& r, int tx = ALIGN_RIGHT, int ty = ALIGN_BOTTOM);
 	int   TrackHorzLine(int x0, int y0, int cx, int line);
 	int   TrackVertLine(int x0, int y0, int cy, int line);
-	Точка TrackLine(int x0, int y0);
+	Point TrackLine(int x0, int y0);
 
-	ПрямТрэкер(Ктрл& master);
+	RectTracker(Ctrl& master);
 };
 
 class WaitCursor {
-	Рисунок   prev;
+	Image   prev;
 	bool    flag;
 
 public:
-	void    покажи();
+	void    Show();
 
 	WaitCursor(bool show = true);
 	~WaitCursor();
@@ -1656,31 +1656,31 @@ public:
 };
 
 void    ClearClipboard();
-void    AppendClipboard(const char *формат, const byte *data, int length);
-void    AppendClipboard(const char *формат, const Ткст& data);
-void    AppendClipboard(const char *формат, const Значение& data, Ткст (*render)(const Значение& data));
-void    AppendClipboard(const char *формат, const ClipData& data);
-void    AppendClipboard(const ВекторМап<Ткст, ClipData>& data);
-Ткст  ReadClipboard(const char *формат);
-bool    IsClipboardAvailable(const char *формат);
+void    AppendClipboard(const char *format, const byte *data, int length);
+void    AppendClipboard(const char *format, const String& data);
+void    AppendClipboard(const char *format, const Value& data, String (*render)(const Value& data));
+void    AppendClipboard(const char *format, const ClipData& data);
+void    AppendClipboard(const VectorMap<String, ClipData>& data);
+String  ReadClipboard(const char *format);
+bool    IsClipboardAvailable(const char *format);
 
-inline  void WriteClipboard(const char *формат, const Ткст& data)
-	{ ClearClipboard(); AppendClipboard(формат, data); }
+inline  void WriteClipboard(const char *format, const String& data)
+	{ ClearClipboard(); AppendClipboard(format, data); }
 
-void    AppendClipboardText(const Ткст& s);
-Ткст  ReadClipboardText();
-void    AppendClipboardUnicodeText(const ШТкст& s);
-ШТкст ReadClipboardUnicodeText();
+void    AppendClipboardText(const String& s);
+String  ReadClipboardText();
+void    AppendClipboardUnicodeText(const WString& s);
+WString ReadClipboardUnicodeText();
 bool    IsClipboardAvailableText();
 
-inline  void WriteClipboardText(const Ткст& s)
+inline  void WriteClipboardText(const String& s)
 	{ ClearClipboard(); AppendClipboardText(s); }
-inline  void WriteClipboardUnicodeText(const ШТкст& s)
+inline  void WriteClipboardUnicodeText(const WString& s)
 	{ ClearClipboard(); AppendClipboardUnicodeText(s); }
 
 template <class T>
 inline void AppendClipboardFormat(const T& object) {
-	AppendClipboard(typeid(T).name(), сохраниКакТкст(const_cast<T&>(object)));
+	AppendClipboard(typeid(T).name(), StoreAsString(const_cast<T&>(object)));
 }
 
 template <class T>
@@ -1692,8 +1692,8 @@ inline void WriteClipboardFormat(const T& object) {
 template <class T>
 inline bool ReadClipboardFormat(T& object)
 {
-	Ткст s = ReadClipboard(typeid(T).name());
-	return !пусто_ли(s) && грузиИзТкст(object, s);
+	String s = ReadClipboard(typeid(T).name());
+	return !IsNull(s) && LoadFromString(object, s);
 }
 
 template <class T>
@@ -1709,37 +1709,37 @@ inline T ReadClipboardFormat() {
 	return object;
 }
 
-Рисунок  ReadClipboardImage();
-void   AppendClipboardImage(const Рисунок& img);
+Image  ReadClipboardImage();
+void   AppendClipboardImage(const Image& img);
 
-inline void WriteClipboardImage(const Рисунок& img)
+inline void WriteClipboardImage(const Image& img)
 	{ ClearClipboard(); AppendClipboardImage(img); }
 
-bool (*&DisplayErrorFn())(const Значение& v);
-inline bool DisplayError(const Значение& v) { return DisplayErrorFn()(v); }
+bool (*&DisplayErrorFn())(const Value& v);
+inline bool DisplayError(const Value& v) { return DisplayErrorFn()(v); }
 
 const char *ClipFmtsRTF();
 
-void       EncodeRTF(Поток& stream, const RichText& richtext, byte charset,
-	Размер dot_page_size = Размер(4960, 7015), const Прям& dot_margin = Прям(472, 472, 472, 472),
+void       EncodeRTF(Stream& stream, const RichText& richtext, byte charset,
+	Size dot_page_size = Size(4960, 7015), const Rect& dot_margin = Rect(472, 472, 472, 472),
 	void *context = NULL);
-Ткст     EncodeRTF(const RichText& richtext, byte charset,
-	Размер dot_page_size = Размер(4960, 7015), const Прям& dot_margin = Прям(472, 472, 472, 472),
+String     EncodeRTF(const RichText& richtext, byte charset,
+	Size dot_page_size = Size(4960, 7015), const Rect& dot_margin = Rect(472, 472, 472, 472),
 	void *context = NULL);
-Ткст     EncodeRTF(const RichText& richtext, byte charset, int dot_page_width);
-Ткст     EncodeRTF(const RichText& richtext);
+String     EncodeRTF(const RichText& richtext, byte charset, int dot_page_width);
+String     EncodeRTF(const RichText& richtext);
 RichText   ParseRTF(const char *rtf);
 
-void WriteClipboardHTML(const Ткст& html);
+void WriteClipboardHTML(const String& html);
 
 #include <CtrlCore/TopWindow.h>
 
 #include GUIPLATFORM_INCLUDE_AFTER
 
 template <class T>
-T *Ктрл::GetAscendant() const
+T *Ctrl::GetAscendant() const
 {
-	for(Ктрл *p = дайРодителя(); p; p = p->дайРодителя())
+	for(Ctrl *p = GetParent(); p; p = p->GetParent())
 		if(T *a = dynamic_cast<T*>(p))
 			return a;
 	return NULL;
@@ -1749,9 +1749,9 @@ T *Ктрл::GetAscendant() const
 
 class ViewDraw : public TopFrameDraw {
 public:
-	ViewDraw(Ктрл *ctrl, const Прям& r);
-	ViewDraw(Ктрл *ctrl) : ViewDraw(ctrl, ctrl->дайРазм()) {}
-	ViewDraw(Ктрл *ctrl, int x, int y, int cx, int cy) : ViewDraw(ctrl, RectC(x, y, cx, cy)) {}
+	ViewDraw(Ctrl *ctrl, const Rect& r);
+	ViewDraw(Ctrl *ctrl) : ViewDraw(ctrl, ctrl->GetSize()) {}
+	ViewDraw(Ctrl *ctrl, int x, int y, int cx, int cy) : ViewDraw(ctrl, RectC(x, y, cx, cy)) {}
 };
 
 #endif

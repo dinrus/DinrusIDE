@@ -3,7 +3,7 @@
  * For conditions of distribution and use, see copyright notice in zlib.h
  */
 
-/* @(#) $Ид$ */
+/* @(#) $Id$ */
 
 #include "zutil.h"
 #ifndef Z_SOLO
@@ -14,11 +14,11 @@ z_const char * const z_errmsg[10] = {
     (z_const char *)"need dictionary",     /* Z_NEED_DICT       2  */
     (z_const char *)"stream end",          /* Z_STREAM_END      1  */
     (z_const char *)"",                    /* Z_OK              0  */
-    (z_const char *)"file Ошибка",          /* Z_ERRNO         (-1) */
-    (z_const char *)"stream Ошибка",        /* Z_STREAM_ERROR  (-2) */
-    (z_const char *)"data Ошибка",          /* Z_DATA_ERROR    (-3) */
+    (z_const char *)"file error",          /* Z_ERRNO         (-1) */
+    (z_const char *)"stream error",        /* Z_STREAM_ERROR  (-2) */
+    (z_const char *)"data error",          /* Z_DATA_ERROR    (-3) */
     (z_const char *)"insufficient memory", /* Z_MEM_ERROR     (-4) */
-    (z_const char *)"буфер Ошибка",        /* Z_BUF_ERROR     (-5) */
+    (z_const char *)"buffer error",        /* Z_BUF_ERROR     (-5) */
     (z_const char *)"incompatible version",/* Z_VERSION_ERROR (-6) */
     (z_const char *)""
 };
@@ -127,7 +127,7 @@ void ZLIB_INTERNAL z_error (m)
 }
 #endif
 
-/* exported to allow conversion of Ошибка code to string for compress() and
+/* exported to allow conversion of error code to string for compress() and
  * uncompress()
  */
 const char * ZEXPORT zError(err)
@@ -137,9 +137,9 @@ const char * ZEXPORT zError(err)
 }
 
 #if defined(_WIN32_WCE)
-    /* The Microsoft C выполни-Время Library for Windows CE doesn't have
+    /* The Microsoft C Run-Time Library for Windows CE doesn't have
      * errno.  We define it as a global variable to simplify porting.
-     * Its значение is always 0 and should not be used.
+     * Its value is always 0 and should not be used.
      */
     int errno = 0;
 #endif
@@ -233,7 +233,7 @@ voidpf ZLIB_INTERNAL zcalloc (voidpf opaque, unsigned items, unsigned size)
     if (buf == NULL || next_ptr >= MAX_PTR) return NULL;
     table[next_ptr].org_ptr = buf;
 
-    /* нормализуй the pointer to seg:0 */
+    /* Normalize the pointer to seg:0 */
     *((ush*)&buf+1) += ((ush)((uch*)buf-0) + 15) >> 4;
     *(ush*)&buf = 0;
     table[next_ptr++].new_ptr = buf;
@@ -250,7 +250,7 @@ void ZLIB_INTERNAL zcfree (voidpf opaque, voidpf ptr)
         farfree(ptr);
         return;
     }
-    /* найди the original pointer */
+    /* Find the original pointer */
     for (n = 0; n < next_ptr; n++) {
         if (ptr != table[n].new_ptr) continue;
 

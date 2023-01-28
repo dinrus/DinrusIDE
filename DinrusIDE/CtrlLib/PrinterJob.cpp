@@ -13,7 +13,7 @@
 
 #endif
 
-namespace РНЦП {
+namespace Upp {
 
 #ifdef GUI_WIN
 
@@ -37,7 +37,7 @@ struct Win32PrintDlg_ : PRINTDLG {
 
 PrinterJob::PrinterJob(const char *_name)
 {
-	имя = _name;
+	name = _name;
 	landscape = false;
 	from = to = 1;
 	current = 1;
@@ -49,7 +49,7 @@ PrinterJob::~PrinterJob()
 
 bool PrinterJob::Execute0(bool dodlg)
 {
-	pdlg.создай<Win32PrintDlg_>();
+	pdlg.Create<Win32PrintDlg_>();
 	PRINTDLG& dlg = *pdlg;
 	dlg.Flags = PD_DISABLEPRINTTOFILE|PD_NOSELECTION|PD_HIDEPRINTTOFILE|PD_RETURNDEFAULT;
 	dlg.nFromPage = current;
@@ -70,9 +70,9 @@ bool PrinterJob::Execute0(bool dodlg)
 	int copies = 1;
 	if(dodlg) {
 		dlg.Flags = PD_DISABLEPRINTTOFILE|PD_NOSELECTION|PD_HIDEPRINTTOFILE;
-		Вектор< Ук<Ктрл> > disabled = отклКтрлы(Ктрл::дайТопКтрлы());
+		Vector< Ptr<Ctrl> > disabled = DisableCtrls(Ctrl::GetTopCtrls());
 		bool b = PrintDlg(&dlg);
-		вклКтрлы(disabled);
+		EnableCtrls(disabled);
 		if(!b) return false;
 		copies = dlg.nCopies;
 		dlg.nCopies = 1; // because of buggy drivers for certain printers, we need to workaround copies problem
@@ -108,21 +108,21 @@ bool PrinterJob::Execute0(bool dodlg)
 	}
 		
 	if(hdc) {
-		draw = new PrintDraw(hdc, Nvl(имя, Ктрл::дайИмяПрил()));
-		page.очисть();
+		draw = new PrintDraw(hdc, Nvl(name, Ctrl::GetAppName()));
+		page.Clear();
 		if(!(dlg.Flags & PD_PAGENUMS)) {
 			dlg.nFromPage = dlg.nMinPage;
 			dlg.nToPage = dlg.nMaxPage;
 		}
 		for(int n = 0; n < copies; n++)
 			for(int i = dlg.nFromPage - 1; i <= dlg.nToPage - 1; i++)
-				page.добавь(i);
+				page.Add(i);
 		return true;
 	}
 	return false;
 }
 
-bool PrinterJob::выполни()
+bool PrinterJob::Execute()
 {
 	return Execute0(true);
 }
@@ -157,10 +157,10 @@ PrinterJob& PrinterJob::CurrentPage(int i)
 #if (defined(PLATFORM_X11) || defined(PLATFORM_COCOA)) && !defined(VIRTUALGUI)
 
 struct PageSizeName {
-	const char *имя;
+	const char *name;
 	int   cx, cy;
 	
-	Размер  GetDots() const { return Размер(6000 * cx / 254, 6000 * cy / 254); }
+	Size  GetDots() const { return Size(6000 * cx / 254, 6000 * cy / 254); }
 }
 static const PageName2Size[] = {
 	{ "A0", 841, 1189 },
@@ -195,71 +195,71 @@ static const PageName2Size[] = {
 	{ "Tabloid", 279, 432 }
 };
 
-const PageSizeName *FindPageSize(const Ткст& имя)
+const PageSizeName *FindPageSize(const String& name)
 {
 	for(int i = 0; i < __countof(PageName2Size); i++)
-		if(PageName2Size[i].имя == имя)
+		if(PageName2Size[i].name == name)
 			return &PageName2Size[i];
 	return NULL;
 }
 
-Ткст System(const char *cmd, const Ткст& in)
+String System(const char *cmd, const String& in)
 {
-	Ткст ofn = дайВремИмяф();
-	Ткст ifn = дайВремИмяф();
-	сохраниФайл(ifn, in);
-	Ткст c = cmd;
+	String ofn = GetTempFileName();
+	String ifn = GetTempFileName();
+	SaveFile(ifn, in);
+	String c = cmd;
 	c << " >" << ofn;
-	if(in.дайСчёт())
+	if(in.GetCount())
 		c << " <" << ifn;
-	Ткст q;
+	String q;
 	if(system(c) >= 0)
-		q = загрузиФайл(ofn);
-	удалифл(ofn);
-	удалифл(ifn);
+		q = LoadFile(ofn);
+	FileDelete(ofn);
+	FileDelete(ifn);
 	return q;
 }
 
-Ткст System(const char *cmd)
+String System(const char *cmd)
 {
 	return System(cmd, Null);
 }
 
-class PrinterDlg : public WithPrinterLayout<ТопОкно> {
-	typedef PrinterDlg ИМЯ_КЛАССА;
+class PrinterDlg : public WithPrinterLayout<TopWindow> {
+	typedef PrinterDlg CLASSNAME;
 	
 public:
-	void FillOpt(const Ткст& s, const char *id, СписокБроса& dl, bool pgsz);
+	void FillOpt(const String& s, const char *id, DropList& dl, bool pgsz);
 	void SyncPrinterOptions();
 
 	PrinterDlg();
 	bool IsCanceled();
 
 private:
-	void StandardizePrinterName(Ткст& printerName);
+	void StandardizePrinterName(String& printerName);
 	void OnOK();
 	
 private:
 	bool canceled;
 };
 
-void PrinterDlg::FillOpt(const Ткст& s, const char *id, СписокБроса& dl, bool pgsz)
+void PrinterDlg::FillOpt(const String& s, const char *id, DropList& dl, bool pgsz)
 {
-	int a = s.найди('/');
-	int b = s.найди(':');
+	int a = s.Find('/');
+	int b = s.Find(':');
 	if(a > 0 && b > a) {
-		Ткст opt = впроп(s.середина(0, a));
+		String opt = ToLower(s.Mid(0, a));
 		if(opt == id) {
-			Вектор<Ткст> v = разбей(~s + b + 1, ' ');
-			dl.вкл();
-			for(int i = 0; i < v.дайСчёт(); i++) {
-				Ткст o = v[i];
+			Vector<String> v = Split(~s + b + 1, ' ');
+			dl.Enable();
+			for(int i = 0; i < v.GetCount(); i++) {
+				String o = v[i];
 				if(o[0] == '*') {
-					o = o.середина(1);
+					o = o.Mid(1);
 					dl <<= o;
 				}
 				if(!pgsz || FindPageSize(o))
-					dl.добавь(o);
+					dl.Add(o);
 			}
 		}
 	}
@@ -267,12 +267,12 @@ void PrinterDlg::FillOpt(const Ткст& s, const char *id, СписокБрос
 
 void PrinterDlg::SyncPrinterOptions()
 {
-	Вектор<Ткст> l = разбей(System("lpoptions -d " + Ткст(~printer) + " -l"), '\n');
-	paper.откл();
-	paper.очисть();
-	slot.откл();
-	slot.очисть();
-	for(int i = 0; i < l.дайСчёт(); i++) {
+	Vector<String> l = Split(System("lpoptions -d " + String(~printer) + " -l"), '\n');
+	paper.Disable();
+	paper.Clear();
+	slot.Disable();
+	slot.Clear();
+	for(int i = 0; i < l.GetCount(); i++) {
 		FillOpt(l[i], "pagesize", paper, true);
 		FillOpt(l[i], "inputslot", slot, false);
 	}
@@ -280,29 +280,29 @@ void PrinterDlg::SyncPrinterOptions()
 
 PrinterDlg::PrinterDlg() : canceled(true)
 {
-	CtrlLayoutOKCancel(*this, "Print");
+	CtrlLayoutOKCancel(*this, "Печать");
 	printer <<= THISBACK(SyncPrinterOptions);
 	ok <<= THISBACK(OnOK);
-	npage.добавь(1);
-	npage.добавь(2);
-	npage.добавь(4);
-	npage.добавь(6);
-	npage.добавь(9);
-	npage.добавь(16);
+	npage.Add(1);
+	npage.Add(2);
+	npage.Add(4);
+	npage.Add(6);
+	npage.Add(9);
+	npage.Add(16);
 	npage <<= 1;
 	copies <<= 1;
 	landscape <<= 0;
 	range <<= 0;
-	Вектор<Ткст> l = разбей(System("lpstat -a"), '\n');
-	for(int i = 0; i < l.дайСчёт(); i++) {
-		Вектор<Ткст> w = разбей(l[i], ' ');
-		if(w.дайСчёт())
-			printer.добавь(w[0]);
+	Vector<String> l = Split(System("lpstat -a"), '\n');
+	for(int i = 0; i < l.GetCount(); i++) {
+		Vector<String> w = Split(l[i], ' ');
+		if(w.GetCount())
+			printer.Add(w[0]);
 	}
-	Ткст h = System("lpstat -d");
-	int q = h.найди(':');
+	String h = System("lpstat -d");
+	int q = h.Find(':');
 	if(q >= 0) {
-		Ткст p = h.середина(q + 1);
+		String p = h.Mid(q + 1);
 		StandardizePrinterName(p);
 		if(printer.HasKey(p)) {
 			printer <<= p;
@@ -310,7 +310,7 @@ PrinterDlg::PrinterDlg() : canceled(true)
 			return;
 		}
 	}
-	if(printer.дайСчёт()) {
+	if(printer.GetCount()) {
 		printer.SetIndex(0);
 		SyncPrinterOptions();
 	}
@@ -321,40 +321,40 @@ bool PrinterDlg::IsCanceled()
 	return canceled;
 }
 
-void PrinterDlg::StandardizePrinterName(Ткст& printerName)
+void PrinterDlg::StandardizePrinterName(String& printerName)
 {
-	printerName.замени(" ", "");
-	printerName.замени("\r", "");
-	printerName.замени("\n", "");
+	printerName.Replace(" ", "");
+	printerName.Replace("\r", "");
+	printerName.Replace("\n", "");
 }
 
 void PrinterDlg::OnOK()
 {
 	canceled = false;
-	закрой();
+	Close();
 }
 
-Размер PrinterJob::GetDefaultPageSize(Ткст *имя)
+Size PrinterJob::GetDefaultPageSize(String *name)
 {
-	Размер sz(6000 * 210 / 254, 6000 * 297 / 254);
+	Size sz(6000 * 210 / 254, 6000 * 297 / 254);
 
-	Вектор<Ткст> dpp = разбей(System("lpoptions -l"), '\n');
+	Vector<String> dpp = Split(System("lpoptions -l"), '\n');
 
-	for (int i = 0; i < dpp.дайСчёт(); i++){
-		int pos = max(dpp[i].найдиПосле("Page Размер"), dpp[i].найдиПосле("PageSize"));
+	for (int i = 0; i < dpp.GetCount(); i++){
+		int pos = max(dpp[i].FindAfter("Page Size"), dpp[i].FindAfter("PageSize"));
 		if (pos >= 0){
-			pos = dpp[i].найди('*', pos);
+			pos = dpp[i].Find('*', pos);
 			//return A4 if there is not default page size
 			if (pos < 0) return sz;
 			//skip '*'
 			pos++;
-			int len = dpp[i].найди(' ', pos);
-			if (len < 0) len = dpp[i].дайДлину();
+			int len = dpp[i].Find(' ', pos);
+			if (len < 0) len = dpp[i].GetLength();
 			len -= pos;
-			//page имя
-			Ткст nm = dpp[i].середина(pos, len);
-			if(имя)
-				*имя = nm;
+			//page name
+			String nm = dpp[i].Mid(pos, len);
+			if(name)
+				*name = nm;
 			const PageSizeName *p = FindPageSize(nm);
 			if(p) {
 				sz = p->GetDots();
@@ -368,7 +368,7 @@ void PrinterDlg::OnOK()
 
 PrinterJob::PrinterJob(const char *_name)
 {
-	имя = _name;
+	name = _name;
 	landscape = false;
 	from = to = 0;
 	current = 0;
@@ -385,45 +385,45 @@ bool PrinterJob::Execute0()
 	PrinterDlg dlg;
 	dlg.from <<= from + 1;
 	dlg.to <<= to + 1;
-	dlg.from.мин(from + 1).макс(to + 1);
-	dlg.to.мин(from + 1).макс(to + 1);
-	dlg.from.вкл(from != to);
-	dlg.to.вкл(from != to);
+	dlg.from.Min(from + 1).Max(to + 1);
+	dlg.to.Min(from + 1).Max(to + 1);
+	dlg.from.Enable(from != to);
+	dlg.to.Enable(from != to);
 	dlg.range.EnableCase(1, from != to);
 	dlg.range.EnableCase(2, from != to);
 	dlg.landscape <<= landscape;
-	Ткст h;
+	String h;
 	GetDefaultPageSize(&h);
-	h.пустой() ? dlg.paper <<= "A4" : dlg.paper <<= h;
+	h.IsEmpty() ? dlg.paper <<= "A4" : dlg.paper <<= h;
 	
-	dlg.пуск();
+	dlg.Run();
 	if(dlg.IsCanceled())
 		return false;
 	
-	options.очисть();
+	options.Clear();
 	options << "-d " << ~dlg.printer;
 	options << " -o media=";
-	dlg.paper.дайИндекс() < 0 ? options << ~dlg.slot : options << ~dlg.paper << "," << ~dlg.slot;
+	dlg.paper.GetIndex() < 0 ? options << ~dlg.slot : options << ~dlg.paper << "," << ~dlg.slot;
 	landscape = dlg.landscape;
 	options << " -o number-up=" << ~dlg.npage;
 	options << " -n " << ~dlg.copies;
 	if(dlg.collate)
 		options << " -o Collate=True";
-	page.очисть();
+	page.Clear();
 	switch(dlg.range) {
 	case 0:
 		for(int i = from; i <= to; i++)
-			page.добавь(i);
+			page.Add(i);
 		break;
 	case 1:
-		page.добавь(current);
+		page.Add(current);
 		break;
 	case 2:
 		for(int i = (int)~dlg.from - 1; i <= (int)~dlg.to - 1; i++)
-			page.добавь(i);
+			page.Add(i);
 		break;
 	}
-	pgsz = Размер(5100, 6600);
+	pgsz = Size(5100, 6600);
 
 	const PageSizeName *p = FindPageSize(~dlg.paper);
 	if(p)
@@ -432,20 +432,20 @@ bool PrinterJob::Execute0()
 	return true;
 }
 
-bool PrinterJob::выполни()
+bool PrinterJob::Execute()
 {
 	dlgSuccess = Execute0();
 	return dlgSuccess;
 }
 
 struct PrinterDraw : PdfDraw {
-	Ткст options;
+	String options;
 	bool canceled;
 	
-	PrinterDraw(Размер sz) : PdfDraw(sz), canceled(true) {}
+	PrinterDraw(Size sz) : PdfDraw(sz), canceled(true) {}
 	~PrinterDraw() {
-		if(!canceled && !пустой()) {
-			System("lp " + options, финиш());
+		if(!canceled && !IsEmpty()) {
+			System("lp " + options, Finish());
 		}
 	}
 };
@@ -453,7 +453,7 @@ struct PrinterDraw : PdfDraw {
 Draw& PrinterJob::GetDraw()
 {
 	if(!draw) {
-		PrinterDraw *pd = new PrinterDraw(landscape ? Размер(pgsz.cy, pgsz.cx) : pgsz);
+		PrinterDraw *pd = new PrinterDraw(landscape ? Size(pgsz.cy, pgsz.cx) : pgsz);
 		pd->canceled = !dlgSuccess;
 		pd->options = options;
 		if(landscape)

@@ -1,7 +1,7 @@
 #include <GridCtrl/GridCtrl.h>
 #include <GridCtrl/GridCtrl.h>
 
-namespace РНЦП {
+namespace Upp {
 
 #ifdef COMPILER_MSC
 #pragma warning(disable: 4355)
@@ -52,16 +52,16 @@ GridCtrl::GridCtrl() : holder(*this)
 	GD_HDR_HEIGHT = GD_ROW_HEIGHT + 2;
 	GD_IND_WIDTH  = 9;
 
-	дисплей = new GridDisplay();
-	дисплей->SetTextAlign(GD::VCENTER);
-	orgdisp = дисплей;
+	display = new GridDisplay();
+	display->SetTextAlign(GD::VCENTER);
+	orgdisp = display;
 
-	sbx.гориз();
-	sby.верт();
-	sbx.ПриПромоте = THISBACK(промотай);
-	sby.ПриПромоте = THISBACK(промотай);
-	sbx.устСтроку(5);
-	sby.устСтроку(GridCtrl::GD_ROW_HEIGHT);
+	sbx.Horz();
+	sby.Vert();
+	sbx.WhenScroll = THISBACK(Scroll);
+	sby.WhenScroll = THISBACK(Scroll);
+	sbx.SetLine(5);
+	sby.SetLine(GridCtrl::GD_ROW_HEIGHT);
 
 	fixed_cols = 1;
 	fixed_rows = 1;
@@ -76,10 +76,10 @@ GridCtrl::GridCtrl() : holder(*this)
 	coluid = 0;
 	rowuid = 0;
 
-	close.устНадпись(t_("закрой"));
+	close.SetLabel(t_("Закрыть"));
 	close <<= THISBACK(CloseGrid);
 
-	oldpos.очисть();
+	oldpos.Clear();
 
 	indicator              = false;
 	resizing_cols          = true;
@@ -191,13 +191,13 @@ GridCtrl::GridCtrl() : holder(*this)
 	total_height = 0;
 	summary_height = 0;
 
-	ItemRect &ir = vitems.добавь();
+	ItemRect &ir = vitems.Add();
 	ir.parent = this;
 	ir.edits = &edits;
-	items.добавь();
+	items.Add();
 
 	/* add indicator, total_cols = 1 */
-	добавьКолонку("", 0);
+	AddColumn("", 0);
 
 	recalc_cols = false;
 	recalc_rows = false;
@@ -245,12 +245,12 @@ GridCtrl::GridCtrl() : holder(*this)
 
 	fg_focus  = SColorHighlightText;
 	bg_focus  = SColorHighlight;
-	fg_select = чёрный;
-	bg_select = Цвет(217, 198, 251);
+	fg_select = Black;
+	bg_select = Color(217, 198, 251);
 	fg_live   = SColorText;
-	bg_live   = IsDarkColorFace() ? смешай(SColorHighlight, чёрный, 132) : смешай(SColorHighlight, белый, 132);
-	fg_found  = Цвет(0, 0, 0);
-	bg_found  = смешай(SColorHighlight, Цвет(189,231,237), 200);
+	bg_live   = IsDarkColorFace() ? Blend(SColorHighlight, Black, 132) : Blend(SColorHighlight, White, 132);
+	fg_found  = Color(0, 0, 0);
+	bg_found  = Blend(SColorHighlight, Color(189,231,237), 200);
 	fg_even   = SColorText;
 	fg_odd    = SColorText;
 	bg_even   = SColorPaper;
@@ -261,19 +261,19 @@ GridCtrl::GridCtrl() : holder(*this)
 	focused_ctrl_id = -1;
 	focused_col = -1;
 
-	find.NullText(t_("ищи"));
+	find.NullText(t_("Поиск"));
 	find.WhenBar = THISBACK(FindOptsBar);
 
 	/* frames added at the very end, otherwise there will be strange crash in optimal mode... */
-	sbx.автоСкрой();
-	sby.автоСкрой();
-	устФрейм(ViewFrame());
-	добавьФрейм(sbx);
-	добавьФрейм(sby);
-	Ктрл::добавь(holder);
+	sbx.AutoHide();
+	sby.AutoHide();
+	SetFrame(ViewFrame());
+	AddFrame(sbx);
+	AddFrame(sby);
+	Ctrl::Add(holder);
 
 	resize_panel_open = false;
-	resize_panel.WhenClose = прокси(WhenClose);
+	resize_panel.WhenClose = Proxy(WhenClose);
 
 	resizing = false;
 	is_clipboard = false;
@@ -287,31 +287,31 @@ GridCtrl::~GridCtrl()
 	delete orgdisp;
 }
 
-void GridCtrl::StdToolBar(Бар &bar)
+void GridCtrl::StdToolBar(Bar &bar)
 {
-	bool e = включен_ли();
-	bool c = e && курсор_ли();
+	bool e = IsEnabled();
+	bool c = e && IsCursor();
 	bool d = c && IsRowEditable();
 
 	if(appending)
-		bar.добавь(e, t_("приставь"), GridImg::приставь(), StdAppend);
+		bar.Add(e, t_("Приставить"), GridImg::Append(), StdAppend);
 
 	if(inserting)
-		bar.добавь(c, t_("вставь "), GridImg::вставь(), StdInsert);
+		bar.Add(c, t_("Вставить "), GridImg::Insert(), StdInsert);
 
 	if(duplicating)
-		bar.добавь(d && !isedit, t_("Duplicate"), GridImg::Duplicate(), StdDuplicate);
+		bar.Add(d && !isedit, t_("Дубликат"), GridImg::Duplicate(), StdDuplicate);
 
 	if(removing)
-		bar.добавь(d && (keep_last_row ? дайСчёт() > 1 : true), t_("Delete "), GridImg::Delete(), StdRemove);
+		bar.Add(d && (keep_last_row ? GetCount() > 1 : true), t_("Удалить "), GridImg::Delete(), StdRemove);
 
 	if(editing)
 	{
-		bar.добавь(!isedit && d, t_("Edit"), GridImg::Modify(), StdEdit);
+		bar.Add(!isedit && d, t_("Редактировать"), GridImg::Modify(), StdEdit);
 		if(accepting)
-			bar.добавь(isedit, t_("прими"), GridImg::Commit(), THISBACK(DoEndEdit));
+			bar.Add(isedit, t_("Принять"), GridImg::Commit(), THISBACK(DoEndEdit));
 		if(canceling)
-			bar.добавь(isedit, t_("Cancel"), GridImg::Cancel(), THISBACK(DoCancelEdit));
+			bar.Add(isedit, t_("Отмена"), GridImg::Cancel(), THISBACK(DoCancelEdit));
 	}
 
 	if(searching)
@@ -326,8 +326,8 @@ void GridCtrl::StdToolBar(Бар &bar)
 		if(searching)
 			bar.Separator();
 
-		bar.добавь(c, t_("Move up"), GridImg::MoveUp(), THISBACK(DoSwapUp));
-		bar.добавь(c, t_("Move down"), GridImg::MoveDn(), THISBACK(DoSwapDown));
+		bar.Add(c, t_("Поднять"), GridImg::MoveUp(), THISBACK(DoSwapUp));
+		bar.Add(c, t_("Опустить"), GridImg::MoveDn(), THISBACK(DoSwapDown));
 	}
 
 	if(navigating)
@@ -343,61 +343,61 @@ void GridCtrl::StdToolBar(Бар &bar)
 	if(closing)
 	{
 		bar.GapRight();
-		bar.добавь(close, 76, 24);
+		bar.Add(close, 76, 24);
 	}
 }
 
-void GridCtrl::FindBar(Бар &bar, int cx)
+void GridCtrl::FindBar(Bar &bar, int cx)
 {
-	bar.добавь(find, cx);
+	bar.Add(find, cx);
 }
 
-void GridCtrl::InfoBar(Бар &bar, int cx)
+void GridCtrl::InfoBar(Bar &bar, int cx)
 {
-	bar.добавь(info, cx);
+	bar.Add(info, cx);
 }
 
-void GridCtrl::SetToolBarInfo(Ткст inf)
+void GridCtrl::SetToolBarInfo(String inf)
 {
-	info.устНадпись(inf);
+	info.SetLabel(inf);
 }
 
-void GridCtrl::NavigatingBar(Бар &bar)
+void GridCtrl::NavigatingBar(Bar &bar)
 {
-	bar.добавь(фмтРяда(t_("First %s")), GridImg::FirstRec(), THISBACK(DoGoBegin));
-	bar.добавь(фмтРяда(t_("Previous %s")), GridImg::PrevRec(), THISBACK(DoGoPrev));
-	bar.добавь(фмтРяда(t_("следщ %s")), GridImg::NextRec(), THISBACK(DoGoNext));
-	bar.добавь(фмтРяда(t_("последний %s")), GridImg::LastRec(), THISBACK(DoGoEnd));
+	bar.Add(RowFormat(t_("Первый %s")), GridImg::FirstRec(), THISBACK(DoGoBegin));
+	bar.Add(RowFormat(t_("Предыдущий %s")), GridImg::PrevRec(), THISBACK(DoGoPrev));
+	bar.Add(RowFormat(t_("Следующий %s")), GridImg::NextRec(), THISBACK(DoGoNext));
+	bar.Add(RowFormat(t_("Последний %s")), GridImg::LastRec(), THISBACK(DoGoEnd));
 }
 
 GridCtrl& GridCtrl::SetToolBar(bool b, int align, int frame)
 {
-	удалиФрейм(bar);
+	RemoveFrame(bar);
 
 	if(!b)
 		return *this;
 
-	вставьФрейм(frame, bar.Align(align));
-	bar.устСтиль(ToolBar::дефСтиль());
+	InsertFrame(frame, bar.Align(align));
+	bar.SetStyle(ToolBar::StyleDefault());
 
 	if(frame == 1)
 		switch(align)
 		{
-			case КтрлБар::BAR_TOP:
-				удалиФрейм(фреймВерхнСепаратора());
-				вставьФрейм(2, фреймВерхнСепаратора());
+			case BarCtrl::BAR_TOP:
+				RemoveFrame(TopSeparatorFrame());
+				InsertFrame(2, TopSeparatorFrame());
 				break;
-			case КтрлБар::BAR_BOTTOM:
-				удалиФрейм(фреймНижнСепаратора());
-				вставьФрейм(2, фреймНижнСепаратора());
+			case BarCtrl::BAR_BOTTOM:
+				RemoveFrame(BottomSeparatorFrame());
+				InsertFrame(2, BottomSeparatorFrame());
 				break;
-			case КтрлБар::BAR_LEFT:
-				удалиФрейм(фреймЛевСепаратора());
-				вставьФрейм(2, фреймЛевСепаратора());
+			case BarCtrl::BAR_LEFT:
+				RemoveFrame(LeftSeparatorFrame());
+				InsertFrame(2, LeftSeparatorFrame());
 				break;
-			case КтрлБар::BAR_RIGHT:
-				удалиФрейм(фреймПравСепаратора());
-				вставьФрейм(2, фреймПравСепаратора());
+			case BarCtrl::BAR_RIGHT:
+				RemoveFrame(RightSeparatorFrame());
+				InsertFrame(2, RightSeparatorFrame());
 				break;
 		}
 	WhenToolBar(bar);
@@ -407,21 +407,21 @@ GridCtrl& GridCtrl::SetToolBar(bool b, int align, int frame)
 GridCtrl& GridCtrl::ResizePanel(bool b)
 {
 	resize_panel_open = b;
-	удалиФрейм(resize_panel);
-	удалиФрейм(фреймНижнСепаратора());
+	RemoveFrame(resize_panel);
+	RemoveFrame(BottomSeparatorFrame());
 	if(!b)
 		return *this;
-	вставьФрейм(1, resize_panel);
-	вставьФрейм(2, фреймНижнСепаратора());
+	InsertFrame(1, resize_panel);
+	InsertFrame(2, BottomSeparatorFrame());
 	return *this;
 }
 
-void GridCtrl::FindOptsBar(Бар &bar)
+void GridCtrl::FindOptsBar(Bar &bar)
 {
-	bar.добавь(t_("Immediate search"), THISBACK1(SetFindOpts, 0)).Check(search_immediate);
-	bar.добавь(t_("скрой rows"), THISBACK1(SetFindOpts, 1)).Check(search_hide);
-	bar.добавь(t_("Highlight found cells"), THISBACK1(SetFindOpts, 2)).Check(search_highlight);
-	bar.добавь(t_("Case sensitive"), THISBACK1(SetFindOpts, 3)).Check(search_case);
+	bar.Add(t_("Немедленный поиск"), THISBACK1(SetFindOpts, 0)).Check(search_immediate);
+	bar.Add(t_("Скрыть ряды"), THISBACK1(SetFindOpts, 1)).Check(search_hide);
+	bar.Add(t_("Подсветить найденные ячейки"), THISBACK1(SetFindOpts, 2)).Check(search_highlight);
+	bar.Add(t_("Регистрочувствительно"), THISBACK1(SetFindOpts, 3)).Check(search_case);
 }
 
 void GridCtrl::SetFindOpts(int n)
@@ -443,7 +443,7 @@ void GridCtrl::SetFindOpts(int n)
 			break;
 		case 1:
 			search_hide = !search_hide;
-			if(!Ткст(~find).пустой())
+			if(!String(~find).IsEmpty())
 			{
 				if(!search_hide)
 					ShowRows();
@@ -456,7 +456,7 @@ void GridCtrl::SetFindOpts(int n)
 			if(!search_highlight)
 			{
 				ClearFound(false);
-				освежи();
+				Refresh();
 			}
 			else
 				DoFind();
@@ -468,15 +468,15 @@ void GridCtrl::SetFindOpts(int n)
 	}
 }
 
-Ткст GridCtrl::фмтРяда(const char *s)
+String GridCtrl::RowFormat(const char *s)
 {
-	Ткст row = t_("row");
-	return спринтф(s, ~row);
+	String row = t_("ряд");
+	return Sprintf(s, ~row);
 }
 
-void GridCtrl::StdMenuBar(Бар &bar)
+void GridCtrl::StdMenuBar(Bar &bar)
 {
-	bool c = курсор_ли();
+	bool c = IsCursor();
 	bool e = c && IsRowEditable();
 	bool isitem = false;
 
@@ -484,62 +484,62 @@ void GridCtrl::StdMenuBar(Бар &bar)
 	{
 		if(bains == 0)
 		{
-			bar.добавь(c, t_("вставь "), StdInsert)
-			   .Рисунок(GridImg::вставь())
-			   .Help(фмтРяда(t_("вставь a new %s into the table.")))
-			   .Ключ(K_INSERT);
+			bar.Add(c, t_("Вставить "), StdInsert)
+			   .Image(GridImg::Insert())
+			   .Help(RowFormat(t_("Всавить новый %s в эту таблицу.")))
+			   .Key(K_INSERT);
 		}
 		else if(bains == 1)
 		{
-			bar.добавь(c, t_("вставь before"), THISBACK(DoInsertBefore))
-			   .Рисунок(GridImg::InsertBefore())
-			   .Help(фмтРяда(t_("вставь a new %s into the table before current")))
-			   .Ключ(K_INSERT);
-			bar.добавь(c, t_("вставь after"), THISBACK(DoInsertAfter))
-			   .Рисунок(GridImg::InsertAfter())
-			   .Help(фмтРяда(t_("вставь a new %s into the table after current")))
-			   .Ключ(K_ALT_INSERT);
+			bar.Add(c, t_("Вставить перед"), THISBACK(DoInsertBefore))
+			   .Image(GridImg::InsertBefore())
+			   .Help(RowFormat(t_("Вставить новый %s в эту таблицу перед текущим")))
+			   .Key(K_INSERT);
+			bar.Add(c, t_("Вставить после"), THISBACK(DoInsertAfter))
+			   .Image(GridImg::InsertAfter())
+			   .Help(RowFormat(t_("Вставить новый %s в эту таблицу после текущего")))
+			   .Key(K_ALT_INSERT);
 		}
 		else if(bains == 2)
 		{
-			bar.добавь(c, t_("вставь after"), THISBACK(DoInsertAfter))
-			   .Рисунок(GridImg::InsertAfter())
-			   .Help(фмтРяда(t_("вставь a new %s into the table after current")))
-			   .Ключ(K_INSERT);
-			bar.добавь(c, t_("вставь before"), THISBACK(DoInsertBefore))
-			   .Рисунок(GridImg::InsertBefore())
-			   .Help(фмтРяда(t_("вставь a new %s into the table before current")))
-			   .Ключ(K_ALT_INSERT);
+			bar.Add(c, t_("Вставить после"), THISBACK(DoInsertAfter))
+			   .Image(GridImg::InsertAfter())
+			   .Help(RowFormat(t_("Вставить новый %s в эту таблицу после текущего")))
+			   .Key(K_INSERT);
+			bar.Add(c, t_("Вставить перед"), THISBACK(DoInsertBefore))
+			   .Image(GridImg::InsertBefore())
+			   .Help(RowFormat(t_("Вставить новый %s в эту таблицу перед текущим")))
+			   .Key(K_ALT_INSERT);
 		}
 		isitem = true;
 	}
 	
 	if(appending)
 	{
-		bar.добавь(t_("приставь"), StdAppend)
-		   .Рисунок(GridImg::приставь())
-		   .Help(фмтРяда(t_("приставь a new %s at the end of the table.")))
-		   .Ключ(inserting ? (dword) K_CTRL_INSERT : (dword) K_INSERT);
+		bar.Add(t_("Приставить"), StdAppend)
+		   .Image(GridImg::Append())
+		   .Help(RowFormat(t_("Приставить новый %s в конец этой таблицы.")))
+		   .Key(inserting ? (dword) K_CTRL_INSERT : (dword) K_INSERT);
 
 		isitem = true;
 	}
 	
 	if(duplicating)
 	{
-		bar.добавь(c, t_("Duplicate"), THISBACK(DoDuplicate))
-		   .Рисунок(GridImg::Duplicate())
-		   .Help(фмтРяда(t_("Duplicate current table %s.")))
-		   .Ключ(K_CTRL_D);
+		bar.Add(c, t_("Дублировать"), THISBACK(DoDuplicate))
+		   .Image(GridImg::Duplicate())
+		   .Help(RowFormat(t_("Дублировать текущую таблицу %s.")))
+		   .Key(K_CTRL_D);
 
 		isitem = true;
 	}
 
 	if(editing)
 	{
-		bar.добавь(!isedit && e, t_("Edit"), StdEdit)
-		   .Рисунок(GridImg::Modify())
-		   .Help(фмтРяда(t_("Edit active %s.")))
-		   .Ключ(K_ENTER);
+		bar.Add(!isedit && e, t_("Редактировать"), StdEdit)
+		   .Image(GridImg::Modify())
+		   .Help(RowFormat(t_("Редактировать активный %s.")))
+		   .Key(K_ENTER);
 
 		isitem = true;
 	}
@@ -574,78 +574,78 @@ void GridCtrl::StdMenuBar(Бар &bar)
 	{
 		if(isitem)
 			bar.Separator();
-		менюКолонок(bar);
+		ColumnsMenu(bar);
 	}
 }
 
-void GridCtrl::RemovingMenu(Бар &bar)
+void GridCtrl::RemovingMenu(Bar &bar)
 {
-	bool c = курсор_ли() && IsRowEditable();
-	bar.добавь(c && (keep_last_row ? дайСчёт() > 1 : true), t_("Delete "), StdRemove)
-	   .Рисунок(GridImg::Delete())
-	   .Help(фмтРяда(t_("Delete active %s.")))
-	   .Ключ(K_DELETE);
+	bool c = IsCursor() && IsRowEditable();
+	bar.Add(c && (keep_last_row ? GetCount() > 1 : true), t_("Удалить "), StdRemove)
+	   .Image(GridImg::Delete())
+	   .Help(RowFormat(t_("Удалить активный %s.")))
+	   .Key(K_DELETE);
 }
 
-void GridCtrl::MovingMenu(Бар &bar)
+void GridCtrl::MovingMenu(Bar &bar)
 {
-	bool c = курсор_ли();
-	bar.добавь(c && curpos.y > fixed_rows, t_("Move up"), THISBACK(DoSwapUp))
-	   .Рисунок(GridImg::MoveUp())
-	   .Ключ(K_CTRL_UP);
-	bar.добавь(c && curpos.y >= fixed_rows && curpos.y < total_rows - 1, t_("Move down"), THISBACK(DoSwapDown))
-	   .Рисунок(GridImg::MoveDn())
-	   .Ключ(K_CTRL_DOWN);
+	bool c = IsCursor();
+	bar.Add(c && curpos.y > fixed_rows, t_("Поднять"), THISBACK(DoSwapUp))
+	   .Image(GridImg::MoveUp())
+	   .Key(K_CTRL_UP);
+	bar.Add(c && curpos.y >= fixed_rows && curpos.y < total_rows - 1, t_("Опустить"), THISBACK(DoSwapDown))
+	   .Image(GridImg::MoveDn())
+	   .Key(K_CTRL_DOWN);
 }
 
-void GridCtrl::SelectMenu(Бар &bar)
+void GridCtrl::SelectMenu(Bar &bar)
 {
-	bar.добавь(total_rows > fixed_rows, фмтРяда(t_("выдели all")), THISBACK(выделиВсе))
-	   .Рисунок(GridImg::выбериВсе())
-	   .Help(t_("выдели all table rows"))
-	   .Ключ(K_CTRL_A);
+	bar.Add(total_rows > fixed_rows, RowFormat(t_("Выделить все")), THISBACK(DoSelectAll))
+	   .Image(GridImg::SelectAll())
+	   .Help(t_("Выделить все ряды таблицы"))
+	   .Key(K_CTRL_A);
 }
 
-void GridCtrl::менюКолонок(Бар &bar)
+void GridCtrl::ColumnsMenu(Bar &bar)
 {
-	bar.добавь(t_("Columns"), THISBACK(СписокКолонок));
+	bar.Add(t_("Колонки"), THISBACK(ColumnList));
 }
 
-void GridCtrl::СписокКолонок(Бар &bar)
+void GridCtrl::ColumnList(Bar &bar)
 {
 	int cnt = 0;
 	for(int i = fixed_cols; i < total_cols; i++)
-		if(!hitems[i].Индекс && !hitems[i].hidden)
+		if(!hitems[i].index && !hitems[i].hidden)
 			cnt++;
 
 	for(int i = fixed_cols; i < total_cols; i++)
 	{
-		if(!hitems[i].Индекс)
-			bar.добавь((Ткст) items[0][hitems[i].id].val, THISBACK1(MenuHideColumn, i))
+		if(!hitems[i].index)
+			bar.Add((String) items[0][hitems[i].id].val, THISBACK1(MenuHideColumn, i))
 			   .Check(!hitems[i].hidden)
-			   .вкл(cnt > 1 || (cnt == 1 && hitems[i].hidden));
+			   .Enable(cnt > 1 || (cnt == 1 && hitems[i].hidden));
 	}
 }
 
-void GridCtrl::ClipboardMenu(Бар &bar)
+void GridCtrl::ClipboardMenu(Bar &bar)
 {
-	bool c = курсор_ли();
-	bool s = c || выделение_ли();
-	bar.добавь(t_("копируй"), THISBACK(DoCopy)).Рисунок(CtrlImg::copy()).Ключ(K_CTRL_C).вкл(s && copy_allowed);
+	bool c = IsCursor();
+	bool s = c || IsSelection();
+	bar.Add(t_("Копировать"), THISBACK(DoCopy)).Image(CtrlImg::copy()).Key(K_CTRL_C).Enable(s && copy_allowed);
 	if(cut_allowed)
-		bar.добавь(t_("вырежь"), THISBACK(Nothing)).Рисунок(CtrlImg::cut()).Ключ(K_CTRL_X).вкл(s && cut_allowed);
+		bar.Add(t_("Вырезать"), THISBACK(Nothing)).Image(CtrlImg::cut()).Key(K_CTRL_X).Enable(s && cut_allowed);
 	if(paste_allowed)
-		bar.добавь(t_("Paste"), THISBACK(DoPaste)).Рисунок(CtrlImg::paste()).Ключ(K_CTRL_V).вкл(c && paste_allowed && IsClipboardAvailable());
+		bar.Add(t_("Вставить"), THISBACK(DoPaste)).Image(CtrlImg::paste()).Key(K_CTRL_V).Enable(c && paste_allowed && IsClipboardAvailable());
 	if(extra_paste)
-		bar.добавь(t_("Paste as"), THISBACK(PasteAsMenu));
+		bar.Add(t_("Paste as"), THISBACK(PasteAsMenu));
 }
 
-void GridCtrl::PasteAsMenu(Бар &bar)
+void GridCtrl::PasteAsMenu(Bar &bar)
 {
-	bool c = курсор_ли();
+	bool c = IsCursor();
 	bool s = IsClipboardAvailable() && !fixed_paste;
-	bar.добавь(t_("appended"), THISBACK(DoPasteAppendedRows)).Ключ(K_CTRL_E).вкл(s && paste_allowed);
-	bar.добавь(t_("inserted"), THISBACK(DoPasteInsertedRows)).Ключ(K_CTRL_I).вкл(c && paste_allowed && s);
+	bar.Add(t_("приставлен"), THISBACK(DoPasteAppendedRows)).Key(K_CTRL_E).Enable(s && paste_allowed);
+	bar.Add(t_("вставлен"), THISBACK(DoPasteInsertedRows)).Key(K_CTRL_I).Enable(c && paste_allowed && s);
 }
 
 bool GridCtrl::IsClipboardAvailable()
@@ -667,28 +667,28 @@ void GridCtrl::SetClipboard(bool all, bool silent)
 
 	GridClipboard gc;
 
-	Точка minpos(total_cols, total_rows);
-	Точка maxpos(fixed_cols, fixed_rows);
+	Point minpos(total_cols, total_rows);
+	Point maxpos(fixed_cols, fixed_rows);
 
-	Ткст body;
-	Вектор<int> sc;
-	sc.уст(0, -1, total_cols);
+	String body;
+	Vector<int> sc;
+	sc.Set(0, -1, total_cols);
 	
 	int prev_row = -1;
 
 	for(int i = fixed_rows; i < total_rows; i++)
 	{
 		if(vitems[i].hidden) continue;
-		bool row_selected = select_row && выделен(i, false);
+		bool row_selected = select_row && IsSelected(i, false);
 		
 		for(int j = fixed_cols; j < total_cols; j++)
 		{
-			if(all || row_selected || выделен(i, j, false))
+			if(all || row_selected || IsSelected(i, j, false))
 			{
 				if(prev_row < 0)
 					prev_row = i;
 
-				GridClipboard::ClipboardData &d = gc.data.добавь();
+				GridClipboard::ClipboardData &d = gc.data.Add();
 				d.col = j;
 				d.row = i;
 				d.v = Get0(i, j);
@@ -703,28 +703,28 @@ void GridCtrl::SetClipboard(bool all, bool silent)
 					body += "\r\n";
 					prev_row = i;
 				}
-				body += GetStdConvertedColumn(j, d.v).вТкст() + '\t';
+				body += GetStdConvertedColumn(j, d.v).ToString() + '\t';
 				
 				sc[j] = 1;
 			}
 		}
 		
-		int cnt = body.дайСчёт();
+		int cnt = body.GetCount();
 		if(cnt > 0 && body[cnt - 1] == '\t')
-			body.удали(cnt - 1);
+			body.Remove(cnt - 1);
 	}
 	
-	Ткст header;
+	String header;
 	
 	if(copy_column_names)
 	{
-		for(int i = 0; i < sc.дайСчёт(); i++)
+		for(int i = 0; i < sc.GetCount(); i++)
 			if(sc[i] >= 0)
-				header += hitems[i].дайИмя() + '\t';
+				header += hitems[i].GetName() + '\t';
 		
-		int cnt = header.дайСчёт();
+		int cnt = header.GetCount();
 		if(cnt > 0 && header[cnt - 1] == '\t')
-			header.удали(cnt - 1);
+			header.Remove(cnt - 1);
 		header += "\r\n";
 	}
 		
@@ -736,24 +736,24 @@ void GridCtrl::SetClipboard(bool all, bool silent)
 
 	if(!silent)
 	{
-		Цвет c0 = bg_select;
-		Цвет c1 = белый;
-		Цвет c2 = bg_focus;
+		Color c0 = bg_select;
+		Color c1 = White;
+		Color c2 = bg_focus;
 	
 		for(int i = 0; i < 256; i += 64)
 		{
-			bg_select = смешай(c0, c1, i);
-			bg_focus = смешай(c2, c1, i);
-			освежи(); синх();
-			спи(1);
+			bg_select = Blend(c0, c1, i);
+			bg_focus = Blend(c2, c1, i);
+			Refresh(); Sync();
+			Sleep(1);
 		}
 	
 		for(int i = 0; i < 256; i += 32)
 		{
-			bg_select = смешай(c1, c0, i);
-			bg_focus = смешай(c1, c2, i);
-			освежи(); синх();
-			спи(1);
+			bg_select = Blend(c1, c0, i);
+			bg_focus = Blend(c1, c2, i);
+			Refresh(); Sync();
+			Sleep(1);
 		}
 	}
 }
@@ -784,7 +784,7 @@ void GridCtrl::Paste(int mode)
 	
 	GridClipboard gc = GetClipboard();
 
-	bool is_gc = !gc.data.пустой();
+	bool is_gc = !gc.data.IsEmpty();
 	bool is_tc = IsClipboardAvailableText();
 
 	if(!is_gc && !is_tc)
@@ -793,27 +793,27 @@ void GridCtrl::Paste(int mode)
 	if(is_gc && select_row && !gc.shiftmode)
 		return;
 
-	Точка cp(curpos);
+	Point cp(curpos);
 
 	if(cp.x < 0 || select_row)
 		cp.x = fixed_cols;
 	if(cp.y < 0)
 		cp.y = fixed_rows;
 
-	Вектор<Ткст> lines;
+	Vector<String> lines;
 
-	Ткст s = изЮникода(ReadClipboardUnicodeText());
+	String s = FromUnicode(ReadClipboardUnicodeText());
 
 	WhenPasting(s);
 
 	if(is_tc && !is_gc)
-		lines = РНЦП::разбей(s, '\n');
+		lines = Upp::Split(s, '\n');
 
 	if(mode == 1)
 	{
 		int dy = is_gc ? gc.maxpos.y - gc.minpos.y + 1
-		               : lines.дайСчёт();
-		вставь0(curpos.y, dy);
+		               : lines.GetCount();
+		Insert0(curpos.y, dy);
 		curpos.y += dy;
 	}
 	else if(mode == 2)
@@ -830,11 +830,11 @@ void GridCtrl::Paste(int mode)
 			int pr = 0;
 			bool new_row = false;
 			
-			for(int i = 0; i < lines.дайСчёт(); i++)
+			for(int i = 0; i < lines.GetCount(); i++)
 			{
-				Ткст line = обрежьПраво(lines[i]);
-				Вектор<Ткст> cells = РНЦП::разбей(line, '\t', false);
-				for(int j = 0; j < cells.дайСчёт(); j++)
+				String line = TrimRight(lines[i]);
+				Vector<String> cells = Upp::Split(line, '\t', false);
+				for(int j = 0; j < cells.GetCount(); j++)
 				{
 					int r = i;
 					int c = j;
@@ -857,12 +857,12 @@ void GridCtrl::Paste(int mode)
 						if(fixed_paste && new_row)
 							break;
 						
-						Значение v(cells[j]);
+						Value v(cells[j]);
 						WhenPasteCell(lr - fixed_rows, lc - fixed_cols, v);
-						уст0(lr, lc, v, true);
+						Set0(lr, lc, v, true);
 					}
 
-					if(i == lines.дайСчёт() - 1 && j == cells.дайСчёт() - 1)
+					if(i == lines.GetCount() - 1 && j == cells.GetCount() - 1)
 						PasteCallbacks(new_row);
 				}
 			}
@@ -873,11 +873,11 @@ void GridCtrl::Paste(int mode)
 		lc = cp.x;
 		lr = cp.y;
 
-		for(int i = 0; i < gc.data.дайСчёт(); i++)
+		for(int i = 0; i < gc.data.GetCount(); i++)
 		{
-			уст0(lr, lc, gc.data[i].v, true);
+			Set0(lr, lc, gc.data[i].v, true);
 
-			bool data_end = i == gc.data.дайСчёт() - 1;
+			bool data_end = i == gc.data.GetCount() - 1;
 			bool new_row = ++lc > total_cols - 1;
 			if(new_row || data_end)
 			{
@@ -901,7 +901,7 @@ void GridCtrl::Paste(int mode)
 		int pr = gc.data[0].row - gc.minpos.y;
 		bool new_row = false;
 
-		for(int i = 0; i < gc.data.дайСчёт(); i++)
+		for(int i = 0; i < gc.data.GetCount(); i++)
 		{
 			int r = gc.data[i].row - gc.minpos.y;
 			int c = gc.data[i].col - gc.minpos.x;
@@ -923,21 +923,21 @@ void GridCtrl::Paste(int mode)
 
 				if(fixed_paste && new_row)
 					break;
-				уст0(lr, lc, gc.data[i].v, true);
+				Set0(lr, lc, gc.data[i].v, true);
 			}
 
-			if(i == gc.data.дайСчёт() - 1)
+			if(i == gc.data.GetCount() - 1)
 				PasteCallbacks(new_row);
 		}
 	}
 	
 	if(lc >= 0 && lr >= 0)
 	{
-		устКурсор0(lc, lr);
-		sby.уст(vitems[curpos.y].nBottom() - дайРазм().cy);
+		SetCursor0(lc, lr);
+		sby.Set(vitems[curpos.y].nBottom() - GetSize().cy);
 	}
 	WhenPaste();
-	очистьВыделение();
+	ClearSelection();
 }
 
 void GridCtrl::DoCopy()
@@ -977,10 +977,10 @@ void GridCtrl::DrawLine(bool iniLine, bool delLine)
 		int sx = resize_paint_mode == 1 ? fixed_width : 0;
 		int sy = resize_paint_mode == 1 ? fixed_height : 0;
 		ViewDraw w(this);
-		Размер sz = дайРазм();
+		Size sz = GetSize();
 
-		Точка curPnt;
-		static Точка oldPnt = curPnt;
+		Point curPnt;
+		static Point oldPnt = curPnt;
 
 		if(resizeCol)
 		{
@@ -999,16 +999,16 @@ void GridCtrl::DrawLine(bool iniLine, bool delLine)
 	}
 }
 
-Значение GridCtrl::GetItemValue(const Элемент& it, int id, const ItemRect& hi, const ItemRect& vi)
+Value GridCtrl::GetItemValue(const Item& it, int id, const ItemRect& hi, const ItemRect& vi)
 {
-	Значение val = hi.IsConvertion() && vi.IsConvertion() 
+	Value val = hi.IsConvertion() && vi.IsConvertion() 
 		? GetConvertedColumn(id, it.val)
 		: it.val;
 	
 	return val;
 }
 
-Значение GridCtrl::GetAttrTextVal(const Значение& val)
+Value GridCtrl::GetAttrTextVal(const Value& val)
 {
 	if(IsType<AttrText>(val))
 	{
@@ -1018,48 +1018,48 @@ void GridCtrl::DrawLine(bool iniLine, bool delLine)
 	return val;
 }
 
-void GridCtrl::GetItemAttrs(const Элемент& it, const Значение& значение, int r, int c, const ItemRect& vi, const ItemRect& hi, dword& style, GridDisplay*& gd, Цвет& fg, Цвет& bg, Шрифт& fnt)
+void GridCtrl::GetItemAttrs(const Item& it, const Value& value, int r, int c, const ItemRect& vi, const ItemRect& hi, dword& style, GridDisplay*& gd, Color& fg, Color& bg, Font& fnt)
 {
-	if(!пусто_ли(vi.fg))
+	if(!IsNull(vi.fg))
 		fg = vi.fg;
-	else if(!пусто_ли(hi.fg))
+	else if(!IsNull(hi.fg))
 		fg = hi.fg;
 
-	if(!пусто_ли(vi.bg))
+	if(!IsNull(vi.bg))
 		bg = vi.bg;
-	else if(!пусто_ли(hi.bg))
+	else if(!IsNull(hi.bg))
 		bg = hi.bg;
 
 	fnt = StdFont();
 	
-	if(r < fixed_rows && !пусто_ли(hi.hfnt))
+	if(r < fixed_rows && !IsNull(hi.hfnt))
 		fnt = hi.hfnt;
-	else if(c < fixed_cols && !пусто_ли(vi.hfnt))
+	else if(c < fixed_cols && !IsNull(vi.hfnt))
 		fnt = vi.hfnt;
-	else if(!пусто_ли(vi.fnt))
+	else if(!IsNull(vi.fnt))
 		fnt = vi.fnt;
-	else if(!пусто_ли(hi.fnt))
+	else if(!IsNull(hi.fnt))
 		fnt = hi.fnt;
 
-	GridDisplay * hd = hi.дисплей;
-	GridDisplay * vd = vi.дисплей;
-	gd = дисплей;
+	GridDisplay * hd = hi.display;
+	GridDisplay * vd = vi.display;
+	gd = display;
 	if(!hi.ignore_display && !vi.ignore_display)
-		gd = vd ? vd : (hd ? hd : (it.дисплей ? it.дисплей : дисплей));
+		gd = vd ? vd : (hd ? hd : (it.display ? it.display : display));
 	
 	gd->SetLeftImage(Null);
 	
-	const Значение& val = пусто_ли(значение) ? it.val : значение;
+	const Value& val = IsNull(value) ? it.val : value;
 
 	if(IsType<AttrText>(val))
 	{
 		const AttrText& t = ValueTo<AttrText>(val);
 		
-		if(!пусто_ли(t.paper)) bg  = t.paper;
-		if(!пусто_ли(t.ink))   fg  = t.ink;
-		if(!пусто_ли(t.font))  fnt = t.font;
+		if(!IsNull(t.paper)) bg  = t.paper;
+		if(!IsNull(t.ink))   fg  = t.ink;
+		if(!IsNull(t.font))  fnt = t.font;
 		dword s = 0;
-		if(!пусто_ли(t.align))
+		if(!IsNull(t.align))
 		{
 			if(t.align == ALIGN_LEFT)
 				s = GD::LEFT;
@@ -1070,13 +1070,13 @@ void GridCtrl::GetItemAttrs(const Элемент& it, const Значение& з
 			style &= ~GD::HALIGN;
 			style |= s;
 		}
-		if(!пусто_ли(t.img))
+		if(!IsNull(t.img))
 			gd->SetLeftImage(t.img);
 	}
 	
 }
 
-GridCtrl::Элемент& GridCtrl::GetItemSize(int &r, int &c, int &x, int &y, int &cx, int &cy, bool &skip, bool relx, bool rely)
+GridCtrl::Item& GridCtrl::GetItemSize(int &r, int &c, int &x, int &y, int &cx, int &cy, bool &skip, bool relx, bool rely)
 {
 	int idx = hitems[c].id;
 	int idy = vitems[r].id;
@@ -1084,20 +1084,20 @@ GridCtrl::Элемент& GridCtrl::GetItemSize(int &r, int &c, int &x, int &y, 
 	int dx = 0;
 	int dy = 0;
 
-	Элемент *it = &items[idy][idx];
+	Item *it = &items[idy][idx];
 
 	if(it->isjoined)
 	{
-		int группа = it->группа;
+		int group = it->group;
 		it = &items[it->idy][it->idx];
 		skip = it->paint_flag == paint_flag;
 		it->paint_flag = paint_flag;
 		if(skip)
 			return *it;
 
-		while(c >= 0 && items[idy][hitems[c].id].группа == группа) --c;
+		while(c >= 0 && items[idy][hitems[c].id].group == group) --c;
 		++c;
-		while(r >= 0 && items[vitems[r].id][idx].группа == группа) --r;
+		while(r >= 0 && items[vitems[r].id][idx].group == group) --r;
 		++r;
 
 		dx = it->cx;
@@ -1120,22 +1120,22 @@ GridCtrl::Элемент& GridCtrl::GetItemSize(int &r, int &c, int &x, int &y, 
 	return *it;
 }
 
-void GridCtrl::DrawHorzDragLine(Draw &w, int pos, int cx, int size, Цвет c)
+void GridCtrl::DrawHorzDragLine(Draw &w, int pos, int cx, int size, Color c)
 {
-	//w.DrawRect(pos, 0, cx / 2, size - 1, Цвет(100, 100, 100, 100);
+	//w.DrawRect(pos, 0, cx / 2, size - 1, Color(100, 100, 100, 100);
 	DrawFrame(w, pos + 1, 1, cx / 2 - 2, size - 2, c);
 	DrawFrame(w, pos, 0, cx / 2, size, c);
-//	DrawFatFrame(w, x, 0,ďż˝ int cxďż˝ int cyďż˝ Цвет colorďż˝ int n)
+//	DrawFatFrame(w, x, 0,ďż˝ int cxďż˝ int cyďż˝ Color colorďż˝ int n)
 }
 
-void GridCtrl::DrawVertDragLine(Draw &w, int pos, int size, int dx, Цвет c)
+void GridCtrl::DrawVertDragLine(Draw &w, int pos, int size, int dx, Color c)
 {
 	w.DrawRect(1 + dx, pos, size - dx - 1, 2, c);
 }
 
-Значение GridCtrl::GetStdConvertedValue(const Значение& v) const
+Value GridCtrl::GetStdConvertedValue(const Value& v) const
 {
-	if(ткст_ли(v))
+	if(IsString(v))
 	{
 		return v;
 	}
@@ -1145,28 +1145,28 @@ void GridCtrl::DrawVertDragLine(Draw &w, int pos, int size, int dx, Цвет c)
 		return t.text;
 	}
 	else
-		return стдПреобр().фмт(v);
+		return StdConvert().Format(v);
 }
 
-Значение GridCtrl::GetConvertedColumn(int col, const Значение &v) const
+Value GridCtrl::GetConvertedColumn(int col, const Value &v) const
 {
-	Преобр *conv = edits[col].convert;
-	return conv ? conv->фмт(v) : v;
+	Convert *conv = edits[col].convert;
+	return conv ? conv->Format(v) : v;
 }
 
-Значение GridCtrl::GetStdConvertedColumn(int col, const Значение &v) const
+Value GridCtrl::GetStdConvertedColumn(int col, const Value &v) const
 {
-	Значение val = GetConvertedColumn(col, v);
+	Value val = GetConvertedColumn(col, v);
 	return GetStdConvertedValue(val);
 }
 
-Ткст GridCtrl::дайТкст(Ид id) const
+String GridCtrl::GetString(Id id) const
 {
-	int c = aliases.дай(id);
+	int c = aliases.Get(id);
 	return GetStdConvertedColumn(c, Get0(rowidx, c));
 }
 
-GridCtrl::ItemRect& GridCtrl::InsertColumn(int col, const char *имя, int size, bool idx)
+GridCtrl::ItemRect& GridCtrl::InsertColumn(int col, const char *name, int size, bool idx)
 {
 	int id;
 	
@@ -1185,32 +1185,32 @@ GridCtrl::ItemRect& GridCtrl::InsertColumn(int col, const char *имя, int size
 	else
 		id = total_cols;
 
-	ItemRect& ir = hitems.вставь(col);
+	ItemRect& ir = hitems.Insert(col);
 	ir.parent = this;
 	ir.items = &items;
 	ir.edits = &edits;
 	ir.prop = size;
 	ir.id = id;
 	ir.uid = coluid++;
-	ir.Индекс = idx;
+	ir.index = idx;
 
 	if(index_as_column && idx)
 	{
 		size = 70;
 		ir.prop = size;
-		ir.фиксирован(size);
+		ir.Fixed(size);
 	}
 	
-	ir.размер(size);
-	aliases.добавь(впроп(имя), id);
-	rowbkp.вставь(id);
-	edits.вставь(id);
-	summary.вставь(id);
+	ir.Size(size);
+	aliases.Add(ToLower(name), id);
+	rowbkp.Insert(id);
+	edits.Insert(id);
+	summary.Insert(id);
 	
 	for(int i = 0; i < total_rows; i++)
-		items[i].вставь(id);
+		items[i].Insert(id);
 	
-	items[0][id].val = имя;
+	items[0][id].val = name;
 
 	colidx = col;
 	total_cols++;
@@ -1224,9 +1224,9 @@ GridCtrl::ItemRect& GridCtrl::InsertColumn(int col, const char *имя, int size
 		RecalcCols();
 		UpdateSizes();
 		UpdateSb();
-		Syncсуммаmary();
+		SyncSummary();
 		SyncCtrls();
-		освежи(); //RefreshFromCol??
+		Refresh(); //RefreshFromCol??
 	}
 	else
 		recalc_cols = true;
@@ -1236,7 +1236,7 @@ GridCtrl::ItemRect& GridCtrl::InsertColumn(int col, const char *имя, int size
 	return  hitems[col];
 }
 
-GridCtrl::ItemRect& GridCtrl::добавьКолонку(const char *имя, int size, bool idx)
+GridCtrl::ItemRect& GridCtrl::AddColumn(const char *name, int size, bool idx)
 {
 	ItemRect::aliases = &aliases;
 	
@@ -1245,14 +1245,14 @@ GridCtrl::ItemRect& GridCtrl::добавьКолонку(const char *имя, int
 
 	if(total_rows > 1)
 		for(int i = 1; i < total_rows; ++i)
-			items[i].добавь();
+			items[i].Add();
 	else
 		total_rows = 1;
 
-	Элемент &it = items[0].добавь();
-	it.val = имя;
+	Item &it = items[0].Add();
+	it.val = name;
 
-	ItemRect &ib = hitems.добавь();
+	ItemRect &ib = hitems.Add();
 
 	ib.parent = this;
 	ib.items  = &items;
@@ -1260,16 +1260,16 @@ GridCtrl::ItemRect& GridCtrl::добавьКолонку(const char *имя, int
 	ib.prop   = size;
 	ib.id     = total_cols;
 	ib.uid    = coluid++;
-	ib.Индекс  = idx;
+	ib.index  = idx;
 
 	if(index_as_column && idx)
 	{
 		size = 70;
 		ib.prop = size;
-		ib.фиксирован(size);
+		ib.Fixed(size);
 	}
 	
-	ib.размер(size);
+	ib.Size(size);
 	if(!ib.hidden)
 	{
 		lastVisCol = total_cols;
@@ -1288,29 +1288,29 @@ GridCtrl::ItemRect& GridCtrl::добавьКолонку(const char *имя, int
 		vitems[0].hidden = true;
 	}
 	
-	edits.добавь();
-	summary.добавь();
-	rowbkp.добавь();
-	aliases.добавь(впроп(имя), ib.id);
+	edits.Add();
+	summary.Add();
+	rowbkp.Add();
+	aliases.Add(ToLower(name), ib.id);
 	total_cols++;
 
-	if(ready && открыт())
+	if(ready && IsOpen())
 	{
 		recalc_cols = true;
-		освежиВыкладку();
+		RefreshLayout();
 	}
 
 	return ib;
 }
 
-GridCtrl::ItemRect& GridCtrl::добавьКолонку(const Ид id, const char *имя, int size, bool idx)
+GridCtrl::ItemRect& GridCtrl::AddColumn(const Id id, const char *name, int size, bool idx)
 {
-	return добавьКолонку(имя ? имя : (const char *) ~id, size, idx).Alias(id);
+	return AddColumn(name ? name : (const char *) ~id, size, idx).Alias(id);
 }
 
-GridCtrl::ItemRect& GridCtrl::добавьКолонку(const Ткст& имя, int size, bool idx)
+GridCtrl::ItemRect& GridCtrl::AddColumn(const String& name, int size, bool idx)
 {
-	return добавьКолонку((const char *) имя, size, idx);
+	return AddColumn((const char *) name, size, idx);
 }
 
 void GridCtrl::RemoveColumn(int n, int count)
@@ -1321,25 +1321,25 @@ void GridCtrl::RemoveColumn(int n, int count)
 	if(n < fixed_cols || n + count > total_cols)
 		return;
 	for(int i = 0; i < total_rows; i++)
-		items[i].удали(n, count);
+		items[i].Remove(n, count);
 	
-	Вектор<int> r;
+	Vector<int> r;
 	for(int i = 0; i < count; i++)
 	{
 		if(edits[hitems[n + i].id].factory)
 			--genr_ctrls;
-		r.добавь(hitems[n + i].id);
+		r.Add(hitems[n + i].id);
 	}
 
 	int id = hitems[n].id;
 
-	РНЦП::сортируй(r);
+	Upp::Sort(r);
 		
-	hitems.удали(n, count);
+	hitems.Remove(n, count);
 
-	rowbkp.удали(r);
-	summary.удали(r);
-	edits.удали(r);
+	rowbkp.Remove(r);
+	summary.Remove(r);
+	edits.Remove(r);
 	total_cols -= count;
 	recalc_cols = true;
 
@@ -1347,7 +1347,7 @@ void GridCtrl::RemoveColumn(int n, int count)
 		if(hitems[i].id >= id)
 			hitems[i].id -= count;
 
-	valid_cursor = устКурсор0(min(curpos.x, total_cols - 1), curpos.y).пригоден();
+	valid_cursor = SetCursor0(min(curpos.x, total_cols - 1), curpos.y).IsValid();
 	Repaint(true);
 }
 
@@ -1357,35 +1357,35 @@ GridCtrl::ItemRect& GridCtrl::AddRow(int n, int size)
 	return GetRow();
 }
 
-GridCtrl& GridCtrl::добавьСепаратор(Цвет c)
+GridCtrl& GridCtrl::AddSeparator(Color c)
 {
 	Append0(1, 3);
 	ItemRect& ir = GetRow();
 	ir.Bg(c);
 	ir.Editable(false);
-	ir.кликаем(false);
-	ir.пропусти(true);
+	ir.Clickable(false);
+	ir.Skip(true);
 	return *this;
 }
 
 void GridCtrl::SetRowCount(int n, int size)
 {
-	очисть();
+	Clear();
 	Append0(n, size);
 }
 
 void GridCtrl::SetColCount(int n, int size)
 {
-	переустанов();
+	Reset();
 	for(int i = 0; i < n; i++)
-		добавьКолонку("", size, false);
+		AddColumn("", size, false);
 }
 
 void GridCtrl::SyncPopup()
 {
 	if(!IsPopUp() && popups)
 	{
-		Точка p = GetMouseViewPos();
+		Point p = GetMouseViewPos();
 		
 		bool fc = p.x < fixed_width;
 		bool fr = p.y < fixed_height;
@@ -1408,13 +1408,13 @@ void GridCtrl::SyncPopup()
 		
 		bool valid_pos = c >= 0 && r >= 0;
 		
-		Ктрл* ctrl = valid_pos ? дайКтрл(r, c, true, false, false, false) : NULL;
+		Ctrl* ctrl = valid_pos ? GetCtrl(r, c, true, false, false, false) : NULL;
 		
-		bool close = popup.открыт();
+		bool close = popup.IsOpen();
 
 		if(valid_pos && !ctrl)
 		{
-			Элемент& it = дайЭлт(r, c);
+			Item& it = GetItem(r, c);
 			ItemRect& hi = hitems[c];
 			ItemRect& vi = vitems[r];
 			
@@ -1422,7 +1422,7 @@ void GridCtrl::SyncPopup()
 			{
 				close = false;
 
-				Значение val = GetStdConvertedValue(r == 0 ? it.val : GetItemValue(it, hi.id, hi, vi));
+				Value val = GetStdConvertedValue(r == 0 ? it.val : GetItemValue(it, hi.id, hi, vi));
 
 				if(new_cell)
 				{
@@ -1432,17 +1432,17 @@ void GridCtrl::SyncPopup()
 					popup.style = 0;
 					popup.val = val;
 
-					Точка p0 = дайПозМыши();
-					int x = hi.npos + p0.x - p.x - 1 - sbx.дай() * int(!fc);
-					int y = vi.npos + p0.y - p.y - 1 - sby.дай() * int(!fr);
+					Point p0 = GetMousePos();
+					int x = hi.npos + p0.x - p.x - 1 - sbx.Get() * int(!fc);
+					int y = vi.npos + p0.y - p.y - 1 - sby.Get() * int(!fr);
 					
 					GetItemAttrs(it, Null, r, c, vi, hi, popup.style, popup.gd, popup.fg, popup.bg, popup.fnt);
 					popup.gd->row = r < fixed_rows ? -1 : r - fixed_rows;
 					popup.gd->col = c < fixed_cols ? -1 : c - fixed_cols;
-					Прям scr = GetWorkArea();
+					Rect scr = GetWorkArea();
 					int margin = popup.gd->lm + popup.gd->rm;
 					int cx = min(600, min((int) (scr.right * 0.4), max(it.rcx + margin + 2, hi.nsize + 1)));
-					int lines = popup.gd->GetLinesCount(cx - margin - 2, ШТкст(val), popup.fnt, true);
+					int lines = popup.gd->GetLinesCount(cx - margin - 2, WString(val), popup.fnt, true);
 					int cy = max(lines * Draw::GetStdFontCy() + popup.gd->tm + popup.gd->bm + 2, vi.nsize + 1);
 					if(fr && r == 0)
 					{
@@ -1451,30 +1451,30 @@ void GridCtrl::SyncPopup()
 					}
 					popup.PopUp(this, x, y, cx, cy);
 					if(!close)
-						popup.освежи();					
-					UpdateHighlighting(GS_BORDER, Точка(0, 0));
+						popup.Refresh();					
+					UpdateHighlighting(GS_BORDER, Point(0, 0));
 				}				
 				else if(val != popup.val)
 				{
 					popup.val = val;
-					popup.освежи();
+					popup.Refresh();
 				}
 			}
 		}
 		
 		if(close)
 		{
-			popup.закрой();
+			popup.Close();
 			oldSplitCol = -1;
 			oldSplitRow = -1;
-			UpdateHighlighting(GS_BORDER, Точка(0, 0));
+			UpdateHighlighting(GS_BORDER, Point(0, 0));
 		}
 	}
 }
 
-void GridCtrl::иниц()
+void GridCtrl::Init()
 {
-	bar.уст(WhenToolBar);
+	bar.Set(WhenToolBar);
 	UpdateCols(true);
 	/* recalc_rows bo przed otworzeniem grida moglo zostac wywolane setrowheight */
 	UpdateRows(resize_row_mode > 0 || recalc_rows);
@@ -1482,7 +1482,7 @@ void GridCtrl::иниц()
 	UpdateSizes();
 	UpdateSb();
 	UpdateHolder(true);
-	Syncсуммаmary();
+	SyncSummary();
 	SyncCtrls();
 }
 
@@ -1490,7 +1490,7 @@ void GridCtrl::State(int reason)
 {
 	if(reason == OPEN)
 	{
-		иниц();
+		Init();
 		ready = true;
 		//ready po init - updatesb wola layout() a ten syncctrl
 		//(ktory w sumie wola sie 3 razy zanim grid sie wyswietli - niepotrzebnie)
@@ -1498,11 +1498,11 @@ void GridCtrl::State(int reason)
 	else if(reason == CLOSE)
 	{
 		if(live_cursor)
-			устКурсор0(-1, -1, CU_HIGHLIGHT);
+			SetCursor0(-1, -1, CU_HIGHLIGHT);
 	}
 	else if(reason == ENABLE)
 	{
-		bool e = включен_ли();
+		bool e = IsEnabled();
 		if(e != enabled)
 		{
 			RebuildToolBar();
@@ -1511,7 +1511,7 @@ void GridCtrl::State(int reason)
 	}
 }
 
-void GridCtrl::Выкладка()
+void GridCtrl::Layout()
 {
 	if(!ready)
 		return;
@@ -1525,21 +1525,21 @@ void GridCtrl::Выкладка()
 	SyncCtrls();
 }
 
-void GridCtrl::ChildAction(Ктрл *child, int event)
+void GridCtrl::ChildAction(Ctrl *child, int event)
 {
-	if(child != &holder && child->показан_ли())
-		popup.закрой();
+	if(child != &holder && child->IsShown())
+		popup.Close();
 	
 	if(child != focused_ctrl)
 	{
 		if(event == LEFTDOWN || event == RIGHTDOWN || event == MOUSEWHEEL)
 		{
 			//LG(2, "got event :%x child: %x", event, child);
-			Точка cp = GetCtrlPos(child);
+			Point cp = GetCtrlPos(child);
 			if(cp.x < 0 || cp.y < 0)
 				return;
 			
-			устКурсор0(cp);
+			SetCursor0(cp);
 			UpdateCtrls(UC_SHOW);
 			WhenCtrlAction();
 		}
@@ -1550,29 +1550,29 @@ void GridCtrl::ChildAction(Ктрл *child, int event)
 		if(live_cursor)
 		{
 			LG(2, "Child:LiveCursor");
-			Точка p = GetMouseViewPos();
+			Point p = GetMouseViewPos();
 			if(IsMouseBody(p))
-				устКурсор0(p, CU_MOUSE | CU_HIGHLIGHT);
+				SetCursor0(p, CU_MOUSE | CU_HIGHLIGHT);
 			else
-				устКурсор0(-1, -1, CU_HIGHLIGHT);
+				SetCursor0(-1, -1, CU_HIGHLIGHT);
 		}
 	}
 	
 }
 
-void GridCtrl::ChildMouseEvent(Ктрл *child, int event, Точка p, int zdelta, dword keyflags)
+void GridCtrl::ChildMouseEvent(Ctrl *child, int event, Point p, int zdelta, dword keyflags)
 {
 	ChildAction(child, event);
-	Ктрл::ChildMouseEvent(child, event, p, zdelta, keyflags);
+	Ctrl::ChildMouseEvent(child, event, p, zdelta, keyflags);
 }
 
-void GridCtrl::ChildFrameMouseEvent(Ктрл *child, int event, Точка p, int zdelta, dword keyflags)
+void GridCtrl::ChildFrameMouseEvent(Ctrl *child, int event, Point p, int zdelta, dword keyflags)
 {
 	ChildAction(child, event);
-	Ктрл::ChildFrameMouseEvent(child, event, p, zdelta, keyflags);
+	Ctrl::ChildFrameMouseEvent(child, event, p, zdelta, keyflags);
 }
 
-void GridCtrl::тягИБрос(Точка p, PasteClip& d)
+void GridCtrl::DragAndDrop(Point p, PasteClip& d)
 {
 	/*
 	moving_body = true;
@@ -1580,23 +1580,23 @@ void GridCtrl::тягИБрос(Точка p, PasteClip& d)
 	{
 		int dy = sby;
 		if(oldMoveRow >= 0)
-			освежи(Прям(0, vitems[oldMoveRow].nBottom(dy) - 5, дайРазм().cx, vitems[oldMoveRow].nBottom(dy) + 5));
+			Refresh(Rect(0, vitems[oldMoveRow].nBottom(dy) - 5, GetSize().cx, vitems[oldMoveRow].nBottom(dy) + 5));
 		else
-			освежи(Прям(0, 0, дайРазм().cx, 5));
+			Refresh(Rect(0, 0, GetSize().cx, 5));
 		if(curSplitRow >= 0)
-			освежи(Прям(0, vitems[curSplitRow].nBottom(dy) - 5, дайРазм().cx, vitems[curSplitRow].nBottom(dy) + 5));
+			Refresh(Rect(0, vitems[curSplitRow].nBottom(dy) - 5, GetSize().cx, vitems[curSplitRow].nBottom(dy) + 5));
 		else
-			освежи(Прям(0, 0, дайРазм().cx, 5));
+			Refresh(Rect(0, 0, GetSize().cx, 5));
 
 		oldMoveRow = curSplitRow;
-		popup.освежи();
+		popup.Refresh();
 
 		scrollLeftRight = false;
 	}
 	*/
 }
 
-Прям GridCtrl::дайПрямЭлта(int r, int c, bool hgrid, bool vgrid, bool hrel, bool vrel)
+Rect GridCtrl::GetItemRect(int r, int c, bool hgrid, bool vgrid, bool hrel, bool vrel)
 {
 	int dx = sbx + (hrel ? fixed_width : 0);
 	int dy = sby + (vrel ? fixed_height : 0);
@@ -1604,21 +1604,21 @@ void GridCtrl::тягИБрос(Точка p, PasteClip& d)
 	int idx = hitems[c].id;
 	int idy = vitems[r].id;
 
-	Элемент &it = items[idy][idx];
+	Item &it = items[idy][idx];
 
 	int left, top, right, bottom;
 
 	if(it.isjoined)
 	{
-		int группа = it.группа;
+		int group = it.group;
 
-		while(r > fixed_rows && items[vitems[r].id][idx].группа == группа) --r;
+		while(r > fixed_rows && items[vitems[r].id][idx].group == group) --r;
 		++r;
 
 		top = vitems[r].nTop(dy);
 		bottom = vitems[r + it.cy].nBottom(dy);
 
-		while(c > fixed_cols && items[idy][hitems[c].id].группа == группа) --c;
+		while(c > fixed_cols && items[idy][hitems[c].id].group == group) --c;
 		++c;
 
 		left = hitems[c].nLeft(dx);
@@ -1632,12 +1632,12 @@ void GridCtrl::тягИБрос(Точка p, PasteClip& d)
 		bottom = vitems[r].nBottom(dy);
 	}
 
-	return Прям(left, top, right - (int) vgrid, bottom - (int) hgrid);
+	return Rect(left, top, right - (int) vgrid, bottom - (int) hgrid);
 }
 
-Прям& GridCtrl::AlignRect(Прям &r, int i)
+Rect& GridCtrl::AlignRect(Rect &r, int i)
 {
-	Прям c(r);
+	Rect c(r);
 	int align = hitems[i].calign;
 	int sx = hitems[i].sx;
 	int sy = hitems[i].sy;
@@ -1646,7 +1646,7 @@ void GridCtrl::тягИБрос(Точка p, PasteClip& d)
 	{
 		if(align & GD::HCENTER)
 		{
-			int d = (r.устШирину() - sx - 1) / 2;
+			int d = (r.Width() - sx - 1) / 2;
 			r.left += d;
 			r.right -= d;
 		}
@@ -1671,7 +1671,7 @@ void GridCtrl::тягИБрос(Точка p, PasteClip& d)
 	{
 		if(align & GD::VCENTER)
 		{
-			int d = (r.устВысоту() - sy - 1) / 2;
+			int d = (r.Height() - sy - 1) / 2;
 			r.top += d;
 			r.bottom -= d;
 		}
@@ -1701,10 +1701,10 @@ void GridCtrl::тягИБрос(Точка p, PasteClip& d)
 }
 
 
-void GridCtrl::промотай()
+void GridCtrl::Scroll()
 {
-	Точка newpos(sbx, sby);
-	Размер delta = oldpos - newpos;
+	Point newpos(sbx, sby);
+	Size delta = oldpos - newpos;
 	oldpos = newpos;
 
 	if(delta.cx != 0) firstCol = -1;
@@ -1713,7 +1713,7 @@ void GridCtrl::промотай()
 	if(!doscroll)
 		return;
 
-	LG(0, "промотай (%d, %d)", delta.cx, delta.cy);
+	LG(0, "Scroll (%d, %d)", delta.cx, delta.cy);
 
 	SyncCtrls();
 	UpdateCtrls(UC_CHECK_VIS | UC_SHOW | UC_SCROLL);
@@ -1723,22 +1723,22 @@ void GridCtrl::промотай()
 
 	if(!IsFullRefresh())
 	{
-		Размер sz = дайРазм();
-		holder.промотайОбзор(delta);
+		Size sz = GetSize();
+		holder.ScrollView(delta);
 		if(delta.cx != 0)
 		{
-			промотайОбзор(Прям(fixed_width, 0, sz.cx, fixed_height), delta.cx, 0);
-			промотайОбзор(Прям(fixed_width, sz.cy - summary_height, sz.cx, sz.cy), delta.cx, 0);
+			ScrollView(Rect(fixed_width, 0, sz.cx, fixed_height), delta.cx, 0);
+			ScrollView(Rect(fixed_width, sz.cy - summary_height, sz.cx, sz.cy), delta.cx, 0);
 			scrollLeftRight = true;
 		}
 		if(delta.cy != 0)
 		{
-			промотайОбзор(Прям(0, fixed_height, fixed_width, sz.cy - summary_height), 0, delta.cy);
+			ScrollView(Rect(0, fixed_height, fixed_width, sz.cy - summary_height), 0, delta.cy);
 		}
 	}
 
 	if(live_cursor)
-		устКурсор0(дайПозМыши() - дайПрямЭкрана().верхЛево(), CU_MOUSE | CU_HIGHLIGHT);
+		SetCursor0(GetMousePos() - GetScreenRect().TopLeft(), CU_MOUSE | CU_HIGHLIGHT);
 
 	SyncPopup();
 }
@@ -1755,7 +1755,7 @@ void GridCtrl::SetFixedRows(int n)
 		UpdateVisColRow(false);
 		if(ready)
 			SyncCtrls();
-		освежи();
+		Refresh();
 	}
 }
 
@@ -1771,13 +1771,13 @@ void GridCtrl::SetFixedCols(int n)
 		UpdateVisColRow(true);
 		if(ready)
 			SyncCtrls();
-		освежи();
+		Refresh();
 	}
 }
 
-void GridCtrl::уст0(int r, int c, const Значение &val_, bool paste)
+void GridCtrl::Set0(int r, int c, const Value &val_, bool paste)
 {
-	Значение val = val_;
+	Value val = val_;
 	if(c > total_cols - 1)
 		return;
 	if(r > total_rows - 1)
@@ -1786,14 +1786,14 @@ void GridCtrl::уст0(int r, int c, const Значение &val_, bool paste)
 	vitems[r].operation = GridOperation::UPDATE;
 	
 	int ri = vitems[r].id;
-	Элемент &it = items[ri][c];
+	Item &it = items[ri][c];
 
 	if(it.isjoined) {
 		ri = it.idy;
 		c  = it.idx;
 	}
 
-	Ктрл *ctrl = items[ri][c].ctrl;
+	Ctrl *ctrl = items[ri][c].ctrl;
 	bool  setctrl = true;
 	if(!ctrl) {
 		ctrl = edits[c].ctrl;
@@ -1801,54 +1801,54 @@ void GridCtrl::уст0(int r, int c, const Значение &val_, bool paste)
 	}
 	
 	if(ctrl) {
-		if(paste && ткст_ли(val)) {
-			Преобр *cv = dynamic_cast<Преобр *>(ctrl);
+		if(paste && IsString(val)) {
+			Convert *cv = dynamic_cast<Convert *>(ctrl);
 			if(cv)
-				val = cv->скан(val);
+				val = cv->Scan(val);
 		}
 		if(setctrl)
-			ctrl->устДанные(val);
+			ctrl->SetData(val);
 	}
 
 	items[ri][c].val = val;
-	освежиЭлт(r, c, false);
+	RefreshItem(r, c, false);
 
 	if(paste)
 		WhenUpdateCell();
 
-	Syncсуммаmary();
+	SyncSummary();
 }
 
-void GridCtrl::уст(int r, int c, const Значение &val)
+void GridCtrl::Set(int r, int c, const Value &val)
 {
-	уст0(r + fixed_rows, c + fixed_cols, val);
+	Set0(r + fixed_rows, c + fixed_cols, val);
 }
 
-void GridCtrl::уст(int r, Ид id, const Значение &val)
+void GridCtrl::Set(int r, Id id, const Value &val)
 {
-	уст0(r + fixed_rows, aliases.дай(id), val);
+	Set0(r + fixed_rows, aliases.Get(id), val);
 }
 
-void GridCtrl::уст(int r, const char *s, const Значение &val)
+void GridCtrl::Set(int r, const char *s, const Value &val)
 {
-	уст0(r + fixed_rows, aliases.дай(s), val);
+	Set0(r + fixed_rows, aliases.Get(s), val);
 }
 
-void GridCtrl::уст(int c, const Значение &val)
+void GridCtrl::Set(int c, const Value &val)
 {
-	уст0(rowidx, c + fixed_cols, val);
+	Set0(rowidx, c + fixed_cols, val);
 }
 
-void GridCtrl::уст(Ид id, const Значение &val)
+void GridCtrl::Set(Id id, const Value &val)
 {
-	уст0(rowidx, aliases.дай(id), val);
+	Set0(rowidx, aliases.Get(id), val);
 }
 
-void GridCtrl::уст(int r, const Вектор<Значение> &v, int data_offset /* = 0*/, int column_offset /* = 0*/)
+void GridCtrl::Set(int r, const Vector<Value> &v, int data_offset /* = 0*/, int column_offset /* = 0*/)
 {
 	r += fixed_rows;
 	vitems[r].operation = GridOperation::UPDATE;
-	int cnt = min(v.дайСчёт(), total_cols - fixed_cols);
+	int cnt = min(v.GetCount(), total_cols - fixed_cols);
 	int r0 = vitems[r].id;
 	int c = fixed_cols + column_offset;
 	for(int i = data_offset; i < cnt; i++)
@@ -1857,60 +1857,60 @@ void GridCtrl::уст(int r, const Вектор<Значение> &v, int data_o
 	RefreshRow(r, false, 0);
 }
 
-void GridCtrl::уст(const Вектор<Значение> &v, int data_offset /* = 0*/, int column_offset /* = 0*/)
+void GridCtrl::Set(const Vector<Value> &v, int data_offset /* = 0*/, int column_offset /* = 0*/)
 {
 	int r = rowidx - fixed_rows;
-	уст(r, v, data_offset, column_offset);
+	Set(r, v, data_offset, column_offset);
 }
 
-void GridCtrl::SetAny(int r, int c, const Значение &val)
+void GridCtrl::SetAny(int r, int c, const Value &val)
 {
-	уст0(r, c, val);
+	Set0(r, c, val);
 }
 
-void GridCtrl::SetRaw(int r, int c, const Значение &val)
+void GridCtrl::SetRaw(int r, int c, const Value &val)
 {
 	items[r][c].val = val;
 }
 
-void GridCtrl::SetIndicator(int r, const Значение &val)
+void GridCtrl::SetIndicator(int r, const Value &val)
 {
-	уст0(r, 0, val);
+	Set0(r, 0, val);
 }
 
-void GridCtrl::устКтрл(int r, int c, Ктрл& ctrl)
+void GridCtrl::SetCtrl(int r, int c, Ctrl& ctrl)
 {
 	r += fixed_rows;
 	c += fixed_cols;
-	дайЭлт(r, c).устКтрл(ctrl, false);
+	GetItem(r, c).SetCtrl(ctrl, false);
 	++genr_ctrls;
 	if(ready)
 		SyncCtrls(r, c);
 }
 
-void GridCtrl::устКтрл(int r, int c, Ктрл* ctrl)
+void GridCtrl::SetCtrl(int r, int c, Ctrl* ctrl)
 {
 	r += fixed_rows;
 	c += fixed_cols;
-	дайЭлт(r, c).устКтрл(*ctrl, true);
+	GetItem(r, c).SetCtrl(*ctrl, true);
 	++genr_ctrls;
 	if(ready)	
 		SyncCtrls(r, c);
 }
 
-void GridCtrl::устКтрл(int c, Ктрл& ctrl)
+void GridCtrl::SetCtrl(int c, Ctrl& ctrl)
 {
 	c += fixed_cols;
-	дайЭлт(rowidx, c).устКтрл(ctrl, false);
+	GetItem(rowidx, c).SetCtrl(ctrl, false);
 	++genr_ctrls;
 	if(ready)
 		SyncCtrls(rowidx, c);
 }
 
-void GridCtrl::устКтрл(int c, Ктрл* ctrl)
+void GridCtrl::SetCtrl(int c, Ctrl* ctrl)
 {
 	c += fixed_cols;
-	дайЭлт(rowidx, c).устКтрл(*ctrl, true);
+	GetItem(rowidx, c).SetCtrl(*ctrl, true);
 	++genr_ctrls;
 	if(ready)
 		SyncCtrls(rowidx, c);
@@ -1918,215 +1918,215 @@ void GridCtrl::устКтрл(int c, Ктрл* ctrl)
 
 void GridCtrl::ClearCtrl(int r, int c)
 {
-	GridCtrl::Элемент& элт = дайЭлт(r + fixed_rows, c + fixed_cols);
-	if(элт.ctrl)
+	GridCtrl::Item& item = GetItem(r + fixed_rows, c + fixed_cols);
+	if(item.ctrl)
 	{
-		элт.ClearCtrl();
+		item.ClearCtrl();
 		--genr_ctrls;
 	}
 }
 
-void GridCtrl::устЗначениеКтрл(int r, int c, const Значение &val)
+void GridCtrl::SetCtrlValue(int r, int c, const Value &val)
 {
 	c += fixed_cols;
 	int ri = vitems[r].id;
-	Ктрл * ctrl = items[ri][c].ctrl;
+	Ctrl * ctrl = items[ri][c].ctrl;
 	if(ctrl)
-		ctrl->устДанные(val);
+		ctrl->SetData(val);
 	else
 	{
 		ctrl = edits[c].ctrl;
 		if(ctrl && ctrlid.y == ri)
-			ctrl->устДанные(val);
+			ctrl->SetData(val);
 	}
 }
 
-void GridCtrl::устЗначениеКтрл(int c, const Значение &val)
+void GridCtrl::SetCtrlValue(int c, const Value &val)
 {
-	устЗначениеКтрл(rowidx, c, val);
+	SetCtrlValue(rowidx, c, val);
 }
 
-void GridCtrl::SetLast(int c, const Значение &val)
+void GridCtrl::SetLast(int c, const Value &val)
 {
 	c += fixed_cols;
 	items[vitems[rowidx].id][c].val = val;
-	освежиЭлт(rowidx, c, false);
+	RefreshItem(rowidx, c, false);
 }
 
-void GridCtrl::SetFixed(int r, int c, const Значение &val)
+void GridCtrl::SetFixed(int r, int c, const Value &val)
 {
 	items[r][c + 1].val = val;
-	освежи();
+	Refresh();
 }
 
-Значение GridCtrl::GetFixed(int r, int c) const
+Value GridCtrl::GetFixed(int r, int c) const
 {
 	return items[vitems[r].id][c + fixed_cols].val;
 }
 
-Значение GridCtrl::GetFixed(int c) const
+Value GridCtrl::GetFixed(int c) const
 {
 	return items[0][c + fixed_cols].val;
 }
 
-Значение GridCtrl::Get0(int r, int c) const
+Value GridCtrl::Get0(int r, int c) const
 {
 	r = vitems[r].id;
-	const Элемент &it = items[r][c];
+	const Item &it = items[r][c];
 	if(it.isjoined)
 	{
 		r = it.idy;
 		c = it.idx;
 	}
 
-	Ктрл * ctrl = items[r][c].ctrl;
+	Ctrl * ctrl = items[r][c].ctrl;
 
 	if(!ctrl && ctrlid.y == r)
 		ctrl = edits[c].ctrl;
 
-	return ctrl ? ctrl->дайДанные() : items[r][c].val;
+	return ctrl ? ctrl->GetData() : items[r][c].val;
 }
 
-Значение GridCtrl::дай(int r, int c) const
+Value GridCtrl::Get(int r, int c) const
 {
 	return Get0(r + fixed_rows, c + fixed_cols);
 }
 
-Значение GridCtrl::дай(int c) const
+Value GridCtrl::Get(int c) const
 {
 	return Get0(rowidx, c + fixed_cols);
 }
 
-Значение GridCtrl::дай(Ид id) const
+Value GridCtrl::Get(Id id) const
 {
-	return Get0(rowidx, aliases.дай(id));
+	return Get0(rowidx, aliases.Get(id));
 }
 
-Значение GridCtrl::дай(int r, Ид id) const
+Value GridCtrl::Get(int r, Id id) const
 {
-	return Get0(r + fixed_rows, aliases.дай(id));
+	return Get0(r + fixed_rows, aliases.Get(id));
 }
 
-Значение GridCtrl::дай() const
+Value GridCtrl::Get() const
 {
 	return Get0(curpos.y, curpos.x);
 }
 
-Значение GridCtrl::дай(const char * alias) const
+Value GridCtrl::Get(const char * alias) const
 {
-	return Get0(rowidx, aliases.дай(alias));
+	return Get0(rowidx, aliases.Get(alias));
 }
 
-Значение GridCtrl::дай(int r, const char * alias) const
+Value GridCtrl::Get(int r, const char * alias) const
 {
-	return Get0(r + fixed_rows, aliases.дай(alias));
+	return Get0(r + fixed_rows, aliases.Get(alias));
 }
 
-Значение GridCtrl::дайСырой(int r, int c) const
+Value GridCtrl::GetRaw(int r, int c) const
 {
 	return items[r][c].val;
 }
 
-Значение GridCtrl::дайПерв(int c) const
+Value GridCtrl::GetFirst(int c) const
 {
 	return Get0(fixed_rows, c + fixed_cols);
 }
 
-Значение GridCtrl::дайПоследн(int c) const
+Value GridCtrl::GetLast(int c) const
 {
 	return Get0(total_rows - 1, c + fixed_cols);
 }
 
-Значение GridCtrl::дайПредш(Ид id) const
+Value GridCtrl::GetPrev(Id id) const
 {
-	return rowbkp[aliases.дай(id)];	
+	return rowbkp[aliases.Get(id)];	
 }
 
-Значение GridCtrl::дайПредш(int c) const
+Value GridCtrl::GetPrev(int c) const
 {
 	return rowbkp[c + fixed_cols];
 }
 
-Значение GridCtrl::GetNew(int c) const
+Value GridCtrl::GetNew(int c) const
 {
 	return Get0(rowidx, c + fixed_cols);
 }
 
-Значение& GridCtrl::operator() (int r, int c)
+Value& GridCtrl::operator() (int r, int c)
 {
 	return items[vitems[r + fixed_rows].id][c + fixed_cols].val;
 }
 
-Значение& GridCtrl::operator() (int c)
+Value& GridCtrl::operator() (int c)
 {
 	return items[vitems[rowidx].id][c + fixed_cols].val;
 }
 
-Значение& GridCtrl::operator() (Ид id)
+Value& GridCtrl::operator() (Id id)
 {
-	return items[vitems[rowidx].id][aliases.дай(id)].val;
+	return items[vitems[rowidx].id][aliases.Get(id)].val;
 }
 
-Значение& GridCtrl::operator() (int r, Ид id)
+Value& GridCtrl::operator() (int r, Id id)
 {
-	return items[vitems[r + fixed_rows].id][aliases.дай(id)].val;
+	return items[vitems[r + fixed_rows].id][aliases.Get(id)].val;
 }
 
-Значение& GridCtrl::operator() (const char * alias)
+Value& GridCtrl::operator() (const char * alias)
 {
-	return items[vitems[rowidx].id][aliases.дай(alias)].val;
+	return items[vitems[rowidx].id][aliases.Get(alias)].val;
 }
 
-Значение& GridCtrl::operator() (int r, const char * alias)
+Value& GridCtrl::operator() (int r, const char * alias)
 {
-	return items[vitems[r + fixed_rows].id][aliases.дай(alias)].val;
+	return items[vitems[r + fixed_rows].id][aliases.Get(alias)].val;
 }
 
-void GridCtrl::Setсуммаmary(int c, const Значение& val)
+void GridCtrl::SetSummary(int c, const Value& val)
 {
 	summary[c].val = val;
-	Refreshсуммаmary();
+	RefreshSummary();
 }
 
-void GridCtrl::Setсуммаmary(Ид id, const Значение& val)
+void GridCtrl::SetSummary(Id id, const Value& val)
 {
-	summary[aliases.дай(id)].val = val;
-	Refreshсуммаmary();
+	summary[aliases.Get(id)].val = val;
+	RefreshSummary();
 }
 
-Значение GridCtrl::Getсуммаmary(int c)
+Value GridCtrl::GetSummary(int c)
 {
 	return summary[c + fixed_cols].val;
 }
 
-Значение GridCtrl::Getсуммаmary(Ид id)
+Value GridCtrl::GetSummary(Id id)
 {
-	return summary[aliases.дай(id)].val;
+	return summary[aliases.Get(id)].val;
 }
 
-bool GridCtrl::изменено(int r, int c)
+bool GridCtrl::IsModified(int r, int c)
 {
 	return items[vitems[r + fixed_rows].id][c + fixed_cols].modified;
 }
 
-bool GridCtrl::изменено(int c)
+bool GridCtrl::IsModified(int c)
 {
 	return items[vitems[rowidx].id][c + fixed_cols].modified;
 }
 
-bool GridCtrl::изменено(int r, Ид id)
+bool GridCtrl::IsModified(int r, Id id)
 {
-	return items[vitems[r + fixed_rows].id][aliases.дай(id)].modified;
+	return items[vitems[r + fixed_rows].id][aliases.Get(id)].modified;
 }
 
-bool GridCtrl::изменено(Ид id)
+bool GridCtrl::IsModified(Id id)
 {
-	return items[vitems[rowidx].id][aliases.дай(id)].modified;
+	return items[vitems[rowidx].id][aliases.Get(id)].modified;
 }
 
-Вектор<Значение> GridCtrl::ReadCol(int n, int start_row, int end_row) const
+Vector<Value> GridCtrl::ReadCol(int n, int start_row, int end_row) const
 {
-	Вектор<Значение> v;
+	Vector<Value> v;
 	int idx = hitems[n < 0 ? colidx : n + fixed_cols].id;
 	
 	if(start_row < 0)
@@ -2140,14 +2140,14 @@ bool GridCtrl::изменено(Ид id)
 		end_row += fixed_rows;
 	
 	for(int i = start_row; i <= end_row; i++)
-		v.добавь(items[i][idx].val);
+		v.Add(items[i][idx].val);
 	
 	return v;
 }
 
-Вектор<Значение> GridCtrl::читайРяд(int n, int start_col, int end_col) const
+Vector<Value> GridCtrl::ReadRow(int n, int start_col, int end_col) const
 {
-	Вектор<Значение> v;
+	Vector<Value> v;
 	int idy = vitems[n < 0 ? rowidx : n + fixed_rows].id;
 	
 	if(start_col < 0)
@@ -2161,27 +2161,27 @@ bool GridCtrl::изменено(Ид id)
 		end_col += fixed_cols;
 	
 	for(int i = start_col; i <= end_col; i++)
-		v.добавь(items[idy][i].val);
+		v.Add(items[idy][i].val);
 	
 	return v;
 }
 
-Вектор< Вектор<Значение> > GridCtrl::дайЗначения()
+Vector< Vector<Value> > GridCtrl::GetValues()
 {
-	Вектор< Вектор<Значение> > v;
+	Vector< Vector<Value> > v;
 	
 	int rows_cnt = total_rows - fixed_rows;
 	int cols_cnt = total_cols - fixed_cols;
 	
-	v.устСчёт(rows_cnt);
+	v.SetCount(rows_cnt);
 	
 	for(int i = 0; i < rows_cnt; i++)
 	{
-		v[i].устСчёт(cols_cnt);
+		v[i].SetCount(cols_cnt);
 		
 		for(int j = 0; j < cols_cnt; j++)
 		{
-			const Значение &val = items[i + fixed_rows][j + fixed_cols].val;
+			const Value &val = items[i + fixed_rows][j + fixed_cols].val;
 			if(IsType<AttrText>(val))
 			{
 				const AttrText& t = ValueTo<AttrText>(val);
@@ -2195,14 +2195,14 @@ bool GridCtrl::изменено(Ид id)
 	return v;
 }
 
-void GridCtrl::SetValues(const Вектор< Вектор<Значение> >& v)
+void GridCtrl::SetValues(const Vector< Vector<Value> >& v)
 {
-	int rows_cnt = v.дайСчёт();
+	int rows_cnt = v.GetCount();
 	
 	if(rows_cnt <= 0)
 		return;
 	
-	int cols_cnt = v[0].дайСчёт();
+	int cols_cnt = v[0].GetCount();
 	
 	int tc = total_cols - fixed_cols;
 	if(cols_cnt > tc)
@@ -2215,22 +2215,22 @@ void GridCtrl::SetValues(const Вектор< Вектор<Значение> >& v
 		{
 			int r = i + fixed_rows;
 			int c = j + fixed_cols;
-			Ктрл * ctrl = items[r][c].ctrl;
+			Ctrl * ctrl = items[r][c].ctrl;
 			if(ctrl)
-				ctrl->устДанные(v[i][j]);
+				ctrl->SetData(v[i][j]);
 			items[r][c].val = v[i][j];
 		}
 
 	SyncCtrls();
-	Syncсуммаmary();
-	освежи();
+	SyncSummary();
+	Refresh();
 }
 
-GridCtrl& GridCtrl::добавь(const Вектор<Значение> &v, int offset, int count, bool hidden)
+GridCtrl& GridCtrl::Add(const Vector<Value> &v, int offset, int count, bool hidden)
 {
 	Append0(1, hidden ? 0 : GD_ROW_HEIGHT);
 
-	int cnt = min(count < 0 ? v.дайСчёт() : count,
+	int cnt = min(count < 0 ? v.GetCount() : count,
 	              total_cols - fixed_cols);
 
 	int r0 = total_rows - 1;
@@ -2243,17 +2243,17 @@ GridCtrl& GridCtrl::добавь(const Вектор<Значение> &v, int of
 	return *this;
 }
 
-bool GridCtrl::IsColumn(const Ид& id)
+bool GridCtrl::IsColumn(const Id& id)
 {
-	return valid_cursor ? hitems[curpos.x].id == aliases.дай(id) : false;
+	return valid_cursor ? hitems[curpos.x].id == aliases.Get(id) : false;
 }
 
-GridCtrl::ItemRect& GridCtrl::дайКолонку(int n)
+GridCtrl::ItemRect& GridCtrl::GetColumn(int n)
 {
 	return hitems[GetIdCol(n + fixed_cols)];
 }
 
-GridCtrl::ItemRect& GridCtrl::дайКолонку()
+GridCtrl::ItemRect& GridCtrl::GetColumn()
 {
 	return hitems[curpos.x];
 }
@@ -2283,19 +2283,19 @@ void GridCtrl::RestoreCurrentRow()
 	rowidx = curpos.y;
 }
 
-GridCtrl::Элемент& GridCtrl::GetCell(int n, int m)
+GridCtrl::Item& GridCtrl::GetCell(int n, int m)
 {
 	return items[vitems[n + fixed_rows].id][hitems[m + fixed_cols].id];
 }
 
-GridCtrl::Элемент& GridCtrl::GetCell(int n, Ид id)
+GridCtrl::Item& GridCtrl::GetCell(int n, Id id)
 {
-	return items[vitems[n + fixed_rows].id][hitems[aliases.дай(id)].id];
+	return items[vitems[n + fixed_rows].id][hitems[aliases.Get(id)].id];
 }
 
-void GridCtrl::MouseAccel(const Точка &p, bool horz, bool vert, dword keyflags)
+void GridCtrl::MouseAccel(const Point &p, bool horz, bool vert, dword keyflags)
 {
-	Размер sz = дайРазм();
+	Size sz = GetSize();
 	int speedx = 0, speedy = 0;
 	const int bound = 5;
 
@@ -2315,36 +2315,36 @@ void GridCtrl::MouseAccel(const Точка &p, bool horz, bool vert, dword keyfl
 			speedy = -(bound - p.y + fixed_height);
 	}
 
-	if(speedx) sbx.уст(sbx + speedx);
-	if(speedy) sby.уст(sby + speedy);
+	if(speedx) sbx.Set(sbx + speedx);
+	if(speedy) sby.Set(sby + speedy);
 
 	if(speedx || speedy)
 	{
 		LG(0, "speedx %d, speedy %d", speedx, speedy);
-		двигМыши(p, keyflags);
+		MouseMove(p, keyflags);
 	}
 
 }
 
-Рисунок GridCtrl::HorzPosImage()
+Image GridCtrl::HorzPosImage()
 {
 	#ifdef PLATFORM_X11
-		return Рисунок::SizeHorz();
+		return Image::SizeHorz();
 	#else
 		return GridImg::HorzPos();
 	#endif 
 }
 
-Рисунок GridCtrl::VertPosImage()
+Image GridCtrl::VertPosImage()
 {
 	#ifdef PLATFORM_X11
-		return Рисунок::SizeVert();
+		return Image::SizeVert();
 	#else
 		return GridImg::VertPos();
 	#endif 
 }
 
-Рисунок GridCtrl::рисКурсора(Точка p, dword keyflags)
+Image GridCtrl::CursorImage(Point p, dword keyflags)
 {
 	if(!moving_header && !moving_body && HasCapture())
 	{
@@ -2353,7 +2353,7 @@ void GridCtrl::MouseAccel(const Точка &p, bool horz, bool vert, dword keyfl
 		if(resizing_rows && curSplitRow >= 0)
 			return VertPosImage();
 		else
-			return Рисунок::Arrow();
+			return Image::Arrow();
 	}
 
 	if(moving_header)
@@ -2364,12 +2364,12 @@ void GridCtrl::MouseAccel(const Точка &p, bool horz, bool vert, dword keyfl
 		if(resize_col_mode == 0 || resize_row_mode == 0)
 			MouseAccel(p, fixed_top_click, fixed_left_click, keyflags);
 
-		return Рисунок::Arrow();
+		return Image::Arrow();
 	}
 	else if(moving_body)
 	{
-		curSplitRow = GetSplitRow(Точка(0, p.y), -1);
-		return Рисунок::Arrow();
+		curSplitRow = GetSplitRow(Point(0, p.y), -1);
+		return Image::Arrow();
 	}
 	else if(mouse_move)
 	{
@@ -2387,9 +2387,9 @@ void GridCtrl::MouseAccel(const Точка &p, bool horz, bool vert, dword keyfl
 			int idy = GetMouseRow(p, true, p.y < fixed_height, true);
 			if(idy >= 0)
 			{
-				Элемент &it = items[vitems[idy].id][hitems[curSplitCol].id];
+				Item &it = items[vitems[idy].id][hitems[curSplitCol].id];
 				if(it.isjoined && it.idx + it.cx != curSplitCol)
-					return Рисунок::Arrow();
+					return Image::Arrow();
 			}
 		}
 		curResizeCol = true;
@@ -2402,15 +2402,15 @@ void GridCtrl::MouseAccel(const Точка &p, bool horz, bool vert, dword keyfl
 			int idx = GetMouseCol(p, true, p.x < fixed_width, true);
 			if(idx >= 0)
 			{
-				Элемент &it = items[vitems[curSplitRow].id][hitems[idx].id];
+				Item &it = items[vitems[curSplitRow].id][hitems[idx].id];
 				if(it.isjoined && it.idy + it.cy != curSplitRow)
-					return Рисунок::Arrow();
+					return Image::Arrow();
 			}
 		}
 		curResizeRow = true;
 		return VertPosImage();
 	}
-	return Рисунок::Arrow();
+	return Image::Arrow();
 }
 
 
@@ -2418,18 +2418,18 @@ void GridCtrl::UpdateHolder(bool force)
 {
 	if(size_changed || force)
 	{
-		holder.SetOffset(Точка(fixed_width, fixed_height));
+		holder.SetOffset(Point(fixed_width, fixed_height));
 		holder.HSizePos(fixed_width, 0).VSizePos(fixed_height, summary_height);
 		size_changed = false;
 	}
 }
 
-GridCtrl::CurState GridCtrl::устКурсор0(int x, int y, int opt, int dirx, int diry)
+GridCtrl::CurState GridCtrl::SetCursor0(int x, int y, int opt, int dirx, int diry)
 {
-	return устКурсор0(Точка(x, y), opt, dirx, diry);
+	return SetCursor0(Point(x, y), opt, dirx, diry);
 }
 
-GridCtrl::CurState GridCtrl::устКурсор0(Точка p, int opt, int dirx, int diry)
+GridCtrl::CurState GridCtrl::SetCursor0(Point p, int opt, int dirx, int diry)
 {
 	CurState cs;
 	if(!row_changing)
@@ -2443,7 +2443,7 @@ GridCtrl::CurState GridCtrl::устКурсор0(Точка p, int opt, int dirx
 	bool ctrlmode = opt & CU_CTRLMODE;
 	bool hidectrls = opt & CU_HIDECTRLS;
 
-	Точка tmpcur;
+	Point tmpcur;
 
 	bool mouse_valid = true;
 
@@ -2463,11 +2463,11 @@ GridCtrl::CurState GridCtrl::устКурсор0(Точка p, int opt, int dirx
 		return cs;
 	}
 	
-	Точка oldcur = highlight ? livecur : curpos;
+	Point oldcur = highlight ? livecur : curpos;
 
 	bool oldvalid = IsValidCursorAll(oldcur);
 	bool newvalid = false;
-	Элемент *nit = NULL;
+	Item *nit = NULL;
 
 	if(!highlight && mouse_valid)
 	{
@@ -2478,7 +2478,7 @@ GridCtrl::CurState GridCtrl::устКурсор0(Точка p, int opt, int dirx
 		int fr = max(fixed_rows, firstVisRow);
 		int lr = lastVisRow;
 
-		Элемент *oit = oldvalid ? &дайЭлт(oldcur) : NULL;
+		Item *oit = oldvalid ? &GetItem(oldcur) : NULL;
 
 		while(true)
 		{
@@ -2486,7 +2486,7 @@ GridCtrl::CurState GridCtrl::устКурсор0(Точка p, int opt, int dirx
 
 			bool hidden = true;
 			bool clickable = true;
-			bool группа = true;
+			bool group = true;
 
 			if(cur)
 			{
@@ -2496,31 +2496,31 @@ GridCtrl::CurState GridCtrl::устКурсор0(Точка p, int opt, int dirx
 				bool hy   = diry != 0 ? v.hidden : false;
 				hidden    = hx || hy;
 				clickable = h.clickable && v.clickable;
-				if(oit && oit->группа >= 0 && !select_row)
+				if(oit && oit->group >= 0 && !select_row)
 				{
-					nit = &дайЭлт(tmpcur);
-					группа = nit->группа != oit->группа;
+					nit = &GetItem(tmpcur);
+					group = nit->group != oit->group;
 				}
 			}
 
-			newvalid = cur && !hidden && clickable && группа;
+			newvalid = cur && !hidden && clickable && group;
 
 			if(newvalid)
 			{
 				int idx = hitems[tmpcur.x].id;
 				int idy = vitems[tmpcur.y].id;
 
-				Элемент &it = items[idy][idx];
+				Item &it = items[idy][idx];
 				
 				newvalid = it.clickable;
 
 				if(newvalid && ctrlmode) 
 				{
-					Ктрл * ctrl = it.ctrl;
+					Ctrl * ctrl = it.ctrl;
 					if(!ctrl && isedit)
 						ctrl = edits[idx].ctrl;
 	
-					if(ctrl && it.editable && ctrl->включен_ли())
+					if(ctrl && it.editable && ctrl->IsEnabled())
 						break;
 				}
 			}
@@ -2660,8 +2660,8 @@ GridCtrl::CurState GridCtrl::устКурсор0(Точка p, int opt, int dirx
 	cs.newx = isnewcol;
 	cs.newy = isnewrow;
 
-	Точка t_curpos = curpos;
-	Точка t_curid = curid;
+	Point t_curpos = curpos;
+	Point t_curid = curid;
 	int t_colidx = colidx;
 	int t_rowidx = rowidx;
 	bool t_valid_cursor = valid_cursor;
@@ -2684,7 +2684,7 @@ GridCtrl::CurState GridCtrl::устКурсор0(Точка p, int opt, int dirx
 		colidx = t_colidx;
 		rowidx = t_rowidx;
 		valid_cursor = t_valid_cursor;
-		cs.очисть();
+		cs.Clear();
 		return cs;
 	}
 
@@ -2702,7 +2702,7 @@ GridCtrl::CurState GridCtrl::устКурсор0(Точка p, int opt, int dirx
 	{
 		#ifdef LOG_CALLBACKS
 		LGR(2, "WhenChangeRow()");
-		LGR(2, фмт("[row: %d]", rowidx));
+		LGR(2, Format("[row: %d]", rowidx));
 		#endif
 		WhenChangeRow();
 	}
@@ -2711,7 +2711,7 @@ GridCtrl::CurState GridCtrl::устКурсор0(Точка p, int opt, int dirx
 	{
 		#ifdef LOG_CALLBACKS
 		LGR(2, "WhenChangeCol()");
-		LGR(2, фмт("[col: %d]",colidx));
+		LGR(2, Format("[col: %d]",colidx));
 		#endif
 		WhenChangeCol();
 	}
@@ -2724,14 +2724,14 @@ GridCtrl::CurState GridCtrl::устКурсор0(Точка p, int opt, int dirx
 	return cs;
 }
 
-int GridCtrl::дайШирину(int n)
+int GridCtrl::GetWidth(int n)
 {
 	if(n < 0) n = total_cols;
 	if(n == 0) return 0;
 	return hitems[n - 1].nRight();
 }
 
-int GridCtrl::дайВысоту(int n)
+int GridCtrl::GetHeight(int n)
 {
 	if(n < 0) n = total_rows;
 	if(n == 0) return 0;
@@ -2740,15 +2740,15 @@ int GridCtrl::дайВысоту(int n)
 
 int GridCtrl::GetFixedWidth()
 {
-	return дайШирину(fixed_cols);
+	return GetWidth(fixed_cols);
 }
 
 int GridCtrl::GetFixedHeight()
 {
-	return дайВысоту(fixed_rows);
+	return GetHeight(fixed_rows);
 }
 
-int GridCtrl::GetFirst0(Вектор<ItemRect> &its, int total, int sb, int p)
+int GridCtrl::GetFirst0(Vector<ItemRect> &its, int total, int sb, int p)
 {
 	int l = 0;
 	int r = total - 1;
@@ -2802,7 +2802,7 @@ GridCtrl& GridCtrl::SetColWidth(int n, int width, bool recalc /* = true */)
 	if(resize_col_mode > 0 && n >= fixed_cols)
 		return *this;
 
-	hitems[n].устШирину(width);
+	hitems[n].Width(width);
 	Repaint(true, false);
 
 	return *this;
@@ -2815,7 +2815,7 @@ GridCtrl& GridCtrl::SetRowHeight(int n, int height, bool recalc)
 	if(resize_row_mode > 0 && n >= fixed_rows)
 		return *this;
 
-	vitems[n].устВысоту(height);
+	vitems[n].Height(height);
 	Repaint(false, true);
 
 	return *this;
@@ -2879,7 +2879,7 @@ void GridCtrl::Recalc(bool horizontal, RectItems &its, int n, double size, doubl
 {
 	its[n].size = size;
 
-	Размер sz = дайРазм();
+	Size sz = GetSize();
 	int cnt = horizontal ? total_cols : total_rows;
 	int maxsize = horizontal ? sz.cx : sz.cy;
 	int tcnt = cnt;
@@ -2960,7 +2960,7 @@ void GridCtrl::CalcIntPos(RectItems &its, int n, int maxsize, int cnt, int resiz
 
 	for(int i = (renumber ? 1 : max(1, n)); i <= cnt ; i++)
 	{
-		its[i].npos = Round(its[i].лево());
+		its[i].npos = Round(its[i].Left());
 		its[i - 1].nsize = its[i].npos - its[i - 1].npos;
 
 		if(renumber)
@@ -2996,7 +2996,7 @@ bool GridCtrl::UpdateSizes()
 	int new_fixed_width  = fixed_cols ? hitems[fixed_cols - 1].nRight() : 0;
 	int new_fixed_height = fixed_rows ? vitems[fixed_rows - 1].nRight() : 0;
 
-	Размер sz = дайРазм();
+	Size sz = GetSize();
 
 	if(resize_col_mode > 0 && new_fixed_width >= sz.cx)
 		new_fixed_width = GridCtrl::GD_IND_WIDTH;
@@ -3024,7 +3024,7 @@ bool GridCtrl::UpdateSizes()
 
 bool GridCtrl::UpdateCols(bool force)
 {
-	Размер sz = дайРазм();
+	Size sz = GetSize();
 	bool change = false;;
 
 	if((osz.cx != sz.cx && resize_col_mode > 0) || force || recalc_cols)
@@ -3040,7 +3040,7 @@ bool GridCtrl::UpdateCols(bool force)
 
 bool GridCtrl::UpdateRows(bool force)
 {
-	Размер sz = дайРазм();
+	Size sz = GetSize();
 	bool change = false;;
 
 	if((osz.cy != sz.cy && resize_row_mode > 0) || force || recalc_rows)
@@ -3055,7 +3055,7 @@ bool GridCtrl::UpdateRows(bool force)
 
 bool GridCtrl::Recalc(bool horizontal, RectItems &its, int resize_mode)
 {
-	Размер sz = дайРазм();
+	Size sz = GetSize();
 
 	if(resize_mode < 0)
 		resize_mode = horizontal ? resize_col_mode : resize_row_mode;
@@ -3129,7 +3129,7 @@ bool GridCtrl::Recalc(bool horizontal, RectItems &its, int resize_mode)
 
 		for(int i = fixed; i < cnt; i++)
 		{
-			its[i].pos = i == 0 ? 0 : its[i - 1].право();
+			its[i].pos = i == 0 ? 0 : its[i - 1].Right();
 			if(its[i].hidden)
 			{
 				its[i].size = 0;
@@ -3162,7 +3162,7 @@ bool GridCtrl::RecalcRows(int mode)
 	return Recalc(false, vitems, mode);
 }
 
-int GridCtrl::GetSplitCol(const Точка &p, int splitSize, bool full)
+int GridCtrl::GetSplitCol(const Point &p, int splitSize, bool full)
 {
 	if(total_cols < 2)
 		return -1;
@@ -3210,7 +3210,7 @@ int GridCtrl::GetSplitCol(const Точка &p, int splitSize, bool full)
 	return -1;
 }
 
-int GridCtrl::GetSplitRow(const Точка &p, int splitSize, bool full)
+int GridCtrl::GetSplitRow(const Point &p, int splitSize, bool full)
 {
 	if(total_rows < 2)
 		return -1;
@@ -3259,25 +3259,25 @@ int GridCtrl::GetSplitRow(const Точка &p, int splitSize, bool full)
 	return -1;
 }
 
-bool GridCtrl::IsValidCursor(const Точка &p, int fc, int lc, int fr, int lr) const
+bool GridCtrl::IsValidCursor(const Point &p, int fc, int lc, int fr, int lr) const
 {
 	return p.x >= fc && p.x <= lc &&
 		   p.y >= fr && p.y <= lr;
 }
 
-bool GridCtrl::IsValidCursorVis(const Точка &p) const
+bool GridCtrl::IsValidCursorVis(const Point &p) const
 {
 	return p.x >= firstVisCol && p.x <= lastVisCol &&
 	       p.y >= firstVisRow && p.y <= lastVisRow;
 }
 
-bool GridCtrl::IsValidCursorAll(const Точка &p) const
+bool GridCtrl::IsValidCursorAll(const Point &p) const
 {
 	return p.x >= fixed_cols && p.x < total_cols &&
 	       p.y >= fixed_rows && p.y < total_rows;
 }
 
-bool GridCtrl::IsValidCursor(const Точка &p) const
+bool GridCtrl::IsValidCursor(const Point &p) const
 {
 	return ready ? IsValidCursorVis(p) : IsValidCursorAll(p);
 }
@@ -3308,19 +3308,19 @@ bool GridCtrl::IsRowClickable(int r /* = -1*/)
 	return vitems[r].clickable &&  hitems[curpos.x].clickable;
 }
 
-void GridCtrl::SetItemCursor(Точка p, bool b, bool highlight)
+void GridCtrl::SetItemCursor(Point p, bool b, bool highlight)
 {
 	if(highlight)
 	{
 		hitems[p.x].Live(b);
 		vitems[p.y].Live(b);
-		дайЭлт(p).Live(b);
+		GetItem(p).Live(b);
 	}
 	else
 	{
 		hitems[p.x].Cursor(b);
 		vitems[p.y].Cursor(b);
-		дайЭлт(p).Cursor(b);
+		GetItem(p).Cursor(b);
 	}
 }
 
@@ -3351,10 +3351,10 @@ void GridCtrl::RefreshRow(int n, bool relative, bool fixed)
 		int e = n;
 		while(e < total_rows && vitems[e].join > 0) e++;
 		e--;
-		освежи(Прям(0, vitems[s].nTop(dy), дайРазм().cx, vitems[e].nBottom(dy)));
+		Refresh(Rect(0, vitems[s].nTop(dy), GetSize().cx, vitems[e].nBottom(dy)));
 	}
 	else
-		освежи(Прям(0, vitems[n].nTop(dy), дайРазм().cx, vitems[n].nBottom(dy)));
+		Refresh(Rect(0, vitems[n].nTop(dy), GetSize().cx, vitems[n].nBottom(dy)));
 }
 
 void GridCtrl::RefreshCol(int n, bool relative, bool fixed)
@@ -3365,7 +3365,7 @@ void GridCtrl::RefreshCol(int n, bool relative, bool fixed)
 	if(relative) n += fixed_cols;
 	if(hitems[n].hidden) return;
 	int dx = fixed ? 0 : sbx;
-	освежи(Прям(hitems[n].nLeft(dx), 0, hitems[n].nRight(dx), дайРазм().cy));
+	Refresh(Rect(hitems[n].nLeft(dx), 0, hitems[n].nRight(dx), GetSize().cy));
 }
 
 void GridCtrl::RefreshRows(int from, int to, bool relative, bool fixed)
@@ -3377,22 +3377,22 @@ void GridCtrl::RefreshRows(int from, int to, bool relative, bool fixed)
 		from += fixed_rows;
 		to += fixed_rows;
 	}
-	if(vitems.дайСчёт())
-		освежи(Прям(0, vitems[clamp(from, 0, vitems.дайСчёт() - 1)].nTop(sby), дайРазм().cx,
-		                vitems[clamp(to, 0, vitems.дайСчёт() - 1)].nBottom(sby)));
+	if(vitems.GetCount())
+		Refresh(Rect(0, vitems[clamp(from, 0, vitems.GetCount() - 1)].nTop(sby), GetSize().cx,
+		                vitems[clamp(to, 0, vitems.GetCount() - 1)].nBottom(sby)));
 }
 
 void GridCtrl::RefreshFrom(int from)
 {
-	Размер sz = дайРазм();
+	Size sz = GetSize();
 	int y = 0;
 	if(resize_row_mode == 0)
 		if(from > 2 && from <= total_rows)
 			y = vitems[from - 1].nBottom(sby);
-	освежи(Прям(0, y, sz.cx, sz.cy));
+	Refresh(Rect(0, y, sz.cx, sz.cy));
 }
 
-void GridCtrl::освежиЭлт(int r, int c, bool relative)
+void GridCtrl::RefreshItem(int r, int c, bool relative)
 {
 	if(!ready)
 		return;
@@ -3401,7 +3401,7 @@ void GridCtrl::освежиЭлт(int r, int c, bool relative)
 		c += fixed_cols;
 		r += fixed_rows;
 	}
-	освежи(дайПрямЭлта(r, c));
+	Refresh(GetItemRect(r, c));
 }
 
 void GridCtrl::RefreshNewRow()
@@ -3411,21 +3411,21 @@ void GridCtrl::RefreshNewRow()
 
 void GridCtrl::RefreshTop()
 {
-	освежи(0, 0, дайРазм().cx, fixed_height);
+	Refresh(0, 0, GetSize().cx, fixed_height);
 }
 
 void GridCtrl::RefreshLeft()
 {
-	освежи(0, fixed_height, fixed_width, дайРазм().cy - fixed_height);
+	Refresh(0, fixed_height, fixed_width, GetSize().cy - fixed_height);
 }
 
-void GridCtrl::Refreshсуммаmary()
+void GridCtrl::RefreshSummary()
 {
-	Размер sz = дайРазм();
-	освежи(0, sz.cy - GD_HDR_HEIGHT, sz.cx, GD_HDR_HEIGHT);
+	Size sz = GetSize();
+	Refresh(0, sz.cy - GD_HDR_HEIGHT, sz.cx, GD_HDR_HEIGHT);
 }
 
-bool GridCtrl::IsMouseBody(Точка &p)
+bool GridCtrl::IsMouseBody(Point &p)
 {
 	return p.x >= fixed_width && p.x < total_width && p.y >= fixed_height && p.y < total_height;
 }
@@ -3478,7 +3478,7 @@ void GridCtrl::UpdateCursor()
 	rowfnd = curpos.y;
 }
 
-int GridCtrl::найди(const Значение &v, int col, int start_from, int opt) const
+int GridCtrl::Find(const Value &v, int col, int start_from, int opt) const
 {
 	for(int i = fixed_rows + start_from; i < total_rows; i++)
 	{
@@ -3492,12 +3492,12 @@ int GridCtrl::найди(const Значение &v, int col, int start_from, int
 	return -1;
 }
 
-int GridCtrl::найди(const Значение &v, Ид id, int opt) const
+int GridCtrl::Find(const Value &v, Id id, int opt) const
 {
-	return найди(v, aliases.дай(id) - fixed_cols, 0, opt);
+	return Find(v, aliases.Get(id) - fixed_cols, 0, opt);
 }
 
-int GridCtrl::FindInRow(const Значение& v, int row, int start_from) const
+int GridCtrl::FindInRow(const Value& v, int row, int start_from) const
 {
 	for(int i = fixed_cols + start_from; i < total_cols; i++)
 	{
@@ -3507,16 +3507,16 @@ int GridCtrl::FindInRow(const Значение& v, int row, int start_from) cons
 	return -1;
 }
 
-int GridCtrl::FindCurrent(Ид id, int opt) const
+int GridCtrl::FindCurrent(Id id, int opt) const
 {
-	int col = aliases.дай(id) - fixed_cols;
-	return найди(дай(col), col, 0, opt);
+	int col = aliases.Get(id) - fixed_cols;
+	return Find(Get(col), col, 0, opt);
 }
 
-int GridCtrl::найди(const Значение &v0, Ид ид0, const Значение&v1, Ид id1, int opt) const
+int GridCtrl::Find(const Value &v0, Id id0, const Value&v1, Id id1, int opt) const
 {
-	int col0 = aliases.дай(ид0);
-	int col1 = aliases.дай(id1);
+	int col0 = aliases.Get(id0);
+	int col1 = aliases.Get(id1);
 	
 	for(int i = fixed_rows; i < total_rows; i++)
 	{
@@ -3532,21 +3532,21 @@ int GridCtrl::найди(const Значение &v0, Ид ид0, const Знач�
 	return -1;
 }
 
-int GridCtrl::FindCurrent(Ид ид0, Ид id1, int opt) const
+int GridCtrl::FindCurrent(Id id0, Id id1, int opt) const
 {
-	int col0 = aliases.дай(ид0);
-	int col1 = aliases.дай(id1);
+	int col0 = aliases.Get(id0);
+	int col1 = aliases.Get(id1);
 
-	const Значение& val0 = items[vitems[rowidx].id][col0].val;
-	const Значение& val1 = items[vitems[rowidx].id][col1].val;
+	const Value& val0 = items[vitems[rowidx].id][col0].val;
+	const Value& val1 = items[vitems[rowidx].id][col1].val;
 
-	return найди(val0, ид0, val1, id1, opt);
+	return Find(val0, id0, val1, id1, opt);
 }
 
 void GridCtrl::UpdateDefaults(int ri)
 {
 	for(int i = 1; i < total_cols; i++)
-		if(!пусто_ли(hitems[i].defval))
+		if(!IsNull(hitems[i].defval))
 			items[ri][hitems[i].id].val = hitems[i].defval;
 }
 
@@ -3558,13 +3558,13 @@ void GridCtrl::SetCtrlsData()
 	for(int i = 1; i < total_cols; i++)
 	{
 		int idx = hitems[i].id;
-		Элемент &it = items[curid.y][idx];
-		Ктрл * ctrl = it.ctrl;
+		Item &it = items[curid.y][idx];
+		Ctrl * ctrl = it.ctrl;
 		if(!ctrl)
 			ctrl = edits[idx].ctrl;
 		if(ctrl)
 		{
-			ctrl->устДанные(it.val);
+			ctrl->SetData(it.val);
 			rowbkp[idx] = it.val;
 		}
 	}
@@ -3579,14 +3579,14 @@ bool GridCtrl::GetCtrlsData(bool samerow, bool doall, bool updates)
 
 	if(focused_ctrl)
 	{
-		Элемент &it = items[curid.y][focused_ctrl_id];
+		Item &it = items[curid.y][focused_ctrl_id];
 
-		if(updates && edit_mode == GE_CELL && !focused_ctrl->прими())
+		if(updates && edit_mode == GE_CELL && !focused_ctrl->Accept())
 			return false;
 
-		Значение v = focused_ctrl->дайДанные();
+		Value v = focused_ctrl->GetData();
 
-		if(v.ошибка_ли())
+		if(v.IsError())
 			v = Null;
 
 		bool was_modified = it.modified;
@@ -3608,9 +3608,9 @@ bool GridCtrl::GetCtrlsData(bool samerow, bool doall, bool updates)
 			{
 				#ifdef LOG_CALLBACKS
 				LGR(2, "WhenUpdateCell()");
-				LGR(2, фмт("[row: %d, colid: %d]", curid.y, focused_ctrl_id));
-				LGR(2, фмт("[oldval : %s]", какТкст(rowbkp[focused_ctrl_id])));
-				LGR(2, фмт("[newval : %s]", какТкст(v)));
+				LGR(2, Format("[row: %d, colid: %d]", curid.y, focused_ctrl_id));
+				LGR(2, Format("[oldval : %s]", AsString(rowbkp[focused_ctrl_id])));
+				LGR(2, Format("[newval : %s]", AsString(v)));
 				#endif
 				WhenUpdateCell();
 
@@ -3637,12 +3637,12 @@ bool GridCtrl::GetCtrlsData(bool samerow, bool doall, bool updates)
 			for(int i = fixed_cols; i < total_cols; ++i)
 			{
 				int idx = hitems[i].id;
-				Ктрл * ctrl = дайКтрл(rowidx, i, true, false, false);
-				if(ctrl && !ctrl->прими())
+				Ctrl * ctrl = GetCtrl(rowidx, i, true, false, false);
+				if(ctrl && !ctrl->Accept())
 				{
 					focused_ctrl = ctrl;
 					focused_ctrl_id = idx;
-					ctrl->устФокус();
+					ctrl->SetFocus();
 					curpos.x = i;
 					return false;
 				}
@@ -3663,8 +3663,8 @@ bool GridCtrl::GetCtrlsData(bool samerow, bool doall, bool updates)
 		if(newrow)
 		{
 			#ifdef LOG_CALLBACKS
-			LGR(2, фмт("WhenInsertRow()", curid.y));
-			LGR(2, фмт("[row: %d]", curid.y));
+			LGR(2, Format("WhenInsertRow()", curid.y));
+			LGR(2, Format("[row: %d]", curid.y));
 			#endif
 			removed = !WhenInsertRow0();
 
@@ -3675,8 +3675,8 @@ bool GridCtrl::GetCtrlsData(bool samerow, bool doall, bool updates)
 			SetModify();
 
 			#ifdef LOG_CALLBACKS
-			LGR(2, фмт("WhenUpdateRow()", curid.y));
-			LGR(2, фмт("[row: %d]", curid.y));
+			LGR(2, Format("WhenUpdateRow()", curid.y));
+			LGR(2, Format("[row: %d]", curid.y));
 			#endif
 			WhenUpdateRow();
 		}
@@ -3734,15 +3734,15 @@ bool GridCtrl::CancelCtrlsData(bool all)
 	for(int i = is; i < ie; i++)
 	{
 		int id = hitems[i].id;
-		Элемент &it = items[curid.y][id];
+		Item &it = items[curid.y][id];
 
-		Ктрл * ctrl = it.ctrl;
+		Ctrl * ctrl = it.ctrl;
 		if(!ctrl)
 			ctrl = edits[id].ctrl;
 		if(ctrl)
 		{
-			ctrl->отклони();
-			ctrl->устДанные(rowbkp[id]);
+			ctrl->Reject();
+			ctrl->SetData(rowbkp[id]);
 			
 			if(it.modified)
 			{
@@ -3767,7 +3767,7 @@ void GridCtrl::UpdateCtrls(int opt /*= UC_CHECK_VIS | UC_SHOW | UC_CURSOR */)
 	if((opt & UC_CHECK_VIS) && !HasCtrls())
 		return;
 
-	Точка cp(opt & UC_OLDCUR ? oldcur : curpos);
+	Point cp(opt & UC_OLDCUR ? oldcur : curpos);
 
 	bool show = opt & UC_SHOW;
 
@@ -3777,9 +3777,9 @@ void GridCtrl::UpdateCtrls(int opt /*= UC_CHECK_VIS | UC_SHOW | UC_CURSOR */)
 	if(cp.y < 0)
 		return;
 
-	Размер sz = дайРазм();
+	Size sz = GetSize();
 
-	bool gofirst = (opt & UC_GOFIRST) && !ктрл_ли(cp, false);
+	bool gofirst = (opt & UC_GOFIRST) && !IsCtrl(cp, false);
 
 	edit_ctrls = false;
 
@@ -3794,7 +3794,7 @@ void GridCtrl::UpdateCtrls(int opt /*= UC_CHECK_VIS | UC_SHOW | UC_CURSOR */)
 		if(hitems[i].hidden)
 			continue;
 
-		Ктрл* ctrl = дайКтрл(cp.y, i, show == false);
+		Ctrl* ctrl = GetCtrl(cp.y, i, show == false);
 		
 		if(!ctrl)
 			continue;
@@ -3830,44 +3830,44 @@ void GridCtrl::UpdateCtrls(int opt /*= UC_CHECK_VIS | UC_SHOW | UC_CURSOR */)
 		if(show)
 		{
 			dorect = edit_mode == GE_CELL ? dorf : (isedit || (opt & UC_CTRLS));
-			dorect = dorect && дайЭлт(cp.y, i).editable;
+			dorect = dorect && GetItem(cp.y, i).editable;
 		}
 		
 		if(!sync_ctrl)
 		{
 			if(dorect)
 			{
-				Прям r = дайПрямЭлта(ctrlpos.y, i, horz_grid, vert_grid, true, true);
+				Rect r = GetItemRect(ctrlpos.y, i, horz_grid, vert_grid, true, true);
 	
-				if(!r.пересекается(sz))
-					r.уст(0, 0, 0, 0);
+				if(!r.Intersects(sz))
+					r.Set(0, 0, 0, 0);
 	
-				ctrl->устПрям(AlignRect(r, i));
-				ctrl->покажи();
+				ctrl->SetRect(AlignRect(r, i));
+				ctrl->Show();
 				edit_ctrls = true;
 			}
 			else
 			{
-				ctrl->устПрям(0, 0, 0, 0);
-				ctrl->скрой();
+				ctrl->SetRect(0, 0, 0, 0);
+				ctrl->Hide();
 			}
 		}
 
-		if(dofocus && ctrl->показан_ли())
+		if(dofocus && ctrl->IsShown())
 		{
-			ctrl->устФокус();
+			ctrl->SetFocus();
 			focused_ctrl = ctrl;
 			focused_ctrl_id = id;
 			focused_ctrl_val = hitems[i].defval;
 			focused_col = i;
 
 			if(opt & UC_CURSOR)
-				устКурсор0(i, cp.y);
+				SetCursor0(i, cp.y);
 		}
 	}
 
 	if(!nofocus && !focused_ctrl)
-		устФокус();
+		SetFocus();
 
 	if(opt & UC_CTRLS)
 		isedit = edit_ctrls;
@@ -3879,7 +3879,7 @@ void GridCtrl::UpdateCtrls(int opt /*= UC_CHECK_VIS | UC_SHOW | UC_CURSOR */)
 		RebuildToolBar();
 		
 	if(isedit)
-		popup.закрой();
+		popup.Close();
 }
 
 void GridCtrl::SyncCtrls(int row, int col)
@@ -3887,7 +3887,7 @@ void GridCtrl::SyncCtrls(int row, int col)
 	if(!genr_ctrls)
 		return;
 	
-	Размер sz = дайРазм();
+	Size sz = GetSize();
 
 	int js = row < 0 ? 0 : row;
 	int je = row < 0 ? total_rows : row + 1;
@@ -3908,7 +3908,7 @@ void GridCtrl::SyncCtrls(int row, int col)
 						
 			int idx = hitems[i].id;
 
-			Элемент *it = &items[idy][idx];
+			Item *it = &items[idy][idx];
 			
 			if(it->isjoined)
 			{
@@ -3918,17 +3918,17 @@ void GridCtrl::SyncCtrls(int row, int col)
 
 			if(!it->ctrl && create_row && create_col && it->editable && edits[idx].factory)
 			{
-				Один<Ктрл> newctrl;
+				One<Ctrl> newctrl;
 				edits[idx].factory(newctrl);
-				it->ctrl = newctrl.открепи();
+				it->ctrl = newctrl.Detach();
 				it->ctrl_flag = IC_FACTORY | IC_INIT | IC_OWNED;
 			}
 			
 			if(it->ctrl && (it->ctrl_flag & IC_INIT))
 			{
-				it->ctrl->устДанные(it->val);
-				it->ctrl->WhenAction << прокси(WhenCtrlsAction);
-				holder.добавьОтпрыск(it->ctrl);				
+				it->ctrl->SetData(it->val);
+				it->ctrl->WhenAction << Proxy(WhenCtrlsAction);
+				holder.AddChild(it->ctrl);				
 				it->ctrl_flag &= ~IC_INIT;
 			}
 
@@ -3937,18 +3937,18 @@ void GridCtrl::SyncCtrls(int row, int col)
 				if(it->isjoined && it->sync_flag == sync_flag)
 					continue;
 
-				Прям r = дайПрямЭлта(j, i, horz_grid, vert_grid, true, true);
+				Rect r = GetItemRect(j, i, horz_grid, vert_grid, true, true);
 				AlignRect(r, i);
 				
-				if(r.пересекается(sz) && !fixed_col && !fixed_row && !vitems[j].hidden && !hitems[i].hidden)
+				if(r.Intersects(sz) && !fixed_col && !fixed_row && !vitems[j].hidden && !hitems[i].hidden)
 				{
-					it->ctrl->устПрям(r);
-					it->ctrl->покажи();
+					it->ctrl->SetRect(r);
+					it->ctrl->Show();
 				}
-				else if(it->ctrl->показан_ли())
+				else if(it->ctrl->IsShown())
 				{
-					it->ctrl->устПрям(0, 0, 0, 0);
-					it->ctrl->скрой();
+					it->ctrl->SetRect(0, 0, 0, 0);
+					it->ctrl->Hide();
 				}
 			}
 
@@ -3959,20 +3959,20 @@ void GridCtrl::SyncCtrls(int row, int col)
 	sync_flag = 1 - sync_flag;
 }
 
-void GridCtrl::Syncсуммаmary()
+void GridCtrl::SyncSummary()
 {
 	if(!summary)
 		return;
 	
-	if(WhenUpdateсуммаmary)
+	if(WhenUpdateSummary)
 	{
-		WhenUpdateсуммаmary();
+		WhenUpdateSummary();
 	}
 	else
 	{
 		for(int i = fixed_cols; i < total_cols; i++)
 		{
-			Значение t = 0;
+			Value t = 0;
 			
 			int idx = hitems[i].id;
 			
@@ -3985,7 +3985,7 @@ void GridCtrl::Syncсуммаmary()
 			
 			for(int j = fixed_rows; j < total_rows; j++)
 			{
-				if(vitems[j].скрыт_ли())
+				if(vitems[j].IsHidden())
 					continue;
 				
 				if(sop == SOP_CNT)
@@ -3996,17 +3996,17 @@ void GridCtrl::Syncсуммаmary()
 
 				int idy = vitems[j].id;
 					
-				Значение v = items[idy][idx].val;
+				Value v = items[idy][idx].val;
 				
-				if(пусто_ли(v))
+				if(IsNull(v))
 					continue;
 									
-				ProcessсуммаmaryValue(v);
+				ProcessSummaryValue(v);
 				
 				if(n == 0 && (sop == SOP_MIN || sop == SOP_MAX))
 					t = v;
 				
-				if(число_ли(v))
+				if(IsNumber(v))
 				{
 					switch(sop)
 					{
@@ -4023,16 +4023,16 @@ void GridCtrl::Syncсуммаmary()
 							t = double(t) + double(v);
 					}
 				}
-				else if(IsType<Дата>(v))
+				else if(IsType<Date>(v))
 				{
 					switch(sop)
 					{
 						case SOP_MIN:
-							if((Дата) v < (Дата) t)
+							if((Date) v < (Date) t)
 								t = v;
 							break;
 						case SOP_MAX:
-							if((Дата) v > (Дата) t)
+							if((Date) v > (Date) t)
 								t = v;
 							break;
 						case SOP_SUM:
@@ -4045,7 +4045,7 @@ void GridCtrl::Syncсуммаmary()
 
 			if(sop == SOP_AVG)
 			{
-				if(число_ли(t))
+				if(IsNumber(t))
 					t = double(t) / double(n);						
 			}
 			else if(sop == SOP_CNT)
@@ -4058,14 +4058,14 @@ void GridCtrl::Syncсуммаmary()
 	}
 	
 	if(summary_row)
-		Refreshсуммаmary();
+		RefreshSummary();
 }
 
-void GridCtrl::Updateсуммаmary(bool b)
+void GridCtrl::UpdateSummary(bool b)
 {
 	update_summary = b;
 	if(b)
-		Syncсуммаmary();
+		SyncSummary();
 }
 
 bool GridCtrl::HasCtrls()
@@ -4076,35 +4076,35 @@ bool GridCtrl::HasCtrls()
 void GridCtrl::SetCtrlFocus(int col)
 {
 	oldcur.x = curpos.x;
-	Ктрл * ctrl = дайКтрл(col + fixed_cols, rowidx, false, false);
+	Ctrl * ctrl = GetCtrl(col + fixed_cols, rowidx, false, false);
 	focused_ctrl = ctrl;
 	focused_ctrl_id = hitems[col + fixed_cols].id;
-	ctrl->устФокус();
+	ctrl->SetFocus();
 	curpos.x = col + fixed_cols;
 }
 
-void GridCtrl::SetCtrlFocus(Ид id)
+void GridCtrl::SetCtrlFocus(Id id)
 {
-	SetCtrlFocus(aliases.дай(id));
+	SetCtrlFocus(aliases.Get(id));
 }
 
-bool GridCtrl::прими()
+bool GridCtrl::Accept()
 {
 	if(!EndEdit())
 		return false;
-	return Ктрл::прими();
+	return Ctrl::Accept();
 }
 
-void GridCtrl::отклони()
+void GridCtrl::Reject()
 {
 	CancelEdit();
-	Ктрл::отклони();
+	Ctrl::Reject();
 }
 
 void GridCtrl::RestoreFocus()
 {
 	if(focused_ctrl && !focused_ctrl->HasFocusDeep())
-		focused_ctrl->устФокус();
+		focused_ctrl->SetFocus();
 }
 
 bool GridCtrl::ShowNextCtrl()
@@ -4133,14 +4133,14 @@ int GridCtrl::GetFocusedCtrlIndex()
 	{
 		int id = hitems[i].id;
 
-		Ктрл * ctrl = items[0][id].ctrl;
+		Ctrl * ctrl = items[0][id].ctrl;
 		if(ctrl && ctrl->HasFocusDeep())
 			return i;
 	}
 	return -1;
 }
 
-Точка GridCtrl::GetCtrlPos(Ктрл * ctrl)
+Point GridCtrl::GetCtrlPos(Ctrl * ctrl)
 {
 	for(int i = fixed_rows; i < total_rows; i++)
 	{
@@ -4148,7 +4148,7 @@ int GridCtrl::GetFocusedCtrlIndex()
 		for(int j = fixed_cols; j < total_cols; j++)
 		{
 			int idx = hitems[j].id;
-			Ктрл * ci = items[idy][idx].ctrl;
+			Ctrl * ci = items[idy][idx].ctrl;
 			bool isedit = false;
 			if(!ci)
 			{
@@ -4156,13 +4156,13 @@ int GridCtrl::GetFocusedCtrlIndex()
 				isedit = true;
 			}
 			if(ci == ctrl || ci->HasChildDeep(ctrl))
-				return Точка(j, isedit ? ctrlpos.y : i);
+				return Point(j, isedit ? ctrlpos.y : i);
 		}
 	}
-	return Точка(-1, -1);
+	return Point(-1, -1);
 }
 
-void GridCtrl::разбей(int state, bool sync)
+void GridCtrl::Split(int state, bool sync)
 {
 	if(resize_paint_mode < 2)
 	{
@@ -4191,7 +4191,7 @@ void GridCtrl::разбей(int state, bool sync)
 		UpdateSizes();
 		UpdateHolder();
 		UpdateSb();
-		освежи();
+		Refresh();
 	}
 
 	if((resize_paint_mode > 1 && state > GS_UP) || state == GS_UP)
@@ -4201,12 +4201,12 @@ void GridCtrl::разбей(int state, bool sync)
 	}
 
 	if(sync)
-		синх();
+		Sync();
 }
 
 bool GridCtrl::TabKey(bool enter_mode)
 {
-	if(!естьФокус() && !holder.HasFocusDeep())
+	if(!HasFocus() && !holder.HasFocusDeep())
 		return false;
 	
 	bool has_ctrls = HasCtrls();
@@ -4228,7 +4228,7 @@ bool GridCtrl::TabKey(bool enter_mode)
 		bool isnext = false;
 		if(select_row)
 		{
-			isnext = идиСледщ();
+			isnext = GoNext();
 			if(!isnext && tab_adds_row)
 				DoAppendNoEdit();
 		}
@@ -4238,7 +4238,7 @@ bool GridCtrl::TabKey(bool enter_mode)
 			if(!isnext && tab_adds_row)
 				DoAppendNoEdit();
 		}
-		очистьВыделение();
+		ClearSelection();
 
 		if(isnext)
 			return true;
@@ -4255,16 +4255,16 @@ bool GridCtrl::TabKey(bool enter_mode)
 	return false;
 }
 
-bool GridCtrl::ищи(dword ключ)
+bool GridCtrl::Search(dword key)
 {
-	//if(ключ & K_UP)
+	//if(key & K_UP)
 	//	return false;
 
-	if(ключ >= 32 && ключ < 65536)
+	if(key >= 32 && key < 65536)
 	{
-		search_string += (wchar) ключ;
-		if(!ShowMatchedRows(search_string) && search_string.дайСчёт() > 0)
-			search_string.удали(search_string.дайСчёт() - 1);
+		search_string += (wchar) key;
+		if(!ShowMatchedRows(search_string) && search_string.GetCount() > 0)
+			search_string.Remove(search_string.GetCount() - 1);
 		else
 			find <<= search_string;
 
@@ -4275,17 +4275,17 @@ bool GridCtrl::ищи(dword ключ)
 
 int GridCtrl::GetResizePanelHeight() const
 {
-	return (resize_panel.дайВысоту() + 2) * resize_panel_open;
+	return (resize_panel.GetHeight() + 2) * resize_panel_open;
 }
 
-Ткст GridCtrl::GetColumnName(int n) const
+String GridCtrl::GetColumnName(int n) const
 {
-	return hitems[GetIdCol(n + fixed_cols)].дайИмя();
+	return hitems[GetIdCol(n + fixed_cols)].GetName();
 }
 
-Ид GridCtrl::GetColumnId(int n) const
+Id GridCtrl::GetColumnId(int n) const
 {
-	return aliases.дайКлюч(n + fixed_cols);
+	return aliases.GetKey(n + fixed_cols);
 }
 
 void GridCtrl::SwapCols(int n, int m)
@@ -4295,7 +4295,7 @@ void GridCtrl::SwapCols(int n, int m)
 	   m < fixed_cols || m > total_cols - 1)
 		return;
 
-	разверни(hitems[m], hitems[n]);
+	Swap(hitems[m], hitems[n]);
 	UpdateCursor();
 	Repaint(true, false);
 }
@@ -4334,13 +4334,13 @@ void GridCtrl::MoveCol(int n, int m)
 
 	ItemRect ir = hitems[n];
 	if(m > total_cols)
-		hitems.добавь(ir);
+		hitems.Add(ir);
 	else
-		hitems.вставь(m + 1, ir);
+		hitems.Insert(m + 1, ir);
 	if(m > n)
-		hitems.удали(n);
+		hitems.Remove(n);
 	else
-		hitems.удали(n + 1);
+		hitems.Remove(n + 1);
 
 	UpdateCursor();
 	Repaint(true, false);
@@ -4368,13 +4368,13 @@ bool GridCtrl::MoveRow(int n, int m, bool repaint)
 
 	ItemRect ir = vitems[n];
 	if(m > total_rows)
-		vitems.добавь(ir);
+		vitems.Add(ir);
 	else
-		vitems.вставь(m + 1, ir);
+		vitems.Insert(m + 1, ir);
 	if(m > n)
-		vitems.удали(n);
+		vitems.Remove(n);
 	else
-		vitems.удали(n + 1);
+		vitems.Remove(n + 1);
 
 	if(repaint)
 	{
@@ -4392,8 +4392,8 @@ void GridCtrl::MoveRows(int n, bool onerow)
 {
 	if(selected_rows && !onerow)
 	{
-		Вектор<ItemRect> vi;
-		vi.резервируй(selected_rows);
+		Vector<ItemRect> vi;
+		vi.Reserve(selected_rows);
 		for(int i = fixed_rows; i < total_rows; i++)
 			if(vitems[i].IsSelect())
 			{
@@ -4403,7 +4403,7 @@ void GridCtrl::MoveRows(int n, bool onerow)
 					cancel_move = false;
 					return;
 				}
-				vi.добавь(vitems[i]);
+				vi.Add(vitems[i]);
 			}
 
 		int cnt = 0;
@@ -4411,12 +4411,12 @@ void GridCtrl::MoveRows(int n, bool onerow)
 		for(int i = total_rows - 1; i >= fixed_rows; i--)
 			if(vitems[i].IsSelect())
 			{
-				vitems.удали(i);
+				vitems.Remove(i);
 				if(i < n)
 					cnt++;
 			}
 
-		vitems.вставь(n - cnt, vi);
+		vitems.Insert(n - cnt, vi);
 
 		SetOrder();
 		SetModify();
@@ -4445,7 +4445,7 @@ bool GridCtrl::SwapRows(int n, int m, bool repaint)
 		return false;
 	}
 
-	разверни(vitems[m], vitems[n]);
+	Swap(vitems[m], vitems[n]);
 	if(repaint)
 	{
 		UpdateCursor();
@@ -4488,7 +4488,7 @@ void GridCtrl::SwapUp(int cnt)
 	}
 
 	if(resize_row_mode == 0 && yp < 0)
-		sby.уст(sby + yp);
+		sby.Set(sby + yp);
 
 	if(repaint)
 	{
@@ -4528,9 +4528,9 @@ void GridCtrl::SwapDown(int cnt)
 		repaint = true;
 	}
 
-	int cy = дайРазм().cy - bar.дайРазм().cy;
+	int cy = GetSize().cy - bar.GetSize().cy;
 	if(resize_row_mode == 0 && yp > cy)
-		sby.уст(sby + yp - cy);
+		sby.Set(sby + yp - cy);
 
 	if(repaint)
 	{
@@ -4539,34 +4539,34 @@ void GridCtrl::SwapDown(int cnt)
 	}
 }
 
-GridCtrl& GridCtrl::GridColor(Цвет fg)
+GridCtrl& GridCtrl::GridColor(Color fg)
 {
 	fg_grid = fg;
 	return *this;
 }
 
-GridCtrl& GridCtrl::FocusColor(Цвет fg, Цвет bg)
+GridCtrl& GridCtrl::FocusColor(Color fg, Color bg)
 {
 	fg_focus = fg;
 	bg_focus = bg;
 	return *this;
 }
 
-GridCtrl& GridCtrl::LiveColor(Цвет fg, Цвет bg)
+GridCtrl& GridCtrl::LiveColor(Color fg, Color bg)
 {
 	fg_live = fg;
 	bg_live = bg;
 	return *this;
 }
 
-GridCtrl& GridCtrl::OddColor(Цвет fg, Цвет bg)
+GridCtrl& GridCtrl::OddColor(Color fg, Color bg)
 {
 	fg_odd = fg;
 	bg_odd = bg;
 	return *this;
 }
 
-GridCtrl& GridCtrl::EvenColor(Цвет fg, Цвет bg)
+GridCtrl& GridCtrl::EvenColor(Color fg, Color bg)
 {
 	fg_even = fg;
 	bg_even = bg;
@@ -4606,7 +4606,7 @@ void GridCtrl::ClearRow(int r, int column_offset)
 	RefreshRow(rowidx, 0);
 }
 
-void GridCtrl::очисть(bool columns)
+void GridCtrl::Clear(bool columns)
 {
 	doscroll = false;
 	
@@ -4615,19 +4615,19 @@ void GridCtrl::очисть(bool columns)
 	UpdateCtrls(UC_HIDE | UC_CTRLS);
 
 	int nrows = columns ? 1 : fixed_rows;
-	items.удали(nrows, items.дайСчёт() - nrows);
-	vitems.удали(nrows, vitems.дайСчёт() - nrows);
+	items.Remove(nrows, items.GetCount() - nrows);
+	vitems.Remove(nrows, vitems.GetCount() - nrows);
 
 	total_rows = nrows;
 	fixed_rows = nrows;
 
 	if(columns)
 	{
-		hitems.удали(1, hitems.дайСчёт() - 1);
-		items[0].удали(1, items[0].дайСчёт() - 1);
-		rowbkp.удали(1, rowbkp.дайСчёт() - 1);
-		edits.удали(1, edits.дайСчёт() - 1);
-		sortOrder.очисть();
+		hitems.Remove(1, hitems.GetCount() - 1);
+		items[0].Remove(1, items[0].GetCount() - 1);
+		rowbkp.Remove(1, rowbkp.GetCount() - 1);
+		edits.Remove(1, edits.GetCount() - 1);
+		sortOrder.Clear();
 		total_cols = 1;
 		total_width = 0;
 		total_height = 0;
@@ -4677,7 +4677,7 @@ void GridCtrl::очисть(bool columns)
 		oldpos.y = sby;
 	
 		RebuildToolBar();
-		освежи();
+		Refresh();
 	}
 
 	WhenEmpty();
@@ -4686,15 +4686,15 @@ void GridCtrl::очисть(bool columns)
 	doscroll = true;
 }
 
-void GridCtrl::переустанов()
+void GridCtrl::Reset()
 {
-	очисть(true);
+	Clear(true);
 }
 
 void GridCtrl::ClearOperations()
 {
 	for(int i = fixed_rows; i < total_rows; i++)
-		vitems[i].operation.очисть();
+		vitems[i].operation.Clear();
 }
 
 void GridCtrl::ClearVersions()
@@ -4703,18 +4703,18 @@ void GridCtrl::ClearVersions()
 		vitems[i].operation.ClearVersion();
 }
 
-void GridCtrl::старт()
+void GridCtrl::Begin()
 {
 	bkp_rowidx = rowidx;
 	rowidx = fixed_rows;
 }
 
-void GridCtrl::стоп()
+void GridCtrl::End()
 {
 	rowidx = total_rows - 1;
 }
 
-bool GridCtrl::конец_ли()
+bool GridCtrl::IsEnd()
 {
 	if(rowidx < total_rows)
 		return true;
@@ -4725,7 +4725,7 @@ bool GridCtrl::конец_ли()
 	}
 }
 
-void GridCtrl::следщ()
+void GridCtrl::Next()
 {
 	++rowidx;
 }
@@ -4760,21 +4760,21 @@ bool GridCtrl::IsLast()
 	return rowidx == total_rows - 1;
 }
 
-int GridCtrl::устКурсор0(int n)
+int GridCtrl::SetCursor0(int n)
 {
 	int t = curpos.y;
-	устКурсор0(curpos.x < 0 ? firstVisCol : curpos.x, n);
+	SetCursor0(curpos.x < 0 ? firstVisCol : curpos.x, n);
 	return t;
 }
 
-int GridCtrl::устКурсор(int n)
+int GridCtrl::SetCursor(int n)
 {
-	return устКурсор0(n + fixed_rows) - fixed_rows;
+	return SetCursor0(n + fixed_rows) - fixed_rows;
 }
 
-void GridCtrl::устКурсор(const Точка& p)
+void GridCtrl::SetCursor(const Point& p)
 {
-	устКурсор0(Точка(p.x + fixed_cols, p.y + fixed_rows), false);
+	SetCursor0(Point(p.x + fixed_cols, p.y + fixed_rows), false);
 }
 
 int GridCtrl::SetCursorId(int id)
@@ -4783,12 +4783,12 @@ int GridCtrl::SetCursorId(int id)
 	for(int i = fixed_rows; i < total_rows; i++)
 	{
 		if(vitems[i].id == id)
-			return устКурсор(i - fixed_rows);
+			return SetCursor(i - fixed_rows);
 	}
 	return -1;
 }
 
-int GridCtrl::дайКурсор(bool rel) const
+int GridCtrl::GetCursor(bool rel) const
 {
 	if(rel)
 		return valid_cursor ? vitems[curpos.y].id - fixed_rows : -1;
@@ -4804,7 +4804,7 @@ int GridCtrl::GetPrevCursor(bool rel) const
 		return IsValidCursor(oldcur) ? oldcur.y - fixed_rows : -1;
 }
 
-int GridCtrl::дайКурсор(int uid) const
+int GridCtrl::GetCursor(int uid) const
 {
 	for(int i = fixed_rows; i < total_rows; i++)
 		if(vitems[i].uid == uid)
@@ -4812,9 +4812,9 @@ int GridCtrl::дайКурсор(int uid) const
 	return -1;
 }
 
-Точка GridCtrl::GetCursorPos() const
+Point GridCtrl::GetCursorPos() const
 {
-	return valid_cursor ? Точка(curpos.x - fixed_cols, curpos.y - fixed_rows) : Точка(-1, -1);
+	return valid_cursor ? Point(curpos.x - fixed_cols, curpos.y - fixed_rows) : Point(-1, -1);
 }
 
 int GridCtrl::GetRowId() const
@@ -4848,18 +4848,18 @@ int GridCtrl::FindCol(int id) const
 	return -1;
 }
 
-int GridCtrl::FindCol(const Ид& id) const
+int GridCtrl::FindCol(const Id& id) const
 {
 	for(int i = fixed_cols; i < total_cols; i++)
-		if(aliases.дайКлюч(i) == id)
+		if(aliases.GetKey(i) == id)
 			return i - fixed_cols;
 	return -1;
 }
 
-int GridCtrl::FindCol(const Ткст& s) const
+int GridCtrl::FindCol(const String& s) const
 {
 	for(int i = fixed_cols; i < total_cols; i++)
-		if(hitems[i].дайИмя() == s)
+		if(hitems[i].GetName() == s)
 			return i - fixed_cols;
 	return -1;
 }
@@ -4887,18 +4887,18 @@ int GridCtrl::GetRemovedRowPos()
 	return rowidx > 0 ? rowidx - fixed_rows : -1;
 }
 
-void GridCtrl::курсорПоЦентру()
+void GridCtrl::CenterCursor()
 {
-	if(пустой() || !курсор_ли())
+	if(IsEmpty() || !IsCursor())
 		return;
 
-	sbx.уст(hitems[curpos.x].nLeft() - дайРазм().cx / 2);
-	sby.уст(vitems[curpos.y].nTop() - дайРазм().cy / 2);
+	sbx.Set(hitems[curpos.x].nLeft() - GetSize().cx / 2);
+	sby.Set(vitems[curpos.y].nTop() - GetSize().cy / 2);
 }
 
 bool GridCtrl::Go0(int jump, bool scroll, bool goleft, bool ctrlmode)
 {
-	if(пустой())
+	if(IsEmpty())
 		return false;
 
 	if(!ready)
@@ -4912,9 +4912,9 @@ bool GridCtrl::Go0(int jump, bool scroll, bool goleft, bool ctrlmode)
 		if(select_row && !ctrlmode && !draw_focus)
 		{
 			if(jump == GO_LEFT)
-				sbx.уст(sbx.дай() - 5);
+				sbx.Set(sbx.Get() - 5);
 			else
-				sbx.уст(sbx.дай() + 5);
+				sbx.Set(sbx.Get() + 5);
 			return false;
 		}
 	}
@@ -4942,7 +4942,7 @@ bool GridCtrl::Go0(int jump, bool scroll, bool goleft, bool ctrlmode)
 		}
 	}
 
-	Размер sz = дайРазм();
+	Size sz = GetSize();
 	int sy = -1;
 	
 	int opt = /*ctrls*/ ctrlmode ? CU_CTRLMODE : 0;
@@ -4951,7 +4951,7 @@ bool GridCtrl::Go0(int jump, bool scroll, bool goleft, bool ctrlmode)
 	{
 		case GO_BEGIN:
 		{
-			if(!устКурсор0(curpos.x < 0 ? firstVisCol : curpos.x, firstVisRow, opt, 0, 1))
+			if(!SetCursor0(curpos.x < 0 ? firstVisCol : curpos.x, firstVisRow, opt, 0, 1))
 				return false;
 			sy = 0;
 
@@ -4959,7 +4959,7 @@ bool GridCtrl::Go0(int jump, bool scroll, bool goleft, bool ctrlmode)
 		}
 		case GO_END:
 		{
-			if(!устКурсор0((curpos.x < 0 || goleft) ? firstVisCol : curpos.x, lastVisRow, opt, 0, -1))
+			if(!SetCursor0((curpos.x < 0 || goleft) ? firstVisCol : curpos.x, lastVisRow, opt, 0, -1))
 				return false;
 			if(goleft)
 				GoCursorLeftRight();
@@ -4970,7 +4970,7 @@ bool GridCtrl::Go0(int jump, bool scroll, bool goleft, bool ctrlmode)
 		}
 		case GO_NEXT:
 		{
-			if(!устКурсор0(curpos.x < 0 ? firstVisCol : curpos.x,
+			if(!SetCursor0(curpos.x < 0 ? firstVisCol : curpos.x,
 			               curpos.y < 0 ? firstVisRow : curpos.y + 1,
 					       opt, 0, 1))
 				return false;
@@ -4985,7 +4985,7 @@ bool GridCtrl::Go0(int jump, bool scroll, bool goleft, bool ctrlmode)
 		}
 		case GO_PREV:
 		{
-			if(!устКурсор0(curpos.x < 0 ? firstVisCol : curpos.x,
+			if(!SetCursor0(curpos.x < 0 ? firstVisCol : curpos.x,
 			               curpos.y < 0 ? firstVisRow : curpos.y - 1,
 			               opt, 0, -1))
 				return false;
@@ -4999,7 +4999,7 @@ bool GridCtrl::Go0(int jump, bool scroll, bool goleft, bool ctrlmode)
 		}
 		case GO_LEFT:
 		{
-			if(!устКурсор0(curpos.x < 0 ? firstVisCol : curpos.x - 1,
+			if(!SetCursor0(curpos.x < 0 ? firstVisCol : curpos.x - 1,
 						   curpos.y < 0 ? firstVisRow : curpos.y,
 						   opt, -1, 0))
 				return false;
@@ -5008,7 +5008,7 @@ bool GridCtrl::Go0(int jump, bool scroll, bool goleft, bool ctrlmode)
 		}
 		case GO_RIGHT:
 		{
-			if(!устКурсор0(curpos.x < 0 ? firstVisCol : curpos.x + 1,
+			if(!SetCursor0(curpos.x < 0 ? firstVisCol : curpos.x + 1,
 						   curpos.y < 0 ? firstVisRow : curpos.y,
 						   ctrlmode ? CU_CTRLMODE : 0, 1, 0))
 				return false;
@@ -5034,7 +5034,7 @@ bool GridCtrl::Go0(int jump, bool scroll, bool goleft, bool ctrlmode)
 
 			c = found ? i : firstVisRow;
 
-			if(!устКурсор0(curpos.x < 0 ? firstVisCol : curpos.x, c, opt, 0, 1))
+			if(!SetCursor0(curpos.x < 0 ? firstVisCol : curpos.x, c, opt, 0, 1))
 				return false;
 			
 			c = curpos.y;
@@ -5046,9 +5046,9 @@ bool GridCtrl::Go0(int jump, bool scroll, bool goleft, bool ctrlmode)
 				int yb = vitems[cp].nBottom(sby);
 
 				if(yt < 0 || yb > sz.cy - 1)
-					sby.уст(yc - sz.cy + vitems[c].nHeight());
+					sby.Set(yc - sz.cy + vitems[c].nHeight());
 				else
-					sby.уст(yc - ya);
+					sby.Set(yc - ya);
 			}
 
 			break;
@@ -5072,7 +5072,7 @@ bool GridCtrl::Go0(int jump, bool scroll, bool goleft, bool ctrlmode)
 
 			c = found ? i : lastVisRow;
 
-			if(!устКурсор0(curpos.x < 0 ? firstVisCol : curpos.x, c, opt, 0, -1))
+			if(!SetCursor0(curpos.x < 0 ? firstVisCol : curpos.x, c, opt, 0, -1))
 				return false;
 
 			c = curpos.y;
@@ -5084,9 +5084,9 @@ bool GridCtrl::Go0(int jump, bool scroll, bool goleft, bool ctrlmode)
 				int yb = vitems[cp].nBottom(sby);
 
 				if(yt < 0 || yb > sz.cy - 1)
-					sby.уст(yc);
+					sby.Set(yc);
 				else
-					sby.уст(yc - ya);
+					sby.Set(yc - ya);
 			}
 
 			break;
@@ -5101,7 +5101,7 @@ bool GridCtrl::Go0(int jump, bool scroll, bool goleft, bool ctrlmode)
 	else
 	{
 		if(scroll && resize_row_mode == 0 && sy >= 0)
-			sby.уст(sy);
+			sby.Set(sy);
 	}
 
 	opt = UC_CHECK_VIS;
@@ -5118,85 +5118,85 @@ void GridCtrl::GoCursorLeftRight()
 	{
 		int l = hitems[curpos.x].nLeft(sbx + fixed_width);
 		int r = hitems[curpos.x].nRight(sbx);
-		int w = дайРазм().cx;
+		int w = GetSize().cx;
 
 		if(l < 0)
-			sbx.уст(sbx + l);
+			sbx.Set(sbx + l);
 		else if(r > w)
-			sbx.уст(sbx + r - w);
+			sbx.Set(sbx + r - w);
 	}
 
 	if(resize_row_mode == 0)
 	{
 		int t = vitems[curpos.y].nTop(sby + fixed_height);
 		int b = vitems[curpos.y].nBottom(sby);
-		int h = дайРазм().cy - summary_height;
+		int h = GetSize().cy - summary_height;
 
 		if(t < 0)
-			sby.уст(sby + t);
+			sby.Set(sby + t);
 		else if(b > h)
-			sby.уст(sby + b - h);
+			sby.Set(sby + b - h);
 	}
 }
 
 bool GridCtrl::GoFirstVisible(bool scroll)
 {
-	if(пустой())
+	if(IsEmpty())
 		return false;
 
-	устКурсор0(curpos.x < 0 ? firstVisCol : curpos.x, max(firstVisRow, firstRow));
+	SetCursor0(curpos.x < 0 ? firstVisCol : curpos.x, max(firstVisRow, firstRow));
 	if(scroll && resize_row_mode == 0)
-		sby.уст(vitems[firstRow].nTop(/*fixed_height*/));
+		sby.Set(vitems[firstRow].nTop(/*fixed_height*/));
 	if(isedit)
 		UpdateCtrls();
 
 	return true;
 }
 
-bool GridCtrl::идиВНач(bool scroll)                { return Go0(GO_BEGIN, scroll);                  }
-bool GridCtrl::идиВКон(bool scroll, bool goleft)     { return Go0(GO_END, scroll, goleft);            }
-bool GridCtrl::идиСледщ(bool scroll)                 { return Go0(GO_NEXT, scroll);                   }
-bool GridCtrl::идиПредш(bool scroll)                 { return Go0(GO_PREV, scroll);                   }
+bool GridCtrl::GoBegin(bool scroll)                { return Go0(GO_BEGIN, scroll);                  }
+bool GridCtrl::GoEnd(bool scroll, bool goleft)     { return Go0(GO_END, scroll, goleft);            }
+bool GridCtrl::GoNext(bool scroll)                 { return Go0(GO_NEXT, scroll);                   }
+bool GridCtrl::GoPrev(bool scroll)                 { return Go0(GO_PREV, scroll);                   }
 bool GridCtrl::GoLeft(bool scroll, bool ctrlmode)  { return Go0(GO_LEFT, scroll, false, ctrlmode);  }
 bool GridCtrl::GoRight(bool scroll, bool ctrlmode) { return Go0(GO_RIGHT, scroll, false, ctrlmode); }
 bool GridCtrl::GoPageUp(bool scroll)               { return Go0(GO_PAGEUP, scroll);                 }
 bool GridCtrl::GoPageDn(bool scroll)               { return Go0(GO_PAGEDN, scroll);                 }
 
-Ктрл * GridCtrl::дайКтрл(const Точка &p, bool check_visibility, bool hrel, bool vrel, bool check_edits)
+Ctrl * GridCtrl::GetCtrl(const Point &p, bool check_visibility, bool hrel, bool vrel, bool check_edits)
 {
-	return дайКтрл(p.y, p.x, check_visibility, hrel, vrel, check_edits);
+	return GetCtrl(p.y, p.x, check_visibility, hrel, vrel, check_edits);
 }
 
-Ктрл * GridCtrl::дайКтрл(int r, int c, bool check_visibility, bool hrel, bool vrel, bool check_edits)
+Ctrl * GridCtrl::GetCtrl(int r, int c, bool check_visibility, bool hrel, bool vrel, bool check_edits)
 {
 	int idx = hrel ? fixed_cols + c : hitems[c].id;
 	int idy = vrel ? fixed_rows + r : vitems[r].id;
-	Ктрл * ctrl = items[idy][idx].ctrl;
+	Ctrl * ctrl = items[idy][idx].ctrl;
 	if(check_edits && !ctrl)
 		ctrl = edits[idx].ctrl;
-	if(check_visibility && ctrl && !ctrl->показан_ли())
+	if(check_visibility && ctrl && !ctrl->IsShown())
 		ctrl = NULL;
 	return ctrl;
 }
 
-Ктрл * GridCtrl::дайКтрл(int r, int c)
+Ctrl * GridCtrl::GetCtrl(int r, int c)
 {
-	return дайКтрл(r + fixed_rows, c, true, true, false);
+	return GetCtrl(r + fixed_rows, c, true, true, false);
 }
 
-Ктрл * GridCtrl::GetCtrlAt(int r, int c)
+Ctrl * GridCtrl::GetCtrlAt(int r, int c)
 {
-	return дайКтрл(r + fixed_rows, c, false, true, false);
+	return GetCtrl(r + fixed_rows, c, false, true, false);
 }
 
-Ктрл * GridCtrl::дайКтрл(int c)
+Ctrl * GridCtrl::GetCtrl(int c)
 {
-	return дайКтрл(rowidx, c, true, true, false);
+	return GetCtrl(rowidx, c, true, true, false);
 }
 
-bool GridCtrl::ктрл_ли(Точка &p, bool check_visibility)
+bool GridCtrl::IsCtrl(Point &p, bool check_visibility)
 {
-	return дайКтрл(p, check_visibility, false, false) != NULL;
+	return GetCtrl(p, check_visibility, false, false) != NULL;
 }
 
 void GridCtrl::GoTo(int r, bool setcursor, bool scroll)
@@ -5204,13 +5204,13 @@ void GridCtrl::GoTo(int r, bool setcursor, bool scroll)
 	r += fixed_rows;
 
 	if(setcursor)
-		if(!устКурсор0(r))
+		if(!SetCursor0(r))
 			return;
 
 	if(scroll)
 	{
-		Размер sz = дайРазм();
-		sby.уст(vitems[r].nTop() + vitems[r].nHeight() / 2 - sz.cy / 2);
+		Size sz = GetSize();
+		sby.Set(vitems[r].nTop() + vitems[r].nHeight() / 2 - sz.cy / 2);
 	}
 }
 
@@ -5220,19 +5220,19 @@ void GridCtrl::GoTo(int r, int c, bool setcursor, bool scroll)
 	r += fixed_rows;
 
 	if(setcursor)
-		if(!устКурсор0(c, r))
+		if(!SetCursor0(c, r))
 			return;
 
 	if(scroll)
 	{
-		Размер sz = дайРазм();
-		sbx.уст(hitems[c].nLeft() + hitems[c].nWidth() / 2 - sz.cx / 2);
-		sby.уст(vitems[r].nTop() + vitems[r].nHeight() / 2 - sz.cy / 2);
+		Size sz = GetSize();
+		sbx.Set(hitems[c].nLeft() + hitems[c].nWidth() / 2 - sz.cx / 2);
+		sby.Set(vitems[r].nTop() + vitems[r].nHeight() / 2 - sz.cy / 2);
 	}
 }
 
 
-int GridCtrl::дайСчёт() const      { return total_rows - fixed_rows; }
+int GridCtrl::GetCount() const      { return total_rows - fixed_rows; }
 int GridCtrl::GetFixedCount() const { return fixed_rows;              }
 int GridCtrl::GetTotalCount() const { return total_rows;              }
 
@@ -5261,40 +5261,40 @@ GridCtrl& GridCtrl::SetColsMax(int size)
 	return *this;
 }
 
-void GridCtrl::сфокусирован()
+void GridCtrl::GotFocus()
 {
-	LG(3, "сфокусирован");
+	LG(3, "GotFocus");
 	RestoreFocus();
 	if(valid_cursor)
 		RefreshRow(curpos.y, 0, 0);
 }
 
-void GridCtrl::расфокусирован()
+void GridCtrl::LostFocus()
 {
-	LG(3, "расфокусирован");
+	LG(3, "LostFocus");
 	if(valid_cursor)
 		RefreshRow(curpos.y, 0, 0);
-	popup.закрой();
+	popup.Close();
 }
 
-void GridCtrl::отпрыскФок()
+void GridCtrl::ChildGotFocus()
 {
-	LG(3, "отпрыскФок");
+	LG(3, "ChildGotFocus");
 	if(valid_cursor)
 		RefreshRow(curpos.y, 0, 0);
-	Ктрл::отпрыскФок();
+	Ctrl::ChildGotFocus();
 }
 
-void GridCtrl::отпрыскРасфок()
+void GridCtrl::ChildLostFocus()
 {
-	LG(3, "отпрыскРасфок");
+	LG(3, "ChildLostFocus");
 	if(valid_cursor)
 	{
 		//if(focus_lost_accepting && !HasFocusDeep())
 		//	EndEdit();
 		RefreshRow(curpos.y, 0, 0);
 	}
-	Ктрл::отпрыскРасфок();
+	Ctrl::ChildLostFocus();
 }
 
 void GridCtrl::Repaint(bool do_recalc_cols /* = false*/, bool do_recalc_rows /* = false*/, int opt)
@@ -5327,14 +5327,14 @@ void GridCtrl::Repaint(bool do_recalc_cols /* = false*/, bool do_recalc_rows /* 
 		UpdateSizes();
 		UpdateSb();
 		UpdateHolder();
-		Updateсуммаmary();
+		UpdateSummary();
 		if(opt & RP_UPDCTRLS)
 			UpdateCtrls();
 		SyncCtrls();
 		if(opt & RP_TOOLBAR)
 			RebuildToolBar();
 		doscroll = true;
-		освежи();
+		Refresh();
 	}
 }
 
@@ -5349,7 +5349,7 @@ GridCtrl& GridCtrl::ResizeColMode(int m)
 {
 	resize_col_mode = m;
 	recalc_cols = true;
-	освежиВыкладку();
+	RefreshLayout();
 	return *this;
 }
 
@@ -5357,27 +5357,27 @@ GridCtrl& GridCtrl::ResizeRowMode(int m)
 {
 	resize_row_mode = m;
 	recalc_rows = true;
-	освежиВыкладку();
+	RefreshLayout();
 	return *this;
 }
 
 void GridCtrl::UpdateSb(bool horz, bool vert)
 {
-	scrollbox.устШирину(размПромотБара());
+	scrollbox.Width(ScrollBarSize());
 
 	if(horz)
 	{
-		sbx.устВсего(resize_col_mode == 0 ? total_width - fixed_width : 0);
-		sbx.устСтраницу(дайРазм().cx - fixed_width);
+		sbx.SetTotal(resize_col_mode == 0 ? total_width - fixed_width : 0);
+		sbx.SetPage(GetSize().cx - fixed_width);
 	}
 
 	if(vert)
 	{
-		sby.устВсего(resize_row_mode == 0 ? total_height - fixed_height + summary_height : 0);
-		sby.устСтраницу(дайРазм().cy - fixed_height);
+		sby.SetTotal(resize_row_mode == 0 ? total_height - fixed_height + summary_height : 0);
+		sby.SetPage(GetSize().cy - fixed_height);
 	}
 
-	sbx.устФрейм(resize_row_mode == 0 && sby.дайВсего() > дайРазм().cy - fixed_height ? scrollbox : фреймПусто());
+	sbx.SetFrame(resize_row_mode == 0 && sby.GetTotal() > GetSize().cy - fixed_height ? scrollbox : NullFrame());
 }
 
 bool GridCtrl::SwitchEdit()
@@ -5385,18 +5385,18 @@ bool GridCtrl::SwitchEdit()
 	if(!valid_cursor)
 		return false;
 
-	Ктрл * ctrl = items[curid.y][curid.x].ctrl;
+	Ctrl * ctrl = items[curid.y][curid.x].ctrl;
 	if(ctrl)
 	{
 		if(ctrl->HasFocusDeep())
 			EndEdit(true, true);
-		устФокус();
-		rowbkp[curid.x] = ctrl->дайДанные();
-		//items[curid.y][curid.x].val = ctrl->дайДанные();
+		SetFocus();
+		rowbkp[curid.x] = ctrl->GetData();
+		//items[curid.y][curid.x].val = ctrl->GetData();
 		focused_ctrl = ctrl;
 		focused_ctrl_id = curid.x;
-		focused_ctrl_val = ctrl->дайДанные();
-		ctrl->устФокус();
+		focused_ctrl_val = ctrl->GetData();
+		ctrl->SetFocus();
 	}
 	else
 	{
@@ -5440,16 +5440,16 @@ bool GridCtrl::EndEdit(bool accept, bool doall, bool remove_row)
 			if(remove_row)
 			{
 				WhenCancelNewRow();
-				удали0(curpos.y, 1, true, true, false);
+				Remove0(curpos.y, 1, true, true, false);
 			}
 		}
 	}
 	WhenEndEdit();
-	Syncсуммаmary();
+	SyncSummary();
 	return true;
 }
 
-void GridCtrl::вставь0(int row, int cnt /* = 1*/, bool recalc /* = true*/, bool refresh /* = true*/, int size /* = GD_ROW_HEIGHT*/)
+void GridCtrl::Insert0(int row, int cnt /* = 1*/, bool recalc /* = true*/, bool refresh /* = true*/, int size /* = GD_ROW_HEIGHT*/)
 {
 	int id;
 	
@@ -5470,8 +5470,8 @@ void GridCtrl::вставь0(int row, int cnt /* = 1*/, bool recalc /* = true*/,
 
 	ItemRect ir;
 	ir.size = size;
-	vitems.вставь(row, ir, cnt);
-	items.вставьН(id, cnt);
+	vitems.Insert(row, ir, cnt);
+	items.InsertN(id, cnt);
 
 	for(int i = 0; i < cnt; i++)
 	{
@@ -5481,7 +5481,7 @@ void GridCtrl::вставь0(int row, int cnt /* = 1*/, bool recalc /* = true*/,
 		vitems[r].uid = rowuid++;
 		vitems[r].items = &items;
 		vitems[r].operation = ready ? GridOperation::INSERT : GridOperation::NONE;
-		items[nid].устСчёт(total_cols);
+		items[nid].SetCount(total_cols);
 		UpdateDefaults(nid);
 		rowidx = r;
 		total_rows++;
@@ -5502,7 +5502,7 @@ void GridCtrl::вставь0(int row, int cnt /* = 1*/, bool recalc /* = true*/,
 			if(refresh)
 			{
 				UpdateSb();
-				Syncсуммаmary();
+				SyncSummary();
 				SyncCtrls();
 				RefreshFrom(row);
 			}
@@ -5515,7 +5515,7 @@ void GridCtrl::вставь0(int row, int cnt /* = 1*/, bool recalc /* = true*/,
 	SetModify();
 }
 
-bool GridCtrl::удали0(int row, int cnt /* = 1*/, bool recalc /* = true*/, bool refresh /* = true*/, bool whens /* = true*/)
+bool GridCtrl::Remove0(int row, int cnt /* = 1*/, bool recalc /* = true*/, bool refresh /* = true*/, bool whens /* = true*/)
 {
 	if(cnt < 0)
 		return false;
@@ -5552,7 +5552,7 @@ bool GridCtrl::удали0(int row, int cnt /* = 1*/, bool recalc /* = true*/, b
 			{
 				#ifdef LOG_CALLBACKS
 				LGR(2, "WhenRemoveRow()");
-				LGR(2, фмт("[row: %d]", rowidx));
+				LGR(2, Format("[row: %d]", rowidx));
 				#endif
 				WhenRemoveRow();
 			}
@@ -5575,7 +5575,7 @@ bool GridCtrl::удали0(int row, int cnt /* = 1*/, bool recalc /* = true*/, b
 		{
 			int si = 0;
 			for(int j = fixed_cols; j < total_cols; j++)
-				if(дайЭлт(rowidx, j).IsSelect())
+				if(GetItem(rowidx, j).IsSelect())
 					si++;
 
 			selected_items -= si;
@@ -5602,8 +5602,8 @@ bool GridCtrl::удали0(int row, int cnt /* = 1*/, bool recalc /* = true*/, b
 		if(!remove_hides)
 		{
 			total_rows--;
-			vitems.удали(rowidx);
-			items.удали(id);
+			vitems.Remove(rowidx);
+			items.Remove(id);
 			removed = true;
 		}
 
@@ -5633,12 +5633,12 @@ bool GridCtrl::удали0(int row, int cnt /* = 1*/, bool recalc /* = true*/, b
 			if(refresh)
 			{
 				UpdateSb();
-				Syncсуммаmary();
+				SyncSummary();
 				SyncCtrls();
 				RefreshFrom(row);
 	
 				if(x >= 0 && y >= 0)
-					устКурсор0(x, max(fixed_rows, min(total_rows - 1, y)), 0, 0, -1);
+					SetCursor0(x, max(fixed_rows, min(total_rows - 1, y)), 0, 0, -1);
 	
 				if(!valid_cursor)
 					RebuildToolBar();
@@ -5653,7 +5653,7 @@ bool GridCtrl::удали0(int row, int cnt /* = 1*/, bool recalc /* = true*/, b
 		
 	firstRow = -1;
 
-	if(пустой())
+	if(IsEmpty())
 	{
 		WhenEmpty();
 		WhenCursor();
@@ -5669,8 +5669,8 @@ int GridCtrl::Append0(int cnt, int size, bool refresh)
 	if(size < 0)
 		size = GD_ROW_HEIGHT;
 	
-	vitems.добавьН(cnt);
-	items.добавьН(cnt);
+	vitems.AddN(cnt);
+	items.AddN(cnt);
 
 	int j = total_rows;
 	int k = j;
@@ -5698,7 +5698,7 @@ int GridCtrl::Append0(int cnt, int size, bool refresh)
 				firstVisRow = lastVisRow;
 		}
 
-		items[j].устСчёт(total_cols);
+		items[j].SetCount(total_cols);
 		ir.id = j++;
 		ir.uid = rowuid++;
 		UpdateDefaults(ir.id);
@@ -5714,7 +5714,7 @@ int GridCtrl::Append0(int cnt, int size, bool refresh)
 		if(resize_row_mode > 0)
 			UpdateRows(true);
 		UpdateSb();
-		Syncсуммаmary();
+		SyncSummary();
 		SyncCtrls();
 		RefreshFrom(k);
 	}
@@ -5742,8 +5742,8 @@ bool GridCtrl::Duplicate0(int row, int cnt, bool recalc, bool refresh)
 		id = total_rows;
 
 	ItemRect ir;
-	vitems.вставь(nrow, ir, cnt);
-	items.вставьН(id, cnt);
+	vitems.Insert(nrow, ir, cnt);
+	items.InsertN(id, cnt);
 	
 	int duplicated = 0;
 
@@ -5755,7 +5755,7 @@ bool GridCtrl::Duplicate0(int row, int cnt, bool recalc, bool refresh)
 		vitems[r].uid = rowuid++;
 		vitems[r].items = &items;
 		vitems[r].size = vitems[row + i].size;
-		items[nid].устСчёт(total_cols);
+		items[nid].SetCount(total_cols);
 
 		int oid = vitems[row + i].id;
 		for(int j = 1; j < total_cols; j++)
@@ -5770,7 +5770,7 @@ bool GridCtrl::Duplicate0(int row, int cnt, bool recalc, bool refresh)
 		if(cancel_duplicate)
 		{
 			duplicated--;
-			удали0(r, 1, false, false, false);
+			Remove0(r, 1, false, false, false);
 			cancel_duplicate = false;
 		}
 		
@@ -5788,7 +5788,7 @@ bool GridCtrl::Duplicate0(int row, int cnt, bool recalc, bool refresh)
 			if(refresh)
 			{
 				UpdateSb();
-				Syncсуммаmary();
+				SyncSummary();
 				SyncCtrls();
 				RefreshFrom(nrow);
 			}
@@ -5806,29 +5806,29 @@ bool GridCtrl::Duplicate0(int row, int cnt, bool recalc, bool refresh)
 	return duplicated > 0;
 }
 
-int GridCtrl::приставь(int cnt, bool refresh, int height)
+int GridCtrl::Append(int cnt, bool refresh, int height)
 {
 	return Append0(cnt, height, refresh);
 }
 
-void GridCtrl::вставь(int i, int cnt)
+void GridCtrl::Insert(int i, int cnt)
 {
-	вставь0(fixed_rows + i, cnt);
+	Insert0(fixed_rows + i, cnt);
 }
 
-void GridCtrl::удали(int i, int cnt)
+void GridCtrl::Remove(int i, int cnt)
 {
-	удали0(i < 0 ? rowidx : fixed_rows + i, cnt);
+	Remove0(i < 0 ? rowidx : fixed_rows + i, cnt);
 }
 
 void GridCtrl::RemoveFirst(int cnt /* = 1*/)
 {
-	удали0(fixed_rows, min(total_rows - fixed_rows, cnt));
+	Remove0(fixed_rows, min(total_rows - fixed_rows, cnt));
 }
 
 void GridCtrl::RemoveLast(int cnt /* = 1*/)
 {
-	удали0(total_rows - cnt, min(total_rows - fixed_rows, cnt));
+	Remove0(total_rows - cnt, min(total_rows - fixed_rows, cnt));
 }
 
 void GridCtrl::Duplicate(int i, int cnt)
@@ -5847,13 +5847,13 @@ void GridCtrl::DoInsert0(bool edit, bool after)
 	SetItemCursor(curpos, false, false);
 	RefreshRow(curpos.y, false);
 	curpos.y += int(after);
-	вставь0(curpos.y, 1, true, true, GD_ROW_HEIGHT);
+	Insert0(curpos.y, 1, true, true, GD_ROW_HEIGHT);
 	int y = curpos.y;
 	curpos.y = -1;
 	valid_cursor = false;
 	call_whenchangecol = false;
 	call_whenchangerow = false;
-	устКурсор0(curpos.x, y > total_rows - 1 ? total_rows - 1 : y);
+	SetCursor0(curpos.x, y > total_rows - 1 ? total_rows - 1 : y);
 	call_whenchangecol = true;
 	call_whenchangerow = true;
 
@@ -5902,13 +5902,13 @@ void GridCtrl::DoDuplicate0()
 	if(cy > 0)
 	{
 		Repaint(false, true);
-		устКурсор0(curpos.x < 0 ? firstVisCol : curpos.x, max(fixed_rows, min(total_rows - 1, cy)));
+		SetCursor0(curpos.x < 0 ? firstVisCol : curpos.x, max(fixed_rows, min(total_rows - 1, cy)));
 	}
 }
 
 void GridCtrl::DoRemove()
 {
-	if(keep_last_row && дайСчёт() == 1)
+	if(keep_last_row && GetCount() == 1)
 		return;
 
 	if(!valid_cursor && selected_rows == 0)
@@ -5916,7 +5916,7 @@ void GridCtrl::DoRemove()
 
 	if(ask_remove)
 	{
-		if(!PromptYesNo(фмт(t_("Do you really want to delete selected %s ?"), selected_rows > 1 ? t_("rows") : t_("row"))))
+		if(!PromptYesNo(Format(t_("Do you really want to delete selected %s ?"), selected_rows > 1 ? t_("rows") : t_("row"))))
 			return;
 	}
 
@@ -5929,7 +5929,7 @@ void GridCtrl::DoRemove()
 	if(selected_rows == 0)
 	{
 		//do not call WhenRemoveRow when not new (not inserted) row
-		удали0(curpos.y, 1, true, true, !newrow);
+		Remove0(curpos.y, 1, true, true, !newrow);
 	}
 	else
 	{
@@ -5938,10 +5938,10 @@ void GridCtrl::DoRemove()
 		minRowSelected = GetMinRowSelected();
 		maxRowSelected = GetMaxRowSelected();
 
-		if(keep_last_row && (maxRowSelected - minRowSelected + 1) == дайСчёт())
+		if(keep_last_row && (maxRowSelected - minRowSelected + 1) == GetCount())
 			maxRowSelected--;
 
-		LG(0, "мин:%d, макс:%d", minRowSelected, maxRowSelected);
+		LG(0, "Min:%d, Max:%d", minRowSelected, maxRowSelected);
 
 		for(int i = minRowSelected; i <= maxRowSelected; i++)
 		{
@@ -5951,7 +5951,7 @@ void GridCtrl::DoRemove()
 				sel_begin = i == minRowSelected;
 				sel_end = i == maxRowSelected;
 
-				if(удали0(rid, 1, false, false))
+				if(Remove0(rid, 1, false, false))
 				{
 					/* curpos.y tez sie zmienia bo gdy w whenromoverow jest woloanie innego okna to
 					   grid traci fokus i wola sie lostfoucs, ktory wymaga poprawnego curpos.y */
@@ -5968,10 +5968,10 @@ void GridCtrl::DoRemove()
 		//UpdateSizes();
 		SyncCtrls();
 		UpdateSb();
-		освежи();
+		Refresh();
 		curpos.y = -1;
 		valid_cursor = false;
-		устКурсор0(curpos.x < 0 ? firstVisCol : curpos.x, max(fixed_rows, min(total_rows - 1, y)), 0, 0, -1);
+		SetCursor0(curpos.x < 0 ? firstVisCol : curpos.x, max(fixed_rows, min(total_rows - 1, y)), 0, 0, -1);
 	}
 }
 
@@ -5984,7 +5984,7 @@ void GridCtrl::DoAppend0(bool edit)
 
 	call_whenchangecol = false;
 	call_whenchangerow = false;
-	идиВКон(true, true);
+	GoEnd(true, true);
 	call_whenchangecol = true;
 	call_whenchangerow = true;
 
@@ -6018,16 +6018,16 @@ void GridCtrl::DoEndEdit()            { EndEdit();                   }
 void GridCtrl::DoCancelEdit()         { EndEdit(false);              }
 void GridCtrl::DoSwapUp()             { SwapUp();                    }
 void GridCtrl::DoSwapDown()           { SwapDown();                  }
-void GridCtrl::DoGoBegin()            { идиВНач();                   }
-void GridCtrl::DoGoEnd()              { идиВКон();                     }
-void GridCtrl::DoGoNext()             { идиСледщ();                    }
-void GridCtrl::DoGoPrev()             { идиПредш();                    }
+void GridCtrl::DoGoBegin()            { GoBegin();                   }
+void GridCtrl::DoGoEnd()              { GoEnd();                     }
+void GridCtrl::DoGoNext()             { GoNext();                    }
+void GridCtrl::DoGoPrev()             { GoPrev();                    }
 void GridCtrl::DoGoLeft()             { GoLeft();                    }
 void GridCtrl::DoGoRight()            { GoRight();                   }
 void GridCtrl::DoGoPageUp()           { GoPageUp();                  }
 void GridCtrl::DoGoPageDn()           { GoPageDn();                  }
 
-void GridCtrl::выделиВсе()
+void GridCtrl::DoSelectAll()
 {
 	SelectCount(fixed_rows, total_rows - fixed_rows);
 }
@@ -6121,9 +6121,9 @@ void GridCtrl::MenuHideColumn(int n)
 		HideColumn(n);
 }
 
-int GridCtrl::ShowMatchedRows(const ШТкст &f)
+int GridCtrl::ShowMatchedRows(const WString &f)
 {
-	if(f.пустой())
+	if(f.IsEmpty())
 	{
 		if(search_highlight)
 			ClearFound();
@@ -6151,14 +6151,14 @@ int GridCtrl::ShowMatchedRows(const ШТкст &f)
 		for(int j = fixed_cols; j < total_cols; j++)
 		{
 			int idh = hitems[j].id;
-			Элемент &it = items[idv][idh];
+			Item &it = items[idv][idh];
 			it.Found(false);
 			it.fs = it.fe = 0;
 
 			if(hitems[j].hidden || !hitems[j].clickable)
 				continue;
 
-			if(сверь(f, (ШТкст) GetStdConvertedColumn(idh, it.val), s, e))
+			if(Match(f, (WString) GetStdConvertedColumn(idh, it.val), s, e))
 			{
 				first_matched_row = i;
 				rowfnd = i;
@@ -6185,14 +6185,14 @@ int GridCtrl::ShowMatchedRows(const ШТкст &f)
 		for(int j = fixed_cols; j < total_cols; j++)
 		{
 			int idh = hitems[j].id;
-			Элемент &it = items[idv][idh];
+			Item &it = items[idv][idh];
 			it.Found(false);
 			it.fs = it.fe = 0;
 
 			if(hitems[j].hidden || !hitems[j].clickable)
 				continue;
 
-			if(сверь(f, (ШТкст) GetStdConvertedColumn(idh, it.val), s, e))
+			if(Match(f, (WString) GetStdConvertedColumn(idh, it.val), s, e))
 			{
 				match = true;
 				it.Found(search_highlight);
@@ -6246,8 +6246,8 @@ int GridCtrl::ShowMatchedRows(const ШТкст &f)
 
 	if(search_move_cursor && first_matched_row >= 0)
 	{
-		устКурсор0(first_matched_row);
-		курсорПоЦентру();
+		SetCursor0(first_matched_row);
+		CenterCursor();
 		WhenSearchCursor();
 	}
 
@@ -6270,17 +6270,17 @@ void GridCtrl::ClearFound(bool showrows, bool clear_string)
 		ShowRows(true);
 
 	if(clear_string)
-		search_string.очисть();
+		search_string.Clear();
 	
 	WhenSearchCursor();
 }
 
-bool GridCtrl::сверь(const ШТкст &f, const ШТкст &s, int &fs, int &fe)
+bool GridCtrl::Match(const WString &f, const WString &s, int &fs, int &fe)
 {
 	int i = 0;
 
-	int fl = f.дайДлину();
-	int sl = s.дайДлину();
+	int fl = f.GetLength();
+	int sl = s.GetLength();
 
 	if(fl > sl)
 		return false;
@@ -6291,7 +6291,7 @@ bool GridCtrl::сверь(const ШТкст &f, const ШТкст &s, int &fs, int
 		if(search_case)
 			match = f[i] == s[j];
 		else
-			match = взаг(f[i]) == взаг(s[j]);
+			match = ToUpper(f[i]) == ToUpper(s[j]);
 
 		if(match)
 		{
@@ -6311,7 +6311,7 @@ bool GridCtrl::сверь(const ШТкст &f, const ШТкст &s, int &fs, int
 void GridCtrl::DoFind()
 {
 	UpdateCtrls(UC_CHECK_VIS | UC_HIDE | UC_CTRLS | UC_SCROLL | UC_NOFOCUS);
-	ShowMatchedRows((ШТкст) ~find);
+	ShowMatchedRows((WString) ~find);
 }
 
 bool GridCtrl::WhenInsertRow0()
@@ -6320,7 +6320,7 @@ bool GridCtrl::WhenInsertRow0()
 	if(cancel_insert)
 	{
 		WhenCancelNewRow();
-		удали0(curpos.y, 1, true, true, false);
+		Remove0(curpos.y, 1, true, true, false);
 		cancel_insert = false;
 		return false;
 	}
@@ -6343,7 +6343,7 @@ int GridCtrl::GetMaxRowSelected()
 
 void GridCtrl::CloseGrid()
 {
-	дайТопОкно()->закрой();
+	GetTopWindow()->Close();
 }
 
 void GridCtrl::UpdateVisColRow(bool col)
@@ -6388,11 +6388,11 @@ void GridCtrl::UpdateVisColRow(bool col)
 	}
 }
 
-Точка GridCtrl::GetBarOffset()
+Point GridCtrl::GetBarOffset()
 {
-	Размер bsz = bar.дайРазм();
-	return Точка(bar.дайЛин() == КтрлБар::BAR_LEFT ? bsz.cx : 0,
-	             bar.дайЛин() == КтрлБар::BAR_TOP ? bsz.cy : 0);
+	Size bsz = bar.GetSize();
+	return Point(bar.GetAlign() == BarCtrl::BAR_LEFT ? bsz.cx : 0,
+	             bar.GetAlign() == BarCtrl::BAR_TOP ? bsz.cy : 0);
 }
 
 void GridCtrl::ClearModified()
@@ -6418,10 +6418,10 @@ void GridCtrl::Debug(int n)
 		LG("total_cols     %d", total_cols);
 		LG("total_rows     %d", total_rows);
 		LG("curpos         %d, %d", curpos.x, curpos.y);
-		LG("sbPos          %d, %d", sbx.дай(), sby.дай());
-		LG("sbTotal        %d, %d", sbx.дайВсего(), sby.дайВсего());
-		LG("sbPage         %d, %d", sbx.дайСтраницу(), sby.дайСтраницу());
-		LG("Размер           %d, %d", дайРазм().cx, дайРазм().cy);
+		LG("sbPos          %d, %d", sbx.Get(), sby.Get());
+		LG("sbTotal        %d, %d", sbx.GetTotal(), sby.GetTotal());
+		LG("sbPage         %d, %d", sbx.GetPage(), sby.GetPage());
+		LG("Size           %d, %d", GetSize().cx, GetSize().cy);
 		LG("fixed_width    %d", fixed_width);
 		LG("fixed_height   %d", fixed_height);
 		LG("total_width    %d", total_width);
@@ -6452,20 +6452,20 @@ void GridCtrl::Debug(int n)
 	}
 	if(n == 3)
 	{
-		Точка p = GetCtrlPos(focused_ctrl);
+		Point p = GetCtrlPos(focused_ctrl);
 		LG(2, "Focused %x (%d, %d)", focused_ctrl, p.x, p.y);
 	}
 }
 
-void GridCtrl::сериализуй(Поток &s)
+void GridCtrl::Serialize(Stream &s)
 {
-	if(s.сохраняется())
+	if(s.IsStoring())
 	{
 		s % total_cols;
 		for(int i = 1; i < total_cols; i++)
 		{
 			int id = hitems[i].id;
-			//s % Ткст(aliases[id]);
+			//s % String(aliases[id]);
 			s % id;
 			s % hitems[id];
 		}
@@ -6476,9 +6476,9 @@ void GridCtrl::сериализуй(Поток &s)
 		s % tc;
 		for(int i = 1; i < tc; i++)
 		{
-			//Ткст alias;
+			//String alias;
 			//s % alias;
-			//int n = aliases.найди(alias);
+			//int n = aliases.Find(alias);
 			int id;
 			s % id;
 			//if(id >= 0 && id < total_cols)
@@ -6508,13 +6508,13 @@ void GridCtrl::JoinCells(int left, int top, int right, int bottom, bool relative
 
 		for(int j = left; j <= right; ++j)
 		{
-			Элемент &it = items[i][j];
+			Item &it = items[i][j];
 
 			it.idx = idx;
 			it.idy = idy;
 			it.cx  = cx;
 			it.cy  = cy;
-			it.группа = join_group;
+			it.group = join_group;
 			it.isjoined = true;
 
 			if(i == top)
@@ -6522,9 +6522,9 @@ void GridCtrl::JoinCells(int left, int top, int right, int bottom, bool relative
 		}
 	}
 	
-	JoinRect& jr = joins.добавь();
-	jr.r.уст(left, top, right, bottom);
-	jr.группа = join_group;
+	JoinRect& jr = joins.Add();
+	jr.r.Set(left, top, right, bottom);
+	jr.group = join_group;
 	jr.idx = idx;
 	jr.idy = idy;
 	
@@ -6578,7 +6578,7 @@ void GridCtrl::UpdateJoins(int row, int col, int cnt)
 {
 	if(row >= 0)
 	{
-		for(int i = 0; i < joins.дайСчёт(); i++)
+		for(int i = 0; i < joins.GetCount(); i++)
 		{
 			JoinRect& jr = joins[i];
 			
@@ -6593,19 +6593,19 @@ void GridCtrl::UpdateJoins(int row, int col, int cnt)
 					{
 						if(r < row || r > row)
 						{
-							Элемент& it = дайЭлт(r, c);
+							Item& it = GetItem(r, c);
 							it.cy += cnt;
 						}
 						else if(r == row)
 						{
 							for(int n = 0; n < cnt; n++)
 							{
-								Элемент& it = дайЭлт(r + n, c);
-								it.группа = jr.группа;
+								Item& it = GetItem(r + n, c);
+								it.group = jr.group;
 								it.idx = jr.idx;
 								it.idy = jr.idy;
-								it.cx = jr.r.устШирину();
-								it.cy = jr.r.устВысоту() + cnt;
+								it.cx = jr.r.Width();
+								it.cy = jr.r.Height() + cnt;
 								it.isjoined = true;
 			
 								if(c == jr.r.left)
@@ -6625,7 +6625,7 @@ void GridCtrl::UpdateJoins(int row, int col, int cnt)
 				{
 					for(int c = jr.r.left; c <= jr.r.right; c++)
 					{
-						Элемент& it = дайЭлт(r + cnt, c);
+						Item& it = GetItem(r + cnt, c);
 						it.idy = jr.idy;
 					}
 				}
@@ -6638,7 +6638,7 @@ void GridCtrl::UpdateJoins(int row, int col, int cnt)
 	
 	if(col >= 0)
 	{
-		for(int i = 0; i < joins.дайСчёт(); i++)
+		for(int i = 0; i < joins.GetCount(); i++)
 		{
 			JoinRect& jr = joins[i];
 			
@@ -6653,19 +6653,19 @@ void GridCtrl::UpdateJoins(int row, int col, int cnt)
 					{
 						if(c < col || c > col)
 						{
-							Элемент& it = дайЭлт(r, c);
+							Item& it = GetItem(r, c);
 							it.cx += cnt;
 						}
 						else if(c == col)
 						{
 							for(int n = 0; n < cnt; n++)
 							{
-								Элемент& it = дайЭлт(r, c + n);
-								it.группа = jr.группа;
+								Item& it = GetItem(r, c + n);
+								it.group = jr.group;
 								it.idx = jr.idx;
 								it.idy = jr.idy;
-								it.cx = jr.r.устШирину() + cnt;
-								it.cy = jr.r.устВысоту();
+								it.cx = jr.r.Width() + cnt;
+								it.cy = jr.r.Height();
 								it.isjoined = true;
 			
 								if(r == jr.r.top)
@@ -6685,7 +6685,7 @@ void GridCtrl::UpdateJoins(int row, int col, int cnt)
 				{
 					for(int r = jr.r.top; r <= jr.r.bottom; r++)
 					{
-						Элемент& it = дайЭлт(r, c + cnt);
+						Item& it = GetItem(r, c + cnt);
 						it.idx = jr.idx;
 					}
 				}
@@ -6699,112 +6699,112 @@ void GridCtrl::UpdateJoins(int row, int col, int cnt)
 
 /*----------------------------------------------------------------------------------------*/
 
-void GridPopUp::рисуй(Draw &w)
+void GridPopUp::Paint(Draw &w)
 {
-	Размер sz = дайРазм();
+	Size sz = GetSize();
 	if(gd->row < 0 || gd->col < 0)
 		gd->PaintFixed(w, false, false, 1, 1, sz.cx - 2, sz.cy - 2, val, style | GD::WRAP | GD::VCENTER, fnt);
 	else
-		gd->рисуй(w, 1, 1, sz.cx - 2, sz.cy - 2, val, style | GD::WRAP | GD::VCENTER, fg, bg, fnt);
+		gd->Paint(w, 1, 1, sz.cx - 2, sz.cy - 2, val, style | GD::WRAP | GD::VCENTER, fg, bg, fnt);
 	DrawBorder(w, sz, BlackBorder);
 }
 
-Точка GridPopUp::смещение(Точка p)
+Point GridPopUp::Offset(Point p)
 {
-	return p + GetScreenView().верхЛево() - ctrl->GetScreenView().верхЛево();
+	return p + GetScreenView().TopLeft() - ctrl->GetScreenView().TopLeft();
 }
 
-void GridPopUp::леваяВнизу(Точка p, dword flags)
+void GridPopUp::LeftDown(Point p, dword flags)
 {
-	ctrl->леваяВнизу(смещение(p), flags);
+	ctrl->LeftDown(Offset(p), flags);
 }
 
-void GridPopUp::леваяТяг(Точка p, dword flags)
+void GridPopUp::LeftDrag(Point p, dword flags)
 {
-	закрой();
-	ctrl->леваяТяг(смещение(p), flags);
+	Close();
+	ctrl->LeftDrag(Offset(p), flags);
 }
 
-void GridPopUp::леваяДКлик(Точка p, dword flags)
+void GridPopUp::LeftDouble(Point p, dword flags)
 {
-	ctrl->леваяДКлик(смещение(p), flags);
+	ctrl->LeftDouble(Offset(p), flags);
 }
 
-void GridPopUp::праваяВнизу(Точка p, dword flags)
+void GridPopUp::RightDown(Point p, dword flags)
 {
-	ctrl->праваяВнизу(смещение(p), flags);
+	ctrl->RightDown(Offset(p), flags);
 }
 
-void GridPopUp::леваяВверху(Точка p, dword flags)
+void GridPopUp::LeftUp(Point p, dword flags)
 {
-	ctrl->леваяВверху(смещение(p), flags);
+	ctrl->LeftUp(Offset(p), flags);
 }
 
-void GridPopUp::колесоМыши(Точка p, int zdelta, dword flags)
+void GridPopUp::MouseWheel(Point p, int zdelta, dword flags)
 {
-	ctrl->колесоМыши(смещение(p), zdelta, flags);
+	ctrl->MouseWheel(Offset(p), zdelta, flags);
 }
 
-void GridPopUp::выходМыши()
+void GridPopUp::MouseLeave()
 {
-	ctrl->выходМыши();
-	закрой();
+	ctrl->MouseLeave();
+	Close();
 }
 
-void GridPopUp::входМыши(Точка p, dword flags)
+void GridPopUp::MouseEnter(Point p, dword flags)
 {
-	ctrl->входМыши(смещение(p), flags);
+	ctrl->MouseEnter(Offset(p), flags);
 }
 
-void GridPopUp::двигМыши(Точка p, dword flags)
+void GridPopUp::MouseMove(Point p, dword flags)
 {
-	ctrl->двигМыши(смещение(p), flags);
+	ctrl->MouseMove(Offset(p), flags);
 }
 
-Рисунок GridPopUp::рисКурсора(Точка p, dword flags)
+Image GridPopUp::CursorImage(Point p, dword flags)
 {
-	return ctrl->рисКурсора(смещение(p), flags);
+	return ctrl->CursorImage(Offset(p), flags);
 }
 
-void GridPopUp::расфокусирован()
+void GridPopUp::LostFocus()
 {
-	закрой();
+	Close();
 }
 
-void GridPopUp::PopUp(Ктрл *owner, int x, int y, int width, int height)
+void GridPopUp::PopUp(Ctrl *owner, int x, int y, int width, int height)
 {
-	Прям r(x, y, x + width, y + height);
-	if(r != дайПрям())
-		устПрям(r);
+	Rect r(x, y, x + width, y + height);
+	if(r != GetRect())
+		SetRect(r);
 	
 	if(!open)
 	{
 		ctrl = owner;
 		open = true;
-		Ктрл::PopUp(owner, true, false, GUI_DropShadows());
+		Ctrl::PopUp(owner, true, false, GUI_DropShadows());
 		SetAlpha(230);
 	}
 }
 
-void GridPopUp::закрой()
+void GridPopUp::Close()
 {
 	open = false;
-	Ктрл::закрой();
+	Ctrl::Close();
 }
 
-void GridCtrl::UpdateHighlighting(int mode, Точка p)
+void GridCtrl::UpdateHighlighting(int mode, Point p)
 {
 	if(resize_paint_mode < 1 && (resizeCol || resizeRow))
 		return;
 
 	bool refresh = false;
 	
-	if(hcol >= hitems.дайСчёт())
+	if(hcol >= hitems.GetCount())
 		hcol = -1;
 
 	if(mode == GS_UP)
 	{
-		if((p.x < 0 || p.x > дайРазм().cx - 1) && hcol >= 0 && hitems[hcol].IsHighlight())
+		if((p.x < 0 || p.x > GetSize().cx - 1) && hcol >= 0 && hitems[hcol].IsHighlight())
 		{
 			hitems[hcol].Highlight(0);
 			refresh = true;
@@ -6847,12 +6847,12 @@ void GridCtrl::UpdateHighlighting(int mode, Точка p)
 		RefreshRow(0, 0, 1);
 }
 
-Ткст GridCtrl::GetColumnWidths()
+String GridCtrl::GetColumnWidths()
 {
-	Ткст s;
+	String s;
 	for(int i = fixed_cols; i < total_cols; i++)
 	{
-		s += какТкст(hitems[i].nsize);
+		s += AsString(hitems[i].nsize);
 		if(i < total_cols - 1)
 			s += " ";
 	}
@@ -6861,14 +6861,14 @@ void GridCtrl::UpdateHighlighting(int mode, Точка p)
 
 void GridCtrl::ColumnWidths(const char* s)
 {
-	Вектор<Ткст> w = РНЦП::разбей(s, ' ');
-	for(int i = 0; i < min(w.дайСчёт(), дайСчётКолонок()); i++)
-		hitems[i + fixed_cols].устШирину(atoi(w[i]));
+	Vector<String> w = UPP::Split(s, ' ');
+	for(int i = 0; i < min(w.GetCount(), GetColumnCount()); i++)
+		hitems[i + fixed_cols].Width(atoi(w[i]));
 }
 
-void GridCtrl::устДисплей(int r, int c, GridDisplay& gd)
+void GridCtrl::SetDisplay(int r, int c, GridDisplay& gd)
 {
-	дайЭлт(r + fixed_rows, c + fixed_cols).устДисплей(gd);
+	GetItem(r + fixed_rows, c + fixed_cols).SetDisplay(gd);
 }
 
 #ifdef flagGRIDSQL
@@ -6879,8 +6879,8 @@ void GridCtrl::FieldLayout(FieldOperator& f)
 		if(hitems[i].hidden)
 			continue;
 		int id = hitems[i].id;
-		const Ид& ключ = aliases.дайКлюч(id);
-		f(ключ, items[vitems[rowidx].id][id].val);
+		const Id& key = aliases.GetKey(id);
+		f(key, items[vitems[rowidx].id][id].val);
 	}
 }
 
@@ -6892,7 +6892,7 @@ SqlSet GridCtrl::GetColumnList(bool skip_hidden) const
 		if(skip_hidden && hitems[i].hidden)
 			continue;
 		int id = hitems[i].id;
-		s.конкат(SqlId(aliases.дайКлюч(id)));
+		s.Cat(SqlId(aliases.GetKey(id)));
 	}
 	return s;
 }
@@ -6904,60 +6904,60 @@ SqlSet GridCtrl::GetColumnList(bool skip_hidden) const
 GridFind::GridFind()
 {
 	MultiButton::SubButton& btn = button.AddButton().Main();
-	btn.WhenPush = THISBACK(сунь);
+	btn.WhenPush = THISBACK(Push);
 	btn.SetMonoImage(CtrlImg::smallright());
 
-	button.устСтиль(button.StyleFrame());
+	button.SetStyle(button.StyleFrame());
 	button.NoDisplay();
-	button.добавьК(*this);
+	button.AddTo(*this);
 }
 
-bool GridFind::Ключ(dword ключ, int count)
+bool GridFind::Key(dword key, int count)
 {
-	if(ключ == K_ENTER && WhenEnter)
+	if(key == K_ENTER && WhenEnter)
 	{
 		WhenEnter();
 		return true;
 	}
 
-	return EditString::Ключ(ключ, count);
+	return EditString::Key(key, count);
 }
 
-Размер GridFind::дайМинРазм() const
+Size GridFind::GetMinSize() const
 {
-	return button.дайМинРазм();
+	return button.GetMinSize();
 }
 
-void GridFind::сунь()
+void GridFind::Push()
 {
-	БарМеню::выполни(WhenBar, дайПрямЭкрана().верхПраво());
+	MenuBar::Execute(WhenBar, GetScreenRect().TopRight());
 }
 
 /*----------------------------------------------------------------------------------------*/
-void GridPopUpHeader::рисуй(Draw &w)
+void GridPopUpHeader::Paint(Draw &w)
 {
-	Размер sz = дайРазм();
+	Size sz = GetSize();
 	dword style = chameleon ? GD::CHAMELEON : 0;
-	Шрифт stdfont(StdFont());
-	дисплей->PaintFixed(w, 1, 1, 0, 0, sz.cx, sz.cy,
+	Font stdfont(StdFont());
+	display->PaintFixed(w, 1, 1, 0, 0, sz.cx, sz.cy,
 		                val, style, stdfont, false, true,
 		                sortmode, sortcol, sortcnt, true);
 }
 
-void GridPopUpHeader::PopUp(Ктрл *owner, int x, int y, int width, int height)
+void GridPopUpHeader::PopUp(Ctrl *owner, int x, int y, int width, int height)
 {
-	устПрям(Прям(x, y, x + width, y + height));
+	SetRect(Rect(x, y, x + width, y + height));
 	if(open)
 		return;
-	Ктрл::PopUp(owner, true, true, GUI_DropShadows());
+	Ctrl::PopUp(owner, true, true, GUI_DropShadows());
 	SetAlpha(200);
 	open = true;
 }
 
-void GridPopUpHeader::закрой()
+void GridPopUpHeader::Close()
 {
 	open = false;
-	Ктрл::закрой();
+	Ctrl::Close();
 }
 
 /*----------------------------------------------------------------------------------------*/
@@ -6967,40 +6967,40 @@ GridButton::GridButton()
 	img = 0;
 }
 
-void GridButton::рисуй(Draw& w)
+void GridButton::Paint(Draw& w)
 {
-	static Рисунок (*vimg[])() = {
+	static Image (*vimg[])() = {
 		&GridImg::Btn0N, &GridImg::Btn0H, &GridImg::Btn0P,
 		&GridImg::Btn1N, &GridImg::Btn1H, &GridImg::Btn1P
 	};
 	
-	Размер sz = дайРазм();
+	Size sz = GetSize();
 	w.DrawImage(0, 0, sz.cx, sz.cy, vimg[img + n * 3]);
 }
 
-void GridButton::леваяВнизу(Точка p, dword flags)
+void GridButton::LeftDown(Point p, dword flags)
 {
 	img = 2;
-	освежи();
+	Refresh();
 }
 
-void GridButton::леваяВверху(Точка p, dword flags)
+void GridButton::LeftUp(Point p, dword flags)
 {
 	img = 1;
-	освежи();
+	Refresh();
 	Action();
 }
 
-void GridButton::входМыши(Точка p, dword flags)
+void GridButton::MouseEnter(Point p, dword flags)
 {
 	img = flags & K_MOUSELEFT ? 2 : 1;
-	освежи();
+	Refresh();
 }
 
-void GridButton::выходМыши()
+void GridButton::MouseLeave()
 {
 	img = 0;
-	освежи();
+	Refresh();
 }
 
 void GridButton::State(int reason)
@@ -7009,9 +7009,9 @@ void GridButton::State(int reason)
 		img = 0;
 }
 
-Размер GridButton::дайСтдРазм() const
+Size GridButton::GetStdSize() const
 {
-	return n > 0 ? Размер(14, 11) : Размер(17, 17); //FIXME
+	return n > 0 ? Size(14, 11) : Size(17, 17); //ИСПРАВИТЬ
 }
 
 void GridButton::SetButton(int b)
@@ -7022,67 +7022,67 @@ void GridButton::SetButton(int b)
 GridResizePanel::GridResizePanel()
 {
 	int h = max(16, Draw::GetStdFontCy()) + 5;
-	устВысоту(h);
-	Размер csz = close.дайСтдРазм();
-	добавь(close.LeftPos(1, csz.cx).TopPos((h - csz.cy) / 2, csz.cy));
-	minsize.очисть();
-	close.WhenAction = прокси(WhenClose);
+	Height(h);
+	Size csz = close.GetStdSize();
+	Add(close.LeftPos(1, csz.cx).TopPos((h - csz.cy) / 2, csz.cy));
+	minsize.Clear();
+	close.WhenAction = Proxy(WhenClose);
 }
 
-void GridResizePanel::рисуй(Draw& w)
+void GridResizePanel::Paint(Draw& w)
 {
-	Размер sz = дайРазм();
+	Size sz = GetSize();
 	w.DrawRect(sz, SColorFace);
-	Размер isz = CtrlsImg::SizeGrip().дайРазм();
+	Size isz = CtrlsImg::SizeGrip().GetSize();
 	w.DrawImage(sz.cx - isz.cx, sz.cy - isz.cy, CtrlsImg::SizeGrip());
 }
 
-bool GridResizePanel::MouseOnGrip(const Точка &p)
+bool GridResizePanel::MouseOnGrip(const Point &p)
 {
-	Размер isz = CtrlsImg::SizeGrip().дайРазм();
-	Размер sz = дайРазм();
+	Size isz = CtrlsImg::SizeGrip().GetSize();
+	Size sz = GetSize();
 	return (p.x > sz.cx - isz.cx && p.y > sz.cy - isz.cy);
 }
 
-void GridResizePanel::устМинРазм(Размер sz)
+void GridResizePanel::SetMinSize(Size sz)
 {
 	minsize = sz;
 }
 
-Рисунок GridResizePanel::рисКурсора(Точка p, dword flags)
+Image GridResizePanel::CursorImage(Point p, dword flags)
 {
 	if(MouseOnGrip(p) || HasCapture())
-		return Рисунок::SizeBottomRight();
-	return Рисунок::Arrow();
+		return Image::SizeBottomRight();
+	return Image::Arrow();
 }
 
-void GridResizePanel::леваяВнизу(Точка p, dword flags)
+void GridResizePanel::LeftDown(Point p, dword flags)
 {
 	if(MouseOnGrip(p))
 	{
-		r = дайРодителя()->дайПрямЭкрана();
-		pos = дайПозМыши();
+		r = GetParent()->GetScreenRect();
+		pos = GetMousePos();
 		SetCapture();
 	}
 }
 
-void GridResizePanel::леваяВверху(Точка p, dword flags)
+void GridResizePanel::LeftUp(Point p, dword flags)
 {
 	ReleaseCapture();
 }
 
-void GridResizePanel::двигМыши(Точка p, dword flags)
+void GridResizePanel::MouseMove(Point p, dword flags)
 {
 	if(HasCapture())
 	{
-		Точка curpos = дайПозМыши();
-		Точка diff = curpos - pos;
-		Прям r(this->r);
+		Point curpos = GetMousePos();
+		Point diff = curpos - pos;
+		Rect r(this->r);
 		r.right += diff.x;
 		r.bottom += diff.y;
 		bool setmin = false;
 
-		if(!minsize.пустой())
+		if(!minsize.IsEmpty())
 		{
 			if(r.right < r.left + minsize.cx)
 			{
@@ -7097,53 +7097,53 @@ void GridResizePanel::двигМыши(Точка p, dword flags)
 		}
 		if(this->r != r || setmin)
 		{
-			дайРодителя()->устПрям(r);
-			дайРодителя()->синх();
+			GetParent()->SetRect(r);
+			GetParent()->Sync();
 		}
 	}
 }
 
 /*----------------------------------------------------------------------------------------*/
 
-template<> void вРяр(РярВВ& xml, GridCtrl& g) {
-	Вектор< Вектор<Значение> > v;
+template<> void Xmlize(XmlIO& xml, GridCtrl& g) {
+	Vector< Vector<Value> > v;
 	
-	if(xml.грузится()) {
+	if(xml.IsLoading()) {
 		xml("data", v);
 		g.SetValues(v);
 	} else {
-		v = g.дайЗначения();
+		v = g.GetValues();
 		xml("data", v);
 	}
 }
 
-template<> void вДжейсон(ДжейсонВВ& json, GridCtrl& g) {
-	Вектор< Вектор<Значение> > v;
+template<> void Jsonize(JsonIO& json, GridCtrl& g) {
+	Vector< Vector<Value> > v;
 	
-	if(json.грузится()) {
+	if(json.IsLoading()) {
 		json("data", v);
 		g.SetValues(v);
 	} else {
-		v = g.дайЗначения();
+		v = g.GetValues();
 		json("data", v);
 	}	
 }
 
 /* after this assist++ sees nothing */
 //$-
-#define E__Addv0(I)    уст(q, I - 1, p##I)
+#define E__Addv0(I)    Set(q, I - 1, p##I)
 #define E__AddF0(I) \
-GridCtrl& GridCtrl::добавь(__List##I(E__Value)) { \
-	int q = дайСчёт(); \
+GridCtrl& GridCtrl::Add(__List##I(E__Value)) { \
+	int q = GetCount(); \
 	__List##I(E__Addv0); \
 	return *this; \
 }
 __Expand(E__AddF0)
 
-#define E__Addv1(I)    уст(q, I - 1, p##I)
+#define E__Addv1(I)    Set(q, I - 1, p##I)
 #define E__AddF1(I) \
 GridCtrl::ItemRect& GridCtrl::AddRow(__List##I(E__Value)) { \
-	int q = дайСчёт(); \
+	int q = GetCount(); \
 	ItemRect& ir = AddRow(); \
 	__List##I(E__Addv1); \
 	return ir; \

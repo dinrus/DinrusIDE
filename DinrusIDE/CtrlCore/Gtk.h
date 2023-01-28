@@ -16,60 +16,60 @@
 #pragma clang diagnostic pop
 #endif
 
-namespace РНЦП {
+namespace Upp {
 
 class SystemDraw : public Draw {
 	virtual dword GetInfo() const;
 
 	virtual void BeginOp();
 	virtual void EndOp();
-	virtual void OffsetOp(Точка p);
-	virtual bool ClipOp(const Прям& r);
-	virtual bool ClipoffOp(const Прям& r);
-	virtual bool ExcludeClipOp(const Прям& r);
-	virtual bool IntersectClipOp(const Прям& r);
-	virtual bool IsPaintingOp(const Прям& r) const;
-	virtual Прям GetPaintRect() const;
+	virtual void OffsetOp(Point p);
+	virtual bool ClipOp(const Rect& r);
+	virtual bool ClipoffOp(const Rect& r);
+	virtual bool ExcludeClipOp(const Rect& r);
+	virtual bool IntersectClipOp(const Rect& r);
+	virtual bool IsPaintingOp(const Rect& r) const;
+	virtual Rect GetPaintRect() const;
 
-	virtual	void DrawRectOp(int x, int y, int cx, int cy, Цвет color);
-	virtual void SysDrawImageOp(int x, int y, const Рисунок& img, Цвет color);
-	virtual void DrawLineOp(int x1, int y1, int x2, int y2, int width, Цвет color);
+	virtual	void DrawRectOp(int x, int y, int cx, int cy, Color color);
+	virtual void SysDrawImageOp(int x, int y, const Image& img, Color color);
+	virtual void DrawLineOp(int x1, int y1, int x2, int y2, int width, Color color);
 
-	virtual void DrawPolyPolylineOp(const Точка *vertices, int vertex_count,
+	virtual void DrawPolyPolylineOp(const Point *vertices, int vertex_count,
 	                                const int *counts, int count_count,
-	                                int width, Цвет color, Цвет doxor);
-	virtual void DrawPolyPolyPolygonOp(const Точка *vertices, int vertex_count,
+	                                int width, Color color, Color doxor);
+	virtual void DrawPolyPolyPolygonOp(const Point *vertices, int vertex_count,
 	                                   const int *subpolygon_counts, int scc,
 	                                   const int *disjunct_polygon_counts, int dpcc,
-	                                   Цвет color, int width, Цвет outline,
-	                                   uint64 pattern, Цвет doxor);
-	virtual void DrawArcOp(const Прям& rc, Точка start, Точка end, int width, Цвет color);
+	                                   Color color, int width, Color outline,
+	                                   uint64 pattern, Color doxor);
+	virtual void DrawArcOp(const Rect& rc, Point start, Point end, int width, Color color);
 
-	virtual void DrawEllipseOp(const Прям& r, Цвет color, int pen, Цвет pencolor);
-	virtual void DrawTextOp(int x, int y, int angle, const wchar *text, Шрифт font,
-		                    Цвет ink, int n, const int *dx);
+	virtual void DrawEllipseOp(const Rect& r, Color color, int pen, Color pencolor);
+	virtual void DrawTextOp(int x, int y, int angle, const wchar *text, Font font,
+		                    Color ink, int n, const int *dx);
 
 
 private:
-	void  RectPath(const Прям& r);
-	void  сунь();
-	void  вынь();
-	Вектор<Точка> offset;
-	Вектор<Прям>  clip;
-	Вектор<Прям>  invalid; // for IsPainting checks, if empty, only clip extents is checked
+	void  RectPath(const Rect& r);
+	void  Push();
+	void  Pop();
+	Vector<Point> offset;
+	Vector<Rect>  clip;
+	Vector<Rect>  invalid; // for IsPainting checks, if empty, only clip extents is checked
 
 	cairo_t      *cr;
 	
-	struct TextGlyph : Движимое<TextGlyph> {
+	struct TextGlyph : Moveable<TextGlyph> {
 		int x;
 		int y;
-		int Индекс;
+		int index;
 	};
 
-	Шрифт              textfont;
-	Цвет             textink;
+	Font              textfont;
+	Color             textink;
 	int               textangle;
-	Вектор<TextGlyph> textcache;
+	Vector<TextGlyph> textcache;
 	
 	SystemDraw() {}
 	
@@ -77,19 +77,19 @@ private:
 	friend class BackDraw;
 	friend class TopFrameDraw;
 
-	Прям     GetClip() const;
+	Rect     GetClip() const;
 	void     FlushText();
 	
-	friend void устПоверхность(SystemDraw& w, const Прям& dest, const КЗСА *pixels, Размер srcsz, Точка poff);
+	friend void SetSurface(SystemDraw& w, const Rect& dest, const RGBA *pixels, Size srcsz, Point poff);
 
 public:
-	void  устЦвет(Цвет c);
+	void  SetColor(Color c);
 	operator cairo_t*()               { return cr; }
 
-	void     PickInvalid(Вектор<Прям>&& inv)   { invalid = pick(inv); }
-	Точка    дайСмещ() const;
+	void     PickInvalid(Vector<Rect>&& inv)   { invalid = pick(inv); }
+	Point    GetOffset() const;
 	bool     CanSetSurface()          { return true; }
-	static void слей()               {} // TODO?
+	static void Flush()               {} // СДЕЛАТЬ?
 
 //	SystemDraw(cairo_t *cr, GdkDrawable *dw/* = NULL*/) : cr(cr), drawable(dw) { (void)drawable; invalid = NULL; }
 	SystemDraw(cairo_t *cr) : cr(cr) {}
@@ -98,46 +98,46 @@ public:
 
 class ImageDraw : public SystemDraw {
 	cairo_surface_t *surface;
-	Размер             isz;
+	Size             isz;
 	
 	SystemDraw       alpha;
 	cairo_surface_t *alpha_surface;
 	bool             del;
 
-	void иниц(Размер sz);
+	void Init(Size sz);
 	void FetchStraight(ImageBuffer& b) const;
 
 public:
 	Draw& Alpha();
 
-	operator Рисунок() const;
+	operator Image() const;
 
-	Рисунок GetStraight() const;
+	Image GetStraight() const;
 
-	ImageDraw(Размер sz);
+	ImageDraw(Size sz);
 	ImageDraw(int cx, int cy);
 	~ImageDraw();
 
-	ImageDraw(cairo_t *cr, Размер sz); // особый variant for chameleon skinning
+	ImageDraw(cairo_t *cr, Size sz); // Special variant for chameleon skinning
 };
 
 class BackDraw : public SystemDraw {
-	Размер        size;
+	Size        size;
 	Draw       *painting;
-	Точка       painting_offset;
+	Point       painting_offset;
 	
 public:
-	virtual bool  IsPaintingOp(const Прям& r) const;
+	virtual bool  IsPaintingOp(const Rect& r) const;
 
 public:
-	void  помести(SystemDraw& w, int x, int y);
-	void  помести(SystemDraw& w, Точка p)                  { помести(w, p.x, p.y); }
+	void  Put(SystemDraw& w, int x, int y);
+	void  Put(SystemDraw& w, Point p)                  { Put(w, p.x, p.y); }
 
-	void создай(SystemDraw& w, int cx, int cy);
-	void создай(SystemDraw& w, Размер sz)                { создай(w, sz.cx, sz.cy); }
-	void разрушь();
+	void Create(SystemDraw& w, int cx, int cy);
+	void Create(SystemDraw& w, Size sz)                { Create(w, sz.cx, sz.cy); }
+	void Destroy();
 
-	void SetPaintingDraw(Draw& w, Точка off)           { painting = &w; painting_offset = off; }
+	void SetPaintingDraw(Draw& w, Point off)           { painting = &w; painting_offset = off; }
 
 	BackDraw();
 	~BackDraw();
@@ -145,32 +145,32 @@ public:
 
 struct GdkRect : GdkRectangle {
 	operator GdkRectangle *() { return this; }
-	GdkRect(const Прям& r);
+	GdkRect(const Rect& r);
 };
 
 class ImageGdk {
 	GdkPixbuf *pixbuf;
-	Рисунок      img;
+	Image      img;
 
-	void освободи();
+	void Free();
 
 public:
 	operator GdkPixbuf *()    { return pixbuf; }
 
-	bool уст(const Рисунок& m);
+	bool Set(const Image& m);
 	          
 	ImageGdk();
-	ImageGdk(const Рисунок& m);
+	ImageGdk(const Image& m);
 	~ImageGdk();
 };
 
-Ткст FilesClipFromUrisFree(gchar **uris);
-Ткст ImageClipFromPixbufUnref(GdkPixbuf *pixbuf);
+String FilesClipFromUrisFree(gchar **uris);
+String ImageClipFromPixbufUnref(GdkPixbuf *pixbuf);
 
-GdkAtom GAtom(const Ткст& id);
+GdkAtom GAtom(const String& id);
 
 #ifdef GDK_WINDOWING_X11
-Вектор<int> GetPropertyInts(GdkWindow *w, const char *property);
+Vector<int> GetPropertyInts(GdkWindow *w, const char *property);
 #endif
 
 #ifndef PLATFORM_WIN32
@@ -179,7 +179,7 @@ GdkAtom GAtom(const Ткст& id);
 
 #define GUIPLATFORM_KEYCODES_INCLUDE <CtrlCore/GtkKeys.h>
 
-//$	struct Ктрл::верх {
+//$	struct Ctrl::Top {
 #define GUIPLATFORM_CTRL_TOP_DECLS \
 	GtkWidget            *window; \
 	GtkIMContext         *im_context; \
@@ -192,7 +192,7 @@ GdkAtom GAtom(const Ткст& id);
 #define GUIPLATFORM_CTRL_DECLS_INCLUDE <CtrlCore/GtkCtrl.h>
 
 #define GUIPLATFORM_PASTECLIP_DECLS \
-int тип; \
+int type; \
 
 #define GUIPLATFORM_TOPWINDOW_DECLS_INCLUDE <CtrlCore/GtkTop.h>
 

@@ -1,64 +1,64 @@
 #include "Core.h"
 
-namespace РНЦПДинрус {
+namespace Upp {
 
-ВхоФильтрПоток::ВхоФильтрПоток()
+InFilterStream::InFilterStream()
 {
-	иниц();
+	Init();
 }
 
-void ВхоФильтрПоток::иниц()
+void InFilterStream::Init()
 {
 	pos = 0;
 	in = NULL;
 	eof = false;
 	style = STRM_READ|STRM_LOADING;
 	SetLoading();
-	буфер.очисть();
-	ptr = rdlim = Поток::буфер = NULL;
+	buffer.Clear();
+	ptr = rdlim = Stream::buffer = NULL;
 	todo = 0;
 	t = NULL;
 }
 
-bool ВхоФильтрПоток::открыт() const
+bool InFilterStream::IsOpen() const
 {
-	return in->открыт();
+	return in->IsOpen();
 }
 
-int ВхоФильтрПоток::_прекрати()
+int InFilterStream::_Term()
 {
 	while(ptr == rdlim && !eof)
-		фетч();
+		Fetch();
 	return ptr == rdlim ? -1 : *ptr;
 }
 
-int ВхоФильтрПоток::_получи()
+int InFilterStream::_Get()
 {
 	while(ptr == rdlim && !eof)
-		фетч();
+		Fetch();
 	return ptr == rdlim ? -1 : *ptr++;
 }
 
-dword ВхоФильтрПоток::_получи(void *данные, dword size)
+dword InFilterStream::_Get(void *data, dword size)
 {
-	t = (byte *)данные;
+	t = (byte *)data;
 	dword sz0 = min(dword(rdlim - ptr), size);
 	memcpy8(t, ptr, sz0);
 	t += sz0;
 	ptr += sz0;
 	todo = size - sz0;
 	while(todo && !eof)
-		фетч();
+		Fetch();
 	return size - todo;
 }
 
-void ВхоФильтрПоток::SetRd()
+void InFilterStream::SetRd()
 {
-	Поток::буфер = ptr = буфер.begin();
-	rdlim = буфер.end();
+	Stream::buffer = ptr = buffer.begin();
+	rdlim = buffer.end();
 }
 
-void ВхоФильтрПоток::выведи(const void *p, int size)
+void InFilterStream::Out(const void *p, int size)
 {
 	const byte *s = (byte *)p;
 	if(todo) {
@@ -71,32 +71,32 @@ void ВхоФильтрПоток::выведи(const void *p, int size)
 		pos += sz;
 	}
 	if(size) {
-		int l = буфер.дайСчёт();
-		буфер.устСчётР(l + size);
-		memcpy8(буфер.begin() + l, s, size);
+		int l = buffer.GetCount();
+		buffer.SetCountR(l + size);
+		memcpy8(buffer.begin() + l, s, size);
 		SetRd();
 	}
 	WhenOut();
 }
 
-void ВхоФильтрПоток::фетч()
+void InFilterStream::Fetch()
 {
-	ПРОВЕРЬ(ptr == rdlim);
-	pos += буфер.дайСчёт();
-	буфер.устСчёт(0); // устСчёт instead of очисть to maintain capacity
+	ASSERT(ptr == rdlim);
+	pos += buffer.GetCount();
+	buffer.SetCount(0); // SetCount instead of Clear to maintain capacity
 	if(!eof) {
-		if(ещё)
-			eof = !ещё();
+		if(More)
+			eof = !More();
 		else {
 			if(!inbuffer)
-				inbuffer.размести(buffersize);
-			int n = in->дай(~inbuffer, buffersize);
+				inbuffer.Alloc(buffersize);
+			int n = in->Get(~inbuffer, buffersize);
 			if(n == 0) {
-				стоп();
+				End();
 				eof = true;
 			}
 			else {
-				фильтруй(~inbuffer, n);
+				Filter(~inbuffer, n);
 				eof = FilterEof();
 			}
 		}
@@ -106,57 +106,57 @@ void ВхоФильтрПоток::фетч()
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-ВыхФильтрПоток::ВыхФильтрПоток()
+OutFilterStream::OutFilterStream()
 {
-	иниц();
+	Init();
 }
 
-void ВыхФильтрПоток::иниц()
+void OutFilterStream::Init()
 {
-	буфер.размести(4096);
-	wrlim = ~буфер + 4096;
-	ptr = ~буфер;
+	buffer.Alloc(4096);
+	wrlim = ~buffer + 4096;
+	ptr = ~buffer;
 	out = NULL;
 	count = pos = 0;
 	style = STRM_WRITE;
 	pos = 0;
-	Поток::буфер = ~буфер;
+	Stream::buffer = ~buffer;
 }
 
-ВыхФильтрПоток::~ВыхФильтрПоток()
+OutFilterStream::~OutFilterStream()
 {
-	открой();
+	Close();
 }
 
-void ВыхФильтрПоток::открой()
+void OutFilterStream::Close()
 {
-	if(буфер) {
-		излей();
-		стоп();
-		буфер.очисть();
+	if(buffer) {
+		FlushOut();
+		End();
+		buffer.Clear();
 	}
 }
 
-void ВыхФильтрПоток::излей()
+void OutFilterStream::FlushOut()
 {
-	if(ptr != ~буфер) {
-		int sz = (int)(ptr - ~буфер);
+	if(ptr != ~buffer) {
+		int sz = (int)(ptr - ~buffer);
 		pos += sz;
 		WhenPos(pos);
-		фильтруй(~буфер, sz);
-		ptr = ~буфер;
+		Filter(~buffer, sz);
+		ptr = ~buffer;
 	}
 }
 
-void ВыхФильтрПоток::_помести(int w)
+void OutFilterStream::_Put(int w)
 {
-	излей();
+	FlushOut();
 	*ptr++ = w;
 }
 
-void ВыхФильтрПоток::_помести(const void *данные, dword size)
+void OutFilterStream::_Put(const void *data, dword size)
 {
-	const byte *p = (const byte *)данные;
+	const byte *p = (const byte *)data;
 	for(;;) {
 		int n = min(Avail(), size);
 		memcpy8(ptr, p, n);
@@ -165,19 +165,19 @@ void ВыхФильтрПоток::_помести(const void *данные, dwo
 		ptr += n;
 		if(size == 0)
 			return;
-		излей();
+		FlushOut();
 	}
 }
 
-bool ВыхФильтрПоток::открыт() const
+bool OutFilterStream::IsOpen() const
 {
-	return буфер;
+	return buffer;
 }
 
-void ВыхФильтрПоток::выведи(const void *ptr, int size)
+void OutFilterStream::Out(const void *ptr, int size)
 {
 	count += size;
-	out->помести(ptr, size);
+	out->Put(ptr, size);
 }
 
 }

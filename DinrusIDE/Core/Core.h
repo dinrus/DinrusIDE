@@ -1,7 +1,7 @@
 #ifndef CORE_H
 #define CORE_H
 
-#define РНЦП_VERSION 0x20210900
+#define UPP_VERSION 0x20210900
 
 #ifndef flagMT
 #define flagMT // MT is now always on
@@ -23,8 +23,8 @@
 #endif
 
 #if defined(flagDEBUG)
-	#ifndef _ОТЛАДКА
-		#define _ОТЛАДКА
+	#ifndef _DEBUG
+		#define _DEBUG
 	#endif
 	#ifndef TESTLEAKS
 		#define TESTLEAKS
@@ -46,7 +46,7 @@
 
 #ifdef _MSC_VER
 	#ifndef _CPPRTTI
-		#Ошибка  RTTI must be enabled !!!
+		#error  RTTI должен быть включен !!!
 	#endif  //_CPPRTTI
 #endif
 
@@ -146,7 +146,7 @@
 	#ifndef PLATFORM_WINCE
 		#include <io.h>
 	#endif
-	#ifndef PLATFORM_MFC // just mini Windows заголовки
+	#ifndef PLATFORM_MFC // just mini Windows headers
 		#ifdef COMPILER_MSC
 			#ifndef CPU_ARM
 				#ifndef CPU_AMD64
@@ -190,7 +190,7 @@
 			#include <Wincon.h>
 			#include <float.h>
 			#include <mmsystem.h>
-		#define byte win32_byte_ // RpcNdr defines byte -> class with РНЦПДинрус::byte
+		#define byte win32_byte_ // RpcNdr defines byte -> class with Upp::byte
 		#define CY win32_CY_
 			#include <objidl.h>
 			#include <winnetwk.h>
@@ -215,8 +215,8 @@
 		#include <process.h>
 	#endif
 
-	#ifdef КЗСА
-		#undef КЗСА
+	#ifdef RGBA
+		#undef RGBA
 	#endif
 #endif
 
@@ -264,14 +264,14 @@ namespace std {
 #endif
 
 // deprecated, use 'namespace' directly instead of macros
-#define ПИ_РНЦП     namespace РНЦПДинрус {
-#define КОНЕЦ_ПИ_РНЦП }
-#define РНЦП               РНЦПДинрус
+#define NAMESPACE_UPP     namespace Upp {
+#define END_UPP_NAMESPACE }
+#define UPP               Upp
 
 // #define atof @ // atof is broken, as it depends on setlocale - might want ',' instead of '.' breaking a lot of code
 // Use Atof instead which is fixed with '.'
 
-namespace РНЦПДинрус {
+namespace Upp {
 
 #ifndef flagNODEPRECATED
 #define DEPRECATED
@@ -279,8 +279,8 @@ namespace РНЦПДинрус {
 
 #include "Defs.h"
 
-class РярВВ;
-class ДжейсонВВ;
+class XmlIO;
+class JsonIO;
 
 #include "Ops.h"
 #include "Fn.h"
@@ -401,10 +401,10 @@ class ДжейсонВВ;
 #include "ValueCache.h"
 
 #ifdef CPU_SIMD
-Ткст какТкст(const f32x4& x);
-Ткст какТкст(const i32x4& x);
-Ткст какТкст(const i16x8& x);
-Ткст какТкст(const i8x16& x);
+String AsString(const f32x4& x);
+String AsString(const i32x4& x);
+String AsString(const i16x8& x);
+String AsString(const i8x16& x);
 #endif
 
 #ifdef PLATFORM_WIN32
@@ -415,7 +415,7 @@ NTL_MOVEABLE(RECT)
 
 }
 
-#if (defined(TESTLEAKS) || defined(HEAPDBG)) && defined(COMPILER_GCC) && defined(КУЧА_РНЦП)
+#if (defined(TESTLEAKS) || defined(HEAPDBG)) && defined(COMPILER_GCC) && defined(UPP_HEAP)
 
 //Place it to the begining of each file to be the first function called in whole executable...
 //This is now backup to init_priority attribute in heapdbg.cpp
@@ -432,19 +432,19 @@ static const MemDiagCls sMemDiagHelper__upp__;
 
 //some global definitions
 
-void      RegisterTopic__(const char *topicfile, const char *topic, const char *title, const РНЦП::byte *данные, int len);
+void      RegisterTopic__(const char *topicfile, const char *topic, const char *title, const UPP::byte *data, int len);
 
 #ifdef PLATFORM_WIN32
-typedef HMODULE УКДЛЛ;
+typedef HMODULE DLLHANDLE;
 #else
-typedef void   *УКДЛЛ;
+typedef void   *DLLHANDLE;
 #endif
 
-УКДЛЛ грузиДлл__(РНЦП::Ткст& фн, const char *const *names, void *const *procs);
-void      освободиДлл__(УКДЛЛ dllhandle);
+DLLHANDLE LoadDll__(UPP::String& fn, const char *const *names, void *const *procs);
+void      FreeDll__(DLLHANDLE dllhandle);
 
 #ifndef flagNONAMESPACE
-using РНЦПДинрус::byte; // Dirty solution to Windows.h typedef byte...
+using Upp::byte; // Dirty solution to Windows.h typedef byte...
 #endif
 
 #endif //CORE_H

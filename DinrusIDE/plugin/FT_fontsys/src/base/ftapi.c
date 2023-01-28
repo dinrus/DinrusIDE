@@ -70,20 +70,20 @@
 
   FT_BASE_DEF( FT_Error )
   FT_Read_Stream( FT_Stream  stream,
-                  FT_Byte*   буфер,
+                  FT_Byte*   buffer,
                   FT_ULong   count )
   {
-    return FT_Stream_Read( stream, буфер, count );
+    return FT_Stream_Read( stream, buffer, count );
   }
 
 
   FT_BASE_DEF( FT_Error )
   FT_Read_Stream_At( FT_Stream  stream,
                      FT_ULong   pos,
-                     FT_Byte*   буфер,
+                     FT_Byte*   buffer,
                      FT_ULong   count )
   {
-    return FT_Stream_ReadAt( stream, pos, буфер, count );
+    return FT_Stream_ReadAt( stream, pos, buffer, count );
   }
 
 

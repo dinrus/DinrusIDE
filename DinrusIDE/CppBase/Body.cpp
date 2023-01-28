@@ -3,18 +3,18 @@
 
 #define LLOG(x)  // DLOG(x)
 
-namespace РНЦП {
+namespace Upp {
 
-void Parser::Locals(const Ткст& тип)
+void Parser::Locals(const String& type)
 {
-	Строка();
-	Массив<Parser::Decl> d = Declaration(true, true, Null, Null);
-	for(int i = 0; i < d.дайСчёт(); i++) {
-		Local& l = local.добавь(d[i].имя);
-		l.тип = *тип == '*' ? d[i].тип : тип;
+	Line();
+	Array<Parser::Decl> d = Declaration(true, true, Null, Null);
+	for(int i = 0; i < d.GetCount(); i++) {
+		Local& l = local.Add(d[i].name);
+		l.type = *type == '*' ? d[i].type : type;
 		l.isptr = d[i].isptr;
 		l.line = line + 1;
-		LLOG("== Local variable " << d[i].имя << ": " << l.тип);
+		LLOG("== Local variable " << d[i].name << ": " << l.type);
 	}
 }
 
@@ -38,15 +38,15 @@ bool Parser::TryDecl()
 			q++;
 		if(findarg(lex[q], tk_long, tk_int, tk_char) >= 0)
 			q++;
-		while(findarg(lex[q], '*', '&', t_and, tk_const) >= 0) // t_and is r-значение here
+		while(findarg(lex[q], '*', '&', t_and, tk_const) >= 0) // t_and is r-value here
 			q++;
-		if(!lex.ид_ли(q))
+		if(!lex.IsId(q))
 			return false;
-		static Ткст aut("*"), empty;
+		static String aut("*"), empty;
 		Locals(t == tk_auto ? aut : empty);
 		return true;
 	}
-	Ткст тип;
+	String type;
 	if(t == tk_decltype && lex[q + 1] == '(') {
 		q += 2;
 		int q0 = q;
@@ -58,7 +58,7 @@ bool Parser::TryDecl()
 				lvl++;
 			else
 			if(lex[q] == ')' && --lvl == 0) {
-				Locals("@" + Ткст(lex.Поз(q0), lex.Поз(q)));
+				Locals("@" + String(lex.Pos(q0), lex.Pos(q)));
 				return true;
 			}
 			++q;
@@ -66,30 +66,30 @@ bool Parser::TryDecl()
 		return false;
 	}
 	if(lex[q] == t_dblcolon) {
-		тип << "::";
+		type << "::";
 		q++;
 	}
-	if(lex.ид_ли(q)) {
-		тип << lex.Ид(q++);
-		тип << Tparam(q);
+	if(lex.IsId(q)) {
+		type << lex.Id(q++);
+		type << Tparam(q);
 	}
 	else
 		return false;
 	while(lex[q] == t_dblcolon) {
-		тип << "::";
-		if(lex.ид_ли(++q))
-			тип << lex.Ид(q++);
+		type << "::";
+		if(lex.IsId(++q))
+			type << lex.Id(q++);
 		else
 			return false;
-		тип << Tparam(q);
+		type << Tparam(q);
 	}
-	while(lex[q] == '*' || lex[q] == '&' || lex[q] == t_and) // t_and is r-значение here
+	while(lex[q] == '*' || lex[q] == '&' || lex[q] == t_and) // t_and is r-value here
 		q++;
-	if(!lex.ид_ли(q))
+	if(!lex.IsId(q))
 		return false;
-	тип = qualify(current_scope, тип, context.namespace_using);
-	if(тип.дайСчёт()) {
-		Locals(тип);
+	type = qualify(current_scope, type, context.namespace_using);
+	if(type.GetCount()) {
+		Locals(type);
 		return true;
 	}
 	return false;
@@ -99,9 +99,9 @@ void Parser::MatchPars()
 {
 	int level = 1;
 	while(level && lex != t_eof) {
-		if(Ключ('(')) level++;
+		if(Key('(')) level++;
 		else
-		if(Ключ(')')) level--;
+		if(Key(')')) level--;
 		else
 			++lex;
 	}
@@ -112,95 +112,95 @@ void Parser::Statement()
 	RecursionCounter recursionCounter(currentScopeDepth, lex == '{' ? 0 : 1);
 	maxScopeDepth = max(maxScopeDepth, currentScopeDepth);
 
-	if(Ключ(tk_case)) {
-		if(lex.ид_ли())
+	if(Key(tk_case)) {
+		if(lex.IsId())
 			++lex;
-		Ключ(':');
+		Key(':');
 	}
-	if(Ключ(tk_default))
-		Ключ(':');
-	if(lex.ид_ли() && lex[1] == ':') {
+	if(Key(tk_default))
+		Key(':');
+	if(lex.IsId() && lex[1] == ':') {
 		++lex;
 		++lex;
 	}
-	if(Ключ('{')) {
-		Контекст cc;
+	if(Key('{')) {
+		Context cc;
 		cc <<= context;
-		int l = local.дайСчёт();
-		while(!Ключ('}')) {
+		int l = local.GetCount();
+		while(!Key('}')) {
 			if(lex == t_eof)
-				выведиОш("eof");
+				ThrowError("eof");
 			Statement();
 		}
 		context <<= cc;
-		local.обрежь(l);
+		local.Trim(l);
 	}
 	else
-	if(Ключ(tk_if)) {
-		int l = local.дайСчёт();
-		Ключ('(');
+	if(Key(tk_if)) {
+		int l = local.GetCount();
+		Key('(');
 		TryDecl();
 		MatchPars();
 		Statement();
-		if(Ключ(tk_else))
+		if(Key(tk_else))
 			Statement();
-		local.обрежь(l);
+		local.Trim(l);
 	}
 	else
-	if(Ключ(tk_for)) {
-		int l = local.дайСчёт();
-		Ключ('(');
+	if(Key(tk_for)) {
+		int l = local.GetCount();
+		Key('(');
 		TryDecl();
 		MatchPars();
 		Statement();
-		local.обрежь(l);
+		local.Trim(l);
 	}
 	else
-	if(Ключ(tk_while)) {
-		int l = local.дайСчёт();
-		Ключ('(');
+	if(Key(tk_while)) {
+		int l = local.GetCount();
+		Key('(');
 		TryDecl();
 		MatchPars();
 		Statement();
-		local.обрежь(l);
+		local.Trim(l);
 	}
 	else
-	if(Ключ(tk_try))
+	if(Key(tk_try))
 		Statement();
 	else
-	if(Ключ(tk_catch)) {
-		Ключ('(');
+	if(Key(tk_catch)) {
+		Key('(');
 		MatchPars();
 		Statement();
 	}
 	else
-	if(Ключ(tk_do)) {
+	if(Key(tk_do)) {
 		Statement();
-		Ключ(tk_while);
-		Ключ('(');
+		Key(tk_while);
+		Key('(');
 		MatchPars();
 	}
 	else
-	if(Ключ(tk_switch)) {
-		int l = local.дайСчёт();
-		Ключ('(');
+	if(Key(tk_switch)) {
+		int l = local.GetCount();
+		Key('(');
 		TryDecl();
 		MatchPars();
 		Statement();
-		local.обрежь(l);
+		local.Trim(l);
 	}
 	else
 	if(UsingNamespace())
 		;
 	else
 	if(TryDecl())
-		Ключ(';');
+		Key(';');
 	else
 		for(;;) {
 			if(lex == t_eof)
-				выведиОш("");
+				ThrowError("");
 			TryLambda();
-			if(Ключ(';') || lex == '{' || lex == '}' || lex >= tk_if && lex <= tk_do)
+			if(Key(';') || lex == '{' || lex == '}' || lex >= tk_if && lex <= tk_do)
 				break;
 			++lex;
 		}
@@ -239,7 +239,7 @@ void Parser::TryLambda()
 	if(lex[q] == tk_mutable)
 		q++;
 	if(lex[q] == t_arrow) {
-		q++; // TODO: auto declaration could assign a return тип here
+		q++; // СДЕЛАТЬ: auto declaration could assign a return type here
 		for(;;) {
 			if(lex[q] == ';' || lex[q] == t_eof)
 				return;
@@ -249,17 +249,17 @@ void Parser::TryLambda()
 		}
 	}
 	if(lex[q] == '{') {
-		int n = local.дайСчёт();
-		lex.дай(params);
-		if(Ключ('(')) {
+		int n = local.GetCount();
+		lex.Get(params);
+		if(Key('(')) {
 			Decl d;
-			Строка();
+			Line();
 			ParamList(d);
 		}
 		while(lex != '{' && lex != t_eof)
 			++lex;
 		Statement();
-		local.обрежь(n);
+		local.Trim(n);
 	}
 }
 
@@ -268,7 +268,7 @@ bool Parser::EatBody()
 	if(lex == t_eof)
 		return false;
 	if(lex != '{') {
-		local.очисть();
+		local.Clear();
 		return false;
 	}
 	lex.BeginBody();
@@ -277,15 +277,15 @@ bool Parser::EatBody()
 		inbody = true;
 		Statement();
 		inbody = false;
-		local.очисть();
+		local.Clear();
 	}
 	else {
-		Ключ('{');
+		Key('{');
 		int level = 1;
 		while(level && lex != t_eof) {
-			if(Ключ('{')) level++;
+			if(Key('{')) level++;
 			else
-			if(Ключ('}')) level--;
+			if(Key('}')) level--;
 			else
 				++lex;
 			maxScopeDepth = max(level, maxScopeDepth);
@@ -295,14 +295,14 @@ bool Parser::EatBody()
 	return true;
 }
 
-Ткст Parser::ResolveAutoType()
+String Parser::ResolveAutoType()
 {
-	Вектор<Ткст> xp = MakeXP(lex.Поз());
+	Vector<String> xp = MakeXP(lex.Pos());
 	if(lex == ':') // resolve for declaration, like 'for(auto i: vector)'
 		xp << "." << "begin" << "()" << "->"; // incorrect, should rather use operator*(), but sufficient for now
-	Индекс<Ткст> s = GetExpressionType(*base, *this, xp);
-	int i = найдиМакс(s); // Ugly hack: we are not resolving overloading at all, so just choose stable тип if there are more, not Null
-	return i < 0 ? Ткст() : s[i];
+	Index<String> s = GetExpressionType(*base, *this, xp);
+	int i = FindMax(s); // Ugly hack: we are not resolving overloading at all, so just choose stable type if there are more, not Null
+	return i < 0 ? String() : s[i];
 }
 	
 }

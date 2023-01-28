@@ -10,11 +10,11 @@
 #include <fontconfig/fontconfig.h>
 #include <fontconfig/fcfreetype.h>
 
-namespace РНЦП {
+namespace Upp {
 
 static FT_Library sFTlib;
 
-ЭКЗИТБЛОК
+EXITBLOCK
 {
 	if(sFTlib)
 		FT_Done_FreeType(sFTlib);
@@ -27,12 +27,12 @@ bool sInitFt(void)
 	return FT_Init_FreeType(&sFTlib) == 0;
 }
 
-FcPattern *CreateFcPattern(Шрифт font)
+FcPattern *CreateFcPattern(Font font)
 {
 	LTIMING("CreateXftFont");
-	int hg = абс(font.дайВысоту());
+	int hg = abs(font.GetHeight());
 	if(hg == 0) hg = 10;
-	Ткст face = font.GetFaceName();
+	String face = font.GetFaceName();
 	FcPattern *p = FcPatternCreate();
 	FcPatternAddString(p, FC_FAMILY, (FcChar8*)~face);
 	FcPatternAddInteger(p, FC_SLANT, font.IsItalic() ? FC_SLANT_ITALIC : FC_SLANT_ROMAN);
@@ -47,7 +47,7 @@ FcPattern *CreateFcPattern(Шрифт font)
 	return m;
 }
 
-FT_Face CreateFTFace(const FcPattern *pattern, Ткст *rpath) {
+FT_Face CreateFTFace(const FcPattern *pattern, String *rpath) {
 	FT_Face	    face = NULL;
 
 	double	    dsize;
@@ -81,14 +81,14 @@ FT_Face CreateFTFace(const FcPattern *pattern, Ткст *rpath) {
 #define FONTCACHE 37
 
 struct FtFaceEntry {
-	Шрифт    font;
+	Font    font;
 	FT_Face face;
-	Ткст  path;
+	String  path;
 };
 
-FT_Face (*FTFaceXft)(Шрифт fnt, Ткст *rpath);
+FT_Face (*FTFaceXft)(Font fnt, String *rpath);
 
-FT_Face FTFace(Шрифт fnt, Ткст *rpath = NULL)
+FT_Face FTFace(Font fnt, String *rpath = NULL)
 {
 	LTIMING("FTFace");
 	if(FTFaceXft)
@@ -96,7 +96,7 @@ FT_Face FTFace(Шрифт fnt, Ткст *rpath = NULL)
 	static FtFaceEntry ft_cache[FONTCACHE];
 	ONCELOCK {
 		for(int i = 0; i < FONTCACHE; i++)
-			ft_cache[i].font.устВысоту(-30000);
+			ft_cache[i].font.Height(-30000);
 	}
 	FtFaceEntry be;
 	be = ft_cache[0];
@@ -128,15 +128,15 @@ FT_Face FTFace(Шрифт fnt, Ткст *rpath = NULL)
 	return be.face;
 }
 
-CommonFontInfo (*GetFontInfoSysXft)(Шрифт font);
+CommonFontInfo (*GetFontInfoSysXft)(Font font);
 
-CommonFontInfo GetFontInfoSys(Шрифт font)
+CommonFontInfo GetFontInfoSys(Font font)
 {
 	sInitFt();
 	if(GetFontInfoSysXft)
 		return (*GetFontInfoSysXft)(font);
 	CommonFontInfo fi;
-	Ткст path;
+	String path;
 	FT_Face face = FTFace(font, &path);
 	if(face) {
 		fi.ascent = face->size->metrics.ascender >> 6;
@@ -147,17 +147,17 @@ CommonFontInfo GetFontInfoSys(Шрифт font)
 		fi.maxwidth = face->size->metrics.max_advance >> 6;
 		fi.avewidth = fi.maxwidth;
 		fi.default_char = '?';
-		fi.fixedpitch = font.GetFaceInfo() & Шрифт::FIXEDPITCH;
-		fi.ttf = path.заканчиваетсяНа(".ttf") || path.заканчиваетсяНа(".otf") || path.заканчиваетсяНа(".otc") || path.заканчиваетсяНа(".ttc");
+		fi.fixedpitch = font.GetFaceInfo() & Font::FIXEDPITCH;
+		fi.ttf = path.EndsWith(".ttf") || path.EndsWith(".otf") || path.EndsWith(".otc") || path.EndsWith(".ttc");
 		fi.fonti = face->face_index;
-		if(path.дайСчёт() < 250)
+		if(path.GetCount() < 250)
 			strcpy(fi.path, ~path);
 		else
 			*fi.path = 0;
 		
-		if(font.GetFaceInfo() & Шрифт::COLORIMG) { // Experimental estimate for cairo results
+		if(font.GetFaceInfo() & Font::COLORIMG) { // Experimental estimate for cairo results
 			fi.colorimg_cy = fi.ascent + fi.descent;
-			int h = 4 * font.дайВысоту() / 3;
+			int h = 4 * font.GetHeight() / 3;
 			fi.ascent = h * fi.ascent / fi.colorimg_cy;
 			fi.descent = h - fi.ascent;
 		}
@@ -170,16 +170,16 @@ CommonFontInfo GetFontInfoSys(Шрифт font)
 #define TRUNC(x)    ((x) >> 6)
 #define ROUND(x)    (((x)+32) & -64)
 
-GlyphInfo (*GetGlyphInfoSysXft)(Шрифт font, int chr);
+GlyphInfo (*GetGlyphInfoSysXft)(Font font, int chr);
 
-GlyphInfo  GetGlyphInfoSys(Шрифт font, int chr)
+GlyphInfo  GetGlyphInfoSys(Font font, int chr)
 {
 	LTIMING("GetGlyphInfoSys");
 	GlyphInfo gi;
 	FT_Face face = FTFace(font, NULL);
 	gi.lspc = gi.rspc = 0;
 	gi.width = 0x8000;
-	LLOG("GetGlyphInfoSys " << font << " " << (char)chr << " " << фмтЦелГекс(chr));
+	LLOG("GetGlyphInfoSys " << font << " " << (char)chr << " " << FormatIntHex(chr));
 	if(face) {
 		LTIMING("GetGlyphInfoSys 2");
 		int glyph_index = FT_Get_Char_Index(face, chr);
@@ -190,7 +190,7 @@ GlyphInfo  GetGlyphInfoSys(Шрифт font, int chr)
 				int left  = FLOOR(m.horiBearingX);
 				int width = TRUNC(CEIL(m.horiBearingX + m.width) - left);
 				gi.width = TRUNC(ROUND(face->glyph->advance.x));
-				if(font.GetFaceInfo() & Шрифт::COLORIMG) {
+				if(font.GetFaceInfo() & Font::COLORIMG) {
 					gi.lspc = gi.rspc = 0;
 					int q = GetFontInfo(font).colorimg_cy;
 					gi.width = font.GetCy() * gi.width / q + max(1, font.GetCy() / 10); // add a little space there...
@@ -206,7 +206,7 @@ GlyphInfo  GetGlyphInfoSys(Шрифт font, int chr)
 	return gi;
 }
 
-Вектор<FaceInfo> GetAllFacesSys()
+Vector<FaceInfo> GetAllFacesSys()
 {
 	static const char *basic_fonts[] = {
 		"sans-serif",
@@ -215,16 +215,16 @@ GlyphInfo  GetGlyphInfoSys(Шрифт font, int chr)
 		"monospace",
 	};
 	
-	ВекторМап<Ткст, FaceInfo> list;
+	VectorMap<String, FaceInfo> list;
 	for(int i = 0; i < __countof(basic_fonts); i++) {
-		Ткст имя = (const char *)basic_fonts[i];
-		FaceInfo& fi = list.добавь(имя);
-		fi.имя = имя;
-		fi.info = Шрифт::SCALEABLE;
-		if(i == Шрифт::SERIF)
-			fi.info |= Шрифт::SERIFSTYLE;
-		if(i == Шрифт::MONOSPACE)
-			fi.info |= Шрифт::FIXEDPITCH;
+		String name = (const char *)basic_fonts[i];
+		FaceInfo& fi = list.Add(name);
+		fi.name = name;
+		fi.info = Font::SCALEABLE;
+		if(i == Font::SERIF)
+			fi.info |= Font::SERIFSTYLE;
+		if(i == Font::MONOSPACE)
+			fi.info |= Font::FIXEDPITCH;
 	}
 	FcPattern *p = FcPatternCreate();
 	FcObjectSet *os = FcObjectSetBuild(FC_FAMILY, FC_SPACING, FC_SCALABLE, FC_SYMBOL, FC_COLOR, (void *)0);
@@ -235,37 +235,37 @@ GlyphInfo  GetGlyphInfoSys(Шрифт font, int chr)
 		FcChar8 *family = NULL;
 		FcPattern *pt = fs->fonts[i];
 		if(FcPatternGetString(pt, FC_FAMILY, 0, &family) == 0 && family) {
-			Ткст имя = (const char *)family;
-			FaceInfo& fi = list.дайДобавь(имя);
-			fi.имя = имя;
+			String name = (const char *)family;
+			FaceInfo& fi = list.GetAdd(name);
+			fi.name = name;
 			int iv;
 			FcBool bv;
 			if(FcPatternGetInteger(pt, FC_SPACING, 0, &iv) == 0 && iv == FC_MONO)
-				fi.info |= Шрифт::FIXEDPITCH;
+				fi.info |= Font::FIXEDPITCH;
 			if(FcPatternGetBool(pt, FC_SYMBOL, 0, &bv) == 0 && bv)
-				fi.info |= Шрифт::SPECIAL;
+				fi.info |= Font::SPECIAL;
 			if(FcPatternGetBool(pt, FC_COLOR, 0, &bv) == 0 && bv)
-				fi.info |= Шрифт::COLORIMG;
+				fi.info |= Font::COLORIMG;
 			if(FcPatternGetBool(pt, FC_SCALABLE, 0, &bv) == 0 && bv)
-				fi.info |= Шрифт::SCALEABLE;
-			Ткст h = впроп(fi.имя);
-			if((h.найди("serif") >= 0 || h.найди("roman") >= 0) && h.найди("sans") < 0)
-				fi.info |= Шрифт::SERIFSTYLE;
-			if(h.найди("script") >= 0)
-				fi.info |= Шрифт::SCRIPTSTYLE;
+				fi.info |= Font::SCALEABLE;
+			String h = ToLower(fi.name);
+			if((h.Find("serif") >= 0 || h.Find("roman") >= 0) && h.Find("sans") < 0)
+				fi.info |= Font::SERIFSTYLE;
+			if(h.Find("script") >= 0)
+				fi.info |= Font::SCRIPTSTYLE;
 		}
 	}
 	FcFontSetDestroy(fs);
-	return list.подбериЗначения();
+	return list.PickValues();
 }
 
-extern Ткст GetFontDataSysSys(Поток& in, int fonti, const char *table, int offset, int size);
+extern String GetFontDataSysSys(Stream& in, int fonti, const char *table, int offset, int size);
 
-Ткст GetFontDataSys(Шрифт font, const char *table, int offset, int size)
+String GetFontDataSys(Font font, const char *table, int offset, int size)
 {
 	if(!table)
-		return загрузиФайл(font.Fi().path);
-	ФайлВвод in(font.Fi().path);
+		return LoadFile(font.Fi().path);
+	FileIn in(font.Fi().path);
 	return GetFontDataSysSys(in, font.Fi().fonti, table, offset, size);
 }
 
@@ -279,9 +279,9 @@ struct ConvertOutlinePoint {
 	double xx;
 	double yy;
 	
-	ТочкаПЗ operator()(int x, int y) {
+	Pointf operator()(int x, int y) {
 		double fy = ft_dbl(y);
-		return ТочкаПЗ(ft_dbl(x) + xx + (sheer ? 0.2 * fy : 0), yy - fy);
+		return Pointf(ft_dbl(x) + xx + (sheer ? 0.2 * fy : 0), yy - fy);
 	}
 };
 
@@ -298,9 +298,9 @@ bool RenderOutline(const FT_Outline& outline, FontGlyphConsumer& path, double xx
 	FT_Vector*  point;
 	FT_Vector*  limit;
 	char*       tags;
-	int   n;         // Индекс of contour in outline
+	int   n;         // index of contour in outline
 	char  tag;       // current point's state
-	int   first = 0; // Индекс of first point in contour
+	int   first = 0; // index of first point in contour
 	for(n = 0; n < outline.n_contours; n++) {
 		int  last = outline.contours[n];
 		limit = outline.points + last;
@@ -336,7 +336,7 @@ bool RenderOutline(const FT_Outline& outline, FontGlyphConsumer& path, double xx
 			tag = FT_CURVE_TAG(tags[0]);
 			switch(tag) {
 			case FT_CURVE_TAG_ON:
-				path.Строка(cp(point->x, point->y));
+				path.Line(cp(point->x, point->y));
 				continue;
 			case FT_CURVE_TAG_CONIC:
 				v_control.x = point->x;
@@ -362,7 +362,7 @@ bool RenderOutline(const FT_Outline& outline, FontGlyphConsumer& path, double xx
 					goto Do_Conic;
 				}
 				path.Quadratic(cp(v_control.x, v_control.y), cp(v_start.x, v_start.y));
-				goto закрой;
+				goto Close;
 
 			default:
 				FT_Vector vec1, vec2;
@@ -382,17 +382,17 @@ bool RenderOutline(const FT_Outline& outline, FontGlyphConsumer& path, double xx
 					continue;
 				}
 				path.Cubic(cp(vec1.x, vec1.y), cp(vec2.x, vec2.y), cp(v_start.x, v_start.y));
-				goto закрой;
+				goto Close;
 			}
 		}
-	закрой:
-		path.закрой();
+	Close:
+		path.Close();
 		first = last + 1;
     }
 	return true;
 }
 
-void RenderCharacterSys(FontGlyphConsumer& sw, double x, double y, int ch, Шрифт fnt)
+void RenderCharacterSys(FontGlyphConsumer& sw, double x, double y, int ch, Font fnt)
 {
 	FT_Face face = FTFace(fnt, NULL);
 	int glyph_index = FT_Get_Char_Index(face, ch);

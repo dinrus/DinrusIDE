@@ -1,27 +1,27 @@
 #include "SMTP.h"
 
-namespace РНЦПДинрус {
+namespace Upp {
 
-namespace Ини {
+namespace Ini {
 	INI_BOOL(Smtp_Trace, false, "Activates HTTP requests tracing")
 	INI_BOOL(Smtp_TraceBody, false, "Activates HTTP requests body tracing")
-	INI_BOOL(Smtp_CompressLog, false, "Activates log compression (removes long hex/encode64-like данные)")
+	INI_BOOL(Smtp_CompressLog, false, "Activates log compression (removes long hex/encode64-like data)")
 };
 
-#define LLOG(x)      do { if(Ини::Smtp_Trace) { if(Ини::Smtp_CompressLog) RLOG(сожмиЛог(Ткст().конкат() << x)); else RLOG(x); } } while(0)
-#define LLOGB(x)      do { if(Ини::Smtp_TraceBody) { if(Ини::Smtp_CompressLog) RLOG(сожмиЛог(Ткст().конкат() << x)); else RLOG(x); } } while(0)
+#define LLOG(x)      do { if(Ini::Smtp_Trace) { if(Ini::Smtp_CompressLog) RLOG(CompressLog(String().Cat() << x)); else RLOG(x); } } while(0)
+#define LLOGB(x)      do { if(Ini::Smtp_TraceBody) { if(Ini::Smtp_CompressLog) RLOG(CompressLog(String().Cat() << x)); else RLOG(x); } } while(0)
 
 void Smtp::Trace(bool b)
 {
-    Ини::Smtp_Trace = b;
+    Ini::Smtp_Trace = b;
 }
 
 void Smtp::TraceBody(bool b)
 {
-    Ини::Smtp_TraceBody = b;
+    Ini::Smtp_TraceBody = b;
 }
 
-static Ткст GetDelimiter(const char *b, const char *e, Ткст init)
+static String GetDelimiter(const char *b, const char *e, String init)
 {
 	static const char delimiters[] =
 		"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdef"
@@ -29,12 +29,12 @@ static Ткст GetDelimiter(const char *b, const char *e, Ткст init)
 		"789abcdefghijklmnopqrstuvwxyzABC"
 		"DEFGHIJKLMNOPQRSTUVWXYZ012345678";
 
-	Ткст out = init;
+	String out = init;
 	if(b == e)
 		return out;
-	if(пусто_ли(out))
-		out.конкат(delimiters[*b++ & 0x7F]);
-	int l = out.дайДлину();
+	if(IsNull(out))
+		out.Cat(delimiters[*b++ & 0x7F]);
+	int l = out.GetLength();
 	for(; b != e; b++)
 	{
 		b = (const char *)memchr(b, *out, e - b);
@@ -44,54 +44,54 @@ static Ткст GetDelimiter(const char *b, const char *e, Ткст init)
 		{
 			if(e - b == l)
 				return out + '/';
-			out.конкат(delimiters[b[l] & 0x7F]);
+			out.Cat(delimiters[b[l] & 0x7F]);
 		}
 	}
 	return out;
 }
 
-static Ткст GetDelimiter(Ткст s, Ткст init)
+static String GetDelimiter(String s, String init)
 {
-	return GetDelimiter(s.старт(), s.стоп(), init);
+	return GetDelimiter(s.Begin(), s.End(), init);
 }
 
-Ткст Smtp::GetDomainName()
+String Smtp::GetDomainName()
 {
-	Ткст org;
-	auto pos = sender.найди('@');
+	String org;
+	auto pos = sender.Find('@');
 	if(pos >= 0) {
-		auto start = ++pos, len = sender.дайДлину();
+		auto start = ++pos, len = sender.GetLength();
 		while(pos < len && sender[pos] != '>')
 			pos++;
-		org = sender.середина(start, pos - start);
+		org = sender.Mid(start, pos - start);
 	}
 	else org << TcpSocket::GetHostName();
 	return org;
 }
 
-МапЗнач Smtp::GetExtensions()
+ValueMap Smtp::GetExtensions()
 {
-	МапЗнач features;
-	if(!smtp_msg.пустой()) {
-		ТкстПоток ss(smtp_msg);
-		ss.дайСтроку();
-		while(!ss.кф_ли()) {
-			// дай smtp service extensions.
-			auto e = нормализуйПробелы(обрежьОба(ss.дайСтроку().середина(4)));
-			Вектор<Ткст> v = разбей(e, ' ');
-			features.дайДобавь(впроп(v[0]));
-			for(auto i = 1; i < v.дайСчёт(); i++)
+	ValueMap features;
+	if(!smtp_msg.IsEmpty()) {
+		StringStream ss(smtp_msg);
+		ss.GetLine();
+		while(!ss.IsEof()) {
+			// Get smtp service extensions.
+			auto e = NormalizeSpaces(TrimBoth(ss.GetLine().Mid(4)));
+			Vector<String> v = Split(e, ' ');
+			features.GetAdd(ToLower(v[0]));
+			for(auto i = 1; i < v.GetCount(); i++)
 				features(v[0]) << v[i];
 		}
 	}
 	return pick(features);
 }
 
-int Smtp::GetSmtpCode(const Ткст& s)
+int Smtp::GetSmtpCode(const String& s)
 {
-	if(s.проц_ли() || s.дайДлину() < 3 || !цифра_ли(s[0]) || !цифра_ли(s[1]) || !цифра_ли(s[2]))
+	if(s.IsVoid() || s.GetLength() < 3 || !IsDigit(s[0]) || !IsDigit(s[1]) || !IsDigit(s[2]))
 		return -1;
-	return тктЦел(s.середина(0, 3));
+	return StrInt(s.Mid(0, 3));
 }
 
 void Smtp::SetSender()
@@ -107,45 +107,45 @@ void Smtp::SetRecipients()
 		SendRecv("RCPT TO:<" + rcp + ">");
 }
 
-void Smtp::SendRecv(const Ткст& s)
+void Smtp::SendRecv(const String& s)
 {
 	// We need to check the control connection.
-	if(!открыт())
-		throw Искл("Socket is not open.");
+	if(!IsOpen())
+		throw Exc("Socket is not open.");
 
 	// Send request.
-	if(!s.пустой())
+	if(!s.IsEmpty())
 		SendData(s + "\r\n");
 
 	// Receive response.
 	// Response can be "multiline".
-	smtp_msg = дайСтроку();
+	smtp_msg = GetLine();
 	smtp_code = GetSmtpCode(smtp_msg);
 	if(smtp_code == -1)
-		throw Искл("Recv failed. " << GetErrorDesc());
+		throw Exc("Recv failed. " << GetErrorDesc());
 	LLOG("<< " << smtp_msg);
-	smtp_msg.конкат('\n');
+	smtp_msg.Cat('\n');
 	if(smtp_msg[3] && smtp_msg[3] == '-') {
 		for(;;) {
-			auto line = дайСтроку();
-			if(line.проц_ли()) {
-				throw Искл("Recv failed: " << GetErrorDesc());
+			auto line = GetLine();
+			if(line.IsVoid()) {
+				throw Exc("Recv failed: " << GetErrorDesc());
 			}
 			auto end_code = GetSmtpCode(line);
 			LLOG("<< " << line);
-			smtp_msg.конкат(line);
-			smtp_msg.конкат('\n');
+			smtp_msg.Cat(line);
+			smtp_msg.Cat('\n');
 			if(smtp_code == end_code && line[3] && line[3] == ' ')
 				break;
 		}
 	}
 }
 
-void Smtp::SendRecvOK(const Ткст& s)
+void Smtp::SendRecvOK(const String& s)
 {
 	SendRecv(s);
 	if(!ReplyIsSuccess())
-		throw Искл(smtp_msg);
+		throw Exc(smtp_msg);
 }
 
 bool Smtp::SendHello()
@@ -166,16 +166,16 @@ void Smtp::StartTls()
 {
 	SendRecv("STARTTLS");
 	if(!ReplyIsSuccess() || !StartSSL())
-		throw Искл("Unable to init TLS session.");
+		throw Exc("Unable to init TLS session.");
 	LLOG("++ STARTTLS successful.");
 }
 
 void Smtp::Authenticate()
 {
-	if(!пусто_ли(auth_user)) {
+	if(!IsNull(auth_user)) {
 		SendRecv("AUTH LOGIN");
 		while(ReplyIsPending()){
-			auto param = Base64Decode(smtp_msg.дайОбх(4), smtp_msg.стоп());
+			auto param = Base64Decode(smtp_msg.GetIter(4), smtp_msg.End());
 			if(param == "Username:")
 				SendRecv(Base64Encode(auth_user));
 			else
@@ -183,7 +183,7 @@ void Smtp::Authenticate()
 				SendRecv(Base64Encode(auth_pwd));
 		}
 		if(!ReplyIsSuccess())
-			throw Искл(smtp_msg);
+			throw Exc(smtp_msg);
 	}
 }
 
@@ -192,7 +192,7 @@ void Smtp::Quit()
 	SendRecv("QUIT");
 }
 
-void Smtp::SendMail(const Ткст& msg_)
+void Smtp::SendMail(const String& msg_)
 {
 	SetSender();
 	SetRecipients();
@@ -200,25 +200,25 @@ void Smtp::SendMail(const Ткст& msg_)
 	// Now send the actual e-mail.
 	SendRecv("DATA");
 	if(ReplyIsPending()) {
-		Ткст msg = msg_;
-		if(msg.пустой())
+		String msg = msg_;
+		if(msg.IsEmpty())
 			msg = GetMessage(true);
-		
+
 		SendRecv(msg + ".");
 		if(ReplyIsSuccess())
 			return;
 	}
-	throw Искл(smtp_msg);
+	throw Exc(smtp_msg);
 }
 
-void Smtp::SendData(const Ткст &s)
+void Smtp::SendData(const String &s)
 {
-	if(Ини::Smtp_TraceBody)
+	if(Ini::Smtp_TraceBody)
 		LLOG(">> " << s);
 	else
-		LLOG(">> [Smtp send body: " << s.дайСчётСим() << " bytes]");
+		LLOG(">> [Smtp send body: " << s.GetCharCount() << " bytes]");
 	if(!PutAll(s))
-		throw Искл("Send failed. " << GetErrorDesc());
+		throw Exc("Send failed. " << GetErrorDesc());
 }
 
 
@@ -227,91 +227,91 @@ void Smtp::SendData(const Ткст &s)
 
 static const char default_mime[] = "application/octet-stream";
 
-Ткст Smtp::Encode(const Ткст& text)
+String Smtp::Encode(const String& text)
 {
-	Ткст txt = вНабсим(CHARSET_UTF8, text);
-	Ткст r = "=?UTF-8?Q?";
+	String txt = ToCharset(CHARSET_UTF8, text);
+	String r = "=?UTF-8?Q?";
 	for(const char *s = txt; *s; s++) {
 		if((byte)*s < ' ' || (byte)*s > 127 || *s == '=' || *s == '?' || *s == ' ')
-			r << '=' << фмтЦелГексВерхРег((byte)*s, 2);
+			r << '=' << FormatIntHexUpper((byte)*s, 2);
 		else
-			r.конкат(*s);
+			r.Cat(*s);
 	}
 	r << "?=";
 	return r;
 }
 
-Smtp& Smtp::To(const Ткст& t, const Ткст& имя, AS a)
+Smtp& Smtp::To(const String& t, const String& name, AS a)
 {
-	to.добавь(t);
-	to_name.добавь(имя);
-	as.добавь(a);
+	to.Add(t);
+	to_name.Add(name);
+	as.Add(a);
 	return *this;
 }
 
-Smtp& Smtp::Subject(const Ткст& s)
+Smtp& Smtp::Subject(const String& s)
 {
 	subject = s;
 	return *this;
 }
 
-Smtp& Smtp::ReplyTo(const Ткст& r, const Ткст& имя)
+Smtp& Smtp::ReplyTo(const String& r, const String& name)
 {
 	reply_to = r;
-	reply_to_name = имя;
+	reply_to_name = name;
 	return *this;
 }
 
-Smtp& Smtp::From(const Ткст& f, const Ткст& имя, const Ткст& s)
+Smtp& Smtp::From(const String& f, const String& name, const String& s)
 {
 	from = f;
-	from_name = имя;
+	from_name = name;
 	sender = Nvl(s, f);
 	return *this;
 }
 
 Smtp& Smtp::AttachFile(const char *filename, const char *mime)
 {
-	Attachment& attach = attachments.добавь();
-	attach.имя = дайПозИмяф(filename);
+	Attachment& attach = attachments.Add();
+	attach.name = GetFileNamePos(filename);
 	attach.mime = (mime ? mime : default_mime);
 	attach.file = filename;
 	return *this;
 }
 
-Smtp& Smtp::прикрепи(const char *имя, const Ткст& данные, const char *mime)
+Smtp& Smtp::Attach(const char *name, const String& data, const char *mime)
 {
-	Attachment& attach = attachments.добавь();
-	attach.имя = имя;
+	Attachment& attach = attachments.Add();
+	attach.name = name;
 	attach.mime = (mime ? mime : default_mime);
-	attach.данные = данные;
+	attach.data = data;
 	return *this;
 }
 
-Ткст Smtp::FormatAddr(const Ткст& addr, const Ткст& имя)
+String Smtp::FormatAddr(const String& addr, const String& name)
 {
-	Ткст r;
-	if(имя.дайСчёт())
-		r << "\"" << Encode(имя) << "\" ";
+	String r;
+	if(name.GetCount())
+		r << "\"" << Encode(name) << "\" ";
 	r << '<' << addr << '>';
 	return r;
 }
 
-Ткст Smtp::GetMessageID()
+String Smtp::GetMessageID()
 {
-	int q = sender.найди('@');
-	return message_id + (q >= 0 ? sender.середина(q) : "@unknown_host.org");
+	int q = sender.Find('@');
+	return message_id + (q >= 0 ? sender.Mid(q) : "@unknown_host.org");
 }
 
-Ткст Smtp::GetMessage(bool chunks)
+String Smtp::GetMessage(bool chunks)
 {
-	Ткст delimiter = "?";
-	for(int i = 0; i < body.дайСчёт(); i++)
+	String delimiter = "?";
+	for(int i = 0; i < body.GetCount(); i++)
 		delimiter = GetDelimiter(body[i], delimiter);
-	bool alter = body.дайСчёт() > 1;
-	bool multi = !attachments.пустой();
+	bool alter = body.GetCount() > 1;
+	bool multi = !attachments.IsEmpty();
 
-	Ткст msg;
+	String msg;
 	if(!no_header) { // generate message header
 		if (sender != from) msg << "Sender: " << sender << "\r\n";
 		msg << "From: " << FormatAddr(from, from_name) << "\r\n";
@@ -320,10 +320,10 @@ Smtp& Smtp::прикрепи(const char *имя, const Ткст& данные, c
 		for(int a = 0; a < __countof(as_list); a++)
 		{
 			int pos = 0;
-			for(int i = 0; i < as.дайСчёт(); i++)
+			for(int i = 0; i < as.GetCount(); i++)
 				if(as[i] == as_list[a])
 				{
-					if(pos && pos + to[i].дайДлину() >= 70)
+					if(pos && pos + to[i].GetLength() >= 70)
 					{
 						msg << "\r\n     ";
 						pos = 5;
@@ -343,20 +343,20 @@ Smtp& Smtp::прикрепи(const char *имя, const Ткст& данные, c
 			if(pos)
 				msg << "\r\n";
 		}
-		if(!пусто_ли(subject))
+		if(!IsNull(subject))
 			msg << "Subject: " << Encode(subject) << "\r\n";
-		if(!пусто_ли(reply_to))
+		if(!IsNull(reply_to))
 			msg << "Reply-To: " << FormatAddr(reply_to, reply_to_name) << "\r\n";
-		msg << "Message-ИД: <" << GetMessageID() << ">\r\n";
-		if(!пусто_ли(time_sent)) {
+		msg << "Message-ID: <" << GetMessageID() << ">\r\n";
+		if(!IsNull(time_sent)) {
 			static const char *dayofweek[] =
 			{ "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" };
 			static const char *month[] =
 			{ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
-			msg << "Дата: "
-				<< dayofweek[деньНедели(time_sent)] << ", "
+			msg << "Date: "
+				<< dayofweek[DayOfWeek(time_sent)] << ", "
 				<< (int)time_sent.day << ' ' << month[time_sent.month - 1] << ' ' << (int)time_sent.year
-				<< ' ' << спринтф("%2d:%02d:%02d " + дайТкстЧПояса(),
+				<< ' ' << Sprintf("%2d:%02d:%02d " + GetTimeZoneText(),
 				                  time_sent.hour, time_sent.minute, time_sent.second)
 				<< "\r\n";
 		}
@@ -367,12 +367,12 @@ Smtp& Smtp::прикрепи(const char *имя, const Ткст& данные, c
 		msg << add_header;
 	}
 
-	for(int i = 0; i < body.дайСчёт(); i++) {
-		Ткст t = body[i], m = mime[i];
+	for(int i = 0; i < body.GetCount(); i++) {
+		String t = body[i], m = mime[i];
 		if(!no_header) {
 			if(multi || alter)
 				msg << "--" << delimiter << "\r\n";
-			if(пусто_ли(m))
+			if(IsNull(m))
 				m << "text/plain; charset=\"" << MIMECharsetName(CHARSET_DEFAULT) << "\"";
 			msg << "Content-Type: " << m << "\r\n"
 			"Content-Transfer-Encoding: quoted-printable\r\n";
@@ -380,59 +380,59 @@ Smtp& Smtp::прикрепи(const char *имя, const Ткст& данные, c
 		if(!no_header_sep)
 			msg << "\r\n";
 		bool begin = true;
-		for(const char *p = t.старт(), *e = t.стоп(); p != e; p++)
+		for(const char *p = t.Begin(), *e = t.End(); p != e; p++)
 			if(*p >= 33 && *p <= 126 && *p != '=' && (*p != '.' || !begin)) {
-				msg.конкат(*p);
+				msg.Cat(*p);
 				begin = false;
 			}
 			else if(*p == '.' && begin) {
-				msg.конкат("..");
+				msg.Cat("..");
 				begin = false;
 			}
 			else if(*p == ' ' && p + 1 != e && p[1] != '\r' && p[1] != '\n') {
-				msg.конкат(' ');
+				msg.Cat(' ');
 				begin = false;
 			}
 			else if(*p == '\r')
 				;
 			else if(*p == '\n') {
-				msg.конкат("\r\n");
+				msg.Cat("\r\n");
 				begin = true;
 			}
 			else {
 				static const char hex[] = "0123456789ABCDEF";
-				msg.конкат('=');
-				msg.конкат(hex[(*p >> 4) & 15]);
-				msg.конкат(hex[*p & 15]);
+				msg.Cat('=');
+				msg.Cat(hex[(*p >> 4) & 15]);
+				msg.Cat(hex[*p & 15]);
 				begin = false;
 			}
 
 		if(!begin)
-			msg.конкат("\r\n");
+			msg.Cat("\r\n");
 	}
-	for(int i = 0; i < attachments.дайСчёт(); i++) {
+	for(int i = 0; i < attachments.GetCount(); i++) {
 		const Attachment& a = attachments[i];
-		Один<Поток> source;
-		if(a.file.дайСчёт()) {
-			ФайлВвод& in = source.создай<ФайлВвод>();
-			if(!in.открой(a.file))
-				throw Искл("Unable to open attachment file " + a.file);
+		One<Stream> source;
+		if(a.file.GetCount()) {
+			FileIn& in = source.Create<FileIn>();
+			if(!in.Open(a.file))
+				throw Exc("Не удаётся открыть файл-вложение " + a.file);
 		}
 		else
-			source.создай<ТкстПоток>().открой(a.данные);
+			source.Create<StringStream>().Open(a.data);
 		msg << "--" << delimiter << "\r\n"
-			"Content-Type: " << a.mime << "; имя=\"" << a.имя << "\"\r\n"
+			"Content-Type: " << a.mime << "; name=\"" << a.name << "\"\r\n"
 			"Content-Transfer-Encoding: base64\r\n"
-			"Content-Disposition: attachment; filename=\"" << a.имя << "\"\r\n"
+			"Content-Disposition: attachment; filename=\"" << a.name << "\"\r\n"
 			"\r\n";
 
-		char буфер[54];
-		for(int c; (c = source -> дай(буфер, sizeof(буфер))) != 0;)
+		char buffer[54];
+		for(int c; (c = source -> Get(buffer, sizeof(buffer))) != 0;)
 		{
-			msg.конкат(Base64Encode(буфер, буфер + c));
-			msg.конкат('\r');
-			msg.конкат('\n');
-			if(msg.дайДлину() >= 65536 && chunks) {
+			msg.Cat(Base64Encode(buffer, buffer + c));
+			msg.Cat('\r');
+			msg.Cat('\n');
+			if(msg.GetLength() >= 65536 && chunks) {
 				SendData(msg);
 				msg = Null;
 			}
@@ -446,26 +446,26 @@ Smtp& Smtp::прикрепи(const char *имя, const Ткст& данные, c
 	return msg;
 }
 
-bool Smtp::Send(const Ткст& msg_)
+bool Smtp::Send(const String& msg_)
 {
 	smtp_code = 0;
-	smtp_msg.очисть();
+	smtp_msg.Clear();
 
 	try {
-		if(пусто_ли(host))
-			throw Искл(t_("Хост not set."));
+		if(IsNull(host))
+			throw Exc(t_("Хост не установлен."));
 
-		if(to.пустой())
-			throw Искл(t_("Recipient not set."));
+		if(to.IsEmpty())
+			throw Exc(t_("Получатель не установлен."));
 
 		if(!Connect(host, Nvl(port, starttls ? 587 : (ssl ? 465 : 25))))
-			throw Искл(фмт("Cannot open socket %s:%d: %s", host, port, GetErrorDesc()));
+			throw Exc(Format("Не удаётся открыть сокет %s:%d: %s", host, port, GetErrorDesc()));
 
 		GlobalTimeout(request_timeout);
 
 		if(ssl)
 			if(!StartSSL())
-				throw Искл("Unable to start SSL");
+				throw Exc("Не удаётся стартовать SSL");
 
 		// Receive initial message.
 		SendRecv(Null);
@@ -473,11 +473,11 @@ bool Smtp::Send(const Ткст& msg_)
 		// Send HELO/EHLO command and query smtp service extensions.
 		if(SendHello()) {
 			auto ext = GetExtensions();
-			if(!ext.пустой()) {
+			if(!ext.IsEmpty()) {
 				// Check services.
 				if(starttls) {
-					if(ext.найди("starttls") < 0)
-						throw Искл("STARTTLS is not supported by the server.");
+					if(ext.Find("starttls") < 0)
+						throw Exc("STARTTLS не поддерживается этим сервером.");
 					StartTls();
 					SendHello();
 				}
@@ -490,28 +490,28 @@ bool Smtp::Send(const Ткст& msg_)
 		// Send mail.
 		SendMail(msg_);
 
-		// открой connection.
+		// Close connection.
 		Quit();
 		return true;
 	}
-	catch(Искл e) {
-		Ошибка = e;
-		LLOG("-- " << Ошибка);
+	catch(Exc e) {
+		error = e;
+		LLOG("-- " << error);
 		return false;
 	}
 }
 
-Smtp& Smtp::нов() {
-	to.очисть();
-	to_name.очисть();
-	as.очисть();
-	body.очисть();
-	mime.очисть();
-	Ошибка.очисть();
-	add_header.очисть();
-	from.очисть();
-	sender.очисть();
-	message_id = какТкст(Uuid::создай());
+Smtp& Smtp::New() {
+	to.Clear();
+	to_name.Clear();
+	as.Clear();
+	body.Clear();
+	mime.Clear();
+	error.Clear();
+	add_header.Clear();
+	from.Clear();
+	sender.Clear();
+	message_id = AsString(Uuid::Create());
 	return *this;
 }
 
@@ -519,12 +519,12 @@ Smtp::Smtp()
 {
 	port = Null;
 	no_header = no_header_sep = false;
-	time_sent = дайСисВремя();
+	time_sent = GetSysTime();
 	request_timeout = 120000;
 	smtp_code = 0;
 	ssl = false;
 	starttls = false;
-	нов();
+	New();
 }
 
 }

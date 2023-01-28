@@ -1,107 +1,107 @@
 #include "Core.h"
 
-namespace РНЦПДинрус {
+namespace Upp {
 
-Значение ParseJSON(СиПарсер& p)
+Value ParseJSON(CParser& p)
 {
-	p.искейпЮникод();
-	if(p.дво_ли())
-		return p.читайДво();
-	if(p.ткст_ли()) {
-		bool dt = p.сим2_ли('\"', '\\');
-		Ткст s = p.читайТкст();
+	p.UnicodeEscape();
+	if(p.IsDouble())
+		return p.ReadDouble();
+	if(p.IsString()) {
+		bool dt = p.IsChar2('\"', '\\');
+		String s = p.ReadString();
 		if(dt) {
-			СиПарсер p(s);
-			if(p.сим('/') && p.ид("Дата") && p.сим('(') && p.цел_ли()) {
-				int64 n = p.читайЦел64();
-				if(!пусто_ли(n))
-					return Время(1970, 1, 1) + n / 1000;
+			CParser p(s);
+			if(p.Char('/') && p.Id("Date") && p.Char('(') && p.IsInt()) {
+				int64 n = p.ReadInt64();
+				if(!IsNull(n))
+					return Time(1970, 1, 1) + n / 1000;
 			}
 		}
 		return s;
 	}
-	if(p.ид("null"))
+	if(p.Id("null"))
 		return Null;
-	if(p.ид("true"))
+	if(p.Id("true"))
 		return true;
-	if(p.ид("false"))
+	if(p.Id("false"))
 		return false;
-	if(p.сим('{')) {
-		МапЗнач m;
-		while(!p.сим('}')) {
-			Ткст ключ = p.читайТкст();
-			p.передайСим(':');
-			m.добавь(ключ, ParseJSON(p));
-			if(p.сим('}')) // Stray ',' at the end of list is allowed...
+	if(p.Char('{')) {
+		ValueMap m;
+		while(!p.Char('}')) {
+			String key = p.ReadString();
+			p.PassChar(':');
+			m.Add(key, ParseJSON(p));
+			if(p.Char('}')) // Stray ',' at the end of list is allowed...
 				break;
-			p.передайСим(',');
+			p.PassChar(',');
 		}
 		return m;
 	}
-	if(p.сим('[')) {
-		МассивЗнач va;
-		while(!p.сим(']')) {
-			va.добавь(ParseJSON(p));
-			if(p.сим(']')) // Stray ',' at the end of list is allowed...
+	if(p.Char('[')) {
+		ValueArray va;
+		while(!p.Char(']')) {
+			va.Add(ParseJSON(p));
+			if(p.Char(']')) // Stray ',' at the end of list is allowed...
 				break;
-			p.передайСим(',');
+			p.PassChar(',');
 		}
 		return va;
 	}
-	p.выведиОш("Unrecognized JSON element");
+	p.ThrowError("Нераспознанный элемент JSON");
 	return Null;
 }
 
-Значение ParseJSON(const char *s)
+Value ParseJSON(const char *s)
 {
 	try {
-		СиПарсер p(s);
+		CParser p(s);
 		return ParseJSON(p);
 	}
-	catch(СиПарсер::Ошибка e) {
-		return значОш(e);
+	catch(CParser::Error e) {
+		return ErrorValue(e);
 	}
 }
 
-Ткст AsJSON(Время tm)
+String AsJSON(Time tm)
 {
-	return пусто_ли(tm) ? "null" : "\"\\/Дата(" + какТкст(1000 * (tm - Время(1970, 1, 1))) + ")\\/\"";
+	return IsNull(tm) ? "null" : "\"\\/Date(" + AsString(1000 * (tm - Time(1970, 1, 1))) + ")\\/\"";
 }
 
-Ткст AsJSON(Дата dt)
+String AsJSON(Date dt)
 {
-	return AsJSON(воВремя(dt));
+	return AsJSON(ToTime(dt));
 }
 
-Json& Json::CatRaw(const char *ключ, const Ткст& val)
+Json& Json::CatRaw(const char *key, const String& val)
 {
-	if(text.дайСчёт())
+	if(text.GetCount())
 		text << ',';
-	text << AsJSON(ключ) << ":" << val;
+	text << AsJSON(key) << ":" << val;
 	return *this;
 }
 
-JsonArray& JsonArray::CatRaw(const Ткст& val)
+JsonArray& JsonArray::CatRaw(const String& val)
 {
-	if(text.дайСчёт())
+	if(text.GetCount())
 		text << ',';
 	text << val;
 	return *this;
 }
 
-Ткст AsJSON(const Значение& v, const Ткст& sep, bool pretty)
+String AsJSON(const Value& v, const String& sep, bool pretty)
 {
-	Ткст r;
-	if(v.дайТип() == VALUEMAP_V) {
+	String r;
+	if(v.GetType() == VALUEMAP_V) {
 		r << "{";
-		Ткст sep1;
+		String sep1;
 		if(pretty) {
 			r << "\r\n";
 			sep1 = sep + '\t';
 		}
-		МапЗнач m = v;
-		МассивЗнач va = m.дайЗначения();
-		for(int i = 0; i < m.дайСчёт(); i++) {
+		ValueMap m = v;
+		ValueArray va = m.GetValues();
+		for(int i = 0; i < m.GetCount(); i++) {
 			if(i) {
 				r << ",";
 				if(pretty)
@@ -109,7 +109,7 @@ JsonArray& JsonArray::CatRaw(const Ткст& val)
 			}
 			if(pretty)
 				r << sep1;
-			r << AsJSON((Ткст)m.дайКлюч(i)) << (pretty ? ": " : ":")
+			r << AsJSON((String)m.GetKey(i)) << (pretty ? ": " : ":")
 			  << AsJSON(va[i], sep1, pretty);
 		}
 		if(pretty)
@@ -117,15 +117,15 @@ JsonArray& JsonArray::CatRaw(const Ткст& val)
 		r << "}";
 		return r;
 	}
-	if(v.дайТип() == VALUEARRAY_V) {
+	if(v.GetType() == VALUEARRAY_V) {
 		r << "[";
-		Ткст sep1;
+		String sep1;
 		if(pretty) {
 			r << "\r\n";
 			sep1 = sep + '\t';
 		}
-		МассивЗнач va = v;
-		for(int i = 0; i < va.дайСчёт(); i++) {
+		ValueArray va = v;
+		for(int i = 0; i < va.GetCount(); i++) {
 			if(i) {
 				r << ",";
 				if(pretty)
@@ -140,127 +140,127 @@ JsonArray& JsonArray::CatRaw(const Ткст& val)
 		r << "]";
 		return r;
 	}
-	if(число_ли(v) && (пусто_ли(v) || НЧ_ли((double)v)))
+	if(IsNumber(v) && (IsNull(v) || IsNaN((double)v)))
 		return "null";
-	if(v.дайТип() == INT_V)
-		return фмт("%d", (int)v);
-	if(v.дайТип() == BOOL_V)
+	if(v.GetType() == INT_V)
+		return Format("%d", (int)v);
+	if(v.GetType() == BOOL_V)
 		return (bool)v ? "true" : "false";
-	if(число_ли(v))
-		return фмтГ((double)v, 17);
-	if(ткст_ли(v))
-		return какТкстСи((Ткст)v, INT_MAX, NULL, ASCSTRING_JSON);
-	if(датаВремя_ли(v))
-		return AsJSON((Время)v);
-	if(пусто_ли(v))
+	if(IsNumber(v))
+		return FormatG((double)v, 17);
+	if(IsString(v))
+		return AsCString((String)v, INT_MAX, NULL, ASCSTRING_JSON);
+	if(IsDateTime(v))
+		return AsJSON((Time)v);
+	if(IsNull(v))
 		return "null";
-	NEVER_("Non-JSON значение in AsJSON: " + v.дайИмяТипа());
+	NEVER_("Non-JSON value in AsJSON: " + v.GetTypeName());
 	return "null";
 }
 
-void ДжейсонВВ::уст(const char *ключ, const Значение& v)
+void JsonIO::Set(const char *key, const Value& v)
 {
-	ПРОВЕРЬ(сохраняется());
+	ASSERT(IsStoring());
 	if(!map)
-		map.создай();
-	map->добавь(ключ, v);
+		map.Create();
+	map->Add(key, v);
 }
 
-Ткст AsJSON(const Значение& v, bool pretty)
+String AsJSON(const Value& v, bool pretty)
 {
-	return AsJSON(v, Ткст(), pretty);
+	return AsJSON(v, String(), pretty);
 }
 
-template<> void вДжейсон(ДжейсонВВ& io, double& var)
+template<> void Jsonize(JsonIO& io, double& var)
 {
-	if(io.грузится()) {
-		const Значение& v = io.дай();
-		if(пусто_ли(v)) {
+	if(io.IsLoading()) {
+		const Value& v = io.Get();
+		if(IsNull(v)) {
 			var = Null;
 			return;
 		}
-		if(число_ли(v)) {
-			var = io.дай();
+		if(IsNumber(v)) {
+			var = io.Get();
 			return;
 		}
-		if(ткст_ли(v)) {
-			double h = сканДво((Ткст)v);
-			if(!пусто_ли(h)) {
+		if(IsString(v)) {
+			double h = ScanDouble((String)v);
+			if(!IsNull(h)) {
 				var = h;
 				return;
 			}
 		}
-		throw JsonizeError("number expected");
+		throw JsonizeError("ожидалось число");
 	}
 	else
-		io.уст(var);
+		io.Set(var);
 }
 
-template<> void вДжейсон(ДжейсонВВ& io, int& var)
+template<> void Jsonize(JsonIO& io, int& var)
 {
-	double v = целДво(var);
-	вДжейсон(io, v);
-	if(io.грузится()) {
-		if(пусто_ли(v))
+	double v = IntDbl(var);
+	Jsonize(io, v);
+	if(io.IsLoading()) {
+		if(IsNull(v))
 			var = Null;
 		else
 		if(v >= INT_MIN && v <= INT_MAX && (int)v == v)
 			var = (int)v;
 		else
-			throw JsonizeError("number is not integer");
+			throw JsonizeError("число не целое");
 	}
 }
 
-template<> void вДжейсон(ДжейсонВВ& io, byte& var)
+template<> void Jsonize(JsonIO& io, byte& var)
 {
 	double v = var;
-	вДжейсон(io, v);
-	if(io.грузится()) {
+	Jsonize(io, v);
+	if(io.IsLoading()) {
 		if(v >= 0 && v <= 255 && (int)v == v)
 			var = (byte)v;
 		else
-			throw JsonizeError("integer 0-255 expected");
+			throw JsonizeError("ожидалось целое 0-255");
 	}
 }
 
-template<> void вДжейсон(ДжейсонВВ& io, int16& var)
+template<> void Jsonize(JsonIO& io, int16& var)
 {
 	double v = var;
-	вДжейсон(io, v);
-	if(io.грузится()) {
+	Jsonize(io, v);
+	if(io.IsLoading()) {
 		if(v >= -32768 && v <= 32767 && (int)v == v)
 			var = (int16)v;
 		else
-			throw JsonizeError("16-bit integer expected");
+			throw JsonizeError("ожидалось 16-битное целое");
 	}
 }
 
-template<> void вДжейсон(ДжейсонВВ& io, bool& var)
+template<> void Jsonize(JsonIO& io, bool& var)
 {
-	if(io.грузится()) {
-		const Значение& v = io.дай();
-		if(число_ли(v) && !пусто_ли(v))
+	if(io.IsLoading()) {
+		const Value& v = io.Get();
+		if(IsNumber(v) && !IsNull(v))
 			var = (bool)v;
 		else
-			throw JsonizeError("boolean expected");
+			throw JsonizeError("ожидалось булево");
 	}
 	else
-		io.уст(var);
+		io.Set(var);
 }
 
-template<> void вДжейсон(ДжейсонВВ& io, int64& var)
+template<> void Jsonize(JsonIO& io, int64& var)
 {
-	if(io.грузится()) {
-		const Значение& v = io.дай();
-		if(пусто_ли(v)) {
+	if(io.IsLoading()) {
+		const Value& v = io.Get();
+		if(IsNull(v)) {
 			var = Null;
 			return;
 		}
-		if(v.является<int64>() || v.является<int>()) {
+		if(v.Is<int64>() || v.Is<int>()) {
 			var = v;
 			return;
 		}
-		if(число_ли(v)) {
+		if(IsNumber(v)) {
 			double d = v;
 			if(FitsInInt64(d)) {
 				var = (int64)d;
@@ -268,124 +268,124 @@ template<> void вДжейсон(ДжейсонВВ& io, int64& var)
 			}
 		}
 		else
-		if(ткст_ли(v)) {
-			int64 h = сканЦел64((Ткст)v);
-			if(!пусто_ли(h)) {
+		if(IsString(v)) {
+			int64 h = ScanInt64((String)v);
+			if(!IsNull(h)) {
 				var = h;
 				return;
 			}
 		}
-		throw JsonizeError("invalid int64 значение");
+		throw JsonizeError("неверное значение int64");
 	}
 	else
-		if(пусто_ли(var))
-			io.уст(Null);
+		if(IsNull(var))
+			io.Set(Null);
 		else
 		if(var >= I64(-9007199254740992) && var <= I64(9007199254740991))
-			io.уст(var);
+			io.Set(var);
 		else
-			io.уст(какТкст(var));
+			io.Set(AsString(var));
 }
 
-template<> void вДжейсон(ДжейсонВВ& io, Ткст& var)
+template<> void Jsonize(JsonIO& io, String& var)
 {
-	if(io.грузится()) {
-		const Значение& v = io.дай();
-		if(пусто_ли(v))
+	if(io.IsLoading()) {
+		const Value& v = io.Get();
+		if(IsNull(v))
 			var = Null;
 		else
-		if(ткст_ли(v))
+		if(IsString(v))
 			var = v;
 		else
-			throw JsonizeError("string expected");
+			throw JsonizeError("ожидался ткст");
 	}
 	else
-		io.уст(var);
+		io.Set(var);
 }
 
-template<> void вДжейсон(ДжейсонВВ& io, ШТкст& var)
+template<> void Jsonize(JsonIO& io, WString& var)
 {
-	if(io.грузится()) {
-		const Значение& v = io.дай();
-		if(пусто_ли(v))
+	if(io.IsLoading()) {
+		const Value& v = io.Get();
+		if(IsNull(v))
 			var = Null;
 		else
-		if(ткст_ли(v))
+		if(IsString(v))
 			var = v;
 		else
-			throw JsonizeError("string expected");
+			throw JsonizeError("ожидался ткст");
 	}
 	else
-		io.уст(var);
+		io.Set(var);
 }
 
-template<> void вДжейсон(ДжейсонВВ& io, Дата& var)
+template<> void Jsonize(JsonIO& io, Date& var)
 {
-	if(io.грузится()) {
-		const Значение& v = io.дай();
-		if(пусто_ли(v)) {
+	if(io.IsLoading()) {
+		const Value& v = io.Get();
+		if(IsNull(v)) {
 			var = Null;
 			return;
 		}
-		if(ткст_ли(v)) {
-			Ткст text = фильтруй(~v, CharFilterDigit);
-			if(text.дайСчёт() >= 8) {
-				Дата d;
-				d.year = сканЦел(text.лево(4));
-				d.month = сканЦел(text.середина(4, 2));
-				d.day = сканЦел(text.середина(6, 2));
-				if(d.пригоден()) {
+		if(IsString(v)) {
+			String text = Filter(~v, CharFilterDigit);
+			if(text.GetCount() >= 8) {
+				Date d;
+				d.year = ScanInt(text.Left(4));
+				d.month = ScanInt(text.Mid(4, 2));
+				d.day = ScanInt(text.Mid(6, 2));
+				if(d.IsValid()) {
 					var = d;
 					return;
 				}
 			}
 		}
-		throw JsonizeError("string expected for Дата значение");
+		throw JsonizeError("ожидался ткст со значением Даты");
 	}
 	else
-		if(пусто_ли(var))
-			io.уст(Null);
+		if(IsNull(var))
+			io.Set(Null);
 		else
-			io.уст(фмт("%04d-%02d-%02d", var.year, var.month, var.day));
+			io.Set(Format("%04d-%02d-%02d", var.year, var.month, var.day));
 }
 
-template<> void вДжейсон(ДжейсонВВ& io, Время& var)
+template<> void Jsonize(JsonIO& io, Time& var)
 {
-	if(io.грузится()) {
-		const Значение& v = io.дай();
-		if(пусто_ли(v)) {
+	if(io.IsLoading()) {
+		const Value& v = io.Get();
+		if(IsNull(v)) {
 			var = Null;
 			return;
 		}
-		if(ткст_ли(v)) {
-			Ткст text = фильтруй(~v, CharFilterDigit);
-			if(text.дайСчёт() >= 12) { //seconds may be missing
-				Время tm;
-				tm.year = сканЦел(text.лево(4));
-				tm.month = сканЦел(text.середина(4, 2));
-				tm.day = сканЦел(text.середина(6, 2));
-				tm.hour = сканЦел(text.середина(8, 2));
-				tm.minute = сканЦел(text.середина(10, 2));
-				tm.second = text.дайСчёт() > 12 ? сканЦел(text.середина(12)) : 0;
-				if(tm.пригоден()) {
+		if(IsString(v)) {
+			String text = Filter(~v, CharFilterDigit);
+			if(text.GetCount() >= 12) { //seconds may be missing
+				Time tm;
+				tm.year = ScanInt(text.Left(4));
+				tm.month = ScanInt(text.Mid(4, 2));
+				tm.day = ScanInt(text.Mid(6, 2));
+				tm.hour = ScanInt(text.Mid(8, 2));
+				tm.minute = ScanInt(text.Mid(10, 2));
+				tm.second = text.GetCount() > 12 ? ScanInt(text.Mid(12)) : 0;
+				if(tm.IsValid()) {
 					var = tm;
 					return;
 				}
 			}
 		}
-		throw JsonizeError("string expected for Время значение");
+		throw JsonizeError("ожидался ткст со значением Времени");
 	}
 	else
-		if(пусто_ли(var))
-			io.уст(Null);
+		if(IsNull(var))
+			io.Set(Null);
 		else
-			io.уст(фмт("%04d-%02d-%02d`T%02d:%02d:%02d",
+			io.Set(Format("%04d-%02d-%02d`T%02d:%02d:%02d",
 				          var.year, var.month, var.day, var.hour, var.minute, var.second));
 }
 
-Ткст sJsonFile(const char *file)
+String sJsonFile(const char *file)
 {
-	return file ? Ткст(file) : конфигФайл(дайТитулИсп() + ".json");
+	return file ? String(file) : ConfigFile(GetExeTitle() + ".json");
 }
 
 }

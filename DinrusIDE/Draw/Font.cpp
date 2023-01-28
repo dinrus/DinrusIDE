@@ -2,22 +2,22 @@
 
 #define LLOG(x)  // DLOG(x)
 
-namespace РНЦП {
+namespace Upp {
 
-СтатическийСтопор sFontLock;
+StaticMutex sFontLock;
 
-bool замени(Шрифт fnt, int chr, Шрифт& rfnt);
+bool Replace(Font fnt, int chr, Font& rfnt);
 
-void Std(Шрифт& font)
+void Std(Font& font)
 {
 	font.RealizeStd();
 }
 
-Размер Шрифт::StdFontSize;
-Шрифт Шрифт::AStdFont;
+Size Font::StdFontSize;
+Font Font::AStdFont;
 
-ИНИЦБЛОК {
-	Значение::регистрируй<Шрифт>("Шрифт");
+INITBLOCK {
+	Value::Register<Font>("Font");
 }
 
 static bool sListValid;
@@ -27,9 +27,9 @@ void InvalidateFontList()
 	sListValid = false;
 }
 
-Вектор<FaceInfo>& Шрифт::FaceList()
+Vector<FaceInfo>& Font::FaceList()
 {
-	static Вектор<FaceInfo> list;
+	static Vector<FaceInfo> list;
 	ONCELOCK {
 		list = GetAllFacesSys();
 	}
@@ -38,70 +38,70 @@ void InvalidateFontList()
 
 void sInitFonts()
 {
-	Стопор::Замок __(sFontLock);
-	Шрифт::FaceList();
+	Mutex::Lock __(sFontLock);
+	Font::FaceList();
 	GetStdFont();
 }
 
-ИНИЦБЛОК {
+INITBLOCK {
 	sInitFonts();
 }
 
-int Шрифт::GetFaceCount()
+int Font::GetFaceCount()
 {
-	Стопор::Замок __(sFontLock);
-	return FaceList().дайСчёт();
+	Mutex::Lock __(sFontLock);
+	return FaceList().GetCount();
 }
 
-Ткст Шрифт::GetFaceName(int Индекс)
+String Font::GetFaceName(int index)
 {
-	Стопор::Замок __(sFontLock);
-	if(Индекс == 0)
+	Mutex::Lock __(sFontLock);
+	if(index == 0)
 		return "STDFONT";
-	const Вектор<FaceInfo>& l = FaceList();
-	if(Индекс >= 0 && Индекс < l.дайСчёт())
-		return l[Индекс].имя;
+	const Vector<FaceInfo>& l = FaceList();
+	if(index >= 0 && index < l.GetCount())
+		return l[index].name;
 	return Null;
 }
 
-dword Шрифт::GetFaceInfo(int Индекс)
+dword Font::GetFaceInfo(int index)
 {
-	Стопор::Замок __(sFontLock);
-	const Вектор<FaceInfo>& l = FaceList();
-	if(Индекс >= 0 && Индекс < l.дайСчёт())
-		return l[Индекс].info;
+	Mutex::Lock __(sFontLock);
+	const Vector<FaceInfo>& l = FaceList();
+	if(index >= 0 && index < l.GetCount())
+		return l[index].info;
 	return 0;
 }
 
-void Шрифт::SetFace(int Индекс, const Ткст& имя, dword info)
+void Font::SetFace(int index, const String& name, dword info)
 {
-	Стопор::Замок __(sFontLock);
-	FaceInfo& f = FaceList().по(Индекс);
-	f.имя = имя;
+	Mutex::Lock __(sFontLock);
+	FaceInfo& f = FaceList().At(index);
+	f.name = name;
 	f.info = info;
 }
 
-void Шрифт::SetFace(int Индекс, const Ткст& имя)
+void Font::SetFace(int index, const String& name)
 {
-	int q = FindFaceNameIndex(имя);
+	int q = FindFaceNameIndex(name);
 	q = q >= 0 ? GetFaceInfo(q) : 0;
-	SetFace(Индекс, имя, q);
+	SetFace(index, name, q);
 }
 
 int FontFilter(int c)
 {
-	return c >= 'a' && c <= 'z' || c >= '0' && c <= '9' ? c : c >= 'A' && c <= 'Z' ? впроп(c) : 0;
+	return c >= 'a' && c <= 'z' || c >= '0' && c <= '9' ? c : c >= 'A' && c <= 'Z' ? ToLower(c) : 0;
 }
 
-int  Шрифт::FindFaceNameIndex(const Ткст& имя) {
-	if(имя == "STDFONT")
+int  Font::FindFaceNameIndex(const String& name) {
+	if(name == "STDFONT")
 		return 0;
 	for(int i = 1; i < GetFaceCount(); i++)
-		if(GetFaceName(i) == имя)
+		if(GetFaceName(i) == name)
 			return i;
-	Ткст n = фильтруй(имя, FontFilter);
+	String n = Filter(name, FontFilter);
 	for(int i = 1; i < GetFaceCount(); i++)
-		if(фильтруй(GetFaceName(i), FontFilter) == n)
+		if(Filter(GetFaceName(i), FontFilter) == n)
 			return i;
 	if(n == "serif")
 		return SERIF;
@@ -114,20 +114,20 @@ int  Шрифт::FindFaceNameIndex(const Ткст& имя) {
 	return 0;
 }
 
-void Шрифт::SyncStdFont()
+void Font::SyncStdFont()
 {
-	Стопор::Замок __(sFontLock);
-	StdFontSize = Размер(AStdFont.GetAveWidth(), AStdFont().GetCy());
+	Mutex::Lock __(sFontLock);
+	StdFontSize = Size(AStdFont.GetAveWidth(), AStdFont().GetCy());
 	LLOG("SyncStdFont " << StdFontSize);
 	SyncUHDMode();
 }
 
 void (*whenSetStdFont)();
 
-void Шрифт::SetStdFont0(Шрифт font)
+void Font::SetStdFont0(Font font)
 {
 	LLOG("SetStdFont " << font);
-	Стопор::Замок __(sFontLock);
+	Mutex::Lock __(sFontLock);
 	static int x = 0;
 	if(x) return;
 	x++;
@@ -149,82 +149,82 @@ void Шрифт::SetStdFont0(Шрифт font)
 	w--;
 }
 
-bool Шрифт::std_font_override;
+bool Font::std_font_override;
 
-void Шрифт::SetDefaultFont(Шрифт font)
+void Font::SetDefaultFont(Font font)
 {
 	LLOG("SetDefaultFont " << font);
 	if(!std_font_override)
 		SetStdFont0(font);
 }
 
-void Шрифт::SetStdFont(Шрифт font)
+void Font::SetStdFont(Font font)
 {
 	std_font_override = true;
 	SetStdFont0(font);
 }
 
-void Шрифт::InitStdFont()
+void Font::InitStdFont()
 {
-	ONCELOCK { // TODO: This is now sort of obsolete function....
-	//	Стопор::Замок __(sFontLock);
+	ONCELOCK { // СДЕЛАТЬ: This is now sort of obsolete function....
+	//	Mutex::Lock __(sFontLock);
 	//	FaceList();
 		AStdFont = Arial(12);
 	//	SyncStdFont();
 	}
 }
 
-Шрифт Шрифт::GetStdFont()
+Font Font::GetStdFont()
 {
 	InitStdFont();
 	return AStdFont;
 }
 
-Размер Шрифт::GetStdFontSize()
+Size Font::GetStdFontSize()
 {
 	InitStdFont();
 	return StdFontSize;
 }
 
-Шрифт StdFont()
+Font StdFont()
 {
-	return Шрифт(0, -32000);
+	return Font(0, -32000);
 }
 
-void Шрифт::RealizeStd()
+void Font::RealizeStd()
 {
-	if(экзПусто_ли())
+	if(IsNullInstance())
 		*this = GetStdFont();
 	if(v.face == STDFONT)
 		Face(GetStdFont().GetFace());
 	if(v.height == -32000)
-		устВысоту(GetStdFont().дайВысоту());
+		Height(GetStdFont().GetHeight());
 }
 
-int Шрифт::дайВысоту() const
+int Font::GetHeight() const
 {
-	return v.height == -32000 ? GetStdFont().дайВысоту() : v.height;
+	return v.height == -32000 ? GetStdFont().GetHeight() : v.height;
 }
 
-Ткст Шрифт::GetFaceName() const {
-	if(экзПусто_ли()) return Ткст();
+String Font::GetFaceName() const {
+	if(IsNullInstance()) return String();
 	if(GetFace() == 0)
 		return "STDFONT";
 	return GetFaceName(GetFace());
 }
 
-dword Шрифт::GetFaceInfo() const {
-	if(экзПусто_ли()) return 0;
+dword Font::GetFaceInfo() const {
+	if(IsNullInstance()) return 0;
 	return GetFaceInfo(GetFace());
 }
 
-Шрифт& Шрифт::FaceName(const Ткст& имя) {
-	int n = FindFaceNameIndex(имя);
+Font& Font::FaceName(const String& name) {
+	int n = FindFaceNameIndex(name);
 	Face(n < 0 ? 0xffff : n);
 	return *this;
 }
 
-void Шрифт::сериализуй(Поток& s) {
+void Font::Serialize(Stream& s) {
 	int version = 1;
 	s / version;
 	if(version >= 1) {
@@ -238,7 +238,7 @@ void Шрифт::сериализуй(Поток& s) {
 		if(f > COURIER)
 			f = -1;
 		s / f;
-		Ткст имя;
+		String name;
 		if(f == OLD_ROMAN)
 			f = ROMAN;
 		if(f == OLD_ARIAL)
@@ -246,34 +246,34 @@ void Шрифт::сериализуй(Поток& s) {
 		if(f == OLD_COURIER)
 			f = COURIER;
 		if(f < 0) {
-			имя = GetFaceName();
-			s % имя;
+			name = GetFaceName();
+			s % name;
 		}
-		if(s.грузится()) {
+		if(s.IsLoading()) {
 			if(f >= 0)
 				Face(f);
 			else {
-				FaceName(имя);
-				if(пусто_ли(имя))
-					устПусто();
+				FaceName(name);
+				if(IsNull(name))
+					SetNull();
 			}
 		}
 	}
 	else {
-		Ткст имя = GetFaceName();
-		s % имя;
-		if(s.грузится()) {
-			FaceName(имя);
-			if(экзПусто_ли())
+		String name = GetFaceName();
+		s % name;
+		if(s.IsLoading()) {
+			FaceName(name);
+			if(IsNullInstance())
 				Face(COURIER);
 		}
 	}
 	s % v.flags % v.height % v.width;
 }
 
-Ткст Шрифт::GetTextFlags() const
+String Font::GetTextFlags() const
 {
-	Ткст txt;
+	String txt;
 	if(IsBold())
 		txt << "bold ";
 	if(IsItalic())
@@ -286,39 +286,39 @@ void Шрифт::сериализуй(Поток& s) {
 		txt << "noaa ";
 	if(IsTrueTypeOnly())
 		txt << "ttonly ";
-	if(txt.дайСчёт())
-		txt.обрежь(txt.дайСчёт() - 1);
+	if(txt.GetCount())
+		txt.Trim(txt.GetCount() - 1);
 	return txt;
 }
 
-void Шрифт::ParseTextFlags(const char *s)
+void Font::ParseTextFlags(const char *s)
 {
-	СиПарсер p(s);
+	CParser p(s);
 	v.flags = 0;
-	while(!p.кф_ли()) {
-		if(p.ид("bold"))
+	while(!p.IsEof()) {
+		if(p.Id("bold"))
 			Bold();
 		else
-		if(p.ид("italic"))
+		if(p.Id("italic"))
 			Italic();
 		else
-		if(p.ид("underline"))
+		if(p.Id("underline"))
 			Underline();
 		else
-		if(p.ид("strikeout"))
+		if(p.Id("strikeout"))
 			Strikeout();
 		else
-		if(p.ид("noaa"))
+		if(p.Id("noaa"))
 			NonAntiAliased();
 		else
-		if(p.ид("ttonly"))
+		if(p.Id("ttonly"))
 			TrueTypeOnly();
 		else
-			p.пропустиТерм();
+			p.SkipTerm();
 	}
 }
 
-Ткст Шрифт::GetFaceNameStd() const
+String Font::GetFaceNameStd() const
 {
 	switch(GetFace()) {
 	case STDFONT:   return "STDFONT";
@@ -329,39 +329,39 @@ void Шрифт::ParseTextFlags(const char *s)
 	return GetFaceName();
 }
 
-void Шрифт::вДжейсон(ДжейсонВВ& jio)
+void Font::Jsonize(JsonIO& jio)
 {
-	Ткст n, tf;
-	if(jio.сохраняется()) {
+	String n, tf;
+	if(jio.IsStoring()) {
 		n = GetFaceNameStd();
 		tf = GetTextFlags();
-		if(экзПусто_ли())
-			n.очисть();
+		if(IsNullInstance())
+			n.Clear();
 	}
 	jio("face", n)("height", v.height)("width", v.width)("flags", tf);
-	if(пусто_ли(n))
-		устПусто();
+	if(IsNull(n))
+		SetNull();
 	else {
 		FaceName(n);
 		ParseTextFlags(tf);
 	}
 }
 
-void Шрифт::вРяр(РярВВ& xio)
+void Font::Xmlize(XmlIO& xio)
 {
-	Ткст n, tf;
-	if(xio.сохраняется()) {
+	String n, tf;
+	if(xio.IsStoring()) {
 		n = GetFaceNameStd();
 		tf = GetTextFlags();
-		if(экзПусто_ли())
-			n.очисть();
+		if(IsNullInstance())
+			n.Clear();
 	}
-	xio.Атр("face", n)
-	   .Атр("height", v.height)
-	   .Атр("width", v.width)
-	   .Атр("flags", tf);
-	if(пусто_ли(n))
-		устПусто();
+	xio.Attr("face", n)
+	   .Attr("height", v.height)
+	   .Attr("width", v.width)
+	   .Attr("flags", tf);
+	if(IsNull(n))
+		SetNull();
 	else {
 		FaceName(n);
 		ParseTextFlags(tf);
@@ -369,9 +369,9 @@ void Шрифт::вРяр(РярВВ& xio)
 }
 
 template<>
-Ткст какТкст(const Шрифт& f) {
-	if(пусто_ли(f)) return "<null>";
-	Ткст s = "<" + f.GetFaceName() + фмт(":%d", f.дайВысоту());
+String AsString(const Font& f) {
+	if(IsNull(f)) return "<null>";
+	String s = "<" + f.GetFaceName() + Format(":%d", f.GetHeight());
 	if(f.IsBold())
 		s += " Bold";
 	if(f.IsItalic())
@@ -391,14 +391,14 @@ struct CharEntry {
 
 CharEntry fc_cache_global[16384];
 
-inline hash_t GlyphHash(Шрифт font, int chr)
+inline hash_t GlyphHash(Font font, int chr)
 {
-	return FoldHash(комбинируйХэш(font.дайХэшЗнач(), chr));
+	return FoldHash(CombineHash(font.GetHashValue(), chr));
 }
 
-bool IsNormal_nc(Шрифт font, int chr)
-{ // do not change cache - to be used in замени
-	Стопор::Замок __(sFontLock);
+bool IsNormal_nc(Font font, int chr)
+{ // do not change cache - to be used in Replace
+	Mutex::Lock __(sFontLock);
 	font.RealizeStd();
 	CharEntry& e = fc_cache_global[GlyphHash(font, chr) & 16383];
 	if(e.font == font.AsInt64() && e.chr == chr)
@@ -407,26 +407,26 @@ bool IsNormal_nc(Шрифт font, int chr)
 }
 
 struct GlyphInfoMaker : ValueMaker {
-	Шрифт font;
+	Font font;
 	int  chr;
 
-	virtual Ткст Ключ() const {
-		ТкстБуф s;
+	virtual String Key() const {
+		StringBuffer s;
 		int64 h = font.AsInt64();
 		RawCat(s, h);
 		RawCat(s, chr);
-		return Ткст(s);
+		return String(s);
 	}
-	virtual int    сделай(Значение& object) const {
+	virtual int    Make(Value& object) const {
 		CharEntry& e = CreateRawValue<CharEntry>(object);
 		e.font = font.AsInt64();
 		e.chr = chr;
-		Шрифт rfnt;
-		if(PreferColorEmoji(chr) && !(font.GetFaceInfo() & Шрифт::COLORIMG)
-		   && замени(font, chr, rfnt) && rfnt != font) {
+		Font rfnt;
+		if(PreferColorEmoji(chr) && !(font.GetFaceInfo() & Font::COLORIMG)
+		   && Replace(font, chr, rfnt) && rfnt != font) {
 			e.info.width = (int16)0x8000;
 			e.info.lspc = rfnt.GetFace();
-			e.info.rspc = rfnt.дайВысоту();
+			e.info.rspc = rfnt.GetHeight();
 		}
 		else {
 			e.info = GetGlyphInfoSys(font, chr);
@@ -437,9 +437,9 @@ struct GlyphInfoMaker : ValueMaker {
 					e.info.rspc = (int16)cg.basic_char;
 				}
 				else
-				if(замени(font, chr, rfnt)) {
+				if(Replace(font, chr, rfnt)) {
 					e.info.lspc = rfnt.GetFace();
-					e.info.rspc = rfnt.дайВысоту();
+					e.info.rspc = rfnt.GetHeight();
 				}
 				else
 					e.info.lspc = -2;
@@ -449,9 +449,9 @@ struct GlyphInfoMaker : ValueMaker {
 	}
 };
 
-CharEntry GetGlyphEntry(Шрифт font, int chr, hash_t hash)
+CharEntry GetGlyphEntry(Font font, int chr, hash_t hash)
 {
-	Стопор::Замок __(sFontLock);
+	Mutex::Lock __(sFontLock);
 	GlyphInfoMaker m;
 	m.font = font;
 	m.chr = chr;
@@ -460,7 +460,7 @@ CharEntry GetGlyphEntry(Шрифт font, int chr, hash_t hash)
 
 thread_local CharEntry fc_cache[512];
 
-GlyphInfo GetGlyphInfo(Шрифт font, int chr)
+GlyphInfo GetGlyphInfo(Font font, int chr)
 {
 	font.RealizeStd();
 	hash_t hash = GlyphHash(font, chr);
@@ -477,13 +477,13 @@ struct FontEntry {
 
 thread_local FontEntry fi_cache[63];
 
-const CommonFontInfo& GetFontInfo(Шрифт font)
+const CommonFontInfo& GetFontInfo(Font font)
 {
 	font.RealizeStd();
-	dword hash = FoldHash(font.дайХэшЗнач()) % 63;
+	dword hash = FoldHash(font.GetHashValue()) % 63;
 	FontEntry& e = fi_cache[hash];
 	if(e.font != font.AsInt64()) {
-		Стопор::Замок __(sFontLock);
+		Mutex::Lock __(sFontLock);
 		e.font = font.AsInt64();
 		e.info = GetFontInfoSys(font);
 	}
@@ -494,7 +494,7 @@ thread_local int64 lastFiFont = INT_MIN;
 thread_local CommonFontInfo lastFontInfo;
 thread_local int64 lastStdFont = INT_MIN;
 
-const CommonFontInfo& Шрифт::Fi() const
+const CommonFontInfo& Font::Fi() const
 {
 	if(lastStdFont != AStdFont.AsInt64()) {
 		lastFiFont = INT_MIN;
@@ -507,35 +507,35 @@ const CommonFontInfo& Шрифт::Fi() const
 	return lastFontInfo;
 }
 
-bool Шрифт::IsNormal(int ch) const
+bool Font::IsNormal(int ch) const
 {
 	return GetGlyphInfo(*this, ch).IsNormal();
 }
 
-bool Шрифт::IsComposed(int ch) const
+bool Font::IsComposed(int ch) const
 {
 	return GetGlyphInfo(*this, ch).IsComposed();
 }
 
-bool Шрифт::IsReplaced(int ch) const
+bool Font::IsReplaced(int ch) const
 {
 	return GetGlyphInfo(*this, ch).IsReplaced();
 }
 
-bool Шрифт::IsMissing(int ch) const
+bool Font::IsMissing(int ch) const
 {
 	return GetGlyphInfo(*this, ch).IsMissing();
 }
 
-int Шрифт::HasChar(int ch) const
+int Font::HasChar(int ch) const
 {
 	return !GetGlyphInfo(*this, ch).IsMissing();
 }
 
-void GlyphMetrics(GlyphInfo& f, Шрифт font, int chr)
+void GlyphMetrics(GlyphInfo& f, Font font, int chr)
 {
 	if(f.IsReplaced())
-		f = GetGlyphInfo(font().Face(f.lspc).устВысоту(f.rspc), chr);
+		f = GetGlyphInfo(font().Face(f.lspc).Height(f.rspc), chr);
 	if(f.IsComposed()) {
 		f = GetGlyphInfo(font, f.rspc);
 		if(f.IsComposedLM())
@@ -543,12 +543,12 @@ void GlyphMetrics(GlyphInfo& f, Шрифт font, int chr)
 	}
 }
 
-GlyphInfo GetGlyphMetrics(Шрифт font, int chr)
+GlyphInfo GetGlyphMetrics(Font font, int chr)
 {
 	font.RealizeStd();
 	GlyphInfo f = GetGlyphInfo(font, chr);
 	if(f.IsMissing()) {
-		Шрифт fnt = Arial(font.дайВысоту());
+		Font fnt = Arial(font.GetHeight());
 		wchar chr = 0x25a1;
 		f = GetGlyphInfo(fnt, chr);
 		if(!f.IsNormal()) {
@@ -561,32 +561,32 @@ GlyphInfo GetGlyphMetrics(Шрифт font, int chr)
 	return f;
 }
 
-int Шрифт::дайШирину(int c) const {
+int Font::GetWidth(int c) const {
 	return GetGlyphMetrics(*this, c).width;
 }
 
-int Шрифт::GetLeftSpace(int c) const {
+int Font::GetLeftSpace(int c) const {
 	return GetGlyphMetrics(*this, c).lspc;
 }
 
-int Шрифт::GetRightSpace(int c) const {
+int Font::GetRightSpace(int c) const {
 	return GetGlyphMetrics(*this, c).rspc;
 }
 
-Ткст Шрифт::дайДанные(const char *table, int offset, int size) const
+String Font::GetData(const char *table, int offset, int size) const
 {
-	Стопор::Замок __(sFontLock);
-	ПРОВЕРЬ(!table || strlen(table) == 4);
+	Mutex::Lock __(sFontLock);
+	ASSERT(!table || strlen(table) == 4);
 	return GetFontDataSys(*this, table, offset, size);
 }
 
-void Шрифт::Render(FontGlyphConsumer& sw, double x, double y, int ch) const
+void Font::Render(FontGlyphConsumer& sw, double x, double y, int ch) const
 {
-	Стопор::Замок __(sFontLock);
+	Mutex::Lock __(sFontLock);
 	RenderCharacterSys(sw, x, y, ch, *this);
 }
 
-FontInfo Шрифт::Info() const
+FontInfo Font::Info() const
 {
 	FontInfo h;
 	h.font = *this;

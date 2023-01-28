@@ -91,7 +91,7 @@ void OrderIter7__(I x, I y, I z, I u, I v, I w, I q, const Less& less)
 	IterSwap(x, y);
 }
 
-dword  случ(dword n);
+dword  Random(dword n);
 
 template <class I, class Less>
 void Sort__(I l, I h, const Less& less)
@@ -111,8 +111,8 @@ void Sort__(I l, I h, const Less& less)
 		}
 		if(count > 1000) { // median of 5, 2 of them random elements
 			middle = l + (count >> 1); // iterators cannot point to the same object!
-			I q = l + 1 + (int)случ((count >> 1) - 2);
-			I w = middle + 1 + (int)случ((count >> 1) - 2);
+			I q = l + 1 + (int)Random((count >> 1) - 2);
+			I w = middle + 1 + (int)Random((count >> 1) - 2);
 			OrderIter5__(l, q, middle, w, h - 1, less);
 		}
 		else // median of 3
@@ -133,7 +133,7 @@ void Sort__(I l, I h, const Less& less)
 		IterSwap(i, h - 2);                 // put pivot back in between partitions
 
 		I ih = i;
-		while(ih + 1 != h && !less(*i, *(ih + 1))) // найди middle range of elements equal to pivot
+		while(ih + 1 != h && !less(*i, *(ih + 1))) // Find middle range of elements equal to pivot
 			++ih;
 
 		int count_l = int(i - l);
@@ -156,30 +156,30 @@ void Sort__(I l, I h, const Less& less)
 		}
 
 		if(count > 8 && min(count_l, count_h) < (max(count_l, count_h) >> 2)) // If unbalanced, randomize the next step
-			middle = l + 1 + (int)случ(count - 2); // случ pivot selection
+			middle = l + 1 + (int)Random(count - 2); // Random pivot selection
 		else
 			middle = l + (count >> 1); // the middle is probably still the best guess otherwise
 	}
 }
 
-template <class Диапазон, class Less>
-void сортируй(Диапазон&& c, const Less& less)
+template <class Range, class Less>
+void Sort(Range&& c, const Less& less)
 {
 	Sort__(c.begin(), c.end(), less);
 }
 
-template <class Диапазон>
-void сортируй(Диапазон&& c)
+template <class Range>
+void Sort(Range&& c)
 {
-	Sort__(c.begin(), c.end(), std::less<типЗначУ<Диапазон>>());
+	Sort__(c.begin(), c.end(), std::less<ValueTypeOf<Range>>());
 }
 
 template <class T>
 struct StableSortItem__ {
-	const T& значение;
-	int      индекс;
+	const T& value;
+	int      index;
 
-	StableSortItem__(const T& значение, int индекс) : значение(значение), индекс(индекс) {}
+	StableSortItem__(const T& value, int index) : value(value), index(index) {}
 };
 
 template <class II, class T>
@@ -187,21 +187,21 @@ struct StableSortIterator__ {
 	II          ii;
 	int        *vi;
 
-	typedef StableSortIterator__<II, T> Обх;
+	typedef StableSortIterator__<II, T> Iter;
 
-	Обх&       operator ++ ()               { ++ii; ++vi; return *this; }
-	Обх&       operator -- ()               { --ii; --vi; return *this; }
-	Обх        operator +  (int i) const    { return Обх(ii + i, vi + i); }
-	Обх        operator -  (int i) const    { return Обх(ii - i, vi - i); }
-	int         operator -  (Обх b) const   { return (int)(ii - b.ii); }
-	bool        operator == (Обх b) const   { return ii == b.ii; }
-	bool        operator != (Обх b) const   { return ii != b.ii; }
-	bool        operator <  (Обх b) const   { return ii <  b.ii; }
-	bool        operator <= (Обх b) const   { return ii <=  b.ii; }
+	Iter&       operator ++ ()               { ++ii; ++vi; return *this; }
+	Iter&       operator -- ()               { --ii; --vi; return *this; }
+	Iter        operator +  (int i) const    { return Iter(ii + i, vi + i); }
+	Iter        operator -  (int i) const    { return Iter(ii - i, vi - i); }
+	int         operator -  (Iter b) const   { return (int)(ii - b.ii); }
+	bool        operator == (Iter b) const   { return ii == b.ii; }
+	bool        operator != (Iter b) const   { return ii != b.ii; }
+	bool        operator <  (Iter b) const   { return ii <  b.ii; }
+	bool        operator <= (Iter b) const   { return ii <=  b.ii; }
 
 	StableSortItem__<T> operator*() const    { return StableSortItem__<T>(*ii, *vi); }
 
-	friend void IterSwap(Обх a, Обх b)     { IterSwap(a.ii, b.ii); IterSwap(a.vi, b.vi); }
+	friend void IterSwap(Iter a, Iter b)     { IterSwap(a.ii, b.ii); IterSwap(a.vi, b.vi); }
 
 	StableSortIterator__(II ii, int *vi) : ii(ii), vi(vi) {}
 };
@@ -211,183 +211,183 @@ struct StableSortLess__ {
 	const Less& less;
 
 	bool operator()(const StableSortItem__<T>& a, const StableSortItem__<T>& b) const {
-		if(less(a.значение, b.значение)) return true;
-		return less(b.значение, a.значение) ? false : a.индекс < b.индекс;
+		if(less(a.value, b.value)) return true;
+		return less(b.value, a.value) ? false : a.index < b.index;
 	}
 
 	StableSortLess__(const Less& less) : less(less) {}
 };
 
-template <class Диапазон, class Less>
-void StableSort(Диапазон&& r, const Less& less)
+template <class Range, class Less>
+void StableSort(Range&& r, const Less& less)
 {
 	auto begin = r.begin();
 	auto end = r.end();
-	typedef типЗначУ<Диапазон> VT;
+	typedef ValueTypeOf<Range> VT;
 	typedef decltype(begin) I;
 	int count = (int)(uintptr_t)(end - begin);
-	Буфер<int> h(count);
+	Buffer<int> h(count);
 	for(int i = 0; i < count; i++)
 		h[i] = i;
 	Sort__(StableSortIterator__<I, VT>(begin, ~h), StableSortIterator__<I, VT>(end, ~h + count),
 	       StableSortLess__<VT, Less>(less));
 }
 
-template <class Диапазон>
-void StableSort(Диапазон&& r)
+template <class Range>
+void StableSort(Range&& r)
 {
-	StableSort(r, std::less<типЗначУ<Диапазон>>());
+	StableSort(r, std::less<ValueTypeOf<Range>>());
 }
 
 template <class II, class VI, class K>
-struct ИндексСортОбходчик__
+struct IndexSortIterator__
 {
-	typedef ИндексСортОбходчик__<II, VI, K> Обх;
+	typedef IndexSortIterator__<II, VI, K> Iter;
 
-	ИндексСортОбходчик__(II ii, VI vi) : ii(ii), vi(vi) {}
+	IndexSortIterator__(II ii, VI vi) : ii(ii), vi(vi) {}
 
-	Обх&       operator ++ ()               { ++ii; ++vi; return *this; }
-	Обх&       operator -- ()               { --ii; --vi; return *this; }
+	Iter&       operator ++ ()               { ++ii; ++vi; return *this; }
+	Iter&       operator -- ()               { --ii; --vi; return *this; }
 	const K&    operator *  () const         { return *ii; }
-	Обх        operator +  (int i) const    { return Обх(ii + i, vi + i); }
-	Обх        operator -  (int i) const    { return Обх(ii - i, vi - i); }
-	int         operator -  (Обх b) const   { return (int)(ii - b.ii); }
-	bool        operator == (Обх b) const   { return ii == b.ii; }
-	bool        operator != (Обх b) const   { return ii != b.ii; }
-	bool        operator <  (Обх b) const   { return ii <  b.ii; }
-	bool        operator <= (Обх b) const   { return ii <=  b.ii; }
-	friend void IterSwap    (Обх a, Обх b) { IterSwap(a.ii, b.ii); IterSwap(a.vi, b.vi); }
+	Iter        operator +  (int i) const    { return Iter(ii + i, vi + i); }
+	Iter        operator -  (int i) const    { return Iter(ii - i, vi - i); }
+	int         operator -  (Iter b) const   { return (int)(ii - b.ii); }
+	bool        operator == (Iter b) const   { return ii == b.ii; }
+	bool        operator != (Iter b) const   { return ii != b.ii; }
+	bool        operator <  (Iter b) const   { return ii <  b.ii; }
+	bool        operator <= (Iter b) const   { return ii <=  b.ii; }
+	friend void IterSwap    (Iter a, Iter b) { IterSwap(a.ii, b.ii); IterSwap(a.vi, b.vi); }
 
 	II          ii;
 	VI          vi;
 };
 
-template <class МастерДиапазон, class Диапазон2, class Less>
-void IndexSort(МастерДиапазон&& r, Диапазон2&& r2, const Less& less)
+template <class MasterRange, class Range2, class Less>
+void IndexSort(MasterRange&& r, Range2&& r2, const Less& less)
 {
-	ПРОВЕРЬ(r.дайСчёт() == r2.дайСчёт());
+	ASSERT(r.GetCount() == r2.GetCount());
 	typedef decltype(r.begin()) I;
 	typedef decltype(r2.begin()) I2;
-	typedef типЗначУ<МастерДиапазон> VT;
-	if(r.дайСчёт() == 0)
+	typedef ValueTypeOf<MasterRange> VT;
+	if(r.GetCount() == 0)
 		return;
-	Sort__(ИндексСортОбходчик__<I, I2, VT>(r.begin(), r2.begin()),
-	       ИндексСортОбходчик__<I, I2, VT>(r.end(), r2.end()),
+	Sort__(IndexSortIterator__<I, I2, VT>(r.begin(), r2.begin()),
+	       IndexSortIterator__<I, I2, VT>(r.end(), r2.end()),
 		   less);
 }
 
-template <class МастерДиапазон, class Диапазон2>
-void IndexSort(МастерДиапазон&& r, Диапазон2&& r2)
+template <class MasterRange, class Range2>
+void IndexSort(MasterRange&& r, Range2&& r2)
 {
-	IndexSort(r, r2, std::less<типЗначУ<МастерДиапазон>>());
+	IndexSort(r, r2, std::less<ValueTypeOf<MasterRange>>());
 }
 
-template <class МастерДиапазон, class Диапазон2, class Less>
-void StableIndexSort(МастерДиапазон&& r, Диапазон2&& r2, const Less& less)
+template <class MasterRange, class Range2, class Less>
+void StableIndexSort(MasterRange&& r, Range2&& r2, const Less& less)
 {
-	ПРОВЕРЬ(r.дайСчёт() == r2.дайСчёт());
+	ASSERT(r.GetCount() == r2.GetCount());
 	typedef decltype(r.begin()) I;
 	typedef decltype(r2.begin()) I2;
-	typedef типЗначУ<МастерДиапазон> VT;
-	if(r.дайСчёт() == 0)
+	typedef ValueTypeOf<MasterRange> VT;
+	if(r.GetCount() == 0)
 		return;
-	StableSort(СубДиапазон(ИндексСортОбходчик__<I, I2, VT>(r.begin(), r2.begin()),
-		                ИндексСортОбходчик__<I, I2, VT>(r.end(), r2.end())).пиши(),
+	StableSort(SubRange(IndexSortIterator__<I, I2, VT>(r.begin(), r2.begin()),
+		                IndexSortIterator__<I, I2, VT>(r.end(), r2.end())).Write(),
 	           less);
 }
 
-template <class МастерДиапазон, class Диапазон2>
-void StableIndexSort(МастерДиапазон&& r, Диапазон2&& r2)
+template <class MasterRange, class Range2>
+void StableIndexSort(MasterRange&& r, Range2&& r2)
 {
-	StableIndexSort(r, r2, std::less<типЗначУ<МастерДиапазон>>());
+	StableIndexSort(r, r2, std::less<ValueTypeOf<MasterRange>>());
 }
 
 template <class II, class VI, class WI, class K>
-struct ИндексСорт2Обходчик__
+struct IndexSort2Iterator__
 {
-	typedef ИндексСорт2Обходчик__<II, VI, WI, K> Обх;
+	typedef IndexSort2Iterator__<II, VI, WI, K> Iter;
 
-	ИндексСорт2Обходчик__(II ii, VI vi, WI wi) : ii(ii), vi(vi), wi(wi) {}
+	IndexSort2Iterator__(II ii, VI vi, WI wi) : ii(ii), vi(vi), wi(wi) {}
 
-	Обх&       operator ++ ()               { ++ii; ++vi; ++wi; return *this; }
-	Обх&       operator -- ()               { --ii; --vi; --wi; return *this; }
+	Iter&       operator ++ ()               { ++ii; ++vi; ++wi; return *this; }
+	Iter&       operator -- ()               { --ii; --vi; --wi; return *this; }
 	const K&    operator *  () const         { return *ii; }
-	Обх        operator +  (int i) const    { return Обх(ii + i, vi + i, wi + i); }
-	Обх        operator -  (int i) const    { return Обх(ii - i, vi - i, wi - i); }
-	int         operator -  (Обх b) const   { return (int)(ii - b.ii); }
-	bool        operator == (Обх b) const   { return ii == b.ii; }
-	bool        operator != (Обх b) const   { return ii != b.ii; }
-	bool        operator <  (Обх b) const   { return ii <  b.ii; }
-	bool        operator <= (Обх b) const   { return ii <=  b.ii; }
-	friend void IterSwap    (Обх a, Обх b) { IterSwap(a.ii, b.ii); IterSwap(a.vi, b.vi); IterSwap(a.wi, b.wi); }
+	Iter        operator +  (int i) const    { return Iter(ii + i, vi + i, wi + i); }
+	Iter        operator -  (int i) const    { return Iter(ii - i, vi - i, wi - i); }
+	int         operator -  (Iter b) const   { return (int)(ii - b.ii); }
+	bool        operator == (Iter b) const   { return ii == b.ii; }
+	bool        operator != (Iter b) const   { return ii != b.ii; }
+	bool        operator <  (Iter b) const   { return ii <  b.ii; }
+	bool        operator <= (Iter b) const   { return ii <=  b.ii; }
+	friend void IterSwap    (Iter a, Iter b) { IterSwap(a.ii, b.ii); IterSwap(a.vi, b.vi); IterSwap(a.wi, b.wi); }
 
 	II          ii;
 	VI          vi;
 	WI          wi;
 };
 
-template <class МастерДиапазон, class Диапазон2, class Диапазон3, class Less>
-void IndexSort2(МастерДиапазон&& r, Диапазон2&& r2, Диапазон3&& r3, const Less& less)
+template <class MasterRange, class Range2, class Range3, class Less>
+void IndexSort2(MasterRange&& r, Range2&& r2, Range3&& r3, const Less& less)
 {
-	ПРОВЕРЬ(r.дайСчёт() == r2.дайСчёт());
-	ПРОВЕРЬ(r.дайСчёт() == r3.дайСчёт());
-	if(r.дайСчёт() == 0)
+	ASSERT(r.GetCount() == r2.GetCount());
+	ASSERT(r.GetCount() == r3.GetCount());
+	if(r.GetCount() == 0)
 		return;
 	typedef decltype(r.begin()) I;
 	typedef decltype(r2.begin()) I2;
 	typedef decltype(r3.begin()) I3;
-	typedef типЗначУ<МастерДиапазон> VT;
-	Sort__(ИндексСорт2Обходчик__<I, I2, I3, VT>(r.begin(), r2.begin(), r3.begin()),
-	       ИндексСорт2Обходчик__<I, I2, I3, VT>(r.end(), r2.end(), r3.end()),
+	typedef ValueTypeOf<MasterRange> VT;
+	Sort__(IndexSort2Iterator__<I, I2, I3, VT>(r.begin(), r2.begin(), r3.begin()),
+	       IndexSort2Iterator__<I, I2, I3, VT>(r.end(), r2.end(), r3.end()),
 		   less);
 }
 
-template <class МастерДиапазон, class Диапазон2, class Диапазон3>
-void IndexSort2(МастерДиапазон&& r, Диапазон2&& r2, Диапазон3&& r3)
+template <class MasterRange, class Range2, class Range3>
+void IndexSort2(MasterRange&& r, Range2&& r2, Range3&& r3)
 {
-	IndexSort2(r, r2, r3, std::less<типЗначУ<МастерДиапазон>>());
+	IndexSort2(r, r2, r3, std::less<ValueTypeOf<MasterRange>>());
 }
 
-template <class МастерДиапазон, class Диапазон2, class Диапазон3, class Less>
-void StableIndexSort2(МастерДиапазон&& r, Диапазон2&& r2, Диапазон3&& r3, const Less& less)
+template <class MasterRange, class Range2, class Range3, class Less>
+void StableIndexSort2(MasterRange&& r, Range2&& r2, Range3&& r3, const Less& less)
 {
-	ПРОВЕРЬ(r.дайСчёт() == r2.дайСчёт());
-	ПРОВЕРЬ(r.дайСчёт() == r3.дайСчёт());
-	if(r.дайСчёт() == 0)
+	ASSERT(r.GetCount() == r2.GetCount());
+	ASSERT(r.GetCount() == r3.GetCount());
+	if(r.GetCount() == 0)
 		return;
 	typedef decltype(r.begin()) I;
 	typedef decltype(r2.begin()) I2;
 	typedef decltype(r3.begin()) I3;
-	typedef типЗначУ<МастерДиапазон> VT;
-	StableSort(СубДиапазон(ИндексСорт2Обходчик__<I, I2, I3, VT>(r.begin(), r2.begin(), r3.begin()),
-	                    ИндексСорт2Обходчик__<I, I2, I3, VT>(r.end(), r2.end(), r3.end())).пиши(),
+	typedef ValueTypeOf<MasterRange> VT;
+	StableSort(SubRange(IndexSort2Iterator__<I, I2, I3, VT>(r.begin(), r2.begin(), r3.begin()),
+	                    IndexSort2Iterator__<I, I2, I3, VT>(r.end(), r2.end(), r3.end())).Write(),
 		       less);
 }
 
-template <class МастерДиапазон, class Диапазон2, class Диапазон3>
-void StableIndexSort2(МастерДиапазон&& r, Диапазон2&& r2, Диапазон3&& r3)
+template <class MasterRange, class Range2, class Range3>
+void StableIndexSort2(MasterRange&& r, Range2&& r2, Range3&& r3)
 {
-	StableIndexSort2(r, r2, r3, std::less<типЗначУ<МастерДиапазон>>());
+	StableIndexSort2(r, r2, r3, std::less<ValueTypeOf<MasterRange>>());
 }
 
 template <class II, class VI, class WI, class XI, class K>
-struct ИндексСорт3Обходчик__
+struct IndexSort3Iterator__
 {
-	typedef ИндексСорт3Обходчик__<II, VI, WI, XI, K> Обх;
+	typedef IndexSort3Iterator__<II, VI, WI, XI, K> Iter;
 
-	ИндексСорт3Обходчик__(II ii, VI vi, WI wi, XI xi) : ii(ii), vi(vi), wi(wi), xi(xi) {}
+	IndexSort3Iterator__(II ii, VI vi, WI wi, XI xi) : ii(ii), vi(vi), wi(wi), xi(xi) {}
 
-	Обх&       operator ++ ()               { ++ii; ++vi; ++wi; ++xi; return *this; }
-	Обх&       operator -- ()               { --ii; --vi; --wi; --xi; return *this; }
+	Iter&       operator ++ ()               { ++ii; ++vi; ++wi; ++xi; return *this; }
+	Iter&       operator -- ()               { --ii; --vi; --wi; --xi; return *this; }
 	const K&    operator *  () const         { return *ii; }
-	Обх        operator +  (int i) const    { return Обх(ii + i, vi + i, wi + i, xi + i); }
-	Обх        operator -  (int i) const    { return Обх(ii - i, vi - i, wi - i, xi - i); }
-	int         operator -  (Обх b) const   { return (int)(ii - b.ii); }
-	bool        operator == (Обх b) const   { return ii == b.ii; }
-	bool        operator != (Обх b) const   { return ii != b.ii; }
-	bool        operator <  (Обх b) const   { return ii <  b.ii; }
-	bool        operator <= (Обх b) const   { return ii <=  b.ii; }
-	friend void IterSwap    (Обх a, Обх b) { IterSwap(a.ii, b.ii); IterSwap(a.vi, b.vi); IterSwap(a.wi, b.wi); IterSwap(a.xi, b.xi); }
+	Iter        operator +  (int i) const    { return Iter(ii + i, vi + i, wi + i, xi + i); }
+	Iter        operator -  (int i) const    { return Iter(ii - i, vi - i, wi - i, xi - i); }
+	int         operator -  (Iter b) const   { return (int)(ii - b.ii); }
+	bool        operator == (Iter b) const   { return ii == b.ii; }
+	bool        operator != (Iter b) const   { return ii != b.ii; }
+	bool        operator <  (Iter b) const   { return ii <  b.ii; }
+	bool        operator <= (Iter b) const   { return ii <=  b.ii; }
+	friend void IterSwap    (Iter a, Iter b) { IterSwap(a.ii, b.ii); IterSwap(a.vi, b.vi); IterSwap(a.wi, b.wi); IterSwap(a.xi, b.xi); }
 
 	II          ii;
 	VI          vi;
@@ -395,113 +395,113 @@ struct ИндексСорт3Обходчик__
 	XI          xi;
 };
 
-template <class МастерДиапазон, class Диапазон2, class Диапазон3, class Диапазон4, class Less>
-void IndexSort3(МастерДиапазон&& r, Диапазон2&& r2, Диапазон3&& r3, Диапазон4&& r4, const Less& less)
+template <class MasterRange, class Range2, class Range3, class Range4, class Less>
+void IndexSort3(MasterRange&& r, Range2&& r2, Range3&& r3, Range4&& r4, const Less& less)
 {
-	ПРОВЕРЬ(r.дайСчёт() == r2.дайСчёт());
-	ПРОВЕРЬ(r.дайСчёт() == r3.дайСчёт());
-	ПРОВЕРЬ(r.дайСчёт() == r4.дайСчёт());
-	if(r.дайСчёт() == 0)
+	ASSERT(r.GetCount() == r2.GetCount());
+	ASSERT(r.GetCount() == r3.GetCount());
+	ASSERT(r.GetCount() == r4.GetCount());
+	if(r.GetCount() == 0)
 		return;
 	typedef decltype(r.begin()) I;
 	typedef decltype(r2.begin()) I2;
 	typedef decltype(r3.begin()) I3;
 	typedef decltype(r4.begin()) I4;
-	typedef типЗначУ<МастерДиапазон> VT;
-	Sort__(ИндексСорт3Обходчик__<I, I2, I3, I4, VT>(r.begin(), r2.begin(), r3.begin(), r4.begin()),
-	       ИндексСорт3Обходчик__<I, I2, I3, I4, VT>(r.end(), r2.end(), r3.end(), r4.end()),
+	typedef ValueTypeOf<MasterRange> VT;
+	Sort__(IndexSort3Iterator__<I, I2, I3, I4, VT>(r.begin(), r2.begin(), r3.begin(), r4.begin()),
+	       IndexSort3Iterator__<I, I2, I3, I4, VT>(r.end(), r2.end(), r3.end(), r4.end()),
 		   less);
 }
 
-template <class МастерДиапазон, class Диапазон2, class Диапазон3, class Диапазон4>
-void IndexSort3(МастерДиапазон&& r, Диапазон2&& r2, Диапазон3&& r3, Диапазон4&& r4)
+template <class MasterRange, class Range2, class Range3, class Range4>
+void IndexSort3(MasterRange&& r, Range2&& r2, Range3&& r3, Range4&& r4)
 {
-	IndexSort3(r, r2, r3, r4, std::less<типЗначУ<МастерДиапазон>>());
+	IndexSort3(r, r2, r3, r4, std::less<ValueTypeOf<MasterRange>>());
 }
 
-template <class МастерДиапазон, class Диапазон2, class Диапазон3, class Диапазон4, class Less>
-void StableIndexSort3(МастерДиапазон&& r, Диапазон2&& r2, Диапазон3&& r3, Диапазон4&& r4, const Less& less)
+template <class MasterRange, class Range2, class Range3, class Range4, class Less>
+void StableIndexSort3(MasterRange&& r, Range2&& r2, Range3&& r3, Range4&& r4, const Less& less)
 {
-	ПРОВЕРЬ(r.дайСчёт() == r2.дайСчёт());
-	ПРОВЕРЬ(r.дайСчёт() == r3.дайСчёт());
-	ПРОВЕРЬ(r.дайСчёт() == r4.дайСчёт());
-	if(r.дайСчёт() == 0)
+	ASSERT(r.GetCount() == r2.GetCount());
+	ASSERT(r.GetCount() == r3.GetCount());
+	ASSERT(r.GetCount() == r4.GetCount());
+	if(r.GetCount() == 0)
 		return;
 	typedef decltype(r.begin()) I;
 	typedef decltype(r2.begin()) I2;
 	typedef decltype(r3.begin()) I3;
 	typedef decltype(r4.begin()) I4;
-	typedef типЗначУ<МастерДиапазон> VT;
-	StableSort(СубДиапазон(ИндексСорт3Обходчик__<I, I2, I3, I4, VT>(r.begin(), r2.begin(), r3.begin(), r4.begin()),
-	                    ИндексСорт3Обходчик__<I, I2, I3, I4, VT>(r.end(), r2.end(), r3.end(), r4.end())).пиши(),
+	typedef ValueTypeOf<MasterRange> VT;
+	StableSort(SubRange(IndexSort3Iterator__<I, I2, I3, I4, VT>(r.begin(), r2.begin(), r3.begin(), r4.begin()),
+	                    IndexSort3Iterator__<I, I2, I3, I4, VT>(r.end(), r2.end(), r3.end(), r4.end())).Write(),
 		       less);
 }
 
-template <class МастерДиапазон, class Диапазон2, class Диапазон3, class Диапазон4>
-void StableIndexSort3(МастерДиапазон&& r, Диапазон2&& r2, Диапазон3&& r3, Диапазон4&& r4)
+template <class MasterRange, class Range2, class Range3, class Range4>
+void StableIndexSort3(MasterRange&& r, Range2&& r2, Range3&& r3, Range4&& r4)
 {
-	StableIndexSort3(r, r2, r3, r4, std::less<типЗначУ<МастерДиапазон>>());
+	StableIndexSort3(r, r2, r3, r4, std::less<ValueTypeOf<MasterRange>>());
 }
 
 template <class I, class V>
-struct ОбходчикПорядкаСорта__ : PostfixOps< ОбходчикПорядкаСорта__<I, V> >
+struct SortOrderIterator__ : PostfixOps< SortOrderIterator__<I, V> >
 {
-	typedef ОбходчикПорядкаСорта__<I, V> Обх;
+	typedef SortOrderIterator__<I, V> Iter;
 
-	ОбходчикПорядкаСорта__(int *ii, I vi) : ii(ii), vi(vi) {}
+	SortOrderIterator__(int *ii, I vi) : ii(ii), vi(vi) {}
 
-	Обх&       operator ++ ()               { ++ii; return *this; }
-	Обх&       operator -- ()               { --ii; return *this; }
+	Iter&       operator ++ ()               { ++ii; return *this; }
+	Iter&       operator -- ()               { --ii; return *this; }
 	const V&    operator *  () const         { return *(vi + *ii); }
-	Обх        operator +  (int i) const    { return Обх(ii + i, vi); }
-	Обх        operator -  (int i) const    { return Обх(ii - i, vi); }
-	int         operator -  (Обх b) const   { return int(ii - b.ii); }
-	bool        operator == (Обх b) const   { return ii == b.ii; }
-	bool        operator != (Обх b) const   { return ii != b.ii; }
-	bool        operator <  (Обх b) const   { return ii < b.ii; }
-	bool        operator <= (Обх b) const   { return ii <=  b.ii; }
-	friend void IterSwap    (Обх a, Обх b) { IterSwap(a.ii, b.ii); }
+	Iter        operator +  (int i) const    { return Iter(ii + i, vi); }
+	Iter        operator -  (int i) const    { return Iter(ii - i, vi); }
+	int         operator -  (Iter b) const   { return int(ii - b.ii); }
+	bool        operator == (Iter b) const   { return ii == b.ii; }
+	bool        operator != (Iter b) const   { return ii != b.ii; }
+	bool        operator <  (Iter b) const   { return ii < b.ii; }
+	bool        operator <= (Iter b) const   { return ii <=  b.ii; }
+	friend void IterSwap    (Iter a, Iter b) { IterSwap(a.ii, b.ii); }
 
 	int        *ii;
 	I           vi;
 };
 
-template <class Диапазон, class Less>
-Вектор<int> GetSortOrder(const Диапазон& r, const Less& less)
+template <class Range, class Less>
+Vector<int> GetSortOrder(const Range& r, const Less& less)
 {
 	auto begin = r.begin();
-	Вектор<int> индекс;
-	индекс.устСчёт(r.дайСчёт());
-	for(int i = индекс.дайСчёт(); --i >= 0; индекс[i] = i)
+	Vector<int> index;
+	index.SetCount(r.GetCount());
+	for(int i = index.GetCount(); --i >= 0; index[i] = i)
 		;
-	typedef ОбходчикПорядкаСорта__<decltype(begin), типЗначУ<Диапазон>> It;
-	Sort__(It(индекс.begin(), begin), It(индекс.end(), begin), less);
-	return индекс;
+	typedef SortOrderIterator__<decltype(begin), ValueTypeOf<Range>> It;
+	Sort__(It(index.begin(), begin), It(index.end(), begin), less);
+	return index;
 }
 
-template <class Диапазон>
-Вектор<int> GetSortOrder(const Диапазон& r)
+template <class Range>
+Vector<int> GetSortOrder(const Range& r)
 {
-	return GetSortOrder(r, std::less<типЗначУ<Диапазон>>());
+	return GetSortOrder(r, std::less<ValueTypeOf<Range>>());
 }
 
 template <class I, class T>
-struct ОбходчикПорядкаСтабилСорта__ : PostfixOps< ОбходчикПорядкаСтабилСорта__<I, T> >
+struct StableSortOrderIterator__ : PostfixOps< StableSortOrderIterator__<I, T> >
 {
-	typedef ОбходчикПорядкаСтабилСорта__<I, T> Обх;
+	typedef StableSortOrderIterator__<I, T> Iter;
 
-	ОбходчикПорядкаСтабилСорта__(int *ii, I vi) : ii(ii), vi(vi) {}
+	StableSortOrderIterator__(int *ii, I vi) : ii(ii), vi(vi) {}
 
-	Обх&       operator ++ ()               { ++ii; return *this; }
-	Обх&       operator -- ()               { --ii; return *this; }
-	Обх        operator +  (int i) const    { return Обх(ii + i, vi); }
-	Обх        operator -  (int i) const    { return Обх(ii - i, vi); }
-	int         operator -  (Обх b) const   { return int(ii - b.ii); }
-	bool        operator == (Обх b) const   { return ii == b.ii; }
-	bool        operator != (Обх b) const   { return ii != b.ii; }
-	bool        operator <  (Обх b) const   { return ii < b.ii; }
-	bool        operator <= (Обх b) const   { return ii <=  b.ii; }
-	friend void IterSwap    (Обх a, Обх b) { IterSwap(a.ii, b.ii); }
+	Iter&       operator ++ ()               { ++ii; return *this; }
+	Iter&       operator -- ()               { --ii; return *this; }
+	Iter        operator +  (int i) const    { return Iter(ii + i, vi); }
+	Iter        operator -  (int i) const    { return Iter(ii - i, vi); }
+	int         operator -  (Iter b) const   { return int(ii - b.ii); }
+	bool        operator == (Iter b) const   { return ii == b.ii; }
+	bool        operator != (Iter b) const   { return ii != b.ii; }
+	bool        operator <  (Iter b) const   { return ii < b.ii; }
+	bool        operator <= (Iter b) const   { return ii <=  b.ii; }
+	friend void IterSwap    (Iter a, Iter b) { IterSwap(a.ii, b.ii); }
 
 	StableSortItem__<T> operator*() const    { return StableSortItem__<T>(*(vi + *ii), *ii); }
 
@@ -509,110 +509,110 @@ struct ОбходчикПорядкаСтабилСорта__ : PostfixOps< Об
 	I           vi;
 };
 
-template <class Диапазон, class Less>
-Вектор<int> GetStableSortOrder(const Диапазон& r, const Less& less)
+template <class Range, class Less>
+Vector<int> GetStableSortOrder(const Range& r, const Less& less)
 {
-	Вектор<int> индекс;
-	индекс.устСчёт(r.дайСчёт());
-	for(int i = индекс.дайСчёт(); --i >= 0; индекс[i] = i)
+	Vector<int> index;
+	index.SetCount(r.GetCount());
+	for(int i = index.GetCount(); --i >= 0; index[i] = i)
 		;
 	auto begin = r.begin();
-	typedef типЗначУ<Диапазон> VT;
-	typedef ОбходчикПорядкаСтабилСорта__<decltype(begin), VT> It;
-	Sort__(It(индекс.begin(), begin), It(индекс.end(), begin), StableSortLess__<VT, Less>(less));
-	return индекс;
+	typedef ValueTypeOf<Range> VT;
+	typedef StableSortOrderIterator__<decltype(begin), VT> It;
+	Sort__(It(index.begin(), begin), It(index.end(), begin), StableSortLess__<VT, Less>(less));
+	return index;
 }
 
-template <class Диапазон>
-Вектор<int> GetStableSortOrder(const Диапазон& r)
+template <class Range>
+Vector<int> GetStableSortOrder(const Range& r)
 {
-	return GetStableSortOrder(r, std::less<типЗначУ<Диапазон>>());
+	return GetStableSortOrder(r, std::less<ValueTypeOf<Range>>());
 }
 
-template <class вКарту, class Less>
-void SortByKey(вКарту& map, const Less& less)
+template <class Map, class Less>
+void SortByKey(Map& map, const Less& less)
 {
-	typename вКарту::КонтейнерКлючей k = map.подбериКлючи();
-	typename вКарту::КонтейнерЗначений v = map.подбериЗначения();
+	typename Map::KeyContainer k = map.PickKeys();
+	typename Map::ValueContainer v = map.PickValues();
 	IndexSort(k, v, less);
-	map = вКарту(pick(k), pick(v));
+	map = Map(pick(k), pick(v));
 }
 
-template <class вКарту>
-void SortByKey(вКарту& map)
+template <class Map>
+void SortByKey(Map& map)
 {
-	SortByKey(map, std::less<typename вКарту::ТипКлюча>());
+	SortByKey(map, std::less<typename Map::KeyType>());
 }
 
-template <class вКарту, class Less>
-void SortByValue(вКарту& map, const Less& less)
+template <class Map, class Less>
+void SortByValue(Map& map, const Less& less)
 {
-	typename вКарту::КонтейнерКлючей k = map.подбериКлючи();
-	typename вКарту::КонтейнерЗначений v = map.подбериЗначения();
+	typename Map::KeyContainer k = map.PickKeys();
+	typename Map::ValueContainer v = map.PickValues();
 	IndexSort(v, k, less);
-	map = вКарту(pick(k), pick(v));
+	map = Map(pick(k), pick(v));
 }
 
-template <class вКарту>
-void SortByValue(вКарту& map)
+template <class Map>
+void SortByValue(Map& map)
 {
-	SortByValue(map, std::less<типЗначУ<вКарту>>());
+	SortByValue(map, std::less<ValueTypeOf<Map>>());
 }
 
-template <class вКарту, class Less>
-void StableSortByKey(вКарту& map, const Less& less)
+template <class Map, class Less>
+void StableSortByKey(Map& map, const Less& less)
 {
-	typename вКарту::КонтейнерКлючей k = map.подбериКлючи();
-	typename вКарту::КонтейнерЗначений v = map.подбериЗначения();
+	typename Map::KeyContainer k = map.PickKeys();
+	typename Map::ValueContainer v = map.PickValues();
 	StableIndexSort(k, v, less);
-	map = вКарту(pick(k), pick(v));
+	map = Map(pick(k), pick(v));
 }
 
-template <class вКарту>
-void StableSortByKey(вКарту& map)
+template <class Map>
+void StableSortByKey(Map& map)
 {
-	StableSortByKey(map, std::less<typename вКарту::ТипКлюча>());
+	StableSortByKey(map, std::less<typename Map::KeyType>());
 }
 
-template <class вКарту, class Less>
-void StableSortByValue(вКарту& map, const Less& less)
+template <class Map, class Less>
+void StableSortByValue(Map& map, const Less& less)
 {
-	typename вКарту::КонтейнерКлючей k = map.подбериКлючи();
-	typename вКарту::КонтейнерЗначений v = map.подбериЗначения();
+	typename Map::KeyContainer k = map.PickKeys();
+	typename Map::ValueContainer v = map.PickValues();
 	StableIndexSort(v, k, less);
-	map = вКарту(pick(k), pick(v));
+	map = Map(pick(k), pick(v));
 }
 
-template <class вКарту>
-void StableSortByValue(вКарту& map)
+template <class Map>
+void StableSortByValue(Map& map)
 {
-	StableSortByValue(map, std::less<типЗначУ<вКарту>>());
+	StableSortByValue(map, std::less<ValueTypeOf<Map>>());
 }
 
-template <class Индекс, class Less>
-void SortIndex(Индекс& индекс, const Less& less)
+template <class Index, class Less>
+void SortIndex(Index& index, const Less& less)
 {
-	typename Индекс::КонтейнерЗначений k = индекс.подбериКлючи();
-	сортируй(k, less);
-	индекс = Индекс(pick(k));
+	typename Index::ValueContainer k = index.PickKeys();
+	Sort(k, less);
+	index = Index(pick(k));
 }
 
-template <class Индекс>
-void SortIndex(Индекс& индекс)
+template <class Index>
+void SortIndex(Index& index)
 {
-	SortIndex(индекс, std::less<типЗначУ<Индекс>>());
+	SortIndex(index, std::less<ValueTypeOf<Index>>());
 }
 
-template <class Индекс, class Less>
-void StableSortIndex(Индекс& индекс, const Less& less)
+template <class Index, class Less>
+void StableSortIndex(Index& index, const Less& less)
 {
-	typename Индекс::КонтейнерЗначений k = индекс.подбериКлючи();
+	typename Index::ValueContainer k = index.PickKeys();
 	StableSort(k, less);
-	индекс = Индекс(pick(k));
+	index = Index(pick(k));
 }
 
-template <class Индекс>
-void StableSortIndex(Индекс& индекс)
+template <class Index>
+void StableSortIndex(Index& index)
 {
-	StableSortIndex(индекс, std::less<типЗначУ<Индекс>>());
+	StableSortIndex(index, std::less<ValueTypeOf<Index>>());
 }

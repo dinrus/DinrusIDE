@@ -1,31 +1,31 @@
 #include "LayDes.h"
 
 struct EditStringNE : EditString {
-	virtual bool Ключ(dword ключ, int rep) {
-		return ключ == K_ENTER ? true : EditString::Ключ(ключ, rep);
+	virtual bool Key(dword key, int rep) {
+		return key == K_ENTER ? true : EditString::Key(key, rep);
 	}
 };
 
-struct LTProperty : public ItemProperty, public Преобр {
+struct LTProperty : public ItemProperty, public Convert {
 	EditStringNE           lid;
 	ButtonOption           context, id;
 	byte                   charset;
 
-	void ид();
-	void Контекст();
+	void Id();
+	void Context();
 	void EditAction();
 	void SyncLid();
 
-	virtual void     устНабсим(byte charset);
-	virtual void     читай(СиПарсер& p);
-	virtual Ткст   сохрани() const;
-	virtual void     уст(const ШТкст& text) = 0;
-	virtual ШТкст  дай() const = 0;
-	virtual int      фильтруй(int chr) const;
-	virtual Значение    фмт(const Значение& q) const      { return q; }
-	virtual Значение    скан(const Значение& text) const     { return text; }
+	virtual void     SetCharset(byte charset);
+	virtual void     Read(CParser& p);
+	virtual String   Save() const;
+	virtual void     Set(const WString& text) = 0;
+	virtual WString  Get() const = 0;
+	virtual int      Filter(int chr) const;
+	virtual Value    Format(const Value& q) const      { return q; }
+	virtual Value    Scan(const Value& text) const     { return text; }
 
-	typedef LTProperty ИМЯ_КЛАССА;
+	typedef LTProperty CLASSNAME;
 
 	LTProperty();
 };
@@ -35,14 +35,14 @@ int FilterOutCr(int c)
 	return c == '\r' ? 0 : c;
 }
 
-Ткст NoCr(const Ткст& s)
+String NoCr(const String& s)
 {
-	return фильтруй(s, FilterOutCr);
+	return Filter(s, FilterOutCr);
 }
 
-int  LTProperty::фильтруй(int chr) const
+int  LTProperty::Filter(int chr) const
 {
-	return charset == CHARSET_UTF8 ? chr : изЮникода(chr, charset) == DEFAULTCHAR ? 0 : chr;
+	return charset == CHARSET_UTF8 ? chr : FromUnicode(chr, charset) == DEFAULTCHAR ? 0 : chr;
 }
 
 void LTProperty::EditAction()
@@ -53,244 +53,244 @@ void LTProperty::EditAction()
 LTProperty::LTProperty()
 {
 	context = LayImg::Context();
-	context.WhenAction = THISBACK(Контекст);
+	context.WhenAction = THISBACK(Context);
 	id = LayImg::Id();
-	id.WhenAction = THISBACK(ид);
-	charset = CHARSET_UTF8; //!! not good, but better than a crash; TRC 06/04/10//TODO
+	id.WhenAction = THISBACK(Id);
+	charset = CHARSET_UTF8; //!! not good, but better than a crash; TRC 06/04/10//СДЕЛАТЬ
 }
 
 void LTProperty::SyncLid()
 {
-	lid.вкл(context || id);
+	lid.Enable(context || id);
 }
 
-void LTProperty::ид()
+void LTProperty::Id()
 {
 	if(id)
 		context = false;
 	SyncLid();
-	if(lid.включен_ли())
-		lid.устФокус();
+	if(lid.IsEnabled())
+		lid.SetFocus();
 }
 
-void LTProperty::Контекст()
+void LTProperty::Context()
 {
 	if(context)
 		id = false;
 	SyncLid();
-	if(lid.включен_ли())
-		lid.устФокус();
+	if(lid.IsEnabled())
+		lid.SetFocus();
 }
 
-void LTProperty::устНабсим(byte cs)
+void LTProperty::SetCharset(byte cs)
 {
 	charset = cs;
 }
 
-void LTProperty::читай(СиПарсер& p)
+void LTProperty::Read(CParser& p)
 {
 	lid <<= Null;
-	if(p.ид("t_")) {
-		p.передайСим('(');
-		Ткст q = p.читайТкст();
-		p.передайСим(')');
+	if(p.Id("t_")) {
+		p.PassChar('(');
+		String q = p.ReadString();
+		p.PassChar(')');
 		for(const char *s = ~q; *s; s++) {
 			if(*s == '\v' && s[1] != '\v') {
 				context = true;
-				lid <<= Ткст(~q, s);
-				уст(вЮникод(s + 1, charset));
+				lid <<= String(~q, s);
+				Set(ToUnicode(s + 1, charset));
 				SyncLid();
 				return;
 			}
 			if(*s == '\a' && s[1] != '\a') {
 				id = true;
-				lid <<= Ткст(~q, s);
-				уст(вЮникод(s + 1, charset));
+				lid <<= String(~q, s);
+				Set(ToUnicode(s + 1, charset));
 				SyncLid();
 				return;
 			}
 		}
-		уст(вЮникод(q, charset));
+		Set(ToUnicode(q, charset));
 	}
 	else
-	if(p.ткст_ли())
-		уст(вЮникод(NoCr(p.читайТкст()), CHARSET_WIN1250));
+	if(p.IsString())
+		Set(ToUnicode(NoCr(p.ReadString()), CHARSET_WIN1250));
 	else
-		уст(Null);
+		Set(Null);
 	SyncLid();
 }
 
-Ткст LTProperty::сохрани() const
+String LTProperty::Save() const
 {
-	Ткст px = ~lid;
-	Ткст txt = изЮникода(дай(), charset);
+	String px = ~lid;
+	String txt = FromUnicode(Get(), charset);
 	if(id)
-		return "t_(" + какТкстСи(px + "\a" + txt) + ')';
+		return "t_(" + AsCString(px + "\a" + txt) + ')';
 	else
 	if(context)
-		return "t_(" + какТкстСи(px + "\v" + txt) + ')';
+		return "t_(" + AsCString(px + "\v" + txt) + ')';
 	else
-		return "t_(" + какТкстСи(txt) + ')';
+		return "t_(" + AsCString(txt) + ')';
 }
 
 template <class Editor>
 struct TextEditProperty : public LTProperty {
-	virtual Значение    дайДанные() const                { return дай(); }
-	virtual ШТкст  дай() const                    { return ~editor; }
-	virtual void     уст(const ШТкст& text)       { editor <<= text; }
+	virtual Value    GetData() const                { return Get(); }
+	virtual WString  Get() const                    { return ~editor; }
+	virtual void     Set(const WString& text)       { editor <<= text; }
 
-	virtual bool     PlaceFocus(dword k, int c)     { editor.устФокус(); return editor.Ключ(k, c); }
+	virtual bool     PlaceFocus(dword k, int c)     { editor.SetFocus(); return editor.Key(k, c); }
 
 protected:
 	Editor     editor;
-	ФреймНиз<КтрлРодитель> p;
+	FrameBottom<ParentCtrl> p;
 
 	TextEditProperty() {
 		editor.WhenAction = callback(this, &TextEditProperty::EditAction);
 		int c = EditField::GetStdHeight();
-		p.устВысоту(c);
-		editor.добавьФрейм(p);
-		p.добавь(lid.HSizePos(0, 2 * c).TopPos(0, c));
-		p.добавь(id.TopPos(0, c).RightPos(0, c));
-		p.добавь(context.TopPos(0, c).RightPos(c, c));
+		p.Height(c);
+		editor.AddFrame(p);
+		p.Add(lid.HSizePos(0, 2 * c).TopPos(0, c));
+		p.Add(id.TopPos(0, c).RightPos(0, c));
+		p.Add(context.TopPos(0, c).RightPos(c, c));
 	}
 };
 
 template <class Editor>
 struct SmartTextEditProperty : public TextEditProperty<Editor> {
 	typedef TextEditProperty<Editor> B;
-	virtual ШТкст  дай() const {
-		ШТкст text = ~B::editor;
-		ШТкст r;
+	virtual WString  Get() const {
+		WString text = ~B::editor;
+		WString r;
 		for(const wchar *s = text; *s; s++) {
 			if(*s == '\\' && s[1] == '1') {
-				r.конкат('\1');
+				r.Cat('\1');
 				s++;
 			}
 			else
 //			if(*s == '\\' && s[1] == 'b') {
-//				r.конкат('\b');
+//				r.Cat('\b');
 //				s++;
 //			}
 //			else
 			if(*s == '\n' || *s >= ' ')
-				r.конкат(*s);
+				r.Cat(*s);
 		}
 		return r;
 	}
-	virtual void уст(const ШТкст& text) {
-		ШТкст r;
+	virtual void Set(const WString& text) {
+		WString r;
 		for(const wchar *s = text; *s; s++) {
 			if(*s == '\1')
-				r.конкат("\\1");
+				r.Cat("\\1");
 			else
 //			if(*s == '\b')
-//				r.конкат("\\b");
+//				r.Cat("\\b");
 //			else
 			if(*s == '\n' || *s >= ' ')
-				r.конкат(*s);
+				r.Cat(*s);
 		}
-		B::editor.устНабсим(B::charset);
+		B::editor.SetCharset(B::charset);
 		B::editor <<= r;
 	}
 };
 
 struct TextProperty : public SmartTextEditProperty<EditString>
 {
-	virtual int      дайВысоту() const {
+	virtual int      GetHeight() const {
 		return 2 * EditField::GetStdHeight() + 6;
 	}
 
 	TextProperty() {
-		добавь(editor.HSizePosZ(100, 2).TopPos(2));
+		Add(editor.HSizePosZ(100, 2).TopPos(2));
 		editor.SetConvert(*this);
 	}
 
-	static ItemProperty *создай() { return new TextProperty; }
+	static ItemProperty *Create() { return new TextProperty; }
 };
 
-struct DocProperty : public SmartTextEditProperty<ДокРедакт>
+struct DocProperty : public SmartTextEditProperty<DocEdit>
 {
-	Кнопка  large;
+	Button  large;
 
-	virtual int      дайВысоту() const {
+	virtual int      GetHeight() const {
 		return EditField::GetStdHeight() + 6 + Zy(120) + 1;
 	}
 
 	void LargeEdit();
 
-	typedef DocProperty ИМЯ_КЛАССА;
+	typedef DocProperty CLASSNAME;
 
 	DocProperty() {
 		editor.UpDownLeave();
-		добавь(editor.HSizePosZ(2, 2).TopPos(EditField::GetStdHeight() + 2, Zy(120)));
-		добавь(large.RightPosZ(2, DPI(16)).TopPos(2, DPI(16)));
-		large.устНадпись("...");
+		Add(editor.HSizePosZ(2, 2).TopPos(EditField::GetStdHeight() + 2, Zy(120)));
+		Add(large.RightPosZ(2, DPI(16)).TopPos(2, DPI(16)));
+		large.SetLabel("...");
 		large <<= THISBACK(LargeEdit);
 	}
 
-	static ItemProperty *создай() { return new DocProperty; }
+	static ItemProperty *Create() { return new DocProperty; }
 };
 
-Прям s_texteditorpos;
+Rect s_texteditorpos;
 
 void DocProperty::LargeEdit()
 {
-	editor.устФокус();
-	ТопОкно w;
+	editor.SetFocus();
+	TopWindow w;
 	w.NoCenter();
 	w.Sizeable();
-	w.устПрям(s_texteditorpos);
-	w.Титул(имя.вШТкст());
-	ДокРедакт edit;
-	edit.устШрифт(LayFont2());
-	edit <<= дайДанные();
-	w.добавь(edit.SizePos());
-	w.пуск();
-	editor.устДанные(~edit);
-	s_texteditorpos = w.дайПрям();
+	w.SetRect(s_texteditorpos);
+	w.Title(name.ToWString());
+	DocEdit edit;
+	edit.SetFont(LayFont2());
+	edit <<= GetData();
+	w.Add(edit.SizePos());
+	w.Run();
+	editor.SetData(~edit);
+	s_texteditorpos = w.GetRect();
 }
 
 struct QtfProperty : public TextEditProperty<RichTextView>
 {
-	Кнопка  large;
+	Button  large;
 
-	virtual int    дайВысоту() const           { return EditField::GetStdHeight() + 6 + 120 + 1; }
+	virtual int    GetHeight() const           { return EditField::GetStdHeight() + 6 + 120 + 1; }
 
 	void LargeEdit();
 
-	typedef QtfProperty ИМЯ_КЛАССА;
+	typedef QtfProperty CLASSNAME;
 
 	QtfProperty() {
-		добавь(editor.HSizePosZ(2, 2).TopPos(EditField::GetStdHeight() + 2, Zy(120)));
-		добавь(large.RightPosZ(2, 16).TopPos(2, Zy(16)));
-		large.устНадпись("...");
+		Add(editor.HSizePosZ(2, 2).TopPos(EditField::GetStdHeight() + 2, Zy(120)));
+		Add(large.RightPosZ(2, 16).TopPos(2, Zy(16)));
+		large.SetLabel("...");
 		large <<= THISBACK(LargeEdit);
 		editor.SetZoom(Zoom(1, 7));
 		defval = ~editor;
 	}
 
-	static ItemProperty *создай() { return new QtfProperty; }
+	static ItemProperty *Create() { return new QtfProperty; }
 };
 
 void QtfProperty::LargeEdit()
 {
-	large.устФокус();
-	ТопОкно w;
+	large.SetFocus();
+	TopWindow w;
 	w.NoCenter();
 	w.Sizeable();
-	w.Титул(имя.вШТкст());
-	w.устПрям(s_texteditorpos);
+	w.Title(name.ToWString());
+	w.SetRect(s_texteditorpos);
 	RichEditWithToolBar edit;
-	edit <<= дайДанные();
-	w.добавь(edit.SizePos());
-	w.пуск();
-	editor.устДанные(~edit);
-	s_texteditorpos = w.дайПрям();
+	edit <<= GetData();
+	w.Add(edit.SizePos());
+	w.Run();
+	editor.SetData(~edit);
+	s_texteditorpos = w.GetRect();
 }
 
 void RegisterTextProperties() {
-	ItemProperty::регистрируй("устТекст", TextProperty::создай);
-	ItemProperty::регистрируй("Qtf", QtfProperty::создай);
-	ItemProperty::регистрируй("Doc", DocProperty::создай);
+	ItemProperty::Register("Text", TextProperty::Create);
+	ItemProperty::Register("Qtf", QtfProperty::Create);
+	ItemProperty::Register("Doc", DocProperty::Create);
 }

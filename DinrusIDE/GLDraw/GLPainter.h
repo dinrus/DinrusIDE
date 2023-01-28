@@ -1,27 +1,27 @@
 #ifndef _GLDrawDemo_Ugl_h_
 #define _GLDrawDemo_Ugl_h_
 
-namespace РНЦП {
+namespace Upp {
 	
 #define GL_TIMING(x)
 
-#ifdef _ОТЛАДКА
+#ifdef _DEBUG
 #define GLCHK(x) do { \
 	x; \
 	int err = glGetError(); \
-	if(err) LOG("Ошибка " << err << " (" << __LINE__ << "): " << #x); \
+	if(err) LOG("ERROR " << err << " (" << __LINE__ << "): " << #x); \
 	LOG((const char *)gluErrorString(err)); \
 } while(0)
 #endif
 
-struct GLContext2D { // TODO: This should be changed to regular matrix (later)
-	РазмерПЗ  vs;
-	РазмерПЗ  off = РазмерПЗ(-1, 1);
+struct GLContext2D { // СДЕЛАТЬ: This should be changed to regular matrix (later)
+	Sizef  vs;
+	Sizef  off = Sizef(-1, 1);
 	double alpha = 1;
 	
-	void уст(Размер sz)    { vs = РазмерПЗ(2.0 / sz.cx, -2.0 / sz.cy); }
+	void Set(Size sz)    { vs = Sizef(2.0 / sz.cx, -2.0 / sz.cy); }
 	
-	GLContext2D(Размер sz) { уст(sz); }
+	GLContext2D(Size sz) { Set(sz); }
 	GLContext2D()        {}
 };
 
@@ -52,95 +52,95 @@ struct GLCode : GLProgram {
 	GLCode& operator()(int i, double a, double b, double c)                    { return Uniform(i, a, b, c); }
 	GLCode& operator()(int i, double a, double b, double c, double d)          { return Uniform(i, a, b, c, d); }
 
-	GLCode& operator()(const char *id, ТочкаПЗ p)                               { return Uniform(id, p.x, p.y); }
-	GLCode& operator()(int i, ТочкаПЗ p)                                        { return Uniform(i, p.x, p.y); }
-	GLCode& operator()(const char *id, РазмерПЗ sz)                               { return Uniform(id, sz.cx, sz.cy); }
-	GLCode& operator()(int i, РазмерПЗ sz)                                        { return Uniform(i, sz.cx, sz.cy); }
-	GLCode& operator()(const char *id, Цвет c, double alpha = 1);
-	GLCode& operator()(int i, Цвет c, double alpha = 1);
+	GLCode& operator()(const char *id, Pointf p)                               { return Uniform(id, p.x, p.y); }
+	GLCode& operator()(int i, Pointf p)                                        { return Uniform(i, p.x, p.y); }
+	GLCode& operator()(const char *id, Sizef sz)                               { return Uniform(id, sz.cx, sz.cy); }
+	GLCode& operator()(int i, Sizef sz)                                        { return Uniform(i, sz.cx, sz.cy); }
+	GLCode& operator()(const char *id, Color c, double alpha = 1);
+	GLCode& operator()(int i, Color c, double alpha = 1);
 	
 	GLCode& Mat4(int i, float *mat4);
 	GLCode& Mat4(const char *id, float *mat4);
 };
 
 class GLTexture {
-	struct Данные {
+	struct Data {
 		int     refcount = 1;
 		GLuint  textureid = 0;
-		Точка   hotspot = Точка(0, 0);
-		Размер    sz = Размер(0, 0);
+		Point   hotspot = Point(0, 0);
+		Size    sz = Size(0, 0);
 	};
 	
-	Данные    *data = NULL;
+	Data    *data = NULL;
 	
-	void уст(GLuint texture, Размер sz, Точка hotspot = Точка(0, 0));
+	void Set(GLuint texture, Size sz, Point hotspot = Point(0, 0));
 	
 	friend class GLTextureDraw;
 	
 public:
-	void     очисть();
-	void     уст(const Рисунок& img, dword flags = TEXTURE_LINEAR|TEXTURE_MIPMAP);
+	void     Clear();
+	void     Set(const Image& img, dword flags = TEXTURE_LINEAR|TEXTURE_MIPMAP);
 	
-	void     свяжи(int ii = 0) const;
+	void     Bind(int ii = 0) const;
 	int      GetID() const      { return data ? data->textureid : 0; }
 	operator GLuint() const     { return GetID(); }
-	Размер     дайРазм() const    { return data ? data->sz : Размер(0, 0); }
-	Точка    GetHotSpot() const { return data ? data->hotspot : Точка(0, 0); }
+	Size     GetSize() const    { return data ? data->sz : Size(0, 0); }
+	Point    GetHotSpot() const { return data ? data->hotspot : Point(0, 0); }
 
 	GLTexture()                 {}
-	GLTexture(const Рисунок& img, dword flags = TEXTURE_LINEAR|TEXTURE_MIPMAP) { уст(img, flags); }
-	~GLTexture()                { очисть(); }
+	GLTexture(const Image& img, dword flags = TEXTURE_LINEAR|TEXTURE_MIPMAP) { Set(img, flags); }
+	~GLTexture()                { Clear(); }
 
 	GLTexture(const GLTexture& src);
 	GLTexture& operator=(const GLTexture& src);
 };
 
-void GLBind(int ii, const Рисунок& img, dword style = TEXTURE_LINEAR|TEXTURE_MIPMAP);
-void GLBind(const Рисунок& img, dword style = TEXTURE_LINEAR|TEXTURE_MIPMAP);
+void GLBind(int ii, const Image& img, dword style = TEXTURE_LINEAR|TEXTURE_MIPMAP);
+void GLBind(const Image& img, dword style = TEXTURE_LINEAR|TEXTURE_MIPMAP);
 
-void GLDrawTexture(const GLContext2D& dd, const ПрямПЗ& rect, int textureid, Размер tsz, const Прям& src);
-void GLDrawTexture(const GLContext2D& dd, const ПрямПЗ& rect, const GLTexture& img, const Прям& src);
-void GLDrawImage(const GLContext2D& dd, const ПрямПЗ& rect, const Рисунок& img, const Прям& src);
-void GLDrawTexture(const GLContext2D& dd, const ПрямПЗ& rect, const GLTexture& img);
-void GLDrawImage(const GLContext2D& dd, const ПрямПЗ& rect, const Рисунок& img);
+void GLDrawTexture(const GLContext2D& dd, const Rectf& rect, int textureid, Size tsz, const Rect& src);
+void GLDrawTexture(const GLContext2D& dd, const Rectf& rect, const GLTexture& img, const Rect& src);
+void GLDrawImage(const GLContext2D& dd, const Rectf& rect, const Image& img, const Rect& src);
+void GLDrawTexture(const GLContext2D& dd, const Rectf& rect, const GLTexture& img);
+void GLDrawImage(const GLContext2D& dd, const Rectf& rect, const Image& img);
 
 class GLVertexData {
-	struct Данные {
+	struct Data {
 		int            refcount = 1;
 		GLuint         VAO = 0;
 		GLuint         EBO = 0;
 		int            elements = 0;
 	    
-		Вектор<GLuint> VBO;
+		Vector<GLuint> VBO;
 	};
 	
-	Данные    *data = NULL;
+	Data    *data = NULL;
 	
 	void     Do();
 
 public:
-	void    очисть();
+	void    Clear();
 
-	GLVertexData& добавь(const void *data, int тип, int ntuple, int count);
-	GLVertexData& добавь(const float *data, int ntuple, int count) { return добавь(data, GL_FLOAT, ntuple, count); }
-	GLVertexData& добавь(const byte *data, int ntuple, int count)  { return добавь(data, GL_UNSIGNED_BYTE, ntuple, count); }
-	GLVertexData& добавь(const dword *data, int ntuple, int count) { return добавь(data, GL_UNSIGNED_INT, ntuple, count); }
-	GLVertexData& добавь(const Вектор<float>& data, int ntuple)    { return добавь(data, ntuple, data.дайСчёт() / ntuple); }
-	GLVertexData& добавь(const Вектор<byte>& data, int ntuple)     { return добавь(data, ntuple, data.дайСчёт() / ntuple); }
-	GLVertexData& добавь(const Вектор<dword>& data, int ntuple)    { return добавь(data, ntuple, data.дайСчёт() / ntuple); }
-	GLVertexData& добавь(const Вектор<ТочкаПЗ>& pt);
-	GLVertexData& Индекс(const int *indices, int count);
-	GLVertexData& Индекс(const Вектор<int>& indices)             { return Индекс(indices, indices.дайСчёт()); }
+	GLVertexData& Add(const void *data, int type, int ntuple, int count);
+	GLVertexData& Add(const float *data, int ntuple, int count) { return Add(data, GL_FLOAT, ntuple, count); }
+	GLVertexData& Add(const byte *data, int ntuple, int count)  { return Add(data, GL_UNSIGNED_BYTE, ntuple, count); }
+	GLVertexData& Add(const dword *data, int ntuple, int count) { return Add(data, GL_UNSIGNED_INT, ntuple, count); }
+	GLVertexData& Add(const Vector<float>& data, int ntuple)    { return Add(data, ntuple, data.GetCount() / ntuple); }
+	GLVertexData& Add(const Vector<byte>& data, int ntuple)     { return Add(data, ntuple, data.GetCount() / ntuple); }
+	GLVertexData& Add(const Vector<dword>& data, int ntuple)    { return Add(data, ntuple, data.GetCount() / ntuple); }
+	GLVertexData& Add(const Vector<Pointf>& pt);
+	GLVertexData& Index(const int *indices, int count);
+	GLVertexData& Index(const Vector<int>& indices)             { return Index(indices, indices.GetCount()); }
 	
 	void    Draw(int mode = GL_TRIANGLES) const;
 
 	void    Draw(GLCode& shaders, int mode = GL_TRIANGLES) const;
 	
 	operator bool() const                                       { return data; }
-	bool    пустой() const                                     { return !data; }
+	bool    IsEmpty() const                                     { return !data; }
 
 	GLVertexData()                                              {}
-	~GLVertexData()                                             { очисть(); }
+	~GLVertexData()                                             { Clear(); }
 
 	GLVertexData(const GLVertexData& src);
 	GLVertexData& operator=(const GLVertexData& src);
@@ -151,35 +151,35 @@ const GLVertexData& GLRectMesh();
 template <typename Src>
 void GLPolygons(GLVertexData& mesh, const Src& polygon);
 
-void GLDrawPolygons(const GLContext2D& dd, ТочкаПЗ at, const GLVertexData& mesh, РазмерПЗ scale, Цвет color);
-void GLDrawConvexPolygons(const GLContext2D& dd, ТочкаПЗ at, const GLVertexData& mesh, РазмерПЗ scale, Цвет color);
+void GLDrawPolygons(const GLContext2D& dd, Pointf at, const GLVertexData& mesh, Sizef scale, Color color);
+void GLDrawConvexPolygons(const GLContext2D& dd, Pointf at, const GLVertexData& mesh, Sizef scale, Color color);
 
 template <typename Src>
 void GLPolylines(GLVertexData& data, const Src& polygon, bool close_loops = false);
 
-void DashPolyline(Вектор<Вектор<ТочкаПЗ>>& polyline, const Вектор<ТочкаПЗ>& line,
-                  const Вектор<double>& pattern, double distance = 0);
+void DashPolyline(Vector<Vector<Pointf>>& polyline, const Vector<Pointf>& line,
+                  const Vector<double>& pattern, double distance = 0);
 
-void GLDrawPolylines(const GLContext2D& dd, ТочкаПЗ at, const GLVertexData& mesh, РазмерПЗ scale, double width, Цвет color);
+void GLDrawPolylines(const GLContext2D& dd, Pointf at, const GLVertexData& mesh, Sizef scale, double width, Color color);
 
-void GLDrawStencil(Цвет color, double alpha);
+void GLDrawStencil(Color color, double alpha);
 
-void GLDrawEllipse(const GLContext2D& dd, ТочкаПЗ center, РазмерПЗ radius, Цвет fill_color,
-                   double width, Цвет line_color, const Вектор<double>& dash, double distance);
-void GLDrawEllipse(const GLContext2D& dd, ТочкаПЗ center, РазмерПЗ radius, Цвет fill_color,
-                   double width, Цвет line_color);
+void GLDrawEllipse(const GLContext2D& dd, Pointf center, Sizef radius, Color fill_color,
+                   double width, Color line_color, const Vector<double>& dash, double distance);
+void GLDrawEllipse(const GLContext2D& dd, Pointf center, Sizef radius, Color fill_color,
+                   double width, Color line_color);
 
-GLTexture GetGlyphGLTextureCached(double angle, int chr, Шрифт font, Цвет color);
+GLTexture GetGlyphGLTextureCached(double angle, int chr, Font font, Color color);
 
-void GLDrawText(const GLContext2D& dd, ТочкаПЗ pos, double angle, const wchar *text, Шрифт font,
-                Цвет ink, int n = -1, const int *dx = NULL);
+void GLDrawText(const GLContext2D& dd, Pointf pos, double angle, const wchar *text, Font font,
+                Color ink, int n = -1, const int *dx = NULL);
 
-void GLArc(Вектор<Вектор<ТочкаПЗ>>& line, const ПрямПЗ& rc, ТочкаПЗ start, ТочкаПЗ end);
+void GLArc(Vector<Vector<Pointf>>& line, const Rectf& rc, Pointf start, Pointf end);
 
 class GLTriangles {
-	Вектор<float>  pos;
-	Вектор<byte>   color;
-	Вектор<GLint>  elements;
+	Vector<float>  pos;
+	Vector<byte>   color;
+	Vector<GLint>  elements;
 	int            ii = 0;
 
 public:
@@ -189,19 +189,19 @@ public:
 		return ii++;
 	}
 
-	int  Vertex(float x, float y, Цвет c, double alpha)  { return Vertex(x, y, c.дайК(), c.дайЗ(), c.дайС(), alpha); }
-	int  Vertex(ТочкаПЗ p, Цвет c, double alpha)          { return Vertex((float)p.x, (float)p.y, c, alpha); }
-	int  Vertex(int x, int y, Цвет c, double alpha)      { return Vertex((float)x, (float)y, c, alpha); }
+	int  Vertex(float x, float y, Color c, double alpha)  { return Vertex(x, y, c.GetR(), c.GetG(), c.GetB(), alpha); }
+	int  Vertex(Pointf p, Color c, double alpha)          { return Vertex((float)p.x, (float)p.y, c, alpha); }
+	int  Vertex(int x, int y, Color c, double alpha)      { return Vertex((float)x, (float)y, c, alpha); }
 
 	void Triangle(int a, int b, int c)                    { elements << a << b << c; }
 	
-	void очисть()                                          { elements.очисть(); pos.очисть(); color.очисть(); ii = 0; }
+	void Clear()                                          { elements.Clear(); pos.Clear(); color.Clear(); ii = 0; }
 
 	void Draw(const GLContext2D& dd);
 };
 
-void Ellipse(GLTriangles& tr, ТочкаПЗ center, РазмерПЗ radius, Цвет color, double width, Цвет line_color, double alpha);
-void Polyline(GLTriangles& tr, const Вектор<ТочкаПЗ>& p, double width, Цвет color, double alpha, bool close);
+void Ellipse(GLTriangles& tr, Pointf center, Sizef radius, Color color, double width, Color line_color, double alpha);
+void Polyline(GLTriangles& tr, const Vector<Pointf>& p, double width, Color color, double alpha, bool close);
 
 #include "GLPainter.hpp"
 
@@ -210,82 +210,82 @@ public:
 	virtual dword GetInfo() const;
 
 	virtual void BeginOp();
-	virtual bool ClipOp(const Прям& r);
-	virtual bool ClipoffOp(const Прям& r);
-	virtual bool IntersectClipOp(const Прям& r);
-	virtual void OffsetOp(Точка p);
-	virtual bool ExcludeClipOp(const Прям& r);
+	virtual bool ClipOp(const Rect& r);
+	virtual bool ClipoffOp(const Rect& r);
+	virtual bool IntersectClipOp(const Rect& r);
+	virtual void OffsetOp(Point p);
+	virtual bool ExcludeClipOp(const Rect& r);
 	virtual void EndOp();
-	virtual bool IsPaintingOp(const Прям& r) const;
+	virtual bool IsPaintingOp(const Rect& r) const;
 
-	virtual void DrawRectOp(int x, int y, int cx, int cy, Цвет color);
-	virtual void DrawImageOp(int x, int y, int cx, int cy, const Рисунок& image, const Прям& src, Цвет color);
-	virtual void DrawTextOp(int x, int y, int angle, const wchar *text, Шрифт font, Цвет ink, int n, const int *dx);
+	virtual void DrawRectOp(int x, int y, int cx, int cy, Color color);
+	virtual void DrawImageOp(int x, int y, int cx, int cy, const Image& image, const Rect& src, Color color);
+	virtual void DrawTextOp(int x, int y, int angle, const wchar *text, Font font, Color ink, int n, const int *dx);
 
-	virtual void DrawArcOp(const Прям& rc, Точка start, Точка end, int width, Цвет color);
-	virtual void DrawEllipseOp(const Прям& r, Цвет color, int pen, Цвет pencolor);
-	virtual void DrawLineOp(int x1, int y1, int x2, int y2, int width, Цвет color);
-	virtual void DrawPolyPolyPolygonOp(const Точка *vertices, int vertex_count, const int *subpolygon_counts, int scc, const int *disjunct_polygon_counts, int dpcc, Цвет color, int width, Цвет outline, uint64 pattern, Цвет doxor);
-	virtual void DrawPolyPolylineOp(const Точка *vertices, int vertex_count, const int *counts, int count_count, int width, Цвет color, Цвет doxor);
+	virtual void DrawArcOp(const Rect& rc, Point start, Point end, int width, Color color);
+	virtual void DrawEllipseOp(const Rect& r, Color color, int pen, Color pencolor);
+	virtual void DrawLineOp(int x1, int y1, int x2, int y2, int width, Color color);
+	virtual void DrawPolyPolyPolygonOp(const Point *vertices, int vertex_count, const int *subpolygon_counts, int scc, const int *disjunct_polygon_counts, int dpcc, Color color, int width, Color outline, uint64 pattern, Color doxor);
+	virtual void DrawPolyPolylineOp(const Point *vertices, int vertex_count, const int *counts, int count_count, int width, Color color, Color doxor);
 	
-	virtual void двигОп(const ТочкаПЗ& p, bool rel);
-	virtual void линияОп(const ТочкаПЗ& p, bool rel);
+	virtual void MoveOp(const Pointf& p, bool rel);
+	virtual void LineOp(const Pointf& p, bool rel);
 	virtual void OpacityOp(double o);
-	virtual void закройОп();
-	virtual void StrokeOp(double width, const КЗСА& rgba);
-	virtual void FillOp(const КЗСА& color);
-	virtual void DashOp(const Вектор<double>& dash, double start);
+	virtual void CloseOp();
+	virtual void StrokeOp(double width, const RGBA& rgba);
+	virtual void FillOp(const RGBA& color);
+	virtual void DashOp(const Vector<double>& dash, double start);
 
 private:
-	struct Cloff : Движимое<Cloff> {
-		Прям   clip;
-		ТочкаПЗ offset;
+	struct Cloff : Moveable<Cloff> {
+		Rect   clip;
+		Pointf offset;
 	};
 	
 	struct State {
 		double alpha;
 		double dash_start;
-		Вектор<double> dash;
+		Vector<double> dash;
 	};
 	
-	Вектор<Cloff> cloff;
-	Массив<State>  state;
+	Vector<Cloff> cloff;
+	Array<State>  state;
 	GLContext2D   dd;
-	Размер          view_size;
-	Прям          scissor;
+	Size          view_size;
+	Rect          scissor;
 
-	ТочкаПЗ prev;
-	Вектор<Вектор<ТочкаПЗ>> path;
+	Pointf prev;
+	Vector<Vector<Pointf>> path;
 	bool   path_done;
 	bool   close_path;
 	double dash_start;
-	Вектор<double> dash, path_dash;
+	Vector<double> dash, path_dash;
 
-	void   сунь();
-	ТочкаПЗ Off(int x, int y);
-	ТочкаПЗ Off(Точка p)                      { return Off(p.x, p.y); }
-	ПрямПЗ  Off(int x, int y, int cx, int cy);
-	ПрямПЗ  Off(int x, int y, Размер sz);
+	void   Push();
+	Pointf Off(int x, int y);
+	Pointf Off(Point p)                      { return Off(p.x, p.y); }
+	Rectf  Off(int x, int y, int cx, int cy);
+	Rectf  Off(int x, int y, Size sz);
 	void   SyncScissor();
-	void   делайПуть(Вектор<Вектор<ТочкаПЗ>>& poly, const Точка *pp, const Точка *end);
-	static const Вектор<double>& GetDash(int& width);
-	void   ApplyDash(Вектор<Вектор<ТочкаПЗ>>& polyline, int& width);
-	void   DoDrawPolylines(Вектор<Вектор<ТочкаПЗ>>& poly, int width, Цвет color, bool close = false);
-	void   DoDrawPolygons(const Вектор<Вектор<ТочкаПЗ>>& path, Цвет color);
+	void   DoPath(Vector<Vector<Pointf>>& poly, const Point *pp, const Point *end);
+	static const Vector<double>& GetDash(int& width);
+	void   ApplyDash(Vector<Vector<Pointf>>& polyline, int& width);
+	void   DoDrawPolylines(Vector<Vector<Pointf>>& poly, int width, Color color, bool close = false);
+	void   DoDrawPolygons(const Vector<Vector<Pointf>>& path, Color color);
 	
 	friend class GLTextureDraw;
 
 public:
 	using Draw::Clip;
 
-	void иниц(Размер sz, double alpha = 1);
+	void Init(Size sz, double alpha = 1);
 	
-	void слей();
+	void Flush();
 	
-	operator const GLContext2D&()           { слей(); return dd; }
+	operator const GLContext2D&()           { Flush(); return dd; }
 
 	DrawGL() {}
-	DrawGL(Размер sz, double alpha = 1)       { иниц(sz, alpha); }
+	DrawGL(Size sz, double alpha = 1)       { Init(sz, alpha); }
 	~DrawGL();
 };
 
@@ -293,18 +293,18 @@ class GLTextureDraw : public DrawGL {
 	GLuint framebuffer = 0;
     GLuint texture = 0;
 	GLuint rbo = 0;
-	Размер   sz;
+	Size   sz;
 	int    msaa = 0;
 
 public:
-	void      очисть();
-	void      создай(Размер sz, int msaa = 0);
-	GLTexture дайРез();
-	operator  GLTexture()                { return дайРез(); }
+	void      Clear();
+	void      Create(Size sz, int msaa = 0);
+	GLTexture GetResult();
+	operator  GLTexture()                { return GetResult(); }
 
 	GLTextureDraw()                      {}
-	GLTextureDraw(Размер sz, int msaa = 0) { создай(sz, msaa); }
-	~GLTextureDraw()                     { очисть(); }
+	GLTextureDraw(Size sz, int msaa = 0) { Create(sz, msaa); }
+	~GLTextureDraw()                     { Clear(); }
 };
 
 void GLClearCounters();

@@ -2,17 +2,17 @@
 
 #define LLOG(x) // LOG(x)
 
-namespace РНЦПДинрус {
+namespace Upp {
 
-СтатическийСтопор ValueCacheMutex;
+StaticMutex ValueCacheMutex;
 
 std::atomic<bool> sValueCacheFinished;
 
-struct ValueMakeCacheClass : LRUCache<Значение> {
+struct ValueMakeCacheClass : LRUCache<Value> {
 	~ValueMakeCacheClass() { sValueCacheFinished = true; }
 };
 
-LRUCache<Значение>& TheValueCache()
+LRUCache<Value>& TheValueCache()
 {
 	static ValueMakeCacheClass m;
 	return m;
@@ -31,41 +31,41 @@ double ValueCacheRatio = 0.125;
 
 void AdjustValueCache()
 {
-	Стопор::Замок __(ValueCacheMutex);
+	Mutex::Lock __(ValueCacheMutex);
 	uint64 total, available;
-	дайСтатусСисПамяти(total, available);
+	GetSystemMemoryStatus(total, available);
 	if(ValueCacheMaxSizeLimitHigh == 0)
 		ValueCacheMaxSizeLimitHigh = INT_MAX;
 	ValueCacheMaxSize = clamp((int)min((int64)(ValueCacheRatio * available), (int64)2000*1024*1024),
 	                          ValueCacheMaxSizeLimitLow, ValueCacheMaxSizeLimitHigh);
-	LLOG("нов MakeValue max size " << ValueCacheMaxSize << " high limit " << ValueCacheMaxSizeLimitHigh);
+	LLOG("New MakeValue max size " << ValueCacheMaxSize << " high limit " << ValueCacheMaxSizeLimitHigh);
 	ShrinkValueCache();
 }
 
 void ShrinkValueCache()
 {
-	Стопор::Замок __(ValueCacheMutex);
+	Mutex::Lock __(ValueCacheMutex);
 	if(!ValueCacheMaxSizeLimitHigh)
 		AdjustValueCache();
-	TheValueCache().сожми(ValueCacheMaxSize, 20000);
-	LLOG("MakeValue cache size after shrink: " << TheValueCache().дайРазм());
+	TheValueCache().Shrink(ValueCacheMaxSize, 20000);
+	LLOG("MakeValue cache size after shrink: " << TheValueCache().GetSize());
 }
 
 void SetupValueCache(int limit_low, int limit_high, double ratio)
 {
-	Стопор::Замок __(ValueCacheMutex);
+	Mutex::Lock __(ValueCacheMutex);
 
 	ValueCacheMaxSizeLimitLow = 1000000;
 	ValueCacheMaxSizeLimitHigh = 256000000;
 	ValueCacheRatio = 0.125;
 }
 
-Значение MakeValue(ValueMaker& m)
+Value MakeValue(ValueMaker& m)
 {
-	Стопор::Замок __(ValueCacheMutex);
-	LLOG("MakeValue cache size before make: " << TheValueCache().дайРазм());
-	Значение v = TheValueCache().дай(m);
-	LLOG("MakeValue cache size after make: " << TheValueCache().дайРазм());
+	Mutex::Lock __(ValueCacheMutex);
+	LLOG("MakeValue cache size before make: " << TheValueCache().GetSize());
+	Value v = TheValueCache().Get(m);
+	LLOG("MakeValue cache size after make: " << TheValueCache().GetSize());
 	ShrinkValueCache();
 	LLOG("-------------");
 	return v;

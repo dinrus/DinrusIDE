@@ -5,20 +5,20 @@
 #endif
 
 
-namespace РНЦПДинрус {
+namespace Upp {
 
 #define LTIMING(x) // TIMING(x)
 
 void __LOGF__(const char *fmt, ...) {
-	char буфер[1024];
+	char buffer[1024];
 	va_list argptr;
 	va_start(argptr, fmt);
-	vsprintf(буфер, fmt, argptr);
+	vsprintf(buffer, fmt, argptr);
 	va_end(argptr);
-	VppLog().помести(буфер);
+	VppLog().Put(buffer);
 }
 
-Ткст дайИмяТипа(const char *s)
+String GetTypeName(const char *s)
 {
 	static const char _struct[] = "struct ", _class[] = "class ";
 	enum { LEN_S = sizeof(_struct) - 1, LEN_C = sizeof(_class) - 1 };
@@ -30,34 +30,34 @@ void __LOGF__(const char *fmt, ...) {
 	return s;
 }
 
-void проверьЭталонЛога(const char *etalon_path)
+void CheckLogEtalon(const char *etalon_path)
 {
-#ifdef _ОТЛАДКА
-	auto LoadLog = [](const Ткст& path) {
-		Ткст s = фильтруй(загрузиФайл(path), [](int c) { return c == '\r' ? 0 : c; });
-		return s.середина(max(s.найдиПосле("\n"), 0));
+#ifdef _DEBUG
+	auto LoadLog = [](const String& path) {
+		String s = Filter(LoadFile(path), [](int c) { return c == '\r' ? 0 : c; });
+		return s.Mid(max(s.FindAfter("\n"), 0));
 	};
 	
-	Ткст log = LoadLog(GetStdLogPath());
-	Ткст etalon = LoadLog(etalon_path);
+	String log = LoadLog(GetStdLogPath());
+	String etalon = LoadLog(etalon_path);
 	
-	ПРОВЕРЬ(log == etalon);
+	ASSERT(log == etalon);
 	
 	LOG("================= OK");
 #endif
 }
 
-void проверьЭталонЛога()
+void CheckLogEtalon()
 {
-	проверьЭталонЛога(дайФайлДан("Etalon.log"));
+	CheckLogEtalon(GetDataFile("Etalon.log"));
 }
 
-bool ТаймингИнспектор::active = true;
+bool TimingInspector::active = true;
 
-static ТаймингИнспектор s_zero; // time of старт / стоп without actual body to measure
+static TimingInspector s_zero; // time of Start / End without actual body to measure
 
-ТаймингИнспектор::ТаймингИнспектор(const char *_name) {
-	имя = _name ? _name : "";
+TimingInspector::TimingInspector(const char *_name) {
+	name = _name ? _name : "";
 	all_count = call_count = max_nesting = min_time = max_time = total_time = 0;
 	static bool init;
 	if(!init) {
@@ -68,16 +68,16 @@ static ТаймингИнспектор s_zero; // time of старт / стоп
 	}
 }
 
-ТаймингИнспектор::~ТаймингИнспектор() {
+TimingInspector::~TimingInspector() {
 	if(this == &s_zero) return;
-	Стопор::Замок __(mutex);
-	StdLog() << дамп() << "\r\n";
+	Mutex::Lock __(mutex);
+	StdLog() << Dump() << "\r\n";
 }
 
-void ТаймингИнспектор::добавь(dword time, int nesting)
+void TimingInspector::Add(dword time, int nesting)
 {
 	time = tmGetTime() - time;
-	Стопор::Замок __(mutex);
+	Mutex::Lock __(mutex);
 	if(!active) return;
 	all_count++;
 	if(nesting > max_nesting)
@@ -95,36 +95,36 @@ void ТаймингИнспектор::добавь(dword time, int nesting)
 	}
 }
 
-Ткст ТаймингИнспектор::дамп() {
-	Стопор::Замок __(mutex);
-	Ткст s = спринтф("TIMING %-15s: ", имя);
+String TimingInspector::Dump() {
+	Mutex::Lock __(mutex);
+	String s = Sprintf("TIMING %-15s: ", name);
 	if(call_count == 0)
 		return s + "No active hit";
 	ONCELOCK {
 		int w = GetTickCount();
 		while(GetTickCount() - w < 200) { // measure profiling overhead
 			thread_local int nesting = 0;
-			ТаймингИнспектор::Routine __(s_zero, nesting);
+			TimingInspector::Routine __(s_zero, nesting);
 		}
 	}
 	double tm = max(0.0, double(total_time) / call_count / 1000 -
 			             double(s_zero.total_time) / s_zero.call_count / 1000);
 	return s
-	       + времяФмт(tm * call_count)
-	       + " - " + времяФмт(tm)
-	       + " (" + времяФмт((double)total_time  / 1000) + " / "
-	       + спринтф("%d )", call_count)
-		   + ", min: " + времяФмт((double)min_time / 1000)
-		   + ", max: " + времяФмт((double)max_time / 1000)
-		   + спринтф(", nesting: %d - %d", max_nesting, all_count);
+	       + timeFormat(tm * call_count)
+	       + " - " + timeFormat(tm)
+	       + " (" + timeFormat((double)total_time  / 1000) + " / "
+	       + Sprintf("%d )", call_count)
+		   + ", min: " + timeFormat((double)min_time / 1000)
+		   + ", max: " + timeFormat((double)max_time / 1000)
+		   + Sprintf(", nesting: %d - %d", max_nesting, all_count);
 }
 
-ИнспекторСчётаНажатий::~ИнспекторСчётаНажатий()
+HitCountInspector::~HitCountInspector()
 {
-	RLOG("HITCOUNT " << имя << ": hit count = " << hitcount);
+	RLOG("HITCOUNT " << name << ": hit count = " << hitcount);
 }
 
-void  гексДампДанных(Поток& s, const void *ptr, int size, bool adr, int maxsize) {
+void  HexDumpData(Stream& s, const void *ptr, int size, bool adr, int maxsize) {
 	char h[256];
 	int a, b;
 	byte *q = (byte *)ptr;
@@ -135,71 +135,71 @@ void  гексДампДанных(Поток& s, const void *ptr, int size, boo
 		#ifdef CPU_64
 			uint64 aa = a + (uint64)ptr;
 			sprintf(h, "%+6d 0x%08X%08X ", a, (int)(aa >> 32), (int)aa);
-			s.помести(h);
+			s.Put(h);
 		#else
 			sprintf(h, "%+6d 0x%08X ", a, int(a + dword(ptr)));
-			s.помести(h);
+			s.Put(h);
 		#endif
 		}
 		else {
 			sprintf(h, "%+6d ", a);
-			s.помести(h);
+			s.Put(h);
 		}
 		for(b = 0; b < 16; b++)
 			if(a + b < size) {
 				sprintf(h, "%02X ", q[a + b]);
-				s.помести(h);
+				s.Put(h);
 			}
 			else
-				s.помести("   ");
-		s.помести("    ");
+				s.Put("   ");
+		s.Put("    ");
 		for(b = 0; b < 16; b++)
 			if(a + b < size) {
 				int c = q[a + b];
-				s.помести(c >= 32 && c < 128 ? c : '.');
+				s.Put(c >= 32 && c < 128 ? c : '.');
 			}
 			else
-				s.помести(' ');
+				s.Put(' ');
 		a += 16;
 		s << '\n';
 	}
 }
 
-void  гексДамп(Поток& s, const void *ptr, int size, int maxsize) {
+void  HexDump(Stream& s, const void *ptr, int size, int maxsize) {
 	char h[256];
 	sprintf(h, "Memory at 0x%p, size 0x%X = %d\n", ptr, size, size);
-	s.помести(h);
+	s.Put(h);
 #ifdef PLATFORM_WIN32
 	if(IsBadReadPtr(ptr, size)) {
-		s.помести("   <MEMORY ACCESS VIOLATION>\n");
+		s.Put("   <MEMORY ACCESS VIOLATION>\n");
 		return;
 	}
 #endif
-	гексДампДанных(s, ptr, size, true, maxsize);
+	HexDumpData(s, ptr, size, true, maxsize);
 }
 
-void логГекс(const Ткст& s)
+void LogHex(const String& s)
 {
-	гексДамп(VppLog(), ~s, s.дайДлину());
+	HexDump(VppLog(), ~s, s.GetLength());
 }
 
-void логГекс(const ШТкст& s)
+void LogHex(const WString& s)
 {
-	гексДамп(VppLog(), ~s, sizeof(wchar) * s.дайДлину());
+	HexDump(VppLog(), ~s, sizeof(wchar) * s.GetLength());
 }
 
-void логГекс(uint64 i)
+void LogHex(uint64 i)
 {
-	VppLog() << "0x" << фмт64Гекс(i) << '\n';
+	VppLog() << "0x" << Format64Hex(i) << '\n';
 }
 
-void логГекс(void *p)
+void LogHex(void *p)
 {
 	VppLog() << p << '\n';
 }
 
 #ifdef CPU_X86
-Ткст какТкст(__m128i x)
+String AsString(__m128i x)
 {
 	int32 h[4];
 	memcpy(h, &x, 16);
@@ -207,31 +207,31 @@ void логГекс(void *p)
 	memcpy(w, &x, 16);
 	float f[4];
 	memcpy(f, &x, 16);
-	return спринтф("_%08x_%08x_%08x_%08x (%d, %d, %d, %d) : (%d, %d, %d, %d) (%f, %f, %f, %f)",
+	return Sprintf("_%08x_%08x_%08x_%08x (%d, %d, %d, %d) : (%d, %d, %d, %d) (%f, %f, %f, %f)",
 	               h[3], h[2], h[1], h[0], w[7], w[6], w[5], w[4], w[3], w[2], w[1], w[0],
 	               f[3], f[2], f[1], f[0]);
 }
 #endif
 
-void устМагию(byte *t, int count)
+void SetMagic(byte *t, int count)
 {
 	for(int i = 0; i < count; i++)
 		t[i] = i;
 }
 
-void проверьМагию(byte *t, int count)
+void CheckMagic(byte *t, int count)
 {
 	for(int i = 0; i < count; i++)
 		if(t[i] != i)
-			паника("Failed magic area!");
+			Panic("Failed magic area!");
 }
 
 #if defined(PLATFORM_WIN32) && !defined(PLATFORM_WINCE)
 
 template <class T>
-void помести(HANDLE file, T& данные) {
+void Put(HANDLE file, T& data) {
 	dword dummy;
-	WriteFile(file, &данные, sizeof(данные), &dummy, NULL);
+	WriteFile(file, &data, sizeof(data), &dummy, NULL);
 }
 
 static LPTOP_LEVEL_EXCEPTION_FILTER sPrev;
@@ -239,9 +239,9 @@ static dword sESP;
 static char  appInfo[20];
 static char  crashfilename[MAX_PATH];
 
-void устИмяКрашФайла(const char *cfile)
+void SetCrashFileName(const char *cfile)
 {
-	ПРОВЕРЬ(strlen(cfile) < MAX_PATH);
+	ASSERT(strlen(cfile) < MAX_PATH);
 	strcpy(crashfilename, cfile);
 }
 
@@ -256,13 +256,13 @@ LONG __stdcall sDumpHandler(LPEXCEPTION_POINTERS ep) {
 	HANDLE file = CreateFile(crashfilename, GENERIC_WRITE, FILE_SHARE_READ|FILE_SHARE_WRITE, NULL,
 		CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL|FILE_FLAG_SEQUENTIAL_SCAN, NULL);
 	dword v = 1;
-	помести(file, v);
+	Put(file, v);
 	EXCEPTION_RECORD *er = ep->ExceptionRecord;
-	помести(file, er->ExceptionCode);
-	помести(file, er->ExceptionAddress);
-	помести(file, er->NumberParameters);
+	Put(file, er->ExceptionCode);
+	Put(file, er->ExceptionAddress);
+	Put(file, er->NumberParameters);
 	for(int i = 0; i < (int)er->NumberParameters; i++)
-		помести(file, er->ExceptionInformation[i]);
+		Put(file, er->ExceptionInformation[i]);
 
 #ifdef CPU_AMD64
 	qword esp = ep->ContextRecord->Rsp;
@@ -275,7 +275,7 @@ LONG __stdcall sDumpHandler(LPEXCEPTION_POINTERS ep) {
 	for(;;) {
 		dword new_base = *(dword *)base;
 		dword caller = *(dword *)(base + 4);
-		помести(file, caller);
+		Put(file, caller);
 		if(new_base < base)
 			break;
 		base = new_base;
@@ -290,11 +290,11 @@ LONG __stdcall sDumpHandler(LPEXCEPTION_POINTERS ep) {
 	return sPrev ? (*sPrev)(ep) : 0 /*EXCEPTION_CONTINUE_SEARCH*/;
 }
 
-void установиКрашДамп(const char *инфо) {
+void InstallCrashDump(const char *info) {
 	memset(appInfo, 0, sizeof(appInfo));
-	if(инфо && *инфо) {
+	if(info && *info) {
 		appInfo[0] = '.';
-		strncpy(appInfo + 1, инфо, sizeof(appInfo) - 1);
+		strncpy(appInfo + 1, info, sizeof(appInfo) - 1);
 		appInfo[sizeof(appInfo) - 1] = '\0';
 	}
 	if(!sPrev) {
@@ -311,10 +311,10 @@ void установиКрашДамп(const char *инфо) {
 
 #endif
 
-#ifdef _ОТЛАДКА
-// значение inspectors for Gdb_MI2 frontend
-dword   _DBG_Value_GetType(Значение const &v)	{ return v.дайТип(); }
-Ткст  _DBG_Value_AsString(Значение const &v)	{ return какТкст(v); }
+#ifdef _DEBUG
+// value inspectors for Gdb_MI2 frontend
+dword   _DBG_Value_GetType(Value const &v)	{ return v.GetType(); }
+String  _DBG_Value_AsString(Value const &v)	{ return AsString(v); }
 #endif
 
 }
@@ -324,7 +324,7 @@ dword   _DBG_Value_GetType(Значение const &v)	{ return v.дайТип();
 #include <memory>
 #include <cxxabi.h>
 
-namespace РНЦПДинрус {
+namespace Upp {
 
 struct cpp_demangle_handle__ {
     char* p;
@@ -332,20 +332,20 @@ struct cpp_demangle_handle__ {
     ~cpp_demangle_handle__() { std::free(p); }
 };
 
-Ткст разманглируйСиПП(const char* имя) {
+String CppDemangle(const char* name) {
     int status = -4;
-    cpp_demangle_handle__ result( abi::__cxa_demangle(имя, NULL, NULL, &status) );
-    return (status==0) ? result.p : имя ;
+    cpp_demangle_handle__ result( abi::__cxa_demangle(name, NULL, NULL, &status) );
+    return (status==0) ? result.p : name ;
 }
 
 }
 
 #else
 
-namespace РНЦПДинрус {
+namespace Upp {
 
-Ткст разманглируйСиПП(const char* имя) {
-    return обрежьЛево("struct ", обрежьЛево("class ", имя));
+String CppDemangle(const char* name) {
+    return TrimLeft("struct ", TrimLeft("class ", name));
 }
 
 }

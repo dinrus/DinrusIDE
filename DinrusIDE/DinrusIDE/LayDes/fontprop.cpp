@@ -1,25 +1,25 @@
 #include "LayDes.h"
 
-Ткст FormatFont(Шрифт font)
+String FormatFont(Font font)
 {
 	int q = font.GetFace();
-	Ткст txt;
-	int h = font.дайВысоту();
+	String txt;
+	int h = font.GetHeight();
 	switch(q) {
-	case Шрифт::SERIF:
+	case Font::SERIF:
 		txt << (h ? "SerifZ" : "Serif");
 		break;
-	case Шрифт::SANSSERIF:
+	case Font::SANSSERIF:
 		txt << (h ? "SansSerifZ" : "SansSerif");
 		break;
-	case Шрифт::MONOSPACE:
+	case Font::MONOSPACE:
 		txt << (h ? "MonospaceZ" : "Monospace");
 		break;
 	default:
 		txt << (h ? "StdFontZ" : "StdFont");
 		break;
 	}
-	txt << '(' << (h ? фмт("%d)", h) : ")");
+	txt << '(' << (h ? Format("%d)", h) : ")");
 	if(font.IsBold())
 		txt << ".Bold()";
 	if(font.IsItalic())
@@ -33,32 +33,32 @@
 	return txt;
 }
 
-struct FontDisplay : public Дисплей {
-	virtual void рисуй(Draw& w, const Прям& r, const Значение& q,
-	                   Цвет ink, Цвет paper, dword style) const {
+struct FontDisplay : public Display {
+	virtual void Paint(Draw& w, const Rect& r, const Value& q,
+	                   Color ink, Color paper, dword style) const {
 		w.DrawRect(r, paper);
-		Шрифт font = q;
-		Ткст text = FormatFont(font);
-		font.устВысоту(StdFont().дайВысоту() - 1);
-		w.DrawText(2, (r.устВысоту() - font.Info().дайВысоту()) / 2, text, font, ink);
+		Font font = q;
+		String text = FormatFont(font);
+		font.Height(StdFont().GetHeight() - 1);
+		w.DrawText(2, (r.Height() - font.Info().GetHeight()) / 2, text, font, ink);
 	}
 };
 
-struct FontDlg : public WithFontPropertyDlgLayout<ТопОкно> {
-	void устШрифт(Шрифт f);
-	Шрифт дайШрифт() const;
+struct FontDlg : public WithFontPropertyDlgLayout<TopWindow> {
+	void SetFont(Font f);
+	Font GetFont() const;
 
 	void Action() { WhenAction(); }
 
-	typedef FontDlg ИМЯ_КЛАССА;
+	typedef FontDlg CLASSNAME;
 
 	FontDlg();
 };
 
-void FontDlg::устШрифт(Шрифт f)
+void FontDlg::SetFont(Font f)
 {
 	face <<= f.GetFace();
-	height <<= f.дайВысоту() ? f.дайВысоту() : Null;
+	height <<= f.GetHeight() ? f.GetHeight() : Null;
 	bold = f.IsBold();
 	italic = f.IsItalic();
 	underline = f.IsUnderline();
@@ -66,14 +66,14 @@ void FontDlg::устШрифт(Шрифт f)
 	nonaa = f.IsNonAntiAliased();
 }
 
-Шрифт FontDlg::дайШрифт() const
+Font FontDlg::GetFont() const
 {
-	Шрифт f;
+	Font f;
 	f.Face(~face);
-	if(!пусто_ли(~height))
-		f.устВысоту(~height);
+	if(!IsNull(~height))
+		f.Height(~height);
 	else
-		f.устВысоту(0);
+		f.Height(0);
 	f.Bold(bold);
 	f.Italic(italic);
 	f.Underline(underline);
@@ -88,73 +88,73 @@ FontDlg::FontDlg()
 	CtrlLayoutOKCancel(*this, "Шрифт");
 	ToolWindow();
 	for(i = 6; i < 70; i++)
-		height.добавьСписок(i);
+		height.AddList(i);
 	face <<= height
 	     <<= bold <<= italic <<= underline <<= strikeout <<= nonaa <<= THISBACK(Action);
-	height.мин(0);
+	height.Min(0);
 }
 
 struct FontProperty : public EditorProperty<DataPusher> {
-	virtual Ткст   сохрани() const           { return "РНЦП::" + FormatFont(~editor); }
-	virtual void     читай(СиПарсер& p);
+	virtual String   Save() const           { return "Upp::" + FormatFont(~editor); }
+	virtual void     Read(CParser& p);
 
-	Один<FontDlg> fdlg;
+	One<FontDlg> fdlg;
 
 	FontDlg& Dlg();
 
 	void FontChanged();
 	void Perform();
 
-	typedef FontProperty ИМЯ_КЛАССА;
+	typedef FontProperty CLASSNAME;
 
 	FontProperty();
 
-	static ItemProperty *создай() { return new FontProperty; }
+	static ItemProperty *Create() { return new FontProperty; }
 };
 
-void FontProperty::читай(СиПарсер& p) {
+void FontProperty::Read(CParser& p) {
 	EatUpp(p);
-	Шрифт f = StdFont();
-	if(p.ид("StdFont") || p.ид("StdFontZ"))
-		f.Face(Шрифт::STDFONT);
+	Font f = StdFont();
+	if(p.Id("StdFont") || p.Id("StdFontZ"))
+		f.Face(Font::STDFONT);
 	else
-	if(p.ид("Serif") || p.ид("SerifZ") || p.ид("ScreenSerif") || p.ид("ScreenSerifZ") ||
-	   p.ид("Roman") || p.ид("RomanZ"))
-		f.Face(Шрифт::SERIF);
+	if(p.Id("Serif") || p.Id("SerifZ") || p.Id("ScreenSerif") || p.Id("ScreenSerifZ") ||
+	   p.Id("Roman") || p.Id("RomanZ"))
+		f.Face(Font::SERIF);
 	else
-	if(p.ид("SansSerif") || p.ид("SansSerifZ") || p.ид("ScreenSans") || p.ид("ScreenSansZ") ||
-	   p.ид("Arial") || p.ид("ArialZ"))
-		f.Face(Шрифт::SANSSERIF);
+	if(p.Id("SansSerif") || p.Id("SansSerifZ") || p.Id("ScreenSans") || p.Id("ScreenSansZ") ||
+	   p.Id("Arial") || p.Id("ArialZ"))
+		f.Face(Font::SANSSERIF);
 	else
-	if(p.ид("Monospace") || p.ид("MonospaceZ") || p.ид("ScreenFixed") || p.ид("ScreenFixedZ") ||
-	   p.ид("Courier") || p.ид("CourierZ"))
-		f.Face(Шрифт::MONOSPACE);
-	p.передайСим('(');
-	if(p.цел_ли())
-		f.устВысоту(p.читайЦел());
+	if(p.Id("Monospace") || p.Id("MonospaceZ") || p.Id("ScreenFixed") || p.Id("ScreenFixedZ") ||
+	   p.Id("Courier") || p.Id("CourierZ"))
+		f.Face(Font::MONOSPACE);
+	p.PassChar('(');
+	if(p.IsInt())
+		f.Height(p.ReadInt());
 	else
-		f.устВысоту(0);
-	p.передайСим(')');
-	while(p.сим('.')) {
-		if(p.ид("Bold"))
+		f.Height(0);
+	p.PassChar(')');
+	while(p.Char('.')) {
+		if(p.Id("Bold"))
 			f.Bold();
 		else
-		if(p.ид("Italic"))
+		if(p.Id("Italic"))
 			f.Italic();
 		else
-		if(p.ид("Underline"))
+		if(p.Id("Underline"))
 			f.Underline();
 		else
-		if(p.ид("Strikeout"))
+		if(p.Id("Strikeout"))
 			f.Strikeout();
 		else {
-			p.передайИд("NonAntiAliased");
+			p.PassId("NonAntiAliased");
 			f.NonAntiAliased();
 		}
-		p.передайСим('(');
-		p.передайСим(')');
+		p.PassChar('(');
+		p.PassChar(')');
 	}
-	editor.устДанные(f);
+	editor.SetData(f);
 }
 
 FontDlg& FontProperty::Dlg()
@@ -166,20 +166,20 @@ FontDlg& FontProperty::Dlg()
 
 void FontProperty::FontChanged()
 {
-	editor.устДанные(Dlg().дайШрифт());
+	editor.SetData(Dlg().GetFont());
 	WhenAction();
 }
 
 void FontProperty::Perform()
 {
-	editor.устФокус();
-	Шрифт f = editor.дайДанные();
+	editor.SetFocus();
+	Font f = editor.GetData();
 	Dlg().WhenAction = THISBACK(FontChanged);
-	Dlg().устШрифт(f);
-	Размер sz = Dlg().дайПрям().размер();
-	Прям er = editor.дайПрямЭкрана();
-	Прям wa = Ктрл::GetWorkArea();
-	Прям r(er.верхПраво(), sz);
+	Dlg().SetFont(f);
+	Size sz = Dlg().GetRect().Size();
+	Rect er = editor.GetScreenRect();
+	Rect wa = Ctrl::GetWorkArea();
+	Rect r(er.TopRight(), sz);
 	if(r.bottom > wa.bottom) {
 		r.top = wa.bottom - sz.cy;
 		r.bottom = wa.bottom;
@@ -189,23 +189,23 @@ void FontProperty::Perform()
 		r.right = wa.right;
 	}
 	Dlg().NoCenter();
-	Dlg().устПрям(r);
-	if(Dlg().выполни() == IDOK)
-		editor.устДанные(Dlg().дайШрифт());
+	Dlg().SetRect(r);
+	if(Dlg().Execute() == IDOK)
+		editor.SetData(Dlg().GetFont());
 	else
-		editor.устДанные(f);
-	editor.устФокус();
+		editor.SetData(f);
+	editor.SetFocus();
 }
 
 FontProperty::FontProperty() {
-	editor.устДанные(StdFont());
-	добавь(editor.HSizePosZ(100, 2).TopPos(2));
-	editor.устДисплей(Single<FontDisplay>());
+	editor.SetData(StdFont());
+	Add(editor.HSizePosZ(100, 2).TopPos(2));
+	editor.SetDisplay(Single<FontDisplay>());
 	editor.WhenAction = THISBACK(Perform);
 	editor <<= StdFont();
 }
 
 void RegisterFontProperty()
 {
-	ItemProperty::регистрируй("Шрифт", FontProperty::создай);
+	ItemProperty::Register("Font", FontProperty::Create);
 }

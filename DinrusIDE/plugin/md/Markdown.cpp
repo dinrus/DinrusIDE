@@ -2,17 +2,17 @@
 
 #define LLOG(x)	// DLOG("MarkdownConverter: " << x)
 
-namespace РНЦП {
+namespace Upp {
 
-class sMarkdownContext : БезКопий {
+class sMarkdownContext : NoCopy {
 	struct Block
 	{
-		MD_BLOCKTYPE	тип;
-		Ткст			text;
-		Значение			data;
+		MD_BLOCKTYPE	type;
+		String			text;
+		Value			data;
 		int				level;
 		Block			*parent;
-		Массив<Block>	children;
+		Array<Block>	children;
 		Block(MD_BLOCKTYPE t, Block *p);
 	};
 
@@ -24,20 +24,20 @@ class sMarkdownContext : БезКопий {
 		BLOCK_IN_TBODY   = 16
 	};
 
-	Массив<Block>	document;
+	Array<Block>	document;
 	Block*			current_block;
 	int				current_level;
 
-	Ткст	Compose(const Массив<Block>& doc, int data = 0, bool notext = false, dword flags = 0) const;
+	String	Compose(const Array<Block>& doc, int data = 0, bool notext = false, dword flags = 0) const;
 
 public:
-	void	BeginBlock(MD_BLOCKTYPE тип, void *detail);
-	void	EndBlock(MD_BLOCKTYPE тип, void *detail);
+	void	BeginBlock(MD_BLOCKTYPE type, void *detail);
+	void	EndBlock(MD_BLOCKTYPE type, void *detail);
 
-	Ткст	ToQtf()									{ return Compose(document); }
+	String	ToQtf()									{ return Compose(document); }
 
-	sMarkdownContext& operator<<(const Ткст& s)	{ ПРОВЕРЬ(current_block); current_block->text << s; return *this; }
-	sMarkdownContext& operator<<(const char *s)		{ ПРОВЕРЬ(current_block); current_block->text << s; return *this; }
+	sMarkdownContext& operator<<(const String& s)	{ ASSERT(current_block); current_block->text << s; return *this; }
+	sMarkdownContext& operator<<(const char *s)		{ ASSERT(current_block); current_block->text << s; return *this; }
 
 	sMarkdownContext()
 		: current_block(nullptr)
@@ -45,27 +45,27 @@ public:
 		, no_text(false)
 	{}
 
-	ВекторМап<Ткст, Ткст> images;
-	bool no_text; // Рисунок alt text is propagated as normal text. This is to suppress it.
+	VectorMap<String, String> images;
+	bool no_text; // Image alt text is propagated as normal text. This is to suppress it.
 };
 
 sMarkdownContext::Block::Block(MD_BLOCKTYPE t, Block *p)
-: тип(t)
+: type(t)
 , level(0)
 , parent(p)
 {
 }
 
-void sMarkdownContext::BeginBlock(MD_BLOCKTYPE тип, void *detail)
+void sMarkdownContext::BeginBlock(MD_BLOCKTYPE type, void *detail)
 {
 	if(!current_block) {
-		current_block = &document.создай<Block>(тип, current_block);
+		current_block = &document.Create<Block>(type, current_block);
 	}
 	else {
-		current_block = &current_block->children.создай<Block>(тип, current_block);
+		current_block = &current_block->children.Create<Block>(type, current_block);
 	}
 
-	switch(тип) {
+	switch(type) {
 	case MD_BLOCK_UL:
 		current_block->data  = reinterpret_cast<MD_BLOCK_UL_DETAIL*>(detail)->mark;
 		current_block->level = ++current_level;
@@ -84,26 +84,26 @@ void sMarkdownContext::BeginBlock(MD_BLOCKTYPE тип, void *detail)
 	}
 }
 
-void sMarkdownContext::EndBlock(MD_BLOCKTYPE тип, void *detail)
+void sMarkdownContext::EndBlock(MD_BLOCKTYPE type, void *detail)
 {
-	if(findarg(тип, MD_BLOCK_UL, MD_BLOCK_OL) >= 0)
+	if(findarg(type, MD_BLOCK_UL, MD_BLOCK_OL) >= 0)
 		--current_level;
 
 	if(current_block)
 		current_block = current_block->parent;
 }
 
-Ткст sMarkdownContext::Compose(const Массив<Block>& doc, int data, bool notext, dword flags) const
+String sMarkdownContext::Compose(const Array<Block>& doc, int data, bool notext, dword flags) const
 {
-	// TODO:
+	// СДЕЛАТЬ:
 	// 1) Refactor this method.
-	// 2) сделай certain block styles and page properties (e.g. margins, indentation, etc.) configurable.
+	// 2) Make certain block styles and page properties (e.g. margins, indentation, etc.) configurable.
 
-	Ткст txt;
+	String txt;
 
-	for(int i = 0; i < doc.дайСчёт(); i++) {
+	for(int i = 0; i < doc.GetCount(); i++) {
 		const Block& b = doc[i];
-		switch(b.тип) {
+		switch(b.type) {
 		case MD_BLOCK_DOC:
 		{
 			txt << "[G2 "
@@ -139,7 +139,7 @@ void sMarkdownContext::EndBlock(MD_BLOCKTYPE тип, void *detail)
 		}
 		case MD_BLOCK_LI:
 		{
-			bool q = b.text.пустой();
+			bool q = b.text.IsEmpty();
 			if(!q) {
 				txt << "[b20;l"
 					<< b.level * ((flags & BLOCK_IN_QUOTE) ? 100 : 200)
@@ -214,7 +214,7 @@ void sMarkdownContext::EndBlock(MD_BLOCKTYPE тип, void *detail)
 		}
 		case MD_BLOCK_TR:
 		{
-			int n = b.children.дайСчёт();
+			int n = b.children.GetCount();
 			if(flags & BLOCK_IN_THEAD) {
 				for(int j = 0; j < n; j++) {
 					txt << '1';
@@ -230,7 +230,7 @@ void sMarkdownContext::EndBlock(MD_BLOCKTYPE тип, void *detail)
 			}
 			for(int j = 0; j < n; j++) {
 				const Block& bb = b.children[j];
-				if(j == 0 && bb.тип == MD_BLOCK_TD)
+				if(j == 0 && bb.type == MD_BLOCK_TD)
 					txt << "::@2 ";
 				txt << bb.text;
 				if(j < n - 1)
@@ -247,80 +247,80 @@ void sMarkdownContext::EndBlock(MD_BLOCKTYPE тип, void *detail)
 	return txt;
 }
 
-static Ткст sDeQtfMd(const char *s)
+static String sDeQtfMd(const char *s)
 {
 	// Here we duplicate DeQtf() function, because we don't want to bring in the RichText package.
 
-	ТкстБуф r;
+	StringBuffer r;
 	for(; *s; s++) {
 		if(*s == '\n')
-			r.конкат('&');
+			r.Cat('&');
 		else {
-			if((byte) *s > ' ' && !цифра_ли(*s) && !IsAlpha(*s) && (byte) *s < 128)
-				r.конкат('`');
-			r.конкат(*s);
+			if((byte) *s > ' ' && !IsDigit(*s) && !IsAlpha(*s) && (byte) *s < 128)
+				r.Cat('`');
+			r.Cat(*s);
 		}
 	}
-	return Ткст(r); // сделай compilers happy...
+	return String(r); // Make compilers happy...
 }
 
-static int sParseMdObjects(MD_PARSER& parser, const Ткст& txt, void *ctx)
+static int sParseMdObjects(MD_PARSER& parser, const String& txt, void *ctx)
 {
 	// NOP (ATM...)
-	parser.enter_block = [](MD_BLOCKTYPE тип, void *detail, void *udata) -> int { return 0; };
-	parser.leave_block = [](MD_BLOCKTYPE тип, void *detail, void *udata) -> int { return 0; };
-	parser.leave_span = [](MD_SPANTYPE тип, void *detail, void *udata) -> int   { return 0; };
-	parser.text = [](MD_TEXTTYPE тип, const MD_CHAR *text, MD_SIZE size, void* udata) -> int { return 0; };
+	parser.enter_block = [](MD_BLOCKTYPE type, void *detail, void *udata) -> int { return 0; };
+	parser.leave_block = [](MD_BLOCKTYPE type, void *detail, void *udata) -> int { return 0; };
+	parser.leave_span = [](MD_SPANTYPE type, void *detail, void *udata) -> int   { return 0; };
+	parser.text = [](MD_TEXTTYPE type, const MD_CHAR *text, MD_SIZE size, void* udata) -> int { return 0; };
 
-	parser.enter_span = [](MD_SPANTYPE тип, void *detail, void *udata) -> int
+	parser.enter_span = [](MD_SPANTYPE type, void *detail, void *udata) -> int
 	{
 		auto& ctx = *reinterpret_cast<sMarkdownContext*>(udata);
 
-		if(тип == MD_SPAN_IMG) // Handle images
+		if(type == MD_SPAN_IMG) // Handle images
 		{
 			auto *q = reinterpret_cast<MD_SPAN_IMG_DETAIL*>(detail);
-			Ткст url(q->src.text, q->src.size);
-			ctx.images.добавь(url);
+			String url(q->src.text, q->src.size);
+			ctx.images.Add(url);
 		}
 
 		return 0;
 	};
 
-	int rc = md_parse((const MD_CHAR*)~txt, (MD_SIZE) txt.дайДлину(), &parser, ctx);
+	int rc = md_parse((const MD_CHAR*)~txt, (MD_SIZE) txt.GetLength(), &parser, ctx);
 	return rc;
 }
 
-static int sParseMdDocument(MD_PARSER& parser, const Ткст& txt, void *ctx)
+static int sParseMdDocument(MD_PARSER& parser, const String& txt, void *ctx)
 {
-	parser.enter_block = [](MD_BLOCKTYPE тип, void *detail, void *udata) -> int
+	parser.enter_block = [](MD_BLOCKTYPE type, void *detail, void *udata) -> int
 	{
-		reinterpret_cast<sMarkdownContext*>(udata)->BeginBlock(тип, detail);
+		reinterpret_cast<sMarkdownContext*>(udata)->BeginBlock(type, detail);
 		return 0;
 	};
 
-	parser.leave_block = [](MD_BLOCKTYPE тип, void *detail, void *udata) -> int
+	parser.leave_block = [](MD_BLOCKTYPE type, void *detail, void *udata) -> int
 	{
-		reinterpret_cast<sMarkdownContext*>(udata)->EndBlock(тип, detail);
+		reinterpret_cast<sMarkdownContext*>(udata)->EndBlock(type, detail);
 		return 0;
 	};
 
-	parser.enter_span = [](MD_SPANTYPE тип, void *detail, void *udata) -> int
+	parser.enter_span = [](MD_SPANTYPE type, void *detail, void *udata) -> int
 	{
 		auto& ctx = *reinterpret_cast<sMarkdownContext*>(udata);
 
-		switch(тип) {
+		switch(type) {
 		case MD_SPAN_A:
 		{
 			auto *q = reinterpret_cast<MD_SPAN_A_DETAIL*>(detail);
-			ctx << "[^" << Ткст(q->href.text, q->href.size) << "^ ";
+			ctx << "[^" << String(q->href.text, q->href.size) << "^ ";
 			break;
 		}
 		case MD_SPAN_IMG:
 		{
 			auto *q = reinterpret_cast<MD_SPAN_IMG_DETAIL*>(detail);
-			Ткст url(q->src.text, q->src.size);
-			int i = ctx.images.найди(url);
-			if(i >= 0 && !пусто_ли(ctx.images[i])) {
+			String url(q->src.text, q->src.size);
+			int i = ctx.images.Find(url);
+			if(i >= 0 && !IsNull(ctx.images[i])) {
 				ctx.no_text = true;
 				ctx << ctx.images[i];
 			}
@@ -333,12 +333,12 @@ static int sParseMdDocument(MD_PARSER& parser, const Ткст& txt, void *ctx)
 		case MD_SPAN_WIKILINK:
 		{
 			auto *q = reinterpret_cast<MD_SPAN_WIKILINK_DETAIL*>(detail);
-			ctx << "[^" << Ткст(q->target.text, q->target.size) << "^ ";
+			ctx << "[^" << String(q->target.text, q->target.size) << "^ ";
 			break;
 		}
 		default:
 		{
-			ctx << decode(тип,
+			ctx << decode(type,
 					MD_SPAN_U,		"[_ ",
 					MD_SPAN_EM,		"[/ ",
 					MD_SPAN_DEL,	"[- ",
@@ -349,18 +349,18 @@ static int sParseMdDocument(MD_PARSER& parser, const Ткст& txt, void *ctx)
 		return 0;
 	};
 
-	parser.leave_span = [](MD_SPANTYPE тип, void *detail, void *udata) -> int
+	parser.leave_span = [](MD_SPANTYPE type, void *detail, void *udata) -> int
 	{
 		auto& ctx = *reinterpret_cast<sMarkdownContext*>(udata);
 
-		if(тип == MD_SPAN_IMG) {
+		if(type == MD_SPAN_IMG) {
 			if(!ctx.no_text) {
 				ctx << " ]";
 			}
 			ctx.no_text = false;
 		}
 		else
-		if(findarg(тип,
+		if(findarg(type,
 			MD_SPAN_A,
 			MD_SPAN_U,
 			MD_SPAN_EM,
@@ -373,30 +373,30 @@ static int sParseMdDocument(MD_PARSER& parser, const Ткст& txt, void *ctx)
 		return 0;
 	};
 
-	parser.text = [](MD_TEXTTYPE тип, const MD_CHAR *text, MD_SIZE size, void* udata) -> int
+	parser.text = [](MD_TEXTTYPE type, const MD_CHAR *text, MD_SIZE size, void* udata) -> int
 	{
 		auto& ctx = *reinterpret_cast<sMarkdownContext*>(udata);
 		if(!ctx.no_text)
-			ctx << decode(тип,
+			ctx << decode(type,
 					MD_TEXT_NULLCHAR,	"?",
 					MD_TEXT_BR,			"&",
-					MD_TEXT_SOFTBR,		" ",	// TODO: See if there is a way to properly imitate this in qtf...
-					(const char*) ~sDeQtfMd(Ткст((const char*) text, size)));
+					MD_TEXT_SOFTBR,		" ",	// СДЕЛАТЬ: See if there is a way to properly imitate this in qtf...
+					(const char*) ~sDeQtfMd(String((const char*) text, size)));
 		return 0;
 	};
 
-	int rc = md_parse((const MD_CHAR*)~txt, (MD_SIZE) txt.дайДлину(), &parser, ctx);
+	int rc = md_parse((const MD_CHAR*)~txt, (MD_SIZE) txt.GetLength(), &parser, ctx);
 	return rc;
 }
 
-Ткст MarkdownConverter::ToQtf(const Ткст& mdtext)
+String MarkdownConverter::ToQtf(const String& mdtext)
 {
 	MD_PARSER parser;
 	parser.abi_version = 0;
 	parser.flags  = flags;
 	parser.syntax = nullptr;
 
-#ifdef _ОТЛАДКА
+#ifdef _DEBUG
 	parser.debug_log = [](const char *msg, void *udata) -> void
 	{
 		LLOG(msg);
@@ -409,11 +409,11 @@ static int sParseMdDocument(MD_PARSER& parser, const Ткст& txt, void *ctx)
 	int rc = sParseMdObjects(parser, mdtext, &ctx); // Pass 1 (collect the image information)
 	if(rc == 0) {
 		ctx.no_text = false;
-		if(ctx.images.дайСчёт())
+		if(ctx.images.GetCount())
 			WhenImages(ctx.images);
 		rc = sParseMdDocument(parser, mdtext, &ctx); // Pass 2 (parse the document)
 	}
-	return rc ? Ткст::дайПроц() : ctx.ToQtf();
+	return rc ? String::GetVoid() : ctx.ToQtf();
 }
 
 }

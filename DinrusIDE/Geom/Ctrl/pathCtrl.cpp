@@ -1,6 +1,6 @@
 #include "GeomCtrl.h"
 
-namespace –Ќ÷ѕ {
+namespace Upp {
 
 #define LAYOUTFILE <Geom/Ctrl/pathedit.lay>
 #include           <CtrlCore/lay.h>
@@ -12,10 +12,10 @@ namespace –Ќ÷ѕ {
 class DlgPathStyleSetup
 {
 public:
-	typedef DlgPathStyleSetup ИМЯ_КЛАССА;
+	typedef DlgPathStyleSetup CLASSNAME;
 	DlgPathStyleSetup();
 
-	bool пуск(PathStyleMisc& style);
+	bool Run(PathStyleMisc& style);
 
 	void PutHelp();
 
@@ -25,12 +25,12 @@ private:
 
 private:
 //	WithHelp<
-	WithPathStyleSetupLayout<ТопОкно>
+	WithPathStyleSetupLayout<TopWindow>
 //	>
 	dialog;
 };
 
-bool RunDlgPathStyleSetup(PathStyleMisc& style) { return DlgPathStyleSetup().пуск(style); }
+bool RunDlgPathStyleSetup(PathStyleMisc& style) { return DlgPathStyleSetup().Run(style); }
 
 RegisterHelpTopicObjectTitle(DlgPathStyleSetup, "Vlastnosti stylu")
 
@@ -38,24 +38,24 @@ DlgPathStyleSetup::DlgPathStyleSetup()
 {
 	CtrlLayoutOKCancel(dialog, DlgPathStyleSetupHelpTitle());
 	dialog.HelpTopic("DlgPathStyleSetup");
-	dialog.width.минмакс(0.001, 20);
-	dialog.begin.минмакс(0, 100);
-	dialog.segment.минмакс(0, 100);
-	dialog.end.минмакс(0, 100);
-	dialog.miter.скрой();
-	dialog.miter.дайПредш()->скрой();
-	dialog.miter.добавь(PathStyle::MITER_ROUND, "zaoblit");
-	dialog.miter.добавь(PathStyle::MITER_SHARP, "ostrэ roh");
-	dialog.miter.добавь(PathStyle::MITER_FLAT,  "zkosit");
+	dialog.width.MinMax(0.001, 20);
+	dialog.begin.MinMax(0, 100);
+	dialog.segment.MinMax(0, 100);
+	dialog.end.MinMax(0, 100);
+	dialog.miter.Hide();
+	dialog.miter.GetPrev()->Hide();
+	dialog.miter.Add(PathStyle::MITER_ROUND, "zaoblit");
+	dialog.miter.Add(PathStyle::MITER_SHARP, "ostrэ roh");
+	dialog.miter.Add(PathStyle::MITER_FLAT,  "zkosit");
 	dialog.miter <<= THISBACK(OnMiter);
-	dialog.chamfer.неѕусто().минмакс(0, 5);
+	dialog.chamfer.NotNull().MinMax(0, 5);
 }
 
-bool DlgPathStyleSetup::пуск(PathStyleMisc& style)
+bool DlgPathStyleSetup::Run(PathStyleMisc& style)
 {
 	Pump(style, false);
 	OnMiter();
-	if(dialog.пуск() != IDOK)
+	if(dialog.Run() != IDOK)
 		return false;
 	Pump(style, true);
 	return true;
@@ -63,14 +63,14 @@ bool DlgPathStyleSetup::пуск(PathStyleMisc& style)
 
 void DlgPathStyleSetup::OnMiter()
 {
-	dialog.chamfer.вкл((int)~dialog.miter == PathStyle::MITER_SHARP);
-	if(dialog.chamfer.включен_ли() && dialog.chamfer.дайТекст().пустой())
+	dialog.chamfer.Enable((int)~dialog.miter == PathStyle::MITER_SHARP);
+	if(dialog.chamfer.IsEnabled() && dialog.chamfer.GetText().IsEmpty())
 		dialog.chamfer <<= STD_CHAMFER;
 }
 
 void DlgPathStyleSetup::Pump(PathStyleMisc& style, bool write)
 {
-	РНЦП::Pump pump;
+	UPP::Pump pump;
 	pump
 		<< PumpData(style.width,   dialog.width)
 		<< PumpData(style.begin,   dialog.begin)
@@ -111,23 +111,23 @@ static double CalcDecadicStep(double scale, int minfine, int mincoarse, int& fin
 class DlgPathEditorSetup
 {
 public:
-	typedef DlgPathEditorSetup ИМЯ_КЛАССА;
+	typedef DlgPathEditorSetup CLASSNAME;
 	DlgPathEditorSetup();
 
-	bool пуск(PathEditorCtrl::настрой& setup);
+	bool Run(PathEditorCtrl::Setup& setup);
 	void PutHelp();
 
 private:
-	void Pump(PathEditorCtrl::настрой& setup, bool write);
+	void Pump(PathEditorCtrl::Setup& setup, bool write);
 
 private:
 //	WithHelp<
-	WithPathEditorSetupLayout<ТопОкно>
+	WithPathEditorSetupLayout<TopWindow>
 //	>
 	dialog;
 };
 
-bool RunDlgPathEditorSetup(PathEditorCtrl::настрой& setup) { return DlgPathEditorSetup().пуск(setup); }
+bool RunDlgPathEditorSetup(PathEditorCtrl::Setup& setup) { return DlgPathEditorSetup().Run(setup); }
 
 RegisterHelpTopicObjectTitle(DlgPathEditorSetup, "Vlastnosti editoru")
 
@@ -135,22 +135,22 @@ DlgPathEditorSetup::DlgPathEditorSetup()
 {
 	CtrlLayoutOKCancel(dialog, DlgPathEditorSetupHelpTitle());
 	dialog.HelpTopic("DlgPathEditorSetup");
-	dialog.grid.минмакс(1e-5, 100);
-	dialog.snap.минмакс(1e-5, 100);
+	dialog.grid.MinMax(1e-5, 100);
+	dialog.snap.MinMax(1e-5, 100);
 }
 
-bool DlgPathEditorSetup::пуск(PathEditorCtrl::настрой& setup)
+bool DlgPathEditorSetup::Run(PathEditorCtrl::Setup& setup)
 {
 	Pump(setup, false);
-	if(dialog.пуск() != IDOK)
+	if(dialog.Run() != IDOK)
 		return false;
 	Pump(setup, true);
 	return true;
 }
 
-void DlgPathEditorSetup::Pump(PathEditorCtrl::настрой& setup, bool write)
+void DlgPathEditorSetup::Pump(PathEditorCtrl::Setup& setup, bool write)
 {
-	РНЦП::Pump pump;
+	UPP::Pump pump;
 	pump
 		<< PumpEnumData(setup.do_grid,   dialog.do_grid)
 		<< PumpData    (setup.grid,      dialog.grid)
@@ -162,11 +162,11 @@ void DlgPathEditorSetup::Pump(PathEditorCtrl::настрой& setup, bool write)
 }
 
 //////////////////////////////////////////////////////////////////////
-// PathEditorCtrl::настрой::
+// PathEditorCtrl::Setup::
 
-void PathEditorCtrl::настрой::сериализуй(ѕоток& stream)
+void PathEditorCtrl::Setup::Serialize(Stream& stream)
 {
-	int version = StreamHeading(stream, 4, 4, 4, "PathEditorCtrl::настрой");
+	int version = StreamHeading(stream, 4, 4, 4, "PathEditorCtrl::Setup");
 	if(version >= 1)
 	{
 		stream.Pack(do_grid, do_snap, do_ruler, do_axis);
@@ -180,7 +180,7 @@ void PathEditorCtrl::настрой::сериализуй(ѕоток& stream)
 PathEditorCtrl::ViewPlotter::ViewPlotter(PathEditorCtrl *ctrl)
 : draw(ctrl)
 {
-	уст(draw, ctrl->GetScale(), ctrl->GetDelta(), 10);
+	Set(draw, ctrl->GetScale(), ctrl->GetDelta(), 10);
 	PathMap(&PathStyleMap::App());
 }
 
@@ -189,14 +189,14 @@ PathEditorCtrl::PathEditorCtrl()
 {
 	edit_mode = EDIT_NORMAL;
 	drag_mode = DRAG_NONE;
-	устФрейм(фреймИнсет());
-	zoom_horz_in  .устРисунок(PathImg::view_zoom_in());
-	zoom_vert_in  .устРисунок(PathImg::view_zoom_in());
-	zoom_horz_out .устРисунок(PathImg::view_zoom_out());
-	zoom_vert_out .устРисунок(PathImg::view_zoom_out());
-	zoom_horz_full.устРисунок(PathImg::view_zoom_horz_full());
-	zoom_vert_full.устРисунок(PathImg::view_zoom_vert_full());
-	zoom_full     .устРисунок(PathImg::view_zoom_full());
+	SetFrame(InsetFrame());
+	zoom_horz_in  .SetImage(PathImg::view_zoom_in());
+	zoom_vert_in  .SetImage(PathImg::view_zoom_in());
+	zoom_horz_out .SetImage(PathImg::view_zoom_out());
+	zoom_vert_out .SetImage(PathImg::view_zoom_out());
+	zoom_horz_full.SetImage(PathImg::view_zoom_horz_full());
+	zoom_vert_full.SetImage(PathImg::view_zoom_vert_full());
+	zoom_full     .SetImage(PathImg::view_zoom_full());
 	zoom_horz_in   <<= THISBACK(OnViewZoomHorzIn);
 	zoom_horz_out  <<= THISBACK(OnViewZoomHorzOut);
 	zoom_vert_in   <<= THISBACK(OnViewZoomVertIn);
@@ -204,19 +204,19 @@ PathEditorCtrl::PathEditorCtrl()
 	zoom_horz_full <<= THISBACK(OnViewZoomHorzFull);
 	zoom_vert_full <<= THISBACK(OnViewZoomVertFull);
 	zoom_full      <<= THISBACK(OnViewZoomFull);
-	sample_size_tag.устНадпись("Ukбzka: ");
-	sample_size.добавь(0,  "skrэt");
-	sample_size.добавь(40, "malб");
-	sample_size.добавь(70, "stшednн");
-	sample_size.добавь(100, "velkб");
-//	sample_size.устПрям(LayoutZoom(80, 0));
+	sample_size_tag.SetLabel("Ukбzka: ");
+	sample_size.Add(0,  "skrэt");
+	sample_size.Add(40, "malб");
+	sample_size.Add(70, "stшednн");
+	sample_size.Add(100, "velkб");
+//	sample_size.SetRect(LayoutZoom(80, 0));
 	sample_size <<= 40;
 	sample_size <<= THISBACK(OnSampleSize);
-	sample_width_tag.устНадпись("Кншka: ");
-	sample_width.неѕусто().минмакс(0, MAX_WIDTH);
+	sample_width_tag.SetLabel("Кншka: ");
+	sample_width.NotNull().MinMax(0, MAX_WIDTH);
 	sample_width <<= THISBACK(OnSampleWidth);
 	sample_width <<= 2;
-//	sample_width.устПрям(LayoutZoom(40, 0));
+//	sample_width.SetRect(LayoutZoom(40, 0));
 	zoom_horz_in.NoWantFocus();
 	zoom_horz_out.NoWantFocus();
 	zoom_horz_full.NoWantFocus();
@@ -224,21 +224,21 @@ PathEditorCtrl::PathEditorCtrl()
 	zoom_vert_out.NoWantFocus();
 	zoom_vert_full.NoWantFocus();
 	zoom_full.NoWantFocus();
-	добавьФрейм(*this);
-	hruler.гориз();
-	vruler.верт();
+	AddFrame(*this);
+	hruler.Horz();
+	vruler.Vert();
 	hruler.SetZoom(500, 0);
-	hruler.минмакс(0, 20);
+	hruler.MinMax(0, 20);
 //	hruler.Units(1, 5);
 	vruler.SetZoom(500, 0);
-	vruler.минмакс(-5, 5);
+	vruler.MinMax(-5, 5);
 //	vruler.Units(1, 5);
 	hscroll <<= vscroll <<= THISBACK(OnScroll);
-	hscroll.безАвтоВыкл();
-	vscroll.безАвтоВыкл();
+	hscroll.NoAutoDisable();
+	vscroll.NoAutoDisable();
 }
 
-void PathEditorCtrl::выложиФрейм(Прям& rc)
+void PathEditorCtrl::FrameLayout(Rect& rc)
 {
 	if(!style)
 		return;
@@ -248,61 +248,61 @@ void PathEditorCtrl::выложиФрейм(Прям& rc)
 	rc.bottom -= setup.sample_size;
 	inner_sample = rc;
 
-	Размер avail = rc.размер();
-	int box = размПромотБара();
+	Size avail = rc.Size();
+	int box = ScrollBarSize();
 	int rsz = RulerCtrl::GetStdWidth();
 	if(setup.do_ruler)
 		avail -= rsz;
-	double pwd = hruler.дайДлину() * hruler.GetScale() + 2 * GAP + HGAP;
-	double pht = vruler.дайДлину() * vruler.GetScale() + 2 * GAP;
+	double pwd = hruler.GetLength() * hruler.GetScale() + 2 * GAP + HGAP;
+	double pht = vruler.GetLength() * vruler.GetScale() + 2 * GAP;
 	zoom_horz_in.SetFrameRect(rc.left, rc.bottom - box, box, box);
-	hscroll.SetFrameRect(rc.left + box, rc.bottom - box, rc.устШирину() - 4 * box, box);
+	hscroll.SetFrameRect(rc.left + box, rc.bottom - box, rc.Width() - 4 * box, box);
 	zoom_horz_out.SetFrameRect(rc.right - 3 * box, rc.bottom - box, box, box);
 	zoom_horz_full.SetFrameRect(rc.right - 2 * box, rc.bottom - box, box, box);
-	hscroll.уст(hscroll, avail.cx - box, fround(pwd));
+	hscroll.Set(hscroll, avail.cx - box, fround(pwd));
 	zoom_vert_in.SetFrameRect(rc.right - box, rc.top, box, box);
-	vscroll.SetFrameRect(rc.right - box, rc.top + box, box, rc.устВысоту() - 4 * box);
+	vscroll.SetFrameRect(rc.right - box, rc.top + box, box, rc.Height() - 4 * box);
 	zoom_vert_out.SetFrameRect(rc.right - box, rc.bottom - 3 * box, box, box);
 	zoom_vert_full.SetFrameRect(rc.right - box, rc.bottom - 2 * box, box, box);
-	vscroll.уст(vscroll, avail.cy - box, fround(pht));
+	vscroll.Set(vscroll, avail.cy - box, fround(pht));
 	zoom_full.SetFrameRect(rc.right - box, rc.bottom - box, box, box);
 	rc.right  -= box;
 	rc.bottom -= box;
 	if(setup.do_ruler)
 	{
-		hruler.SetFrameRect(rc.left + rsz, rc.top, rc.устШирину() - rsz, rsz);
-		vruler.SetFrameRect(rc.left, rc.top + rsz, rsz, rc.устВысоту() - rsz);
+		hruler.SetFrameRect(rc.left + rsz, rc.top, rc.Width() - rsz, rsz);
+		vruler.SetFrameRect(rc.left, rc.top + rsz, rsz, rc.Height() - rsz);
 		rc.left += rsz;
 		rc.top += rsz;
 	}
 }
 
-void PathEditorCtrl::добавьРазмФрейма(Размер& sz)
+void PathEditorCtrl::FrameAddSize(Size& sz)
 {
 	if(!style)
 		return;
-	int box = размПромотБара();
+	int box = ScrollBarSize();
 	int rsz = RulerCtrl::GetStdWidth();
 	if(setup.do_ruler)
 		sz += rsz;
 	sz += box;
 }
 
-static void PaintSamplePath(PathDraw& path, const Прям& mid)
+static void PaintSamplePath(PathDraw& path, const Rect& mid)
 {
 	path.MoveTo(mid.left, mid.bottom);
 	path.LineTo(mid.left + 20, mid.bottom);
 	path.LineTo(mid.left + 40, mid.bottom - 10);
 	path.LineTo(mid.left + 50, mid.bottom + 10);
 	path.LineTo(mid.left + 70, mid.bottom);
-	if(mid.устШирину() >= 200)
+	if(mid.Width() >= 200)
 	{
 		path.LineTo(mid.left + 100, mid.bottom);
 		path.LineTo(mid.left + 130, mid.bottom - 10);
 		path.LineTo(mid.left + 170, mid.bottom + 10);
 		path.LineTo(mid.left + 200, mid.bottom);
 	}
-	if(mid.устШирину() >= 300)
+	if(mid.Width() >= 300)
 	{
 		path.LineTo(mid.left + 240, mid.bottom - 10);
 		path.LineTo(mid.left + 250, mid.bottom + 10);
@@ -314,7 +314,7 @@ static void PaintSamplePath(PathDraw& path, const Прям& mid)
 	path.LineTo(mid.right - 10, mid.bottom - 40);
 	path.LineTo(mid.right + 10, mid.bottom - 50);
 	path.LineTo(mid.right, mid.bottom - 70);
-	if(mid.устВысоту() >= 200)
+	if(mid.Height() >= 200)
 	{
 		path.LineTo(mid.right,      mid.bottom - 100);
 		path.LineTo(mid.right - 10, mid.bottom - 130);
@@ -322,30 +322,30 @@ static void PaintSamplePath(PathDraw& path, const Прям& mid)
 		path.LineTo(mid.right,      mid.bottom - 200);
 	}
 	path.LineTo(mid.right, mid.top);
-	path.рисуй();
+	path.Paint();
 }
 
-void PathEditorCtrl::рисуйФрейм(Draw& draw, const Прям& r)
+void PathEditorCtrl::FramePaint(Draw& draw, const Rect& r)
 {
-	Прям rc = r;
+	Rect rc = r;
 	if(setup.sample_size > 0)
 	{
 		PumpTraces(true);
 		draw.Clip(outer_sample);
 		draw.ExcludeClip(inner_sample);
 		draw.DrawRect(outer_sample, SLtGray);
-		PathDraw path(draw, *style, чёрный, setup.sample_width);
+		PathDraw path(draw, *style, Black, setup.sample_width);
 		int half = setup.sample_size >> 1;
-		Прям mid(outer_sample.left + 10, outer_sample.top + 10,
+		Rect mid(outer_sample.left + 10, outer_sample.top + 10,
 			(outer_sample.right  + inner_sample.right)  >> 1,
 			(outer_sample.bottom + inner_sample.bottom) >> 1);
 		PaintSamplePath(path, mid);
 		if(setup.do_axis)
 		{
-			path.уст(draw, PathStyle::solid(), светлоКрасный, 0);
+			path.Set(draw, PathStyle::solid(), LtRed, 0);
 			PaintSamplePath(path, mid);
 		}
-		draw.стоп();
+		draw.End();
 		rc = inner_sample;
 	}
 	if(setup.do_ruler)
@@ -353,32 +353,32 @@ void PathEditorCtrl::рисуйФрейм(Draw& draw, const Прям& r)
 		int r = RulerCtrl::GetStdWidth();
 		draw.DrawRect(rc.left, rc.top, r, r, SGray);
 	}
-	Размер scb(vscroll.дайПрям().устШирину(), hscroll.дайПрям().устВысоту());
+	Size scb(vscroll.GetRect().Width(), hscroll.GetRect().Height());
 	if(scb.cx && scb.cy)
 		draw.DrawRect(rc.right - scb.cx, rc.bottom - scb.cy, scb.cx, scb.cy, SGray);
 }
 
-void PathEditorCtrl::добавьКФрейму(Ктрл& ctrl)
+void PathEditorCtrl::FrameAdd(Ctrl& ctrl)
 {
-	ctrl << hruler << vruler << (Ктрл &)hscroll << (Ктрл &)vscroll
+	ctrl << hruler << vruler << (Ctrl &)hscroll << (Ctrl &)vscroll
 		<< zoom_horz_in << zoom_horz_out << zoom_horz_full
 		<< zoom_vert_in << zoom_vert_out << zoom_vert_full
 		<< zoom_full;
 }
 
-void PathEditorCtrl::удалиФрейм()
+void PathEditorCtrl::FrameRemove()
 {
-	hruler.удали();
-	vruler.удали();
-	hscroll.удали();
-	vscroll.удали();
-	zoom_horz_in.удали();
-	zoom_horz_out.удали();
-	zoom_horz_full.удали();
-	zoom_vert_in.удали();
-	zoom_vert_out.удали();
-	zoom_vert_full.удали();
-	zoom_full.удали();
+	hruler.Remove();
+	vruler.Remove();
+	hscroll.Remove();
+	vscroll.Remove();
+	zoom_horz_in.Remove();
+	zoom_horz_out.Remove();
+	zoom_horz_full.Remove();
+	zoom_vert_in.Remove();
+	zoom_vert_out.Remove();
+	zoom_vert_full.Remove();
+	zoom_full.Remove();
 }
 
 static inline bool PathStyleTraceLeftLess(const PathStyle::Trace& a, const PathStyle::Trace& b)
@@ -389,27 +389,27 @@ void PathEditorCtrl::PumpTraces(bool write)
 	if(write)
 	{
 		style->traces <<= traces;
-		сортируй(style->traces, &PathStyleTraceLeftLess);
+		Sort(style->traces, &PathStyleTraceLeftLess);
 	}
 	else
 	{
-		selection.очисть();
+		selection.Clear();
 		traces <<= style->traces;
 	}
 }
 
-void PathEditorCtrl::Выкладка()
+void PathEditorCtrl::Layout()
 {
 	if(!style)
 		return;
-	Размер size = дай–азм();
+	Size size = GetSize();
 	double cx = style->begin + style->segment + style->end, cy = style->width / 2;
 	int fine;
 	double dstep = CalcDecadicStep(hruler.GetScale(), 5, 100, fine);
-	hruler.минмакс(0, cx);
+	hruler.MinMax(0, cx);
 	hruler.SetTextStep(dstep);
 	hruler.SetSmallStep(dstep / fine);
-	vruler.минмакс(-cy, cy);
+	vruler.MinMax(-cy, cy);
 	dstep = CalcDecadicStep(vruler.GetScale(), 5, 100, fine);
 	vruler.SetTextStep(dstep);
 	vruler.SetSmallStep(dstep / fine);
@@ -418,38 +418,38 @@ void PathEditorCtrl::Выкладка()
 	if(style->width * vruler.GetScale() <= size.cy)
 		vruler.Delta(GAP + cy * vruler.GetScale());
 */	OnScroll();
-	освежи();
+	Refresh();
 }
 
 void PathEditorCtrl::UpdateScroll()
 {
-	Размер size = дай–азм();
-	double pwd = hruler.дайДлину() * hruler.GetScale() + 2 * GAP + HGAP;
-	double pht = vruler.дайДлину() * vruler.GetScale() + 2 * GAP;
+	Size size = GetSize();
+	double pwd = hruler.GetLength() * hruler.GetScale() + 2 * GAP + HGAP;
+	double pht = vruler.GetLength() * vruler.GetScale() + 2 * GAP;
 	hruler.SetZoom(hruler.GetScale(), pwd <= size.cx ? GAP : minmax(hruler.GetDelta(), size.cx - double(GAP) - pwd, double(GAP)));
 	double t = style->width / 2 * vruler.GetScale();
 	vruler.SetZoom(vruler.GetScale(), pht <= size.cy ? pht / 2 : minmax(vruler.GetDelta(), size.cy - double(GAP) - t, double(GAP) + t));
 	int hpos = GAP - fround(hruler.GetDelta());
 	int vpos = GAP + fround(style->width * vruler.GetScale() / 2 - vruler.GetDelta());
-	Выкладка();
+	Layout();
 	hscroll = hpos;
 	vscroll = vpos;
 	OnScroll();
-	освежи();
+	Refresh();
 }
 
 void PathEditorCtrl::OnScroll()
 {
 	double dx = hruler.GetDelta(), dy = vruler.GetDelta();
-	if(!hscroll.дайПрям().пустой())
+	if(!hscroll.GetRect().IsEmpty())
 		dx = GAP - (int)hscroll;
-	if(!vscroll.дайПрям().пустой())
+	if(!vscroll.GetRect().IsEmpty())
 		dy = GAP + style->width * vruler.GetScale() / 2 - (int)vscroll;
 	if(dx != hruler.GetDelta() || dy != vruler.GetDelta())
 	{
 		hruler.SetZoom(hruler.GetScale(), dx);
 		vruler.SetZoom(vruler.GetScale(), dy);
-		освежи();
+		Refresh();
 	}
 }
 
@@ -457,15 +457,15 @@ void PathEditorCtrl::UpdateSetup()
 {
 	sample_size <<= setup.sample_size;
 	sample_width <<= setup.sample_width;
-	Выкладка();
-	sample_width.вкл(setup.sample_size > 0);
+	Layout();
+	sample_width.Enable(setup.sample_size > 0);
 }
 
 void PathEditorCtrl::OnSampleSize()
 {
 	setup.sample_size = ~sample_size;
-	Выкладка();
-	sample_width.вкл(setup.sample_size > 0);
+	Layout();
+	sample_width.Enable(setup.sample_size > 0);
 }
 
 void PathEditorCtrl::OnSampleWidth()
@@ -474,7 +474,7 @@ void PathEditorCtrl::OnSampleWidth()
 	UpdateSample();
 }
 
-static void PaintSizeBreak(PlotterTool& tool, double x, double y, ТочкаПЗ size)
+static void PaintSizeBreak(PlotterTool& tool, double x, double y, Pointf size)
 {
 	tool.MoveTo(x, -y + size.y);
 	tool.LineTo(x - size.x, -y);
@@ -484,19 +484,19 @@ static void PaintSizeBreak(PlotterTool& tool, double x, double y, ТочкаПЗ size)
 	tool.LineTo(x + size.x, y);
 	tool.LineTo(x - size.x, y);
 	tool.LineTo(x, y - size.y);
-	tool.рисуй();
+	tool.Paint();
 }
 
-void PathEditorCtrl::рисуй(Draw& draw)
+void PathEditorCtrl::Paint(Draw& draw)
 {
-	ПрямПЗ full = GetFullExtent();
-	ПрямПЗ vis = ClientToUnits(draw.GetPaintRect()) & full;
-	Прям cvis = UnitsToClient(vis) & draw.GetPaintRect();
+	Rectf full = GetFullExtent();
+	Rectf vis = ClientToUnits(draw.GetPaintRect()) & full;
+	Rect cvis = UnitsToClient(vis) & draw.GetPaintRect();
 	DrawRectMinusRect(draw, draw.GetPaintRect(), cvis, SGray);
-	if(cvis.пустой())
+	if(cvis.IsEmpty())
 		return;
 	draw.Clip(cvis);
-	draw.DrawRect(cvis, белый);
+	draw.DrawRect(cvis, White);
 	if(setup.do_grid && setup.grid >= 1e-10)
 	{
 		double s = setup.grid;
@@ -505,47 +505,47 @@ void PathEditorCtrl::рисуй(Draw& draw)
 		int l, h;
 		for(l = ffloor(vis.left / s), h = fceil(vis.right / s); l <= h; l++)
 		{
-			Точка top = UnitsToClient(ТочкаПЗ(l * s, vis.top));
-			draw.DrawRect(top.x, cvis.top, 1, cvis.устВысоту(), светлоСерый);
+			Point top = UnitsToClient(Pointf(l * s, vis.top));
+			draw.DrawRect(top.x, cvis.top, 1, cvis.Height(), LtGray);
 		}
 		s = setup.grid;
 		while(s * vruler.GetScale() < 4)
 			s *= 10;
 		for(l = ffloor(vis.top / s), h = fceil(vis.bottom / s); l <= h; l++)
 		{
-			Точка left = UnitsToClient(ТочкаПЗ(vis.left, l * s));
-			draw.DrawRect(cvis.left, left.y, cvis.устШирину(), 1, светлоСерый);
+			Point left = UnitsToClient(Pointf(vis.left, l * s));
+			draw.DrawRect(cvis.left, left.y, cvis.Width(), 1, LtGray);
 		}
 	}
 	Plotter plotter;
-	plotter.уст(draw, GetScale(), GetDelta(), 10);
+	plotter.Set(draw, GetScale(), GetDelta(), 10);
 	plotter.PathMap(&PathStyleMap::App());
 	AreaTool area;
 	PathTool path;
-	for(int i = 0; i < traces.дай—чЄт(); i++)
+	for(int i = 0; i < traces.GetCount(); i++)
 	{
 		const PathStyle::Trace& trace = traces[i];
-		int s = (selection.найди(i) >= 0 ? i == selection.верх() ? 2 : 1 : 0);
-		Цвет color = Nvl(trace.color, чёрный);
-		Цвет outline = (s == 0 ? color : s == 1 ? светлоСиний : Цвет(192, 192, 255));
+		int s = (selection.Find(i) >= 0 ? i == selection.Top() ? 2 : 1 : 0);
+		Color color = Nvl(trace.color, Black);
+		Color outline = (s == 0 ? color : s == 1 ? LtBlue : Color(192, 192, 255));
 		if(trace.IsAreaEmpty())
 		{
-			path.уст(plotter, ".dot", outline, 3);
+			path.Set(plotter, ".dot", outline, 3);
 			if(path.SetExtent(trace.GetExtent()))
-				trace.рисуй(path, true, outline);
+				trace.Paint(path, true, outline);
 		}
 		else
 		{
-			area.уст(plotter, Nvl(trace.color, чёрный), I64(0xaa55aa55aa55aa55), Null, outline, 3);
+			area.Set(plotter, Nvl(trace.color, Black), I64(0xaa55aa55aa55aa55), Null, outline, 3);
 			if(area.SetExtent(trace.GetExtent()))
-				trace.рисуй(area, false, outline);
+				trace.Paint(area, false, outline);
 		}
 	}
-	draw.стоп();
+	draw.End();
 	{ // draw begin & end bar
-		ТочкаПЗ size = ТочкаПЗ(16, 16) / GetScale();
+		Pointf size = Pointf(16, 16) / GetScale();
 		AreaTool area;
-		area.уст(plotter, светлоЗелёный, 0, Null, зелёный, 2);
+		area.Set(plotter, LtGreen, 0, Null, Green, 2);
 		double x = style->begin;
 		double h = style->width / 2;
 		PaintSizeBreak(area, x, h, size);
@@ -554,29 +554,29 @@ void PathEditorCtrl::рисуй(Draw& draw)
 		x += style->end;
 		PaintSizeBreak(area, x, h, size);
 	}
-	if(!selection.пустой())
+	if(!selection.IsEmpty())
 	{
-		const PathStyle::Trace& trace = traces[selection.верх()];
-		ТочкаПЗ list[] =
+		const PathStyle::Trace& trace = traces[selection.Top()];
+		Pointf list[] =
 		{
 			trace.LeftTop(), trace.CenterTop(), trace.RightTop(),
 			trace.LeftCenter(), trace.RightCenter(),
 			trace.LeftBottom(), trace.CenterBottom(), trace.RightBottom(),
 		};
 		for(int i = 0; i < __countof(list); i++)
-			if(vis.содержит(list[i]))
+			if(vis.Contains(list[i]))
 			{
 				enum { DELTA = 3 };
-				Точка pt = UnitsToClient(list[i]);
-				Прям rc(pt.x - DELTA, pt.y - DELTA, pt.x + DELTA + 1, pt.y + DELTA + 1);
-				draw.DrawRect(rc, светлоКрасный);
-				rc.инфлируй(1);
-				DrawFrame(draw, rc, белый, чёрный);
+				Point pt = UnitsToClient(list[i]);
+				Rect rc(pt.x - DELTA, pt.y - DELTA, pt.x + DELTA + 1, pt.y + DELTA + 1);
+				draw.DrawRect(rc, LtRed);
+				rc.Inflate(1);
+				DrawFrame(draw, rc, White, Black);
 			}
 	}
 }
 
-Рисунок PathEditorCtrl::рисКурсора(Точка pt, dword keyflags)
+Image PathEditorCtrl::CursorImage(Point pt, dword keyflags)
 {
 	switch(edit_mode)
 	{
@@ -587,30 +587,30 @@ void PathEditorCtrl::рисуй(Draw& draw)
 		switch(drag_mode)
 		{
 		default: NEVER();
-		case DRAG_SELECT: return Рисунок::Arrow();
+		case DRAG_SELECT: return Image::Arrow();
 		case DRAG_BEGIN:
 		case DRAG_SEGMENT:
-		case DRAG_END:    return Рисунок::SizeHorz();
+		case DRAG_END:    return Image::SizeHorz();
 		case DRAG_INSERT: return PathImg::drag_insert_cursor();
 		case DRAG_TRACK:  return PathStyle::Trace::GetTrackCursor(track_style);
-		case DRAG_MOVE:   return Рисунок::SizeAll();
+		case DRAG_MOVE:   return Image::SizeAll();
 		}
-	ТочкаПЗ up = ClientToUnits(pt), start;
+	Pointf up = ClientToUnits(pt), start;
 	int i = GetTrackStyle(up, start);
 	if(i)
 		return PathStyle::Trace::GetTrackCursor(i);
 	if(GetDragSize(up))
-		return Рисунок::SizeHorz();
+		return Image::SizeHorz();
 	i = FindObject(up);
-	if(i >= 0 && selection.найди(i) >= 0)
-		return Рисунок::SizeAll(); // move
-	return Рисунок::Arrow();
+	if(i >= 0 && selection.Find(i) >= 0)
+		return Image::SizeAll(); // move
+	return Image::Arrow();
 }
 
 int PathEditorCtrl::AddObject(const PathStyle::Trace& trace)
 {
-	int i = traces.дай—чЄт();
-	traces.добавь(trace);
+	int i = traces.GetCount();
+	traces.Add(trace);
 	RefreshObject(i);
 	Update();
 	UpdateSample();
@@ -630,44 +630,44 @@ void PathEditorCtrl::UpdateSample()
 {
 	if(setup.sample_size > 0)
 	{
-		освежиФрейм(Прям(outer_sample.left,  outer_sample.top,    outer_sample.right, inner_sample.top));
-		освежиФрейм(Прям(outer_sample.left,  inner_sample.bottom, outer_sample.right, outer_sample.bottom));
-		освежиФрейм(Прям(outer_sample.left,  inner_sample.top,    outer_sample.right, inner_sample.bottom));
-		освежиФрейм(Прям(inner_sample.right, inner_sample.top,    outer_sample.right, inner_sample.bottom));
+		RefreshFrame(Rect(outer_sample.left,  outer_sample.top,    outer_sample.right, inner_sample.top));
+		RefreshFrame(Rect(outer_sample.left,  inner_sample.bottom, outer_sample.right, outer_sample.bottom));
+		RefreshFrame(Rect(outer_sample.left,  inner_sample.top,    outer_sample.right, inner_sample.bottom));
+		RefreshFrame(Rect(inner_sample.right, inner_sample.top,    outer_sample.right, inner_sample.bottom));
 	}
 }
 
-void PathEditorCtrl::RefreshObject(int элт)
+void PathEditorCtrl::RefreshObject(int item)
 {
-	if(элт >= 0 && элт < traces.дай—чЄт())
+	if(item >= 0 && item < traces.GetCount())
 	{
-		const PathStyle::Trace& trace = traces[элт];
-		ПрямПЗ rc(trace.left, min(trace.left_top, trace.right_top), trace.right, max(trace.left_bottom, trace.right_bottom));
-		Прям cl = UnitsToClient(rc);
-		cl.инфлируй(selection.найди(элт) >= 0 ? 10 : 5);
-		освежи(cl);
+		const PathStyle::Trace& trace = traces[item];
+		Rectf rc(trace.left, min(trace.left_top, trace.right_top), trace.right, max(trace.left_bottom, trace.right_bottom));
+		Rect cl = UnitsToClient(rc);
+		cl.Inflate(selection.Find(item) >= 0 ? 10 : 5);
+		Refresh(cl);
 	}
 }
 
 bool PathEditorCtrl::WriteClipboard()
 {
-	if(!выделение_ли())
+	if(!IsSelection())
 		return false; // no-op
 	PathStyle::Clip clip;
-	for(int i = 0; i < selection.дай—чЄт(); i++)
-		clip.traces.добавь(traces[selection[i]]);
-	clip.пиши();
+	for(int i = 0; i < selection.GetCount(); i++)
+		clip.traces.Add(traces[selection[i]]);
+	clip.Write();
 	return true;
-//	return clip.пиши();
+//	return clip.Write();
 }
 
 bool PathEditorCtrl::ReadClipboard()
 {
 	PathStyle::Clip clip;
-	if(!clip.читай())
+	if(!clip.Read())
 		return false;
-	ПрямПЗ extent = clip.GetExtent();
-	ПрямПЗ full = GetFullExtent();
+	Rectf extent = clip.GetExtent();
+	Rectf full = GetFullExtent();
 	bool setwd = false, setsg = false;
 	if(extent.top < full.top || extent.bottom > full.bottom)
 	{
@@ -692,65 +692,65 @@ bool PathEditorCtrl::ReadClipboard()
 	if(setsg)
 		style->segment += full.right - extent.right;
 
-	очистьВыделение();
-	int c = traces.дай—чЄт();
-	приставь(traces, clip.traces);
-	¬ектор<int> to_add;
-	while(c < traces.дай—чЄт())
-		to_add.добавь(c++);
+	ClearSelection();
+	int c = traces.GetCount();
+	Append(traces, clip.traces);
+	Vector<int> to_add;
+	while(c < traces.GetCount())
+		to_add.Add(c++);
 	AddSelection(to_add);
 
 	if(setwd || setsg)
-		Выкладка();
+		Layout();
 	UpdateSample();
 	return true;
 }
 
-ПрямПЗ PathEditorCtrl::GetFullExtent() const
+Rectf PathEditorCtrl::GetFullExtent() const
 {
-	return ПрямПЗ(0, -style->width / 2,
+	return Rectf(0, -style->width / 2,
 		style->begin + style->segment + style->end, style->width / 2);
 }
 
-ПрямПЗ PathEditorCtrl::GetSelectionExtent() const
+Rectf PathEditorCtrl::GetSelectionExtent() const
 {
-	if(selection.пустой())
+	if(selection.IsEmpty())
 		return Null;
-	ПрямПЗ rc = traces[selection[0]].GetExtent();
-	for(int i = 1; i < selection.дай—чЄт(); i++)
+	Rectf rc = traces[selection[0]].GetExtent();
+	for(int i = 1; i < selection.GetCount(); i++)
 		rc |= traces[selection[i]].GetExtent();
 	return rc;
 }
 
 int PathEditorCtrl::GetSelectionLeader() const
 {
-	return selection.пустой() ? -1 : selection.верх();
+	return selection.IsEmpty() ? -1 : selection.Top();
 }
 
-void PathEditorCtrl::AddSelection(const ¬ектор<int>& list)
+void PathEditorCtrl::AddSelection(const Vector<int>& list)
 {
 	int old = GetSelectionLeader();
-	for(int i = 0; i < list.дай—чЄт(); i++)
-		if(selection.найди(list[i]) < 0)
+	for(int i = 0; i < list.GetCount(); i++)
+		if(selection.Find(list[i]) < 0)
 		{
 			RefreshObject(list[i]);
-			selection.добавь(list[i]);
+			selection.Add(list[i]);
 		}
 	RefreshObject(old);
 	WhenRescan();
 }
 
-void PathEditorCtrl::XorSelection(const ¬ектор<int>& list)
+void PathEditorCtrl::XorSelection(const Vector<int>& list)
 {
 	int old_leader = GetSelectionLeader();
-	for(int i = 0; i < list.дай—чЄт(); i++)
+	for(int i = 0; i < list.GetCount(); i++)
 	{
 		RefreshObject(list[i]);
-		int pos = selection.найди(list[i]);
+		int pos = selection.Find(list[i]);
 		if(pos >= 0)
-			selection.удали(pos);
+			selection.Remove(pos);
 		else
-			selection.добавь(list[i]);
+			selection.Add(list[i]);
 	}
 	int new_leader = GetSelectionLeader();
 	if(new_leader != old_leader)
@@ -761,81 +761,81 @@ void PathEditorCtrl::XorSelection(const ¬ектор<int>& list)
 	WhenRescan();
 }
 
-void PathEditorCtrl::удалиВыделение(const ¬ектор<int>& list)
+void PathEditorCtrl::RemoveSelection(const Vector<int>& list)
 {
-	int count = selection.дай—чЄт();
-	for(int i = 0; i < list.дай—чЄт(); i++)
+	int count = selection.GetCount();
+	for(int i = 0; i < list.GetCount(); i++)
 	{
-		int pos = selection.найди(list[i]);
+		int pos = selection.Find(list[i]);
 		if(pos >= 0)
 		{
 			RefreshObject(list[i]);
-			selection.удали(pos);
+			selection.Remove(pos);
 		}
 	}
-	if(selection.дай—чЄт() != count && !selection.пустой())
-		RefreshObject(selection.верх());
+	if(selection.GetCount() != count && !selection.IsEmpty())
+		RefreshObject(selection.Top());
 	WhenRescan();
 }
 
 void PathEditorCtrl::RefreshSelection()
 {
-	for(int i = 0; i < selection.дай—чЄт(); i++)
+	for(int i = 0; i < selection.GetCount(); i++)
 		RefreshObject(selection[i]);
 }
 
-void PathEditorCtrl::очистьВыделение()
+void PathEditorCtrl::ClearSelection()
 {
 	RefreshSelection();
-	selection.очисть();
+	selection.Clear();
 	WhenRescan();
 }
 
-void PathEditorCtrl::устВыделение(const ¬ектор<int>& list)
+void PathEditorCtrl::SetSelection(const Vector<int>& list)
 {
-	очистьВыделение();
-	приставь(selection, list);
+	ClearSelection();
+	Append(selection, list);
 //	selection <<= list;
 	RefreshSelection();
 	WhenRescan();
 }
 
-ТочкаПЗ PathEditorCtrl::ClientToUnits(Точка pt) const
+Pointf PathEditorCtrl::ClientToUnits(Point pt) const
 {
-	return ТочкаПЗ(hruler.FromClient(pt.x), vruler.FromClient(pt.y));
+	return Pointf(hruler.FromClient(pt.x), vruler.FromClient(pt.y));
 }
 
-Точка PathEditorCtrl::UnitsToClient(ТочкаПЗ pt) const
+Point PathEditorCtrl::UnitsToClient(Pointf pt) const
 {
-	return Точка(hruler.ToClient(pt.x), vruler.ToClient(pt.y));
+	return Point(hruler.ToClient(pt.x), vruler.ToClient(pt.y));
 }
 
-ПрямПЗ PathEditorCtrl::ClientToUnits(const Прям& rc) const
+Rectf PathEditorCtrl::ClientToUnits(const Rect& rc) const
 {
-	return SortRectf(ClientToUnits(rc.верхЛево()), ClientToUnits(rc.низПраво()));
+	return SortRectf(ClientToUnits(rc.TopLeft()), ClientToUnits(rc.BottomRight()));
 }
 
-Прям PathEditorCtrl::UnitsToClient(const ПрямПЗ& rc) const
+Rect PathEditorCtrl::UnitsToClient(const Rectf& rc) const
 {
-	return RectSort(UnitsToClient(rc.верхЛево()), UnitsToClient(rc.низПраво()));
+	return RectSort(UnitsToClient(rc.TopLeft()), UnitsToClient(rc.BottomRight()));
 }
 
-ТочкаПЗ PathEditorCtrl::Snap(ТочкаПЗ pt) const
+Pointf PathEditorCtrl::Snap(Pointf pt) const
 {
-	if(пусто_ли(pt) || !setup.do_snap || setup.snap <= 1e-10)
+	if(IsNull(pt) || !setup.do_snap || setup.snap <= 1e-10)
 		return pt;
-	return ТочкаПЗ(floor(pt.x / setup.snap + 0.5) * setup.snap, floor(pt.y / setup.snap + 0.5) * setup.snap);
+	return Pointf(floor(pt.x / setup.snap + 0.5) * setup.snap, floor(pt.y / setup.snap + 0.5) * setup.snap);
 }
 
-ТочкаПЗ PathEditorCtrl::ClientToSnap(Точка pt) const
+Pointf PathEditorCtrl::ClientToSnap(Point pt) const
 {
 	return Snap(ClientToUnits(pt));
 }
 
-bool PathEditorCtrl::Ключ(dword ключ, int repcnt)
+bool PathEditorCtrl::Key(dword key, int repcnt)
 {
-	Размер shift(0, 0);
-	switch(ключ)
+	Size shift(0, 0);
+	switch(key)
 	{
 	case K_ADD:      if(setup.sample_width < MAX_WIDTH) { sample_width <<= ++setup.sample_width; UpdateSample(); } return true;
 	case K_SUBTRACT: if(setup.sample_width > 0)         { sample_width <<= --setup.sample_width; UpdateSample(); }; return true;
@@ -846,30 +846,30 @@ bool PathEditorCtrl::Ключ(dword ключ, int repcnt)
 	case K_DOWN:  shift.cy = +1; break;
 
 	default:
-		return DragDropCtrl::Ключ(ключ, repcnt);
+		return DragDropCtrl::Key(key, repcnt);
 	}
 
-	if((shift.cx | shift.cy) && выделение_ли())
+	if((shift.cx | shift.cy) && IsSelection())
 	{
-		ПрямПЗ ext = GetSelectionExtent();
-		ПрямПЗ full = GetFullExtent();
-		ТочкаПЗ snap(setup.snap, setup.snap);
+		Rectf ext = GetSelectionExtent();
+		Rectf full = GetFullExtent();
+		Pointf snap(setup.snap, setup.snap);
 		if(!setup.do_snap || setup.snap <= 1e-10)
-			snap = ТочкаПЗ(1, 1) / GetScale();
-		ТочкаПЗ step = snap * shift;
-		ТочкаПЗ lt = traces[GetSelectionLeader()].LeftTop();
+			snap = Pointf(1, 1) / GetScale();
+		Pointf step = snap * shift;
+		Pointf lt = traces[GetSelectionLeader()].LeftTop();
 		if(step.x)
 			step.x = snap.x * floor((lt.x + step.x) / snap.x + 0.5) - lt.x;
 		if(step.y)
 			step.y = snap.y * floor((lt.y + step.y) / snap.y + 0.5) - lt.y;
-		for(int i = 0; i < selection.дай—чЄт(); i++)
+		for(int i = 0; i < selection.GetCount(); i++)
 			SetObject(selection[i], traces[selection[i]].GetMove(step));
 	}
 
 	return true;
 }
 
-bool PathEditorCtrl::сунь(Точка pt, dword keyflags)
+bool PathEditorCtrl::Push(Point pt, dword keyflags)
 {
 	if(edit_mode == EDIT_ZOOM)
 	{
@@ -885,7 +885,7 @@ bool PathEditorCtrl::сунь(Точка pt, dword keyflags)
 
 	track_limit = GetFullExtent();
 
-	ТочкаПЗ up = ClientToUnits(pt);
+	Pointf up = ClientToUnits(pt);
 	if(track_style = GetTrackStyle(up, track_start))
 	{
 		drag_mode = DRAG_TRACK;
@@ -902,14 +902,14 @@ bool PathEditorCtrl::сунь(Точка pt, dword keyflags)
 		XorSelection(i);
 	else if(keyflags & K_SHIFT)
 	{
-		удалиВыделение(i);
+		RemoveSelection(i);
 		AddSelection(i);
 	}
-	else if(selection.найди(i) < 0)
-		устВыделение(i);
+	else if(selection.Find(i) < 0)
+		SetSelection(i);
 	track_start = traces[i].LeftTop();
 	drag_mode = DRAG_MOVE;
-	ПрямПЗ rc = GetSelectionExtent();
+	Rectf rc = GetSelectionExtent();
 	track_limit.left   -= rc.left;
 	track_limit.top    -= rc.top;
 	track_limit.right  -= rc.right;
@@ -917,89 +917,89 @@ bool PathEditorCtrl::сунь(Точка pt, dword keyflags)
 	return true;
 }
 
-void PathEditorCtrl::двигМыши(Точка pt, dword keyflags)
+void PathEditorCtrl::MouseMove(Point pt, dword keyflags)
 {
-	ТочкаПЗ up = ClientToSnap(pt);
+	Pointf up = ClientToSnap(pt);
 //	hruler.Mouse(up.x);
-	hruler.синх();
+	hruler.Sync();
 //	vruler.Mouse(up.y);
-	vruler.синх();
+	vruler.Sync();
 	if(coords)
 	{
-		“кст s;
+		String s;
 		s << "x = " << up.x << ", y = " << up.y;
 		*coords <<= s;
-		coords->синх();
+		coords->Sync();
 	}
 
-	DragDropCtrl::двигМыши(pt, keyflags);
+	DragDropCtrl::MouseMove(pt, keyflags);
 }
 
-void PathEditorCtrl::праваяВнизу(Точка pt, dword keyflags)
+void PathEditorCtrl::RightDown(Point pt, dword keyflags)
 {
-	ТочкаПЗ up = ClientToUnits(pt);
+	Pointf up = ClientToUnits(pt);
 	int i = FindObject(up);
 	if(i >= 0)
 	{
-		удалиВыделение(i);
+		RemoveSelection(i);
 		AddSelection(i);
 	}
-	БарМеню::выполни(THISBACK(ToolEdit));
+	MenuBar::Execute(THISBACK(ToolEdit));
 }
 
-void PathEditorCtrl::тяни(Точка pt, Точка last, Точка next, dword keyflags)
+void PathEditorCtrl::Drag(Point pt, Point last, Point next, dword keyflags)
 {
 	ViewPlotter plotter(this);
 	PathTool path;
 	bool drag_size = (drag_mode == DRAG_BEGIN || drag_mode == DRAG_SEGMENT || drag_mode == DRAG_END);
-	path.уст(plotter, ".dot", drag_mode == DRAG_SELECT ? светлоКрасный : drag_size ? зелёный : светлоСиний, 3);
-	ТочкаПЗ up = ClientToSnap(pt);
+	path.Set(plotter, ".dot", drag_mode == DRAG_SELECT ? LtRed : drag_size ? Green : LtBlue, 3);
+	Pointf up = ClientToSnap(pt);
 //	int rop = SetROP2(plotter.draw, R2_NOTXORPEN);
 	if(drag_mode == DRAG_INSERT)
 	{
-		if(!пусто_ли(next))
+		if(!IsNull(next))
 			path.Rectangle(SortRectf(up, ClientToSnap(next)) & track_limit, true);
-		if(!пусто_ли(last))
+		if(!IsNull(last))
 			path.Rectangle(SortRectf(up, ClientToSnap(last)) & track_limit, true);
 	}
 	else if(drag_mode == DRAG_SELECT)
 	{
 		up = ClientToUnits(pt);
-		if(!пусто_ли(next))
+		if(!IsNull(next))
 			path.Rectangle(SortRectf(up, ClientToUnits(next)), true);
-		if(!пусто_ли(last))
+		if(!IsNull(last))
 			path.Rectangle(SortRectf(up, ClientToUnits(last)), true);
 	}
 	else if(drag_mode == DRAG_TRACK)
 	{
-		if(выделение_ли())
+		if(IsSelection())
 		{
-			const PathStyle::Trace& base = traces[selection.верх()];
-			if(!пусто_ли(next))
-				PathStyle::Trace(base).Track(ClientToSnap(next) - track_start, track_style).свяжи(track_limit).рисуй(path);
-			if(!пусто_ли(last))
-				PathStyle::Trace(base).Track(ClientToSnap(last) - track_start, track_style).свяжи(track_limit).рисуй(path);
+			const PathStyle::Trace& base = traces[selection.Top()];
+			if(!IsNull(next))
+				PathStyle::Trace(base).Track(ClientToSnap(next) - track_start, track_style).Bind(track_limit).Paint(path);
+			if(!IsNull(last))
+				PathStyle::Trace(base).Track(ClientToSnap(last) - track_start, track_style).Bind(track_limit).Paint(path);
 		}
 		else
 			NEVER();
 	}
 	else if(drag_mode == DRAG_MOVE)
 	{
-		if(выделение_ли())
+		if(IsSelection())
 		{
-			Размер delta = UnitsToClient(track_start) - pt;
-			ТочкаПЗ un(Null), ul(Null);
-			if(!пусто_ли(next))
+			Size delta = UnitsToClient(track_start) - pt;
+			Pointf un(Null), ul(Null);
+			if(!IsNull(next))
 				un = fpminmax(ClientToSnap(next + delta) - track_start, track_limit);
-			if(!пусто_ли(last))
+			if(!IsNull(last))
 				ul = fpminmax(ClientToSnap(last + delta) - track_start, track_limit);
-			for(int i = 0; i < selection.дай—чЄт(); i++)
+			for(int i = 0; i < selection.GetCount(); i++)
 			{
 				const PathStyle::Trace& base = traces[selection[i]];
-				if(!пусто_ли(next))
-					base.GetMove(un).рисуй(path, true);
-				if(!пусто_ли(last))
-					base.GetMove(ul).рисуй(path, true);
+				if(!IsNull(next))
+					base.GetMove(un).Paint(path, true);
+				if(!IsNull(last))
+					base.GetMove(ul).Paint(path, true);
 			}
 		}
 		else
@@ -1007,49 +1007,49 @@ void PathEditorCtrl::тяни(Точка pt, Точка last, Точка next, dword keyflags)
 	}
 	else if(drag_size)
 	{
-		ТочкаПЗ size = ТочкаПЗ(16, 16) / GetScale();
-		if(!пусто_ли(next))
+		Pointf size = Pointf(16, 16) / GetScale();
+		if(!IsNull(next))
 		{
-			ТочкаПЗ un = ClientToSnap(next);
+			Pointf un = ClientToSnap(next);
 			PaintSizeBreak(path, un.x, style->width / 2, size);
 		}
-		if(!пусто_ли(last))
+		if(!IsNull(last))
 		{
-			ТочкаПЗ ul = ClientToSnap(last);
+			Pointf ul = ClientToSnap(last);
 			PaintSizeBreak(path, ul.x, style->width / 2, size);
 		}
 	}
 	else if(drag_mode == DRAG_ZOOM)
 	{
 		up = ClientToUnits(pt);
-		if(!пусто_ли(next))
+		if(!IsNull(next))
 			path.Rectangle(SortRectf(up, ClientToUnits(next)), true);
-		if(!пусто_ли(last))
+		if(!IsNull(last))
 			path.Rectangle(SortRectf(up, ClientToUnits(last)), true);
-		path.рисуй();
+		path.Paint();
 	}
 	else if(drag_mode == DRAG_PAN)
 	{
-		ТочкаПЗ new_offset = track_start;
-		if(!пусто_ли(next))
+		Pointf new_offset = track_start;
+		if(!IsNull(next))
 			new_offset += next - pt;
 		hruler.SetZoom(hruler.GetScale(), new_offset.x);
 		vruler.SetZoom(vruler.GetScale(), new_offset.y);
 		UpdateScroll();
-		if(!пусто_ли(next))
-			синх();
+		if(!IsNull(next))
+			Sync();
 	}
 	else
 		NEVER();
-	path.рисуй();
+	path.Paint();
 }
 
-void PathEditorCtrl::сбрось(Точка pt, Точка end, dword keyflags)
+void PathEditorCtrl::Drop(Point pt, Point end, dword keyflags)
 {
-	ТочкаПЗ up = ClientToSnap(end);
+	Pointf up = ClientToSnap(end);
 	if(drag_mode == DRAG_INSERT)
 	{
-		ПрямПЗ rc = SortRectf(ClientToSnap(pt), up) & track_limit;
+		Rectf rc = SortRectf(ClientToSnap(pt), up) & track_limit;
 		if(rc.left == rc.right && rc.top == rc.bottom)
 			return;
 		PathStyle::Trace trace;
@@ -1057,35 +1057,35 @@ void PathEditorCtrl::сбрось(Точка pt, Точка end, dword keyflags)
 		trace.right = rc.right;
 		trace.left_top = trace.right_top = rc.top;
 		trace.left_bottom = trace.right_bottom = rc.bottom;
-		устВыделение(AddObject(trace));
+		SetSelection(AddObject(trace));
 	}
 	else if(drag_mode == DRAG_SELECT)
 	{
-		ПрямПЗ rc = SortRectf(ClientToUnits(pt), ClientToUnits(end));
-		¬ектор<int> list = FindObject(rc);
+		Rectf rc = SortRectf(ClientToUnits(pt), ClientToUnits(end));
+		Vector<int> list = FindObject(rc);
 		if(keyflags & K_SHIFT)
 			AddSelection(list);
 		else if(keyflags & K_CTRL)
 			XorSelection(list);
 		else
-			устВыделение(list);
+			SetSelection(list);
 	}
 	else if(drag_mode == DRAG_TRACK)
 	{
 		up -= track_start;
-		if(выделение_ли())
+		if(IsSelection())
 		{
-			int i = selection.верх();
-			SetObject(i, PathStyle::Trace(traces[i]).Track(up, track_style).свяжи(track_limit));
+			int i = selection.Top();
+			SetObject(i, PathStyle::Trace(traces[i]).Track(up, track_style).Bind(track_limit));
 		}
 		else
 			NEVER();
 	}
 	else if(drag_mode == DRAG_MOVE)
 	{
-		Размер delta = UnitsToClient(track_start) - pt;
+		Size delta = UnitsToClient(track_start) - pt;
 		up = fpminmax(ClientToSnap(end + delta) - track_start, track_limit);
-		for(int i = 0; i < selection.дай—чЄт(); i++)
+		for(int i = 0; i < selection.GetCount(); i++)
 			SetObject(selection[i], traces[selection[i]].GetMove(up));
 	}
 	else if(drag_mode == DRAG_BEGIN || drag_mode == DRAG_SEGMENT || drag_mode == DRAG_END)
@@ -1125,23 +1125,23 @@ void PathEditorCtrl::сбрось(Точка pt, Точка end, dword keyflags)
 		default:
 			NEVER();
 		}
-		Выкладка();
+		Layout();
 		UpdateSample();
 	}
 	else if(drag_mode == DRAG_ZOOM)
 	{
-		ПрямПЗ rc = SortRectf(ClientToUnits(pt), ClientToUnits(end));
+		Rectf rc = SortRectf(ClientToUnits(pt), ClientToUnits(end));
 		rc &= GetFullExtent();
-		Размер client = дай–азм();
-		Размер avail = max(client - 2 * GAP, Размер(1, 1));
-		double ratio = min(avail.cx / max(rc.устШирину(), 1e-3), avail.cy / max(rc.устВысоту(), 1e-3));
+		Size client = GetSize();
+		Size avail = max(client - 2 * GAP, Size(1, 1));
+		double ratio = min(avail.cx / max(rc.Width(), 1e-3), avail.cy / max(rc.Height(), 1e-3));
 		hruler.SetZoom(ratio, (client.cx - (rc.left + rc.right)  * ratio) / 2);
 		vruler.SetZoom(ratio, (client.cy - (rc.top  + rc.bottom) * ratio) / 2);
 		UpdateScroll();
 	}
 	else if(drag_mode == DRAG_PAN)
 	{
-		ТочкаПЗ dest = track_start + РазмерПЗ(end - pt);
+		Pointf dest = track_start + Sizef(end - pt);
 		hruler.SetZoom(hruler.GetScale(), dest.x);
 		vruler.SetZoom(vruler.GetScale(), dest.y);
 		UpdateScroll();
@@ -1150,23 +1150,23 @@ void PathEditorCtrl::сбрось(Точка pt, Точка end, dword keyflags)
 		NEVER();
 }
 
-void PathEditorCtrl::Click(Точка pt, dword keyflags)
+void PathEditorCtrl::Click(Point pt, dword keyflags)
 {
 	if(drag_mode == DRAG_INSERT && !(keyflags & (K_CTRL | K_SHIFT)))
-		очистьВыделение();
+		ClearSelection();
 }
 
-int PathEditorCtrl::FindObject(ТочкаПЗ pt) const
+int PathEditorCtrl::FindObject(Pointf pt) const
 {
 	enum { TOLERANCE = 10 };
-	ТочкаПЗ inflate = ТочкаПЗ(TOLERANCE, TOLERANCE) / GetScale();
+	Pointf inflate = Pointf(TOLERANCE, TOLERANCE) / GetScale();
 	double best = TOLERANCE;
 	int found = -1;
-	for(int i = 0; i < traces.дай—чЄт(); i++)
+	for(int i = 0; i < traces.GetCount(); i++)
 	{
 		PathStyle::Trace t = traces[i];
-		t.инфлируй(inflate);
-		if(!t.содержит(pt))
+		t.Inflate(inflate);
+		if(!t.Contains(pt))
 			continue;
 		double d = t.GetDistance(pt);
 		if(d < best)
@@ -1178,25 +1178,25 @@ int PathEditorCtrl::FindObject(ТочкаПЗ pt) const
 	return found;
 }
 
-¬ектор<int> PathEditorCtrl::FindObject(const ПрямПЗ& rc) const
+Vector<int> PathEditorCtrl::FindObject(const Rectf& rc) const
 {
-	¬ектор<int> list;
-	for(int i = 0; i < traces.дай—чЄт(); i++)
-		if(rc.содержит(traces[i].GetExtent()))
-			list.добавь(i);
+	Vector<int> list;
+	for(int i = 0; i < traces.GetCount(); i++)
+		if(rc.Contains(traces[i].GetExtent()))
+			list.Add(i);
 	return list;
 }
 
-int PathEditorCtrl::GetTrackStyle(ТочкаПЗ pt, ТочкаПЗ& track_start) const
+int PathEditorCtrl::GetTrackStyle(Pointf pt, Pointf& track_start) const
 {
-	ТочкаПЗ tolerance = ТочкаПЗ(10, 10) / GetScale();
-	return selection.пустой() ? 0
-		: traces[selection.верх()].GetTrackStyle(pt, tolerance, track_start);
+	Pointf tolerance = Pointf(10, 10) / GetScale();
+	return selection.IsEmpty() ? 0
+		: traces[selection.Top()].GetTrackStyle(pt, tolerance, track_start);
 }
 
-int PathEditorCtrl::GetDragSize(ТочкаПЗ pt) const
+int PathEditorCtrl::GetDragSize(Pointf pt) const
 {
-	ТочкаПЗ tolerance = ТочкаПЗ(16, 16) / GetScale();
+	Pointf tolerance = Pointf(16, 16) / GetScale();
 	double h = style->width / 2;
 	if(pt.y >= -h + tolerance.y && pt.y <= h - tolerance.y)
 		return 0;
@@ -1208,7 +1208,7 @@ int PathEditorCtrl::GetDragSize(ТочкаПЗ pt) const
 	return (ds <= db && ds <= de ? DRAG_SEGMENT : de <= db && de <= ds ? DRAG_END : DRAG_BEGIN);
 }
 
-void PathEditorCtrl::ToolEdit(Бар& bar)
+void PathEditorCtrl::ToolEdit(Bar& bar)
 {
 	ToolEditColor(bar);
 	bar.Separator();
@@ -1217,113 +1217,113 @@ void PathEditorCtrl::ToolEdit(Бар& bar)
 	ToolEditPaste(bar);
 	ToolEditDelete(bar);
 	bar.Separator();
-//	bar.добавь("Zбkladnн", THISBACK(ToolEditBasic))
+//	bar.Add("Zбkladnн", THISBACK(ToolEditBasic))
 //		.Help("Naинst do editoru jeden ze zбkladnнch stylщ ибr");
 //	bar.Separator();
 	ToolEditSelectAll(bar);
 }
 
-void PathEditorCtrl::ToolEditCopy(Бар& bar)
+void PathEditorCtrl::ToolEditCopy(Bar& bar)
 {
-	bar.добавь(выделение_ли(), "Kopнrovat", CtrlImg::copy(), THISBACK(OnEditCopy))
-		.Ключ(K_CTRL_C) //, K_CTRL_INSERT)
+	bar.Add(IsSelection(), "Kopнrovat", CtrlImg::copy(), THISBACK(OnEditCopy))
+		.Key(K_CTRL_C) //, K_CTRL_INSERT)
 		.Help("Zkopнrovat vybranй objekty do schrбnky");
 }
 
 void PathEditorCtrl::OnEditCopy()
 {
-	if(выделение_ли() && !WriteClipboard())
+	if(IsSelection() && !WriteClipboard())
 		PromptOK("Chyba pшi zбpisu do schrбnky.");
 }
 
-void PathEditorCtrl::ToolEditCut(Бар& bar)
+void PathEditorCtrl::ToolEditCut(Bar& bar)
 {
-	bar.добавь(выделение_ли(), "Vyjmout", CtrlImg::cut(), THISBACK(OnEditCut))
-		.Ключ(K_CTRL_X) //, K_CTRL_DELETE)
+	bar.Add(IsSelection(), "Vyjmout", CtrlImg::cut(), THISBACK(OnEditCut))
+		.Key(K_CTRL_X) //, K_CTRL_DELETE)
 		.Help("Odstranit vybranй objekty ze stylu a pшesunout je do schrбnky");
 }
 
 void PathEditorCtrl::OnEditCut()
 {
-	if(выделение_ли())
+	if(IsSelection())
 		if(WriteClipboard())
 			OnEditDelete();
 		else
 			PromptOK("Chyba pшi zбpisu do schrбnky.");
 }
 
-void PathEditorCtrl::ToolEditPaste(Бар& bar)
+void PathEditorCtrl::ToolEditPaste(Bar& bar)
 {
-	bar.добавь("VloЮit", CtrlImg::paste(), THISBACK(OnEditPaste))
-		.Ключ(K_CTRL_V) //, K_SHIFT_INSERT)
+	bar.Add("VloЮit", CtrlImg::paste(), THISBACK(OnEditPaste))
+		.Key(K_CTRL_V) //, K_SHIFT_INSERT)
 		.Help("Zkopнrovat vybranй objekty do schrбnky");
 }
 
 void PathEditorCtrl::OnEditPaste()
 {
-	if(выделение_ли() && !ReadClipboard())
+	if(IsSelection() && !ReadClipboard())
 		PromptOK("Chyba pшi zбpisu do schrбnky.");
 }
 
-void PathEditorCtrl::ToolEditSelectAll(Бар& bar)
+void PathEditorCtrl::ToolEditSelectAll(Bar& bar)
 {
-	bar.добавь("Vybrat vЪe", THISBACK(OnEditSelectAll))
-		.Ключ(K_CTRL_A)
+	bar.Add("Vybrat vЪe", THISBACK(OnEditSelectAll))
+		.Key(K_CTRL_A)
 		.Help("Oznaиit vЪechny ъseky jako vybranй");
 }
 
 void PathEditorCtrl::OnEditSelectAll()
 {
-	очистьВыделение();
-	¬ектор<int> to_add;
-	for(int i = 0; i < traces.дай—чЄт(); i++)
-		to_add.добавь(i);
+	ClearSelection();
+	Vector<int> to_add;
+	for(int i = 0; i < traces.GetCount(); i++)
+		to_add.Add(i);
 	AddSelection(to_add);
 }
 
-void PathEditorCtrl::ToolEditColor(Бар& bar)
+void PathEditorCtrl::ToolEditColor(Bar& bar)
 {
-	bar.добавь(выделение_ли(), "Barva...", PathImg::edit_color(), THISBACK(OnEditColor))
-		.Ключ(K_CTRL_R)
+	bar.Add(IsSelection(), "Barva...", PathImg::edit_color(), THISBACK(OnEditColor))
+		.Key(K_CTRL_R)
 		.Help("Nastavit barvu vybranэch objektщ");
 }
 
 void PathEditorCtrl::OnEditColor()
 {
-	if(!выделение_ли())
+	if(!IsSelection())
 		return;
 	bool ok;
-	Цвет c = RunDlgSelectColor(traces[GetSelectionLeader()].color, false, "Barva objektщ...", &ok);
+	Color c = RunDlgSelectColor(traces[GetSelectionLeader()].color, false, "Barva objektщ...", &ok);
 	if(ok)
-		for(int i = 0; i < selection.дай—чЄт(); i++)
+		for(int i = 0; i < selection.GetCount(); i++)
 			SetObject(selection[i], traces[selection[i]].GetTraceColor(c));
 }
 
-void PathEditorCtrl::ToolEditDelete(Бар& bar)
+void PathEditorCtrl::ToolEditDelete(Bar& bar)
 {
-	bar.добавь(выделение_ли(), "Smazat", CtrlImg::remove(), THISBACK(OnEditDelete))
-		.Ключ(K_DELETE)
+	bar.Add(IsSelection(), "Smazat", CtrlImg::remove(), THISBACK(OnEditDelete))
+		.Key(K_DELETE)
 		.Help("Smazat vybranй objekty");
 }
 
 void PathEditorCtrl::OnEditDelete()
 {
 	RefreshSelection();
-	¬ектор<int> sel = selection.подбериКлючи();
-	selection.очисть();
-	сортируй(sel);
-	while(!sel.пустой())
-		traces.удали(sel.вынь());
+	Vector<int> sel = selection.PickKeys();
+	selection.Clear();
+	Sort(sel);
+	while(!sel.IsEmpty())
+		traces.Remove(sel.Pop());
 	WhenRescan();
 	Update();
 	UpdateSample();
 }
 
-void PathEditorCtrl::ToolView(Бар& bar)
+void PathEditorCtrl::ToolView(Bar& bar)
 {
 	ToolViewZoomIn(bar);
 	ToolViewZoomOut(bar);
-	if(bar.барМеню_ли())
+	if(bar.IsMenuBar())
 		ToolViewZoomFull(bar);
 	ToolViewPan(bar);
 	bar.MenuSeparator();
@@ -1333,9 +1333,9 @@ void PathEditorCtrl::ToolView(Бар& bar)
 	ToolViewZoomVertOut(bar);
 }
 
-void PathEditorCtrl::ToolViewZoomIn(Бар& bar)
+void PathEditorCtrl::ToolViewZoomIn(Bar& bar)
 {
-	bar.добавь("ZvмtЪit", PathImg::view_zoom_in(), THISBACK(OnViewZoomIn))
+	bar.Add("ZvмtЪit", PathImg::view_zoom_in(), THISBACK(OnViewZoomIn))
 		.Check(edit_mode == EDIT_ZOOM)
 		.Help("ZvмtЪit vybranй mнsto nebo oblast");
 }
@@ -1346,9 +1346,9 @@ void PathEditorCtrl::OnViewZoomIn()
 	WhenRescan();
 }
 
-void PathEditorCtrl::ToolViewZoomOut(Бар& bar)
+void PathEditorCtrl::ToolViewZoomOut(Bar& bar)
 {
-	bar.добавь("ZmenЪit", PathImg::view_zoom_out(), THISBACK(OnViewZoomOut))
+	bar.Add("ZmenЪit", PathImg::view_zoom_out(), THISBACK(OnViewZoomOut))
 		.Help("ZmenЪit mмшнtko zobrazenн stylu ибry");
 }
 
@@ -1358,9 +1358,9 @@ void PathEditorCtrl::OnViewZoomOut()
 	OnViewZoomVertOut();
 }
 
-void PathEditorCtrl::ToolViewZoomFull(Бар& bar)
+void PathEditorCtrl::ToolViewZoomFull(Bar& bar)
 {
-	bar.добавь("Podle okna", PathImg::view_zoom_full(), THISBACK(OnViewZoomFull))
+	bar.Add("Podle okna", PathImg::view_zoom_full(), THISBACK(OnViewZoomFull))
 		.Help("Nastavit mмшнtko zobrazenн podle velikosti okna");
 }
 
@@ -1370,97 +1370,97 @@ void PathEditorCtrl::OnViewZoomFull()
 	OnViewZoomVertFull();
 }
 
-void PathEditorCtrl::ToolViewZoomHorzIn(Бар& bar)
+void PathEditorCtrl::ToolViewZoomHorzIn(Bar& bar)
 {
-	bar.добавь("Horiz. zvмtЪit", THISBACK(OnViewZoomHorzIn))
+	bar.Add("Horiz. zvмtЪit", THISBACK(OnViewZoomHorzIn))
 		.Help("ZvмtЪit mмшнtko vodorovnй osy");
 }
 
 void PathEditorCtrl::OnViewZoomHorzIn()
 {
-	int half = дай–азм().cx >> 1;
+	int half = GetSize().cx >> 1;
 	double mpos = hruler.FromClient(half);
 	hruler.SetZoom(min(hruler.GetScale() * 1.5, 1000.0), 0);
 	hruler.SetZoom(hruler.GetScale(), half - hruler.ToClient(mpos));
 	UpdateScroll();
 }
 
-void PathEditorCtrl::ToolViewZoomHorzOut(Бар& bar)
+void PathEditorCtrl::ToolViewZoomHorzOut(Bar& bar)
 {
-	bar.добавь("Horiz. zmenЪit", THISBACK(OnViewZoomHorzOut))
+	bar.Add("Horiz. zmenЪit", THISBACK(OnViewZoomHorzOut))
 		.Help("ZmenЪit mмшнtko vodorovnй osy");
 }
 
 void PathEditorCtrl::OnViewZoomHorzOut()
 {
-	int half = дай–азм().cx >> 1;
+	int half = GetSize().cx >> 1;
 	double mpos = hruler.FromClient(half);
 	hruler.SetZoom(max(hruler.GetScale() / 1.5, 1.0), 0);
 	hruler.SetZoom(hruler.GetScale(), half - hruler.ToClient(mpos));
 	UpdateScroll();
 }
 
-void PathEditorCtrl::ToolViewZoomHorzFull(Бар& bar)
+void PathEditorCtrl::ToolViewZoomHorzFull(Bar& bar)
 {
-	bar.добавь("Horiz. podle okna", THISBACK(OnViewZoomHorzFull))
+	bar.Add("Horiz. podle okna", THISBACK(OnViewZoomHorzFull))
 		.Help("Nastavit vodorovnй mмшнtko podle velikosti okna");
 }
 
 void PathEditorCtrl::OnViewZoomHorzFull()
 {
-	int avail = дай–азм().cx - 2 * GAP;
+	int avail = GetSize().cx - 2 * GAP;
 	double wd = max(1e-3, style->begin + style->segment + style->end);
 	hruler.SetZoom(avail / wd, GAP);
 	UpdateScroll();
 }
 
-void PathEditorCtrl::ToolViewZoomVertIn(Бар& bar)
+void PathEditorCtrl::ToolViewZoomVertIn(Bar& bar)
 {
-	bar.добавь("верт. zvмtЪit", THISBACK(OnViewZoomVertIn))
+	bar.Add("Vert. zvмtЪit", THISBACK(OnViewZoomVertIn))
 		.Help("ZvмtЪit mмшнtko svislй osy");
 }
 
 void PathEditorCtrl::OnViewZoomVertIn()
 {
-	int half = дай–азм().cy >> 1;
+	int half = GetSize().cy >> 1;
 	double mpos = vruler.FromClient(half);
 	vruler.SetZoom(min(vruler.GetScale() * 1.5, 1000.0), 0);
 	vruler.SetZoom(vruler.GetScale(), half - vruler.ToClient(mpos));
 	UpdateScroll();
 }
 
-void PathEditorCtrl::ToolViewZoomVertOut(Бар& bar)
+void PathEditorCtrl::ToolViewZoomVertOut(Bar& bar)
 {
-	bar.добавь("верт. zmenЪit", THISBACK(OnViewZoomVertOut))
+	bar.Add("Vert. zmenЪit", THISBACK(OnViewZoomVertOut))
 		.Help("ZmenЪit mмшнtko svislй osy");
 }
 
 void PathEditorCtrl::OnViewZoomVertOut()
 {
-	int half = дай–азм().cy >> 1;
+	int half = GetSize().cy >> 1;
 	double mpos = vruler.FromClient(half);
 	vruler.SetZoom(max(vruler.GetScale() / 1.5, 1.0), 0);
 	vruler.SetZoom(vruler.GetScale(), half - vruler.ToClient(mpos));
 	UpdateScroll();
 }
 
-void PathEditorCtrl::ToolViewZoomVertFull(Бар& bar)
+void PathEditorCtrl::ToolViewZoomVertFull(Bar& bar)
 {
-	bar.добавь("верт. podle okna", THISBACK(OnViewZoomVertFull))
+	bar.Add("Vert. podle okna", THISBACK(OnViewZoomVertFull))
 		.Help("Nastavit mмшнtko svislй osy podle velikosti okna");
 }
 
 void PathEditorCtrl::OnViewZoomVertFull()
 {
-	int avail = дай–азм().cy - 2 * GAP;
+	int avail = GetSize().cy - 2 * GAP;
 	double ht = max(1e-3, style->width);
-	vruler.SetZoom(avail / ht, дай–азм().cy >> 1);
+	vruler.SetZoom(avail / ht, GetSize().cy >> 1);
 	UpdateScroll();
 }
 
-void PathEditorCtrl::ToolViewPan(Бар& bar)
+void PathEditorCtrl::ToolViewPan(Bar& bar)
 {
-	bar.добавь("Posunout", PathImg::view_pan(), THISBACK(OnViewPan))
+	bar.Add("Posunout", PathImg::view_pan(), THISBACK(OnViewPan))
 		.Check(edit_mode == EDIT_PAN)
 		.Help("Posunout myЪн zobrazenэ vэшez");
 }
@@ -1471,7 +1471,7 @@ void PathEditorCtrl::OnViewPan()
 	WhenRescan();
 }
 
-void PathEditorCtrl::ToolSetup(Бар& bar)
+void PathEditorCtrl::ToolSetup(Bar& bar)
 {
 	ToolSetupGrid(bar);
 	ToolSetupSnap(bar);
@@ -1481,20 +1481,20 @@ void PathEditorCtrl::ToolSetup(Бар& bar)
 	bar.Separator();
 	ToolSetupStyle(bar);
 	ToolSetupSetup(bar);
-	if(bar.барИнстр_ли())
+	if(bar.IsToolBar())
 	{
 		bar.Separator();
 //		bar.ThinBar();
-		bar.добавь(sample_size_tag);
-		bar.добавь(sample_size.SizePos(), 80);
-		bar.добавь(sample_width_tag);
-		bar.добавь(sample_width.SizePos(), 40);
+		bar.Add(sample_size_tag);
+		bar.Add(sample_size.SizePos(), 80);
+		bar.Add(sample_width_tag);
+		bar.Add(sample_width.SizePos(), 40);
 	}
 }
 
-void PathEditorCtrl::ToolSetupGrid(Бар& bar)
+void PathEditorCtrl::ToolSetupGrid(Bar& bar)
 {
-	bar.добавь("MшнЮka", PathImg::setup_grid(), THISBACK(OnSetupGrid))
+	bar.Add("MшнЮka", PathImg::setup_grid(), THISBACK(OnSetupGrid))
 		.Check(setup.do_grid)
 		.Help("Zobrazit / skrэt pomocnou mшнЮku");
 }
@@ -1503,12 +1503,12 @@ void PathEditorCtrl::OnSetupGrid()
 {
 	setup.do_grid = !setup.do_grid;
 	WhenRescan();
-	освежи();
+	Refresh();
 }
 
-void PathEditorCtrl::ToolSetupRuler(Бар& bar)
+void PathEditorCtrl::ToolSetupRuler(Bar& bar)
 {
-	bar.добавь("Pravнtko", PathImg::setup_ruler(), THISBACK(OnSetupRuler))
+	bar.Add("Pravнtko", PathImg::setup_ruler(), THISBACK(OnSetupRuler))
 		.Check(setup.do_ruler)
 		.Help("Zobrazit / skrэt pravнtko");
 }
@@ -1517,12 +1517,12 @@ void PathEditorCtrl::OnSetupRuler()
 {
 	setup.do_ruler = !setup.do_ruler;
 	WhenRescan();
-	Выкладка();
+	Layout();
 }
 
-void PathEditorCtrl::ToolSetupAxis(Бар& bar)
+void PathEditorCtrl::ToolSetupAxis(Bar& bar)
 {
-	bar.добавь("Osa", PathImg::setup_axis(), THISBACK(OnSetupAxis))
+	bar.Add("Osa", PathImg::setup_axis(), THISBACK(OnSetupAxis))
 		.Check(setup.do_axis)
 		.Help("Zobrazit / skrэt osu ukбzkovй ъseиky");
 }
@@ -1534,9 +1534,9 @@ void PathEditorCtrl::OnSetupAxis()
 	UpdateSample();
 }
 
-void PathEditorCtrl::ToolSetupSnap(Бар& bar)
+void PathEditorCtrl::ToolSetupSnap(Bar& bar)
 {
-	bar.добавь("Pшichytit do mшнЮky", PathImg::setup_snap(), THISBACK(OnSetupSnap))
+	bar.Add("Pшichytit do mшнЮky", PathImg::setup_snap(), THISBACK(OnSetupSnap))
 		.Check(setup.do_snap)
 		.Help("Pшichytit souшadnice myЪi do mшнЮky");
 }
@@ -1545,12 +1545,12 @@ void PathEditorCtrl::OnSetupSnap()
 {
 	setup.do_snap = !setup.do_snap;
 	WhenRescan();
-	освежи();
+	Refresh();
 }
 
-void PathEditorCtrl::ToolSetupStyle(Бар& bar)
+void PathEditorCtrl::ToolSetupStyle(Bar& bar)
 {
-	bar.добавь("Styl ибry", THISBACK(OnSetupStyle))
+	bar.Add("Styl ибry", THISBACK(OnSetupStyle))
 		.Help("Zobrazit/zmмnit vlastnosti stylu ибry");
 }
 
@@ -1559,14 +1559,14 @@ void PathEditorCtrl::OnSetupStyle()
 	if(RunDlgPathStyleSetup(*style))
 	{
 		WhenRescan();
-		Выкладка();
+		Layout();
 		UpdateSample();
 	}
 }
 
-void PathEditorCtrl::ToolSetupSetup(Бар& bar)
+void PathEditorCtrl::ToolSetupSetup(Bar& bar)
 {
-	bar.добавь("Editor", PathImg::setup_setup(), THISBACK(OnSetupSetup))
+	bar.Add("Editor", PathImg::setup_setup(), THISBACK(OnSetupSetup))
 		.Help("Zobrazit/zmмnit vlastnosti editoru stylщ иar");
 }
 
@@ -1575,7 +1575,7 @@ void PathEditorCtrl::OnSetupSetup()
 	if(RunDlgPathEditorSetup(setup))
 	{
 		WhenRescan();
-		Выкладка();
+		Layout();
 	}
 }
 
@@ -1585,14 +1585,14 @@ void PathEditorCtrl::OnSetupSetup()
 class DlgPathEditor
 {
 public:
-	typedef DlgPathEditor ИМЯ_КЛАССА;
+	typedef DlgPathEditor CLASSNAME;
 	DlgPathEditor();
 
-	bool              пуск(PathStyle& style, const “кст& title);
-	void              сериализуй(ѕоток& stream);
+	bool              Run(PathStyle& style, const String& title);
+	void              Serialize(Stream& stream);
 	static ConfigItem& config();
 
-	void              Rescan() { tool_bar.уст(THISBACK(ToolRoot)); menu_bar.уст(THISBACK(ToolRoot)); }
+	void              Rescan() { tool_bar.Set(THISBACK(ToolRoot)); menu_bar.Set(THISBACK(ToolRoot)); }
 
 public:
 	TOOL(Root)
@@ -1600,10 +1600,10 @@ public:
 		TOOL(EditSave)
 
 private:
-	ТопОкно         dialog;
-	БарМеню           menu_bar;
+	TopWindow         dialog;
+	MenuBar           menu_bar;
 	ToolBar           tool_bar;
-	СтатусБар         status_bar;
+	StatusBar         status_bar;
 	EditField         coords;
 
 	PathEditorCtrl    path;
@@ -1611,7 +1611,7 @@ private:
 
 CONFIG_ITEM(DlgPathEditor::config, "DlgPathEditor", 1, 1, 1)
 
-bool RunDlgPathEditor(PathStyle& style, const “кст& title) { return DlgPathEditor().пуск(style, title); }
+bool RunDlgPathEditor(PathStyle& style, const String& title) { return DlgPathEditor().Run(style, title); }
 
 //////////////////////////////////////////////////////////////////////
 // DlgPathEditor::
@@ -1621,73 +1621,73 @@ DlgPathEditor::DlgPathEditor()
 #ifdef DEBUG_DRAW
 	dialog.NoBackPaint();
 #endif
-	dialog.добавьФрейм(menu_bar);
-	dialog.добавьФрейм(tool_bar);
-	dialog.добавьФрейм(status_bar);
+	dialog.AddFrame(menu_bar);
+	dialog.AddFrame(tool_bar);
+	dialog.AddFrame(status_bar);
 	status_bar << coords.VSizePos(0, 0).RightPos(0, 200);
-	coords.устТолькоЧтен();
-	menu_bar.уст(THISBACK(ToolRoot));
-	tool_bar.уст(THISBACK(ToolRoot));
+	coords.SetReadOnly();
+	menu_bar.Set(THISBACK(ToolRoot));
+	tool_bar.Set(THISBACK(ToolRoot));
 	dialog << path.SizePos();
 	dialog.Sizeable().Zoomable();
-	dialog.устМинРазм(Размер(300, 200));
+	dialog.SetMinSize(Size(300, 200));
 	path.WhenRescan = THISBACK(Rescan);
 }
 
-bool DlgPathEditor::пуск(PathStyle& style, const “кст& title)
+bool DlgPathEditor::Run(PathStyle& style, const String& title)
 {
-	dialog.Титул(Nvl(title, "Styl ибry").вЎ“кст());
+	dialog.Title(Nvl(title, "Styl ибry").ToWString());
 	ReadConfigSelf();
 	path.SetOwner(style);
 	path.SetCoords(coords);
 	path.PumpTraces(false);
-	dialog.открой();
+	dialog.Open();
 	path.OnViewZoomFull();
-	bool ok = (dialog.пуск() == IDOK);
+	bool ok = (dialog.Run() == IDOK);
 	WriteConfigSelf();
 	if(ok)
 		path.PumpTraces(true);
-	Ктрл::IgnoreMouseUp();
+	Ctrl::IgnoreMouseUp();
 	return ok;
 }
 
-void DlgPathEditor::сериализуй(ѕоток& stream)
+void DlgPathEditor::Serialize(Stream& stream)
 {
 	stream % path.setup;
-	if(stream.грузится())
+	if(stream.IsLoading())
 		path.UpdateSetup();
 }
 
-void DlgPathEditor::ToolRoot(Бар& bar)
+void DlgPathEditor::ToolRoot(Bar& bar)
 {
-	bar.добавь("Edit", THISBACK(ToolEdit))
+	bar.Add("Edit", THISBACK(ToolEdit))
 		.Help("Zбkladnн editaиnн pшнkazy");
-	bar.добавь("Pohled", callback(&path, &PathEditorCtrl::ToolView))
+	bar.Add("Pohled", callback(&path, &PathEditorCtrl::ToolView))
 		.Help("Mмшнtko a poloha zobrazenйho vэшezu");
-	bar.добавь("Vlastnosti", callback(&path, &PathEditorCtrl::ToolSetup))
+	bar.Add("Vlastnosti", callback(&path, &PathEditorCtrl::ToolSetup))
 		.Help("Vlastnosti ибry a editoru");
 }
 
-void DlgPathEditor::ToolEdit(Бар& bar)
+void DlgPathEditor::ToolEdit(Bar& bar)
 {
-	if(bar.барИнстр_ли())
+	if(bar.IsToolBar())
 	{
 		ToolEditSave(bar);
 //		bar.ThinBar();
 		bar.Separator();
 	}
 	path.ToolEdit(bar);
-	if(bar.барМеню_ли())
+	if(bar.IsMenuBar())
 	{
 		bar.Separator();
 		ToolEditSave(bar);
 	}
 }
 
-void DlgPathEditor::ToolEditSave(Бар& bar)
+void DlgPathEditor::ToolEditSave(Bar& bar)
 {
-	bar.добавь("UloЮit a zavшнt", CtrlImg::save(), THISBACK(OnEditSave))
-		.Ключ(K_CTRL_S)
+	bar.Add("UloЮit a zavшнt", CtrlImg::save(), THISBACK(OnEditSave))
+		.Key(K_CTRL_S)
 		.Help("Zavшнt editor a pouЮнt nadefinovanэ styl ибry");
 }
 
@@ -1702,9 +1702,9 @@ class WithPopupEdit : public T
 public:
 	WithPopupEdit();
 
-	virtual void откл();
-	virtual bool Ключ(dword ключ, int);
-	bool         PopUp(Ктрл *parent, const Прям& prect);
+	virtual void Deactivate();
+	virtual bool Key(dword key, int);
+	bool         PopUp(Ctrl *parent, const Rect& prect);
 
 public:
 	Callback     WhenCancel;
@@ -1720,17 +1720,17 @@ protected:
 template <class T>
 WithPopupEdit<T>::WithPopupEdit()
 {
-	this->устФрейм(фреймЧёрный());
+	this->SetFrame(BlackFrame());
 	open = false;
 }
 
 template <class T>
-void WithPopupEdit<T>::откл()
+void WithPopupEdit<T>::Deactivate()
 {
 	if(open) {
-		if(!this->прими())
+		if(!this->Accept())
 		{
-			this->устФокус();
+			this->SetFocus();
 			return;
 		}
 		DoClose(true);
@@ -1748,47 +1748,47 @@ void WithPopupEdit<T>::DoClose(bool ok)
 }
 
 template <class T>
-bool WithPopupEdit<T>::Ключ(dword ключ, int repcnt)
+bool WithPopupEdit<T>::Key(dword key, int repcnt)
 {
-	if(ключ == K_ENTER)
+	if(key == K_ENTER)
 	{
-		if(this->прими())
+		if(this->Accept())
 		{
 			DoClose(true);
 			WhenSelect();
 		}
 		return true;
 	}
-	else if(ключ == K_ESCAPE)
+	else if(key == K_ESCAPE)
 	{
-		this->отклони();
+		this->Reject();
 		DoClose(false);
 		WhenCancel();
 		return true;
 	}
-	return T::Ключ(ключ, repcnt);
+	return T::Key(key, repcnt);
 }
 
 template <class T>
-bool WithPopupEdit<T>::PopUp(Ктрл *parent, const Прям& prect)
+bool WithPopupEdit<T>::PopUp(Ctrl *parent, const Rect& prect)
 {
-	ПРОВЕРЬ(parent);
-	if(!this->открыт())
+	ASSERT(parent);
+	if(!this->IsOpen())
 	{
-		Ктрл *wnd = parent->дайТопКтрл();
-		if(!wnd || !wnd->открыт() || !wnd->видим_ли())
+		Ctrl *wnd = parent->GetTopCtrl();
+		if(!wnd || !wnd->IsOpen() || !wnd->IsVisible())
 			return false;
 		open = false;
-		this->устПрям(prect);
+		this->SetRect(prect);
 		T::PopUp(parent);
 	}
-	this->вкл();
-	this->устФокус();
+	this->Enable();
+	this->SetFocus();
 	open = true;
-	—обытиеLoop(this);
-	bool ok = !!дай од¬ыхода();
+	EventLoop(this);
+	bool ok = !!GetExitCode();
 //	bool ok = !!RunModalLoop();
-	this->откл();
+	this->Disable();
 	return ok;
 }
 
@@ -1797,24 +1797,24 @@ PathStyleMapCtrl::PathStyleMapCtrl()
 	cursor = -1;
 	map = 0;
 	scroll_pos = 0;
-	устФрейм(фреймИнсет());
-	scroll.безАвтоСкрой().безАвтоВыкл();
-	scroll.ПриПромоте = THISBACK(OnScroll);
-	добавьФрейм(scroll);
+	SetFrame(InsetFrame());
+	scroll.NoAutoHide().NoAutoDisable();
+	scroll.WhenScroll = THISBACK(OnScroll);
+	AddFrame(scroll);
 	WhenBar = THISBACK(ToolLocal);
 }
 
-void PathStyleMapCtrl::уст(PathStyleMap *m)
+void PathStyleMapCtrl::Set(PathStyleMap *m)
 {
 	map = m;
-	Выкладка();
+	Layout();
 }
 
-bool PathStyleMapCtrl::Ключ(dword ключ, int repcnt)
+bool PathStyleMapCtrl::Key(dword key, int repcnt)
 {
 	int c = cursor;
-	int pg = max(1, дай–азм().cy / pos_add.cx - 1);
-	switch(ключ)
+	int pg = max(1, GetSize().cy / pos_add.cx - 1);
+	switch(key)
 	{
 	case K_LEFT:     c--; break;
 	case K_RIGHT:    c++; break;
@@ -1823,28 +1823,28 @@ bool PathStyleMapCtrl::Ключ(dword ключ, int repcnt)
 	case K_PAGEUP:   c -= count.cx * pg; break;
 	case K_PAGEDOWN: c += count.cx * pg; break;
 	case K_HOME:     c = 0; break;
-	case K_END:      c = map->дай—чЄт() - 1; break;
+	case K_END:      c = map->GetCount() - 1; break;
 	default:
-		return Бар::скан(WhenBar, ключ) || Ктрл::Ключ(ключ, repcnt);
+		return Bar::Scan(WhenBar, key) || Ctrl::Key(key, repcnt);
 	}
-	устКурсор(minmax(c, 0, map->дай—чЄт() - 1));
+	SetCursor(minmax(c, 0, map->GetCount() - 1));
 	return true;
 }
 
-void PathStyleMapCtrl::Выкладка()
+void PathStyleMapCtrl::Layout()
 {
 	if(!map)
 	{
-		count = total = Размер(0, 0);
-		pos_add = Размер(1, 1);
-		cell = Размер(0, 0);
-		gap_offset = offset = Точка(0, 0);
+		count = total = Size(0, 0);
+		pos_add = Size(1, 1);
+		cell = Size(0, 0);
+		gap_offset = offset = Point(0, 0);
 		scroll_pos = 0;
 		return;
 	}
-	Размер size = scroll.дайРедуцРазмОбзора();
+	Size size = scroll.GetReducedViewSize();
 	count.cx = max(1, (size.cx - GAP) / WIDTH);
-	count.cy = idivceil(map->map.дай—чЄт(), count.cx);
+	count.cy = idivceil(map->map.GetCount(), count.cx);
 	pos_add.cx = (size.cx - GAP) / count.cx;
 	pos_add.cy = HEIGHT + GAP;
 	cell = pos_add - GAP;
@@ -1853,150 +1853,150 @@ void PathStyleMapCtrl::Выкладка()
 	offset.y = GAP;
 	gap_offset.x = offset.x - (GAP >> 1);
 	gap_offset.y = GAP >> 1;
-	scroll.уст(scroll_pos, size.cy, 2 * GAP + total.cy);
+	scroll.Set(scroll_pos, size.cy, 2 * GAP + total.cy);
 	scroll_pos = scroll;
-	освежи();
+	Refresh();
 }
 
-Прям PathStyleMapCtrl::GetEditRect(int right, int bottom)
+Rect PathStyleMapCtrl::GetEditRect(int right, int bottom)
 {
-	Размер size = PathImg::rename().дай–азм();
+	Size size = PathImg::rename().GetSize();
 	return RectC(right - size.cx, bottom - size.cy, size.cx, size.cy);
 }
 
-bool PathStyleMapCtrl::InEditRect(int right, int bottom, Точка mouse)
+bool PathStyleMapCtrl::InEditRect(int right, int bottom, Point mouse)
 {
-	Прям rc = GetEditRect(right, bottom).инфлят(2);
-	if(!rc.содержит(mouse))
+	Rect rc = GetEditRect(right, bottom).Inflated(2);
+	if(!rc.Contains(mouse))
 		return false;
-	Точка pt = rc.центрТочка();
+	Point pt = rc.CenterPoint();
 	return mouse.x + mouse.y >= pt.x + pt.y;
 }
 
-void PathStyleMapCtrl::рисуй(Draw& draw)
+void PathStyleMapCtrl::Paint(Draw& draw)
 {
-	Прям rc = draw.GetPaintRect();
-	draw.старт();
-	Размер todo = ClientToRange(rc);
+	Rect rc = draw.GetPaintRect();
+	draw.Begin();
+	Size todo = ClientToRange(rc);
 	for(int i = todo.cx; i < todo.cy; i++)
 	{
-		Прям элт = IndexToClient(i);
-		if(элт && rc)
+		Rect item = IndexToClient(i);
+		if(item && rc)
 		{
-			DrawFrame(draw, элт, чёрный, белый);
-			draw.DrawRect(элт.дефлят(1), i == cursor ? светлоЦыан : SLtGray);
-			Прям box = элт.дефлят(IGAP);
-			draw.Clipoff(Прям(box.left, box.top, box.right, box.top + TEXT_HEIGHT));
-			“кст qtf;
+			DrawFrame(draw, item, Black, White);
+			draw.DrawRect(item.Deflated(1), i == cursor ? LtCyan : SLtGray);
+			Rect box = item.Deflated(IGAP);
+			draw.Clipoff(Rect(box.left, box.top, box.right, box.top + TEXT_HEIGHT));
+			String qtf;
 			qtf << "[=A+108";
 			if(i == cursor)
 				qtf << '*';
 			qtf << " \1" << map->GetSortName(i);
 			Document doc(qtf);
-			doc.рисуй(DOC_SCREEN_ZOOM, draw, 0, 0, box.устШирину(), SLtGray);
-			draw.DrawImage(GetEditRect(box.устШирину(), TEXT_HEIGHT), PathImg::rename());
-			draw.стоп();
-			draw.Clipoff(Прям(box.left, box.top + TEXT_HEIGHT, box.right, box.bottom));
+			doc.Paint(DOC_SCREEN_ZOOM, draw, 0, 0, box.Width(), SLtGray);
+			draw.DrawImage(GetEditRect(box.Width(), TEXT_HEIGHT), PathImg::rename());
+			draw.End();
+			draw.Clipoff(Rect(box.left, box.top + TEXT_HEIGHT, box.right, box.bottom));
 			PathDraw path;
-			path.уст(draw, map->GetSortStyle(i), чёрный, LINE_HEIGHT / 2);
-			Прям er = GetEditRect(box.устШирину(), box.устВысоту() - TEXT_HEIGHT);
-			path.Строка(0, LINE_HEIGHT / 2, er.left, LINE_HEIGHT / 2);
-			path.рисуй();
+			path.Set(draw, map->GetSortStyle(i), Black, LINE_HEIGHT / 2);
+			Rect er = GetEditRect(box.Width(), box.Height() - TEXT_HEIGHT);
+			path.Line(0, LINE_HEIGHT / 2, er.left, LINE_HEIGHT / 2);
+			path.Paint();
 			draw.DrawImage(er, PathImg::edit());
-			draw.стоп();
-			draw.ExcludeClip(элт);
+			draw.End();
+			draw.ExcludeClip(item);
 		}
 	}
 	draw.DrawRect(rc, SLtGray);
-	draw.стоп();
+	draw.End();
 }
 
-int PathStyleMapCtrl::ClientToIndex(Точка pt) const
+int PathStyleMapCtrl::ClientToIndex(Point pt) const
 {
-	pt = idivfloor(pt - gap_offset + Размер(0, scroll_pos), pos_add);
+	pt = idivfloor(pt - gap_offset + Size(0, scroll_pos), pos_add);
 	if(pt.x < 0 || pt.x >= count.cx || pt.y < 0)
 		return -1;
 	return pt.x + pt.y * count.cx;
 }
 
-Размер PathStyleMapCtrl::ClientToRange(const Прям& rc) const
+Size PathStyleMapCtrl::ClientToRange(const Rect& rc) const
 {
-	if(rc.пустой())
-		return Размер(-1, -1);
+	if(rc.IsEmpty())
+		return Size(-1, -1);
 	int top = idivfloor(rc.top - gap_offset.y + scroll_pos, pos_add.cy);
 	int bottom = idivfloor(rc.bottom - 1 - gap_offset.y + scroll_pos, pos_add.cy);
 	int left = idivfloor(rc.left - gap_offset.x, pos_add.cx);
 	int right = idivfloor(rc.right - 1 - gap_offset.x, pos_add.cx);
 	if(bottom < 0 || right < 0 || left >= count.cx)
-		return Размер(-1, -1);
+		return Size(-1, -1);
 	if(top < bottom) // multiple lines
-		return Размер(max(0, count.cx * top), min(map->дай—чЄт(), count.cx * (bottom + 1)));
-	return Размер(max(0, count.cx * top + max(0, left)), min(map->дай—чЄт(), count.cx * top + min(count.cx, right + 1)));
+		return Size(max(0, count.cx * top), min(map->GetCount(), count.cx * (bottom + 1)));
+	return Size(max(0, count.cx * top + max(0, left)), min(map->GetCount(), count.cx * top + min(count.cx, right + 1)));
 }
 
-Прям PathStyleMapCtrl::IndexToClient(int i) const
+Rect PathStyleMapCtrl::IndexToClient(int i) const
 {
-	return Прям(offset - Размер(0, scroll_pos) + pos_add * Размер(i % count.cx, i / count.cx), cell);
+	return Rect(offset - Size(0, scroll_pos) + pos_add * Size(i % count.cx, i / count.cx), cell);
 }
 
 void PathStyleMapCtrl::OnScroll()
 {
 	scroll_pos = scroll;
-	освежи();
+	Refresh();
 }
 
-void PathStyleMapCtrl::леваяВнизу(Точка pt, dword keyflags)
+void PathStyleMapCtrl::LeftDown(Point pt, dword keyflags)
 {
 	int i = ClientToIndex(pt);
-	if(пригоден(i))
-		устКурсор(i);
+	if(IsValid(i))
+		SetCursor(i);
 	SetWantFocus();
-	Прям rc = IndexToClient(i).дефлят(IGAP);
+	Rect rc = IndexToClient(i).Deflated(IGAP);
 	if(InEditRect(rc.right, rc.top + TEXT_HEIGHT, pt))
 		OnRename();
 	if(InEditRect(rc.right, rc.bottom, pt))
 		OnEdit();
 }
 
-void PathStyleMapCtrl::леваяДКлик(Точка pt, dword keyflags)
+void PathStyleMapCtrl::LeftDouble(Point pt, dword keyflags)
 {
 	int i = ClientToIndex(pt);
-	if(курсор_ли() && i == cursor)
+	if(IsCursor() && i == cursor)
 		WhenLeftDouble();
 }
 
-void PathStyleMapCtrl::леваяВверху(Точка pt, dword keyflags)
+void PathStyleMapCtrl::LeftUp(Point pt, dword keyflags)
 {
 }
 
-void PathStyleMapCtrl::праваяВнизу(Точка pt, dword keyflags)
+void PathStyleMapCtrl::RightDown(Point pt, dword keyflags)
 {
 	int i = ClientToIndex(pt);
-	if(пригоден(i))
-		устКурсор(i);
+	if(IsValid(i))
+		SetCursor(i);
 	SetWantFocus();
-	БарМеню::выполни(this, WhenBar, РНЦП::дайПозМыши());
+	MenuBar::Execute(this, WhenBar, UPP::GetMousePos());
 }
 
-void PathStyleMapCtrl::устКурсор(int c)
+void PathStyleMapCtrl::SetCursor(int c)
 {
-	освежиЭлт(cursor);
-	освежиЭлт(cursor = c);
-	if(курсор_ли() && открыт() && видим_ли())
+	RefreshItem(cursor);
+	RefreshItem(cursor = c);
+	if(IsCursor() && IsOpen() && IsVisible())
 	{
-		Прям rc = IndexToClient(c) + Размер(0, scroll);
-		rc.инфлируй(GAP);
-		scroll.промотайДо(rc.top, rc.устВысоту());
+		Rect rc = IndexToClient(c) + Size(0, scroll);
+		rc.Inflate(GAP);
+		scroll.ScrollInto(rc.top, rc.Height());
 	}
 }
 
-void PathStyleMapCtrl::освежиЭлт(int i)
+void PathStyleMapCtrl::RefreshItem(int i)
 {
-	if(i >= 0 && i < map->map.дай—чЄт())
-		освежи(IndexToClient(i));
+	if(i >= 0 && i < map->map.GetCount())
+		Refresh(IndexToClient(i));
 }
 
-void PathStyleMapCtrl::ToolLocal(Бар& bar)
+void PathStyleMapCtrl::ToolLocal(Bar& bar)
 {
 	ToolNew(bar);
 	ToolEdit(bar);
@@ -2009,127 +2009,127 @@ void PathStyleMapCtrl::ToolLocal(Бар& bar)
 	ToolRemove(bar);
 }
 
-void PathStyleMapCtrl::ToolNew(Бар& bar)
+void PathStyleMapCtrl::ToolNew(Bar& bar)
 {
-	bar.добавь("Novэ", THISBACK(OnNew));
+	bar.Add("Novэ", THISBACK(OnNew));
 }
 
 void PathStyleMapCtrl::OnNew()
 {
 	PathStyle new_style;
 	new_style <<= PathStyle::solid();
-	“кст px = "Novэ styl";
+	String px = "Novэ styl";
 	if(RunDlgPathEditor(new_style, px))
 	{
-		“кст n = map->GetUniqueName(px);
-		map->уст(n, new_style);
+		String n = map->GetUniqueName(px);
+		map->Set(n, new_style);
 		map->Touch();
-		Выкладка();
-		устКурсор(n);
+		Layout();
+		SetCursor(n);
 		OnRename();
 	}
 }
 
-void PathStyleMapCtrl::ToolEdit(Бар& bar)
+void PathStyleMapCtrl::ToolEdit(Bar& bar)
 {
-	bar.добавь(курсор_ли(), "Upravit", THISBACK(OnEdit));
+	bar.Add(IsCursor(), "Upravit", THISBACK(OnEdit));
 }
 
 void PathStyleMapCtrl::OnEdit()
 {
-	if(курсор_ли())
+	if(IsCursor())
 	{
-		int c = дайКурсор();
-		“кст n = map->GetSortName(c);
+		int c = GetCursor();
+		String n = map->GetSortName(c);
 		PathStyle edited_style;
 		edited_style <<= map->GetSortStyle(c);
 		if(RunDlgPathEditor(edited_style, "Upravit styl '" + n + "'"))
 		{
-			map->уст(n, edited_style);
+			map->Set(n, edited_style);
 			map->Touch();
-			освежиЭлт(c);
+			RefreshItem(c);
 		}
 	}
 }
 
-void PathStyleMapCtrl::ToolRename(Бар& bar)
+void PathStyleMapCtrl::ToolRename(Bar& bar)
 {
-	bar.добавь(курсор_ли(), "Pшejmenovat", THISBACK(OnRename));
+	bar.Add(IsCursor(), "Pшejmenovat", THISBACK(OnRename));
 }
 
 void PathStyleMapCtrl::OnRename()
 {
-	if(!курсор_ли())
+	if(!IsCursor())
 	{
-		бипВосклицание();
+		BeepExclamation();
 		return;
 	}
-	int i = дайКурсор();
-	Прям rc = IndexToClient(i) + Размер(0, scroll);
-	scroll.промотайДо(rc.top, rc.устВысоту());
-	rc = IndexToClient(i) + GetScreenView().верхЛево();
+	int i = GetCursor();
+	Rect rc = IndexToClient(i) + Size(0, scroll);
+	scroll.ScrollInto(rc.top, rc.Height());
+	rc = IndexToClient(i) + GetScreenView().TopLeft();
 	rc.bottom = rc.top + 2 * IGAP + TEXT_HEIGHT;
-	rc.дефлируй(IGAP);
-	WithPopupEdit<ДокРедакт> pedit;
+	rc.Deflate(IGAP);
+	WithPopupEdit<DocEdit> pedit;
 	pedit <<= map->GetSortName(i);
 	while(pedit.PopUp(this, rc))
 	{
-		“кст n = ~pedit;
+		String n = ~pedit;
 		if(map->FindSortName(n, i) >= 0)
-		{ // duplicate имя
+		{ // duplicate name
 			Exclamation("Styl ибry [* \1" + n + "\1] jiЮ v systйmu existuje. Zadejte prosнm jinэ nбzev.");
 			continue;
 		}
 		int x = map->GetSort(i);
 		map->Rename(x, n);
 		map->Touch();
-		освежи();
-		устКурсор(n);
+		Refresh();
+		SetCursor(n);
 		break;
 	}
 }
 
-void PathStyleMapCtrl::ToolCopy(Бар& bar)
+void PathStyleMapCtrl::ToolCopy(Bar& bar)
 {
-	bar.добавь("Duplikovat", THISBACK(OnCopy));
+	bar.Add("Duplikovat", THISBACK(OnCopy));
 }
 
 void PathStyleMapCtrl::OnCopy()
 {
-	if(курсор_ли())
+	if(IsCursor())
 	{
-		int c = дайКурсор();
-		“кст prefix = map->GetSortName(c);
-		int l = prefix.дайДлину();
-		if(l > 0 && цифра_ли(prefix[l - 1]))
+		int c = GetCursor();
+		String prefix = map->GetSortName(c);
+		int l = prefix.GetLength();
+		if(l > 0 && IsDigit(prefix[l - 1]))
 		{
-			while(l > 0 && цифра_ли(prefix[l - 1]))
+			while(l > 0 && IsDigit(prefix[l - 1]))
 				l--;
 			if(l > 0 && prefix[l - 1] == ' ')
-				prefix.обрежь(l - 1);
+				prefix.Trim(l - 1);
 		}
 		PathStyle new_style;
 		new_style <<= map->GetSortStyle(c);
-		“кст q = map->GetUniqueName(prefix);
-		map->уст(q, new_style);
+		String q = map->GetUniqueName(prefix);
+		map->Set(q, new_style);
 		map->Touch();
-		Выкладка();
-		устКурсор(q);
+		Layout();
+		SetCursor(q);
 		OnRename();
 	}
 }
 
-void PathStyleMapCtrl::ToolExport(Бар& bar)
+void PathStyleMapCtrl::ToolExport(Bar& bar)
 {
-	bar.добавь("Export", THISBACK(OnExport))
+	bar.Add("Export", THISBACK(OnExport))
 		.Help("Exportovat styly иar do souboru");
 }
 
-“кст recent;
+String recent;
 
 void PathStyleMapCtrl::OnExport()
 {
-	if(map->пустой())
+	if(map->IsEmpty())
 	{
 		PromptOK("V systйmu nebyly nalezeny Юбdnй styly иar.");
 		return;
@@ -2140,14 +2140,14 @@ void PathStyleMapCtrl::OnExport()
 	fsel <<= recent;
 	if(!fsel.ExecuteSaveAs("Exportovat styly иar..."))
 		return;
-	“кст exp = map->Export();
-	if(!сохрани‘айл(~fsel, exp))
+	String exp = map->Export();
+	if(!SaveFile(~fsel, exp))
 		PromptOK("Chyba pшi zбpisu do souboru [* \1" + ~fsel + "\1].");
 }
 
-void PathStyleMapCtrl::ToolImport(Бар& bar)
+void PathStyleMapCtrl::ToolImport(Bar& bar)
 {
-	bar.добавь("Import", THISBACK(OnImport))
+	bar.Add("Import", THISBACK(OnImport))
 		.Help("Importovat styly иar ze souboru...");
 }
 
@@ -2159,50 +2159,50 @@ void PathStyleMapCtrl::OnImport()
 	fsel <<= recent;
 	if(!fsel.ExecuteOpen("Importovat styly иar"))
 		return;
-	“кст imp = загрузи‘айл(recent = ~fsel);
-	if(imp.проц_ли())
+	String imp = LoadFile(recent = ~fsel);
+	if(imp.IsVoid())
 	{
 		PromptOK("Nelze naинst soubor [* \1" + ~fsel + "\1].");
 		return;
 	}
-	int old_count = map->дай—чЄт();
-	“кст old_name = map->дайИмя();
+	int old_count = map->GetCount();
+	String old_name = map->GetName();
 	try
 	{
 		map->Import(imp);
 	}
-	catch(Искл e)
+	catch(Exc e)
 	{
 		PromptOK("Chyba pшi importu souboru [* \1" + ~fsel + "\1]: \1" + e + "\1.");
 	}
 	map->Touch();
-	if((old_count > 0 && !пусто_ли(old_name)) || пусто_ли(map->дайИмя()))
+	if((old_count > 0 && !IsNull(old_name)) || IsNull(map->GetName()))
 		map->SetName(old_name);
-	if(map->дай—чЄт() > old_count)
-		устКурсор(map->map.дай люч(old_count));
+	if(map->GetCount() > old_count)
+		SetCursor(map->map.GetKey(old_count));
 	WhenRename();
 }
 
-void PathStyleMapCtrl::ToolRemove(Бар& bar)
+void PathStyleMapCtrl::ToolRemove(Bar& bar)
 {
-	bar.добавь("Smazat", THISBACK(OnRemove))
+	bar.Add("Smazat", THISBACK(OnRemove))
 		.Help("Odstranit styl ибry ze systйmu");
 }
 
 void PathStyleMapCtrl::OnRemove()
 {
-	if(курсор_ли())
+	if(IsCursor())
 	{
 		int c = cursor;
-		map->удали(map->GetSortName(c));
+		map->Remove(map->GetSortName(c));
 		map->Touch();
-		c = min(c, map->дай—чЄт() - 1);
-		Выкладка();
-		устКурсор(c);
+		c = min(c, map->GetCount() - 1);
+		Layout();
+		SetCursor(c);
 	}
 }
 
-class PathStyleMapLayoutEx : public WithPathStyleMapLayout<ТопОкно>
+class PathStyleMapLayoutEx : public WithPathStyleMapLayout<TopWindow>
 {
 public:
 	PathStyleMapCtrl browser;
@@ -2214,10 +2214,10 @@ public:
 class DlgPathStyleMap
 {
 public:
-	typedef DlgPathStyleMap ИМЯ_КЛАССА;
+	typedef DlgPathStyleMap CLASSNAME;
 	DlgPathStyleMap();
 
-	bool                 пуск(PathStyleMap& map, “кст& style, bool editor = false, bool read_only = false);
+	bool                 Run(PathStyleMap& map, String& style, bool editor = false, bool read_only = false);
 
 private:
 //	void                 UpdateMaps();
@@ -2226,12 +2226,12 @@ private:
 private:
 	PathStyleMapLayoutEx dialog;
 	PathStyleMap        *map;
-//	const ¬ектор<PathStyleMap *> *maps;
-//	¬ектор<int> map_index;
+//	const Vector<PathStyleMap *> *maps;
+//	Vector<int> map_index;
 };
 
-bool RunDlgPathStyleMap(PathStyleMap& map, “кст& style, bool editor, bool read_only)
-{ return DlgPathStyleMap().пуск(map, style, editor, read_only); }
+bool RunDlgPathStyleMap(PathStyleMap& map, String& style, bool editor, bool read_only)
+{ return DlgPathStyleMap().Run(map, style, editor, read_only); }
 
 RegisterHelpTopicObjectTitle(DlgPathStyleMap, "Mapa stylщ")
 
@@ -2243,31 +2243,31 @@ DlgPathStyleMap::DlgPathStyleMap()
 	dialog.HelpTopic("DlgPathStyleMap");
 	dialog.Sizeable().MaximizeBox();
 //	dialog.browser.WhenRename = THISBACK(UpdateMaps);
-	dialog.tab.скрой();
+	dialog.tab.Hide();
 //	dialog.tab <<= THISBACK(OnTab);
 }
 
-bool DlgPathStyleMap::пуск(PathStyleMap& m, “кст& style, bool editor, bool read_only)
+bool DlgPathStyleMap::Run(PathStyleMap& m, String& style, bool editor, bool read_only)
 {
 	if(editor) {
-		dialog.ok.скрой();
-		dialog.cancel.устНадпись(t_("закрой"));
+		dialog.ok.Hide();
+		dialog.cancel.SetLabel(t_("«акрыть"));
 	}
 
 	map = &m;
-//	ПРОВЕРЬ(!maps->пустой());
+//	ASSERT(!maps->IsEmpty());
 //	UpdateMaps();
 
-	dialog.browser.уст(map);
-	dialog.browser.устКурсор(Nvl(style, ".solid"));
-	while(dialog.пуск() == IDOK) {
-		int c = dialog.browser.дайКурсор();
+	dialog.browser.Set(map);
+	dialog.browser.SetCursor(Nvl(style, ".solid"));
+	while(dialog.Run() == IDOK) {
+		int c = dialog.browser.GetCursor();
 		if(c >= 0) {
 			style = map->GetSortName(c);
 			if(style == ".solid") style = Null;
 			return true;
 		}
-		бипВосклицание();
+		BeepExclamation();
 	}
 	return false;
 }
@@ -2276,40 +2276,40 @@ bool DlgPathStyleMap::пуск(PathStyleMap& m, “кст& style, bool editor, bool read_
 /*
 void DlgPathStyleMap::UpdateMaps()
 {
-	int tab = dialog.tab.дай();
-	tab = (tab >= 0 && tab < map_index.дай—чЄт() ? map_index[tab] : -1);
-	map_index = GetSortOrder(*maps, XRelation<const PathStyleMap *>(StdCsNumSort, XDeref(XField(&PathStyleMap::имя))));
-	dialog.tab.очисть();
+	int tab = dialog.tab.Get();
+	tab = (tab >= 0 && tab < map_index.GetCount() ? map_index[tab] : -1);
+	map_index = GetSortOrder(*maps, XRelation<const PathStyleMap *>(StdCsNumSort, XDeref(XField(&PathStyleMap::name))));
+	dialog.tab.Clear();
 	int new_tab = -1;
-	for(int i = 0; i < map_index.дай—чЄт(); i++)
+	for(int i = 0; i < map_index.GetCount(); i++)
 	{
 		int x = map_index[i];
-		dialog.tab.добавь(Nvl((*maps)[x]->дайИмя(), "(bez nбzvu)"));
+		dialog.tab.Add(Nvl((*maps)[x]->GetName(), "(bez nбzvu)"));
 		if(x == tab)
 			new_tab = i;
 	}
-	dialog.tab.уст(new_tab);
+	dialog.tab.Set(new_tab);
 }
 */
 
 /*
 void DlgPathStyleMap::OnTab()
 {
-	int x = dialog.tab.дай();
-	if(x >= 0 && x < map_index.дай—чЄт())
-		dialog.browser.уст((*maps)[map_index[x]]);
+	int x = dialog.tab.Get();
+	if(x >= 0 && x < map_index.GetCount())
+		dialog.browser.Set((*maps)[map_index[x]]);
 }
 */
 
 PathStyleCtrl::PathStyleCtrl()
 : path_map(0)
 {
-	устДисплей(дисплей);
+	SetDisplay(display);
 }
 
 void PathStyleCtrl::DoAction()
 {
-	“кст s = дайДанные();
+	String s = GetData();
 	if(RunDlgPathStyleMap(*path_map, s, false, false))
 		SetDataAction(s);
 }

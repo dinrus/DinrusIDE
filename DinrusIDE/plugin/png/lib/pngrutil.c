@@ -1,10 +1,10 @@
 
 /* pngrutil.c - utilities to read a PNG file
  *
- * последний changed in libpng 1.2.59 [September 28, 2017]
+ * Last changed in libpng 1.2.59 [September 28, 2017]
  * Copyright (c) 1998-2002,2004,2006-2015,2017 Glenn Randers-Pehrson
  * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
- * (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Группа 42, Inc.)
+ * (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
  *
  * This code is released under the libpng license.
  * For conditions of distribution and use, see the disclaimer
@@ -67,7 +67,7 @@ png_get_uint_31(png_structp png_ptr, png_bytep buf)
    return (i);
 }
 #ifndef PNG_READ_BIG_ENDIAN_SUPPORTED
-/* Grab an unsigned 32-bit integer from a буфер in big-endian формат. */
+/* Grab an unsigned 32-bit integer from a buffer in big-endian format. */
 png_uint_32 PNGAPI
 png_get_uint_32(png_bytep buf)
 {
@@ -79,9 +79,9 @@ png_get_uint_32(png_bytep buf)
    return (i);
 }
 
-/* Grab a signed 32-bit integer from a буфер in big-endian формат.  The
- * data is stored in the PNG file in two's complement формат, and it is
- * assumed that the machine формат for signed integers is the same.
+/* Grab a signed 32-bit integer from a buffer in big-endian format.  The
+ * data is stored in the PNG file in two's complement format, and it is
+ * assumed that the machine format for signed integers is the same.
  */
 png_int_32 PNGAPI
 png_get_int_32(png_bytep buf)
@@ -94,7 +94,7 @@ png_get_int_32(png_bytep buf)
    return (i);
 }
 
-/* Grab an unsigned 16-bit integer from a буфер in big-endian формат. */
+/* Grab an unsigned 16-bit integer from a buffer in big-endian format. */
 png_uint_16 PNGAPI
 png_get_uint_16(png_bytep buf)
 {
@@ -105,8 +105,8 @@ png_get_uint_16(png_bytep buf)
 }
 #endif /* PNG_READ_BIG_ENDIAN_SUPPORTED */
 
-/* читай the chunk header (length + тип имя).
- * Put the тип имя into png_ptr->chunk_name, and return the length.
+/* Read the chunk header (length + type name).
+ * Put the type name into png_ptr->chunk_name, and return the length.
  */
 png_uint_32 /* PRIVATE */
 png_read_chunk_header(png_structp png_ptr)
@@ -114,21 +114,21 @@ png_read_chunk_header(png_structp png_ptr)
    png_byte buf[8];
    png_uint_32 length;
 
-   /* читай the length and the chunk имя */
+   /* Read the length and the chunk name */
    png_read_data(png_ptr, buf, 8);
    length = png_get_uint_31(png_ptr, buf);
 
-   /* Put the chunk имя into png_ptr->chunk_name */
+   /* Put the chunk name into png_ptr->chunk_name */
    png_memcpy(png_ptr->chunk_name, buf + 4, 4);
 
    png_debug2(0, "Reading %s chunk, length = %lu",
       png_ptr->chunk_name, length);
 
-   /* переустанов the crc and run it over the chunk имя */
+   /* Reset the crc and run it over the chunk name */
    png_reset_crc(png_ptr);
    png_calculate_crc(png_ptr, png_ptr->chunk_name, 4);
 
-   /* Check to see if chunk имя is valid */
+   /* Check to see if chunk name is valid */
    png_check_chunk_name(png_ptr, png_ptr->chunk_name);
 
    /* Check for too-large chunk length */
@@ -137,7 +137,7 @@ png_read_chunk_header(png_structp png_ptr)
    return length;
 }
 
-/* читай data, and (optionally) run it through the CRC. */
+/* Read data, and (optionally) run it through the CRC. */
 void /* PRIVATE */
 png_crc_read(png_structp png_ptr, png_bytep buf, png_size_t length)
 {
@@ -150,7 +150,7 @@ png_crc_read(png_structp png_ptr, png_bytep buf, png_size_t length)
 /* Optionally skip data and then check the CRC.  Depending on whether we
  * are reading a ancillary or critical chunk, and how the program has set
  * things up, we may calculate the CRC on the data and print a message.
- * Returns '1' if there was a CRC Ошибка, '0' otherwise.
+ * Returns '1' if there was a CRC error, '0' otherwise.
  */
 int /* PRIVATE */
 png_crc_finish(png_structp png_ptr, png_uint_32 skip)
@@ -171,14 +171,14 @@ png_crc_finish(png_structp png_ptr, png_uint_32 skip)
    {
       if (((png_ptr->chunk_name[0] & 0x20) &&                /* Ancillary */
           !(png_ptr->flags & PNG_FLAG_CRC_ANCILLARY_NOWARN)) ||
-          (!(png_ptr->chunk_name[0] & 0x20) &&             /* критически  */
+          (!(png_ptr->chunk_name[0] & 0x20) &&             /* Critical  */
           (png_ptr->flags & PNG_FLAG_CRC_CRITICAL_USE)))
       {
-         png_chunk_warning(png_ptr, "CRC Ошибка");
+         png_chunk_warning(png_ptr, "CRC error");
       }
       else
       {
-         png_chunk_error(png_ptr, "CRC Ошибка");
+         png_chunk_error(png_ptr, "CRC error");
       }
       return (1);
    }
@@ -186,7 +186,7 @@ png_crc_finish(png_structp png_ptr, png_uint_32 skip)
    return (0);
 }
 
-/* сравни the CRC stored in the PNG file with that calculated by libpng from
+/* Compare the CRC stored in the PNG file with that calculated by libpng from
  * the data it has read thus far.
  */
 int /* PRIVATE */
@@ -234,7 +234,7 @@ png_inflate(png_structp png_ptr, const png_byte *data, png_size_t size,
    {
       int ret, avail;
 
-      /* переустанов the output буфер each time round - we empty it
+      /* Reset the output buffer each time round - we empty it
        * after every inflate call.
        */
       png_ptr->zstream.next_out = png_ptr->zbuf;
@@ -244,7 +244,7 @@ png_inflate(png_structp png_ptr, const png_byte *data, png_size_t size,
       avail = png_ptr->zbuf_size - png_ptr->zstream.avail_out;
 
       /* First copy/count any new output - but only if we didn't
-       * get an Ошибка code.
+       * get an error code.
        */
       if ((ret == Z_OK || ret == Z_STREAM_END) && avail > 0)
       {
@@ -269,9 +269,9 @@ png_inflate(png_structp png_ptr, const png_byte *data, png_size_t size,
       if (ret == Z_STREAM_END)
          return count; /* NOTE: may be zero. */
 
-      /* Now handle the Ошибка codes - the API always returns 0
-       * and the Ошибка message is dumped into the uncompressed
-       * буфер if available.
+      /* Now handle the error codes - the API always returns 0
+       * and the error message is dumped into the uncompressed
+       * buffer if available.
        */
       {
          PNG_CONST char *msg;
@@ -285,10 +285,10 @@ png_inflate(png_structp png_ptr, const png_byte *data, png_size_t size,
             switch (ret)
             {
                case Z_BUF_ERROR:
-                  msg = "Buffer Ошибка in compressed datastream in %s chunk";
+                  msg = "Buffer error in compressed datastream in %s chunk";
                   break;
                case Z_DATA_ERROR:
-                  msg = "Data Ошибка in compressed datastream in %s chunk";
+                  msg = "Data error in compressed datastream in %s chunk";
                   break;
                default:
                   msg = "Incomplete compressed datastream in %s chunk";
@@ -308,7 +308,7 @@ png_inflate(png_structp png_ptr, const png_byte *data, png_size_t size,
 #endif
       }
 
-      /* 0 means an Ошибка - notice that this code simple ignores
+      /* 0 means an error - notice that this code simple ignores
        * zero length compressed chunks as a result.
        */
       return 0;
@@ -354,10 +354,10 @@ png_decompress_chunk(png_structp png_ptr, int comp_type,
           )
          png_warning(png_ptr, "Exceeded size limit while expanding chunk");
 
-      /* If the size is zero either there was an Ошибка and a message
+      /* If the size is zero either there was an error and a message
        * has already been output (warning) or the size really is zero
        * and we have nothing to do - the code will exit through the
-       * Ошибка case below.
+       * error case below.
        */
       else if (expanded_size > 0)
       {
@@ -385,7 +385,7 @@ png_decompress_chunk(png_structp png_ptr, int comp_type,
                return; /* The success return! */
             }
 
-            png_warning(png_ptr, "png_inflate logic Ошибка");
+            png_warning(png_ptr, "png_inflate logic error");
             png_free(png_ptr, text);
          }
          else
@@ -398,17 +398,17 @@ png_decompress_chunk(png_structp png_ptr, int comp_type,
 #if defined(PNG_STDIO_SUPPORTED) && !defined(_WIN32_WCE)
       char umsg[50];
 
-      png_snprintf(umsg, sizeof umsg, "Unknown zTXt compression тип %d",
+      png_snprintf(umsg, sizeof umsg, "Unknown zTXt compression type %d",
           comp_type);
       png_warning(png_ptr, umsg);
 #else
-      png_warning(png_ptr, "Unknown zTXt compression тип");
+      png_warning(png_ptr, "Unknown zTXt compression type");
 #endif
 
       /* The recovery is to simply drop the data. */
    }
 
-   /* Generic Ошибка return - leave the prefix, delete the compressed
+   /* Generic error return - leave the prefix, delete the compressed
     * data, reallocate the chunkdata to remove the potentially large
     * amount of compressed data.
     */
@@ -424,14 +424,14 @@ png_decompress_chunk(png_structp png_ptr, int comp_type,
          /* This is an extra zero in the 'uncompressed' part. */
          *(png_ptr->chunkdata + prefix_size) = 0x00;
       }
-      /* Ignore a malloc Ошибка here - it is safe. */
+      /* Ignore a malloc error here - it is safe. */
    }
 
    *newlength = prefix_size;
 }
 #endif
 
-/* читай and check the IDHR chunk */
+/* Read and check the IDHR chunk */
 void /* PRIVATE */
 png_handle_IHDR(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
 {
@@ -447,7 +447,7 @@ png_handle_IHDR(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
 
    /* Check the length */
    if (length != 13)
-      png_error(png_ptr, "Invalid IHDR chunk");
+      png_error(png_ptr, "Неверное IHDR chunk");
 
    png_ptr->mode |= PNG_HAVE_IHDR;
 
@@ -473,7 +473,7 @@ png_handle_IHDR(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
 #endif
    png_ptr->compression_type = (png_byte)compression_type;
 
-   /* найди number of channels */
+   /* Find number of channels */
    switch (png_ptr->color_type)
    {
       case PNG_COLOR_TYPE_GRAY:
@@ -505,7 +505,7 @@ png_handle_IHDR(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
       color_type, interlace_type, compression_type, filter_type);
 }
 
-/* читай and check the palette */
+/* Read and check the palette */
 void /* PRIVATE */
 png_handle_PLTE(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
 {
@@ -522,7 +522,7 @@ png_handle_PLTE(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
 
    else if (png_ptr->mode & PNG_HAVE_IDAT)
    {
-      png_warning(png_ptr, "Invalid PLTE after IDAT");
+      png_warning(png_ptr, "Неверное PLTE after IDAT");
       png_crc_finish(png_ptr, length);
       return;
    }
@@ -551,14 +551,14 @@ png_handle_PLTE(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
    {
       if (png_ptr->color_type != PNG_COLOR_TYPE_PALETTE)
       {
-         png_warning(png_ptr, "Invalid palette chunk");
+         png_warning(png_ptr, "Неверное palette chunk");
          png_crc_finish(png_ptr, length);
          return;
       }
 
       else
       {
-         png_error(png_ptr, "Invalid palette chunk");
+         png_error(png_ptr, "Неверное palette chunk");
       }
    }
 
@@ -566,7 +566,7 @@ png_handle_PLTE(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
    num = (int)length / 3;
 
    /* If the palette has 256 or fewer entries but is too large for the bit
-    * depth, we don't issue an Ошибка, to preserve the behavior of previous
+    * depth, we don't issue an error, to preserve the behavior of previous
     * libpng versions. We silently truncate the unused extra palette entries
     * here.
     */
@@ -603,7 +603,7 @@ png_handle_PLTE(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
 
    /* If we actually NEED the PLTE chunk (ie for a paletted image), we do
     * whatever the normal CRC configuration tells us.  However, if we
-    * have an дайКЗС image, the PLTE can be considered ancillary, so
+    * have an RGB image, the PLTE can be considered ancillary, so
     * we will act as though it is.
     */
 #ifndef PNG_READ_OPT_PLTE_SUPPORTED
@@ -613,28 +613,28 @@ png_handle_PLTE(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
       png_crc_finish(png_ptr, (int) length - num * 3);
    }
 #ifndef PNG_READ_OPT_PLTE_SUPPORTED
-   else if (png_crc_error(png_ptr))  /* Only if we have a CRC Ошибка */
+   else if (png_crc_error(png_ptr))  /* Only if we have a CRC error */
    {
       /* If we don't want to use the data from an ancillary chunk,
-         we have two options: an Ошибка abort, or a warning and we
+         we have two options: an error abort, or a warning and we
          ignore the data in this chunk (which should be OK, since
-         it's considered ancillary for a дайКЗС or КЗСА image). */
+         it's considered ancillary for a RGB or RGBA image). */
       if (!(png_ptr->flags & PNG_FLAG_CRC_ANCILLARY_USE))
       {
          if (png_ptr->flags & PNG_FLAG_CRC_ANCILLARY_NOWARN)
          {
-            png_chunk_error(png_ptr, "CRC Ошибка");
+            png_chunk_error(png_ptr, "CRC error");
          }
          else
          {
-            png_chunk_warning(png_ptr, "CRC Ошибка");
+            png_chunk_warning(png_ptr, "CRC error");
             return;
          }
       }
       /* Otherwise, we (optionally) emit a warning and use the chunk. */
       else if (!(png_ptr->flags & PNG_FLAG_CRC_ANCILLARY_NOWARN))
       {
-         png_chunk_warning(png_ptr, "CRC Ошибка");
+         png_chunk_warning(png_ptr, "CRC error");
       }
    }
 #endif
@@ -699,12 +699,12 @@ png_handle_gAMA(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
       png_error(png_ptr, "Missing IHDR before gAMA");
    else if (png_ptr->mode & PNG_HAVE_IDAT)
    {
-      png_warning(png_ptr, "Invalid gAMA after IDAT");
+      png_warning(png_ptr, "Неверное gAMA after IDAT");
       png_crc_finish(png_ptr, length);
       return;
    }
    else if (png_ptr->mode & PNG_HAVE_PLTE)
-      /* Should be an Ошибка, but we can cope with it */
+      /* Should be an error, but we can cope with it */
       png_warning(png_ptr, "Out of place gAMA chunk");
 
    if (info_ptr != NULL && (info_ptr->valid & PNG_INFO_gAMA)
@@ -743,7 +743,7 @@ png_handle_gAMA(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
       if (PNG_OUT_OF_RANGE(igamma, 45500L, 500))
       {
          png_warning(png_ptr,
-           "Ignoring incorrect gAMA значение when sRGB is also present");
+           "Ignoring incorrect gAMA value when sRGB is also present");
 #ifdef PNG_CONSOLE_IO_SUPPORTED
          fprintf(stderr, "gamma = (%d/100000)", (int)igamma);
 #endif
@@ -779,13 +779,13 @@ png_handle_sBIT(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
       png_error(png_ptr, "Missing IHDR before sBIT");
    else if (png_ptr->mode & PNG_HAVE_IDAT)
    {
-      png_warning(png_ptr, "Invalid sBIT after IDAT");
+      png_warning(png_ptr, "Неверное sBIT after IDAT");
       png_crc_finish(png_ptr, length);
       return;
    }
    else if (png_ptr->mode & PNG_HAVE_PLTE)
    {
-      /* Should be an Ошибка, but we can cope with it */
+      /* Should be an error, but we can cope with it */
       png_warning(png_ptr, "Out of place sBIT chunk");
    }
    if (info_ptr != NULL && (info_ptr->valid & PNG_INFO_sBIT))
@@ -849,12 +849,12 @@ png_handle_cHRM(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
       png_error(png_ptr, "Missing IHDR before cHRM");
    else if (png_ptr->mode & PNG_HAVE_IDAT)
    {
-      png_warning(png_ptr, "Invalid cHRM after IDAT");
+      png_warning(png_ptr, "Неверное cHRM after IDAT");
       png_crc_finish(png_ptr, length);
       return;
    }
    else if (png_ptr->mode & PNG_HAVE_PLTE)
-      /* Should be an Ошибка, but we can cope with it */
+      /* Should be an error, but we can cope with it */
       png_warning(png_ptr, "Missing PLTE before cHRM");
 
    if (info_ptr != NULL && (info_ptr->valid & PNG_INFO_cHRM)
@@ -923,7 +923,7 @@ png_handle_cHRM(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
           PNG_OUT_OF_RANGE(int_y_blue,   6000,  1000))
          {
             png_warning(png_ptr,
-              "Ignoring incorrect cHRM значение when sRGB is also present");
+              "Ignoring incorrect cHRM value when sRGB is also present");
 #ifdef PNG_CONSOLE_IO_SUPPORTED
 #ifdef PNG_FLOATING_POINT_SUPPORTED
             fprintf(stderr, "wx=%f, wy=%f, rx=%f, ry=%f\n",
@@ -969,12 +969,12 @@ png_handle_sRGB(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
       png_error(png_ptr, "Missing IHDR before sRGB");
    else if (png_ptr->mode & PNG_HAVE_IDAT)
    {
-      png_warning(png_ptr, "Invalid sRGB after IDAT");
+      png_warning(png_ptr, "Неверное sRGB after IDAT");
       png_crc_finish(png_ptr, length);
       return;
    }
    else if (png_ptr->mode & PNG_HAVE_PLTE)
-      /* Should be an Ошибка, but we can cope with it */
+      /* Should be an error, but we can cope with it */
       png_warning(png_ptr, "Out of place sRGB chunk");
 
    if (info_ptr != NULL && (info_ptr->valid & PNG_INFO_sRGB))
@@ -1017,7 +1017,7 @@ png_handle_sRGB(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
       if (PNG_OUT_OF_RANGE(igamma, 45500L, 500))
       {
          png_warning(png_ptr,
-           "Ignoring incorrect gAMA значение when sRGB is also present");
+           "Ignoring incorrect gAMA value when sRGB is also present");
 #ifdef PNG_CONSOLE_IO_SUPPORTED
 #  ifdef PNG_FIXED_POINT_SUPPORTED
          fprintf(stderr, "incorrect gamma=(%d/100000)\n",
@@ -1045,7 +1045,7 @@ png_handle_sRGB(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
           PNG_OUT_OF_RANGE(info_ptr->int_y_blue,   6000,  1000))
          {
             png_warning(png_ptr,
-              "Ignoring incorrect cHRM значение when sRGB is also present");
+              "Ignoring incorrect cHRM value when sRGB is also present");
          }
 #endif /* PNG_FIXED_POINT_SUPPORTED */
 #endif /* PNG_READ_cHRM_SUPPORTED */
@@ -1072,12 +1072,12 @@ png_handle_iCCP(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
       png_error(png_ptr, "Missing IHDR before iCCP");
    else if (png_ptr->mode & PNG_HAVE_IDAT)
    {
-      png_warning(png_ptr, "Invalid iCCP after IDAT");
+      png_warning(png_ptr, "Неверное iCCP after IDAT");
       png_crc_finish(png_ptr, length);
       return;
    }
    else if (png_ptr->mode & PNG_HAVE_PLTE)
-      /* Should be an Ошибка, but we can cope with it */
+      /* Should be an error, but we can cope with it */
       png_warning(png_ptr, "Out of place iCCP chunk");
 
    if (info_ptr != NULL && (info_ptr->valid & PNG_INFO_iCCP))
@@ -1111,11 +1111,11 @@ png_handle_iCCP(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
    png_ptr->chunkdata[slength] = 0x00;
 
    for (profile = png_ptr->chunkdata; *profile; profile++)
-      /* Empty loop to find end of имя */ ;
+      /* Empty loop to find end of name */ ;
 
    ++profile;
 
-   /* There should be at least one zero (the compression тип byte)
+   /* There should be at least one zero (the compression type byte)
     * following the separator, and we should be on it
     */
    if (slength < 1U ||  profile >= png_ptr->chunkdata + slength - 1U)
@@ -1130,8 +1130,8 @@ png_handle_iCCP(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
    compression_type = *profile++;
    if (compression_type)
    {
-      png_warning(png_ptr, "Ignoring nonzero compression тип in iCCP chunk");
-      compression_type = 0x00;  /* переустанов it to zero (libpng-1.0.6 through 1.0.8
+      png_warning(png_ptr, "Ignoring nonzero compression type in iCCP chunk");
+      compression_type = 0x00;  /* Reset it to zero (libpng-1.0.6 through 1.0.8
                                  wrote nonzero) */
    }
 
@@ -1212,7 +1212,7 @@ png_handle_sPLT(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
       png_error(png_ptr, "Missing IHDR before sPLT");
    else if (png_ptr->mode & PNG_HAVE_IDAT)
    {
-      png_warning(png_ptr, "Invalid sPLT after IDAT");
+      png_warning(png_ptr, "Неверное sPLT after IDAT");
       png_crc_finish(png_ptr, length);
       return;
    }
@@ -1242,7 +1242,7 @@ png_handle_sPLT(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
 
    for (entry_start = (png_bytep)png_ptr->chunkdata; *entry_start;
        entry_start++)
-      /* Empty loop to find end of имя */ ;
+      /* Empty loop to find end of name */ ;
    ++entry_start;
 
    /* A sample depth should follow the separator, and we should be on it  */
@@ -1327,8 +1327,8 @@ png_handle_sPLT(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
    }
 #endif
 
-   /* Discard all chunk data except the имя and stash that */
-   new_palette.имя = png_ptr->chunkdata;
+   /* Discard all chunk data except the name and stash that */
+   new_palette.name = png_ptr->chunkdata;
 
    png_set_sPLT(png_ptr, info_ptr, &new_palette, 1);
 
@@ -1350,7 +1350,7 @@ png_handle_tRNS(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
       png_error(png_ptr, "Missing IHDR before tRNS");
    else if (png_ptr->mode & PNG_HAVE_IDAT)
    {
-      png_warning(png_ptr, "Invalid tRNS after IDAT");
+      png_warning(png_ptr, "Неверное tRNS after IDAT");
       png_crc_finish(png_ptr, length);
       return;
    }
@@ -1396,7 +1396,7 @@ png_handle_tRNS(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
    {
       if (!(png_ptr->mode & PNG_HAVE_PLTE))
       {
-         /* Should be an Ошибка, but we can cope with it. */
+         /* Should be an error, but we can cope with it. */
          png_warning(png_ptr, "Missing PLTE before tRNS");
       }
       if (length > (png_uint_32)png_ptr->num_palette ||
@@ -1408,7 +1408,7 @@ png_handle_tRNS(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
       }
       if (length == 0)
       {
-         png_warning(png_ptr, "обнули length tRNS chunk");
+         png_warning(png_ptr, "Zero length tRNS chunk");
          png_crc_finish(png_ptr, length);
          return;
       }
@@ -1446,7 +1446,7 @@ png_handle_bKGD(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
       png_error(png_ptr, "Missing IHDR before bKGD");
    else if (png_ptr->mode & PNG_HAVE_IDAT)
    {
-      png_warning(png_ptr, "Invalid bKGD after IDAT");
+      png_warning(png_ptr, "Неверное bKGD after IDAT");
       png_crc_finish(png_ptr, length);
       return;
    }
@@ -1482,9 +1482,9 @@ png_handle_bKGD(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
    if (png_crc_finish(png_ptr, 0))
       return;
 
-   /* We convert the index значение into дайКЗС components so that we can allow
-    * arbitrary дайКЗС values for background when we have transparency, and
-    * so it is easy to determine the дайКЗС values of the background color
+   /* We convert the index value into RGB components so that we can allow
+    * arbitrary RGB values for background when we have transparency, and
+    * so it is easy to determine the RGB values of the background color
     * from the info_ptr struct. */
    if (png_ptr->color_type == PNG_COLOR_TYPE_PALETTE)
    {
@@ -1493,7 +1493,7 @@ png_handle_bKGD(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
       {
           if (buf[0] >= info_ptr->num_palette)
           {
-             png_warning(png_ptr, "Incorrect bKGD chunk index значение");
+             png_warning(png_ptr, "Incorrect bKGD chunk index value");
              return;
           }
           png_ptr->background.red =
@@ -1535,7 +1535,7 @@ png_handle_hIST(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
       png_error(png_ptr, "Missing IHDR before hIST");
    else if (png_ptr->mode & PNG_HAVE_IDAT)
    {
-      png_warning(png_ptr, "Invalid hIST after IDAT");
+      png_warning(png_ptr, "Неверное hIST after IDAT");
       png_crc_finish(png_ptr, length);
       return;
    }
@@ -1591,7 +1591,7 @@ png_handle_pHYs(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
       png_error(png_ptr, "Missing IHDR before pHYs");
    else if (png_ptr->mode & PNG_HAVE_IDAT)
    {
-      png_warning(png_ptr, "Invalid pHYs after IDAT");
+      png_warning(png_ptr, "Неверное pHYs after IDAT");
       png_crc_finish(png_ptr, length);
       return;
    }
@@ -1634,7 +1634,7 @@ png_handle_oFFs(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
       png_error(png_ptr, "Missing IHDR before oFFs");
    else if (png_ptr->mode & PNG_HAVE_IDAT)
    {
-      png_warning(png_ptr, "Invalid oFFs after IDAT");
+      png_warning(png_ptr, "Неверное oFFs after IDAT");
       png_crc_finish(png_ptr, length);
       return;
    }
@@ -1664,12 +1664,12 @@ png_handle_oFFs(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
 #endif
 
 #ifdef PNG_READ_pCAL_SUPPORTED
-/* читай the pCAL chunk (described in the PNG Extensions document) */
+/* Read the pCAL chunk (described in the PNG Extensions document) */
 void /* PRIVATE */
 png_handle_pCAL(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
 {
    png_int_32 X0, X1;
-   png_byte тип, nparams;
+   png_byte type, nparams;
    png_charp buf, units, endptr;
    png_charpp params;
    png_size_t slength;
@@ -1681,7 +1681,7 @@ png_handle_pCAL(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
       png_error(png_ptr, "Missing IHDR before pCAL");
    else if (png_ptr->mode & PNG_HAVE_IDAT)
    {
-      png_warning(png_ptr, "Invalid pCAL after IDAT");
+      png_warning(png_ptr, "Неверное pCAL after IDAT");
       png_crc_finish(png_ptr, length);
       return;
    }
@@ -1723,35 +1723,35 @@ png_handle_pCAL(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
       in order to get the parameter information. */
    if (slength < 12U || endptr - buf <= 12)
    {
-      png_warning(png_ptr, "Invalid pCAL data");
+      png_warning(png_ptr, "Неверное pCAL data");
       png_free(png_ptr, png_ptr->chunkdata);
       png_ptr->chunkdata = NULL;
       return;
    }
 
-   png_debug(3, "Reading pCAL X0, X1, тип, nparams, and units");
+   png_debug(3, "Reading pCAL X0, X1, type, nparams, and units");
    X0 = png_get_int_32((png_bytep)buf+1);
    X1 = png_get_int_32((png_bytep)buf+5);
-   тип = buf[9];
+   type = buf[9];
    nparams = buf[10];
    units = buf + 11;
 
-   png_debug(3, "Checking pCAL equation тип and number of parameters");
+   png_debug(3, "Checking pCAL equation type and number of parameters");
    /* Check that we have the right number of parameters for known
       equation types. */
-   if ((тип == PNG_EQUATION_LINEAR && nparams != 2) ||
-       (тип == PNG_EQUATION_BASE_E && nparams != 3) ||
-       (тип == PNG_EQUATION_ARBITRARY && nparams != 3) ||
-       (тип == PNG_EQUATION_HYPERBOLIC && nparams != 4))
+   if ((type == PNG_EQUATION_LINEAR && nparams != 2) ||
+       (type == PNG_EQUATION_BASE_E && nparams != 3) ||
+       (type == PNG_EQUATION_ARBITRARY && nparams != 3) ||
+       (type == PNG_EQUATION_HYPERBOLIC && nparams != 4))
    {
-      png_warning(png_ptr, "Invalid pCAL parameters for equation тип");
+      png_warning(png_ptr, "Неверное pCAL parameters for equation type");
       png_free(png_ptr, png_ptr->chunkdata);
       png_ptr->chunkdata = NULL;
       return;
    }
-   else if (тип >= PNG_EQUATION_LAST)
+   else if (type >= PNG_EQUATION_LAST)
    {
-      png_warning(png_ptr, "Unrecognized equation тип for pCAL chunk");
+      png_warning(png_ptr, "Unrecognized equation type for pCAL chunk");
    }
 
    for (buf = units; *buf; buf++)
@@ -1768,19 +1768,19 @@ png_handle_pCAL(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
        return;
      }
 
-   /* дай pointers to the start of each parameter string. */
+   /* Get pointers to the start of each parameter string. */
    for (i = 0; i < (int)nparams; i++)
    {
-      buf++; /* пропусти the null string terminator from previous parameter. */
+      buf++; /* Skip the null string terminator from previous parameter. */
 
       png_debug1(3, "Reading pCAL parameter %d", i);
       for (params[i] = buf; buf <= endptr && *buf != 0x00; buf++)
          /* Empty loop to move past each parameter string */ ;
 
-      /* сделай sure we haven't run out of data yet */
+      /* Make sure we haven't run out of data yet */
       if (buf > endptr)
       {
-         png_warning(png_ptr, "Invalid pCAL data");
+         png_warning(png_ptr, "Неверное pCAL data");
          png_free(png_ptr, png_ptr->chunkdata);
          png_ptr->chunkdata = NULL;
          png_free(png_ptr, params);
@@ -1788,7 +1788,7 @@ png_handle_pCAL(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
       }
    }
 
-   png_set_pCAL(png_ptr, info_ptr, png_ptr->chunkdata, X0, X1, тип, nparams,
+   png_set_pCAL(png_ptr, info_ptr, png_ptr->chunkdata, X0, X1, type, nparams,
       units, params);
 
    png_free(png_ptr, png_ptr->chunkdata);
@@ -1798,7 +1798,7 @@ png_handle_pCAL(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
 #endif
 
 #ifdef PNG_READ_sCAL_SUPPORTED
-/* читай the sCAL chunk */
+/* Read the sCAL chunk */
 void /* PRIVATE */
 png_handle_sCAL(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
 {
@@ -1819,7 +1819,7 @@ png_handle_sCAL(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
       png_error(png_ptr, "Missing IHDR before sCAL");
    else if (png_ptr->mode & PNG_HAVE_IDAT)
    {
-      png_warning(png_ptr, "Invalid sCAL after IDAT");
+      png_warning(png_ptr, "Неверное sCAL after IDAT");
       png_crc_finish(png_ptr, length);
       return;
    }
@@ -1830,7 +1830,7 @@ png_handle_sCAL(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
       return;
    }
 
-   /* Need unit тип, width, \0, height: minimum 4 bytes */
+   /* Need unit type, width, \0, height: minimum 4 bytes */
    else if (length < 4)
    {
       png_warning(png_ptr, "sCAL chunk too short");
@@ -1859,7 +1859,7 @@ png_handle_sCAL(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
 
    png_ptr->chunkdata[slength] = 0x00; /* Null terminate the last string */
 
-   ep = png_ptr->chunkdata + 1;        /* пропусти unit byte */
+   ep = png_ptr->chunkdata + 1;        /* Skip unit byte */
 
 #ifdef PNG_FLOATING_POINT_SUPPORTED
    width = png_strtod(png_ptr, ep, &vp);
@@ -1934,7 +1934,7 @@ png_handle_sCAL(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
 #endif
       )
    {
-      png_warning(png_ptr, "Invalid sCAL data");
+      png_warning(png_ptr, "Неверное sCAL data");
       png_free(png_ptr, png_ptr->chunkdata);
       png_ptr->chunkdata = NULL;
 #if defined(PNG_FIXED_POINT_SUPPORTED) && !defined(PNG_FLOATING_POINT_SUPPORTED)
@@ -2011,7 +2011,7 @@ void /* PRIVATE */
 png_handle_tEXt(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
 {
    png_textp text_ptr;
-   png_charp ключ;
+   png_charp key;
    png_charp text;
    png_uint_32 skip = 0;
    png_size_t slength;
@@ -2069,14 +2069,14 @@ png_handle_tEXt(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
       return;
    }
 
-   ключ = png_ptr->chunkdata;
+   key = png_ptr->chunkdata;
 
-   ключ[slength] = 0x00;
+   key[slength] = 0x00;
 
-   for (text = ключ; *text; text++)
-      /* Empty loop to find end of ключ */ ;
+   for (text = key; *text; text++)
+      /* Empty loop to find end of key */ ;
 
-   if (text != ключ + slength)
+   if (text != key + slength)
       text++;
 
    text_ptr = (png_textp)png_malloc_warn(png_ptr,
@@ -2089,7 +2089,7 @@ png_handle_tEXt(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
      return;
    }
    text_ptr->compression = PNG_TEXT_COMPRESSION_NONE;
-   text_ptr->ключ = ключ;
+   text_ptr->key = key;
 #ifdef PNG_iTXt_SUPPORTED
    text_ptr->lang = NULL;
    text_ptr->lang_key = NULL;
@@ -2189,10 +2189,10 @@ png_handle_zTXt(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
        comp_type = *(++text);
        if (comp_type != PNG_TEXT_COMPRESSION_zTXt)
        {
-          png_warning(png_ptr, "Unknown compression тип in zTXt chunk");
+          png_warning(png_ptr, "Unknown compression type in zTXt chunk");
           comp_type = PNG_TEXT_COMPRESSION_zTXt;
        }
-       text++;        /* пропусти the compression_method byte */
+       text++;        /* Skip the compression_method byte */
    }
    prefix_len = text - png_ptr->chunkdata;
 
@@ -2209,7 +2209,7 @@ png_handle_zTXt(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
      return;
    }
    text_ptr->compression = comp_type;
-   text_ptr->ключ = png_ptr->chunkdata;
+   text_ptr->key = png_ptr->chunkdata;
 #ifdef PNG_iTXt_SUPPORTED
    text_ptr->lang = NULL;
    text_ptr->lang_key = NULL;
@@ -2234,7 +2234,7 @@ void /* PRIVATE */
 png_handle_iTXt(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
 {
    png_textp text_ptr;
-   png_charp ключ, lang, text, lang_key;
+   png_charp key, lang, text, lang_key;
    int comp_flag;
    int comp_type = 0;
    int ret;
@@ -2296,7 +2296,7 @@ png_handle_iTXt(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
 
    for (lang = png_ptr->chunkdata; *lang; lang++)
       /* Empty loop */ ;
-   lang++;        /* пропусти NUL separator */
+   lang++;        /* Skip NUL separator */
 
    /* iTXt must have a language tag (possibly empty), two compression bytes,
     * translated keyword (possibly empty), and possibly some text after the
@@ -2318,7 +2318,7 @@ png_handle_iTXt(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
 
    for (lang_key = lang; *lang_key; lang_key++)
       /* Empty loop */ ;
-   lang_key++;        /* пропусти NUL separator */
+   lang_key++;        /* Skip NUL separator */
 
    if (lang_key >= png_ptr->chunkdata + slength)
    {
@@ -2330,7 +2330,7 @@ png_handle_iTXt(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
 
    for (text = lang_key; *text; text++)
       /* Empty loop */ ;
-   text++;        /* пропусти NUL separator */
+   text++;        /* Skip NUL separator */
    if (text >= png_ptr->chunkdata + slength)
    {
       png_warning(png_ptr, "Malformed iTXt chunk");
@@ -2341,7 +2341,7 @@ png_handle_iTXt(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
 
    prefix_len = text - png_ptr->chunkdata;
 
-   ключ=png_ptr->chunkdata;
+   key=png_ptr->chunkdata;
    if (comp_flag)
        png_decompress_chunk(png_ptr, comp_type,
          (size_t)length, prefix_len, &data_len);
@@ -2357,11 +2357,11 @@ png_handle_iTXt(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
      return;
    }
    text_ptr->compression = (int)comp_flag + 1;
-   text_ptr->lang_key = png_ptr->chunkdata + (lang_key - ключ);
-   text_ptr->lang = png_ptr->chunkdata + (lang - ключ);
+   text_ptr->lang_key = png_ptr->chunkdata + (lang_key - key);
+   text_ptr->lang = png_ptr->chunkdata + (lang - key);
    text_ptr->itxt_length = data_len;
    text_ptr->text_length = 0;
-   text_ptr->ключ = png_ptr->chunkdata;
+   text_ptr->key = png_ptr->chunkdata;
    text_ptr->text = png_ptr->chunkdata + prefix_len;
 
    ret = png_set_text_2(png_ptr, info_ptr, text_ptr, 1);
@@ -2376,7 +2376,7 @@ png_handle_iTXt(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
 
 /* This function is called when we haven't found a handler for a
    chunk.  If there isn't a problem with the chunk itself (ie bad
-   chunk имя, CRC, or a critical chunk), the chunk is silently ignored
+   chunk name, CRC, or a critical chunk), the chunk is silently ignored
    -- unless the PNG_FLAG_UNKNOWN_CHUNKS_SUPPORTED flag is on in which
    case it will be saved away to be written out later. */
 void /* PRIVATE */
@@ -2440,10 +2440,10 @@ png_handle_unknown(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
            length = (png_uint_32)65535L;
        }
 #endif
-       png_memcpy((png_charp)png_ptr->unknown_chunk.имя,
+       png_memcpy((png_charp)png_ptr->unknown_chunk.name,
                   (png_charp)png_ptr->chunk_name,
-                  png_sizeof(png_ptr->unknown_chunk.имя));
-       png_ptr->unknown_chunk.имя[png_sizeof(png_ptr->unknown_chunk.имя)-1]
+                  png_sizeof(png_ptr->unknown_chunk.name));
+       png_ptr->unknown_chunk.name[png_sizeof(png_ptr->unknown_chunk.name)-1]
            = '\0';
        png_ptr->unknown_chunk.size = (png_size_t)length;
        if (length == 0)
@@ -2461,7 +2461,7 @@ png_handle_unknown(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
           ret = (*(png_ptr->read_user_chunk_fn))
             (png_ptr, &png_ptr->unknown_chunk);
           if (ret < 0)
-             png_chunk_error(png_ptr, "Ошибка in user chunk");
+             png_chunk_error(png_ptr, "error in user chunk");
           if (ret == 0)
           {
              if (!(png_ptr->chunk_name[0] & 0x20))
@@ -2491,11 +2491,11 @@ png_handle_unknown(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
 #endif
 }
 
-/* This function is called to verify that a chunk имя is valid.
+/* This function is called to verify that a chunk name is valid.
    This function can't have the "critical chunk check" incorporated
    into it, since in the future we will need to be able to call user
    functions to handle unknown critical chunks after we check that
-   the chunk имя itself is valid. */
+   the chunk name itself is valid. */
 
 #define isnonalpha(c) ((c) < 65 || (c) > 122 || ((c) > 90 && (c) < 97))
 
@@ -2506,7 +2506,7 @@ png_check_chunk_name(png_structp png_ptr, png_bytep chunk_name)
    if (isnonalpha(chunk_name[0]) || isnonalpha(chunk_name[1]) ||
        isnonalpha(chunk_name[2]) || isnonalpha(chunk_name[3]))
    {
-      png_chunk_error(png_ptr, "invalid chunk тип");
+      png_chunk_error(png_ptr, "invalid chunk type");
    }
 }
 
@@ -2546,13 +2546,13 @@ png_check_chunk_length(png_structp png_ptr, png_uint_32 length)
 
 /* Combines the row recently read in with the existing pixels in the
    row.  This routine takes care of alpha and transparency if requested.
-   This routine also handles the two methods of progressive дисплей
-   of interlaced images, depending on the mask значение.
-   The mask значение describes which pixels are to be combined with
+   This routine also handles the two methods of progressive display
+   of interlaced images, depending on the mask value.
+   The mask value describes which pixels are to be combined with
    the row.  The pattern always repeats every 8 pixels, so just 8
    bits are needed.  A one indicates the pixel is to be combined,
    a zero indicates the pixel is to be skipped.  This is in addition
-   to any alpha or transparency значение associated with the pixel.  If
+   to any alpha or transparency value associated with the pixel.  If
    you want all pixels to be combined, pass 0xff (255) in mask.  */
 
 void /* PRIVATE */
@@ -2599,11 +2599,11 @@ png_combine_row(png_structp png_ptr, png_bytep row, int mask)
             {
                if (m & mask)
                {
-                  int значение;
+                  int value;
 
-                  значение = (*sp >> shift) & 0x01;
+                  value = (*sp >> shift) & 0x01;
                   *dp &= (png_byte)((0x7f7f >> (7 - shift)) & 0xff);
-                  *dp |= (png_byte)(значение << shift);
+                  *dp |= (png_byte)(value << shift);
                }
 
                if (shift == s_end)
@@ -2631,7 +2631,7 @@ png_combine_row(png_structp png_ptr, png_bytep row, int mask)
             int shift;
             png_uint_32 i;
             png_uint_32 row_width = png_ptr->width;
-            int значение;
+            int value;
 
 #ifdef PNG_READ_PACKSWAP_SUPPORTED
             if (png_ptr->transformations & PNG_PACKSWAP)
@@ -2654,9 +2654,9 @@ png_combine_row(png_structp png_ptr, png_bytep row, int mask)
             {
                if (m & mask)
                {
-                  значение = (*sp >> shift) & 0x03;
+                  value = (*sp >> shift) & 0x03;
                   *dp &= (png_byte)((0x3f3f >> (6 - shift)) & 0xff);
-                  *dp |= (png_byte)(значение << shift);
+                  *dp |= (png_byte)(value << shift);
                }
 
                if (shift == s_end)
@@ -2683,7 +2683,7 @@ png_combine_row(png_structp png_ptr, png_bytep row, int mask)
             int shift;
             png_uint_32 i;
             png_uint_32 row_width = png_ptr->width;
-            int значение;
+            int value;
 
 #ifdef PNG_READ_PACKSWAP_SUPPORTED
             if (png_ptr->transformations & PNG_PACKSWAP)
@@ -2705,9 +2705,9 @@ png_combine_row(png_structp png_ptr, png_bytep row, int mask)
             {
                if (m & mask)
                {
-                  значение = (*sp >> shift) & 0xf;
+                  value = (*sp >> shift) & 0xf;
                   *dp &= (png_byte)((0xf0f >> (4 - shift)) & 0xff);
-                  *dp |= (png_byte)(значение << shift);
+                  *dp |= (png_byte)(value << shift);
                }
 
                if (shift == s_end)
@@ -2769,7 +2769,7 @@ png_do_read_interlace(png_structp png_ptr)
    int pass = png_ptr->pass;
    png_uint_32 transformations = png_ptr->transformations;
    /* Arrays to facilitate easy interlacing - use pass (0 - 6) as index */
-   /* смещение to next interlace block */
+   /* Offset to next interlace block */
 #ifndef PNG_USE_GLOBAL_ARRAYS
    PNG_CONST int png_pass_inc[7] = {8, 8, 4, 4, 2, 2, 1};
 #endif
@@ -3101,7 +3101,7 @@ png_read_filter_row(png_structp png_ptr, png_row_infop row_info, png_bytep row,
          break;
       }
       default:
-         png_warning(png_ptr, "Ignoring bad adaptive filter тип");
+         png_warning(png_ptr, "Ignoring bad adaptive filter type");
          *row = 0;
          break;
    }
@@ -3115,16 +3115,16 @@ png_read_finish_row(png_structp png_ptr)
 #ifndef PNG_USE_GLOBAL_ARRAYS
    /* Arrays to facilitate easy interlacing - use pass (0 - 6) as index */
 
-   /* старт of interlace block */
+   /* Start of interlace block */
    PNG_CONST int png_pass_start[7] = {0, 4, 0, 2, 0, 1, 0};
 
-   /* смещение to next interlace block */
+   /* Offset to next interlace block */
    PNG_CONST int png_pass_inc[7] = {8, 8, 4, 4, 2, 2, 1};
 
-   /* старт of interlace block in the y direction */
+   /* Start of interlace block in the y direction */
    PNG_CONST int png_pass_ystart[7] = {0, 0, 4, 0, 2, 0, 1};
 
-   /* смещение to next interlace block in the y direction */
+   /* Offset to next interlace block in the y direction */
    PNG_CONST int png_pass_yinc[7] = {8, 8, 8, 4, 4, 2, 2};
 #endif
 #endif /* PNG_READ_INTERLACING_SUPPORTED */
@@ -3176,7 +3176,7 @@ png_read_finish_row(png_structp png_ptr)
       char extra;
       int ret;
 
-      png_ptr->zstream.next_out = (Байт *)&extra;
+      png_ptr->zstream.next_out = (Byte *)&extra;
       png_ptr->zstream.avail_out = (uInt)1;
       for (;;)
       {
@@ -3215,7 +3215,7 @@ png_read_finish_row(png_structp png_ptr)
          }
          if (ret != Z_OK)
             png_error(png_ptr, png_ptr->zstream.msg ? png_ptr->zstream.msg :
-                      "Decompression Ошибка");
+                      "Decompression Error");
 
          if (!(png_ptr->zstream.avail_out))
          {
@@ -3245,16 +3245,16 @@ png_read_start_row(png_structp png_ptr)
 #ifndef PNG_USE_GLOBAL_ARRAYS
    /* Arrays to facilitate easy interlacing - use pass (0 - 6) as index */
 
-   /* старт of interlace block */
+   /* Start of interlace block */
    PNG_CONST int png_pass_start[7] = {0, 4, 0, 2, 0, 1, 0};
 
-   /* смещение to next interlace block */
+   /* Offset to next interlace block */
    PNG_CONST int png_pass_inc[7] = {8, 8, 4, 4, 2, 2, 1};
 
-   /* старт of interlace block in the y direction */
+   /* Start of interlace block in the y direction */
    PNG_CONST int png_pass_ystart[7] = {0, 0, 4, 0, 2, 0, 1};
 
-   /* смещение to next interlace block in the y direction */
+   /* Offset to next interlace block in the y direction */
    PNG_CONST int png_pass_yinc[7] = {8, 8, 8, 4, 4, 2, 2};
 #endif
 #endif

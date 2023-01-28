@@ -1,13 +1,13 @@
 #include "Core.h"
 
-namespace РНЦПДинрус {
+namespace Upp {
 
 //template <>
-//void Прямоугольник_<double>::союз(const Прямоугольник_<double>& r) {
-void прям_дво_союз(Прямоугольник_<double>& self, const Прямоугольник_<double>& r) {
-	if(пусто_ли(r)) return;
-	if(пусто_ли(self)) {
-		self.уст(r);
+//void Rect_<double>::Union(const Rect_<double>& r) {
+void Rect_double_Union(Rect_<double>& self, const Rect_<double>& r) {
+	if(IsNull(r)) return;
+	if(IsNull(self)) {
+		self.Set(r);
 		return;
 	}
 	if(r.left   < self.left)   self.left   = r.left;
@@ -16,153 +16,153 @@ void прям_дво_союз(Прямоугольник_<double>& self, const �
 	if(r.bottom > self.bottom) self.bottom = r.bottom;
 }
 
-//bool Rect_double_Contains(const Прямоугольник_<double>& self, const Точка_<double>& p) {
+//bool Rect_double_Contains(const Rect_<double>& self, const Point_<double>& p) {
 //	return p.x >= self.left && p.x <= self.right && p.y >= self.top && p.y <= self.bottom;
 //}
 
 //template <>
-//bool Прямоугольник_<double>::пересекается(const Прямоугольник_<double>& r) const {
-bool прям_дво_пересекается(const Прямоугольник_<double>& self, const Прямоугольник_<double>& r) {
-	if(пусто_ли(self) || пусто_ли(r)) return false;
+//bool Rect_<double>::Intersects(const Rect_<double>& r) const {
+bool Rect_double_Intersects(const Rect_<double>& self, const Rect_<double>& r) {
+	if(IsNull(self) || IsNull(r)) return false;
 	return r.right >= self.left && r.bottom >= self.top && r.left <= self.right && r.top <= self.bottom;
 }
 
 //template <>
-//Точка_<double> Прямоугольник_<double>::свяжи(Точка_<double> pt) const
-Точка_<double> прям_дво_свяжи(const Прямоугольник_<double>& self, Точка_<double> pt) {
-	return Точка_<double>(pt.x < self.left ? self.left : pt.x > self.right ? self.right : pt.x,
+//Point_<double> Rect_<double>::Bind(Point_<double> pt) const
+Point_<double> Rect_double_Bind(const Rect_<double>& self, Point_<double> pt) {
+	return Point_<double>(pt.x < self.left ? self.left : pt.x > self.right ? self.right : pt.x,
 		pt.y < self.top ? self.top : pt.y > self.bottom ? self.bottom : pt.y);
 }
 
-Размер iscale(Размер a, int b, int c)
+Size iscale(Size a, int b, int c)
 {
-	return Размер(iscale(a.cx, b, c), iscale(a.cy, b, c));
+	return Size(iscale(a.cx, b, c), iscale(a.cy, b, c));
 }
 
-Размер iscalefloor(Размер a, int b, int c)
+Size iscalefloor(Size a, int b, int c)
 {
-	return Размер(iscalefloor(a.cx, b, c), iscalefloor(a.cy, b, c));
+	return Size(iscalefloor(a.cx, b, c), iscalefloor(a.cy, b, c));
 }
 
-Размер iscaleceil(Размер a, int b, int c)
+Size iscaleceil(Size a, int b, int c)
 {
-	return Размер(iscaleceil(a.cx, b, c), iscaleceil(a.cy, b, c));
+	return Size(iscaleceil(a.cx, b, c), iscaleceil(a.cy, b, c));
 }
 
-Размер idivfloor(Размер a, int b)
+Size idivfloor(Size a, int b)
 {
-	return Размер(idivfloor(a.cx, b), idivfloor(a.cy, b));
+	return Size(idivfloor(a.cx, b), idivfloor(a.cy, b));
 }
 
-Размер idivceil(Размер a, int b)
+Size idivceil(Size a, int b)
 {
-	return Размер(idivceil(a.cx, b), idivceil(a.cy, b));
+	return Size(idivceil(a.cx, b), idivceil(a.cy, b));
 }
 
-Размер iscale(Размер a, Размер b, Размер c)
+Size iscale(Size a, Size b, Size c)
 {
-	return Размер(iscale(a.cx, b.cx, c.cx), iscale(a.cy, b.cy, c.cy));
+	return Size(iscale(a.cx, b.cx, c.cx), iscale(a.cy, b.cy, c.cy));
 }
 
-Размер iscalefloor(Размер a, Размер b, Размер c)
+Size iscalefloor(Size a, Size b, Size c)
 {
-	return Размер(iscalefloor(a.cx, b.cx, c.cx), iscalefloor(a.cy, b.cy, c.cy));
+	return Size(iscalefloor(a.cx, b.cx, c.cx), iscalefloor(a.cy, b.cy, c.cy));
 }
 
-Размер iscaleceil(Размер a, Размер b, Размер c)
+Size iscaleceil(Size a, Size b, Size c)
 {
-	return Размер(iscaleceil(a.cx, b.cx, c.cx), iscaleceil(a.cy, b.cy, c.cy));
+	return Size(iscaleceil(a.cx, b.cx, c.cx), iscaleceil(a.cy, b.cy, c.cy));
 }
 
-Размер idivfloor(Размер a, Размер b)
+Size idivfloor(Size a, Size b)
 {
-	return Размер(idivfloor(a.cx, b.cx), idivfloor(a.cy, b.cy));
+	return Size(idivfloor(a.cx, b.cx), idivfloor(a.cy, b.cy));
 }
 
-Размер idivceil(Размер a, Размер b)
+Size idivceil(Size a, Size b)
 {
-	return Размер(idivceil(a.cx, b.cx), idivceil(a.cy, b.cy));
+	return Size(idivceil(a.cx, b.cx), idivceil(a.cy, b.cy));
 }
 
-Размер  дайСоотношение(Размер sz, int cx, int cy)
+Size  GetRatioSize(Size sz, int cx, int cy)
 {
-	return cx == 0 ? cy == 0 ? sz : sz.cy ? Размер(sz.cx * cy / sz.cy, cy) : Размер(0, 0)
-		       : cy == 0 ? sz.cx ? Размер(cx, sz.cy * cx / sz.cx) : Размер(0, 0)
-				         : Размер(cx, cy);
+	return cx == 0 ? cy == 0 ? sz : sz.cy ? Size(sz.cx * cy / sz.cy, cy) : Size(0, 0)
+		       : cy == 0 ? sz.cx ? Size(cx, sz.cy * cx / sz.cx) : Size(0, 0)
+				         : Size(cx, cy);
 }
 
-Размер  дайРазмСхождения(Размер sz, int cx, int cy)
+Size  GetFitSize(Size sz, int cx, int cy)
 {
 	if(cx <= 0 || cy <= 0 || sz.cx <= 0 || sz.cy <= 0)
-		return Размер(0, 0);
+		return Size(0, 0);
 	if(cx * sz.cy >= cy * sz.cx) // too high
 		return iscale(sz, cy, sz.cy);
 	else
 		return iscale(sz, cx, sz.cx);
 }
 
-РазмерПЗ дайРазмСхождения(РазмерПЗ sz, double cx, double cy)
+Sizef GetFitSize(Sizef sz, double cx, double cy)
 {
 	if(cx <= 0 || cy <= 0 || sz.cx <= 0 || sz.cy <= 0)
-		return Размер(0, 0);
+		return Size(0, 0);
 	if(cx * sz.cy >= cy * sz.cx) // too high
 		return sz * cy / sz.cy;
 	else
 		return sz * cx / sz.cx;
 }
 
-double квадратДист(const ТочкаПЗ& p1, const ТочкаПЗ& p2)
+double SquareDist(const Pointf& p1, const Pointf& p2)
 {
 	return (p1.x - p2.x) * (p1.x - p2.x) + (p1.y - p2.y) * (p1.y - p2.y);
 }
 
-ТочкаПЗ середина(const ТочкаПЗ& a, const ТочкаПЗ& b)
+Pointf Mid(const Pointf& a, const Pointf& b)
 {
 	return 0.5 * (a + b);
 }
 
-ТочкаПЗ ортогональ(const ТочкаПЗ& p)
+Pointf Orthogonal(const Pointf& p)
 {
-	return ТочкаПЗ(-p.y, p.x);
+	return Pointf(-p.y, p.x);
 }
 
-ТочкаПЗ нормализуй(const ТочкаПЗ& p)
+Pointf Normalize(const Pointf& p)
 {
-	double l = длина(p);
-	return l < 1e-150 ? ТочкаПЗ(0, 0) : p / l;
+	double l = Length(p);
+	return l < 1e-150 ? Pointf(0, 0) : p / l;
 }
 
-double вКвадрате(const ТочкаПЗ& p)
+double Squared(const Pointf& p)
 {
 	return p.x * p.x + p.y * p.y;
 }
 
-double длина(const ТочкаПЗ& p)
+double Length(const Pointf& p)
 {
-	return sqrt(вКвадрате(p));
+	return sqrt(Squared(p));
 }
 
-double расстояние(const ТочкаПЗ& p1, const ТочкаПЗ& p2)
+double Distance(const Pointf& p1, const Pointf& p2)
 {
-	return длина(p1 - p2);
+	return Length(p1 - p2);
 }
 
-double растояниеВКвадрате(const ТочкаПЗ& p1, const ТочкаПЗ& p2)
+double SquaredDistance(const Pointf& p1, const Pointf& p2)
 {
-	return вКвадрате(p1 - p2);
+	return Squared(p1 - p2);
 }
 
-ТочкаПЗ поляр(double a)
+Pointf Polar(double a)
 {
-	return ТочкаПЗ(cos(a), sin(a));
+	return Pointf(cos(a), sin(a));
 }
 
-ТочкаПЗ поляр(const ТочкаПЗ& p, double r, double a)
+Pointf Polar(const Pointf& p, double r, double a)
 {
-	return p + r * поляр(a);
+	return p + r * Polar(a);
 }
 
-double направление(const ТочкаПЗ& p)
+double Direction(const Pointf& p)
 {
 	return atan2(p.y, p.x);
 }

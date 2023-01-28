@@ -41,7 +41,7 @@
 #ifdef FT_CONFIG_OPTION_USE_ZLIB
 
 #ifdef FT_CONFIG_OPTION_PIC
-#Ошибка "gzip code does not support PIC yet"
+#error "gzip code does not support PIC yet"
 #endif 
 
 #ifdef FT_CONFIG_OPTION_SYSTEM_ZLIB
@@ -106,7 +106,7 @@
                  uInt       size )
   {
     FT_ULong    sz = (FT_ULong)size * items;
-    FT_Error    Ошибка;
+    FT_Error    error;
     FT_Pointer  p  = NULL;
 
 
@@ -161,9 +161,9 @@
     z_stream   zstream;        /* zlib input stream           */
 
     FT_ULong   start;          /* starting position, after .gz header */
-    FT_Byte    input[FT_GZIP_BUFFER_SIZE];   /* input read буфер  */
+    FT_Byte    input[FT_GZIP_BUFFER_SIZE];   /* input read buffer  */
 
-    FT_Byte    буфер[FT_GZIP_BUFFER_SIZE];  /* output буфер      */
+    FT_Byte    buffer[FT_GZIP_BUFFER_SIZE];  /* output buffer      */
     FT_ULong   pos;                          /* position in output */
     FT_Byte*   cursor;
     FT_Byte*   limit;
@@ -175,7 +175,7 @@
 #define FT_GZIP_ASCII_FLAG   0x01 /* bit 0 set: file probably ascii text */
 #define FT_GZIP_HEAD_CRC     0x02 /* bit 1 set: header CRC present */
 #define FT_GZIP_EXTRA_FIELD  0x04 /* bit 2 set: extra field present */
-#define FT_GZIP_ORIG_NAME    0x08 /* bit 3 set: original file имя present */
+#define FT_GZIP_ORIG_NAME    0x08 /* bit 3 set: original file name present */
 #define FT_GZIP_COMMENT      0x10 /* bit 4 set: file comment present */
 #define FT_GZIP_RESERVED     0xE0 /* bits 5..7: reserved */
 
@@ -184,7 +184,7 @@
   static FT_Error
   ft_gzip_check_header( FT_Stream  stream )
   {
-    FT_Error  Ошибка;
+    FT_Error  error;
     FT_Byte   head[4];
 
 
@@ -199,7 +199,7 @@
          head[2] != Z_DEFLATED        ||
         (head[3] & FT_GZIP_RESERVED)  )
     {
-      Ошибка = Gzip_Err_Invalid_File_Format;
+      error = Gzip_Err_Invalid_File_Format;
       goto Exit;
     }
 
@@ -217,7 +217,7 @@
         goto Exit;
     }
 
-    /* skip original file имя */
+    /* skip original file name */
     if ( head[3] & FT_GZIP_ORIG_NAME )
       for (;;)
       {
@@ -251,7 +251,7 @@
         goto Exit;
 
   Exit:
-    return Ошибка;
+    return error;
   }
 
 
@@ -261,14 +261,14 @@
                      FT_Stream    source )
   {
     z_stream*  zstream = &zip->zstream;
-    FT_Error   Ошибка   = Gzip_Err_Ok;
+    FT_Error   error   = Gzip_Err_Ok;
 
 
     zip->stream = stream;
     zip->source = source;
     zip->memory = stream->memory;
 
-    zip->limit  = zip->буфер + FT_GZIP_BUFFER_SIZE;
+    zip->limit  = zip->buffer + FT_GZIP_BUFFER_SIZE;
     zip->cursor = zip->limit;
     zip->pos    = 0;
 
@@ -276,8 +276,8 @@
     {
       stream = source;
 
-      Ошибка = ft_gzip_check_header( stream );
-      if ( Ошибка )
+      error = ft_gzip_check_header( stream );
+      if ( error )
         goto Exit;
 
       zip->start = FT_STREAM_POS();
@@ -289,14 +289,14 @@
     zstream->opaque = stream->memory;
 
     zstream->avail_in = 0;
-    zstream->next_in  = zip->буфер;
+    zstream->next_in  = zip->buffer;
 
     if ( inflateInit2( zstream, -MAX_WBITS ) != Z_OK ||
          zstream->next_in == NULL                     )
-      Ошибка = Gzip_Err_Invalid_File_Format;
+      error = Gzip_Err_Invalid_File_Format;
 
   Exit:
-    return Ошибка;
+    return error;
   }
 
 
@@ -327,7 +327,7 @@
   ft_gzip_file_reset( FT_GZipFile  zip )
   {
     FT_Stream  stream = zip->source;
-    FT_Error   Ошибка;
+    FT_Error   error;
 
 
     if ( !FT_STREAM_SEEK( zip->start ) )
@@ -340,14 +340,14 @@
       zstream->avail_in  = 0;
       zstream->next_in   = zip->input;
       zstream->avail_out = 0;
-      zstream->next_out  = zip->буфер;
+      zstream->next_out  = zip->buffer;
 
-      zip->limit  = zip->буфер + FT_GZIP_BUFFER_SIZE;
+      zip->limit  = zip->buffer + FT_GZIP_BUFFER_SIZE;
       zip->cursor = zip->limit;
       zip->pos    = 0;
     }
 
-    return Ошибка;
+    return error;
   }
 
 
@@ -390,10 +390,10 @@
   ft_gzip_file_fill_output( FT_GZipFile  zip )
   {
     z_stream*  zstream = &zip->zstream;
-    FT_Error   Ошибка   = Gzip_Err_Ok;
+    FT_Error   error   = Gzip_Err_Ok;
 
 
-    zip->cursor        = zip->буфер;
+    zip->cursor        = zip->buffer;
     zstream->next_out  = zip->cursor;
     zstream->avail_out = FT_GZIP_BUFFER_SIZE;
 
@@ -404,8 +404,8 @@
 
       if ( zstream->avail_in == 0 )
       {
-        Ошибка = ft_gzip_file_fill_input( zip );
-        if ( Ошибка )
+        error = ft_gzip_file_fill_input( zip );
+        if ( error )
           break;
       }
 
@@ -415,26 +415,26 @@
       {
         zip->limit = zstream->next_out;
         if ( zip->limit == zip->cursor )
-          Ошибка = Gzip_Err_Invalid_Stream_Operation;
+          error = Gzip_Err_Invalid_Stream_Operation;
         break;
       }
       else if ( err != Z_OK )
       {
-        Ошибка = Gzip_Err_Invalid_Stream_Operation;
+        error = Gzip_Err_Invalid_Stream_Operation;
         break;
       }
     }
 
-    return Ошибка;
+    return error;
   }
 
 
-  /* fill output буфер; `count' must be <= FT_GZIP_BUFFER_SIZE */
+  /* fill output buffer; `count' must be <= FT_GZIP_BUFFER_SIZE */
   static FT_Error
   ft_gzip_file_skip_output( FT_GZipFile  zip,
                             FT_ULong     count )
   {
-    FT_Error  Ошибка = Gzip_Err_Ok;
+    FT_Error  error = Gzip_Err_Ok;
     FT_ULong  delta;
 
 
@@ -451,39 +451,39 @@
       if ( count == 0 )
         break;
 
-      Ошибка = ft_gzip_file_fill_output( zip );
-      if ( Ошибка )
+      error = ft_gzip_file_fill_output( zip );
+      if ( error )
         break;
     }
 
-    return Ошибка;
+    return error;
   }
 
 
   static FT_ULong
   ft_gzip_file_io( FT_GZipFile  zip,
                    FT_ULong     pos,
-                   FT_Byte*     буфер,
+                   FT_Byte*     buffer,
                    FT_ULong     count )
   {
     FT_ULong  result = 0;
-    FT_Error  Ошибка;
+    FT_Error  error;
 
 
-    /* переустанов inflate stream if we're seeking backwards.        */
+    /* Reset inflate stream if we're seeking backwards.        */
     /* Yes, that is not too efficient, but it saves memory :-) */
     if ( pos < zip->pos )
     {
-      Ошибка = ft_gzip_file_reset( zip );
-      if ( Ошибка )
+      error = ft_gzip_file_reset( zip );
+      if ( error )
         goto Exit;
     }
 
     /* skip unwanted bytes */
     if ( pos > zip->pos )
     {
-      Ошибка = ft_gzip_file_skip_output( zip, (FT_ULong)( pos - zip->pos ) );
-      if ( Ошибка )
+      error = ft_gzip_file_skip_output( zip, (FT_ULong)( pos - zip->pos ) );
+      if ( error )
         goto Exit;
     }
 
@@ -500,8 +500,8 @@
       if ( delta >= count )
         delta = count;
 
-      FT_MEM_COPY( буфер, zip->cursor, delta );
-      буфер      += delta;
+      FT_MEM_COPY( buffer, zip->cursor, delta );
+      buffer      += delta;
       result      += delta;
       zip->cursor += delta;
       zip->pos    += delta;
@@ -510,8 +510,8 @@
       if ( count == 0 )
         break;
 
-      Ошибка = ft_gzip_file_fill_output( zip );
-      if ( Ошибка )
+      error = ft_gzip_file_fill_output( zip );
+      if ( error )
         break;
     }
 
@@ -550,20 +550,20 @@
   static FT_ULong
   ft_gzip_stream_io( FT_Stream  stream,
                      FT_ULong   pos,
-                     FT_Byte*   буфер,
+                     FT_Byte*   buffer,
                      FT_ULong   count )
   {
     FT_GZipFile  zip = (FT_GZipFile)stream->descriptor.pointer;
 
 
-    return ft_gzip_file_io( zip, pos, буфер, count );
+    return ft_gzip_file_io( zip, pos, buffer, count );
   }
 
 
   static FT_ULong
   ft_gzip_get_uncompressed_size( FT_Stream  stream )
   {
-    FT_Error  Ошибка;
+    FT_Error  error;
     FT_ULong  old_pos;
     FT_ULong  result = 0;
 
@@ -571,8 +571,8 @@
     old_pos = stream->pos;
     if ( !FT_Stream_Seek( stream, stream->size - 4 ) )
     {
-      result = FT_Stream_ReadULong( stream, &Ошибка );
-      if ( Ошибка )
+      result = FT_Stream_ReadULong( stream, &error );
+      if ( error )
         result = 0;
 
       (void)FT_Stream_Seek( stream, old_pos );
@@ -586,7 +586,7 @@
   FT_Stream_OpenGzip( FT_Stream  stream,
                       FT_Stream  source )
   {
-    FT_Error     Ошибка;
+    FT_Error     error;
     FT_Memory    memory = source->memory;
     FT_GZipFile  zip = NULL;
 
@@ -595,8 +595,8 @@
      *  check the header right now; this prevents allocating un-necessary
      *  objects when we don't need them
      */
-    Ошибка = ft_gzip_check_header( source );
-    if ( Ошибка )
+    error = ft_gzip_check_header( source );
+    if ( error )
       goto Exit;
 
     FT_ZERO( stream );
@@ -604,8 +604,8 @@
 
     if ( !FT_QNEW( zip ) )
     {
-      Ошибка = ft_gzip_file_init( zip, stream, source );
-      if ( Ошибка )
+      error = ft_gzip_file_init( zip, stream, source );
+      if ( error )
       {
         FT_FREE( zip );
         goto Exit;
@@ -618,7 +618,7 @@
      *  We use the following trick to try to dramatically improve the
      *  performance while dealing with small files.  If the original stream
      *  size is less than a certain threshold, we try to load the whole font
-     *  file into memory.  This saves us from using the 32KB буфер needed
+     *  file into memory.  This saves us from using the 32KB buffer needed
      *  to inflate the file, plus the two 4KB intermediate input/output
      *  buffers used in the `FT_GZipFile' structure.
      */
@@ -656,7 +656,7 @@
           ft_gzip_file_io( zip, 0, NULL, 0 );
           FT_FREE( zip_buff );
         }
-        Ошибка = Gzip_Err_Ok;
+        error = Gzip_Err_Ok;
       }
     }
 
@@ -667,7 +667,7 @@
     stream->close = ft_gzip_stream_close;
 
   Exit:
-    return Ошибка;
+    return error;
   }
 
 #else  /* !FT_CONFIG_OPTION_USE_ZLIB */

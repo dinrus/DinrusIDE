@@ -1,10 +1,10 @@
 
 /* pngwutil.c - utilities to write a PNG file
  *
- * последний changed in libpng 1.2.56 [December 17, 2015]
+ * Last changed in libpng 1.2.56 [December 17, 2015]
  * Copyright (c) 1998-2002,2004,2006-2015 Glenn Randers-Pehrson
  * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
- * (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Группа 42, Inc.)
+ * (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
  *
  * This code is released under the libpng license.
  * For conditions of distribution and use, see the disclaimer
@@ -16,7 +16,7 @@
 #include "png.h"
 #ifdef PNG_WRITE_SUPPORTED
 
-/* Place a 32-bit number into a буфер in PNG byte order.  We work
+/* Place a 32-bit number into a buffer in PNG byte order.  We work
  * with unsigned numbers for convenience, although one supported
  * ancillary chunk uses signed (two's complement) numbers.
  */
@@ -30,8 +30,8 @@ png_save_uint_32(png_bytep buf, png_uint_32 i)
 }
 
 /* The png_save_int_32 function assumes integers are stored in two's
- * complement формат.  If this isn't the case, then this routine needs to
- * be modified to write data in two's complement формат.
+ * complement format.  If this isn't the case, then this routine needs to
+ * be modified to write data in two's complement format.
  */
 void PNGAPI
 png_save_int_32(png_bytep buf, png_int_32 i)
@@ -42,7 +42,7 @@ png_save_int_32(png_bytep buf, png_int_32 i)
    buf[3] = (png_byte)(i & 0xff);
 }
 
-/* Place a 16-bit number into a буфер in PNG byte order.
+/* Place a 16-bit number into a buffer in PNG byte order.
  * The parameter is declared unsigned int, not png_uint_16,
  * just to avoid potential problems on pre-ANSI C compilers.
  */
@@ -64,15 +64,15 @@ png_write_sig(png_structp png_ptr)
 {
    png_byte png_signature[8] = {137, 80, 78, 71, 13, 10, 26, 10};
 
-   /* пиши the rest of the 8 byte signature */
+   /* Write the rest of the 8 byte signature */
    png_write_data(png_ptr, &png_signature[png_ptr->sig_bytes],
       (png_size_t)(8 - png_ptr->sig_bytes));
    if (png_ptr->sig_bytes < 3)
       png_ptr->mode |= PNG_HAVE_PNG_SIGNATURE;
 }
 
-/* пиши a PNG chunk all at once.  The тип is an array of ASCII characters
- * representing the chunk имя.  The array must be at least 4 bytes in
+/* Write a PNG chunk all at once.  The type is an array of ASCII characters
+ * representing the chunk name.  The array must be at least 4 bytes in
  * length, and does not need to be null terminated.  To be safe, pass the
  * pre-defined chunk names here, and if you need a new one, define it
  * where the others are defined.  The length is the length of the data.
@@ -91,7 +91,7 @@ png_write_chunk(png_structp png_ptr, png_bytep chunk_name,
    png_write_chunk_end(png_ptr);
 }
 
-/* пиши the start of a PNG chunk.  The тип is the chunk тип.
+/* Write the start of a PNG chunk.  The type is the chunk type.
  * The total_length is the sum of the lengths of all the data you will be
  * passing in png_write_chunk_data().
  */
@@ -108,18 +108,18 @@ png_write_chunk_start(png_structp png_ptr, png_bytep chunk_name,
       return;
 
 
-   /* пиши the length and the chunk имя */
+   /* Write the length and the chunk name */
    png_save_uint_32(buf, length);
    png_memcpy(buf + 4, chunk_name, 4);
    png_write_data(png_ptr, buf, (png_size_t)8);
-   /* Put the chunk имя into png_ptr->chunk_name */
+   /* Put the chunk name into png_ptr->chunk_name */
    png_memcpy(png_ptr->chunk_name, chunk_name, 4);
-   /* переустанов the crc and run it over the chunk имя */
+   /* Reset the crc and run it over the chunk name */
    png_reset_crc(png_ptr);
    png_calculate_crc(png_ptr, chunk_name, (png_size_t)4);
 }
 
-/* пиши the data of a PNG chunk started with png_write_chunk_start().
+/* Write the data of a PNG chunk started with png_write_chunk_start().
  * Note that multiple calls to this function are allowed, and that the
  * sum of the lengths from these calls *must* add up to the total_length
  * given to png_write_chunk_start().
@@ -127,7 +127,7 @@ png_write_chunk_start(png_structp png_ptr, png_bytep chunk_name,
 void PNGAPI
 png_write_chunk_data(png_structp png_ptr, png_bytep data, png_size_t length)
 {
-   /* пиши the data, and run the CRC over it */
+   /* Write the data, and run the CRC over it */
    if (png_ptr == NULL)
       return;
    if (data != NULL && length > 0)
@@ -140,7 +140,7 @@ png_write_chunk_data(png_structp png_ptr, png_bytep data, png_size_t length)
    }
 }
 
-/* финиш a chunk started with png_write_chunk_start(). */
+/* Finish a chunk started with png_write_chunk_start(). */
 void PNGAPI
 png_write_chunk_end(png_structp png_ptr)
 {
@@ -148,7 +148,7 @@ png_write_chunk_end(png_structp png_ptr)
 
    if (png_ptr == NULL) return;
 
-   /* пиши the crc in a single operation */
+   /* Write the crc in a single operation */
    png_save_uint_32(buf, png_ptr->crc);
 
    png_write_data(png_ptr, buf, (png_size_t)4);
@@ -166,7 +166,7 @@ typedef struct
    char *input;   /* The uncompressed input data */
    int input_len;   /* Its length */
    int num_output_ptr; /* Number of output pointers used */
-   int max_output_ptr; /* Размер of output_ptr */
+   int max_output_ptr; /* Size of output_ptr */
    png_charpp output_ptr; /* Array of pointers to output */
 } compression_state;
 
@@ -196,10 +196,10 @@ png_text_compress(png_structp png_ptr,
    {
 #if defined(PNG_STDIO_SUPPORTED) && !defined(_WIN32_WCE)
       char msg[50];
-      png_snprintf(msg, 50, "Unknown compression тип %d", compression);
+      png_snprintf(msg, 50, "Unknown compression type %d", compression);
       png_warning(png_ptr, msg);
 #else
-      png_warning(png_ptr, "Unknown compression тип");
+      png_warning(png_ptr, "Unknown compression type");
 #endif
    }
 
@@ -210,7 +210,7 @@ png_text_compress(png_structp png_ptr,
     * malloc'd pointers to be sure.
     *
     * If we knew the application was well behaved, we could simplify this
-    * greatly by assuming we can always malloc an output буфер large
+    * greatly by assuming we can always malloc an output buffer large
     * enough to hold the compressed text ((1001 * text_len / 1000) + 12)
     * and malloc this directly.  The only time this would be a bad idea is
     * if we can't malloc more than 64K and we have 64K of random input
@@ -231,16 +231,16 @@ png_text_compress(png_structp png_ptr,
       ret = deflate(&png_ptr->zstream, Z_NO_FLUSH);
       if (ret != Z_OK)
       {
-         /* Ошибка */
+         /* Error */
          if (png_ptr->zstream.msg != NULL)
             png_error(png_ptr, png_ptr->zstream.msg);
          else
-            png_error(png_ptr, "zlib Ошибка");
+            png_error(png_ptr, "zlib error");
       }
       /* Check to see if we need more room */
       if (!(png_ptr->zstream.avail_out))
       {
-         /* сделай sure the output array has room */
+         /* Make sure the output array has room */
          if (comp->num_output_ptr >= comp->max_output_ptr)
          {
             int old_max;
@@ -265,7 +265,7 @@ png_text_compress(png_structp png_ptr,
                   (comp->max_output_ptr * png_sizeof(png_charp)));
          }
 
-         /* сохрани the data */
+         /* Save the data */
          comp->output_ptr[comp->num_output_ptr] =
             (png_charp)png_malloc(png_ptr,
             (png_uint_32)png_ptr->zbuf_size);
@@ -273,14 +273,14 @@ png_text_compress(png_structp png_ptr,
             png_ptr->zbuf_size);
          comp->num_output_ptr++;
 
-         /* and reset the буфер */
+         /* and reset the buffer */
          png_ptr->zstream.avail_out = (uInt)png_ptr->zbuf_size;
          png_ptr->zstream.next_out = png_ptr->zbuf;
       }
    /* Continue until we don't have any more to compress */
    } while (png_ptr->zstream.avail_in);
 
-   /* финиш the compression */
+   /* Finish the compression */
    do
    {
       /* Tell zlib we are finished */
@@ -317,7 +317,7 @@ png_text_compress(png_structp png_ptr,
                      png_sizeof(png_charp)));
             }
 
-            /* сохрани the data */
+            /* Save the data */
             comp->output_ptr[comp->num_output_ptr] =
                (png_charp)png_malloc(png_ptr,
                (png_uint_32)png_ptr->zbuf_size);
@@ -325,22 +325,22 @@ png_text_compress(png_structp png_ptr,
                png_ptr->zbuf_size);
             comp->num_output_ptr++;
 
-            /* and reset the буфер pointers */
+            /* and reset the buffer pointers */
             png_ptr->zstream.avail_out = (uInt)png_ptr->zbuf_size;
             png_ptr->zstream.next_out = png_ptr->zbuf;
          }
       }
       else if (ret != Z_STREAM_END)
       {
-         /* We got an Ошибка */
+         /* We got an error */
          if (png_ptr->zstream.msg != NULL)
             png_error(png_ptr, png_ptr->zstream.msg);
          else
-            png_error(png_ptr, "zlib Ошибка");
+            png_error(png_ptr, "zlib error");
       }
    } while (ret != Z_STREAM_END);
 
-   /* устТекст length is number of buffers plus last буфер */
+   /* Text length is number of buffers plus last buffer */
    text_len = png_ptr->zbuf_size * comp->num_output_ptr;
    if (png_ptr->zstream.avail_out < png_ptr->zbuf_size)
       text_len += png_ptr->zbuf_size - (png_size_t)png_ptr->zstream.avail_out;
@@ -362,7 +362,7 @@ png_write_compressed_data_out(png_structp png_ptr, compression_state *comp)
       return;
    }
 
-   /* пиши saved output buffers, if any */
+   /* Write saved output buffers, if any */
    for (i = 0; i < comp->num_output_ptr; i++)
    {
       png_write_chunk_data(png_ptr, (png_bytep)comp->output_ptr[i],
@@ -373,18 +373,18 @@ png_write_compressed_data_out(png_structp png_ptr, compression_state *comp)
    if (comp->max_output_ptr != 0)
       png_free(png_ptr, comp->output_ptr);
        comp->output_ptr=NULL;
-   /* пиши anything left in zbuf */
+   /* Write anything left in zbuf */
    if (png_ptr->zstream.avail_out < (png_uint_32)png_ptr->zbuf_size)
       png_write_chunk_data(png_ptr, png_ptr->zbuf,
          (png_size_t)(png_ptr->zbuf_size - png_ptr->zstream.avail_out));
 
-   /* переустанов zlib for another zTXt/iTXt or image data */
+   /* Reset zlib for another zTXt/iTXt or image data */
    deflateReset(&png_ptr->zstream);
    png_ptr->zstream.data_type = Z_BINARY;
 }
 #endif
 
-/* пиши the IHDR chunk, and update the png_struct with the necessary
+/* Write the IHDR chunk, and update the png_struct with the necessary
  * information.  Note that the rest of this code depends upon this
  * information being correct.
  */
@@ -414,12 +414,12 @@ png_write_IHDR(png_structp png_ptr, png_uint_32 width, png_uint_32 height,
             case 8:
             case 16: png_ptr->channels = 1; break;
             default: png_error(png_ptr,
-                         "Invalid bit depth for grayscale image");
+                         "Неверное bit depth for grayscale image");
          }
          break;
       case PNG_COLOR_TYPE_RGB:
          if (bit_depth != 8 && bit_depth != 16)
-            png_error(png_ptr, "Invalid bit depth for дайКЗС image");
+            png_error(png_ptr, "Неверное bit depth for RGB image");
          png_ptr->channels = 3;
          break;
       case PNG_COLOR_TYPE_PALETTE:
@@ -429,37 +429,37 @@ png_write_IHDR(png_structp png_ptr, png_uint_32 width, png_uint_32 height,
             case 2:
             case 4:
             case 8: png_ptr->channels = 1; break;
-            default: png_error(png_ptr, "Invalid bit depth for paletted image");
+            default: png_error(png_ptr, "Неверное bit depth for paletted image");
          }
          break;
       case PNG_COLOR_TYPE_GRAY_ALPHA:
          if (bit_depth != 8 && bit_depth != 16)
-            png_error(png_ptr, "Invalid bit depth for grayscale+alpha image");
+            png_error(png_ptr, "Неверное bit depth for grayscale+alpha image");
          png_ptr->channels = 2;
          break;
       case PNG_COLOR_TYPE_RGB_ALPHA:
          if (bit_depth != 8 && bit_depth != 16)
-            png_error(png_ptr, "Invalid bit depth for КЗСА image");
+            png_error(png_ptr, "Неверное bit depth for RGBA image");
          png_ptr->channels = 4;
          break;
       default:
-         png_error(png_ptr, "Invalid image color тип specified");
+         png_error(png_ptr, "Неверное image color type specified");
    }
 
    if (compression_type != PNG_COMPRESSION_TYPE_BASE)
    {
-      png_warning(png_ptr, "Invalid compression тип specified");
+      png_warning(png_ptr, "Неверное compression type specified");
       compression_type = PNG_COMPRESSION_TYPE_BASE;
    }
 
-   /* пиши filter_method 64 (intrapixel differencing) only if
+   /* Write filter_method 64 (intrapixel differencing) only if
     * 1. Libpng was compiled with PNG_MNG_FEATURES_SUPPORTED and
     * 2. Libpng did not write a PNG signature (this filter_method is only
     *    used in PNG datastreams that are embedded in MNG datastreams) and
     * 3. The application called png_permit_mng_features with a mask that
     *    included PNG_FLAG_MNG_FILTER_64 and
     * 4. The filter_method is 64 and
-    * 5. The color_type is дайКЗС or КЗСА
+    * 5. The color_type is RGB or RGBA
     */
    if (
 #ifdef PNG_MNG_FEATURES_SUPPORTED
@@ -471,7 +471,7 @@ png_write_IHDR(png_structp png_ptr, png_uint_32 width, png_uint_32 height,
 #endif
       filter_type != PNG_FILTER_TYPE_BASE)
    {
-      png_warning(png_ptr, "Invalid filter тип specified");
+      png_warning(png_ptr, "Неверное filter type specified");
       filter_type = PNG_FILTER_TYPE_BASE;
    }
 
@@ -479,14 +479,14 @@ png_write_IHDR(png_structp png_ptr, png_uint_32 width, png_uint_32 height,
    if (interlace_type != PNG_INTERLACE_NONE &&
       interlace_type != PNG_INTERLACE_ADAM7)
    {
-      png_warning(png_ptr, "Invalid interlace тип specified");
+      png_warning(png_ptr, "Неверное interlace type specified");
       interlace_type = PNG_INTERLACE_ADAM7;
    }
 #else
    interlace_type=PNG_INTERLACE_NONE;
 #endif
 
-   /* сохрани the relevent information */
+   /* Save the relevent information */
    png_ptr->bit_depth = (png_byte)bit_depth;
    png_ptr->color_type = (png_byte)color_type;
    png_ptr->interlaced = (png_byte)interlace_type;
@@ -504,7 +504,7 @@ png_write_IHDR(png_structp png_ptr, png_uint_32 width, png_uint_32 height,
    png_ptr->usr_bit_depth = png_ptr->bit_depth;
    png_ptr->usr_channels = png_ptr->channels;
 
-   /* Pack the header information into the буфер */
+   /* Pack the header information into the buffer */
    png_save_uint_32(buf, width);
    png_save_uint_32(buf + 4, height);
    buf[8] = (png_byte)bit_depth;
@@ -513,7 +513,7 @@ png_write_IHDR(png_structp png_ptr, png_uint_32 width, png_uint_32 height,
    buf[11] = (png_byte)filter_type;
    buf[12] = (png_byte)interlace_type;
 
-   /* пиши the chunk */
+   /* Write the chunk */
    png_write_chunk(png_ptr, (png_bytep)png_IHDR, buf, (png_size_t)13);
 
    /* Initialize zlib with PNG info */
@@ -549,23 +549,23 @@ png_write_IHDR(png_structp png_ptr, png_uint_32 width, png_uint_32 height,
    if (ret != Z_OK)
    {
       if (ret == Z_VERSION_ERROR) png_error(png_ptr,
-          "zlib failed to initialize compressor -- version Ошибка");
+          "zlib failed to initialize compressor -- version error");
       if (ret == Z_STREAM_ERROR) png_error(png_ptr,
-           "zlib failed to initialize compressor -- stream Ошибка");
+           "zlib failed to initialize compressor -- stream error");
       if (ret == Z_MEM_ERROR) png_error(png_ptr,
-           "zlib failed to initialize compressor -- mem Ошибка");
+           "zlib failed to initialize compressor -- mem error");
       png_error(png_ptr, "zlib failed to initialize compressor");
    }
    png_ptr->zstream.next_out = png_ptr->zbuf;
    png_ptr->zstream.avail_out = (uInt)png_ptr->zbuf_size;
    /* libpng is not interested in zstream.data_type */
-   /* Set it to a predefined значение, to avoid its evaluation inside zlib */
+   /* Set it to a predefined value, to avoid its evaluation inside zlib */
    png_ptr->zstream.data_type = Z_BINARY;
 
    png_ptr->mode = PNG_HAVE_IHDR;
 }
 
-/* пиши the palette.  We are careful not to trust png_color to be in the
+/* Write the palette.  We are careful not to trust png_color to be in the
  * correct order for PNG, so people can redefine it to any convenient
  * structure.
  */
@@ -592,11 +592,11 @@ png_write_PLTE(png_structp png_ptr, png_colorp palette, png_uint_32 num_pal)
    {
      if (png_ptr->color_type == PNG_COLOR_TYPE_PALETTE)
      {
-        png_error(png_ptr, "Invalid number of colors in palette");
+        png_error(png_ptr, "Неверное число цветов в палетке");
      }
      else
      {
-        png_warning(png_ptr, "Invalid number of colors in palette");
+        png_warning(png_ptr, "Неверное число цветов в палетке");
         return;
      }
    }
@@ -638,7 +638,7 @@ png_write_PLTE(png_structp png_ptr, png_colorp palette, png_uint_32 num_pal)
    png_ptr->mode |= PNG_HAVE_PLTE;
 }
 
-/* пиши an IDAT chunk */
+/* Write an IDAT chunk */
 void /* PRIVATE */
 png_write_IDAT(png_structp png_ptr, png_bytep data, png_size_t length)
 {
@@ -686,14 +686,14 @@ png_write_IDAT(png_structp png_ptr, png_bytep data, png_size_t length)
       }
       else
          png_error(png_ptr,
-            "Invalid zlib compression method or flags in IDAT");
+            "Неверное zlib compression method or flags in IDAT");
    }
 
    png_write_chunk(png_ptr, (png_bytep)png_IDAT, data, length);
    png_ptr->mode |= PNG_HAVE_IDAT;
 }
 
-/* пиши an IEND chunk */
+/* Write an IEND chunk */
 void /* PRIVATE */
 png_write_IEND(png_structp png_ptr)
 {
@@ -709,7 +709,7 @@ png_write_IEND(png_structp png_ptr)
 }
 
 #ifdef PNG_WRITE_gAMA_SUPPORTED
-/* пиши a gAMA chunk */
+/* Write a gAMA chunk */
 #ifdef PNG_FLOATING_POINT_SUPPORTED
 void /* PRIVATE */
 png_write_gAMA(png_structp png_ptr, double file_gamma)
@@ -747,7 +747,7 @@ png_write_gAMA_fixed(png_structp png_ptr, png_fixed_point file_gamma)
 #endif
 
 #ifdef PNG_WRITE_sRGB_SUPPORTED
-/* пиши a sRGB chunk */
+/* Write a sRGB chunk */
 void /* PRIVATE */
 png_write_sRGB(png_structp png_ptr, int srgb_intent)
 {
@@ -760,16 +760,16 @@ png_write_sRGB(png_structp png_ptr, int srgb_intent)
 
    if (srgb_intent >= PNG_sRGB_INTENT_LAST)
          png_warning(png_ptr,
-            "Invalid sRGB rendering intent specified");
+            "Неверное sRGB rendering intent specified");
    buf[0]=(png_byte)srgb_intent;
    png_write_chunk(png_ptr, (png_bytep)png_sRGB, buf, (png_size_t)1);
 }
 #endif
 
 #ifdef PNG_WRITE_iCCP_SUPPORTED
-/* пиши an iCCP chunk */
+/* Write an iCCP chunk */
 void /* PRIVATE */
-png_write_iCCP(png_structp png_ptr, png_charp имя, int compression_type,
+png_write_iCCP(png_structp png_ptr, png_charp name, int compression_type,
    png_charp profile, int profile_len)
 {
 #ifdef PNG_USE_LOCAL_ARRAYS
@@ -788,12 +788,12 @@ png_write_iCCP(png_structp png_ptr, png_charp имя, int compression_type,
    comp.input = NULL;
    comp.input_len = 0;
 
-   if ((name_len = png_check_keyword(png_ptr, имя,
+   if ((name_len = png_check_keyword(png_ptr, name,
       &new_name)) == 0)
       return;
 
    if (compression_type != PNG_COMPRESSION_TYPE_BASE)
-      png_warning(png_ptr, "Unknown compression тип in iCCP chunk");
+      png_warning(png_ptr, "Unknown compression type in iCCP chunk");
 
    if (profile == NULL)
       profile_len = 0;
@@ -832,7 +832,7 @@ png_write_iCCP(png_structp png_ptr, png_charp имя, int compression_type,
       profile_len = png_text_compress(png_ptr, profile,
         (png_size_t)profile_len, PNG_COMPRESSION_TYPE_BASE, &comp);
 
-   /* сделай sure we include the NULL after the имя and the compression тип */
+   /* Make sure we include the NULL after the name and the compression type */
    png_write_chunk_start(png_ptr, (png_bytep)png_iCCP,
           (png_uint_32)(name_len + profile_len + 2));
    new_name[name_len + 1] = 0x00;
@@ -848,7 +848,7 @@ png_write_iCCP(png_structp png_ptr, png_charp имя, int compression_type,
 #endif
 
 #ifdef PNG_WRITE_sPLT_SUPPORTED
-/* пиши a sPLT chunk */
+/* Write a sPLT chunk */
 void /* PRIVATE */
 png_write_sPLT(png_structp png_ptr, png_sPLT_tp spalette)
 {
@@ -867,10 +867,10 @@ png_write_sPLT(png_structp png_ptr, png_sPLT_tp spalette)
 
    png_debug(1, "in png_write_sPLT");
 
-   if ((name_len = png_check_keyword(png_ptr,spalette->имя, &new_name))==0)
+   if ((name_len = png_check_keyword(png_ptr,spalette->name, &new_name))==0)
       return;
 
-   /* сделай sure we include the NULL after the имя */
+   /* Make sure we include the NULL after the name */
    png_write_chunk_start(png_ptr, (png_bytep)png_sPLT,
      (png_uint_32)(name_len + 2 + palette_size));
    png_write_chunk_data(png_ptr, (png_bytep)new_name,
@@ -929,7 +929,7 @@ png_write_sPLT(png_structp png_ptr, png_sPLT_tp spalette)
 #endif
 
 #ifdef PNG_WRITE_sBIT_SUPPORTED
-/* пиши the sBIT chunk */
+/* Write the sBIT chunk */
 void /* PRIVATE */
 png_write_sBIT(png_structp png_ptr, png_color_8p sbit, int color_type)
 {
@@ -941,7 +941,7 @@ png_write_sBIT(png_structp png_ptr, png_color_8p sbit, int color_type)
 
    png_debug(1, "in png_write_sBIT");
 
-   /* сделай sure we don't depend upon the order of PNG_COLOR_8 */
+   /* Make sure we don't depend upon the order of PNG_COLOR_8 */
    if (color_type & PNG_COLOR_MASK_COLOR)
    {
       png_byte maxbits;
@@ -952,7 +952,7 @@ png_write_sBIT(png_structp png_ptr, png_color_8p sbit, int color_type)
           sbit->green == 0 || sbit->green > maxbits ||
           sbit->blue == 0 || sbit->blue > maxbits)
       {
-         png_warning(png_ptr, "Invalid sBIT depth specified");
+         png_warning(png_ptr, "Неверное sBIT depth specified");
          return;
       }
       buf[0] = sbit->red;
@@ -964,7 +964,7 @@ png_write_sBIT(png_structp png_ptr, png_color_8p sbit, int color_type)
    {
       if (sbit->gray == 0 || sbit->gray > png_ptr->usr_bit_depth)
       {
-         png_warning(png_ptr, "Invalid sBIT depth specified");
+         png_warning(png_ptr, "Неверное sBIT depth specified");
          return;
       }
       buf[0] = sbit->gray;
@@ -975,7 +975,7 @@ png_write_sBIT(png_structp png_ptr, png_color_8p sbit, int color_type)
    {
       if (sbit->alpha == 0 || sbit->alpha > png_ptr->usr_bit_depth)
       {
-         png_warning(png_ptr, "Invalid sBIT depth specified");
+         png_warning(png_ptr, "Неверное sBIT depth specified");
          return;
       }
       buf[size++] = sbit->alpha;
@@ -986,7 +986,7 @@ png_write_sBIT(png_structp png_ptr, png_color_8p sbit, int color_type)
 #endif
 
 #ifdef PNG_WRITE_cHRM_SUPPORTED
-/* пиши the cHRM chunk */
+/* Write the cHRM chunk */
 #ifdef PNG_FLOATING_POINT_SUPPORTED
 void /* PRIVATE */
 png_write_cHRM(png_structp png_ptr, double white_x, double white_y,
@@ -1017,7 +1017,7 @@ png_write_cHRM(png_structp png_ptr, double white_x, double white_y,
       int_red_x, int_red_y, int_green_x, int_green_y, int_blue_x, int_blue_y))
 #endif
    {
-      /* Each значение is saved in 1/100,000ths */
+      /* Each value is saved in 1/100,000ths */
 
       png_save_uint_32(buf, int_white_x);
       png_save_uint_32(buf + 4, int_white_y);
@@ -1049,7 +1049,7 @@ png_write_cHRM_fixed(png_structp png_ptr, png_fixed_point white_x,
 
    png_debug(1, "in png_write_cHRM");
 
-   /* Each значение is saved in 1/100,000ths */
+   /* Each value is saved in 1/100,000ths */
 #ifdef PNG_CHECK_cHRM_SUPPORTED
    if (png_check_cHRM_fixed(png_ptr, white_x, white_y, red_x, red_y,
       green_x, green_y, blue_x, blue_y))
@@ -1074,7 +1074,7 @@ png_write_cHRM_fixed(png_structp png_ptr, png_fixed_point white_x,
 #endif
 
 #ifdef PNG_WRITE_tRNS_SUPPORTED
-/* пиши the tRNS chunk */
+/* Write the tRNS chunk */
 void /* PRIVATE */
 png_write_tRNS(png_structp png_ptr, png_bytep trans, png_color_16p tran,
    int num_trans, int color_type)
@@ -1090,16 +1090,16 @@ png_write_tRNS(png_structp png_ptr, png_bytep trans, png_color_16p tran,
    {
       if (num_trans <= 0 || num_trans > (int)png_ptr->num_palette)
       {
-         png_warning(png_ptr, "Invalid number of transparent colors specified");
+         png_warning(png_ptr, "Указано неверное число прозрачных цветов");
          return;
       }
-      /* пиши the chunk out as it is */
+      /* Write the chunk out as it is */
       png_write_chunk(png_ptr, (png_bytep)png_tRNS, trans,
         (png_size_t)num_trans);
    }
    else if (color_type == PNG_COLOR_TYPE_GRAY)
    {
-      /* Один 16 bit значение */
+      /* One 16 bit value */
       if (tran->gray >= (1 << png_ptr->bit_depth))
       {
          png_warning(png_ptr,
@@ -1131,7 +1131,7 @@ png_write_tRNS(png_structp png_ptr, png_bytep trans, png_color_16p tran,
 #endif
 
 #ifdef PNG_WRITE_bKGD_SUPPORTED
-/* пиши the background chunk */
+/* Write the background chunk */
 void /* PRIVATE */
 png_write_bKGD(png_structp png_ptr, png_color_16p back, int color_type)
 {
@@ -1149,12 +1149,12 @@ png_write_bKGD(png_structp png_ptr, png_color_16p back, int color_type)
           (png_ptr->num_palette ||
           (!(png_ptr->mng_features_permitted & PNG_FLAG_MNG_EMPTY_PLTE))) &&
 #endif
-         back->индекс >= png_ptr->num_palette)
+         back->index >= png_ptr->num_palette)
       {
-         png_warning(png_ptr, "Invalid background palette index");
+         png_warning(png_ptr, "Неверное background palette index");
          return;
       }
-      buf[0] = back->индекс;
+      buf[0] = back->index;
       png_write_chunk(png_ptr, (png_bytep)png_bKGD, buf, (png_size_t)1);
    }
    else if (color_type & PNG_COLOR_MASK_COLOR)
@@ -1185,7 +1185,7 @@ png_write_bKGD(png_structp png_ptr, png_color_16p back, int color_type)
 #endif
 
 #ifdef PNG_WRITE_hIST_SUPPORTED
-/* пиши the histogram */
+/* Write the histogram */
 void /* PRIVATE */
 png_write_hIST(png_structp png_ptr, png_uint_16p hist, int num_hist)
 {
@@ -1201,7 +1201,7 @@ png_write_hIST(png_structp png_ptr, png_uint_16p hist, int num_hist)
    {
       png_debug2(3, "num_hist = %d, num_palette = %d", num_hist,
          png_ptr->num_palette);
-      png_warning(png_ptr, "Invalid number of histogram entries specified");
+      png_warning(png_ptr, "Указано неверное число элементов гистограммы");
       return;
    }
 
@@ -1217,9 +1217,9 @@ png_write_hIST(png_structp png_ptr, png_uint_16p hist, int num_hist)
 #endif
 
 #ifdef PNG_WRITE_tEXt_SUPPORTED
-/* пиши a tEXt chunk */
+/* Write a tEXt chunk */
 void /* PRIVATE */
-png_write_tEXt(png_structp png_ptr, png_charp ключ, png_charp text,
+png_write_tEXt(png_structp png_ptr, png_charp key, png_charp text,
    png_size_t text_len)
 {
 #ifdef PNG_USE_LOCAL_ARRAYS
@@ -1230,7 +1230,7 @@ png_write_tEXt(png_structp png_ptr, png_charp ключ, png_charp text,
 
    png_debug(1, "in png_write_tEXt");
 
-   if ((key_len = png_check_keyword(png_ptr, ключ, &new_key))==0)
+   if ((key_len = png_check_keyword(png_ptr, key, &new_key))==0)
       return;
 
    if (text == NULL || *text == '\0')
@@ -1238,7 +1238,7 @@ png_write_tEXt(png_structp png_ptr, png_charp ключ, png_charp text,
    else
       text_len = png_strlen(text);
 
-   /* сделай sure we include the 0 after the ключ */
+   /* Make sure we include the 0 after the key */
    png_write_chunk_start(png_ptr, (png_bytep)png_tEXt,
       (png_uint_32)(key_len + text_len + 1));
    /*
@@ -1258,9 +1258,9 @@ png_write_tEXt(png_structp png_ptr, png_charp ключ, png_charp text,
 #endif
 
 #ifdef PNG_WRITE_zTXt_SUPPORTED
-/* пиши a compressed text chunk */
+/* Write a compressed text chunk */
 void /* PRIVATE */
-png_write_zTXt(png_structp png_ptr, png_charp ключ, png_charp text,
+png_write_zTXt(png_structp png_ptr, png_charp key, png_charp text,
    png_size_t text_len, int compression)
 {
 #ifdef PNG_USE_LOCAL_ARRAYS
@@ -1279,7 +1279,7 @@ png_write_zTXt(png_structp png_ptr, png_charp ключ, png_charp text,
    comp.input = NULL;
    comp.input_len = 0;
 
-   if ((key_len = png_check_keyword(png_ptr, ключ, &new_key))==0)
+   if ((key_len = png_check_keyword(png_ptr, key, &new_key))==0)
    {
       png_free(png_ptr, new_key);
       return;
@@ -1298,18 +1298,18 @@ png_write_zTXt(png_structp png_ptr, png_charp ключ, png_charp text,
    text_len = png_text_compress(png_ptr, text, text_len, compression,
        &comp);
 
-   /* пиши start of chunk */
+   /* Write start of chunk */
    png_write_chunk_start(png_ptr, (png_bytep)png_zTXt,
      (png_uint_32)(key_len+text_len + 2));
-   /* пиши ключ */
+   /* Write key */
    png_write_chunk_data(png_ptr, (png_bytep)new_key,
      (png_size_t)(key_len + 1));
    png_free(png_ptr, new_key);
 
    buf[0] = (png_byte)compression;
-   /* пиши compression */
+   /* Write compression */
    png_write_chunk_data(png_ptr, (png_bytep)buf, (png_size_t)1);
-   /* пиши the compressed data */
+   /* Write the compressed data */
    png_write_compressed_data_out(png_ptr, &comp);
 
    /* Close the chunk */
@@ -1318,9 +1318,9 @@ png_write_zTXt(png_structp png_ptr, png_charp ключ, png_charp text,
 #endif
 
 #ifdef PNG_WRITE_iTXt_SUPPORTED
-/* пиши an iTXt chunk */
+/* Write an iTXt chunk */
 void /* PRIVATE */
-png_write_iTXt(png_structp png_ptr, int compression, png_charp ключ,
+png_write_iTXt(png_structp png_ptr, int compression, png_charp key,
     png_charp lang, png_charp lang_key, png_charp text)
 {
 #ifdef PNG_USE_LOCAL_ARRAYS
@@ -1339,7 +1339,7 @@ png_write_iTXt(png_structp png_ptr, int compression, png_charp ключ,
    comp.output_ptr = NULL;
    comp.input = NULL;
 
-   if ((key_len = png_check_keyword(png_ptr, ключ, &new_key))==0)
+   if ((key_len = png_check_keyword(png_ptr, key, &new_key))==0)
       return;
 
    if ((lang_len = png_check_keyword(png_ptr, lang, &new_lang))==0)
@@ -1364,12 +1364,12 @@ png_write_iTXt(png_structp png_ptr, int compression, png_charp ключ,
       &comp);
 
 
-   /* сделай sure we include the compression flag, the compression byte,
-    * and the NULs after the ключ, lang, and lang_key parts */
+   /* Make sure we include the compression flag, the compression byte,
+    * and the NULs after the key, lang, and lang_key parts */
 
    png_write_chunk_start(png_ptr, (png_bytep)png_iTXt,
           (png_uint_32)(
-        5 /* comp byte, comp flag, terminators for ключ, lang and lang_key */
+        5 /* comp byte, comp flag, terminators for key, lang and lang_key */
         + key_len
         + lang_len
         + lang_key_len
@@ -1407,7 +1407,7 @@ png_write_iTXt(png_structp png_ptr, int compression, png_charp ключ,
 #endif
 
 #ifdef PNG_WRITE_oFFs_SUPPORTED
-/* пиши the oFFs chunk */
+/* Write the oFFs chunk */
 void /* PRIVATE */
 png_write_oFFs(png_structp png_ptr, png_int_32 x_offset, png_int_32 y_offset,
    int unit_type)
@@ -1420,7 +1420,7 @@ png_write_oFFs(png_structp png_ptr, png_int_32 x_offset, png_int_32 y_offset,
    png_debug(1, "in png_write_oFFs");
 
    if (unit_type >= PNG_OFFSET_LAST)
-      png_warning(png_ptr, "Unrecognized unit тип for oFFs chunk");
+      png_warning(png_ptr, "Unrecognized unit type for oFFs chunk");
 
    png_save_int_32(buf, x_offset);
    png_save_int_32(buf + 4, y_offset);
@@ -1430,10 +1430,10 @@ png_write_oFFs(png_structp png_ptr, png_int_32 x_offset, png_int_32 y_offset,
 }
 #endif
 #ifdef PNG_WRITE_pCAL_SUPPORTED
-/* пиши the pCAL chunk (described in the PNG extensions document) */
+/* Write the pCAL chunk (described in the PNG extensions document) */
 void /* PRIVATE */
 png_write_pCAL(png_structp png_ptr, png_charp purpose, png_int_32 X0,
-   png_int_32 X1, int тип, int nparams, png_charp units, png_charpp params)
+   png_int_32 X1, int type, int nparams, png_charp units, png_charpp params)
 {
 #ifdef PNG_USE_LOCAL_ARRAYS
    PNG_pCAL;
@@ -1446,8 +1446,8 @@ png_write_pCAL(png_structp png_ptr, png_charp purpose, png_int_32 X0,
 
    png_debug1(1, "in png_write_pCAL (%d parameters)", nparams);
 
-   if (тип >= PNG_EQUATION_LAST)
-      png_warning(png_ptr, "Unrecognized equation тип for pCAL chunk");
+   if (type >= PNG_EQUATION_LAST)
+      png_warning(png_ptr, "Unrecognized equation type for pCAL chunk");
 
    purpose_len = png_check_keyword(png_ptr, purpose, &new_purpose) + 1;
    png_debug1(3, "pCAL purpose length = %d", (int)purpose_len);
@@ -1458,7 +1458,7 @@ png_write_pCAL(png_structp png_ptr, png_charp purpose, png_int_32 X0,
    params_len = (png_uint_32p)png_malloc(png_ptr,
       (png_uint_32)(nparams * png_sizeof(png_uint_32)));
 
-   /* найди the length of each parameter, making sure we don't count the
+   /* Find the length of each parameter, making sure we don't count the
       null terminator for the last parameter. */
    for (i = 0; i < nparams; i++)
    {
@@ -1474,7 +1474,7 @@ png_write_pCAL(png_structp png_ptr, png_charp purpose, png_int_32 X0,
      (png_size_t)purpose_len);
    png_save_int_32(buf, X0);
    png_save_int_32(buf + 4, X1);
-   buf[8] = (png_byte)тип;
+   buf[8] = (png_byte)type;
    buf[9] = (png_byte)nparams;
    png_write_chunk_data(png_ptr, buf, (png_size_t)10);
    png_write_chunk_data(png_ptr, (png_bytep)units, (png_size_t)units_len);
@@ -1493,7 +1493,7 @@ png_write_pCAL(png_structp png_ptr, png_charp purpose, png_int_32 X0,
 #endif
 
 #ifdef PNG_WRITE_sCAL_SUPPORTED
-/* пиши the sCAL chunk */
+/* Write the sCAL chunk */
 #if defined(PNG_FLOATING_POINT_SUPPORTED) && defined(PNG_STDIO_SUPPORTED)
 void /* PRIVATE */
 png_write_sCAL(png_structp png_ptr, int unit, double width, double height)
@@ -1552,12 +1552,12 @@ png_write_sCAL_s(png_structp png_ptr, int unit, png_charp width,
    total_len = wlen + hlen + 2;
    if (total_len > 64)
    {
-      png_warning(png_ptr, "Can't write sCAL (буфер too small)");
+      png_warning(png_ptr, "Can't write sCAL (buffer too small)");
       return;
    }
 
    buf[0] = (png_byte)unit;
-   png_memcpy(buf + 1, width, wlen + 1);      /* приставь the '\0' here */
+   png_memcpy(buf + 1, width, wlen + 1);      /* Append the '\0' here */
    png_memcpy(buf + wlen + 2, height, hlen);  /* Do NOT append the '\0' here */
 
    png_debug1(3, "sCAL total length = %u", (unsigned int)total_len);
@@ -1568,7 +1568,7 @@ png_write_sCAL_s(png_structp png_ptr, int unit, png_charp width,
 #endif
 
 #ifdef PNG_WRITE_pHYs_SUPPORTED
-/* пиши the pHYs chunk */
+/* Write the pHYs chunk */
 void /* PRIVATE */
 png_write_pHYs(png_structp png_ptr, png_uint_32 x_pixels_per_unit,
    png_uint_32 y_pixels_per_unit,
@@ -1582,7 +1582,7 @@ png_write_pHYs(png_structp png_ptr, png_uint_32 x_pixels_per_unit,
    png_debug(1, "in png_write_pHYs");
 
    if (unit_type >= PNG_RESOLUTION_LAST)
-      png_warning(png_ptr, "Unrecognized unit тип for pHYs chunk");
+      png_warning(png_ptr, "Unrecognized unit type for pHYs chunk");
 
    png_save_uint_32(buf, x_pixels_per_unit);
    png_save_uint_32(buf + 4, y_pixels_per_unit);
@@ -1593,7 +1593,7 @@ png_write_pHYs(png_structp png_ptr, png_uint_32 x_pixels_per_unit,
 #endif
 
 #ifdef PNG_WRITE_tIME_SUPPORTED
-/* пиши the tIME chunk.  Use either png_convert_from_struct_tm()
+/* Write the tIME chunk.  Use either png_convert_from_struct_tm()
  * or png_convert_from_time_t(), or fill in the structure yourself.
  */
 void /* PRIVATE */
@@ -1610,7 +1610,7 @@ png_write_tIME(png_structp png_ptr, png_timep mod_time)
        mod_time->day    > 31 || mod_time->day    < 1 ||
        mod_time->hour   > 23 || mod_time->second > 60)
    {
-      png_warning(png_ptr, "Invalid time specified for tIME chunk");
+      png_warning(png_ptr, "Неверное time specified for tIME chunk");
       return;
    }
 
@@ -1633,16 +1633,16 @@ png_write_start_row(png_structp png_ptr)
 #ifndef PNG_USE_GLOBAL_ARRAYS
    /* Arrays to facilitate easy interlacing - use pass (0 - 6) as index */
 
-   /* старт of interlace block */
+   /* Start of interlace block */
    int png_pass_start[7] = {0, 4, 0, 2, 0, 1, 0};
 
-   /* смещение to next interlace block */
+   /* Offset to next interlace block */
    int png_pass_inc[7] = {8, 8, 4, 4, 2, 2, 1};
 
-   /* старт of interlace block in the y direction */
+   /* Start of interlace block in the y direction */
    int png_pass_ystart[7] = {0, 0, 4, 0, 2, 0, 1};
 
-   /* смещение to next interlace block in the y direction */
+   /* Offset to next interlace block in the y direction */
    int png_pass_yinc[7] = {8, 8, 8, 4, 4, 2, 2};
 #endif
 #endif
@@ -1654,13 +1654,13 @@ png_write_start_row(png_structp png_ptr)
    buf_size = (png_size_t)(PNG_ROWBYTES(
       png_ptr->usr_channels*png_ptr->usr_bit_depth, png_ptr->width) + 1);
 
-   /* Set up row буфер */
+   /* Set up row buffer */
    png_ptr->row_buf = (png_bytep)png_malloc(png_ptr,
      (png_uint_32)buf_size);
    png_ptr->row_buf[0] = PNG_FILTER_VALUE_NONE;
 
 #ifdef PNG_WRITE_FILTER_SUPPORTED
-   /* Set up filtering буфер, if using this filter */
+   /* Set up filtering buffer, if using this filter */
    if (png_ptr->do_filter & PNG_FILTER_SUB)
    {
       png_ptr->sub_row = (png_bytep)png_malloc(png_ptr,
@@ -1671,7 +1671,7 @@ png_write_start_row(png_structp png_ptr)
    /* We only need to keep the previous row if we are using one of these. */
    if (png_ptr->do_filter & (PNG_FILTER_AVG | PNG_FILTER_UP | PNG_FILTER_PAETH))
    {
-      /* Set up previous row буфер */
+      /* Set up previous row buffer */
       png_ptr->prev_row = (png_bytep)png_calloc(png_ptr,
          (png_uint_32)buf_size);
 
@@ -1733,16 +1733,16 @@ png_write_finish_row(png_structp png_ptr)
 #ifndef PNG_USE_GLOBAL_ARRAYS
    /* Arrays to facilitate easy interlacing - use pass (0 - 6) as index */
 
-   /* старт of interlace block */
+   /* Start of interlace block */
    int png_pass_start[7] = {0, 4, 0, 2, 0, 1, 0};
 
-   /* смещение to next interlace block */
+   /* Offset to next interlace block */
    int png_pass_inc[7] = {8, 8, 4, 4, 2, 2, 1};
 
-   /* старт of interlace block in the y direction */
+   /* Start of interlace block in the y direction */
    int png_pass_ystart[7] = {0, 0, 4, 0, 2, 0, 1};
 
-   /* смещение to next interlace block in the y direction */
+   /* Offset to next interlace block in the y direction */
    int png_pass_yinc[7] = {8, 8, 8, 4, 4, 2, 2};
 #endif
 #endif
@@ -1789,7 +1789,7 @@ png_write_finish_row(png_structp png_ptr)
 
       }
 
-      /* переустанов the row above the image for the next pass */
+      /* Reset the row above the image for the next pass */
       if (png_ptr->pass < 7)
       {
          if (png_ptr->prev_row != NULL)
@@ -1807,7 +1807,7 @@ png_write_finish_row(png_structp png_ptr)
    {
       /* Tell the compressor we are done */
       ret = deflate(&png_ptr->zstream, Z_FINISH);
-      /* Check for an Ошибка */
+      /* Check for an error */
       if (ret == Z_OK)
       {
          /* Check to see if we need more room */
@@ -1823,11 +1823,11 @@ png_write_finish_row(png_structp png_ptr)
          if (png_ptr->zstream.msg != NULL)
             png_error(png_ptr, png_ptr->zstream.msg);
          else
-            png_error(png_ptr, "zlib Ошибка");
+            png_error(png_ptr, "zlib error");
       }
    } while (ret != Z_STREAM_END);
 
-   /* пиши any extra space */
+   /* Write any extra space */
    if (png_ptr->zstream.avail_out < png_ptr->zbuf_size)
    {
       png_write_IDAT(png_ptr, png_ptr->zbuf, png_ptr->zbuf_size -
@@ -1839,7 +1839,7 @@ png_write_finish_row(png_structp png_ptr)
 }
 
 #ifdef PNG_WRITE_INTERLACING_SUPPORTED
-/* подбери out the correct pixels for the interlace pass.
+/* Pick out the correct pixels for the interlace pass.
  * The basic idea here is to go through the row with a source
  * pointer and a destination pointer (sp and dp), and copy the
  * correct pixels for the pass.  As the row gets compacted,
@@ -1852,10 +1852,10 @@ png_do_write_interlace(png_row_infop row_info, png_bytep row, int pass)
    /* Arrays to facilitate easy interlacing - use pass (0 - 6) as index */
 
 #ifndef PNG_USE_GLOBAL_ARRAYS
-   /* старт of interlace block */
+   /* Start of interlace block */
    int png_pass_start[7] = {0, 4, 0, 2, 0, 1, 0};
 
-   /* смещение to next interlace block */
+   /* Offset to next interlace block */
    int png_pass_inc[7] = {8, 8, 4, 4, 2, 2, 1};
 #endif
 
@@ -1877,7 +1877,7 @@ png_do_write_interlace(png_row_infop row_info, png_bytep row, int pass)
             png_bytep dp;
             int shift;
             int d;
-            int значение;
+            int value;
             png_uint_32 i;
             png_uint_32 row_width = row_info->width;
 
@@ -1888,8 +1888,8 @@ png_do_write_interlace(png_row_infop row_info, png_bytep row, int pass)
                i += png_pass_inc[pass])
             {
                sp = row + (png_size_t)(i >> 3);
-               значение = (int)(*sp >> (7 - (int)(i & 0x07))) & 0x01;
-               d |= (значение << shift);
+               value = (int)(*sp >> (7 - (int)(i & 0x07))) & 0x01;
+               d |= (value << shift);
 
                if (shift == 0)
                {
@@ -1911,7 +1911,7 @@ png_do_write_interlace(png_row_infop row_info, png_bytep row, int pass)
             png_bytep dp;
             int shift;
             int d;
-            int значение;
+            int value;
             png_uint_32 i;
             png_uint_32 row_width = row_info->width;
 
@@ -1922,8 +1922,8 @@ png_do_write_interlace(png_row_infop row_info, png_bytep row, int pass)
                i += png_pass_inc[pass])
             {
                sp = row + (png_size_t)(i >> 2);
-               значение = (*sp >> ((3 - (int)(i & 0x03)) << 1)) & 0x03;
-               d |= (значение << shift);
+               value = (*sp >> ((3 - (int)(i & 0x03)) << 1)) & 0x03;
+               d |= (value << shift);
 
                if (shift == 0)
                {
@@ -1944,7 +1944,7 @@ png_do_write_interlace(png_row_infop row_info, png_bytep row, int pass)
             png_bytep dp;
             int shift;
             int d;
-            int значение;
+            int value;
             png_uint_32 i;
             png_uint_32 row_width = row_info->width;
 
@@ -1955,8 +1955,8 @@ png_do_write_interlace(png_row_infop row_info, png_bytep row, int pass)
                i += png_pass_inc[pass])
             {
                sp = row + (png_size_t)(i >> 1);
-               значение = (*sp >> ((1 - (int)(i & 0x01)) << 2)) & 0x0f;
-               d |= (значение << shift);
+               value = (*sp >> ((1 - (int)(i & 0x01)) << 2)) & 0x0f;
+               d |= (value << shift);
 
                if (shift == 0)
                {
@@ -1979,16 +1979,16 @@ png_do_write_interlace(png_row_infop row_info, png_bytep row, int pass)
             png_uint_32 row_width = row_info->width;
             png_size_t pixel_bytes;
 
-            /* старт at the beginning */
+            /* Start at the beginning */
             dp = row;
-            /* найди out how many bytes each pixel takes up */
+            /* Find out how many bytes each pixel takes up */
             pixel_bytes = (row_info->pixel_depth >> 3);
             /* Loop through the row, only looking at the pixels that
                matter */
             for (i = png_pass_start[pass]; i < row_width;
                i += png_pass_inc[pass])
             {
-               /* найди out where the original pixel is */
+               /* Find out where the original pixel is */
                sp = row + (png_size_t)i * pixel_bytes;
                /* Move the pixel */
                if (dp != sp)
@@ -2030,7 +2030,7 @@ png_write_find_filter(png_structp png_ptr, png_row_infop row_info)
 
    png_debug(1, "in png_write_find_filter");
 
-   /* найди out how many bytes offset each pixel is */
+   /* Find out how many bytes offset each pixel is */
    bpp = (row_info->pixel_depth + 7) >> 3;
 
    prev_row = png_ptr->prev_row;
@@ -2041,7 +2041,7 @@ png_write_find_filter(png_structp png_ptr, png_row_infop row_info)
    mins = PNG_MAXSUM;
 
    /* The prediction method we use is to find which method provides the
-    * smallest значение when summing the absolute values of the distances
+    * smallest value when summing the absolute values of the distances
     * from zero, using anything >= 128 as negative numbers.  This is known
     * as the "minimum sum of absolute differences" heuristic.  Other
     * heuristics are the "weighted minimum sum of absolute differences"
@@ -2338,11 +2338,11 @@ png_write_filtered_row(png_structp png_ptr, png_bytep filtered_row)
    png_debug(1, "in png_write_filtered_row");
 
    png_debug1(2, "filter = %d", filtered_row[0]);
-   /* Set up the zlib input буфер */
+   /* Set up the zlib input buffer */
 
    png_ptr->zstream.next_in = filtered_row;
    png_ptr->zstream.avail_in = (uInt)png_ptr->row_info.rowbytes + 1;
-   /* повтори until we have compressed all the data */
+   /* Repeat until we have compressed all the data */
    do
    {
       int ret; /* Return of zlib */
@@ -2355,21 +2355,21 @@ png_write_filtered_row(png_structp png_ptr, png_bytep filtered_row)
          if (png_ptr->zstream.msg != NULL)
             png_error(png_ptr, png_ptr->zstream.msg);
          else
-            png_error(png_ptr, "zlib Ошибка");
+            png_error(png_ptr, "zlib error");
       }
 
       /* See if it is time to write another IDAT */
       if (!(png_ptr->zstream.avail_out))
       {
-         /* пиши the IDAT and reset the zlib output буфер */
+         /* Write the IDAT and reset the zlib output buffer */
          png_write_IDAT(png_ptr, png_ptr->zbuf, png_ptr->zbuf_size);
          png_ptr->zstream.next_out = png_ptr->zbuf;
          png_ptr->zstream.avail_out = (uInt)png_ptr->zbuf_size;
       }
-   /* повтори until all data has been compressed */
+   /* Repeat until all data has been compressed */
    } while (png_ptr->zstream.avail_in);
 
-   /* разверни the current and previous rows */
+   /* Swap the current and previous rows */
    if (png_ptr->prev_row != NULL)
    {
       png_bytep tptr;
@@ -2379,7 +2379,7 @@ png_write_filtered_row(png_structp png_ptr, png_bytep filtered_row)
       png_ptr->row_buf = tptr;
    }
 
-   /* финиш row - updates counters and flushes zlib if last row */
+   /* Finish row - updates counters and flushes zlib if last row */
    png_write_finish_row(png_ptr);
 
 #ifdef PNG_WRITE_FLUSH_SUPPORTED

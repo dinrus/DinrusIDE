@@ -1,22 +1,22 @@
 #include "CppBase.h"
 #include "Internal.h"
 
-namespace РНЦП {
+namespace Upp {
 
 #define LLOG(x)    // DLOG(x)
 #define LTIMING(x) // DTIMING(x)
 
-void Parser::выведиОш(const Ткст& e)
+void Parser::ThrowError(const String& e)
 {
-	err(дайСтроку(lex.Поз()), e);
-#ifdef _ОТЛАДКА
+	err(GetLine(lex.Pos()), e);
+#ifdef _DEBUG
 	int i = 0;
 	while(i < 40 && lex[i] != t_eof)
 		i++;
-	LLOG("Ошибка: (" << дайСтроку(lex.Поз()) << ") " << e << ", scope: " << current_scope <<
-	     ", code:  " << какТкстСи(Ткст(lex.Поз(), lex.Поз(i))));
+	LLOG("ERROR: (" << GetLine(lex.Pos()) << ") " << e << ", scope: " << current_scope <<
+	     ", code:  " << AsCString(String(lex.Pos(), lex.Pos(i))));
 #endif
-	throw Ошибка();
+	throw Error();
 }
 
 inline const char *bew(const char *s, const char *t)
@@ -27,18 +27,18 @@ inline const char *bew(const char *s, const char *t)
 	return t;
 }
 
-// Ткст == Ткст comparison is likely faster than Ткст == const char * comparison
-static Ткст s_operator("operator");
-static Ткст s_virtual("virtual");
-static Ткст s_inline("inline");
-static Ткст s_static("static");
+// String == String comparison is likely faster than String == const char * comparison
+static String s_operator("operator");
+static String s_virtual("virtual");
+static String s_inline("inline");
+static String s_static("static");
 
-static inline bool sSpaces(Ткст& res, const char *& s)
+static inline bool sSpaces(String& res, const char *& s)
 {
 	if((byte)*s <= ' ') {
 		char c = *s++;
 		if(c != '\2' && c != '\x1f') {
-			res.конкат(' ');
+			res.Cat(' ');
 			while((byte)*s <= ' ' && *s)
 				s++;
 		}
@@ -47,13 +47,13 @@ static inline bool sSpaces(Ткст& res, const char *& s)
 	return false;
 }
 
-Ткст FnItem(const char *s, const char *pname, const char *qname, const Ткст& имя, bool oper)
-{ // Converts function natural text to (unqualified) элт
-	Ткст res;
+String FnItem(const char *s, const char *pname, const char *qname, const String& name, bool oper)
+{ // Converts function natural text to (unqualified) item
+	String res;
 	while(*s && (byte)*s <= ' ') s++;
-	while(*s) { // дай the имя of function into res
+	while(*s) { // Get the name of function into res
 		while(*s && !iscid(*s) && *s != '~')
-			if(*s == '[') { // пропусти MSVC attributes
+			if(*s == '[') { // Skip MSVC attributes
 				while(*s)
 					if(*s++ == '[')
 						break;
@@ -63,49 +63,49 @@ static inline bool sSpaces(Ткст& res, const char *& s)
 		int lvl = 0;
 		int plvl = 0;
 		for(;;) {
-			if(*s == '<' && plvl == 0 && !oper) { // resolve template params, like Фн<int, true>
-				res.конкат(*s++);
+			if(*s == '<' && plvl == 0 && !oper) { // resolve template params, like Fn<int, true>
+				res.Cat(*s++);
 				lvl++;
 			}
 			if(*s == '>' && plvl == 0 && !oper) {
-				res.конкат(*s++);
+				res.Cat(*s++);
 				lvl--;
 			}
 			if(*s == '(' && lvl) {
-				res.конкат(*s++);
+				res.Cat(*s++);
 				plvl++;
 			}
 			if(*s == ')') {
-				res.конкат(*s++);
+				res.Cat(*s++);
 				plvl--;
 			}
 			if(iscid(*s) || *s == '~' || *s && lvl)
-				res.конкат(*s++);
+				res.Cat(*s++);
 			else
 				break;
 		}
 		if(res == s_operator) {
 			while(*s && *s != '(') {
 				if((byte)*s >= ' ')
-					res.конкат(*s);
+					res.Cat(*s);
 				s++;
 			}
 			break;
 		}
 		while(*s && (byte)*s <= ' ')
 			s++;
-		if(*s == '(' && (res == имя || res == '~' + имя))
+		if(*s == '(' && (res == name || res == '~' + name))
 			break;
-		res.очисть();
+		res.Clear();
 	}
 	bool wasid = false;
 	while(*s) {
 		const char *w = bew(qname, s);
 		byte c = *s;
 		if(w && w > s && !iscid(*w)) {
-			if(iscid(*res.последний()))
-				res.конкат(' ');
-			res.конкат(имя);
+			if(iscid(*res.Last()))
+				res.Cat(' ');
+			res.Cat(name);
 			s = w;
 			wasid = true;
 		}
@@ -113,11 +113,11 @@ static inline bool sSpaces(Ткст& res, const char *& s)
 		if(iscid(c)) {
 			const char *b = s++;
 			while(iscid(*s)) s++;
-			Ткст q(b, s);
+			String q(b, s);
 			if(q != s_virtual && q != s_inline && q != s_static && !InScList(q, pname)) {
-				if(iscid(*res.последний()))
-					res.конкат(' ');
-				res.конкат(q);
+				if(iscid(*res.Last()))
+					res.Cat(' ');
+				res.Cat(q);
 			}
 			else
 				while((byte)*s <= ' ' && *s) s++;
@@ -149,16 +149,16 @@ static inline bool sSpaces(Ткст& res, const char *& s)
 				s++;
 		}
 		else
-		if(c == '[' && !wasid) { // пропусти MSVC attribute
+		if(c == '[' && !wasid) { // Skip MSVC attribute
 			while(*s)
 				if(*s++ == ']')
 					break;
 		}
 		else
 		if(c == '-' && s[1] == '>')
-			break; // trailing return тип
+			break; // trailing return type
 		else {
-			res.конкат(c);
+			res.Cat(c);
 			if(c == ',')
 				wasid = false;
 			s++;
@@ -167,15 +167,15 @@ static inline bool sSpaces(Ткст& res, const char *& s)
 	return res;
 }
 
-Ткст Purify(const char *s, const char *qname, const Ткст& имя) {
-	Ткст res;
+String Purify(const char *s, const char *qname, const String& name) {
+	String res;
 	while(*s && (byte)*s <= ' ') s++;
 	bool wasid = false;
 	bool firstpar = true;
 	while(*s) {
 		const char *w = bew(qname, s);
 		if(w && w > s) {
-			res.конкат(имя);
+			res.Cat(name);
 			s = w;
 			wasid = true;
 		}
@@ -183,9 +183,9 @@ static inline bool sSpaces(Ткст& res, const char *& s)
 		if(iscid(*s)) {
 			const char *b = s++;
 			while(iscid(*s)) s++;
-			Ткст q(b, s);
+			String q(b, s);
 			if(q != s_virtual && q != s_inline && q != s_static)
-				res.конкат(q);
+				res.Cat(q);
 			else
 				while((byte)*s <= ' ' && *s) s++;
 			wasid = true;
@@ -207,123 +207,123 @@ static inline bool sSpaces(Ткст& res, const char *& s)
 				wasid = false;
 			if(*s == '(' && firstpar)
 				wasid = firstpar = false;
-			res.конкат(*s++);
+			res.Cat(*s++);
 		}
 	}
-	return обрежьПраво(res);
+	return TrimRight(res);
 }
 
-Ткст Purify(const char *s) {
-	Ткст res;
+String Purify(const char *s) {
+	String res;
 	while(*s && (byte)*s <= ' ') s++;
 	while(*s) {
 		if(iscid(*s)) {
 			const char *b = s++;
 			while(iscid(*s)) s++;
-			Ткст q(b, s);
+			String q(b, s);
 			if(q != s_virtual && q != s_inline)
-				res.конкат(q);
+				res.Cat(q);
 			else
 				while((byte)*s <= ' ' && *s) s++;
 		}
 		else
 		if(!sSpaces(res, s))
-			res.конкат(*s++);
+			res.Cat(*s++);
 	}
-	return обрежьПраво(res);
+	return TrimRight(res);
 }
 
-Ткст Gpurify(const char *s)
+String Gpurify(const char *s)
 {
-	Ткст res;
+	String res;
 	while(*s)
 		if(!sSpaces(res, s))
-			res.конкат(*s++);
+			res.Cat(*s++);
 	return res;
 }
 
-void ScAdd(Ткст& s, const Ткст& a)
+void ScAdd(String& s, const String& a)
 {
-	if(a.пустой()) return;
-	if(!s.пустой())
+	if(a.IsEmpty()) return;
+	if(!s.IsEmpty())
 		s << ';';
 	s << a;
 }
 
 
-void TpSkip(СиПарсер& p)
+void TpSkip(CParser& p)
 {
 	int lvl = 0;
 	for(;;) {
-		if(lvl == 0 && (p.сим_ли(',') || p.сим_ли('>')) || p.кф_ли())
+		if(lvl == 0 && (p.IsChar(',') || p.IsChar('>')) || p.IsEof())
 			break;
-		if(p.сим('<'))
+		if(p.Char('<'))
 			lvl++;
 		else
-		if(p.сим('>'))
+		if(p.Char('>'))
 			lvl--;
 		else
-			p.пропустиТерм();
+			p.SkipTerm();
 	}
 }
 
-Ткст Subst(const Ткст& s, const Вектор<Ткст>& tpar)
+String Subst(const String& s, const Vector<String>& tpar)
 {
-	if(tpar.дайСчёт() == 0)
+	if(tpar.GetCount() == 0)
 		return s;
-	Ткст r;
-	СиПарсер p(s);
-	while(!p.кф_ли()) {
-		if(p.ид_ли()) {
-			Ткст id = p.читайИд();
-			int q = найдиИндекс(tpar, id);
+	String r;
+	CParser p(s);
+	while(!p.IsEof()) {
+		if(p.IsId()) {
+			String id = p.ReadId();
+			int q = FindIndex(tpar, id);
 			if(q >= 0)
-				r << какТкст(q);
+				r << AsString(q);
 			else
 				r << id;
 		}
 		else
-			r << p.дайСим();
+			r << p.GetChar();
 	}
 	return r;
 }
 
-Ткст CleanTp(const Ткст& tp)
+String CleanTp(const String& tp)
 {
-	int q = tp.найди('<');
-	int w = tp.найдирек('>');
+	int q = tp.Find('<');
+	int w = tp.ReverseFind('>');
 	if(q < 0 || w < 0) return tp;
-	Ткст a = обрежьЛево(обрежьПраво(tp.середина(q + 1, w - q - 1)));
+	String a = TrimLeft(TrimRight(tp.Mid(q + 1, w - q - 1)));
 	const char *s = a;
-	Ткст r;
+	String r;
 	while(*s) {
 		if(*s == ',') {
-			r.конкат(';');
+			r.Cat(';');
 			s++;
 			while(*s && *s <= ' ')
 				s++;
 		}
 		else
-			r.конкат(*s++);
+			r.Cat(*s++);
 	}
 	return r;
 }
 
-Ткст Parser::Контекст::Dump() const
+String Parser::Context::Dump() const
 {
 	return "Scopeing: " + scope;
 }
 
-static Ткст s_dblcln("::");
+static String s_dblcln("::");
 
-inline void ScopeCat(Ткст& scope, const Ткст& s)
+inline void ScopeCat(String& scope, const String& s)
 {
-	if(scope.дайСчёт())
+	if(scope.GetCount())
 		scope << s_dblcln;
 	scope << s;
 }
 
-void Parser::Контекст::operator<<=(const Контекст& t)
+void Parser::Context::operator<<=(const Context& t)
 {
 	ns = t.ns;
 	scope = t.scope;
@@ -334,13 +334,13 @@ void Parser::Контекст::operator<<=(const Контекст& t)
 	namespace_using = t.namespace_using;
 }
 
-bool Parser::IsNamespace(const Ткст& scope)
+bool Parser::IsNamespace(const String& scope)
 {
-	int l = scope.дайСчёт();
+	int l = scope.GetCount();
 	return memcmp(~context.ns, ~scope, l) == 0 && findarg(context.ns[l], '\0', ':') >= 0;
 }
 
-bool Parser::Ключ(int code)
+bool Parser::Key(int code)
 {
 	if(lex == code) {
 		++lex;
@@ -349,11 +349,11 @@ bool Parser::Ключ(int code)
 	return false;
 }
 
-int  Parser::дайСтроку(const char *p)
+int  Parser::GetLine(const char *p)
 {
 	int pos = int(p - ~file.text);
 	int l = 0;
-	int h = file.linepos.дайСчёт();
+	int h = file.linepos.GetCount();
 	while(l < h) {
 		int q = (l + h) / 2;
 		if(file.linepos[q] < pos)
@@ -364,51 +364,51 @@ int  Parser::дайСтроку(const char *p)
 	return l;
 }
 
-void Parser::Строка()
+void Parser::Line()
 {
-	int pos = int(lex.Поз() - ~file.text);
-	while(line + 1 < file.linepos.дайСчёт() && file.linepos[line + 1] <= pos)
+	int pos = int(lex.Pos() - ~file.text);
+	while(line + 1 < file.linepos.GetCount() && file.linepos[line + 1] <= pos)
 		line++;
 }
 
 void Parser::Check(bool b, const char *err)
 {
-	if(!b) выведиОш(err);
+	if(!b) ThrowError(err);
 }
 
 void Parser::CheckKey(int c)
 {
-	if(!Ключ(c)) выведиОш(фмт("Missing %c", c));
+	if(!Key(c)) ThrowError(Format("Отсутствует %c", c));
 }
 
-Ткст Parser::TemplateParams(Ткст& param)
+String Parser::TemplateParams(String& param)
 {
-	Ткст r;
+	String r;
 	do {
-		const char *pos = lex.Поз();
+		const char *pos = lex.Pos();
 		CheckKey('<');
 		int level = 1;
-		Ткст id;
+		String id;
 		bool gp = true;
 		while(lex != t_eof) {
-			if(lex.ид_ли() && gp)
-				id = lex.дайИд();
+			if(lex.IsId() && gp)
+				id = lex.GetId();
 			else
-			if(Ключ(',')) {
+			if(Key(',')) {
 				ScAdd(param, id);
-				id.очисть();
+				id.Clear();
 				gp = true;
 			}
 			else
-			if(Ключ('=')) {
-				if(!id.пустой()) {
+			if(Key('=')) {
+				if(!id.IsEmpty()) {
 					ScAdd(param, id);
-					id.очисть();
+					id.Clear();
 				}
 				gp = false;
 			}
 			else
-			if(Ключ('>')) {
+			if(Key('>')) {
 				level--;
 				if(level <= 0) {
 					ScAdd(param, id);
@@ -416,7 +416,7 @@ void Parser::CheckKey(int c)
 				}
 			}
 			else
-			if(Ключ(t_shr) && level >= 2) {
+			if(Key(t_shr) && level >= 2) {
 				level -= 2;
 				if(level <= 0) {
 					ScAdd(param, id);
@@ -424,96 +424,96 @@ void Parser::CheckKey(int c)
 				}
 			}
 			else
-			if(Ключ('<'))
+			if(Key('<'))
 				level++;
 			else
-			if(Ключ('('))
+			if(Key('('))
 				level++;
 			else
-			if(Ключ(')'))
+			if(Key(')'))
 				level--;
 			else
 				++lex;
 		}
-		MergeWith(r, ",", Ткст(pos, lex.Поз()));
+		MergeWith(r, ",", String(pos, lex.Pos()));
 	}
-	while(Ключ(tk_template));
+	while(Key(tk_template));
 	return r;
 }
 
-Ткст Parser::TemplateParams()
+String Parser::TemplateParams()
 {
-	Ткст dummy;
+	String dummy;
 	return TemplateParams(dummy);
 }
 
-Ткст Parser::TemplatePnames()
+String Parser::TemplatePnames()
 {
-	Ткст pnames;
+	String pnames;
 	TemplateParams(pnames);
 	return pnames;
 }
 
-Ткст Parser::ReadOper(bool& castoper) {
-	const char *p = lex.Поз();
-	Ключ(tk_operator);
+String Parser::ReadOper(bool& castoper) {
+	const char *p = lex.Pos();
+	Key(tk_operator);
 	int level = 0;
-	if(Ключ('('))
+	if(Key('('))
 		level++;
 	for(;;) {
 		if(lex == t_eof || level <= 0 && lex == '(') break;
-		if(Ключ('(') || Ключ('[')) level++;
+		if(Key('(') || Key('[')) level++;
 		else
-		if(Ключ(')')  || Ключ(']')) level--;
+		if(Key(')')  || Key(']')) level--;
 		else
 			++lex;
 	}
-	ТкстБуф r;
+	StringBuffer r;
 	bool spc = false;
-	while(p < lex.Поз()) {
+	while(p < lex.Pos()) {
 		if((byte)*p > ' ') {
 			if(spc && iscid(*p)) {
 				castoper = true;
-				r.конкат(' ');
+				r.Cat(' ');
 			}
-			r.конкат(*p);
+			r.Cat(*p);
 			spc = false;
 		}
 		else
 			spc = true;
 		p++;
 	}
-	return Ткст(r);
+	return String(r);
 }
 
-Ткст Parser::Имя(Ткст& имя, bool& castoper, bool& oper)
+String Parser::Name(String& name, bool& castoper, bool& oper)
 {
-	Ткст s;
-	if(Ключ(t_dblcolon)) {
+	String s;
+	if(Key(t_dblcolon)) {
 		s = "::";
-		имя = s;
+		name = s;
 	}
-	Check(lex.ид_ли() || lex == tk_operator, "Имя expected");
+	Check(lex.IsId() || lex == tk_operator, "Ожидалось имя");
 	for(;;) {
-		if(lex.ид_ли()) {
-			имя << lex.Ид();
-			s << lex.дайИд();
+		if(lex.IsId()) {
+			name << lex.Id();
+			s << lex.GetId();
 		}
 		else {
-			Ткст h = ReadOper(castoper);
+			String h = ReadOper(castoper);
 			oper = true;
-			имя << h;
+			name << h;
 			s << h;
 			break;
 		}
-		if(lex == '<') // void Фн<byte>(); situation
+		if(lex == '<') // void Fn<byte>(); situation
 			s << TemplateParams();
-		if(Ключ(t_dblcolon)) {
+		if(Key(t_dblcolon)) {
 			s << "::";
-			имя << "::";
-			if(Ключ('~')) {
+			name << "::";
+			if(Key('~')) {
 				s << "~";
-				имя << "~";
+				name << "~";
 			}
 		}
 		else
@@ -522,124 +522,124 @@ void Parser::CheckKey(int c)
 	return s;
 }
 
-Ткст Parser::Имя(bool& castoper, bool& oper)
+String Parser::Name(bool& castoper, bool& oper)
 {
-	Ткст h;
-	return Имя(h, castoper, oper);
+	String h;
+	return Name(h, castoper, oper);
 }
 
-Ткст Parser::Constant()
+String Parser::Constant()
 {
-	const char *p = lex.Поз();
+	const char *p = lex.Pos();
 	const char *p1 = p;
 	int level = 0;
 	for(;;) {
-		p1 = lex.Поз();
+		p1 = lex.Pos();
 		if(lex == t_eof) break;
 		if(level <= 0 && (lex == ',' || lex == ';' || lex == ')' || lex == '}' || lex == ']'))
 			break;
-		if(Ключ('(') || Ключ('[') || Ключ('{')) level++;
+		if(Key('(') || Key('[') || Key('{')) level++;
 		else
-		if(Ключ(')') || Ключ(']') || Ключ('}')) level--;
+		if(Key(')') || Key(']') || Key('}')) level--;
 		else
 			++lex;
 	}
-	return Ткст(p, p1);
+	return String(p, p1);
 }
 
-Ткст Parser::TType()
+String Parser::TType()
 {
-	int q = найдиИндекс(context.tparam, lex[0]);
-	if(q >= 0) return какТкст(q);
-	return lex.Ид();
+	int q = FindIndex(context.tparam, lex[0]);
+	if(q >= 0) return AsString(q);
+	return lex.Id();
 }
 
-Ткст Parser::StructDeclaration(const Ткст& tn, const Ткст& tp)
+String Parser::StructDeclaration(const String& tn, const String& tp)
 {
-	int t = lex.дайКод(); // t is now struct/class/union
-	context.typenames.найдиДобавь(lex);
-	Контекст cc;
+	int t = lex.GetCode(); // t is now struct/class/union
+	context.typenames.FindAdd(lex);
+	Context cc;
 	cc <<= context;
-	СиПарсер p(tp);
-	Вектор<Ткст> tpar;
-	if(p.сим('<')) {
-		while(!p.кф_ли() && !p.сим('>')) {
-			if((p.ид("class") || p.ид("typename") || p.ид("struct")) && p.ид_ли()) {
-				tpar.добавь(p.читайИд());
-				context.tparam.добавь(lex.Ид(tpar.верх()));
+	CParser p(tp);
+	Vector<String> tpar;
+	if(p.Char('<')) {
+		while(!p.IsEof() && !p.Char('>')) {
+			if((p.Id("class") || p.Id("typename") || p.Id("struct")) && p.IsId()) {
+				tpar.Add(p.ReadId());
+				context.tparam.Add(lex.Id(tpar.Top()));
 			}
 			else
-				context.tparam.добавь(0);
+				context.tparam.Add(0);
 			TpSkip(p);
-			p.сим(',');
+			p.Char(',');
 		}
 	}
-	if(Ключ(t_dblcolon))
+	if(Key(t_dblcolon))
 		context.scope = Null;
-	Ткст имя;
-	Ткст new_scope = context.scope;
-	if(lex.ид_ли())
+	String name;
+	String new_scope = context.scope;
+	if(lex.IsId())
 		do {
-			context.typenames.найдиДобавь(lex);
-			имя = lex.дайИд(); // имя of structure
+			context.typenames.FindAdd(lex);
+			name = lex.GetId(); // name of structure
 			if(lex == '<')
-				имя << TemplateParams();
-			ScopeCat(new_scope, имя);
+				name << TemplateParams();
+			ScopeCat(new_scope, name);
 		}
-		while(Ключ(t_dblcolon));
+		while(Key(t_dblcolon));
 	else {
-		имя = AnonymousName();
-		ScopeCat(new_scope, имя);
+		name = AnonymousName();
+		ScopeCat(new_scope, name);
 	}
-	if(lex.ид_ли() && findarg(lex.Ид(), "override", "final") >= 0)
+	if(lex.IsId() && findarg(lex.Id(), "override", "final") >= 0)
 		++lex;
-	if(lex.ид_ли() || lex == '*') { // struct My { struct My *p; }
-		return имя;
+	if(lex.IsId() || lex == '*') { // struct My { struct My *p; }
+		return name;
 	}
 	context.scope = new_scope;
 	context.access = t == tk_class ? PRIVATE : PUBLIC;
-	if(tn.дайСчёт()) {
-		if(context.ctname.дайСчёт())
+	if(tn.GetCount()) {
+		if(context.ctname.GetCount())
 			context.ctname << ';';
 		context.ctname << tn;
 	}
-	Ткст nn;
-	if(!tp.пустой())
+	String nn;
+	if(!tp.IsEmpty())
 		nn = "template " + tp + " ";
-	Ткст ключ = (t == tk_class ? "class" : t == tk_union ? "union" : "struct");
-	nn << ключ << ' ' << имя;
+	String key = (t == tk_class ? "class" : t == tk_union ? "union" : "struct");
+	nn << key << ' ' << name;
 	LLOG("Struct "  << context.scope << " using " << context.namespace_using);
-	CppItem& im = Элемент(context.scope, context.namespace_using, ключ, имя, lex != ';');
-	im.kind = tp.пустой() ? STRUCT : STRUCTTEMPLATE;
-	im.тип = имя;
+	CppItem& im = Item(context.scope, context.namespace_using, key, name, lex != ';');
+	im.kind = tp.IsEmpty() ? STRUCT : STRUCTTEMPLATE;
+	im.type = name;
 	im.access = cc.access;
 	im.tname = tn;
 	im.ctname = context.ctname;
 	im.tparam = CleanTp(tp);
-	im.ptype.очисть();
-	im.pname.очисть();
-	im.param.очисть();
-	if(lex == ';') { // TODO: perhaps could be united with following code
+	im.ptype.Clear();
+	im.pname.Clear();
+	im.param.Clear();
+	if(lex == ';') { // СДЕЛАТЬ: perhaps could be united with following code
 		context = pick(cc);
 		im.natural = Gpurify(nn);
 		SetScopeCurrent();
-		return имя;
+		return name;
 	}
-	if(Ключ(':')) {
+	if(Key(':')) {
 		nn << " : ";
 		bool c = false;
 		do {
-			Ткст access = t == tk_class ? "private" : "public";
-			bool virt = Ключ(tk_virtual);
-			if(Ключ(tk_public)) access = "public";
+			String access = t == tk_class ? "private" : "public";
+			bool virt = Key(tk_virtual);
+			if(Key(tk_public)) access = "public";
 			else
-			if(Ключ(tk_protected)) access = "protected";
+			if(Key(tk_protected)) access = "protected";
 			else
-			if(Ключ(tk_private)) access = "private";
-			if(Ключ(tk_virtual) || virt) access << " virtual";
-			Ткст h;
+			if(Key(tk_private)) access = "private";
+			if(Key(tk_virtual) || virt) access << " virtual";
+			String h;
 			bool dummy;
-			Ткст n = Имя(h, dummy, dummy);
+			String n = Name(h, dummy, dummy);
 			ScAdd(im.pname, h);
 			if(c)
 				im.ptype << ';';
@@ -650,9 +650,9 @@ void Parser::CheckKey(int c)
 			nn << access + ' ' + n;
 			c = true;
 		}
-		while(Ключ(','));
+		while(Key(','));
 	}
-	if(Ключ('{')) {
+	if(Key('{')) {
 		struct_level++;
 		ScopeBody();
 		struct_level--;
@@ -660,42 +660,42 @@ void Parser::CheckKey(int c)
 		im.decla = true;
 	}
 	else
-		if(пусто_ли(im.natural))
+		if(IsNull(im.natural))
 			im.natural = Gpurify(nn);
 	context = pick(cc);
 	SetScopeCurrent();
-	return имя;
+	return name;
 }
 
-Ткст Parser::ReadType(Decla& d, const Ткст& tname, const Ткст& tparam)
-{ // returns the имя of constructor
+String Parser::ReadType(Decla& d, const String& tname, const String& tparam)
+{ // returns the name of constructor
 	if(findarg((int)lex, tk_struct, tk_class, tk_union) >= 0 && !d.isfriend) {
-		d.тип = StructDeclaration(tname, tparam);
-		return Ткст();
+		d.type = StructDeclaration(tname, tparam);
+		return String();
 	}
-	Ключ(tk_typename) || Ключ(tk_struct) || Ключ(tk_class) || Ключ(tk_union) || Ключ(tk_enum) || Ключ(tk_template);
-	if(Ключ(tk_bool) || Ключ(tk_float) || Ключ(tk_double) || Ключ(tk_void))
+	Key(tk_typename) || Key(tk_struct) || Key(tk_class) || Key(tk_union) || Key(tk_enum) || Key(tk_template);
+	if(Key(tk_bool) || Key(tk_float) || Key(tk_double) || Key(tk_void))
 		return Null;
-	bool зн = Ключ(tk_signed) || Ключ(tk_unsigned);
-	if(Ключ(tk_long)) {
-		Ключ(tk_long);
-		Ключ(tk_int) || Ключ(tk_double);
-		return Null;
-	}
-	if(Ключ(tk_short)) {
-		Ключ(tk_unsigned);
-		Ключ(tk_int);
+	bool sgn = Key(tk_signed) || Key(tk_unsigned);
+	if(Key(tk_long)) {
+		Key(tk_long);
+		Key(tk_int) || Key(tk_double);
 		return Null;
 	}
-	if(Ключ(tk_int) || Ключ(tk_char) ||
-	   Ключ(tk___int8) || Ключ(tk___int16) || Ключ(tk___int32) || Ключ(tk___int64) || Ключ(tk___int128) ||
-	   Ключ(tk_char16_t) || Ключ(tk_char32_t)) return Null;
-	if(зн) return Null;
-	const char *p = lex.Поз();
+	if(Key(tk_short)) {
+		Key(tk_unsigned);
+		Key(tk_int);
+		return Null;
+	}
+	if(Key(tk_int) || Key(tk_char) ||
+	   Key(tk___int8) || Key(tk___int16) || Key(tk___int32) || Key(tk___int64) || Key(tk___int128) ||
+	   Key(tk_char16_t) || Key(tk_char32_t)) return Null;
+	if(sgn) return Null;
+	const char *p = lex.Pos();
 	bool cs = false;
-	Индекс<int> cix;
-	if(Ключ(tk_decltype) && Ключ('(')) {
-		const char *p = lex.Поз();
+	Index<int> cix;
+	if(Key(tk_decltype) && Key('(')) {
+		const char *p = lex.Pos();
 		int lvl = 1;
 		for(;;) {
 			if(lex == t_eof)
@@ -704,7 +704,7 @@ void Parser::CheckKey(int c)
 				lvl++;
 			else
 			if(lex == ')' && --lvl == 0) {
-				d.тип = "@" + Ткст(p, lex.Поз());
+				d.type = "@" + String(p, lex.Pos());
 				++lex;
 				break;
 			}
@@ -712,60 +712,60 @@ void Parser::CheckKey(int c)
 		}
 	}
 	else
-	if(Ключ(tk_auto))
-		d.тип = "*";
+	if(Key(tk_auto))
+		d.type = "*";
 	else {
-		if(Ключ(t_dblcolon))
-			d.тип << "::";
-		Ключ(tk_typename) || Ключ(tk_template);
-		Check(lex.ид_ли(), "Имя expected");
-		while(lex.ид_ли()) {
-			d.тип << TType();
-			if(cix.найди(lex) >= 0)
+		if(Key(t_dblcolon))
+			d.type << "::";
+		Key(tk_typename) || Key(tk_template);
+		Check(lex.IsId(), "Ожидалось имя");
+		while(lex.IsId()) {
+			d.type << TType();
+			if(cix.Find(lex) >= 0)
 				cs = true;
 			else
-				cix.добавь(lex);
+				cix.Add(lex);
 			++lex;
 			if(lex == '<')
-				d.тип << TemplateParams();
-			if(Ключ(t_dblcolon)) {
-				d.тип << "::";
-				if(Ключ('~'))
+				d.type << TemplateParams();
+			if(Key(t_dblcolon)) {
+				d.type << "::";
+				if(Key('~'))
 					cs = true;
-				Ключ(tk_typename) || Ключ(tk_template);
+				Key(tk_typename) || Key(tk_template);
 			}
 			else
 				break;
 		}
 	}
-	return cs ? Ткст(p, lex.Поз()) : Ткст();
+	return cs ? String(p, lex.Pos()) : String();
 }
 
 void Parser::Qualifier(bool override_final)
 {
 	for(;;)
-		if(Ключ(tk_const) || Ключ(tk_volatile) || Ключ(tk_constexpr) || Ключ(tk_thread_local) || VCAttribute())
+		if(Key(tk_const) || Key(tk_volatile) || Key(tk_constexpr) || Key(tk_thread_local) || VCAttribute())
 			;
 		else
-		if(Ключ(tk_noexcept)) {
-			if(Ключ('(')) {
+		if(Key(tk_noexcept)) {
+			if(Key('(')) {
 				int lvl = 0;
-				while(lex != t_eof && lex != ';' && !(lvl == 0 && Ключ(')')))
-					if(Ключ('('))
+				while(lex != t_eof && lex != ';' && !(lvl == 0 && Key(')')))
+					if(Key('('))
 						lvl++;
 					else
-					if(Ключ(')'))
+					if(Key(')'))
 						lvl--;
 					else
 						++lex;
 			}
 		}
 		else
-		if(override_final && lex.ид_ли() && findarg(lex.Ид(), "override", "final") >= 0)
+		if(override_final && lex.IsId() && findarg(lex.Id(), "override", "final") >= 0)
 			++lex;
 		else
-		if(Ключ(tk_throw) || Ключ(tk_alignas)) {
-			while(lex != t_eof && lex != ';' && !Ключ(')'))
+		if(Key(tk_throw) || Key(tk_alignas)) {
+			while(lex != t_eof && lex != ';' && !Key(')'))
 				++lex;
 		}
 		else
@@ -779,38 +779,38 @@ void Parser::Qualifier(bool override_final)
 
 void Parser::Elipsis(Decl& d)
 {
-	Decl& q = d.param.добавь();
-	q.имя = "...";
-	if(lex.ид_ли()) // bool emplace(_Args&&... __args);
+	Decl& q = d.param.Add();
+	q.name = "...";
+	if(lex.IsId()) // bool emplace(_Args&&... __args);
 		++lex;
 	CheckKey(')');
 }
 
 void Parser::ParamList(Decl& d) {
-	if(!Ключ(')'))
+	if(!Key(')'))
 		for(;;) {
-			if(Ключ(t_elipsis)) {
+			if(Key(t_elipsis)) {
 				Elipsis(d);
 				break;
 			}
 			else {
-				Массив<Parser::Decl> decl = Declaration(false, false, Null, Null);
-				if(decl.дайСчёт()) {
-					d.param.добавь() = pick(decl.верх());
+				Array<Parser::Decl> decl = Declaration(false, false, Null, Null);
+				if(decl.GetCount()) {
+					d.param.Add() = pick(decl.Top());
 					if(dobody) { // put arguments to the list of local variables
-						Decl& p = d.param.верх();
-						Local& l = local.добавь(p.имя);
-						l.тип = p.тип;
+						Decl& p = d.param.Top();
+						Local& l = local.Add(p.name);
+						l.type = p.type;
 						l.isptr = p.isptr;
 						l.line = line + 1;
 					}
 				}
 			}
-			if(Ключ(t_elipsis)) {
+			if(Key(t_elipsis)) {
 				Elipsis(d);
 				break;
 			}
-			if(Ключ(')')) break;
+			if(Key(')')) break;
 			CheckKey(',');
 		}
 }
@@ -837,7 +837,7 @@ int Parser::RPtr()
 			n++;
 		}
 		else
-		if(t == t_dblcolon || lex.ид_ли(n) || t == ',' && tlevel > 0)
+		if(t == t_dblcolon || lex.IsId(n) || t == ',' && tlevel > 0)
 			n++;
 		else
 			return 0;
@@ -846,7 +846,7 @@ int Parser::RPtr()
 
 void Parser::EatInitializers()
 {
-	if(Ключ(':')) {
+	if(Key(':')) {
 		int lvl = 0;
 		for(;;) {
 			if(lex == t_eof)
@@ -855,7 +855,7 @@ void Parser::EatInitializers()
 				Qualifier(false);
 				if(lex == '{')
 					break;
-				if(lex.ид_ли() && lex[1] == '{') { // : X{123} { case
+				if(lex.IsId() && lex[1] == '{') { // : X{123} { case
 					lvl++;
 					++lex;
 					++lex;
@@ -877,40 +877,40 @@ void Parser::Declarator(Decl& d, const char *p)
 {
 	int n = RPtr();
 	if(n) {
-		while(n--) lex.дай();
+		while(n--) lex.Get();
 		Declarator(d, p);
 		d.isptr = true;
 		return;
 	}
-	if(Ключ('&') || Ключ(t_and) || Ключ(tk_const) || Ключ(tk_volatile)) { // t_and is r-значение here
+	if(Key('&') || Key(t_and) || Key(tk_const) || Key(tk_volatile)) { // t_and is r-value here
 		Declarator(d, p);
 		return;
 	}
-	if(Ключ('(')) {
+	if(Key('(')) {
 		Declarator(d, p);
 		if(d.isptr)
 			d.nofn = true;
 		CheckKey(')');
 	}
 //	if(lex == tk_operator)
-//		d.имя = ReadOper();
+//		d.name = ReadOper();
 //	else
-	if(lex.ид_ли() || lex == t_dblcolon || lex == tk_operator) {
-		d.имя = Имя(d.castoper, d.oper);
+	if(lex.IsId() || lex == t_dblcolon || lex == tk_operator) {
+		d.name = Name(d.castoper, d.oper);
 		if(lex == ':' && lex[1] == t_integer) { // Bitfield, like 'unsigned x:5'
 			++lex;
 			++lex;
 		}
 	}
-	if(Ключ('(')) {
+	if(Key('(')) {
 		if(inbody || (lex < 256 || lex == tk_true || lex == tk_false)
 		   && lex != ')' && lex != '[' && lex != t_dblcolon) {
 			int level = 0;
 			for(;;) {
 				if(lex == t_eof) break;
-				if(Ключ('(')) level++;
+				if(Key('(')) level++;
 				else
-				if(Ключ(')')) {
+				if(Key(')')) {
 					if(--level < 0) break;
 				}
 				else
@@ -921,11 +921,11 @@ void Parser::Declarator(Decl& d, const char *p)
 		else {
 			d.function = !d.nofn;
 			ParamList(d);
-			p = lex.Поз();
+			p = lex.Pos();
 			Qualifier(true);
 
-			if(d.function && Ключ(t_arrow)) { // C++11 trailing return тип
-				d.тип.очисть();
+			if(d.function && Key(t_arrow)) { // C++11 trailing return type
+				d.type.Clear();
 				ReadType(d, Null, Null);
 			}
 			
@@ -934,22 +934,22 @@ void Parser::Declarator(Decl& d, const char *p)
 					++lex;
 		}
 	}
-	if(*d.тип == '*') // C++11 auto declaration
-		d.тип = ResolveAutoType();
+	if(*d.type == '*') // C++11 auto declaration
+		d.type = ResolveAutoType();
 	else
 		EatInitializers();
-	while(Ключ('[')) {
+	while(Key('[')) {
 		d.isptr = true;
 		int level = 1;
 		while(level && lex != t_eof) {
-			if(Ключ('[')) level++;
+			if(Key('[')) level++;
 			else
-			if(Ключ(']')) level--;
+			if(Key(']')) level--;
 			else
 				++lex;
 		}
 	}
-	if(Ключ('=') || (inbody && lex == '(')) { // TODO: добавь C++11 initializers here (?)
+	if(Key('=') || (inbody && lex == '(')) { // СДЕЛАТЬ: Add C++11 initializers here (?)
 		int level = 0;
 		int tlevel = 0;
 		for(;;) {
@@ -957,16 +957,16 @@ void Parser::Declarator(Decl& d, const char *p)
 			if(lex == t_eof  || lex == ';'
 			   || level == 0 && ((lex == ',' && tlevel == 0) || lex == ')'))
 				break;
-			if(Ключ('<')) // we ignore < > as operators, always consider them template bracket
+			if(Key('<')) // we ignore < > as operators, always consider them template bracket
 				tlevel++;
 			else
-			if(Ключ('>'))
+			if(Key('>'))
 				tlevel--;
 			else
-			if(Ключ('(') || Ключ('{'))
+			if(Key('(') || Key('{'))
 				level++;
 			else
-			if(Ключ(')') || Ключ('}'))
+			if(Key(')') || Key('}'))
 				level--;
 			else
 				++lex;
@@ -974,9 +974,9 @@ void Parser::Declarator(Decl& d, const char *p)
 	}
 }
 
-Parser::Decl& Parser::финиш(Decl& d, const char *s)
+Parser::Decl& Parser::Finish(Decl& d, const char *s)
 {
-	d.natural = Ткст(s, lex.Поз());
+	d.natural = String(s, lex.Pos());
 	return d;
 }
 
@@ -988,165 +988,165 @@ bool Parser::IsParamList(int q)
 void Parser::ReadMods(Decla& d)
 {
 	for(;;) {
-		if(Ключ(tk_static))
+		if(Key(tk_static))
 			d.s_static = true;
 		else
-		if(Ключ(tk_extern))
+		if(Key(tk_extern))
 			d.s_extern = true;
 		else
-		if(Ключ(tk_register))
+		if(Key(tk_register))
 			d.s_register = true;
 		else
-		if(Ключ(tk_mutable))
+		if(Key(tk_mutable))
 			d.s_mutable = true;
 		else
-		if(Ключ(tk_explicit))
+		if(Key(tk_explicit))
 			d.s_explicit = true;
 		else
-		if(Ключ(tk_virtual))
+		if(Key(tk_virtual))
 			d.s_virtual = true;
 		else
-		if(!(Ключ(tk_inline) || Ключ(tk_force_inline) || Ключ(tk_never_inline) || Ключ(tk___inline) || VCAttribute()))
+		if(!(Key(tk_inline) || Key(tk_force_inline) || Key(tk_never_inline) || Key(tk___inline) || VCAttribute()))
 			break;
 	}
 }
 
-Массив<Parser::Decl> Parser::Declaration0(bool l0, bool more, const Ткст& tname, const Ткст& tparam)
+Array<Parser::Decl> Parser::Declaration0(bool l0, bool more, const String& tname, const String& tparam)
 {
-	Массив<Decl> r;
+	Array<Decl> r;
 	Decla d;
-	const char *p = lex.Поз();
-	if(Ключ(tk_friend))
+	const char *p = lex.Pos();
+	if(Key(tk_friend))
 		d.isfriend = true;
 	ReadMods(d);
 	Qualifier();
 	if(l0) {
-		if(lex == tk_SKYLARK && lex[1] == '(' && lex.ид_ли(2)) {
+		if(lex == tk_SKYLARK && lex[1] == '(' && lex.IsId(2)) {
 			++lex;
 			++lex;
-			Decl& a = r.добавь();
-			a.имя = lex.дайИд();
+			Decl& a = r.Add();
+			a.name = lex.GetId();
 			a.function = true;
-			a.natural = Ткст().конкат() << "void " << a.имя << "(Http& http)";
-			Decl& p = a.param.добавь();
-			p.имя = "http";
-			p.тип = "Http";
+			a.natural = String().Cat() << "void " << a.name << "(Http& http)";
+			Decl& p = a.param.Add();
+			p.name = "http";
+			p.type = "Http";
 			p.natural = "Http& http";
-			Ключ(',');
-			lex.дайТекст();
-			Ключ(')');
+			Key(',');
+			lex.GetText();
+			Key(')');
 			return r;
 		}
 		else
-		if((lex == tk_RPC_METHOD || lex == tk_RPC_GMETHOD) && lex[1] == '(' && lex.ид_ли(2)) {
+		if((lex == tk_RPC_METHOD || lex == tk_RPC_GMETHOD) && lex[1] == '(' && lex.IsId(2)) {
 			++lex;
 			++lex;
-			Decl& a = r.добавь();
-			a.имя = lex.дайИд();
+			Decl& a = r.Add();
+			a.name = lex.GetId();
 			a.function = true;
-			a.natural = Ткст().конкат() << "void " << a.имя << "(RpcData& rpc)";
-			Decl& p = a.param.добавь();
-			p.имя = "rpc";
-			p.тип = "RpcData";
+			a.natural = String().Cat() << "void " << a.name << "(RpcData& rpc)";
+			Decl& p = a.param.Add();
+			p.name = "rpc";
+			p.type = "RpcData";
 			p.natural = "RpcData& rpc";
-			if (Ключ(','))
-				lex.дайТекст();
-			Ключ(')');
+			if (Key(','))
+				lex.GetText();
+			Key(')');
 			return r;
 		}
 	}
-	bool isdestructor = Ключ('~');
-	if(l0 && context.typenames.найди(lex) >= 0 && lex[1] == '(' && lex.ид_ли()) {
-		Decl& a = r.добавь();
-		a.имя = lex.дайИд();
+	bool isdestructor = Key('~');
+	if(l0 && context.typenames.Find(lex) >= 0 && lex[1] == '(' && lex.IsId()) {
+		Decl& a = r.Add();
+		a.name = lex.GetId();
 		a.isdestructor = isdestructor;
 		a.function = true;
 		a.istructor = true;
 		++lex;
 		ParamList(a);
 		Qualifier();
-		a.natural = Ткст(p, lex.Поз());
+		a.natural = String(p, lex.Pos());
 		EatInitializers();
 		return r;
 	}
 	if(lex == tk_operator) {
-		Decl& a = r.добавь();
+		Decl& a = r.Add();
 		(Decla&)a = d;
-		a.имя = ReadOper(a.castoper);
-		Ключ('(');
+		a.name = ReadOper(a.castoper);
+		Key('(');
 		ParamList(a);
 		Qualifier();
 		a.function = true;
-		a.natural = Ткст(p, lex.Поз());
+		a.natural = String(p, lex.Pos());
 		a.oper = true;
 		return r;
 	}
-	Ткст st = ReadType(d, tname, tparam);
-	if(!lex.IsGrounded()) // 'static' etc.. can be after тип too... (but not allow it on start of line)
+	String st = ReadType(d, tname, tparam);
+	if(!lex.IsGrounded()) // 'static' etc.. can be after type too... (but not allow it on start of line)
 		ReadMods(d);
-	if(!st.пустой()) {
-		Decl& a = r.добавь();
-		int q = st.найди('~');
+	if(!st.IsEmpty()) {
+		Decl& a = r.Add();
+		int q = st.Find('~');
 		if(q >= 0)
-			st.удали(q, 1);
-		a.имя = st;
+			st.Remove(q, 1);
+		a.name = st;
 		a.isdestructor = q >= 0;
 		a.function = true;
 		a.istructor = true;
-		if(Ключ('('))
+		if(Key('('))
 			ParamList(a);
 		Qualifier();
-		a.natural = Ткст(p, lex.Поз());
+		a.natural = String(p, lex.Pos());
 		EatInitializers();
 		return r;
 	}
-	Ткст natural1 = Ткст(p, lex.Поз());
+	String natural1 = String(p, lex.Pos());
 	if(lex != ';') // struct/class declaration without defining variable
 		do {
-			const char *p1 = lex.Поз();
-			Decl& a = r.добавь();
+			const char *p1 = lex.Pos();
+			Decl& a = r.Add();
 			(Decla&)a = d;
 			Declarator(a, p);
 			if(a.castoper)
-				a.имя = фильтруй(natural1, CharFilterNotWhitespace) + a.имя;
-			a.natural = natural1 + Ткст(p1, lex.Поз());
-			p = lex.Поз();
+				a.name = Filter(natural1, CharFilterNotWhitespace) + a.name;
+			a.natural = natural1 + String(p1, lex.Pos());
+			p = lex.Pos();
 		}
-		while(more && Ключ(','));
+		while(more && Key(','));
 	return r;
 }
 
-Массив<Parser::Decl> Parser::Declaration(bool l0, bool more, const Ткст& tname, const Ткст& tparam)
+Array<Parser::Decl> Parser::Declaration(bool l0, bool more, const String& tname, const String& tparam)
 {
-	if(Ключ(tk_typedef)) {
-		Массив<Decl> r = Declaration0(false, true, tname, tparam);
-		for(int i = 0; i < r.дайСчёт(); i++) {
+	if(Key(tk_typedef)) {
+		Array<Decl> r = Declaration0(false, true, tname, tparam);
+		for(int i = 0; i < r.GetCount(); i++) {
 			r[i].type_def = true;
 			r[i].natural = "typedef " + r[i].natural;
 		}
 		return r;
 	}
-	const char *b = lex.Поз();
-	if(Ключ(tk_using) && lex.ид_ли()) {
-		Ткст имя = lex.дайИд();
-		Ключ('=');
-		Массив<Decl> r;
-		Decl& d = r.добавь();
+	const char *b = lex.Pos();
+	if(Key(tk_using) && lex.IsId()) {
+		String name = lex.GetId();
+		Key('=');
+		Array<Decl> r;
+		Decl& d = r.Add();
 		ReadType(d, tname, tparam);
-		while(Ключ('*') || Ключ(tk_volatile) || Ключ(tk_const));
-		d.имя = имя;
-		d.natural = Ткст(b, lex.Поз());
+		while(Key('*') || Key(tk_volatile) || Key(tk_const));
+		d.name = name;
+		d.natural = String(b, lex.Pos());
 		d.type_def = true;
 		return r;
 	}
 	return Declaration0(l0, more, tname, tparam);
 }
 
-Ткст Parser::Tparam(int& q)
+String Parser::Tparam(int& q)
 {
 	if(lex[q] != '<')
 		return Null;
-	const char *p = lex.Поз(q);
+	const char *p = lex.Pos(q);
 	int level = 1;
 	q++;
 	while(lex[q] != t_eof && level) {
@@ -1159,18 +1159,18 @@ void Parser::ReadMods(Decla& d)
 			level -= 2;
 		q++;
 	}
-	return Ткст(p, lex.Поз(q));
+	return String(p, lex.Pos(q));
 }
 
-Ткст NoTemplatePars(const Ткст& s)
+String NoTemplatePars(const String& s)
 {
-	int q = s.найди('<');
-	return q >= 0 ? s.середина(0, q) : s;
+	int q = s.Find('<');
+	return q >= 0 ? s.Mid(0, q) : s;
 }
 
 bool Parser::VCAttribute()
 {
-	if(lex[0] == '[') // пропусти Visual C++ attribute
+	if(lex[0] == '[') // Skip Visual C++ attribute
 		for(;;) {
 			if(lex[0] == ']') {
 				++lex;
@@ -1188,43 +1188,43 @@ void Parser::SetScopeCurrent()
 	current_scope = context.scope;
 }
 
-CppItem& Parser::Элемент(const Ткст& scope, const Ткст& using_namespace, const Ткст& элт,
-                      const Ткст& имя, bool impl)
+CppItem& Parser::Item(const String& scope, const String& using_namespace, const String& item,
+                      const String& name, bool impl)
 {
 	current_scope = scope;
 	if(dobody)
 		current = CppItem();
-	current_key = элт;
-	current_name = имя;
-	CppItem& im = dobody ? current : base->дайДобавь(current_scope).добавь();
-	im.элт = элт;
-	im.имя = имя;
+	current_key = item;
+	current_name = name;
+	CppItem& im = dobody ? current : base->GetAdd(current_scope).Add();
+	im.item = item;
+	im.name = name;
 	im.file = filei;
 	im.line = line + 1;
 	im.impl = impl;
 	im.filetype = filetype;
 	im.using_namespaces = using_namespace;
-	LLOG("нов элт " << line + 1 << "    " << scope << "::" << элт);
+	LLOG("New item " << line + 1 << "    " << scope << "::" << item);
 	return im;
 }
 
-void Parser::AddMacro(int lineno, const Ткст& macro, int kind)
+void Parser::AddMacro(int lineno, const String& macro, int kind)
 {
-	Ткст имя;
+	String name;
 	const char *s = macro;
 	while(*s && iscid(*s))
-		имя.конкат(*s++);
-	CppItem& im = Элемент("", "", macro, имя);
+		name.Cat(*s++);
+	CppItem& im = Item("", "", macro, name);
 	im.kind = kind;
 	im.line = lineno;
 	im.access = PUBLIC;
 }
 
-CppItem& Parser::Элемент(const Ткст& scope, const Ткст& using_namespace, const Ткст& элт,
-                      const Ткст& имя)
+CppItem& Parser::Item(const String& scope, const String& using_namespace, const String& item,
+                      const String& name)
 {
-	Ткст h = Purify(элт);
-	CppItem& im = Элемент(scope, using_namespace, h, имя, false);
+	String h = Purify(item);
+	CppItem& im = Item(scope, using_namespace, h, name, false);
 	im.natural = h;
 	return im;
 }
@@ -1241,20 +1241,20 @@ void Parser::Resume(int bl)
 void Parser::ScopeBody()
 {
 	int bl = lex.GetBracesLevel();
-	while(!Ключ('}')) {
+	while(!Key('}')) {
 		if(lex == t_eof)
-			выведиОш("Unexpected end of file");
+			ThrowError("Неожиданный конец файла");
 		try {
 			Do();
 		}
-		catch(Ошибка) {
+		catch(Error) {
 			Resume(bl);
-			Ключ(';');
+			Key(';');
 		}
 	}
 }
 
-Ткст Parser::AnonymousName()
+String Parser::AnonymousName()
 {
 	int lvl = 0;
 	for(int i = 0; lex[i] != t_eof; i++) {
@@ -1262,51 +1262,51 @@ void Parser::ScopeBody()
 		else
 		if(lex[i] == '}')
 			if(--lvl == 0) {
-				if(lex.ид_ли(i + 1))
-					return "." + lex.Ид(i + 1);
+				if(lex.IsId(i + 1))
+					return "." + lex.Id(i + 1);
 				break;
 			}
 	}
 
 	dword x[4];
-	x[0] = случ();
-	x[1] = случ();
-	x[2] = случ();
-	x[3] = случ();
+	x[0] = Random();
+	x[1] = Random();
+	x[2] = Random();
+	x[3] = Random();
 	
-	return "@" + Base64Encode(Ткст((const char *)&x, sizeof(x))) + "/" + title;
+	return "@" + Base64Encode(String((const char *)&x, sizeof(x))) + "/" + title;
 }
 
-void Parser::AddNamespace(const Ткст& n, const Ткст& имя)
+void Parser::AddNamespace(const String& n, const String& name)
 {
-	Ткст h = "namespace " + n;
-	CppItem& m = Элемент(n, Null, h, имя);
+	String h = "namespace " + n;
+	CppItem& m = Item(n, Null, h, name);
 	m.kind = NAMESPACE;
 	m.natural = h;
 }
 
-bool Parser::Scope(const Ткст& tp, const Ткст& tn) {
-	if(Ключ(tk_namespace)) {
-		Check(lex.ид_ли(), "Expected имя of namespace");
-		Ткст имя = lex.дайИд();
-		LLOG("namespace " << имя);
-		namespace_info << ';' << имя;
-		Контекст c0;
+bool Parser::Scope(const String& tp, const String& tn) {
+	if(Key(tk_namespace)) {
+		Check(lex.IsId(), "Ожидалось имя пространства имён");
+		String name = lex.GetId();
+		LLOG("namespace " << name);
+		namespace_info << ';' << name;
+		Context c0;
 		c0 <<= context;
 		int struct_level0 = struct_level;
-		ScopeCat(context.scope, имя);
-		ScopeCat(context.ns, имя);
-		AddNamespace(context.scope, имя);
-		if(Ключ('{')) {
-			Контекст cc;
+		ScopeCat(context.scope, name);
+		ScopeCat(context.ns, name);
+		AddNamespace(context.scope, name);
+		if(Key('{')) {
+			Context cc;
 			cc <<= context;
-			while(!Ключ('}')) {
+			while(!Key('}')) {
 				if(lex == t_eof)
-					выведиОш("Unexpected end of file");
+					ThrowError("Неожиданный конец файла");
 				try {
 					Do();
 				}
-				catch(Ошибка) {
+				catch(Error) {
 					if(struct_level0)
 						throw;
 					context <<= cc;
@@ -1315,7 +1315,7 @@ bool Parser::Scope(const Ткст& tp, const Ткст& tn) {
 					++lex;
 					lex.SkipToGrounding();
 					lex.ClearBracesLevel();
-					LLOG("Grounding skipped to " << дайСтроку(lex.Поз()));
+					LLOG("Grounding skipped to " << GetLine(lex.Pos()));
 				}
 				catch(Lex::Grounding) {
 					LLOG("---- Grounding to namespace level");
@@ -1326,8 +1326,8 @@ bool Parser::Scope(const Ткст& tp, const Ткст& tn) {
 				}
 			}
 		}
-		LLOG("стоп namespace");
-		Ключ(';');
+		LLOG("End namespace");
+		Key(';');
 		context <<= c0;
 		SetScopeCurrent();
 		namespace_info << ";}";
@@ -1336,37 +1336,37 @@ bool Parser::Scope(const Ткст& tp, const Ткст& tn) {
 	return false;
 }
 
-CppItem& Parser::Фн(const Decl& d, const Ткст& templ, bool body,
-                    const Ткст& tname, const Ткст& tparam)
+CppItem& Parser::Fn(const Decl& d, const String& templ, bool body,
+                    const String& tname, const String& tparam)
 {
-	Ткст param;
-	Ткст pname;
-	Ткст ptype;
-	for(int i = 0; i < d.param.дайСчёт(); i++) {
+	String param;
+	String pname;
+	String ptype;
+	for(int i = 0; i < d.param.GetCount(); i++) {
 		const Decla& p = d.param[i];
 		ScAdd(param, p.natural);
 		if(i)
 			ptype << ';';
-		ptype << p.тип;
-		ScAdd(pname, p.имя);
+		ptype << p.type;
+		ScAdd(pname, p.name);
 	}
-	Ткст nn0;
-	Ткст nm = d.имя;
+	String nn0;
+	String nm = d.name;
 	int q;
 	if(d.castoper) {
-		q = d.имя.найдирек(' ');
-		q = q > 0 ? d.имя.найдирек(':', q) : d.имя.найдирек(':');
+		q = d.name.ReverseFind(' ');
+		q = q > 0 ? d.name.ReverseFind(':', q) : d.name.ReverseFind(':');
 	}
 	else
-		q = d.имя.найдирек(':');
+		q = d.name.ReverseFind(':');
 	if(q >= 0) {
-		nm = d.имя.середина(q + 1);
+		nm = d.name.Mid(q + 1);
 		if(q > 0)
-			nn0 = d.имя.середина(0, q - 1);
+			nn0 = d.name.Mid(0, q - 1);
 	}
-	Ткст элт = FnItem(d.natural, pname, d.имя, nm, d.oper);
-	Ткст scope = context.scope;
-	Ткст nn;
+	String item = FnItem(d.natural, pname, d.name, nm, d.oper);
+	String scope = context.scope;
+	String nn;
 	const char *s = nn0;
 	int l = 0;
 	while(*s) {
@@ -1377,21 +1377,21 @@ CppItem& Parser::Фн(const Decl& d, const Ткст& templ, bool body,
 			l--;
 		else
 		if(l == 0)
-			nn.конкат(*s);
+			nn.Cat(*s);
 		s++;
 	}
 	s = nn;
 	while(*s == ':') s++;
 	if(*s)
 		ScopeCat(scope, s);
-	CppItem& im = Элемент(scope, context.namespace_using, элт, nm, body);
-	im.natural.очисть();
-	if(!пусто_ли(templ)) {
-		im.natural = обрежьПраво(Gpurify(templ)) + ' ';
-		im.at = im.natural.дайДлину();
+	CppItem& im = Item(scope, context.namespace_using, item, nm, body);
+	im.natural.Clear();
+	if(!IsNull(templ)) {
+		im.natural = TrimRight(Gpurify(templ)) + ' ';
+		im.at = im.natural.GetLength();
 	}
-	im.natural << Purify(d.natural, d.имя, nm);
-	im.kind = templ.дайСчёт() ? IsNamespace(scope) ? FUNCTIONTEMPLATE
+	im.natural << Purify(d.natural, d.name, nm);
+	im.kind = templ.GetCount() ? IsNamespace(scope) ? FUNCTIONTEMPLATE
 	                                           : d.s_static ? CLASSFUNCTIONTEMPLATE
 	                                                        : INSTANCEFUNCTIONTEMPLATE
 	                           : d.istructor ? (d.isdestructor ? DESTRUCTOR : CONSTRUCTOR)
@@ -1404,49 +1404,49 @@ CppItem& Parser::Фн(const Decl& d, const Ткст& templ, bool body,
 	im.ptype = ptype;
 	im.access = context.access;
 	im.virt = d.s_virtual;
-	im.тип = d.тип;
+	im.type = d.type;
 	im.decla = true;
 	im.tname = tname;
 	im.tparam = tparam;
 	im.ctname = context.ctname;
-	LLOG("FnItem: " << scope << "::" << элт << ", natural: " << im.natural
+	LLOG("FnItem: " << scope << "::" << item << ", natural: " << im.natural
 	                << ", ctname: " << im.ctname);
 	return im;
 }
 
 void Parser::Enum(bool vars)
 {
-	Ткст имя;
-	if(lex.ид_ли())
-		имя = lex.дайИд();
+	String name;
+	if(lex.IsId())
+		name = lex.GetId();
 	while(lex != '{' && lex != ';' && lex != t_eof)
 		++lex;
-	if(Ключ('{')) {
+	if(Key('{')) {
 		for(;;) {
-			Строка();
-			Ткст val;
-			Check(lex.ид_ли(), "Expected identifier");
-			Ткст id = lex.дайИд();
-			CppItem& im = Элемент(context.scope, context.namespace_using, id, id);
+			Line();
+			String val;
+			Check(lex.IsId(), "Ожидался идентификатор");
+			String id = lex.GetId();
+			CppItem& im = Item(context.scope, context.namespace_using, id, id);
 			im.natural = "enum ";
-			if(!пусто_ли(имя))
-				im.natural << имя << ' ';
+			if(!IsNull(name))
+				im.natural << name << ' ';
 			im.natural << id;
-			if(Ключ('='))
+			if(Key('='))
 				im.natural << " = " << Constant();
 			im.kind = ENUM;
 			im.access = context.access;
-			Ключ(',');
-			if(Ключ('}')) break;
+			Key(',');
+			if(Key('}')) break;
 		}
 	}
-	while(!Ключ(';')) {
-		if(lex.ид_ли()) {
-			if(vars) { // typedef имя ignored here
-				Ткст scope = context.scope;
-				Ткст имя = lex.дайИд();
-				CppItem& im = Элемент(scope, context.namespace_using, имя, имя);
-				im.natural = "enum " + имя;
+	while(!Key(';')) {
+		if(lex.IsId()) {
+			if(vars) { // typedef name ignored here
+				String scope = context.scope;
+				String name = lex.GetId();
+				CppItem& im = Item(scope, context.namespace_using, name, name);
+				im.natural = "enum " + name;
 				im.access = context.access;
 				im.kind = IsNamespace(scope) ? VARIABLE : INSTANCEVARIABLE;
 			}
@@ -1458,30 +1458,30 @@ void Parser::Enum(bool vars)
 		else
 			break;
 	}
-	Ключ(';');
+	Key(';');
 	SetScopeCurrent();
 }
 
 bool Parser::UsingNamespace()
 {
-	if(lex == tk_using && !(lex.ид_ли(1) && lex[2] == '=')) {
+	if(lex == tk_using && !(lex.IsId(1) && lex[2] == '=')) {
 		++lex;
-		if(Ключ(tk_namespace))
-			while(lex.ид_ли()) {
-				Вектор<Ткст> h = разбей(context.namespace_using, ';');
-				Ткст u;
+		if(Key(tk_namespace))
+			while(lex.IsId()) {
+				Vector<String> h = Split(context.namespace_using, ';');
+				String u;
 				do {
-					u << lex.дайИд();
-					if(Ключ(t_dblcolon))
+					u << lex.GetId();
+					if(Key(t_dblcolon))
 						u << "::";
 				}
-				while(lex.ид_ли());
-				if(найдиИндекс(h, u) < 0)
-					h.добавь(u);
+				while(lex.IsId());
+				if(FindIndex(h, u) < 0)
+					h.Add(u);
 				context.namespace_using = Join(h, ";");
-				Ключ(',');
+				Key(',');
 			}
-		while(!Ключ(';') && lex != t_eof)
+		while(!Key(';') && lex != t_eof)
 			++lex;
 		namespace_info << ";using " << context.namespace_using;
 		return true;
@@ -1495,7 +1495,7 @@ bool Parser::IsEnum(int i)
 		if(lex[i] == '{')
 			return true;
 		else
-		if(lex.ид_ли(i) || lex[i] == ':' ||
+		if(lex.IsId(i) || lex[i] == ':' ||
 		   findarg(lex[i], tk_bool, tk_signed, tk_unsigned, tk_long, tk_int, tk_short,
 		                       tk_char, tk___int8, tk___int16, tk___int32, tk___int64,
 		                       tk_char16_t, tk_char32_t) >= 0)
@@ -1505,29 +1505,29 @@ bool Parser::IsEnum(int i)
 	}
 }
 
-void Parser::ClassEnum(const Ткст& clss)
+void Parser::ClassEnum(const String& clss)
 {
-	context.typenames.найдиДобавь(lex);
-	Контекст cc;
+	context.typenames.FindAdd(lex);
+	Context cc;
 	cc <<= context;
-	Ткст имя = lex.дайИд();
-	Ткст new_scope = context.scope;
-	ScopeCat(new_scope, имя);
+	String name = lex.GetId();
+	String new_scope = context.scope;
+	ScopeCat(new_scope, name);
 	context.scope = new_scope;
 	context.access = PUBLIC;
-	Ткст ключ = "class";
+	String key = "class";
 	LLOG("enum class "  << context.scope << " using " << context.namespace_using);
-	CppItem& im = Элемент(context.scope, context.namespace_using, ключ, имя, lex != ';');
+	CppItem& im = Item(context.scope, context.namespace_using, key, name, lex != ';');
 	im.kind = STRUCT;
-	im.natural = clss + " enum " + имя;
-	im.тип = имя;
+	im.natural = clss + " enum " + name;
+	im.type = name;
 	im.access = cc.access;
-	im.tname.очисть();
-	im.ctname.очисть();
-	im.tparam.очисть();
-	im.ptype.очисть();
-	im.pname.очисть();
-	im.param.очисть();
+	im.tname.Clear();
+	im.ctname.Clear();
+	im.tparam.Clear();
+	im.ptype.Clear();
+	im.pname.Clear();
+	im.param.Clear();
 	Enum(true);
 	context = pick(cc);
 	SetScopeCurrent();
@@ -1535,13 +1535,13 @@ void Parser::ClassEnum(const Ткст& clss)
 
 void Parser::DoNamespace()
 {
-	if(Ключ('{'))
-		while(!Ключ('}')) {
+	if(Key('{'))
+		while(!Key('}')) {
 			if(lex == t_eof)
-				выведиОш("Unexpected end of file");
+				ThrowError("Неожиданный конец файла");
 			Do();
 		}
-	Ключ(';');
+	Key(';');
 }
 
 void Parser::Do()
@@ -1549,11 +1549,11 @@ void Parser::Do()
 	LLOG("Do, scope: " << current_scope);
 	if(lex.IsGrounded() && struct_level)
 		throw Lex::Grounding();
-	Строка();
+	Line();
 	if(UsingNamespace())
 		;
 	else
-	if(Ключ(tk_static_assert))
+	if(Key(tk_static_assert))
 		while(lex != t_eof && lex != ';')
 			++lex;
 	else
@@ -1563,7 +1563,7 @@ void Parser::Do()
 		DoNamespace();
 	}
 	else
-	if(Ключ(';')) // 'empty' declaration, result of some ignores
+	if(Key(';')) // 'empty' declaration, result of some ignores
 		;
 	else
 	if(lex == tk_extern && lex[1] == tk_template) { // skip 'extern template void Foo<char>();'
@@ -1576,37 +1576,37 @@ void Parser::Do()
 		}
 	}
 	else
-	if(Ключ(tk_extern) && lex == t_string) { // extern "C++" kind
+	if(Key(tk_extern) && lex == t_string) { // extern "C++" kind
 		++lex;
 		DoNamespace();
 	}
 	else
-	if(Ключ(tk_template)) {
-		if(lex.ид_ли() || lex == tk_class && lex.ид_ли(1)) {
-			Ключ(tk_class);
+	if(Key(tk_template)) {
+		if(lex.IsId() || lex == tk_class && lex.IsId(1)) {
+			Key(tk_class);
 			for(;;) {
-				if(lex.ид_ли())
-					lex.дайИд();
+				if(lex.IsId())
+					lex.GetId();
 				else
-				if(!Ключ(t_dblcolon))
+				if(!Key(t_dblcolon))
 					break;
 			}
 			TemplateParams();
-			Ключ(';');
+			Key(';');
 		}
 		else {
-			Ткст tnames;
-			Ткст tparam = TemplateParams(tnames);
-			if(lex == tk_using) { //C++11 template alias template <...> using ИД =
-				Массив<Decl> r = Declaration(true, true, tnames, tparam);
-				for(int i = 0; i < r.дайСчёт(); i++) {
+			String tnames;
+			String tparam = TemplateParams(tnames);
+			if(lex == tk_using) { //C++11 template alias template <...> using ID =
+				Array<Decl> r = Declaration(true, true, tnames, tparam);
+				for(int i = 0; i < r.GetCount(); i++) {
 					Decla& d = r[i];
 					if(d.type_def) {
-						Ткст scope = context.scope;
-						ScopeCat(scope, d.имя);
-						CppItem& im = Элемент(scope, context.namespace_using, "typedef", d.имя);
+						String scope = context.scope;
+						ScopeCat(scope, d.name);
+						CppItem& im = Item(scope, context.namespace_using, "typedef", d.name);
 						im.natural = Purify(d.natural);
-						im.тип = d.тип;
+						im.type = d.type;
 						im.access = context.access;
 						im.kind = TYPEDEF;
 					}
@@ -1614,15 +1614,15 @@ void Parser::Do()
 			}
 			else {
 				if(!Scope(tparam, tnames)) {
-					Массив<Decl> r = Declaration(true, true, tnames, tparam);
+					Array<Decl> r = Declaration(true, true, tnames, tparam);
 					bool body = lex == '{';
-					for(int i = 0; i < r.дайСчёт(); i++) {
+					for(int i = 0; i < r.GetCount(); i++) {
 						Decl& d = r[i];
 						if(!d.isfriend && d.function)
-							Фн(d, "template " + tparam + ' ', body, tnames, tparam);
+							Fn(d, "template " + tparam + ' ', body, tnames, tparam);
 					}
 					EatBody();
-					Ключ(';');
+					Key(';');
 				}
 				EatBody();
 			}
@@ -1652,54 +1652,54 @@ void Parser::Do()
 		Enum(false);
 	}
 	else
-	if(!Scope(Ткст(), Ткст())) {
-		if(Ключ(tk_public)) {
+	if(!Scope(String(), String())) {
+		if(Key(tk_public)) {
 			context.access = PUBLIC;
-			Ключ(':');
+			Key(':');
 		}
 		else
-		if(Ключ(tk_private)) {
+		if(Key(tk_private)) {
 			context.access = PRIVATE;
-			Ключ(':');
+			Key(':');
 		}
 		else
-		if(Ключ(tk_protected)) {
+		if(Key(tk_protected)) {
 			context.access = PROTECTED;
-			Ключ(':');
+			Key(':');
 		}
 		else {
-			Массив<Decl> r = Declaration(true, true, Null, Null);
+			Array<Decl> r = Declaration(true, true, Null, Null);
 			bool body = lex == '{';
-			for(int i = 0; i < r.дайСчёт(); i++) {
+			for(int i = 0; i < r.GetCount(); i++) {
 				Decl& d = r[i];
-				if(d.имя.дайСчёт()) {
+				if(d.name.GetCount()) {
 					if(d.function) {
 						if(!d.isfriend)
-							Фн(d, Null, body, Ткст(), Ткст());
+							Fn(d, Null, body, String(), String());
 					}
 					else {
-						Ткст h = d.natural;
-						int q = h.найди('=');
+						String h = d.natural;
+						int q = h.Find('=');
 						if(q >= 0)
-							h = обрежьПраво(h.середина(0, q));
-						Ткст scope = context.scope;
+							h = TrimRight(h.Mid(0, q));
+						String scope = context.scope;
 						if(d.type_def)
-							ScopeCat(scope, d.имя);
-						Ткст имя = d.имя;
+							ScopeCat(scope, d.name);
+						String name = d.name;
 						int member_type = d.s_static ? CLASSVARIABLE : INSTANCEVARIABLE;
-						q = d.имя.найдирек("::");
-						if(q >= 0) { // class variable definition like: int Ктрл::циклСобытий;
-							ScopeCat(scope, d.имя.середина(0, q));
+						q = d.name.ReverseFind("::");
+						if(q >= 0) { // class variable definition like: int Ctrl::EventLoop;
+							ScopeCat(scope, d.name.Mid(0, q));
 							current_scope = scope; // temporary until ';'
-							имя = d.имя.середина(q + 2);
+							name = d.name.Mid(q + 2);
 							member_type = CLASSVARIABLE;
 						}
-						CppItem& im = Элемент(scope, context.namespace_using,
+						CppItem& im = Item(scope, context.namespace_using,
 						                   d.isfriend ? "friend class"
 						                   : d.type_def ? "typedef"
-						                   : имя, имя);
+						                   : name, name);
 						im.natural = Purify(h);
-						im.тип = d.тип;
+						im.type = d.type;
 						im.access = context.access;
 						im.kind = d.isfriend ? FRIENDCLASS :
 						          d.type_def ? TYPEDEF :
@@ -1711,17 +1711,17 @@ void Parser::Do()
 				}
 			}
 			EatBody();
-			if(Ключ(';'))
+			if(Key(';'))
 				SetScopeCurrent(); // need to be after ';' to make class variable definitions work
 		}
 	}
 }
 
-void  Parser::Do(Поток& in, CppBase& _base, int filei_, int filetype_,
-                 const Ткст& title_, Событие<int, const Ткст&> _err,
-                 const Вектор<Ткст>& typenames,
-                 const Вектор<Ткст>& namespace_stack,
-                 const Индекс<Ткст>& namespace_using)
+void  Parser::Do(Stream& in, CppBase& _base, int filei_, int filetype_,
+                 const String& title_, Event<int, const String&> _err,
+                 const Vector<String>& typenames,
+                 const Vector<String>& namespace_stack,
+                 const Index<String>& namespace_using)
 {
 	LTIMING("Parser::Do");
 	LLOG("= C++ Parser ==================================== " << title_ << " " << namespace_stack << ", dobody: " << dobody);
@@ -1733,43 +1733,43 @@ void  Parser::Do(Поток& in, CppBase& _base, int filei_, int filetype_,
 	lpos = 0;
 	line = 0;
 
-	context.namespace_using = Join(namespace_using.дайКлючи(), ";");
+	context.namespace_using = Join(namespace_using.GetKeys(), ";");
 	
-	Ткст n;
-	for(int i = 0; i < namespace_stack.дайСчёт(); i++) {
+	String n;
+	for(int i = 0; i < namespace_stack.GetCount(); i++) {
 		MergeWith(n, "::", namespace_stack[i]);
 		AddNamespace(n, namespace_stack[i]);
 	}
 
 	file = PreProcess(in, *this);
-	lex.иниц(~file.text);
+	lex.Init(~file.text);
 
 	while(lex != t_eof)
 		try {
 			try {
-				current_scope.очисть();
+				current_scope.Clear();
 				context.access = PUBLIC;
-				context.typenames.очисть();
-				context.tparam.очисть();
+				context.typenames.Clear();
+				context.tparam.Clear();
 				context.ns = context.scope = Join(namespace_stack, "::");
 				inbody = false;
 				struct_level = 0;
-				for(int i = 0; i < typenames.дайСчёт(); i++)
-					context.typenames.добавь(lex.Ид(typenames[i]));
+				for(int i = 0; i < typenames.GetCount(); i++)
+					context.typenames.Add(lex.Id(typenames[i]));
 				Do();
 			}
-			catch(Ошибка) {
+			catch(Error) {
 				if(lex.IsBody()) {
 					LLOG("---- Recovery to next ';'");
 					Resume(lex.GetBracesLevel());
-					Ключ(';');
+					Key(';');
 				}
 				else {
 					LLOG("---- Recovery to file level");
 					++lex;
 					lex.SkipToGrounding();
 					lex.ClearBracesLevel();
-					LLOG("Grounding skipped to " << дайСтроку(lex.Поз()));
+					LLOG("Grounding skipped to " << GetLine(lex.Pos()));
 				}
 			}
 		}
@@ -1780,16 +1780,16 @@ void  Parser::Do(Поток& in, CppBase& _base, int filei_, int filetype_,
 		}
 }
 
-Вектор<Ткст> ParserContext::GetNamespaces() const
+Vector<String> ParserContext::GetNamespaces() const
 {
-	Вектор<Ткст> ns;
-	Вектор<Ткст> h = разбей(current_scope, ':');
-	while(h.дайСчёт()) {
-		ns.добавь(Join(h, "::"));
-		h.сбрось();
+	Vector<String> ns;
+	Vector<String> h = Split(current_scope, ':');
+	while(h.GetCount()) {
+		ns.Add(Join(h, "::"));
+		h.Drop();
 	}
-	ns.приставь(разбей(context.namespace_using, ';'));
-	ns.добавь(""); // добавь global namespace too
+	ns.Append(Split(context.namespace_using, ';'));
+	ns.Add(""); // Add global namespace too
 	return ns;
 }
 

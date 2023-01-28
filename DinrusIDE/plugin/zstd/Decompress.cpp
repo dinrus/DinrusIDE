@@ -2,40 +2,40 @@
 
 #define LLOG(x) // LOG(x)
 
-namespace РНЦП {
+namespace Upp {
 
-void ZstdDecompressStream::иниц()
+void ZstdDecompressStream::Init()
 {
 	for(int i = 0; i < 16; i++)
-		wb[i].очисть();
+		wb[i].Clear();
 	ii = 0;
 	count = 0;
 	dlen = 0;
 	pos = 0;
 	eof = false;
 	static byte h;
-	ptr = rdlim = буфер = &h;
-	compressed_data.очисть();
+	ptr = rdlim = buffer = &h;
+	compressed_data.Clear();
 	compressed_at = 0;
-	сотриОш();
+	ClearError();
 }
 
-bool ZstdDecompressStream::открой(Поток& in_)
+bool ZstdDecompressStream::Open(Stream& in_)
 {
-	иниц();
+	Init();
 	in = &in_;
 	return true;
 }
 
-bool ZstdDecompressStream::следщ()
+bool ZstdDecompressStream::Next()
 {
-	pos += ptr - буфер;
-	ptr = rdlim = буфер;
+	pos += ptr - buffer;
+	ptr = rdlim = buffer;
 	if(ii < count) {
 		const Workblock& w = wb[ii++];
 		ptr = (byte *)~w.decompressed_data;
 		rdlim = ptr + w.decompressed_sz;
-		Поток::буфер = ptr;
+		Stream::buffer = ptr;
 		return true;
 	}
 	return false;
@@ -43,12 +43,12 @@ bool ZstdDecompressStream::следщ()
 
 void ZstdDecompressStream::Fetch()
 {
-	if(следщ())
+	if(Next())
 		return;
 	if(eof)
 		return;
-	СоРабота co;
-	bool   Ошибка = false;
+	CoWork co;
+	bool   error = false;
 	ii = 0;
 	count = concurrent ? 16 : 1;
 	for(int i = 0; i < count; i++) {
@@ -56,15 +56,15 @@ void ZstdDecompressStream::Fetch()
 		
 		size_t frameSize;
 		for(;;) {
-			int sz = compressed_data.дайСчёт() - compressed_at;
+			int sz = compressed_data.GetCount() - compressed_at;
 			const char *at = ~compressed_data + compressed_at;
 			frameSize = ZSTD_findFrameCompressedSize(at, sz);
 			if(!ZSTD_isError(frameSize))
 				break;
 			// need to read more compressed data
-			if(in->кф_ли()) {
-				if(compressed_data.дайСчёт() != compressed_at) {
-					устОш();
+			if(in->IsEof()) {
+				if(compressed_data.GetCount() != compressed_at) {
+					SetError();
 					return;
 				}
 
@@ -72,15 +72,15 @@ void ZstdDecompressStream::Fetch()
 				count = i;
 				goto eof;
 			}
-			ТкстБуф b(sz + count * BLOCK_BYTES);
+			StringBuffer b(sz + count * BLOCK_BYTES);
 			memcpy(~b, at, sz);
-			b.устСчёт(sz + in->дай(~b + sz, count * BLOCK_BYTES));
+			b.SetCount(sz + in->Get(~b + sz, count * BLOCK_BYTES));
 			compressed_data = b;
 			compressed_at = 0;
 		}
 		
 		if(frameSize > 1024*1024*1024) {
-			устОш();
+			SetError();
 			return;
 		}
 		
@@ -92,26 +92,26 @@ void ZstdDecompressStream::Fetch()
 		
 		uint64 sz = ZSTD_getFrameContentSize(w.FramePtr(), w.frame_sz);
 		if(sz == ZSTD_CONTENTSIZE_ERROR || sz > 1024*1024*1024) {
-			устОш();
+			SetError();
 			return;
 		}
 		
 		w.decompressed_sz = (int)sz;
 		
 		if(w.decompressed_sz > BLOCK_BYTES) {
-			w.decompressed_data.размести(w.decompressed_sz);
+			w.decompressed_data.Alloc(w.decompressed_sz);
 			w.irregular_d = true;
 		}
 		else
 		if(!w.decompressed_data || w.irregular_d) {
-			w.decompressed_data.размести(BLOCK_BYTES);
+			w.decompressed_data.Alloc(BLOCK_BYTES);
 			w.irregular_d = false;
 		}
 
 		auto decompress = [=] {
 			Workblock& w = wb[i];
 			if(ZSTD_isError(ZSTD_decompress(~w.decompressed_data, w.decompressed_sz, w.FramePtr(), w.frame_sz))) {
-				устОш();
+				SetError();
 				return;
 			}
 		};
@@ -123,19 +123,19 @@ void ZstdDecompressStream::Fetch()
 	}
 eof:
 	if(concurrent)
-		co.финиш();
-	if(Ошибка)
-		устОш();
+		co.Finish();
+	if(error)
+		SetError();
 	else
-		следщ();
+		Next();
 }
 
-bool ZstdDecompressStream::открыт() const
+bool ZstdDecompressStream::IsOpen() const
 {
-	return in->открыт() && !ошибка_ли();
+	return in->IsOpen() && !IsError();
 }
 
-int ZstdDecompressStream::_прекрати()
+int ZstdDecompressStream::_Term()
 {
 	if(Ended())
 		return -1;
@@ -143,7 +143,7 @@ int ZstdDecompressStream::_прекрати()
 	return ptr == rdlim ? -1 : *ptr;
 }
 
-int ZstdDecompressStream::_получи()
+int ZstdDecompressStream::_Get()
 {
 	if(Ended())
 		return -1;
@@ -151,7 +151,7 @@ int ZstdDecompressStream::_получи()
 	return ptr == rdlim ? -1 : *ptr++;
 }
 
-dword ZstdDecompressStream::_получи(void *data, dword size)
+dword ZstdDecompressStream::_Get(void *data, dword size)
 {
 	byte *t = (byte *)data;
 	while(size) {
@@ -187,11 +187,11 @@ ZstdDecompressStream::~ZstdDecompressStream()
 {
 }
 
-bool IsZstd(Поток& s)
+bool IsZstd(Stream& s)
 {
-	int64 pos = s.дайПоз();
+	int64 pos = s.GetPos();
 	bool b = (dword)s.Get32le() == 0xFD2FB528;
-	s.перейди(pos);
+	s.Seek(pos);
 	return b;
 }
 

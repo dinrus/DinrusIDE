@@ -264,7 +264,7 @@ bool AndroidBuilder::Link(
 		}
 	}
 	
-	PutConsole("Создлаётся файл apk...");
+	PutConsole("Создаётся файл apk...");
 	String unsignedApkPath = GetSandboxDir() + DIR_SEPS + GetFileTitle(target) + ".unsigned.apk";
 	DeleteFile(unsignedApkPath);
 	String apkCmd;

@@ -135,7 +135,7 @@ public:
 		Size isz = SplashCtrl::MakeLogo(*this, ctrl);
 		int cx = min(isz.cx * 2, GetWorkArea().GetWidth());
 		SetRect(0, 0, cx, isz.cy);
-		about.SetQTF(GetTopic("DinrusIDE/app/About_en-us"), Zoom(DPI(120), 1024));
+		about.SetQTF(GetTopic("DinrusIDE/app/About_ru-ru"), Zoom(DPI(120), 1024));
 		about.SetZoom(Zoom(1, 1));
 		about.RightPos(0, cx - isz.cx - DPI(1)).VSizePos();
 		about.HMargins(Zx(4));

@@ -186,7 +186,7 @@ BaseSetupDlg::BaseSetupDlg()
 {
 	CtrlLayoutOKCancel(*this, "Настройки Сборки");
 
-	setup_nest.Tip("Открыть редактор гнёзд..");
+	setup_nest.Tip("Открыть редактор гнёзд...");
 	setup_nest << [=] {
 		NestEditorDlg ndlg;
 		ndlg.Set(~upp);

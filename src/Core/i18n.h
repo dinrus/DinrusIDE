@@ -9,6 +9,7 @@ void    AddModule(const LngEntry__ *entry, const char *modulename = NULL);
 const char *t_GetLngString(const char *id);  // Only works with string literals because of caching !
 
 #define     LNG_enUS LNG_('E','N','U','S')
+#define     LNG_ruRU LNG_('R','U','R','U')
 
 const char *GetENUS(const char *id);
 

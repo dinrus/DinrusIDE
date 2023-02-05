@@ -393,7 +393,7 @@ bool HttpRequest::Do()
 		if(chunk_crlf.GetCount() < 2)
 			break;
 		if(chunk_crlf != "\r\n")
-			HttpError("missing ending CRLF in chunked transfer");
+			HttpError("отсутсвуют заверщающие CRLF при пакетной передаче");
 		StartPhase(CHUNK_HEADER);
 		break;
 	case TRAILER:
@@ -415,10 +415,10 @@ bool HttpRequest::Do()
 			phase = FAILED;
 		else
 		if(msecs(start_time) >= timeout)
-			HttpError("connection timed out");
+			HttpError("достигнут таймаут подключения");
 		else
 		if(IsAbort())
-			HttpError("connection was aborted");
+			HttpError("подключение прервано");
 	}
 
 	if(phase == FAILED) {

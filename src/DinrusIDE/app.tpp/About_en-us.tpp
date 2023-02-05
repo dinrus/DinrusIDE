@@ -1,37 +1,34 @@
 topic "Copyright © 1999-2022 U++ team";
 [ $$0,0#00000000000000000000000000000000:Default]
 [{_}%EN-US 
-[s0; [*+117 Авторское право© 1998, 2022 Команда 
-U`+`+]&]
-[s0;i704;O9; Авторы:[+117 -|][*+117 Mirek_Fídler, Iñaki Zabala,][+117  
+[s0; [*+117 Copyright © 1998, 2023 U`+`+ team]&]
+[s0;i704;O9; Authors:[+117 -|][*+117 Mirek_Fídler, Iñaki Zabala,][+117  
 ][*+117 Tomáš_Rylek, ][*^http`:`/`/www`.digitalsoftware`.pl^+117 Daniel_Kos][* , 
 ][*+117 Massimo Del Fedele, İsmail Yılmaz, ][*^https`:`/`/www`.linkedin`.com`/in`/zbigniewrebacz^+117 Z
 bigniew Rębacz]&]
-[s0;i704;O9; Контрибуторы:[+117 -|][* Sandor_Hojtsy, Zsolt_Debre, 
-Guido_Schimmels, Augusto_Roman, Arijus Bernotas, Michael_Albert 
-, Marcus_Mauhart, ][*^http`:`/`/nullptr`.nl`/^ Jan_Wilmans][* , Graeme_Prentice, 
-Victor_Berchet, Ivica_Puljic, Mathiass_Sund, Andrew_Barilla, 
-Michal_Mierzejewski, Damien_Porquet, Werner_Wenzel, ][%-* Bas_Wegh][* , 
-Fabio_Busetto, Michal_Pekař, Darrin_Scott, Damien_Porquet, James 
-Thomas, ][*^http`:`/`/h4xz`.blogspot`.com^ Sritharan Sivaguru,][*  
-Artur Bać, Ralf Schneider, Pavel Ostapenko, Raul Ionitoiu, Norbert 
-Hofer, Tomasz Pajak, Benoit Cousson, Trey Van Riper, Peter Berger, 
-Sergey Nikitin, Irenkov Alexander, Gabriel Schmotzer, Domingo 
-Alvarez Duarte, Andrei Cosma, Tom Olá, George Brink, Zbigniew 
-Czapiga, Konstantin Hartwich, Didier Quenouillere, Anthony Paul, 
-Kovalev Sergey, Martin Schut, Ion Lupascu, Frank De prins, Jeff 
-Humphreys, Lucas Harsze, Martin Schut, ][*^http`:`/`/www`.mimuw`.edu`.pl`/`~pan`/^ J
+[s0;i704;O9; Contributors:[+117 -|][* Sandor_Hojtsy, Zsolt_Debre, Guido_Schimmels, 
+Augusto_Roman, Arijus Bernotas, Michael_Albert , Marcus_Mauhart, 
+][*^http`:`/`/nullptr`.nl`/^ Jan_Wilmans][* , Graeme_Prentice, Victor_Berchet, 
+Ivica_Puljic, Mathiass_Sund, Andrew_Barilla, Michal_Mierzejewski, 
+Damien_Porquet, Werner_Wenzel, ][%-* Bas_Wegh][* , Fabio_Busetto, 
+Michal_Pekař, Darrin_Scott, Damien_Porquet, James Thomas, ][*^http`:`/`/h4xz`.blogspot`.com^ S
+ritharan Sivaguru,][*  Artur Bać, Ralf Schneider, Pavel Ostapenko, 
+Raul Ionitoiu, Norbert Hofer, Tomasz Pajak, Benoit Cousson, Trey 
+Van Riper, Peter Berger, Sergey Nikitin, Irenkov Alexander, Gabriel 
+Schmotzer, Domingo Alvarez Duarte, Andrei Cosma, Tom Olá, George 
+Brink, Zbigniew Czapiga, Konstantin Hartwich, Didier Quenouillere, 
+Anthony Paul, Kovalev Sergey, Martin Schut, Ion Lupascu, Frank 
+De prins, Jeff Humphreys, Lucas Harsze, Martin Schut, ][*^http`:`/`/www`.mimuw`.edu`.pl`/`~pan`/^ J
 akub Pawlewicz][* , Navin Vidhani, Steffen Brummer, Luis Rodriguez, 
 Rakibul Islam, Nahar Pengatteeri, Ralph Klautke, Victor Picheev, 
 Navadvipa Chandra das, Radek Malčic, Amrein`-Marie Christophe, 
-Abdelghani Omari, Clément Hamon]&]
-[s0;i704;O9; Переводчики:-|[* Mauro_Bottizzo, Miklós_Somogyi, 
-Arlen_Albert, Ivica_Puljic, Richard_Gill, Werner_Wenzel, Tom 
-Olá, Sergey Nikitin, Koldo Ramirez, Gabriel Schmotzer, Andrei 
-Catalin, Massimo Del Fedele, Jan Dolinár, Zsolt Debre, Anton 
-Aleshkevich, Lionel Orry, 黃俊達 (Kasome), phirox, Didier, 
-谢威扬 (Bonami), Frederico Rodrigues, Ruben Proost, Willem 
-Kroes, Koncz Márton, Виталий Кулич]&]
+Abdelghani Omari, Clément Hamon, Tomas Lindquist]&]
+[s0;i704;O9; Translators:-|[* Mauro_Bottizzo, Miklós_Somogyi, Arlen_Albert, 
+Ivica_Puljic, Richard_Gill, Werner_Wenzel, Tom Olá, Sergey Nikitin, 
+Koldo Ramirez, Gabriel Schmotzer, Andrei Catalin, Massimo Del 
+Fedele, Jan Dolinár, Zsolt Debre, Anton Aleshkevich, Lionel 
+Orry, 黃俊達 (Kasome), phirox, Didier, 谢威扬 (Bonami), 
+Frederico Rodrigues, Ruben Proost, Willem Kroes, Koncz Márton]&]
 [s0;i704;O9; PR `& SEO:-|[* Pavel_Stratil]&]
 [s0;i704;O9; U`+`+ Logo:[+117 -|][* Pavel Ostapenko], [* Robert_Vroemisse, 
 ]&]
@@ -78,22 +75,22 @@ Refer there for licenses, however all libraries have BSD`-compatible
 license.]&]
 [s0;+108 &]
 [s0; [+108 U`+`+ has BSD license:]&]
-[ {{10000@(254.255.232) [s0; [0 Copyright (c) 1998, 2014, The U`+`+ Project]&]
-[s0; [0 All rights reserved.]&]
-[s0;0 &]
-[s0; [0 Redistribution and use in source and binary forms, with or 
+[ {{10000@(254.255.232) [s0; [1 Copyright (c) 1998, 2022, The U`+`+ Project]&]
+[s0; [1 All rights reserved.]&]
+[s0;1 &]
+[s0; [1 Redistribution and use in source and binary forms, with or 
 without modification, are permitted provided that the following 
 conditions are met:]&]
-[s0;0 &]
-[s0; [0 1. Redistributions of source code must retain the above copyright 
+[s0;1 &]
+[s0; [1 1. Redistributions of source code must retain the above copyright 
 notice, this list of conditions and the following disclaimer.]&]
-[s0;0 &]
-[s0; [0 2. Redistributions in binary form must reproduce the above 
+[s0;1 &]
+[s0; [1 2. Redistributions in binary form must reproduce the above 
 copyright notice, this list of conditions and the following disclaimer 
 in the documentation and/or other materials provided with the 
 distribution.]&]
-[s0;0 &]
-[s0; [0 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+[s0;1 &]
+[s0; [1 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
 `"AS IS`" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT 
 NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND 
 FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT 

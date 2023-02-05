@@ -29,7 +29,7 @@ struct TFile : Moveable<TFile> {
 
 	void MakeLS() {
 		Index<int> lngset;
-		lngset.Add(LNG_enUS);
+		lngset.Add(LNG_ruRU);
 		for(int i = 0; i < map.GetCount(); i++)
 			for(int j = 0; j < map[i].text.GetCount(); j++)
 				lngset.FindAdd(map[i].text.GetKey(j));
@@ -56,7 +56,7 @@ void LngParseCFile(const String& fn, VectorMap<String, LngEntry>& lng)
 				if(p.IsString()) {
 					String tid = p.ReadString();
 					LngEntry& le = lng.GetAdd(tid);
-					le.text.GetAdd(LNG_enUS) = GetENUS(tid);
+					le.text.GetAdd(LNG_ruRU) = GetENUS(tid);
 					le.AddFileLine(p);
 					le.added = true;
 					if(!p.Char(')'))
@@ -110,7 +110,7 @@ bool LngParseTFile(const String& fn, VectorMap<String, LngEntry>& lng)
 			}
 			else {
 				if(IsNull(id))
-					p.ThrowError("missing T_");
+					p.ThrowError("отсутствует T_");
 				String lngs = p.ReadId();
 				p.PassChar('(');
 				if(lngs.GetLength() == 4) {
@@ -164,7 +164,7 @@ String CreateTFile(const VectorMap<String, LngEntry>& map, const Vector<int>& ln
 			out << "T_(" << AsCString(id, 70, linepfx, ascflags) << ")\r\n";
 			for(int j = 0; j < lngset.GetCount(); j++) {
 				int lang = lngset[j];
-				if(rep || lang != LNG_enUS) {
+				if(rep || lang != LNG_ruRU) {
 					int q = e.text.Find(lang);
 					if(!rep || q >= 0 && !IsNull(e.text[q])) {
 						int c = (lang >> 15) & 31;
@@ -277,7 +277,7 @@ void LangDlg::AddLangAll()
 
 void LangDlg::RemoveLang()
 {
-	if(file.IsCursor() && lang.IsCursor() && (int)lang.GetKey() != LNG_enUS
+	if(file.IsCursor() && lang.IsCursor() && (int)lang.GetKey() != LNG_ruRU
 	   && PromptOKCancel("Удалить выбранную версию языка?")) {
 		TFile& tf = tfile[file.GetCursor()];
 		tf.ls.Remove(lang.GetCursor());
@@ -436,7 +436,7 @@ public:
 
 ExportTrDlg::ExportTrDlg()
 {
-	CtrlLayoutOKCancel(*this, "Эксортировать в файл .tr");
+	CtrlLayoutOKCancel(*this, "Экспортировать в файл .tr");
 
 	DlCharsetD(charset);
 	of.Attach(folder);
@@ -702,7 +702,7 @@ void Ide::ConvertST()
 					int q = repository.map.Find(id);
 					if(q >= 0) {
 						LngEntry& e = repository.map[q];
-						q = e.text.Find(LNG_enUS);
+						q = e.text.Find(LNG_ruRU);
 						if(q >= 0) {
 							r.Cat(b, w);
 							r.Cat("t_(");

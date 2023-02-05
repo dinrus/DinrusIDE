@@ -928,7 +928,7 @@ void CompareStream::Open(Stream& astream) {
 	style = STRM_WRITE|STRM_SEEK;
 	stream = &astream;
 	size = pos = 0;
-	wrlim = buffer + 1024;
+	wrlim = buffer + 128;
 	ptr = buffer;
 	equal = true;
 	ClearError();

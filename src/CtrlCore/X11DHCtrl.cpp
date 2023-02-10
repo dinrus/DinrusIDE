@@ -80,7 +80,7 @@ bool DHCtrl::Init()
 		AfterInit(true);
 
 		// Sets the appropriate error message
-		SetErrorMessage("DHCtrl : Bad display");
+		SetErrorMessage("DHCtrl : Плохой дисплей");
 
 		isError = true;
 		isInitializing = false;
@@ -174,7 +174,7 @@ bool DHCtrl::Init()
 		AfterInit(true);
 
 		// Sets the appropriate error message
-		SetErrorMessage("DHCtrl : Can't create window");
+		SetErrorMessage("DHCtrl : Не удаётся создать окно");
 
         isError = true;
 		isInitializing = false;
@@ -413,7 +413,7 @@ XVisualInfo DHCtrl::GetVisualInfo(void)
 	else
 	{
 		isError = true;
-		ErrorMessage = "DHCtrl: no XVisualInfo for current Visual";
+		ErrorMessage = "DHCtrl: отсутствует XVisualInfo для текущей Visual";
 	}
 
 	// returns the found XVisualInfo struct

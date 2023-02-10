@@ -135,5 +135,5 @@ mainconfig
 
 custom(DINRUSIDEEXE) "",
 	"ASDFASDFASDF",
-	"$(OUTDIR)/$(FILE).obj";
+	"$(OUTDIR)/$(FILE).o";
 

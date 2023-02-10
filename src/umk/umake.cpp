@@ -14,7 +14,7 @@ String GetUmkFile(const char *fn)
 		PutVerbose("Пака конфигурации: " << cfgdir);
 	return GetFileOnPath(fn,
 	                     cfgdir + "/umk" + ';' +
-	                     cfgdir + "/theide" + ';' +
+	                     cfgdir + "/DinrusIDE" + ';' +
 	                     cfgdir + "/ide" + ';' +
 	                     GetHomeDirectory() + ';' +
 	                     GetFileFolder(GetExeFilePath()));
@@ -65,7 +65,7 @@ CONSOLE_APP_MAIN
 #endif
 
 	Ide ide;
-	TheIde(&ide);
+	DinrusIde(&ide);
 	ide.console.SetSlots(CPU_Cores());
 	ide.console.console = true;
 

@@ -731,7 +731,7 @@ void FindWildcardMenu(Callback1<const char *> cb, Point p, bool tablf, Ctrl *own
 		if(tablf) {
 			menu.Separator();
 			menu.Add(t_("Таб"), callback1(cb, "\\t"));
-			menu.Add(t_("Line feed"), callback1(cb, "\\n"));
+			menu.Add(t_("Лайнфид"), callback1(cb, "\\n"));
 		}
 	}
 	menu.Execute(owner, p);
@@ -761,12 +761,12 @@ void CodeEditor::ReplaceWildcard()
 	if(findreplace.regexp)
 		ptxt = t_("Сверен подобразец %d");
 	else {
-		menu.Add(t_("Matched spaces"), THISBACK1(InsertWildcard, "%"));
-		menu.Add(t_("Matched one or more any characters"), THISBACK1(InsertWildcard, "*"));
-		menu.Add(t_("Matched C++ identifier"), THISBACK1(InsertWildcard, "$"));
-		menu.Add(t_("Matched number"), THISBACK1(InsertWildcard, "#"));
-		menu.Add(t_("Matched any character"), THISBACK1(InsertWildcard, "?"));
-		ptxt = t_("Matched wildcard %d");
+		menu.Add(t_("Совпадающие пробелы"), THISBACK1(InsertWildcard, "%"));
+		menu.Add(t_("Совадаюшие 1/неск. любых символов"), THISBACK1(InsertWildcard, "*"));
+		menu.Add(t_("Совпадающие идентификаторы C++"), THISBACK1(InsertWildcard, "$"));
+		menu.Add(t_("Совпадающее число"), THISBACK1(InsertWildcard, "#"));
+		menu.Add(t_("Совпадающий любой символ"), THISBACK1(InsertWildcard, "?"));
+		ptxt = t_("Совпадающий шаблон %d");
 	}
 	menu.Add(t_("0-based replace index"), THISBACK1(InsertWildcard, "@@"));
 	menu.Add(t_("1-based replace index"), THISBACK1(InsertWildcard, "@#"));

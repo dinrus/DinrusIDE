@@ -1,6 +1,6 @@
 #include "DinrusIDE.h"
 
-void Ide::UpgradeTheIDE()
+void Ide::UpgradeDinrusIde()
 {
 	String idepath = GetExeFilePath();
 	String newpath = idepath + ".new";
@@ -45,11 +45,11 @@ void Ide::UpgradeTheIDE()
 void Ide::InstallDesktop()
 {
 	String apps = GetHomeDirFile(".local/share/applications");
-	if(PromptYesNo("Записать theide.desktop в&[* \1" + apps + "\1]?&"
+	if(PromptYesNo("Записать DinrusIDE.desktop в&[* \1" + apps + "\1]?&"
 	               "После этого ИСР РНЦП Динрус будет доступна через приложения рабочего стола.")) {
-		String icon = ConfigFile("theide.png");
+		String icon = ConfigFile("DinrusIDE.png");
 		PNGEncoder().SaveFile(icon, IdeImg::PackageLarge());
-		String path = apps + "/theide.desktop";
+		String path = apps + "/DinrusIDE.desktop";
 		RealizePath(path);
 		Upp::SaveFile(path,
 			"[Desktop Entry]\n"

@@ -121,11 +121,11 @@ bool ZImageRaster::Create()
 {
 	static const unsigned MAGIC_TAG = 'Z' * 0x1000000 + 'I' * 0x10000 + 'M' * 0x100 + 'G';
 	static const int VERSION = 1;
-	
+
 	format.SetRGBA();
-	
+
 	Stream& stream = GetStream();
-	
+
 	stream.Magic(MAGIC_TAG);
 	if(stream.IsError())
 		return false;
@@ -152,13 +152,13 @@ bool ZImageRaster::Create()
 	if(stream.IsError() || dir.IsEmpty())
 		return false;
 	item = dir[0];
-	
+
 	Buffer<int> offsets(dir.GetCount() + 1);
 	for(int i = 0; i <= dir.GetCount(); i++)
 		stream % offsets[i];
 	int64 base = stream.GetPos();
 	stream.Seek(base + offsets[0]);
-	
+
 	if(item.size.cx <= 0 || item.size.cy <= 0)
 		return false;
 
@@ -225,7 +225,7 @@ bool ZImageRaster::Create()
 			stream.SetError();
 			return false;
 		}
-	
+
 		for(int i = 0; i < item.size.cy;) {
 			int e = min(item.size.cy, i + alpha_block_size);
 			String part;
@@ -240,7 +240,7 @@ bool ZImageRaster::Create()
 			i = e;
 		}
 	}
-*/	
+*/
 	return true;
 }
 
@@ -396,15 +396,15 @@ void ImageWriter::WriteLineRaw(const byte *s)
 }
 
 ImageBufferRaster::ImageBufferRaster(const ImageBuffer& buffer_)
-: �����(buffer_)
+: buffer(buffer_)
 {
-	crop = �����.GetSize();
+	crop = buffer.GetSize();
 }
 
 ImageBufferRaster::ImageBufferRaster(const ImageBuffer& buffer_, const Rect& crop_)
-: �����(buffer_)
+: buffer(buffer_)
 {
-	crop = crop_ & Rect(�����.GetSize());
+	crop = crop_ & Rect(buffer.GetSize());
 }
 
 Size ImageBufferRaster::GetSize()
@@ -419,13 +419,13 @@ Raster::Info ImageBufferRaster::GetInfo()
 	info.colors = 0;
 	info.dots = Null;
 	info.hotspot = Null;
-	info.kind = �����.GetKind();
+	info.kind = buffer.GetKind();
 	return info;
 }
 
 Raster::Line ImageBufferRaster::GetLine(int line)
 {
-	return Line(�����[line + crop.top] + crop.left, false);
+	return Line(buffer[line + crop.top] + crop.left, false);
 }
 
 inline Stream& operator % (Stream& strm, Color& color)
@@ -1465,7 +1465,7 @@ void HRR::Paint(Draw& draw, const Matrixf& trg_pix, GisTransform transform,
 		decoder = CreateDecoder(info);
 		if(decoder.IsEmpty()) {
 			draw.DrawText(cdest.left, cdest.top,
-				String().Cat() << "Unsupported HRR encoding: " << info.GetMethod(), StdFont());
+				String().Cat() << "Неподдерживаемая кодировка HRR: " << info.GetMethod(), StdFont());
 			draw.End();
 			LLOG(EndIndent << "//HRR:x: encoder not found, exiting");
 			return;
@@ -1539,8 +1539,8 @@ void HRR::Paint(Draw& draw, const Matrixf& trg_pix, GisTransform transform,
 					stream.Seek(Unpack64(pixel_offset));
 					new_image = decoder->Load(stream);
 					if(new_image.IsEmpty()) {
-						String warn = NFormat("Failed to load block [%d, %d].", x, y);
-						Size sz = ?????????????(warn, err_font);
+						String warn = NFormat("Не удалось загрузить блок [%d, %d].", x, y);
+						Size sz = GetTextSize(warn, err_font);
 						draw.DrawRect(Rect(dest.CenterPoint(), Size(1, 1)).Inflated(sz + 2), Color(255, 192, 192));
 						draw.DrawText((dest.left + dest.right - sz.cx) >> 1, (dest.top + dest.bottom - sz.cy) >> 1,
 							warn, StdFont(), Black);
@@ -1686,8 +1686,8 @@ void HRR::Serialize()
 {
 	int outver = (stream.IsStoring() && (info.mono || info.method >= info.METHOD_ZIM) ? 5 : 4);
 	version = StreamHeading(stream, outver, 1, 5, "\r\n"
-		"High-Resolution Raster\r\n"
-		"Copyright �1999 Cybex Development, spol. s r.o.\r\n");
+		"Растр Высокого Разрешения\r\n"
+		"Авторское Право �1999 Cybex Development, spol. s r.o.\r\n");
 	if(version >= 1)
 		stream % info;
 	if(version >= 2)
@@ -1765,7 +1765,7 @@ void HRR::Write(Writeback drawback, bool downscale)
 	}
 	One<StreamRasterEncoder> encoder = CreateEncoder(info);
 	if(!encoder)
-		throw Exc(String().Cat() << "Unsupported HRR encoding: " << info.GetMethod());
+		throw Exc(String().Cat() << "Неподдерживаемая кодировка HRR: " << info.GetMethod());
 
 	bool abort = false;
 	try

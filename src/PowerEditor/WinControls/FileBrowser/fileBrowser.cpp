@@ -1593,17 +1593,17 @@ LPCWSTR explainAction(DWORD dwAction)
 	switch (dwAction)
 	{
 	case FILE_ACTION_ADDED:
-		return L"Added";
+		return L"Добавлен";
 	case FILE_ACTION_REMOVED:
-		return L"Deleted";
+		return L"Удалён";
 	case FILE_ACTION_MODIFIED:
-		return L"Modified";
+		return L"Изменён";
 	case FILE_ACTION_RENAMED_OLD_NAME:
-		return L"Renamed From";
+		return L"Переименован Из";
 	case FILE_ACTION_RENAMED_NEW_NAME:
-		return L"Renamed ";
+		return L"Переименован ";
 	default:
-		return L"BAD DATA";
+		return L"ПЛОХИЕ ДАННЫЕ";
 	}
 };
 

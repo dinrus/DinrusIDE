@@ -62,7 +62,7 @@ struct Navigator {
 		NavigatorDisplay(const Vector<NavItem *>& item) : item(item) {}
 	};
 
-	Ide             *theide;
+	Ide             *DinrusIDE;
 
 	Array<NavItem>                             nitem;
 	VectorMap<String, Vector<NavItem *> >      gitem;

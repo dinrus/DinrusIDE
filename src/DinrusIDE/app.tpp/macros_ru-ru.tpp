@@ -1,4 +1,4 @@
-topic "TheIDE macros";
+topic "Макросы DinrusIDE";
 [l288;i704;a17;O9;~~~.992;2 $$1,0#10431211400427159095818037425705:param]
 [a83;*R6 $$2,5#31310162474203024125188417583966:caption]
 [H4;b83;*4 $$3,5#07864147445237544204411237157677:title]
@@ -21,23 +21,25 @@ topic "TheIDE macros";
 [ph2 $$20,20#DD7DA091E475BE28D02C795D449A6B57:TextInTable]
 [2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%RU-RU 
-[s2; TheIDE Macros&]
-[s3; Table of contents&]
+[s2; [@3 Макросы DinrusIDE]&]
+[s3; [@3 Содержание]&]
 [s0; &]
-[s0; [^topic`:`/`/ide`/app`/macros`_en`-us`#1^ 1. Overview]&]
-[s0; [^topic`:`/`/ide`/app`/macros`_en`-us`#2^ 2. TheIDE `- API]&]
-[s0;     [^topic`:`/`/ide`/app`/macros`_en`-us`#2`.1^ 2.1 Text editing 
-methods]&]
-[s0;     [^topic`:`/`/ide`/app`/macros`_en`-us`#2`.2^ 2.2 File methods]&]
-[s0;     [^topic`:`/`/ide`/app`/macros`_en`-us`#2`.3^ 2.3 User interaction 
-methods]&]
-[s0;     [^topic`:`/`/ide`/app`/macros`_en`-us`#2`.4^ 2.4 Build and 
-execute methods]&]
-[s0;     [^topic`:`/`/ide`/app`/macros`_en`-us`#2`.5^ 2.5 Informative 
-methods]&]
+[s0; [^topic`:`/`/DinrusIDE`/app`/macros`_ru`-ru`#1^ 1. Обзор]&]
+[s0; [^topic`:`/`/DinrusIDE`/app`/macros`_ru`-ru`#2^ 2. DinrusIDE `- 
+API]&]
+[s0;     [^topic`:`/`/DinrusIDE`/app`/macros`_ru`-ru`#2`.1^ 2.1 Методы 
+редактирования текста]&]
+[s0;     [^topic`:`/`/DinrusIDE`/app`/macros`_ru`-ru`#2`.2^ 2.2 Файловые 
+методы]&]
+[s0;     [^topic`:`/`/DinrusIDE`/app`/macros`_ru`-ru`#2`.3^ 2.3 Методы 
+взаимодействия с пользователем]&]
+[s0;     [^topic`:`/`/DinrusIDE`/app`/macros`_ru`-ru`#2`.4^ 2.4 Методы 
+построения и выполнения]&]
+[s0;     [^topic`:`/`/DinrusIDE`/app`/macros`_ru`-ru`#2`.5^ 2.5 Информативны
+е методы]&]
 [s0; &]
-[s3;:1: 1. Overview&]
-[s5; TheIDE macros are written in [^topic`:`/`/Esc`/srcdoc`/Esc`_en`-us^ Esc 
+[s3;:1: [@(128.0.255) 1. Обзор]&]
+[s5; DinrusIDE macros are written in [^topic`:`/`/Esc`/srcdoc`/Esc`_en`-us^ Esc 
 scripting language] and placed in .usc files. .usc files can 
 be either part of regular packages or are placed in Common or 
 Local directory.&]
@@ -78,8 +80,9 @@ keyword:&]
 [s0; &]
 [s5; Functions defined like this can be simply called in the code 
 of macros as a global functions.&]
-[s3;:2: 2. TheIDE `- API&]
-[s19;:2`.1: 2.1 Text editing methods&]
+[s3;:2: [@5 2. DinrusIDE `- API]&]
+[s19;:2`.1: [@(128.0.255) 2.1 Методы редактирования 
+текста]&]
 [s5; Most of text editing methods are provided in two (`"overloaded`") 
 forms `- implicit that works with cursor and selection or explicit 
 with given positions.&]
@@ -166,8 +169,8 @@ replaced.]
 (like when corresponding movement while pressing Shift key) if 
 [/ sel] is 1.]}}&]
 [s0; &]
-[s19;:2`.2: 2.2 File methods&]
-[s5; This section grouped methods that allows to manipulate TheIDE 
+[s19;:2`.2: [@(128.0.255) 2.2 Файловые методы]&]
+[s5; This section grouped methods that allows to manipulate DinrusIDE 
 files.&]
 [s0; &]
 [ {{3667:6333h1;@(204) [s0; Method]
@@ -182,7 +185,8 @@ files.&]
 :: [s0;ph [*C+75 CloseFile()]]
 :: [s20; Closes active tab.]}}&]
 [s0; &]
-[s19;:2`.3: 2.3 User interaction methods&]
+[s19;:2`.3: [@(128.0.255) 2.3 Методы взаимодействия 
+с пользователем]&]
 [s5; From time to time, it is necessary to communicate some information 
 from user to the macro or vice versa, which is exactly what these 
 methods do.&]
@@ -200,8 +204,8 @@ edit fields.]
 :: [s0;ph [*C+75 Echo(][/C+75 ...][*C+75 )]]
 :: [s20; Prints all arguments to the output console, one per line.]}}&]
 [s0; &]
-[s19;:2`.4: 2.4 Build and execute methods&]
-[s5; The macros can be used to extend the capabilities of TheIDE. 
+[s19;:2`.4: [@(128.0.255) 2.4 Методы построения и выполнения]&]
+[s5; The macros can be used to extend the capabilities of DinrusIDE. 
 For that, there is a few methods that allow executing other programs 
 and also to trigger building U`+`+ packages.&]
 [s0; &]
@@ -219,7 +223,7 @@ executable.]
 :: [s20; Same as previous, but works with any package specified by passing 
 path to it`'s .upp file as a first parameter.]}}&]
 [s0; &]
-[s19;:2`.5: 2.5 Informative methods&]
+[s19;:2`.5: [@(128.0.255) 2.5 Информативные методы]&]
 [s5; The methods providing information about packages and build settings. 
 If the optional parameter [/ pkg] is not specified, the currently 
 selected package is used.&]

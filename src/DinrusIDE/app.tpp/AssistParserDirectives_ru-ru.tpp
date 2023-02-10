@@ -1,4 +1,4 @@
-topic "Assist++ - C++ parser directives";
+topic "Директивы парсера Ассиста++";
 [i448;a25;kKO9;2 $$1,0#37138531426314131252341829483380:class]
 [l288;2 $$2,2#27521748481378242620020725143825:desc]
 [0 $$3,0#96390100711032703541132217272105:end]
@@ -14,31 +14,41 @@ topic "Assist++ - C++ parser directives";
 [a83;*R6 $$13,11#31310162474203024125188417583966:caption]
 [2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%RU-RU 
-[s13; Директивы парсера Assist`+`+&]
-[s10; Содержание&]
+[s13; [@3 Директивы парсера Ассиста`+`+]&]
+[s10; [@5 Содержание]&]
 [s0; &]
-[s0; [^topic`:`/`/ide`/app`/AssistParserDirectives`_en`-us`#1^ 1. Introduction]&]
-[s0; [^topic`:`/`/ide`/app`/AssistParserDirectives`_en`-us`#2^ 2. Handling 
-of source files, headers, macros and namespaces]&]
-[s0; [^topic`:`/`/ide`/app`/AssistParserDirectives`_en`-us`#3^ 3. Macro 
-overrides, namespace macros]&]
-[s0; [^topic`:`/`/ide`/app`/AssistParserDirectives`_en`-us`#4^ 4. Grounding 
-heuristics]&]
-[s0; [^topic`:`/`/ide`/app`/AssistParserDirectives`_en`-us`#5^ 5. Assist`+`+ 
-C`+`+ parser directives]&]
+[s0; [^topic`:`/`/DinrusIDE`/app`/AssistParserDirectives`_ru`-ru`#1^ 1. 
+Введение]&]
+[s0; [^topic`:`/`/DinrusIDE`/app`/AssistParserDirectives`_ru`-ru`#2^ 2. 
+Управление исходниками, заголовочниками, 
+макросами и пространствами имён]&]
+[s0; [^topic`:`/`/DinrusIDE`/app`/AssistParserDirectives`_ru`-ru`#3^ 3. 
+Перепись макросов, макросы пространства 
+имён]&]
+[s0; [^topic`:`/`/DinrusIDE`/app`/AssistParserDirectives`_ru`-ru`#4^ 4. 
+Основание эвристики]&]
+[s0; [^topic`:`/`/DinrusIDE`/app`/AssistParserDirectives`_ru`-ru`#5^ 5. 
+Assist`+`+ C`+`+ `- директивы парсера]&]
 [s0; &]
-[s10;:1: 1. Introduction&]
-[s11; Assist`+`+ C`+`+ parser does not follow C/C`+`+ standards exactly, 
-for performance and practical reasons. This documents provides 
-information about deviations, heuristics and tricks that we use 
-to make the machinery fast and highly error resistant.&]
-[s10;:2: 2. Handling of source files, headers, macros and namespaces&]
-[s11; The main difference between C`+`+ compiler and theide C`+`+ 
-parser is that theide is handling any source file separately. 
-This is an absolute performance requirement if global database 
-is to be maintained while editing files.&]
-[s11; For this reason, declaration and definition must be be in single 
-file. For example&]
+[s10;:1: [@(128.0.255) 1. Введение]&]
+[s11; Парсер Assist`+`+ C`+`+ точно не следует 
+стандартам C/C`+`+, из соображений практических
+ и быстродействия. В этом дакументе 
+приводится информация об отклонениях, 
+эвристике и трюках, которые нами исполняются
+ для ускорения машины и повышению 
+стойкости к ошибкам.&]
+[s10;:2: [@(128.0.255) 2. Управление исходниками, 
+заголовочниками, макросами и пространствами
+ имён]&]
+[s11; Основная разница между компилятором 
+C`+`+ и парсером DinrusIDE `- в том, что DinrusIDE 
+обрабаиывает каждый файл отдельно. 
+Это абсолютное требование производительнос
+ти, так как нужно составлять глобальную 
+бвзу данных при редактировании файлов.&]
+[s11; По этой причине определение и объявление 
+должны быть в одном файле. Например&]
 [s11;l288; [* File1.h]&]
 [s12;l288; struct Foo `{&]
 [s12;l288; &]
@@ -46,12 +56,14 @@ file. For example&]
 [s12;l288; #include `"File1.h`"&]
 [s12;l288; -|int bar;&]
 [s12;l288; `};&]
-[s11; is [*/ NOT] supported.&]
-[s11; Parser preprocessor rules:&]
-[s11;l160;i150;O0; All #if/#ifdef conditions are considered true. 
-This is useful e.g. when there is platform specific code  `- 
-parser is then able to pick all variants. #else parts are excluded. 
-For example&]
+[s11;  [*/ НЕ] поддерживается.&]
+[s11; Правила препроцессора парсера:&]
+[s11;l160;i150;O0; Все условия #if/#ifdef полагаются 
+верными. Это полезно, например, при 
+наличии специфично`-платформного 
+кода `- парсер при этом сможет подобрать 
+все варианты. Части  #else исключаются. 
+Например&]
 [s12;l576; #ifdef PLATFORM`_WIN32&]
 [s12;l576; void CloseWindow(void `*handle) `{&]
 [s12;l576; ....&]
@@ -62,17 +74,21 @@ For example&]
 [s12;l576; .....&]
 [s12;l576; `}&]
 [s12;l576; #endif&]
-[s11;l288; both CloseWindow definitions will be in the codebase.&]
-[s11;l160;i150;O0; When expanding macro, last #define directive is 
-used.&]
+[s11;l288; оба объявления CloseWindow будут в базе 
+кода.&]
+[s11;l160;i150;O0; При развороте макроса используется 
+последняя директива #define.&]
 [s12;l576; #define FOO 1&]
 [s12;l576; #define FOO 2&]
 [s12;l576; FOO&]
-[s11;l288; the last line will be expanded to `"2`".&]
-[s11;l160;i150;O0; #undef cancels the last definition of the same 
-macro, if it is defined in the same file. This is useful to handle 
-special defines used for handling name clashes when including 
-external libraries:&]
+[s11;l288; Последняя строка будет развёрнута 
+в `"2`".&]
+[s11;l160;i150;O0; #undef отменяет последнее объявление 
+одного и того же макроса, если он объявлен 
+в одном и том же файле. Это применимо 
+при обработке специальных определений, 
+используемых при обработке конфликтов 
+имён при включении внешних библиотек:&]
 [s12;l576; #define byte win32`_byte`_ // RpcNdr defines byte `-> class 
 with Upp`::byte&]
 [s12;l576; #define CY win32`_CY`_&]
@@ -80,10 +96,12 @@ with Upp`::byte&]
 [s12;l576; #include <winnetwk.h>&]
 [s12;l576; #undef byte&]
 [s12;l576; #undef CY&]
-[s11;l160;i150;O0; #include in file adds all macros that are (recursively) 
-defined by included file and also all `"using namespace`" directives. 
-It [* DOES NOT] use namespace block definitions, for example this 
-abomination is not supported:&]
+[s11;l160;i150;O0; #include в файле добавляет все 
+макросы, которые (рекурсивно) определены 
+включаемым файлом, и все директивы 
+`"using namespace`". В нём [* НЕ] используются 
+определения блоков пространств имён, 
+например, не поддерживается:&]
 [s11;l576; [* StartNamespace.h]&]
 [s12;l576; namespace MyNamespace `{&]
 [s12;l576; &]
@@ -94,10 +112,12 @@ abomination is not supported:&]
 [s12;l576; #include `"StartNamespace.h`"&]
 [s12;l576; void Foo();&]
 [s12;l576; #include `"EndNamespace.h`"&]
-[s11;l320;~~~192; is [*/ NOT] supported.&]
-[s11;l160;i150;O0; However, if file gets into the project through 
-#include, all macros, usings and namespace block definitions 
-are correctly included/used. Consider&]
+[s11;l320;~~~192; [*/ НЕ] поддерживается.&]
+[s11;l160;i150;O0; Однако, если файл попадает 
+в проект через #include, все макросы, определения
+ using`'ов и блоков пространств имён 
+включаются/используются корректно. 
+Рассмотрим&]
 [s11;l576; [* MasterHeader.h]&]
 [s12;l576; #define FOO 1&]
 [s12;l576; using namespace Bar;&]
@@ -109,44 +129,60 @@ are correctly included/used. Consider&]
 [s12;l576; &]
 [s12;l576; void Fn() `{ return FOO; `}&]
 [s12;l576; &]
-[s11;l352; This [* IS] supported: Fn will be in Foo namespace and will 
-return 1.&]
-[s10;:3: 3. Macro overrides, namespace macros&]
-[s11; It is possible to tell TheIDE overriding definition of specific 
-macros in special .defs files. One global.defs file resides in 
-TheIDE configuration and is accessible through `"<meta>`" package. 
-Also, .defs files can be put into packages. If macro is defined 
-in .defs files, it overrides all occurrences of the identifier 
-in all cases.&]
-[s11; Note that after changing .defs file, it is necessary to rescan 
-the code.&]
-[s11; .defs files are also used to amend one issue that has no better 
-solution in the framework. Consider&]
+[s11;l352; Это [* ПОДДЕРЖИВАЕТСЯ]: Fn будет в 
+пространстве имён Foo, и будет возвращать 
+1.&]
+[s10;:3: [@(128.0.255) 3. Перепись макросов, макросы 
+пространства имён]&]
+[s11; Можно указать DinrusIDE на перепись определения
+ определённых макросов в специальных 
+файлах .defs. Один глобальный файл.defs 
+находится в конфигурации DinrusIDE и доступен 
+через пакет `"<meta>`". Также файлы .defs 
+можно помещать в пакеты. Если макрос 
+определён в файлах .defs, он переписывает 
+все случаи этого идентификатора во 
+всех классах.&]
+[s11; Заметьте, что после изменения файла 
+.defs, необходимо повторить сканирование 
+кода.&]
+[s11; Файлы .defs также используются для 
+отмены одной проблемы, у которой нет 
+лучшего решения в этом фреймворке. 
+Рассмотрим&]
 [s11; File.h&]
 [s12; #include `"Core.h`"&]
 [s12; NAMESPACE`_UPP&]
 [s12; #include `"subheader.h`"&]
 [s12; END`_UPP`_NAMESPACE&]
 [s12; &]
-[s11; where NAMESPACE`_UPP and END`_UPP`_NAMESPACE are defined somewhere 
-in Core.h as&]
+[s11; где NAMESPACE`_UPP и END`_UPP`_NAMESPACE определены 
+где`-то в Core.h как&]
 [s12; &]
 [s12; #define NAMESPACE`_UPP namespace Upp `{&]
 [s12; #define END`_UPP`_NAMESPACE `};&]
 [s12; &]
-[s11; Unfortunately, withing parser logic we have not found a fast 
-way how to detect and resolve this situation (we do not know 
-meaning of NAMESPACE`_UPP/END`_UPP`_NAMESPACE when extracting 
-macros from File.h). The solution is simple, putting those #defines 
-into .defs file fixes the issue, as such macros are detected 
-by special code and used when handling File.h.&]
-[s10;:4: 4. Grounding heuristics&]
-[s11; It is a good idea to make parser highly resistant to bugs, including 
-code that it does not understand. For this reason parser is using 
-somewhat strange but very effective simple heuristics: If a line 
-starts (at character zero) with identifier which is not followed 
-by single `':`' character (to exclude labels), it is a definition 
-on `'global`' level. Consider&]
+[s11; К несчастью, в логике парсера мы не 
+обнаружили быстрого способа обнаружения 
+и разрешения подобной ситуации (нам 
+не известно значение NAMESPACE`_UPP/END`_UPP`_NAMESPACE 
+при извлечении макроса из File.h). Решение 
+простое `- поместить эти #defines в файл 
+.defs. Это решает проблему, поскольку 
+такие макросы обнаруживаются специальным 
+кодом и используются при обработке 
+File.h.&]
+[s10;:4: [@(128.0.255) 4. Основание эвристики]&]
+[s11; Неплохая идея `- повысить устойчивость 
+парсера к багам, включая код, который 
+ему не понятен. По этой причине парсер 
+использует нечто странное `- очень 
+действенную и простую эвристику: Если 
+строчка начинается (по символу нуль) 
+с идентификатора, за которым не следует 
+единичный символ `':`' (чтобы исключить 
+лейблы),то это определение на `'глобальном`' 
+уровне. Рассмотрим&]
 [s12; void Fn1() `{&]
 [s12; -|for(int i `= 0; i < 10; i`+`+) `{&]
 [s12; -|-|Cout() << i;&]
@@ -155,20 +191,26 @@ on `'global`' level. Consider&]
 [s12; void Fn2() `{&]
 [s12; `}&]
 [s12; &]
-[s11; There is missing `'`}`' in Fn1, which would likely make parser 
-miss the rest of file (because all would be considered to be 
-part of Fn1 body). However Fn2 definition invokes grounding heuristics 
-and parsing restarts at that point, not missing Fn2.&]
-[s10;:5: 5. Assist`+`+ C`+`+ parser directives&]
-[s11; Assist supports simple directives that are passed to it via 
-`'//`' comments that can be used in cases that original code 
-is confusing:&]
+[s11; Отсутствует `'`}`' в Fn1, от чего парсер 
+может потерять остаток файла (так 
+как всё будет пониматься как часть 
+тела Fn1). Однако определение Fn2 вызывает 
+основную эвристику и парсинг повторяется 
+с этой точки, не пропуская Fn2.&]
+[s10;:5: [@(128.0.255) 5. Assist`+`+ C`+`+ `- директивы парсера]&]
+[s11; Ассист поддерживает простые директивы, 
+которые передаются через комменты 
+`'//`', и могут использоваться в тех 
+случаях, когда оригинальный код запутанный:&]
 [ {{3850:6150 [s12;l32; [*+75 //`$`-]]
-:: [s11; Code past this directive will [*/ not] be passed to parser.]
+:: [s11; Код после этой директивы [*/ не] передаётся 
+парсеру.]
 :: [s12;l32; [*+75 //`$`+]]
-:: [s11; Code past this directive will be passed to parser (stops [*C@5+75 //`$`-]).]
+:: [s11; Код после этой директивы передаётся 
+парсеру (останавливает [*C@5+75 //`$`-]).]
 :: [s12;l32; [*+75 //`$_][*/+75 code]&]
-[s12;l32; [A@0+75 example:][*+75  //`$ void Foo(Bar`&)]]
-:: [s11; Code will be passed to parser (adds code that is not part of 
-compiled sources)]}}&]
+[s12;l32; [A@0+75 пример:][*+75  //`$ void Foo(Bar`&)]]
+:: [s11; Код передаётся парсеру (добавляет 
+код, не являющийся частью скомпилированных 
+исходников)]}}&]
 [s0; ]]

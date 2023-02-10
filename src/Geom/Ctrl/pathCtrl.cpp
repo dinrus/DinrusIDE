@@ -2251,7 +2251,7 @@ bool DlgPathStyleMap::Run(PathStyleMap& m, String& style, bool editor, bool read
 {
 	if(editor) {
 		dialog.ok.Hide();
-		dialog.cancel.SetLabel(t_("Закрыть"));
+		dialog.cancel.SetLabel(t_("Р—Р°РєСЂС‹С‚СЊ"));
 	}
 
 	map = &m;

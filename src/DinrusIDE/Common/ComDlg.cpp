@@ -210,7 +210,7 @@ void SourceFs(FileSel& fs)
 	fs.Type("Файлы Xml (*.xml *.xsd)", "*.xml *.xsd");
 	fs.Type("Другие особые файлы (*.sch *.usc *.rc *.brc *.upt)", "*.sch *.usc *.rc *.brc *.upt");
 	String mask = "*.cpp *.h *.hpp *.c *.C *.cc *.cxx *.icpp *.diff *.patch *.lay *.py *.pyc *.pyd *.pyo *.iml *.java *.json *.lng *.sch *.usc *.rc *.brc *.upt *.html *.js *.css *.witz *.xml *.xsd *.qtf";
-	fs.Type("Ысе исходники (" + mask + ")", mask);
+	fs.Type("Все исходники (" + mask + ")", mask);
 	IdeFs(fs);
 }
 

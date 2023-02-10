@@ -84,6 +84,6 @@ void TopicEditor::MoveTopic()
 	FileDelete(pi);
 	InvalidateTopicInfoPath(p);
 	InvalidateTopicInfoPath(np);
-	TheIde()->IdeFlushFile();
-	TheIde()->IdeOpenTopicFile(np);
+	DinrusIde()->IdeFlushFile();
+	DinrusIde()->IdeOpenTopicFile(np);
 }

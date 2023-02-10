@@ -1554,7 +1554,7 @@ ctrl Calendar {
 			}
 		}
 
-		today = "Today: 01/19/2007";
+		today = "Сегодня: 01/19/2007";
 		ts = GetTextSize(today, StdFont().Bold());
 		w.DrawText((r.right - ts.cx) / 2, r.bottom - 3 - ts.cy, today, f.Bold(), :SBlue);
 

@@ -404,7 +404,7 @@ public:
 	void    SetNull()                           { size = Null; }
 	bool    operator==(const Painting& b) const { return cmd == b.cmd && data == b.data && size == b.size; }
 	hash_t  GetHashValue() const                { return CombineHash(cmd, data); }
-	String  ToString() const                    { return "painting " + AsString(size); }
+	String  ToString() const                    { return "рисуется " + AsString(size); }
 
 	operator Value() const                      { return RichToValue(*this); }
 	Painting(const Value& q)                    { *this = q.Get<Painting>(); }
@@ -676,7 +676,7 @@ public:
 	void    SetNull()                          { size = Null; data.Clear(); }
 
 	bool    operator==(const Drawing& b) const { return val == b.val && data == b.data && size == b.size; }
-	String  ToString() const                   { return "drawing " + AsString(size); }
+	String  ToString() const                   { return "чертится " + AsString(size); }
 	hash_t  GetHashValue() const               { return CombineHash(data, val); }
 
 	operator Value() const                     { return RichToValue(*this); }

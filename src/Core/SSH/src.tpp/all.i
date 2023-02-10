@@ -1,24 +1,24 @@
-TOPIC("Upp_Ssh_Base_en-us")
-#include "Upp_Ssh_Base_en-us.tppi"
+TOPIC("Upp_Ssh_Base_ru-ru")
+#include "Upp_Ssh_Base_ru-ru.tppi"
 END_TOPIC
 
-TOPIC("Upp_Ssh_Channels_en-us")
-#include "Upp_Ssh_Channels_en-us.tppi"
+TOPIC("Upp_Ssh_Channels_ru-ru")
+#include "Upp_Ssh_Channels_ru-ru.tppi"
 END_TOPIC
 
-TOPIC("Upp_Ssh_Hosts_en-us")
-#include "Upp_Ssh_Hosts_en-us.tppi"
+TOPIC("Upp_Ssh_Hosts_ru-ru")
+#include "Upp_Ssh_Hosts_ru-ru.tppi"
 END_TOPIC
 
-TOPIC("Upp_Ssh_SFtpStream_en-us")
-#include "Upp_Ssh_SFtpStream_en-us.tppi"
+TOPIC("Upp_Ssh_SFtpStream_ru-ru")
+#include "Upp_Ssh_SFtpStream_ru-ru.tppi"
 END_TOPIC
 
-TOPIC("Upp_Ssh_SFtp_en-us")
-#include "Upp_Ssh_SFtp_en-us.tppi"
+TOPIC("Upp_Ssh_SFtp_ru-ru")
+#include "Upp_Ssh_SFtp_ru-ru.tppi"
 END_TOPIC
 
-TOPIC("Upp_Ssh_Session_en-us")
-#include "Upp_Ssh_Session_en-us.tppi"
+TOPIC("Upp_Ssh_Session_ru-ru")
+#include "Upp_Ssh_Session_ru-ru.tppi"
 END_TOPIC
 

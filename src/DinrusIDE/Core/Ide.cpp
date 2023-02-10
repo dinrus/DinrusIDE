@@ -2,8 +2,8 @@
 
 static IdeContext *the_ide;
 
-IdeContext *TheIde() { return the_ide; }
-void        TheIde(IdeContext *context) { the_ide = context; }
+IdeContext *DinrusIde() { return the_ide; }
+void        DinrusIde(IdeContext *context) { the_ide = context; }
 
 bool IsVerbose()               { return the_ide ? the_ide->IsVerbose() : false; }
 void PutConsole(const char *s) { if(the_ide) the_ide->PutConsole(s); }

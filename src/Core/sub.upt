@@ -1,4 +1,4 @@
-template "Plain package with header" sub;
+template "Простой пакет с заголовочником" sub;
 
 @@<:PACKAGE:>.h
 #ifndef _<:PACKAGE:>_<:PACKAGE:>_h

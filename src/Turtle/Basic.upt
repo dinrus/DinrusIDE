@@ -1,12 +1,12 @@
-template "U++ Basic Turtle application" main;
+template "Базовое приложение U++ Turtle" main;
 
-option "Create header" header;
+option "Создать заголовочник" header;
 
-text   "Server URL"       host  = "localhost";
-text   "Connection port"  port  = "8888";
-text   "Connection limit" limit = "100";
-option "Debug mode"            debugmode;
-option "Add GUI mode switch"   guiflag;
+text   "УЛР сервера"       host  = "localhost";
+text   "Порт подключения"  port  = "8888";
+text   "Лимит подключения" limit = "100";
+option "Режим отладки"            debugmode;
+option "Добавить переключатель режима ГИП"   guiflag;
 
 @@<:PACKAGE:>.h
 ??header

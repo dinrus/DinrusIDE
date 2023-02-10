@@ -4,7 +4,7 @@
 using namespace Upp;
 
 #define IMAGECLASS UWordImg
-#define IMAGEFILE  <UWord/UWord.iml>
+#define IMAGEFILE  <examples/UWord/UWord.iml>
 #include <Draw/iml.h>
 
 FileSel& UWordFs()
@@ -60,42 +60,42 @@ public:
 
 void UWord::FileBar(Bar& bar)
 {
-	bar.Add("New", CtrlImg::new_doc(), THISBACK(New))
+	bar.Add("Новый", CtrlImg::new_doc(), THISBACK(New))
 	   .Key(K_CTRL_N)
-	   .Help("Open new window");
-	bar.Add("Open..", CtrlImg::open(), THISBACK(Open))
+	   .Help("Открыть новое окно");
+	bar.Add("Открыть..", CtrlImg::open(), THISBACK(Open))
 	   .Key(K_CTRL_O)
-	   .Help("Open existing document");
+	   .Help("Открыть существующий документ");
 	bar.Add(editor.IsModified(), "Save", CtrlImg::save(), THISBACK(Save))
 	   .Key(K_CTRL_S)
-	   .Help("Save current document");
-	bar.Add("SaveAs", CtrlImg::save_as(), THISBACK(SaveAs))
-	   .Help("Save current document with a new name");
+	   .Help("Сохранить текущий документ");
+	bar.Add("Сохранить как...", CtrlImg::save_as(), THISBACK(SaveAs))
+	   .Help("Сохранить текущий документ с новым названием");
 	bar.ToolGap();
 	bar.MenuSeparator();
-	bar.Add("Print..", CtrlImg::print(), THISBACK(Print))
+	bar.Add("Печать..", CtrlImg::print(), THISBACK(Print))
 	   .Key(K_CTRL_P)
-	   .Help("Print document");
-	bar.Add("Export to PDF..", UWordImg::pdf(), THISBACK(Pdf))
-	   .Help("Export document to PDF file");
+	   .Help("Напечатать документ");
+	bar.Add("Экспортировать в PDF..", UWordImg::pdf(), THISBACK(Pdf))
+	   .Help("Экспортировать домумент в файл PDF");
 	if(bar.IsMenuBar()) {
 		if(lrufile().GetCount())
 			lrufile()(bar, THISBACK(OpenFile));
 		bar.Separator();
-		bar.Add("Exit", THISBACK(Destroy));
+		bar.Add("Выход", THISBACK(Destroy));
 	}
 }
 
 void UWord::AboutMenu(Bar& bar)
 {
-	bar.Add("About..", THISBACK(About));
+	bar.Add("О программе..", THISBACK(About));
 }
 
 void UWord::MainMenu(Bar& bar)
 {
-	bar.Add("File", THISBACK(FileBar));
-	bar.Add("Window", callback(WindowsMenu));
-	bar.Add("Help", THISBACK(AboutMenu));
+	bar.Add("Файл", THISBACK(FileBar));
+	bar.Add("Окно", callback(WindowsMenu));
+	bar.Add("Помощь", THISBACK(AboutMenu));
 }
 
 void UWord::New()
@@ -134,7 +134,7 @@ void UWord::Open()
 	if(fs.ExecuteOpen())
 		OpenFile(fs);
 	else
-		statusbar.Temporary("Loading aborted.");
+		statusbar.Temporary("Загрузка прервана.");
 }
 
 void UWord::DragAndDrop(Point, PasteClip& d)
@@ -172,11 +172,11 @@ void UWord::Save0()
 		SaveAs();
 	else {
 		if(SaveFile(filename, IsRTF(filename) ? EncodeRTF(editor.Get()) : editor.GetQTF())) {
-			statusbar.Temporary("File " + filename + " was saved.");
+			statusbar.Temporary("Файл " + filename + " Сохранён.");
 			ClearModify();
 		}
 		else
-			Exclamation("Error saving the file [* " + DeQtf(filename) + "]!");
+			Exclamation("Ошибка при сохранении файла [* " + DeQtf(filename) + "]!");
 	}
 }
 
@@ -204,7 +204,7 @@ void UWord::Print()
 void UWord::Pdf()
 {
 	FileSel& fs = PdfFs();
-	if(!fs.ExecuteSaveAs("Output PDF file"))
+	if(!fs.ExecuteSaveAs("Выходной файл PDF"))
 		return;
 	Size page = Size(3968, 6074);
 	PdfDraw pdf;
@@ -214,13 +214,13 @@ void UWord::Pdf()
 
 void UWord::About()
 {
-	PromptOK("[A5 uWord]&Using [*^www://upp.sf.net^ Ultimate`+`+] technology.");
+	PromptOK("[A5 uWord]&Используется технология [*^www://upp.sf.net^ U`+`+].");
 }
 
 void UWord::Destroy()
 {
 	if(editor.IsModified()) {
-		switch(PromptYesNoCancel("Do you want to save the changes to the document?")) {
+		switch(PromptYesNoCancel("Сохранить изменения в документе?")) {
 		case 1:
 			Save();
 			break;
@@ -259,7 +259,7 @@ UWord::UWord()
 	WhenClose = THISBACK(Destroy);
 	menubar.WhenHelp = toolbar.WhenHelp = statusbar;
 	static int doc;
-	Title(Format("Document%d", ++doc));
+	Title(Format("Документ%d", ++doc));
 	Icon(CtrlImg::File());
 	editor.ClearModify();
 	SetBar();
@@ -284,11 +284,11 @@ GUI_APP_MAIN
 	SetLanguage(LNG_ENGLISH);
 	SetDefaultCharset(CHARSET_UTF8);
 
-	UWordFs().Type("QTF files", "*.qtf")
-	         .Type("RTF files", "*.rtf")
+	UWordFs().Type("Файлы QTF", "*.qtf")
+	         .Type("Файлы RTF", "*.rtf")
 	         .AllFilesType()
 	         .DefaultExt("qtf");
-	PdfFs().Type("PDF files", "*.pdf")
+	PdfFs().Type("Файлы PDF", "*.pdf")
 	       .AllFilesType()
 	       .DefaultExt("pdf");
 

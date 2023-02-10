@@ -54,20 +54,20 @@ void NavDlg::GoTo()
 {
 	if(navlines.IsCursor()) {
 		const NavLine& l = navlines.Get(0).To<NavLine>();
-		theide->GotoPos(GetSourceFilePath(l.file), l.line);
+		DinrusIDE->GotoPos(GetSourceFilePath(l.file), l.line);
 	}
 }
 
 int NavDlg::GetCurrentLine()
 {
-	return theide->editor.GetCurrentLine();
+	return DinrusIDE->editor.GetCurrentLine();
 }
 
 void Ide::NavigatorDlg()
 {
 	NavDlg dlg;
 	LoadFromGlobal(dlg, "NavDlg");
-	dlg.theide = this;
+	dlg.DinrusIDE = this;
 	dlg.Search();
 	if(dlg.ExecuteOK())
 		dlg.GoTo();

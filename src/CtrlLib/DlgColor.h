@@ -195,7 +195,7 @@ public:
 	Color    Get() const;
 	
 	ColorPopUp& NotNull(bool b = true)               { notnull = b; return *this; }
-	ColorPopUp& SColors(bool b = true)               { scolors = b; return *this; }//Deprecated, BUT NEEDED IN THEIDE
+	ColorPopUp& SColors(bool b = true)               { scolors = b; return *this; }//Deprecated, BUT NEEDED IN DinrusIDE
 	ColorPopUp& NullText(const char *s)              { nulltext = s; Refresh(); return *this; }
 	ColorPopUp& WithVoid(bool b = true)              { withvoid = b; Refresh(); return *this; }
 	ColorPopUp& VoidText(const char *s)              { voidtext = s; Refresh(); return *this; }

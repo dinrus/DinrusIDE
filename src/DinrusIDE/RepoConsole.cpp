@@ -2,7 +2,7 @@
 
 String RepoSys(const char *cmd)
 {
-	Ide *ide = (Ide *)TheIde();
+	Ide *ide = (Ide *)DinrusIde();
 	if(!ide)
 		return String::GetVoid();
 	Host host;
@@ -75,7 +75,7 @@ int UrepoConsole::System(const char *cmd)
 	else
 		list.Add(AttrText(cmd).SetFont(font().Bold()).Ink(SLtBlue()));
 	int ii = list.GetCount();
-	Ide *ide = (Ide *)TheIde();
+	Ide *ide = (Ide *)DinrusIde();
 	if(!ide)
 		return -1;
 	Host host;

@@ -102,8 +102,8 @@ public:
 	virtual ~IdeContext() {}
 };
 
-IdeContext *TheIde();
-void        TheIde(IdeContext *context);
+IdeContext *DinrusIde();
+void        DinrusIde(IdeContext *context);
 
 bool      IsVerbose();
 void      PutConsole(const char *s);

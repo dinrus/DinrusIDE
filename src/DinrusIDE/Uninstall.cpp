@@ -21,7 +21,7 @@ void DelKey(const char *dir, const char *key)
 void RemoveWindowsItems()
 {
 	DeleteFile(AppendFileName(GetShellFolder("Common Programs", HKEY_LOCAL_MACHINE), "Ultimate++ IDE.lnk"));
-	DeleteFile(AppendFileName(GetShellFolder("Desktop", HKEY_CURRENT_USER), "TheIde.lnk"));
+	DeleteFile(AppendFileName(GetShellFolder("Desktop", HKEY_CURRENT_USER), "DinrusIDE.lnk"));
 
 	DelKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Ultimate++",
 	       "DisplayName");
@@ -45,7 +45,7 @@ void Uninstall()
 		":Repeat\r\n"
 		"del \"" + path + "\"\r\n"
 		"if exist \"" + path + "\" goto Repeat\r\n"
-		"del \"" + GetExeDirFile("theide.log") + "\"\r\n"
+		"del \"" + GetExeDirFile("DinrusIDE.log") + "\"\r\n"
 		"rmdir \"" + dir + "\"\r\n"
 		"del \"" + bat + "\"\r\n"
 	);

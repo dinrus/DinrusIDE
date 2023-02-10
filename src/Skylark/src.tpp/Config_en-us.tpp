@@ -89,7 +89,7 @@ can be deleted. Default value is loaded from `"session`_expire`"
 [s2;%% Set of directories, separated by `';`', used when searching 
 for static files, e.g. witz templates. Default value is loaded 
 from `"path`" .ini parameter, which defaults to `"UPP`_ASSEMBLY`_`_`" 
-environment variable which is set by theide when starting application 
+environment variable which is set by DinrusIDE when starting application 
 to current assembly `- that way in debug mode, static files can 
 be referred the same way as include files (of other packages) 
 `- `"package`_name/filename.witz`".&]

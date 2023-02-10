@@ -25,17 +25,17 @@ topic "Topic++";
 [0 $$24,0#96390100711032703541132217272105:end]
 [2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%RU-RU 
-[s2; Topic`+`+&]
-[s3; Table of contents&]
+[s2; [@3 Topic`+`+]&]
+[s3; [@3 Содержание]&]
 [s0; &]
-[s0; [^topic`:`/`/ide`/app`/Topic`_en`-us`#1^ 1. Introduction]&]
-[s0; [^topic`:`/`/ide`/app`/Topic`_en`-us`#2^ 2. Basics]&]
-[s0; [^topic`:`/`/ide`/app`/Topic`_en`-us`#3^ 3. Quick description 
+[s0; [^topic`:`/`/DinrusIDE`/app`/Topic`_ru`-ru`#1^ 1. Introduction]&]
+[s0; [^topic`:`/`/DinrusIDE`/app`/Topic`_ru`-ru`#2^ 2. Basics]&]
+[s0; [^topic`:`/`/DinrusIDE`/app`/Topic`_ru`-ru`#3^ 3. Quick description 
 of Topic`+`+ editor]&]
-[s0; [^topic`:`/`/ide`/app`/Topic`_en`-us`#4^ 4. Using Topic`+`+ to 
+[s0; [^topic`:`/`/DinrusIDE`/app`/Topic`_ru`-ru`#4^ 4. Using Topic`+`+ to 
 create code reference]&]
-[s0; [^topic`:`/`/ide`/app`/Topic`_en`-us`#5^ 5. Export]&]
-[s0; [^topic`:`/`/ide`/app`/Topic`_en`-us`#6^ 6. Technical background]&]
+[s0; [^topic`:`/`/DinrusIDE`/app`/Topic`_ru`-ru`#5^ 5. Export]&]
+[s0; [^topic`:`/`/DinrusIDE`/app`/Topic`_ru`-ru`#6^ 6. Technical background]&]
 [s0; &]
 [s3;:1: 1. Introduction&]
 [s5; Topic`+`+ is a documentation system designed for U`+`+, but 
@@ -55,7 +55,7 @@ and exploiting them in user code. To see how this can be done,
 see `"Topic`" reference example.&]
 [s3;:2: 2. Basics&]
 [s5; To create a new topic group, right`-click in the lower left 
-pane of TheIDE, where package files are listed. From context 
+pane of DinrusIDE, where package files are listed. From context 
 menu, choose [/ Insert package directory file(s) ]as if you open/create 
 any other file. To path write the group name with .tpp extension, 
 e.g. `"app.tpp`". Now press enter or click on [/ Open ]and Topic 
@@ -88,7 +88,7 @@ source code element.&]
 [s5;l352; [* E]-|Topic text.&]
 [s0;3 &]
 [s3;:4: 4. Using Topic`+`+ to create code reference&]
-[s5; Topic`+`+ is directly connected with [^topic`:`/`/ide`/app`/Assist`$en`-us^ Assist
+[s5; Topic`+`+ is directly connected with [^topic`:`/`/DinrusIDE`/app`/Assist`$en`-us^ Assist
 `+`+] system to create and provide documentation of code elements. 
 Each paragraph of topic can be connected with one code element 
 using the paragraph label (F in Topic`+`+ window description). 
@@ -169,7 +169,7 @@ if you want.]&]
 e.g. (uppsrc/Core/srcdoc.tpp/) which contains one `*.tpp file 
 for every topic. All `*.tpp files are internally just a text 
 file in [^topic`:`/`/RichText`/srcdoc`/QTF`$en`-us^ QTF] format 
-(U`+`+ specific rich formatted text format). TheIDE also creates 
+(U`+`+ specific rich formatted text format). DinrusIDE also creates 
 `"inclusion file`" with .tppi extension for each topic and all.i 
 file for each group. These files are useful for easy embedding 
 the documentation into application (See the above mentioned `"Topic`" 

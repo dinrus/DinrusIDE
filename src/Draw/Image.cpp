@@ -326,7 +326,7 @@ Image::~Image()
 
 String Image::ToString() const
 {
-	return String("Image ").Cat() << GetSize();
+	return String("Изображение ").Cat() << GetSize();
 }
 
 Image::Data::Data(ImageBuffer& b)

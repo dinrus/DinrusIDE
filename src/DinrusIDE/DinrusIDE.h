@@ -957,7 +957,7 @@ public:
 		void  SetUpdateTimer(int period);
 		void  Abbreviations();
 		void  DoMacroManager();
-		void  UpgradeTheIDE();
+		void  UpgradeDinrusIde();
 		void  InstallDesktop();
 	
 	void      SetupMobilePlatforms(Bar& bar);
@@ -1240,7 +1240,7 @@ public:
 	~Ide();
 };
 
-inline void ShowConsole() { if(TheIde()) ((Ide *)TheIde())->ShowConsole(); }
+inline void ShowConsole() { if(DinrusIde()) ((Ide *)DinrusIde())->ShowConsole(); }
 
 void InstantSetup();
 

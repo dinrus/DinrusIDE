@@ -17,7 +17,7 @@ inkoptions], [@(0.0.255) const]_[_^Vector^ Vector]<[_^String^ String]>`&_[*@3 al
 [s3; [%-*@3 package] name of package.&]
 [s3; [%-*@3 linkfile] builder puts here files to link, for Link method&]
 [s3; [%-*@3 immfile] builder puts here all intermediate files (.a, 
-.o, .lib ...) so that theide knows them and can touch them (set 
+.o, .lib ...) so that DinrusIDE knows them and can touch them (set 
 current time) as needed&]
 [s3; [%-*@3 linkoptions] again, like linkfile, a place to gather link 
 options so that Link method recieves them&]

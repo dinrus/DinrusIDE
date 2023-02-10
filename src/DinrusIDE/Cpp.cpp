@@ -42,9 +42,9 @@ void AssistEditor::Context(ParserContext& parser, int pos)
 	LTIMING("Context");
 	LLOG("---------- Context " << path);
 	
-	theide->ScanFile(true);
+	DinrusIDE->ScanFile(true);
 	
-	parser = AssistParse(Get(0, pos), theide->editfile, AssistScanError,
+	parser = AssistParse(Get(0, pos), DinrusIDE->editfile, AssistScanError,
 	                     [&](String scope, String type, String usings) {
 							CodeBaseLock __;
 							String t = Qualify(CodeBase(), scope, type, usings);

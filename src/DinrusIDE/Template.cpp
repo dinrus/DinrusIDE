@@ -363,7 +363,7 @@ void TemplateDlg::Load(const Vector<String>& p, bool main)
 	LoadNest(GetFileFolder(ConfigFile("x")), main, false);
 	Sort(pt, FieldRelation(&PackageTemplate::name, StdLess<String>()));
 	templist.Clear();
-	templist.Add("<empty>");
+	templist.Add("<пустой>");
 	for(int i = 0; i < pt.GetCount(); i++)
 		templist.Add(pt[i].name);
 	if(nest.GetCount())

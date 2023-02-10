@@ -23,7 +23,7 @@ int main(int argc, const char *argv[])
 #ifdef flagDEBUG
 	strcpy(strrchr(cmd, '\\'), "\\debugide.exe");
 #else
-	strcpy(strrchr(cmd, '\\'), "\\theide.exe");
+	strcpy(strrchr(cmd, '\\'), "\\DinrusIDE.exe");
 #endif
 	for(int i = 1; i < argc; i++) {
 		strcat(cmd, " ");

@@ -900,7 +900,7 @@ void WorkspaceWork::FileMenu(Bar& menu)
 		InsertSpecialMenu(menu);
 	else {
 		menu.Add("Новый файл в пакете..", IdeCommonImg::PageAdd(), [=] { NewPackageFile(); });
-		menu.Add(!isaux, "Вставить файл(Ы) из папки пакета..", THISBACK1(AddFile, PACKAGE_FILE))
+		menu.Add(!isaux, "Вставить файл(ы) из папки пакета..", THISBACK1(AddFile, PACKAGE_FILE))
 			.Help("Вставить файл относительно текущего пакета");
 		menu.Add(!isaux, "Вставить группу topic++..", TopicImg::IGroup(), THISBACK(AddTopicGroup));
 	}

@@ -1,6 +1,6 @@
-template "U++ Basic CtrlLib application" main;
+template "Базовое приложение U++ CtrlLib" main;
 
-option "Create header" header;
+option "Создать заголовочник" header;
 
 @@<:PACKAGE:>.h
 ??header

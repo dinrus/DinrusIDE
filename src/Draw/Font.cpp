@@ -373,13 +373,13 @@ String AsString(const Font& f) {
 	if(IsNull(f)) return "<null>";
 	String s = "<" + f.GetFaceName() + Format(":%d", f.GetHeight());
 	if(f.IsBold())
-		s += " Bold";
+		s += " Полужирный";
 	if(f.IsItalic())
-		s += " Italic";
+		s += " Курсив";
 	if(f.IsUnderline())
-		s += " Underline";
+		s += " Подчёркнутый";
 	if(f.IsStrikeout())
-		s += " Strikeout";
+		s += " Зачёркнутый";
 	return s + '>';
 }
 

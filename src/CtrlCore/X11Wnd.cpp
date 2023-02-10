@@ -94,7 +94,7 @@ void  Ctrl::WndScrollView(const Rect& r, int dx, int dy)
 
 bool Ctrl::IsWaitingEvent()
 {
-	ASSERT_(IsMainThread(), "IsWaitingEvent can only run in the main thread");
+	ASSERT_(IsMainThread(), "IsWaitingEvent может выполняться только в главной нити.");
 	GuiLock __;
 	return XPending(Xdisplay);
 }
@@ -357,7 +357,7 @@ void SweepMkImageCache();
 
 bool Ctrl::ProcessEvents(bool *)
 {
-	ASSERT_(IsMainThread(), "ProcessEvents can only run in the main thread");
+	ASSERT_(IsMainThread(), "ProcessEvents может выполняться только в главной нити.");
 	GuiLock __;
 	if(ProcessEvent()) {
 		while(ProcessEvent() && (!LoopCtrl || LoopCtrl->InLoop())); // LoopCtrl-MF 071008
@@ -389,7 +389,7 @@ void Ctrl::GuiSleep(int ms)
 {
 	GuiLock __;
 	LLOG(msecs() << " GUISLEEP " << ms);
-	ASSERT_(IsMainThread(), "Only main thread can perform GuiSleep");
+	ASSERT_(IsMainThread(), "только главная нить может выполнить GuiSleep");
 	timeval timeout;
 	timeout.tv_sec = ms / 1000;
 	timeout.tv_usec = ms % 1000 * 1000;
@@ -422,7 +422,7 @@ void Ctrl::SysEndLoop()
 void Ctrl::EventLoop(Ctrl *ctrl)
 {
 	GuiLock __;
-	ASSERT_(IsMainThread(), "EventLoop can only run in the main thread");
+	ASSERT_(IsMainThread(), "EventLoop может выполняться только в главной нити.");
 	ASSERT(LoopLevel == 0 || ctrl);
 	LoopLevel++;
 	int64 loopno = ++EventLoopNo;
@@ -468,7 +468,7 @@ void Ctrl::SyncExpose()
 void Ctrl::Create(Ctrl *owner, bool redirect, bool savebits)
 {
 	GuiLock __;
-	ASSERT_(IsMainThread(), "Only main thread can create windows");
+	ASSERT_(IsMainThread(), "Только главная нить может создавать окна.");
 	LLOG("Create " << Name() << " " << GetRect());
 	ASSERT(!IsChild() && !IsOpen());
 	LLOG("Ungrab1");
@@ -487,7 +487,7 @@ void Ctrl::Create(Ctrl *owner, bool redirect, bool savebits)
 	                         0, CopyFromParent, InputOutput, CopyFromParent,
 	                         CWBitGravity|CWSaveUnder|CWOverrideRedirect|CWBackPixmap,
 	                         &swa);
-	if(!w) XError("XCreateWindow failed !");
+	if(!w) XError("XCreateWindow рухнул !");
 	int i = Xwindow().Find(None);
 	if(i >= 0) Xwindow().SetKey(i, w);
 	XWindow& cw = i >= 0 ? Xwindow()[i] : Xwindow().Add(w);

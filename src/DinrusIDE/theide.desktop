@@ -1,7 +1,7 @@
 [Desktop Entry]
 Encoding=UTF-8
-Name=TheIDE
-GenericName=TheIDE
+Name=DinrusIDE
+GenericName=DinrusIDE
 Comment=IDE for cross-platform C++ development 
 MimeType=application/x-upp;
 Exec=theide

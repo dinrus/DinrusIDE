@@ -22,7 +22,7 @@ not need to write sql statements, U`+`+ will generate them for
 you.)&]
 [s4; To add this file to your Upp package, make sure your package 
 is selected in the package list (located at the top`-left of 
-TheIDE), right`-click on the white`-space in the file list (underneath 
+DinrusIDE), right`-click on the white`-space in the file list (underneath 
 the package list at bottom`-left), and select `"Insert package 
 directory file(s)`". Then give the new name of your file (eg. 
 `"MyDatabase.sch`") and click `"Open`". The new file will show 

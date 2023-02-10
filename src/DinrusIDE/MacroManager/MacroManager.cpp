@@ -14,14 +14,14 @@ MacroManagerWindow::MacroManagerWindow(const Workspace& wspc, const String& hlSt
 	: wspc(wspc)
 	, globalMacrosChanged(false)
 {
-	CtrlLayout(*this, t_("Macro Manager"));
+	CtrlLayout(*this, t_("Менеджер Макросов"));
 	Zoomable().Sizeable().MinimizeBox(false);
 	globalTree.NoRoot();
 	localTree.NoRoot();
 	
 	parent.Add(editor.SizePos());
 	parent.AddFrame(splitter.Left(tab, 330));
-	tab.Add(globalTree.SizePos(), t_("Global macros"));
+	tab.Add(globalTree.SizePos(), t_("Глобальные макросы"));
 
 	editor.Highlight("usc");
 	editor.SetReadOnly();
@@ -38,12 +38,12 @@ MacroManagerWindow::MacroManagerWindow(const Workspace& wspc, const String& hlSt
 
 void MacroManagerWindow::InitToolBar()
 {
-	InitToolButton(editLabel, t_("Edit"), MacroManagerImg::PluginEdit());
-	InitToolButton(exportLabel, t_("Export current"), MacroManagerImg::PluginGo());
+	InitToolButton(editLabel, t_("Редактировать"), MacroManagerImg::PluginEdit());
+	InitToolButton(exportLabel, t_("Экспортировать текущее"), MacroManagerImg::PluginGo());
 	tool.Separator();
-	InitToolButton(newGlobalLabel, t_("New global"), IdeCommonImg::PageAdd());
-	InitToolButton(importGlobalsLabel, t_("Import globals"), MacroManagerImg::PluginAdd());
-	InitToolButton(exportGlobalsLabel, t_("Export globals"), MacroManagerImg::ArrowRight());
+	InitToolButton(newGlobalLabel, t_("Новый глобальный"), IdeCommonImg::PageAdd());
+	InitToolButton(importGlobalsLabel, t_("Импортировать глобальные"), MacroManagerImg::PluginAdd());
+	InitToolButton(exportGlobalsLabel, t_("Экспортировать глобальные"), MacroManagerImg::ArrowRight());
 	
 	newGlobalLabel.Enable();
 	importGlobalsLabel.Enable();
@@ -71,11 +71,11 @@ void MacroManagerWindow::InitButtons()
 	importGlobalsLabel << [=] { OnImport(); };
 	exportGlobalsLabel << [=] { OnExport(0); };
 	
-	editLabel.Tip(t_("Edit currently selected macro inside TheIde.."));
-	exportLabel.Tip(t_("Export selected macro file.."));
-	newGlobalLabel.Tip(t_("Create new file that stores global macros.."));
-	importGlobalsLabel.Tip(t_("Install file/files containing macros.."));
-	exportGlobalsLabel.Tip(t_("Export all global macros files.."));
+	editLabel.Tip(t_("Редактировать текущий выбранный макрос внутри DinrusIDE.."));
+	exportLabel.Tip(t_("Экспортировать выделенный макрос в файл.."));
+	newGlobalLabel.Tip(t_("Создать новый файл с глобальными макросами.."));
+	importGlobalsLabel.Tip(t_("Установить файл/файлы с макросами.."));
+	exportGlobalsLabel.Tip(t_("Экспортировать все файлы глобальных макросов.."));
 }
 
 void MacroManagerWindow::InitEvents()
@@ -94,15 +94,15 @@ void MacroManagerWindow::OnMacroBar(Bar& bar)
 	if(IsGlobalTab()) {
 		bool partOfFile = IsGlobalFile();
 		
-		bar.Add(t_("New.."),    [=] { OnNewMacroFile(); });
-		bar.Add(t_("Import.."), [=] { OnImport(); });
-		bar.Add(t_("Delete"),   [=] { OnDeleteMacroFile(); })
+		bar.Add(t_("Новый.."),    [=] { OnNewMacroFile(); });
+		bar.Add(t_("Импортировать.."), [=] { OnImport(); });
+		bar.Add(t_("Удалить"),   [=] { OnDeleteMacroFile(); })
 		    .Enable(partOfFile);
-		bar.Add(t_("Export.."), [=] { OnExport(globalTree.GetCursor()); })
+		bar.Add(t_("Экспортировать.."), [=] { OnExport(globalTree.GetCursor()); })
 		    .Enable(partOfFile);
 		bar.Separator();
 	}
-	bar.Add(t_("Edit"), [=] { OnEditFile();})
+	bar.Add(t_("Редактировать"), [=] { OnEditFile();})
 	    .Enable(IsEditPossible());
 }
 
@@ -142,13 +142,13 @@ void MacroManagerWindow::OnImport()
 		return;
 	
 	if(!UscFileParser(filePath).IsValid()) {
-		ErrorOK(DeQtf(String(t_("Import failed! Following file")) << " \"" << filePath << "\" " << t_("is not a valid macro file!")));
+		ErrorOK(DeQtf(String(t_("Неудачный импорт! Следующий файл")) << " \"" << filePath << "\" " << t_("не является валидным файлом макросов!")));
 		return;
 	}
 	
 	auto localDir = GetLocalDir();
 	if(!DirectoryExists(localDir) && !RealizeDirectory(localDir)) {
-		ErrorOK(DeQtf(String(t_("Realizing directory")) << " \"" << localDir << "\" " << t_("failed.")));
+		ErrorOK(DeQtf(String(t_("Реализация директории")) << " \"" << localDir << "\" " << t_("провалилась.")));
 		return;
 	}
 	
@@ -223,7 +223,7 @@ void MacroManagerWindow::OnEditFile()
 void MacroManagerWindow::OnNewMacroFile()
 {
 	String fileName;
-	if(!EditTextNotNull(fileName, t_("New global macro file"), t_("Macro file name:")))
+	if(!EditTextNotNull(fileName, t_("Новый файл глобальных макросов"), t_("Имя файла макросов:")))
 		return;
 	
 	if(!fileName.EndsWith(".usc"))
@@ -232,12 +232,12 @@ void MacroManagerWindow::OnNewMacroFile()
 	String fullPath = AppendFileName(GetLocalDir(), fileName);
 	RealizeDirectory(GetLocalDir());
 	if(FileExists(fullPath)) {
-		PromptOK(String() << t_("file") << " \"" << fileName << "\" " << t_("already exists!"));
+		PromptOK(String() << t_("файл") << " \"" << fileName << "\" " << t_("уже существует!"));
 		return;
 	}
 	
 	if(!SaveFile(fullPath, "macro \"" + GetFileTitle(fileName) + "\" {}")) {
-		PromptOK(String() << t_("Error occured while saving file") << " \"" << fileName << "\"");
+		PromptOK(String() << t_("Ошибка при сохранении файла") << " \"" << fileName << "\"");
 		return;
 	}
 
@@ -256,7 +256,7 @@ void MacroManagerWindow::OnNewMacroFile()
 void MacroManagerWindow::OnDeleteMacroFile()
 {
 	auto fileName = static_cast<String>(globalTree.GetValue());
-	if(!PromptOKCancel(String(t_("Are you sure you want to remove following macro file")) << " \"" << fileName << "\"?")) {
+	if(!PromptOKCancel(String(t_("Вы действительно хотите удалить следующий файл макросов")) << " \"" << fileName << "\"?")) {
 		return;
 	}
 	
@@ -275,7 +275,7 @@ void MacroManagerWindow::OnGlobalMacrosChanged()
 
 String MacroManagerWindow::GenFileOverrideMessage(const String& fileName)
 {
-	return String(t_("Target file")) << " \"" << fileName << "\" " << t_("already exists! Do you want to overwrite it?");
+	return String(t_("Целевой файл")) << " \"" << fileName << "\" " << t_("уже существует! Желаете его перезаписать?");
 }
 
 void MacroManagerWindow::LoadUscDir(const String& dir)
@@ -325,7 +325,7 @@ void MacroManagerWindow::ReloadLocalMacros()
 				continue;
 			
 			if(tab.GetCount() == 1)
-				tab.Add(localTree.SizePos(), t_("Local macros (Read only)"));
+				tab.Add(localTree.SizePos(), t_("Локальные макросы (Только чтение)"));
 			
 			if(packageNode == -1)
 				packageNode = localTree.Add(0, Image(), 0, wspc[i]);

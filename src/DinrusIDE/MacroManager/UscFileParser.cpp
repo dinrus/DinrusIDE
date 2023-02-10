@@ -14,7 +14,7 @@ UscFileParser::MacroList UscFileParser::Parse()
 	
 	String fileContent = LoadFile(filePath);
 	if(fileContent.IsEmpty()) {
-		Logw() << METHOD_NAME << "Following file \"" << filePath << "\" doesn't exist or is empty.";
+		Logw() << METHOD_NAME << "Следующий файл \"" << filePath << "\" не существует или пустой.";
 		return ret;
 	}
 
@@ -40,7 +40,7 @@ UscFileParser::MacroList UscFileParser::Parse()
 		}
 	}
 	catch (const CParser::Error& error) {
-		Logw() << METHOD_NAME << "Parsing file \"" << filePath << "\" failed with error: " << error << ".";
+		Logw() << METHOD_NAME << "Разбор файла \"" << filePath << "\" закончился ошибкой: " << error << ".";
 	}
 	
 	return ret;

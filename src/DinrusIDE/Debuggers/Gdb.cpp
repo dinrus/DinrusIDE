@@ -613,7 +613,7 @@ bool Gdb::Create(Host& host, const String& exefile, const String& cmdline, bool 
 	if(!host.StartProcess(dbg, gdb_command)) {
 		Loge() << METHOD_NAME << "Не удалось запустить gdb (\"" << gdb_command << "\").";
 		
-		ErrorOK("Ошибка при вызове gdb! Детали ищите в TheIDE логах.");
+		ErrorOK("Ошибка при вызове gdb! Детали ищите в DinrusIDE логах.");
 		return false;
 	}
 

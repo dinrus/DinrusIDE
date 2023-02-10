@@ -163,7 +163,7 @@ void Ide::MacroRemove(EscEscape& e)
 {
 	int c = e.GetCount();
 	if(c > 2)
-		e.ThrowError("wrong number of arguments in call to Remove (0 to 2 expected)");
+		e.ThrowError("неверное число аргументов при вызове Remove (0 или 2 ожидалось)");
 	int len = editor.GetLength();
 	int cur = editor.GetCursor();
 	if(c == 0) {
@@ -177,7 +177,7 @@ void Ide::MacroRemove(EscEscape& e)
 		int start = (c > 1 ? e.Int(0) : cur);
 		int count = e.Int(c - 1);
 		if(count < 0 || count > len || start < 0 || start + count > len)
-			e.ThrowError(Format("cannot remove %d character(s) at position %d, text length is only %d",
+			e.ThrowError(Format("не удаётся удалить %d символ(ов) в позиции %d, длина текста только %d",
 				count, start, len));
 		editor.Remove(start, count);
 	}
@@ -187,7 +187,7 @@ void Ide::MacroInsert(EscEscape& e)
 {
 	int c = e.GetCount();
 	if(c < 1 || c > 2)
-		e.ThrowError("wrong number of arguments in call to Insert (1 or 2 expected)");
+		e.ThrowError("неверное число аргументов в вызове Insert (1 или 2 ожидалось)");
 	WString text = e[c - 1];
 	editor.Insert(c > 1 ? e.Int(0) : editor.GetCursor(), text);
 }
@@ -196,7 +196,7 @@ void Ide::MacroFind(EscEscape& e)
 {
 	int n = e.GetCount();
 	if(n < 1 || n > 6)
-		e.ThrowError("wrong number of arguments in call to Find (1 to 5 expected)");
+		e.ThrowError("неверное число аргументов в вызове Find (1 или 5 ожидалось)");
 	CodeEditor::FindReplaceData d = editor.GetFindReplaceData();
 	bool down = (n <= 1 || e.Int(1) > 0);
 	d.wholeword = (n > 2 && e.Int(2) > 0);
@@ -211,7 +211,7 @@ void Ide::MacroReplace(EscEscape& e)
 {
 	int n = e.GetCount();
 	if(n < 2 || n > 5)
-		e.ThrowError("wrong number of arguments in call to Find (2 to 6 expected)");
+		e.ThrowError("неверное число аргументов в вызове Find (2 или 6 ожидалось)");
 	CodeEditor::FindReplaceData d = editor.GetFindReplaceData();
 	d.find = e[0];
 	d.replace = e[1];
@@ -240,67 +240,67 @@ void Ide::MacroFindOpeningBrace(EscEscape& e)
 
 void Ide::MacroMoveLeft(EscEscape& e)
 {
-	if(e.GetCount() > 1) e.ThrowError("MoveLeft(sel = false) takes at most 1 parameter");
+	if(e.GetCount() > 1) e.ThrowError("MoveLeft(sel = false) принимает максимум 1 параметр");
 	editor.MoveLeft(e.GetCount() > 0 && e.Int(0) > 0);
 }
 
 void Ide::MacroMoveRight(EscEscape& e)
 {
-	if(e.GetCount() > 1) e.ThrowError("MoveRight(sel = false) takes at most 1 parameter");
+	if(e.GetCount() > 1) e.ThrowError("MoveRight(sel = false) принимает максимум 1 параметр");
 	editor.MoveRight(e.GetCount() > 0 && e.Int(0) > 0);
 }
 
 void Ide::MacroMoveUp(EscEscape& e)
 {
-	if(e.GetCount() > 1) e.ThrowError("MoveUp(sel = false) takes at most 1 parameter");
+	if(e.GetCount() > 1) e.ThrowError("MoveUp(sel = false) принимает максимум 1 параметр");
 	editor.MoveUp(e.GetCount() > 0 && e.Int(0) > 0);
 }
 
 void Ide::MacroMoveDown(EscEscape& e)
 {
-	if(e.GetCount() > 1) e.ThrowError("MoveDown(sel = false) takes at most 1 parameter");
+	if(e.GetCount() > 1) e.ThrowError("MoveDown(sel = false) принимает максимум 1 параметр");
 	editor.MoveDown(e.GetCount() > 0 && e.Int(0) > 0);
 }
 
 void Ide::MacroMoveHome(EscEscape& e)
 {
-	if(e.GetCount() > 1) e.ThrowError("MoveHome(sel = false) takes at most 1 parameter");
+	if(e.GetCount() > 1) e.ThrowError("MoveHome(sel = false) принимает максимум 1 параметр");
 	editor.MoveHome(e.GetCount() > 0 && e.Int(0) > 0);
 }
 
 void Ide::MacroMoveEnd(EscEscape& e)
 {
-	if(e.GetCount() > 1) e.ThrowError("MoveEnd(sel = false) takes at most 1 parameter");
+	if(e.GetCount() > 1) e.ThrowError("MoveEnd(sel = false) принимает максимум 1 параметр");
 	editor.MoveEnd(e.GetCount() > 0 && e.Int(0) > 0);
 }
 
 void Ide::MacroMovePageUp(EscEscape& e)
 {
-	if(e.GetCount() > 1) e.ThrowError("MovePageUp(sel = false) takes at most 1 parameter");
+	if(e.GetCount() > 1) e.ThrowError("MovePageUp(sel = false) принимает максимум 1 параметр");
 	editor.MovePageUp(e.GetCount() > 0 && e.Int(0) > 0);
 }
 
 void Ide::MacroMovePageDown(EscEscape& e)
 {
-	if(e.GetCount() > 1) e.ThrowError("MovePageDown(sel = false) takes at most 1 parameter");
+	if(e.GetCount() > 1) e.ThrowError("MovePageDown(sel = false) принимает максимум 1 параметр");
 	editor.MovePageDown(e.GetCount() > 0 && e.Int(0) > 0);
 }
 
 void Ide::MacroMoveTextBegin(EscEscape& e)
 {
-	if(e.GetCount() > 1) e.ThrowError("MoveTextBegin(sel = false) takes at most 1 parameter");
+	if(e.GetCount() > 1) e.ThrowError("MoveTextBegin(sel = false) принимает максимум 1 параметр");
 	editor.MoveTextBegin(e.GetCount() > 0 && e.Int(0) > 0);
 }
 
 void Ide::MacroMoveTextEnd(EscEscape& e)
 {
-	if(e.GetCount() > 1) e.ThrowError("MoveTextEnd(sel = false) takes at most 1 parameter");
+	if(e.GetCount() > 1) e.ThrowError("MoveTextEnd(sel = false) принимает максимум 1 параметр");
 	editor.MoveTextEnd(e.GetCount() > 0 && e.Int(0) > 0);
 }
 
 void Ide::MacroMoveWordRight(EscEscape& e)
 {
-	if(e.GetCount() > 1) e.ThrowError("MoveWordRight(sel = false) takes at most 1 parameter");
+	if(e.GetCount() > 1) e.ThrowError("MoveWordRight(sel = false) принимает максимум 1 параметр");
 	int p = editor.GetCursor();
 	int b = p;
 	int l = editor.GetLength();
@@ -316,7 +316,7 @@ void Ide::MacroMoveWordRight(EscEscape& e)
 
 void Ide::MacroMoveWordLeft(EscEscape& e)
 {
-	if(e.GetCount() > 1) e.ThrowError("MoveWordLeft(sel = false) takes at most 1 parameter");
+	if(e.GetCount() > 1) e.ThrowError("MoveWordLeft(sel = false) принимает максимум 1 параметр");
 	int p = editor.GetCursor();
 	if(p == 0) return;
 	int b = p;
@@ -385,7 +385,7 @@ void Ide::MacroBuild(EscEscape& e)
 		case 2: outfile = e[1]; break;
 		case 1: maincfg = e[0]; break;
 		case 0: break;
-		default: e.ThrowError("Build: 0 to 2 arguments expected ([maincfg[, outfile]])");
+		default: e.ThrowError("Build: 0 - 2 аргументов ожидалось ([maincfg[, outfile]])");
 	}
 	e = Build(IdeWorkspace(), maincfg, outfile, false);
 }
@@ -396,7 +396,7 @@ void Ide::MacroBuildProject(EscEscape& e)
 	switch(e.GetCount()) {
 		case 3: outfile = e[2];
 		case 2: break;
-		default:  e.ThrowError("BuildProject: 2 or 3 arguments expected (uppfile, maincfg[, outfile])");
+		default:  e.ThrowError("BuildProject: 2 - 3 аргументов ожидалось (uppfile, maincfg[, outfile])");
 	}
 	String uppfile = e[0];
 	String maincfg = e[1];

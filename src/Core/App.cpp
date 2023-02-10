@@ -474,7 +474,7 @@ void s_fpe_handler(int)
 
 void AppInit__(int argc, const char **argv, const char **envptr)
 {
-	SetLanguage(LNG_ENGLISH);
+	SetLanguage(LNG_CURRENT);
 	sSetArgv0__(argv[0]);
 	for(const char *var; (var = *envptr) != 0; envptr++)
 	{
@@ -501,7 +501,7 @@ void AppInit__(int argc, const char **argv, const char **envptr)
 
 void AppInitEnvironment__()
 {
-	SetLanguage(LNG_('E', 'N', 'U', 'S'));
+	SetLanguage(LNG_('R', 'U', 'R', 'U'));
 	int nArgs;
     LPWSTR *szArglist = CommandLineToArgvW(GetCommandLineW(), &nArgs);
 	if(szArglist) {

@@ -33,7 +33,7 @@ void RichEdit::HeightTool(Bar& bar, int width)
 
 void RichEdit::BoldTool(Bar& bar, dword key)
 {
-	bar.Add(!IsReadOnly(), t_("Bold"),
+	bar.Add(!IsReadOnly(), t_("Полужирный"),
 	        formatinfo.charvalid & RichText::BOLD ? RichEditImg::Bold() : RichEditImg::BoldMixed(),
 	        USERBACK(Bold))
 	   .Check(formatinfo.IsBold() && (formatinfo.charvalid & RichText::BOLD))
@@ -42,7 +42,7 @@ void RichEdit::BoldTool(Bar& bar, dword key)
 
 void RichEdit::ItalicTool(Bar& bar, dword key)
 {
-	bar.Add(!IsReadOnly(), t_("Italic"),
+	bar.Add(!IsReadOnly(), t_("Курсив"),
             formatinfo.charvalid & RichText::ITALIC ? RichEditImg::Italic() : RichEditImg::ItalicMixed(),
 	        USERBACK(Italic))
 	   .Check(formatinfo.IsItalic() && (formatinfo.charvalid & RichText::ITALIC))
@@ -51,7 +51,7 @@ void RichEdit::ItalicTool(Bar& bar, dword key)
 
 void RichEdit::UnderlineTool(Bar& bar, dword key)
 {
-	bar.Add(!IsReadOnly(), t_("Underline"),
+	bar.Add(!IsReadOnly(), t_("Подчёркнуто"),
 	        formatinfo.charvalid & RichText::UNDERLINE ? RichEditImg::Underline()
 	                                               : RichEditImg::UnderlineMixed(),
 	        USERBACK(Underline))
@@ -61,7 +61,7 @@ void RichEdit::UnderlineTool(Bar& bar, dword key)
 
 void RichEdit::StrikeoutTool(Bar& bar, dword key)
 {
-	bar.Add(!IsReadOnly(), t_("Strikeout"),
+	bar.Add(!IsReadOnly(), t_("Зачеркнуто"),
 	        formatinfo.charvalid & RichText::STRIKEOUT ? RichEditImg::Strikeout()
 	                                               : RichEditImg::StrikeoutMixed(),
 	        USERBACK(Strikeout))
@@ -71,7 +71,7 @@ void RichEdit::StrikeoutTool(Bar& bar, dword key)
 
 void RichEdit::CapitalsTool(Bar& bar, dword key)
 {
-	bar.Add(!IsReadOnly(), t_("Capitals"),
+	bar.Add(!IsReadOnly(), t_("Заглавные"),
 	        formatinfo.charvalid & RichText::CAPITALS  ? RichEditImg::Capitals()
 	                                               : RichEditImg::CapitalsMixed(),
 	        USERBACK(Capitals))
@@ -81,7 +81,7 @@ void RichEdit::CapitalsTool(Bar& bar, dword key)
 void RichEdit::SuperscriptTool(Bar& bar, dword key)
 {
 	int i = formatinfo.charvalid & RichText::SSCRIPT ? formatinfo.sscript : 0;
-	bar.Add(!IsReadOnly(), t_("Superscript"),
+	bar.Add(!IsReadOnly(), t_("Надпись"),
 	        formatinfo.charvalid & RichText::SSCRIPT ? RichEditImg::SuperScript()
 	                                             : RichEditImg::SuperScriptMixed(),
 			USERBACK1(SetScript, i == 1 ? 0 : 1))
@@ -91,7 +91,7 @@ void RichEdit::SuperscriptTool(Bar& bar, dword key)
 void RichEdit::SubscriptTool(Bar& bar, dword key)
 {
 	int i = formatinfo.charvalid & RichText::SSCRIPT ? formatinfo.sscript : 0;
-	bar.Add(!IsReadOnly(), t_("Subscript"),
+	bar.Add(!IsReadOnly(), t_("Подпись"),
 	        formatinfo.charvalid & RichText::SSCRIPT ? RichEditImg::SubScript()
 	                                             : RichEditImg::SubScriptMixed(),
 			USERBACK1(SetScript, i == 2 ? 0 : 2))
@@ -131,7 +131,7 @@ void RichEdit::LanguageTool(Bar& bar, int width)
 
 void RichEdit::SpellCheckTool(Bar& bar)
 {
-	bar.Add(t_("Show spelling errors"), RichEditImg::SpellCheck(), USERBACK(SpellCheck))
+	bar.Add(t_("Показать ошибки спеллинга"), RichEditImg::SpellCheck(), USERBACK(SpellCheck))
 	   .Check(spellcheck);
 }
 
@@ -153,28 +153,28 @@ void Setup(DataPusher& b, const char *tip, const char *dtip, dword key)
 void RichEdit::IndexEntryTool(Bar& bar, int width, dword key, const char *tip)
 {
 	bar.Add(!IsReadOnly(), indexentry, width);
-	Setup(indexentry, tip, t_("Index entry"), key);
+	Setup(indexentry, tip, t_("Индексная запись"), key);
 	bar.AddKey(key, USERBACK(IndexEntry));
 }
 
 void RichEdit::HyperlinkTool(Bar& bar, int width, dword key, const char *tip)
 {
 	bar.Add(!IsReadOnly(), hyperlink, width);
-	Setup(hyperlink, tip, t_("Hyperlink"), key);
+	Setup(hyperlink, tip, t_("Гиперссылка"), key);
 	bar.AddKey(key, USERBACK(Hyperlink));
 }
 
 void RichEdit::LabelTool(Bar& bar, int width, dword key, const char *tip)
 {
 	bar.Add(!IsReadOnly(), label, width);
-	Setup(label, tip, t_("Paragraph label"), key);
+	Setup(label, tip, t_("Ярлык параграфа"), key);
 	bar.AddKey(key, USERBACK(Label));
 }
 
 void RichEdit::LeftTool(Bar& bar, dword key)
 {
 	int a = formatinfo.paravalid & RichText::ALIGN ? formatinfo.align : Null;
-	bar.Add(!IsReadOnly(), t_("Left"), RichEditImg::Left(), USERBACK(AlignLeft))
+	bar.Add(!IsReadOnly(), t_("Слева"), RichEditImg::Left(), USERBACK(AlignLeft))
 	   .Check(a == ALIGN_LEFT)
 	   .Key(key);
 }
@@ -182,7 +182,7 @@ void RichEdit::LeftTool(Bar& bar, dword key)
 void RichEdit::RightTool(Bar& bar, dword key)
 {
 	int a = formatinfo.paravalid & RichText::ALIGN ? formatinfo.align : Null;
-	bar.Add(!IsReadOnly(), t_("Right"), RichEditImg::Right(), USERBACK(AlignRight))
+	bar.Add(!IsReadOnly(), t_("Справа"), RichEditImg::Right(), USERBACK(AlignRight))
 	   .Check(a == ALIGN_RIGHT)
 	   .Key(key);
 }
@@ -190,7 +190,7 @@ void RichEdit::RightTool(Bar& bar, dword key)
 void RichEdit::CenterTool(Bar& bar, dword key)
 {
 	int a = formatinfo.paravalid & RichText::ALIGN ? formatinfo.align : Null;
-	bar.Add(!IsReadOnly(), t_("Center"), RichEditImg::Center(), USERBACK(AlignCenter))
+	bar.Add(!IsReadOnly(), t_("По центру"), RichEditImg::Center(), USERBACK(AlignCenter))
 	   .Check(a == ALIGN_CENTER)
 	   .Key(key);
 }
@@ -198,7 +198,7 @@ void RichEdit::CenterTool(Bar& bar, dword key)
 void RichEdit::JustifyTool(Bar& bar, dword key)
 {
 	int a = formatinfo.paravalid & RichText::ALIGN ? formatinfo.align : Null;
-	bar.Add(!IsReadOnly(), t_("Justify"), RichEditImg::Justify(), USERBACK(AlignJustify))
+	bar.Add(!IsReadOnly(), t_("Растянуть"), RichEditImg::Justify(), USERBACK(AlignJustify))
 	   .Check(a == ALIGN_JUSTIFY)
 	   .Key(key);
 }
@@ -206,7 +206,7 @@ void RichEdit::JustifyTool(Bar& bar, dword key)
 void  RichEdit::RoundBulletTool(Bar& bar, dword key)
 {
 	int a = formatinfo.paravalid & RichText::BULLET ? formatinfo.bullet : Null;
-	bar.Add(!IsReadOnly(), t_("Round bullet"), RichEditImg::RoundBullet(),
+	bar.Add(!IsReadOnly(), t_("Круглый буллет"), RichEditImg::RoundBullet(),
 	        USERBACK1(SetBullet, RichPara::BULLET_ROUND))
 	   .Check(a == RichPara::BULLET_ROUND)
 	   .Key(key);
@@ -215,7 +215,7 @@ void  RichEdit::RoundBulletTool(Bar& bar, dword key)
 void  RichEdit::RoundWhiteBulletTool(Bar& bar, dword key)
 {
 	int a = formatinfo.paravalid & RichText::BULLET ? formatinfo.bullet : Null;
-	bar.Add(!IsReadOnly(), t_("White round bullet"), RichEditImg::RoundWhiteBullet(),
+	bar.Add(!IsReadOnly(), t_("Белый круглый буллет"), RichEditImg::RoundWhiteBullet(),
 	        USERBACK1(SetBullet, RichPara::BULLET_ROUNDWHITE))
 	   .Check(a == RichPara::BULLET_ROUNDWHITE)
 	   .Key(key);
@@ -224,7 +224,7 @@ void  RichEdit::RoundWhiteBulletTool(Bar& bar, dword key)
 void  RichEdit::BoxBulletTool(Bar& bar, dword key)
 {
 	int a = formatinfo.paravalid & RichText::BULLET ? formatinfo.bullet : Null;
-	bar.Add(!IsReadOnly(), t_("Box bullet"), RichEditImg::BoxBullet(),
+	bar.Add(!IsReadOnly(), t_("Бокс-буллет"), RichEditImg::BoxBullet(),
 	        USERBACK1(SetBullet, RichPara::BULLET_BOX))
 	   .Check(a == RichPara::BULLET_BOX)
 	   .Key(key);
@@ -233,7 +233,7 @@ void  RichEdit::BoxBulletTool(Bar& bar, dword key)
 void  RichEdit::BoxWhiteBulletTool(Bar& bar, dword key)
 {
 	int a = formatinfo.paravalid & RichText::BULLET ? formatinfo.bullet : Null;
-	bar.Add(!IsReadOnly(), t_("White box bullet"), RichEditImg::BoxWhiteBullet(),
+	bar.Add(!IsReadOnly(), t_("Белый бокс-буллет"), RichEditImg::BoxWhiteBullet(),
 	        USERBACK1(SetBullet, RichPara::BULLET_BOXWHITE))
 	   .Check(a == RichPara::BULLET_BOXWHITE)
 	   .Key(key);
@@ -242,7 +242,7 @@ void  RichEdit::BoxWhiteBulletTool(Bar& bar, dword key)
 void  RichEdit::TextBulletTool(Bar& bar, dword key)
 {
 	int a = formatinfo.paravalid & RichText::BULLET ? formatinfo.bullet : Null;
-	bar.Add(!IsReadOnly(), t_("Text bullet"), RichEditImg::TextBullet(),
+	bar.Add(!IsReadOnly(), t_("Текст-буллет"), RichEditImg::TextBullet(),
 	        USERBACK1(SetBullet, RichPara::BULLET_TEXT))
 	   .Check(a == RichPara::BULLET_TEXT)
 	   .Key(key);
@@ -250,13 +250,13 @@ void  RichEdit::TextBulletTool(Bar& bar, dword key)
 
 void RichEdit::ParaFormatTool(Bar& bar, dword key)
 {
-	bar.Add(!IsReadOnly(), t_("Paragraph format.."), RichEditImg::ParaFormat(), USERBACK(ParaFormat))
+	bar.Add(!IsReadOnly(), t_("Формат параграфа.."), RichEditImg::ParaFormat(), USERBACK(ParaFormat))
 	   .Key(key);
 }
 
 void RichEdit::ToParaTool(Bar& bar, dword key)
 {
-	bar.Add(!IsReadOnly() && IsSelection() && !tablesel, t_("To single paragraph"),
+	bar.Add(!IsReadOnly() && IsSelection() && !tablesel, t_("В единый параграф"),
 	        RichEditImg::ToPara(), USERBACK(ToPara))
 	   .Key(key);
 }
@@ -281,7 +281,7 @@ void RichEdit::ParaTools(Bar& bar)
 
 void RichEdit::UndoTool(Bar& bar, dword key)
 {
-	bar.Add(!IsReadOnly() && undo.GetCount(), t_("Undo"), CtrlImg::undo(), USERBACK(Undo))
+	bar.Add(!IsReadOnly() && undo.GetCount(), t_("Отменить"), CtrlImg::undo(), USERBACK(Undo))
 	   .Repeat()
 	   .Key(K_ALT_BACKSPACE)
 	   .Key(key);
@@ -289,7 +289,7 @@ void RichEdit::UndoTool(Bar& bar, dword key)
 
 void RichEdit::RedoTool(Bar& bar, dword key)
 {
-	bar.Add(!IsReadOnly() && redo.GetCount(), t_("Redo"), CtrlImg::redo(), USERBACK(Redo))
+	bar.Add(!IsReadOnly() && redo.GetCount(), t_("Повторить"), CtrlImg::redo(), USERBACK(Redo))
 	   .Repeat()
 	   .Key(K_SHIFT|K_ALT_BACKSPACE)
 	   .Key(key);
@@ -297,7 +297,7 @@ void RichEdit::RedoTool(Bar& bar, dword key)
 
 void RichEdit::CutTool(Bar& bar, dword key)
 {
-	bar.Add(!IsReadOnly() && IsSelection() || objectpos >= 0, t_("Cut"), CtrlImg::cut(), USERBACK(Cut))
+	bar.Add(!IsReadOnly() && IsSelection() || objectpos >= 0, t_("Вырезать"), CtrlImg::cut(), USERBACK(Cut))
 	   .Key(K_SHIFT_DELETE)
 	   .Key(key);
 }
@@ -305,14 +305,14 @@ void RichEdit::CutTool(Bar& bar, dword key)
 void RichEdit::CopyTool(Bar& bar, dword key)
 {
 	bar.Add(IsSelection() || objectpos >= 0,
-	        t_("Copy"), CtrlImg::copy(), USERBACK(Copy))
+	        t_("Копировать"), CtrlImg::copy(), USERBACK(Copy))
 	   .Key(K_CTRL_INSERT)
 	   .Key(key);
 }
 
 void RichEdit::PasteTool(Bar& bar, dword key)
 {
-	bar.Add(!IsReadOnly(), t_("Paste"), CtrlImg::paste(), USERBACK(Paste))
+	bar.Add(!IsReadOnly(), t_("Вставить"), CtrlImg::paste(), USERBACK(Paste))
 	   .Key(K_SHIFT_INSERT)
 	   .Key(key);
 }
@@ -328,18 +328,18 @@ void RichEdit::ObjectTool(Bar& bar, dword key)
 
 void RichEdit::LoadImageTool(Bar& bar, dword key)
 {
-	bar.Add(!IsReadOnly(), t_("Insert image from file.."), RichEditImg::LoadImageFile(), THISBACK(InsertImage));
+	bar.Add(!IsReadOnly(), t_("Вставить рисунок из файла.."), RichEditImg::LoadImageFile(), THISBACK(InsertImage));
 }
 
 void RichEdit::PrintTool(Bar& bar, dword key)
 {
-	bar.Add(t_("Print"), CtrlImg::print(), USERBACK(DoPrint))
+	bar.Add(t_("Печать"), CtrlImg::print(), USERBACK(DoPrint))
 	   .Key(key);
 }
 
 void RichEdit::FindReplaceTool(Bar& bar, dword key)
 {
-	bar.Add(!IsReadOnly(), t_("Find/Replace"), RichEditImg::FindReplace(), USERBACK(OpenFindReplace))
+	bar.Add(!IsReadOnly(), t_("Найти/Заменить"), RichEditImg::FindReplace(), USERBACK(OpenFindReplace))
 	   .Key(key);
 }
 
@@ -358,14 +358,14 @@ void RichEdit::EditTools(Bar& bar)
 void RichEdit::InsertTableTool(Bar& bar, dword key)
 {
 	bar.Add(!IsSelection() && !IsReadOnly(),
-	        t_("Insert table.."), RichEditImg::InsertTable(), USERBACK(InsertTable))
+	        t_("Вставить таблицу.."), RichEditImg::InsertTable(), USERBACK(InsertTable))
 	   .Key(key);
 }
 
 void RichEdit::TablePropertiesTool(Bar& bar, dword key)
 {
 	bar.Add(!IsSelection() && cursorp.table && !IsReadOnly(),
-	        t_("Table properties.."), RichEditImg::TableProperties(),
+	        t_("Свойства таблицы.."), RichEditImg::TableProperties(),
 	        USERBACK(TableProps))
 	   .Key(key);
 }
@@ -373,7 +373,7 @@ void RichEdit::TablePropertiesTool(Bar& bar, dword key)
 void RichEdit::InsertTableRowTool(Bar& bar, dword key)
 {
 	bar.Add(!IsSelection() && cursorp.table && !IsReadOnly(),
-	        t_("Insert row"), RichEditImg::TableInsertRow(),
+	        t_("Вставить ряд"), RichEditImg::TableInsertRow(),
 	        USERBACK(TableInsertRow))
 	   .Key(key);
 }
@@ -381,14 +381,14 @@ void RichEdit::InsertTableRowTool(Bar& bar, dword key)
 void RichEdit::RemoveTableRowTool(Bar& bar, dword key)
 {
 	bar.Add(!IsSelection() && cursorp.table && !IsReadOnly(),
-	        t_("Remove row"), RichEditImg::TableRemoveRow(), USERBACK(TableRemoveRow))
+	        t_("Удалить ряд"), RichEditImg::TableRemoveRow(), USERBACK(TableRemoveRow))
 	   .Key(key);
 }
 
 void RichEdit::InsertTableColumnTool(Bar& bar, dword key)
 {
 	bar.Add(!IsSelection() && cursorp.table && !IsReadOnly(),
-	        t_("Insert column"), RichEditImg::TableInsertColumn(),
+	        t_("Вставить колонку"), RichEditImg::TableInsertColumn(),
 	        USERBACK(TableInsertColumn))
 	   .Key(key);
 }
@@ -396,17 +396,17 @@ void RichEdit::InsertTableColumnTool(Bar& bar, dword key)
 void RichEdit::RemoveTableColumnTool(Bar& bar, dword key)
 {
 	bar.Add(!IsSelection() && cursorp.table && !IsReadOnly(),
-	        t_("Remove column"), RichEditImg::TableRemoveColumn(), USERBACK(TableRemoveColumn))
+	        t_("Удалить колонку"), RichEditImg::TableRemoveColumn(), USERBACK(TableRemoveColumn))
 	   .Key(key);
 }
 
 void RichEdit::SplitJoinCellTool(Bar& bar, dword key)
 {
 	if(tablesel)
-		bar.Add(!IsReadOnly(), t_("Join cells"), RichEditImg::JoinCell(), USERBACK(JoinCell))
+		bar.Add(!IsReadOnly(), t_("Объединить ячейки"), RichEditImg::JoinCell(), USERBACK(JoinCell))
 		   .Key(key);
 	else
-		bar.Add(!IsSelection() && cursorp.table && !IsReadOnly(), t_("Split cell.."),
+		bar.Add(!IsSelection() && cursorp.table && !IsReadOnly(), t_("Разделить ячейку.."),
 		        RichEditImg::SplitCell(), USERBACK(SplitCell))
 		   .Key(key);
 }
@@ -414,7 +414,7 @@ void RichEdit::SplitJoinCellTool(Bar& bar, dword key)
 void RichEdit::CellPropertiesTool(Bar& bar, dword key)
 {
 	bar.Add(cursorp.table && (!IsSelection() || tablesel) && !IsReadOnly(),
-	        t_("Cell properties.."), RichEditImg::CellProperties(), USERBACK(CellProperties))
+	        t_("Свойства ячейки.."), RichEditImg::CellProperties(), USERBACK(CellProperties))
 	   .Key(key);
 }
 
@@ -432,17 +432,17 @@ void RichEdit::TableTools(Bar& bar)
 
 void RichEdit::InsertImageTool(Bar& bar)
 {
-	bar.Add(t_("Insert image from file.."), USERBACK(InsertImage));
+	bar.Add(t_("Вставить рисунок из файла.."), USERBACK(InsertImage));
 }
 
 void RichEdit::StyleKeysTool(Bar& bar)
 {
-	bar.Add(t_("Style keys.."), USERBACK(StyleKeys));
+	bar.Add(t_("Ключи стиля.."), USERBACK(StyleKeys));
 }
 
 void RichEdit::HeaderFooterTool(Bar& bar)
 {
-	bar.Add(t_("Header/Footer.."), RichEditImg::HeaderFooter(), USERBACK(HeaderFooter));
+	bar.Add(t_("Заголовочник/Подвал.."), RichEditImg::HeaderFooter(), USERBACK(HeaderFooter));
 }
 
 void RichEdit::DefaultBar(Bar& bar, bool extended)

@@ -1,4 +1,4 @@
-topic "File Types";
+topic "Типы Файлов";
 [l288;i704;a17;O9;~~~.992; $$1,0#10431211400427159095818037425705:param]
 [a83;*R6 $$2,5#31310162474203024125188417583966:caption]
 [H4;b83;*4 $$3,5#07864147445237544204411237157677:title]
@@ -21,147 +21,192 @@ topic "File Types";
 [b83;*+117 $$20,20#1546C2CD4112BAB0A26C534D6F11ED13:subtitle]
 [ $$0,0#00000000000000000000000000000000:Default]
 [{_}%RU-RU 
-[s2; File Types&]
-[s3; Table of contents&]
+[s2; [@3 Типы Файлов]&]
+[s3; [@3 Содержание]&]
 [s0;2 &]
-[s0; [^topic`:`/`/ide`/app`/Files`_en`-us`#1^2 1. Introduction]&]
-[s0; [^topic`:`/`/ide`/app`/Files`_en`-us`#2^2 2. File types]&]
-[s0; [2     ][^topic`:`/`/ide`/app`/Files`_en`-us`#2`_1^2 2.1 Text files]&]
-[s0; [2     ][^topic`:`/`/ide`/app`/Files`_en`-us`#2`_2^2 2.2 Special 
-files]&]
-[s0; [2     ][^topic`:`/`/ide`/app`/Files`_en`-us`#2`_3^2 2.3 Other files 
-and directories]&]
-[s0; [2     ][^topic`:`/`/ide`/app`/Files`_en`-us`#2`_4^2 2.4 Settings 
-files]&]
+[s0; [^topic`:`/`/DinrusIDE`/app`/Files`_ru`-ru`#1^2 1. Введение]&]
+[s0; [^topic`:`/`/DinrusIDE`/app`/Files`_ru`-ru`#2^2 2. Типы файлов]&]
+[s0; [2     ][^topic`:`/`/DinrusIDE`/app`/Files`_ru`-ru`#2`_1^2 2.1 Текстовые 
+файлы]&]
+[s0; [2     ][^topic`:`/`/DinrusIDE`/app`/Files`_ru`-ru`#2`_2^2 2.2 Особые 
+файлы]&]
+[s0; [2     ][^topic`:`/`/DinrusIDE`/app`/Files`_ru`-ru`#2`_3^2 2.3 Прочие 
+файлы и директории]&]
+[s0; [2     ][^topic`:`/`/DinrusIDE`/app`/Files`_ru`-ru`#2`_4^2 2.4 Файлы 
+настроек]&]
 [s0;2 &]
-[s3;:1: 1. Introduction&]
-[s5; In this article U`+`+ related files and files types will be 
-discussed.&]
-[s3;:2: 2. File types&]
-[s20;:2`_1: 2.1 Text files&]
-[s5; Text files are widely supported by our integrated environment 
-TheIDE. Many of them are used in the daily development process 
-of U`+`+ applications.&]
+[s3;:1: [@(28.85.200) 1. Введение]&]
+[s5; В этой статье обсуждаются связанные 
+с U`+`+ файлы и типы файлов.&]
+[s3;:2: [@5 2. Типы файлов]&]
+[s20;:2`_1: [@(128.0.255) 2.1 Текстовые файлы]&]
+[s5; Текстовые файлы имеют широкую поддержку 
+в нашей интегрированной среде DinrusIDE. 
+Многие из них используются в процессе 
+повседневной разработки приложений 
+U`+`+.&]
 [s0;2 &]
 [ {{2413:7587^ [s19; [* .cpp, .cc, .cxx, .c, .m, .mm]]
-:: [s19; Files with these extensions are recognized as source files by 
-TheIDE C`+`+ builders.]
+:: [s19; Файлы с этими расширениями распознаются 
+как исходники построителями DinrusIDE 
+C`+`+.]
 :: [s19; [* .h, .hpp]]
-:: [s19; Header files. C`+`+ builders provide automatic header dependency 
-tests. U`+`+ packages tend to use [* h ]instead of [* hpp] in case 
-that file contains template function definitions.]
+:: [s19; Файлы`-заголовочники получаю автоматически
+й тест на зависимости в построителях 
+C`+`+. Пакеты U`+`+ намеренно используют 
+[* h ]вместо  [* hpp] , когда в них содержатся 
+определения шаблонных функций.]
 :: [s19; [* .iccp]]
-:: [s19; This file type is recognized as .cpp source file, but unlike 
-regular .cpp, which might be placed into the library first and 
-eventually eliminated by linker, .icpp one is always linked as 
-object file. This forces the file to be always linked. The rationale 
-of this is that you can put module initialization code into .icpp 
-that is linked into the executable even when code is not referenced 
-from other files.]
+:: [s19; Этот тип файла распознаётся как исходник 
+.cpp, но в отличие от простого .cpp, который 
+вначале может быть помещён в библиотеку, 
+а потом удалён компоновщиком, .icpp 
+всегда компонуется в объектный файл. 
+Это гарантирует, что файл скомпонуется 
+всегда. Рациональ этого состоит в 
+том, что можно поместить код инициализации 
+модуля в .icpp , который будет линкован 
+в исполнимый, даже если этот код не 
+имеет ссылок на себя в прочих файлах.]
 :: [s19; [* .java]]
-:: [s19; Java files]
+:: [s19; Файлы Java]
 :: [s19; [* .py]]
-:: [s19; Python files]
+:: [s19; Файлы Python]
 :: [s19; [* .rc]]
-:: [s19; Windows resource files.]
+:: [s19; Файлы ресурсов Windows.]
 :: [s19; [* .lay]]
-:: [s19; Layout files. Contain layouts of e.g. dialogs.]
+:: [s19; Фыйлы выкладок. Содержат выкладки, 
+например, диалоговых окон.]
 :: [s19; [* .iml]]
-:: [s19; Image files. Contain icons and other raster images.]
+:: [s19; Файлы изображений. Содержат иконки 
+и прочие растровые картинки.]
 :: [s19; [* .t]]
-:: [s19; Translation files containing translation of strings used in 
-package to various languages.]
+:: [s19; Файлы переводов, содержащие переводы 
+строк, используемых в пакетах, на 
+разные языки.]
 :: [s19; [* .usc]]
-:: [s19; Scripts and other meta`-information. Contain widget descriptions 
-for layout designer, including visual representation description 
-using ESC scripts.]
+:: [s19; Сценарии и иная мета`-информация. 
+Содержат описания виджетов для дизайнера 
+выкладок, включая описание визуального 
+представления с помощью сценариев 
+ESC.]
 :: [s19; [* .upt]]
-:: [s19; Project templates.]
+:: [s19; Шаблоны проекта.]
 :: [s19; [* .defs]]
-:: [s19; Fixed macro definitions overrides for Assist`+`+ C`+`+ parser.]
+:: [s19; Фиксированные определения переписи 
+макросов  для парсера Ассист`+`+ C`+`+.]
 :: [s19; [* .png]]
-:: [s19; TheIDE displays images and if they are smaller than 1024x768, 
-edits them using icon designer.]
+:: [s19; DinrusIDE отображает рисунки, но если 
+они меньше 1024x768, то их редактируют 
+дизайнером иконок.]
 :: [s19; [* .jpg]&]
 [s19; [* .gif]&]
 [s19; [* .bmp]]
-:: [s19; TheIDE displays images.]
+:: [s19; Изображения DinrusIDE ]
 :: [s19; [* .qtf]]
-:: [s19; U`+`+ rich text format.]
+:: [s19; Это RTF U`+`+ (rich text format).]
 :: [s19; [* .key]]
-:: [s19; Re`-definable keys definition file.]
+:: [s19; Файл определения клавиш, который 
+можно редактировать.]
 :: [s19; [* .log]]
-:: [s19; Log files.]
+:: [s19; Файлы журнала.]
 :: [s19; [* .i]]
-:: [s19; These files are usually included by some .[* cpp] file(s) for 
-various purposes.]
+:: [s19; Эти файлы как правило, включаются 
+некоторыми .[* cpp] файлами(файлом) для 
+различных целей.]
 :: [s19; [* .sch]]
-:: [s19; Database schema files. Contain definitions of database layouts. 
-U`+`+ database applications build database schema building scripts 
-from these files and also use them to define structures and constants 
-and variables needed for database interaction.]
+:: [s19; Файлы схемы базы данных. Содержат 
+определения выкладок базы данных. 
+Приложения U`+`+ с БД строят сценарии 
+построения схемы базы данных по этим 
+файлам, а также используют их, чтобы 
+определять структуры, переменные 
+и константы, необходимые для взаимодействия
+ с БД.]
 :: [s19; [* .witz]]
-:: [s19; Skylark HTML templates.]}}&]
+:: [s19; Шаблоны Skylark HTML.]}}&]
 [s0; &]
-[s20;:2`_2: 2.2 Special files&]
-[s5; There are also files with special meaning. In order to work 
-correctly with U`+`+ and TheIDE environment the names must be 
-exactly the same as in the table below:&]
+[s20;:2`_2: [@(128.0.255) 2.2 Особые файлы]&]
+[s5; Есть также файлы с особым значением. 
+Для правильной работы с U`+`+ и средой 
+DinrusIDE имена должны быть такими, как 
+в следующей таблице:&]
 [s19;* &]
 [ {{2353:7647^ [s19; [* import.ext]]
-:: [s19; This file contains description of [^topic`:`/`/ide`/app`/importext`$en`-us^ import
-ing] 3rd party source files contained in package.]
+:: [s19; В этом файле находится описание [^topic`:`/`/DinrusIDE`/app`/importext`_ru`-ru^ и
+мпортирования] исходников 3`-ей стороны, 
+содержащихся в пакете.]
 :: [s19; [* Copying]]
-:: [s19; This file contains license info for package.]
+:: [s19; В этом файле содержится лицензионная 
+информация о пакете.]
 :: [s19; [* COPYING`-PLAIN]]
-:: [s19; Contains license explanation.]
+:: [s19; Содержит лицензионное пояснение.]
 :: [s19; [* AUTHORS]]
-:: [s19; List of authors.]}}&]
+:: [s19; Список авторов.]}}&]
 [s0;*2 &]
-[s20;:2`_3: 2.3 Other files and directories&]
-[s5; There are several file types and directories that you can encounter 
-during your journey with U`+`+. Please noticed that some of these 
-files can be treated in specific way by TheIDE and they are can 
-not be directly edited. Sometimes special designer is required 
-to edit them or they are processed secretly.&]
+[s20;:2`_3: [@(128.0.255) 2.3 Другие файлы и директории]&]
+[s5; Во время путешествия по U`+`+ вам многут 
+встретиться несколько типов файлов 
+и директорий. Заметьте, пожалуйста, 
+что некоторые из них расцениваются 
+DinrusIDE особым образом и напрямую не 
+редактируются. Иногда их можно редактироват
+ь особым редактором, но чаще они обрабатываю
+тся в секрете.&]
 [s0;*2 &]
 [ {{2370:7630h1;^ [s19; [* .upp]]
-::= [s19; Package definition file. Its name must be the same as name of 
-package folder. It is normally managed by TheIDE`'s package organizer.]
+::= [s19; Файл определения пакета. Его имя 
+соответствует имени пакета. Как правило, 
+его обрабатывает органйзер пакетов 
+DinrusIDE.]
 ::^ [s19; [* .tpp]]
-::= [s19; Directories with this extension represent Topic`+`+ group. Inside 
-this directories are topic files with the same .tpp extension.]
+::= [s19; Директории с таким расширением представляю
+т собой группу Topic`+`+. В этих директориях 
+находятся файлы тематик с таким же 
+расширением .tpp.]
 ::^ [s19; [* all.i]]
-::= [s19; This file inside .tpp directories contains is Topic`+`+ generated 
-file for inclusion of topic group into C`+`+.]
+::= [s19; Этот файл находится внутри директорий 
+.tpp и содержит сгенерированный Topic`+`+ 
+файл, предназначенный для включения 
+группы тематик в C`+`+.]
 ::^ [s19; [* .tdx]]
-::= [s19; Pre`-parsed tpp files for fast searching.]
+::= [s19; Предварительно разобранные файлы 
+.tpp для быстрого поиска.]
 ::^ [s19; [* init]]
-::= [s19; Used by BLITZ to properly include icpp files before the rest 
-of the code.]
+::= [s19; Используются БЛИЦ для правильного 
+включения файлов  icpp перед остальным 
+кодом.]
 ::^ [s19; [* .scd]]
-::= [s19; Older format for spelling dictionaries, superseded by [* .udc]]}}&]
+::= [s19; Старый формат словарей спеллинга, 
+заменённый [* .udc]]}}&]
 [s0; &]
-[s20;:2`_4: 2.4 Settings files&]
-[s5; These files stores TheIDE configuration. They are mainly located 
-in TheIDE installation directory. In order to create backup you 
-could copy these files and store them in a convenient location. 
-You can reuse them between your U`+`+ installations or share 
-with your friends.&]
+[s20;:2`_4: [@(128.0.255) 2.4 Файлы настроек]&]
+[s5; В этих файлах хранятся конфигурации 
+DinrusIDE. Как правило, они находятся в 
+директории установки DinrusIDE. Для создания 
+бэкапа, их можно скопировать в другое 
+`- надёжное `- место.  Их можно повтроно 
+использовать между установками U`+`+ 
+или делиться с друзьями.&]
 [s0;*2 &]
-[ {{2370:7630h1;^ [s19; [* theide.cfg]]
-::= [s19; This is a binary file file takes its name from theide.exe or 
-whatever the name of the executable is that runs the ide. It 
-contains configuration settings which are a serialization of 
-the Setup`->Environment dialog.]
+[ {{2370:7630h1;^ [s19; [* DinrusIDE.cfg]]
+::= [s19; Этот бинарный файл, берущий название 
+от DinrusIDE.exe, или иного имени, с которым 
+работает ИСР. В нём `- конфигурационные 
+настройки, являющиеся сериализацией 
+диалогового окна Настройка`->Среда.]
 ::^ [s19; [* .var]]
-::= [s19; A text file that contains an assembly configuration as specified 
-in the Assembly setup dialog.]
+::= [s19; Текстовый файл, содержащий конфигурацию 
+сборки, задаваемую в диалоговом окне 
+`"Настройка сборки`".]
 ::^ [s19; [* .bm]]
-::= [s19; A text file that contains the build settings associated with 
-a particular compiler/ linker (`"build method`").]
+::= [s19; Текстовый файл, содержащий настройки 
+построения, связанные с определённым 
+компилятором/компоновщиком (`"метод 
+построения`").]
 ::^ [s19; [* cfg folder]]
-::= [s19; This folder holds cache files of TheIDE (tdx,cache,pkg`_cache) 
-and configuration files (per package settings, opened files, 
-cursor positions etc.).]}}&]
+::= [s19; В этой папке находятся кэш`-файлы 
+DinrusIDE (tdx,cache,pkg`_cache) и файлы конфигурации 
+(настройки по пакетам, открытые файлы, 
+положения курсоров и т.д.).]}}&]
 [s0; ]]

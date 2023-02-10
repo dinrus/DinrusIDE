@@ -1,9 +1,9 @@
-template "U++ Skylark Web application" main;
+template "Веб-приложение U++ Skylark" main;
 
-id     "Application name"    classname = PACKAGE;
-id     "Main page root path" root = PACKAGE;
-text   "TCP/IP port"         port = "8001";
-select("No database", "MySQL", "Postgres", "Sqlite3") "Database" db = 1;
+id     "Имя приложения"    classname = PACKAGE;
+id     "Путь к корню главного пакета" root = PACKAGE;
+text   "Порт TCP/IP"         port = "8001";
+select("Без БД", "MySQL", "Postgres", "Sqlite3") "Database" db = 1;
 
 @@<:PACKAGE:>.h
 #ifndef _<:PACKAGE:>_<:PACKAGE:>_h
@@ -69,7 +69,7 @@ void OpenSQL(MySqlSession& session)
 {
 	// TODO: Fill your connection credentials here:
 	if(!session.Connect("user", "password", "database")) {
-		SKYLARKLOG("Can't connect to database");
+		SKYLARKLOG("Не удаётся подключиться к БД");
 		Exit(1);
 	}
 #ifdef _DEBUG
@@ -103,7 +103,7 @@ void OpenSQL(PostgreSQLSession& session)
 {
 	// TODO: Fill your connection credentials here:
 	if(!session.Open("host=localhost dbname=database user=user password=password")) {
-		SKYLARKLOG("Can't connect to database");
+		SKYLARKLOG("Не удалось подключиться к БД");
 		Exit(1);
 	}
 #ifdef _DEBUG
@@ -136,7 +136,7 @@ void <:classname:>::WorkThread()
 void OpenSQL(Sqlite3Session& session)
 {
 	if(!session.Open(ConfigFile("db.sqlite3"))) {
-		SKYLARKLOG("Can't create or open database file");
+		SKYLARKLOG("Не удалось создать или открыть файл БД");
 		Exit(1);
 	}
 #ifdef _DEBUG

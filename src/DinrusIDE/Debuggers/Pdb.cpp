@@ -493,7 +493,7 @@ PDBExpressionDlg::PDBExpressionDlg(const char *title, String& brk, Pdb *pdb)
 :	pdb(pdb)
 {
 	CtrlLayoutOKCancel(*this, title);
-	help.SetQTF(GetTopic("DinrusIDE/Debuggers/app/PDBExpressions_en-us"));
+	help.SetQTF(GetTopic("DinrusIDE/Debuggers/app/PDBExpressions_ru-ru"));
 	help.Background(White());
 	help.SetFrame(ViewFrame());
 	text <<= brk;

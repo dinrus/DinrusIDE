@@ -489,7 +489,7 @@ void Ide::SyncT(int kind)
 		fs.Type("Файл перевода рантаймный (*.tr)", "*.tr");
 		fs.AllFilesType();
 		LoadFromGlobal(fs, "fs-tr");
-		bool b = fs.ExecuteOpen("Импольтировать файл перевода");
+		bool b = fs.ExecuteOpen("Импортировать файл перевода");
 		StoreToGlobal(fs, "fs-tr");
 		if(!b) return;
 		String tr = LoadFile(~fs);

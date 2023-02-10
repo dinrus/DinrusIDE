@@ -1,20 +1,20 @@
-TOPIC("About_en-us")
-#include "About_en-us.tppi"
+TOPIC("About_ru-ru")
+#include "About_ru-ru.tppi"
 END_TOPIC
 
-TOPIC("HelpCloid_en-us")
-#include "HelpCloid_en-us.tppi"
+TOPIC("HelpCloid_ru-ru")
+#include "HelpCloid_ru-ru.tppi"
 END_TOPIC
 
-TOPIC("HelpCycloid_en-us")
-#include "HelpCycloid_en-us.tppi"
+TOPIC("HelpCycloid_ru-ru")
+#include "HelpCycloid_ru-ru.tppi"
 END_TOPIC
 
-TOPIC("HelpTrochoid_en-us")
-#include "HelpTrochoid_en-us.tppi"
+TOPIC("HelpTrochoid_ru-ru")
+#include "HelpTrochoid_ru-ru.tppi"
 END_TOPIC
 
-TOPIC("Help_en-us")
-#include "Help_en-us.tppi"
+TOPIC("Help_ru-ru")
+#include "Help_ru-ru.tppi"
 END_TOPIC
 

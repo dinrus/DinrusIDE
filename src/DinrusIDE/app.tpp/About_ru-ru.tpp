@@ -1,19 +1,36 @@
-topic "Copyright © 1999-2022 U++ team";
+topic "О Программе DinrusIDE";
 [*+117 $$0,0#00000000000000000000000000000000:Default]
 [{_}%RU-RU 
-[s0; Авторское право© 1998, 2022 Команда U`+`+&]
-[s0;i704;O9; Авторы:-|Mirek_Fídler, Iñaki Zabala, Tomáš_Rylek, 
-[^http`:`/`/www`.digitalsoftware`.pl^ Daniel_Kos], Massimo Del 
-Fedele, İsmail Yılmaz, [^https`:`/`/www`.linkedin`.com`/in`/zbigniewrebacz^ Zbign
-iew Rębacz]&]
-[s0;i704;O9; Контрибуторы:-|Sandor_Hojtsy, Zsolt_Debre, 
-Guido_Schimmels, Augusto_Roman, Arijus Bernotas, Michael_Albert 
-, Marcus_Mauhart, [^http`:`/`/nullptr`.nl`/^ Jan_Wilmans], Graeme_Prentice, 
-Victor_Berchet, Ivica_Puljic, Mathiass_Sund, Andrew_Barilla, 
-Michal_Mierzejewski, Damien_Porquet, Werner_Wenzel, [%- Bas_Wegh], 
-Fabio_Busetto, Michal_Pekař, Darrin_Scott, Damien_Porquet, James 
-Thomas, [^http`:`/`/h4xz`.blogspot`.com^ Sritharan Sivaguru,] Artur 
-Bać, Ralf Schneider, Pavel Ostapenko, Raul Ionitoiu, Norbert 
+[s0;= [@(255.170.150)$3;4 ИНТЕГРИРОВАННАЯ СРЕДА 
+РАЗРАБОТКИ]&]
+[s0;= [@5$3;4  ][@(128.0.255)$3;3 (ИСР)]&]
+[s0;= [@(255.170.0)$3;4 РУССКОЯЗЫЧНОЙ НИЗКОУРОВНЕВОЙ]&]
+[s0;= [@(255.170.0)$3;4 ЦИФРОВОЙ ПЛАТФОРМЫ]&]
+[s0;= [@(128.0.255)$3+92  (РНЦП)]&]
+[s0;= [@(255.170.150)$3;7 ДИНРУС]&]
+[s0;= [@(128.0.255)$(128.128.0)5 
+@@rawimage:1000&1000
+(iVBORw0KGgoAAAANSUhEUgAAAKAAAACgCAYAAACLz2ctAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAB8tJREFUeF7tnFtSJDsMBbn7XwKLYWncZmLmB6qDFEe2qookgq/Ry0dp2dXVw38vLy/vj19/VGBMgQ8A/VWDKQaEzw04ysBo8qldZ97zTHwBdAKOMjCa3El0nkk01QsBdAKOMjCafGrXmfc8k1cAnYCjDIwmdxKdZxJN9YIB+D70Q6dTUh7NoR1jpagTC5o0OPGli9mRg9aiHWPq32tgNHqTBie+tJk7ctBatBPAEo8CUwIGDayCpix5qaONxnQhSUqaQzvGSlGnr0GTZur7fjghEl2KDe2eUKvjCWACx5HvETBJDgFM1PuFvgJYOqqdgN17RAAFsJupUjwBFMASMN3GAiiA3UyV4gmgAJaA6TYWQAHsZqoUTwAFsARMt7EAbgKQfkCaNLi7mbSWJG/iSz/YptpfwO7nnwPSxdGmU/GTeNQ3gSjxpRpQ7S9gJ4C06TvgpbVcACz6DlkAadMFsHS3E0AKjAAuAeu+AE7dsSjQU/Vd9Fi+3hE81WABXDIpBZBODgEUwKf3CgoHve8lUzbxTeqjG+lkdk5A2hAKuQCWJuU9AKQQJXYUwG67pOYL+AogbVI3WDQere+idgJIG0eB6baj9V3UTgBp47rBovFofRe1E0DaOApMtx2t76J29wAwaTptXJIj8aX1XdROAGnjEogSX1rfRe0EkDYugSjxpfVd1E4AaeMSiBJfWt9F7QSQNi6BKPGl9V3UTgBp4yhER/Gor++CH380m/50Ny4Rn9a8I4cA/sJ3wQJYajr9tvIOO4/g7knuBCxtBgEUwBIw3VPx5wAmxx717YbjzndAqukOO9q3h50AUrFo47o17a6PriOxozUL4ENlKhZtiAByTQVQAOm+KtnRTS2AAlgCixpjAGnAKTu6kKS+7hwewYUjOGncDt9uOHwK3tE1ASyp3A25E1AABbCkQL8x3dT8mwf9NaKIdCEo2BOj7hxOQCdgicffBiBdb7KRcI5SpwaM6UKS0rpzJI2bekjaocFhjqRxO3y7hZlqcKJVtwY0XrKRcI5EmB2+dCFJLd05ksZNbZAdGjgBfQj5owCFLdlIOAedHDjgyb9dQ9eb2CWNS/KeyRfzQovGAQXwcMJQne9ih3mhC8YBBVAAK8e8AFIFuJ1HcOGeSWV1AlKljsXn3vewxLzQ5eKAHsEewR7BdFutsfMI9gheQxaMKoACCFFZYyaAAriGLBhVAAcBhD2KXgclD0R39t2hfXuO7oDd8e4MTPfadmjfnqM7YHe87ibdOd4O7dtzdAfsjndnYLrXtkP79hzdAbvjdTfpzvF2aL8gR++f5qIFnskueWqlQCfr7c5B4+3Q5ZFDAHcILYBPORNAAeQM0I1UGGw8OQlKCzyTnQByBmjfCCt/bXhyEpQWeCY7AeQM0L4RVgTwr5oCKIB0Yy2xE0ABXAIWDSqAAkhZWWIngAK4BCwaVABvBCB9+qFwHNl15xBADiDVvmA3k1wAuQK0mTQijbfJTgCdgDMMLPkckO4auls9gvnX26mmtEeb7Gbop2IJoAAu+f8bAsgVoJOIRqTxNtk5Ab0DzjDgHdB3wUtOt+LknKGfHhfeAb0DLtklAsgVoBOFRqTxNtk5Ab0DzjDgHdA74JLTrTg5Z+inx4V3QO+AS3aJAHIF6EShEWm8TXZOQO+AMwx4B/QOWD7dFkzZGfrpQrwDnusOSPtWOL4F0COYMyCADwXo7krESnwToKcm/g5Nn+Tg9NMiiR1t8FRDaH1krR82yU93Dhov2UiFHAKYCJ2ARX1pM7vjJbrQmh92ApgITZue2NEe0Rw0XqJLIYcAJkLTpid2tJk0B42X6FLIIYCJ0LTpiR1tJs1B4yW6FHIIYCI0bXpiR5tJc9B4iS6FHNcDkApN7RKhaY7EjjaT5qDxEl0KOQQwEZo2PbGjzaQ5aLxEl0IOAUyEpk1P7GgzaQ4aL9GlkEMAE6Fp0xM72kyag8ZLdCnkEMBEaNr0xI42k+ag8RJdCjkEsCAWfg/9OSaF48iO1kdz0HgCSBUN7ZKGUN+kxO4cNJ4AJl0r+CYNob6Fcr6Ydueg8QQw6VrBN2kI9S2UI4BU1MQuaUi3b7IO6pvU3J2DxnMCFrqWiJoITR8aCktxAnY3s7vBtOnJOrqB6Y6XaLpDl0KOe3wMU1gw+iilG5jueAIYfpE1aYgT8HhoUE2TzboghxMwmSZ0M9DG0XhJzacHMBFLXxX4UKAA+dcJqIQqkCoggKmC+kcKCGAkn86pAgKYKqh/pIAARvLpnCoggKmC+kcKCGAkn86pAgKYKqh/pIAARvLpnCoQAfj29vb++bcQEH0Kni7ws/9UfTRvst7uHDTeptd9X9+ECCD/e360mQL49DsHArhjpwugAKKrwT8YKTBOwGOlqC4POyegE5B/Ja97Yx4CeNSQ19fX98+/Bcq/TB+6EGqX1JIASOtL7OjakhzdvrRmAXzyze7uhiTxaDOTHN2+tGYBFMBu9v7EE8CT/Z+VpMu0mUmObl9asxPQCdjN3poJSJ+Wl6wGBC3sOHQ8gJTbTOjathUEEtGa8QQUQKD6IhPazEXpfxSW1iyAHsE/Auw7JwH0IeQ7Rpb+uwAK4FLAvgu+BcBCEnTxNx5/JXYjrX7lot0Q4QnRuAEEsFFMwa6DLYACOMrAaHInRn1i3Eqz/wF2gh07jnjPLQAAAABJRU5ErkJggg==)
+]&]
+[s0;= [@(255.170.150)$3 Авторское право© 2022, 2023 
+DinrusPro (EnergonV)]&]
+[s0;= [@(255.170.150)$3 Авторы:][@6$3       ][^http`:`/`/ok`.ru`/vit`.klich^@8$3 Вит
+алий Кулич]&]
+[s0;= [@(255.170.150)$3 `*А ТАКЖЕ:`*`*`*`*`*`*`*`*][@2$3 `*]&]
+[s0;= [@(255.170.150)$3 Авторское право© 1998, 2022 
+Команда U`+`+]&]
+[s0;i704;O9; [@2$(128.128.0) Авторы:]-|Mirek_Fídler, Iñaki Zabala, 
+Tomáš_Rylek, [^http`:`/`/www`.digitalsoftware`.pl^ Daniel_Kos], 
+Massimo Del Fedele, İsmail Yılmaz, [^https`:`/`/www`.linkedin`.com`/in`/zbigniewrebacz^ Z
+bigniew Rębacz]&]
+[s0;i704;O9; [@2$(128.128.0) Контрибуторы:]-|Sandor_Hojtsy, 
+Zsolt_Debre, Guido_Schimmels, Augusto_Roman, Arijus Bernotas, 
+Michael_Albert , Marcus_Mauhart, [^http`:`/`/nullptr`.nl`/^ Jan_Wilmans], 
+Graeme_Prentice, Victor_Berchet, Ivica_Puljic, Mathiass_Sund, 
+Andrew_Barilla, Michal_Mierzejewski, Damien_Porquet, Werner_Wenzel, 
+[%- Bas_Wegh], Fabio_Busetto, Michal_Pekař, Darrin_Scott, Damien_Porquet, 
+James Thomas, [^http`:`/`/h4xz`.blogspot`.com^ Sritharan Sivaguru,] 
+Artur Bać, Ralf Schneider, Pavel Ostapenko, Raul Ionitoiu, Norbert 
 Hofer, Tomasz Pajak, Benoit Cousson, Trey Van Riper, Peter Berger, 
 Sergey Nikitin, Irenkov Alexander, Gabriel Schmotzer, Domingo 
 Alvarez Duarte, Andrei Cosma, Tom Olá, George Brink, Zbigniew 
@@ -23,24 +40,27 @@ Humphreys, Lucas Harsze, Martin Schut, [^http`:`/`/www`.mimuw`.edu`.pl`/`~pan`/^
 kub Pawlewicz], Navin Vidhani, Steffen Brummer, Luis Rodriguez, 
 Rakibul Islam, Nahar Pengatteeri, Ralph Klautke, Victor Picheev, 
 Navadvipa Chandra das, Radek Malčic, Amrein`-Marie Christophe, 
-Abdelghani Omari, Clément Hamon, Виталий Кулич&]
-[s0;i704;O9; Переводчики:-|Mauro_Bottizzo, Miklós_Somogyi, 
-Arlen_Albert, Ivica_Puljic, Richard_Gill, Werner_Wenzel, Tom 
-Olá, Sergey Nikitin, Koldo Ramirez, Gabriel Schmotzer, Andrei 
+Abdelghani Omari, Clément Hamon, [^https`:`/`/github`.com`/EnergonV^ Виталий
+ Кулич]&]
+[s0;i704;O9; [@2$(128.128.0) Переводчики:]-|Mauro_Bottizzo, 
+Miklós_Somogyi, Arlen_Albert, Ivica_Puljic, Richard_Gill, Werner_Wenzel, 
+Tom Olá, Sergey Nikitin, Koldo Ramirez, Gabriel Schmotzer, Andrei 
 Catalin, Massimo Del Fedele, Jan Dolinár, Zsolt Debre, Anton 
 Aleshkevich, Lionel Orry, 黃俊達 (Kasome), phirox, Didier, 
 谢威扬 (Bonami), Frederico Rodrigues, Ruben Proost, Willem 
-Kroes, Koncz Márton, Виталий Кулич&]
-[s0;i704;O9; PR `& SEO:-|Pavel_Stratil&]
-[s0;i704;O9; U`+`+ Logo:-|Pavel Ostapenko, Robert_Vroemisse, &]
+Kroes, Koncz Márton, [^http`:`/`/ok`.ru`/metascience^ Виталий 
+Кулич]&]
+[s0;i704;O9; [@2$(128.128.0) PR `& SEO:]-|Pavel_Stratil&]
+[s0;i704;O9; [@2$(128.128.0) U`+`+ Logo][@6$(128.128.0) :]-|Pavel Ostapenko, 
+Robert_Vroemisse, &]
 [s0;+108 &]
-[ {{3333:6667 [s0; Домашняя страница U`+`+ ]
+[ {{3333:6667 [s0; [@3 Домашняя страница U`+`+ ]]
 :: [s0; [^http`:`/`/www`.ultimatepp`.org`/^ https://www.ultimatepp.org]]
-:: [s0; Форум U`+`+]
+:: [s0; [@3 Форум U`+`+]]
 :: [s0; [^https`:`/`/www`.ultimatepp`.org`/forums^ https://www.ultimatepp.org/forums]]}}&]
 [s0;+108 &]
 [s0;+92 &]
-[s0; [+92 В U`+`+ входят исходники следующих 
+[s0; [@5 В U`+`+ входят исходники следующих 
 библиотек и ресурсов:]&]
 [ {{3799:6201h1;@(204) [s0; [+75 Библиотека/ проект]]
 :: [s0; [+75 Авторы]]
@@ -77,7 +97,7 @@ Alexei Frounze]]
 все библиотеки имеют совместимые 
 с BSD лицензии.]&]
 [s0;+108 &]
-[s0; [+108 У U`+`+ лицензия BSD:]&]
+[s0; [@5+108 У U`+`+ лицензия BSD:]&]
 [ {{10000@(254.255.232) [s0; [0 Copyright (c) 1998, 2014, The U`+`+ Project]&]
 [s0; [0 All rights reserved.]&]
 [s0;0 &]
@@ -107,7 +127,8 @@ OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.]]}}&]
 [s0;+108 &]
 [s0;2%- &]
-[s0;%- Package plugin/astyle has following licence notice:&]
+[s0;%- Пакет plugin/astyle имеет следующее лицензионное
+ сообщение:&]
 [ {{10000@(255.255.192) [s0;%- [C1 The `"Artistic Style`" project, including all files needed 
 to]&]
 [s0;%- [C1 compile it, is free software; you can redistribute it and/or]&]
@@ -132,7 +153,8 @@ Floor,]&]
 [s0;%- [C1 Boston, MA  02110`-1301, USA.]&]
 [s0;C1%- ]}}&]
 [s0;%- &]
-[s0;%- Package plugin/box2d has following licence notice:&]
+[s0;%- Пакет plugin/box2d имеет следующее лицензионное
+ сообщение:&]
 [ {{10000@(255.255.192) [s0;%- [C1 Copyright (c) 2006`-2009 Erin Catto http://www.gphysics.com]&]
 [s0;C1%- &]
 [s0;%- [C1 This software is provided `'as`-is`', without any express 
@@ -159,7 +181,8 @@ and must not be]&]
 distribution.]&]
 [s0;C1%- ]}}&]
 [s0;%- &]
-[s0;%- Package plugin/bz2 has following licence notice:&]
+[s0;%- Пакет plugin/bz2 имеет следующее лицензионное 
+сообщение:&]
 [ {{10000@(255.255.192) [s0;%- [C1 This program, `"bzip2`" and associated library `"libbzip2`", 
 are]&]
 [s0;%- [C1 copyright (C) 1996`-2002 Julian R Seward.  All rights reserved.]&]
@@ -213,7 +236,8 @@ OF THIS]&]
 [s0;%- [C1 bzip2/libbzip2 version 1.0.2 of 30 December 2001]&]
 [s0;C1%- ]}}&]
 [s0;%- &]
-[s0;%- Package plugin/DroidFonts has following licence notice:&]
+[s0;%- Пакет plugin/DroidFonts имеет следующее 
+лицензионное сообщение:&]
 [ {{10000@(255.255.192) [s0;%- [C1 Licensed under the Apache License, Version 2.0 (the `"License`");]&]
 [s0;%- [C1 you may not use this file except in compliance with the 
 License.]&]
@@ -231,7 +255,8 @@ or implied.]&]
 and]&]
 [s0;%- [C1 limitations under the License.]]}}&]
 [s0;%- &]
-[s0;%- Package plugin/Eigen has following licence notice:&]
+[s0;%- Пакет plugin/Eigen имеет следующее лицензионное
+ сообщение:&]
 [ {{10000@(255.255.192) [s0;%- [C1 Copyright (C) 2008 Gael Guennebaud <g.gael`@free.fr>]&]
 [s0;C1%- &]
 [s0;%- [C1 This Source Code Form is subject to the terms of the Mozilla]&]
@@ -239,7 +264,8 @@ and]&]
 [s0;%- [C1 with this file, You can obtain one at http://mozilla.org/MPL/2.0/.]&]
 [s0;C1%- ]}}&]
 [s0;%- &]
-[s0;%- Package plugin/ftp has following licence notice:&]
+[s0;%- Пакет plugin/ftp имеет следующее лицензионное 
+сообщение:&]
 [ {{10000@(255.255.192) [s0;%- [C1 Copyright (C) 1996`-2001 Thomas Pfau, pfau`@eclipse.net 
                   ]&]
 [s0;%- [C1      1407 Thomas Ave, North Brunswick, NJ, 08902        
@@ -276,7 +302,8 @@ Public       ]&]
                  ]&]
 [s0;C1%- ]}}&]
 [s0;%- &]
-[s0;%- Package plugin/FT`_fontsys has following licence notice:&]
+[s0;%- Пакет plugin/FT`_fontsys имеет следующее 
+лицензионное сообщение:&]
 [ {{10000@(255.255.192) [s0;%- [C1                     The FreeType Project LICENSE]&]
 [s0;%- [C1                     `-`-`-`-`-`-`-`-`-`-`-`-`-`-`-`-`-`-`-`-`-`-`-`-`-`-`-`-
 ]&]
@@ -523,7 +550,8 @@ issues,]&]
 [s0;%- [C1 `-`-`- end of FTL.TXT `-`-`-]&]
 [s0;C1%- ]}}&]
 [s0;%- &]
-[s0;%- Package plugin/glew has following licence notice:&]
+[s0;%- Пакет plugin/glew имеет следующее лицензионное 
+сообщение:&]
 [ {{10000@(255.255.192) [s0;%- [C1 The OpenGL Extension Wrangler Library]&]
 [s0;%- [C1 Copyright (C) 2002`-2008, Milan Ikits <milan ikits`[`]ieee 
 org>]&]
@@ -643,7 +671,8 @@ WITH THE]&]
 [s0;%- [C1 MATERIALS OR THE USE OR OTHER DEALINGS IN THE MATERIALS.]&]
 [s0;C1%- ]}}&]
 [s0;%- &]
-[s0;%- Package plugin/jpg has following licence notice:&]
+[s0;%- Пакет plugin/jpg имеет следующее лицензионное 
+сообщение:&]
 [ {{10000@(255.255.192) [s0;%- [C1 The authors make NO WARRANTY or representation, either express 
 or implied,]&]
 [s0;%- [C1 with respect to this software, its quality, accuracy, merchantability, 
@@ -698,7 +727,8 @@ claims are]&]
 [s0;%- [C1 assumed by the product vendor.]&]
 [s0;C1%- ]}}&]
 [s0;%- &]
-[s0;%- Package plugin/lz4 has following licence notice:&]
+[s0;%- Пакет plugin/lz4 имеет следующее лицензионное 
+сообщение:&]
 [ {{10000@(255.255.192) [s0;%- [C1 LZ4 Library]&]
 [s0;%- [C1 Copyright (c) 2011`-2014, Yann Collet]&]
 [s0;%- [C1 All rights reserved.]&]
@@ -738,10 +768,12 @@ OR TORT]&]
 OF THE USE OF THIS]&]
 [s0;%- [C1 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.]]}}&]
 [s0;%- &]
-[s0;%- Package plugin/lzma has following licence notice:&]
+[s0;%- Пакет plugin/lzma имеет следующее лицензионное 
+сообщение:&]
 [ {{10000@(255.255.192) [s0;%- [C1 Igor Pavlov : Public domain]]}}&]
 [s0;%- &]
-[s0;%- Package plugin/ndisasm has following licence notice:&]
+[s0;%- Пакет plugin/ndisasm имеет следующее лицензионно
+е сообщение:&]
 [ {{10000@(255.255.192) [s0;%- [C1 NASM is now licensed under the 2`-clause BSD license, also 
 known as the]&]
 [s0;%- [C1 simplified BSD license.]&]
@@ -791,7 +823,8 @@ SOFTWARE,]&]
 [s0;%- [C1       EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.]&]
 [s0;C1%- ]}}&]
 [s0;%- &]
-[s0;%- Package plugin/pcre has following licence notice:&]
+[s0;%- Пакет plugin/pcre имеет следующее лицензионное 
+сообщение:&]
 [ {{10000@(255.255.192) [s0;%- [C1 Copyright (c) 1998, 2014, The U`+`+ Project]&]
 [s0;%- [C1 All rights reserved.]&]
 [s0;C1%- &]
@@ -890,7 +923,8 @@ IF ADVISED OF THE]&]
 `-`-`-`-`-`-`-`-`-`-`-`-`-`-`-`-`-`-`-`-`-`-`-`-`-`-`-`-`-`-`-`-`-`-`-`-`-`-`-]&]
 [s0;C1%- ]}}&]
 [s0;%- &]
-[s0;%- Package plugin/png has following licence notice:&]
+[s0;%- Пакет plugin/png имеет следующее лицензионное 
+сообщение:&]
 [ {{10000@(255.255.192) [s0;%- [C1 If you modify libpng you may insert additional notices immediately 
 following]&]
 [s0;%- [C1 this sentence.]&]
@@ -1014,7 +1048,8 @@ but would be]&]
 [s0;%- [C1 appreciated.]&]
 [s0;C1%- ]}}&]
 [s0;%- &]
-[s0;%- Package plugin/sqlite3 has following licence notice:&]
+[s0;%- Пакет plugin/sqlite3 имеет следующее лицензионно
+е сообщение:&]
 [ {{10000@(255.255.192) [s0;%- [C1 The author disclaims copyright to this source code.  In 
 place of]&]
 [s0;%- [C1 a legal notice, here is a blessing:]&]
@@ -1025,7 +1060,8 @@ place of]&]
 [s0;C1%- &]
 [s0;C1%- ]}}&]
 [s0;%- &]
-[s0;%- Package plugin/tif has following licence notice:&]
+[s0;%- Пакет plugin/tif имеет следующее лицензионное 
+сообщение:&]
 [ {{10000@(255.255.192) [s0;%- [C1 Copyright (c) 1995`-1997 Sam Leffler]&]
 [s0;%- [C1 Copyright (c) 1995`-1997 Silicon Graphics, Inc.]&]
 [s0;C1%- &]
@@ -1063,7 +1099,8 @@ OR PERFORMANCE ]&]
 [s0;%- [C1 OF THIS SOFTWARE.]&]
 [s0;C1%- ]}}&]
 [s0;%- &]
-[s0;%- Package plugin/z has following licence notice:&]
+[s0;%- Пакет plugin/z имеет следующее лицензионное 
+сообщение:&]
 [ {{10000@(255.255.192) [s0;%- [C1 version 1.2.8, April 28th, 2013]&]
 [s0;C1%- &]
 [s0;%- [C1 Copyright (C) 1995`-2013 Jean`-loup Gailly and Mark Adler]&]
@@ -1104,7 +1141,8 @@ RFCs (Request for]&]
 format).]&]
 [s0;C1%- ]}}&]
 [s0;%- &]
-[s0;%- [2 libssh2  has following licence notice:]&]
+[s0;%- Пакет [2 libssh2  ]имеет следующее лицензионное 
+сообщение:&]
 [ {{10000@(255.255.192) [s0;%- [C1 Copyright (c) 2004`-2007 Sara Golemon <sarag`@libssh2.org>]&]
 [s0;%- [C1 Copyright (c) 2005,2006 Mikhail Gusarov <dottedmag`@dottedmag.net>]&]
 [s0;%- [C1 Copyright (c) 2006`-2007 The Written Word, Inc.]&]

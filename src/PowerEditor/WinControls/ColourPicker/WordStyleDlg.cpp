@@ -218,7 +218,7 @@ intptr_t CALLBACK WordStyleDlg::run_dlgProc(UINT Message, WPARAM wParam, LPARAM 
 					isTextEnabled = HIBYTE(HIWORD(style._fgColor)) != 0xFF;
 
 					// Selected text colour style
-					if (style._styleDesc == TEXT("Selected text colour"))
+					if (style._styleDesc == TEXT("Выбранный цвет текста"))
 					{
 						isTextEnabled = NppParameters::getInstance().isSelectFgColorEnabled();
 					}
@@ -598,7 +598,7 @@ void WordStyleDlg::loadLangListFromNppParam()
 	// Clean up Language List
 	::SendDlgItemMessage(_hSelf, IDC_LANGUAGES_LIST, LB_RESETCONTENT, 0, 0);
 
-	::SendDlgItemMessage(_hSelf, IDC_LANGUAGES_LIST, LB_ADDSTRING, 0, reinterpret_cast<LPARAM>(TEXT("Global Styles")));
+	::SendDlgItemMessage(_hSelf, IDC_LANGUAGES_LIST, LB_ADDSTRING, 0, reinterpret_cast<LPARAM>(TEXT("Глобальные Стили")));
 	// All the lexers
 	for (size_t i = 0, nb = _lsArray.getNbLexer() ; i < nb ; ++i)
 	{
@@ -797,8 +797,8 @@ void WordStyleDlg::switchToTheme()
 		PathRemoveExtension(themeFileName);
 		int mb_response =
 			::MessageBox( _hSelf,
-				TEXT(" Unsaved changes are about to be discarded!\n")
-				TEXT(" Do you want to save your changes before switching themes?"),
+				TEXT(" Похоже, будут скинуты несохранённые изменения!\n")
+				TEXT(" Хотите сохранить изменения перед переключением тем?"),
 				themeFileName,
 				MB_ICONWARNING | MB_YESNO | MB_APPLMODAL | MB_SETFOREGROUND );
 		if ( mb_response == IDYES )
@@ -915,53 +915,53 @@ std::pair<intptr_t, intptr_t> WordStyleDlg::goToPreferencesSettings()
 	Style& style = getCurrentStyler();
 
 	// Global override style
-	if (style._styleDesc == TEXT("Current line background colour"))
+	if (style._styleDesc == TEXT("фоновый цвет текущей строки"))
 	{
 		result.first = 1;
 		result.second = IDC_RADIO_CLM_HILITE;
 	}
-	else if (style._styleDesc == TEXT("Caret colour"))
+	else if (style._styleDesc == TEXT("Цвет каретки"))
 	{
 		result.first = 1;
 		result.second = IDC_WIDTH_COMBO;
 	}
-	else if (style._styleDesc == TEXT("Edge colour"))
+	else if (style._styleDesc == TEXT("Цвет кромки"))
 	{
 		result.first = 3;
 		result.second = IDC_COLUMNPOS_EDIT;
 	}
-	else if (style._styleDesc == TEXT("Line number margin"))
+	else if (style._styleDesc == TEXT("Маржин номера строки"))
 	{
 		result.first = 3;
 		result.second = IDC_CHECK_LINENUMBERMARGE;
 	}
-	else if (style._styleDesc == TEXT("Bookmark margin"))
+	else if (style._styleDesc == TEXT("Маржин закладки"))
 	{
 		result.first = 3;
 		result.second = IDC_CHECK_BOOKMARKMARGE;
 	}
-	else if (style._styleDesc == TEXT("Fold") || style._styleDesc == TEXT("Fold active") || style._styleDesc == TEXT("Fold margin"))
+	else if (style._styleDesc == TEXT("Складка") || style._styleDesc == TEXT("Активная складка") || style._styleDesc == TEXT("Маржин складки"))
 	{
 		result.first = 3;
 		result.second = IDC_RADIO_BOX;
 	}
-	else if (style._styleDesc == TEXT("Smart Highlighting"))
+	else if (style._styleDesc == TEXT("Смарт-подсвечивание"))
 	{
 		result.first = 9;
 		result.second = IDC_CHECK_ENABLSMARTHILITE;
 	}
-	else if (style._styleDesc == TEXT("Tags match highlighting"))
+	else if (style._styleDesc == TEXT("Подсвечивание совпадения тегов"))
 	{
 		result.first = 9;
 		result.second = IDC_CHECK_ENABLTAGSMATCHHILITE;
 	}
-	else if (style._styleDesc == TEXT("Tags attribute"))
+	else if (style._styleDesc == TEXT("Атрибут тегов"))
 	{
 		result.first = 9;
 		result.second = IDC_CHECK_ENABLTAGATTRHILITE;
 	}
-	else if (style._styleDesc == TEXT("Mark Style 1") || style._styleDesc == TEXT("Mark Style 2") || style._styleDesc == TEXT("Mark Style 3")
-		|| style._styleDesc == TEXT("Mark Style 4") || style._styleDesc == TEXT("Mark Style 5"))
+	else if (style._styleDesc == TEXT("Стиль Метки 1") || style._styleDesc == TEXT("Стиль Метки 2") || style._styleDesc == TEXT("Стиль Метки 3")
+		|| style._styleDesc == TEXT("Стиль Метки 4") || style._styleDesc == TEXT("Стиль Метки 5"))
 	{
 		result.first = 9;
 		result.second = IDC_CHECK_MARKALLCASESENSITIVE;
@@ -971,7 +971,7 @@ std::pair<intptr_t, intptr_t> WordStyleDlg::goToPreferencesSettings()
 		result.first = 16;
 		result.second = IDC_CHECK_CLICKABLELINK_ENABLE;
 	}
-	else if (style._styleDesc == TEXT("EOL custom color"))
+	else if (style._styleDesc == TEXT("Кастомный цвет EOL"))
 	{
 		result.first = 1;
 		result.second = IDC_CHECK_WITHCUSTOMCOLOR_CRLF;
@@ -987,7 +987,7 @@ void WordStyleDlg::setVisualFromStyleList()
 	Style & style = getCurrentStyler();
 
 	// Global override style
-	if (style._styleDesc == TEXT("Global override"))
+	if (style._styleDesc == TEXT("Глобальный оверрайд"))
 	{
 		showGlobalOverrideCtrls(true);
 	}
@@ -1040,7 +1040,7 @@ void WordStyleDlg::setVisualFromStyleList()
 	}
 
 	// Selected text colour style
-	if (style._styleDesc == TEXT("Selected text colour"))
+	if (style._styleDesc == TEXT("Цвет выделенного текста"))
 	{
 		isEnable = false; // disable by default for "Selected text colour" style
 
@@ -1120,7 +1120,7 @@ void WordStyleDlg::setVisualFromStyleList()
 		if (lType == L_TEXT)
 		{
 			generic_string lexerNameStr = lexerStyler.getLexerName();
-			lexerNameStr += TEXT(" is not defined in NppParameters::getLangIDFromStr()");
+			lexerNameStr += TEXT(" не определен в NppParameters::getLangIDFromStr()");
 				printStr(lexerNameStr.c_str());
 		}
 		const TCHAR *kws = nppParams.getWordList(lType, style._keywordClass);

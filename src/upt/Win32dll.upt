@@ -1,4 +1,4 @@
-template "Win32 DLL project (no U++)" main;
+template "Проект Win32 DLL (без U++)" main;
 
 @@<:PACKAGE:>.h
 #ifndef _<:PACKAGE:>_<:PACKAGE:>_h

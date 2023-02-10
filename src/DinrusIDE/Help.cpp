@@ -28,7 +28,7 @@ void GatherLinks(Index<String>& link, String topic)
 			return;
 		link.Add(topic);
 		RichText txt = ParseQTF(p.text);
-		SyncTopicFile(txt, topic, ":ide:", p.title);
+		SyncTopicFile(txt, topic, ":DinrusIDE:", p.title);
 		GatherLinksIterator ti;
 		txt.Iterate(ti);
 		for(int i = 0; i < ti.link.GetCount(); i++)
@@ -90,15 +90,15 @@ void TopicCtrl::LoadMap()
 	if(lng.GetCount() && lang.Find(lng))
 		lang <<= lng;
 	else
-	if(lang.Find("EN-US"))
-		lang <<= "EN-US";
+	if(lang.Find("RU-RU"))
+		lang <<= "RU-RU";
 	else
 	if(lang.GetCount())
 		lang.SetIndex(0);
 }
 
-static String sTopicHome = "topic://DinrusIDE/app/index_en-us";
-static String s_idehelp = "Справка по TheIDE";
+static String sTopicHome = "topic://DinrusIDE/app/index_ru-ru";
+static String s_idehelp = "Справка по DinrusIDE";
 static String s_usedpackages = "Используемые пакеты";
 static String s_otherpackages = "Другие пакеты";
 static String s_documents = "Документы";

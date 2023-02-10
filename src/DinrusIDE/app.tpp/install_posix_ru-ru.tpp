@@ -18,28 +18,28 @@ as well.&]
 [ {{10000G1@7 [s4; cd upp]}}&]
 [s2; to get into it. Now you have two options:&]
 [s2;l128;i150;O0; Use [* ./install] script that should resolve all 
-dependencies build theide as fast as possible (usually the process 
+dependencies build DinrusIDE as fast as possible (usually the process 
 takes a couple of minutes).&]
 [s2;l128;i150;O0; Resolve dependecies yourself and use [* make] to 
-build [*/ theide ](there is no [/ ./configure] or [/ make install], 
+build [*/ DinrusIDE ](there is no [/ ./configure] or [/ make install], 
 it is not necessarry). Even if you do this, peeking into [* ./install] 
 is a good idea to get a clue about dependecies required. You 
 should also build [*/ umk] command line too with [* make `-f uMakefile], 
 also this is not strictly necessarry for the first taste of U`+`+.&]
 [s2; At the end of this process, you should have two binaries in 
-the folder, [*/ theide] and [*/ umk]. Start [*/ theide] to have some 
+the folder, [*/ DinrusIDE] and [*/ umk]. Start [*/ DinrusIDE] to have some 
 fun with U`+`+.&]
-[s2; As long as you keep [*/ theide] (or [*/ umk]) just in the original 
+[s2; As long as you keep [*/ DinrusIDE] (or [*/ umk]) just in the original 
 directory, nothing will be written outside of it `- its `"sandboxed`" 
 (with one exception described bellow). If you get bored with 
 U`+`+ and need to clean the space, simply delete the `"upp`" 
 folder.&]
-[s2; If you move theide e.g. to [/ `~/bin], it will start to write 
+[s2; If you move DinrusIDE e.g. to [/ `~/bin], it will start to write 
 things to [/ `~/.config] and [/ `~/.cache].&]
 [s2; The exception to the sanboxing rule is single command invoked 
-from TheIDE menu, [*/ Setup ][* / ][*/ Install theide.desktop]. This 
+from DinrusIDE menu, [*/ Setup ][* / ][*/ Install DinrusIDE.desktop]. This 
 will write proper .desktop file to [/ `~/.local/share/applications] 
-`- the effect of this on most desktop environments is that TheIDE 
+`- the effect of this on most desktop environments is that DinrusIDE 
 will appear in the desktop menu somewhere, usually in the Start 
 menu under [/ Programming] category. Sometimes desktop environment 
 needs restert to this to take effect.&]

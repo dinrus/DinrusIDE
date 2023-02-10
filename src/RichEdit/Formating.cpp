@@ -159,7 +159,7 @@ void RichEdit::SetLanguage()
 void RichEdit::Language()
 {
 	WithRichLanguageLayout<TopWindow> d;
-	CtrlLayoutOKCancel(d, t_("Language"));
+	CtrlLayoutOKCancel(d, t_("Язык"));
 	d.lang <<= ~language;
 	if(d.Run() != IDOK)
 		return;
@@ -475,19 +475,19 @@ void RichEdit::TabMenu()
 	CallbackArgTarget<int> align;
 	CallbackArgTarget<int> fill;
 	MenuBar menu;
-	menu.Add(t_("Left"), RichEditImg::LeftTab(), align[ALIGN_LEFT]);
-	menu.Add(t_("Right"), RichEditImg::RightTab(), align[ALIGN_RIGHT]);
-	menu.Add(t_("Center"), RichEditImg::CenterTab(), align[ALIGN_CENTER]);
+	menu.Add(t_("Лево"), RichEditImg::LeftTab(), align[ALIGN_LEFT]);
+	menu.Add(t_("Право"), RichEditImg::RightTab(), align[ALIGN_RIGHT]);
+	menu.Add(t_("Центр"), RichEditImg::CenterTab(), align[ALIGN_CENTER]);
 	if(r >= 0) {
 		int f = formatinfo.tab[r].fillchar;
 		menu.Separator();
-		menu.Add(t_("No fill"), fill[0])
+		menu.Add(t_("Без заливки"), fill[0])
 		    .Radio(f == 0);
-		menu.Add(t_("Fill with ...."), fill[1])
+		menu.Add(t_("Заливка ...."), fill[1])
 		    .Radio(f == 1);
-		menu.Add(t_("Fill with ----"), fill[2])
+		menu.Add(t_("Заливка ----"), fill[2])
 		    .Radio(f == 2);
-		menu.Add(t_("Fill with __"), fill[3])
+		menu.Add(t_("Заливка __"), fill[3])
 		    .Radio(f == 3);
 		menu.Separator();
 		menu.Add(t_("Удалить"), fill[-1]);
@@ -574,7 +574,7 @@ void RichEdit::AdjustObjectSize()
 	RichObject obj = cursorp.object;
 	if(!obj) return;
 	WithObjectSizeLayout<TopWindow> d;
-	CtrlLayoutOKCancel(d, t_("Object position"));
+	CtrlLayoutOKCancel(d, t_("Положение объекта"));
 	Size sz = obj.GetSize();
 	Size psz = GetPhysicalSize(obj);
 	if(psz.cx == 0) psz.cx = 2000;

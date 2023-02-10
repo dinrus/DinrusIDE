@@ -1,4 +1,4 @@
-topic "Copyright (C) 2020 U++ Team";
+topic "Copyright ©  2023 DinrusPro";
 [l288;i704;a17;O9;~~~.992;2 $$1,0#10431211400427159095818037425705:param]
 [a83;*R6 $$2,5#31310162474203024125188417583966:caption]
 [b83;*2 $$3,5#07864147445237544204411237157677:title]
@@ -20,6 +20,7 @@ topic "Copyright (C) 2020 U++ Team";
 [2 $$0,0#00000000000000000000000000000000:Default]
 [{_} 
 [s0;%% [*+117 Copyright © 1998, 2021 U`+`+ team]&]
+[s0;%% [*+117 Copyright ©  2023 DinrusPro]&]
 [s0;%% All rights reserved.&]
 [s0;%% &]
 [s0;%% Redistribution and use in source and binary forms, with or 

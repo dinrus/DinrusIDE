@@ -38,7 +38,7 @@ void Ide::FileBookmark(Bar& menu)
 	}
 	menu.MenuBreak();
 	for(i = 0; i < 10; i++)
-		menu.Add("Набор", THISBACK1(BookKey, K_SHIFT_CTRL_0 + i))
+		menu.Add("Установить", THISBACK1(BookKey, K_SHIFT_CTRL_0 + i))
 		    .Key(K_SHIFT_CTRL_0 + i);
 }
 
@@ -372,12 +372,12 @@ void Ide::Setup(Bar& menu)
 {
 	menu.Add("Подробнее", THISBACK(ToggleVerboseBuild))
 		.Check(console.verbosebuild)
-		.Help("Log detailed description of build and debug");
+		.Help("Заносить в лог детальное описание построения и отладки");
 	menu.MenuSeparator();
 	menu.Add("Настройки..", IdeImg::Settings(), THISBACK(SetupFormat))
-		.Help("Fonts, tabs, indentation, status bar");
+		.Help("Шрифты, табы, отступы,строка состояния");
 	menu.Add("Сокращения..", THISBACK(Abbreviations))
-		.Help("Edit abbreviation keywords and code");
+		.Help("Редактировать ключслова-аббревиации и код");
 	menu.Add("Клавиатурные комбинации..", THISBACK(DoEditKeys))
 		.Help("Редактировать привязки клавиш");
 	menu.Add("Менеджер Макросов..", THISBACK(DoMacroManager))
@@ -386,10 +386,10 @@ void Ide::Setup(Bar& menu)
 	    .Help("Установить методы построения");
 #ifdef PLATFORM_WIN32
 	menu.Add("Автоматическая настройка методов построения..", callback(InstantSetup))
-	    .Help("Setups/fixes build methods and basic assemblies..");
+	    .Help("Устанавливает.исправляет методы построения и базовые сборки..");
 #endif
 	menu.MenuSeparator();
-	menu.Add(HasGit(), "UppHub..", IdeImg::UppHub(), [] { UppHub(); });
+	menu.Add(HasGit(), "DinrusUppHub..", IdeImg::UppHub(), [] { UppHub(); });
 	menu.Add("Клонировать исходники U++ с GitHub..", [=] {
 		if(SetupGITMaster()) {
 			IdeAgain = true;
@@ -402,9 +402,9 @@ void Ide::Setup(Bar& menu)
 	if(wspc[0] == "ide")
 		for(int i = 0; i < wspc.GetCount(); i++)
 			if(wspc[i] == "DinrusIDE/Core")
-				menu.Add("Обновить ИСР РНЦП Динрус..", [=] { UpgradeTheIDE(); });
+				menu.Add("Обновить ИСР РНЦП Динрус..", [=] { UpgradeDinrusIde(); });
 #ifdef PLATFORM_POSIX
-	menu.Add("Установить theide.desktop", [=] { InstallDesktop(); });
+	menu.Add("Установить dinruside.desktop", [=] { InstallDesktop(); });
 #endif
 #endif
 
@@ -453,19 +453,19 @@ void Ide::Project(Bar& menu)
 		WorkspaceWork::PackageMenu(menu);
 		menu.MenuSeparator();
 		menu.Add(AK_ORGANIZER, IdeImg::package_organizer(), THISBACK(EditWorkspace))
-			.Help("Package dependencies, compiler & linker options, output path override");
+			.Help("Зависимости пакетов, опции компилятора & компоновщика, переписать путь вывода");
 		menu.Add(AK_CUSTOM, THISBACK(CustomSteps))
-			.Help("Building intermediate files using custom commands / applications");
+			.Help("Построение промежуточных файлов, используя кастомные команды / приложения");
 		if(menu.IsMenuBar())
 			menu.Add(AK_MAINCONFIG, IdeImg::main_package(), THISBACK(MainConfig))
-				.Help("Configuring compiler, operating system, output application parameters, custom flags");
+				.Help("Конфигурирование компилятора, операционной системы, выходных параметров приложения, кастомных флагов");
 		menu.Separator();
 		menu.Add(AK_SYNCT, IdeImg::Language(), THISBACK1(SyncT, 0))
-		    .Help("Synchronize all language translation files of current workspace");
+		    .Help("Синхронизовать все файлы переводов текущего рабочего пространства");
 		menu.AddMenu(AK_TRIMPORT, IdeImg::Language(), THISBACK1(SyncT, 1))
-		    .Help("Import runtime translation file");
+		    .Help("Импортировать рантаймный файл перевода");
 		menu.AddMenu(AK_TREXPORT, IdeImg::Language(), THISBACK1(SyncT, 2))
-		    .Help("Export runtime translation file");
+		    .Help("Экспортировать рантаймный файл перевода");
 		if(OldLang())
 			menu.Add("Преобразовать s_ -> t_", THISBACK(ConvertST));
 	}
@@ -492,14 +492,14 @@ void Ide::Project(Bar& menu)
 void Ide::FilePropertiesMenu0(Bar& menu)
 {
 	menu.Add(IsActiveFile(), AK_FILEPROPERTIES, THISBACK(FileProperties))
-		.Help("File properties stored in package");
+		.Help("Свойства файла, сохранённые в пакете");
 }
 
 void Ide::FilePropertiesMenu(Bar& menu)
 {
 	FilePropertiesMenu0(menu);
 	menu.Add(IsActiveFile() && !designer, AK_SAVEENCODING, THISBACK(ChangeCharset))
-	    .Help("Convert actual file to different encoding");
+	    .Help("Преобразовать файл в другую кодировку");
 	bool candiff = IsActiveFile() && !editfile_isfolder && !designer;
 	String path;
 	int i = filelist.GetCursor() + 1;
@@ -507,19 +507,19 @@ void Ide::FilePropertiesMenu(Bar& menu)
 		path = SourcePath(actualpackage, actual.file[fileindex[i]]);
 	menu.Sub(candiff, "Сравнить с", [=](Bar& bar) {
 		bar.AddMenu(candiff, AK_DIFF, IdeImg::Diff(), THISBACK(Diff))
-		    .Help("Show differences between the current and selected file");
+		    .Help("Показать разницу между текущим и выбранным файлами");
 		bar.AddMenu(candiff && FileExists(GetTargetLogPath()),
 		            AK_DIFFLOG, IdeImg::DiffLog(), [=] { DiffWith(GetTargetLogPath()); })
-		    .Help("Show differences between the current file and the log");
+		    .Help("Показать разницу между текущим файлом и логом");
 		if(FileExists(path))
 			bar.AddMenu(candiff && FileExists(path), path,
 			            IdeImg::DiffNext(), [=] { DiffWith(path); })
-			    .Help("Show differences between the current and the next file");
+			    .Help("Показать разницу между текущим и следующим файлами");
 		for(String p : difflru)
 			if(p != path)
 				bar.AddMenu(candiff && FileExists(p), p,
 				            IdeImg::DiffNext(), [=] { DiffWith(p); })
-				    .Help("Show differences between the current and that file");
+				    .Help("Показать разницу между текущим и тем файлами");
 	});
 	if(editfile_repo) {
 		String txt = String("Показать ") + (editfile_repo == SVN_DIR ? "svn-" : "git-") + "историю ";
@@ -785,7 +785,7 @@ void Ide::BrowseMenu(Bar& menu)
 		
 		if(menu.IsMenuBar()) {
 			menu.MenuSeparator();
-			menu.Add("Преверка на изменения в исходниках", THISBACK(CheckCodeBase));
+			menu.Add("Проверка на изменения в исходниках", THISBACK(CheckCodeBase));
 			menu.Add("Сканировать все исходники повторно", THISBACK(RescanCode));
 			if(!auto_rescan)
 				menu.Add(AK_RESCANCURRENTFILE, THISBACK(EditFileAssistSync));

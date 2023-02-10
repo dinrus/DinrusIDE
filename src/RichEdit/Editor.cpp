@@ -302,10 +302,10 @@ void RichEdit::SetupRuler()
 void RichEdit::SetupUnits()
 {
 	WithUnitLayout<TopWindow> d;
-	CtrlLayoutOKCancel(d, t_("Units"));
+	CtrlLayoutOKCancel(d, t_("Единицы"));
 	d.accels <<= THISBACK(StyleKeys);
 	for(int i = 1; i <= 10; i++)
-		d.zoom.Add(10 * i, Format(t_("%d%% of width"), 10 * i));
+		d.zoom.Add(10 * i, Format(t_("%d%% ширины"), 10 * i));
 	CtrlRetriever r;
 	r(d.unit, unit)(d.showcodes, showcodes)(d.zoom, zoom);
 	if(d.Execute() == IDOK) {
@@ -419,7 +419,7 @@ void RichEdit::SetupLanguage(Vector<int>&& _lng)
 	Sort(lng);
 	language.ClearList();
 	for(int i = 0; i < lng.GetCount(); i++)
-		language.Add(lng[i], lng[i] ? LNGAsText(lng[i]) : String(t_("None")));
+		language.Add(lng[i], lng[i] ? LNGAsText(lng[i]) : String(t_("Отсутствует")));
 }
 
 void RichEdit::Pick(RichText pick_ t)
@@ -590,17 +590,17 @@ void RichEdit::RefreshBar()
 
 void StdLinkDlg(String& s, WString&)
 {
-	EditText(s, t_("Hyperlink"), t_("Hyperlink"), CharFilterAscii128, 1000);
+	EditText(s, t_("Гиперссылка"), t_("Гиперссылка"), CharFilterAscii128, 1000);
 }
 
 void StdLabelDlg(String& s)
 {
-	EditText(s, t_("Paragraph label"), t_("Label"), CharFilterAscii128, 1000);
+	EditText(s, t_("Ярлык параграфа"), t_("Ярлык"), CharFilterAscii128, 1000);
 }
 
 void StdIndexEntryDlg(String& s)
 {
-	EditText(s, t_("Index Entry"), t_("Index entry"), CharFilterAscii128, 1000);
+	EditText(s, t_("Индексная Запись"), t_("Индексная запись"), CharFilterAscii128, 1000);
 }
 
 RichEdit::RichEdit()
@@ -617,11 +617,11 @@ RichEdit::RichEdit()
 	style.NoWantFocus();
 	language.NoWantFocus();
 
-	setstyle = &style.InsertButton(0).SetMonoImage(CtrlImg::smallleft()).Tip(t_("Store as style"));
+	setstyle = &style.InsertButton(0).SetMonoImage(CtrlImg::smallleft()).Tip(t_("Сохранить как стиль"));
 	setstyle->WhenClick = THISBACK(SetStyle);
-	style.InsertButton(0).SetMonoImage(RichEditImg::ManageStyles()).Tip(t_("Style manager"))
+	style.InsertButton(0).SetMonoImage(RichEditImg::ManageStyles()).Tip(t_("Менеджер стиля"))
 	     .WhenClick = THISBACK(Styles);
-	style.Tip(t_("Style"));
+	style.Tip(t_("Стиль"));
 
 	style <<= THISBACK(Style);
 	
@@ -665,7 +665,7 @@ RichEdit::RichEdit()
 
 	SetupFaceList(face);
 	face <<= THISBACK(SetFace);
-	face.Tip(t_("Font face"));
+	face.Tip(t_("Фас шрифта"));
 	Vector<int> ff;
 	ff.Add(Font::ARIAL);
 	ff.Add(Font::ROMAN);
@@ -673,14 +673,14 @@ RichEdit::RichEdit()
 	FontFaces(ff);
 
 	language <<= THISBACK(SetLanguage);
-	language.Tip(t_("Language"));
+	language.Tip(t_("Язык"));
 	language.WhenClick = THISBACK(Language);
-	language.Add(0, t_("None"));
+	language.Add(0, t_("Отсутствует"));
 
 	for(int i = 0; fh[i]; i++)
 		height.AddList(fh[i]);
 	height.WhenSelect = THISBACK(SetHeight);
-	height.Tip(t_("Font height"));
+	height.Tip(t_("Высота шрифта"));
 
 	hyperlink <<= THISBACK(Hyperlink);
 	hyperlink.NoWantFocus();
@@ -690,13 +690,13 @@ RichEdit::RichEdit()
 
 	gotolabel.SetMonoImage(RichEditImg::GoTo());
 	label.AddFrame(gotolabel);
-	gotolabel.Tip(t_("Go to label"));
+	gotolabel.Tip(t_("Перети к ярлыку"));
 	gotolabel <<= THISBACK(GotoLbl);
 	gotolabel.NoWantFocus();
 
 	gotoentry.SetMonoImage(RichEditImg::GoTo());
 	indexentry.AddFrame(gotoentry);
-	gotoentry.Tip(t_("Go to index entry"));
+	gotoentry.Tip(t_("Перейти к индексной записи"));
 	gotoentry <<= THISBACK(GotoEntry);
 
 	gototable.Normal();
@@ -713,15 +713,15 @@ RichEdit::RichEdit()
 	     .NullImage(RichEditImg::NullPaperColor())
 	     .StaticImage(RichEditImg::ColorA());
 	ink <<= THISBACK(SetInk);
-	ink.Tip(t_("Text color"));
+	ink.Tip(t_("Цвет текста"));
 	paper <<= THISBACK(SetPaper);
-	paper.Tip(t_("Background color"));
+	paper.Tip(t_("Цвет фона"));
 
 	ReadStyles();
 
 	paintcarect = false;
 
-	CtrlLayoutOKCancel(findreplace, t_("Find / Replace"));
+	CtrlLayoutOKCancel(findreplace, t_("Найти / Заменить"));
 	findreplace.cancel <<= callback(&findreplace, &TopWindow::Close);
 	findreplace.ok <<= THISBACK(Find);
 	findreplace.amend <<= THISBACK(Replace);
@@ -738,7 +738,7 @@ RichEdit::RichEdit()
 	ClearModify();
 	Finish();
 	
-	imagefs.Type("Images (*.png *.gif *.jpg *.bmp *.svg)", "*.png *.gif *.jpg *.bmp *.svg");
+	imagefs.Type("Изображения (*.png *.gif *.jpg *.bmp *.svg)", "*.png *.gif *.jpg *.bmp *.svg");
 	
 	singleline = false;
 	

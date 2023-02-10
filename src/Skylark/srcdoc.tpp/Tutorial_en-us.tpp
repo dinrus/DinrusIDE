@@ -221,10 +221,10 @@ they are invoked (otherwise the compilation result is cached)
 while application is running.&]
 [s5; The search path for templates is set by another configuration 
 variable [* path]. Default value of [* path] is set to environment 
-variable `'UPP`_ASSEMBLY`_`_`', which is set by theide to current 
+variable `'UPP`_ASSEMBLY`_`_`', which is set by DinrusIDE to current 
 assembly path `- which means that for debugging you do not need 
 to worry about [* path] as long as all templates are in U`+`+ packages 
-and you start the application from theide. Note that [* path] is 
+and you start the application from DinrusIDE. Note that [* path] is 
 also used to search for static files.&]
 [s5; String values are normally HTML escaped; if you need to pass 
 raw html code as parameter, you have to either use [@5 Raw ]C`+`+ 

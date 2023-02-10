@@ -1604,14 +1604,14 @@ void FileSel::Update() {
 			}
 		String s;
 		if(drives)
-			s << drives << t_(" диск(s)");
+			s << drives << t_(" диск(ов)");
 		else {
 			if(dirs)
-				s << dirs << t_(" папка(s)");
+				s << dirs << t_(" папка(ок)");
 			if(files) {
 				if(s.GetCount())
 					s << ", ";
-				s << files << t_(" файл(s)");
+				s << files << t_(" файл(ов)");
 			}
 		}
 		filename = "  " + s;

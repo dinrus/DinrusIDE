@@ -164,7 +164,7 @@ bool UppHubDlg::Key(dword key, int count)
 
 void UppHubDlg::Menu(Bar& bar)
 {
-	Ide *ide = (Ide *)TheIde();
+	Ide *ide = (Ide *)DinrusIde();
 	String hubdir = GetHubDir();
 	bool sep = false;
 	UppHubNest *n = Current();

@@ -431,7 +431,7 @@ bool AndroidBuilder::MovePackageFileToAndroidProject(const String& src, const St
 {
 	String directory = GetFileDirectory(dst);
 	if(!RealizeDirectory(directory)) {
-		Loge() << METHOD_NAME << "Cannot relize following directory: \"" << directory << "\".";
+		Loge() << METHOD_NAME << "Не удаётся релиз следующей папки: \"" << directory << "\".";
 		return false;
 	}
 	

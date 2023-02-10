@@ -86,14 +86,14 @@ void IconDes::ToolEx(Bar& bar) {}
 void IconDes::EditBar(Bar& bar)
 {
 	Slot *c = IsCurrent() ? &Current() : NULL;
-	bar.Add(c, "Cut", CtrlImg::cut(), THISBACK(DoCut)).Key(K_DELETE).Key(K_CTRL_X);
-	bar.Add(c, "Copy", CtrlImg::copy(), THISBACK(DoCopy)).Key(K_CTRL_C);
-	bar.Add(c, "Paste", CtrlImg::paste(), THISBACK(DoPaste)).Key(K_CTRL_V);
+	bar.Add(c, "Вырезать", CtrlImg::cut(), THISBACK(DoCut)).Key(K_DELETE).Key(K_CTRL_X);
+	bar.Add(c, "Копировать", CtrlImg::copy(), THISBACK(DoCopy)).Key(K_CTRL_C);
+	bar.Add(c, "Вставить", CtrlImg::paste(), THISBACK(DoPaste)).Key(K_CTRL_V);
 	bar.Separator();
-	bar.Add(c && c->undo.GetCount(), "Undo", CtrlImg::undo(), THISBACK(Undo))
+	bar.Add(c && c->undo.GetCount(), "Отменить", CtrlImg::undo(), THISBACK(Undo))
 	   .Key(K_CTRL_Z)
 	   .Repeat();
-	bar.Add(c && c->redo.GetCount(), "Redo", CtrlImg::redo(), THISBACK(Redo))
+	bar.Add(c && c->redo.GetCount(), "Восстановить", CtrlImg::redo(), THISBACK(Redo))
 	   .Key(K_SHIFT_CTRL_Z)
 	   .Repeat();
 }
@@ -171,9 +171,9 @@ void IconDes::DrawBar(Bar& bar)
 	   .Check(tool == &IconDes::HotSpotTool);
 	bar.Add(AK_TEXT, IconDesImg::Text(), THISBACK(Text))
 	   .Check(textdlg.IsOpen());
-	bar.Add("Fill", fill_cursor, [=] { SetTool(&IconDes::FillTool); })
+	bar.Add("Заполнить", fill_cursor, [=] { SetTool(&IconDes::FillTool); })
 	   .Check(tool == &IconDes::FillTool && notpasting)
-	   .Tip("Fill (Shift+Click)");
+	   .Tip("Заполнить (Shift+Click)");
 	bar.Add("Fill with small tolerance", fill_cursor2, [=] { SetTool(&IconDes::Fill2Tool); })
 	   .Check(tool == &IconDes::Fill2Tool && notpasting)
 	   .Tip("Fill with small tolerance (Ctrl+Click)");
@@ -341,7 +341,7 @@ IconDes::IconDes()
 
 	rgbactrl <<= THISBACK(ColorChanged);
 
-	search.NullText("Search (Ctrl+F)");
+	search.NullText("Поиск (Ctrl+F)");
 	search <<= THISBACK(Search);
 	search.SetFilter(CharFilterToUpper);
 

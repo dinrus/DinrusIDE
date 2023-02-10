@@ -211,7 +211,7 @@ void TopicEditor::TopicMenu(Bar& bar)
 	bar.Add(topics_list.IsCursor() && GetFileTitle(topicpath) != "$.tpp",
 	        "Сохранить как шаблон..", THISBACK(SaveAsTemplate));
 	bar.Add(topics_list.IsCursor(), "Применить щаблонный stylesheet..", THISBACK(ApplyStylesheet));
-	bar.Add("Применитьь шаблонный stylesheet к группе..", THISBACK(ApplyStylesheetGroup));
+	bar.Add("Применить шаблонный stylesheet к группе..", THISBACK(ApplyStylesheetGroup));
 	editor.StyleKeysTool(bar);
 }
 

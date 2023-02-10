@@ -17,7 +17,7 @@ void RichEdit::InsertTable()
 	if(IsSelection())
 		return;
 	WithCreateTableLayout<TopWindow> dlg;
-	CtrlLayoutOKCancel(dlg, t_("Insert table"));
+	CtrlLayoutOKCancel(dlg, t_("Вставить таблицу"));
 	dlg.header = false;
 	dlg.columns <<= 2;
 	dlg.columns.MinMax(1, 20);
@@ -111,7 +111,7 @@ struct RichEditTableProperties : WithTablePropertiesLayout<TopWindow> {
 	typedef RichEditTableProperties CLASSNAME;
 
 	RichEditTableProperties() {
-		CtrlLayoutOKCancel(*this, t_("Table properties"));
+		CtrlLayoutOKCancel(*this, t_("Свойства таблицы"));
 		newhdrftr <<= THISBACK(NewHdrFtr);
 		hdrftr <<= THISBACK(EditHdrFtr);
 		SyncHdrFtr();
@@ -180,7 +180,7 @@ void RichEdit::TableProps()
 						break;
 					}
 			if(!valid) {
-				Exclamation(Format(t_("Неверное header row count %d, cell at rw %d, co %d has vspan = %d."),
+				Exclamation(Format(t_("Неверный счёт заголовочного ряда %d, ячейка в rw %d, co %d имеет vspan = %d."),
 					fmt.header, violator.y + 1, violator.x + 1, vspan));
 				continue;
 			}
@@ -308,7 +308,7 @@ void RichEdit::SplitCell()
 	if(IsSelection() || !cursorp.table)
 		return;
 	WithSplitCellLayout<TopWindow> dlg;
-	CtrlLayoutOKCancel(dlg, t_("Split cell"));
+	CtrlLayoutOKCancel(dlg, t_("Разделить ячейку"));
 	dlg.cx.MinMax(1, 20).NotNull();
 	dlg.cx <<= 1;
 	dlg.cy.MinMax(1, 20).NotNull();
@@ -326,7 +326,7 @@ void RichEdit::CellProperties()
 	if(!(tablesel || cursorp.table && !IsSelection()))
 		return;
 	WithCellPropertiesLayout<TopWindow> dlg;
-	CtrlLayoutOKCancel(dlg, t_("Cell properties"));
+	CtrlLayoutOKCancel(dlg, t_("Свойства ячейки"));
 	int  tab;
 	Rect a;
 	if(tablesel) {
@@ -358,8 +358,8 @@ void RichEdit::CellProperties()
 	dlg.align.Set(0, ALIGN_TOP);
 	dlg.align.Set(1, ALIGN_CENTER);
 	dlg.align.Set(2, ALIGN_BOTTOM);
-	dlg.color.WithVoid().VoidText(t_("(no change)"));
-	dlg.border.WithVoid().VoidText(t_("(no change)"));
+	dlg.color.WithVoid().VoidText(t_("(нет изменений)"));
+	dlg.border.WithVoid().VoidText(t_("(нет изменений)"));
 	if(tablesel) {
 		dlg.keep.ThreeState();
 		dlg.keep <<= Null;

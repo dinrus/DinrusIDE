@@ -3,7 +3,7 @@
 
 #include <Core/Core.h>
 
-// СДЕЛАТЬ: All TheIDE command line arguments should be consume in this file.
+// СДЕЛАТЬ: All DinrusIDE command line arguments should be consume in this file.
 
 namespace Upp {
 

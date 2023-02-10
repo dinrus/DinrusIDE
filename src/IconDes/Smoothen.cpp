@@ -73,7 +73,7 @@ Image Smoothen(const Image& img, double level)
 void IconDes::Smoothen()
 {
 	WithColorizeLayout<TopWindow> dlg;
-	CtrlLayoutOKCancel(dlg, "Smoothen");
+	CtrlLayoutOKCancel(dlg, "Сгладить");
 	PlaceDlg(dlg);
 	dlg.level.MinMax(0, 1);
 	dlg.level <<= 0.75;

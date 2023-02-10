@@ -498,7 +498,7 @@ TIFFjpeg_tables_dest(JPEGState* sp, TIFF* tif)
 	sp->jpegtables = (void*) _TIFFmalloc((tmsize_t) sp->jpegtables_length);
 	if (sp->jpegtables == NULL) {
 		sp->jpegtables_length = 0;
-		TIFFErrorExt(sp->tif->tif_clientdata, "TIFFjpeg_tables_dest", "No space for JPEGTables");
+		TIFFErrorExt(sp->tif->tif_clientdata, "TIFFjpeg_tables_dest", "Нет места для JPEGTables");
 		return (0);
 	}
 	sp->cinfo.c.dest = &sp->dest;
@@ -746,7 +746,7 @@ JPEGFixupTagsSubsampling(TIFF* tif)
 	if (m.buffer==NULL)
 	{
 		TIFFWarningExt(tif->tif_clientdata,module,
-		    "Unable to allocate memory for auto-correcting of subsampling values; auto-correcting skipped");
+		    "Не удаётся разместить память для автокорректировки субсэмплинговых значений; автокорректировка пропускается");
 		return;
 	}
 	m.buffercurrentbyte=NULL;
@@ -756,7 +756,7 @@ JPEGFixupTagsSubsampling(TIFF* tif)
 	m.filebytesleft=tif->tif_dir.td_stripbytecount[0];
 	if (!JPEGFixupTagsSubsamplingSec(&m))
 		TIFFWarningExt(tif->tif_clientdata,module,
-		    "Unable to auto-correct subsampling values, likely corrupt JPEG compressed data in first strip/tile; auto-correcting skipped");
+		    "Не удаётся атокорректировать субсэмплинговые значения,, вероятно есть повреждение сжатых данных JPEG в первом strip/tile; автокорректировка пропускается");
 	_TIFFfree(m.buffer);
 }
 
@@ -848,7 +848,7 @@ JPEGFixupTagsSubsamplingSec(struct JPEGFixupTagsSubsamplingData* data)
 						if (p!=0x11)
 						{
 							TIFFWarningExt(data->tif->tif_clientdata,module,
-							    "Subsampling values inside JPEG compressed data have no TIFF equivalent, auto-correction of TIFF subsampling values failed");
+							    "Сусэмплинговые значения в сжатых данных JPEG не имеют эквивалентных TIFF, автокорректировка субсэмплинговых значений TIFF не удалась");
 							return(1);
 						}
 						JPEGFixupTagsSubsamplingSkip(data,1);
@@ -856,13 +856,13 @@ JPEGFixupTagsSubsamplingSec(struct JPEGFixupTagsSubsamplingData* data)
 					if (((ph!=1)&&(ph!=2)&&(ph!=4))||((pv!=1)&&(pv!=2)&&(pv!=4)))
 					{
 						TIFFWarningExt(data->tif->tif_clientdata,module,
-						    "Subsampling values inside JPEG compressed data have no TIFF equivalent, auto-correction of TIFF subsampling values failed");
+						    "Сусэмплинговые значения в сжатых данных JPEG не имеют эквивалентных TIFF, автокорректировка субсэмплинговых значений TIFF не удалась");
 						return(1);
 					}
 					if ((ph!=data->tif->tif_dir.td_ycbcrsubsampling[0])||(pv!=data->tif->tif_dir.td_ycbcrsubsampling[1]))
 					{
 						TIFFWarningExt(data->tif->tif_clientdata,module,
-						    "Auto-corrected former TIFF subsampling values [%d,%d] to match subsampling values inside JPEG compressed data [%d,%d]",
+						    "Ранее автооткорректированные субсэмплинговые значения TIFF [%d,%d] для сверки с субсэмплинговыми значениями в сжатых данных JPEG [%d,%d]",
 						    (int)data->tif->tif_dir.td_ycbcrsubsampling[0],
 						    (int)data->tif->tif_dir.td_ycbcrsubsampling[1],
 						    (int)ph,(int)pv);
@@ -970,7 +970,7 @@ JPEGSetupDecode(TIFF* tif)
 	if (TIFFFieldSet(tif,FIELD_JPEGTABLES)) {
 		TIFFjpeg_tables_src(sp, tif);
 		if(TIFFjpeg_read_header(sp,FALSE) != JPEG_HEADER_TABLES_ONLY) {
-			TIFFErrorExt(tif->tif_clientdata, "JPEGSetupDecode", "Bogus JPEGTables field");
+			TIFFErrorExt(tif->tif_clientdata, "JPEGSetupDecode", "Ошибочное поле JPEGTables");
 			return (0);
 		}
 	}
@@ -1057,8 +1057,8 @@ JPEGPreDecode(TIFF* tif, uint16 s)
 	if (sp->cinfo.d.image_width < segment_width ||
 	    sp->cinfo.d.image_height < segment_height) {
 		TIFFWarningExt(tif->tif_clientdata, module,
-			       "Improper JPEG strip/tile size, "
-			       "expected %dx%d, got %dx%d",
+			       "Неаерный размер JPEG strip/tile, "
+			       "ожидалось %dx%d, получено %dx%d",
 			       segment_width, segment_height,
 			       sp->cinfo.d.image_width,
 			       sp->cinfo.d.image_height);
@@ -1072,8 +1072,8 @@ JPEGPreDecode(TIFF* tif, uint16 s)
 		 * case and error out.
 		 */
 		TIFFErrorExt(tif->tif_clientdata, module,
-			     "JPEG strip/tile size exceeds expected dimensions,"
-			     " expected %dx%d, got %dx%d",
+			     "Размер JPEG strip/tile превышает ожидаемую мерность,"
+			     " ожидалось %dx%d, получено %dx%d",
 			     segment_width, segment_height,
 			     sp->cinfo.d.image_width, sp->cinfo.d.image_height);
 		return (0);
@@ -1081,19 +1081,19 @@ JPEGPreDecode(TIFF* tif, uint16 s)
 	if (sp->cinfo.d.num_components !=
 	    (td->td_planarconfig == PLANARCONFIG_CONTIG ?
 	     td->td_samplesperpixel : 1)) {
-		TIFFErrorExt(tif->tif_clientdata, module, "Improper JPEG component count");
+		TIFFErrorExt(tif->tif_clientdata, module, "Неверный счёт компонентов JPEG");
 		return (0);
 	}
 #ifdef JPEG_LIB_MK1
 	if (12 != td->td_bitspersample && 8 != td->td_bitspersample) {
-		TIFFErrorExt(tif->tif_clientdata, module, "Improper JPEG data precision");
+		TIFFErrorExt(tif->tif_clientdata, module, "Неверная точность данных JPEG");
 		return (0);
 	}
 	sp->cinfo.d.data_precision = td->td_bitspersample;
 	sp->cinfo.d.bits_in_jsample = td->td_bitspersample;
 #else
 	if (sp->cinfo.d.data_precision != td->td_bitspersample) {
-		TIFFErrorExt(tif->tif_clientdata, module, "Improper JPEG data precision");
+		TIFFErrorExt(tif->tif_clientdata, module, "Неверная точность данных JPEG");
 		return (0);
 	}
 #endif
@@ -1102,8 +1102,8 @@ JPEGPreDecode(TIFF* tif, uint16 s)
 		if (sp->cinfo.d.comp_info[0].h_samp_factor != sp->h_sampling ||
 		    sp->cinfo.d.comp_info[0].v_samp_factor != sp->v_sampling) {
 			TIFFErrorExt(tif->tif_clientdata, module,
-				       "Improper JPEG sampling factors %d,%d\n"
-				       "Apparently should be %d,%d.",
+				       "Неверные сэмплинговые факторы JPEG %d,%d\n"
+				       "В частности должно быть %d,%d.",
 				       sp->cinfo.d.comp_info[0].h_samp_factor,
 				       sp->cinfo.d.comp_info[0].v_samp_factor,
 				       sp->h_sampling, sp->v_sampling);
@@ -1113,7 +1113,7 @@ JPEGPreDecode(TIFF* tif, uint16 s)
 		for (ci = 1; ci < sp->cinfo.d.num_components; ci++) {
 			if (sp->cinfo.d.comp_info[ci].h_samp_factor != 1 ||
 			    sp->cinfo.d.comp_info[ci].v_samp_factor != 1) {
-				TIFFErrorExt(tif->tif_clientdata, module, "Improper JPEG sampling factors");
+				TIFFErrorExt(tif->tif_clientdata, module, "Неверные сэмплинговые факторы JPEG");
 				return (0);
 			}
 		}
@@ -1121,7 +1121,7 @@ JPEGPreDecode(TIFF* tif, uint16 s)
 		/* PC 2's single component should have sampling factors 1,1 */
 		if (sp->cinfo.d.comp_info[0].h_samp_factor != 1 ||
 		    sp->cinfo.d.comp_info[0].v_samp_factor != 1) {
-			TIFFErrorExt(tif->tif_clientdata, module, "Improper JPEG sampling factors");
+			TIFFErrorExt(tif->tif_clientdata, module, "Неверные сэмплинговые факторы JPEG");
 			return (0);
 		}
 	}
@@ -1193,7 +1193,7 @@ JPEGDecode(TIFF* tif, uint8* buf, tmsize_t cc, uint16 s)
         
 	nrows = cc / sp->bytesperline;
 	if (cc % sp->bytesperline)
-		TIFFWarningExt(tif->tif_clientdata, tif->tif_name, "fractional scanline not read");
+		TIFFWarningExt(tif->tif_clientdata, tif->tif_name, "не считана дробная скан-строка");
 
 	if( nrows > (tmsize_t) sp->cinfo.d.image_height )
 		nrows = sp->cinfo.d.image_height;
@@ -1297,7 +1297,7 @@ DecodeRowError(TIFF* tif, uint8* buf, tmsize_t cc, uint16 s)
     (void) s;
 
     TIFFErrorExt(tif->tif_clientdata, "TIFFReadScanline",
-                 "scanline oriented access is not supported for downsampled JPEG compressed images, consider enabling TIFF_JPEGCOLORMODE as JPEGCOLORMODE_RGB." );
+                 "доступ к скан-строке не поддерживается при даунсэмплинге сжатых данных JPEG, попробуйте активировать TIFF_JPEGCOLORMODE как JPEGCOLORMODE_RGB." );
     return 0;
 }
 
@@ -1325,7 +1325,7 @@ JPEGDecodeRaw(TIFF* tif, uint8* buf, tmsize_t cc, uint16 s)
 						     sp->cinfo.d.num_components);
 		if(tmpbuf==NULL) {
                         TIFFErrorExt(tif->tif_clientdata, "JPEGDecodeRaw",
-				     "Out of memory");
+				     "Нехватка памяти");
 			return 0;
                 }
 #endif
@@ -1336,7 +1336,7 @@ JPEGDecodeRaw(TIFF* tif, uint8* buf, tmsize_t cc, uint16 s)
 
                         if( cc < sp->bytesperline ) {
 				TIFFErrorExt(tif->tif_clientdata, "JPEGDecodeRaw",
-					     "application buffer not large enough for all data.");
+					     "нехватка буфера приложения для вмещения всех данных.");
 				return 0;
                         }
 
@@ -1368,7 +1368,7 @@ JPEGDecodeRaw(TIFF* tif, uint8* buf, tmsize_t cc, uint16 s)
 					JSAMPLE *outptr = (JSAMPLE*)buf + clumpoffset;
 					if (cc < (tmsize_t) (clumpoffset + samples_per_clump*(clumps_per_line-1) + hsamp)) {
 						TIFFErrorExt(tif->tif_clientdata, "JPEGDecodeRaw",
-							     "application buffer not large enough for all data, possible subsampling issue");
+							     "нехватка буфера приложения для вмещения всех данных, вероятная причина в субсэмплинге");
 						return 0;
 					}
 #endif
@@ -1597,7 +1597,7 @@ JPEGSetupEncode(TIFF* tif)
 	case PHOTOMETRIC_PALETTE:		/* disallowed by Tech Note */
 	case PHOTOMETRIC_MASK:
 		TIFFErrorExt(tif->tif_clientdata, module,
-			  "PhotometricInterpretation %d not allowed for JPEG",
+			  "PhotometricInterpretation %d не допускается для JPEG",
 			  (int) sp->photometric);
 		return (0);
 	default:
@@ -1621,7 +1621,7 @@ JPEGSetupEncode(TIFF* tif)
 	if (td->td_bitspersample != BITS_IN_JSAMPLE )
 #endif
 	{
-		TIFFErrorExt(tif->tif_clientdata, module, "BitsPerSample %d not allowed for JPEG",
+		TIFFErrorExt(tif->tif_clientdata, module, "BitsPerSample %d не допускается для JPEG",
 			  (int) td->td_bitspersample);
 		return (0);
 	}
@@ -1632,13 +1632,13 @@ JPEGSetupEncode(TIFF* tif)
 	if (isTiled(tif)) {
 		if ((td->td_tilelength % (sp->v_sampling * DCTSIZE)) != 0) {
 			TIFFErrorExt(tif->tif_clientdata, module,
-				  "JPEG tile height must be multiple of %d",
+				  "высота таля JPEG должна быть кратна %d",
 				  sp->v_sampling * DCTSIZE);
 			return (0);
 		}
 		if ((td->td_tilewidth % (sp->h_sampling * DCTSIZE)) != 0) {
 			TIFFErrorExt(tif->tif_clientdata, module,
-				  "JPEG tile width must be multiple of %d",
+				  "ширина таля JPEG должна быть кратна %d",
 				  sp->h_sampling * DCTSIZE);
 			return (0);
 		}
@@ -1646,7 +1646,7 @@ JPEGSetupEncode(TIFF* tif)
 		if (td->td_rowsperstrip < td->td_imagelength &&
 		    (td->td_rowsperstrip % (sp->v_sampling * DCTSIZE)) != 0) {
 			TIFFErrorExt(tif->tif_clientdata, module,
-				  "RowsPerStrip must be multiple of %d for JPEG",
+				  "RowsPerStrip должна быть кратна %d для JPEG",
 				  sp->v_sampling * DCTSIZE);
 			return (0);
 		}
@@ -1718,7 +1718,7 @@ JPEGPreEncode(TIFF* tif, uint16 s)
 		segment_height = TIFFhowmany_32(segment_height, sp->v_sampling);
 	}
 	if (segment_width > 65535 || segment_height > 65535) {
-		TIFFErrorExt(tif->tif_clientdata, module, "Strip/tile too large for JPEG");
+		TIFFErrorExt(tif->tif_clientdata, module, "Strip/tile слишком велики для JPEG");
 		return (0);
 	}
 	sp->cinfo.c.image_width = segment_width;
@@ -1831,7 +1831,7 @@ JPEGEncode(TIFF* tif, uint8* buf, tmsize_t cc, uint16 s)
 	nrows = cc / sp->bytesperline;
 	if (cc % sp->bytesperline)
             TIFFWarningExt(tif->tif_clientdata, tif->tif_name, 
-                           "fractional scanline discarded");
+                           "дробная скан-линия сброшена");
 
         /* The last strip will be limited to image size */
         if( !isTiled(tif) && tif->tif_row+nrows > tif->tif_dir.td_imagelength )
@@ -1911,7 +1911,7 @@ JPEGEncodeRaw(TIFF* tif, uint8* buf, tmsize_t cc, uint16 s)
 
 	nrows = ( cc / bytesperclumpline ) * sp->v_sampling;
 	if (cc % bytesperclumpline)
-		TIFFWarningExt(tif->tif_clientdata, tif->tif_name, "fractional scanline discarded");
+		TIFFWarningExt(tif->tif_clientdata, tif->tif_name, "дробная скан-линия сброшена");
 
 	/* Cb,Cr both have sampling factors 1, so this is correct */
 	clumps_per_line = sp->cinfo.c.comp_info[1].downsampled_width;
@@ -2157,7 +2157,7 @@ JPEGPrintDir(TIFF* tif, FILE* fd, long flags)
 
         if( sp != NULL ) {
 		if (TIFFFieldSet(tif,FIELD_JPEGTABLES))
-			fprintf(fd, "  JPEG Tables: (%lu bytes)\n",
+			fprintf(fd, "  Таблицы JPEG: (%lu байтов)\n",
 				(unsigned long) sp->jpegtables_length);
 		if (sp->printdir)
 			(*sp->printdir)(tif, fd, flags);
@@ -2254,7 +2254,7 @@ TIFFInitJPEG(TIFF* tif, int scheme)
 	if (!_TIFFMergeFields(tif, jpegFields, TIFFArrayCount(jpegFields))) {
 		TIFFErrorExt(tif->tif_clientdata,
 			     "TIFFInitJPEG",
-			     "Merging JPEG codec-specific tags failed");
+			     "Маржинг тегов JPEG для кодека не удался");
 		return 0;
 	}
 
@@ -2265,7 +2265,7 @@ TIFFInitJPEG(TIFF* tif, int scheme)
 
 	if (tif->tif_data == NULL) {
 		TIFFErrorExt(tif->tif_clientdata,
-			     "TIFFInitJPEG", "No space for JPEG state block");
+			     "TIFFInitJPEG", "Нет места для блока состояния JPEG");
 		return 0;
 	}
         _TIFFmemset(tif->tif_data, 0, sizeof(JPEGState));

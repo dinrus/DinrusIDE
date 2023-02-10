@@ -19,13 +19,13 @@ struct TopicModule : public IdeModule {
 	virtual IdeDesigner *CreateDesigner(const char *path, byte cs) {
 		if(IsTopicGroup(path)) {
 			TopicEditor *d = new TopicEditor;
-			d->PersistentFindReplace(TheIde()->IsPersistentFindReplace());
+			d->PersistentFindReplace(DinrusIde()->IsPersistentFindReplace());
 			d->Open(path);
 			return d;
 		}
 		if(IsTopicFile(path)) {
 			TopicEditor *d = new TopicEditor;
-			d->PersistentFindReplace(TheIde()->IsPersistentFindReplace());
+			d->PersistentFindReplace(DinrusIde()->IsPersistentFindReplace());
 			d->OpenFile(path);
 			return d;
 		}

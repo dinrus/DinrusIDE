@@ -1,4 +1,4 @@
-topic "Importing external libraries";
+topic "Импортирование внешних библиотек";
 [l288;i1120;a17;O9;~~~.1408;2 $$1,0#10431211400427159095818037425705:param]
 [a83;*R6 $$2,5#31310162474203024125188417583966:caption]
 [H4;b83;*4 $$3,5#07864147445237544204411237157677:title]
@@ -23,26 +23,33 @@ topic "Importing external libraries";
 [b83;*+117 $$22,22#1546C2CD4112BAB0A26C534D6F11ED13:subtitle]
 [2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%RU-RU 
-[s2; Importing external libraries&]
-[s3; Table of contents&]
+[s2; [@3 Импортирование внешних библиотек]&]
+[s3; [@3 Содержание]&]
 [s0; &]
-[s0; [^topic`:`/`/ide`/app`/importext`_en`-us`#1^ 1. Importing large 
-libraries]&]
-[s0;     [^topic`:`/`/ide`/app`/importext`_en`-us`#1`_1^ 1.1 Introduction]&]
-[s0;     [^topic`:`/`/ide`/app`/importext`_en`-us`#1`_2^ 1.2. Directives]&]
+[s0; [^topic`:`/`/DinrusIDE`/app`/importext`_ru`-ru`#1^ 1. Импортирование
+ больших библиотек]&]
+[s0;     [^topic`:`/`/DinrusIDE`/app`/importext`_ru`-ru`#1`_1^ 1.1 
+Введение]&]
+[s0;     [^topic`:`/`/DinrusIDE`/app`/importext`_ru`-ru`#1`_2^ 1.2. 
+Директивы]&]
 [s0; &]
-[s3;:1: 1. Importing large libraries&]
-[s22;:1`_1: 1.1 Introduction&]
-[s5; Sometimes it is useful to transform 3rd party code into U`+`+ 
-package. There are several methods to do that, however if 3rd 
-party code is huge codebase of hundreds or thousands files, traditional 
-approaches (e.g. put all these files into package) are tedious 
-or outright impossible.&]
-[s5; To solve this issue, concept of import description file was 
-introduced. This describes which files of external library are 
-to be compiled and helps with setting up include path.&]
-[s5; Import description file is file in package with name [*/ `"import.ext`"]&]
-[s5; Here is an example of import.ext content:&]
+[s3;:1: [@5 1. Импортирование больших библиотек]&]
+[s22;:1`_1: [@(128.0.255) 1.1 Введение]&]
+[s5; Иногда приходится преобразовывать 
+код от 3`-ей стороны в пакет U`+`+. На 
+это есть несколько методов, однако, 
+если код 3`-ей стороны является огромной 
+базой кода из сотен или тысяч файлов, 
+обычные подходы (например, поместить 
+все файлы в один пакет) не сработывают.&]
+[s5; Чтобы решить эту проблему, была введена 
+концепция файла импортоописания. 
+В нём описывается, какие файлы или 
+внешнюю библиотеку нужно скомпилировать 
+и проводится настройка путей включения.&]
+[s5; Файл импортоописания `- это файл в 
+пакете с названием [*/ `"import.ext`"]&]
+[s5; Вот пример контекста import.ext :&]
 [s0; &]
 [s7; files `*.cpp `*.c;&]
 [s7; &]
@@ -90,33 +97,46 @@ to be compiled and helps with setting up include path.&]
 [s7; &]
 [s7; includes `*.h `*.hpp;&]
 [s7; &]
-[s5; In this case, line with `"files`" basically says that all .cpp 
-and .h files found in package folder are to be added into the 
-project. `"exclude`" specifies exceptions to this. `"includes`" 
-adds folders of all matching files into include path.&]
-[s22;:1`_2: 1.2. Directives&]
-[s5; Below is the set of directives that can be used in [* `"import.ext`"] 
-file:&]
+[s5; В данном случае, строка с `"files`" говорит 
+о том, что все файлы .cpp и .. находящиеся 
+в папке пакета, будут добавлены в 
+пакет. `"exclude`" определяет исключения 
+для этих. `"includes`", добавляет папки 
+всех соответствующих файлов в путь 
+включения.&]
+[s22;:1`_2: [@(128.0.255) 1.2. Директивы]&]
+[s5; Ниже дан набор директив, который 
+может использоваться в файле [* `"import.ext`"]:&]
 [s0; &]
 [ {{2066:7934^ [s5; [* files]]
-:: [s5; Adds all files that match the pattern the set of files to be 
-added to package. Pattern can use `'`*`' wildcard.]
+:: [s5; Добавляет все файлы, соответствующие 
+образцу, устанавливая файлы, включаемые 
+в пакет. В образце может содержаться 
+уайлдкард `'`*`'.]
 :: [s5; [* exclude]]
-:: [s5; Removes files that match the pattern from the set.]
+:: [s5; Удаляет все соответствующие образцк 
+файлы из набора.]
 :: [s5; [* include`_path]]
-:: [s5; Adds folders that match the pattern to the include path.]
+:: [s5; Добавляет папки, соответствующие 
+образцу, в путь включений.]
 :: [s5; [* exclude`_path]]
-:: [s5; Removes directories from the include path (only folders added 
-by import.ext can be removed)]
+:: [s5; Удаляет директории из пути включений 
+(могут быть удалены только папки, 
+добавленные в import.ext)]
 :: [s5; [* includes]]
-:: [s5; Adds folders of all matching files into include path.]}}&]
+:: [s5; Добавляет папки всех совпадающих 
+файлов в пцть включений.]}}&]
 [s0; &]
-[s0; Note that all file paths are relative to the root of package 
-directory.&]
+[s0; Заметьте, что все пути к файлам относительны
+е к корню директории пакета.&]
 [s0; &]
-[s0; Directives are processed in the order they appear in the file, 
-gradually adding and removing files in question.&]
+[s0; Директивы обрабатываются в порядке 
+их появления в этом файле, последовательно 
+добавляются и удаляются файлы под 
+вопросом.&]
 [s0; &]
-[s0; Directives can have condition on configuration flags, placed 
-in parenthesis. Conditions follow the same rules as package conditions.&]
+[s0; Директивы могут иметь условие в файлах 
+конфигурации, помещённые в парентезы. 
+Условия придерживаются тех же правил, 
+что и условия пакета.&]
 [s0; ]]

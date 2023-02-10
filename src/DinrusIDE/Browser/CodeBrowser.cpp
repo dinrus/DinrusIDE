@@ -52,11 +52,11 @@ struct ScopeLess {
 String CodeBrowser::GetPm()
 {
 	String pm;
-	if(TheIde() && range) {
+	if(DinrusIde() && range) {
 		if(range == 1)
-			pm = TheIde()->IdeGetNestFolder();
+			pm = DinrusIde()->IdeGetNestFolder();
 		else {
-			pm = TheIde()->IdeGetFileName();
+			pm = DinrusIde()->IdeGetFileName();
 			if(range == 2)
 				pm = GetFileFolder(pm);
 		}

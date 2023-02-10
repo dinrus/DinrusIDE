@@ -20,7 +20,7 @@ void Esc::TestLimit()
 	LTIMING("TestLimit");
 	if(!IsNull(op_limit))
 		if(op_limit < 0)
-			ThrowError("out of operations limit - considered frozen");
+			ThrowError("превышен предел операций - считается замороженным");
 	if(EscValue::GetTotalCount() >= EscValue::GetMaxTotalCount())
 		OutOfMemory();
 }
@@ -58,7 +58,7 @@ EscValue Esc::Get(const SRVal& val)
 					if(i >= 0 && n >= 0 && i + n <= count)
 						v = v.ArrayGet(i, n);
 					else
-						ThrowError("slice out of range");
+						ThrowError("срез не вписывается в диапазон");
 				}
 				else {
 					int64 i = Int(ss, "index");
@@ -67,11 +67,11 @@ EscValue Esc::Get(const SRVal& val)
 					if(i >= 0 && i < count)
 						v = v.ArrayGet((int)i);
 					else
-						ThrowError("index out of range");
+						ThrowError("индекс выходит из диапазона");
 				}
 			}
 			else
-				ThrowError("invalid indirection");
+				ThrowError("неправильная индирекция");
 			TestLimit();
 		}
 	}
@@ -99,7 +99,7 @@ void Esc::Assign(EscValue& val, const Vector<EscValue>& sbs, int si, const EscVa
 	if(val.IsArray()) {
 		if(si < sbs.GetCount()) {
 			if(ss.IsArray())
-				ThrowError("slice must be last subscript");
+				ThrowError("срез должен быть последним субскриптом");
 			int64 i = Int(ss, "index");
 			if(i >= 0 && i < val.GetCount()) {
 				EscValue x = val.ArrayGet((int)i);
@@ -114,7 +114,7 @@ void Esc::Assign(EscValue& val, const Vector<EscValue>& sbs, int si, const EscVa
 			int count = val.GetCount();
 			if(ss.IsArray()) {
 				if(!src.IsArray() || ss.GetArray().GetCount() < 2)
-					ThrowError("only array can be assigned to the slice");
+					ThrowError("срезу можно присваивать только массив");
 				EscValue v1 = ss.ArrayGet(0);
 				EscValue v2 = ss.ArrayGet(1);
 				int i = v1.IsInt() ? v1.GetInt() : 0;
@@ -134,7 +134,7 @@ void Esc::Assign(EscValue& val, const Vector<EscValue>& sbs, int si, const EscVa
 					return;
 				}
 				else
-					ThrowError("slice out of range");
+					ThrowError("срез выходит за диапазон");
 			}
 			else {
 				int64 i = ss.IsVoid() ? val.GetCount() : Int(ss, "index");
@@ -142,7 +142,7 @@ void Esc::Assign(EscValue& val, const Vector<EscValue>& sbs, int si, const EscVa
 					i = count + i;
 				if(i >= 0 && i < INT_MAX) {
 					if(!val.ArraySet((int)i, src))
-						ThrowError("out of memory");
+						ThrowError("вне памяти");
 					return;
 				}
 			}
@@ -156,7 +156,7 @@ void Esc::Assign(const SRVal& val, const EscValue& src)
 	if(skipexp)
 		return;
 	if(!val.lval)
-		ThrowError("l-value required");
+		ThrowError("требуется l-значение");
 	if(val.sbs.IsArray() && val.sbs.GetCount())
 		Assign(*val.lval, val.sbs.GetArray(), 0, src);
 	else
@@ -167,11 +167,11 @@ EscValue Esc::ExecuteLambda(const String& id, EscValue lambda, SRVal self, Vecto
 {
 	LTIMING("ExecuteLambda");
 	if(!lambda.IsLambda())
-		ThrowError(Format("'%s' is not a lambda", id));
+		ThrowError(Format("'%s' не является лямбдой", id));
 	const EscLambda& l = lambda.GetLambda();
 	if(!l.varargs && arg.GetCount() > l.arg.GetCount()
 	   || arg.GetCount() < l.arg.GetCount() - l.def.GetCount())
-		ThrowError("invalid number of arguments in call to '" + id + "'");
+		ThrowError("неверное число аргументом при вызове '" + id + "'");
 	Esc sub(global, l.code, op_limit, l.filename, l.line);
 	sub.self = Get(self);
 	for(int i = 0; i < l.arg.GetCount(); i++) {
@@ -267,7 +267,7 @@ void Esc::Subscript(Esc::SRVal& r, Esc::SRVal _self, String id)
 				Term(_self);
 				EscValue g = Get(_self);
 				if(!_self.lval || (!g.IsVoid() && !g.IsMap()))
-					ThrowError("l-value map or l-value void expected on the right side of !");
+					ThrowError("мап l-value ил l-value void ожидались справа от !");
 				if(g.IsVoid()) {
 					EscValue v;
 					v.SetEmptyMap();
@@ -326,7 +326,7 @@ void Esc::Term(SRVal& r)
 	if(IsChar('\'')) {
 		WString s = ToUtf32(ReadString('\''));
 		if(s.GetLength() != 1)
-			ThrowError("invalid character literal");
+			ThrowError("неверный символьный литерал");
 		r = (int64)s[0];
 		return;
 	}
@@ -382,7 +382,7 @@ void Esc::Term(SRVal& r)
 	bool  _global = false;
 	if(Char('.')) {
 		if(!self.IsMap())
-			ThrowError("member-access in non-member code");
+			ThrowError("доступ к члену из нечленского кода");
 		_self.lval = &self;
 	}
 	else
@@ -396,7 +396,7 @@ void Esc::Term(SRVal& r)
 
 		if(id == "self") {
 			if(!self.IsMap())
-				ThrowError("self in non-member code");
+				ThrowError("self в нечленском коде");
 			_self.lval = &self;
 			r = self;
 		}
@@ -430,7 +430,7 @@ void Esc::Term(SRVal& r)
 		}
 	}
 	else
-		ThrowError("invalid expression");
+		ThrowError("неверное выражение");
 }
 
 String Lims(const String& s)
@@ -441,14 +441,14 @@ String Lims(const String& s)
 double Esc::Number(const EscValue& a, const char *oper)
 {
 	if(!a.IsNumber())
-		ThrowError(String().Cat() << "number expected for '" << oper << "', encountered " << Lims(a.ToString()));
+		ThrowError(String().Cat() << "ожидался номер для '" << oper << "', а получен " << Lims(a.ToString()));
 	return a.GetNumber();
 }
 
 int64 Esc::Int(const EscValue& a, const char *oper)
 {
 	if(!a.IsNumber())
-		ThrowError(String().Cat() << "integer expected for '" << oper << "', encountered " << Lims(a.ToString()));
+		ThrowError(String().Cat() << "ожидалось целое для '" << oper << "', а получен " << Lims(a.ToString()));
 	return a.GetInt64();
 }
 
@@ -573,7 +573,7 @@ void Esc::Mul(Esc::SRVal& r)
 			EscValue y = Get(w);
 			double b = Number(y, "/");
 			if(b == 0)
-				ThrowError("divide by zero");
+				ThrowError("деление на ноль");
 			r = Number(x, "/") / b;
 		}
 		else
@@ -582,7 +582,7 @@ void Esc::Mul(Esc::SRVal& r)
 			Unary(w);
 			int64 b = Int(w, "%");
 			if(b == 0)
-				ThrowError("divide by zero");
+				ThrowError("деление на ноль");
 			r = Int(r, "%") % b;
 		}
 		else
@@ -681,7 +681,7 @@ double Esc::DoCompare(const EscValue& a, const EscValue& b, const char *op)
 		return 1;
 	if(a.IsVoid() && !b.IsVoid())
 		return -1;
-	ThrowError("invalid values for comparison " + a.GetTypeName() + ' ' + op + ' ' + b.GetTypeName());
+	ThrowError("неверные значения для сравнения " + a.GetTypeName() + ' ' + op + ' ' + b.GetTypeName());
 	return 0;
 }
 
@@ -882,7 +882,7 @@ void Esc::Assign(Esc::SRVal& r)
 		EscValue b = Get(w);
 		double q = Number(v, "/=");
 		if(q == 0)
-			ThrowError("divide by zero");
+			ThrowError("деление на ноль");
 		Assign(r, Number(b, "/=") / q);
 	}
 	else
@@ -892,7 +892,7 @@ void Esc::Assign(Esc::SRVal& r)
 		int64 a = Int(r, "%=");
 		int64 b = Int(w, "%=");
 		if(b == 0)
-			ThrowError("divide by zero");
+			ThrowError("деление на ноль");
 		Assign(r, a % b);
 	}
 }
@@ -905,7 +905,7 @@ void Esc::Exp(Esc::SRVal& r)
 	Spaces();
 	stack_level--;
 	if(stack_level <= 0)
-		ThrowError("stack overflow");
+		ThrowError("переполнение стэка");
 	Assign(r);
 	stack_level++;
 }
@@ -919,7 +919,7 @@ EscValue Esc::GetExp() {
 void Esc::SkipTerm()
 {
 	if(IsEof())
-		ThrowError("unexpected end of file");
+		ThrowError("ожидался конец файла");
 	CParser::SkipTerm();
 	Spaces();
 }
@@ -940,7 +940,7 @@ void Esc::SkipExp()
 		else
 			SkipTerm();
 		if(IsEof())
-			ThrowError("unexpected end of file");
+			ThrowError("неожиданный конец файла");
 	}
 }
 
@@ -960,7 +960,7 @@ void Esc::SkipStatement()
 {
 	stack_level--;
 	if(stack_level <= 0)
-		ThrowError("stack overflow");
+		ThrowError("переполнение стэка");
 	if(Id("if")) {
 		PassChar('(');
 		SkipExp();
@@ -1164,26 +1164,26 @@ void  Esc::DoStatement()
 	else
 	if(Id("break")) {
 		if(!loop)
-			ThrowError("misplaced 'break'");
+			ThrowError("неуместное 'break'");
 		no_break = false;
 		PassChar(';');
 	}
 	else
 	if(Id("continue")) {
 		if(!loop)
-			ThrowError("misplaced 'continue'");
+			ThrowError("неуместное 'continue'");
 		no_continue = false;
 		PassChar(';');
 	}
 	else
 	if(Id("case"))
-		ThrowError("misplaced 'case'");
+		ThrowError("неуместное 'case'");
 	else
 	if(Id("default"))
-		ThrowError("misplaced 'default'");
+		ThrowError("неуместное 'default'");
 	else
 	if(Id("else"))
-		ThrowError("misplaced 'else'");
+		ThrowError("неуместное 'else'");
 	else
 	if(Id("return")) {
 		no_return = false;
@@ -1234,7 +1234,7 @@ void  Esc::DoStatement()
 		EscValue l = ReadLambda(*this);
 		if(type == 1) {
 			if(self.IsVoid())
-				ThrowError("no instance");
+				ThrowError("нет экземпляра");
 			self.MapSet(id, l);
 		}
 		else

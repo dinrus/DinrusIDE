@@ -68,7 +68,7 @@ bool AssistEditor::GetAnnotationRef(String& t, String& coderef, int q)
 		return false;
 	if(tl.GetCount() == 0)
 		return true;
-	String path = theide ? theide->editfile : Null;
+	String path = DinrusIDE ? DinrusIDE->editfile : Null;
 	int mi = 0;
 	int m = 0;
 	for(int i = 0; i < tl.GetCount(); i++) {
@@ -155,26 +155,26 @@ void AssistEditor::SyncAnnotationPopup()
 
 void AssistEditor::OpenTopic(String topic, String create, bool before)
 {
-	if(theide)
-		theide->OpenTopic(topic, create, before);
+	if(DinrusIDE)
+		DinrusIDE->OpenTopic(topic, create, before);
 }
 
 void AssistEditor::NewTopic(String group, String coderef)
 {
-	if(!theide)
+	if(!DinrusIDE)
 		return;
-	String ef = theide->editfile;
+	String ef = DinrusIDE->editfile;
 	String n = GetFileTitle(ef);
-	theide->EditFile(AppendFileName(PackageDirectory(theide->GetActivePackage()), group + ".tpp"));
-	if(!theide->designer)
+	DinrusIDE->EditFile(AppendFileName(PackageDirectory(DinrusIDE->GetActivePackage()), group + ".tpp"));
+	if(!DinrusIDE->designer)
 		return;
-	TopicEditor *te = dynamic_cast<TopicEditor *>(&theide->designer->DesignerCtrl());
+	TopicEditor *te = dynamic_cast<TopicEditor *>(&DinrusIDE->designer->DesignerCtrl());
 	if(!te)
 		return;
 	String scope, item;
 	SplitCodeRef(coderef, scope, item);
 	if(!te->NewTopicEx(IsNull(scope) ? n : Join(Split(scope, ':'), "_"), coderef))
-		theide->EditFile(ef);
+		DinrusIDE->EditFile(ef);
 }
 
 void AssistEditor::EditAnnotation(bool leftclick)
@@ -188,10 +188,10 @@ void AssistEditor::EditAnnotation(bool leftclick)
 	SetCursor(GetPos64(GetActiveAnnotationLine()));
 	if(leftclick) {
 		auto GoToTopic = [&] (int i) {
-			if(theide) {
-				theide->ShowTopics();
-				if(!theide->doc.GoTo(tl[i] + '#' + coderef) && LegacyRef(coderef))
-					theide->doc.GoTo(tl[i] + '#' + coderef);
+			if(DinrusIDE) {
+				DinrusIDE->ShowTopics();
+				if(!DinrusIDE->doc.GoTo(tl[i] + '#' + coderef) && LegacyRef(coderef))
+					DinrusIDE->doc.GoTo(tl[i] + '#' + coderef);
 			}
 		};
 		if(tl.GetCount() > 1) {

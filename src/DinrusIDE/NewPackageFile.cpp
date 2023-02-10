@@ -22,7 +22,7 @@ NewPackageFileWindow::NewPackageFileWindow()
 	Type("lay", "Файл разметки (шаблоны дилога)");
 	Type("iml", "Изображение (иконки)");
 	Type("icpp", "Инициализационный файл C++");
-	Type("usc", "Файл сценария Escape (скриптинг TheIDE)");
+	Type("usc", "Файл сценария Escape (скриптинг DinrusIDE)");
 	Type("witz", "Файл шаблона Skylark (файлы веб-фреймворка)");
 	Type("qtf", "Файл БТФ (rtf) U++");
 	Type("t", "Файл перевода");

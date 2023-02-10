@@ -830,8 +830,8 @@ DockCont::DockCont()
 	handle.WhenLeftDrag = THISBACK(MoveBegin);
 	handle.WhenLeftDouble = THISBACK(RestoreCurrent);
 	close.Tip(t_("Закрыть")) 				<<= THISBACK(CloseAll);
-	autohide.Tip(t_("Auto-Hide")) 		<<= THISBACK(AutoHide);
-	windowpos.Tip(t_("Window Menu")) 	<<= THISBACK(WindowMenu);		
+	autohide.Tip(t_("Автоматически скрыть")) 		<<= THISBACK(AutoHide);
+	windowpos.Tip(t_("Оконное Меню")) 	<<= THISBACK(WindowMenu);		
 	
 	AddFrame(NullFrame());
 	AddFrame(tabbar);

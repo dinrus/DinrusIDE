@@ -516,7 +516,7 @@ void InstantSetup()
 		}
 	}
 
-	Ide *ide = dynamic_cast<Ide *>(TheIde());
+	Ide *ide = dynamic_cast<Ide *>(DinrusIde());
 	if(dirty && ide) {
 		ide->SyncBuildMode();
 		ide->CodeBaseSync();

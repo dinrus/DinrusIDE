@@ -162,7 +162,7 @@ static void Win32_ForceFace(HDC hdc, const char *face, const char *aface)
 	if(!aface)
 		aface = "Arial";
 	if(Win32_EnumFace(hdc, face) && Win32_EnumFace(hdc, aface))
-		Panic("Missing font " + String(face));
+		Panic("Отсутствует шрифт " + String(face));
 }
 
 Vector<FaceInfo> GetAllFacesSys()

@@ -202,7 +202,7 @@ bool CppBuilder::Cp(const String& cmd, const String& package, bool& error) {
 			String p2 = NormalizePath(path[1], p);
 			RealizePath(p2);
 			if(!FileExists(p1)) {
-				PutConsole("FAILED: " + cmd);
+				PutConsole("НЕУДАЧА: " + cmd);
 				error = true;
 			}
 			SaveFile(p2, LoadFile(p1));

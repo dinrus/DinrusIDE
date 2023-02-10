@@ -324,7 +324,7 @@ void Pdb::ToForeground()
 {
 	TopWindow *w = GetTopWindow();
 	if(w && !w->IsForeground()) {
-		LLOG("Setting theide as foreground");
+		LLOG("Setting DinrusIDE as foreground");
 		w->SetForeground();
 	}
 }

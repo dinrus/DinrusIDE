@@ -367,12 +367,12 @@ bool AssistEditor::IncludeAssist()
 		if(!p.Char('#') || !p.Id("include"))
 			return false;
 		if(p.Char('\"')) {
-			include.Add(GetFileFolder(theide->editfile));
+			include.Add(GetFileFolder(DinrusIDE->editfile));
 			include_local = true;
 		}
 		else {
 			p.Char('<');
-			include = SplitDirs(theide->GetIncludePath());
+			include = SplitDirs(DinrusIDE->GetIncludePath());
 			include_local = false;
 		}
 		include_path.Clear();
@@ -665,7 +665,7 @@ void AssistEditor::Abbr()
 		--c;
 	}
 	int len = s.GetCount();
-	s = theide->abbr.Get(s, String());
+	s = DinrusIDE->abbr.Get(s, String());
 	if(IsNull(s))
 		return;
 	NextUndo();
@@ -731,7 +731,7 @@ void AssistEditor::AssistInsert()
 				Vector<String> nests = GetUppDirs();
 				for(int i = 0; i < nests.GetCount(); i++){
 					if(FileExists(nests[i] + "/" + include_path + GetFileName(pkg) + ".upp")) {
-						Ide *ide = dynamic_cast<Ide *>(TheIde());
+						Ide *ide = dynamic_cast<Ide *>(DinrusIde());
 						if(ide)
 							ide->AddPackage(pkg);
 						break;
@@ -1030,7 +1030,7 @@ bool AssistEditor::Esc()
 
 void AssistEditor::SyncNavigatorShow()
 {
-	navigatorframe.Show(navigator && theide && !theide->designer && !theide->IsEditorMode());
+	navigatorframe.Show(navigator && DinrusIDE && !DinrusIDE->designer && !DinrusIDE->IsEditorMode());
 }
 
 void AssistEditor::Navigator(bool nav)

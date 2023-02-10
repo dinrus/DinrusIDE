@@ -1,5 +1,5 @@
-TOPIC("About_en-us")
-#include "About_en-us.tppi"
+TOPIC("About_ru-ru")
+#include "About_ru-ru.tppi"
 END_TOPIC
 
 TOPIC("About_pl-pl")

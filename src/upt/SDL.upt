@@ -1,6 +1,6 @@
-template "SDL project" main;
+template "Проект SDL" main;
 
-option "Create header" header;
+option "Создать заголовочник" header;
 option "U++ Core" upp;
 
 @@<:PACKAGE:>.h
@@ -48,7 +48,7 @@ void Paint(SDL_Renderer *r)
 {
 	SDL_Init(SDL_INIT_VIDEO|SDL_INIT_TIMER|SDL_INIT_AUDIO|SDL_INIT_JOYSTICK|SDL_INIT_HAPTIC);
 	
-	SDL_Window *win = SDL_CreateWindow("My Game", 0, 0, 1024, 768,
+	SDL_Window *win = SDL_CreateWindow("Моя Игра", 0, 0, 1024, 768,
 	                                          SDL_WINDOW_SHOWN
 	                                          // |SDL_WINDOW_OPENGL|SDL_WINDOW_ALLOW_HIGHDPI
 	                                          // |SDL_WINDOW_BORDERLESS|SDL_WINDOW_FULLSCREEN_DESKTOP

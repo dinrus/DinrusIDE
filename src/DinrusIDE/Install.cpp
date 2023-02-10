@@ -16,7 +16,7 @@ bool CheckLicense()
 	Ctrl::ProcessEvents();
 	WithLicenseLayout<TopWindow> d;
 	CtrlLayoutOKCancel(d, "Лицензионное соглашение");
-	d.license = GetTopic("DinrusIDE/app/BSD_en-us").text;
+	d.license = GetTopic("DinrusIDE/app/BSD_ru-ru").text;
 	d.license.Margins(4);
 	d.license.SetZoom(Zoom(Zy(18), 100));
 	d.ActiveFocus(d.license);

@@ -18,8 +18,8 @@ IdeMDDes::IdeMDDes()
 	editor << [=] { delay.KillSet(250, [=] { Preview(); }); };
 	splitter.Horz(editor, preview);
 	Add(splitter.SizePos());
-	if(TheIde())
-		editor.SetFont(((Ide *)TheIde())->editorfont);
+	if(DinrusIde())
+		editor.SetFont(((Ide *)DinrusIde())->editorfont);
 }
 
 void IdeMDDes::Preview()

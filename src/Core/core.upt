@@ -1,7 +1,7 @@
-template "U++ Core console project" main;
+template "Консольный проект U++ Core" main;
 
-option "Create header" header;
-option "Commandline loop" cmdline;
+option "Создать заголовочник" header;
+option "Цикл командной строки" cmdline;
 
 @@<:PACKAGE:>.h
 ??header

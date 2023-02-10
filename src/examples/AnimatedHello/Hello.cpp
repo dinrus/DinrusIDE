@@ -2,7 +2,6 @@
 // http://doc.trolltech.com/3.0/hello-example.html
 
 #include <CtrlLib/CtrlLib.h>
-#include <Core/Defs.h>
 
 using namespace Upp;
 

@@ -107,9 +107,9 @@ void Navigator::SyncCursor()
 	search.NullText("Символ/номстр " + k);
 	search.Tip(IsNull(search) ? String() : "Стереть " + k);
 
-	if(!navigating && theide->editfile.GetCount()) {
+	if(!navigating && DinrusIDE->editfile.GetCount()) {
 		navlines.KillCursor();
-		int q = linefo.Find(GetSourceFileIndex(theide->editfile));
+		int q = linefo.Find(GetSourceFileIndex(DinrusIDE->editfile));
 		if(q < 0)
 			return;
 		navigating = true;
@@ -126,10 +126,10 @@ void Navigator::SyncCursor()
 
 void Navigator::SyncLines()
 {
-	if(IsNull(theide->editfile) || navigating)
+	if(IsNull(DinrusIDE->editfile) || navigating)
 		return;
 	int ln = GetCurrentLine() + 1;
-	int fi = GetSourceFileIndex(theide->editfile);
+	int fi = GetSourceFileIndex(DinrusIDE->editfile);
 	int q = -1;
 	for(int i = 0; i < navlines.GetCount(); i++) {
 		const NavLine& l = navlines.Get(i, 0).To<NavLine>();
@@ -190,9 +190,9 @@ void Navigator::GoToNavLine()
 	if(dlgmode)
 		return;
 	int ii = navlines.GetClickPos().y;
-	if(ii >= 0 && ii < navlines.GetCount() && theide) {
+	if(ii >= 0 && ii < navlines.GetCount() && DinrusIDE) {
 		const NavLine& l = navlines.Get(ii, 0).To<NavLine>();
-		theide->GotoPos(GetSourceFilePath(l.file), l.line);
+		DinrusIDE->GotoPos(GetSourceFilePath(l.file), l.line);
 	}
 }
 
@@ -234,11 +234,11 @@ void Navigator::Navigate()
 		return;
 	navigating = true;
 	int ii = list.GetCursor();
-	if(theide && ii >= 0 && ii < litem.GetCount()) {
+	if(DinrusIDE && ii >= 0 && ii < litem.GetCount()) {
 		int ln = GetCurrentLine() + 1;
 		const NavItem& m = *litem[ii];
 		if(m.kind == KIND_LINE || IsNull(search)) {
-			theide->GotoPos(Null, m.line);
+			DinrusIDE->GotoPos(Null, m.line);
 			if(m.kind == KIND_LINE) { // Go to line - restore file view
 				search.Clear();
 				Search();
@@ -248,22 +248,22 @@ void Navigator::Navigate()
 		}
 		else
 		if(m.kind == KIND_SRCFILE) {
-			theide->AddHistory();
-			theide->EditFile(m.ptype);
-			theide->AddHistory();
+			DinrusIDE->AddHistory();
+			DinrusIDE->EditFile(m.ptype);
+			DinrusIDE->AddHistory();
 		}
 		else {
 			Vector<NavLine> l = GetNavLines(m);
 			int q = l.GetCount() - 1;
 			for(int i = 0; i < l.GetCount(); i++)
-				if(GetSourceFilePath(l[i].file) == NormalizeSourcePath(theide->editfile) && l[i].line == ln) {
+				if(GetSourceFilePath(l[i].file) == NormalizeSourcePath(DinrusIDE->editfile) && l[i].line == ln) {
 					q = (i + l.GetCount() + 1) % l.GetCount();
 					break;
 				}
 			if(q >= 0 && q < l.GetCount()) {
 				String path = GetSourceFilePath(l[q].file);
-				if(!theide->GotoDesignerFile(path, m.nest, m.name, l[q].line))
-					theide->GotoPos(path, l[q].line);
+				if(!DinrusIDE->GotoDesignerFile(path, m.nest, m.name, l[q].line))
+					DinrusIDE->GotoPos(path, l[q].line);
 			}
 		}
 	}
@@ -276,7 +276,7 @@ void Navigator::ScopeDblClk()
 		return;
 	String h = scope.GetKey();
 	if((byte)*h == 0xff)
-		theide->GotoPos(h.Mid(1), 1);
+		DinrusIDE->GotoPos(h.Mid(1), 1);
 	else {
 		list.GoBegin();
 		Navigate();
@@ -513,9 +513,9 @@ void Navigator::Search()
 	int lineno = StrInt(s);
 	gitem.Clear();
 	nitem.Clear();
-	if(IsNull(theide->editfile))
+	if(IsNull(DinrusIDE->editfile))
 		return;
-	int fileii = GetSourceFileIndex(theide->editfile);
+	int fileii = GetSourceFileIndex(DinrusIDE->editfile);
 	if(!IsNull(lineno)) {
 		NavItem& m = nitem.Add();
 		m.type = "Перейти к строке " + AsString(lineno);
@@ -526,7 +526,7 @@ void Navigator::Search()
 	else
 	if(IsNull(s) && !sorting) {
 		const CppBase& b = CodeBase();
-		bool sch = GetFileExt(theide->editfile) == ".sch";
+		bool sch = GetFileExt(DinrusIDE->editfile) == ".sch";
 		for(int i = 0; i < b.GetCount(); i++) {
 			String nest = b.GetKey(i);
 			const Array<CppItem>& ci = b[i];

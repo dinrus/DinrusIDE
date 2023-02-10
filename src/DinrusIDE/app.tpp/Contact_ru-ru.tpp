@@ -1,5 +1,4 @@
-topic "Contact";
-[ $$0,0#00000000000000000000000000000000:Default]
+topic "Контакты";
 [l288;i704;a17;O9;~~~.992; $$1,0#10431211400427159095818037425705:param]
 [a83;*R6 $$2,5#31310162474203024125188417583966:caption]
 [b83;* $$3,5#07864147445237544204411237157677:title]
@@ -18,8 +17,9 @@ topic "Contact";
 [l321;*C$7 $$16,16#03451589433145915344929335295360:result]
 [l321;b83;a83;*C$7 $$17,17#07531550463529505371228428965313:result`-line]
 [l160;t4167;*C+117 $$18,5#88603949442205825958800053222425:package`-title]
+[ $$0,0#00000000000000000000000000000000:Default]
 [{_}%RU-RU 
-[s0;~~~1184; Ultimate`+`+ team email: -|[^mailto`:mirek`.fidler`@gmail`.com^ mirek.fidler
-`@gmail.com]&]
-[s0;~~~1184; Ultimate`+`+ home page:-|[^http`:`/`/www`.ultimatepp`.org^ www.ultimatepp.or
-g]  ]]
+[s0;~~~1184; Электронная почта команды Ultimate`+`+:-| 
+[^mailto`:mirek`.fidler`@gmail`.com^ mirek.fidler`@gmail.com]&]
+[s0;~~~1184; Домашняя страница Ultimate`+`+:-|[^http`:`/`/www`.ultimatepp`.org^ w
+ww.ultimatepp.org]]]

@@ -258,7 +258,7 @@ void BaseInfoSync(Progress& pi)
 { // clears temporary caches (file times etc..)
 	if(DeadLockCheck()) return;
 	Mutex::Lock __(CppBaseMutex);
-	PPSync(TheIde()->IdeGetIncludePath());
+	PPSync(DinrusIde()->IdeGetIncludePath());
 
 	LTIMESTOP("Gathering files");
 	ClearSources();
@@ -443,7 +443,7 @@ void CodeBaseScanFile0(Stream& in, const String& fn)
 	LLOG("===== CodeBaseScanFile " << fn);
 
 	InvalidateFileTimeCache(NormalizeSourcePath(fn));
-	PPSync(TheIde()->IdeGetIncludePath());
+	PPSync(DinrusIde()->IdeGetIncludePath());
 
 	LTIMING("CodeBaseScanFile0");
 

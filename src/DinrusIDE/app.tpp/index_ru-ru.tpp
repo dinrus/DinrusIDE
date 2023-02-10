@@ -1,4 +1,4 @@
-topic "TheIde help index";
+topic "Справка по DinrusIDE";
 [l288;i704;a17;O9;~~~.992; $$1,0#10431211400427159095818037425705:param]
 [a83;*R6 $$2,0#31310162474203024125188417583966:caption]
 [b83;* $$3,5#07864147445237544204411237157677:title]
@@ -19,59 +19,69 @@ topic "TheIde help index";
 [l160;t4167;*C+117 $$18,4#88603949442205825958800053222425:package`-title]
 [b8; $$0,0#00000000000000000000000000000000:Default]
 [{_}%RU-RU 
-[s0;= [*/R6 TheIDE help]&]
-[s0; &]
-[s0;l224;^topic`:`/`/ide`/app`/GettingStarted`$en`-us^ &]
-[s0;l224; [^topic`:`/`/ide`/app`/GettingStarted`$en`-us^ Getting started 
-with TheIDE]&]
-[s0;l224; [^topic`:`/`/ide`/app`/Guide`_en`-us^ TheIDE beginner guide]&]
-[s0;l224; [^topic`:`/`/ide`/app`/PackagesAssembliesAndNests`$en`-us^ Packages, 
-Assemblies and Nests]&]
-[s0;l224; [^topic`:`/`/ide`/app`/ConfiguringPackagesAssemblies`$en`-us^ Configuring 
-Packages and Assemblies]&]
-[s0;l224; [^topic`:`/`/ide`/app`/CommandLineArugments`_en`-us^ Command 
-line arguments]&]
-[s0;l224; [^topic`:`/`/ide`/app`/Assist`$en`-us^ Assist`+`+]&]
-[s0;l224; [^topic`:`/`/ide`/app`/AssistParserDirectives`_en`-us^ Assist`+`+ 
-`- parser directives]&]
-[s0;l224; [^topic`:`/`/ide`/app`/Blitz`$en`-us^ BLITZ]&]
-[s0;l224; [^topic`:`/`/ide`/app`/Files`$en`-us^ File types]&]
-[s0;l224; [^topic`:`/`/ide`/app`/Keys`$en`-us^ Keys]&]
-[s0;l224; [^topic`:`/`/ide`/app`/Flags`$en`-us^ Build flags]&]
-[s0;l224; [^topic`:`/`/ide`/app`/Topic`$en`-us^ Topic`+`+]&]
-[s0;l224; [^topic`:`/`/ide`/app`/macros`$en`-us^ Macros]&]
-[s0;l224; [^topic`:`/`/ide`/app`/MacroManager`_en`-us^ Macro Manager]&]
-[s0;l224; [^topic`:`/`/ide`/app`/LayoutDes`_en`-us^ Layout Designer]&]
-[s0;l224; [^topic`:`/`/ide`/app`/IconDes`$en`-us^ Icon Designer]&]
-[s0;l224; [^topic`:`/`/ide`/app`/special`$en`-us^ Special features]&]
-[s0;l224; [^topic`:`/`/ide`/app`/AdvancedReplace`$en`-us^ Advanced 
-Find and Replace]&]
-[s0;l224; [^topic`:`/`/ide`/app`/FindFile`$en`-us^ Finding specific 
-file in the project (Find File)]&]
-[s0;l224; [^topic`:`/`/ide`/app`/importext`$en`-us^ Importing external 
-libraries in source form]&]
+[s0;= [*/R@(255.170.150)$4;6 Справка по DinrusIDE]&]
+[s0;l224;^topic`:`/`/DinrusIDE`/app`/GettingStarted`$en`-us^ &]
+[s0;l224; [^topic`:`/`/DinrusIDE`/app`/GettingStarted`_ru`-ru^ Начало 
+работы в DinrusIDE]&]
+[s0;l224; [^topic`:`/`/DinrusIDE`/app`/Guide`_ru`-ru^ Справочника 
+новичка в DinrusIDE]&]
+[s0;l224; [^topic`:`/`/DinrusIDE`/app`/PackagesAssembliesAndNests`_ru`-ru^ Пакеты
+, Сборки и Гнёзда]&]
+[s0;l224; [^topic`:`/`/DinrusIDE`/app`/ConfiguringPackagesAssemblies`_ru`-ru^ Конфи
+гурирование Пакетов и Сборок]&]
+[s0;l224; [^topic`:`/`/DinrusIDE`/app`/CommandLineArugments`_ru`-ru^ Аргументы
+ командной строки]&]
+[s0;l224; [^topic`:`/`/DinrusIDE`/app`/Assist`_ru`-ru^ Ассист`+`+]&]
+[s0;l224; [^topic`:`/`/DinrusIDE`/app`/AssistParserDirectives`_ru`-ru^ Ассист`+`+
+ `- директивы парсера]&]
+[s0;l224; [^topic`:`/`/DinrusIDE`/app`/Blitz`_ru`-ru^ БЛИЦ]&]
+[s0;l224; [^topic`:`/`/DinrusIDE`/app`/Files`_ru`-ru^ Типы файлов]&]
+[s0;l224; [^topic`:`/`/DinrusIDE`/app`/Keys`_ru`-ru^ Клавиши]&]
+[s0;l224; [^topic`:`/`/DinrusIDE`/app`/Flags`_ru`-ru^ Флаги построения]&]
+[s0;l224; [^topic`:`/`/DinrusIDE`/app`/Topic`_ru`-ru^ Тематика`+`+]&]
+[s0;l224; [^topic`:`/`/DinrusIDE`/app`/macros`_ru`-ru^ Макросы]&]
+[s0;l224; [^topic`:`/`/DinrusIDE`/app`/MacroManager`_ru`-ru^ Менеджер 
+Макросов]&]
+[s0;l224; [^topic`:`/`/DinrusIDE`/app`/LayoutDes`_ru`-ru^ Дизайнер 
+Выкладок]&]
+[s0;l224; [^topic`:`/`/DinrusIDE`/app`/IconDes`_ru`-ru^ Дизайнер 
+Иконок]&]
+[s0;l224; [^topic`:`/`/DinrusIDE`/app`/special`_ru`-ru^ Специальные 
+фичи]&]
+[s0;l224; [^topic`:`/`/DinrusIDE`/app`/AdvancedReplace`_ru`-ru^ Продвинутый 
+Поиск и Замена]&]
+[s0;l224; [^topic`:`/`/DinrusIDE`/app`/FindFile`_ru`-ru^ Поиск 
+определённого файла проекта (Найти 
+Файл)]&]
+[s0;l224; [^topic`:`/`/DinrusIDE`/app`/importext`_ru`-ru^ Импортирование 
+внешних библиотек в исходной форме]&]
 [s0;l224; &]
-[s0;l224; [^topic`:`/`/ide`/app`/PackageTemplates`$en`-us^ U`+`+ package/project 
-templates]&]
-[s0;l224; [^topic`:`/`/ide`/app`/upp`$en`-us^ U`+`+ package file description]&]
-[s0;l224;^topic`:`/`/ide`/app`/upp`$en`-us^ &]
-[s0;l224; [^topic`:`/`/ide`/app`/umk`$en`-us^ UMK `- command line builder]&]
-[s0;l224; [^topic`:`/`/ide`/app`/UppHub`_en`-us^ UppHub `- additional 
-packages from the Internet]&]
-[s0;l224; [^topic`:`/`/ide`/app`/CrossComp`$en`-gb^ Using TheIDE as 
-a Cross Development Tool]&]
+[s0;l224; [^topic`:`/`/DinrusIDE`/app`/PackageTemplates`_ru`-ru^ Шаблоны 
+пакета/проекта U`+`+]&]
+[s0;l224; [^topic`:`/`/DinrusIDE`/app`/upp`_ru`-ru^ Описание 
+файла пакета U`+`+]&]
+[s0;l224;^topic`:`/`/DinrusIDE`/app`/upp`$en`-us^ &]
+[s0;l224; [^topic`:`/`/DinrusIDE`/app`/umk`_ru`-ru^ UMK `- построитель 
+из командной строки]&]
+[s0;l224; [^topic`:`/`/DinrusIDE`/app`/UppHub`_ru`-ru^ UppHub `- дополнитель
+ные пакеты из Интернета]&]
+[s0;l224; [^topic`:`/`/DinrusIDE`/app`/CrossComp`_ru`-ru^ Использование 
+DinrusIDE в качестве Инструмента Кросс`-Разработ
+ки]&]
 [s0;l224; &]
-[s0;l224; [^topic`:`/`/ide`/app`/AndroidBuilder`$en`-us^ Working with 
-Android builder]&]
+[s0;l224; [^topic`:`/`/DinrusIDE`/app`/AndroidBuilder`_ru`-ru^ Работа 
+с построителем Android]&]
 [s0; &]
 [s0; &]
-[s0; [*4 Ultimate`+`+ donors]&]
-[s0; [/1 Thank you!]&]
+[s0; [*@(0.128.128)$(255.170.150)4 Вкладчики в проект 
+Ultimate`+`+]&]
+[s0; [/1 Спасибо!]&]
 [s0; &]
 [s0;%- [%%*^http`:`/`/nullptr`.nl`/^ Jan_Wilmans], [*^http`:`/`/www`.vegachess`.com^ vega
-chess], Marcelo Santos, Daniel Jesús Pérez Burgos, yeohhs, 
-Matt Ezell, Herbert Danler, Garry Everard, Jay Krell, mobilehunter, 
-Michael Bzdega, Reza Fatahilah Shah, Keith Willis, Brian Rich, 
-Alex Nicolson, Jean`-François GUCHENS, Daryl Warder, Jeff Humphreys, 
-Neil Neilson, Timothy Reilly, James McNamara, Jeff L. Holcomb, 
-Martin Bartuska, Patryk Głowacz, Henk ten Hove, Michael Stanischewski]]
+chess], Виталий Кулич, Marcelo Santos, Daniel Jesús 
+Pérez Burgos, yeohhs, Matt Ezell, Herbert Danler, Garry Everard, 
+Jay Krell, mobilehunter, Michael Bzdega, Reza Fatahilah Shah, 
+Keith Willis, Brian Rich, Alex Nicolson, Jean`-François GUCHENS, 
+Daryl Warder, Jeff Humphreys, Neil Neilson, Timothy Reilly, James 
+McNamara, Jeff L. Holcomb, Martin Bartuska, Patryk Głowacz, 
+Henk ten Hove, Michael Stanischewski]]

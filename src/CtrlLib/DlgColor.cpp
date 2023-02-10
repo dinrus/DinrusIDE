@@ -1116,13 +1116,13 @@ void PalCtrl::RightDown(Point pt, dword keyflags)
 	bool is_large = (cellcount.cx == 16 && cellcount.cy == 16);
 	bar.Add(t_("Маленькая"), THISBACK(OnSizeSmall))
 		.Check(is_small)
-		.Help(t_("Set up palette size 4 times 4 colors"));
+		.Help(t_("Установить размер палетки 4х4 цвета"));
 	bar.Add(t_("Средняя"), THISBACK(OnSizeMedium))
 		.Check(is_medium)
-		.Help(t_("Set up palette size 8 times 8 colors"));
+		.Help(t_("Установить размер палетки 8х8 цветов"));
 	bar.Add(t_("Большая"), THISBACK(OnSizeLarge))
 		.Check(is_large)
-		.Help(t_("Set up palette size 16 times 16 colors (maximum size)"));
+		.Help(t_("Установить размер палетки 16х16 цветов (максимальный)"));
 	bar.Add(t_("Настроить..."), THISBACK(OnSizeCustom))
 		.Check(!is_small && !is_medium && !is_large)
 		.Help(t_("Выбрать нужный размер палетки"));

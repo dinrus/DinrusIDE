@@ -344,7 +344,7 @@ Ide::Ide()
 {
 	DiffDlg::WhenHighlight = callback(sHighlightLine);
 
-	editor.theide = this;
+	editor.DinrusIDE = this;
 	editor.WhenSel << [=] {
 		delayed_toolbar.KillSet(150, [=] { SetToolBar(); });
 	};
@@ -439,7 +439,7 @@ Ide::Ide()
 	tabs <<= THISBACK(TabFile);
 //	tabs.WhenCloseRest = THISBACK1(CloseRest, &tabs);
 //	editor2.SetFrame(NullFrame());
-	editor2.theide = this;
+	editor2.DinrusIDE = this;
 	editor2.topsbbutton.ScrollStyle().NoWantFocus().Show();
 	editor2.topsbbutton1.ScrollStyle().NoWantFocus().Show();
 	editor2.WhenLeftDown = THISBACK(SwapEditors);
@@ -578,7 +578,7 @@ Ide::Ide()
 
 	default_charset = CHARSET_UTF8;
 
-	TheIde(this);
+	DinrusIde(this);
 
 	targetmode = 0;
 
@@ -642,7 +642,7 @@ Ide::Ide()
 
 Ide::~Ide()
 {
-	TheIde(NULL);
+	DinrusIde(NULL);
 }
 
 void Ide::Paint(Draw&) {}

@@ -1,4 +1,4 @@
-topic "Macro Manager";
+topic "Менеджер Макросов DinrusIDE";
 [#a83;*R6 $$1,0#31310162474203024125188417583966:caption]
 [#H4;b83;*4 $$2,3#07864147445237544204411237157677:title]
 [b42;a42;ph2 $$3,3#45413000475342174754091244180557:text]
@@ -8,27 +8,27 @@ topic "Macro Manager";
 [b83;*+117 $$7,7#1546C2CD4112BAB0A26C534D6F11ED13:subtitle]
 [ $$0,0#00000000000000000000000000000000:Default]
 [{_}%RU-RU 
-[s1; TheIDE Macro manager&]
-[s2; Table of contents&]
+[s1; [@3 Менеджер Макросов DinrusIDE]&]
+[s2; [@3 Table of contents]&]
 [s0;2 &]
-[s0; [^topic`:`/`/ide`/app`/MacroManager`_en`-us`#1^2 1. Introduction]&]
-[s0; [^topic`:`/`/ide`/app`/MacroManager`_en`-us`#2^2 2. Functionality]&]
+[s0; [^topic`:`/`/DinrusIDE`/app`/MacroManager`_ru`-ru`#1^2 1. Introduction]&]
+[s0; [^topic`:`/`/DinrusIDE`/app`/MacroManager`_ru`-ru`#2^2 2. Functionality]&]
 [s0;2 &]
 [s2;:1: 1. Introduction&]
-[s3; TheIDE posses its own macro system and a tool called [* Macro 
+[s3; DinrusIDE posses its own macro system and a tool called [* Macro 
 manager] that simplifies the process of managing them. Macros 
 are used mainly for:&]
-[s3;l128;i150;O0; [^topic`:`/`/ide`/app`/macros`_en`-us`#2`.1^ Text 
+[s3;l128;i150;O0; [^topic`:`/`/DinrusIDE`/app`/macros`_ru`-ru`#2`.1^ Text 
 and cursor manipulation]&]
-[s3;l128;i150;O0; [^topic`:`/`/ide`/app`/macros`_en`-us`#2`.2^ File 
+[s3;l128;i150;O0; [^topic`:`/`/DinrusIDE`/app`/macros`_ru`-ru`#2`.2^ File 
 manipulation]&]
 [s3;l128;i150;O0; Package build &]
 [s3;l128;i150;O0; External command execution&]
 [s3;l128;i150;O0; Widget descriptions and visual representation&]
 [s3; The last type of macros are not managed by Macro Manager. The 
 are only interpreted by Layout designer. For more information 
-about TheIDE macros read following [^topic`:`/`/ide`/app`/macros`_en`-us^ article].
-&]
+about DinrusIDE macros read following [^topic`:`/`/DinrusIDE`/app`/macros`_en`-us^ articl
+e].&]
 [s2;:2: 2. Functionality&]
 [s3; Macro manager simplify macros management. We distinguish tow 
 groups of macros [* `"global macros`"] and [* `"local macros`"]. 

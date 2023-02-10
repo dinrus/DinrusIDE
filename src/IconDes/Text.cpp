@@ -4,7 +4,7 @@ namespace Upp {
 
 IconDes::TextDlg::TextDlg()
 {
-	CtrlLayout(*this, "Text");
+	CtrlLayout(*this, "Текст");
 	for(Ctrl *q = GetFirstChild(); q; q = q->GetNext())
 		if(!dynamic_cast<Button *>(q))
 			q->WhenAction = Proxy(WhenAction);

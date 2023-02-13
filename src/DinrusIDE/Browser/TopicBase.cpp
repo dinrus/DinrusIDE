@@ -209,7 +209,7 @@ void SyncRefsDir(const char *dir, const String& rel, Progress& pi)
 							tl.topic = GetFileTitle(ft.GetName());
 							String link = TopicLinkString(tl);
 							if(SyncRefsShowProgress)
-								pi.SetText("Indexing topic " + tl.topic);
+								pi.SetText("Индексируется тематика " + tl.topic);
 							SyncTopicFile(link);
 						}
 						if(!SyncRefsFinished && !SyncRefsShowProgress && !IdeExit)

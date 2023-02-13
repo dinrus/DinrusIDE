@@ -67,7 +67,7 @@ enum_property ToolBarPos
 }
 
 ctrl GridCtrl {
-	group "Complex";
+	group "Комплекс";
 
 	ViewRect(w)
 	{

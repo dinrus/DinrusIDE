@@ -325,7 +325,7 @@ void            AppendFiles(VectorMap<String, ClipData>& data, const Vector<Stri
 template <class T>
 String ClipFmt()
 {
-	return String("U++ type: ") + typeid(T).name();
+	return String("Тип U++: ") + typeid(T).name();
 }
 
 template <class T>

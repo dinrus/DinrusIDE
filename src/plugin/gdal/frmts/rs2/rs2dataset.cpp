@@ -817,7 +817,7 @@ GDALDataset *RS2Dataset::Open( GDALOpenInfo * poOpenInfo )
         atoi( CPLGetXMLValue( psImageAttributes, 
                               "rasterAttributes.bitsPerSample", "" ) );
 
-    if( nBitsPerSample == 16 && EQUAL(pszDataType,"Complex") )
+    if( nBitsPerSample == 16 && EQUAL(pszDataType,"Комплекс") )
         eDataType = GDT_CInt16;
     else if( nBitsPerSample == 16 && EQUALN(pszDataType,"Mag",3) )
         eDataType = GDT_UInt16;

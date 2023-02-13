@@ -1,5 +1,5 @@
 ctrl RasterPlayer {
-	group "Progress";
+	group "Индикаторы прогресса";
 
 	GetMinSize() { return Size(0, 0); }
 	GetStdSize() { return Size(140, 140); }

@@ -1,3 +1,4 @@
+
 #include <Core/Core.h>
 
 using namespace Upp;
@@ -5,8 +6,8 @@ using namespace Upp;
 struct Foo {
 	int x;
 
-	void Action()                { Cout() << "Action: " << x << '\n'; }
-	void ActionWithParam(int y)  { Cout() << "ActionWithParam: " << x + y << '\n'; }
+	void Action()                { Cout() << "Действие: " << x << '\n'; }
+	void ActionWithParam(int y)  { Cout() << "ДействиеСПараметром: " << x + y << '\n'; }
 
 	Event<> WhenDo;
 

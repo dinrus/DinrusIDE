@@ -257,7 +257,7 @@ private:
 	bool FindNodeElement_FromNode(CX3DImporter_NodeElement* pStartNode, const std::string& pID, const CX3DImporter_NodeElement::EType pType,
 									CX3DImporter_NodeElement** pElement);
 
-	/// Find requested node element. For "Node"'s accounting flag "Static".
+	/// Find requested node element. For "Node"'s accounting flag "Статические".
 	/// \param [in] pName - name of requested element.
 	/// \param [in] pType - type of requested element.
 	/// \param [out] pElement - pointer to pointer to item found.

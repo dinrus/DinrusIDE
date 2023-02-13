@@ -46,30 +46,32 @@ topic "Шаблоны пакета/проекта U++";
 [s2; [@3 Шаблоны пакета/проекта U`+`+]&]
 [s3; [@3 Содержание]&]
 [s0; &]
-[s0; [^`#1^ 1. Prologue]&]
-[s0; [^`#2^ 2. Description]&]
-[s0; [^`#3^ 3. Ready`-to`-use Templates]&]
-[s0;     [^`#3`_1^ 3.1 Overview]&]
-[s0;     [^`#3`_2^ 3.2 Basic CtrlLib application]&]
-[s0;     [^`#3`_3^ 3.3 Console application (no U`+`+)]&]
-[s0;     [^`#3`_4^ 3.4 Core console project]&]
-[s0;     [^`#3`_5^ 3.5 CtrlLib application with main window]&]
-[s0;     [^`#3`_6^ 3.6 SDL project (no U`+`+)]&]
-[s0;     [^`#3`_7^ 3.7 SDL with Core package]&]
-[s0; [^`#4^ 4. Template File Layout]&]
-[s0;     [^`#4`_1^ 4.1 Extension]&]
-[s0;     [^`#4`_2^ 4.2 Sections]&]
-[s0;     [^`#4`_3^ 4.3 Section Order]&]
-[s0;     [^`#4`_4^ 4.4 Size]&]
-[s0; [^`#5^ 5. Syntax]&]
-[s0;     [^`#5`_1^ 5.1 Comments]&]
-[s0;     [^`#5`_2^ 5.2 White Space]&]
-[s0;     [^`#5`_3^ 5.3 Basic Rule]&]
-[s0;     [^`#5`_4^ 5.4 Delimiters]&]
+[s0; [^`#1^ 1. Пролог]&]
+[s0; [^`#2^ 2. Описание]&]
+[s0; [^`#3^ 3. Готовые к использованию Шаблоны]&]
+[s0;     [^`#3`_1^ 3.1 Обзор]&]
+[s0;     [^`#3`_2^ 3.2 Базовое приложение CtrlLib]&]
+[s0;     [^`#3`_3^ 3.3 Консольное приложение (без 
+U`+`+)]&]
+[s0;     [^`#3`_4^ 3.4 Консольный проект Core]&]
+[s0;     [^`#3`_5^ 3.5 Приложение CtrlLib с главным 
+окном]&]
+[s0;     [^`#3`_6^ 3.6 Проект SDL (без U`+`+)]&]
+[s0;     [^`#3`_7^ 3.7 Пакет SDL с Core]&]
+[s0; [^`#4^ 4. Выкладка Файла Шаблона]&]
+[s0;     [^`#4`_1^ 4.1 Расширение]&]
+[s0;     [^`#4`_2^ 4.2 Секции]&]
+[s0;     [^`#4`_3^ 4.3 Порядок секций]&]
+[s0;     [^`#4`_4^ 4.4 Размер]&]
+[s0; [^`#5^ 5. Синтаксис]&]
+[s0;     [^`#5`_1^ 5.1 Комментарии]&]
+[s0;     [^`#5`_2^ 5.2 Пробелы]&]
+[s0;     [^`#5`_3^ 5.3 Базовое Правило]&]
+[s0;     [^`#5`_4^ 5.4 Разграничители]&]
 [s0;         [^`#5`_4`_1^ 5.4.1 `"`@`@`"]&]
 [s0;         [^`#5`_4`_2^ 5.4.2 `"??`"]&]
-[s0;     [^`#5`_5^ 5.5 Expressions]&]
-[s0;         [^`#5`_5`_1^ 5.5.1 Basic Rule]&]
+[s0;     [^`#5`_5^ 5.5 Выражения]&]
+[s0;         [^`#5`_5`_1^ 5.5.1 Базовое Правило]&]
 [s0;         [^`#5`_5`_2^ 5.5.2 `"`@`@][/^`#5`_5`_2^ filename`_expression][^`#5`_5`_2^ `"]&]
 [s0;         [^`#5`_5`_3^ 5.5.3 `"??][/^`#5`_5`_3^ expression][^`#5`_5`_3^ `"]&]
 [s0;         [^`#5`_5`_4^ 5.5.4 `"<: ... :>`"]&]
@@ -78,45 +80,45 @@ topic "Шаблоны пакета/проекта U++";
 [s0;         [^`#5`_5`_6^ 5.5.6 `"<:? ][/^`#5`_5`_6^ expression][^`#5`_5`_6^  
 :> ... <:/:> ... <:.:>`"]&]
 [s0;     [^`#5`_6^ 5.6 `"PACKAGE`"]&]
-[s0;         [^`#5`_6`_1^ 5.6.1 Description]&]
-[s0;         [^`#5`_6`_2^ 5.6.2 Usage]&]
+[s0;         [^`#5`_6`_1^ 5.6.1 Описание]&]
+[s0;         [^`#5`_6`_2^ 5.6.2 Использование]&]
 [s0;     [^`#5`_7^ 5.7 `"PACKAGE`_TOUPPER`"]&]
-[s0;         [^`#5`_7`_1^ 5.7.1 Description]&]
-[s0;         [^`#5`_7`_2^ 5.7.2 Usage]&]
+[s0;         [^`#5`_7`_1^ 5.7.1 Описание]&]
+[s0;         [^`#5`_7`_2^ 5.7.2 Использование]&]
 [s0;     [^`#5`_8^ 5.8 `"PACKAGE`_TOUPPER`_CAPS`"]&]
-[s0;         [^`#5`_8`_1^ 5.8.1 Description]&]
-[s0;         [^`#5`_8`_2^ 5.8.2 Usage]&]
-[s0;     [^`#5`_9^ 5.9 Header Line]&]
-[s0;         [^`#5`_9`_1^ 5.9.1 Description]&]
+[s0;         [^`#5`_8`_1^ 5.8.1 Описание]&]
+[s0;         [^`#5`_8`_2^ 5.8.2 Использование]&]
+[s0;     [^`#5`_9^ 5.9 Строка Заголовочника]&]
+[s0;         [^`#5`_9`_1^ 5.9.1 Описание]&]
 [s0;         [^`#5`_9`_2^ 5.9.2 `"template`"]&]
 [s0;         [^`#5`_9`_3^ 5.9.3 `"][/^`#5`_9`_3^ Name][^`#5`_9`_3^ `"]&]
 [s0;         [^`#5`_9`_4^ 5.9.4 `"main`", `"sub`"]&]
-[s0;         [^`#5`_9`_5^ 5.9.5 Usage]&]
+[s0;         [^`#5`_9`_5^ 5.9.5 Использование]&]
 [s0;     [^`#5`_10^ 5.10 `"filename`"]&]
-[s0;         [^`#5`_10`_1^ 5.10.1 Description]&]
-[s0;         [^`#5`_10`_2^ 5.10.2 Definition]&]
-[s0;         [^`#5`_10`_3^ 5.10.3 Usage]&]
+[s0;         [^`#5`_10`_1^ 5.10.1 Описание]&]
+[s0;         [^`#5`_10`_2^ 5.10.2 Определение]&]
+[s0;         [^`#5`_10`_3^ 5.10.3 Использование]&]
 [s0;     [^`#5`_11^ 5.11 `"id`"]&]
-[s0;         [^`#5`_11`_1^ 5.11.1 Description]&]
-[s0;         [^`#5`_11`_2^ 5.11.2 Definition]&]
-[s0;         [^`#5`_11`_3^ 5.11.3 Usage]&]
+[s0;         [^`#5`_11`_1^ 5.11.1 Описание]&]
+[s0;         [^`#5`_11`_2^ 5.11.2 Определение]&]
+[s0;         [^`#5`_11`_3^ 5.11.3 Использование]&]
 [s0;     [^`#5`_12^ 5.12 `"option`"]&]
-[s0;         [^`#5`_12`_1^ 5.12.1 Description]&]
-[s0;         [^`#5`_12`_2^ 5.12.2 Definition]&]
-[s0;         [^`#5`_12`_3^ 5.12.3 Usage]&]
+[s0;         [^`#5`_12`_1^ 5.12.1 Описание]&]
+[s0;         [^`#5`_12`_2^ 5.12.2 Определение]&]
+[s0;         [^`#5`_12`_3^ 5.12.3 Использование]&]
 [s0;     [^`#5`_13^ 5.13 `"select`"]&]
-[s0;         [^`#5`_13`_1^ 5.13.1 Description]&]
-[s0;         [^`#5`_13`_2^ 5.13.2 Definition]&]
-[s0;         [^`#5`_13`_3^ 5.13.3 Usage]&]
+[s0;         [^`#5`_13`_1^ 5.13.1 Описание]&]
+[s0;         [^`#5`_13`_2^ 5.13.2 Определение]&]
+[s0;         [^`#5`_13`_3^ 5.13.3 Использование]&]
 [s0;     [^`#5`_14^ 5.14 `"text`"]&]
-[s0;         [^`#5`_14`_1^ 5.14.1 Description]&]
-[s0;         [^`#5`_14`_2^ 5.14.2 Definition]&]
-[s0;         [^`#5`_14`_3^ 5.14.3 Usage]&]
-[s0;     [^`#5`_15^ 5.15 Undefined variables]&]
-[s0; [^`#6^ 6. Template Dialog Layout]&]
-[s0; [^`#7^ 7. Deployment]&]
-[s0; [^`#8^ 8. Epilogue]&]
-[s0; [^`#9^ 9. UPP File Syntax]&]
+[s0;         [^`#5`_14`_1^ 5.14.1 Описание]&]
+[s0;         [^`#5`_14`_2^ 5.14.2 Определение]&]
+[s0;         [^`#5`_14`_3^ 5.14.3 Использование]&]
+[s0;     [^`#5`_15^ 5.15 Неопределённые переменные]&]
+[s0; [^`#6^ 6. Выкладка Диалогового Окна Шаблонов]&]
+[s0; [^`#7^ 7. Деплоймент]&]
+[s0; [^`#8^ 8. Эпилог]&]
+[s0; [^`#9^ 9. Синтаксис файла  UPP]&]
 [s0; &]
 [s3;:1: [@5 1. Пролог]&]
 [s5; Often projects have the same base, the same structure, and / 
@@ -151,18 +153,19 @@ worked on.&]
 [s5;l160;i150;O2; SDL project (no U`+`+)&]
 [s5;l160;i150;O2; SDL with Core package&]
 [s5; `"<empty>`" means: do not use any package template.&]
-[s42;:3`_2: [@(128.0.255) 3.2 Basic CtrlLib application]&]
+[s42;:3`_2: [@(128.0.255) 3.2 Базовое приложение CtrlLib]&]
 [s5; This UPT builds only the foundations of a GUI application: the 
 needed include directive, the GUI equivalent for `"main()`", 
 and the required build flag. You have the options to generate 
 a header file (with include guards) and to add the `"multithreaded`" 
 build flag.&]
-[s42;:3`_3: [@(128.0.255) 3.3 Console application (no U`+`+)]&]
+[s42;:3`_3: [@(128.0.255) 3.3 Консольное приложение 
+(без U`+`+)]&]
 [s5; This UPT creates the foundations of a plain C`+`+ console application. 
 Even the non`-GUI facilities of Ultimate`+`+ cannot be used. 
 There aren`'t any options.&]
 [s5; This template comes in handy when you just want to exploit DinrusIDE.&]
-[s42;:3`_4: [@(128.0.255) 3.4 Core console project]&]
+[s42;:3`_4: [@(128.0.255) 3.4 Консольный проект Core]&]
 [s5; This UPT builds the foundations of a console application which 
 uses only the non`-GUI facilities of Ultimate`+`+. You have the 
 options to create a header file (with include guards) and to 
@@ -172,7 +175,8 @@ into a const Vector<String>. (Please note that this is not the
 same as char`* argv`[`], the `"pointees`" of which are modifiable 
 and include an additional string `- argv`[0`], the path and name 
 of the running program.)&]
-[s42;:3`_5: [@(128.0.255) 3.5 CtrlLib application with main window]&]
+[s42;:3`_5: [@(128.0.255) 3.5 Приложение CtrlLib с главным 
+окном]&]
 [s5; This seems to be the most useful UPT which lays the foundations 
 of a `"big`" GUI application. You get  files containing the framework 
 of your own application class, the name of which you can choose. 
@@ -181,26 +185,26 @@ file, a main window`-specific layout file, and a main`-window`-specific
 layout file generating an `"OK`"`- and a `"Cancel`"`-Button. 
 Finally there is an option to generate an image list file and 
 an option to add the `"multithreaded`" build flag.&]
-[s42;:3`_6: [@(128.0.255) 3.6 SDL project (no U`+`+)]&]
+[s42;:3`_6: [@(128.0.255) 3.6 Проект SDL (без U`+`+)]&]
 [s5; This UPT generates the foundations of a Simple DirectMedia Layer 
 (SDL) console application. The Ultimate`+`+ facilities cannot 
 be used. Apart from an option to create a header file and an 
 option to write an event loop, there are three more multimedia`-specific 
 options.&]
 [s5; This template comes in handy when you just want to exploit DinrusIDE.&]
-[s42;:3`_7: [@(128.0.255) 3.7 SDL with Core package]&]
+[s42;:3`_7: [@(128.0.255) 3.7 Пакет SDL с Core]&]
 [s5; This UPT builds the foundations of a Simple DirectMedia Layer 
 (SDL) console application. Additionally, the non`-GUI Ultimate`+`+ 
 facilities are enabled. Apart from an option to create a header 
 file and an option to write an event loop, there are three more 
 multimedia`-specific options .&]
 [s0; &]
-[s3;:4: [@5 4. Template File Layout]&]
-[s42;:4`_1: [@(128.0.255) 4.1 Extension]&]
+[s3;:4: [@5 4. Выкладка Файла Шаблона]&]
+[s42;:4`_1: [@(128.0.255) 4.1 Расширение]&]
 [s5; The extension of a UPT file must be `".upt`". If a file has 
 a different extension or none at all it is not even considered 
 to contain a UPT.&]
-[s42;:4`_2: [@(128.0.255) 4.2 Sections]&]
+[s42;:4`_2: [@(128.0.255) 4.2 Секции]&]
 [s5; A UPT file is made up of three distinct sections:&]
 [s5;l160;i150;O2;~~~0; The header line&]
 [s5;l160;i150;O2;~~~0; The variable definitions&]
@@ -213,7 +217,7 @@ it is just them which makes a UPT flexible and thus valuable.&]
 safe, makes a UPT file absolutely useless. After all, a UPT is 
 to generate files. If there is no file definition, a file simply 
 cannot be created.&]
-[s42;:4`_3: [@(128.0.255) 4.3 Section Order]&]
+[s42;:4`_3: [@(128.0.255) 4.3 Порядок Секций]&]
 [s5; The sections of a UPT file must appear in the following order:&]
 [s5;l160; [* 1.] The header line&]
 [s5;l160; [* 2.] The variable definitions `- if there aren`'t any: the 
@@ -228,19 +232,19 @@ of the file definition section which starts with (the first)
 are considered simple text, belonging to the (last) file.&]
 [s5; The file definition section is terminated by the end of the 
 UPT file.&]
-[s42;:4`_4: [@(128.0.255) 4.4 Size]&]
+[s42;:4`_4: [@(128.0.255) 4.4 Размер]&]
 [s5; The size of the UPT file and such the number and the size(s) 
 of the generated file(s) are virtually unlimited.&]
 [s0; &]
-[s3;:5: [@5 5. Syntax]&]
-[s42;:5`_1: [@(128.0.255) 5.1 Comments]&]
+[s3;:5: [@5 5. Синтаксис]&]
+[s42;:5`_1: [@(128.0.255) 5.1 Комментарии]&]
 [s5; You can write standard C`+`+ comments (`"/`* ... `*/ and `"//`") 
 as usual. Inside of the variable definition section they behave 
 as expected. Inside of the file definition section they become 
 comments in the generated file. Putting `"/`*`" into the variable 
 definition section and `"`*/`" into the file definition section 
 leads to weird results.&]
-[s42;:5`_2: [@(128.0.255) 5.2 White Space]&]
+[s42;:5`_2: [@(128.0.255) 5.2 Пробелы]&]
 [s5; Inside of the header line and the variable definition section, 
 but outside of a word or a number, extra white space doesn`'t 
 count.&]
@@ -249,10 +253,10 @@ second line of each file definition the same rule applies inside
 of expressions. Outside of expressions any white space defines 
 the layout of the respective file. That simply means: white space 
 appears as white space in the generated file.&]
-[s42;:5`_3: [@(128.0.255) 5.3 Basic Rule]&]
+[s42;:5`_3: [@(128.0.255) 5.3 Базовое Правило]&]
 [s5; Inside of the file definition section any text which is not 
 part of an expression appears unchanged in the generated file.&]
-[s42;:5`_4: [@(128.0.255) 5.4 Delimiters]&]
+[s42;:5`_4: [@(128.0.255) 5.4 Разграничители]&]
 [s42;l160;:5`_4`_1: [@6 5.4.1 `"`@`@`"]&]
 [s5;l160; `"`@`@`" marks the beginning of a file definition. Everything 
 up to this delimiter is part of the header line, a variable definition, 
@@ -274,8 +278,8 @@ the very first two characters of the line, they represent just
 plain text.&]
 [s5;l160; `"??`" makes sense only in cooperation with an expression. 
 Standing alone it makes its line disappear.&]
-[s42;:5`_5: [@(128.0.255) 5.5 Expressions]&]
-[s42;l160;:5`_5`_1: [@6 5.5.1-|Basic Rule]&]
+[s42;:5`_5: [@(128.0.255) 5.5 Выражения]&]
+[s42;l160;:5`_5`_1: [@6 5.5.1-|Базовое Правило]&]
 [s5;l160; As the UPT file is evaluated by CParser, you can use any 
 valid numerical or logical C expression or any combination of 
 them, wherever an expression is permitted. The numeric values 
@@ -346,10 +350,10 @@ them it does: it produces white space in the resulting file.&]
 [s5;l160; White space inside of the `"<`::>`"s doesn`'t matter. Between 
 them it does: it produces white space in the resulting file.&]
 [s42;:5`_6: [@(128.0.255) 5.6 `"PACKAGE`"]&]
-[s42;l160;:5`_6`_1: [@6 5.6.1-|Description]&]
+[s42;l160;:5`_6`_1: [@6 5.6.1-|Описание]&]
 [s5;l160; `"PACKAGE`" is the predefined identifier of a variable 
 to which the content of the `"Package name`" input field is assigned.&]
-[s42;l160;:5`_6`_2: [@6 5.6.2 Usage]&]
+[s42;l160;:5`_6`_2: [@6 5.6.2 Использование]&]
 [s5;l160; The input is filtered. Only alphanumeric characters, `"`_`", 
 `"/`", and `"`\`" are accepted. That means that you can enter 
 a path but not a drive specification as `":`" is not a valid character 
@@ -360,7 +364,7 @@ existence of a `"??[/ expression]`" in the UPT file. Refer to section
 5.5.3 `"??[/ expression]`".&]
 [s5;l160; [C ... <: PACKAGE :> ...]&]
 [s42;:5`_7: [@(128.0.255) 5.7 `"PACKAGE`_TOUPPER`"]&]
-[s42;l160;:5`_7`_1: [@6 5.7.1 Description]&]
+[s42;l160;:5`_7`_1: [@6 5.7.1 Описание]&]
 [s5;l160; `"PACKAGE`_TOUPPER`" is the predefined identifier of a 
 variable to which the content of the `"Package name`" input field, 
 transformed into uppercase letters, is assigned. If there were 
@@ -369,13 +373,13 @@ uppercase letters before, they are not changed.&]
 practice to write uppercase include guards in .hpp`- (.h`-) files.&]
 [s5;l160; `"PACKAGE`_TOUPPER`" is only available with Ultimate`+`+ 
 releases later than `"609`-dev3`".&]
-[s42;l160;:5`_7`_2: [@6 5.7.2 Usage]&]
+[s42;l160;:5`_7`_2: [@6 5.7.2 Использование]&]
 [s5;l160; In contrast to `"PACKAGE`", `"PACKAGE`_TOUPPER`" always 
 contains the path part `- if any `- of the `"Package name`" input 
 field.&]
 [s5;l160; [C ... <: PACKAGE`_TOUPPER :> ...]&]
 [s42;:5`_8: [@(128.0.255) 5.8-|`"PACKAGE`_TOUPPER`_CAPS`"]&]
-[s42;l160;:5`_8`_1: [@6 5.8.1 Description]&]
+[s42;l160;:5`_8`_1: [@6 5.8.1 Описание]&]
 [s5;l160; `"PACKAGE`_TOUPPER`_CAPS`" is the predefined identifier 
 of a variable to which the content of the `"Package name`" input 
 field, transformed into uppercase letters, is assigned. In contrast 
@@ -387,13 +391,13 @@ vice versa. Furthermore `"/`" is replaced by `"`_`", e.g.:&]
 practice to write uppercase include guards in .hpp`- (.h`-) files.&]
 [s5;l160; `"PACKAGE`_TOUPPER`_CAPS`" is only available with Ultimate`+`+ 
 releases later than `"609`-dev3`".&]
-[s42;l160;:5`_8`_2: [@6 5.8.2-|Usage]&]
+[s42;l160;:5`_8`_2: [@6 5.8.2-|Использование]&]
 [s5;l160; In contrast to `"PACKAGE`", `"PACKAGE`_TOUPPER`_CAPS`" 
 always contains the path part `- if any `- of the `"Package name`" 
 input field.&]
 [s5;l160; [C ... <: PACKAGE`_TOUPPER`_CAPS :> ...]&]
 [s42;:5`_9: [@(128.0.255) 5.9 Header Line]&]
-[s42;l160;:5`_9`_1: [@6 5.9.1 Description]&]
+[s42;l160;:5`_9`_1: [@6 5.9.1 Описание]&]
 [s5;l160; The header line identifies a UPT file as such, names the 
 template and categorizes it.&]
 [s42;l160;:5`_9`_2: [@6 5.9.2 `"template`"]&]
@@ -418,18 +422,18 @@ UPT files only are shown in the template list of the `"Create
 new package`" dialog.&]
 [s5;l160; A UPT file can be both `"main`" and `"sub`".&]
 [s5;l160; If neither keyword is used, the UPT file is silently ignored.&]
-[s42;l160;:5`_9`_5: [@(127) 5.9.5 Usage]&]
+[s42;l160;:5`_9`_5: [@6 5.9.5 Использование]&]
 [s5;l160; The header line is terminated by a semicolon.&]
 [s5;l160; [C template `"][/C name][C `" `[main `| sub `| main sub `| sub 
 main`];]&]
 [s42;:5`_10: [@(128.0.255) 5.10 `"filename`"]&]
-[s42;l160;:5`_10`_1: [@6 5.10.1 Description]&]
+[s42;l160;:5`_10`_1: [@6 5.10.1 Описание]&]
 [s5;l160; `"filename`" defines a variable which is determined to 
 host a filename. Using it makes a named edit field appear. The 
 input is filtered. Only alphanumeric characters, `"`_`", and 
 `".`" are accepted. That means that you cannot enter a path or 
 a drive specification (e. g., Windows).&]
-[s42;l160;:5`_10`_2: [@6 5.10.2 Definition]&]
+[s42;l160;:5`_10`_2: [@6 5.10.2 Определение]&]
 [s5;l160; The keyword and the variable name must not be enclosed 
 in quotation marks, whereas the title must. Doing otherwise results 
 in an error message and the UPT file is ignored. You can set 
@@ -437,16 +441,16 @@ a literal, enclosed in quotation marks, as default. Using a variable
 name instead, although syntactically correct, doesn`'t work. 
 The variable definition is terminated by a semicolon.&]
 [s5;l160; [C filename `"][/C title][C `" ][/C variable`_name][C  `[`= `"][/C default`"][C `];]&]
-[s42;l160;:5`_10`_3: [@6 5.10.3-|Usage]&]
+[s42;l160;:5`_10`_3: [@6 5.10.3-|Использование]&]
 [s5;l160; [C ... <: ][/C variable`_name][C  :> ...]&]
 [s5;l160; You can compare filename variables and act based on the 
 result of this comparison.&]
 [s42;:5`_11: [@(128.0.255) 5.11 `"id`"]&]
-[s42;l160;:5`_11`_1: [@6 5.11.1 Description]&]
+[s42;l160;:5`_11`_1: [@6 5.11.1 Описание]&]
 [s5;l160; `"id`" defines a variable which is determined to host a 
 string. Using it makes a named edit field appear. The input is 
 filtered. Only alphanumeric characters and `"`_`" are accepted.&]
-[s42;l160;:5`_11`_2: [@6 5.11.2 Definition]&]
+[s42;l160;:5`_11`_2: [@6 5.11.2 Определение]&]
 [s5;l160; The keyword and the variable name must not be enclosed 
 in quotation marks, whereas the title must. Doing otherwise results 
 in an error message and the UPT file is ignored. You can set 
@@ -454,15 +458,15 @@ a literal, enclosed in quotation marks, as default. Using a variable
 name instead, although syntactically correct, doesn`'t work. 
 The variable definition is terminated by a semicolon.&]
 [s5;l160; [C id `"][/C title][C `" ][/C variable`_name][C  `[`= `"][/C default`"][C `];]&]
-[s42;l160;:5`_11`_3: [@6 5.11.3 Usage]&]
+[s42;l160;:5`_11`_3: [@6 5.11.3 Использование]&]
 [s5;l160; [C ... <: ][/C variable`_name][C  :> ...]&]
 [s5;l160; You can compare id variables and act based on the result 
 of this comparison.&]
 [s42;:5`_12: [@(128.0.255) 5.12 `"option`"]&]
-[s42;l160;:5`_12`_1: [@6 5.12.1 Description]&]
+[s42;l160;:5`_12`_1: [@6 5.12.1 Описание]&]
 [s5;l160; `"option`" defines a variable which is determined to host 
 a boolean value. Using it makes a named option box appear.&]
-[s42;l160;:5`_12`_2: [@6 5.12.2 Definition]&]
+[s42;l160;:5`_12`_2: [@6 5.12.2 Определение]&]
 [s5;l160; The keyword and the variable name must not be enclosed 
 in quotation marks, whereas the title must. Doing otherwise results 
 in an error message and the UPT file is ignored. You can set 
@@ -471,7 +475,7 @@ default. Everything else is evaluated as `"false`". Using a variable
 name instead, although syntactically correct, doesn`'t work. 
 The variable definition is terminated by a semicolon.&]
 [s5;l160; option `"[/ title]`" [/ variable`_name] `[`= `[`"`]0 `| 1`[[/ `"]`]`];&]
-[s42;l160;:5`_12`_3: [@6 5.12.3 Usage]&]
+[s42;l160;:5`_12`_3: [@6 5.12.3 Использование]&]
 [s0;l160; [C ... <: ][/C variable`_name][C  ? ][/C number`_1][C  : ][/C number`_2][C  
 :> ...]&]
 [s0;l160; [C ... <: ][/C variable`_name][C  ? `"][/C string`_1][C `" : `"][/C string`_2][C `" 
@@ -485,12 +489,12 @@ The variable definition is terminated by a semicolon.&]
 [s5;l160; You can compare option variables and act based on the result 
 of this comparison.&]
 [s42;:5`_13: [@(128.0.255) 5.13 `"select`"]&]
-[s42;l160;:5`_13`_1: [@6 5.13.1 Description]&]
+[s42;l160;:5`_13`_1: [@6 5.13.1 Описание]&]
 [s5;l160; `"select`" defines a variable which works like an enumeration. 
 Integer values, starting with 0, are assigned to named options. 
 Using `"select`" makes a named DropList appear, of which the 
 options can be selected but not edited.&]
-[s42;l160;:5`_13`_2: [@6 5.13.2 Definition]&]
+[s42;l160;:5`_13`_2: [@6 5.13.2 Определение]&]
 [s5;l160; The options must be listed inside of parentheses. The keyword 
 and the variable name must not be enclosed in quotation marks, 
 whereas the options and the title must. Doing otherwise or giving 
@@ -506,7 +510,7 @@ by a semicolon.&]
 [s5;l160; [C option (`"option`_1`", `"option`_2`", ...) `"][/C title][C `"][/C  
 variable`_name]&]
 [s5;l160; [C -|`[`= 0 `| ... `| ][/C number`_of`_last`_option `- 1][C `];]&]
-[s42;l160;:5`_13`_3: [@6 5.13.3 Usage]&]
+[s42;l160;:5`_13`_3: [@6 5.13.3 Использование]&]
 [s0;l160; [C ... <: ][/C variable`_name][C  `=`= ][/C zero`_based`_option`_index][C  
 :> ... <: . :>]&]
 [s0;l160; [C ... <: ][/C variable`_name][C  > ][/C zero`_based`_option`_index][C  
@@ -522,11 +526,11 @@ variable`_name]&]
 [s5;l160; You can select filename variables and act based on the 
 result of this comparison.&]
 [s42;:5`_14: [@(128.0.255) 5.14 `"text`"]&]
-[s42;l160;:5`_14`_1: [@6 5.14.1 Description]&]
+[s42;l160;:5`_14`_1: [@6 5.14.1 Описание]&]
 [s5;l160; `"text`" defines a variable which is determined to host 
 an arbitrary string. Using it makes a named edit field appear. 
 The input is not filtered. Any character is accepted.&]
-[s42;l160;:5`_14`_2: [@6 5.14.2 Definition]&]
+[s42;l160;:5`_14`_2: [@6 5.14.2 Определение]&]
 [s5;l160; The keyword and the variable name must not be enclosed 
 in quotation marks, whereas the title must. Doing otherwise results 
 in an error message and the UPT file is ignored. You can set 
@@ -534,16 +538,16 @@ a literal, enclosed in quotation marks, as default. Using a variable
 name instead, although syntactically correct, doesn`'t work. 
 The variable definition is terminated by a semicolon.&]
 [s5;l160; [C text `"][/C title][C `" ][/C variable`_name][C  `[`= `"][/C default`"][C `];]&]
-[s42;l160;:5`_14`_3: [@6 5.14.3 Usage]&]
+[s42;l160;:5`_14`_3: [@6 5.14.3 Использование]&]
 [s5;l160; [C ... <: ][/C variable`_name][C  :> ...]&]
 [s5;l160; You can compare text variables and act based on the result 
 of this comparison.&]
-[s42;:5`_15: [@(128.0.255) 5.15 Undefined variables]&]
+[s42;:5`_15: [@(128.0.255) 5.15 Неопределённые переменные]&]
 [s5; Using undefined variables in syntactically correct places causes 
 no harm. Nevertheless an undefined variable has no value, even 
 not 0.&]
 [s0; &]
-[s3;:6: [@5 6. Template Dialog Layout]&]
+[s3;:6: [@5 6. Выкладка Диалогового Окна Шаблона]&]
 [s5; The `"Create in`"`-DropList always shows the currently selected 
 assembly as well as the `"uppsrc`" assembly.&]
 [s5; The templates are sorted alphabetically. If you have many templates, 
@@ -557,13 +561,13 @@ of variables is indeed limited.&]
 rectangles, but after opening the generated project files these 
 characters show up as usual.&]
 [s0; &]
-[s3;:7: [@5 7. Deployment]&]
+[s3;:7: [@5 7. Деплоймент]&]
 [s5; DinrusIDE looks in the following directories for UPT files:&]
 [s5;l160;i150;O2; MyApps&]
 [s5;l160;i150;O2; uppsrc&]
 [s5; Sub`-directories are also scanned.&]
 [s28;l0;~~~256; &]
-[s3;:8: [@5 8. Epilogue]&]
+[s3;:8: [@5 8. Эпилог]&]
 [s5; This documentation is valid for Ultimate`+`+ releases starting 
 with `"610`-dev3`".&]
 [s5; If you find any mistakes, be they just linguistic or typographic, 
@@ -573,7 +577,7 @@ so on the Ultimate`+`+ forum.&]
 [s5; If this documentation is insufficient or seems to be insufficient, 
 please say so on the Ultimate`+`+ forum.&]
 [s0; &]
-[s3;:9: [@5 9. UPP File Syntax]&]
+[s3;:9: [@5 9. Синтаксис Файла UPP]&]
 [s5; Each package has a package definition file, the name of which 
 must be the same as the name of the package folder. The extension 
 is `".upp`".&]

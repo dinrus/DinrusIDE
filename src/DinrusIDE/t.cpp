@@ -442,7 +442,7 @@ ExportTrDlg::ExportTrDlg()
 	of.Attach(folder);
 
 	charset <<= CHARSET_UTF8;
-	lang <<= LNG_ENGLISH;
+	lang <<= LNG_RUSSIAN;
 }
 
 String ExportTr(const Vector<TFile>& tfile, int& cs)

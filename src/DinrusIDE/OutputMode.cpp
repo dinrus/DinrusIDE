@@ -113,9 +113,9 @@ ModePane::ModePane()
 	package.NoHorzGrid();
 	package.SetLineCy(EditField::GetStdHeight() + 2);
 	package.NoCursor();
-	debug.Add(0, "None")
-	     .Add(1, "Minimal")
-	     .Add(2, "Full");
+	debug.Add(0, "Никакой")
+	     .Add(1, "Минимальная")
+	     .Add(2, "Полная");
 	FileSelectSaveAs(target, targetb, [=] { target_override <<= true; });
 }
 

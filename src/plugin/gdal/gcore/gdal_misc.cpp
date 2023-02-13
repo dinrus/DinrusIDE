@@ -1199,7 +1199,7 @@ int CPL_STDCALL GDALLoadTabFile( const char *pszFilename,
         }
         else if (bTypeRasterFound && bInsideTableDef
                  && CSLCount(papszTok) > 4
-                 && EQUAL(papszTok[4], "Label") 
+                 && EQUAL(papszTok[4], "Ярлык") 
                  && nCoordinateCount < MAX_GCP )
         {
             GDALInitGCPs( 1, asGCPs + nCoordinateCount );

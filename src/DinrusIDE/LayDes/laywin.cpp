@@ -190,7 +190,7 @@ void LayDes::OptionBar(Bar& bar)
 	   .Check(usegrid);
 	bar.Add("Игнорировать мин размер", LayImg::MinSize(), THISBACK(ToggleMinSize))
 	   .Check(ignoreminsize);
-	bar.Add("Resize with springs", LayImg::SizeSpring(), THISBACK(ToggleSizeSpring))
+	bar.Add("Перемеривать пружинно", LayImg::SizeSpring(), THISBACK(ToggleSizeSpring))
 	   .Check(sizespring);
 	bar.Add("Настройки..", THISBACK(Settings));
 }
@@ -226,7 +226,7 @@ void LayDes::ItemBar(Bar& bar)
 	bar.Add("Позиция", THISBACK(MoveBar));
 	bar.Add("Раскладка", THISBACK(AlignBar));
 	bar.Add("Размер", THISBACK(SizeBar));
-	bar.Add("Springs", THISBACK(SpringBar));
+	bar.Add("Пружины", THISBACK(SpringBar));
 }
 
 void LayDes::MainMenuBar(Bar& bar)

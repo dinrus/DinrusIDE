@@ -683,7 +683,7 @@ void RichQtfParser::Parse(const char *qtf, int _accesskey)
 						}
 						else
 						if(*term == '%') {
-							format.language = LNG_ENGLISH;
+							format.language = LNG_RUSSIAN;
 							term++;
 						}
 						else {

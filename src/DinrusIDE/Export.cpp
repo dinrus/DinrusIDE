@@ -29,13 +29,13 @@ void Ide::ExportProject(const String& ep, bool all, bool gui, bool deletedir)
 		}
 	}
 	if(FileExists(ep)) {
-		if(gui && !PromptYesNo(DeQtf(ep) + " is existing file.&"
-		                "Do you want to delete it?")) return;
+		if(gui && !PromptYesNo(DeQtf(ep) + " - это существующий файл.&"
+		                "Хотите его удалить?")) return;
 		FileDelete(ep);
 	}
 	if(deletedir && DirectoryExists(ep)) {
-		if(gui && !PromptYesNo(DeQtf(ep) + " is existing directory.&"
-		                "Do you want to replace it?")) return;
+		if(gui && !PromptYesNo(DeQtf(ep) + " - это существующая директория.&"
+		                "Хотите её заменить?")) return;
 		DeleteFolderDeep(ep);
 	}
 

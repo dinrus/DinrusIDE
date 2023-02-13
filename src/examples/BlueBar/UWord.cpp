@@ -255,15 +255,15 @@ void UWord::SerializeApp(Stream& s)
 
 GUI_APP_MAIN
 {
-	SetLanguage(LNG_ENGLISH);
+	SetLanguage(LNG_RUSSIAN);
 	SetDefaultCharset(CHARSET_UTF8);
 
 	InstallBlueBar();
 
-	UWordFs().Type("QTF files", "*.qtf")
+	UWordFs().Type("Файлы QTF", "*.qtf")
 	         .AllFilesType()
 	         .DefaultExt("qtf");
-	PdfFs().Type("PDF files", "*.pdf")
+	PdfFs().Type("Файлы PDF", "*.pdf")
 	       .AllFilesType()
 	       .DefaultExt("pdf");
 

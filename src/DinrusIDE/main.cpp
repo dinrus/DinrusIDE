@@ -134,7 +134,7 @@ void AppMain___()
 	Ctrl::SetDarkThemeEnabled();
 	Ctrl::SetAppName("ИСР РНЦП Динрус");
 
-	SetLanguage(LNG_ENGLISH);
+	SetLanguage(LNG_RUSSIAN);
 	SetDefaultCharset(CHARSET_UTF8);
 
 	MainCommandLineHandler cmd_handler(CommandLine());

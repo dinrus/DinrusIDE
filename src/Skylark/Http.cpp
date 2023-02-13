@@ -11,7 +11,7 @@ Http::Http(SkylarkApp& app)
 	code = 200;
 	content_type = "text/html; charset=UTF-8";
 	session_dirty = false;
-	lang = LNG_ENGLISH;
+	lang = LNG_RUSSIAN;
 	headers.Add("Server","U++");
 	headers.Add("Connection","close");
 	headers.Add("Cache-Control","no-cache");

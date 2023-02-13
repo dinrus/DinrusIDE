@@ -176,7 +176,7 @@ String StatDate(int d)
 
 void sPut(const String& name, String& qtf, const FileStat& fs)
 {
-	qtf << "::@W " << DeQtf(Nvl(name, ".<none>"))
+	qtf << "::@W " << DeQtf(Nvl(name, ".<отсутствует>"))
 	    << ":: [> " << fs.count
 	    << ":: " << fs.lines
 	    << ":: " << (fs.count ? fs.lines / fs.count : 0)

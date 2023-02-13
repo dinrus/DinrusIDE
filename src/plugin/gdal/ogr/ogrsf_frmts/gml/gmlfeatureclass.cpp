@@ -692,7 +692,7 @@ int GMLFeatureClass::InitializeFromXML( CPLXMLNode *psRoot )
             }
             else if( EQUAL(pszType,"RealList") )
                 poPDefn->SetType( GMLPT_RealList );
-            else if( EQUAL(pszType,"Complex") )
+            else if( EQUAL(pszType,"Комплекс") )
                 poPDefn->SetType( GMLPT_Complex );
             else if( EQUAL(pszType,"FeatureProperty") )
                 poPDefn->SetType( GMLPT_FeatureProperty );
@@ -880,7 +880,7 @@ CPLXMLNode *GMLFeatureClass::SerializeToXML()
             break;
             
           case GMLPT_Complex:
-            pszTypeName = "Complex";
+            pszTypeName = "Комплекс";
             break;
 
           case GMLPT_IntegerList:

@@ -139,7 +139,7 @@ public:
 
 	bool Pop(DWORD& dwAction, std::wstring& wstrFilename);
 
-	// "Push" is for usage by ReadChangesRequest.  Not intended for external usage.
+	// "Нажимные" is for usage by ReadChangesRequest.  Not intended for external usage.
 	void Push(DWORD dwAction, std::wstring& wstrFilename);
 
 	unsigned int GetThreadId() { return m_dwThreadId; }

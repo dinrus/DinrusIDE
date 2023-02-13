@@ -71,6 +71,9 @@ void IdeFileIcon0(bool dir, const String& filename, Image& img)
 		}
 	}
 	
+	if(ext == ".d" || ext == ".di")
+		img = IdeCommonImg::dlang();
+	else
 	if(ext == ".html")
 		img = IdeCommonImg::html();
 	else

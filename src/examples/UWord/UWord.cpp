@@ -281,7 +281,7 @@ void UWord::SerializeApp(Stream& s)
 GUI_APP_MAIN
 {
 	StdLogSetup(LOG_FILE|LOG_ELAPSED);
-	SetLanguage(LNG_ENGLISH);
+	SetLanguage(LNG_RUSSIAN);
 	SetDefaultCharset(CHARSET_UTF8);
 
 	UWordFs().Type("Файлы QTF", "*.qtf")

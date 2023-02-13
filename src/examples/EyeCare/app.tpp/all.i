@@ -1,4 +1,4 @@
-TOPIC("about_ru-ru")
-#include "about_ru-ru.tppi"
+TOPIC("about_en-us")
+#include "about_en-us.tppi"
 END_TOPIC
 

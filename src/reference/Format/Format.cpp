@@ -4,7 +4,7 @@ using namespace Upp;
 
 CONSOLE_APP_MAIN
 {
-	SetLanguage(LNG_ENGLISH);
+	SetLanguage(LNG_RUSSIAN);
 
 	DUMP(Format("%d, %s", 123, "TEXT"));
 	DUMP(Format("%2:s, %1:d", 123, "TEXT"));

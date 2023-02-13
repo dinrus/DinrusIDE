@@ -196,7 +196,7 @@ subctrl Base {
 	Font   SetFont = StdFont();
 	Color  SetInk = :SBlack;
 	Frame  SetFrame @1;
-//	Qtf    SetInfo @1 ? "Info of control" ;
+//	Qtf    SetInfo @1 ? "Инфо о контроле" ;
 
 	ViewRect(w) {
 		r = GetRect();
@@ -217,7 +217,7 @@ subctrl TextCtrl {
 	GetMinSize() { sz = XMinSize(); sz.cy += 2; return sz; }
 	GetStdSize() { sz = GetMinSize(); sz.cx *= 8; return sz; }
 
-	Text   SetLabel @1 ? "Label of control" ;
+	Text   SetLabel @1 ? "Ярлык контрола" ;
 
 	ViewRect(w) {
 		r = GetRect();
@@ -242,19 +242,19 @@ subctrl TextCtrl {
 };
 
 ctrl Label {
-	group "Static";
+	group "Статические";
 
 	GetMinSize() { return XMinSize(); }
 	GetStdSize() { sz = GetMinSize(); sz.cy += 6; sz.cx *= 5; return sz; }
 
 	>TextCtrl;
 
-	Doc    SetLabel @0 ? "Label of control";
+	Doc    SetLabel @0 ? "Ярлык контрола";
 	Align  SetAlign = ALIGN_LEFT @2;
 	Font   SetFont = StdFont() @2;
 	Color  SetInk = :SBlack @2;
 	Frame  SetFrame @3;
-//	Qtf    SetInfo @1 ? "Info of control" ;
+//	Qtf    SetInfo @1 ? "Инфо о контроле" ;
 
 	Paint(w) {
 		sz = ViewSize(w);
@@ -267,23 +267,23 @@ ctrl Label {
 		w.DrawSmartText(px, (sz.cy - textsize.cy) / 2, .SetLabel, .SetFont, .SetInk, sz.cx);
 	}
 	Sample() {
-		.SetLabel = "Label";
+		.SetLabel = "Ярлык";
 		.SetFont = Arial(10).Bold().Italic();
 	}
 };
 
 ctrl StaticText {
-	group "Static";
+	group "Статические";
 
 	GetMinSize() { return XMinSize(); }
 	GetStdSize() { sz = XMinSize(); sz.cy += 6; sz.cx *= 5; return sz; }
 
-	Doc    SetText ? "Label of control" ;
+	Doc    SetText ? "Ярлык контрола" ;
 	Align  SetAlign = ALIGN_LEFT;
 	Font   SetFont = StdFont();
 	Color  SetInk = :SBlack;
 	Frame  SetFrame @1;
-//	Qtf    SetInfo @1 ? "Info of control" ;
+//	Qtf    SetInfo @1 ? "Инфо о контроле" ;
 
 	ViewRect(w) {
 		r = GetRect();
@@ -312,13 +312,13 @@ ctrl StaticText {
 };
 
 ctrl LabelBox {
-	group "Static";
+	group "Статические";
 
 	GetMinSize() { return Size(0, 0); }
 	GetStdSize() { return Size(64, 24); }
 
 	>Base;
-	Text SetLabel ? "Box label" ;
+	Text SetLabel ? "Ярлык бокса" ;
 
 	Paint(w) {
 		sz = GetSize();
@@ -350,7 +350,7 @@ fn DrawClassName(w, r, text)
 }
 
 ctrl ParentCtrl {
-	group "Special";
+	group "Специальные";
 
 	GetMinSize() { return Size(0, 0); }
 	GetStdSize() { return Size(64, 24); }
@@ -368,7 +368,7 @@ ctrl ParentCtrl {
 };
 
 ctrl ImageCtrl {
-	group "Static";
+	group "Статические";
 
 	GetMinSize() { return Size(0, 0); }
 	GetStdSize() { return Size(64, 24); }
@@ -385,7 +385,7 @@ ctrl ImageCtrl {
 };
 
 ctrl DrawingCtrl {
-	group "Static";
+	group "Статические";
 
 	GetMinSize() { return Size(0, 0); }
 	GetStdSize() { return Size(64, 24); }
@@ -402,7 +402,7 @@ ctrl DrawingCtrl {
 };
 
 ctrl StaticRect {
-	group "Static";
+	group "Статические";
 
 	GetMinSize() { return Size(0, 0); }
 	GetStdSize() { return Size(64, 24); }
@@ -421,7 +421,7 @@ ctrl StaticRect {
 };
 
 ctrl DataPusher {
-	group "Push";
+	group "Нажимные";
 
 	GetStdSize() { return Size(64, 24); }
 
@@ -438,7 +438,7 @@ ctrl DataPusher {
 };
 
 ctrl ColorPusher {
-	group "Push";
+	group "Нажимные";
 
 	GetStdSize() { return Size(64, 24); }
 
@@ -472,7 +472,7 @@ ctrl ColorPusher {
 };
 
 ctrl Button {
-	group "Push";
+	group "Нажимные";
 
 	GetMinSize() { sz = XMinSize(); sz.cy += 2; return sz; }
 	GetStdSize() { sz = GetMinSize(); sz.cx *= 7; return sz; }
@@ -548,9 +548,9 @@ fn DrawOption(w, x, y, kind)
 }
 
 ctrl Option {
-	group "Push";
+	group "Нажимные";
 
-	Text   SetLabel @1 ? "Option text";
+	Text   SetLabel @1 ? "Текст опции";
 	Font   SetFont = StdFont() @1;
 	Frame  SetFrame @2;
 	bool   Box;
@@ -603,7 +603,7 @@ ctrl OptionBox {
 }
 
 ctrl Switch {
-	group "Push";
+	group "Нажимные";
 
 	GetMinSize() { sz = XMinSize(); sz.cy += 2; return sz; }
 	GetStdSize() { sz = GetMinSize(); sz.cx *= 7; sz.cy = max(16, sz.cy); return sz; }
@@ -611,7 +611,7 @@ ctrl Switch {
 	Doc    SetLabel;
 	Font   SetFont = StdFont();
 	bool   SetEditable = true @1 ? "Editable";
-//	Qtf    SetInfo @1 ? "Info of control" ;
+//	Qtf    SetInfo @1 ? "Инфо о контроле" ;
 
 	Paint(w)
 	{
@@ -710,7 +710,7 @@ ctrl Switch {
 };
 
 ctrl EditField {
-	group "Input fields";
+	group "Поля ввода";
 
 	GetMinSize() { sz = XMinSize(); sz.cy += 6; return sz; }
 	GetStdSize() { sz = GetMinSize(); sz.cx *= 8; return sz; }
@@ -741,7 +741,7 @@ ctrl EditField {
 }
 
 ctrl DocEdit {
-	group "Editors";
+	group "Редакторы";
 
 	GetMinSize() { sz = XMinSize(); sz.cy += 6; return sz; }
 	GetStdSize() { sz = GetMinSize(); sz.cx *= 8; return sz; }
@@ -751,7 +751,7 @@ ctrl DocEdit {
 	bool  SetEditable = true @1 ? "Editable";
 	bool  WantFocus = true;
 	Text  Tip @1;
-//	Qtf   SetInfo @1 ? "Info of control" ;
+//	Qtf   SetInfo @1 ? "Инфо о контроле" ;
 
 	Paint(w) {
 		r = GetRect();
@@ -771,7 +771,7 @@ ctrl DocEdit {
 }
 
 ctrl LineEdit {
-	group "Editors";
+	group "Редакторы";
 
 	GetMinSize() { sz = XMinSize(); sz.cy += 6; return sz; }
 	GetStdSize() { sz = GetMinSize(); sz.cx *= 8; return sz; }
@@ -1026,7 +1026,7 @@ fn PaintHScrollBar(w, r)
 
 
 ctrl DropList {
-	group "Input fields";
+	group "Поля ввода";
 
 	GetMinSize() { sz = XMinSize(); sz.cy += 6; return sz; }
 	GetStdSize() { sz = GetMinSize(); sz.cx *= 8; return sz; }
@@ -1038,7 +1038,7 @@ ctrl DropList {
 	bool  AlwaysDrop = false @1;
 	bool  NotNull = false;
 	Text  Tip @2;
-//	Qtf   SetInfo @1 ? "Info of control" ;
+//	Qtf   SetInfo @1 ? "Инфо о контроле" ;
 
 	Paint(w) {
 		r = GetRect();
@@ -1052,7 +1052,7 @@ ctrl DropList {
 }
 
 ctrl DropTree {
-	group "Input fields";
+	group "Поля ввода";
 
 	GetMinSize() { sz = XMinSize(); sz.cy += 6; return sz; }
 	GetStdSize() { sz = GetMinSize(); sz.cx *= 8; return sz; }
@@ -1065,7 +1065,7 @@ ctrl DropTree {
 	bool  DropFocus = false;
 	bool  AlwaysDrop = false @1;
 	Text  Tip @2;
-//	Qtf   SetInfo @1 ? "Info of control" ;
+//	Qtf   SetInfo @1 ? "Инфо о контроле" ;
 
 	Paint(w) {
 		r = GetRect();
@@ -1108,13 +1108,13 @@ fn PaintTab(w, x, y, text, color)
 }
 
 ctrl TabCtrl {
-	group "Complex";
+	group "Комплекс";
 
 	GetStdSize() { return Size(150, 100); }
 
 //	Font SetFont = StdFont();
 	bool AcceptCurrent = false;
-//	Qtf  SetInfo @1 ? "Info of control" ;
+//	Qtf  SetInfo @1 ? "Инфо о контроле" ;
 
 	Paint(w) {
 		r = GetRect();
@@ -1153,7 +1153,7 @@ fn PaintCenterText(w, x, y, text, fnt, color)
 }
 
 ctrl ArrayCtrl {
-	group "Complex";
+	group "Комплекс";
 
 	GetStdSize() { return Size(150, 100); }
 	Frame SetFrame = default @1;
@@ -1174,7 +1174,7 @@ ctrl ArrayCtrl {
 	bool MultiSelect = false;
 	int  SetLineCy;
 
-//	Qtf  SetInfo @1 ? "Info of control" ;
+//	Qtf  SetInfo @1 ? "Инфо о контроле" ;
 
 	Paint(w) {
 		PaintArray(w, GetRect());
@@ -1235,12 +1235,12 @@ fn DrawTreeItem(w, x, y, text, kind)
 }
 
 ctrl TreeCtrl {
-	group "Complex";
+	group "Комплекс";
 
 	GetStdSize() { return Size(150, 100); }
 	Frame SetFrame = default @1;
 
-//	Qtf  SetInfo @1 ? "Info of control" ;
+//	Qtf  SetInfo @1 ? "Инфо о контроле" ;
 
 	Paint(w) {
 		r = GetRect();
@@ -1261,12 +1261,12 @@ ctrl TreeCtrl {
 };
 
 ctrl ColumnList {
-	group "Complex";
+	group "Комплекс";
 
 	GetStdSize() { return Size(150, 100); }
 	Frame SetFrame = default @1;
 
-//	Qtf  SetInfo @1 ? "Info of control" ;
+//	Qtf  SetInfo @1 ? "Инфо о контроле" ;
 
 	Paint(w) {
 		r = GetRect();
@@ -1281,7 +1281,7 @@ ctrl ColumnList {
 };
 
 ctrl RichTextView {
-	group "Complex";
+	group "Комплекс";
 
 	GetMinSize() { sz = XMinSize(); sz.cy += 6; return sz; }
 	GetStdSize() { sz = GetMinSize(); sz.cx *= 8; return sz; }
@@ -1303,7 +1303,7 @@ ctrl RichTextView {
 }
 
 ctrl RichTextCtrl {
-	group "Static";
+	group "Статические";
 
 	>RichTextView;
 
@@ -1325,7 +1325,7 @@ ctrl RichTextCtrl {
 }
 
 ctrl DropDate {
-	group "Input fields";
+	group "Поля ввода";
 
 	GetMinSize() { sz = XMinSize(); sz.cy += 6; return sz; }
 	GetStdSize() { sz = GetMinSize(); sz.cx *= 13; return sz; }
@@ -1351,7 +1351,7 @@ ctrl DropDate {
 }
 
 ctrl DropTime {
-	group "Input fields";
+	group "Поля ввода";
 
 	GetMinSize() { sz = XMinSize(); sz.cy += 6; return sz; }
 	GetStdSize() { sz = GetMinSize(); sz.cx *= 15; return sz; }
@@ -1398,7 +1398,7 @@ fn DrawHorzArrow(ww, r, dir)
 }
 
 ctrl Clock {
-	group "Input fields";
+	group "Поля ввода";
 	GetMinSize() { return Size(150, 156); }
 	GetStdSize() { return Size(150, 156); }
 	Frame SetFrame = BlackFrame() @2;
@@ -1485,7 +1485,7 @@ ctrl Clock {
 }
 
 ctrl Calendar {
-	group "Input fields";
+	group "Поля ввода";
 
 	GetMinSize() { return Size(180, 120); }
 	GetStdSize() { return Size(236, 156); }
@@ -1575,7 +1575,7 @@ ctrl Calendar {
 }
 
 ctrl SliderCtrl {
-	group "Progress";
+	group "Индикаторы прогресса";
 
 	GetMinSize() { return Size(0, 0); }
 	GetStdSize() { return Size(64, 24); }
@@ -1607,7 +1607,7 @@ ctrl SliderCtrl {
 }
 
 ctrl ProgressIndicator {
-	group "Progress";
+	group "Индикаторы прогресса";
 
 	GetMinSize() { return Size(0, 0); }
 	GetStdSize() { return Size(64, 24); }

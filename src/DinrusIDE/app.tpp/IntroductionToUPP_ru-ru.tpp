@@ -8,19 +8,30 @@ topic "Введение в U++";
 [s1; [@(128.0.255) Введение в U`+`+]&]
 [s0; &]
 [s0; &]
-[s2; Welcome to U`+`+.&]
-[s3; U`+`+ is both an application framework (class library for Win32 
-and Linux) as well as a complete development tool including RAD 
-GUI designer, source editor, image editor, code documenting tool, 
-and C`+`+ project builder.  It also provides a powerful `"C`-like`" 
-scripting language (ESC) enabling you to provide end user extensibility 
-and customization of your own applications, as well as extend 
-DinrusIDE (the U`+`+ IDE)&]
+[s2; Добро Пожаловать в U`+`+.&]
+[s3; U`+`+ вместе представляет собой как 
+фреймоворк для приложений (библиотеку 
+классов для Win32 и Linux), так и полный 
+инструментарий разработки, включая 
+дизайнер RAD GUI, редактор исходного 
+кода, редактор изображений, инструмент 
+документирования кода и построитель 
+проектов на C`+`+ и других языках. Также 
+он предоставляет мощный `"C`-подобный`" 
+язык сценариев (ESC), позволяющий конечному 
+пользователю предоставлять расширяемость 
+и кастомизацию собственных приложений, 
+в также расширять саму DinrusIDE (the U`+`+ 
+IDE)&]
 [s3; &]
-[s3; This topic describes the key concepts of U`+`+ to help you get 
-started as quickly as possible.  If you want to try out U`+`+ 
-before reading any further, you can build and run the HelloWorld 
-example and read the HelloWorld tutorial [@(255.42.0) here (fix)].&]
+[s3; В этой тематике описаны ключевые 
+концепты U`+`+, чтобы помочь вам начать 
+работу, как можно быстрее. Если вы 
+желаете испробовать U`+`+ до того, как 
+продолжите чтение, можете построить 
+и запустить пример HelloWorld, а также 
+прочесть руководство по HelloWorld здесь[@(255.42.0)  
+(fix)].&]
 [s0; &]
 [s0; &]
 [s2; [_ DinrusIDE]&]
@@ -40,7 +51,7 @@ DinrusIDE, [^topic`:`/`/DinrusIDE`/app`/Intro`_DinrusIDE`$en`-us^ see
 this][@(226.42.0) .]&]
 [s0; &]
 [s0; &]
-[s2; Packages, assemblies and nests&]
+[s2; Пакеты, сборки и гнёзда&]
 [s3; Packages are centric to U`+`+.  An executable application is 
 built from a package.  A package can also build into a dynamic 
 link library, a static library, or a set of object files.  A 

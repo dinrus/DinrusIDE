@@ -235,13 +235,13 @@ AStyleSetupDialog::AStyleSetupDialog(Ide *_ide)
 {
 	ide = _ide;
 
-	BracketFormatMode.Add(astyle::NONE_MODE, "none");
-	BracketFormatMode.Add(astyle::ATTACH_MODE, "attach");
-	BracketFormatMode.Add(astyle::BREAK_MODE, "break");
-	ParensPaddingMode.Add(astyle::PAD_NONE, "no space pad around parenthesis");
-	ParensPaddingMode.Add(astyle::PAD_INSIDE, "pad parenthesis inside with space");
-	ParensPaddingMode.Add(astyle::PAD_OUTSIDE, "pad parenthesis outside with space");
-	ParensPaddingMode.Add(astyle::PAD_BOTH, "pad both parenthesis sides with spaces");
+	BracketFormatMode.Add(astyle::NONE_MODE, "отсутствует");
+	BracketFormatMode.Add(astyle::ATTACH_MODE, "прикрепить");
+	BracketFormatMode.Add(astyle::BREAK_MODE, "брейк");
+	ParensPaddingMode.Add(astyle::PAD_NONE, "без пространств-отступов вокруг парентез");
+	ParensPaddingMode.Add(astyle::PAD_INSIDE, "отступ пробелом внутри парентез");
+	ParensPaddingMode.Add(astyle::PAD_OUTSIDE, "отступ пробелом снаружи парентез");
+	ParensPaddingMode.Add(astyle::PAD_BOTH, "отступ пробелом с обеих сторон парентез");
 
 	Test <<= THISBACK(AstyleTest);
 	Defaults << THISBACK(UppDefaults);
@@ -395,20 +395,20 @@ void Ide::SetupFormat() {
 	edt.lineends
 		.Add(LF, "LF")
 		.Add(CRLF, "CRLF")
-		.Add(DETECT_LF, "Detect with default LF")
-		.Add(DETECT_CRLF, "Detect with default CRLF");
+		.Add(DETECT_LF, "Обнаружить с дефолтом LF")
+		.Add(DETECT_CRLF, "Обнаружить с дефолтом CRLF");
 	
 	edt.filetabs
-		.Add(AlignedFrame::LEFT, "Left")
-		.Add(AlignedFrame::TOP, "Top")
-		.Add(AlignedFrame::RIGHT, "Right")
-		.Add(AlignedFrame::BOTTOM, "Bottom")
-		.Add(-1, "Off");
+		.Add(AlignedFrame::LEFT, "Слева")
+		.Add(AlignedFrame::TOP, "Вверху")
+		.Add(AlignedFrame::RIGHT, "Справа")
+		.Add(AlignedFrame::BOTTOM, "Внизу")
+		.Add(-1, "Отключить");
 		
 	edt.tabs_crosses
-		.Add(AlignedFrame::LEFT, "Left")
-		.Add(AlignedFrame::RIGHT, "Right")
-		.Add(-1, "Off");
+		.Add(AlignedFrame::LEFT, "Слева")
+		.Add(AlignedFrame::RIGHT, "Справа")
+		.Add(-1, "Отключить");
 	
 	dlg.Add(fnt, "Шрифты");
 	dlg.Add(hlt, "Подсветка синтаксиса");

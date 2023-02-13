@@ -438,7 +438,7 @@ void Http::Dispatch(TcpSocket& socket)
 					if(id != (*this)[".__identity__"])
 						throw AuthExc("identity error");
 				}
-				lang = Nvl(Int(".__lang__"), LNG_ENGLISH);
+				lang = Nvl(Int(".__lang__"), LNG_RUSSIAN);
 				Upp::SetLanguage(lang);
 				var.GetAdd(".__lang__") = lang;
 				var.GetAdd(".language") = ToLower(LNGAsText(lang));

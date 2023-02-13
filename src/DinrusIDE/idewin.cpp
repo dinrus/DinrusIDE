@@ -502,7 +502,7 @@ Ide::Ide()
 #else
 	line_endings = DETECT_CRLF;
 #endif
-	spellcheck_comments = LNG_ENGLISH;
+	spellcheck_comments = LNG_RUSSIAN;
 	wordwrap_comments = true;
 #ifdef PLATFORM_COCOA
 	setmain_newide = true;

@@ -14,6 +14,7 @@
 *****************************************************************************/
 
 #include "../ocx/stdafx.h"
+#include <Core/Core.h>
 
 // Texts of option feedback. Adding or removing leading underscores on symbols
 SIntTxt UnderscoreOptionNames[] = {

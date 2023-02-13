@@ -14,6 +14,7 @@ int     SetLNGCharset(int lng, byte chrset);
 #ifdef DEPRECATED
 #define LNG_CZECH         0xF1CC7A // corresponds to CS-CZ windows-1250
 #define LNG_ENGLISH       0x2BAB3  // LNG_('E', 'N', 'U', 'S')
+#define LNG_RUSSIAN		  LNG_('R','U','R','U')
 #endif
 
 #define LNG_CURRENT       0

@@ -767,7 +767,7 @@ void LayDes::CreateCtrl(const String& _type)
 			type.SetFocus();
 		else {
 			int q = m.FindProperty("SetLabel");
-			if(q >= 0 && findarg(_type, "Label", "LabelBox") >= 0)
+			if(q >= 0 && findarg(_type, "Ярлык", "LabelBox") >= 0)
 				m.property[q].PlaceFocus(0, 0);
 			else
 				variable.SetFocus();
@@ -1162,11 +1162,11 @@ void LayDes::Align(int type)
 			r.SetSize(r.Width(), m.GetMinSize().cy);
 			break;
 		case A_LABEL:
-			if(m.type == "Label") {
+			if(m.type == "Ярлык") {
 				Rect rr = r;
 				int q = cursor[i] - 1;
 				while(q >= 0) {
-					if(l.item[q].type != "Label") {
+					if(l.item[q].type != "Ярлык") {
 						rr = CtrlRect(l.item[q].pos, l.size);
 						break;
 					}
@@ -1174,7 +1174,7 @@ void LayDes::Align(int type)
 				}
 				q = cursor[i] + 1;
 				while(q < l.item.GetCount()) {
-					if(l.item[q].type != "Label") {
+					if(l.item[q].type != "Ярлык") {
 						rr = CtrlRect(l.item[q].pos, l.size);
 						break;
 					}

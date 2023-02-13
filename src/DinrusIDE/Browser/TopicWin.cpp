@@ -41,7 +41,7 @@ TopicEditor::TopicEditor()
 	editor.Disable();
 	title.Disable();
 
-	lastlang = LNG_ENGLISH;
+	lastlang = LNG_RUSSIAN;
 
 	allfonts = false;
 
@@ -296,7 +296,7 @@ bool TopicEditor::NewTopicEx(const String& iname, const String& create)
 
 	Vector<String> path, name;
 	ListTemplates(path, name);
-	d.tmpl.Add(Null, "<none>");
+	d.tmpl.Add(Null, "<отсутствует>");
 	for(int i = 0; i < path.GetCount(); i++)
 		d.tmpl.Add(path[i], name[i]);
 

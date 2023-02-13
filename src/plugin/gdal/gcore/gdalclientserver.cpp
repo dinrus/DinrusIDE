@@ -251,7 +251,7 @@ static const char* apszInstr[] =
     "EXIT",
     "FAIL",
     "SetConfigOption",
-    "Progress",
+    "Индикаторы прогресса",
     "Reset",
     "Open",
     "Identify",

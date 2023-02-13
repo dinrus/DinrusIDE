@@ -43,6 +43,6 @@ HelloWorld::HelloWorld()
 
 GUI_APP_MAIN
 {
-	SetLanguage(LNG_ENGLISH);
+	SetLanguage(LNG_RUSSIAN);
 	HelloWorld().Run();
 }

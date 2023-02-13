@@ -69,7 +69,7 @@ void RichEdit::SetStyle()
 		cs.format.sscript = 0;
 		cs.format.link.Clear();
 		cs.format.indexentry.Clear();
-		cs.format.language = LNG_ENGLISH;
+		cs.format.language = LNG_RUSSIAN;
 		cs.format.label.Clear();
 
 		Uuid id;

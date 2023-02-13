@@ -174,39 +174,39 @@ void IconDes::DrawBar(Bar& bar)
 	bar.Add("Заполнить", fill_cursor, [=] { SetTool(&IconDes::FillTool); })
 	   .Check(tool == &IconDes::FillTool && notpasting)
 	   .Tip("Заполнить (Shift+Click)");
-	bar.Add("Fill with small tolerance", fill_cursor2, [=] { SetTool(&IconDes::Fill2Tool); })
+	bar.Add("Заполить с малой толерантностью", fill_cursor2, [=] { SetTool(&IconDes::Fill2Tool); })
 	   .Check(tool == &IconDes::Fill2Tool && notpasting)
-	   .Tip("Fill with small tolerance (Ctrl+Click)");
-	bar.Add("Fill with large tolerance", fill_cursor3, [=] { SetTool(&IconDes::Fill3Tool); })
+	   .Tip("Заполить с малой толерантностью (Ctrl+Click)");
+	bar.Add("Заполить с большой толерантностью", fill_cursor3, [=] { SetTool(&IconDes::Fill3Tool); })
 	   .Check(tool == &IconDes::Fill3Tool && notpasting)
-	   .Tip("Fill with large tolerance (Alt+Click)");
-	bar.Add("Antifill", antifill_cursor, [=] { SetTool(&IconDes::AntiFillTool); })
+	   .Tip("Заполить с большой толерантностью (Alt+Click)");
+	bar.Add("Антизаполнение", antifill_cursor, [=] { SetTool(&IconDes::AntiFillTool); })
 	   .Check(tool == &IconDes::AntiFillTool && notpasting)
-	   .Tip("Antifill (Shift+Ctrl+Click)");
+	   .Tip("Антизаполнение (Shift+Ctrl+Click)");
 	bar.Separator();
 	for(int i = 1; i <= 6; i++)
-		bar.Add("Pen " + AsString(i), IconDesImg::Get(IconDesImg::I_Pen1 + i - 1), THISBACK1(SetPen, i))
+		bar.Add("Перо " + AsString(i), IconDesImg::Get(IconDesImg::I_Pen1 + i - 1), THISBACK1(SetPen, i))
 		   .Check(pen == i)
 		   .Key(K_1 + i - 1);
 	bar.Separator();
 	Slot *c = IsCurrent() ? &Current() : NULL;
-	bar.Add(c && c->image.GetLength() < 256 * 256, "Smart Upscale 2x",
+	bar.Add(c && c->image.GetLength() < 256 * 256, "Смарт-увеличение 2x",
 	        IconDesImg::Upscale(), THISBACK(Upscale))
 	   .Key(AK_RESIZEUP2);
-	bar.Add(c && c->image.GetLength() < 256 * 256, "Resize Up 2x",
+	bar.Add(c && c->image.GetLength() < 256 * 256, "Увеличить 2x",
 	        IconDesImg::ResizeUp2(), THISBACK(ResizeUp2))
 	   .Key(AK_RESIZEUP2);
-	bar.Add(c, "Supersample 2x", IconDesImg::ResizeDown2(), THISBACK(ResizeDown2))
+	bar.Add(c, "Суперсэмпл 2x", IconDesImg::ResizeDown2(), THISBACK(ResizeDown2))
 	   .Key(AK_RESIZEDOWN2);
-	bar.Add(c && c->image.GetLength() < 256 * 256, "Resize Up 3x",
+	bar.Add(c && c->image.GetLength() < 256 * 256, "Увеличить 3x",
 	        IconDesImg::ResizeUp(), THISBACK(ResizeUp))
        .Key(AK_RESIZEUP3);
-	bar.Add(c, "Supersample 3x", IconDesImg::ResizeDown(), THISBACK(ResizeDown))
+	bar.Add(c, "Суперсэмпл 3x", IconDesImg::ResizeDown(), THISBACK(ResizeDown))
 	   .Key(AK_RESIZEDOWN3);
-	bar.Add("Show UHD/Dark syntetics", IconDesImg::ShowOther(),
+	bar.Add("Показать синтетику UHD/Dark", IconDesImg::ShowOther(),
 	        [=] { show_other = !show_other; show_small = false; SyncShow(); SetBar(); })
 	   .Check(show_other);
-	bar.Add("Show downscaled", IconDesImg::ShowSmall(),
+	bar.Add("Показать уменьшенным", IconDesImg::ShowSmall(),
 	        [=] { show_small = !show_small; show_other = false; SyncShow(); SetBar(); })
 	   .Check(show_small);
 	bar.Separator();

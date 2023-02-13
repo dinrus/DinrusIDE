@@ -42,7 +42,7 @@ static const INGR_FormatDescription INGR_FormatTable[] = {
     {Integers32Bit,           "Integers 32Bit",              GDT_Int32},
     {FloatingPoint32Bit,      "Floating Point 32Bit",        GDT_Float32},
     {FloatingPoint64Bit,      "Floating Point 64Bit",        GDT_Float64},
-    {Complex,                 "Complex",                     GDT_CFloat32},
+    {Complex,                 "Комплекс",                     GDT_CFloat32},
     {DoublePrecisionComplex,  "Double Precision Complex",    GDT_CFloat64},
     {RunLengthEncoded,        "Run Length Encoded Bitonal",  GDT_Byte},
     {RunLengthEncodedC,       "Run Length Encoded Color",    GDT_Byte},

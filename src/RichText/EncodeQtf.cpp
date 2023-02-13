@@ -479,7 +479,7 @@ String   AsQTF(const RichText& text, byte charset, dword options)
 	RichPara::Format dpf;
 	dpf.Face(Font::ARIAL);
 	dpf.Height(100);
-	dpf.language = LNG_ENGLISH;
+	dpf.language = LNG_RUSSIAN;
 
 	bool crlf = options & QTF_CRLF;
 

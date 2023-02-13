@@ -4,8 +4,7 @@ noblitz;
 
 options(CLANG) "--std=c++17 -Wpedantic -Wall -Os --emit-static-lib";
 
-link
-	"-loleaut32 -lole32 -lgdi32 -limm32 -luuid -lmsimg32";
+link(WIN32 WIN64) "-loleaut32 -lole32 -lgdi32 -limm32 -luuid -lmsimg32";
 
 file
 	"Заголовочники" readonly separator,

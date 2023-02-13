@@ -207,7 +207,7 @@ Puzzle::Puzzle()
 	size = Size(4, 4);
 	AddFrame(menu);
 	AddFrame(status);
-	lang = LNG_ENGLISH;
+	lang = LNG_RUSSIAN;
 	Init();
 	BackPaint();
 }

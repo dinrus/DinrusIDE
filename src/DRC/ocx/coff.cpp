@@ -83,7 +83,7 @@ SIntTxt COFFStorageClassNames[] = {
    {COFF_CLASS_STATIC, "Static/Nonpublic"},
    {COFF_CLASS_REGISTER, "Register"},
    {COFF_CLASS_EXTERNAL_DEF, "ExternalDef"},
-   {COFF_CLASS_LABEL, "Label"},
+   {COFF_CLASS_LABEL, "Ярлык"},
    {COFF_CLASS_UNDEFINED_LABEL, "UndefLabel"},
    {COFF_CLASS_MEMBER_OF_STRUCTURE, "StructMem"},
    {COFF_CLASS_ARGUMENT, "FuncArgument"},

@@ -1,4 +1,4 @@
-HELP_TOPIC_BEGIN("DlgPathStyleMap", LNG_ENGLISH, "Styly èar")
+HELP_TOPIC_BEGIN("DlgPathStyleMap", LNG_RUSSIAN, "Styly èar")
 	HELP_TOPIC_TEXT(
 	"[ [A@0+84 Dialog slouží k výbìru stylu èáry nebo editaci stylù \r\n"
 	"èar. V dialogu se zobrazují všechny styly èar, které jsou právì \r\n"

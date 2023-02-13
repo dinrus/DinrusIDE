@@ -243,10 +243,10 @@ CONSOLE_APP_MAIN
 	gui.Create(RectC(100, 100, 1024, 768), "SDL2GL Virtual Gui Test");
 
 	RunVirtualGui(gui, [] {
-		SetLanguage(LNG_ENGLISH);
+		SetLanguage(LNG_RUSSIAN);
 		SetDefaultCharset(CHARSET_UTF8);
 	
-		UWordFs().Type("QTF files", "*.qtf")
+		UWordFs().Type("Файлы QTF", "*.qtf")
 		         .AllFilesType()
 		         .DefaultExt("qtf");
 	

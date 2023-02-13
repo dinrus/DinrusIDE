@@ -54,7 +54,7 @@ public:
 	
 	const VectorMap<String, Value>& Variables() const    { return var; }
 	
-	Renderer()               { lang = LNG_ENGLISH; }
+	Renderer()               { lang = LNG_RUSSIAN; }
 	virtual ~Renderer();
 };
 

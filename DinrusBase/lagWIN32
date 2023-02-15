@@ -1,0 +1,5874 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>std.uni</title>
+    <style type="text/css" media="screen">
+      html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p,
+      blockquote, pre, a, abbr, address, cite, code, del, dfn, em, figure,
+      img, ins, kbd, q, s, samp, small, strong, sub, sup, var, b, u, i, dl,
+      dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption,
+      tbody, tfoot, thead, tr, th, td {
+        background: transparent none repeat scroll 0 0;
+        border: 0 none;
+        font-size: 100%;
+        margin: 0;
+        outline: 0 none;
+        padding: 0;
+        vertical-align: baseline;
+      }
+
+      h1 { font-size: 200%; }
+      h2 { font-size: 160%; }
+      h3 { font-size: 120%; }
+      h4 { font-size: 100%; }
+      h5 { font-size: 80%; }
+      h6 { font-size: 80%; font-weight: normal; }
+
+      ul, ol {
+        margin: 1.4em 0;
+      }
+      ul ul, ol ol, ul ol, ol ul {
+        margin-top: 0;
+        margin-bottom: 0;
+      }
+      ul, ol {
+        margin-left: 2.8em;
+      }
+
+      ol {
+        list-style: decimal;
+      }
+      ol ol {
+        list-style: lower-alpha;
+      }
+      ol ol ol {
+        list-style: lower-roman;
+      }
+      ol ol ol ol {
+        list-style: decimal;
+      }
+
+      blockquote {
+        margin: 0.1em;
+        margin-left: 1em;
+        border-left: 2px solid #cccccc;
+        padding-left: 0.7em;
+      }
+
+      .color_red { color: #dc322f; }
+      .color_blue { color: #268bd2; }
+      .color_green { color: #859901; }
+      .color_yellow { color: #b58901; }
+      .color_black { color: black; }
+      .color_white { color: white; }
+
+      .font_big {
+        font-size: 1.2em;
+      }
+
+      .ddoc_section_h {
+        font-weight: bold;
+        font-size: 13px;
+        line-height: 19.5px;
+        margin-top: 11px;
+        display: block;
+      }
+
+      body.dlang .dlang {
+        display: inline-block;
+      }
+
+      body.dlang .declaration .dlang {
+          display: block;
+      }
+
+      body.dlang .ddoc_header_anchor a.dlang {
+        display: block;
+        color: rgba(0, 136, 204, 1);
+        text-decoration: none;
+      }
+
+      body.dlang .ddoc_header_anchor .code {
+        color: rgba(0, 136, 204, 1);
+      }
+
+      #ddoc_main .module {
+          border-color: currentColor rgba(233, 233, 233, 1) rgba(233, 233, 233, 1);
+          border-style: none solid solid;
+          border-width: 0 1px 1px;
+          overflow-x: hidden;
+          padding: 15px;
+      }
+
+      #ddoc_main .section .section {
+        margin-top: 0;
+      }
+
+      #ddoc_main .ddoc_module_members_section {
+          padding: 1px 0 0;
+          transition: transform 0.3s ease 0s;
+      }
+
+      #ddoc_main .ddoc_member, #ddoc_main .ddoc_module_members section.intro {
+          background: #fff none repeat scroll 0 0;
+          list-style-type: none;
+          width: 100%;
+      }
+
+      #ddoc_main .ddoc_header_anchor {
+          font-size: 1.4em;
+          transition: transform 0.3s ease 0s;
+      }
+
+      #ddoc_main .ddoc_header_anchor > .code {
+          display: inline-block;
+
+      }
+
+      #ddoc_main .ddoc_decl {
+        background-color: transparent;
+        height: 100%;
+        left: 0;
+        top: 0;
+        padding: 0;
+        padding-left: 15px;
+      }
+
+      #ddoc_main .ddoc_decl .section, #ddoc_main .section.ddoc_sections {
+        background: white none repeat scroll 0 0;
+        margin: 0;
+        padding: 5px;
+        position: relative;
+        border-radius: 5px;
+      }
+
+      #ddoc_main .ddoc_decl .section h4:first-of-type, #ddoc_main .section.ddoc_sections h4:first-of-type {
+        font-size: 13px;
+        line-height: 1.5;
+        margin-top: 21px;
+      }
+
+      #ddoc_main .section .declaration {
+          margin-top: 21px;
+      }
+
+      #ddoc_main .section .declaration .code {
+          color: rgba(0, 0, 0, 1);
+          margin-bottom: 15px;
+          padding-bottom: 6px;
+      }
+
+      #ddoc_main .declaration div .para {
+          margin-bottom: 0;
+      }
+
+      #ddoc_main .ddoc_params .graybox tr td:first-of-type {
+        padding: 7px;
+        text-align: right;
+        vertical-align: top;
+        word-break: normal;
+        white-space: nowrap;
+      }
+
+      #ddoc_main .ddoc_params .graybox {
+        border: 0 none;
+      }
+
+      #ddoc_main .ddoc_params .graybox td {
+        border-color: rgba(214, 214, 214, 1);
+      }
+
+      #ddoc_main .ddoc_params .graybox tr:first-child > td {
+        border-top: 0 none;
+      }
+
+      #ddoc_main .ddoc_params .graybox tr:last-child > td {
+        border-bottom: 0 none;
+      }
+
+      #ddoc_main .ddoc_params .graybox tr > td:first-child {
+        border-left: 0 none;
+      }
+
+      #ddoc_main .ddoc_params .graybox tr > td:last-child {
+        border-right: 0 none;
+        width: 100%;
+      }
+
+      #ddoc_main em.term, #ddoc_main em.term .code {
+        color: rgba(65, 65, 65, 1);
+        font-size: 12px;
+        font-style: italic;
+        line-height: 1.5;
+      }
+
+      #ddoc_main .see-also {
+        cursor: pointer;
+        font-family: Menlo,monospace;
+      }
+
+      #ddoc_main .ddoc_decl .section > div:last-of-type {
+        margin-bottom: 15px;
+      }
+
+      #ddoc_main .ddoc_member, #ddoc_main .ddoc_module_members {
+          transition: transform 0.3s ease 0s;
+      }
+
+      #ddoc_main .code_sample {
+        background: inherit;
+      }
+
+      #ddoc_main .declaration .code-line {
+          display: block;
+          font: 1em Menlo,monospace;
+      }
+
+      #ddoc_main a[name] {
+        margin: -112px 0 0;
+        padding-top: 112px;
+      }
+
+      #ddoc_main .ddoc_decl td {
+        max-width: inherit;
+      }
+
+      #ddoc_main .declaration a {
+        color: inherit;
+      }
+
+      #ddoc_main .declaration a:hover {
+          color: rgba(0, 136, 204, 1);
+          text-decoration: underline;
+      }
+
+      body.ddoc {
+        background-color: transparent;
+        color: rgba(0, 0, 0, 1);
+        font-family: Helvetica,Arial,sans-serif;
+        font-size: 62.5%;
+        margin: 0;
+        border: 0;
+        left: 0;
+        top: 0;
+        padding: 0;
+      }
+
+      .ddoc a[name] {
+        display: block;
+        height: 0;
+        margin: -85px 0 0;
+        padding-top: 85px;
+        width: 0;
+      }
+
+      .ddoc .module {
+          border-color: transparent;
+          background-color: rgba(255, 255, 255, 1);
+          border-color: currentColor rgba(233, 233, 233, 1) rgba(233, 233, 233, 1);
+          border-image: none;
+          border-style: none solid solid;
+          border-width: 0 1px 1px;
+          box-shadow: 0 0 1px rgba(0, 0, 0, 0.07);
+          display: block;
+          margin-left: 0;
+          min-height: calc(100% - 173px);
+          overflow: auto;
+          padding-bottom: 100px;
+      }
+
+      .ddoc .content_wrapper {
+          background-color: rgba(242, 242, 242, 1);
+          margin: 0 auto;
+          max-width: 980px;
+      }
+
+      .ddoc .section {
+        padding: 15px 25px 30px;
+      }
+
+      .ddoc .section .section {
+        margin: 30px 0 0;
+        padding: 0;
+      }
+
+      .ddoc .para {
+        color: rgba(65, 65, 65, 1);
+        font-size: 1.4em;
+        line-height: 145%;
+        margin-bottom: 15px;
+      }
+
+      .ddoc .ddoc_examples .para {
+        margin-bottom: 0;
+      }
+
+      .ddoc .module_name {
+          color: rgba(0, 0, 0, 1);
+          display: block;
+          font-family: Helvetica;
+          font-size: 2.8em;
+          font-weight: 100;
+          margin-bottom: 0;
+          padding: 15px 0;
+      }
+
+      .ddoc .module a {
+          color: rgba(0, 136, 204, 1);
+          text-decoration: none;
+      }
+
+      .ddoc .code {
+        color: rgba(128, 128, 128, 1);
+        font-family: Menlo,monospace;
+        font-size: 0.85em;
+        word-wrap: break-word;
+      }
+
+      .ddoc .code i {
+        font-style: normal;
+      }
+
+      .ddoc .code .code {
+        font-size: 1em;
+      }
+
+      .ddoc .code_sample {
+        background-clip: padding-box;
+        margin: 1px 0;
+        text-align: left;
+      }
+
+      .ddoc .code_sample {
+        display: block;
+        font-size: 1.4em;
+        margin-left: 21px;
+      }
+
+      .ddoc ol .code_sample {
+        font-size: 1em;
+      }
+
+      .ddoc .code_lines {
+        counter-reset: li;
+        line-height: 1.6em;
+        list-style: outside none none;
+        margin: 0;
+        padding: 0;
+      }
+
+      .ddoc .code_listing .code_sample div {
+        margin-left: 13px;
+        width: 93%;
+      }
+
+      .ddoc .code_listing .code_sample div .code_lines li {
+        list-style-type: none;
+        margin: 0;
+        padding-right: 10px;
+      }
+
+      .ddoc .code_sample div .code_lines li::before {
+        margin-left: -33px;
+        margin-right: 25px;
+      }
+
+      .ddoc .code_sample div .code_lines li:nth-child(n+10)::before {
+        margin-left: -39px;
+        margin-right: 25px;
+      }
+
+      .ddoc .code_sample div .code_lines li:nth-child(n+100)::before {
+        margin-left: -46px;
+        margin-right: 25px;
+      }
+
+      .ddoc .code_sample .code_lines .code {
+        color: #000;
+      }
+
+      .ddoc div.dlang {
+        margin: 10px 0 21px;
+        padding: 4px 0 2px 10px;
+      }
+
+      .ddoc div.dlang {
+          margin: 10px 0 21px;
+          padding: 4px 0 2px 10px;
+      }
+
+      .ddoc div.dlang {
+        border-left: 5px solid rgba(0, 155, 51, 0.2);
+      }
+
+      .ddoc .code_lines li::before {
+        color: rgba(128, 128, 128, 1);
+        content: counter(li, decimal);
+        counter-increment: li;
+        font-family: Menlo,monospace;
+        font-size: 0.9em;
+        margin-right: 16px;
+      }
+
+      .ddoc .code_lines li {
+        padding-left: 0;
+        white-space: pre-wrap;
+      }
+
+      .ddoc .code_lines li:only-of-type::before {
+        color: rgba(255, 255, 255, 1);
+        content: " ";
+      }
+
+      .ddoc .code_lines li:only-of-type {
+        color: rgba(255, 255, 255, 1);
+        content: " ";
+      }
+
+      .ddoc .code_lines li:nth-child(n+10) {
+        text-indent: -17px;
+      }
+
+      .ddoc .code_lines li:nth-child(n+10)::before {
+        margin-right: 12px;
+      }
+
+      .ddoc .graybox {
+        border: 1px solid rgba(233, 233, 233, 1);
+        border-collapse: collapse;
+        border-spacing: 0;
+        empty-cells: hide;
+        margin: 20px 0 36px;
+        text-align: left;
+      }
+
+      .ddoc .graybox p {
+        margin: 0;
+        min-width: 50px;
+      }
+
+      .ddoc th {
+        margin: 0;
+        max-width: 260px;
+        padding: 5px 10px 5px 10px;
+        vertical-align: bottom;
+      }
+
+      .ddoc td {
+        border: 1px solid rgba(233, 233, 233, 1);
+        margin: 0;
+        max-width: 260px;
+        padding: 5px 10px 5px 10px;
+        vertical-align: middle;
+      }
+
+      .punctuation {
+        color: rgba(0, 0, 0, 1);
+      }
+
+      .comment {
+        color: rgba(0, 131, 18, 1);
+      }
+
+      .operator {
+        color: #000;
+      }
+
+      .keyword {
+        color: rgba(170, 13, 145, 1);
+      }
+
+      .keyword_type {
+        color: rgba(170, 51, 145, 1);
+      }
+
+      .string_literal {
+        color: rgba(196, 26, 22, 1);
+      }
+
+      .ddoc_psuper_symbol {
+        color: rgba(92, 38, 153, 1);
+      }
+
+      .param {
+        color: rgba(0, 0, 0, 1);
+      }
+
+      .psymbol {
+        color: rgba(0, 0, 0, 1);
+      }
+
+      .ddoc_member_header .ddoc_header_anchor .code {
+        font-size: 1em;
+      }
+    </style>
+  </head>
+  <body id="ddoc_main" class="ddoc dlang">
+    <div class="content_wrapper">
+      <article class="module">
+        <h1 class="module_name">std.uni</h1>
+        <section id="module_content"><section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    <p>The <code class="code">std.<code class="code">uni</code></code> module provides an implementation
+    of fundamental Unicode algorithms and data structures.
+    This doesn't include UTF encoding and decoding primitives,
+    see  and  in 
+    for this functionality. </p>
+
+  </p>
+</div>
+<div class="ddoc_description">
+  <h4>Discussion</h4>
+  <p class="para">
+    
+
+<br><br>
+    <p>All primitives listed operate on Unicode characters and
+        sets of characters. For functions which operate on ASCII characters
+        and ignore Unicode <a href="#Character">characters</a>, see .
+        For definitions of Unicode <a href="#Character">character</a>, <a href="#Code point">code point</a> and other terms
+        used throughout this module see the <a href="#Terminology">terminology</a> section
+        below.
+    </p>
+    <p>The focus of this module is the core needs of developing Unicode-aware
+        applications. To that effect it provides the following optimized primitives:
+    </p>
+    <ul>        <li>Character classification by category and common properties:
+            ,  and others.
+        </li>
+        <li>            Case-insensitive string comparison (, ).
+        </li>
+        <li>            Converting text to any of the four normalization forms via .
+        </li>
+        <li>            Decoding ()  and iteration (, )
+            by user-perceived characters, that is by  clusters.
+        </li>
+        <li>            Decomposing and composing of individual character(s) according to canonical
+            or compatibility rules, see  and ,
+            including the specific version for Hangul syllables 
+            and .
+        </li>
+    </ul>
+    <p>It's recognized that an application may need further enhancements
+        and extensions, such as less commonly known algorithms,
+        or tailoring existing ones for region specific needs. To help users
+        with building any extra functionality beyond the core primitives,
+        the module provides:
+    </p>
+    <ul>        <li>            , a type for easy manipulation of sets of characters.
+            Besides the typical set algebra it provides an unusual feature:
+            a D source code generator for detection of <a href="#Code point">code points</a> in this set.
+            This is a boon for meta-programming parser frameworks,
+            and is used internally to power classification in small
+            sets like .
+        </li>
+        <li>            A way to construct optimal packed multi-stage tables also known as a
+            special case of <a href="https://en.wikipedia.org/wiki/Trie">Trie</a>.
+            The functions , 
+            construct custom tries that map dchar to value.
+            The end result is a fast and predictable  lookup that powers
+            functions like  and ,
+            but for user-defined data sets.
+        </li>
+        <li>            A useful technique for Unicode-aware parsers that perform
+            character classification of encoded <a href="#Code point">code points</a>
+            is to avoid unnecassary decoding at all costs.
+             provides an improvement over the usual workflow
+            of decode-classify-process, combining the decoding and classification
+            steps. By extracting necessary bits directly from encoded
+            <a href="#Code unit">code units</a> matchers achieve
+            significant performance improvements. See  for
+            the common interface of UTF matchers.
+        </li>
+        <li>            Generally useful building blocks for customized normalization:
+             for querying combining class
+            and  for testing the Quick_Check
+            property of a given normalization form.
+        </li>
+        <li>            Access to a large selection of commonly used sets of <a href="#Code point">code points</a>.
+            <a href="#Unicode properties">Supported sets</a> include Script,
+            Block and General Category. The exact contents of a set can be
+            observed in the CLDR utility, on the
+             page
+            of the Unicode website.
+            See  for easy and (optionally) compile-time checked set
+            queries.
+        </li>
+    </ul>
+    <h3><a id="Synopsis">Synopsis</a></h3>
+
+<section class="code_listing">
+  <div class="code_sample">
+    <div class="dlang">
+      <ol class="code_lines">
+        <li><code class="code"><span class="keyword">import</span> std.<span class="psymbol">uni</span>;
+<span class="keyword">void</span> main()
+{
+    <span class="comment">// initialize code point sets using script/block or property name
+</span>    <span class="comment">// now 'set' contains code points from both scripts.
+</span>    <span class="keyword">auto</span> set = unicode(<span class="string_literal">"Cyrillic"</span>) | unicode(<span class="string_literal">"Armenian"</span>);
+    <span class="comment">// same thing but simpler and checked at compile-time
+</span>    <span class="keyword">auto</span> ascii = unicode.ASCII;
+    <span class="keyword">auto</span> currency = unicode.Currency_Symbol;
+
+    <span class="comment">// easy set ops
+</span>    <span class="keyword">auto</span> a = set &amp; ascii;
+    <span class="keyword">assert</span>(a.empty); <span class="comment">// as it has no intersection with ascii
+</span>    a = set | ascii;
+    <span class="keyword">auto</span> b = currency - a; <span class="comment">// subtract all ASCII, Cyrillic and Armenian
+</span>
+    <span class="comment">// some properties of code point sets
+</span>    <span class="keyword">assert</span>(b.length &gt; 45); <span class="comment">// 46 items in Unicode 6.1, even more in 6.2
+</span>    <span class="comment">// testing presence of a code point in a set
+</span>    <span class="comment">// is just fine, it is O(logN)
+</span>    <span class="keyword">assert</span>(!b['$']);
+    <span class="keyword">assert</span>(!b['\u058F']); <span class="comment">// Armenian dram sign
+</span>    <span class="keyword">assert</span>(b['¥']);
+
+    <span class="comment">// building fast lookup tables, these guarantee O(1) complexity
+</span>    <span class="comment">// 1-level Trie lookup table essentially a huge bit-set ~262Kb
+</span>    <span class="keyword">auto</span> oneTrie = toTrie!1(b);
+    <span class="comment">// 2-level far more compact but typically slightly slower
+</span>    <span class="keyword">auto</span> twoTrie = toTrie!2(b);
+    <span class="comment">// 3-level even smaller, and a bit slower yet
+</span>    <span class="keyword">auto</span> threeTrie = toTrie!3(b);
+    <span class="keyword">assert</span>(oneTrie['£']);
+    <span class="keyword">assert</span>(twoTrie['£']);
+    <span class="keyword">assert</span>(threeTrie['£']);
+
+    <span class="comment">// build the trie with the most sensible trie level
+</span>    <span class="comment">// and bind it as a functor
+</span>    <span class="keyword">auto</span> cyrillicOrArmenian = toDelegate(set);
+    <span class="keyword">auto</span> balance = find!(cyrillicOrArmenian)(<span class="string_literal">"Hello ընկեր!"</span>);
+    <span class="keyword">assert</span>(balance == <span class="string_literal">"ընկեր!"</span>);
+    <span class="comment">// compatible with bool delegate(dchar)
+</span>    <span class="keyword">bool</span> <span class="keyword">delegate</span>(<span class="keyword">dchar</span>) bindIt = cyrillicOrArmenian;
+
+    <span class="comment">// Normalization
+</span>    string s = <span class="string_literal">"Plain ascii (and not only), is always normalized!"</span>;
+    <span class="keyword">assert</span>(s <span class="keyword">is</span> normalize(s));<span class="comment">// is the same string
+</span>
+    string nonS = <span class="string_literal">"A\u0308ffin"</span>; <span class="comment">// A ligature
+</span>    <span class="keyword">auto</span> nS = normalize(nonS); <span class="comment">// to NFC, the W3C endorsed standard
+</span>    <span class="keyword">assert</span>(nS == <span class="string_literal">"Äffin"</span>);
+    <span class="keyword">assert</span>(nS != nonS);
+    string composed = <span class="string_literal">"Äffin"</span>;
+
+    <span class="keyword">assert</span>(normalize!NFD(composed) == <span class="string_literal">"A\u0308ffin"</span>);
+    <span class="comment">// to NFKD, compatibility decomposition useful for fuzzy matching/searching
+</span>    <span class="keyword">assert</span>(normalize!NFKD(<span class="string_literal">"2¹⁰"</span>) == <span class="string_literal">"210"</span>);
+}
+</code></li>
+      </ol>
+    </div>
+  </div>
+</section>
+    <h3><a id="Terminology">Terminology</a></h3>
+    <p>The following is a list of important Unicode notions
+    and definitions. Any conventions used specifically in this
+    module alone are marked as such. The descriptions are based on the formal
+    definition as found in 
+    </p>
+    <p><div><a id="Abstract character"><i>Abstract character</i></a></div> A unit of information used for the organization,
+        control, or representation of textual data.
+        Note that:
+        <ul>            <li>When representing data, the nature of that data
+                is generally symbolic as opposed to some other
+                kind of data (for example, visual).
+            </li>
+             <li>An abstract character has no concrete form
+                and should not be confused with a <a href="#Glyph">glyph</a>.
+            </li>
+            <li>An abstract character does not necessarily
+                correspond to what a user thinks of as a “character”
+                and should not be confused with a .
+            </li>
+            <li>The abstract characters encoded (see Encoded character)
+                are known as Unicode abstract characters.
+            </li>
+            <li>Abstract characters not directly
+                encoded by the Unicode Standard can often be
+                represented by the use of combining character sequences.
+            </li>
+        </ul>
+    </p>
+    <p><div><a id="Canonical decomposition"><i>Canonical decomposition</i></a></div>
+        The decomposition of a character or character sequence
+        that results from recursively applying the canonical
+        mappings found in the Unicode Character Database
+        and these described in Conjoining Jamo Behavior
+        (section 12 of
+        ).
+    </p>
+    <p><div><a id="Canonical composition"><i>Canonical composition</i></a></div>
+        The precise definition of the Canonical composition
+        is the algorithm as specified in  section 11.
+        Informally it's the process that does the reverse of the canonical
+        decomposition with the addition of certain rules
+        that e.g. prevent legacy characters from appearing in the composed result.
+    </p>
+    <p><div><a id="Canonical equivalent"><i>Canonical equivalent</i></a></div>
+        Two character sequences are said to be canonical equivalents if
+        their full canonical decompositions are identical.
+    </p>
+    <p><div><a id="Character"><i>Character</i></a></div> Typically differs by context.
+        For the purpose of this documentation the term <i>character</i>
+        implies <i>encoded character</i>, that is, a code point having
+        an assigned abstract character (a symbolic meaning).
+    </p>
+    <p><div><a id="Code point"><i>Code point</i></a></div> Any value in the Unicode codespace;
+        that is, the range of integers from 0 to 10FFFF (hex).
+        Not all code points are assigned to encoded characters.
+    </p>
+    <p><div><a id="Code unit"><i>Code unit</i></a></div> The minimal bit combination that can represent
+        a unit of encoded text for processing or interchange.
+        Depending on the encoding this could be:
+        8-bit code units in the UTF-8 (<code class="code">char</code>),
+        16-bit code units in the UTF-16 (<code class="code">wchar</code>),
+        and 32-bit code units in the UTF-32 (<code class="code">dchar</code>).
+        <i>Note that in UTF-32, a code unit is a code point
+        and is represented by the D <code class="code">dchar</code> type.</i>
+    </p>
+    <p><div><a id="Combining character"><i>Combining character</i></a></div> A character with the General Category
+        of Combining Mark(M).
+        <ul>            <li>All characters with non-zero canonical combining class
+            are combining characters, but the reverse is not the case:
+            there are combining characters with a zero combining class.
+            </li>
+            <li>These characters are not normally used in isolation
+            unless they are being described. They include such characters
+            as accents, diacritics, Hebrew points, Arabic vowel signs,
+            and Indic matras.
+            </li>
+        </ul>
+    </p>
+    <p><div><a id="Combining class"><i>Combining class</i></a></div>
+        A numerical value used by the Unicode Canonical Ordering Algorithm
+        to determine which sequences of combining marks are to be
+        considered canonically equivalent and  which are not.
+    </p>
+    <p><div><a id="Compatibility decomposition"><i>Compatibility decomposition</i></a></div>
+        The decomposition of a character or character sequence that results
+        from recursively applying both the compatibility mappings and
+        the canonical mappings found in the Unicode Character Database, and those
+        described in Conjoining Jamo Behavior no characters
+        can be further decomposed.
+    </p>
+    <p><div><a id="Compatibility equivalent"><i>Compatibility equivalent</i></a></div>
+        Two character sequences are said to be compatibility
+        equivalents if their full compatibility decompositions are identical.
+    </p>
+    <p><div><a id="Encoded character"><i>Encoded character</i></a></div> An association (or mapping)
+        between an abstract character and a code point.
+    </p>
+    <p><div><a id="Glyph"><i>Glyph</i></a></div> The actual, concrete image of a glyph representation
+        having been rasterized or otherwise imaged onto some display surface.
+    </p>
+    <p><div><a id="Grapheme base"><i>Grapheme base</i></a></div> A character with the property
+        Grapheme_Base, or any standard Korean syllable block.
+    </p>
+    <p><div><a id="Grapheme cluster"><i>Grapheme cluster</i></a></div> Defined as the text between
+        grapheme boundaries  as specified by Unicode Standard Annex #29,
+        .
+        Important general properties of a grapheme:
+        <ul>            <li>The grapheme cluster represents a horizontally segmentable
+            unit of text, consisting of some grapheme base (which may
+            consist of a Korean syllable) together with any number of
+            nonspacing marks applied to it.
+            </li>
+            <li> A grapheme cluster typically starts with a grapheme base
+            and then extends across any subsequent sequence of nonspacing marks.
+            A grapheme cluster is most directly relevant to text rendering and
+            processes such as cursor placement and text selection in editing,
+            but may also be relevant to comparison and searching.
+            </li>
+            <li>For many processes, a grapheme cluster behaves as if it was a
+            single character with the same properties as its grapheme base.
+            Effectively, nonspacing marks apply <i>graphically</i> to the base,
+            but do not change its properties.
+            </li>
+        </ul>
+        <p>This module defines a number of primitives that work with graphemes:
+        ,  and .
+        All of them are using <i>extended grapheme</i> boundaries
+        as defined in the aforementioned standard annex.
+        </p>
+    </p>
+    <p><div><a id="Nonspacing mark"><i>Nonspacing mark</i></a></div> A combining character with the
+        General Category of Nonspacing Mark (Mn) or Enclosing Mark (Me).
+    </p>
+    <p><div><a id="Spacing mark"><i>Spacing mark</i></a></div> A combining character that is not a nonspacing mark.
+    </p>
+    <h3><a id="Normalization">Normalization</a></h3>
+    <p>The concepts of <a href="#Canonical equivalent">canonical equivalent</a>
+        or <a href="#Compatibility equivalent">compatibility equivalent</a>
+        characters in the Unicode Standard make it necessary to have a full, formal
+        definition of equivalence for Unicode strings.
+        String equivalence is determined by a process called normalization,
+        whereby strings are converted into forms which are compared
+        directly for identity. This is the primary goal of the normalization process,
+        see the function  to convert into any of
+        the four defined forms.
+    </p>
+    <p>A very important attribute of the Unicode Normalization Forms
+        is that they must remain stable between versions of the Unicode Standard.
+        A Unicode string normalized to a particular Unicode Normalization Form
+        in one version of the standard is guaranteed to remain in that Normalization
+        Form for implementations of future versions of the standard.
+    </p>
+    <p>The Unicode Standard specifies four normalization forms.
+        Informally, two of these forms are defined by maximal decomposition
+        of equivalent sequences, and two of these forms are defined
+        by maximal <i>composition</i> of equivalent sequences.
+            <ul>            <li>Normalization Form D (NFD): The <a href="#Canonical decomposition">                canonical decomposition</a> of a character sequence.</li>
+            <li>Normalization Form KD (NFKD): The <a href="#Compatibility decomposition">                compatibility decomposition</a> of a character sequence.</li>
+            <li>Normalization Form C (NFC): The canonical composition of the
+                <a href="#Canonical decomposition">canonical decomposition</a>
+                of a coded character sequence.</li>
+            <li>Normalization Form KC (NFKC): The canonical composition
+            of the <a href="#Compatibility decomposition">                compatibility decomposition</a> of a character sequence</li>
+            </ul>
+    </p>
+    <p>The choice of the normalization form depends on the particular use case.
+        NFC is the best form for general text, since it's more compatible with
+        strings converted from legacy encodings. NFKC is the preferred form for
+        identifiers, especially where there are security concerns. NFD and NFKD
+        are the most useful for internal processing.
+    </p>
+    <h3><a id="Construction of lookup tables">Construction of lookup tables</a></h3>
+    <p>The Unicode standard describes a set of algorithms that
+        depend on having the ability to quickly look up various properties
+        of a code point. Given the the codespace of about 1 million <a href="#Code point">code points</a>,
+        it is not a trivial task to provide a space-efficient solution for
+        the multitude of properties.
+    </p>
+    <p>Common approaches such as hash-tables or binary search over
+        sorted code point intervals (as in ) are insufficient.
+        Hash-tables have enormous memory footprint and binary search
+        over intervals is not fast enough for some heavy-duty algorithms.
+    </p>
+    <p>The recommended solution (see Unicode Implementation Guidelines)
+        is using multi-stage tables that are an implementation of the
+         data structure with integer
+        keys and a fixed number of stages. For the remainder of the section
+        this will be called a fixed trie. The following describes a particular
+        implementation that is aimed for the speed of access at the expense
+        of ideal size savings.
+    </p>
+    <p>Taking a 2-level Trie as an example the principle of operation is as follows.
+        Split the number of bits in a key (code point, 21 bits) into 2 components
+        (e.g. 15 and 8).  The first is the number of bits in the index of the trie
+         and the other is number of bits in each page of the trie.
+        The layout of the trie is then an array of size 2^^bits-of-index followed
+        an array of memory chunks of size 2^^bits-of-page/bits-per-element.
+    </p>
+    <p>The number of pages is variable (but not less then 1)
+        unlike the number of entries in the index. The slots of the index
+        all have to contain a number of a page that is present. The lookup is then
+        just a couple of operations - slice the upper bits,
+        lookup an index for these, take a page at this index and use
+        the lower bits as an offset within this page.
+<br><br>
+        Assuming that pages are laid out consequently
+        in one array at <code class="code">pages</code>, the pseudo-code is:
+    </p>
+
+<section class="code_listing">
+  <div class="code_sample">
+    <div class="dlang">
+      <ol class="code_lines">
+        <li><code class="code"><span class="keyword">auto</span> elemsPerPage = (2 ^^ bits_per_page) / Value.sizeOfInBits;
+pages[index[n &gt;&gt; bits_per_page]][n &amp; (elemsPerPage - 1)];
+</code></li>
+      </ol>
+    </div>
+  </div>
+</section>
+    <p>Where if <code class="code">elemsPerPage</code> is a power of 2 the whole process is
+        a handful of simple instructions and 2 array reads. Subsequent levels
+        of the trie are introduced by recursing on this notion - the index array
+        is treated as values. The number of bits in index is then again
+        split into 2 parts, with pages over 'current-index' and the new 'upper-index'.
+    </p>
+<br><br>
+    <p>For completeness a level 1 trie is simply an array.
+        The current implementation takes advantage of bit-packing values
+        when the range is known to be limited in advance (such as <code class="code">bool</code>).
+        See also  for enforcing it manually.
+        The major size advantage however comes from the fact
+        that multiple <b>identical pages on every level are merged</b> by construction.
+    </p>
+    <p>The process of constructing a trie is more involved and is hidden from
+        the user in a form of the convenience functions ,
+         and the even more convenient .
+        In general a set or built-in AA with <code class="code">dchar</code> type
+        can be turned into a trie. The trie object in this module
+        is read-only (immutable); it's effectively frozen after construction.
+    </p>
+    <h3><a id="Unicode properties">Unicode properties</a></h3>
+    <p>This is a full list of Unicode properties accessible through 
+        with specific helpers per category nested within. Consult the
+        
+        when in doubt about the contents of a particular set.
+    </p>
+    <p>General category sets listed below are only accessible with the
+         shorthand accessor.</p>
+        
+    <p>Sets for other commonly useful properties that are
+        accessible with :</p>
+        
+    <p>Below is the table with block names accepted by .
+        Note that the shorthand version  requires "In"
+        to be prepended to the names of blocks so as to disambiguate
+        scripts and blocks.
+    </p>
+    
+    <p>Below is the table with script names accepted by 
+        and by the shorthand version :</p>
+        
+    <p>Below is the table of names accepted by .</p>
+        
+
+  </p>
+</div>
+<div class="ddoc_section">
+  <p class="para">
+    <span class="ddoc_section_h">References:</span>
+,
+        ,
+        ,
+        ,
+        
+        
+        
+
+  </p>
+</div>
+<div class="ddoc_section">
+  <p class="para">
+    <span class="ddoc_section_h">Trademarks:</span>
+Unicode(tm) is a trademark of Unicode, Inc.
+
+
+  </p>
+</div>
+<div class="ddoc_license">
+  <h4>License</h4>
+  <p class="para">
+    .
+
+  </p>
+</div>
+<div class="ddoc_authors">
+  <h4>Authors</h4>
+  <p class="para">
+    Dmitry Olshansky
+
+  </p>
+</div>
+<div class="ddoc_section">
+  <p class="para">
+    <span class="ddoc_section_h">Source:</span>
+
+
+  </p>
+</div>
+<div class="ddoc_standards">
+  <h4>Standards</h4>
+  <p class="para">
+    
+
+
+  </p>
+</div>
+</section>
+<section class="section ddoc_module_members_section">
+  <div class="ddoc_module_members">
+    <ul class="ddoc_members">
+  <li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#lineSep" id="lineSep"><code class="code">lineSep</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="lineSep"></span>enum dchar <code class="code">lineSep</code>;
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Constant <a href="#Code point">code point</a> (0x2028) - line separator.
+  </p>
+</div>
+
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#paraSep" id="paraSep"><code class="code">paraSep</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="paraSep"></span>enum dchar <code class="code">paraSep</code>;
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Constant <a href="#Code point">code point</a> (0x2029) - paragraph separator.
+  </p>
+</div>
+
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#nelSep" id="nelSep"><code class="code">nelSep</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="nelSep"></span>enum dchar <code class="code">nelSep</code>;
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Constant <a href="#Code point">code point</a> (0x0085) - next line.
+  </p>
+</div>
+
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#isCodepointSet" id="isCodepointSet"><code class="code">isCodepointSet</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="isCodepointSet"></span>template <code class="code">isCodepointSet</code>(T)
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Tests if T is some kind a set of code points. Intended for template constraints.
+  </p>
+</div>
+
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#isIntegralPair" id="isIntegralPair"><code class="code">isIntegralPair</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="isIntegralPair"></span>enum auto <code class="code">isIntegralPair</code>(T, V = uint);
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+        Tests if <code class="code">T</code> is a pair of integers that implicitly convert to <code class="code">V</code>.
+    The following code must compile for any pair <code class="code">T</code>:
+
+<section class="code_listing">
+  <div class="code_sample">
+    <div class="dlang">
+      <ol class="code_lines">
+        <li><code class="code">(T x){ V a = x[0]; V b = x[1];}
+</code></li>
+      </ol>
+    </div>
+  </div>
+</section>
+    The following must not compile:
+
+<section class="code_listing">
+  <div class="code_sample">
+    <div class="dlang">
+      <ol class="code_lines">
+        <li><code class="code">(T x){ V c = x[2];}
+</code></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+  </p>
+</div>
+
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#CodepointSet" id="CodepointSet"><code class="code">CodepointSet</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="CodepointSet"></span>alias <code class="code">CodepointSet</code> = InversionList!(GcPolicy).InversionList;
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    The recommended default type for set of <a href="#Code point">code points</a>.
+    For details, see the current implementation: .
+  </p>
+</div>
+
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#CodepointInterval" id="CodepointInterval"><code class="code">CodepointInterval</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="CodepointInterval"></span>struct <code class="code">CodepointInterval</code>;
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    The recommended type of 
+    to represent [a, b) intervals of <a href="#Code point">code points</a>. As used in .
+    Any interval type should pass  trait.
+  </p>
+</div>
+
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#InversionList" id="InversionList"><code class="code">InversionList</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="InversionList"></span>struct <code class="code">InversionList</code>(SP = GcPolicy);
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+        <p>    <code class="code"><code class="code">InversionList</code></code> is a set of <a href="#Code point">code points</a>
+    represented as an array of open-right [a, b)
+    intervals (see  above).
+    The name comes from the way the representation reads left to right.
+    For instance a set of all values [10, 50), [80, 90),
+    plus a singular value 60 looks like this:
+    </p>
+
+<section class="code_listing">
+  <div class="code_sample">
+    <div class="dlang">
+      <ol class="code_lines">
+        <li><code class="code">10, 50, 60, 61, 80, 90
+</code></li>
+      </ol>
+    </div>
+  </div>
+</section>
+    <p>    The way to read this is: start with negative meaning that all numbers
+    smaller then the next one are not present in this set (and positive -
+    the contrary). Then switch positive/negative after each
+    number passed from left to right.
+    </p>
+    <p>This way negative spans until 10, then positive until 50,
+    then negative until 60, then positive until 61, and so on.
+    As seen this provides a space-efficient storage of highly redundant data
+    that comes in long runs. A description which Unicode <a href="#Character">character</a>
+    properties fit nicely. The technique itself could be seen as a variation
+    on <a href="https://en.wikipedia.org/wiki/Run-length_encoding">RLE encoding</a>.
+    </p>
+
+  </p>
+</div>
+<div class="ddoc_description">
+  <h4>Discussion</h4>
+  <p class="para">
+    <p>Sets are value types (just like <code class="code">int</code> is) thus they
+        are never aliased.
+    </p>
+
+  </p>
+</div>
+<div class="ddoc_section">
+  <p class="para">
+    <span class="ddoc_section_h">Example:</span>
+
+<section class="code_listing">
+  <div class="code_sample">
+    <div class="dlang">
+      <ol class="code_lines">
+        <li><code class="code"><span class="keyword">auto</span> a = CodepointSet('a', 'z'+1);
+<span class="keyword">auto</span> b = CodepointSet('A', 'Z'+1);
+<span class="keyword">auto</span> c = a;
+a = a | b;
+<span class="keyword">assert</span>(a == CodepointSet('A', 'Z'+1, 'a', 'z'+1));
+<span class="keyword">assert</span>(a != c);
+</code></li>
+      </ol>
+    </div>
+  </div>
+</section>
+    <p>See also  for simpler construction of sets
+        from predefined ones.
+    </p>
+<br><br>
+    <p>Memory usage is 8 bytes per each contiguous interval in a set.
+    The value semantics are achieved by using the
+     technique
+    and thus it's <span class="color_red">not</span> safe to cast this type to <span class="keyword">shared</span>.
+    </p>
+
+
+  </p>
+</div>
+<div class="ddoc_section">
+  <p class="para">
+    <span class="ddoc_section_h">Note:</span>
+<p>It's not recommended to rely on the template parameters
+    or the exact type of a current <a href="#Code point">code point</a> set in <code class="code">std.uni</code>.
+    The type and parameters may change when the standard
+    allocators design is finalized.
+    Use  with templates or just stick with the default
+    alias  throughout the whole code base.
+    </p>
+  </p>
+</div>
+
+</section>
+<ul class="ddoc_members">
+  <li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#InversionList.this" id="InversionList.this"><code class="code">this</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="InversionList.this"></span>pure this(Set)(Set <code class="code">set</code>) if (isCodepointSet!Set);
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Construct from another code point <code class="code">set</code> of any type.
+  </p>
+</div>
+
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#InversionList.this" id="InversionList.this"><code class="code">this</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="InversionList.this.2"></span>pure this(Range)(Range <code class="code">intervals</code>) if (isForwardRange!Range &amp;&amp; isIntegralPair!(ElementType!Range));
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Construct a set from a forward range of code point <code class="code">intervals</code>.
+  </p>
+</div>
+
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#InversionList.this" id="InversionList.this"><code class="code">this</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="InversionList.this.3"></span>this()(uint[] <code class="code">intervals</code>...);
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Construct a set from plain values of code point <code class="code">intervals</code>.
+  </p>
+</div>
+<div class="ddoc_examples">
+  <h4>Examples</h4>
+  <p class="para">
+    
+<section class="code_listing">
+  <div class="code_sample">
+    <div class="dlang">
+      <ol class="code_lines">
+        <li><code class="code"><span class="keyword">import</span> std.algorithm.comparison : equal;
+
+<span class="keyword">auto</span> set = CodepointSet('a', 'z'+1, 'а', 'я'+1);
+<span class="keyword">foreach</span> (v; 'a'..'z'+1)
+    <span class="keyword">assert</span>(set[v]);
+<span class="comment">// Cyrillic lowercase interval
+</span><span class="keyword">foreach</span> (v; 'а'..'я'+1)
+    <span class="keyword">assert</span>(set[v]);
+<span class="comment">//specific order is not required, intervals may interesect
+</span><span class="keyword">auto</span> set2 = CodepointSet('а', 'я'+1, 'a', 'd', 'b', 'z'+1);
+<span class="comment">//the same end result
+</span><span class="keyword">assert</span>(set2.byInterval.equal(set.byInterval));
+<span class="comment">// test constructor this(Range)(Range intervals)
+</span><span class="keyword">auto</span> chessPiecesWhite = CodepointInterval(9812, 9818);
+<span class="keyword">auto</span> chessPiecesBlack = CodepointInterval(9818, 9824);
+<span class="keyword">auto</span> set3 = CodepointSet([chessPiecesWhite, chessPiecesBlack]);
+<span class="keyword">foreach</span> (v; '♔'..'♟'+1)
+    <span class="keyword">assert</span>(set3[v]);
+</code></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+  </p>
+</div>
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#InversionList.byInterval" id="InversionList.byInterval"><code class="code">byInterval</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="InversionList.byInterval"></span>@property scope auto <code class="code">byInterval</code>();
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Get range that spans all of the <a href="#Code point">code point</a> intervals in this .
+  </p>
+</div>
+
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#InversionList.opIndex" id="InversionList.opIndex"><code class="code">opIndex</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="InversionList.opIndex"></span>const bool <code class="code">opIndex</code>(uint <code class="code">val</code>);
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Tests the presence of code point <code class="code"><code class="code">val</code></code> in this set.
+  </p>
+</div>
+<div class="ddoc_examples">
+  <h4>Examples</h4>
+  <p class="para">
+    
+<section class="code_listing">
+  <div class="code_sample">
+    <div class="dlang">
+      <ol class="code_lines">
+        <li><code class="code"><span class="keyword">auto</span> gothic = unicode.Gothic;
+<span class="comment">// Gothic letter ahsa
+</span><span class="keyword">assert</span>(gothic['\U00010330']);
+<span class="comment">// no ascii in Gothic obviously
+</span><span class="keyword">assert</span>(!gothic['$']);
+</code></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+  </p>
+</div>
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#InversionList.length" id="InversionList.length"><code class="code">length</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="InversionList.length"></span>@property size_t <code class="code">length</code>();
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Number of <a href="#Code point">code points</a> in this set
+  </p>
+</div>
+
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#InversionList.opBinary" id="InversionList.opBinary"><code class="code">opBinary</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="InversionList.opBinary"></span>This <code class="code">opBinary</code>(string op, U)(U <code class="code">rhs</code>) if (isCodepointSet!U || is(U : dchar));
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    <p>Sets support natural syntax for set algebra, namely: </p>
+        
+  </p>
+</div>
+<div class="ddoc_examples">
+  <h4>Examples</h4>
+  <p class="para">
+    
+<section class="code_listing">
+  <div class="code_sample">
+    <div class="dlang">
+      <ol class="code_lines">
+        <li><code class="code"><span class="keyword">import</span> std.algorithm.comparison : equal;
+<span class="keyword">import</span> std.range : iota;
+
+<span class="keyword">auto</span> lower = unicode.LowerCase;
+<span class="keyword">auto</span> upper = unicode.UpperCase;
+<span class="keyword">auto</span> ascii = unicode.ASCII;
+
+<span class="keyword">assert</span>((lower &amp; upper).empty); <span class="comment">// no intersection
+</span><span class="keyword">auto</span> lowerASCII = lower &amp; ascii;
+<span class="keyword">assert</span>(lowerASCII.byCodepoint.equal(iota('a', 'z'+1)));
+<span class="comment">// throw away all of the lowercase ASCII
+</span><span class="keyword">assert</span>((ascii - lower).length == 128 - 26);
+
+<span class="keyword">auto</span> onlyOneOf = lower ~ ascii;
+<span class="keyword">assert</span>(!onlyOneOf['Δ']); <span class="comment">// not ASCII and not lowercase
+</span><span class="keyword">assert</span>(onlyOneOf['$']); <span class="comment">// ASCII and not lowercase
+</span><span class="keyword">assert</span>(!onlyOneOf['a']); <span class="comment">// ASCII and lowercase
+</span><span class="keyword">assert</span>(onlyOneOf['я']); <span class="comment">// not ASCII but lowercase
+</span>
+<span class="comment">// throw away all cased letters from ASCII
+</span><span class="keyword">auto</span> noLetters = ascii - (lower | upper);
+<span class="keyword">assert</span>(noLetters.length == 128 - 26*2);
+</code></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+  </p>
+</div>
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#InversionList.opOpAssign" id="InversionList.opOpAssign"><code class="code">opOpAssign</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="InversionList.opOpAssign"></span>ref This <code class="code">opOpAssign</code>(string op, U)(U <code class="code">rhs</code>) if (isCodepointSet!U || is(U : dchar));
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    The 'op=' versions of the above overloaded operators.
+  </p>
+</div>
+
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#InversionList.opBinaryRight" id="InversionList.opBinaryRight"><code class="code">opBinaryRight</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="InversionList.opBinaryRight"></span>const bool <code class="code">opBinaryRight</code>(string op : "in", U)(U <code class="code">ch</code>) if (is(U : dchar));
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Tests the presence of codepoint <code class="code"><code class="code">ch</code></code> in this set,
+        the same as .
+  </p>
+</div>
+<div class="ddoc_examples">
+  <h4>Examples</h4>
+  <p class="para">
+    
+<section class="code_listing">
+  <div class="code_sample">
+    <div class="dlang">
+      <ol class="code_lines">
+        <li><code class="code"><span class="keyword">assert</span>('я' <span class="keyword">in</span> unicode.Cyrillic);
+<span class="keyword">assert</span>(!('z' <span class="keyword">in</span> unicode.Cyrillic));
+</code></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+  </p>
+</div>
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#InversionList.opUnary" id="InversionList.opUnary"><code class="code">opUnary</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="InversionList.opUnary"></span>auto <code class="code">opUnary</code>(string op : "!")();
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Obtains a set that is the inversion of this set.
+
+  </p>
+</div>
+<div class="ddoc_see_also">
+  <h4>See Also</h4>
+  <p class="para">
+    
+  </p>
+</div>
+
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#InversionList.byCodepoint" id="InversionList.byCodepoint"><code class="code">byCodepoint</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="InversionList.byCodepoint"></span>@property auto <code class="code">byCodepoint</code>();
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    A range that spans each <a href="#Code point">code point</a> in this set.
+  </p>
+</div>
+<div class="ddoc_examples">
+  <h4>Examples</h4>
+  <p class="para">
+    
+<section class="code_listing">
+  <div class="code_sample">
+    <div class="dlang">
+      <ol class="code_lines">
+        <li><code class="code"><span class="keyword">import</span> std.algorithm.comparison : equal;
+<span class="keyword">import</span> std.range : iota;
+
+<span class="keyword">auto</span> set = unicode.ASCII;
+set.<span class="psymbol">byCodepoint</span>.equal(iota(0, 0x80));
+</code></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+  </p>
+</div>
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#InversionList.toString" id="InversionList.toString"><code class="code">toString</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="InversionList.toString"></span>void <code class="code">toString</code>(Writer)(scope Writer <code class="code">sink</code>, ref scope const FormatSpec!char <code class="code">fmt</code>);
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Obtain a textual representation of this InversionList
+ in form of open-right intervals.
+
+  </p>
+</div>
+<div class="ddoc_description">
+  <h4>Discussion</h4>
+  <p class="para">
+    The formatting flag is applied individually to each value, for example:
+ <li><b>%s</b> and <b>%d</b> format the intervals as a [low .. high) range of integrals</li>
+ <li><b>%x</b> formats the intervals as a [low .. high) range of lowercase hex characters</li>
+ <li><b>%X</b> formats the intervals as a [low .. high) range of uppercase hex characters</li>
+  </p>
+</div>
+<div class="ddoc_examples">
+  <h4>Examples</h4>
+  <p class="para">
+    
+<section class="code_listing">
+  <div class="code_sample">
+    <div class="dlang">
+      <ol class="code_lines">
+        <li><code class="code"><span class="keyword">import</span> std.conv : to;
+<span class="keyword">import</span> std.format : format;
+<span class="keyword">import</span> std.uni : unicode;
+
+<span class="keyword">assert</span>(unicode.Cyrillic.to!string ==
+    <span class="string_literal">"[1024..1157) [1159..1320) [7467..7468) [7544..7545) [11744..11776) [42560..42648) [42655..42656)"</span>);
+
+<span class="comment">// The specs '%s' and '%d' are equivalent to the to!string call above.
+</span><span class="keyword">assert</span>(format(<span class="string_literal">"%d"</span>, unicode.Cyrillic) == unicode.Cyrillic.to!string);
+
+<span class="keyword">assert</span>(format(<span class="string_literal">"%#x"</span>, unicode.Cyrillic) ==
+    <span class="string_literal">"[0x400..0x485) [0x487..0x528) [0x1d2b..0x1d2c) [0x1d78..0x1d79) [0x2de0..0x2e00) "</span>
+    ~<span class="string_literal">"[0xa640..0xa698) [0xa69f..0xa6a0)"</span>);
+
+<span class="keyword">assert</span>(format(<span class="string_literal">"%#X"</span>, unicode.Cyrillic) ==
+    <span class="string_literal">"[0X400..0X485) [0X487..0X528) [0X1D2B..0X1D2C) [0X1D78..0X1D79) [0X2DE0..0X2E00) "</span>
+    ~<span class="string_literal">"[0XA640..0XA698) [0XA69F..0XA6A0)"</span>);
+</code></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+  </p>
+</div>
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#InversionList.add" id="InversionList.add"><code class="code">add</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="InversionList.add"></span>ref auto <code class="code">add</code>()(uint <code class="code">a</code>, uint <code class="code">b</code>);
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Add an interval [<code class="code">a</code>, <code class="code">b</code>) to this set.
+  </p>
+</div>
+<div class="ddoc_examples">
+  <h4>Examples</h4>
+  <p class="para">
+    
+<section class="code_listing">
+  <div class="code_sample">
+    <div class="dlang">
+      <ol class="code_lines">
+        <li><code class="code">CodepointSet someSet;
+someSet.<span class="psymbol">add</span>('0', '5').<span class="psymbol">add</span>('A','Z'+1);
+someSet.<span class="psymbol">add</span>('5', '9'+1);
+<span class="keyword">assert</span>(someSet['0']);
+<span class="keyword">assert</span>(someSet['5']);
+<span class="keyword">assert</span>(someSet['9']);
+<span class="keyword">assert</span>(someSet['Z']);
+</code></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+  </p>
+</div>
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#InversionList.inverted" id="InversionList.inverted"><code class="code">inverted</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="InversionList.inverted"></span>@property auto <code class="code">inverted</code>();
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Obtains a set that is the inversion of this set.
+
+  </p>
+</div>
+<div class="ddoc_description">
+  <h4>Discussion</h4>
+  <p class="para">
+    See the '!'  for the same but using operators.
+  </p>
+</div>
+<div class="ddoc_examples">
+  <h4>Examples</h4>
+  <p class="para">
+    
+<section class="code_listing">
+  <div class="code_sample">
+    <div class="dlang">
+      <ol class="code_lines">
+        <li><code class="code"><span class="keyword">auto</span> set = unicode.ASCII;
+<span class="comment">// union with the inverse gets all of the code points in the Unicode
+</span><span class="keyword">assert</span>((set | set.<span class="psymbol">inverted</span>).length == 0x110000);
+<span class="comment">// no intersection with the inverse
+</span><span class="keyword">assert</span>((set &amp; set.<span class="psymbol">inverted</span>).empty);
+</code></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+  </p>
+</div>
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#InversionList.toSourceCode" id="InversionList.toSourceCode"><code class="code">toSourceCode</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="InversionList.toSourceCode"></span>string <code class="code">toSourceCode</code>(string <code class="code">funcName</code> = "");
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Generates string with D source code of unary function with name of
+        <code class="code"><code class="code">funcName</code></code> taking a single <code class="code">dchar</code> argument. If <code class="code"><code class="code">funcName</code></code> is empty
+        the code is adjusted to be a lambda function.
+
+  </p>
+</div>
+<div class="ddoc_description">
+  <h4>Discussion</h4>
+  <p class="para">
+    The function generated tests if the <a href="#Code point">code point</a> passed
+        belongs to this set or not. The result is to be used with string mixin.
+        The intended usage area is aggressive optimization via meta programming
+        in parser generators and the like.
+
+
+  </p>
+</div>
+<div class="ddoc_section">
+  <p class="para">
+    <span class="ddoc_section_h">Note:</span>
+Use with care for relatively small or regular sets. It
+        could end up being slower then just using multi-staged tables.
+
+
+  </p>
+</div>
+<div class="ddoc_section">
+  <p class="para">
+    <span class="ddoc_section_h">Example:</span>
+
+<section class="code_listing">
+  <div class="code_sample">
+    <div class="dlang">
+      <ol class="code_lines">
+        <li><code class="code"><span class="keyword">import</span> std.stdio;
+
+<span class="comment">// construct set directly from [a, b$RPAREN intervals
+</span><span class="keyword">auto</span> set = CodepointSet(10, 12, 45, 65, 100, 200);
+writeln(set);
+writeln(set.<span class="psymbol">toSourceCode</span>(<span class="string_literal">"func"</span>));
+</code></li>
+      </ol>
+    </div>
+  </div>
+</section>
+<br><br>
+        The above outputs something along the lines of:
+
+<section class="code_listing">
+  <div class="code_sample">
+    <div class="dlang">
+      <ol class="code_lines">
+        <li><code class="code"><span class="keyword">bool</span> func(<span class="keyword">dchar</span> ch)  @safe <span class="keyword">pure</span> <span class="keyword">nothrow</span> @nogc
+{
+    <span class="keyword">if</span> (ch &lt; 45)
+    {
+        <span class="keyword">if</span> (ch == 10 || ch == 11) <span class="keyword">return</span> <span class="keyword">true</span>;
+        <span class="keyword">return</span> <span class="keyword">false</span>;
+    }
+    <span class="keyword">else</span> <span class="keyword">if</span> (ch &lt; 65) <span class="keyword">return</span> <span class="keyword">true</span>;
+    <span class="keyword">else</span>
+    {
+        <span class="keyword">if</span> (ch &lt; 100) <span class="keyword">return</span> <span class="keyword">false</span>;
+        <span class="keyword">if</span> (ch &lt; 200) <span class="keyword">return</span> <span class="keyword">true</span>;
+        <span class="keyword">return</span> <span class="keyword">false</span>;
+    }
+}
+</code></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+  </p>
+</div>
+
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#InversionList.empty" id="InversionList.empty"><code class="code">empty</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="InversionList.empty"></span>const @property bool <code class="code">empty</code>();
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    True if this set doesn't contain any <a href="#Code point">code points</a>.
+  </p>
+</div>
+<div class="ddoc_examples">
+  <h4>Examples</h4>
+  <p class="para">
+    
+<section class="code_listing">
+  <div class="code_sample">
+    <div class="dlang">
+      <ol class="code_lines">
+        <li><code class="code">CodepointSet emptySet;
+<span class="keyword">assert</span>(emptySet.length == 0);
+<span class="keyword">assert</span>(emptySet.<span class="psymbol">empty</span>);
+</code></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+  </p>
+</div>
+</section>
+
+</div>
+
+</li>
+</ul>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#codepointSetTrie" id="codepointSetTrie"><code class="code">codepointSetTrie</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="codepointSetTrie"></span>template <code class="code">codepointSetTrie</code>(sizes...) if (sumOfIntegerTuple!sizes == 21)
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    A shorthand for creating a custom multi-level fixed Trie
+    from a <code class="code">CodepointSet</code>. <code class="code">sizes</code> are numbers of bits per level,
+    with the most significant bits used first.
+
+  </p>
+</div>
+<div class="ddoc_section">
+  <p class="para">
+    <span class="ddoc_section_h">Note:</span>
+The sum of <code class="code">sizes</code> must be equal 21.
+
+
+  </p>
+</div>
+<div class="ddoc_see_also">
+  <h4>See Also</h4>
+  <p class="para">
+    , which is even simpler.
+
+
+  </p>
+</div>
+<div class="ddoc_section">
+  <p class="para">
+    <span class="ddoc_section_h">Example:</span>
+
+<section class="code_listing">
+  <div class="code_sample">
+    <div class="dlang">
+      <ol class="code_lines">
+        <li><code class="code">{
+    <span class="keyword">import</span> std.stdio;
+    <span class="keyword">auto</span> set = unicode(<span class="string_literal">"Number"</span>);
+    <span class="keyword">auto</span> trie = <span class="psymbol">codepointSetTrie</span>!(8, 5, 8)(set);
+    writeln(<span class="string_literal">"Input code points to test:"</span>);
+    <span class="keyword">foreach</span> (line; stdin.byLine)
+    {
+        <span class="keyword">int</span> count=0;
+        <span class="keyword">foreach</span> (<span class="keyword">dchar</span> ch; line)
+            <span class="keyword">if</span> (trie[ch])<span class="comment">// is number
+</span>                count++;
+        writefln(<span class="string_literal">"Contains %d number code points."</span>, count);
+    }
+}
+</code></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+  </p>
+</div>
+
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#CodepointSetTrie" id="CodepointSetTrie"><code class="code">CodepointSetTrie</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="CodepointSetTrie"></span>template <code class="code">CodepointSetTrie</code>(sizes...) if (sumOfIntegerTuple!sizes == 21)
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Type of Trie generated by codepointSetTrie function.
+  </p>
+</div>
+
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#codepointTrie" id="codepointTrie"><code class="code">codepointTrie</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="codepointTrie"></span>template <code class="code">codepointTrie</code>(T, sizes...) if (sumOfIntegerTuple!sizes == 21)<br>
+<span class="ddoc_anchor" id="CodepointTrie"></span>template <code class="code">CodepointTrie</code>(T, sizes...) if (sumOfIntegerTuple!sizes == 21)
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    A slightly more general tool for building fixed <code class="code">Trie</code>
+    for the Unicode data.
+
+  </p>
+</div>
+<div class="ddoc_description">
+  <h4>Discussion</h4>
+  <p class="para">
+    Specifically unlike <code class="code">codepointSetTrie</code> it's allows creating mappings
+    of <code class="code">dchar</code> to an arbitrary type <code class="code">T</code>.
+
+
+  </p>
+</div>
+<div class="ddoc_section">
+  <p class="para">
+    <span class="ddoc_section_h">Note:</span>
+Overload taking <code class="code">CodepointSet</code>s will naturally convert
+    only to bool mapping <code class="code">Trie</code>s.
+<br><br>
+    <code class="code">CodepointTrie</code> is the type of Trie as generated by <code class="code">codepointTrie</code> function.
+  </p>
+</div>
+
+</section>
+<ul class="ddoc_members">
+  <li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#codepointTrie.codepointTrie" id="codepointTrie.codepointTrie"><code class="code">codepointTrie</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="codepointTrie.codepointTrie"></span>auto <code class="code">codepointTrie</code>()(T[dchar] <code class="code">map</code>, T <code class="code">defValue</code> = T.init);
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#codepointTrie.codepointTrie" id="codepointTrie.codepointTrie"><code class="code">codepointTrie</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="codepointTrie.codepointTrie.2"></span>auto <code class="code">codepointTrie</code>(R)(R <code class="code">range</code>, T <code class="code">defValue</code> = T.init) if (isInputRange!R &amp;&amp; is(typeof(ElementType!R.init[0]) : T) &amp;&amp; is(typeof(ElementType!R.init[1]) : dchar));
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  
+
+</div>
+
+</li>
+</ul>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#MatcherConcept" id="MatcherConcept"><code class="code">MatcherConcept</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="MatcherConcept"></span>struct <code class="code">MatcherConcept</code>;
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Conceptual type that outlines the common properties of all UTF Matchers.
+
+  </p>
+</div>
+<div class="ddoc_section">
+  <p class="para">
+    <span class="ddoc_section_h">Note:</span>
+For illustration purposes only, every method
+    call results in assertion failure.
+    Use  to obtain a concrete matcher
+    for UTF-8 or UTF-16 encodings.
+  </p>
+</div>
+
+</section>
+<ul class="ddoc_members">
+  <li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#MatcherConcept.match" id="MatcherConcept.match"><code class="code">match</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="MatcherConcept.match"></span>bool <code class="code">match</code>(Range)(ref Range <code class="code">inp</code>) if (isRandomAccessRange!Range &amp;&amp; is(ElementType!Range : char));
+<br>
+<span class="ddoc_anchor" id="MatcherConcept.skip"></span>bool <code class="code">skip</code>(Range)(ref Range <code class="code">inp</code>) if (isRandomAccessRange!Range &amp;&amp; is(ElementType!Range : char));
+<br>
+<span class="ddoc_anchor" id="MatcherConcept.test"></span>bool <code class="code">test</code>(Range)(ref Range <code class="code">inp</code>) if (isRandomAccessRange!Range &amp;&amp; is(ElementType!Range : char));
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    <p>Perform a semantic equivalent 2 operations:
+        decoding a <a href="#Code point">code point</a> at front of <code class="code"><code class="code">inp</code></code> and testing if
+        it belongs to the set of <a href="#Code point">code points</a> of this matcher. </p>
+
+  </p>
+</div>
+<div class="ddoc_description">
+  <h4>Discussion</h4>
+  <p class="para">
+    <p>The effect on <code class="code"><code class="code">inp</code></code> depends on the kind of function called:</p>
+<br><br>
+        <p>Match. If the codepoint is found in the set then range <code class="code"><code class="code">inp</code></code>
+        is advanced by its size in <a href="#Code unit">code units</a>,
+        otherwise the range is not modifed.</p>
+<br><br>
+        <p>Skip. The range is always advanced by the size
+        of the tested <a href="#Code point">code point</a> regardless of the result of <code class="code">test</code>.</p>
+<br><br>
+        <p>Test. The range is left unaffected regardless
+        of the result of <code class="code">test</code>.</p>
+  </p>
+</div>
+<div class="ddoc_examples">
+  <h4>Examples</h4>
+  <p class="para">
+    
+<section class="code_listing">
+  <div class="code_sample">
+    <div class="dlang">
+      <ol class="code_lines">
+        <li><code class="code">string truth = <span class="string_literal">"2² = 4"</span>;
+<span class="keyword">auto</span> m = utfMatcher!<span class="keyword">char</span>(unicode.Number);
+<span class="keyword">assert</span>(m.<span class="psymbol">match</span>(truth)); <span class="comment">// '2' is a number all right
+</span><span class="keyword">assert</span>(truth == <span class="string_literal">"² = 4"</span>); <span class="comment">// skips on match
+</span><span class="keyword">assert</span>(m.<span class="psymbol">match</span>(truth)); <span class="comment">// so is the superscript '2'
+</span><span class="keyword">assert</span>(!m.<span class="psymbol">match</span>(truth)); <span class="comment">// space is not a number
+</span><span class="keyword">assert</span>(truth == <span class="string_literal">" = 4"</span>); <span class="comment">// unaffected on no match
+</span><span class="keyword">assert</span>(!m.<span class="psymbol">skip</span>(truth)); <span class="comment">// same test ...
+</span><span class="keyword">assert</span>(truth == <span class="string_literal">"= 4"</span>); <span class="comment">// but skips a codepoint regardless
+</span><span class="keyword">assert</span>(!m.<span class="psymbol">test</span>(truth)); <span class="comment">// '=' is not a number
+</span><span class="keyword">assert</span>(truth == <span class="string_literal">"= 4"</span>); <span class="comment">// test never affects argument
+</span></code></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+  </p>
+</div>
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#MatcherConcept.subMatcher" id="MatcherConcept.subMatcher"><code class="code">subMatcher</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="MatcherConcept.subMatcher"></span>@property auto <code class="code">subMatcher</code>(Lengths...)();
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Advanced feature - provide direct access to a subset of matcher based a
+        set of known encoding lengths. Lengths are provided in
+        <a href="#Code unit">code units</a>. The sub-matcher then may do less
+        operations per any <code class="code">test</code>/<code class="code">match</code>.
+
+  </p>
+</div>
+<div class="ddoc_description">
+  <h4>Discussion</h4>
+  <p class="para">
+    Use with care as the sub-matcher won't match
+        any <a href="#Code point">code points</a> that have encoded length that doesn't belong
+        to the selected set of lengths. Also the sub-matcher object references
+        the parent matcher and must not be used past the liftetime
+        of the latter.
+<br><br>
+        Another caveat of using sub-matcher is that skip is not available
+        preciesly because sub-matcher doesn't detect all lengths.
+  </p>
+</div>
+
+</section>
+
+</div>
+
+</li>
+</ul>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#isUtfMatcher" id="isUtfMatcher"><code class="code">isUtfMatcher</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="isUtfMatcher"></span>enum auto <code class="code">isUtfMatcher</code>(M, C);
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Test if <code class="code">M</code> is an UTF Matcher for ranges of <code class="code">Char</code>.
+  </p>
+</div>
+
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#utfMatcher" id="utfMatcher"><code class="code">utfMatcher</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="utfMatcher"></span>auto <code class="code">utfMatcher</code>(Char, Set)(Set <code class="code">set</code>) if (isCodepointSet!Set);
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Constructs a matcher object
+    to classify <a href="#Code point">code points</a> from the <code class="code"><code class="code">set</code></code> for encoding
+    that has <code class="code">Char</code> as code unit.
+
+  </p>
+</div>
+<div class="ddoc_description">
+  <h4>Discussion</h4>
+  <p class="para">
+    See  for API outline.
+  </p>
+</div>
+
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#toTrie" id="toTrie"><code class="code">toTrie</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="toTrie"></span>auto <code class="code">toTrie</code>(size_t level, Set)(Set <code class="code">set</code>) if (isCodepointSet!Set);
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Convenience function to construct optimal configurations for
+    packed Trie from any <code class="code"><code class="code">set</code></code> of <a href="#Code point">code points</a>.
+
+  </p>
+</div>
+<div class="ddoc_description">
+  <h4>Discussion</h4>
+  <p class="para">
+    The parameter <code class="code">level</code> indicates the number of trie levels to use,
+    allowed values are: 1, 2, 3 or 4. Levels represent different trade-offs
+    speed-size wise.
+<br><br>
+    <p>Level 1 is fastest and the most memory hungry (a bit array). </p>
+    <p>Level 4 is the slowest and has the smallest footprint. </p>
+<br><br>
+    See the <a href="#Synopsis">Synopsis</a> section for example.
+
+
+  </p>
+</div>
+<div class="ddoc_section">
+  <p class="para">
+    <span class="ddoc_section_h">Note:</span>
+Level 4 stays very practical (being faster and more predictable)
+    compared to using direct lookup on the <code class="code"><code class="code">set</code></code> itself.
+  </p>
+</div>
+
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#toDelegate" id="toDelegate"><code class="code">toDelegate</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="toDelegate"></span>auto <code class="code">toDelegate</code>(Set)(Set <code class="code">set</code>) if (isCodepointSet!Set);
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    <p>Builds a <code class="code">Trie</code> with typically optimal speed-size trade-off
+    and wraps it into a delegate of the following type:
+    . </p>
+
+  </p>
+</div>
+<div class="ddoc_description">
+  <h4>Discussion</h4>
+  <p class="para">
+    <p>Effectively this creates a 'tester' lambda suitable
+    for algorithms like std.algorithm.find that take unary predicates. </p>
+<br><br>
+    See the <a href="#Synopsis">Synopsis</a> section for example.
+  </p>
+</div>
+
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#unicode" id="unicode"><code class="code">unicode</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="unicode"></span>struct <code class="code">unicode</code>;
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    A single entry point to lookup Unicode <a href="#Code point">code point</a> sets by name or alias of
+    a block, script or general category.
+
+  </p>
+</div>
+<div class="ddoc_description">
+  <h4>Discussion</h4>
+  <p class="para">
+    It uses well defined standard rules of property name lookup.
+    This includes fuzzy matching of names, so that
+    'White_Space', 'white-SpAce' and 'whitespace' are all considered equal
+    and yield the same set of white space <a href="#Character">characters</a>.
+  </p>
+</div>
+
+</section>
+<ul class="ddoc_members">
+  <li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#unicode.opDispatch" id="unicode.opDispatch"><code class="code">opDispatch</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="unicode.opDispatch"></span>pure @property auto <code class="code">opDispatch</code>(string name)();
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Performs the lookup of set of <a href="#Code point">code points</a>
+        with compile-time correctness checking.
+        This short-cut version combines 3 searches:
+        across blocks, scripts, and common binary properties.
+
+  </p>
+</div>
+<div class="ddoc_description">
+  <h4>Discussion</h4>
+  <p class="para">
+    Note that since scripts and blocks overlap the
+        usual trick to disambiguate is used - to get a block use
+        <code class="code">unicode.InBlockName</code>, to search a script
+        use <code class="code">unicode.ScriptName</code>.
+
+
+  </p>
+</div>
+<div class="ddoc_see_also">
+  <h4>See Also</h4>
+  <p class="para">
+    , 
+        and (not included in this search) .
+  </p>
+</div>
+
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#unicode.opCall" id="unicode.opCall"><code class="code">opCall</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="unicode.opCall"></span>auto <code class="code">opCall</code>(C)(scope const C[] <code class="code">name</code>) if (is(C : dchar));
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    The same lookup across blocks, scripts, or binary properties,
+        but performed at run-time.
+        This version is provided for cases where <code class="code"><code class="code">name</code></code>
+        is not known beforehand; otherwise compile-time
+        checked  is typically a better choice.
+
+  </p>
+</div>
+<div class="ddoc_description">
+  <h4>Discussion</h4>
+  <p class="para">
+    See the <a href="#Unicode properties">table of properties</a> for available
+        sets.
+  </p>
+</div>
+
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#unicode.block" id="unicode.block"><code class="code">block</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="unicode.block"></span>struct <code class="code">block</code>;
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Narrows down the search for sets of <a href="#Code point">code points</a> to all Unicode blocks.
+
+  </p>
+</div>
+<div class="ddoc_section">
+  <p class="para">
+    <span class="ddoc_section_h">Note:</span>
+Here <code class="code">block</code> names are unambiguous as no scripts are searched
+        and thus to search use simply <code class="code">unicode.<code class="code">block</code>.BlockName</code> notation.
+<br><br>
+        See <a href="#Unicode properties">table of properties</a> for available sets.
+
+  </p>
+</div>
+<div class="ddoc_see_also">
+  <h4>See Also</h4>
+  <p class="para">
+    <a href="#Unicode properties">table of properties</a>.
+  </p>
+</div>
+<div class="ddoc_examples">
+  <h4>Examples</h4>
+  <p class="para">
+    
+<section class="code_listing">
+  <div class="code_sample">
+    <div class="dlang">
+      <ol class="code_lines">
+        <li><code class="code"><span class="comment">// use .block for explicitness
+</span><span class="keyword">assert</span>(unicode.<span class="psymbol">block</span>.Greek_and_Coptic == unicode.InGreek_and_Coptic);
+</code></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+  </p>
+</div>
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#unicode.script" id="unicode.script"><code class="code">script</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="unicode.script"></span>struct <code class="code">script</code>;
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Narrows down the search for sets of <a href="#Code point">code points</a> to all Unicode scripts.
+
+  </p>
+</div>
+<div class="ddoc_description">
+  <h4>Discussion</h4>
+  <p class="para">
+    See the <a href="#Unicode properties">table of properties</a> for available
+        sets.
+  </p>
+</div>
+<div class="ddoc_examples">
+  <h4>Examples</h4>
+  <p class="para">
+    
+<section class="code_listing">
+  <div class="code_sample">
+    <div class="dlang">
+      <ol class="code_lines">
+        <li><code class="code"><span class="keyword">auto</span> arabicScript = unicode.<span class="psymbol">script</span>.arabic;
+<span class="keyword">auto</span> arabicBlock = unicode.block.arabic;
+<span class="comment">// there is an intersection between script and block
+</span><span class="keyword">assert</span>(arabicBlock['؁']);
+<span class="keyword">assert</span>(arabicScript['؁']);
+<span class="comment">// but they are different
+</span><span class="keyword">assert</span>(arabicBlock != arabicScript);
+<span class="keyword">assert</span>(arabicBlock == unicode.inArabic);
+<span class="keyword">assert</span>(arabicScript == unicode.arabic);
+</code></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+  </p>
+</div>
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#unicode.hangulSyllableType" id="unicode.hangulSyllableType"><code class="code">hangulSyllableType</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="unicode.hangulSyllableType"></span>struct <code class="code">hangulSyllableType</code>;
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Fetch a set of <a href="#Code point">code points</a> that have the given hangul syllable type.
+
+  </p>
+</div>
+<div class="ddoc_description">
+  <h4>Discussion</h4>
+  <p class="para">
+    Other non-binary properties (once supported) follow the same
+        notation - <code class="code">unicode.propertyName.propertyValue</code> for compile-time
+        checked access and <code class="code">unicode.propertyName(propertyValue)</code>
+        for run-time checked one.
+<br><br>
+        See the <a href="#Unicode properties">table of properties</a> for available
+        sets.
+  </p>
+</div>
+<div class="ddoc_examples">
+  <h4>Examples</h4>
+  <p class="para">
+    
+<section class="code_listing">
+  <div class="code_sample">
+    <div class="dlang">
+      <ol class="code_lines">
+        <li><code class="code"><span class="comment">// L here is syllable type not Letter as in unicode.L short-cut
+</span><span class="keyword">auto</span> leadingVowel = unicode.<span class="psymbol">hangulSyllableType</span>(<span class="string_literal">"L"</span>);
+<span class="comment">// check that some leading vowels are present
+</span><span class="keyword">foreach</span> (vowel; '\u1110'..'\u115F')
+    <span class="keyword">assert</span>(leadingVowel[vowel]);
+<span class="keyword">assert</span>(leadingVowel == unicode.<span class="psymbol">hangulSyllableType</span>.L);
+</code></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+  </p>
+</div>
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#unicode.parseSet" id="unicode.parseSet"><code class="code">parseSet</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="unicode.parseSet"></span>CodepointSet <code class="code">parseSet</code>(Range)(ref Range <code class="code">range</code>, bool <code class="code">casefold</code> = false) if (isInputRange!Range &amp;&amp; is(ElementType!Range : dchar));
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Parse unicode codepoint set from given <code class="code"><code class="code">range</code></code> using standard regex
+        syntax '[...]'. The <code class="code">range</code> is advanced skiping over regex set definition.
+        <code class="code"><code class="code">casefold</code></code> parameter determines if the set should be casefolded - that is
+        include both lower and upper case versions for any letters in the set.
+  </p>
+</div>
+
+</section>
+
+</div>
+
+</li>
+</ul>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#graphemeStride" id="graphemeStride"><code class="code">graphemeStride</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="graphemeStride"></span>pure @safe size_t <code class="code">graphemeStride</code>(C)(scope const C[] <code class="code">input</code>, size_t <code class="code">index</code>) if (is(C : dchar));
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Computes the length of grapheme cluster starting at <code class="code"><code class="code">index</code></code>.
+    Both the resulting length and the <code class="code"><code class="code">index</code></code> are measured
+    in <a href="#Code unit">code units</a>.
+
+  </p>
+</div>
+<div class="ddoc_params">
+  <h4>Parameters</h4>
+  <table cellspacing="0" cellpadding="5" border="0" class="graybox">
+    <tbody>
+      <tr class="ddoc_param_row">
+  <td scope="ddoc_param_id">
+  <code class="code">
+    <em class="term">C</em>
+  </code>
+</td>
+<td>
+  <div class="ddoc_param_desc">
+    <p class="para">
+      type that is implicitly convertible to <code class="code">dchars</code>
+    </p>
+  </div>
+</td>
+</tr>
+<tr class="ddoc_param_row">
+  <td scope="ddoc_param_id">
+  <code class="code">
+    <em class="term">C[] <code class="code">input</code></em>
+  </code>
+</td>
+<td>
+  <div class="ddoc_param_desc">
+    <p class="para">
+      array of grapheme clusters
+    </p>
+  </div>
+</td>
+</tr>
+<tr class="ddoc_param_row">
+  <td scope="ddoc_param_id">
+  <code class="code">
+    <em class="term">size_t <code class="code">index</code></em>
+  </code>
+</td>
+<td>
+  <div class="ddoc_param_desc">
+    <p class="para">
+      starting <code class="code">index</code> into <code class="code"><code class="code">input</code>[]</code>
+    </p>
+  </div>
+</td>
+</tr>
+
+    </tbody>
+  </table>
+</div>
+<div class="ddoc_returns">
+  <h4>Return Value</h4>
+  <p class="para">
+    length of grapheme cluster
+  </p>
+</div>
+<div class="ddoc_examples">
+  <h4>Examples</h4>
+  <p class="para">
+    
+<section class="code_listing">
+  <div class="code_sample">
+    <div class="dlang">
+      <ol class="code_lines">
+        <li><code class="code"><span class="keyword">assert</span>(<span class="psymbol">graphemeStride</span>(<span class="string_literal">"  "</span>, 1) == 1);
+<span class="comment">// A + combing ring above
+</span>string city = <span class="string_literal">"A\u030Arhus"</span>;
+size_t first = <span class="psymbol">graphemeStride</span>(city, 0);
+<span class="keyword">assert</span>(first == 3); <span class="comment">//\u030A has 2 UTF-8 code units
+</span><span class="keyword">assert</span>(city[0 .. first] == <span class="string_literal">"A\u030A"</span>);
+<span class="keyword">assert</span>(city[first..$] == <span class="string_literal">"rhus"</span>);
+</code></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+  </p>
+</div>
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#decodeGrapheme" id="decodeGrapheme"><code class="code">decodeGrapheme</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="decodeGrapheme"></span>Grapheme <code class="code">decodeGrapheme</code>(Input)(ref Input <code class="code">inp</code>) if (isInputRange!Input &amp;&amp; is(immutable(ElementType!Input) == immutable(dchar)));
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Reads one full grapheme cluster from an
+     of dchar <code class="code"><code class="code">inp</code></code>.
+
+  </p>
+</div>
+<div class="ddoc_description">
+  <h4>Discussion</h4>
+  <p class="para">
+    For examples see the  below.
+
+
+  </p>
+</div>
+<div class="ddoc_section">
+  <p class="para">
+    <span class="ddoc_section_h">Note:</span>
+This function modifies <code class="code"><code class="code">inp</code></code> and thus <code class="code"><code class="code">inp</code></code>
+    must be an L-value.
+  </p>
+</div>
+
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#byGrapheme" id="byGrapheme"><code class="code">byGrapheme</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="byGrapheme"></span>auto <code class="code">byGrapheme</code>(Range)(Range <code class="code">range</code>) if (isInputRange!Range &amp;&amp; is(immutable(ElementType!Range) == immutable(dchar)));
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    <p>Iterate a string by .</p>
+
+  </p>
+</div>
+<div class="ddoc_description">
+  <h4>Discussion</h4>
+  <p class="para">
+    <p>Useful for doing string manipulation that needs to be aware
+    of graphemes.</p>
+
+
+  </p>
+</div>
+<div class="ddoc_see_also">
+  <h4>See Also</h4>
+  <p class="para">
+    
+  </p>
+</div>
+<div class="ddoc_examples">
+  <h4>Examples</h4>
+  <p class="para">
+    
+<section class="code_listing">
+  <div class="code_sample">
+    <div class="dlang">
+      <ol class="code_lines">
+        <li><code class="code"><span class="keyword">import</span> std.algorithm.comparison : equal;
+<span class="keyword">import</span> std.<span class="param">range</span>.primitives : walkLength;
+<span class="keyword">import</span> std.<span class="param">range</span> : take, drop;
+<span class="keyword">auto</span> text = <span class="string_literal">"noe\u0308l"</span>; <span class="comment">// noël using e + combining diaeresis
+</span><span class="keyword">assert</span>(text.walkLength == 5); <span class="comment">// 5 code points
+</span>
+<span class="keyword">auto</span> gText = text.<span class="psymbol">byGrapheme</span>;
+<span class="keyword">assert</span>(gText.walkLength == 4); <span class="comment">// 4 graphemes
+</span>
+<span class="keyword">assert</span>(gText.take(3).equal(<span class="string_literal">"noe\u0308"</span>.<span class="psymbol">byGrapheme</span>));
+<span class="keyword">assert</span>(gText.drop(3).equal(<span class="string_literal">"l"</span>.<span class="psymbol">byGrapheme</span>));
+</code></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+  </p>
+</div>
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#byCodePoint" id="byCodePoint"><code class="code">byCodePoint</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="byCodePoint"></span>auto <code class="code">byCodePoint</code>(Range)(Range <code class="code">range</code>) if (isInputRange!Range &amp;&amp; is(immutable(ElementType!Range) == immutable(Grapheme)));
+<br>
+auto <code class="code">byCodePoint</code>(Range)(Range <code class="code">range</code>) if (isInputRange!Range &amp;&amp; is(immutable(ElementType!Range) == immutable(dchar)));
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    <p>Lazily transform a <code class="code">range</code> of s to a <code class="code">range</code> of code points.</p>
+
+  </p>
+</div>
+<div class="ddoc_description">
+  <h4>Discussion</h4>
+  <p class="para">
+    <p>Useful for converting the result to a string after doing operations
+    on graphemes.</p>
+<br><br>
+    <p>If passed in a <code class="code">range</code> of code points, returns a <code class="code">range</code> with equivalent capabilities.</p>
+  </p>
+</div>
+<div class="ddoc_examples">
+  <h4>Examples</h4>
+  <p class="para">
+    
+<section class="code_listing">
+  <div class="code_sample">
+    <div class="dlang">
+      <ol class="code_lines">
+        <li><code class="code"><span class="keyword">import</span> std.array : array;
+<span class="keyword">import</span> std.conv : text;
+<span class="keyword">import</span> std.<span class="param">range</span> : retro;
+
+string s = <span class="string_literal">"noe\u0308l"</span>; <span class="comment">// noël
+</span>
+<span class="comment">// reverse it and convert the result to a string
+</span>string reverse = s.byGrapheme
+    .array
+    .retro
+    .<span class="psymbol">byCodePoint</span>
+    .text;
+
+<span class="keyword">assert</span>(reverse == <span class="string_literal">"le\u0308on"</span>); <span class="comment">// lëon
+</span></code></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+  </p>
+</div>
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#Grapheme" id="Grapheme"><code class="code">Grapheme</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="Grapheme"></span>struct <code class="code">Grapheme</code>;
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    <p>A structure designed to effectively pack <a href="#Character">characters</a>
+    of a <a href="#Grapheme cluster">grapheme cluster</a>.
+    </p>
+
+  </p>
+</div>
+<div class="ddoc_description">
+  <h4>Discussion</h4>
+  <p class="para">
+    <p><code class="code"><code class="code">Grapheme</code></code> has value semantics so 2 copies of a <code class="code"><code class="code">Grapheme</code></code>
+    always refer to distinct objects. In most actual scenarios a <code class="code"><code class="code">Grapheme</code></code>
+    fits on the stack and avoids memory allocation overhead for all but quite
+    long clusters.
+    </p>
+
+
+  </p>
+</div>
+<div class="ddoc_see_also">
+  <h4>See Also</h4>
+  <p class="para">
+    , 
+  </p>
+</div>
+
+</section>
+<ul class="ddoc_members">
+  <li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#Grapheme.this" id="Grapheme.this"><code class="code">this</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="Grapheme.this"></span>this(C)(scope const C[] <code class="code">chars</code>...) if (is(C : dchar));
+<br>
+this(Input)(Input <code class="code">seq</code>) if (!isDynamicArray!Input &amp;&amp; isInputRange!Input &amp;&amp; is(ElementType!Input : dchar));
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Ctor
+  </p>
+</div>
+
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#Grapheme.opIndex" id="Grapheme.opIndex"><code class="code">opIndex</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="Grapheme.opIndex"></span>const pure nothrow @nogc @trusted dchar <code class="code">opIndex</code>(size_t <code class="code">index</code>);
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Gets a <a href="#Code point">code point</a> at the given <code class="code">index</code> in this cluster.
+  </p>
+</div>
+
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#Grapheme.opIndexAssign" id="Grapheme.opIndexAssign"><code class="code">opIndexAssign</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="Grapheme.opIndexAssign"></span>pure nothrow @nogc @trusted void <code class="code">opIndexAssign</code>(dchar <code class="code">ch</code>, size_t <code class="code">index</code>);
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Writes a <a href="#Code point">code point</a> <code class="code"><code class="code">ch</code></code> at given <code class="code">index</code> in this cluster.
+
+  </p>
+</div>
+<div class="ddoc_section">
+  <p class="para">
+    <span class="ddoc_section_h">Warning:</span>
+Use of this facility may invalidate grapheme cluster,
+        see also .
+  </p>
+</div>
+<div class="ddoc_examples">
+  <h4>Examples</h4>
+  <p class="para">
+    
+<section class="code_listing">
+  <div class="code_sample">
+    <div class="dlang">
+      <ol class="code_lines">
+        <li><code class="code"><span class="keyword">auto</span> g = Grapheme(<span class="string_literal">"A\u0302"</span>);
+<span class="keyword">assert</span>(g[0] == 'A');
+<span class="keyword">assert</span>(g.valid);
+g[1] = '~'; <span class="comment">// ASCII tilda is not a combining mark
+</span><span class="keyword">assert</span>(g[1] == '~');
+<span class="keyword">assert</span>(!g.valid);
+</code></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+  </p>
+</div>
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#Grapheme.opSlice" id="Grapheme.opSlice"><code class="code">opSlice</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="Grapheme.opSlice"></span>pure nothrow @nogc @safe SliceOverIndexed!Grapheme <code class="code">opSlice</code>(size_t <code class="code">a</code>, size_t <code class="code">b</code>) return;
+<br>
+pure nothrow @nogc @safe SliceOverIndexed!Grapheme <code class="code">opSlice</code>() return;
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Random-access range over Grapheme's <a href="#Character">characters</a>.
+
+  </p>
+</div>
+<div class="ddoc_section">
+  <p class="para">
+    <span class="ddoc_section_h">Warning:</span>
+Invalidates when this Grapheme leaves the scope,
+        attempts to use it then would lead to memory corruption.
+  </p>
+</div>
+
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#Grapheme.length" id="Grapheme.length"><code class="code">length</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="Grapheme.length"></span>const pure nothrow @nogc @property @safe size_t <code class="code">length</code>();
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Grapheme cluster <code class="code">length</code> in <a href="#Code point">code points</a>.
+  </p>
+</div>
+
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#Grapheme.opOpAssign" id="Grapheme.opOpAssign"><code class="code">opOpAssign</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="Grapheme.opOpAssign"></span>ref @trusted auto <code class="code">opOpAssign</code>(string op)(dchar <code class="code">ch</code>);
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Append <a href="#Character">character</a> <code class="code"><code class="code">ch</code></code> to this grapheme.
+
+  </p>
+</div>
+<div class="ddoc_section">
+  <p class="para">
+    <span class="ddoc_section_h">Warning:</span>
+Use of this facility may invalidate grapheme cluster,
+        see also <code class="code">valid</code>.
+
+
+  </p>
+</div>
+<div class="ddoc_see_also">
+  <h4>See Also</h4>
+  <p class="para">
+    
+  </p>
+</div>
+<div class="ddoc_examples">
+  <h4>Examples</h4>
+  <p class="para">
+    
+<section class="code_listing">
+  <div class="code_sample">
+    <div class="dlang">
+      <ol class="code_lines">
+        <li><code class="code"><span class="keyword">import</span> std.algorithm.comparison : equal;
+<span class="keyword">auto</span> g = Grapheme(<span class="string_literal">"A"</span>);
+<span class="keyword">assert</span>(g.valid);
+g ~= '\u0301';
+<span class="keyword">assert</span>(g[].equal(<span class="string_literal">"A\u0301"</span>));
+<span class="keyword">assert</span>(g.valid);
+g ~= <span class="string_literal">"B"</span>;
+<span class="comment">// not a valid grapheme cluster anymore
+</span><span class="keyword">assert</span>(!g.valid);
+<span class="comment">// still could be useful though
+</span><span class="keyword">assert</span>(g[].equal(<span class="string_literal">"A\u0301B"</span>));
+</code></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+  </p>
+</div>
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#Grapheme.opOpAssign" id="Grapheme.opOpAssign"><code class="code">opOpAssign</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="Grapheme.opOpAssign.2"></span>ref auto <code class="code">opOpAssign</code>(string op, Input)(scope Input <code class="code">inp</code>) if (isInputRange!Input &amp;&amp; is(ElementType!Input : dchar));
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Append all <a href="#Character">characters</a> from the input range <code class="code"><code class="code">inp</code></code> to this Grapheme.
+  </p>
+</div>
+
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#Grapheme.valid" id="Grapheme.valid"><code class="code">valid</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="Grapheme.valid"></span>@property bool <code class="code">valid</code>()();
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    True if this object contains <code class="code">valid</code> extended grapheme cluster.
+        Decoding primitives of this module always return a <code class="code">valid</code> <code class="code">Grapheme</code>.
+
+  </p>
+</div>
+<div class="ddoc_description">
+  <h4>Discussion</h4>
+  <p class="para">
+    Appending to and direct manipulation of grapheme's <a href="#Character">characters</a> may
+        render it no longer <code class="code">valid</code>. Certain applications may chose to use
+        Grapheme as a "small string" of any <a href="#Code point">code points</a> and ignore this property
+        entirely.
+  </p>
+</div>
+
+</section>
+
+</div>
+
+</li>
+</ul>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#sicmp" id="sicmp"><code class="code">sicmp</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="sicmp"></span>int <code class="code">sicmp</code>(S1, S2)(scope S1 <code class="code">r1</code>, scope S2 <code class="code">r2</code>) if (isInputRange!S1 &amp;&amp; isSomeChar!(ElementEncodingType!S1) &amp;&amp; isInputRange!S2 &amp;&amp; isSomeChar!(ElementEncodingType!S2));
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    <p>Does basic case-insensitive comparison of <code class="code"><code class="code">r1</code></code> and <code class="code"><code class="code">r2</code></code>.
+    This function uses simpler comparison rule thus achieving better performance
+    than . However keep in mind the warning below.</p>
+
+  </p>
+</div>
+<div class="ddoc_params">
+  <h4>Parameters</h4>
+  <table cellspacing="0" cellpadding="5" border="0" class="graybox">
+    <tbody>
+      <tr class="ddoc_param_row">
+  <td scope="ddoc_param_id">
+  <code class="code">
+    <em class="term">S1 <code class="code">r1</code></em>
+  </code>
+</td>
+<td>
+  <div class="ddoc_param_desc">
+    <p class="para">
+      an  of characters
+    </p>
+  </div>
+</td>
+</tr>
+<tr class="ddoc_param_row">
+  <td scope="ddoc_param_id">
+  <code class="code">
+    <em class="term">S2 <code class="code">r2</code></em>
+  </code>
+</td>
+<td>
+  <div class="ddoc_param_desc">
+    <p class="para">
+      an  of characters
+    </p>
+  </div>
+</td>
+</tr>
+
+    </tbody>
+  </table>
+</div>
+<div class="ddoc_returns">
+  <h4>Return Value</h4>
+  <p class="para">
+    An <code class="code">int</code> that is 0 if the strings match,
+        &lt;0 if <code class="code"><code class="code">r1</code></code> is lexicographically "less" than <code class="code"><code class="code">r2</code></code>,
+        &gt;0 if <code class="code"><code class="code">r1</code></code> is lexicographically "greater" than <code class="code"><code class="code">r2</code></code>
+
+
+  </p>
+</div>
+<div class="ddoc_section">
+  <p class="para">
+    <span class="ddoc_section_h">Warning:</span>
+This function only handles 1:1 <a href="#Code point">code point</a> mapping
+    and thus is not sufficient for certain alphabets
+    like German, Greek and few others.
+
+
+  </p>
+</div>
+<div class="ddoc_see_also">
+  <h4>See Also</h4>
+  <p class="para">
+    
+        
+  </p>
+</div>
+<div class="ddoc_examples">
+  <h4>Examples</h4>
+  <p class="para">
+    
+<section class="code_listing">
+  <div class="code_sample">
+    <div class="dlang">
+      <ol class="code_lines">
+        <li><code class="code"><span class="keyword">assert</span>(<span class="psymbol">sicmp</span>(<span class="string_literal">"Август"</span>, <span class="string_literal">"авгусТ"</span>) == 0);
+<span class="comment">// Greek also works as long as there is no 1:M mapping in sight
+</span><span class="keyword">assert</span>(<span class="psymbol">sicmp</span>(<span class="string_literal">"ΌΎ"</span>, <span class="string_literal">"όύ"</span>) == 0);
+<span class="comment">// things like the following won't get matched as equal
+</span><span class="comment">// Greek small letter iota with dialytika and tonos
+</span><span class="keyword">assert</span>(<span class="psymbol">sicmp</span>(<span class="string_literal">"ΐ"</span>, <span class="string_literal">"\u03B9\u0308\u0301"</span>) != 0);
+
+<span class="comment">// while icmp has no problem with that
+</span><span class="keyword">assert</span>(icmp(<span class="string_literal">"ΐ"</span>, <span class="string_literal">"\u03B9\u0308\u0301"</span>) == 0);
+<span class="keyword">assert</span>(icmp(<span class="string_literal">"ΌΎ"</span>, <span class="string_literal">"όύ"</span>) == 0);
+</code></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+  </p>
+</div>
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#icmp" id="icmp"><code class="code">icmp</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="icmp"></span>int <code class="code">icmp</code>(S1, S2)(S1 <code class="code">r1</code>, S2 <code class="code">r2</code>) if (isForwardRange!S1 &amp;&amp; isSomeChar!(ElementEncodingType!S1) &amp;&amp; isForwardRange!S2 &amp;&amp; isSomeChar!(ElementEncodingType!S2));
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Does case insensitive comparison of <code class="code"><code class="code">r1</code></code> and <code class="code"><code class="code">r2</code></code>.
+    Follows the rules of full case-folding mapping.
+    This includes matching as equal german ß with "ss" and
+    other 1:M <a href="#Code point">code point</a> mappings unlike .
+    The cost of <code class="code"><code class="code">icmp</code></code> being pedantically correct is
+    slightly worse performance.
+
+  </p>
+</div>
+<div class="ddoc_params">
+  <h4>Parameters</h4>
+  <table cellspacing="0" cellpadding="5" border="0" class="graybox">
+    <tbody>
+      <tr class="ddoc_param_row">
+  <td scope="ddoc_param_id">
+  <code class="code">
+    <em class="term">S1 <code class="code">r1</code></em>
+  </code>
+</td>
+<td>
+  <div class="ddoc_param_desc">
+    <p class="para">
+      a forward range of characters
+    </p>
+  </div>
+</td>
+</tr>
+<tr class="ddoc_param_row">
+  <td scope="ddoc_param_id">
+  <code class="code">
+    <em class="term">S2 <code class="code">r2</code></em>
+  </code>
+</td>
+<td>
+  <div class="ddoc_param_desc">
+    <p class="para">
+      a forward range of characters
+    </p>
+  </div>
+</td>
+</tr>
+
+    </tbody>
+  </table>
+</div>
+<div class="ddoc_returns">
+  <h4>Return Value</h4>
+  <p class="para">
+    An <code class="code">int</code> that is 0 if the strings match,
+        &lt;0 if <code class="code">str1</code> is lexicographically "less" than <code class="code">str2</code>,
+        &gt;0 if <code class="code">str1</code> is lexicographically "greater" than <code class="code">str2</code>
+
+
+  </p>
+</div>
+<div class="ddoc_see_also">
+  <h4>See Also</h4>
+  <p class="para">
+    
+        
+  </p>
+</div>
+<div class="ddoc_examples">
+  <h4>Examples</h4>
+  <p class="para">
+    
+<section class="code_listing">
+  <div class="code_sample">
+    <div class="dlang">
+      <ol class="code_lines">
+        <li><code class="code"><span class="keyword">assert</span>(<span class="psymbol">icmp</span>(<span class="string_literal">"Rußland"</span>, <span class="string_literal">"Russland"</span>) == 0);
+<span class="keyword">assert</span>(<span class="psymbol">icmp</span>(<span class="string_literal">"ᾩ -&gt; \u1F70\u03B9"</span>, <span class="string_literal">"\u1F61\u03B9 -&gt; ᾲ"</span>) == 0);
+</code></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+  </p>
+</div><div class="ddoc_examples">
+  <h4>Examples</h4>
+  <p class="para">
+    By using  and its aliases, GC allocations via auto-decoding
+ and thrown exceptions can be avoided, making <code class="code"><code class="code">icmp</code></code> <code class="code">@safe @nogc nothrow pure</code>.
+
+<section class="code_listing">
+  <div class="code_sample">
+    <div class="dlang">
+      <ol class="code_lines">
+        <li><code class="code"><span class="keyword">import</span> std.utf : byDchar;
+
+<span class="keyword">assert</span>(<span class="psymbol">icmp</span>(<span class="string_literal">"Rußland"</span>.byDchar, <span class="string_literal">"Russland"</span>.byDchar) == 0);
+<span class="keyword">assert</span>(<span class="psymbol">icmp</span>(<span class="string_literal">"ᾩ -&gt; \u1F70\u03B9"</span>.byDchar, <span class="string_literal">"\u1F61\u03B9 -&gt; ᾲ"</span>.byDchar) == 0);
+</code></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+  </p>
+</div>
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#combiningClass" id="combiningClass"><code class="code">combiningClass</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="combiningClass"></span>pure nothrow @nogc @safe ubyte <code class="code">combiningClass</code>(dchar <code class="code">ch</code>);
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    <p>Returns the <a href="#Combining class">combining class</a> of <code class="code"><code class="code">ch</code></code>.</p>
+  </p>
+</div>
+<div class="ddoc_examples">
+  <h4>Examples</h4>
+  <p class="para">
+    
+<section class="code_listing">
+  <div class="code_sample">
+    <div class="dlang">
+      <ol class="code_lines">
+        <li><code class="code"><span class="comment">// shorten the code
+</span><span class="keyword">alias</span> CC = <span class="psymbol">combiningClass</span>;
+
+<span class="comment">// combining tilda
+</span><span class="keyword">assert</span>(CC('\u0303') == 230);
+<span class="comment">// combining ring below
+</span><span class="keyword">assert</span>(CC('\u0325') == 220);
+<span class="comment">// the simple consequence is that  "tilda" should be
+</span><span class="comment">// placed after a "ring below" in a sequence
+</span></code></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+  </p>
+</div>
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#UnicodeDecomposition" id="UnicodeDecomposition"><code class="code">UnicodeDecomposition</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="UnicodeDecomposition"></span>enum <code class="code">UnicodeDecomposition</code>: int;
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Unicode character decomposition type.
+  </p>
+</div>
+
+</section>
+<ul class="ddoc_members">
+  <li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#UnicodeDecomposition.Canonical" id="UnicodeDecomposition.Canonical"><code class="code">Canonical</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="UnicodeDecomposition.Canonical"></span><code class="code">Canonical</code>
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    <code class="code">Canonical</code> decomposition. The result is canonically equivalent sequence.
+  </p>
+</div>
+
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#UnicodeDecomposition.Compatibility" id="UnicodeDecomposition.Compatibility"><code class="code">Compatibility</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="UnicodeDecomposition.Compatibility"></span><code class="code">Compatibility</code>
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    <code class="code">Compatibility</code> decomposition. The result is compatibility equivalent sequence.
+
+  </p>
+</div>
+<div class="ddoc_section">
+  <p class="para">
+    <span class="ddoc_section_h">Note:</span>
+<code class="code">Compatibility</code> decomposition is a <b>lossy</b> conversion,
+         typically suitable only for fuzzy matching and internal processing.
+  </p>
+</div>
+
+</section>
+
+</div>
+
+</li>
+</ul>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#compose" id="compose"><code class="code">compose</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="compose"></span>pure nothrow @safe dchar <code class="code">compose</code>(dchar <code class="code">first</code>, dchar <code class="code">second</code>);
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Try to canonically <code class="code">compose</code> 2 <a href="#Character">characters</a>.
+    Returns the composed <a href="#Character">character</a> if they do <code class="code">compose</code> and dchar.init otherwise.
+
+  </p>
+</div>
+<div class="ddoc_description">
+  <h4>Discussion</h4>
+  <p class="para">
+    The assumption is that <code class="code"><code class="code">first</code></code> comes before <code class="code"><code class="code">second</code></code> in the original text,
+    usually meaning that the <code class="code">first</code> is a starter.
+
+
+  </p>
+</div>
+<div class="ddoc_section">
+  <p class="para">
+    <span class="ddoc_section_h">Note:</span>
+Hangul syllables are not covered by this function.
+    See <code class="code">composeJamo</code> below.
+  </p>
+</div>
+<div class="ddoc_examples">
+  <h4>Examples</h4>
+  <p class="para">
+    
+<section class="code_listing">
+  <div class="code_sample">
+    <div class="dlang">
+      <ol class="code_lines">
+        <li><code class="code"><span class="keyword">assert</span>(<span class="psymbol">compose</span>('A','\u0308') == '\u00C4');
+<span class="keyword">assert</span>(<span class="psymbol">compose</span>('A', 'B') == <span class="keyword">dchar</span>.init);
+<span class="keyword">assert</span>(<span class="psymbol">compose</span>('C', '\u0301') == '\u0106');
+<span class="comment">// note that the starter is the first one
+</span><span class="comment">// thus the following doesn't compose
+</span><span class="keyword">assert</span>(<span class="psymbol">compose</span>('\u0308', 'A') == <span class="keyword">dchar</span>.init);
+</code></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+  </p>
+</div>
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#decompose" id="decompose"><code class="code">decompose</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="decompose"></span>@safe Grapheme <code class="code">decompose</code>(UnicodeDecomposition decompType = Canonical)(dchar <code class="code">ch</code>);
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Returns a full <a href="#Canonical decomposition">Canonical</a>
+    (by default) or <a href="#Compatibility decomposition">Compatibility</a>
+    decomposition of <a href="#Character">character</a> <code class="code"><code class="code">ch</code></code>.
+    If no decomposition is available returns a 
+    with the <code class="code"><code class="code">ch</code></code> itself.
+
+  </p>
+</div>
+<div class="ddoc_section">
+  <p class="para">
+    <span class="ddoc_section_h">Note:</span>
+This function also decomposes hangul syllables
+    as prescribed by the standard.
+
+
+  </p>
+</div>
+<div class="ddoc_see_also">
+  <h4>See Also</h4>
+  <p class="para">
+     for a restricted version
+    that takes into account only hangul syllables  but
+    no other decompositions.
+  </p>
+</div>
+<div class="ddoc_examples">
+  <h4>Examples</h4>
+  <p class="para">
+    
+<section class="code_listing">
+  <div class="code_sample">
+    <div class="dlang">
+      <ol class="code_lines">
+        <li><code class="code"><span class="keyword">import</span> std.algorithm.comparison : equal;
+
+<span class="keyword">assert</span>(compose('A','\u0308') == '\u00C4');
+<span class="keyword">assert</span>(compose('A', 'B') == <span class="keyword">dchar</span>.init);
+<span class="keyword">assert</span>(compose('C', '\u0301') == '\u0106');
+<span class="comment">// note that the starter is the first one
+</span><span class="comment">// thus the following doesn't compose
+</span><span class="keyword">assert</span>(compose('\u0308', 'A') == <span class="keyword">dchar</span>.init);
+
+<span class="keyword">assert</span>(<span class="psymbol">decompose</span>('Ĉ')[].equal(<span class="string_literal">"C\u0302"</span>));
+<span class="keyword">assert</span>(<span class="psymbol">decompose</span>('D')[].equal(<span class="string_literal">"D"</span>));
+<span class="keyword">assert</span>(<span class="psymbol">decompose</span>('\uD4DC')[].equal(<span class="string_literal">"\u1111\u1171\u11B7"</span>));
+<span class="keyword">assert</span>(<span class="psymbol">decompose</span>!Compatibility('¹')[].equal(<span class="string_literal">"1"</span>));
+</code></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+  </p>
+</div>
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#decomposeHangul" id="decomposeHangul"><code class="code">decomposeHangul</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="decomposeHangul"></span>@safe Grapheme <code class="code">decomposeHangul</code>(dchar <code class="code">ch</code>);
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Decomposes a Hangul syllable. If <code class="code"><code class="code">ch</code></code> is not a composed syllable
+    then this function returns  containing only <code class="code"><code class="code">ch</code></code> as is.
+  </p>
+</div>
+<div class="ddoc_examples">
+  <h4>Examples</h4>
+  <p class="para">
+    
+<section class="code_listing">
+  <div class="code_sample">
+    <div class="dlang">
+      <ol class="code_lines">
+        <li><code class="code"><span class="keyword">import</span> std.algorithm.comparison : equal;
+<span class="keyword">assert</span>(<span class="psymbol">decomposeHangul</span>('\uD4DB')[].equal(<span class="string_literal">"\u1111\u1171\u11B6"</span>));
+</code></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+  </p>
+</div>
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#composeJamo" id="composeJamo"><code class="code">composeJamo</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="composeJamo"></span>pure nothrow @nogc @safe dchar <code class="code">composeJamo</code>(dchar <code class="code">lead</code>, dchar <code class="code">vowel</code>, dchar <code class="code">trailing</code> = (dchar).init);
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Try to compose hangul syllable out of a leading consonant (<code class="code"><code class="code">lead</code></code>),
+    a <code class="code"><code class="code">vowel</code></code> and optional <code class="code"><code class="code">trailing</code></code> consonant jamos.
+
+  </p>
+</div>
+<div class="ddoc_description">
+  <h4>Discussion</h4>
+  <p class="para">
+    On success returns the composed LV or LVT hangul syllable.
+<br><br>
+    If any of <code class="code"><code class="code">lead</code></code> and <code class="code"><code class="code">vowel</code></code> are not a valid hangul jamo
+    of the respective <a href="#Character">character</a> class returns dchar.init.
+  </p>
+</div>
+<div class="ddoc_examples">
+  <h4>Examples</h4>
+  <p class="para">
+    
+<section class="code_listing">
+  <div class="code_sample">
+    <div class="dlang">
+      <ol class="code_lines">
+        <li><code class="code"><span class="keyword">assert</span>(<span class="psymbol">composeJamo</span>('\u1111', '\u1171', '\u11B6') == '\uD4DB');
+<span class="comment">// leaving out T-vowel, or passing any codepoint
+</span><span class="comment">// that is not trailing consonant composes an LV-syllable
+</span><span class="keyword">assert</span>(<span class="psymbol">composeJamo</span>('\u1111', '\u1171') == '\uD4CC');
+<span class="keyword">assert</span>(<span class="psymbol">composeJamo</span>('\u1111', '\u1171', ' ') == '\uD4CC');
+<span class="keyword">assert</span>(<span class="psymbol">composeJamo</span>('\u1111', 'A') == <span class="keyword">dchar</span>.init);
+<span class="keyword">assert</span>(<span class="psymbol">composeJamo</span>('A', '\u1171') == <span class="keyword">dchar</span>.init);
+</code></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+  </p>
+</div>
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#NormalizationForm" id="NormalizationForm"><code class="code">NormalizationForm</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="NormalizationForm"></span>enum <code class="code">NormalizationForm</code>: int;
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Enumeration type for normalization forms,
+    passed as template parameter for functions like .
+  </p>
+</div>
+
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#NFC" id="NFC"><code class="code">NFC</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="NFC"></span><code class="code">NFC</code><br>
+<span class="ddoc_anchor" id="NFD"></span><code class="code">NFD</code><br>
+<span class="ddoc_anchor" id="NFKC"></span><code class="code">NFKC</code><br>
+<span class="ddoc_anchor" id="NFKD"></span><code class="code">NFKD</code>
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Shorthand aliases from values indicating normalization forms.
+  </p>
+</div>
+
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#normalize" id="normalize"><code class="code">normalize</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="normalize"></span>inout(C)[] <code class="code">normalize</code>(NormalizationForm norm = NFC, C)(return scope inout(C)[] <code class="code">input</code>);
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Returns <code class="code"><code class="code">input</code></code> string normalized to the chosen form.
+    Form C is used by default.
+
+  </p>
+</div>
+<div class="ddoc_description">
+  <h4>Discussion</h4>
+  <p class="para">
+    For more information on normalization forms see
+    the <a href="#Normalization">normalization section</a>.
+
+
+  </p>
+</div>
+<div class="ddoc_section">
+  <p class="para">
+    <span class="ddoc_section_h">Note:</span>
+In cases where the string in question is already normalized,
+    it is returned unmodified and no memory allocation happens.
+  </p>
+</div>
+<div class="ddoc_examples">
+  <h4>Examples</h4>
+  <p class="para">
+    
+<section class="code_listing">
+  <div class="code_sample">
+    <div class="dlang">
+      <ol class="code_lines">
+        <li><code class="code"><span class="comment">// any encoding works
+</span>wstring greet = <span class="string_literal">"Hello world"</span>;
+<span class="keyword">assert</span>(<span class="psymbol">normalize</span>(greet) <span class="keyword">is</span> greet); <span class="comment">// the same exact slice
+</span>
+<span class="comment">// An example of a character with all 4 forms being different:
+</span><span class="comment">// Greek upsilon with acute and hook symbol (code point 0x03D3)
+</span><span class="keyword">assert</span>(<span class="psymbol">normalize</span>!NFC(<span class="string_literal">"ϓ"</span>) == <span class="string_literal">"\u03D3"</span>);
+<span class="keyword">assert</span>(<span class="psymbol">normalize</span>!NFD(<span class="string_literal">"ϓ"</span>) == <span class="string_literal">"\u03D2\u0301"</span>);
+<span class="keyword">assert</span>(<span class="psymbol">normalize</span>!NFKC(<span class="string_literal">"ϓ"</span>) == <span class="string_literal">"\u038E"</span>);
+<span class="keyword">assert</span>(<span class="psymbol">normalize</span>!NFKD(<span class="string_literal">"ϓ"</span>) == <span class="string_literal">"\u03A5\u0301"</span>);
+</code></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+  </p>
+</div>
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#allowedIn" id="allowedIn"><code class="code">allowedIn</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="allowedIn"></span>bool <code class="code">allowedIn</code>(NormalizationForm norm)(dchar <code class="code">ch</code>);
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Tests if dchar <code class="code"><code class="code">ch</code></code> is always allowed (Quick_Check=YES) in normalization
+    form <code class="code">norm</code>.
+  </p>
+</div>
+<div class="ddoc_examples">
+  <h4>Examples</h4>
+  <p class="para">
+    
+<section class="code_listing">
+  <div class="code_sample">
+    <div class="dlang">
+      <ol class="code_lines">
+        <li><code class="code"><span class="comment">// e.g. Cyrillic is always allowed, so is ASCII
+</span><span class="keyword">assert</span>(<span class="psymbol">allowedIn</span>!NFC('я'));
+<span class="keyword">assert</span>(<span class="psymbol">allowedIn</span>!NFD('я'));
+<span class="keyword">assert</span>(<span class="psymbol">allowedIn</span>!NFKC('я'));
+<span class="keyword">assert</span>(<span class="psymbol">allowedIn</span>!NFKD('я'));
+<span class="keyword">assert</span>(<span class="psymbol">allowedIn</span>!NFC('Z'));
+</code></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+  </p>
+</div>
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#isWhite" id="isWhite"><code class="code">isWhite</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="isWhite"></span>pure nothrow @nogc @safe bool <code class="code">isWhite</code>(dchar <code class="code">c</code>);
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Whether or not <code class="code"><code class="code">c</code></code> is a Unicode whitespace <a href="#Character">character</a>.
+    (general Unicode category: Part of C0(tab, vertical tab, form feed,
+    carriage return, and linefeed characters), Zs, Zl, Zp, and NEL(U+0085))
+  </p>
+</div>
+
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#isLower" id="isLower"><code class="code">isLower</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="isLower"></span>pure nothrow @nogc @safe bool <code class="code">isLower</code>(dchar <code class="code">c</code>);
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Return whether <code class="code"><code class="code">c</code></code> is a Unicode lowercase <a href="#Character">character</a>.
+  </p>
+</div>
+
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#isUpper" id="isUpper"><code class="code">isUpper</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="isUpper"></span>pure nothrow @nogc @safe bool <code class="code">isUpper</code>(dchar <code class="code">c</code>);
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Return whether <code class="code"><code class="code">c</code></code> is a Unicode uppercase <a href="#Character">character</a>.
+  </p>
+</div>
+
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#asLowerCase" id="asLowerCase"><code class="code">asLowerCase</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="asLowerCase"></span>auto <code class="code">asLowerCase</code>(Range)(Range <code class="code">str</code>) if (isInputRange!Range &amp;&amp; isSomeChar!(ElementEncodingType!Range) &amp;&amp; !isConvertibleToString!Range);
+<br>
+<span class="ddoc_anchor" id="asUpperCase"></span>auto <code class="code">asUpperCase</code>(Range)(Range <code class="code">str</code>) if (isInputRange!Range &amp;&amp; isSomeChar!(ElementEncodingType!Range) &amp;&amp; !isConvertibleToString!Range);
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Convert an 
+ or a string to upper or lower case.
+
+  </p>
+</div>
+<div class="ddoc_description">
+  <h4>Discussion</h4>
+  <p class="para">
+    Does not allocate memory.
+ Characters in UTF-8 or UTF-16 format that cannot be decoded
+ are treated as .
+
+
+  </p>
+</div>
+<div class="ddoc_params">
+  <h4>Parameters</h4>
+  <table cellspacing="0" cellpadding="5" border="0" class="graybox">
+    <tbody>
+      <tr class="ddoc_param_row">
+  <td scope="ddoc_param_id">
+  <code class="code">
+    <em class="term">Range <code class="code">str</code></em>
+  </code>
+</td>
+<td>
+  <div class="ddoc_param_desc">
+    <p class="para">
+      string or range of characters
+    </p>
+  </div>
+</td>
+</tr>
+
+    </tbody>
+  </table>
+</div>
+<div class="ddoc_returns">
+  <h4>Return Value</h4>
+  <p class="para">
+    an input range of <code class="code">dchar</code>s
+
+
+  </p>
+</div>
+<div class="ddoc_see_also">
+  <h4>See Also</h4>
+  <p class="para">
+    , 
+  </p>
+</div>
+<div class="ddoc_examples">
+  <h4>Examples</h4>
+  <p class="para">
+    
+<section class="code_listing">
+  <div class="code_sample">
+    <div class="dlang">
+      <ol class="code_lines">
+        <li><code class="code"><span class="keyword">import</span> std.algorithm.comparison : equal;
+
+<span class="keyword">assert</span>(<span class="string_literal">"hEllo"</span>.<span class="psymbol">asUpperCase</span>.equal(<span class="string_literal">"HELLO"</span>));
+</code></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+  </p>
+</div>
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#asCapitalized" id="asCapitalized"><code class="code">asCapitalized</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="asCapitalized"></span>auto <code class="code">asCapitalized</code>(Range)(Range <code class="code">str</code>) if (isInputRange!Range &amp;&amp; isSomeChar!(ElementEncodingType!Range) &amp;&amp; !isConvertibleToString!Range);
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Capitalize an 
+ or string, meaning convert the first
+ character to upper case and subsequent characters to lower case.
+
+  </p>
+</div>
+<div class="ddoc_description">
+  <h4>Discussion</h4>
+  <p class="para">
+    Does not allocate memory.
+ Characters in UTF-8 or UTF-16 format that cannot be decoded
+ are treated as .
+
+
+  </p>
+</div>
+<div class="ddoc_params">
+  <h4>Parameters</h4>
+  <table cellspacing="0" cellpadding="5" border="0" class="graybox">
+    <tbody>
+      <tr class="ddoc_param_row">
+  <td scope="ddoc_param_id">
+  <code class="code">
+    <em class="term">Range <code class="code">str</code></em>
+  </code>
+</td>
+<td>
+  <div class="ddoc_param_desc">
+    <p class="para">
+      string or range of characters
+    </p>
+  </div>
+</td>
+</tr>
+
+    </tbody>
+  </table>
+</div>
+<div class="ddoc_returns">
+  <h4>Return Value</h4>
+  <p class="para">
+    an InputRange of dchars
+
+
+  </p>
+</div>
+<div class="ddoc_see_also">
+  <h4>See Also</h4>
+  <p class="para">
+    , 
+      , 
+  </p>
+</div>
+<div class="ddoc_examples">
+  <h4>Examples</h4>
+  <p class="para">
+    
+<section class="code_listing">
+  <div class="code_sample">
+    <div class="dlang">
+      <ol class="code_lines">
+        <li><code class="code"><span class="keyword">import</span> std.algorithm.comparison : equal;
+
+<span class="keyword">assert</span>(<span class="string_literal">"hEllo"</span>.<span class="psymbol">asCapitalized</span>.equal(<span class="string_literal">"Hello"</span>));
+</code></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+  </p>
+</div>
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#toLowerInPlace" id="toLowerInPlace"><code class="code">toLowerInPlace</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="toLowerInPlace"></span>pure @trusted void <code class="code">toLowerInPlace</code>(C)(ref C[] <code class="code">s</code>) if (is(C == char) || is(C == wchar) || is(C == dchar));
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Converts <code class="code"><code class="code">s</code></code> to lowercase (by performing Unicode lowercase mapping) in place.
+    For a few characters string length may increase after the transformation,
+    in such a case the function reallocates exactly once.
+    If <code class="code"><code class="code">s</code></code> does not have any uppercase characters, then <code class="code"><code class="code">s</code></code> is unaltered.
+  </p>
+</div>
+
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#toUpperInPlace" id="toUpperInPlace"><code class="code">toUpperInPlace</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="toUpperInPlace"></span>pure @trusted void <code class="code">toUpperInPlace</code>(C)(ref C[] <code class="code">s</code>) if (is(C == char) || is(C == wchar) || is(C == dchar));
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Converts <code class="code"><code class="code">s</code></code> to uppercase  (by performing Unicode uppercase mapping) in place.
+    For a few characters string length may increase after the transformation,
+    in such a case the function reallocates exactly once.
+    If <code class="code"><code class="code">s</code></code> does not have any lowercase characters, then <code class="code"><code class="code">s</code></code> is unaltered.
+  </p>
+</div>
+
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#toLower" id="toLower"><code class="code">toLower</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="toLower"></span>pure nothrow @nogc @safe dchar <code class="code">toLower</code>(dchar <code class="code">c</code>);
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    If <code class="code"><code class="code">c</code></code> is a Unicode uppercase <a href="#Character">character</a>, then its lowercase equivalent
+    is returned. Otherwise <code class="code"><code class="code">c</code></code> is returned.
+
+  </p>
+</div>
+<div class="ddoc_section">
+  <p class="para">
+    <span class="ddoc_section_h">Warning:</span>
+certain alphabets like German and Greek have no 1:1
+    upper-lower mapping. Use overload of <code class="code">toLower</code> which takes full string instead.
+  </p>
+</div>
+
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#toLower" id="toLower"><code class="code">toLower</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="toLower.2"></span>@trusted ElementEncodingType!S[] <code class="code">toLower</code>(S)(return scope S <code class="code">s</code>) if (isSomeString!S);
+<br>
+ElementEncodingType!S[] <code class="code">toLower</code>(S)(S <code class="code">s</code>) if (!isSomeString!S &amp;&amp; (isRandomAccessRange!S &amp;&amp; hasLength!S &amp;&amp; hasSlicing!S &amp;&amp; isSomeChar!(ElementType!S)));
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Creates a new array which is identical to <code class="code"><code class="code">s</code></code> except that all of its
+    characters are converted to lowercase (by performing Unicode lowercase mapping).
+    If none of <code class="code"><code class="code">s</code></code> characters were affected, then <code class="code"><code class="code">s</code></code> itself is returned if <code class="code"><code class="code">s</code></code> is a
+    <code class="code">string</code>-like type.
+
+  </p>
+</div>
+<div class="ddoc_params">
+  <h4>Parameters</h4>
+  <table cellspacing="0" cellpadding="5" border="0" class="graybox">
+    <tbody>
+      <tr class="ddoc_param_row">
+  <td scope="ddoc_param_id">
+  <code class="code">
+    <em class="term">S <code class="code">s</code></em>
+  </code>
+</td>
+<td>
+  <div class="ddoc_param_desc">
+    <p class="para">
+      A 
+        of characters
+    </p>
+  </div>
+</td>
+</tr>
+
+    </tbody>
+  </table>
+</div>
+<div class="ddoc_returns">
+  <h4>Return Value</h4>
+  <p class="para">
+    An array with the same element type as <code class="code"><code class="code">s</code></code>.
+  </p>
+</div>
+
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#toUpper" id="toUpper"><code class="code">toUpper</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="toUpper"></span>pure nothrow @nogc @safe dchar <code class="code">toUpper</code>(dchar <code class="code">c</code>);
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    If <code class="code"><code class="code">c</code></code> is a Unicode lowercase <a href="#Character">character</a>, then its uppercase equivalent
+    is returned. Otherwise <code class="code"><code class="code">c</code></code> is returned.
+
+  </p>
+</div>
+<div class="ddoc_section">
+  <p class="para">
+    <span class="ddoc_section_h">Warning:</span>
+Certain alphabets like German and Greek have no 1:1
+    upper-lower mapping. Use overload of <code class="code">toUpper</code> which takes full string instead.
+<br><br>
+    <code class="code">toUpper</code> can be used as an argument to 
+    to produce an algorithm that can convert a range of characters to upper case
+    without allocating memory.
+    A string can then be produced by using 
+    to send it to an .
+  </p>
+</div>
+<div class="ddoc_examples">
+  <h4>Examples</h4>
+  <p class="para">
+    
+<section class="code_listing">
+  <div class="code_sample">
+    <div class="dlang">
+      <ol class="code_lines">
+        <li><code class="code"><span class="keyword">import</span> std.algorithm.iteration : map;
+<span class="keyword">import</span> std.algorithm.mutation : copy;
+<span class="keyword">import</span> std.array : appender;
+
+<span class="keyword">auto</span> abuf = appender!(<span class="keyword">char</span>[])();
+<span class="string_literal">"hello"</span>.map!<span class="psymbol">toUpper</span>.copy(abuf);
+<span class="keyword">assert</span>(abuf.data == <span class="string_literal">"HELLO"</span>);
+</code></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+  </p>
+</div>
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#toUpper" id="toUpper"><code class="code">toUpper</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="toUpper.2"></span>@trusted ElementEncodingType!S[] <code class="code">toUpper</code>(S)(return scope S <code class="code">s</code>) if (isSomeString!S);
+<br>
+ElementEncodingType!S[] <code class="code">toUpper</code>(S)(S <code class="code">s</code>) if (!isSomeString!S &amp;&amp; (isRandomAccessRange!S &amp;&amp; hasLength!S &amp;&amp; hasSlicing!S &amp;&amp; isSomeChar!(ElementType!S)));
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Allocates a new array which is identical to <code class="code"><code class="code">s</code></code> except that all of its
+    characters are converted to uppercase (by performing Unicode uppercase mapping).
+    If none of <code class="code"><code class="code">s</code></code> characters were affected, then <code class="code"><code class="code">s</code></code> itself is returned if <code class="code"><code class="code">s</code></code>
+    is a <code class="code">string</code>-like type.
+
+  </p>
+</div>
+<div class="ddoc_params">
+  <h4>Parameters</h4>
+  <table cellspacing="0" cellpadding="5" border="0" class="graybox">
+    <tbody>
+      <tr class="ddoc_param_row">
+  <td scope="ddoc_param_id">
+  <code class="code">
+    <em class="term">S <code class="code">s</code></em>
+  </code>
+</td>
+<td>
+  <div class="ddoc_param_desc">
+    <p class="para">
+      A 
+        of characters
+    </p>
+  </div>
+</td>
+</tr>
+
+    </tbody>
+  </table>
+</div>
+<div class="ddoc_returns">
+  <h4>Return Value</h4>
+  <p class="para">
+    An new array with the same element type as <code class="code"><code class="code">s</code></code>.
+  </p>
+</div>
+
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#isAlpha" id="isAlpha"><code class="code">isAlpha</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="isAlpha"></span>pure nothrow @nogc @safe bool <code class="code">isAlpha</code>(dchar <code class="code">c</code>);
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Returns whether <code class="code"><code class="code">c</code></code> is a Unicode alphabetic <a href="#Character">character</a>
+    (general Unicode category: Alphabetic).
+  </p>
+</div>
+
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#isMark" id="isMark"><code class="code">isMark</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="isMark"></span>pure nothrow @nogc @safe bool <code class="code">isMark</code>(dchar <code class="code">c</code>);
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Returns whether <code class="code"><code class="code">c</code></code> is a Unicode mark
+    (general Unicode category: Mn, Me, Mc).
+  </p>
+</div>
+
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#isNumber" id="isNumber"><code class="code">isNumber</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="isNumber"></span>pure nothrow @nogc @safe bool <code class="code">isNumber</code>(dchar <code class="code">c</code>);
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Returns whether <code class="code"><code class="code">c</code></code> is a Unicode numerical <a href="#Character">character</a>
+    (general Unicode category: Nd, Nl, No).
+  </p>
+</div>
+
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#isAlphaNum" id="isAlphaNum"><code class="code">isAlphaNum</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="isAlphaNum"></span>pure nothrow @nogc @safe bool <code class="code">isAlphaNum</code>(dchar <code class="code">c</code>);
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Returns whether <code class="code"><code class="code">c</code></code> is a Unicode alphabetic <a href="#Character">character</a> or number.
+    (general Unicode category: Alphabetic, Nd, Nl, No).
+
+  </p>
+</div>
+<div class="ddoc_params">
+  <h4>Parameters</h4>
+  <table cellspacing="0" cellpadding="5" border="0" class="graybox">
+    <tbody>
+      <tr class="ddoc_param_row">
+  <td scope="ddoc_param_id">
+  <code class="code">
+    <em class="term">dchar <code class="code">c</code></em>
+  </code>
+</td>
+<td>
+  <div class="ddoc_param_desc">
+    <p class="para">
+      any Unicode character
+    </p>
+  </div>
+</td>
+</tr>
+
+    </tbody>
+  </table>
+</div>
+<div class="ddoc_returns">
+  <h4>Return Value</h4>
+  <p class="para">
+    <code class="code">true</code> if the character is in the Alphabetic, Nd, Nl, or No Unicode
+        categories
+  </p>
+</div>
+
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#isPunctuation" id="isPunctuation"><code class="code">isPunctuation</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="isPunctuation"></span>pure nothrow @nogc @safe bool <code class="code">isPunctuation</code>(dchar <code class="code">c</code>);
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Returns whether <code class="code"><code class="code">c</code></code> is a Unicode punctuation <a href="#Character">character</a>
+    (general Unicode category: Pd, Ps, Pe, Pc, Po, Pi, Pf).
+  </p>
+</div>
+
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#isSymbol" id="isSymbol"><code class="code">isSymbol</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="isSymbol"></span>pure nothrow @nogc @safe bool <code class="code">isSymbol</code>(dchar <code class="code">c</code>);
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Returns whether <code class="code"><code class="code">c</code></code> is a Unicode symbol <a href="#Character">character</a>
+    (general Unicode category: Sm, Sc, Sk, So).
+  </p>
+</div>
+
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#isSpace" id="isSpace"><code class="code">isSpace</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="isSpace"></span>pure nothrow @nogc @safe bool <code class="code">isSpace</code>(dchar <code class="code">c</code>);
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Returns whether <code class="code"><code class="code">c</code></code> is a Unicode space <a href="#Character">character</a>
+    (general Unicode category: Zs)
+
+  </p>
+</div>
+<div class="ddoc_section">
+  <p class="para">
+    <span class="ddoc_section_h">Note:</span>
+This doesn't include '\n', '\r', \t' and other non-space <a href="#Character">character</a>.
+    For commonly used less strict semantics see .
+  </p>
+</div>
+
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#isGraphical" id="isGraphical"><code class="code">isGraphical</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="isGraphical"></span>pure nothrow @nogc @safe bool <code class="code">isGraphical</code>(dchar <code class="code">c</code>);
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Returns whether <code class="code"><code class="code">c</code></code> is a Unicode graphical <a href="#Character">character</a>
+    (general Unicode category: L, M, N, P, S, Zs).
+
+  </p>
+</div>
+
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#isControl" id="isControl"><code class="code">isControl</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="isControl"></span>pure nothrow @nogc @safe bool <code class="code">isControl</code>(dchar <code class="code">c</code>);
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Returns whether <code class="code"><code class="code">c</code></code> is a Unicode control <a href="#Character">character</a>
+    (general Unicode category: Cc).
+  </p>
+</div>
+
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#isFormat" id="isFormat"><code class="code">isFormat</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="isFormat"></span>pure nothrow @nogc @safe bool <code class="code">isFormat</code>(dchar <code class="code">c</code>);
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Returns whether <code class="code"><code class="code">c</code></code> is a Unicode formatting <a href="#Character">character</a>
+    (general Unicode category: Cf).
+  </p>
+</div>
+
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#isPrivateUse" id="isPrivateUse"><code class="code">isPrivateUse</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="isPrivateUse"></span>pure nothrow @nogc @safe bool <code class="code">isPrivateUse</code>(dchar <code class="code">c</code>);
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Returns whether <code class="code"><code class="code">c</code></code> is a Unicode Private Use <a href="#Code point">code point</a>
+    (general Unicode category: Co).
+  </p>
+</div>
+
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#isSurrogate" id="isSurrogate"><code class="code">isSurrogate</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="isSurrogate"></span>pure nothrow @nogc @safe bool <code class="code">isSurrogate</code>(dchar <code class="code">c</code>);
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Returns whether <code class="code"><code class="code">c</code></code> is a Unicode surrogate <a href="#Code point">code point</a>
+    (general Unicode category: Cs).
+  </p>
+</div>
+
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#isSurrogateHi" id="isSurrogateHi"><code class="code">isSurrogateHi</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="isSurrogateHi"></span>pure nothrow @nogc @safe bool <code class="code">isSurrogateHi</code>(dchar <code class="code">c</code>);
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Returns whether <code class="code"><code class="code">c</code></code> is a Unicode high surrogate (lead surrogate).
+  </p>
+</div>
+
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#isSurrogateLo" id="isSurrogateLo"><code class="code">isSurrogateLo</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="isSurrogateLo"></span>pure nothrow @nogc @safe bool <code class="code">isSurrogateLo</code>(dchar <code class="code">c</code>);
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Returns whether <code class="code"><code class="code">c</code></code> is a Unicode low surrogate (trail surrogate).
+  </p>
+</div>
+
+</section>
+
+</div>
+
+</li><li class="ddoc_member">
+  <div class="ddoc_member_header">
+  <div class="ddoc_header_anchor">
+  <a href="#isNonCharacter" id="isNonCharacter"><code class="code">isNonCharacter</code></a>
+</div>
+</div><div class="ddoc_decl">
+  <section class="section">
+    <div class="declaration">
+      <h4>Declaration</h4>
+      <div class="dlang">
+        <p class="para">
+          <code class="code">
+            <span class="ddoc_anchor" id="isNonCharacter"></span>pure nothrow @nogc @safe bool <code class="code">isNonCharacter</code>(dchar <code class="code">c</code>);
+
+          </code>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="ddoc_decl">
+  <section class="section ddoc_sections">
+  <div class="ddoc_summary">
+  <p class="para">
+    Returns whether <code class="code"><code class="code">c</code></code> is a Unicode non-character i.e.
+    a <a href="#Code point">code point</a> with no assigned abstract character.
+    (general Unicode category: Cn)
+  </p>
+</div>
+
+</section>
+
+</div>
+
+</li>
+</ul>
+  </div>
+</section>
+</section>
+      </article>
+    </div>
+  </body>
+</html>

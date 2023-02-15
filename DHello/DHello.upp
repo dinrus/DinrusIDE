@@ -1,0 +1,12 @@
+description "Скажи миру привер, Ди..\377";
+
+noblitz;
+
+uses
+	DinrusBase;
+
+options(DLANG) "--d-version=CRuntime_MSYS2 --mtriple=x86_64-pc-windows-gnu";
+
+file
+	hello.d;
+

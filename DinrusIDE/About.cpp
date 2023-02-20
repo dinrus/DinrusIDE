@@ -57,13 +57,14 @@ String SplashCtrl::GenerateVersionInfo(char separator)
 
 String SplashCtrl::GenerateVersionNumber()
 {
-//#ifdef bmSVN_REVISION
-//	return bmSVN_REVISION;
+String Rev;
+#ifdef bmSVN_REVISION
+	Rev = "_" + AsString(atoi(bmSVN_REVISION));
 #endif
 #ifdef bmGIT_REVCOUNT
-	String GITNUM = AsString(atoi(bmGIT_REVCOUNT));
+	Rev = "_" + AsString(atoi(bmGIT_REVCOUNT));
 #endif
-	return AsString(IDE_VERSION) + "_git_" + GITNUM;
+	return AsString(IDE_VERSION) + Rev;
 }
 
 Size SplashCtrl::MakeLogo(Ctrl& parent, Array<Ctrl>& ctrl)
@@ -89,7 +90,7 @@ Size SplashCtrl::MakeLogo(Ctrl& parent, Array<Ctrl>& ctrl)
 		<< " KB\n";
 #endif
 	if(cpp.GetCount())
-		h << "CodeBase: " << cpp.GetCount() << " классов, " << total << " элементов\n";
+		h << "В базе кода: " << cpp.GetCount() << " классов, " << total << " элементов\n";
 	if(IsUHDMode())
 		h << "Режим UHD\n";
 	v1 = h;

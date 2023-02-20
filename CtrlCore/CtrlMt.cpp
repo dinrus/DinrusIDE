@@ -19,7 +19,7 @@ void EnterGuiMutex()
 			if(sGLock.TryEnter()) return;
 			Sleep(1);
 		}
-		Panic("Long timer procedure detected!");
+		Panic("Обнаружена затяжная процедура с таймером!");
 #else
 		sGLock.Enter();
 #endif

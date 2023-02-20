@@ -106,6 +106,6 @@ LAYOUT(IconDesTextLayout, 356, 76)
 	ITEM(Upp::Option, italic, SetLabel(t_("Курсив")).LeftPosZ(92, 40).TopPosZ(52, 18))
 	ITEM(Upp::Option, underline, SetLabel(t_("Подчёркнутый")).LeftPosZ(132, 60).TopPosZ(52, 18))
 	ITEM(Upp::Option, strikeout, SetLabel(t_("Зачёркнутый")).LeftPosZ(196, 56).TopPosZ(52, 18))
-	ITEM(Upp::Option, nonaa, SetLabel(t_("NonAntiAliased")).LeftPosZ(260, 92).TopPosZ(52, 18))
+	ITEM(Upp::Option, nonaa, SetLabel(t_("Несглаженный")).LeftPosZ(260, 92).TopPosZ(52, 18))
 END_LAYOUT
 

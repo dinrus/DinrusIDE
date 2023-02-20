@@ -63,7 +63,11 @@ static VectorMap<XpElement, int> xp_opaque;
 
 void XpClear()
 {
-	memset(xp_widget_handle, 0, sizeof(xp_widget_handle));
+	for(int i = 0; i < XP_COUNT; i++)
+		if(xp_widget_handle[i]) {
+			XpTheme().CloseThemeData(xp_widget_handle[i]);
+			xp_widget_handle[i] = NULL;
+		}
 	xp_margin.Clear();
 	xp_opaque.Clear();
 }
@@ -210,6 +214,7 @@ struct Win32ImageMaker : ImageMaker {
 	}
 };
 
+#ifndef STATIC_IMAGES
 Value XpLookFn(Draw& w, const Rect& rect, const Value& v, int op, Color)
 {
 	if(IsTypeRaw<XpElement>(v)) {
@@ -271,6 +276,7 @@ Value XpLookFn(Draw& w, const Rect& rect, const Value& v, int op, Color)
 	}
 	return Null;
 }
+#endif
 
 struct chCtrlsImg {
 	int id;
@@ -297,7 +303,22 @@ void Win32Look(Value *ch, int count, int widget, int part, int state = 1, bool c
 		e.part = part;
 		e.state = state + i;
 		e.contentm = contentm;
+	#ifdef STATIC_IMAGES
+		Image m = XpImage(widget, part, state + i);
+		int hotspot;
+		if(contentm) {
+			Rect r(0, 0, 100, 100);
+			Rect cr;
+			HANDLE htheme = XpWidget(widget);
+			XpTheme().GetThemeBackgroundContentRect(htheme, NULL, e.part, e.state, r, cr);
+			hotspot = cr.left;
+		}
+		else
+			hotspot = XpMargin(e);
+		ch[i] = WithHotSpot(m, hotspot, hotspot);
+	#else
 		ch[i] = RawToValue(e);
+	#endif
 	}
 }
 
@@ -441,7 +462,9 @@ void ChHostSkin()
 	}
 	else SColorDisabled_Write(Color(0x80, 0x80, 0x80));
 
+#ifndef STATIC_IMAGES
 	ChLookFn(XpLookFn);
+#endif
 
 	if(XpWidget(XP_BUTTON)) {
 		GUI_GlobalStyle_Write(GUISTYLE_XP);
@@ -601,8 +624,9 @@ void ChHostSkin()
 		{
 			MenuBar::Style& s = MenuBar::StyleDefault().Write();
 			if(vista_aero) {
-				s.topitemtext[0] = s.topitemtext[1] = s.topitemtext[2] =
-					s.itemtext = XpColor(XP_MENU, 8 /*MENU_POPUPITEM*/,
+				s.topitemtext[0] = s.topitemtext[1] = s.topitemtext[2] = XpColor(XP_MENU, 8 /*MENU_BARITEM*/,
+					2 /*HOT*/, 3803/*TMT_TEXTCOLOR*/);
+				s.itemtext = XpColor(XP_MENU, 14 /*MENU_POPUPITEM*/,
 					2 /*HOT*/, 3803/*TMT_TEXTCOLOR*/);
 				Win32Look(s.item, XP_MENU, 14 /*MENU_POPUPITEM*/, 2 /*HOT*/);
 				Win32Look(s.topitem[1], XP_MENU, 8 , 2 /*HOT*/);
@@ -680,7 +704,7 @@ void ChHostSkin()
 
 			MultiButton::StyleDefault().Write().simple[i] = m;
 			MultiButton::StyleFrame().Write().simple[i] = m;
-			
+
 			Button::StyleNormal().Write().monocolor[i] = c;
 			Button::StyleOk().Write().monocolor[i] = c;
 			Button::StyleEdge().Write().monocolor[i] = c;
@@ -713,7 +737,7 @@ void ChHostSkin()
 			                                   paper, Size(40, 40))),
 			                14, 26);
 		}
-		
+
 //		LabelBoxTextColor_Write(XpColor(XP_BUTTON, BP_GROUPBOX, GBS_NORMAL, 3803/*TMT_TEXTCOLOR*/));
 //		LabelBoxColor_Write(XpColor(XP_BUTTON, BP_GROUPBOX, GBS_NORMAL, 3822/*TMT_BORDERCOLORHINT*/));
 	}

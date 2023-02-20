@@ -45,7 +45,7 @@ bool DlangBuilder::BuildPackage(const String& package, Vector<String>& linkfile,
 		return true;
 
 	SaveBuildInfo(package);
-	
+
 	int i;
 	String packagepath = PackagePath(package);
 	Package pkg;
@@ -64,7 +64,7 @@ bool DlangBuilder::BuildPackage(const String& package, Vector<String>& linkfile,
 	bool           error = false;
 
 	String pch_header;
-	
+
 	Index<String> nopch, noblitz;
 
 	bool blitz = HasFlag("BLITZ");
@@ -81,7 +81,7 @@ bool DlangBuilder::BuildPackage(const String& package, Vector<String>& linkfile,
 			for(int j = 0; j < srcfile.GetCount(); j++) {
 				String fn = NormalizePath(srcfile[j]);
 				String ext = GetSrcType(fn);
-				if(findarg(ext, ".d", ".di") >= 0 ||
+				if(findarg(ext, ".d") >= 0 ||
 				   ext == ".rc" && HasFlag("WIN32")) {
 					if(FindIndex(sfile, fn) < 0) {
 						sfile.Add(fn);
@@ -141,7 +141,7 @@ bool DlangBuilder::BuildPackage(const String& package, Vector<String>& linkfile,
 //	}
 
 	if(!release)
-		LDC2 << " --debug -D_DEBUG " << debug_options;
+		LDC2 << " --debug " << debug_options;
 	else
 		LDC2 << ' ' << release_options;
 
@@ -243,7 +243,7 @@ bool DlangBuilder::BuildPackage(const String& package, Vector<String>& linkfile,
 	MergeWith(linkoptions, " ", Gather(pkg.link, config.GetKeys()));
 	if(linkoptions.GetCount())
 		linkoptions << ' ';
-	
+
 	bool making_lib = HasFlag("MAKE_LIB") || HasFlag("MAKE_MLIB");
 
 	if(!making_lib) {
@@ -326,7 +326,7 @@ bool DlangBuilder::CreateLib(const String& product, const Vector<String>& obj,
 			llib << ' ' << GetPathQ(GetSharedLibPath(all_uses[i]));
 		for(int i = 0; i < all_libraries.GetCount(); i++)
 			llib << " -l" << GetPathQ(all_libraries[i]);
-		
+
 		if(HasFlag("POSIX"))
 			llib << " -Wl,-soname," << GetSoname(product);
 	}
@@ -358,7 +358,7 @@ bool DlangBuilder::CreateLib(const String& product, const Vector<String>& obj,
 
 				// replace all '\' with '/'`
 				llib = UnixPath(llib);
-				
+
 				f.PutLine(llib.Left(found));
 				llib.Remove(0, found);
 			}
@@ -415,7 +415,7 @@ bool DlangBuilder::Link(const Vector<String>& linkfile, const String& linkoption
 	if(!Wait())
 		return false;
 	PutLinking();
-	
+
 	if(HasFlag("MAKE_MLIB") || HasFlag("MAKE_LIB"))
 		return CreateLib(ForceExt(target, ".a"), linkfile, Vector<String>(), Vector<String>(), linkoptions);
 
@@ -432,9 +432,9 @@ bool DlangBuilder::Link(const Vector<String>& linkfile, const String& linkoption
 			if(HasFlag("GCC32"))
 				lnk << " -m32";
 			if(HasFlag("DLL"))
-				lnk << " --shared";
+				lnk << " -shared";
 			if(!HasFlag("SHARED") && !HasFlag("SO"))
-				lnk << " -lib";
+				lnk << " -static";
 			if(HasFlag("WINCE"))
 				lnk << " -mwindowsce";
 			else if(HasFlag("WIN32")) {
@@ -452,7 +452,7 @@ bool DlangBuilder::Link(const Vector<String>& linkfile, const String& linkoption
 						lnk << " -mconsole";
 				}
 			}
-			lnk << " -of " << GetPathQ(target);
+			lnk << " -o " << GetPathQ(target);
 			if(createmap)
 				lnk << " -Wl,-Map," << GetPathQ(GetFileDirectory(target) + GetFileTitle(target) + ".map");
 			if(HasFlag("DEBUG_MINIMAL") || HasFlag("DEBUG_FULL"))
@@ -473,7 +473,7 @@ bool DlangBuilder::Link(const Vector<String>& linkfile, const String& linkoption
 				String linklistM = "Производится список компонуемых файлов ...\n";
 				String odir = GetFileDirectory(linkfile[0]);
 				lfilename << GetFileFolder(linkfile[0]) << ".LinkFileList";
-					
+
 				linklistM  << lfilename;
 				UPP::SaveFile(lfilename, linklist);
 				lnk << " -L" << GetPathQ(odir)
@@ -496,7 +496,7 @@ bool DlangBuilder::Link(const Vector<String>& linkfile, const String& linkoption
 				for(i = 0; i < lib.GetCount(); i++) {
 					String ln = lib[i];
 					String ext = ToLower(GetFileExt(ln));
-					
+
 					// unix shared libs shall have version number AFTER .so (sic)
 					// so we shall find the true extension....
 					if(HasFlag("POSIX") && ext != ".so")
@@ -509,7 +509,7 @@ bool DlangBuilder::Link(const Vector<String>& linkfile, const String& linkoption
 						if(pos >= 0 && ToLower(ln.Mid(pos, 3)) == ".so")
 							ext = ".so";
 					}
-							
+
 					if(pass == 0) {
 						if(ext == ".a")
 							lnk << ' ' << GetPathQ(FindInDirs(libpath, lib[i]));
@@ -555,6 +555,7 @@ bool DlangBuilder::Preprocess(const String& package, const String& file, const S
 	PutVerbose("cd " + packageDir);
 
 	String cmd = CmdLine(package, pkg);
+	PutConsole(Format("Стр команды: %s", cmd));
 	cmd << " " << Gather(pkg.option, config.GetKeys());
 	cmd << " -of" << target;
 	cmd << (asmout ? " -S " : " -E ") << GetPathQ(file);

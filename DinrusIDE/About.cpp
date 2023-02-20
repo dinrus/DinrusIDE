@@ -57,13 +57,13 @@ String SplashCtrl::GenerateVersionInfo(char separator)
 
 String SplashCtrl::GenerateVersionNumber()
 {
-#ifdef bmSVN_REVISION
-	return bmSVN_REVISION;
+//#ifdef bmSVN_REVISION
+//	return bmSVN_REVISION;
 #endif
 #ifdef bmGIT_REVCOUNT
-	return AsString(atoi(bmGIT_REVCOUNT) + 2270);
+	String GITNUM = AsString(atoi(bmGIT_REVCOUNT));
 #endif
-	return IDE_VERSION;
+	return AsString(IDE_VERSION) + "_git_" + GITNUM;
 }
 
 Size SplashCtrl::MakeLogo(Ctrl& parent, Array<Ctrl>& ctrl)

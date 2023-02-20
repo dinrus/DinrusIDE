@@ -10,7 +10,7 @@ bool Ctrl::globalbackbuffer;
 
 static void sCheckGuiLock()
 {
-	ASSERT_(ThreadHasGuiLock(), "Using GUI in non-main thread without GuiLock");
+	ASSERT_(ThreadHasGuiLock(), "Использование ГИП в неглавном потоке без GuiLock");
 }
 
 void Ctrl::RefreshFrame(const Rect& r) {
@@ -253,7 +253,7 @@ struct sDrawLevelCheck {
 	const Ctrl  *q;
 
 	void Check() {
-		ASSERT_(lvl == w.GetCloffLevel(), "Draw::Begin/End mismatch for " + UPP::Name(q));
+		ASSERT_(lvl == w.GetCloffLevel(), "Несовпадение Draw::Begin/End для " + UPP::Name(q));
 	}
 
 	sDrawLevelCheck(Draw& w, const Ctrl *q) : w(w), lvl(w.GetCloffLevel()), q(q) {}

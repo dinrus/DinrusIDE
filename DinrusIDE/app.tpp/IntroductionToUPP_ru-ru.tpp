@@ -25,7 +25,7 @@ topic "Введение в U++";
 IDE)&]
 [s3; &]
 [s3; В этой тематике описаны ключевые 
-концепты U`+`+, чтобы помочь вам начать 
+понятия U`+`+, чтобы помочь вам начать 
 работу, как можно быстрее. Если вы 
 желаете испробовать U`+`+ до того, как 
 продолжите чтение, можете построить 
@@ -35,20 +35,25 @@ IDE)&]
 [s0; &]
 [s0; &]
 [s2; [_ DinrusIDE]&]
-[s3; Before you can run DinrusIDE, you must first choose the package 
-and assembly you wish to work with using the `"Select`-main`-package`" 
-dialog.  After an assembly and package have been selected, the 
-package is opened in DinrusIDE.  The package that has been opened 
-is referred to as the [* main package] and its name is shown in 
-the title bar of the U`+`+ application window.  The uppermost 
-pane at the left hand side of DinrusIDE shows the name of the 
-main package followed by a list of the packages used by the main 
-package.  The lower left`-hand pane lists the source files belonging 
-to the package whose name is highlighted in the upper pane.  
-To select a different main package, the `"Set main package`" 
-option from the File menu is used.  For more detail on using 
-DinrusIDE, [^topic`:`/`/DinrusIDE`/app`/Intro`_DinrusIDE`$en`-us^ see 
-this][@(226.42.0) .]&]
+[s3; Перед тем как запустить DinrusIDE, сначала 
+нужно выбрать пакет и сборку, с которыми 
+предстоит работать, используя диалоговое 
+окно `"Выбрать главный пакет`".  После 
+выбора сборки и пакета, этот пакет 
+откроется в DinrusIDE. Открытый пакет 
+считается [* главным пакетом], а его 
+имя показывается в титульной строке 
+окна приложения U`+`+. В верхней панели 
+слева в DinrusIDE показано имя главного 
+пакета и список используемых им других 
+пакетов.  В левой нижней панели приводится 
+список файлов, принадлежащих пакету, 
+имя которого подсвечено в верхней 
+панели. Чтобы выбрать другой главный 
+пакет, используется опция из меню 
+Файл `"Открыть главный пакет`". Подробнее 
+об использовании DinrusIDE, [^topic`:`/`/DinrusIDE`/app`/GettingStarted`_ru`-ru^ ч
+итайте здесь][@(226.42.0) .]&]
 [s0; &]
 [s0; &]
 [s2; Пакеты, сборки и гнёзда&]

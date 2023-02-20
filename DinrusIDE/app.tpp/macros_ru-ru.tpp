@@ -39,10 +39,11 @@ API]&]
 е методы]&]
 [s0; &]
 [s3;:1: [@(128.0.255) 1. Обзор]&]
-[s5; DinrusIDE macros are written in [^topic`:`/`/Esc`/srcdoc`/Esc`_en`-us^ Esc 
-scripting language] and placed in .usc files. .usc files can 
-be either part of regular packages or are placed in Common or 
-Local directory.&]
+[s5; Макросы DinrusIDE пишутся на  [^topic`:`/`/Esc`/srcdoc`/Esc`_ru`-ru^ E
+sc языке сценариев] и помещаюься в 
+файлы .usc. Файлы .usc могут быть либо 
+частью обычных пакетов, либо помещаются 
+в Общую или Локальную директорию.&]
 [s5; Macro definition in .usc file starts with header in following 
 form:&]
 [s0; &]
@@ -51,7 +52,7 @@ form:&]
 [s5; where [*/@4 Macro`_menu] and [*/@4 Macro`_item] are text literals 
 (with C syntax) and [*/@4 Key] is key description similar to those 
 shown in menus. [*/@4 Macro`_menu] with [@(0.0.255) :] and [*/@4 Key] 
-can be omitted. Macro header is followed by [^topic`:`/`/Esc`/srcdoc`/Esc`$en`-us^ E
+can be omitted. Macro header is followed by [^topic`:`/`/Esc`/srcdoc`/Esc`_ru`-ru^ E
 sc] body.&]
 [s5; Examples:&]
 [s0; &]

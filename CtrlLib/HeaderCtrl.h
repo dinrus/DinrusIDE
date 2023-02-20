@@ -29,14 +29,14 @@ public:
 	protected:
 		virtual void  LabelUpdate();
 
+		String      tip;
 		HeaderCtrl *header;
 		double      ratio;
-		bool        visible;
 		int         min, max;
 		int         margin;
 		Color       paper;
 		int         index;
-		String      tip;
+		bool        visible;
 
 		void        Paint(bool& first, Draw& w,
 		                  int x, int y, int cx, int cy, bool disabled, bool push, bool hl);
@@ -115,6 +115,7 @@ protected:
 	void   RefreshDistribution();
 	Vector<int> GetVisibleCi(int from);
 
+	friend class ArrayCtrl;
 public:
 	Event<>       WhenLayout;
 	Event<>       WhenScroll;
@@ -138,7 +139,7 @@ public:
 	double        GetTabRatio(int i) const                { return InvZxf(col[i].ratio); }
 	void          SetTabWidth(int i, int cx);
 	int           GetTabWidth(int i);
-	
+
 	void          SwapTabs(int first, int second);
 	void          MoveTab(int from, int to);
 	int           GetTabIndex(int i) const                { return col[i].index; }
@@ -152,9 +153,9 @@ public:
 
 	void          SetHeight(int cy);
 	int           GetHeight() const;
-	
+
 	int           GetMode() const                         { return mode; }
-	
+
 	static const Style& StyleDefault();
 
 	HeaderCtrl&   Invisible(bool inv);

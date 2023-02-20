@@ -143,7 +143,7 @@ void AutoSetup()
 	if(IsNull(sdk9))
 		sdk9 = NormalizePathNN(GetWinRegString("InstallationFolder",
 		                                       "Software\\Microsoft\\Microsoft SDKs\\Windows\\v6.0A",
-		                                       HKEY_CURRENT_USER));  
+		                                       HKEY_CURRENT_USER));
 	String bin9;
 	if(!IsNull(sdk9) && FileExists(AppendFileName(sdk9, "VC\\Bin\\cl.exe")))
 		bin9 = sdk9;

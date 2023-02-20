@@ -180,7 +180,7 @@ void OutMode::Export(int kind)
 {
 	String ep = ~export_dir;
 	if(IsNull(ep)) {
-		Exclamation("Missing output directory!");
+		Exclamation("Отсутствует директория вывода!");
 		return;
 	}
 	if(kind == 2)

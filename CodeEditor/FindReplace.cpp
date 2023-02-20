@@ -4,9 +4,9 @@ namespace Upp {
 
 void CodeEditor::InitFindReplace()
 {
-	findreplace.find.AddButton().SetMonoImage(CtrlImg::smallright()).Tip("Wildcard")
+	findreplace.find.AddButton().SetMonoImage(CtrlImg::smallright()).Tip("Уайлдкард")
 		<<= THISBACK(FindWildcard);
-	findreplace.replace.AddButton().SetMonoImage(CtrlImg::smallright()).Tip("Wildcard")
+	findreplace.replace.AddButton().SetMonoImage(CtrlImg::smallright()).Tip("Уайлдкард")
 		<<= THISBACK(ReplaceWildcard);
 	PutI(findreplace.find);
 	PutI(findreplace.replace);

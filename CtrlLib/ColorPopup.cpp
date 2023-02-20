@@ -414,9 +414,9 @@ ColorPopUp::ColorPopUp()
 	wheel <<= THISBACK(Wheel);
 	ramp.WhenLeftDouble = wheel.WhenLeftDouble = THISBACK(Select);
 	BackPaint();
-	nulltext = t_("(transparent)");
-	voidtext = t_("(none)");
-	
+	nulltext = t_("(прозрачный)");
+	voidtext = t_("(отсутствует)");
+
 	settext.SetImage(CtrlImg::color_edit());
 	settext << [=] {
 		String text;

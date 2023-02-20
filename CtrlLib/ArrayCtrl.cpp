@@ -955,7 +955,7 @@ Size  ArrayCtrl::DoPaint(Draw& w, bool sample) {
 						if(sample || w.IsPainting(r)) {
 							if(spanwidecells)
 								SpanWideCell(d, q, cm, cw, r, i, j);
-							
+
 							if(cw < 2 * cm || editmode && i == cursor && column[jj].edit)
 								d.PaintBackground(w, r, q, fg, bg, st);
 							else {
@@ -2338,7 +2338,7 @@ String ArrayCtrl::RowFormat(const char *s)
 bool ArrayCtrl::DoRemove()
 {
 	if(IsReadOnly()) return false;
-	if(!IsCursor() || askremove && !PromptOKCancel(RowFormat(t_("Do you really want to delete the selected %s ?"))))
+	if(!IsCursor() || askremove && !PromptOKCancel(RowFormat(t_("Вы действительно хотите удалить выделенный %s ?"))))
 		return false;
 	if(multiselect) {
 		Bits sel;
@@ -2378,53 +2378,53 @@ void ArrayCtrl::StdBar(Bar& menu)
 	bool c = !IsEdit() && e;
 	bool d = c && IsCursor();
 	if(inserting)
-		menu.Add(e, RowFormat(t_("Insert %s")), THISBACK(DoInsertBefore))
-			.Help(RowFormat(t_("Insert a new %s into the table.")))
+		menu.Add(e, RowFormat(t_("Вставить %s")), THISBACK(DoInsertBefore))
+			.Help(RowFormat(t_("Вставить новый %s в таблицу.")))
 			.Key(K_INSERT);
 	if(bains == 1) {
-		menu.Add(e, RowFormat(t_("Insert %s before")), THISBACK(DoInsertBefore))
-		    .Help(RowFormat(t_("Insert a new %s into the table before current")))
+		menu.Add(e, RowFormat(t_("Вставить %s перед")), THISBACK(DoInsertBefore))
+		    .Help(RowFormat(t_("Вставить новый %s в таблицу перед текущим")))
 		    .Key(K_INSERT);
-		menu.Add(e, RowFormat(t_("Insert %s after")), THISBACK(DoInsertAfter))
-		    .Help(RowFormat(t_("Insert a new %s into the table after current")))
+		menu.Add(e, RowFormat(t_("Вставить %s после")), THISBACK(DoInsertAfter))
+		    .Help(RowFormat(t_("Вставить новый %s в таблицу после текущего")))
 		    .Key(K_SHIFT_INSERT);
 	}
 	if(bains == 2) {
-		menu.Add(e, RowFormat(t_("Insert %s after")), THISBACK(DoInsertAfter))
-		    .Help(RowFormat(t_("Insert a new %s into the table after current")))
+		menu.Add(e, RowFormat(t_("Вставить %s после")), THISBACK(DoInsertAfter))
+		    .Help(RowFormat(t_("Вставить новый %s в таблицу после текущего")))
 		    .Key(K_INSERT);
-		menu.Add(e, RowFormat(t_("Insert %s before")), THISBACK(DoInsertBefore))
-		    .Help(RowFormat(t_("Insert a new %s into the table before current")))
+		menu.Add(e, RowFormat(t_("Вставить %s перед")), THISBACK(DoInsertBefore))
+		    .Help(RowFormat(t_("Вставить новый %s в таблицу перед текущим")))
 		    .Key(K_SHIFT_INSERT);
 	}
 	if(IsAppending())
-		menu.Add(c, RowFormat(t_("Append %s")), THISBACK(DoAppend))
-			.Help(RowFormat(t_("Append a new %s at the end of the table.")))
+		menu.Add(c, RowFormat(t_("Приставить %s")), THISBACK(DoAppend))
+			.Help(RowFormat(t_("Приставить новый %s в конце таблицы.")))
 			.Key(inserting ? (int)K_SHIFT_INSERT : (int)K_INSERT);
 	if(duplicating)
-		menu.Add(d, RowFormat(t_("Duplicate %s")), THISBACK(DoDuplicate))
-			.Help(RowFormat(t_("Duplicate current table %s.")))
+		menu.Add(d, RowFormat(t_("Дублировать %s")), THISBACK(DoDuplicate))
+			.Help(RowFormat(t_("Лублировать текущую таблицу %s.")))
 			.Key(K_CTRL_INSERT);
 	if(IsEditing())
-		menu.Add(d, RowFormat(t_("Edit %s")), THISBACK(DoEdit))
-			.Help(RowFormat(t_("Edit active %s.")))
+		menu.Add(d, RowFormat(t_("Редактировать %s")), THISBACK(DoEdit))
+			.Help(RowFormat(t_("Редактировать активный %s.")))
 			.Key(K_CTRL_ENTER);
 	if(removing)
-		menu.Add(d, RowFormat(t_("Delete %s\tDelete")), THISBACK(DoRemovem))
-			.Help(RowFormat(t_("Delete active %s.")))
+		menu.Add(d, RowFormat(t_("Удалить %s\tУдалить")), THISBACK(DoRemovem))
+			.Help(RowFormat(t_("Удалить активный %s.")))
 			.Key(K_DELETE);
 	if(moving) {
-		menu.Add(GetCursor() > 0, RowFormat(t_("Move %s up")), THISBACK(SwapUp))
-			.Help(RowFormat(t_("Swap %s with previous thus moving it up.")))
+		menu.Add(GetCursor() > 0, RowFormat(t_("Поднять %s")), THISBACK(SwapUp))
+			.Help(RowFormat(t_("Поменять %s местами с предыдущим, подняв его.")))
 			.Key(K_CTRL_UP);
 		menu.Add(GetCursor() >= 0 && GetCursor() < GetCount() - 1,
-		         RowFormat(t_("Move %s down")), THISBACK(SwapDown))
-			.Help(RowFormat(t_("Swap %s with next thus moving it down.")))
+		         RowFormat(t_("Понизить %s")), THISBACK(SwapDown))
+			.Help(RowFormat(t_("Поменять %s местами со следующим, понизив его.")))
 			.Key(K_CTRL_DOWN);
 	}
 	if(multiselect) {
-		menu.Add(GetCount() > 0, RowFormat(t_("Select all")), CtrlImg::select_all(), THISBACK(DoSelectAll))
-			.Help(t_("Select all table rows"))
+		menu.Add(GetCount() > 0, RowFormat(t_("Выбрать все")), CtrlImg::select_all(), THISBACK(DoSelectAll))
+			.Help(t_("Выделить все ряды таблицы"))
 			.Key(K_CTRL_A);
 	}
 }
@@ -2772,7 +2772,7 @@ void ArrayCtrl::Reset() {
 	nobg = false;
 	selectcount = 0;
 	bains = 0;
-	row_name = t_("row");
+	row_name = t_("ряд");
 	gridcolor = SColorShadow;
 	autoappend = false;
 	focussetcursor = true;
@@ -2800,7 +2800,10 @@ void ArrayCtrl::CancelMode()
 }
 
 void ArrayCtrl::MouseWheel(Point p, int zdelta, dword keyflags) {
-	sb.Wheel(zdelta);
+	if(keyflags & K_SHIFT)
+		header.sb.Wheel(zdelta);
+	else
+		sb.Wheel(zdelta);
 }
 
 Vector<Value> ArrayCtrl::ReadRow(int i) const {
@@ -3211,7 +3214,7 @@ void ArrayOption::Paint(Draw& w, const Rect& r, const Value& q,
 	int st = (gray ? CTRL_DISABLED : CTRL_NORMAL);
 	int g = threestate && (q != t && q != f) ? CtrlsImg::I_O2 : q == t ? CtrlsImg::I_O1
 		: CtrlsImg::I_O0;
-		
+
 	Image img = CtrlsImg::Get(g + st);
 
 	Size crsz = min(img.GetSize(), r.Size());

@@ -45,7 +45,7 @@ file
 	DinrusIDE.cpp,
 	idefile.cpp charset "UTF-8-BOM",
 	EditorTabBar.cpp,
-	Bottom.cpp,
+	BottomPanel.cpp,
 	t.cpp,
 	Assist.h,
 	Cpp.cpp,

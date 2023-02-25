@@ -84,7 +84,7 @@ String AdjustMakePath(const char *fn)
 
 bool IsHeaderExt(const String& ext)
 {
-	return findarg(ext, ".h", ".hpp", ".hh", ".hxx") >= 0;
+	return findarg(ext, ".h", ".hpp", ".hh", ".hxx", ".di") >= 0;
 }
 
 bool SaveChangedFile(const char *path, String data, bool delete_empty)
@@ -121,8 +121,8 @@ static void sReadLNG(CParser& p, char *c)
 
 int ReadLNG(CParser& p) {
 	char c[4];
-	if(p.Id("LNG_CZECH"))
-		return LNG_CZECH;
+	if(p.Id("LNG_RUSSIAN"))
+		return LNG_RUSSIAN;
 	else
 	if(p.Id("LNG_ENGLISH"))
 		return LNG_ENGLISH;

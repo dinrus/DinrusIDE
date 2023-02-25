@@ -37,7 +37,7 @@ file
 	NewPackageFile.cpp,
 	Organizer.cpp,
 	Template.cpp,
-	DinrusIDE.key,
+	ide.key,
 	Console.cpp,
 	FindFile.cpp,
 	FindInFiles.cpp,
@@ -121,7 +121,8 @@ file
 	urepo.iml,
 	urepo.lay,
 	Info readonly separator,
-	Copying;
+	Copying,
+	src.tpp;
 
 mainconfig
 	"" = "GUI",

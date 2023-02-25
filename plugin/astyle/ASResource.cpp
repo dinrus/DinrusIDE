@@ -27,10 +27,10 @@
  */
 
  /*
- 	2008-01-26 Patches by Massimo Del Fedele :
- 		- modified sources to use Ultimate++ containers instead std:: ones
- 		- fixed memory leaks based on bug report 1804791 submitted by Eran Ifrah
- 		- modified to work with unicode
+    2008-01-26 Patches by Massimo Del Fedele :
+        - modified sources to use Ultimate++ containers instead std:: ones
+        - fixed memory leaks based on bug report 1804791 submitted by Eran Ifrah
+        - modified to work with unicode
  */
 #include "astyle.h"
 
@@ -150,25 +150,25 @@ const WString ASResource::AS_STATIC_CAST = WString("static_cast");
  */
 void ASResource::buildAssignmentOperators(Vector<const WString*> &assignmentOperators)
 {
-	assignmentOperators.push_back(&AS_ASSIGN);
-	assignmentOperators.push_back(&AS_PLUS_ASSIGN);
-	assignmentOperators.push_back(&AS_MINUS_ASSIGN);
-	assignmentOperators.push_back(&AS_MULT_ASSIGN);
-	assignmentOperators.push_back(&AS_DIV_ASSIGN);
-	assignmentOperators.push_back(&AS_MOD_ASSIGN);
-	assignmentOperators.push_back(&AS_OR_ASSIGN);
-	assignmentOperators.push_back(&AS_AND_ASSIGN);
-	assignmentOperators.push_back(&AS_XOR_ASSIGN);
+    assignmentOperators.push_back(&AS_ASSIGN);
+    assignmentOperators.push_back(&AS_PLUS_ASSIGN);
+    assignmentOperators.push_back(&AS_MINUS_ASSIGN);
+    assignmentOperators.push_back(&AS_MULT_ASSIGN);
+    assignmentOperators.push_back(&AS_DIV_ASSIGN);
+    assignmentOperators.push_back(&AS_MOD_ASSIGN);
+    assignmentOperators.push_back(&AS_OR_ASSIGN);
+    assignmentOperators.push_back(&AS_AND_ASSIGN);
+    assignmentOperators.push_back(&AS_XOR_ASSIGN);
 
-	// Java
-	assignmentOperators.push_back(&AS_GR_GR_GR_ASSIGN);
-	assignmentOperators.push_back(&AS_GR_GR_ASSIGN);
-	assignmentOperators.push_back(&AS_LS_LS_ASSIGN);
+    // Java
+    assignmentOperators.push_back(&AS_GR_GR_GR_ASSIGN);
+    assignmentOperators.push_back(&AS_GR_GR_ASSIGN);
+    assignmentOperators.push_back(&AS_LS_LS_ASSIGN);
 
-	// Unknown
-	assignmentOperators.push_back(&AS_LS_LS_LS_ASSIGN);
+    // Unknown
+    assignmentOperators.push_back(&AS_LS_LS_LS_ASSIGN);
 
-	assignmentOperators.push_back(&AS_RETURN);
+    assignmentOperators.push_back(&AS_RETURN);
 }
 
 /**
@@ -179,10 +179,10 @@ void ASResource::buildAssignmentOperators(Vector<const WString*> &assignmentOper
  */
 void ASResource::buildCastOperators(Vector<const WString*> &castOperators)
 {
-	castOperators.push_back(&AS_CONST_CAST);
-	castOperators.push_back(&AS_DYNAMIC_CAST);
-	castOperators.push_back(&AS_REINTERPRET_CAST);
-	castOperators.push_back(&AS_STATIC_CAST);
+    castOperators.push_back(&AS_CONST_CAST);
+    castOperators.push_back(&AS_DYNAMIC_CAST);
+    castOperators.push_back(&AS_REINTERPRET_CAST);
+    castOperators.push_back(&AS_STATIC_CAST);
 }
 
 /**
@@ -193,43 +193,43 @@ void ASResource::buildCastOperators(Vector<const WString*> &castOperators)
  */
 void ASResource::buildHeaders(Vector<const WString*> &headers, int fileType, bool beautifier)
 {
-	headers.push_back(&AS_IF);
-	headers.push_back(&AS_ELSE);
-	headers.push_back(&AS_FOR);
-	headers.push_back(&AS_WHILE);
-	headers.push_back(&AS_DO);
-	headers.push_back(&AS_SWITCH);
-	headers.push_back(&AS_TRY);
-	headers.push_back(&AS_CATCH);
+    headers.push_back(&AS_IF);
+    headers.push_back(&AS_ELSE);
+    headers.push_back(&AS_FOR);
+    headers.push_back(&AS_WHILE);
+    headers.push_back(&AS_DO);
+    headers.push_back(&AS_SWITCH);
+    headers.push_back(&AS_TRY);
+    headers.push_back(&AS_CATCH);
 
-	if (beautifier)
-	{
-		headers.push_back(&AS_CASE);
-		headers.push_back(&AS_DEFAULT);
-		headers.push_back(&AS_CONST);
-		headers.push_back(&AS_STATIC);
-		headers.push_back(&AS_EXTERN);
-		headers.push_back(&AS_TEMPLATE);
-	}
+    if (beautifier)
+    {
+        headers.push_back(&AS_CASE);
+        headers.push_back(&AS_DEFAULT);
+        headers.push_back(&AS_CONST);
+        headers.push_back(&AS_STATIC);
+        headers.push_back(&AS_EXTERN);
+        headers.push_back(&AS_TEMPLATE);
+    }
 
-	if (fileType == JAVA_TYPE)
-	{
-		headers.push_back(&AS_FINALLY);
-		headers.push_back(&AS_SYNCHRONIZED);
-	}
+    if (fileType == JAVA_TYPE)
+    {
+        headers.push_back(&AS_FINALLY);
+        headers.push_back(&AS_SYNCHRONIZED);
+    }
 
-	if (fileType == SHARP_TYPE)
-	{
-		headers.push_back(&AS_FINALLY);
-		headers.push_back(&AS_FOREACH);
-		headers.push_back(&AS_LOCK);
-		headers.push_back(&AS_UNSAFE);
-		headers.push_back(&AS_FIXED);
-		headers.push_back(&AS_GET);
-		headers.push_back(&AS_SET);
-		headers.push_back(&AS_ADD);
-		headers.push_back(&AS_REMOVE);
-	}
+    if (fileType == SHARP_TYPE)
+    {
+        headers.push_back(&AS_FINALLY);
+        headers.push_back(&AS_FOREACH);
+        headers.push_back(&AS_LOCK);
+        headers.push_back(&AS_UNSAFE);
+        headers.push_back(&AS_FIXED);
+        headers.push_back(&AS_GET);
+        headers.push_back(&AS_SET);
+        headers.push_back(&AS_ADD);
+        headers.push_back(&AS_REMOVE);
+    }
 }
 
 /**
@@ -240,19 +240,19 @@ void ASResource::buildHeaders(Vector<const WString*> &headers, int fileType, boo
  */
 void ASResource::buildNonAssignmentOperators(Vector<const WString*> &nonAssignmentOperators)
 {
-	nonAssignmentOperators.push_back(&AS_EQUAL);
-	nonAssignmentOperators.push_back(&AS_PLUS_PLUS);
-	nonAssignmentOperators.push_back(&AS_MINUS_MINUS);
-	nonAssignmentOperators.push_back(&AS_NOT_EQUAL);
-	nonAssignmentOperators.push_back(&AS_GR_EQUAL);
-	nonAssignmentOperators.push_back(&AS_GR_GR_GR);
-	nonAssignmentOperators.push_back(&AS_GR_GR);
-	nonAssignmentOperators.push_back(&AS_LS_EQUAL);
-	nonAssignmentOperators.push_back(&AS_LS_LS_LS);
-	nonAssignmentOperators.push_back(&AS_LS_LS);
-	nonAssignmentOperators.push_back(&AS_ARROW);
-	nonAssignmentOperators.push_back(&AS_AND);
-	nonAssignmentOperators.push_back(&AS_OR);
+    nonAssignmentOperators.push_back(&AS_EQUAL);
+    nonAssignmentOperators.push_back(&AS_PLUS_PLUS);
+    nonAssignmentOperators.push_back(&AS_MINUS_MINUS);
+    nonAssignmentOperators.push_back(&AS_NOT_EQUAL);
+    nonAssignmentOperators.push_back(&AS_GR_EQUAL);
+    nonAssignmentOperators.push_back(&AS_GR_GR_GR);
+    nonAssignmentOperators.push_back(&AS_GR_GR);
+    nonAssignmentOperators.push_back(&AS_LS_EQUAL);
+    nonAssignmentOperators.push_back(&AS_LS_LS_LS);
+    nonAssignmentOperators.push_back(&AS_LS_LS);
+    nonAssignmentOperators.push_back(&AS_ARROW);
+    nonAssignmentOperators.push_back(&AS_AND);
+    nonAssignmentOperators.push_back(&AS_OR);
 }
 
 /**
@@ -263,34 +263,34 @@ void ASResource::buildNonAssignmentOperators(Vector<const WString*> &nonAssignme
  */
 void ASResource::buildNonParenHeaders(Vector<const WString*> &nonParenHeaders, int fileType, bool beautifier)
 {
-	nonParenHeaders.push_back(&AS_ELSE);
-	nonParenHeaders.push_back(&AS_DO);
-	nonParenHeaders.push_back(&AS_TRY);
+    nonParenHeaders.push_back(&AS_ELSE);
+    nonParenHeaders.push_back(&AS_DO);
+    nonParenHeaders.push_back(&AS_TRY);
 
-	if (beautifier)
-	{
-		nonParenHeaders.push_back(&AS_CASE);
-		nonParenHeaders.push_back(&AS_DEFAULT);
-		nonParenHeaders.push_back(&AS_CONST);
-		nonParenHeaders.push_back(&AS_STATIC);
-		nonParenHeaders.push_back(&AS_EXTERN);
-		nonParenHeaders.push_back(&AS_TEMPLATE);
-	}
+    if (beautifier)
+    {
+        nonParenHeaders.push_back(&AS_CASE);
+        nonParenHeaders.push_back(&AS_DEFAULT);
+        nonParenHeaders.push_back(&AS_CONST);
+        nonParenHeaders.push_back(&AS_STATIC);
+        nonParenHeaders.push_back(&AS_EXTERN);
+        nonParenHeaders.push_back(&AS_TEMPLATE);
+    }
 
-	if (fileType == JAVA_TYPE)
-	{
-		nonParenHeaders.push_back(&AS_FINALLY);
-	}
+    if (fileType == JAVA_TYPE)
+    {
+        nonParenHeaders.push_back(&AS_FINALLY);
+    }
 
-	if (fileType == SHARP_TYPE)
-	{
-		nonParenHeaders.push_back(&AS_FINALLY);
-		nonParenHeaders.push_back(&AS_UNSAFE);
-		nonParenHeaders.push_back(&AS_GET);
-		nonParenHeaders.push_back(&AS_SET);
-		nonParenHeaders.push_back(&AS_ADD);
-		nonParenHeaders.push_back(&AS_REMOVE);
-	}
+    if (fileType == SHARP_TYPE)
+    {
+        nonParenHeaders.push_back(&AS_FINALLY);
+        nonParenHeaders.push_back(&AS_UNSAFE);
+        nonParenHeaders.push_back(&AS_GET);
+        nonParenHeaders.push_back(&AS_SET);
+        nonParenHeaders.push_back(&AS_ADD);
+        nonParenHeaders.push_back(&AS_REMOVE);
+    }
 }
 
 /**
@@ -301,50 +301,50 @@ void ASResource::buildNonParenHeaders(Vector<const WString*> &nonParenHeaders, i
  */
 void ASResource::buildOperators(Vector<const WString*> &operators)
 {
-	operators.push_back(&AS_PLUS_ASSIGN);
-	operators.push_back(&AS_MINUS_ASSIGN);
-	operators.push_back(&AS_MULT_ASSIGN);
-	operators.push_back(&AS_DIV_ASSIGN);
-	operators.push_back(&AS_MOD_ASSIGN);
-	operators.push_back(&AS_OR_ASSIGN);
-	operators.push_back(&AS_AND_ASSIGN);
-	operators.push_back(&AS_XOR_ASSIGN);
-	operators.push_back(&AS_EQUAL);
-	operators.push_back(&AS_PLUS_PLUS);
-	operators.push_back(&AS_MINUS_MINUS);
-	operators.push_back(&AS_NOT_EQUAL);
-	operators.push_back(&AS_GR_EQUAL);
-	operators.push_back(&AS_GR_GR_GR_ASSIGN);
-	operators.push_back(&AS_GR_GR_ASSIGN);
-	operators.push_back(&AS_GR_GR_GR);
-	operators.push_back(&AS_GR_GR);
-	operators.push_back(&AS_LS_EQUAL);
-	operators.push_back(&AS_LS_LS_LS_ASSIGN);
-	operators.push_back(&AS_LS_LS_ASSIGN);
-	operators.push_back(&AS_LS_LS_LS);
-	operators.push_back(&AS_LS_LS);
-	operators.push_back(&AS_ARROW);
-	operators.push_back(&AS_AND);
-	operators.push_back(&AS_OR);
-	operators.push_back(&AS_COLON_COLON);
-	operators.push_back(&AS_PLUS);
-	operators.push_back(&AS_MINUS);
-	operators.push_back(&AS_MULT);
-	operators.push_back(&AS_DIV);
-	operators.push_back(&AS_MOD);
-	operators.push_back(&AS_QUESTION);
-	operators.push_back(&AS_COLON);
-	operators.push_back(&AS_ASSIGN);
-	operators.push_back(&AS_LS);
-	operators.push_back(&AS_GR);
-	operators.push_back(&AS_NOT);
-	operators.push_back(&AS_BIT_OR);
-	operators.push_back(&AS_BIT_AND);
-	operators.push_back(&AS_BIT_NOT);
-	operators.push_back(&AS_BIT_XOR);
-	operators.push_back(&AS_OPERATOR);
-	operators.push_back(&AS_COMMA);
-	operators.push_back(&AS_RETURN);
+    operators.push_back(&AS_PLUS_ASSIGN);
+    operators.push_back(&AS_MINUS_ASSIGN);
+    operators.push_back(&AS_MULT_ASSIGN);
+    operators.push_back(&AS_DIV_ASSIGN);
+    operators.push_back(&AS_MOD_ASSIGN);
+    operators.push_back(&AS_OR_ASSIGN);
+    operators.push_back(&AS_AND_ASSIGN);
+    operators.push_back(&AS_XOR_ASSIGN);
+    operators.push_back(&AS_EQUAL);
+    operators.push_back(&AS_PLUS_PLUS);
+    operators.push_back(&AS_MINUS_MINUS);
+    operators.push_back(&AS_NOT_EQUAL);
+    operators.push_back(&AS_GR_EQUAL);
+    operators.push_back(&AS_GR_GR_GR_ASSIGN);
+    operators.push_back(&AS_GR_GR_ASSIGN);
+    operators.push_back(&AS_GR_GR_GR);
+    operators.push_back(&AS_GR_GR);
+    operators.push_back(&AS_LS_EQUAL);
+    operators.push_back(&AS_LS_LS_LS_ASSIGN);
+    operators.push_back(&AS_LS_LS_ASSIGN);
+    operators.push_back(&AS_LS_LS_LS);
+    operators.push_back(&AS_LS_LS);
+    operators.push_back(&AS_ARROW);
+    operators.push_back(&AS_AND);
+    operators.push_back(&AS_OR);
+    operators.push_back(&AS_COLON_COLON);
+    operators.push_back(&AS_PLUS);
+    operators.push_back(&AS_MINUS);
+    operators.push_back(&AS_MULT);
+    operators.push_back(&AS_DIV);
+    operators.push_back(&AS_MOD);
+    operators.push_back(&AS_QUESTION);
+    operators.push_back(&AS_COLON);
+    operators.push_back(&AS_ASSIGN);
+    operators.push_back(&AS_LS);
+    operators.push_back(&AS_GR);
+    operators.push_back(&AS_NOT);
+    operators.push_back(&AS_BIT_OR);
+    operators.push_back(&AS_BIT_AND);
+    operators.push_back(&AS_BIT_NOT);
+    operators.push_back(&AS_BIT_XOR);
+    operators.push_back(&AS_OPERATOR);
+    operators.push_back(&AS_COMMA);
+    operators.push_back(&AS_RETURN);
 }
 
 /**
@@ -355,13 +355,13 @@ void ASResource::buildOperators(Vector<const WString*> &operators)
  */
 void ASResource::buildPreBlockStatements(Vector<const WString*> &preBlockStatements)
 {
-	preBlockStatements.push_back(&AS_CLASS);
-	preBlockStatements.push_back(&AS_STRUCT);
-	preBlockStatements.push_back(&AS_UNION);
-	preBlockStatements.push_back(&AS_INTERFACE);
-	preBlockStatements.push_back(&AS_NAMESPACE);
-	preBlockStatements.push_back(&AS_THROWS);
-	preBlockStatements.push_back(&AS_EXTERN);
+    preBlockStatements.push_back(&AS_CLASS);
+    preBlockStatements.push_back(&AS_STRUCT);
+    preBlockStatements.push_back(&AS_UNION);
+    preBlockStatements.push_back(&AS_INTERFACE);
+    preBlockStatements.push_back(&AS_NAMESPACE);
+    preBlockStatements.push_back(&AS_THROWS);
+    preBlockStatements.push_back(&AS_EXTERN);
 }
 
 /**
@@ -372,9 +372,9 @@ void ASResource::buildPreBlockStatements(Vector<const WString*> &preBlockStateme
  */
 void ASResource::buildPreCommandHeaders(Vector<const WString*> &preCommandHeaders)
 {
-	preCommandHeaders.push_back(&AS_EXTERN);
-	preCommandHeaders.push_back(&AS_THROWS);
-	preCommandHeaders.push_back(&AS_CONST);
+    preCommandHeaders.push_back(&AS_EXTERN);
+    preCommandHeaders.push_back(&AS_THROWS);
+    preCommandHeaders.push_back(&AS_CONST);
 }
 
 /**
@@ -385,10 +385,10 @@ void ASResource::buildPreCommandHeaders(Vector<const WString*> &preCommandHeader
  */
 void ASResource::buildPreDefinitionHeaders(Vector<const WString*> &preDefinitionHeaders)
 {
-	preDefinitionHeaders.push_back(&AS_CLASS);
-	preDefinitionHeaders.push_back(&AS_INTERFACE);
-	preDefinitionHeaders.push_back(&AS_NAMESPACE);
-	preDefinitionHeaders.push_back(&AS_STRUCT);
+    preDefinitionHeaders.push_back(&AS_CLASS);
+    preDefinitionHeaders.push_back(&AS_INTERFACE);
+    preDefinitionHeaders.push_back(&AS_NAMESPACE);
+    preDefinitionHeaders.push_back(&AS_STRUCT);
 }
 
 

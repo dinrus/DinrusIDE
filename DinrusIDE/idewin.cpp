@@ -322,7 +322,7 @@ void SetupError(ArrayCtrl& error, const char *s)
 	error.AddColumn("Файл").SetDisplay(Single<Ide::FoundFileDisplay>());
 	error.AddColumn("Строка").SetDisplay(Single<Ide::TopAlignedDisplay>());
 	error.AddColumn(s);
-	error.AddIndex("ИНФО");
+	error.AddIndex("INFO");
 	error.ColumnWidths("184 44 298");
 	error.NoWantFocus();
 }
@@ -391,7 +391,7 @@ Ide::Ide()
 	right_split.Zoom(0);
 	
 	SetupError(error, "Сообщение");
-	error.AddIndex("ЗАМЕТКИ");
+	error.AddIndex("NOTES");
 	error.ColumnWidths("207 41 834");
 	error.WhenBar = THISBACK(ErrorMenu);
 

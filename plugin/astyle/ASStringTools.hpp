@@ -27,10 +27,10 @@
  */
 
  /*
- 	2008-01-26 Patches by Massimo Del Fedele :
- 		- modified sources to use Ultimate++ containers instead std:: ones
- 		- fixed memory leaks based on bug report 1804791 submitted by Eran Ifrah
- 		- modified to work with unicode
+    2008-01-26 Patches by Massimo Del Fedele :
+        - modified sources to use Ultimate++ containers instead std:: ones
+        - fixed memory leaks based on bug report 1804791 submitted by Eran Ifrah
+        - modified to work with unicode
  */
 #ifndef __ASSTRINGTOOLS_HPP
 #define __ASSTRINGTOOLS_HPP

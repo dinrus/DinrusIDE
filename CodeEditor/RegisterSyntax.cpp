@@ -44,11 +44,11 @@ void RegisterSyntaxModules()
 	RegisterCSyntax("cs", CSyntax::HIGHLIGHT_CS, "*.cs", "C#");
 	RegisterCSyntax("json", CSyntax::HIGHLIGHT_JSON, "*.json", "JSON");
 	RegisterCSyntax("css", CSyntax::HIGHLIGHT_CSS, "*.css", "Cascading Style Sheet");
-	RegisterCSyntax("sql", CSyntax::HIGHLIGHT_SQL, "*.sql *.ddl", "SQL script");
-	RegisterCSyntax("lay", CSyntax::HIGHLIGHT_LAY, "*.lay", "U++ layout");
-	RegisterCSyntax("sch", CSyntax::HIGHLIGHT_SCH, "*.sch", "U++ SQL schema");
-	RegisterCSyntax("t", CSyntax::HIGHLIGHT_T, "*.t *.jt", "U++ translation");
-	RegisterCSyntax("usc", CSyntax::HIGHLIGHT_USC, "*.usc", "U++ widget definitions");
+	RegisterCSyntax("sql", CSyntax::HIGHLIGHT_SQL, "*.sql *.ddl", "Сценарий SQL");
+	RegisterCSyntax("lay", CSyntax::HIGHLIGHT_LAY, "*.lay", "Выкладка U++");
+	RegisterCSyntax("sch", CSyntax::HIGHLIGHT_SCH, "*.sch", "Схема U++ SQL");
+	RegisterCSyntax("t", CSyntax::HIGHLIGHT_T, "*.t *.jt", "Первод U++");
+	RegisterCSyntax("usc", CSyntax::HIGHLIGHT_USC, "*.usc", "Определения виджетов U++");
 	RegisterCSyntax("calc", CSyntax::HIGHLIGHT_CALC, "", "");
 	RegisterCSyntax("php", CSyntax::HIGHLIGHT_PHP, "*.php", "PHP");
 	
@@ -58,7 +58,7 @@ void RegisterSyntaxModules()
 	
 	EditorSyntax::Register("xml", callback2(CreateTagSyntax, false, false), "*.xml *.xsd", "XML");
 	EditorSyntax::Register("html", callback2(CreateTagSyntax, true, false), "*.html *.htm", "HTML");
-	EditorSyntax::Register("witz", callback2(CreateTagSyntax, true, true), "*.witz", "Skylark templates");
+	EditorSyntax::Register("witz", callback2(CreateTagSyntax, true, true), "*.witz", "Шаблоны Skylark");
 	
 	EditorSyntax::Register("log", callback(CreateLogSyntax), "*.log *.info", "Log");
 }

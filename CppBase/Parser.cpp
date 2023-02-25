@@ -311,7 +311,7 @@ String CleanTp(const String& tp)
 
 String Parser::Context::Dump() const
 {
-	return "Scopeing: " + scope;
+	return "Масштабирование: " + scope;
 }
 
 static String s_dblcln("::");

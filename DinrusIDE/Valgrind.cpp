@@ -137,7 +137,7 @@ void Ide::Valgrind()
 				error.Add(f.file, f.lineno,
 				          AttrText(FormatErrorLine(f.message, linecy)).NormalPaper(HighlightSetup::GetHlStyle(HighlightSetup::PAPER_ERROR).color),
 				          RawToValue(f));
-				error.Set(error.GetCount() - 1, "ЗАМЕТКИ", notes);
+				error.Set(error.GetCount() - 1, "NOTES", notes);
 				error.SetLineCy(error.GetCount() - 1, linecy);
 			}
 			else

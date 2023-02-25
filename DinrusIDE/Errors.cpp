@@ -532,7 +532,7 @@ void Ide::ConsoleLine(const String& line, bool assist)
 			          AttrText(FormatErrorLine(f.message, linecy)).NormalPaper(paper),
 			          RawToValue(f));
 			if(prenotes.GetCount()) {
-				error.Set(error.GetCount() - 1, "ЗАМЕТКИ", prenotes);
+				error.Set(error.GetCount() - 1, "NOTES", prenotes);
 				prenotes.Clear();
 			}
 			error.SetLineCy(error.GetCount() - 1, linecy);
@@ -557,7 +557,7 @@ void Ide::ConsoleLine(const String& line, bool assist)
 		int cnt = error.GetCount();
 		if(cnt == 0)
 			return;
-		ValueArray n = error.Get(cnt - 1, "ЗАМЕТКИ");
+		ValueArray n = error.Get(cnt - 1, "NOTES");
 		bool iserrorpos = true;
 		for(const char *s = f.message; *s; s++)
 			if(*s != ' ' && *s != '~' && *s != '^' && *s != '|')
@@ -570,7 +570,7 @@ void Ide::ConsoleLine(const String& line, bool assist)
 		}
 		else
 			n.Add(RawToValue(f));
-		error.Set(cnt - 1, "ЗАМЕТКИ", n);
+		error.Set(cnt - 1, "NOTES", n);
 	}
 }
 
@@ -590,15 +590,15 @@ void Ide::SyncErrorsMessage()
 	}
 	else  {
 		h = "\1[g Сообщение";
-		if(error_count == 1)
-			cnt << "[*@r " << error_count << " ошибка]";
-		if(error_count > 1)
+		if(error_count)
+			cnt << "[*@r " << error_count << " ошибка" << (error_count > 1 ? "s]" : "]");
+		if(warning_count) {
 			cnt << "[*@r " << error_count << " ошибки]";
 
 		if(warning_count == 1) {
 			if(error_count)
 				cnt << ", ";
-			cnt << "[@o " << warning_count << " предупреждение]";
+			cnt << "[@o " << warning_count << " предупреждение" << (warning_count > 1 ? "s]" : "]");
 		}
 
 		if(warning_count > 1) {
@@ -610,8 +610,8 @@ void Ide::SyncErrorsMessage()
 	if(cnt.GetCount())
 		h << " (" << cnt << ")";
 	error.HeaderTab(2).SetText(h);
+  }
 }
-
 void Ide::ConsoleRunEnd()
 {
 	addnotes = false;
@@ -661,12 +661,12 @@ void Ide::SelError()
 	if(removing_notes)
 		return;
 	if(error.IsCursor()) {
-		Value v = error.Get("ЗАМЕТКИ");
+		Value v = error.Get("NOTES");
 		if(v != "0") {
 			int sc = error.GetScroll();
 			removing_notes = true;
 			for(int i = error.GetCount() - 1; i >= 0; i--)
-				if(error.Get(i, "ЗАМЕТКИ") == "0")
+				if(error.Get(i, "NOTES") == "0")
 					error.Remove(i);
 			removing_notes = false;
 			error.ScrollTo(sc);
@@ -685,8 +685,8 @@ void Ide::SelError()
 				}
 				else
 					error.Set(ii, 2, FormatErrorLine(f.message, linecy));
-				error.Set(ii, "ИНФО", n[i]);
-				error.Set(ii, "ЗАМЕТКИ", "0");
+				error.Set(ii, "INFO", n[i]);
+				error.Set(ii, "NOTES", "0");
 				error.SetLineCy(ii, linecy);
 			}
 		}

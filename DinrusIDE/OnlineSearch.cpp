@@ -47,7 +47,7 @@ void SearchEnginesDefaultSetup()
 {
 	static const Tuple<const char *, const char *> defs[] = {
 		{ "Google", "https://www.google.com/search?q=%s" },
-		{ "C++ reference", "https://en.cppreference.com/mwiki/index.php?search=%s" },
+		{ "Справка по C++", "https://en.cppreference.com/mwiki/index.php?search=%s" },
 		{ "Wikipedia", "https://en.wikipedia.org/w/index.php?search=%s" },
 		{ "GitHub", "https://github.com/search?q=%s" },
 		{ "CodeProject", "https://www.codeproject.com/search.aspx?q=%s" },

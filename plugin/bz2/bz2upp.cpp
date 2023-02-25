@@ -28,7 +28,7 @@ namespace bz2 {
 	{
 		Begin();
 		if(BZ2_bzCompressInit(&z, compression_level, 0, 30) != BZ_OK)
-			Panic("BZ2_bzCompressInit failed");
+			Panic("Неудачное BZ2_bzCompressInit");
 		mode = DEFLATE;
 	}
 	
@@ -38,7 +38,7 @@ namespace bz2 {
 		rdall = all;
 		eos = false;
 		if(BZ2_bzDecompressInit(&z, 0, 0) != BZ_OK)
-			Panic("BZ2_bzDecompressInit failed");
+			Panic("Неудачное BZ2_bzDecompressInit");
 		mode = INFLATE;
 	}
 	
@@ -69,7 +69,7 @@ namespace bz2 {
 					if (rdall) {
 						BZ2_bzDecompressEnd(&z);
 						if(BZ2_bzDecompressInit(&z, 0, 0) != BZ_OK)
-							Panic("BZ2_bzDecompressInit failed");
+							Panic("Неудачное BZ2_bzDecompressInit");
 					}
 					else
 						eos = true;

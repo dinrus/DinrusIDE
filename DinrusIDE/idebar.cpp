@@ -199,9 +199,9 @@ void Ide::SearchMenu(Bar& menu)
 		menu.MenuSeparator();
 
 		menu.Add(AK_FINDSTRING, THISBACK1(FindString, false))
-			.Help("Find any ordinary string constant (\"\" - delimited)");
+			.Help("Найти любую обычную строковую константу (\"\" - ограничено)");
 		menu.Add(AK_FINDSTRINGBACK, THISBACK1(FindString, true))
-			.Help("Find any ordinary string constant (\"\" - delimited) backwards");
+			.Help("Найти любую обычную строковую константу (\"\" - ограничено) рекурсивно");
 		menu.MenuSeparator();
 	}
 	menu.Add(AK_FINDINFILES, THISBACK1(FindInFiles, false))

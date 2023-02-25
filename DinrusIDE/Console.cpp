@@ -17,6 +17,7 @@ Console::Console() {
 	SetReadOnly();
 	NoHorzScrollbar();
 	SetColor(LineEdit::PAPER_READONLY, SColorPaper);
+	SetColor(LineEdit::INK_NORMAL, SColorText);
 	input.Height(EditString::GetStdHeight());
 	input.SetFrame(Single<TopTextFrame>());
 	AddFrame(input);
@@ -202,7 +203,7 @@ int Console::Execute(const char *command, Stream *out, const char *envptr, bool 
 int Console::AllocSlot()
 {
 	int ms0 = msecs();
-	
+
 	for(;;) {
 		for(int i = 0; i < processes.GetCount(); i++)
 			if(!IsRunning(i))

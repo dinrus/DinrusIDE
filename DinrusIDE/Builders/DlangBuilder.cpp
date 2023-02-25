@@ -1,6 +1,3 @@
-/*
-
-*/
 #include "Builders.h"
 #include "BuilderUtils.h"
 
@@ -11,16 +8,18 @@ void   DlangBuilder::AddFlags(Index<String>& cfg)
 String DlangBuilder::CompilerName() const
 {
 	if(!IsNull(compiler)) return compiler;
-	return "ldс2";
+	return "ldmd2";
 }
 ///////////////////////////////////////////////////
 String DlangBuilder::CmdLine(const String& package, const Package& pkg)
 {
 	String LDC2 = CompilerName();
-	LDC2 << " --linker=ld.lld --gcc=gcc --c";
-	for(String s : pkg_config)
-		LDC2 << " `pkg-config --cflags " << s << "`";
+	LDC2 << " --linker=ld.lld --gcc=gcc -c";
+//	for(String s : pkg_config)
+	//	LDC2 << " `pkg-config --cflags " << s << "`";
 	LDC2 << ' ' << IncludesDefinesTargetTime(package, pkg);
+	PutConsole("Получилась следующая командная строка:");
+	PutConsole(LDC2);
 	return LDC2;
 }
 //////////////////////////////////////////////////////
@@ -31,7 +30,7 @@ void DlangBuilder::BinaryToObject(String objfile, CParser& binscript, String bas
 	String tmpfile = ForceExt(objfile, ".d");
 	SaveFile(tmpfile, fo);
 	String LDC2 = CmdLine(package, pkg);
-	LDC2 << " --c --of" << GetPathQ(objfile) << " " << GetPathQ(tmpfile);
+	LDC2 << " -c -of" << GetPathQ(objfile) << " " << GetPathQ(tmpfile);
 	int slot = AllocSlot();
 	if(slot < 0 || !Run(LDC2, slot, objfile, 1))
 		throw Exc(Format("Ошибка при компиляции бинарного объекта '%s'.", objfile));
@@ -89,10 +88,10 @@ bool DlangBuilder::BuildPackage(const String& package, Vector<String>& linkfile,
 					}
 				}
 				else
-				if(ext == ".obj")
+				if(ext == ".o")
 					obj.Add(fn);
 				else
-				if(ext == ".lib" || ext == ".dll")
+				if(ext == ".a" || ext == ".dll")
 					linkfile.Add(fn);
 
 				if(pkg[i].noblitz)
@@ -116,11 +115,11 @@ bool DlangBuilder::BuildPackage(const String& package, Vector<String>& linkfile,
 	//}
 	String fuse_cxa_atexit;
 	if(is_shared /*&& !HasFlag("MAIN")*/) {
-		LDC2 << " --shared";
+		LDC2 << " -shared";
 		//fuse_cxa_atexit = " -fuse-cxa-atexit";
 	}
 	if(!HasFlag("SHARED") && !is_shared)
-		LDC2 << " --lib";
+		LDC2 << " -lib";
 //	else if(!HasFlag("WIN32")) // TRC 05/03/08: dynamic fPIC doesn't seem to work in MinGW
 //		LDC2 << " -dynamic -fPIC "; // TRC 05/03/30: dynamic fPIC doesn't seem to work in GCC either :-)
 	LDC2 << ' ' << Gather(pkg.option, config.GetKeys());
@@ -141,7 +140,7 @@ bool DlangBuilder::BuildPackage(const String& package, Vector<String>& linkfile,
 //	}
 
 	if(!release)
-		LDC2 << " --debug " << debug_options;
+		LDC2 << " -debug " << debug_options;
 	else
 		LDC2 << ' ' << release_options;
 
@@ -185,7 +184,7 @@ bool DlangBuilder::BuildPackage(const String& package, Vector<String>& linkfile,
 			bool execerr = false;
 			if(rc) {
 				String exec;
-				String windres = "windres.exe";
+				String windres = "windres";
 				int q = compiler.ReverseFind('-'); // clang32 windres name is i686-w64-mingw32-windres.exe
 				if(q > 0)
 					windres = compiler.Mid(0, q + 1) + windres;

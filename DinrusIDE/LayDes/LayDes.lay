@@ -6,7 +6,7 @@ END_LAYOUT
 
 LAYOUT(FontPropertyDlgLayout, 232, 156)
 	ITEM(Upp::LabelBox, dv___0, SetLabel(t_("Фас")).LeftPosZ(6, 100).TopPosZ(2, 90))
-	ITEM(Upp::Switch, face, SetLabel(t_("StdFont\nSerif\nSansSerif\nMonospace")).LeftPosZ(14, 88).TopPosZ(20, 68))
+	ITEM(Upp::Switch, face, SetLabel(t_("Стандартный шрифт\nSerif\nSansSerif\nМоноширинный")).LeftPosZ(14, 88).TopPosZ(20, 68))
 	ITEM(Upp::Option, bold, SetLabel(t_("Полужирный")).LeftPosZ(120, 68).TopPosZ(16, 18))
 	ITEM(Upp::Option, italic, SetLabel(t_("Курсив")).LeftPosZ(120, 68).TopPosZ(34, 18))
 	ITEM(Upp::Option, underline, SetLabel(t_("Подчёркнуто")).LeftPosZ(120, 68).TopPosZ(52, 18))
@@ -14,7 +14,7 @@ LAYOUT(FontPropertyDlgLayout, 232, 156)
 	ITEM(Upp::Label, dv___6, SetLabel(t_("Высота")).LeftPosZ(8, 39).TopPosZ(96, 19))
 	ITEM(WithDropChoice<EditIntSpin>, height, LeftPosZ(50, 56).TopPosZ(96, 19))
 	ITEM(Upp::LabelBox, dv___8, SetLabel(t_("Опции")).LeftPosZ(112, 112).TopPosZ(2, 114))
-	ITEM(Upp::Option, nonaa, SetLabel(t_("NonAntiAliased")).LeftPosZ(120, 96).TopPosZ(88, 18))
+	ITEM(Upp::Option, nonaa, SetLabel(t_("Без сглаживания")).LeftPosZ(120, 96).TopPosZ(88, 18))
 	ITEM(Upp::Button, ok, SetLabel(t_("OK")).LeftPosZ(92, 64).TopPosZ(124, 24))
 	ITEM(Upp::Button, cancel, SetLabel(t_("Отмена")).LeftPosZ(160, 64).TopPosZ(124, 24))
 END_LAYOUT

@@ -18,7 +18,7 @@
 #include <locale>
 #include <shlwapi.h>
 #include "AutoCompletion.h"
-#include "Notepad_plus_msgs.h"
+#include <PowerEditor/MISC/PluginsManager/Notepad_plus_msgs.h>
 
 const auto FUNC_IMG_ID = 1000;
 const char* xpmfn[] = {

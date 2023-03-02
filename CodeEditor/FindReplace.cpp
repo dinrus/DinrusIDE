@@ -768,8 +768,8 @@ void CodeEditor::ReplaceWildcard()
 		menu.Add(t_("Совпадающий любой символ"), THISBACK1(InsertWildcard, "?"));
 		ptxt = t_("Совпадающий шаблон %d");
 	}
-	menu.Add(t_("0-based replace index"), THISBACK1(InsertWildcard, "@@"));
-	menu.Add(t_("1-based replace index"), THISBACK1(InsertWildcard, "@#"));
+	menu.Add(t_("Индекс замены на базе 0"), THISBACK1(InsertWildcard, "@@"));
+	menu.Add(t_("Индекс замены на базе 1"), THISBACK1(InsertWildcard, "@#"));
 	menu.Separator();
 	for(int i = 1; i <= 9; i++)
 		menu.Add(Format(ptxt, i), THISBACK1(InsertWildcard, "@"+AsString(i)));

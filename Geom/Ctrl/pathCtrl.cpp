@@ -45,7 +45,7 @@ DlgPathStyleSetup::DlgPathStyleSetup()
 	dialog.miter.Hide();
 	dialog.miter.GetPrev()->Hide();
 	dialog.miter.Add(PathStyle::MITER_ROUND, "zaoblit");
-	dialog.miter.Add(PathStyle::MITER_SHARP, "ostr˝ roh");
+	dialog.miter.Add(PathStyle::MITER_SHARP, "ostr—ç roh");
 	dialog.miter.Add(PathStyle::MITER_FLAT,  "zkosit");
 	dialog.miter <<= THISBACK(OnMiter);
 	dialog.chamfer.NotNull().MinMax(0, 5);
@@ -204,15 +204,15 @@ PathEditorCtrl::PathEditorCtrl()
 	zoom_horz_full <<= THISBACK(OnViewZoomHorzFull);
 	zoom_vert_full <<= THISBACK(OnViewZoomVertFull);
 	zoom_full      <<= THISBACK(OnViewZoomFull);
-	sample_size_tag.SetLabel("Uk·zka: ");
-	sample_size.Add(0,  "skr˝t");
-	sample_size.Add(40, "mal·");
-	sample_size.Add(70, "st¯ednÌ");
-	sample_size.Add(100, "velk·");
+	sample_size_tag.SetLabel("Uk–±zka: ");
+	sample_size.Add(0,  "skr—çt");
+	sample_size.Add(40, "mal–±");
+	sample_size.Add(70, "st—àedn–Ω");
+	sample_size.Add(100, "velk–±");
 //	sample_size.SetRect(LayoutZoom(80, 0));
 	sample_size <<= 40;
 	sample_size <<= THISBACK(OnSampleSize);
-	sample_width_tag.SetLabel("äÌ¯ka: ");
+	sample_width_tag.SetLabel("–â–Ω—àka: ");
 	sample_width.NotNull().MinMax(0, MAX_WIDTH);
 	sample_width <<= THISBACK(OnSampleWidth);
 	sample_width <<= 2;
@@ -671,16 +671,16 @@ bool PathEditorCtrl::ReadClipboard()
 	bool setwd = false, setsg = false;
 	if(extent.top < full.top || extent.bottom > full.bottom)
 	{
-		int r = PromptYesNoCancel("VybranÈ objekty p¯esahujÌ limit dan˝ öÌ¯kou Ë·ry. "
-			"Chcete öÌ¯ku Ë·ry upravit?");
+		int r = PromptYesNoCancel("Vybran–π objekty p—àesahuj–Ω limit dan—ç —ô–Ω—àkou –∏–±ry. "
+			"Chcete —ô–Ω—àku –∏–±ry upravit?");
 		if(r < 0)
 			return true;
 		setwd = !!r;
 	}
 	if(extent.right > full.right)
 	{
-		int r = PromptYesNoCancel("VybranÈ objekty p¯esahujÌ limit dan˝ dÈlkou segmentu. "
-			"Chcete dÈlku segmentu upravit?");
+		int r = PromptYesNoCancel("Vybran–π objekty p—àesahuj–Ω limit dan—ç d–πlkou segmentu. "
+			"Chcete d–πlku segmentu upravit?");
 		if(r < 0)
 			return true;
 		setsg = !!r;
@@ -1217,30 +1217,30 @@ void PathEditorCtrl::ToolEdit(Bar& bar)
 	ToolEditPaste(bar);
 	ToolEditDelete(bar);
 	bar.Separator();
-//	bar.Add("Z·kladnÌ", THISBACK(ToolEditBasic))
-//		.Help("NaËÌst do editoru jeden ze z·kladnÌch styl˘ Ë·r");
+//	bar.Add("Z–±kladn–Ω", THISBACK(ToolEditBasic))
+//		.Help("Na–∏–Ωst do editoru jeden ze z–±kladn–Ωch styl—â –∏–±r");
 //	bar.Separator();
 	ToolEditSelectAll(bar);
 }
 
 void PathEditorCtrl::ToolEditCopy(Bar& bar)
 {
-	bar.Add(IsSelection(), "KopÌrovat", CtrlImg::copy(), THISBACK(OnEditCopy))
+	bar.Add(IsSelection(), "Kop–Ωrovat", CtrlImg::copy(), THISBACK(OnEditCopy))
 		.Key(K_CTRL_C) //, K_CTRL_INSERT)
-		.Help("ZkopÌrovat vybranÈ objekty do schr·nky");
+		.Help("Zkop–Ωrovat vybran–π objekty do schr–±nky");
 }
 
 void PathEditorCtrl::OnEditCopy()
 {
 	if(IsSelection() && !WriteClipboard())
-		PromptOK("Chyba p¯i z·pisu do schr·nky.");
+		PromptOK("Chyba p—ài z–±pisu do schr–±nky.");
 }
 
 void PathEditorCtrl::ToolEditCut(Bar& bar)
 {
 	bar.Add(IsSelection(), "Vyjmout", CtrlImg::cut(), THISBACK(OnEditCut))
 		.Key(K_CTRL_X) //, K_CTRL_DELETE)
-		.Help("Odstranit vybranÈ objekty ze stylu a p¯esunout je do schr·nky");
+		.Help("Odstranit vybran–π objekty ze stylu a p—àesunout je do schr–±nky");
 }
 
 void PathEditorCtrl::OnEditCut()
@@ -1249,27 +1249,27 @@ void PathEditorCtrl::OnEditCut()
 		if(WriteClipboard())
 			OnEditDelete();
 		else
-			PromptOK("Chyba p¯i z·pisu do schr·nky.");
+			PromptOK("Chyba p—ài z–±pisu do schr–±nky.");
 }
 
 void PathEditorCtrl::ToolEditPaste(Bar& bar)
 {
-	bar.Add("Vloûit", CtrlImg::paste(), THISBACK(OnEditPaste))
+	bar.Add("Vlo—õit", CtrlImg::paste(), THISBACK(OnEditPaste))
 		.Key(K_CTRL_V) //, K_SHIFT_INSERT)
-		.Help("ZkopÌrovat vybranÈ objekty do schr·nky");
+		.Help("Zkop–Ωrovat vybran–π objekty do schr–±nky");
 }
 
 void PathEditorCtrl::OnEditPaste()
 {
 	if(IsSelection() && !ReadClipboard())
-		PromptOK("Chyba p¯i z·pisu do schr·nky.");
+		PromptOK("Chyba p—ài z–±pisu do schr–±nky.");
 }
 
 void PathEditorCtrl::ToolEditSelectAll(Bar& bar)
 {
-	bar.Add("Vybrat vöe", THISBACK(OnEditSelectAll))
+	bar.Add("Vybrat v—ôe", THISBACK(OnEditSelectAll))
 		.Key(K_CTRL_A)
-		.Help("OznaËit vöechny ˙seky jako vybranÈ");
+		.Help("Ozna–∏it v—ôechny —äseky jako vybran–π");
 }
 
 void PathEditorCtrl::OnEditSelectAll()
@@ -1285,7 +1285,7 @@ void PathEditorCtrl::ToolEditColor(Bar& bar)
 {
 	bar.Add(IsSelection(), "Barva...", PathImg::edit_color(), THISBACK(OnEditColor))
 		.Key(K_CTRL_R)
-		.Help("Nastavit barvu vybran˝ch objekt˘");
+		.Help("Nastavit barvu vybran—çch objekt—â");
 }
 
 void PathEditorCtrl::OnEditColor()
@@ -1293,7 +1293,7 @@ void PathEditorCtrl::OnEditColor()
 	if(!IsSelection())
 		return;
 	bool ok;
-	Color c = RunDlgSelectColor(traces[GetSelectionLeader()].color, false, "Barva objekt˘...", &ok);
+	Color c = RunDlgSelectColor(traces[GetSelectionLeader()].color, false, "Barva objekt—â...", &ok);
 	if(ok)
 		for(int i = 0; i < selection.GetCount(); i++)
 			SetObject(selection[i], traces[selection[i]].GetTraceColor(c));
@@ -1303,7 +1303,7 @@ void PathEditorCtrl::ToolEditDelete(Bar& bar)
 {
 	bar.Add(IsSelection(), "Smazat", CtrlImg::remove(), THISBACK(OnEditDelete))
 		.Key(K_DELETE)
-		.Help("Smazat vybranÈ objekty");
+		.Help("Smazat vybran–π objekty");
 }
 
 void PathEditorCtrl::OnEditDelete()
@@ -1335,9 +1335,9 @@ void PathEditorCtrl::ToolView(Bar& bar)
 
 void PathEditorCtrl::ToolViewZoomIn(Bar& bar)
 {
-	bar.Add("ZvÏtöit", PathImg::view_zoom_in(), THISBACK(OnViewZoomIn))
+	bar.Add("Zv–ºt—ôit", PathImg::view_zoom_in(), THISBACK(OnViewZoomIn))
 		.Check(edit_mode == EDIT_ZOOM)
-		.Help("ZvÏtöit vybranÈ mÌsto nebo oblast");
+		.Help("Zv–ºt—ôit vybran–π m–Ωsto nebo oblast");
 }
 
 void PathEditorCtrl::OnViewZoomIn()
@@ -1348,8 +1348,8 @@ void PathEditorCtrl::OnViewZoomIn()
 
 void PathEditorCtrl::ToolViewZoomOut(Bar& bar)
 {
-	bar.Add("Zmenöit", PathImg::view_zoom_out(), THISBACK(OnViewZoomOut))
-		.Help("Zmenöit mÏ¯Ìtko zobrazenÌ stylu Ë·ry");
+	bar.Add("Zmen—ôit", PathImg::view_zoom_out(), THISBACK(OnViewZoomOut))
+		.Help("Zmen—ôit m–º—à–Ωtko zobrazen–Ω stylu –∏–±ry");
 }
 
 void PathEditorCtrl::OnViewZoomOut()
@@ -1361,7 +1361,7 @@ void PathEditorCtrl::OnViewZoomOut()
 void PathEditorCtrl::ToolViewZoomFull(Bar& bar)
 {
 	bar.Add("Podle okna", PathImg::view_zoom_full(), THISBACK(OnViewZoomFull))
-		.Help("Nastavit mÏ¯Ìtko zobrazenÌ podle velikosti okna");
+		.Help("Nastavit m–º—à–Ωtko zobrazen–Ω podle velikosti okna");
 }
 
 void PathEditorCtrl::OnViewZoomFull()
@@ -1372,8 +1372,8 @@ void PathEditorCtrl::OnViewZoomFull()
 
 void PathEditorCtrl::ToolViewZoomHorzIn(Bar& bar)
 {
-	bar.Add("Horiz. zvÏtöit", THISBACK(OnViewZoomHorzIn))
-		.Help("ZvÏtöit mÏ¯Ìtko vodorovnÈ osy");
+	bar.Add("Horiz. zv–ºt—ôit", THISBACK(OnViewZoomHorzIn))
+		.Help("Zv–ºt—ôit m–º—à–Ωtko vodorovn–π osy");
 }
 
 void PathEditorCtrl::OnViewZoomHorzIn()
@@ -1387,8 +1387,8 @@ void PathEditorCtrl::OnViewZoomHorzIn()
 
 void PathEditorCtrl::ToolViewZoomHorzOut(Bar& bar)
 {
-	bar.Add("Horiz. zmenöit", THISBACK(OnViewZoomHorzOut))
-		.Help("Zmenöit mÏ¯Ìtko vodorovnÈ osy");
+	bar.Add("Horiz. zmen—ôit", THISBACK(OnViewZoomHorzOut))
+		.Help("Zmen—ôit m–º—à–Ωtko vodorovn–π osy");
 }
 
 void PathEditorCtrl::OnViewZoomHorzOut()
@@ -1403,7 +1403,7 @@ void PathEditorCtrl::OnViewZoomHorzOut()
 void PathEditorCtrl::ToolViewZoomHorzFull(Bar& bar)
 {
 	bar.Add("Horiz. podle okna", THISBACK(OnViewZoomHorzFull))
-		.Help("Nastavit vodorovnÈ mÏ¯Ìtko podle velikosti okna");
+		.Help("Nastavit vodorovn–π m–º—à–Ωtko podle velikosti okna");
 }
 
 void PathEditorCtrl::OnViewZoomHorzFull()
@@ -1416,8 +1416,8 @@ void PathEditorCtrl::OnViewZoomHorzFull()
 
 void PathEditorCtrl::ToolViewZoomVertIn(Bar& bar)
 {
-	bar.Add("Vert. zvÏtöit", THISBACK(OnViewZoomVertIn))
-		.Help("ZvÏtöit mÏ¯Ìtko svislÈ osy");
+	bar.Add("Vert. zv–ºt—ôit", THISBACK(OnViewZoomVertIn))
+		.Help("Zv–ºt—ôit m–º—à–Ωtko svisl–π osy");
 }
 
 void PathEditorCtrl::OnViewZoomVertIn()
@@ -1431,8 +1431,8 @@ void PathEditorCtrl::OnViewZoomVertIn()
 
 void PathEditorCtrl::ToolViewZoomVertOut(Bar& bar)
 {
-	bar.Add("Vert. zmenöit", THISBACK(OnViewZoomVertOut))
-		.Help("Zmenöit mÏ¯Ìtko svislÈ osy");
+	bar.Add("Vert. zmen—ôit", THISBACK(OnViewZoomVertOut))
+		.Help("Zmen—ôit m–º—à–Ωtko svisl–π osy");
 }
 
 void PathEditorCtrl::OnViewZoomVertOut()
@@ -1447,7 +1447,7 @@ void PathEditorCtrl::OnViewZoomVertOut()
 void PathEditorCtrl::ToolViewZoomVertFull(Bar& bar)
 {
 	bar.Add("Vert. podle okna", THISBACK(OnViewZoomVertFull))
-		.Help("Nastavit mÏ¯Ìtko svislÈ osy podle velikosti okna");
+		.Help("Nastavit m–º—à–Ωtko svisl–π osy podle velikosti okna");
 }
 
 void PathEditorCtrl::OnViewZoomVertFull()
@@ -1462,7 +1462,7 @@ void PathEditorCtrl::ToolViewPan(Bar& bar)
 {
 	bar.Add("Posunout", PathImg::view_pan(), THISBACK(OnViewPan))
 		.Check(edit_mode == EDIT_PAN)
-		.Help("Posunout myöÌ zobrazen˝ v˝¯ez");
+		.Help("Posunout my—ô–Ω zobrazen—ç v—ç—àez");
 }
 
 void PathEditorCtrl::OnViewPan()
@@ -1494,9 +1494,9 @@ void PathEditorCtrl::ToolSetup(Bar& bar)
 
 void PathEditorCtrl::ToolSetupGrid(Bar& bar)
 {
-	bar.Add("M¯Ìûka", PathImg::setup_grid(), THISBACK(OnSetupGrid))
+	bar.Add("M—à–Ω—õka", PathImg::setup_grid(), THISBACK(OnSetupGrid))
 		.Check(setup.do_grid)
-		.Help("Zobrazit / skr˝t pomocnou m¯Ìûku");
+		.Help("Zobrazit / skr—çt pomocnou m—à–Ω—õku");
 }
 
 void PathEditorCtrl::OnSetupGrid()
@@ -1508,9 +1508,9 @@ void PathEditorCtrl::OnSetupGrid()
 
 void PathEditorCtrl::ToolSetupRuler(Bar& bar)
 {
-	bar.Add("PravÌtko", PathImg::setup_ruler(), THISBACK(OnSetupRuler))
+	bar.Add("Prav–Ωtko", PathImg::setup_ruler(), THISBACK(OnSetupRuler))
 		.Check(setup.do_ruler)
-		.Help("Zobrazit / skr˝t pravÌtko");
+		.Help("Zobrazit / skr—çt prav–Ωtko");
 }
 
 void PathEditorCtrl::OnSetupRuler()
@@ -1524,7 +1524,7 @@ void PathEditorCtrl::ToolSetupAxis(Bar& bar)
 {
 	bar.Add("Osa", PathImg::setup_axis(), THISBACK(OnSetupAxis))
 		.Check(setup.do_axis)
-		.Help("Zobrazit / skr˝t osu uk·zkovÈ ˙seËky");
+		.Help("Zobrazit / skr—çt osu uk–±zkov–π —äse–∏ky");
 }
 
 void PathEditorCtrl::OnSetupAxis()
@@ -1536,9 +1536,9 @@ void PathEditorCtrl::OnSetupAxis()
 
 void PathEditorCtrl::ToolSetupSnap(Bar& bar)
 {
-	bar.Add("P¯ichytit do m¯Ìûky", PathImg::setup_snap(), THISBACK(OnSetupSnap))
+	bar.Add("P—àichytit do m—à–Ω—õky", PathImg::setup_snap(), THISBACK(OnSetupSnap))
 		.Check(setup.do_snap)
-		.Help("P¯ichytit sou¯adnice myöi do m¯Ìûky");
+		.Help("P—àichytit sou—àadnice my—ôi do m—à–Ω—õky");
 }
 
 void PathEditorCtrl::OnSetupSnap()
@@ -1550,8 +1550,8 @@ void PathEditorCtrl::OnSetupSnap()
 
 void PathEditorCtrl::ToolSetupStyle(Bar& bar)
 {
-	bar.Add("Styl Ë·ry", THISBACK(OnSetupStyle))
-		.Help("Zobrazit/zmÏnit vlastnosti stylu Ë·ry");
+	bar.Add("Styl –∏–±ry", THISBACK(OnSetupStyle))
+		.Help("Zobrazit/zm–ºnit vlastnosti stylu –∏–±ry");
 }
 
 void PathEditorCtrl::OnSetupStyle()
@@ -1567,7 +1567,7 @@ void PathEditorCtrl::OnSetupStyle()
 void PathEditorCtrl::ToolSetupSetup(Bar& bar)
 {
 	bar.Add("Editor", PathImg::setup_setup(), THISBACK(OnSetupSetup))
-		.Help("Zobrazit/zmÏnit vlastnosti editoru styl˘ Ëar");
+		.Help("Zobrazit/zm–ºnit vlastnosti editoru styl—â –∏ar");
 }
 
 void PathEditorCtrl::OnSetupSetup()
@@ -1636,7 +1636,7 @@ DlgPathEditor::DlgPathEditor()
 
 bool DlgPathEditor::Run(PathStyle& style, const String& title)
 {
-	dialog.Title(Nvl(title, "Styl Ë·ry").ToWString());
+	dialog.Title(Nvl(title, "Styl –∏–±ry").ToWString());
 	ReadConfigSelf();
 	path.SetOwner(style);
 	path.SetCoords(coords);
@@ -1661,11 +1661,11 @@ void DlgPathEditor::Serialize(Stream& stream)
 void DlgPathEditor::ToolRoot(Bar& bar)
 {
 	bar.Add("Edit", THISBACK(ToolEdit))
-		.Help("Z·kladnÌ editaËnÌ p¯Ìkazy");
+		.Help("Z–±kladn–Ω edita–∏n–Ω p—à–Ωkazy");
 	bar.Add("Pohled", callback(&path, &PathEditorCtrl::ToolView))
-		.Help("MÏ¯Ìtko a poloha zobrazenÈho v˝¯ezu");
+		.Help("M–º—à–Ωtko a poloha zobrazen–πho v—ç—àezu");
 	bar.Add("Vlastnosti", callback(&path, &PathEditorCtrl::ToolSetup))
-		.Help("Vlastnosti Ë·ry a editoru");
+		.Help("Vlastnosti –∏–±ry a editoru");
 }
 
 void DlgPathEditor::ToolEdit(Bar& bar)
@@ -1686,9 +1686,9 @@ void DlgPathEditor::ToolEdit(Bar& bar)
 
 void DlgPathEditor::ToolEditSave(Bar& bar)
 {
-	bar.Add("Uloûit a zav¯Ìt", CtrlImg::save(), THISBACK(OnEditSave))
+	bar.Add("Ulo—õit a zav—à–Ωt", CtrlImg::save(), THISBACK(OnEditSave))
 		.Key(K_CTRL_S)
-		.Help("Zav¯Ìt editor a pouûÌt nadefinovan˝ styl Ë·ry");
+		.Help("Zav—à–Ωt editor a pou—õ–Ωt nadefinovan—ç styl –∏–±ry");
 }
 
 void DlgPathEditor::OnEditSave()
@@ -2011,14 +2011,14 @@ void PathStyleMapCtrl::ToolLocal(Bar& bar)
 
 void PathStyleMapCtrl::ToolNew(Bar& bar)
 {
-	bar.Add("Nov˝", THISBACK(OnNew));
+	bar.Add("Nov—ç", THISBACK(OnNew));
 }
 
 void PathStyleMapCtrl::OnNew()
 {
 	PathStyle new_style;
 	new_style <<= PathStyle::solid();
-	String px = "Nov˝ styl";
+	String px = "Nov—ç styl";
 	if(RunDlgPathEditor(new_style, px))
 	{
 		String n = map->GetUniqueName(px);
@@ -2054,7 +2054,7 @@ void PathStyleMapCtrl::OnEdit()
 
 void PathStyleMapCtrl::ToolRename(Bar& bar)
 {
-	bar.Add(IsCursor(), "P¯ejmenovat", THISBACK(OnRename));
+	bar.Add(IsCursor(), "P—àejmenovat", THISBACK(OnRename));
 }
 
 void PathStyleMapCtrl::OnRename()
@@ -2077,7 +2077,7 @@ void PathStyleMapCtrl::OnRename()
 		String n = ~pedit;
 		if(map->FindSortName(n, i) >= 0)
 		{ // duplicate name
-			Exclamation("Styl Ë·ry [* \1" + n + "\1] jiû v systÈmu existuje. Zadejte prosÌm jin˝ n·zev.");
+			Exclamation("Styl –∏–±ry [* \1" + n + "\1] ji—õ v syst–πmu existuje. Zadejte pros–Ωm jin—ç n–±zev.");
 			continue;
 		}
 		int x = map->GetSort(i);
@@ -2122,7 +2122,7 @@ void PathStyleMapCtrl::OnCopy()
 void PathStyleMapCtrl::ToolExport(Bar& bar)
 {
 	bar.Add("Export", THISBACK(OnExport))
-		.Help("Exportovat styly Ëar do souboru");
+		.Help("Exportovat styly –∏ar do souboru");
 }
 
 String recent;
@@ -2131,38 +2131,38 @@ void PathStyleMapCtrl::OnExport()
 {
 	if(map->IsEmpty())
 	{
-		PromptOK("V systÈmu nebyly nalezeny û·dnÈ styly Ëar.");
+		PromptOK("V syst–πmu nebyly nalezeny —õ–±dn–π styly –∏ar.");
 		return;
 	}
 	FileSelector fsel;
-	fsel.Type("Styly Ëar (*.wml)", "*.wml")
+	fsel.Type("Styly –∏ar (*.wml)", "*.wml")
 		.DefaultExt("wml");
 	fsel <<= recent;
-	if(!fsel.ExecuteSaveAs("Exportovat styly Ëar..."))
+	if(!fsel.ExecuteSaveAs("Exportovat styly –∏ar..."))
 		return;
 	String exp = map->Export();
 	if(!SaveFile(~fsel, exp))
-		PromptOK("Chyba p¯i z·pisu do souboru [* \1" + ~fsel + "\1].");
+		PromptOK("Chyba p—ài z–±pisu do souboru [* \1" + ~fsel + "\1].");
 }
 
 void PathStyleMapCtrl::ToolImport(Bar& bar)
 {
 	bar.Add("Import", THISBACK(OnImport))
-		.Help("Importovat styly Ëar ze souboru...");
+		.Help("Importovat styly –∏ar ze souboru...");
 }
 
 void PathStyleMapCtrl::OnImport()
 {
 	FileSelector fsel;
-	fsel.Type("Styly Ëar (*.wml)", "*.wml")
+	fsel.Type("Styly –∏ar (*.wml)", "*.wml")
 		.DefaultExt("wml");
 	fsel <<= recent;
-	if(!fsel.ExecuteOpen("Importovat styly Ëar"))
+	if(!fsel.ExecuteOpen("Importovat styly –∏ar"))
 		return;
 	String imp = LoadFile(recent = ~fsel);
 	if(imp.IsVoid())
 	{
-		PromptOK("Nelze naËÌst soubor [* \1" + ~fsel + "\1].");
+		PromptOK("Nelze na–∏–Ωst soubor [* \1" + ~fsel + "\1].");
 		return;
 	}
 	int old_count = map->GetCount();
@@ -2173,7 +2173,7 @@ void PathStyleMapCtrl::OnImport()
 	}
 	catch(Exc e)
 	{
-		PromptOK("Chyba p¯i importu souboru [* \1" + ~fsel + "\1]: \1" + e + "\1.");
+		PromptOK("Chyba p—ài importu souboru [* \1" + ~fsel + "\1]: \1" + e + "\1.");
 	}
 	map->Touch();
 	if((old_count > 0 && !IsNull(old_name)) || IsNull(map->GetName()))
@@ -2186,7 +2186,7 @@ void PathStyleMapCtrl::OnImport()
 void PathStyleMapCtrl::ToolRemove(Bar& bar)
 {
 	bar.Add("Smazat", THISBACK(OnRemove))
-		.Help("Odstranit styl Ë·ry ze systÈmu");
+		.Help("Odstranit styl –∏–±ry ze syst–πmu");
 }
 
 void PathStyleMapCtrl::OnRemove()
@@ -2233,7 +2233,7 @@ private:
 bool RunDlgPathStyleMap(PathStyleMap& map, String& style, bool editor, bool read_only)
 { return DlgPathStyleMap().Run(map, style, editor, read_only); }
 
-RegisterHelpTopicObjectTitle(DlgPathStyleMap, "Mapa styl˘")
+RegisterHelpTopicObjectTitle(DlgPathStyleMap, "Mapa styl—â")
 
 DlgPathStyleMap::DlgPathStyleMap()
 {
@@ -2251,7 +2251,7 @@ bool DlgPathStyleMap::Run(PathStyleMap& m, String& style, bool editor, bool read
 {
 	if(editor) {
 		dialog.ok.Hide();
-		dialog.cancel.SetLabel(t_("–ó–∞–∫—Ä—ã—Ç—å"));
+		dialog.cancel.SetLabel(t_("–û—Ç–º–µ–Ω–∞"));
 	}
 
 	map = &m;
@@ -2284,7 +2284,7 @@ void DlgPathStyleMap::UpdateMaps()
 	for(int i = 0; i < map_index.GetCount(); i++)
 	{
 		int x = map_index[i];
-		dialog.tab.Add(Nvl((*maps)[x]->GetName(), "(bez n·zvu)"));
+		dialog.tab.Add(Nvl((*maps)[x]->GetName(), "(bez n–±zvu)"));
 		if(x == tab)
 			new_tab = i;
 	}

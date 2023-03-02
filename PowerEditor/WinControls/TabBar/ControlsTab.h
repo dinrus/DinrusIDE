@@ -18,8 +18,8 @@
 #pragma once
 
 #include "TabBar.h"
-#include "Window.h"
-#include "Common.h"
+#include <PowerEditor/WinControls/Window.h>
+#include <PowerEditor/MISC/Common/Common.h>
 
 struct DlgInfo
 {

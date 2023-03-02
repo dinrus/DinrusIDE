@@ -5,17 +5,17 @@ namespace Upp {
 
 void RichEdit::InsertImage()
 {
-	if(!imagefs.ExecuteOpen(t_("Open image from file")))
+	if(!imagefs.ExecuteOpen(t_("Открыть изображение из файла")))
 		return;
 	String fn = ~imagefs;
 	if(GetFileLength(fn) > 17000000) {
-		Exclamation("Image is too large!");
+		Exclamation("Изображение слишком велико!");
 		return;
 	}
 	String data = LoadFile(fn);
 	StringStream ss(data);
 	if(!StreamRaster::OpenAny(ss) && !IsSVG(data)) {
-		Exclamation(Format(t_("Unsupported image format in file [* \1%s\1]."), ~imagefs));
+		Exclamation(Format(t_("Неподдерживаемый формат изображения в файле [* \1%s\1]."), ~imagefs));
 		return;
 	}
 	RichText clip;

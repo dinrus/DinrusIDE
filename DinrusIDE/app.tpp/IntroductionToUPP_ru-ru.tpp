@@ -57,30 +57,42 @@ IDE)&]
 [s0; &]
 [s0; &]
 [s2; Пакеты, сборки и гнёзда&]
-[s3; Packages are centric to U`+`+.  An executable application is 
-built from a package.  A package can also build into a dynamic 
-link library, a static library, or a set of object files.  A 
-package can be used by other packages.  A package corresponds 
-to a single directory whose name is the name of the package. 
- DinrusIDE itself is a package and you can rebuild it from within 
-DinrusIDE if you wish!&]
+[s3; Пакеты играют центральную роль в 
+U`+`+. Исполнимое приложение стоится 
+из пакета. Пакет также может строиться 
+в библиотеку динамической компоновки 
+(DLL), в статическую библиотеку или 
+в набор объектных файлов. Пакет может 
+использоваться другими пакетами. 
+Пакет соответствует единичной директории, 
+имя которой совпадает с именем пакета. 
+Сама DinrusIDE является пакетом, и её можно 
+перестроить по желанию из самой же 
+DinrusIDE!&]
 [s3; &]
-[s3; An assembly can be thought of as a collection of packages but 
-it is actually just a set of paths which determine where U`+`+ 
-looks for the packages and source files needed when building 
-one of the assembly packages.  The paths defined by the assembly 
-are stored in an assembly definition file which has a .var extension 
-and is stored in the U`+`+ root installation directory.  A package 
-can `"appear`" in multiple assemblies.&]
+[s3; О сборке можно думать, как о коллекции 
+пакетов, но на самом деле `- это лишь 
+набор путей, которые определяют места 
+поиска U`+`+ пакетов и исходников, необходимых
+ во время построения одного из пакетов 
+сборки. Пути, определённые в сборке, 
+сохраняются в файле определения сборки 
+с расширением .var, и помещаются в корневой 
+папке установки U`+`+. Пакет может `"появляться
+`" в нескольких сборках.&]
 [s3; &]
-[s3; U`+`+ requires that packages be organized into nests.  A nest 
-is actually just a directory containing a set of package directories, 
-folders or files.  An assembly defines an ordered list of nests 
-(paths) and the packages contained in those nests form the packages 
-of the assembly.  For more detail on packages and assemblies 
-see [^topic`:`/`/DinrusIDE`/app`/PackagesAssembliesAndNests`$en`-us^ `"Packages, 
-Assemblies and Nests`" ]and. [^topic`:`/`/DinrusIDE`/app`/ConfiguringPackagesAssemblies`$en`-us^ `"
-Creating and Configuring Assemblies and Packages`"]&]
+[s3; U`+`+ требует, чтобы у пакета была гнездовая 
+организация. Гнездо на самом деле 
+`- это просто директория,  в которой 
+находится набор директорий пакетов, 
+папки и файлы. Сборка определяет упорядоченн
+ый список гнёзд (путей), а пакеты, содержащиес
+я в этих гнёздах, формируют пакеты 
+сборки. Более подробно о пакетах и 
+сборках описано в [^topic`:`/`/DinrusIDE`/app`/PackagesAssembliesAndNests`_ru`-ru^ `"
+Пакеты, Сборки и Гнёзда`"] и. [^topic`:`/`/DinrusIDE`/app`/ConfiguringPackagesAssemblies`_ru`-ru^ `"
+Создание и Конфигурирование Сборок 
+и Пакетов`"]&]
 [s0;_@(28.85.0) &]
 [s0;_@(28.85.0) &]
 [s2; RAD GUI designer&]

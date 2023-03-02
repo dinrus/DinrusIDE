@@ -36,8 +36,8 @@ void RichEditHdrFtr::TheBar(Bar& bar)
 	bar.Gap();
 	TableTools(bar);
 	bar.Gap();
-	bar.Add(!IsReadOnly(), t_("Insert page number"), RichEditImg::PageNumber(), THISBACK(PageNumber));
-	bar.Add(!IsReadOnly(), t_("Insert page count"), RichEditImg::PageCount(), THISBACK(PageCount));
+	bar.Add(!IsReadOnly(), t_("Вставить номер страницы"), RichEditImg::PageNumber(), THISBACK(PageNumber));
+	bar.Add(!IsReadOnly(), t_("Вставить счёт страниц"), RichEditImg::PageCount(), THISBACK(PageCount));
 }
 
 void RichEditHdrFtr::PageNumber()

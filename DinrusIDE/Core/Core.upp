@@ -1,4 +1,4 @@
-description "DinrusIDE - общая библиотека\377B";
+description "DinrusIDE - общая библиотека\377B255,0,0";
 
 uses
 	Esc,

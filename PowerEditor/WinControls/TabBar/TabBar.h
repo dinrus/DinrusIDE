@@ -21,12 +21,12 @@
 #define _WIN32_IE	0x0600
 #endif //_WIN32_IE
 
-#include "menuCmdID.h"
-#include "resource.h"
+#include <PowerEditor/menuCmdID.h>
+#include <PowerEditor/resource.h>
 #include <stdint.h>
 #include <windows.h>
 #include <commctrl.h>
-#include "Window.h"
+#include <PowerEditor/WinControls/Window.h>
 
 //Notification message
 #define TCN_TABDROPPED (TCN_FIRST - 10)

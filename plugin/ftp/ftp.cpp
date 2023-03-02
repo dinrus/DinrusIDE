@@ -77,7 +77,7 @@ void FtpClient::Close()
 bool FtpClient::CheckOpen()
 {
 	if(!IsOpen()) {
-		error = t_("not connected");
+		error = t_("не подключен");
 		return false;
 	}
 	return true;
@@ -91,7 +91,7 @@ String FtpClient::Load(const char *path)
 	netbuf *ftpdata;
 	LLOG("FtpAccess(" << path << ")");
 	if(WhenProgress(0,0)) {
-		error = t_("aborted");
+		error = t_("прерван");
 		return String::GetVoid();
 	}
 	if(!FtpAccess(path, FTPLIB_FILE_READ, FTPLIB_IMAGE, ftpconn, &ftpdata)) {
@@ -146,7 +146,7 @@ int FtpClient::SaveCount(const char *path, String data)
 	}
 	while(save_pos < data.GetLength()) {
 		if(WhenProgress(save_pos, data.GetLength())) {
-			error = NFormat(t_("write aborted after %d bytes(s)"), save_pos);
+			error = NFormat(t_("щапись прервалась после %d байта(-ов)"), save_pos);
 			FtpClose(ftpdata);
 			return save_pos;
 		}

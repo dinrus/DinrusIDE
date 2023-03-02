@@ -24,7 +24,6 @@
 #include <algorithm>
 #include <tchar.h>
 
-
 const bool dirUp = true;
 const bool dirDown = false;
 
@@ -132,7 +131,7 @@ protected:
 			{
 				if (_allocLen)
 					delete[] _str;
-				_allocLen = max(size, initSize);
+				_allocLen = fmax(size, initSize);
 				_str = new T[_allocLen];
 			}
 		}

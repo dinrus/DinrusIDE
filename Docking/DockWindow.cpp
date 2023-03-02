@@ -1222,14 +1222,14 @@ void DockWindow::DockWindowMenu(Bar& bar)
 	if (IsGrouping())
 		menu.GroupListMenu(bar);
 	else
-		menu.WindowListMenu(bar, t_("All"));
+		menu.WindowListMenu(bar, t_("Все"));
 	if (dockers.GetCount())
 		bar.Separator();
 	if (layouts.GetCount()) {
-		bar.Add(t_("Layouts"), callback(&menu, &DockMenu::LayoutListMenu));
+		bar.Add(t_("Выкладки"), callback(&menu, &DockMenu::LayoutListMenu));
 		bar.Separator();
 	}
-	bar.Add(t_("Manage Windows..."), THISBACK(DockManager));
+	bar.Add(t_("Управление Окнами..."), THISBACK(DockManager));
 }
 
 void DockWindow::SerializeWindow(Stream& s)

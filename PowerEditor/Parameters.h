@@ -16,22 +16,22 @@
 
 #pragma once
 
-#include "tinyxmlA.h"
-#include "tinyxml.h"
-#include "Scintilla.h"
-#include "ScintillaRef.h"
-#include "ToolBar.h"
-#include "UserDefineLangReference.h"
-#include "colors.h"
-#include "shortcut.h"
-#include "ContextMenu.h"
-#include "dpiManager.h"
-#include "NppDarkMode.h"
+#include <PowerEditor/TinyXml/tinyXmlA/tinyxmlA.h>
+#include <PowerEditor/TinyXml/tinyxml.h>
+#include <Scintilla/Scintilla.h>
+#include <PowerEditor/ScintillaComponent/ScintillaRef.h>
+#include <PowerEditor/WinControls/ToolBar/ToolBar.h>
+#include <PowerEditor/ScintillaComponent/UserDefineLangReference.h>
+#include <PowerEditor/ScintillaComponent/colors.h>
+#include <PowerEditor/WinControls/shortcut/shortcut.h>
+#include <PowerEditor/WinControls/ContextMenu/ContextMenu.h>
+#include <PowerEditor/dpiManager.h>
+#include <PowerEditor/NppDarkMode.h>
 #include <assert.h>
 #include <tchar.h>
 #include <map>
-#include "ILexer.h"
-#include "Lexilla.h"
+#include <Scintilla/ILexer.h>
+#include <Lexilla/Lexilla.h>
 
 #ifdef _WIN64
 

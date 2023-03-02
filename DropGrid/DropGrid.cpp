@@ -84,7 +84,7 @@ DropGrid::DropGrid()
 	nodrop = false;
 	clear_button = false;
 	
-	must_change_str = t_("Select a value.");
+	must_change_str = t_("Выберите значение.");
 
 	clear.SetButton(1);
 	clear <<= THISBACK(DoClearValue);

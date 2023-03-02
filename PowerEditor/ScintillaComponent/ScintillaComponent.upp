@@ -1,3 +1,6 @@
+link
+	-D__UNICODE__;
+
 file
 	AutoCompletion.cpp,
 	AutoCompletion.h,

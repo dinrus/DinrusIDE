@@ -17,9 +17,9 @@
 
 #pragma once
 
-#include "Common.h"
+//#include "Common.h"
 #include <memory>
-
+#include <PowerEditor/MISC/Common/Common.h>
 // Customizable file dialog.
 // It allows adding custom controls like checkbox to the dialog.
 // This class loosely follows the interface of the FileDialog class.

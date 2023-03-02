@@ -36,16 +36,16 @@ Image GLCanvas::MouseEvent(int event, Point p, int zdelta, dword keyflags) {
 }
 
 void GLCanvas::ContextMenu(Bar& bar) {
-	bar.Add(t_("Fit to data"), GLCanvasImg::ShapeHandles(), [&]{ZoomToFit();}).Key(K_CTRL_F).Help(t_("Zoom to fit visible all data"));
-	bar.Add(t_("Zoom +"), 	   GLCanvasImg::ZoomPlus(),  [&]{Zoom(200);}) .Key(K_CTRL|K_ADD).Help(t_("Zoom in (closer)"));
-	bar.Add(t_("Zoom -"), 	   GLCanvasImg::ZoomMinus(), [&]{Zoom(-200);}).Key(K_CTRL|K_SUBTRACT).Help(t_("Zoom out (away)"));									
-	bar.Add(t_("View X axis"), 			[&]{View(false, true, true);});
-	bar.Add(t_("View Y axis"), 			[&]{View(true, false, true);});
-	bar.Add(t_("View Z axis"), 			[&]{View(true, true, false);});	
-	bar.Add(t_("View isometric XYZ"), 	[&]{View(true, true, true);});
+	bar.Add(t_("Подогнать под данные"), GLCanvasImg::ShapeHandles(), [&]{ZoomToFit();}).Key(K_CTRL_F).Help(t_("Зум, чтобы видно было все данные"));
+	bar.Add(t_("Зум +"), 	   GLCanvasImg::ZoomPlus(),  [&]{Zoom(200);}) .Key(K_CTRL|K_ADD).Help(t_("Увеличение (приближение)"));
+	bar.Add(t_("Зум -"), 	   GLCanvasImg::ZoomMinus(), [&]{Zoom(-200);}).Key(K_CTRL|K_SUBTRACT).Help(t_("Уменьшение (удаление)"));									
+	bar.Add(t_("Вид оси X"), 			[&]{View(false, true, true);});
+	bar.Add(t_("Вид оси Y"), 			[&]{View(true, false, true);});
+	bar.Add(t_("Вид оси Z"), 			[&]{View(true, true, false);});	
+	bar.Add(t_("Изометрический вид XYZ"), 	[&]{View(true, true, true);});
 	bar.Separator();
-	bar.Add(t_("Copy image"),  GLCanvasImg::Copy(), [&]{ExecuteGL(THISFN(SaveToClipboard), true);}).Key(K_CTRL_C).Help(t_("Copy image to clipboard"));
-	bar.Add(t_("Save image"),  GLCanvasImg::Save(), [&]{ExecuteGL([=]{SaveToFile(Null);}, true);}).Key(K_CTRL_S).Help(t_("Save image to file"));
+	bar.Add(t_("Копировать изо"),  GLCanvasImg::Copy(), [&]{ExecuteGL(THISFN(SaveToClipboard), true);}).Key(K_CTRL_C).Help(t_("Копировать рисунок в буфер обмена"));
+	bar.Add(t_("Сохранить изо"),  GLCanvasImg::Save(), [&]{ExecuteGL([=]{SaveToFile(Null);}, true);}).Key(K_CTRL_S).Help(t_("Сохранить рисунок в файл"));
 }
 
 bool GLCanvas::Key(dword key, int ) {
@@ -66,7 +66,7 @@ bool GLCanvas::Key(dword key, int ) {
 
 void GLCanvas::ZoomToFit() {
 	if (env == nullptr) {
-		Exclamation(t_("No model is loaded"));
+		Exclamation(t_("Модель не загружена"));
 		return;
 	}
 	double mx = max(max(env->maxX, env->maxY), env->maxZ);
@@ -105,7 +105,7 @@ void GLCanvas::SaveToClipboard() {
 	GuiLock __;
 	Image image = GetImage();
 	if (IsNull(image)) {
-		Exclamation(t_("Imposible to get view image"));
+		Exclamation(t_("Невозможно получить изображение вида"));
 		return;
 	}
 	
@@ -129,7 +129,7 @@ void GLCanvas::SaveToFile(String fileName) {
 
 	Image image = GetImage();
 	if (IsNull(image)) {
-		Exclamation(t_("Imposible to get view image"));
+		Exclamation(t_("Невозможно получить изображение вида"));
 		return;
 	}
 	
@@ -137,15 +137,15 @@ void GLCanvas::SaveToFile(String fileName) {
 		FileSel fs;
 		
 	//	fs.NoExeIcons();
-		fs.Type(Format(t_("%s bitmap file"), "jpeg"), "*.jpg");
-		fs.Type(Format(t_("%s bitmap file"), "png"), "*.png");
-		fs.Type(Format(t_("%s vector file"), "pdf"), "*.pdf");
+		fs.Type(Format(t_("Файл битмапа %s"), "jpeg"), "*.jpg");
+		fs.Type(Format(t_("Файл битмапа %s"), "png"), "*.png");
+		fs.Type(Format(t_("Файл вектора %s"), "pdf"), "*.pdf");
 		fs.AllFilesType();
 		
 		if (!defaultFileName.IsEmpty())
 			fs = defaultFileName;
 		else
-			fs = String(t_("Mesh view")) + ".jpg";
+			fs = String(t_("Вид меша")) + ".jpg";
 		
 		String ext = GetFileExt(~fs);
 		fs.DefaultExt(ext);
@@ -160,8 +160,8 @@ void GLCanvas::SaveToFile(String fileName) {
 	
 		fs.ActiveDir(GetFileFolder(defaultFileName));
 		fs.type.WhenAction = THISBACK1(OnTypeImage, &fs); 
-	    if(!fs.ExecuteSaveAs(t_("Saving image to file"))) {
-	        Exclamation(t_("Image has not been saved"));
+	    if(!fs.ExecuteSaveAs(t_("Сохранение изо в файл"))) {
+	        Exclamation(t_("Изображение не было сохранено"));
 	        return;
 	    }
 	    fileName = defaultFileName = ~fs;
@@ -182,7 +182,7 @@ void GLCanvas::SaveToFile(String fileName) {
 		pdf.DrawImage(0, 0, image);
 		SaveFile(fileName, pdf.Finish());		
 	} else 
-		Exclamation(Format(t_("File format \"%s\" not found"), GetFileExt(fileName)));
+		Exclamation(Format(t_("Формат файла \"%s\" не найден"), GetFileExt(fileName)));
 }
 
 void GLCanvas::SetUpLighting() {

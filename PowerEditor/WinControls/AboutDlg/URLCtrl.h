@@ -17,7 +17,8 @@
 
 #pragma once
 
-#include "../Window.h"
+#include <PowerEditor/WinControls/Window.h>
+
 //#include "Common.h"
 
 class URLCtrl : public Window {

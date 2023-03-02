@@ -17,8 +17,8 @@
 #include <stdio.h>
 #include <windows.h>
 #include "StaticDialog.h"
-#include "Common.h"
-#include "NppDarkMode.h"
+#include <PowerEditor/MISC/Common/Common.h>
+#include <PowerEditor/NppDarkMode.h>
 
 StaticDialog::~StaticDialog()
 {
@@ -81,7 +81,7 @@ void StaticDialog::display(bool toShow, bool enhancedPositioningCheckWhenShowing
 
 			if ((testPositionRc.left != candidateRc.left) || (testPositionRc.top != candidateRc.top))
 			{
-				::MoveWindow(_hSelf, candidateRc.left, candidateRc.top, 
+				::MoveWindow(_hSelf, candidateRc.left, candidateRc.top,
 					candidateRc.right - candidateRc.left, candidateRc.bottom - candidateRc.top, TRUE);
 			}
 		}
@@ -129,7 +129,7 @@ RECT StaticDialog::getViewablePositionRect(RECT testPositionRc) const
 		// rect would be at least partially visible on a monitor
 
 		::GetMonitorInfo(hMon, &mi);
-		
+
 		int margin = ::GetSystemMetrics(SM_CYBORDER) + ::GetSystemMetrics(SM_CYSIZEFRAME) + ::GetSystemMetrics(SM_CYCAPTION);
 
 		// require that the title bar of the window be in a viewable place so the user can see it to grab it with the mouse
@@ -154,7 +154,7 @@ RECT StaticDialog::getViewablePositionRect(RECT testPositionRc) const
 	if (!rectPosViewableWithoutChange)
 	{
 		// reposition rect so that it would be viewable on current/nearest monitor, centering if reasonable
-		
+
 		LONG testRectWidth = testPositionRc.right - testPositionRc.left;
 		LONG testRectHeight = testPositionRc.bottom - testPositionRc.top;
 		LONG monWidth = mi.rcWork.right - mi.rcWork.left;

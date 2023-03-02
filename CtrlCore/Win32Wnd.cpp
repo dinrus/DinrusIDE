@@ -115,7 +115,7 @@ LRESULT CALLBACK Ctrl::OverwatchWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 			}
 		}
 		if(ShutdownBlockReasonCreate)
-			ShutdownBlockReasonCreate(hwnd, ToSystemCharsetW(t_("waiting for user response")));
+			ShutdownBlockReasonCreate(hwnd, ToSystemCharsetW(t_("ожидается ответ пользователя")));
 		EndSession();
 		ELOGW("WM_QUERYENDSESSION 1");
 		OverwatchEndSession.Wait();

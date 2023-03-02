@@ -16,20 +16,20 @@
 
 #pragma once
 
-#include "ScintillaEditView.h"
-#include "DocTabView.h"
-#include "SplitterContainer.h"
-#include "FindReplaceDlg.h"
-#include "AboutDlg.h"
-#include "RunDlg.h"
-#include "StatusBar.h"
-#include "lastRecentFileList.h"
-#include "GoToLineDlg.h"
-#include "FindCharsInRange.h"
-#include "columnEditor.h"
-#include "WordStyleDlg.h"
-#include "trayIconControler.h"
-#include "PluginsManager.h"
+#include <PowerEditor/ScintillaComponent/ScintillaEditView.h>
+#include <PowerEditor/ScintillaComponent/DocTabView.h>
+#include <PowerEditor/WinControls/SplitterContainer/SplitterContainer.h>
+#include <PowerEditor/ScintillaComponentFindReplaceDlg.h>
+#include <PowerEditor/WinControls/AboutDlg/AboutDlg.h>
+#include <PowerEditor/WinControls/RunDlg/RunDlg.h>
+#include <PowerEditor/WinControls/StatusBar/StatusBar.h>
+#include <PowerEditor/lastRecentFileList.h>
+#include <PowerEditor/ScintillaComponent/GoToLineDlg.h>
+#include <PowerEditor/WinControls/FindCharsInRange/FindCharsInRange.h>
+#include <PowerEditor/ScintillaComponent/columnEditor.h>
+#include <PowerEditor/WinControls/ColourPicker/WordStyleDlg.h>
+#include <PowerEditor/WinControls/TrayIcon/trayIconControler.h>
+#include <PowerEditor/MISC/PluginsManager/PluginsManager.h>
 #include "preferenceDlg.h"
 #include "WindowsDlg.h"
 #include "RunMacroDlg.h"

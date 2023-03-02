@@ -53,10 +53,10 @@ bool SqlRunScript(int dialect, Stream& script_stream,
 			norm = ToLower(norm);
 #endif
 			if(script_file_names.Find(norm) >= 0)
-				throw Exc(NFormat(t_("circular script inclusion of %s at %s:%d"),
+				throw Exc(NFormat(t_("циркулярное включение сценария %s в %s:%d"),
 					fn, script_file_names.Top(), line_number));
 			if(script_file_names.GetCount() >= MAX_NESTING_LEVEL)
-				throw Exc(NFormat(t_("script nesting too deep (%d levels)"), script_file_names.GetCount()));
+				throw Exc(NFormat(t_("слишком глубокое гнездование сценария (%d уровней)"), script_file_names.GetCount()));
 			int64 end = script_stream.GetPos();
 			
 			int new_min = progress_min + (int)((progress_max - progress_min) * start / script_stream.GetSize());
@@ -64,7 +64,7 @@ bool SqlRunScript(int dialect, Stream& script_stream,
 			
 			FileIn fi;
 			if(!fi.Open(fn))
-				throw Exc(NFormat(t_("error opening script file '%s'"), fn));
+				throw Exc(NFormat(t_("ошибка при открытии файла сценария '%s'"), fn));
 			
 			script_file_names.Add(norm);
 			if(!SqlRunScript(dialect, fi, executor, progress, script_file_names, new_min, new_max))
@@ -245,7 +245,7 @@ void SqlConsole::Execute(int type) {
 	error:
 		record.Hide();
 		errortext.Show();
-		list.AddColumn(t_("Error"));
+		list.AddColumn(t_("Ошибка"));
 		String err = cursor.GetLastError();
 		errortext <<= err;
 		list.Add(err);
@@ -274,7 +274,7 @@ void SqlConsole::Execute(int type) {
 		lob.Add(ci.type == -1 || ci.type == -2); // !! BLOB / CLOB hack
 	}
 	Progress pi;
-	pi.SetText(t_("Fetched %d line(s)"));
+	pi.SetText(t_("Фетчировано %d строк(а)"));
 	while(cursor.Fetch()) {
 		Vector<Value> row = cursor.GetRow();
 		for(int i = 0; i < cursor.GetColumns(); i++)
@@ -299,9 +299,9 @@ void SqlConsole::Execute(int type) {
 	ColSize();
 	if(list.GetCount() > 0)
 		list.SetCursor(0);
-	Title(NFormat(t_("%s (%d rows)"), ttl, list.GetCount()));
-	String rrows = Format(t_("%d rows"), max(list.GetCount(), cursor.GetRowsProcessed()));
-	String rms = Format(t_("%d ms"), ms1 - ms0);
+	Title(NFormat(t_("%s (%d рядов)"), ttl, list.GetCount()));
+	String rrows = Format(t_("%d рядов"), max(list.GetCount(), cursor.GetRowsProcessed()));
+	String rms = Format(t_("%d мс"), ms1 - ms0);
 	if(type == RERUN && trace.IsCursor()) {
 		trace.Set(1, rrows);
 		trace.Set(2, rms);
@@ -389,7 +389,7 @@ void SqlConsole::Serialize(Stream& s) {
 void SqlConsole::Perform() {
 	const char cfg[] = "SqlConsole.cfg";
 	LoadFromFile(*this, cfg);
-	Title(t_("SQL Commander"));
+	Title(t_("Коммандер SQL"));
 	Icon(SqlConsoleImg::database_edit(), SqlConsoleImg::SqlConsoleIconLarge());
 	Sizeable();
 	Zoomable();
@@ -423,9 +423,9 @@ void SqlConsole::SaveTrace() {
 	FileSel fsel;
 	fsel.ActiveDir(LastDir);
 	fsel.DefaultExt("sql");
-	fsel.Type(t_("SQL scripts (*.sql)"), "*.sql");
+	fsel.Type(t_("Сценарии SQL (*.sql)"), "*.sql");
 	fsel.AllFilesType();
-	if(!fsel.ExecuteSaveAs(t_("Save trace as"))) return;
+	if(!fsel.ExecuteSaveAs(t_("Сохранить трассировку как"))) return;
 	FileOut out(~fsel);
 	if(!out) return;
 	LastDir = GetFileDirectory(~fsel);
@@ -444,16 +444,16 @@ void SqlConsole::RunScript(bool quiet) {
 	FileSel fsel;
 	fsel.ActiveDir(LastDir);
 	fsel.DefaultExt("sql");
-	fsel.Type(t_("SQL scripts (*.sql)"), "*.sql");
+	fsel.Type(t_("Сценарии SQL (*.sql)"), "*.sql");
 	fsel.AllFilesType();
-	if(!fsel.ExecuteOpen(t_("Run script"))) return;
+	if(!fsel.ExecuteOpen(t_("Выполнить сценарий"))) return;
 	Exec exec(quiet);
 	exec.me = this;
 	LastDir = GetFileDirectory(~fsel);
-	Progress progress(t_("Executing script"));
+	Progress progress(t_("Выполняется сценарий"));
 	FileIn fi;
 	if(!fi.Open(~fsel)) {
-		Exclamation(NFormat(t_("Cannot open file [* \1%s\1]."), ~fsel));
+		Exclamation(NFormat(t_("Не уда1тся открыть файл [* \1%s\1]."), ~fsel));
 		return;
 	}
 	try {
@@ -465,16 +465,16 @@ void SqlConsole::RunScript(bool quiet) {
 }
 
 void SqlConsole::TraceMenu(Bar& menu) {
-	menu.Add(t_("Save as script.."), THISBACK(SaveTrace)).Key(K_CTRL_S);
-	menu.Add(t_("Run script.."), THISBACK1(RunScript, false)).Key(K_CTRL_R);
-	menu.Add(t_("Run script quietly.."), THISBACK1(RunScript, true)).Key(K_CTRL_Q);
+	menu.Add(t_("Сохранить как сценарий.."), THISBACK(SaveTrace)).Key(K_CTRL_S);
+	menu.Add(t_("Выполнить сценарий.."), THISBACK1(RunScript, false)).Key(K_CTRL_R);
+	menu.Add(t_("Выполнить сценарий втихую.."), THISBACK1(RunScript, true)).Key(K_CTRL_Q);
 }
 
 void SqlConsole::ListMenu(Bar& bar)
 {
-	bar.Add(t_("Print record"), THISBACK(ListPrintRow));
-	bar.Add(t_("Print list"), THISBACK(ListPrintList));
-	bar.Add(t_("Export..."), THISBACK(ListExport));
+	bar.Add(t_("Печать записи"), THISBACK(ListPrintRow));
+	bar.Add(t_("Печать списка"), THISBACK(ListPrintList));
+	bar.Add(t_("Экспорт..."), THISBACK(ListExport));
 }
 
 void SqlConsole::Csv()
@@ -545,7 +545,7 @@ void SqlValueViewDlg::Sync()
 
 void SqlValueViewDlg::Save()
 {
-	SelectSaveFile("File\t*.*", value);
+	SelectSaveFile("Файл\t*.*", value);
 }
 
 SqlValueViewDlg::SqlValueViewDlg()
@@ -594,14 +594,14 @@ SqlConsole::SqlConsole(SqlSession& session)
 	vsplit.SetPos(6500);
 	vsplit.SetPos(8500, 1);
 	lires.SetPos(7000);
-	record.AddColumn(t_("Column"), 5);
-	record.AddColumn(t_("Value"), 10);
+	record.AddColumn(t_("Графа"), 5);
+	record.AddColumn(t_("Значение"), 10);
 	record.WhenLeftDouble = THISBACK(ViewRecord);
 	record.WhenLeftClick = THISBACK1(ListToCommand, &record);
-	AddInfo(record, info1, "\1[g= Use [@B Ctrl+Click] to copy data into SQL&[@B DoubleClick] for detailed view.");
-	trace.AddColumn(t_("Command"), 8);
-	trace.AddColumn(t_("Result"), 1);
-	trace.AddColumn(t_("Duration"), 1);
+	AddInfo(record, info1, "\1[g= Используйте [@B Ctrl+Click], чтобы копировать данные в SQL&[@B DoubleClick] для детального обзора.");
+	trace.AddColumn(t_("Команда"), 8);
+	trace.AddColumn(t_("Результат"), 1);
+	trace.AddColumn(t_("Продолжительность"), 1);
 	trace.WhenLeftClick = THISBACK(TraceToCommand);
 	trace.WhenLeftDouble = THISBACK(TraceToExecute);
 	trace.WhenBar = THISBACK(TraceMenu);
@@ -610,7 +610,7 @@ SqlConsole::SqlConsole(SqlSession& session)
 	list.WhenLeftClick = THISBACK1(ListToCommand, &list);
 	list.WhenBar = THISBACK(ListMenu);
 	list.HeaderObject().Absolute();
-	AddInfo(list, info2, "\1[g= Use [@B Ctrl+Click] to copy data into SQL.");
+	AddInfo(list, info2, "\1[g= Используйте [@B Ctrl+Click], чтобы копировать данные в SQL.");
 	Add(vsplit.SizePos());
 	command.SetFont(Courier(GetStdFontCy()));
 	command_pane.Add(command.VSizePos().HSizePos(0, HorzLayoutZoom(100)));
@@ -619,14 +619,14 @@ SqlConsole::SqlConsole(SqlSession& session)
 	command_pane.Add(schema.TopPos(ecy + 4, ecy).RightPos(4, HorzLayoutZoom(90)));
 	command_pane.Add(csv.TopPos(2 * ecy + 4, ecy).RightPos(4, HorzLayoutZoom(90)));
 	command.Highlight("sql");
-	schema.SetLabel(t_("&Schema"));
+	schema.SetLabel(t_("&Схема"));
 	schema <<= THISBACK(ObjectTree);
 	schema.SetImage(SqlConsoleImg::bricks());
 	execute <<= THISBACK1(Execute, NORMAL);
 	execute.SetImage(SqlConsoleImg::lightning());
-	execute.SetLabel(t_("Execute (F5)"));
+	execute.SetLabel(t_("Выполнить (F5)"));
 	csv <<= THISBACK(Csv);
-	csv.SetLabel(t_("Export.."));
+	csv.SetLabel(t_("Экспорт.."));
 	csv.SetImage(SqlConsoleImg::database_save());
 	ActiveFocus(command);
 }

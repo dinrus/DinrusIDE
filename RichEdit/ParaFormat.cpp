@@ -6,7 +6,7 @@ struct ParaFormatDlg : public WithParaFormatLayout<TopWindow> {
 	ParaFormatting para;
 
 	ParaFormatDlg() {
-		CtrlLayoutOKCancel(*this, t_("Paragraph format"));
+		CtrlLayoutOKCancel(*this, t_("Формат параграфа"));
 		ActiveFocus(para.before);
 	}
 };
@@ -52,7 +52,7 @@ void RichEdit::SetStyle()
 	if(!IsSelection()) {
 		NextUndo();
 		WithSetStyleLayout<TopWindow> d;
-		CtrlLayoutOKCancel(d, t_("Set style"));
+		CtrlLayoutOKCancel(d, t_("Установить стиль"));
 		d.newstyle <<= d.Breaker(IDYES);
 		d.style.AddKey();
 		d.style.AddColumn();
@@ -88,8 +88,8 @@ void RichEdit::SetStyle()
 			return;
 		case IDYES:
 			String newname;
-			if(EditText(newname, Format(t_("New style no. %d"), text.GetStyleCount()),
-			            "Name", CharFilterAscii128)) {
+			if(EditText(newname, Format(t_("Новый стиль ном. %d"), text.GetStyleCount()),
+			            "Имя", CharFilterAscii128)) {
 				cs.name = newname;
 				id = Uuid::Create();
 				cs.next = id;

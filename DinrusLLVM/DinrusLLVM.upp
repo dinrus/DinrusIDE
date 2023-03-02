@@ -1,0 +1,16 @@
+description "Подключение динамической библиотеки DinrusLLVM.dll и дальнейшая её обработка\377BI170,85,255";
+
+uses
+	DinrusC;
+
+link(CLANG WIN32) "-Ld:/upp/Release/lib -lDinrusLLVM.dll";
+
+file
+	Types.h,
+	Types.cpp,
+	DinrusLLVM.h,
+	Module.cpp,
+	Analysis.cpp,
+	PassRegistry.cpp,
+	Import.h;
+

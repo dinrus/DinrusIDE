@@ -40,12 +40,12 @@ namespace ReadDirectoryChangesPrivate
 ///////////////////////////////////////////////////////////////////////////
 // CReadChangesRequest
 
-CReadChangesRequest::CReadChangesRequest(CReadChangesServer* pServer, LPCTSTR sz, BOOL b, DWORD dw, DWORD size)
+CReadChangesRequest::CReadChangesRequest(CReadChangesServer* pServer, LPCTSTR s, BOOL b, DWORD dw, DWORD size)
 {
 	m_pServer		= pServer;
 	m_dwFilterFlags		= dw;
 	m_bIncludeChildren	= b;
-	m_wstrDirectory	= sz;
+	LPCTSTR m_wstrDirectory	= s;
 	m_hDirectory	= 0;
 
 	::ZeroMemory(&m_Overlapped, sizeof(OVERLAPPED));

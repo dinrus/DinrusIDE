@@ -581,11 +581,11 @@ void Ide::SyncErrorsMessage()
 	if(IsDarkMismatch()) {
 		h = "Сообщение";
 		if(error_count)
-			cnt << error_count << " ошибка(и)";
+			cnt << error_count << " ошибок(и)";
 		if(warning_count) {
 			if(error_count)
 				cnt << ", ";
-			cnt << warning_count << " предупреждение(я)";
+			cnt << warning_count << " предупреждений";
 		}
 	}
 	else  {

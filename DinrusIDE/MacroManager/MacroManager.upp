@@ -1,4 +1,4 @@
-description "DinrusIDE - утилита управления расширениями (macro)\377B";
+description "DinrusIDE - утилита управления расширениями (macro)\377B255,0,0";
 
 uses
 	CtrlLib,

@@ -60,7 +60,7 @@ distribution.
 #include <assert.h>
 #include <string>
 #include <tchar.h>
-#include "Common.h"
+#include <PowerEditor/MISC/Common/Common.h>
 
 class TiXmlDocumentA;
 class TiXmlElementA;

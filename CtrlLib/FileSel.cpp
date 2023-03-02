@@ -513,14 +513,14 @@ bool Load(FileList& list, const String& dir, const char *patterns, bool dirs,
 					GetDriveImage(root[i].root_style),
 					StdFont().Bold(), SColorText, true, -1, Null, SColorDisabled,
 			#ifdef PLATFORM_WIN32
-					Nvl(root[i].root_desc, String(" ") + t_("Local Disk")),
+					Nvl(root[i].root_desc, String(" ") + t_("Локальный Диск")),
 			#else
 					root[i].root_desc,
 			#endif
 					StdFont()
 				);
 		#ifdef PLATFORM_WIN32
-			list.Add(t_("Network"), CtrlImg::Network(), StdFont().Bold(), SColorText,
+			list.Add(t_("Сеть"), CtrlImg::Network(), StdFont().Bold(), SColorText,
 			         true, -1, Null, SColorDisabled, Null, StdFont());
 		#endif
 	}
@@ -2252,12 +2252,12 @@ FileSel& FileSel::AddStandardPlaces()
 {
 	AddPlace(GetHomeDirectory(), t_("Дом"), "PLACES:FOLDER");
 #ifdef GUI_COCOA
-	AddPlace(GetSpecialDirectory(SF_NSDesktopDirectory), t_("Desktop"), "PLACES:FOLDER");
-	AddPlace(GetSpecialDirectory(SF_NSMusicDirectory), t_("Music"), "PLACES:FOLDER");
-	AddPlace(GetSpecialDirectory(SF_NSPicturesDirectory), t_("Pictures"), "PLACES:FOLDER");
-	AddPlace(GetSpecialDirectory(SF_NSMoviesDirectory), t_("Videos"), "PLACES:FOLDER");
-	AddPlace(GetSpecialDirectory(SF_NSDocumentDirectory), t_("Documents"), "PLACES:FOLDER");
-	AddPlace(GetSpecialDirectory(SF_NSDownloadsDirectory), t_("Downloads"), "PLACES:FOLDER");
+	AddPlace(GetSpecialDirectory(SF_NSDesktopDirectory), t_("Рабочий стол"), "PLACES:FOLDER");
+	AddPlace(GetSpecialDirectory(SF_NSMusicDirectory), t_("Музыка"), "PLACES:FOLDER");
+	AddPlace(GetSpecialDirectory(SF_NSPicturesDirectory), t_("Изображения"), "PLACES:FOLDER");
+	AddPlace(GetSpecialDirectory(SF_NSMoviesDirectory), t_("Видео"), "PLACES:FOLDER");
+	AddPlace(GetSpecialDirectory(SF_NSDocumentDirectory), t_("Документы"), "PLACES:FOLDER");
+	AddPlace(GetSpecialDirectory(SF_NSDownloadsDirectory), t_("Загрузки"), "PLACES:FOLDER");
 #else
 	AddPlace(GetDesktopFolder(), t_("Рабочий Стол"), "PLACES:FOLDER");
 	AddPlace(GetMusicFolder(), t_("Музыка"), "PLACES:FOLDER");

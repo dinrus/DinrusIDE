@@ -17,12 +17,12 @@
 #pragma once
 
 #include "UserDefineResource.h"
-#include "ControlsTab.h"
-#include "ColourPicker.h"
-#include "Parameters.h"
-#include "URLCtrl.h"
-#include "tchar.h"
-#include "SciLexer.h"
+#include <PowerEditor/WinControls/TabBar/ControlsTab.h>
+#include <PowerEditor/WinControls/ColourPicker/ColourPicker.h>
+#include <PowerEditor/Parameters.h>
+#include <PowerEditor/WinControls/AboutDlg/URLCtrl.h>
+#include <tchar.h>
+#include <Lexilla/SciLexer.h>
 #include <unordered_map>
 
 class ScintillaEditView;

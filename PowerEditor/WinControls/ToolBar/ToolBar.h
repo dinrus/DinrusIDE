@@ -17,10 +17,10 @@
 
 #pragma once
 
-#include "Common.h"
-#include "Window.h"
-#include "Notepad_plus_msgs.h"
-#include "ImageListSet.h"
+#include <PowerEditor/MISC/Common/Common.h>
+#include <PowerEditor/WinControls/Window.h>
+#include <PowerEditor/MISC/PluginsManager/Notepad_plus_msgs.h>
+#include <PowerEditor/WinControls/ImageListSet/ImageListSet.h>
 
 #define REBAR_BAR_TOOLBAR		0
 #define REBAR_BAR_SEARCH		1

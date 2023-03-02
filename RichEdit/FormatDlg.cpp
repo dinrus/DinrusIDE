@@ -294,16 +294,16 @@ struct RulerStyleDisplay : Display {
 ParaFormatting::ParaFormatting()
 {
 	CtrlLayout(*this);
-	tabtype.Add(ALIGN_LEFT, t_("Left"));
-	tabtype.Add(ALIGN_RIGHT, t_("Right"));
-	tabtype.Add(ALIGN_CENTER, t_("Centered"));
-	tabfill.Add(0, t_("None"));
+	tabtype.Add(ALIGN_LEFT, t_("Слева"));
+	tabtype.Add(ALIGN_RIGHT, t_("Справа"));
+	tabtype.Add(ALIGN_CENTER, t_("По центру"));
+	tabfill.Add(0, t_("Отсутствует"));
 	tabfill.Add(1, t_("...."));
 	tabfill.Add(2, t_("----"));
 	tabfill.Add(3, t_("__"));
-	tabs.AddColumn(t_("Tab position"), 2).Edit(tabpos).SetConvert(tabpos);
-	tabs.AddColumn(t_("Type"), 2).Edit(tabtype).SetConvert(tabtype).InsertValue(ALIGN_LEFT);
-	tabs.AddColumn(t_("Fill"), 1).Edit(tabfill).SetConvert(tabfill).InsertValue(0);
+	tabs.AddColumn(t_("Позиция вкладки"), 2).Edit(tabpos).SetConvert(tabpos);
+	tabs.AddColumn(t_("Тип"), 2).Edit(tabtype).SetConvert(tabtype).InsertValue(ALIGN_LEFT);
+	tabs.AddColumn(t_("Заливка"), 1).Edit(tabfill).SetConvert(tabfill).InsertValue(0);
 	tabs.ColumnWidths("103 89 78");
 	tabs.Appending().Removing().NoAskRemove();
 	tabs.WhenAcceptEdit = tabs.WhenArrayAction = THISBACK(SetMod);
@@ -443,11 +443,11 @@ void StyleManager::Remove()
 
 void StyleManager::Menu(Bar& bar)
 {
-	bar.Add(t_("Create new style.."), THISBACK(Create))
+	bar.Add(t_("Создать новый стиль.."), THISBACK(Create))
 	   .Key(K_INSERT);
-	bar.Add(t_("Remove style"), THISBACK(Remove))
+	bar.Add(t_("Удалить стиль"), THISBACK(Remove))
 	   .Key(K_DELETE);
-	bar.Add(t_("Rename.."), callback(&list, &ArrayCtrl::DoEdit))
+	bar.Add(t_("Переименовать.."), callback(&list, &ArrayCtrl::DoEdit))
 	   .Key(K_CTRL_ENTER);
 }
 
@@ -533,7 +533,7 @@ void StyleManager::Setup(const Vector<int>& faces, int aunit)
 
 StyleManager::StyleManager()
 {
-	CtrlLayoutOKCancel(*this, t_("Styles"));
+	CtrlLayoutOKCancel(*this, t_("Стили"));
 	list.NoHeader().NoGrid();
 	list.AddKey();
 	list.AddColumn().Edit(name);

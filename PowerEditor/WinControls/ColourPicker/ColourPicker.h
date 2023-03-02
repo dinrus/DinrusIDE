@@ -17,7 +17,7 @@
 
 #pragma once
 
-#include "Window.h"
+#include <PowerEditor/WinControls/Window.h>
 
 class ColourPopup;
 

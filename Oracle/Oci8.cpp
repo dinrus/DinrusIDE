@@ -28,10 +28,10 @@ void OCI8SetDllPath(String oci8_path, T_OCI8& oci8)
 static String OciError(T_OCI8& oci8, OCIError *errhp, int *code, bool utf8_session)
 {
 	if(code) *code = Null;
-	if(!oci8) return t_("Error running OCI8 Oracle connection dynamic library.");
-	if(!errhp) return t_("Unknown error.");
+	if(!oci8) return t_("Ошибка при выполнении подключения к динамической библиотеке OCI8 Oracle.");
+	if(!errhp) return t_("Неизвестная ошибка.");
 	OraText errbuf[512];
-	strcpy((char *)errbuf, t_("(unknown error)"));
+	strcpy((char *)errbuf, t_("(неизвестная ошибка)"));
 	sb4 errcode;
 	oci8.OCIErrorGet(errhp, 1, NULL, &errcode, errbuf, sizeof(errbuf), OCI_HTYPE_ERROR);
 	if(code) *code = errcode;
@@ -440,7 +440,7 @@ bool OCI8Connection::BulkExecute(const char *stmt, const Vector< Vector<Value> >
 					if(argn < row.GetCount())
 						*s << SqlCompile(ORACLE, SqlFormat(row[argn++]));
 					else
-						*s << t_("<not supplied>");
+						*s << t_("<не прилагается>");
 				}
 				else
 					*s << *q;
@@ -1164,7 +1164,7 @@ String OCI8Connection::ToString() const {
 				}
 			}
 			else
-				lg += t_("<not supplied>");
+				lg += t_("<не прилагается>");
 		}
 		else
 			lg += *q;
@@ -1182,7 +1182,7 @@ OCI8Connection::OCI8Connection(Oracle8& s)
 	refcursor = false;
 	if(!session->AllocOciHandle(&stmthp, OCI_HTYPE_STMT)
 	|| !session->AllocOciHandle(&errhp, OCI_HTYPE_ERROR))
-		session->SetError(t_("Error initializing connection"), t_("OCI8 connection"));
+		session->SetError(t_("Ошибка при инициализации подключения"), t_("Подключение к OCI8"));
 	LinkAfter(&s.clink);
 }
 
@@ -1193,7 +1193,7 @@ void OCI8Connection::Clear() {
 			if(!session -> AllocOciHandle(&aux, OCI_HTYPE_STMT)) {
 				int errcode;
 				String err = OciError(oci8, errhp, &errcode, session->utf8_session);
-				session->SetError(err, t_("Closing reference cursor"), errcode, NULL, OciErrorClass(errcode));
+				session->SetError(err, t_("Закрытие курсора ссылки"), errcode, NULL, OciErrorClass(errcode));
 			}
 			static char close[] = "begin close :1; end;";
 			bool err = false;
@@ -1244,8 +1244,8 @@ bool Oracle8::Open(const String& connect_string, bool use_objects, String *warn)
 static void OCIInitError(Oracle8& ora, String infn)
 {
 	ora.Logoff();
-	ora.SetError(NFormat(t_("Error initializing OCI8 library (%s)"), infn),
-		t_("Connecting to Oracle database."), 0, NULL, Sql::CONNECTION_BROKEN);
+	ora.SetError(NFormat(t_("Ошибка при инициализации библиотеки OCI8 (%s)"), infn),
+		t_("Подключение к базе данных Oracle."), 0, NULL, Sql::CONNECTION_BROKEN);
 }
 
 bool Oracle8::Login(const char *name, const char *pwd, const char *db, bool use_objects, String *warn) {
@@ -1256,8 +1256,8 @@ bool Oracle8::Login(const char *name, const char *pwd, const char *db, bool use_
 	user = ToUpper(String(name));
 	LLOG("Loading OCI8 library");
 	if(!oci8.Load()) {
-		SetError(t_("Error loading OCI8 Oracle connection dynamic library."),
-			t_("Connecting to Oracle database."), 0, NULL, Sql::CONNECTION_BROKEN);
+		SetError(t_("Ошибка при загрузке динамической библиотеки подключения OCI8 Oracle."),
+			t_("Подключение к базе данных Oracle."), 0, NULL, Sql::CONNECTION_BROKEN);
 		return false;
 	}
 	LLOG("OCI8 loaded -> OCIInitialize, OCIEnvInit");

@@ -59,8 +59,8 @@ public:
 
 	Point                 GetMargins() const          { return mg; }
 
-	bool                  ChoosePrinter(const char *jobname = t_("Report"));
-	bool                  ChooseDefaultPrinter(const char *jobname = t_("Report"));
+	bool                  ChoosePrinter(const char *jobname = t_("Отчёт"));
+	bool                  ChooseDefaultPrinter(const char *jobname = t_("Отчёт"));
 	PrinterJob           *GetPrinterJob()             { return ~printerjob; }
 
 	Report&               SetPageSize(Size sz);
@@ -146,16 +146,16 @@ public:
 
 	void SetButton(int i, const char *label, int id);
 
-	int  Perform(Report& report, int zoom = 100, const char *caption = t_("Report"));
+	int  Perform(Report& report, int zoom = 100, const char *caption = t_("Отчёт"));
 
 	ReportWindow();
 };
 
 String Pdf(Report& report, bool pdfa = false, const PdfSignatureInfo *sign = NULL);
 void   Print(Report& r, PrinterJob& pd);
-bool   DefaultPrint(Report& r, int i, const char *_name = t_("Report"));
-bool   Print(Report& r, int i, const char *name = t_("Report"));
-bool   Perform(Report& r, const char *name = t_("Report"));
+bool   DefaultPrint(Report& r, int i, const char *_name = t_("Отчёт"));
+bool   Print(Report& r, int i, const char *name = t_("Отчёт"));
+bool   Perform(Report& r, const char *name = t_("Отчёт"));
 bool   QtfReport(const String& qtf, const char *name = "", bool pagenumbers = false);
 bool   QtfReport(Size pagesize, const String& qtf, const char *name = "", bool pagenumbers = false);
 

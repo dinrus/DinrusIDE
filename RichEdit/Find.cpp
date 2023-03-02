@@ -152,8 +152,8 @@ void RichEdit::OpenFindReplace()
 		int l, h;
 		if(GetSelection(l, h)) {
 			findreplace.amend.Hide();
-			findreplace.ok.SetLabel(t_("Replace"));
-			findreplace.Title(t_("Replace in selection"));
+			findreplace.ok.SetLabel(t_("Заменить"));
+			findreplace.Title(t_("Заменить в выделении"));
 			findreplace.cancel <<= findreplace.Breaker(IDCANCEL);
 			findreplace.ok <<= findreplace.Breaker(IDOK);
 			if(findreplace.Execute() == IDOK) {
@@ -176,8 +176,8 @@ void RichEdit::OpenFindReplace()
 			}
 			FindReplaceAddHistory();
 			findreplace.amend.Show();
-			findreplace.ok.SetLabel(t_("Find"));
-			findreplace.Title(t_("Find / Replace"));
+			findreplace.ok.SetLabel(t_("Найти"));
+			findreplace.Title(t_("Найти / Заменить"));
 			findreplace.cancel <<= callback(&findreplace, &TopWindow::Close);
 			findreplace.ok <<= THISBACK(Find);
 		}

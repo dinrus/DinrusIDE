@@ -480,7 +480,7 @@ ImportDlg::ImportDlg()
 	folder.AddFrame(dir);
 	dir <<= THISBACK(SetFolder);
 	dir.SetImage(CtrlImg::smallright()).NoWantFocus();
-	files <<= "*.cpp *.h *.hpp *.c *.C *.cxx *.cc";
+	files <<= "*.cpp *.h *.hpp *.c *.C *.cxx *.cc *.d";
 }
 
 bool FileOrder_(const String& a, const String& b)

@@ -20,11 +20,11 @@
 
 #include "Scintilla/Scintilla.h"
 #include "ScintillaRef.h"
-#include "SciLexer.h"
+#include <Lexilla/SciLexer.h>
 #include "Buffer.h"
 #include "colors.h"
 #include "UserDefineDialog.h"
-#include "rgba_icons.h"
+#include <PowerEditor/rgba_icons.h>
 
 
 #ifndef WM_MOUSEWHEEL

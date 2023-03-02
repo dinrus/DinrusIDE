@@ -1,4 +1,4 @@
-description "DinrusIDE - общие диалогии и интерфейсы\377B";
+description "DinrusIDE - общие диалогии и интерфейсы\377B255,0,0";
 
 uses
 	DinrusIDE/Core,

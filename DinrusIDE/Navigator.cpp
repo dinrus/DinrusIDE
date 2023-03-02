@@ -335,6 +335,7 @@ void Ide::SwitchHeader() {
 		int f = filelist.Find(ForceExt(currfile, ".cpp"));
 		if(f < 0) f = filelist.Find(ForceExt(currfile, ".c"));
 		if(f < 0) f = filelist.Find(ForceExt(currfile, ".cc"));
+		if(f < 0) f = filelist.Find(ForceExt(currfile, ".d"));
 		if(f >= 0) filelist.SetCursor(f);
 	}
 }

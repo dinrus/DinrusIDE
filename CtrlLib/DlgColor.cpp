@@ -83,7 +83,7 @@ Image FetchColorCtrl::CursorImage(Point pt, dword keyflags)
 
 const Display& StdColorDisplayNull()
 {
-	static ColorDisplayNull display(t_("(no color)"));
+	static ColorDisplayNull display(t_("(без цвета)"));
 	return display;
 }
 
@@ -1313,7 +1313,7 @@ private:
 };
 
 ColorSelectorImpl::ColorSelectorImpl(ColorSelector& parent)
-: paint_color_display(t_("(transparent)"))
+: paint_color_display(t_("(прозрачный)"))
 , parent(parent), wheel(false), ramp(true)
 {
 	Transparent();
@@ -1551,7 +1551,7 @@ DlgSelectColor::DlgSelectColor()
 {
 	palette.Transparent().NoWantFocus() << selector.SizePos();
 //	CtrlLayoutOKCancel(*this, DlgSelectColorHelpTitle());
-	CtrlLayoutOKCancel(*this, t_("Select color"));
+	CtrlLayoutOKCancel(*this, t_("Выберите цвет"));
 //RegisterHelpTopicObjectTitle(DlgSelectColor, );
 	HelpTopic("DlgSelectColor");
 	Sizeable().MaximizeBox();

@@ -23,24 +23,7 @@ String DlangCmdLine(const String& package, const Package& pkg)
 	PutVerbose(dd);
 	return dd;
 }
-//Должна объединить команды Си и команды Ди
-String GccBuilder::CmdLine(const String& package, const Package& pkg)
-{
-	String cc = CompilerName();
-	
-	for(String f: pkg.file)
-	{
-		if(GetFileExt(f) != ".d")
-			cc << " -c";
-				for(String s : pkg_config)
-					cc << " `pkg-config --cflags " << s << "`";
-					cc << ' ' << IncludesDefinesTargetTime(package, pkg);
-	}
-	PutVerbose(cc);
-	
-	return cc + DlangCmdLine(package, pkg);
-}
-/*
+
 //Создаёт командную строку
 String GccBuilder::CmdLine(const String& package, const Package& pkg)
 {
@@ -51,7 +34,7 @@ String GccBuilder::CmdLine(const String& package, const Package& pkg)
 	cc << ' ' << IncludesDefinesTargetTime(package, pkg);
 	return cc;
 }
-*/
+
 //Преобразует бинарный файл в объектный
 void GccBuilder::BinaryToObject(String objfile, CParser& binscript, String basedir,
                                 const String& package, const Package& pkg)

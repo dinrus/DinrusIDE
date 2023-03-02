@@ -36,10 +36,12 @@
  * ***** END LICENSE BLOCK ***** */
 
 #include "nsUTF8Prober.h"
+#include <PowerEditor/uchardet/nsEscCharsetProber.h>
+#include <PowerEditor/uchardet/nsCharSetProber.h>
 
 void  nsUTF8Prober::Reset(void)
 {
-  mCodingSM->Reset(); 
+  mCodingSM->Reset();
   mNumOfMBChar = 0;
   mState = eDetecting;
 }

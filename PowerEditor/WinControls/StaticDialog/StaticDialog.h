@@ -15,7 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #pragma once
 //#include "Notepad_plus_msgs.h"
-#include "../Window.h"
+#include <PowerEditor/WinControls/Window.h>
 
 typedef HRESULT (WINAPI * ETDTProc) (HWND, DWORD);
 

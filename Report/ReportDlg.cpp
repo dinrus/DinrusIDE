@@ -208,7 +208,7 @@ ReportWindow::ReportWindow()
 	Sizeable();
 	MaximizeBox();
 	Icon(CtrlImg::smallreporticon());
-	SetButton(0, t_("&Print"), 999995);
+	SetButton(0, t_("&Печать"), 999995);
 	pdf.Show(GetDrawingToPdfFn());
 	pdf <<= THISBACK(Pdf);
 }
@@ -226,10 +226,10 @@ void ReportWindow::Pdf()
 	static FileSel fs;
 	static bool b;
 	if(!b) {
-		fs.Type(t_("PDF file"), "*.pdf");
+		fs.Type(t_("Файл PDF"), "*.pdf");
 		fs.AllFilesType();
 	}
-	if(!fs.ExecuteSaveAs(t_("Output PDF file")))
+	if(!fs.ExecuteSaveAs(t_("Выходной файл PDF")))
 		return;
 	SaveFile(~fs, UPP::Pdf(*report));
 }

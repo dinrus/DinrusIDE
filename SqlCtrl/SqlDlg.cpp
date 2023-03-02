@@ -9,7 +9,7 @@ int SqlError(
 #endif
              const char *text, const char *error, const char *statement, bool retry) {
 	WithSqlErrorLayout<TopWindow> r;
-	CtrlLayoutCancel(r, t_("Database error"));
+	CtrlLayoutCancel(r, t_("Ошибка базы данных"));
 	r.text = text;
 	r.error.AutoHideSb().SetReadOnly() <<= error;
 	r.statement.AutoHideSb().SetReadOnly() <<= statement;
@@ -62,7 +62,7 @@ int  SqlError(const char *text, const Sql& sql, bool retry) {
 
 bool   DisplayError(const SqlSession& session, const char *msg) {
 	if(!session.WasError()) return false;
-	SqlError(msg ? msg : t_("The operation has failed"),
+	SqlError(msg ? msg : t_("Неудачная операция"),
 			 session.GetLastError(), session.GetErrorStatement());
 	return true;
 }
@@ -76,7 +76,7 @@ bool   ShowError(SqlSession& session, const char *msg) {
 }
 
 bool ErrorRollback(SqlSession& session, const char *msg) {
-	if(!ShowError(session, msg ? msg : t_("The operation has failed.\nOperation was canceled")))
+	if(!ShowError(session, msg ? msg : t_("Операция не удалась.\nОперация была отменена")))
 		return false;
 	session.Rollback();
 	return true;
@@ -86,7 +86,7 @@ bool OkCommit(SqlSession& session, const char *msg) {
 	if(ErrorRollback(session, msg))
 		return false;
 	session.Commit();
-	if(ShowError(session, msg ? msg : t_("SQL error!")))
+	if(ShowError(session, msg ? msg : t_("Ошибка SQL!")))
 		return false;
 	return true;
 }

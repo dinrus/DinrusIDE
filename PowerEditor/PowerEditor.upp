@@ -2,7 +2,13 @@ uses
 	PowerEditor\uchardet,
 	PowerEditor/WinControls,
 	PowerEditor\ScintillaComponent,
-	Lexilla;
+	Lexilla,
+	PowerEditor/TinyXml,
+	PowerEditor/MISC,
+	PowerEditor/DarkMode;
+
+link
+	--std=c++20;
 
 file
 	clipboardFormats.h,

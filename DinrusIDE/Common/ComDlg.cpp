@@ -202,6 +202,7 @@ void IdeFs(FileSel& fs)
 void SourceFs(FileSel& fs)
 {
 	fs.Type("Файлы C/C++ (*.cpp *.h *.hpp *.c *.C *.cc *.cxx *.icpp)", "*.cpp *.h *.hpp *.c *.C *.cc *.cxx *.icpp");
+	fs.Type("Файлы Dlang (*.d *.di)", "*.d *.di");
 	fs.Type("Файлы Diff/Patch (*.diff *.patch)", "*.diff *.patch");
 	fs.Type("Файлы Image (*.iml)", "*.iml");
 	fs.Type("Файлы Java (*.java)", "*.java");

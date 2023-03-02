@@ -1,4 +1,4 @@
-description "DinrusIDE - отладчики\377B";
+description "DinrusIDE - отладчики\377B255,0,0";
 
 uses
 	DinrusIDE/Common,

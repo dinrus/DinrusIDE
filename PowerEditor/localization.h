@@ -17,8 +17,8 @@
 
 #pragma once
 
-#include "Common.h"
-#include "tinyxmlA.h"
+#include <PowerEditor/MISC/Common/Common.h>
+#include <PowerEditor/TinyXml/tinyXmlA/tinyxmlA.h>
 
 
 class FindReplaceDlg;

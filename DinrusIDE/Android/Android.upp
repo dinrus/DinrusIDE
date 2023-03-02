@@ -1,4 +1,4 @@
-description "DinrusIDE - модуль поддержки Android SDK/NDK\377B";
+description "DinrusIDE - модуль поддержки Android SDK/NDK\377B255,0,0";
 
 uses
 	DinrusIDE/Core,

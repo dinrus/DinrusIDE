@@ -18,8 +18,8 @@
 #include <shlwapi.h>
 #include <shlobj.h>
 #include "Parameters.h"
-#include "ScintillaEditView.h"
-#include "keys.h"
+#include <PowerEditor/ScintillaComponent/ScintillaEditView.h>
+#include <PowerEditor/keys.h>
 #include "localization.h"
 #include "localizationString.h"
 #include "UserDefineDialog.h"

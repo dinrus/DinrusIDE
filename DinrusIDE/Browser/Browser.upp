@@ -1,4 +1,4 @@
-description "DinrusIDE - просмотрщик кода и Topic++\377B";
+description "DinrusIDE - просмотрщик кода и Topic++\377B255,0,0";
 
 uses
 	CppBase,

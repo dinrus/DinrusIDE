@@ -21,15 +21,15 @@
 #include <codecvt>
 #include <sys/stat.h>
 #include "Buffer.h"
-#include "Scintilla.h"
-#include "ILexer.h"
-#include "Lexilla.h"
-#include "Parameters.h"
-#include "Notepad_plus.h"
+#include <Scintilla/Scintilla.h>
+#include <Scintilla/ILexer.h>
+#include <Lexilla/Lexilla.h>
+#include <PowerEditor/Parameters.h>
+#include <PowerEditor/Notepad_plus.h>
 #include "ScintillaEditView.h"
-#include "EncodingMapper.h"
-#include "uchardet.h"
-#include "FileInterface.h"
+#include <PowerEditor/EncodingMapper.h>
+#include <PowerEditor/uchardet/uchardet.h>
+#include <PowerEditor/MISC/Common/FileInterface.h>
 
 
 static const int blockSize = 128 * 1024 + 4;

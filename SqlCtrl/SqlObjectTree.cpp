@@ -37,9 +37,9 @@ void RunDlgSqlExport(Sql& cursor, String command, String tablename)
 DlgSqlExport::DlgSqlExport()
 {
 	CtrlLayoutOKCancel(*this, "");
-	columns.AddColumn(t_("Column name"));
-	columns.AddColumn(t_("Type"));
-	columns.AddColumn(t_("Width"));
+	columns.AddColumn(t_("Имя графы"));
+	columns.AddColumn(t_("Тип"));
+	columns.AddColumn(t_("Ширина"));
 	HeaderCtrl::Column& hc = exp.AddColumn(columns, "").Margin(0).HeaderTab();
 	hc.SetMargin(0).Fixed(18).SetAlign(ALIGN_CENTER).SetImage(CtrlImg::smallcheck());
 	hc.WhenAction = THISBACK(Toggle);
@@ -69,10 +69,10 @@ void DlgSqlExport::Toggle()
 
 void DlgSqlExport::Run(Sql& cursor, String command, String tablename)
 {
-	Title(Nvl(tablename, t_("SQL query")) + t_(" export"));
+	Title(Nvl(tablename, t_("Запрос SQL")) + t_(" экспорт"));
 	object_name <<= tablename;
 	if(!cursor.Execute(command)) {
-		Exclamation(NFormat(t_("Error executing [* \1%s\1]: \1%s"), command, cursor.GetLastError()));
+		Exclamation(NFormat(t_("Ошибка при выполнении [* \1%s\1]: \1%s"), command, cursor.GetLastError()));
 		return;
 	}
 	for(int i = 0; i < cursor.GetColumns(); i++) {
@@ -80,14 +80,14 @@ void DlgSqlExport::Run(Sql& cursor, String command, String tablename)
 		String type;
 		switch(sci.type) {
 			case BOOL_V:
-			case INT_V: type = t_("integer"); break;
-			case DOUBLE_V: type = t_("real number"); break;
+			case INT_V: type = t_("целое"); break;
+			case DOUBLE_V: type = t_("реальное число"); break;
 			case STRING_V:
-			case WSTRING_V: type = t_("string"); break;
-			case DATE_V: type = t_("date"); break;
-			case TIME_V: type = t_("date/time"); break;
-			case /*ORA_BLOB_V*/-1: type = t_("BLOB"); break;
-			case /*ORA_CLOB_V*/-2: type = t_("CLOB"); break;
+			case WSTRING_V: type = t_("ткст"); break;
+			case DATE_V: type = t_("дата"); break;
+			case TIME_V: type = t_("дата/время"); break;
+			case /*ORA_BLOB_V*/-1: type = t_("БЛОБ"); break;
+			case /*ORA_CLOB_V*/-2: type = t_("КЛОБ"); break;
 			default: type = FormatInt(sci.type); break;
 		}
 		columns.Add(sci.name, sci.type, sci.width, 1);
@@ -115,7 +115,7 @@ void DlgSqlExport::Run(Sql& cursor, String command, String tablename)
 					title << cname;
 				}
 			if(out.IsEmpty()) {
-				throw Exc(t_("No columns selected!"));
+				throw Exc(t_("Колонки не выбраны!"));
 				continue;
 			}
 			String rowbegin, rowend;
@@ -126,7 +126,7 @@ void DlgSqlExport::Run(Sql& cursor, String command, String tablename)
 				case FMT_TEXT: {
 					rowend = "";
 					ext = ".txt";
-					fsel.Type(t_("Text files (*.txt)"), "*.txt");
+					fsel.Type(t_("Текстовые файлы (*.txt)"), "*.txt");
 					break;
 				}
 				case FMT_SQL: {
@@ -135,24 +135,24 @@ void DlgSqlExport::Run(Sql& cursor, String command, String tablename)
 					rowbegin << "insert into " << out_table << "(" << colstr << ") values (";
 					rowend = ");";
 					ext = ".sql";
-					fsel.Type(t_("SQL scripts (*.sql)"), "*.sql");
+					fsel.Type(t_("Сценарии SQL (*.sql)"), "*.sql");
 					break;
 				}
 			}
 			fsel.AllFilesType().DefaultExt(ext.Mid(1));
 			if(!IsNull(recent_file))
 				fsel <<= ForceExt(recent_file, ext);
-			if(!fsel.ExecuteSaveAs(t_("Save export as")))
+			if(!fsel.ExecuteSaveAs(t_("Сохранить экспорт как")))
 				continue;
 			recent_file = ~fsel;
 			FileOut fo;
 			if(!fo.Open(recent_file)) {
-				Exclamation(NFormat(t_("Error creating file [* \1%s\1]."), recent_file));
+				Exclamation(NFormat(t_("Ошибка при создании файла [* \1%s\1]."), recent_file));
 				continue;
 			}
 			if(fmt == FMT_TEXT)
 				fo.PutLine(title);
-			Progress progress(t_("Exporting row %d"));
+			Progress progress(t_("Экспортируется ряд %d"));
 			while(cursor.Fetch()) {
 				String script = rowbegin;
 				for(int i = 0; i < out.GetCount(); i++) {
@@ -191,13 +191,13 @@ void DlgSqlExport::Run(Sql& cursor, String command, String tablename)
 				}
 */
 				if(progress.StepCanceled()) {
-					Exclamation(t_("Export aborted!"));
+					Exclamation(t_("Экспорт оборван!"));
 					return;
 				}
 			}
 			fo.Close();
 			if(fo.IsError())
-				throw Exc(NFormat(t_("Error writing file %s."), recent_file));
+				throw Exc(NFormat(t_("Ошибка при записи файла %s."), recent_file));
 			break;
 		}
 		catch(Exc e) {
@@ -265,11 +265,11 @@ void SQLObjectTree(SqlSession& session) { SqlObjectTree(session).Run(); }
 SqlObjectTree::SqlObjectTree(SqlSession& sess)
 : session(sess)
 {
-	Title(t_("SQL object tree"));
+	Title(t_("Дерево объектов SQL"));
 	Sizeable().MaximizeBox();
 	Add(schema.SizePos());
 	schema.WhenOpen = THISBACK(Open);
-	schema.SetRoot(CtrlImg::Computer(), Item(OBJ_SCHEMA), t_("Schemas"));
+	schema.SetRoot(CtrlImg::Computer(), Item(OBJ_SCHEMA), t_("Схемы"));
 	schema.WhenBar = THISBACK(ToolLocal);
 }
 
@@ -297,9 +297,9 @@ void SqlObjectTree::OpenSchema(int node) {
 		for(int i = 0; i < schemas.GetCount(); i++) {
 			String sname = schemas[i];
 			int snode = schema.Add(node, CtrlImg::Dir(), Item(OBJ_SCHEMA_OBJECTS, sname), sname, true);
-			schema.Add(snode, CtrlImg::Dir(), Item(OBJ_TABLES, sname), t_("Tables"), true);
-			schema.Add(snode, CtrlImg::Dir(), Item(OBJ_VIEWS, sname), t_("Views"), true);
-			schema.Add(snode, CtrlImg::Dir(), Item(OBJ_SEQUENCES, sname), t_("Sequences"), true);
+			schema.Add(snode, CtrlImg::Dir(), Item(OBJ_TABLES, sname), t_("Таблицы"), true);
+			schema.Add(snode, CtrlImg::Dir(), Item(OBJ_VIEWS, sname), t_("Обзоры"), true);
+			schema.Add(snode, CtrlImg::Dir(), Item(OBJ_SEQUENCES, sname), t_("Последовательности"), true);
 		}
 	}
 	catch(Exc e) {
@@ -355,7 +355,7 @@ void SqlObjectTree::OpenTableColumns(int node, const Item& item)
 		if(!pk.IsEmpty()) {
 			String pklist;
 			for(int i = 0; i < pk.GetCount(); i++)
-				pklist << (i ? "; " : t_("Primary key: ")) << pk[i];
+				pklist << (i ? "; " : t_("Первичный ключ: ")) << pk[i];
 			schema.Add(node, Null, Item(OBJ_PRIMARY_KEY, item.schema, item.object), (Value)pklist);
 		}
 		String rowid = session.EnumRowID(item.schema, item.object);
@@ -370,7 +370,7 @@ void SqlObjectTree::ToolLocal(Bar& bar)
 		const Item& item = ValueTo<Item>(~schema);
 		switch(item.type) {
 			case OBJ_TABLE_COLUMNS: {
-				bar.Add(t_("Export"), THISBACK1(TableExport, item.schema + "." + item.object));
+				bar.Add(t_("Экспорт"), THISBACK1(TableExport, item.schema + "." + item.object));
 			}
 		}
 	}

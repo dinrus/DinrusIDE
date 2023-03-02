@@ -17,11 +17,11 @@
 
 #pragma once
 
-#include "shortcutRc.h"
-#include "Scintilla.h"
-#include "StaticDialog.h"
-#include "Common.h"
-#include "menuCmdID.h"
+#include <PowerEditor/WinControls/shortcut/shortcutRc.h>
+#include <Scintilla/Scintilla.h>
+#include <PowerEditor/WinControls/StaticDialog/StaticDialog.h>
+#include <PowerEditor/MISC/Common/Common.h>
+#include <PowerEditor/menuCmdID.h>
 
 const size_t nameLenMax = 64;
 

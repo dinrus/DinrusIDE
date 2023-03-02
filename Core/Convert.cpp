@@ -298,7 +298,7 @@ String StdFormat(const Value& q) {
 }
 
 Value NotNullError() {
-	return ErrorValue(t_("Null value not allowed."));
+	return ErrorValue(t_("Значение Null недопустимо."));
 }
 
 Value ConvertInt::Scan(const Value& text) const {

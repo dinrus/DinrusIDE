@@ -237,7 +237,7 @@ void Ide::FindInFiles(bool replace) {
 		ff.files.AddHistory();
 		ff.folder.AddHistory();
 		ff.replace.AddHistory();
-		Progress pi("Найдено %d файлов для поиска.");
+		Progress pi("Найдено %d файла(-ов), содержащих искомое.");
 		pi.AlignText(ALIGN_LEFT);
 		Index<String> files;
 		Time since = Null;
@@ -400,7 +400,7 @@ void Ide::SyncFindInFiles()
 
 void Ide::ConstructFindInFiles() {
 	ff.find.AddButton().SetMonoImage(CtrlImg::smallright()).Tip("Wildcard") <<= THISBACK(FindWildcard);
-	static const char *defs = "*.cpp *.h *.hpp *.c *.m *.C *.M *.cxx *.cc *.mm *.MM *.icpp *.sch *.lay *.rc";
+	static const char *defs = "*.cpp *.h *.hpp *.c *.m *.C *.M *.cxx *.cc *.mm *.MM *.icpp *.sch *.lay *.rc *.d *.di";
 	ff.files <<= String(defs);
 	ff.files.AddList((String)defs);
 	ff.files.AddList((String)"*.txt");

@@ -18,8 +18,8 @@ String DlangBuilder::CmdLine(const String& package, const Package& pkg)
 //	for(String s : pkg_config)
 	//	LDC2 << " `pkg-config --cflags " << s << "`";
 	LDC2 << ' ' << IncludesDefinesTargetTime(package, pkg);
-	PutConsole("Получилась следующая командная строка:");
-	PutConsole(LDC2);
+	//PutConsole("Получилась следующая командная строка:");
+//	PutConsole(LDC2);
 	return LDC2;
 }
 //////////////////////////////////////////////////////
@@ -120,8 +120,7 @@ bool DlangBuilder::BuildPackage(const String& package, Vector<String>& linkfile,
 	}
 	if(!HasFlag("SHARED") && !is_shared)
 		LDC2 << " -lib";
-//	else if(!HasFlag("WIN32")) // TRC 05/03/08: dynamic fPIC doesn't seem to work in MinGW
-//		LDC2 << " -dynamic -fPIC "; // TRC 05/03/30: dynamic fPIC doesn't seem to work in GCC either :-)
+
 	LDC2 << ' ' << Gather(pkg.option, config.GetKeys());
 	//LDC2 << " -fexceptions";
 

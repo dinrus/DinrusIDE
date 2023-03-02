@@ -3,7 +3,7 @@ noblitz;
 uses
 	Scintilla;
 
-options(CLANG) "--std=c++17 -Wpedantic -Wall -Os --emit-static-lib";
+options(CLANG) "--std=c++17 -Wpedantic -Wall -Os";
 
 file
 	"Код" readonly separator,

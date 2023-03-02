@@ -203,19 +203,19 @@ bool Pop3::Login()
 				if(response.GetCount() == 0)
 					response = l;
 			}
-			LLOG("Proxy response: " << response);
+			LLOG("Ответ прокси: " << response);
 			if(!response.StartsWith("HTTP") || response.Find(" 2") < 0)
 				throw Exc("Неверный ответ прокси: " + response);
-			LLOG("Connected via proxy");
+			LLOG("Подключен через прокси");
 		}
 		else
 		if(!Connect(host, Nvl(port, ssl ? 995 : 110)))
 			throw Exc(GetErrorDesc());
-		LLOG(Format(t_("Opening connection to %s:%d."), host, port));
+		LLOG(Format(t_("Открытие подключения к %s:%d."), host, port));
 		if(ssl) {
 			if(!StartSSL())
 				throw Exc(t_("Не удалось начать сессию SSL."));
-			LLOG(t_("SSL session successfully started."));
+			LLOG(t_("Сессия SSL успешно начата."));
 		}
 		// Receive server greetings.
 		if(!PutGet(Null))
@@ -236,7 +236,7 @@ bool Pop3::Logout()
 {
 	if(IsOnline()) 
 		PutGet("QUIT\r\n");
-	LLOG(Format(t_("Closing connection to %s:%d."), host, port));
+	LLOG(Format(t_("Закрытие соединения с %s:%d."), host, port));
 	if(IsOpen())
 		Close();
 	online = false;

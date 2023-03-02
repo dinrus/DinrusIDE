@@ -67,8 +67,8 @@ void DockMenu::GroupMenu(Bar& bar, String group)
 	bar.Add(true, t_("Флот") + text, 	DOCKBACK1(FloatGroup, group));
 	if (dock->IsAutoHide()) bar.Add(true, t_("Авто-Скрывать") + text, THISBACK1(GroupHideMenu, group));
 	bar.Separator();
-	bar.Add(true, t_("Табовать и Док") + text, THISBACK1(GroupTabDockMenu, group));
-	bar.Add(true, t_("Табовать и Флот") + text, DOCKBACK1(TabFloatGroup, group));
+	bar.Add(true, t_("Вкладки и Док") + text, THISBACK1(GroupTabDockMenu, group));
+	bar.Add(true, t_("Вкладки и Флот") + text, DOCKBACK1(TabFloatGroup, group));
 	if(dock->HasCloseButtons())
 	{
 		bar.Separator();

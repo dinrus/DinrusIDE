@@ -49,13 +49,13 @@ void UpdateFile(String dst, String src)
 	if(NoUpdate(dst, src, len)) return;
 	String tmp = dst + ".tmp";
 	Progress pi;
-	pi.Title((t_("Updating ") + filename).ToWString());
-	pi.SetText(t_("Updating ") + filename);
+	pi.Title((t_("Обновление ") + filename).ToWString());
+	pi.SetText(t_("Обновляется ") + filename);
 //	pi.Open();
 	FileIn in(src);
 	if(!in)
 	{
-		Exclamation(Format(t_("Error opening file [* \1%s\1]."), src));
+		Exclamation(Format(t_("Ошибка при открытии файла [* \1%s\1]."), src));
 		return;
 	}
 	FileDelete(tmp);
@@ -64,7 +64,7 @@ void UpdateFile(String dst, String src)
 	char buffer[2048];
 	if(!out)
 	{
-		Exclamation(Format(t_("Error creating file [* \1%s\1]."), tmp));
+		Exclamation(Format(t_("Ошибка при создании файла [* \1%s\1]."), tmp));
 		return;
 	}
 	for(;;)
@@ -74,7 +74,7 @@ void UpdateFile(String dst, String src)
 		out.Put(buffer, i);
 		n += i;
 		pi.Set(n, len);
-		if(pi.Canceled() && PromptYesNo(t_("Aborting update is likely to cause trouble when running the application for the next time.\nContinue?")))
+		if(pi.Canceled() && PromptYesNo(t_("Прерывание обновления возможно вызовет проблемы при следующем запустке приложения.\nПродолжить?")))
 		{
 			out.Close();
 			FileDelete(tmp);
@@ -85,12 +85,12 @@ void UpdateFile(String dst, String src)
 	out.Close();
 	if(out.IsError())
 	{
-		Exclamation(Format(t_("Error writing file [* \1%s\1]."), tmp));
+		Exclamation(Format(t_("Ошибка при записи файла [* \1%s\1]."), tmp));
 		FileDelete(tmp);
 		return;
 	}
 	String old = dst + ".old";
-	pi.SetText(Format(t_("Overwriting %s"), dst));
+	pi.SetText(Format(t_("Переписывается %s"), dst));
 	pi.SetTotal(10000);
 	int start = msecs();
 	for(;;)
@@ -100,7 +100,7 @@ void UpdateFile(String dst, String src)
 		FileMove(dst, old);
 		if(FileMove(tmp, dst))
 			return;
-		if(pi.SetPosCanceled(msecs(start) % 10000) && PromptYesNo(t_("Aborting update is likely to cause trouble when running the application for the next time.\nContinue?")))
+		if(pi.SetPosCanceled(msecs(start) % 10000) && PromptYesNo(t_("Прерывание обновления возможно вызовет проблемы при следующем запустке приложения.\nПродолжить?")))
 			return;
 		Sleep(500);
 	}

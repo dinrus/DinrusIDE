@@ -58,7 +58,7 @@ InfoCtrl::InfoCtrl()
 {
 	SetFrame(ThinInsetFrame());
 	right = false;
-	defaulttext = t_("Ready");
+	defaulttext = t_("Готово");
 	Set(Null);
 	Transparent();
 }

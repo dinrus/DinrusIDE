@@ -1,9 +1,13 @@
-description "Скажи миру привер, Ди..\377";
+description "Скажи миру привет, Ди..\377";
 
 noblitz;
 
-options(DLANG) "--d-version=CRuntime_MSYS2 --mtriple=x86_64-pc-windows-gnu";
+link
+	--target=x86_64-pc-windows-gnu;
 
 file
 	hello.d;
+
+mainconfig
+	"" = "";
 

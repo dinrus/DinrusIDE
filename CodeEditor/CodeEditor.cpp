@@ -784,7 +784,7 @@ void CodeEditor::SetI(Ctrl *edit)
 
 void CodeEditor::Goto() {
 	String line = AsString(GetCursorLine());
-	if(EditText(line, t_("Go to"), t_("Line:")))
+	if(EditText(line, t_("Перейти на"), t_("Строка:")))
 		SetCursor(GetPos64(atoi(line) - 1));
 }
 
@@ -1146,7 +1146,7 @@ void CodeEditor::HighlightLine(int line, Vector<LineEdit::Highlight>& hl, int64 
 
 void CodeEditor::PutI(WithDropChoice<EditString>& edit)
 {
-	edit.AddButton().SetMonoImage(CodeEditorImg::I()).Tip(t_("Установить word/selection (Ctrl+I)"))
+	edit.AddButton().SetMonoImage(CodeEditorImg::I()).Tip(t_("Установить слово/выделение (Ctrl+I)"))
 	    <<= THISBACK1(SetI, &edit);
 }
 

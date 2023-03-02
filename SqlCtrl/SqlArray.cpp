@@ -38,7 +38,7 @@ bool SqlArray::PerformInsert() {
 	Session().Begin();
 	Sql cursor(Session());
 	cursor * insert;
-	if(OkCommit(Session(), t_("Can't insert record."))) {
+	if(OkCommit(Session(), t_("Не удаётся вставить запись."))) {
 		if(IsNull(Get(0)))
 			Set(0, cursor.GetInsertedId());
 		return true;
@@ -59,7 +59,7 @@ bool SqlArray::PerformDelete() {
 	         .Where(fk.IsNull() ? SqlId(GetKeyId()) == GetKey()
 	                            : SqlId(GetKeyId()) == GetKey() && fk == fkv);
 
-	return OkCommit(Session(), t_("Can't delete record."));
+	return OkCommit(Session(), t_("Не удаётся удалить запись."));
 }
 
 bool SqlArray::UpdateRow() {
@@ -78,7 +78,7 @@ bool SqlArray::UpdateRow() {
 			cursor * update
 			         .Where(fk.IsNull() ? SqlId(GetKeyId()) == GetOriginalKey()
 			                            : SqlId(GetKeyId()) == GetOriginalKey() && fk == fkv);
-			if(!OkCommit(Session(), t_("Can't update record.")))
+			if(!OkCommit(Session(), t_("Не удаётся обновить запись.")))
 				return false;
 		}
 	}
@@ -137,7 +137,7 @@ bool  SqlArray::Accept() {
 }
 
 void SqlArray::DoRemove() {
-	if(!IsCursor() || IsAskRemove() && !PromptOKCancel(RowFormat(t_("Do you really want to delete the selected %s ?")))) return;
+	if(!IsCursor() || IsAskRemove() && !PromptOKCancel(RowFormat(t_("Действительно удалить выделенное %s ?")))) return;
 	if(PerformDelete()) {
 		Remove(GetCursor());
 		WhenArrayAction();
@@ -148,20 +148,20 @@ void SqlArray::StdBar(Bar& menu) {
 	bool c = !IsEdit();
 	bool d = c && IsCursor();
 	if(IsAppending() || IsInserting())
-		menu.Add(c && CanInsert(), RowFormat(t_("Insert %s")), THISBACK(StartInsert))
-			.Help(RowFormat(t_("Insert a new %s into the table.")))
+		menu.Add(c && CanInsert(), RowFormat(t_("Вставить %s")), THISBACK(StartInsert))
+			.Help(RowFormat(t_("Вставить новый %s в таблицу.")))
 			.Key(K_INSERT);
 	if(IsDuplicating())
-		menu.Add(d && CanInsert(), RowFormat(t_("Copy %s")), THISBACK(StartDuplicate))
-			.Help(RowFormat(t_("Duplicate current table %s.")))
+		menu.Add(d && CanInsert(), RowFormat(t_("Копировать %s")), THISBACK(StartDuplicate))
+			.Help(RowFormat(t_("Дублировать текущую таблицу %s.")))
 			.Key(K_CTRL_INSERT);
 	if(IsEditing())
-		menu.Add(d, RowFormat(t_("Edit %s")), THISBACK(DoEdit))
-			.Help(RowFormat(t_("Edit active %s.")))
+		menu.Add(d, RowFormat(t_("Редактировать %s")), THISBACK(DoEdit))
+			.Help(RowFormat(t_("Редактировать активную %s.")))
 			.Key(K_CTRL_ENTER);
 	if(IsRemoving())
-		menu.Add(d, RowFormat(t_("Delete %s\tDelete")), THISBACK(DoRemove))
-			.Help(RowFormat(t_("Delete active %s.")))
+		menu.Add(d, RowFormat(t_("Удалить %s\tУдалить")), THISBACK(DoRemove))
+			.Help(RowFormat(t_("Удалить активную %s.")))
 			.Key(K_DELETE);
 }
 
@@ -232,7 +232,7 @@ SqlArray::SqlArray() {
 	goendpostquery = false;
 	lateinsert = false;
 	autoinsertid = false;
-	RowName(t_("record"));
+	RowName(t_("запись"));
 	offset = 0;
 	count = Null;
 	WhenFilter = [=](const VectorMap<Id, Value>& row) -> bool { return true; };

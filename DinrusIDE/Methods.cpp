@@ -66,8 +66,8 @@ Value DirMap::GetData() const
 DirMap::DirMap()
 {
 	AutoHideSb();
-	AddColumn("Map local path").Edit(localpath);
-	AddColumn("To remote path").Edit(remotepath);
+	AddColumn("Мапировать локальный путь").Edit(localpath);
+	AddColumn("В удалённый путь").Edit(remotepath);
 	Appending().Removing().Moving();
 	edit_dir.Attach(localpath);
 	WhenArrayAction = localpath <<= remotepath <<= callback(this, &DirMap::Modify);
@@ -343,9 +343,9 @@ DefaultBuilderSetup::DefaultBuilderSetup()
 	paths.Add(include.SizePos(), "INCLUDE папки");
 	paths.Add(lib.SizePos(), "LIB папки");
 
-	debug_info.Add("0", "None");
-	debug_info.Add("1", "Minimal");
-	debug_info.Add("2", "Full");
+	debug_info.Add("0", "Отсутствует");
+	debug_info.Add("1", "Минимальное");
+	debug_info.Add("2", "Полное");
 }
 
 void DefaultBuilderSetup::InitSetupCtrlsMap(VectorMap<Id, Ctrl*>& map)
@@ -432,7 +432,7 @@ BuildMethods::BuildMethods()
 	builder <<= THISBACK(NewBuilder);
 	setdefault <<= THISBACK(SetDefault);
 
-	linkmode_lock.SetLabel("Lock link mode");
+	linkmode_lock.SetLabel("Блокировать режим компоновки");
 }
 
 void BuildMethods::MethodMenu(Bar& bar)
@@ -819,7 +819,7 @@ String Ide::GetIncludePath()
 	static VectorMap<String, String> clang_include;
 	int q = clang_include.Find(method);
 	if(q < 0) {
-		String gcc = GetFileOnPath("clang.exe", bm.Get("PATH", "")); // СДЕЛАТЬ clang
+		String gcc = GetFileOnPath("clang", bm.Get("PATH", "")); // СДЕЛАТЬ clang
 		Index<String> r;
 		if(gcc.GetCount()) {
 			String dummy = ConfigFile("dummy.cpp");

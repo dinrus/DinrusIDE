@@ -2,7 +2,7 @@ description "Библиотека Scintilla\377";
 
 noblitz;
 
-options(CLANG) "--std=c++17 -Wpedantic -Wall -Os --emit-static-lib";
+options(CLANG) "--std=c++17 -Wpedantic -Wall -Os";
 
 link(WIN32 WIN64) "-loleaut32 -lole32 -lgdi32 -limm32 -luuid -lmsimg32";
 

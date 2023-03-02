@@ -932,8 +932,8 @@ void PlotterCtrl::ToolView(Bar& bar)
 
 void PlotterCtrl::ToolViewZoomInX(Bar& bar)
 {
-	bar.AddMenu(t_("Zoom in horz."), PlotterImg::view_zoom_in(), THISBACK(OnViewZoomInX))
-		.Help(t_("Zoom in horizontally"));
+	bar.AddMenu(t_("Увеличение по гориз."), PlotterImg::view_zoom_in(), THISBACK(OnViewZoomInX))
+		.Help(t_("Увеличение по горизонтали"));
 }
 
 void PlotterCtrl::OnViewZoomInX()
@@ -943,8 +943,8 @@ void PlotterCtrl::OnViewZoomInX()
 
 void PlotterCtrl::ToolViewZoomOutX(Bar& bar)
 {
-	bar.AddMenu(t_("Zoom out horz."), PlotterImg::view_zoom_out(), THISBACK(OnViewZoomOutX))
-		.Help(t_("Zoom out horizontally"));
+	bar.AddMenu(t_("Уменьшение по гориз.."), PlotterImg::view_zoom_out(), THISBACK(OnViewZoomOutX))
+		.Help(t_("Уменьшение по горизонтали"));
 }
 
 void PlotterCtrl::OnViewZoomOutX()
@@ -954,8 +954,8 @@ void PlotterCtrl::OnViewZoomOutX()
 
 void PlotterCtrl::ToolViewZoomFullX(Bar& bar)
 {
-	bar.AddMenu(t_("Zoom full horz."), PlotterImg::view_zoom_horz_full(), THISBACK(OnViewZoomFullX))
-		.Help(t_("Display full x axis range in view"));
+	bar.AddMenu(t_("Полный зум гориз."), PlotterImg::view_zoom_horz_full(), THISBACK(OnViewZoomFullX))
+		.Help(t_("Отображать полный диапазон оси x на экране"));
 }
 
 void PlotterCtrl::OnViewZoomFullX()
@@ -965,8 +965,8 @@ void PlotterCtrl::OnViewZoomFullX()
 
 void PlotterCtrl::ToolViewZoomInY(Bar& bar)
 {
-	bar.AddMenu(t_("Zoom in vert."), PlotterImg::view_zoom_in(), THISBACK(OnViewZoomInY))
-		.Help(t_("Zoom in vertically"));
+	bar.AddMenu(t_("Увеличение по верт."), PlotterImg::view_zoom_in(), THISBACK(OnViewZoomInY))
+		.Help(t_("Увеличение по вертикали"));
 }
 
 void PlotterCtrl::OnViewZoomInY()
@@ -976,8 +976,8 @@ void PlotterCtrl::OnViewZoomInY()
 
 void PlotterCtrl::ToolViewZoomOutY(Bar& bar)
 {
-	bar.AddMenu(t_("Zoom out vert."), PlotterImg::view_zoom_out(), THISBACK(OnViewZoomOutY))
-		.Help(t_("Zoom out vertically"));
+	bar.AddMenu(t_("Уменьшение по верт."), PlotterImg::view_zoom_out(), THISBACK(OnViewZoomOutY))
+		.Help(t_("Уменьшение по вертикали"));
 }
 
 void PlotterCtrl::OnViewZoomOutY()
@@ -987,8 +987,8 @@ void PlotterCtrl::OnViewZoomOutY()
 
 void PlotterCtrl::ToolViewZoomFullY(Bar& bar)
 {
-	bar.AddMenu(t_("Zoom full vert."), PlotterImg::view_zoom_vert_full(), THISBACK(OnViewZoomFullY))
-		.Help(t_("Display full y axis range in view"));
+	bar.AddMenu(t_("Полный зум верт.."), PlotterImg::view_zoom_vert_full(), THISBACK(OnViewZoomFullY))
+		.Help(t_("Отобразать полный диапазон оси y на экране"));
 }
 
 void PlotterCtrl::OnViewZoomFullY()
@@ -998,9 +998,9 @@ void PlotterCtrl::OnViewZoomFullY()
 
 void PlotterCtrl::ToolViewZoomOut(Bar& bar)
 {
-	bar.Add(t_("Zoom out"), PlotterImg::view_zoom_out(), THISBACK(OnViewZoomOut))
+	bar.Add(t_("Уменьшение"), PlotterImg::view_zoom_out(), THISBACK(OnViewZoomOut))
 		.Check(IsDragDrop<ZoomOutDragDrop>(this))
-		.Help(t_("Zoom out current view"));
+		.Help(t_("Уменьшить текущий вид"));
 }
 
 void PlotterCtrl::OnViewZoomOut()
@@ -1013,10 +1013,10 @@ void PlotterCtrl::OnViewZoomOut()
 
 void PlotterCtrl::ToolViewZoomFull(Bar& bar)
 {
-	bar.Add(t_("Zoom full"),
+	bar.Add(t_("Полный зум"),
 		aspect ? PlotterImg::view_zoom_full() : PlotterImg::view_zoom_full_old(),
 		THISBACK(OnViewZoomFull))
-		.Help(t_("Zoom everything into view"));
+		.Help(t_("Зум всего, что видно"));
 }
 
 void PlotterCtrl::OnViewZoomFull()
@@ -1026,9 +1026,9 @@ void PlotterCtrl::OnViewZoomFull()
 
 void PlotterCtrl::ToolViewZoomIn(Bar& bar)
 {
-	bar.Add(t_("Zoom in"), PlotterImg::view_zoom_in(), THISBACK(OnViewZoomIn))
+	bar.Add(t_("Увеличение"), PlotterImg::view_zoom_in(), THISBACK(OnViewZoomIn))
 		.Check(IsDragDrop<ZoomInDragDrop>(this))
-		.Help(t_("Zoom in current view (click to zoom in 2x, drag & drop to zoom in area)"));
+		.Help(t_("Увеличить текущий вид (клик для зума в 2x, тяг & брос для зума по площади)"));
 }
 
 void PlotterCtrl::OnViewZoomIn()
@@ -1041,9 +1041,9 @@ void PlotterCtrl::OnViewZoomIn()
 
 void PlotterCtrl::ToolViewAspectLock(Bar& bar)
 {
-	bar.Add(!aspect, t_("Lock aspect ratio"), PlotterImg::view_aspect_lock(), THISBACK(OnViewAspectLock))
+	bar.Add(!aspect, t_("Сомкнуть аспектное соотношение"), PlotterImg::view_aspect_lock(), THISBACK(OnViewAspectLock))
 		.Check(aspect_lock)
-		.Help(t_("Keep temporarily x and y scale factors in sync"));
+		.Help(t_("Временно синхронизовать факторы масштаба x и y"));
 }
 
 void PlotterCtrl::OnViewAspectLock()
@@ -1053,9 +1053,9 @@ void PlotterCtrl::OnViewAspectLock()
 
 void PlotterCtrl::ToolViewPan(Bar& bar)
 {
-	bar.Add(t_("Pan"), PlotterImg::view_pan(), THISBACK(OnViewPan))
+	bar.Add(t_("Панирование"), PlotterImg::view_pan(), THISBACK(OnViewPan))
 		.Check(IsDragDrop<PanDragDrop>(this))
-		.Help(t_("Drag & drop view position"));
+		.Help(t_("Позиция вида тяга & броса"));
 }
 
 void PlotterCtrl::OnViewPan()

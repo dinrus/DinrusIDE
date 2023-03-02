@@ -17,7 +17,7 @@
 
 #pragma once
 
-#include "SciLexer.h"
+#include <Lexilla/SciLexer.h>
 
 const int langNameLenMax = 64;
 const int extsLenMax = 256;

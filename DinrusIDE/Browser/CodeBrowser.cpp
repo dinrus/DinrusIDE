@@ -4,7 +4,7 @@ bool MatchCib(const String& s, const String& match)
 {
 	if(IsNull(match)) return true;
 	int q = ToUpper(s).Find(match);
-	return q > 0 && !iscid(s[q - 1]) || q == 0;	
+	return q > 0 && !iscid(s[q - 1]) || q == 0;
 }
 
 bool MatchPm(const String& fn, const String& pm)

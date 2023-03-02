@@ -28,7 +28,7 @@
 #endif
 
 #include <memory>
-#include "FileInterface.h"
+#include <PowerEditor/MISC/Common/FileInterface.h>
 
 
 class Utf8_16 {

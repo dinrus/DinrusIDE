@@ -70,7 +70,7 @@ void DockConfigDlg::RefreshTree(bool dogroups)
 	if (dogroups) {
 		tree.NoRoot(true).Clear();
 		groups.Clear();
-		n.Set(-1, t_("All")).CanSelect(false).CanOpen(true);
+		n.Set(-1, t_("Все")).CanSelect(false).CanOpen(true);
 		all = tree.Add(0, n);
 		for (int i = 0; i < dockers.GetCount(); i++) {
 			String s = dockers[i]->GetGroup();
@@ -112,7 +112,7 @@ void DockConfigDlg::OnTreeContext(Bar& bar)
 		menu.GroupMenu(bar, (String)tree.GetValue((p==0) ? id : p));
 		if (p == 0 && id != all) {
 			bar.Separator();
-			bar.Add(t_("Delete Group"), THISBACK1(DeleteGroup, id));	
+			bar.Add(t_("Удалить группу"), THISBACK1(DeleteGroup, id));	
 		}			
 	}
 }
@@ -121,10 +121,10 @@ void DockConfigDlg::OnSaveLayout()
 {
 	int ix = ListIndex();
 	String s = (ix >= 0) ? (String)list.Get(ix) : Null;
-	if (EditText(s, t_("New Layout"), t_("Layout name:"), 25)) {
+	if (EditText(s, t_("Новая выкладка"), t_("Имя выкладки:"), 25)) {
 		if (!s.IsEmpty()) {
 			ix = dock.GetLayouts().Find(s);
-			if (ix < 0 || PromptOKCancel(Format(t_("Overwrite layout '%s'?"), s))) {
+			if (ix < 0 || PromptOKCancel(Format(t_("Переписать выкладку '%s'?"), s))) {
 				dock.SaveLayout(s);
 				if (ix < 0) {
 					list.Add(s);
@@ -150,7 +150,7 @@ void DockConfigDlg::OnLoadLayout()
 void DockConfigDlg::OnDeleteLayout()
 {
 	int ix = ListIndex();
-	if (!PromptOKCancel(Format(t_("Delete layout '%s'?"), (String)list.Get(ix)))) return;
+	if (!PromptOKCancel(Format(t_("Удалить выкладку '%s'?"), (String)list.Get(ix)))) return;
 	dock.DeleteLayout((String)list.Get(ix));
 	list.Remove(ix);
 }
@@ -176,7 +176,7 @@ void DockConfigDlg::OnListCursor()
 void DockConfigDlg::OnNewGroup()
 {
 	String s;
-	if (EditText(s, t_("New Group"), t_("Group name:"), 25)) {
+	if (EditText(s, t_("Новая группа"), t_("Имя группы:"), 25)) {
 		if (!s.IsEmpty()) {
 			if (groups.Find(s) < 0) {
 				int id = tree.Add(0, Image(), Value(-1), Value(s));
@@ -185,7 +185,7 @@ void DockConfigDlg::OnNewGroup()
 				OnTreeCursor();			
 			}
 			else {
-				PromptOK(t_("Group '%s' already exists."));
+				PromptOK(t_("Группа '%s' уже существует."));
 				OnNewGroup();
 			}
 		}
@@ -205,7 +205,7 @@ void DockConfigDlg::OnDeleteGroup()
 void DockConfigDlg::DeleteGroup(int id)
 {	
 	String s = (String)tree.GetValue(id);
-	if (!PromptOKCancel(Format(t_("Delete group '%s'?"), s))) return;
+	if (!PromptOKCancel(Format(t_("Удалить группу '%s'?"), s))) return;
 	int ix = groups.Find(s);
 	if (ix >= 0) {
 		String g = Null;
@@ -328,28 +328,28 @@ String DockConfigDlg::DockerString(DockableCtrl *dc) const
 String DockConfigDlg::PositionString(DockableCtrl *dc) const
 {
 	if (dc->IsFloating())
-		return t_("Floating");
+		return t_("Плавающая");
 	else if (dc->IsTabbed())
-		return t_("Tabbed");	
+		return t_("С вкладками");	
 	else if (dc->IsDocked()) {
 		int align = dc->GetDockAlign();
 		switch (align) {
 		case DockWindow::DOCK_LEFT:
-			return Format(t_("Docked(%s)"), t_("Left"));
+			return Format(t_("С доком(%s)"), t_("Слева"));
 		case DockWindow::DOCK_TOP:
-			return Format(t_("Docked(%s)"), t_("Top"));
+			return Format(t_("С доком(%s)"), t_("Вверху"));
 		case DockWindow::DOCK_RIGHT:
-			return Format(t_("Docked(%s)"), t_("Right"));
+			return Format(t_("С доком(%s)"), t_("Справа"));
 		case DockWindow::DOCK_BOTTOM:
-			return Format(t_("Docked(%s)"), t_("Bottom"));
+			return Format(t_("С доком(%s)"), t_("Внизу"));
 		default:
-			return t_("Docked");
+			return t_("С доком");
 		}
 	}
 	else if (dc->IsAutoHide())
-		return t_("Auto-Hide");
+		return t_("Автоскрывание");
 	else 
-		return t_("Hidden");
+		return t_("Скрытая");
 }
 
 }

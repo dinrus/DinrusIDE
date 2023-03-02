@@ -5916,7 +5916,7 @@ void GridCtrl::DoRemove()
 
 	if(ask_remove)
 	{
-		if(!PromptYesNo(Format(t_("Do you really want to delete selected %s ?"), selected_rows > 1 ? t_("rows") : t_("row"))))
+		if(!PromptYesNo(Format(t_("Действительно удалить выделенный(-ые) %s ?"), selected_rows > 1 ? t_("ряды") : t_("ряд"))))
 			return;
 	}
 
@@ -5941,7 +5941,7 @@ void GridCtrl::DoRemove()
 		if(keep_last_row && (maxRowSelected - minRowSelected + 1) == GetCount())
 			maxRowSelected--;
 
-		LG(0, "Min:%d, Max:%d", minRowSelected, maxRowSelected);
+		LG(0, "Мин:%d, Макс:%d", minRowSelected, maxRowSelected);
 
 		for(int i = minRowSelected; i <= maxRowSelected; i++)
 		{

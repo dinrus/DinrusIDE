@@ -18,8 +18,9 @@
 #pragma once
 
 #include "URLCtrl.h"
-#include "../../resource.h"
-#include "../StaticDialog/StaticDialog.h"
+#include <PowerEditor/resource.h>
+#include <PowerEditor/WinControls/StaticDialog/StaticDialog.h>
+#include <PowerEditor/MISC/Common/Common.h>
 
 #define LICENCE_TXT \
 TEXT("This program is free software; you can redistribute it and/or \

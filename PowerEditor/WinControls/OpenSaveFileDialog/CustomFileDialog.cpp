@@ -24,7 +24,7 @@
 #include <comip.h>		// _com_ptr_t
 #include <unordered_map>
 #include "CustomFileDialog.h"
-#include "Parameters.h"
+#include <PowerEditor/Parameters.h>
 
 // Workaround for MinGW because its implementation of __uuidof is different.
 template<class T>

@@ -1,4 +1,4 @@
-description "DinrusIDE -дизайнер выкладки (.lay)\377B";
+description "DinrusIDE -дизайнер выкладки (.lay)\377B255,0,0";
 
 uses
 	RichEdit,

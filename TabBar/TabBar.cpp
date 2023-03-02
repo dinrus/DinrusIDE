@@ -478,7 +478,7 @@ void TabBar::ContextMenu(Bar& bar)
 		bar.Add(t_("Закрыть все"), [=] { CloseAll(-1); });
 	bar.Add(false, t_("Док"), [=] {});
 	if(ii >= 1)
-		bar.Sub(t_("Move left before"), [=](Bar& bar) {
+		bar.Sub(t_("Поместить слева от"), [=](Bar& bar) {
 			for(int i = 0; i < ii; i++)
 			   bar.Add(tabs[i].value.ToString(), [=] {
 				tabs.Move(ii,i);
@@ -488,7 +488,7 @@ void TabBar::ContextMenu(Bar& bar)
 			});;
 		});
 	if(tabs.GetCount() - 2 >= ii && ii >= 0)
-		bar.Sub(t_("Move right after"),  [=](Bar& bar)  {
+		bar.Sub(t_("Поместить справа за"),  [=](Bar& bar)  {
 			for(int i = ii+1; i < tabs.GetCount(); i++)
 				bar.Add(tabs[i].value.ToString(),[=] {
 				tabs.Move(ii,i+1);

@@ -475,9 +475,9 @@ void RichEdit::TabMenu()
 	CallbackArgTarget<int> align;
 	CallbackArgTarget<int> fill;
 	MenuBar menu;
-	menu.Add(t_("Лево"), RichEditImg::LeftTab(), align[ALIGN_LEFT]);
-	menu.Add(t_("Право"), RichEditImg::RightTab(), align[ALIGN_RIGHT]);
-	menu.Add(t_("Центр"), RichEditImg::CenterTab(), align[ALIGN_CENTER]);
+	menu.Add(t_("Слева"), RichEditImg::LeftTab(), align[ALIGN_LEFT]);
+	menu.Add(t_("Справа"), RichEditImg::RightTab(), align[ALIGN_RIGHT]);
+	menu.Add(t_("По центру"), RichEditImg::CenterTab(), align[ALIGN_CENTER]);
 	if(r >= 0) {
 		int f = formatinfo.tab[r].fillchar;
 		menu.Separator();

@@ -126,8 +126,8 @@ void Ide::SerializeWorkspace(Stream& s) {
 		SerializePlacement(s);
 	if(version >= 20)
 		s % difflru;
-//	if(version >= 22)
-	//	editor.SerializeNavigatorWorkspace(s);
+//	if(version >= 21)
+    //	editor.SerializeNavigatorWorkspace(s);
 }
 
 void Ide::SerializeLastMain(Stream& s)

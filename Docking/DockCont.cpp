@@ -756,7 +756,7 @@ void DockCont::DockContMenu::ContainerMenu(Bar& bar, DockCont *c, bool withgroup
 			Sort(groups);
 			for (int i = 0; i < groups.GetCount(); i++)
 				bar.Add(groups[i], THISBACK1(GroupWindowsMenu, groups[i]));
-			bar.Add(t_("All"), THISBACK1(GroupWindowsMenu, String(Null)));	
+			bar.Add(t_("Все"), THISBACK1(GroupWindowsMenu, String(Null)));	
 		}
 	}
 }

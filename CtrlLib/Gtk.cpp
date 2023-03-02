@@ -12,7 +12,7 @@ FileSelNative::FileSelNative()
 }
 
 FileSelNative& FileSelNative::AllFilesType() {
-	return Type(t_("All files"), "*.*");
+	return Type(t_("Все файлы"), "*.*");
 }
 
 void FileSelNative::Serialize(Stream& s) {

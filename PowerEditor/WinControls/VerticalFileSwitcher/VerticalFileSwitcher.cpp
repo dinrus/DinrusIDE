@@ -61,7 +61,7 @@ void VerticalFileSwitcher::startColumnSort()
 		sortCompareData sortData = {_fileListView.getHSelf(), _lastSortingColumn, _lastSortingDirection};
 		ListView_SortItemsEx(_fileListView.getHSelf(), ListViewCompareProc, reinterpret_cast<LPARAM>(&sortData));
 	}
-	
+
 	updateHeaderArrow();
 }
 
@@ -123,7 +123,7 @@ intptr_t CALLBACK VerticalFileSwitcher::run_dlgProc(UINT message, WPARAM wParam,
 
 					LVITEM item;
 					item.mask = LVIF_PARAM;
-					item.iItem = i;	
+					item.iItem = i;
 					ListView_GetItem(((LPNMHDR)lParam)->hwndFrom, &item);
 					TaskLstFnStatus *tlfs = (TaskLstFnStatus *)item.lParam;
 
@@ -152,7 +152,7 @@ intptr_t CALLBACK VerticalFileSwitcher::run_dlgProc(UINT message, WPARAM wParam,
 
 						LVITEM item;
 						item.mask = LVIF_PARAM;
-						item.iItem = i;	
+						item.iItem = i;
 						ListView_GetItem(((LPNMHDR)lParam)->hwndFrom, &item);
 						TaskLstFnStatus *tlfs = (TaskLstFnStatus *)item.lParam;
 
@@ -203,7 +203,7 @@ intptr_t CALLBACK VerticalFileSwitcher::run_dlgProc(UINT message, WPARAM wParam,
 				{
 					NppParameters& nppParams = NppParameters::getInstance();
 					NativeLangSpeaker* pNativeSpeaker = nppParams.getNativeLangSpeaker();
-					
+
 					LPNMHEADER test = (LPNMHEADER)lParam;
 					HWND hwndHD = ListView_GetHeader(_fileListView.getHSelf());
 					TCHAR HDtext[MAX_PATH];
@@ -233,7 +233,7 @@ intptr_t CALLBACK VerticalFileSwitcher::run_dlgProc(UINT message, WPARAM wParam,
 
 							LVITEM item;
 							item.mask = LVIF_PARAM;
-							item.iItem = i;	
+							item.iItem = i;
 							ListView_GetItem(((LPNMHDR)lParam)->hwndFrom, &item);
 							TaskLstFnStatus *tlfs = (TaskLstFnStatus *)item.lParam;
 							activateDoc(tlfs);
@@ -259,12 +259,12 @@ intptr_t CALLBACK VerticalFileSwitcher::run_dlgProc(UINT message, WPARAM wParam,
 			_fileListView.resizeColumns(width);
             break;
         }
-        
+
 		case WM_CONTEXTMENU:
 		{
 			if (nbSelectedFiles() == 0 || colHeaderRClick)
 			{
-				::TrackPopupMenu(_hGlobalMenu, 
+				::TrackPopupMenu(_hGlobalMenu,
 					NppParameters::getInstance().getNativeLangSpeaker()->isRTL() ? TPM_RIGHTALIGN | TPM_LAYOUTRTL : TPM_LEFTALIGN,
 					GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam), 0, _hSelf, NULL);
 				colHeaderRClick = false;
@@ -342,13 +342,13 @@ void VerticalFileSwitcher::activateDoc(TaskLstFnStatus *tlfs) const
 {
 	int view = tlfs->_iView;
 	BufferID bufferID = static_cast<BufferID>(tlfs->_bufID);
-	
+
 	auto currentView = ::SendMessage(_hParent, NPPM_GETCURRENTVIEW, 0, 0);
 	BufferID currentBufID = reinterpret_cast<BufferID>(::SendMessage(_hParent, NPPM_GETCURRENTBUFFERID, 0, 0));
 
 	if (bufferID == currentBufID && view == currentView)
 		return;
-	
+
 	int docPosInfo = static_cast<int32_t>(::SendMessage(_hParent, NPPM_GETPOSFROMBUFFERID, reinterpret_cast<WPARAM>(bufferID), view));
 	int view2set = docPosInfo >> 30;
 	int index2Switch = (docPosInfo << 2) >> 2 ;
@@ -361,7 +361,7 @@ int VerticalFileSwitcher::setHeaderOrder(int columnIndex)
 	HWND hListView = _fileListView.getHSelf();
 	LVCOLUMN lvc;
 	lvc.mask = LVCF_FMT;
-	
+
 	//strip HDF_SORTUP and HDF_SORTDOWN from old sort column
 	if (_lastSortingColumn != columnIndex && _lastSortingDirection != SORT_DIRECTION_NONE)
 	{
@@ -371,20 +371,20 @@ int VerticalFileSwitcher::setHeaderOrder(int columnIndex)
 		{
 			// Get current fmt
 			SendMessage(hListView, LVM_GETCOLUMN, _lastSortingColumn, reinterpret_cast<LPARAM>(&lvc));
-			
+
 			// remove both sort-up and sort-down
 			lvc.fmt = lvc.fmt & (~HDF_SORTUP) & (~HDF_SORTDOWN);
 			SendMessage(hListView, LVM_SETCOLUMN, _lastSortingColumn, reinterpret_cast<LPARAM>(&lvc));
 		}
-		
+
 		_lastSortingDirection = SORT_DIRECTION_NONE;
 	}
-	
+
 	if (_lastSortingDirection == SORT_DIRECTION_NONE)
 	{
 		return SORT_DIRECTION_UP;
 	}
-	
+
 	if (_lastSortingDirection == SORT_DIRECTION_UP)
 	{
 		return SORT_DIRECTION_DOWN;
@@ -399,9 +399,9 @@ void VerticalFileSwitcher::updateHeaderArrow()
 	HWND hListView = _fileListView.getHSelf();
 	LVCOLUMN lvc;
 	lvc.mask = LVCF_FMT;
-	
+
 	SendMessage(hListView, LVM_GETCOLUMN, _lastSortingColumn, reinterpret_cast<LPARAM>(&lvc));
-	
+
 	if (_lastSortingDirection == SORT_DIRECTION_UP)
 	{
 		lvc.fmt = (lvc.fmt | HDF_SORTUP) & ~HDF_SORTDOWN;

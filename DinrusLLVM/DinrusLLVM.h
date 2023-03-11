@@ -161,8 +161,8 @@ struct Модуль
         //БуфПам пишиВБуфПам();
         бул operator =(Модуль other);
        // override bool Equals(object obj);
-        бул operator ==(Модуль op1, Модуль op2);
-        бул operator !=(Модуль op1, Модуль op2);
+       // бул operator ==(Модуль op1, Модуль op2);
+      //  бул operator !=(Модуль op1, Модуль op2);
       //  override цел GetHashCode();
         ткст цель();
 

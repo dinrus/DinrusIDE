@@ -112,13 +112,26 @@ static String s_struct("struct");
 static String s_class("class");
 static String s_unsigned("unsigned");
 
+static String s_dint("цел");
+static String s_dvoid("проц");
+static String s_ddouble("дво");
+static String s_dchar("сим");
+static String s_dfloat("плав");
+static String s_dlong("дол");
+//static String s_dconst("const");
+//static String s_dstruct("struct");
+//static String s_dclass("class");
+//static String s_dunsigned("бцел");
+
 inline void Qualify(String& r, ScopeInfo& nf, const char *b, const char *s, const String& usings)
 {
 	String type(b, s);
 	if(type.GetCount() == 0 || type == s_const ||
 	   type == s_int || type == s_double || type == s_char ||
 	   type == s_long || type == s_unsigned || type == s_struct || type == s_class ||
-	   type == s_float) {
+	   type == s_float || type == s_dint || type == s_dlong || type == s_dvoid || type == s_ddouble
+	   || type == s_dchar || type == s_dfloat)
+	    {
 		r << type;
 		return;
 	}

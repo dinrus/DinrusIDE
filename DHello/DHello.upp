@@ -2,12 +2,10 @@ description "Скажи миру привет, Ди..\377";
 
 noblitz;
 
-link
-	--target=x86_64-pc-windows-gnu;
-
 file
 	hello.d;
 
 mainconfig
-	"" = "";
+	"" = "",
+	"" = "EXE";
 

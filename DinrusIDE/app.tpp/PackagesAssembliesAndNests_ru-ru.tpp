@@ -31,86 +31,125 @@ topic "Пакеты, Сборки и Гнёзда";
 Включение файла выкладки]&]
 [s0; &]
 [s6;:1: [@(128.0.255) 1. Пакеты]&]
-[s5; Packages are centric to U`+`+.  An executable application is 
-built from a package.  A package can also build into a dynamic 
-link library.  A package can be used by other packages.  A package 
-corresponds to a single directory with the directory name being 
-the name of the package.  The package directory contains the 
-package definition file (a plain text file with a .upp extension), 
-which always has the same name as the package directory.  The 
-package definition file contains a list of the source files that 
-make up the package, plus information on what type of package 
-it is, how it should be built and what other packages it uses. 
- The source files for the package are normally located in the 
-package directory and its subdirectories, but they may be in 
-any desired location.  A package directory must be located in 
-an assembly nest or in the sub`-folders of a nest (see [/ Package`-locations 
-]below).&]
-[s5; The package definition file is maintained by DinrusIDE and you 
-should never need to manipulate it manually.  The package definition 
-file is updated at various times by DinrusIDE, including :&]
-[s3;l288;i150;O0;~~~160; When you add/remove source files to/from 
-a package&]
-[s3;l288;i150;O0;~~~160; When you add/remove packages used by the 
-package&]
-[s3;l288;i150;O0;~~~160; When you change package build settings using 
-the [/ package`-organizer]&]
-[s3;l288;i150;O0;~~~160; When you change the package build configurations 
-using [/ main`-package`-configuration]&]
-[s3;l288;i150;O0;~~~160; When you change/assign custom build steps 
-for the package&]
-[s5; For more detail on configuring packages and assemblies, [^topic`:`/`/DinrusIDE`/app`/ConfiguringPackagesAssemblies`$en`-us^ s
-ee this].&]
-[s5; When a package is built, the compiler will be invoked for each 
-of the source files that belong to the package and for any source 
-files that belong to packages directly or indirectly used by 
-the [* main package.]&]
+[s5; Пакеты выполняют центральную роль 
+в U`+`+.  Исполнимое приложение строится 
+из пакета.  Пакет также может строиться 
+в библиотеку динамической компоновки. 
+ Его может использовать другой пакет. 
+ Пакет соответствует единичной директории, 
+где имя директории является именем 
+пакета. В директории пакета находится 
+файл определения пакета (простой 
+текстовый файл с расширением .upp), 
+у которого всегда такое же имя, как 
+и у директории пакета.  В файле определения 
+пакета содержится список исходников, 
+из которых состоит пакет, плюс информация 
+о том, какого типа этот пакет, как 
+его следует строить и какие иные пакеты 
+он использует.  Исходники пакета, 
+как правило, располагаются в директории 
+пакета и в её поддиректориях, но могут 
+находится и в любом другом удобном 
+расположении.  Директория пакета 
+должна быть в гнезде сборки или в 
+подпапках гнезда (смотрите ниже пункт 
+[^topic`:`/`/DinrusIDE`/app`/PackagesAssembliesAndNests`_ru`-ru`#7^ Местопол
+ожение пакетов]).&]
+[s5; Файл определения пакета обслуживается 
+DinrusIDE и вам с ним практически не приходится 
+что`-то делать вручную.  Файл определения 
+пакета обновляется в тех или иных 
+случаях DinrusIDE, включая :&]
+[s3;l288;i150;O0;~~~160; Добавление/удаление вами 
+исходников в/из пакета&]
+[s3;l288;i150;O0;~~~160; Добавление/удаление вами 
+пакетов, используемых этим пакетом&]
+[s3;l288;i150;O0;~~~160; Изменение настороек построения 
+пакета посредством [/ органайзера пакетов]&]
+[s3;l288;i150;O0;~~~160; Изменение настроек построения 
+пакета с помощью [/ конфигурации гравного 
+пакета]&]
+[s3;l288;i150;O0;~~~160; Изменение/присвоение 
+кастомных этапов построения пакета&]
+[s5; Более детально о конфигурировании 
+пакетов и сборок описано [^topic`:`/`/DinrusIDE`/app`/ConfiguringPackagesAssemblies`_ru`-ru^ з
+десь].&]
+[s5; При построении пакета для каждого 
+исходника пакета вызывается компилятор, 
+также как и для любых исходников прямо 
+или косвенно принадлежащих пакету, 
+используемому [* главным пакетом.]&]
 [s6;:2: [I2;@(128.0.255) 2. Сборки]&]
-[s5; An assembly can be thought of as a collection of packages but 
-it is actually just a set of paths which determine where U`+`+ 
-looks for the packages needed to build a package (or application). 
- The assembly paths also determine where the compiler looks for 
-files named in C`+`+ #include directives.  An assembly also specifies 
-the root folder for the location for the output files (.obj, 
-.exe etc) produced by a build plus the location of common files. 
- The paths defined by the assembly are stored in an assembly 
-definition file which has a .var extension and is stored in the 
-U`+`+ root installation directory.  A package can be associated 
-with multiple assemblies.  Files produced by a build are actually 
-placed in a sub`-folder of the output root folder and the sub`-folder 
-is named according to the package name, the [* build flags] and 
-the compiler that was used.  e.g. for the HelloWorld example 
-when built with MSVC`+`+ 7.1 compiler, the output file folder 
-is typically [/ C:/upp/out/HelloWorld/MSC71.Gui.Main] where [/ C:/upp/out] 
-is specified as the output folder root in the assembly.&]
+[s5; Под сборкой можно понимать коллекцию 
+пакетов, но на самом деле это просто 
+набор путей, которые определяют места 
+поиска U`+`+ пакетов, необходимых для 
+построения пакета (или приложения). 
+ Пути сборки также определяют места 
+поиска компилятором файлов, указанных 
+в директивах C`+`+ #include.  В сборке также 
+определяется корневая папка для размещения 
+выходных файлов (.obj, .exe и т.д.), производимых 
+при постройке, плюс размещение общих 
+файлов. Пути, определённые в сборке, 
+помещаются в файл определения сборки, 
+у которого расширение .var, и который 
+находится в корневой директории установки 
+U`+`+. Пакет может ассоциироваться с 
+несколькими сборками. Файлы, производимые 
+при построении помещаются в подпапке 
+корневой папки вывода, эта подпапка 
+именуется по имени пакета, [* флагам 
+построения] и использованному компилятору, 
+например, для HelloWorld, при его построении 
+компилятором MSVC`+`+ 7.1, папка вывода 
+обычно называется [/ C:/upp/out/HelloWorld/MSC71.Gui.Main, 
+]где [/ C:/upp/out] указывается как корневая 
+папка вывода в сборке.&]
 [s6;:4:~~~128; [I3;@(128.0.255) 3. Гнёзда]&]
-[s5; U`+`+ requires that packages be organized into nests.  A nest 
-is actually just a directory containing a set of package directories 
-and source files.  An assembly defines an ordered list of nests 
-(paths) and the packages contained in those nests form the packages 
-of the assembly.  The packages associated with an assembly are 
-shown in the right hand pane of the [/ Select`-main`-package] dialog 
-when the assembly name is highlighted in the left hand pane. 
- The nest paths specified in an assembly can also be used to 
-set additional include paths for the compiler. See [/ Include`-paths`-and`-#include
-`-directives] below for more detail.&]
-[s5; The assembly containing all of the U`+`+ library packages is 
-uppsrc and the name of the associated nest is also uppsrc.&]
-[s6;:5: [I4;@(128.0.255) 4. Сборка U`+`+ examples]&]
-[s5; The assembly containing all of the U`+`+ examples (such as HelloWorld), 
-is named `"examples`" and you can see it in the select`-main`-package 
-dialog.  It has two nests, `"examples`" and `"uppsrc`".  On the 
-Windows platform, the path setting for the nests of the examples 
-assembly might appear as follows :&]
+[s5; U`+`+ требует организации пакетов по 
+гнёздам.  На самом деле гнездо `- это 
+просто директория, в которой находится 
+ряд директорий пакетов и исходники. 
+Сборка определяет упорядоченный 
+список гнёзд(пути) и пакетов, которые 
+находятся в них и формируют пакеты 
+сборки. Пакеты, ассоциированные со 
+сборкой, показаны в правой панели 
+диалогового окна [/ Открыть главный 
+пакет, ]а имя сборки подсвечивается 
+в левой панели  Пути гнёзд, заданные 
+в сборке, могут использоваться для 
+настройки дополнительных путей включений 
+компилятора. Подробности ищите ниже 
+в [^topic`:`/`/DinrusIDE`/app`/PackagesAssembliesAndNests`_ru`-ru`#6^ Пути 
+включений и директивы #include].&]
+[s5; Сборка, в которой находятся все пакеты 
+библиотек U`+`+, называется src, а имя 
+связанного гнезда такое же (сборка 
+uppsrc может содержать исходники`-прототипы 
+от проекта TheIDE).&]
+[s6;:5: [I4;@(128.0.255) 4. Сборка U`+`+ `'examples`']&]
+[s5; Сборка, в которой находятся все примеры 
+U`+`+ (такие как HelloWorld), называется `"examples`" 
+и её можно найти в диалоге выбора 
+главного пакета.  У неё два гнезда, 
+`"examples`" и `"uppsrc`".  На платформе Windows 
+пути установки гнёзд сборки examples 
+могут быть такими:&]
 [s5; C:/upp/examples;C:/upp/uppsrc&]
-[s5; where C:`\upp is the U`+`+ root installation directory.  A semicolon 
-separates the path settings for each nest  The examples nest 
-contains all of the U`+`+ examples packages and the uppsrc nest 
-contains all of the U`+`+ core library packages.&]
+[s5; где C:`\upp `- это корневая папка установки 
+U`+`+. Двоеточие служит для отделения 
+путей каждого из гнёзд. Гнездо examples 
+содержит все пакеты с примерами U`+`+, 
+а гнездо src содержит все ключевые 
+пакеты библиотек U`+`+.&]
 [s5; For portability, [*_@(170.42.150) forward slashes should be used 
 in all path specifications] rather than back`-slashes.  This 
 also applies to #include directives.&]
-[s6;:6: [I5;@(128.0.255) 5. Include paths and #include directives]&]
+[s6;:6: [I5;@(128.0.255) 5. Пути включений и директивы 
+#include]&]
 [s5; The nest paths defined in an assembly determine where U`+`+ 
 looks for the assembly`'s packages.  These paths are also added 
 to the `"include path list`" for the compilation of source files 
@@ -138,7 +177,7 @@ instead of angle brackets.&]
 be used]  e.g. CtrlLib and not ctrllib.&]
 [s5; See [/ Alternative`-#include`-path`-mechanisms] below for additional 
 information.&]
-[s6;:7: [I6;@(128.0.255) 6. Package locations]&]
+[s6;:7: [I6;@(128.0.255) 6. Размещения пакетов]&]
 [s5; A package folder does not have to be located in a top level 
 nest folder.  It may be located in a sub`-folder of a nest folder 
 if desired.  For example, consider the following directory structure.&]
@@ -178,7 +217,7 @@ the package is in a top level nest folder.&]
 one project.  If there are multiple projects in an assembly then 
 you need to consider the package/folder/file name issue described 
 below.&]
-[s6;:8: [I7;@(128.0.255) 7. Package/folder/file names]&]
+[s6;:8: [I7;@(128.0.255) 7. Имена пакета/папки/файла]&]
 [s5; It is usually necessary that the names of the folders and files 
 that appear in the top level nest folders of an assembly be [*_@(113.42.150) unique
  across all the top level nest folders of that assembly] unless 

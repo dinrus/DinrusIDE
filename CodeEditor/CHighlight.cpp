@@ -35,7 +35,8 @@ Color CSyntax::BlockColor(int level)
 	return GetHlStyle(PAPER_NORMAL).color;
 }
 //
-void CSyntax::Bracket(int64 pos, HighlightOutput& hls, CodeEditor *editor) // СДЕЛАТЬ:SYNTAX: Cleanup passing bracket info
+void CSyntax::Bracket(int64 pos, HighlightOutput& hls, CodeEditor *editor)
+ // СДЕЛАТЬ:SYNTAX: Cleanup passing bracket info
 {
 	if(!editor)
 		return;
@@ -129,7 +130,7 @@ const wchar *CSyntax::DoComment(HighlightOutput& hls, const wchar *p, const wcha
 		hls.Put(n, hl_style[INK_COMMENT]);
 	return p + n;
 }
-
+//"Сырая" строка
 bool CSyntax::RawString(const wchar *p, int& n) {
 	if(highlight != HIGHLIGHT_CPP)
 		return false;
@@ -152,7 +153,7 @@ bool CSyntax::RawString(const wchar *p, int& n) {
 	n = int(s + 1 - p);
 	return true;
 };
-
+//Подсвечивание
 void CSyntax::Highlight(const wchar *ltext, const wchar *e, HighlightOutput& hls, CodeEditor *editor, int line, int64 pos)
 {
 	ONCELOCK {

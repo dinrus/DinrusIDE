@@ -4,8 +4,8 @@
 :::Setting environment variables
 @set this=d:\upp\src\DinrusBase
 @set IMPDIR=e:\dinrus\dinrus64\imp\DEV
-@set LIBS=e:\dinrus\dinrus64\lib\d2\x64\mingw
-@set LDIR=e:\dinrus\dinrus64\lib\d2\x64
+@set LIBS=e:\dinrus\dinrus64\lib\mingw
+@set LDIR=e:\dinrus\dinrus64\lib
 @set DMD=e:\dinrus\dinrus64\bin\ldmd2.exe
 @set CC=clang.exe
 @set LIB=e:\dinrus\dinrus64\bin\dmlib.exe
@@ -40,9 +40,10 @@
 if not exist %IMPDIR% mkdir %IMPDIR%
 copy %this%\export\*.d  %IMPDIR%\*.di 
 
-rm -R %IMPDIR%\std
-mkdir %IMPDIR%\std
-copy %this%\export\std\*.d  %IMPDIR%\std\*.di 
+::Srm -R %IMPDIR%\std
+::rm -R %IMPDIR%\stdx
+::mkdir %IMPDIR%\stdx
+::copy %this%\export\stdx\*.d  %IMPDIR%\stdx\*.di 
 
 rm -R %IMPDIR%\tpl
 mkdir %IMPDIR%\tpl
@@ -168,11 +169,11 @@ copy %this%\export\net\http\model\*.d  %IMPDIR%\net\http\model\*.di
 
 :Base
 :::Creating respond file
-%LS% -d %this%\src\std\*.d %this%\src\*.d %this%\src\lib\*.d %this%\src\tpl\*.d %this%\src\sys\*.d %this%\src\sys\com\*.d %this%\src\math\*.d %this%\src\math\random\*.d %this%\src\time\*.d %this%\src\time\chrono\*.d %this%\src\crypto\*.d %this%\src\crypto\digest\*.d %this%\src\crypto\cipher\*.d %this%\src\text\*.d %this%\src\text\convert\*.d %this%\src\text\locale\*.d %this%\src\io\*.d %this%\src\io\device\*.d %this%\src\io\stream\*.d %this%\src\io\protocol\*.d %this%\src\io\log\*.d %this%\src\io\log\model\*.d %this%\src\col\*.d %this%\src\net\*.d %this%\src\net\device\*.d %this%\src\net\ftp\*.d %this%\src\net\http\*.d %this%\src\net\http\model\*.d %this%\src\net\model\*.d>>%this%\objs.rsp
+%LS% -d  %this%\src\inner\*.d %this%\src\*.d %this%\src\lib\*.d %this%\src\tpl\*.d %this%\src\sys\*.d %this%\src\sys\com\*.d %this%\src\math\*.d %this%\src\math\random\*.d %this%\src\time\*.d %this%\src\time\chrono\*.d %this%\src\text\*.d %this%\src\text\convert\*.d %this%\src\text\locale\*.d %this%\src\io\*.d %this%\src\io\device\*.d %this%\src\io\stream\*.d %this%\src\io\protocol\*.d %this%\src\io\log\*.d %this%\src\io\log\model\*.d %this%\src\col\*.d %this%\src\net\*.d %this%\src\net\device\*.d %this%\src\net\ftp\*.d %this%\src\net\http\*.d %this%\src\net\http\model\*.d %this%\src\net\model\*.d>>%this%\objs.rsp
 
 :::Make DinrusBaseX64.dll
 
-%DMD% -g -O -debug -of%this%\DinrusBaseX64.dll @%this%\objs.rsp %this%\res\base.def %this%\res\base.res %LDIR%\phobos64.lib
+%DMD% -g -O -d -debug -Ie:\dinrus\dinrus64\imp\DEV -of%this%\DinrusBaseX64.dll @%this%\objs.rsp %this%\res\base.def %this%\res\base.res %LDIR%\phobos64.lib
 pause
 cls
 @if not exist %this%\DinrusBaseX64.dll pause

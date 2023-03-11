@@ -424,70 +424,29 @@ bool DlangBuilder::Link(const Vector<String>& linkfile, const String& linkoption
 	for(int i = 0; i < linkfile.GetCount(); i++)
 		if(GetFileTime(linkfile[i]) > targettime) {
 			Vector<String> lib;
-			String lnk = "gcc";
-//			if(IsVerbose())
-//				lnk << " -v";
-			if(HasFlag("GCC32"))
-				lnk << " -m32";
+			String lnk = "ldmd2";
 			if(HasFlag("DLL"))
 				lnk << " -shared";
-			if(!HasFlag("SHARED") && !HasFlag("SO"))
-				lnk << " -static";
-			if(HasFlag("WINCE"))
-				lnk << " -mwindowsce";
-			else if(HasFlag("WIN32")) {
-				//lnk << " -mthreads";
-				if(HasFlag("DLANG")) {
-					if(HasFlag("GUI"))
-						lnk << " -mwindows";
-					else
-						lnk << " -mconsole";
-				}
-				else {
-					lnk << " -mwindows";
-					// if(HasFlag("MT"))
-					if(!HasFlag("GUI"))
-						lnk << " -mconsole";
-				}
-			}
-			lnk << " -o " << GetPathQ(target);
-			if(createmap)
-				lnk << " -Wl,-Map," << GetPathQ(GetFileDirectory(target) + GetFileTitle(target) + ".map");
-			if(HasFlag("DEBUG_MINIMAL") || HasFlag("DEBUG_FULL"))
-				lnk << (HasFlag("CLANG") && HasFlag("WIN32") ? " -Wl,-pdb=" : " -ggdb");
-			else
-				lnk << (!HasFlag("OSX") ? " -Wl,-s" : "");
+		//	if(!HasFlag("SHARED") && !HasFlag("SO") && !HasFlag("EXE"))
+			//	lnk << " -lib";
+			lnk << " -of" << GetPathQ(target);
+			//if(createmap)
+			//	lnk << " -Wl,-Map," << GetPathQ(GetFileDirectory(target) + GetFileTitle(target) + ".map");
+			//if(HasFlag("DEBUG_MINIMAL") || HasFlag("DEBUG_FULL"))
+				//lnk << (HasFlag("CLANG") && HasFlag("WIN32") ? " -Wl,-pdb=" : " -ggdb");
+			//else
+			//	lnk << (!HasFlag("OSX") ? " -Wl,-s" : "");
 			for(i = 0; i < libpath.GetCount(); i++)
 				lnk << " -L" << GetPathQ(libpath[i]);
 			MergeWith(lnk, " ", linkoptions);
 			String lfilename;
-			if(HasFlag("OBJC")) {
-				String lfilename;
-				String linklist;
-				for(i = 0; i < linkfile.GetCount(); i++)
-					if(ToLower(GetFileExt(linkfile[i])) == ".o" || ToLower(GetFileExt(linkfile[i])) == ".a")
-						linklist << linkfile[i] << '\n';
 
-				String linklistM = "Производится список компонуемых файлов ...\n";
-				String odir = GetFileDirectory(linkfile[0]);
-				lfilename << GetFileFolder(linkfile[0]) << ".LinkFileList";
-
-				linklistM  << lfilename;
-				UPP::SaveFile(lfilename, linklist);
-				lnk << " -L" << GetPathQ(odir)
-				    << " -F" << GetPathQ(odir)
-				          << " -filelist " << lfilename << " ";
-				PutConsole( linklistM );
-			}
-			else
 				for(i = 0; i < linkfile.GetCount(); i++) {
 					if(ToLower(GetFileExt(linkfile[i])) == ".o")
 						lnk  << ' ' << GetPathQ(linkfile[i]);
 					else
 						lib.Add(linkfile[i]);
 				}
-			if(!HasFlag("SOLARIS") && !HasFlag("OSX") && !HasFlag("OBJC"))
-				lnk << " -Wl,--start-group ";
 			for(String s : pkg_config)
 				lnk << " `pkg-config --libs " << s << "`";
 			for(int pass = 0; pass < 2; pass++) {
@@ -517,11 +476,10 @@ bool DlangBuilder::Link(const Vector<String>& linkfile, const String& linkoption
 							if(ext == ".so" || ext == ".dll" || ext == ".lib")
 								lnk << ' ' << GetPathQ(FindInDirs(libpath, lib[i]));
 							else
-								lnk << " -l" << ln;
+								lnk << " " << ln;
 						}
 				}
-				if(pass == 1 && !HasFlag("SOLARIS") && !HasFlag("OSX"))
-					lnk << " -Wl,--end-group";
+
 			}
 			PutConsole("Компоновка...");
 			bool error = false;

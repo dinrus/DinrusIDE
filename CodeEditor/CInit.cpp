@@ -19,30 +19,30 @@ int CSyntax::InitUpp(const char **q)
 
 void CSyntax::InitKeywords()
 {
-    static const char *cpp[] = {
-        "__asm", "__cdecl", "__declspec", "__except", "__fastcall",
-        "__finally", "__inline", "__int16", "__int32", "__int64",
-        "__int8", "__leave", "__stdcall", "__try", "__uuidof",
-        "alignas", "alignof", "and", "and_eq", "asm", "auto",
-        "bitand", "bitor", "bool", "break", "case", "catch",
-        "char", "char8_t", "char16_t", "char32_t", "class",
-        "co_await", "co_return", "co_yield", "compl", "concept",
-        "const", "const_cast", "consteval", "constexpr", "constinit",
-        "continue", "decltype", "default", "delete", "dllexport",
-        "dllimport", "do", "double", "dynamic_cast", "else", "enum",
-        "explicit", "export", "extern", "false", "final", "float",
-        "for", "force_inline", "friend", "goto", "if", "import",
-        "inline", "int", "long", "module", "mutable", "namespace",
-        "never_inline", "new", "noexcept", "not", "not_eq", "nullptr",
-        "operator", "or", "or_eq", "override", "private", "protected",
-        "public", "register", "reinterpret_cast", "requires", "return",
-        "short", "signed", "sizeof", "static", "static_assert",
-        "static_cast", "struct", "switch", "template", "this", "thread",
-        "thread_local", "throw", "true", "try", "typedef", "typeid",
-        "typename", "union", "unsigned", "using", "virtual",
-        "void", "volatile", "wchar_t", "while", "xor", "xor_eq",
-        NULL
-    };
+	static const char *cpp[] = {
+		"__asm", "__cdecl", "__declspec", "__except", "__fastcall",
+		"__finally", "__inline", "__int16", "__int32", "__int64",
+		"__int8", "__leave", "__stdcall", "__try", "__uuidof",
+		"alignas", "alignof", "and", "and_eq", "asm", "auto",
+		"bitand", "bitor", "bool", "break", "case", "catch",
+		"char", "char8_t", "char16_t", "char32_t", "class",
+		"co_await", "co_return", "co_yield", "compl", "concept",
+		"const", "const_cast", "consteval", "constexpr", "constinit",
+		"continue", "decltype", "default", "delete", "dllexport",
+		"dllimport", "do", "double", "dynamic_cast", "else", "enum",
+		"explicit", "export", "extern", "false", "final", "float",
+		"for", "force_inline", "friend", "goto", "if", "import",
+		"inline", "int", "long", "module", "mutable", "namespace",
+		"never_inline", "new", "noexcept", "not", "not_eq", "nullptr",
+		"operator", "or", "or_eq", "override", "private", "protected",
+		"public", "register", "reinterpret_cast", "requires", "return",
+		"short", "signed", "sizeof", "static", "static_assert",
+		"static_cast", "struct", "switch", "template", "this", "thread",
+		"thread_local", "throw", "true", "try", "typedef", "typeid",
+		"typename", "union", "unsigned", "using", "virtual",
+		"void", "volatile", "wchar_t", "while", "xor", "xor_eq",
+		NULL
+	};
 	static const char *cs[] = {
 		"abstract", "event", "new", "struct",
 		"as", "explicit", "null", "switch",
@@ -315,14 +315,16 @@ void CSyntax::InitKeywords()
 		"__METHOD__", "__NAMESPACE__", "__TRAIT__",
 		NULL
 	};
-	static const char *dinrus[] = {
-		"abstract", "assert", "bool", "бул", "break", "byte", "байт", "ubyte", "ббайт", "case",
-		"catch", "char", "сим", "шим", "дим", "ткст", "шткст", "юткст", "class", "const", "continue",
-		"default", "do", "double", "дво", "else", "enum",  "false", "final", "finally", "float", "for",
-		"goto", "if", "implements", "import", "typeof", "int", "interface", "long", "new",
-		"null", "package", "private", "protected", "public","return", "short", "static",  "super", "switch",
-		"synchronized", "this", "throw", "true", "try", "void", "volatile", "while", "плав", "нет", "да",
-		"цел", "бцел", "дол", "бдол", "пусто", "крат", "бкрат", "in", "out", "inout", "asm", "реал", "real",		
+	static const char *dlang[] = {
+		"abstract", "assert", "bool", "бул", "break", "byte", "байт", "ubyte", "ббайт",
+		"case","catch", "char", "сим", "шим", "дим", "ткст", "шткст", "юткст", "class",
+		"const", "continue","default", "do", "double", "дво", "else", "enum",  "false",
+		"final", "finally", "float", "for", "goto", "if", "implements", "import", "typeof",
+		"int", "interface", "long", "new",	"null", "package", "private", "protected",
+		"public","return", "short", "static",  "super", "switch", "synchronized", "this",
+		"throw", "true", "try", "void", "volatile", "while", "плав", "нет", "да", "цел",
+		"бцел", "дол", "бдол", "пусто", "крат", "бкрат", "in", "out", "inout", "asm",
+		"реал", "real",
 		NULL
 	};
 
@@ -339,7 +341,7 @@ void CSyntax::InitKeywords()
 	LoadSyntax(css, cssn);
 	LoadSyntax(empty, empty); // This is JSON - no keywords to highlights
 	LoadSyntax(php, php2);
-	LoadSyntax(dinrus, empty);
+	LoadSyntax(dlang, empty);
 
 	kw_macros = InitUpp(upp_macros);
 	kw_logs = InitUpp(upp_logs);

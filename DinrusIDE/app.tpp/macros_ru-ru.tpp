@@ -40,28 +40,30 @@ API]&]
 [s0; &]
 [s3;:1: [@(128.0.255) 1. Обзор]&]
 [s5; Макросы DinrusIDE пишутся на  [^topic`:`/`/Esc`/srcdoc`/Esc`_ru`-ru^ E
-sc языке сценариев] и помещаюься в 
+sc языке сценариев] и помещаются в 
 файлы .usc. Файлы .usc могут быть либо 
 частью обычных пакетов, либо помещаются 
 в Общую или Локальную директорию.&]
-[s5; Macro definition in .usc file starts with header in following 
-form:&]
+[s5; Определение макроса в файле .usc начинается 
+заголовком в следующей форме:&]
 [s0; &]
 [s7; [* macro] [*/@4 Macro`_menu][* :][*/@4 Macro`_item] [*/@4 Key]&]
 [s0; &]
-[s5; where [*/@4 Macro`_menu] and [*/@4 Macro`_item] are text literals 
-(with C syntax) and [*/@4 Key] is key description similar to those 
-shown in menus. [*/@4 Macro`_menu] with [@(0.0.255) :] and [*/@4 Key] 
-can be omitted. Macro header is followed by [^topic`:`/`/Esc`/srcdoc`/Esc`_ru`-ru^ E
-sc] body.&]
-[s5; Examples:&]
+[s5; где [*/@4 Macro`_menu] и [*/@4 Macro`_item] текстовые 
+литералы (с синтексисом Си), а [*/@4 Key] 
+`- описание ключа, подобное тем, которые 
+показываются в меню. [*/@4 Macro`_menu] с [@(0.0.255) :] 
+и [*/@4 Key] можно пропустить (не использовать). 
+За заголовком макроса следует его 
+тело на [^topic`:`/`/Esc`/srcdoc`/Esc`_ru`-ru^ Esc].&]
+[s5; Примеры:&]
 [s0; &]
-[s7; macro `"Navigation`":`"Find next `\`"TopWindow`\`"`" Ctrl`+T 
-`{&]
+[s7; macro `"Навигация`":`"Найти следующий 
+`\`"TopWindow`\`"`" Ctrl`+T `{&]
 [s7; -|.Find(`"TopWindow`");&]
 [s7; `}&]
 [s7; &]
-[s7; macro `"Insert current date`" `{&]
+[s7; macro `"Вставить текущую дату`" `{&]
 [s7; -|s `= `[`];&]
 [s7; -|tm `= GetSysTime();&]
 [s7; -|s << to`_string(tm.year) << `"`-`" << to`_string(tm.month) 
@@ -69,79 +71,96 @@ sc] body.&]
 [s7; -|.Insert(s);&]
 [s7; `}&]
 [s0; &]
-[s5; Formally, from Esc perspective, macro is a `"method`" of editor 
-`- all editor commands are written in `"method`" notation (starting 
-with dot).&]
-[s5; Additionally, helper functions can be defined using the [*/@5 fn] 
-keyword:&]
+[s5; Формально, в плане Esc, макрос является 
+`"методом`" редактора `- все команды 
+редактора пишутся в нотации `"method`" 
+(начинается с точки).&]
+[s5; Дополнительно можно определить вспомогател
+ьную функцию, используя ключевое 
+слово [*/@5 fn]:&]
 [s0; &]
 [s7; fn Duplicate(str) `{&]
 [s7; -|return str `+ str;&]
 [s7; `}&]
 [s0; &]
-[s5; Functions defined like this can be simply called in the code 
-of macros as a global functions.&]
+[s5; Определённые подобным образом функции 
+макросов могут просто вызываться 
+в коде, как глобальные.&]
 [s3;:2: [@5 2. DinrusIDE `- API]&]
 [s19;:2`.1: [@(128.0.255) 2.1 Методы редактирования 
 текста]&]
-[s5; Most of text editing methods are provided in two (`"overloaded`") 
-forms `- implicit that works with cursor and selection or explicit 
-with given positions.&]
+[s5; Большинство методов редактирования 
+текста бывает в двух (`"перегруженных`") 
+формах `- неявной, которая работает 
+с курсорами и выделением, или в явной, 
+работающей с указанными позициями.&]
 [s0; &]
-[ {{3667:6333h1;@(204) [s0; Method]
-:: [s0; Description]
+[ {{3667:6333h1;@(204) [s0; Метод]
+:: [s0; Описание]
 ::^@2 [s0;ph [*C+75 GetLength()]]
-:: [s20; Length of text.]
+:: [s20; Длина текста.]
 :: [s0;ph [*C+75 GetLineCount()]]
-:: [s20; Number of lines in text.]
-:: [s0;ph [*C+75 GetLinePos(][/C+75 line][*C+75 )]]
-:: [s20; Position (offset from the beginning of the file) of the first 
-character of [/ line].]
-:: [s0;ph [*C+75 GetLineLength(][/C+75 line][*C+75 )]]
-:: [s20; Returns the number of characters in given line.]
+:: [s20; Число строк в тексте.]
+:: [s0;ph [*C+75 GetLinePos(][/C+75 строка][*C+75 )]]
+:: [s20; Позиция(смещение от начала файла) 
+первого символа [/ строки].]
+:: [s0;ph [*C+75 GetLineLength(][/C+75 строка][*C+75 )]]
+:: [s20; Возвращает число символов в заданной 
+строке.]
 :: [s0;ph [*C+75 GetCursor()]]
-:: [s20; Cursor offset.]
-:: [s0;ph [*C+75 GetLine(][/C+75 position][*C+75 )]]
-:: [s20; Line for given [/ position].]
-:: [s0;ph [*C+75 GetColumn(][/C+75 position][*C+75 )]]
-:: [s20; Position in line for given [/ position].]
+:: [s20; Смещение курсора.]
+:: [s0;ph [*C+75 GetLine(][/C+75 позиция][*C+75 )]]
+:: [s20; Строка для данной [/ позиции].]
+:: [s0;ph [*C+75 GetColumn(][/C+75 позиция][*C+75 )]]
+:: [s20; Позиция в строке для заданной [/ позиции].]
 :: [s0;ph [*C+75 GetSelBegin()]]
-:: [s20; Start of selection.]
+:: [s20; Начало выделения.]
 :: [s0;ph [*C+75 GetSelCount()]]
-:: [s20; Number of characters in selection. If zero, GetSelBegin() is 
-equal to GetCursor().]
-:: [s0;ph [*C+75 SetCursor(][/C+75 position][*C+75 )]]
-:: [s20; Sets cursor to given [/ position].]
-:: [s0;ph [*C+75 SetSelection(][/C+75 position][*C+75 , ][/C+75 count][*C+75 )]]
-:: [s20; Sets selection starting with [/ position] with [/ count] characters.]
+:: [s20; Число символов в выделении. Если 
+это ноль, GetSelBegin() равняется GetCursor().]
+:: [s0;ph [*C+75 SetCursor(][/C+75 позиция][*C+75 )]]
+:: [s20; Устанавливает курсор в заданную 
+[/ позицию].]
+:: [s0;ph [*C+75 SetSelection(][/C+75 позиция][*C+75 , ][/C+75 счёт][*C+75 )]]
+:: [s20; Устанавливает выделение, начиная 
+с [/ позиции ]с [/ счётом ]символов.]
 :: [s0;ph [*C+75 ClearSelection()]]
-:: [s20; Cancels selection.]
-:: [s0;ph [*C+75 Get(][/C+75 position][*C+75 , ][/C+75 count][*C+75 )]]
-:: [s20; Returns array of [/ count] characters, starting at [/ position.]]
-:: [s0;ph [*C+75 Get(][/C+75 position][*C+75 )]]
-:: [s20; Same as Get(position, 1).]
-:: [s0;ph [*C+75 Remove(][/C+75 position][*C+75 , ][/C+75 count][*C+75 )]]
-:: [s20; Removes [/ count] characters at [/ position.]]
-:: [s0;ph [*C+75 Remove(][/C+75 count][*C+75 )]]
-:: [s20; Same as Remove(GetCursor(), [/ count]) `- removes [/ count] characters 
-at cursor position.]
+:: [s20; Отменяет выделение.]
+:: [s0;ph [*C+75 Get(][/C+75 позиция][*C+75 , ][/C+75 счёт][*C+75 )]]
+:: [s20; Возвращает массив символов [/ счёт], 
+начиная с [/ позиции.]]
+:: [s0;ph [*C+75 Get(][/C+75 позиция][*C+75 )]]
+:: [s20; То же, что и Get(позиция, 1).]
+:: [s0;ph [*C+75 Remove(][/C+75 позиция][*C+75 , ][/C+75 счёт][*C+75 )]]
+:: [s20; Удаляет [/ число ]символов в [/ позиции.]]
+:: [s0;ph [*C+75 Remove(][/C+75 счёт][*C+75 )]]
+:: [s20; То же, что и Remove(GetCursor(), [/ счёт]) `- удаляет 
+[/ счёт ]символов в позиции курсора.]
 :: [s0;ph [*C+75 Remove()]]
-:: [s20; Same as Remove(GetSelBegin(), GetSelCount()) `- removes selection.]
-:: [s0;ph [*C+75 Insert(][/C+75 position][*C+75 , ][/C+75 text][*C+75 )]]
-:: [s20; Inserts array of characters [/ text] at the [/ position.]]
-:: [s0;ph [*C+75 Insert(][/C+75 text][*C+75 )]]
-:: [s20; Same as Insert(GetCursor(), [/ text]) `- inserts [/ text] at cursor 
-position.]
-:: [s0;ph [*C+75 Find(][/C+75 text][*C+75 , ][/C+75 down][*C+75 , ][/C+75 whole`_word][*C+75 , 
-][/C+75 ignore`_case][*C+75 , ][/C+75 wildcards][*C+75 )]]
-:: [s20; Finds [/ text], using give options. Options can be omitted `- 
-in that case [/ down] is considered true and rest of options false. 
-If text is found, function returns 1, otherwise 0.]
-:: [s0;ph [*C+75 Replace(][/C+75 text][*C+75 , ][/C+75 replace`_with][*C+75 , 
-][/C+75 whole`_word][*C+75 , ][/C+75 ignore`_case][*C+75 , ][/C+75 widcards][*C+75 )]]
-:: [s20; Block replace, using given options. Options ca be omitted `- 
-in that case they are considered false. Returns number of strings 
-replaced.]
+:: [s20; То же, что и Remove(GetSelBegin(), GetSelCount()) `- 
+удаляет выделение.]
+:: [s0;ph [*C+75 Insert(][/C+75 позиция][*C+75 , ][/C+75 текст][*C+75 )]]
+:: [s20; Вставляет массив символов [/ текст] 
+в [/ позиции.]]
+:: [s0;ph [*C+75 Insert(][/C+75 текст][*C+75 )]]
+:: [s20; То же, что и Insert(GetCursor(), [/ text]) `- вставляет 
+[/ текст] в [/ позиции ]курсора.]
+:: [s0;ph [*C+75 Find(][/C+75 текст][*C+75 , ][/C+75 вниз][*C+75 , ][/C+75 всё`_слов
+о][*C+75 , ][/C+75 игнорировать`_регистр][*C+75 , 
+][/C+75 уайлдкарды][*C+75 )]]
+:: [s20; Находит [/ текст], используя заданные 
+опции. Опции могут не указываться 
+`- в таком случае [/ вниз] считается верным, 
+а остальные опции неверны. Если текст 
+найден, функция возвращает 1, иначе 
+0.]
+:: [s0;ph [*C+75 Replace(][/C+75 текст][*C+75 , ][/C+75 заменить`_на][*C+75 , 
+][/C+75 всё`_слово][*C+75 , ][/C+75 игнорировать`_регистр][*C+75 ,
+ ][/C+75 уайлдкарды][*C+75 )]]
+:: [s20; Замена блока, с использованием заданных 
+опций. Опции могут не указываться 
+`-в таком случае они считаются неверными. 
+Возвращает число заменённых строк.]
 :: [s0;ph [*C+75 MoveLeft(...)]&]
 [s0;ph [*C+75 MoveRight(...)]&]
 [s0;ph [*C+75 MoveWordLeft(...)]&]
@@ -154,104 +173,126 @@ replaced.]
 [s0;ph [*C+75 MovePageDown(...)]&]
 [s0;ph [*C+75 MoveTextBegin(...)]&]
 [s0;ph [*C+75 MoveTextEnd(...)]&]
-[s0;ph [*C+75 MoveLeft(][/C+75 sel][*C+75 )]&]
-[s0;ph [*C+75 MoveRight(][/C+75 sel][*C+75 )]&]
-[s0;ph [*C+75 MoveWordLeft(][/C+75 sel][*C+75 )]&]
-[s0;ph [*C+75 MoveWordRight(][/C+75 sel][*C+75 )]&]
-[s0;ph [*C+75 MoveUp(][/C+75 sel][*C+75 )]&]
-[s0;ph [*C+75 MoveDown(][/C+75 sel][*C+75 )]&]
-[s0;ph [*C+75 MoveHome(][/C+75 sel][*C+75 )]&]
-[s0;ph [*C+75 MoveEnd(][/C+75 sel][*C+75 )]&]
-[s0;ph [*C+75 MovePageUp(][/C+75 sel][*C+75 )]&]
-[s0;ph [*C+75 MovePageDown(][/C+75 sel][*C+75 )]&]
-[s0;ph [*C+75 MoveTextBegin(][/C+75 sel][*C+75 )]&]
-[s0;ph [*C+75 MoveTextEnd(sel)]]
-:: [s20; Moves cursor in given direction. Variant with [/ sel] makes selection 
-(like when corresponding movement while pressing Shift key) if 
-[/ sel] is 1.]}}&]
+[s0;ph [*C+75 MoveLeft(][/C+75 выделение][*C+75 )]&]
+[s0;ph [*C+75 MoveRight(][/C+75 выделение][*C+75 )]&]
+[s0;ph [*C+75 MoveWordLeft(][/C+75 выделение][*C+75 )]&]
+[s0;ph [*C+75 MoveWordRight(][/C+75 выделение][*C+75 )]&]
+[s0;ph [*C+75 MoveUp(][/C+75 выделение][*C+75 )]&]
+[s0;ph [*C+75 MoveDown(][/C+75 выделение][*C+75 )]&]
+[s0;ph [*C+75 MoveHome(][/C+75 выделение][*C+75 )]&]
+[s0;ph [*C+75 MoveEnd(][/C+75 выделение][*C+75 )]&]
+[s0;ph [*C+75 MovePageUp(][/C+75 выделение][*C+75 )]&]
+[s0;ph [*C+75 MovePageDown(][/C+75 выделение][*C+75 )]&]
+[s0;ph [*C+75 MoveTextBegin(][/C+75 выделение][*C+75 )]&]
+[s0;ph [*C+75 MoveTextEnd(][/C+75 выделение][*C+75 )]]
+:: [s20; Перемещает курсор в заданном направлении. 
+Вариант с [/ выделением] производит 
+выделение (like when corresponding movement while pressing 
+Shift key), если [/ выделение ]равно 1.]}}&]
 [s0; &]
 [s19;:2`.2: [@(128.0.255) 2.2 Файловые методы]&]
-[s5; This section grouped methods that allows to manipulate DinrusIDE 
-files.&]
+[s5; В этом разделе сгруппированы методы, 
+позволяющие манипулировать файлами 
+DinrusIDE.&]
 [s0; &]
-[ {{3667:6333h1;@(204) [s0; Method]
-:: [s0; Description]
+[ {{3667:6333h1;@(204) [s0; Метод]
+:: [s0; Описание]
 ::^@2 [s0;ph [*C+75 FileName()]]
-:: [s20; Returns the name of currently edited file.]
-:: [s0;ph [*C+75 EditFile(][/C+75 path][*C+75 )]&]
-[s0;ph [*C+75 EditFile(][/C+75 filename, pkg][*C+75 )]]
-:: [s20; Opens the specified file in editor.]
+:: [s20; Возвращает имя текущего редактируемого 
+файла.]
+:: [s0;ph [*C+75 EditFile(][/C+75 путь][*C+75 )]&]
+[s0;ph [*C+75 EditFile(][/C+75 имяфайла, пкт][*C+75 )]]
+:: [s20; Открывает заданный файл в редакторе.]
 :: [s0;ph [*C+75 SaveCurrentFile()]]
-:: [s20; Saves file in active tab.]
+:: [s20; Сохраняет файл в активной кладке.]
 :: [s0;ph [*C+75 CloseFile()]]
-:: [s20; Closes active tab.]}}&]
+:: [s20; Закрывает активную вкладку.]}}&]
 [s0; &]
 [s19;:2`.3: [@(128.0.255) 2.3 Методы взаимодействия 
 с пользователем]&]
-[s5; From time to time, it is necessary to communicate some information 
-from user to the macro or vice versa, which is exactly what these 
-methods do.&]
+[s5; Периодически необходимо передавать 
+какую`-либо информацию от пользователя 
+макросу или наоборот, и именно этим 
+занимаются следующие методы.&]
 [s0; &]
-[ {{3629:6371h1;@(204) [s0; Method]
-:: [s0; Description]
-::^@2 [s0;ph [*C+75 Input(][/C+75 label, ...][*C+75 )]]
-:: [s20; Simple input dialog. Provides as many input text fields as is 
-number of parameters specifying labels for these fields. If user 
-chooses Cancel, returns void, otherwise returns single string 
-if there is just one edit field or array of strings for multiple 
-edit fields.]
+[ {{3629:6371h1;@(204) [s0; Метод]
+:: [s0; Описание]
+::^@2 [s0;ph [*C+75 Input(][/C+75 ярлык, ...][*C+75 )]]
+:: [s20; Простое диалоговое окно ввода. Предоставляе
+т столько полей ввода текста, сколько 
+параметров, указывающих ярлыки этих 
+полей. Если пользователь выбрал Отмену, 
+возвращается void; иначе единичная 
+строка, если только одно поле редактирования
+; либо массив строк `- для нескольких 
+полей редактирования.]
 :: [s0;ph [*C+75 ClearConsole()]]
-:: [s20; Clear the output console.]
+:: [s20; Очистить консоль вывода.]
 :: [s0;ph [*C+75 Echo(][/C+75 ...][*C+75 )]]
-:: [s20; Prints all arguments to the output console, one per line.]}}&]
+:: [s20; Выводит все аргументы в консоль вывода, 
+по одному на строку.]}}&]
 [s0; &]
 [s19;:2`.4: [@(128.0.255) 2.4 Методы построения и выполнения]&]
-[s5; The macros can be used to extend the capabilities of DinrusIDE. 
-For that, there is a few methods that allow executing other programs 
-and also to trigger building U`+`+ packages.&]
+[s5; Эти макросы можно использовать для 
+расширения возможностей DinrusIDE. Здесь 
+есть несколько методов, позволяющих 
+выполнять другие программы, а также 
+ преключать построение пакетов U`+`+.&]
 [s0; &]
-[ {{3667:6333h1;@(204) [s0; Method]
-:: [s0; Description]
-::^@2 [s0;ph [*C+75 Execute(][/C+75 cmdline][*C+75 )]]
-:: [s20; Executes cmdline, capturing the output to the console.]
-:: [s0;ph [*C+75 Launch(][/C+75 cmdline][*C+75 )]]
-:: [s20; Launches the application.]
-:: [s0;ph [*C+75 Build(][/C+75 `[flags`[, outfile`]`]][*C+75 )]]
-:: [s20; Builds open main package. Optional parameters can be used to 
-specify the flags (e.g. `"GUI MT`") and target path for the compiled 
-executable.]
-:: [s0;ph [*C+75 BuildProject(][/C+75 uppfile, flags`[, outfile`]][*C+75 )]]
-:: [s20; Same as previous, but works with any package specified by passing 
-path to it`'s .upp file as a first parameter.]}}&]
+[ {{3667:6333h1;@(204) [s0; Метод]
+:: [s0; Описание]
+::^@2 [s0;ph [*C+75 Execute(][/C+75 комстрока][*C+75 )]]
+:: [s20; Выполнить командную строку с захватом 
+вывода в консоль.]
+:: [s0;ph [*C+75 Launch(][/C+75 комстрока][*C+75 )]]
+:: [s20; Запускает приложение.]
+:: [s0;ph [*C+75 Build(][/C+75 `[флаги`[, вых`_файл`]`]][*C+75 )]]
+:: [s20; Строит открытый главный пакет. Дополнительн
+ые параметры можно использовать для 
+указания флагов (например,. `"GUI MT`") 
+и целевого пути для скомпилированного 
+выполнимого.]
+:: [s0;ph [*C+75 BuildProject(][/C+75 upp`_файл, флаги`[, вых`_файл`]][*C+75 )
+]]
+:: [s20; То же, что и предыдущее, но работает 
+с любым пакетом, указываемым передачей 
+пути к его файлу .upp, в качестве первого 
+параметра.]}}&]
 [s0; &]
 [s19;:2`.5: [@(128.0.255) 2.5 Информативные методы]&]
-[s5; The methods providing information about packages and build settings. 
-If the optional parameter [/ pkg] is not specified, the currently 
-selected package is used.&]
+[s5; Эти методы предоставляют информацию 
+о пакетах и настройках построения. 
+Если необязательный параметр [/ пкт] 
+не задан, используется текущий выделенный 
+пакет.&]
 [s0; &]
-[ {{3667:6333h1;@(204) [s0; Method]
-:: [s0; Description]
+[ {{3667:6333h1;@(204) [s0; Метод]
+:: [s0; Описание]
 ::^@2 [s0; [*C+75 ActivePackage()]]
-:: [s20; The name of package in which the currently edited file belongs 
-to.]
+:: [s20; Название пакета, которому принадлежит 
+текущий редактируемый файл.]
 :: [s0; [*C+75 MainPackage()]]
-:: [s20; The name of main package.]
+:: [s20; Имя главного пакета.]
 :: [s0; [*C+75 AllPackages()]]
-:: [s20; Array of all used packages.]
-:: [s0; [*C+75 PackageDir(][/C+75 `[pkg`]][*C+75 )]]
-:: [s20; The directory where the package resides.]
-:: [s0; [*C+75 PackageFiles(][/C+75 `[pkg`]][*C+75 )]]
-:: [s20; List of all files in the package.]
+:: [s20; Массив из всех используемых пакетов.]
+:: [s0; [*C+75 PackageDir(][/C+75 `[пкт`]][*C+75 )]]
+:: [s20; Директория, в которой размещается 
+пакет.]
+:: [s0; [*C+75 PackageFiles(][/C+75 `[пкт`]][*C+75 )]]
+:: [s20; Список всех файлов в пакете.]
 :: [s0; [*C+75 Assembly()]]
-:: [s20; Name of the assembly.]
+:: [s20; Имя сборки.]
 :: [s0; [*C+75 Flags()]]
-:: [s20; Array of currently set build flags.]
+:: [s20; Массив текущих установленных флагов 
+построения.]
 :: [s0; [*C+75 BuildMethod()]]
-:: [s20; Currently selected build method.]
+:: [s20; Текущий выбранный метод построения.]
 :: [s0; [*C+75 BuildMode()]]
-:: [s20; Currently selected build mode (0 `= Debug, 1 `= Optimal, 2 `= 
-Speed, 3 `= Size).]
+:: [s20; Текущий выбранный тежим построения 
+(0 `= Отладка, 1 `= Оптимально, 2 `= Скорость, 
+3 `= Размер).]
 :: [s0; [*C+75 Target()]]
-:: [s20; Returns current target name. To obtain this value project must 
-be firstly build.]}}&]
+:: [s20; Возвращает имя текущей цели. Чтобы 
+получить это значение, проект сначала 
+нужно построить.]}}&]
 [s0; ]]

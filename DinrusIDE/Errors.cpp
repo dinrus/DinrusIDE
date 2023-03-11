@@ -591,27 +591,18 @@ void Ide::SyncErrorsMessage()
 	else  {
 		h = "\1[g Сообщение";
 		if(error_count)
-			cnt << "[*@r " << error_count << " ошибка" << (error_count > 1 ? "s]" : "]");
+			cnt << "[*@r " << error_count  << (error_count > 1 ? " ошибки] " : " ошибка] ");
 		if(warning_count) {
-			cnt << "[*@r " << error_count << " ошибки]";
-
-		if(warning_count == 1) {
 			if(error_count)
 				cnt << ", ";
-			cnt << "[@o " << warning_count << " предупреждение" << (warning_count > 1 ? "s]" : "]");
-		}
-
-		if(warning_count > 1) {
-			if(error_count)
-				cnt << ", ";
-			cnt << "[@o " << warning_count << " предупреждения]";
+			cnt << "[@o " << warning_count  << (warning_count > 1 ? " предупреждений] " : " предупреждение]");
 		}
 	}
 	if(cnt.GetCount())
 		h << " (" << cnt << ")";
 	error.HeaderTab(2).SetText(h);
-  }
 }
+
 void Ide::ConsoleRunEnd()
 {
 	addnotes = false;

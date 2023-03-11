@@ -15,11 +15,7 @@ String DlangBuilder::CmdLine(const String& package, const Package& pkg)
 {
 	String LDC2 = CompilerName();
 	LDC2 << " --linker=ld.lld --gcc=gcc -c";
-//	for(String s : pkg_config)
-	//	LDC2 << " `pkg-config --cflags " << s << "`";
 	LDC2 << ' ' << IncludesDefinesTargetTime(package, pkg);
-	//PutConsole("Получилась следующая командная строка:");
-//	PutConsole(LDC2);
 	return LDC2;
 }
 //////////////////////////////////////////////////////
@@ -104,25 +100,14 @@ bool DlangBuilder::BuildPackage(const String& package, Vector<String>& linkfile,
 
 	String LDC2 = CmdLine(package, pkg);
 
-//	if(IsVerbose())
-	//	LDC2 << " --v";
-//	if(HasFlag("WIN32")/* && HasFlag("MT")*/)
-	//	LDC2 << " -mthreads";
-
-//	if(HasFlag("DEBUG_MINIMAL") || HasFlag("DEBUG_FULL")) {
-	//	LDC2 << (HasFlag("WIN32") && HasFlag("CLANG") ? " -gcodeview -fno-limit-debug-info" : " -ggdb");
-	//	LDC2 << (HasFlag("DEBUG_FULL") ? " -g2" : " -g1");
-	//}
 	String fuse_cxa_atexit;
 	if(is_shared /*&& !HasFlag("MAIN")*/) {
 		LDC2 << " -shared";
-		//fuse_cxa_atexit = " -fuse-cxa-atexit";
 	}
 	if(!HasFlag("SHARED") && !is_shared)
 		LDC2 << " -lib";
 
 	LDC2 << ' ' << Gather(pkg.option, config.GetKeys());
-	//LDC2 << " -fexceptions";
 
 #if 0
 	if (HasFlag("OSX")) {
@@ -132,19 +117,11 @@ bool DlangBuilder::BuildPackage(const String& package, Vector<String>& linkfile,
 		LDC2 << " --march i386";
 	}
 #endif
-//	if(HasFlag("SSE2")) {
-//		LDC2 << " -msse2";
-//		if(!HasFlag("CLANG"))
-//			LDC2 << " -mfpmath=sse";
-//	}
 
 	if(!release)
 		LDC2 << " -debug " << debug_options;
 	else
 		LDC2 << ' ' << release_options;
-
-//	if(pkg.nowarnings)
-	//	LDC2 << " -w";
 
 	int recompile = 0;
 	Blitz b;
@@ -211,8 +188,6 @@ bool DlangBuilder::BuildPackage(const String& package, Vector<String>& linkfile,
 			}
 			else {
 				String exec = LDC2;
-			//	if(ext == ".d")
-				//	exec << Join(" -x c", c_options) << ' ';
 				exec << GetPathQ(fn)  << " " << soptions[i] << " -of" << GetPathQ(objfile);
 				PutVerbose(exec);
 				int slot = AllocSlot();
@@ -232,8 +207,6 @@ bool DlangBuilder::BuildPackage(const String& package, Vector<String>& linkfile,
 	}
 
 	if(error) {
-//		if(ccount)
-//			PutCompileTime(time, ccount);
 		IdeConsoleEndGroup();
 		return false;
 	}
@@ -249,15 +222,10 @@ bool DlangBuilder::BuildPackage(const String& package, Vector<String>& linkfile,
 		linkfile.Append(libs);
 	}
 
-	//if(pch_file.GetCount())
-	//	OnFinish(callback1(DeletePCHFile, pch_file));
-
 	if(!HasFlag("MAIN")) {
 		if(HasFlag("BLITZ") && !HasFlag("SO") || HasFlag("NOLIB") || making_lib) {
 			linkfile.Append(obj); // Simply link everything as .o files...
 			IdeConsoleEndGroup();
-//			if(ccount)
-//				PutCompileTime(time, ccount);
 			return true;
 		}
 		IdeConsoleEndGroup();
@@ -427,15 +395,8 @@ bool DlangBuilder::Link(const Vector<String>& linkfile, const String& linkoption
 			String lnk = "ldmd2";
 			if(HasFlag("DLL"))
 				lnk << " -shared";
-		//	if(!HasFlag("SHARED") && !HasFlag("SO") && !HasFlag("EXE"))
-			//	lnk << " -lib";
 			lnk << " -of" << GetPathQ(target);
-			//if(createmap)
-			//	lnk << " -Wl,-Map," << GetPathQ(GetFileDirectory(target) + GetFileTitle(target) + ".map");
-			//if(HasFlag("DEBUG_MINIMAL") || HasFlag("DEBUG_FULL"))
-				//lnk << (HasFlag("CLANG") && HasFlag("WIN32") ? " -Wl,-pdb=" : " -ggdb");
-			//else
-			//	lnk << (!HasFlag("OSX") ? " -Wl,-s" : "");
+
 			for(i = 0; i < libpath.GetCount(); i++)
 				lnk << " -L" << GetPathQ(libpath[i]);
 			MergeWith(lnk, " ", linkoptions);
@@ -517,9 +478,6 @@ bool DlangBuilder::Preprocess(const String& package, const String& file, const S
 	cmd << (asmout ? " -S " : " -E ") << GetPathQ(file);
 	if(BuilderUtils::IsCFile(file))
 		cmd << " " << c_options;
-//	else
-//	if(BuilderUtils::IsCppFile(file))
-	//	cmd << " " << LDC2_options;
 	return Execute(cmd);
 }
 ////////////////////////////////////////////////

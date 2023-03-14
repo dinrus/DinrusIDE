@@ -16,7 +16,7 @@
 
 
 #include "clipboardHistoryPanel.h"
-#include "ScintillaEditView.h"
+#include <PowerEditor/ScintillaComponent/ScintillaEditView.h>
 #include "clipboardFormats.h"
 
 

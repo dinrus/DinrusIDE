@@ -19,7 +19,7 @@
 #include <cinttypes>
 #include <windowsx.h>
 #include "ScintillaEditView.h"
-#include "Parameters.h"
+#include <PowerEditor/Parameters.h>
 #include "Sorters.h"
 #include "verifySignedfile.h"
 #include "ILexer.h"

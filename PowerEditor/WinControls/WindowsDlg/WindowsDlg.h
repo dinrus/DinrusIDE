@@ -18,8 +18,8 @@
 #pragma once
 
 #include "SizeableDlg.h"
-#include "Common.h"
-#include "ContextMenu.h"
+#include <PowerEditor/MISC/Common/Common.h>
+#include <PowerEditor/WinControls/ContextMenu/ContextMenu.h>
 
 class DocTabView;
 class Buffer;

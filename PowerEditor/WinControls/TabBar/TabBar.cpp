@@ -15,8 +15,8 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 #include <stdexcept>
-#include "TabBar.h"
-#include "Parameters.h"
+#include <PowerEditor/WinControls/TabBar/TabBar.h>
+#include <PowerEditor/Parameters.h>
 
 #define	IDC_DRAG_TAB     1404
 #define	IDC_DRAG_INTERDIT_TAB 1405

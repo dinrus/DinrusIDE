@@ -17,11 +17,11 @@
 #include <windowsx.h>
 
 #include "ProjectPanel.h"
-#include "resource.h"
+#include <PowerEditor/resource.h>
 #include "tinyxml.h"
 #include "CustomFileDialog.h"
-#include "localization.h"
-#include "Parameters.h"
+#include <PowerEditor/localization.h>
+#include <PowerEditor/Parameters.h>
 
 #define INDEX_CLEAN_ROOT     0
 #define INDEX_DIRTY_ROOT     1

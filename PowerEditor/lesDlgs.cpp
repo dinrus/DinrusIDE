@@ -16,8 +16,8 @@
 
 
 #include "lesDlgs.h"
-#include "resource.h"
-#include "menuCmdID.h"
+#include <PowerEditor/resource.h>
+#include <PowerEditor/menuCmdID.h>
 #include "NppDarkMode.h"
 
 void ValueDlg::init(HINSTANCE hInst, HWND parent, int valueToSet, const TCHAR *text) 

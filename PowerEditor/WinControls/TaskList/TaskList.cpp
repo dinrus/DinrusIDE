@@ -18,7 +18,7 @@
 #include "TaskListDlg_rc.h"
 #include "colors.h"
 #include "ImageListSet.h"
-#include "Parameters.h"
+#include <PowerEditor/Parameters.h>
 
 void TaskList::init(HINSTANCE hInst, HWND parent, HIMAGELIST hImaLst, int nbItem, int index2set)
 {

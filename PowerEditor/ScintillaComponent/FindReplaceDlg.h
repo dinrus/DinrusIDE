@@ -20,9 +20,9 @@
 #include <map>
 #include "FindReplaceDlg_rc.h"
 #include "ScintillaEditView.h"
-#include "DockingDlgInterface.h"
-#include "BoostRegexSearch.h"
-#include "StatusBar.h"
+#include <PowerEditor/WinControls/DockingWnd/DockingDlgInterface.h>
+#include <Scintilla/BoostRegexSearch.h>
+#include <PowerEditor/WinControls/StatusBar/StatusBar.h>
 
 #define FIND_RECURSIVE 1
 #define FIND_INHIDDENDIR 2

@@ -22,8 +22,8 @@
 #pragma code_page(65001)
 
 #include <windows.h>
-#include "resource.h"
-#include "menuCmdID.h"
+#include <PowerEditor/resource.h>
+#include <PowerEditor/menuCmdID.h>
 
 VS_VERSION_INFO VERSIONINFO
 FILEVERSION    VERSION_DIGITALVALUE

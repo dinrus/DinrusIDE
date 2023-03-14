@@ -19,8 +19,8 @@
 #define _WIN32_IE	0x0600
 #endif //_WIN32_IE
 
-#include "Window.h"
-#include "Common.h"
+#include <PowerEditor/WinControls/Window.h>
+#include <PowerEditor/MISC/Common/Common.h>
 #include <vector>
 
 struct StatusBarSubclassInfo;

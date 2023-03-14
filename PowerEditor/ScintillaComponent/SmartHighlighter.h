@@ -16,7 +16,7 @@
 
 #pragma once
 
-#include "Common.h"
+#include <PowerEditor/MISC/Common/Common.h>
 
 class ScintillaEditView;
 class FindReplaceDlg;

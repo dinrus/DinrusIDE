@@ -16,7 +16,7 @@
 
 #pragma once
 
-#include "DockingDlgInterface.h"
+#include <PowerEditor/WinControls/DockingWnd/DockingDlgInterface.h>
 #include "functionListPanel_rc.h"
 #include "functionParser.h"
 #include "TreeView.h"

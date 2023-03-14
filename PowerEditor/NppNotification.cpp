@@ -22,7 +22,7 @@
 #include "VerticalFileSwitcher.h"
 #include "ProjectPanel.h"
 #include "documentMap.h"
-#include "Common.h"
+#include <PowerEditor/MISC/Common/Common.h>
 #include <stack>
 
 using namespace std;

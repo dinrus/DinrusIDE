@@ -16,9 +16,9 @@
 
 
 #include "ContextMenu.h"
-#include "menuCmdID.h"
-#include "Parameters.h"
-#include "localization.h"
+#include <PowerEditor/menuCmdID.h>
+#include <PowerEditor/Parameters.h>
+#include <PowerEditor/localization.h>
 
 MenuItemUnit::MenuItemUnit(unsigned long cmdID, const TCHAR *itemName, const TCHAR *parentFolderName) : _cmdID(cmdID)
 {

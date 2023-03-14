@@ -20,7 +20,7 @@
 #include "StatusBar.h"
 #include <algorithm>
 #include <cassert>
-#include "Parameters.h"
+#include <PowerEditor/Parameters.h>
 #include "NppDarkMode.h"
 #include <Uxtheme.h>
 #include <Vssym32.h>

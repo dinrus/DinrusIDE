@@ -16,9 +16,9 @@
 #include <iostream>
 #include <stdexcept>
 #include <windows.h>
-#include "SplitterContainer.h"
-#include "Parameters.h"
-#include "localization.h"
+#include <PowerEditor/WinControls/SplitterContainer/SplitterContainer.h>
+#include <PowerEditor/Parameters.h>
+#include <PowerEditor/localization.h>
 #include <cassert>
 
 

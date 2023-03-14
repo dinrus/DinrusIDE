@@ -15,14 +15,14 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
-#include "localization.h"
+#include <PowerEditor/localization.h>
 #include "UserDefineDialog.h"
 #include "ScintillaEditView.h"
-#include "Parameters.h"
-#include "resource.h"
+#include <PowerEditor/Parameters.h>
+#include <PowerEditor/resource.h>
 #include "Notepad_plus_msgs.h"
 #include "CustomFileDialog.h"
-#include "Common.h"
+#include <PowerEditor/MISC/Common/Common.h>
 
 using namespace std;
 

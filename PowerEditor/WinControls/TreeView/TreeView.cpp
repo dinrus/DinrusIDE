@@ -17,7 +17,7 @@
 
 
 #include "TreeView.h"
-#include "Parameters.h"
+#include <PowerEditor/Parameters.h>
 
 #define CY_ITEMHEIGHT     18
 

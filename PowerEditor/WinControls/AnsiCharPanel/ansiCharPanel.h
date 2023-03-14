@@ -20,9 +20,9 @@
 #include <windows.h>
 #include <commctrl.h>
 
-#include "DockingDlgInterface.h"
+#include <PowerEditor/WinControls/DockingWnd/DockingDlgInterface.h>
 #include "ansiCharPanel_rc.h"
-#include "ListView.h"
+#include <PowerEditor/WinControls/AnsiCharPanel/ListView.h>
 #include "asciiListView.h"
 
 #define AI_PROJECTPANELTITLE		TEXT("ASCII Codes Insertion Panel")

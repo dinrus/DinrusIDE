@@ -18,10 +18,10 @@
 
 #include <cwctype>
 #include <algorithm>
-#include "StaticDialog.h"
+#include <PowerEditor/WinControls/StaticDialog/StaticDialog.h>
 #include "pluginsAdminRes.h"
-#include "TabBar.h"
-#include "ListView.h"
+#include <PowerEditor/WinControls/TabBar/TabBar.h>
+#include <PowerEditor/WinControls/AnsiCharPanel/ListView.h>
 #include "tinyxml.h"
 
 class PluginsManager;

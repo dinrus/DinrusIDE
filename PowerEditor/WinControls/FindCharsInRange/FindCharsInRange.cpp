@@ -17,8 +17,8 @@
 
 #include "FindCharsInRange.h"
 #include "findCharsInRange_rc.h"
-#include "Parameters.h"
-#include "localization.h"
+#include <PowerEditor/Parameters.h>
+#include <PowerEditor/localization.h>
 
 intptr_t CALLBACK FindCharsInRangeDlg::run_dlgProc(UINT message, WPARAM wParam, LPARAM)
 {

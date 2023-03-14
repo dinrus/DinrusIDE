@@ -14,9 +14,9 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #pragma once
-#include "resource.h"
-#include "Window.h"
-#include "Common.h"
+#include <PowerEditor/resource.h>
+#include <PowerEditor/WinControls/Window.h>
+#include <PowerEditor/MISC/Common/Common.h>
 
 
 #define SV_HORIZONTAL		0x00000001

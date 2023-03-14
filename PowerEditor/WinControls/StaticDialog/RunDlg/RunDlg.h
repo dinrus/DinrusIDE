@@ -17,7 +17,7 @@
 #pragma once
 
 #include <oleacc.h>
-#include "Common.h"
+#include <PowerEditor/MISC/Common/Common.h>
 #include "RunDlg_rc.h"
 
 #define CURRENTWORD_MAXLENGTH 2048

@@ -15,7 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #pragma once
 #include "Splitter.h"
-#include "menuCmdID.h"
+#include <PowerEditor/menuCmdID.h>
 
 
 #define SPC_CLASS_NAME TEXT("splitterContainer")

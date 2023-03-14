@@ -13,10 +13,10 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#include "Common.h"
+#include <PowerEditor/MISC/Common/Common.h>
 #include "regExtDlg.h"
-#include "resource.h"
-#include "Parameters.h"
+#include <PowerEditor/resource.h>
+#include <PowerEditor/Parameters.h>
 
 
 

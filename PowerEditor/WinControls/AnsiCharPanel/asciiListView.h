@@ -16,7 +16,7 @@
 
 #pragma once
 
-#include "ListView.h"
+#include <PowerEditor/WinControls/AnsiCharPanel/ListView.h>
 
 class AsciiListView : public ListView
 {

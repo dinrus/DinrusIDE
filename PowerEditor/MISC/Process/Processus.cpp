@@ -15,7 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
-#include "Parameters.h"
+#include <PowerEditor/Parameters.h>
 #include "Processus.h"
 
 

@@ -19,7 +19,7 @@
 #pragma once
 
 #include "RunMacroDlg_rc.h"
-#include "StaticDialog.h"
+#include <PowerEditor/WinControls/StaticDialog/StaticDialog.h>
 
 #define RM_CANCEL -1
 #define RM_RUN_MULTI 1

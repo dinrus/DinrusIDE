@@ -17,10 +17,10 @@
 
 
 #include "VerticalFileSwitcher.h"
-#include "menuCmdID.h"
-#include "Parameters.h"
-#include "resource.h"
-#include "localization.h"
+#include <PowerEditor/menuCmdID.h>
+#include <PowerEditor/Parameters.h>
+#include <PowerEditor/resource.h>
+#include <PowerEditor/localization.h>
 
 #define GET_X_LPARAM(lp) static_cast<short>(LOWORD(lp))
 #define GET_Y_LPARAM(lp) static_cast<short>(HIWORD(lp))

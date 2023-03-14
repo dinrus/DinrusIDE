@@ -17,7 +17,7 @@
 #include <locale>
 #include <codecvt>
 #include "FileInterface.h"
-#include "Parameters.h"
+#include <PowerEditor/Parameters.h>
 
 Win32_IO_File::Win32_IO_File(const char *fname)
 {

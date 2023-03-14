@@ -21,7 +21,7 @@
 
 #pragma once
 
-#include "Parameters.h"
+#include <PowerEditor/Parameters.h>
 
 #ifdef _MSC_VER
 #pragma warning(disable: 4514) // nreferenced inline function has been removed

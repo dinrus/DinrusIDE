@@ -18,7 +18,7 @@
 #include <stdexcept>
 #include "VerticalFileSwitcherListView.h"
 #include "Buffer.h"
-#include "localization.h"
+#include <PowerEditor/localization.h>
 
 void VerticalFileSwitcherListView::init(HINSTANCE hInst, HWND parent, HIMAGELIST hImaLst)
 {

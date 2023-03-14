@@ -19,9 +19,9 @@
 #include <PowerEditor/ScintillaComponent/ScintillaEditView.h>
 #include <PowerEditor/ScintillaComponent/DocTabView.h>
 #include <PowerEditor/WinControls/SplitterContainer/SplitterContainer.h>
-#include <PowerEditor/ScintillaComponentFindReplaceDlg.h>
+#include <PowerEditor/ScintillaComponent/FindReplaceDlg.h>
 #include <PowerEditor/WinControls/AboutDlg/AboutDlg.h>
-#include <PowerEditor/WinControls/RunDlg/RunDlg.h>
+#include <PowerEditor/WinControls/StaticDialog/RunDlg/RunDlg.h>
 #include <PowerEditor/WinControls/StatusBar/StatusBar.h>
 #include <PowerEditor/lastRecentFileList.h>
 #include <PowerEditor/ScintillaComponent/GoToLineDlg.h>
@@ -30,19 +30,19 @@
 #include <PowerEditor/WinControls/ColourPicker/WordStyleDlg.h>
 #include <PowerEditor/WinControls/TrayIcon/trayIconControler.h>
 #include <PowerEditor/MISC/PluginsManager/PluginsManager.h>
-#include "preferenceDlg.h"
-#include "WindowsDlg.h"
-#include "RunMacroDlg.h"
-#include "DockingManager.h"
-#include "Processus.h"
-#include "AutoCompletion.h"
-#include "SmartHighlighter.h"
-#include "ScintillaCtrls.h"
+#include <PowerEditor/WinControls/Preference/preferenceDlg.h>
+#include <PowerEditor/WinControls/WindowsDlg/WindowsDlg.h>
+#include <PowerEditor/WinControls/shortcut/RunMacroDlg.h>
+#include <PowerEditor/WinControls/DockingWnd/DockingManager.h>
+#include <PowerEditor/MISC/Process/Processus.h>
+#include <PowerEditor/ScintillaComponent/AutoCompletion.h>
+#include <PowerEditor/ScintillaComponent/SmartHighlighter.h>
+#include <PowerEditor/ScintillaComponent/ScintillaCtrls.h>
 #include "lesDlgs.h"
-#include "pluginsAdmin.h"
-#include "localization.h"
-#include "documentSnapshot.h"
-#include "md5Dlgs.h"
+#include <PowerEditor/WinControls/PluginsAdmin/pluginsAdmin.h>
+#include <PowerEditor/localization.h>
+#include <PowerEditor/WinControls/DocumentMap/documentSnapshot.h>
+#include <PowerEditor/MISC/md5/md5Dlgs.h>
 #include <vector>
 #include <iso646.h>
 
@@ -382,11 +382,11 @@ private:
 	bool _isFileOpening = false;
 	bool _isAdministrator = false;
 
-	bool _isEndingSessionButNotReady = false; // If Windows 10 update needs to restart 
+	bool _isEndingSessionButNotReady = false; // If Windows 10 update needs to restart
                                               // and Notepad++ has one (some) dirty document(s)
                                               // and "Enable session snapshot and periodic backup" is not enabled
                                               // then WM_ENDSESSION is send with wParam == FALSE
-                                              // in this case this boolean is set true, so Notepad++ will quit and its current session will be saved 
+                                              // in this case this boolean is set true, so Notepad++ will quit and its current session will be saved
 	ScintillaCtrls _scintillaCtrls4Plugins;
 
 	std::vector<std::pair<int, int> > _hideLinesMarks;

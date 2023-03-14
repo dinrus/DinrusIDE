@@ -17,7 +17,7 @@
 
 #include <iostream>
 #include <stdexcept>
-#include "ToolTip.h"
+#include <PowerEditor/WinControls/ToolTip/ToolTip.h>
 #include "NppDarkMode.h"
 
 void ToolTip::init(HINSTANCE hInst, HWND hParent)

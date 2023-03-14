@@ -29,6 +29,7 @@
 #include <PowerEditor/NppDarkMode.h>
 #include <assert.h>
 #include <tchar.h>
+#include <cwchar>
 #include <map>
 #include <Scintilla/ILexer.h>
 #include <Lexilla/Lexilla.h>
@@ -300,8 +301,8 @@ struct CmdLineParamsDTO
 		dto._pos2go = params._pos2go;
 
 		dto._langType = params._langType;
-		wcsncpy(dto._udlName, params._udlName.c_str(), MAX_PATH);
-		wcsncpy(dto._pluginMessage, params._pluginMessage.c_str(), MAX_PATH);
+		std::wcsncpy(dto._udlName, params._udlName.c_str(), MAX_PATH);
+		std::wcsncpy(dto._pluginMessage, params._pluginMessage.c_str(), MAX_PATH);
 		return dto;
 	}
 };
@@ -1063,7 +1064,7 @@ public:
 			}
 
 			for (int i = 0 ; i < SCE_USER_KWLIST_TOTAL ; ++i)
-				wcscpy_s(this->_keywordLists[i], ulc._keywordLists[i]);
+				std::wcscpy(this->_keywordLists[i], ulc._keywordLists[i]);
 
 			for (int i = 0 ; i < SCE_USER_TOTAL_KEYWORD_GROUPS ; ++i)
 				_isPrefix[i] = ulc._isPrefix[i];

@@ -17,7 +17,7 @@
 
 #pragma once
 
-#include "TabBar.h"
+#include <PowerEditor/WinControls/TabBar/TabBar.h>
 #include <PowerEditor/WinControls/Window.h>
 #include <PowerEditor/MISC/Common/Common.h>
 

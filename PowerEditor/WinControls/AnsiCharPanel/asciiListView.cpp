@@ -16,7 +16,7 @@
 
 
 #include "asciiListView.h"
-#include "Parameters.h"
+#include <PowerEditor/Parameters.h>
 
 void AsciiListView::resetValues(int codepage)
 {

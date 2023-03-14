@@ -18,7 +18,7 @@
 #include <stdexcept>
 #include <windows.h>
 #include "Splitter.h"
-#include "Parameters.h"
+#include <PowerEditor/Parameters.h>
 #include "NppDarkMode.h"
 
 bool Splitter::_isHorizontalRegistered = false;

@@ -17,8 +17,8 @@
 #include <stdexcept>
 #include <shlwapi.h>
 #include "ToolBar.h"
-#include "shortcut.h"
-#include "Parameters.h"
+#include <PowerEditor/WinControls/shortcut/shortcut.h>
+#include <PowerEditor/Parameters.h>
 #include "FindReplaceDlg_rc.h"
 #include "NppDarkMode.h"
 

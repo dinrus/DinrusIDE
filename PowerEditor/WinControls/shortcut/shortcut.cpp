@@ -18,10 +18,10 @@
 #include <memory>
 #include <algorithm>
 #include <array>
-#include "shortcut.h"
-#include "Parameters.h"
+#include <PowerEditor/WinControls/shortcut/shortcut.h>
+#include <PowerEditor/Parameters.h>
 #include "ScintillaEditView.h"
-#include "resource.h"
+#include <PowerEditor/resource.h>
 #include "Notepad_plus_Window.h"
 #include "keys.h"
 

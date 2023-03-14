@@ -59,9 +59,9 @@ TiXmlStringA::TiXmlStringA (const TiXmlStringA& copy)
     unsigned newlen;
     char * newstring;
 
-	// Prevent copy to self!
-	if ( &copy == this )
-		return;
+    // Prevent copy to self!
+    if ( &copy == this )
+        return;
 
     if (! copy . allocated)
     {
@@ -262,38 +262,38 @@ unsigned TiXmlStringA::find (char tofind, unsigned offset) const
 
 bool TiXmlStringA::operator == (const TiXmlStringA & compare) const
 {
-	if ( allocated && compare.allocated )
-	{
-		assert( cstring );
-		assert( compare.cstring );
-		return ( strcmp( cstring, compare.cstring ) == 0 );
- 	}
-	return false;
+    if ( allocated && compare.allocated )
+    {
+        assert( cstring );
+        assert( compare.cstring );
+        return ( strcmp( cstring, compare.cstring ) == 0 );
+    }
+    return false;
 }
 
 
 bool TiXmlStringA::operator < (const TiXmlStringA & compare) const
 {
-	if ( allocated && compare.allocated )
-	{
-		assert( cstring );
-		assert( compare.cstring );
-		return ( strcmp( cstring, compare.cstring ) > 0 );
- 	}
-	return false;
+    if ( allocated && compare.allocated )
+    {
+        assert( cstring );
+        assert( compare.cstring );
+        return ( strcmp( cstring, compare.cstring ) > 0 );
+    }
+    return false;
 }
 
 
 bool TiXmlStringA::operator > (const TiXmlStringA & compare) const
 {
-	if ( allocated && compare.allocated )
-	{
-		assert( cstring );
-		assert( compare.cstring );
-		return ( strcmp( cstring, compare.cstring ) < 0 );
- 	}
-	return false;
+    if ( allocated && compare.allocated )
+    {
+        assert( cstring );
+        assert( compare.cstring );
+        return ( strcmp( cstring, compare.cstring ) < 0 );
+    }
+    return false;
 }
 
 
-#endif	// TIXMLA_USE_STL
+#endif  // TIXMLA_USE_STL

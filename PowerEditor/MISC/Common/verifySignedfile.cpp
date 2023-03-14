@@ -26,7 +26,7 @@
 #include <sensapi.h>
 #include <iomanip>
 #include "verifySignedfile.h"
-#include "Common.h"
+#include <PowerEditor/MISC/Common/Common.h>
 #include "sha-256.h"
 
 using namespace std;

@@ -189,8 +189,8 @@ enum Platform { PF_UNKNOWN, PF_X86, PF_X64, PF_IA64, PF_ARM64 };
 
 	#define NPPM_MENUCOMMAND (NPPMSG + 48)
 	//void NPPM_MENUCOMMAND(0, int cmdID)
-	// uncomment //#include "menuCmdID.h"
-	// in the beginning of this file then use the command symbols defined in "menuCmdID.h" file
+	// uncomment //#include <PowerEditor/menuCmdID.h>
+	// in the beginning of this file then use the command symbols defined in <PowerEditor/menuCmdID.h> file
 	// to access all the Notepad++ menu command items
 
 	#define NPPM_TRIGGERTABBARCONTEXTMENU (NPPMSG + 49)

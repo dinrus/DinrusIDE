@@ -17,7 +17,7 @@
 #include "json.hpp"
 #include "functionListPanel.h"
 #include "ScintillaEditView.h"
-#include "localization.h"
+#include <PowerEditor/localization.h>
 #include <fstream>
 
 using nlohmann::json;

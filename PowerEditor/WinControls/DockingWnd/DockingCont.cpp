@@ -17,10 +17,10 @@
 #include "dockingResource.h"
 #include "DockingCont.h"
 
-#include "SplitterContainer.h"
-#include "ToolTip.h"
-#include "Parameters.h"
-#include "localization.h"
+#include <PowerEditor/WinControls/SplitterContainer/SplitterContainer.h>
+#include <PowerEditor/WinControls/ToolTip/ToolTip.h>
+#include <PowerEditor/Parameters.h>
+#include <PowerEditor/localization.h>
 
 using namespace std;
 

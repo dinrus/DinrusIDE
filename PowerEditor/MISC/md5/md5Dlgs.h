@@ -16,7 +16,7 @@
 
 #pragma once
 
-#include "StaticDialog.h"
+#include <PowerEditor/WinControls/StaticDialog/StaticDialog.h>
 
 enum hashType {hash_md5, hash_sha256};
 

@@ -19,7 +19,7 @@
 
 #include <PowerEditor/WinControls/Window.h>
 
-//#include "Common.h"
+//#include <PowerEditor/MISC/Common/Common.h>
 
 class URLCtrl : public Window {
 public:

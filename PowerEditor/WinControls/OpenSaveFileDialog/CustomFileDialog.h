@@ -17,7 +17,7 @@
 
 #pragma once
 
-//#include "Common.h"
+//#include <PowerEditor/MISC/Common/Common.h>
 #include <memory>
 #include <PowerEditor/MISC/Common/Common.h>
 // Customizable file dialog.

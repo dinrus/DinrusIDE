@@ -17,12 +17,12 @@
 
 #pragma once
 
-#include "ControlsTab.h"
+#include <PowerEditor/WinControls/TabBar/ControlsTab.h>
 #include "preference_rc.h"
-#include "URLCtrl.h"
-#include "Parameters.h"
-#include "regExtDlg.h"
-#include "WordStyleDlg.h"
+#include <PowerEditor/WinControls/AboutDlg/URLCtrl.h>
+#include <PowerEditor/Parameters.h>
+#include <PowerEditor/MISC/RegExt/regExtDlg.h>
+#include <PowerEditor/WinControls/ColourPicker/WordStyleDlg.h>
 
 class MiscSubDlg : public StaticDialog
 {

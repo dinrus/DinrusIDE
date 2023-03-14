@@ -18,7 +18,7 @@
 #pragma once
 
 #include "regExtDlgRc.h"
-#include "StaticDialog.h"
+#include <PowerEditor/WinControls/StaticDialog/StaticDialog.h>
 
 const int extNameLen = 32;
 

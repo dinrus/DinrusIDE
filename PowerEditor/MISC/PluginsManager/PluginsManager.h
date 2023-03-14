@@ -17,8 +17,8 @@
 
 #pragma once
 
-#include "resource.h"
-#include "Parameters.h"
+#include <PowerEditor/resource.h>
+#include <PowerEditor/Parameters.h>
 #include "PluginInterface.h"
 #include "IDAllocator.h"
 

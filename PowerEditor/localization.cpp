@@ -18,7 +18,7 @@
 #include "Notepad_plus.h"
 #include "ShortcutMapper.h"
 #include "EncodingMapper.h"
-#include "localization.h"
+#include <PowerEditor/localization.h>
 #include "fileBrowser.h"
 
 using namespace std;

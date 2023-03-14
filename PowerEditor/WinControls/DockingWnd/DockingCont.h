@@ -16,11 +16,11 @@
 
 
 #pragma once
-#include "resource.h"
+#include <PowerEditor/resource.h>
 #include "Docking.h"
 #include <vector>
-#include "StaticDialog.h"
-#include "Common.h"
+#include <PowerEditor/WinControls/StaticDialog/StaticDialog.h>
+#include <PowerEditor/MISC/Common/Common.h>
 
 
 // window styles

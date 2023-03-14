@@ -20,7 +20,7 @@
 #include <algorithm>
 #include <cinttypes>
 #include "PluginsManager.h"
-#include "resource.h"
+#include <PowerEditor/resource.h>
 #include "pluginsAdmin.h"
 #include "ILexer.h"
 #include "Lexilla.h"

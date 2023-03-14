@@ -19,7 +19,7 @@
 
 #include "BabyGridWrapper.h"
 #include "ShortcutMapper_rc.h"
-#include "shortcut.h"
+#include <PowerEditor/WinControls/shortcut/shortcut.h>
 #include "ContextMenu.h"
 
 enum GridState {STATE_MENU, STATE_MACRO, STATE_USER, STATE_PLUGIN, STATE_SCINTILLA};

@@ -24,7 +24,7 @@
 #include <shlwapi.h>
 #include "pluginsAdmin.h"
 #include "ScintillaEditView.h"
-#include "localization.h"
+#include <PowerEditor/localization.h>
 #include "Processus.h"
 #include "PluginsManager.h"
 #include "verifySignedfile.h"

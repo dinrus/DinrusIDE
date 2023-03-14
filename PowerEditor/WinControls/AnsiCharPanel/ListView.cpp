@@ -17,9 +17,9 @@
 
 
 #include <stdexcept>
-#include "ListView.h"
-#include "Parameters.h"
-#include "localization.h"
+#include <PowerEditor/WinControls/AnsiCharPanel/ListView.h>
+#include <PowerEditor/Parameters.h>
+#include <PowerEditor/localization.h>
 
 using namespace std;
 

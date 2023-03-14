@@ -39,6 +39,8 @@
 #include <PowerEditor/uchardet/nsEscCharsetProber.h>
 #include <PowerEditor/uchardet/nsCharSetProber.h>
 
+#define SHORTCUT_THRESHOLD      (float)0.95
+
 void  nsUTF8Prober::Reset(void)
 {
   mCodingSM->Reset();

@@ -18,7 +18,7 @@
 #pragma once
 
 #include "documentSnapshot_rc.h"
-#include "StaticDialog.h"
+#include <PowerEditor/WinControls/StaticDialog/StaticDialog.h>
 
 class ScintillaEditView;
 class Buffer;

@@ -17,8 +17,8 @@
 
 #pragma once
 
-#include "StaticDialog.h"
-#include "Common.h"
+#include <PowerEditor/WinControls/StaticDialog/StaticDialog.h>
+#include <PowerEditor/MISC/Common/Common.h>
 
 const int DEFAULT_NB_NUMBER = 2;
 class ValueDlg : public StaticDialog

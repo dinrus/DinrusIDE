@@ -18,8 +18,8 @@
 
 #include <windows.h>
 #include <commctrl.h>
-#include "Window.h"
-#include "Common.h"
+#include <PowerEditor/WinControls/Window.h>
+#include <PowerEditor/MISC/Common/Common.h>
 
 #define CX_BITMAP         16
 #define CY_BITMAP         16

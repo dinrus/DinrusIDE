@@ -16,13 +16,13 @@
 
 
 #include "fileBrowser.h"
-#include "resource.h"
+#include <PowerEditor/resource.h>
 #include "tinyxml.h"
-#include "localization.h"
-#include "Parameters.h"
+#include <PowerEditor/localization.h>
+#include <PowerEditor/Parameters.h>
 #include "RunDlg.h"
 #include "ReadDirectoryChanges.h"
-#include "menuCmdID.h"
+#include <PowerEditor/menuCmdID.h>
 
 #define INDEX_OPEN_ROOT      0
 #define INDEX_CLOSE_ROOT     1

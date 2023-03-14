@@ -20,9 +20,9 @@
 #include "md5Dlgs.h"
 #include "md5Dlgs_rc.h"
 #include "CustomFileDialog.h"
-#include "Parameters.h"
+#include <PowerEditor/Parameters.h>
 #include <shlwapi.h>
-#include "resource.h"
+#include <PowerEditor/resource.h>
 
 intptr_t CALLBACK HashFromFilesDlg::run_dlgProc(UINT message, WPARAM wParam, LPARAM lParam)
 {

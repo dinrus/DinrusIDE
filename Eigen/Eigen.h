@@ -12,12 +12,12 @@
 #ifndef _DEBUG
 #define EIGEN_NO_DEBUG
 #else
-#define EIGEN_INITIALIZE_MATRICES_BY_NAN 
+#define EIGEN_INITIALIZE_MATRICES_BY_NAN
 #endif
 
 #define eigen_assert(x) ASSERT(x)
 
-#undef Success  
+#undef Success
 #include <plugin/eigen/Eigen/Dense>
 #include <plugin/eigen/unsupported/Eigen/NonLinearOptimization>
 #undef Complex
@@ -46,12 +46,12 @@ struct NonLinearOptimizationFunctor {
 	typedef Eigen::Matrix<double, InputsAtCompileTime, 1> InputType;
 	typedef Eigen::Matrix<double, ValuesAtCompileTime, 1> ValueType;
 	typedef Eigen::Matrix<double, ValuesAtCompileTime, InputsAtCompileTime> JacobianType;
-	
+
 	Eigen::Index unknowns, datasetLen;
-	
+
 	NonLinearOptimizationFunctor() : unknowns(InputsAtCompileTime), datasetLen(ValuesAtCompileTime) {}
 	NonLinearOptimizationFunctor(int unknowns, int datasetLen) : unknowns(unknowns), datasetLen(datasetLen) {}
-	
+
 	ptrdiff_t inputs() const {return ptrdiff_t(unknowns);}
 	ptrdiff_t values() const {return ptrdiff_t(datasetLen);}
 	virtual void operator() (const InputType& , ValueType* , JacobianType*  = 0) const {};
@@ -63,13 +63,13 @@ struct Basic_functor : NonLinearOptimizationFunctor<double> {
 	Function <int(const Eigen::VectorXd &b, Eigen::VectorXd &err)> function;
 };
 
-bool NonLinearOptimization(Eigen::VectorXd &y, Eigen::Index numData, 
+bool NonLinearOptimization(Eigen::VectorXd &y, Eigen::Index numData,
 			Function <int(const Eigen::VectorXd &y, Eigen::VectorXd &residual)>residual,
 			double xtol = Null, double ftol = Null, int maxfev = Null);
 bool SolveNonLinearEquations(Eigen::VectorXd &y, Function <int(const Eigen::VectorXd &b, Eigen::VectorXd &residual)> Residual,
 			double xtol = Null, int maxfev = Null, double factor = Null);
 double SolveNonLinearEquation(double y, Function <double(double b)> Residual, double xtol = Null, int maxfev = Null, double factor = Null);
-	
+
 template <class T>
 void Xmlize(XmlIO &xml, Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic> &mat) {
 	Size_<int64> sz(mat.cols(), mat.rows());
@@ -84,7 +84,7 @@ void Xmlize(XmlIO &xml, Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic> &mat) {
 	} else {
 		mat.resize(ptrdiff_t(sz.cy), ptrdiff_t(sz.cx));
 		int r = 0, c = 0;
-		for(int i = 0; i < xml->GetCount(); i++) 
+		for(int i = 0; i < xml->GetCount(); i++)
 			if(xml->Node(i).IsTag("item")) {
 				XmlIO io = xml.At(i);
 				T data;
@@ -131,7 +131,7 @@ void Jsonize(JsonIO &io, Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic> &mat) 
 		vector.SetCount(int(sz.cx)*int(sz.cy));
 		int i = 0;
 		for(int r = 0; r < mat.rows(); r++)
-			for(int c = 0; c < mat.cols(); c++) 
+			for(int c = 0; c < mat.cols(); c++)
 				vector[i++] = mat(r, c);
 		io("data", vector);
 	} else {
@@ -177,7 +177,7 @@ void Serialize(Stream& stream, Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic> 
 		for(int r = 0; r < mat.rows(); r++)
 			for(int c = 0; c < mat.cols(); c++) {
 				T data = mat(r, c);
-				stream % data;	
+				stream % data;
 			}
 	} else {
 		mat.resize(ptrdiff_t(sz.cy), ptrdiff_t(sz.cx));
@@ -193,7 +193,7 @@ void Serialize(Stream& stream, Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic> 
 			}
 			if (r == sz.cy)
 				break;
-		}	
+		}
 	}
 }
 
@@ -250,7 +250,7 @@ void ResizeConservative(Eigen::Matrix<T, Eigen::Dynamic, 1> &v, size_t len, cons
 	size_t len0 = v.size();
 	v.conservativeResize(len);
 	if (len > len0)
-		std::fill(&v[len0], v.data() + len, init);	
+		std::fill(&v[len0], v.data() + len, init);
 }
 template <typename T>
 void Clear(Eigen::Matrix<T, Eigen::Dynamic, 1> &v) {v.resize(0);}
@@ -263,9 +263,9 @@ void PrePad(Eigen::Matrix<T, Eigen::Dynamic, 1> &v, size_t len, const T& init) {
 	v.conservativeResize(len);
 	if (len > len0) {
 		size_t delta = len - len0;
-		std::copy(&v[len0 - delta], v.data() + len0, &v[len0]);	
-		std::copy(v.data(), v.data() + len0 - delta, &v[delta]);	
-		std::fill(v.data(), v.data() + delta, init);	
+		std::copy(&v[len0 - delta], v.data() + len0, &v[len0]);
+		std::copy(v.data(), v.data() + len0 - delta, &v[delta]);
+		std::fill(v.data(), v.data() + delta, init);
 	}
 }
 
@@ -322,14 +322,14 @@ auto End(const Eigen::Matrix<T, Eigen::Dynamic, 1> &v)	{return v.data() + v.size
 
 template <class Range>
 auto &Last(Range &data) {
-	return data[data.size()-1];	
+	return data[data.size()-1];
 }
 
 template <typename T>
 void Reverse(Vector<T> &v) {
 	T *first = v.begin();
 	T *last = v.end();
-	while ((first != last) && (first != --last)) 
+	while ((first != last) && (first != --last))
 		Swap(*first++, *last);
 }
 
@@ -349,7 +349,7 @@ void Copy(const Range1& in, Range2 &out) {
 template <class T>
 void Swap(Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic> &A, int rc1, int rc2 = 0) {
 	Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic> An(A.rows(), A.cols());
-	
+
 	for (int r = 0; r < A.rows(); ++r) {
 		for (int c = 0; c < A.cols(); ++c) {
 			int rn = r, cn = c;
@@ -360,11 +360,11 @@ void Swap(Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic> &A, int rc1, int rc2 
 			if (cn == rc1)
 				cn = rc2;
 			else if (cn == rc2)
-				cn = rc1;	 
+				cn = rc1;
 			An(rn, cn) = A(r, c);
 		}
 	}
-	A = pick(An);	
+	A = pick(An);
 }
 
 template <class T>

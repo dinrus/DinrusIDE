@@ -19,7 +19,7 @@
 
 #include <windows.h>
 #include <commctrl.h>
-#include "Common.h"
+#include <PowerEditor/MISC/Common/Common.h>
 #include "Docking.h"
 #include "dockingResource.h"
 

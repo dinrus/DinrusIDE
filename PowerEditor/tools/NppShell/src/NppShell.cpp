@@ -1,6 +1,6 @@
 #include "NppShell.h"
 #include "Bitmap.h"
-#include "resource.h"
+#include <PowerEditor/resource.h>
 #include <shellapi.h>
 #include <algorithm>
 

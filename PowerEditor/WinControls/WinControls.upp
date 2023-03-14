@@ -1,3 +1,6 @@
+uses
+	POwerEditor;
+
 file
 	WinControls readonly separator,
 	Window.h,

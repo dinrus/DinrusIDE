@@ -2,23 +2,23 @@
 www.sourceforge.net/projects/tinyxml
 Original file by Yves Berquin.
 
-This software is provided 'as-is', without any express or implied 
-warranty. In no event will the authors be held liable for any 
+This software is provided 'as-is', without any express or implied
+warranty. In no event will the authors be held liable for any
 damages arising from the use of this software.
 
-Permission is granted to anyone to use this software for any 
-purpose, including commercial applications, and to alter it and 
+Permission is granted to anyone to use this software for any
+purpose, including commercial applications, and to alter it and
 redistribute it freely, subject to the following restrictions:
 
-1. The origin of this software must not be misrepresented; you must 
-not claim that you wrote the original software. If you use this 
-software in a product, an acknowledgment in the product documentation 
+1. The origin of this software must not be misrepresented; you must
+not claim that you wrote the original software. If you use this
+software in a product, an acknowledgment in the product documentation
 would be appreciated but is not required.
 
 2. Altered source versions must be plainly marked as such, and
 must not be misrepresented as being the original software.
 
-3. This notice may not be removed or altered from any source 
+3. This notice may not be removed or altered from any source
 distribution.
 */
 
@@ -55,9 +55,9 @@ TiXmlString::TiXmlString (const TiXmlString& copy)
     unsigned newlen;
     TCHAR * newstring;
 
-	// Prevent copy to self!
-	if ( &copy == this )
-		return;
+    // Prevent copy to self!
+    if ( &copy == this )
+        return;
 
     if (! copy . allocated)
     {
@@ -145,16 +145,16 @@ void TiXmlString::append( const TCHAR* str, int len )
         new_alloc = assign_new_size (new_size);
 
         // allocate new buffer
-        new_string = new TCHAR [new_alloc];        
+        new_string = new TCHAR [new_alloc];
         new_string [0] = 0;
 
         // copy the previous allocated buffer into this one
         if (allocated && cstring)
             memcpy (new_string, cstring, length ());
 
-        // append the suffix. It does exist, otherwize we wouldn't be expanding 
+        // append the suffix. It does exist, otherwize we wouldn't be expanding
         // strncat (new_string, str, len);
-        memcpy (new_string + length (), 
+        memcpy (new_string + length (),
                 str,
                 size_suffix);
 
@@ -170,7 +170,7 @@ void TiXmlString::append( const TCHAR* str, int len )
     {
         // we know we can safely append the new generic_string
         // strncat (cstring, str, len);
-        memcpy (cstring + length (), 
+        memcpy (cstring + length (),
                 str,
                 size_suffix);
     }
@@ -193,15 +193,15 @@ void TiXmlString::append( const TCHAR * suffix )
         new_alloc = assign_new_size (new_size);
 
         // allocate new buffer
-        new_string = new TCHAR [new_alloc];        
+        new_string = new TCHAR [new_alloc];
         new_string [0] = 0;
 
         // copy the previous allocated buffer into this one
         if (allocated && cstring)
             memcpy (new_string, cstring, 1 + length ());
 
-        // append the suffix. It does exist, otherwize we wouldn't be expanding 
-        memcpy (new_string + length (), 
+        // append the suffix. It does exist, otherwize we wouldn't be expanding
+        memcpy (new_string + length (),
                 suffix,
                 lstrlen (suffix) + 1);
 
@@ -216,8 +216,8 @@ void TiXmlString::append( const TCHAR * suffix )
     else
     {
         // we know we can safely append the new generic_string
-        memcpy (cstring + length (), 
-                suffix, 
+        memcpy (cstring + length (),
+                suffix,
                 lstrlen (suffix) + 1);
     }
     current_length = new_size - 1;
@@ -253,38 +253,38 @@ unsigned TiXmlString::find (TCHAR tofind, unsigned offset) const
 
 bool TiXmlString::operator == (const TiXmlString & compare) const
 {
-	if ( allocated && compare.allocated )
-	{
-		assert( cstring );
-		assert( compare.cstring );
-		return ( lstrcmp( cstring, compare.cstring ) == 0 );
- 	}
-	return false;
+    if ( allocated && compare.allocated )
+    {
+        assert( cstring );
+        assert( compare.cstring );
+        return ( lstrcmp( cstring, compare.cstring ) == 0 );
+    }
+    return false;
 }
 
 
 bool TiXmlString::operator < (const TiXmlString & compare) const
 {
-	if ( allocated && compare.allocated )
-	{
-		assert( cstring );
-		assert( compare.cstring );
-		return ( lstrcmp( cstring, compare.cstring ) > 0 );
- 	}
-	return false;
+    if ( allocated && compare.allocated )
+    {
+        assert( cstring );
+        assert( compare.cstring );
+        return ( lstrcmp( cstring, compare.cstring ) > 0 );
+    }
+    return false;
 }
 
 
 bool TiXmlString::operator > (const TiXmlString & compare) const
 {
-	if ( allocated && compare.allocated )
-	{
-		assert( cstring );
-		assert( compare.cstring );
-		return ( lstrcmp( cstring, compare.cstring ) < 0 );
- 	}
-	return false;
+    if ( allocated && compare.allocated )
+    {
+        assert( cstring );
+        assert( compare.cstring );
+        return ( lstrcmp( cstring, compare.cstring ) < 0 );
+    }
+    return false;
 }
 
 
-#endif	// TIXML_USE_STL
+#endif  // TIXML_USE_STL

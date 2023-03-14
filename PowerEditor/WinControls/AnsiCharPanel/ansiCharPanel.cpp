@@ -16,8 +16,8 @@
 
 
 #include "ansiCharPanel.h"
-#include "ScintillaEditView.h"
-#include "localization.h"
+#include <PowerEditor/ScintillaComponent/ScintillaEditView.h>
+#include <PowerEditor/localization.h>
 
 void AnsiCharPanel::switchEncoding()
 {

@@ -17,9 +17,9 @@
 
 #pragma once
 
-#include "Parameters.h"
+#include <PowerEditor/Parameters.h>
 #include "BabyGrid.h"
-#include "Window.h"
+#include <PowerEditor/WinControls/Window.h>
 
 class BabyGridWrapper : public Window
 {

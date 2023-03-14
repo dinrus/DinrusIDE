@@ -17,7 +17,7 @@
 
 #include "Printer.h"
 #include "RunDlg.h"
-//#include "Parameters.h"
+//#include <PowerEditor/Parameters.h>
 
 void replaceStr(generic_string & str, generic_string str2BeReplaced, generic_string replacement)
 {

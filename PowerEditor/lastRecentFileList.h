@@ -17,7 +17,7 @@
 
 #pragma once
 
-#include "Parameters.h"
+#include <PowerEditor/Parameters.h>
 #include <deque>
 
 struct RecentItem {

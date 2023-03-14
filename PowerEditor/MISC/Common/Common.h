@@ -23,6 +23,7 @@
 #include <unordered_set>
 #include <algorithm>
 #include <tchar.h>
+#include <cwchar>
 
 const bool dirUp = true;
 const bool dirDown = false;
@@ -36,23 +37,23 @@ const bool dirDown = false;
 #define BCKGRD_COLOR (RGB(255,102,102))
 #define TXT_COLOR    (RGB(255,255,255))
 
-#define generic_strtol wcstol
-#define generic_strncpy wcsncpy
-#define generic_stricmp wcsicmp
-#define generic_strncmp wcsncmp
-#define generic_strnicmp wcsnicmp
-#define generic_strncat wcsncat
-#define generic_strchr wcschr
-#define generic_atoi _wtoi
-#define generic_itoa _itow
-#define generic_atof _wtof
-#define generic_strtok wcstok
-#define generic_strftime wcsftime
-#define generic_fprintf fwprintf
-#define generic_sprintf swprintf
-#define generic_sscanf swscanf
+#define generic_strtol std::wcstol
+#define generic_strncpy std::wcsncpy
+#define generic_stricmp stricmp //wcsicmp
+#define generic_strncmp std::wcsncmp
+#define generic_strnicmp std::wcsnicmp
+#define generic_strncat std::wcsncat
+#define generic_strchr std::wcschr
+#define generic_atoi std::atoi //_wtoi
+#define generic_itoa std::itoa //_itow
+#define generic_atof std::atof //_wtof
+#define generic_strtok std::wcstok
+#define generic_strftime std::wcsftime
+#define generic_fprintf std::fwprintf
+#define generic_sprintf std::sprintf //swprintf
+#define generic_sscanf std::swscanf
 #define generic_fopen _wfopen
-#define generic_fgets fgetws
+#define generic_fgets std::fgetws
 #define COPYDATA_FILENAMES COPYDATA_FILENAMESW
 #define NPP_INTERNAL_FUCTION_STR TEXT("Notepad++::InternalFunction")
 

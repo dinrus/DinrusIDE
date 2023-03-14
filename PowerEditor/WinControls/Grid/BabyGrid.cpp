@@ -11,7 +11,7 @@ Modified by Don HO <don.h@free.fr>
 */
 
 #include "BabyGrid.h"
-#include "Parameters.h"
+#include <PowerEditor/Parameters.h>
 
 #define MAX_GRIDS 20
 

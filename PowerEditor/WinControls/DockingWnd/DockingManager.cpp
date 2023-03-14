@@ -20,7 +20,7 @@
 #include "DockingSplitter.h"
 #include "DockingCont.h"
 #include "Gripper.h"
-#include "Parameters.h"
+#include <PowerEditor/Parameters.h>
 
 using namespace std;
 

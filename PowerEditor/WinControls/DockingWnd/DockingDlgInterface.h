@@ -22,9 +22,9 @@
 
 #include <assert.h>
 #include <shlwapi.h>
-#include "PowerEditor/MISC/Common/Common.h"
-#include "StaticDialog.h"
-#include "NppDarkMode.h"
+#include <PowerEditor/MISC/Common/Common.h>
+#include <PowerEditor/WinControls/StaticDialog/StaticDialog.h>
+#include <PowerEditor/NppDarkMode.h>
 
 
 

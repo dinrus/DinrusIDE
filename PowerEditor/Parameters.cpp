@@ -17,10 +17,10 @@
 #include <time.h>
 #include <shlwapi.h>
 #include <shlobj.h>
-#include "Parameters.h"
+#include <PowerEditor/Parameters.h>
 #include <PowerEditor/ScintillaComponent/ScintillaEditView.h>
 #include <PowerEditor/keys.h>
-#include "localization.h"
+#include <PowerEditor/localization.h>
 #include "localizationString.h"
 #include "UserDefineDialog.h"
 #include "WindowsDlgRc.h"

@@ -18,7 +18,7 @@
 #pragma once
 
 #include "findCharsInRange_rc.h"
-#include "ScintillaEditView.h"
+#include <PowerEditor/ScintillaComponent/ScintillaEditView.h>
 
 class FindCharsInRangeDlg : public StaticDialog
 {

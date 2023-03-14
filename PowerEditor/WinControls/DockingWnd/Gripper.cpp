@@ -18,7 +18,7 @@
 #include <stdexcept>
 #include "Gripper.h"
 #include "DockingManager.h"
-#include "Parameters.h"
+#include <PowerEditor/Parameters.h>
 
 using namespace std;
 

@@ -17,8 +17,8 @@
 
 #pragma once
 
-#include "Common.h"
-#include "StaticDialog.h"
+#include <PowerEditor/MISC/Common/Common.h>
+#include <PowerEditor/WinControls/StaticDialog/StaticDialog.h>
 #include "TaskListDlg_rc.h"
 #include "TaskList.h"
 #include "Notepad_plus_msgs.h"

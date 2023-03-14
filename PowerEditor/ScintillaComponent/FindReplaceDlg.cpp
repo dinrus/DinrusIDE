@@ -1,4 +1,4 @@
-﻿// This file is part of Notepad++ project
+// This file is part of Notepad++ project
 // Copyright (C)2021 Don HO <don.h@free.fr>
 
 // This program is free software: you can redistribute it and/or modify
@@ -19,8 +19,8 @@
 #include "FindReplaceDlg.h"
 #include "ScintillaEditView.h"
 #include "Notepad_plus_msgs.h"
-#include "localization.h"
-#include "Common.h"
+#include <PowerEditor/localization.h>
+#include <PowerEditor/MISC/Common/Common.h>
 #include "Utf8.h"
 
 using namespace std;

@@ -8,7 +8,10 @@ library(POSIX) "SDL2 SDL2main GL";
 
 library(WIN32 MSC) "SDL2.lib SDL2main.lib OpenGL32.lib";
 
-library(WIN32 (GCC | CLANG)) "SDL2.lib SDL2main.lib  opengl32";
+library(WIN32 (GCC | CLANG)) "SDL2 SDL2main  opengl32 hidapi hid hidclass hidparse";
+
+link
+	"-lm  -luser32  -lgdi32  -lwinmm  -limm32  -lole32  -loleaut32  -lversion  -luuid  -ladvapi32  -lsetupapi  -lshell32  -ldinput8  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32";
 
 pkg_config
 	sdl2;

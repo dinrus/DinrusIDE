@@ -8,7 +8,7 @@
 #pragma once
 
 #include <windows.h>
-#include "resource.h"
+#include <PowerEditor/resource.h>
 
 #ifndef WM_MOUSEWHEEL
 #define WM_MOUSEWHEEL 0x020A

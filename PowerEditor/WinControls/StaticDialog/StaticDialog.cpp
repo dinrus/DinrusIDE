@@ -16,7 +16,7 @@
 
 #include <stdio.h>
 #include <windows.h>
-#include "StaticDialog.h"
+#include <PowerEditor/WinControls/StaticDialog/StaticDialog.h>
 #include <PowerEditor/MISC/Common/Common.h>
 #include <PowerEditor/NppDarkMode.h>
 

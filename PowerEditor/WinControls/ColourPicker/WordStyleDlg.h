@@ -18,9 +18,9 @@
 #pragma once
 
 #include "ColourPicker.h"
-#include "URLCtrl.h"
+#include <PowerEditor/WinControls/AboutDlg/URLCtrl.h>
 #include "WordStyleDlgRes.h"
-#include "Parameters.h"
+#include <PowerEditor/Parameters.h>
 
 
 #define WM_UPDATESCINTILLAS      (WORDSTYLE_USER + 1) //GlobalStyleDlg's msg 2 send 2 its parent

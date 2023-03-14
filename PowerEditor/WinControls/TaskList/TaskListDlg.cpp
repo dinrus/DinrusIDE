@@ -17,8 +17,8 @@
 
 
 #include "TaskListDlg.h"
-#include "Parameters.h"
-#include "resource.h"
+#include <PowerEditor/Parameters.h>
+#include <PowerEditor/resource.h>
 
 int TaskListDlg::_instanceCount = 0;
 

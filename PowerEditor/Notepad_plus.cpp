@@ -1,4 +1,4 @@
-﻿// This file is part of Notepad++ project
+// This file is part of Notepad++ project
 // Copyright (C)2021 Don HO <don.h@free.fr>
 
 // This program is free software: you can redistribute it and/or modify
@@ -38,7 +38,7 @@
 #include "documentMap.h"
 #include "functionListPanel.h"
 #include "fileBrowser.h"
-#include "Common.h"
+#include <PowerEditor/MISC/Common/Common.h>
 #include "NppDarkMode.h"
 
 using namespace std;

@@ -18,7 +18,7 @@
 #include "preferenceDlg.h"
 #include "lesDlgs.h"
 #include "EncodingMapper.h"
-#include "localization.h"
+#include <PowerEditor/localization.h>
 
 #define MyGetGValue(rgb)      (LOBYTE((rgb)>>8))
 

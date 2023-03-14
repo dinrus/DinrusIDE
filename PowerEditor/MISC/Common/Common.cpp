@@ -20,11 +20,11 @@
 #include <cassert>
 #include <codecvt>
 #include <locale>
-#include "StaticDialog.h"
+#include <PowerEditor/WinControls/StaticDialog/StaticDialog.h>
 #include "CustomFileDialog.h"
 
 #include "FileInterface.h"
-#include "Common.h"
+#include <PowerEditor/MISC/Common/Common.h>
 #include "Utf8.h"
 #include <Parameters.h>
 #include "Buffer.h"

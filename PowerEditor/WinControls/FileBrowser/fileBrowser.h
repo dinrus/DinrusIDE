@@ -17,7 +17,7 @@
 
 #pragma once
 
-#include "DockingDlgInterface.h"
+#include <PowerEditor/WinControls/DockingWnd/DockingDlgInterface.h>
 #include "TreeView.h"
 #include "fileBrowser_rc.h"
 

@@ -17,8 +17,8 @@
 
 
 #include "lastRecentFileList.h"
-#include "menuCmdID.h"
-#include "localization.h"
+#include <PowerEditor/menuCmdID.h>
+#include <PowerEditor/localization.h>
 
 void LastRecentFileList::initMenu(HMENU hMenu, int idBase, int posBase, Accelerator *pAccelerator, bool doSubMenu)
 {

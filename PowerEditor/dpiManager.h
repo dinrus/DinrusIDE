@@ -20,10 +20,10 @@
 class DPIManager
 {
 public:
-    DPIManager() { 
+    DPIManager() {
 		init();
 	};
-    
+
     // Get screen DPI.
     int getDPIX() { return _dpiX; };
     int getDPIY() { return _dpiY; };
@@ -50,20 +50,20 @@ public:
     void scalePoint(__inout POINT *pPoint)
     {
         pPoint->x = scaleX(pPoint->x);
-        pPoint->y = scaleY(pPoint->y);        
+        pPoint->y = scaleY(pPoint->y);
     }
 
     // Scale Size from raw pixels to relative pixels.
     void scaleSize(__inout SIZE *pSize)
     {
         pSize->cx = scaleX(pSize->cx);
-        pSize->cy = scaleY(pSize->cy);		
+        pSize->cy = scaleY(pSize->cy);
     }
 
     // Determine if screen resolution meets minimum requirements in relative pixels.
-    bool isResolutionAtLeast(int cxMin, int cyMin) 
-    { 
-        return (scaledScreenWidth() >= cxMin) && (scaledScreenHeight() >= cyMin); 
+    bool isResolutionAtLeast(int cxMin, int cyMin)
+    {
+        return (scaledScreenWidth() >= cxMin) && (scaledScreenHeight() >= cyMin);
     }
 
     // Convert a point size (1/72 of an inch) to raw pixels.
@@ -73,9 +73,9 @@ public:
     void Invalidate() { init(); };
 
 private:
-	// X and Y DPI values are provided, though to date all 
+	// X and Y DPI values are provided, though to date all
     // Windows OS releases have equal X and Y scale values
-    int _dpiX = 0;			
+    int _dpiX = 0;
     int _dpiY = 0;
 
 
@@ -85,28 +85,28 @@ private:
         {
             // Initialize the DPIManager member variable
             // This will correspond to the DPI setting
-            // With all Windows OS's to date the X and Y DPI will be identical					
+            // With all Windows OS's to date the X and Y DPI will be identical
             _dpiX = GetDeviceCaps(hdc, LOGPIXELSX);
             _dpiY = GetDeviceCaps(hdc, LOGPIXELSY);
             ReleaseDC(NULL, hdc);
         }
 	};
 
-    // This returns a 96-DPI scaled-down equivalent value for nIndex 
-    // For example, the value 120 at 120 DPI setting gets scaled down to 96		
-    // X and Y versions are provided, though to date all Windows OS releases 
+    // This returns a 96-DPI scaled-down equivalent value for nIndex
+    // For example, the value 120 at 120 DPI setting gets scaled down to 96
+    // X and Y versions are provided, though to date all Windows OS releases
     // have equal X and Y scale values
     int scaledSystemMetricX(int nIndex) {
-        return MulDiv(GetSystemMetrics(nIndex), 96, _dpiX); 
+        return MulDiv(GetSystemMetrics(nIndex), 96, _dpiX);
     };
 
-    // This returns a 96-DPI scaled-down equivalent value for nIndex 
-    // For example, the value 120 at 120 DPI setting gets scaled down to 96		
-    // X and Y versions are provided, though to date all Windows OS releases 
+    // This returns a 96-DPI scaled-down equivalent value for nIndex
+    // For example, the value 120 at 120 DPI setting gets scaled down to 96
+    // X and Y versions are provided, though to date all Windows OS releases
     // have equal X and Y scale values
-    int scaledSystemMetricY(int nIndex) 
+    int scaledSystemMetricY(int nIndex)
     {
-        return MulDiv(GetSystemMetrics(nIndex), 96, _dpiY); 
+        return MulDiv(GetSystemMetrics(nIndex), 96, _dpiY);
     }
 };
 

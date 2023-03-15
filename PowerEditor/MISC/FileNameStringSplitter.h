@@ -16,22 +16,22 @@
 
 #pragma once
 
-typedef std::vector<generic_string> stringVector;
+typedef Vector<String> stringVector;
 
 class FileNameStringSplitter
 {
 public:
-	FileNameStringSplitter(const TCHAR *fileNameStr)
+	FileNameStringSplitter(const char *fileNameStr)
 	{
-		TCHAR *pStr = NULL;
+		char *pStr = NULL;
 		bool isInsideQuotes = false;
 		const int filePathLength = MAX_PATH;
 
-		TCHAR str[filePathLength];
+		char str[filePathLength];
 		int i = 0;
         bool fini = false;
 
-		for (pStr = (TCHAR *)fileNameStr ; !fini ; )
+		for (pStr = (char *)fileNameStr ; !fini ; )
 		{
 			if (i >= filePathLength)
 				break;
@@ -44,7 +44,7 @@ public:
 					{
 						str[i] = '\0';
                         if (str[0])
-							_fileNames.push_back(generic_string(str));
+							_fileNames.push_back(String(str));
 						i = 0;
 					}
 					isInsideQuotes = !isInsideQuotes;
@@ -63,7 +63,7 @@ public:
 					{
 						str[i] = '\0';
                         if (str[0])
-							_fileNames.push_back(generic_string(str));
+							_fileNames.push_back(String(str));
 						i = 0;
 					}
                     pStr++;
@@ -74,7 +74,7 @@ public:
 				{
                     str[i] = *pStr;
                     if (str[0])
-						_fileNames.push_back(generic_string(str));
+						_fileNames.push_back(String(str));
                     fini = true;
 					break;
 				}
@@ -93,10 +93,10 @@ public:
 		return _fileNames;
 	};
 
-	const TCHAR * getFileName(size_t index) const {
+	const char * getFileName(size_t index) const {
 		if (index >= _fileNames.size())
 			return NULL;
-		return _fileNames[index].c_str();
+		return _fileNames[index].Begin();
 	}
 
 	int size() const {

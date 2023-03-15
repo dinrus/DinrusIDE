@@ -42,21 +42,21 @@ void TiXmlBaseA::PutString( const TIXMLA_STRING& str, TIXMLA_STRING* outString )
 {
 	int i=0;
 
-	while( i<(int)str.length() )
+	while( i<(int)str.GetLength() )
 	{
 		int c = str[i];
 
-		if (    c == '&' 
-		     && i < ( static_cast<int>(str.length()) - 2 )
+		if (    c == '&'
+		     && i < ( static_cast<int>(str.GetLength()) - 2 )
 			 && str[i+1] == '#'
 			 && str[i+2] == 'x' )
 		{
 			// Hexadecimal character reference.
 			// Pass through unchanged.
 			// &#xA9;	-- copyright symbol, for example.
-			while (i < static_cast<int>(str.length()))
+			while (i < static_cast<int>(str.GetLength()))
 			{
-				outString->append( str.c_str() + i, 1 );
+				outString->append( str.Begin() + i, 1 );
 				++i;
 				if ( str[i] == ';' )
 					break;
@@ -109,10 +109,10 @@ void TiXmlBaseA::PutString( const TIXMLA_STRING& str, TIXMLA_STRING* outString )
 // <-- Strange class for a bug fix. Search for STL_STRING_BUG
 TiXmlBaseA::StringToBuffer::StringToBuffer( const TIXMLA_STRING& str )
 {
-	buffer = new char[ str.length()+1 ];
+	buffer = new char[ str.GetLength()+1 ];
 	if ( buffer )
 	{
-		strcpy( buffer, str.c_str() );
+		strcpy( buffer, str.Begin() );
 	}
 }
 
@@ -146,7 +146,7 @@ TiXmlNodeA::~TiXmlNodeA()
 		temp = node;
 		node = node->next;
 		delete temp;
-	}	
+	}
 }
 
 
@@ -160,7 +160,7 @@ void TiXmlNodeA::Clear()
 		temp = node;
 		node = node->next;
 		delete temp;
-	}	
+	}
 
 	firstChild = 0;
 	lastChild = 0;
@@ -195,7 +195,7 @@ TiXmlNodeA* TiXmlNodeA::InsertEndChild( const TiXmlNodeA& addThis )
 
 
 TiXmlNodeA* TiXmlNodeA::InsertBeforeChild( TiXmlNodeA* beforeThis, const TiXmlNodeA& addThis )
-{	
+{
 	if ( !beforeThis || beforeThis->parent != this )
 		return 0;
 
@@ -277,7 +277,7 @@ TiXmlNodeA* TiXmlNodeA::ReplaceChild( TiXmlNodeA* replaceThis, const TiXmlNodeA&
 bool TiXmlNodeA::RemoveChild( TiXmlNodeA* removeThis )
 {
 	if ( removeThis->parent != this )
-	{	
+	{
 		assert( 0 );
 		return false;
 	}
@@ -526,7 +526,7 @@ int TiXmlElementA::QueryDoubleAttribute( const char* name, double* dval ) const
 
 
 void TiXmlElementA::SetAttribute( const char * name, int val )
-{	
+{
 	char buf[64];
 	sprintf( buf, "%d", val );
 	SetAttribute( name, buf );
@@ -562,7 +562,7 @@ void TiXmlElementA::Print( FILE* cfile, int depth ) const
 		fprintf( cfile, "    " );
 	}
 
-	fprintf( cfile, "<%s", value.c_str() );
+	fprintf( cfile, "<%s", value.Begin() );
 
 	TiXmlAttributeA* attrib;
 	for ( attrib = attributeSet.First(); attrib; attrib = attrib->Next() )
@@ -584,7 +584,7 @@ void TiXmlElementA::Print( FILE* cfile, int depth ) const
 	{
 		fprintf( cfile, ">" );
 		firstChild->Print( cfile, depth + 1 );
-		fprintf( cfile, "</%s>", value.c_str() );
+		fprintf( cfile, "</%s>", value.Begin() );
 	}
 	else
 	{
@@ -601,7 +601,7 @@ void TiXmlElementA::Print( FILE* cfile, int depth ) const
 		fprintf( cfile, "\n" );
 		for( i=0; i<depth; ++i )
 		fprintf( cfile, "    " );
-		fprintf( cfile, "</%s>", value.c_str() );
+		fprintf( cfile, "</%s>", value.Begin() );
 	}
 }
 
@@ -611,7 +611,7 @@ void TiXmlElementA::StreamOut( TIXMLA_OSTREAM * stream ) const
 
 	TiXmlAttributeA* attrib;
 	for ( attrib = attributeSet.First(); attrib; attrib = attrib->Next() )
-	{	
+	{
 		(*stream) << " ";
 		attrib->StreamOut( stream );
 	}
@@ -620,7 +620,7 @@ void TiXmlElementA::StreamOut( TIXMLA_OSTREAM * stream ) const
 	// make it an empty tag.
 	TiXmlNodeA* node;
 	if ( firstChild )
-	{ 		
+	{
 		(*stream) << ">";
 
 		for ( node = firstChild; node; node=node->NextSibling() )
@@ -707,13 +707,13 @@ bool TiXmlDocumentA::LoadFile( const char* filename )
 	//		value = filename
 	// in the STL case, cause the assignment method of the std::string to
 	// be called. What is strange, is that the std::string had the same
-	// address as it's c_str() method, and so bad things happen. Looks
+	// address as it's Begin() method, and so bad things happen. Looks
 	// like a bug in the Microsoft STL implementation.
 	// See STL_STRING_BUG above.
 	// Fixed with the StringToBuffer class.
 	value = filename;
 
-	FILE* file = fopen( value.c_str (), "r" );
+	FILE* file = fopen( value.Begin (), "r" );
 
 	if ( file )
 	{
@@ -744,7 +744,7 @@ bool TiXmlDocumentA::LoadFile( const char* filename )
 		}
 		fclose( file );
 
-		Parse( data.c_str(), 0 );
+		Parse( data.Begin(), 0 );
 
 		if (  Error() )
             return false;
@@ -755,9 +755,9 @@ bool TiXmlDocumentA::LoadFile( const char* filename )
 	return false;
 }
 
-bool TiXmlDocumentA::LoadUnicodeFilePath( const TCHAR* filename )
+bool TiXmlDocumentA::LoadUnicodeFilePath( const char* filename )
 {
-	
+
 	// Delete the existing data:
 	Clear();
 	location.Clear();
@@ -766,7 +766,7 @@ bool TiXmlDocumentA::LoadUnicodeFilePath( const TCHAR* filename )
 	//		value = filename
 	// in the STL case, cause the assignment method of the string to
 	// be called. What is strange, is that the string had the same
-	// address as it's c_str() method, and so bad things happen. Looks
+	// address as it's Begin() method, and so bad things happen. Looks
 	// like a bug in the Microsoft STL implementation.
 	// See STL_STRING_BUG above.
 	// Fixed with the StringToBuffer class.
@@ -775,7 +775,7 @@ bool TiXmlDocumentA::LoadUnicodeFilePath( const TCHAR* filename )
 
 	if ( file )
 	{
-		// Get the file size, so we can pre-allocate the generic_string. HUGE speed impact.
+		// Get the file size, so we can pre-allocate the String. HUGE speed impact.
 		long length = 0;
 		fseek( file, 0, SEEK_END );
 		length = ftell( file );
@@ -802,7 +802,7 @@ bool TiXmlDocumentA::LoadUnicodeFilePath( const TCHAR* filename )
 		}
 		fclose( file );
 
-		Parse( data.c_str(), 0 );
+		Parse( data.Begin(), 0 );
 
 		if (  Error() )
             return false;
@@ -826,7 +826,7 @@ bool TiXmlDocumentA::SaveFile( const char * filename ) const
 	}
 	return false;
 }
-bool TiXmlDocumentA::SaveUnicodeFilePath( const TCHAR* filename ) const
+bool TiXmlDocumentA::SaveUnicodeFilePath( const char* filename ) const
 {
 	// The old c stuff lives on...
 	FILE* fp = generic_fopen( filename, TEXT("wc") );
@@ -849,7 +849,7 @@ TiXmlNodeA* TiXmlDocumentA::Clone() const
 
 	CopyToClone( clone );
 	clone->error = error;
-	clone->errorDesc = errorDesc.c_str ();
+	clone->errorDesc = errorDesc.Begin ();
 
 	TiXmlNodeA* node = 0;
 	for ( node = firstChild; node; node = node->NextSibling() )
@@ -890,7 +890,7 @@ TiXmlAttributeA* TiXmlAttributeA::Next() const
 {
 	// We are using knowledge of the sentinel. The sentinel
 	// have a value or name.
-	if ( next->value.empty() && next->name.empty() )
+	if ( next->value.IsEmpty() && next->name.IsEmpty() )
 		return 0;
 	return next;
 }
@@ -900,7 +900,7 @@ TiXmlAttributeA* TiXmlAttributeA::Previous() const
 {
 	// We are using knowledge of the sentinel. The sentinel
 	// have a value or name.
-	if ( prev->value.empty() && prev->name.empty() )
+	if ( prev->value.IsEmpty() && prev->name.IsEmpty() )
 		return 0;
 	return prev;
 }
@@ -914,9 +914,9 @@ void TiXmlAttributeA::Print( FILE* cfile, int /*depth*/ ) const
 	PutString( Value(), &v );
 
 	if (value.find ('\"') == TIXMLA_STRING::npos)
-		fprintf (cfile, "%s=\"%s\"", n.c_str(), v.c_str() );
+		fprintf (cfile, "%s=\"%s\"", n.Begin(), v.Begin() );
 	else
-		fprintf (cfile, "%s='%s'", n.c_str(), v.c_str() );
+		fprintf (cfile, "%s='%s'", n.Begin(), v.Begin() );
 }
 
 
@@ -940,14 +940,14 @@ void TiXmlAttributeA::StreamOut( TIXMLA_OSTREAM * stream ) const
 
 int TiXmlAttributeA::QueryIntValue( int* ival ) const
 {
-	if ( sscanf( value.c_str(), "%d", ival ) == 1 )
+	if ( sscanf( value.Begin(), "%d", ival ) == 1 )
 		return TIXMLA_SUCCESS;
 	return TIXMLA_WRONG_TYPE;
 }
 
 int TiXmlAttributeA::QueryDoubleValue( double* dval ) const
 {
-	if ( sscanf( value.c_str(), "%lf", dval ) == 1 )
+	if ( sscanf( value.Begin(), "%lf", dval ) == 1 )
 		return TIXMLA_SUCCESS;
 	return TIXMLA_WRONG_TYPE;
 }
@@ -968,12 +968,12 @@ void TiXmlAttributeA::SetDoubleValue( double _value )
 
 const int TiXmlAttributeA::IntValue() const
 {
-	return atoi (value.c_str ());
+	return atoi (value.Begin ());
 }
 
 const double  TiXmlAttributeA::DoubleValue() const
 {
-	return atof (value.c_str ());
+	return atof (value.Begin ());
 }
 
 void TiXmlCommentA::Print( FILE* cfile, int depth ) const
@@ -982,7 +982,7 @@ void TiXmlCommentA::Print( FILE* cfile, int depth ) const
 	{
 		fputs( "    ", cfile );
 	}
-	fprintf( cfile, "<!--%s-->", value.c_str() );
+	fprintf( cfile, "<!--%s-->", value.Begin() );
 }
 
 void TiXmlCommentA::StreamOut( TIXMLA_OSTREAM * stream ) const
@@ -1008,7 +1008,7 @@ void TiXmlTextA::Print( FILE* cfile, int /*depth*/ ) const
 {
 	TIXMLA_STRING buffer;
 	PutString( value, &buffer );
-	fprintf( cfile, "%s", buffer.c_str() );
+	fprintf( cfile, "%s", buffer.Begin() );
 }
 
 
@@ -1019,7 +1019,7 @@ void TiXmlTextA::StreamOut( TIXMLA_OSTREAM * stream ) const
 
 
 TiXmlNodeA* TiXmlTextA::Clone() const
-{	
+{
 	TiXmlTextA* clone = 0;
 	clone = new TiXmlTextA( "" );
 
@@ -1046,12 +1046,12 @@ void TiXmlDeclarationA::Print( FILE* cfile, int /*depth*/ ) const
 {
 	fprintf (cfile, "<?xml ");
 
-	if ( !version.empty() )
-		fprintf (cfile, "version=\"%s\" ", version.c_str ());
-	if ( !encoding.empty() )
-		fprintf (cfile, "encoding=\"%s\" ", encoding.c_str ());
-	if ( !standalone.empty() )
-		fprintf (cfile, "standalone=\"%s\" ", standalone.c_str ());
+	if ( !version.IsEmpty() )
+		fprintf (cfile, "version=\"%s\" ", version.Begin ());
+	if ( !encoding.IsEmpty() )
+		fprintf (cfile, "encoding=\"%s\" ", encoding.Begin ());
+	if ( !standalone.IsEmpty() )
+		fprintf (cfile, "standalone=\"%s\" ", standalone.Begin ());
 	fprintf (cfile, "?>");
 }
 
@@ -1059,19 +1059,19 @@ void TiXmlDeclarationA::StreamOut( TIXMLA_OSTREAM * stream ) const
 {
 	(*stream) << "<?xml ";
 
-	if ( !version.empty() )
+	if ( !version.IsEmpty() )
 	{
 		(*stream) << "version=\"";
 		PutString( version, stream );
 		(*stream) << "\" ";
 	}
-	if ( !encoding.empty() )
+	if ( !encoding.IsEmpty() )
 	{
 		(*stream) << "encoding=\"";
 		PutString( encoding, stream );
 		(*stream ) << "\" ";
 	}
-	if ( !standalone.empty() )
+	if ( !standalone.IsEmpty() )
 	{
 		(*stream) << "standalone=\"";
 		PutString( standalone, stream );
@@ -1081,7 +1081,7 @@ void TiXmlDeclarationA::StreamOut( TIXMLA_OSTREAM * stream ) const
 }
 
 TiXmlNodeA* TiXmlDeclarationA::Clone() const
-{	
+{
 	TiXmlDeclarationA* clone = new TiXmlDeclarationA();
 
 	if ( !clone )
@@ -1099,7 +1099,7 @@ void TiXmlUnknownA::Print( FILE* cfile, int depth ) const
 {
 	for ( int i=0; i<depth; i++ )
 		fprintf( cfile, "    " );
-	fprintf( cfile, "%s", value.c_str() );
+	fprintf( cfile, "%s", value.Begin() );
 }
 
 void TiXmlUnknownA::StreamOut( TIXMLA_OSTREAM * stream ) const
@@ -1175,14 +1175,14 @@ TiXmlAttributeA*	TiXmlAttributeSetA::Find( const char * name ) const
 }
 
 
-#ifdef TIXMLA_USE_STL	
+#ifdef TIXMLA_USE_STL
 TIXMLA_ISTREAM & operator >> (TIXMLA_ISTREAM & in, TiXmlNodeA & base)
 {
 	TIXMLA_STRING tag;
 	tag.reserve( 8 * 1000 );
 	base.StreamIn( &in, &tag );
 
-	base.Parse( tag.c_str(), 0 );
+	base.Parse( tag.Begin(), 0 );
 	return in;
 }
 #endif
@@ -1195,12 +1195,12 @@ TIXMLA_OSTREAM & operator<< (TIXMLA_OSTREAM & out, const TiXmlNodeA & base)
 }
 
 
-#ifdef TIXMLA_USE_STL	
+#ifdef TIXMLA_USE_STL
 std::string & operator<< (std::string& out, const TiXmlNodeA& base )
 {
    std::ostringstream os_stream( std::ostringstream::out );
    base.StreamOut( &os_stream );
-   
+
    out.append( os_stream.str() );
    return out;
 }

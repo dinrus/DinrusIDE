@@ -19,7 +19,7 @@
 #include <PowerEditor/WinControls/DockingWnd/DockingDlgInterface.h>
 #include "functionListPanel_rc.h"
 #include "functionParser.h"
-#include "TreeView.h"
+#include <PowerEditor/WinControls/TreeView/TreeView.h>
 
 #define FL_PANELTITLE     TEXT("Function List")
 #define FL_FUCTIONLISTROOTNODE "FunctionList"
@@ -55,7 +55,7 @@ root
 */
 
 struct SearchParameters {
-	generic_string _text2Find;
+	String _text2Find;
 	bool _doSort = false;
 
 	bool hasParams()const{
@@ -97,8 +97,8 @@ public:
 	void sortOrUnsort();
 	void reload();
 	void markEntry();
-	bool serialize(const generic_string & outputFilename = TEXT(""));
-	void addEntry(const TCHAR *node, const TCHAR *displayText, size_t pos);
+	bool serialize(const String & outputFilename = TEXT(""));
+	void addEntry(const char *node, const char *displayText, size_t pos);
 	void removeAllEntries();
 	void searchFuncAndSwitchView();
 
@@ -119,13 +119,13 @@ private:
 	long _findEndLine = -1;
 	HTREEITEM _findItem = nullptr;
 
-	generic_string _sortTipStr = TEXT("Sort");
-	generic_string _reloadTipStr = TEXT("Reload");
-	generic_string _preferenceTipStr = TEXT("Preferences");
+	String _sortTipStr = TEXT("Sort");
+	String _reloadTipStr = TEXT("Reload");
+	String _preferenceTipStr = TEXT("Preferences");
 
 	std::vector<foundInfo> _foundFuncInfos;
 
-	std::vector<generic_string*> _posStrs;
+	std::vector<String*> _posStrs;
 
 	ScintillaEditView **_ppEditView = nullptr;
 	FunctionParsersManager _funcParserMgr;
@@ -133,11 +133,11 @@ private:
 	std::vector<TreeParams> _treeParams;
 	HIMAGELIST _hTreeViewImaLst = nullptr;
 
-	generic_string parseSubLevel(size_t begin, size_t end, std::vector< generic_string > dataToSearch, intptr_t& foundPos);
-	size_t getBodyClosePos(size_t begin, const TCHAR *bodyOpenSymbol, const TCHAR *bodyCloseSymbol);
+	String parseSubLevel(size_t begin, size_t end, std::vector< String > dataToSearch, intptr_t& foundPos);
+	size_t getBodyClosePos(size_t begin, const char *bodyOpenSymbol, const char *bodyCloseSymbol);
 	void notified(LPNMHDR notification);
-	void addInStateArray(TreeStateNode tree2Update, const TCHAR *searchText, bool isSorted);
-	TreeParams* getFromStateArray(generic_string fullFilePath);
+	void addInStateArray(TreeStateNode tree2Update, const char *searchText, bool isSorted);
+	TreeParams* getFromStateArray(String fullFilePath);
 	bool openSelection(const TreeView &treeView);
 	bool shouldSort();
 	void setSort(bool isEnabled);

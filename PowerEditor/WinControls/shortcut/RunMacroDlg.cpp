@@ -18,8 +18,8 @@
 
 
 #include "RunMacroDlg.h"
-#include "ScintillaEditView.h"
-#include "Notepad_plus_msgs.h"
+#include <PowerEditor/ScintillaComponent/ScintillaEditView.h>
+#include <PowerEditor/MISC/PluginsManager/Notepad_plus_msgs.h>
 
 void RunMacroDlg::initMacroList()
 {

@@ -27,7 +27,7 @@
 // This version has dependency on stdio.h for file input and
 // string.h for memcpy.
 
-// 
+//
 // http://www.ietf.org/ietf-ftp/IPR/RSA-MD-all
 
 
@@ -248,7 +248,7 @@ public:
   void Init()
   {
     context.count[0] = context.count[1] = 0;
-  
+
     // Load magic initialization constants.
     context.state[0] = 0x67452301;
     context.state[1] = 0xefcdab89;
@@ -289,7 +289,7 @@ public:
     else
       i = 0;
 
-    /* Buffer remaining input */
+    /* SciBuffer remaining input */
     memcpy((POINTER)&context.buffer[index], (POINTER)&input[i], inputLen-i);
   }
 
@@ -321,7 +321,7 @@ public:
     writeToString() ;
   }
 
-  /// Buffer must be 32+1 (nul) = 33 chars long at least 
+  /// SciBuffer must be 32+1 (nul) = 33 chars long at least
   void writeToString()
   {
     int pos ;
@@ -346,7 +346,7 @@ public:
     Init() ;
 
     FILE *file;
-    
+
     int len;
     unsigned char buffer[1024] ;
 
@@ -373,7 +373,7 @@ public:
     Init() ;
     Update( memchunk, len ) ;
     Final() ;
-    
+
     return digestChars ;
   }
 

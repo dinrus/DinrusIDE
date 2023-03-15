@@ -21,7 +21,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
-#include "Win32Exception.h"
+#include <PowerEditor/MISC/Exception/Win32Exception.h>
 
 
 Win32Exception::Win32Exception(EXCEPTION_POINTERS * info)

@@ -25,6 +25,7 @@
 #include <PowerEditor/MISC/Common/Common.h>
 #include <PowerEditor/WinControls/StaticDialog/StaticDialog.h>
 #include <PowerEditor/NppDarkMode.h>
+#include <PowerEditor/MISC/PluginsManager/Notepad_plus_msgs.h>
 
 
 
@@ -36,7 +37,7 @@ public:
 
 	virtual void init(HINSTANCE hInst, HWND parent) {
 		StaticDialog::init(hInst, parent);
-		TCHAR temp[MAX_PATH];
+		char temp[MAX_PATH];
 		::GetModuleFileName(reinterpret_cast<HMODULE>(hInst), temp, MAX_PATH);
 		_moduleName = ::PathFindFileName(temp);
 	}
@@ -44,13 +45,13 @@ public:
     void create(tTbData* data, bool isRTL = false) {
 		assert(data != nullptr);
 		StaticDialog::create(_dlgID, isRTL);
-		TCHAR temp[MAX_PATH];
+		char temp[MAX_PATH];
 		::GetWindowText(_hSelf, temp, MAX_PATH);
 		_pluginName = temp;
 
         // user information
 		data->hClient = _hSelf;
-		data->pszName = _pluginName.c_str();
+		data->pszName = _pluginName.Begin();
 
 		// supported features by plugin
 		data->uMask = 0;
@@ -82,16 +83,16 @@ public:
 		_isClosed = toClose;
 	}
 
-	const TCHAR * getPluginFileName() const {
-		return _moduleName.c_str();
+	const char * getPluginFileName() const {
+		return _moduleName.Begin();
 	}
 
 protected :
 	int	_dlgID = -1;
 	bool _isFloating = true;
 	int _iDockedPos = 0;
-	generic_string _moduleName;
-	generic_string _pluginName;
+	String _moduleName;
+	String _pluginName;
 	bool _isClosed = false;
 
 	virtual intptr_t CALLBACK run_dlgProc(UINT message, WPARAM wParam, LPARAM lParam) {

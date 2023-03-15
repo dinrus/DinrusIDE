@@ -27,7 +27,7 @@ using namespace std;
 BOOL DockingManager::_isRegistered = FALSE;
 
 //Window of event handling DockingManager (can only be one)
-static	HWND			hWndServer	= NULL;
+static	HWND			hWndServer0	= NULL;
 //Next hook in line
 static	HHOOK			gWinCallHook = NULL;
 LRESULT CALLBACK focusWndProc(int nCode, WPARAM wParam, LPARAM lParam);
@@ -35,9 +35,9 @@ LRESULT CALLBACK focusWndProc(int nCode, WPARAM wParam, LPARAM lParam);
 // Callback function that handles messages (to test focus)
 LRESULT CALLBACK focusWndProc(int nCode, WPARAM wParam, LPARAM lParam)
 {
-	if (nCode == HC_ACTION && hWndServer)
+	if (nCode == HC_ACTION && hWndServer0)
 	{
-		DockingManager *pDockingManager = (DockingManager *)::GetWindowLongPtr(hWndServer, GWLP_USERDATA);
+		DockingManager *pDockingManager = (DockingManager *)::GetWindowLongPtr(hWndServer0, GWLP_USERDATA);
 		if (pDockingManager)
 		{
 			vector<DockingCont*> & vcontainer = pDockingManager->getContainerInfo();
@@ -148,8 +148,8 @@ void DockingManager::init(HINSTANCE hInst, HWND hWnd, Window ** ppWin)
 			_vSplitter[iCont]->init(_hInst, _hParent, _hSelf, DMS_VERTICAL);
 	}
 	// register window event hooking
-	if (!hWndServer)
-		hWndServer = _hSelf;
+	if (!hWndServer0)
+		hWndServer0 = _hSelf;
 	CoInitialize(NULL);
 	if (!gWinCallHook)	//only set if not already done
 		gWinCallHook = ::SetWindowsHookEx(WH_CALLWNDPROC, focusWndProc, hInst, GetCurrentThreadId());
@@ -239,11 +239,11 @@ LRESULT DockingManager::runProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 		case WM_DESTROY:
 		{
 			// unregister window event hooking BEFORE EVERYTHING ELSE
-			if (hWndServer == hwnd)
+			if (hWndServer0 == hwnd)
 			{
 				UnhookWindowsHookEx(gWinCallHook);
 				gWinCallHook = NULL;
-				hWndServer = NULL;
+				hWndServer0 = NULL;
 			}
 
 			// destroy imagelist if it exists
@@ -691,7 +691,7 @@ void DockingManager::showDockableDlg(HWND hDlg, BOOL view)
 	}
 }
 
-void DockingManager::showDockableDlg(TCHAR* pszName, BOOL view)
+void DockingManager::showDockableDlg(char* pszName, BOOL view)
 {
 	for (size_t i = 0, len = _vContainer.size(); i < len; ++i)
 	{

@@ -30,18 +30,16 @@ intptr_t CALLBACK AboutDlg::run_dlgProc(UINT message, WPARAM wParam, LPARAM lPar
             NppDarkMode::autoSubclassAndThemeChildControls(_hSelf);
 
             HWND compileDateHandle = ::GetDlgItem(_hSelf, IDC_BUILD_DATETIME);
-            generic_string buildTime = TEXT("Build time : ");
+            String buildTime = "Build time : ";
 
-            WcharMbcsConvertor& wmc = WcharMbcsConvertor::getInstance();
-            buildTime +=  wmc.char2wchar(__DATE__, CP_ACP);
-            buildTime += TEXT(" - ");
-            buildTime +=  wmc.char2wchar(__TIME__, CP_ACP);
+            //WcharMbcsConvertor& wmc = WcharMbcsConvertor::getInstance();
+            buildTime << __DATE__ << " - " <<__TIME__;
 
             NppParameters& nppParam = NppParameters::getInstance();
             LPCTSTR bitness = nppParam.archType() == IMAGE_FILE_MACHINE_I386 ? TEXT("(32-bit)") : (nppParam.archType() == IMAGE_FILE_MACHINE_AMD64 ? TEXT("(64-bit)") : TEXT("(ARM 64-bit)"));
             ::SetDlgItemText(_hSelf, IDC_VERSION_BIT, bitness);
 
-            ::SendMessage(compileDateHandle, WM_SETTEXT, 0, reinterpret_cast<LPARAM>(buildTime.c_str()));
+            ::SendMessage(compileDateHandle, WM_SETTEXT, 0, reinterpret_cast<LPARAM>(buildTime.Begin()));
             ::EnableWindow(compileDateHandle, FALSE);
 
             HWND licenceEditHandle = ::GetDlgItem(_hSelf, IDC_LICENCE_EDIT);
@@ -152,73 +150,62 @@ intptr_t CALLBACK DebugInfoDlg::run_dlgProc(UINT message, WPARAM wParam, LPARAM 
 
             // Notepad++ version
             _debugInfoStr = NOTEPAD_PLUS_VERSION;
-            _debugInfoStr += nppParam.archType() == IMAGE_FILE_MACHINE_I386 ? TEXT("   (32-bit)") : (nppParam.archType() == IMAGE_FILE_MACHINE_AMD64 ? TEXT("   (64-bit)") : TEXT("   (ARM 64-bit)"));
-            _debugInfoStr += TEXT("\r\n");
+            _debugInfoStr << (nppParam.archType() == IMAGE_FILE_MACHINE_I386 ? "   (32-bit)" : (nppParam.archType() == IMAGE_FILE_MACHINE_AMD64 ? "   (64-bit)" : "   (ARM 64-bit)"));
+            _debugInfoStr << "\r\n";
 
             // Build time
-            _debugInfoStr += TEXT("Build time : ");
-            generic_string buildTime;
-            WcharMbcsConvertor& wmc = WcharMbcsConvertor::getInstance();
-            buildTime += wmc.char2wchar(__DATE__, CP_ACP);
-            buildTime += TEXT(" - ");
-            buildTime += wmc.char2wchar(__TIME__, CP_ACP);
-            _debugInfoStr += buildTime;
-            _debugInfoStr += TEXT("\r\n");
+            _debugInfoStr << "Build time : ";
+            String buildTime;
+            //WcharMbcsConvertor& wmc = WcharMbcsConvertor::getInstance();
+            buildTime << __DATE__<<" - "<<__TIME__;
+            _debugInfoStr << buildTime << "\r\n";
 
 #if defined(__GNUC__)
-            _debugInfoStr += TEXT("Built with : GCC ");
-            _debugInfoStr += wmc.char2wchar(__VERSION__, CP_ACP);
-            _debugInfoStr += TEXT("\r\n");
+            _debugInfoStr << "Built with : GCC " << __VERSION__ << "\r\n";
 #elif !defined(_MSC_VER)
-            _debugInfoStr += TEXT("Built with : (unknown)\r\n");
+            _debugInfoStr << "Built with : (unknown)\r\n";
 #endif
 
             // Binary path
-            _debugInfoStr += TEXT("Path : ");
-            TCHAR nppFullPath[MAX_PATH];
+            _debugInfoStr << "Path : ";
+            char nppFullPath[MAX_PATH];
             ::GetModuleFileName(NULL, nppFullPath, MAX_PATH);
-            _debugInfoStr += nppFullPath;
-            _debugInfoStr += TEXT("\r\n");
+            _debugInfoStr << nppFullPath << "\r\n";
 
             // Command line as specified for program launch
             // The _cmdLinePlaceHolder will be replaced later by refreshDebugInfo()
-            _debugInfoStr += TEXT("Command Line : ");
-            _debugInfoStr += _cmdLinePlaceHolder;
-            _debugInfoStr += TEXT("\r\n");
+            _debugInfoStr << "Command Line : " << _cmdLinePlaceHolder << "\r\n";
 
             // Administrator mode
-            _debugInfoStr += TEXT("Admin mode : ");
-            _debugInfoStr += (_isAdmin ? TEXT("ON") : TEXT("OFF"));
-            _debugInfoStr += TEXT("\r\n");
+            _debugInfoStr << "Admin mode : " << (_isAdmin ? "ON" : "OFF") << "\r\n";
 
             // local conf
-            _debugInfoStr += TEXT("Local Conf mode : ");
+            _debugInfoStr << "Local Conf mode : ";
             bool doLocalConf = (NppParameters::getInstance()).isLocal();
-            _debugInfoStr += (doLocalConf ? TEXT("ON") : TEXT("OFF"));
-            _debugInfoStr += TEXT("\r\n");
+            _debugInfoStr << (doLocalConf ? "ON" : "OFF") << "\r\n";
 
             // Cloud config directory
-            _debugInfoStr += TEXT("Cloud Config : ");
-            const generic_string& cloudPath = nppParam.getNppGUI()._cloudPath;
-            _debugInfoStr += cloudPath.empty() ? _T("OFF") : cloudPath;
-            _debugInfoStr += TEXT("\r\n");
+            _debugInfoStr << "Cloud Config : ";
+            const String& cloudPath = nppParam.getNppGUI()._cloudPath;
+            _debugInfoStr << (cloudPath.IsEmpty() ? "OFF" : cloudPath);
+            _debugInfoStr << "\r\n";
 
             // OS information
             HKEY hKey;
             DWORD dataSize = 0;
 
-            TCHAR szProductName[96] = {'\0'};
-            TCHAR szCurrentBuildNumber[32] = {'\0'};
-            TCHAR szReleaseId[32] = {'\0'};
+            char szProductName[96] = {'\0'};
+            char szCurrentBuildNumber[32] = {'\0'};
+            char szReleaseId[32] = {'\0'};
             DWORD dwUBR = 0;
-            TCHAR szUBR[12] = TEXT("0");
-
+            char szUBR[12] = "0";
+/*
             // NOTE: RegQueryValueExW is not guaranteed to return null-terminated strings
             if (RegOpenKeyExW(HKEY_LOCAL_MACHINE, TEXT("SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion"), 0, KEY_READ, &hKey) == ERROR_SUCCESS)
             {
                 dataSize = sizeof(szProductName);
                 RegQueryValueExW(hKey, TEXT("ProductName"), NULL, NULL, reinterpret_cast<LPBYTE>(szProductName), &dataSize);
-                szProductName[sizeof(szProductName) / sizeof(TCHAR) - 1] = '\0';
+                szProductName[sizeof(szProductName) / sizeof(char) - 1] = '\0';
 
                 dataSize = sizeof(szReleaseId);
                 if(RegQueryValueExW(hKey, TEXT("DisplayVersion"), NULL, NULL, reinterpret_cast<LPBYTE>(szReleaseId), &dataSize) != ERROR_SUCCESS)
@@ -226,11 +213,11 @@ intptr_t CALLBACK DebugInfoDlg::run_dlgProc(UINT message, WPARAM wParam, LPARAM 
                     dataSize = sizeof(szReleaseId);
                     RegQueryValueExW(hKey, TEXT("ReleaseId"), NULL, NULL, reinterpret_cast<LPBYTE>(szReleaseId), &dataSize);
                 }
-                szReleaseId[sizeof(szReleaseId) / sizeof(TCHAR) - 1] = '\0';
+                szReleaseId[sizeof(szReleaseId) / sizeof(char) - 1] = '\0';
 
                 dataSize = sizeof(szCurrentBuildNumber);
                 RegQueryValueExW(hKey, TEXT("CurrentBuildNumber"), NULL, NULL, reinterpret_cast<LPBYTE>(szCurrentBuildNumber), &dataSize);
-                szCurrentBuildNumber[sizeof(szCurrentBuildNumber) / sizeof(TCHAR) - 1] = '\0';
+                szCurrentBuildNumber[sizeof(szCurrentBuildNumber) / sizeof(char) - 1] = '\0';
 
                 dataSize = sizeof(DWORD);
                 if (RegQueryValueExW(hKey, TEXT("UBR"), NULL, NULL, reinterpret_cast<LPBYTE>(&dwUBR), &dataSize) == ERROR_SUCCESS)
@@ -240,11 +227,11 @@ intptr_t CALLBACK DebugInfoDlg::run_dlgProc(UINT message, WPARAM wParam, LPARAM 
 
                 RegCloseKey(hKey);
             }
-
+*/
             // Get alternative OS information
             if (szProductName[0] == '\0')
             {
-                generic_sprintf(szProductName, TEXT("%s"), (NppParameters::getInstance()).getWinVersionStr().c_str());
+                generic_sprintf(szProductName, TEXT("%s"), (NppParameters::getInstance()).getWinVersionStr().Begin());
             }
 
             // Override ProductName if it's Windows 11
@@ -260,35 +247,24 @@ intptr_t CALLBACK DebugInfoDlg::run_dlgProc(UINT message, WPARAM wParam, LPARAM 
                 }
             }
 
-            _debugInfoStr += TEXT("OS Name : ");
-            _debugInfoStr += szProductName;
-            _debugInfoStr += TEXT(" (");
-            _debugInfoStr += (NppParameters::getInstance()).getWinVerBitStr();
-            _debugInfoStr += TEXT(") ");
-            _debugInfoStr += TEXT("\r\n");
+            _debugInfoStr << "OS Name : " << szProductName << " ("
+                             << (NppParameters::getInstance()).getWinVerBitStr()
+                                                              <<") " << "\r\n";
 
             if (szReleaseId[0] != '\0')
             {
-                _debugInfoStr += TEXT("OS Version : ");
-                _debugInfoStr += szReleaseId;
-                _debugInfoStr += TEXT("\r\n");
+                _debugInfoStr << "OS Version : " << szReleaseId << "\r\n";
             }
 
             if (szCurrentBuildNumber[0] != '\0')
             {
-                _debugInfoStr += TEXT("OS Build : ");
-                _debugInfoStr += szCurrentBuildNumber;
-                _debugInfoStr += TEXT(".");
-                _debugInfoStr += szUBR;
-                _debugInfoStr += TEXT("\r\n");
+                _debugInfoStr << "OS Build : " << szCurrentBuildNumber << "." << szUBR << "\r\n";
             }
 
             {
-                TCHAR szACP[32];
+                char szACP[32];
                 generic_sprintf(szACP, TEXT("%u"), ::GetACP());
-                _debugInfoStr += TEXT("Current ANSI codepage : ");
-                _debugInfoStr += szACP;
-                _debugInfoStr += TEXT("\r\n");
+                _debugInfoStr << "Current ANSI codepage : " << szACP << "\r\n";
             }
 
             // Detect WINE
@@ -301,18 +277,16 @@ intptr_t CALLBACK DebugInfoDlg::run_dlgProc(UINT message, WPARAM wParam, LPARAM 
 
             if (pWGV != nullptr)
             {
-                TCHAR szWINEVersion[32];
+                char szWINEVersion[32];
                 generic_sprintf(szWINEVersion, TEXT("%hs"), pWGV());
 
-                _debugInfoStr += TEXT("WINE : ");
-                _debugInfoStr += szWINEVersion;
-                _debugInfoStr += TEXT("\r\n");
+                _debugInfoStr <<"WINE : " << szWINEVersion << "\r\n";
             }
 
             // Plugins
-            _debugInfoStr += TEXT("Plugins : ");
-            _debugInfoStr += _loadedPlugins.length() == 0 ? TEXT("none") : _loadedPlugins;
-            _debugInfoStr += TEXT("\r\n");
+       //     _debugInfoStr << "Plugins : ";
+    //        _debugInfoStr << _(loadedPlugins.GetLength() == 0 ? "none" : _loadedPlugins);
+    //        _debugInfoStr << "\r\n";
 
             _copyToClipboardLink.init(_hInst, _hSelf);
             _copyToClipboardLink.create(::GetDlgItem(_hSelf, IDC_DEBUGINFO_COPYLINK), IDC_DEBUGINFO_COPYLINK);
@@ -360,7 +334,7 @@ intptr_t CALLBACK DebugInfoDlg::run_dlgProc(UINT message, WPARAM wParam, LPARAM 
                     if ((GetKeyState(VK_LBUTTON) & 0x100) != 0)
                     {
                         // Visual effect
-                        ::SendDlgItemMessage(_hSelf, IDC_DEBUGINFO_EDIT, EM_SETSEL, 0, _debugInfoDisplay.length() - 1);
+                        ::SendDlgItemMessage(_hSelf, IDC_DEBUGINFO_EDIT, EM_SETSEL, 0, _debugInfoDisplay.GetLength() - 1);
 
                         // Copy to clipboard
                         str2Clipboard(_debugInfoDisplay, _hSelf);
@@ -397,15 +371,15 @@ void DebugInfoDlg::refreshDebugInfo()
 {
     _debugInfoDisplay = _debugInfoStr;
 
-    size_t replacePos = _debugInfoDisplay.find(_cmdLinePlaceHolder);
+    size_t replacePos = _debugInfoDisplay.Find(_cmdLinePlaceHolder);
     if (replacePos != std::string::npos)
     {
-        _debugInfoDisplay.replace(replacePos, _cmdLinePlaceHolder.length(), NppParameters::getInstance().getCmdLineString());
+        _debugInfoDisplay.Replace(replacePos, _cmdLinePlaceHolder.GetLength(), NppParameters::getInstance().getCmdLineString());
     }
 
     // Set Debug Info text and leave the text in selected state
-    ::SetDlgItemText(_hSelf, IDC_DEBUGINFO_EDIT, _debugInfoDisplay.c_str());
-    ::SendDlgItemMessage(_hSelf, IDC_DEBUGINFO_EDIT, EM_SETSEL, 0, _debugInfoDisplay.length() - 1);
+    ::SetDlgItemText(_hSelf, IDC_DEBUGINFO_EDIT, _debugInfoDisplay.Begin());
+    ::SendDlgItemMessage(_hSelf, IDC_DEBUGINFO_EDIT, EM_SETSEL, 0, _debugInfoDisplay.GetLength() - 1);
     ::SetFocus(::GetDlgItem(_hSelf, IDC_DEBUGINFO_EDIT));
 }
 
@@ -426,23 +400,23 @@ void DoSaveOrNotBox::doDialog(bool isRTL)
 
 void DoSaveOrNotBox::changeLang()
 {
-    generic_string msg;
-    generic_string defaultMessage = TEXT("Save file \"$STR_REPLACE$\" ?");
+    String msg;
+    String defaultMessage = TEXT("Save file \"$STR_REPLACE$\" ?");
     NativeLangSpeaker* nativeLangSpeaker = NppParameters::getInstance().getNativeLangSpeaker();
 
     if (nativeLangSpeaker->changeDlgLang(_hSelf, "DoSaveOrNot"))
     {
         const unsigned char len = 255;
-        TCHAR text[len];
+        char text[len];
         ::GetDlgItemText(_hSelf, IDC_DOSAVEORNOTTEXT, text, len);
         msg = text;
     }
 
-    if (msg.empty())
+    if (msg.IsEmpty())
         msg = defaultMessage;
 
     msg = stringReplace(msg, TEXT("$STR_REPLACE$"), _fn);
-    ::SetDlgItemText(_hSelf, IDC_DOSAVEORNOTTEXT, msg.c_str());
+    ::SetDlgItemText(_hSelf, IDC_DOSAVEORNOTTEXT, msg.Begin());
 }
 
 intptr_t CALLBACK DoSaveOrNotBox::run_dlgProc(UINT message, WPARAM wParam, LPARAM /*lParam*/)
@@ -542,22 +516,22 @@ void DoSaveAllBox::doDialog(bool isRTL)
 
 void DoSaveAllBox::changeLang()
 {
-    generic_string msg;
-    generic_string defaultMessage = TEXT("Are you sure you want to save all modified documents?\r\rChoose \"Always Yes\" if you don't want to see this dialog again.\rYou can re-activate this dialog in Preferences later.");
+    String msg;
+    String defaultMessage = TEXT("Are you sure you want to save all modified documents?\r\rChoose \"Always Yes\" if you don't want to see this dialog again.\rYou can re-activate this dialog in Preferences later.");
     NativeLangSpeaker* nativeLangSpeaker = NppParameters::getInstance().getNativeLangSpeaker();
 
     if (nativeLangSpeaker->changeDlgLang(_hSelf, "DoSaveAll"))
     {
         const size_t len = 1024;
-        TCHAR text[len];
+        char text[len];
         ::GetDlgItemText(_hSelf, IDC_DOSAVEALLTEXT, text, len);
         msg = text;
     }
 
-    if (msg.empty())
+    if (msg.IsEmpty())
         msg = defaultMessage;
 
-    ::SetDlgItemText(_hSelf, IDC_DOSAVEALLTEXT, msg.c_str());
+    ::SetDlgItemText(_hSelf, IDC_DOSAVEALLTEXT, msg.Begin());
 }
 
 intptr_t CALLBACK DoSaveAllBox::run_dlgProc(UINT message, WPARAM wParam, LPARAM /*lParam*/)

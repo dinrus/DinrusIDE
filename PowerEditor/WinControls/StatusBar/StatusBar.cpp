@@ -21,7 +21,7 @@
 #include <algorithm>
 #include <cassert>
 #include <PowerEditor/Parameters.h>
-#include "NppDarkMode.h"
+#include <PowerEditor/NppDarkMode.h>
 #include <Uxtheme.h>
 #include <Vssym32.h>
 
@@ -313,7 +313,7 @@ void StatusBar::adjustParts(int clientWidth)
 }
 
 
-bool StatusBar::setText(const TCHAR* str, int whichPart)
+bool StatusBar::setText(const char* str, int whichPart)
 {
 	if ((size_t) whichPart < _partWidthArray.size())
 	{
@@ -322,19 +322,19 @@ bool StatusBar::setText(const TCHAR* str, int whichPart)
 		else
 			_lastSetText.clear();
 
-		return (TRUE == ::SendMessage(_hSelf, SB_SETTEXT, whichPart, reinterpret_cast<LPARAM>(_lastSetText.c_str())));
+		return (TRUE == ::SendMessage(_hSelf, SB_SETTEXT, whichPart, reinterpret_cast<LPARAM>(_lastSetText.Begin())));
 	}
 	assert(false and "invalid status bar index");
 	return false;
 }
 
 
-bool StatusBar::setOwnerDrawText(const TCHAR* str)
+bool StatusBar::setOwnerDrawText(const char* str)
 {
 	if (str != nullptr)
 		_lastSetText = str;
 	else
 		_lastSetText.clear();
 
-	return (::SendMessage(_hSelf, SB_SETTEXT, SBT_OWNERDRAW, reinterpret_cast<LPARAM>(_lastSetText.c_str())) == TRUE);
+	return (::SendMessage(_hSelf, SB_SETTEXT, SBT_OWNERDRAW, reinterpret_cast<LPARAM>(_lastSetText.Begin())) == TRUE);
 }

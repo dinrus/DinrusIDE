@@ -25,7 +25,7 @@ class ValueDlg : public StaticDialog
 {
 public :
         ValueDlg() = default;
-        void init(HINSTANCE hInst, HWND parent, int valueToSet, const TCHAR *text);
+        void init(HINSTANCE hInst, HWND parent, int valueToSet, const char *text);
         int doDialog(POINT p, bool isRTL = false);
 		void setNBNumber(int nbNumber) {
 			if (nbNumber > 0)
@@ -40,7 +40,7 @@ protected :
 private :
 	int _nbNumber = DEFAULT_NB_NUMBER;
     int _defaultValue = 0;
-	generic_string _name;
+	String _name;
 	POINT _p = {0, 0};
 };
 
@@ -74,7 +74,7 @@ public :
         int cmdToShow = toShow?SW_SHOW:SW_HIDE;
         if (!toShow)
         {
-            cmdToShow = (_buttonStatus != buttonStatus_nada)?SW_SHOW:SW_HIDE; 
+            cmdToShow = (_buttonStatus != buttonStatus_nada)?SW_SHOW:SW_HIDE;
         }
 		::ShowWindow(_hSelf, cmdToShow);
 	};

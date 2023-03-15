@@ -27,7 +27,7 @@
 
 using namespace std;
 
-const TCHAR * USERMSG = TEXT(" is not compatible with the current version of Notepad++.\n\n\
+const char * USERMSG = TEXT(" is not compatible with the current version of Notepad++.\n\n\
 Do you want to remove this plugin from the plugins directory to prevent this message from the next launch?");
 
 
@@ -58,7 +58,7 @@ bool PluginsManager::unloadPlugin(int index, HWND nppHandle)
     return true;
 }
 
-static WORD getBinaryArchitectureType(const TCHAR *filePath)
+static WORD getBinaryArchitectureType(const char *filePath)
 {
 	HANDLE hFile = CreateFile(filePath, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_READONLY, NULL);
 	if (hFile == INVALID_HANDLE_VALUE)
@@ -101,9 +101,9 @@ static WORD getBinaryArchitectureType(const TCHAR *filePath)
 	#define	LOAD_LIBRARY_SEARCH_DEFAULT_DIRS	0x00001000
 #endif
 
-int PluginsManager::loadPluginFromPath(const TCHAR *pluginFilePath)
+int PluginsManager::loadPluginFromPath(const char *pluginFilePath)
 {
-	const TCHAR *pluginFileName = ::PathFindFileName(pluginFilePath);
+	const char *pluginFileName = ::PathFindFileName(pluginFilePath);
 	if (isInLoadedDlls(pluginFileName))
 		return 0;
 
@@ -116,58 +116,58 @@ int PluginsManager::loadPluginFromPath(const TCHAR *pluginFilePath)
 		int archType = nppParams.archType();
 		if (getBinaryArchitectureType(pluginFilePath) != archType)
 		{
-			const TCHAR *archErrMsg = TEXT("Cannot load 64-bit plugin."); // IMAGE_FILE_MACHINE_I386 by default
+			const char *archErrMsg = TEXT("Cannot load 64-bit plugin."); // IMAGE_FILE_MACHINE_I386 by default
 			if (archType == IMAGE_FILE_MACHINE_ARM64)
 				archErrMsg = TEXT("Cannot load 32-bit or non-ARM64 plugin.");
 			else if(archType == IMAGE_FILE_MACHINE_AMD64)
 				archErrMsg = TEXT("Cannot load 32-bit plugin.");
 
-			throw generic_string(archErrMsg);
+			throw String(archErrMsg);
 		}
 
         const DWORD dwFlags = GetProcAddress(GetModuleHandle(TEXT("kernel32.dll")), "AddDllDirectory") != NULL ? LOAD_LIBRARY_SEARCH_DLL_LOAD_DIR | LOAD_LIBRARY_SEARCH_DEFAULT_DIRS : 0;
         pi->_hLib = ::LoadLibraryEx(pluginFilePath, NULL, dwFlags);
         if (!pi->_hLib)
         {
-			generic_string lastErrorMsg = GetLastErrorAsString();
-            if (lastErrorMsg.empty())
-                throw generic_string(TEXT("Load Library has failed.\nChanging the project's \"Runtime Library\" setting to \"Multi-threaded(/MT)\" might solve this problem."));
+			String lastErrorMsg = GetLastErrorAsString();
+            if (lastErrorMsg.IsEmpty())
+                throw String(TEXT("Load Library has failed.\nChanging the project's \"Runtime Library\" setting to \"Multi-threaded(/MT)\" might solve this problem."));
             else
-                throw generic_string(lastErrorMsg.c_str());
+                throw String(lastErrorMsg.Begin());
         }
-        
+
 		pi->_pFuncIsUnicode = (PFUNCISUNICODE)GetProcAddress(pi->_hLib, "isUnicode");
 		if (!pi->_pFuncIsUnicode || !pi->_pFuncIsUnicode())
-			throw generic_string(TEXT("This ANSI plugin is not compatible with your Unicode Notepad++."));
+			throw String(TEXT("This ANSI plugin is not compatible with your Unicode Notepad++."));
 
 		pi->_pFuncSetInfo = (PFUNCSETINFO)GetProcAddress(pi->_hLib, "setInfo");
 
 		if (!pi->_pFuncSetInfo)
-			throw generic_string(TEXT("Missing \"setInfo\" function"));
+			throw String(TEXT("Missing \"setInfo\" function"));
 
 		pi->_pFuncGetName = (PFUNCGETNAME)GetProcAddress(pi->_hLib, "getName");
 		if (!pi->_pFuncGetName)
-			throw generic_string(TEXT("Missing \"getName\" function"));
+			throw String(TEXT("Missing \"getName\" function"));
 		pi->_funcName = pi->_pFuncGetName();
 
 		pi->_pBeNotified = (PBENOTIFIED)GetProcAddress(pi->_hLib, "beNotified");
 		if (!pi->_pBeNotified)
-			throw generic_string(TEXT("Missing \"beNotified\" function"));
+			throw String(TEXT("Missing \"beNotified\" function"));
 
 		pi->_pMessageProc = (PMESSAGEPROC)GetProcAddress(pi->_hLib, "messageProc");
 		if (!pi->_pMessageProc)
-			throw generic_string(TEXT("Missing \"messageProc\" function"));
+			throw String(TEXT("Missing \"messageProc\" function"));
 
 		pi->_pFuncSetInfo(_nppData);
 
 		pi->_pFuncGetFuncsArray = (PFUNCGETFUNCSARRAY)GetProcAddress(pi->_hLib, "getFuncsArray");
 		if (!pi->_pFuncGetFuncsArray)
-			throw generic_string(TEXT("Missing \"getFuncsArray\" function"));
+			throw String(TEXT("Missing \"getFuncsArray\" function"));
 
 		pi->_funcItems = pi->_pFuncGetFuncsArray(&pi->_nbFuncItem);
 
 		if ((!pi->_funcItems) || (pi->_nbFuncItem <= 0))
-			throw generic_string(TEXT("Missing \"FuncItems\" array, or the nb of Function Item is not set correctly"));
+			throw String(TEXT("Missing \"FuncItems\" array, or the nb of Function Item is not set correctly"));
 
 		pi->_pluginMenu = ::CreateMenu();
 
@@ -177,27 +177,27 @@ int PluginsManager::loadPluginFromPath(const TCHAR *pluginFilePath)
 		{
 			Lexilla::GetLexerNameFn GetLexerName = (Lexilla::GetLexerNameFn)::GetProcAddress(pi->_hLib, LEXILLA_GETLEXERNAME);
 			if (!GetLexerName)
-				throw generic_string(TEXT("Loading GetLexerName function failed."));
+				throw String(TEXT("Loading GetLexerName function failed."));
 
 			//Lexilla::GetLexerFactoryFn GetLexerFactory = (Lexilla::GetLexerFactoryFn)::GetProcAddress(pi->_hLib, LEXILLA_GETLEXERFACTORY);
 			//if (!GetLexerFactory)
-				//throw generic_string(TEXT("Loading GetLexerFactory function failed."));
+				//throw String(TEXT("Loading GetLexerFactory function failed."));
 
 			Lexilla::CreateLexerFn CreateLexer = (Lexilla::CreateLexerFn)::GetProcAddress(pi->_hLib, LEXILLA_CREATELEXER);
 			if (!CreateLexer)
-				throw generic_string(TEXT("Loading CreateLexer function failed."));
+				throw String(TEXT("Loading CreateLexer function failed."));
 
 			//Lexilla::GetLibraryPropertyNamesFn GetLibraryPropertyNames = (Lexilla::GetLibraryPropertyNamesFn)::GetProcAddress(pi->_hLib, LEXILLA_GETLIBRARYPROPERTYNAMES);
 			//if (!GetLibraryPropertyNames)
-				//throw generic_string(TEXT("Loading GetLibraryPropertyNames function failed."));
+				//throw String(TEXT("Loading GetLibraryPropertyNames function failed."));
 
 			//Lexilla::SetLibraryPropertyFn SetLibraryProperty = (Lexilla::SetLibraryPropertyFn)::GetProcAddress(pi->_hLib, LEXILLA_SETLIBRARYPROPERTY);
 			//if (!SetLibraryProperty)
-				//throw generic_string(TEXT("Loading SetLibraryProperty function failed."));
+				//throw String(TEXT("Loading SetLibraryProperty function failed."));
 
 			//Lexilla::GetNameSpaceFn GetNameSpace = (Lexilla::GetNameSpaceFn)::GetProcAddress(pi->_hLib, LEXILLA_GETNAMESPACE);
 			//if (!GetNameSpace)
-				//throw generic_string(TEXT("Loading GetNameSpace function failed."));
+				//throw String(TEXT("Loading GetNameSpace function failed."));
 
 			// Assign a buffer for the lexer name.
 			char lexName[MAX_EXTERNAL_LEXER_NAME_LEN];
@@ -224,10 +224,10 @@ int PluginsManager::loadPluginFromPath(const TCHAR *pluginFilePath)
 				}
 			}
 
-			TCHAR xmlPath[MAX_PATH];
-			wcscpy_s(xmlPath, nppParams.getNppPath().c_str());
+			char xmlPath[MAX_PATH];
+			wcscpy_s(xmlPath, nppParams.getNppPath().Begin());
 			PathAppend(xmlPath, TEXT("plugins\\Config"));
-            PathAppend(xmlPath, pi->_moduleName.c_str());
+            PathAppend(xmlPath, pi->_moduleName.Begin());
 			PathRemoveExtension(xmlPath);
 			PathAddExtension(xmlPath, TEXT(".xml"));
 
@@ -236,13 +236,13 @@ int PluginsManager::loadPluginFromPath(const TCHAR *pluginFilePath)
 				lstrcpyn(xmlPath, TEXT("\0"), MAX_PATH );
 				wcscpy_s(xmlPath, nppParams.getAppDataNppDir() );
 				PathAppend(xmlPath, TEXT("plugins\\Config"));
-                PathAppend(xmlPath, pi->_moduleName.c_str());
+                PathAppend(xmlPath, pi->_moduleName.Begin());
 				PathRemoveExtension( xmlPath );
 				PathAddExtension( xmlPath, TEXT(".xml") );
 
 				if (! PathFileExists( xmlPath ) )
 				{
-					throw generic_string(generic_string(xmlPath) + TEXT(" is missing."));
+					throw String(String(xmlPath) + TEXT(" is missing."));
 				}
 			}
 
@@ -252,7 +252,7 @@ int PluginsManager::loadPluginFromPath(const TCHAR *pluginFilePath)
 			{
 				delete pXmlDoc;
 				pXmlDoc = NULL;
-				throw generic_string(generic_string(xmlPath) + TEXT(" failed to load."));
+				throw String(String(xmlPath) + TEXT(" failed to load."));
 			}
 
 			for (int x = 0; x < numLexers; ++x) // postpone adding in case the xml is missing/corrupt
@@ -279,7 +279,7 @@ int PluginsManager::loadPluginFromPath(const TCHAR *pluginFilePath)
 		pluginExceptionAlert(pluginFileName, e);
 		return -1;
 	}
-	catch (generic_string& s)
+	catch (String& s)
 	{
 		if (pi && pi->_hLib)
 		{
@@ -289,7 +289,7 @@ int PluginsManager::loadPluginFromPath(const TCHAR *pluginFilePath)
 		s += TEXT("\n\n");
 		s += pluginFileName;
 		s += USERMSG;
-		if (::MessageBox(_nppData._nppHandle, s.c_str(), pluginFilePath, MB_YESNO) == IDYES)
+		if (::MessageBox(_nppData._nppHandle, s.Begin(), pluginFilePath, MB_YESNO) == IDYES)
 		{
 
 			::DeleteFile(pluginFilePath);
@@ -304,11 +304,11 @@ int PluginsManager::loadPluginFromPath(const TCHAR *pluginFilePath)
 			::FreeLibrary(pi->_hLib);
 		}
 
-		generic_string msg = TEXT("Failed to load");
+		String msg = TEXT("Failed to load");
 		msg += TEXT("\n\n");
 		msg += pluginFileName;
 		msg += USERMSG;
-		if (::MessageBox(_nppData._nppHandle, msg.c_str(), pluginFilePath, MB_YESNO) == IDYES)
+		if (::MessageBox(_nppData._nppHandle, msg.Begin(), pluginFilePath, MB_YESNO) == IDYES)
 		{
 			::DeleteFile(pluginFilePath);
 		}
@@ -317,17 +317,17 @@ int PluginsManager::loadPluginFromPath(const TCHAR *pluginFilePath)
 	}
 }
 
-bool PluginsManager::loadPlugins(const TCHAR* dir, const PluginViewList* pluginUpdateInfoList)
+bool PluginsManager::loadPlugins(const char* dir, const PluginViewList* pluginUpdateInfoList)
 {
 	if (_isDisabled)
 		return false;
 
-	vector<generic_string> dllNames;
+	Vector<String> dllNames;
 
 	NppParameters& nppParams = NppParameters::getInstance();
-	generic_string nppPath = nppParams.getNppPath();
-	
-	generic_string pluginsFolder;
+	String nppPath = nppParams.getNppPath();
+
+	String pluginsFolder;
 	if (dir && dir[0])
 	{
 		pluginsFolder = dir;
@@ -337,15 +337,15 @@ bool PluginsManager::loadPlugins(const TCHAR* dir, const PluginViewList* pluginU
 		pluginsFolder = nppPath;
 		pathAppend(pluginsFolder, TEXT("plugins"));
 	}
-	generic_string pluginsFolderFilter = pluginsFolder;
+	String pluginsFolderFilter = pluginsFolder;
 	pathAppend(pluginsFolderFilter, TEXT("*.*"));
-	
+
 	WIN32_FIND_DATA foundData;
-	HANDLE hFindFolder = ::FindFirstFile(pluginsFolderFilter.c_str(), &foundData);
+	HANDLE hFindFolder = ::FindFirstFile(pluginsFolderFilter.Begin(), &foundData);
 	HANDLE hFindDll = INVALID_HANDLE_VALUE;
 
 	// Get Notepad++ current version
-	TCHAR nppFullPathName[MAX_PATH];
+	char nppFullPathName[MAX_PATH];
 	GetModuleFileName(NULL, nppFullPathName, MAX_PATH);
 	Version nppVer;
 	nppVer.setVersionFrom(nppFullPathName);
@@ -353,22 +353,22 @@ bool PluginsManager::loadPlugins(const TCHAR* dir, const PluginViewList* pluginU
 	// get plugin folder
 	if (hFindFolder != INVALID_HANDLE_VALUE && (foundData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY))
 	{
-		generic_string foundFileName = foundData.cFileName;
-		if (foundFileName != TEXT(".") && foundFileName != TEXT("..") && generic_stricmp(foundFileName.c_str(), TEXT("Config")) != 0)
+		String foundFileName = foundData.cFileName;
+		if (foundFileName != TEXT(".") && foundFileName != TEXT("..") && generic_stricmp(foundFileName.Begin(), TEXT("Config")) != 0)
 		{
-			generic_string pluginsFullPathFilter = pluginsFolder;
+			String pluginsFullPathFilter = pluginsFolder;
 			pathAppend(pluginsFullPathFilter, foundFileName);
-			generic_string  dllName = foundFileName;
+			String  dllName = foundFileName;
 			dllName += TEXT(".dll");
 			pathAppend(pluginsFullPathFilter, dllName);
 
 			// get plugin
-			hFindDll = ::FindFirstFile(pluginsFullPathFilter.c_str(), &foundData);
+			hFindDll = ::FindFirstFile(pluginsFullPathFilter.Begin(), &foundData);
 			if (hFindDll != INVALID_HANDLE_VALUE && !(foundData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY))
 			{
 				// - foundFileName: folder-name
 				// _ pluginsFullPathFilter: version
-				// 
+				//
 				// Find plugin update info of current plugin and check if it's compatible to Notepad++ current versions
 				bool isCompatible = true;
 
@@ -387,8 +387,8 @@ bool PluginsManager::loadPlugins(const TCHAR* dir, const PluginViewList* pluginU
 							isCompatible = nppVer.isCompatibleTo(pui->_nppCompatibleVersions.first, pui->_nppCompatibleVersions.second);
 						}
 						else if (v < pui->_version && // If dll version is older, and _oldVersionCompatibility is valid (not empty), we search in "_oldVersionCompatibility"
-							!(pui->_oldVersionCompatibility.first.first.empty() && pui->_oldVersionCompatibility.first.second.empty()) && // first version interval is valid
-							!(pui->_oldVersionCompatibility.first.second.empty() && pui->_oldVersionCompatibility.second.second.empty())) // second version interval is valid
+							!(pui->_oldVersionCompatibility.first.first.IsEmpty() && pui->_oldVersionCompatibility.first.second.IsEmpty()) && // first version interval is valid
+							!(pui->_oldVersionCompatibility.first.second.IsEmpty() && pui->_oldVersionCompatibility.second.second.IsEmpty())) // second version interval is valid
 						{
 							if (v.isCompatibleTo(pui->_oldVersionCompatibility.first.first, pui->_oldVersionCompatibility.first.second)) // dll older version found
 							{
@@ -397,7 +397,7 @@ bool PluginsManager::loadPlugins(const TCHAR* dir, const PluginViewList* pluginU
 						}
 					}
 				}
-				
+
 				if (isCompatible)
 					dllNames.push_back(pluginsFullPathFilter);
 			}
@@ -405,13 +405,13 @@ bool PluginsManager::loadPlugins(const TCHAR* dir, const PluginViewList* pluginU
 		// get plugin folder
 		while (::FindNextFile(hFindFolder, &foundData))
 		{
-			generic_string foundFileName2 = foundData.cFileName;
-			if (foundFileName2 != TEXT(".") && foundFileName2 != TEXT("..") && generic_stricmp(foundFileName2.c_str(), TEXT("Config")) != 0)
+			String foundFileName2 = foundData.cFileName;
+			if (foundFileName2 != TEXT(".") && foundFileName2 != TEXT("..") && generic_stricmp(foundFileName2.Begin(), TEXT("Config")) != 0)
 			{
-				generic_string pluginsFullPathFilter2 = pluginsFolder;
+				String pluginsFullPathFilter2 = pluginsFolder;
 				pathAppend(pluginsFullPathFilter2, foundFileName2);
-				generic_string pluginsFolderPath2 = pluginsFullPathFilter2;
-				generic_string  dllName2 = foundFileName2;
+				String pluginsFolderPath2 = pluginsFullPathFilter2;
+				String  dllName2 = foundFileName2;
 				dllName2 += TEXT(".dll");
 				pathAppend(pluginsFullPathFilter2, dllName2);
 
@@ -421,12 +421,12 @@ bool PluginsManager::loadPlugins(const TCHAR* dir, const PluginViewList* pluginU
 					::FindClose(hFindDll);
 					hFindDll = INVALID_HANDLE_VALUE;
 				}
-				hFindDll = ::FindFirstFile(pluginsFullPathFilter2.c_str(), &foundData);
+				hFindDll = ::FindFirstFile(pluginsFullPathFilter2.Begin(), &foundData);
 				if (hFindDll != INVALID_HANDLE_VALUE && !(foundData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY))
 				{
 					// - foundFileName2: folder-name
 					// _ pluginsFullPathFilter2: version
-					// 
+					//
 					// Find plugin update info of current plugin and check if it's compatible to Notepad++ current versions
 					bool isCompatible2 = true;
 
@@ -445,8 +445,8 @@ bool PluginsManager::loadPlugins(const TCHAR* dir, const PluginViewList* pluginU
 								isCompatible2 = nppVer.isCompatibleTo(pui2->_nppCompatibleVersions.first, pui2->_nppCompatibleVersions.second);
 							}
 							else if (v2 < pui2->_version && // If dll version is older, and _oldVersionCompatibility is valid (not empty), we search in "_oldVersionCompatibility"
-								!(pui2->_oldVersionCompatibility.first.first.empty() && pui2->_oldVersionCompatibility.first.second.empty()) && // first version interval is valid
-								!(pui2->_oldVersionCompatibility.first.second.empty() && pui2->_oldVersionCompatibility.second.second.empty())) // second version interval is valid
+								!(pui2->_oldVersionCompatibility.first.first.IsEmpty() && pui2->_oldVersionCompatibility.first.second.IsEmpty()) && // first version interval is valid
+								!(pui2->_oldVersionCompatibility.first.second.IsEmpty() && pui2->_oldVersionCompatibility.second.second.IsEmpty())) // second version interval is valid
 							{
 								if (v2.isCompatibleTo(pui2->_oldVersionCompatibility.first.first, pui2->_oldVersionCompatibility.first.second)) // dll older version found
 								{
@@ -468,7 +468,7 @@ bool PluginsManager::loadPlugins(const TCHAR* dir, const PluginViewList* pluginU
 
 	for (size_t i = 0, len = dllNames.size(); i < len; ++i)
 	{
-		loadPluginFromPath(dllNames[i].c_str());
+		loadPluginFromPath(dllNames[i].Begin());
 	}
 
 	return true;
@@ -531,7 +531,7 @@ bool PluginsManager::removeShortcutByCmdID(int cmdID)
 void PluginsManager::addInMenuFromPMIndex(int i)
 {
     vector<PluginCmdShortcut> & pluginCmdSCList = (NppParameters::getInstance()).getPluginCommandList();
-	::InsertMenu(_hPluginsMenu, i, MF_BYPOSITION | MF_POPUP, (UINT_PTR)_pluginInfos[i]->_pluginMenu, _pluginInfos[i]->_funcName.c_str());
+	::InsertMenu(_hPluginsMenu, i, MF_BYPOSITION | MF_POPUP, (UINT_PTR)_pluginInfos[i]->_pluginMenu, _pluginInfos[i]->_funcName.Begin());
 
     unsigned short j = 0;
 	for ( ; j < _pluginInfos[i]->_nbFuncItem ; ++j)
@@ -542,27 +542,27 @@ void PluginsManager::addInMenuFromPMIndex(int i)
 			continue;
 		}
 
-        _pluginsCommands.push_back(PluginCommand(_pluginInfos[i]->_moduleName.c_str(), j, _pluginInfos[i]->_funcItems[j]._pFunc));
+        _pluginsCommands.push_back(PluginCommand(_pluginInfos[i]->_moduleName.Begin(), j, _pluginInfos[i]->_funcItems[j]._pFunc));
 
 		int cmdID = ID_PLUGINS_CMD + static_cast<int32_t>(_pluginsCommands.size() - 1);
 		_pluginInfos[i]->_funcItems[j]._cmdID = cmdID;
-		generic_string itemName = _pluginInfos[i]->_funcItems[j]._itemName;
+		String itemName = _pluginInfos[i]->_funcItems[j]._itemName;
 
 		if (_pluginInfos[i]->_funcItems[j]._pShKey)
 		{
 			ShortcutKey & sKey = *(_pluginInfos[i]->_funcItems[j]._pShKey);
-            PluginCmdShortcut pcs(Shortcut(itemName.c_str(), sKey._isCtrl, sKey._isAlt, sKey._isShift, sKey._key), cmdID, _pluginInfos[i]->_moduleName.c_str(), j);
+            PluginCmdShortcut pcs(Shortcut(itemName.Begin(), sKey._isCtrl, sKey._isAlt, sKey._isShift, sKey._key), cmdID, _pluginInfos[i]->_moduleName.Begin(), j);
 			pluginCmdSCList.push_back(pcs);
 			itemName += TEXT("\t");
 			itemName += pcs.toString();
 		}
 		else
 		{	//no ShortcutKey is provided, add an disabled shortcut (so it can still be mapped, Paramaters class can still index any changes and the toolbar wont funk out
-            Shortcut sc(itemName.c_str(), false, false, false, 0x00);
-            PluginCmdShortcut pcs(sc, cmdID, _pluginInfos[i]->_moduleName.c_str(), j);	//VK_NULL and everything disabled, the menu name is left alone
+            Shortcut sc(itemName.Begin(), false, false, false, 0x00);
+            PluginCmdShortcut pcs(sc, cmdID, _pluginInfos[i]->_moduleName.Begin(), j);	//VK_NULL and everything disabled, the menu name is left alone
 			pluginCmdSCList.push_back(pcs);
 		}
-		::InsertMenu(_pluginInfos[i]->_pluginMenu, j, MF_BYPOSITION, cmdID, itemName.c_str());
+		::InsertMenu(_pluginInfos[i]->_pluginMenu, j, MF_BYPOSITION, cmdID, itemName.Begin());
 
 		if (_pluginInfos[i]->_funcItems[j]._init2Check)
 			::CheckMenuItem(_hPluginsMenu, cmdID, MF_BYCOMMAND | MF_CHECKED);
@@ -613,20 +613,20 @@ void PluginsManager::runPluginCommand(size_t i)
 			}
 			catch (...)
 			{
-				TCHAR funcInfo[128];
+				char funcInfo[128];
 				generic_sprintf(funcInfo, TEXT("runPluginCommand(size_t i : %zd)"), i);
-				pluginCrashAlert(_pluginsCommands[i]._pluginName.c_str(), funcInfo);
+				pluginCrashAlert(_pluginsCommands[i]._pluginName.Begin(), funcInfo);
 			}
 		}
 	}
 }
 
 
-void PluginsManager::runPluginCommand(const TCHAR *pluginName, int commandID)
+void PluginsManager::runPluginCommand(const char *pluginName, int commandID)
 {
 	for (size_t i = 0, len = _pluginsCommands.size() ; i < len ; ++i)
 	{
-		if (!generic_stricmp(_pluginsCommands[i]._pluginName.c_str(), pluginName))
+		if (!generic_stricmp(_pluginsCommands[i]._pluginName.Begin(), pluginName))
 		{
 			if (_pluginsCommands[i]._funcID == commandID)
 			{
@@ -636,13 +636,13 @@ void PluginsManager::runPluginCommand(const TCHAR *pluginName, int commandID)
 				}
 				catch (std::exception& e)
 				{
-					pluginExceptionAlert(_pluginsCommands[i]._pluginName.c_str(), e);
+					pluginExceptionAlert(_pluginsCommands[i]._pluginName.Begin(), e);
 				}
 				catch (...)
 				{
-					TCHAR funcInfo[128];
-					generic_sprintf(funcInfo, TEXT("runPluginCommand(const TCHAR *pluginName : %s, int commandID : %d)"), pluginName, commandID);
-					pluginCrashAlert(_pluginsCommands[i]._pluginName.c_str(), funcInfo);
+					char funcInfo[128];
+					generic_sprintf(funcInfo, TEXT("runPluginCommand(const char *pluginName : %s, int commandID : %d)"), pluginName, commandID);
+					pluginCrashAlert(_pluginsCommands[i]._pluginName.Begin(), funcInfo);
 				}
 			}
 		}
@@ -666,14 +666,14 @@ void PluginsManager::notify(size_t indexPluginInfo, const SCNotification *notifi
 		}
 		catch (std::exception& e)
 		{
-			pluginExceptionAlert(_pluginInfos[indexPluginInfo]->_moduleName.c_str(), e);
+			pluginExceptionAlert(_pluginInfos[indexPluginInfo]->_moduleName.Begin(), e);
 		}
 		catch (...)
 		{
-			TCHAR funcInfo[256];
+			char funcInfo[256];
 			generic_sprintf(funcInfo, TEXT("notify(SCNotification *notification) : \r notification->nmhdr.code == %d\r notification->nmhdr.hwndFrom == %p\r notification->nmhdr.idFrom == %" PRIuPTR), \
 				scNotif.nmhdr.code, scNotif.nmhdr.hwndFrom, scNotif.nmhdr.idFrom);
-			pluginCrashAlert(_pluginInfos[indexPluginInfo]->_moduleName.c_str(), funcInfo);
+			pluginCrashAlert(_pluginInfos[indexPluginInfo]->_moduleName.Begin(), funcInfo);
 		}
 	}
 }
@@ -704,13 +704,13 @@ void PluginsManager::relayNppMessages(UINT Message, WPARAM wParam, LPARAM lParam
 			}
 			catch (std::exception& e)
 			{
-				pluginExceptionAlert(_pluginInfos[i]->_moduleName.c_str(), e);
+				pluginExceptionAlert(_pluginInfos[i]->_moduleName.Begin(), e);
 			}
 			catch (...)
 			{
-				TCHAR funcInfo[128];
+				char funcInfo[128];
 				generic_sprintf(funcInfo, TEXT("relayNppMessages(UINT Message : %u, WPARAM wParam : %" PRIuPTR ", LPARAM lParam : %" PRIiPTR ")"), Message, wParam, lParam);
-				pluginCrashAlert(_pluginInfos[i]->_moduleName.c_str(), funcInfo);
+				pluginCrashAlert(_pluginInfos[i]->_moduleName.Begin(), funcInfo);
 			}
 		}
 	}
@@ -719,7 +719,7 @@ void PluginsManager::relayNppMessages(UINT Message, WPARAM wParam, LPARAM lParam
 
 bool PluginsManager::relayPluginMessages(UINT Message, WPARAM wParam, LPARAM lParam)
 {
-	const TCHAR * moduleName = (const TCHAR *)wParam;
+	const char * moduleName = (const char *)wParam;
 	if (!moduleName || !moduleName[0] || !lParam)
 		return false;
 
@@ -735,13 +735,13 @@ bool PluginsManager::relayPluginMessages(UINT Message, WPARAM wParam, LPARAM lPa
 				}
 				catch (std::exception& e)
 				{
-					pluginExceptionAlert(_pluginInfos[i]->_moduleName.c_str(), e);
+					pluginExceptionAlert(_pluginInfos[i]->_moduleName.Begin(), e);
 				}
 				catch (...)
 				{
-					TCHAR funcInfo[128];
+					char funcInfo[128];
 					generic_sprintf(funcInfo, TEXT("relayPluginMessages(UINT Message : %u, WPARAM wParam : %" PRIuPTR ", LPARAM lParam : %" PRIiPTR ")"), Message, wParam, lParam);
-					pluginCrashAlert(_pluginInfos[i]->_moduleName.c_str(), funcInfo);
+					pluginCrashAlert(_pluginInfos[i]->_moduleName.Begin(), funcInfo);
 				}
 				return true;
             }
@@ -777,9 +777,9 @@ bool PluginsManager::allocateMarker(int numberRequired, int *start)
 	return retVal;
 }
 
-generic_string PluginsManager::getLoadedPluginNames() const
+String PluginsManager::getLoadedPluginNames() const
 {
-	generic_string pluginPaths;
+	String pluginPaths;
 	PluginUpdateInfo pl;
 	for (const auto &dll : _loadedDlls)
 	{

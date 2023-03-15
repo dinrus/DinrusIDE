@@ -15,8 +15,8 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
-#include "WindowsDlg.h"
-#include "WindowsDlgRc.h"
+#include <PowerEditor/WinControls/WindowsDlg/WindowsDlg.h>
+#include <PowerEditor/WinControls/WindowsDlg/WindowsDlgRc.h>
 
 SizeableDlg::SizeableDlg(WINRECT* pWinMap)
 	: MyBaseClass(), _winMgr(pWinMap)

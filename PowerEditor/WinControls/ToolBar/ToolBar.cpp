@@ -20,13 +20,13 @@
 #include <PowerEditor/WinControls/shortcut/shortcut.h>
 #include <PowerEditor/Parameters.h>
 #include "FindReplaceDlg_rc.h"
-#include "NppDarkMode.h"
+#include <PowerEditor/NppDarkMode.h>
 
 const int WS_TOOLBARSTYLE = WS_CHILD | WS_VISIBLE | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | TBSTYLE_TOOLTIPS |TBSTYLE_FLAT | CCS_TOP | BTNS_AUTOSIZE | CCS_NOPARENTALIGN | CCS_NORESIZE | CCS_NODIVIDER;
 
 struct ToolbarIconIdUnit
 {
-	generic_string _id;
+	String _id;
 	bool hasDisabledIcon = false;
 };
 
@@ -73,25 +73,25 @@ void ToolBar::initTheme(TiXmlDocument *toolIconsDocRoot)
 		_toolIcons = _toolIcons->FirstChild(TEXT("ToolBarIcons"));
 		if (_toolIcons)
 		{
-			generic_string iconFolderDir = NppParameters::getInstance().getUserPath();
-			generic_string toolbarIconsRootFolderName = TEXT("toolbarIcons");
+			String iconFolderDir = NppParameters::getInstance().getUserPath();
+			String toolbarIconsRootFolderName = TEXT("toolbarIcons");
 			pathAppend(iconFolderDir, toolbarIconsRootFolderName);
-			generic_string folderName = (_toolIcons->ToElement())->Attribute(TEXT("icoFolderName"));
-			if (folderName.empty())
+			String folderName = (_toolIcons->ToElement())->Attribute(TEXT("icoFolderName"));
+			if (folderName.IsEmpty())
 				folderName = TEXT("default");
 
 			pathAppend(iconFolderDir, folderName);
 
 			size_t i = 0;
-			generic_string disabled_suffix = L"_disabled";
-			generic_string ext = L".ico";
+			String disabled_suffix = L"_disabled";
+			String ext = L".ico";
 			for (ToolbarIconIdUnit icoUnit : toolbarIconIDs)
 			{
-				generic_string locator = iconFolderDir;
+				String locator = iconFolderDir;
 				locator += L"\\";
 				locator += icoUnit._id;
 				locator += ext;
-				if (::PathFileExists(locator.c_str()))
+				if (::PathFileExists(locator.Begin()))
 				{
 					_customIconVect.push_back(iconLocator(HLIST_DEFAULT, i, locator));
 					_customIconVect.push_back(iconLocator(HLIST_DEFAULT2, i, locator));
@@ -101,12 +101,12 @@ void ToolBar::initTheme(TiXmlDocument *toolIconsDocRoot)
 
 				if (icoUnit.hasDisabledIcon)
 				{
-					generic_string locator_dis = iconFolderDir;
+					String locator_dis = iconFolderDir;
 					locator_dis += L"\\";
 					locator_dis += icoUnit._id;
 					locator_dis += disabled_suffix;
 					locator_dis += ext;
-					if (::PathFileExists(locator_dis.c_str()))
+					if (::PathFileExists(locator_dis.Begin()))
 					{
 						_customIconVect.push_back(iconLocator(HLIST_DISABLE, i, locator_dis));
 						_customIconVect.push_back(iconLocator(HLIST_DISABLE2, i, locator_dis));
@@ -490,7 +490,7 @@ void ToolBar::doPopop(POINT chevPoint)
 	if (start < _nbCurrentButtons)
 	{	//some buttons are hidden
 		HMENU menu = ::CreatePopupMenu();
-		generic_string text;
+		String text;
 		while (start < _nbCurrentButtons)
 		{
 			int cmd = _pTBB[start].idCommand;
@@ -498,9 +498,9 @@ void ToolBar::doPopop(POINT chevPoint)
 			if (_pTBB[start].idCommand != 0)
 			{
 				if (::SendMessage(_hSelf, TB_ISBUTTONENABLED, cmd, 0) != 0)
-					AppendMenu(menu, MF_ENABLED, cmd, text.c_str());
+					AppendMenu(menu, MF_ENABLED, cmd, text.Begin());
 				else
-					AppendMenu(menu, MF_DISABLED|MF_GRAYED, cmd, text.c_str());
+					AppendMenu(menu, MF_DISABLED|MF_GRAYED, cmd, text.Begin());
 			} else
 				AppendMenu(menu, MF_SEPARATOR, 0, TEXT(""));
 			

@@ -29,7 +29,7 @@
 class trayIconControler
 {
 public:
-  trayIconControler(HWND hwnd, UINT uID, UINT uCBMsg, HICON hicon, const TCHAR *tip);
+  trayIconControler(HWND hwnd, UINT uID, UINT uCBMsg, HICON hicon, const char *tip);
   int doTrayIcon(DWORD op);
   bool isInTray() const {return _isIconShowed;};
 

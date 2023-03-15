@@ -14,22 +14,22 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include <PowerEditor/MISC/Common/Common.h>
-#include "regExtDlg.h"
+#include <PowerEditor/MISC/RegExt/regExtDlg.h>
 #include <PowerEditor/resource.h>
 #include <PowerEditor/Parameters.h>
 
 
 
-const TCHAR* nppName   = TEXT("Notepad++_file");
-const TCHAR* nppBackup = TEXT("Notepad++_backup");
-const TCHAR* nppDoc    = TEXT("Notepad++ Document");
+const char* nppName   = TEXT("Notepad++_file");
+const char* nppBackup = TEXT("Notepad++_backup");
+const char* nppDoc    = TEXT("Notepad++ Document");
 
 const int nbSupportedLang = 10;
 const int nbExtMax = 27;
 const int extNameMax = 18;
 
 
-const TCHAR defExtArray[nbSupportedLang][nbExtMax][extNameMax] =
+const char defExtArray[nbSupportedLang][nbExtMax][extNameMax] =
 {
 	{TEXT("Notepad"),
 		TEXT(".txt"), TEXT(".log")
@@ -187,7 +187,7 @@ intptr_t CALLBACK RegExtDlg::run_dlgProc(UINT Message, WPARAM wParam, LPARAM lPa
 				{
 					writeNppPath();
 
-					TCHAR ext2Add[extNameMax] = TEXT("");
+					char ext2Add[extNameMax] = TEXT("");
 					if (!_isCustomize)
 					{
 						auto index2Add = ::SendDlgItemMessage(_hSelf, IDC_REGEXT_LANGEXT_LIST, LB_GETCURSEL, 0, 0);
@@ -215,7 +215,7 @@ intptr_t CALLBACK RegExtDlg::run_dlgProc(UINT Message, WPARAM wParam, LPARAM lPa
 
 				case IDC_REMOVEEXT_BUTTON :
 				{
-					TCHAR ext2Sup[extNameMax] = TEXT("");
+					char ext2Sup[extNameMax] = TEXT("");
 					auto index2Sup = ::SendDlgItemMessage(_hSelf, IDC_REGEXT_REGISTEREDEXTS_LIST, LB_GETCURSEL, 0, 0);
 					auto lbTextLen = ::SendDlgItemMessage(_hSelf, IDC_REGEXT_REGISTEREDEXTS_LIST, LB_GETTEXTLEN, index2Sup, 0);
 					if (lbTextLen > extNameMax - 1)
@@ -251,7 +251,7 @@ intptr_t CALLBACK RegExtDlg::run_dlgProc(UINT Message, WPARAM wParam, LPARAM lPa
 
 			if (HIWORD(wParam) == EN_CHANGE)
 			{
-				TCHAR text[extNameMax] = TEXT("");
+				char text[extNameMax] = TEXT("");
 				::SendDlgItemMessage(_hSelf, IDC_CUSTOMEXT_EDIT, WM_GETTEXT, extNameMax, reinterpret_cast<LPARAM>(text));
 				if ((lstrlen(text) == 1) && (text[0] != '.'))
 				{
@@ -273,7 +273,7 @@ intptr_t CALLBACK RegExtDlg::run_dlgProc(UINT Message, WPARAM wParam, LPARAM lPa
 					if (i != LB_ERR)
 					{
 						const size_t itemNameLen = 32;
-						TCHAR itemName[itemNameLen + 1] = { '\0' };
+						char itemName[itemNameLen + 1] = { '\0' };
 						size_t lbTextLen = ::SendDlgItemMessage(_hSelf, LOWORD(wParam), LB_GETTEXTLEN, i, 0);
 						if (lbTextLen > itemNameLen)
 							return TRUE;
@@ -339,15 +339,15 @@ void RegExtDlg::getRegisteredExts()
 	int nbRegisteredKey = getNbSubKey(HKEY_CLASSES_ROOT);
 	for (int i = 0 ; i < nbRegisteredKey ; ++i)
 	{
-		TCHAR extName[extNameLen];
+		char extName[extNameLen];
 		//FILETIME fileTime;
 		int extNameActualLen = extNameLen;
 		int res = ::RegEnumKeyEx(HKEY_CLASSES_ROOT, i, extName, reinterpret_cast<LPDWORD>(&extNameActualLen), nullptr, nullptr, nullptr, nullptr);
 		if ((res == ERROR_SUCCESS) && (extName[0] == '.'))
 		{
-			//TCHAR valName[extNameLen];
-			TCHAR valData[extNameLen];
-			DWORD valDataLen = extNameLen * sizeof(TCHAR);
+			//char valName[extNameLen];
+			char valData[extNameLen];
+			DWORD valDataLen = extNameLen * sizeof(char);
 			DWORD valType;
 			HKEY hKey2Check;
 			extNameActualLen = extNameLen;
@@ -369,7 +369,7 @@ void RegExtDlg::getDefSupportedExts()
 }
 
 
-void RegExtDlg::addExt(TCHAR *ext)
+void RegExtDlg::addExt(char *ext)
 {
 	HKEY  hKey;
 	DWORD dwDisp;
@@ -379,8 +379,8 @@ void RegExtDlg::addExt(TCHAR *ext)
 
 	if (nRet == ERROR_SUCCESS)
 	{
-		TCHAR valData[MAX_PATH];
-		DWORD valDataLen = MAX_PATH * sizeof(TCHAR);
+		char valData[MAX_PATH];
+		DWORD valDataLen = MAX_PATH * sizeof(char);
 
 		if (dwDisp == REG_OPENED_EXISTING_KEY)
 		{
@@ -388,14 +388,14 @@ void RegExtDlg::addExt(TCHAR *ext)
 			if (res == ERROR_SUCCESS)
 				::RegSetValueEx(hKey, nppBackup, 0, REG_SZ, reinterpret_cast<LPBYTE>(valData), valDataLen);
 		}
-		::RegSetValueEx(hKey, nullptr, 0, REG_SZ, reinterpret_cast<const BYTE *>(nppName), (lstrlen(nppName) + 1) * sizeof(TCHAR));
+		::RegSetValueEx(hKey, nullptr, 0, REG_SZ, reinterpret_cast<const BYTE *>(nppName), (lstrlen(nppName) + 1) * sizeof(char));
 
 		::RegCloseKey(hKey);
 	}
 }
 
 
-bool RegExtDlg::deleteExts(const TCHAR *ext2Delete)
+bool RegExtDlg::deleteExts(const char *ext2Delete)
 {
 	HKEY hKey;
 	::RegOpenKeyEx(HKEY_CLASSES_ROOT, ext2Delete, 0, KEY_ALL_ACCESS, &hKey);
@@ -405,14 +405,14 @@ bool RegExtDlg::deleteExts(const TCHAR *ext2Delete)
 
 	if ((nbValue <= 1) && (!nbSubkey))
 	{
-		TCHAR subKey[32] = TEXT("\\");
+		char subKey[32] = TEXT("\\");
 		wcscat_s(subKey, ext2Delete);
 		::RegDeleteKey(HKEY_CLASSES_ROOT, subKey);
 	}
 	else
 	{
-		TCHAR valData[extNameLen];
-		DWORD valDataLen = extNameLen*sizeof(TCHAR);
+		char valData[extNameLen];
+		DWORD valDataLen = extNameLen*sizeof(char);
 		DWORD valType;
 		int res = ::RegQueryValueEx(hKey, nppBackup, nullptr, &valType, (LPBYTE)valData, &valDataLen);
 
@@ -434,10 +434,10 @@ void RegExtDlg::writeNppPath()
 	HKEY  hKey, hRootKey;
 	DWORD dwDisp;
 	long  nRet;
-	generic_string regStr(nppName);
+	String regStr(nppName);
 	regStr += TEXT("\\shell\\open\\command");
 
-	nRet = ::RegCreateKeyEx(HKEY_CLASSES_ROOT, regStr.c_str(), 0, nullptr, 0, KEY_ALL_ACCESS, nullptr, &hKey, &dwDisp);
+	nRet = ::RegCreateKeyEx(HKEY_CLASSES_ROOT, regStr.Begin(), 0, nullptr, 0, KEY_ALL_ACCESS, nullptr, &hKey, &dwDisp);
 
 
 	if (nRet == ERROR_SUCCESS)
@@ -446,17 +446,17 @@ void RegExtDlg::writeNppPath()
 		{
 			// Write the value for new document
 			::RegOpenKeyEx(HKEY_CLASSES_ROOT, nppName, 0, KEY_ALL_ACCESS, &hRootKey);
-			::RegSetValueEx(hRootKey, nullptr, 0, REG_SZ, (LPBYTE)nppDoc, (lstrlen(nppDoc)+1)*sizeof(TCHAR));
+			::RegSetValueEx(hRootKey, nullptr, 0, REG_SZ, (LPBYTE)nppDoc, (lstrlen(nppDoc)+1)*sizeof(char));
 			RegCloseKey(hRootKey);
 
-			TCHAR nppPath[MAX_PATH];
+			char nppPath[MAX_PATH];
 			::GetModuleFileName(_hInst, nppPath, MAX_PATH);
 
-			TCHAR nppPathParam[MAX_PATH] = TEXT("\""); 
+			char nppPathParam[MAX_PATH] = TEXT("\"");
 			wcscat_s(nppPathParam, nppPath);
 			wcscat_s(nppPathParam, TEXT("\" \"%1\""));
 
-			::RegSetValueEx(hKey, nullptr, 0, REG_SZ, (LPBYTE)nppPathParam, (lstrlen(nppPathParam)+1)*sizeof(TCHAR));
+			::RegSetValueEx(hKey, nullptr, 0, REG_SZ, (LPBYTE)nppPathParam, (lstrlen(nppPathParam)+1)*sizeof(char));
 		}
 		RegCloseKey(hKey);
 	}
@@ -464,20 +464,20 @@ void RegExtDlg::writeNppPath()
 	//Set default icon value
 	regStr = nppName;
 	regStr += TEXT("\\DefaultIcon");
-	nRet = ::RegCreateKeyEx(HKEY_CLASSES_ROOT, regStr.c_str(), 0, nullptr, 0, KEY_ALL_ACCESS, nullptr, &hKey, &dwDisp);
+	nRet = ::RegCreateKeyEx(HKEY_CLASSES_ROOT, regStr.Begin(), 0, nullptr, 0, KEY_ALL_ACCESS, nullptr, &hKey, &dwDisp);
 
 	if (nRet == ERROR_SUCCESS)
 	{
 		//if (dwDisp == REG_CREATED_NEW_KEY)
 		{
-			TCHAR nppPath[MAX_PATH];
+			char nppPath[MAX_PATH];
 			::GetModuleFileName(_hInst, nppPath, MAX_PATH);
 
-			TCHAR nppPathParam[MAX_PATH] = TEXT("\"");
+			char nppPathParam[MAX_PATH] = TEXT("\"");
 			wcscat_s(nppPathParam, nppPath);
 			wcscat_s(nppPathParam, TEXT("\",0"));
 
-			::RegSetValueEx(hKey, nullptr, 0, REG_SZ, (LPBYTE)nppPathParam, (lstrlen(nppPathParam)+1)*sizeof(TCHAR));
+			::RegSetValueEx(hKey, nullptr, 0, REG_SZ, (LPBYTE)nppPathParam, (lstrlen(nppPathParam)+1)*sizeof(char));
 		}
 		RegCloseKey(hKey);
 	}

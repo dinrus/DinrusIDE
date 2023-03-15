@@ -19,14 +19,14 @@
 #include "sha-256.h"
 #include "md5Dlgs.h"
 #include "md5Dlgs_rc.h"
-#include "CustomFileDialog.h"
+#include <PowerEditor/WinControls/OpenSaveFileDialog/CustomFileDialog.h>
 #include <PowerEditor/Parameters.h>
 #include <shlwapi.h>
 #include <PowerEditor/resource.h>
 
 intptr_t CALLBACK HashFromFilesDlg::run_dlgProc(UINT message, WPARAM wParam, LPARAM lParam)
 {
-	switch (message) 
+	switch (message)
 	{
 		case WM_INITDIALOG:
 		{
@@ -92,14 +92,14 @@ intptr_t CALLBACK HashFromFilesDlg::run_dlgProc(UINT message, WPARAM wParam, LPA
 			return TRUE;
 		}
 
-		case WM_COMMAND : 
+		case WM_COMMAND :
 		{
 			switch (wParam)
 			{
 				case IDCANCEL :
 					display(false);
 					return TRUE;
-				
+
 				case IDOK :
 				{
 					return TRUE;
@@ -111,7 +111,7 @@ intptr_t CALLBACK HashFromFilesDlg::run_dlgProc(UINT message, WPARAM wParam, LPA
 					fDlg.setExtFilter(TEXT("All types"), TEXT(".*"));
 
 					const auto& fns = fDlg.doOpenMultiFilesDlg();
-					if (!fns.empty())
+					if (!fns.IsEmpty())
 					{
 						std::wstring files2check, hashResultStr;
 						for (const auto& it : fns)
@@ -119,7 +119,7 @@ intptr_t CALLBACK HashFromFilesDlg::run_dlgProc(UINT message, WPARAM wParam, LPA
 							if (_ht == hashType::hash_md5)
 							{
 								WcharMbcsConvertor& wmc = WcharMbcsConvertor::getInstance();
-								const char *path = wmc.wchar2char(it.c_str(), CP_ACP);
+								const char *path = wmc.wchar2char(it.Begin(), CP_ACP);
 
 								MD5 md5;
 								char *md5Result = md5.digestFile(path);
@@ -129,7 +129,7 @@ intptr_t CALLBACK HashFromFilesDlg::run_dlgProc(UINT message, WPARAM wParam, LPA
 									files2check += it;
 									files2check += TEXT("\r\n");
 
-									wchar_t* fileName = ::PathFindFileName(it.c_str());
+									wchar_t* fileName = ::PathFindFileName(it.Begin());
 									hashResultStr += wmc.char2wchar(md5Result, CP_ACP);
 									hashResultStr += TEXT("  ");
 									hashResultStr += fileName;
@@ -138,10 +138,10 @@ intptr_t CALLBACK HashFromFilesDlg::run_dlgProc(UINT message, WPARAM wParam, LPA
 							}
 							else if (_ht == hashType::hash_sha256)
 							{
-								std::string content = getFileContent(it.c_str());
+								std::string content = getFileContent(it.Begin());
 
 								uint8_t sha2hash[32];
-								calc_sha_256(sha2hash, reinterpret_cast<const uint8_t*>(content.c_str()), content.length());
+								calc_sha_256(sha2hash, reinterpret_cast<const uint8_t*>(content.Begin()), content.GetLength());
 
 								wchar_t sha2hashStr[65] = { '\0' };
 								for (size_t i = 0; i < 32; i++)
@@ -150,7 +150,7 @@ intptr_t CALLBACK HashFromFilesDlg::run_dlgProc(UINT message, WPARAM wParam, LPA
 								files2check += it;
 								files2check += TEXT("\r\n");
 
-								wchar_t* fileName = ::PathFindFileName(it.c_str());
+								wchar_t* fileName = ::PathFindFileName(it.Begin());
 								hashResultStr += sha2hashStr;
 								hashResultStr += TEXT("  ");
 								hashResultStr += fileName;
@@ -162,10 +162,10 @@ intptr_t CALLBACK HashFromFilesDlg::run_dlgProc(UINT message, WPARAM wParam, LPA
 							}
 						}
 
-						if (!files2check.empty() && !hashResultStr.empty())
+						if (!files2check.IsEmpty() && !hashResultStr.IsEmpty())
 						{
-							::SetDlgItemText(_hSelf, IDC_HASH_PATH_EDIT, files2check.c_str());
-							::SetDlgItemText(_hSelf, IDC_HASH_RESULT_EDIT, hashResultStr.c_str());
+							::SetDlgItemText(_hSelf, IDC_HASH_PATH_EDIT, files2check.Begin());
+							::SetDlgItemText(_hSelf, IDC_HASH_RESULT_EDIT, hashResultStr.Begin());
 						}
 					}
 				}
@@ -189,7 +189,7 @@ intptr_t CALLBACK HashFromFilesDlg::run_dlgProc(UINT message, WPARAM wParam, LPA
 			}
 		}
 	}
-	return FALSE;	
+	return FALSE;
 }
 
 LRESULT run_textEditProc(WNDPROC oldEditProc, HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -230,11 +230,11 @@ void HashFromFilesDlg::doDialog(bool isRTL)
 
 		if (_ht == hash_sha256)
 		{
-			generic_string title = TEXT("Generate SHA-256 digest from files");
-			::SetWindowText(_hSelf, title.c_str());
+			String title = TEXT("Generate SHA-256 digest from files");
+			::SetWindowText(_hSelf, title.Begin());
 
-			generic_string buttonText = TEXT("Choose files to generate SHA-256...");
-			::SetDlgItemText(_hSelf, IDC_HASH_FILEBROWSER_BUTTON, buttonText.c_str());
+			String buttonText = TEXT("Choose files to generate SHA-256...");
+			::SetDlgItemText(_hSelf, IDC_HASH_FILEBROWSER_BUTTON, buttonText.Begin());
 		}
 	}
 
@@ -301,11 +301,11 @@ void HashFromTextDlg::generateHashPerLine()
 			if (aLine.back() == '\r')
 				aLine = aLine.substr(0, aLine.size() - 1);
 
-			if (aLine.empty())
+			if (aLine.IsEmpty())
 				result += "\r\n";
 			else
 			{
-				const char *newText = wmc.wchar2char(aLine.c_str(), SC_CP_UTF8);
+				const char *newText = wmc.wchar2char(aLine.Begin(), SC_CP_UTF8);
 
 				if (_ht == hash_md5)
 				{
@@ -328,7 +328,7 @@ void HashFromTextDlg::generateHashPerLine()
 			}
 		}
 		delete[] text;
-		::SetDlgItemTextA(_hSelf, IDC_HASH_RESULT_FOMTEXT_EDIT, result.c_str());
+		::SetDlgItemTextA(_hSelf, IDC_HASH_RESULT_FOMTEXT_EDIT, result.Begin());
 	}
 	else
 	{
@@ -338,7 +338,7 @@ void HashFromTextDlg::generateHashPerLine()
 
 intptr_t CALLBACK HashFromTextDlg::run_dlgProc(UINT message, WPARAM wParam, LPARAM lParam)
 {
-	switch (message) 
+	switch (message)
 	{
 		case WM_INITDIALOG:
 		{
@@ -421,7 +421,7 @@ intptr_t CALLBACK HashFromTextDlg::run_dlgProc(UINT message, WPARAM wParam, LPAR
 			return TRUE;
 		}
 
-		case WM_COMMAND : 
+		case WM_COMMAND :
 		{
 			if (HIWORD(wParam) == EN_CHANGE && LOWORD(wParam) == IDC_HASH_TEXT_EDIT)
 			{
@@ -440,7 +440,7 @@ intptr_t CALLBACK HashFromTextDlg::run_dlgProc(UINT message, WPARAM wParam, LPAR
 				case IDCANCEL :
 					display(false);
 					return TRUE;
-				
+
 				case IDOK :
 				{
 					return TRUE;
@@ -477,7 +477,7 @@ intptr_t CALLBACK HashFromTextDlg::run_dlgProc(UINT message, WPARAM wParam, LPAR
 			}
 		}
 	}
-	return FALSE;	
+	return FALSE;
 }
 
 void HashFromTextDlg::setHashType(hashType hashType2set)
@@ -493,8 +493,8 @@ void HashFromTextDlg::doDialog(bool isRTL)
 
 		if (_ht == hash_sha256)
 		{
-			generic_string title = TEXT("Generate SHA-256 digest");
-			::SetWindowText(_hSelf, title.c_str());
+			String title = TEXT("Generate SHA-256 digest");
+			::SetWindowText(_hSelf, title.Begin());
 		}
 	}
 

@@ -21,7 +21,7 @@
 #include <PowerEditor/WinControls/StaticDialog/StaticDialog.h>
 
 class ScintillaEditView;
-class Buffer;
+class SciBuffer;
 struct MapPosition;
 
 
@@ -33,8 +33,8 @@ public:
 		Window::init(hInst, hPere);
 	};
 
-	void doDialog(POINT p, Buffer *buf, ScintillaEditView & scintSource);
-	void syncDisplay(Buffer *buf, ScintillaEditView & scintSource);
+	void doDialog(POINT p, SciBuffer *buf, ScintillaEditView & scintSource);
+	void syncDisplay(SciBuffer *buf, ScintillaEditView & scintSource);
 
     void setParent(HWND parent2set){
         _hParent = parent2set;

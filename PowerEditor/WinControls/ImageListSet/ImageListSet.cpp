@@ -17,8 +17,8 @@
 
 #include <stdexcept>
 #include <memory>
-#include "ImageListSet.h"
-#include "NppDarkMode.h"
+#include <PowerEditor/WinControls/ImageListSet/ImageListSet.h>
+#include <PowerEditor/NppDarkMode.h>
 
 void IconList::init(HINSTANCE hInst, int iconSize) 
 {
@@ -58,7 +58,7 @@ void IconList::addIcon(HICON hIcon) const
 		ImageList_AddIcon(_hImglst, hIcon);
 };
 
-bool IconList::changeIcon(size_t index, const TCHAR *iconLocation) const
+bool IconList::changeIcon(size_t index, const char *iconLocation) const
 {
 	HBITMAP hBmp = (HBITMAP)::LoadImage(_hInst, iconLocation, IMAGE_ICON, _iconSize, _iconSize, LR_LOADFROMFILE | LR_LOADMAP3DCOLORS | LR_LOADTRANSPARENT);
 	if (!hBmp)

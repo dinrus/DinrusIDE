@@ -16,7 +16,7 @@
 
 #include <locale>
 #include <codecvt>
-#include "FileInterface.h"
+#include <PowerEditor/MISC/Common/FileInterface.h>
 #include <PowerEditor/Parameters.h>
 
 Win32_IO_File::Win32_IO_File(const char *fname)
@@ -41,14 +41,14 @@ Win32_IO_File::Win32_IO_File(const wchar_t *fname)
 		NppParameters& nppParam = NppParameters::getInstance();
 		if (nppParam.isQueryEndSessionStarted() && nppParam.doNppLogNulContentCorruptionIssue())
 		{
-			generic_string issueFn = nppLogNulContentCorruptionIssue;
+			String issueFn = nppLogNulContentCorruptionIssue;
 			issueFn += TEXT(".log");
-			generic_string nppIssueLog = nppParam.getUserPath();
+			String nppIssueLog = nppParam.getUserPath();
 			pathAppend(nppIssueLog, issueFn);
 
 			std::string msg = _path;
 			msg += " is opened.";
-			writeLog(nppIssueLog.c_str(), msg.c_str());
+			writeLog(nppIssueLog.Begin(), msg.Begin());
 		}
 	}
 }
@@ -71,9 +71,9 @@ void Win32_IO_File::close()
 		NppParameters& nppParam = NppParameters::getInstance();
 		if (nppParam.isQueryEndSessionStarted() && nppParam.doNppLogNulContentCorruptionIssue())
 		{
-			generic_string issueFn = nppLogNulContentCorruptionIssue;
+			String issueFn = nppLogNulContentCorruptionIssue;
 			issueFn += TEXT(".log");
-			generic_string nppIssueLog = nppParam.getUserPath();
+			String nppIssueLog = nppParam.getUserPath();
 			pathAppend(nppIssueLog, issueFn);
 
 
@@ -91,7 +91,7 @@ void Win32_IO_File::close()
 			}
 			msg += _path;
 			msg += " is closed.";
-			writeLog(nppIssueLog.c_str(), msg.c_str());
+			writeLog(nppIssueLog.Begin(), msg.Begin());
 		}
 	}
 }
@@ -134,9 +134,9 @@ bool Win32_IO_File::write(const void *wbuf, unsigned long buf_size)
 	{
 		if (nppParam.isQueryEndSessionStarted() && nppParam.doNppLogNulContentCorruptionIssue())
 		{
-			generic_string issueFn = nppLogNulContentCorruptionIssue;
+			String issueFn = nppLogNulContentCorruptionIssue;
 			issueFn += TEXT(".log");
-			generic_string nppIssueLog = nppParam.getUserPath();
+			String nppIssueLog = nppParam.getUserPath();
 			pathAppend(nppIssueLog, issueFn);
 
 			std::string msg = _path;
@@ -144,7 +144,7 @@ bool Win32_IO_File::write(const void *wbuf, unsigned long buf_size)
 			std::wstring lastErrorMsg = GetLastErrorAsString(::GetLastError());
 			std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
 			msg += converter.to_bytes(lastErrorMsg);
-			writeLog(nppIssueLog.c_str(), msg.c_str());
+			writeLog(nppIssueLog.Begin(), msg.Begin());
 		}
 
 		return false;
@@ -153,9 +153,9 @@ bool Win32_IO_File::write(const void *wbuf, unsigned long buf_size)
 	{
 		if (nppParam.isQueryEndSessionStarted() && nppParam.doNppLogNulContentCorruptionIssue())
 		{
-			generic_string issueFn = nppLogNulContentCorruptionIssue;
+			String issueFn = nppLogNulContentCorruptionIssue;
 			issueFn += TEXT(".log");
-			generic_string nppIssueLog = nppParam.getUserPath();
+			String nppIssueLog = nppParam.getUserPath();
 			pathAppend(nppIssueLog, issueFn);
 
 			std::string msg = _path;
@@ -164,7 +164,7 @@ bool Win32_IO_File::write(const void *wbuf, unsigned long buf_size)
 			msg += "/";
 			msg += std::to_string(buf_size);
 			msg += " bytes are written.";
-			writeLog(nppIssueLog.c_str(), msg.c_str());
+			writeLog(nppIssueLog.Begin(), msg.Begin());
 		}
 	}
 

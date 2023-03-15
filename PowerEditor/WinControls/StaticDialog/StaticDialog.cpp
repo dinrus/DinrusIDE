@@ -222,9 +222,9 @@ void StaticDialog::create(int dialogID, bool isRTL, bool msgDestParent)
 
 	if (!_hSelf)
 	{
-		generic_string errMsg = TEXT("CreateDialogParam() return NULL.\rGetLastError(): ");
+		String errMsg = TEXT("CreateDialogParam() return NULL.\rGetLastError(): ");
 		errMsg += GetLastErrorAsString();
-		::MessageBox(NULL, errMsg.c_str(), TEXT("In StaticDialog::create()"), MB_OK);
+		::MessageBox(NULL, errMsg.Begin(), TEXT("In StaticDialog::create()"), MB_OK);
 		return;
 	}
 

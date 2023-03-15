@@ -59,7 +59,7 @@ distribution.
 #include <stdio.h>
 #include <assert.h>
 #include <string>
-#include <tchar.h>
+//#include <char.h>
 #include <PowerEditor/MISC/Common/Common.h>
 
 class TiXmlDocumentA;
@@ -346,7 +346,7 @@ public:
 
 		The subclasses will wrap this function.
 	*/
-	const char * Value() const { return value.c_str (); }
+	const char * Value() const { return value.Begin (); }
 
 	/** Changes the value of the node. Defined as:
 		@verbatim
@@ -381,8 +381,8 @@ public:
 	TiXmlNodeA* LastChild( const char * value ) const;			/// The last child of this node matching 'value'. Will be null if there are no children.
 
     #ifdef TIXMLA_USE_STL
-	TiXmlNodeA* FirstChild( const std::string& _value ) const	{	return FirstChild (_value.c_str ());	}	///< STL std::string form.
-	TiXmlNodeA* LastChild( const std::string& _value ) const		{	return LastChild (_value.c_str ());	}	///< STL std::string form.
+	TiXmlNodeA* FirstChild( const std::string& _value ) const	{	return FirstChild (_value.Begin ());	}	///< STL std::string form.
+	TiXmlNodeA* LastChild( const std::string& _value ) const		{	return LastChild (_value.Begin ());	}	///< STL std::string form.
 	#endif
 
 	/** An alternate way to walk the children of a node.
@@ -407,7 +407,7 @@ public:
 	TiXmlNodeA* IterateChildren( const char * value, TiXmlNodeA* previous ) const;
 
     #ifdef TIXMLA_USE_STL
-	TiXmlNodeA* IterateChildren( const std::string& _value, TiXmlNodeA* previous ) const	{	return IterateChildren (_value.c_str (), previous);	}	///< STL std::string form.
+	TiXmlNodeA* IterateChildren( const std::string& _value, TiXmlNodeA* previous ) const	{	return IterateChildren (_value.Begin (), previous);	}	///< STL std::string form.
 	#endif
 
 	/** Add a new node related to this. Adds a child past the LastChild.
@@ -452,8 +452,8 @@ public:
 	TiXmlNodeA* PreviousSibling( const char * ) const;
 
     #ifdef TIXMLA_USE_STL
-	TiXmlNodeA* PreviousSibling( const std::string& _value ) const	{	return PreviousSibling (_value.c_str ());	}	///< STL std::string form.
-	TiXmlNodeA* NextSibling( const std::string& _value) const		{	return NextSibling (_value.c_str ());	}	///< STL std::string form.
+	TiXmlNodeA* PreviousSibling( const std::string& _value ) const	{	return PreviousSibling (_value.Begin ());	}	///< STL std::string form.
+	TiXmlNodeA* NextSibling( const std::string& _value) const		{	return NextSibling (_value.Begin ());	}	///< STL std::string form.
 	#endif
 
 	/// Navigate to a sibling node.
@@ -475,7 +475,7 @@ public:
 	TiXmlElementA* NextSiblingElement( const char * ) const;
 
     #ifdef TIXMLA_USE_STL
-	TiXmlElementA* NextSiblingElement( const std::string& _value) const	{	return NextSiblingElement (_value.c_str ());	}	///< STL std::string form.
+	TiXmlElementA* NextSiblingElement( const std::string& _value) const	{	return NextSiblingElement (_value.Begin ());	}	///< STL std::string form.
 	#endif
 
 	/// Convenience function to get through elements.
@@ -485,7 +485,7 @@ public:
 	TiXmlElementA* FirstChildElement( const char * value ) const;
 
     #ifdef TIXMLA_USE_STL
-	TiXmlElementA* FirstChildElement( const std::string& _value ) const	{	return FirstChildElement (_value.c_str ());	}	///< STL std::string form.
+	TiXmlElementA* FirstChildElement( const std::string& _value ) const	{	return FirstChildElement (_value.Begin ());	}	///< STL std::string form.
 	#endif
 
 	/** Query the type (as an enumerated value, above) of this node.
@@ -524,7 +524,7 @@ protected:
 
 	// Figure out what is at *p, and parse it. Returns null if it is not an xml node.
 	TiXmlNodeA* Identify( const char* start );
-	void CopyToClone( TiXmlNodeA* target ) const	{ target->SetValue (value.c_str() );
+	void CopyToClone( TiXmlNodeA* target ) const	{ target->SetValue (value.Begin() );
 												  target->userData = userData; }
 
 	// Internal Value function returning a TIXMLA_STRING
@@ -583,8 +583,8 @@ public:
 		prev = next = 0;
 	}
 
-	const char*		Name()  const		{ return name.c_str (); }		///< Return the name of this attribute.
-	const char*		Value() const		{ return value.c_str (); }		///< Return the value of this attribute.
+	const char*		Name()  const		{ return name.Begin (); }		///< Return the name of this attribute.
+	const char*		Value() const		{ return value.Begin (); }		///< Return the value of this attribute.
 	const int       IntValue() const;									///< Return the value of this attribute, converted to an integer.
 	const double	DoubleValue() const;								///< Return the value of this attribute, converted to a double.
 
@@ -743,8 +743,8 @@ public:
 	void SetAttribute( const char* name, const char * value );
 
     #ifdef TIXMLA_USE_STL
-	const char* Attribute( const std::string& name ) const				{ return Attribute( name.c_str() ); }
-	const char* Attribute( const std::string& name, int* i ) const		{ return Attribute( name.c_str(), i ); }
+	const char* Attribute( const std::string& name ) const				{ return Attribute( name.Begin() ); }
+	const char* Attribute( const std::string& name, int* i ) const		{ return Attribute( name.Begin(), i ); }
 
 	/// STL std::string form.
 	void SetAttribute( const std::string& name, const std::string& _value )	
@@ -772,7 +772,7 @@ public:
 	*/
 	void RemoveAttribute( const char * name );
     #ifdef TIXMLA_USE_STL
-	void RemoveAttribute( const std::string& name )	{	RemoveAttribute (name.c_str ());	}	///< STL std::string form.
+	void RemoveAttribute( const std::string& name )	{	RemoveAttribute (name.Begin ());	}	///< STL std::string form.
 	#endif
 
 	TiXmlAttributeA* FirstAttribute() const	{ return attributeSet.First(); }		///< Access the first attribute in this element.
@@ -918,11 +918,11 @@ public:
 	virtual ~TiXmlDeclarationA()	{}
 
 	/// Version. Will return empty if none was found.
-	const char * Version() const		{ return version.c_str (); }
+	const char * Version() const		{ return version.Begin (); }
 	/// Encoding. Will return empty if none was found.
-	const char * Encoding() const		{ return encoding.c_str (); }
+	const char * Encoding() const		{ return encoding.Begin (); }
 	/// Is this a standalone document?
-	const char * Standalone() const		{ return standalone.c_str (); }
+	const char * Standalone() const		{ return standalone.Begin (); }
 
 	// [internal use] Creates a new Element and returs it.
 	virtual TiXmlNodeA* Clone() const;
@@ -1013,8 +1013,8 @@ public:
 	bool SaveFile( const char * filename ) const;
 
 	/// Load and Save a file using the given unicode filename. Returns true if successful.
-	bool LoadUnicodeFilePath( const TCHAR* filename );
-	bool SaveUnicodeFilePath( const TCHAR* filename ) const;
+	bool LoadUnicodeFilePath( const char* filename );
+	bool SaveUnicodeFilePath( const char* filename ) const;
 
 	#ifdef TIXMLA_USE_STL
 	bool LoadFile( const std::string& filename )			///< STL std::string version.
@@ -1047,7 +1047,7 @@ public:
 	bool Error() const						{ return error; }
 
 	/// Contains a textual (english) description of the error if one occurs.
-	const char * ErrorDesc() const	{ return errorDesc.c_str (); }
+	const char * ErrorDesc() const	{ return errorDesc.Begin (); }
 
 	/** Generally, you probably want the error string ( ErrorDesc() ). But if you
 		prefer the ErrorId, this function will fetch it.
@@ -1240,11 +1240,11 @@ public:
 	TiXmlHandleA ChildElement( int index ) const;
 
 	#ifdef TIXMLA_USE_STL
-	TiXmlHandleA FirstChild( const std::string& _value ) const			{ return FirstChild( _value.c_str() ); }
-	TiXmlHandleA FirstChildElement( const std::string& _value ) const		{ return FirstChildElement( _value.c_str() ); }
+	TiXmlHandleA FirstChild( const std::string& _value ) const			{ return FirstChild( _value.Begin() ); }
+	TiXmlHandleA FirstChildElement( const std::string& _value ) const		{ return FirstChildElement( _value.Begin() ); }
 
-	TiXmlHandleA Child( const std::string& _value, int index ) const			{ return Child( _value.c_str(), index ); }
-	TiXmlHandleA ChildElement( const std::string& _value, int index ) const	{ return ChildElement( _value.c_str(), index ); }
+	TiXmlHandleA Child( const std::string& _value, int index ) const			{ return Child( _value.Begin(), index ); }
+	TiXmlHandleA ChildElement( const std::string& _value, int index ) const	{ return ChildElement( _value.Begin(), index ); }
 	#endif
 
 	/// Return the handle as a TiXmlNodeA. This may return null.

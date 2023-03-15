@@ -17,9 +17,9 @@
 
 #include <time.h>
 #include <shlwapi.h>
-#include "Notepad_plus_Window.h"
+#include <PowerEditor/Notepad_plus_Window.h>
 
-const TCHAR Notepad_plus_Window::_className[32] = TEXT("Notepad++");
+const char Notepad_plus_Window::_className[32] = TEXT("Notepad++");
 HWND Notepad_plus_Window::gNppHWND = NULL;
 
 
@@ -63,7 +63,7 @@ void Notepad_plus_Window::setStartupBgColor(COLORREF BgColor)
 
 
 
-void Notepad_plus_Window::init(HINSTANCE hInst, HWND parent, const TCHAR *cmdLine, CmdLineParams *cmdLineParams)
+void Notepad_plus_Window::init(HINSTANCE hInst, HWND parent, const char *cmdLine, CmdLineParams *cmdLineParams)
 {
 	time_t timestampBegin = 0;
 	if (cmdLineParams->_showLoadingTime)
@@ -195,17 +195,17 @@ void Notepad_plus_Window::init(HINSTANCE hInst, HWND parent, const TCHAR *cmdLin
 	if(cmdLineParams->isPointValid() && NppDarkMode::isEnabled())
 		setStartupBgColor(NppDarkMode::getBackgroundColor()); //draw dark background when opening Npp through cmd with position data
 
-	std::vector<generic_string> fileNames;
-	std::vector<generic_string> patterns;
+	Vector<String> fileNames;
+	Vector<String> patterns;
 	patterns.push_back(TEXT("*.xml"));
 
-	generic_string nppDir = nppParams.getNppPath();
+	String nppDir = nppParams.getNppPath();
 
 	LocalizationSwitcher & localizationSwitcher = nppParams.getLocalizationSwitcher();
 	std::wstring localizationDir = nppDir;
 	pathAppend(localizationDir, TEXT("localization\\"));
 
-	_notepad_plus_plus_core.getMatchedFileNames(localizationDir.c_str(), 0, patterns, fileNames, false, false);
+	_notepad_plus_plus_core.getMatchedFileNames(localizationDir.Begin(), 0, patterns, fileNames, false, false);
 	for (size_t i = 0, len = fileNames.size(); i < len; ++i)
 		localizationSwitcher.addLanguageFromXml(fileNames[i]);
 
@@ -215,12 +215,12 @@ void Notepad_plus_Window::init(HINSTANCE hInst, HWND parent, const TCHAR *cmdLin
 	//  Get themes from both npp install themes dir and app data themes dir with the per user
 	//  overriding default themes of the same name.
 
-	generic_string appDataThemeDir;
+	String appDataThemeDir;
     if (nppParams.getAppDataNppDir() && nppParams.getAppDataNppDir()[0])
     {
 		appDataThemeDir = nppParams.getAppDataNppDir();
 	    pathAppend(appDataThemeDir, TEXT("themes\\"));
-	    _notepad_plus_plus_core.getMatchedFileNames(appDataThemeDir.c_str(), 0, patterns, fileNames, false, false);
+	    _notepad_plus_plus_core.getMatchedFileNames(appDataThemeDir.Begin(), 0, patterns, fileNames, false, false);
 	    for (size_t i = 0, len = fileNames.size() ; i < len ; ++i)
 	    {
 		    themeSwitcher.addThemeFromXml(fileNames[i]);
@@ -229,31 +229,31 @@ void Notepad_plus_Window::init(HINSTANCE hInst, HWND parent, const TCHAR *cmdLin
 
 	fileNames.clear();
 
-	generic_string nppThemeDir;
-	nppThemeDir = nppDir.c_str(); // <- should use the pointer to avoid the constructor of copy
+	String nppThemeDir;
+	nppThemeDir = nppDir.Begin(); // <- should use the pointer to avoid the constructor of copy
 	pathAppend(nppThemeDir, TEXT("themes\\"));
 
 	// Set theme directory to their installation directory
 	themeSwitcher.setThemeDirPath(nppThemeDir);
 
-	_notepad_plus_plus_core.getMatchedFileNames(nppThemeDir.c_str(), 0, patterns, fileNames, false, false);
+	_notepad_plus_plus_core.getMatchedFileNames(nppThemeDir.Begin(), 0, patterns, fileNames, false, false);
 	for (size_t i = 0, len = fileNames.size(); i < len ; ++i)
 	{
-		generic_string themeName( themeSwitcher.getThemeFromXmlFileName(fileNames[i].c_str()) );
-		if (!themeSwitcher.themeNameExists(themeName.c_str()) )
+		String themeName( themeSwitcher.getThemeFromXmlFileName(fileNames[i].Begin()) );
+		if (!themeSwitcher.themeNameExists(themeName.Begin()) )
 		{
 			themeSwitcher.addThemeFromXml(fileNames[i]);
 			
-			if (!appDataThemeDir.empty())
+			if (!appDataThemeDir.IsEmpty())
 			{
-				generic_string appDataThemePath = appDataThemeDir;
+				String appDataThemePath = appDataThemeDir;
 
-				if (!::PathFileExists(appDataThemePath.c_str()))
+				if (!::PathFileExists(appDataThemePath.Begin()))
 				{
-					::CreateDirectory(appDataThemePath.c_str(), NULL);
+					::CreateDirectory(appDataThemePath.Begin(), NULL);
 				}
 
-				TCHAR* fn = PathFindFileName(fileNames[i].c_str());
+				char* fn = PathFindFileName(fileNames[i].Begin());
 				pathAppend(appDataThemePath, fn);
 				themeSwitcher.addThemeStylerSavePath(fileNames[i], appDataThemePath);
 			}
@@ -264,7 +264,7 @@ void Notepad_plus_Window::init(HINSTANCE hInst, HWND parent, const TCHAR *cmdLin
 	for (size_t i = 0, len = _notepad_plus_plus_core._internalFuncIDs.size() ; i < len ; ++i)
 		::SendMessage(_hSelf, WM_COMMAND, _notepad_plus_plus_core._internalFuncIDs[i], 0);
 
-	std::vector<generic_string> fns;
+	Vector<String> fns;
 	if (cmdLine)
 		fns = _notepad_plus_plus_core.loadCommandlineParams(cmdLine, cmdLineParams);
 
@@ -272,7 +272,7 @@ void Notepad_plus_Window::init(HINSTANCE hInst, HWND parent, const TCHAR *cmdLin
 	// To avoid dockable panel toggle problem.
 	if (cmdLineParams->_openFoldersAsWorkspace)
 	{
-		generic_string emptyStr;
+		String emptyStr;
 		_notepad_plus_plus_core.launchFileBrowser(fns, emptyStr, true);
 	}
 	::SendMessage(_hSelf, WM_ACTIVATE, WA_ACTIVE, 0);
@@ -286,11 +286,11 @@ void Notepad_plus_Window::init(HINSTANCE hInst, HWND parent, const TCHAR *cmdLin
 	scnN.nmhdr.idFrom = 0;
 	_notepad_plus_plus_core._pluginsManager.notify(&scnN);
 
-	if (!cmdLineParams->_easterEggName.empty())
+	if (!cmdLineParams->_easterEggName.IsEmpty())
 	{
 		if (cmdLineParams->_quoteType == 0) // Easter Egg Name
 		{
-			int iQuote = _notepad_plus_plus_core.getQuoteIndexFrom(cmdLineParams->_easterEggName.c_str());
+			int iQuote = _notepad_plus_plus_core.getQuoteIndexFrom(cmdLineParams->_easterEggName.Begin());
 			if (iQuote != -1)
 			{
 				_notepad_plus_plus_core.showQuoteFromIndex(iQuote);
@@ -300,7 +300,7 @@ void Notepad_plus_Window::init(HINSTANCE hInst, HWND parent, const TCHAR *cmdLin
 		{
 			_userQuote = cmdLineParams->_easterEggName;
 			_quoteParams.reset();
-			_quoteParams._quote = _userQuote.c_str();
+			_quoteParams._quote = _userQuote.Begin();
 			_quoteParams._quoter = TEXT("Anonymous #999");
 			_quoteParams._shouldBeTrolling = false;
 			_quoteParams._lang = cmdLineParams->_langType;
@@ -315,15 +315,15 @@ void Notepad_plus_Window::init(HINSTANCE hInst, HWND parent, const TCHAR *cmdLin
 		}
 		else if (cmdLineParams->_quoteType == 2) // content drom file
 		{
-			if (::PathFileExists(cmdLineParams->_easterEggName.c_str()))
+			if (::PathFileExists(cmdLineParams->_easterEggName.Begin()))
 			{
-				std::string content = getFileContent(cmdLineParams->_easterEggName.c_str());
+				std::string content = getFileContent(cmdLineParams->_easterEggName.Begin());
 				WcharMbcsConvertor& wmc = WcharMbcsConvertor::getInstance();
-				_userQuote = wmc.char2wchar(content.c_str(), SC_CP_UTF8);
-				if (!_userQuote.empty())
+				_userQuote = wmc.char2wchar(content.Begin(), SC_CP_UTF8);
+				if (!_userQuote.IsEmpty())
 				{
 					_quoteParams.reset();
-					_quoteParams._quote = _userQuote.c_str();
+					_quoteParams._quote = _userQuote.Begin();
 					_quoteParams._quoter = TEXT("Anonymous #999");
 					_quoteParams._shouldBeTrolling = false;
 					_quoteParams._lang = cmdLineParams->_langType;

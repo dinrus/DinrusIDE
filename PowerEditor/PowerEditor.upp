@@ -5,7 +5,8 @@ uses
 	Lexilla,
 	PowerEditor/TinyXml,
 	PowerEditor/MISC,
-	PowerEditor/DarkMode;
+	PowerEditor/DarkMode,
+	Core;
 
 options
 	-D_UNICODE;

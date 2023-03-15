@@ -18,11 +18,11 @@
 #pragma once
 
 #include <Scintilla/Scintilla.h>
-#include "Notepad_plus_msgs.h"
+#include <PowerEditor/MISC/PluginsManager/Notepad_plus_msgs.h>
 
 const int nbChar = 64;
 
-typedef const TCHAR * (__cdecl * PFUNCGETNAME)();
+typedef const char * (__cdecl * PFUNCGETNAME)();
 
 struct NppData
 {
@@ -47,7 +47,7 @@ struct ShortcutKey
 
 struct FuncItem
 {
-	TCHAR _itemName[nbChar] = { '\0' };
+	char _itemName[nbChar] = { '\0' };
 	PFUNCPLUGINCMD _pFunc = nullptr;
 	int _cmdID = 0;
 	bool _init2Check = false;
@@ -58,7 +58,7 @@ typedef FuncItem * (__cdecl * PFUNCGETFUNCSARRAY)(int *);
 
 // You should implement (or define an empty function body) those functions which are called by Notepad++ plugin manager
 extern "C" __declspec(dllexport) void setInfo(NppData);
-extern "C" __declspec(dllexport) const TCHAR * getName();
+extern "C" __declspec(dllexport) const char * getName();
 extern "C" __declspec(dllexport) FuncItem * getFuncsArray(int *);
 extern "C" __declspec(dllexport) void beNotified(SCNotification *);
 extern "C" __declspec(dllexport) LRESULT messageProc(UINT Message, WPARAM wParam, LPARAM lParam);

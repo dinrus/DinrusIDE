@@ -17,7 +17,7 @@
 
 #pragma once
 
-#include "ScintillaEditView.h"
+#include <PowerEditor/ScintillaComponent/ScintillaEditView.h>
 
 
 struct NPP_RangeToFormat {

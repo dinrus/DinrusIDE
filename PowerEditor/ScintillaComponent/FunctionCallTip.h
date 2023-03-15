@@ -16,9 +16,9 @@
 
 #pragma once
 
-#include "ScintillaEditView.h"
+#include <PowerEditor/ScintillaComponent/ScintillaEditView.h>
 
-typedef std::vector<const TCHAR *> stringVec;
+typedef std::vector<const char *> stringVec;
 
 class FunctionCallTip {
 	 friend class AutoCompletion;
@@ -41,7 +41,7 @@ private:
 
 	TiXmlElement * _curFunction = nullptr;	//current function element
 	//cache some XML values n stuff
-	TCHAR * _funcName = nullptr;				//name of function
+	char * _funcName = nullptr;				//name of function
 	stringVec _retVals;				//vector of overload return values/types
 	std::vector<stringVec> _overloads;	//vector of overload params (=vector)
 	stringVec _descriptions;		//vecotr of function descriptions
@@ -49,11 +49,11 @@ private:
 	size_t _currentOverload = 0;			//current chosen overload
 	size_t _currentParam = 0;				//current highlighted param
 
-	TCHAR _start = '(';
-	TCHAR _stop = ')';
-	TCHAR _param = ',';
-	TCHAR _terminal = ';';
-    generic_string _additionalWordChar = TEXT("");
+	char _start = '(';
+	char _stop = ')';
+	char _param = ',';
+	char _terminal = ';';
+    String _additionalWordChar = TEXT("");
 	bool _ignoreCase = true;
 	bool _selfActivated = false;
 
@@ -62,12 +62,12 @@ private:
 	void showCalltip();				//display calltip based on current variables
 	void reset();					//reset all vars in case function is invalidated
 	void cleanup();					//delete any leftovers
-    bool isBasicWordChar(TCHAR ch) const {
+    bool isBasicWordChar(char ch) const {
         return ((ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z') || (ch >= '0' && ch <= '9') || ch == '_');
     };
-    bool isAdditionalWordChar(TCHAR ch) const {
-        const TCHAR *addChars = _additionalWordChar.c_str();
-        size_t len = _additionalWordChar.length();
+    bool isAdditionalWordChar(char ch) const {
+        const char *addChars = _additionalWordChar.Begin();
+        size_t len = _additionalWordChar.GetLength();
         for (size_t i = 0 ; i < len ; ++i)
             if (ch == addChars[i])
                 return true;

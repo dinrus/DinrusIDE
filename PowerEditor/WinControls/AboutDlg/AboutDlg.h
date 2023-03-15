@@ -63,7 +63,7 @@ class DebugInfoDlg : public StaticDialog
 public:
 	DebugInfoDlg() = default;
 
-	void init(HINSTANCE hInst, HWND parent, bool isAdmin, const generic_string& loadedPlugins) {
+	void init(HINSTANCE hInst, HWND parent, bool isAdmin, const String& loadedPlugins) {
 		_isAdmin = isAdmin;
 		_loadedPlugins = loadedPlugins;
 		Window::init(hInst, parent);
@@ -82,11 +82,11 @@ protected:
 
 private:
 	typedef const CHAR * (__cdecl * PWINEGETVERSION)();
-	generic_string _debugInfoStr;
-	generic_string _debugInfoDisplay;
-	const generic_string _cmdLinePlaceHolder = "$COMMAND_LINE_PLACEHOLDER$";
+	String _debugInfoStr;
+	String _debugInfoDisplay;
+	const String _cmdLinePlaceHolder = "$COMMAND_LINE_PLACEHOLDER$";
 	bool _isAdmin = false;
-	generic_string _loadedPlugins;
+	String _loadedPlugins;
 	URLCtrl _copyToClipboardLink;
 };
 
@@ -95,7 +95,7 @@ class DoSaveOrNotBox : public StaticDialog
 public:
 	DoSaveOrNotBox() = default;
 
-	void init(HINSTANCE hInst, HWND parent, const TCHAR* fn, bool isMulti) {
+	void init(HINSTANCE hInst, HWND parent, const char* fn, bool isMulti) {
 		Window::init(hInst, parent);
 		if (fn)
 			_fn = fn;
@@ -118,7 +118,7 @@ protected:
 
 private:
 	int clickedButtonId = -1;
-	generic_string _fn;
+	String _fn;
 	bool _isMulti = false;
 };
 

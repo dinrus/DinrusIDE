@@ -94,7 +94,7 @@ static BYTE ANDMask[128] =
 
 
 
-void URLCtrl::create(HWND itemHandle, const TCHAR * link, COLORREF linkColor)
+void URLCtrl::create(HWND itemHandle, const char * link, COLORREF linkColor)
 {
 	// turn on notify style
     ::SetWindowLongPtr(itemHandle, GWL_STYLE, ::GetWindowLongPtr(itemHandle, GWL_STYLE) | SS_NOTIFY);
@@ -163,11 +163,11 @@ void URLCtrl::action()
 		// Open a browser
 		if (_URL != TEXT(""))
 		{
-			::ShellExecute(NULL, TEXT("open"), _URL.c_str(), NULL, NULL, SW_SHOWNORMAL);
+			::ShellExecute(NULL, TEXT("open"), _URL.Begin(), NULL, NULL, SW_SHOWNORMAL);
 		}
 		else
 		{
-			TCHAR szWinText[MAX_PATH];
+			char szWinText[MAX_PATH];
 			::GetWindowText(_hSelf, szWinText, MAX_PATH);
 			::ShellExecute(NULL, TEXT("open"), szWinText, NULL, NULL, SW_SHOWNORMAL);
 		}
@@ -235,7 +235,7 @@ LRESULT URLCtrl::runProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam)
 		    HANDLE hOld = SelectObject(hdc, _hfUnderlined);
 
 		    // Draw the text!
-            TCHAR szWinText[MAX_PATH];
+            char szWinText[MAX_PATH];
             ::GetWindowText(hwnd, szWinText, MAX_PATH);
             ::DrawText(hdc, szWinText, -1, &rect, dwDTStyle);
 

@@ -18,7 +18,7 @@
 #pragma once
 
 #include <PowerEditor/WinControls/DockingWnd/DockingDlgInterface.h>
-#include "TreeView.h"
+#include <PowerEditor/WinControls/TreeView/TreeView.h>
 #include "ProjectPanel_rc.h"
 
 #define PM_PROJECTPANELTITLE     TEXT("Project Panel")
@@ -73,23 +73,23 @@ public:
 		_hParent = parent2set;
 	};
 
-	void setPanelTitle(generic_string title) {
+	void setPanelTitle(String title) {
 		_panelTitle = title;
 	};
-	const TCHAR * getPanelTitle() const {
-		return _panelTitle.c_str();
+	const char * getPanelTitle() const {
+		return _panelTitle.Begin();
 	};
 
 	void newWorkSpace();
 	bool saveWorkspaceRequest();
-	bool openWorkSpace(const TCHAR *projectFileName, bool force = false);
+	bool openWorkSpace(const char *projectFileName, bool force = false);
 	bool saveWorkSpace();
 	bool saveWorkSpaceAs(bool saveCopyAs);
-	void setWorkSpaceFilePath(const TCHAR *projectFileName){
+	void setWorkSpaceFilePath(const char *projectFileName){
 		_workSpaceFilePath = projectFileName;
 	};
-	const TCHAR * getWorkSpaceFilePath() const {
-		return _workSpaceFilePath.c_str();
+	const char * getWorkSpaceFilePath() const {
+		return _workSpaceFilePath.Begin();
 	};
 	bool isDirty() const {
 		return _isDirty;
@@ -102,7 +102,7 @@ public:
 	virtual void setForegroundColor(COLORREF fgColour) {
 		TreeView_SetTextColor(_treeView.getHSelf(), fgColour);
 	};
-	bool enumWorkSpaceFiles(HTREEITEM tvFrom, const std::vector<generic_string> & patterns, std::vector<generic_string> & fileNames);
+	bool enumWorkSpaceFiles(HTREEITEM tvFrom, const Vector<String> & patterns, Vector<String> & fileNames);
 
 protected:
 	TreeView _treeView;
@@ -112,9 +112,9 @@ protected:
 	HMENU _hProjectMenu = nullptr;
 	HMENU _hFolderMenu = nullptr;
 	HMENU _hFileMenu = nullptr;
-	generic_string _panelTitle;
-	generic_string _workSpaceFilePath;
-	generic_string _selDirOfFilesFromDirDlg;
+	String _panelTitle;
+	String _workSpaceFilePath;
+	String _selDirOfFilesFromDirDlg;
 	bool _isDirty = false;
 	int _panelID = 0;
 
@@ -122,12 +122,12 @@ protected:
 	void destroyMenus();
 	void addFiles(HTREEITEM hTreeItem);
 	void addFilesFromDirectory(HTREEITEM hTreeItem);
-	void recursiveAddFilesFrom(const TCHAR *folderPath, HTREEITEM hTreeItem);
-	HTREEITEM addFolder(HTREEITEM hTreeItem, const TCHAR *folderName);
+	void recursiveAddFilesFrom(const char *folderPath, HTREEITEM hTreeItem);
+	HTREEITEM addFolder(HTREEITEM hTreeItem, const char *folderName);
 
-	bool writeWorkSpace(const TCHAR *projectFileName = NULL);
-	generic_string getRelativePath(const generic_string & fn, const TCHAR *workSpaceFileName);
-	void buildProjectXml(TiXmlNode *root, HTREEITEM hItem, const TCHAR* fn2write);
+	bool writeWorkSpace(const char *projectFileName = NULL);
+	String getRelativePath(const String & fn, const char *workSpaceFileName);
+	void buildProjectXml(TiXmlNode *root, HTREEITEM hItem, const char* fn2write);
 	NodeType getNodeType(HTREEITEM hItem);
 	void setWorkSpaceDirty(bool isDirty);
 	void popupMenuCmd(int cmdID);
@@ -138,10 +138,10 @@ protected:
 	void showContextMenu(int x, int y);
 	void showContextMenuFromMenuKey(HTREEITEM selectedItem, int x, int y);
 	HMENU getMenuHandler(HTREEITEM selectedItem);
-	generic_string getAbsoluteFilePath(const TCHAR * relativePath);
+	String getAbsoluteFilePath(const char * relativePath);
 	void openSelectFile();
 	void setFileExtFilter(CustomFileDialog & fDlg);
-	std::vector<generic_string*> fullPathStrs;
+	std::vector<String*> fullPathStrs;
 };
 
 class FileRelocalizerDlg : public StaticDialog
@@ -152,12 +152,12 @@ public :
 		Window::init(hInst, parent);
 	};
 
-	int doDialog(const TCHAR *fn, bool isRTL = false);
+	int doDialog(const char *fn, bool isRTL = false);
 
 	virtual void destroy() {
 	};
 
-	generic_string getFullFilePath() {
+	String getFullFilePath() {
 		return _fullFilePath;
 	};
 
@@ -165,6 +165,6 @@ protected :
 	virtual intptr_t CALLBACK run_dlgProc(UINT message, WPARAM wParam, LPARAM lParam);
 
 private :
-	generic_string _fullFilePath;
+	String _fullFilePath;
 
 };

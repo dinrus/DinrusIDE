@@ -29,23 +29,23 @@ class CustomFileDialog
 public:
 	explicit CustomFileDialog(HWND hwnd);
 	~CustomFileDialog();
-	void setTitle(const TCHAR* title);
-	void setExtFilter(const TCHAR* text, const TCHAR* ext);
-	void setExtFilter(const TCHAR* text, std::initializer_list<const TCHAR*> exts);
-	void setDefExt(const TCHAR* ext);
-	void setDefFileName(const TCHAR *fn);
-	void setFolder(const TCHAR* folder);
-	void setCheckbox(const TCHAR* text, bool isActive = true);
+	void setTitle(const char* title);
+	void setExtFilter(const char* text, const char* ext);
+	void setExtFilter(const char* text, std::initializer_list<const char*> exts);
+	void setDefExt(const char* ext);
+	void setDefFileName(const char *fn);
+	void setFolder(const char* folder);
+	void setCheckbox(const char* text, bool isActive = true);
 	void setExtIndex(int extTypeIndex);
 
-	void enableFileTypeCheckbox(const generic_string& text, bool value);
+	void enableFileTypeCheckbox(const String& text, bool value);
 	bool getFileTypeCheckboxValue() const;
 
 	// Empty string is not a valid file name and may signal that the dialog was canceled.
-	generic_string doSaveDlg();
-	generic_string pickFolder();
-	generic_string doOpenSingleFileDlg();
-	std::vector<generic_string> doOpenMultiFilesDlg();
+	String doSaveDlg();
+	String pickFolder();
+	String doOpenSingleFileDlg();
+	Upp::Vector<String> doOpenMultiFilesDlg();
 
 	bool getCheckboxState() const;
 	bool isReadOnly() const;

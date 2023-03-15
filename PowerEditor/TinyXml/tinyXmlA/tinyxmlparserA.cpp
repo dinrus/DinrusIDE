@@ -411,7 +411,7 @@ void TiXmlDocumentA::StreamIn( TIXMLA_ISTREAM * in, TIXMLA_STRING * tag )
 			// We now have something we presume to be a node of 
 			// some sort. Identify it, and call the node to
 			// continue streaming.
-			TiXmlNodeA* node = Identify( tag->c_str() + tagIndex );
+			TiXmlNodeA* node = Identify( tag->Begin() + tagIndex );
 
 			if ( node )
 			{
@@ -679,7 +679,7 @@ void TiXmlElementA::StreamIn (TIXMLA_ISTREAM * in, TIXMLA_STRING * tag)
 			else
 			{
 				// If not a closing tag, id it, and stream.
-				const char* tagloc = tag->c_str() + tagIndex;
+				const char* tagloc = tag->Begin() + tagIndex;
 				TiXmlNodeA* node = Identify( tagloc );
 				if ( !node )
 					return;
@@ -767,9 +767,9 @@ const char* TiXmlElementA::Parse( const char* p, TiXmlParsingDataA* data )
 				return 0;
 
 			// We should find the end tag now
-			if ( StringEqual( p, endTag.c_str(), false ) )
+			if ( StringEqual( p, endTag.Begin(), false ) )
 			{
-				p += endTag.length();
+				p += endTag.GetLength();
 				return p;
 			}
 			else
@@ -1154,7 +1154,7 @@ const char* TiXmlDeclarationA::Parse( const char* p, TiXmlParsingDataA* data )
 
 bool TiXmlTextA::Blank() const
 {
-	for ( size_t i = 0, len = value.length(); i < len; i++ )
+	for ( size_t i = 0, len = value.GetLength(); i < len; i++ )
 		if ( !isspace( value[i] ) )
 			return false;
 	return true;

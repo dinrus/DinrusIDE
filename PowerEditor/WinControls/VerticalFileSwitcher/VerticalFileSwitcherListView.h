@@ -18,10 +18,10 @@
 #pragma once
 
 #include <PowerEditor/WinControls/Window.h>
-#include "TaskListDlg.h"
+#include <PowerEditor/WinControls/TaskList/TaskListDlg.h>
 
-class Buffer;
-typedef Buffer * BufferID;	//each buffer has unique ID by which it can be retrieved
+class SciBuffer;
+typedef SciBuffer * BufferID;	//each buffer has unique ID by which it can be retrieved
 
 #define SORT_DIRECTION_NONE     -1
 #define SORT_DIRECTION_UP     0
@@ -57,9 +57,9 @@ public:
 	int closeItem(BufferID bufferID, int iView);
 	void activateItem(BufferID bufferID, int iView);
 	void setItemIconStatus(BufferID bufferID);
-	generic_string getFullFilePath(size_t i) const;
+	String getFullFilePath(size_t i) const;
 	
-	void insertColumn(const TCHAR *name, int width, int index);
+	void insertColumn(const char *name, int width, int index);
 	void resizeColumns(int totalWidth);
 	void deleteColumn(size_t i) {
 		ListView_DeleteColumn(_hSelf, i);

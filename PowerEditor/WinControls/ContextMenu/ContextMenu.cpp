@@ -20,15 +20,15 @@
 #include <PowerEditor/Parameters.h>
 #include <PowerEditor/localization.h>
 
-MenuItemUnit::MenuItemUnit(unsigned long cmdID, const TCHAR *itemName, const TCHAR *parentFolderName) : _cmdID(cmdID)
+MenuItemUnit::MenuItemUnit(unsigned long cmdID, const char *itemName, const char *parentFolderName) : _cmdID(cmdID)
 {
 	if (!itemName)
-		_itemName.clear();
+		_itemName.Clear();
 	else
 		_itemName = itemName;
 
 	if (!parentFolderName)
-		_parentFolderName.clear();
+		_parentFolderName.Clear();
 	else
 		_parentFolderName = parentFolderName;
 }
@@ -51,16 +51,16 @@ void ContextMenu::create(HWND hParent, const std::vector<MenuItemUnit> & menuIte
 	_hMenu = ::CreatePopupMenu();
 	bool lastIsSep = false;
 	HMENU hParentFolder = NULL;
-	generic_string currentParentFolderStr;
+	String currentParentFolderStr;
 	int j = 0;
 	MENUITEMINFO mii;
 
 	for (size_t i = 0, len = menuItemArray.size(); i < len; ++i)
 	{
 		const MenuItemUnit & item = menuItemArray[i];
-		if (item._parentFolderName.empty())
+		if (item._parentFolderName.IsEmpty())
 		{
-			currentParentFolderStr.clear();
+			currentParentFolderStr.Clear();
 			hParentFolder = NULL;
 			j = 0;
 		}
@@ -73,14 +73,14 @@ void ContextMenu::create(HWND hParent, const std::vector<MenuItemUnit> & menuIte
 				j = 0;
 
 				_subMenus.push_back(hParentFolder);
-				::InsertMenu(_hMenu, static_cast<UINT>(i), MF_BYPOSITION | MF_POPUP, (UINT_PTR)hParentFolder, currentParentFolderStr.c_str());
+				::InsertMenu(_hMenu, static_cast<UINT>(i), MF_BYPOSITION | MF_POPUP, (UINT_PTR)hParentFolder, currentParentFolderStr.Begin());
 			}
 		}
 
 		unsigned int flag = MF_BYPOSITION | ((item._cmdID == 0)?MF_SEPARATOR:0);
 		if (hParentFolder)
 		{
-			::InsertMenu(hParentFolder, j++, flag, item._cmdID, item._itemName.c_str());
+			::InsertMenu(hParentFolder, j++, flag, item._cmdID, item._itemName.Begin());
 			lastIsSep = false;
 		}
 		else if ((i == 0 || i == menuItemArray.size() - 1) && item._cmdID == 0)
@@ -89,12 +89,12 @@ void ContextMenu::create(HWND hParent, const std::vector<MenuItemUnit> & menuIte
 		}
 		else if (item._cmdID != 0)
 		{
-			::InsertMenu(_hMenu, static_cast<UINT>(i), flag, item._cmdID, item._itemName.c_str());
+			::InsertMenu(_hMenu, static_cast<UINT>(i), flag, item._cmdID, item._itemName.Begin());
 			lastIsSep = false;
 		}
 		else if (item._cmdID == 0 && !lastIsSep)
 		{
-			::InsertMenu(_hMenu, static_cast<int32_t>(i), flag, item._cmdID, item._itemName.c_str());
+			::InsertMenu(_hMenu, static_cast<int32_t>(i), flag, item._cmdID, item._itemName.Begin());
 			lastIsSep = true;
 		}
 		else // last item is separator and current item is separator
@@ -126,14 +126,14 @@ void ContextMenu::create(HWND hParent, const std::vector<MenuItemUnit> & menuIte
 		if (copyLink && (item._cmdID == IDM_EDIT_COPY))
 		{
 			NativeLangSpeaker* nativeLangSpeaker = NppParameters::getInstance().getNativeLangSpeaker();
-			generic_string localized = nativeLangSpeaker->getNativeLangMenuString(IDM_EDIT_COPY_LINK);
-			if (localized.length() == 0)
+			String localized = nativeLangSpeaker->getNativeLangMenuString(IDM_EDIT_COPY_LINK);
+			if (localized.GetLength() == 0)
 				localized = L"Copy link";
 			memset(&mii, 0, sizeof(mii));
 			mii.cbSize = sizeof(MENUITEMINFO);
 			mii.fMask = MIIM_ID | MIIM_STRING | MIIM_STATE;
 			mii.wID = IDM_EDIT_COPY_LINK;
-			mii.dwTypeData = (TCHAR*) localized.c_str();
+			mii.dwTypeData = (char*) localized.Begin();
 			mii.fState = MFS_ENABLED;
 			int c = GetMenuItemCount(_hMenu);
 			SetMenuItemInfo(_hMenu, c - 1, TRUE, & mii);

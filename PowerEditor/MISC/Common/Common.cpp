@@ -21,28 +21,28 @@
 #include <codecvt>
 #include <locale>
 #include <PowerEditor/WinControls/StaticDialog/StaticDialog.h>
-#include "CustomFileDialog.h"
+#include <PowerEditor/WinControls/OpenSaveFileDialog/CustomFileDialog.h>
 
-#include "FileInterface.h"
+#include <PowerEditor/MISC/Common/FileInterface.h>
 #include <PowerEditor/MISC/Common/Common.h>
-#include "Utf8.h"
+#include <PowerEditor/Utf8.h>
 #include <Parameters.h>
-#include "Buffer.h"
+#include <PowerEditor/ScintillaComponent/SciBuffer.h>
 
 void printInt(int int2print)
 {
-	TCHAR str[32];
+	char str[32];
 	wsprintf(str, TEXT("%d"), int2print);
 	::MessageBox(NULL, str, TEXT(""), MB_OK);
 }
 
 
-void printStr(const TCHAR *str2print)
+void printStr(const char *str2print)
 {
 	::MessageBox(NULL, str2print, TEXT(""), MB_OK);
 }
 
-generic_string commafyInt(size_t n)
+String commafyInt(size_t n)
 {
 	generic_stringstream ss;
 	ss.imbue(std::locale(""));
@@ -50,7 +50,7 @@ generic_string commafyInt(size_t n)
 	return ss.str();
 }
 
-std::string getFileContent(const TCHAR *file2read)
+std::string getFileContent(const char *file2read)
 {
 	if (!::PathFileExists(file2read))
 		return "";
@@ -76,7 +76,7 @@ std::string getFileContent(const TCHAR *file2read)
 char getDriveLetter()
 {
 	char drive = '\0';
-	TCHAR current[MAX_PATH];
+	char current[MAX_PATH];
 
 	::GetCurrentDirectory(MAX_PATH, current);
 	int driveNbr = ::PathGetDriveNumber(current);
@@ -87,10 +87,10 @@ char getDriveLetter()
 }
 
 
-generic_string relativeFilePathToFullFilePath(const TCHAR *relativeFilePath)
+String relativeFilePathToFullFilePath(const char *relativeFilePath)
 {
-	generic_string fullFilePathName;
-	TCHAR fullFileName[MAX_PATH];
+	String fullFilePathName;
+	char fullFileName[MAX_PATH];
 	BOOL isRelative = ::PathIsRelative(relativeFilePath);
 
 	if (isRelative)
@@ -113,7 +113,7 @@ generic_string relativeFilePathToFullFilePath(const TCHAR *relativeFilePath)
 }
 
 
-void writeFileContent(const TCHAR *file2write, const char *content2write)
+void writeFileContent(const char *file2write, const char *content2write)
 {
 	Win32_IO_File file(file2write);
 
@@ -122,7 +122,7 @@ void writeFileContent(const TCHAR *file2write, const char *content2write)
 }
 
 
-void writeLog(const TCHAR *logFileName, const char *log2write)
+void writeLog(const char *logFileName, const char *log2write)
 {
 	const DWORD accessParam{ GENERIC_READ | GENERIC_WRITE };
 	const DWORD shareParam{ FILE_SHARE_READ | FILE_SHARE_WRITE };
@@ -138,7 +138,7 @@ void writeLog(const TCHAR *logFileName, const char *log2write)
 
 		SYSTEMTIME currentTime = {};
 		::GetLocalTime(&currentTime);
-		generic_string dateTimeStrW = getDateTimeStrFrom(TEXT("yyyy-MM-dd HH:mm:ss"), currentTime);
+		String dateTimeStrW = getDateTimeStrFrom(TEXT("yyyy-MM-dd HH:mm:ss"), currentTime);
 		std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
 		std::string log2writeStr = converter.to_bytes(dateTimeStrW);
 		log2writeStr += "  ";
@@ -146,7 +146,7 @@ void writeLog(const TCHAR *logFileName, const char *log2write)
 		log2writeStr += "\n";
 
 		DWORD bytes_written = 0;
-		::WriteFile(hFile, log2writeStr.c_str(), static_cast<DWORD>(log2writeStr.length()), &bytes_written, NULL);
+		::WriteFile(hFile, log2writeStr.Begin(), static_cast<DWORD>(log2writeStr.GetLength()), &bytes_written, NULL);
 
 		::FlushFileBuffers(hFile);
 		::CloseHandle(hFile);
@@ -154,14 +154,14 @@ void writeLog(const TCHAR *logFileName, const char *log2write)
 }
 
 
-generic_string folderBrowser(HWND parent, const generic_string & title, int outputCtrlID, const TCHAR *defaultStr)
+String folderBrowser(HWND parent, const String & title, int outputCtrlID, const char *defaultStr)
 {
-	generic_string folderName;
+	String folderName;
 	CustomFileDialog dlg(parent);
-	dlg.setTitle(title.c_str());
+	dlg.setTitle(title.Begin());
 
 	// Get an initial directory from the edit control or from argument provided
-	TCHAR directory[MAX_PATH] = {};
+	char directory[MAX_PATH] = {};
 	if (outputCtrlID != 0)
 		::GetDlgItemText(parent, outputCtrlID, directory, _countof(directory));
 	directory[_countof(directory) - 1] = '\0';
@@ -171,17 +171,17 @@ generic_string folderBrowser(HWND parent, const generic_string & title, int outp
 		dlg.setFolder(directory);
 
 	folderName = dlg.pickFolder();
-	if (!folderName.empty())
+	if (!folderName.IsEmpty())
 	{
 		// Send the result back to the edit control
 		if (outputCtrlID != 0)
-			::SetDlgItemText(parent, outputCtrlID, folderName.c_str());
+			::SetDlgItemText(parent, outputCtrlID, folderName.Begin());
 	}
 	return folderName;
 }
 
 
-generic_string getFolderName(HWND parent, const TCHAR *defaultDir)
+String getFolderName(HWND parent, const char *defaultDir)
 {
 	return folderBrowser(parent, TEXT("Select a folder"), 0, defaultDir);
 }
@@ -205,15 +205,15 @@ void ClientRectToScreenRect(HWND hWnd, RECT* rect)
 }
 
 
-std::vector<generic_string> tokenizeString(const generic_string & tokenString, const char delim)
+Vector<String> tokenizeString(const String & tokenString, const char delim)
 {
 	//Vector is created on stack and copied on return
-	std::vector<generic_string> tokens;
+	Vector<String> tokens;
 
     // Skip delimiters at beginning.
-	generic_string::size_type lastPos = tokenString.find_first_not_of(delim, 0);
+	String::size_type lastPos = tokenString.find_first_not_of(delim, 0);
     // Find first "non-delimiter".
-    generic_string::size_type pos     = tokenString.find_first_of(delim, lastPos);
+    String::size_type pos     = tokenString.find_first_of(delim, lastPos);
 
     while (pos != std::string::npos || lastPos != std::string::npos)
     {
@@ -254,7 +254,7 @@ int filter(unsigned int code, struct _EXCEPTION_POINTERS *)
 }
 
 
-bool isInList(const TCHAR *token, const TCHAR *list)
+bool isInList(const char *token, const char *list)
 {
 	if ((!token) || (!list))
 		return false;
@@ -262,7 +262,7 @@ bool isInList(const TCHAR *token, const TCHAR *list)
 	const size_t wordLen = 64;
 	size_t listLen = lstrlen(list);
 
-	TCHAR word[wordLen];
+	char word[wordLen];
 	size_t i = 0;
 	size_t j = 0;
 
@@ -292,10 +292,10 @@ bool isInList(const TCHAR *token, const TCHAR *list)
 }
 
 
-generic_string purgeMenuItemString(const TCHAR * menuItemStr, bool keepAmpersand)
+String purgeMenuItemString(const char * menuItemStr, bool keepAmpersand)
 {
 	const size_t cleanedNameLen = 64;
-	TCHAR cleanedName[cleanedNameLen] = TEXT("");
+	char cleanedName[cleanedNameLen] = TEXT("");
 	size_t j = 0;
 	size_t menuNameLen = lstrlen(menuItemStr);
 	if (menuNameLen >= cleanedNameLen)
@@ -335,7 +335,7 @@ const wchar_t * WcharMbcsConvertor::char2wchar(const char * mbcs2Convert, size_t
 	// Do not process empty strings
 	if (lenMbcs == 0 || lenMbcs == -1 && mbcs2Convert[0] == 0)
 	{
-		_wideCharStr.empty();
+		_wideCharStr.IsEmpty();
 		return _wideCharStr;
 	}
 
@@ -385,7 +385,7 @@ const wchar_t * WcharMbcsConvertor::char2wchar(const char * mbcs2Convert, size_t
 		MultiByteToWideChar(cp, 0, mbcs2Convert, lenMbcs-bytesNotProcessed, _wideCharStr, lenWc);
 	}
 	else
-		_wideCharStr.empty();
+		_wideCharStr.IsEmpty();
 
 	if (pLenWc)
 		*pLenWc = lenWc;
@@ -422,7 +422,7 @@ const wchar_t * WcharMbcsConvertor::char2wchar(const char * mbcs2Convert, size_t
 	}
 	else
 	{
-		_wideCharStr.empty();
+		_wideCharStr.IsEmpty();
 		*mstart = 0;
 		*mend = 0;
 	}
@@ -442,7 +442,7 @@ const char* WcharMbcsConvertor::wchar2char(const wchar_t * wcharStr2Convert, siz
 		WideCharToMultiByte(cp, 0, wcharStr2Convert, lenWc, _multiByteStr, lenMbcs, NULL, NULL);
 	}
 	else
-		_multiByteStr.empty();
+		_multiByteStr.IsEmpty();
 
 	if (pLenMbcs)
 		*pLenMbcs = lenMbcs;
@@ -473,7 +473,7 @@ const char * WcharMbcsConvertor::wchar2char(const wchar_t * wcharStr2Convert, si
 		}
 	}
 	else
-		_multiByteStr.empty();
+		_multiByteStr.IsEmpty();
 
 	return _multiByteStr;
 }
@@ -481,11 +481,11 @@ const char * WcharMbcsConvertor::wchar2char(const wchar_t * wcharStr2Convert, si
 
 std::wstring string2wstring(const std::string & rString, UINT codepage)
 {
-	int len = MultiByteToWideChar(codepage, 0, rString.c_str(), -1, NULL, 0);
+	int len = MultiByteToWideChar(codepage, 0, rString.Begin(), -1, NULL, 0);
 	if (len > 0)
 	{
 		std::vector<wchar_t> vw(len);
-		MultiByteToWideChar(codepage, 0, rString.c_str(), -1, &vw[0], len);
+		MultiByteToWideChar(codepage, 0, rString.Begin(), -1, &vw[0], len);
 		return &vw[0];
 	}
 	return std::wstring();
@@ -494,11 +494,11 @@ std::wstring string2wstring(const std::string & rString, UINT codepage)
 
 std::string wstring2string(const std::wstring & rwString, UINT codepage)
 {
-	int len = WideCharToMultiByte(codepage, 0, rwString.c_str(), -1, NULL, 0, NULL, NULL);
+	int len = WideCharToMultiByte(codepage, 0, rwString.Begin(), -1, NULL, 0, NULL, NULL);
 	if (len > 0)
 	{
 		std::vector<char> vw(len);
-		WideCharToMultiByte(codepage, 0, rwString.c_str(), -1, &vw[0], len, NULL, NULL);
+		WideCharToMultiByte(codepage, 0, rwString.Begin(), -1, &vw[0], len, NULL, NULL);
 		return &vw[0];
 	}
 	return std::string();
@@ -507,9 +507,9 @@ std::string wstring2string(const std::wstring & rwString, UINT codepage)
 
 // Escapes ampersands in file name to use it in menu
 template <typename T>
-generic_string convertFileName(T beg, T end)
+String convertFileName(T beg, T end)
 {
-	generic_string strTmp;
+	String strTmp;
 
 	for (T it = beg; it != end; ++it)
 	{
@@ -521,53 +521,53 @@ generic_string convertFileName(T beg, T end)
 }
 
 
-generic_string intToString(int val)
+String intToString(int val)
 {
-	std::vector<TCHAR> vt;
+	std::vector<char> vt;
 	bool isNegative = val < 0;
 	// can't use abs here because std::numeric_limits<int>::min() has no positive representation
 	//val = std::abs(val);
 
-	vt.push_back('0' + static_cast<TCHAR>(std::abs(val % 10)));
+	vt.push_back('0' + static_cast<char>(std::abs(val % 10)));
 	val /= 10;
 	while (val != 0)
 	{
-		vt.push_back('0' + static_cast<TCHAR>(std::abs(val % 10)));
+		vt.push_back('0' + static_cast<char>(std::abs(val % 10)));
 		val /= 10;
 	}
 
 	if (isNegative)
 		vt.push_back('-');
 
-	return generic_string(vt.rbegin(), vt.rend());
+	return String(vt.rbegin(), vt.rend());
 }
 
-generic_string uintToString(unsigned int val)
+String uintToString(unsigned int val)
 {
-	std::vector<TCHAR> vt;
+	std::vector<char> vt;
 
-	vt.push_back('0' + static_cast<TCHAR>(val % 10));
+	vt.push_back('0' + static_cast<char>(val % 10));
 	val /= 10;
 	while (val != 0)
 	{
-		vt.push_back('0' + static_cast<TCHAR>(val % 10));
+		vt.push_back('0' + static_cast<char>(val % 10));
 		val /= 10;
 	}
 
-	return generic_string(vt.rbegin(), vt.rend());
+	return String(vt.rbegin(), vt.rend());
 }
 
 // Build Recent File menu entries from given
-generic_string BuildMenuFileName(int filenameLen, unsigned int pos, const generic_string &filename, bool ordinalNumber)
+String BuildMenuFileName(int filenameLen, unsigned int pos, const String &filename, bool ordinalNumber)
 {
-	generic_string strTemp;
+	String strTemp;
 
 	if (ordinalNumber)
 	{
 		if (pos < 9)
 		{
 			strTemp.push_back('&');
-			strTemp.push_back('1' + static_cast<TCHAR>(pos));
+			strTemp.push_back('1' + static_cast<char>(pos));
 		}
 		else if (pos == 9)
 		{
@@ -589,18 +589,18 @@ generic_string BuildMenuFileName(int filenameLen, unsigned int pos, const generi
 
 	if (filenameLen > 0)
 	{
-		std::vector<TCHAR> vt(filenameLen + 1);
+		std::vector<char> vt(filenameLen + 1);
 		// W removed from PathCompactPathExW due to compiler errors for ANSI version.
-		PathCompactPathEx(&vt[0], filename.c_str(), filenameLen + 1, 0);
+		PathCompactPathEx(&vt[0], filename.Begin(), filenameLen + 1, 0);
 		strTemp.append(convertFileName(vt.begin(), vt.begin() + lstrlen(&vt[0])));
 	}
 	else
 	{
 		// (filenameLen < 0)
-		generic_string::const_iterator it = filename.begin();
+		String::const_iterator it = filename.begin();
 
 		if (filenameLen == 0)
-			it += PathFindFileName(filename.c_str()) - filename.c_str();
+			it += PathFindFileName(filename.Begin()) - filename.Begin();
 
 		// MAX_PATH is still here to keep old trimming behaviour.
 		if (filename.end() - it < MAX_PATH)
@@ -619,10 +619,10 @@ generic_string BuildMenuFileName(int filenameLen, unsigned int pos, const generi
 }
 
 
-generic_string PathRemoveFileSpec(generic_string& path)
+String PathRemoveFileSpec(String& path)
 {
-    generic_string::size_type lastBackslash = path.find_last_of(TEXT('\\'));
-    if (lastBackslash == generic_string::npos)
+    String::size_type lastBackslash = path.find_last_of(TEXT('\\'));
+    if (lastBackslash == String::npos)
     {
         if (path.size() >= 2 && path[1] == TEXT(':'))  // "C:foo.bar" becomes "C:"
             path.erase(2);
@@ -642,29 +642,29 @@ generic_string PathRemoveFileSpec(generic_string& path)
 }
 
 
-generic_string pathAppend(generic_string& strDest, const generic_string& str2append)
+String pathAppend(String& strDest, const String& str2append)
 {
-	if (strDest.empty() && str2append.empty()) // "" + ""
+	if (strDest.IsEmpty() && str2append.IsEmpty()) // "" + ""
 	{
 		strDest = TEXT("\\");
 		return strDest;
 	}
 
-	if (strDest.empty() && !str2append.empty()) // "" + titi
+	if (strDest.IsEmpty() && !str2append.IsEmpty()) // "" + titi
 	{
 		strDest = str2append;
 		return strDest;
 	}
 
-	if (strDest[strDest.length() - 1] == '\\' && (!str2append.empty() && str2append[0] == '\\')) // toto\ + \titi
+	if (strDest[strDest.GetLength() - 1] == '\\' && (!str2append.IsEmpty() && str2append[0] == '\\')) // toto\ + \titi
 	{
-		strDest.erase(strDest.length() - 1, 1);
+		strDest.erase(strDest.GetLength() - 1, 1);
 		strDest += str2append;
 		return strDest;
 	}
 
-	if ((strDest[strDest.length() - 1] == '\\' && (!str2append.empty() && str2append[0] != '\\')) // toto\ + titi
-		|| (strDest[strDest.length() - 1] != '\\' && (!str2append.empty() && str2append[0] == '\\'))) // toto + \titi
+	if ((strDest[strDest.GetLength() - 1] == '\\' && (!str2append.IsEmpty() && str2append[0] != '\\')) // toto\ + titi
+		|| (strDest[strDest.GetLength() - 1] != '\\' && (!str2append.IsEmpty() && str2append[0] == '\\'))) // toto + \titi
 	{
 		strDest += str2append;
 		return strDest;
@@ -717,39 +717,39 @@ COLORREF getCtrlBgColor(HWND hWnd)
 }
 
 
-generic_string stringToUpper(generic_string strToConvert)
+String stringToUpper(String strToConvert)
 {
-    std::transform(strToConvert.begin(), strToConvert.end(), strToConvert.begin(), 
-        [](TCHAR ch){ return static_cast<TCHAR>(_totupper(ch)); }
+    std::transform(strToConvert.begin(), strToConvert.end(), strToConvert.begin(),
+        [](char ch){ return static_cast<char>(_totupper(ch)); }
     );
     return strToConvert;
 }
 
-generic_string stringToLower(generic_string strToConvert)
+String stringToLower(String strToConvert)
 {
     std::transform(strToConvert.begin(), strToConvert.end(), strToConvert.begin(), ::towlower);
     return strToConvert;
 }
 
 
-generic_string stringReplace(generic_string subject, const generic_string& search, const generic_string& replace)
+String stringReplace(String subject, const String& search, const String& replace)
 {
 	size_t pos = 0;
 	while ((pos = subject.find(search, pos)) != std::string::npos)
 	{
-		subject.replace(pos, search.length(), replace);
-		pos += replace.length();
+		subject.replace(pos, search.GetLength(), replace);
+		pos += replace.GetLength();
 	}
 	return subject;
 }
 
 
-std::vector<generic_string> stringSplit(const generic_string& input, const generic_string& delimiter)
+Vector<String> stringSplit(const String& input, const String& delimiter)
 {
 	size_t start = 0U;
 	size_t end = input.find(delimiter);
-	std::vector<generic_string> output;
-	const size_t delimiterLength = delimiter.length();
+	Vector<String> output;
+	const size_t delimiterLength = delimiter.GetLength();
 	while (end != std::string::npos)
 	{
 		output.push_back(input.substr(start, end - start));
@@ -761,7 +761,7 @@ std::vector<generic_string> stringSplit(const generic_string& input, const gener
 }
 
 
-bool str2numberVector(generic_string str2convert, std::vector<size_t>& numVect)
+bool str2numberVector(String str2convert, std::vector<size_t>& numVect)
 {
 	numVect.clear();
 
@@ -782,11 +782,11 @@ bool str2numberVector(generic_string str2convert, std::vector<size_t>& numVect)
 		}
 	}
 
-	std::vector<generic_string> v = stringSplit(str2convert, TEXT(" "));
+	Vector<String> v = stringSplit(str2convert, TEXT(" "));
 	for (auto i : v)
 	{
 		// Don't treat empty string and the number greater than 9999
-		if (!i.empty() && i.length() < 5)
+		if (!i.IsEmpty() && i.GetLength() < 5)
 		{
 			numVect.push_back(std::stoi(i));
 		}
@@ -794,9 +794,9 @@ bool str2numberVector(generic_string str2convert, std::vector<size_t>& numVect)
 	return true;
 }
 
-generic_string stringJoin(const std::vector<generic_string>& strings, const generic_string& separator)
+String stringJoin(const Vector<String>& strings, const String& separator)
 {
-	generic_string joined;
+	String joined;
 	size_t length = strings.size();
 	for (size_t i = 0; i < length; ++i)
 	{
@@ -810,7 +810,7 @@ generic_string stringJoin(const std::vector<generic_string>& strings, const gene
 }
 
 
-generic_string stringTakeWhileAdmissable(const generic_string& input, const generic_string& admissable)
+String stringTakeWhileAdmissable(const String& input, const String& admissable)
 {
 	// Find first non-admissable character in "input", and remove everything after it.
 	size_t idx = input.find_first_not_of(admissable);
@@ -825,10 +825,10 @@ generic_string stringTakeWhileAdmissable(const generic_string& input, const gene
 }
 
 
-double stodLocale(const generic_string& str, _locale_t loc, size_t* idx)
+double stodLocale(const String& str, _locale_t loc, size_t* idx)
 {
 	// Copied from the std::stod implementation but uses _wcstod_l instead of wcstod.
-	const wchar_t* ptr = str.c_str();
+	const wchar_t* ptr = str.Begin();
 	errno = 0;
 	wchar_t* eptr;
 #ifdef __MINGW32__
@@ -846,10 +846,10 @@ double stodLocale(const generic_string& str, _locale_t loc, size_t* idx)
 }
 
 // Source: https://blogs.msdn.microsoft.com/greggm/2005/09/21/comparing-file-names-in-native-code/
-// Modified to use TCHAR's instead of assuming Unicode and reformatted to conform with Notepad++ code style
-static TCHAR ToUpperInvariant(TCHAR input)
+// Modified to use char's instead of assuming Unicode and reformatted to conform with Notepad++ code style
+static char ToUpperInvariant(char input)
 {
-	TCHAR result;
+	char result;
 	LONG lres = LCMapString(LOCALE_INVARIANT, LCMAP_UPPERCASE, &input, 1, &result, 1);
 	if (lres == 0)
 	{
@@ -860,7 +860,7 @@ static TCHAR ToUpperInvariant(TCHAR input)
 }
 
 // Source: https://blogs.msdn.microsoft.com/greggm/2005/09/21/comparing-file-names-in-native-code/
-// Modified to use TCHAR's instead of assuming Unicode and reformatted to conform with Notepad++ code style
+// Modified to use char's instead of assuming Unicode and reformatted to conform with Notepad++ code style
 int OrdinalIgnoreCaseCompareStrings(LPCTSTR sz1, LPCTSTR sz2)
 {
 	if (sz1 == sz2)
@@ -873,8 +873,8 @@ int OrdinalIgnoreCaseCompareStrings(LPCTSTR sz1, LPCTSTR sz2)
 
 	for (;; sz1++, sz2++)
 	{
-		const TCHAR c1 = *sz1;
-		const TCHAR c2 = *sz2;
+		const char c1 = *sz1;
+		const char c2 = *sz2;
 
 		// check for binary equality first
 		if (c1 == c2)
@@ -893,8 +893,8 @@ int OrdinalIgnoreCaseCompareStrings(LPCTSTR sz1, LPCTSTR sz2)
 
 			// IMPORTANT: this needs to be upper case to match the behavior of the operating system.
 			// See http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dndotnet/html/StringsinNET20.asp
-			const TCHAR u1 = ToUpperInvariant(c1);
-			const TCHAR u2 = ToUpperInvariant(c2);
+			const char u1 = ToUpperInvariant(c1);
+			const char u2 = ToUpperInvariant(c2);
 			if (u1 != u2)
 			{
 				return (u1-u2); // strings are different
@@ -903,9 +903,9 @@ int OrdinalIgnoreCaseCompareStrings(LPCTSTR sz1, LPCTSTR sz2)
 	}
 }
 
-bool str2Clipboard(const generic_string &str2cpy, HWND hwnd)
+bool str2Clipboard(const String &str2cpy, HWND hwnd)
 {
-	size_t len2Allocate = (str2cpy.size() + 1) * sizeof(TCHAR);
+	size_t len2Allocate = (str2cpy.size() + 1) * sizeof(char);
 	HGLOBAL hglbCopy = ::GlobalAlloc(GMEM_MOVEABLE, len2Allocate);
 	if (hglbCopy == NULL)
 	{
@@ -924,7 +924,7 @@ bool str2Clipboard(const generic_string &str2cpy, HWND hwnd)
 		return false;
 	}
 	// Lock the handle and copy the text to the buffer.
-	TCHAR *pStr = (TCHAR *)::GlobalLock(hglbCopy);
+	char *pStr = (char *)::GlobalLock(hglbCopy);
 	if (pStr == NULL)
 	{
 		::GlobalUnlock(hglbCopy);
@@ -932,7 +932,7 @@ bool str2Clipboard(const generic_string &str2cpy, HWND hwnd)
 		::CloseClipboard();
 		return false;
 	}
-	_tcscpy_s(pStr, len2Allocate / sizeof(TCHAR), str2cpy.c_str());
+	_tcscpy_s(pStr, len2Allocate / sizeof(char), str2cpy.Begin());
 	::GlobalUnlock(hglbCopy);
 	// Place the handle on the clipboard.
 	unsigned int clipBoardFormat = CF_UNICODETEXT;
@@ -949,67 +949,67 @@ bool str2Clipboard(const generic_string &str2cpy, HWND hwnd)
 	return true;
 }
 
-bool buf2Clipborad(const std::vector<Buffer*>& buffers, bool isFullPath, HWND hwnd)
+bool buf2Clipborad(const std::vector<SciBuffer*>& buffers, bool isFullPath, HWND hwnd)
 {
-	const generic_string crlf = _T("\r\n");
-	generic_string selection;
+	const String crlf = _T("\r\n");
+	String selection;
 	for (auto&& buf : buffers)
 	{
 		if (buf)
 		{
-			const TCHAR* fileName = isFullPath ? buf->getFullPathName() : buf->getFileName();
+			const char* fileName = isFullPath ? buf->getFullPathName() : buf->getFileName();
 			if (fileName)
 				selection += fileName;
 		}
-		if (!selection.empty() && !endsWith(selection, crlf))
+		if (!selection.IsEmpty() && !endsWith(selection, crlf))
 			selection += crlf;
 	}
-	if (!selection.empty())
+	if (!selection.IsEmpty())
 		return str2Clipboard(selection, hwnd);
 	return false;
 }
 
-bool matchInList(const TCHAR *fileName, const std::vector<generic_string> & patterns)
+bool matchInList(const char *fileName, const Vector<String> & patterns)
 {
 	bool is_matched = false;
 	for (size_t i = 0, len = patterns.size(); i < len; ++i)
 	{
-		if (patterns[i].length() > 1 && patterns[i][0] == '!')
+		if (patterns[i].GetLength() > 1 && patterns[i][0] == '!')
 		{
-			if (PathMatchSpec(fileName, patterns[i].c_str() + 1))
+			if (PathMatchSpec(fileName, patterns[i].Begin() + 1))
 				return false;
 
 			continue;
-		} 
+		}
 
-		if (PathMatchSpec(fileName, patterns[i].c_str()))
+		if (PathMatchSpec(fileName, patterns[i].Begin()))
 			is_matched = true;
 	}
 	return is_matched;
 }
 
-bool matchInExcludeDirList(const TCHAR* dirName, const std::vector<generic_string>& patterns, size_t level)
+bool matchInExcludeDirList(const char* dirName, const Vector<String>& patterns, size_t level)
 {
 	for (size_t i = 0, len = patterns.size(); i < len; ++i)
 	{
-		size_t patterLen = patterns[i].length();
+		size_t patterLen = patterns[i].GetLength();
 
 		if (patterLen > 3 && patterns[i][0] == '!' && patterns[i][1] == '+' && patterns[i][2] == '\\') // check for !+\folderPattern: for all levels - search this pattern recursively
 		{
-			if (PathMatchSpec(dirName, patterns[i].c_str() + 3))
+			if (PathMatchSpec(dirName, patterns[i].Begin() + 3))
 				return true;
 		}
 		else if (patterLen > 2 && patterns[i][0] == '!' && patterns[i][1] == '\\') // check for !\folderPattern: exclusive pattern for only the 1st level
 		{
 			if (level == 1)
-				if (PathMatchSpec(dirName, patterns[i].c_str() + 2))
+				if (PathMatchSpec(dirName, patterns[i].Begin() + 2))
 					return true;
 		}
 	}
 	return false;
 }
 
-bool allPatternsAreExclusion(const std::vector<generic_string> patterns)
+bool allPatternsAreExclusion(const Vector<String> patterns)
 {
 	bool oneInclusionPatternFound = false;
 	for (size_t i = 0, len = patterns.size(); i < len; ++i)
@@ -1023,9 +1023,9 @@ bool allPatternsAreExclusion(const std::vector<generic_string> patterns)
 	return !oneInclusionPatternFound;
 }
 
-generic_string GetLastErrorAsString(DWORD errorCode)
+String GetLastErrorAsString(DWORD errorCode)
 {
-	generic_string errorMsg(_T(""));
+	String errorMsg(_T(""));
 	// Get the error message, if any.
 	// If both error codes (passed error n GetLastError) are 0, then return empty
 	if (errorCode == 0)
@@ -1137,7 +1137,7 @@ HWND CreateToolTipRect(int toolID, HWND hWnd, HINSTANCE hInst, const PTSTR pszTe
 	return hwndTip;
 }
 
-bool isCertificateValidated(const generic_string & fullFilePath, const generic_string & subjectName2check)
+bool isCertificateValidated(const String & fullFilePath, const String & subjectName2check)
 {
 	bool isOK = false;
 	HCERTSTORE hStore = NULL;
@@ -1152,12 +1152,12 @@ bool isCertificateValidated(const generic_string & fullFilePath, const generic_s
 	CERT_INFO CertInfo;
 	LPTSTR szName = NULL;
 
-	generic_string subjectName;
+	String subjectName;
 
 	try {
 		// Get message handle and store handle from the signed file.
 		result = CryptQueryObject(CERT_QUERY_OBJECT_FILE,
-			fullFilePath.c_str(),
+			fullFilePath.Begin(),
 			CERT_QUERY_CONTENT_FLAG_PKCS7_SIGNED_EMBED,
 			CERT_QUERY_FORMAT_FLAG_BINARY,
 			0,
@@ -1170,7 +1170,7 @@ bool isCertificateValidated(const generic_string & fullFilePath, const generic_s
 
 		if (!result)
 		{
-			generic_string errorMessage = TEXT("Check certificate of ") + fullFilePath + TEXT(" : ");
+			String errorMessage = TEXT("Check certificate of ") + fullFilePath + TEXT(" : ");
 			errorMessage += GetLastErrorAsString(GetLastError());
 			throw errorMessage;
 		}
@@ -1179,7 +1179,7 @@ bool isCertificateValidated(const generic_string & fullFilePath, const generic_s
 		result = CryptMsgGetParam(hMsg, CMSG_SIGNER_INFO_PARAM, 0, NULL, &dwSignerInfo);
 		if (!result)
 		{
-			generic_string errorMessage = TEXT("CryptMsgGetParam first call: ");
+			String errorMessage = TEXT("CryptMsgGetParam first call: ");
 			errorMessage += GetLastErrorAsString(GetLastError());
 			throw errorMessage;
 		}
@@ -1188,7 +1188,7 @@ bool isCertificateValidated(const generic_string & fullFilePath, const generic_s
 		pSignerInfo = (PCMSG_SIGNER_INFO)LocalAlloc(LPTR, dwSignerInfo);
 		if (!pSignerInfo)
 		{
-			generic_string errorMessage = TEXT("CryptMsgGetParam memory allocation problem: ");
+			String errorMessage = TEXT("CryptMsgGetParam memory allocation problem: ");
 			errorMessage += GetLastErrorAsString(GetLastError());
 			throw errorMessage;
 		}
@@ -1197,12 +1197,12 @@ bool isCertificateValidated(const generic_string & fullFilePath, const generic_s
 		result = CryptMsgGetParam(hMsg, CMSG_SIGNER_INFO_PARAM, 0, (PVOID)pSignerInfo, &dwSignerInfo);
 		if (!result)
 		{
-			generic_string errorMessage = TEXT("CryptMsgGetParam: ");
+			String errorMessage = TEXT("CryptMsgGetParam: ");
 			errorMessage += GetLastErrorAsString(GetLastError());
 			throw errorMessage;
 		}
 
-		// Search for the signer certificate in the temporary 
+		// Search for the signer certificate in the temporary
 		// certificate store.
 		CertInfo.Issuer = pSignerInfo->Issuer;
 		CertInfo.SerialNumber = pSignerInfo->SerialNumber;
@@ -1210,7 +1210,7 @@ bool isCertificateValidated(const generic_string & fullFilePath, const generic_s
 		pCertContext = CertFindCertificateInStore(hStore, X509_ASN_ENCODING | PKCS_7_ASN_ENCODING, 0, CERT_FIND_SUBJECT_CERT, (PVOID)&CertInfo, NULL);
 		if (!pCertContext)
 		{
-			generic_string errorMessage = TEXT("Certificate context: ");
+			String errorMessage = TEXT("Certificate context: ");
 			errorMessage += GetLastErrorAsString(GetLastError());
 			throw errorMessage;
 		}
@@ -1221,42 +1221,42 @@ bool isCertificateValidated(const generic_string & fullFilePath, const generic_s
 		dwData = CertGetNameString(pCertContext, CERT_NAME_SIMPLE_DISPLAY_TYPE, 0, NULL, NULL, 0);
 		if (dwData <= 1)
 		{
-			throw generic_string(TEXT("Certificate checking error: getting data size problem."));
+			throw String(TEXT("Certificate checking error: getting data size problem."));
 		}
 
 		// Allocate memory for subject name.
-		szName = (LPTSTR)LocalAlloc(LPTR, dwData * sizeof(TCHAR));
+		szName = (LPTSTR)LocalAlloc(LPTR, dwData * sizeof(char));
 		if (!szName)
 		{
-			throw generic_string(TEXT("Certificate checking error: memory allocation problem."));
+			throw String(TEXT("Certificate checking error: memory allocation problem."));
 		}
 
 		// Get subject name.
 		if (CertGetNameString(pCertContext, CERT_NAME_SIMPLE_DISPLAY_TYPE, 0, NULL, szName, dwData) <= 1)
 		{
-			throw generic_string(TEXT("Cannot get certificate info."));
+			throw String(TEXT("Cannot get certificate info."));
 		}
 
 		// check Subject name.
 		subjectName = szName;
 		if (subjectName != subjectName2check)
 		{
-			throw generic_string(TEXT("Certificate checking error: the certificate is not matched."));
+			throw String(TEXT("Certificate checking error: the certificate is not matched."));
 		}
 
 		isOK = true;
 	}
-	catch (const generic_string& s)
+	catch (const String& s)
 	{
 		// display error message
-		MessageBox(NULL, s.c_str(), TEXT("Certificate checking"), MB_OK);
+		MessageBox(NULL, s.Begin(), TEXT("Certificate checking"), MB_OK);
 	}
 	catch (...)
 	{
 		// Unknown error
-		generic_string errorMessage = TEXT("Unknown exception occured. ");
+		String errorMessage = TEXT("Unknown exception occured. ");
 		errorMessage += GetLastErrorAsString(GetLastError());
-		MessageBox(NULL, errorMessage.c_str(), TEXT("Certificate checking"), MB_OK);
+		MessageBox(NULL, errorMessage.Begin(), TEXT("Certificate checking"), MB_OK);
 	}
 
 	// Clean up.
@@ -1285,11 +1285,11 @@ bool isAssoCommandExisting(LPCTSTR FullPathName)
 
 		// check if association exist
 		hres = AssocQueryString(ASSOCF_VERIFY|ASSOCF_INIT_IGNOREUNKNOWN, ASSOCSTR_COMMAND, ext, NULL, buffer, &bufferLen);
-        
+
         isAssoCommandExisting = (hres == S_OK)                  // check if association exist and no error
 			&& (buffer != NULL)                                 // check if buffer is not NULL
 			&& (wcsstr(buffer, TEXT("notepad++.exe")) == NULL); // check association with notepad++
-        
+
 	}
 	return isAssoCommandExisting;
 }
@@ -1310,11 +1310,11 @@ std::string ws2s(const std::wstring& wstr)
 	return converterX.to_bytes(wstr);
 }
 
-bool deleteFileOrFolder(const generic_string& f2delete)
+bool deleteFileOrFolder(const String& f2delete)
 {
-	auto len = f2delete.length();
-	TCHAR* actionFolder = new TCHAR[len + 2];
-	wcscpy_s(actionFolder, len + 2, f2delete.c_str());
+	auto len = f2delete.GetLength();
+	char* actionFolder = new char[len + 2];
+	wcscpy_s(actionFolder, len + 2, f2delete.Begin());
 	actionFolder[len] = 0;
 	actionFolder[len + 1] = 0;
 
@@ -1334,24 +1334,24 @@ bool deleteFileOrFolder(const generic_string& f2delete)
 	return (res == 0);
 }
 
-// Get a vector of full file paths in a given folder. File extension type filter should be *.*, *.xml, *.dll... according the type of file you want to get.  
-void getFilesInFolder(std::vector<generic_string>& files, const generic_string& extTypeFilter, const generic_string& inFolder)
+// Get a vector of full file paths in a given folder. File extension type filter should be *.*, *.xml, *.dll... according the type of file you want to get.
+void getFilesInFolder(Vector<String>& files, const String& extTypeFilter, const String& inFolder)
 {
-	generic_string filter = inFolder;
+	String filter = inFolder;
 	pathAppend(filter, extTypeFilter);
 
 	WIN32_FIND_DATA foundData;
-	HANDLE hFindFile = ::FindFirstFile(filter.c_str(), &foundData);
+	HANDLE hFindFile = ::FindFirstFile(filter.Begin(), &foundData);
 
 	if (hFindFile != INVALID_HANDLE_VALUE && !(foundData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY))
 	{
-		generic_string foundFullPath = inFolder;
+		String foundFullPath = inFolder;
 		pathAppend(foundFullPath, foundData.cFileName);
 		files.push_back(foundFullPath);
 
 		while (::FindNextFile(hFindFile, &foundData))
 		{
-			generic_string foundFullPath2 = inFolder;
+			String foundFullPath2 = inFolder;
 			pathAppend(foundFullPath2, foundData.cFileName);
 			files.push_back(foundFullPath2);
 		}
@@ -1359,28 +1359,28 @@ void getFilesInFolder(std::vector<generic_string>& files, const generic_string& 
 	::FindClose(hFindFile);
 }
 
-void trim(generic_string& str)
+void trim(String& str)
 {
 	// remove any leading or trailing spaces from str
 
-	generic_string::size_type pos = str.find_last_not_of(' ');
+	String::size_type pos = str.find_last_not_of(' ');
 
-	if (pos != generic_string::npos)
+	if (pos != String::npos)
 	{
 		str.erase(pos + 1);
 		pos = str.find_first_not_of(' ');
-		if (pos != generic_string::npos) str.erase(0, pos);
+		if (pos != String::npos) str.erase(0, pos);
 	}
 	else str.erase(str.begin(), str.end());
 }
 
-bool endsWith(const generic_string& s, const generic_string& suffix)
+bool endsWith(const String& s, const String& suffix)
 {
 #if defined(_MSVC_LANG) && (_MSVC_LANG > 201402L)
 #error Replace this function with basic_string::ends_with
 #endif
 	size_t pos = s.find(suffix);
-	return pos != s.npos && ((s.length() - pos) == suffix.length());
+	return pos != s.npos && ((s.GetLength() - pos) == suffix.GetLength());
 }
 
 int nbDigitsFromNbLines(size_t nbLines)
@@ -1408,14 +1408,14 @@ int nbDigitsFromNbLines(size_t nbLines)
 
 namespace
 {
-	constexpr TCHAR timeFmtEscapeChar = 0x1;
-	constexpr TCHAR middayFormat[] = _T("tt");
+	constexpr char timeFmtEscapeChar = 0x1;
+	constexpr char middayFormat[] = _T("tt");
 
 	// Returns AM/PM string defined by the system locale for the specified time.
 	// This string may be empty or customized.
-	generic_string getMiddayString(const TCHAR* localeName, const SYSTEMTIME& st)
+	String getMiddayString(const char* localeName, const SYSTEMTIME& st)
 	{
-		generic_string midday;
+		String midday;
 		midday.resize(MAX_PATH);
 		int ret = GetTimeFormatEx(localeName, 0, &st, middayFormat, &midday[0], static_cast<int>(midday.size()));
 		if (ret > 0)
@@ -1426,7 +1426,7 @@ namespace
 	}
 
 	// Replaces conflicting time format specifiers by a special character.
-	bool escapeTimeFormat(generic_string& format)
+	bool escapeTimeFormat(String& format)
 	{
 		bool modified = false;
 		for (auto& ch : format)
@@ -1441,9 +1441,9 @@ namespace
 	}
 
 	// Replaces special time format characters by actual AM/PM string.
-	void unescapeTimeFormat(generic_string& format, const generic_string& midday)
+	void unescapeTimeFormat(String& format, const String& midday)
 	{
-		if (midday.empty())
+		if (midday.IsEmpty())
 		{
 			auto it = std::remove(format.begin(), format.end(), timeFmtEscapeChar);
 			if (it != format.end())
@@ -1452,7 +1452,7 @@ namespace
 		else
 		{
 			size_t i = 0;
-			while ((i = format.find(timeFmtEscapeChar, i)) != generic_string::npos)
+			while ((i = format.find(timeFmtEscapeChar, i)) != String::npos)
 			{
 				if (i + 1 < format.size() && format[i + 1] == timeFmtEscapeChar)
 				{
@@ -1470,26 +1470,26 @@ namespace
 	}
 }
 
-generic_string getDateTimeStrFrom(const generic_string& dateTimeFormat, const SYSTEMTIME& st)
+String getDateTimeStrFrom(const String& dateTimeFormat, const SYSTEMTIME& st)
 {
-	const TCHAR* localeName = LOCALE_NAME_USER_DEFAULT;
+	const char* localeName = LOCALE_NAME_USER_DEFAULT;
 	const DWORD flags = 0;
 
 	constexpr int bufferSize = MAX_PATH;
-	TCHAR buffer[bufferSize] = {};
+	char buffer[bufferSize] = {};
 	int ret = 0;
 
 
 	// 1. Escape 'tt' that means AM/PM or 't' that means A/P.
 	// This is needed to avoid conflict with 'M' date format that stands for month.
-	generic_string newFormat = dateTimeFormat;
+	String newFormat = dateTimeFormat;
 	const bool hasMiddayFormat = escapeTimeFormat(newFormat);
 
 	// 2. Format the time (h/m/s/t/H).
-	ret = GetTimeFormatEx(localeName, flags, &st, newFormat.c_str(), buffer, bufferSize);
+	ret = GetTimeFormatEx(localeName, flags, &st, newFormat.Begin(), buffer, bufferSize);
 	if (ret != 0)
 	{
-		// 3. Format the date (d/y/g/M). 
+		// 3. Format the date (d/y/g/M).
 		// Now use the buffer as a format string to process the format specifiers not recognized by GetTimeFormatEx().
 		ret = GetDateFormatEx(localeName, flags, &st, buffer, buffer, bufferSize, nullptr);
 	}
@@ -1499,8 +1499,8 @@ generic_string getDateTimeStrFrom(const generic_string& dateTimeFormat, const SY
 		if (hasMiddayFormat)
 		{
 			// 4. Now format only the AM/PM string.
-			const generic_string midday = getMiddayString(localeName, st);
-			generic_string result = buffer;
+			const String midday = getMiddayString(localeName, st);
+			String result = buffer;
 			unescapeTimeFormat(result, midday);
 			return result;
 		}
@@ -1511,7 +1511,7 @@ generic_string getDateTimeStrFrom(const generic_string& dateTimeFormat, const SY
 }
 
 // Don't forget to use DeleteObject(createdFont) before leaving the program
-HFONT createFont(const TCHAR* fontName, int fontSize, bool isBold, HWND hDestParent)
+HFONT createFont(const char* fontName, int fontSize, bool isBold, HWND hDestParent)
 {
 	HDC hdc = GetDC(hDestParent);
 
@@ -1529,7 +1529,7 @@ HFONT createFont(const TCHAR* fontName, int fontSize, bool isBold, HWND hDestPar
 	return newFont;
 }
 
-Version::Version(const generic_string& versionStr)
+Version::Version(const String& versionStr)
 {
 	try {
 		auto ss = tokenizeString(versionStr, '.');
@@ -1578,24 +1578,24 @@ Version::Version(const generic_string& versionStr)
 		_patch = 0;
 		_build = 0;
 #ifdef DEBUG
-		throw std::wstring(TEXT("Unknown exception from \"Version::Version(const generic_string& versionStr)\""));
+		throw std::wstring(TEXT("Unknown exception from \"Version::Version(const String& versionStr)\""));
 #endif
 	}
 }
 
 
-void Version::setVersionFrom(const generic_string& filePath)
+void Version::setVersionFrom(const String& filePath)
 {
-	if (!filePath.empty() && ::PathFileExists(filePath.c_str()))
+	if (!filePath.IsEmpty() && ::PathFileExists(filePath.Begin()))
 	{
 		DWORD uselessArg = 0; // this variable is for passing the ignored argument to the functions
-		DWORD bufferSize = ::GetFileVersionInfoSize(filePath.c_str(), &uselessArg);
+		DWORD bufferSize = ::GetFileVersionInfoSize(filePath.Begin(), &uselessArg);
 
 		if (bufferSize <= 0)
 			return;
 
 		unsigned char* buffer = new unsigned char[bufferSize];
-		::GetFileVersionInfo(filePath.c_str(), uselessArg, bufferSize, buffer);
+		::GetFileVersionInfo(filePath.Begin(), uselessArg, bufferSize, buffer);
 
 		VS_FIXEDFILEINFO* lpFileInfo = nullptr;
 		UINT cbFileInfo = 0;
@@ -1611,7 +1611,7 @@ void Version::setVersionFrom(const generic_string& filePath)
 	}
 }
 
-generic_string Version::toString()
+String Version::toString()
 {
 	if (_build == 0 && _patch == 0 && _minor == 0 && _major == 0) // ""
 	{
@@ -1686,17 +1686,17 @@ int Version::compareTo(const Version& v2c) const
 bool Version::isCompatibleTo(const Version& from, const Version& to) const
 {
 	// This method determinates if Version object is in between "from" version and "to" version, it's useful for testing compatibility of application.
-	// test in versions <from, to> example: 
-	// 1. <0.0.0.0, 0.0.0.0>: both from to versions are empty, so it's 
+	// test in versions <from, to> example:
+	// 1. <0.0.0.0, 0.0.0.0>: both from to versions are empty, so it's
 	// 2. <6.9, 6.9>: plugin is compatible to only v6.9
 	// 3. <4.2, 6.6.6>: from v4.2 (included) to v6.6.6 (included)
 	// 4. <0.0.0.0, 8.2.1>: all version until v8.2.1 (included)
 	// 5. <8.3, 0.0.0.0>: from v8.3 (included) to the latest verrsion
-	
+
 	if (empty()) // if this version is empty, then no compatible to all version
 		return false;
 
-	if (from.empty() && to.empty()) // both versions "from" and "to" are empty: it's considered compatible, whatever this version is (match to 1)
+	if (from.IsEmpty() && to.IsEmpty()) // both versions "from" and "to" are empty: it's considered compatible, whatever this version is (match to 1)
 	{
 		return true;
 	}
@@ -1705,8 +1705,8 @@ bool Version::isCompatibleTo(const Version& from, const Version& to) const
 	{
 		return true;
 	}
-		
-	if (from <= *this && to.empty()) // from_ver <= this_ver (match to 5)
+
+	if (from <= *this && to.IsEmpty()) // from_ver <= this_ver (match to 5)
 	{
 		return true;
 	}

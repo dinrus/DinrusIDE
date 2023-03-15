@@ -16,9 +16,9 @@
 
 
 #include "ScintillaCtrls.h"
-#include "ScintillaEditView.h"
+#include <PowerEditor/ScintillaComponent/ScintillaEditView.h>
 
-HWND ScintillaCtrls::createSintilla(HWND hParent) 
+HWND ScintillaCtrls::createSintilla(HWND hParent)
 {
 	_hParent = hParent;
 	ScintillaEditView *scint = new ScintillaEditView;
@@ -53,7 +53,7 @@ bool ScintillaCtrls::destroyScintilla(HWND handle2Destroy)
 	int i = getIndexFrom(handle2Destroy);
 	if (i == -1)
 		return false;
-	
+
 	_scintVector[i]->destroy();
 	delete _scintVector[i];
 
@@ -63,7 +63,7 @@ bool ScintillaCtrls::destroyScintilla(HWND handle2Destroy)
 }
 */
 
-void ScintillaCtrls::destroy() 
+void ScintillaCtrls::destroy()
 {
 	for (size_t i = 0, len = _scintVector.size(); i < len ; ++i)
 	{

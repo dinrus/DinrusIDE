@@ -17,7 +17,7 @@
 
 #pragma once
 
-#include "WindowsDlgRc.h"
+#include <PowerEditor/WinControls/WindowsDlg/WindowsDlgRc.h>
 #include "WinMgr.h"
 #include <PowerEditor/WinControls/StaticDialog/StaticDialog.h>
 

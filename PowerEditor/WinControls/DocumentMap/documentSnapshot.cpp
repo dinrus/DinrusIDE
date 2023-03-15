@@ -16,7 +16,7 @@
 
 
 #include "documentSnapshot.h"
-#include "ScintillaEditView.h"
+#include <PowerEditor/ScintillaComponent/ScintillaEditView.h>
 
 intptr_t CALLBACK DocumentPeeker::run_dlgProc(UINT message, WPARAM /*wParam*/, LPARAM /*lParam*/)
 {
@@ -40,7 +40,7 @@ intptr_t CALLBACK DocumentPeeker::run_dlgProc(UINT message, WPARAM /*wParam*/, L
 	return FALSE;
 }
 
-void DocumentPeeker::doDialog(POINT p, Buffer *pBuf, ScintillaEditView & scintSource)
+void DocumentPeeker::doDialog(POINT p, SciBuffer *pBuf, ScintillaEditView & scintSource)
 {
 	if (!isCreated())
 	{
@@ -58,7 +58,7 @@ void DocumentPeeker::goTo(POINT p)
 }
 
 
-void DocumentPeeker::syncDisplay(Buffer *buf, ScintillaEditView & scintSource)
+void DocumentPeeker::syncDisplay(SciBuffer *buf, ScintillaEditView & scintSource)
 {
 	if (_pPeekerView)
 	{
@@ -80,7 +80,7 @@ void DocumentPeeker::syncDisplay(Buffer *buf, ScintillaEditView & scintSource)
 			scrollSnapshotWith(mp, scintSource.getTextZoneWidth());
 		}
 
-		Buffer *buf = _pPeekerView->getCurrentBuffer();
+		SciBuffer *buf = _pPeekerView->getCurrentBuffer();
 		_pPeekerView->defineDocType(buf->getLangType());
 		_pPeekerView->showMargin(ScintillaEditView::_SC_MARGE_FOLDER, false);
 
@@ -152,7 +152,7 @@ void DocumentPeeker::saveCurrentSnapshot(ScintillaEditView & editView)
 {
 	if (_pPeekerView)
 	{
-		Buffer *buffer = editView.getCurrentBuffer();
+		SciBuffer *buffer = editView.getCurrentBuffer();
 		MapPosition mapPos = buffer->getMapPosition();
 
 		// First visible document line for scrolling to this line

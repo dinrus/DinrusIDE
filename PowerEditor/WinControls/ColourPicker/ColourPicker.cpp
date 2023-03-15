@@ -18,7 +18,7 @@
 #include <stdexcept>
 #include "ColourPicker.h"
 #include "ColourPopup.h"
-#include "NppDarkMode.h"
+#include <PowerEditor/NppDarkMode.h>
 
 void ColourPicker::init(HINSTANCE hInst, HWND parent)
 {

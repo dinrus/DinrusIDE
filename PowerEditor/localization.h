@@ -45,9 +45,9 @@ public:
 	TiXmlNodeA * searchDlgNode(TiXmlNodeA *node, const char *dlgTagName);
 	bool changeDlgLang(HWND hDlg, const char *dlgTagName, char *title = NULL, size_t titleMaxSize = 0);
 	void changeLangTabDrapContextMenu(HMENU hCM);
-	generic_string getSpecialMenuEntryName(const char *entryName) const;
-	generic_string getNativeLangMenuString(int itemID) const;
-	generic_string getShortcutNameString(int itemID) const;
+	String getSpecialMenuEntryName(const char *entryName) const;
+	String getNativeLangMenuString(int itemID) const;
+	String getShortcutNameString(int itemID) const;
 
 	void changeMenuLang(HMENU menuHandle);
 	void changeShortcutLang();
@@ -58,7 +58,7 @@ public:
     void changePrefereceDlgLang(PreferenceDlg & preference);
 	void changePluginsAdminDlgLang(PluginsAdminDlg & pluginsAdminDlg);
 
-	bool getDoSaveOrNotStrings(generic_string& title, generic_string& msg);
+	bool getDoSaveOrNotStrings(String& title, String& msg);
 
     bool isRTL() const {
         return _isRTL;
@@ -75,14 +75,14 @@ public:
     int getLangEncoding() const {
         return _nativeLangEncoding;
     };
-	bool getMsgBoxLang(const char *msgBoxTagName, generic_string & title, generic_string & message);
-	generic_string getShortcutMapperLangStr(const char *nodeName, const TCHAR *defaultStr) const;
-	generic_string getProjectPanelLangMenuStr(const char * nodeName, int cmdID, const TCHAR *defaultStr) const;
-	generic_string getFileBrowserLangMenuStr(int cmdID, const TCHAR *defaultStr) const;
-	generic_string getAttrNameStr(const TCHAR *defaultStr, const char *nodeL1Name, const char *nodeL2Name, const char *nodeL3Name = "name") const;
-	generic_string getLocalizedStrFromID(const char *strID, const generic_string& defaultString) const;
+	bool getMsgBoxLang(const char *msgBoxTagName, String & title, String & message);
+	String getShortcutMapperLangStr(const char *nodeName, const char *defaultStr) const;
+	String getProjectPanelLangMenuStr(const char * nodeName, int cmdID, const char *defaultStr) const;
+	String getFileBrowserLangMenuStr(int cmdID, const char *defaultStr) const;
+	String getAttrNameStr(const char *defaultStr, const char *nodeL1Name, const char *nodeL2Name, const char *nodeL3Name = "name") const;
+	String getLocalizedStrFromID(const char *strID, const String& defaultString) const;
 
-	int messageBox(const char *msgBoxTagName, HWND hWnd, const TCHAR *message, const TCHAR *title, int msgBoxType, int intInfo = 0, const TCHAR *strInfo = NULL);
+	int messageBox(const char *msgBoxTagName, HWND hWnd, const char *message, const char *title, int msgBoxType, int intInfo = 0, const char *strInfo = NULL);
 private:
 	TiXmlNodeA *_nativeLangA;
 	int _nativeLangEncoding;
@@ -91,5 +91,5 @@ private:
 };
 
 
-MenuPosition & getMenuPosition(const char *id);
+MenuPosition& getMenuPosition(const char *id);
 

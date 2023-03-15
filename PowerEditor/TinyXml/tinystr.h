@@ -39,13 +39,13 @@ distribution.
    Its purpose is to allow compiling TinyXML on compilers with no or poor STL support.
    Only the member functions relevant to the TinyXML project have been implemented.
    The buffer allocation is made by a simplistic power of 2 like mechanism : if we increase
-   a generic_string and there's no more room, we allocate a buffer twice as big as we need.
+   a String and there's no more room, we allocate a buffer twice as big as we need.
 */
 class TiXmlString
 {
   public :
-    // TiXmlString constructor, based on a generic_string
-    TiXmlString (const TCHAR * instring);
+    // TiXmlString constructor, based on a String
+    TiXmlString (const char * instring);
 
     // TiXmlString empty constructor
     TiXmlString ()
@@ -64,8 +64,8 @@ class TiXmlString
         empty_it ();
     }
 
-    // Convert a TiXmlString into a classical TCHAR *
-    const TCHAR * c_str () const
+    // Convert a TiXmlString into a classical char *
+    const char * Begin () const
     {
         if (allocated)
             return cstring;
@@ -79,20 +79,20 @@ class TiXmlString
 	}
 
     // TiXmlString = operator
-    void operator = (const TCHAR * content);
+    void operator = (const char * content);
 
     // = operator
     void operator = (const TiXmlString & copy);
 
     // += operator. Maps to append
-    TiXmlString& operator += (const TCHAR * suffix)
+    TiXmlString& operator += (const char * suffix)
     {
         append (suffix);
 		return *this;
     }
 
     // += operator. Maps to append
-    TiXmlString& operator += (TCHAR single)
+    TiXmlString& operator += (char single)
     {
         append (single);
 		return *this;
@@ -119,21 +119,21 @@ class TiXmlString
 	// which is a problem. Commenting out. -lee
 //    bool isblank () const;
 
-    // single TCHAR extraction
-    const TCHAR& at (unsigned index) const
+    // single char extraction
+    const char& at (unsigned index) const
     {
         assert( index < length ());
         return cstring [index];
     }
 
-    // find a TCHAR in a generic_string. Return TiXmlString::notfound if not found
-    unsigned find (TCHAR lookup) const
+    // find a char in a String. Return TiXmlString::notfound if not found
+    unsigned find (char lookup) const
     {
         return find (lookup, 0);
     }
 
-    // find a TCHAR in a generic_string from an offset. Return TiXmlString::notfound if not found
-    unsigned find (TCHAR tofind, unsigned offset) const;
+    // find a char in a String from an offset. Return TiXmlString::notfound if not found
+    unsigned find (char tofind, unsigned offset) const;
 
     /*	Function to reserve a big amount of data when we know we'll need it. Be aware that this
 		function clears the content of the TiXmlString if any exists.
@@ -144,14 +144,14 @@ class TiXmlString
         if (size)
         {
             allocated = size;
-            cstring = new TCHAR [size];
+            cstring = new char [size];
             cstring [0] = 0;
             current_length = 0;
         }
     }
 
     // [] operator
-    TCHAR& operator [] (unsigned index) const
+    char& operator [] (unsigned index) const
     {
         assert( index < length ());
         return cstring [index];
@@ -161,15 +161,15 @@ class TiXmlString
     enum {	notfound = 0xffffffff,
             npos = notfound };
 
-    void append (const TCHAR *str, int len );
+    void append (const char *str, int len );
 
   protected :
 
-    // The base generic_string
-    TCHAR * cstring;
+    // The base String
+    char * cstring;
     // Number of chars allocated
     unsigned allocated;
-    // Current generic_string size
+    // Current String size
     unsigned current_length;
 
     // New size computation. It is simplistic right now : it returns twice the amount
@@ -189,18 +189,18 @@ class TiXmlString
         current_length = 0;
     }
 
-    void append (const TCHAR *suffix );
+    void append (const char *suffix );
 
     // append function for another TiXmlString
     void append (const TiXmlString & suffix)
     {
-        append (suffix . c_str ());
+        append (suffix . Begin ());
     }
 
-    // append for a single TCHAR. This could be improved a lot if needed
-    void append (TCHAR single)
+    // append for a single char. This could be improved a lot if needed
+    void append (char single)
     {
-        TCHAR smallstr [2];
+        char smallstr [2];
         smallstr [0] = single;
         smallstr [1] = 0;
         append (smallstr);
@@ -218,7 +218,7 @@ public :
     TiXmlOutStream () : TiXmlString () {}
 
     // TiXmlOutStream << operator. Maps to TiXmlString::append
-    TiXmlOutStream & operator << (const TCHAR * in)
+    TiXmlOutStream & operator << (const char * in)
     {
         append (in);
         return (* this);
@@ -227,7 +227,7 @@ public :
     // TiXmlOutStream << operator. Maps to TiXmlString::append
     TiXmlOutStream & operator << (const TiXmlString & in)
     {
-        append (in . c_str ());
+        append (in . Begin ());
         return (* this);
     }
 } ;

@@ -16,7 +16,7 @@
 
 
 
-#include "VerticalFileSwitcher.h"
+#include <PowerEditor/WinControls/VerticalFileSwitcher/VerticalFileSwitcher.h>
 #include <PowerEditor/menuCmdID.h>
 #include <PowerEditor/Parameters.h>
 #include <PowerEditor/resource.h>
@@ -31,8 +31,8 @@
 int CALLBACK ListViewCompareProc(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
 {
 	sortCompareData* sortData = (sortCompareData*)lParamSort;
-	TCHAR str1[MAX_PATH] = { '\0' };
-	TCHAR str2[MAX_PATH] = { '\0' };
+	char str1[MAX_PATH] = { '\0' };
+	char str2[MAX_PATH] = { '\0' };
 
 	ListView_GetItemText(sortData->hListView, lParam1, sortData->columnIndex, str1, sizeof(str1));
 	ListView_GetItemText(sortData->hListView, lParam2, sortData->columnIndex, str2, sizeof(str2));
@@ -177,8 +177,8 @@ intptr_t CALLBACK VerticalFileSwitcher::run_dlgProc(UINT message, WPARAM wParam,
 					int i = pGetInfoTip->iItem;
 					if (i == -1)
 						return TRUE;
-					generic_string fn = getFullFilePath((size_t)i);
-					lstrcpyn(pGetInfoTip->pszText, fn.c_str(), pGetInfoTip->cchTextMax);
+					String fn = getFullFilePath((size_t)i);
+					lstrcpyn(pGetInfoTip->pszText, fn.Begin(), pGetInfoTip->cchTextMax);
 					return TRUE;
 				}
 
@@ -206,7 +206,7 @@ intptr_t CALLBACK VerticalFileSwitcher::run_dlgProc(UINT message, WPARAM wParam,
 
 					LPNMHEADER test = (LPNMHEADER)lParam;
 					HWND hwndHD = ListView_GetHeader(_fileListView.getHSelf());
-					TCHAR HDtext[MAX_PATH];
+					char HDtext[MAX_PATH];
 					HDITEM hdi = {};
 					hdi.mask = HDI_TEXT | HDI_WIDTH;
 					hdi.pszText = HDtext;
@@ -296,12 +296,12 @@ void VerticalFileSwitcher::initPopupMenus()
 	NativeLangSpeaker* pNativeSpeaker = NppParameters::getInstance().getNativeLangSpeaker();
 	NppGUI& nppGUI = NppParameters::getInstance().getNppGUI();
 
-	generic_string extStr = pNativeSpeaker->getAttrNameStr(TEXT("Ext."), FS_ROOTNODE, FS_CLMNEXT);
-	generic_string pathStr = pNativeSpeaker->getAttrNameStr(TEXT("Path"), FS_ROOTNODE, FS_CLMNPATH);
+	String extStr = pNativeSpeaker->getAttrNameStr(TEXT("Ext."), FS_ROOTNODE, FS_CLMNEXT);
+	String pathStr = pNativeSpeaker->getAttrNameStr(TEXT("Path"), FS_ROOTNODE, FS_CLMNPATH);
 
 	_hGlobalMenu = ::CreatePopupMenu();
-	::InsertMenu(_hGlobalMenu, 0, MF_BYCOMMAND, CLMNEXT_ID, extStr.c_str());
-	::InsertMenu(_hGlobalMenu, 0, MF_BYCOMMAND, CLMNPATH_ID, pathStr.c_str());
+	::InsertMenu(_hGlobalMenu, 0, MF_BYCOMMAND, CLMNEXT_ID, extStr.Begin());
+	::InsertMenu(_hGlobalMenu, 0, MF_BYCOMMAND, CLMNPATH_ID, pathStr.Begin());
 
 	bool isExtColumn = nppGUI._fileSwitcherWithoutExtColumn;
 	::CheckMenuItem(_hGlobalMenu, CLMNEXT_ID, MF_BYCOMMAND | (isExtColumn ? MF_UNCHECKED : MF_CHECKED));

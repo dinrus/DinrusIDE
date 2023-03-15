@@ -28,10 +28,10 @@ class PluginsManager;
 
 struct PluginUpdateInfo
 {
-	generic_string _fullFilePath; // only for the installed Plugin
+	String _fullFilePath; // only for the installed Plugin
 
-	generic_string _folderName;   // plugin folder name - should be the same name with plugin and should be uniq among the plugins
-	generic_string _displayName;  // plugin description name
+	String _folderName;   // plugin folder name - should be the same name with plugin and should be uniq among the plugins
+	String _displayName;  // plugin description name
 	Version _version;
 	// Optional
 	std::pair<Version, Version> _nppCompatibleVersions; // compatible to Notepad++ interval versions: <from, to> example: 
@@ -47,17 +47,17 @@ struct PluginUpdateInfo
 	                                                                                              // The 2nd interval versions are for Notepad++ versions
 	                                                                                              // which are compatible with the old plugins' versions given in the 1st interval
 	
-	generic_string _homepage;
-	generic_string _sourceUrl;
-	generic_string _description;
-	generic_string _author;
-	generic_string _id;           // Plugin package ID: SHA-256 hash
-	generic_string _repository;
+	String _homepage;
+	String _sourceUrl;
+	String _description;
+	String _author;
+	String _id;           // Plugin package ID: SHA-256 hash
+	String _repository;
 	bool _isVisible = true;       // if false then it should not be displayed 
 
-	generic_string describe();
+	String describe();
 	PluginUpdateInfo() = default;
-	PluginUpdateInfo(const generic_string& fullFilePath, const generic_string& fileName);
+	PluginUpdateInfo(const String& fullFilePath, const String& fileName);
 };
 
 struct NppCurrentStatus
@@ -69,8 +69,8 @@ struct NppCurrentStatus
 									
 	bool _isAppDataPluginsAllowed = false;  // true: install on %APPDATA%, update / remove on %APPDATA% & "Program files" or NPP_INST
 
-	generic_string _nppInstallPath;
-	generic_string _appdataPath;
+	String _nppInstallPath;
+	String _appdataPath;
 
 	// it should determinate :
 	// 1. deployment location : %ProgramFile%   %appdata%   %other%
@@ -86,7 +86,7 @@ struct SortDisplayNameDecrease final
 {
 	bool operator() (PluginUpdateInfo* l, PluginUpdateInfo* r)
 	{
-		return (l->_displayName.compare(r->_displayName) <= 0);
+		return (l->_displayName.Compare(r->_displayName) <= 0);
 	}
 };
 
@@ -117,15 +117,15 @@ public:
 	void setViewStyleOption(int32_t extraStyle) { _ui.setStyleOption(extraStyle); };
 	size_t nbItem() const { return _ui.nbItem(); };
 	PluginUpdateInfo* getPluginInfoFromUiIndex(size_t index) const { return reinterpret_cast<PluginUpdateInfo*>(_ui.getLParamFromIndex(static_cast<int>(index))); };
-	PluginUpdateInfo* findPluginInfoFromFolderName(const generic_string& folderName, int& index) const;
+	PluginUpdateInfo* findPluginInfoFromFolderName(const String& folderName, int& index) const;
 	bool removeFromListIndex(size_t index2remove);
 	bool hideFromListIndex(size_t index2Hide);
-	bool removeFromFolderName(const generic_string& folderName);
+	bool removeFromFolderName(const String& folderName);
 	bool removeFromUiIndex(size_t index2remove);
 	bool hideFromPluginInfoPtr(PluginUpdateInfo* pluginInfo2hide);
-	bool restore(const generic_string& folderName);
+	bool restore(const String& folderName);
 	bool removeFromPluginInfoPtr(PluginUpdateInfo* pluginInfo2hide);
-	void changeColumnName(COLUMN_TYPE index, const TCHAR *name2change);
+	void changeColumnName(COLUMN_TYPE index, const char *name2change);
 
 private:
 	std::vector<PluginUpdateInfo*> _list;
@@ -174,9 +174,9 @@ public :
 	bool updatePlugins();
 	bool removePlugins();
 
-	void changeTabName(LIST_TYPE index, const TCHAR *name2change);
-	void changeColumnName(COLUMN_TYPE index, const TCHAR *name2change);
-	generic_string getPluginListVerStr() const;
+	void changeTabName(LIST_TYPE index, const char *name2change);
+	void changeColumnName(COLUMN_TYPE index, const char *name2change);
+	String getPluginListVerStr() const;
 	const PluginViewList & getAvailablePluginUpdateInfoList() const {
 		return _availableList;
 	};
@@ -185,9 +185,9 @@ protected:
 	virtual intptr_t CALLBACK run_dlgProc(UINT message, WPARAM wParam, LPARAM lParam);
 
 private :
-	generic_string _updaterDir;
-	generic_string _updaterFullPath;
-	generic_string _pluginListFullPath;
+	String _updaterDir;
+	String _updaterFullPath;
+	String _pluginListFullPath;
 
 	TabBar _tab;
 
@@ -202,13 +202,13 @@ private :
 	bool searchInPlugins(bool isNextMode) const;
 	const bool _inNames = true;
 	const bool _inDescs = false;
-	bool isFoundInAvailableListFromIndex(int index, const generic_string& str2search, bool inWhichPart) const;
-	long searchFromCurrentSel(const generic_string& str2search, bool inWhichPart, bool isNextMode) const;
-	long searchInNamesFromCurrentSel(const generic_string& str2search, bool isNextMode) const {
+	bool isFoundInAvailableListFromIndex(int index, const String& str2search, bool inWhichPart) const;
+	long searchFromCurrentSel(const String& str2search, bool inWhichPart, bool isNextMode) const;
+	long searchInNamesFromCurrentSel(const String& str2search, bool isNextMode) const {
 		return searchFromCurrentSel(str2search, _inNames, isNextMode);
 	};
 
-	long searchInDescsFromCurrentSel(const generic_string& str2search, bool isNextMode) const {
+	long searchInDescsFromCurrentSel(const String& str2search, bool isNextMode) const {
 		return searchFromCurrentSel(str2search, _inDescs, isNextMode);
 	};
 	

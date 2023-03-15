@@ -187,6 +187,6 @@ void GoToLineDlg::updateLinesNumbers() const
 	}
     
 	
-	::SetDlgItemTextA(_hSelf, ID_CURRLINE, std::to_string(current).c_str());
-	::SetDlgItemTextA(_hSelf, ID_LASTLINE, std::to_string(limit).c_str());
+	::SetDlgItemTextA(_hSelf, ID_CURRLINE, std::to_string(current).Begin());
+	::SetDlgItemTextA(_hSelf, ID_LASTLINE, std::to_string(limit).Begin());
 }

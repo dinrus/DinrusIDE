@@ -95,7 +95,7 @@ void TabBar::destroy()
 }
 
 
-int TabBar::insertAtEnd(const TCHAR *subTabName)
+int TabBar::insertAtEnd(const char *subTabName)
 {
 	TCITEM tie;
 	tie.mask = TCIF_TEXT | TCIF_IMAGE;
@@ -104,12 +104,12 @@ int TabBar::insertAtEnd(const TCHAR *subTabName)
 	if (_hasImgLst)
 		index = 0;
 	tie.iImage = index;
-	tie.pszText = (TCHAR *)subTabName;
+	tie.pszText = (char *)subTabName;
 	return int(::SendMessage(_hSelf, TCM_INSERTITEM, _nbItem++, reinterpret_cast<LPARAM>(&tie)));
 }
 
 
-void TabBar::getCurrentTitle(TCHAR *title, int titleLen)
+void TabBar::getCurrentTitle(char *title, int titleLen)
 {
 	TCITEM tci;
 	tci.mask = TCIF_TEXT;
@@ -119,7 +119,7 @@ void TabBar::getCurrentTitle(TCHAR *title, int titleLen)
 }
 
 
-void TabBar::setFont(const TCHAR *fontName, int fontSize)
+void TabBar::setFont(const char *fontName, int fontSize)
 {
 	if (_hFont)
 		::DeleteObject(_hFont);
@@ -1014,7 +1014,7 @@ void TabBarPlus::drawItem(DRAWITEMSTRUCT *pDrawItemStruct, bool isDarkMode)
 	}
 	bool isSelected = (nTab == ::SendMessage(_hSelf, TCM_GETCURSEL, 0, 0));
 
-	TCHAR label[MAX_PATH];
+	char label[MAX_PATH];
 	TCITEM tci;
 	tci.mask = TCIF_TEXT|TCIF_IMAGE;
 	tci.pszText = label;
@@ -1218,9 +1218,9 @@ void TabBarPlus::drawItem(DRAWITEMSTRUCT *pDrawItemStruct, bool isDarkMode)
 	// This code will read in one character at a time and remove every first ampersand (&).
 	// ex. If input "test && test &&& test &&&&" then output will be "test & test && test &&&".
 	// Tab's caption must be encoded like this because otherwise tab control would make tab too small or too big for the text.
-	TCHAR decodedLabel[MAX_PATH];
-	const TCHAR* in = label;
-	TCHAR* out = decodedLabel;
+	char decodedLabel[MAX_PATH];
+	const char* in = label;
+	char* out = decodedLabel;
 	while (*in != 0)
 		if (*in == '&')
 			while (*(++in) == '&')
@@ -1278,7 +1278,7 @@ void TabBarPlus::draggingCursor(POINT screenPoint)
 		::SetCursor(::LoadCursor(NULL, IDC_ARROW));
 	else
 	{
-		TCHAR className[256];
+		char className[256];
 		::GetClassName(hWin, className, 256);
 		if ((!lstrcmp(className, TEXT("Scintilla"))) || (!lstrcmp(className, WC_TABCONTROL)))
 		{
@@ -1313,8 +1313,8 @@ void TabBarPlus::exchangeTabItemData(int oldTab, int newTab)
 	TCITEM itemData_nDraggedTab, itemData_shift;
 	itemData_nDraggedTab.mask = itemData_shift.mask = TCIF_IMAGE | TCIF_TEXT | TCIF_PARAM;
 	const int stringSize = 256;
-	TCHAR str1[stringSize];
-	TCHAR str2[stringSize];
+	char str1[stringSize];
+	char str2[stringSize];
 
 	itemData_nDraggedTab.pszText = str1;
 	itemData_nDraggedTab.cchTextMax = (stringSize);

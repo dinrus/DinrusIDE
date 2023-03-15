@@ -31,9 +31,9 @@ class DockingManager;
 
 
 // Used by getRectAndStyle() to draw the drag rectangle
-static const WORD DotPattern[] = 
+static const WORD DotPattern[] =
 {
-	0x00aa, 0x0055, 0x00aa, 0x0055, 0x00aa, 0x0055, 0x00aa, 0x0055
+    0x00aa, 0x0055, 0x00aa, 0x0055, 0x00aa, 0x0055, 0x00aa, 0x0055
 };
 
 
@@ -43,109 +43,109 @@ static const WORD DotPattern[] =
 class Gripper final
 {
 public:
-	Gripper() = default;;
-    
-	void init(HINSTANCE hInst, HWND hParent) {
-		_hInst   = hInst;	
-		_hParent = hParent;
-		DWORD hwndExStyle = (DWORD)GetWindowLongPtr(_hParent, GWL_EXSTYLE);
-		_isRTL = hwndExStyle & WS_EX_LAYOUTRTL;
-	};
+    Gripper() = default;;
 
-	void startGrip(DockingCont* pCont, DockingManager* pDockMgr);
+    void init(HINSTANCE hInst, HWND hParent) {
+        _hInst   = hInst;
+        _hParent = hParent;
+        DWORD hwndExStyle = (DWORD)GetWindowLongPtr(_hParent, GWL_EXSTYLE);
+        _isRTL = hwndExStyle & WS_EX_LAYOUTRTL;
+    };
 
-	~Gripper() {
-		if (_hdc) {
-			// usually this should already have been done by a call to drawRectangle(),
-			// here just for cases where usual handling was interrupted (jg)
-			#ifdef USE_LOCKWINDOWUPDATE
-			::LockWindowUpdate(NULL);
-			#endif
-			::ReleaseDC(0, _hdc);
-		}
-		if (_hbm) {
-			::DeleteObject(_hbm);
-		}
-		if (_hbrush) {
-			::DeleteObject(_hbrush);
-		}
-	};
+    void startGrip(DockingCont* pCont, DockingManager* pDockMgr);
+
+    ~Gripper() {
+        if (_hdc) {
+            // usually this should already have been done by a call to drawRectangle(),
+            // here just for cases where usual handling was interrupted (jg)
+            #ifdef USE_LOCKWINDOWUPDATE
+            ::LockWindowUpdate(NULL);
+            #endif
+            ::ReleaseDC(0, _hdc);
+        }
+        if (_hbm) {
+            ::DeleteObject(_hbm);
+        }
+        if (_hbrush) {
+            ::DeleteObject(_hbrush);
+        }
+    };
 
 protected :
 
-	void create();
+    void create();
 
-	static LRESULT CALLBACK staticWinProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
-	LRESULT runProc(UINT Message, WPARAM wParam, LPARAM lParam);
+    static LRESULT CALLBACK staticWinProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
+    LRESULT runProc(UINT Message, WPARAM wParam, LPARAM lParam);
 
-	void onMove();
-	void onButtonUp();
+    void onMove();
+    void onButtonUp();
 
-	void doTabReordering(POINT pt);
-	void drawRectangle(const POINT* pPt);
-	void getMousePoints(POINT* pt, POINT* ptPrev);
-	void getMovingRect(POINT pt, RECT *rc);
-	DockingCont * contHitTest(POINT pt);
-	DockingCont * workHitTest(POINT pt, RECT *rcCont = NULL);
+    void doTabReordering(POINT pt);
+    void drawRectangle(const POINT* pPt);
+    void getMousePoints(POINT* pt, POINT* ptPrev);
+    void getMovingRect(POINT pt, RECT *rc);
+    DockingCont * contHitTest(POINT pt);
+    DockingCont * workHitTest(POINT pt, RECT *rcCont = NULL);
 
-	void initTabInformation();
+    void initTabInformation();
 
-	void CalcRectToScreen(HWND hWnd, RECT *rc) {
-		ClientRectToScreenRect(hWnd, rc);
-		ShrinkRcToSize(rc);
-	};
-	void CalcRectToClient(HWND hWnd, RECT *rc) {
-		ScreenRectToClientRect(hWnd, rc);
-		ShrinkRcToSize(rc);
-	};
-	void ShrinkRcToSize(RECT *rc) {
-		_isRTL ? rc->right = rc->left - rc->right : rc->right -= rc->left;
-		rc->bottom -= rc->top;
-	};
-	void DoCalcGripperRect(RECT* rc, RECT rcCorr, POINT pt) {
-		if ((rc->left + rc->right) < pt.x)
-			rc->left = pt.x - 20;
-		if ((rc->top + rc->bottom) < pt.y)
-			rc->top  += rcCorr.bottom - rc->bottom;
-	};
+    void CalcRectToScreen(HWND hWnd, RECT *rc) {
+        ClientRectToScreenRect(hWnd, rc);
+        ShrinkRcToSize(rc);
+    };
+    void CalcRectToClient(HWND hWnd, RECT *rc) {
+        ScreenRectToClientRect(hWnd, rc);
+        ShrinkRcToSize(rc);
+    };
+    void ShrinkRcToSize(RECT *rc) {
+        _isRTL ? rc->right = rc->left - rc->right : rc->right -= rc->left;
+        rc->bottom -= rc->top;
+    };
+    void DoCalcGripperRect(RECT* rc, RECT rcCorr, POINT pt) {
+        if ((rc->left + rc->right) < pt.x)
+            rc->left = pt.x - 20;
+        if ((rc->top + rc->bottom) < pt.y)
+            rc->top  += rcCorr.bottom - rc->bottom;
+    };
 
 private:
-	// Handle
-	HINSTANCE _hInst = nullptr;
-	HWND _hParent = nullptr;
-	HWND _hSelf = nullptr;
+    // Handle
+    HINSTANCE _hInst = nullptr;
+    HWND _hParent = nullptr;
+    HWND _hSelf = nullptr;
 
-	// data of container
-	tDockMgr _dockData;
-	DockingManager *_pDockMgr = nullptr;
-	DockingCont *_pCont = nullptr;
+    // data of container
+    tDockMgr _dockData;
+    DockingManager *_pDockMgr = nullptr;
+    DockingCont *_pCont = nullptr;
 
-	// mouse offset in moving rectangle
-	POINT _ptOffset = {};
+    // mouse offset in moving rectangle
+    POINT _ptOffset = {};
 
-	// remembers old mouse point
-	POINT _ptOld = {};
-	BOOL _bPtOldValid = FALSE;
+    // remembers old mouse point
+    POINT _ptOld = {};
+    BOOL _bPtOldValid = FALSE;
 
-	// remember last drawn rectangle (jg)
-	RECT _rcPrev = {};
+    // remember last drawn rectangle (jg)
+    RECT _rcPrev = {};
 
-	// for sorting tabs
-	HWND _hTab = nullptr;
-	HWND _hTabSource = nullptr;
-	BOOL _startMovingFromTab = FALSE;
-	int	_iItem = 0;
-	RECT _rcItem = {};
-	TCITEM _tcItem;
+    // for sorting tabs
+    HWND _hTab = nullptr;
+    HWND _hTabSource = nullptr;
+    BOOL _startMovingFromTab = FALSE;
+    int _iItem = 0;
+    RECT _rcItem = {};
+    TCITEM _tcItem;
 
-	HDC _hdc = nullptr;
-	HBITMAP _hbm = nullptr;
-	HBRUSH _hbrush = nullptr;
+    HDC _hdc = nullptr;
+    HBITMAP _hbm = nullptr;
+    HBRUSH _hbrush = nullptr;
 
-	// is class registered
-	static BOOL _isRegistered;
+    // is class registered
+    static BOOL _isRegistered;
 
-	// get layout direction
-	bool _isRTL = false;
+    // get layout direction
+    bool _isRTL = false;
 };
 

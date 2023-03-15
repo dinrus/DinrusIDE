@@ -17,7 +17,7 @@
 #pragma once
 
 #include <PowerEditor/WinControls/TabBar/TabBar.h>
-#include "Buffer.h"
+#include <PowerEditor/ScintillaComponent/Buffer.h>
 
 const int SAVED_IMG_INDEX = 0;
 const int UNSAVED_IMG_INDEX = 1;
@@ -62,12 +62,12 @@ public :
 
 	void addBuffer(BufferID buffer);
 	void closeBuffer(BufferID buffer);
-	void bufferUpdated(Buffer * buffer, int mask);
+	void bufferUpdated(SciBuffer * buffer, int mask);
 
 	bool activateBuffer(BufferID buffer);
 
 	BufferID activeBuffer();
-	BufferID findBufferByName(const TCHAR * fullfilename);	//-1 if not found, something else otherwise
+	BufferID findBufferByName(const char * fullfilename);	//-1 if not found, something else otherwise
 
 	int getIndexByBuffer(BufferID id);
 	BufferID getBufferByIndex(size_t index);

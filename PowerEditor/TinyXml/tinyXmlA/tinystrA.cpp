@@ -113,8 +113,8 @@ void TiXmlStringA ::operator = (const TiXmlStringA & copy)
     }
     newlen = copy . length () + 1;
     newstring = new char [newlen];
-    // strcpy (newstring, copy . c_str ());
-    memcpy (newstring, copy . c_str (), newlen);
+    // strcpy (newstring, copy . Begin ());
+    memcpy (newstring, copy . Begin (), newlen);
     empty_it ();
     allocated = newlen;
     cstring = newstring;
@@ -235,7 +235,7 @@ void TiXmlStringA::append( const char * suffix )
 // Check for TiXmlStringA equuivalence
 //bool TiXmlStringA::operator == (const TiXmlStringA & compare) const
 //{
-//    return (! strcmp (c_str (), compare . c_str ()));
+//    return (! strcmp (Begin (), compare . Begin ()));
 //}
 
 //unsigned TiXmlStringA::length () const

@@ -16,13 +16,13 @@
 
 
 #include <PowerEditor/Parameters.h>
-#include "Processus.h"
+#include <PowerEditor/MISC/Process/Processus.h>
 
 
 void Process::run(bool isElevationRequired) const
 {
-	const TCHAR *opVerb = isElevationRequired ? TEXT("runas") : TEXT("open");
-	::ShellExecute(NULL, opVerb, _command.c_str(), _args.c_str(), _curDir.c_str(), SW_SHOWNORMAL);
+	const char *opVerb = isElevationRequired ? TEXT("runas") : TEXT("open");
+	::ShellExecute(NULL, opVerb, _command.Begin(), _args.Begin(), _curDir.Begin(), SW_SHOWNORMAL);
 }
 
 unsigned long Process::runSync(bool isElevationRequired) const
@@ -32,9 +32,9 @@ unsigned long Process::runSync(bool isElevationRequired) const
 	ShExecInfo.fMask = SEE_MASK_NOCLOSEPROCESS;
 	ShExecInfo.hwnd = NULL;
 	ShExecInfo.lpVerb = isElevationRequired ? TEXT("runas") : TEXT("open");
-	ShExecInfo.lpFile = _command.c_str();
-	ShExecInfo.lpParameters = _args.c_str();
-	ShExecInfo.lpDirectory = _curDir.c_str();
+	ShExecInfo.lpFile = _command.Begin();
+	ShExecInfo.lpParameters = _args.Begin();
+	ShExecInfo.lpDirectory = _curDir.Begin();
 	ShExecInfo.nShow = SW_SHOWNORMAL;
 	ShExecInfo.hInstApp = NULL;
 

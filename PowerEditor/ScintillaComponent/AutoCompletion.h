@@ -107,12 +107,12 @@ private:
 
 	bool _ignoreCase = true;
 
-	std::vector<generic_string> _keyWordArray;
-	generic_string _keyWords;
+	Vector<String> _keyWordArray;
+	String _keyWords;
 	size_t _keyWordMaxLen = 0;
 
 	FunctionCallTip _funcCalltip;
 
-	const TCHAR * getApiFileName();
-	void getWordArray(std::vector<generic_string> & wordArray, TCHAR *beginChars, TCHAR *excludeChars);
+	const char * getApiFileName();
+	void getWordArray(Vector<String> & wordArray, char *beginChars, char *excludeChars);
 };

@@ -26,10 +26,10 @@
 #define DOCUMENTMAP_MOUSECLICKED  (WM_USER + 2)
 #define DOCUMENTMAP_MOUSEWHEEL    (WM_USER + 3)
 
-const TCHAR VIEWZONE_DOCUMENTMAP[64] = TEXT("Document map");
+const char VIEWZONE_DOCUMENTMAP[64] = TEXT("Document map");
 
 class ScintillaEditView;
-class Buffer;
+class SciBuffer;
 struct MapPosition;
 
 const bool moveDown = true;
@@ -98,7 +98,7 @@ public:
 
 	void create(tTbData * data, bool isRTL = false) {
 		DockingDlgInterface::create(data, isRTL);
-		data->pszAddInfo = id4dockingCont.c_str();
+		data->pszAddInfo = id4dockingCont.Begin();
 	};
 
 	void init(HINSTANCE hInst, HWND hPere, ScintillaEditView **ppEditView) {
@@ -122,7 +122,7 @@ public:
 	}
 
 	void reloadMap();
-	void showInMapTemporarily(Buffer *buf2show, ScintillaEditView *fromEditView);
+	void showInMapTemporarily(SciBuffer *buf2show, ScintillaEditView *fromEditView);
 	void wrapMap(const ScintillaEditView *editView = nullptr);
 	void initWrapMap();
 	void scrollMap();
@@ -150,5 +150,5 @@ private:
 	// for needToRecomputeWith function
 	intptr_t _displayZoom = -1;
 	intptr_t _displayWidth = 0;
-	generic_string id4dockingCont = DM_NOFOCUSWHILECLICKINGCAPTION;
+	String id4dockingCont = DM_NOFOCUSWHILECLICKINGCAPTION;
 };

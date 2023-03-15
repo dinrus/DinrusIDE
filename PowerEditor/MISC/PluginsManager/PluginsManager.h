@@ -27,10 +27,10 @@ class PluginViewList;
 
 struct PluginCommand
 {
-	generic_string _pluginName;
+	String _pluginName;
 	int _funcID = 0;
 	PFUNCPLUGINCMD _pFunc = nullptr;
-	PluginCommand(const TCHAR *pluginName, int funcID, PFUNCPLUGINCMD pFunc): _funcID(funcID), _pFunc(pFunc), _pluginName(pluginName){};
+	PluginCommand(const char *pluginName, int funcID, PFUNCPLUGINCMD pFunc): _funcID(funcID), _pFunc(pFunc), _pluginName(pluginName){};
 };
 
 struct PluginInfo
@@ -57,17 +57,17 @@ struct PluginInfo
 
 	FuncItem *_funcItems = nullptr;
 	int _nbFuncItem = 0;
-	generic_string _moduleName;
-	generic_string _funcName;
+	String _moduleName;
+	String _funcName;
 };
 
 struct LoadedDllInfo
 {
-	generic_string _fullFilePath;
-	generic_string _fileName;
-	generic_string _displayName;
+	String _fullFilePath;
+	String _fileName;
+	String _displayName;
 
-	LoadedDllInfo(const generic_string & fullFilePath, const generic_string & fileName) : _fullFilePath(fullFilePath), _fileName(fileName)
+	LoadedDllInfo(const String & fullFilePath, const String & fileName) : _fullFilePath(fullFilePath), _fileName(fileName)
 	{
 		// the plugin module's name, without '.dll'
 		_displayName = fileName.substr(0, fileName.find_last_of('.'));
@@ -91,12 +91,12 @@ public:
 		_nppData = nppData;
 	}
 
-	bool loadPlugins(const TCHAR *dir = NULL, const PluginViewList* pluginUpdateInfoList = nullptr);
+	bool loadPlugins(const char *dir = NULL, const PluginViewList* pluginUpdateInfoList = nullptr);
 
     bool unloadPlugin(int index, HWND nppHandle);
 
 	void runPluginCommand(size_t i);
-	void runPluginCommand(const TCHAR *pluginName, int commandID);
+	void runPluginCommand(const char *pluginName, int commandID);
 
     void addInMenuFromPMIndex(int i);
 	HMENU initMenu(HMENU hMenu, bool enablePluginAdmin = false);
@@ -117,7 +117,7 @@ public:
 	bool inDynamicRange(int id) { return _dynamicIDAlloc.isInRange(id); }
 
 	bool allocateMarker(int numberRequired, int *start);
-	generic_string getLoadedPluginNames() const;
+	String getLoadedPluginNames() const;
 
 private:
 	NppData _nppData;
@@ -131,35 +131,35 @@ private:
 	IDAllocator _markerAlloc;
 	bool _noMoreNotification = false;
 
-	int loadPluginFromPath(const TCHAR* pluginFilePath);
+	int loadPluginFromPath(const char* pluginFilePath);
 
-	void pluginCrashAlert(const TCHAR *pluginName, const TCHAR *funcSignature)
+	void pluginCrashAlert(const char *pluginName, const char *funcSignature)
 	{
-		generic_string msg = pluginName;
+		String msg = pluginName;
 		msg += TEXT(" just crashed in\r");
 		msg += funcSignature;
-		::MessageBox(NULL, msg.c_str(), TEXT("Plugin Crash"), MB_OK|MB_ICONSTOP);
+		::MessageBox(NULL, msg.Begin(), TEXT("Plugin Crash"), MB_OK|MB_ICONSTOP);
 	}
 
-	void pluginExceptionAlert(const TCHAR *pluginName, const std::exception& e)
+	void pluginExceptionAlert(const char *pluginName, const std::exception& e)
 	{
-		generic_string msg = TEXT("An exception occurred due to plugin: ");
+		String msg = TEXT("An exception occurred due to plugin: ");
 		msg += pluginName;
 		msg += TEXT("\r\n\r\nException reason: ");
 		msg += s2ws(e.what());
 
-		::MessageBox(NULL, msg.c_str(), TEXT("Plugin Exception"), MB_OK);
+		::MessageBox(NULL, msg.Begin(), TEXT("Plugin Exception"), MB_OK);
 	}
 
-	bool isInLoadedDlls(const TCHAR *fn) const
+	bool isInLoadedDlls(const char *fn) const
 	{
 		for (size_t i = 0; i < _loadedDlls.size(); ++i)
-			if (generic_stricmp(fn, _loadedDlls[i]._fileName.c_str()) == 0)
+			if (generic_stricmp(fn, _loadedDlls[i]._fileName.Begin()) == 0)
 				return true;
 		return false;
 	}
 
-	void addInLoadedDlls(const TCHAR *fullPath, const TCHAR *fn) {
+	void addInLoadedDlls(const char *fullPath, const char *fn) {
 		_loadedDlls.push_back(LoadedDllInfo(fullPath, fn));
 	}
 };

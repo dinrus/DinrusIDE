@@ -19,10 +19,10 @@
 
 
 struct Token {
-	TCHAR * token;
+	char * token;
 	int length;
 	bool isIdentifier;
-	Token(TCHAR * tok, int len, bool isID) : token(tok), length(len), isIdentifier(isID) {};
+	Token(char * tok, int len, bool isID) : token(tok), length(len), isIdentifier(isID) {};
 };
 
 struct FunctionValues {
@@ -33,11 +33,11 @@ struct FunctionValues {
 	FunctionValues() : lastIdentifier(-1), lastFunctionIdentifier(-1), param(0), scopeLevel(-1) {};
 };
 
-inline bool lower(TCHAR c) {
+inline bool lower(char c) {
 	return (c >= 'a' && c <= 'z');	
 }
 
-inline bool match(TCHAR c1, TCHAR c2) {
+inline bool match(char c1, char c2) {
 	if (c1 == c2)	return true;
 	if (lower(c1))
 		return ((c1-32) == c2);
@@ -48,7 +48,7 @@ inline bool match(TCHAR c1, TCHAR c2) {
 
 //test string case insensitive ala Scintilla
 //0 if equal, <0 of before, >0 if after (name1 that is)
-int testNameNoCase(const TCHAR * name1, const TCHAR * name2, int len = -1)
+int testNameNoCase(const char * name1, const char * name2, int len = -1)
 {
 	if (len == -1)
 	{
@@ -142,7 +142,7 @@ bool FunctionCallTip::getCursorFunction()
 		return false;	//cannot be a func, need name and separator
 	}
 	
-	TCHAR lineData[maxLen] = TEXT("");
+	char lineData[maxLen] = TEXT("");
 
 	_pEditView->getLine(line, lineData, len);
 
@@ -151,7 +151,7 @@ bool FunctionCallTip::getCursorFunction()
 	//token is identifier or some expression, whitespace is ignored
 	std::vector< Token > tokenVector;
 	int tokenLen = 0;
-	TCHAR ch;
+	char ch;
 	for (int i = 0; i < offset; ++i) 	//we dont care about stuff after the offset
     {
 		//tokenVector.push_back(pair(lineData+i, len));
@@ -159,7 +159,7 @@ bool FunctionCallTip::getCursorFunction()
 		if (isBasicWordChar(ch) || isAdditionalWordChar(ch))	//part of identifier
         {
 			tokenLen = 0;
-			TCHAR * begin = lineData+i;
+			char * begin = lineData+i;
             while ((isBasicWordChar(ch) || isAdditionalWordChar(ch)) && i < offset)
 			{
 				++tokenLen;
@@ -272,7 +272,7 @@ bool FunctionCallTip::getCursorFunction()
 		{	//check if we need to reload data
 			delete [] _funcName;
 
-			_funcName = new TCHAR[funcToken.length+1];
+			_funcName = new char[funcToken.length+1];
 			wcscpy_s(_funcName, funcToken.length+1, funcToken.token);
 			res = loadFunction();
 		}
@@ -297,7 +297,7 @@ bool FunctionCallTip::loadFunction()
 	
 	for (; funcNode; funcNode = funcNode->NextSiblingElement(TEXT("KeyWord")))
 	{
-		const TCHAR * name = NULL;
+		const char * name = NULL;
 		name = funcNode->Attribute(TEXT("name"));
 		if (!name)		//malformed node
 			continue;
@@ -308,7 +308,7 @@ bool FunctionCallTip::loadFunction()
 			compVal = lstrcmp(name, _funcName);
 		if (!compVal) 	//found it!
         {
-			const TCHAR * val = funcNode->Attribute(TEXT("func"));
+			const char * val = funcNode->Attribute(TEXT("func"));
 			if (val)
 			{
 				if (!lstrcmp(val, TEXT("yes"))) 
@@ -336,12 +336,12 @@ bool FunctionCallTip::loadFunction()
 	TiXmlElement *paramNode = NULL;
 	for (; overloadNode ; overloadNode = overloadNode->NextSiblingElement(TEXT("Overload")) )
 	{
-		const TCHAR * retVal = overloadNode->Attribute(TEXT("retVal"));
+		const char * retVal = overloadNode->Attribute(TEXT("retVal"));
 		if (!retVal)
 			continue;	//malformed node
 		_retVals.push_back(retVal);
 
-		const TCHAR * description = overloadNode->Attribute(TEXT("descr"));
+		const char * description = overloadNode->Attribute(TEXT("descr"));
 		if (description)
 			_descriptions.push_back(description);
 		else
@@ -350,7 +350,7 @@ bool FunctionCallTip::loadFunction()
 		paramNode = overloadNode->FirstChildElement(TEXT("Param"));
 		for (; paramNode ; paramNode = paramNode->NextSiblingElement(TEXT("Param")) )
 		{
-			const TCHAR * param = paramNode->Attribute(TEXT("name"));
+			const char * param = paramNode->Attribute(TEXT("name"));
 			if (!param)
 				continue;	//malformed node
 			paramVec.push_back(param);
@@ -410,7 +410,7 @@ void FunctionCallTip::showCalltip()
 	{
 		if (i == _currentParam) 
 		{
-			highlightstart = static_cast<int>(callTipText.str().length());
+			highlightstart = static_cast<int>(callTipText.str().GetLength());
 			highlightend = highlightstart + lstrlen(params.at(i));
 		}
 		callTipText << params.at(i);
@@ -428,7 +428,7 @@ void FunctionCallTip::showCalltip()
 		_pEditView->execute(SCI_CALLTIPCANCEL);
 	else
 		_startPos = _curPos;
-	_pEditView->showCallTip(_startPos, callTipText.str().c_str());
+	_pEditView->showCallTip(_startPos, callTipText.str().Begin());
 
 	_selfActivated = true;
 	if (highlightstart != highlightend)

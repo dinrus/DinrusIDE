@@ -19,8 +19,8 @@
 
 #include <windows.h>
 #include <string>
-#include <tchar.h>
-#include <cstdint>
+//#include <char.h>
+//#include <cstdint>
 
 
 class Win32_IO_File final

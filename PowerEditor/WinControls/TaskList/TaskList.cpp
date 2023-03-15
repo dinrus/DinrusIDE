@@ -16,8 +16,8 @@
 #include <stdexcept>
 #include "TaskList.h"
 #include "TaskListDlg_rc.h"
-#include "colors.h"
-#include "ImageListSet.h"
+#include <PowerEditor/ScintillaComponent/colors.h>
+#include <PowerEditor/WinControls/ImageListSet/ImageListSet.h>
 #include <PowerEditor/Parameters.h>
 
 void TaskList::init(HINSTANCE hInst, HWND parent, HIMAGELIST hImaLst, int nbItem, int index2set)
@@ -27,28 +27,28 @@ void TaskList::init(HINSTANCE hInst, HWND parent, HIMAGELIST hImaLst, int nbItem
 	_currentIndex = index2set;
 
     INITCOMMONCONTROLSEX icex;
-    
-    // Ensure that the common control DLL is loaded. 
+
+    // Ensure that the common control DLL is loaded.
     icex.dwSize = sizeof(INITCOMMONCONTROLSEX);
     icex.dwICC  = ICC_LISTVIEW_CLASSES;
     InitCommonControlsEx(&icex);
 
 	_nbItem = nbItem;
-    
+
     // Create the list-view window in report view with label editing enabled.
 	int listViewStyles = LVS_REPORT | LVS_OWNERDATA | LVS_NOCOLUMNHEADER | LVS_NOSORTHEADER\
 						| /*LVS_NOSCROLL |*/ LVS_SINGLESEL | LVS_AUTOARRANGE | LVS_OWNERDRAWFIXED\
 						| LVS_SHAREIMAGELISTS/* | WS_BORDER*/;
 
-	_hSelf = ::CreateWindow(WC_LISTVIEW, 
-                                TEXT(""), 
+	_hSelf = ::CreateWindow(WC_LISTVIEW,
+                                TEXT(""),
                                 WS_CHILD | listViewStyles,
                                 0,
-                                0, 
                                 0,
                                 0,
-                                _hParent, 
-                                NULL, 
+                                0,
+                                _hParent,
+                                NULL,
                                 hInst,
                                 NULL);
 	if (!_hSelf)
@@ -101,7 +101,7 @@ RECT TaskList::adjustSize()
 	int maxwidth = -1;
 
 	_rc = { 0, 0, 0, 0 };
-	TCHAR buf[MAX_PATH];
+	char buf[MAX_PATH];
 	for (int i = 0 ; i < _nbItem ; ++i)
 	{
 		ListView_GetItemText(_hSelf, i, 0, buf, MAX_PATH);
@@ -127,7 +127,7 @@ RECT TaskList::adjustSize()
 	return _rc;
 }
 
-void TaskList::setFont(const TCHAR *fontName, int fontSize)
+void TaskList::setFont(const char *fontName, int fontSize)
 {
 	if (_hFont)
 		::DeleteObject(_hFont);
@@ -187,12 +187,12 @@ LRESULT TaskList::runProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam)
 				// tells what item(s) to be repainted
 				ListView_RedrawItems(_hSelf, _currentIndex, _currentIndex);
 				// repaint item(s)
-				UpdateWindow(_hSelf); 
+				UpdateWindow(_hSelf);
 				ListView_SetItemState(_hSelf, selected, LVIS_SELECTED|LVIS_FOCUSED, LVIS_SELECTED|LVIS_FOCUSED);
 				// tells what item(s) to be repainted
 				ListView_RedrawItems(_hSelf, selected, selected);
 				// repaint item(s)
-				UpdateWindow(_hSelf);              
+				UpdateWindow(_hSelf);
 				_currentIndex = selected;
 			}
 			else
@@ -202,7 +202,7 @@ LRESULT TaskList::runProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam)
 				// tells what item(s) to be repainted
 				ListView_RedrawItems(_hSelf, _currentIndex, _currentIndex);
 				// repaint item(s)
-				UpdateWindow(_hSelf); 
+				UpdateWindow(_hSelf);
 				ListView_SetItemState(_hSelf, selected, LVIS_SELECTED|LVIS_FOCUSED, LVIS_SELECTED|LVIS_FOCUSED);
 				// tells what item(s) to be repainted
 				ListView_RedrawItems(_hSelf, selected, selected);
@@ -218,7 +218,7 @@ LRESULT TaskList::runProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam)
 		{
 			return TRUE;
 		}
-		
+
 
 		case WM_GETDLGCODE :
 		{
@@ -231,18 +231,18 @@ LRESULT TaskList::runProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam)
 					// Shift+Tab is cool but I think VK_UP and VK_LEFT are also cool :-)
 					if (((msg->wParam == VK_TAB) && (0x80 & GetKeyState(VK_SHIFT))) ||
 					    (msg->wParam == VK_UP))
-					{ 
+					{
 						int32_t selected = (_currentIndex - 1) < 0 ? (_nbItem - 1) : (_currentIndex - 1);
 						ListView_SetItemState(_hSelf, _currentIndex, 0, LVIS_SELECTED|LVIS_FOCUSED);
 						// tells what item(s) to be repainted
 						ListView_RedrawItems(_hSelf, _currentIndex, _currentIndex);
 						// repaint item(s)
-						UpdateWindow(_hSelf); 
+						UpdateWindow(_hSelf);
 						ListView_SetItemState(_hSelf, selected, LVIS_SELECTED|LVIS_FOCUSED, LVIS_SELECTED|LVIS_FOCUSED);
 						// tells what item(s) to be repainted
 						ListView_RedrawItems(_hSelf, selected, selected);
 						// repaint item(s)
-						UpdateWindow(_hSelf);              
+						UpdateWindow(_hSelf);
 						_currentIndex = selected;
 					}
 					// VK_DOWN and VK_RIGHT do the same as VK_TAB does
@@ -258,7 +258,7 @@ LRESULT TaskList::runProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam)
 						// tells what item(s) to be repainted
 						ListView_RedrawItems(_hSelf, selected, selected);
 						// repaint item(s)
-						UpdateWindow(_hSelf);              
+						UpdateWindow(_hSelf);
 						_currentIndex = selected;
 					}
 					ListView_EnsureVisible(_hSelf, _currentIndex, true);

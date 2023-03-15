@@ -22,7 +22,7 @@
 #include <PowerEditor/WinControls/ContextMenu/ContextMenu.h>
 
 class DocTabView;
-class Buffer;
+class SciBuffer;
 
 typedef enum {
 	WDT_ACTIVATE = 1,
@@ -86,7 +86,7 @@ protected :
 	void doCount();
 	void refreshMap();
 	void putItemsToClipboard(bool isFullPath);
-	Buffer* getBuffer(int index) const;
+	SciBuffer* getBuffer(int index) const;
 
 	static LONG_PTR originalListViewProc;
 	static LRESULT CALLBACK listViewProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam);

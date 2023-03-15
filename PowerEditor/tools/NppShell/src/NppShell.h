@@ -45,11 +45,11 @@
 #ifdef WIN64
 // {B298D29A-A6ED-11DE-BA8C-A68E55D89593}
 DEFINE_GUID(CLSID_ShellExtension, 0xB298D29A, 0xA6ED, 0x11DE, 0xBA, 0x8C, 0xA6, 0x8E, 0x55, 0xD8, 0x95, 0x93);
-TCHAR szGUID[] = TEXT("{B298D29A-A6ED-11DE-BA8C-A68E55D89593}");
+char szGUID[] = TEXT("{B298D29A-A6ED-11DE-BA8C-A68E55D89593}");
 #else
 // {00F3C2EC-A6EE-11DE-A03A-EF8F55D89593}
 DEFINE_GUID(CLSID_ShellExtension, 0x00F3C2EC, 0xA6EE, 0x11DE, 0xA0, 0x3A, 0xEF, 0x8F, 0x55, 0xD8, 0x95, 0x93);
-TCHAR szGUID[] = TEXT("{00F3C2EC-A6EE-11DE-A03A-EF8F55D89593}");
+char szGUID[] = TEXT("{00F3C2EC-A6EE-11DE-A03A-EF8F55D89593}");
 #endif
 
 class CShellExtClassFactory : public IClassFactory {
@@ -78,15 +78,15 @@ private:
 	UINT m_cbFiles;
 	STGMEDIUM m_stgMedium;
 	LPDATAOBJECT m_pDataObj;
-	TCHAR m_szDllDir[MAX_PATH];
-	TCHAR m_szMenuTitle[TITLE_SIZE];
+	char m_szDllDir[MAX_PATH];
+	char m_szMenuTitle[TITLE_SIZE];
 	UINT m_menuID;
 	HMENU m_hMenu;
 	bool m_showIcon;
 	// Icon variables
-	TCHAR m_szFilePath[MAX_PATH];
-	TCHAR m_szModule[MAX_PATH];
-	TCHAR m_szCustomPath[MAX_PATH];
+	char m_szFilePath[MAX_PATH];
+	char m_szModule[MAX_PATH];
+	char m_szCustomPath[MAX_PATH];
 	bool m_useCustom;
 	int m_nameLength;
 	int m_nameMaxLength;

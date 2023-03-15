@@ -1,6 +1,3 @@
-uses
-	POwerEditor;
-
 file
 	WinControls readonly separator,
 	Window.h,
@@ -160,5 +157,8 @@ file
 	WindowsDlg\WinMgr.cpp,
 	WindowsDlg\WinMgr.h,
 	WindowsDlg\WinRect.cpp,
+	"ОткрСохрФайлДлг" readonly separator,
+	OpenSaveFileDialog\CustomFileDialog.cpp,
+	OpenSaveFileDialog\CustomFileDialog.h,
 	end readonly separator;
 

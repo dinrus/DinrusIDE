@@ -57,11 +57,11 @@ inline RECT &OffsetRect(RECT& rc, POINT pt) {
 
 // handy functions to take the min or max of a SIZE
 inline SIZE minsize(SIZE a, SIZE b) {
-	return GetSize(min(a.cx, b.cx), min(a.cy, b.cy));
+	return GetSize(Min(a.cx, b.cx), min(a.cy, b.cy));
 }
 
 inline SIZE maxsize(SIZE a, SIZE b) {
-	return GetSize(max(a.cx, b.cx), max(a.cy, b.cy));
+	return GetSize(Max(a.cx, b.cx), max(a.cy, b.cy));
 }
 
 //////////////////

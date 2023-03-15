@@ -665,8 +665,8 @@
     //
 	#define NPPM_INTERNAL_SETFILENAME (NPPMSG + 63)
     //wParam: BufferID to rename
-    //lParam: name to set (TCHAR*)
-    //Buffer must have been previously unnamed (eg "new 1" document types)
+    //lParam: name to set (char*)
+    //SciBuffer must have been previously unnamed (eg "new 1" document types)
 
 
 

@@ -90,10 +90,10 @@ void LastRecentFileList::updateMenu()
 		//add separators
 		NativeLangSpeaker *pNativeLangSpeaker = nppParam.getNativeLangSpeaker();
 
-		generic_string recentFileList = pNativeLangSpeaker->getSpecialMenuEntryName("RecentFiles");
-		generic_string openRecentClosedFile = pNativeLangSpeaker->getNativeLangMenuString(IDM_FILE_RESTORELASTCLOSEDFILE);
-		generic_string openAllFiles = pNativeLangSpeaker->getNativeLangMenuString(IDM_OPEN_ALL_RECENT_FILE);
-		generic_string cleanFileList = pNativeLangSpeaker->getNativeLangMenuString(IDM_CLEAN_RECENT_FILE_LIST);
+		String recentFileList = pNativeLangSpeaker->getSpecialMenuEntryName("RecentFiles");
+		String openRecentClosedFile = pNativeLangSpeaker->getNativeLangMenuString(IDM_FILE_RESTORELASTCLOSEDFILE);
+		String openAllFiles = pNativeLangSpeaker->getNativeLangMenuString(IDM_OPEN_ALL_RECENT_FILE);
+		String cleanFileList = pNativeLangSpeaker->getNativeLangMenuString(IDM_CLEAN_RECENT_FILE_LIST);
 
 		if (recentFileList == TEXT(""))
 			recentFileList = TEXT("&Recent Files");
@@ -107,15 +107,15 @@ void LastRecentFileList::updateMenu()
 		if (!isSubMenuMode())
 			::InsertMenu(_hMenu, _posBase + 0, MF_BYPOSITION, static_cast<UINT_PTR>(-1), 0);
 
-		::InsertMenu(_hMenu, _posBase + 1, MF_BYPOSITION, IDM_FILE_RESTORELASTCLOSEDFILE, openRecentClosedFile.c_str());
-		::InsertMenu(_hMenu, _posBase + 2, MF_BYPOSITION, IDM_OPEN_ALL_RECENT_FILE, openAllFiles.c_str());
-		::InsertMenu(_hMenu, _posBase + 3, MF_BYPOSITION, IDM_CLEAN_RECENT_FILE_LIST, cleanFileList.c_str());
+		::InsertMenu(_hMenu, _posBase + 1, MF_BYPOSITION, IDM_FILE_RESTORELASTCLOSEDFILE, openRecentClosedFile.Begin());
+		::InsertMenu(_hMenu, _posBase + 2, MF_BYPOSITION, IDM_OPEN_ALL_RECENT_FILE, openAllFiles.Begin());
+		::InsertMenu(_hMenu, _posBase + 3, MF_BYPOSITION, IDM_CLEAN_RECENT_FILE_LIST, cleanFileList.Begin());
 		::InsertMenu(_hMenu, _posBase + 4, MF_BYPOSITION, static_cast<UINT_PTR>(-1), 0);
 		_hasSeparators = true;
 
 		if (isSubMenuMode())
 		{
-			::InsertMenu(_hParentMenu, _posBase + 0, MF_BYPOSITION | MF_POPUP, reinterpret_cast<UINT_PTR>(_hMenu), (LPCTSTR)recentFileList.c_str());
+			::InsertMenu(_hParentMenu, _posBase + 0, MF_BYPOSITION | MF_POPUP, reinterpret_cast<UINT_PTR>(_hMenu), (LPCTSTR)recentFileList.Begin());
 			::InsertMenu(_hParentMenu, _posBase + 1, MF_BYPOSITION, static_cast<UINT_PTR>(-1), 0);
 		}
 	}
@@ -149,13 +149,13 @@ void LastRecentFileList::updateMenu()
 	//Then readd them, so everything stays in sync
 	for (int j = 0; j < _size; ++j)
 	{
-		generic_string strBuffer(BuildMenuFileName(nppParam.getRecentFileCustomLength(), j, _lrfl.at(j)._name));
-		::InsertMenu(_hMenu, _posBase + j, MF_BYPOSITION, _lrfl.at(j)._id, strBuffer.c_str());
+		String strBuffer(BuildMenuFileName(nppParam.getRecentFileCustomLength(), j, _lrfl.at(j)._name));
+		::InsertMenu(_hMenu, _posBase + j, MF_BYPOSITION, _lrfl.at(j)._id, strBuffer.Begin());
 	}
 	
 }
 
-void LastRecentFileList::add(const TCHAR *fn) 
+void LastRecentFileList::add(const char *fn) 
 {
 	if (_userMax == 0 || _locked)
 		return;
@@ -183,7 +183,7 @@ void LastRecentFileList::add(const TCHAR *fn)
 	updateMenu();
 };
 
-void LastRecentFileList::remove(const TCHAR *fn) 
+void LastRecentFileList::remove(const char *fn) 
 { 
 	int index = find(fn);
 	if (index != -1)
@@ -221,7 +221,7 @@ void LastRecentFileList::clear()
 }
 
 
-generic_string & LastRecentFileList::getItem(int id) 
+String & LastRecentFileList::getItem(int id) 
 {
 	int i = 0;
 	for (; i < _size; ++i)
@@ -234,7 +234,7 @@ generic_string & LastRecentFileList::getItem(int id)
 	return _lrfl.at(i)._name;	//if not found, return first
 };
 
-generic_string & LastRecentFileList::getIndex(int index)
+String & LastRecentFileList::getIndex(int index)
 {
 	return _lrfl.at(index)._name;	//if not found, return first
 }
@@ -268,17 +268,17 @@ void LastRecentFileList::saveLRFL()
 	{
 		for (int i = _size - 1; i >= 0; i--)	//reverse order: so loading goes in correct order
 		{
-			nppParams.writeHistory(_lrfl.at(i)._name.c_str());
+			nppParams.writeHistory(_lrfl.at(i)._name.Begin());
 		}
 	}
 }
 
 
-int LastRecentFileList::find(const TCHAR *fn)
+int LastRecentFileList::find(const char *fn)
 {
 	for (int i = 0; i < _size; ++i)
 	{
-		if (OrdinalIgnoreCaseCompareStrings(_lrfl.at(i)._name.c_str(), fn) == 0)
+		if (OrdinalIgnoreCaseCompareStrings(_lrfl.at(i)._name.Begin(), fn) == 0)
 		{
 			return i;
 		}

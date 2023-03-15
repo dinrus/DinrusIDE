@@ -17,9 +17,9 @@
 
 #include <stdexcept>
 #include "DockingSplitter.h"
-#include "Notepad_plus_msgs.h"
+#include <PowerEditor/MISC/PluginsManager/Notepad_plus_msgs.h>
 #include <PowerEditor/Parameters.h>
-#include "NppDarkMode.h"
+#include <PowerEditor/NppDarkMode.h>
 
 BOOL DockingSplitter::_isVertReg = FALSE;
 BOOL DockingSplitter::_isHoriReg = FALSE;

@@ -67,7 +67,7 @@ class TiXmlStringA
     }
 
     // Convert a TiXmlStringA into a classical char *
-    const char * c_str () const
+    const char * Begin () const
     {
         if (allocated)
             return cstring;
@@ -196,7 +196,7 @@ class TiXmlStringA
     // append function for another TiXmlStringA
     void append (const TiXmlStringA & suffix)
     {
-        append (suffix . c_str ());
+        append (suffix . Begin ());
     }
 
     // append for a single char. This could be improved a lot if needed
@@ -229,7 +229,7 @@ public :
     // TiXmlOutStreamA << operator. Maps to TiXmlStringA::append
     TiXmlOutStreamA & operator << (const TiXmlStringA & in)
     {
-        append (in . c_str ());
+        append (in . Begin ());
         return (* this);
     }
 } ;

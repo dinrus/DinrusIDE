@@ -34,11 +34,11 @@ protected:
 		return _isDescending;
 	}
 
-	generic_string getSortKey(const generic_string& input)
+	String getSortKey(const String& input)
 	{
 		if (isSortingSpecificColumns())
 		{
-			if (input.length() < _fromColumn)
+			if (input.GetLength() < _fromColumn)
 			{
 				// prevent an std::out_of_range exception
 				return TEXT("");
@@ -71,7 +71,7 @@ public:
 		assert(_fromColumn <= _toColumn);
 	};
 	virtual ~ISorter() { };
-	virtual std::vector<generic_string> sort(std::vector<generic_string> lines) = 0;
+	virtual Vector<String> sort(Vector<String> lines) = 0;
 };
 
 // Implementation of lexicographic sorting of lines.
@@ -80,14 +80,14 @@ class LexicographicSorter : public ISorter
 public:
 	LexicographicSorter(bool isDescending, size_t fromColumn, size_t toColumn) : ISorter(isDescending, fromColumn, toColumn) { };
 	
-	std::vector<generic_string> sort(std::vector<generic_string> lines) override
+	Vector<String> sort(Vector<String> lines) override
 	{
 		// Note that both branches here are equivalent in the sense that they always give the same answer.
 		// However, if we are *not* sorting specific columns, then we get a 40% speed improvement by not calling
 		// getSortKey() so many times.
 		if (isSortingSpecificColumns())
 		{
-			std::sort(lines.begin(), lines.end(), [this](generic_string a, generic_string b)
+			std::sort(lines.begin(), lines.end(), [this](String a, String b)
 			{
 				if (isDescending())
 				{
@@ -102,7 +102,7 @@ public:
 		}
 		else
 		{
-			std::sort(lines.begin(), lines.end(), [this](generic_string a, generic_string b)
+			std::sort(lines.begin(), lines.end(), [this](String a, String b)
 			{
 				if (isDescending())
 				{
@@ -124,36 +124,36 @@ class LexicographicCaseInsensitiveSorter : public ISorter
 public:
 	LexicographicCaseInsensitiveSorter(bool isDescending, size_t fromColumn, size_t toColumn) : ISorter(isDescending, fromColumn, toColumn) { };
 
-	std::vector<generic_string> sort(std::vector<generic_string> lines) override
+	Vector<String> sort(Vector<String> lines) override
 	{
 		// Note that both branches here are equivalent in the sense that they always give the same answer.
 		// However, if we are *not* sorting specific columns, then we get a 40% speed improvement by not calling
 		// getSortKey() so many times.
 		if (isSortingSpecificColumns())
 		{
-			std::sort(lines.begin(), lines.end(), [this](generic_string a, generic_string b)
+			std::sort(lines.begin(), lines.end(), [this](String a, String b)
 				{
 					if (isDescending())
 					{
-						return OrdinalIgnoreCaseCompareStrings(getSortKey(a).c_str(), getSortKey(b).c_str()) > 0;
+						return OrdinalIgnoreCaseCompareStrings(getSortKey(a).Begin(), getSortKey(b).Begin()) > 0;
 					}
 					else
 					{
-						return OrdinalIgnoreCaseCompareStrings(getSortKey(a).c_str(), getSortKey(b).c_str()) < 0;
+						return OrdinalIgnoreCaseCompareStrings(getSortKey(a).Begin(), getSortKey(b).Begin()) < 0;
 					}
 				});
 		}
 		else
 		{
-			std::sort(lines.begin(), lines.end(), [this](generic_string a, generic_string b)
+			std::sort(lines.begin(), lines.end(), [this](String a, String b)
 				{
 					if (isDescending())
 					{
-						return OrdinalIgnoreCaseCompareStrings(a.c_str(), b.c_str()) > 0;
+						return OrdinalIgnoreCaseCompareStrings(a.Begin(), b.Begin()) > 0;
 					}
 					else
 					{
-						return OrdinalIgnoreCaseCompareStrings(a.c_str(), b.c_str()) < 0;
+						return OrdinalIgnoreCaseCompareStrings(a.Begin(), b.Begin()) < 0;
 					}
 				});
 		}
@@ -166,23 +166,23 @@ class IntegerSorter : public ISorter
 public:
 	IntegerSorter(bool isDescending, size_t fromColumn, size_t toColumn) : ISorter(isDescending, fromColumn, toColumn) { };
 
-	std::vector<generic_string> sort(std::vector<generic_string> lines) override
+	Vector<String> sort(Vector<String> lines) override
 	{
 		if (isSortingSpecificColumns())
 		{
-			std::sort(lines.begin(), lines.end(), [this](generic_string aIn, generic_string bIn)
+			std::sort(lines.begin(), lines.end(), [this](String aIn, String bIn)
 			{
-				generic_string a = getSortKey(aIn);
-				generic_string b = getSortKey(bIn);
+				String a = getSortKey(aIn);
+				String b = getSortKey(bIn);
 
 				long long compareResult = 0;
 				size_t aNumIndex = 0;
 				size_t bNumIndex = 0;
 				while (compareResult == 0)
 				{
-					if (aNumIndex >= a.length() || bNumIndex >= b.length())
+					if (aNumIndex >= a.GetLength() || bNumIndex >= b.GetLength())
 					{
-						compareResult = a.compare(min(aNumIndex, a.length()), generic_string::npos, b, min(bNumIndex, b.length()), generic_string::npos);
+						compareResult = a.compare(min(aNumIndex, a.GetLength()), String::npos, b, min(bNumIndex, b.GetLength()), String::npos);
 						break;
 					}
 
@@ -191,14 +191,14 @@ public:
 
 					int aNumSign = 1;
 					// Could be start of negative number
-					if (!aChunkIsNum && (aNumIndex + 1) < a.length())
+					if (!aChunkIsNum && (aNumIndex + 1) < a.GetLength())
 					{
 						aChunkIsNum = (a[aNumIndex] == L'-' && (a[aNumIndex + 1] >= L'0' && a[aNumIndex + 1] <= L'9'));
 						aNumSign = -1;
 					}
 
 					int bNumSign = 1;
-					if (!bChunkIsNum && (bNumIndex + 1) < b.length())
+					if (!bChunkIsNum && (bNumIndex + 1) < b.GetLength())
 					{
 						bChunkIsNum = (b[bNumIndex] == L'-' && (b[bNumIndex + 1] >= L'0' && b[bNumIndex + 1] <= L'9'));
 						bNumSign = -1;
@@ -241,26 +241,26 @@ public:
 							}
 
 							size_t aNumEnd = a.find_first_not_of(L"1234567890", aNumIndex);
-							if (aNumEnd == generic_string::npos)
+							if (aNumEnd == String::npos)
 							{
-								aNumEnd = a.length();
+								aNumEnd = a.GetLength();
 							}
 
 							size_t bNumEnd = b.find_first_not_of(L"1234567890", bNumIndex);
-							if (bNumEnd == generic_string::npos)
+							if (bNumEnd == String::npos)
 							{
-								bNumEnd = b.length();
+								bNumEnd = b.GetLength();
 							}
 
 							int aZeroNum = 0;
-							while (aNumIndex < a.length() && a[aNumIndex] == '0')
+							while (aNumIndex < a.GetLength() && a[aNumIndex] == '0')
 							{
 								aZeroNum++;
 								aNumIndex++;
 							}
 
 							int bZeroNum = 0;
-							while (bNumIndex < b.length() && b[bNumIndex] == '0')
+							while (bNumIndex < b.GetLength() && b[bNumIndex] == '0')
 							{
 								bZeroNum++;
 								bNumIndex++;
@@ -288,9 +288,9 @@ public:
 								// because the number strings can be every large, well over the maximum long long value
 								// thus, we compare each digit one by one
 								while (compareResult == 0
-									&& aNumIndex < a.length()
+									&& aNumIndex < a.GetLength()
 									&& (a[aNumIndex] >= L'0' && a[aNumIndex] <= L'9')
-									&& bNumIndex < b.length()
+									&& bNumIndex < b.GetLength()
 									&& (b[bNumIndex] >= L'0' && b[bNumIndex] <= L'9'))
 								{
 									compareResult = (a[aNumIndex] - b[bNumIndex]) * aNumSign;
@@ -337,19 +337,19 @@ public:
 		}
 		else
 		{
-			std::sort(lines.begin(), lines.end(), [this](generic_string aIn, generic_string bIn)
+			std::sort(lines.begin(), lines.end(), [this](String aIn, String bIn)
 			{
-				generic_string a = aIn;
-				generic_string b = bIn;
+				String a = aIn;
+				String b = bIn;
 
 				long long compareResult = 0;
 				size_t aNumIndex = 0;
 				size_t bNumIndex = 0;
 				while (compareResult == 0)
 				{
-					if (aNumIndex >= a.length() || bNumIndex >= b.length())
+					if (aNumIndex >= a.GetLength() || bNumIndex >= b.GetLength())
 					{
-						compareResult = a.compare(min(aNumIndex, a.length()), generic_string::npos, b, min(bNumIndex, b.length()), generic_string::npos);
+						compareResult = a.compare(min(aNumIndex, a.GetLength()), String::npos, b, min(bNumIndex, b.GetLength()), String::npos);
 						break;
 					}
 
@@ -358,14 +358,14 @@ public:
 
 					int aNumSign = 1;
 					// Could be start of negative number
-					if (!aChunkIsNum && (aNumIndex + 1) < a.length())
+					if (!aChunkIsNum && (aNumIndex + 1) < a.GetLength())
 					{
 						aChunkIsNum = (a[aNumIndex] == L'-' && (a[aNumIndex + 1] >= L'0' && a[aNumIndex + 1] <= L'9'));
 						aNumSign = -1;
 					}
 
 					int bNumSign = 1;
-					if (!bChunkIsNum && (bNumIndex + 1) < b.length())
+					if (!bChunkIsNum && (bNumIndex + 1) < b.GetLength())
 					{
 						bChunkIsNum = (b[bNumIndex] == L'-' && (b[bNumIndex + 1] >= L'0' && b[bNumIndex + 1] <= L'9'));
 						bNumSign = -1;
@@ -409,26 +409,26 @@ public:
 							}
 
 							size_t aNumEnd = a.find_first_not_of(L"1234567890", aNumIndex);
-							if (aNumEnd == generic_string::npos)
+							if (aNumEnd == String::npos)
 							{
-								aNumEnd = a.length();
+								aNumEnd = a.GetLength();
 							}
 
 							size_t bNumEnd = b.find_first_not_of(L"1234567890", bNumIndex);
-							if (bNumEnd == generic_string::npos)
+							if (bNumEnd == String::npos)
 							{
-								bNumEnd = b.length();
+								bNumEnd = b.GetLength();
 							}
 
 							int aZeroNum = 0;
-							while (aNumIndex < a.length() && a[aNumIndex] == '0')
+							while (aNumIndex < a.GetLength() && a[aNumIndex] == '0')
 							{
 								aZeroNum++;
 								aNumIndex++;
 							}
 
 							int bZeroNum = 0;
-							while (bNumIndex < b.length() && b[bNumIndex] == '0')
+							while (bNumIndex < b.GetLength() && b[bNumIndex] == '0')
 							{
 								bZeroNum++;
 								bNumIndex++;
@@ -456,9 +456,9 @@ public:
 								// because the number strings can be every large, well over the maximum long long value
 								// thus, we compare each digit one by one
 								while (compareResult == 0
-									&& aNumIndex < a.length()
+									&& aNumIndex < a.GetLength()
 									&& (a[aNumIndex] >= L'0' && a[aNumIndex] <= L'9')
-									&& bNumIndex < b.length()
+									&& bNumIndex < b.GetLength()
 									&& (b[bNumIndex] >= L'0' && b[bNumIndex] <= L'9'))
 								{
 									compareResult = (a[aNumIndex] - b[bNumIndex]) * aNumSign;
@@ -531,16 +531,16 @@ public:
 #endif
 	}
 	
-	std::vector<generic_string> sort(std::vector<generic_string> lines) override
+	Vector<String> sort(Vector<String> lines) override
 	{
 		// Note that empty lines are filtered out and added back manually to the output at the end.
 		std::vector<std::pair<size_t, T_Num>> nonEmptyInputAsNumbers;
-		std::vector<generic_string> empties;
+		Vector<String> empties;
 		nonEmptyInputAsNumbers.reserve(lines.size());
 		for (size_t lineIndex = 0; lineIndex < lines.size(); ++lineIndex)
 		{
-			const generic_string originalLine = lines[lineIndex];
-			const generic_string preparedLine = prepareStringForConversion(originalLine);
+			const String originalLine = lines[lineIndex];
+			const String preparedLine = prepareStringForConversion(originalLine);
 			if (considerStringEmpty(preparedLine))
 			{
 				empties.push_back(originalLine);
@@ -570,7 +570,7 @@ public:
 				return a.second < b.second;
 			}
 		});
-		std::vector<generic_string> output;
+		Vector<String> output;
 		output.reserve(lines.size());
 		if (!isDescending())
 		{
@@ -589,18 +589,18 @@ public:
 	}
 
 protected:
-	bool considerStringEmpty(const generic_string& input)
+	bool considerStringEmpty(const String& input)
 	{
 		// String has something else than just whitespace.
 		return input.find_first_not_of(TEXT(" \t\r\n")) == std::string::npos;
 	}
 
 	// Prepare the string for conversion to number.
-	virtual generic_string prepareStringForConversion(const generic_string& input) = 0;
+	virtual String prepareStringForConversion(const String& input) = 0;
 
 	// Should convert the input string to a number of the correct type.
 	// If unable to convert, throw either std::invalid_argument or std::out_of_range.
-	virtual T_Num convertStringToNumber(const generic_string& input) = 0;
+	virtual T_Num convertStringToNumber(const String& input) = 0;
 
 	// We need a fixed locale so we get the same string-to-double behavior across all computers.
 	// This is the "enUS" locale.
@@ -614,13 +614,13 @@ public:
 	DecimalCommaSorter(bool isDescending, size_t fromColumn, size_t toColumn) : NumericSorter<double>(isDescending, fromColumn, toColumn) { };
 
 protected:
-	generic_string prepareStringForConversion(const generic_string& input) override
+	String prepareStringForConversion(const String& input) override
 	{
-		generic_string admissablePart = stringTakeWhileAdmissable(getSortKey(input), TEXT(" \t\r\n0123456789,-"));
+		String admissablePart = stringTakeWhileAdmissable(getSortKey(input), TEXT(" \t\r\n0123456789,-"));
 		return stringReplace(admissablePart, TEXT(","), TEXT("."));
 	}
 
-	double convertStringToNumber(const generic_string& input) override
+	double convertStringToNumber(const String& input) override
 	{
 		return stodLocale(input, _usLocale);
 	}
@@ -633,12 +633,12 @@ public:
 	DecimalDotSorter(bool isDescending, size_t fromColumn, size_t toColumn) : NumericSorter<double>(isDescending, fromColumn, toColumn) { };
 
 protected:
-	generic_string prepareStringForConversion(const generic_string& input) override
+	String prepareStringForConversion(const String& input) override
 	{
 		return stringTakeWhileAdmissable(getSortKey(input), TEXT(" \t\r\n0123456789.-"));
 	}
 
-	double convertStringToNumber(const generic_string& input) override
+	double convertStringToNumber(const String& input) override
 	{
 		return stodLocale(input, _usLocale);
 	}
@@ -649,7 +649,7 @@ class ReverseSorter : public ISorter
 public:
 	ReverseSorter(bool isDescending, size_t fromColumn, size_t toColumn) : ISorter(isDescending, fromColumn, toColumn) { };
 
-	std::vector<generic_string> sort(std::vector<generic_string> lines) override
+	Vector<String> sort(Vector<String> lines) override
 	{
 		std::reverse(lines.begin(), lines.end());
 		return lines;
@@ -664,7 +664,7 @@ public:
 	{
 		seed = static_cast<unsigned>(time(NULL));
 	}
-	std::vector<generic_string> sort(std::vector<generic_string> lines) override
+	Vector<String> sort(Vector<String> lines) override
 	{
 		std::shuffle(lines.begin(), lines.end(), std::default_random_engine(seed));
 		return lines;

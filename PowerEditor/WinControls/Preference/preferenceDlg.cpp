@@ -15,9 +15,9 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 #include <shlwapi.h>
-#include "preferenceDlg.h"
-#include "lesDlgs.h"
-#include "EncodingMapper.h"
+#include <PowerEditor/WinControls/Preference/preferenceDlg.h>
+#include <PowerEditor/lesDlgs.h>
+#include <PowerEditor/EncodingMapper.h>
 #include <PowerEditor/localization.h>
 
 #define MyGetGValue(rgb)      (LOBYTE((rgb)>>8))
@@ -315,12 +315,12 @@ void PreferenceDlg::makeCategoryList()
 {
 	for (size_t i = 0, len = _wVector.size(); i < len; ++i)
 	{
-		::SendDlgItemMessage(_hSelf, IDC_LIST_DLGTITLE, LB_ADDSTRING, 0, reinterpret_cast<LPARAM>(_wVector[i]._name.c_str()));
+		::SendDlgItemMessage(_hSelf, IDC_LIST_DLGTITLE, LB_ADDSTRING, 0, reinterpret_cast<LPARAM>(_wVector[i]._name.Begin()));
 	}
 	setListSelection(0);
 }
 
-int32_t PreferenceDlg::getIndexFromName(const TCHAR *name) const
+int32_t PreferenceDlg::getIndexFromName(const char *name) const
 {
 	if (!name)
 		return -1;
@@ -338,7 +338,7 @@ bool PreferenceDlg::setListSelection(size_t currentSel) const
 {
 	// Stupid LB API doesn't allow LB_SETSEL to be used on single select listbox, so we do it in a hard way
 	const size_t selStrLenMax = 255;
-	TCHAR selStr[selStrLenMax + 1];
+	char selStr[selStrLenMax + 1];
 	auto lbTextLen = ::SendMessage(_hSelf, LB_GETTEXTLEN, currentSel, 0);
 
 	if (static_cast<size_t>(lbTextLen) > selStrLenMax)
@@ -349,7 +349,7 @@ bool PreferenceDlg::setListSelection(size_t currentSel) const
 	return true;
 }
 
-bool PreferenceDlg::renameDialogTitle(const TCHAR *internalName, const TCHAR *newName)
+bool PreferenceDlg::renameDialogTitle(const char *internalName, const char *newName)
 {
 	bool foundIt = false;
 	size_t i = 0;
@@ -365,7 +365,7 @@ bool PreferenceDlg::renameDialogTitle(const TCHAR *internalName, const TCHAR *ne
 		return false;
 
 	const size_t lenMax = 256;
-	TCHAR oldName[lenMax] = { '\0' };
+	char oldName[lenMax] = { '\0' };
 	size_t txtLen = ::SendDlgItemMessage(_hSelf, IDC_LIST_DLGTITLE, LB_GETTEXTLEN, i, 0);
 	if (txtLen >= lenMax)
 		return false;
@@ -382,7 +382,7 @@ bool PreferenceDlg::renameDialogTitle(const TCHAR *internalName, const TCHAR *ne
 	return true;
 }
 
-void PreferenceDlg::showDialogByName(const TCHAR *name) const
+void PreferenceDlg::showDialogByName(const char *name) const
 {
 	int32_t i = getIndexFromName(name);
 	if (i >= 0)
@@ -498,16 +498,16 @@ intptr_t CALLBACK GeneralSubDlg::run_dlgProc(UINT message, WPARAM wParam, LPARAM
 			for (size_t i = 0, len = localizationSwitcher.size(); i < len ; ++i)
 			{
 				pair<wstring, wstring> localizationInfo = localizationSwitcher.getElementFromIndex(i);
-				::SendDlgItemMessage(_hSelf, IDC_COMBO_LOCALIZATION, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(localizationInfo.first.c_str()));
+				::SendDlgItemMessage(_hSelf, IDC_COMBO_LOCALIZATION, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(localizationInfo.first.Begin()));
 			}
 			wstring lang = TEXT("English"); // Set default language as Englishs
 			if (nppParam.getNativeLangA()) // if nativeLangA is not NULL, then we can be sure the default language (English) is not used
 			{
 				string fn = localizationSwitcher.getFileName();
 				wstring fnW = s2ws(fn);
-				lang = localizationSwitcher.getLangFromXmlFileName(fnW.c_str());
+				lang = localizationSwitcher.getLangFromXmlFileName(fnW.Begin());
 			}
-			auto index = ::SendDlgItemMessage(_hSelf, IDC_COMBO_LOCALIZATION, CB_FINDSTRINGEXACT, static_cast<WPARAM>(-1), reinterpret_cast<LPARAM>(lang.c_str()));
+			auto index = ::SendDlgItemMessage(_hSelf, IDC_COMBO_LOCALIZATION, CB_FINDSTRINGEXACT, static_cast<WPARAM>(-1), reinterpret_cast<LPARAM>(lang.Begin()));
 			if (index != CB_ERR)
                 ::SendDlgItemMessage(_hSelf, IDC_COMBO_LOCALIZATION, CB_SETCURSEL, index, 0);
 
@@ -664,7 +664,7 @@ intptr_t CALLBACK GeneralSubDlg::run_dlgProc(UINT message, WPARAM wParam, LPARAM
 								{
 									LocalizationSwitcher & localizationSwitcher = nppParam.getLocalizationSwitcher();
 									auto index = ::SendDlgItemMessage(_hSelf, IDC_COMBO_LOCALIZATION, CB_GETCURSEL, 0, 0);
-									TCHAR langName[MAX_PATH];
+									char langName[MAX_PATH];
 									auto cbTextLen = ::SendDlgItemMessage(_hSelf, IDC_COMBO_LOCALIZATION, CB_GETLBTEXTLEN, index, 0);
 									if (cbTextLen > MAX_PATH - 1)
 										return TRUE;
@@ -827,9 +827,9 @@ intptr_t CALLBACK EditingSubDlg::run_dlgProc(UINT message, WPARAM wParam, LPARAM
 
 
 			NativeLangSpeaker* pNativeSpeaker = (NppParameters::getInstance()).getNativeLangSpeaker();
-			generic_string tip2show = pNativeSpeaker->getLocalizedStrFromID("eol-custom-color-tip", TEXT("Go to Style Configurator to change the default EOL custom color (\"EOL custom color\")."));
+			String tip2show = pNativeSpeaker->getLocalizedStrFromID("eol-custom-color-tip", TEXT("Go to Style Configurator to change the default EOL custom color (\"EOL custom color\")."));
 
-			_tip = CreateToolTip(IDC_BUTTON_LAUNCHSTYLECONF_CRLF, _hSelf, _hInst, const_cast<PTSTR>(tip2show.c_str()), pNativeSpeaker->isRTL());
+			_tip = CreateToolTip(IDC_BUTTON_LAUNCHSTYLECONF_CRLF, _hSelf, _hInst, const_cast<PTSTR>(tip2show.Begin()), pNativeSpeaker->isRTL());
 			if (_tip)
 			{
 				SendMessage(_tip, TTM_ACTIVATE, TRUE, 0);
@@ -1583,14 +1583,14 @@ void MarginsBorderEdgeSubDlg::initScintParam()
 		::SendDlgItemMessage(_hSelf, IDC_CHECK_EDGEBGMODE, BM_SETCHECK, svp._isEdgeBgMode, 0);
 	}
 
-	generic_string edgeColumnPosStr;
+	String edgeColumnPosStr;
 	for (auto i : svp._edgeMultiColumnPos)
 	{
 		std::string s = std::to_string(i);
-		edgeColumnPosStr += generic_string(s.begin(), s.end());
+		edgeColumnPosStr += String(s.begin(), s.end());
 		edgeColumnPosStr += TEXT(" ");
 	}
-	::SendDlgItemMessage(_hSelf, IDC_COLUMNPOS_EDIT, WM_SETTEXT, 0, reinterpret_cast<LPARAM>(edgeColumnPosStr.c_str()));
+	::SendDlgItemMessage(_hSelf, IDC_COLUMNPOS_EDIT, WM_SETTEXT, 0, reinterpret_cast<LPARAM>(edgeColumnPosStr.Begin()));
 
 	oldFunclstToolbarProc = reinterpret_cast<WNDPROC>(::SetWindowLongPtr(::GetDlgItem(_hSelf, IDC_COLUMNPOS_EDIT), GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(editNumSpaceProc)));
 }
@@ -1760,7 +1760,7 @@ intptr_t CALLBACK MarginsBorderEdgeSubDlg::run_dlgProc(UINT message, WPARAM wPar
 						{
 							if (LOWORD(wParam) == IDC_COLUMNPOS_EDIT)
 							{
-								TCHAR text[MAX_PATH] = {'\0'};
+								char text[MAX_PATH] = {'\0'};
 								::SendDlgItemMessage(_hSelf, IDC_COLUMNPOS_EDIT, WM_GETTEXT, MAX_PATH, reinterpret_cast<LPARAM>(text));
 
 								if (str2numberVector(text, svp._edgeMultiColumnPos))
@@ -1838,8 +1838,8 @@ intptr_t CALLBACK MiscSubDlg::run_dlgProc(UINT message, WPARAM wParam, LPARAM)
 
 			::ShowWindow(::GetDlgItem(_hSelf, IDC_CHECK_AUTOUPDATE), nppGUI._doesExistUpdater?SW_SHOW:SW_HIDE);
 
-			::SendDlgItemMessage(_hSelf, IDC_EDIT_SESSIONFILEEXT, WM_SETTEXT, 0, reinterpret_cast<LPARAM>(nppGUI._definedSessionExt.c_str()));
-			::SendDlgItemMessage(_hSelf, IDC_EDIT_WORKSPACEFILEEXT, WM_SETTEXT, 0, reinterpret_cast<LPARAM>(nppGUI._definedWorkspaceExt.c_str()));
+			::SendDlgItemMessage(_hSelf, IDC_EDIT_SESSIONFILEEXT, WM_SETTEXT, 0, reinterpret_cast<LPARAM>(nppGUI._definedSessionExt.Begin()));
+			::SendDlgItemMessage(_hSelf, IDC_EDIT_WORKSPACEFILEEXT, WM_SETTEXT, 0, reinterpret_cast<LPARAM>(nppGUI._definedWorkspaceExt.Begin()));
 			
 			::SendDlgItemMessage(_hSelf, IDC_CHECK_ENABLEDOCSWITCHER, BM_SETCHECK, nppGUI._doTaskList, 0);
 			::SendDlgItemMessage(_hSelf, IDC_CHECK_STYLEMRU, BM_SETCHECK, nppGUI._styleMRU, 0);
@@ -1893,14 +1893,14 @@ intptr_t CALLBACK MiscSubDlg::run_dlgProc(UINT message, WPARAM wParam, LPARAM)
 				{
 					case  IDC_EDIT_SESSIONFILEEXT:
 					{
-						TCHAR sessionExt[MAX_PATH];
+						char sessionExt[MAX_PATH];
 						::SendDlgItemMessage(_hSelf, IDC_EDIT_SESSIONFILEEXT, WM_GETTEXT, MAX_PATH, reinterpret_cast<LPARAM>(sessionExt));
 						nppGUI._definedSessionExt = sessionExt;
 						return TRUE;
 					}
 					case  IDC_EDIT_WORKSPACEFILEEXT:
 					{
-						TCHAR workspaceExt[MAX_PATH];
+						char workspaceExt[MAX_PATH];
 						::SendDlgItemMessage(_hSelf, IDC_EDIT_WORKSPACEFILEEXT, WM_GETTEXT, MAX_PATH, reinterpret_cast<LPARAM>(workspaceExt));
 						nppGUI._definedWorkspaceExt = workspaceExt;
 						return TRUE;
@@ -2112,7 +2112,7 @@ intptr_t CALLBACK NewDocumentSubDlg::run_dlgProc(UINT message, WPARAM wParam, LP
 			}
 
 			int selIndex = -1;
-			generic_string str;
+			String str;
 			EncodingMapper& em = EncodingMapper::getInstance();
 			for (size_t i = 0, encodingArraySize = sizeof(encodings)/sizeof(int) ; i < encodingArraySize ; ++i)
 			{
@@ -2121,7 +2121,7 @@ intptr_t CALLBACK NewDocumentSubDlg::run_dlgProc(UINT message, WPARAM wParam, LP
 				{
 					cmdID += IDM_FORMAT_ENCODE;
 					getNameStrFromCmd(cmdID, str);
-					int index = static_cast<int32_t>(::SendDlgItemMessage(_hSelf, IDC_COMBO_OTHERCP, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(str.c_str())));
+					int index = static_cast<int32_t>(::SendDlgItemMessage(_hSelf, IDC_COMBO_OTHERCP, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(str.Begin())));
 					if (ndds._codepage == encodings[i])
 						selIndex = index;
 					::SendDlgItemMessage(_hSelf, IDC_COMBO_OTHERCP, CB_SETITEMDATA, index, encodings[i]);
@@ -2152,9 +2152,9 @@ intptr_t CALLBACK NewDocumentSubDlg::run_dlgProc(UINT message, WPARAM wParam, LP
 					if ((cmdID != -1))
 					{
 						getNameStrFromCmd(cmdID, str);
-						if (str.length() > 0)
+						if (str.GetLength() > 0)
 						{
-							size_t index = ::SendDlgItemMessage(_hSelf, IDC_COMBO_DEFAULTLANG, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(str.c_str()));
+							size_t index = ::SendDlgItemMessage(_hSelf, IDC_COMBO_DEFAULTLANG, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(str.Begin()));
 							::SendDlgItemMessage(_hSelf, IDC_COMBO_DEFAULTLANG, CB_SETITEMDATA, index, lt);
 						}
 					}
@@ -2164,7 +2164,7 @@ intptr_t CALLBACK NewDocumentSubDlg::run_dlgProc(UINT message, WPARAM wParam, LP
 			// Insert L_TEXT to the 1st position
 			int normalTextCmdID = nppParam.langTypeToCommandID(L_TEXT);
 			getNameStrFromCmd(normalTextCmdID, str);
-			::SendDlgItemMessage(_hSelf, IDC_COMBO_DEFAULTLANG, CB_INSERTSTRING, 0, reinterpret_cast<LPARAM>(str.c_str()));
+			::SendDlgItemMessage(_hSelf, IDC_COMBO_DEFAULTLANG, CB_INSERTSTRING, 0, reinterpret_cast<LPARAM>(str.Begin()));
 
 			// Set chosen language
 			LangType l = L_TEXT;
@@ -2369,7 +2369,7 @@ intptr_t CALLBACK DefaultDirectorySubDlg::run_dlgProc(UINT message, WPARAM wPara
 				{
 					case  IDC_OPENSAVEDIR_ALWAYSON_EDIT:
 					{
-						TCHAR inputDir[MAX_PATH] = { '\0' };
+						char inputDir[MAX_PATH] = { '\0' };
 						::SendDlgItemMessage(_hSelf, IDC_OPENSAVEDIR_ALWAYSON_EDIT, WM_GETTEXT, MAX_PATH, reinterpret_cast<LPARAM>(inputDir));
 						wcscpy_s(nppGUI._defaultDir, inputDir);
 						::ExpandEnvironmentStrings(nppGUI._defaultDir, nppGUI._defaultDirExp, _countof(nppGUI._defaultDirExp));
@@ -2401,7 +2401,7 @@ intptr_t CALLBACK DefaultDirectorySubDlg::run_dlgProc(UINT message, WPARAM wPara
 
 				case IDD_OPENSAVEDIR_ALWAYSON_BROWSE_BUTTON :
 					{
-						generic_string title = nppParam.getNativeLangSpeaker()->getLocalizedStrFromID("default-open-save-select-folder",
+						String title = nppParam.getNativeLangSpeaker()->getLocalizedStrFromID("default-open-save-select-folder",
 							TEXT("Select a folder as default directory"));
 						folderBrowser(_hSelf, title, IDC_OPENSAVEDIR_ALWAYSON_EDIT);
 					}
@@ -2493,9 +2493,9 @@ intptr_t CALLBACK RecentFilesHistorySubDlg::run_dlgProc(UINT message, WPARAM wPa
 
 				case IDC_MAXNBFILEVAL_STATIC:
 				{
-					generic_string staticText = pNativeSpeaker->getLocalizedStrFromID("recent-file-history-maxfile", TEXT("Max File: "));
+					String staticText = pNativeSpeaker->getLocalizedStrFromID("recent-file-history-maxfile", TEXT("Max File: "));
 					ValueDlg nbFileMaxDlg;
-					nbFileMaxDlg.init(NULL, _hSelf, nppParam.getNbMaxRecentFile(), staticText.c_str());
+					nbFileMaxDlg.init(NULL, _hSelf, nppParam.getNbMaxRecentFile(), staticText.Begin());
 					
 					POINT p;
 					::GetCursorPos(&p);
@@ -2583,17 +2583,17 @@ intptr_t CALLBACK LanguageSubDlg::run_dlgProc(UINT message, WPARAM wParam, LPARA
 			//
 			for (int i = L_TEXT ; i < nppParam.L_END ; ++i)
 			{
-				generic_string str;
+				String str;
 				if (static_cast<LangType>(i) != L_USER)
 				{
 					int cmdID = nppParam.langTypeToCommandID(static_cast<LangType>(i));
 					if ((cmdID != -1))
 					{
 						getNameStrFromCmd(cmdID, str);
-						if (str.length() > 0)
+						if (str.GetLength() > 0)
 						{
 							_langList.push_back(LangMenuItem(static_cast<LangType>(i), cmdID, str));
-							::SendDlgItemMessage(_hSelf, IDC_LIST_ENABLEDLANG, LB_ADDSTRING, 0, reinterpret_cast<LPARAM>(str.c_str()));
+							::SendDlgItemMessage(_hSelf, IDC_LIST_ENABLEDLANG, LB_ADDSTRING, 0, reinterpret_cast<LPARAM>(str.Begin()));
 						}
 					}
 				}
@@ -2601,7 +2601,7 @@ intptr_t CALLBACK LanguageSubDlg::run_dlgProc(UINT message, WPARAM wParam, LPARA
 
 			for (size_t i = 0, len = nppGUI._excludedLangList.size(); i < len ; ++i)
 			{
-				::SendDlgItemMessage(_hSelf, IDC_LIST_DISABLEDLANG, LB_ADDSTRING, 0, reinterpret_cast<LPARAM>(nppGUI._excludedLangList[i]._langName.c_str()));
+				::SendDlgItemMessage(_hSelf, IDC_LIST_DISABLEDLANG, LB_ADDSTRING, 0, reinterpret_cast<LPARAM>(nppGUI._excludedLangList[i]._langName.Begin()));
 			}
 
 			::SendDlgItemMessage(_hSelf, IDC_CHECK_LANGMENUCOMPACT, BM_SETCHECK, nppGUI._isLangMenuCompact?BST_CHECKED:BST_UNCHECKED, 0);
@@ -2622,7 +2622,7 @@ intptr_t CALLBACK LanguageSubDlg::run_dlgProc(UINT message, WPARAM wParam, LPARA
 			const int nbLang = nppParam.getNbLang();
 			for (int i = 0; i < nbLang; ++i)
 			{
-				::SendDlgItemMessage(_hSelf, IDC_LIST_TABSETTNG, LB_ADDSTRING, 0, reinterpret_cast<LPARAM>(nppParam.getLangFromIndex(i)->_langName.c_str()));
+				::SendDlgItemMessage(_hSelf, IDC_LIST_TABSETTNG, LB_ADDSTRING, 0, reinterpret_cast<LPARAM>(nppParam.getLangFromIndex(i)->_langName.Begin()));
 			}
 			const int index2Begin = 0;
 			::SendDlgItemMessage(_hSelf, IDC_LIST_TABSETTNG, LB_SETCURSEL, index2Begin, 0);
@@ -2815,7 +2815,7 @@ intptr_t CALLBACK LanguageSubDlg::run_dlgProc(UINT message, WPARAM wParam, LPARA
 						return TRUE;
 
 					const size_t sL = 31;
-					TCHAR s[sL + 1];
+					char s[sL + 1];
 					auto lbTextLen = ::SendDlgItemMessage(_hSelf, list2Remove, LB_GETTEXTLEN, iRemove, 0);
 					if (static_cast<size_t>(lbTextLen) > sL)
 						return TRUE;
@@ -2847,7 +2847,7 @@ intptr_t CALLBACK LanguageSubDlg::run_dlgProc(UINT message, WPARAM wParam, LPARA
 							{
 								TiXmlElement *element = childNode->ToElement();
 
-								if (generic_string(element->Attribute(TEXT("name"))) == lmi._langName)
+								if (String(element->Attribute(TEXT("name"))) == lmi._langName)
 								{
 									element->SetAttribute(TEXT("excluded"), (LOWORD(wParam)==IDC_BUTTON_REMOVE)?TEXT("yes"):TEXT("no"));
 									nppParam.getExternalLexerDoc()->at(x)->SaveFile();
@@ -2879,7 +2879,7 @@ intptr_t CALLBACK LanguageSubDlg::run_dlgProc(UINT message, WPARAM wParam, LPARA
 						if (nbItem < 3)
 							return FALSE;
 
-						::InsertMenu(subMenu, nbItem - 3, MF_BYPOSITION, lmi._cmdID, lmi._langName.c_str());
+						::InsertMenu(subMenu, nbItem - 3, MF_BYPOSITION, lmi._cmdID, lmi._langName.Begin());
 					}
 					::DrawMenuBar(grandParent);
 					return TRUE;
@@ -2890,9 +2890,9 @@ intptr_t CALLBACK LanguageSubDlg::run_dlgProc(UINT message, WPARAM wParam, LPARA
 				//
 				case IDC_TABSIZEVAL_STATIC:
 				{
-					generic_string staticText = pNativeSpeaker->getLocalizedStrFromID("language-tabsize", TEXT("Tab Size: "));
+					String staticText = pNativeSpeaker->getLocalizedStrFromID("language-tabsize", TEXT("Tab Size: "));
 					ValueDlg tabSizeDlg;
-					tabSizeDlg.init(_hInst, _hParent, nppGUI._tabSize, staticText.c_str());
+					tabSizeDlg.init(_hInst, _hParent, nppGUI._tabSize, staticText.Begin());
 					POINT p;
 					::GetCursorPos(&p);
 					int size = tabSizeDlg.doDialog(p);
@@ -3215,35 +3215,35 @@ intptr_t CALLBACK PrintSubDlg::run_dlgProc(UINT message, WPARAM wParam, LPARAM)
 			::SetDlgItemInt(_hSelf, IDC_EDIT_MR, nppGUI._printSettings._marge.right, FALSE);
 			::SetDlgItemInt(_hSelf, IDC_EDIT_MT, nppGUI._printSettings._marge.top, FALSE);
 			::SetDlgItemInt(_hSelf, IDC_EDIT_MB,  nppGUI._printSettings._marge.bottom, FALSE);
-			::SetDlgItemText(_hSelf, IDC_EDIT_HLEFT, nppGUI._printSettings._headerLeft.c_str());
-			::SetDlgItemText(_hSelf, IDC_EDIT_HMIDDLE, nppGUI._printSettings._headerMiddle.c_str());
-			::SetDlgItemText(_hSelf, IDC_EDIT_HRIGHT, nppGUI._printSettings._headerRight.c_str());
-			::SetDlgItemText(_hSelf, IDC_EDIT_FLEFT, nppGUI._printSettings._footerLeft.c_str());
-			::SetDlgItemText(_hSelf, IDC_EDIT_FMIDDLE, nppGUI._printSettings._footerMiddle.c_str());
-			::SetDlgItemText(_hSelf, IDC_EDIT_FRIGHT, nppGUI._printSettings._footerRight.c_str());
+			::SetDlgItemText(_hSelf, IDC_EDIT_HLEFT, nppGUI._printSettings._headerLeft.Begin());
+			::SetDlgItemText(_hSelf, IDC_EDIT_HMIDDLE, nppGUI._printSettings._headerMiddle.Begin());
+			::SetDlgItemText(_hSelf, IDC_EDIT_HRIGHT, nppGUI._printSettings._headerRight.Begin());
+			::SetDlgItemText(_hSelf, IDC_EDIT_FLEFT, nppGUI._printSettings._footerLeft.Begin());
+			::SetDlgItemText(_hSelf, IDC_EDIT_FMIDDLE, nppGUI._printSettings._footerMiddle.Begin());
+			::SetDlgItemText(_hSelf, IDC_EDIT_FRIGHT, nppGUI._printSettings._footerRight.Begin());
 
-			TCHAR intStr[5];
+			char intStr[5];
 			for (int i = 6 ; i < 15 ; ++i)
 			{
 				wsprintf(intStr, TEXT("%d"), i);
 				::SendDlgItemMessage(_hSelf, IDC_COMBO_HFONTSIZE, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(intStr));
 				::SendDlgItemMessage(_hSelf, IDC_COMBO_FFONTSIZE, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(intStr));
 			}
-			const std::vector<generic_string> & fontlist = nppParam.getFontList();
+			const Vector<String> & fontlist = nppParam.getFontList();
 			for (size_t i = 0, len = fontlist.size() ; i < len ; ++i)
 			{
-				auto j = ::SendDlgItemMessage(_hSelf, IDC_COMBO_HFONTNAME, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(fontlist[i].c_str()));
-				::SendDlgItemMessage(_hSelf, IDC_COMBO_FFONTNAME, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(fontlist[i].c_str()));
+				auto j = ::SendDlgItemMessage(_hSelf, IDC_COMBO_HFONTNAME, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(fontlist[i].Begin()));
+				::SendDlgItemMessage(_hSelf, IDC_COMBO_FFONTNAME, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(fontlist[i].Begin()));
 
-				::SendDlgItemMessage(_hSelf, IDC_COMBO_HFONTNAME, CB_SETITEMDATA, j, reinterpret_cast<LPARAM>(fontlist[i].c_str()));
-				::SendDlgItemMessage(_hSelf, IDC_COMBO_FFONTNAME, CB_SETITEMDATA, j, reinterpret_cast<LPARAM>(fontlist[i].c_str()));
+				::SendDlgItemMessage(_hSelf, IDC_COMBO_HFONTNAME, CB_SETITEMDATA, j, reinterpret_cast<LPARAM>(fontlist[i].Begin()));
+				::SendDlgItemMessage(_hSelf, IDC_COMBO_FFONTNAME, CB_SETITEMDATA, j, reinterpret_cast<LPARAM>(fontlist[i].Begin()));
 			}
 
-			auto index = ::SendDlgItemMessage(_hSelf, IDC_COMBO_HFONTNAME, CB_FINDSTRINGEXACT, static_cast<WPARAM>(-1), reinterpret_cast<LPARAM>(nppGUI._printSettings._headerFontName.c_str()));
+			auto index = ::SendDlgItemMessage(_hSelf, IDC_COMBO_HFONTNAME, CB_FINDSTRINGEXACT, static_cast<WPARAM>(-1), reinterpret_cast<LPARAM>(nppGUI._printSettings._headerFontName.Begin()));
 			if (index == CB_ERR)
 				index = 0;
 			::SendDlgItemMessage(_hSelf, IDC_COMBO_HFONTNAME, CB_SETCURSEL, index, 0);
-			index = ::SendDlgItemMessage(_hSelf, IDC_COMBO_FFONTNAME, CB_FINDSTRINGEXACT, static_cast<WPARAM>(-1), reinterpret_cast<LPARAM>(nppGUI._printSettings._footerFontName.c_str()));
+			index = ::SendDlgItemMessage(_hSelf, IDC_COMBO_FFONTNAME, CB_FINDSTRINGEXACT, static_cast<WPARAM>(-1), reinterpret_cast<LPARAM>(nppGUI._printSettings._footerFontName.Begin()));
 			if (index == CB_ERR)
 				index = 0;
 			::SendDlgItemMessage(_hSelf, IDC_COMBO_FFONTNAME, CB_SETCURSEL, index, 0);
@@ -3341,7 +3341,7 @@ intptr_t CALLBACK PrintSubDlg::run_dlgProc(UINT message, WPARAM wParam, LPARAM)
 					default :
 					{
 						const int stringSize = 256;
-						TCHAR str[stringSize];
+						char str[stringSize];
 						_focusedEditCtrl = LOWORD(wParam);
 						::GetDlgItemText(_hSelf, _focusedEditCtrl, str, stringSize);
 						::SendDlgItemMessage(_hSelf, IDC_VIEWPANEL_STATIC, WM_SETTEXT, 0, reinterpret_cast<LPARAM>(str));
@@ -3386,7 +3386,7 @@ intptr_t CALLBACK PrintSubDlg::run_dlgProc(UINT message, WPARAM wParam, LPARAM)
 			else if (HIWORD(wParam) == EN_SETFOCUS)
 			{
 				const int stringSize = 256;
-				TCHAR str[stringSize];
+				char str[stringSize];
 				_focusedEditCtrl = LOWORD(wParam);
 				
 				int focusedEditStatic = 0;
@@ -3404,13 +3404,13 @@ intptr_t CALLBACK PrintSubDlg::run_dlgProc(UINT message, WPARAM wParam, LPARAM)
 				::GetDlgItemText(_hSelf, _focusedEditCtrl, str, stringSize);
 				::SendDlgItemMessage(_hSelf, IDC_VIEWPANEL_STATIC, WM_SETTEXT, 0, reinterpret_cast<LPARAM>(str));
 				::GetDlgItemText(_hSelf, groupStatic, str, stringSize);
-				generic_string title = str;
+				String title = str;
 				title += TEXT(" ");
 				::GetDlgItemText(_hSelf, focusedEditStatic, str, stringSize);
 				title += str;
 				title += TEXT(" : ");
 					
-				::SendDlgItemMessage(_hSelf, IDC_WHICHPART_STATIC, WM_SETTEXT, 0, reinterpret_cast<LPARAM>(title.c_str()));
+				::SendDlgItemMessage(_hSelf, IDC_WHICHPART_STATIC, WM_SETTEXT, 0, reinterpret_cast<LPARAM>(title.Begin()));
 				return TRUE;
 			}
 			else if (HIWORD(wParam) == CBN_SELCHANGE)
@@ -3422,7 +3422,7 @@ intptr_t CALLBACK PrintSubDlg::run_dlgProc(UINT message, WPARAM wParam, LPARAM)
 					case IDC_COMBO_HFONTNAME :
 					case IDC_COMBO_FFONTNAME :
 					{
-						TCHAR *fnStr = (TCHAR *)::SendDlgItemMessage(_hSelf, LOWORD(wParam), CB_GETITEMDATA, iSel, 0);
+						char *fnStr = (char *)::SendDlgItemMessage(_hSelf, LOWORD(wParam), CB_GETITEMDATA, iSel, 0);
 						if (LOWORD(wParam) == IDC_COMBO_HFONTNAME)
 							nppGUI._printSettings._headerFontName = fnStr;
 						else
@@ -3435,7 +3435,7 @@ intptr_t CALLBACK PrintSubDlg::run_dlgProc(UINT message, WPARAM wParam, LPARAM)
 					case IDC_COMBO_FFONTSIZE :
 					{
 						const size_t intStrLen = 3;
-						TCHAR intStr[intStrLen];
+						char intStr[intStrLen];
 
 						auto lbTextLen = ::SendDlgItemMessage(_hSelf, LOWORD(wParam), CB_GETLBTEXTLEN, iSel, 0);
 						if (static_cast<size_t>(lbTextLen) >= intStrLen)
@@ -3508,23 +3508,23 @@ intptr_t CALLBACK PrintSubDlg::run_dlgProc(UINT message, WPARAM wParam, LPARAM)
 						if (iSel >= varList.size())
 							return TRUE;
 
-						TCHAR *varStr = (TCHAR*)varList[iSel].c_str();
+						char *varStr = (char*)varList[iSel].Begin();
 						size_t selStart = 0;
 						size_t selEnd = 0;
 						::SendDlgItemMessage(_hSelf, _focusedEditCtrl, EM_GETSEL, reinterpret_cast<WPARAM>(&selStart), reinterpret_cast<LPARAM>(&selEnd));
 
 						const int stringSize = 256;
-						TCHAR str[stringSize];
+						char str[stringSize];
 						::SendDlgItemMessage(_hSelf, _focusedEditCtrl, WM_GETTEXT, stringSize, reinterpret_cast<LPARAM>(str));
 
-						generic_string str2Set(str);
-						size_t strLen = str2Set.length();
+						String str2Set(str);
+						size_t strLen = str2Set.GetLength();
 						if (selStart > strLen || selEnd > strLen)
 							selStart = selEnd = strLen;
 
 						str2Set.replace(selStart, selEnd - selStart, varStr);
 
-						::SetDlgItemText(_hSelf, _focusedEditCtrl, str2Set.c_str());
+						::SetDlgItemText(_hSelf, _focusedEditCtrl, str2Set.Begin());
 					}
 					catch (...)
 					{
@@ -3553,9 +3553,9 @@ intptr_t CALLBACK BackupSubDlg::run_dlgProc(UINT message, WPARAM wParam, LPARAM 
 			::SendDlgItemMessage(_hSelf, IDC_BACKUPDIR_RESTORESESSION_CHECK, BM_SETCHECK, snapshotCheck?BST_CHECKED:BST_UNCHECKED, 0);
 			auto periodicBackupInSec = static_cast<UINT>(nppGUI._snapshotBackupTiming / 1000);
 			::SetDlgItemInt(_hSelf, IDC_BACKUPDIR_RESTORESESSION_EDIT,periodicBackupInSec, FALSE);
-			generic_string backupFilePath = NppParameters::getInstance().getUserPath();
+			String backupFilePath = NppParameters::getInstance().getUserPath();
 			backupFilePath += TEXT("\\backup\\");
-			::SetDlgItemText(_hSelf, IDD_BACKUPDIR_RESTORESESSION_PATH_EDIT, backupFilePath.c_str());
+			::SetDlgItemText(_hSelf, IDD_BACKUPDIR_RESTORESESSION_PATH_EDIT, backupFilePath.Begin());
 
 			int ID2CheckBackupOnSave = 0;
 
@@ -3576,7 +3576,7 @@ intptr_t CALLBACK BackupSubDlg::run_dlgProc(UINT message, WPARAM wParam, LPARAM 
 			if (nppGUI._useDir)
 				::SendDlgItemMessage(_hSelf, IDC_BACKUPDIR_CHECK, BM_SETCHECK, BST_CHECKED, 0);
 
-			::SendDlgItemMessage(_hSelf, IDC_BACKUPDIR_EDIT, WM_SETTEXT, 0, reinterpret_cast<LPARAM>((nppGUI._backupDir.c_str())));
+			::SendDlgItemMessage(_hSelf, IDC_BACKUPDIR_EDIT, WM_SETTEXT, 0, reinterpret_cast<LPARAM>((nppGUI._backupDir.Begin())));
 
 			updateBackupGUI();
 			return TRUE;
@@ -3649,7 +3649,7 @@ intptr_t CALLBACK BackupSubDlg::run_dlgProc(UINT message, WPARAM wParam, LPARAM 
 				{
 					case  IDC_BACKUPDIR_EDIT:
 					{
-						TCHAR inputDir[MAX_PATH] = {'\0'};
+						char inputDir[MAX_PATH] = {'\0'};
 						::SendDlgItemMessage(_hSelf, IDC_BACKUPDIR_EDIT, WM_GETTEXT, MAX_PATH, reinterpret_cast<LPARAM>(inputDir));
 						nppGUI._backupDir = inputDir;
 						return TRUE;
@@ -3659,7 +3659,7 @@ intptr_t CALLBACK BackupSubDlg::run_dlgProc(UINT message, WPARAM wParam, LPARAM 
 					{
 						
 						const int stringSize = 16;
-						TCHAR str[stringSize];
+						char str[stringSize];
 
 						::GetDlgItemText(_hSelf, IDC_BACKUPDIR_RESTORESESSION_EDIT, str, stringSize);
 
@@ -3684,7 +3684,7 @@ intptr_t CALLBACK BackupSubDlg::run_dlgProc(UINT message, WPARAM wParam, LPARAM 
 					{
 						//printStr(TEXT(""));
 						const int stringSize = 16;
-						TCHAR str[stringSize];
+						char str[stringSize];
 
 						::GetDlgItemText(_hSelf, IDC_BACKUPDIR_RESTORESESSION_EDIT, str, stringSize);
 
@@ -3751,7 +3751,7 @@ intptr_t CALLBACK BackupSubDlg::run_dlgProc(UINT message, WPARAM wParam, LPARAM 
 				}
 				case IDD_BACKUPDIR_BROWSE_BUTTON :
 				{
-					generic_string title = nppParam.getNativeLangSpeaker()->getLocalizedStrFromID("backup-select-folder",
+					String title = nppParam.getNativeLangSpeaker()->getLocalizedStrFromID("backup-select-folder",
 						TEXT("Select a folder as backup directory"));
 					folderBrowser(_hSelf, title, IDC_BACKUPDIR_EDIT);
 					return TRUE;
@@ -3874,10 +3874,10 @@ intptr_t CALLBACK AutoCompletionSubDlg::run_dlgProc(UINT message, WPARAM wParam,
 				nbMatchedPair = 3;
 			for (size_t i = 0; i < nbMatchedPair; ++i)
 			{
-				TCHAR openChar[2];
+				char openChar[2];
 				openChar[0] = nppGUI._matchedPairConf._matchedPairsInit[i].first;
 				openChar[1] = '\0';
-				TCHAR closeChar[2];
+				char closeChar[2];
 				closeChar[0] = nppGUI._matchedPairConf._matchedPairsInit[i].second;
 				closeChar[1] = '\0';
 
@@ -3967,8 +3967,8 @@ intptr_t CALLBACK AutoCompletionSubDlg::run_dlgProc(UINT message, WPARAM wParam,
 					{
 						nppGUI._matchedPairConf._matchedPairs.clear();
 
-						TCHAR opener[2] = {'\0', '\0'};
-						TCHAR closer[2] = {'\0', '\0'};
+						char opener[2] = {'\0', '\0'};
+						char closer[2] = {'\0', '\0'};
 
 						::SendDlgItemMessage(_hSelf, IDC_MACHEDPAIROPEN_EDIT1, WM_GETTEXT, MAX_PATH, reinterpret_cast<LPARAM>(opener));
 						::SendDlgItemMessage(_hSelf, IDC_MACHEDPAIRCLOSE_EDIT1, WM_GETTEXT, MAX_PATH, reinterpret_cast<LPARAM>(closer));
@@ -4087,10 +4087,10 @@ intptr_t CALLBACK AutoCompletionSubDlg::run_dlgProc(UINT message, WPARAM wParam,
 					const int NB_MAX_CHAR = 9;
 
 					NativeLangSpeaker *pNativeSpeaker = nppParam.getNativeLangSpeaker();
-					generic_string strNbChar = pNativeSpeaker->getLocalizedStrFromID("autocomplete-nb-char", TEXT("Nb char : "));
+					String strNbChar = pNativeSpeaker->getLocalizedStrFromID("autocomplete-nb-char", TEXT("Nb char : "));
 
 					ValueDlg valDlg;
-					valDlg.init(NULL, _hSelf, static_cast<int32_t>(nppGUI._autocFromLen), strNbChar.c_str());
+					valDlg.init(NULL, _hSelf, static_cast<int32_t>(nppGUI._autocFromLen), strNbChar.Begin());
 					valDlg.setNBNumber(1);
 
 					POINT p;
@@ -4117,7 +4117,7 @@ intptr_t CALLBACK AutoCompletionSubDlg::run_dlgProc(UINT message, WPARAM wParam,
 				case IDD_AUTOC_QUOTESCHECK :
 				{
 					bool isChecked = isCheckedOrNot(static_cast<int32_t>(wParam));
-					const TCHAR *label;
+					const char *label;
 					if (wParam == IDD_AUTOCPARENTHESES_CHECK)
 					{
 						nppGUI._matchedPairConf._doParentheses = isChecked;
@@ -4177,9 +4177,9 @@ intptr_t CALLBACK MultiInstanceSubDlg::run_dlgProc(UINT message, WPARAM wParam, 
 
 			::SendDlgItemMessage(_hSelf, IDD_DATETIMEFORMAT_REVERSEORDER_CHECK, BM_SETCHECK, nppGUI._dateTimeReverseDefaultOrder ? BST_CHECKED : BST_UNCHECKED, 0);
 
-			::SetDlgItemText(_hSelf, IDC_DATETIMEFORMAT_EDIT, nppGUI._dateTimeFormat.c_str());
-			generic_string datetimeStr = getDateTimeStrFrom(nppGUI._dateTimeFormat, _BTTF_time);
-			::SetDlgItemText(_hSelf, IDD_DATETIMEFORMAT_RESULT_STATIC, datetimeStr.c_str());
+			::SetDlgItemText(_hSelf, IDC_DATETIMEFORMAT_EDIT, nppGUI._dateTimeFormat.Begin());
+			String datetimeStr = getDateTimeStrFrom(nppGUI._dateTimeFormat, _BTTF_time);
+			::SetDlgItemText(_hSelf, IDD_DATETIMEFORMAT_RESULT_STATIC, datetimeStr.Begin());
 		}
 		break;
 
@@ -4216,12 +4216,12 @@ intptr_t CALLBACK MultiInstanceSubDlg::run_dlgProc(UINT message, WPARAM wParam, 
 			if (HIWORD(wParam) == EN_CHANGE && LOWORD(wParam) == IDC_DATETIMEFORMAT_EDIT)
 			{
 				const size_t inputLen = 256;
-				TCHAR input[inputLen];
+				char input[inputLen];
 				::GetDlgItemText(_hSelf, IDC_DATETIMEFORMAT_EDIT, input, inputLen);
 
 				nppGUI._dateTimeFormat = input;
-				generic_string datetimeStr = getDateTimeStrFrom(nppGUI._dateTimeFormat, _BTTF_time);
-				::SetDlgItemText(_hSelf, IDD_DATETIMEFORMAT_RESULT_STATIC, datetimeStr.c_str());
+				String datetimeStr = getDateTimeStrFrom(nppGUI._dateTimeFormat, _BTTF_time);
+				::SetDlgItemText(_hSelf, IDD_DATETIMEFORMAT_RESULT_STATIC, datetimeStr.Begin());
 				return TRUE;
 			}
 
@@ -4274,22 +4274,22 @@ void DelimiterSubDlg::detectSpace(const char *text2Check, int & nbSp, int & nbTa
 }
 
 
-generic_string DelimiterSubDlg::getWarningText(size_t nbSp, size_t nbTab) const
+String DelimiterSubDlg::getWarningText(size_t nbSp, size_t nbTab) const
 {
 	NativeLangSpeaker *pNativeSpeaker = (NppParameters::getInstance()).getNativeLangSpeaker();
 
-	generic_string msg;
+	String msg;
 	if (nbSp && nbTab)
 	{
-		generic_string nbSpStr = std::to_wstring(nbSp);
-		generic_string nbTabStr = std::to_wstring(nbTab);
-		generic_string warnBegin = pNativeSpeaker->getLocalizedStrFromID("word-chars-list-warning-begin", TEXT(""));
-		generic_string space = pNativeSpeaker->getLocalizedStrFromID("word-chars-list-space-warning", TEXT(""));
-		generic_string tab = pNativeSpeaker->getLocalizedStrFromID("word-chars-list-tab-warning", TEXT(""));
-		generic_string warnEnd = pNativeSpeaker->getLocalizedStrFromID("word-chars-list-warning-end", TEXT(""));
+		String nbSpStr = std::to_wstring(nbSp);
+		String nbTabStr = std::to_wstring(nbTab);
+		String warnBegin = pNativeSpeaker->getLocalizedStrFromID("word-chars-list-warning-begin", TEXT(""));
+		String space = pNativeSpeaker->getLocalizedStrFromID("word-chars-list-space-warning", TEXT(""));
+		String tab = pNativeSpeaker->getLocalizedStrFromID("word-chars-list-tab-warning", TEXT(""));
+		String warnEnd = pNativeSpeaker->getLocalizedStrFromID("word-chars-list-warning-end", TEXT(""));
 
 		// half translation is not allowed
-		if (!warnBegin.empty() && !space.empty() && !tab.empty() && !warnEnd.empty())
+		if (!warnBegin.IsEmpty() && !space.IsEmpty() && !tab.IsEmpty() && !warnEnd.IsEmpty())
 		{
 			space = stringReplace(space, TEXT("$INT_REPLACE$"), nbSpStr);
 			tab = stringReplace(tab, TEXT("$INT_REPLACE$"), nbTabStr);
@@ -4310,13 +4310,13 @@ generic_string DelimiterSubDlg::getWarningText(size_t nbSp, size_t nbTab) const
 	}
 	else if (nbSp && !nbTab)
 	{
-		generic_string nbSpStr = std::to_wstring(nbSp);
-		generic_string warnBegin = pNativeSpeaker->getLocalizedStrFromID("word-chars-list-warning-begin", TEXT(""));
-		generic_string space = pNativeSpeaker->getLocalizedStrFromID("word-chars-list-space-warning", TEXT(""));
-		generic_string warnEnd = pNativeSpeaker->getLocalizedStrFromID("word-chars-list-warning-end", TEXT(""));
+		String nbSpStr = std::to_wstring(nbSp);
+		String warnBegin = pNativeSpeaker->getLocalizedStrFromID("word-chars-list-warning-begin", TEXT(""));
+		String space = pNativeSpeaker->getLocalizedStrFromID("word-chars-list-space-warning", TEXT(""));
+		String warnEnd = pNativeSpeaker->getLocalizedStrFromID("word-chars-list-warning-end", TEXT(""));
 
 		// half translation is not allowed
-		if (!warnBegin.empty() && !space.empty() && !warnEnd.empty())
+		if (!warnBegin.IsEmpty() && !space.IsEmpty() && !warnEnd.IsEmpty())
 		{
 			space = stringReplace(space, TEXT("$INT_REPLACE$"), nbSpStr);
 			msg = warnBegin;
@@ -4332,13 +4332,13 @@ generic_string DelimiterSubDlg::getWarningText(size_t nbSp, size_t nbTab) const
 	}
 	else if (!nbSp && nbTab)
 	{
-		generic_string nbTabStr = std::to_wstring(nbTab);
-		generic_string warnBegin = pNativeSpeaker->getLocalizedStrFromID("word-chars-list-warning-begin", TEXT(""));
-		generic_string tab = pNativeSpeaker->getLocalizedStrFromID("word-chars-list-tab-warning", TEXT(""));
-		generic_string warnEnd = pNativeSpeaker->getLocalizedStrFromID("word-chars-list-warning-end", TEXT(""));
+		String nbTabStr = std::to_wstring(nbTab);
+		String warnBegin = pNativeSpeaker->getLocalizedStrFromID("word-chars-list-warning-begin", TEXT(""));
+		String tab = pNativeSpeaker->getLocalizedStrFromID("word-chars-list-tab-warning", TEXT(""));
+		String warnEnd = pNativeSpeaker->getLocalizedStrFromID("word-chars-list-warning-end", TEXT(""));
 
 		// half translation is not allowed
-		if (!warnBegin.empty() && !tab.empty() && !warnEnd.empty())
+		if (!warnBegin.IsEmpty() && !tab.IsEmpty() && !warnEnd.IsEmpty())
 		{
 			tab = stringReplace(tab, TEXT("$INT_REPLACE$"), nbTabStr);
 			msg = warnBegin;
@@ -4362,16 +4362,16 @@ generic_string DelimiterSubDlg::getWarningText(size_t nbSp, size_t nbTab) const
 
 void DelimiterSubDlg::setWarningIfNeed() const
 {
-	generic_string msg;
+	String msg;
 	NppGUI & nppGUI = (NppParameters::getInstance()).getNppGUI();
 	if (!nppGUI._isWordCharDefault)
 	{
 		int nbSp = 0;
 		int nbTab = 0;
-		detectSpace(nppGUI._customWordChars.c_str(), nbSp, nbTab);
+		detectSpace(nppGUI._customWordChars.Begin(), nbSp, nbTab);
 		msg = getWarningText(nbSp, nbTab);
 	}
-	::SetDlgItemText(_hSelf, IDD_STATIC_WORDCHAR_WARNING, msg.c_str());
+	::SetDlgItemText(_hSelf, IDD_STATIC_WORDCHAR_WARNING, msg.Begin());
 }
 
 intptr_t CALLBACK DelimiterSubDlg::run_dlgProc(UINT message, WPARAM wParam, LPARAM lParam)
@@ -4384,10 +4384,10 @@ intptr_t CALLBACK DelimiterSubDlg::run_dlgProc(UINT message, WPARAM wParam, LPAR
 			//
 			// Delimiter
 			//
-			TCHAR opener[2];
+			char opener[2];
 			opener[0] = nppGUI._leftmostDelimiter;
 			opener[1] = '\0';
-			TCHAR closer[2];
+			char closer[2];
 			closer[0] = nppGUI._rightmostDelimiter;
 			closer[1] = '\0';
 			bool onSeveralLines = nppGUI._delimiterSelectionOnEntireDocument;
@@ -4425,7 +4425,7 @@ intptr_t CALLBACK DelimiterSubDlg::run_dlgProc(UINT message, WPARAM wParam, LPAR
 			// Word Char List
 			//
 			
-			::SetDlgItemTextA(_hSelf, IDC_WORDCHAR_CUSTOM_EDIT, nppGUI._customWordChars.c_str());
+			::SetDlgItemTextA(_hSelf, IDC_WORDCHAR_CUSTOM_EDIT, nppGUI._customWordChars.Begin());
 			::SendDlgItemMessage(_hSelf, IDC_RADIO_WORDCHAR_DEFAULT, BM_SETCHECK, nppGUI._isWordCharDefault ? BST_CHECKED : BST_UNCHECKED, 0);
 			::SendDlgItemMessage(_hSelf, IDC_RADIO_WORDCHAR_CUSTOM, BM_SETCHECK, !nppGUI._isWordCharDefault ? BST_CHECKED : BST_UNCHECKED, 0);
 			::EnableWindow(::GetDlgItem(_hSelf, IDC_WORDCHAR_CUSTOM_EDIT), !nppGUI._isWordCharDefault);
@@ -4433,9 +4433,9 @@ intptr_t CALLBACK DelimiterSubDlg::run_dlgProc(UINT message, WPARAM wParam, LPAR
 			setWarningIfNeed();
 
 			NativeLangSpeaker *pNativeSpeaker = (NppParameters::getInstance()).getNativeLangSpeaker();
-			generic_string tip2show = pNativeSpeaker->getLocalizedStrFromID("word-chars-list-tip", TEXT("This allows you to include additional character into current word characters while double clicking for selection or searching with \"Match whole word only\" option checked."));
+			String tip2show = pNativeSpeaker->getLocalizedStrFromID("word-chars-list-tip", TEXT("This allows you to include additional character into current word characters while double clicking for selection or searching with \"Match whole word only\" option checked."));
 
-			_tip = CreateToolTip(IDD_WORDCHAR_QUESTION_BUTTON, _hSelf, _hInst, const_cast<PTSTR>(tip2show.c_str()), pNativeSpeaker->isRTL());
+			_tip = CreateToolTip(IDD_WORDCHAR_QUESTION_BUTTON, _hSelf, _hInst, const_cast<PTSTR>(tip2show.Begin()), pNativeSpeaker->isRTL());
 			if (_tip)
 			{
 				SendMessage(_tip, TTM_ACTIVATE, TRUE, 0);
@@ -4513,14 +4513,14 @@ intptr_t CALLBACK DelimiterSubDlg::run_dlgProc(UINT message, WPARAM wParam, LPAR
 				{
 					case  IDC_EDIT_OPENDELIMITER:
 					{
-						TCHAR opener[2] = { '\0' };
+						char opener[2] = { '\0' };
 						::SendDlgItemMessage(_hSelf, IDC_EDIT_OPENDELIMITER, WM_GETTEXT, MAX_PATH, reinterpret_cast<LPARAM>(opener));
 						nppGUI._leftmostDelimiter =  static_cast<char>(opener[0]);
 						return TRUE;
 					}
 					case  IDC_EDIT_CLOSEDELIMITER:
 					{
-						TCHAR closer[2] = { '\0' };
+						char closer[2] = { '\0' };
 						::SendDlgItemMessage(_hSelf, IDC_EDIT_CLOSEDELIMITER, WM_GETTEXT, MAX_PATH, reinterpret_cast<LPARAM>(closer));
 						nppGUI._rightmostDelimiter =  static_cast<char>(closer[0]);
 						return TRUE;
@@ -4600,8 +4600,8 @@ intptr_t CALLBACK CloudAndLinkSubDlg::run_dlgProc(UINT message, WPARAM wParam, L
 		{
 			case  IDC_CLOUDPATH_EDIT:
 			{
-				TCHAR inputDir[MAX_PATH] = {'\0'};
-				TCHAR inputDirExpanded[MAX_PATH] = {'\0'};
+				char inputDir[MAX_PATH] = {'\0'};
+				char inputDirExpanded[MAX_PATH] = {'\0'};
 				::SendDlgItemMessage(_hSelf, IDC_CLOUDPATH_EDIT, WM_GETTEXT, MAX_PATH, reinterpret_cast<LPARAM>(inputDir));
 				::ExpandEnvironmentStrings(inputDir, inputDirExpanded, MAX_PATH);
 				NativeLangSpeaker *pNativeSpeaker = (NppParameters::getInstance()).getNativeLangSpeaker();
@@ -4610,21 +4610,21 @@ intptr_t CALLBACK CloudAndLinkSubDlg::run_dlgProc(UINT message, WPARAM wParam, L
 					nppGUI._cloudPath = inputDirExpanded;
 					nppParams.setCloudChoice(inputDirExpanded);
 					
-					generic_string message;
+					String message;
 					if (nppParams.isCloudPathChanged())
 					{
 						message = pNativeSpeaker->getLocalizedStrFromID("cloud-restart-warning", TEXT("Please restart Notepad++ to take effect."));
 					}
-					::SetDlgItemText(_hSelf, IDC_SETTINGSONCLOUD_WARNING_STATIC, message.c_str());
+					::SetDlgItemText(_hSelf, IDC_SETTINGSONCLOUD_WARNING_STATIC, message.Begin());
 				}
 				else
 				{
 					bool isChecked = (BST_CHECKED == ::SendDlgItemMessage(_hSelf, IDC_WITHCLOUD_RADIO, BM_GETCHECK, 0, 0));
 					if (isChecked)
 					{
-						generic_string message = pNativeSpeaker->getLocalizedStrFromID("cloud-invalid-warning", TEXT("Invalid path."));
+						String message = pNativeSpeaker->getLocalizedStrFromID("cloud-invalid-warning", TEXT("Invalid path."));
 
-						::SetDlgItemText(_hSelf, IDC_SETTINGSONCLOUD_WARNING_STATIC, message.c_str());
+						::SetDlgItemText(_hSelf, IDC_SETTINGSONCLOUD_WARNING_STATIC, message.Begin());
 						nppParams.removeCloudChoice();
 					}
 				}
@@ -4633,7 +4633,7 @@ intptr_t CALLBACK CloudAndLinkSubDlg::run_dlgProc(UINT message, WPARAM wParam, L
 
 			case IDC_URISCHEMES_EDIT:
 			{
-				TCHAR uriScheme[uriSchemesMaxLength] = { '\0' };
+				char uriScheme[uriSchemesMaxLength] = { '\0' };
 				::SendDlgItemMessage(_hSelf, IDC_URISCHEMES_EDIT, WM_GETTEXT, uriSchemesMaxLength, reinterpret_cast<LPARAM>(uriScheme));
 				nppGUI._uriSchemes = uriScheme;
 				HWND grandParent = ::GetParent(_hParent);
@@ -4647,21 +4647,21 @@ intptr_t CALLBACK CloudAndLinkSubDlg::run_dlgProc(UINT message, WPARAM wParam, L
 	{
 		case WM_INITDIALOG:
 		{
-			generic_string message = TEXT("");
+			String message = TEXT("");
 
 			bool withCloud = nppGUI._cloudPath != TEXT("");
 			if (withCloud)
 			{
 				// detect validation of path
-				if (!::PathFileExists(nppGUI._cloudPath.c_str()))
+				if (!::PathFileExists(nppGUI._cloudPath.Begin()))
 					message = TEXT("Invalid path");
 			}
 			
-			::SetDlgItemText(_hSelf, IDC_SETTINGSONCLOUD_WARNING_STATIC, message.c_str());
+			::SetDlgItemText(_hSelf, IDC_SETTINGSONCLOUD_WARNING_STATIC, message.Begin());
 
 			::SendDlgItemMessage(_hSelf, IDC_NOCLOUD_RADIO, BM_SETCHECK, !withCloud ? BST_CHECKED : BST_UNCHECKED, 0);
 			::SendDlgItemMessage(_hSelf, IDC_WITHCLOUD_RADIO, BM_SETCHECK, withCloud ? BST_CHECKED : BST_UNCHECKED, 0);
-			::SendDlgItemMessage(_hSelf, IDC_CLOUDPATH_EDIT, WM_SETTEXT, 0, reinterpret_cast<LPARAM>(nppGUI._cloudPath.c_str()));
+			::SendDlgItemMessage(_hSelf, IDC_CLOUDPATH_EDIT, WM_SETTEXT, 0, reinterpret_cast<LPARAM>(nppGUI._cloudPath.Begin()));
 			::EnableWindow(::GetDlgItem(_hSelf, IDC_CLOUDPATH_EDIT), withCloud);
 			::EnableWindow(::GetDlgItem(_hSelf, IDD_CLOUDPATH_BROWSE_BUTTON), withCloud);
 
@@ -4669,7 +4669,7 @@ intptr_t CALLBACK CloudAndLinkSubDlg::run_dlgProc(UINT message, WPARAM wParam, L
 			BOOL dontUnderline = (nppGUI._styleURL == urlNoUnderLineFg) || (nppGUI._styleURL == urlNoUnderLineBg);
 			BOOL roundBoxMode = (nppGUI._styleURL == urlNoUnderLineBg) || (nppGUI._styleURL == urlUnderLineBg);
 			::SendDlgItemMessage(_hSelf, IDC_URISCHEMES_EDIT, EM_SETLIMITTEXT, uriSchemesMaxLength, 0);
-			::SetWindowText(::GetDlgItem(_hSelf, IDC_URISCHEMES_EDIT), nppGUI._uriSchemes.c_str());
+			::SetWindowText(::GetDlgItem(_hSelf, IDC_URISCHEMES_EDIT), nppGUI._uriSchemes.Begin());
 
 			::SendDlgItemMessage(_hSelf, IDC_CHECK_CLICKABLELINK_ENABLE, BM_SETCHECK, linkEnable, 0);
 			::SendDlgItemMessage(_hSelf, IDC_CHECK_CLICKABLELINK_NOUNDERLINE, BM_SETCHECK, dontUnderline, 0);
@@ -4737,15 +4737,15 @@ intptr_t CALLBACK CloudAndLinkSubDlg::run_dlgProc(UINT message, WPARAM wParam, L
 					nppGUI._cloudPath = TEXT("");
 					nppParams.removeCloudChoice();
 
-					generic_string message;
+					String message;
 					if (nppParams.isCloudPathChanged())
 					{
 						message = pNativeSpeaker->getLocalizedStrFromID("cloud-restart-warning", TEXT("Please restart Notepad++ to take effect."));
 					}
 					// else set empty string
-					::SetDlgItemText(_hSelf, IDC_SETTINGSONCLOUD_WARNING_STATIC, message.c_str());
+					::SetDlgItemText(_hSelf, IDC_SETTINGSONCLOUD_WARNING_STATIC, message.Begin());
 
-					::SendDlgItemMessage(_hSelf, IDC_CLOUDPATH_EDIT, WM_SETTEXT, 0, reinterpret_cast<LPARAM>(nppGUI._cloudPath.c_str()));
+					::SendDlgItemMessage(_hSelf, IDC_CLOUDPATH_EDIT, WM_SETTEXT, 0, reinterpret_cast<LPARAM>(nppGUI._cloudPath.Begin()));
 					::EnableWindow(::GetDlgItem(_hSelf, IDC_CLOUDPATH_EDIT), false);
 					::EnableWindow(::GetDlgItem(_hSelf, IDD_CLOUDPATH_BROWSE_BUTTON), false);
 				}
@@ -4753,8 +4753,8 @@ intptr_t CALLBACK CloudAndLinkSubDlg::run_dlgProc(UINT message, WPARAM wParam, L
 
 				case IDC_WITHCLOUD_RADIO:
 				{
-					generic_string message = pNativeSpeaker->getLocalizedStrFromID("cloud-invalid-warning", TEXT("Invalid path."));
-					::SetDlgItemText(_hSelf, IDC_SETTINGSONCLOUD_WARNING_STATIC, message.c_str());
+					String message = pNativeSpeaker->getLocalizedStrFromID("cloud-invalid-warning", TEXT("Invalid path."));
+					::SetDlgItemText(_hSelf, IDC_SETTINGSONCLOUD_WARNING_STATIC, message.Begin());
 
 					::EnableWindow(::GetDlgItem(_hSelf, IDC_CLOUDPATH_EDIT), true);
 					::EnableWindow(::GetDlgItem(_hSelf, IDD_CLOUDPATH_BROWSE_BUTTON), true);
@@ -4763,7 +4763,7 @@ intptr_t CALLBACK CloudAndLinkSubDlg::run_dlgProc(UINT message, WPARAM wParam, L
 
 				case IDD_CLOUDPATH_BROWSE_BUTTON:
 				{
-					generic_string message = pNativeSpeaker->getLocalizedStrFromID("cloud-select-folder", TEXT("Select a folder from/to where Notepad++ reads/writes its settings"));
+					String message = pNativeSpeaker->getLocalizedStrFromID("cloud-select-folder", TEXT("Select a folder from/to where Notepad++ reads/writes its settings"));
 					folderBrowser(_hSelf, message, IDC_CLOUDPATH_EDIT);
 				}
 				break;
@@ -4822,7 +4822,7 @@ intptr_t CALLBACK SearchEngineSubDlg::run_dlgProc(UINT message, WPARAM wParam, L
 		{
 			case  IDC_SEARCHENGINE_EDIT:
 			{
-				TCHAR input[MAX_PATH] = { '\0' };
+				char input[MAX_PATH] = { '\0' };
 				::SendDlgItemMessage(_hSelf, IDC_SEARCHENGINE_EDIT, WM_GETTEXT, MAX_PATH, reinterpret_cast<LPARAM>(input));
 				nppGUI._searchEngineCustom = input;
 				return TRUE;
@@ -4836,7 +4836,7 @@ intptr_t CALLBACK SearchEngineSubDlg::run_dlgProc(UINT message, WPARAM wParam, L
 		{
 			if (nppGUI._searchEngineChoice == nppGUI.se_custom)
 			{
-				if (nppGUI._searchEngineCustom.empty())
+				if (nppGUI._searchEngineCustom.IsEmpty())
 				{
 					nppGUI._searchEngineChoice = nppGUI.se_google;
 				}
@@ -4850,7 +4850,7 @@ intptr_t CALLBACK SearchEngineSubDlg::run_dlgProc(UINT message, WPARAM wParam, L
 			::SendDlgItemMessage(_hSelf, IDC_SEARCHENGINE_YAHOO_RADIO, BM_SETCHECK, nppGUI._searchEngineChoice == nppGUI.se_yahoo ? BST_CHECKED : BST_UNCHECKED, 0);
 			::SendDlgItemMessage(_hSelf, IDC_SEARCHENGINE_STACKOVERFLOW_RADIO, BM_SETCHECK, nppGUI._searchEngineChoice == nppGUI.se_stackoverflow ? BST_CHECKED : BST_UNCHECKED, 0);
 
-			::SendDlgItemMessage(_hSelf, IDC_SEARCHENGINE_EDIT, WM_SETTEXT, 0, reinterpret_cast<LPARAM>(nppGUI._searchEngineCustom.c_str()));
+			::SendDlgItemMessage(_hSelf, IDC_SEARCHENGINE_EDIT, WM_SETTEXT, 0, reinterpret_cast<LPARAM>(nppGUI._searchEngineCustom.Begin()));
 			::EnableWindow(::GetDlgItem(_hSelf, IDC_SEARCHENGINE_EDIT), nppGUI._searchEngineChoice == nppGUI.se_custom);
 		}
 		break;

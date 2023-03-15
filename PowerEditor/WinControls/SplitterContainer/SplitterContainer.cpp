@@ -244,13 +244,13 @@ LRESULT SplitterContainer::runProc(UINT message, WPARAM wParam, LPARAM lParam)
 					_hPopupMenu = ::CreatePopupMenu();
 
 					NativeLangSpeaker* nativeLangSpeaker = NppParameters::getInstance().getNativeLangSpeaker();
-					const generic_string textLeft =
+					const String textLeft =
 						nativeLangSpeaker->getLocalizedStrFromID("splitter-rotate-left", TEXT("Rotate to left"));
-					const generic_string textRight =
+					const String textRight =
 						nativeLangSpeaker->getLocalizedStrFromID("splitter-rotate-right", TEXT("Rotate to right"));
 
-					::InsertMenu(_hPopupMenu, 1, MF_BYPOSITION, ROTATION_LEFT, textLeft.c_str());
-					::InsertMenu(_hPopupMenu, 0, MF_BYPOSITION, ROTATION_RIGHT, textRight.c_str());
+					::InsertMenu(_hPopupMenu, 1, MF_BYPOSITION, ROTATION_LEFT, textLeft.Begin());
+					::InsertMenu(_hPopupMenu, 0, MF_BYPOSITION, ROTATION_RIGHT, textRight.Begin());
 				}
 
 				::TrackPopupMenu(_hPopupMenu, TPM_LEFTALIGN, p.x, p.y, 0, _hSelf, NULL);

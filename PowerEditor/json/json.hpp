@@ -2437,7 +2437,7 @@ class parse_error : public exception
     {
         std::string w = exception::name("parse_error", id_) + "parse error" +
                         position_string(pos) + ": " + what_arg;
-        return parse_error(id_, pos.chars_read_total, w.c_str());
+        return parse_error(id_, pos.chars_read_total, w.Begin());
     }
 
     static parse_error create(int id_, std::size_t byte_, const std::string& what_arg)
@@ -2445,7 +2445,7 @@ class parse_error : public exception
         std::string w = exception::name("parse_error", id_) + "parse error" +
                         (byte_ != 0 ? (" at byte " + std::to_string(byte_)) : "") +
                         ": " + what_arg;
-        return parse_error(id_, byte_, w.c_str());
+        return parse_error(id_, byte_, w.Begin());
     }
 
     /*!
@@ -2513,7 +2513,7 @@ class invalid_iterator : public exception
     static invalid_iterator create(int id_, const std::string& what_arg)
     {
         std::string w = exception::name("invalid_iterator", id_) + what_arg;
-        return invalid_iterator(id_, w.c_str());
+        return invalid_iterator(id_, w.Begin());
     }
 
   private:
@@ -2567,7 +2567,7 @@ class type_error : public exception
     static type_error create(int id_, const std::string& what_arg)
     {
         std::string w = exception::name("type_error", id_) + what_arg;
-        return type_error(id_, w.c_str());
+        return type_error(id_, w.Begin());
     }
 
   private:
@@ -2614,7 +2614,7 @@ class out_of_range : public exception
     static out_of_range create(int id_, const std::string& what_arg)
     {
         std::string w = exception::name("out_of_range", id_) + what_arg;
-        return out_of_range(id_, w.c_str());
+        return out_of_range(id_, w.Begin());
     }
 
   private:
@@ -2652,7 +2652,7 @@ class other_error : public exception
     static other_error create(int id_, const std::string& what_arg)
     {
         std::string w = exception::name("other_error", id_) + what_arg;
-        return other_error(id_, w.c_str());
+        return other_error(id_, w.Begin());
     }
 
   private:
@@ -4891,7 +4891,7 @@ struct wide_string_input_helper<BaseInputAdapter, 4>
     {
         utf8_bytes_index = 0;
 
-        if (JSON_HEDLEY_UNLIKELY(input.empty()))
+        if (JSON_HEDLEY_UNLIKELY(input.IsEmpty()))
         {
             utf8_bytes[0] = std::char_traits<char>::eof();
             utf8_bytes_filled = 1;
@@ -4949,7 +4949,7 @@ struct wide_string_input_helper<BaseInputAdapter, 2>
     {
         utf8_bytes_index = 0;
 
-        if (JSON_HEDLEY_UNLIKELY(input.empty()))
+        if (JSON_HEDLEY_UNLIKELY(input.IsEmpty()))
         {
             utf8_bytes[0] = std::char_traits<char>::eof();
             utf8_bytes_filled = 1;
@@ -4980,7 +4980,7 @@ struct wide_string_input_helper<BaseInputAdapter, 2>
             }
             else
             {
-                if (JSON_HEDLEY_UNLIKELY(!input.empty()))
+                if (JSON_HEDLEY_UNLIKELY(!input.IsEmpty()))
                 {
                     const auto wc2 = static_cast<unsigned int>(input.get_character());
                     const auto charcode = 0x10000u + (((static_cast<unsigned int>(wc) & 0x3FFu) << 10u) | (wc2 & 0x3FFu));
@@ -5466,7 +5466,7 @@ class json_sax_dom_parser
     JSON_HEDLEY_RETURNS_NON_NULL
     BasicJsonType* handle_value(Value&& v)
     {
-        if (ref_stack.empty())
+        if (ref_stack.IsEmpty())
         {
             root = BasicJsonType(std::forward<Value>(v));
             return &root;
@@ -5610,12 +5610,12 @@ class json_sax_dom_callback_parser
             *ref_stack.back() = discarded;
         }
 
-        JSON_ASSERT(!ref_stack.empty());
-        JSON_ASSERT(!keep_stack.empty());
+        JSON_ASSERT(!ref_stack.IsEmpty());
+        JSON_ASSERT(!keep_stack.IsEmpty());
         ref_stack.pop_back();
         keep_stack.pop_back();
 
-        if (!ref_stack.empty() && ref_stack.back() && ref_stack.back()->is_structured())
+        if (!ref_stack.IsEmpty() && ref_stack.back() && ref_stack.back()->is_structured())
         {
             // remove discarded value
             for (auto it = ref_stack.back()->begin(); it != ref_stack.back()->end(); ++it)
@@ -5662,13 +5662,13 @@ class json_sax_dom_callback_parser
             }
         }
 
-        JSON_ASSERT(!ref_stack.empty());
-        JSON_ASSERT(!keep_stack.empty());
+        JSON_ASSERT(!ref_stack.IsEmpty());
+        JSON_ASSERT(!keep_stack.IsEmpty());
         ref_stack.pop_back();
         keep_stack.pop_back();
 
         // remove discarded value
-        if (!keep && !ref_stack.empty() && ref_stack.back()->is_array())
+        if (!keep && !ref_stack.IsEmpty() && ref_stack.back()->is_array())
         {
             ref_stack.back()->m_value.array->pop_back();
         }
@@ -5713,7 +5713,7 @@ class json_sax_dom_callback_parser
     template<typename Value>
     std::pair<bool, BasicJsonType*> handle_value(Value&& v, const bool skip_callback = false)
     {
-        JSON_ASSERT(!keep_stack.empty());
+        JSON_ASSERT(!keep_stack.IsEmpty());
 
         // do not handle this value if we know it would be added to a discarded
         // container
@@ -5734,7 +5734,7 @@ class json_sax_dom_callback_parser
             return {false, nullptr};
         }
 
-        if (ref_stack.empty())
+        if (ref_stack.IsEmpty())
         {
             root = std::move(value);
             return {true, &root};
@@ -5760,7 +5760,7 @@ class json_sax_dom_callback_parser
         // object
         JSON_ASSERT(ref_stack.back()->is_object());
         // check if we should store an element for the current key
-        JSON_ASSERT(!key_keep_stack.empty());
+        JSON_ASSERT(!key_keep_stack.IsEmpty());
         const bool store_element = key_keep_stack.back();
         key_keep_stack.pop_back();
 
@@ -7263,7 +7263,7 @@ scan_number_done:
 
         if (JSON_HEDLEY_LIKELY(current != std::char_traits<char_type>::eof()))
         {
-            JSON_ASSERT(!token_string.empty());
+            JSON_ASSERT(!token_string.IsEmpty());
             token_string.pop_back();
         }
     }
@@ -10465,7 +10465,7 @@ class parser
             }
 
             // we reached this line after we successfully parsed a value
-            if (states.empty())
+            if (states.IsEmpty())
             {
                 // empty stack: we reached the end of the hierarchy: done
                 return true;
@@ -10493,7 +10493,7 @@ class parser
                     // new value, we need to evaluate the new state first.
                     // By setting skip_to_state_evaluation to false, we
                     // are effectively jumping to the beginning of this if.
-                    JSON_ASSERT(!states.empty());
+                    JSON_ASSERT(!states.IsEmpty());
                     states.pop_back();
                     skip_to_state_evaluation = true;
                     continue;
@@ -10549,7 +10549,7 @@ class parser
                     // new value, we need to evaluate the new state first.
                     // By setting skip_to_state_evaluation to false, we
                     // are effectively jumping to the beginning of this if.
-                    JSON_ASSERT(!states.empty());
+                    JSON_ASSERT(!states.IsEmpty());
                     states.pop_back();
                     skip_to_state_evaluation = true;
                     continue;
@@ -10573,7 +10573,7 @@ class parser
     {
         std::string error_msg = "syntax error ";
 
-        if (!context.empty())
+        if (!context.IsEmpty())
         {
             error_msg += "while parsing " + context + " ";
         }
@@ -11852,7 +11852,7 @@ class json_pointer
     */
     bool empty() const noexcept
     {
-        return reference_tokens.empty();
+        return reference_tokens.IsEmpty();
     }
 
   private:
@@ -12278,7 +12278,7 @@ class json_pointer
         std::vector<std::string> result;
 
         // special case: empty reference string -> no reference tokens
-        if (reference_string.empty())
+        if (reference_string.IsEmpty())
         {
             return result;
         }
@@ -12351,7 +12351,7 @@ class json_pointer
     static void replace_substring(std::string& s, const std::string& f,
                                   const std::string& t)
     {
-        JSON_ASSERT(!f.empty());
+        JSON_ASSERT(!f.IsEmpty());
         for (auto pos = s.find(f);                // find first occurrence of f
                 pos != std::string::npos;         // make sure f was found
                 s.replace(pos, f.size(), t),      // replace with t, and
@@ -12958,7 +12958,7 @@ class binary_writer
 
                 // step 2: write the string
                 oa->write_characters(
-                    reinterpret_cast<const CharType*>(j.m_value.string->c_str()),
+                    reinterpret_cast<const CharType*>(j.m_value.string->Begin()),
                     j.m_value.string->size());
                 break;
             }
@@ -13259,7 +13259,7 @@ class binary_writer
 
                 // step 2: write the string
                 oa->write_characters(
-                    reinterpret_cast<const CharType*>(j.m_value.string->c_str()),
+                    reinterpret_cast<const CharType*>(j.m_value.string->Begin()),
                     j.m_value.string->size());
                 break;
             }
@@ -13470,7 +13470,7 @@ class binary_writer
                 }
                 write_number_with_ubjson_prefix(j.m_value.string->size(), true);
                 oa->write_characters(
-                    reinterpret_cast<const CharType*>(j.m_value.string->c_str()),
+                    reinterpret_cast<const CharType*>(j.m_value.string->Begin()),
                     j.m_value.string->size());
                 break;
             }
@@ -13599,7 +13599,7 @@ class binary_writer
                 {
                     write_number_with_ubjson_prefix(el.first.size(), true);
                     oa->write_characters(
-                        reinterpret_cast<const CharType*>(el.first.c_str()),
+                        reinterpret_cast<const CharType*>(el.first.Begin()),
                         el.first.size());
                     write_ubjson(el.second, use_count, use_type, prefix_required);
                 }
@@ -13646,7 +13646,7 @@ class binary_writer
     {
         oa->write_character(to_char_type(element_type)); // boolean
         oa->write_characters(
-            reinterpret_cast<const CharType*>(name.c_str()),
+            reinterpret_cast<const CharType*>(name.Begin()),
             name.size() + 1u);
     }
 
@@ -13688,7 +13688,7 @@ class binary_writer
 
         write_number<std::int32_t, true>(static_cast<std::int32_t>(value.size() + 1ul));
         oa->write_characters(
-            reinterpret_cast<const CharType*>(value.c_str()),
+            reinterpret_cast<const CharType*>(value.Begin()),
             value.size() + 1);
     }
 
@@ -15561,7 +15561,7 @@ class serializer
                     auto i = val.m_value.object->cbegin();
                     for (std::size_t cnt = 0; cnt < val.m_value.object->size() - 1; ++cnt, ++i)
                     {
-                        o->write_characters(indent_string.c_str(), new_indent);
+                        o->write_characters(indent_string.Begin(), new_indent);
                         o->write_character('\"');
                         dump_escaped(i->first, ensure_ascii);
                         o->write_characters("\": ", 3);
@@ -15572,14 +15572,14 @@ class serializer
                     // last element
                     JSON_ASSERT(i != val.m_value.object->cend());
                     JSON_ASSERT(std::next(i) == val.m_value.object->cend());
-                    o->write_characters(indent_string.c_str(), new_indent);
+                    o->write_characters(indent_string.Begin(), new_indent);
                     o->write_character('\"');
                     dump_escaped(i->first, ensure_ascii);
                     o->write_characters("\": ", 3);
                     dump(i->second, true, ensure_ascii, indent_step, new_indent);
 
                     o->write_character('\n');
-                    o->write_characters(indent_string.c_str(), current_indent);
+                    o->write_characters(indent_string.Begin(), current_indent);
                     o->write_character('}');
                 }
                 else
@@ -15634,18 +15634,18 @@ class serializer
                     for (auto i = val.m_value.array->cbegin();
                             i != val.m_value.array->cend() - 1; ++i)
                     {
-                        o->write_characters(indent_string.c_str(), new_indent);
+                        o->write_characters(indent_string.Begin(), new_indent);
                         dump(*i, true, ensure_ascii, indent_step, new_indent);
                         o->write_characters(",\n", 2);
                     }
 
                     // last element
                     JSON_ASSERT(!val.m_value.array->empty());
-                    o->write_characters(indent_string.c_str(), new_indent);
+                    o->write_characters(indent_string.Begin(), new_indent);
                     dump(val.m_value.array->back(), true, ensure_ascii, indent_step, new_indent);
 
                     o->write_character('\n');
-                    o->write_characters(indent_string.c_str(), current_indent);
+                    o->write_characters(indent_string.Begin(), current_indent);
                     o->write_character(']');
                 }
                 else
@@ -15691,7 +15691,7 @@ class serializer
                         indent_string.resize(indent_string.size() * 2, ' ');
                     }
 
-                    o->write_characters(indent_string.c_str(), new_indent);
+                    o->write_characters(indent_string.Begin(), new_indent);
 
                     o->write_characters("\"bytes\": [", 10);
 
@@ -15707,7 +15707,7 @@ class serializer
                     }
 
                     o->write_characters("],\n", 3);
-                    o->write_characters(indent_string.c_str(), new_indent);
+                    o->write_characters(indent_string.Begin(), new_indent);
 
                     o->write_characters("\"subtype\": ", 11);
                     if (val.m_value.binary->has_subtype())
@@ -15719,7 +15719,7 @@ class serializer
                         o->write_characters("null", 4);
                     }
                     o->write_character('\n');
-                    o->write_characters(indent_string.c_str(), current_indent);
+                    o->write_characters(indent_string.Begin(), current_indent);
                     o->write_character('}');
                 }
                 else
@@ -17627,7 +17627,7 @@ class basic_json
                 }
             }
 
-            while (!stack.empty())
+            while (!stack.IsEmpty())
             {
                 // move the last item to local variable to be processed
                 basic_json current_item(std::move(stack.back()));
@@ -24701,7 +24701,7 @@ class basic_json
         const auto operation_add = [&result](json_pointer & ptr, basic_json val)
         {
             // adding to the root of the target document means replacing it
-            if (ptr.empty())
+            if (ptr.IsEmpty())
             {
                 result = val;
                 return;

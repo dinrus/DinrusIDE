@@ -14,16 +14,20 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #pragma once
+#include <Core/Core.h>
+/*
 #include <vector>
 #include <string>
 #include <sstream>
 #include <windows.h>
 #include <iso646.h>
 #include <cstdint>
-#include <unordered_set>
 #include <algorithm>
-#include <tchar.h>
+#include <char.h>
 #include <cwchar>
+*/
+#include <unordered_set>
+
 
 const bool dirUp = true;
 const bool dirDown = false;
@@ -57,35 +61,36 @@ const bool dirDown = false;
 #define COPYDATA_FILENAMES COPYDATA_FILENAMESW
 #define NPP_INTERNAL_FUCTION_STR TEXT("Notepad++::InternalFunction")
 
-typedef std::basic_string<TCHAR> generic_string;
-typedef std::basic_stringstream<TCHAR> generic_stringstream;
+//typedef std::basic_string<char> String;
+using String = Upp::String;
+typedef Upp::StringStream generic_stringstream;
 
-generic_string folderBrowser(HWND parent, const generic_string & title = TEXT(""), int outputCtrlID = 0, const TCHAR *defaultStr = NULL);
-generic_string getFolderName(HWND parent, const TCHAR *defaultDir = NULL);
+String folderBrowser(HWND parent, const String & title = TEXT(""), int outputCtrlID = 0, const char *defaultStr = NULL);
+String getFolderName(HWND parent, const char *defaultDir = NULL);
 
 void printInt(int int2print);
-void printStr(const TCHAR *str2print);
-generic_string commafyInt(size_t n);
+void printStr(const char *str2print);
+String commafyInt(size_t n);
 
-void writeLog(const TCHAR *logFileName, const char *log2write);
+void writeLog(const char *logFileName, const char *log2write);
 int filter(unsigned int code, struct _EXCEPTION_POINTERS *ep);
-generic_string purgeMenuItemString(const TCHAR * menuItemStr, bool keepAmpersand = false);
-std::vector<generic_string> tokenizeString(const generic_string & tokenString, const char delim);
+String purgeMenuItemString(const char * menuItemStr, bool keepAmpersand = false);
+Upp::Vector<String> tokenizeString(const String & tokenString, const char delim);
 
 void ClientRectToScreenRect(HWND hWnd, RECT* rect);
 void ScreenRectToClientRect(HWND hWnd, RECT* rect);
 
 std::wstring string2wstring(const std::string & rString, UINT codepage);
 std::string wstring2string(const std::wstring & rwString, UINT codepage);
-bool isInList(const TCHAR *token, const TCHAR *list);
-generic_string BuildMenuFileName(int filenameLen, unsigned int pos, const generic_string &filename, bool ordinalNumber = true);
+bool isInList(const char *token, const char *list);
+String BuildMenuFileName(int filenameLen, unsigned int pos, const String &filename, bool ordinalNumber = true);
 
-std::string getFileContent(const TCHAR *file2read);
-generic_string relativeFilePathToFullFilePath(const TCHAR *relativeFilePath);
-void writeFileContent(const TCHAR *file2write, const char *content2write);
-bool matchInList(const TCHAR *fileName, const std::vector<generic_string> & patterns);
-bool matchInExcludeDirList(const TCHAR* dirName, const std::vector<generic_string>& patterns, size_t level);
-bool allPatternsAreExclusion(const std::vector<generic_string> patterns);
+std::string getFileContent(const char *file2read);
+String relativeFilePathToFullFilePath(const char *relativeFilePath);
+void writeFileContent(const char *file2write, const char *content2write);
+bool matchInList(const char *fileName, const Upp::Vector<String> & patterns);
+bool matchInExcludeDirList(const char* dirName, const Upp::Vector<String>& patterns, size_t level);
+bool allPatternsAreExclusion(const Upp::Vector<String> patterns);
 
 class WcharMbcsConvertor final
 {
@@ -162,41 +167,41 @@ protected:
 
 #define REBARBAND_SIZE sizeof(REBARBANDINFO)
 
-generic_string PathRemoveFileSpec(generic_string & path);
-generic_string pathAppend(generic_string &strDest, const generic_string & str2append);
+String PathRemoveFileSpec(String & path);
+String pathAppend(String &strDest, const String & str2append);
 COLORREF getCtrlBgColor(HWND hWnd);
-generic_string stringToUpper(generic_string strToConvert);
-generic_string stringToLower(generic_string strToConvert);
-generic_string stringReplace(generic_string subject, const generic_string& search, const generic_string& replace);
-std::vector<generic_string> stringSplit(const generic_string& input, const generic_string& delimiter);
-bool str2numberVector(generic_string str2convert, std::vector<size_t>& numVect);
-generic_string stringJoin(const std::vector<generic_string>& strings, const generic_string& separator);
-generic_string stringTakeWhileAdmissable(const generic_string& input, const generic_string& admissable);
-double stodLocale(const generic_string& str, _locale_t loc, size_t* idx = NULL);
+String stringToUpper(String strToConvert);
+String stringToLower(String strToConvert);
+String stringReplace(String subject, const String& search, const String& replace);
+Upp::Vector<String> stringSplit(const String& input, const String& delimiter);
+bool str2numberVector(String str2convert, std::vector<size_t>& numVect);
+String stringJoin(const Upp::Vector<String>& strings, const String& separator);
+String stringTakeWhileAdmissable(const String& input, const String& admissable);
+double stodLocale(const String& str, _locale_t loc, size_t* idx = NULL);
 
 int OrdinalIgnoreCaseCompareStrings(LPCTSTR sz1, LPCTSTR sz2);
 
-bool str2Clipboard(const generic_string &str2cpy, HWND hwnd);
-class Buffer;
-bool buf2Clipborad(const std::vector<Buffer*>& buffers, bool isFullPath, HWND hwnd);
+bool str2Clipboard(const String &str2cpy, HWND hwnd);
+class SciBuffer;
+bool buf2Clipborad(const std::vector<SciBuffer*>& buffers, bool isFullPath, HWND hwnd);
 
-generic_string GetLastErrorAsString(DWORD errorCode = 0);
+String GetLastErrorAsString(DWORD errorCode = 0);
 
-generic_string intToString(int val);
-generic_string uintToString(unsigned int val);
+String intToString(int val);
+String uintToString(unsigned int val);
 
 HWND CreateToolTip(int toolID, HWND hDlg, HINSTANCE hInst, const PTSTR pszText, bool isRTL);
 HWND CreateToolTipRect(int toolID, HWND hWnd, HINSTANCE hInst, const PTSTR pszText, const RECT rc);
 
-bool isCertificateValidated(const generic_string & fullFilePath, const generic_string & subjectName2check);
+bool isCertificateValidated(const String & fullFilePath, const String & subjectName2check);
 bool isAssoCommandExisting(LPCTSTR FullPathName);
 
 std::wstring s2ws(const std::string& str);
 std::string ws2s(const std::wstring& wstr);
 
-bool deleteFileOrFolder(const generic_string& f2delete);
+bool deleteFileOrFolder(const String& f2delete);
 
-void getFilesInFolder(std::vector<generic_string>& files, const generic_string& extTypeFilter, const generic_string& inFolder);
+void getFilesInFolder(Upp::Vector<String>& files, const String& extTypeFilter, const String& inFolder);
 
 template<typename T> size_t vecRemoveDuplicates(std::vector<T>& vec, bool isSorted = false, bool canSort = false)
 {
@@ -224,26 +229,26 @@ template<typename T> size_t vecRemoveDuplicates(std::vector<T>& vec, bool isSort
 	return vec.size();
 }
 
-void trim(generic_string& str);
-bool endsWith(const generic_string& s, const generic_string& suffix);
+void trim(String& str);
+bool endsWith(const String& s, const String& suffix);
 
 int nbDigitsFromNbLines(size_t nbLines);
 
-generic_string getDateTimeStrFrom(const generic_string& dateTimeFormat, const SYSTEMTIME& st);
+String getDateTimeStrFrom(const String& dateTimeFormat, const SYSTEMTIME& st);
 
-HFONT createFont(const TCHAR* fontName, int fontSize, bool isBold, HWND hDestParent);
+HFONT createFont(const char* fontName, int fontSize, bool isBold, HWND hDestParent);
 
 class Version final
 {
 public:
 	Version() = default;
-	Version(const generic_string& versionStr);
+	Version(const String& versionStr);
 
-	void setVersionFrom(const generic_string& filePath);
-	generic_string toString();
-	bool isNumber(const generic_string& s) const {
-		return !s.empty() &&
-			find_if(s.begin(), s.end(), [](TCHAR c) { return !_istdigit(c); }) == s.end();
+	void setVersionFrom(const String& filePath);
+	String toString();
+	bool isNumber(const String& s) const {
+		return !s.IsEmpty() &&
+			std::find_if(s.begin(), s.end(), [](char c) { return !isdigit(c); }) == s.end();
 	};
 
 	int compareTo(const Version& v2c) const;

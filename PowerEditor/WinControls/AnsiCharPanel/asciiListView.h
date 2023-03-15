@@ -24,8 +24,8 @@ public:
 	void setValues(int codepage = 0);
 	void resetValues(int codepage);
 
-	generic_string getAscii(unsigned char value);
-	generic_string getHtmlName(unsigned char value);
+	String getAscii(unsigned char value);
+	String getHtmlName(unsigned char value);
 	int getHtmlNumber(unsigned char value);
 private:
 	int _codepage = -1;

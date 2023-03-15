@@ -15,7 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
-#include "ansiCharPanel.h"
+#include <PowerEditor/WinControls/AnsiCharPanel/ansiCharPanel.h>
 #include <PowerEditor/ScintillaComponent/ScintillaEditView.h>
 #include <PowerEditor/localization.h>
 
@@ -33,11 +33,11 @@ intptr_t CALLBACK AnsiCharPanel::run_dlgProc(UINT message, WPARAM wParam, LPARAM
 		{
 			NppParameters& nppParam = NppParameters::getInstance();
 			NativeLangSpeaker *pNativeSpeaker = nppParam.getNativeLangSpeaker();
-			generic_string valStr = pNativeSpeaker->getAttrNameStr(TEXT("Value"), "AsciiInsertion", "ColumnVal");
-			generic_string hexStr = pNativeSpeaker->getAttrNameStr(TEXT("Hex"), "AsciiInsertion", "ColumnHex");
-			generic_string charStr = pNativeSpeaker->getAttrNameStr(TEXT("Character"), "AsciiInsertion", "ColumnChar");
-			generic_string htmlNumberStr = pNativeSpeaker->getAttrNameStr(TEXT("HTML Number"), "AsciiInsertion", "ColumnHtmlNumber");
-			generic_string htmlNameStr = pNativeSpeaker->getAttrNameStr(TEXT("HTML Name"), "AsciiInsertion", "ColumnHtmlName");
+			String valStr = pNativeSpeaker->getAttrNameStr(TEXT("Value"), "AsciiInsertion", "ColumnVal");
+			String hexStr = pNativeSpeaker->getAttrNameStr(TEXT("Hex"), "AsciiInsertion", "ColumnHex");
+			String charStr = pNativeSpeaker->getAttrNameStr(TEXT("Character"), "AsciiInsertion", "ColumnChar");
+			String htmlNumberStr = pNativeSpeaker->getAttrNameStr(TEXT("HTML Number"), "AsciiInsertion", "ColumnHtmlNumber");
+			String htmlNameStr = pNativeSpeaker->getAttrNameStr(TEXT("HTML Name"), "AsciiInsertion", "ColumnHtmlName");
 
 			_listView.addColumn(columnInfo(valStr, nppParam._dpiManager.scaleX(45)));
 			_listView.addColumn(columnInfo(hexStr, nppParam._dpiManager.scaleX(45)));
@@ -82,7 +82,7 @@ intptr_t CALLBACK AnsiCharPanel::run_dlgProc(UINT message, WPARAM wParam, LPARAM
 
 					int i = pInfo.iItem;
 					int j = pInfo.iSubItem;
-					wchar_t buffer[10];
+					char buffer[10];
 					LVITEM item;
 					item.mask = LVIF_TEXT | LVIF_PARAM;
 					item.iItem = i;

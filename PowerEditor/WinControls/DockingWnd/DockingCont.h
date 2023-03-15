@@ -62,7 +62,7 @@ public:
 	tTbData* createToolbar(tTbData data);
 	void	 removeToolbar(tTbData data);
 	tTbData* findToolbarByWnd(HWND hClient);
-	tTbData* findToolbarByName(TCHAR* pszName);
+	tTbData* findToolbarByName(char* pszName);
 
 	void showToolbar(tTbData *pTbData, BOOL state);
 
@@ -183,7 +183,7 @@ private:
 
 	// caption params
 	BOOL _isTopCaption = FALSE;
-	generic_string _pszCaption;
+	String _pszCaption;
 
 	BOOL _isMouseDown = FALSE;
 	BOOL _isMouseClose = FALSE;

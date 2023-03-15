@@ -22,8 +22,8 @@
 
 struct RecentItem {
 	int _id = 0;
-	generic_string _name;
-	explicit RecentItem(const TCHAR * name) : _name(name) {};
+	String _name;
+	explicit RecentItem(const char * name) : _name(name) {};
 };
 
 typedef std::deque<RecentItem> recentList;
@@ -39,8 +39,8 @@ public:
 	void switchMode();
 	void updateMenu();
 
-	void add(const TCHAR *fn);
-	void remove(const TCHAR *fn);
+	void add(const char *fn);
+	void remove(const char *fn);
 	void remove(size_t index);
 	void clear();
 
@@ -57,10 +57,10 @@ public:
 		return _userMax;
 	};
 
-	generic_string & getItem(int id);	//use menu id
-	generic_string & getIndex(int index);	//use menu id
+	String & getItem(int id);	//use menu id
+	String & getIndex(int index);	//use menu id
 
-	generic_string getFirstItem() const {
+	String getFirstItem() const {
 		if (_lrfl.size() == 0)
 			return TEXT("");
 		return _lrfl.front()._name;
@@ -98,7 +98,7 @@ private:
 	bool _hasSeparators = false;
 	bool _locked = false;
 
-	int find(const TCHAR *fn);
+	int find(const char *fn);
 	int popFirstAvailableID();
 	void setAvailable(int id);
 };

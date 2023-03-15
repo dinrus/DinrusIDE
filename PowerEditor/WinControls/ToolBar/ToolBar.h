@@ -36,9 +36,9 @@ enum toolBarStatusType {TB_SMALL, TB_LARGE, TB_SMALL2, TB_LARGE2, TB_STANDARD};
 struct iconLocator {
 	size_t _listIndex = 0;
 	size_t _iconIndex = 0;
-	generic_string _iconLocation;
+	String _iconLocation;
 
-	iconLocator(size_t iList, size_t iIcon, const generic_string& iconLoc)
+	iconLocator(size_t iList, size_t iIcon, const String& iconLoc)
 		: _listIndex(iList), _iconIndex(iIcon), _iconLocation(iconLoc){};
 };
 
@@ -53,7 +53,7 @@ public :
 	~ToolBar() = default;
 
     void initTheme(TiXmlDocument *toolIconsDocRoot);
-	virtual bool init(HINSTANCE hInst, HWND hPere, toolBarStatusType type, 
+	virtual bool init(HINSTANCE hInst, HWND hPere, toolBarStatusType type,
 		ToolBarButtonUnit *buttonUnitArray, int arraySize);
 
 	virtual void destroy();
@@ -82,15 +82,15 @@ public :
 		return _state;
 	};
 
-    bool change2CustomIconsIfAny() {    
+    bool change2CustomIconsIfAny() {
 	    if (!_toolIcons) return false;
 
 	    for (size_t i = 0, len = _customIconVect.size(); i < len; ++i)
-		    changeIcons(_customIconVect[i]._listIndex, _customIconVect[i]._iconIndex, (_customIconVect[i]._iconLocation).c_str());
+		    changeIcons(_customIconVect[i]._listIndex, _customIconVect[i]._iconIndex, (_customIconVect[i]._iconLocation).Begin());
         return true;
     };
 
-	bool changeIcons(size_t whichLst, size_t iconIndex, const TCHAR *iconLocation){
+	bool changeIcons(size_t whichLst, size_t iconIndex, const char *iconLocation){
 		return _toolBarIcons.replaceIcon(whichLst, iconIndex, iconLocation);
 	};
 
@@ -147,7 +147,7 @@ private :
 	void setDisableImageListDM2() {
 		::SendMessage(_hSelf, TB_SETDISABLEDIMAGELIST, 0, reinterpret_cast<LPARAM>(_toolBarIcons.getDisableLstSetDM2()));
 	};
-	
+
 	void setHoveredImageListDM() {
 		::SendMessage(_hSelf, TB_SETHOTIMAGELIST, 0, reinterpret_cast<LPARAM>(_toolBarIcons.getDefaultLst()));
 	};
@@ -160,7 +160,7 @@ private :
 	void setState(toolBarStatusType state) {
 		_state = state;
 	}
-	
+
 };
 
 class ReBar : public Window

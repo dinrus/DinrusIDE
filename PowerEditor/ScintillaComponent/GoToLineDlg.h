@@ -17,7 +17,7 @@
 
 #pragma once
 #include <PowerEditor/resource.h>
-#include "ScintillaEditView.h"
+#include <PowerEditor/ScintillaComponent/ScintillaEditView.h>
 
 class GoToLineDlg : public StaticDialog
 {

@@ -21,7 +21,7 @@
 #include <PowerEditor/WinControls/ColourPicker/ColourPicker.h>
 #include <PowerEditor/Parameters.h>
 #include <PowerEditor/WinControls/AboutDlg/URLCtrl.h>
-#include <tchar.h>
+//#include <char.h>
 #include <Lexilla/SciLexer.h>
 #include <unordered_map>
 
@@ -38,14 +38,14 @@ class GlobalMappers
 {
     public:
 
-		std::unordered_map<generic_string, int> keywordIdMapper;
-		std::unordered_map<int, generic_string> keywordNameMapper;
+		std::unordered_map<String, int> keywordIdMapper;
+		std::unordered_map<int, String> keywordNameMapper;
 
-		std::unordered_map<generic_string, int> styleIdMapper;
-		std::unordered_map<int, generic_string> styleNameMapper;
+		std::unordered_map<String, int> styleIdMapper;
+		std::unordered_map<int, String> styleNameMapper;
 
-		std::unordered_map<generic_string, int> temp;
-		std::unordered_map<generic_string, int>::iterator iter;
+		std::unordered_map<String, int> temp;
+		std::unordered_map<String, int>::iterator iter;
 
 		std::unordered_map<int, int> nestingMapper;
 		std::unordered_map<int, int> dialogMapper;
@@ -261,7 +261,7 @@ protected :
     intptr_t CALLBACK run_dlgProc(UINT Message, WPARAM wParam, LPARAM lParam);
     void setKeywords2List(int ctrlID);
 private :
-    void retrieve(TCHAR *dest, const TCHAR *toRetrieve, TCHAR *prefix) const;
+    void retrieve(char *dest, const char *toRetrieve, char *prefix) const;
     URLCtrl _pageLink;
 };
 
@@ -284,7 +284,7 @@ protected :
     intptr_t CALLBACK run_dlgProc(UINT Message, WPARAM wParam, LPARAM lParam);
     void setKeywords2List(int id);
 private :
-    void retrieve(TCHAR *dest, const TCHAR *toRetrieve, const TCHAR *prefix) const;
+    void retrieve(char *dest, const char *toRetrieve, const char *prefix) const;
 };
 
 class SymbolsStyleDialog : public SharedParametersDialog
@@ -296,7 +296,7 @@ protected :
     intptr_t CALLBACK run_dlgProc(UINT Message, WPARAM wParam, LPARAM lParam);
     void setKeywords2List(int id);
 private :
-    void retrieve(TCHAR *dest, const TCHAR *toRetrieve, TCHAR *prefix) const;
+    void retrieve(char *dest, const char *toRetrieve, char *prefix) const;
 };
 
 class UserDefineDialog : public SharedParametersDialog
@@ -354,7 +354,7 @@ public :
     HWND getSymbolHandle() const {
         return _symbolsStyleDlg.getHSelf();
     };
-    void setTabName(int index, const TCHAR *name2set) {
+    void setTabName(int index, const char *name2set) {
         _ctrlTab.renameTab(index, name2set);
     };
 protected :
@@ -388,14 +388,14 @@ class StringDlg : public StaticDialog
 {
 public :
     StringDlg() = default;
-	void init(HINSTANCE hInst, HWND parent, const TCHAR *title, const TCHAR *staticName, const TCHAR *text2Set, int txtLen = 0, const TCHAR* restrictedChars = nullptr, bool bGotoCenter = false) {
+	void init(HINSTANCE hInst, HWND parent, const char *title, const char *staticName, const char *text2Set, int txtLen = 0, const char* restrictedChars = nullptr, bool bGotoCenter = false) {
 		Window::init(hInst, parent);
 		_title = title;
 		_static = staticName;
 		_textValue = text2Set;
 		_txtLen = txtLen;
 		_shouldGotoCenter = bGotoCenter;
-		if (restrictedChars && _tcslen(restrictedChars))
+		if (restrictedChars && strlen__(restrictedChars))
 		{
 			_restrictedChars = restrictedChars;
 		}
@@ -413,14 +413,14 @@ protected :
 	// Custom proc to subclass edit control
 	LRESULT static CALLBACK customEditProc(HWND hEdit, UINT msg, WPARAM wParam, LPARAM lParam);
 
-	bool isAllowed(const generic_string& txt);
+	bool isAllowed(const String& txt);
 	void HandlePaste(HWND hEdit);
 
 private :
-    generic_string _title;
-    generic_string _textValue;
-    generic_string _static;
-	generic_string _restrictedChars;
+    String _title;
+    String _textValue;
+    String _static;
+	String _restrictedChars;
     int _txtLen = 0;
 	bool _shouldGotoCenter = false;
 	WNDPROC _oldEditProc = nullptr;

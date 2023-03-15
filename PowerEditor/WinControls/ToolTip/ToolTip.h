@@ -32,7 +32,7 @@ public:
 	};
 
 	virtual void init(HINSTANCE hInst, HWND hParent);
-	void Show(RECT rectTitle, const TCHAR* pszTitleText, int iXOff = 0, int iWidthOff = 0);
+	void Show(RECT rectTitle, const char* pszTitleText, int iXOff = 0, int iWidthOff = 0);
 
 protected:
 	WNDPROC		_defaultProc = nullptr;

@@ -6,6 +6,7 @@
 #undef max
 #endif
 
+
 //$-template <class T> inline constexpr const T& min(const T& a, const T& b, ...);
 //$-template <class T> inline constexpr const T& max(const T& a, const T& b, ...);
 

@@ -138,7 +138,7 @@ const char* xpmbox[] = {
 
 using namespace std;
 
-static bool isInList(const generic_string& word, const vector<generic_string> & wordArray)
+static bool isInList(const String& word, const Vector<String> & wordArray)
 {
 	for (size_t i = 0, len = wordArray.size(); i < len; ++i)
 		if (wordArray[i] == word)
@@ -146,7 +146,7 @@ static bool isInList(const generic_string& word, const vector<generic_string> & 
 	return false;
 }
 
-static bool isAllDigits(const generic_string &str)
+static bool isAllDigits(const String &str)
 {
 	for (const auto& i : str)
 	{
@@ -182,7 +182,7 @@ bool AutoCompletion::showApiComplete()
 	_pEditView->execute(SCI_AUTOCSETTYPESEPARATOR, WPARAM('\x1E'));
 	_pEditView->execute(SCI_AUTOCSETSEPARATOR, WPARAM(' '));
 	_pEditView->execute(SCI_AUTOCSETIGNORECASE, _ignoreCase);
-	_pEditView->showAutoComletion(curPos - startPos, _keyWords.c_str());
+	_pEditView->showAutoComletion(curPos - startPos, _keyWords.Begin());
 
 	return true;
 }
@@ -200,8 +200,8 @@ bool AutoCompletion::showApiAndWordComplete()
 		return false;
 
 	const size_t bufSize = 256;
-	TCHAR beginChars[bufSize];
-	TCHAR allChars[bufSize];
+	char beginChars[bufSize];
+	char allChars[bufSize];
 
 	size_t len = (curPos > startPos)?(curPos - startPos):(startPos - curPos);
 	if (len >= bufSize)
@@ -216,7 +216,7 @@ bool AutoCompletion::showApiAndWordComplete()
 
 	// Get word array containing all words beginning with beginChars, excluding word equal to allChars
 
-	vector<generic_string> wordArray;
+	Vector<String> wordArray;
 	getWordArray(wordArray, beginChars, allChars);
 
 	// Add keywords to word array
@@ -227,8 +227,8 @@ bool AutoCompletion::showApiAndWordComplete()
 
 		if (_ignoreCase)
 		{
-			generic_string kwSufix = _keyWordArray[i].substr(0, len);
-			compareResult = generic_stricmp(beginChars, kwSufix.c_str());
+			String kwSufix = _keyWordArray[i].substr(0, len);
+			compareResult = generic_stricmp(beginChars, kwSufix.Begin());
 		}
 		else
 		{
@@ -249,7 +249,7 @@ bool AutoCompletion::showApiAndWordComplete()
 
 	sort(wordArray.begin(), wordArray.end());
 
-	generic_string words;
+	String words;
 
 	for (size_t i = 0, wordArrayLen = wordArray.size(); i < wordArrayLen; ++i)
 	{
@@ -268,12 +268,12 @@ bool AutoCompletion::showApiAndWordComplete()
 	_pEditView->execute(SCI_AUTOCSETTYPESEPARATOR, WPARAM('\x1E'));
 	_pEditView->execute(SCI_AUTOCSETSEPARATOR, WPARAM(' '));
 	_pEditView->execute(SCI_AUTOCSETIGNORECASE, _ignoreCase);
-	_pEditView->showAutoComletion(curPos - startPos, words.c_str());
+	_pEditView->showAutoComletion(curPos - startPos, words.Begin());
 	return true;
 }
 
 
-void AutoCompletion::getWordArray(vector<generic_string> & wordArray, TCHAR *beginChars, TCHAR *allChars)
+void AutoCompletion::getWordArray(Vector<String> & wordArray, char *beginChars, char *allChars)
 {
 	const size_t bufSize = 256;
 	const NppGUI & nppGUI = NppParameters::getInstance().getNppGUI();
@@ -281,7 +281,7 @@ void AutoCompletion::getWordArray(vector<generic_string> & wordArray, TCHAR *beg
 	if (nppGUI._autocIgnoreNumbers && isAllDigits(beginChars))
 		return;
 
-	generic_string expr(TEXT("\\<"));
+	String expr(TEXT("\\<"));
 	expr += beginChars;
 	expr += TEXT("[^ \\t\\n\\r.,;:\"(){}=<>'+!?\\[\\]]+");
 
@@ -290,7 +290,7 @@ void AutoCompletion::getWordArray(vector<generic_string> & wordArray, TCHAR *beg
 	int flags = SCFIND_WORDSTART | SCFIND_MATCHCASE | SCFIND_REGEXP | SCFIND_POSIX;
 
 	_pEditView->execute(SCI_SETSEARCHFLAGS, flags);
-	intptr_t posFind = _pEditView->searchInTarget(expr.c_str(), expr.length(), 0, docLength);
+	intptr_t posFind = _pEditView->searchInTarget(expr.Begin(), expr.GetLength(), 0, docLength);
 
 	while (posFind >= 0)
 	{
@@ -300,7 +300,7 @@ void AutoCompletion::getWordArray(vector<generic_string> & wordArray, TCHAR *beg
 		size_t foundTextLen = wordEnd - wordStart;
 		if (foundTextLen < bufSize)
 		{
-			TCHAR w[bufSize];
+			char w[bufSize];
 			_pEditView->getGenericText(w, bufSize, wordStart, wordEnd);
 			if (!allChars || (generic_strncmp (w, allChars, bufSize) != 0))
 			{
@@ -308,45 +308,45 @@ void AutoCompletion::getWordArray(vector<generic_string> & wordArray, TCHAR *beg
 					wordArray.push_back(w);
 			}
 		}
-		posFind = _pEditView->searchInTarget(expr.c_str(), expr.length(), wordEnd, docLength);
+		posFind = _pEditView->searchInTarget(expr.Begin(), expr.GetLength(), wordEnd, docLength);
 	}
 }
 
-static generic_string addTrailingSlash(const generic_string& path)
+static String addTrailingSlash(const String& path)
 {
-	if (path.length() >=1 && path[path.length() - 1] == '\\')
+	if (path.GetLength() >=1 && path[path.GetLength() - 1] == '\\')
 		return path;
 	else
 		return path + L"\\";
 }
 
-static generic_string removeTrailingSlash(const generic_string& path)
+static String removeTrailingSlash(const String& path)
 {
-	if (path.length() >= 1 && path[path.length() - 1] == '\\')
-		return path.substr(0, path.length() - 1);
+	if (path.GetLength() >= 1 && path[path.GetLength() - 1] == '\\')
+		return path.substr(0, path.GetLength() - 1);
 	else
 		return path;
 }
 
-static bool isDirectory(const generic_string& path)
+static bool isDirectory(const String& path)
 {
-	DWORD type = ::GetFileAttributes(path.c_str());
+	DWORD type = ::GetFileAttributes(path.Begin());
 	return type != INVALID_FILE_ATTRIBUTES && (type & FILE_ATTRIBUTE_DIRECTORY);
 }
 
-static bool isFile(const generic_string& path)
+static bool isFile(const String& path)
 {
-	DWORD type = ::GetFileAttributes(path.c_str());
+	DWORD type = ::GetFileAttributes(path.Begin());
 	return type != INVALID_FILE_ATTRIBUTES && ! (type & FILE_ATTRIBUTE_DIRECTORY);
 }
 
-static bool isAllowedBeforeDriveLetter(TCHAR c)
+static bool isAllowedBeforeDriveLetter(char c)
 {
 	locale loc;
 	return c == '\'' || c == '"' || c == '(' || std::isspace(c, loc);
 }
 
-static bool getRawPath(const generic_string& input, generic_string &rawPath_out)
+static bool getRawPath(const String& input, String &rawPath_out)
 {
 	// Try to find a path in the given input.
 	// Algorithm: look for a colon. The colon must be preceded by an alphabetic character.
@@ -367,9 +367,9 @@ static bool getRawPath(const generic_string& input, generic_string &rawPath_out)
 	return true;
 }
 
-static bool getPathsForPathCompletion(const generic_string& input, generic_string &rawPath_out, generic_string &pathToMatch_out)
+static bool getPathsForPathCompletion(const String& input, String &rawPath_out, String &pathToMatch_out)
 {
-	generic_string rawPath;
+	String rawPath;
 	if (! getRawPath(input, rawPath))
 	{
 		return false;
@@ -401,10 +401,10 @@ static bool getPathsForPathCompletion(const generic_string& input, generic_strin
 void AutoCompletion::showPathCompletion()
 {
 	// Get current line (at most MAX_PATH characters "backwards" from current caret).
-	generic_string currentLine;
+	String currentLine;
 	{
 		const intptr_t bufSize = MAX_PATH;
-		TCHAR buf[bufSize + 1];
+		char buf[bufSize + 1];
 		const intptr_t currentPos = _pEditView->execute(SCI_GETCURRENTPOS);
 		const auto startPos = max(0, currentPos - bufSize);
 		_pEditView->getGenericText(buf, bufSize + 1, startPos, currentPos);
@@ -419,18 +419,18 @@ void AutoCompletion::showPathCompletion()
 	   For instance: the user wants to autocomplete "C:\Wind", and assuming that no such directory
 	   exists, this means we should list all files and directories in C:.
 	*/
-	generic_string rawPath, pathToMatch;
+	String rawPath, pathToMatch;
 	if (! getPathsForPathCompletion(currentLine, rawPath, pathToMatch))
 		return;
 
 	// Get all files and directories in the path.
-	generic_string autoCompleteEntries;
+	String autoCompleteEntries;
 	{
 		HANDLE hFind;
 		WIN32_FIND_DATA data;
-		generic_string pathToMatchPlusSlash = addTrailingSlash(pathToMatch);
-		generic_string searchString = pathToMatchPlusSlash + TEXT("*.*");
-		hFind = ::FindFirstFile(searchString.c_str(), &data);
+		String pathToMatchPlusSlash = addTrailingSlash(pathToMatch);
+		String searchString = pathToMatchPlusSlash + TEXT("*.*");
+		hFind = ::FindFirstFile(searchString.Begin(), &data);
 		if (hFind != INVALID_HANDLE_VALUE)
 		{
 			// Maximum number of entries to show. Without this it appears to the user like N++ hangs when autocompleting
@@ -442,10 +442,10 @@ void AutoCompletion::showPathCompletion()
 				if (++counter > maxEntries)
 					break;
 
-				if (generic_string(data.cFileName) == TEXT(".") || generic_string(data.cFileName) == TEXT(".."))
+				if (String(data.cFileName) == TEXT(".") || String(data.cFileName) == TEXT(".."))
 					continue;
 
-				if (! autoCompleteEntries.empty())
+				if (! autoCompleteEntries.IsEmpty())
 					autoCompleteEntries += TEXT("\n");
 
 				autoCompleteEntries += pathToMatchPlusSlash;
@@ -463,7 +463,7 @@ void AutoCompletion::showPathCompletion()
 	// Show autocompletion box.
 	_pEditView->execute(SCI_AUTOCSETSEPARATOR, WPARAM('\n'));
 	_pEditView->execute(SCI_AUTOCSETIGNORECASE, true);
-	_pEditView->showAutoComletion(rawPath.length(), autoCompleteEntries.c_str());
+	_pEditView->showAutoComletion(rawPath.GetLength(), autoCompleteEntries.Begin());
 	return;
 }
 
@@ -479,8 +479,8 @@ bool AutoCompletion::showWordComplete(bool autoInsert)
 		return false;
 
 	const size_t bufSize = 256;
-	TCHAR beginChars[bufSize];
-	TCHAR allChars[bufSize];
+	char beginChars[bufSize];
+	char allChars[bufSize];
 
 	size_t len = (curPos > startPos)?(curPos - startPos):(startPos - curPos);
 	if (len >= bufSize)
@@ -495,7 +495,7 @@ bool AutoCompletion::showWordComplete(bool autoInsert)
 
 	// Get word array containing all words beginning with beginChars, excluding word equal to allChars
 
-	vector<generic_string> wordArray;
+	Vector<String> wordArray;
 	getWordArray(wordArray, beginChars, allChars);
 
 	if (wordArray.size() == 0) return false;
@@ -504,7 +504,7 @@ bool AutoCompletion::showWordComplete(bool autoInsert)
 
 	if (wordArray.size() == 1 && autoInsert)
 	{
-		intptr_t replacedLength = _pEditView->replaceTarget(wordArray[0].c_str(), startPos, curPos);
+		intptr_t replacedLength = _pEditView->replaceTarget(wordArray[0].Begin(), startPos, curPos);
 		_pEditView->execute(SCI_GOTOPOS, startPos + replacedLength);
 		return true;
 	}
@@ -513,7 +513,7 @@ bool AutoCompletion::showWordComplete(bool autoInsert)
 
 	sort(wordArray.begin(), wordArray.end());
 
-	generic_string words(TEXT(""));
+	String words(TEXT(""));
 
 	for (size_t i = 0, wordArrayLen = wordArray.size(); i < wordArrayLen; ++i)
 	{
@@ -526,7 +526,7 @@ bool AutoCompletion::showWordComplete(bool autoInsert)
 
 	_pEditView->execute(SCI_AUTOCSETSEPARATOR, WPARAM(' '));
 	_pEditView->execute(SCI_AUTOCSETIGNORECASE, _ignoreCase);
-	_pEditView->showAutoComletion(curPos - startPos, words.c_str());
+	_pEditView->showAutoComletion(curPos - startPos, words.Begin());
 	return true;
 }
 
@@ -565,7 +565,7 @@ void AutoCompletion::getCloseTag(char *closeTag, size_t closeTagSize, size_t car
 
 	int flags = SCFIND_REGEXP | SCFIND_POSIX;
 	_pEditView->execute(SCI_SETSEARCHFLAGS, flags);
-	TCHAR tag2find[] = TEXT("<[^\\s>]*");
+	char tag2find[] = TEXT("<[^\\s>]*");
 
 	intptr_t targetStart = _pEditView->searchInTarget(tag2find, lstrlen(tag2find), caretPos, 0);
 
@@ -900,7 +900,7 @@ void AutoCompletion::update(int character)
 		return;
 
 	const int wordSize = 64;
-	TCHAR s[wordSize];
+	char s[wordSize];
 	_pEditView->getWordToCurrentPos(s, wordSize);
 
 	if (lstrlen(s) >= int(nppGUI._autocFromLen))
@@ -935,7 +935,7 @@ bool AutoCompletion::setLanguage(LangType language)
 		return true;
 	_curLang = language;
 
-	TCHAR path[MAX_PATH];
+	char path[MAX_PATH];
 	::GetModuleFileName(NULL, path, MAX_PATH);
 	PathRemoveFileSpec(path);
 	std::wcscat(path, TEXT("\\autoCompletion\\"));
@@ -980,7 +980,7 @@ bool AutoCompletion::setLanguage(LangType language)
 		TiXmlElement * pElem = pAutoNode->FirstChildElement(TEXT("Environment"));
 		if (pElem)
         {
-			const TCHAR * val = 0;
+			const char * val = 0;
 			val = pElem->Attribute(TEXT("ignoreCase"));
 			if (val && !lstrcmp(val, TEXT("no")))
 			{
@@ -1025,21 +1025,21 @@ bool AutoCompletion::setLanguage(LangType language)
 
 		for (; funcNode; funcNode = funcNode->NextSiblingElement(TEXT("KeyWord")) )
 		{
-			const TCHAR *name = funcNode->Attribute(TEXT("name"));
+			const char *name = funcNode->Attribute(TEXT("name"));
 			if (name)
 			{
 				size_t len = lstrlen(name);
 				if (len)
 				{
-					generic_string word = name;
-					generic_string imgid = TEXT("\x1E");
-					const TCHAR *func = funcNode->Attribute(TEXT("func"));
+					String word = name;
+					String imgid = TEXT("\x1E");
+					const char *func = funcNode->Attribute(TEXT("func"));
 					if (func && !lstrcmp(func, TEXT("yes")))
 						imgid += intToString(FUNC_IMG_ID);
 					else
 						imgid += intToString(BOX_IMG_ID);
 					word += imgid;
-					_keyWordArray.push_back(word.c_str());
+					_keyWordArray.push_back(word.Begin());
 					if (len > _keyWordMaxLen)
 						_keyWordMaxLen = len;
 				}
@@ -1057,11 +1057,11 @@ bool AutoCompletion::setLanguage(LangType language)
 	return _funcCompletionActive;
 }
 
-const TCHAR * AutoCompletion::getApiFileName()
+const char * AutoCompletion::getApiFileName()
 {
 	if (_curLang == L_USER)
 	{
-		Buffer * currentBuf = _pEditView->getCurrentBuffer();
+		SciBuffer * currentBuf = _pEditView->getCurrentBuffer();
 		if (currentBuf->isUserDefineLangExt())
 		{
 			return currentBuf->getUserDefineLangName();
@@ -1071,7 +1071,7 @@ const TCHAR * AutoCompletion::getApiFileName()
 	if (_curLang >= L_EXTERNAL && _curLang < NppParameters::getInstance().L_END)
 	{
 		WcharMbcsConvertor& wmc = WcharMbcsConvertor::getInstance();
-		return wmc.char2wchar(NppParameters::getInstance().getELCFromIndex(_curLang - L_EXTERNAL)._name.c_str(), CP_ACP);
+		return wmc.char2wchar(NppParameters::getInstance().getELCFromIndex(_curLang - L_EXTERNAL)._name.Begin(), CP_ACP);
 	}
 
 	if (_curLang > L_EXTERNAL)

@@ -221,7 +221,7 @@ void Gripper::create()
     if (!hookMouse)
     {
         DWORD dwError = ::GetLastError();
-        TCHAR  str[128];
+        char  str[128];
         ::wsprintf(str, TEXT("GetLastError() returned %lu"), dwError);
         ::MessageBox(NULL, str, TEXT("SetWindowsHookEx(MOUSE) failed on Gripper::create()"), MB_OK | MB_ICONERROR);
     }
@@ -232,7 +232,7 @@ void Gripper::create()
 		if (!hookKeyboard)
 		{
 			DWORD dwError = ::GetLastError();
-			TCHAR  str[128];
+			char  str[128];
 			::wsprintf(str, TEXT("GetLastError() returned %lu"), dwError);
 			::MessageBox(NULL, str, TEXT("SetWindowsHookEx(KEYBOARD) failed on Gripper::create()"), MB_OK | MB_ICONERROR);
 		}
@@ -473,7 +473,7 @@ void Gripper::doTabReordering(POINT pt)
 
 #if 0
 	extern HWND g_hMainWnd;
-	TCHAR str[128];
+	char str[128];
 	wsprintf(str, TEXT("Size: %i"), vCont.size());
 	::SetWindowText(g_hMainWnd, str);
 #endif
@@ -561,10 +561,10 @@ void Gripper::drawRectangle(const POINT* pPt)
 			if (rcOld.left==rcNew.left && rcOld.right==rcNew.right && rcOld.top== rcNew.top && rcOld.bottom==rcNew.bottom)
 				return;
 
-			rc.left   = min(rcOld.left, rcNew.left);
-			rc.top    = min(rcOld.top,  rcNew.top);
-			rc.right  = max(rcOld.left + rcOld.right,  rcNew.left + rcNew.right);
-			rc.bottom = max(rcOld.top  + rcOld.bottom, rcNew.top  + rcNew.bottom);
+			rc.left   = UPP::min(rcOld.left, rcNew.left);
+			rc.top    = Upp::min(rcOld.top,  rcNew.top);
+			rc.right  = Upp::max(rcOld.left + rcOld.right,  rcNew.left + rcNew.right);
+			rc.bottom = Upp::max(rcOld.top  + rcOld.bottom, rcNew.top  + rcNew.bottom);
 			rc.right -= rc.left;
 			rc.bottom-= rc.top;
 		}
@@ -835,7 +835,7 @@ void Gripper::initTabInformation()
 	::SendMessage(_hTabSource, TCM_GETITEMRECT, _iItem, reinterpret_cast<LPARAM>(&_rcItem));
 
 	/* store item data */
-	static TCHAR	szText[64];
+	static char	szText[64];
 	_tcItem.mask		= TCIF_PARAM | TCIF_TEXT;
 	_tcItem.pszText		= szText;
 	_tcItem.cchTextMax	= 64;

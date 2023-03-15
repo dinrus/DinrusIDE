@@ -25,7 +25,7 @@
 #include <wincrypt.h>
 #include <sensapi.h>
 #include <iomanip>
-#include "verifySignedfile.h"
+#include <PowerEditor/MISC/Common/verifySignedfile.h>
 #include <PowerEditor/MISC/Common/Common.h>
 #include "sha-256.h"
 
@@ -78,9 +78,9 @@ bool SecurityGuard::checkSha256(const std::wstring& filePath, NppModule module2c
 		return true;
 	*/
 
-	std::string content = getFileContent(filePath.c_str());
+	std::string content = getFileContent(filePath.Begin());
 	uint8_t sha2hash[32];
-	calc_sha_256(sha2hash, reinterpret_cast<const uint8_t*>(content.c_str()), content.length());
+	calc_sha_256(sha2hash, reinterpret_cast<const uint8_t*>(content.Begin()), content.GetLength());
 
 	wchar_t sha2hashStr[65] = { '\0' };
 	for (size_t i = 0; i < 32; i++)
@@ -100,12 +100,12 @@ bool SecurityGuard::checkSha256(const std::wstring& filePath, NppModule module2c
 	{
 		if (i == sha2hashStr)
 		{
-			//::MessageBox(NULL, filePath.c_str(), TEXT("OK"), MB_OK);
+			//::MessageBox(NULL, filePath.Begin(), TEXT("OK"), MB_OK);
 			return true;
 		}
 	}
 
-	//::MessageBox(NULL, filePath.c_str(), TEXT("KO"), MB_OK);
+	//::MessageBox(NULL, filePath.Begin(), TEXT("KO"), MB_OK);
 	return false;
 }
 
@@ -119,19 +119,19 @@ bool SecurityGuard::verifySignedLibrary(const std::wstring& filepath, NppModule 
 	dmsg += filepath;
 	dmsg += TEXT("\n");
 
-	OutputDebugString(dmsg.c_str());
+	OutputDebugString(dmsg.Begin());
 
 	//
 	// Signature verification
 	//
 
 	// Initialize the WINTRUST_FILE_INFO structure.
-	LPCWSTR pwszfilepath = filepath.c_str();
+	LPCWSTR pwszfilepath = filepath.Begin();
 	WINTRUST_FILE_INFO file_data = {};
 	file_data.cbStruct = sizeof(WINTRUST_FILE_INFO);
 	file_data.pcwszFilePath = pwszfilepath;
 
-	// Initialise WinTrust data	
+	// Initialise WinTrust data
 	WINTRUST_DATA winTEXTrust_data = {};
 	winTEXTrust_data.cbStruct = sizeof(winTEXTrust_data);
 	winTEXTrust_data.dwUIChoice = WTD_UI_NONE;	         // do not display optional dialog boxes
@@ -152,7 +152,7 @@ bool SecurityGuard::verifySignedLibrary(const std::wstring& filepath, NppModule 
 		DWORD netstatus;
 		QOCINFO oci;
 		oci.dwSize = sizeof(oci);
-		CONST TCHAR* msftTEXTest_site = TEXT("http://www.msftncsi.com/ncsi.txt");
+		CONST char* msftTEXTest_site = TEXT("http://www.msftncsi.com/ncsi.txt");
 		bool online = false;
 		online = (0 != IsNetworkAlive(&netstatus));
 		online = online && (0 == GetLastError());
@@ -198,7 +198,7 @@ bool SecurityGuard::verifySignedLibrary(const std::wstring& filepath, NppModule 
 	bool status = true;
 
 	try {
-		BOOL result = ::CryptQueryObject(CERT_QUERY_OBJECT_FILE, filepath.c_str(),
+		BOOL result = ::CryptQueryObject(CERT_QUERY_OBJECT_FILE, filepath.Begin(),
 			CERT_QUERY_CONTENT_FLAG_PKCS7_SIGNED_EMBED, CERT_QUERY_FORMAT_FLAG_BINARY, 0,
 			&dwEncoding, &dwContentType, &dwFormatType,
 			&hStore, &hMsg, NULL);
@@ -228,7 +228,7 @@ bool SecurityGuard::verifySignedLibrary(const std::wstring& filepath, NppModule 
 			throw wstring(TEXT("CryptMsgGetParam: ")) + GetLastErrorAsString(GetLastError());
 		}
 
-		// Get the signer certificate from temporary certificate store.	
+		// Get the signer certificate from temporary certificate store.
 		CERT_INFO cert_info = {};
 		cert_info.Issuer = pSignerInfo->Issuer;
 		cert_info.SerialNumber = pSignerInfo->SerialNumber;
@@ -238,21 +238,21 @@ bool SecurityGuard::verifySignedLibrary(const std::wstring& filepath, NppModule 
 			throw wstring(TEXT("Certificate context: ")) + GetLastErrorAsString(GetLastError());
 		}
 
-		// Getting the full subject				
+		// Getting the full subject
 		auto subject_sze = ::CertNameToStr(X509_ASN_ENCODING, &context->pCertInfo->Subject, CERT_X500_NAME_STR, NULL, 0);
 		if (subject_sze <= 1)
 		{
 			throw wstring(TEXT("Getting x509 field size problem."));
 		}
 
-		std::unique_ptr<TCHAR[]> subject_buffer(new TCHAR[subject_sze]);
+		std::unique_ptr<char[]> subject_buffer(new char[subject_sze]);
 		if (::CertNameToStr(X509_ASN_ENCODING, &context->pCertInfo->Subject, CERT_X500_NAME_STR, subject_buffer.get(), subject_sze) <= 1)
 		{
 			throw wstring(TEXT("Failed to get x509 filed infos from certificate."));
 		}
 		subject = subject_buffer.get();
 
-		// Getting key_id 
+		// Getting key_id
 		DWORD key_id_sze = 0;
 		if (!::CertGetCertificateContextProperty(context, CERT_KEY_IDENTIFIER_PROP_ID, NULL, &key_id_sze))
 		{
@@ -268,14 +268,14 @@ bool SecurityGuard::verifySignedLibrary(const std::wstring& filepath, NppModule 
 		wstringstream ss;
 		for (unsigned i = 0; i < key_id_sze; i++)
 		{
-			ss << std::uppercase << std::setfill(TCHAR('0')) << std::setw(2) << std::hex
+			ss << std::uppercase << std::setfill(char('0')) << std::setw(2) << std::hex
 				<< key_id_buff[i];
 		}
 		key_id_hex = ss.str();
 		wstring dbg = key_id_hex + TEXT("\n");
-		OutputDebugString(dbg.c_str());
+		OutputDebugString(dbg.Begin());
 
-		// Getting the display name			
+		// Getting the display name
 		auto sze = ::CertGetNameString(context, CERT_NAME_SIMPLE_DISPLAY_TYPE, 0, NULL, NULL, 0);
 		if (sze <= 1)
 		{
@@ -283,7 +283,7 @@ bool SecurityGuard::verifySignedLibrary(const std::wstring& filepath, NppModule 
 		}
 
 		// Get display name.
-		std::unique_ptr<TCHAR[]> display_name_buffer(new TCHAR[sze]);
+		std::unique_ptr<char[]> display_name_buffer(new char[sze]);
 		if (::CertGetNameString(context, CERT_NAME_SIMPLE_DISPLAY_TYPE, 0, NULL, display_name_buffer.get(), sze) <= 1)
 		{
 			throw wstring(TEXT("Cannot get certificate info.")) + GetLastErrorAsString(GetLastError());
@@ -293,7 +293,7 @@ bool SecurityGuard::verifySignedLibrary(const std::wstring& filepath, NppModule 
 	}
 	catch (const wstring& s) {
 		if (module2check == nm_scilexer)
-			::MessageBox(NULL, s.c_str(), TEXT("DLL signature verification failed"), MB_ICONERROR);
+			::MessageBox(NULL, s.Begin(), TEXT("DLL signature verification failed"), MB_ICONERROR);
 		OutputDebugString(TEXT("VerifyLibrary: error while getting certificate informations\n"));
 		status = false;
 	}
@@ -304,7 +304,7 @@ bool SecurityGuard::verifySignedLibrary(const std::wstring& filepath, NppModule 
 		{
 			wstring errMsg(TEXT("Unknown exception occurred. "));
 			errMsg += GetLastErrorAsString(GetLastError());
-			::MessageBox(NULL, errMsg.c_str(), TEXT("DLL signature verification failed"), MB_ICONERROR);
+			::MessageBox(NULL, errMsg.Begin(), TEXT("DLL signature verification failed"), MB_ICONERROR);
 		}
 		status = false;
 	}

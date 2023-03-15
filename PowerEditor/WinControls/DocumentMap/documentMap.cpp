@@ -15,8 +15,8 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
-#include "documentMap.h"
-#include "ScintillaEditView.h"
+#include <PowerEditor/WinControls/DocumentMap/documentMap.h>
+#include <PowerEditor/ScintillaComponent/ScintillaEditView.h>
 
 
 void DocumentMap::reloadMap()
@@ -30,7 +30,7 @@ void DocumentMap::reloadMap()
 		// sync with the current document
 		//
 
-		Buffer *editBuf = (*_ppEditView)->getCurrentBuffer();
+		SciBuffer *editBuf = (*_ppEditView)->getCurrentBuffer();
 		_pMapView->setCurrentBuffer(editBuf);
 
 		// folding
@@ -48,7 +48,7 @@ void DocumentMap::reloadMap()
 	}
 }
 
-void DocumentMap::showInMapTemporarily(Buffer *buf2show, ScintillaEditView *fromEditView)
+void DocumentMap::showInMapTemporarily(SciBuffer *buf2show, ScintillaEditView *fromEditView)
 {
 	if (_pMapView && fromEditView)
 	{
@@ -73,7 +73,7 @@ void DocumentMap::showInMapTemporarily(Buffer *buf2show, ScintillaEditView *from
 
 void DocumentMap::setSyntaxHiliting()
 {
-	Buffer *buf = _pMapView->getCurrentBuffer();
+	SciBuffer *buf = _pMapView->getCurrentBuffer();
 	_pMapView->defineDocType(buf->getLangType());
 	_pMapView->showMargin(ScintillaEditView::_SC_MARGE_FOLDER, false);
 }

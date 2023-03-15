@@ -18,7 +18,7 @@
 #pragma once
 
 #include <windows.h>
-#include <tchar.h>
+//#include <char.h>
 
 enum LangType {L_TEXT, L_PHP , L_C, L_CPP, L_CS, L_OBJC, L_JAVA, L_RC,\
 			   L_HTML, L_XML, L_MAKEFILE, L_PASCAL, L_BATCH, L_INI, L_ASCII, L_USER,\
@@ -68,9 +68,9 @@ enum Platform { PF_UNKNOWN, PF_X86, PF_X64, PF_IA64, PF_ARM64 };
 	#define NPPM_SAVECURRENTSESSION (NPPMSG + 16)
 
 		struct sessionInfo {
-			TCHAR* sessionFilePathName;
+			char* sessionFilePathName;
 			int nbFile;
-			TCHAR** files;
+			char** files;
 		};
 
 	#define NPPM_GETOPENFILENAMESPRIMARY (NPPMSG + 17)
@@ -112,7 +112,7 @@ enum Platform { PF_UNKNOWN, PF_X86, PF_X64, PF_IA64, PF_ARM64 };
 	//void NPPM_ACTIVATEDOC(int view, int index2Activate)
 
 	#define NPPM_LAUNCHFINDINFILESDLG (NPPMSG + 29)
-	//void NPPM_LAUNCHFINDINFILESDLG(TCHAR * dir2Search, TCHAR * filtre)
+	//void NPPM_LAUNCHFINDINFILESDLG(char * dir2Search, char * filtre)
 
 	#define NPPM_DMMSHOW (NPPMSG + 30)
 	//void NPPM_DMMSHOW(0, tTbData->hClient)
@@ -127,16 +127,16 @@ enum Platform { PF_UNKNOWN, PF_X86, PF_X64, PF_IA64, PF_ARM64 };
 	//void NPPM_DMMREGASDCKDLG(0, &tTbData)
 
 	#define NPPM_LOADSESSION (NPPMSG + 34)
-	//void NPPM_LOADSESSION(0, const TCHAR* file name)
+	//void NPPM_LOADSESSION(0, const char* file name)
 
 	#define NPPM_DMMVIEWOTHERTAB (NPPMSG + 35)
 	//void WM_DMM_VIEWOTHERTAB(0, tTbData->pszName)
 
 	#define NPPM_RELOADFILE (NPPMSG + 36)
-	//BOOL NPPM_RELOADFILE(BOOL withAlert, TCHAR *filePathName2Reload)
+	//BOOL NPPM_RELOADFILE(BOOL withAlert, char *filePathName2Reload)
 
 	#define NPPM_SWITCHTOFILE (NPPMSG + 37)
-	//BOOL NPPM_SWITCHTOFILE(0, TCHAR *filePathName2switch)
+	//BOOL NPPM_SWITCHTOFILE(0, char *filePathName2switch)
 
 	#define NPPM_SAVECURRENTFILE (NPPMSG + 38)
 	//BOOL NPPM_SAVECURRENTFILE(0, 0)
@@ -160,7 +160,7 @@ enum Platform { PF_UNKNOWN, PF_X86, PF_X64, PF_IA64, PF_ARM64 };
 	//winVer NPPM_GETWINDOWSVERSION(0, 0)
 
 	#define NPPM_DMMGETPLUGINHWNDBYNAME (NPPMSG + 43)
-	//HWND WM_DMM_GETPLUGINHWNDBYNAME(const TCHAR *windowName, const TCHAR *moduleName)
+	//HWND WM_DMM_GETPLUGINHWNDBYNAME(const char *windowName, const char *moduleName)
 	// if moduleName is NULL, then return value is NULL
 	// if windowName is NULL, then the first found window handle which matches with the moduleName will be returned
 
@@ -171,19 +171,19 @@ enum Platform { PF_UNKNOWN, PF_X86, PF_X64, PF_IA64, PF_ARM64 };
 	//BOOL NPPM_GETENABLETHEMETEXTUREFUNC(0, 0)
 
 	#define NPPM_GETPLUGINSCONFIGDIR (NPPMSG + 46)
-	//INT NPPM_GETPLUGINSCONFIGDIR(int strLen, TCHAR *str)
+	//INT NPPM_GETPLUGINSCONFIGDIR(int strLen, char *str)
 	// Get user's plugin config directory path. It's useful if plugins want to save/load parameters for the current user
-	// Returns the number of TCHAR copied/to copy.
-	// Users should call it with "str" be NULL to get the required number of TCHAR (not including the terminating nul character),
+	// Returns the number of char copied/to copy.
+	// Users should call it with "str" be NULL to get the required number of char (not including the terminating nul character),
 	// allocate "str" buffer with the return value + 1, then call it again to get the path.
 
 	#define NPPM_MSGTOPLUGIN (NPPMSG + 47)
-	//BOOL NPPM_MSGTOPLUGIN(TCHAR *destModuleName, CommunicationInfo *info)
+	//BOOL NPPM_MSGTOPLUGIN(char *destModuleName, CommunicationInfo *info)
 	// return value is TRUE when the message arrive to the destination plugins.
 	// if destModule or info is NULL, then return value is FALSE
 		struct CommunicationInfo {
 			long internalMsg;
-			const TCHAR * srcModuleName;
+			const char * srcModuleName;
 			void * info; // defined by plugin
 		};
 
@@ -244,10 +244,10 @@ enum Platform { PF_UNKNOWN, PF_X86, PF_X64, PF_IA64, PF_ARM64 };
 	//  SUB_VIEW  1
 
 	#define NPPM_GETFULLPATHFROMBUFFERID (NPPMSG + 58)
-	// INT NPPM_GETFULLPATHFROMBUFFERID(UINT_PTR bufferID, TCHAR *fullFilePath)
+	// INT NPPM_GETFULLPATHFROMBUFFERID(UINT_PTR bufferID, char *fullFilePath)
 	// Get full path file name from a bufferID.
-	// Return -1 if the bufferID non existing, otherwise the number of TCHAR copied/to copy
-	// User should call it with fullFilePath be NULL to get the number of TCHAR (not including the nul character),
+	// Return -1 if the bufferID non existing, otherwise the number of char copied/to copy
+	// User should call it with fullFilePath be NULL to get the number of char (not including the nul character),
 	// allocate fullFilePath with the return values + 1, then call it again to get full path file name
 
 	#define NPPM_GETBUFFERIDFROMPOS (NPPMSG + 59)
@@ -258,12 +258,12 @@ enum Platform { PF_UNKNOWN, PF_X86, PF_X64, PF_IA64, PF_ARM64 };
 
 	#define NPPM_GETCURRENTBUFFERID (NPPMSG + 60)
 	// LRESULT NPPM_GETCURRENTBUFFERID(0, 0)
-	// Returns active Buffer
+	// Returns active SciBuffer
 
 	#define NPPM_RELOADBUFFERID (NPPMSG + 61)
 	// VOID NPPM_RELOADBUFFERID(UINT_PTR bufferID, BOOL alert)
-	// Reloads Buffer
-	// wParam: Buffer to reload
+	// Reloads SciBuffer
+	// wParam: SciBuffer to reload
 	// lParam: 0 if no alert, else alert
 
 	#define NPPM_GETBUFFERLANGTYPE (NPPMSG + 64)
@@ -345,12 +345,12 @@ enum Platform { PF_UNKNOWN, PF_X86, PF_X64, PF_IA64, PF_ARM64 };
 	// returned value : TRUE if this function call is successful and shortcut is enable, otherwise FALSE
 
 	#define NPPM_DOOPEN (NPPMSG + 77)
-	// BOOL NPPM_DOOPEN(0, const TCHAR *fullPathName2Open)
+	// BOOL NPPM_DOOPEN(0, const char *fullPathName2Open)
 	// fullPathName2Open indicates the full file path name to be opened.
 	// The return value is TRUE (1) if the operation is successful, otherwise FALSE (0).
 
 	#define NPPM_SAVECURRENTFILEAS (NPPMSG + 78)
-	// BOOL NPPM_SAVECURRENTFILEAS (BOOL asCopy, const TCHAR* filename)
+	// BOOL NPPM_SAVECURRENTFILEAS (BOOL asCopy, const char* filename)
 
     #define NPPM_GETCURRENTNATIVELANGENCODING (NPPMSG + 79)
 	// INT NPPM_GETCURRENTNATIVELANGENCODING(0, 0)
@@ -373,7 +373,7 @@ enum Platform { PF_UNKNOWN, PF_X86, PF_X64, PF_IA64, PF_ARM64 };
     // Returns: TRUE if successful, FALSE otherwise. startNumber will also be set to 0 if unsuccessful
 
 	#define NPPM_GETLANGUAGENAME  (NPPMSG + 83)
-	// INT NPPM_GETLANGUAGENAME(int langType, TCHAR *langName)
+	// INT NPPM_GETLANGUAGENAME(int langType, char *langName)
 	// Get programming language name from the given language type (LangType)
 	// Return value is the number of copied character / number of character to copy (\0 is not included)
 	// You should call this function 2 times - the first time you pass langName as NULL to get the number of characters to copy.
@@ -381,7 +381,7 @@ enum Platform { PF_UNKNOWN, PF_X86, PF_X64, PF_IA64, PF_ARM64 };
 	// by passing allocated buffer as argument langName
 
 	#define NPPM_GETLANGUAGEDESC  (NPPMSG + 84)
-	// INT NPPM_GETLANGUAGEDESC(int langType, TCHAR *langDesc)
+	// INT NPPM_GETLANGUAGEDESC(int langType, char *langDesc)
 	// Get programming language short description from the given language type (LangType)
 	// Return value is the number of copied character / number of character to copy (\0 is not included)
 	// You should call this function 2 times - the first time you pass langDesc as NULL to get the number of characters to copy.
@@ -428,7 +428,7 @@ enum Platform { PF_UNKNOWN, PF_X86, PF_X64, PF_IA64, PF_ARM64 };
 	// VOID NPPM_SETEDITORBORDEREDGE(0, BOOL withEditorBorderEdgeOrNot)
 
 	#define NPPM_SAVEFILE (NPPMSG + 94)
-	// VOID NPPM_SAVEFILE(0, const TCHAR *fileNameToSave)
+	// VOID NPPM_SAVEFILE(0, const char *fileNameToSave)
 
 	#define NPPM_DISABLEAUTOUPDATE (NPPMSG + 95) // 2119 in decimal
 	// VOID NPPM_DISABLEAUTOUPDATE(0, 0)
@@ -439,18 +439,18 @@ enum Platform { PF_UNKNOWN, PF_X86, PF_X64, PF_IA64, PF_ARM64 };
 	// returned value : TRUE if function call is successful, otherwise FALSE
 
 	#define NPPM_GETPLUGINHOMEPATH (NPPMSG + 97)
-	// INT NPPM_GETPLUGINHOMEPATH(size_t strLen, TCHAR *pluginRootPath)
+	// INT NPPM_GETPLUGINHOMEPATH(size_t strLen, char *pluginRootPath)
 	// Get plugin home root path. It's useful if plugins want to get its own path
 	// by appending <pluginFolderName> which is the name of plugin without extension part.
-	// Returns the number of TCHAR copied/to copy.
-	// Users should call it with pluginRootPath be NULL to get the required number of TCHAR (not including the terminating nul character),
+	// Returns the number of char copied/to copy.
+	// Users should call it with pluginRootPath be NULL to get the required number of char (not including the terminating nul character),
 	// allocate pluginRootPath buffer with the return value + 1, then call it again to get the path.
 
 	#define NPPM_GETSETTINGSONCLOUDPATH (NPPMSG + 98)
-	// INT NPPM_GETSETTINGSCLOUDPATH(size_t strLen, TCHAR *settingsOnCloudPath)
+	// INT NPPM_GETSETTINGSCLOUDPATH(size_t strLen, char *settingsOnCloudPath)
 	// Get settings on cloud path. It's useful if plugins want to store its settings on Cloud, if this path is set.
-	// Returns the number of TCHAR copied/to copy. If the return value is 0, then this path is not set, or the "strLen" is not enough to copy the path.
-	// Users should call it with settingsCloudPath be NULL to get the required number of TCHAR (not including the terminating nul character),
+	// Returns the number of char copied/to copy. If the return value is 0, then this path is not set, or the "strLen" is not enough to copy the path.
+	// Users should call it with settingsCloudPath be NULL to get the required number of char (not including the terminating nul character),
 	// allocate settingsCloudPath buffer with the return value + 1, then call it again to get the path.
 
 	#define NPPM_SETLINENUMBERWIDTHMODE    (NPPMSG + 99)
@@ -477,7 +477,7 @@ enum Platform { PF_UNKNOWN, PF_X86, PF_X64, PF_IA64, PF_ARM64 };
 	};
 
 	#define NPPM_GETEXTERNALLEXERAUTOINDENTMODE  (NPPMSG + 103)
-	// BOOL NPPM_GETEXTERNALLEXERAUTOINDENTMODE(const TCHAR *languageName, ExternalLexerAutoIndentMode &autoIndentMode)
+	// BOOL NPPM_GETEXTERNALLEXERAUTOINDENTMODE(const char *languageName, ExternalLexerAutoIndentMode &autoIndentMode)
 	// Get ExternalLexerAutoIndentMode for an installed external programming language.
 	// - Standard means Notepad++ will keep the same TAB indentation between lines;
 	// - C_Like means Notepad++ will perform a C-Language style indentation for the selected external language;
@@ -485,7 +485,7 @@ enum Platform { PF_UNKNOWN, PF_X86, PF_X64, PF_IA64, PF_ARM64 };
 	// returned values: TRUE for successful searches, otherwise FALSE.
 
 	#define NPPM_SETEXTERNALLEXERAUTOINDENTMODE  (NPPMSG + 104)
-	// BOOL NPPM_SETEXTERNALLEXERAUTOINDENTMODE(const TCHAR *languageName, ExternalLexerAutoIndentMode autoIndentMode)
+	// BOOL NPPM_SETEXTERNALLEXERAUTOINDENTMODE(const char *languageName, ExternalLexerAutoIndentMode autoIndentMode)
 	// Set ExternalLexerAutoIndentMode for an installed external programming language.
 	// - Standard means Notepad++ will keep the same TAB indentation between lines;
 	// - C_Like means Notepad++ will perform a C-Language style indentation for the selected external language;
@@ -534,14 +534,14 @@ enum Platform { PF_UNKNOWN, PF_X86, PF_X64, PF_IA64, PF_ARM64 };
 	// https://github.com/notepad-plus-plus/notepad-plus-plus/blob/master/PowerEditor/src/NppDarkMode.h#L32
 
 	#define NPPM_GETCURRENTCMDLINE (NPPMSG + 109)
-	// INT NPPM_GETCURRENTCMDLINE(size_t strLen, TCHAR *commandLineStr)
+	// INT NPPM_GETCURRENTCMDLINE(size_t strLen, char *commandLineStr)
 	// Get the Current Command Line string.
-	// Returns the number of TCHAR copied/to copy.
-	// Users should call it with commandLineStr as NULL to get the required number of TCHAR (not including the terminating nul character),
+	// Returns the number of char copied/to copy.
+	// Users should call it with commandLineStr as NULL to get the required number of char (not including the terminating nul character),
 	// allocate commandLineStr buffer with the return value + 1, then call it again to get the current command line string.
 
 	#define NPPM_CREATELEXER (NPPMSG + 110)
-	// void* NPPN_CREATELEXER(0, const TCHAR *lexer_name)
+	// void* NPPN_CREATELEXER(0, const char *lexer_name)
 	// Returns the ILexer pointer created by Lexilla
 
 #define VAR_NOT_RECOGNIZED 0
@@ -568,10 +568,10 @@ enum Platform { PF_UNKNOWN, PF_X86, PF_X64, PF_IA64, PF_ARM64 };
 	#define NPPM_GETNPPDIRECTORY		(RUNCOMMAND_USER + NPP_DIRECTORY)
 	#define NPPM_GETFILENAMEATCURSOR	(RUNCOMMAND_USER + GETFILENAMEATCURSOR)
 	#define NPPM_GETCURRENTLINESTR      (RUNCOMMAND_USER + CURRENT_LINESTR)
-	// BOOL NPPM_GETXXXXXXXXXXXXXXXX(size_t strLen, TCHAR *str)
-	// where str is the allocated TCHAR array,
+	// BOOL NPPM_GETXXXXXXXXXXXXXXXX(size_t strLen, char *str)
+	// where str is the allocated char array,
 	//	     strLen is the allocated array size
-	// The return value is TRUE when get generic_string operation success
+	// The return value is TRUE when get String operation success
 	// Otherwise (allocated array size is too small) FALSE
 
 	#define NPPM_GETCURRENTLINE			(RUNCOMMAND_USER + CURRENT_LINE)

@@ -15,9 +15,9 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
-#include "clipboardHistoryPanel.h"
+#include <PowerEditor/WinControls/ClipboardHistory/clipboardHistoryPanel.h>
 #include <PowerEditor/ScintillaComponent/ScintillaEditView.h>
-#include "clipboardFormats.h"
+#include <PowerEditor/clipboardFormats.h>
 
 
 #define CLIPBOARD_TEXTFORMAT CF_UNICODETEXT
@@ -162,7 +162,7 @@ void ClipboardHistoryPanel::addToClipboadHistory(ClipboardData cbd)
 	_clipboardDataVector.insert(_clipboardDataVector.begin(), cbd);
 
 	StringArray sa(cbd, MAX_DISPLAY_LENGTH);
-	TCHAR *displayStr = (TCHAR *)sa.getPointer();
+	char *displayStr = (char *)sa.getPointer();
 	::SendDlgItemMessage(_hSelf, IDC_LIST_CLIPBOARD, LB_INSERTSTRING, 0, reinterpret_cast<LPARAM>(displayStr));
 }
 
@@ -177,7 +177,7 @@ void ClipboardHistoryPanel::drawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
 	COLORREF bgColor = _lbBgColor == -1?white:_lbBgColor; // bg white by default
 	
 	StringArray sa(_clipboardDataVector[lpDrawItemStruct->itemID], MAX_DISPLAY_LENGTH);
-	TCHAR *ptStr = (TCHAR *)sa.getPointer();
+	char *ptStr = (char *)sa.getPointer();
 
 	//printStr(ptStr);
 	::SetTextColor(lpDrawItemStruct->hDC, fgColor);

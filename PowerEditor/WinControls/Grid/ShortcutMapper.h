@@ -20,7 +20,7 @@
 #include "BabyGridWrapper.h"
 #include "ShortcutMapper_rc.h"
 #include <PowerEditor/WinControls/shortcut/shortcut.h>
-#include "ContextMenu.h"
+#include <PowerEditor/WinControls/ContextMenu/ContextMenu.h>
 
 enum GridState {STATE_MENU, STATE_MACRO, STATE_USER, STATE_PLUGIN, STATE_SCINTILLA};
 
@@ -51,10 +51,10 @@ public:
 	};
 	void getClientRect(RECT & rc) const;
 
-	bool findKeyConflicts(__inout_opt generic_string * const keyConflictLocation,
+	bool findKeyConflicts(__inout_opt String * const keyConflictLocation,
 							const KeyCombo & itemKeyCombo, const size_t & itemIndex) const;
 
-	generic_string getTextFromCombo(HWND hCombo);
+	String getTextFromCombo(HWND hCombo);
 	bool isFilterValid(Shortcut);
 	bool isFilterValid(PluginCmdShortcut sc);
 
@@ -69,16 +69,16 @@ private:
 	HWND _hTabCtrl = nullptr;
 
 	const static int _nbTab = 5;
-	generic_string _tabNames[_nbTab];
-	generic_string _shortcutFilter;
+	String _tabNames[_nbTab];
+	String _shortcutFilter;
 	std::vector<size_t> _shortcutIndex;
 
 	//save/restore the last view
 	std::vector<size_t> _lastHomeRow;
 	std::vector<size_t> _lastCursorRow;
 
-	generic_string _conflictInfoOk;
-	generic_string _conflictInfoEditing;
+	String _conflictInfoOk;
+	String _conflictInfoEditing;
 
 	std::vector<HFONT> _hGridFonts;
 
@@ -97,7 +97,7 @@ private:
 	void initTabs();
 	void initBabyGrid();
 	void fillOutBabyGrid();
-	generic_string getTabString(size_t i) const;
+	String getTabString(size_t i) const;
 
 	bool isConflict(const KeyCombo & lhs, const KeyCombo & rhs) const
 	{

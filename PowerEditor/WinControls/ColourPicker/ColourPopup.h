@@ -17,7 +17,7 @@
 
 #pragma once
 #include "ColourPopupResource.h"
-#include <POwerEditor/resource.h>
+#include <PowerEditor/resource.h>
 #include <PowerEditor/WinControls/Window.h>
 
 #define WM_PICKUP_COLOR  (COLOURPOPUP_USER + 1)

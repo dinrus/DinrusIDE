@@ -1,4 +1,4 @@
-topic "String and WString";
+topic "String и WString";
 [i448;a25;kKO9;2 $$1,0#37138531426314131252341829483380:class]
 [l288;2 $$2,0#27521748481378242620020725143825:desc]
 [0 $$3,0#96390100711032703541132217272105:end]
@@ -96,13 +96,15 @@ empty [* String]).&]
 [s4;%- &]
 [s5;:String`:`:String`(const string`&`):%- [* String]([@(0.0.255) const]_[_^http`:`/`/en`.cppreference`.com`/w`/cpp`/string`/basic`_string^ s
 td`::string][@(0.0.255) `&]_[*@3 s])&]
-[s2; Constructor to achieve minimal STL compatibility.&]
+[s2; Конструктор для достижения минимальной 
+совместимости с STL.&]
 [s3; &]
 [s0; &]
 [ {{10000F(128)G(128)@1 [s0; [* Public Member List]]}}&]
 [s3;%- &]
 [s5;:String`:`:Shrink`(`):%- [@(0.0.255) void]_[* Shrink]()&]
-[s2; Reduces memory used by string to minimum (size optimization).&]
+[s2; Уменьшает используемую строкой память 
+до минимума (оптимизация размера).&]
 [s3; &]
 [s4;%- &]
 [s5;:String`:`:GetCharCount`(`)const:%- [@(0.0.255) int]_[* GetCharCount]()_[@(0.0.255) con
@@ -166,51 +168,56 @@ can be zero.&]
 [s4;%- &]
 [s5;:String0`:`:Cat`(const char`*`,int`):%- [@(0.0.255) void]_[* Cat]([@(0.0.255) const]_[@(0.0.255) c
 har]_`*[*@3 s], [@(0.0.255) int]_[*@3 len])&]
-[s2;%- [%% Appends ][*@3 len][%%  characters from string ][*@3 s] ([*@3 s ]can 
-contain zero characters).&]
+[s2;%- [%RU-RU Appends ][*@3 len][%RU-RU  characters from string ][*@3 s] 
+([*@3 s ]can contain zero characters).&]
 [s3; &]
 [s4;%- &]
 [s5;:String0`:`:Set`(int`,int`):%- [@(0.0.255) void]_[* Set]([@(0.0.255) int]_[*@3 i], 
 [@(0.0.255) int]_[*@3 chr])&]
-[s2; Replace character at position [%-*@3 i] with [%-*@3 chr].&]
+[s2; Заменяет символ в позиции [%-*@3 i] на 
+[%-*@3 chr].&]
 [s3; &]
 [s4;%- &]
 [s5;:String0`:`:Trim`(int`):%- [@(0.0.255) void]_[* Trim]([@(0.0.255) int]_[*@3 pos])&]
-[s2; Sets the number of characters (length) to [%-*@3 pos].&]
+[s2; Устанавливает число символов (длину) 
+в [%-*@3 pos].&]
 [s3; &]
 [s4;%- &]
 [s5;:String0`:`:Begin`(`)const:%- [@(0.0.255) const]_[@(0.0.255) char]_`*[* Begin]()_[@(0.0.255) c
 onst]&]
-[s2; Returns a pointer to the first character.&]
+[s2; Возвращает указатель на первый символ.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:String0`:`:End`(`)const:%- [@(0.0.255) const]_[@(0.0.255) char]_`*[* End]()_[@(0.0.255) c
 onst]&]
-[s2; Returns a pointer to ending zero.&]
+[s2; Возвращает указатель на завершающий 
+нуль.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:String0`:`:Remove`(int`,int`):%- [@(0.0.255) void]_[* Remove]([@(0.0.255) int]_[*@3 pos],
  [@(0.0.255) int]_[*@3 count]_`=_[@3 1])&]
-[s2; Removes [%-*@3 count] element starting at position [%-*@3 pos].&]
+[s2; Удаляет [%-*@3 count] элементов, начиная 
+с позиции [%-*@3 pos].&]
 [s3; &]
 [s4;%- &]
 [s5;:String0`:`:Clear`(`):%- [@(0.0.255) void]_[* Clear]()&]
-[s2; Empties the string.&]
+[s2; Опорожняет строку.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:String0`:`:GetCount`(`)const:%- [@(0.0.255) int]_[* GetCount]()_[@(0.0.255) const]&]
 [s5;:String0`:`:GetLength`(`)const:%- [@(0.0.255) int]_[* GetLength]()_[@(0.0.255) const]&]
-[s2; Returns the number of characters.&]
+[s2; Возвращает число символов.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:String0`:`:GetAlloc`(`)const:%- [@(0.0.255) int]_[* GetAlloc]()_[@(0.0.255) const]&]
-[s2; Returns the number of allocated characters (maximum string length 
-before it has to grow) &]
+[s2; Возвращает число размещённых символов 
+(maximum string length before it has to grow) &]
 [s3;%- &]
 [s4;%- &]
 [s5;:String0`:`:Reserve`(int`):%- [@(0.0.255) void]_[* Reserve]([@(0.0.255) int]_[*@3 r])&]
-[s2; Reserves [%-*@3 r] characters of internal storage for future concatenation 
-operations.&]
+[s2; Резервирует [%-*@3 r] символов внутреннего 
+хранилища для последующих операций 
+конкатенации.&]
 [s3; &]
 [s4;%- &]
 [s5;:String`:`:operator`+`=`(const char`*`):%- [@(0.0.255) const]_[_^String^ String][@(0.0.255) `&
@@ -233,13 +240,14 @@ fast and does not depend on the length of string.&]
 [s4;%- &]
 [s5;:String`:`:operator`=`(const char`*`):%- [_^String^ String][@(0.0.255) `&]_[* operator`=
 ]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 s])&]
-[s2; Assign a zero terminated string [%-*@3 s].&]
+[s2; Присваивает строку с нулевым окончанием 
+[%-*@3 s].&]
 [s3; &]
 [s4;%- &]
 [s5;:String`:`:operator`=`(StringBuffer`&`):%- [_^String^ String][@(0.0.255) `&]_[* operato
 r`=]([_^StringBuffer^ StringBuffer][@(0.0.255) `&]_[*@3 b])&]
-[s2; Assigns the content of [* StringBuffer]. After the operation,b 
-is emptied.&]
+[s2; Присваивает содержимое [* StringBuffer]. 
+После операции b опорожняется.&]
 [s3; &]
 [s4;%- &]
 [s5;:String`:`:operator`<`<`=`(const String`&`):%- [_^String^ String][@(0.0.255) `&]_[* ope
@@ -251,19 +259,20 @@ gets reallocated to the exact size of source).&]
 [s4;%- &]
 [s5;:String`:`:ToStd`(`)const:%- [_^http`:`/`/en`.cppreference`.com`/w`/cpp`/string`/basic`_string^ s
 td`::string]_[* ToStd]()_[@(0.0.255) const]&]
-[s2; Converts String to std`::string.&]
+[s2; Преобразует String в std`::string.&]
 [s3; &]
 [s4;%- &]
 [s5;:String0`:`:operator const char`*`(`)const:%- [@(0.0.255) operator]_[@(0.0.255) const
 ]_[@(0.0.255) char]_`*()_[@(0.0.255) const]&]
 [s5;:String0`:`:operator`~`(`)const:%- [@(0.0.255) const]_[@(0.0.255) char]_`*[* operator`~
 ]()_[@(0.0.255) const]&]
-[s2; Returns [* Begin]().&]
+[s2; Возвращает [* Begin]().&]
 [s3;%- &]
 [s4;%- &]
 [s5;:String0`:`:operator`[`]`(int`)const:%- [@(0.0.255) int]_[* operator`[`]]([@(0.0.255) i
 nt]_[*@3 i])_[@(0.0.255) const]&]
-[s2;%- [%% Returns the character at position ][*@3 i.]&]
+[s2;%- [%RU-RU Возвращает символ в позиции 
+][*@3 i.]&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:String`:`:Make`(int`,Maker`):%- [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 M
@@ -311,32 +320,34 @@ the AString interface.&]
 [s4;%- &]
 [s5;:WString`:`:WString`(const WString`&`,int`):%- [* WString]([@(0.0.255) const]_[* WStrin
 g][@(0.0.255) `&]_[*@3 s], [@(0.0.255) int]_[*@3 n])&]
-[s2;%- [%% Constructs a string equal to first ][*@3 n][%%  characters of 
-][%%* WString][%%  ][*@3 s][%%  ]([*@3 s ]can contain zero characters).&]
+[s2;%- [%RU-RU Constructs a string equal to first ][*@3 n][%RU-RU  characters 
+of ][%RU-RU* WString][%RU-RU  ][*@3 s][%RU-RU  ]([*@3 s ]can contain zero 
+characters).&]
 [s3; &]
 [s4;%- &]
 [s5;:WString`:`:WString`(const wchar`*`,int`):%- [* WString]([@(0.0.255) const]_[_^wchar^ w
 char]_`*[*@3 s], [@(0.0.255) int]_[*@3 n])&]
-[s2;%- [%% Constructs a string equal to first ][*@3 n][%%  characters of 
-][*@3 s ]([*@3 s ]can contain zero characters).&]
+[s2;%- [%RU-RU Constructs a string equal to first ][*@3 n][%RU-RU  characters 
+of ][*@3 s ]([*@3 s ]can contain zero characters).&]
 [s3; &]
 [s4;%- &]
 [s5;:WString`:`:WString`(const wchar`*`,const wchar`*`):%- [* WString]([@(0.0.255) const]_
 [_^wchar^ wchar]_`*[*@3 s], [@(0.0.255) const]_[_^wchar^ wchar]_`*[*@3 lim])&]
-[s2;%- [%% Constructs a string equal to first ][*@3 lim][%%  `- ][*@3 s][%%  
-characters of ][*@3 s][%%  ]([*@3 s ]can contain zero characters).&]
+[s2;%- [%RU-RU Constructs a string equal to first ][*@3 lim][%RU-RU  `- 
+][*@3 s][%RU-RU  characters of ][*@3 s][%RU-RU  ]([*@3 s ]can contain zero 
+characters).&]
 [s3; &]
 [s4;%- &]
 [s5;:WString`:`:WString`(const char`*`,int`):%- [* WString]([@(0.0.255) const]_[@(0.0.255) c
 har]_`*[*@3 s], [@(0.0.255) int]_[*@3 n])&]
-[s2;%- [%% Constructs a string equal to first ][*@3 n][%%  characters of 
-zero terminated string ][*@3 s ]([*@3 s ]can contain zero characters).&]
+[s2;%- [%RU-RU Constructs a string equal to first ][*@3 n][%RU-RU  characters 
+of zero terminated string ][*@3 s ]([*@3 s ]can contain zero characters).&]
 [s3; &]
 [s4;%- &]
 [s5;:WString`:`:WString`(const char`*`,const char`*`):%- [* WString]([@(0.0.255) const]_[@(0.0.255) c
 har]_`*[*@3 s], [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 lim])&]
-[s2;%- [%% Constructs a string equal to first ][*@3 n][%%  characters of 
-zero terminated string ][*@3 s ]([*@3 s ]can contain zero characters).&]
+[s2;%- [%RU-RU Constructs a string equal to first ][*@3 n][%RU-RU  characters 
+of zero terminated string ][*@3 s ]([*@3 s ]can contain zero characters).&]
 [s3; &]
 [s4;%- &]
 [s5;:WString`:`:WString`(int`,int`):%- [* WString]([@(0.0.255) int]_[*@3 chr], 
@@ -416,8 +427,8 @@ grows exponentially, like with Vector or std`::vector).&]
 [s4;%- &]
 [s5;:WString0`:`:Cat`(const wchar`*`,int`):%- [@(0.0.255) void]_[* Cat]([@(0.0.255) const]_
 [_^wchar^ wchar]_`*[*@3 s], [@(0.0.255) int]_[*@3 length])&]
-[s2;%- [%% Appends ][*@3 len][%%  characters from string ][*@3 s] ([*@3 s ]can 
-contain zero characters).&]
+[s2;%- [%RU-RU Appends ][*@3 len][%RU-RU  characters from string ][*@3 s] 
+([*@3 s ]can contain zero characters).&]
 [s3; &]
 [s4;%- &]
 [s5;:WString0`:`:GetHashValue`(`)const:%- [@(0.0.255) hash`_t]_[* GetHashValue]()_[@(0.0.255) c

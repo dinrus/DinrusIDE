@@ -20,15 +20,15 @@
 #include <array>
 #include <PowerEditor/WinControls/shortcut/shortcut.h>
 #include <PowerEditor/Parameters.h>
-#include "ScintillaEditView.h"
+#include <PowerEditor/ScintillaComponent/ScintillaEditView.h>
 #include <PowerEditor/resource.h>
-#include "Notepad_plus_Window.h"
+#include <PowerEditor/Notepad_plus_Window.h>
 #include "keys.h"
 
 using namespace std;
 
 struct KeyIDNAME {
-	const TCHAR * name = nullptr;
+	const char * name = nullptr;
 	UCHAR id = 0;
 };
 
@@ -136,9 +136,9 @@ KeyIDNAME namedKeyArray[] = {
 
 #define nbKeys sizeof(namedKeyArray)/sizeof(KeyIDNAME)
 
-generic_string Shortcut::toString() const
+String Shortcut::toString() const
 {
-	generic_string sc = TEXT("");
+	String sc = TEXT("");
 	if (!isEnabled())
 		return sc;
 
@@ -149,16 +149,16 @@ generic_string Shortcut::toString() const
 	if (_keyCombo._isShift)
 		sc += TEXT("Shift+");
 
-	generic_string keyString;
+	String keyString;
 	getKeyStrFromVal(_keyCombo._key, keyString);
 	sc += keyString;
 	return sc;
 }
 
-void Shortcut::setName(const TCHAR * menuName, const TCHAR * shortcutName)
+void Shortcut::setName(const char * menuName, const char * shortcutName)
 {
 	lstrcpyn(_menuName, menuName, nameLenMax);
-	TCHAR const * name = shortcutName ? shortcutName : menuName;
+	char const * name = shortcutName ? shortcutName : menuName;
 	size_t i = 0, j = 0;
 	while (name[j] != 0 && i < (nameLenMax - 1))
 	{
@@ -181,9 +181,9 @@ void Shortcut::setName(const TCHAR * menuName, const TCHAR * shortcutName)
 	_name[i] = 0;
 }
 
-generic_string ScintillaKeyMap::toString() const
+String ScintillaKeyMap::toString() const
 {
-	generic_string sc = TEXT("");
+	String sc = TEXT("");
 	size_t nbCombos = getSize();
 	for (size_t combo = 0; combo < nbCombos; ++combo)
 	{
@@ -194,9 +194,9 @@ generic_string ScintillaKeyMap::toString() const
 	return sc;
 }
 
-generic_string ScintillaKeyMap::toString(size_t index) const
+String ScintillaKeyMap::toString(size_t index) const
 {
-	generic_string sc = TEXT("");
+	String sc = TEXT("");
 	if (!isEnabled())
 		return sc;
 
@@ -208,7 +208,7 @@ generic_string ScintillaKeyMap::toString(size_t index) const
 	if (kc._isShift)
 		sc += TEXT("Shift+");
 
-	generic_string keyString;
+	String keyString;
 	getKeyStrFromVal(kc._key, keyString);
 	sc += keyString;
 	return sc;
@@ -268,7 +268,7 @@ size_t ScintillaKeyMap::getSize() const
 	return _size;
 }
 
-void getKeyStrFromVal(UCHAR keyVal, generic_string & str)
+void getKeyStrFromVal(UCHAR keyVal, String & str)
 {
 	str = TEXT("");
 	bool found = false;
@@ -287,7 +287,7 @@ void getKeyStrFromVal(UCHAR keyVal, generic_string & str)
 		str = TEXT("Unlisted");
 }
 
-void getNameStrFromCmd(DWORD cmd, generic_string & str)
+void getNameStrFromCmd(DWORD cmd, String & str)
 {
 	if ((cmd >= ID_MACRO) && (cmd < ID_MACRO_LIMIT))
 	{
@@ -319,7 +319,7 @@ void getNameStrFromCmd(DWORD cmd, generic_string & str)
 	{
 		HWND hNotepad_plus = ::FindWindow(Notepad_plus_Window::getClassName(), NULL);
 		const int commandSize = 64;
-		TCHAR cmdName[commandSize];
+		char cmdName[commandSize];
 		HMENU m = reinterpret_cast<HMENU>(::SendMessage(hNotepad_plus, NPPM_INTERNAL_GETMENU, 0, 0));
 		int nbChar = ::GetMenuString(m, cmd, cmdName, commandSize, MF_BYCOMMAND);
 		if (!nbChar)
@@ -485,7 +485,7 @@ intptr_t CALLBACK Shortcut::run_dlgProc(UINT Message, WPARAM wParam, LPARAM lPar
 
 					if (_canModifyName)
 					{
-						TCHAR editName[nameLenMax];
+						char editName[nameLenMax];
 						::SendDlgItemMessage(_hSelf, IDC_NAME_EDIT, WM_GETTEXT, nameLenMax, reinterpret_cast<LPARAM>(editName));
 						setName(editName);
 					}
@@ -683,7 +683,7 @@ void Accelerator::updateMenuItemByCommand(const CommandShortcut& csc)
 	// Ensure that the menu item state is also maintained
 	UINT cmdFlags = GetMenuState(_hAccelMenu, cmdID, MF_BYCOMMAND );
 	cmdFlags = MF_BYCOMMAND | ((cmdFlags&MF_CHECKED) ? MF_CHECKED : MF_UNCHECKED) | ((cmdFlags&MF_DISABLED) ? MF_DISABLED : MF_ENABLED);
-	::ModifyMenu(_hAccelMenu, cmdID, cmdFlags, cmdID, csc.toMenuItemString().c_str());
+	::ModifyMenu(_hAccelMenu, cmdID, cmdFlags, cmdID, csc.toMenuItemString().Begin());
 }
 
 recordedMacroStep::recordedMacroStep(int iMessage, uptr_t wParam, uptr_t lParam, int codepage)
@@ -715,7 +715,7 @@ recordedMacroStep::recordedMacroStep(int iMessage, uptr_t wParam, uptr_t lParam,
 			case IDD_FINDINFILES_FILTERS_COMBO:
 			{
 				char *ch = reinterpret_cast<char *>(_lParameter);
-				TCHAR tch[2];
+				char tch[2];
 				::MultiByteToWideChar(codepage, 0, ch, -1, tch, 2);
 				_sParameter = *tch;
 				_macroType = mtUseSParameter;
@@ -881,9 +881,9 @@ void recordedMacroStep::PlayBack(Window* pNotepad, ScintillaEditView *pEditView)
 
 		if (_macroType == mtUseSParameter) 
 		{
-			int byteBufferLength = ::WideCharToMultiByte(static_cast<UINT>(pEditView->execute(SCI_GETCODEPAGE)), 0, _sParameter.c_str(), -1, NULL, 0, NULL, NULL);
+			int byteBufferLength = ::WideCharToMultiByte(static_cast<UINT>(pEditView->execute(SCI_GETCODEPAGE)), 0, _sParameter.Begin(), -1, NULL, 0, NULL, NULL);
 			auto byteBuffer = std::make_unique< char[] >(byteBufferLength);
-			::WideCharToMultiByte(static_cast<UINT>(pEditView->execute(SCI_GETCODEPAGE)), 0, _sParameter.c_str(), -1, byteBuffer.get(), byteBufferLength, NULL, NULL);
+			::WideCharToMultiByte(static_cast<UINT>(pEditView->execute(SCI_GETCODEPAGE)), 0, _sParameter.Begin(), -1, byteBuffer.get(), byteBufferLength, NULL, NULL);
 			auto lParam = reinterpret_cast<LPARAM>(byteBuffer.get());
 			pEditView->execute(_message, _wParameter, lParam);
 		}
@@ -905,7 +905,7 @@ void recordedMacroStep::PlayBack(Window* pNotepad, ScintillaEditView *pEditView)
 			scnN.nmhdr.code = SCN_CHARADDED;
 			scnN.nmhdr.hwndFrom = pEditView->getHSelf();
 			scnN.nmhdr.idFrom = 0;
-			if (_sParameter.empty())
+			if (_sParameter.IsEmpty())
 				scnN.ch = 0;
 			else
 				scnN.ch = _sParameter.at(0);
@@ -958,7 +958,7 @@ void ScintillaAccelerator::updateKeys()
 void ScintillaAccelerator::updateMenuItemByID(const ScintillaKeyMap& skm, int id)
 {
 	const int commandSize = 64;
-	TCHAR cmdName[commandSize];
+	char cmdName[commandSize];
 	::GetMenuString(_hAccelMenu, id, cmdName, commandSize, MF_BYCOMMAND);
 	int i = 0;
 	while (cmdName[i] != 0)
@@ -970,14 +970,14 @@ void ScintillaAccelerator::updateMenuItemByID(const ScintillaKeyMap& skm, int id
 		}
 		++i;
 	}
-	generic_string menuItem = cmdName;
+	String menuItem = cmdName;
 	if (skm.isEnabled())
 	{
 		menuItem += TEXT("\t");
 		//menuItem += TEXT("Sc:");	//sc: scintilla shortcut
 		menuItem += skm.toString();
 	}
-	::ModifyMenu(_hAccelMenu, id, MF_BYCOMMAND, id, menuItem.c_str());
+	::ModifyMenu(_hAccelMenu, id, MF_BYCOMMAND, id, menuItem.Begin());
 	::DrawMenuBar(_hMenuParent);
 }
 
@@ -1036,7 +1036,7 @@ void ScintillaKeyMap::showCurrentSettings()
 
 void ScintillaKeyMap::updateListItem(int index)
 {
-	::SendDlgItemMessage(_hSelf, IDC_LIST_KEYS, LB_INSERTSTRING, index, reinterpret_cast<LPARAM>(toString(index).c_str()));
+	::SendDlgItemMessage(_hSelf, IDC_LIST_KEYS, LB_INSERTSTRING, index, reinterpret_cast<LPARAM>(toString(index).Begin()));
 	::SendDlgItemMessage(_hSelf, IDC_LIST_KEYS, LB_DELETESTRING, index+1, 0);
 }
 
@@ -1059,7 +1059,7 @@ intptr_t CALLBACK ScintillaKeyMap::run_dlgProc(UINT Message, WPARAM wParam, LPAR
 
 			for (size_t i = 0; i < _size; ++i)
 			{
-				::SendDlgItemMessage(_hSelf, IDC_LIST_KEYS, LB_ADDSTRING, 0, reinterpret_cast<LPARAM>(toString(i).c_str()));
+				::SendDlgItemMessage(_hSelf, IDC_LIST_KEYS, LB_ADDSTRING, 0, reinterpret_cast<LPARAM>(toString(i).Begin()));
 			}
 			::SendDlgItemMessage(_hSelf, IDC_LIST_KEYS, LB_SETCURSEL, 0, 0);
 
@@ -1161,10 +1161,10 @@ intptr_t CALLBACK ScintillaKeyMap::run_dlgProc(UINT Message, WPARAM wParam, LPAR
 					{
 						if (res == static_cast<int32_t>(oldsize))
 						{
-							::SendDlgItemMessage(_hSelf, IDC_LIST_KEYS, LB_INSERTSTRING, static_cast<WPARAM>(-1), reinterpret_cast<LPARAM>(toString(res).c_str()));
+							::SendDlgItemMessage(_hSelf, IDC_LIST_KEYS, LB_INSERTSTRING, static_cast<WPARAM>(-1), reinterpret_cast<LPARAM>(toString(res).Begin()));
 						}
 						else
-						{	//update current generic_string, can happen if it was disabled
+						{	//update current String, can happen if it was disabled
 							updateListItem(res);
 						}
 						::SendDlgItemMessage(_hSelf, IDC_LIST_KEYS, LB_SETCURSEL, res, 0);

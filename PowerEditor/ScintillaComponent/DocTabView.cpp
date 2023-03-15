@@ -16,8 +16,8 @@
 
 
 
-#include "DocTabView.h"
-#include "ScintillaEditView.h"
+#include <PowerEditor/ScintillaComponent/DocTabView.h>
+#include <PowerEditor/ScintillaComponent/ScintillaEditView.h>
 
 #ifndef _WIN32_IE
 #define _WIN32_IE	0x0600
@@ -32,7 +32,7 @@ void DocTabView::addBuffer(BufferID buffer)
 		return;
 	if (this->getIndexByBuffer(buffer) != -1)	//no duplicates
 		return;
-	Buffer * buf = MainFileManager.getBufferByID(buffer);
+	SciBuffer * buf = MainFileManager.getBufferByID(buffer);
 	TCITEM tie;
 	tie.mask = TCIF_TEXT | TCIF_IMAGE | TCIF_PARAM;
 
@@ -40,7 +40,7 @@ void DocTabView::addBuffer(BufferID buffer)
 	if (_hasImgLst)
 		index = 0;
 	tie.iImage = index;
-	tie.pszText = const_cast<TCHAR *>(buf->getFileName());
+	tie.pszText = const_cast<char *>(buf->getFileName());
 	tie.lParam = reinterpret_cast<LPARAM>(buffer);
 	::SendMessage(_hSelf, TCM_INSERTITEM, _nbItem++, reinterpret_cast<LPARAM>(&tie));
 	bufferUpdated(buf, BufferChangeMask);
@@ -75,7 +75,7 @@ BufferID DocTabView::activeBuffer()
 }
 
 
-BufferID DocTabView::findBufferByName(const TCHAR * fullfilename) //-1 if not found, something else otherwise
+BufferID DocTabView::findBufferByName(const char * fullfilename) //-1 if not found, something else otherwise
 {
 	TCITEM tie;
 	tie.lParam = -1;
@@ -84,7 +84,7 @@ BufferID DocTabView::findBufferByName(const TCHAR * fullfilename) //-1 if not fo
 	{
 		::SendMessage(_hSelf, TCM_GETITEM, i, reinterpret_cast<LPARAM>(&tie));
 		BufferID id = reinterpret_cast<BufferID>(tie.lParam);
-		Buffer * buf = MainFileManager.getBufferByID(id);
+		SciBuffer * buf = MainFileManager.getBufferByID(id);
 		if (OrdinalIgnoreCaseCompareStrings(fullfilename, buf->getFullPathName()) == 0)
 		{
 			return id;
@@ -120,7 +120,7 @@ BufferID DocTabView::getBufferByIndex(size_t index)
 }
 
 
-void DocTabView::bufferUpdated(Buffer * buffer, int mask)
+void DocTabView::bufferUpdated(SciBuffer * buffer, int mask)
 {
 	int index = getIndexByBuffer(buffer->getID());
 	if (index == -1)
@@ -145,16 +145,16 @@ void DocTabView::bufferUpdated(Buffer * buffer, int mask)
 	}
 
 	//We must make space for the added ampersand characters.
-	TCHAR encodedLabel[2 * MAX_PATH];
+	char encodedLabel[2 * MAX_PATH];
 
 	if (mask & BufferChangeFilename)
 	{
 		tie.mask |= TCIF_TEXT;
-		tie.pszText = const_cast<TCHAR *>(encodedLabel);
+		tie.pszText = const_cast<char *>(encodedLabel);
 
 		{
-			const TCHAR* in = buffer->getFileName();
-			TCHAR* out = encodedLabel;
+			const char* in = buffer->getFileName();
+			char* out = encodedLabel;
 
 			//This code will read in one character at a time and duplicate every first ampersand(&).
 			//ex. If input is "test & test && test &&&" then output will be "test && test &&& test &&&&".

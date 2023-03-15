@@ -25,8 +25,8 @@
 #define CY_BITMAP         16
 
 struct TreeStateNode {
-	generic_string _label;
-	generic_string _extraData;
+	String _label;
+	String _extraData;
 	bool _isExpanded = false;
 	bool _isSelected = false;
 	std::vector<TreeStateNode> _children;
@@ -40,14 +40,14 @@ public:
 
 	virtual void init(HINSTANCE hInst, HWND parent, int treeViewID);
 	virtual void destroy();
-	HTREEITEM addItem(const TCHAR *itemName, HTREEITEM hParentItem, int iImage, LPARAM lParam = NULL);
+	HTREEITEM addItem(const char *itemName, HTREEITEM hParentItem, int iImage, LPARAM lParam = NULL);
 	bool setItemParam(HTREEITEM Item2Set, LPARAM param);
 	LPARAM getItemParam(HTREEITEM Item2Get) const;
-	generic_string getItemDisplayName(HTREEITEM Item2Set) const;
-	HTREEITEM searchSubItemByName(const TCHAR *itemName, HTREEITEM hParentItem);
+	String getItemDisplayName(HTREEITEM Item2Set) const;
+	HTREEITEM searchSubItemByName(const char *itemName, HTREEITEM hParentItem);
 	void removeItem(HTREEITEM hTreeItem);
 	void removeAllItems();
-	bool renameItem(HTREEITEM Item2Set, const TCHAR *newName);
+	bool renameItem(HTREEITEM Item2Set, const char *newName);
 	void makeLabelEditable(bool toBeEnabled);
 
 	HTREEITEM getChildFrom(HTREEITEM hTreeItem) const {
@@ -116,7 +116,7 @@ public:
 	bool swapTreeViewItem(HTREEITEM itemGoDown, HTREEITEM itemGoUp);
 	bool restoreFoldingStateFrom(const TreeStateNode & treeState2Compare, HTREEITEM treeviewNode);
 	bool retrieveFoldingStateTo(TreeStateNode & treeState2Construct, HTREEITEM treeviewNode);
-	bool searchLeafAndBuildTree(TreeView & tree2Build, const generic_string & text2Search, int index2Search);
+	bool searchLeafAndBuildTree(TreeView & tree2Build, const String & text2Search, int index2Search);
 	void sort(HTREEITEM hTreeItem, bool isRecusive);
 	void customSorting(HTREEITEM hTreeItem, PFNTVCOMPARE sortingCallbackFunc, LPARAM lParam, bool isRecursive);
 	BOOL setImageList(int w, int h, int nbImage, int image_id, ...);
@@ -132,7 +132,7 @@ protected:
 
 	void cleanSubEntries(HTREEITEM hTreeItem);
 	void dupTree(HTREEITEM hTree2Dup, HTREEITEM hParentItem);
-	bool searchLeafRecusivelyAndBuildTree(HTREEITEM tree2Build, const generic_string & text2Search, int index2Search, HTREEITEM tree2Search);
+	bool searchLeafRecusivelyAndBuildTree(HTREEITEM tree2Build, const String & text2Search, int index2Search, HTREEITEM tree2Search);
 
 	// Drag and Drop operations
 	HTREEITEM _draggedItem = nullptr;

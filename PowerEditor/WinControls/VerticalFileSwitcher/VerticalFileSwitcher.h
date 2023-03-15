@@ -63,7 +63,7 @@ public:
 		_fileListView.setItemIconStatus(bufferID) ;
 	};
 
-	generic_string getFullFilePath(size_t i) const {
+	String getFullFilePath(size_t i) const {
 		return _fileListView.getFullFilePath(i);
 	};
 

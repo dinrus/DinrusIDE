@@ -22,7 +22,7 @@ void ControlsTab::createTabs(WindowVector & winVector)
 	_pWinVector = &winVector;
 
 	for (size_t i = 0, len = winVector.size(); i < len; ++i)
-		TabBar::insertAtEnd(winVector[i]._name.c_str());
+		TabBar::insertAtEnd(winVector[i]._name.Begin());
 
 	TabBar::activateAt(0);
 	activateWindowAt(0);
@@ -62,7 +62,7 @@ void ControlsTab::reSizeTo(RECT & rc)
 
 }
 
-bool ControlsTab::renameTab(const TCHAR *internalName, const TCHAR *newName)
+bool ControlsTab::renameTab(const char *internalName, const char *newName)
 {
 	bool foundIt = false;
 	size_t i = 0;
@@ -81,10 +81,10 @@ bool ControlsTab::renameTab(const TCHAR *internalName, const TCHAR *newName)
 	return true;
 }
 
-void ControlsTab::renameTab(size_t index, const TCHAR *newName)
+void ControlsTab::renameTab(size_t index, const char *newName)
 {
 	TCITEM tie;
 	tie.mask = TCIF_TEXT;
-	tie.pszText = (TCHAR *)newName;
+	tie.pszText = (char *)newName;
 	TabCtrl_SetItem(_hSelf, index, &tie);
 }

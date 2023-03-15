@@ -17,10 +17,10 @@
 
 #include <shlwapi.h>
 #include "WordStyleDlg.h"
-#include "ScintillaEditView.h"
-#include "documentMap.h"
-#include "AutoCompletion.h"
-#include "preference_rc.h"
+#include <PowerEditor/ScintillaComponent/ScintillaEditView.h>
+#include <PowerEditor/WinControls/DocumentMap/documentMap.h>
+#include <PowerEditor/ScintillaComponent/AutoCompletion.h>
+#include <PowerEditor/WinControls/Preference/preference_rc.h>
 
 using namespace std;
 
@@ -49,7 +49,7 @@ LRESULT CALLBACK ColourStaticTextHooker::colourStaticProc(HWND hwnd, UINT Messag
 			HANDLE hOld = SelectObject(hdc, hf);
 
 			// Draw the text!
-			TCHAR text[MAX_PATH];
+			char text[MAX_PATH];
 			::GetWindowText(hwnd, text, MAX_PATH);
 			::DrawText(hdc, text, -1, &rect, DT_LEFT);
 
@@ -102,14 +102,14 @@ intptr_t CALLBACK WordStyleDlg::run_dlgProc(UINT Message, WPARAM wParam, LPARAM 
 			ThemeSwitcher & themeSwitcher = nppParamInst.getThemeSwitcher();
 			for (size_t i = 0 ; i < themeSwitcher.size() ; ++i)
 			{
-				pair<generic_string, generic_string> & themeInfo = themeSwitcher.getElementFromIndex(i);
-				int j = static_cast<int32_t>(::SendMessage(_hSwitch2ThemeCombo, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(themeInfo.first.c_str())));
-				if (! themeInfo.second.compare( nppParamInst.getNppGUI()._themeName ) )
+				pair<String, String> & themeInfo = themeSwitcher.getElementFromIndex(i);
+				int j = static_cast<int32_t>(::SendMessage(_hSwitch2ThemeCombo, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(themeInfo.first.Begin())));
+				if (! themeInfo.second.Compare( nppParamInst.getNppGUI()._themeName ) )
 				{
 					_currentThemeIndex = j;
-					_themeName.assign(themeInfo.second);
+					_themeName = themeInfo.second;
 				}
-				if (! themeInfo.first.compare(TEXT("Default")) )
+				if (! themeInfo.first.Compare(TEXT("Default")) )
 				{
 					defaultThemeIndex = j;
 				}
@@ -120,14 +120,14 @@ intptr_t CALLBACK WordStyleDlg::run_dlgProc(UINT Message, WPARAM wParam, LPARAM 
 			}
 			::SendMessage(_hSwitch2ThemeCombo, CB_SETCURSEL, _currentThemeIndex, 0);
 
-			for (size_t i = 0 ; i < sizeof(fontSizeStrs)/(3*sizeof(TCHAR)) ; ++i)
+			for (size_t i = 0 ; i < sizeof(fontSizeStrs)/(3*sizeof(char)) ; ++i)
 				::SendMessage(_hFontSizeCombo, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(fontSizeStrs[i]));
 
-			const std::vector<generic_string> & fontlist = (NppParameters::getInstance()).getFontList();
+			const Vector<String> & fontlist = (NppParameters::getInstance()).getFontList();
 			for (size_t i = 0, len = fontlist.size() ; i < len ; ++i)
 			{
-				auto j = ::SendMessage(_hFontNameCombo, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(fontlist[i].c_str()));
-				::SendMessage(_hFontNameCombo, CB_SETITEMDATA, j, reinterpret_cast<LPARAM>(fontlist[i].c_str()));
+				auto j = ::SendMessage(_hFontNameCombo, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(fontlist[i].Begin()));
+				::SendMessage(_hFontNameCombo, CB_SETITEMDATA, j, reinterpret_cast<LPARAM>(fontlist[i].Begin()));
 			}
 
 			_pFgColour = new ColourPicker;
@@ -229,7 +229,7 @@ intptr_t CALLBACK WordStyleDlg::run_dlgProc(UINT Message, WPARAM wParam, LPARAM 
 				}
 				else if (dlgCtrlID == IDC_FONTNAME_STATIC)
 				{
-					isTextEnabled = !style._fontName.empty();
+					isTextEnabled = !style._fontName.IsEmpty();
 				}
 				else if (dlgCtrlID == IDC_FONTSIZE_STATIC)
 				{
@@ -341,8 +341,8 @@ intptr_t CALLBACK WordStyleDlg::run_dlgProc(UINT Message, WPARAM wParam, LPARAM 
 							NppParameters& nppParamInst = NppParameters::getInstance();
 							if (_restoreInvalid)
 							{
-								generic_string str(nppParamInst.getNppGUI()._themeName);
-								nppParamInst.reloadStylers(str.c_str());
+								String str(nppParamInst.getNppGUI()._themeName);
+								nppParamInst.reloadStylers(str.Begin());
 								loadLangListFromNppParam();
 							}
 
@@ -395,7 +395,7 @@ intptr_t CALLBACK WordStyleDlg::run_dlgProc(UINT Message, WPARAM wParam, LPARAM 
 						}
 						_isThemeDirty = false;
 						auto newSavedFilePath = (NppParameters::getInstance()).writeStyles(_lsArray, _globalStyles);
-						if (!newSavedFilePath.empty())
+						if (!newSavedFilePath.IsEmpty())
 							updateThemeName(newSavedFilePath);
 
 						::EnableWindow(::GetDlgItem(_hSelf, IDC_SAVECLOSE_BUTTON), FALSE);
@@ -610,14 +610,14 @@ void WordStyleDlg::loadLangListFromNppParam()
 	setStyleListFromLexer(index2Begin);
 }
 
-void WordStyleDlg::updateThemeName(const generic_string& themeName)
+void WordStyleDlg::updateThemeName(const String& themeName)
 {
 	NppParameters& nppParam = NppParameters::getInstance();
 	NppGUI & nppGUI = (NppGUI & )nppParam.getNppGUI();
-	nppGUI._themeName.assign( themeName );
+	nppGUI._themeName =  themeName;
 }
 
-bool WordStyleDlg::getStyleName(TCHAR *styleName, const size_t styleNameLen)
+bool WordStyleDlg::getStyleName(char *styleName, const size_t styleNameLen)
 {
 	auto i = ::SendDlgItemMessage(_hSelf, IDC_STYLES_LIST, LB_GETCURSEL, 0, 0);
 	if (i == LB_ERR)
@@ -635,7 +635,7 @@ bool WordStyleDlg::getStyleName(TCHAR *styleName, const size_t styleNameLen)
 int WordStyleDlg::whichTabColourIndex()
 {
 	constexpr size_t styleNameLen = 128;
-	TCHAR styleName[styleNameLen + 1] = { '\0' };
+	char styleName[styleNameLen + 1] = { '\0' };
 
 	if (!WordStyleDlg::getStyleName(styleName, styleNameLen))
 	{
@@ -660,7 +660,7 @@ int WordStyleDlg::whichTabColourIndex()
 bool WordStyleDlg::isDocumentMapStyle()
 {
 	constexpr size_t styleNameLen = 128;
-	TCHAR styleName[styleNameLen + 1] = { '\0' };
+	char styleName[styleNameLen + 1] = { '\0' };
 
 	return (WordStyleDlg::getStyleName(styleName, styleNameLen) && (lstrcmp(styleName, VIEWZONE_DOCUMENTMAP) == 0));
 }
@@ -694,7 +694,7 @@ void WordStyleDlg::updateFontSize()
 	if (iFontSizeSel != 0)
 	{
 		const size_t intStrLen = 3;
-		TCHAR intStr[intStrLen];
+		char intStr[intStrLen];
 
 		auto lbTextLen = ::SendMessage(_hFontSizeCombo, CB_GETLBTEXTLEN, iFontSizeSel, 0);
 		if (static_cast<size_t>(lbTextLen) >= intStrLen)
@@ -706,7 +706,7 @@ void WordStyleDlg::updateFontSize()
 			style._fontSize = STYLE_NOT_USED;
 		else
 		{
-			TCHAR *finStr;
+			char *finStr;
 			style._fontSize = generic_strtol(intStr, &finStr, 10);
 			if (*finStr != '\0')
 				style._fontSize = STYLE_NOT_USED;
@@ -719,7 +719,7 @@ void WordStyleDlg::updateFontSize()
 void WordStyleDlg::updateExtension()
 {
 	const int NB_MAX = 256;
-	TCHAR ext[NB_MAX];
+	char ext[NB_MAX];
 	::SendDlgItemMessage(_hSelf, IDC_USER_EXT_EDIT, WM_GETTEXT, NB_MAX, reinterpret_cast<LPARAM>(ext));
 	_lsArray.getLexerFromIndex(_currentLexerIndex - 1).setLexerUserExt(ext);
 }
@@ -728,11 +728,11 @@ void WordStyleDlg::updateUserKeywords()
 {
 	Style & style = getCurrentStyler();
 	//const int NB_MAX = 2048;
-	//TCHAR kw[NB_MAX];
+	//char kw[NB_MAX];
 	auto len = ::SendDlgItemMessage(_hSelf, IDC_USER_KEYWORDS_EDIT, WM_GETTEXTLENGTH, 0, 0);
 	len += 1;
-	TCHAR* kw = new TCHAR[len];
-	::memset(kw, 0, len * sizeof(TCHAR));
+	char* kw = new char[len];
+	::memset(kw, 0, len * sizeof(char));
 	::SendDlgItemMessage(_hSelf, IDC_USER_KEYWORDS_EDIT, WM_GETTEXT, len, reinterpret_cast<LPARAM>(kw));
 	style._keywords = kw;
 
@@ -743,7 +743,7 @@ void WordStyleDlg::updateFontName()
 {
 	Style & style = getCurrentStyler();
 	auto iFontSel = ::SendMessage(_hFontNameCombo, CB_GETCURSEL, 0, 0);
-	TCHAR *fnStr = (TCHAR *)::SendMessage(_hFontNameCombo, CB_GETITEMDATA, iFontSel, 0);
+	char *fnStr = (char *)::SendMessage(_hFontNameCombo, CB_GETITEMDATA, iFontSel, 0);
 	style._fontName = fnStr;
 }
 
@@ -781,18 +781,18 @@ void WordStyleDlg::switchToTheme()
 {
 	auto iSel = ::SendMessage(_hSwitch2ThemeCombo, CB_GETCURSEL, 0, 0);
 
-	generic_string prevThemeName(_themeName);
-	_themeName.clear();
+	String prevThemeName(_themeName);
+	_themeName.Clear();
 
 	NppParameters& nppParamInst = NppParameters::getInstance();
 	ThemeSwitcher & themeSwitcher = nppParamInst.getThemeSwitcher();
-	pair<generic_string, generic_string> & themeInfo = themeSwitcher.getElementFromIndex(iSel);
+	pair<String, String> & themeInfo = themeSwitcher.getElementFromIndex(iSel);
 	_themeName = themeInfo.second;
 
 	if (_isThemeDirty)
 	{
-		TCHAR themeFileName[MAX_PATH];
-		wcscpy_s(themeFileName, prevThemeName.c_str());
+		char themeFileName[MAX_PATH];
+		themeFileName << prevThemeName;
 		PathStripPath(themeFileName);
 		PathRemoveExtension(themeFileName);
 		int mb_response =
@@ -804,7 +804,7 @@ void WordStyleDlg::switchToTheme()
 		if ( mb_response == IDYES )
 			(NppParameters::getInstance()).writeStyles(_lsArray, _globalStyles);
 	}
-	nppParamInst.reloadStylers(_themeName.c_str());
+	nppParamInst.reloadStylers(_themeName.Begin());
 
 	loadLangListFromNppParam();
 	_restoreInvalid = true;
@@ -820,7 +820,7 @@ void WordStyleDlg::applyCurrentSelectedThemeAndUpdateUI()
 	apply();
 }
 
-bool WordStyleDlg::selectThemeByName(const TCHAR* themeName)
+bool WordStyleDlg::selectThemeByName(const char* themeName)
 {
 	LRESULT iTheme = ::SendMessage(_hSwitch2ThemeCombo, CB_FINDSTRING, 1, reinterpret_cast<LPARAM>(themeName));
 	if (iTheme == CB_ERR)
@@ -833,17 +833,17 @@ bool WordStyleDlg::selectThemeByName(const TCHAR* themeName)
 	return true;
 }
 
-bool WordStyleDlg::goToSection(const TCHAR* sectionNames)
+bool WordStyleDlg::goToSection(const char* sectionNames)
 {
 	if (!sectionNames || !sectionNames[0])
 		return false;
 
-	std::vector<generic_string> sections = tokenizeString(sectionNames, ':');
+	Vector<String> sections = tokenizeString(sectionNames, ':');
 
 	if (sections.size() == 0 || sections.size() >= 3)
 		return false;
 
-	auto i = ::SendDlgItemMessage(_hSelf, IDC_LANGUAGES_LIST, LB_FINDSTRING, (WPARAM)-1, (LPARAM)sections[0].c_str());
+	auto i = ::SendDlgItemMessage(_hSelf, IDC_LANGUAGES_LIST, LB_FINDSTRING, (WPARAM)-1, (LPARAM)sections[0].Begin());
 	if (i == LB_ERR)
 		return false;
 	::SendDlgItemMessage(_hSelf, IDC_LANGUAGES_LIST, LB_SETCURSEL, i, 0);
@@ -852,7 +852,7 @@ bool WordStyleDlg::goToSection(const TCHAR* sectionNames)
 	if (sections.size() == 1)
 		return true;
 
-	i = ::SendDlgItemMessage(_hSelf, IDC_STYLES_LIST, LB_FINDSTRING, (WPARAM)-1, (LPARAM)sections[1].c_str());
+	i = ::SendDlgItemMessage(_hSelf, IDC_STYLES_LIST, LB_FINDSTRING, (WPARAM)-1, (LPARAM)sections[1].Begin());
 	if (i == LB_ERR)
 		return false;
 	::SendDlgItemMessage(_hSelf, IDC_STYLES_LIST, LB_SETCURSEL, i, 0);
@@ -873,9 +873,9 @@ void WordStyleDlg::setStyleListFromLexer(int index)
 
 	if (index)
 	{
-		const TCHAR *langName = _lsArray.getLexerNameFromIndex(index - 1);
-		const TCHAR *ext = NppParameters::getInstance().getLangExtFromName(langName);
-		const TCHAR *userExt = (_lsArray.getLexerStylerByName(langName))->getLexerUserExt();
+		const char *langName = _lsArray.getLexerNameFromIndex(index - 1);
+		const char *ext = NppParameters::getInstance().getLangExtFromName(langName);
+		const char *userExt = (_lsArray.getLexerStylerByName(langName))->getLexerUserExt();
 		::SendDlgItemMessage(_hSelf, IDC_DEF_EXT_EDIT, WM_SETTEXT, 0, reinterpret_cast<LPARAM>(ext));
 
 		// WM_SETTEXT cause sending WM_COMMAND message with EN_CHANGE.
@@ -899,7 +899,7 @@ void WordStyleDlg::setStyleListFromLexer(int index)
 
 	for (const Style & style : lexerStyler)
 	{
-		::SendDlgItemMessage(_hSelf, IDC_STYLES_LIST, LB_ADDSTRING, 0, reinterpret_cast<LPARAM>(style._styleDesc.c_str()));
+		::SendDlgItemMessage(_hSelf, IDC_STYLES_LIST, LB_ADDSTRING, 0, reinterpret_cast<LPARAM>(style._styleDesc.Begin()));
 	}
 	::SendDlgItemMessage(_hSelf, IDC_STYLES_LIST, LB_SETCURSEL, 0, 0);
 	setVisualFromStyleList();
@@ -1000,7 +1000,7 @@ void WordStyleDlg::setVisualFromStyleList()
 
 	COLORREF c = NppDarkMode::isEnabled() ? NppDarkMode::getLinkTextColor() : RGB(0x00, 0x00, 0xFF);
 	const size_t strLen = 256;
-	TCHAR str[strLen + 1] = { '\0' };
+	char str[strLen + 1] = { '\0' };
 
 	str[0] = '\0';
 
@@ -1017,16 +1017,12 @@ void WordStyleDlg::setVisualFromStyleList()
 	if (i == LB_ERR)
 		return;
 	const size_t styleNameLen = 64;
-	TCHAR styleName[styleNameLen + 1] = { '\0' };
+	char styleName[styleNameLen + 1] = { '\0' };
 	lbTextLen = ::SendDlgItemMessage(_hSelf, IDC_STYLES_LIST, LB_GETTEXTLEN, i, 0);
 	if (static_cast<size_t>(lbTextLen) > styleNameLen)
 		return;
 	::SendDlgItemMessage(_hSelf, IDC_STYLES_LIST, LB_GETTEXT, i, reinterpret_cast<LPARAM>(styleName));
-	wcscat_s(str, TEXT(" : "));
-	wcscat_s(str, styleName);
-
-	// PAD for fix a display glitch
-	wcscat_s(str, TEXT("          "));
+	str <<" : "<< styleName<< "          ";
 	_colourHooker.setColour(c);
 	::SetWindowText(_hStyleInfoStaticText, str);
 
@@ -1062,9 +1058,9 @@ void WordStyleDlg::setVisualFromStyleList()
 
 	//-- font name
 	LRESULT iFontName;
-	if (!style._fontName.empty())
+	if (!style._fontName.IsEmpty())
 	{
-		iFontName = ::SendMessage(_hFontNameCombo, CB_FINDSTRING, 1, reinterpret_cast<LPARAM>(style._fontName.c_str()));
+		iFontName = ::SendMessage(_hFontNameCombo, CB_FINDSTRING, 1, reinterpret_cast<LPARAM>(style._fontName.Begin()));
 		if (iFontName == CB_ERR)
 			iFontName = 0;
 	}
@@ -1078,7 +1074,7 @@ void WordStyleDlg::setVisualFromStyleList()
 
 	//-- font size
 	const size_t intStrLen = 3;
-	TCHAR intStr[intStrLen];
+	char intStr[intStrLen];
 	LRESULT iFontSize = 0;
 	if (style._fontSize != STYLE_NOT_USED && style._fontSize < 100) // style._fontSize has only 2 digits
 	{
@@ -1119,16 +1115,16 @@ void WordStyleDlg::setVisualFromStyleList()
 		LangType lType = nppParams.getLangIDFromStr(lexerStyler.getLexerName());
 		if (lType == L_TEXT)
 		{
-			generic_string lexerNameStr = lexerStyler.getLexerName();
+			String lexerNameStr = lexerStyler.getLexerName();
 			lexerNameStr += TEXT(" не определен в NppParameters::getLangIDFromStr()");
-				printStr(lexerNameStr.c_str());
+				printStr(lexerNameStr.Begin());
 		}
-		const TCHAR *kws = nppParams.getWordList(lType, style._keywordClass);
+		const char *kws = nppParams.getWordList(lType, style._keywordClass);
 		if (!kws)
 			kws = TEXT("");
 		::SendDlgItemMessage(_hSelf, IDC_DEF_KEYWORDS_EDIT, WM_SETTEXT, 0, reinterpret_cast<LPARAM>(kws));
 
-		const TCHAR *ckwStr = style._keywords.c_str();
+		const char *ckwStr = style._keywords.Begin();
 		::SendDlgItemMessage(_hSelf, IDC_USER_KEYWORDS_EDIT, WM_SETTEXT, 0, reinterpret_cast<LPARAM>(ckwStr));
 	}
 

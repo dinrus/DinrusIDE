@@ -23,13 +23,13 @@
 
 class URLCtrl : public Window {
 public:
-    void create(HWND itemHandle, const TCHAR * link, COLORREF linkColor = RGB(0,0,255));
+    void create(HWND itemHandle, const char * link, COLORREF linkColor = RGB(0,0,255));
 	void create(HWND itemHandle, int cmd, HWND msgDest = NULL);
     void destroy();
 private:
 	void action();
 protected :
-    generic_string _URL;
+    String _URL;
     HFONT _hfUnderlined = nullptr;
     HCURSOR _hCursor = nullptr;
 

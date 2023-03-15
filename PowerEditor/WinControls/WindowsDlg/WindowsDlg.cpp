@@ -17,10 +17,10 @@
 
 #include <functional>
 #include <algorithm>
-#include "WindowsDlg.h"
-#include "WindowsDlgRc.h"
-#include "DocTabView.h"
-#include "EncodingMapper.h"
+#include <PowerEditor/WinControls/WindowsDlg/WindowsDlg.h>
+#include <PowerEditor/WinControls/WindowsDlg/WindowsDlgRc.h>
+#include <PowerEditor/ScintillaComponent/DocTabView.h>
+#include <PowerEditor/EncodingMapper.h>
 #include <PowerEditor/localization.h>
 
 using namespace std;
@@ -42,7 +42,7 @@ using namespace std;
 #define WD_MENUCOPYNAME				"MenuCopyName"
 #define WD_MENUCOPYPATH				"MenuCopyPath"
 
-static const TCHAR *readonlyString = TEXT(" [Read Only]");
+static const char *readonlyString = TEXT(" [Read Only]");
 const UINT WDN_NOTIFY = RegisterWindowMessage(TEXT("WDN_NOTIFY"));
 /*
 inline static DWORD GetStyle(HWND hWnd) {
@@ -74,14 +74,14 @@ inline static BOOL ModifyStyleEx(HWND hWnd, DWORD dwRemove, DWORD dwAdd) {
 
 struct NumericStringEquivalence
 {
-	int operator()(const TCHAR* s1, const TCHAR* s2) const
+	int operator()(const char* s1, const char* s2) const
 	{
 		return numstrcmp(s1, s2);
 	}
 
-	static inline int numstrcmp_get(const TCHAR **str, int *length)
+	static inline int numstrcmp_get(const char **str, int *length)
 	{
-		const TCHAR *p = *str;
+		const char *p = *str;
 		int value = 0;
 		for (*length = 0; isdigit(*p); ++(*length))
 			value = value * 10 + *p++ - '0';
@@ -89,9 +89,9 @@ struct NumericStringEquivalence
 		return (value);
 	}
 
-	static int numstrcmp(const TCHAR *str1, const TCHAR *str2)
+	static int numstrcmp(const char *str1, const char *str2)
 	{
-		TCHAR *p1, *p2;
+		char *p1, *p2;
 		int c1, c2, lcmp = 0;
 		for (;;)
 		{
@@ -153,13 +153,13 @@ struct BufferEquivalent
 		{
 			BufferID bid1 = _pTab->getBufferByIndex(i1);
 			BufferID bid2 = _pTab->getBufferByIndex(i2);
-			Buffer * b1 = MainFileManager.getBufferByID(bid1);
-			Buffer * b2 = MainFileManager.getBufferByID(bid2);
+			SciBuffer * b1 = MainFileManager.getBufferByID(bid1);
+			SciBuffer * b2 = MainFileManager.getBufferByID(bid2);
 			
 			if (_iColumn == 0)
 			{
-				const TCHAR *s1 = b1->getFileName();
-				const TCHAR *s2 = b2->getFileName();
+				const char *s1 = b1->getFileName();
+				const char *s2 = b2->getFileName();
 				int result = _strequiv(s1, s2);
 				
 				if (result != 0) // default to filepath sorting when equivalent
@@ -168,9 +168,9 @@ struct BufferEquivalent
 			else if (_iColumn == 2)
 			{
 				NppParameters & nppParameters = NppParameters::getInstance();
-				const TCHAR *s1;
-				const TCHAR *s2;
-				//const TCHAR empty[] = ;
+				const char *s1;
+				const char *s2;
+				//const char empty[] = ;
 				Lang *lang1 = nppParameters.getLangFromID(b1->getLangType());
 
 				if (lang1)
@@ -204,8 +204,8 @@ struct BufferEquivalent
 			}
 			
 			// _iColumn == 1
-			const TCHAR *s1 = b1->getFullPathName();
-			const TCHAR *s2 = b2->getFullPathName();
+			const char *s1 = b1->getFullPathName();
+			const char *s2 = b2->getFullPathName();
 			return _strequiv(s1, s2) < 0;	//we can compare the full path to sort on directory, since after sorting directories sorting files is the second thing to do (if directories are the same that is)
 		}
 		return false;
@@ -384,10 +384,10 @@ intptr_t CALLBACK WindowsDlg::run_dlgProc(UINT message, WPARAM wParam, LPARAM lP
 					if (pLvdi->item.mask & LVIF_TEXT)
 					{
 						pLvdi->item.pszText[0] = 0;
-						Buffer* buf = getBuffer(pLvdi->item.iItem);
+						SciBuffer* buf = getBuffer(pLvdi->item.iItem);
 						if (!buf)
 							return FALSE;
-						generic_string text;
+						String text;
 						if (pLvdi->item.iSubItem == 0) // file name
 						{
 							text = buf->getFileName();
@@ -402,8 +402,8 @@ intptr_t CALLBACK WindowsDlg::run_dlgProc(UINT message, WPARAM wParam, LPARAM lP
 						}
 						else if (pLvdi->item.iSubItem == 1) // directory
 						{
-							const TCHAR *fullName = buf->getFullPathName();
-							const TCHAR *fileName = buf->getFileName();
+							const char *fullName = buf->getFullPathName();
+							const char *fileName = buf->getFileName();
 							int len = lstrlen(fullName)-lstrlen(fileName);
 							if (!len) {
 								len = 1;
@@ -426,10 +426,10 @@ intptr_t CALLBACK WindowsDlg::run_dlgProc(UINT message, WPARAM wParam, LPARAM lP
 							string docSizeText = to_string(docSize);
 							text = wstring(docSizeText.begin(), docSizeText.end());
 						}
-						if (static_cast<int>(text.length()) < pLvdi->item.cchTextMax)
+						if (static_cast<int>(text.GetLength()) < pLvdi->item.cchTextMax)
 						{
 							// Copy the resulting text to destination with a null terminator.
-							_tcscpy_s(pLvdi->item.pszText, text.length() + 1, text.c_str());
+							_tcscpy_s(pLvdi->item.pszText, text.GetLength() + 1, text.Begin());
 						}
 					}
 					return TRUE;
@@ -602,27 +602,27 @@ BOOL WindowsDlg::onInitDialog()
 	lvColumn.mask = LVCF_WIDTH | LVCF_TEXT | LVCF_SUBITEM | LVCF_FMT;
 	lvColumn.fmt = LVCFMT_LEFT;
 	
-	generic_string columnText;
+	String columnText;
 	NativeLangSpeaker *pNativeSpeaker = (NppParameters::getInstance()).getNativeLangSpeaker();
 
 	columnText = TEXT("⇵ ") + pNativeSpeaker->getAttrNameStr(TEXT("Name"), WD_ROOTNODE, WD_CLMNNAME);
-	lvColumn.pszText = const_cast<TCHAR *>(columnText.c_str());
+	lvColumn.pszText = const_cast<char *>(columnText.Begin());
 	lvColumn.cx = width / 4;
 	SendMessage(_hList, LVM_INSERTCOLUMN, 0, LPARAM(&lvColumn));
 
 	columnText = TEXT("⇵ ") + pNativeSpeaker->getAttrNameStr(TEXT("Path"), WD_ROOTNODE, WD_CLMNPATH);
-	lvColumn.pszText = const_cast<TCHAR *>(columnText.c_str());
+	lvColumn.pszText = const_cast<char *>(columnText.Begin());
 	lvColumn.cx = 300;
 	SendMessage(_hList, LVM_INSERTCOLUMN, 1, LPARAM(&lvColumn));
 
 	lvColumn.fmt = LVCFMT_CENTER;
 	columnText = TEXT("⇵ ") + pNativeSpeaker->getAttrNameStr(TEXT("Type"), WD_ROOTNODE, WD_CLMNTYPE);
-	lvColumn.pszText = const_cast<TCHAR *>(columnText.c_str());
+	lvColumn.pszText = const_cast<char *>(columnText.Begin());
 	lvColumn.cx = 100;
 	SendMessage(_hList, LVM_INSERTCOLUMN, 2, LPARAM(&lvColumn));
 
 	columnText = TEXT("⇵ ") + pNativeSpeaker->getAttrNameStr(TEXT("Size"), WD_ROOTNODE, WD_CLMNSIZE);
-	lvColumn.pszText = const_cast<TCHAR *>(columnText.c_str());
+	lvColumn.pszText = const_cast<char *>(columnText.Begin());
 	lvColumn.cx = 100;
 	SendMessage(_hList, LVM_INSERTCOLUMN, 3, LPARAM(&lvColumn));
 
@@ -649,7 +649,7 @@ void WindowsDlg::updateColumnNames()
 	lvColumn.mask = LVCF_WIDTH | LVCF_TEXT | LVCF_SUBITEM | LVCF_FMT;
 	lvColumn.fmt = LVCFMT_LEFT;
 
-	generic_string columnText;
+	String columnText;
 	NativeLangSpeaker *pNativeSpeaker = (NppParameters::getInstance()).getNativeLangSpeaker();
 	
 	columnText = pNativeSpeaker->getAttrNameStr(TEXT("Name"), WD_ROOTNODE, WD_CLMNNAME);
@@ -665,7 +665,7 @@ void WindowsDlg::updateColumnNames()
 	{
 		columnText = TEXT("▽ ") + columnText;
 	}
-	lvColumn.pszText = const_cast<TCHAR *>(columnText.c_str());
+	lvColumn.pszText = const_cast<char *>(columnText.Begin());
 	lvColumn.cx = static_cast<int>(SendMessage(_hList, LVM_GETCOLUMNWIDTH, 0, 0));
 	SendMessage(_hList, LVM_SETCOLUMN, 0, LPARAM(&lvColumn));
 
@@ -682,7 +682,7 @@ void WindowsDlg::updateColumnNames()
 	{
 		columnText = TEXT("▽ ") + columnText;
 	}
-	lvColumn.pszText = const_cast<TCHAR *>(columnText.c_str());
+	lvColumn.pszText = const_cast<char *>(columnText.Begin());
 	lvColumn.cx = static_cast<int>(SendMessage(_hList, LVM_GETCOLUMNWIDTH, 1, 0));
 	SendMessage(_hList, LVM_SETCOLUMN, 1, LPARAM(&lvColumn));
 
@@ -700,7 +700,7 @@ void WindowsDlg::updateColumnNames()
 	{
 		columnText = TEXT("▽ ") + columnText;
 	}
-	lvColumn.pszText = const_cast<TCHAR *>(columnText.c_str());
+	lvColumn.pszText = const_cast<char *>(columnText.Begin());
 	lvColumn.cx = static_cast<int>(SendMessage(_hList, LVM_GETCOLUMNWIDTH, 2, 0));
 	SendMessage(_hList, LVM_SETCOLUMN, 2, LPARAM(&lvColumn));
 
@@ -717,7 +717,7 @@ void WindowsDlg::updateColumnNames()
 	{
 		columnText = TEXT("▽ ") + columnText;
 	}
-	lvColumn.pszText = const_cast<TCHAR *>(columnText.c_str());
+	lvColumn.pszText = const_cast<char *>(columnText.Begin());
 	lvColumn.cx = static_cast<int>(SendMessage(_hList, LVM_GETCOLUMNWIDTH, 3, 0));
 	SendMessage(_hList, LVM_SETCOLUMN, 3, LPARAM(&lvColumn));
 }
@@ -937,12 +937,12 @@ void WindowsDlg::doCount()
 {
 	NativeLangSpeaker* pNativeSpeaker = (NppParameters::getInstance()).getNativeLangSpeaker();
 
-	generic_string msg = pNativeSpeaker->getAttrNameStr(TEXT("Windows"), "Dialog", "Window", "title");
+	String msg = pNativeSpeaker->getAttrNameStr(TEXT("Windows"), "Dialog", "Window", "title");
 	msg += TEXT(" - ");
 	msg += pNativeSpeaker->getAttrNameStr(TEXT("Total documents: "), WD_ROOTNODE, WD_NBDOCSTOTAL);
 	msg += TEXT(" ");
 	msg += to_wstring(_idxMap.size());
-	SetWindowText(_hSelf,msg.c_str());
+	SetWindowText(_hSelf,msg.Begin());
 }
 
 void WindowsDlg::doSort()
@@ -1085,7 +1085,7 @@ void WindowsDlg::doSortToTabs()
 
 void WindowsDlg::putItemsToClipboard(bool isFullPath)
 {
-	std::vector<Buffer*> buffers;
+	std::vector<SciBuffer*> buffers;
 	for (int i = -1, j = 0; ; ++j)
 	{
 		i = ListView_GetNextItem(_hList, i, LVNI_SELECTED);
@@ -1099,7 +1099,7 @@ void WindowsDlg::putItemsToClipboard(bool isFullPath)
 	buf2Clipborad(buffers, isFullPath, _hList);
 }
 
-Buffer* WindowsDlg::getBuffer(int index) const
+SciBuffer* WindowsDlg::getBuffer(int index) const
 {
 	if (index < 0 || index >= static_cast<int>(_idxMap.size()))
 		return nullptr;
@@ -1164,14 +1164,14 @@ void WindowsMenu::initPopupMenu(HMENU hMenu, DocTabView* pTab)
 		for (id, pos; id < guard; ++id, ++pos)
 		{
 			BufferID bufID = pTab->getBufferByIndex(pos);
-			Buffer* buf = MainFileManager.getBufferByID(bufID);
+			SciBuffer* buf = MainFileManager.getBufferByID(bufID);
 
 			MENUITEMINFO mii{};
 			mii.cbSize = sizeof(mii);
 			mii.fMask = MIIM_STRING | MIIM_STATE | MIIM_ID;
 
-			generic_string strBuffer(BuildMenuFileName(60, static_cast<int32_t>(pos), buf->getFileName(), !isDropListMenu));
-			std::vector<TCHAR> vBuffer(strBuffer.begin(), strBuffer.end());
+			String strBuffer(BuildMenuFileName(60, static_cast<int32_t>(pos), buf->getFileName(), !isDropListMenu));
+			std::vector<char> vBuffer(strBuffer.begin(), strBuffer.end());
 			vBuffer.push_back('\0');
 			mii.dwTypeData = (&vBuffer[0]);
 

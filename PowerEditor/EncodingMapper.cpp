@@ -16,8 +16,8 @@
 
 
 #include <string.h>
-#include "EncodingMapper.h"
-#include "Scintilla.h"
+#include <PowerEditor/EncodingMapper.h>
+#include <Scintilla/Scintilla.h>
 
 // Don't change the order
 static EncodingUnit encodings[] = {
@@ -30,15 +30,15 @@ static EncodingUnit encodings[] = {
     {1256,  "windows-1256"},                                                                    //IDM_FORMAT_WIN_1256
     {1257,  "windows-1257"},                                                                    //IDM_FORMAT_WIN_1257
     {1258,  "windows-1258"},                                                                    //IDM_FORMAT_WIN_1258
-    {28591, "latin1 ISO_8859-1 ISO-8859-1 CP819 IBM819 csISOLatin1 iso-ir-100 l1"},             //IDM_FORMAT_ISO_8859_1 
-    {28592, "latin2 ISO_8859-2 ISO-8859-2 csISOLatin2 iso-ir-101 l2"},                          //IDM_FORMAT_ISO_8859_2 
-    {28593, "latin3 ISO_8859-3 ISO-8859-3 csISOLatin3 iso-ir-109 l3"},                          //IDM_FORMAT_ISO_8859_3 
-    {28594, "latin4 ISO_8859-4 ISO-8859-4 csISOLatin4 iso-ir-110 l4"},                          //IDM_FORMAT_ISO_8859_4 
-    {28595, "cyrillic ISO_8859-5 ISO-8859-5 csISOLatinCyrillic iso-ir-144"},                    //IDM_FORMAT_ISO_8859_5 
-    {28596, "arabic ISO_8859-6 ISO-8859-6 csISOLatinArabic iso-ir-127 ASMO-708 ECMA-114"},      //IDM_FORMAT_ISO_8859_6 
-    {28597, "greek ISO_8859-7 ISO-8859-7 csISOLatinGreek greek8 iso-ir-126 ELOT_928 ECMA-118"}, //IDM_FORMAT_ISO_8859_7 
-    {28598, "hebrew ISO_8859-8 ISO-8859-8 csISOLatinHebrew iso-ir-138"},                        //IDM_FORMAT_ISO_8859_8 
-    {28599, "latin5 ISO_8859-9 ISO-8859-9 csISOLatin5 iso-ir-148 l5"},                          //IDM_FORMAT_ISO_8859_9 
+    {28591, "latin1 ISO_8859-1 ISO-8859-1 CP819 IBM819 csISOLatin1 iso-ir-100 l1"},             //IDM_FORMAT_ISO_8859_1
+    {28592, "latin2 ISO_8859-2 ISO-8859-2 csISOLatin2 iso-ir-101 l2"},                          //IDM_FORMAT_ISO_8859_2
+    {28593, "latin3 ISO_8859-3 ISO-8859-3 csISOLatin3 iso-ir-109 l3"},                          //IDM_FORMAT_ISO_8859_3
+    {28594, "latin4 ISO_8859-4 ISO-8859-4 csISOLatin4 iso-ir-110 l4"},                          //IDM_FORMAT_ISO_8859_4
+    {28595, "cyrillic ISO_8859-5 ISO-8859-5 csISOLatinCyrillic iso-ir-144"},                    //IDM_FORMAT_ISO_8859_5
+    {28596, "arabic ISO_8859-6 ISO-8859-6 csISOLatinArabic iso-ir-127 ASMO-708 ECMA-114"},      //IDM_FORMAT_ISO_8859_6
+    {28597, "greek ISO_8859-7 ISO-8859-7 csISOLatinGreek greek8 iso-ir-126 ELOT_928 ECMA-118"}, //IDM_FORMAT_ISO_8859_7
+    {28598, "hebrew ISO_8859-8 ISO-8859-8 csISOLatinHebrew iso-ir-138"},                        //IDM_FORMAT_ISO_8859_8
+    {28599, "latin5 ISO_8859-9 ISO-8859-9 csISOLatin5 iso-ir-148 l5"},                          //IDM_FORMAT_ISO_8859_9
     {-1,    ""/*"latin6 ISO_8859-10 ISO-8859-10 csISOLatin6 iso-ir-157 l6"*/},                  //IDM_FORMAT_ISO_8859_10
     {-1,    ""/*"ISO_8859-11 ISO-8859-11"*/},                                                   //IDM_FORMAT_ISO_8859_11
     {28603, "ISO_8859-13 ISO-8859-13"},                                                         //IDM_FORMAT_ISO_8859_13
@@ -88,12 +88,12 @@ bool isInListA(const char *token, const char *list)
 			{
 				word[j] = '\0';
 				j = 0;
-				
+
 				if (!stricmp(token, word))
 					return true;
 			}
 		}
-		else 
+		else
 		{
 			word[j] = list[i];
 			++j;

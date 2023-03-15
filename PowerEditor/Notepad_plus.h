@@ -15,7 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 #pragma once
-
+#include <Core/Core.h>
 #include <PowerEditor/ScintillaComponent/ScintillaEditView.h>
 #include <PowerEditor/ScintillaComponent/DocTabView.h>
 #include <PowerEditor/WinControls/SplitterContainer/SplitterContainer.h>
@@ -160,11 +160,11 @@ public:
 	//! \name File Operations
 	//@{
 	//The doXXX functions apply to a single buffer and dont need to worry about views, with the excpetion of doClose, since closing one view doesnt have to mean the document is gone
-	BufferID doOpen(const generic_string& fileName, bool isRecursive = false, bool isReadOnly = false, int encoding = -1, const TCHAR *backupFileName = NULL, FILETIME fileNameTimestamp = {});
+	BufferID doOpen(const String& fileName, bool isRecursive = false, bool isReadOnly = false, int encoding = -1, const char *backupFileName = NULL, FILETIME fileNameTimestamp = {});
 	bool doReload(BufferID id, bool alert = true);
-	bool doSave(BufferID, const TCHAR * filename, bool isSaveCopy = false);
+	bool doSave(BufferID, const char * filename, bool isSaveCopy = false);
 	void doClose(BufferID, int whichOne, bool doDeleteBackup = false);
-	//bool doDelete(const TCHAR *fileName) const {return ::DeleteFile(fileName) != 0;};
+	//bool doDelete(const char *fileName) const {return ::DeleteFile(fileName) != 0;};
 
 	void fileOpen();
 	void fileNew();
@@ -179,7 +179,7 @@ public:
 	bool fileSave(BufferID id = BUFFER_INVALID);
 	bool fileSaveAllConfirm();
 	bool fileSaveAll();
-	bool fileSaveSpecific(const generic_string& fileNameToSave);
+	bool fileSaveSpecific(const String& fileNameToSave);
 	bool fileSaveAs(BufferID id = BUFFER_INVALID, bool isSaveCopy = false);
 	bool fileDelete(BufferID id = BUFFER_INVALID);
 	bool fileRename(BufferID id = BUFFER_INVALID);
@@ -187,8 +187,8 @@ public:
 	bool switchToFile(BufferID buffer);			//find buffer in active view then in other view.
 	//@}
 
-	bool isFileSession(const TCHAR * filename);
-	bool isFileWorkspace(const TCHAR * filename);
+	bool isFileSession(const char * filename);
+	bool isFileWorkspace(const char * filename);
 	void filePrint(bool showDialog);
 	void saveScintillasZoom();
 
@@ -204,9 +204,9 @@ public:
 
 	void getCurrentOpenedFiles(Session& session, bool includUntitledDoc = false);
 
-	bool fileLoadSession(const TCHAR* fn = nullptr);
-	const TCHAR * fileSaveSession(size_t nbFile, TCHAR ** fileNames, const TCHAR *sessionFile2save, bool includeFileBrowser = false);
-	const TCHAR * fileSaveSession(size_t nbFile = 0, TCHAR** fileNames = nullptr);
+	bool fileLoadSession(const char* fn = nullptr);
+	const char * fileSaveSession(size_t nbFile, char ** fileNames, const char *sessionFile2save, bool includeFileBrowser = false);
+	const char * fileSaveSession(size_t nbFile = 0, char** fileNames = nullptr);
 
 	bool doBlockComment(comment_mode currCommentMode);
 	bool doStreamComment();
@@ -218,31 +218,31 @@ public:
     void loadLastSession();
 	bool loadSession(Session & session, bool isSnapshotMode = false, bool shouldLoadFileBrowser = false);
 
-	void prepareBufferChangedDialog(Buffer * buffer);
-	void notifyBufferChanged(Buffer * buffer, int mask);
+	void prepareBufferChangedDialog(SciBuffer * buffer);
+	void notifyBufferChanged(SciBuffer * buffer, int mask);
 	bool findInFinderFiles(FindersInfo *findInFolderInfo);
 
-	bool createFilelistForFiles(std::vector<generic_string> & fileNames);
-	bool createFilelistForProjects(std::vector<generic_string> & fileNames);
+	bool createFilelistForFiles(Vector<String> & fileNames);
+	bool createFilelistForProjects(Vector<String> & fileNames);
 	bool findInFiles();
 	bool findInProjects();
-	bool findInFilelist(std::vector<generic_string> & fileList);
+	bool findInFilelist(Vector<String> & fileList);
 	bool replaceInFiles();
 	bool replaceInProjects();
-	bool replaceInFilelist(std::vector<generic_string> & fileList);
+	bool replaceInFilelist(Vector<String> & fileList);
 
-	void setFindReplaceFolderFilter(const TCHAR *dir, const TCHAR *filters);
-	std::vector<generic_string> addNppComponents(const TCHAR *destDir, const TCHAR *extFilterName, const TCHAR *extFilter);
-	std::vector<generic_string> addNppPlugins(const TCHAR *extFilterName, const TCHAR *extFilter);
-    int getHtmlXmlEncoding(const TCHAR *fileName) const;
+	void setFindReplaceFolderFilter(const char *dir, const char *filters);
+	Vector<String> addNppComponents(const char *destDir, const char *extFilterName, const char *extFilter);
+	Vector<String> addNppPlugins(const char *extFilterName, const char *extFilter);
+    int getHtmlXmlEncoding(const char *fileName) const;
 
 	HACCEL getAccTable() const{
 		return _accelerator.getAccTable();
 	};
 
-	bool emergency(const generic_string& emergencySavedDir);
+	bool emergency(const String& emergencySavedDir);
 
-	Buffer* getCurrentBuffer()	{
+	SciBuffer* getCurrentBuffer()	{
 		return _pEditView->getCurrentBuffer();
 	};
 
@@ -251,7 +251,7 @@ public:
 	void showQuoteFromIndex(int index) const;
 	void showQuote(const QuoteParams* quote) const;
 
-	generic_string getPluginListVerStr() const {
+	String getPluginListVerStr() const {
 		return _pluginsAdminDlg.getPluginListVerStr();
 	};
 
@@ -455,10 +455,10 @@ private:
 	void performPostReload(int whichOne);
 //END: Document management
 
-	int doSaveOrNot(const TCHAR *fn, bool isMulti = false);
-	int doReloadOrNot(const TCHAR *fn, bool dirty);
-	int doCloseOrNot(const TCHAR *fn);
-	int doDeleteOrNot(const TCHAR *fn);
+	int doSaveOrNot(const char *fn, bool isMulti = false);
+	int doReloadOrNot(const char *fn, bool dirty);
+	int doCloseOrNot(const char *fn);
+	int doDeleteOrNot(const char *fn);
 	int doSaveAll();
 
 	void enableMenu(int cmdID, bool doEnable) const;
@@ -478,7 +478,7 @@ private:
 	void enableConvertMenuItems(EolType f) const;
 	void checkUnicodeMenuItems() const;
 
-	generic_string getLangDesc(LangType langType, bool getName = false);
+	String getLangDesc(LangType langType, bool getName = false);
 
 	void setLangStatus(LangType langType);
 
@@ -497,7 +497,7 @@ private:
 
 	bool isConditionExprLine(intptr_t lineNumber);
 	intptr_t findMachedBracePos(size_t startPos, size_t endPos, char targetSymbol, char matchedSymbol);
-	void maintainIndentation(TCHAR ch);
+	void maintainIndentation(char ch);
 
 	void addHotSpot(ScintillaEditView* view = NULL);
 
@@ -543,8 +543,8 @@ private:
 	void pasteToMarkedLines();
 	void deleteMarkedline(size_t ln);
 	void inverseMarks();
-	void replaceMarkedline(size_t ln, const TCHAR *str);
-	generic_string getMarkedLine(size_t ln);
+	void replaceMarkedline(size_t ln, const char *str);
+	String getMarkedLine(size_t ln);
     void findMatchingBracePos(intptr_t& braceAtCaret, intptr_t& braceOpposite);
     bool braceMatch();
 
@@ -565,33 +565,33 @@ private:
 	void showPathCompletion();
 
 	//void changeStyleCtrlsLang(HWND hDlg, int *idArray, const char **translatedText);
-	void setCodePageForInvisibleView(Buffer const* pBuffer);
+	void setCodePageForInvisibleView(SciBuffer const* pBuffer);
 	bool replaceInOpenedFiles();
 	bool findInOpenedFiles();
 	bool findInCurrentFile(bool isEntireDoc);
 
-	void getMatchedFileNames(const TCHAR *dir, size_t level, const std::vector<generic_string> & patterns, std::vector<generic_string> & fileNames, bool isRecursive, bool isInHiddenDir);
+	void getMatchedFileNames(const char *dir, size_t level, const Vector<String> & patterns, Vector<String> & fileNames, bool isRecursive, bool isInHiddenDir);
 	void doSynScorll(HWND hW);
-	void setWorkingDir(const TCHAR *dir);
-	bool str2Cliboard(const generic_string & str2cpy);
+	void setWorkingDir(const char *dir);
+	bool str2Cliboard(const String & str2cpy);
 
 	bool getIntegralDockingData(tTbData & dockData, int & iCont, bool & isVisible);
-	int getLangFromMenuName(const TCHAR * langName);
-	generic_string getLangFromMenu(const Buffer * buf);
+	int getLangFromMenuName(const char * langName);
+	String getLangFromMenu(const SciBuffer * buf);
 
-    generic_string exts2Filters(const generic_string& exts, int maxExtsLen = -1) const; // maxExtsLen default value -1 makes no limit of whole exts length
+    String exts2Filters(const String& exts, int maxExtsLen = -1) const; // maxExtsLen default value -1 makes no limit of whole exts length
 	int setFileOpenSaveDlgFilters(CustomFileDialog & fDlg, bool showAllExt, int langType = -1); // showAllExt should be true if it's used for open file dialog - all set exts should be used for filtering files
-	Style * getStyleFromName(const TCHAR *styleName);
-	bool dumpFiles(const TCHAR * outdir, const TCHAR * fileprefix = TEXT(""));	//helper func
+	Style * getStyleFromName(const char *styleName);
+	bool dumpFiles(const char * outdir, const char * fileprefix = TEXT(""));	//helper func
 	void drawTabbarColoursFromStylerArray();
 	void drawAutocompleteColoursFromTheme(COLORREF fgColor, COLORREF bgColor);
 	void drawDocumentMapColoursFromStylerArray();
 
-	std::vector<generic_string> loadCommandlineParams(const TCHAR * commandLine, const CmdLineParams * pCmdParams) {
+	Vector<String> loadCommandlineParams(const char * commandLine, const CmdLineParams * pCmdParams) {
 		const CmdLineParamsDTO dto = CmdLineParamsDTO::FromCmdLineParams(*pCmdParams);
 		return loadCommandlineParams(commandLine, &dto);
 	}
-	std::vector<generic_string> loadCommandlineParams(const TCHAR * commandLine, const CmdLineParamsDTO * pCmdParams);
+	Vector<String> loadCommandlineParams(const char * commandLine, const CmdLineParamsDTO * pCmdParams);
 	bool noOpenedDoc() const;
 	bool goToPreviousIndicator(int indicID2Search, bool isWrap = true) const;
 	bool goToNextIndicator(int indicID2Search, bool isWrap = true) const;
@@ -608,7 +608,7 @@ private:
 	void launchProjectPanel(int cmdID, ProjectPanel ** pProjPanel, int panelID);
 	void launchDocMap();
 	void launchFunctionList();
-	void launchFileBrowser(const std::vector<generic_string> & folders, const generic_string& selectedItemPath, bool fromScratch = false);
+	void launchFileBrowser(const Vector<String> & folders, const String& selectedItemPath, bool fromScratch = false);
 	void showAllQuotes() const;
 	static DWORD WINAPI threadTextPlayer(void *text2display);
 	static DWORD WINAPI threadTextTroller(void *params);
@@ -628,13 +628,13 @@ private:
 
 	static DWORD WINAPI monitorFileOnChange(void * params);
 	struct MonitorInfo final {
-		MonitorInfo(Buffer *buf, HWND nppHandle) :
+		MonitorInfo(SciBuffer *buf, HWND nppHandle) :
 			_buffer(buf), _nppHandle(nppHandle) {};
-		Buffer *_buffer = nullptr;
+		SciBuffer *_buffer = nullptr;
 		HWND _nppHandle = nullptr;
 	};
 
-	void monitoringStartOrStopAndUpdateUI(Buffer* pBuf, bool isStarting);
-	void createMonitoringThread(Buffer* pBuf);
+	void monitoringStartOrStopAndUpdateUI(SciBuffer* pBuf, bool isStarting);
+	void createMonitoringThread(SciBuffer* pBuf);
 	void updateCommandShortcuts();
 };

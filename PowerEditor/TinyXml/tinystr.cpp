@@ -28,11 +28,11 @@ distribution.
 
 #include "tinystr.h"
 
-// TiXmlString constructor, based on a C generic_string
-TiXmlString::TiXmlString (const TCHAR* instring)
+// TiXmlString constructor, based on a C String
+TiXmlString::TiXmlString (const char* instring)
 {
     unsigned newlen;
-    TCHAR * newstring;
+    char * newstring;
 
     if (!instring)
     {
@@ -42,7 +42,7 @@ TiXmlString::TiXmlString (const TCHAR* instring)
         return;
     }
     newlen = lstrlen (instring) + 1;
-    newstring = new TCHAR [newlen];
+    newstring = new char [newlen];
     memcpy (newstring, instring, newlen);
     allocated = newlen;
     cstring = newstring;
@@ -53,7 +53,7 @@ TiXmlString::TiXmlString (const TCHAR* instring)
 TiXmlString::TiXmlString (const TiXmlString& copy)
 {
     unsigned newlen;
-    TCHAR * newstring;
+    char * newstring;
 
     // Prevent copy to self!
     if ( &copy == this )
@@ -67,7 +67,7 @@ TiXmlString::TiXmlString (const TiXmlString& copy)
         return;
     }
     newlen = copy . length () + 1;
-    newstring = new TCHAR [newlen];
+    newstring = new char [newlen];
     memcpy (newstring, copy . cstring, newlen);
     allocated = newlen;
     cstring = newstring;
@@ -75,10 +75,10 @@ TiXmlString::TiXmlString (const TiXmlString& copy)
 }
 
 // TiXmlString = operator. Safe when assign own content
-void TiXmlString ::operator = (const TCHAR * content)
+void TiXmlString ::operator = (const char * content)
 {
     unsigned newlen;
-    TCHAR * newstring;
+    char * newstring;
 
     if (! content)
     {
@@ -86,7 +86,7 @@ void TiXmlString ::operator = (const TCHAR * content)
         return;
     }
     newlen = lstrlen (content) + 1;
-    newstring = new TCHAR [newlen];
+    newstring = new char [newlen];
     memcpy (newstring, content, newlen);
     empty_it ();
     allocated = newlen;
@@ -98,7 +98,7 @@ void TiXmlString ::operator = (const TCHAR * content)
 void TiXmlString ::operator = (const TiXmlString & copy)
 {
     unsigned newlen;
-    TCHAR * newstring;
+    char * newstring;
 
     if (! copy . length ())
     {
@@ -106,8 +106,8 @@ void TiXmlString ::operator = (const TiXmlString & copy)
         return;
     }
     newlen = copy . length () + 1;
-    newstring = new TCHAR [newlen];
-    memcpy (newstring, copy . c_str (), newlen);
+    newstring = new char [newlen];
+    memcpy (newstring, copy . Begin (), newlen);
     empty_it ();
     allocated = newlen;
     cstring = newstring;
@@ -118,17 +118,17 @@ void TiXmlString ::operator = (const TiXmlString & copy)
 //// Checks if a TiXmlString contains only whitespace (same rules as isspace)
 //bool TiXmlString::isblank () const
 //{
-//    TCHAR * lookup;
+//    char * lookup;
 //    for (lookup = cstring; * lookup; lookup++)
 //        if (! isspace (* lookup))
 //            return false;
 //    return true;
 //}
 
-// append a const TCHAR * to an existing TiXmlString
-void TiXmlString::append( const TCHAR* str, int len )
+// append a const char * to an existing TiXmlString
+void TiXmlString::append( const char* str, int len )
 {
-    TCHAR * new_string;
+    char * new_string;
     unsigned new_alloc, new_size, size_suffix;
 
     size_suffix = lstrlen (str);
@@ -145,7 +145,7 @@ void TiXmlString::append( const TCHAR* str, int len )
         new_alloc = assign_new_size (new_size);
 
         // allocate new buffer
-        new_string = new TCHAR [new_alloc];
+        new_string = new char [new_alloc];
         new_string [0] = 0;
 
         // copy the previous allocated buffer into this one
@@ -168,7 +168,7 @@ void TiXmlString::append( const TCHAR* str, int len )
     }
     else
     {
-        // we know we can safely append the new generic_string
+        // we know we can safely append the new String
         // strncat (cstring, str, len);
         memcpy (cstring + length (),
                 str,
@@ -179,10 +179,10 @@ void TiXmlString::append( const TCHAR* str, int len )
 }
 
 
-// append a const TCHAR * to an existing TiXmlString
-void TiXmlString::append( const TCHAR * suffix )
+// append a const char * to an existing TiXmlString
+void TiXmlString::append( const char * suffix )
 {
-    TCHAR * new_string;
+    char * new_string;
     unsigned new_alloc, new_size;
 
     new_size = length () + lstrlen (suffix) + 1;
@@ -193,7 +193,7 @@ void TiXmlString::append( const TCHAR * suffix )
         new_alloc = assign_new_size (new_size);
 
         // allocate new buffer
-        new_string = new TCHAR [new_alloc];
+        new_string = new char [new_alloc];
         new_string [0] = 0;
 
         // copy the previous allocated buffer into this one
@@ -215,7 +215,7 @@ void TiXmlString::append( const TCHAR * suffix )
     }
     else
     {
-        // we know we can safely append the new generic_string
+        // we know we can safely append the new String
         memcpy (cstring + length (),
                 suffix,
                 lstrlen (suffix) + 1);
@@ -226,7 +226,7 @@ void TiXmlString::append( const TCHAR * suffix )
 // Check for TiXmlString equuivalence
 //bool TiXmlString::operator == (const TiXmlString & compare) const
 //{
-//    return (! lstrcmp (c_str (), compare . c_str ()));
+//    return (! lstrcmp (Begin (), compare . Begin ()));
 //}
 
 //unsigned TiXmlString::length () const
@@ -238,9 +238,9 @@ void TiXmlString::append( const TCHAR * suffix )
 //}
 
 
-unsigned TiXmlString::find (TCHAR tofind, unsigned offset) const
+unsigned TiXmlString::find (char tofind, unsigned offset) const
 {
-    TCHAR * lookup;
+    char * lookup;
 
     if (offset >= length ())
         return (unsigned) notfound;

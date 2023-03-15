@@ -19,7 +19,7 @@
 
 
 #include <shlwapi.h>
-#include "MiniDumper.h"
+#include <PowerEditor/MISC/Exception/MiniDumper.h>
 
 LPCTSTR msgTitle = TEXT("Notepad++ crash analysis");
 
@@ -29,8 +29,8 @@ MiniDumper::MiniDumper()
 
 bool MiniDumper::writeDump(EXCEPTION_POINTERS * pExceptionInfo)
 {
-	TCHAR szDumpPath[MAX_PATH];
-	TCHAR szScratch[MAX_PATH];
+	char szDumpPath[MAX_PATH];
+	char szScratch[MAX_PATH];
 	LPCTSTR szResult = NULL;
 	bool retval = false;
 

@@ -18,16 +18,16 @@
 #include "lesDlgs.h"
 #include <PowerEditor/resource.h>
 #include <PowerEditor/menuCmdID.h>
-#include "NppDarkMode.h"
+#include <PowerEditor/NppDarkMode.h>
 
-void ValueDlg::init(HINSTANCE hInst, HWND parent, int valueToSet, const TCHAR *text) 
+void ValueDlg::init(HINSTANCE hInst, HWND parent, int valueToSet, const char *text)
 {
 	Window::init(hInst, parent);
 	_defaultValue = valueToSet;
 	_name = text;
 }
 
-int ValueDlg::doDialog(POINT p, bool isRTL) 
+int ValueDlg::doDialog(POINT p, bool isRTL)
 {
 	_p = p;
 	if (isRTL)
@@ -73,7 +73,7 @@ int ValueDlg::reSizeValueBox()
 	return newWidth - w;
 }
 
-intptr_t CALLBACK ValueDlg::run_dlgProc(UINT Message, WPARAM wParam, LPARAM) 
+intptr_t CALLBACK ValueDlg::run_dlgProc(UINT Message, WPARAM wParam, LPARAM)
 {
 	switch (Message)
 	{
@@ -81,14 +81,14 @@ intptr_t CALLBACK ValueDlg::run_dlgProc(UINT Message, WPARAM wParam, LPARAM)
 		{
 			NppDarkMode::autoSubclassAndThemeChildControls(_hSelf);
 
-			::SetDlgItemText(_hSelf, IDC_VALUE_STATIC, _name.c_str());
+			::SetDlgItemText(_hSelf, IDC_VALUE_STATIC, _name.Begin());
 			::SetDlgItemInt(_hSelf, IDC_VALUE_EDIT, _defaultValue, FALSE);
 
 			RECT rc;
 			::GetWindowRect(_hSelf, &rc);
 			int size = reSizeValueBox();
 			::MoveWindow(_hSelf, _p.x, _p.y, rc.right - rc.left + size, rc.bottom - rc.top, TRUE);
-			
+
 			return TRUE;
 		}
 
@@ -138,7 +138,7 @@ intptr_t CALLBACK ValueDlg::run_dlgProc(UINT Message, WPARAM wParam, LPARAM)
 			return TRUE;
 		}
 
-		case WM_COMMAND : 
+		case WM_COMMAND :
 		{
 			switch (wParam)
 			{
@@ -164,7 +164,7 @@ intptr_t CALLBACK ValueDlg::run_dlgProc(UINT Message, WPARAM wParam, LPARAM)
 }
 
 
-intptr_t CALLBACK ButtonDlg::run_dlgProc(UINT Message, WPARAM wParam, LPARAM) 
+intptr_t CALLBACK ButtonDlg::run_dlgProc(UINT Message, WPARAM wParam, LPARAM)
 {
 	switch (Message)
 	{
@@ -220,7 +220,7 @@ intptr_t CALLBACK ButtonDlg::run_dlgProc(UINT Message, WPARAM wParam, LPARAM)
 			return TRUE;
 		}
 
-		case WM_COMMAND : 
+		case WM_COMMAND :
 		{
 			switch (wParam)
 			{
@@ -264,7 +264,7 @@ intptr_t CALLBACK ButtonDlg::run_dlgProc(UINT Message, WPARAM wParam, LPARAM)
 	return FALSE;
 }
 
-void ButtonDlg::doDialog(bool isRTL) 
+void ButtonDlg::doDialog(bool isRTL)
 {
     if (!isCreated())
 			create(IDD_BUTTON_DLG, isRTL);

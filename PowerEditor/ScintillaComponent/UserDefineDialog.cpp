@@ -16,12 +16,12 @@
 
 
 #include <PowerEditor/localization.h>
-#include "UserDefineDialog.h"
-#include "ScintillaEditView.h"
+#include <PowerEditor/ScintillaComponent/UserDefineDialog.h>
+#include <PowerEditor/ScintillaComponent/ScintillaEditView.h>
 #include <PowerEditor/Parameters.h>
 #include <PowerEditor/resource.h>
-#include "Notepad_plus_msgs.h"
-#include "CustomFileDialog.h"
+#include <PowerEditor/MISC/PluginsManager/Notepad_plus_msgs.h>
+#include <PowerEditor/WinControls/OpenSaveFileDialog/CustomFileDialog.h>
 #include <PowerEditor/MISC/Common/Common.h>
 
 using namespace std;
@@ -37,7 +37,7 @@ GlobalMappers & globalMappper()
     return gm;
 }
 
-void convertTo(TCHAR *dest, int destLen, const TCHAR *toConvert, const TCHAR *prefix)
+void convertTo(char *dest, int destLen, const char *toConvert, const char *prefix)
 {
 	bool inGroup = false;
 	int index = lstrlen(dest);
@@ -212,15 +212,15 @@ void FolderStyleDialog::setKeywords2List(int id)
 {
     switch (id)
     {
-        case IDC_FOLDER_IN_CODE1_OPEN_EDIT :     
-        case IDC_FOLDER_IN_CODE1_MIDDLE_EDIT :   
-        case IDC_FOLDER_IN_CODE1_CLOSE_EDIT :    
-        case IDC_FOLDER_IN_CODE2_OPEN_EDIT :     
-        case IDC_FOLDER_IN_CODE2_MIDDLE_EDIT :   
-        case IDC_FOLDER_IN_CODE2_CLOSE_EDIT :    
-        case IDC_FOLDER_IN_COMMENT_OPEN_EDIT :   
-        case IDC_FOLDER_IN_COMMENT_MIDDLE_EDIT : 
-        case IDC_FOLDER_IN_COMMENT_CLOSE_EDIT :  
+        case IDC_FOLDER_IN_CODE1_OPEN_EDIT :
+        case IDC_FOLDER_IN_CODE1_MIDDLE_EDIT :
+        case IDC_FOLDER_IN_CODE1_CLOSE_EDIT :
+        case IDC_FOLDER_IN_CODE2_OPEN_EDIT :
+        case IDC_FOLDER_IN_CODE2_MIDDLE_EDIT :
+        case IDC_FOLDER_IN_CODE2_CLOSE_EDIT :
+        case IDC_FOLDER_IN_COMMENT_OPEN_EDIT :
+        case IDC_FOLDER_IN_COMMENT_MIDDLE_EDIT :
+        case IDC_FOLDER_IN_COMMENT_CLOSE_EDIT :
             ::GetDlgItemText(_hSelf, id, _pUserLang->_keywordLists[globalMappper().dialogMapper[id]], max_char);
             break;
     }
@@ -241,7 +241,7 @@ void FolderStyleDialog::updateDlg()
     ::SendDlgItemMessage(_hSelf, IDC_FOLDER_IN_COMMENT_CLOSE_EDIT,  WM_SETTEXT, 0, reinterpret_cast<LPARAM>(_pUserLang->_keywordLists[SCE_USER_KWLIST_FOLDERS_IN_COMMENT_CLOSE]));
 }
 
-void FolderStyleDialog::retrieve(TCHAR *dest, const TCHAR *toRetrieve, TCHAR *prefix) const
+void FolderStyleDialog::retrieve(char *dest, const char *toRetrieve, char *prefix) const
 {
     int j = 0;
     bool begin2Copy = false;
@@ -505,7 +505,7 @@ void CommentStyleDialog::setKeywords2List(int id)
         case IDC_NUMBER_EXTRAS2_EDIT :
         case IDC_NUMBER_SUFFIX1_EDIT :
         case IDC_NUMBER_SUFFIX2_EDIT :
-        case IDC_NUMBER_RANGE_EDIT :  
+        case IDC_NUMBER_RANGE_EDIT :
         {
             ::GetDlgItemText(_hSelf, id, _pUserLang->_keywordLists[globalMappper().dialogMapper[id]], max_char);
             break;
@@ -522,9 +522,9 @@ void CommentStyleDialog::setKeywords2List(int id)
     }
     if (index != -1)
     {
-        TCHAR* newList = new TCHAR[max_char];
+        char* newList = new char[max_char];
         newList[0] = '\0';
-        TCHAR* buffer = new TCHAR[max_char];
+        char* buffer = new char[max_char];
         buffer[0] = '\0';
 
         const int list[] = {
@@ -535,7 +535,7 @@ void CommentStyleDialog::setKeywords2List(int id)
             IDC_COMMENT_CLOSE_EDIT
         };
 
-        TCHAR intBuffer[10] = { '0', 0 };
+        char intBuffer[10] = { '0', 0 };
         for (int i = 0; static_cast<size_t>(i) < sizeof(list) / sizeof(int); ++i)
         {
             generic_itoa(i, intBuffer + 1, 10);
@@ -549,7 +549,7 @@ void CommentStyleDialog::setKeywords2List(int id)
     }
 }
 
-void CommentStyleDialog::retrieve(TCHAR *dest, const TCHAR *toRetrieve, const TCHAR *prefix) const
+void CommentStyleDialog::retrieve(char *dest, const char *toRetrieve, const char *prefix) const
 {
     int j = 0;
     bool begin2Copy = false;
@@ -587,7 +587,7 @@ void CommentStyleDialog::retrieve(TCHAR *dest, const TCHAR *toRetrieve, const TC
 
 void CommentStyleDialog::updateDlg()
 {
-    TCHAR* buffer = new TCHAR[max_char];
+    char* buffer = new char[max_char];
     buffer[0] = '\0';
 
     const int list[] = {
@@ -598,7 +598,7 @@ void CommentStyleDialog::updateDlg()
         IDC_COMMENT_CLOSE_EDIT
     };
 
-    TCHAR intBuffer[10] = { '0', 0 };
+    char intBuffer[10] = { '0', 0 };
     for (int i = 0; static_cast<size_t>(i) < sizeof(list) / sizeof(int); ++i)
     {
         generic_itoa(i, intBuffer + 1, 10);
@@ -629,7 +629,7 @@ void CommentStyleDialog::updateDlg()
 
 void SymbolsStyleDialog::updateDlg()
 {
-    TCHAR* buffer = new TCHAR[max_char];
+    char* buffer = new char[max_char];
     buffer[0] = '\0';
     const int list[] = {
         IDC_DELIMITER1_BOUNDARYOPEN_EDIT,
@@ -657,7 +657,7 @@ void SymbolsStyleDialog::updateDlg()
         IDC_DELIMITER8_ESCAPE_EDIT,
         IDC_DELIMITER8_BOUNDARYCLOSE_EDIT
     };
-    TCHAR intBuffer[10] = {'0', 0};
+    char intBuffer[10] = {'0', 0};
 
     for (int i = 0; static_cast<size_t>(i) < sizeof(list)/sizeof(int); ++i)
     {
@@ -748,7 +748,7 @@ intptr_t CALLBACK SymbolsStyleDialog::run_dlgProc(UINT Message, WPARAM wParam, L
 }
 
 
-void SymbolsStyleDialog::retrieve(TCHAR *dest, const TCHAR *toRetrieve, TCHAR *prefix) const
+void SymbolsStyleDialog::retrieve(char *dest, const char *toRetrieve, char *prefix) const
 {
     int j = 0;
     bool begin2Copy = false;
@@ -820,11 +820,11 @@ void SymbolsStyleDialog::setKeywords2List(int id)
         case IDC_DELIMITER8_ESCAPE_EDIT :
         case IDC_DELIMITER8_BOUNDARYCLOSE_EDIT :
         {
-            TCHAR* newList = new TCHAR[max_char];
+            char* newList = new char[max_char];
             newList[0] = '\0';
-            TCHAR* buffer = new TCHAR[max_char];
+            char* buffer = new char[max_char];
             buffer[0] = '\0';
-            TCHAR intBuffer[10] = {'0', 0};
+            char intBuffer[10] = {'0', 0};
 
             const int list[] = {
                 IDC_DELIMITER1_BOUNDARYOPEN_EDIT,
@@ -879,30 +879,30 @@ UserDefineDialog::UserDefineDialog(): SharedParametersDialog()
 {
     _pCurrentUserLang = new UserLangContainer();
 
-    _pCurrentUserLang->_styles.addStyler(SCE_USER_STYLE_DEFAULT,              globalMappper().styleNameMapper[SCE_USER_STYLE_DEFAULT].c_str());
-    _pCurrentUserLang->_styles.addStyler(SCE_USER_STYLE_COMMENT,              globalMappper().styleNameMapper[SCE_USER_STYLE_COMMENT].c_str());
-    _pCurrentUserLang->_styles.addStyler(SCE_USER_STYLE_COMMENTLINE,          globalMappper().styleNameMapper[SCE_USER_STYLE_COMMENTLINE].c_str());
-    _pCurrentUserLang->_styles.addStyler(SCE_USER_STYLE_NUMBER,               globalMappper().styleNameMapper[SCE_USER_STYLE_NUMBER].c_str());
-    _pCurrentUserLang->_styles.addStyler(SCE_USER_STYLE_KEYWORD1,             globalMappper().styleNameMapper[SCE_USER_STYLE_KEYWORD1].c_str());
-    _pCurrentUserLang->_styles.addStyler(SCE_USER_STYLE_KEYWORD2,             globalMappper().styleNameMapper[SCE_USER_STYLE_KEYWORD2].c_str());
-    _pCurrentUserLang->_styles.addStyler(SCE_USER_STYLE_KEYWORD3,             globalMappper().styleNameMapper[SCE_USER_STYLE_KEYWORD3].c_str());
-    _pCurrentUserLang->_styles.addStyler(SCE_USER_STYLE_KEYWORD4,             globalMappper().styleNameMapper[SCE_USER_STYLE_KEYWORD4].c_str());
-    _pCurrentUserLang->_styles.addStyler(SCE_USER_STYLE_KEYWORD5,             globalMappper().styleNameMapper[SCE_USER_STYLE_KEYWORD5].c_str());
-    _pCurrentUserLang->_styles.addStyler(SCE_USER_STYLE_KEYWORD6,             globalMappper().styleNameMapper[SCE_USER_STYLE_KEYWORD6].c_str());
-    _pCurrentUserLang->_styles.addStyler(SCE_USER_STYLE_KEYWORD7,             globalMappper().styleNameMapper[SCE_USER_STYLE_KEYWORD7].c_str());
-    _pCurrentUserLang->_styles.addStyler(SCE_USER_STYLE_KEYWORD8,             globalMappper().styleNameMapper[SCE_USER_STYLE_KEYWORD8].c_str());
-    _pCurrentUserLang->_styles.addStyler(SCE_USER_STYLE_OPERATOR,             globalMappper().styleNameMapper[SCE_USER_STYLE_OPERATOR].c_str());
-    _pCurrentUserLang->_styles.addStyler(SCE_USER_STYLE_FOLDER_IN_CODE1,      globalMappper().styleNameMapper[SCE_USER_STYLE_FOLDER_IN_CODE1].c_str());
-    _pCurrentUserLang->_styles.addStyler(SCE_USER_STYLE_FOLDER_IN_CODE2,      globalMappper().styleNameMapper[SCE_USER_STYLE_FOLDER_IN_CODE2].c_str());
-    _pCurrentUserLang->_styles.addStyler(SCE_USER_STYLE_FOLDER_IN_COMMENT,    globalMappper().styleNameMapper[SCE_USER_STYLE_FOLDER_IN_COMMENT].c_str());
-    _pCurrentUserLang->_styles.addStyler(SCE_USER_STYLE_DELIMITER1,           globalMappper().styleNameMapper[SCE_USER_STYLE_DELIMITER1].c_str());
-    _pCurrentUserLang->_styles.addStyler(SCE_USER_STYLE_DELIMITER2,           globalMappper().styleNameMapper[SCE_USER_STYLE_DELIMITER2].c_str());
-    _pCurrentUserLang->_styles.addStyler(SCE_USER_STYLE_DELIMITER3,           globalMappper().styleNameMapper[SCE_USER_STYLE_DELIMITER3].c_str());
-    _pCurrentUserLang->_styles.addStyler(SCE_USER_STYLE_DELIMITER4,           globalMappper().styleNameMapper[SCE_USER_STYLE_DELIMITER4].c_str());
-    _pCurrentUserLang->_styles.addStyler(SCE_USER_STYLE_DELIMITER5,           globalMappper().styleNameMapper[SCE_USER_STYLE_DELIMITER5].c_str());
-    _pCurrentUserLang->_styles.addStyler(SCE_USER_STYLE_DELIMITER6,           globalMappper().styleNameMapper[SCE_USER_STYLE_DELIMITER6].c_str());
-    _pCurrentUserLang->_styles.addStyler(SCE_USER_STYLE_DELIMITER7,           globalMappper().styleNameMapper[SCE_USER_STYLE_DELIMITER7].c_str());
-    _pCurrentUserLang->_styles.addStyler(SCE_USER_STYLE_DELIMITER8,           globalMappper().styleNameMapper[SCE_USER_STYLE_DELIMITER8].c_str());
+    _pCurrentUserLang->_styles.addStyler(SCE_USER_STYLE_DEFAULT,              globalMappper().styleNameMapper[SCE_USER_STYLE_DEFAULT].Begin());
+    _pCurrentUserLang->_styles.addStyler(SCE_USER_STYLE_COMMENT,              globalMappper().styleNameMapper[SCE_USER_STYLE_COMMENT].Begin());
+    _pCurrentUserLang->_styles.addStyler(SCE_USER_STYLE_COMMENTLINE,          globalMappper().styleNameMapper[SCE_USER_STYLE_COMMENTLINE].Begin());
+    _pCurrentUserLang->_styles.addStyler(SCE_USER_STYLE_NUMBER,               globalMappper().styleNameMapper[SCE_USER_STYLE_NUMBER].Begin());
+    _pCurrentUserLang->_styles.addStyler(SCE_USER_STYLE_KEYWORD1,             globalMappper().styleNameMapper[SCE_USER_STYLE_KEYWORD1].Begin());
+    _pCurrentUserLang->_styles.addStyler(SCE_USER_STYLE_KEYWORD2,             globalMappper().styleNameMapper[SCE_USER_STYLE_KEYWORD2].Begin());
+    _pCurrentUserLang->_styles.addStyler(SCE_USER_STYLE_KEYWORD3,             globalMappper().styleNameMapper[SCE_USER_STYLE_KEYWORD3].Begin());
+    _pCurrentUserLang->_styles.addStyler(SCE_USER_STYLE_KEYWORD4,             globalMappper().styleNameMapper[SCE_USER_STYLE_KEYWORD4].Begin());
+    _pCurrentUserLang->_styles.addStyler(SCE_USER_STYLE_KEYWORD5,             globalMappper().styleNameMapper[SCE_USER_STYLE_KEYWORD5].Begin());
+    _pCurrentUserLang->_styles.addStyler(SCE_USER_STYLE_KEYWORD6,             globalMappper().styleNameMapper[SCE_USER_STYLE_KEYWORD6].Begin());
+    _pCurrentUserLang->_styles.addStyler(SCE_USER_STYLE_KEYWORD7,             globalMappper().styleNameMapper[SCE_USER_STYLE_KEYWORD7].Begin());
+    _pCurrentUserLang->_styles.addStyler(SCE_USER_STYLE_KEYWORD8,             globalMappper().styleNameMapper[SCE_USER_STYLE_KEYWORD8].Begin());
+    _pCurrentUserLang->_styles.addStyler(SCE_USER_STYLE_OPERATOR,             globalMappper().styleNameMapper[SCE_USER_STYLE_OPERATOR].Begin());
+    _pCurrentUserLang->_styles.addStyler(SCE_USER_STYLE_FOLDER_IN_CODE1,      globalMappper().styleNameMapper[SCE_USER_STYLE_FOLDER_IN_CODE1].Begin());
+    _pCurrentUserLang->_styles.addStyler(SCE_USER_STYLE_FOLDER_IN_CODE2,      globalMappper().styleNameMapper[SCE_USER_STYLE_FOLDER_IN_CODE2].Begin());
+    _pCurrentUserLang->_styles.addStyler(SCE_USER_STYLE_FOLDER_IN_COMMENT,    globalMappper().styleNameMapper[SCE_USER_STYLE_FOLDER_IN_COMMENT].Begin());
+    _pCurrentUserLang->_styles.addStyler(SCE_USER_STYLE_DELIMITER1,           globalMappper().styleNameMapper[SCE_USER_STYLE_DELIMITER1].Begin());
+    _pCurrentUserLang->_styles.addStyler(SCE_USER_STYLE_DELIMITER2,           globalMappper().styleNameMapper[SCE_USER_STYLE_DELIMITER2].Begin());
+    _pCurrentUserLang->_styles.addStyler(SCE_USER_STYLE_DELIMITER3,           globalMappper().styleNameMapper[SCE_USER_STYLE_DELIMITER3].Begin());
+    _pCurrentUserLang->_styles.addStyler(SCE_USER_STYLE_DELIMITER4,           globalMappper().styleNameMapper[SCE_USER_STYLE_DELIMITER4].Begin());
+    _pCurrentUserLang->_styles.addStyler(SCE_USER_STYLE_DELIMITER5,           globalMappper().styleNameMapper[SCE_USER_STYLE_DELIMITER5].Begin());
+    _pCurrentUserLang->_styles.addStyler(SCE_USER_STYLE_DELIMITER6,           globalMappper().styleNameMapper[SCE_USER_STYLE_DELIMITER6].Begin());
+    _pCurrentUserLang->_styles.addStyler(SCE_USER_STYLE_DELIMITER7,           globalMappper().styleNameMapper[SCE_USER_STYLE_DELIMITER7].Begin());
+    _pCurrentUserLang->_styles.addStyler(SCE_USER_STYLE_DELIMITER8,           globalMappper().styleNameMapper[SCE_USER_STYLE_DELIMITER8].Begin());
 }
 
 UserDefineDialog::~UserDefineDialog()
@@ -951,7 +951,7 @@ void UserDefineDialog::enableLangAndControlsBy(size_t index)
 {
     _pUserLang = (index == 0)?_pCurrentUserLang:&((NppParameters::getInstance()).getULCFromIndex(index - 1));
     if (index != 0)
-        ::SetWindowText(::GetDlgItem(_hSelf, IDC_EXT_EDIT), _pUserLang->_ext.c_str());
+        ::SetWindowText(::GetDlgItem(_hSelf, IDC_EXT_EDIT), _pUserLang->_ext.Begin());
 
     ::ShowWindow(::GetDlgItem(_hSelf, IDC_EXT_STATIC), (index == 0)?SW_HIDE:SW_SHOW);
     ::ShowWindow(::GetDlgItem(_hSelf, IDC_EXT_EDIT), (index == 0)?SW_HIDE:SW_SHOW);
@@ -1058,8 +1058,8 @@ intptr_t CALLBACK UserDefineDialog::run_dlgProc(UINT message, WPARAM wParam, LPA
             si.nMax   = 0;
             ::SetScrollInfo(_hSelf, SB_VERT, &si, TRUE);
 
-            TCHAR temp[32];
-            generic_string udlVersion = TEXT("User Defined Language v.");
+            char temp[32];
+            String udlVersion = TEXT("User Defined Language v.");
             udlVersion += generic_itoa(SCE_UDL_VERSION_MAJOR, temp, 10);
             udlVersion += TEXT(".");
             udlVersion += generic_itoa(SCE_UDL_VERSION_MINOR, temp, 10);
@@ -1068,7 +1068,7 @@ intptr_t CALLBACK UserDefineDialog::run_dlgProc(UINT message, WPARAM wParam, LPA
             udlVersion += TEXT(".");
             udlVersion += generic_itoa(SCE_UDL_VERSION_REVISION, temp, 10);
 
-            ::SetWindowText(_hSelf, udlVersion.c_str());
+            ::SetWindowText(_hSelf, udlVersion.Begin());
 
             NppDarkMode::autoSubclassAndThemeChildControls(_hSelf);
             NppDarkMode::setDarkScrollBar(_hSelf);
@@ -1148,7 +1148,7 @@ intptr_t CALLBACK UserDefineDialog::run_dlgProc(UINT message, WPARAM wParam, LPA
         {
             if (HIWORD(wParam) == EN_CHANGE)
             {
-                TCHAR ext[extsLenMax] = { '\0' };
+                char ext[extsLenMax] = { '\0' };
 				::SendDlgItemMessage(_hSelf, IDC_EXT_EDIT, WM_GETTEXT, extsLenMax, reinterpret_cast<LPARAM>(ext));
                 _pUserLang->_ext = ext;
                 return TRUE;
@@ -1221,7 +1221,7 @@ intptr_t CALLBACK UserDefineDialog::run_dlgProc(UINT message, WPARAM wParam, LPA
                         {
                             auto i = ::SendDlgItemMessage(_hSelf, IDC_LANGNAME_COMBO, CB_GETCURSEL, 0, 0);
 							const size_t langNameLen = 256;
-							TCHAR langName[langNameLen + 1];
+							char langName[langNameLen + 1];
 							auto cbTextLen = ::SendDlgItemMessage(_hSelf, IDC_LANGNAME_COMBO, CB_GETLBTEXTLEN, i, 0);
 							if (static_cast<size_t>(cbTextLen) > langNameLen)
 								return TRUE;
@@ -1250,20 +1250,20 @@ intptr_t CALLBACK UserDefineDialog::run_dlgProc(UINT message, WPARAM wParam, LPA
                     {
                         auto i = ::SendDlgItemMessage(_hSelf, IDC_LANGNAME_COMBO, CB_GETCURSEL, 0, 0);
 						const size_t langNameLen = 256;
-						TCHAR langName[langNameLen + 1];
+						char langName[langNameLen + 1];
 						auto cbTextLen = ::SendDlgItemMessage(_hSelf, IDC_LANGNAME_COMBO, CB_GETLBTEXTLEN, i, 0);
 						if (static_cast<size_t>(cbTextLen) > langNameLen)
 							return TRUE;
 
 						::SendDlgItemMessage(_hSelf, IDC_LANGNAME_COMBO, CB_GETLBTEXT, i, reinterpret_cast<LPARAM>(langName));
 
-						generic_string strName = pNativeSpeaker->getLocalizedStrFromID("common-name", TEXT("Name: "));
-						generic_string strTitle = pNativeSpeaker->getLocalizedStrFromID("userdefined-title-rename", TEXT("Rename Current Language Name"));
+						String strName = pNativeSpeaker->getLocalizedStrFromID("common-name", TEXT("Name: "));
+						String strTitle = pNativeSpeaker->getLocalizedStrFromID("userdefined-title-rename", TEXT("Rename Current Language Name"));
 
                         StringDlg strDlg;
-                        strDlg.init(_hInst, _hSelf, strTitle.c_str(), strName.c_str(), langName, langNameLenMax - 1);
+                        strDlg.init(_hInst, _hSelf, strTitle.Begin(), strName.Begin(), langName, langNameLenMax - 1);
 
-                        TCHAR *newName = (TCHAR *)strDlg.doDialog();
+                        char *newName = (char *)strDlg.doDialog();
 
                         if (newName)
                         {
@@ -1309,20 +1309,20 @@ intptr_t CALLBACK UserDefineDialog::run_dlgProc(UINT message, WPARAM wParam, LPA
                             wParam = IDC_ADDNEW_BUTTON;
 
 
-						generic_string strName = pNativeSpeaker->getLocalizedStrFromID("common-name", TEXT("Name: "));
-						generic_string strTitle = (wParam == IDC_SAVEAS_BUTTON) ?
+						String strName = pNativeSpeaker->getLocalizedStrFromID("common-name", TEXT("Name: "));
+						String strTitle = (wParam == IDC_SAVEAS_BUTTON) ?
 							pNativeSpeaker->getLocalizedStrFromID("userdefined-title-save", TEXT("Save Current Language Name As...")) :
 							pNativeSpeaker->getLocalizedStrFromID("userdefined-title-new", TEXT("Create New Language..."));
 
                         StringDlg strDlg;
-						strDlg.init(_hInst, _hSelf, strTitle.c_str(), strName.c_str(), TEXT(""), langNameLenMax - 1);
+						strDlg.init(_hInst, _hSelf, strTitle.Begin(), strName.Begin(), TEXT(""), langNameLenMax - 1);
 
-                        TCHAR *tmpName = reinterpret_cast<TCHAR *>(strDlg.doDialog());
+                        char *tmpName = reinterpret_cast<char *>(strDlg.doDialog());
 
                         if (tmpName && tmpName[0])
                         {
-                            generic_string newNameString(tmpName);
-                            const TCHAR *newName = newNameString.c_str();
+                            String newNameString(tmpName);
+                            const char *newName = newNameString.Begin();
 
                             if (nppParam.isExistingUserLangName(newName))
                             {
@@ -1359,8 +1359,8 @@ intptr_t CALLBACK UserDefineDialog::run_dlgProc(UINT message, WPARAM wParam, LPA
                     {
                         CustomFileDialog fDlg(_hSelf);
                         fDlg.setExtFilter(TEXT("UDL"), TEXT(".xml"));
-                        generic_string sourceFile = fDlg.doOpenSingleFileDlg();
-                        if (sourceFile.empty()) break;
+                        String sourceFile = fDlg.doOpenSingleFileDlg();
+                        if (sourceFile.IsEmpty()) break;
 
                         bool isSuccessful = nppParam.importUDLFromFile(sourceFile);
                         if (isSuccessful)
@@ -1390,8 +1390,8 @@ intptr_t CALLBACK UserDefineDialog::run_dlgProc(UINT message, WPARAM wParam, LPA
                         CustomFileDialog fDlg(_hSelf);
                         fDlg.setExtFilter(TEXT("UDL"), TEXT(".xml"));
 						fDlg.setExtIndex(0);		// 0 Default index else file will be saved without extension
-						generic_string fileName2save = fDlg.doSaveDlg();
-                        if (fileName2save.empty()) break;
+						String fileName2save = fDlg.doSaveDlg();
+                        if (fileName2save.IsEmpty()) break;
 
                         if (i2Export > 0)
                         {
@@ -1537,15 +1537,15 @@ intptr_t CALLBACK StringDlg::run_dlgProc(UINT Message, WPARAM wParam, LPARAM)
 			NppDarkMode::autoSubclassAndThemeChildControls(_hSelf);
 
 			// Re-route to Subclassed the edit control's proc if needed
-			if (_restrictedChars.length())
+			if (_restrictedChars.GetLength())
 			{
 				::SetWindowLongPtr(GetDlgItem(_hSelf, IDC_STRING_EDIT), GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
 				_oldEditProc = reinterpret_cast<WNDPROC>(SetWindowLongPtr(GetDlgItem(_hSelf, IDC_STRING_EDIT), GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(customEditProc)));
 			}
 
-            ::SetWindowText(_hSelf, _title.c_str());
-            ::SetDlgItemText(_hSelf, IDC_STRING_STATIC, _static.c_str());
-            ::SetDlgItemText(_hSelf, IDC_STRING_EDIT, _textValue.c_str());
+            ::SetWindowText(_hSelf, _title.Begin());
+            ::SetDlgItemText(_hSelf, IDC_STRING_STATIC, _static.Begin());
+            ::SetDlgItemText(_hSelf, IDC_STRING_EDIT, _textValue.Begin());
             if (_txtLen)
                 ::SendDlgItemMessage(_hSelf, IDC_STRING_EDIT, EM_SETLIMITTEXT, _txtLen, 0);
 
@@ -1553,11 +1553,11 @@ intptr_t CALLBACK StringDlg::run_dlgProc(UINT Message, WPARAM wParam, LPARAM)
 			NativeLangSpeaker *pNativeSpeaker = (NppParameters::getInstance()).getNativeLangSpeaker();
 			if (pNativeSpeaker)
 			{
-				generic_string ok = pNativeSpeaker->getLocalizedStrFromID("common-ok", TEXT("OK"));
-				generic_string cancel = pNativeSpeaker->getLocalizedStrFromID("common-cancel", TEXT("Cancel"));
+				String ok = pNativeSpeaker->getLocalizedStrFromID("common-ok", TEXT("OK"));
+				String cancel = pNativeSpeaker->getLocalizedStrFromID("common-cancel", TEXT("Cancel"));
 
-				::SetDlgItemText(_hSelf, IDOK, ok.c_str());
-				::SetDlgItemText(_hSelf, IDCANCEL, cancel.c_str());
+				::SetDlgItemText(_hSelf, IDOK, ok.Begin());
+				::SetDlgItemText(_hSelf, IDCANCEL, cancel.Begin());
 			}
 
 			if (_shouldGotoCenter)
@@ -1618,11 +1618,11 @@ intptr_t CALLBACK StringDlg::run_dlgProc(UINT Message, WPARAM wParam, LPARAM)
             {
                 case IDOK :
                 {
-                    TCHAR tmpName[langNameLenMax];
+                    char tmpName[langNameLenMax];
                     tmpName[0] = '\0';
                     ::GetDlgItemText(_hSelf, IDC_STRING_EDIT, tmpName, langNameLenMax);
                     _textValue = tmpName;
-                    ::EndDialog(_hSelf, reinterpret_cast<intptr_t>(_textValue.c_str()));
+                    ::EndDialog(_hSelf, reinterpret_cast<intptr_t>(_textValue.Begin()));
                     return TRUE;
                 }
 
@@ -1669,7 +1669,7 @@ LRESULT StringDlg::customEditProc(HWND hEdit, UINT msg, WPARAM wParam, LPARAM lP
 		else
 		{
 			// If Key pressed not permitted, then return 0
-			if (!pSelf->isAllowed(reinterpret_cast<TCHAR*>(&wParam)))
+			if (!pSelf->isAllowed(reinterpret_cast<char*>(&wParam)))
 				return 0;
 		}
 		break;
@@ -1684,7 +1684,7 @@ LRESULT StringDlg::customEditProc(HWND hEdit, UINT msg, WPARAM wParam, LPARAM lP
 	return CallWindowProc(pSelf->_oldEditProc, hEdit, msg, wParam, lParam);
 }
 
-bool StringDlg::isAllowed(const generic_string & txt)
+bool StringDlg::isAllowed(const String & txt)
 {
 	for (auto ch : txt)
 	{
@@ -1761,10 +1761,10 @@ intptr_t CALLBACK StylerDlg::dlgProc(HWND hwnd, UINT message, WPARAM wParam, LPA
 
             // for the font size combo
             HWND hFontSizeCombo = ::GetDlgItem(hwnd, IDC_STYLER_COMBO_FONT_SIZE);
-            for (size_t j = 0 ; j < int(sizeof(fontSizeStrs))/(3*sizeof(TCHAR)) ; ++j)
+            for (size_t j = 0 ; j < int(sizeof(fontSizeStrs))/(3*sizeof(char)) ; ++j)
 				::SendMessage(hFontSizeCombo, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(fontSizeStrs[j]));
 
-            TCHAR size[10];
+            char size[10];
             if (style._fontSize == -1)
                 size[0] = '\0';
             else
@@ -1776,14 +1776,14 @@ intptr_t CALLBACK StylerDlg::dlgProc(HWND hwnd, UINT message, WPARAM wParam, LPA
 
             // for the font name combo
             HWND hFontNameCombo = ::GetDlgItem(hwnd, IDC_STYLER_COMBO_FONT_NAME);
-            const std::vector<generic_string> & fontlist = nppParam.getFontList();
+            const Vector<String> & fontlist = nppParam.getFontList();
             for (size_t j = 0, len = fontlist.size() ; j < len ; ++j)
             {
-				auto k = ::SendMessage(hFontNameCombo, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(fontlist[j].c_str()));
-				::SendMessage(hFontNameCombo, CB_SETITEMDATA, k, reinterpret_cast<LPARAM>(fontlist[j].c_str()));
+				auto k = ::SendMessage(hFontNameCombo, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(fontlist[j].Begin()));
+				::SendMessage(hFontNameCombo, CB_SETITEMDATA, k, reinterpret_cast<LPARAM>(fontlist[j].Begin()));
             }
 
-			i = ::SendMessage(hFontNameCombo, CB_FINDSTRINGEXACT, static_cast<WPARAM>(-1), reinterpret_cast<LPARAM>(style._fontName.c_str()));
+			i = ::SendMessage(hFontNameCombo, CB_FINDSTRINGEXACT, static_cast<WPARAM>(-1), reinterpret_cast<LPARAM>(style._fontName.Begin()));
             if (i == CB_ERR)
                 i = 0;
             ::SendMessage(hFontNameCombo, CB_SETCURSEL, i, 0);
@@ -1883,7 +1883,7 @@ intptr_t CALLBACK StylerDlg::dlgProc(HWND hwnd, UINT message, WPARAM wParam, LPA
                     if (i != 0)
                     {
 						const size_t intStrLen = 3;
-						TCHAR intStr[intStrLen];
+						char intStr[intStrLen];
 						auto lbTextLen = ::SendDlgItemMessage(hwnd, LOWORD(wParam), CB_GETLBTEXTLEN, i, 0);
 						if (static_cast<size_t>(lbTextLen) > intStrLen - 1)
 							return TRUE;
@@ -1893,7 +1893,7 @@ intptr_t CALLBACK StylerDlg::dlgProc(HWND hwnd, UINT message, WPARAM wParam, LPA
                             style._fontSize = -1;
                         else
                         {
-                            TCHAR *finStr;
+                            char *finStr;
                             style._fontSize = generic_strtol(intStr, &finStr, 10);
                             if (*finStr != '\0')
                                 style._fontSize = -1;
@@ -1906,7 +1906,7 @@ intptr_t CALLBACK StylerDlg::dlgProc(HWND hwnd, UINT message, WPARAM wParam, LPA
                 }
                 else if (LOWORD(wParam) == IDC_STYLER_COMBO_FONT_NAME)
                 {
-                    style._fontName = (TCHAR *)::SendDlgItemMessage(hwnd, LOWORD(wParam), CB_GETITEMDATA, i, 0);
+                    style._fontName = (char *)::SendDlgItemMessage(hwnd, LOWORD(wParam), CB_GETITEMDATA, i, 0);
                 }
 
                 // show changes to user, re-color document

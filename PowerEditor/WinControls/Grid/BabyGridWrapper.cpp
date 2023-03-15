@@ -17,7 +17,7 @@
 
 #include "BabyGridWrapper.h"
 
-const TCHAR *babyGridClassName = TEXT("BABYGRID");
+const char *babyGridClassName = TEXT("BABYGRID");
 
 bool BabyGridWrapper::_isRegistered = false;
 

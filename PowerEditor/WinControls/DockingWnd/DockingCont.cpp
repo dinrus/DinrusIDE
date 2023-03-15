@@ -185,7 +185,7 @@ tTbData* DockingCont::findToolbarByWnd(HWND hClient)
 	return pTbData;
 }
 
-tTbData* DockingCont::findToolbarByName(TCHAR* pszName)
+tTbData* DockingCont::findToolbarByName(char* pszName)
 {
 	tTbData*	pTbData		= NULL;
 
@@ -296,7 +296,7 @@ LRESULT DockingCont::runProcCaption(HWND hwnd, UINT Message, WPARAM wParam, LPAR
 				if (!hookMouse)
 				{
 					DWORD dwError = ::GetLastError();
-					TCHAR  str[128];
+					char  str[128];
 					::wsprintf(str, TEXT("GetLastError() returned %lu"), dwError);
 					::MessageBox(NULL, str, TEXT("SetWindowsHookEx(MOUSE) failed on runProcCaption"), MB_OK | MB_ICONERROR);
 				}
@@ -404,13 +404,13 @@ LRESULT DockingCont::runProcCaption(HWND hwnd, UINT Message, WPARAM wParam, LPAR
 			toolTip.init(_hInst, hwnd);
 			if (_hoverMPos == posCaption)
 			{
-				toolTip.Show(rc, _pszCaption.c_str(), pt.x, pt.y + 20);
+				toolTip.Show(rc, _pszCaption.Begin(), pt.x, pt.y + 20);
 			}
 			else
 			{
 				NativeLangSpeaker *pNativeSpeaker = (NppParameters::getInstance()).getNativeLangSpeaker();
-				generic_string tip = pNativeSpeaker->getLocalizedStrFromID("close-panel-tip", TEXT("Close"));
-				toolTip.Show(rc, tip.c_str(), pt.x, pt.y + 20);
+				String tip = pNativeSpeaker->getLocalizedStrFromID("close-panel-tip", TEXT("Close"));
+				toolTip.Show(rc, tip.Begin(), pt.x, pt.y + 20);
 			}
 			return TRUE;
 		}
@@ -449,7 +449,7 @@ void DockingCont::drawCaptionItem(DRAWITEMSTRUCT *pDrawItemStruct)
 	HBITMAP		hBmpCur		= NULL;
 	HBITMAP		hBmpOld 	= NULL;
 	HBITMAP		hBmpNew		= NULL;
-	int length = static_cast<int32_t>(_pszCaption.length());
+	int length = static_cast<int32_t>(_pszCaption.GetLength());
 
 	int nSavedDC			= ::SaveDC(hDc);
 
@@ -507,11 +507,11 @@ void DockingCont::drawCaptionItem(DRAWITEMSTRUCT *pDrawItemStruct)
 		rc.top		+= 1;
 		rc.right	-= 16;
 		hOldFont = (HFONT)::SelectObject(hDc, _hFont);
-		::DrawText(hDc, _pszCaption.c_str(), length, &rc, DT_LEFT | DT_SINGLELINE | DT_VCENTER | DT_END_ELLIPSIS | DT_NOPREFIX);
+		::DrawText(hDc, _pszCaption.Begin(), length, &rc, DT_LEFT | DT_SINGLELINE | DT_VCENTER | DT_END_ELLIPSIS | DT_NOPREFIX);
 
 		// calculate text size and if its trankated...
 		SIZE	size	= {};
-		GetTextExtentPoint32(hDc, _pszCaption.c_str(), length, &size);
+		GetTextExtentPoint32(hDc, _pszCaption.Begin(), length, &size);
 		_bCaptionTT = (((rc.right - rc.left) < size.cx) ? TRUE : FALSE);
 
 		::SelectObject(hDc, hOldFont);
@@ -558,11 +558,11 @@ void DockingCont::drawCaptionItem(DRAWITEMSTRUCT *pDrawItemStruct)
 			 TEXT("MS Shell Dlg"));
 
 		hOldFont = (HFONT)::SelectObject(hDc, hFont);
-		::DrawText(hDc, _pszCaption.c_str(), length, &rc, DT_BOTTOM | DT_SINGLELINE | DT_END_ELLIPSIS | DT_NOPREFIX);
+		::DrawText(hDc, _pszCaption.Begin(), length, &rc, DT_BOTTOM | DT_SINGLELINE | DT_END_ELLIPSIS | DT_NOPREFIX);
 
 		// calculate text size and if its trankated...
 		SIZE	size	= {};
-		GetTextExtentPoint32(hDc, _pszCaption.c_str(), length, &size);
+		GetTextExtentPoint32(hDc, _pszCaption.Begin(), length, &size);
 		_bCaptionTT = (((rc.bottom - rc.top) < size.cy) ? TRUE : FALSE);
 
 		::SelectObject(hDc, hOldFont);
@@ -992,7 +992,7 @@ void DockingCont::drawTabItem(DRAWITEMSTRUCT *pDrawItemStruct)
 	if (!tcItem.lParam)
 		return;
 
-	const TCHAR *text = reinterpret_cast<tTbData*>(tcItem.lParam)->pszName;
+	const char *text = reinterpret_cast<tTbData*>(tcItem.lParam)->pszName;
 	int		length = lstrlen(reinterpret_cast<tTbData*>(tcItem.lParam)->pszName);
 
 
@@ -1526,7 +1526,7 @@ void DockingCont::selectTab(int iTab)
 {
 	if (iTab != -1)
 	{
-		const TCHAR	*pszMaxTxt	= NULL;
+		const char	*pszMaxTxt	= NULL;
 		TCITEM tcItem = {};
 		SIZE size = {};
 		int maxWidth = 0;
@@ -1574,7 +1574,7 @@ void DockingCont::selectTab(int iTab)
 
 		for (int iItem = 0; iItem < iItemCnt; ++iItem)
 		{
-			const TCHAR *pszTabTxt = NULL;
+			const char *pszTabTxt = NULL;
 
 			::SendMessage(_hContTab, TCM_GETITEM, iItem, reinterpret_cast<LPARAM>(&tcItem));
 			if (!tcItem.lParam)
@@ -1596,14 +1596,14 @@ void DockingCont::selectTab(int iTab)
 
 		for (int iItem = 0; iItem < iItemCnt; ++iItem)
 		{
-			generic_string szText;
+			String szText;
 			if (iItem == iTab && pszMaxTxt)
 			{
 				// fake here an icon before text ...
 				szText = TEXT("    ");
 				szText += pszMaxTxt;
 			}
-			tcItem.pszText = (TCHAR *)szText.c_str();
+			tcItem.pszText = (char *)szText.Begin();
 			::SendMessage(_hContTab, TCM_SETITEM, iItem, reinterpret_cast<LPARAM>(&tcItem));
 		}
 
@@ -1648,11 +1648,11 @@ bool DockingCont::updateCaption()
 
 	if (_isFloating == true)
 	{
-		::SetWindowText(_hSelf, _pszCaption.c_str());
+		::SetWindowText(_hSelf, _pszCaption.Begin());
 	}
 	else
 	{
-		::SetWindowText(_hCaption, _pszCaption.c_str());
+		::SetWindowText(_hCaption, _pszCaption.Begin());
 	}
 	return true;
 }

@@ -21,13 +21,13 @@
 struct MenuItemUnit final
 {
 	unsigned long _cmdID = 0;
-	generic_string _itemName;
-	generic_string _parentFolderName;
+	String _itemName;
+	String _parentFolderName;
 
 	MenuItemUnit() = default;
-	MenuItemUnit(unsigned long cmdID, const generic_string& itemName, const generic_string& parentFolderName = generic_string())
+	MenuItemUnit(unsigned long cmdID, const String& itemName, const String& parentFolderName = String())
 		: _cmdID(cmdID), _itemName(itemName), _parentFolderName(parentFolderName){};
-	MenuItemUnit(unsigned long cmdID, const TCHAR *itemName, const TCHAR *parentFolderName = nullptr);
+	MenuItemUnit(unsigned long cmdID, const char *itemName, const char *parentFolderName = nullptr);
 };
 
 

@@ -104,13 +104,13 @@ public :
 	void addLastThemeEntry() {
         NppParameters& nppParamInst = NppParameters::getInstance();
         ThemeSwitcher & themeSwitcher = nppParamInst.getThemeSwitcher();
-		std::pair<generic_string, generic_string> & themeInfo = themeSwitcher.getElementFromIndex(themeSwitcher.size() - 1);
-	    ::SendMessage(_hSwitch2ThemeCombo, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(themeInfo.first.c_str()));
+		std::pair<String, String> & themeInfo = themeSwitcher.getElementFromIndex(themeSwitcher.size() - 1);
+	    ::SendMessage(_hSwitch2ThemeCombo, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(themeInfo.first.Begin()));
     };
 
-	bool selectThemeByName(const TCHAR* themeName);
+	bool selectThemeByName(const char* themeName);
 
-	bool goToSection(const TCHAR* sectionNames); // sectionNames is formed as following: "Language name:Style name"
+	bool goToSection(const char* sectionNames); // sectionNames is formed as following: "Language name:Style name"
 	                                             // ex: "Global Styles:EOL custom color" will set Language on "Global Styles", then set Style on "EOL custom color" if both are found.
 
 private :
@@ -137,7 +137,7 @@ private :
 
 	LexerStylerArray _lsArray;
     StyleArray _globalStyles;
-	generic_string _themeName;
+	String _themeName;
 
 	LexerStylerArray _styles2restored;
 	StyleArray _gstyles2restored;
@@ -170,7 +170,7 @@ private :
         }
 	};
 
-	bool getStyleName(TCHAR *styleName, const size_t styleNameLen);
+	bool getStyleName(char *styleName, const size_t styleNameLen);
 
 	int whichTabColourIndex();
 	bool isDocumentMapStyle();
@@ -182,7 +182,7 @@ private :
 	void updateFontSize();
 	void updateUserKeywords();
 	void switchToTheme();
-	void updateThemeName(const generic_string& themeName);
+	void updateThemeName(const String& themeName);
 	std::pair<intptr_t, intptr_t> goToPreferencesSettings();
 
 	void loadLangListFromNppParam();

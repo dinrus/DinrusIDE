@@ -30,7 +30,7 @@ void AsciiListView::resetValues(int codepage)
 	setValues(codepage);
 }
 
-generic_string AsciiListView::getAscii(unsigned char value)
+String AsciiListView::getAscii(unsigned char value)
 {
 	switch (value)
 	{
@@ -104,18 +104,18 @@ generic_string AsciiListView::getAscii(unsigned char value)
 			return TEXT("DEL");
 		default:
 		{
-			TCHAR charStr[10];
+			wchar_t *charStr;
 			char ascii[2];
 			ascii[0] = value;
 			ascii[1] = '\0';
-			MultiByteToWideChar(_codepage, 0, ascii, -1, charStr, _countof(charStr));
+			MultiByteToWideChar(_codepage, 0, ascii, -1, charStr, 11);
 			return charStr;
 		}
 
 	}
 }
 
-generic_string AsciiListView::getHtmlName(unsigned char value)
+String AsciiListView::getHtmlName(unsigned char value)
 {
 	switch (value)
 	{
@@ -389,13 +389,13 @@ void AsciiListView::setValues(int codepage)
 
 	for (int i = 0 ; i < 256 ; ++i)
 	{
-		TCHAR dec[8];
-		TCHAR hex[8];
-		TCHAR htmlNumber[8];
-		generic_string htmlName;
+		char dec[8];
+		char hex[8];
+		char htmlNumber[8];
+		String htmlName;
 		generic_sprintf(dec, TEXT("%d"), i);
 		generic_sprintf(hex, TEXT("%02X"), i);
-		generic_string s = getAscii(static_cast<unsigned char>(i));
+		String s = getAscii(static_cast<unsigned char>(i));
 
 		if (codepage == 0 || codepage == 1252)
 		{
@@ -424,7 +424,7 @@ void AsciiListView::setValues(int codepage)
 			htmlName = TEXT("");
 		}
 
-		std::vector<generic_string> values2Add;
+		Vector<String> values2Add;
 
 		values2Add.push_back(dec);
 		values2Add.push_back(hex);

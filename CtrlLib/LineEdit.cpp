@@ -590,9 +590,15 @@ void   LineEdit::Paint0(Draw& w) {
 				}
 				if(pass == 0) {
 					int gpx = gp * fsz.cx - scx;
-					rw.DrawRect(gpx, y, sz.cx - gpx, fsz.cy,
-					            !rectsel && sell <= len && len < selh ? color[PAPER_SELECTED]
-					            : (do_highlight ? hl.Top() : ih).paper);
+					if(!rectsel && sell <= len && len < selh)
+						rw.DrawRect(gpx, y, sz.cx - gpx, fsz.cy, color[PAPER_SELECTED]);
+					else {
+						bool noendfill = hl.GetCount() && (hl.Top().flags & NOENDFILL);
+						rw.DrawRect(gpx, y, noendfill ? fsz.cx : sz.cx - gpx, fsz.cy,
+						            (do_highlight && hl.GetCount() ? hl.Top() : ih).paper);
+						if(noendfill)
+							rw.DrawRect(gpx + fsz.cx, y, sz.cx - gpx - fsz.cx, fsz.cy, ih.paper);
+					}
 					if(bordercolumn > 0 && bordercolumn >= gp)
 						rw.DrawRect((bordercolumn - sc.x) * fsz.cx, y, 1, fsz.cy, bordercolor);
 					if((showlines || warn_whitespace)) {
@@ -799,14 +805,18 @@ void LineEdit::AlignChar() {
 	}
 }
 
+Rect LineEdit::GetCaret() const
+{
+	if(overwrite)
+		return RectC(caretpos.x, caretpos.y + fsz.cy - 2, fsz.cx, 2);
+	else
+		return RectC(caretpos.x, caretpos.y, 2, fsz.cy);
+}
+
 void LineEdit::PlaceCaret0(Point p) {
 	Size fsz = GetFontSize();
 	p -= sb;
 	caretpos = Point(p.x * fsz.cx, p.y * fsz.cy);
-	if(overwrite)
-		SetCaret(caretpos.x, caretpos.y + fsz.cy - 2, fsz.cx, 2);
-	else
-		SetCaret(caretpos.x, caretpos.y, 2, fsz.cy);
 }
 
 int LineEdit::PlaceCaretNoG(int64 newcursor, bool sel) {

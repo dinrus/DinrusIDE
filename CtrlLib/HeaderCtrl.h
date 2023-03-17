@@ -114,8 +114,9 @@ protected:
 	void   InvalidateDistribution()                              { oszcx = -1; }
 	void   RefreshDistribution();
 	Vector<int> GetVisibleCi(int from);
-
+	
 	friend class ArrayCtrl;
+
 public:
 	Event<>       WhenLayout;
 	Event<>       WhenScroll;
@@ -139,7 +140,7 @@ public:
 	double        GetTabRatio(int i) const                { return InvZxf(col[i].ratio); }
 	void          SetTabWidth(int i, int cx);
 	int           GetTabWidth(int i);
-
+	
 	void          SwapTabs(int first, int second);
 	void          MoveTab(int from, int to);
 	int           GetTabIndex(int i) const                { return col[i].index; }
@@ -153,9 +154,9 @@ public:
 
 	void          SetHeight(int cy);
 	int           GetHeight() const;
-
+	
 	int           GetMode() const                         { return mode; }
-
+	
 	static const Style& StyleDefault();
 
 	HeaderCtrl&   Invisible(bool inv);

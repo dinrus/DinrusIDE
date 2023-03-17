@@ -1,5 +1,5 @@
 #include "CtrlLib.h"
-		
+
 #ifdef GUI_WIN
 #ifndef PLATFORM_WINCE
 
@@ -106,7 +106,7 @@ bool PrinterJob::Execute0(bool dodlg)
 		::GlobalFree(dlg.hDevNames);
 		dlg.hDevNames = NULL;
 	}
-		
+
 	if(hdc) {
 		draw = new PrintDraw(hdc, Nvl(name, Ctrl::GetAppName()));
 		page.Clear();
@@ -159,7 +159,7 @@ PrinterJob& PrinterJob::CurrentPage(int i)
 struct PageSizeName {
 	const char *name;
 	int   cx, cy;
-	
+
 	Size  GetDots() const { return Size(6000 * cx / 254, 6000 * cy / 254); }
 }
 static const PageName2Size[] = {
@@ -227,7 +227,7 @@ String System(const char *cmd)
 
 class PrinterDlg : public WithPrinterLayout<TopWindow> {
 	typedef PrinterDlg CLASSNAME;
-	
+
 public:
 	void FillOpt(const String& s, const char *id, DropList& dl, bool pgsz);
 	void SyncPrinterOptions();
@@ -238,7 +238,7 @@ public:
 private:
 	void StandardizePrinterName(String& printerName);
 	void OnOK();
-	
+
 private:
 	bool canceled;
 };
@@ -395,11 +395,11 @@ bool PrinterJob::Execute0()
 	String h;
 	GetDefaultPageSize(&h);
 	h.IsEmpty() ? dlg.paper <<= "A4" : dlg.paper <<= h;
-	
+
 	dlg.Run();
 	if(dlg.IsCanceled())
 		return false;
-	
+
 	options.Clear();
 	options << "-d " << ~dlg.printer;
 	options << " -o media=";
@@ -441,7 +441,7 @@ bool PrinterJob::Execute()
 struct PrinterDraw : PdfDraw {
 	String options;
 	bool canceled;
-	
+
 	PrinterDraw(Size sz) : PdfDraw(sz), canceled(true) {}
 	~PrinterDraw() {
 		if(!canceled && !IsEmpty()) {

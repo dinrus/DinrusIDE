@@ -951,8 +951,12 @@ Size  ArrayCtrl::DoPaint(Draw& w, bool sample) {
 						dword st;
 						Color fg, bg;
 						Value q;
+						bool heading = IsHeading(i);
 						const Display& d = GetCellInfo(i, jj, hasfocus0, q, fg, bg, st);
 						if(sample || w.IsPainting(r)) {
+							if(heading)
+								r.right = cw = size.cx;
+							else
 							if(spanwidecells)
 								SpanWideCell(d, q, cm, cw, r, i, j);
 
@@ -971,6 +975,8 @@ Size  ArrayCtrl::DoPaint(Draw& w, bool sample) {
 						x += cw;
 						if(vertgrid)
 							w.DrawRect(x - 1, r.top, 1, r.Height(), gridcolor);
+						if(heading)
+							break;
 					}
 				if(horzgrid)
 					w.DrawRect(0, r.bottom, size.cx, 1, gridcolor);
@@ -1068,11 +1074,8 @@ void ArrayCtrl::HeaderScroll()
 
 void ArrayCtrl::HeaderScrollVisibility()
 {
-	scrollbox.Height(ScrollBarSize());
-	if(header.IsScroll())
-		sb.SetFrame(scrollbox);
-	else
-		sb.SetFrame(NullFrame());
+	scrollbox.SetMargins(Rect(0, 0, 0, header.IsScroll() ? ScrollBarSize() : 0));
+	scrollbox.SetColor(IsTransparent() ? Null : SColorFace());
 }
 
 void ArrayCtrl::RefreshRow(int i)
@@ -1152,7 +1155,7 @@ ArrayCtrl::Column& ArrayCtrl::AddRowNumColumn(const char *text, int w) {
 int ArrayCtrl::FindColumnWithPos(int pos) const
 {
 	for(int i = 0; i < column.GetCount(); i++) {
-		const Mitor<int>& m = column[i].pos;
+		const Vector<int>& m = column[i].pos;
 		for(int j = 0; j < m.GetCount(); j++)
 			if(Pos(m[j]) == pos) return i;
 	}
@@ -1168,7 +1171,7 @@ Vector<int> ArrayCtrl::FindColumnsWithPos(int pos) const
 {
 	Vector<int> r;
 	for(int i = 0; i < column.GetCount(); i++) {
-		const Mitor<int>& m = column[i].pos;
+		const Vector<int>& m = column[i].pos;
 		for(int j = 0; j < m.GetCount(); j++)
 			if(Pos(m[j]) == pos)
 				r.Add(i);
@@ -1400,7 +1403,8 @@ bool ArrayCtrl::AcceptRow(bool endedit) {
 }
 
 bool ArrayCtrl::Accept() {
-	return IsCursor() ? AcceptRow() : true;
+	return IsCursor() ? AcceptRow() :
+	       accept_edits ? Ctrl::Accept() : true;
 }
 
 bool ArrayCtrl::KillCursor0() {
@@ -2154,7 +2158,14 @@ void ArrayCtrl::AddSeparator()
 	DisableLine(ii);
 }
 
-//$-
+void ArrayCtrl::AddHeading(const Value& v)
+{
+	int ii = GetCount();
+	Add(v);
+	array.At(ii).heading = true;
+	DisableLine(ii);
+}
+
 #define E__Addv(I)    Set0(q, I - 1, p##I)
 #define E__AddF(I) \
 void ArrayCtrl::Add(__List##I(E__Value)) { \
@@ -2163,7 +2174,6 @@ void ArrayCtrl::Add(__List##I(E__Value)) { \
 	AfterSet(q); \
 }
 __Expand(E__AddF)
-//$+
 
 void  ArrayCtrl::Insert(int i, int count) {
 	if(i < array.GetCount()) {
@@ -2789,6 +2799,7 @@ void ArrayCtrl::Reset() {
 	min_visible_line = 0;
 	max_visible_line = INT_MAX;
 	ctrl_low = ctrl_high = 0;
+	accept_edits = false;
 }
 
 void ArrayCtrl::CancelMode()
@@ -3114,6 +3125,7 @@ ArrayCtrl::ArrayCtrl() {
 	Reset();
 	AddFrame(sb);
 	AddFrame(header);
+	sb.AddFrame(scrollbox);
 	header.WhenLayout = THISBACK(HeaderLayout);
 	header.WhenScroll = THISBACK(HeaderScroll);
 	sb.WhenScroll = THISBACK(Scroll);

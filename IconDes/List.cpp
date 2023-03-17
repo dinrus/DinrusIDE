@@ -72,7 +72,7 @@ void IconDes::PlaceDlg(TopWindow& dlg)
 
 void IconDes::PrepareImageDlg(WithImageLayout<TopWindow>& dlg)
 {
-	CtrlLayoutOKCancel(dlg, "New image");
+	CtrlLayoutOKCancel(dlg, "Новый рисунок");
 	dlg.cx <<= 16;
 	dlg.cy <<= 16;
 	if(IsCurrent()) {
@@ -84,10 +84,10 @@ void IconDes::PrepareImageDlg(WithImageLayout<TopWindow>& dlg)
 		dlg.fixed <<= !!(flags & IML_IMAGE_FLAG_FIXED);
 		dlg.fixed_colors <<= !!(flags & IML_IMAGE_FLAG_FIXED_COLORS);
 		dlg.fixed_size <<= !!(flags & IML_IMAGE_FLAG_FIXED_SIZE);
-		
+
 		dlg.uhd <<= !!(flags & IML_IMAGE_FLAG_UHD);
 		dlg.dark <<= !!(flags & IML_IMAGE_FLAG_DARK);
-		
+
 		dlg.uhd ^= dlg.dark ^= dlg.exp ^= dlg.fixed_colors ^= dlg.fixed_size ^= dlg.fixed ^= dlg.name ^=
 			[&] { dlg.Break(-1000); };
 	}
@@ -134,7 +134,7 @@ bool CheckName(WithImageLayout<TopWindow>& dlg)
 	String n = ~dlg.name;
 	CParser p(n);
 	if(p.IsId()) return true;
-	Exclamation("Неверное name!");
+	Exclamation("Неверное имя!");
 	return false;
 }
 
@@ -207,7 +207,7 @@ void IconDes::Slice()
 	dlg.name <<= Current().name;
 	dlg.cx <<= cc;
 	dlg.cy <<= cc;
-	dlg.Title("Slice image");
+	dlg.Title("Срез рисунка");
 	for(;;) {
 		SyncDlg(dlg);
 		int c = dlg.Run();
@@ -239,7 +239,7 @@ void IconDes::InsertPaste()
 {
 	Image m = ReadClipboardImage();
 	if(IsNull(m)) {
-		Exclamation("Clipboard does not contain an image.");
+		Exclamation("В буфере обмена отсутствует изображение.");
 		return;
 	}
 	SetRes(m, IMAGE_RESOLUTION_STANDARD);
@@ -250,7 +250,7 @@ void IconDes::InsertPaste()
 struct FileImage : ImageMaker {
 	String filename;
 	Size   size;
-	
+
 	virtual String Key() const { return filename + '/' + AsString(size); }
 	virtual Image Make() const {
 		if(GetFileLength(filename) > 1024 * 1024 * 20)
@@ -302,7 +302,7 @@ FileSel& IconDes::ImgFile()
 {
 	static FileSel sel;
 	ONCELOCK {
-		sel.Type("Image files", "*.png *.bmp *.jpg *.jpeg *.gif *.ico");
+		sel.Type("Файлы рисунков", "*.png *.bmp *.jpg *.jpeg *.gif *.ico");
 		sel.AllFilesType();
 		sel.Multi();
 		sel.WhenIconLazy = sLoadImage;
@@ -328,7 +328,7 @@ void IconDes::InsertFile()
 		else {
 			Image mm = StreamRaster::LoadFileAny(fn);
 			if(IsNull(mm))
-				Exclamation(DeQtf(fn) + " not an image.");
+				Exclamation(DeQtf(fn) + " не рисунок.");
 			else
 				ml.Add(mm);
 		}
@@ -365,7 +365,7 @@ void IconDes::InsertIml()
 {
 	Array<ImlImage> iml;
 	int f;
-	if(LoadIml(SelectLoadFile("Iml files\t*.iml"), iml, f))
+	if(LoadIml(SelectLoadFile("Файлы Iml\t*.iml"), iml, f))
 		for(const ImlImage& m : iml) {
 			ImageInsert(m.name, m.image, m.exp).flags = m.flags;
 			GoTo((int)ilist.GetKey() + 1);
@@ -422,7 +422,7 @@ void IconDes::EditImage()
 	dword flags = c.flags;
 	bool exp = c.exp;
 	String name = c.name;
-	
+
 	dlg.cx <<= img.GetWidth();
 	dlg.cy <<= img.GetHeight();
 	dlg.name <<= c.name;
@@ -462,7 +462,7 @@ void IconDes::EditImage()
 
 void IconDes::RemoveImage()
 {
-	if(!IsCurrent() || !PromptYesNo("Remove current image?"))
+	if(!IsCurrent() || !PromptYesNo("Удалить текущий рисунок?"))
 		return;
 	int ii = ilist.GetKey();
 	while(removed.GetCount() > 12)
@@ -516,7 +516,7 @@ void IconDes::ListMenu(Bar& bar)
 			bar.Separator();
 			for(int i = removed.GetCount() - 1; i >= 0; i--) {
 				Slot& r = removed[i];
-				bar.Add("Insert " + FormatImageName(r), r.base_image, THISBACK1(InsertRemoved, i));
+				bar.Add("Вставить " + FormatImageName(r), r.base_image, THISBACK1(InsertRemoved, i));
 			}
 		}
 	}

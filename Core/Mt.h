@@ -42,6 +42,9 @@ class Thread : NoCopy {
 #ifdef PLATFORM_POSIX
 	pthread_t  handle;
 #endif
+
+	int stack_size = 0;
+
 public:
 	bool       Run(Function<void ()> cb, bool noshutdown = false);
 	bool       RunNice(Function<void ()> cb, bool noshutdown = false);
@@ -68,6 +71,7 @@ public:
 	Handle      GetHandle() const              { return handle; }
 	
 	bool        Priority(int percent); // 0 = lowest, 100 = normal
+	void        StackSize(int bytes)           { stack_size = bytes; }
 	
 	void        Nice()                         { Priority(25); }
 	void        Critical()                     { Priority(150); }
@@ -83,12 +87,16 @@ public:
 	static bool IsUpp();
 	static int  GetCount();
 	static void BeginShutdownThreads();
+	static void AtShutdown(void (*shutdownfn)());
+	static void TryShutdownThreads();
 	static void EndShutdownThreads();
 	static void ShutdownThreads();
 	static bool IsShutdownThreads();
 	static void (*AtExit(void (*exitfn)()))();
 
 	static void Exit();
+	
+	static void DumpDiagnostics();
 
 #ifdef PLATFORM_WIN32
 	static Handle GetCurrentHandle()          { return GetCurrentThread(); }
@@ -275,7 +283,8 @@ typedef std::atomic<bool> OnceFlag;
 
 #define ONCELOCK_(o_b_) \
 for(static ::Upp::Mutex o_ss_; !o_b_.load(std::memory_order_acquire);) \
-	for(::Upp::Mutex::Lock o_ss_lock__(o_ss_); !o_b_.load(std::memory_order_acquire); o_b_.store(true, std::memory_order_release))
+	for(::Upp::Mutex::Lock o_ss_lock__(o_ss_); !o_b_.load(std::memory_order_acquire); \
+	    o_b_.store(true, std::memory_order_release))
 
 #define ONCELOCK \
 for(static ::Upp::OnceFlag o_b_; !o_b_.load(std::memory_order_acquire);) ONCELOCK_(o_b_)
@@ -415,7 +424,7 @@ typedef StaticMutex StaticCriticalSection;
 #endif
 
 // Auxiliary multithreading - this is not using/cannot use U++ heap, so does not need cleanup.
-// Used to resolve some host platform issues.
+// Used to resolve some host platform issues. Do not use.
 
 #ifdef PLATFORM_WIN32
 #define auxthread_t DWORD

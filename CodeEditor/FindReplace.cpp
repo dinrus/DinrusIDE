@@ -663,7 +663,7 @@ void CodeEditor::FindReplace(bool pick_selection, bool pick_text, bool replace)
 	}
 	if(IsSelection() && replace) {
 		findreplace.itext = GetI();
-		SetLayout_BlockReplaceLayout(findreplace);
+	//	SetLayout_BlockReplaceLayout(findreplace);
 		findreplace.SetRect(WithBlockReplaceLayout<EmptyClass>::GetLayoutSize());
 		findreplace.Title(t_("Замена в выделении"));
 		findreplace.find_all.Hide();

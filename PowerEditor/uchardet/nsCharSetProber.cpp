@@ -36,6 +36,7 @@
  *
  * ***** END LICENSE BLOCK ***** */
 
+#include <Core/Core.h>
 #include "nsCharSetProber.h"
 #include "prmem.h"
 
@@ -44,8 +45,8 @@ PRBool nsCharSetProber::FilterWithoutEnglishLetters(const char* aBuf, PRUint32 a
 {
   char *newptr;
   char *prevPtr, *curPtr;
-  
-  PRBool meetMSB = PR_FALSE;   
+
+  PRBool meetMSB = PR_FALSE;
   newptr = *newBuf = (char*)PR_Malloc(aLen);
   if (!newptr)
     return PR_FALSE;
@@ -56,13 +57,13 @@ PRBool nsCharSetProber::FilterWithoutEnglishLetters(const char* aBuf, PRUint32 a
     {
       meetMSB = PR_TRUE;
     }
-    else if (*curPtr < 'A' || (*curPtr > 'Z' && *curPtr < 'a') || *curPtr > 'z') 
+    else if (*curPtr < 'A' || (*curPtr > 'Z' && *curPtr < 'a') || *curPtr > 'z')
     {
       //current char is a symbol, most likely a punctuation. we treat it as segment delimiter
-      if (meetMSB && curPtr > prevPtr) 
+      if (meetMSB && curPtr > prevPtr)
       //this segment contains more than single symbol, and it has upper ASCII, we need to keep it
       {
-        while (prevPtr < curPtr) *newptr++ = *prevPtr++;  
+        while (prevPtr < curPtr) *newptr++ = *prevPtr++;
         prevPtr++;
         *newptr++ = ' ';
         meetMSB = PR_FALSE;
@@ -71,8 +72,8 @@ PRBool nsCharSetProber::FilterWithoutEnglishLetters(const char* aBuf, PRUint32 a
         prevPtr = curPtr+1;
     }
   }
-  if (meetMSB && curPtr > prevPtr) 
-    while (prevPtr < curPtr) *newptr++ = *prevPtr++;  
+  if (meetMSB && curPtr > prevPtr)
+    while (prevPtr < curPtr) *newptr++ = *prevPtr++;
 
   auto np = reinterpret_cast<uintptr_t>(newptr);
   auto nb = reinterpret_cast<uintptr_t>(*newBuf);
@@ -103,10 +104,10 @@ PRBool nsCharSetProber::FilterWithEnglishLetters(const char* aBuf, PRUint32 aLen
     if (!(*curPtr & 0x80) &&
         (*curPtr < 'A' || (*curPtr > 'Z' && *curPtr < 'a') || *curPtr > 'z') )
     {
-      if (curPtr > prevPtr && !isInTag) // Current segment contains more than just a symbol 
+      if (curPtr > prevPtr && !isInTag) // Current segment contains more than just a symbol
                                         // and it is not inside a tag, keep it.
       {
-        while (prevPtr < curPtr) *newptr++ = *prevPtr++;  
+        while (prevPtr < curPtr) *newptr++ = *prevPtr++;
         prevPtr++;
         *newptr++ = ' ';
       }
@@ -115,11 +116,11 @@ PRBool nsCharSetProber::FilterWithEnglishLetters(const char* aBuf, PRUint32 aLen
     }
   }
 
-  // If the current segment contains more than just a symbol 
+  // If the current segment contains more than just a symbol
   // and it is not inside a tag then keep it.
   if (!isInTag)
     while (prevPtr < curPtr)
-      *newptr++ = *prevPtr++;  
+      *newptr++ = *prevPtr++;
 
   auto np = reinterpret_cast<uintptr_t>(newptr);
   auto nb = reinterpret_cast<uintptr_t>(*newBuf);

@@ -129,7 +129,7 @@ public:
 	
 	Index()                                                 {}
 	Index(Index&& s) : key(pick(s.key))                     { IndexCommon::Pick(s); }
-	Index(const Index& s, int) : key(s.key, 0)              { ReallocHash(0); IndexCommon::Copy(s, key.GetCount()); } // СДЕЛАТЬ: Unlinked!
+	Index(const Index& s, int) : key(s.key, 0)              { ReallocHash(0); IndexCommon::Copy(s, key.GetCount()); } // TODO: Unlinked!
 	explicit Index(Vector<T>&& s) : key(pick(s))            { FixHash(); }
 	Index(const Vector<T>& s, int) : key(s, 0)              { FixHash(); }
 
@@ -143,7 +143,9 @@ public:
 	void     Jsonize(JsonIO& jio);
 	String   ToString() const;
 	template <class B> bool operator==(const B& b) const { return IsEqualRange(*this, b); }
+#ifndef CPP_20
 	template <class B> bool operator!=(const B& b) const { return !operator==(b); }
+#endif
 	template <class B> int  Compare(const B& b) const    { return CompareRanges(*this, b); }
 	template <class B> bool operator<=(const B& x) const { return Compare(x) <= 0; }
 	template <class B> bool operator>=(const B& x) const { return Compare(x) >= 0; }

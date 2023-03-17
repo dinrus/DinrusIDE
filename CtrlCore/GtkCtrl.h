@@ -1,5 +1,3 @@
-//$ namespace Upp {
-//$ class Ctrl {
 	void Create(Ctrl *owner, bool popup);
 
 	static gboolean GtkProc(GtkWidget *widget, GdkEvent *event, gpointer user_data);
@@ -95,15 +93,13 @@ _DBG_
 	static Vector<Ptr<Ctrl>> activePopup; // created with 'activate' flag - usually menu
 	static Vector<Ptr<Ctrl>> visiblePopup; // any popup visible on screen
 	static Vector<Win>       wins;
-	static int               WndCaretTime;
-	static bool              WndCaretVisible;
 	static Ptr<Ctrl>         grabwindow;
 	static Ptr<Ctrl>         grabpopup;
 	static Ptr<Ctrl>         sel_ctrl;
 	static Ptr<Ctrl>         activeCtrl;
 	static bool              invalids; // there are active invalid areas
 
-	static int FindId(int id);
+	static int FindGtkId(int id);
 	static int FindCtrl(Ctrl *ctrl);
 	static int FindGtkWindow(GtkWidget *gtk);
 	static int FindGdkWindow(GdkWindow *gdk);
@@ -115,7 +111,6 @@ _DBG_
 	void ReleasePopupCapture();
 	
 	static void FocusSync();
-	static void AnimateCaret();
 	static gboolean TimeHandler(GtkWidget *);
 	static void InvalidateMousePos();
 	static void StopGrabPopup();
@@ -199,6 +194,8 @@ public: // really private:
 	static int    SCL(int x)                        { return scale * x; }
 	static Rect   SCL(int x, int y, int cx, int cy) { return RectC(SCL(x), SCL(y), SCL(cx), SCL(cy)); }
 	static double LSC(int x)                        { return (double)x / scale; }
+	
+	static int    GetCaretBlinkTime()               { return 500; }
             
 public:
 	static void      EndSession()              {}
@@ -210,9 +207,7 @@ public:
 	static guint32   CurrentTime;
 	static GEvent    CurrentEvent;
 
-	GdkWindow *gdk() const { return top ? gtk_widget_get_window(top->window) : NULL; }
-	GtkWindow *gtk() const { return top ? (GtkWindow *)top->window : NULL; }
+	GdkWindow *gdk() const;
+	GtkWindow *gtk() const;
 
 	static GdkFilterReturn RootKeyFilter(GdkXEvent *xevent, GdkEvent *event, gpointer data);
-
-//$ }};

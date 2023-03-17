@@ -36,7 +36,7 @@ class FontInfo;
 
 inline
 bool PreferColorEmoji(int c)
-{ // for these codepoints we prefer replacemnet color emoji even if glyphs is in the font
+{ // for these codepoints we prefer replacement color emoji even if glyphs is in the font
 	return c >= 0x2600 && c <= 0x27ef || c >= 0x1f004 && c <= 0x1f251 || c >= 0x1f300 && c <= 0x1faf6;
 }
 
@@ -50,7 +50,7 @@ class Font : public ValueType<Font, FONT_V, Moveable<Font> >{
 			int16 width;
 		} v;
 	};
-	
+
 	enum {
 		FONT_BOLD = 0x8000,
 		FONT_ITALIC = 0x4000,
@@ -70,10 +70,10 @@ class Font : public ValueType<Font, FONT_V, Moveable<Font> >{
 	static void InitStdFont();
 
 	const CommonFontInfo& Fi() const;
-	
+
 	friend void   sInitFonts();
 	friend String GetFontDataSys(Font font, const char *table, int offset, int size);
-	
+
 public:
 	enum {
 		FIXEDPITCH  = 0x0001,
@@ -117,7 +117,7 @@ public:
 		SCREEN_SANS = SANSSERIF,
 		SCREEN_FIXED = MONOSPACE,
 	};
-	
+
 	int    GetFace() const          { return v.face; }
 	int    GetHeight() const;
 	int    GetWidth() const         { return v.width; }
@@ -131,7 +131,7 @@ public:
 	String GetFaceNameStd() const;
 	dword  GetFaceInfo() const;
 	int64  AsInt64() const          { return data; }
-	
+
 	void   RealizeStd();
 
 	Font& Face(int n)               { v.face = n; return *this; }
@@ -189,9 +189,9 @@ public:
 
 	String GetTextFlags() const;
 	void   ParseTextFlags(const char *s);
-	
+
 	String GetData(const char *table = NULL, int offset = 0, int size = INT_MAX) const;
-	
+
 	void   Render(FontGlyphConsumer& sw, double x, double y, int ch) const;
 
 	void  Serialize(Stream& s);
@@ -211,6 +211,8 @@ public:
 
 	operator Value() const          { return RichToValue(*this); }
 	Font(const Value& q)            { *this = q.Get<Font>(); }
+
+	static Font FromInt64(int64 q)  { Font fnt; fnt.data = q; return fnt; }
 
 // BW compatibility
 	FontInfo Info() const;
@@ -389,7 +391,7 @@ class Painting : public ValueType<Painting, 48, Moveable<Painting> > {
 	String     cmd;
 	ValueArray data;
 	Sizef      size;
-	
+
 	friend class PaintingPainter;
 	friend class Painter;
 
@@ -426,7 +428,7 @@ void PaintImageBuffer(ImageBuffer& ib, const Drawing& p, int mode = MODE_ANTIALI
 
 class Draw : NoCopy {
 	struct DrawingPos;
-	
+
 public:
 	enum {
 		DOTS = 0x001,
@@ -475,13 +477,13 @@ public:
 		                    Color ink, int n, const int *dx) = 0;
 	virtual void DrawDrawingOp(const Rect& target, const Drawing& w);
 	virtual void DrawPaintingOp(const Rect& target, const Painting& w);
-	
+
 	virtual Size GetNativeDpi() const;
 	virtual void BeginNative();
 	virtual void EndNative();
 
 	virtual int  GetCloffLevel() const;
-	
+
 	virtual void Escape(const String& data);
 
 	virtual ~Draw();
@@ -616,7 +618,7 @@ public:
 		          Color ink = DefaultInk(), const int *dx = NULL);
 
 	static void SinCos(int angle, double& sina, double& cosa);
-	
+
 	// deprecated:
 	static void SetStdFont(Font font)                   { UPP::SetStdFont(font); }
 	static Font GetStdFont()                            { return UPP::GetStdFont(); }
@@ -691,7 +693,7 @@ public:
 	virtual dword GetInfo() const;
 	virtual Size  GetPageSize() const;
 	virtual Rect  GetPaintRect() const;
-	
+
 	virtual void BeginOp();
 	virtual void EndOp();
 	virtual void OffsetOp(Point p);
@@ -720,9 +722,9 @@ public:
 
 	virtual void DrawDrawingOp(const Rect& target, const Drawing& w);
 	virtual void DrawPaintingOp(const Rect& target, const Painting& w);
-	
+
 	virtual void Escape(const String& data);
-	
+
 private:
 	Size         size;
 	bool         dots;
@@ -781,9 +783,9 @@ public:
 
 struct DrawProxy : Draw {
 	Draw *ptr;
-	
+
 	void SetTarget(Draw *w) { ptr = w; }
-	
+
 	virtual dword GetInfo() const;
 
 	virtual Size GetPageSize() const;
@@ -822,19 +824,19 @@ struct DrawProxy : Draw {
 		                    Color ink, int n, const int *dx);
 	virtual void DrawDrawingOp(const Rect& target, const Drawing& w);
 	virtual void DrawPaintingOp(const Rect& target, const Painting& w);
-	
+
 	virtual Size GetNativeDpi() const;
 	virtual void BeginNative();
 	virtual void EndNative();
 
 	virtual int  GetCloffLevel() const;
-	
+
 	virtual void Escape(const String& data);
 };
 
 class ImageAnyDraw : public Draw {
 	Draw *draw;
-	
+
 	void Init(Size sz);
 
 public:
@@ -873,10 +875,10 @@ public:
 	static bool IsAvailable();
 
 	operator Image() const;
-	
+
 	ImageAnyDraw(Size sz);
 	ImageAnyDraw(int cx, int cy);
-	
+
 	~ImageAnyDraw();
 };
 
@@ -891,12 +893,12 @@ void Union(Vector<Rect>& rr, const Rect& add);
 
 Vector<Rect> Intersection(const Vector<Rect>& b, const Rect& a);
 
-void AddRefreshRect(Vector<Rect>& invalid, const Rect& _r);
+void AddRefreshRect(Vector<Rect>& invalid, const Rect& _r, double ctolerance = 2);
 
 void DrawDragFrame(Draw& w, const Rect& r, int n, const int *pattern, Color color, int animation);
 void DrawDragFrame(Draw& w, const Rect& r, int n, int pattern, Color color, int animation);
 
-void DrawRect(Draw& w, const Rect& rect, const Image& img, bool ralgn = false); //??? СДЕЛАТЬ
+void DrawRect(Draw& w, const Rect& rect, const Image& img, bool ralgn = false); //??? TODO
 void DrawRect(Draw& w, int x, int y, int cx, int cy, const Image& img, bool ra = false);
 
 void DrawTiles(Draw& w, int x, int y, int cx, int cy, const Image& img);
@@ -916,7 +918,7 @@ void DrawFrame(Draw& w, const Rect& r,
 void DrawFrame(Draw& w, int x, int y, int cx, int cy, Color color);
 void DrawFrame(Draw& w, const Rect& r, Color color);
 
-void DrawBorder(Draw& w, int x, int y, int cx, int cy, const ColorF *colors_ltrd); //СДЕЛАТЬ
+void DrawBorder(Draw& w, int x, int y, int cx, int cy, const ColorF *colors_ltrd); //TODO
 void DrawBorder(Draw& w, const Rect& r, const ColorF *colors_ltrd);
 
 const ColorF *BlackBorder();

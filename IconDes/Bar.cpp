@@ -251,7 +251,7 @@ struct CachedIconImage : public Display {
 		else
 		if(2 * isz.cx <= rsz.cx && 2 * isz.cy <= rsz.cy) {
 			int n = min(rsz.cx / isz.cx, rsz.cy / isz.cy);
-			m = Magnify(m, n, n); // СДЕЛАТЬ: Cached!
+			m = Magnify(m, n, n); // TODO: Cached!
 		}
 		else
 		if(isz.cx > r.GetWidth() || isz.cy > r.GetHeight())
@@ -329,7 +329,7 @@ IconDes::IconDes()
 	doselection = false;
 
 	tool = &IconDes::FreehandTool;
-	
+
 	AddFrame(leftpane);
 	AddFrame(toolbar);
 	AddFrame(bottompane);
@@ -358,7 +358,7 @@ IconDes::IconDes()
 	ilist.WhenCursor = THISBACK(ListCursor);
 	ilist.WhenLeftDouble = THISBACK(EditImage);
 	ilist.NoWantFocus();
-	
+
 	ilist.WhenDrag = THISBACK(Drag);
 	ilist.WhenDropInsert = THISBACK(DnDInsert);
 
@@ -366,14 +366,14 @@ IconDes::IconDes()
 	search.SetFilter(CharFilterToUpper);
 
 	bottompane.Bottom(iconshow, 64);
-	
+
 	SetBar();
 	ColorChanged();
 	BackPaint();
 
 	magnify = 13;
 	pen = 1;
-	
+
 	single_mode = false;
 
 	status.Width(200);

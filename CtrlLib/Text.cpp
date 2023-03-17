@@ -22,6 +22,7 @@ TextCtrl::TextCtrl()
 	color[PAPER_SELECTED] = SColorHighlight;
 	color[WHITESPACE] = Blend(SColorLight, SColorHighlight);
 	color[WARN_WHITESPACE] = Blend(SColorLight, SRed);
+
 	processtab = true;
 	processenter = true;
 	nobg = false;
@@ -160,7 +161,7 @@ int   TextCtrl::Load0(Stream& in, byte charset_, bool view) {
 			in.Seek(pos);
 		charset = be16 ? CHARSET_UTF16_BE : CHARSET_UTF16_LE;
 	}
-	
+
 	if(view) {
 		view_loading_pos = in.GetPos();
 		view_loading_lock = 0;
@@ -353,7 +354,7 @@ void TextCtrl::ViewLoading()
 		viewlines += line_count;
 		total += t;
 		total256.Add((int)t);
-		
+
 	#ifdef CPU_32
 		enum { MAX_LINES = 128000000 };
 	#else
@@ -365,13 +366,13 @@ void TextCtrl::ViewLoading()
 			view_all = true;
 			break;
 		}
-		
+
 		if(view_loading_lock) {
 			view_loading_pos = view->GetPos();
 			WhenViewMapping(view_loading_pos);
 			break;
 		}
-		
+
 		if(msecs(start) > 20) {
 			view_loading_pos = view->GetPos();
 			PostCallback([=] { ViewLoading(); });
@@ -789,7 +790,7 @@ int TextCtrl::GetLength32() const
 	return h < INT_MAX ? (int)h : 0;
 }
 
-int TextCtrl::Insert0(int pos, const WString& txt) { // СДЕЛАТЬ: Do this with utf8
+int TextCtrl::Insert0(int pos, const WString& txt) { // TODO: Do this with utf8
 	GuiLock __;
 	int inspos = pos;
 	PreInsert(inspos, txt);

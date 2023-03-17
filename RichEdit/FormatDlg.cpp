@@ -335,11 +335,11 @@ ParaFormatting::ParaFormatting()
 	after_number <<=
 	reset_number <<=
 	bullet <<= THISBACK(SetupIndent);
-	
+
 	newhdrftr <<= THISBACK(NewHdrFtr);
 	hdrftr <<= THISBACK(EditHdrFtr);
 	SyncHdrFtr();
-	
+
 	EnableNumbering();
 	rulerink.NullText("---");
 	rulerstyle.SetDisplay(Single<RulerStyleDisplay>());

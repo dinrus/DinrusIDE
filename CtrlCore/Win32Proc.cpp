@@ -8,6 +8,8 @@
 
 namespace Upp {
 
+void XpClear(); // Clear cached windows theme handles
+
 #define LLOG(x)  // DLOG(x)
 
 dword Ctrl::KEYtoK(dword chr) {
@@ -68,13 +70,14 @@ void Ctrl::DoCancelPreedit()
 {
 	if(!focusCtrlWnd)
 		return;
-	if(focusCtrlWnd->top)
+	Top *top = focusCtrl->GetTop();
+	if(top)
 		focusCtrl->HidePreedit();
-	if(focusCtrlWnd->top && focusCtrlWnd->top->hwnd) {
-		HIMC himc = ImmGetContext(focusCtrlWnd->top->hwnd);
+	if(top && top->hwnd) {
+		HIMC himc = ImmGetContext(top->hwnd);
 		if(himc && ImmGetOpenStatus(himc)) {
 			ImmNotifyIME(himc, NI_COMPOSITIONSTR, CPS_CANCEL, 0);
-			ImmReleaseContext(focusCtrlWnd->top->hwnd, himc);
+			ImmReleaseContext(top->hwnd, himc);
 		}
 	}
 }
@@ -527,7 +530,7 @@ LRESULT Ctrl::WindowProc(UINT message, WPARAM wParam, LPARAM lParam) {
 			if(owner && (owner->IsForeground() || IsForeground()) && !owner->SetWantFocus())
 				IterateFocusForward(owner, owner);
 		}
-		if(IsWindowUnicode(hwnd)) // TRC 04/10/17: ActiveX unicode patch
+		if(IsWindowUnicode(hwnd))
 			DefWindowProcW(hwnd, message, wParam, lParam);
 		else
 			DefWindowProc(hwnd, message, wParam, lParam);
@@ -589,6 +592,8 @@ LRESULT Ctrl::WindowProc(UINT message, WPARAM wParam, LPARAM lParam) {
 	case WM_ACTIVATE:
 		LLOG("WM_ACTIVATE " << Name() << ", wParam = " << (int)wParam << ", focusCtrlWnd = " << UPP::Name(focusCtrlWnd) << ", raw = " << (void *)::GetFocus());
 		ignorekeyup = true;
+	case 0x031A: // WM_THEMECHANGED
+		XpClear();
 		break;
 	case WM_SETFOCUS:
 		LLOG("WM_SETFOCUS " << Name() << ", focusCtrlWnd = " << UPP::Name(focusCtrlWnd) << ", raw = " << (void *)::GetFocus());

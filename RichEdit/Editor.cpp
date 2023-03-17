@@ -125,7 +125,7 @@ void RichEdit::Paint(Draw& w)
 		pi.showcodes = showcodes;
 		pi.showlabels = !IsNull(showcodes) && viewborder >= 16;
 		pi.hyperlink = LtBlue; // because we have white paper even in dark mode
-		
+
 		if(spellcheck)
 			pi.spellingchecker = SpellParagraph;
 		if(IsSelection()) {
@@ -264,7 +264,7 @@ Rect RichEdit::PlaceCaret()
 	Rect rr = Rect(zoom * cursorc.left, GetPosY(cursorc), zoom * cursorc.right,
 	               GetPosY(PageY(cursorc.page, cursorc.bottom)));
 	if(objectpos >= 0) {
-		KillCaret();
+		caret = Null;
 		return rr;
 	}
 	if(!IsNull(objectrect)) {
@@ -272,10 +272,15 @@ Rect RichEdit::PlaceCaret()
 		Refresh();
 	}
 	if(IsSelection())
-		KillCaret();
+		caret = Null;
 	else
-		SetCaret(GetCaretRect(cursorc));
+		caret = GetCaretRect(cursorc);
 	return rr;
+}
+
+Rect RichEdit::GetCaret() const
+{
+	return caret;
 }
 
 void RichEdit::SetupRuler()
@@ -624,7 +629,7 @@ RichEdit::RichEdit()
 	style.Tip(t_("Стиль"));
 
 	style <<= THISBACK(Style);
-	
+
 	WhenBar = THISBACK(StdBar);
 
 	pagesz = Size(3968, 6074);
@@ -633,7 +638,7 @@ RichEdit::RichEdit()
 	Clear();
 
 	context = NULL;
-	
+
 	nolinks = false;
 
 	showcodes = LtBlue;
@@ -737,17 +742,17 @@ RichEdit::RichEdit()
 	useraction = modified = false;
 	ClearModify();
 	Finish();
-	
+
 	imagefs.Type("Изображения (*.png *.gif *.jpg *.bmp *.svg)", "*.png *.gif *.jpg *.bmp *.svg");
-	
+
 	singleline = false;
-	
+
 	clipzoom = Zoom(1, 1);
-	
+
 	bullet_indent = 150;
-	
+
 	persistent_findreplace = true;
-	
+
 	ignore_physical_size = false;
 }
 

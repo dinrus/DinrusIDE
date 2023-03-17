@@ -63,7 +63,7 @@ void DrawSmartText(Draw& draw, int x, int y, int cx, const char *text, Font font
 		RichText txt = ParseQTF(text + 1, accesskey);
 		txt.ApplyZoom(GetRichTextStdScreenZoom());
 		PaintInfo pi;
-		pi.darktheme = Grayscale(SColorPaper()) < 100;
+		pi.darktheme = IsDarkTheme();
 		pi.textcolor = qtf_ink;
 		txt.Paint(draw, x, y, cx, pi);
 		return;
@@ -113,20 +113,6 @@ int  ChooseAccessKey(const char *text, dword used)
 			return ac;
 	}
 	return 0;
-}
-
-DrawLabel::DrawLabel()
-{
-	push = focus = disabled = false;
-	lspc = rspc = 0;
-	limg_never_hide = false;
-	rimg_never_hide = false;
-	ink = disabledink = Null;
-	align = valign = ALIGN_CENTER;
-	accesskey = 0;
-	accesspos = -1;
-	font = StdFont();
-	nowrap = false;
 }
 
 Size DrawLabel::GetSize(int txtcx) const
@@ -193,7 +179,7 @@ Color GetLabelTextColor(const Ctrl *ctrl)
 	return SColorLabel();
 }
 
-Size DrawLabel::Paint(Ctrl *ctrl, Draw& w, const Rect& r, bool visibleaccesskey) const
+Rect DrawLabel::PaintRect(Ctrl *ctrl, Draw& w, const Rect& r, bool visibleaccesskey) const
 {
 	int lspc = this->lspc;
 	int rspc = this->rspc;
@@ -269,12 +255,22 @@ Size DrawLabel::Paint(Ctrl *ctrl, Draw& w, const Rect& r, bool visibleaccesskey)
 			DrawFocus(w, p.x - 2, p.y, txtsz.cx + 5, isz.cy);
 	}
 
-	return isz;
+	return Rect(p, isz);
+}
+
+Size DrawLabel::Paint(Ctrl *ctrl, Draw& w, const Rect& r, bool visibleaccesskey) const
+{
+	return PaintRect(ctrl, w, r, visibleaccesskey).GetSize();
 }
 
 Size DrawLabel::Paint(Ctrl *ctrl, Draw& w, int x, int y, int cx, int cy, bool visibleaccesskey) const
 {
 	return Paint(ctrl, w, RectC(x, y, cx, cy), visibleaccesskey);
+}
+
+Rect DrawLabel::PaintRect(Ctrl *ctrl, Draw& w, int x, int y, int cx, int cy, bool visibleaccesskey) const
+{
+	return PaintRect(ctrl, w, RectC(x, y, cx, cy), visibleaccesskey);
 }
 
 Size DrawLabel::Paint(Draw& w, const Rect& r, bool visibleaccesskey) const
@@ -287,9 +283,24 @@ Size DrawLabel::Paint(Draw& w, int x, int y, int cx, int cy, bool vak) const
 	return Paint(w, RectC(x, y, cx, cy), vak);
 }
 
+Rect DrawLabel::PaintRect(Draw& w, int x, int y, int cx, int cy, bool vak) const
+{
+	return PaintRect(NULL, w, RectC(x, y, cx, cy), vak);
+}
+
 void LabelBase::LabelUpdate() {}
 
+DrawLabel LabelBase::Make() const
+{
+	DrawLabel lx;
+	(DrawLabelBasic&)lx = lbl;
+	if(ext)
+		(DrawLabelExt&)lx = *ext;
+	return lx;
+}
+
 LabelBase& LabelBase::SetLeftImage(const Image& img, int spc, bool never_hide) {
+	DrawLabelExt& lbl = Ext();
 	lbl.limg = img;
 	lbl.lspc = spc;
 	lbl.limg_never_hide = never_hide;
@@ -298,6 +309,7 @@ LabelBase& LabelBase::SetLeftImage(const Image& img, int spc, bool never_hide) {
 }
 
 LabelBase& LabelBase::SetRightImage(const Image& img, int spc, bool never_hide) {
+	DrawLabelExt& lbl = Ext();
 	lbl.rimg = img;
 	lbl.rspc = spc;
 	lbl.rimg_never_hide = never_hide;
@@ -306,7 +318,7 @@ LabelBase& LabelBase::SetRightImage(const Image& img, int spc, bool never_hide) 
 }
 
 LabelBase& LabelBase::SetPaintRect(const PaintRect& paintrect) {
-	lbl.paintrect = paintrect;
+	Ext().paintrect = paintrect;
 	LabelUpdate();
 	return *this;
 }
@@ -362,7 +374,7 @@ LabelBase& LabelBase::SetVAlign(int valign) {
 
 Size LabelBase::PaintLabel(Ctrl *ctrl, Draw& w, const Rect& r, bool disabled, bool push, bool focus, bool vak)
 {
-	DrawLabel lbl1 = lbl;
+	DrawLabel lbl1 = Make();
 	lbl1.disabled = disabled;
 	lbl1.push = push;
 	lbl1.focus = focus;
@@ -387,12 +399,13 @@ Size LabelBase::PaintLabel(Draw& w, int x, int y, int cx, int cy, bool disabled,
 
 Size LabelBase::GetLabelSize() const
 {
-	return lbl.GetSize();
+	return Make().GetSize();
 }
 
 void LinkToolTipIn__();
 
-LabelBase::~LabelBase() {
+LabelBase::~LabelBase()
+{
 	LinkToolTipIn__();
 }
 

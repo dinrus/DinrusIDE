@@ -185,7 +185,7 @@ Image PosixGetDriveImage(String dir, bool large)
 	static Image lfloppy;
 	static Image computer;
 	static Image lcomputer;
-	
+
 	if (!init) {
 		bool KDE = Environment().Get("KDE_FULL_SESSION", String()) == "true";
 		if (KDE) {
@@ -208,7 +208,7 @@ Image PosixGetDriveImage(String dir, bool large)
 			computer  = GnomeImage("dev-computer");
 			lcomputer = GnomeImage("dev-computer", true);
 		}
-		
+
 		init = true;
 	}
 	if(dir.GetCount() == 0 || dir == "/") {
@@ -231,7 +231,7 @@ Image GetFileIcon(const String& folder, const String& filename, bool isdir, bool
 {
 	static bool init = false;
 	static bool KDE  = Environment().Get("KDE_FULL_SESSION", String()) == "true";
-	
+
 	static Image file;
 	static Image lfile;
 	static Image dir;
@@ -258,11 +258,11 @@ Image GetFileIcon(const String& folder, const String& filename, bool isdir, bool
 	static Image ltranslation;
 	static Image layout;
 	static Image llayout;
-	
+
 	static Image fileImage;
 	static Image fileMusic  = SystemImage("audio-x-generic");
 	static Image fileScript = SystemImage("text-x-script");
-	
+
 	if (!init) {
 		if (KDE) {
 			file         = SystemImage("text-plain");
@@ -291,7 +291,7 @@ Image GetFileIcon(const String& folder, const String& filename, bool isdir, bool
 			ltranslation = SystemImage("applications-education-language", true);
 			layout       = SystemImage("applications-development");
 			llayout      = SystemImage("applications-development", true);
-			
+
 			fileImage    = SystemImage("application-x-egon");
 		}
 		else {
@@ -324,7 +324,7 @@ Image GetFileIcon(const String& folder, const String& filename, bool isdir, bool
 
 			fileImage    = SystemImage("image-x-generic");
 		}
-		
+
 		init = true;
 	}
 	if (filename == "Help Topics")
@@ -360,16 +360,16 @@ Image GetFileIcon(const String& folder, const String& filename, bool isdir, bool
 	m.ext = GetFileExt(filename);
 	for (int i = 1; i < m.ext.GetCount(); ++i)
 		m.ext.Set (i, ToLower(m.ext[i]));
-	
+
 	// Fixing format problems
 	if (m.ext == ".gz") m.ext = ".tar.gz";
-	
+
 	// Ultimate++ - files extensions
 	if (m.ext == ".t" || m.ext == ".lng") return large ? ltranslation : translation;
 	if (m.ext == ".lay") return large ? llayout : layout;
 	if (m.ext == ".iml") return fileImage;
 	if (m.ext == ".usc") return fileScript;
-	
+
 	// Binary - files extensions (It seems that KDE has problem with multimedia MIME icons handling)
 	if (KDE) {
 		if (m.ext == ".bmp" || m.ext == ".dib" ||
@@ -922,7 +922,8 @@ void FileSel::SearchLoad()
 		SortBy(list, ~sortby);
 	Update();
 #ifdef GUI_WIN
-	lazyicons.Start(list, d, WhenIcon);
+	if(!noexeicons)
+		lazyicons.Start(list, d, WhenIcon);
 #endif
 	StartLI();
 }
@@ -1035,7 +1036,10 @@ void FileSel::AddName(Vector<String>& fn, String& f) {
 		f = TrimDot(f);
 		if(f[0] == '\"' && f.GetCount() > 2)
 			f = f.Mid(1, f.GetCount() - 2);
-		if(f.Find('.') < 0) {
+		int q = f.ReverseFind('.');
+		if(q < 0 || Filter(f.Mid(q + 1), // "(file.xxx)" should add extension too, allow just some
+		                   [](int c) { return IsAlNum(c) || findarg(c, '_', '-') >= 0 ? 0 : c; }
+		   ).GetCount()) {
 			String t = GetMask();
 			int q = t.Find('.');
 			if(q >= 0 && IsAlNum(t[q + 1])) {
@@ -1304,8 +1308,12 @@ void FileSel::Open() {
 				}
 			}
 		}
-		if(mode != SELECTDIR) Finish();
+		if(mode != SELECTDIR)
+			Finish();
 	}
+	else
+	if(mode == SAVEAS)
+		Finish();
 }
 
 String DirectoryUp(String& dir, bool basedir)
@@ -1818,7 +1826,7 @@ bool FileSel::Execute(int _mode) {
 		}
 	}
 	AddSystemPlaces(system_row);
-		
+
 	if(mode == SELECTDIR) {
 		if(!fn.IsEmpty()) {
 			String h = ~dir;
@@ -2374,6 +2382,7 @@ FileSel::FileSel()
 	multi = false;
 	bidname = false;
 	appmodal = true;
+	noexeicons = false;
 
 	AddChildBefore(GetFirstChild(), &sizegrip);
 
@@ -2383,14 +2392,14 @@ FileSel::FileSel()
 	SyncSplitter();
 
 	BackPaintHint();
-	
+
 	places.AddKey();
 	places.AddColumn().AddIndex().SetDisplay(Single<DisplayPlace>());
 	places.AddIndex();
 	places.NoHeader().NoGrid();
 	places.WhenLeftClick = THISBACK(GoToPlace);
 	places.NoWantFocus();
-	
+
 	list.NoRoundSize();
 
 #ifdef PLATFORM_WIN32
@@ -2400,7 +2409,7 @@ FileSel::FileSel()
 #endif
 
 	AddStandardPlaces();
-	
+
 	list.AutoHideSb();
 	places.AutoHideSb();
 

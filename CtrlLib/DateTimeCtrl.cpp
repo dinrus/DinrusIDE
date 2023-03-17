@@ -59,7 +59,7 @@ Calendar::Calendar()
 	bs = 5;
 	SetStyle(StyleDefault());
 	Reset();
-	
+
 	ComputeSize();
 }
 
@@ -83,7 +83,7 @@ void Calendar::Reset()
 Calendar& Calendar::SetStyle(const Style& s)
 {
 	style = &s;
-	nbg = CtrlImg::Bg();
+	nbg = Colorize(IsDarkTheme() ? DarkTheme(CtrlImg::Bg()) : CtrlImg::Bg(), s.header);
 	Refresh();
 	return *this;
 }
@@ -494,14 +494,14 @@ void Calendar::Paint(Draw &w)
 		}
 		d = GetDaysOfMonth(m, y) - fd + 1;
 	}
-	
+
 	for(int i = 0; i < rows; i++)
 	{
 		int yp = 2 + (int) ((i + 1) * rowh + hs);
 		int yc = (rh - fh) / 2;
 
 		str = AsString(WeekOfYear(d, m, y));
-		
+
 		Font wfnt = fnt;
 		wfnt.NoBold().NoUnderline();
 		Color wcolor = st.week;
@@ -509,7 +509,7 @@ void Calendar::Paint(Draw &w)
 			wfnt.Bold().Underline();
 			wcolor = st.selectday;
 		}
-		
+
 		w.DrawText(bs + (cw - GetTextSize(str, wfnt).cx) / 2, yp + yc, str, wfnt, wcolor);
 
 		for(int j = 0; j < cols; j++)
@@ -800,7 +800,7 @@ LineCtrl::LineCtrl()
 Clock& Clock::SetStyle(const Style& s)
 {
 	style = &s;
-	nbg = CtrlImg::Bg();
+	nbg = Colorize(IsDarkTheme() ? DarkTheme(CtrlImg::Bg()) : CtrlImg::Bg(), s.header);
 	Refresh();
 	return *this;
 }
@@ -865,7 +865,7 @@ void Clock::Paint(Draw& w)
 
 	w.DrawRect(sz, st.bgmain);
 	w.DrawImage(0, 0, sz.cx, hs, nbg);
-	
+
 	w.Clip(0, hs, sz.cx, sz.cy - hs);
 
 	if(colon)
@@ -890,12 +890,12 @@ void Clock::Paint(Draw& w)
 		                   cur_point == i ? CtrlImg::BigDotH()
 		                                  : i % 5 == 0 ? CtrlImg::BigDot() : CtrlImg::SmallDot());
 	}
-	
+
 	PaintPtr(0, w, cm, cur_time / 3600.0 / 12.0, 0.5, 3.0, 5, cur_line == 0 ? st.arrowhl : st.arrowhour, cf);
 	PaintPtr(1, w, cm, cur_time / 3600.0, 0.6, 3.0, 3, cur_line == 1 ? st.arrowhl : st.arrowminute, cf);
 	if(seconds)
 		PaintPtr(2, w, cm, cur_time / 60.0, 0.75, 5.0, 2, cur_line == 2 ? st.arrowhl : st.arrowsecond, cf);
-	
+
 	w.End();
 }
 
@@ -1176,7 +1176,7 @@ Size Clock::ComputeSize()
 	Font fnt = st.font;
 	Size tsz = GetTextSize("W", st.font);
 	hs = tsz.cy + 4;
-	//СДЕЛАТЬ: Find better scaling method.
+	//TODO: Find better scaling method.
 	double d = fnt == StdFont() ? 1 : tsz.cy / double(tsz.cx);
 	return Size(int(150.0 * d), int(157.0 * d));
 }
@@ -1271,7 +1271,7 @@ Clock::Clock()
 
 	SetFrame(BlackFrame());
 	BackPaint();
-	
+
 	ComputeSize();
 }
 

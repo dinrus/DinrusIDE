@@ -89,7 +89,7 @@ public:
 	void     PickInvalid(Vector<Rect>&& inv)   { invalid = pick(inv); }
 	Point    GetOffset() const;
 	bool     CanSetSurface()          { return true; }
-	static void Flush()               {} // СДЕЛАТЬ?
+	static void Flush()               {} // TODO?
 
 //	SystemDraw(cairo_t *cr, GdkDrawable *dw/* = NULL*/) : cr(cr), drawable(dw) { (void)drawable; invalid = NULL; }
 	SystemDraw(cairo_t *cr) : cr(cr) {}
@@ -179,7 +179,6 @@ Vector<int> GetPropertyInts(GdkWindow *w, const char *property);
 
 #define GUIPLATFORM_KEYCODES_INCLUDE <CtrlCore/GtkKeys.h>
 
-//$	struct Ctrl::Top {
 #define GUIPLATFORM_CTRL_TOP_DECLS \
 	GtkWidget            *window; \
 	GtkIMContext         *im_context; \
@@ -187,7 +186,6 @@ Vector<int> GetPropertyInts(GdkWindow *w, const char *property);
 	GtkIMContext         *im_context_multi; \
 	int64                 cursor_id; \
 	int                   id; \
-//$ }
 
 #define GUIPLATFORM_CTRL_DECLS_INCLUDE <CtrlCore/GtkCtrl.h>
 

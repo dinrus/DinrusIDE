@@ -95,19 +95,19 @@ struct RichEditTableProperties : WithTablePropertiesLayout<TopWindow> {
 	{
 		EditRichHeaderFooter(header_qtf, footer_qtf);
 	}
-	
+
 	void NewHdrFtr()
 	{
 		SyncHdrFtr();
 		if(newhdrftr)
 			EditHdrFtr();
 	}
-	
+
 	void SyncHdrFtr()
 	{
 		hdrftr.Enable(newhdrftr && newhdrftr.IsEnabled());
 	}
-	
+
 	typedef RichEditTableProperties CLASSNAME;
 
 	RichEditTableProperties() {

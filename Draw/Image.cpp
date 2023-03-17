@@ -33,7 +33,7 @@ void ImageBuffer::Create(int cx, int cy)
 	ASSERT(cx >= 0 && cy >= 0);
 	size.cx = cx;
 	size.cy = cy;
-	pixels.Alloc(GetLength());
+	pixels.Alloc(GetLength(), RGBAZero());
 #ifdef _DEBUG
 	RGBA *s = pixels;
 	RGBA *e = pixels + GetLength();
@@ -234,6 +234,8 @@ void Image::Serialize(Stream& s)
 		p2 = spot2;
 		s % p2;
 	}
+	if(sz.cx < 0 || sz.cy < 0)
+		s.LoadError();
 	int64 len = (int64)sz.cx * (int64)sz.cy * (int64)sizeof(RGBA);
 	if(s.IsLoading()) {
 		if(len) {
@@ -353,7 +355,7 @@ uint64 Image::GetAuxData() const
 	return data ? data->aux_data : 0;
 }
 
-static void sMultiply(ImageBuffer& b, int (*op)(RGBA *t, const RGBA *s, int len))
+static void sMultiply(ImageBuffer& b, int (*op)(RGBA *t, const RGBA *s, size_t len))
 {
 	if(b.GetKind() != IMAGE_OPAQUE && b.GetKind() != IMAGE_EMPTY)
 		(*op)(~b, ~b, b.GetLength());
@@ -369,7 +371,7 @@ void Unmultiply(ImageBuffer& b)
 	sMultiply(b, Unmultiply);
 }
 
-static Image sMultiply(const Image& img, int (*op)(RGBA *t, const RGBA *s, int len))
+static Image sMultiply(const Image& img, int (*op)(RGBA *t, const RGBA *s, size_t len))
 {
 	int k = img.GetKind();
 	if(k == IMAGE_OPAQUE || k == IMAGE_EMPTY)

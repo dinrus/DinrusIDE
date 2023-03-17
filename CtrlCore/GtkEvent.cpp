@@ -69,7 +69,7 @@ Tuple2<int, const char *> xEvent[] = {
 
 Ctrl *Ctrl::GetTopCtrlFromId(int id)
 {
-	int q = FindId(id);
+	int q = FindGtkId(id);
 	if(q >= 0) {
 		Ctrl *p = wins[q].ctrl;
 		if(p && p->top)
@@ -135,10 +135,13 @@ gboolean Ctrl::GtkEvent(GtkWidget *widget, GdkEvent *event, gpointer user_data)
 	case GDK_FOCUS_CHANGE:
 		p->CancelPreedit();
 		if(p) {
-			if(((GdkEventFocus *)event)->in)
-				gtk_im_context_focus_in(p->top->im_context);
-			else
-				gtk_im_context_focus_out(p->top->im_context);
+			Top *top = p->GetTop();
+			if(top) {
+				if(((GdkEventFocus *)event)->in)
+					gtk_im_context_focus_in(top->im_context);
+				else
+					gtk_im_context_focus_out(top->im_context);
+			}
 			AddEvent(user_data, EVENT_FOCUS_CHANGE, value, event);
 		}
 		return false;
@@ -181,8 +184,11 @@ gboolean Ctrl::GtkEvent(GtkWidget *widget, GdkEvent *event, gpointer user_data)
 		value << (int) key->keyval << (int) key->hardware_keycode;
 		if(pressed) {
 			p = GetTopCtrlFromId(user_data);
-			if(p && gtk_im_context_filter_keypress(p->top->im_context, key))
-				return true;
+			if(p) {
+				Top *top = p->GetTop();
+				if(top && gtk_im_context_filter_keypress(top->im_context, key))
+					return true;
+			}
 		}
 		break;
 	case GDK_CONFIGURE: {
@@ -336,7 +342,6 @@ void Ctrl::IMCommit(GtkIMContext *context, gchar *str, gpointer user_data)
 void Ctrl::IMLocation(Ctrl *w)
 {
 	if(w && w->HasFocusDeep() && focusCtrl && !IsNull(focusCtrl->GetPreedit())) {
-		GdkRectangle r;
 		Rect e = w->GetPreeditScreenRect();
 		Rect q = w->GetScreenRect();
 		GdkRectangle gr;
@@ -344,7 +349,9 @@ void Ctrl::IMLocation(Ctrl *w)
 		gr.y = LSC(e.top - q.top);
 		gr.width = LSC(e.GetWidth());
 		gr.height = LSC(e.GetHeight());
-		gtk_im_context_set_cursor_location(w->top->im_context, &gr);
+		Top *top = w->GetTop();
+		if(top)
+			gtk_im_context_set_cursor_location(top->im_context, &gr);
 	}
 }
 
@@ -631,14 +638,15 @@ void Ctrl::Proc()
 			if(x)
 				kv = x->b;
 			else {
-				if(GetCtrl() | GetAlt()) {// fix Ctrl+Shift+1 etc...
+				if(GetCtrl() || GetAlt()) {// fix Ctrl+Shift+1 etc...
 					static VectorMap<int, int> hwkv;
 					ONCELOCK {
 						for(int k : { GDKEY(0), GDKEY(1), GDKEY(2), GDKEY(3), GDKEY(4),
 						              GDKEY(5), GDKEY(6), GDKEY(7), GDKEY(8), GDKEY(9) }) {
 							GdkKeymapKey *keys;
 							gint n_keys;
-							if(gdk_keymap_get_entries_for_keyval(NULL, k, &keys, &n_keys)) {
+
+							if(gdk_keymap_get_entries_for_keyval(gdk_keymap_get_for_display(gdk_display_get_default()), k, &keys, &n_keys)) {
 								for(int j = 0; j < n_keys; j++)
 									if(keys[j].group == 0)
 										hwkv.Add(keys[j].keycode, k);
@@ -650,6 +658,7 @@ void Ctrl::Proc()
 				}
 				kv += K_DELTA;
 			}
+			GetKeyDesc(kv);
 			if(GetShift() && kv != K_SHIFT_KEY)
 				kv |= K_SHIFT;
 			if(GetCtrl() && kv != K_CTRL_KEY)
@@ -671,7 +680,7 @@ void Ctrl::Proc()
 		break;
 	case EVENT_TEXT: {
 		WString h = CurrentEvent.value;
-		for(int i = 0; i < h.GetCount(); i++) // СДЕЛАТЬ: Add compression
+		for(int i = 0; i < h.GetCount(); i++) // TODO: Add compression
 			DispatchKey(h[i], 1);
 		break;
 	}

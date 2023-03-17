@@ -4,7 +4,7 @@ class CoWork : NoCopy {
 		CoWork           *work = NULL;
 		bool              looper = false;
 	};
-	
+
 	enum { SCHEDULED_MAX = 2048 };
 
 public:
@@ -18,7 +18,7 @@ public:
 
 		Mutex             lock;
 		ConditionVariable waitforjob;
-		
+
 		void              Free(MJob& m);
 		void              DoJob(MJob& m);
 		void              PushJob(Function<void ()>&& fn, CoWork *work, bool looper = false);
@@ -34,7 +34,7 @@ public:
 		bool DoJob();
 		static void ThreadRun(int tno);
 	};
-	
+
 	friend struct Pool;
 
 	static Pool& GetPool();
@@ -54,14 +54,14 @@ public:
 
 	void Cancel0();
 	void Finish0();
-	
+
 	Atomic             index;
 
 // experimental pipe support
 	Mutex stepmutex;
 	Array<BiVector<Function<void ()>>> step;
 	Vector<bool> steprunning;
-	
+
 public:
 	static bool TrySchedule(Function<void ()>&& fn);
 	static bool TrySchedule(const Function<void ()>& fn)      { return TrySchedule(clone(fn)); }
@@ -73,7 +73,7 @@ public:
 
 	CoWork&  operator&(const Function<void ()>& fn)           { Do(fn); return *this; }
 	CoWork&  operator&(Function<void ()>&& fn)                { Do(pick(fn)); return *this; }
-	
+
 	void     Loop(Function<void ()>&& fn);
 	void     Loop(const Function<void ()>& fn)                { Loop(clone(fn)); }
 
@@ -86,14 +86,14 @@ public:
 	void Pipe(int stepi, Function<void ()>&& lambda); // experimental
 
 	static void FinLock();
-	
+
 	void Cancel();
 	static bool IsCanceled();
 
 	void Finish();
-	
+
 	bool IsFinished();
-	
+
 	void Reset();
 
 	static bool IsWorker()                                    { return GetWorkerIndex() >= 0; }
@@ -161,17 +161,17 @@ template <class T>
 class CoWorkerResources {
 	int          workercount;
 	Buffer<T>    res;
-	
+
 public:
 	int GetCount() const  { return workercount + 1; }
 	T& operator[](int i)  { return res[i]; }
 
 	T& Get()              { int i = CoWork::GetWorkerIndex(); return res[i < 0 ? workercount : i]; }
 	T& operator~()        { return Get(); }
-	
+
 	T *begin()            { return ~res; }
 	T *end()              { return ~res + GetCount(); }
-	
+
 	CoWorkerResources()   { workercount = CoWork::GetPoolSize(); res.Alloc(GetCount()); }
 
 	CoWorkerResources(Event<T&> initializer) : CoWorkerResources() {
@@ -186,7 +186,7 @@ class AsyncWork {
 	struct Imp {
 		CoWork co;
 		Ret2   ret;
-	
+
 		template<class Function, class... Args>
 		void        Do(Function&& f, Args&&... args) { co.Do([=]() { ret = f(args...); }); }
 		const Ret2& Get()                            { return ret; }
@@ -195,17 +195,17 @@ class AsyncWork {
 
 	struct ImpVoid {
 		CoWork co;
-	
+
 		template<class Function, class... Args>
 		void        Do(Function&& f, Args&&... args) { co.Do([=]() { f(args...); }); }
 		void        Get()                            {}
 		void        Pick()                           {}
 	};
-	
+
 	using ImpType = typename std::conditional<std::is_void<Ret>::value, ImpVoid, Imp<Ret>>::type;
-	
+
 	One<ImpType> imp;
-	
+
 public:
 	template< class Function, class... Args>
 	void  Do(Function&& f, Args&&... args)          { imp.Create().Do(f, args...); }
@@ -216,7 +216,7 @@ public:
 	Ret         Get()                               { ASSERT(imp); imp->co.Finish(); return imp->Get(); }
 	Ret         operator~()                         { return Get(); }
 	Ret         Pick()                              { ASSERT(imp); imp->co.Finish(); return imp->Pick(); }
-	
+
 	AsyncWork& operator=(AsyncWork&&) = default;
 	AsyncWork(AsyncWork&&) = default;
 
@@ -226,18 +226,26 @@ public:
 
 template< class Function, class... Args>
 AsyncWork<
+#ifdef CPP_20
+	std::invoke_result_t<Function, Args...>
+#else
 	typename std::result_of<
 		typename std::decay<Function>::type
 			(typename std::decay<Args>::type...)
 	>::type
+#endif
 >
 Async(Function&& f, Args&&... args)
 {
 	AsyncWork<
+#ifdef CPP_20
+		std::invoke_result_t<Function, Args...>
+#else
 		typename std::result_of<
 			typename std::decay<Function>::type
 				(typename std::decay<Args>::type...)
 		>::type
+#endif
 	> h;
 	h.Do(f, args...);
 	return pick(h);

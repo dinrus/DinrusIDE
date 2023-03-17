@@ -31,7 +31,7 @@ protected:
 
 	unsigned style:6;
 	unsigned errorcode:16;
-	
+
 	int      version = 0;
 
 	enum {
@@ -62,7 +62,7 @@ public:
 	virtual  ~Stream();
 
 	word      GetStyle() const       { return style; }
-	
+
 	void      SetVersion(int ver)    { version = ver; }
 	int       GetVersion() const     { return version; }
 
@@ -102,9 +102,9 @@ public:
 	void      Put(const String& s)   { Put((const char *) s, s.GetLength()); }
 	String    Get(int size);
 	String    GetAll(int size);
-	
+
 	int       Skip(int size);
-	
+
 	void      LoadThrowing()         { style |= STRM_THROW; }
 	void      LoadError();
 
@@ -188,12 +188,16 @@ public:
 
 	void      SerializeRaw(byte *data, int64 count);
 	void      SerializeRaw(word *data, int64 count);
+	void      SerializeRaw(int16 *data, int64 count);
 	void      SerializeRaw(dword *data, int64 count);
+	void      SerializeRaw(int *data, int64 count);
 	void      SerializeRaw(uint64 *data, int64 count);
+	void      SerializeRaw(float *data, int64 count);
+	void      SerializeRaw(double *data, int64 count);
 
 	String    GetAllRLE(int size);
 	void      SerializeRLE(byte *data, int count);
-	
+
 	Stream&   SerializeRaw(byte *data)     { if(IsLoading()) *data = Get(); else Put(*data); return *this; }
 	Stream&   SerializeRaw(word *data)     { if(IsLoading()) *data = Get16le(); else Put16le(*data); return *this; }
 	Stream&   SerializeRaw(dword *data)    { if(IsLoading()) *data = Get32le(); else Put32le(*data); return *this; }
@@ -291,9 +295,9 @@ public:
 
 	String      GetResult();
 	operator    String()                              { return GetResult(); }
-	
+
 	void        Limit(int sz)                         { limit = sz; }
-	
+
 	struct LimitExc : public StreamError {};
 
 	StringStream()                           { Create(); }
@@ -496,7 +500,7 @@ private:
 	Stream  *stream;
 	bool     equal;
 	int64    size;
-	byte     h[128];
+	byte     h[1024];
 
 	void     Compare(int64 pos, const void *data, int size);
 
@@ -522,9 +526,9 @@ protected:
 
 public:
 	virtual  void  Close();
-	
+
 	void     Flush();
-	
+
 	OutStream();
 	~OutStream();
 };

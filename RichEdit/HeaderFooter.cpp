@@ -7,10 +7,10 @@ struct RichEditHdrFtr : public RichEdit {
 
 	void RefreshBar();
 	void TheBar(Bar& bar);
-	
+
 	void  PageNumber();
 	void  PageCount();
-	
+
 	void  Init(int pageno, int pagecount);
 
 	typedef RichEditHdrFtr CLASSNAME;
@@ -68,9 +68,9 @@ RichEditHdrFtr::RichEditHdrFtr()
 
 struct HeaderFooterDlg : WithHeaderFooterLayout<TopWindow> {
 	typedef HeaderFooterDlg CLASSNAME;
-	
+
 	RichEditHdrFtr header_editor, footer_editor;
-	
+
 	void Sync();
 	void Set(const String& header_qtf, const String& footer_qtf);
 	void Get(String& header_qtf, String& footer_qtf);

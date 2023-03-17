@@ -55,7 +55,7 @@ class ValueType : public B {
 public:
 	static dword ValueTypeNo()                      { return type == UNKNOWN_V ? StaticTypeNo<T>() + 0x8000000 : type; }
 	friend dword ValueTypeNo(const T*)              { return T::ValueTypeNo(); }
-	
+
 	bool     IsNullInstance() const                 { return false; }
 	void     Serialize(Stream& s)                   { NEVER(); }
 	void     Xmlize(XmlIO& xio)                     { NEVER(); }
@@ -65,7 +65,7 @@ public:
 	String   ToString() const                       { return typeid(T).name(); }
 	int      Compare(const T&) const                { NEVER(); return 0; }
 	int      PolyCompare(const Value&) const        { NEVER(); return 0; }
-	
+
 	operator ValueTypeRef();
 };
 
@@ -115,7 +115,7 @@ public:
 		int        (*Compare)(const void *p1, const void *p2);
 		int        (*PolyCompare)(const void *p1, const Value& p2);
 	};
-	
+
 protected:
 	enum { STRING = 0, REF = 255, VOIDV = 3 };
 
@@ -123,7 +123,7 @@ protected:
 	static Sval *svo[256];
 	static Index<String>& NameNdx();
 	static Index<dword>&  TypeNdx();
-	
+
 	static void   AddName(dword type, const char *name);
 	static int    GetType(const char *name);
 	static String GetName(dword type);
@@ -154,7 +154,7 @@ protected:
 	T&       GetSmallRaw() const;
 	template <class T>
 	T&       GetSmall() const;
-	
+
 	int      GetOtherInt() const;
 	int64    GetOtherInt64() const;
 	double   GetOtherDouble() const;
@@ -165,23 +165,23 @@ protected:
 	hash_t   GetOtherHashValue() const;
 
 	bool     IsPolyEqual(const Value& v) const;
-	
+
 	enum VSMALL { SMALL };
 
 	template <class T>
 	Value(const T& value, VSMALL);
-	
+
 	template <class T> friend Value SvoToValue(const T& x);
 
 	String  GetName() const;
-	
+
 	int     PolyCompare(const Value& v) const;
 	int     Compare2(const Value& v) const;
 
 	Vector<Value>&  UnShareArray();
 
 	const Vector<Value>& GetVA() const;
-	
+
 #if defined(_DEBUG) && defined(COMPILER_GCC)
 	uint32  magic[4];
 	void    Magic()               { magic[0] = 0xc436d851; magic[1] = 0x72f67c76; magic[2] = 0x3e5e10fd; magic[3] = 0xc90d370b; }
@@ -202,7 +202,7 @@ public:
 	static  void Register(const char *name = NULL);
 	template <class T>
 	static  void SvoRegister(const char *name = NULL);
-	
+
 	dword    GetType() const;
 	bool     IsError() const         { return GetType() == ERROR_V; }
 	bool     IsVoid() const          { return Is(VOIDV) || IsError(); }
@@ -220,12 +220,13 @@ public:
 	operator Date() const            { return Is(DATE_V) ? GetSmallRaw<Date>() : GetOtherDate(); }
 	operator Time() const            { return Is(TIME_V) ? GetSmallRaw<Time>() : GetOtherTime(); }
 	operator double() const          { return Is(DOUBLE_V) ? GetSmallRaw<double>() : GetOtherDouble(); }
+	operator float() const           { return float(Is(DOUBLE_V) ? GetSmallRaw<double>() : GetOtherDouble()); }
 	operator int() const             { return Is(INT_V) ? GetSmallRaw<int>() : GetOtherInt(); }
 	operator int64() const           { return Is(INT64_V) ? GetSmallRaw<int64>() : GetOtherInt64(); }
 	operator bool() const            { return Is(BOOL_V) ? GetSmallRaw<bool>() : GetOtherBool(); }
 	std::string  ToStd() const       { return operator String().ToStd(); }
 	std::wstring ToWStd() const      { return operator WString().ToStd(); }
-	
+
 	Value(const String& s) : data(s) { Magic(); }
 	Value(const WString& s);
 	Value(const char *s) : data(s)   { Magic(); }
@@ -242,7 +243,7 @@ public:
 	bool operator==(const Value& v) const;
 	bool operator!=(const Value& v) const { return !operator==(v); }
 	bool IsSame(const Value& v) const;
-	
+
 	int  Compare(const Value& v) const;
 	bool operator<=(const Value& x) const { return Compare(x) <= 0; }
 	bool operator>=(const Value& x) const { return Compare(x) >= 0; }
@@ -261,13 +262,13 @@ public:
 
 	Value& operator=(const Value& v);
 	Value(const Value& v);
-	
+
 	int   GetCount() const;
 	const Value& operator[](int i) const;
 	const Value& operator[](const String& key) const;
 	const Value& operator[](const char *key) const;
 	const Value& operator[](const Id& key) const;
-	
+
 	Value& At(int i);
 	Value& operator()(int i)              { return At(i); }
 	void   Add(const Value& src);

@@ -2,13 +2,11 @@
 
 namespace Upp {
 
-#define LLOG(x)  //  DLOG(x)
+#define LLOG(x)    // DLOG(x)
 
 Ptr<Ctrl> Ctrl::focusCtrl;
 Ptr<Ctrl> Ctrl::focusCtrlWnd;
 Ptr<Ctrl> Ctrl::lastActiveWnd;
-Ptr<Ctrl> Ctrl::caretCtrl;
-Rect      Ctrl::caretRect;
 bool      Ctrl::ignorekeyup;
 
 Ptr<Ctrl>           Ctrl::defferedSetFocus;
@@ -89,7 +87,7 @@ bool Ctrl::DispatchKey(dword keycode, int count)
 		if(p->IsEnabled() && p->Key(p->unicode ? keycode : k, count))
 		{
 			LLOG("Ctrl::DispatchKey(" << FormatIntHex(keycode) << ", " << GetKeyDesc(keycode)
-				<< "): eaten in " << Desc(p));
+				<< "): consumed in " << Desc(p));
 			if(Ini::user_log)
 				USRLOG("  -> " << Desc(p));
 			eventCtrl = focusCtrl;
@@ -116,7 +114,7 @@ bool Ctrl::HotKey(dword key)
 	GuiLock __;
 	LLOG("HotKey " << GetKeyDesc(key) << " at " << Name(this));
 	if(!IsEnabled() || !IsVisible()) return false;
-	for(Ptr<Ctrl> ctrl = firstchild; ctrl; ctrl = ctrl->next)
+	for(Ptr<Ctrl> ctrl = GetFirstChild(); ctrl; ctrl = ctrl->GetNext())
 	{
 		LLOG("Trying HotKey " << GetKeyDesc(key) << " at " << Name(ctrl));
 		if(ctrl->IsOpen() && ctrl->IsVisible() && ctrl->IsEnabled() && ctrl->HotKey(key))
@@ -158,8 +156,8 @@ void Ctrl::DoKillFocus(Ptr<Ctrl> pfocusCtrl, Ptr<Ctrl> nfocusCtrl)
 		LLOG("LostFocus: " << Name(pfocusCtrl));
 		pfocusCtrl->LostFocus();
 	}
-	if(pfocusCtrl && pfocusCtrl->parent && !pfocusCtrl->parent->destroying)
-		pfocusCtrl->parent->ChildLostFocus();
+	if(pfocusCtrl && pfocusCtrl->GetParent() && !pfocusCtrl->GetParent()->destroying)
+		pfocusCtrl->GetParent()->ChildLostFocus();
 	SyncCaret();
 }
 
@@ -179,12 +177,46 @@ void Ctrl::DoSetFocus(Ptr<Ctrl> pfocusCtrl, Ptr<Ctrl> nfocusCtrl, bool activate)
 		nfocusCtrl->GotFocus();
 		nfocusCtrl->StateH(FOCUS);
 	}
-	if(focusCtrl == nfocusCtrl && nfocusCtrl && nfocusCtrl->parent &&
-	   !nfocusCtrl->parent->destroying)
-		nfocusCtrl->parent->ChildGotFocus();
+	if(focusCtrl == nfocusCtrl && nfocusCtrl && nfocusCtrl->GetParent() &&
+	   !nfocusCtrl->GetParent()->destroying)
+		nfocusCtrl->GetParent()->ChildGotFocus();
 	
 	SyncCaret();
 }
+
+/*
+bool Ctrl::SetFocus0(bool activate)
+{
+	GuiLock __;
+	if(IsUsrLog())
+		UsrLogT(6, String().Cat() << "SETFOCUS " << Desc(this));
+	LLOG("Ctrl::SetFocus " << Desc(this));
+	LLOG("focusCtrlWnd " << UPP::Name(focusCtrlWnd));
+	LLOG("Ctrl::SetFocus0 -> deferredSetFocus = NULL; was: " << UPP::Name(defferedSetFocus));
+	defferedSetFocus = NULL;
+	if(focusCtrl == this) return true;
+	if(!IsOpen() || !IsEnabled() || !IsVisible()) return false;
+	Ptr<Ctrl> pfocusCtrl = focusCtrl;
+	Ptr<Ctrl> topwindow = GetTopWindow();
+	Ptr<Ctrl> topctrl = GetTopCtrl();
+	Ptr<Ctrl> _this = this;
+	if(!topwindow) topwindow = topctrl;
+	LLOG("SetFocus -> SetWndFocus: topwindow = " << UPP::Name(topwindow) << ", focusCtrlWnd = " << UPP::Name(focusCtrlWnd));
+	if(!topwindow->HasWndFocus() && !topwindow->SetWndFocus()) return false;// cxl 31.1.2004
+	if(activate) // Dolik/fudadmin 2011-5-1
+		topctrl->SetWndForeground();  // cxl 2007-4-27
+	LLOG("SetFocus -> focusCtrl = this: " << FormatIntHex(this) << ", _this = " << FormatIntHex(~_this) << ", " << UPP::Name(_this));
+	focusCtrl = _this;
+	focusCtrlWnd = topwindow;
+	DoKillFocus(pfocusCtrl, _this);
+	LLOG("SetFocus 2");
+	DoDeactivate(pfocusCtrl, _this);
+	DoSetFocus(pfocusCtrl, _this, activate);
+	if(topwindow)
+		lastActiveWnd = topwindow;
+	return true;
+}
+*/
 
 bool Ctrl::SetFocus0(bool activate)
 {
@@ -306,14 +338,6 @@ void Ctrl::DefferedFocusSync()
 	}
 }
 
-void Ctrl::RefreshCaret()
-{
-	GuiLock __;
-	if(caretCtrl)
-		caretCtrl->Refresh(caretCtrl->caretx, caretCtrl->carety,
-		                   caretCtrl->caretcx, caretCtrl->caretcy);
-}
-
 Ctrl *Ctrl::GetActiveWindow()
 {
 	GuiLock __;
@@ -329,6 +353,61 @@ bool  Ctrl::HasFocusDeep() const
 	if(!a || !a->IsPopUp()) return false;
 	a = a->GetOwnerCtrl();
 	return a && HasChildDeep(a);
+}
+Ptr<Ctrl> Ctrl::caretCtrl;
+Ptr<Ctrl> Ctrl::prevCaretCtrl;
+Rect      Ctrl::caretRect;
+int       Ctrl::WndCaretTime;
+bool      Ctrl::WndCaretVisible;
+
+void Ctrl::RefreshCaret()
+{
+	GuiLock __;
+	if(prevCaretCtrl) {
+		prevCaretCtrl->Refresh(caretRect);
+		prevCaretCtrl = nullptr;
+	}
+	if(caretCtrl) {
+		caretRect = caretCtrl->GetCaret();
+		caretCtrl->Refresh(caretRect);
+		prevCaretCtrl = caretCtrl;
+	}
+}
+
+void  Ctrl::AnimateCaret()
+{
+	GuiLock __;
+	bool v = !(((msecs() - WndCaretTime) / GetCaretBlinkTime()) & 1);
+	if(v != WndCaretVisible) {
+		WndCaretVisible = v;
+		RefreshCaret();
+	}
+}
+
+void Ctrl::PaintCaret(SystemDraw& w)
+{
+	GuiLock __;
+	// LLOG("PaintCaret " << Name() << ", caretCtrl: " << caretCtrl << ", WndCaretVisible: " << WndCaretVisible);
+	if(this == caretCtrl && WndCaretVisible)
+		w.DrawRect(GetCaret(), InvertColor);
+}
+
+void Ctrl::SyncCaret() {
+	GuiLock __;
+	// LLOG("SyncCaret");
+	if(focusCtrl != caretCtrl) {
+		LLOG("SyncCaret DO " << Upp::Name(caretCtrl) << " -> " << Upp::Name(focusCtrl));
+		RefreshCaret();
+		caretCtrl = focusCtrl;
+		WndCaretTime = msecs();
+		RefreshCaret();
+	}
+	else {
+		if(caretCtrl && caretCtrl->GetCaret() != caretRect) {
+			WndCaretTime = msecs();
+			RefreshCaret();
+		}
+	}
 }
 
 Tuple<dword, const char *> KeyNames__[ ] = {
@@ -373,7 +452,7 @@ String GetKeyDesc(dword key)
 
 	if(key == 0)
 		return desc;
-	// СДЕЛАТЬ: Cocoa graphics https://tech.karbassi.com/2009/05/27/command-option-shift-symbols-in-unicode/
+	// TODO: Cocoa graphics https://tech.karbassi.com/2009/05/27/command-option-shift-symbols-in-unicode/
 #ifdef PLATFORM_COCOA
 	if(key & K_KEYUP) desc << t_("key\vUP ");
 	if(key & K_CTRL)  desc << t_("key\v⌘");

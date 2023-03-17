@@ -97,8 +97,8 @@ libssh2_knownhost_init(LIBSSH2_SESSION *session)
 
     if(!knh) {
         _libssh2_error(session, LIBSSH2_ERROR_ALLOC,
-                       "Unable to allocate memory for known-hosts "
-                       "collection");
+                       "Не удаётся разместить память под коллекцию "
+                       "известных хостов");
         return NULL;
     }
 
@@ -147,13 +147,13 @@ knownhost_add(LIBSSH2_KNOWNHOSTS *hosts,
     /* make sure we have a key type set */
     if(!(typemask & LIBSSH2_KNOWNHOST_KEY_MASK))
         return _libssh2_error(hosts->session, LIBSSH2_ERROR_INVAL,
-                              "No key type set");
+                              "Не установлен тип ключа");
 
     entry = LIBSSH2_CALLOC(hosts->session, sizeof(struct known_host));
     if(!entry)
         return _libssh2_error(hosts->session, LIBSSH2_ERROR_ALLOC,
-                              "Unable to allocate memory for known host "
-                              "entry");
+                              "Не удаётся разместить память под запись "
+                              "известного хоста");
 
     entry->typemask = typemask;
 
@@ -163,7 +163,7 @@ knownhost_add(LIBSSH2_KNOWNHOSTS *hosts,
         entry->name = LIBSSH2_ALLOC(hosts->session, hostlen + 1);
         if(!entry->name) {
             rc = _libssh2_error(hosts->session, LIBSSH2_ERROR_ALLOC,
-                                "Unable to allocate memory for host name");
+                                "Не удаётся разместить память под имя хоста");
             goto error;
         }
         memcpy(entry->name, host, hostlen + 1);
@@ -186,7 +186,7 @@ knownhost_add(LIBSSH2_KNOWNHOSTS *hosts,
         break;
     default:
         rc = _libssh2_error(hosts->session, LIBSSH2_ERROR_METHOD_NOT_SUPPORTED,
-                            "Unknown host name type");
+                            "Неизвестный тип имени хоста");
         goto error;
     }
 
@@ -197,7 +197,7 @@ knownhost_add(LIBSSH2_KNOWNHOSTS *hosts,
         entry->key = LIBSSH2_ALLOC(hosts->session, keylen + 1);
         if(!entry->key) {
             rc = _libssh2_error(hosts->session, LIBSSH2_ERROR_ALLOC,
-                                "Unable to allocate memory for key");
+                                "Не удаётся разместить память под ключ");
             goto error;
         }
         memcpy(entry->key, key, keylen + 1);
@@ -209,8 +209,8 @@ knownhost_add(LIBSSH2_KNOWNHOSTS *hosts,
                                              &ptr);
         if(!nlen) {
             rc = _libssh2_error(hosts->session, LIBSSH2_ERROR_ALLOC,
-                                "Unable to allocate memory for "
-                                "base64-encoded key");
+                                "Не удаётся разместить память под "
+                                "зашифрованный в base64 ключ");
             goto error;
         }
 
@@ -222,7 +222,7 @@ knownhost_add(LIBSSH2_KNOWNHOSTS *hosts,
         entry->key_type_name = LIBSSH2_ALLOC(hosts->session, key_type_len + 1);
         if(!entry->key_type_name) {
             rc = _libssh2_error(hosts->session, LIBSSH2_ERROR_ALLOC,
-                                "Unable to allocate memory for key type");
+                                "Не удаётся разместить память под тип ключа");
             goto error;
         }
         memcpy(entry->key_type_name, key_type_name, key_type_len);
@@ -234,7 +234,7 @@ knownhost_add(LIBSSH2_KNOWNHOSTS *hosts,
         entry->comment = LIBSSH2_ALLOC(hosts->session, commentlen + 1);
         if(!entry->comment) {
             rc = _libssh2_error(hosts->session, LIBSSH2_ERROR_ALLOC,
-                                "Unable to allocate memory for comment");
+                                "Не удаётся разместить память под коммент");
             goto error;
         }
         memcpy(entry->comment, comment, commentlen + 1);
@@ -374,7 +374,7 @@ knownhost_check(LIBSSH2_KNOWNHOSTS *hosts,
         if(len < 0 || len >= (int)sizeof(hostbuff)) {
             _libssh2_error(hosts->session,
                            LIBSSH2_ERROR_BUFFER_TOO_SMALL,
-                           "Known-host write buffer too small");
+                           "Буфер записи известного хоста слишком мал");
             return LIBSSH2_KNOWNHOST_CHECK_FAILURE;
         }
         host = hostbuff;
@@ -391,8 +391,8 @@ knownhost_check(LIBSSH2_KNOWNHOSTS *hosts,
                                              &keyalloc);
         if(!nlen) {
             _libssh2_error(hosts->session, LIBSSH2_ERROR_ALLOC,
-                           "Unable to allocate memory for base64-encoded "
-                           "key");
+                           "Не удаётся разместить память под зашифрованный в base64 "
+                           "ключ");
             return LIBSSH2_KNOWNHOST_CHECK_FAILURE;
         }
 
@@ -569,7 +569,7 @@ libssh2_knownhost_del(LIBSSH2_KNOWNHOSTS *hosts,
     /* check that this was retrieved the right way or get out */
     if(!entry || (entry->magic != KNOWNHOST_MAGIC))
         return _libssh2_error(hosts->session, LIBSSH2_ERROR_INVAL,
-                              "Неверное host information");
+                              "Неверная информация о хосте");
 
     /* get the internal node pointer */
     node = entry->node;
@@ -625,8 +625,8 @@ static int oldstyle_hostline(LIBSSH2_KNOWNHOSTS *hosts,
     if(hostlen < 1)
         return _libssh2_error(hosts->session,
                               LIBSSH2_ERROR_METHOD_NOT_SUPPORTED,
-                              "Failed to parse known_hosts line "
-                              "(no host names)");
+                              "Не удалось разобрать строку known_hosts "
+                              "(имена хостов отсутствуют)");
 
     while(name > host) {
         --name;
@@ -642,8 +642,8 @@ static int oldstyle_hostline(LIBSSH2_KNOWNHOSTS *hosts,
             if(namelen >= sizeof(hostbuf)-1)
                 return _libssh2_error(hosts->session,
                                       LIBSSH2_ERROR_METHOD_NOT_SUPPORTED,
-                                      "Failed to parse known_hosts line "
-                                      "(unexpected length)");
+                                      "Не удалось разобрать строку known_hosts "
+                                      "(неожиданная длина)");
 
             /* copy host name to the temp buffer and zero terminate */
             memcpy(hostbuf, name, namelen);
@@ -692,8 +692,8 @@ static int hashed_hostline(LIBSSH2_KNOWNHOSTS *hosts,
         if(saltlen >= (sizeof(saltbuf)-1)) /* weird length */
             return _libssh2_error(hosts->session,
                                   LIBSSH2_ERROR_METHOD_NOT_SUPPORTED,
-                                  "Failed to parse known_hosts line "
-                                  "(unexpectedly long salt)");
+                                  "Не удалось разобрать строку known_hosts "
+                                  "(неожиданно длинный salt)");
 
         memcpy(saltbuf, salt, saltlen);
         saltbuf[saltlen] = 0; /* zero terminate */
@@ -709,8 +709,8 @@ static int hashed_hostline(LIBSSH2_KNOWNHOSTS *hosts,
         if(hostlen >= sizeof(hostbuf)-1)
             return _libssh2_error(hosts->session,
                                   LIBSSH2_ERROR_METHOD_NOT_SUPPORTED,
-                                  "Failed to parse known_hosts line "
-                                  "(unexpected length)");
+                                  "Не удалось разобрать строку known_hosts "
+                                  "(неожиданная длина)");
 
         memcpy(hostbuf, host, hostlen);
         hostbuf[hostlen] = 0;
@@ -750,8 +750,8 @@ static int hostline(LIBSSH2_KNOWNHOSTS *hosts,
     if(keylen < 20)
         return _libssh2_error(hosts->session,
                               LIBSSH2_ERROR_METHOD_NOT_SUPPORTED,
-                              "Failed to parse known_hosts line "
-                              "(key too short)");
+                              "Не удалось разобрать строку known_hosts "
+                              "(ключ слишком короткий)");
 
     switch(key[0]) {
     case '0': case '1': case '2': case '3': case '4':
@@ -882,8 +882,8 @@ libssh2_knownhost_readline(LIBSSH2_KNOWNHOSTS *hosts,
     if(type != LIBSSH2_KNOWNHOST_FILE_OPENSSH)
         return _libssh2_error(hosts->session,
                               LIBSSH2_ERROR_METHOD_NOT_SUPPORTED,
-                              "Unsupported type of known-host information "
-                              "store");
+                              "Неподдерживаемый тип хранилища информации об "
+                              "известном хосте");
 
     cp = line;
 
@@ -917,7 +917,7 @@ libssh2_knownhost_readline(LIBSSH2_KNOWNHOSTS *hosts,
     if(!*cp || !len) /* illegal line */
         return _libssh2_error(hosts->session,
                               LIBSSH2_ERROR_METHOD_NOT_SUPPORTED,
-                              "Failed to parse known_hosts line");
+                              "Не удалось разобрать строку known_hosts");
 
     keyp = cp; /* the key starts here */
     keylen = len;
@@ -1175,7 +1175,7 @@ libssh2_knownhost_writeline(LIBSSH2_KNOWNHOSTS *hosts,
 
     if(known->magic != KNOWNHOST_MAGIC)
         return _libssh2_error(hosts->session, LIBSSH2_ERROR_INVAL,
-                              "Неверное host information");
+                              "Неверная информация о хосте");
 
     node = known->node;
 
@@ -1207,7 +1207,7 @@ libssh2_knownhost_writefile(LIBSSH2_KNOWNHOSTS *hosts,
     file = fopen(filename, FOPEN_WRITETEXT);
     if(!file)
         return _libssh2_error(hosts->session, LIBSSH2_ERROR_FILE,
-                              "Failed to open file");
+                              "Не удалось открыть файл");
 
     for(node = _libssh2_list_first(&hosts->head);
         node;
@@ -1223,7 +1223,7 @@ libssh2_knownhost_writefile(LIBSSH2_KNOWNHOSTS *hosts,
         if(nwrote != wrote) {
             /* failed to write the whole thing, bail out */
             rc = _libssh2_error(hosts->session, LIBSSH2_ERROR_FILE,
-                                "Write failed");
+                                "Провал записи");
             break;
         }
     }

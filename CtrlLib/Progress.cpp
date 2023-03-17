@@ -141,7 +141,7 @@ void Progress::Reset() {
 	cancel = false;
 	granularity = 50;
 	show_delay = 250;
-	
+
 	set_time = show_time = msecs(); // + 300;
 }
 
@@ -267,7 +267,7 @@ void Progress::Set(int apos, int atotal) {
 	pi.Set(apos, atotal);
 	Setxt();
 	Sync();
-	
+
 	Process();
 }
 

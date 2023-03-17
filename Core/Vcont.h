@@ -39,7 +39,7 @@ inline void DeepCopyConstruct(T *t, const S *s, const S *end) {
 template <class T>
 class Buffer : Moveable< Buffer<T> > {
 	T *ptr;
-	
+
 	void Malloc(size_t size) {
 		if(std::is_trivially_destructible<T>::value)
 			ptr = (T *)MemoryAlloc(size * sizeof(T));
@@ -114,7 +114,7 @@ public:
 	void        Clear()                    { Free(); ptr = NULL; }
 
 	void        operator=(T *data)         { Attach(data); }
-	
+
 	template <class TT>
 	void        operator=(One<TT>&& d)     { if((void *)this != (void *)&d) { Free(); Pick(pick(d)); }}
 
@@ -141,7 +141,7 @@ public:
 	bool        IsEmpty() const            { return !ptr; }
 
 	operator bool() const                  { return ptr; }
-	
+
 	String ToString() const                { return ptr ? AsString(*ptr) : "<empty>"; }
 
 	One()                                  { ptr = NULL; }
@@ -258,7 +258,7 @@ public:
 	operator const T*() const        { return (T*)vector; }
 
 	Vector&  operator<<(const T& x)  { Add(x); return *this; }
-	Vector&  operator<<(T&& x)            { Add(pick(x)); return *this; }
+	Vector&  operator<<(T&& x)       { Add(pick(x)); return *this; }
 
 #ifdef UPP
 	void     Serialize(Stream& s)                        { StreamContainer(s, *this); }
@@ -267,7 +267,9 @@ public:
 	String   ToString() const;
 	hash_t   GetHashValue() const                        { return HashBySerialize(*this); }
 	template <class B> bool operator==(const B& b) const { return IsEqualRange(*this, b); }
+#ifndef CPP_20
 	template <class B> bool operator!=(const B& b) const { return !operator==(b); }
+#endif
 	template <class B> int  Compare(const B& b) const    { return CompareRanges(*this, b); }
 	template <class B> bool operator<=(const B& x) const { return Compare(x) <= 0; }
 	template <class B> bool operator>=(const B& x) const { return Compare(x) >= 0; }
@@ -423,7 +425,9 @@ public:
 	hash_t   GetHashValue() const       { return HashBySerialize(*this); }
 
 	template <class B> bool operator==(const B& b) const { return IsEqualRange(*this, b); }
+#ifndef CPP_20
 	template <class B> bool operator!=(const B& b) const { return !operator==(b); }
+#endif
 	template <class B> int  Compare(const B& b) const    { return CompareRanges(*this, b); }
 	template <class B> bool operator<=(const B& x) const { return Compare(x) <= 0; }
 	template <class B> bool operator>=(const B& x) const { return Compare(x) >= 0; }
@@ -485,7 +489,7 @@ public:
 
 		ConstIterator()                         {}
 		ConstIterator(NP *null)                 { ASSERT(null == NULL); ptr = NULL; }
-		
+
 		STL_ITERATOR_COMPATIBILITY
 	};
 

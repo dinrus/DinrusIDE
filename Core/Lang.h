@@ -55,7 +55,7 @@ public:
 
 	String          thousand_separator, decimal_point;
 	String          date_format, time_format; // (?)
-	
+
 	String          month[12], smonth[12], day[7], sday[7];
 
 	int     (*compare)(const wchar *a, int alen, const wchar *b, int blen, int lang);
@@ -80,7 +80,7 @@ public:
 	bool            operator()(String a, String b) const             { return Compare(a, b) < 0; }
 
 	String          ToString() const;
-	
+
 	LanguageInfo();
 
 //BWC

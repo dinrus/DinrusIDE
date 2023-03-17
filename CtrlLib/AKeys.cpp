@@ -296,7 +296,7 @@ dword ParseKeyDesc(CParser& p)
 		{ 0, NULL }
 	};
 	*/
-	
+
 	static VectorMap<String, int> map;
 	ONCELOCK  {
 		extern Tuple<dword, const char *> KeyNames__[];

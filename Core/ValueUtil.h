@@ -83,8 +83,9 @@ public:
 	operator const String&() const               { return ToString(); }
 	const String&  operator~() const             { return ToString(); }
 	bool           operator==(const Id& b) const { return id == b.id; }
+	bool           operator==(const String& b) const { return id == b; }
+	bool           operator==(const char *b) const { return id == b; }
 	bool           operator!=(const Id& b) const { return id != b.id; }
-
 	operator bool() const                        { return id.GetCount(); }
 
 	Id()                                         {}
@@ -217,7 +218,7 @@ class ValueArray : public ValueType<ValueArray, VALUEARRAY_V, Moveable<ValueArra
 	};
 	struct NullData : Data {};
 	Data *data;
-	
+
 	static Vector<Value> VoidData;
 
 	Vector<Value>& Create();
@@ -245,7 +246,7 @@ public:
 
 	ValueArray(const Nuller&)                 { Init0(); }
 	bool IsNullInstance() const               { return IsEmpty(); }
-	
+
 	void Clear();
 	void SetCount(int n);
 	void SetCount(int n, const Value& v);
@@ -266,7 +267,7 @@ public:
 	void Append(const ValueArray& va)         { Insert(GetCount(), va); }
 
 	const Value& operator[](int i) const      { return Get(i); }
-	
+
 	Value& At(int i);
 
 	hash_t   GetHashValue() const             { return data->GetHashValue(); }
@@ -277,7 +278,7 @@ public:
 
 	bool     operator==(const ValueArray& v) const;
 	bool     operator!=(const ValueArray& v) const  { return !operator==(v); }
-	
+
 	int      Compare(const ValueArray& b) const;
 	bool     operator<=(const ValueArray& x) const { return Compare(x) <= 0; }
 	bool     operator>=(const ValueArray& x) const { return Compare(x) >= 0; }
@@ -380,7 +381,7 @@ public:
 	void Add(const char *key, const Value& value)   { Add(Value(key), value); }
 	void Add(int key, const Value& value)           { Add(Value(key), value); }
 	void Add(Id key, const Value& value)            { Add(Value(key.ToString()), value); }
-	
+
 	ValueMap& operator()(const Value& key, const Value& value)  { Add(key, value); return *this; }
 	ValueMap& operator()(const String& key, const Value& value) { Add(Value(key), value); return *this; }
 	ValueMap& operator()(const char *key, const Value& value)   { Add(Value(key), value); return *this; }
@@ -411,7 +412,7 @@ public:
 	ValueArray GetValues() const                    { return data->value; }
 
 	operator ValueArray() const                     { return GetValues(); }
-	
+
 	VectorMap<Value, Value> Pick();
 
 	const Value& operator[](const Value& key) const  { return data->Get(key); }
@@ -427,7 +428,7 @@ public:
 	Value& operator()(const int key)                 { return operator()(Value(key)); }
 	Value& operator()(const Id& key)                 { return operator()(Value(key.ToString())); }
 	Value& At(int i)                                 { return UnShare().At(i); }
-	
+
 	Value GetAndClear(const Value& key);
 
 	hash_t   GetHashValue() const                   { return data->GetHashValue(); }

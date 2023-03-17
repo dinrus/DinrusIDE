@@ -25,10 +25,10 @@ public:
 };
 
 struct TimeStopper {
-	const char *name;
+	String   name;
 	TimeStop tm;
-	
-	TimeStopper(const char *name) : name(name) {}
+
+	TimeStopper(const String& name) : name(name) {}
 	~TimeStopper() { RLOG(name << " " << tm); }
 };
 
@@ -356,16 +356,16 @@ public:
 	String Get(const char *key) const                            { return Get("", key); }
 	String Get(int groupIndex, const char *key) const;
 	String Get(int groupIndex, int keyIndex) const;
-	
+
 	String operator()(const char *group, const char *key) const  { return Get(group, key); }
 	String operator()(const char *key) const                     { return Get(key); }
 
 	void Clear()                                                 { settings.Clear(); }
 	void Load(const char *filename);
-	
+
 	int GetGroupCount()                                          { return settings.GetCount(); }
 	int GetKeyCount(int group)                                   { return settings[group].GetCount(); }
-	
+
 	String GetGroupName(int groupIndex)                          { return settings.GetKey(groupIndex); }
 	String GetKey(int groupIndex, int keyIndex)                  { return settings[groupIndex].GetKey(keyIndex); }
 };
@@ -476,10 +476,14 @@ size_t SizeBySerialize(const T& cont)
 template <class T>
 bool IsEqualBySerialize(const T& a, const T& b)
 {
-	StringStream sa, sb;
+	StringStream sa;
 	const_cast<T&>(a).Serialize(sa);
-	const_cast<T&>(b).Serialize(sb);
-	return sa.GetResult() == sb.GetResult();
+
+	StringStream ss(sa.GetResult());
+	CompareStream cs(ss);
+
+	const_cast<T&>(b).Serialize(cs);
+	return cs;
 }
 
 String  Replace(const String& s, const Vector<String>& find, const Vector<String>& replace);

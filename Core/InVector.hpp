@@ -300,7 +300,7 @@ void InVector<T>::Insert_(int ii, const Range& r, bool def)
 		int bn = (n + m - 1) / m;
 		int ti;
 		if(pos) { // need to split first block
-			ti = blki + 1; // СДЕЛАТЬ should add some of data to splitted blocks
+			ti = blki + 1; // TODO should add some of data to splitted blocks
 			data.InsertN(ti, bn + 1);
 			data[ti + bn].InsertSplit(0, data[blki], pos);
 			data[blki].Shrink();

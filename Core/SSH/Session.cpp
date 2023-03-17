@@ -205,30 +205,10 @@ bool SshSession::Connect(const String& host, int port, const String& user, const
 			if(!rc) {
 				LLOG("Handshake successful.");
 				WhenPhase(PHASE_AUTHORIZATION);
+				if(WhenVerify && !WhenVerify(host, port))
+					ThrowError(-1);
 			}
 			return !rc;
-	})) goto Bailout;
-
-	if(!Run([=] () mutable {
-			switch(session->hashtype) {  // СДЕЛАТЬ: Remove this block along with the deprecated Hashtype()
-			case HASH_MD5:               //       and  GetFingerprint() methods, in the future versions.
-				session->fingerprint = GetMD5Fingerprint();
-				LLOG("MD5 fingerprint of " << host << ": " << HexString(session->fingerprint, 1, ':'));
-				break;
-			case HASH_SHA1:
-				session->fingerprint = GetSHA1Fingerprint();
-				LLOG("SHA1 fingerprint of " << host << ": " << HexString(session->fingerprint, 1, ':'));
-				break;
-			case HASH_SHA256:
-				session->fingerprint = GetSHA256Fingerprint();
-				LLOG("SHA256 fingerprint of " << host << ": " << Base64Encode(session->fingerprint));
-				break;
-			default:
-				break;
-			}
-			if(WhenVerify && !WhenVerify(host, port))
-				ThrowError(-1);
-			return true;
 	})) goto Bailout;
 
 	if(!Run([=] () mutable {

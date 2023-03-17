@@ -28,7 +28,9 @@ public:
 
 	String   ToString() const                            { return AsStringArray(*this); }
 	template <class B> bool operator==(const B& b) const { return IsEqualRange(*this, b); }
+#ifndef CPP_20
 	template <class B> bool operator!=(const B& b) const { return !operator==(b); }
+#endif
 	template <class B> int  Compare(const B& b) const    { return CompareRanges(*this, b); }
 	template <class B> bool operator<=(const B& x) const { return Compare(x) <= 0; }
 	template <class B> bool operator>=(const B& x) const { return Compare(x) >= 0; }
@@ -58,6 +60,12 @@ auto SubRange(C&& c, int pos, int count) -> decltype(SubRange(c.begin() + pos, c
 	return SubRange(c.begin() + pos, count);
 }
 
+template <class C>
+auto SubRangeFrom(C&& c, int pos) -> decltype(SubRange(c.begin() + pos, c.GetCount() - pos))
+{
+	return SubRange(c.begin() + pos, c.GetCount() - pos);
+}
+
 template <class C> using SubRangeOf = decltype(SubRange(((C *)0)->begin(), ((C *)0)->end()));
 
 template <class T>
@@ -78,7 +86,9 @@ struct ConstRangeClass {
 
 	String   ToString() const                            { return AsStringArray(*this); }
 	template <class B> bool operator==(const B& b) const { return IsEqualRange(*this, b); }
+#ifndef CPP_20
 	template <class B> bool operator!=(const B& b) const { return !operator==(b); }
+#endif
 	template <class B> int  Compare(const B& b) const    { return CompareRanges(*this, b); }
 	template <class B> bool operator<=(const B& x) const { return Compare(x) <= 0; }
 	template <class B> bool operator>=(const B& x) const { return Compare(x) >= 0; }
@@ -126,7 +136,9 @@ struct ReverseRangeClass {
 
 	String   ToString() const                            { return AsStringArray(*this); }
 	template <class B> bool operator==(const B& b) const { return IsEqualRange(*this, b); }
+#ifndef CPP_20
 	template <class B> bool operator!=(const B& b) const { return !operator==(b); }
+#endif
 	template <class B> int  Compare(const B& b) const    { return CompareRanges(*this, b); }
 	template <class B> bool operator<=(const B& x) const { return Compare(x) <= 0; }
 	template <class B> bool operator>=(const B& x) const { return Compare(x) >= 0; }
@@ -168,7 +180,9 @@ struct ViewRangeClass {
 
 	String   ToString() const                            { return AsStringArray(*this); }
 	template <class B> bool operator==(const B& b) const { return IsEqualRange(*this, b); }
+#ifndef CPP_20
 	template <class B> bool operator!=(const B& b) const { return !operator==(b); }
+#endif
 	template <class B> int  Compare(const B& b) const    { return CompareRanges(*this, b); }
 	template <class B> bool operator<=(const B& x) const { return Compare(x) <= 0; }
 	template <class B> bool operator>=(const B& x) const { return Compare(x) >= 0; }

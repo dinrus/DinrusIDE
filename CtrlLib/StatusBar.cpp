@@ -300,7 +300,7 @@ ProgressInfo& ProgressInfo::Set(int _pos, int _total)
 	dword t = msecs();
 	if(abs((int)(t - set_time)) >= granularity) {
 		set_time = t;
-	
+
 		Refresh();
 		if(info)
 			info->Sync();

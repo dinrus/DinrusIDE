@@ -1,4 +1,29 @@
 template <class T>
+void StreamContainerRaw(Stream& s, T& cont)
+{ // optimised version for fundamental types, for Vector
+	int n = cont.GetCount();
+	s / n;
+	if(n < 0) {
+		s.LoadError();
+		return;
+	}
+	if(s.IsLoading()) {
+		cont.Clear();
+		cont.Reserve(min(n, int(256*1024 / sizeof(T)))); // protect against invalid streams...
+		
+		while(n > 0) {
+			int count = min(n, 65536);
+			int q = cont.GetCount();
+			cont.SetCount(q + count);
+			s.SerializeRaw(cont.begin() + q, count);
+			n -= count;
+		}
+	}
+	else
+		s.SerializeRaw(cont.begin(), n);
+}
+
+template <class T>
 void StreamContainer(Stream& s, T& cont)
 {
 	int n = cont.GetCount();
@@ -19,6 +44,54 @@ void StreamContainer(Stream& s, T& cont)
 		for(auto ptr = cont.begin(); n--; ++ptr)
 			s % *ptr;
 	}
+}
+
+template <>
+inline void StreamContainer(Stream& s, Vector<byte>& cont)
+{
+	StreamContainerRaw(s, cont);
+}
+
+template <>
+inline void StreamContainer(Stream& s, Vector<word>& cont)
+{
+	StreamContainerRaw(s, cont);
+}
+
+template <>
+inline void StreamContainer(Stream& s, Vector<int16>& cont)
+{
+	StreamContainerRaw(s, cont);
+}
+
+template <>
+inline void StreamContainer(Stream& s, Vector<dword>& cont)
+{
+	StreamContainerRaw(s, cont);
+}
+
+template <>
+inline void StreamContainer(Stream& s, Vector<int>& cont)
+{
+	StreamContainerRaw(s, cont);
+}
+
+template <>
+inline void StreamContainer(Stream& s, Vector<uint64>& cont)
+{
+	StreamContainerRaw(s, cont);
+}
+
+template <>
+inline void StreamContainer(Stream& s, Vector<float>& cont)
+{
+	StreamContainerRaw(s, cont);
+}
+
+template <>
+inline void StreamContainer(Stream& s, Vector<double>& cont)
+{
+	StreamContainerRaw(s, cont);
 }
 
 template <class T>
@@ -737,11 +810,12 @@ void BiVector<T>::Free() {
 	}
 }
 
-#ifdef UPP
 template <class T>
 void BiVector<T>::Serialize(Stream& s) {
 	int n = items;
 	s / n;
+	if(n < 0)
+		s.LoadError();
 	if(s.IsLoading()) {
 		Clear();
 		while(n--)
@@ -757,8 +831,6 @@ String BiVector<T>::ToString() const
 {
 	return AsStringArray(*this);
 }
-
-#endif
 
 template <class T>
 BiVector<T>::BiVector(std::initializer_list<T> init)
@@ -794,11 +866,12 @@ void BiArray<T>::DeepCopy0(const BiArray<T>& v) {
 		bv.AddTail() = new T(clone(v[i]));
 }
 
-#ifdef UPP
 template <class T>
 void BiArray<T>::Serialize(Stream& s) {
 	int n = bv.GetCount();
 	s / n;
+	if(n < 0)
+		s.LoadError();
 	if(s.IsLoading()) {
 		Clear();
 		while(n--)
@@ -821,8 +894,6 @@ BiArray<T>::BiArray(std::initializer_list<T> init)
 	for(const auto& q : init)
 		AddTail(q);
 }
-
-#endif
 
 inline
 void   Bits::Set(int i, dword bits, int count)
@@ -897,7 +968,7 @@ void Bits::SetN(int i, bool b, int count)
 	ASSERT(i >= 0);
 	if(!count) // note: this also avoids problem with (dword)-1 >> 32 being undefined
 		return;
-
+	
 	dword bits = (dword)0 - b;
 
 	int q = i >> 5;
@@ -911,7 +982,7 @@ void Bits::SetN(int i, bool b, int count)
 	count -= n;
 	if(!count)
 		return;
-
+	
 	int dw_count = count >> 5;
 	if(++q + dw_count >= alloc)
 		Expand(q + dw_count);
@@ -919,7 +990,7 @@ void Bits::SetN(int i, bool b, int count)
 		bp[q++] = bits;
 		dw_count--;
 	}
-
+	
 	count = count & 31; // remaining bits to set
 	if(!count)
 		return;

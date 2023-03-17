@@ -299,6 +299,7 @@ public:
 	virtual void   Layout();
 	virtual void   RefreshLine(int i);
 	virtual Font   GetPreeditFont();
+	virtual Rect   GetCaret() const;
 
 protected:
 	virtual void    SetSb();
@@ -312,6 +313,7 @@ public:
 		SHIFT_L = 1,
 		SHIFT_R = 2,
 		SPELLERROR = 4,
+		NOENDFILL = 8,
 	};
 
 	struct Highlight : Moveable<Highlight> {
@@ -354,7 +356,7 @@ protected:
 	bool             showlines;
 	bool             showreadonly;
 	bool             warnwhitespace;
-	bool             dorectsel; // СДЕЛАТЬ: Refactor this ugly hack!
+	bool             dorectsel; // TODO: Refactor this ugly hack!
 
 	void   Paint0(Draw& w);
 
@@ -507,6 +509,8 @@ public:
 	virtual void  DragLeave();
 	virtual void  LeftDrag(Point p, dword flags);
 
+	virtual Rect  GetCaret() const;
+
 protected:
 	virtual void  ClearLines();
 	virtual void  InsertLines(int line, int count);
@@ -527,6 +531,7 @@ protected:
 	ScrollBar    sb;
 	int          cx;
 	bool         updownleave, eofline;
+	Rect         caret;
 
 	struct Fmt {
 		FontInfo      fi;

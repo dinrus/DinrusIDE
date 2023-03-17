@@ -159,7 +159,7 @@ fn DrawVertArrow(ww, r, size, dir)
 {
 	w = r.right - r.left;
 	h = r.bottom - r.top;
-	
+
 	y = r.top + (h - size) / 2;
 	DrawVertArrowFromTip(ww, r.left + w / 2, dir > 0 ? y : y + size, dir, size, :SBlack);
 }
@@ -193,11 +193,6 @@ subctrl NormalSize {
 subctrl Base {
 	>NormalSize;
 
-	Font   SetFont = StdFont();
-	Color  SetInk = :SBlack;
-	Frame  SetFrame @1;
-//	Qtf    SetInfo @1 ? "Инфо о контроле" ;
-
 	ViewRect(w) {
 		r = GetRect();
 		DrawCtrlFrame(w, r, .SetFrame);
@@ -210,7 +205,17 @@ subctrl Base {
 };
 
 subctrl Unknown {
-	> Base;
+	>NormalSize;
+
+	ViewRect(w) {
+		r = GetRect();
+		DrawCtrlFrame(w, r, .SetFrame);
+		return r;
+	}
+	ViewSize(w) {
+		r = ViewRect(w);
+		return Size(r.right - r.left, r.bottom - r.top);
+	}
 };
 
 subctrl TextCtrl {
@@ -319,11 +324,18 @@ ctrl LabelBox {
 
 	>Base;
 	Text SetLabel ? "Ярлык бокса" ;
+	Font SetFont = StdFont();
+	Color SetInk = :SBlack;
+	Align  SetAlign = ALIGN_LEFT;
 
 	Paint(w) {
 		sz = GetSize();
 		ts = GetSmartTextSize(.SetLabel, .SetFont);
 		d = ts.cy / 2;
+		if(.SetAlign == "ALIGN_RIGHT")
+			d = sz.cx - d;
+		if(.SetAlign == "ALIGN_CENTER")
+			d = sz.cx / 2 - d;
 		if(2 * GetSmartTextSize("X").cy > sz.cy) {
 			d = sz.cy / 2;
 			w.DrawSmartText(d, (sz.cy - ts.cy) / 2, .SetLabel, .SetFont, .SetInk, sz.cx);
@@ -336,7 +348,7 @@ ctrl LabelBox {
 			d = ts.cy / 2;
 			DrawButtonFrame(w, RectC(0, d, sz.cx, sz.cy - d));
 			w.DrawRect(8, 0, ts.cx + 4, ts.cy, :SLtGray);
-			w.DrawSmartText(10, 0, .SetLabel, .SetFont);
+			w.DrawSmartText(10, 0, .SetLabel, .SetFont, .SetInk);
 		}
 	}
 }
@@ -580,7 +592,7 @@ ctrl Option {
 		kind = .SwitchImage ? 2 : .ThreeState ? 1 : 0;
 		osz = OptionSize();
 		textsize = GetSmartTextSize(.SetLabel, .SetFont);
-		
+
 		if(.Box || .AutoBox) {
 			d = textsize.cy / 2;
 			DrawButtonFrame(w, RectC(0, d, sz.cx, sz.cy - d));
@@ -598,7 +610,7 @@ ctrl Option {
 
 ctrl OptionBox {
 	> Option;
-	
+
 	bool   Box = true;
 }
 
@@ -790,12 +802,12 @@ ctrl LineEdit {
 		w.DrawRect(r, :SWhite);
 		PaintData(w);
 	}
-	
+
 	PaintText(w, text) {
 		w.DrawText(3, (GetSize().cy - GetTextSize(text, Arial(10)).cy) / 2,
 			(.SetEditable ? "" : "R/O ") + text, Arial(10), :SMagenta);
 	}
-	
+
 	PaintData(w) {
 		PaintText(w, "LineEdit");
 	}
@@ -895,6 +907,21 @@ ctrl EditDoubleNotNull {
 	bool NotNull = true;
 }
 
+ctrl EditFloat {
+	>EditNotNull;
+	double Min;
+	double Max;
+
+	PaintData(w) { PaintMinMax(w, "flt", DblStr(.Min), DblStr(.Max)); }
+}
+
+ctrl EditFloatNotNull {
+	>EditFloat;
+
+	bool NotNull = true;
+}
+
+
 ctrl EditDate {
 	>EditNotNull;
 	PaintData(w) { PaintMinMax(w, "Date", "", ""); }
@@ -954,6 +981,19 @@ ctrl EditDoubleSpin {
 		PaintMinMaxText(w, "dbl", DblStr(.Min), DblStr(.Max), "+-" + DblStr(.SetInc));
 	}
 }
+
+ctrl EditFloatSpin {
+	>EditDoubleSpin;
+
+	Paint(w) {
+		r = GetRect();
+		DrawCtrlFrame(w, r, .SetFrame);
+		w.DrawRect(r, :SWhite);
+		DrawSpinButtons(w, r);
+		PaintMinMaxText(w, "flt", DblStr(.Min), DblStr(.Max), "+-" + DblStr(.SetInc));
+	}
+}
+
 
 ctrl EditDateSpin {
 	>EditDate;
@@ -1392,7 +1432,7 @@ fn DrawHorzArrow(ww, r, dir)
 
 	w = r.right - r.left;
 	h = r.bottom - r.top;
-	
+
 	x = r.left + (h - size) / 2;
 	DrawHorzArrowFromTip(ww, dir > 0 ? x : x + size, r.top + h / 2, dir, size, :SBlack);
 }
@@ -1579,10 +1619,10 @@ ctrl SliderCtrl {
 
 	GetMinSize() { return Size(0, 0); }
 	GetStdSize() { return Size(64, 24); }
-	
+
 	Frame  SetFrame @1;
 	bool Jump = false;
-	
+
 	Paint(w) {
 		r = GetRect();
 		DrawCtrlFrame(w, r, .SetFrame);
@@ -1591,7 +1631,7 @@ ctrl SliderCtrl {
 
 		halfX = int(r.left + r.right) >> 1;
 		halfY = int(r.top + r.bottom) >> 1;
-		
+
 		osz = 3 * OptionSize() / 2;
 		osz2 = int(osz / 2);
 		osz4 = int(osz / 4);

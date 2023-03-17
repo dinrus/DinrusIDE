@@ -433,7 +433,7 @@ ColorPopUp::ColorPopUp()
 		Refresh();
 		Finish();
 	};
-	
+
 	Add(settext);
 }
 

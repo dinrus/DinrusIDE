@@ -129,14 +129,14 @@ int Heap::CheckFree(FreeLink *l, int k, bool pg)
 {
 	char h[200];
 	int n = 0;
-	
+
 	Page *page = GetPage(l);
 
 	if(l && page->klass != k) {
 		sprintf(h, "Неверный блок списка очистки у 0x%p sz: %d (klass не совпадает)", l, Ksz(k));
 		Panic(h);
 	}
-	
+
 	while(l) {
 		if(l->next) {
 			Page *lp = GetPage(l->next);
@@ -297,10 +297,5 @@ void operator  delete(void *ptr, const std::nothrow_t&) noexcept   { UPP::Memory
 
 void *operator new[](size_t size, const std::nothrow_t&) noexcept  { void *ptr = UPP::MemoryAlloc(size); return ptr; }
 void operator  delete[](void *ptr, const std::nothrow_t&) noexcept { UPP::MemoryFree(ptr); }
-
-#if defined(PLATFORM_WIN32) && defined(COMPILER_CLANG)
-//  this is temporary fix before llvm-mingw fixes weak references
-void __attribute__((__noreturn__)) std::__throw_bad_alloc (void) { throw bad_alloc(); }
-#endif
 
 #endif

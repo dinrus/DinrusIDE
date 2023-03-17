@@ -494,7 +494,7 @@ memory_read_publickey(LIBSSH2_SESSION * session, unsigned char **method,
 
     if(pubkeyfiledata_len <= 1) {
         return _libssh2_error(session, LIBSSH2_ERROR_FILE,
-                              "Неверное data in public key file");
+                              "Invalid data in public key file");
     }
 
     pubkey = LIBSSH2_ALLOC(session, pubkeyfiledata_len);
@@ -521,7 +521,7 @@ memory_read_publickey(LIBSSH2_SESSION * session, unsigned char **method,
     if(sp1 == NULL) {
         LIBSSH2_FREE(session, pubkey);
         return _libssh2_error(session, LIBSSH2_ERROR_FILE,
-                              "Неверное public key data");
+                              "Invalid public key data");
     }
 
     sp1++;
@@ -536,7 +536,7 @@ memory_read_publickey(LIBSSH2_SESSION * session, unsigned char **method,
                               (char *) sp1, sp2 - sp1)) {
         LIBSSH2_FREE(session, pubkey);
         return _libssh2_error(session, LIBSSH2_ERROR_FILE,
-                                  "Неверное key data, not base64 encoded");
+                                  "Invalid key data, not base64 encoded");
     }
 
     /* Wasting some bytes here (okay, more than some), but since it's likely
@@ -591,7 +591,7 @@ file_read_publickey(LIBSSH2_SESSION * session, unsigned char **method,
     if(pubkey_len <= 1) {
         fclose(fd);
         return _libssh2_error(session, LIBSSH2_ERROR_FILE,
-                              "Неверное data in public key file");
+                              "Invalid data in public key file");
     }
 
     pubkey = LIBSSH2_ALLOC(session, pubkey_len);
@@ -624,7 +624,7 @@ file_read_publickey(LIBSSH2_SESSION * session, unsigned char **method,
     if(sp1 == NULL) {
         LIBSSH2_FREE(session, pubkey);
         return _libssh2_error(session, LIBSSH2_ERROR_FILE,
-                              "Неверное public key data");
+                              "Invalid public key data");
     }
 
     sp1++;
@@ -640,7 +640,7 @@ file_read_publickey(LIBSSH2_SESSION * session, unsigned char **method,
                               (char *) sp1, sp2 - sp1)) {
         LIBSSH2_FREE(session, pubkey);
         return _libssh2_error(session, LIBSSH2_ERROR_FILE,
-                              "Неверное key data, not base64 encoded");
+                              "Invalid key data, not base64 encoded");
     }
 
     /* Wasting some bytes here (okay, more than some), but since it's likely
@@ -827,11 +827,6 @@ userauth_hostbased_fromfile(LIBSSH2_SESSION *session,
                             size_t local_username_len)
 {
     int rc;
-
-#if !LIBSSH2_RSA
-    return _libssh2_error(session, LIBSSH2_ERROR_METHOD_NOT_SUPPORTED,
-                          "RSA is not supported by crypto backend");
-#endif
 
     if(session->userauth_host_state == libssh2_NB_state_idle) {
         const LIBSSH2_HOSTKEY_METHOD *privkeyobj;
@@ -1047,7 +1042,7 @@ userauth_hostbased_fromfile(LIBSSH2_SESSION *session,
     LIBSSH2_FREE(session, session->userauth_host_data);
     session->userauth_host_data = NULL;
     return _libssh2_error(session, LIBSSH2_ERROR_PUBLICKEY_UNVERIFIED,
-                          "Неверное signature for supplied public key, or bad "
+                          "Invalid signature for supplied public key, or bad "
                           "username/public key combination");
 }
 
@@ -1075,7 +1070,21 @@ libssh2_userauth_hostbased_fromfile_ex(LIBSSH2_SESSION *session,
     return rc;
 }
 
-
+static int plain_method_len(const char *method, size_t method_len)
+{
+    if(!strncmp("ecdsa-sha2-nistp256-cert-v01@openssh.com",
+                method,
+                method_len) ||
+       !strncmp("ecdsa-sha2-nistp384-cert-v01@openssh.com",
+                method,
+                method_len) ||
+       !strncmp("ecdsa-sha2-nistp521-cert-v01@openssh.com",
+                method,
+                method_len)) {
+        return 19;
+    }
+    return method_len;
+}
 
 int
 _libssh2_userauth_publickey(LIBSSH2_SESSION *session,
@@ -1102,7 +1111,7 @@ _libssh2_userauth_publickey(LIBSSH2_SESSION *session,
          */
         if(pubkeydata_len < 4)
             return _libssh2_error(session, LIBSSH2_ERROR_PUBLICKEY_UNVERIFIED,
-                                  "Неверное public key, too short");
+                                  "Invalid public key, too short");
 
         /* Zero the whole thing out */
         memset(&session->userauth_pblc_packet_requirev_state, 0,
@@ -1123,7 +1132,7 @@ _libssh2_userauth_publickey(LIBSSH2_SESSION *session,
                    data */
                 return _libssh2_error(session,
                                       LIBSSH2_ERROR_PUBLICKEY_UNVERIFIED,
-                                      "Неверное public key");
+                                      "Invalid public key");
 
             session->userauth_pblc_method =
                 LIBSSH2_ALLOC(session, session->userauth_pblc_method_len);
@@ -1143,7 +1152,7 @@ _libssh2_userauth_publickey(LIBSSH2_SESSION *session,
         else if(session->userauth_pblc_method_len !=
                  _libssh2_ntohu32(pubkeydata))
             return _libssh2_error(session, LIBSSH2_ERROR_PUBLICKEY_UNVERIFIED,
-                                  "Неверное public key");
+                                  "Invalid public key");
 
         /*
          * 45 = packet_type(1) + username_len(4) + servicename_len(4) +
@@ -1340,6 +1349,10 @@ _libssh2_userauth_publickey(LIBSSH2_SESSION *session,
         s = session->userauth_pblc_packet + session->userauth_pblc_packet_len;
         session->userauth_pblc_b = NULL;
 
+        session->userauth_pblc_method_len =
+           plain_method_len((const char *)session->userauth_pblc_method,
+                            session->userauth_pblc_method_len);
+
         _libssh2_store_u32(&s,
                            4 + session->userauth_pblc_method_len + 4 +
                            sig_len);
@@ -1414,7 +1427,7 @@ _libssh2_userauth_publickey(LIBSSH2_SESSION *session,
     session->userauth_pblc_data = NULL;
     session->userauth_pblc_state = libssh2_NB_state_idle;
     return _libssh2_error(session, LIBSSH2_ERROR_PUBLICKEY_UNVERIFIED,
-                          "Неверное signature for supplied public key, or bad "
+                          "Invalid signature for supplied public key, or bad "
                           "username/public key combination");
 }
 
@@ -1438,11 +1451,6 @@ userauth_publickey_frommemory(LIBSSH2_SESSION *session,
     void *abstract = &privkey_file;
     int rc;
 
-#if !LIBSSH2_RSA
-    return _libssh2_error(session, LIBSSH2_ERROR_METHOD_NOT_SUPPORTED,
-                          "RSA is not supported by crypto backend");
-#endif
-
     privkey_file.filename = privatekeydata;
     privkey_file.passphrase = passphrase;
 
@@ -1457,19 +1465,18 @@ userauth_publickey_frommemory(LIBSSH2_SESSION *session,
         }
         else if(privatekeydata_len && privatekeydata) {
             /* Compute public key from private key. */
-            if(_libssh2_pub_priv_keyfilememory(session,
+            rc = _libssh2_pub_priv_keyfilememory(session,
                                             &session->userauth_pblc_method,
                                             &session->userauth_pblc_method_len,
                                             &pubkeydata, &pubkeydata_len,
                                             privatekeydata, privatekeydata_len,
-                                            passphrase))
-                return _libssh2_error(session, LIBSSH2_ERROR_FILE,
-                                      "Unable to extract public key "
-                                      "from private key.");
+                                            passphrase);
+            if(rc)
+                return rc;
         }
         else {
             return _libssh2_error(session, LIBSSH2_ERROR_FILE,
-                                  "Неверное data in public and private key.");
+                                  "Invalid data in public and private key.");
         }
     }
 
@@ -1499,11 +1506,6 @@ userauth_publickey_fromfile(LIBSSH2_SESSION *session,
     struct privkey_file privkey_file;
     void *abstract = &privkey_file;
     int rc;
-
-#if !LIBSSH2_RSA
-    return _libssh2_error(session, LIBSSH2_ERROR_METHOD_NOT_SUPPORTED,
-                          "RSA is not supported by crypto backend");
-#endif
 
     privkey_file.filename = privatekey;
     privkey_file.passphrase = passphrase;

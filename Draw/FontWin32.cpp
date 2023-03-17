@@ -118,13 +118,13 @@ static int CALLBACK Win32_AddFace(const LOGFONTW *logfont, const TEXTMETRICW *, 
 	const char *facename = (const char *)param;
 
 	String name = FromSystemCharsetW(logfont->lfFaceName);
-	
+
 	if(facename && stricmp(name, facename))
 		return 1;
 
 	if(logfont->lfFaceName[0] == '@')
 		return 1;
-	
+
 
 	if(FindIndex(Split("Courier New CE;Courier New CYR;Courier New Greek;"
 	                   "Courier New TUR;Courier New Baltic;Arial CE;Arial CYR;"
@@ -196,7 +196,7 @@ GlyphInfo GetUnicodeGlyphInfo(Font fnt, wchar ch)
 
 	static FontRec cache[4];
 	static int cachei;
-	
+
 	int ii = -1;
 	for(int i = 0; i < 4; i++)
 		if(cache[0].font == fnt) {
@@ -223,12 +223,12 @@ GlyphInfo GetUnicodeGlyphInfo(Font fnt, wchar ch)
 		ScriptGetFontProperties(f.hdc, &f.sc, &props);
 		f.default_glyph = props.wgDefault;
 	}
-	
+
 	GlyphInfo gi;
-	
+
 	memset(&gi, 0, sizeof(gi));
 	gi.width = (int16)0x8000;
-	
+
 	FontRec& f = cache[ii];
 
 	char16 buf[2];
@@ -245,14 +245,14 @@ GlyphInfo GetUnicodeGlyphInfo(Font fnt, wchar ch)
 	SCRIPT_VISATTR attr[10];
 	if(FAILED(ScriptShape(f.hdc, &f.sc, buf, len, 10, &items[0].a, glyphs, cluster, attr, &nglyphs)))
 		return gi;
-	
+
 	if(nglyphs == 0 || *glyphs == f.default_glyph)
 		return gi;
-	
+
 	ABC abc;
 	if(FAILED(ScriptGetGlyphABCWidth(f.hdc, &f.sc, glyphs[0], &abc)))
 		return gi;
-	
+
 	gi.width = abc.abcA + abc.abcB + abc.abcC;
 	gi.lspc = abc.abcA;
 	gi.rspc = abc.abcC;
@@ -269,15 +269,15 @@ GlyphInfo  GetGlyphInfoSys(Font font, int chr)
 	static Font      fnt[GLYPHINFOCACHE];
 	static int       pg[GLYPHINFOCACHE];
 	static GlyphInfo li[GLYPHINFOCACHE][256];
-	
+
 	ONCELOCK {
 		for(int i = 0; i < GLYPHINFOCACHE; i++)
 			pg[i] = -1;
 	}
-	
+
 	int page = chr >> 8;
 	int q = CombineHash(font, page) % GLYPHINFOCACHE;
-	
+
 	if(fnt[q] != font || pg[q] != page) {
 		fnt[q] = font;
 		pg[q] = page;

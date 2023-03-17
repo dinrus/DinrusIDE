@@ -53,6 +53,8 @@ void  RichTextView::Paint(Draw& w)
 	}
 	pi.indexentry = Null;
 	pi.highlightpara = highlight;
+	//pi.WhenHighlight = WhenHighlight;
+	pi.highlight = highlight_color;
 	pi.zoom = GetZoom();
 	pi.textcolor = textcolor;
 	int q = sb * pi.zoom;
@@ -64,7 +66,7 @@ void  RichTextView::Paint(Draw& w)
 	pi.usecache = true;
 	pi.sizetracking = sizetracking;
 	pi.shrink_oversized_objects = shrink_oversized_objects;
-	pi.darktheme = Grayscale(SColorPaper()) < 100;
+	pi.darktheme = IsDarkTheme();
 	Rect pg = GetPage();
 	pg.top = TopY();
 	text.Paint(pw, pg, pi);
@@ -97,7 +99,7 @@ Image RichTextView::CursorImage(Point p, dword keyflags)
 	int pos = GetPointPos(p);
 	if(WhenLink && pos >= 0 && !IsNull(GetLink(pos, p)))
 		return Image::Hand();
-	if(HasCapture())
+	if(HasCapture() && icursor)
 		return Image::IBeam();
 	return Image::Arrow();
 }
@@ -159,7 +161,7 @@ String RichTextView::GetLink(int pos, Point p) const
 	RichObject object = text.GetRichPos(pos).object;
 	if(object) {
 		Rect rc = text.GetCaret(pos, GetPage());
-		//СДЕЛАТЬ: Perhaps use GetTextPoint here?
+		//TODO: Perhaps use GetTextPoint here?
 		link = object.GetLink(p - rc.TopLeft(), rc.Size());
 	}
 
@@ -208,6 +210,14 @@ void  RichTextView::RefreshSel()
 		SetSelectionSource(ClipFmtsText());
 }
 
+void RichTextView::ClearSelection()
+{
+	if(IsSelection()) {
+		anchor = cursor;
+		RefreshSel();
+	}
+}
+
 void  RichTextView::LeftDown(Point p, dword keyflags)
 {
 	int pos = GetPointPos(p);
@@ -225,6 +235,7 @@ void  RichTextView::LeftDown(Point p, dword keyflags)
 		RefreshSel();
 		SetFocus();
 		SetCapture();
+		WhenLeftClick();
 	}
 }
 
@@ -308,21 +319,30 @@ void  RichTextView::Scroll()
 	scroller.Scroll(*this, Rect(GetSize()).Deflated(margin), sb * GetZoom());
 }
 
-bool RichTextView::GotoLabel(const String& lbl, bool dohighlight)
+bool RichTextView::GotoLabel(Gate<const WString&> match, bool dohighlight, bool find_last)
 {
 	Vector<RichValPos> f = text.GetValPos(GetPage(), RichText::LABELS);
 	highlight = Null;
-	WString lw = lbl.ToWString();
+	bool ret = false;
 	for(int i = 0; i < f.GetCount(); i++) {
-		if(f[i].data == lw) {
-			sb = f[i].py.y;
+		if(match(f[i].data)) {
 			if(dohighlight)
 				highlight = f[i].pos;
+			else
+				sb = f[i].py.y;
 			Refresh();
-			return true;
+			if(!find_last)
+				return true;
+			ret = true;
 		}
 	}
-	return false;
+	return ret;
+}
+
+bool RichTextView::GotoLabel(const String& lbl, bool dohighlight, bool find_last)
+{
+	WString lw = lbl.ToWString();
+	return GotoLabel([&](const WString& data) { return data == lw; }, dohighlight, find_last);
 }
 
 void  RichTextView::Clear()
@@ -385,6 +405,13 @@ RichTextView& RichTextView::Background(Color c)
 RichTextView& RichTextView::TextColor(Color _color)
 {
 	textcolor = _color;
+	Refresh();
+	return *this;
+}
+
+RichTextView& RichTextView::Highlight(Color _color)
+{
+	highlight_color = _color;
 	Refresh();
 	return *this;
 }

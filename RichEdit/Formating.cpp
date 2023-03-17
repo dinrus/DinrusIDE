@@ -12,7 +12,7 @@ Point RichEdit::GetPreedit()
 	}
 	return r.TopRight();
 }
-	
+
 Font RichEdit::GetPreeditFont()
 {
 	Font fnt = formatinfo;

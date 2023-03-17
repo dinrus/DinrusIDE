@@ -4,7 +4,7 @@
 
 namespace Upp {
 
-#define LLOG(x)  // DLOG(x)
+#define LLOG(x) // DLOG(x)
 
 #if defined(COMPILER_MINGW) && !defined(FLASHW_ALL)
 	// MINGW headers don't include this in (some versions of) windows
@@ -273,6 +273,7 @@ void TopWindow::Open(Ctrl *owner)
 	GuiLock __;
 	LLOG("TopWindow::Open(Ctrl) -> " << UPP::Name(owner));
 	Open(owner ? owner->GetTopCtrl()->GetHWND() : NULL);
+	Top *top = GetTop();
 	if(IsOpen() && top)
 		top->owner = owner;
 }

@@ -17,7 +17,7 @@
 
 #pragma once
 
-//#include <windows.h>
+#include <windows.h>
 #include <Core/Core.h>
 
 // ATTENTION : It's a part of interface header, so don't include the others header here

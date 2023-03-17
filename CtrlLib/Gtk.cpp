@@ -39,7 +39,7 @@ bool FileSelNative::Execute0(int mode, const char *title)
 	gtk_file_chooser_set_local_only(GTK_FILE_CHOOSER(fc), true);
 	gtk_file_chooser_set_select_multiple(GTK_FILE_CHOOSER(fc), multi);
 	gtk_file_chooser_set_show_hidden(GTK_FILE_CHOOSER(fc), hidden);
-	
+
 	if(IsFullPath(ipath)) {
 		FindFile ff(ipath);
 		if(ff)

@@ -113,7 +113,7 @@ struct XmlRpcDo {
 	void   RpcResponse(const String& r);
 	void   EndRpc();
 	bool   Perform();
-
+	
 	XmlRpcDo(TcpSocket& http, const char *group);
 };
 
@@ -153,7 +153,7 @@ String XmlRpcDo::DoXmlRpc()
 		p.PassEnd();
 		data.in = ParseXmlRpcParams(p);
 		if(!CallRpcMethod(data, group, methodname, request))
-			return FormatXmlRpcError(RPC_UNKNOWN_METHOD_ERROR, "\'" + methodname + "\' method is unknown");
+			return FormatXmlRpcError(RPC_UNKNOWN_METHOD_ERROR, "\'" + methodname + "\' метод неизвестен");
 		if(!data.rpc && !shorted)
 			return Null;
 		return XmlResult();
@@ -263,7 +263,7 @@ String XmlRpcDo::DoJsonRpc()
 			return v.GetCount() ? ~a : String();
 		}
 	}
-	catch(CParser::Error e) {}
+	catch(CParser::Error e) {}	
 	return AsJSON(JsonRpcError(RPC_SERVER_JSON_ERROR, "Ошибка разбора", Null));
 }
 

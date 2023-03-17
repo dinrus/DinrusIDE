@@ -19,6 +19,7 @@ private:
 	Rect          margin;
 	Color         background;
 	Color         textcolor;
+	Color         highlight_color = SYellow();
 	Zoom          zoom;
 	int           cx;
 	ScrollBar     sb;
@@ -32,6 +33,7 @@ private:
 	int           cursor, anchor;
 	bool          lazy;
 	bool          shrink_oversized_objects;
+	bool          icursor = true;
 
 	void          EndSizeTracking();
 	void          SetSb();
@@ -54,6 +56,8 @@ protected:
 public:
 	Event<const String&> WhenLink;
 	Event<int>           WhenMouseMove;
+	Event<>              WhenLeftClick;
+	Gate<const String&>  WhenHighlight;
 
 	void            Clear();
 	void            Pick(RichText&& t);
@@ -61,6 +65,8 @@ public:
 	void            SetQTF(const char *qtf, Zoom z = Zoom(1, 1));
 	const RichText& Get() const                               { return text; }
 	String          GetQTF(byte cs = CHARSET_UTF8) const      { return AsQTF(text, cs); }
+	
+	int             GetCursor() const                         { return cursor; }
 
 	int             GetWidth() const                          { return text.GetWidth(); }
 	int             GetHeight(int cx) const                   { return text.GetHeight(Zoom(1, 1), cx); }
@@ -74,12 +80,14 @@ public:
 	Zoom            GetZoom() const;
 	Rect            GetPage() const;
 
-	bool            GotoLabel(const String& lbl, bool highlight = false);
+	bool            GotoLabel(Gate<const WString&> match, bool dohighlight = false, bool match_last = false);
+	bool            GotoLabel(const String& lbl, bool highlight = false, bool match_last = false);
 	void            ClearHighlight()                          { highlight = Null; Refresh(); }
-
+	
 	int             GetLength() const                         { return text.GetLength(); }
 
 	bool            IsSelection() const                       { return anchor != cursor; }
+	void            ClearSelection();
 	void            Copy();
 
 	void            ScrollUp()                                { sb.PrevLine(); }
@@ -93,6 +101,7 @@ public:
 	RichTextView&   SetZoom(Zoom z);
 	RichTextView&   Background(Color _color);
 	RichTextView&   TextColor(Color _color);
+	RichTextView&   Highlight(Color _color);
 	RichTextView&   VCenter(bool b = true);
 	RichTextView&   NoVCenter()                               { return VCenter(false); }
 	RichTextView&   Margins(const Rect& m);
@@ -107,6 +116,8 @@ public:
 	RichTextView&   NoLazy()                                  { return Lazy(false); }
 	RichTextView&   ShrinkOversizedObjects(bool b = true)     { shrink_oversized_objects = b; Refresh(); return *this; }
 	RichTextView&   NoShrinkOversizedObjects()                { return ShrinkOversizedObjects(false); }
+	RichTextView&   ICursor(bool b)                           { icursor = b; return *this; }
+	RichTextView&   NoICursor()                               { return ICursor(false); }
 
 	void            operator=(const char *qtf)                { SetQTF(qtf); }
 
@@ -297,6 +308,7 @@ private:
 	String         topic;
 	String         label;
 	String         current_link;
+	int            doing_goto = 0;
 
 	bool GoTo0(const String& link);
 	void Back();
@@ -316,6 +328,8 @@ public:
 	virtual Topic AcquireTopic(const String& topic);
 	virtual void  FinishText(RichText& text);
 	virtual void  BarEx(Bar& bar);
+	
+	Gate<const WString&, const WString&> WhenMatchLabel;
 
 	bool GoTo(const String& link);
 

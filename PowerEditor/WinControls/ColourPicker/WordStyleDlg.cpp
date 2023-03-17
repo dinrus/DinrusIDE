@@ -15,7 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
-#include <shlwapi.h>
+//#include <shlwapi.h>
 #include "WordStyleDlg.h"
 #include <PowerEditor/ScintillaComponent/ScintillaEditView.h>
 #include <PowerEditor/WinControls/DocumentMap/documentMap.h>

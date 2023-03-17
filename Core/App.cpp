@@ -30,6 +30,13 @@ static StaticMutex sHlock;
 static char sHomeDir[_MAX_PATH + 1];
 static char Argv0__[_MAX_PATH + 1];
 
+void (*CrashHook)();
+
+void InstallCrashHook(void (*h)())
+{
+	CrashHook = h;
+}
+
 void    SetHomeDirectory(const char *dir)
 {
 	INTERLOCKED_(sHlock) {
@@ -122,7 +129,7 @@ String GetExeFilePath()
 			if(IsFullPath(x) && FileExists(x))
 				strcpy(exepath, x);
 			else {
-				strcpy(exepath, GetHomeDirFile("upp"));
+				strcpy(exepath, GetHomeDirFile("dinrus"));
 				Vector<String> p = Split(FromSystemCharset(Environment().Get("PATH")), ':');
 				if(x.Find('/') >= 0)
 					p.Add(GetCurrentDirectory());
@@ -307,15 +314,23 @@ Vector<WString>& coreCmdLine__()
 	return h;
 }
 
+static Mutex sCmdMutex;
+static Vector<String> sCmd;
+
 const Vector<String>& CommandLine()
 {
-	static Vector<String> cmd;
+	Mutex::Lock __(sCmdMutex);
 	ONCELOCK {
-		auto& src = coreCmdLine__();
-		for(int i = 0; i < src.GetCount(); i++)
-			cmd.Add(src[i].ToString());
+		for(WString s : coreCmdLine__())
+			sCmd.Add(s.ToString());
 	}
-	return cmd;
+	return sCmd;
+}
+
+void CommandLineRemove(int i, int count)
+{
+	CommandLine();
+	sCmd.Remove(i, count);
 }
 
 String GetArgv0()
@@ -379,7 +394,7 @@ void CommonInit()
 	Vector<WString>& cmd = coreCmdLine__();
 	static WString exp_cmd = "--export-tr";
 	static WString brk_cmd = "--memory-breakpoint__";
-	
+
 	for(int i = 0; i < cmd.GetCount();) {
 		if(cmd[i] == exp_cmd) {
 			{
@@ -387,7 +402,7 @@ void CommonInit()
 				int lang = 0;
 				int lang2 = 0;
 				byte charset = CHARSET_UTF8;
-				String fn = "all";
+				String fn = "все";
 				if(i < cmd.GetCount())
 					if(cmd[i].GetLength() == 4 || cmd[i].GetLength() == 5) {
 						lang = LNGFromText(cmd[i].ToString());
@@ -459,16 +474,19 @@ void AppExecute__(void (*app)())
 
 void s_ill_handler(int)
 {
-	Panic("Недопустимая инструкция!");
+	CrashHook();
+	Panic("Нелегальная инструкция!");
 }
 
 void s_segv_handler(int)
 {
-	Panic("Неверный доступ к памяти!");
+	CrashHook();
+	Panic("Неправильный доступ к  памяти!");
 }
 
 void s_fpe_handler(int)
 {
+	CrashHook();
 	Panic("Неверная арифметическая операция!");
 }
 
@@ -510,7 +528,7 @@ void AppInitEnvironment__()
 			coreCmdLine__().Add(FromSystemCharsetW(szArglist[i]).ToWString());
 		LocalFree(szArglist);
     }
-		
+
 	WCHAR *env = GetEnvironmentStringsW();
 	for(WCHAR *ptr = env; *ptr; ptr++)
 	{
@@ -660,7 +678,7 @@ String GetDesktopManager()
 	if(GetEnv("KDE_FULL_SESSION").GetCount() || GetEnv("KDEDIR").GetCount())
         return "kde";
 	return GetEnv("DESKTOP_SESSION");
-#endif	
+#endif
 }
 
 #if defined(PLATFORM_WIN32)
@@ -682,13 +700,14 @@ String GetPicturesFolder()	  { return GetShellFolder(CSIDL_MYPICTURES);}
 String GetVideoFolder()		  { return GetShellFolder(CSIDL_MYVIDEO);}
 String GetDocumentsFolder()	  { return GetShellFolder(/*CSIDL_MYDOCUMENTS*/0x0005);}
 String GetTemplatesFolder()	  { return GetShellFolder(CSIDL_TEMPLATES);}
+String GetProgramDataFolder() { return GetShellFolder(CSIDL_COMMON_APPDATA); }
 
 #define MY_DEFINE_KNOWN_FOLDER(name, l, w1, w2, b1, b2, b3, b4, b5, b6, b7, b8) \
 static const GUID name = { l, w1, w2, { b1, b2,  b3,  b4,  b5,  b6,  b7,  b8 } }
 
 MY_DEFINE_KNOWN_FOLDER(MY_FOLDERID_Downloads, 0x374de290, 0x123f, 0x4565, 0x91, 0x64, 0x39, 0xc4, 0x92, 0x5e, 0x46, 0x7b);
 
-String GetDownloadFolder()	
+String GetDownloadFolder()
 {
 	static HRESULT (STDAPICALLTYPE * SHGetKnownFolderPath)(const void *rfid, DWORD dwFlags, HANDLE hToken, PWSTR *ppszPath);
 	ONCELOCK {
@@ -713,11 +732,11 @@ String GetPathXdg(String xdgConfigHome, String xdgConfigDirs)
 	String ret;
 	if(FileExists(ret = AppendFileName(xdgConfigHome, "user-dirs.dirs")))
 		return ret;
-  	if(FileExists(ret = AppendFileName(xdgConfigDirs, "user-dirs.defaults")))
-  		return ret;
-  	if(FileExists(ret = AppendFileName(xdgConfigDirs, "user-dirs.dirs")))
-  		return ret;
-  	return Null;
+	if(FileExists(ret = AppendFileName(xdgConfigDirs, "user-dirs.defaults")))
+		return ret;
+	if(FileExists(ret = AppendFileName(xdgConfigDirs, "user-dirs.dirs")))
+		return ret;
+	return Null;
 }
 
 String GetPathDataXdg(String fileConfig, const char *folder) 
@@ -777,15 +796,17 @@ String GetDesktopFolder()
 		return ret;
 }
 
-String GetProgramsFolder()  { return String("/usr/bin"); }
-String GetAppDataFolder()   { return GetHomeDirectory(); }
-String GetMusicFolder()	    { return GetShellFolder("XDG_MUSIC_DIR", "MUSIC"); }
-String GetPicturesFolder()  { return GetShellFolder("XDG_PICTURES_DIR", "PICTURES"); }
-String GetVideoFolder()     { return GetShellFolder("XDG_VIDEOS_DIR", "VIDEOS"); }
-String GetDocumentsFolder() { return GetShellFolder("XDG_DOCUMENTS_DIR", "DOCUMENTS"); }
-String GetTemplatesFolder() { return GetShellFolder("XDG_TEMPLATES_DIR", "XDG_TEMPLATES_DIR"); }
-String GetDownloadFolder()  { return GetShellFolder("XDG_DOWNLOAD_DIR", "XDG_DOWNLOAD_DIR"); }
+String GetProgramsFolder()    { return String("/usr/bin"); }
+String GetAppDataFolder()     { return GetHomeDirectory(); }
+String GetMusicFolder()	      { return GetShellFolder("XDG_MUSIC_DIR", "MUSIC"); }
+String GetPicturesFolder()    { return GetShellFolder("XDG_PICTURES_DIR", "PICTURES"); }
+String GetVideoFolder()       { return GetShellFolder("XDG_VIDEOS_DIR", "VIDEOS"); }
+String GetDocumentsFolder()   { return GetShellFolder("XDG_DOCUMENTS_DIR", "DOCUMENTS"); }
+String GetTemplatesFolder()   { return GetShellFolder("XDG_TEMPLATES_DIR", "XDG_TEMPLATES_DIR"); }
+String GetDownloadFolder()    { return GetShellFolder("XDG_DOWNLOAD_DIR", "XDG_DOWNLOAD_DIR"); }
+String GetProgramDataFolder() { return String("/var/opt"); }
 
 #endif
+
 
 }

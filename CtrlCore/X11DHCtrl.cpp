@@ -45,9 +45,9 @@ void DHCtrl::MapWindow(bool map)
 		return;
 
 	if(map && !isMapped)
-		XMapWindow(Xdisplay, top->window);
+		XMapWindow(Xdisplay, GetWindow());
 	else if(!map && isMapped)
-		XUnmapWindow(Xdisplay, top->window);
+		XUnmapWindow(Xdisplay, GetWindow());
 
 	isMapped = map;
 
@@ -144,7 +144,7 @@ bool DHCtrl::Init()
 			Xdisplay,									// display
 	//		GetTopWindow()->GetWindow(), 				// parent
 			GetParentWindow(),
-	
+
 			r.left, r.top, r.Width(), r.Height(),		// x, y, width, height
 			0,											// border width
 			Depth,										// depth
@@ -197,8 +197,9 @@ bool DHCtrl::Init()
 	    			)
 	    : NULL;
 
-	top = new Top;
+	Top* top = new Top;
 	top->window = hwnd;
+	SetTop(top);
 
 	long im_event_mask = 0;
 	if(cw->xic)
@@ -274,27 +275,28 @@ void DHCtrl::Terminate(void)
 
 	// Unmaps the window
 	MapWindow(false);
-
+	Window xwin = GetWindow();
+	if(xwin) {
 	// gathers data from XWindow (needs Input Context...)
-	XWindow *cw = XWindowFromWindow(top->window);
+		XWindow *cw = XWindowFromWindow(xwin);
 
-	// Frees input context as needed
-	if(cw->xic)
-	{
-		XDestroyIC(cw->xic);
-		cw->xic = NULL;
+		// Frees input context as needed
+		if(cw && cw->xic)
+		{
+			XDestroyIC(cw->xic);
+			cw->xic = NULL;
+		}
+
+		// Removes XWindow from Upp list
+		RemoveXWindow(xwin);
+
+		// Destroys the window
+		// Not to do, it's done destroying the parent window by X11 system
+	//	XDestroyWindow(Xdisplay, top->window);
+
+		// Destroys created Top struct
+		DeleteTop();
 	}
-
-	// Removes XWindow from Upp list
-	RemoveXWindow(top->window);
-
-	// Destroys the window
-	// Not to do, it's done destroying the parent window by X11 system
-//	XDestroyWindow(Xdisplay, top->window);
-
-	// Destroys created Top struct
-	delete top;
-	top = NULL;
 
 	// Resets initialization and error flags
 	isInitialized = false;

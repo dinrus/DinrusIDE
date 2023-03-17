@@ -52,7 +52,7 @@ void WinMetaFile::Clear() {
 	hemf = NULL;
 }
 
-/* СДЕЛАТЬ: Remove picks
+/* TODO: Remove picks
 void WinMetaFile::Pick(pick_ WinMetaFile& src) {
 	hemf = src.hemf;
 	size = src.size;
@@ -150,8 +150,7 @@ void WinMetaFile::Serialize(Stream& s) {
 		Clear();
 		s % size;
 		if(size) {
-			Buffer<byte> buffer(size);
-			s.SerializeRaw(buffer, size);
+			String buffer = s.GetAll(size);
 			HENHMETAFILE hemf = ::SetEnhMetaFileBits(size, buffer);
 			Attach(hemf);
 		}

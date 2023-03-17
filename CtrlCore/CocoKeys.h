@@ -13,7 +13,7 @@ K_CTRL_KEY,
 K_ALT_KEY,
 K_OPTION_KEY,
 
-// СДЕЛАТЬ: These are not properly handled yet
+// TODO: These are not properly handled yet
 K_CAPSLOCK,
 K_SEPARATOR,
 K_CTRL_APOSTROPHE,

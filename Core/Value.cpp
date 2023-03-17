@@ -323,7 +323,7 @@ void Value::RegisterStd()
 {
 	ONCELOCK {
 		Value::Register<WString>("WString");
-		Value::Register<Complex>("Комплекс");
+		Value::Register<Complex>("Complex");
 		Value::Register(VALUEARRAY_V, ValueArrayDataCreate, "ValueArray");
 		Value::Register(VALUEMAP_V, ValueMapDataCreate, "ValueMap");
 		Value::AddName(STRING_V, "String");

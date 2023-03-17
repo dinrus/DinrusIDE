@@ -499,7 +499,7 @@ _libssh2_packet_add(LIBSSH2_SESSION * session, unsigned char *data,
 
             LIBSSH2_FREE(session, data);
             return _libssh2_error(session, LIBSSH2_ERROR_INVALID_MAC,
-                                  "Неверное MAC received");
+                                  "Invalid MAC received");
         }
         session->packAdd_state = libssh2_NB_state_allocated;
         break;
@@ -1323,9 +1323,11 @@ _libssh2_packet_requirev(LIBSSH2_SESSION *session,
 
         if(strchr((char *) packet_types, ret)) {
             /* Be lazy, let packet_ask pull it out of the brigade */
-            return _libssh2_packet_askv(session, packet_types, data,
+            int ret = _libssh2_packet_askv(session, packet_types, data,
                                         data_len, match_ofs, match_buf,
                                         match_len);
+            state->start = 0;
+            return ret;
         }
     }
 
@@ -1333,4 +1335,3 @@ _libssh2_packet_requirev(LIBSSH2_SESSION *session,
     state->start = 0;
     return LIBSSH2_ERROR_SOCKET_DISCONNECT;
 }
-

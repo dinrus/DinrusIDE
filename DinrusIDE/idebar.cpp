@@ -60,7 +60,7 @@ void Ide::File(Bar& menu)
 	if(!designer)
 		menu.AddMenu(CanToggleReadOnly(), AK_READONLY, IdeImg::read_only(), THISBACK(ToggleReadOnly))
 			.Check(editor.IsReadOnly())
-			.Help("Установить / сбрость флаг только чтение для текущего файла");
+			.Help("Установить / сбросить флаг только чтение для текущего файла");
 
 	menu.AddMenu(!designer, AK_PRINT, CtrlImg::print(), THISBACK(Print));
 
@@ -82,7 +82,7 @@ void Ide::File(Bar& menu)
 		menu.Add("Показать/скрыть нижнюю панель", THISBACK(SwapBottom))
 			.Check(IsBottomShown())
 			.Key(K_ESCAPE)
-			.Help("Показать / скрыть нижныы панель (с вкладками консоли, калькулятора и браузера)");
+			.Help("Показать / скрыть нижнюю панель (с вкладками консоли, калькулятора и браузера)");
 	}
 
 	menu.Add(AK_PACKAGESFILES, THISBACK(SwapPackagesFiles))

@@ -156,7 +156,7 @@ int SshChannel::SetPtySz(int w, int h)
 {
 	int rc = libssh2_channel_request_pty_size(*channel, w, h);
 	if(!WouldBlock(rc) && rc < 0) rc = 1;
-	if(rc == 1)	LLOG("Warning: Couldn't set terminal size!");
+	if(rc == 1)	LLOG("Предупреждение: Couldn't set terminal size!");
 	if(rc == 0)	LLOG("Terminal size adjusted. [W:" << w << ", H:" << h << "]");
 	return rc;
 }

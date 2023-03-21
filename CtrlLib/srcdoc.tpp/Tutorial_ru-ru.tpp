@@ -1,4 +1,4 @@
-topic "GUI Tutorial";
+topic "Руководство по ГИП";
 [l288;i1120;a17;O9;~~~.1408;2 $$1,0#10431211400427159095818037425705:param]
 [a83;*R6 $$2,5#31310162474203024125188417583966:caption]
 [H4;b83;*4 $$3,5#07864147445237544204411237157677:title]
@@ -23,14 +23,17 @@ topic "GUI Tutorial";
 [b83;* $$22,22#78EB85B566C7E078B53494D0FD53D992:subtitle]
 [2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%RU-RU 
-[s2; GUI Tutorial&]
-[s5;~~~2240; Welcome in GUI Tutorial! Here you will learn how to 
-write GUI applications using U`+`+ library. All code mentions 
-in this tutorial is cross`-platform. It means it works exactly 
-the same on a different operating system. Moreover, examples 
-attached in this tutorial are bundle with U`+`+ standard distribution, 
-and they are localized in [* tutorial] assembly. So, you don`'t 
-need to rewrite it by yourself. Good luck!&]
+[s2; [@5 Руководство по ГИП]&]
+[s5;~~~2240; Добро пожаловать в руководство 
+по ГИП (созданию граического интерфеса 
+пользователя)! Здесь вы научитесь 
+писать ГИП`-приложения, используя 
+библиотеку U`+`+. All code mentions in this tutorial 
+is cross`-platform. It means it works exactly the same on a different 
+operating system. Moreover, examples attached in this tutorial 
+are bundle with U`+`+ standard distribution, and they are localized 
+in [* tutorial] assembly. So, you don`'t need to rewrite it by 
+yourself. Good luck!&]
 [s3; Table of contents&]
 [s0; &]
 [s0; [^topic`:`/`/CtrlLib`/srcdoc`/Tutorial`_ru`-ru`#1^ 1. First steps]&]
@@ -93,9 +96,9 @@ applications (i18n)]&]
 [s5; Before we start writing GUI applications, first we need to learn 
 how to create U`+`+ GUI application from template. As described 
 in [*^topic`:`/`/DinrusIDE`/app`/GettingStarted`_ru`-ru`#2`_2^ Getting 
-started with DinrusIDE] tutorial, let`'s start from invoking `"Create 
-new package`" dialog. First of all let`'s select assembly in 
-which GUI application will be created. For now, [* MyApps] [*^topic`:`/`/DinrusIDE`/app`/PackagesAssembliesAndNests`_en`-us^ a
+started with DinrusIDE] tutorial, let`'s start from invoking 
+`"Create new package`" dialog. First of all let`'s select assembly 
+in which GUI application will be created. For now, [* MyApps] [*^topic`:`/`/DinrusIDE`/app`/PackagesAssembliesAndNests`_en`-us^ a
 ssembly] seems to be a good starting point. To create the package 
 you could click on `"New package`" button or right click on package 
 list and then select `"New package..`":&]

@@ -535,11 +535,11 @@ void Ide::DoDisplay()
 {
 	Point p = editor.GetColumnLine(editor.GetCursor64());
 	String s;
-	s << "Ln " << p.y + 1 << ", Col " << p.x + 1;
+	s << "Стр " << p.y + 1 << ", Кол " << p.x + 1;
 	int64 l, h;
 	editor.GetSelection(l, h);
 	if(h > l)
-		s << ", Sel " << h - l;
+		s << ", Выд " << h - l;
 	display.SetLabel(s);
 	
 	ManageDisplayVisibility();

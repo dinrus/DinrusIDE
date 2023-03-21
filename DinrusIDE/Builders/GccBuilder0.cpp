@@ -21,7 +21,7 @@ String GccBuilder::CmdLine(const String& package, const Package& pkg)
                for(String s : pkg_config)
                    cc << " `pkg-config --cflags " << s << "`";
                cc << ' ' << IncludesDefinesTargetTime(package, pkg);
-               dc << " --linker=ld.lld --gcc=" << CompilerName()<< " -c ";//для ldmd2
+               dc << " --linker=ld.lld --gcc=" << CompilerName()<< "-c ";//для ldmd2
                 
    
     return cc;

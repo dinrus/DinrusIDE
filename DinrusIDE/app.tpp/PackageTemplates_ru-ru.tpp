@@ -121,36 +121,27 @@ U`+`+)]&]
 [s0; [^`#9^ 9. Синтаксис файла  UPP]&]
 [s0; &]
 [s3;:1: [@5 1. Пролог]&]
-[s5; У проектов часто бывает одинаковая 
-база, структура и/или идентичные части 
-кода. Одним из способов избежать лишнего 
-набора текста или повтрной работы 
-при создании нового проекта является 
-использование параметрированного 
-шаблона.&]
-[s5; Шаблон пакета Ultimate`+`+ (UPT) является 
-именно таким параметрированным шаблоном. 
-Он используется для создания одного 
-или нескольких файлов пакета, которые 
-в дальнейшем можно редактировать. 
-Может быть также несколько UPT.&]
-[s5; А новый UPT можно создать самостоятельно! 
- Основной целью этого документа и 
-является научить вас этому.&]
+[s5; Often projects have the same base, the same structure, and / 
+or even identical parts of code. One way to avoid unnecessary 
+typing or similar work when creating a new project like that, 
+is to use a parameterized template.&]
+[s5; An Ultimate`+`+ package template (UPT) is such a parameterized 
+template. It is used to create one or more package files which 
+can be edited further. There can be more than one UPT.&]
+[s5; And you can create a new UPT yourself! To enable you to do this, 
+is the main purpose of this document.&]
 [s0; &]
 [s3;:2: [@5 2. Описание]&]
-[s5; UPT `- зто специальный файл с расширением 
-.upt, содержащий текст и правила создания 
-дополнительного текста.&]
-[s5; При запуске DinrusIDE или вызове `"Файл 
-/Открыть главный пакет..`", появляется 
-окошко с опцией `"Новый Пакет`". Если 
-эта опция выбрана, DinrusIDE ищет UPT`-файлы 
-и представляет их в списке. Selecting one 
-of them automatically shows a preview of the file(s) to create, 
-possibly modified by options appearing at the same time. When 
-everything is as wanted, `"Create`" writes the previewed files 
-to disk and the new project is ready to be worked on.&]
+[s5; A UPT is a special file with a .upt`-extension containing text 
+and rules to create additional text.&]
+[s5; When starting DinrusIDE or calling `"File / Set main package..`", 
+the appearing window shows a `"New Package`" option. If this 
+option is selected, DinrusIDE looks for UPTs and presents them 
+in a list. Selecting one of them automatically shows a preview 
+of the file(s) to create, possibly modified by options appearing 
+at the same time. When everything is as wanted, `"Create`" writes 
+the previewed files to disk and the new project is ready to be 
+worked on.&]
 [s0; &]
 [s3;:3: [@5 3. Готовые к использованию шаблоны]&]
 [s42;:3`_1: [@(128.0.255) 3.1 Обзор]&]

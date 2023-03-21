@@ -201,7 +201,7 @@ Size SshShell::GetConsolePageSize()
 	Zero(wsz);
 	if(ioctl(STDIN_FILENO, TIOCGWINSZ, &wsz) == 0)
 		return Size(wsz.ws_col, wsz.ws_row);
-	LLOG("Warning: ioctl() failed. Couldn't read local terminal page size.");
+	LLOG("Предупреждение: ioctl() failed. Couldn't read local terminal page size.");
 	return Null;
 }
 
@@ -250,7 +250,7 @@ Size SshShell::GetConsolePageSize()
 	Zero(cinf);
 	if(GetConsoleScreenBufferInfo((HANDLE) _get_osfhandle(1), &cinf))
 		return Size(cinf.dwSize.X, cinf.dwSize.Y);
-	LLOG("Warning: Couldn't read local terminal page size.");
+	LLOG("Предупреждение: Couldn't read local terminal page size.");
 	return Null;
 }
 

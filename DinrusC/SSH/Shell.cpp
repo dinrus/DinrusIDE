@@ -201,7 +201,7 @@ void SshShell::ConsoleRawMode(bool b)
 	обнули(wsz);
 	if(ioctl(STDIN_FILENO, TIOCGWINSZ, &wsz) == 0)
 		return размер(wsz.ws_col, wsz.ws_row);
-	LLOG("Warning: ioctl() failed. Couldn't read local terminal page size.");
+	LLOG("Предупреждение: ioctl() failed. Couldn't read local terminal page size.");
 	return Null;
 }
 
@@ -250,7 +250,7 @@ void SshShell::ConsoleRawMode(bool b)
 	обнули(cinf);
 	if(GetConsoleScreenBufferInfo((HANDLE) _get_osfhandle(1), &cinf))
 		return размер(cinf.dwSize.X, cinf.dwSize.Y);
-	LLOG("Warning: Couldn't read local terminal page size.");
+	LLOG("Предупреждение: Couldn't read local terminal page size.");
 	return Null;
 }
 

@@ -57,7 +57,7 @@ void XError()
 
 void   XError(const char *s)
 {
-	Panic(String("X11 error:") + s + " !");
+	Panic(String("Ошибка X11:") + s + " !");
 }
 
 static int sAcs;

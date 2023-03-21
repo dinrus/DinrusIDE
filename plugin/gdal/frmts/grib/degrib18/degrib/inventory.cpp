@@ -520,7 +520,7 @@ enum { GS4_ANALYSIS, GS4_ENSEMBLE, GS4_DERIVED, GS4_PROBABIL_PNT = 5,
             break;
          case GS4_DERIVED_INTERVAL: /* 4.12 */
             if (InventoryParseTime (*buffer + 37 - 5, &(inv->validTime)) != 0) {
-               printf ("Warning: Investigate Template 4.12 bytes 37-43\n");
+               printf ("Предупреждение: Investigate Template 4.12 bytes 37-43\n");
                inv->validTime = inv->refTime + inv->foreSec;
             }
             timeIncrType = (*buffer)[50 - 5];
@@ -537,7 +537,7 @@ enum { GS4_ANALYSIS, GS4_ENSEMBLE, GS4_DERIVED, GS4_PROBABIL_PNT = 5,
          case GS4_PERCENTILE: /* 4.10 */
             percentile = (*buffer)[35 - 5];
             if (InventoryParseTime (*buffer + 36 - 5, &(inv->validTime)) != 0) {
-               printf ("Warning: Investigate Template 4.10 bytes 36-42\n");
+               printf ("Предупреждение: Investigate Template 4.10 bytes 36-42\n");
                inv->validTime = inv->refTime + inv->foreSec;
             }
             timeIncrType = (*buffer)[49 - 5];
@@ -553,7 +553,7 @@ enum { GS4_ANALYSIS, GS4_ENSEMBLE, GS4_DERIVED, GS4_PROBABIL_PNT = 5,
             break;
          case GS4_STATISTIC: /* 4.8 */
             if (InventoryParseTime (*buffer + 35 - 5, &(inv->validTime)) != 0) {
-               printf ("Warning: Investigate Template 4.8 bytes 35-41\n");
+               printf ("Предупреждение: Investigate Template 4.8 bytes 35-41\n");
                inv->validTime = inv->refTime + inv->foreSec;
             }
             timeIncrType = (*buffer)[48 - 5];
@@ -569,7 +569,7 @@ enum { GS4_ANALYSIS, GS4_ENSEMBLE, GS4_DERIVED, GS4_PROBABIL_PNT = 5,
             break;
          case GS4_ENSEMBLE_STAT: /* 4.11 */
             if (InventoryParseTime (*buffer + 38 - 5, &(inv->validTime)) != 0) {
-               printf ("Warning: Investigate Template 4.11 bytes 38-44\n");
+               printf ("Предупреждение: Investigate Template 4.11 bytes 38-44\n");
                inv->validTime = inv->refTime + inv->foreSec;
             }
             timeIncrType = (*buffer)[51 - 5];
@@ -602,7 +602,7 @@ enum { GS4_ANALYSIS, GS4_ENSEMBLE, GS4_DERIVED, GS4_PROBABIL_PNT = 5,
             upperProb = value * pow (10.0, -1 * factor);
 
             if (InventoryParseTime (*buffer + 48 - 5, &(inv->validTime)) != 0) {
-               printf ("Warning: Investigate Template 4.9 bytes 48-54\n");
+               printf ("Предупреждение: Investigate Template 4.9 bytes 48-54\n");
                inv->validTime = inv->refTime + inv->foreSec;
             }
             timeIncrType = (*buffer)[61 - 5];
@@ -895,7 +895,7 @@ int GRIB2Inventory (DataSource &fp, inventoryType **Inv, uInt4 *LenInv,
          } else {
             /* Handle case where there are trailing bytes. */
             msg = errSprintf (NULL);
-            printf ("Warning: Inside GRIB2Inventory, Message # %d\n",
+            printf ("Предупреждение: Inside GRIB2Inventory, Message # %d\n",
                     msgNum);
             printf ("%s", msg);
             free (msg);
@@ -1128,7 +1128,7 @@ int GRIB2RefTime (char *filename, double *refTime)
          } else {
             /* Handle case where there are trailing bytes. */
             msg = errSprintf (NULL);
-            printf ("Warning: Inside GRIB2RefTime, Message # %d\n", msgNum);
+            printf ("Предупреждение: Inside GRIB2RefTime, Message # %d\n", msgNum);
             printf ("%s", msg);
             free (msg);
             /* find out how big the file is. */

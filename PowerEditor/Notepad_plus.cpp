@@ -3778,12 +3778,12 @@ void Notepad_plus::updateStatusBar()
 		if (_pEditView->execute(SCI_GETSELECTIONEMPTY))
 		{
 			size_t currPos = _pEditView->execute(SCI_GETCURRENTPOS);
-			wsprintf(strSel, TEXT("Pos : %s"), commafyInt(currPos + 1).Begin());
+			wsprintf(strSel, TEXT("Поз : %s"), commafyInt(currPos + 1).Begin());
 		}
 		else
 		{
 			const std::pair<size_t, size_t> oneSelCharsAndLines = _pEditView->getSelectedCharsAndLinesCount();
-			wsprintf(strSel, TEXT("Sel : %s | %s"),
+			wsprintf(strSel, TEXT("Выд : %s | %s"),
 				commafyInt(oneSelCharsAndLines.first).Begin(),
 				commafyInt(oneSelCharsAndLines.second).Begin());
 		}
@@ -3818,7 +3818,7 @@ void Notepad_plus::updateStatusBar()
 			}
 		}
 
-		wsprintf(strSel, TEXT("Sel : %sx%s %s %s"),
+		wsprintf(strSel, TEXT("Выд : %sx%s %s %s"),
 			commafyInt(numSelections).Begin(),  // lines (rows) in rectangular selection
 			commafyInt(maxLineCharCount).Begin(),  // show maximum width for columns
 			sameCharCountOnEveryLine ? TEXT("=") : TEXT("->"),
@@ -3829,7 +3829,7 @@ void Notepad_plus::updateStatusBar()
 		const int maxSelsToProcessLineCount = 99;  // limit the number of selections to process, for performance reasons
 		const std::pair<size_t, size_t> multipleSelCharsAndLines = _pEditView->getSelectedCharsAndLinesCount(maxSelsToProcessLineCount);
 
-		wsprintf(strSel, TEXT("Sel %s : %s | %s"),
+		wsprintf(strSel, TEXT("Выд %s : %s | %s"),
 			commafyInt(numSelections).Begin(),
 			commafyInt(multipleSelCharsAndLines.first).Begin(),
 			numSelections <= maxSelsToProcessLineCount ?
@@ -3840,7 +3840,7 @@ void Notepad_plus::updateStatusBar()
 	char strLnColSel[128];
 	intptr_t curLN = _pEditView->getCurrentLineNumber();
 	intptr_t curCN = _pEditView->getCurrentColumnNumber();
-	wsprintf(strLnColSel, TEXT("Ln : %s    Col : %s    %s"),
+	wsprintf(strLnColSel, TEXT("Стр : %s    Кол : %s    %s"),
 		commafyInt(curLN + 1).Begin(),
 		commafyInt(curCN + 1).Begin(),
 		strSel);

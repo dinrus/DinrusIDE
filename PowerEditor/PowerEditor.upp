@@ -6,7 +6,8 @@ uses
 	PowerEditor/TinyXml,
 	PowerEditor/MISC,
 	PowerEditor/DarkMode,
-	Core;
+	Core,
+	CtrlCore;
 
 options
 	-D_UNICODE;

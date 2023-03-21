@@ -1,23 +1,23 @@
 topic "О Программе DinrusIDE";
 [*+117 $$0,0#00000000000000000000000000000000:Default]
 [{_}%RU-RU 
-[s0;= [@(255.170.150)$3;4 ИНТЕГРИРОВАННАЯ СРЕДА 
+[s0;= [/_@(255.170.150)$3;4 ИНТЕГРИРОВАННАЯ СРЕДА 
 РАЗРАБОТКИ]&]
-[s0;= [@5$3;4  ][@(128.0.255)$3;3 (ИСР)]&]
-[s0;= [@(255.170.0)$3;4 РУССКОЯЗЫЧНОЙ НИЗКОУРОВНЕВОЙ]&]
-[s0;= [@(255.170.0)$3;4 ЦИФРОВОЙ ПЛАТФОРМЫ]&]
-[s0;= [@(128.0.255)$3+92  (РНЦП)]&]
-[s0;= [@(255.170.150)$3;7 ДИНРУС]&]
-[s0;= [@(128.0.255)$(128.128.0)5 
+[s0;= [@3$(198.255.0)4  ][_@3$(198.255.0)+184 <ИСР>]&]
+[s0;= [/@(255.170.0)$3;4 РУССКОЯЗЫЧНОЙ НИЗКОУРОВНЕВОЙ]&]
+[s0;= [/_@(255.170.0)$3;4 ЦИФРОВОЙ ПЛАТФОРМЫ]&]
+[s0;= [@3$(198.255.0)7  ][_@3$(198.255.0)+184 <РНЦП>]&]
+[s0;= [_@3$(198.255.0)7 <<<][_@(128.0.255)$(198.255.0)7 ДИНРУС][_@3$(198.255.0)7 >>>]&]
+[s0;= [_@(128.0.255)$(198.255.0)+600 Din ][_@(128.0.255)$(198.255.0)5 
 @@rawimage:1000&1000
 (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)
-]&]
-[s0;= [@(255.170.150)$3 Авторское право© 2022, 2023 
+][_@(128.0.255)$(198.255.0)+600  rus]&]
+[s0;= [@(198.255.0)$3 Авторское право© 2012 `- 2023 
 DinrusPro (EnergonV)]&]
-[s0;= [@(255.170.150)$3 Авторы:][@6$3       ][^http`:`/`/ok`.ru`/vit`.klich^@8$3 Вит
-алий Кулич]&]
-[s0;= [@(255.170.150)$3 `*А ТАКЖЕ:`*`*`*`*`*`*`*`*][@2$3 `*]&]
-[s0;= [@(255.170.150)$3 Авторское право© 1998, 2022 
+[s0;= [_@(198.255.0)$3 Авторы:][_@6$3       ][_^http`:`/`/ok`.ru`/vit`.klich^@8$3 Ви
+талий Кулич]&]
+[s0;= [@(226.255.0)$3 `*А ТАКЖЕ:`*`*`*`*`*`*`*`*`*]&]
+[s0;= [@(226.255.0)$3 Авторское право© 1998 `- 2022 
 Команда U`+`+]&]
 [s0;i704;O9; [@2$(128.128.0) Авторы:]-|Mirek_Fídler, Iñaki Zabala, 
 Tomáš_Rylek, [^http`:`/`/www`.digitalsoftware`.pl^ Daniel_Kos], 

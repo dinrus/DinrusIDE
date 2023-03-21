@@ -28,7 +28,7 @@ topic "Использование DinrusIDE как Инструмент Крос
 [s0; &]
 [s0; [^topic`:`/`/DinrusIDE`/app`/CrossComp`_ru`-ru`#1^ 1. Введение]&]
 [s0; [^topic`:`/`/DinrusIDE`/app`/CrossComp`_ru`-ru`#2^ 2. Создать 
-пустой пакет в Projects]&]
+пустой пакет в MyApps]&]
 [s0; [^topic`:`/`/DinrusIDE`/app`/CrossComp`_ru`-ru`#3^ 3. Создать 
 файл макросов  для пакета <имя>]&]
 [s0; [^topic`:`/`/DinrusIDE`/app`/CrossComp`_ru`-ru`#4^ 4. Запуск 

@@ -180,7 +180,7 @@ void Conversions::compute_pixel_xyz(double line, double column, double& x,double
         z = k * r;
         
     } else {
-        fprintf(stderr, "Warning: pixel not visible\n");
+        fprintf(stderr, "Предупреждение: pixel not visible\n");
     }
 }
 

@@ -1257,7 +1257,7 @@ void CDisassembler::WriteErrorsAndWarnings() {
             if (s.Warnings2 & n) {
                 if (OutFile.GetColumn()) OutFile.NewLine();
                 OutFile.Put(CommentSeparator);            // Write "; "
-                OutFile.Put("Warning: ");                 // Write "Warning: "
+                OutFile.Put("Предупреждение: ");                 // Write "Предупреждение: "
                 OutFile.Put(Lookup(AsmWarningTexts2, n)); // Write warning text
                 OutFile.NewLine();
             }

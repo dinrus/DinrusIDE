@@ -19,30 +19,30 @@ int CSyntax::InitUpp(const char **q)
 
 void CSyntax::InitKeywords()
 {
-	static const char *cpp[] = {
-		"__asm", "__cdecl", "__declspec", "__except", "__fastcall",
-		"__finally", "__inline", "__int16", "__int32", "__int64",
-		"__int8", "__leave", "__stdcall", "__try", "__uuidof",
-		"alignas", "alignof", "and", "and_eq", "asm", "auto",
-		"bitand", "bitor", "bool", "break", "case", "catch",
-		"char", "char8_t", "char16_t", "char32_t", "class",
-		"co_await", "co_return", "co_yield", "compl", "concept",
-		"const", "const_cast", "consteval", "constexpr", "constinit",
-		"continue", "decltype", "default", "delete", "dllexport",
-		"dllimport", "do", "double", "dynamic_cast", "else", "enum",
-		"explicit", "export", "extern", "false", "final", "float",
-		"for", "force_inline", "friend", "goto", "if", "import",
-		"inline", "int", "long", "module", "mutable", "namespace",
-		"never_inline", "new", "noexcept", "not", "not_eq", "nullptr",
-		"operator", "or", "or_eq", "override", "private", "protected",
-		"public", "register", "reinterpret_cast", "requires", "return",
-		"short", "signed", "sizeof", "static", "static_assert",
-		"static_cast", "struct", "switch", "template", "this", "thread",
-		"thread_local", "throw", "true", "try", "typedef", "typeid",
-		"typename", "union", "unsigned", "using", "virtual",
-		"void", "volatile", "wchar_t", "while", "xor", "xor_eq",
-		NULL
-	};
+    static const char *cpp[] = {
+        "__asm", "__cdecl", "__declspec", "__except", "__fastcall",
+        "__finally", "__inline", "__int16", "__int32", "__int64",
+        "__int8", "__leave", "__stdcall", "__try", "__uuidof",
+        "alignas", "alignof", "and", "and_eq", "asm", "auto",
+        "bitand", "bitor", "bool", "break", "case", "catch",
+        "char", "char8_t", "char16_t", "char32_t", "class",
+        "co_await", "co_return", "co_yield", "compl", "concept",
+        "const", "const_cast", "consteval", "constexpr", "constinit",
+        "continue", "decltype", "default", "delete", "dllexport",
+        "dllimport", "do", "double", "dynamic_cast", "else", "enum",
+        "explicit", "export", "extern", "false", "final", "float",
+        "for", "force_inline", "friend", "goto", "if", "import",
+        "inline", "int", "long", "module", "mutable", "namespace",
+        "never_inline", "new", "noexcept", "not", "not_eq", "nullptr",
+        "operator", "or", "or_eq", "override", "private", "protected",
+        "public", "register", "reinterpret_cast", "requires", "return",
+        "short", "signed", "sizeof", "static", "static_assert",
+        "static_cast", "struct", "switch", "template", "this", "thread",
+        "thread_local", "throw", "true", "try", "typedef", "typeid",
+        "typename", "union", "unsigned", "using", "virtual",
+        "void", "volatile", "wchar_t", "while", "xor", "xor_eq",
+        NULL
+    };
 	static const char *cs[] = {
 		"abstract", "event", "new", "struct",
 		"as", "explicit", "null", "switch",

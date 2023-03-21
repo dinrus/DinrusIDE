@@ -389,7 +389,7 @@ void PackageEditor::OptionMenu(Bar& bar)
 	bar.Add(b, "Добавить пакет..", IdeImg::package_add(), THISBACK1(AddOption, USES));
 	for(int j = FLAG; j <= PKG_LAST; j++)
 		if(j != USES)
-			bar.Add(b, "Новый " + opt_name[j] + "..", THISBACK1(AddOption, j));
+			bar.Add(b, "Добавка: " + opt_name[j] + "..", THISBACK1(AddOption, j));
 	bar.Separator();
 	b = option.IsCursor() && (int)option.Get(0) >= 0;
 	bar.Add(b, "Редактировать..", [=] { EditOption(false); })
@@ -434,7 +434,7 @@ void PackageEditor::FileCursor()
 			includeable_file <<= FileExists(AppendFileName(p, "all.i"));
 			fileoption.Enable();
 			fileoption.Clear();
-			OptionAdd(fileoption, FILEOPTION, "Дополнтельные опции компилятора для этого файла",
+			OptionAdd(fileoption, FILEOPTION, "Дополнительные опции компилятора для этого файла",
 			          f.option);
 			OptionAdd(fileoption, FILEDEPENDS, "Дополнительные зависимости для этого файла",
 			          f.depends);
@@ -454,7 +454,7 @@ void PackageEditor::FileOptionMenu(Bar& bar)
 	bool b = IsActiveFile();
 	bar.Add(b, "Добавить флаги компилятора..", THISBACK(AddFileOption)).Key(K_INSERT);
 	bar.Add(b, "Добавить зависимость..", THISBACK1(AddDepends, false)).Key(K_CTRL_INSERT);
-	bar.Add(b, "Жлбавить внешнюю зависимость..", THISBACK1(AddDepends, true)).Key(K_SHIFT_INSERT);
+	bar.Add(b, "Добавить внешнюю зависимость..", THISBACK1(AddDepends, true)).Key(K_SHIFT_INSERT);
 	bar.Separator();
 	b = fileoption.IsCursor() && (int)fileoption.Get(0) >= 0;
 	int type = b ? (int)fileoption.Get(0) : -1;

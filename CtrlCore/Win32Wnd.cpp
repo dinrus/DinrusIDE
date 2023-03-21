@@ -483,7 +483,7 @@ void Ctrl::UseImmersiveDarkModeForWindowBorder()
 void Ctrl::Create(HWND parent, DWORD style, DWORD exstyle, bool savebits, int show, bool dropshadow)
 {
 	GuiLock __;
-	ASSERT_(IsMainThread(), "Window creation can only happen in the main thread");
+	ASSERT_(IsMainThread(), "Создание окна может происходить только в главном потоке");
 	LLOG("Ctrl::Create(parent = " << (void *)parent << ") in " <<UPP::Name(this) << LOG_BEGIN);
 	ASSERT(!IsChild() && !IsOpen());
 	Rect r = GetRect();

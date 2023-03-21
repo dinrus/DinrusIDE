@@ -1489,7 +1489,7 @@ H5G_node_debug(H5F_t *f, hid_t dxpl_id, haddr_t addr, FILE *stream, int indent, 
             } /* end if */
             else
                 HDfprintf(stream, "%*s%-*s\n", indent, "", fwidth,
-                          "Warning: Invalid heap address given, name not displayed!");
+                          "Предупреждение: Invalid heap address given, name not displayed!");
 
             H5G__ent_debug(sn->entry + u, stream, indent, fwidth, heap);
         } /* end for */

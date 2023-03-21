@@ -690,14 +690,27 @@ CodeEditor::Tip::Tip()
 
 void CodeEditor::SyncTip()
 {
+	if(!HasMouse())
+		return;
+	Rect wa = GetWorkArea();
+	Point p = Upp::GetMousePos();
 	MouseTip mt;
+//	mt.background = Blend(SWhite(), SLtYellow());
 	mt.pos = tippos;
+	mt.sz.cx = min(DPI(1000), 2 * wa.GetWidth() / 3);
 	if(tippos >= 0 && IsVisible() && WhenTip(mt)) {
+		mt.sz.cy = min(wa.GetHeight() / 2 - DPI(20), mt.sz.cy);
 		tip.d = mt.display;
 		tip.v = mt.value;
-		Point p = Upp::GetMousePos();
+	//	tip.background = mt.background;
 		Size sz = tip.AddFrameSize(mt.sz);
-		tip.SetRect(p.x, p.y + 24, sz.cx, sz.cy);
+		int y = p.y + DPI(24);
+		if(y + sz.cy > wa.bottom)
+			y = max(0, p.y - sz.cy);
+		int x = p.x;
+		if(x + sz.cx > wa.right)
+			x = max(0, wa.right - sz.cx);
+		tip.SetRect(RectC(x, y, sz.cx, sz.cy) & wa);
 		if(!tip.IsOpen())
 			tip.PopUp(this, false, false, true);
 		tip.Refresh();
@@ -710,7 +723,7 @@ bool CodeEditor::MouseSelSpecial(Point p, dword flags) {
 	if((flags & K_MOUSELEFT) && HasFocus() && HasCapture() && !(flags & K_ALT) && selkind != SEL_CHARS) {
 		int64 c = GetMousePos(p);
 		int64 l, h;
-		
+
 		if(selkind == SEL_LINES) {
 			l = c;
 			int i = GetLinePos64(l);
@@ -735,9 +748,18 @@ void CodeEditor::LeftRepeat(Point p, dword flags)
 void CodeEditor::MouseMove(Point p, dword flags) {
 	if(!MouseSelSpecial(p, flags))
 		LineEdit::MouseMove(p, flags);
+
+	tippos = Null;
+
 	if(IsSelection()) return;
-	int64 h = GetMousePos(p);
-	tippos = h < INT_MAX ? (int)h : -1;
+
+	if(p.x > 0) { // ignore calls from EditorBar::MouseMove
+		Size fsz = GetFontSize();
+		p = (p + fsz * (Size)sb.Get()) / fsz;
+		int64 h = GetGPos(p.y, p.x);
+		tippos = h < INT_MAX ? (int)h : -1;
+	}
+
 	SyncTip();
 }
 
@@ -754,6 +776,7 @@ void CodeEditor::MouseLeave()
 {
 	tippos = -1;
 	LineEdit::MouseLeave();
+	CloseTip();
 }
 
 WString CodeEditor::GetI()
@@ -770,12 +793,6 @@ WString CodeEditor::GetI()
 	return ft;
 }
 
-//void CodeEditor::FindWord(bool back)
-//{
-//	WString I = GetI();
-//	if(!IsNull(I))
-//		Find(back, I, true, false, false, false, false);
-//}
 
 void CodeEditor::SetI(Ctrl *edit)
 {
@@ -1081,7 +1098,7 @@ bool CodeEditor::Key(dword code, int count) {
 				wordwrap = true;
 				return true;
 			}
-	
+
 		}
 		if(code >= 32 && code < 128 && count == 1) {
 			IndentInsert(code, 1);
@@ -1142,6 +1159,7 @@ void CodeEditor::HighlightLine(int line, Vector<LineEdit::Highlight>& hl, int64 
 				q++;
 		}
 	}
+
 }
 
 void CodeEditor::PutI(WithDropChoice<EditString>& edit)

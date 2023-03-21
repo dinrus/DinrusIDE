@@ -1022,7 +1022,7 @@ OGRSDEDataSource::ICreateLayer( const char * pszLayerName,
                              | SE_SIMPLE_LINE_TYPE_MASK
                              | SE_AREA_TYPE_MASK );
         CPLError( CE_Warning, CPLE_AppDefined,
-                  "Warning: Creation of a wkbUnknown layer in ArcSDE will "
+                  "Предупреждение: Creation of a wkbUnknown layer in ArcSDE will "
                   "result in layers which are not displayable in Arc* "
                   "software" );
     }

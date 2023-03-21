@@ -322,7 +322,7 @@ void RichText::Init()
 {
 	RichTxt::Init();
 	RichStyle& s = style.Add(RichStyle::GetDefaultId());
-	s.name = "Default";
+	s.name = "Дефолт";
 	nolinks = false;
 }
 

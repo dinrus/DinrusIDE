@@ -1,4 +1,4 @@
-topic "GUI programming and multithreading";
+topic "Программирование ГИП и многопоточность";
 [i448;a25;kKO9;2 $$1,0#37138531426314131252341829483380:class]
 [l288;2 $$2,2#27521748481378242620020725143825:desc]
 [0 $$3,0#96390100711032703541132217272105:end]
@@ -11,7 +11,7 @@ topic "GUI programming and multithreading";
 [a83;*R6 $$10,0#31310162474203024125188417583966:caption]
 [2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%RU-RU 
-[s10; GUI programming and multithreading&]
+[s10; [@5 Программирование ГИП и многопоточность]&]
 [s0; Multithreading in GUI programming model has to follow target 
 platform limitations, where most target platforms have a notion 
 of `"main thread`" and limit GUI actions allowed in non`-main 

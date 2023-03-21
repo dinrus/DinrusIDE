@@ -4,13 +4,27 @@
 void   GccBuilder::AddFlags(Index<String>& cfg)
 {
 }
-
+//Выводит имя компилятора (c++ по умолчанию)
 String GccBuilder::CompilerName() const
 {
 	if(!IsNull(compiler)) return compiler;
 	return "c++";
 }
+//Создаёт командную строку для исходников Дланг
+//СДЕЛАТЬ: Задача - отфильтровать .d от остальных.
+String DlangCmdLine(const String& package, const Package& pkg)
+{
+	String dd = "ldc2";
+	for(String f: pkg.file)
+	{
+		if(GetFileExt(f) == ".d")
+		dd << " -c " + f;
+	}
+	PutVerbose(dd);
+	return dd;
+}
 
+//Создаёт командную строку
 String GccBuilder::CmdLine(const String& package, const Package& pkg)
 {
 	String cc = CompilerName();
@@ -21,6 +35,7 @@ String GccBuilder::CmdLine(const String& package, const Package& pkg)
 	return cc;
 }
 
+//Преобразует бинарный файл в объектный
 void GccBuilder::BinaryToObject(String objfile, CParser& binscript, String basedir,
                                 const String& package, const Package& pkg)
 {
@@ -33,7 +48,7 @@ void GccBuilder::BinaryToObject(String objfile, CParser& binscript, String based
 	if(slot < 0 || !Run(cc, slot, objfile, 1))
 		throw Exc(Format("Ошибка при компиляции бинарного объекта '%s'.", objfile));
 }
-
+//Строит пакет
 bool GccBuilder::BuildPackage(const String& package, Vector<String>& linkfile, Vector<String>& immfile,
 	String& linkoptions, const Vector<String>& all_uses, const Vector<String>& all_libraries,
 	int opt)
@@ -52,7 +67,7 @@ bool GccBuilder::BuildPackage(const String& package, Vector<String>& linkfile, V
 	}
 
 	SaveBuildInfo(package);
-
+	
 	int i;
 	String packagepath = PackagePath(package);
 	Package pkg;
@@ -71,13 +86,13 @@ bool GccBuilder::BuildPackage(const String& package, Vector<String>& linkfile, V
 	bool           error = false;
 
 	String pch_header;
-
+	
 	Index<String> nopch, noblitz;
 
 	bool blitz = HasFlag("BLITZ");
 	bool release = !HasFlag("DEBUG");
 	bool objectivec = HasFlag("OBJC");
-
+	
 	if(HasFlag("OSX"))
 		objectivec = true;
 
@@ -136,13 +151,15 @@ bool GccBuilder::BuildPackage(const String& package, Vector<String>& linkfile, V
 
 //	if(IsVerbose())
 //		cc << " -v";
-//	if(HasFlag("WIN32")/* && HasFlag("MT")*/) // not needed anymore
+//	if(HasFlag("WIN32") && HasFlag("MT"))
 //		cc << " -mthreads";
 
 	if(HasFlag("DEBUG_MINIMAL") || HasFlag("DEBUG_FULL")) {
 		cc << (HasFlag("WIN32") && HasFlag("CLANG") ? " -gcodeview -fno-limit-debug-info" : " -ggdb");
 		cc << (HasFlag("DEBUG_FULL") ? " -g2" : " -g1");
 	}
+	
+//ДИНИМАЧЕСКАЯ БИБЛИОТЕКА
 	String fuse_cxa_atexit;
 	if(is_shared /*&& !HasFlag("MAIN")*/) {
 		cc << " -shared -fPIC";
@@ -194,12 +211,12 @@ bool GccBuilder::BuildPackage(const String& package, Vector<String>& linkfile, V
 
 	String pch_use;
 	String pch_file;
-
+	
 	if(recompile > 2 && pch_header.GetCount()) {
 		String pch_header2 = CatAnyPath(outdir, GetFileTitle(pch_header) + "$pch.h");
 		pch_file = pch_header2 + ".gch";
 		SaveFile(pch_header2, "#include <" + pch_header + ">"); // CLANG needs a copy of header
-
+		
 		int pch_slot = AllocSlot();
 		StringBuffer sb;
 
@@ -314,7 +331,7 @@ bool GccBuilder::BuildPackage(const String& package, Vector<String>& linkfile, V
 	MergeWith(linkoptions, " ", Gather(pkg.link, config.GetKeys()));
 	if(linkoptions.GetCount())
 		linkoptions << ' ';
-
+	
 	bool making_lib = HasFlag("MAKE_LIB") || HasFlag("MAKE_MLIB");
 
 	if(!making_lib) {
@@ -358,7 +375,7 @@ bool GccBuilder::BuildPackage(const String& package, Vector<String>& linkfile, V
 	linkfile = pick(obj);
 	return true;
 }
-
+//Создаёт библиотеку
 bool GccBuilder::CreateLib(const String& product, const Vector<String>& obj,
                            const Vector<String>& all_uses, const Vector<String>& all_libraries,
                            const String& link_options)
@@ -397,7 +414,7 @@ bool GccBuilder::CreateLib(const String& product, const Vector<String>& obj,
 			llib << ' ' << GetPathQ(GetSharedLibPath(all_uses[i]));
 		for(int i = 0; i < all_libraries.GetCount(); i++)
 			llib << " -l" << GetPathQ(all_libraries[i]);
-
+		
 		if(HasFlag("POSIX"))
 			llib << " -Wl,-soname," << GetSoname(product);
 	}
@@ -429,7 +446,7 @@ bool GccBuilder::CreateLib(const String& product, const Vector<String>& obj,
 
 				// replace all '\' with '/'`
 				llib = UnixPath(llib);
-
+				
 				f.PutLine(llib.Left(found));
 				llib.Remove(0, found);
 			}
@@ -477,16 +494,16 @@ bool GccBuilder::CreateLib(const String& product, const Vector<String>& obj,
 	}
 #endif
 	PutConsole(String().Cat() << hproduct << " (" << GetFileInfo(hproduct).length
-               << " B) создано за " << GetPrintTime(libtime));
+	           << " B) создано за " << GetPrintTime(libtime));
 	return true;
 }
-
+//Компонует
 bool GccBuilder::Link(const Vector<String>& linkfile, const String& linkoptions, bool createmap)
 {
 	if(!Wait())
 		return false;
 	PutLinking();
-
+	
 	if(HasFlag("MAKE_MLIB") || HasFlag("MAKE_LIB"))
 		return CreateLib(ForceExt(target, ".a"), linkfile, Vector<String>(), Vector<String>(), linkoptions);
 
@@ -503,7 +520,7 @@ bool GccBuilder::Link(const Vector<String>& linkfile, const String& linkoptions,
 			if(HasFlag("GCC32"))
 				lnk << " -m32";
 			if(HasFlag("DLL"))
-				lnk << " -shared";
+				lnk << " -shared -Wl,--out-implib="<<target<<".a";// -Wl,--export-all-symbols -Wl,--enable-auto-import";
 			if(!HasFlag("SHARED") && !HasFlag("SO"))
 				lnk << " -static";
 			if(HasFlag("WINCE"))
@@ -544,7 +561,7 @@ bool GccBuilder::Link(const Vector<String>& linkfile, const String& linkoptions,
 				String linklistM = "Производится список компонуемых файлов ...\n";
 				String odir = GetFileDirectory(linkfile[0]);
 				lfilename << GetFileFolder(linkfile[0]) << ".LinkFileList";
-
+					
 				linklistM  << lfilename;
 				UPP::SaveFile(lfilename, linklist);
 				lnk << " -L" << GetPathQ(odir)
@@ -567,7 +584,7 @@ bool GccBuilder::Link(const Vector<String>& linkfile, const String& linkoptions,
 				for(i = 0; i < lib.GetCount(); i++) {
 					String ln = lib[i];
 					String ext = ToLower(GetFileExt(ln));
-
+					
 					// unix shared libs shall have version number AFTER .so (sic)
 					// so we shall find the true extension....
 					if(HasFlag("POSIX") && ext != ".so")
@@ -580,7 +597,7 @@ bool GccBuilder::Link(const Vector<String>& linkfile, const String& linkoptions,
 						if(pos >= 0 && ToLower(ln.Mid(pos, 3)) == ".so")
 							ext = ".so";
 					}
-
+							
 					if(pass == 0) {
 						if(ext == ".a")
 							lnk << ' ' << GetPathQ(FindInDirs(libpath, lib[i]));
@@ -615,7 +632,7 @@ bool GccBuilder::Link(const Vector<String>& linkfile, const String& linkoptions,
 	           << " B) в свежем состоянии.");
 	return true;
 }
-
+//Выполняет препроцессинг
 bool GccBuilder::Preprocess(const String& package, const String& file, const String& target, bool asmout)
 {
 	Package pkg;
@@ -636,12 +653,12 @@ bool GccBuilder::Preprocess(const String& package, const String& file, const Str
 		cmd << " " << cpp_options;
 	return Execute(cmd);
 }
-
+//Создаёт сам построитель
 Builder *CreateGccBuilder()
 {
 	return new GccBuilder;
 }
-
+//Регистрация построителей
 INITIALIZER(GccBuilder)
 {
 	RegisterBuilder("GCC", CreateGccBuilder);

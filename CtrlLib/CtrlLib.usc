@@ -311,7 +311,7 @@ ctrl StaticText {
 		w.DrawSmartText(px, (sz.cy - textsize.cy) / 2, .SetText, .SetFont, .SetInk);
 	}
 	Sample() {
-		.SetText = "Text";
+		.SetText = "Текст";
 		.SetFont = Arial(10).Bold().Italic();
 	}
 };
@@ -489,7 +489,7 @@ ctrl Button {
 	GetMinSize() { sz = XMinSize(); sz.cy += 2; return sz; }
 	GetStdSize() { sz = GetMinSize(); sz.cx *= 7; return sz; }
 
-	Text   SetLabel ? "Button label";
+	Text   SetLabel ? "Ярлык кнопки";
 	Font   SetFont = StdFont();
 	Frame  SetFrame @1;
 	Text   Tip @1;
@@ -1160,13 +1160,13 @@ ctrl TabCtrl {
 		r = GetRect();
 		x0 = x = r.left;
 		y = r.top;
-		tsz = PaintTab(w, x, y, "Tab 1", :SWhiteGray);
+		tsz = PaintTab(w, x, y, "Вкладка 1", :SWhiteGray);
 		x += tsz.cx;
-		x += PaintTab(w, x, y + 3, "Tab 2", :SLtGray).cx;
-		x += PaintTab(w, x, y + 3, "Tab 3", :SLtGray).cx;
+		x += PaintTab(w, x, y + 3, "Вкладка 2", :SLtGray).cx;
+		x += PaintTab(w, x, y + 3, "Вкладка 3", :SLtGray).cx;
 		r.top += tsz.cy;
 		DrawButton(w, r);
-		PaintTab(w, x0, y, "Tab 1", :SWhiteGray);
+		PaintTab(w, x0, y, "Вкладка 1", :SWhiteGray);
 		if(IsUHD())
 			w.DrawRect(2, r.top - 2, tsz.cx, 4, :SWhiteGray);
 		else

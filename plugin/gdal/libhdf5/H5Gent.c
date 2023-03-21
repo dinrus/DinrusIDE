@@ -556,7 +556,7 @@ H5G__ent_debug(const H5G_entry_t *ent, FILE *stream, int indent, int fwidth, con
             } /* end if */
             else
                 HDfprintf(stream, "%*s%-*s\n", nested_indent, "", nested_fwidth,
-                          "Warning: Invalid heap address given, name not displayed!");
+                          "Предупреждение: Invalid heap address given, name not displayed!");
             break;
 
         case H5G_CACHED_ERROR:

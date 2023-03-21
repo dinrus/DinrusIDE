@@ -1877,7 +1877,7 @@ int ReadGrib1Record (DataSource &fp, sChar f_unit, double **Grib_Data,
 
    /* Read section 5.  If it is "7777" == 926365495 we are done. */
    if (curLoc == gribLen) {
-      printf ("Warning: either gribLen did not account for section 5, or "
+      printf ("Предупреждение: either gribLen did not account for section 5, or "
               "section 5 is missing\n");
       return 0;
    }

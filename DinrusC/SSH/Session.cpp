@@ -169,7 +169,7 @@ bool SshSession::Connect(const Ткст& host, int port, const Ткст& user, c
 				выведиОш(-1, "Failed to initalize libssh2 session.");
 #ifdef flagLIBSSH2TRACE
 			if(libssh2_trace_sethandler(ssh->session, this, &slibssh2DebugCallback))
-				LLOG("Warning: Unable to set trace (debug) handler for libssh2.");
+				LLOG("Предупреждение: Unable to set trace (debug) handler for libssh2.");
 			else {
 				libssh2_trace(ssh->session, SSH::sTraceVerbose);
 				LLOG("Verbose debugging mode enabled.");

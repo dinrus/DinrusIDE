@@ -1,11 +1,11 @@
 #include "DinrusIDE.h"
-
 #define KEYGROUPNAME "Ide"
 #define KEYNAMESPACE IdeKeys
 #define KEYFILE      <DinrusIDE/ide.key>
 #include             <CtrlLib/key_source.h>
 
 using namespace IdeKeys;
+
 
 void Ide::DoEditKeys()
 {
@@ -60,7 +60,7 @@ void Ide::File(Bar& menu)
 	if(!designer)
 		menu.AddMenu(CanToggleReadOnly(), AK_READONLY, IdeImg::read_only(), THISBACK(ToggleReadOnly))
 			.Check(editor.IsReadOnly())
-			.Help("Установить / сбросить флаг только чтение для текущего файла");
+			.Help("Установить / сбрость флаг только чтение для текущего файла");
 
 	menu.AddMenu(!designer, AK_PRINT, CtrlImg::print(), THISBACK(Print));
 
@@ -82,7 +82,7 @@ void Ide::File(Bar& menu)
 		menu.Add("Показать/скрыть нижнюю панель", THISBACK(SwapBottom))
 			.Check(IsBottomShown())
 			.Key(K_ESCAPE)
-			.Help("Показать / скрыть нижнюю панель (с вкладками консоли, калькулятора и браузера)");
+			.Help("Показать / скрыть нижныы панель (с вкладками консоли, калькулятора и браузера)");
 	}
 
 	menu.Add(AK_PACKAGESFILES, THISBACK(SwapPackagesFiles))
@@ -853,8 +853,22 @@ void Ide::MainMenu(Bar& menu)
 		.Help("Информация, просмотр кода и поддержка");
 	menu.Add("Настройка", THISBACK(Setup))
 		.Help("Пути, настройки редактора, подключение к удалённому хосту");
+			menu.Add("Система", THISBACK(SysOps))
+		.Help("Средства работы с текущими файловой или операционной системами");
 	menu.Add("Помощь", THISBACK(HelpMenu))
 		.Help("Помощь, доверие и лицензия");
+}
+
+void Ide::SysOps(Bar& bar)
+{
+	bar.Add("Информация об ОС..", IdeImg::Computer(), THISBACK(ShowSysInfo));
+
+}
+
+void Ide::ShowSysInfo()
+{
+	SysInfoGui sig; //ИнфОСистеме
+    sig.Execute();
 }
 
 void Ide::MainTool(Bar& bar)

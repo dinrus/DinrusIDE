@@ -506,7 +506,7 @@ int OGRGMLDataSource::Open( GDALOpenInfo* poOpenInfo )
     if( strstr(szPtr, "<Maastotiedot") != NULL )
     {
         if( strstr(szPtr, "http://xml.nls.fi/XML/Namespace/Maastotietojarjestelma/SiirtotiedostonMalli/2011-02") == NULL )
-            CPLDebug("GML", "Warning: a MTKGML file was detected, but its namespace is unknown");
+            CPLDebug("GML", "Предупреждение: a MTKGML file was detected, but its namespace is unknown");
         bAnalyzeSRSPerFeature = FALSE;
         bUseGlobalSRSName = TRUE;
         if( !ExtractSRSName(szPtr, szSRSName, sizeof(szSRSName)) )

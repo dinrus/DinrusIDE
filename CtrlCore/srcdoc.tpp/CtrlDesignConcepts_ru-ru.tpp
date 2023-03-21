@@ -1,7 +1,7 @@
-topic "Ctrl Design Concepts";
+topic "Концепты Дизайна Контролов";
 [ $$0,0#00000000000000000000000000000000:Default]
 [{_}%RU-RU 
-[s0; [*R6 Ctrl Design Concepts]&]
+[s0; [*R@5;6 Концепты Дизайна Контролов]&]
 [s0; &]
 [s0; When developing own Ctrl`'s one often is `'reinventing`' the 
 wheel, because there are common patterns to do in your Ctrl that 

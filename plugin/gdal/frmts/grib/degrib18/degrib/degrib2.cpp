@@ -1047,7 +1047,7 @@ int ReadGrib2Record (DataSource &fp, sChar f_unit, double **Grib_Data,
          } else if (jer[ndjer + i] == 1) {
             /* Warning. */
 #ifdef DEBUG
-            printf ("Warning: Unpack library warning code (%d %d)\n",
+            printf ("Предупреждение: Unpack library warning code (%d %d)\n",
                     jer[i], jer[ndjer + i]);
 #endif
          } else {

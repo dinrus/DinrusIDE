@@ -140,7 +140,7 @@ JMESSAGE(JTRC_EOI, "End Of Image")
 JMESSAGE(JTRC_HUFFBITS, "        %3d %3d %3d %3d %3d %3d %3d %3d")
 JMESSAGE(JTRC_JFIF, "JFIF APP0 marker: version %d.%02d, density %dx%d  %d")
 JMESSAGE(JTRC_JFIF_BADTHUMBNAILSIZE,
-	 "Warning: thumbnail image size does not match data length %u")
+	 "Предупреждение: thumbnail image size does not match data length %u")
 JMESSAGE(JTRC_JFIF_EXTENSION,
 	 "JFIF extension marker: type 0x%02x, length %u")
 JMESSAGE(JTRC_JFIF_THUMBNAIL, "    with %d x %d thumbnail image")
@@ -180,7 +180,7 @@ JMESSAGE(JWRN_EXTRANEOUS_DATA,
 	 "Corrupt JPEG data: %u extraneous bytes before marker 0x%02x")
 JMESSAGE(JWRN_HIT_MARKER, "Corrupt JPEG data: premature end of data segment")
 JMESSAGE(JWRN_HUFF_BAD_CODE, "Corrupt JPEG data: bad Huffman code")
-JMESSAGE(JWRN_JFIF_MAJOR, "Warning: unknown JFIF revision number %d.%02d")
+JMESSAGE(JWRN_JFIF_MAJOR, "Предупреждение: unknown JFIF revision number %d.%02d")
 JMESSAGE(JWRN_JPEG_EOF, "Premature end of JPEG file")
 JMESSAGE(JWRN_MUST_RESYNC,
 	 "Corrupt JPEG data: found marker 0x%02x instead of RST%d")

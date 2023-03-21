@@ -21,7 +21,10 @@ uses
 	DinrusIDE/MacroManager,
 	Report,
 	Core/SSL,
-	plugin/md;
+	plugin/md,
+	SysInfo,
+	Functions4U,
+	DropGrid;
 
 link
 	-DUNICODE;
@@ -69,6 +72,7 @@ file
 	idetool.cpp,
 	Install.cpp,
 	Android.cpp,
+	SysInfoGui.cpp,
 	idebar.cpp,
 	idewin.cpp,
 	main.cpp,

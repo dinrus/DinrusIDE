@@ -1488,7 +1488,7 @@ main(int argc, char *argv[])
    if (strcmp(png_libpng_ver, PNG_LIBPNG_VER_STRING))
    {
       fprintf(STDERR,
-         "Warning: versions are different between png.h and png.c\n");
+         "Предупреждение: versions are different between png.h and png.c\n");
       fprintf(STDERR, "  png.h version: %s\n", PNG_LIBPNG_VER_STRING);
       fprintf(STDERR, "  png.c version: %s\n\n", png_libpng_ver);
       ++ierror;

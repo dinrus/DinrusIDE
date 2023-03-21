@@ -7,8 +7,8 @@ topic "QTF - Quixotic Text Format";
 [b83;*+117 $$6,6#1546C2CD4112BAB0A26C534D6F11ED13:subtitle]
 [2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%RU-RU 
-[s3; QTF `- Quixotic Text Format&]
-[s4; Содержание&]
+[s3; [@3$8 QTF `- Quixotic Text Format]&]
+[s4; [@3 Содержание]&]
 [s0; &]
 [s0; [^topic`:`/`/RichText`/srcdoc`/QTF`_ru`-ru`#1^ 1. Определение]&]
 [s0; [^topic`:`/`/RichText`/srcdoc`/QTF`_ru`-ru`#2^ 2. Обзор формата]&]
@@ -19,21 +19,16 @@ topic "QTF - Quixotic Text Format";
 [s0;     [^topic`:`/`/RichText`/srcdoc`/QTF`_ru`-ru`#2`_4^ 2.4 Форматирован
 ие символов и параграфов]&]
 [s0;     [^topic`:`/`/RichText`/srcdoc`/QTF`_ru`-ru`#2`_5^ 2.5 Стили]&]
-[s0;     [^topic`:`/`/RichText`/srcdoc`/QTF`_ru`-ru`#2`_6^ 2.6 ][^topic`:`/`/RichText`/srcdoc`/QTF`_ru`-ru`#2`_6^ О
-бъекты]&]
+[s0;     [^topic`:`/`/RichText`/srcdoc`/QTF`_ru`-ru`#2`_6^ 2.6 Объекты]&]
 [s0;     [^topic`:`/`/RichText`/srcdoc`/QTF`_ru`-ru`#2`_7^ 2.7 Формат 
  iml]&]
-[s0;     [^topic`:`/`/RichText`/srcdoc`/QTF`_ru`-ru`#2`_8^ 2.8 ][^topic`:`/`/RichText`/srcdoc`/QTF`_ru`-ru`#2`_8^ П
-оля]&]
-[s0;     [^topic`:`/`/RichText`/srcdoc`/QTF`_ru`-ru`#2`_9^ 2.9 ][^topic`:`/`/RichText`/srcdoc`/QTF`_ru`-ru`#2`_9^ Т
-аблицы]&]
-[s0;     [^topic`:`/`/RichText`/srcdoc`/QTF`_ru`-ru`#2`_10^ 2.10 ][^topic`:`/`/RichText`/srcdoc`/QTF`_ru`-ru`#2`_10^ Г
-лобальные Заголовок и Подвал][^topic`:`/`/RichText`/srcdoc`/QTF`_ru`-ru`#2`_10^ r
-]&]
-[s0; [^topic`:`/`/RichText`/srcdoc`/QTF`_ru`-ru`#3^ 3. ][^topic`:`/`/RichText`/srcdoc`/QTF`_ru`-ru`#3^ П
-римеры]&]
+[s0;     [^topic`:`/`/RichText`/srcdoc`/QTF`_ru`-ru`#2`_8^ 2.8 Поля]&]
+[s0;     [^topic`:`/`/RichText`/srcdoc`/QTF`_ru`-ru`#2`_9^ 2.9 Таблицы]&]
+[s0;     [^topic`:`/`/RichText`/srcdoc`/QTF`_ru`-ru`#2`_10^ 2.10 Глобальные 
+Заголовок и Подвалr]&]
+[s0; [^topic`:`/`/RichText`/srcdoc`/QTF`_ru`-ru`#3^ 3. Примеры]&]
 [s0; &]
-[s4;:1: 1. Definition&]
+[s4;:1: [@(128.0.255) 1. Определение]&]
 [s5; [* Quixotic Text Format] ([* QTF]) is the native format of U`+`+ 
 rich texts (formatted texts). It is byte oriented format. Bytes 
 with values 2`-31 are ignored. Other values are interpreted as 
@@ -41,8 +36,8 @@ characters or formatting commands.&]
 [s5; QTF name existed before U`+`+ framework received its final name, 
 so its name does not directly refer to it. For backwards compatibility 
 reasons the community never decided to rename it.&]
-[s4;:2: 2. Format overview&]
-[s6;:2`_1: 2.1 Symbols&]
+[s4;:2: [@(128.0.255) 2. Обзор формата]&]
+[s6;:2`_1: [@(128.128.0) 2.1 Символы]&]
 [s5; Letters ([@4 a]`-[@4 zA]`-[@4 Z]), numbers ([@4 0]`-[@4 9]), space (32) 
 and characters&]
 [s0; &]
@@ -59,7 +54,7 @@ Example:&]
 [s5; Byte 0 represents the end of input sequence.&]
 [s5; Dimension units of QTF are dots `- one dot is defined as 1/600 
 of inch.&]
-[s6;:2`_2: 2.2 Colors&]
+[s6;:2`_2: [@(128.128.0) 2.2 Цвета]&]
 [s5; Colors are described as either number [@(128.0.255) 0]`-[@(128.0.255) 9], 
 with meaning&]
 [s0; &]
@@ -170,7 +165,7 @@ umber][@(128.0.255) )]&]
 [s0; [@(128.0.255) N]&]
 [s0;@(128.0.255) &]
 [s0; used in place of color designates transparent color.&]
-[s6;:2`_3: 2.3 Basic QTF codes&]
+[s6;:2`_3: [@(128.128.0) 2.3 Базовые коды QTF]&]
 [s5; Basic QTF codes are:&]
 [s0; &]
 [ {{2003:7997<96;>96; [s0; [C@(128.0.255) `_]]
@@ -179,10 +174,11 @@ umber][@(128.0.255) )]&]
 :: [s0; New paragraph.]
 :: [s0; [C@(128.0.255) `-`|]]
 :: [s0; Tabulator]
-:: [s0;%- [%%C@(128.0.255) `@`$][%%*C@(0.0.255) hex][C@(128.0.255) ;]]
+:: [s0;%- [%RU-RUC@(128.0.255) `@`$][%RU-RU*C@(0.0.255) hex][C@(128.0.255) ;]]
 :: [s0; Unicode character as hexadecimal number.]}}&]
 [s0; &]
-[s6;:2`_4: 2.4 Character and paragraph formatting&]
+[s6;:2`_4: [@(128.128.0) 2.4 Форматирование символов 
+и параграфов]&]
 [s0; &]
 [s0; Character and paragraph formatting starts with&]
 [s0;@(128.0.255) &]
@@ -442,7 +438,7 @@ QTF representing header/footer. This QTF can contain field[@5
 `{:VALUE:PAGENUMBER:`} ]to represent page number and[@5  `{:VALUE:PAGECOUNT:`}] 
 to represent total number of pages.]}}&]
 [s0; &]
-[s6;:2`_5: 2.5 Styles&]
+[s6;:2`_5: [@(128.128.0) 2.5 Стили]&]
 [s5; Paragraph styles are defined using normal character/paragraph 
 formatting sequence with&]
 [s0; &]
@@ -469,7 +465,7 @@ paragraph format command code.]}}&]
 [s0; &]
 [s0; [C@3 `"`[`*/`+117 `$`$2,0#07143242482611002448121871408047:title`]`"]&]
 [s0;@(0.0.255) &]
-[s6;:2`_6: 2.6 Objects&]
+[s6;:2`_6: [@(128.128.0) 2.6 Объекты]&]
 [s0;@(0.0.255) &]
 [s0; Object plays the role of the single character and is displayed 
 according to its type. It is started with a header in the form&]
@@ -514,14 +510,14 @@ Data are encoded in 7 byte groups, which corresponds to 8 bytes
 of encoded format. First byte of this 8 bytes block always contains 
 eight bits of following bytes, LSB (that is bit 0) being the 
 eight bit for first byte in block. [/ This format is deprecated.]&]
-[s6;:2`_7: 2.7 iml format&]
+[s6;:2`_7: [@(128.128.0) 2.7 Формат iml]&]
 [s5; iml format is  text format of rich object where text data reference 
 existing .iml based Image as pair [@(0.0.255) iml`_class`_name]:[@(0.0.255) image`_nam
 e]. Example of full object definition in iml format:&]
 [s0; &]
 [s0; [*C@3 `"`@`@iml:400`*400``CtrlImg:exclamation```"]&]
 [s0;@(0.0.255) &]
-[s6;:2`_8: 2.8 Fields&]
+[s6;:2`_8: [@(128.128.0) 2.8 Поля]&]
 [s0;@(0.0.255) &]
 [s0; Fields are special elements of text that are evaluated by client 
 code into rich text. QTF format for fields is&]
@@ -536,7 +532,7 @@ derived instances and registred using RichPara`::Register function.]
 :: [s0; Additional string parameter that gets passed to FieldType`::Evaluate 
 method]}}&]
 [s0;@(128.0.255) &]
-[s6;:2`_9: 2.9 Tables&]
+[s6;:2`_9: [@(128.128.0) 2.9 Таблицы]&]
 [s5; Table definition starts with&]
 [s0;3 &]
 [s0; [@(128.0.255) `{`{]&]
@@ -647,7 +643,7 @@ in dots.]
 ::= [s0; NOP  separator. In some cases it helps to separate command code.]
 ::^ [s0; [C@(128.0.255) P]]
 ::= [s0; Page break before table.]
-::^ [s0;%- [%%C@(128.0.255) T][/C@(0.0.255) qtf][C@(128.0.255) `^`^][/C@(0.0.255) qtf][C@(128.0.255) `^
+::^ [s0;%- [%RU-RUC@(128.0.255) T][/C@(0.0.255) qtf][C@(128.0.255) `^`^][/C@(0.0.255) qtf][C@(128.0.255) `^
 `^]]
 :: [s0; New text header  / footer, [%-/C@(0.0.255) qtf] is complete embeded 
 QTF representing header/footer. This QTF can contain field[@5  
@@ -657,7 +653,7 @@ to represent total number of pages.]}}&]
 previous QTF version) that is based on [@(128.0.255) `+`+ ]pair 
 as table start/stop and [@(128.0.255) `|`| `-`-] to divide cells/lines. 
 &]
-[s6;:2`_10: 2.10 Global Header and Footer&]
+[s6;:2`_10: [@(128.128.0) 2.10 Глобальные Header и Footer]&]
 [s5; Global text header is defined using [%-C@(128.0.255) `^H][%-/C@(0.0.255) qtf`_text][%-C@(128.0.255) `^
 `^], footer [%-C@(128.0.255) `^F][%-/C@(0.0.255) qtf`_text][%-C@(128.0.255) `^`^], 
 where [%-/C@(0.0.255) qtf`_text] is complete embeded QTF representing 
@@ -665,7 +661,7 @@ header/footer. This QTF can contain field[@5  `{:VALUE:PAGENUMBER:`}
 ]to represent page number and[@5  `{:VALUE:PAGECOUNT:`}] to represent 
 total number of pages. Global page header and footer can be changed 
 by paragraph attributes.&]
-[s4;:3: 3. Examples&]
+[s4;:3: [@5 3. Примеры]&]
 [s0; &]
 [ {{10000 [s0; [*C@3;1 `"Normal `[`* bold`] `[/ italic`] `[`_ underline`] `[`` 
 superscript`] `[, subscript`]`"]]
@@ -693,7 +689,7 @@ superscript`] `[, subscript`]`"]]
 :: [s0; [@4 Green text] [$(255.220.200) Pink background]]}}&]
 [s0; &]
 [ {{10000 [s0; [*C@3;1 `"`[%EN`-US English language`] `[%CS`-CZ Czech language`]`"]]
-:: [s0;%CS-CZ [%% English language ]Czech language]}}&]
+:: [s0;%CS-CZ [%RU-RU English language ]Czech language]}}&]
 [s0; &]
 [ {{10000 [s0; [*C@3;1 `"`[`^upp.sf.net`^ Hyperlink`] `[Icompiler, linker; Index 
 entry`]`"]]
@@ -802,5 +798,5 @@ tab`-`|Right tab`]`"]]
 [s0;*_@3%- &]
 [s0;3%- &]
 [ {{10000 [s0;%- [*C@3;1 `"`{`{1`~a30/50o Round border`}`}`"]]
-:: [ {{10000f0;Kg0;l30/50r30/50t30/50b30/50o [s0;%- Round border]}}]}}&]
+:: [ {{10000f0;Kg0;l30/50r30/50t30/50b30/50o [s0;%- Круглый бордюр]}}]}}&]
 [s0;*_@3%- ]]

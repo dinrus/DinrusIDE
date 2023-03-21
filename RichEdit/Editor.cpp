@@ -695,7 +695,7 @@ RichEdit::RichEdit()
 
 	gotolabel.SetMonoImage(RichEditImg::GoTo());
 	label.AddFrame(gotolabel);
-	gotolabel.Tip(t_("Перети к ярлыку"));
+	gotolabel.Tip(t_("Перейти к ярлыку"));
 	gotolabel <<= THISBACK(GotoLbl);
 	gotolabel.NoWantFocus();
 

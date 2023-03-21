@@ -327,7 +327,7 @@ static int ParseSect1 (sInt4 *is1, sInt4 ns1, grib_MetaData *meta)
    if (((meta->pds2.mstrVersion < 1) || (meta->pds2.mstrVersion > 3)) ||
        (meta->pds2.lclVersion > 1)) {
       if (meta->pds2.mstrVersion == 0) {
-         printf ("Warning: Master table version == 0, was experimental\n"
+         printf ("Предупреждение: Master table version == 0, was experimental\n"
                  "I don't have a copy, and don't know where to get one\n"
                  "Use meta data at your own risk.\n");
       } else {
@@ -1287,7 +1287,7 @@ static int ParseSect4 (sInt4 *is4, sInt4 ns4, grib_MetaData *meta)
                return -1;
             }
             meta->pds2.sect4.numInterval = numInterval;
-            printf ("Warning: in call to ParseTime from ParseSect4\n%s", msg);
+            printf ("Предупреждение: in call to ParseTime from ParseSect4\n%s", msg);
             free (msg);
             meta->pds2.sect4.validTime = (time_t) (meta->pds2.refTime +
                                                    meta->pds2.sect4.foreSec);
@@ -1350,7 +1350,7 @@ static int ParseSect4 (sInt4 *is4, sInt4 ns4, grib_MetaData *meta)
                return -1;
             }
             meta->pds2.sect4.numInterval = numInterval;
-            printf ("Warning: in call to ParseTime from ParseSect4\n%s", msg);
+            printf ("Предупреждение: in call to ParseTime from ParseSect4\n%s", msg);
             free (msg);
             meta->pds2.sect4.validTime = (time_t) (meta->pds2.refTime +
                                                    meta->pds2.sect4.foreSec);
@@ -1406,7 +1406,7 @@ static int ParseSect4 (sInt4 *is4, sInt4 ns4, grib_MetaData *meta)
                return -1;
             }
             meta->pds2.sect4.numInterval = numInterval;
-            printf ("Warning: in call to ParseTime from ParseSect4\n%s", msg);
+            printf ("Предупреждение: in call to ParseTime from ParseSect4\n%s", msg);
             free (msg);
             meta->pds2.sect4.validTime = (time_t) (meta->pds2.refTime +
                                                    meta->pds2.sect4.foreSec);
@@ -1463,7 +1463,7 @@ static int ParseSect4 (sInt4 *is4, sInt4 ns4, grib_MetaData *meta)
                return -1;
             }
             meta->pds2.sect4.numInterval = numInterval;
-            printf ("Warning: in call to ParseTime from ParseSect4\n%s", msg);
+            printf ("Предупреждение: in call to ParseTime from ParseSect4\n%s", msg);
             free (msg);
             meta->pds2.sect4.validTime = (time_t) (meta->pds2.refTime +
                                                    meta->pds2.sect4.foreSec);
@@ -1535,7 +1535,7 @@ static int ParseSect4 (sInt4 *is4, sInt4 ns4, grib_MetaData *meta)
                return -1;
             }
             meta->pds2.sect4.numInterval = numInterval;
-            printf ("Warning: in call to ParseTime from ParseSect4\n%s", msg);
+            printf ("Предупреждение: in call to ParseTime from ParseSect4\n%s", msg);
             free (msg);
             meta->pds2.sect4.validTime = (time_t) (meta->pds2.refTime +
                                                    meta->pds2.sect4.foreSec);

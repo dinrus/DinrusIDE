@@ -1,7 +1,8 @@
-topic "Cameleon Rendering & Creating own chameleonized Ctrl's";
+topic "Cameleon Rendering & Создание своих хамелоенизированных контролов";
 [ $$0,0#00000000000000000000000000000000:Default]
 [{_}%RU-RU 
-[s0; [*R6 Cameleon Rendering `& Creating own chameleonized Ctrl`'s]&]
+[s0; [*R@5;6 Cameleon Rendering `& Создание своих хамелоенизир
+ованных контролов]&]
 [s0; &]
 [s0; [2 Ultimate`+`+ uses a key feature to yield almost identical look 
 on target platforms. It is called `'Chameleon`' and was meant 
@@ -227,4 +228,4 @@ the uppsrc :)]&]
 underlying code ][/2 is][2  complicated so it`'s difficult to work 
 out documentation.]&]
 [s0;2 &]
-[s0; ]
+[s0; ]]

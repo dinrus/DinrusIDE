@@ -179,7 +179,7 @@ String RichQtfParser::GetText2(int delim1, int delim2) {
 int RichQtfParser::ReadNumber()
 {
 	if(!IsDigit(*term))
-		Error("Expected number");
+		Error("Ожидалось число");
 	return GetNumber();
 }
 
@@ -352,7 +352,7 @@ void RichQtfParser::Error(const char *s) {
 	(Font&) ef = Arial(84).Bold().Underline();
 	ef.ink = Red;
 	WString e;
-	e << "ERROR: " << s;
+	e << "ОШИБКА: " << s;
 	if(*term)
 		e << ": " << Filter(String(term, min<int>((int)strlen(term), 20)), NoLow).ToWString();
 	else
@@ -376,7 +376,7 @@ void RichQtfParser::FlushStyles()
 RichTable& RichQtfParser::Table()
 {
 	if(table.GetCount() == 0)
-		Error("Not in table");
+		Error("Нет в таблице");
 	return table.Top().table;
 }
 
@@ -398,7 +398,7 @@ void RichQtfParser::TableFormat(bool bw)
 		}
 		else
 		if(*term == '\0')
-			Error("Unexpected end of text in cell format");
+			Error("Неожиданный конец текста в формате ячейки");
 		else
 		switch(*term++) {
 		case ' ':
@@ -452,7 +452,7 @@ void RichQtfParser::TableFormat(bool bw)
 		case '+':
 		case '|': t.vspan = GetNumber(); break;
 		default:
-			Error("Неверное cell format");
+			Error("Неверный формат ячейки");
 		}
 	}
 }
@@ -518,7 +518,7 @@ void RichQtfParser::FinishOldTable()
 	}
 	Vector<int> h = pos.PickKeys();
 	if(h.GetCount() == 0)
-		Error("table");
+		Error("таблица");
 	Sort(h);
 	pos = pick(h);
 	pos.Add(10000);
@@ -593,7 +593,7 @@ void RichQtfParser::Parse(const char *qtf, int _accesskey)
 			for(;;) {
 				int c = *term;
 				if(!c)
-					Error("Unexpected end of text");
+					Error("Неожиданный конец текста");
 				term++;
 				if(c == ' ' || c == '\n') break;
 				switch(c) {
@@ -644,7 +644,7 @@ void RichQtfParser::Parse(const char *qtf, int _accesskey)
 				case '.': {
 					int n = GetNumber();
 					if(n >= Font::GetFaceCount())
-						Error("Неверное face number");
+						Error("Неверный номер фаса");
 					format.Face(n); break;
 				}
 				case '!': {
@@ -765,7 +765,7 @@ void RichQtfParser::Parse(const char *qtf, int _accesskey)
 						else {
 							int c = *term++;
 							if(!c)
-								Error("Unexpected end of text");
+								Error("Неожиданный конец текста");
 							format.bullet =
 							                c == '1' ? RichPara::BULLET_ROUNDWHITE :
 							                c == '2' ? RichPara::BULLET_BOX :
@@ -776,7 +776,7 @@ void RichQtfParser::Parse(const char *qtf, int _accesskey)
 						break;
 					case 'p':
 						switch(*term++) {
-						case 0:   Error("Unexpected end of text");
+						case 0:   Error("Неожиданный конец текста");
 						case 'h': format.linespacing = RichPara::LSP15; break;
 						case 'd': format.linespacing = RichPara::LSP20; break;
 						case 'w': format.linespacing = RichPara::LSP115; break;
@@ -831,12 +831,12 @@ void RichQtfParser::Parse(const char *qtf, int _accesskey)
 				fstack.Drop();
 			}
 			else
-				Error("Unmatched ']'");
+				Error("Беспарная ']'");
 		}
 		else
 		if(Key2('{')) {
 			if(oldtab)
-				Error("{{ in ++ table");
+				Error("{{ в ++ таблица");
 			if(text.GetLength() || paragraph.GetCount())
 				EndPart();
 			table.Add();
@@ -946,7 +946,7 @@ void RichQtfParser::Parse(const char *qtf, int _accesskey)
 				while(isxdigit(*term))
 					xu.Cat(*term++);
 				if(xu.GetLength() != 32)
-					Error("Неверное UUID !");
+					Error("Неверный UUID !");
 				id = ScanUuid(xu);
 			}
 			else
@@ -1017,7 +1017,7 @@ void RichQtfParser::Parse(const char *qtf, int _accesskey)
 						if(ok)
 							Cat(c);
 						else
-							Error("Неверное UTF-8 sequence");
+							Error("Неверная цепочка UTF-8");
 					}
 					else
 						Cat(ToUnicode((byte)*term++, format.charset));

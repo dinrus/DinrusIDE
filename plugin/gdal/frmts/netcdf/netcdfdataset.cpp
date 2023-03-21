@@ -5405,7 +5405,7 @@ netCDFDataset::CreateCopy( const char * pszFilename, GDALDataset *poSrcDS,
             // if nBands != #bands computed raise a warning
             // just issue a debug message, because it was probably intentional
             CPLDebug( "GDAL_netCDF",
-                      "Warning: Number of bands (%d) is not compatible with dimensions "
+                      "Предупреждение: Number of bands (%d) is not compatible with dimensions "
                       "(total=%ld names=%s)", nBands, (long)nDimSizeTot,
                       poSrcDS->GetMetadataItem("NETCDF_DIM_EXTRA","") );
             CSLDestroy( papszExtraDimNames );

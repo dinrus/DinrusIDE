@@ -341,7 +341,7 @@ void openglsupport_test_loop()
       VERIFY_MATRIX(glScale(usd), Projective3d(usd).matrix());
     }
   } else {
-    std::cerr << "Warning: fixed-function pipeline was not tested.\n";
+    std::cerr << "Предупреждение: fixed-function pipeline was not tested.\n";
   }
 
   // Dynamic shader substitution variables.
@@ -396,7 +396,7 @@ void openglsupport_test_loop()
         glsl_vars, glsl_vals);
 
       GLint prg_id = createProgram(vtx, frg);
-      VERIFY(prg_id > 0 && "Failed to create program.");
+      VERIFY(prg_id > 0 && "Не удалось создать программу.");
       VERIFY_UNIFORM(fv, v2f, Vector2f);
       VERIFY_UNIFORM(fv, v3f, Vector3f);
       VERIFY_UNIFORM(fv, v4f, Vector4f);
@@ -410,7 +410,7 @@ void openglsupport_test_loop()
     }
     else
 #endif
-      std::cerr << "Warning: opengl 2.0 was not tested.\n";
+      std::cerr << "Предупреждение: opengl 2.0 не тестировался.\n";
 
 #ifdef GL_VERSION_2_1
     if(GLEW_VERSION_2_1 && GL_VERSION_2_1 &&
@@ -431,7 +431,7 @@ void openglsupport_test_loop()
         glsl_vars, glsl_vals);
 
       GLint prg_id = createProgram(vtx, frg);
-      VERIFY(prg_id > 0 && "Failed to create program.");
+      VERIFY(prg_id > 0 && "Не удалось создать программу.");
       typedef Matrix<float,2,3> Matrix23f;
       typedef Matrix<float,3,2> Matrix32f;
       typedef Matrix<float,2,4> Matrix24f;
@@ -449,7 +449,7 @@ void openglsupport_test_loop()
     }
     else
 #endif
-      std::cerr << "Warning: opengl 2.1 was not tested.\n";
+      std::cerr << "Предупреждение: opengl 2.1 не тестировался.\n";
 
 #ifdef GL_VERSION_3_0
     if(GLEW_VERSION_3_0 && GL_VERSION_3_0 && gl_major_version >= 3)
@@ -466,7 +466,7 @@ void openglsupport_test_loop()
         glsl_vars, glsl_vals);
 
       GLint prg_id = createProgram(vtx, frg);
-      VERIFY(prg_id > 0 && "Failed to create program.");
+      VERIFY(prg_id > 0 && "Не удалось создать программу.");
       typedef Matrix<unsigned int,2,1> Vector2ui;
       typedef Matrix<unsigned int,3,1> Vector3ui;
       typedef Matrix<unsigned int,4,1> Vector4ui;
@@ -478,7 +478,7 @@ void openglsupport_test_loop()
     }
     else
 #endif
-      std::cerr << "Warning: opengl 3.0 was not tested.\n";
+      std::cerr << "Предупреждение: opengl 3.0 не тестировался.\n";
 
     // dvecn supported if >= 4.1 or ARB_vertex_attrib_64bit
     bool has_fp64_native = (gl_major_version == 4 && gl_minor_version >= 1);
@@ -535,14 +535,14 @@ void openglsupport_test_loop()
         glsl_vars_with_extension, glsl_vals_with_extension);
 
       GLint prg_id = createProgram(vtx,frg);
-      VERIFY(prg_id > 0 && "Failed to create program.");
+      VERIFY(prg_id > 0 && "Не удалось создать программу.");
       VERIFY_UNIFORM(dv, v2d, Vector2d);
       VERIFY_UNIFORM(dv, v3d, Vector3d);
       VERIFY_UNIFORM(dv, v4d, Vector4d);
       glDeleteProgram(prg_id);
     }
     else
-      std::cerr << "Warning: dvec (fp64) was not tested.\n";
+      std::cerr << "Предупреждение: dvec (fp64) не тестировался.\n";
   }
 
   // Exit loop - Leaving main loop is supported by freeglut, otherwise we
@@ -581,14 +581,14 @@ EIGEN_DECLARE_TEST(openglsupport)
   int window = glutCreateWindow("Eigen");
   if(window <= 0)
   {
-    std::cerr << "Error: Unable to create GLUT Window.\n";
+    std::cerr << "Ошибка: Не удаётся создать окно GLUT.\n";
     exit(1);
   }
 
   glewExperimental = GL_TRUE;
   if(glewInit() != GLEW_OK)
   {
-    std::cerr << "Warning: Failed to initialize GLEW.\n";
+    std::cerr << "Предупреждение: Не удалось инициализировать GLEW.\n";
     exit(1);
   }
 

@@ -35,8 +35,7 @@ Color CSyntax::BlockColor(int level)
 	return GetHlStyle(PAPER_NORMAL).color;
 }
 //
-void CSyntax::Bracket(int64 pos, HighlightOutput& hls, CodeEditor *editor)
- // СДЕЛАТЬ:SYNTAX: Cleanup passing bracket info
+void CSyntax::Bracket(int64 pos, HighlightOutput& hls, CodeEditor *editor) // TODO:SYNTAX: Cleanup passing bracket info
 {
 	if(!editor)
 		return;
@@ -55,15 +54,20 @@ void CSyntax::Bracket(int64 pos, HighlightOutput& hls, CodeEditor *editor)
 const wchar *HighlightNumber(HighlightOutput& hls, const wchar *p, bool ts, bool octal, bool css)
 {
 	int c = octal ? HighlightSetup::INK_CONST_OCT : HighlightSetup::INK_CONST_INT;
+	auto SkipDigits = [&] {
+		while(IsDigit(*p) || *p == '\'')
+			if(*p++ == '\'')
+				ts = false;
+	};
 	const wchar *t = p;
-	while(IsDigit(*p)) p++;
+	SkipDigits();
 	int fixdigits = int(p - t);
 	bool u = false;
 	if(*p == '.') {
 		c = HighlightSetup::INK_CONST_FLOAT;
 		p++;
 	}
-	while(IsDigit(*p)) p++;
+	SkipDigits();
 	if(*p == 'e' || *p == 'E') {
 		c = HighlightSetup::INK_CONST_FLOAT;
 		p++;
@@ -124,7 +128,7 @@ const wchar *CSyntax::DoComment(HighlightOutput& hls, const wchar *p, const wcha
 	hls.SetFlags(n, flags);
 	static WString todo = "СДЕЛАТЬ";
 	static WString fixme = "ИСПРАВИТЬ";
-	if(w.GetCount() >= 6 && w.GetCount() <= 9 && findarg(w, todo, fixme) >= 0)
+	if(w.GetCount() >= 4 && w.GetCount() <= 5 && findarg(w, todo, fixme) >= 0)
 		hls.Put(n, hl_style[INK_COMMENT_WORD], hl_style[PAPER_COMMENT_WORD]);
 	else
 		hls.Put(n, hl_style[INK_COMMENT]);
@@ -159,11 +163,11 @@ void CSyntax::Highlight(const wchar *ltext, const wchar *e, HighlightOutput& hls
 	ONCELOCK {
 		InitKeywords();
 	}
-	
+
 	bool include = false;
-	
+
 	int tabsize = editor ? editor->GetTabSize() : 4;
-	
+
 	LTIMING("HighlightLine");
 	if(highlight < 0 || highlight >= keyword.GetCount())
 		return;
@@ -171,16 +175,16 @@ void CSyntax::Highlight(const wchar *ltext, const wchar *e, HighlightOutput& hls
 	next.Set(Get());
 	next.ScanSyntax(ltext, e, line + 1, tabsize);
 	bool macro = next.macro != MACRO_OFF;
-	
+
 	int linelen = int(e - ltext);
 	const wchar *p = ltext;
-	
+
 	for(const wchar *ms = p; ms < e; ms++)
 		if(*ms != ' ' && *ms != '\t') {
 			macro = macro || *ms == '#';
 			break;
 		}
-	
+
 	Grounding(p, e);
 	if(highlight == HIGHLIGHT_CALC) {
 		if(editor && line == editor->GetLineCount() - 1 || *p == '$')

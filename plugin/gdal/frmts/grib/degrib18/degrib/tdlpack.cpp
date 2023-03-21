@@ -232,10 +232,10 @@ static int ReadTDLPSect1 (uChar *pds, sInt4 tdlpLen, sInt4 *curLoc,
    project_hr = GRIB_UNSIGN_INT2 (*pds, pds[1]);
    tau = pdsMeta->ID3 - ((pdsMeta->ID3 / 1000) * 1000);
    if (tau != project_hr) {
-      printf ("Warning: Inconsistent Projections in hours in "
+      printf ("Предупреждение: Inconsistent Projections in hours in "
               "ReadTDLPSect1 (%d vs %d)\n", tau, project_hr);
 /*
-      errSprintf ("Warning: Inconsistent Projections in hours in "
+      errSprintf ("Предупреждение: Inconsistent Projections in hours in "
                   "ReadTDLPSect1 (%ld vs %d)\n", tau, project_hr);
 */
       project_hr = tau;
@@ -3692,7 +3692,7 @@ static void GroupIt (sInt4 OverallMin, sInt4 *Data, size_t numData,
                                      f_secMiss + f_primMiss);
                myAssert (G.bit != 0);
                if ((G.min == 0) && (G.bit == 0) && (f_primMiss == 1)) {
-                  printf ("Warning: potential confusion between const value "
+                  printf ("Предупреждение: potential confusion between const value "
                           "and prim-missing.\n");
                   G.bit = 1;
                }
@@ -3736,7 +3736,7 @@ static void GroupIt (sInt4 OverallMin, sInt4 *Data, size_t numData,
                                f_secMiss + f_primMiss);
          myAssert (G.bit != 0);
          if ((G.min == 0) && (G.bit == 0) && (f_primMiss == 1)) {
-            printf ("Warning: potential confusion between const value and "
+            printf ("Предупреждение: potential confusion between const value and "
                     "prim-missing.\n");
             G.bit = 1;
          }

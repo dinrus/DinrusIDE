@@ -591,7 +591,7 @@ void Ide::SyncErrorsMessage()
 	else  {
 		h = "\1[g Сообщение";
 		if(error_count)
-			cnt << "[*@r " << error_count  << (error_count > 1 ? " ошибки] " : " ошибка] ");
+			cnt << "[*@r " << error_count  << (error_count > 1 ? " ошибок] " : " ошибка] ");
 		if(warning_count) {
 			if(error_count)
 				cnt << ", ";

@@ -802,9 +802,9 @@ END_LAYOUT
 
 LAYOUT(QtfLayout, 356, 236)
 	ITEM(Upp::DocEdit, text, HSizePosZ(0, 0).VSizePosZ(24, 0))
-	ITEM(Upp::Button, editor, SetLabel(t_("Редактор")).Tip(t_("Open rich text editor and upon close insert created QTF..")).RightPosZ(0, 56).TopPosZ(0, 20))
-	ITEM(Upp::Button, clear, SetLabel(t_("Очистить")).Tip(t_("Clear QTF input")).RightPosZ(60, 56).TopPosZ(0, 20))
-	ITEM(Upp::Button, copy, SetLabel(t_("Копировать и закрыть")).Tip(t_("Copy QTF input to clipboard and close designer")).RightPosZ(120, 136).TopPosZ(0, 20))
+	ITEM(Upp::Button, editor, SetLabel(t_("Редактор")).Tip(t_("Открыть редактор рич-текста и по закрытию вставить созданный QTF..")).RightPosZ(0, 56).TopPosZ(0, 20))
+	ITEM(Upp::Button, clear, SetLabel(t_("Очистить")).Tip(t_("Очистить ввод QTF")).RightPosZ(60, 56).TopPosZ(0, 20))
+	ITEM(Upp::Button, copy, SetLabel(t_("Копировать и закрыть")).Tip(t_("Скопировать ввод QTF в буфер обмена и закрыть редактор")).RightPosZ(120, 136).TopPosZ(0, 20))
 END_LAYOUT
 
 LAYOUT(JumpLayout, 692, 496)

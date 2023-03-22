@@ -14,79 +14,95 @@ topic "Ctrl";
 [s3;%- &]
 [s1;:Ctrl`:`:class:%- [@(0.0.255)3 class][3 _][*3 Ctrl][3 _:_][@(0.0.255)3 public][3 _][*@3;3 Pte][3 <
 ][*3 Ctrl][3 >_]&]
-[s9; (Derivation from Pte<Ctrl> allows Ctrl to be pointed to by Ptr<Ctrl>&]
+[s9; (Произведение от Pte<Ctrl> позволяет 
+указывать на Ctrl с помощью Ptr<Ctrl>&]
 [s0; &]
-[s0; This the base class of GUI widgets hierarchy (that is why U`+`+ 
-widgets are also named `"Ctrls`").&]
+[s0; Это класс`-основание всей иерархии 
+ГИП`-виджетов (поэтому виджеты U`+`+ 
+иначе называют `"Ctrls`").&]
 [s3; &]
 [s0;%- &]
-[ {{10000F(128)G(128)@1 [s0; [* Public Member List]]}}&]
+[ {{10000F(128)G(128)@1 [s0; [* Список Публичных Членов]]}}&]
 [s3; &]
 [s0;%- enum_[* PlacementConstants]&]
-[s2;b17;a17; Constants used in logical coordinates.&]
-[s7;i1120;a17;:Ctrl`:`:CENTER: [%-*C@3 CENTER]-|Center alignment.&]
-[s7;i1120;a17;:Ctrl`:`:LEFT: [%-*C@3 LEFT]-|Left alignment.&]
-[s7;i1120;a17;:Ctrl`:`:RIGHT: [%-*C@3 RIGHT]-|Right alignment.&]
-[s7;i1120;a17;:Ctrl`:`:TOP: [%-*C@3 TOP]-|Equal to LEFT (better name 
-for vertical coordinate).&]
-[s7;i1120;a17;:Ctrl`:`:BOTTOM: [%-*C@3 BOTTOM]-|Equal to RIGHT (better 
-name for vertical coordinate)&]
-[s7;i1120;a17;:Ctrl`:`:SIZE: [%-*C@3 SIZE]-|Size alignment.&]
-[s7;i1120;a17;:Ctrl`:`:MINSIZE: [%-*C@3 MINSIZE]-|Value is determined 
-using GetMinSize.&]
-[s7;i1120;a17;:Ctrl`:`:MAXSIZE: [%-*C@3 MAXSIZE]-|Value is determined 
-using GetMaxSize.&]
-[s7;i1120;a17;:Ctrl`:`:STDSIZE: [%-*C@3 STDSIZE]-|Value is determined 
-using Get&]
+[s2;b17;a17; Константы, используемые в логических 
+координатах.&]
+[s7;i1120;a17;:Ctrl`:`:CENTER: [%-*C@3 CENTER]-|Расположение 
+по центру.&]
+[s7;i1120;a17;:Ctrl`:`:LEFT: [%-*C@3 LEFT]-|Расположение 
+слева.&]
+[s7;i1120;a17;:Ctrl`:`:RIGHT: [%-*C@3 RIGHT]-|Расположение 
+справа.&]
+[s7;i1120;a17;:Ctrl`:`:TOP: [%-*C@3 TOP]-|Равно LEFT (лучше 
+подходит для вертикальной координаты).&]
+[s7;i1120;a17;:Ctrl`:`:BOTTOM: [%-*C@3 BOTTOM]-|Равно RIGHT (лучшее 
+имя для вертикальной координаты)&]
+[s7;i1120;a17;:Ctrl`:`:SIZE: [%-*C@3 SIZE]-|Расположение 
+по размеру.&]
+[s7;i1120;a17;:Ctrl`:`:MINSIZE: [%-*C@3 MINSIZE]-|Значение определяетс
+я с помощью GetMinSize.&]
+[s7;i1120;a17;:Ctrl`:`:MAXSIZE: [%-*C@3 MAXSIZE]-|Значение определяетс
+я с помощью GetMaxSize.&]
+[s7;i1120;a17;:Ctrl`:`:STDSIZE: [%-*C@3 STDSIZE]-|Значение определяетс
+я с помощью Get&]
 [s3; &]
 [s4; &]
 [s0;%- enum_[* StateReason]&]
-[s2;b17;a17; Arguments of State virtual method.&]
-[s7;i1120;a17;:Ctrl`:`:FOCUS: [%-*C@3 FOCUS]-|Ctrl got/lost focus.&]
-[s7;i1120;a17;:Ctrl`:`:ACTIVATE: [%-*C@3 ACTIVATE]-|Ctrl was activated.&]
-[s7;i1120;a17;:Ctrl`:`:DEACTIVATE: [%-*C@3 DEACTIVATE]-|Ctrl was deactivated.&]
-[s7;i1120;a17;:Ctrl`:`:SHOW: [%-*C@3 SHOW]-|Ctrl visibility changed.&]
-[s7;i1120;a17;:Ctrl`:`:ENABLE: [%-*C@3 ENABLE]-|Ctrl was enabled/disable.&]
-[s7;i1120;a17;:Ctrl`:`:EDITABLE: [%-*C@3 EDITABLE]-|Ctrl editable status 
-changed.&]
-[s7;i1120;a17;:Ctrl`:`:OPEN: [%-*C@3 OPEN]-|Ctrl was open (its top`-level 
-Ctrl was open on screen).&]
-[s7;i1120;a17;:Ctrl`:`:CLOSE: [%-*C@3 CLOSE]-|Ctrl was closed (its top`-level 
-Ctrl was closed).&]
+[s2;b17;a17; Аргументы виртуального метода 
+State.&]
+[s7;i1120;a17;:Ctrl`:`:FOCUS: [%-*C@3 FOCUS]-|Ctrl получил/потерял 
+фокус.&]
+[s7;i1120;a17;:Ctrl`:`:ACTIVATE: [%-*C@3 ACTIVATE]-|Ctrl активирован.&]
+[s7;i1120;a17;:Ctrl`:`:DEACTIVATE: [%-*C@3 DEACTIVATE]-|Ctrl дезактивирован
+.&]
+[s7;i1120;a17;:Ctrl`:`:SHOW: [%-*C@3 SHOW]-|Видимость Ctrl 
+изменена.&]
+[s7;i1120;a17;:Ctrl`:`:ENABLE: [%-*C@3 ENABLE]-|Ctrl включен/отключен.&]
+[s7;i1120;a17;:Ctrl`:`:EDITABLE: [%-*C@3 EDITABLE]-|Статус редактируемо
+сти Ctrl изменён.&]
+[s7;i1120;a17;:Ctrl`:`:OPEN: [%-*C@3 OPEN]-|Ctrl открыт (его 
+верхнеуровневый Ctrl открыт на экране).&]
+[s7;i1120;a17;:Ctrl`:`:CLOSE: [%-*C@3 CLOSE]-|Ctrl закрыт (его 
+верхнеуровневый Ctrl закрыт).&]
 [s3; &]
 [s4; &]
 [s0;%- enum_[* MouseEvents]&]
-[s2;b17;a17; Constants that make up [*/ event] argument of [*/ MouseEvent] 
-and [*/ FrameMouseEvent] virtual methods. Value is combination 
-of button and action bit fields.&]
+[s2;b17;a17; Константы, составляющие аргумент 
+[*/ события ]виртуальных методов [*/ MouseEvent] 
+и [*/ FrameMouseEvent]. Значение является сочетанием 
+бит`-полей кнопки и действия.&]
 [s2;b17;a17; &]
-[s0;l160; [* Field masks]&]
-[s7;i1120;a17;:Ctrl`:`:BUTTON: [%-*C@3 BUTTON]-|Mask for button field.&]
-[s7;i1120;a17;:Ctrl`:`:ACTION: [%-*C@3 ACTION]-|Mask for action field. 
-&]
+[s0;l160; [* Маски полей]&]
+[s7;i1120;a17;:Ctrl`:`:BUTTON: [%-*C@3 BUTTON]-|Маска для поля 
+кнопки.&]
+[s7;i1120;a17;:Ctrl`:`:ACTION: [%-*C@3 ACTION]-|Маска для поля 
+действия. &]
 [s0; &]
-[s0;l160; [* Actions]&]
-[s7;i1120;a17;:Ctrl`:`:MOUSEENTER: [%-*C@3 MOUSEENTER]-|Mouse entered 
+[s0;l160; [* Действия]&]
+[s7;i1120;a17;:Ctrl`:`:MOUSEENTER: [%-*C@3 MOUSEENTER]-|Мышь вошла 
+в Ctrl.&]
+[s7;i1120;a17;:Ctrl`:`:MOUSEMOVE: [%-*C@3 MOUSEMOVE]-|Мышь прошла 
+над Ctrl.&]
+[s7;i1120;a17;:Ctrl`:`:MOUSELEAVE: [%-*C@3 MOUSELEAVE]-|Мышь покинула 
 Ctrl.&]
-[s7;i1120;a17;:Ctrl`:`:MOUSEMOVE: [%-*C@3 MOUSEMOVE]-|Mouse moved over 
-Ctrl.&]
-[s7;i1120;a17;:Ctrl`:`:MOUSELEAVE: [%-*C@3 MOUSELEAVE]-|Mouse left Ctrl.&]
-[s7;i1120;a17;:Ctrl`:`:CURSORIMAGE: [%-*C@3 CURSORIMAGE]-|Cursor image 
-has to be determined (method should respond with image).&]
-[s7;i1120;a17;:Ctrl`:`:MOUSEWHEEL: [%-*C@3 MOUSEWHEEL]-|Mouse wheel 
-rotated.&]
-[s7;i1120;a17;:Ctrl`:`:DOWN: [%-*C@3 DOWN]-|Mouse button was pressed.&]
-[s7;i1120;a17;:Ctrl`:`:UP: [%-*C@3 UP]-|Mouse button was released.&]
-[s7;i1120;a17;:Ctrl`:`:DOUBLE: [%-*C@3 DOUBLE]-|Mouse button was double`-clicked.&]
+[s7;i1120;a17;:Ctrl`:`:CURSORIMAGE: [%-*C@3 CURSORIMAGE]-|Нужно 
+определить рисунок курсора (method should 
+respond with image).&]
+[s7;i1120;a17;:Ctrl`:`:MOUSEWHEEL: [%-*C@3 MOUSEWHEEL]-|Прокручено 
+колёсико мыши.&]
+[s7;i1120;a17;:Ctrl`:`:DOWN: [%-*C@3 DOWN]-|Кнопка мыши нажата.&]
+[s7;i1120;a17;:Ctrl`:`:UP: [%-*C@3 UP]-|Кнопка мыши отпущена.&]
+[s7;i1120;a17;:Ctrl`:`:DOUBLE: [%-*C@3 DOUBLE]-|Двойной щелчок 
+на кнопке мыши.&]
 [s7;i1120;a17;:Ctrl`:`:REPEAT: [%-*C@3 REPEAT]-|When mouse button is 
 pressed for a while, U`+`+ imitates keyboard autorepeat sending 
 this message.&]
-[s0;l160; [* Buttons] &]
+[s0;l160; [* Кнопки]&]
 [s7;i1120;a17; [%-*C@3 LEFT]-|Left button. (This constant is not defined 
 in MouseEvents, instead LEFT from Placements Constants is used).&]
 [s7;i1120;a17; [%-*C@3 RIGHT]-|Left button. (This constant is not defined 
 in MouseEvents, instead LEFT from Placements Constants is used).&]
-[s0;l160; [* Combinations]&]
+[s0;l160; [* Комбинации]&]
 [s7;i1120;a17;:Ctrl`:`:LEFTDOWN: [%-*C@3 LEFTDOWN]-|Left button pressed.&]
 [s7;i1120;a17;:Ctrl`:`:LEFTDOUBLE: [%-*C@3 LEFTDOUBLE]-|Left button 
 double pressed.&]

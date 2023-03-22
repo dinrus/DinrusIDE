@@ -72,7 +72,7 @@ intptr_t CALLBACK ProjectPanel::run_dlgProc(UINT message, WPARAM wParam, LPARAM 
 
 			SendMessage(_hToolbarMenu, TB_BUTTONSTRUCTSIZE, sizeof(TBBUTTON), 0);
 			SendMessage(_hToolbarMenu, TB_ADDBUTTONS, sizeof(tbButtons) / sizeof(TBBUTTON), reinterpret_cast<LPARAM>(&tbButtons));
-			SendMessage(_hToolbarMenu, TB_AUTOSIZE, 0, 0); 
+			SendMessage(_hToolbarMenu, TB_AUTOSIZE, 0, 0);
 			ShowWindow(_hToolbarMenu, SW_SHOW);
 
 			_treeView.init(_hInst, _hSelf, ID_PROJECTTREEVIEW);
@@ -219,7 +219,7 @@ bool ProjectPanel::checkIfNeedSave()
 void ProjectPanel::initMenus()
 {
 	_hWorkSpaceMenu = ::CreatePopupMenu();
-	
+
 	NativeLangSpeaker *pNativeSpeaker = (NppParameters::getInstance()).getNativeLangSpeaker();
 
 	String new_workspace = pNativeSpeaker->getProjectPanelLangMenuStr("WorkspaceMenu", IDM_PROJECT_NEWWS, PM_NEWWORKSPACE);
@@ -293,7 +293,7 @@ void ProjectPanel::initMenus()
 	::InsertMenu(_hFileMenu, 0, MF_BYCOMMAND, IDM_PROJECT_MODIFYFILEPATH, edit_modifyfile.Begin());
 }
 
-void ProjectPanel::destroyMenus() 
+void ProjectPanel::destroyMenus()
 {
 	::DestroyMenu(_hWorkSpaceMenu);
 	::DestroyMenu(_hProjectMenu);
@@ -321,7 +321,7 @@ bool ProjectPanel::openWorkSpace(const char *projectFileName, bool force)
 	}
 
 	TiXmlNode *root = pXmlDocProject->FirstChild(TEXT("NotepadPlus"));
-	if (!root) 
+	if (!root)
 	{
 		delete pXmlDocProject;
 		return false;
@@ -329,7 +329,7 @@ bool ProjectPanel::openWorkSpace(const char *projectFileName, bool force)
 
 
 	TiXmlNode *childNode = root->FirstChildElement(TEXT("Project"));
-	if (!childNode) 
+	if (!childNode)
 	{
 		delete pXmlDocProject;
 		return false;
@@ -381,7 +381,7 @@ bool ProjectPanel::saveWorkSpace()
 
 		setWorkSpaceDirty(false);
 		return true;
-	} 
+	}
 }
 
 bool ProjectPanel::writeWorkSpace(const char *projectFileName)
@@ -611,7 +611,7 @@ void ProjectPanel::notified(LPNMHDR notification)
 			case NM_RETURN:
 				SetWindowLongPtr(_hSelf, DWLP_MSGRESULT, 1);
 			break;
-	
+
 			case TVN_ENDLABELEDIT:
 			{
 				LPNMTVDISPINFO tvnotif = (LPNMTVDISPINFO)notification;
@@ -621,7 +621,7 @@ void ProjectPanel::notified(LPNMHDR notification)
 					return;
 
 				// Processing for only File case
-				if (tvnotif->item.lParam) 
+				if (tvnotif->item.lParam)
 				{
 					// Get the old label
 					tvItem.hItem = _treeView.getSelection();
@@ -680,7 +680,7 @@ void ProjectPanel::notified(LPNMHDR notification)
 			case TVN_KEYDOWN:
 			{
 				LPNMTVKEYDOWN ptvkd = (LPNMTVKEYDOWN)notification;
-				
+
 				if (ptvkd->wVKey == VK_DELETE)
 				{
 					HTREEITEM hItem = _treeView.getSelection();
@@ -715,7 +715,7 @@ void ProjectPanel::notified(LPNMHDR notification)
 				}
 				else if (ptvkd->wVKey == VK_F2)
 					popupMenuCmd(IDM_PROJECT_RENAME);
-				
+
 			}
 			break;
 
@@ -857,7 +857,7 @@ POINT ProjectPanel::getMenuDisplayPoint(int iButton)
 HTREEITEM ProjectPanel::addFolder(HTREEITEM hTreeItem, const char *folderName)
 {
 	HTREEITEM addedItem = _treeView.addItem(folderName, hTreeItem, INDEX_CLOSED_NODE);
-	
+
 	TreeView_Expand(_treeView.getHSelf(), hTreeItem, TVE_EXPAND);
 	TreeView_EditLabel(_treeView.getHSelf(), addedItem);
 	if (getNodeType(hTreeItem) == nodeType_folder)
@@ -876,7 +876,7 @@ bool ProjectPanel::saveWorkspaceRequest()
 					TEXT("The current workspace was modified. Do you want to save the current project?"),
 					TEXT("Open Workspace"),
 					MB_YESNOCANCEL | MB_ICONQUESTION | MB_APPLMODAL);
-				
+
 		if (res == IDYES)
 		{
 			if (!saveWorkSpace())
@@ -886,7 +886,7 @@ bool ProjectPanel::saveWorkspaceRequest()
 		{
 			// Don't save so do nothing here
 		}
-		else if (res == IDCANCEL) 
+		else if (res == IDCANCEL)
 		{
 			// User cancels action "New Workspace" so we interrupt here
 			return false;
@@ -969,7 +969,7 @@ void ProjectPanel::popupMenuCmd(int cmdID)
 				{
 					// Don't save so do nothing here
 				}
-				else if (res == IDCANCEL) 
+				else if (res == IDCANCEL)
 				{
 					// User cancels action "New Workspace" so we interrupt here
 					return;
@@ -1132,7 +1132,7 @@ void ProjectPanel::popupMenuCmd(int cmdID)
 		case IDM_PROJECT_DELETEFILE :
 		{
 			HTREEITEM parent = _treeView.getParent(hTreeItem);
-			
+
 			NativeLangSpeaker *pNativeSpeaker = (NppParameters::getInstance()).getNativeLangSpeaker();
 			int res = pNativeSpeaker->messageBox("ProjectPanelRemoveFileFromProject",
 				_hSelf,
@@ -1160,7 +1160,7 @@ void ProjectPanel::popupMenuCmd(int cmdID)
 			tvItem.mask = TVIF_TEXT | TVIF_PARAM | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
 			tvItem.pszText = textBuffer;
 			tvItem.cchTextMax = MAX_PATH;
-			
+
 			SendMessage(_treeView.getHSelf(), TVM_GETITEM, 0, reinterpret_cast<LPARAM>(&tvItem));
 			if (!tvItem.lParam)
 				return;
@@ -1258,7 +1258,7 @@ void ProjectPanel::recursiveAddFilesFrom(const char *folderPath, HTREEITEM hTree
 	Vector<String> files;
 
 	HANDLE hFile = ::FindFirstFile(dirFilter.Begin(), &foundData);
-	
+
 	do {
 		if (hFile == INVALID_HANDLE_VALUE)
 			break;
@@ -1288,7 +1288,7 @@ void ProjectPanel::recursiveAddFilesFrom(const char *folderPath, HTREEITEM hTree
 			files.push_back(foundData.cFileName);
 		}
 	} while (::FindNextFile(hFile, &foundData));
-	
+
 	for (size_t i = 0, len = files.size() ; i < len ; ++i)
 	{
 		String pathFile(folderPath);
@@ -1329,7 +1329,7 @@ void ProjectPanel::addFilesFromDirectory(HTREEITEM hTreeItem)
 	}
 }
 
-intptr_t CALLBACK FileRelocalizerDlg::run_dlgProc(UINT Message, WPARAM wParam, LPARAM) 
+intptr_t CALLBACK FileRelocalizerDlg::run_dlgProc(UINT Message, WPARAM wParam, LPARAM)
 {
 	switch (Message)
 	{
@@ -1339,7 +1339,7 @@ intptr_t CALLBACK FileRelocalizerDlg::run_dlgProc(UINT Message, WPARAM wParam, L
 			::SetDlgItemText(_hSelf, IDC_EDIT_FILEFULLPATHNAME, _fullFilePath.Begin());
 			return TRUE;
 		}
-		case WM_COMMAND : 
+		case WM_COMMAND :
 		{
 			switch (wParam)
 			{
@@ -1365,7 +1365,7 @@ intptr_t CALLBACK FileRelocalizerDlg::run_dlgProc(UINT Message, WPARAM wParam, L
 	}
 }
 
-int FileRelocalizerDlg::doDialog(const char *fn, bool isRTL) 
+int FileRelocalizerDlg::doDialog(const char *fn, bool isRTL)
 {
 	_fullFilePath = fn;
 

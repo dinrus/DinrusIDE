@@ -541,7 +541,7 @@ void Ide::DoDisplay()
 	if(h > l)
 		s << ", Выд " << h - l;
 	display.SetLabel(s);
-	
+
 	ManageDisplayVisibility();
 }
 
@@ -730,7 +730,7 @@ void Ide::DiffWith(const String& path)
 struct ConflictDiff : TopWindow {
 	Label        left, right;
 	TextDiffCtrl diff;
-	
+
 	virtual void Layout()
 	{
 		Size sz = GetSize();
@@ -746,7 +746,7 @@ struct ConflictDiff : TopWindow {
 		right = "\1[=* \1" + String(rname);
 		diff.Set(l, r);
 	}
-	
+
 	ConflictDiff() {
 		SetRect(GetWorkArea().Deflated(DPI(32)));
 		Sizeable().Zoomable();

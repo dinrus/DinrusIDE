@@ -37,5 +37,6 @@ file
 	Info readonly separator,
 	srcdoc.tpp,
 	src.tpp,
-	Copying;
+	Copying,
+	srcimp.tpp;
 

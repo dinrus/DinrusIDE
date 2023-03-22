@@ -126,9 +126,7 @@ class DoSaveAllBox : public StaticDialog
 {
 public:
 	DoSaveAllBox() = default;
-
 	void doDialog(bool isRTL = false);
-
 	virtual void destroy() {};
 
 	int getClickedButtonId() const {

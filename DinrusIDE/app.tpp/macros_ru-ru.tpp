@@ -44,24 +44,26 @@ sc языке сценариев] и помещаюься в
 файлы .usc. Файлы .usc могут быть либо 
 частью обычных пакетов, либо помещаются 
 в Общую или Локальную директорию.&]
-[s5; Macro definition in .usc file starts with header in following 
-form:&]
+[s5; Определение макроса в файле .usc начинается 
+с заголовка в следующей форме:&]
 [s0; &]
 [s7; [* macro] [*/@4 Macro`_menu][* :][*/@4 Macro`_item] [*/@4 Key]&]
 [s0; &]
-[s5; where [*/@4 Macro`_menu] and [*/@4 Macro`_item] are text literals 
-(with C syntax) and [*/@4 Key] is key description similar to those 
-shown in menus. [*/@4 Macro`_menu] with [@(0.0.255) :] and [*/@4 Key] 
-can be omitted. Macro header is followed by [^topic`:`/`/Esc`/srcdoc`/Esc`_ru`-ru^ E
-sc] body.&]
-[s5; Examples:&]
+[s5; гдк [*/@4 Macro`_menu] и [*/@4 Macro`_item] являются 
+текстовыми литералами (с синтаксисом 
+Си), а [*/@4 Key] `- описание ключа, подобное 
+тем, что показаны в меню. [*/@4 Macro`_menu] 
+с [@(0.0.255) :] и [*/@4 Key] могут быть пропущены. 
+За заголовком макроса следует тело 
+[^topic`:`/`/Esc`/srcdoc`/Esc`_ru`-ru^ Esc].&]
+[s5; Примеры:&]
 [s0; &]
-[s7; macro `"Navigation`":`"Find next `\`"TopWindow`\`"`" Ctrl`+T 
-`{&]
+[s7; macro `"Навигация`":`"Найти далее `\`"TopWindow`\`"`" 
+Ctrl`+T `{&]
 [s7; -|.Find(`"TopWindow`");&]
 [s7; `}&]
 [s7; &]
-[s7; macro `"Insert current date`" `{&]
+[s7; macro `"Вставить текущую дату`" `{&]
 [s7; -|s `= `[`];&]
 [s7; -|tm `= GetSysTime();&]
 [s7; -|s << to`_string(tm.year) << `"`-`" << to`_string(tm.month) 
@@ -88,13 +90,13 @@ of macros as a global functions.&]
 forms `- implicit that works with cursor and selection or explicit 
 with given positions.&]
 [s0; &]
-[ {{3667:6333h1;@(204) [s0; Method]
-:: [s0; Description]
+[ {{3667:6333h1;@(204) [s0; Метод]
+:: [s0; Описание]
 ::^@2 [s0;ph [*C+75 GetLength()]]
-:: [s20; Length of text.]
+:: [s20; Длина текста.]
 :: [s0;ph [*C+75 GetLineCount()]]
-:: [s20; Number of lines in text.]
-:: [s0;ph [*C+75 GetLinePos(][/C+75 line][*C+75 )]]
+:: [s20; Число строк в тексте.]
+:: [s0;ph [*C+75 GetLinePos(][/C+75 строка][*C+75 )]]
 :: [s20; Position (offset from the beginning of the file) of the first 
 character of [/ line].]
 :: [s0;ph [*C+75 GetLineLength(][/C+75 line][*C+75 )]]

@@ -509,7 +509,7 @@ GDALDataset *PCIDSKDataset::Open( GDALOpenInfo * poOpenInfo )
             poDS->panSegSize == NULL)
         {
             CPLError( CE_Failure, CPLE_OutOfMemory,
-                       "Not enough memory to hold segment description of %s",
+                       "Нехватка памяти to hold segment description of %s",
                       poOpenInfo->pszFilename );
             delete poDS;
             return NULL;

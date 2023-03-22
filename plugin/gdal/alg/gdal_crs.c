@@ -123,11 +123,11 @@ static int CRS_compute_georef_equations(struct Control_Points *,
 static int remove_outliers(GCPTransformInfo *);
 
 static char *CRS_error_message[] = {
-    "Failed to compute GCP transform: Not enough points available",
-    "Failed to compute GCP transform: Transform is not solvable",
-    "Failed to compute GCP transform: Not enough memory",
-    "Failed to compute GCP transform: Parameter error",
-    "Failed to compute GCP transform: Internal error"
+    "Не удалось вычислить трансформ GCP: Не хватает точек",
+    "Не удалось вычислить трансформ GCP: Транформ неразрешим",
+    "Не удалось вычислить трансформ GCP: Нехватка памяти",
+    "Не удалось вычислить трансформ GCP: Ошибка параметра",
+    "Не удалось вычислить трансформ GCP: Внутренняя ошибка"
 };
 
 /************************************************************************/

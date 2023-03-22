@@ -3,7 +3,7 @@
  * All rights reserved
  *
  * Redistribution and use in source and binary forms, with or without
- * modification, are permitted providing that the following conditions 
+ * modification, are permitted providing that the following conditions
  * are met:
  * 1. Redistributions of source code must retain the above copyright
  *    notice, this list of conditions and the following disclaimer.
@@ -196,12 +196,12 @@ static void offtout(off_t x,u_char *buf)
 bool BSDiff(String oldfile, String newfile, String patchfile)
 {
 	if (!FileExists(oldfile))
-		return Err(Format(t_("File %s does not exist"), oldfile));
+		return Err(Format(t_("Файл %s не существует"), oldfile));
 	if (!FileExists(newfile))
-		return Err(Format(t_("File %s does not exist"), newfile));	
+		return Err(Format(t_("Файл %s не существует"), newfile));
 	if (patchfile.IsEmpty())
-		return Err(t_("Patch file is empty"));	
-	
+		return Err(t_("Файл патча пустой"));
+
 	int fd;
 	u_char *old,*nnew;
 	off_t oldsize,newsize;
@@ -223,25 +223,25 @@ bool BSDiff(String oldfile, String newfile, String patchfile)
 	/* Allocate oldsize+1 bytes instead of oldsize bytes to ensure
 		that we never try to malloc(0) and get a NULL pointer */
 	if(
-#ifdef PLATFORM_POSIX		
+#ifdef PLATFORM_POSIX
 		((fd = open(oldfile, O_RDONLY, 0)) < 0) ||
 #else
 		((fd = _wsopen((const wchar_t *)oldfile.ToWString().Begin(), O_RDONLY|O_BINARY, _SH_DENYNO, 0)) < 0) ||
-#endif		
+#endif
 		((oldsize=lseek(fd,0,SEEK_END))==-1) ||
 		((old=(u_char *)malloc(oldsize+1))==NULL) ||
 		(lseek(fd,0,SEEK_SET)!=0))
-		return Err(Format(t_("Error opening %s"), oldfile));
-	
+		return Err(Format(t_("Ошибка при открытии %s"), oldfile));
+
 	// read() reads in chunks
 	int r = oldsize;
-	while (r > 0 && (i = read(fd,old+oldsize-r,r))>0) 
+	while (r > 0 && (i = read(fd,old+oldsize-r,r))>0)
 		r -=i ;
-	if (r > 0 || close(fd) == -1) 
-		return Err(Format(t_("Error opening %s"), oldfile));
+	if (r > 0 || close(fd) == -1)
+		return Err(Format(t_("Ошибка при открытии %s"), oldfile));
 
 	if(((I=(off_t *)malloc((oldsize+1)*sizeof(off_t)))==NULL) ||
-		((V=(off_t *)malloc((oldsize+1)*sizeof(off_t)))==NULL)) Err(t_("Not enough memory"));
+		((V=(off_t *)malloc((oldsize+1)*sizeof(off_t)))==NULL)) Err(t_("Нехватка памяти"));
 
 	qsufsort(I,V,old,oldsize);
 
@@ -250,36 +250,36 @@ bool BSDiff(String oldfile, String newfile, String patchfile)
 	/* Allocate newsize+1 bytes instead of newsize bytes to ensure
 		that we never try to malloc(0) and get a NULL pointer */
 	if(
-#ifdef PLATFORM_POSIX		
+#ifdef PLATFORM_POSIX
 		((fd = open(newfile, O_RDONLY, 0)) < 0) ||
 #else
 		((fd = _wsopen((const wchar_t *)newfile.ToWString().Begin(), O_RDONLY|O_BINARY, _SH_DENYNO, 0)) < 0) ||
-#endif			   
+#endif
 		((newsize=lseek(fd,0,SEEK_END))==-1) ||
 		((nnew=(u_char *)malloc(newsize+1))==NULL) ||
 		(lseek(fd,0,SEEK_SET)!=0))
-		return Err(Format(t_("Error opening %s"), newfile));
-	
+		return Err(Format(t_("Ошибка при открытии %s"), newfile));
+
 	// read() reads in chunks
 	r = newsize;
-	while (r > 0 && (i = read(fd, nnew+newsize-r,r))>0) 
+	while (r > 0 && (i = read(fd, nnew+newsize-r,r))>0)
 		r -= i;
-	if (r > 0 || close(fd)==-1) 
-		return Err(Format(t_("Error opening %s"), newfile));
+	if (r > 0 || close(fd)==-1)
+		return Err(Format(t_("Ошибка при открытии %s"), newfile));
 
 	if(((db=(u_char *)malloc(newsize+1))==NULL) ||
-		((eb=(u_char *)malloc(newsize+1))==NULL)) Err(t_("Not enough memory"));
+		((eb=(u_char *)malloc(newsize+1))==NULL)) Err(t_("Нехватка памяти"));
 	dblen=0;
 	eblen=0;
 
 	/* Create the patch file */
 	if (
-#ifdef PLATFORM_POSIX			
+#ifdef PLATFORM_POSIX
 	(pf = fopen(patchfile, "w")) == NULL)
 #else
 	(pf = _wfopen((const wchar_t *)patchfile.ToWString().Begin(), L"wb")) == NULL)
 #endif
-		return Err(Format(t_("Error opening %s"), patchfile));
+		return Err(Format(t_("Ошибка при открытии %s"), patchfile));
 
 	/* Header is
 		0	8	 "BSDIFF40"
@@ -315,7 +315,7 @@ bool BSDiff(String oldfile, String newfile, String patchfile)
 				(old[scsc+lastoffset] == nnew[scsc]))
 				oldscore++;
 
-			if(((len==oldscore) && (len!=0)) || 
+			if(((len==oldscore) && (len!=0)) ||
 				(len>oldscore+8)) break;
 
 			if((scan+lastoffset<oldsize) &&

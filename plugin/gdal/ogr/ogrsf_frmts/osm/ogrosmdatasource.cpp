@@ -2795,7 +2795,7 @@ int OGROSMDataSource::Open( const char * pszFilename, char** papszOpenOptions )
         }
         else
         {
-            CPLDebug("OSM", "Not enough memory for in-memory file. Using disk temporary file instead.");
+            CPLDebug("OSM", "Нехватка памяти for in-memory file. Using disk temporary file instead.");
 
             VSIFCloseL(fpNodes);
             fpNodes = NULL;
@@ -2882,7 +2882,7 @@ int OGROSMDataSource::CreateTempDB()
 
             if( !bSuccess )
             {
-                CPLDebug("OSM", "Not enough memory for in-memory file. Using disk temporary file instead.");
+                CPLDebug("OSM", "Нехватка памяти for in-memory file. Using disk temporary file instead.");
                 VSIUnlink(osTmpDBName);
             }
         }

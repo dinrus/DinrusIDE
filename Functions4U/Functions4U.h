@@ -341,7 +341,7 @@ inline T Nvl2(T cond, T a, T b) {return IsFin(cond) && !IsNull(cond) ? a : b;}
 template<typename T>
 T fact(T val) {
     if (val <= 0)
-        throw std::invalid_argument("fact() accepts only nonzero positive numbers");
+        throw std::invalid_argument("fact() принимает только положительные числа ненулевого значения");
     T ret = 1;
     while (val > 1)
         ret *= val--;
@@ -1208,7 +1208,7 @@ public:
         return GetLine();
     }
     int GetLineNumber() const   {return line;}
-    String Str() const          {return Format(t_("[File: '%s', line: %d]: "), fileName, line);}
+    String Str() const          {return Format(t_("[Файл: '%s', строка: %d]: "), fileName, line);}
 
     struct Pos {
         Pos() : byt(0), line(0) {}
@@ -1241,7 +1241,7 @@ public:
     void ReadB(void *data, size_t sz) {
         int64 len = Get64(data, sz);
         if (len != int64(sz))
-            throw Exc(Format(t_("Data not loaded in FileInBinary::Read(%ld)"), int64(sz)));
+            throw Exc(Format(t_("Не загружены данные в FileInBinary::Read(%ld)"), int64(sz)));
     }
 
     template <class T>
@@ -1348,9 +1348,9 @@ public:
         int res = GetInt_nothrow(i);
         if (IsNull(res)) {
             if (i < fields.size())
-                throw Exc(in->Str() + Format(t_("Bad %s '%s' in field #%d, line\n'%s'"), "integer", fields[i], i+1, line));
+                throw Exc(in->Str() + Format(t_("Неверный %s '%s' в поле #%d, строка\n'%s'"), "integer", fields[i], i+1, line));
             else
-                throw Exc(in->Str() + Format(t_("Field #%d not found in line\n'%s'"), i+1, line));
+                throw Exc(in->Str() + Format(t_("Поле #%d не найдено в строке\n'%s'"), i+1, line));
         }
         return res;
     }
@@ -1372,9 +1372,9 @@ public:
         double res = GetDouble_nothrow(i);
         if (IsNull(res)) {
             if (i < fields.size())
-                throw Exc(in->Str() + Format(t_("Bad %s '%s' in field #%d, line\n'%s'"), "double", fields[i], i+1, line));
+                throw Exc(in->Str() + Format(t_("Неверный %s '%s' в поле #%d, строка\n'%s'"), "double", fields[i], i+1, line));
             else
-                throw Exc(in->Str() + Format(t_("Field #%d not found in line\n'%s'"), i+1, line));
+                throw Exc(in->Str() + Format(t_("Поле #%d не найдено в строке\n'%s'"), i+1, line));
         }
         return res;
     }
@@ -1401,7 +1401,7 @@ protected:
     }
     void CheckId(int i) const {
         if (!CheckId_nothrow(i))
-            throw Exc(in->Str() + Format(t_("Field #%d not found in line\n'%s'"), i+1, line));
+            throw Exc(in->Str() + Format(t_("Поле #%d не найдкно в строке\n'%s'"), i+1, line));
     }
     static int defaultIsSeparator(int c) {
         if (c == '\t' || c == ' ' || c == ';' || c == ',')

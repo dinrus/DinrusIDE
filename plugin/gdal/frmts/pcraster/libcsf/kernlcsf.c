@@ -55,7 +55,7 @@ void CsfBootCsfKernel(void)
 
   mapList = (MAP **)calloc(mapListLen,sizeof(MAP *));
   if (mapList == NULL) {
-    (void)fprintf(stderr,"CSF_INTERNAL_ERROR: Not enough memory to use CSF-files\n");
+    (void)fprintf(stderr,"CSF_INTERNAL_ERROR: Нехватка памяти to use CSF-files\n");
     exit(1);
   }
 
@@ -97,7 +97,7 @@ void CsfRegisterMap(
     mapListLen *=2;
     mapList=realloc(mapList,sizeof(MAP *)*mapListLen);
     if (mapList == NULL) {
-     (void)fprintf(stderr,"CSF_INTERNAL_ERROR: Not enough memory to use CSF-files\n");
+     (void)fprintf(stderr,"CSF_INTERNAL_ERROR: Нехватка памяти to use CSF-files\n");
       exit(1);
     }
     /* initialize new part, i at begin */

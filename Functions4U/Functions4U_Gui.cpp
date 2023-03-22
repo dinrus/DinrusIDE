@@ -215,35 +215,35 @@ ConsoleOutput::~ConsoleOutput() {
 void ArrayCtrlWhenBar(Bar &menu, ArrayCtrl &array, bool header, bool edit) {
     int num = array.GetCount();
     if (num == 0)
-        menu.Add(t_("Empty list"), Null, Null).Enable(false).Bold(true);
+        menu.Add(t_("Пустой список"), Null, Null).Enable(false).Bold(true);
     else {
         menu.Add(t_("Выбрать все"), Null, [&] {ArrayCtrlRowSelect(array);})
             .Key(K_CTRL_A).Help(t_("Выбрать все ряды"));
 
         int count = array.GetSelectCount();
         if (count == 0)
-            menu.Add(t_("No row selected"), Null, Null).Enable(false).Bold(true);
+            menu.Add(t_("Ряд не выделен"), Null, Null).Enable(false).Bold(true);
         else {
-            menu.Add(Format(t_("Selected %d rows"), count), Null, Null).Enable(false).Bold(true);
+            menu.Add(Format(t_("Выделено %d рядов"), count), Null, Null).Enable(false).Bold(true);
             menu.Add(t_("Копировать"), Null, [&] {ArrayCtrlRowCopy(array, header);})
-                .Key(K_CTRL_C).Help(t_("Copy selected rows to clipboard"));
+                .Key(K_CTRL_C).Help(t_("Копировать выделенные ряды в буфер обмена"));
         }
     }
     if (edit) {
-            menu.Add(t_("Paste"), Null, [&] {ArrayCtrlRowPaste(array);})
-                .Key(K_CTRL_V).Help(t_("Paste rows from clipboard"));
-            menu.Add(t_("Append"), Null, [&] {array.Add();})
-                .Key(K_CTRL_INSERT).Help(t_("Append row"));
+            menu.Add(t_("Вставить"), Null, [&] {ArrayCtrlRowPaste(array);})
+                .Key(K_CTRL_V).Help(t_("Вставить ряды из буфера обмена"));
+            menu.Add(t_("Приставить"), Null, [&] {array.Add();})
+                .Key(K_CTRL_INSERT).Help(t_("Приставить ряд"));
             if (num > 0) {
-                menu.Add(t_("Remove"), Null, [&] {
+                menu.Add(t_("Удалить"), Null, [&] {
                     for (int r = array.GetCount()-1; r >= 0; --r)
                         if (array.IsSelected(r))
                             array.Remove(r);
-                }).Key(K_DELETE).Help(t_("Remove selected rows"));
-                menu.Add(t_("Remove all"), Null, [&] {
+                }).Key(K_DELETE).Help(t_("Удалить выделенные ряды"));
+                menu.Add(t_("Удалить все"), Null, [&] {
                     for (int r = array.GetCount()-1; r >= 0; --r)
                         array.Remove(r);
-                }).Help(t_("Remove all rows"));
+                }).Help(t_("Удалить все ряды"));
             }
     }
 }

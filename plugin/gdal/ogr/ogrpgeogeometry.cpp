@@ -1284,7 +1284,7 @@ OGRErr OGRCreateFromShapeBin( GByte *pabyShape,
         if (panPartStart == NULL)
         {
             CPLError(CE_Failure, CPLE_OutOfMemory,
-                     "Not enough memory for shape (nPoints=%d, nParts=%d)", nPoints, nParts);
+                     "Нехватка памяти for shape (nPoints=%d, nParts=%d)", nPoints, nParts);
             return OGRERR_FAILURE;
         }
 
@@ -1327,7 +1327,7 @@ OGRErr OGRCreateFromShapeBin( GByte *pabyShape,
             if (panPartType == NULL)
             {
                 CPLError(CE_Failure, CPLE_OutOfMemory,
-                        "Not enough memory for panPartType for shape (nPoints=%d, nParts=%d)", nPoints, nParts);
+                        "Нехватка памяти for panPartType for shape (nPoints=%d, nParts=%d)", nPoints, nParts);
                 CPLFree(panPartStart);
                 return OGRERR_FAILURE;
             }
@@ -1354,7 +1354,7 @@ OGRErr OGRCreateFromShapeBin( GByte *pabyShape,
             CPLFree( padfY );
             CPLFree( padfZ );
             CPLError(CE_Failure, CPLE_OutOfMemory,
-                     "Not enough memory for shape (nPoints=%d, nParts=%d)", nPoints, nParts);
+                     "Нехватка памяти for shape (nPoints=%d, nParts=%d)", nPoints, nParts);
             return OGRERR_FAILURE;
         }
 

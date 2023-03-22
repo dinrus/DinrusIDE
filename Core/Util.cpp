@@ -978,7 +978,7 @@ String (*GetP7Signature__)(const void *data, int length, const String& cert_pem,
 
 String GetP7Signature(const void *data, int length, const String& cert_pem, const String& pkey_pem)
 {
-	ASSERT_(GetP7Signature__, "Missing SSL support (Core/SSL)");
+	ASSERT_(GetP7Signature__, "Отсутствует поддержка SSL (Core/SSL)");
 	return (*GetP7Signature__)(data, length, cert_pem, pkey_pem);
 }
 

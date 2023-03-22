@@ -185,14 +185,14 @@ GDALDataset *MSGDataset::Open( GDALOpenInfo * poOpenInfo )
                   sErr.c_str() );
         return FALSE;
     }
-      
+
 
 // We're confident the string is formatted as an MSG command_line
 
 /* -------------------------------------------------------------------- */
 /*      Create a corresponding GDALDataset.                             */
 /* -------------------------------------------------------------------- */
-    
+
     MSGDataset   *poDS;
     poDS = new MSGDataset();
     poDS->command = command; // copy it
@@ -254,11 +254,11 @@ GDALDataset *MSGDataset::Open( GDALOpenInfo * poOpenInfo )
     // The following are 3 different try-outs for also setting the ellips a and b parameters.
     // We leave them out for now however because this does not work. In gdalwarp, when choosing some
     // specific target SRS, the result is an error message:
-    // 
+    //
     // ERROR 1: geocentric transformation missing z or ellps
     // ERROR 1: GDALWarperOperation::ComputeSourceWindow() failed because
     // the pfnTransformer failed.
-    // 
+    //
     // I can't explain the reason for the message at this time (could be a problem in the way the SRS is set here,
     // but also a bug in Proj.4 or GDAL.
     /*
@@ -301,19 +301,19 @@ GDALDataset *MSGDataset::Open( GDALOpenInfo * poOpenInfo )
     {
         poDS->SetBand( iBand+1, new MSGRasterBand( poDS, iBand+1 ) );
     }
-    
+
 /* -------------------------------------------------------------------- */
 /*      Confirm the requested access is supported.                      */
 /* -------------------------------------------------------------------- */
     if( poOpenInfo->eAccess == GA_Update )
     {
         delete poDS;
-        CPLError( CE_Failure, CPLE_NotSupported, 
+        CPLError( CE_Failure, CPLE_NotSupported,
                   "The MSG driver does not support update access to existing"
                   " datasets.\n" );
         return NULL;
     }
-    
+
     return( poDS );
 }
 
@@ -332,7 +332,7 @@ MSGRasterBand::MSGRasterBand( MSGDataset *poDS, int nBand )
 {
     this->poDS = poDS;
     this->nBand = nBand;
-		
+
     // Find if we're dealing with MSG1, MSG2, MSG3 or MSG4
     // Doing this per band is the only way to guarantee time-series when the satellite is changed
 
@@ -475,7 +475,7 @@ CPLErr MSGRasterBand::IReadBlock( int nBlockXOff, int nBlockYOff,
                                   void * pImage )
 
 {
-        
+
     MSGDataset  *poGDS = (MSGDataset *) poDS;
 
 
@@ -497,7 +497,7 @@ CPLErr MSGRasterBand::IReadBlock( int nBlockXOff, int nBlockYOff,
       strip_number = poGDS->command.iNrStrips(iChannel) - nBlockYOff;
 
     std::string strip_input_file = poGDS->command.sFileName(iSatellite, nBand, strip_number);
-    
+
 /* -------------------------------------------------------------------- */
 /*      Open the input file                                             */
 /* -------------------------------------------------------------------- */
@@ -529,30 +529,30 @@ CPLErr MSGRasterBand::IReadBlock( int nBlockXOff, int nBlockYOff,
             // When iLowerShift > 0, the lower HRV image is shifted to the right
             // When iLowerShift < 0, the lower HRV image is shifted to the left
             // The available raster may be wider than needed, so that time series don't fall outside the raster.
-            
+
             if (nBlockYOff <= iSplitBlock)
               iShift = -iLowerShift;
             // iShift < 0 means upper image moves to the left
             // iShift > 0 means upper image moves to the right
           }
-          
+
           std::unique_ptr< unsigned char > ibuf( new unsigned char[nb_ibytes]);
-          
+
           if (ibuf.get() == 0)
           {
-             CPLError( CE_Failure, CPLE_AppDefined, 
-                  "Not enough memory to perform wavelet decompression\n");
+             CPLError( CE_Failure, CPLE_AppDefined,
+                  "Нехватка памяти to perform wavelet decompression\n");
             return CE_Failure;
           }
 
           i_file.read( (char *)(ibuf.get()), nb_ibytes);
-          
+
           Util::CDataFieldCompressedImage  img_compressed(ibuf.release(),
                                   nb_ibytes*8,
                                   (unsigned char)chunck_bpp,
                                   chunck_width,
                                   chunck_height      );
-          
+
           Util::CDataFieldUncompressedImage img_uncompressed;
 
           //****************************************************
@@ -609,7 +609,7 @@ CPLErr MSGRasterBand::IReadBlock( int nBlockXOff, int nBlockYOff,
               if (poGDS->command.cDataConversion == 'B')
               {
                 for( int j = 0; j < chunck_height; ++j ) // assumption: nBlockYSize == chunck_height
-                { 
+                {
                   int iXOffset = j * nBlockXSize + iShift;
                   iXOffset += nBlockXSize - iLowerWestColumnPlanned - 1; // Position the HRV part in the frame; -1 to compensate the pre-increment in the for-loop
                   if (fSplitStrip && (j >= iSplitRow)) // In splitstrip, below splitline, thus do not shift!!
@@ -621,7 +621,7 @@ CPLErr MSGRasterBand::IReadBlock( int nBlockXOff, int nBlockYOff,
               else
               {
                 for( int j = 0; j < chunck_height; ++j ) // assumption: nBlockYSize == chunck_height
-                { 
+                {
                   int iXOffset = j * nBlockXSize + iShift;
                   iXOffset += nBlockXSize - iLowerWestColumnPlanned - 1; // Position the HRV part in the frame; -1 to compensate the pre-increment in the for-loop
                   if (fSplitStrip && (j >= iSplitRow)) // In splitstrip, below splitline, thus do not shift!!
@@ -699,7 +699,7 @@ double MSGRasterBand::rRadiometricCorrection(unsigned int iDN, int iChannel, int
 
   double rSlope = poGDS->rCalibrationSlope[iIndex];
   double rOffset = poGDS->rCalibrationOffset[iIndex];
-  
+
   if (poGDS->command.cDataConversion == 'T') // reflectance for visual bands, temperatore for IR bands
   {
     double rRadiance = rOffset + (iDN * rSlope);
@@ -748,10 +748,10 @@ void GDALRegister_MSG()
     if( GDALGetDriverByName( "MSG" ) == NULL )
     {
         poDriver = new GDALDriver();
-        
+
         poDriver->SetDescription( "MSG" );
         poDriver->SetMetadataItem( GDAL_DCAP_RASTER, "YES" );
-        poDriver->SetMetadataItem( GDAL_DMD_LONGNAME, 
+        poDriver->SetMetadataItem( GDAL_DMD_LONGNAME,
                                    "MSG HRIT Data" );
 
         poDriver->pfnOpen = MSGDataset::Open;

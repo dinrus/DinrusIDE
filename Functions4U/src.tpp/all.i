@@ -1,36 +1,36 @@
-TOPIC("Dl_en-us")
-#include "Dl_en-us.tppi"
+TOPIC("Dl_ru-ru")
+#include "Dl_ru-ru.tppi"
 END_TOPIC
 
-TOPIC("Functions4U_en-us")
-#include "Functions4U_en-us.tppi"
+TOPIC("Functions4U_ru-ru")
+#include "Functions4U_ru-ru.tppi"
 END_TOPIC
 
-TOPIC("LocalProcess2_en-us")
-#include "LocalProcess2_en-us.tppi"
+TOPIC("LocalProcess2_ru-ru")
+#include "LocalProcess2_ru-ru.tppi"
 END_TOPIC
 
-TOPIC("LocalProcessX_en-us")
-#include "LocalProcessX_en-us.tppi"
+TOPIC("LocalProcessX_ru-ru")
+#include "LocalProcessX_ru-ru.tppi"
 END_TOPIC
 
-TOPIC("QtfEquation_en-us")
-#include "QtfEquation_en-us.tppi"
+TOPIC("QtfEquation_ru-ru")
+#include "QtfEquation_ru-ru.tppi"
 END_TOPIC
 
-TOPIC("RealTimeStop_en-us")
-#include "RealTimeStop_en-us.tppi"
+TOPIC("RealTimeStop_ru-ru")
+#include "RealTimeStop_ru-ru.tppi"
 END_TOPIC
 
-TOPIC("StaticPlugin_en-us")
-#include "StaticPlugin_en-us.tppi"
+TOPIC("StaticPlugin_ru-ru")
+#include "StaticPlugin_ru-ru.tppi"
 END_TOPIC
 
-TOPIC("SvgColors_en-us")
-#include "SvgColors_en-us.tppi"
+TOPIC("SvgColors_ru-ru")
+#include "SvgColors_ru-ru.tppi"
 END_TOPIC
 
-TOPIC("bsdiff_en-us")
-#include "bsdiff_en-us.tppi"
+TOPIC("bsdiff_ru-ru")
+#include "bsdiff_ru-ru.tppi"
 END_TOPIC
 

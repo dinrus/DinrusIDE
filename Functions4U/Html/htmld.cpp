@@ -53,8 +53,8 @@ HtmlsD& HtmlsD::Percent(double d)                    { return Quote(UPP::Format(
 
 HtmlsD& HtmlsD::Color(const char *nm, class Color c) {
 	if(!UPP::IsNull(c))
-		Attr(nm); 
-	Cat('='); 
+		Attr(nm);
+	Cat('=');
 	return Color(c);
 }
 

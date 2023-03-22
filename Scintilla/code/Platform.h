@@ -97,7 +97,7 @@ typedef void *IdlerID;
  * Font management.
  */
 
-constexpr const char *localeNameDefault = "en-us";
+constexpr const char *localeNameDefault = "ru-ru";
 
 struct FontParameters {
 	const char *faceName;

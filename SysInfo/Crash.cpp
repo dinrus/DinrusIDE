@@ -91,7 +91,7 @@ void __cdecl CrashHandler::InvalidParameterHandler(const wchar_t* expression, co
 }
 
 void __cdecl CrashHandler::NewHandler() {
-	Panic("Not enough memory available");
+	Panic("Нехватка памяти available");
 }
 
 void CrashHandler::SigabrtHandler(int) {

@@ -672,11 +672,13 @@ void CodeEditor::FindReplace(bool pick_selection, bool pick_text, bool replace)
 		findreplace.amend_rest.Hide();
 		findreplace.prev.Hide();
 		findreplace.next.Ok() <<= findreplace.Breaker(IDOK);
+		findreplace.close.SetLabel("Закрыть");
 		findreplace.close.Cancel() <<= findreplace.Breaker(IDCANCEL);
-		findreplace.close.SetImage(Null);
-		findreplace.close.Tip("");
-		findreplace.next.SetImage(Null);
-		findreplace.next.Tip("");
+		//findreplace.close.SetImage(Null);
+		findreplace.close.Tip("Закрыть");
+		//findreplace.next.SetImage(Null);
+		findreplace.next.SetLabel("Следщ");
+		findreplace.next.Tip("К следующему");
 		findreplace.mode.Show();
 		findreplace.mode <<= 0;
 		findreplace.Sync();

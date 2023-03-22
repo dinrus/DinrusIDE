@@ -95,46 +95,46 @@ packet_queue_listener(LIBSSH2_SESSION * session, unsigned char *data,
 
         if(datalen < offset) {
             return _libssh2_error(session, LIBSSH2_ERROR_OUT_OF_BOUNDARY,
-                                  "Unexpected packet size");
+                                  "Неожиданный размер пакета");
         }
 
         buf.dataptr += offset;
 
         if(_libssh2_get_u32(&buf, &(listen_state->sender_channel))) {
             return _libssh2_error(session, LIBSSH2_ERROR_BUFFER_TOO_SMALL,
-                                  "Data too short extracting channel");
+                                  "Не хватает буфера данных для извлечения из канала");
         }
         if(_libssh2_get_u32(&buf, &(listen_state->initial_window_size))) {
             return _libssh2_error(session, LIBSSH2_ERROR_BUFFER_TOO_SMALL,
-                                  "Data too short extracting window size");
+                                  "Не хватает буфера данных для извлечения размера окна");
         }
         if(_libssh2_get_u32(&buf, &(listen_state->packet_size))) {
             return _libssh2_error(session, LIBSSH2_ERROR_BUFFER_TOO_SMALL,
-                                  "Data too short extracting packet");
+                                  "Не хватает буфера данных для извлечения пакета");
         }
         if(_libssh2_get_string(&buf, &(listen_state->host), &temp_len)) {
             return _libssh2_error(session, LIBSSH2_ERROR_BUFFER_TOO_SMALL,
-                                  "Data too short extracting host");
+                                  "Не хватает буфера данных для извлечения хоста");
         }
         listen_state->host_len = (uint32_t)temp_len;
 
         if(_libssh2_get_u32(&buf, &(listen_state->port))) {
             return _libssh2_error(session, LIBSSH2_ERROR_BUFFER_TOO_SMALL,
-                                  "Data too short extracting port");
+                                  "Не хватает буфера данных для извлечения порта");
         }
         if(_libssh2_get_string(&buf, &(listen_state->shost), &temp_len)) {
             return _libssh2_error(session, LIBSSH2_ERROR_BUFFER_TOO_SMALL,
-                                  "Data too short extracting shost");
+                                  "Не хватает буфера данных для извлечения shost");
         }
         listen_state->shost_len = (uint32_t)temp_len;
 
         if(_libssh2_get_u32(&buf, &(listen_state->sport))) {
             return _libssh2_error(session, LIBSSH2_ERROR_BUFFER_TOO_SMALL,
-                                  "Data too short extracting sport");
+                                  "Не хватает буфера данных для извлечения sport");
         }
 
         _libssh2_debug(session, LIBSSH2_TRACE_CONN,
-                       "Remote received connection from %s:%ld to %s:%ld",
+                       "Удалённый принял подключение от %s:%ld к %s:%ld",
                        listen_state->shost, listen_state->sport,
                        listen_state->host, listen_state->port);
 
@@ -157,7 +157,7 @@ packet_queue_listener(LIBSSH2_SESSION * session, unsigned char *data,
                         /* Queue is full */
                         failure_code = SSH_OPEN_RESOURCE_SHORTAGE;
                         _libssh2_debug(session, LIBSSH2_TRACE_CONN,
-                                       "Listener queue full, ignoring");
+                                       "Очередь прослушчика переполнена, игнорируется");
                         listen_state->state = libssh2_NB_state_sent;
                         break;
                     }
@@ -165,8 +165,8 @@ packet_queue_listener(LIBSSH2_SESSION * session, unsigned char *data,
                     channel = LIBSSH2_CALLOC(session, sizeof(LIBSSH2_CHANNEL));
                     if(!channel) {
                         _libssh2_error(session, LIBSSH2_ERROR_ALLOC,
-                                       "Unable to allocate a channel for "
-                                       "new connection");
+                                       "Не удаётся аллоцировать канал для "
+                                       "нового подключения");
                         failure_code = SSH_OPEN_RESOURCE_SHORTAGE;
                         listen_state->state = libssh2_NB_state_sent;
                         break;
@@ -181,8 +181,8 @@ packet_queue_listener(LIBSSH2_SESSION * session, unsigned char *data,
                                                           1);
                     if(!channel->channel_type) {
                         _libssh2_error(session, LIBSSH2_ERROR_ALLOC,
-                                       "Unable to allocate a channel for new"
-                                       " connection");
+                                       "Не удаётся аллоцировать канал для "
+                                       "нового подключения");
                         LIBSSH2_FREE(session, channel);
                         failure_code = SSH_OPEN_RESOURCE_SHORTAGE;
                         listen_state->state = libssh2_NB_state_sent;
@@ -207,8 +207,8 @@ packet_queue_listener(LIBSSH2_SESSION * session, unsigned char *data,
                     channel->local.packet_size = listen_state->packet_size;
 
                     _libssh2_debug(session, LIBSSH2_TRACE_CONN,
-                                   "Connection queued: channel %lu/%lu "
-                                   "win %lu/%lu packet %lu/%lu",
+                                   "Подключение поставлено в очередь: канал %lu/%lu "
+                                   "win %lu/%lu пакет %lu/%lu",
                                    channel->local.id, channel->remote.id,
                                    channel->local.window_size,
                                    channel->remote.window_size,
@@ -234,8 +234,8 @@ packet_queue_listener(LIBSSH2_SESSION * session, unsigned char *data,
                     else if(rc) {
                         listen_state->state = libssh2_NB_state_idle;
                         return _libssh2_error(session, rc,
-                                              "Unable to send channel "
-                                              "open confirmation");
+                                              "Не удаётся отправить подтверждение "
+                                              "открытия канала");
                     }
 
                     /* Link the channel into the end of the queue list */
@@ -271,7 +271,7 @@ packet_queue_listener(LIBSSH2_SESSION * session, unsigned char *data,
     }
     else if(rc) {
         listen_state->state = libssh2_NB_state_idle;
-        return _libssh2_error(session, rc, "Unable to send open failure");
+        return _libssh2_error(session, rc, "Не удаётся отправить open failure");
 
     }
     listen_state->state = libssh2_NB_state_idle;
@@ -306,7 +306,7 @@ packet_x11_open(LIBSSH2_SESSION * session, unsigned char *data,
 
         if(datalen < offset) {
             _libssh2_error(session, LIBSSH2_ERROR_INVAL,
-                           "unexpected data length");
+                           "неожиданная длина данных");
             failure_code = SSH_OPEN_CONNECT_FAILED;
             goto x11_exit;
         }
@@ -315,25 +315,25 @@ packet_x11_open(LIBSSH2_SESSION * session, unsigned char *data,
 
         if(_libssh2_get_u32(&buf, &(x11open_state->sender_channel))) {
             _libssh2_error(session, LIBSSH2_ERROR_INVAL,
-                           "unexpected sender channel size");
+                           "неожиданный размер канала отправщика");
             failure_code = SSH_OPEN_CONNECT_FAILED;
             goto x11_exit;
         }
         if(_libssh2_get_u32(&buf, &(x11open_state->initial_window_size))) {
             _libssh2_error(session, LIBSSH2_ERROR_INVAL,
-                           "unexpected window size");
+                           "неожиданный размер окна");
             failure_code = SSH_OPEN_CONNECT_FAILED;
             goto x11_exit;
         }
         if(_libssh2_get_u32(&buf, &(x11open_state->packet_size))) {
             _libssh2_error(session, LIBSSH2_ERROR_INVAL,
-                           "unexpected window size");
+                           "неожиданный размер пакета");
             failure_code = SSH_OPEN_CONNECT_FAILED;
             goto x11_exit;
         }
         if(_libssh2_get_string(&buf, &(x11open_state->shost), &temp_len)) {
             _libssh2_error(session, LIBSSH2_ERROR_INVAL,
-                           "unexpected host size");
+                           "неожиданный размер хоста");
             failure_code = SSH_OPEN_CONNECT_FAILED;
             goto x11_exit;
         }
@@ -341,13 +341,13 @@ packet_x11_open(LIBSSH2_SESSION * session, unsigned char *data,
 
         if(_libssh2_get_u32(&buf, &(x11open_state->sport))) {
             _libssh2_error(session, LIBSSH2_ERROR_INVAL,
-                           "unexpected port size");
+                           "неожиданный размер порта");
             failure_code = SSH_OPEN_CONNECT_FAILED;
             goto x11_exit;
         }
 
         _libssh2_debug(session, LIBSSH2_TRACE_CONN,
-                       "X11 Connection Received from %s:%ld on channel %lu",
+                       "Получено подключение X11 от %s:%ld на канале %lu",
                        x11open_state->shost, x11open_state->sport,
                        x11open_state->sender_channel);
 
@@ -359,7 +359,7 @@ packet_x11_open(LIBSSH2_SESSION * session, unsigned char *data,
             channel = LIBSSH2_CALLOC(session, sizeof(LIBSSH2_CHANNEL));
             if(!channel) {
                 _libssh2_error(session, LIBSSH2_ERROR_ALLOC,
-                               "allocate a channel for new connection");
+                               "размещение канала для нового подключения");
                 failure_code = SSH_OPEN_RESOURCE_SHORTAGE;
                 goto x11_exit;
             }
@@ -371,7 +371,7 @@ packet_x11_open(LIBSSH2_SESSION * session, unsigned char *data,
                                                   1);
             if(!channel->channel_type) {
                 _libssh2_error(session, LIBSSH2_ERROR_ALLOC,
-                               "allocate a channel for new connection");
+                               "размещение канала для нового подключения");
                 LIBSSH2_FREE(session, channel);
                 failure_code = SSH_OPEN_RESOURCE_SHORTAGE;
                 goto x11_exit;
@@ -392,8 +392,8 @@ packet_x11_open(LIBSSH2_SESSION * session, unsigned char *data,
             channel->local.packet_size = x11open_state->packet_size;
 
             _libssh2_debug(session, LIBSSH2_TRACE_CONN,
-                           "X11 Connection established: channel %lu/%lu "
-                           "win %lu/%lu packet %lu/%lu",
+                           "Установлено подключение X11: канал %lu/%lu "
+                           "win %lu/%lu пакет %lu/%lu",
                            channel->local.id, channel->remote.id,
                            channel->local.window_size,
                            channel->remote.window_size,
@@ -418,8 +418,8 @@ packet_x11_open(LIBSSH2_SESSION * session, unsigned char *data,
             else if(rc) {
                 x11open_state->state = libssh2_NB_state_idle;
                 return _libssh2_error(session, LIBSSH2_ERROR_SOCKET_SEND,
-                                      "Unable to send channel open "
-                                      "confirmation");
+                                      "Не удаётся отправить подтверждение "
+                                      "открытия канала");
             }
 
             /* Link the channel into the session */
@@ -454,7 +454,7 @@ packet_x11_open(LIBSSH2_SESSION * session, unsigned char *data,
     }
     else if(rc) {
         x11open_state->state = libssh2_NB_state_idle;
-        return _libssh2_error(session, rc, "Unable to send open failure");
+        return _libssh2_error(session, rc, "Не удаётся отправить open failure");
     }
     x11open_state->state = libssh2_NB_state_idle;
     return 0;
@@ -488,7 +488,7 @@ _libssh2_packet_add(LIBSSH2_SESSION * session, unsigned char *data,
     switch(session->packAdd_state) {
     case libssh2_NB_state_idle:
         _libssh2_debug(session, LIBSSH2_TRACE_TRANS,
-                       "Packet type %d received, length=%d",
+                       "Получен пакет типа %d, длина=%d",
                        (int) msg, (int) datalen);
 
         if((macstate == LIBSSH2_MAC_INVALID) &&
@@ -499,7 +499,7 @@ _libssh2_packet_add(LIBSSH2_SESSION * session, unsigned char *data,
 
             LIBSSH2_FREE(session, data);
             return _libssh2_error(session, LIBSSH2_ERROR_INVALID_MAC,
-                                  "Invalid MAC received");
+                                  "Получен неправильный MAC");
         }
         session->packAdd_state = libssh2_NB_state_allocated;
         break;
@@ -548,7 +548,7 @@ _libssh2_packet_add(LIBSSH2_SESSION * session, unsigned char *data,
                 }
 
                 _libssh2_debug(session, LIBSSH2_TRACE_TRANS,
-                               "Disconnect(%d): %s(%s)", reason,
+                               "Отключение(%d): %s(%s)", reason,
                                message, language);
             }
 
@@ -556,7 +556,7 @@ _libssh2_packet_add(LIBSSH2_SESSION * session, unsigned char *data,
             session->socket_state = LIBSSH2_SOCKET_DISCONNECTED;
             session->packAdd_state = libssh2_NB_state_idle;
             return _libssh2_error(session, LIBSSH2_ERROR_SOCKET_DISCONNECT,
-                                  "socket disconnect");
+                                  "отключение сокета");
             /*
               byte      SSH_MSG_IGNORE
               string    data
@@ -610,7 +610,7 @@ _libssh2_packet_add(LIBSSH2_SESSION * session, unsigned char *data,
              * that it's not an inordinate about of data
              */
             _libssh2_debug(session, LIBSSH2_TRACE_TRANS,
-                           "Debug Packet: %s", message);
+                           "Пакет Отладки: %s", message);
             LIBSSH2_FREE(session, data);
             session->packAdd_state = libssh2_NB_state_idle;
             return 0;
@@ -631,7 +631,7 @@ _libssh2_packet_add(LIBSSH2_SESSION * session, unsigned char *data,
                     want_reply = data[5 + len];
                     _libssh2_debug(session,
                                    LIBSSH2_TRACE_CONN,
-                                   "Received global request type %.*s (wr %X)",
+                                   "Получен глобальный запрос типа %.*s (wr %X)",
                                    len, data + 5, want_reply);
                 }
 
@@ -680,7 +680,7 @@ _libssh2_packet_add(LIBSSH2_SESSION * session, unsigned char *data,
 
             if(!channelp) {
                 _libssh2_error(session, LIBSSH2_ERROR_CHANNEL_UNKNOWN,
-                               "Packet received for unknown channel");
+                               "Получен пакет для неизвестного канала");
                 LIBSSH2_FREE(session, data);
                 session->packAdd_state = libssh2_NB_state_idle;
                 return 0;
@@ -692,7 +692,7 @@ _libssh2_packet_add(LIBSSH2_SESSION * session, unsigned char *data,
                     stream_id = _libssh2_ntohu32(data + 5);
 
                 _libssh2_debug(session, LIBSSH2_TRACE_CONN,
-                               "%d bytes packet_add() for %lu/%lu/%lu",
+                               "%d-байтный packet_add() для %lu/%lu/%lu",
                                (int) (datalen - data_head),
                                channelp->local.id,
                                channelp->remote.id,

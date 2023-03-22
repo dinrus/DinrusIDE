@@ -382,7 +382,7 @@ png_decompress_chunk(png_structp png_ptr, int comp_type,
             png_free(png_ptr, text);
          }
          else
-          png_warning(png_ptr, "Not enough memory to decompress chunk.");
+          png_warning(png_ptr, "Нехватка памяти to decompress chunk.");
       }
    }
 
@@ -2061,7 +2061,7 @@ png_handle_tEXt(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
       (png_uint_32)png_sizeof(png_text));
    if (text_ptr == NULL)
    {
-     png_warning(png_ptr, "Not enough memory to process text chunk.");
+     png_warning(png_ptr, "Нехватка памяти to process text chunk.");
      png_free(png_ptr, png_ptr->chunkdata);
      png_ptr->chunkdata = NULL;
      return;
@@ -2181,7 +2181,7 @@ png_handle_zTXt(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
       (png_uint_32)png_sizeof(png_text));
    if (text_ptr == NULL)
    {
-     png_warning(png_ptr, "Not enough memory to process zTXt chunk.");
+     png_warning(png_ptr, "Нехватка памяти to process zTXt chunk.");
      png_free(png_ptr, png_ptr->chunkdata);
      png_ptr->chunkdata = NULL;
      return;
@@ -2329,7 +2329,7 @@ png_handle_iTXt(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
       (png_uint_32)png_sizeof(png_text));
    if (text_ptr == NULL)
    {
-     png_warning(png_ptr, "Not enough memory to process iTXt chunk.");
+     png_warning(png_ptr, "Нехватка памяти to process iTXt chunk.");
      png_free(png_ptr, png_ptr->chunkdata);
      png_ptr->chunkdata = NULL;
      return;

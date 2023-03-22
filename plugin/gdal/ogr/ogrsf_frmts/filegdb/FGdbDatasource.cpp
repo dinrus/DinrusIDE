@@ -110,7 +110,7 @@ bool FGdbDataSource::OpenFGDBTables(const std::wstring &type,
         if (FAILED(hr = m_pGeodatabase->OpenTable(layers[i], *pTable)))
         {
             delete pTable;
-            GDBErr(hr, "Error opening " + WStringToString(layers[i]),
+            GDBErr(hr, "Ошибка при открытии " + WStringToString(layers[i]),
                    CE_Warning,
                    ". Skipping it. "
                    "Might be due to unsupported spatial reference system. Using OpenFileGDB driver should solve it");
@@ -232,7 +232,7 @@ bool FGdbDataSource::LoadLayersOld(const std::vector<wstring> & datasetTypes,
         if (FAILED(hr = m_pGeodatabase->OpenTable(parent,*pTable)))
         {
             delete pTable;
-            return GDBErr(hr, "Error opening " + WStringToString(parent));
+            return GDBErr(hr, "Ошибка при открытии " + WStringToString(parent));
         }
 
         FGdbLayer* pLayer = new FGdbLayer;

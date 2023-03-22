@@ -213,7 +213,7 @@ void SshShell::ConsoleRead()
 	const int RBUFSIZE = 1024 * 16;
 	Buffer<char> buffer(RBUFSIZE);
 	if(!ReadConsole(stdinput, buffer, RBUFSIZE, &n, nullptr))
-		ThrowError(-1, "Couldn't read input from console.");
+		ThrowError(-1, "Ввод из консоли не прочитан.");
 	if(n > 0)
 		Send(String(buffer, n));
 }
@@ -222,7 +222,7 @@ void SshShell::ConsoleWrite(const void* buffer, int len)
 {
 	DWORD n = 0;
 	if(!WriteConsole(stdoutput, buffer, len, &n, nullptr))
-		ThrowError(-1, "Couldn't Write output to console.");
+		ThrowError(-1, "Вывод не записан в консоль.");
 }
 
 void SshShell::ConsoleRawMode(bool b)
@@ -270,7 +270,7 @@ bool SshShell::X11Init()
 			LLOG("X11 tunnel succesfully initialized.");
 		return !rc;
 #elif PLATFORM_WIN32
-		ThrowError(-1, "X11 tunneling is not (yet) supported on Windows platform");
+		ThrowError(-1, "Тунелирование X11 (пока ещё) не поддерживается на платформе Windows");
 		return false;
 #endif
 	});
@@ -291,7 +291,7 @@ void SshShell::X11Loop()
 				libssh2_channel_read(xhandle, xbuffer, size_t(xbuflen))
 				);
 			if(!WouldBlock(rc) && rc < 0)
-				ThrowError(-1, "[X11]: Read failed.");
+				ThrowError(-1, "[X11]: Неудачное чтение.");
 			if(rc > 0)
 				write(sock, xbuffer, rc);
 		}

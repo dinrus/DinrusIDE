@@ -717,7 +717,7 @@ SHPOpenLL( const char * pszLayer, const char * pszAccess, SAHooks *psHooks )
         char szError[200];
 
         sprintf(szError, 
-                "Not enough memory to allocate requested memory (nRecords=%d).\n"
+                "Нехватка памяти to allocate requested memory (nRecords=%d).\n"
                 "Probably broken SHP file", 
                 psSHP->nRecords );
         psSHP->sHooks.Error( szError );
@@ -1740,7 +1740,7 @@ SHPReadObject( SHPHandle psSHP, int hEntity )
             psSHP->pabyRec = (uchar *) malloc(psSHP->nBufSize);
 
             sprintf( szError, 
-                     "Not enough memory to allocate requested memory (nBufSize=%d). "
+                     "Нехватка памяти to allocate requested memory (nBufSize=%d). "
                      "Probably broken SHP file", psSHP->nBufSize );
             psSHP->sHooks.Error( szError );
             return NULL;
@@ -1956,7 +1956,7 @@ SHPReadObject( SHPHandle psSHP, int hEntity )
             psShape->panPartType == NULL)
         {
             snprintf(szErrorMsg, sizeof(szErrorMsg),
-                    "Not enough memory to allocate requested memory (nPoints=%d, nParts=%d) for shape %d. "
+                    "Нехватка памяти to allocate requested memory (nPoints=%d, nParts=%d) for shape %d. "
                     "Probably broken SHP file", hEntity, nPoints, nParts );
             psSHP->sHooks.Error( szErrorMsg );
             SHPDestroyObject(psShape);
@@ -2158,7 +2158,7 @@ SHPReadObject( SHPHandle psSHP, int hEntity )
             psShape->padfM == NULL)
         {
             snprintf(szErrorMsg, sizeof(szErrorMsg),
-                     "Not enough memory to allocate requested memory (nPoints=%d) for shape %d. "
+                     "Нехватка памяти to allocate requested memory (nPoints=%d) for shape %d. "
                      "Probably broken SHP file", hEntity, nPoints );
             psSHP->sHooks.Error( szErrorMsg );
             SHPDestroyObject(psShape);

@@ -8,7 +8,7 @@ static const char *errolist[ERRORNO]={
 "File is not a PCRaster file",
 "Wrong C.S.F.-version",
 "Wrong byte order",
-"Not enough memory",
+"Нехватка памяти",
 "Illegal cell representation constant",
 "Acces denied",
 "Row number to big",

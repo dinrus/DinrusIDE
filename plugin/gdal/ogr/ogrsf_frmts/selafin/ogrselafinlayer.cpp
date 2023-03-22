@@ -330,7 +330,7 @@ OGRErr OGRSelafinLayer::ICreateFeature(OGRFeature *poFeature) {
         int *anMap;
         anMap=(int*)VSIMalloc2(sizeof(int),poHeader->nPointsPerElement);
         if (anMap==0) {
-            CPLError(CE_Failure,CPLE_AppDefined,"%s","Not enough memory for operation");
+            CPLError(CE_Failure,CPLE_AppDefined,"%s","Нехватка памяти for operation");
             return OGRERR_FAILURE;
         }
         for (long i=0;i<poHeader->nPointsPerElement;++i) anMap[i]=-1;

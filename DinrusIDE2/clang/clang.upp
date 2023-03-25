@@ -1,0 +1,24 @@
+description "\377B";
+
+uses
+	DinrusIDE2/Core;
+
+library(WIN32) -lclang.dll;
+
+library(LCLANG) clang;
+
+file
+	clang.h,
+	libclang.h,
+	clang.dli,
+	util.cpp,
+	macros.cpp,
+	Signature.cpp,
+	libclang.cpp,
+	clang.cpp,
+	Visitor.cpp,
+	CurrentFile.cpp,
+	Indexer.cpp,
+	Info readonly separator,
+	Copying;
+

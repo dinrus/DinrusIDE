@@ -67,7 +67,7 @@ class GridButton : public Ctrl
 	private:
 		int img;
 		int n;
-		
+
 	public:
 		typedef GridButton CLASSNAME;
 		GridButton();
@@ -238,7 +238,7 @@ class GridClipboard : Moveable<GridClipboard>
 		{
 			int col, row;
 			Value v;
-			
+
 			void SerializeAttrText(Stream& s, AttrText& a)
 			{
 				s % a.text;
@@ -250,7 +250,7 @@ class GridClipboard : Moveable<GridClipboard>
 				s % a.img;
 				s % a.imgspc;
 			}
-			
+
 			void Serialize(Stream &s)
 			{
 				s % col % row;
@@ -335,14 +335,14 @@ class GridCtrl : public Ctrl
 			UC_UPDATES   = BIT(12),
 			UC_OLDCUR    = BIT(13)
 		};
-		
+
 		enum GridRepaintOpts
 		{
 			RP_TOOLBAR   = BIT(0),
 			RP_UPDCTRLS  = BIT(1),
 			RP_ALL       = BIT_ALL
 		};
-		
+
 		enum GridCursorState
 		{
 			CU_MOUSE     = BIT(0),
@@ -350,7 +350,7 @@ class GridCtrl : public Ctrl
 			CU_CTRLMODE  = BIT(2),
 			CU_HIDECTRLS = BIT(3)
 		};
-		
+
 		enum GridSummaryOperation
 		{
 			SOP_NONE = 0,
@@ -375,7 +375,7 @@ class GridCtrl : public Ctrl
 			GE_ROW  = 0,
 			GE_CELL = 1
 		};
-		
+
 		enum GridItemCtrl
 		{
 			IC_INIT = BIT(1),
@@ -397,7 +397,7 @@ class GridCtrl : public Ctrl
 			bool IsNew()      { return newx || newy; }
 			bool IsAccepted() { return accepted;     }
 			bool IsValid()    { return valid;        }
-			
+
 			void Clear()
 			{
 				newx = newy = false;
@@ -426,13 +426,13 @@ class GridCtrl : public Ctrl
 			public:
 				friend class ItemRect;
 				friend class GridCtrl;
-	
+
 				Item()
 				{
 					ctrl    = NULL;
 					convert = NULL;
 					display = NULL;
-	
+
 					fs = fe = 0;
 					style = 0;
 					editable = true;
@@ -443,10 +443,10 @@ class GridCtrl : public Ctrl
 					cy = 0;
 					group = -1;
 					isjoined = false;
-					
+
 					rcx = 0;
 					rcy = 0;
-	
+
 					modified = false;
 					sync_flag = -1;
 					paint_flag = -1;
@@ -457,10 +457,10 @@ class GridCtrl : public Ctrl
 					if(ctrl_flag & IC_OWNED)
 						delete ctrl;
 				}
-				
+
 				void SetCtrl(Ctrl& ctrl, bool owned);
 				void ClearCtrl();
-				
+
 				void SetDisplay(GridDisplay& display);
 				void NoDisplay();
 
@@ -583,7 +583,7 @@ class GridCtrl : public Ctrl
 				GridDisplay *display;
 
 				Callback1<One<Ctrl>&> factory;
-				
+
 				static VectorMap<Id, int> *aliases;
 
 				double pos, size, prop;
@@ -594,7 +594,7 @@ class GridCtrl : public Ctrl
 
 				double tsize;
 				int  join;
-				
+
 				int sop;
 				String sopfrm;
 
@@ -669,7 +669,7 @@ class GridCtrl : public Ctrl
 				bool IsFixed() { return ismin && ismax; }
 
 				void ChangeSortMode(bool idsort = true);
-				
+
 				friend bool operator<(const ItemRect& a, const ItemRect& b)
 				{
 					if(sortMode)
@@ -784,12 +784,12 @@ class GridCtrl : public Ctrl
 
 				ItemRect& Clickable(bool b)                      { clickable = b;     return *this; }
 				ItemRect& NoClickable()                          { clickable = false; return *this; }
-				
+
 				ItemRect& Locked(bool b)                         { locked = b;        return *this; }
 				ItemRect& NoLocked(bool b)                       { locked = false;    return *this; }
 
 				ItemRect& Skip(bool b)                           { skip = b;          return *this; }
-				
+
 				ItemRect& DoAvg(const char *s = "")              { sop = SOP_AVG; sopfrm = s; return *this; }
 				ItemRect& DoSum(const char *s = "")              { sop = SOP_SUM; sopfrm = s; return *this; }
 				ItemRect& DoMin(const char *s = "")              { sop = SOP_MIN; sopfrm = s; return *this; }
@@ -823,7 +823,7 @@ class GridCtrl : public Ctrl
 		HItems hitems;
 		VItems vitems;
 		JItems joins;
-		
+
 		Vector<Item> summary;
 		Vector<Value> rowbkp;
 
@@ -926,7 +926,7 @@ class GridCtrl : public Ctrl
 		bool search_move_cursor:1;
 		bool search_display:1;
 		int  find_offset;
-		
+
 		static bool index_as_column;
 		static bool reverse_sort_icon;
 
@@ -995,7 +995,7 @@ class GridCtrl : public Ctrl
 		int  total_width, total_height;
 		int  fixed_width, fixed_height;
 		int  summary_height;
-		
+
 		int  oldSplitCol, oldSplitRow;
 
 		int  selected_rows;
@@ -1018,7 +1018,7 @@ class GridCtrl : public Ctrl
 		int  join_group;
 
 		int  sync_flag;
-		int  paint_flag;		
+		int  paint_flag;
 
 		/* Points */
 
@@ -1056,12 +1056,12 @@ class GridCtrl : public Ctrl
 
 		GridPopUpHeader pophdr;
 		FrameRight<StaticRect> scrollbox;
-		
-		int sortCol;		
+
+		int sortCol;
 		Vector<int> sortOrder;
 
 	public:
-	
+
 		struct SortOrder : Moveable<SortOrder>
 		{
 			int id;
@@ -1177,7 +1177,7 @@ class GridCtrl : public Ctrl
 		GridCtrl& SummaryRow(bool b = true)         { summary_row          = b;  return *this; }
 		GridCtrl& Popups(bool b = true)             { popups               = b;  return *this; }
 		GridCtrl& FocusLostAccepting(bool b = true) { focus_lost_accepting = b;  return *this; }
-		
+
 		GridCtrl& SearchOffset(int offset)          { find_offset     = offset;  return *this; }
 		GridCtrl& SearchMoveCursor(bool b = true)   { search_move_cursor   = b;  return *this; }
 		GridCtrl& SearchImmediate(bool b = true)    { search_immediate     = b;  return *this; }
@@ -1278,7 +1278,7 @@ class GridCtrl : public Ctrl
 		ItemRect& GetRow();
 		Item&     GetCell(int n, int m);
 		Item&     GetCell(int n, Id id);
-		
+
 		bool IsColumn(const Id& id);
 
 		int  GetCurrentRow() const;
@@ -1305,7 +1305,7 @@ class GridCtrl : public Ctrl
 		void SetCtrl(int r, int c, Ctrl* ctrl);
 		void SetCtrl(int c, Ctrl& ctrl);
 		void SetCtrl(int c, Ctrl* ctrl);
-		
+
 		void ClearCtrl(int r, int c);
 		void SetCtrlValue(int r, int c, const Value &val);
 		void SetCtrlValue(int c, const Value &val);
@@ -1337,7 +1337,7 @@ class GridCtrl : public Ctrl
 		void   SetSummary(Id id, const Value& val);
 		Value  GetSummary(int c);
 		Value  GetSummary(Id id);
-		
+
 		Vector< Vector<Value> > GetValues();
 		void SetValues(const Vector< Vector<Value> >& v);
 
@@ -1402,7 +1402,7 @@ class GridCtrl : public Ctrl
 
 		GridDisplay& GetDisplay() { return *display; }
 		GridCtrl&    SetDisplay(GridDisplay &gd) { display = &gd; return *this; }
-		
+
 		void SetDisplay(int r, int c, GridDisplay& gd);
 
 		bool IsEdit()  { return isedit; }
@@ -1431,7 +1431,7 @@ class GridCtrl : public Ctrl
 		void ClearRow(int r = -1, int column_offset = 0);
 		void Clear(bool columns = false);
 		void Reset();
-	
+
 		void ClearOperations();
 		void ClearVersions();
 
@@ -1524,7 +1524,7 @@ class GridCtrl : public Ctrl
 		bool IsSelected(int n, bool relative = true);
 		bool IsSelected(int n, int m, bool relative = true);
 		bool IsSelected();
-		
+
 		void Copy(bool all = false)  { SetClipboard(all, true);  }
 		void CopyAll()               { Copy(true);               }
 
@@ -1556,6 +1556,7 @@ class GridCtrl : public Ctrl
 		void DoGoPageUp();
 		void DoGoPageDn();
 		void DoFind();
+		void DoPaste();
 
 		void StdMenuBar(Bar &bar);
 		void StdToolBar(Bar &bar);
@@ -1611,7 +1612,7 @@ class GridCtrl : public Ctrl
 		void ReSort();
 		void MarkSort(int col, int sort_mode);
 		void MarkSort(Id id, int sort_mode);
-		
+
 		Vector<SortOrder> GetSortOrder() const;
 		Vector<Id> GetSortOrderId() const;
 
@@ -1639,12 +1640,12 @@ class GridCtrl : public Ctrl
 		operator SqlSet() const { return GetColumnList(); }
 		SqlSet GetColumnList(bool skip_hidden = false) const;
 		#endif
-		
+
 		void UpdateSummary(bool b = true);
 
 	private:
 		bool IsSelect(int n, int m, bool relative);
-	
+
 		bool TabKey(bool enter_mode);
 
 		bool Go0(int jump, bool scroll = true, bool goleft = false, bool ctrlmode = false);
@@ -1760,7 +1761,7 @@ class GridCtrl : public Ctrl
 		void DrawVertDragLine(Draw &w, int pos, int size, int dx, Color c);
 
 		void SetOrder();
-		
+
 		void Nothing();
 		void Init();
 
@@ -1774,7 +1775,6 @@ class GridCtrl : public Ctrl
 		void PasteCallbacks(bool new_row);
 		void Paste(int mode = 0);
 		void DoCopy();
-		void DoPaste();
 		void DoPasteInsertedRows();
 		void DoPasteAppendedRows();
 
@@ -1787,7 +1787,7 @@ class GridCtrl : public Ctrl
 		void  GetItemAttrs(const Item& it, const Value& val, int r, int c, const ItemRect& vi, const ItemRect& hi, dword& style, GridDisplay*& gd, Color& fg, Color& bg, Font& fnt);
 		Item& GetItemSize(int &r, int &c, int &x, int &y, int &cx, int &cy, bool &skip, bool relx = true, bool rely = true);
 		Value GetAttrTextVal(const Value& val);
-		
+
 		Image HorzPosImage();
 		Image VertPosImage();
 
@@ -1817,13 +1817,13 @@ class GridCtrl : public Ctrl
 		Event<> WhenRemoveRow;
 		Event<> WhenRemovedRow;
 		Event<> WhenDuplicateRow;
-		
+
 		Callback2<int, int> WhenMoveRow;
 
 		Event<> WhenCancelNewRow;
 
 		Event<> WhenUpdateCell;
-		
+
 		Event<> WhenUpdateSummary;
 
 		Event<> WhenNewRow;
@@ -1846,14 +1846,14 @@ class GridCtrl : public Ctrl
 		Event<> StdRemove;
 		Event<> StdDuplicate;
 		Event<> StdEdit;
-		
+
 		Event<> WhenSort;
 		Event<> WhenSorted;
-		
+
 		Event<Value&> ProcessSummaryValue;
 
 		Event<int, int, Value&> WhenPasteCell;
-		
+
 		Event<String&> WhenPasting;
 		Event<>        WhenPaste;
 };

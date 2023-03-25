@@ -666,9 +666,9 @@ void CodeEditor::FindReplace(bool pick_selection, bool pick_text, bool replace)
 	//	SetLayout_BlockReplaceLayout(findreplace);
 		findreplace.SetRect(WithBlockReplaceLayout<EmptyClass>::GetLayoutSize());
 		findreplace.Title(t_("Замена в выделении"));
-		findreplace.find_all.Hide();
+		//findreplace.find_all.Hide();
 		findreplace.amend.Hide();
-		findreplace.amend_all.Hide();
+	//	findreplace.amend_all.Hide();
 		findreplace.amend_rest.Hide();
 		findreplace.prev.Hide();
 		findreplace.next.Ok() <<= findreplace.Breaker(IDOK);

@@ -267,7 +267,7 @@ String EscValue::ToString(int maxlen, int indent_step, bool hex, int indent) con
 				s = r;
 			}
 			if(a.GetCount() > 100)
-				s << ind << "\n...more than 100 elements";
+				s << ind << "\n...более ста (100) элементов";
 			return s;
 		}
 	case ESC_LAMBDA:
@@ -312,7 +312,7 @@ String EscValue::ToString(int maxlen, int indent_step, bool hex, int indent) con
 		}
 		s = r;
 		if(map->map.GetCount() > 100)
-			s << ind << "\n...more than 100 elements";
+			s << ind << "\n...более ста (100) элементов";
 		return s;
 	}
 	return "void";

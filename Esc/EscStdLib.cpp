@@ -133,7 +133,7 @@ void ESC_mid(EscEscape& e)
 	int pos = e.Int(1);
 	int count = e.Int(2);
 	if(pos < 0 || pos + count > e[0].GetCount())
-		e.ThrowError("out of bounds in call to 'mid'");
+		e.ThrowError("вне границ при вызове 'mid'");
 	e.ret_val = e[0].ArrayGet(pos, count);
 }
 

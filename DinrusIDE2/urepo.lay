@@ -1,0 +1,72 @@
+LAYOUT(RepoSyncLayout, 680, 400)
+	ITEM(Upp::ArrayCtrl, list, AutoHideSb(true).HSizePosZ(4, 4).VSizePosZ(4, 36))
+	ITEM(Upp::Button, cancel, SetLabel(t_("Отмена")).LeftPosZ(4, 64).BottomPosZ(4, 24))
+	ITEM(Upp::Button, credentials, SetLabel(t_("Аккредитивы..")).RightPosZ(92, 80).BottomPosZ(4, 24))
+	ITEM(Upp::Button, ok, SetLabel(t_("Синхрить!")).RightPosZ(4, 84).BottomPosZ(4, 24))
+END_LAYOUT
+
+LAYOUT(CredentialsLayout, 680, 400)
+	ITEM(Upp::ArrayCtrl, list, AutoHideSb(true).HSizePosZ(4, 4).VSizePosZ(4, 36))
+	ITEM(Upp::Option, show_passwords, SetLabel(t_("Показать пароли")).LeftPosZ(4, 108).TopPosZ(372, 20))
+	ITEM(Upp::Button, passkey, SetLabel(t_("Пасс-ключ..")).LeftPosZ(116, 76).TopPosZ(372, 24))
+	ITEM(Upp::Button, add, SetLabel(t_("Добавить..")).LeftPosZ(196, 64).TopPosZ(372, 24))
+	ITEM(Upp::Button, edit, SetLabel(t_("Редактировать..")).LeftPosZ(268, 88).TopPosZ(372, 24))
+	ITEM(Upp::Button, remove, SetLabel(t_("Удалить")).LeftPosZ(360, 64).TopPosZ(372, 24))
+	ITEM(Upp::Button, clear, SetLabel(t_("Удалить все")).LeftPosZ(432, 72).TopPosZ(372, 24))
+	ITEM(Upp::Button, cancel, SetLabel(t_("Отмена")).LeftPosZ(544, 64).BottomPosZ(4, 24))
+	ITEM(Upp::Button, ok, SetLabel(t_("OK")).LeftPosZ(612, 64).BottomPosZ(4, 24))
+END_LAYOUT
+
+LAYOUT(UrepoConsoleLayout, 680, 660)
+	ITEM(Upp::ArrayCtrl, list, HSizePosZ(4, 4).VSizePosZ(4, 40))
+	ITEM(Upp::Button, exit, SetLabel(t_("Закрыть")).RightPosZ(4, 64).BottomPosZ(8, 24))
+	ITEM(Upp::Button, cancel, SetLabel(t_("Прервать")).RightPosZ(612, 64).BottomPosZ(8, 24))
+END_LAYOUT
+
+LAYOUT(SvnOptionsLayout, 140, 16)
+	ITEM(Upp::Option, commit, SetLabel(t_("Коммит")).LeftPosZ(0, 68).VCenterPosZ(16, 0))
+	ITEM(Upp::Option, update, SetLabel(t_("Обновить")).LeftPosZ(72, 68).VCenterPosZ(16, 0))
+END_LAYOUT
+
+LAYOUT(GitOptionsLayout, 164, 16)
+	ITEM(Upp::Option, pull, SetLabel(t_("Пул")).LeftPosZ(0, 48).VCenterPosZ(16, 0))
+	ITEM(Upp::Option, commit, SetLabel(t_("Коммит")).LeftPosZ(48, 68).VCenterPosZ(16, 0))
+	ITEM(Upp::Option, push, SetLabel(t_("Пуш")).LeftPosZ(116, 48).VCenterPosZ(16, 0))
+END_LAYOUT
+
+LAYOUT(CredentialLayout, 404, 156)
+	ITEM(Upp::Label, dv___0, SetLabel(t_("Улр (или директория)")).LeftPosZ(8, 120).TopPosZ(8, 19))
+	ITEM(WithDropChoice<EditString>, url, LeftPosZ(148, 248).TopPosZ(8, 19))
+	ITEM(Upp::Label, dv___2, SetLabel(t_("Имя_пользователя")).LeftPosZ(8, 104).TopPosZ(32, 19))
+	ITEM(Upp::EditString, username, LeftPosZ(148, 248).TopPosZ(32, 19))
+	ITEM(Upp::Label, dv___4, SetLabel(t_("Пароль / Токен")).LeftPosZ(8, 92).TopPosZ(56, 19))
+	ITEM(Upp::EditString, password, LeftPosZ(144, 248).TopPosZ(56, 19))
+	ITEM(Upp::Option, show_password, SetLabel(t_("Показать пароль")).LeftPosZ(12, 108).TopPosZ(132, 20))
+	ITEM(Upp::Button, cancel, SetLabel(t_("Отмена")).LeftPosZ(256, 64).BottomPosZ(4, 24))
+	ITEM(Upp::Button, ok, SetLabel(t_("OK")).LeftPosZ(332, 64).BottomPosZ(4, 24))
+	ITEM(Upp::Label, dv___9, SetLabel(t_("Заметка: Для использования OAuth токена Гитхаба,")).SetFont(Upp::StdFont().Italic()).HSizePosZ(8, 104).TopPosZ(84, 19))
+	ITEM(Upp::Label, dv___10, SetLabel(t_(" оставьте username пустым")).LeftPosZ(236, 156).TopPosZ(104, 19))
+END_LAYOUT
+
+LAYOUT(PasskeyLayout, 368, 92)
+	ITEM(Upp::Label, dv___0, SetLabel(t_("Пасс-ключ")).LeftPosZ(8, 92).TopPosZ(8, 19))
+	ITEM(Upp::EditString, passkey1, LeftPosZ(112, 248).TopPosZ(8, 19))
+	ITEM(Upp::Label, dv___2, SetLabel(t_("Пасс-ключ (подтвердить)")).LeftPosZ(8, 136).TopPosZ(32, 19))
+	ITEM(Upp::EditString, passkey2, LeftPosZ(148, 212).TopPosZ(32, 19))
+	ITEM(Upp::Option, show_passkey, SetLabel(t_("Показать пасс-ключ")).HSizePosZ(8, 232).TopPosZ(60, 20))
+	ITEM(Upp::Button, ok, SetLabel(t_("OK")).LeftPosZ(296, 64).BottomPosZ(8, 24))
+END_LAYOUT
+
+LAYOUT(GetPasskeyLayout, 368, 68)
+	ITEM(Upp::Label, dv___0, SetLabel(t_("Пасс-ключ")).LeftPosZ(8, 92).TopPosZ(8, 19))
+	ITEM(Upp::EditString, passkey, LeftPosZ(112, 248).TopPosZ(8, 19))
+	ITEM(Upp::Option, show_passkey, SetLabel(t_("Показать пасс-ключ")).LeftPosZ(8, 124).TopPosZ(36, 20))
+	ITEM(Upp::Button, ok, SetLabel(t_("OK")).LeftPosZ(296, 64).BottomPosZ(8, 24))
+END_LAYOUT
+
+LAYOUT(FailedPasskeyLayout, 324, 64)
+	ITEM(Upp::Label, dv___0, SetLabel(t_("Неверный пасс-ключ.")).LeftPosZ(8, 296).TopPosZ(8, 19))
+	ITEM(Upp::Button, clear, SetLabel(t_("Очистить креденшиалз и пасс-ключи")).LeftPosZ(8, 196).TopPosZ(32, 24))
+	ITEM(Upp::Button, ok, SetLabel(t_("Попробовать снова")).LeftPosZ(208, 112).TopPosZ(32, 24))
+END_LAYOUT
+

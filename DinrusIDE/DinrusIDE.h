@@ -1274,11 +1274,11 @@ struct SpecialFolders : WithSpecialFolders<StaticRect> {
         typedef SystemInfo CLASSNAME;
 
         SystemInfo() {
-            CtrlLayout(*this);			
+            CtrlLayout(*this);
         }
         void Fill();
 		void ButUpdate_Push();
-		
+
 		private:
         TimeCallback timeCallback;
     };
@@ -1288,7 +1288,7 @@ struct SpecialFolders : WithSpecialFolders<StaticRect> {
         typedef WindowsList_ CLASSNAME;
 
         WindowsList_() {
-            CtrlLayout(*this);			
+            CtrlLayout(*this);
         }
         void Fill();
         void ButUpdate_Push();
@@ -1306,7 +1306,7 @@ struct SpecialFolders : WithSpecialFolders<StaticRect> {
         typedef ProcessList CLASSNAME;
 
         ProcessList() {
-            CtrlLayout(*this);			
+            CtrlLayout(*this);
         }
         void Fill();
         void ButUpdate_Push();
@@ -1356,7 +1356,7 @@ struct SpecialFolders : WithSpecialFolders<StaticRect> {
         SystemInfo      systemInfo;
         ProcessList     processList;
         WindowsList_    windowsList;
-               
+
         virtual void Exit();
     };
 

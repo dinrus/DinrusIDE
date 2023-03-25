@@ -213,7 +213,7 @@ int CharFilterSlash(int c)
 	return c == '\\' ? '/' : c;
 }
 
-bool output_per_assembly;
+//bool output_per_assembly;
 
 String MakeBuild::OutDir(const Index<String>& cfg, const String& package, const VectorMap<String, String>& bm,
                    bool use_target)
@@ -241,7 +241,7 @@ String MakeBuild::OutDir(const Index<String>& cfg, const String& package, const 
 	for(int i = 0; i < x.GetCount(); i++)
 		x[i] = InitCaps(x[i]);
 	String outdir = GetVar("OUTPUT");
-	if(output_per_assembly)
+	if(output_per_assembly.Get())
 		outdir = AppendFileName(outdir, GetAssemblyId());
 	if(!use_target)
 		outdir = AppendFileName(outdir, package);

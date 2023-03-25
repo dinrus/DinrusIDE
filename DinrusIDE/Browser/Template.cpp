@@ -10,7 +10,7 @@ void TopicEditor::ListTemplates(Vector<String>& path, Vector<String>& name)
 		while(ff) {
 			if(ff.IsFile()) {
 				path.Add(AppendFileName(tmpl, ff.GetName()));
-				name.Add(GetFileTitle(ff.GetName()) + " (in " + GetFileTitle(nest) + ")");
+				name.Add(GetFileTitle(ff.GetName()) + " (в " + GetFileTitle(nest) + ")");
 			}
 			ff.Next();
 		}

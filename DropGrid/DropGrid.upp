@@ -6,6 +6,6 @@ uses
 
 file
 	DropGrid.h,
-	DropGrid.cpp,
-	DropGrid.usc;
+	DropGrid.usc,
+	DropGrid.cpp;
 

@@ -148,7 +148,7 @@ void Esc::Assign(EscValue& val, const Vector<EscValue>& sbs, int si, const EscVa
 			}
 		}
 	}
-	ThrowError("invalid indirection");
+	ThrowError("неверная индирекция");
 }
 
 void Esc::Assign(const SRVal& val, const EscValue& src)
@@ -267,7 +267,7 @@ void Esc::Subscript(Esc::SRVal& r, Esc::SRVal _self, String id)
 				Term(_self);
 				EscValue g = Get(_self);
 				if(!_self.lval || (!g.IsVoid() && !g.IsMap()))
-					ThrowError("мап l-value ил l-value void ожидались справа от !");
+					ThrowError("мап с l-м значением или l значение void ожидались справа от !");
 				if(g.IsVoid()) {
 					EscValue v;
 					v.SetEmptyMap();

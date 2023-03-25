@@ -13,7 +13,7 @@ struct HlStyle {
 struct Isx : Moveable<Isx> { // '(', '[' position
 	int    line;
 	int    pos;
-	
+
 	void Serialize(Stream& s)    { s % line % pos; }
 
 	friend bool operator==(Isx a, Isx b) { return a.line == b.line && a.pos == b.pos; }
@@ -58,9 +58,11 @@ public:
 	static void           SetHlStyle(int i, Color c, bool bold = false, bool italic = false, bool underline = false);
 	static void           LoadHlStyles(const char *s);
 	static String         StoreHlStyles();
-	static void           DarkTheme();
-	static void           WhiteTheme();
+	static void           HostColors();
+	static void           DarkTheme(bool host_colors = true);
+	static void           WhiteTheme(bool host_colors = true);
 	static void           DefaultHlStyles();
+	static void           InitOnce();
 
 	static const char    *GetHlName(int i);
 	static bool           HasHlFont(int i);
@@ -88,7 +90,7 @@ public:
 	int  GetCount() const                             { return v.GetCount(); }
 
 	const wchar *CString(const wchar *p);
-	
+
 	HighlightOutput(Vector<LineEdit::Highlight>& v);
 	~HighlightOutput();
 };
@@ -99,13 +101,13 @@ class EditorSyntax : public HighlightSetup { // Inheriting to make static member
 		String                    patterns;
 		String                    description;
 	};
-	
+
 	static ArrayMap<String, SyntaxDef>& defs();
 
 protected:
 	bool                    ignore_errors;
 	int                     comments_lang;
-	
+
 public:
 	virtual void            Clear();
 	virtual void            ScanSyntax(const wchar *ln, const wchar *e, int line, int tab_size);
@@ -124,7 +126,7 @@ public:
 
 	void    Set(const String& s)           { CTIMING("Set"); if(s.GetCount() == 0) Clear(); else LoadFromString(*this, s); }
 	String  Get()                          { CTIMING("Get"); return StoreAsString(*this); }
-	
+
 	void    IgnoreErrors()                 { ignore_errors = true; }
 	void    SpellCheckComments(int lang)   { comments_lang = lang; }
 

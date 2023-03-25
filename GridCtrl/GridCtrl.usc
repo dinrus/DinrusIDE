@@ -1,3 +1,5 @@
+namespace Upp;
+
 fn PaintVertSb(w, r)
 {
 	PaintVScrollBar(w, r);
@@ -35,35 +37,35 @@ fn PaintImageCenter(w, r, img)
 
 enum_property ColoringModes
 {
-	"0" : "None",
-	"1" : "Row",
-	"2" : "Column"
+	"0" : "Отсутствует",
+	"1" : "Ряд",
+	"2" : "Колонка"
 }
 
 enum_property ResizeModes
 {
-	"0" : "Absolute",
-	"1" : "Proportional"
+	"0" : "Абсолютно",
+	"1" : "Пропорционально"
 }
 
 enum_property ResizePaintModes
 {
-	"0" : "Line",
-	"1" : "Fixed + Line",
-	"2" : "Fixed + NonFixed"
+	"0" : "Строка",
+	"1" : "Фиксировано + Строка",
+	"2" : "Фиксировано + НеФиксировано"
 }
 
 enum_property EditModes
 {
-	"0" : "Row",
-	"1" : "Cell"
+	"0" : "Ряд",
+	"1" : "Ячейка"
 }
 
 enum_property ToolBarPos
 {
-	"0" : "Off",
-	"1" : "Top",
-	"2" : "Bottom"
+	"0" : "Выкл",
+	"1" : "Вверху",
+	"2" : "Внизу"
 }
 
 ctrl GridCtrl {
@@ -202,7 +204,7 @@ ctrl GridCtrl {
 				if(.MultiSorting)
 					sorting = 2;
 			}
-			PaintHeader(w, rt, "Column " + to_string(i + 1), sorting);
+			PaintHeader(w, rt, "Колонка " + to_string(i + 1), sorting);
 		}
 
 		if(.Indicator)
@@ -270,7 +272,7 @@ ctrl GridCtrl {
 			rt.right = rt.left + col_width;
 			rt.bottom = rt.top + header_height;
 			w.DrawRect(rt, :SLtGray);
-			PaintHeader(w, rt, "Moving columns");
+			PaintHeader(w, rt, "Перемещение колонок");
 		}
 
 		if(.MovingRows)
@@ -281,7 +283,7 @@ ctrl GridCtrl {
 			rt.right = rt.left + col_width;
 			rt.bottom = rt.top + header_height;
 			w.DrawRect(rt, :SLtGray);
-			PaintHeader(w, rt, "Moving rows");
+			PaintHeader(w, rt, "Перемещение рядов");
 		}
 
 		if(.ResizingCols)
@@ -297,7 +299,7 @@ ctrl GridCtrl {
 
 	Sample()
 	{
-		.SetText = "Text";
+		.SetText = "Текст";
 		.SetFont = Arial(10).Bold().Italic();
 	}
 };

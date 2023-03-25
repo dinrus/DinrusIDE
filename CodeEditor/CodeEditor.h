@@ -58,7 +58,7 @@ public:
 
 private:
 	struct LnInfo : Moveable<LnInfo> {
-		int    lineno;
+		int    lineno = -1;
 		String breakpoint;
 		int    error;
 		int    firstedited;
@@ -68,7 +68,7 @@ private:
 
 		LnInfo() { lineno = -1; error = 0; firstedited = 0; edited = 0; }
 	};
-	
+
 	Vector<LnInfo>   li;
 	LineInfoRem      li_removed;
 
@@ -82,9 +82,13 @@ private:
 	bool             ignored_next_edit;
 	int              next_age;
 	int              active_annotation;
+	Vector<Color>    animate;
+	Image            status_image;
 
 	String& PointBreak(int& y);
 	void    sPaintImage(Draw& w, int y, int fy, const Image& img);
+
+	friend class CodeEditor;
 
 public:
 	Event<int> WhenBreakpoint;
@@ -117,7 +121,7 @@ public:
 	void     SetLineInfo(const LineInfo& li, int total);
 	LineInfoRem & GetLineInfoRem()                   { return li_removed; }
 	void     SetLineInfoRem(LineInfoRem pick_ li)    { li_removed = pick(li); }
-	
+
 	void     ClearAnnotations();
 	void     SetAnnotation(int line, const Image& img, const String& ann);
 	String   GetAnnotation(int line) const;
@@ -132,10 +136,14 @@ public:
 	void     HiliteIfEndif(bool b)           { hilite_if_endif = b; Refresh(); }
 	void     LineNumbers(bool b);
 	void     Annotations(int width);
-	
+
 	bool     IsHiliteIfEndif() const         { return hilite_if_endif; }
-	
+
 	int      GetActiveAnnotationLine() const { return active_annotation; }
+
+	void     SetAnimate(const Vector<Color>& a)   { if(a != animate) { animate = clone(a); Refresh(); } }
+
+	void     StatusImage(const Image& m);
 
 	EditorBar();
 	virtual ~EditorBar();
@@ -164,7 +172,7 @@ struct FindReplaceDlg : FrameBottom< WithIDEFindReplaceLayout<TopWindow> > {
 	void Setup(bool doreplace);
 	void Sync();
 	bool IsIncremental() const              { return incremental.IsEnabled() && incremental; }
-	
+
 	typedef FindReplaceDlg CLASSNAME;
 
 	FindReplaceDlg();
@@ -192,6 +200,17 @@ public:
 	virtual void  Serialize(Stream& s);
 	virtual void  MouseLeave();
 	virtual void  MouseWheel(Point p, int zdelta, dword keyFlags);
+	virtual void  Layout();
+
+public:
+	struct MouseTip {
+		int            pos;
+		Value          value;
+		const Display *display;
+		Size           sz;
+		bool           delayed = false;
+		Color          background;
+	};
 
 protected:
 	virtual void HighlightLine(int line, Vector<LineEdit::Highlight>& h, int64 pos);
@@ -210,16 +229,18 @@ protected:
 
 	virtual String  GetPasteText();
 
+	TimeCallback delayed;
+
 	EditorBar   bar;
 	Vector<int> line2;
 
 	struct SyntaxPos {
 		int    line;
 		String data;
-		
+
 		void Clear() { line = 0; data.Clear(); }
 	};
-	
+
 	SyntaxPos   syntax_cache[6];
 
 //	EditorSyntax rm_ins;
@@ -245,7 +266,7 @@ protected:
 	int     ff_start_pos;
 
 	FindReplaceDlg findreplace;
-	
+
 	enum {
 		WILDANY = 16,
 		WILDONE,
@@ -265,7 +286,7 @@ protected:
 	bool   found, notfoundfw, notfoundbk;
 	int64  foundpos;
 	int    foundsize;
-	
+
 	enum { SEL_CHARS, SEL_WORDS, SEL_LINES };
 	int    selkind;
 
@@ -274,32 +295,51 @@ protected:
 	String  iwc;
 
 	String highlight;
-	
+
 	int    spellcheck_comments = 0;
 	bool   wordwrap_comments = true;
-	
+
 	struct Tip : Ctrl {
 		Value v;
+		Color background;
 		const Display *d;
-		
+
 		virtual void Paint(Draw& w);
-		
+
 		Tip();
 	};
-	
+
+	bool  delayed_tip = false;
+	Point delayed_pos = Null;
 	Tip   tip;
-	int   tippos;
-	
+	int   tippos = Null;
+
 	int   replacei;
-	
+
 	bool          search_canceled;
 	int           search_time0;
 	One<Progress> search_progress;
-	
+
 	String        refresh_info; // serialized next line syntax context to detect the need of full Refresh
 
+	Vector<Point> errors; // current file (compilation) errors
+
+	struct ScrollBarItems : Ctrl {
+		ScrollBar& sb;
+		CodeEditor& editor;
+
+		void Paint(Draw& w);
+
+		Vector<Tuple<int, Image, Color>> pos;
+
+		ScrollBarItems(ScrollBar& sb, CodeEditor& e);
+	};
+
+	ScrollBarItems sbi;
+
+
 	struct HlSt;
-	
+
 	bool   MouseSelSpecial(Point p, dword flags);
 	void   InitFindReplace();
 	void   CancelBracketHighlight(int64& pos);
@@ -351,13 +391,6 @@ protected:
 	String GetRefreshInfo(int pos);
 
 public:
-	struct MouseTip {
-		int            pos;
-		Value          value;
-		const Display *display;
-		Size           sz;
-	};
-
 	Event<>            WhenSelection;
 	Gate<MouseTip&>    WhenTip;
 	Event<>            WhenLeftDown;
@@ -374,6 +407,8 @@ public:
 
 	FrameTop<Button>    topsbbutton;
 	FrameTop<Button>    topsbbutton1;
+
+	virtual bool DelayedTip(MouseTip& tip);
 
 	static dword find_next_key;
 	static dword find_prev_key;
@@ -483,7 +518,7 @@ public:
 	void     IndentSpaces(bool is)                    { indent_spaces = is; }
 	void     IndentAmount(int ia)                     { indent_amount = ia; }
 	void     NoParenthesisIndent(bool b)              { no_parenthesis_indent = b; }
-	
+
 	void     SpellcheckComments(int lang)             { spellcheck_comments = lang; Refresh(); }
 	int      GetSpellcheckComments() const            { return spellcheck_comments; }
 	void     WordwrapComments(bool b)                 { wordwrap_comments = b; }
@@ -497,28 +532,30 @@ public:
 	void     AutoEnclose(bool b)                      { auto_enclose = b; }
 	void     BarLine(bool b)                          { barline = b; }
 	void     WordWrap(bool b)                         { wordwrap = b; }
-	
+
 	void     PersistentFindReplace(bool b = true)     { persistent_find_replace = b; }
 	bool     IsPersistentFindReplace() const          { return persistent_find_replace; }
 
 	void     FindReplaceRestorePos(bool b = true)     { do_ff_restore_pos = b; }
 	bool     IsFindReplaceRestorePos() const          { return do_ff_restore_pos; }
-	
+
 	void     Annotations(int width)                   { bar.Annotations(width); }
 	void     ClearAnnotations()                       { bar.ClearAnnotations(); }
 	void     SetAnnotation(int i, const Image& icon, const String& a) { bar.SetAnnotation(i, icon, a); }
 	String   GetAnnotation(int i) const               { return bar.GetAnnotation(i); }
 	int      GetActiveAnnotationLine() const          { return bar.GetActiveAnnotationLine(); }
-
+	Size     GetBarSize() const                       { return bar.GetSize(); }
 	void     HideBar()                                { bar.Hide(); }
+	void     AnimateBar(const Vector<Color>& a)       { bar.SetAnimate(a); }
 
-	void     SyncTip();
-	void     CloseTip()                               { if(tip.IsOpen()) tip.Close(); tip.d = NULL;  }
-	
+	void     Errors(Vector<Point>&& errs);
+
 	void     Illuminate(const WString& text);
 	WString  GetIlluminated() const                   { return illuminated; }
 
 	void     Zoom(int d);
+
+	void     StatusImage(const Image& m)              { bar.StatusImage(m); }
 
 	One<EditorSyntax> GetSyntax(int line);
 	bool IsCursorBracket(int64 pos) const;
@@ -532,9 +569,12 @@ public:
 		String find_list, replace_list;
 		bool   wholeword, wildcards, ignorecase, samecase, regexp;
 	};
-	
+
 	FindReplaceData GetFindReplaceData();
 	void            SetFindReplaceData(const FindReplaceData& d);
+
+	void     SyncTip();
+	void     CloseTip()                               { if(tip.IsOpen()) tip.Close(); tip.d = NULL;  }
 
 	typedef CodeEditor CLASSNAME;
 

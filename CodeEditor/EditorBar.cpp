@@ -518,6 +518,14 @@ EditorBar::EditorBar()
 	SyncSize();
 }
 
+void EditorBar::StatusImage(const Image& m)
+{
+	if(status_image.IsSame(m))
+		return;
+	status_image = m;
+	Refresh();
+}
+
 EditorBar::~EditorBar()
 {
 }

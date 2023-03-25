@@ -30,23 +30,46 @@ static bool s_hl_font[] = {
 };
 #undef  HL_COLOR
 
+void HighlightSetup::DefaultHlStyles()
+{
+	if(IsDarkTheme())
+		DarkTheme();
+	else
+		WhiteTheme();
+}
+
+inline void HighlightSetup::InitOnce()
+{
+	ONCELOCK {
+		static bool initialised;
+		if(!initialised) {
+			initialised = true;
+			DefaultHlStyles();
+		}
+	}
+}
+
 const HlStyle& HighlightSetup::GetHlStyle(int i)
 {
+	InitOnce();
 	return hl_style[i];
 }
 
 const char *HighlightSetup::GetHlName(int i)
 {
+	InitOnce();
 	return s_hl_name[i];
 }
 
 bool HighlightSetup::HasHlFont(int i)
 {
+	InitOnce();
 	return s_hl_font[i];
 }
 
 void  HighlightSetup::SetHlStyle(int i, Color c, bool bold, bool italic, bool underline)
 {
+	InitOnce();
 	HlStyle& st = hl_style[i];
 	st.color = c;
 	st.bold = bold;
@@ -105,7 +128,20 @@ String HighlightSetup::StoreHlStyles()
 	return r;
 }
 
-void HighlightSetup::DarkTheme()
+void HighlightSetup::HostColors()
+{
+	SetHlStyle(INK_NORMAL, SColorText);
+	SetHlStyle(INK_DISABLED, SColorDisabled);
+	SetHlStyle(INK_SELECTED, SColorHighlightText);
+	SetHlStyle(PAPER_NORMAL, SColorPaper);
+	SetHlStyle(PAPER_READONLY, SColorFace);
+	SetHlStyle(PAPER_SELECTED, SColorHighlight);
+
+	SetHlStyle(WHITESPACE, Blend(SColorLight, SColorHighlight));
+	SetHlStyle(WARN_WHITESPACE, Blend(SColorLight, SRed));
+}
+
+void HighlightSetup::DarkTheme(bool host)
 {
 	SetHlStyle(INK_NORMAL,                White);
 	SetHlStyle(PAPER_NORMAL,              Color(1, 1, 1));
@@ -155,14 +191,18 @@ void HighlightSetup::DarkTheme()
 	SetHlStyle(INK_DIFF_COMMENT,          Color(173, 255, 173));
 	SetHlStyle(PAPER_SELWORD,             Color(99, 99, 0));
 	SetHlStyle(PAPER_ERROR,               Color(90, 40, 40));
+	SetHlStyle(PAPER_ERROR_FILE,          Color(120, 40, 40));
 	SetHlStyle(PAPER_WARNING,             Color(21, 21, 0));
 	SetHlStyle(SHOW_LINE,                 Color(27, 75, 26));
 	SetHlStyle(SHOW_COLUMN,               Color(56, 33, 29));
 	SetHlStyle(WHITESPACE,                Color(68, 128, 176));
 	SetHlStyle(WARN_WHITESPACE,           Color(206, 141, 141));
+
+	if(host)
+		HostColors();
 }
 
-void HighlightSetup::WhiteTheme()
+void HighlightSetup::WhiteTheme(bool host)
 {
 	SetHlStyle(INK_COMMENT, Green, false, true);
 	SetHlStyle(PAPER_COMMENT_WORD, Yellow, false, false);
@@ -191,7 +231,7 @@ void HighlightSetup::WhiteTheme()
 	SetHlStyle(INK_SQLBOOL, Black);
 	SetHlStyle(INK_UPPMACROS, Cyan);
 	SetHlStyle(INK_UPPLOGS, Green);
-	
+
 	SetHlStyle(INK_DIFF_FILE_INFO, Black, true);
 	SetHlStyle(INK_DIFF_HEADER, Color(28, 127, 200));
 	SetHlStyle(INK_DIFF_ADDED, Color(28, 42, 255));
@@ -211,31 +251,27 @@ void HighlightSetup::WhiteTheme()
 	SetHlStyle(PAPER_BRACKET0, LtYellow);
 	SetHlStyle(PAPER_BRACKET, Yellow, true);
 
-	SetHlStyle(INK_NORMAL, SColorText);
-	SetHlStyle(INK_DISABLED, SColorDisabled);
-	SetHlStyle(INK_SELECTED, SColorHighlightText);
-	SetHlStyle(PAPER_NORMAL, SColorPaper);
-	SetHlStyle(PAPER_READONLY, SColorFace);
-	SetHlStyle(PAPER_SELECTED, SColorHighlight);
-	
 	SetHlStyle(PAPER_SELWORD, Yellow);
 
 	SetHlStyle(PAPER_ERROR, Blend(White(), LtRed(), 50));
+	SetHlStyle(PAPER_ERROR_FILE, Blend(White(), LtRed(), 150));
 	SetHlStyle(PAPER_WARNING, Blend(White(), Yellow(), 50));
 
 	SetHlStyle(SHOW_LINE, Color(199, 247, 198));
 	SetHlStyle(SHOW_COLUMN, Color(247, 224, 220));
-	
-	SetHlStyle(WHITESPACE, Blend(SColorLight, SColorHighlight));
-	SetHlStyle(WARN_WHITESPACE, Blend(SColorLight, SRed));
-}
 
-void HighlightSetup::DefaultHlStyles()
-{
-	if(IsDarkTheme())
-		DarkTheme();
-	else
-		WhiteTheme();
+	SetHlStyle(INK_NORMAL, Black());
+	SetHlStyle(INK_DISABLED, Color(109, 109, 109));
+	SetHlStyle(INK_SELECTED, White());
+	SetHlStyle(PAPER_NORMAL, White());
+	SetHlStyle(PAPER_READONLY, Color(240, 240, 240));
+	SetHlStyle(PAPER_SELECTED, Color(0, 120, 215));
+
+	SetHlStyle(WHITESPACE, Color(126, 186, 234));
+	SetHlStyle(WARN_WHITESPACE, Color(191, 126, 126));
+
+	if(host)
+		HostColors();
 }
 
 }

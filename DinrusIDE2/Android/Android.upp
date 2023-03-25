@@ -1,0 +1,23 @@
+description "DinrusIDE - модуль поддержки Android SDK/NDK\377B255,0,0";
+
+uses
+	DinrusIDE2/Core,
+	plugin/pcre;
+
+file
+	Android.h,
+	Android readonly separator,
+	Android.cpp,
+	AndroidSDK.cpp,
+	AndroidNDK.cpp,
+	Apk.cpp,
+	AndroidManifest.cpp,
+	Executable readonly separator,
+	Executables.h,
+	Adb.cpp,
+	LogCat.cpp,
+	NDKBuild.cpp,
+	Devices readonly separator,
+	Devices.h,
+	Info readonly separator,
+	Copying;

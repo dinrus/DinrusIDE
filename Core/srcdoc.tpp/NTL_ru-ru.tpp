@@ -1,4 +1,4 @@
-topic "U++ Containers overview - NTL";
+topic "Обзор контейнеров U++ - NTL";
 [l288;i704;a17;O9;~~~.992;2 $$1,0#10431211400427159095818037425705:param]
 [a83;*R6 $$2,5#31310162474203024125188417583966:caption]
 [H4;b83;*4 $$3,5#07864147445237544204411237157677:title]
@@ -19,7 +19,7 @@ topic "U++ Containers overview - NTL";
 [l160;t4167;*C+117 $$18,5#88603949442205825958800053222425:package`-title]
 [2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%RU-RU 
-[s2; U`+`+ Containers overview `- NTL&]
+[s2; [@5 Обзор контейнеров U`+`+ `- NTL]&]
 [s3; Table of contents&]
 [s0; &]
 [s0; [^topic`:`/`/Core`/srcdoc`/NTL`_ru`-ru`#1^ 1. Introduction]&]

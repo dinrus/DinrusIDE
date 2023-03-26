@@ -35,7 +35,7 @@ DWORD WINAPI Notepad_plus::monitorFileOnChange(void * params)
 {
 	MonitorInfo *monitorInfo = static_cast<MonitorInfo *>(params);
 	SciBuffer *buf = monitorInfo->_buffer;
-	HWND h = monitorInfo->_nppHandle;
+	Upp::Ctrl* h = monitorInfo->_nppHandle;
 
 	const char *fullFileName = (const char *)buf->getFullPathName();
 
@@ -126,10 +126,10 @@ void resolveLinkFile(String& linkFilePath)
 	WCHAR targetFilePath[MAX_PATH];
 	WIN32_FIND_DATA wfd = {};
 
-	HRESULT hres = CoInitialize(NULL);
+	HRESULT hres = CoInitialize(Null);
 	if (SUCCEEDED(hres))
 	{
-		hres = CoCreateInstance(CLSID_ShellLink, NULL, CLSCTX_INPROC_SERVER, IID_IShellLink, (LPVOID*)&psl);
+		hres = CoCreateInstance(CLSID_ShellLink, Null, CLSCTX_INPROC_SERVER, IID_IShellLink, (LPVOID*)&psl);
 		if (SUCCEEDED(hres))
 		{
 			IPersistFile* ppf;
@@ -141,7 +141,7 @@ void resolveLinkFile(String& linkFilePath)
 				if (SUCCEEDED(hres) && hres != S_FALSE)
 				{
 					// Resolve the link.
-					hres = psl->Resolve(NULL, 0);
+					hres = psl->Resolve(Null, 0);
 					if (SUCCEEDED(hres) && hres != S_FALSE)
 					{
 						// Get the path to the link target.
@@ -160,7 +160,7 @@ void resolveLinkFile(String& linkFilePath)
 	}
 }
 
-BufferID Notepad_plus::doOpen(const String& fileName, bool isRecursive, bool isReadOnly, int encoding, const char *backupFileName, FILETIME fileNameTimestamp)
+BufferID Notepad_plus::doOpen(const char* fileName, bool isRecursive, bool isReadOnly, int encoding, const char *backupFileName, FILETIME fileNameTimestamp)
 {
 	const rsize_t longFileNameBufferSize = MAX_PATH; // TODO stop using fixed-size buffer
 	if (fileName.size() >= longFileNameBufferSize - 1) // issue with all other sub-routines
@@ -176,7 +176,7 @@ BufferID Notepad_plus::doOpen(const String& fileName, bool isRecursive, bool isR
 	NppParameters& nppParam = NppParameters::getInstance();
 	char longFileName[longFileNameBufferSize];
 
-	const DWORD getFullPathNameResult = ::GetFullPathName(targetFileName.Begin(), longFileNameBufferSize, longFileName, NULL);
+	const DWORD getFullPathNameResult = ::GetFullPathName(targetFileName.Begin(), longFileNameBufferSize, longFileName, Null);
 	if (getFullPathNameResult == 0)
 	{
 		return BUFFER_INVALID;
@@ -193,7 +193,7 @@ BufferID Notepad_plus::doOpen(const String& fileName, bool isRecursive, bool isR
 		::GetLongPathName(longFileName, longFileName, longFileNameBufferSize);
 	}
 
-	bool isSnapshotMode = backupFileName != NULL && PathFileExists(backupFileName);
+	bool isSnapshotMode = backupFileName != Null && PathFileExists(backupFileName);
 	if (isSnapshotMode && !PathFileExists(longFileName)) // UNTITLED
 	{
 		wcscpy_s(longFileName, targetFileName.Begin());
@@ -334,11 +334,11 @@ BufferID Notepad_plus::doOpen(const String& fileName, bool isRecursive, bool isR
 	BufferID buffer;
 	if (isSnapshotMode)
 	{
-		buffer = MainFileManager.loadFile(longFileName, NULL, encoding, backupFileName, fileNameTimestamp);
+		buffer = MainFileManager.loadFile(longFileName, Null, encoding, backupFileName, fileNameTimestamp);
 
 		if (buffer != BUFFER_INVALID)
 		{
-			isSnapshotMode = (backupFileName != NULL && ::PathFileExists(backupFileName));
+			isSnapshotMode = (backupFileName != Null && ::PathFileExists(backupFileName));
 			if (isSnapshotMode)
 			{
 				// To notify plugins that a snapshot dirty file is loaded on startup
@@ -354,7 +354,7 @@ BufferID Notepad_plus::doOpen(const String& fileName, bool isRecursive, bool isR
 	}
 	else
 	{
-		buffer = MainFileManager.loadFile(longFileName, NULL, encoding);
+		buffer = MainFileManager.loadFile(longFileName, Null, encoding);
 	}
 
     if (buffer != BUFFER_INVALID)
@@ -593,7 +593,7 @@ bool Notepad_plus::doSave(BufferID id, const char * filename, bool isCopy)
 				if (openInAdminModeRes == IDYES)
 				{
 					char nppFullPath[MAX_PATH];
-					::GetModuleFileName(NULL, nppFullPath, MAX_PATH);
+					::GetModuleFileName(Null, nppFullPath, MAX_PATH);
 
 					String args = TEXT("-multiInst");
 					size_t shellExecRes = (size_t)::ShellExecute(_pPublicInterface->getHSelf(), TEXT("runas"), nppFullPath, args.Begin(), TEXT("."), SW_SHOW);
@@ -628,7 +628,7 @@ bool Notepad_plus::doSave(BufferID id, const char * filename, bool isCopy)
 				if (openInAdminModeRes == IDYES)
 				{
 					char nppFullPath[MAX_PATH];
-					::GetModuleFileName(NULL, nppFullPath, MAX_PATH);
+					::GetModuleFileName(Null, nppFullPath, MAX_PATH);
 
 					BufferID bufferID = _pEditView->getCurrentBufferID();
 					SciBuffer * buf = MainFileManager.getBufferByID(bufferID);
@@ -776,7 +776,7 @@ void Notepad_plus::doClose(BufferID id, int whichOne, bool doDeleteBackup)
 	return;
 }
 
-String Notepad_plus::exts2Filters(const String& exts, int maxExtsLen) const
+String Notepad_plus::exts2Filters(const char* exts, int maxExtsLen) const
 {
 	const char *extStr = exts.Begin();
 	char aExt[MAX_PATH];
@@ -861,7 +861,7 @@ int Notepad_plus::setFileOpenSaveDlgFilters(CustomFileDialog & fDlg, bool showAl
 		if (!inExcludedList)
 		{
 			const char *defList = l->getDefaultExtList();
-			const char *userList = NULL;
+			const char *userList = Null;
 
 			LexerStylerArray &lsa = (NppParameters::getInstance()).getLStylerArray();
 			const char *lName = l->getLangName();
@@ -1535,7 +1535,7 @@ bool Notepad_plus::fileSave(BufferID id)
 			// Make sure the directory exists
 			if (!::PathFileExists(fn_bak.Begin()))
 			{
-				SHCreateDirectory(NULL, fn_bak.Begin());
+				SHCreateDirectory(Null, fn_bak.Begin());
 			}
 
 			// Determine what to name the backed-up file
@@ -1586,7 +1586,7 @@ bool Notepad_plus::fileSave(BufferID id)
 	return false;
 }
 
-bool Notepad_plus::fileSaveSpecific(const String& fileNameToSave)
+bool Notepad_plus::fileSaveSpecific(const char* fileNameToSave)
 {
 	BufferID idToSave = _mainDocTab.findBufferByName(fileNameToSave.Begin());
 	if (idToSave == BUFFER_INVALID)
@@ -2283,7 +2283,7 @@ bool Notepad_plus::fileLoadSession(const char *fn)
 {
 	bool result = false;
 	String sessionFileName;
-	if (fn == NULL)
+	if (fn == Null)
 	{
 		CustomFileDialog fDlg(_pPublicInterface->getHSelf());
 		const char *ext = NppParameters::getInstance().getNppGUI()._definedSessionExt.Begin();
@@ -2320,7 +2320,7 @@ bool Notepad_plus::fileLoadSession(const char *fn)
 		if (!isEmptyNpp && (nppGUI._multiInstSetting == multiInstOnSession || nppGUI._multiInstSetting == multiInst))
 		{
 			char nppFullPath[MAX_PATH];
-			::GetModuleFileName(NULL, nppFullPath, MAX_PATH);
+			::GetModuleFileName(Null, nppFullPath, MAX_PATH);
 
 
 			String args = TEXT("-multiInst -nosession -openSession ");
@@ -2350,7 +2350,7 @@ bool Notepad_plus::fileLoadSession(const char *fn)
 		if (result == false)
 		{
 			_nativeLangSpeaker.messageBox("SessionFileInvalidError",
-				NULL,
+				Null,
 				TEXT("Session file is either corrupted or not valid."),
 				TEXT("Could not Load Session"),
 				MB_OK);
@@ -2389,7 +2389,7 @@ const char * Notepad_plus::fileSaveSession(size_t nbFile, char ** fileNames, con
 		(NppParameters::getInstance()).writeSession(currentSession, sessionFile2save);
 		return sessionFile2save;
 	}
-	return NULL;
+	return Null;
 }
 
 const char * Notepad_plus::fileSaveSession(size_t nbFile, char ** fileNames)

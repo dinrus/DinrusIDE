@@ -41,7 +41,7 @@ public :
 		_colour = colour2Set;
 		return oldColour;
 	};
-	void hookOn(HWND staticHandle) {
+	void hookOn(Upp::Ctrl* staticHandle) {
 		::SetWindowLongPtr(staticHandle, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
 		_oldProc = reinterpret_cast<WNDPROC>(::SetWindowLongPtr(staticHandle, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(staticProc)));
 	};
@@ -49,11 +49,11 @@ private :
 	COLORREF _colour = RGB(0xFF, 0xFF, 0xFF);
 	WNDPROC _oldProc = nullptr;
 
-	static LRESULT CALLBACK staticProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam){
+	static LRESULT CALLBACK staticProc(Upp::Ctrl* hwnd, UINT message, WPARAM wParam, LPARAM lParam){
 		ColourStaticTextHooker *pColourStaticTextHooker = reinterpret_cast<ColourStaticTextHooker *>(::GetWindowLongPtr(hwnd, GWLP_USERDATA));
 		return pColourStaticTextHooker->colourStaticProc(hwnd, message, wParam, lParam);
 	}; 
-	LRESULT CALLBACK colourStaticProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
+	LRESULT CALLBACK colourStaticProc(Upp::Ctrl* hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
 };
 
 class WordStyleDlg : public StaticDialog
@@ -61,7 +61,7 @@ class WordStyleDlg : public StaticDialog
 public :
 	WordStyleDlg() = default;
 
-    void init(HINSTANCE hInst, HWND parent)	{
+    void init(HINSTANCE hInst, Upp::Ctrl* parent)	{
         Window::init(hInst, parent);
 	};
 
@@ -90,7 +90,7 @@ public :
     virtual void redraw(bool forceUpdate = false) const {
         _pFgColour->redraw(forceUpdate);
 		_pBgColour->redraw(forceUpdate);
-		::InvalidateRect(_hStyleInfoStaticText, NULL, TRUE);
+		::InvalidateRect(_hStyleInfoStaticText, Null, TRUE);
 		::UpdateWindow(_hStyleInfoStaticText);
     };
 	
@@ -120,18 +120,18 @@ private :
     int _currentLexerIndex = 0;
 	int _currentThemeIndex = 0;
 
-    HWND _hCheckBold = nullptr;
-    HWND _hCheckItalic = nullptr;
-	HWND _hCheckUnderline = nullptr;
-    HWND _hFontNameCombo = nullptr;
-    HWND _hFontSizeCombo = nullptr;
-	HWND _hSwitch2ThemeCombo = nullptr;
+    Upp::Ctrl* _hCheckBold = nullptr;
+    Upp::Ctrl* _hCheckItalic = nullptr;
+	Upp::Ctrl* _hCheckUnderline = nullptr;
+    Upp::Ctrl* _hFontNameCombo = nullptr;
+    Upp::Ctrl* _hFontSizeCombo = nullptr;
+	Upp::Ctrl* _hSwitch2ThemeCombo = nullptr;
 
-	HWND _hFgColourStaticText = nullptr;
-	HWND _hBgColourStaticText = nullptr;
-	HWND _hFontNameStaticText = nullptr;
-	HWND _hFontSizeStaticText = nullptr;
-	HWND _hStyleInfoStaticText = nullptr;
+	Upp::Ctrl* _hFgColourStaticText = nullptr;
+	Upp::Ctrl* _hBgColourStaticText = nullptr;
+	Upp::Ctrl* _hFontNameStaticText = nullptr;
+	Upp::Ctrl* _hFontSizeStaticText = nullptr;
+	Upp::Ctrl* _hStyleInfoStaticText = nullptr;
 
 	URLCtrl _goToSettings;
 
@@ -174,7 +174,7 @@ private :
 
 	int whichTabColourIndex();
 	bool isDocumentMapStyle();
-	void move2CtrlRight(int ctrlID, HWND handle2Move, int handle2MoveWidth, int handle2MoveHeight);
+	void move2CtrlRight(int ctrlID, Upp::Ctrl* handle2Move, int handle2MoveWidth, int handle2MoveHeight);
 	void updateColour(bool which);
 	void updateFontStyleStatus(fontStyleType whitchStyle);
 	void updateExtension();
@@ -182,7 +182,7 @@ private :
 	void updateFontSize();
 	void updateUserKeywords();
 	void switchToTheme();
-	void updateThemeName(const String& themeName);
+	void updateThemeName(const char* themeName);
 	std::pair<intptr_t, intptr_t> goToPreferencesSettings();
 
 	void loadLangListFromNppParam();

@@ -27,7 +27,7 @@ WINRECT::WINRECT(WORD f, int id, LONG p)
 //
 WINRECT* WINRECT::Parent()
 {
-	WINRECT* pEntry = NULL;
+	WINRECT* pEntry = Null;
 	for (pEntry=this; pEntry->Prev(); pEntry=pEntry->Prev())
 	{
 		// go backwards to the end
@@ -63,12 +63,12 @@ WINRECT* WINRECT::InitMap(WINRECT* pWinMap, WINRECT* parent)
 	assert(pWinMap);
 
 	WINRECT* pwrc = pWinMap;  // current table entry
-	WINRECT* prev = NULL;	  // previous entry starts out none
+	WINRECT* prev = Null;	  // previous entry starts out none
 
 	while (!pwrc->IsEndGroup())
 	{
 		pwrc->prev=prev;
-		pwrc->next=NULL;
+		pwrc->next=Null;
 		if (prev)
 			prev->next = pwrc;
 		prev = pwrc;
@@ -82,7 +82,7 @@ WINRECT* WINRECT::InitMap(WINRECT* pWinMap, WINRECT* parent)
 	// safety checks
 	assert(pwrc->IsEndGroup());
 	assert(prev);
-	assert(prev->next==NULL);
-	return parent ? pwrc : NULL;
+	assert(prev->next==Null);
+	return parent ? pwrc : Null;
 }
 

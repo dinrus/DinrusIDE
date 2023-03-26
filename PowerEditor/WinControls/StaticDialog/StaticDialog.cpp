@@ -15,7 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 #include <stdio.h>
-#include <windows.h>
+//#include <windows.h>
 #include <PowerEditor/WinControls/StaticDialog/StaticDialog.h>
 #include <PowerEditor/MISC/Common/Common.h>
 #include <PowerEditor/NppDarkMode.h>
@@ -36,9 +36,9 @@ void StaticDialog::destroy()
 	::DestroyWindow(_hSelf);
 }
 
-POINT StaticDialog::getTopPoint(HWND hwnd, bool isLeft) const
+POINT StaticDialog::getTopPoint(Upp::Ctrl* hwnd, bool isLeft) const
 {
-	RECT rc;
+	Rect rc;
 	::GetWindowRect(hwnd, &rc);
 
 	POINT p;
@@ -54,7 +54,7 @@ POINT StaticDialog::getTopPoint(HWND hwnd, bool isLeft) const
 
 void StaticDialog::goToCenter()
 {
-	RECT rc;
+	Rect rc;
 	::GetClientRect(_hParent, &rc);
 	POINT center;
 	center.x = rc.left + (rc.right - rc.left)/2;
@@ -73,7 +73,7 @@ void StaticDialog::display(bool toShow, bool enhancedPositioningCheckWhenShowing
 	{
 		if (enhancedPositioningCheckWhenShowing)
 		{
-			RECT testPositionRc, candidateRc;
+			Rect testPositionRc, candidateRc;
 
 			getWindowRect(testPositionRc);
 
@@ -89,8 +89,8 @@ void StaticDialog::display(bool toShow, bool enhancedPositioningCheckWhenShowing
 		{
 			// If the user has switched from a dual monitor to a single monitor since we last
 			// displayed the dialog, then ensure that it's still visible on the single monitor.
-			RECT workAreaRect = {};
-			RECT rc = {};
+			Rect workAreaRect = {};
+			Rect rc = {};
 			::SystemParametersInfo(SPI_GETWORKAREA, 0, &workAreaRect, 0);
 			::GetWindowRect(_hSelf, &rc);
 			int newLeft = rc.left;
@@ -115,7 +115,7 @@ void StaticDialog::display(bool toShow, bool enhancedPositioningCheckWhenShowing
 	Window::display(toShow);
 }
 
-RECT StaticDialog::getViewablePositionRect(RECT testPositionRc) const
+Rect StaticDialog::getViewablePositionRect(Rect testPositionRc) const
 {
 	HMONITOR hMon = ::MonitorFromRect(&testPositionRc, MONITOR_DEFAULTTONULL);
 
@@ -124,7 +124,7 @@ RECT StaticDialog::getViewablePositionRect(RECT testPositionRc) const
 
 	bool rectPosViewableWithoutChange = false;
 
-	if (hMon != NULL)
+	if (hMon != Null)
 	{
 		// rect would be at least partially visible on a monitor
 
@@ -149,7 +149,7 @@ RECT StaticDialog::getViewablePositionRect(RECT testPositionRc) const
 		::GetMonitorInfo(hMon, &mi);
 	}
 
-	RECT returnRc = testPositionRc;
+	Rect returnRc = testPositionRc;
 
 	if (!rectPosViewableWithoutChange)
 	{
@@ -177,15 +177,15 @@ HGLOBAL StaticDialog::makeRTLResource(int dialogID, DLGTEMPLATE **ppMyDlgTemplat
 	// Get Dlg Template resource
 	HRSRC  hDialogRC = ::FindResource(_hInst, MAKEINTRESOURCE(dialogID), RT_DIALOG);
 	if (!hDialogRC)
-		return NULL;
+		return Null;
 
 	HGLOBAL  hDlgTemplate = ::LoadResource(_hInst, hDialogRC);
 	if (!hDlgTemplate)
-		return NULL;
+		return Null;
 
 	DLGTEMPLATE *pDlgTemplate = static_cast<DLGTEMPLATE *>(::LockResource(hDlgTemplate));
 	if (!pDlgTemplate)
-		return NULL;
+		return Null;
 
 	// Duplicate Dlg Template resource
 	unsigned long sizeDlg = ::SizeofResource(_hInst, hDialogRC);
@@ -212,7 +212,7 @@ void StaticDialog::create(int dialogID, bool isRTL, bool msgDestParent)
 {
 	if (isRTL)
 	{
-		DLGTEMPLATE *pMyDlgTemplate = NULL;
+		DLGTEMPLATE *pMyDlgTemplate = Null;
 		HGLOBAL hMyDlgTemplate = makeRTLResource(dialogID, &pMyDlgTemplate);
 		_hSelf = ::CreateDialogIndirectParam(_hInst, pMyDlgTemplate, _hParent, dlgProc, reinterpret_cast<LPARAM>(this));
 		::GlobalFree(hMyDlgTemplate);
@@ -222,9 +222,9 @@ void StaticDialog::create(int dialogID, bool isRTL, bool msgDestParent)
 
 	if (!_hSelf)
 	{
-		String errMsg = TEXT("CreateDialogParam() return NULL.\rGetLastError(): ");
+		String errMsg = TEXT("CreateDialogParam() return Null.\rGetLastError(): ");
 		errMsg += GetLastErrorAsString();
-		::MessageBox(NULL, errMsg.Begin(), TEXT("In StaticDialog::create()"), MB_OK);
+		::MessageBox(Null, errMsg.Begin(), TEXT("In StaticDialog::create()"), MB_OK);
 		return;
 	}
 
@@ -234,7 +234,7 @@ void StaticDialog::create(int dialogID, bool isRTL, bool msgDestParent)
 	::SendMessage(msgDestParent ? _hParent : (::GetParent(_hParent)), NPPM_MODELESSDIALOG, MODELESSDIALOGADD, reinterpret_cast<WPARAM>(_hSelf));
 }
 
-intptr_t CALLBACK StaticDialog::dlgProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+intptr_t CALLBACK StaticDialog::dlgProc(Upp::Ctrl* hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch (message)
 	{

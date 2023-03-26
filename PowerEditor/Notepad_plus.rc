@@ -21,7 +21,7 @@
 // and change non ANSI symbol to ?
 #pragma code_page(65001)
 
-#include <windows.h>
+//#include <windows.h>
 #include <PowerEditor/resource.h>
 #include <PowerEditor/menuCmdID.h>
 

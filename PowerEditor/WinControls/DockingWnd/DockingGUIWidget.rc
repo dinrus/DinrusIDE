@@ -15,7 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
-#include <windows.h>
+//#include <windows.h>
 #include "dockingResource.h"
 
 IDD_CONTAINER_DLG DIALOGEX 0, 0, 186, 103

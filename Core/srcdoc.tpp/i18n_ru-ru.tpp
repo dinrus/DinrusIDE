@@ -1,4 +1,4 @@
-topic "Internationalization and translation files";
+topic "Интернационализация и файлы переводов";
 [l288;i704;a17;O9;~~~.992;2 $$1,0#10431211400427159095818037425705:param]
 [a83;*R6 $$2,5#31310162474203024125188417583966:caption]
 [b83;*2 $$3,5#07864147445237544204411237157677:title]
@@ -20,7 +20,7 @@ topic "Internationalization and translation files";
 [@(128.0.255)2 $$19,0#65874547464505293575048467215454:QTF Chr]
 [2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%RU-RU 
-[s2; Internationalization and translation files&]
+[s2; [@5 Интернационализация и файлы переводов]&]
 [s5; To internationalize your application, you need to provide versions 
 of string literals in all required languages. In U`+`+, you can 
 do this using translation files.&]
@@ -65,13 +65,13 @@ map of t`_ tagged string literals and then combines this information
 with any valid .t files it finds. This operation also allows 
 adding new languages to .t files.&]
 [s5; t. files are always in UTF8 encoding.  To change the encoding 
-for your file, you can right`-click on the file in DinrusIDE, and 
-select `'Convert to encoding...`'.  Note that if you use Windows 
-Notepad to save the file as UTF`-8, you may need to strip out 
-the BOM that Windows may have included, or you may experience 
+for your file, you can right`-click on the file in DinrusIDE, 
+and select `'Convert to encoding...`'.  Note that if you use 
+Windows Notepad to save the file as UTF`-8, you may need to strip 
+out the BOM that Windows may have included, or you may experience 
 compiling errors.&]
-[s5; DinrusIDE also maintains translation repository `- it stores ALL 
-translations that it meets into this file. Each time .t file 
+[s5; DinrusIDE also maintains translation repository `- it stores 
+ALL translations that it meets into this file. Each time .t file 
 is synchronized, DinrusIDE tries to supply all missing translations 
 from repository and also adds all translation existing in .t 
 file back to repository. This is e.g. great when some source 
@@ -137,10 +137,10 @@ understand English, but can understand some other language):&]
 [s0; &]
 [s5; Each U`+`+ application performs search for .tr files at startup 
 and uses them to extend internal translation tables.&]
-[s5; .tr files can be also imported to .t files using DinrusIDE`'s `"Import 
-runtime translation`" function of Workspace menu. Note that this 
-function does not add new languages to .t files `- just adds 
-translations to languages added manually.&]
+[s5; .tr files can be also imported to .t files using DinrusIDE`'s 
+`"Import runtime translation`" function of Workspace menu. Note 
+that this function does not add new languages to .t files `- 
+just adds translations to languages added manually.&]
 [s5; When `-`-export`-tr is used without parameter, it exports all 
 compile`-time languages. This is useful for maintenance purposes.&]
 [s5; You will need to include the following in [* one of your compiled 

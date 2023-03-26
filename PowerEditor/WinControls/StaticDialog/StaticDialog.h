@@ -17,7 +17,7 @@
 //#include <PowerEditor/MISC/PluginsManager/Notepad_plus_msgs.h>
 #include <PowerEditor/WinControls/Window.h>
 
-typedef HRESULT (WINAPI * ETDTProc) (HWND, DWORD);
+typedef HRESULT (WINAPI * ETDTProc) (Upp::Ctrl*, DWORD);
 
 enum class PosAlign { left, right, top, bottom };
 
@@ -44,16 +44,16 @@ public :
 	virtual void create(int dialogID, bool isRTL = false, bool msgDestParent = true);
 
     virtual bool isCreated() const {
-		return (_hSelf != NULL);
+		return (_hSelf != Null);
 	}
 
 	void goToCenter();
 
 	void display(bool toShow = true, bool enhancedPositioningCheckWhenShowing = false) const;
 
-	RECT getViewablePositionRect(RECT testRc) const;
+	Rect getViewablePositionRect(Rect testRc) const;
 
-	POINT getTopPoint(HWND hwnd, bool isLeft = true) const;
+	POINT getTopPoint(Upp::Ctrl* hwnd, bool isLeft = true) const;
 
 	bool isCheckedOrNot(int checkControlID) const
 	{
@@ -68,8 +68,8 @@ public :
     virtual void destroy() override;
 
 protected:
-	RECT _rc = {};
-	static intptr_t CALLBACK dlgProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
+	Rect _rc = {};
+	static intptr_t CALLBACK dlgProc(Upp::Ctrl* hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 	virtual intptr_t CALLBACK run_dlgProc(UINT message, WPARAM wParam, LPARAM lParam) = 0;
 
 	HGLOBAL makeRTLResource(int dialogID, DLGTEMPLATE **ppMyDlgTemplate);

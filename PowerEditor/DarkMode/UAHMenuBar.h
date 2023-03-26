@@ -5,7 +5,7 @@
 
 // processes messages related to UAH / custom menubar drawing.
 // return true if handled, false to continue with normal processing in your wndproc
-bool UAHDarkModeWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam, LRESULT* lr);
+bool UAHDarkModeWndProc(Upp::Ctrl* hWnd, UINT message, WPARAM wParam, LPARAM lParam, LRESULT* lr);
 
 // window messages related to menu bar drawing
 #define WM_UAHDESTROYWINDOW    0x0090	// handled by DefWindowProc
@@ -40,7 +40,7 @@ typedef struct tagUAHMENUPOPUPMETRICS
 // hmenu is the main window menu; hdc is the context to draw in
 typedef struct tagUAHMENU
 {
-	HMENU hmenu;
+	Menu* hmenu;
 	HDC hdc;
 	DWORD dwFlags; // no idea what these mean, in my testing it's either 0x00000a00 or sometimes 0x00000a10
 } UAHMENU;

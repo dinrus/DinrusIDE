@@ -25,7 +25,7 @@ struct MenuItemUnit final
 	String _parentFolderName;
 
 	MenuItemUnit() = default;
-	MenuItemUnit(unsigned long cmdID, const String& itemName, const String& parentFolderName = String())
+	MenuItemUnit(unsigned long cmdID, const char* itemName, const char* parentFolderName = String())
 		: _cmdID(cmdID), _itemName(itemName), _parentFolderName(parentFolderName){};
 	MenuItemUnit(unsigned long cmdID, const char *itemName, const char *parentFolderName = nullptr);
 };
@@ -36,11 +36,11 @@ class ContextMenu final
 public:
 	~ContextMenu();
 
-	void create(HWND hParent, const std::vector<MenuItemUnit> & menuItemArray, const HMENU mainMenuHandle = NULL, bool copyLink = false);
-	bool isCreated() const {return _hMenu != NULL;}
+	void create(Upp::Ctrl* hParent, const std::vector<MenuItemUnit> & menuItemArray, const Menu* mainMenuHandle = Null, bool copyLink = false);
+	bool isCreated() const {return _hMenu != Null;}
 	
 	void display(const POINT & p) const {
-		::TrackPopupMenu(_hMenu, TPM_LEFTALIGN, p.x, p.y, 0, _hParent, NULL);
+		::TrackPopupMenu(_hMenu, TPM_LEFTALIGN, p.x, p.y, 0, _hParent, Null);
 	}
 
 	void enableItem(int cmdID, bool doEnable) const
@@ -54,14 +54,14 @@ public:
 		::CheckMenuItem(_hMenu, cmdID, MF_BYCOMMAND | (doCheck ? MF_CHECKED : MF_UNCHECKED));
 	}
 
-	HMENU getMenuHandle() const
+	Menu* getMenuHandle() const
 	{
 		return _hMenu;
 	}
 
 private:
-	HWND _hParent = NULL;
-	HMENU _hMenu = NULL;
-	std::vector<HMENU> _subMenus;
+	Upp::Ctrl* _hParent = Null;
+	Menu* _hMenu = Null;
+	std::vector<Menu*> _subMenus;
 
 };

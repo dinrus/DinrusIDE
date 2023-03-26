@@ -28,7 +28,7 @@ class ColourPicker : public Window
 public :
 	ColourPicker() = default;
     ~ColourPicker() = default;
-	virtual void init(HINSTANCE hInst, HWND parent);
+	virtual void init(HINSTANCE hInst, Upp::Ctrl* parent);
 	virtual void destroy();
     void setColour(COLORREF c) {
         _currentColour = c;
@@ -44,7 +44,7 @@ private :
 	ColourPopup *_pColourPopup = nullptr;
 	bool _isEnabled = true;
 
-    static LRESULT CALLBACK staticWinProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam) {
+    static LRESULT CALLBACK staticWinProc(Upp::Ctrl* hwnd, UINT Message, WPARAM wParam, LPARAM lParam) {
         return (((ColourPicker *)(::GetWindowLongPtr(hwnd, GWLP_USERDATA)))->runProc(Message, wParam, lParam));
     };
 	LRESULT runProc(UINT Message, WPARAM wParam, LPARAM lParam);

@@ -39,7 +39,7 @@ public:
     int scaledScreenHeight() { return scaledSystemMetricY(SM_CYSCREEN); }
 
     // Scale rectangle from raw pixels to relative pixels.
-    void scaleRect(__inout RECT *pRect) {
+    void scaleRect(__inout Rect *pRect) {
         pRect->left = scaleX(pRect->left);
         pRect->right = scaleX(pRect->right);
         pRect->top = scaleY(pRect->top);
@@ -80,7 +80,7 @@ private:
 
 
 	void init() {
-	    HDC hdc = GetDC(NULL);
+	    HDC hdc = GetDC(Null);
         if (hdc)
         {
             // Initialize the DPIManager member variable
@@ -88,7 +88,7 @@ private:
             // With all Windows OS's to date the X and Y DPI will be identical
             _dpiX = GetDeviceCaps(hdc, LOGPIXELSX);
             _dpiY = GetDeviceCaps(hdc, LOGPIXELSY);
-            ReleaseDC(NULL, hdc);
+            ReleaseDC(Null, hdc);
         }
 	};
 

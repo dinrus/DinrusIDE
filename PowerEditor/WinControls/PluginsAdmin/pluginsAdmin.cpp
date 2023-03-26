@@ -75,7 +75,7 @@ bool findStrNoCase(const String & strHaystack, const String & strNeedle)
 	return (it != strHaystack.end());
 }
 
-bool PluginsAdminDlg::isFoundInAvailableListFromIndex(int index, const String& str2search, bool inWhichPart) const
+bool PluginsAdminDlg::isFoundInAvailableListFromIndex(int index, const char* str2search, bool inWhichPart) const
 {
 	PluginUpdateInfo* pui = _availableList.getPluginInfoFromUiIndex(index);
 	String searchIn;
@@ -87,7 +87,7 @@ bool PluginsAdminDlg::isFoundInAvailableListFromIndex(int index, const String& s
 	return (findStrNoCase(searchIn, str2search));
 }
 
-long PluginsAdminDlg::searchFromCurrentSel(const String& str2search, bool inWhichPart, bool isNextMode) const
+long PluginsAdminDlg::searchFromCurrentSel(const char* str2search, bool inWhichPart, bool isNextMode) const
 {
 	// search from curent selected item or from the beginning
 	long currentIndex = _availableList.getSelectedIndex();
@@ -127,7 +127,7 @@ void PluginsAdminDlg::create(int dialogID, bool isRTL, bool msgDestParent)
 
 	StaticDialog::create(dialogID, isRTL, msgDestParent);
 
-	RECT rect;
+	Rect rect;
 	getClientRect(rect);
 	_tab.init(_hInst, _hSelf, false, true);
 	NppDarkMode::subclassTabControl(_tab.getHSelf());
@@ -151,32 +151,32 @@ void PluginsAdminDlg::create(int dialogID, bool isRTL, bool msgDestParent)
 	const long marge = dpiManager.scaleX(10);
 	const int topMarge = dpiManager.scaleY(42);
 
-	HWND hResearchLabel = ::GetDlgItem(_hSelf, IDC_PLUGINADM_SEARCH_STATIC);
-	RECT researchLabelRect;
+	Upp::Ctrl* hResearchLabel = ::GetDlgItem(_hSelf, IDC_PLUGINADM_SEARCH_STATIC);
+	Rect researchLabelRect;
 	::GetClientRect(hResearchLabel, &researchLabelRect);
 	researchLabelRect.left = rect.left + marge;
 	researchLabelRect.top = topMarge + dpiManager.scaleY(4);
 	::MoveWindow(hResearchLabel, researchLabelRect.left, researchLabelRect.top, researchLabelRect.right, researchLabelRect.bottom, TRUE);
 	::InvalidateRect(hResearchLabel, nullptr, TRUE);
 
-	HWND hResearchEdit = ::GetDlgItem(_hSelf, IDC_PLUGINADM_SEARCH_EDIT);
-	RECT researchEditRect;
+	Upp::Ctrl* hResearchEdit = ::GetDlgItem(_hSelf, IDC_PLUGINADM_SEARCH_EDIT);
+	Rect researchEditRect;
 	::GetClientRect(hResearchEdit, &researchEditRect);
 	researchEditRect.left = researchLabelRect.right + marge;
 	researchEditRect.top = topMarge + dpiManager.scaleX(2);
 	::MoveWindow(hResearchEdit, researchEditRect.left, researchEditRect.top, researchEditRect.right, researchEditRect.bottom, TRUE);
 	::InvalidateRect(hResearchEdit, nullptr, TRUE);
 
-	HWND hNextButton = ::GetDlgItem(_hSelf, IDC_PLUGINADM_RESEARCH_NEXT);
-	RECT researchNextRect;
+	Upp::Ctrl* hNextButton = ::GetDlgItem(_hSelf, IDC_PLUGINADM_RESEARCH_NEXT);
+	Rect researchNextRect;
 	::GetClientRect(hNextButton, &researchNextRect);
 	researchNextRect.left = researchEditRect.left + researchEditRect.right + marge;
 	researchNextRect.top = topMarge;
 	::MoveWindow(hNextButton, researchNextRect.left, researchNextRect.top, researchNextRect.right, researchNextRect.bottom, TRUE);
 	::InvalidateRect(hNextButton, nullptr, TRUE);
 
-	HWND hActionButton = ::GetDlgItem(_hSelf, IDC_PLUGINADM_INSTALL);
-	RECT actionRect;
+	Upp::Ctrl* hActionButton = ::GetDlgItem(_hSelf, IDC_PLUGINADM_INSTALL);
+	Rect actionRect;
 	::GetClientRect(hActionButton, &actionRect);
 	long w = actionRect.right - actionRect.left;
 	actionRect.left = rect.right - w - marge;
@@ -196,8 +196,8 @@ void PluginsAdminDlg::create(int dialogID, bool isRTL, bool msgDestParent)
 	rect.top += actionZoneHeight;
 	rect.bottom -= actionZoneHeight;
 
-	RECT listRect = rect;
-	RECT descRect = rect;
+	Rect listRect = rect;
+	Rect descRect = rect;
 
 	long descHeight = rect.bottom / 3 - marge * 2;
 	long listHeight = (rect.bottom / 3) * 2 - marge * 3;
@@ -260,7 +260,7 @@ void PluginsAdminDlg::create(int dialogID, bool isRTL, bool msgDestParent)
 
 	_installedList.reSizeView(listRect);
 
-	HWND hDesc = ::GetDlgItem(_hSelf, IDC_PLUGINADM_EDIT);
+	Upp::Ctrl* hDesc = ::GetDlgItem(_hSelf, IDC_PLUGINADM_EDIT);
 	::MoveWindow(hDesc, descRect.left, descRect.top, descRect.right, descRect.bottom, TRUE);
 	::InvalidateRect(hDesc, nullptr, TRUE);
 
@@ -347,7 +347,7 @@ bool PluginsAdminDlg::exitToInstallRemovePlugins(Operation op, const vector<Plug
 	String updaterParams = opStr;
 
 	char nppFullPath[MAX_PATH];
-	::GetModuleFileName(NULL, nppFullPath, MAX_PATH);
+	::GetModuleFileName(Null, nppFullPath, MAX_PATH);
 	updaterParams += TEXT("\"");
 	updaterParams += nppFullPath;
 	updaterParams += TEXT("\" ");
@@ -473,7 +473,7 @@ void PluginViewList::changeColumnName(COLUMN_TYPE index, const char *name2change
 	_ui.setColumnText(index, name2change);
 }
 
-bool PluginViewList::removeFromFolderName(const String& folderName)
+bool PluginViewList::removeFromFolderName(const char* folderName)
 {
 
 	for (size_t i = 0; i < _ui.nbItem(); ++i)
@@ -653,20 +653,20 @@ bool loadFromJson(std::vector<PluginUpdateInfo*>& pl, const json& j)
 #ifdef DEBUG
 		catch (const wstring& s)
 		{
-			::MessageBox(NULL, s.Begin(), TEXT("Exception caught in: PluginsAdmin loadFromJson()"), MB_ICONERROR);
+			::MessageBox(Null, s.Begin(), TEXT("Exception caught in: PluginsAdmin loadFromJson()"), MB_ICONERROR);
 			continue;
 		}
 
 		catch (std::exception& e)
 		{
-			::MessageBoxA(NULL, e.what(), "Exception caught in: PluginsAdmin loadFromJson()", MB_ICONERROR);
+			::MessageBoxA(Null, e.what(), "Exception caught in: PluginsAdmin loadFromJson()", MB_ICONERROR);
 			continue;
 		}
 #endif
 		catch (...) // If one of mandatory properties is missing or with the incorrect format, an exception is thrown then this plugin will be ignored
 		{
 #ifdef DEBUG
-			::MessageBoxA(NULL, "An unknown exception is just caught", "Unknown Exception", MB_OK);
+			::MessageBoxA(Null, "An unknown exception is just caught", "Unknown Exception", MB_OK);
 #endif
 			continue; 
 		}
@@ -674,7 +674,7 @@ bool loadFromJson(std::vector<PluginUpdateInfo*>& pl, const json& j)
 	return true;
 }
 
-PluginUpdateInfo::PluginUpdateInfo(const String& fullFilePath, const String& filename)
+PluginUpdateInfo::PluginUpdateInfo(const char* fullFilePath, const char* filename)
 {
 	if (!::PathFileExists(fullFilePath.Begin()))
 		return;
@@ -737,7 +737,7 @@ bool PluginsAdminDlg::initFromJson()
 
 	if (isSecured)
 	{
-		HMODULE hLib = NULL;
+		HMODULE hLib = Null;
 		hLib = ::LoadLibraryEx(_pluginListFullPath.Begin(), 0, LOAD_LIBRARY_AS_DATAFILE_EXCLUSIVE);
 
 		if (!hLib)
@@ -798,7 +798,7 @@ bool PluginsAdminDlg::updateList()
 bool PluginsAdminDlg::initAvailablePluginsViewFromList()
 {
 	char nppFullPathName[MAX_PATH];
-	GetModuleFileName(NULL, nppFullPathName, MAX_PATH);
+	GetModuleFileName(Null, nppFullPathName, MAX_PATH);
 
 	Version nppVer;
 	nppVer.setVersionFrom(nppFullPathName);
@@ -871,7 +871,7 @@ bool PluginsAdminDlg::loadFromPluginInfos()
 	return true;
 }
 
-PluginUpdateInfo* PluginViewList::findPluginInfoFromFolderName(const String& folderName, int& index) const
+PluginUpdateInfo* PluginViewList::findPluginInfoFromFolderName(const char* folderName, int& index) const
 {
 	index = 0;
 	for (const auto& i : _list)
@@ -955,7 +955,7 @@ bool PluginViewList::hideFromPluginInfoPtr(PluginUpdateInfo* pluginInfo2hide)
 	return false;
 }
 
-bool PluginViewList::restore(const String& folderName)
+bool PluginViewList::restore(const char* folderName)
 {
 	for (auto i : _list)
 	{
@@ -1073,9 +1073,9 @@ void PluginsAdminDlg::switchDialog(int indexToSwitch)
 
 	::SetDlgItemText(_hSelf, IDC_PLUGINADM_EDIT, desc.Begin());
 
-	HWND hInstallButton = ::GetDlgItem(_hSelf, IDC_PLUGINADM_INSTALL);
-	HWND hUpdateButton = ::GetDlgItem(_hSelf, IDC_PLUGINADM_UPDATE);
-	HWND hRemoveButton = ::GetDlgItem(_hSelf, IDC_PLUGINADM_REMOVE);
+	Upp::Ctrl* hInstallButton = ::GetDlgItem(_hSelf, IDC_PLUGINADM_INSTALL);
+	Upp::Ctrl* hUpdateButton = ::GetDlgItem(_hSelf, IDC_PLUGINADM_UPDATE);
+	Upp::Ctrl* hRemoveButton = ::GetDlgItem(_hSelf, IDC_PLUGINADM_REMOVE);
 
 	::ShowWindow(hInstallButton, showAvailable ? SW_SHOW : SW_HIDE);
 	if (showAvailable)
@@ -1128,7 +1128,7 @@ intptr_t CALLBACK PluginsAdminDlg::run_dlgProc(UINT message, WPARAM wParam, LPAR
 		{
 			if (NppDarkMode::isEnabled())
 			{
-				HWND hwnd = reinterpret_cast<HWND>(lParam);
+				Upp::Ctrl* hwnd = reinterpret_cast<Upp::Ctrl*>(lParam);
 				if (hwnd == ::GetDlgItem(_hSelf, IDC_PLUGINADM_EDIT))
 				{
 					return NppDarkMode::onCtlColor(reinterpret_cast<HDC>(wParam));
@@ -1210,7 +1210,7 @@ intptr_t CALLBACK PluginsAdminDlg::run_dlgProc(UINT message, WPARAM wParam, LPAR
 			LPNMHDR pnmh = reinterpret_cast<LPNMHDR>(lParam);
 			if (pnmh->code == TCN_SELCHANGE)
 			{
-				HWND tabHandle = _tab.getHSelf();
+				Upp::Ctrl* tabHandle = _tab.getHSelf();
 				if (pnmh->hwndFrom == tabHandle)
 				{
 					int indexClicked = int(::SendMessage(tabHandle, TCM_GETCURSEL, 0, 0));
@@ -1249,7 +1249,7 @@ intptr_t CALLBACK PluginsAdminDlg::run_dlgProc(UINT message, WPARAM wParam, LPAR
 						if ((pnmv->uNewState & LVIS_STATEIMAGEMASK) == INDEXTOSTATEIMAGEMASK(2) || // checked
 							(pnmv->uNewState & LVIS_STATEIMAGEMASK) == INDEXTOSTATEIMAGEMASK(1))   // unchecked
 						{
-							HWND hButton = ::GetDlgItem(_hSelf, buttonID);
+							Upp::Ctrl* hButton = ::GetDlgItem(_hSelf, buttonID);
 							vector<size_t> checkedArray = pViewList->getCheckedIndexes();
 							bool showButton = checkedArray.size() > 0;
 

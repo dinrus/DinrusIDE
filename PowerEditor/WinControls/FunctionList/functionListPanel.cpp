@@ -39,12 +39,12 @@ FunctionListPanel::~FunctionListPanel()
 
 void FunctionListPanel::addEntry(const char *nodeName, const char *displayText, size_t pos)
 {
-	HTREEITEM itemParent = NULL;
+	HTREEITEM itemParent = Null;
 	std::wstring posStr = std::to_wstring(pos);
 
 	HTREEITEM root = _treeView.getRoot();
 
-	if (nodeName != NULL && *nodeName != '\0')
+	if (nodeName != Null && *nodeName != '\0')
 	{
 		itemParent = _treeView.searchSubItemByName(nodeName, root);
 		if (!itemParent)
@@ -194,7 +194,7 @@ TreeParams* FunctionListPanel::getFromStateArray(String fullFilePath)
 		if (_treeParams[i]._treeState._extraData == fullFilePath)
 			return &_treeParams[i];
 	}
-	return NULL;
+	return Null;
 }
 
 void FunctionListPanel::sortOrUnsort()
@@ -215,7 +215,7 @@ void FunctionListPanel::sortOrUnsort()
 		{
 			reload();
 
-			if (_treeView.getRoot() == NULL)
+			if (_treeView.getRoot() == Null)
 				return;
 
 			_treeViewSearchResult.removeAllItems();
@@ -224,7 +224,7 @@ void FunctionListPanel::sortOrUnsort()
 			String* invalidValueStr = new String(TEXT("-1"));
 			_posStrs.push_back(invalidValueStr);
 			LPARAM lParamInvalidPosStr = reinterpret_cast<LPARAM>(invalidValueStr);
-			_treeViewSearchResult.addItem(fn, NULL, INDEX_ROOT, lParamInvalidPosStr);
+			_treeViewSearchResult.addItem(fn, Null, INDEX_ROOT, lParamInvalidPosStr);
 
 			_treeView.searchLeafAndBuildTree(_treeViewSearchResult, text2search, INDEX_LEAF);
 			_treeViewSearchResult.display(true);
@@ -354,7 +354,7 @@ void FunctionListPanel::reload()
 	if (langID == L_JS)
 		langID = L_JAVASCRIPT;
 
-	const char *udln = NULL;
+	const char *udln = Null;
 	if (langID == L_USER)
 	{
 		udln = currentBuf->getUserDefineLangName();
@@ -369,7 +369,7 @@ void FunctionListPanel::reload()
 		_posStrs.push_back(invalidValueStr);
 		LPARAM lParamInvalidPosStr = reinterpret_cast<LPARAM>(invalidValueStr);
 
-		_treeView.addItem(fn, NULL, INDEX_ROOT, lParamInvalidPosStr);
+		_treeView.addItem(fn, Null, INDEX_ROOT, lParamInvalidPosStr);
 	}
 
 	for (size_t i = 0, len = _foundFuncInfos.size(); i < len; ++i)
@@ -411,7 +411,7 @@ void FunctionListPanel::reload()
 	}
 
 	// invalidate the editor rect
-	::InvalidateRect(_hSearchEdit, NULL, TRUE);
+	::InvalidateRect(_hSearchEdit, Null, TRUE);
 
 	//set scroll position
 	if (isScrollBarOn)
@@ -434,8 +434,8 @@ void FunctionListPanel::initPreferencesMenu()
 
 void FunctionListPanel::showPreferencesMenu()
 {
-	RECT rectToolbar;
-	RECT rectPreferencesButton;
+	Rect rectToolbar;
+	Rect rectPreferencesButton;
 	::GetWindowRect(_hToolbarMenu, &rectToolbar);
 	::SendMessage(_hToolbarMenu, TB_GETRECT, IDC_PREFERENCEBUTTON_FUNCLIST, (LPARAM)&rectPreferencesButton);
 
@@ -443,7 +443,7 @@ void FunctionListPanel::showPreferencesMenu()
 		NppParameters::getInstance().getNativeLangSpeaker()->isRTL() ? TPM_RIGHTALIGN | TPM_LAYOUTRTL : TPM_LEFTALIGN,
 		rectToolbar.left + rectPreferencesButton.left,
 		rectToolbar.top + rectPreferencesButton.bottom,
-		0, _hSelf, NULL);
+		0, _hSelf, Null);
 }
 
 void FunctionListPanel::markEntry()
@@ -470,10 +470,10 @@ void FunctionListPanel::findMarkEntry(HTREEITEM htItem, LONG line)
 {
 	HTREEITEM cItem;
 	TVITEM tvItem;
-	for (; htItem != NULL; htItem = _treeView.getNextSibling(htItem))
+	for (; htItem != Null; htItem = _treeView.getNextSibling(htItem))
 	{
 		cItem = _treeView.getChildFrom(htItem);
-		if (cItem != NULL)
+		if (cItem != Null)
 		{
 			findMarkEntry(cItem, line);
 		}
@@ -509,7 +509,7 @@ void FunctionListPanel::findMarkEntry(HTREEITEM htItem, LONG line)
 	}
 }
 
-void FunctionListPanel::init(HINSTANCE hInst, HWND hPere, ScintillaEditView **ppEditView)
+void FunctionListPanel::init(HINSTANCE hInst, Upp::Ctrl* hPere, ScintillaEditView **ppEditView)
 {
 	DockingDlgInterface::init(hInst, hPere);
 	_ppEditView = ppEditView;
@@ -586,7 +586,7 @@ void FunctionListPanel::notified(LPNMHDR notification)
 	if (notification->code == TTN_GETDISPINFO)
 	{
 		LPTOOLTIPTEXT lpttt = (LPTOOLTIPTEXT)notification;
-		lpttt->hinst = NULL;
+		lpttt->hinst = Null;
 
 		if (notification->idFrom == IDC_SORTBUTTON_FUNCLIST)
 		{
@@ -669,7 +669,7 @@ void FunctionListPanel::searchFuncAndSwitchView()
 	}
 	else
 	{
-		if (_treeView.getRoot() == NULL)
+		if (_treeView.getRoot() == Null)
 			return;
 
 		_treeViewSearchResult.removeAllItems();
@@ -678,7 +678,7 @@ void FunctionListPanel::searchFuncAndSwitchView()
 		String* invalidValueStr = new String(TEXT("-1"));
 		_posStrs.push_back(invalidValueStr);
 		LPARAM lParamInvalidPosStr = reinterpret_cast<LPARAM>(invalidValueStr);
-		_treeViewSearchResult.addItem(fn, NULL, INDEX_ROOT, lParamInvalidPosStr);
+		_treeViewSearchResult.addItem(fn, Null, INDEX_ROOT, lParamInvalidPosStr);
 
 		_treeView.searchLeafAndBuildTree(_treeViewSearchResult, text2search, INDEX_LEAF);
 		_treeViewSearchResult.display(true);
@@ -687,7 +687,7 @@ void FunctionListPanel::searchFuncAndSwitchView()
 		_pTreeView = &_treeViewSearchResult;
 
 		// invalidate the editor rect
-		::InvalidateRect(_hSearchEdit, NULL, TRUE);
+		::InvalidateRect(_hSearchEdit, Null, TRUE);
 	}
 
 	// restore selected sorting
@@ -697,8 +697,8 @@ void FunctionListPanel::searchFuncAndSwitchView()
 		_pTreeView->customSorting(_pTreeView->getRoot(), categorySortFunc, 0, true);
 }
 
-static WNDPROC oldFunclstToolbarProc = NULL;
-static LRESULT CALLBACK funclstToolbarProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+static WNDPROC oldFunclstToolbarProc = Null;
+static LRESULT CALLBACK funclstToolbarProc(Upp::Ctrl* hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch (message)
 	{
@@ -710,8 +710,8 @@ static LRESULT CALLBACK funclstToolbarProc(HWND hwnd, UINT message, WPARAM wPara
 	return oldFunclstToolbarProc(hwnd, message, wParam, lParam);
 }
 
-static WNDPROC oldFunclstSearchEditProc = NULL;
-static LRESULT CALLBACK funclstSearchEditProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+static WNDPROC oldFunclstSearchEditProc = Null;
+static LRESULT CALLBACK funclstSearchEditProc(Upp::Ctrl* hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch (message)
 	{
@@ -822,8 +822,8 @@ intptr_t CALLBACK FunctionListPanel::run_dlgProc(UINT message, WPARAM wParam, LP
 
 			// Create toolbar menu
 			int style = WS_CHILD | WS_VISIBLE | CCS_ADJUSTABLE | TBSTYLE_AUTOSIZE | TBSTYLE_FLAT | TBSTYLE_LIST | TBSTYLE_TRANSPARENT | BTNS_AUTOSIZE | BTNS_SEP | TBSTYLE_TOOLTIPS;
-			_hToolbarMenu = CreateWindowEx(0,TOOLBARCLASSNAME,NULL, style,
-								0,0,0,0,_hSelf,nullptr, _hInst, NULL);
+			_hToolbarMenu = CreateWindowEx(0,TOOLBARCLASSNAME,Null, style,
+								0,0,0,0,_hSelf,nullptr, _hInst, Null);
 
 			oldFunclstToolbarProc = reinterpret_cast<WNDPROC>(::SetWindowLongPtr(_hToolbarMenu, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(funclstToolbarProc)));
 
@@ -883,10 +883,10 @@ intptr_t CALLBACK FunctionListPanel::run_dlgProc(UINT message, WPARAM wParam, LP
 			_reloadTipStr = pNativeSpeaker->getAttrNameStr(_reloadTipStr.Begin(), FL_FUCTIONLISTROOTNODE, FL_RELOADLOCALNODENAME);
 			_preferenceTipStr = pNativeSpeaker->getAttrNameStr(_preferenceTipStr.Begin(), FL_FUCTIONLISTROOTNODE, FL_PREFERENCESLOCALNODENAME);
 
-			_hSearchEdit = CreateWindowEx(0, L"Edit", NULL,
+			_hSearchEdit = CreateWindowEx(0, L"Edit", Null,
 								WS_CHILD | WS_BORDER | WS_VISIBLE | ES_AUTOVSCROLL,
 								2, 2, editWidth, editHeight,
-								_hToolbarMenu, reinterpret_cast<HMENU>(IDC_SEARCHFIELD_FUNCLIST), _hInst, 0 );
+								_hToolbarMenu, reinterpret_cast<Menu*>(IDC_SEARCHFIELD_FUNCLIST), _hInst, 0 );
 
 			oldFunclstSearchEditProc = reinterpret_cast<WNDPROC>(::SetWindowLongPtr(_hSearchEdit, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(funclstSearchEditProc)));
 
@@ -991,16 +991,16 @@ intptr_t CALLBACK FunctionListPanel::run_dlgProc(UINT message, WPARAM wParam, LP
 			int height = HIWORD(lParam);
 			int extraValue = NppParameters::getInstance()._dpiManager.scaleX(4);
 
-			RECT toolbarMenuRect;
+			Rect toolbarMenuRect;
 			::GetClientRect(_hToolbarMenu, &toolbarMenuRect);
 
 			::MoveWindow(_hToolbarMenu, 0, 0, width, toolbarMenuRect.bottom, TRUE);
 
-			HWND hwnd = _treeView.getHSelf();
+			Upp::Ctrl* hwnd = _treeView.getHSelf();
 			if (hwnd)
 				::MoveWindow(hwnd, 0, toolbarMenuRect.bottom + extraValue, width, height - toolbarMenuRect.bottom - extraValue, TRUE);
 
-			HWND hwnd_aux = _treeViewSearchResult.getHSelf();
+			Upp::Ctrl* hwnd_aux = _treeViewSearchResult.getHSelf();
 			if (hwnd_aux)
 				::MoveWindow(hwnd_aux, 0, toolbarMenuRect.bottom + extraValue, width, height - toolbarMenuRect.bottom - extraValue, TRUE);
 

@@ -55,9 +55,9 @@ struct SortTaskListPred final
 };
 
 
-LRESULT CALLBACK Notepad_plus_Window::Notepad_plus_Proc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK Notepad_plus_Window::Notepad_plus_Proc(Upp::Ctrl* hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	if (hwnd == NULL)
+	if (hwnd == Null)
 		return FALSE;
 
 	switch(message)
@@ -86,7 +86,7 @@ LRESULT CALLBACK Notepad_plus_Window::Notepad_plus_Proc(HWND hwnd, UINT message,
 }
 
 
-LRESULT Notepad_plus_Window::runProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+LRESULT Notepad_plus_Window::runProc(Upp::Ctrl* hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch (message)
 	{
@@ -101,12 +101,12 @@ LRESULT Notepad_plus_Window::runProc(HWND hwnd, UINT message, WPARAM wParam, LPA
 
 				if (NppDarkMode::isEnabled() && NppDarkMode::isExperimentalSupported())
 				{
-					RECT rcClient;
+					Rect rcClient;
 					GetWindowRect(hwnd, &rcClient);
 
 					// Inform application of the frame change.
 					SetWindowPos(hwnd,
-						NULL,
+						Null,
 						rcClient.left, rcClient.top,
 						rcClient.right - rcClient.left, rcClient.bottom - rcClient.top,
 						SWP_FRAMECHANGED);
@@ -141,7 +141,7 @@ int CharacterIs(char c, const char *any)
 	return FALSE;
 }
 
-LRESULT Notepad_plus::process(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+LRESULT Notepad_plus::process(Upp::Ctrl* hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	LRESULT result = FALSE;
 	NppParameters& nppParam = NppParameters::getInstance();
@@ -181,7 +181,7 @@ LRESULT Notepad_plus::process(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 		{
 			if (NppDarkMode::isEnabled())
 			{
-				RECT rc = {};
+				Rect rc = {};
 				GetClientRect(hwnd, &rc);
 				::FillRect(reinterpret_cast<HDC>(wParam), &rc, NppDarkMode::getDarkerBackgroundBrush());
 				return 0;
@@ -361,7 +361,7 @@ LRESULT Notepad_plus::process(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 			if (isFirstTime)
 				_nativeLangSpeaker.changeDlgLang(_findReplaceDlg.getHSelf(), "Find");
 			_findReplaceDlg.launchFindInProjectsDlg();
-			_findReplaceDlg.setProjectCheckmarks(NULL, (int) wParam);
+			_findReplaceDlg.setProjectCheckmarks(Null, (int) wParam);
 			return TRUE;
 		}
 
@@ -377,7 +377,7 @@ LRESULT Notepad_plus::process(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 
 			_pEditView->getGenericSelectedText(str, strSize);
 			_findReplaceDlg.setSearchText(str);
-			setFindReplaceFolderFilter(NULL, NULL);
+			setFindReplaceFolderFilter(Null, Null);
 
 			if (isFirstTime)
 				_nativeLangSpeaker.changeFindReplaceDlgLang(_findReplaceDlg);
@@ -608,7 +608,7 @@ LRESULT Notepad_plus::process(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 
 		case WM_SIZE:
 		{
-			RECT rc;
+			Rect rc;
 			_pPublicInterface->getClientRect(rc);
 			if (lParam == 0)
 				lParam = MAKELPARAM(rc.right - rc.left, rc.bottom - rc.top);
@@ -723,8 +723,8 @@ LRESULT Notepad_plus::process(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 		{
 			if (HIWORD(wParam) == SCEN_SETFOCUS)
 			{
-				HWND hMain = _mainEditView.getHSelf(), hSec = _subEditView.getHSelf();
-				HWND hFocus = reinterpret_cast<HWND>(lParam);
+				Upp::Ctrl* hMain = _mainEditView.getHSelf(), hSec = _subEditView.getHSelf();
+				Upp::Ctrl* hFocus = reinterpret_cast<Upp::Ctrl*>(lParam);
 				if (hMain == hFocus)
 					switchEditViewTo(MAIN_VIEW);
 				else if (hSec == hFocus)
@@ -970,7 +970,7 @@ LRESULT Notepad_plus::process(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 			const int strSize = MAX_PATH;
 			char str[strSize];
 
-			::GetModuleFileName(NULL, str, strSize);
+			::GetModuleFileName(Null, str, strSize);
 
 			if (message == NPPM_GETNPPDIRECTORY)
 				PathRemoveFileSpec(str);
@@ -1395,7 +1395,7 @@ LRESULT Notepad_plus::process(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 
 		case WM_FRSAVE_INT:
 		{
-			_macro.push_back(recordedMacroStep(static_cast<int32_t>(wParam), 0, lParam, NULL, recordedMacroStep::mtSavedSnR));
+			_macro.push_back(recordedMacroStep(static_cast<int32_t>(wParam), 0, lParam, Null, recordedMacroStep::mtSavedSnR));
 			break;
 		}
 
@@ -1475,12 +1475,12 @@ LRESULT Notepad_plus::process(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 
 		case NPPM_CREATESCINTILLAHANDLE:
 		{
-			return (LRESULT)_scintillaCtrls4Plugins.createSintilla((lParam ? reinterpret_cast<HWND>(lParam) : hwnd));
+			return (LRESULT)_scintillaCtrls4Plugins.createSintilla((lParam ? reinterpret_cast<Upp::Ctrl*>(lParam) : hwnd));
 		}
 
 		case NPPM_INTERNAL_GETSCINTEDTVIEW:
 		{
-			return (LRESULT)_scintillaCtrls4Plugins.getScintillaEditViewFrom(reinterpret_cast<HWND>(lParam));
+			return (LRESULT)_scintillaCtrls4Plugins.getScintillaEditViewFrom(reinterpret_cast<Upp::Ctrl*>(lParam));
 		}
 
 		case NPPM_INTERNAL_ENABLESNAPSHOT:
@@ -1491,7 +1491,7 @@ LRESULT Notepad_plus::process(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 
 		case NPPM_DESTROYSCINTILLAHANDLE:
 		{
-			//return _scintillaCtrls4Plugins.destroyScintilla(reinterpret_cast<HWND>(lParam));
+			//return _scintillaCtrls4Plugins.destroyScintilla(reinterpret_cast<Upp::Ctrl*>(lParam));
 
 			// Destroying allocated Scintilla makes Notepad++ crash
 			// because created Scintilla view's pointer is added into _referees of SciBuffer object automatically.
@@ -1553,7 +1553,7 @@ LRESULT Notepad_plus::process(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 			else if (wParam == NPPMAINMENU)
 				return (LRESULT)_mainMenuHandle;
 			else
-				return NULL;
+				return Null;
 		}
 
 		case NPPM_LOADSESSION:
@@ -1564,7 +1564,7 @@ LRESULT Notepad_plus::process(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 
 		case NPPM_SAVECURRENTSESSION:
 		{
-			return (LRESULT)fileSaveSession(0, NULL, reinterpret_cast<const char *>(lParam));
+			return (LRESULT)fileSaveSession(0, Null, reinterpret_cast<const char *>(lParam));
 		}
 
 		case NPPM_SAVESESSION:
@@ -1717,19 +1717,19 @@ LRESULT Notepad_plus::process(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 			return _toReduceTabBar?TRUE:FALSE;
 		}
 
-		// ADD: success->hwnd; failure->NULL
-		// REMOVE: success->NULL; failure->hwnd
+		// ADD: success->hwnd; failure->Null
+		// REMOVE: success->Null; failure->hwnd
 		case NPPM_MODELESSDIALOG:
 		{
 			if (wParam == MODELESSDIALOGADD)
 			{
 				for (size_t i = 0, len = _hModelessDlgs.size() ; i < len ; ++i)
 				{
-					if (_hModelessDlgs[i] == reinterpret_cast<HWND>(lParam))
-						return NULL;
+					if (_hModelessDlgs[i] == reinterpret_cast<Upp::Ctrl*>(lParam))
+						return Null;
 				}
 
-				_hModelessDlgs.push_back(reinterpret_cast<HWND>(lParam));
+				_hModelessDlgs.push_back(reinterpret_cast<Upp::Ctrl*>(lParam));
 				return lParam;
 			}
 			else
@@ -1738,11 +1738,11 @@ LRESULT Notepad_plus::process(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 				{
 					for (size_t i = 0, len = _hModelessDlgs.size(); i < len ; ++i)
 					{
-						if (_hModelessDlgs[i] == reinterpret_cast<HWND>(lParam))
+						if (_hModelessDlgs[i] == reinterpret_cast<Upp::Ctrl*>(lParam))
 						{
-							vector<HWND>::iterator hDlg = _hModelessDlgs.begin() + i;
+							vector<Upp::Ctrl*>::iterator hDlg = _hModelessDlgs.begin() + i;
 							_hModelessDlgs.erase(hDlg);
-							return NULL;
+							return Null;
 						}
 					}
 					return lParam;
@@ -1759,9 +1759,9 @@ LRESULT Notepad_plus::process(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 			}
 			else
 			{
-				if ((HWND(wParam) == _mainEditView.getHSelf()) || (HWND(wParam) == _subEditView.getHSelf()))
+				if ((Upp::Ctrl*(wParam) == _mainEditView.getHSelf()) || (Upp::Ctrl*(wParam) == _subEditView.getHSelf()))
 				{
-					if ((HWND(wParam) == _mainEditView.getHSelf()))
+					if ((Upp::Ctrl*(wParam) == _mainEditView.getHSelf()))
 						switchEditViewTo(MAIN_VIEW);
 					else
 						switchEditViewTo(SUB_VIEW);
@@ -1938,7 +1938,7 @@ LRESULT Notepad_plus::process(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 
 		case WM_SYNCPAINT:
 		{
-			RedrawWindow(hwnd, NULL, NULL, RDW_INVALIDATE | RDW_ERASE | RDW_ALLCHILDREN);
+			RedrawWindow(hwnd, Null, Null, RDW_INVALIDATE | RDW_ERASE | RDW_ALLCHILDREN);
 			break;
 		}
 
@@ -2123,7 +2123,7 @@ LRESULT Notepad_plus::process(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 					_pluginsManager.notify(&scnN);
 
 					if (isSnapshotMode)
-						::LockWindowUpdate(NULL);
+						::LockWindowUpdate(Null);
 					return FALSE;
 				}
 
@@ -2187,7 +2187,7 @@ LRESULT Notepad_plus::process(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 				}
 
 				if (isSnapshotMode)
-					::LockWindowUpdate(NULL);
+					::LockWindowUpdate(Null);
 
 				//Sends WM_DESTROY, Notepad++ will end
 				if (message == WM_CLOSE)
@@ -2249,7 +2249,7 @@ LRESULT Notepad_plus::process(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 
 			killAllChildren();
 			::PostQuitMessage(0);
-			_pPublicInterface->gNppHWND = NULL;
+			_pPublicInterface->gNppHWND = Null;
 			return TRUE;
 		}
 
@@ -2315,12 +2315,12 @@ LRESULT Notepad_plus::process(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 					POINT p;
 					GetCursorPos(&p);
 
-					HMENU hmenu;            // menu template
-					HMENU hTrayIconMenu;  // shortcut menu
+					Menu* hmenu;            // menu template
+					Menu* hTrayIconMenu;  // shortcut menu
 					hmenu = ::LoadMenu(_pPublicInterface->getHinst(), MAKEINTRESOURCE(IDR_SYSTRAYPOPUP_MENU));
 					hTrayIconMenu = ::GetSubMenu(hmenu, 0);
 					SetForegroundWindow(hwnd);
-					TrackPopupMenu(hTrayIconMenu, TPM_LEFTALIGN, p.x, p.y, 0, hwnd, NULL);
+					TrackPopupMenu(hTrayIconMenu, TPM_LEFTALIGN, p.x, p.y, 0, hwnd, Null);
 					PostMessage(hwnd, WM_NULL, 0, 0);
 					DestroyMenu(hmenu);
 					return TRUE;
@@ -2331,20 +2331,20 @@ LRESULT Notepad_plus::process(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 
 		case NPPM_DMMSHOW:
 		{
-			_dockingManager.showDockableDlg(reinterpret_cast<HWND>(lParam), SW_SHOW);
+			_dockingManager.showDockableDlg(reinterpret_cast<Upp::Ctrl*>(lParam), SW_SHOW);
 			return TRUE;
 		}
 
 		case NPPM_DMMHIDE:
 		{
-			_dockingManager.showDockableDlg(reinterpret_cast<HWND>(lParam), SW_HIDE);
+			_dockingManager.showDockableDlg(reinterpret_cast<Upp::Ctrl*>(lParam), SW_HIDE);
 			return TRUE;
 		}
 
 		case NPPM_DMMUPDATEDISPINFO:
 		{
-			if (::IsWindowVisible(reinterpret_cast<HWND>(lParam)))
-				_dockingManager.updateContainerInfo(reinterpret_cast<HWND>(lParam));
+			if (::IsWindowVisible(reinterpret_cast<Upp::Ctrl*>(lParam)))
+				_dockingManager.updateContainerInfo(reinterpret_cast<Upp::Ctrl*>(lParam));
 			return TRUE;
 		}
 
@@ -2368,7 +2368,7 @@ LRESULT Notepad_plus::process(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 		case NPPM_DMMGETPLUGINHWNDBYNAME : //(const char *windowName, const char *moduleName)
 		{
 			if (!lParam)
-				return NULL;
+				return Null;
 
 			char *moduleName = reinterpret_cast<char *>(lParam);
 			char *windowName = reinterpret_cast<char *>(wParam);
@@ -2389,7 +2389,7 @@ LRESULT Notepad_plus::process(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 					}
 				}
 			}
-			return NULL;
+			return Null;
 		}
 
 		case NPPM_ADDTOOLBARICON_DEPRECATED:
@@ -2551,7 +2551,7 @@ LRESULT Notepad_plus::process(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 		case NPPM_HIDEMENU:
 		{
 			bool hide = (lParam == TRUE);
-			bool isHidden = ::GetMenu(hwnd) == NULL;
+			bool isHidden = ::GetMenu(hwnd) == Null;
 			if (hide == isHidden)
 				return isHidden;
 
@@ -2560,14 +2560,14 @@ LRESULT Notepad_plus::process(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 			if (nppGUI._menuBarShow)
 				::SetMenu(hwnd, _mainMenuHandle);
 			else
-				::SetMenu(hwnd, NULL);
+				::SetMenu(hwnd, Null);
 
 			return isHidden;
 		}
 
 		case NPPM_ISMENUHIDDEN:
 		{
-			return (::GetMenu(hwnd) == NULL);
+			return (::GetMenu(hwnd) == Null);
 		}
 
 		case NPPM_HIDESTATUSBAR:
@@ -2578,7 +2578,7 @@ LRESULT Notepad_plus::process(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 			if (show == oldVal)
 				return oldVal;
 
-			RECT rc;
+			Rect rc;
 			_pPublicInterface->getClientRect(rc);
 
 			nppGUI._statusBarShow = show;
@@ -2600,8 +2600,8 @@ LRESULT Notepad_plus::process(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 
 		case NPPM_INTERNAL_ISFOCUSEDTAB:
 		{
-			HWND hTabToTest = (currentView() == MAIN_VIEW)?_mainDocTab.getHSelf():_subDocTab.getHSelf();
-			return reinterpret_cast<HWND>(lParam) == hTabToTest;
+			Upp::Ctrl* hTabToTest = (currentView() == MAIN_VIEW)?_mainDocTab.getHSelf():_subDocTab.getHSelf();
+			return reinterpret_cast<Upp::Ctrl*>(lParam) == hTabToTest;
 		}
 
 		case NPPM_INTERNAL_GETMENU:
@@ -2630,7 +2630,7 @@ LRESULT Notepad_plus::process(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 
 		case NPPM_INTERNAL_SWITCHVIEWFROMHWND:
 		{
-			HWND handle = reinterpret_cast<HWND>(lParam);
+			Upp::Ctrl* handle = reinterpret_cast<Upp::Ctrl*>(lParam);
 			if (_mainEditView.getHSelf() == handle || _mainDocTab.getHSelf() == handle)
 			{
 				switchEditViewTo(MAIN_VIEW);
@@ -2738,7 +2738,7 @@ LRESULT Notepad_plus::process(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 
 			NppDarkMode::Colors* currentColors = reinterpret_cast<NppDarkMode::Colors*>(lParam);
 
-			if (currentColors != NULL)
+			if (currentColors != Null)
 			{
 				currentColors->background = NppDarkMode::getBackgroundColor();
 				currentColors->softerBackground = NppDarkMode::getSofterBackgroundColor();
@@ -2923,7 +2923,7 @@ LRESULT Notepad_plus::process(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 
 		case WM_INITMENUPOPUP:
 		{
-			_windowsMenu.initPopupMenu(reinterpret_cast<HMENU>(wParam), _pDocTab);
+			_windowsMenu.initPopupMenu(reinterpret_cast<Menu*>(wParam), _pDocTab);
 			return TRUE;
 		}
 
@@ -2940,7 +2940,7 @@ LRESULT Notepad_plus::process(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 		{
 			const NppGUI & nppgui = nppParam.getNppGUI();
 			if (!nppgui._menuBarShow && !wParam && !_sysMenuEntering)
-				::SetMenu(hwnd, NULL);
+				::SetMenu(hwnd, Null);
 			_sysMenuEntering = false;
 			return FALSE;
 		}
@@ -2953,7 +2953,7 @@ LRESULT Notepad_plus::process(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 		case NPPM_INTERNAL_UPDATECLICKABLELINKS:
 		{
 			ScintillaEditView* pView = reinterpret_cast<ScintillaEditView*>(wParam);
-			if (pView == NULL)
+			if (pView == Null)
 			{
 				addHotSpot(_pEditView);
 				addHotSpot(_pNonEditView);

@@ -33,15 +33,15 @@ public :
 	virtual void destroy() {};
 
 public:
-	void init(HINSTANCE hInst, HWND hWnd, HWND hMessage, UINT flags);
+	void init(HINSTANCE hInst, Upp::Ctrl* hWnd, Upp::Ctrl* hMessage, UINT flags);
 
 protected:
 
-	static LRESULT CALLBACK staticWinProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
-	LRESULT runProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
+	static LRESULT CALLBACK staticWinProc(Upp::Ctrl* hwnd, UINT message, WPARAM wParam, LPARAM lParam);
+	LRESULT runProc(Upp::Ctrl* hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 private:
-	HWND _hMessage = nullptr;
+	Upp::Ctrl* _hMessage = nullptr;
 
 	BOOL _isLeftButtonDown = FALSE;
 	POINT _ptOldPos = {0, 0};

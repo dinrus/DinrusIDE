@@ -29,14 +29,14 @@ class DocumentPeeker : public StaticDialog {
 public:
 	DocumentPeeker() = default;
 
-	void init(HINSTANCE hInst, HWND hPere) {
+	void init(HINSTANCE hInst, Upp::Ctrl* hPere) {
 		Window::init(hInst, hPere);
 	};
 
 	void doDialog(POINT p, SciBuffer *buf, ScintillaEditView & scintSource);
 	void syncDisplay(SciBuffer *buf, ScintillaEditView & scintSource);
 
-    void setParent(HWND parent2set){
+    void setParent(Upp::Ctrl* parent2set){
         _hParent = parent2set;
     };
 

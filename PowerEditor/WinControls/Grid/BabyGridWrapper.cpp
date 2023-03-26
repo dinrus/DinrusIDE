@@ -21,7 +21,7 @@ const char *babyGridClassName = TEXT("BABYGRID");
 
 bool BabyGridWrapper::_isRegistered = false;
 
-void BabyGridWrapper::init(HINSTANCE hInst, HWND parent, int16_t id)
+void BabyGridWrapper::init(HINSTANCE hInst, Upp::Ctrl* parent, int16_t id)
 {
 	Window::init(hInst, parent);
 
@@ -34,7 +34,7 @@ void BabyGridWrapper::init(HINSTANCE hInst, HWND parent, int16_t id)
 					WS_CHILD | WS_VISIBLE | WS_TABSTOP | WS_BORDER,\
 					CW_USEDEFAULT, 0, CW_USEDEFAULT, 0,\
 					_hParent,\
-					reinterpret_cast<HMENU>(id), \
+					reinterpret_cast<Menu*>(id), \
 					_hInst,\
-					NULL);
+					Null);
 }

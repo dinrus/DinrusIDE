@@ -55,7 +55,7 @@ namespace // anonymous
 	// Returns a first extension from the extension specification string.
 	// Multiple extensions are separated with ';'.
 	// Example: input - ".c;.cpp;.h", output - ".c"
-	String get1stExt(const String& extSpec)
+	String get1stExt(const char* extSpec)
 	{
 		size_t pos = extSpec.Find('.');
 		if (pos != String::npos)
@@ -71,7 +71,7 @@ namespace // anonymous
 		return {};
 	}
 
-	bool replaceExt(String& name, const String& ext)
+	bool replaceExt(String& name, const char* ext)
 	{
 		if (!name.IsEmpty() && !ext.IsEmpty())
 		{
@@ -86,7 +86,7 @@ namespace // anonymous
 		return false;
 	}
 
-	bool hasExt(const String& name)
+	bool hasExt(const char* name)
 	{
 		return name.find_last_of('.') != TiXmlOutStream::npos;
 	}
@@ -172,12 +172,12 @@ namespace // anonymous
 		return {};
 	}
 
-	HWND getDialogHandle(IFileDialog* dialog)
+	Upp::Ctrl* getDialogHandle(IFileDialog* dialog)
 	{
 		com_ptr<IOleWindow> pOleWnd = dialog;
 		if (pOleWnd)
 		{
-			HWND hwnd = nullptr;
+			Upp::Ctrl* hwnd = nullptr;
 			if (SUCCEEDED(pOleWnd->GetWindow(&hwnd)))
 				return hwnd;
 		}
@@ -212,7 +212,7 @@ public:
 
 	IFACEMETHODIMP QueryInterface(REFIID riid, void** ppv) override
 	{
-		// Always set out parameter to NULL, validating it first.
+		// Always set out parameter to Null, validating it first.
 		if (!ppv)
 			return E_INVALIDARG;
 		*ppv = nullptr;
@@ -376,7 +376,7 @@ public:
 		removeHooks();
 	}
 
-	const String& getLastUsedFolder() const { return _lastUsedFolder; }
+	const char* getLastUsedFolder() const { return _lastUsedFolder; }
 
 private:
 	FileDialogEventHandler(const FileDialogEventHandler&) = delete;
@@ -389,7 +389,7 @@ private:
 	bool findControls()
 	{
 		assert(_dialog);
-		HWND hwndDlg = getDialogHandle(_dialog);
+		Upp::Ctrl* hwndDlg = getDialogHandle(_dialog);
 		if (hwndDlg)
 		{
 			EnumChildWindows(hwndDlg, &EnumChildProc, reinterpret_cast<LPARAM>(this));
@@ -439,7 +439,7 @@ private:
 		}
 		else
 		{
-			std::vector<HWND> handlesToErase;
+			std::vector<Upp::Ctrl*> handlesToErase;
 			for (auto&& x : s_handleMap)
 			{
 				if (x.second == this)
@@ -463,7 +463,7 @@ private:
 		return false;
 	}
 
-	String getAbsPath(const String& fileName)
+	String getAbsPath(const char* fileName)
 	{
 		if (::PathIsRelative(fileName.Begin()))
 		{
@@ -524,7 +524,7 @@ private:
 
 	// Enumerates the child windows of a dialog.
 	// Remember handles of "OK" button and file name edit box.
-	static BOOL CALLBACK EnumChildProc(HWND hwnd, LPARAM param)
+	static BOOL CALLBACK EnumChildProc(Upp::Ctrl* hwnd, LPARAM param)
 	{
 		const int bufferLen = MAX_PATH;
 		static char buffer[bufferLen];
@@ -540,7 +540,7 @@ private:
 			{
 				// The edit box of interest is a child of the combo box and has empty window text.
 				// We use the first combo box, but there might be the others (file type dropdown, address bar, etc).
-				HWND hwndChild = FindWindowEx(hwnd, nullptr, "Edit", "");
+				Upp::Ctrl* hwndChild = FindWindowEx(hwnd, nullptr, "Edit", "");
 				if (hwndChild && !inst->_hwndNameEdit)
 				{
 					inst->_hwndNameEdit = hwndChild;
@@ -572,8 +572,8 @@ private:
 						// Get the leftmost button.
 						if (inst->_hwndButton)
 						{
-							RECT rc1 = {};
-							RECT rc2 = {};
+							Rect rc1 = {};
+							Rect rc2 = {};
 							if (GetWindowRect(hwnd, &rc1) && GetWindowRect(inst->_hwndButton, &rc2))
 							{
 								const bool isLess = isRTL ? (rc1.right > rc2.right) : (rc1.left < rc2.left);
@@ -606,7 +606,7 @@ private:
 				// 2. left mouse click on a button (WM_LBUTTONDOWN)
 				// 3. Alt + S
 				auto ctrlId = LOWORD(msg->wParam);
-				HWND hwnd = GetDlgItem(msg->hwnd, ctrlId);
+				Upp::Ctrl* hwnd = GetDlgItem(msg->hwnd, ctrlId);
 				auto it = s_handleMap.find(hwnd);
 				if (it != s_handleMap.end() && it->second && hwnd == it->second->_hwndButton)
 					it->second->onPreFileOk();
@@ -622,7 +622,7 @@ private:
 			if (wParam == VK_RETURN)
 			{
 				// Handle return key passed to the file name edit box.
-				HWND hwnd = GetFocus();
+				Upp::Ctrl* hwnd = GetFocus();
 				auto it = s_handleMap.find(hwnd);
 				if (it != s_handleMap.end() && it->second && hwnd == it->second->_hwndNameEdit)
 					it->second->onPreFileOk();
@@ -631,7 +631,7 @@ private:
 		return ::CallNextHookEx(nullptr, nCode, wParam, lParam);
 	}
 
-	static std::unordered_map<HWND, FileDialogEventHandler*> s_handleMap;
+	static std::unordered_map<Upp::Ctrl*, FileDialogEventHandler*> s_handleMap;
 
 	long _cRef;
 	com_ptr<IFileDialog> _dialog;
@@ -640,13 +640,13 @@ private:
 	String _lastUsedFolder;
 	HHOOK _prevKbdHook = nullptr;
 	HHOOK _prevCallHook = nullptr;
-	HWND _hwndNameEdit = nullptr;
-	HWND _hwndButton = nullptr;
+	Upp::Ctrl* _hwndNameEdit = nullptr;
+	Upp::Ctrl* _hwndButton = nullptr;
 	UINT _currentType = 0;  // File type currenly selected in dialog.
 	UINT _lastSelectedType = 0;  // Last selected non-wildcard file type.
 	UINT _wildcardType = 0;  // Wildcard *.* file type index (usually 1).
 };
-std::unordered_map<HWND, FileDialogEventHandler*> FileDialogEventHandler::s_handleMap;
+std::unordered_map<Upp::Ctrl*, FileDialogEventHandler*> FileDialogEventHandler::s_handleMap;
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -668,7 +668,7 @@ public:
 			_fileTypeIndex = 0;
 
 		HRESULT hr = CoCreateInstance(id,
-			NULL,
+			Null,
 			CLSCTX_INPROC_SERVER,
 			IID_PPV_ARGS(&_dialog));
 		_customize = _dialog;
@@ -891,7 +891,7 @@ public:
 		return result;
 	}
 
-	HWND _hwndOwner = nullptr;
+	Upp::Ctrl* _hwndOwner = nullptr;
 	const char* _title = nullptr;
 	const char* _defExt = nullptr;
 	String _initialFolder;
@@ -915,7 +915,7 @@ private:
 
 ///////////////////////////////////////////////////////////////////////////////
 
-CustomFileDialog::CustomFileDialog(HWND hwnd) : _impl{ std::make_unique<Impl>() }
+CustomFileDialog::CustomFileDialog(Upp::Ctrl* hwnd) : _impl{ std::make_unique<Impl>() }
 {
 	_impl->_hwndOwner = hwnd;
 
@@ -1002,7 +1002,7 @@ bool CustomFileDialog::isReadOnly() const
 	return _impl->_hasReadonly;
 }
 
-void CustomFileDialog::enableFileTypeCheckbox(const String& text, bool value)
+void CustomFileDialog::enableFileTypeCheckbox(const char* text, bool value)
 {
 	assert(!text.IsEmpty());
 	if (!text.IsEmpty())

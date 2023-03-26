@@ -66,7 +66,7 @@ public:
     ~CRC16(){};
     unsigned short calculate(const unsigned char *data, unsigned short count)
     {
-        assert(data != NULL);
+        assert(data != Null);
         assert(count != 0);
 
         //unsigned short wordResult;

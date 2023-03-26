@@ -23,7 +23,7 @@
 
 using namespace std;
 
-void ListView::init(HINSTANCE hInst, HWND parent)
+void ListView::init(HINSTANCE hInst, Upp::Ctrl* parent)
 {
 	Window::init(hInst, parent);
 	INITCOMMONCONTROLSEX icex;
@@ -79,7 +79,7 @@ void ListView::init(HINSTANCE hInst, HWND parent)
 void ListView::destroy()
 {
 	::DestroyWindow(_hSelf);
-	_hSelf = NULL;
+	_hSelf = Null;
 }
 
 void ListView::addLine(const Vector<String> & values2Add, LPARAM lParam, int pos2insert)
@@ -109,7 +109,7 @@ void ListView::addLine(const Vector<String> & values2Add, LPARAM lParam, int pos
 	}
 }
 
-size_t ListView::findAlphabeticalOrderPos(const String& string2Cmp, SortDirection sortDir)
+size_t ListView::findAlphabeticalOrderPos(const char* string2Cmp, SortDirection sortDir)
 {
 	size_t nbItem = ListView_GetItemCount(_hSelf);
 	if (!nbItem)
@@ -164,7 +164,7 @@ std::vector<size_t> ListView::getCheckedIndexes() const
 	return checkedIndexes;
 }
 
-LRESULT ListView::runProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam)
+LRESULT ListView::runProc(Upp::Ctrl* hwnd, UINT Message, WPARAM wParam, LPARAM lParam)
 {
 	return ::CallWindowProc(_defaultProc, hwnd, Message, wParam, lParam);
 }

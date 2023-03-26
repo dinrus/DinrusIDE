@@ -35,7 +35,7 @@ public:
 		_userMax = (NppParameters::getInstance()).getNbMaxRecentFile();
 	};
 
-	void initMenu(HMENU hMenu, int idBase, int posBase, Accelerator *accelerator, bool doSubMenu = false);
+	void initMenu(Menu* hMenu, int idBase, int posBase, Accelerator *accelerator, bool doSubMenu = false);
 	void switchMode();
 	void updateMenu();
 
@@ -79,7 +79,7 @@ public:
 	};
 
 	bool isSubMenuMode() const {
-		return (_hParentMenu != NULL);
+		return (_hParentMenu != Null);
 	};
 
 private:
@@ -90,8 +90,8 @@ private:
 	int _nativeLangEncoding = -1;
 
 	// For the menu
-	HMENU _hParentMenu = nullptr;
-	HMENU _hMenu = nullptr;
+	Menu* _hParentMenu = nullptr;
+	Menu* _hMenu = nullptr;
 	int _posBase = -1;
 	int _idBase = -1;
 	bool _idFreeArray[NB_MAX_LRF_FILE] = {false};

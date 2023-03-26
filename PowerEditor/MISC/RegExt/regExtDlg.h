@@ -43,13 +43,13 @@ private :
 
 	int getNbSubKey(HKEY hKey) const {
 		int nbSubKey;
-		long result = ::RegQueryInfoKey(hKey, NULL, NULL, NULL, (LPDWORD)&nbSubKey, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+		long result = ::RegQueryInfoKey(hKey, Null, Null, Null, (LPDWORD)&nbSubKey, Null, Null, Null, Null, Null, Null, Null);
 		return (result == ERROR_SUCCESS)?nbSubKey:0;
 	}
 
 	int getNbSubValue(HKEY hKey) const {
 		int nbSubValue;
-		long result = ::RegQueryInfoKey(hKey, NULL, NULL, NULL, NULL, NULL, NULL, (LPDWORD)&nbSubValue, NULL, NULL, NULL, NULL);
+		long result = ::RegQueryInfoKey(hKey, Null, Null, Null, Null, Null, Null, (LPDWORD)&nbSubValue, Null, Null, Null, Null);
 		return (result == ERROR_SUCCESS)?nbSubValue:0;
 	}
 };

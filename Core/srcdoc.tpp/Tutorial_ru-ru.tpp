@@ -1,4 +1,4 @@
-topic "U++ Core Tutorial";
+topic "Учебник по U++ Core";
 [l288;i1120;a17;O9;~~~.1408;2 $$1,0#10431211400427159095818037425705:param]
 [a83;*R6 $$2,5#31310162474203024125188417583966:caption]
 [b83;*4 $$3,5#07864147445237544204411237157677:title]
@@ -23,7 +23,7 @@ topic "U++ Core Tutorial";
 [H8;b73;*+150 $$22,5#07864147445237544204111237153677:subtitle]
 [2 $$0,0#00000000000000000000000000000000:Default]
 [{_} 
-[s2;%% U`+`+ Core Tutorial&]
+[s2;%RU-RU [@5 Учебник по U`+`+ Core]&]
 [s22; Table of contents&]
 [s0;^`#Chapter`_1^ &]
 [s0; [^`#Chapter`_1^ 1. Basics]&]
@@ -92,8 +92,8 @@ logging.&]
 string into output log file. Log file is placed into `'config`-directory`', 
 which by default is .exe directory in Win32 and `~/.upp/appname 
 in POSIX.&]
-[s5; In DinrusIDE, you can access the log using `'Debug`'/`'View the 
-log file Alt`+L`'.&]
+[s5; In DinrusIDE, you can access the log using `'Debug`'/`'View 
+the log file Alt`+L`'.&]
 [s0; &]
 [s7; LOG(`"Hello world`");&]
 [s0; &]

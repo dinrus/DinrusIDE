@@ -38,10 +38,10 @@ COLORREF TabBarPlus::_activeTopBarUnfocusedColour = RGB(250, 210, 150);
 COLORREF TabBarPlus::_inactiveTextColour = grey;
 COLORREF TabBarPlus::_inactiveBgColour = RGB(192, 192, 192);
 
-HWND TabBarPlus::_hwndArray[nbCtrlMax] = {NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL};
+Upp::Ctrl* TabBarPlus::_hwndArray[nbCtrlMax] = {Null, Null, Null, Null, Null, Null, Null, Null, Null, Null};
 int TabBarPlus::_nbCtrl = 0;
 
-void TabBar::init(HINSTANCE hInst, HWND parent, bool isVertical, bool isMultiLine)
+void TabBar::init(HINSTANCE hInst, Upp::Ctrl* parent, bool isVertical, bool isMultiLine)
 {
 	Window::init(hInst, parent);
 	int vertical = isVertical?(TCS_VERTICAL | TCS_MULTILINE | TCS_RIGHTJUSTIFY):0;
@@ -65,7 +65,7 @@ void TabBar::init(HINSTANCE hInst, HWND parent, bool isVertical, bool isMultiLin
 				style,
 				0, 0, 0, 0,
 				_hParent,
-				NULL,
+				Null,
 				_hInst,
 				0);
 
@@ -91,7 +91,7 @@ void TabBar::destroy()
 		DeleteObject(_hVerticalLargeFont);
 
 	::DestroyWindow(_hSelf);
-	_hSelf = NULL;
+	_hSelf = Null;
 }
 
 
@@ -166,7 +166,7 @@ void TabBar::deletItemAt(size_t index)
 		//Therefore, scroll one tab to the left if only one tab visible
 		if (_nbItem > 1)
 		{
-			RECT itemRect;
+			Rect itemRect;
 			::SendMessage(_hSelf, TCM_GETITEMRECT, index, reinterpret_cast<LPARAM>(&itemRect));
 			if (itemRect.left < 5) //if last visible tab, scroll left once (no more than 5px away should be safe, usually 2px depending on the drawing)
 			{
@@ -194,16 +194,16 @@ void TabBar::setImageList(HIMAGELIST himl)
 }
 
 
-void TabBar::reSizeTo(RECT & rc2Ajust)
+void TabBar::reSizeTo(Rect & rc2Ajust)
 {
-	RECT rowRect;
+	Rect rowRect;
 	int rowCount, tabsHight;
 
 	// Important to do that!
 	// Otherwise, the window(s) it contains will take all the resouce of CPU
 	// We don't need to resize the contained windows if they are even invisible anyway
 	display(rc2Ajust.right > 10);
-	RECT rc = rc2Ajust;
+	Rect rc = rc2Ajust;
 	Window::reSizeTo(rc);
 
 	// Do our own calculations because TabCtrl_AdjustRect doesn't work
@@ -248,11 +248,11 @@ void TabBarPlus::destroy()
 {
 	TabBar::destroy();
 	::DestroyWindow(_tooltips);
-	_tooltips = NULL;
+	_tooltips = Null;
 }
 
 
-void TabBarPlus::init(HINSTANCE hInst, HWND parent, bool isVertical, bool isMultiLine)
+void TabBarPlus::init(HINSTANCE hInst, Upp::Ctrl* parent, bool isVertical, bool isMultiLine)
 {
 	Window::init(hInst, parent);
 	int vertical = isVertical?(TCS_VERTICAL | TCS_MULTILINE | TCS_RIGHTJUSTIFY):0;
@@ -276,7 +276,7 @@ void TabBarPlus::init(HINSTANCE hInst, HWND parent, bool isVertical, bool isMult
 				style,
 				0, 0, 0, 0,
 				_hParent,
-				NULL,
+				Null,
 				_hInst,
 				0);
 
@@ -288,11 +288,11 @@ void TabBarPlus::init(HINSTANCE hInst, HWND parent, bool isVertical, bool isMult
 	_tooltips = ::CreateWindowEx(
 		0,
 		TOOLTIPS_CLASS,
-		NULL,
+		Null,
 		TTS_ALWAYSTIP | TTS_NOPREFIX,
 		0, 0, 0, 0,
 		_hParent,
-		NULL,
+		Null,
 		_hInst,
 		0);
 
@@ -335,10 +335,10 @@ void TabBarPlus::init(HINSTANCE hInst, HWND parent, bool isVertical, bool isMult
 
 	_hFont = (HFONT)::SendMessage(_hSelf, WM_GETFONT, 0, 0);
 
-	if (_hFont == NULL)
+	if (_hFont == Null)
 		_hFont = (HFONT)::GetStockObject(DEFAULT_GUI_FONT);
 
-	if (_hLargeFont == NULL)
+	if (_hLargeFont == Null)
 		_hLargeFont = (HFONT)::GetStockObject(SYSTEM_FONT);
 
 	if (::GetObject(_hFont, sizeof(LOGFONT), &LogFont) != 0)
@@ -367,7 +367,7 @@ void TabBarPlus::doOwnerDrawTab()
 				style &= ~TCS_OWNERDRAWFIXED;
 
 			::SetWindowLongPtr(_hwndArray[i], GWL_STYLE, style);
-			::InvalidateRect(_hwndArray[i], NULL, TRUE);
+			::InvalidateRect(_hwndArray[i], Null, TRUE);
 
 			const int paddingSizeDynamicW = NppParameters::getInstance()._dpiManager.scaleX(6);
 			const int paddingSizePlusClosebuttonDynamicW = NppParameters::getInstance()._dpiManager.scaleX(9);
@@ -441,7 +441,7 @@ void TabBarPlus::trackMouseEvent(DWORD event2check)
 	TrackMouseEvent(&tme);
 }
 
-LRESULT TabBarPlus::runProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam)
+LRESULT TabBarPlus::runProc(Upp::Ctrl* hwnd, UINT Message, WPARAM wParam, LPARAM lParam)
 {
 	switch (Message)
 	{
@@ -459,7 +459,7 @@ LRESULT TabBarPlus::runProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lPara
 			_isMultiLine = ((style & TCS_MULTILINE) != 0);
 
 			::SetWindowLongPtr(hwnd, GWL_STYLE, style);
-			::InvalidateRect(hwnd, NULL, TRUE);
+			::InvalidateRect(hwnd, Null, TRUE);
 
 			return TRUE;
 		}
@@ -538,7 +538,7 @@ LRESULT TabBarPlus::runProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lPara
 			}
 			else if (!_isMultiLine) // don't scroll if in multi-line mode
 			{
-				RECT rcTabCtrl, rcLastTab;
+				Rect rcTabCtrl, rcLastTab;
 				::SendMessage(_hSelf, TCM_GETITEMRECT, lastTabIndex, reinterpret_cast<LPARAM>(&rcLastTab));
 				::GetClientRect(_hSelf, &rcTabCtrl);
 
@@ -720,7 +720,7 @@ LRESULT TabBarPlus::runProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lPara
 
 				if (_drawTabCloseButton)
 				{
-					RECT currentHoverTabRectOld = _currentHoverTabRect;
+					Rect currentHoverTabRectOld = _currentHoverTabRect;
 					bool isCloseHoverOld = _isCloseHover;
 
 					if (_currentHoverTabItem != -1) // is hovering
@@ -803,7 +803,7 @@ LRESULT TabBarPlus::runProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lPara
 
 					// Get the next tab at same position
 					// If valid tab is found then
-					//	 update the current hover tab RECT (_currentHoverTabRect)
+					//	 update the current hover tab Rect (_currentHoverTabRect)
 					//	 update close hover flag (_isCloseHover), so that x will be highlighted or not based on new _currentHoverTabRect
 					int nextTab = getTabIndexAt(xPos, yPos);
 					if (nextTab != -1)
@@ -870,7 +870,7 @@ LRESULT TabBarPlus::runProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lPara
 				break;
 			}
 
-			RECT rc = {};
+			Rect rc = {};
 			GetClientRect(hwnd, &rc);
 			FillRect((HDC)wParam, &rc, NppDarkMode::getDarkerBackgroundBrush());
 
@@ -926,7 +926,7 @@ LRESULT TabBarPlus::runProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lPara
 
 				dis.itemState |= ODS_NOFOCUSRECT; // maybe, does it handle it already?
 
-				RECT rcIntersect = {};
+				Rect rcIntersect = {};
 				if (IntersectRect(&rcIntersect, &ps.rcPaint, &dis.rcItem))
 				{
 					if (dwStyle & TCS_VERTICAL)
@@ -987,7 +987,7 @@ LRESULT TabBarPlus::runProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lPara
 			{
 				case WM_CREATE:
 				{
-					auto hwndUpdown = reinterpret_cast<HWND>(lParam);
+					auto hwndUpdown = reinterpret_cast<Upp::Ctrl*>(lParam);
 					if (NppDarkMode::subclassTabUpDownControl(hwndUpdown))
 					{
 						return 0;
@@ -1005,12 +1005,12 @@ LRESULT TabBarPlus::runProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lPara
 
 void TabBarPlus::drawItem(DRAWITEMSTRUCT *pDrawItemStruct, bool isDarkMode)
 {
-	RECT rect = pDrawItemStruct->rcItem;
+	Rect rect = pDrawItemStruct->rcItem;
 
 	int nTab = pDrawItemStruct->itemID;
 	if (nTab < 0)
 	{
-		::MessageBox(NULL, TEXT("nTab < 0"), TEXT(""), MB_OK);
+		::MessageBox(Null, TEXT("nTab < 0"), TEXT(""), MB_OK);
 	}
 	bool isSelected = (nTab == ::SendMessage(_hSelf, TCM_GETCURSEL, 0, 0));
 
@@ -1022,7 +1022,7 @@ void TabBarPlus::drawItem(DRAWITEMSTRUCT *pDrawItemStruct, bool isDarkMode)
 
 	if (!::SendMessage(_hSelf, TCM_GETITEM, nTab, reinterpret_cast<LPARAM>(&tci)))
 	{
-		::MessageBox(NULL, TEXT("! TCM_GETITEM"), TEXT(""), MB_OK);
+		::MessageBox(Null, TEXT("! TCM_GETITEM"), TEXT(""), MB_OK);
 	}
 	HDC hDC = pDrawItemStruct->hDC;
 
@@ -1087,7 +1087,7 @@ void TabBarPlus::drawItem(DRAWITEMSTRUCT *pDrawItemStruct, bool isDarkMode)
 	}
 
 	// draw highlights on tabs (top bar for active tab / darkened background for inactive tab)
-	RECT barRect = rect;
+	Rect barRect = rect;
 	if (isSelected)
 	{
 		if (isDarkMode)
@@ -1150,7 +1150,7 @@ void TabBarPlus::drawItem(DRAWITEMSTRUCT *pDrawItemStruct, bool isDarkMode)
 		int bmDpiDynamicalWidth = NppParameters::getInstance()._dpiManager.scaleX(bmp.bmWidth);
 		int bmDpiDynamicalHeight = NppParameters::getInstance()._dpiManager.scaleY(bmp.bmHeight);
 
-		RECT buttonRect = _closeButtonZone.getButtonRectFrom(rect, _isVertical);
+		Rect buttonRect = _closeButtonZone.getButtonRectFrom(rect, _isVertical);
 
 		::SelectObject(hdcMemory, hBmp);
 		::StretchBlt(hDC, buttonRect.left, buttonRect.top, bmDpiDynamicalWidth, bmDpiDynamicalHeight, hdcMemory, 0, 0, bmp.bmWidth, bmp.bmHeight, SRCCOPY);
@@ -1166,7 +1166,7 @@ void TabBarPlus::drawItem(DRAWITEMSTRUCT *pDrawItemStruct, bool isDarkMode)
 		IMAGEINFO info;
 		ImageList_GetImageInfo(hImgLst, tci.iImage, &info);
 
-		RECT& imageRect = info.rcImage;
+		Rect& imageRect = info.rcImage;
 
 		int fromBorder;
 		int xPos, yPos;
@@ -1273,9 +1273,9 @@ void TabBarPlus::drawItem(DRAWITEMSTRUCT *pDrawItemStruct, bool isDarkMode)
 
 void TabBarPlus::draggingCursor(POINT screenPoint)
 {
-	HWND hWin = ::WindowFromPoint(screenPoint);
+	Upp::Ctrl* hWin = ::WindowFromPoint(screenPoint);
 	if (_hSelf == hWin)
-		::SetCursor(::LoadCursor(NULL, IDC_ARROW));
+		::SetCursor(::LoadCursor(Null, IDC_ARROW));
 	else
 	{
 		char className[256];
@@ -1393,9 +1393,9 @@ CloseButtonZone::CloseButtonZone()
 	_height = NppParameters::getInstance()._dpiManager.scaleY(11);
 }
 
-bool CloseButtonZone::isHit(int x, int y, const RECT & tabRect, bool isVertical) const
+bool CloseButtonZone::isHit(int x, int y, const Rect & tabRect, bool isVertical) const
 {
-	RECT buttonRect = getButtonRectFrom(tabRect, isVertical);
+	Rect buttonRect = getButtonRectFrom(tabRect, isVertical);
 
 	if (x >= buttonRect.left && x <= buttonRect.right && y >= buttonRect.top && y <= buttonRect.bottom)
 		return true;
@@ -1403,9 +1403,9 @@ bool CloseButtonZone::isHit(int x, int y, const RECT & tabRect, bool isVertical)
 	return false;
 }
 
-RECT CloseButtonZone::getButtonRectFrom(const RECT & tabRect, bool isVertical) const
+Rect CloseButtonZone::getButtonRectFrom(const Rect & tabRect, bool isVertical) const
 {
-	RECT buttonRect;
+	Rect buttonRect;
 
 	int fromBorder;
 	if (isVertical)

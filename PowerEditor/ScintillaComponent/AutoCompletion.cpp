@@ -138,7 +138,7 @@ const char* xpmbox[] = {
 
 using namespace std;
 
-static bool isInList(const String& word, const Vector<String> & wordArray)
+static bool isInList(const char* word, const Vector<String> & wordArray)
 {
 	for (size_t i = 0, len = wordArray.size(); i < len; ++i)
 		if (wordArray[i] == word)
@@ -312,7 +312,7 @@ void AutoCompletion::getWordArray(Vector<String> & wordArray, char *beginChars, 
 	}
 }
 
-static String addTrailingSlash(const String& path)
+static String addTrailingSlash(const char* path)
 {
 	if (path.GetLength() >=1 && path[path.GetLength() - 1] == '\\')
 		return path;
@@ -320,7 +320,7 @@ static String addTrailingSlash(const String& path)
 		return path + L"\\";
 }
 
-static String removeTrailingSlash(const String& path)
+static String removeTrailingSlash(const char* path)
 {
 	if (path.GetLength() >= 1 && path[path.GetLength() - 1] == '\\')
 		return path.substr(0, path.GetLength() - 1);
@@ -328,13 +328,13 @@ static String removeTrailingSlash(const String& path)
 		return path;
 }
 
-static bool isDirectory(const String& path)
+static bool isDirectory(const char* path)
 {
 	DWORD type = ::GetFileAttributes(path.Begin());
 	return type != INVALID_FILE_ATTRIBUTES && (type & FILE_ATTRIBUTE_DIRECTORY);
 }
 
-static bool isFile(const String& path)
+static bool isFile(const char* path)
 {
 	DWORD type = ::GetFileAttributes(path.Begin());
 	return type != INVALID_FILE_ATTRIBUTES && ! (type & FILE_ATTRIBUTE_DIRECTORY);
@@ -346,7 +346,7 @@ static bool isAllowedBeforeDriveLetter(char c)
 	return c == '\'' || c == '"' || c == '(' || std::isspace(c, loc);
 }
 
-static bool getRawPath(const String& input, String &rawPath_out)
+static bool getRawPath(const char* input, String &rawPath_out)
 {
 	// Try to find a path in the given input.
 	// Algorithm: look for a colon. The colon must be preceded by an alphabetic character.
@@ -367,7 +367,7 @@ static bool getRawPath(const String& input, String &rawPath_out)
 	return true;
 }
 
-static bool getPathsForPathCompletion(const String& input, String &rawPath_out, String &pathToMatch_out)
+static bool getPathsForPathCompletion(const char* input, String &rawPath_out, String &pathToMatch_out)
 {
 	String rawPath;
 	if (! getRawPath(input, rawPath))
@@ -707,7 +707,7 @@ void AutoCompletion::insertMatchedChars(int character, const MatchedPairConf & m
 {
 	const vector< pair<char, char> > & matchedPairs = matchedPairConf._matchedPairs;
 	size_t caretPos = _pEditView->execute(SCI_GETCURRENTPOS);
-	const char *matchedChars = NULL;
+	const char *matchedChars = Null;
 
 	char charPrev = static_cast<char>(_pEditView->execute(SCI_GETCHARAT, caretPos - 2));
 	char charNext = static_cast<char>(_pEditView->execute(SCI_GETCHARAT, caretPos));
@@ -936,7 +936,7 @@ bool AutoCompletion::setLanguage(LangType language)
 	_curLang = language;
 
 	char path[MAX_PATH];
-	::GetModuleFileName(NULL, path, MAX_PATH);
+	::GetModuleFileName(Null, path, MAX_PATH);
 	PathRemoveFileSpec(path);
 	std::wcscat(path, TEXT("\\autoCompletion\\"));
 	std::wcscat(path, getApiFileName());
@@ -947,7 +947,7 @@ bool AutoCompletion::setLanguage(LangType language)
 	_pXmlFile = new TiXmlDocument(path);
 	_funcCompletionActive = _pXmlFile->LoadFile();
 
-	TiXmlNode * pAutoNode = NULL;
+	TiXmlNode * pAutoNode = Null;
 	if (_funcCompletionActive)
 	{
 		_funcCompletionActive = false;	//safety
@@ -1011,7 +1011,7 @@ bool AutoCompletion::setLanguage(LangType language)
 	}
 	else
 	{
-		_funcCalltip.setLanguageXML(NULL);
+		_funcCalltip.setLanguageXML(Null);
 	}
 
 	_keyWords.clear();

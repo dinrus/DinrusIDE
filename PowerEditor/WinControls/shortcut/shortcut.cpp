@@ -317,10 +317,10 @@ void getNameStrFromCmd(DWORD cmd, String & str)
 	}
 	else
 	{
-		HWND hNotepad_plus = ::FindWindow(Notepad_plus_Window::getClassName(), NULL);
+		Upp::Ctrl* hNotepad_plus = ::FindWindow(Notepad_plus_Window::getClassName(), Null);
 		const int commandSize = 64;
 		char cmdName[commandSize];
-		HMENU m = reinterpret_cast<HMENU>(::SendMessage(hNotepad_plus, NPPM_INTERNAL_GETMENU, 0, 0));
+		Menu* m = reinterpret_cast<Menu*>(::SendMessage(hNotepad_plus, NPPM_INTERNAL_GETMENU, 0, 0));
 		int nbChar = ::GetMenuString(m, cmd, cmdName, commandSize, MF_BYCOMMAND);
 		if (!nbChar)
 			return;
@@ -429,7 +429,7 @@ intptr_t CALLBACK Shortcut::run_dlgProc(UINT Message, WPARAM wParam, LPARAM lPar
 		{
 			if (NppDarkMode::isEnabled())
 			{
-				auto dlgCtrlID = ::GetDlgCtrlID(reinterpret_cast<HWND>(lParam));
+				auto dlgCtrlID = ::GetDlgCtrlID(reinterpret_cast<Upp::Ctrl*>(lParam));
 				if (dlgCtrlID == IDC_NAME_EDIT)
 				{
 					return NppDarkMode::onCtlColor(reinterpret_cast<HDC>(wParam));
@@ -881,9 +881,9 @@ void recordedMacroStep::PlayBack(Window* pNotepad, ScintillaEditView *pEditView)
 
 		if (_macroType == mtUseSParameter) 
 		{
-			int byteBufferLength = ::WideCharToMultiByte(static_cast<UINT>(pEditView->execute(SCI_GETCODEPAGE)), 0, _sParameter.Begin(), -1, NULL, 0, NULL, NULL);
+			int byteBufferLength = ::WideCharToMultiByte(static_cast<UINT>(pEditView->execute(SCI_GETCODEPAGE)), 0, _sParameter.Begin(), -1, Null, 0, Null, Null);
 			auto byteBuffer = std::make_unique< char[] >(byteBufferLength);
-			::WideCharToMultiByte(static_cast<UINT>(pEditView->execute(SCI_GETCODEPAGE)), 0, _sParameter.Begin(), -1, byteBuffer.get(), byteBufferLength, NULL, NULL);
+			::WideCharToMultiByte(static_cast<UINT>(pEditView->execute(SCI_GETCODEPAGE)), 0, _sParameter.Begin(), -1, byteBuffer.get(), byteBufferLength, Null, Null);
 			auto lParam = reinterpret_cast<LPARAM>(byteBuffer.get());
 			pEditView->execute(_message, _wParameter, lParam);
 		}
@@ -915,7 +915,7 @@ void recordedMacroStep::PlayBack(Window* pNotepad, ScintillaEditView *pEditView)
 	}
 }
 
-void ScintillaAccelerator::init(vector<HWND> * vScintillas, HMENU hMenu, HWND menuParent)
+void ScintillaAccelerator::init(vector<Upp::Ctrl*> * vScintillas, Menu* hMenu, Upp::Ctrl* menuParent)
 {
 	_hAccelMenu = hMenu;
 	_hMenuParent = menuParent;
@@ -1098,7 +1098,7 @@ intptr_t CALLBACK ScintillaKeyMap::run_dlgProc(UINT Message, WPARAM wParam, LPAR
 		{
 			if (NppDarkMode::isEnabled())
 			{
-				auto dlgCtrlID = ::GetDlgCtrlID(reinterpret_cast<HWND>(lParam));
+				auto dlgCtrlID = ::GetDlgCtrlID(reinterpret_cast<Upp::Ctrl*>(lParam));
 				if (dlgCtrlID == IDC_NAME_EDIT)
 				{
 					return NppDarkMode::onCtlColor(reinterpret_cast<HDC>(wParam));

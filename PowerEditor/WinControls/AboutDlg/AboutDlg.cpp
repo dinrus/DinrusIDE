@@ -29,7 +29,7 @@ intptr_t CALLBACK AboutDlg::run_dlgProc(UINT message, WPARAM wParam, LPARAM lPar
         {
             NppDarkMode::autoSubclassAndThemeChildControls(_hSelf);
 
-            HWND compileDateHandle = ::GetDlgItem(_hSelf, IDC_BUILD_DATETIME);
+            Upp::Ctrl* compileDateHandle = ::GetDlgItem(_hSelf, IDC_BUILD_DATETIME);
             String buildTime = "Build time : ";
 
             //WcharMbcsConvertor& wmc = WcharMbcsConvertor::getInstance();
@@ -42,7 +42,7 @@ intptr_t CALLBACK AboutDlg::run_dlgProc(UINT message, WPARAM wParam, LPARAM lPar
             ::SendMessage(compileDateHandle, WM_SETTEXT, 0, reinterpret_cast<LPARAM>(buildTime.Begin()));
             ::EnableWindow(compileDateHandle, FALSE);
 
-            HWND licenceEditHandle = ::GetDlgItem(_hSelf, IDC_LICENCE_EDIT);
+            Upp::Ctrl* licenceEditHandle = ::GetDlgItem(_hSelf, IDC_LICENCE_EDIT);
             ::SendMessage(licenceEditHandle, WM_SETTEXT, 0, reinterpret_cast<LPARAM>(LICENCE_TXT));
 
             //_emailLink.init(_hInst, _hSelf);
@@ -102,7 +102,7 @@ intptr_t CALLBACK AboutDlg::run_dlgProc(UINT message, WPARAM wParam, LPARAM lPar
             //HICON hIcon = (HICON)::LoadImage(_hInst, MAKEINTRESOURCE(IDI_GILETJAUNE), IMAGE_ICON, 64, 64, LR_DEFAULTSIZE);
             //HICON hIcon = (HICON)::LoadImage(_hInst, MAKEINTRESOURCE(IDI_SAMESEXMARRIAGE), IMAGE_ICON, 64, 64, LR_DEFAULTSIZE);
             DRAWITEMSTRUCT *pdis = (DRAWITEMSTRUCT *)lParam;
-            ::DrawIconEx(pdis->hDC, 0, 0, hIcon, w, h, 0, NULL, DI_NORMAL);
+            ::DrawIconEx(pdis->hDC, 0, 0, hIcon, w, h, 0, Null, DI_NORMAL);
             return TRUE;
         }
 
@@ -169,7 +169,7 @@ intptr_t CALLBACK DebugInfoDlg::run_dlgProc(UINT message, WPARAM wParam, LPARAM 
             // Binary path
             _debugInfoStr << "Path : ";
             char nppFullPath[MAX_PATH];
-            ::GetModuleFileName(NULL, nppFullPath, MAX_PATH);
+            ::GetModuleFileName(Null, nppFullPath, MAX_PATH);
             _debugInfoStr << nppFullPath << "\r\n";
 
             // Command line as specified for program launch
@@ -186,7 +186,7 @@ intptr_t CALLBACK DebugInfoDlg::run_dlgProc(UINT message, WPARAM wParam, LPARAM 
 
             // Cloud config directory
             _debugInfoStr << "Cloud Config : ";
-            const String& cloudPath = nppParam.getNppGUI()._cloudPath;
+            const char* cloudPath = nppParam.getNppGUI()._cloudPath;
             _debugInfoStr << (cloudPath.IsEmpty() ? "OFF" : cloudPath);
             _debugInfoStr << "\r\n";
 
@@ -204,23 +204,23 @@ intptr_t CALLBACK DebugInfoDlg::run_dlgProc(UINT message, WPARAM wParam, LPARAM 
             if (RegOpenKeyExW(HKEY_LOCAL_MACHINE, TEXT("SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion"), 0, KEY_READ, &hKey) == ERROR_SUCCESS)
             {
                 dataSize = sizeof(szProductName);
-                RegQueryValueExW(hKey, TEXT("ProductName"), NULL, NULL, reinterpret_cast<LPBYTE>(szProductName), &dataSize);
+                RegQueryValueExW(hKey, TEXT("ProductName"), Null, Null, reinterpret_cast<LPBYTE>(szProductName), &dataSize);
                 szProductName[sizeof(szProductName) / sizeof(char) - 1] = '\0';
 
                 dataSize = sizeof(szReleaseId);
-                if(RegQueryValueExW(hKey, TEXT("DisplayVersion"), NULL, NULL, reinterpret_cast<LPBYTE>(szReleaseId), &dataSize) != ERROR_SUCCESS)
+                if(RegQueryValueExW(hKey, TEXT("DisplayVersion"), Null, Null, reinterpret_cast<LPBYTE>(szReleaseId), &dataSize) != ERROR_SUCCESS)
                 {
                     dataSize = sizeof(szReleaseId);
-                    RegQueryValueExW(hKey, TEXT("ReleaseId"), NULL, NULL, reinterpret_cast<LPBYTE>(szReleaseId), &dataSize);
+                    RegQueryValueExW(hKey, TEXT("ReleaseId"), Null, Null, reinterpret_cast<LPBYTE>(szReleaseId), &dataSize);
                 }
                 szReleaseId[sizeof(szReleaseId) / sizeof(char) - 1] = '\0';
 
                 dataSize = sizeof(szCurrentBuildNumber);
-                RegQueryValueExW(hKey, TEXT("CurrentBuildNumber"), NULL, NULL, reinterpret_cast<LPBYTE>(szCurrentBuildNumber), &dataSize);
+                RegQueryValueExW(hKey, TEXT("CurrentBuildNumber"), Null, Null, reinterpret_cast<LPBYTE>(szCurrentBuildNumber), &dataSize);
                 szCurrentBuildNumber[sizeof(szCurrentBuildNumber) / sizeof(char) - 1] = '\0';
 
                 dataSize = sizeof(DWORD);
-                if (RegQueryValueExW(hKey, TEXT("UBR"), NULL, NULL, reinterpret_cast<LPBYTE>(&dwUBR), &dataSize) == ERROR_SUCCESS)
+                if (RegQueryValueExW(hKey, TEXT("UBR"), Null, Null, reinterpret_cast<LPBYTE>(&dwUBR), &dataSize) == ERROR_SUCCESS)
                 {
                     generic_sprintf(szUBR, TEXT("%u"), dwUBR);
                 }
@@ -389,7 +389,7 @@ void DoSaveOrNotBox::doDialog(bool isRTL)
 
     if (isRTL)
     {
-        DLGTEMPLATE *pMyDlgTemplate = NULL;
+        DLGTEMPLATE *pMyDlgTemplate = Null;
         HGLOBAL hMyDlgTemplate = makeRTLResource(IDD_DOSAVEORNOTBOX, &pMyDlgTemplate);
         ::DialogBoxIndirectParam(_hInst, pMyDlgTemplate, _hParent, dlgProc, reinterpret_cast<LPARAM>(this));
         ::GlobalFree(hMyDlgTemplate);
@@ -505,7 +505,7 @@ void DoSaveAllBox::doDialog(bool isRTL)
 
     if (isRTL)
     {
-        DLGTEMPLATE* pMyDlgTemplate = NULL;
+        DLGTEMPLATE* pMyDlgTemplate = Null;
         HGLOBAL hMyDlgTemplate = makeRTLResource(IDD_DOSAVEALLBOX, &pMyDlgTemplate);
         ::DialogBoxIndirectParam(_hInst, pMyDlgTemplate, _hParent, dlgProc, reinterpret_cast<LPARAM>(this));
         ::GlobalFree(hMyDlgTemplate);

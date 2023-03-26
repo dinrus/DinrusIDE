@@ -97,7 +97,7 @@ void DocumentMap::initWrapMap()
 {
 	if (_pMapView && _ppEditView)
 	{
-		RECT rect;
+		Rect rect;
 		getClientRect(rect);
 		::MoveWindow(_pMapView->getHSelf(), 0, 0, rect.right - rect.left, rect.bottom-rect.top, TRUE);
 		_pMapView->wrap(false);
@@ -118,7 +118,7 @@ void DocumentMap::changeTextDirection(bool isRTL)
 double ddd = (double)Xlength1/(double)Xlength2;
 char dchar[256];
 sprintf(dchar, "%f", ddd);
-::MessageBoxA(NULL, dchar, "", MB_OK);
+::MessageBoxA(Null, dchar, "", MB_OK);
 		
 		// -10    => 1
 		// -9     => 1
@@ -158,7 +158,7 @@ double zoomRatio[] = {1, 1, 1, 1, 1.5, 2, 2.5, 2.5, 3.5, 3.5,\
 void DocumentMap::wrapMap(const ScintillaEditView *editView)
 {
 	const ScintillaEditView *pEditView = editView ? editView : *_ppEditView;
-	RECT rect;
+	Rect rect;
 	getClientRect(rect);
 	if (pEditView->isWrap())
 	{
@@ -198,7 +198,7 @@ void DocumentMap::scrollMap()
 	if (_pMapView && _ppEditView)
 	{
 		// Get the position of the 1st and last showing chars from the original edit view
-		RECT rcEditView;
+		Rect rcEditView;
 		(*_ppEditView)->getClientRect(rcEditView);
 		LRESULT higherPos = (*_ppEditView)->execute(SCI_POSITIONFROMPOINT, 0, 0);
 		LRESULT lowerPos = (*_ppEditView)->execute(SCI_POSITIONFROMPOINT, rcEditView.right - rcEditView.left, rcEditView.bottom - rcEditView.top);
@@ -208,7 +208,7 @@ void DocumentMap::scrollMap()
 		_pMapView->execute(SCI_GOTOPOS, lowerPos);
 
 		// Get top position of orange marker window
-		RECT rcMapView;
+		Rect rcMapView;
 		_pMapView->getClientRect(rcMapView);
 		LRESULT higherY = _pMapView->execute(SCI_POINTYFROMPOSITION, 0, higherPos);
 
@@ -284,7 +284,7 @@ void DocumentMap::scrollMapWith(const MapPosition & mapPos)
 
 void DocumentMap::doMove()
 {
-	RECT rc;
+	Rect rc;
 	::GetClientRect (_hwndScintilla, & rc);
 	bool isChild = (::GetWindowLongPtr (_vzDlg.getHSelf(), GWL_STYLE) & WS_CHILD) != 0;
 	::MapWindowPoints (_hwndScintilla, isChild ? _pMapView->getHParent() : HWND_DESKTOP, reinterpret_cast<POINT*>(& rc), 2);
@@ -324,7 +324,7 @@ intptr_t CALLBACK DocumentMap::run_dlgProc(UINT message, WPARAM wParam, LPARAM l
     {
         case WM_INITDIALOG :
         {
-			_hwndScintilla = reinterpret_cast<HWND>(::SendMessage(_hParent, NPPM_CREATESCINTILLAHANDLE, 0, reinterpret_cast<LPARAM>(_hSelf)));
+			_hwndScintilla = reinterpret_cast<Upp::Ctrl*>(::SendMessage(_hParent, NPPM_CREATESCINTILLAHANDLE, 0, reinterpret_cast<LPARAM>(_hSelf)));
 			_pMapView = reinterpret_cast<ScintillaEditView *>(::SendMessage(_hParent, NPPM_INTERNAL_GETSCINTEDTVIEW, 0, reinterpret_cast<LPARAM>(_hwndScintilla)));
 			_pMapView->execute(SCI_SETZOOM, static_cast<WPARAM>(-10), 0);
 			_pMapView->execute(SCI_SETVSCROLLBAR, FALSE, 0);
@@ -335,7 +335,7 @@ intptr_t CALLBACK DocumentMap::run_dlgProc(UINT message, WPARAM wParam, LPARAM l
 			
 			reloadMap();
 
-			_vzDlg.init(::GetModuleHandle(NULL), _hSelf);
+			_vzDlg.init(::GetModuleHandle(Null), _hSelf);
 			_vzDlg.doDialog();
 			(NppParameters::getInstance()).SetTransparent(_vzDlg.getHSelf(), 50); // 0 <= transparancy < 256
 			BringWindowToTop (_vzDlg.getHSelf());
@@ -471,7 +471,7 @@ void ViewZoneDlg::setColour(COLORREF colour2Set, ViewZoneColorIndex i)
 
 void ViewZoneDlg::drawPreviewZone(DRAWITEMSTRUCT *pdis)
 {
-	RECT rc = pdis->rcItem;
+	Rect rc = pdis->rcItem;
 
 	HBRUSH hbrushFg = CreateSolidBrush(ViewZoneDlg::_focus);
 	HBRUSH hbrushBg = CreateSolidBrush(ViewZoneDlg::_frost);
@@ -502,7 +502,7 @@ intptr_t CALLBACK ViewZoneDlg::run_dlgProc(UINT message, WPARAM wParam, LPARAM l
         case WM_INITDIALOG :
 		{
 			_viewZoneCanvas = ::GetDlgItem(_hSelf, IDC_VIEWZONECANVAS);
-			if (NULL != _viewZoneCanvas)
+			if (Null != _viewZoneCanvas)
 			{
 				::SetWindowLongPtr(_viewZoneCanvas, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
 				_canvasDefaultProc = reinterpret_cast<WNDPROC>(::SetWindowLongPtr(_viewZoneCanvas, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(canvasStaticProc)));
@@ -532,7 +532,7 @@ intptr_t CALLBACK ViewZoneDlg::run_dlgProc(UINT message, WPARAM wParam, LPARAM l
 
 		case WM_SIZE:
         {
-			if (NULL != _viewZoneCanvas)
+			if (Null != _viewZoneCanvas)
 			{
 				int width = LOWORD(lParam);
 				int height = HIWORD(lParam);
@@ -556,7 +556,7 @@ intptr_t CALLBACK ViewZoneDlg::run_dlgProc(UINT message, WPARAM wParam, LPARAM l
 	return FALSE;
 }
 
-LRESULT CALLBACK ViewZoneDlg::canvasStaticProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) 
+LRESULT CALLBACK ViewZoneDlg::canvasStaticProc(Upp::Ctrl* hwnd, UINT message, WPARAM wParam, LPARAM lParam) 
 {
 	ViewZoneDlg *pViewZoneDlg = reinterpret_cast<ViewZoneDlg *>(::GetWindowLongPtr(hwnd, GWLP_USERDATA));
 	if (!pViewZoneDlg)
@@ -564,13 +564,13 @@ LRESULT CALLBACK ViewZoneDlg::canvasStaticProc(HWND hwnd, UINT message, WPARAM w
 	return pViewZoneDlg->canvas_runProc(hwnd, message, wParam, lParam);
 }
 
-LRESULT CALLBACK ViewZoneDlg::canvas_runProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK ViewZoneDlg::canvas_runProc(Upp::Ctrl* hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch (message)
     {
 		case WM_DESTROY:
 		{
-			//::MessageBoxA(NULL,"Destroy","",MB_OK);
+			//::MessageBoxA(Null,"Destroy","",MB_OK);
 		}
 		return TRUE;
 

@@ -38,22 +38,22 @@ public:
 
 class NativeLangSpeaker {
 public:
-    NativeLangSpeaker():_nativeLangA(NULL), _nativeLangEncoding(CP_ACP), _isRTL(false), _fileName(NULL){};
+    NativeLangSpeaker():_nativeLangA(Null), _nativeLangEncoding(CP_ACP), _isRTL(false), _fileName(Null){};
     void init(TiXmlDocumentA *nativeLangDocRootA, bool loadIfEnglish = false);
-	void changeConfigLang(HWND hDlg);
-	void changeLangTabContextMenu(HMENU hCM);
+	void changeConfigLang(Upp::Ctrl* hDlg);
+	void changeLangTabContextMenu(Menu* hCM);
 	TiXmlNodeA * searchDlgNode(TiXmlNodeA *node, const char *dlgTagName);
-	bool changeDlgLang(HWND hDlg, const char *dlgTagName, char *title = NULL, size_t titleMaxSize = 0);
-	void changeLangTabDrapContextMenu(HMENU hCM);
+	bool changeDlgLang(Upp::Ctrl* hDlg, const char *dlgTagName, char *title = Null, size_t titleMaxSize = 0);
+	void changeLangTabDrapContextMenu(Menu* hCM);
 	String getSpecialMenuEntryName(const char *entryName) const;
 	String getNativeLangMenuString(int itemID) const;
 	String getShortcutNameString(int itemID) const;
 
-	void changeMenuLang(HMENU menuHandle);
+	void changeMenuLang(Menu* menuHandle);
 	void changeShortcutLang();
-	void changeStyleCtrlsLang(HWND hDlg, int *idArray, const char **translatedText);
+	void changeStyleCtrlsLang(Upp::Ctrl* hDlg, int *idArray, const char **translatedText);
     void changeUserDefineLang(UserDefineDialog *userDefineDlg);
-	void changeUserDefineLangPopupDlg(HWND hDlg);
+	void changeUserDefineLangPopupDlg(Upp::Ctrl* hDlg);
     void changeFindReplaceDlgLang(FindReplaceDlg & findReplaceDlg);
     void changePrefereceDlgLang(PreferenceDlg & preference);
 	void changePluginsAdminDlgLang(PluginsAdminDlg & pluginsAdminDlg);
@@ -80,9 +80,9 @@ public:
 	String getProjectPanelLangMenuStr(const char * nodeName, int cmdID, const char *defaultStr) const;
 	String getFileBrowserLangMenuStr(int cmdID, const char *defaultStr) const;
 	String getAttrNameStr(const char *defaultStr, const char *nodeL1Name, const char *nodeL2Name, const char *nodeL3Name = "name") const;
-	String getLocalizedStrFromID(const char *strID, const String& defaultString) const;
+	String getLocalizedStrFromID(const char *strID, const char* defaultString) const;
 
-	int messageBox(const char *msgBoxTagName, HWND hWnd, const char *message, const char *title, int msgBoxType, int intInfo = 0, const char *strInfo = NULL);
+	int messageBox(const char *msgBoxTagName, Upp::Ctrl* hWnd, const char *message, const char *title, int msgBoxType, int intInfo = 0, const char *strInfo = Null);
 private:
 	TiXmlNodeA *_nativeLangA;
 	int _nativeLangEncoding;

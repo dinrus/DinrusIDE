@@ -1,5 +1,4 @@
-topic "Translating U++";
-[2 $$0,0#00000000000000000000000000000000:Default]
+topic "Перевод U++";
 [i448;a25;kKO9;*@(64)2 $$1,0#37138531426314131252341829483380:class]
 [l288;2 $$2,2#27521748481378242620020725143825:desc]
 [a83;*R6 $$3,0#31310162474203024125188417583966:caption]
@@ -10,15 +9,16 @@ topic "Translating U++";
 [l288;i448;a25;kO9;*2 $$8,8#64691275497409617375831514634295:nested`-class]
 [b42;a42;ph2 $$9,9#45413000475342174754091244180557:text]
 [#b83;*4 $$10,9#07864147445237544204411237157677:title]
+[2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%RU-RU 
 [s3; HOWTO: Submit translations to the U`+`+ project&]
-[s9; Before starting the translation work, get to know DinrusIDE and 
-pay attention to the context of the terminology used. Try to 
-use already established computer terminology in your language 
+[s9; Before starting the translation work, get to know DinrusIDE 
+and pay attention to the context of the terminology used. Try 
+to use already established computer terminology in your language 
 instead of inventing new terms.&]
 [s10; 1. Export .tr file&]
-[s9; Run the latest DinrusIDE and load the uppsrc AllForI18n. This package 
-uses all other uppsrc packages that need translating.&]
+[s9; Run the latest DinrusIDE and load the uppsrc AllForI18n. This 
+package uses all other uppsrc packages that need translating.&]
 [s9; Choose Project / Export runtime translation file (`*.tr):&]
 [s0; &]
 [s0;= 
@@ -31,11 +31,11 @@ choose the output directory and hit OK.&]
 [s9; As a result, a translation template file (e.g. [/ fr`-fr.UTF`-8.tr]) 
 will be created in the output directory and opened in DinrusIDE.&]
 [s10; 2. Translate .tr file&]
-[s9; Translate the resulting file using DinrusIDE or a text editor that 
-supports the character set you have selected.  You simply need 
-to fill in the texts in your language corresponding to the English 
-expressions where the translation is missing `- the text is empty 
-string.&]
+[s9; Translate the resulting file using DinrusIDE or a text editor 
+that supports the character set you have selected.  You simply 
+need to fill in the texts in your language corresponding to the 
+English expressions where the translation is missing `- the text 
+is empty string.&]
 [s9; Example [/ fr`-fr.UTF`-8.tr] file being translated:&]
 [s0; &]
 [ {{10000 [s0; [*C@5+75 LANGUAGE `"FR`-FR UTF`-8`";]&]

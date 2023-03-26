@@ -17,8 +17,8 @@
 
 #pragma once
 
-#include <windows.h>
-#include <commctrl.h>
+//#include <windows.h>
+//#include <commctrl.h>
 #include <PowerEditor/WinControls/Window.h>
 
 #ifndef WM_MOUSEWHEEL
@@ -36,10 +36,10 @@ public:
 	};
 
 	virtual ~TaskList() = default;
-	void init(HINSTANCE hInst, HWND hwnd, HIMAGELIST hImaLst, int nbItem, int index2set);
+	void init(HINSTANCE hInst, Upp::Ctrl* hwnd, HIMAGELIST hImaLst, int nbItem, int index2set);
 	virtual void destroy();
 	void setFont(const char *fontName, int fontSize);
-	RECT adjustSize();
+	Rect adjustSize();
 	int getCurrentIndex() const {return _currentIndex;}
 	int updateCurrentIndex();
 
@@ -52,9 +52,9 @@ public:
 protected:
 
 	WNDPROC _defaultProc = nullptr;
-	LRESULT runProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
+	LRESULT runProc(Upp::Ctrl* hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
 
-	static LRESULT CALLBACK staticProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam) {
+	static LRESULT CALLBACK staticProc(Upp::Ctrl* hwnd, UINT Message, WPARAM wParam, LPARAM lParam) {
 		return (((TaskList *)(::GetWindowLongPtr(hwnd, GWLP_USERDATA)))->runProc(hwnd, Message, wParam, lParam));
 	};
 
@@ -62,6 +62,6 @@ protected:
 	HFONT _hFontSelected = nullptr;
 	int _nbItem = 0;
 	int _currentIndex = 0;
-	RECT _rc = {};
+	Rect _rc = {};
 };
 

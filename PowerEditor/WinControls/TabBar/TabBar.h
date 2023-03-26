@@ -24,8 +24,8 @@
 #include <PowerEditor/menuCmdID.h>
 #include <PowerEditor/resource.h>
 #include <stdint.h>
-#include <windows.h>
-#include <commctrl.h>
+//#include <windows.h>
+//#include <commctrl.h>
 #include <PowerEditor/WinControls/Window.h>
 
 //Notification message
@@ -60,8 +60,8 @@ public:
 	TabBar() = default;
 	virtual ~TabBar() = default;
 	virtual void destroy();
-	virtual void init(HINSTANCE hInst, HWND hwnd, bool isVertical = false, bool isMultiLine = false);
-	virtual void reSizeTo(RECT & rc2Ajust);
+	virtual void init(HINSTANCE hInst, Upp::Ctrl* hwnd, bool isVertical = false, bool isMultiLine = false);
+	virtual void reSizeTo(Rect & rc2Ajust);
 	int insertAtEnd(const char *subTabName);
 	void activateAt(int index) const;
 	void getCurrentTitle(char *title, int titleLen);
@@ -120,8 +120,8 @@ protected:
 struct CloseButtonZone
 {
 	CloseButtonZone();
-	bool isHit(int x, int y, const RECT & tabRect, bool isVertical) const;
-	RECT getButtonRectFrom(const RECT & tabRect, bool isVertical) const;
+	bool isHit(int x, int y, const Rect & tabRect, bool isVertical) const;
+	Rect getButtonRectFrom(const Rect & tabRect, bool isVertical) const;
 
 	int _width = 0;
 	int _height = 0;
@@ -141,7 +141,7 @@ public :
         _doDragNDrop = justDoIt;
     };
 
-	virtual void init(HINSTANCE hInst, HWND hwnd, bool isVertical = false, bool isMultiLine = false);
+	virtual void init(HINSTANCE hInst, Upp::Ctrl* hwnd, bool isVertical = false, bool isMultiLine = false);
 
 	virtual void destroy();
 
@@ -222,18 +222,18 @@ protected:
 	POINT _draggingPoint = {}; // coordinate of Screen
 	WNDPROC _tabBarDefaultProc = nullptr;
 
-	RECT _currentHoverTabRect;
+	Rect _currentHoverTabRect;
 	int _currentHoverTabItem = -1; // -1 : no mouse on any tab
 
 	CloseButtonZone _closeButtonZone;
 	bool _isCloseHover = false;
 	int _whichCloseClickDown = -1;
 	bool _lmbdHit = false; // Left Mouse Button Down Hit
-	HWND _tooltips = nullptr;
+	Upp::Ctrl* _tooltips = nullptr;
 
-	LRESULT runProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
+	LRESULT runProc(Upp::Ctrl* hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
 
-	static LRESULT CALLBACK TabBarPlus_Proc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam) {
+	static LRESULT CALLBACK TabBarPlus_Proc(Upp::Ctrl* hwnd, UINT Message, WPARAM wParam, LPARAM lParam) {
 		return (((TabBarPlus *)(::GetWindowLongPtr(hwnd, GWLP_USERDATA)))->runProc(hwnd, Message, wParam, lParam));
 	};
 	void setActiveTab(int tabIndex);
@@ -256,7 +256,7 @@ protected:
 	static COLORREF _inactiveBgColour;
 
 	static int _nbCtrl;
-	static HWND _hwndArray[nbCtrlMax];
+	static Upp::Ctrl* _hwndArray[nbCtrlMax];
 
 	void drawItem(DRAWITEMSTRUCT *pDrawItemStruct, bool isDarkMode = false);
 	void draggingCursor(POINT screenPoint);
@@ -276,7 +276,7 @@ protected:
 
 	bool isPointInParentZone(POINT screenPoint) const
 	{
-        RECT parentZone;
+        Rect parentZone;
         ::GetWindowRect(_hParent, &parentZone);
 	    return (((screenPoint.x >= parentZone.left) && (screenPoint.x <= parentZone.right)) &&
 			    (screenPoint.y >= parentZone.top) && (screenPoint.y <= parentZone.bottom));

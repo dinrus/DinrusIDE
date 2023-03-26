@@ -1,4 +1,4 @@
-topic "Standard Ultimate++  packages";
+topic "Стандартные пакеты Ultimate++";
 [l288;i1120;a17;O9;~~~.1408;2 $$1,0#10431211400427159095818037425705:param]
 [a83;*R6 $$2,5#31310162474203024125188417583966:caption]
 [b83;*4 $$3,5#07864147445237544204411237157677:title]
@@ -22,7 +22,7 @@ topic "Standard Ultimate++  packages";
 [b50;2 $$21,21#03324558446220344731010354752573:Par]
 [2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%RU-RU 
-[s2; Standard Ultimate`+`+  packages&]
+[s2; [@5 Стандартные пакеты Ultimate`+`+]&]
 [ {{1851:8149 [s0; Core]
 :: [s0; core components, like streams, string, containers, callbacks...]
 :: [s0; Draw]

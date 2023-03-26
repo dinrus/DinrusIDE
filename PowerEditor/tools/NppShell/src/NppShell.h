@@ -11,7 +11,7 @@
 #define INC_OLE2
 #define NOMINMAX
 
-#include <windows.h>
+//#include <windows.h>
 #include <windowsx.h>
 #include <shlobj.h>
 #include <shlwapi.h>
@@ -81,7 +81,7 @@ private:
 	char m_szDllDir[MAX_PATH];
 	char m_szMenuTitle[TITLE_SIZE];
 	UINT m_menuID;
-	HMENU m_hMenu;
+	Menu* m_hMenu;
 	bool m_showIcon;
 	// Icon variables
 	char m_szFilePath[MAX_PATH];
@@ -96,7 +96,7 @@ private:
 	DWORD m_winVer;	//current windows version
 
 	// *** Private methods ***
-	STDMETHODIMP InvokeNPP(HWND hParent, LPCSTR pszWorkingDir, LPCSTR pszCmd, LPCSTR pszParam, int iShowCmd);
+	STDMETHODIMP InvokeNPP(Upp::Ctrl* hParent, LPCSTR pszWorkingDir, LPCSTR pszCmd, LPCSTR pszParam, int iShowCmd);
 	STDMETHODIMP LoadShellIcon(int cx, int cy, HICON * phicon);
 
 public:
@@ -112,10 +112,10 @@ public:
 	STDMETHODIMP Initialize(LPCITEMIDLIST pIDFolder, LPDATAOBJECT pDataObj, HKEY hKeyID);
 
 	// *** IContextMenu methods ***
-	STDMETHODIMP QueryContextMenu(HMENU hMenu, UINT indexMenu, UINT idCmdFirst, UINT idCmdLast, UINT uFlags);
+	STDMETHODIMP QueryContextMenu(Menu* hMenu, UINT indexMenu, UINT idCmdFirst, UINT idCmdLast, UINT uFlags);
 	STDMETHODIMP InvokeCommand(LPCMINVOKECOMMANDINFO lpcmi);
 	STDMETHODIMP GetCommandString(UINT_PTR idCmd, UINT uFlags, UINT FAR *reserved, LPSTR pszName, UINT cchMax);
-	STDMETHODIMP HandleMenuMsg(UINT uMsg, WPARAM wParam, LPARAM lParam) { return HandleMenuMsg2(uMsg, wParam, lParam, NULL); };
+	STDMETHODIMP HandleMenuMsg(UINT uMsg, WPARAM wParam, LPARAM lParam) { return HandleMenuMsg2(uMsg, wParam, lParam, Null); };
 	STDMETHODIMP HandleMenuMsg2(UINT uMsg, WPARAM wParam, LPARAM lParam, LRESULT *plResult);
 
 	// *** IPersistFile methods ***

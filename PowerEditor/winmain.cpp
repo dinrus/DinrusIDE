@@ -57,12 +57,12 @@ void allowWmCopydataMessages(Notepad_plus_Window& notepad_plus_plus, const NppPa
             }
             else
             {
-                typedef BOOL (WINAPI *MESSAGEFILTERFUNCEX)(HWND hWnd,UINT message,DWORD action,VOID* pChangeFilterStruct);
+                typedef BOOL (WINAPI *MESSAGEFILTERFUNCEX)(Upp::Ctrl* hWnd,UINT message,DWORD action,VOID* pChangeFilterStruct);
 
                 MESSAGEFILTERFUNCEX func = (MESSAGEFILTERFUNCEX)::GetProcAddress( hDll, "ChangeWindowMessageFilterEx" );
 
                 if (func)
-                    func(notepad_plus_plus.getHSelf(), WM_COPYDATA, MSGFLT_ALLOW, NULL );
+                    func(notepad_plus_plus.getHSelf(), WM_COPYDATA, MSGFLT_ALLOW, Null );
             }
         }
     }
@@ -336,7 +336,7 @@ void doException(Notepad_plus_Window & notepad_plus_plus)
         ::MessageBox(Notepad_plus_Window::gNppHWND, TEXT("Unfortunatly, Notepad++ was not able to save your work. We are sorry for any lost data."), TEXT("Recovery failure"), MB_OK | MB_ICONERROR);
 }
 
-PWSTR advanceCmdLine(PWSTR pCmdLine, const String& string)
+PWSTR advanceCmdLine(PWSTR pCmdLine, const char* string)
 {
     const size_t len = string.GetLength();
     while (true)
@@ -418,7 +418,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE, PWSTR pCmdLine, int)
 
     bool TheFirstOne = true;
     ::SetLastError(NO_ERROR);
-    ::CreateMutex(NULL, false, TEXT("nppInstance"));
+    ::CreateMutex(Null, false, TEXT("nppInstance"));
     if (::GetLastError() == ERROR_ALREADY_EXISTS)
         TheFirstOne = false;
 
@@ -514,7 +514,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE, PWSTR pCmdLine, int)
     }
 
     if (showHelp)
-        ::MessageBox(NULL, COMMAND_ARG_HELP, TEXT("Notepad++ Command Argument Help"), MB_OK);
+        ::MessageBox(Null, COMMAND_ARG_HELP, TEXT("Notepad++ Command Argument Help"), MB_OK);
 
     if (cmdLineParams._localizationPath != TEXT(""))
     {
@@ -581,11 +581,11 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE, PWSTR pCmdLine, int)
 
     if ((!isMultiInst) && (!TheFirstOne))
     {
-        HWND hNotepad_plus = ::FindWindow(Notepad_plus_Window::getClassName(), NULL);
+        Upp::Ctrl* hNotepad_plus = ::FindWindow(Notepad_plus_Window::getClassName(), Null);
         for (int i = 0 ;!hNotepad_plus && i < 5 ; ++i)
         {
             Sleep(100);
-            hNotepad_plus = ::FindWindow(Notepad_plus_Window::getClassName(), NULL);
+            hNotepad_plus = ::FindWindow(Notepad_plus_Window::getClassName(), Null);
         }
 
         if (hNotepad_plus)
@@ -725,12 +725,12 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE, PWSTR pCmdLine, int)
     Win32Exception::installHandler();
     try
     {
-        notepad_plus_plus.init(hInstance, NULL, quotFileName.Begin(), &cmdLineParams);
+        notepad_plus_plus.init(hInstance, Null, quotFileName.Begin(), &cmdLineParams);
         allowWmCopydataMessages(notepad_plus_plus, nppParameters, ver);
         bool going = true;
         while (going)
         {
-            going = ::GetMessageW(&msg, NULL, 0, 0) != 0;
+            going = ::GetMessageW(&msg, Null, 0, 0) != 0;
             if (going)
             {
                 // if the message doesn't belong to the notepad_plus_plus's dialog

@@ -17,7 +17,7 @@
 
 #pragma once
 
-#include <windows.h>
+//#include <windows.h>
 //#include <char.h>
 
 enum LangType {L_TEXT, L_PHP , L_C, L_CPP, L_CS, L_OBJC, L_JAVA, L_RC,\
@@ -96,7 +96,7 @@ enum Platform { PF_UNKNOWN, PF_X86, PF_X64, PF_IA64, PF_ARM64 };
 		#define NPPPLUGINMENU 0
 		#define NPPMAINMENU 1
 	// INT NPPM_GETMENUHANDLE(INT menuChoice, 0)
-	// Return: menu handle (HMENU) of choice (plugin menu handle or Notepad++ main menu handle)
+	// Return: menu handle (Menu*) of choice (plugin menu handle or Notepad++ main menu handle)
 
 	#define NPPM_ENCODESCI (NPPMSG + 26)
 	//ascii file to unicode
@@ -160,9 +160,9 @@ enum Platform { PF_UNKNOWN, PF_X86, PF_X64, PF_IA64, PF_ARM64 };
 	//winVer NPPM_GETWINDOWSVERSION(0, 0)
 
 	#define NPPM_DMMGETPLUGINHWNDBYNAME (NPPMSG + 43)
-	//HWND WM_DMM_GETPLUGINHWNDBYNAME(const char *windowName, const char *moduleName)
-	// if moduleName is NULL, then return value is NULL
-	// if windowName is NULL, then the first found window handle which matches with the moduleName will be returned
+	//Upp::Ctrl* WM_DMM_GETPLUGINHWNDBYNAME(const char *windowName, const char *moduleName)
+	// if moduleName is Null, then return value is Null
+	// if windowName is Null, then the first found window handle which matches with the moduleName will be returned
 
 	#define NPPM_MAKECURRENTBUFFERDIRTY (NPPMSG + 44)
 	//BOOL NPPM_MAKECURRENTBUFFERDIRTY(0, 0)
@@ -174,13 +174,13 @@ enum Platform { PF_UNKNOWN, PF_X86, PF_X64, PF_IA64, PF_ARM64 };
 	//INT NPPM_GETPLUGINSCONFIGDIR(int strLen, char *str)
 	// Get user's plugin config directory path. It's useful if plugins want to save/load parameters for the current user
 	// Returns the number of char copied/to copy.
-	// Users should call it with "str" be NULL to get the required number of char (not including the terminating nul character),
+	// Users should call it with "str" be Null to get the required number of char (not including the terminating nul character),
 	// allocate "str" buffer with the return value + 1, then call it again to get the path.
 
 	#define NPPM_MSGTOPLUGIN (NPPMSG + 47)
 	//BOOL NPPM_MSGTOPLUGIN(char *destModuleName, CommunicationInfo *info)
 	// return value is TRUE when the message arrive to the destination plugins.
-	// if destModule or info is NULL, then return value is FALSE
+	// if destModule or info is Null, then return value is FALSE
 		struct CommunicationInfo {
 			long internalMsg;
 			const char * srcModuleName;
@@ -247,7 +247,7 @@ enum Platform { PF_UNKNOWN, PF_X86, PF_X64, PF_IA64, PF_ARM64 };
 	// INT NPPM_GETFULLPATHFROMBUFFERID(UINT_PTR bufferID, char *fullFilePath)
 	// Get full path file name from a bufferID.
 	// Return -1 if the bufferID non existing, otherwise the number of char copied/to copy
-	// User should call it with fullFilePath be NULL to get the number of char (not including the nul character),
+	// User should call it with fullFilePath be Null to get the number of char (not including the nul character),
 	// allocate fullFilePath with the return values + 1, then call it again to get full path file name
 
 	#define NPPM_GETBUFFERIDFROMPOS (NPPMSG + 59)
@@ -376,7 +376,7 @@ enum Platform { PF_UNKNOWN, PF_X86, PF_X64, PF_IA64, PF_ARM64 };
 	// INT NPPM_GETLANGUAGENAME(int langType, char *langName)
 	// Get programming language name from the given language type (LangType)
 	// Return value is the number of copied character / number of character to copy (\0 is not included)
-	// You should call this function 2 times - the first time you pass langName as NULL to get the number of characters to copy.
+	// You should call this function 2 times - the first time you pass langName as Null to get the number of characters to copy.
     // You allocate a buffer of the length of (the number of characters + 1) then call NPPM_GETLANGUAGENAME function the 2nd time
 	// by passing allocated buffer as argument langName
 
@@ -384,7 +384,7 @@ enum Platform { PF_UNKNOWN, PF_X86, PF_X64, PF_IA64, PF_ARM64 };
 	// INT NPPM_GETLANGUAGEDESC(int langType, char *langDesc)
 	// Get programming language short description from the given language type (LangType)
 	// Return value is the number of copied character / number of character to copy (\0 is not included)
-	// You should call this function 2 times - the first time you pass langDesc as NULL to get the number of characters to copy.
+	// You should call this function 2 times - the first time you pass langDesc as Null to get the number of characters to copy.
     // You allocate a buffer of the length of (the number of characters + 1) then call NPPM_GETLANGUAGEDESC function the 2nd time
 	// by passing allocated buffer as argument langDesc
 
@@ -443,14 +443,14 @@ enum Platform { PF_UNKNOWN, PF_X86, PF_X64, PF_IA64, PF_ARM64 };
 	// Get plugin home root path. It's useful if plugins want to get its own path
 	// by appending <pluginFolderName> which is the name of plugin without extension part.
 	// Returns the number of char copied/to copy.
-	// Users should call it with pluginRootPath be NULL to get the required number of char (not including the terminating nul character),
+	// Users should call it with pluginRootPath be Null to get the required number of char (not including the terminating nul character),
 	// allocate pluginRootPath buffer with the return value + 1, then call it again to get the path.
 
 	#define NPPM_GETSETTINGSONCLOUDPATH (NPPMSG + 98)
 	// INT NPPM_GETSETTINGSCLOUDPATH(size_t strLen, char *settingsOnCloudPath)
 	// Get settings on cloud path. It's useful if plugins want to store its settings on Cloud, if this path is set.
 	// Returns the number of char copied/to copy. If the return value is 0, then this path is not set, or the "strLen" is not enough to copy the path.
-	// Users should call it with settingsCloudPath be NULL to get the required number of char (not including the terminating nul character),
+	// Users should call it with settingsCloudPath be Null to get the required number of char (not including the terminating nul character),
 	// allocate settingsCloudPath buffer with the return value + 1, then call it again to get the path.
 
 	#define NPPM_SETLINENUMBERWIDTHMODE    (NPPMSG + 99)
@@ -537,7 +537,7 @@ enum Platform { PF_UNKNOWN, PF_X86, PF_X64, PF_IA64, PF_ARM64 };
 	// INT NPPM_GETCURRENTCMDLINE(size_t strLen, char *commandLineStr)
 	// Get the Current Command Line string.
 	// Returns the number of char copied/to copy.
-	// Users should call it with commandLineStr as NULL to get the required number of char (not including the terminating nul character),
+	// Users should call it with commandLineStr as Null to get the required number of char (not including the terminating nul character),
 	// allocate commandLineStr buffer with the return value + 1, then call it again to get the current command line string.
 
 	#define NPPM_CREATELEXER (NPPMSG + 110)
@@ -661,7 +661,7 @@ enum Platform { PF_UNKNOWN, PF_X86, PF_X64, PF_IA64, PF_ARM64 };
 	#define NPPN_FILEBEFORELOAD (NPPN_FIRST + 14) // To notify plugins that the current file is about to be loaded
 	//scnNotification->nmhdr.code = NPPN_FILEBEFOREOPEN;
 	//scnNotification->nmhdr.hwndFrom = hwndNpp;
-	//scnNotification->nmhdr.idFrom = NULL;
+	//scnNotification->nmhdr.idFrom = Null;
 
 	#define NPPN_FILELOADFAILED (NPPN_FIRST + 15)  // To notify plugins that file open operation failed
 	//scnNotification->nmhdr.code = NPPN_FILEOPENFAILED;
@@ -685,7 +685,7 @@ enum Platform { PF_UNKNOWN, PF_X86, PF_X64, PF_IA64, PF_ARM64 };
 
 	#define NPPN_SNAPSHOTDIRTYFILELOADED (NPPN_FIRST + 18)  // To notify plugins that a snapshot dirty file is loaded on startup
 	//scnNotification->nmhdr.code = NPPN_SNAPSHOTDIRTYFILELOADED;
-	//scnNotification->nmhdr.hwndFrom = NULL;
+	//scnNotification->nmhdr.hwndFrom = Null;
 	//scnNotification->nmhdr.idFrom = BufferID;
 
 	#define NPPN_BEFORESHUTDOWN (NPPN_FIRST + 19)  // To notify plugins that Npp shutdown has been triggered, files have not been closed yet

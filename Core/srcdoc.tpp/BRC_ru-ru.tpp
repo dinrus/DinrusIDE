@@ -22,8 +22,8 @@ topic "Включение бинарных данных с помощью фай
 [b50;2 $$21,21#03324558446220344731010354752573:Par]
 [2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%EN-US 
-[s2; Включение бинарных данных с помощью 
-файлов .brc&]
+[s2; [@5 Включение бинарных данных с помощью 
+файлов .brc]&]
 [s0; In Ultimate`+`+, using TheIDE, it is very easy to embed binary 
 data in your applications using brc (binary resource) source 
 files. Just insert a file with the extension `".brc`" into a 

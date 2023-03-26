@@ -34,7 +34,7 @@ protected:
 		return _isDescending;
 	}
 
-	String getSortKey(const String& input)
+	String getSortKey(const char* input)
 	{
 		if (isSortingSpecificColumns())
 		{
@@ -518,7 +518,7 @@ public:
 	NumericSorter(bool isDescending, size_t fromColumn, size_t toColumn) : ISorter(isDescending, fromColumn, toColumn)
 	{
 #ifdef __MINGW32__
-		_usLocale = NULL;
+		_usLocale = Null;
 #else
 		_usLocale = ::_create_locale(LC_NUMERIC, "en-US");
 #endif
@@ -589,18 +589,18 @@ public:
 	}
 
 protected:
-	bool considerStringEmpty(const String& input)
+	bool considerStringEmpty(const char* input)
 	{
 		// String has something else than just whitespace.
 		return input.find_first_not_of(TEXT(" \t\r\n")) == std::string::npos;
 	}
 
 	// Prepare the string for conversion to number.
-	virtual String prepareStringForConversion(const String& input) = 0;
+	virtual String prepareStringForConversion(const char* input) = 0;
 
 	// Should convert the input string to a number of the correct type.
 	// If unable to convert, throw either std::invalid_argument or std::out_of_range.
-	virtual T_Num convertStringToNumber(const String& input) = 0;
+	virtual T_Num convertStringToNumber(const char* input) = 0;
 
 	// We need a fixed locale so we get the same string-to-double behavior across all computers.
 	// This is the "enUS" locale.
@@ -614,13 +614,13 @@ public:
 	DecimalCommaSorter(bool isDescending, size_t fromColumn, size_t toColumn) : NumericSorter<double>(isDescending, fromColumn, toColumn) { };
 
 protected:
-	String prepareStringForConversion(const String& input) override
+	String prepareStringForConversion(const char* input) override
 	{
 		String admissablePart = stringTakeWhileAdmissable(getSortKey(input), TEXT(" \t\r\n0123456789,-"));
 		return stringReplace(admissablePart, TEXT(","), TEXT("."));
 	}
 
-	double convertStringToNumber(const String& input) override
+	double convertStringToNumber(const char* input) override
 	{
 		return stodLocale(input, _usLocale);
 	}
@@ -633,12 +633,12 @@ public:
 	DecimalDotSorter(bool isDescending, size_t fromColumn, size_t toColumn) : NumericSorter<double>(isDescending, fromColumn, toColumn) { };
 
 protected:
-	String prepareStringForConversion(const String& input) override
+	String prepareStringForConversion(const char* input) override
 	{
 		return stringTakeWhileAdmissable(getSortKey(input), TEXT(" \t\r\n0123456789.-"));
 	}
 
-	double convertStringToNumber(const String& input) override
+	double convertStringToNumber(const char* input) override
 	{
 		return stodLocale(input, _usLocale);
 	}
@@ -662,7 +662,7 @@ public:
 	unsigned seed;
 	RandomSorter(bool isDescending, size_t fromColumn, size_t toColumn) : ISorter(isDescending, fromColumn, toColumn)
 	{
-		seed = static_cast<unsigned>(time(NULL));
+		seed = static_cast<unsigned>(time(Null));
 	}
 	Vector<String> sort(Vector<String> lines) override
 	{

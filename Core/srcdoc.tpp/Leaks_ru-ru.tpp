@@ -1,4 +1,4 @@
-topic "Resolving memory leaks in U++ applications";
+topic "Устранение утечек памяти в приложениях U++";
 [l288;i1120;a17;O9;~~~.1408;2 $$1,0#10431211400427159095818037425705:param]
 [a83;*R6 $$2,5#31310162474203024125188417583966:caption]
 [H4;b83;*4 $$3,5#07864147445237544204411237157677:title]
@@ -22,7 +22,8 @@ topic "Resolving memory leaks in U++ applications";
 [b50;2 $$21,21#03324558446220344731010354752573:Par]
 [2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%RU-RU 
-[s2; Resolving memory leaks in U`+`+ applications&]
+[s2; [@5 Устранение утечек памяти в приложениях 
+U`+`+]&]
 [s3; Table of contents&]
 [s0; &]
 [s0; [^topic`:`/`/Core`/srcdoc`/Leaks`_ru`-ru`#1^ 1. Introduction]&]
@@ -48,8 +49,8 @@ the detection mechanism will not be present.&]
 has associated serial number (incremental). When U`+`+ detects 
 a leak, it dumps all leak blocks (note that sometimes you can 
 resolve the problem just by examining its content) to standard 
-.log file. You can see it in DinrusIDE by pressing[*  Alt`+L] or by 
-selecting [* `"View log file`"] option from `"Debug`" menu:&]
+.log file. You can see it in DinrusIDE by pressing[*  Alt`+L] or 
+by selecting [* `"View log file`"] option from `"Debug`" menu:&]
 [s0; &]
 [s0;= 
 @@rawimage:2230&1400

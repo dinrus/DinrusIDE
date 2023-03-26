@@ -58,8 +58,8 @@ public:
 
 	virtual void destroy() override;
 
-	void resizeSpliter(RECT *pRect = NULL);
-	void init(HINSTANCE hInst, HWND hPere, int splitterSize, double iSplitRatio, DWORD dwFlags);
+	void resizeSpliter(Rect *pRect = Null);
+	void init(HINSTANCE hInst, Upp::Ctrl* hPere, int splitterSize, double iSplitRatio, DWORD dwFlags);
 	void rotate();
 
 	int getPhisicalSize() const
@@ -69,7 +69,7 @@ public:
 
 
 private:
-	RECT _rect = {};
+	Rect _rect = {};
 	double _splitPercent = 0.;
 	int _splitterSize = 0;
 	bool _isDraged = false;
@@ -81,17 +81,17 @@ private:
 	static bool _isHorizontalFixedRegistered;
 	static bool _isVerticalFixedRegistered;
 
-	RECT _clickZone2TL = {};
-	RECT _clickZone2BR = {};
+	Rect _clickZone2TL = {};
+	Rect _clickZone2BR = {};
 
-	static LRESULT CALLBACK staticWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+	static LRESULT CALLBACK staticWndProc(Upp::Ctrl* hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 	LRESULT CALLBACK spliterWndProc(UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 	int getClickZone(WH which);
-	void adjustZoneToDraw(RECT & rc2def, ZONE_TYPE whichZone);
+	void adjustZoneToDraw(Rect & rc2def, ZONE_TYPE whichZone);
 	void drawSplitter();
 	bool isVertical() const {return (_dwFlags & SV_VERTICAL) != 0;};
-	void paintArrow(HDC hdc, const RECT &rect, Arrow arrowDir);
+	void paintArrow(HDC hdc, const Rect &rect, Arrow arrowDir);
 	void gotoTopLeft();
 	void gotoRightBottom();
 

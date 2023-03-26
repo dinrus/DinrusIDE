@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include <windows.h>
+//#include <windows.h>
 #include <PowerEditor/resource.h>
 
 #ifndef WM_MOUSEWHEEL
@@ -109,6 +109,6 @@
 
 //function forward declarations
 ATOM RegisterGridClass(HINSTANCE);
-LRESULT CALLBACK GridProc(HWND, UINT, WPARAM, LPARAM);
+LRESULT CALLBACK GridProc(Upp::Ctrl*, UINT, WPARAM, LPARAM);
 void SetCell(_BGCELL *cell,int row, int col);
 

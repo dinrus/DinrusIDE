@@ -32,11 +32,11 @@ class FunctionParser
 {
 friend class FunctionParsersManager;
 public:
-	FunctionParser(const char *id, const char *displayName, const char *commentExpr, const String& functionExpr, const Upp::Vector<String>& functionNameExprArray, const Upp::Vector<String>& classNameExprArray):
+	FunctionParser(const char *id, const char *displayName, const char *commentExpr, const char* functionExpr, const Upp::Vector<String>& functionNameExprArray, const Upp::Vector<String>& classNameExprArray):
 	  _id(id), _displayName(displayName), _commentExpr(commentExpr?commentExpr:TEXT("")), _functionExpr(functionExpr), _functionNameExprArray(functionNameExprArray), _classNameExprArray(classNameExprArray){};
 
 	virtual void parse(std::vector<foundInfo> & foundInfos, size_t begin, size_t end, ScintillaEditView **ppEditView, String classStructName = TEXT("")) = 0;
-	void funcParse(std::vector<foundInfo> & foundInfos, size_t begin, size_t end, ScintillaEditView **ppEditView, String classStructName = TEXT(""), const std::vector< std::pair<size_t, size_t> > * commentZones = NULL);
+	void funcParse(std::vector<foundInfo> & foundInfos, size_t begin, size_t end, ScintillaEditView **ppEditView, String classStructName = TEXT(""), const std::vector< std::pair<size_t, size_t> > * commentZones = Null);
 	bool isInZones(size_t pos2Test, const std::vector< std::pair<size_t, size_t> > & zones);
 	virtual ~FunctionParser() = default;
 
@@ -57,8 +57,8 @@ class FunctionZoneParser : public FunctionParser
 {
 public:
 	FunctionZoneParser() = delete;
-	FunctionZoneParser(const char *id, const char *displayName, const char *commentExpr, const String& rangeExpr, const String& openSymbole, const String& closeSymbole,
-		const Upp::Vector<String>& classNameExprArray, const String& functionExpr, const Upp::Vector<String>& functionNameExprArray):
+	FunctionZoneParser(const char *id, const char *displayName, const char *commentExpr, const char* rangeExpr, const char* openSymbole, const char* closeSymbole,
+		const Upp::Vector<String>& classNameExprArray, const char* functionExpr, const Upp::Vector<String>& functionNameExprArray):
 		FunctionParser(id, displayName, commentExpr, functionExpr, functionNameExprArray, classNameExprArray), _rangeExpr(rangeExpr), _openSymbole(openSymbole), _closeSymbole(closeSymbole) {};
 
 	void parse(std::vector<foundInfo> & foundInfos, size_t begin, size_t end, ScintillaEditView **ppEditView, String classStructName = TEXT(""));
@@ -80,7 +80,7 @@ class FunctionUnitParser : public FunctionParser
 {
 public:
 	FunctionUnitParser(const char *id, const char *displayName, const char *commentExpr,
-		const String& mainExpr, const Upp::Vector<String>& functionNameExprArray,
+		const char* mainExpr, const Upp::Vector<String>& functionNameExprArray,
 		const Upp::Vector<String>& classNameExprArray): FunctionParser(id, displayName, commentExpr, mainExpr, functionNameExprArray, classNameExprArray)
 	{}
 
@@ -90,8 +90,8 @@ public:
 class FunctionMixParser : public FunctionZoneParser
 {
 public:
-	FunctionMixParser(const char *id, const char *displayName, const char *commentExpr, const String& rangeExpr, const String& openSymbole, const String& closeSymbole,
-		const Upp::Vector<String>& classNameExprArray, const String& functionExpr, const Upp::Vector<String>& functionNameExprArray, FunctionUnitParser *funcUnitPaser):
+	FunctionMixParser(const char *id, const char *displayName, const char *commentExpr, const char* rangeExpr, const char* openSymbole, const char* closeSymbole,
+		const Upp::Vector<String>& classNameExprArray, const char* functionExpr, const Upp::Vector<String>& functionNameExprArray, FunctionUnitParser *funcUnitPaser):
 		FunctionZoneParser(id, displayName, commentExpr, rangeExpr,	openSymbole, closeSymbole, classNameExprArray, functionExpr, functionNameExprArray), _funcUnitPaser(funcUnitPaser){};
 		
 	~FunctionMixParser()
@@ -137,8 +137,8 @@ struct ParserInfo
 	String _userDefinedLangName;
 
 	ParserInfo() {};
-	ParserInfo(const String& id): _id(id) {};
-	ParserInfo(const String& id, const String& userDefinedLangName): _id(id), _userDefinedLangName(userDefinedLangName) {};
+	ParserInfo(const char* id): _id(id) {};
+	ParserInfo(const char* id, const char* userDefinedLangName): _id(id), _userDefinedLangName(userDefinedLangName) {};
 	~ParserInfo() { if (_parser) delete _parser; }
 };
 
@@ -147,7 +147,7 @@ class FunctionParsersManager final
 public:
 	~FunctionParsersManager();
 
-	bool init(const String& xmlPath, const String& xmlInstalledPath, ScintillaEditView ** ppEditView);
+	bool init(const char* xmlPath, const char* xmlInstalledPath, ScintillaEditView ** ppEditView);
 	bool parse(std::vector<foundInfo> & foundInfos, const AssociationInfo & assoInfo);
 	
 
@@ -160,7 +160,7 @@ private:
 	int _currentUDIndex = L_EXTERNAL;
 
 	bool getOverrideMapFromXmlTree(String & xmlDirPath);
-	bool loadFuncListFromXmlTree(String & xmlDirPath, LangType lType, const String& overrideId, int udlIndex = -1);
+	bool loadFuncListFromXmlTree(String & xmlDirPath, LangType lType, const char* overrideId, int udlIndex = -1);
 	bool getZonePaserParameters(TiXmlNode *classRangeParser, String &mainExprStr, String &openSymboleStr, String &closeSymboleStr, Upp::Vector<String> &classNameExprArray, String &functionExprStr, Upp::Vector<String> &functionNameExprArray);
 	bool getUnitPaserParameters(TiXmlNode *functionParser, String &mainExprStr, Upp::Vector<String> &functionNameExprArray, Upp::Vector<String> &classNameExprArray);
 	FunctionParser * getParser(const AssociationInfo & assoInfo);

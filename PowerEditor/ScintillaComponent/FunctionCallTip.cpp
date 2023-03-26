@@ -291,13 +291,13 @@ bool FunctionCallTip::loadFunction()
 {
 	reset();	//set everything back to 0
 	//The functions should be ordered, but linear search because we cant access like array
-	_curFunction = NULL;
+	_curFunction = Null;
 	//Iterate through all keywords and find the correct function keyword
 	TiXmlElement *funcNode = _pXmlKeyword;
 	
 	for (; funcNode; funcNode = funcNode->NextSiblingElement(TEXT("KeyWord")))
 	{
-		const char * name = NULL;
+		const char * name = Null;
 		name = funcNode->Attribute(TEXT("name"));
 		if (!name)		//malformed node
 			continue;
@@ -333,7 +333,7 @@ bool FunctionCallTip::loadFunction()
 	stringVec paramVec;
 
 	TiXmlElement *overloadNode = _curFunction->FirstChildElement(TEXT("Overload"));
-	TiXmlElement *paramNode = NULL;
+	TiXmlElement *paramNode = Null;
 	for (; overloadNode ; overloadNode = overloadNode->NextSiblingElement(TEXT("Overload")) )
 	{
 		const char * retVal = overloadNode->Attribute(TEXT("retVal"));
@@ -454,5 +454,5 @@ void FunctionCallTip::cleanup()
 	reset();
 	delete [] _funcName;
 	_funcName = 0;
-	_pEditView = NULL;
+	_pEditView = Null;
 }

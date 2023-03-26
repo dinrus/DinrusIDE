@@ -46,7 +46,7 @@ struct PluginInfo
 	}
 
 	HINSTANCE _hLib = nullptr;
-	HMENU _pluginMenu = nullptr;
+	Menu* _pluginMenu = nullptr;
 
 	PFUNCSETINFO _pFuncSetInfo = nullptr;
 	PFUNCGETNAME _pFuncGetName = nullptr;
@@ -91,15 +91,15 @@ public:
 		_nppData = nppData;
 	}
 
-	bool loadPlugins(const char *dir = NULL, const PluginViewList* pluginUpdateInfoList = nullptr);
+	bool loadPlugins(const char *dir = Null, const PluginViewList* pluginUpdateInfoList = nullptr);
 
-    bool unloadPlugin(int index, HWND nppHandle);
+    bool unloadPlugin(int index, Upp::Ctrl* nppHandle);
 
 	void runPluginCommand(size_t i);
 	void runPluginCommand(const char *pluginName, int commandID);
 
     void addInMenuFromPMIndex(int i);
-	HMENU initMenu(HMENU hMenu, bool enablePluginAdmin = false);
+	Menu* initMenu(Menu* hMenu, bool enablePluginAdmin = false);
 	bool getShortcutByCmdID(int cmdID, ShortcutKey *sk);
 	bool removeShortcutByCmdID(int cmdID);
 
@@ -108,7 +108,7 @@ public:
 	void relayNppMessages(UINT Message, WPARAM wParam, LPARAM lParam);
 	bool relayPluginMessages(UINT Message, WPARAM wParam, LPARAM lParam);
 
-	HMENU getMenuHandle() const { return _hPluginsMenu; }
+	Menu* getMenuHandle() const { return _hPluginsMenu; }
 
 	void disable() {_isDisabled = true;}
 	bool hasPlugins() {return (_pluginInfos.size()!= 0);}
@@ -121,7 +121,7 @@ public:
 
 private:
 	NppData _nppData;
-	HMENU _hPluginsMenu = NULL;
+	Menu* _hPluginsMenu = Null;
 
 	std::vector<PluginInfo *> _pluginInfos;
 	std::vector<PluginCommand> _pluginsCommands;
@@ -138,7 +138,7 @@ private:
 		String msg = pluginName;
 		msg += TEXT(" just crashed in\r");
 		msg += funcSignature;
-		::MessageBox(NULL, msg.Begin(), TEXT("Plugin Crash"), MB_OK|MB_ICONSTOP);
+		::MessageBox(Null, msg.Begin(), TEXT("Plugin Crash"), MB_OK|MB_ICONSTOP);
 	}
 
 	void pluginExceptionAlert(const char *pluginName, const std::exception& e)
@@ -148,7 +148,7 @@ private:
 		msg += TEXT("\r\n\r\nException reason: ");
 		msg += s2ws(e.what());
 
-		::MessageBox(NULL, msg.Begin(), TEXT("Plugin Exception"), MB_OK);
+		::MessageBox(Null, msg.Begin(), TEXT("Plugin Exception"), MB_OK);
 	}
 
 	bool isInLoadedDlls(const char *fn) const

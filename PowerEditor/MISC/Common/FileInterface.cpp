@@ -24,7 +24,7 @@ Win32_IO_File::Win32_IO_File(const char *fname)
 	if (fname)
 	{
 		_path = fname;
-		_hFile = ::CreateFileA(fname, _accessParam, _shareParam, NULL, _dispParam, _attribParam, NULL);
+		_hFile = ::CreateFileA(fname, _accessParam, _shareParam, Null, _dispParam, _attribParam, Null);
 	}
 }
 
@@ -36,7 +36,7 @@ Win32_IO_File::Win32_IO_File(const wchar_t *fname)
 		std::wstring fn = fname;
 		std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
 		_path = converter.to_bytes(fn);
-		_hFile = ::CreateFileW(fname, _accessParam, _shareParam, NULL, _dispParam, _attribParam, NULL);
+		_hFile = ::CreateFileW(fname, _accessParam, _shareParam, Null, _dispParam, _attribParam, Null);
 
 		NppParameters& nppParam = NppParameters::getInstance();
 		if (nppParam.isQueryEndSessionStarted() && nppParam.doNppLogNulContentCorruptionIssue())
@@ -115,7 +115,7 @@ unsigned long Win32_IO_File::read(void *rbuf, unsigned long buf_size)
 
 	DWORD bytes_read = 0;
 
-	if (::ReadFile(_hFile, rbuf, buf_size, &bytes_read, NULL) == FALSE)
+	if (::ReadFile(_hFile, rbuf, buf_size, &bytes_read, Null) == FALSE)
 		return 0;
 
 	return bytes_read;
@@ -130,7 +130,7 @@ bool Win32_IO_File::write(const void *wbuf, unsigned long buf_size)
 	DWORD bytes_written = 0;
 
 	NppParameters& nppParam = NppParameters::getInstance();
-	if (::WriteFile(_hFile, wbuf, buf_size, &bytes_written, NULL) == FALSE)
+	if (::WriteFile(_hFile, wbuf, buf_size, &bytes_written, Null) == FALSE)
 	{
 		if (nppParam.isQueryEndSessionStarted() && nppParam.doNppLogNulContentCorruptionIssue())
 		{

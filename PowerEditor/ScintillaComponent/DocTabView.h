@@ -27,14 +27,14 @@ const int MONITORING_IMG_INDEX = 3;
 class DocTabView : public TabBarPlus
 {
 public :
-	DocTabView():TabBarPlus(), _pView(NULL) {};
+	DocTabView():TabBarPlus(), _pView(Null) {};
 	virtual ~DocTabView(){};
 	
 	virtual void destroy() {
 		TabBarPlus::destroy();
 	};
 
-	void init(HINSTANCE hInst, HWND parent, ScintillaEditView * pView, std::vector<IconList *> pIconListVector, unsigned char indexChoice) {
+	void init(HINSTANCE hInst, Upp::Ctrl* parent, ScintillaEditView * pView, std::vector<IconList *> pIconListVector, unsigned char indexChoice) {
 		TabBarPlus::init(hInst, parent);
 		_pView = pView;
 
@@ -84,7 +84,7 @@ public :
 		return _hideTabBarStatus;
 	};
 
-	virtual void reSizeTo(RECT & rc);
+	virtual void reSizeTo(Rect & rc);
 
 	const ScintillaEditView* getScintillaEditView() const {
 		return _pView;

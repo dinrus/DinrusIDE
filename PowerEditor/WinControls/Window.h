@@ -3,7 +3,7 @@
 #include <CtrlCore/CtrlCore.h>
 #include <PowerEditor/TinyXml/tinyxml.h>
 
-class Window
+class Window : Ctrl
 {
 public:
     //! \name Constructors & Destructor
@@ -14,7 +14,7 @@ public:
     //@}
 
 
-    virtual void init(HINSTANCE hInst, HWND parent)
+    virtual void init(Ctrl& hInst, Ctrl& parent)
     {
         _hInst = hInst;
         _hParent = parent;
@@ -28,14 +28,14 @@ public:
     }
 
 
-    virtual void reSizeTo(RECT & rc) // should NEVER be const !!!
+    virtual void reSizeTo(Rect & rc) // should NEVER be const !!!
     {
         ::MoveWindow(_hSelf, rc.left, rc.top, rc.right, rc.bottom, TRUE);
         redraw();
     }
 
 
-    virtual void reSizeToWH(RECT& rc) // should NEVER be const !!!
+    virtual void reSizeToWH(Rect& rc) // should NEVER be const !!!
     {
         ::MoveWindow(_hSelf, rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top, TRUE);
         redraw();
@@ -50,26 +50,26 @@ public:
     }
 
 
-    virtual void getClientRect(RECT & rc) const
+    virtual void getClientRect(Rect & rc) const
     {
         ::GetClientRect(_hSelf, &rc);
     }
 
-    virtual void getWindowRect(RECT & rc) const
+    virtual void getWindowRect(Rect & rc) const
     {
         ::GetWindowRect(_hSelf, &rc);
     }
 
     virtual int getWidth() const
     {
-        RECT rc;
+        Rect rc;
         ::GetClientRect(_hSelf, &rc);
         return (rc.right - rc.left);
     }
 
     virtual int getHeight() const
     {
-        RECT rc;
+        Rect rc;
         ::GetClientRect(_hSelf, &rc);
         if (::IsWindowVisible(_hSelf) == TRUE)
             return (rc.bottom - rc.top);
@@ -81,12 +81,12 @@ public:
         return (::IsWindowVisible(_hSelf)?true:false);
     }
 
-    HWND getHSelf() const
+    Upp::Ctrl* getHSelf() const
     {
         return _hSelf;
     }
 
-    HWND getHParent() const {
+    Upp::Ctrl* getHParent() const {
         return _hParent;
     }
 
@@ -105,7 +105,7 @@ public:
 
 
 protected:
-    Ctrl *_hInst = NULL;
-    Ctrl *_hParent = NULL;
-    Ctrl *_hSelf = NULL;
+    Upp::Ctrl*_hInst = Null;
+    Upp::Ctrl*_hParent = Null;
+    Upp::Ctrl*_hSelf = Null;
 };

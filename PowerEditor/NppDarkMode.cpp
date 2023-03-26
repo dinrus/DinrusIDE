@@ -358,7 +358,7 @@ namespace NppDarkMode
     }
 
     // attempts to apply new options from NppParameters, sends NPPM_INTERNAL_REFRESHDARKMODE to hwnd's top level parent
-    void refreshDarkMode(HWND hwnd, bool forceRefresh)
+    void refreshDarkMode(Upp::Ctrl* hwnd, bool forceRefresh)
     {
         bool supportedChanged = false;
 
@@ -385,7 +385,7 @@ namespace NppDarkMode
             return;
         }
 
-        HWND hwndRoot = GetAncestor(hwnd, GA_ROOTOWNER);
+        Upp::Ctrl* hwndRoot = GetAncestor(hwnd, GA_ROOTOWNER);
 
         // wParam == true, will reset style and toolbar icon
         ::SendMessage(hwndRoot, NPPM_INTERNAL_REFRESHDARKMODE, static_cast<WPARAM>(!forceRefresh), 0);
@@ -598,7 +598,7 @@ namespace NppDarkMode
 
     // handle events
 
-    void handleSettingChange(HWND hwnd, LPARAM lParam)
+    void handleSettingChange(Upp::Ctrl* hwnd, LPARAM lParam)
     {
         UNREFERENCED_PARAMETER(hwnd);
 
@@ -615,7 +615,7 @@ namespace NppDarkMode
 
     // processes messages related to UAH / custom menubar drawing.
     // return true if handled, false to continue with normal processing in your wndproc
-    bool runUAHWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam, LRESULT* lr)
+    bool runUAHWndProc(Upp::Ctrl* hWnd, UINT message, WPARAM wParam, LPARAM lParam, LRESULT* lr)
     {
         static HTHEME g_menuTheme = nullptr;
 
@@ -625,14 +625,14 @@ namespace NppDarkMode
         case WM_UAHDRAWMENU:
         {
             UAHMENU* pUDM = (UAHMENU*)lParam;
-            RECT rc = {};
+            Rect rc = {};
 
             // get the menubar rect
             {
                 MENUBARINFO mbi = { sizeof(mbi) };
                 GetMenuBarInfo(hWnd, OBJID_MENU, 0, &mbi);
 
-                RECT rcWindow;
+                Rect rcWindow;
                 GetWindowRect(hWnd, &rcWindow);
 
                 // the rcBar is offset by the window rect
@@ -743,7 +743,7 @@ namespace NppDarkMode
         }
     }
 
-    void drawUAHMenuNCBottomLine(HWND hWnd)
+    void drawUAHMenuNCBottomLine(Upp::Ctrl* hWnd)
     {
         MENUBARINFO mbi = { sizeof(mbi) };
         if (!GetMenuBarInfo(hWnd, OBJID_MENU, 0, &mbi))
@@ -751,17 +751,17 @@ namespace NppDarkMode
             return;
         }
 
-        RECT rcClient = {};
+        Rect rcClient = {};
         GetClientRect(hWnd, &rcClient);
         MapWindowPoints(hWnd, nullptr, (POINT*)&rcClient, 2);
 
-        RECT rcWindow = {};
+        Rect rcWindow = {};
         GetWindowRect(hWnd, &rcWindow);
 
         OffsetRect(&rcClient, -rcWindow.left, -rcWindow.top);
 
         // the rcBar is offset by the window rect
-        RECT rcAnnoyingLine = rcClient;
+        Rect rcAnnoyingLine = rcClient;
         rcAnnoyingLine.bottom = rcAnnoyingLine.top;
         rcAnnoyingLine.top--;
 
@@ -788,22 +788,22 @@ namespace NppDarkMode
         ::AllowDarkModeForApp(allow);
     }
 
-    bool allowDarkModeForWindow(HWND hWnd, bool allow)
+    bool allowDarkModeForWindow(Upp::Ctrl* hWnd, bool allow)
     {
         return ::AllowDarkModeForWindow(hWnd, allow);
     }
 
-    void setTitleBarThemeColor(HWND hWnd)
+    void setTitleBarThemeColor(Upp::Ctrl* hWnd)
     {
         ::RefreshTitleBarThemeColor(hWnd);
     }
 
-    void enableDarkScrollBarForWindowAndChildren(HWND hwnd)
+    void enableDarkScrollBarForWindowAndChildren(Upp::Ctrl* hwnd)
     {
         ::EnableDarkScrollBarForWindowAndChildren(hwnd);
     }
 
-    void paintRoundFrameRect(HDC hdc, const RECT rect, const HPEN hpen, int width, int height)
+    void paintRoundFrameRect(HDC hdc, const Rect rect, const HPEN hpen, int width, int height)
     {
         auto holdBrush = ::SelectObject(hdc, ::GetStockObject(NULL_BRUSH));
         auto holdPen = ::SelectObject(hdc, hpen);
@@ -822,7 +822,7 @@ namespace NppDarkMode
             closeTheme();
         }
 
-        bool ensureTheme(HWND hwnd)
+        bool ensureTheme(Upp::Ctrl* hwnd)
         {
             if (!hTheme)
             {
@@ -841,9 +841,9 @@ namespace NppDarkMode
         }
     };
 
-    void renderButton(HWND hwnd, HDC hdc, HTHEME hTheme, int iPartID, int iStateID)
+    void renderButton(Upp::Ctrl* hwnd, HDC hdc, HTHEME hTheme, int iPartID, int iStateID)
     {
-        RECT rcClient = {};
+        Rect rcClient = {};
         WCHAR szText[256] = { '\0' };
         DWORD nState = static_cast<DWORD>(SendMessage(hwnd, BM_GETSTATE, 0, 0));
         DWORD uiState = static_cast<DWORD>(SendMessage(hwnd, WM_QUERYUISTATE, 0, 0));
@@ -880,12 +880,12 @@ namespace NppDarkMode
         GetWindowText(hwnd, szText, _countof(szText));
 
         SIZE szBox = { 13, 13 };
-        GetThemePartSize(hTheme, hdc, iPartID, iStateID, NULL, TS_DRAW, &szBox);
+        GetThemePartSize(hTheme, hdc, iPartID, iStateID, Null, TS_DRAW, &szBox);
 
-        RECT rcText = rcClient;
+        Rect rcText = rcClient;
         GetThemeBackgroundContentRect(hTheme, hdc, iPartID, iStateID, &rcClient, &rcText);
 
-        RECT rcBackground = rcClient;
+        Rect rcBackground = rcClient;
         if (dtFlags & DT_SINGLELINE)
         {
             rcBackground.top += (rcText.bottom - rcText.top - szBox.cy) / 2;
@@ -909,10 +909,10 @@ namespace NppDarkMode
 
         if ((nState & BST_FOCUS) && !(uiState & UISF_HIDEFOCUS))
         {
-            RECT rcTextOut = rcText;
+            Rect rcTextOut = rcText;
             dtto.dwFlags |= DTT_CALCRECT;
             DrawThemeTextEx(hTheme, hdc, iPartID, iStateID, szText, -1, dtFlags | DT_CALCRECT, &rcTextOut, &dtto);
-            RECT rcFocus = rcTextOut;
+            Rect rcFocus = rcTextOut;
             rcFocus.bottom++;
             rcFocus.left--;
             rcFocus.right++;
@@ -923,7 +923,7 @@ namespace NppDarkMode
         SelectObject(hdc, hOldFont);
     }
 
-    void paintButton(HWND hwnd, HDC hdc, ButtonData& buttonData)
+    void paintButton(Upp::Ctrl* hwnd, HDC hdc, ButtonData& buttonData)
     {
         DWORD nState = static_cast<DWORD>(SendMessage(hwnd, BM_GETSTATE, 0, 0));
         const auto nStyle = GetWindowLongPtr(hwnd, GWL_STYLE);
@@ -966,7 +966,7 @@ namespace NppDarkMode
             GetThemeTransitionDuration(buttonData.hTheme, iPartID, buttonData.iStateID, iStateID, TMT_TRANSITIONDURATIONS, &animParams.dwDuration);
         }
 
-        RECT rcClient = {};
+        Rect rcClient = {};
         GetClientRect(hwnd, &rcClient);
 
         HDC hdcFrom = nullptr;
@@ -998,7 +998,7 @@ namespace NppDarkMode
     constexpr UINT_PTR g_buttonSubclassID = 42;
 
     LRESULT CALLBACK ButtonSubclass(
-        HWND hWnd,
+        Upp::Ctrl* hWnd,
         UINT uMsg,
         WPARAM wParam,
         LPARAM lParam,
@@ -1075,24 +1075,24 @@ namespace NppDarkMode
         return DefSubclassProc(hWnd, uMsg, wParam, lParam);
     }
 
-    void subclassButtonControl(HWND hwnd)
+    void subclassButtonControl(Upp::Ctrl* hwnd)
     {
         DWORD_PTR pButtonData = reinterpret_cast<DWORD_PTR>(new ButtonData());
         SetWindowSubclass(hwnd, ButtonSubclass, g_buttonSubclassID, pButtonData);
     }
 
-    void paintGroupbox(HWND hwnd, HDC hdc, ButtonData& buttonData)
+    void paintGroupbox(Upp::Ctrl* hwnd, HDC hdc, ButtonData& buttonData)
     {
         DWORD nStyle = GetWindowLong(hwnd, GWL_STYLE);
         bool isDisabled = (nStyle & WS_DISABLED) == WS_DISABLED;
         int iPartID = BP_GROUPBOX;
         int iStateID = isDisabled ? GBS_DISABLED : GBS_NORMAL;
 
-        RECT rcClient = {};
+        Rect rcClient = {};
         GetClientRect(hwnd, &rcClient);
 
-        RECT rcText = rcClient;
-        RECT rcBackground = rcClient;
+        Rect rcText = rcClient;
+        Rect rcBackground = rcClient;
 
         HFONT hFont = nullptr;
         HFONT hOldFont = nullptr;
@@ -1138,7 +1138,7 @@ namespace NppDarkMode
             rcBackground.top += textSize.cy / 2;
         }
 
-        RECT rcContent = rcBackground;
+        Rect rcContent = rcBackground;
         GetThemeBackgroundContentRect(buttonData.hTheme, hdc, BP_GROUPBOX, iStateID, &rcBackground, &rcContent);
         ExcludeClipRect(hdc, rcContent.left, rcContent.top, rcContent.right, rcContent.bottom);
 
@@ -1168,7 +1168,7 @@ namespace NppDarkMode
     constexpr UINT_PTR g_groupboxSubclassID = 42;
 
     LRESULT CALLBACK GroupboxSubclass(
-        HWND hWnd,
+        Upp::Ctrl* hWnd,
         UINT uMsg,
         WPARAM wParam,
         LPARAM lParam,
@@ -1227,7 +1227,7 @@ namespace NppDarkMode
         return DefSubclassProc(hWnd, uMsg, wParam, lParam);
     }
 
-    void subclassGroupboxControl(HWND hwnd)
+    void subclassGroupboxControl(Upp::Ctrl* hwnd)
     {
         DWORD_PTR pButtonData = reinterpret_cast<DWORD_PTR>(new ButtonData());
         SetWindowSubclass(hwnd, GroupboxSubclass, g_groupboxSubclassID, pButtonData);
@@ -1236,7 +1236,7 @@ namespace NppDarkMode
     constexpr UINT_PTR g_tabSubclassID = 42;
 
     LRESULT CALLBACK TabSubclass(
-        HWND hWnd,
+        Upp::Ctrl* hWnd,
         UINT uMsg,
         WPARAM wParam,
         LPARAM lParam,
@@ -1287,11 +1287,11 @@ namespace NppDarkMode
             int nSelTab = TabCtrl_GetCurSel(hWnd);
             for (int i = 0; i < nTabs; ++i)
             {
-                RECT rcItem = {};
+                Rect rcItem = {};
                 TabCtrl_GetItemRect(hWnd, i, &rcItem);
-                RECT rcFrame = rcItem;
+                Rect rcFrame = rcItem;
 
-                RECT rcIntersect = {};
+                Rect rcIntersect = {};
                 if (IntersectRect(&rcIntersect, &ps.rcPaint, &rcItem))
                 {
                     bool bHot = PtInRect(&rcItem, ptCursor);
@@ -1324,7 +1324,7 @@ namespace NppDarkMode
 
                     auto dpiManager = NppParameters::getInstance()._dpiManager;
 
-                    RECT rcText = rcItem;
+                    Rect rcText = rcItem;
                     rcText.left += dpiManager.scaleX(5);
                     rcText.right -= dpiManager.scaleX(3);
 
@@ -1375,7 +1375,7 @@ namespace NppDarkMode
             {
                 case WM_CREATE:
                 {
-                    auto hwndUpdown = reinterpret_cast<HWND>(lParam);
+                    auto hwndUpdown = reinterpret_cast<Upp::Ctrl*>(lParam);
                     if (NppDarkMode::subclassTabUpDownControl(hwndUpdown))
                     {
                         return 0;
@@ -1390,7 +1390,7 @@ namespace NppDarkMode
         return DefSubclassProc(hWnd, uMsg, wParam, lParam);
     }
 
-    void subclassTabControl(HWND hwnd)
+    void subclassTabControl(Upp::Ctrl* hwnd)
     {
         SetWindowSubclass(hwnd, TabSubclass, g_tabSubclassID, 0);
     }
@@ -1398,7 +1398,7 @@ namespace NppDarkMode
     constexpr UINT_PTR g_customBorderSubclassID = 42;
 
     LRESULT CALLBACK CustomBorderSubclass(
-        HWND hWnd,
+        Upp::Ctrl* hWnd,
         UINT uMsg,
         WPARAM wParam,
         LPARAM lParam,
@@ -1422,7 +1422,7 @@ namespace NppDarkMode
                 DefSubclassProc(hWnd, uMsg, wParam, lParam);
 
                 HDC hdc = ::GetWindowDC(hWnd);
-                RECT rcClient{};
+                Rect rcClient{};
                 ::GetClientRect(hWnd, &rcClient);
                 rcClient.right += (2 * ::GetSystemMetrics(SM_CXEDGE));
 
@@ -1442,7 +1442,7 @@ namespace NppDarkMode
                 }
 
                 HPEN hPen = ::CreatePen(PS_SOLID, 1, NppDarkMode::getBackgroundColor());
-                RECT rcInner = rcClient;
+                Rect rcInner = rcClient;
                 ::InflateRect(&rcInner, -1, -1);
                 NppDarkMode::paintRoundFrameRect(hdc, rcInner, hPen);
                 ::DeleteObject(hPen);
@@ -1551,7 +1551,7 @@ namespace NppDarkMode
         return DefSubclassProc(hWnd, uMsg, wParam, lParam);
     }
 
-    void subclassCustomBorderForListBoxAndEditControls(HWND hwnd)
+    void subclassCustomBorderForListBoxAndEditControls(Upp::Ctrl* hwnd)
     {
         SetWindowSubclass(hwnd, CustomBorderSubclass, g_customBorderSubclassID, 0);
     }
@@ -1559,7 +1559,7 @@ namespace NppDarkMode
     constexpr UINT_PTR g_comboBoxSubclassID = 42;
 
     LRESULT CALLBACK ComboBoxSubclass(
-        HWND hWnd,
+        Upp::Ctrl* hWnd,
         UINT uMsg,
         WPARAM wParam,
         LPARAM lParam,
@@ -1567,7 +1567,7 @@ namespace NppDarkMode
         DWORD_PTR dwRefData
     )
     {
-        auto hwndEdit = reinterpret_cast<HWND>(dwRefData);
+        auto hwndEdit = reinterpret_cast<Upp::Ctrl*>(dwRefData);
 
         switch (uMsg)
         {
@@ -1578,7 +1578,7 @@ namespace NppDarkMode
                     break;
                 }
 
-                RECT rc = {};
+                Rect rc = {};
                 ::GetClientRect(hWnd, &rc);
 
                 PAINTSTRUCT ps{};
@@ -1591,7 +1591,7 @@ namespace NppDarkMode
 
                 auto dpiManager = NppParameters::getInstance()._dpiManager;
 
-                RECT rcArrow = {
+                Rect rcArrow = {
                 rc.right - dpiManager.scaleX(17), rc.top + 1,
                 rc.right - 1, rc.bottom - 1
                 };
@@ -1604,7 +1604,7 @@ namespace NppDarkMode
                 {
                     hasFocus = ::GetFocus() == hWnd;
 
-                    RECT rcTextBg = rc;
+                    Rect rcTextBg = rc;
                     rcTextBg.left += 1;
                     rcTextBg.top += 1;
                     rcTextBg.right = rcArrow.left - 1;
@@ -1620,7 +1620,7 @@ namespace NppDarkMode
                         char* buffer = new char[(bufferLen + 1)];
                         ::SendMessage(hWnd, CB_GETLBTEXT, index, reinterpret_cast<LPARAM>(buffer));
 
-                        RECT rcText = rc;
+                        Rect rcText = rc;
                         rcText.left += 4;
                         rcText.right = rcArrow.left - 5;
 
@@ -1628,7 +1628,7 @@ namespace NppDarkMode
                         delete[]buffer;
                     }
                 }
-                else if ((style & CBS_DROPDOWN) == CBS_DROPDOWN && hwndEdit != NULL)
+                else if ((style & CBS_DROPDOWN) == CBS_DROPDOWN && hwndEdit != Null)
                 {
                     hasFocus = ::GetFocus() == hwndEdit;
                 }
@@ -1682,7 +1682,7 @@ namespace NppDarkMode
         return DefSubclassProc(hWnd, uMsg, wParam, lParam);
     }
 
-    void subclassComboBoxControl(HWND hwnd)
+    void subclassComboBoxControl(Upp::Ctrl* hwnd)
     {
         DWORD_PTR hwndEditData = 0;
         auto style = ::GetWindowLongPtr(hwnd, GWL_STYLE);
@@ -1697,7 +1697,7 @@ namespace NppDarkMode
     constexpr UINT_PTR g_listViewSubclassID = 42;
 
     LRESULT CALLBACK ListViewSubclass(
-        HWND hWnd,
+        Upp::Ctrl* hWnd,
         UINT uMsg,
         WPARAM wParam,
         LPARAM lParam,
@@ -1753,12 +1753,12 @@ namespace NppDarkMode
         return DefSubclassProc(hWnd, uMsg, wParam, lParam);
     }
 
-    void subclassListViewControl(HWND hwnd)
+    void subclassListViewControl(Upp::Ctrl* hwnd)
     {
         SetWindowSubclass(hwnd, ListViewSubclass, g_listViewSubclassID, 0);
     }
 
-    void autoSubclassAndThemeChildControls(HWND hwndParent, bool subclass, bool theme)
+    void autoSubclassAndThemeChildControls(Upp::Ctrl* hwndParent, bool subclass, bool theme)
     {
         struct Params
         {
@@ -1775,7 +1775,7 @@ namespace NppDarkMode
 
         ::EnableThemeDialogTexture(hwndParent, theme && !NppDarkMode::isEnabled() ? ETDT_ENABLETAB : ETDT_DISABLE);
 
-        EnumChildWindows(hwndParent, [](HWND hwnd, LPARAM lParam) WINAPI_LAMBDA {
+        EnumChildWindows(hwndParent, [](Upp::Ctrl* hwnd, LPARAM lParam) WINAPI_LAMBDA {
             auto& p = *reinterpret_cast<Params*>(lParam);
             constexpr size_t classNameLen = 16;
             char className[classNameLen]{};
@@ -2003,7 +2003,7 @@ namespace NppDarkMode
         }, reinterpret_cast<LPARAM>(&p));
     }
 
-    void autoThemeChildControls(HWND hwndParent)
+    void autoThemeChildControls(Upp::Ctrl* hwndParent)
     {
         autoSubclassAndThemeChildControls(hwndParent, false, true);
     }
@@ -2081,7 +2081,7 @@ namespace NppDarkMode
         }
     }
 
-    LRESULT darkListViewNotifyCustomDraw(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, bool isPlugin)
+    LRESULT darkListViewNotifyCustomDraw(Upp::Ctrl* hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, bool isPlugin)
     {
         auto lplvcd = reinterpret_cast<LPNMLVCUSTOMDRAW>(lParam);
 
@@ -2175,7 +2175,7 @@ namespace NppDarkMode
 
             case CDDS_ITEMPOSTPAINT:
             {
-                RECT rcFrame = lptvcd->nmcd.rc;
+                Rect rcFrame = lptvcd->nmcd.rc;
                 rcFrame.left -= 1;
                 rcFrame.right += 1;
 
@@ -2200,7 +2200,7 @@ namespace NppDarkMode
     constexpr UINT_PTR g_pluginDockWindowSubclassID = 42;
 
     LRESULT CALLBACK PluginDockWindowSubclass(
-        HWND hWnd,
+        Upp::Ctrl* hWnd,
         UINT uMsg,
         WPARAM wParam,
         LPARAM lParam,
@@ -2216,7 +2216,7 @@ namespace NppDarkMode
             {
                 if (NppDarkMode::isEnabled())
                 {
-                    RECT rect = {};
+                    Rect rect = {};
                     GetClientRect(hWnd, &rect);
                     ::FillRect(reinterpret_cast<HDC>(wParam), &rect, NppDarkMode::getDarkerBackgroundBrush());
                     return TRUE;
@@ -2257,7 +2257,7 @@ namespace NppDarkMode
                 {
                     constexpr size_t classNameLen = 16;
                     char className[classNameLen]{};
-                    auto hwndEdit = reinterpret_cast<HWND>(lParam);
+                    auto hwndEdit = reinterpret_cast<Upp::Ctrl*>(lParam);
                     GetClassName(hwndEdit, className, classNameLen);
                     if (wcscmp(className, WC_EDIT) == 0)
                     {
@@ -2312,7 +2312,7 @@ namespace NppDarkMode
         return DefSubclassProc(hWnd, uMsg, wParam, lParam);
     }
 
-    void autoSubclassAndThemePluginDockWindow(HWND hwnd)
+    void autoSubclassAndThemePluginDockWindow(Upp::Ctrl* hwnd)
     {
         SetWindowSubclass(hwnd, PluginDockWindowSubclass, g_pluginDockWindowSubclassID, 0);
         NppDarkMode::autoSubclassAndThemeChildControls(hwnd);
@@ -2321,7 +2321,7 @@ namespace NppDarkMode
     constexpr UINT_PTR g_windowNotifySubclassID = 42;
 
     LRESULT CALLBACK WindowNotifySubclass(
-        HWND hWnd,
+        Upp::Ctrl* hWnd,
         UINT uMsg,
         WPARAM wParam,
         LPARAM lParam,
@@ -2374,7 +2374,7 @@ namespace NppDarkMode
         return DefSubclassProc(hWnd, uMsg, wParam, lParam);
     }
 
-    void autoSubclassAndThemeWindowNotify(HWND hwnd)
+    void autoSubclassAndThemeWindowNotify(Upp::Ctrl* hwnd)
     {
         SetWindowSubclass(hwnd, WindowNotifySubclass, g_windowNotifySubclassID, 0);
     }
@@ -2382,7 +2382,7 @@ namespace NppDarkMode
     constexpr UINT_PTR g_tabUpDownSubclassID = 42;
 
     LRESULT CALLBACK TabUpDownSubclass(
-        HWND hWnd,
+        Upp::Ctrl* hWnd,
         UINT uMsg,
         WPARAM wParam,
         LPARAM lParam,
@@ -2404,7 +2404,7 @@ namespace NppDarkMode
 
                 bool hasTheme = pButtonData->ensureTheme(hWnd);
 
-                RECT rcClient{};
+                Rect rcClient{};
                 ::GetClientRect(hWnd, &rcClient);
 
                 PAINTSTRUCT ps{};
@@ -2414,12 +2414,12 @@ namespace NppDarkMode
 
                 auto dpiManager = NppParameters::getInstance()._dpiManager;
 
-                RECT rcArrowLeft = {
+                Rect rcArrowLeft = {
                     rcClient.left, rcClient.top,
                     rcClient.right - ((rcClient.right - rcClient.left) / 2) , rcClient.bottom
                 };
 
-                RECT rcArrowRight = {
+                Rect rcArrowRight = {
                     rcArrowLeft.right, rcClient.top,
                     rcClient.right, rcClient.bottom
                 };
@@ -2499,7 +2499,7 @@ namespace NppDarkMode
             {
                 if (NppDarkMode::isEnabled())
                 {
-                    RECT rcClient{};
+                    Rect rcClient{};
                     ::GetClientRect(hWnd, &rcClient);
                     ::FillRect(reinterpret_cast<HDC>(wParam), &rcClient, NppDarkMode::getDarkerBackgroundBrush());
                     return TRUE;
@@ -2510,7 +2510,7 @@ namespace NppDarkMode
         return DefSubclassProc(hWnd, uMsg, wParam, lParam);
     }
 
-    bool subclassTabUpDownControl(HWND hwnd)
+    bool subclassTabUpDownControl(Upp::Ctrl* hwnd)
     {
         constexpr size_t classNameLen = 16;
         char className[classNameLen]{};
@@ -2526,23 +2526,23 @@ namespace NppDarkMode
         return false;
     }
 
-    void setDarkTitleBar(HWND hwnd)
+    void setDarkTitleBar(Upp::Ctrl* hwnd)
     {
         NppDarkMode::allowDarkModeForWindow(hwnd, NppDarkMode::isEnabled());
         NppDarkMode::setTitleBarThemeColor(hwnd);
     }
 
-    void setDarkExplorerTheme(HWND hwnd)
+    void setDarkExplorerTheme(Upp::Ctrl* hwnd)
     {
         SetWindowTheme(hwnd, NppDarkMode::isEnabled() ? L"DarkMode_Explorer" : nullptr, nullptr);
     }
 
-    void setDarkScrollBar(HWND hwnd)
+    void setDarkScrollBar(Upp::Ctrl* hwnd)
     {
         NppDarkMode::setDarkExplorerTheme(hwnd);
     }
 
-    void setDarkTooltips(HWND hwnd, ToolTipsType type)
+    void setDarkTooltips(Upp::Ctrl* hwnd, ToolTipsType type)
     {
         UINT msg = 0;
         switch (type)
@@ -2570,7 +2570,7 @@ namespace NppDarkMode
         }
         else
         {
-            auto hTips = reinterpret_cast<HWND>(::SendMessage(hwnd, msg, 0, 0));
+            auto hTips = reinterpret_cast<Upp::Ctrl*>(::SendMessage(hwnd, msg, 0, 0));
             if (hTips != nullptr)
             {
                 NppDarkMode::setDarkExplorerTheme(hTips);
@@ -2578,7 +2578,7 @@ namespace NppDarkMode
         }
     }
 
-    void setDarkLineAbovePanelToolbar(HWND hwnd)
+    void setDarkLineAbovePanelToolbar(Upp::Ctrl* hwnd)
     {
         COLORSCHEME scheme{};
         scheme.dwSize = sizeof(COLORSCHEME);
@@ -2597,13 +2597,13 @@ namespace NppDarkMode
         ::SendMessage(hwnd, TB_SETCOLORSCHEME, 0, reinterpret_cast<LPARAM>(&scheme));
     }
 
-    void setDarkListView(HWND hwnd)
+    void setDarkListView(Upp::Ctrl* hwnd)
     {
         if (NppDarkMode::isExperimentalSupported())
         {
             bool useDark = NppDarkMode::isEnabled();
 
-            HWND hHeader = ListView_GetHeader(hwnd);
+            Upp::Ctrl* hHeader = ListView_GetHeader(hwnd);
             NppDarkMode::allowDarkModeForWindow(hHeader, useDark);
             SetWindowTheme(hHeader, useDark ? L"ItemsView" : nullptr, nullptr);
 
@@ -2612,7 +2612,7 @@ namespace NppDarkMode
         }
     }
 
-    void disableVisualStyle(HWND hwnd, bool doDisable)
+    void disableVisualStyle(Upp::Ctrl* hwnd, bool doDisable)
     {
         if (doDisable)
         {
@@ -2651,7 +2651,7 @@ namespace NppDarkMode
         }
     }
 
-    void setTreeViewStyle(HWND hwnd)
+    void setTreeViewStyle(Upp::Ctrl* hwnd)
     {
         auto style = static_cast<long>(::GetWindowLongPtr(hwnd, GWL_STYLE));
         bool hasHotStyle = (style & TVS_TRACKSELECT) == TVS_TRACKSELECT;
@@ -2696,7 +2696,7 @@ namespace NppDarkMode
         }
     }
 
-    void setBorder(HWND hwnd, bool border)
+    void setBorder(Upp::Ctrl* hwnd, bool border)
     {
         auto style = static_cast<long>(::GetWindowLongPtr(hwnd, GWL_STYLE));
         bool hasBorder = (style & WS_BORDER) == WS_BORDER;
@@ -2720,7 +2720,7 @@ namespace NppDarkMode
         }
     }
 
-    BOOL CALLBACK enumAutocompleteProc(HWND hwnd, LPARAM /*lParam*/)
+    BOOL CALLBACK enumAutocompleteProc(Upp::Ctrl* hwnd, LPARAM /*lParam*/)
     {
         constexpr size_t classNameLen = 16;
         char className[classNameLen]{};
@@ -2806,7 +2806,7 @@ namespace NppDarkMode
     INT_PTR onCtlColorListbox(WPARAM wParam, LPARAM lParam)
     {
         auto hdc = reinterpret_cast<HDC>(wParam);
-        auto hwnd = reinterpret_cast<HWND>(lParam);
+        auto hwnd = reinterpret_cast<Upp::Ctrl*>(lParam);
 
         auto style = ::GetWindowLongPtr(hwnd, GWL_STYLE);
         bool isComboBox = (style & LBS_COMBOBOX) == LBS_COMBOBOX;

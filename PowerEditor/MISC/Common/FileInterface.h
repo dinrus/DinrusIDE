@@ -17,7 +17,7 @@
 
 #pragma once
 
-#include <windows.h>
+//#include <windows.h>
 #include <string>
 //#include <char.h>
 //#include <cstdint>

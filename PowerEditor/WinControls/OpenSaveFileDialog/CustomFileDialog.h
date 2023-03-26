@@ -27,7 +27,7 @@
 class CustomFileDialog
 {
 public:
-	explicit CustomFileDialog(HWND hwnd);
+	explicit CustomFileDialog(Upp::Ctrl* hwnd);
 	~CustomFileDialog();
 	void setTitle(const char* title);
 	void setExtFilter(const char* text, const char* ext);
@@ -38,7 +38,7 @@ public:
 	void setCheckbox(const char* text, bool isActive = true);
 	void setExtIndex(int extTypeIndex);
 
-	void enableFileTypeCheckbox(const String& text, bool value);
+	void enableFileTypeCheckbox(const char* text, bool value);
 	bool getFileTypeCheckboxValue() const;
 
 	// Empty string is not a valid file name and may signal that the dialog was canceled.

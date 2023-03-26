@@ -18,8 +18,8 @@
 #pragma once
 
 #include <vector>
-#include <windows.h>
-#include <commctrl.h>
+//#include <windows.h>
+//#include <commctrl.h>
 
 #define	IDI_SEPARATOR_ICON -1
 

@@ -35,15 +35,15 @@ const char currentColumn[] = TEXT("CURRENT_COLUMN");
 const char currentLineStr[] = TEXT("CURRENT_LINESTR");
 
 int whichVar(char *str);
-void expandNppEnvironmentStrs(const char *strSrc, char *stringDest, size_t strDestLen, HWND hWnd);
+void expandNppEnvironmentStrs(const char *strSrc, char *stringDest, size_t strDestLen, Upp::Ctrl* hWnd);
 
 class Command {
 public :
 	Command() = default;
 	explicit Command(const char *cmd) : _cmdLine(cmd){};
-	explicit Command(const String& cmd) : _cmdLine(cmd){};
-	HINSTANCE run(HWND hWnd);
-	HINSTANCE run(HWND hWnd, const char* cwd);
+	explicit Command(const char* cmd) : _cmdLine(cmd){};
+	HINSTANCE run(Upp::Ctrl* hWnd);
+	HINSTANCE run(Upp::Ctrl* hWnd, const char* cwd);
 
 protected :
 	String _cmdLine;

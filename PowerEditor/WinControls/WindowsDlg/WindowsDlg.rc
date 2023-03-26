@@ -15,7 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
-#include <windows.h>
+//#include <windows.h>
 #include <PowerEditor/WinControls/WindowsDlg/WindowsDlgRc.h>
 
 IDD_WINDOWS DIALOGEX 0, 0, 450, 300

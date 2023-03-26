@@ -17,8 +17,8 @@
 
 #pragma once
 
-#include <windows.h>
-#include <commctrl.h>
+//#include <windows.h>
+//#include <commctrl.h>
 
 #include <PowerEditor/WinControls/DockingWnd/DockingDlgInterface.h>
 #include "ansiCharPanel_rc.h"
@@ -33,12 +33,12 @@ class AnsiCharPanel : public DockingDlgInterface {
 public:
 	AnsiCharPanel(): DockingDlgInterface(IDD_ANSIASCII_PANEL) {};
 
-	void init(HINSTANCE hInst, HWND hPere, ScintillaEditView **ppEditView) {
+	void init(HINSTANCE hInst, Upp::Ctrl* hPere, ScintillaEditView **ppEditView) {
 		DockingDlgInterface::init(hInst, hPere);
 		_ppEditView = ppEditView;
 	};
 
-    void setParent(HWND parent2set){
+    void setParent(Upp::Ctrl* parent2set){
         _hParent = parent2set;
     };
 

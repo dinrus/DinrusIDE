@@ -8,7 +8,7 @@
 #endif
 
 
-#include <windows.h>
+//#include <windows.h>
 
 
 class CReadFileChanges

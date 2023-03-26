@@ -1860,13 +1860,13 @@ JSON_HEDLEY_DIAGNOSTIC_POP
 #if defined(__cplusplus)
     #if __cplusplus >= 201103L
         #define JSON_HEDLEY_NULL JSON_HEDLEY_DIAGNOSTIC_DISABLE_CPP98_COMPAT_WRAP_(nullptr)
-    #elif defined(NULL)
-        #define JSON_HEDLEY_NULL NULL
+    #elif defined(Null)
+        #define JSON_HEDLEY_NULL Null
     #else
         #define JSON_HEDLEY_NULL JSON_HEDLEY_STATIC_CAST(void*, 0)
     #endif
-#elif defined(NULL)
-    #define JSON_HEDLEY_NULL NULL
+#elif defined(Null)
+    #define JSON_HEDLEY_NULL Null
 #else
     #define JSON_HEDLEY_NULL ((void*) 0)
 #endif
@@ -7536,7 +7536,7 @@ using number_unsigned_function_t =
 
 template<typename T, typename Float, typename String>
 using number_float_function_t = decltype(std::declval<T&>().number_float(
-                                    std::declval<Float>(), std::declval<const String&>()));
+                                    std::declval<Float>(), std::declval<const char*>()));
 
 template<typename T, typename String>
 using string_function_t =
@@ -23800,7 +23800,7 @@ class basic_json
     zero-terminated c-strings.
 
     @throw out_of_range.407  if `j.is_number_unsigned() && j.get<std::uint64_t>() > 9223372036854775807`
-    @throw out_of_range.409  if a key in `j` contains a NULL (U+0000)
+    @throw out_of_range.409  if a key in `j` contains a Null (U+0000)
     @throw type_error.317    if `!j.is_object()`
 
     @pre The input `j` is required to be an object: `j.is_object() == true`.

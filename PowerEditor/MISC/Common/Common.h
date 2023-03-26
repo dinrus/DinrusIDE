@@ -15,11 +15,12 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #pragma once
 #include <Core/Core.h>
+#include <CtrlCore/CtrlCore.h>
 /*
 #include <vector>
 #include <string>
 #include <sstream>
-#include <windows.h>
+//#include <windows.h>
 #include <iso646.h>
 #include <cstdint>
 #include <algorithm>
@@ -62,11 +63,12 @@ const bool dirDown = false;
 #define NPP_INTERNAL_FUCTION_STR TEXT("Notepad++::InternalFunction")
 
 //typedef std::basic_string<char> String;
-using String = Upp::String;
+using namespace Upp;
+
 typedef Upp::StringStream generic_stringstream;
 
-String folderBrowser(HWND parent, const String & title = TEXT(""), int outputCtrlID = 0, const char *defaultStr = NULL);
-String getFolderName(HWND parent, const char *defaultDir = NULL);
+String folderBrowser(Upp::Ctrl* parent, const char* title = TEXT(""), int outputCtrlID = 0, const char *defaultStr = Null);
+String getFolderName(Upp::Ctrl* parent, const char *defaultDir = Null);
 
 void printInt(int int2print);
 void printStr(const char *str2print);
@@ -77,8 +79,8 @@ int filter(unsigned int code, struct _EXCEPTION_POINTERS *ep);
 String purgeMenuItemString(const char * menuItemStr, bool keepAmpersand = false);
 Upp::Vector<String> tokenizeString(const String & tokenString, const char delim);
 
-void ClientRectToScreenRect(HWND hWnd, RECT* rect);
-void ScreenRectToClientRect(HWND hWnd, RECT* rect);
+void ClientRectToScreenRect(Upp::Ctrl* hWnd, Rect* rect);
+void ScreenRectToClientRect(Upp::Ctrl* hWnd, Rect* rect);
 
 std::wstring string2wstring(const std::string & rString, UINT codepage);
 std::string wstring2string(const std::wstring & rwString, UINT codepage);
@@ -100,12 +102,12 @@ public:
 		return instance;
 	}
 
-	const wchar_t * char2wchar(const char *mbStr, size_t codepage, int lenMbcs =-1, int* pLenOut=NULL, int* pBytesNotProcessed=NULL);
+	const wchar_t * char2wchar(const char *mbStr, size_t codepage, int lenMbcs =-1, int* pLenOut=Null, int* pBytesNotProcessed=Null);
 	const wchar_t * char2wchar(const char *mbcs2Convert, size_t codepage, intptr_t* mstart, intptr_t* mend);
-	const char * wchar2char(const wchar_t *wcStr, size_t codepage, int lenIn = -1, int* pLenOut = NULL);
+	const char * wchar2char(const wchar_t *wcStr, size_t codepage, int lenIn = -1, int* pLenOut = Null);
 	const char * wchar2char(const wchar_t *wcStr, size_t codepage, intptr_t* mstart, intptr_t* mend);
 
-	const char * encode(UINT fromCodepage, UINT toCodepage, const char *txt2Encode, int lenIn = -1, int* pLenOut=NULL, int* pBytesNotProcessed=NULL)
+	const char * encode(UINT fromCodepage, UINT toCodepage, const char *txt2Encode, int lenIn = -1, int* pLenOut=Null, int* pBytesNotProcessed=Null)
 	{
 		int lenWc = 0;
         const wchar_t * strW = char2wchar(txt2Encode, fromCodepage, lenIn, &lenWc, pBytesNotProcessed);
@@ -169,29 +171,29 @@ protected:
 
 String PathRemoveFileSpec(String & path);
 String pathAppend(String &strDest, const String & str2append);
-COLORREF getCtrlBgColor(HWND hWnd);
+COLORREF getCtrlBgColor(Upp::Ctrl* hWnd);
 String stringToUpper(String strToConvert);
 String stringToLower(String strToConvert);
-String stringReplace(String subject, const String& search, const String& replace);
-Upp::Vector<String> stringSplit(const String& input, const String& delimiter);
+String stringReplace(String subject, const char* search, const char* replace);
+Upp::Vector<String> stringSplit(const char* input, const char* delimiter);
 bool str2numberVector(String str2convert, std::vector<size_t>& numVect);
-String stringJoin(const Upp::Vector<String>& strings, const String& separator);
-String stringTakeWhileAdmissable(const String& input, const String& admissable);
-double stodLocale(const String& str, _locale_t loc, size_t* idx = NULL);
+String stringJoin(const Upp::Vector<String>& strings, const char* separator);
+String stringTakeWhileAdmissable(const char* input, const char* admissable);
+double stodLocale(const char* str, _locale_t loc, size_t* idx = Null);
 
 int OrdinalIgnoreCaseCompareStrings(LPCTSTR sz1, LPCTSTR sz2);
 
-bool str2Clipboard(const String &str2cpy, HWND hwnd);
+bool str2Clipboard(const String &str2cpy, Upp::Ctrl* hwnd);
 class SciBuffer;
-bool buf2Clipborad(const std::vector<SciBuffer*>& buffers, bool isFullPath, HWND hwnd);
+bool buf2Clipborad(const std::vector<SciBuffer*>& buffers, bool isFullPath, Upp::Ctrl* hwnd);
 
 String GetLastErrorAsString(DWORD errorCode = 0);
 
 String intToString(int val);
 String uintToString(unsigned int val);
 
-HWND CreateToolTip(int toolID, HWND hDlg, HINSTANCE hInst, const PTSTR pszText, bool isRTL);
-HWND CreateToolTipRect(int toolID, HWND hWnd, HINSTANCE hInst, const PTSTR pszText, const RECT rc);
+Upp::Ctrl* CreateToolTip(int toolID, Upp::Ctrl* hDlg, HINSTANCE hInst, const PTSTR pszText, bool isRTL);
+Upp::Ctrl* CreateToolTipRect(int toolID, Upp::Ctrl* hWnd, HINSTANCE hInst, const PTSTR pszText, const Rect rc);
 
 bool isCertificateValidated(const String & fullFilePath, const String & subjectName2check);
 bool isAssoCommandExisting(LPCTSTR FullPathName);
@@ -199,9 +201,9 @@ bool isAssoCommandExisting(LPCTSTR FullPathName);
 std::wstring s2ws(const std::string& str);
 std::string ws2s(const std::wstring& wstr);
 
-bool deleteFileOrFolder(const String& f2delete);
+bool deleteFileOrFolder(const char* f2delete);
 
-void getFilesInFolder(Upp::Vector<String>& files, const String& extTypeFilter, const String& inFolder);
+void getFilesInFolder(Upp::Vector<String>& files, const char* extTypeFilter, const char* inFolder);
 
 template<typename T> size_t vecRemoveDuplicates(std::vector<T>& vec, bool isSorted = false, bool canSort = false)
 {
@@ -230,23 +232,23 @@ template<typename T> size_t vecRemoveDuplicates(std::vector<T>& vec, bool isSort
 }
 
 void trim(String& str);
-bool endsWith(const String& s, const String& suffix);
+bool endsWith(const char* s, const char* suffix);
 
 int nbDigitsFromNbLines(size_t nbLines);
 
-String getDateTimeStrFrom(const String& dateTimeFormat, const SYSTEMTIME& st);
+String getDateTimeStrFrom(const char* dateTimeFormat, const SYSTEMTIME& st);
 
-HFONT createFont(const char* fontName, int fontSize, bool isBold, HWND hDestParent);
+HFONT createFont(const char* fontName, int fontSize, bool isBold, Upp::Ctrl* hDestParent);
 
 class Version final
 {
 public:
 	Version() = default;
-	Version(const String& versionStr);
+	Version(const char* versionStr);
 
-	void setVersionFrom(const String& filePath);
+	void setVersionFrom(const char* filePath);
 	String toString();
-	bool isNumber(const String& s) const {
+	bool isNumber(const char* s) const {
 		return !s.IsEmpty() &&
 			std::find_if(s.begin(), s.end(), [](char c) { return !isdigit(c); }) == s.end();
 	};

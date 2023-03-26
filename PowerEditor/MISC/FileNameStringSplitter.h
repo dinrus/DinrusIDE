@@ -23,7 +23,7 @@ class FileNameStringSplitter
 public:
 	FileNameStringSplitter(const char *fileNameStr)
 	{
-		char *pStr = NULL;
+		char *pStr = Null;
 		bool isInsideQuotes = false;
 		const int filePathLength = MAX_PATH;
 
@@ -95,7 +95,7 @@ public:
 
 	const char * getFileName(size_t index) const {
 		if (index >= _fileNames.size())
-			return NULL;
+			return Null;
 		return _fileNames[index].Begin();
 	}
 

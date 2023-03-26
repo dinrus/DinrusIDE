@@ -36,7 +36,7 @@ const int ScintillaEditView::_SC_MARGE_LINENUMBER = 0;
 const int ScintillaEditView::_SC_MARGE_SYBOLE = 1;
 const int ScintillaEditView::_SC_MARGE_FOLDER = 2;
 
-WNDPROC ScintillaEditView::_scintillaDefaultProc = NULL;
+WNDPROC ScintillaEditView::_scintillaDefaultProc = Null;
 string ScintillaEditView::_defaultCharList = "";
 
 /*
@@ -181,7 +181,7 @@ int getNbDigits(int aNum, int base)
 	return nbChiffre;
 }
 
-void ScintillaEditView::init(HINSTANCE hInst, HWND hPere)
+void ScintillaEditView::init(HINSTANCE hInst, Upp::Ctrl* hPere)
 {
 	if (!_SciInit)
 	{
@@ -200,9 +200,9 @@ void ScintillaEditView::init(HINSTANCE hInst, HWND hPere)
 					WS_CHILD | WS_VSCROLL | WS_HSCROLL | WS_CLIPCHILDREN | WS_EX_RTLREADING,\
 					0, 0, 100, 100,\
 					_hParent,\
-					NULL,\
+					Null,\
 					_hInst,\
-					NULL);
+					Null);
 
 	if (!_hSelf)
 	{
@@ -318,7 +318,7 @@ void ScintillaEditView::init(HINSTANCE hInst, HWND hPere)
 	attachDefaultDoc();
 }
 
-LRESULT CALLBACK ScintillaEditView::scintillaStatic_Proc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK ScintillaEditView::scintillaStatic_Proc(Upp::Ctrl* hwnd, UINT Message, WPARAM wParam, LPARAM lParam)
 {
 	ScintillaEditView *pScint = (ScintillaEditView *)(::GetWindowLongPtr(hwnd, GWLP_USERDATA));
 
@@ -327,7 +327,7 @@ LRESULT CALLBACK ScintillaEditView::scintillaStatic_Proc(HWND hwnd, UINT Message
 		POINT pt;
 		POINTS pts = MAKEPOINTS(lParam);
 		POINTSTOPOINT(pt, pts);
-		HWND hwndOnMouse = WindowFromPoint(pt);
+		Upp::Ctrl* hwndOnMouse = WindowFromPoint(pt);
 
 		//Hack for Synaptics TouchPad Driver
 		char synapticsHack[26];
@@ -348,7 +348,7 @@ LRESULT CALLBACK ScintillaEditView::scintillaStatic_Proc(HWND hwnd, UINT Message
 		return ::DefWindowProc(hwnd, Message, wParam, lParam);
 
 }
-LRESULT ScintillaEditView::scintillaNew_Proc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam)
+LRESULT ScintillaEditView::scintillaNew_Proc(Upp::Ctrl* hwnd, UINT Message, WPARAM wParam, LPARAM lParam)
 {
 	switch (Message)
 	{
@@ -427,11 +427,11 @@ LRESULT ScintillaEditView::scintillaNew_Proc(HWND hwnd, UINT Message, WPARAM wPa
 					selectedStr = new char[selectSize + 1];
 				getText(selectedStr, range.cpMin, range.cpMax);
 
-				if (reconvert == NULL)
+				if (reconvert == Null)
 				{
 					// convert the selection to Unicode, and get the number
 					// of bytes required for the converted text
-					textLength = sizeof(WCHAR) * ::MultiByteToWideChar(codepage, 0, selectedStr, (int)selectSize, NULL, 0);
+					textLength = sizeof(WCHAR) * ::MultiByteToWideChar(codepage, 0, selectedStr, (int)selectSize, Null, 0);
 				}
 				else
 				{
@@ -667,7 +667,7 @@ void ScintillaEditView::setXmlLexer(LangType type)
 
 void ScintillaEditView::setEmbeddedJSLexer()
 {
-	const char *pKwArray[10] = {NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL};
+	const char *pKwArray[10] = {Null, Null, Null, Null, Null, Null, Null, Null, Null, Null};
 	makeStyle(L_JS, pKwArray);
 
 	basic_string<char> keywordList("");
@@ -687,7 +687,7 @@ void ScintillaEditView::setJsonLexer()
 {
 	setLexerFromLangID(L_JSON);
 
-	const char *pKwArray[10] = { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL };
+	const char *pKwArray[10] = { Null, Null, Null, Null, Null, Null, Null, Null, Null, Null };
 
 	makeStyle(L_JSON, pKwArray);
 
@@ -717,7 +717,7 @@ void ScintillaEditView::setJsonLexer()
 
 void ScintillaEditView::setEmbeddedPhpLexer()
 {
-	const char *pKwArray[10] = {NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL};
+	const char *pKwArray[10] = {Null, Null, Null, Null, Null, Null, Null, Null, Null, Null};
 	makeStyle(L_PHP, pKwArray);
 
 	basic_string<char> keywordList("");
@@ -735,7 +735,7 @@ void ScintillaEditView::setEmbeddedPhpLexer()
 
 void ScintillaEditView::setEmbeddedAspLexer()
 {
-	const char *pKwArray[10] = {NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL};
+	const char *pKwArray[10] = {Null, Null, Null, Null, Null, Null, Null, Null, Null, Null};
 	makeStyle(L_ASP, pKwArray);
 
 	basic_string<char> keywordList("");
@@ -933,7 +933,7 @@ void ScintillaEditView::setCppLexer(LangType langType)
 		}
     }
 
-	const char *pKwArray[10] = {NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL};
+	const char *pKwArray[10] = {Null, Null, Null, Null, Null, Null, Null, Null, Null, Null};
 	makeStyle(langType, pKwArray);
 
 	basic_string<char> keywordListInstruction("");
@@ -972,7 +972,7 @@ void ScintillaEditView::setJsLexer()
 	const char *doxygenKeyWords = NppParameters::getInstance().getWordList(L_CPP, LANG_INDEX_TYPE2);
 
 	setLexerFromLangID(L_JAVASCRIPT);
-	const char *pKwArray[10] = { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL };
+	const char *pKwArray[10] = { Null, Null, Null, Null, Null, Null, Null, Null, Null, Null };
 	makeStyle(L_JAVASCRIPT, pKwArray);
 
 	if (doxygenKeyWords)
@@ -1087,7 +1087,7 @@ void ScintillaEditView::setTclLexer()
 
 	setLexerFromLangID(L_TCL);
 
-	const char *pKwArray[10] = {NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL};
+	const char *pKwArray[10] = {Null, Null, Null, Null, Null, Null, Null, Null, Null, Null};
 	makeStyle(L_TCL, pKwArray);
 
 	basic_string<char> keywordListInstruction("");
@@ -1114,7 +1114,7 @@ void ScintillaEditView::setObjCLexer(LangType langType)
 {
 	setLexerFromLangID(L_OBJC);
 
-	const char *pKwArray[10] = {NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL};
+	const char *pKwArray[10] = {Null, Null, Null, Null, Null, Null, Null, Null, Null, Null};
 
 	makeStyle(langType, pKwArray);
 
@@ -1183,7 +1183,7 @@ void ScintillaEditView::setTypeScriptLexer()
 		execute(SCI_SETKEYWORDS, 2, reinterpret_cast<LPARAM>(doxygenKeyWords_char));
 	}
 
-	const char* pKwArray[10] = { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL };
+	const char* pKwArray[10] = { Null, Null, Null, Null, Null, Null, Null, Null, Null, Null };
 	makeStyle(L_TYPESCRIPT, pKwArray);
 
 	auto getKeywordList = [&pKwArray](const int i) 
@@ -1227,7 +1227,7 @@ void ScintillaEditView::setLexer(LangType langType, int whichList)
 {
 	setLexerFromLangID(langType);
 
-	const char *pKwArray[10] = {NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL};
+	const char *pKwArray[10] = {Null, Null, Null, Null, Null, Null, Null, Null, Null, Null};
 
 	makeStyle(langType, pKwArray);
 
@@ -2311,9 +2311,9 @@ void ScintillaEditView::replaceSelWith(const char * replaceText)
 
 void ScintillaEditView::getVisibleStartAndEndPosition(intptr_t* startPos, intptr_t* endPos)
 {
-	assert(startPos != NULL && endPos != NULL);
+	assert(startPos != Null && endPos != Null);
 	// Get the position of the 1st and last showing chars from the edit view
-	RECT rcEditView;
+	Rect rcEditView;
 	getClientRect(rcEditView);
 	LRESULT pos = execute(SCI_POSITIONFROMPOINT, 0, 0);
 	LRESULT line = execute(SCI_LINEFROMPOSITION, pos);
@@ -2326,7 +2326,7 @@ void ScintillaEditView::getVisibleStartAndEndPosition(intptr_t* startPos, intptr
 char * ScintillaEditView::getWordFromRange(char * txt, size_t size, size_t pos1, size_t pos2)
 {
     if (!size)
-		return NULL;
+		return Null;
     if (pos1 > pos2)
     {
         size_t tmp = pos1;
@@ -2335,7 +2335,7 @@ char * ScintillaEditView::getWordFromRange(char * txt, size_t size, size_t pos1,
     }
 
     if (size < pos2 - pos1)
-        return NULL;
+        return Null;
 
     getText(txt, pos1, pos2);
 	return txt;
@@ -2344,7 +2344,7 @@ char * ScintillaEditView::getWordFromRange(char * txt, size_t size, size_t pos1,
 char * ScintillaEditView::getWordOnCaretPos(char * txt, size_t size)
 {
     if (!size)
-		return NULL;
+		return Null;
 
     pair<size_t, size_t> range = getWordRange();
     return getWordFromRange(txt, size, range.first, range.second);
@@ -2366,7 +2366,7 @@ char * ScintillaEditView::getGenericWordOnCaretPos(char * txt, int size)
 char * ScintillaEditView::getSelectedText(char * txt, size_t size, bool expand)
 {
 	if (!size)
-		return NULL;
+		return Null;
 	Sci_CharacterRange range = getSelection();
 	if (range.cpMax == range.cpMin && expand)
 	{
@@ -2926,14 +2926,14 @@ intptr_t ScintillaEditView::caseConvertRange(intptr_t start, intptr_t end, TextC
 	char *mbStr = new char[mbLenMax];
 	getText(mbStr, start, end);
 
-	if (int wideLen = ::MultiByteToWideChar(codepage, 0, mbStr, mbLen, NULL, 0))
+	if (int wideLen = ::MultiByteToWideChar(codepage, 0, mbStr, mbLen, Null, 0))
 	{
 		wchar_t *wideStr = new wchar_t[wideLen];  // not NUL terminated
 		::MultiByteToWideChar(codepage, 0, mbStr, mbLen, wideStr, wideLen);
 
 		changeCase(wideStr, wideLen, caseToConvert);
 
-		if (int mbLenOut = ::WideCharToMultiByte(codepage, 0, wideStr, wideLen, mbStr, mbLenMax, NULL, NULL))
+		if (int mbLenOut = ::WideCharToMultiByte(codepage, 0, wideStr, wideLen, mbStr, mbLenMax, Null, Null))
 		{
 			// mbStr isn't NUL terminated either at this point
 			mbLen = mbLenOut;
@@ -3133,7 +3133,7 @@ bool ScintillaEditView::expandWordSelection()
 
 char * int2str(char *str, int strLen, int number, int base, int nbChiffre, bool isZeroLeading)
 {
-	if (nbChiffre >= strLen) return NULL;
+	if (nbChiffre >= strLen) return Null;
 	char f[64];
 	char fStr[2] = TEXT("d");
 	if (base == 16)
@@ -3847,7 +3847,7 @@ void ScintillaEditView::setBorderEdge(bool doWithBorderEdge)
 
 	::SetWindowLongPtr(_hSelf, GWL_STYLE, style);
 	::SetWindowLongPtr(_hSelf, GWL_EXSTYLE, exStyle);
-	::SetWindowPos(_hSelf, NULL, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED);
+	::SetWindowPos(_hSelf, Null, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED);
 }
 
 void ScintillaEditView::getFoldColor(COLORREF& fgColor, COLORREF& bgColor, COLORREF& activeFgColor)
@@ -3870,7 +3870,7 @@ void ScintillaEditView::getFoldColor(COLORREF& fgColor, COLORREF& bgColor, COLOR
 
 int ScintillaEditView::getTextZoneWidth() const
 {
-	RECT editorRect;
+	Rect editorRect;
 	getClientRect(editorRect);
 
 	intptr_t marginWidths = 0;
@@ -4024,7 +4024,7 @@ void ScintillaEditView::markedTextToClipboard(int indiStyle, bool doAll /*= fals
 			joined += TEXT("\r\n");
 		}
 
-		str2Clipboard(joined, NULL);
+		str2Clipboard(joined, Null);
 	}
 }
 

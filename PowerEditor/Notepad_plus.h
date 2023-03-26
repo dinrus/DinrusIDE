@@ -146,8 +146,8 @@ public:
 	Notepad_plus();
 	~Notepad_plus();
 
-	LRESULT init(HWND hwnd);
-	LRESULT process(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
+	LRESULT init(Upp::Ctrl* hwnd);
+	LRESULT process(Upp::Ctrl* hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
 	void killAllChildren();
 
 	enum comment_mode {cm_comment, cm_uncomment, cm_toggle};
@@ -160,7 +160,7 @@ public:
 	//! \name File Operations
 	//@{
 	//The doXXX functions apply to a single buffer and dont need to worry about views, with the excpetion of doClose, since closing one view doesnt have to mean the document is gone
-	BufferID doOpen(const String& fileName, bool isRecursive = false, bool isReadOnly = false, int encoding = -1, const char *backupFileName = NULL, FILETIME fileNameTimestamp = {});
+	BufferID doOpen(const char* fileName, bool isRecursive = false, bool isReadOnly = false, int encoding = -1, const char *backupFileName = Null, FILETIME fileNameTimestamp = {});
 	bool doReload(BufferID id, bool alert = true);
 	bool doSave(BufferID, const char * filename, bool isSaveCopy = false);
 	void doClose(BufferID, int whichOne, bool doDeleteBackup = false);
@@ -179,7 +179,7 @@ public:
 	bool fileSave(BufferID id = BUFFER_INVALID);
 	bool fileSaveAllConfirm();
 	bool fileSaveAll();
-	bool fileSaveSpecific(const String& fileNameToSave);
+	bool fileSaveSpecific(const char* fileNameToSave);
 	bool fileSaveAs(BufferID id = BUFFER_INVALID, bool isSaveCopy = false);
 	bool fileDelete(BufferID id = BUFFER_INVALID);
 	bool fileRename(BufferID id = BUFFER_INVALID);
@@ -240,7 +240,7 @@ public:
 		return _accelerator.getAccTable();
 	};
 
-	bool emergency(const String& emergencySavedDir);
+	bool emergency(const char* emergencySavedDir);
 
 	SciBuffer* getCurrentBuffer()	{
 		return _pEditView->getCurrentBuffer();
@@ -321,12 +321,12 @@ private:
 	DocumentPeeker _documentPeeker;
 
 	// a handle list of all the Notepad++ dialogs
-	std::vector<HWND> _hModelessDlgs;
+	std::vector<Upp::Ctrl*> _hModelessDlgs;
 
 	LastRecentFileList _lastRecentFileList;
 
 	WindowsMenu _windowsMenu;
-	HMENU _mainMenuHandle = NULL;
+	Menu* _mainMenuHandle = Null;
 
 	bool _sysMenuEntering = false;
 
@@ -404,7 +404,7 @@ private:
 	DocumentMap* _pDocMap = nullptr;
 	FunctionListPanel* _pFuncList = nullptr;
 
-	std::vector<HWND> _sysTrayHiddenHwnd;
+	std::vector<Upp::Ctrl*> _sysTrayHiddenHwnd;
 
 	BOOL notify(SCNotification *notification);
 	void command(int id);
@@ -472,7 +472,7 @@ private:
 	void dropFiles(HDROP hdrop);
 	void checkModifiedDocument(bool bCheckOnlyCurrentBuffer);
 
-    void getMainClientRect(RECT & rc) const;
+    void getMainClientRect(Rect & rc) const;
 	void staticCheckMenuAndTB() const;
 	void dynamicCheckMenuAndTB() const;
 	void enableConvertMenuItems(EolType f) const;
@@ -499,7 +499,7 @@ private:
 	intptr_t findMachedBracePos(size_t startPos, size_t endPos, char targetSymbol, char matchedSymbol);
 	void maintainIndentation(char ch);
 
-	void addHotSpot(ScintillaEditView* view = NULL);
+	void addHotSpot(ScintillaEditView* view = Null);
 
     void bookmarkAdd(intptr_t lineno) const {
 		if (lineno == -1)
@@ -564,14 +564,14 @@ private:
 	void showFunctionComp();
 	void showPathCompletion();
 
-	//void changeStyleCtrlsLang(HWND hDlg, int *idArray, const char **translatedText);
+	//void changeStyleCtrlsLang(Upp::Ctrl* hDlg, int *idArray, const char **translatedText);
 	void setCodePageForInvisibleView(SciBuffer const* pBuffer);
 	bool replaceInOpenedFiles();
 	bool findInOpenedFiles();
 	bool findInCurrentFile(bool isEntireDoc);
 
 	void getMatchedFileNames(const char *dir, size_t level, const Vector<String> & patterns, Vector<String> & fileNames, bool isRecursive, bool isInHiddenDir);
-	void doSynScorll(HWND hW);
+	void doSynScorll(Upp::Ctrl* hW);
 	void setWorkingDir(const char *dir);
 	bool str2Cliboard(const String & str2cpy);
 
@@ -579,7 +579,7 @@ private:
 	int getLangFromMenuName(const char * langName);
 	String getLangFromMenu(const SciBuffer * buf);
 
-    String exts2Filters(const String& exts, int maxExtsLen = -1) const; // maxExtsLen default value -1 makes no limit of whole exts length
+    String exts2Filters(const char* exts, int maxExtsLen = -1) const; // maxExtsLen default value -1 makes no limit of whole exts length
 	int setFileOpenSaveDlgFilters(CustomFileDialog & fDlg, bool showAllExt, int langType = -1); // showAllExt should be true if it's used for open file dialog - all set exts should be used for filtering files
 	Style * getStyleFromName(const char *styleName);
 	bool dumpFiles(const char * outdir, const char * fileprefix = TEXT(""));	//helper func
@@ -608,7 +608,7 @@ private:
 	void launchProjectPanel(int cmdID, ProjectPanel ** pProjPanel, int panelID);
 	void launchDocMap();
 	void launchFunctionList();
-	void launchFileBrowser(const Vector<String> & folders, const String& selectedItemPath, bool fromScratch = false);
+	void launchFileBrowser(const Vector<String> & folders, const char* selectedItemPath, bool fromScratch = false);
 	void showAllQuotes() const;
 	static DWORD WINAPI threadTextPlayer(void *text2display);
 	static DWORD WINAPI threadTextTroller(void *params);
@@ -628,10 +628,10 @@ private:
 
 	static DWORD WINAPI monitorFileOnChange(void * params);
 	struct MonitorInfo final {
-		MonitorInfo(SciBuffer *buf, HWND nppHandle) :
+		MonitorInfo(SciBuffer *buf, Upp::Ctrl* nppHandle) :
 			_buffer(buf), _nppHandle(nppHandle) {};
 		SciBuffer *_buffer = nullptr;
-		HWND _nppHandle = nullptr;
+		Upp::Ctrl* _nppHandle = nullptr;
 	};
 
 	void monitoringStartOrStopAndUpdateUI(SciBuffer* pBuf, bool isStarting);

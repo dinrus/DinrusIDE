@@ -31,7 +31,7 @@ bool MiniDumper::writeDump(EXCEPTION_POINTERS * pExceptionInfo)
 {
 	char szDumpPath[MAX_PATH];
 	char szScratch[MAX_PATH];
-	LPCTSTR szResult = NULL;
+	LPCTSTR szResult = Null;
 	bool retval = false;
 
 	HMODULE hDll = ::LoadLibrary( TEXT("DBGHELP.DLL") );	//that wont work on older windows version than XP, #care :)
@@ -41,17 +41,17 @@ bool MiniDumper::writeDump(EXCEPTION_POINTERS * pExceptionInfo)
 		MINIDUMPWRITEDUMP pDump = (MINIDUMPWRITEDUMP)::GetProcAddress( hDll, "MiniDumpWriteDump" );
 		if (pDump)
 		{
-			::GetModuleFileName(NULL, szDumpPath, MAX_PATH);
+			::GetModuleFileName(Null, szDumpPath, MAX_PATH);
 			::PathRemoveFileSpec(szDumpPath);
 			wcscat_s(szDumpPath, TEXT("\\NppDump.dmp"));
 
 			// ask the user if they want to save a dump file
-			int msgret = ::MessageBox(NULL, TEXT("Do you want to save a dump file?\r\nDoing so can aid in developing Notepad++."), msgTitle, MB_YESNO);
+			int msgret = ::MessageBox(Null, TEXT("Do you want to save a dump file?\r\nDoing so can aid in developing Notepad++."), msgTitle, MB_YESNO);
 			if (msgret == IDYES)
 			{
 				// create the file
-				HANDLE hFile = ::CreateFile( szDumpPath, GENERIC_WRITE, FILE_SHARE_WRITE, NULL, CREATE_ALWAYS,
-											FILE_ATTRIBUTE_NORMAL, NULL );
+				HANDLE hFile = ::CreateFile( szDumpPath, GENERIC_WRITE, FILE_SHARE_WRITE, Null, CREATE_ALWAYS,
+											FILE_ATTRIBUTE_NORMAL, Null );
 
 				if (hFile!=INVALID_HANDLE_VALUE)
 				{
@@ -59,10 +59,10 @@ bool MiniDumper::writeDump(EXCEPTION_POINTERS * pExceptionInfo)
 
 					ExInfo.ThreadId = ::GetCurrentThreadId();
 					ExInfo.ExceptionPointers = pExceptionInfo;
-					ExInfo.ClientPointers = NULL;
+					ExInfo.ClientPointers = Null;
 
 					// write the dump
-					BOOL bOK = pDump( GetCurrentProcess(), GetCurrentProcessId(), hFile, MiniDumpNormal, &ExInfo, NULL, NULL );
+					BOOL bOK = pDump( GetCurrentProcess(), GetCurrentProcessId(), hFile, MiniDumpNormal, &ExInfo, Null, Null );
 					if (bOK)
 					{
 						wsprintf( szScratch, TEXT("Saved dump file to '%s'"), szDumpPath );
@@ -95,7 +95,7 @@ bool MiniDumper::writeDump(EXCEPTION_POINTERS * pExceptionInfo)
 	}
 
 	if (szResult)
-		::MessageBox(NULL, szResult, msgTitle, MB_OK);
+		::MessageBox(Null, szResult, msgTitle, MB_OK);
 
 	return retval;
 }

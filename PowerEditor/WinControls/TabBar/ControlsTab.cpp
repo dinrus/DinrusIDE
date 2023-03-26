@@ -36,7 +36,7 @@ void ControlsTab::activateWindowAt(int index)
 	_current = index;
 }
 
-void ControlsTab::reSizeTo(RECT & rc)
+void ControlsTab::reSizeTo(Rect & rc)
 {
 	TabBar::reSizeTo(rc);
 	rc.left += marge;

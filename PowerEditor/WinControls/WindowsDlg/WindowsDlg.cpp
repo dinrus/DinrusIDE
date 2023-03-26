@@ -45,15 +45,15 @@ using namespace std;
 static const char *readonlyString = TEXT(" [Read Only]");
 const UINT WDN_NOTIFY = RegisterWindowMessage(TEXT("WDN_NOTIFY"));
 /*
-inline static DWORD GetStyle(HWND hWnd) {
+inline static DWORD GetStyle(Upp::Ctrl* hWnd) {
 	return (DWORD)GetWindowLongPtr(hWnd, GWL_STYLE);
 }
 
-inline static DWORD GetExStyle(HWND hWnd) {
+inline static DWORD GetExStyle(Upp::Ctrl* hWnd) {
 	return (DWORD)GetWindowLongPtr(hWnd, GWL_EXSTYLE);
 }
 
-inline static BOOL ModifyStyle(HWND hWnd, DWORD dwRemove, DWORD dwAdd) {
+inline static BOOL ModifyStyle(Upp::Ctrl* hWnd, DWORD dwRemove, DWORD dwAdd) {
 	DWORD dwStyle = (DWORD)::GetWindowLongPtr(hWnd, GWL_STYLE);
 	DWORD dwNewStyle = (dwStyle & ~dwRemove) | dwAdd;
 	if (dwStyle == dwNewStyle)
@@ -62,7 +62,7 @@ inline static BOOL ModifyStyle(HWND hWnd, DWORD dwRemove, DWORD dwAdd) {
 	return TRUE;
 }
 
-inline static BOOL ModifyStyleEx(HWND hWnd, DWORD dwRemove, DWORD dwAdd) {
+inline static BOOL ModifyStyleEx(Upp::Ctrl* hWnd, DWORD dwRemove, DWORD dwAdd) {
 	DWORD dwStyle = (DWORD)::GetWindowLongPtr(hWnd, GWL_EXSTYLE);
 	DWORD dwNewStyle = (dwStyle & ~dwRemove) | dwAdd;
 	if (dwStyle == dwNewStyle)
@@ -239,9 +239,9 @@ BEGIN_WINDOW_MAP(WindowsDlgMap)
 	ENDGROUP()
 END_WINDOW_MAP()
 
-LONG_PTR WindowsDlg::originalListViewProc = NULL;
+LONG_PTR WindowsDlg::originalListViewProc = Null;
 
-RECT WindowsDlg::_lastKnownLocation;
+Rect WindowsDlg::_lastKnownLocation;
 
 WindowsDlg::WindowsDlg() : MyBaseClass(WindowsDlgMap)
 {
@@ -249,17 +249,17 @@ WindowsDlg::WindowsDlg() : MyBaseClass(WindowsDlgMap)
 	_szMinListCtrl = SIZEZERO;
 }
 
-void WindowsDlg::init(HINSTANCE hInst, HWND parent, DocTabView *pTab)
+void WindowsDlg::init(HINSTANCE hInst, Upp::Ctrl* parent, DocTabView *pTab)
 {
 	MyBaseClass::init(hInst, parent);
 	_pTab = pTab;
 }
 
-void WindowsDlg::init(HINSTANCE hInst, HWND parent)
+void WindowsDlg::init(HINSTANCE hInst, Upp::Ctrl* parent)
 {
 	assert(!"Call other initialize method");
 	MyBaseClass::init(hInst, parent);
-	_pTab = NULL;
+	_pTab = Null;
 }
 
 intptr_t CALLBACK WindowsDlg::run_dlgProc(UINT message, WPARAM wParam, LPARAM lParam)
@@ -415,7 +415,7 @@ intptr_t CALLBACK WindowsDlg::run_dlgProc(UINT message, WPARAM wParam, LPARAM lP
 						{
 							NppParameters& nppParameters = NppParameters::getInstance();
 							Lang *lang = nppParameters.getLangFromID(buf->getLangType());
-							if (NULL != lang)
+							if (Null != lang)
 							{
 								text = lang->getLangName();
 							}
@@ -593,7 +593,7 @@ BOOL WindowsDlg::onInitDialog()
 
 	originalListViewProc = ::SetWindowLongPtr(_hList, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(listViewProc));
 
-	RECT rc;
+	Rect rc;
 	GetClientRect(_hList, &rc);
 	LONG width = rc.right - rc.left;
 
@@ -630,7 +630,7 @@ BOOL WindowsDlg::onInitDialog()
 
 	if (_lastKnownLocation.bottom > 0 && _lastKnownLocation.right > 0)
 	{
-		SetWindowPos(_hSelf, NULL, _lastKnownLocation.left, _lastKnownLocation.top,
+		SetWindowPos(_hSelf, Null, _lastKnownLocation.left, _lastKnownLocation.top,
 			_lastKnownLocation.right-_lastKnownLocation.left, _lastKnownLocation.bottom-_lastKnownLocation.top, SWP_SHOWWINDOW);
 	}
 	else
@@ -759,11 +759,11 @@ LRESULT WindowsDlg::onWinMgr(WPARAM wp, LPARAM lp)
 
 void WindowsDlg::doRefresh(bool invalidate /*= false*/)
 {
-	if (_hSelf != NULL && isVisible())
+	if (_hSelf != Null && isVisible())
 	{
-		if (_hList != NULL)
+		if (_hList != Null)
 		{
-			size_t count = (_pTab != NULL) ? _pTab->nbItem() : 0;
+			size_t count = (_pTab != Null) ? _pTab->nbItem() : 0;
 			size_t oldSize = _idxMap.size();
 			if (!invalidate && count == oldSize)
 				return;
@@ -791,7 +791,7 @@ void WindowsDlg::doRefresh(bool invalidate /*= false*/)
 void WindowsDlg::fitColumnsToSize()
 {
 	// perhaps make the path column auto size
-	RECT rc;
+	Rect rc;
 	if (GetClientRect(_hList, &rc))
 	{
 		int len = (rc.right - rc.left);
@@ -848,8 +848,8 @@ void WindowsDlg::destroy()
 {
 	::GetWindowRect(_hSelf, &_lastKnownLocation);
 
-	HWND hSelf = _hSelf;
-	_hSelf = NULL;
+	Upp::Ctrl* hSelf = _hSelf;
+	_hSelf = Null;
 	::DestroyWindow(hSelf);
 }
 
@@ -947,7 +947,7 @@ void WindowsDlg::doCount()
 
 void WindowsDlg::doSort()
 {
-	size_t count = (_pTab != NULL) ? _pTab->nbItem() : 0;	
+	size_t count = (_pTab != Null) ? _pTab->nbItem() : 0;	
 	std::vector<UINT> items(count);
 	auto currrentTabIndex = _pTab->getCurrentTabIndex();
 	NMWINDLG nmdlg = {};
@@ -1033,7 +1033,7 @@ void WindowsDlg::sortFileSizeDSC()
 
 void WindowsDlg::refreshMap()
 {
-	size_t count = (_pTab != NULL) ? _pTab->nbItem() : 0;
+	size_t count = (_pTab != Null) ? _pTab->nbItem() : 0;
 	size_t oldSize = _idxMap.size();
 	if (count == oldSize)
 		return;
@@ -1112,19 +1112,19 @@ SciBuffer* WindowsDlg::getBuffer(int index) const
 	return MainFileManager.getBufferByID(bufID);
 }
 
-LRESULT CALLBACK WindowsDlg::listViewProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK WindowsDlg::listViewProc(Upp::Ctrl* hwnd, UINT Message, WPARAM wParam, LPARAM lParam)
 {
 	return CallWindowProc(reinterpret_cast<WNDPROC>(originalListViewProc), hwnd, Message, wParam, lParam);
 }
 
 
-void WindowsMenu::init(HMENU hMainMenu)
+void WindowsMenu::init(Menu* hMainMenu)
 {
 	_hMenu = ::GetSubMenu(hMainMenu, MENUINDEX_WINDOW);
 	_hMenuList = ::GetSubMenu(hMainMenu, MENUINDEX_LIST);
 }
 
-void WindowsMenu::initPopupMenu(HMENU hMenu, DocTabView* pTab)
+void WindowsMenu::initPopupMenu(Menu* hMenu, DocTabView* pTab)
 {
 	bool isDropListMenu = false;
 

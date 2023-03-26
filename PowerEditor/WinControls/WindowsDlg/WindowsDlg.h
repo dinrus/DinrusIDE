@@ -54,7 +54,7 @@ class WindowsDlg : public SizeableDlg
 public :
 	WindowsDlg();
 	int doDialog();
-	virtual void init(HINSTANCE hInst, HWND parent, DocTabView *pTab);
+	virtual void init(HINSTANCE hInst, Upp::Ctrl* parent, DocTabView *pTab);
 	void doSortToTabs();
 	void doSort();
 	void sort(int columnID, bool reverseSort);
@@ -89,10 +89,10 @@ protected :
 	SciBuffer* getBuffer(int index) const;
 
 	static LONG_PTR originalListViewProc;
-	static LRESULT CALLBACK listViewProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
+	static LRESULT CALLBACK listViewProc(Upp::Ctrl* hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
 
-	HWND _hList = nullptr;
-	static RECT _lastKnownLocation;
+	Upp::Ctrl* _hList = nullptr;
+	static Rect _lastKnownLocation;
 	SIZE _szMinButton = {};
 	SIZE _szMinListCtrl = {};
 	DocTabView* _pTab = nullptr;
@@ -103,7 +103,7 @@ protected :
 	ContextMenu _listMenu;
 
 private:
-	virtual void init(HINSTANCE hInst, HWND parent);	
+	virtual void init(HINSTANCE hInst, Upp::Ctrl* parent);
 };
 
 class WindowsMenu
@@ -111,11 +111,11 @@ class WindowsMenu
 public:
 	WindowsMenu() {};
 	~WindowsMenu() {};
-	void init(HMENU hMainMenu); 
-	void initPopupMenu(HMENU hMenu, DocTabView *pTab);
+	void init(Menu* hMainMenu);
+	void initPopupMenu(Menu* hMenu, DocTabView *pTab);
 
 private:
-	HMENU _hMenu = nullptr;
-	HMENU _hMenuList = nullptr;
+	Menu* _hMenu = nullptr;
+	Menu* _hMenuList = nullptr;
 	UINT _limitPrev = 0;
 };

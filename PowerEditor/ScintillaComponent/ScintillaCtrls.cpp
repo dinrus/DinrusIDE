@@ -18,7 +18,7 @@
 #include "ScintillaCtrls.h"
 #include <PowerEditor/ScintillaComponent/ScintillaEditView.h>
 
-HWND ScintillaCtrls::createSintilla(HWND hParent)
+Upp::Ctrl* ScintillaCtrls::createSintilla(Upp::Ctrl* hParent)
 {
 	_hParent = hParent;
 	ScintillaEditView *scint = new ScintillaEditView;
@@ -27,7 +27,7 @@ HWND ScintillaCtrls::createSintilla(HWND hParent)
 	return scint->getHSelf();
 }
 
-int ScintillaCtrls::getIndexFrom(HWND handle2Find)
+int ScintillaCtrls::getIndexFrom(Upp::Ctrl* handle2Find)
 {
 	for (size_t i = 0, len = _scintVector.size(); i < len ; ++i)
 	{
@@ -39,16 +39,16 @@ int ScintillaCtrls::getIndexFrom(HWND handle2Find)
 	return -1;
 }
 
-ScintillaEditView * ScintillaCtrls::getScintillaEditViewFrom(HWND handle2Find)
+ScintillaEditView * ScintillaCtrls::getScintillaEditViewFrom(Upp::Ctrl* handle2Find)
 {
 	int i = getIndexFrom(handle2Find);
 	if (i == -1 || size_t(i) >= _scintVector.size())
-		return NULL;
+		return Null;
 	return _scintVector[i];
 }
 
 /*
-bool ScintillaCtrls::destroyScintilla(HWND handle2Destroy)
+bool ScintillaCtrls::destroyScintilla(Upp::Ctrl* handle2Destroy)
 {
 	int i = getIndexFrom(handle2Destroy);
 	if (i == -1)

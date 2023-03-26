@@ -17,7 +17,7 @@
 
 #pragma once
 
-#include <windows.h>
+//#include <windows.h>
 #include <Core/Core.h>
 
 // ATTENTION : It's a part of interface header, so don't include the others header here
@@ -49,7 +49,7 @@
 
 
 struct tTbData {
-	HWND hClient = nullptr;                // client Window Handle
+	Upp::Ctrl* hClient = nullptr;                // client Window Handle
 	const char* pszName = nullptr;        // name of plugin (shown in window)
 	int dlgID = 0;                         // a funcItem provides the function pointer to start a dialog. Please parse here these ID
 
@@ -59,15 +59,15 @@ struct tTbData {
 	const char* pszAddInfo = nullptr;     // for plugin to display additional informations
 
 	// internal data, do not use !!!
-	RECT rcFloat = {};                    // floating position
+	Rect rcFloat = {};                    // floating position
 	int iPrevCont = 0;                     // stores the privious container (toggling between float and dock)
 	const char* pszModuleName = nullptr;  // it's the plugin file name. It's used to identify the plugin
 };
 
 
 struct tDockMgr {
-	HWND hWnd = nullptr;                   // the docking manager wnd
-	RECT rcRegion[DOCKCONT_MAX] = {{}};   // position of docked dialogs
+	Upp::Ctrl* hWnd = nullptr;                   // the docking manager wnd
+	Rect rcRegion[DOCKCONT_MAX] = {{}};   // position of docked dialogs
 };
 
 

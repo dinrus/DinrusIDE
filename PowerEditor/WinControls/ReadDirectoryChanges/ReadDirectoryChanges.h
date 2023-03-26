@@ -39,7 +39,7 @@
 #define VC_EXTRALEAN            // Exclude rarely-used stuff from Windows headers
 #endif
 
-#include <windows.h>
+//#include <windows.h>
 #include <vector>
 #include <list>
 

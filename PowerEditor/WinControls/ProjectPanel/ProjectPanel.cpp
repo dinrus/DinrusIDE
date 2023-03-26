@@ -49,7 +49,7 @@ intptr_t CALLBACK ProjectPanel::run_dlgProc(UINT message, WPARAM wParam, LPARAM 
 
 			// Create toolbar menu
 			int style = WS_CHILD | WS_VISIBLE | CCS_ADJUSTABLE | TBSTYLE_AUTOSIZE | TBSTYLE_FLAT | TBSTYLE_LIST;
-			_hToolbarMenu = CreateWindowEx(0,TOOLBARCLASSNAME,NULL, style,
+			_hToolbarMenu = CreateWindowEx(0,TOOLBARCLASSNAME,Null, style,
 								   0,0,0,0,_hSelf, nullptr, _hInst, nullptr);
 
 			TBBUTTON tbButtons[2];
@@ -125,12 +125,12 @@ intptr_t CALLBACK ProjectPanel::run_dlgProc(UINT message, WPARAM wParam, LPARAM 
 		{
 			int width = LOWORD(lParam);
 			int height = HIWORD(lParam);
-			RECT toolbarMenuRect;
+			Rect toolbarMenuRect;
 			::GetClientRect(_hToolbarMenu, &toolbarMenuRect);
 
 			::MoveWindow(_hToolbarMenu, 0, 0, width, toolbarMenuRect.bottom, TRUE);
 
-			HWND hwnd = _treeView.getHSelf();
+			Upp::Ctrl* hwnd = _treeView.getHSelf();
 			if (hwnd)
 				::MoveWindow(hwnd, 0, toolbarMenuRect.bottom + 2, width, height - toolbarMenuRect.bottom - 2, TRUE);
 			break;
@@ -150,7 +150,7 @@ intptr_t CALLBACK ProjectPanel::run_dlgProc(UINT message, WPARAM wParam, LPARAM 
 
 					if (selectedItem)
 					{
-						RECT selectedItemRect;
+						Rect selectedItemRect;
 						if (TreeView_GetItemRect(_treeView.getHSelf(), selectedItem, &selectedItemRect, TRUE))
 						{
 							showContextMenuFromMenuKey(selectedItem, (selectedItemRect.left + selectedItemRect.right) / 2, (selectedItemRect.top + selectedItemRect.bottom) / 2);
@@ -403,7 +403,7 @@ bool ProjectPanel::writeWorkSpace(const char *projectFileName)
 		return false;
 
 	for (HTREEITEM tvProj = _treeView.getChildFrom(tvRoot);
-		tvProj != NULL;
+		tvProj != Null;
 		tvProj = _treeView.getNextSibling(tvProj))
 	{
 		tvItem.hItem = tvProj;
@@ -442,7 +442,7 @@ void ProjectPanel::buildProjectXml(TiXmlNode *node, HTREEITEM hItem, const char*
 	tvItem.cchTextMax = MAX_PATH;
 
 	for (HTREEITEM hItemNode = _treeView.getChildFrom(hItem);
-		hItemNode != NULL;
+		hItemNode != Null;
 		hItemNode = _treeView.getNextSibling(hItemNode))
 	{
 		tvItem.hItem = hItemNode;
@@ -475,7 +475,7 @@ bool ProjectPanel::enumWorkSpaceFiles(HTREEITEM tvFrom, const Vector<String> & p
 	if (!tvRoot) return false;
 
 	for (HTREEITEM tvProj = _treeView.getChildFrom(tvRoot);
-		tvProj != NULL;
+		tvProj != Null;
 		tvProj = _treeView.getNextSibling(tvProj))
 	{
 		tvItem.hItem = tvProj;
@@ -660,7 +660,7 @@ void ProjectPanel::notified(LPNMHDR notification)
 			case TVN_GETINFOTIP:
 			{
 				LPNMTVGETINFOTIP lpGetInfoTip = (LPNMTVGETINFOTIP)notification;
-				String *str = NULL ;
+				String *str = Null ;
 
 				if (_treeView.getRoot() == lpGetInfoTip->hItem)
 				{
@@ -796,14 +796,14 @@ void ProjectPanel::showContextMenu(int x, int y)
 	ScreenToClient(_treeView.getHSelf(), &(tvHitInfo.pt));
 	hTreeItem = TreeView_HitTest(_treeView.getHSelf(), &tvHitInfo);
 
-	if (tvHitInfo.hItem != NULL)
+	if (tvHitInfo.hItem != Null)
 	{
 		// Make item selected
 		_treeView.selectItem(tvHitInfo.hItem);
-		HMENU hMenu = getMenuHandler(tvHitInfo.hItem);
+		Menu* hMenu = getMenuHandler(tvHitInfo.hItem);
 		TrackPopupMenu(hMenu,
 			NppParameters::getInstance().getNativeLangSpeaker()->isRTL() ? TPM_RIGHTALIGN | TPM_LAYOUTRTL : TPM_LEFTALIGN,
-			x, y, 0, _hSelf, NULL);
+			x, y, 0, _hSelf, Null);
 	}
 }
 
@@ -815,20 +815,20 @@ void ProjectPanel::showContextMenuFromMenuKey(HTREEITEM selectedItem, int x, int
 
 	ClientToScreen(_treeView.getHSelf(), &p);
 
-	if (selectedItem != NULL)
+	if (selectedItem != Null)
 	{
-		HMENU hMenu = getMenuHandler(selectedItem);
+		Menu* hMenu = getMenuHandler(selectedItem);
 		TrackPopupMenu(hMenu,
 			NppParameters::getInstance().getNativeLangSpeaker()->isRTL() ? TPM_RIGHTALIGN | TPM_LAYOUTRTL : TPM_LEFTALIGN,
-			x, y, 0, _hSelf, NULL);
+			x, y, 0, _hSelf, Null);
 	}
 }
 
-HMENU ProjectPanel::getMenuHandler(HTREEITEM selectedItem)
+Menu* ProjectPanel::getMenuHandler(HTREEITEM selectedItem)
 {
 	// get clicked item type
 	NodeType nodeType = getNodeType(selectedItem);
-	HMENU hMenu = NULL;
+	Menu* hMenu = Null;
 
 	if (nodeType == nodeType_root)
 		hMenu = _hWorkSpaceMenu;
@@ -845,7 +845,7 @@ HMENU ProjectPanel::getMenuHandler(HTREEITEM selectedItem)
 POINT ProjectPanel::getMenuDisplayPoint(int iButton)
 {
 	POINT p;
-	RECT btnRect;
+	Rect btnRect;
 	SendMessage(_hToolbarMenu, TB_GETITEMRECT, iButton, reinterpret_cast<LPARAM>(&btnRect));
 
 	p.x = btnRect.left;
@@ -912,14 +912,14 @@ void ProjectPanel::popupMenuCmd(int cmdID)
 		  POINT p = getMenuDisplayPoint(0);
 		  TrackPopupMenu(_hWorkSpaceMenu,
 			  NppParameters::getInstance().getNativeLangSpeaker()->isRTL() ? TPM_RIGHTALIGN | TPM_LAYOUTRTL : TPM_LEFTALIGN,
-			  p.x, p.y, 0, _hSelf, NULL);
+			  p.x, p.y, 0, _hSelf, Null);
 		}
 		break;
 
 		case IDB_EDIT_BTN:
 		{
 			POINT p = getMenuDisplayPoint(1);
-			HMENU hMenu = NULL;
+			Menu* hMenu = Null;
 			NodeType nodeType = getNodeType(hTreeItem);
 			if (nodeType == nodeType_project)
 				hMenu = _hProjectMenu;
@@ -930,7 +930,7 @@ void ProjectPanel::popupMenuCmd(int cmdID)
 			if (hMenu)
 				TrackPopupMenu(hMenu,
 					NppParameters::getInstance().getNativeLangSpeaker()->isRTL() ? TPM_RIGHTALIGN | TPM_LAYOUTRTL : TPM_LEFTALIGN,
-					p.x, p.y, 0, _hSelf, NULL);
+					p.x, p.y, 0, _hSelf, Null);
 		}
 		break;
 
@@ -1105,7 +1105,7 @@ void ProjectPanel::popupMenuCmd(int cmdID)
 		{
 			HTREEITEM parent = _treeView.getParent(hTreeItem);
 
-			if (_treeView.getChildFrom(hTreeItem) != NULL)
+			if (_treeView.getChildFrom(hTreeItem) != Null)
 			{
 				NativeLangSpeaker *pNativeSpeaker = (NppParameters::getInstance()).getNativeLangSpeaker();
 				int res = pNativeSpeaker->messageBox("ProjectPanelRemoveFolderFromProject",
@@ -1371,7 +1371,7 @@ int FileRelocalizerDlg::doDialog(const char *fn, bool isRTL)
 
 	if (isRTL)
 	{
-		DLGTEMPLATE *pMyDlgTemplate = NULL;
+		DLGTEMPLATE *pMyDlgTemplate = Null;
 		HGLOBAL hMyDlgTemplate = makeRTLResource(IDD_FILERELOCALIZER_DIALOG, &pMyDlgTemplate);
 		int result = static_cast<int32_t>(::DialogBoxIndirectParam(_hInst, pMyDlgTemplate, _hParent, dlgProc, reinterpret_cast<LPARAM>(this)));
 		::GlobalFree(hMyDlgTemplate);

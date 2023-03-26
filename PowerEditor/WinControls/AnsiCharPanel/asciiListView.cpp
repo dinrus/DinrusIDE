@@ -35,7 +35,7 @@ String AsciiListView::getAscii(unsigned char value)
 	switch (value)
 	{
 		case 0:
-			return TEXT("NULL");
+			return TEXT("Null");
 		case 1:
 			return TEXT("SOH");
 		case 2:

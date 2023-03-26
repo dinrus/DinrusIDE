@@ -22,7 +22,7 @@
 void Process::run(bool isElevationRequired) const
 {
 	const char *opVerb = isElevationRequired ? TEXT("runas") : TEXT("open");
-	::ShellExecute(NULL, opVerb, _command.Begin(), _args.Begin(), _curDir.Begin(), SW_SHOWNORMAL);
+	::ShellExecute(Null, opVerb, _command.Begin(), _args.Begin(), _curDir.Begin(), SW_SHOWNORMAL);
 }
 
 unsigned long Process::runSync(bool isElevationRequired) const
@@ -30,13 +30,13 @@ unsigned long Process::runSync(bool isElevationRequired) const
 	SHELLEXECUTEINFO ShExecInfo = {};
 	ShExecInfo.cbSize = sizeof(SHELLEXECUTEINFO);
 	ShExecInfo.fMask = SEE_MASK_NOCLOSEPROCESS;
-	ShExecInfo.hwnd = NULL;
+	ShExecInfo.hwnd = Null;
 	ShExecInfo.lpVerb = isElevationRequired ? TEXT("runas") : TEXT("open");
 	ShExecInfo.lpFile = _command.Begin();
 	ShExecInfo.lpParameters = _args.Begin();
 	ShExecInfo.lpDirectory = _curDir.Begin();
 	ShExecInfo.nShow = SW_SHOWNORMAL;
-	ShExecInfo.hInstApp = NULL;
+	ShExecInfo.hInstApp = Null;
 
 	ShellExecuteEx(&ShExecInfo);
 	if (!ShExecInfo.hProcess)

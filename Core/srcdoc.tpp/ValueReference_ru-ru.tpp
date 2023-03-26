@@ -1,5 +1,4 @@
-topic "Rules for references to Value internal maps elements";
-[2 $$0,0#00000000000000000000000000000000:Default]
+topic "Правила ссылки на элементы ValueArray, ValueMap иValue";
 [i448;a25;kKO9;2 $$1,0#37138531426314131252341829483380:class]
 [l288;2 $$2,2#27521748481378242620020725143825:desc]
 [0 $$3,0#96390100711032703541132217272105:end]
@@ -13,8 +12,10 @@ topic "Rules for references to Value internal maps elements";
 [b83;*2 $$11,12#07864147445237544204411237157677:title]
 [b42;a42;2 $$12,12#45413000475342174754091244180557:text]
 [l321;t246;C@5;1 $$13,13#20902679421464641399138805415013:code]
+[2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%RU-RU 
-[s10; Rules for references to ValueArray, ValueMap and Value elements&]
+[s10; [@5 Правила ссылки на элементы ValueArray, 
+ValueMap иValue]&]
 [s0; Value is originally designed as non`-mutable concrete Value 
 of different concrete types.&]
 [s0; &]

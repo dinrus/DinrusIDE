@@ -24,13 +24,13 @@
 
 using namespace std;
 
-LRESULT CALLBACK ColourStaticTextHooker::colourStaticProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK ColourStaticTextHooker::colourStaticProc(Upp::Ctrl* hwnd, UINT Message, WPARAM wParam, LPARAM lParam)
 {
 	switch(Message)
 	{
 		case WM_PAINT:
 		{
-			RECT rect;
+			Rect rect;
 			::GetClientRect(hwnd, &rect);
 
 			PAINTSTRUCT ps;
@@ -167,7 +167,7 @@ intptr_t CALLBACK WordStyleDlg::run_dlgProc(UINT Message, WPARAM wParam, LPARAM 
 		{
 			if (NppDarkMode::isEnabled())
 			{
-				HWND hwnd = reinterpret_cast<HWND>(lParam);
+				Upp::Ctrl* hwnd = reinterpret_cast<Upp::Ctrl*>(lParam);
 				if (hwnd == ::GetDlgItem(_hSelf, IDC_USER_EXT_EDIT) || hwnd == ::GetDlgItem(_hSelf, IDC_USER_KEYWORDS_EDIT))
 				{
 					return NppDarkMode::onCtlColorSofter(reinterpret_cast<HDC>(wParam));
@@ -201,7 +201,7 @@ intptr_t CALLBACK WordStyleDlg::run_dlgProc(UINT Message, WPARAM wParam, LPARAM 
 		case WM_CTLCOLORSTATIC:
 		{
 			auto hdcStatic = reinterpret_cast<HDC>(wParam);
-			auto dlgCtrlID = ::GetDlgCtrlID(reinterpret_cast<HWND>(lParam));
+			auto dlgCtrlID = ::GetDlgCtrlID(reinterpret_cast<Upp::Ctrl*>(lParam));
 
 			bool isStaticText = (dlgCtrlID == IDC_FG_STATIC ||
 				dlgCtrlID == IDC_BG_STATIC ||
@@ -278,7 +278,7 @@ intptr_t CALLBACK WordStyleDlg::run_dlgProc(UINT Message, WPARAM wParam, LPARAM 
 
 		case WM_HSCROLL :
 		{
-			if (reinterpret_cast<HWND>(lParam) == ::GetDlgItem(_hSelf, IDC_SC_PERCENTAGE_SLIDER))
+			if (reinterpret_cast<Upp::Ctrl*>(lParam) == ::GetDlgItem(_hSelf, IDC_SC_PERCENTAGE_SLIDER))
 			{
 				int percent = static_cast<int32_t>(::SendDlgItemMessage(_hSelf, IDC_SC_PERCENTAGE_SLIDER, TBM_GETPOS, 0, 0));
 				(NppParameters::getInstance()).SetTransparent(_hSelf, percent);
@@ -523,7 +523,7 @@ intptr_t CALLBACK WordStyleDlg::run_dlgProc(UINT Message, WPARAM wParam, LPARAM 
 
 							case CPN_COLOURPICKED:
 							{
-								if (reinterpret_cast<HWND>(lParam) == _pFgColour->getHSelf())
+								if (reinterpret_cast<Upp::Ctrl*>(lParam) == _pFgColour->getHSelf())
 								{
 									updateColour(C_FOREGROUND);
 									notifyDataModified();
@@ -539,7 +539,7 @@ intptr_t CALLBACK WordStyleDlg::run_dlgProc(UINT Message, WPARAM wParam, LPARAM 
 									apply();
 									return TRUE;
 								}
-								else if (reinterpret_cast<HWND>(lParam) == _pBgColour->getHSelf())
+								else if (reinterpret_cast<Upp::Ctrl*>(lParam) == _pBgColour->getHSelf())
 								{
 									updateColour(C_BACKGROUND);
 									notifyDataModified();
@@ -576,10 +576,10 @@ intptr_t CALLBACK WordStyleDlg::run_dlgProc(UINT Message, WPARAM wParam, LPARAM 
 	return FALSE;
 }
 
-void WordStyleDlg::move2CtrlRight(int ctrlID, HWND handle2Move, int handle2MoveWidth, int handle2MoveHeight)
+void WordStyleDlg::move2CtrlRight(int ctrlID, Upp::Ctrl* handle2Move, int handle2MoveWidth, int handle2MoveHeight)
 {
 	POINT p;
-	RECT rc;
+	Rect rc;
 	::GetWindowRect(::GetDlgItem(_hSelf, ctrlID), &rc);
 
 	p.x = rc.right + NppParameters::getInstance()._dpiManager.scaleX(5);
@@ -610,7 +610,7 @@ void WordStyleDlg::loadLangListFromNppParam()
 	setStyleListFromLexer(index2Begin);
 }
 
-void WordStyleDlg::updateThemeName(const String& themeName)
+void WordStyleDlg::updateThemeName(const char* themeName)
 {
 	NppParameters& nppParam = NppParameters::getInstance();
 	NppGUI & nppGUI = (NppGUI & )nppParam.getNppGUI();
@@ -754,7 +754,7 @@ void WordStyleDlg::updateFontStyleStatus(fontStyleType whitchStyle)
 		style._fontStyle = FONTSTYLE_NONE;
 
 	int fontStyle = FONTSTYLE_UNDERLINE;
-	HWND hWnd = _hCheckUnderline;
+	Upp::Ctrl* hWnd = _hCheckUnderline;
 
 	if (whitchStyle == BOLD_STATUS)
 	{
@@ -1044,7 +1044,7 @@ void WordStyleDlg::setVisualFromStyleList()
 			isEnable = true;
 	}
 	::EnableWindow(_pFgColour->getHSelf(), isEnable);
-	InvalidateRect(_hFgColourStaticText, NULL, FALSE);
+	InvalidateRect(_hFgColourStaticText, Null, FALSE);
 
 	isEnable = false;
 	if (HIBYTE(HIWORD(style._bgColor)) != 0xFF)
@@ -1054,7 +1054,7 @@ void WordStyleDlg::setVisualFromStyleList()
 		isEnable = true;
 	}
 	::EnableWindow(_pBgColour->getHSelf(), isEnable);
-	InvalidateRect(_hBgColourStaticText, NULL, FALSE);
+	InvalidateRect(_hBgColourStaticText, Null, FALSE);
 
 	//-- font name
 	LRESULT iFontName;
@@ -1070,7 +1070,7 @@ void WordStyleDlg::setVisualFromStyleList()
 	}
 	::SendMessage(_hFontNameCombo, CB_SETCURSEL, iFontName, 0);
 	::EnableWindow(_hFontNameCombo, style._isFontEnabled);
-	InvalidateRect(_hFontNameStaticText, NULL, FALSE);
+	InvalidateRect(_hFontNameStaticText, Null, FALSE);
 
 	//-- font size
 	const size_t intStrLen = 3;
@@ -1083,7 +1083,7 @@ void WordStyleDlg::setVisualFromStyleList()
 	}
 	::SendMessage(_hFontSizeCombo, CB_SETCURSEL, iFontSize, 0);
 	::EnableWindow(_hFontSizeCombo, style._isFontEnabled);
-	InvalidateRect(_hFontSizeStaticText, NULL, FALSE);
+	InvalidateRect(_hFontSizeStaticText, Null, FALSE);
 	
 	//-- font style : bold & italic
 	if (style._fontStyle != STYLE_NOT_USED)

@@ -94,7 +94,7 @@ static BYTE ANDMask[128] =
 
 
 
-void URLCtrl::create(HWND itemHandle, const char * link, COLORREF linkColor)
+void URLCtrl::create(Upp::Ctrl* itemHandle, const char * link, COLORREF linkColor)
 {
 	// turn on notify style
     ::SetWindowLongPtr(itemHandle, GWL_STYLE, ::GetWindowLongPtr(itemHandle, GWL_STYLE) | SS_NOTIFY);
@@ -118,7 +118,7 @@ void URLCtrl::create(HWND itemHandle, const char * link, COLORREF linkColor)
 	// save hwnd
 	_hSelf = itemHandle;
 }
-void URLCtrl::create(HWND itemHandle, int cmd, HWND msgDest)
+void URLCtrl::create(Upp::Ctrl* itemHandle, int cmd, Upp::Ctrl* msgDest)
 {
 	// turn on notify style
     ::SetWindowLongPtr(itemHandle, GWL_STYLE, ::GetWindowLongPtr(itemHandle, GWL_STYLE) | SS_NOTIFY);
@@ -163,18 +163,18 @@ void URLCtrl::action()
 		// Open a browser
 		if (_URL != TEXT(""))
 		{
-			::ShellExecute(NULL, TEXT("open"), _URL.Begin(), NULL, NULL, SW_SHOWNORMAL);
+			::ShellExecute(Null, TEXT("open"), _URL.Begin(), Null, Null, SW_SHOWNORMAL);
 		}
 		else
 		{
 			char szWinText[MAX_PATH];
 			::GetWindowText(_hSelf, szWinText, MAX_PATH);
-			::ShellExecute(NULL, TEXT("open"), szWinText, NULL, NULL, SW_SHOWNORMAL);
+			::ShellExecute(Null, TEXT("open"), szWinText, Null, Null, SW_SHOWNORMAL);
 		}
 	}
 }
 
-LRESULT URLCtrl::runProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam)
+LRESULT URLCtrl::runProc(Upp::Ctrl* hwnd, UINT Message, WPARAM wParam, LPARAM lParam)
 {
     switch(Message)
     {
@@ -195,7 +195,7 @@ LRESULT URLCtrl::runProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam)
 		    if (dwStyle & SS_RIGHT)		 dwDTStyle |= DT_RIGHT;
 		    if (dwStyle & SS_CENTERIMAGE) dwDTStyle |= DT_VCENTER;
 
-	        RECT		rect;
+	        Rect		rect;
             ::GetClientRect(hwnd, &rect);
 
             PAINTSTRUCT ps;

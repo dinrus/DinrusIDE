@@ -15,7 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
-#include <windows.h>
+//#include <windows.h>
 #include "FindReplaceDlg_rc.h"
 
 IDD_FIND_REPLACE_DLG DIALOGEX 36, 44, 382, 200

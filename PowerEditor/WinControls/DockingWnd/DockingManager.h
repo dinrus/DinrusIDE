@@ -17,8 +17,8 @@
 #pragma once
 
 #include <vector>
-#include <windows.h>
-#include <commctrl.h>
+//#include <windows.h>
+//#include <commctrl.h>
 #include <PowerEditor/WinControls/Window.h>
 #include "DockingCont.h"
 #include <PowerEditor/WinControls/SplitterContainer/SplitterContainer.h>
@@ -34,8 +34,8 @@ public :
     DockingManager();
     ~DockingManager();
 
-    void init(HINSTANCE hInst, HWND hWnd, Window ** ppWin);
-    virtual void reSizeTo(RECT & rc);
+    void init(HINSTANCE hInst, Upp::Ctrl* hWnd, Window ** ppWin);
+    virtual void reSizeTo(Rect & rc);
 
     void setClientWnd(Window ** ppWin) {
         _ppWindow = ppWin;
@@ -44,14 +44,14 @@ public :
 
     void showFloatingContainers(bool show);
 
-    void updateContainerInfo(HWND hClient);
+    void updateContainerInfo(Upp::Ctrl* hClient);
     void createDockableDlg(tTbData data, int iCont = CONT_LEFT, bool isVisible = false);
     void setActiveTab(int iCont, int iItem);
-    void showDockableDlg(HWND hDlg, BOOL view);
+    void showDockableDlg(Upp::Ctrl* hDlg, BOOL view);
     void showDockableDlg(char* pszName, BOOL view);
 
-    DockingCont* toggleActiveTb(DockingCont* pContSrc, UINT message, BOOL bNew = FALSE, LPRECT rcFloat = NULL);
-    DockingCont* toggleVisTb(DockingCont* pContSrc, UINT message, LPRECT rcFloat = NULL);
+    DockingCont* toggleActiveTb(DockingCont* pContSrc, UINT message, BOOL bNew = FALSE, LPRECT rcFloat = Null);
+    DockingCont* toggleVisTb(DockingCont* pContSrc, UINT message, LPRECT rcFloat = Null);
     void         toggleActiveTb(DockingCont* pContSrc, DockingCont* pContTgt);
     void         toggleVisTb(DockingCont* pContSrc, DockingCont* pContTgt);
 
@@ -85,10 +85,10 @@ public :
 
 private :
     Window                      **_ppWindow = nullptr;
-    RECT                        _rcWork = {};
-    RECT                        _rect = {};
+    Rect                        _rcWork = {};
+    Rect                        _rect = {};
     Window                      **_ppMainWindow = nullptr;
-    std::vector<HWND>           _vImageList;
+    std::vector<Upp::Ctrl*>           _vImageList;
     HIMAGELIST                  _hImageList = nullptr;
     std::vector<DockingCont*>   _vContainer;
     tDockMgr                    _dockData;
@@ -98,15 +98,15 @@ private :
     std::vector<DockingSplitter*>   _vSplitter;
 
 
-    static LRESULT CALLBACK staticWinProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
-    LRESULT runProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
+    static LRESULT CALLBACK staticWinProc(Upp::Ctrl* hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
+    LRESULT runProc(Upp::Ctrl* hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
 
     void    toggleTb(DockingCont* pContSrc, DockingCont* pContTgt, tTbData TbData);
 
     // test if container exists
     BOOL ContExists(size_t iCont);
     int  FindEmptyContainer();
-    LRESULT SendNotify(HWND hWnd, UINT message);
+    LRESULT SendNotify(Upp::Ctrl* hWnd, UINT message);
 
 
 };

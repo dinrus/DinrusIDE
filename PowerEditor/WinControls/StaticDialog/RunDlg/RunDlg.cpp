@@ -103,7 +103,7 @@ int whichVar(char *str)
 }
 
 // Since I'm sure the length will be 256, I won't check the lstrlen : watch out!
-void expandNppEnvironmentStrs(const char *strSrc, char *stringDest, size_t strDestLen, HWND hWnd)
+void expandNppEnvironmentStrs(const char *strSrc, char *stringDest, size_t strDestLen, Upp::Ctrl* hWnd)
 {
 	size_t j = 0;
 	for (int i = 0, len = lstrlen(strSrc); i < len; ++i)
@@ -180,12 +180,12 @@ void expandNppEnvironmentStrs(const char *strSrc, char *stringDest, size_t strDe
 	stringDest[j] = '\0';
 }
 
-HINSTANCE Command::run(HWND hWnd)
+HINSTANCE Command::run(Upp::Ctrl* hWnd)
 {
 	return run(hWnd, TEXT("."));
 }
 
-HINSTANCE Command::run(HWND hWnd, const char* cwd)
+HINSTANCE Command::run(Upp::Ctrl* hWnd, const char* cwd)
 {
 	const int argsIntermediateLen = MAX_PATH*2;
 	const int args2ExecLen = CURRENTWORD_MAXLENGTH+MAX_PATH*2;
@@ -284,7 +284,7 @@ intptr_t CALLBACK RunDlg::run_dlgProc(UINT message, WPARAM wParam, LPARAM lParam
 		{
 			if (NppDarkMode::isEnabled())
 			{
-				RECT rc = {};
+				Rect rc = {};
 				getClientRect(rc);
 				::FillRect(reinterpret_cast<HDC>(wParam), &rc, NppDarkMode::getDarkerBackgroundBrush());
 				return TRUE;
@@ -339,8 +339,8 @@ intptr_t CALLBACK RunDlg::run_dlgProc(UINT message, WPARAM wParam, LPARAM lParam
 
 					if (uc.doDialog() != -1)
 					{
-						HMENU mainMenu = reinterpret_cast<HMENU>(::SendMessage(_hParent, NPPM_INTERNAL_GETMENU, 0, 0));
-						HMENU hRunMenu = ::GetSubMenu(mainMenu, MENUINDEX_RUN);
+						Menu* mainMenu = reinterpret_cast<Menu*>(::SendMessage(_hParent, NPPM_INTERNAL_GETMENU, 0, 0));
+						Menu* hRunMenu = ::GetSubMenu(mainMenu, MENUINDEX_RUN);
 						int const posBase = 2;
 						
 						if (nbCmd == 0)
@@ -400,7 +400,7 @@ intptr_t CALLBACK RunDlg::run_dlgProc(UINT message, WPARAM wParam, LPARAM lParam
 
 void RunDlg::addTextToCombo(const char *txt2Add) const
 {
-	HWND handle = ::GetDlgItem(_hSelf, IDC_COMBO_RUN_PATH);
+	Upp::Ctrl* handle = ::GetDlgItem(_hSelf, IDC_COMBO_RUN_PATH);
 	auto i = ::SendMessage(handle, CB_FINDSTRINGEXACT, static_cast<WPARAM>(-1), reinterpret_cast<LPARAM>(txt2Add));
 	if (i == CB_ERR)
 		i = ::SendMessage(handle, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(txt2Add));
@@ -408,7 +408,7 @@ void RunDlg::addTextToCombo(const char *txt2Add) const
 }
 void RunDlg::removeTextFromCombo(const char *txt2Remove) const
 {
-	HWND handle = ::GetDlgItem(_hSelf, IDC_COMBO_RUN_PATH);
+	Upp::Ctrl* handle = ::GetDlgItem(_hSelf, IDC_COMBO_RUN_PATH);
 	auto i = ::SendMessage(handle, CB_FINDSTRINGEXACT, static_cast<WPARAM>(-1), reinterpret_cast<LPARAM>(txt2Remove));
 	if (i == CB_ERR)
 		return;

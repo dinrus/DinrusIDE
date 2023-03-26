@@ -17,7 +17,7 @@
 
 #pragma once
 
-#include <windows.h>
+//#include <windows.h>
 
 #define ADD     NIM_ADD
 #define REMOVE  NIM_DELETE
@@ -29,7 +29,7 @@
 class trayIconControler
 {
 public:
-  trayIconControler(HWND hwnd, UINT uID, UINT uCBMsg, HICON hicon, const char *tip);
+  trayIconControler(Upp::Ctrl* hwnd, UINT uID, UINT uCBMsg, HICON hicon, const char *tip);
   int doTrayIcon(DWORD op);
   bool isInTray() const {return _isIconShowed;};
 

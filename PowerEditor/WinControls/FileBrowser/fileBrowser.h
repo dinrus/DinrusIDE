@@ -65,11 +65,11 @@ friend class FolderUpdater;
 public:
 	FolderInfo() = delete; // constructor by default is forbidden
 	FolderInfo(const String & name, FolderInfo *parent) : _name(name), _parent(parent) {};
-	void setRootPath(const String& rootPath) { _rootPath = rootPath; };
+	void setRootPath(const char* rootPath) { _rootPath = rootPath; };
 	String getRootPath() const { return _rootPath; };
-	void setName(const String& name) { _name = name; };
+	void setName(const char* name) { _name = name; };
 	String getName() const { return _name; };
-	void addFile(const String& fn) { _files.push_back(FileInfo(fn, this)); };
+	void addFile(const char* fn) { _files.push_back(FileInfo(fn, this)); };
 	void addSubFolder(FolderInfo subDirectoryStructure) { _subFolders.push_back(subDirectoryStructure); };
 
 	bool addToStructure(String & fullpath, Upp::Vector<String> linarPathArray);
@@ -120,7 +120,7 @@ class FileBrowser : public DockingDlgInterface {
 public:
 	FileBrowser(): DockingDlgInterface(IDD_FILEBROWSER) {};
 	~FileBrowser();
-	void init(HINSTANCE hInst, HWND hPere) {
+	void init(HINSTANCE hInst, Upp::Ctrl* hPere) {
 		DockingDlgInterface::init(hInst, hPere);
 	}
 
@@ -128,7 +128,7 @@ public:
         DockingDlgInterface::display(toShow);
     };
 
-    void setParent(HWND parent2set){
+    void setParent(Upp::Ctrl* parent2set){
         _hParent = parent2set;
     };
 
@@ -145,31 +145,31 @@ public:
 	void addRootFolder(String rootFolderPath);
 
 	HTREEITEM getRootFromFullPath(const String & rootPath) const;
-	HTREEITEM findChildNodeFromName(HTREEITEM parent, const String& label) const;
+	HTREEITEM findChildNodeFromName(HTREEITEM parent, const char* label) const;
 
-	HTREEITEM findInTree(const String& rootPath, HTREEITEM node, Upp::Vector<String> linarPathArray) const;
+	HTREEITEM findInTree(const char* rootPath, HTREEITEM node, Upp::Vector<String> linarPathArray) const;
 
 	void deleteAllFromTree() {
 		popupMenuCmd(IDM_FILEBROWSER_REMOVEALLROOTS);
 	};
 
-	bool renameInTree(const String& rootPath, HTREEITEM node, const Upp::Vector<String>& linarPathArrayFrom, const String & renameTo);
+	bool renameInTree(const char* rootPath, HTREEITEM node, const Upp::Vector<String>& linarPathArrayFrom, const String & renameTo);
 
 	Upp::Vector<String> getRoots() const;
 	String getSelectedItemPath() const;
 
-	bool selectItemFromPath(const String& itemPath) const;
+	bool selectItemFromPath(const char* itemPath) const;
 
 protected:
-	HWND _hToolbarMenu = nullptr;
+	Upp::Ctrl* _hToolbarMenu = nullptr;
 
 	TreeView _treeView;
 	HIMAGELIST _hImaLst = nullptr;
 
-	HMENU _hGlobalMenu = NULL;
-	HMENU _hRootMenu = NULL;
-	HMENU _hFolderMenu = NULL;
-	HMENU _hFileMenu = NULL;
+	Menu* _hGlobalMenu = Null;
+	Menu* _hRootMenu = Null;
+	Menu* _hFolderMenu = Null;
+	Menu* _hFileMenu = Null;
 	std::vector<FolderUpdater *> _folderUpdaters;
 
 	String _selectedNodeFullPath; // this member is used only for PostMessage call

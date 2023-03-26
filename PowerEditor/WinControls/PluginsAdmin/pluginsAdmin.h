@@ -57,7 +57,7 @@ struct PluginUpdateInfo
 
 	String describe();
 	PluginUpdateInfo() = default;
-	PluginUpdateInfo(const String& fullFilePath, const String& fileName);
+	PluginUpdateInfo(const char* fullFilePath, const char* fileName);
 };
 
 struct NppCurrentStatus
@@ -105,25 +105,25 @@ public:
 	};
 
 	void pushBack(PluginUpdateInfo* pi);
-	HWND getViewHwnd() { return _ui.getHSelf(); };
+	Upp::Ctrl* getViewHwnd() { return _ui.getHSelf(); };
 	void displayView(bool doShow) const { _ui.display(doShow); };
 	std::vector<size_t> getCheckedIndexes() const { return _ui.getCheckedIndexes(); };
 	std::vector<PluginUpdateInfo*> fromUiIndexesToPluginInfos(const std::vector<size_t>& ) const;
 	long getSelectedIndex() const { return _ui.getSelectedIndex(); };
 	void setSelection(int index) const { _ui.setSelection(index); };
-	void initView(HINSTANCE hInst, HWND parent) { _ui.init(hInst, parent); };
+	void initView(HINSTANCE hInst, Upp::Ctrl* parent) { _ui.init(hInst, parent); };
 	void addColumn(const columnInfo & column2Add) { _ui.addColumn(column2Add); };
-	void reSizeView(RECT & rc) { _ui.reSizeTo(rc); }
+	void reSizeView(Rect & rc) { _ui.reSizeTo(rc); }
 	void setViewStyleOption(int32_t extraStyle) { _ui.setStyleOption(extraStyle); };
 	size_t nbItem() const { return _ui.nbItem(); };
 	PluginUpdateInfo* getPluginInfoFromUiIndex(size_t index) const { return reinterpret_cast<PluginUpdateInfo*>(_ui.getLParamFromIndex(static_cast<int>(index))); };
-	PluginUpdateInfo* findPluginInfoFromFolderName(const String& folderName, int& index) const;
+	PluginUpdateInfo* findPluginInfoFromFolderName(const char* folderName, int& index) const;
 	bool removeFromListIndex(size_t index2remove);
 	bool hideFromListIndex(size_t index2Hide);
-	bool removeFromFolderName(const String& folderName);
+	bool removeFromFolderName(const char* folderName);
 	bool removeFromUiIndex(size_t index2remove);
 	bool hideFromPluginInfoPtr(PluginUpdateInfo* pluginInfo2hide);
-	bool restore(const String& folderName);
+	bool restore(const char* folderName);
 	bool removeFromPluginInfoPtr(PluginUpdateInfo* pluginInfo2hide);
 	void changeColumnName(COLUMN_TYPE index, const char *name2change);
 
@@ -143,7 +143,7 @@ public :
 	PluginsAdminDlg();
 	~PluginsAdminDlg() = default;
 
-    void init(HINSTANCE hInst, HWND parent)	{
+    void init(HINSTANCE hInst, Upp::Ctrl* parent)	{
         Window::init(hInst, parent);
 	};
 
@@ -202,13 +202,13 @@ private :
 	bool searchInPlugins(bool isNextMode) const;
 	const bool _inNames = true;
 	const bool _inDescs = false;
-	bool isFoundInAvailableListFromIndex(int index, const String& str2search, bool inWhichPart) const;
-	long searchFromCurrentSel(const String& str2search, bool inWhichPart, bool isNextMode) const;
-	long searchInNamesFromCurrentSel(const String& str2search, bool isNextMode) const {
+	bool isFoundInAvailableListFromIndex(int index, const char* str2search, bool inWhichPart) const;
+	long searchFromCurrentSel(const char* str2search, bool inWhichPart, bool isNextMode) const;
+	long searchInNamesFromCurrentSel(const char* str2search, bool isNextMode) const {
 		return searchFromCurrentSel(str2search, _inNames, isNextMode);
 	};
 
-	long searchInDescsFromCurrentSel(const String& str2search, bool isNextMode) const {
+	long searchInDescsFromCurrentSel(const char* str2search, bool isNextMode) const {
 		return searchFromCurrentSel(str2search, _inDescs, isNextMode);
 	};
 	

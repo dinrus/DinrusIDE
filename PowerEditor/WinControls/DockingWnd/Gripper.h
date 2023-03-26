@@ -17,8 +17,8 @@
 
 #pragma once
 
-#include <windows.h>
-#include <commctrl.h>
+//#include <windows.h>
+//#include <commctrl.h>
 #include <PowerEditor/MISC/Common/Common.h>
 #include "Docking.h"
 #include "dockingResource.h"
@@ -45,7 +45,7 @@ class Gripper final
 public:
     Gripper() = default;;
 
-    void init(HINSTANCE hInst, HWND hParent) {
+    void init(HINSTANCE hInst, Upp::Ctrl* hParent) {
         _hInst   = hInst;
         _hParent = hParent;
         DWORD hwndExStyle = (DWORD)GetWindowLongPtr(_hParent, GWL_EXSTYLE);
@@ -59,7 +59,7 @@ public:
             // usually this should already have been done by a call to drawRectangle(),
             // here just for cases where usual handling was interrupted (jg)
             #ifdef USE_LOCKWINDOWUPDATE
-            ::LockWindowUpdate(NULL);
+            ::LockWindowUpdate(Null);
             #endif
             ::ReleaseDC(0, _hdc);
         }
@@ -75,7 +75,7 @@ protected :
 
     void create();
 
-    static LRESULT CALLBACK staticWinProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
+    static LRESULT CALLBACK staticWinProc(Upp::Ctrl* hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
     LRESULT runProc(UINT Message, WPARAM wParam, LPARAM lParam);
 
     void onMove();
@@ -84,25 +84,25 @@ protected :
     void doTabReordering(POINT pt);
     void drawRectangle(const POINT* pPt);
     void getMousePoints(POINT* pt, POINT* ptPrev);
-    void getMovingRect(POINT pt, RECT *rc);
+    void getMovingRect(POINT pt, Rect *rc);
     DockingCont * contHitTest(POINT pt);
-    DockingCont * workHitTest(POINT pt, RECT *rcCont = NULL);
+    DockingCont * workHitTest(POINT pt, Rect *rcCont = Null);
 
     void initTabInformation();
 
-    void CalcRectToScreen(HWND hWnd, RECT *rc) {
+    void CalcRectToScreen(Upp::Ctrl* hWnd, Rect *rc) {
         ClientRectToScreenRect(hWnd, rc);
         ShrinkRcToSize(rc);
     };
-    void CalcRectToClient(HWND hWnd, RECT *rc) {
+    void CalcRectToClient(Upp::Ctrl* hWnd, Rect *rc) {
         ScreenRectToClientRect(hWnd, rc);
         ShrinkRcToSize(rc);
     };
-    void ShrinkRcToSize(RECT *rc) {
+    void ShrinkRcToSize(Rect *rc) {
         _isRTL ? rc->right = rc->left - rc->right : rc->right -= rc->left;
         rc->bottom -= rc->top;
     };
-    void DoCalcGripperRect(RECT* rc, RECT rcCorr, POINT pt) {
+    void DoCalcGripperRect(Rect* rc, Rect rcCorr, POINT pt) {
         if ((rc->left + rc->right) < pt.x)
             rc->left = pt.x - 20;
         if ((rc->top + rc->bottom) < pt.y)
@@ -112,8 +112,8 @@ protected :
 private:
     // Handle
     HINSTANCE _hInst = nullptr;
-    HWND _hParent = nullptr;
-    HWND _hSelf = nullptr;
+    Upp::Ctrl* _hParent = nullptr;
+    Upp::Ctrl* _hSelf = nullptr;
 
     // data of container
     tDockMgr _dockData;
@@ -128,14 +128,14 @@ private:
     BOOL _bPtOldValid = FALSE;
 
     // remember last drawn rectangle (jg)
-    RECT _rcPrev = {};
+    Rect _rcPrev = {};
 
     // for sorting tabs
-    HWND _hTab = nullptr;
-    HWND _hTabSource = nullptr;
+    Upp::Ctrl* _hTab = nullptr;
+    Upp::Ctrl* _hTabSource = nullptr;
     BOOL _startMovingFromTab = FALSE;
     int _iItem = 0;
-    RECT _rcItem = {};
+    Rect _rcItem = {};
     TCITEM _tcItem;
 
     HDC _hdc = nullptr;

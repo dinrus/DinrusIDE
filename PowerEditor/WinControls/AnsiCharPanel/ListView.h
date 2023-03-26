@@ -20,7 +20,7 @@
 #include <PowerEditor/WinControls/Window.h>
 #include <PowerEditor/MISC/Common/Common.h>
 
-#include <commctrl.h>
+//#include <commctrl.h>
 
 struct columnInfo {
 	size_t _width;
@@ -56,7 +56,7 @@ public:
 		_extraStyle = extraStyle;
 	};
 
-	size_t findAlphabeticalOrderPos(const String& string2search, SortDirection sortDir);
+	size_t findAlphabeticalOrderPos(const char* string2search, SortDirection sortDir);
 
 	void addLine(const Upp::Vector<Upp::String> & values2Add, LPARAM lParam = 0, int pos2insert = -1);
 	
@@ -85,7 +85,7 @@ public:
 
 	std::vector<size_t> getCheckedIndexes() const;
 
-	virtual void init(HINSTANCE hInst, HWND hwnd);
+	virtual void init(HINSTANCE hInst, Upp::Ctrl* hwnd);
 	virtual void destroy();
 
 
@@ -94,9 +94,9 @@ protected:
 	int32_t _extraStyle = 0;
 	std::vector<columnInfo> _columnInfos;
 
-	LRESULT runProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
+	LRESULT runProc(Upp::Ctrl* hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
 
-	static LRESULT CALLBACK staticProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam) {
+	static LRESULT CALLBACK staticProc(Upp::Ctrl* hwnd, UINT Message, WPARAM wParam, LPARAM lParam) {
 		return (((ListView *)(::GetWindowLongPtr(hwnd, GWLP_USERDATA)))->runProc(hwnd, Message, wParam, lParam));
 	};
 };

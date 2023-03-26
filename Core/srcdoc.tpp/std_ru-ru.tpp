@@ -1,5 +1,4 @@
-topic "NTL and standard library";
-[2 $$0,0#00000000000000000000000000000000:Default]
+topic "NTL и стандартная библиотека";
 [l288;i704;a17;O9;~~~.992;2 $$1,0#10431211400427159095818037425705:param]
 [a83;*R6 $$2,5#31310162474203024125188417583966:caption]
 [b83;*2 $$3,5#07864147445237544204411237157677:title]
@@ -18,8 +17,9 @@ topic "NTL and standard library";
 [l321;*C$7;2 $$16,16#03451589433145915344929335295360:result]
 [l321;b83;a83;*C$7;2 $$17,17#07531550463529505371228428965313:result`-line]
 [l160;*C+117 $$18,5#88603949442205825958800053222425:package`-title]
+[2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%RU-RU 
-[s2; NTL and standard library&]
+[s2; [@5 NTL и стандартная библиотека]&]
 [s5; While NTL is kind of `"alien technology`" with respect to C`+`+ 
 standard library, in fact it is largely inter`-operable with 
 it.&]

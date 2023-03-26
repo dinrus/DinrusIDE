@@ -120,7 +120,7 @@ void ToolBar::initTheme(TiXmlDocument *toolIconsDocRoot)
 	}
 }
 
-bool ToolBar::init( HINSTANCE hInst, HWND hPere, toolBarStatusType type, ToolBarButtonUnit *buttonUnitArray, int arraySize)
+bool ToolBar::init( HINSTANCE hInst, Upp::Ctrl* hPere, toolBarStatusType type, ToolBarButtonUnit *buttonUnitArray, int arraySize)
 {
 	Window::init(hInst, hPere);
 	
@@ -201,17 +201,17 @@ void ToolBar::destroy()
 	if (_pRebar)
 	{
 		_pRebar->removeBand(_rbBand.wID);
-		_pRebar = NULL;
+		_pRebar = Null;
 	}
 	delete [] _pTBB;
 	::DestroyWindow(_hSelf);
-	_hSelf = NULL;
+	_hSelf = Null;
 	_toolBarIcons.destroy();
 };
 
 int ToolBar::getWidth() const
 {
-	RECT btnRect;
+	Rect btnRect;
 	int totalWidth = 0;
 	for (size_t i = 0; i < _nbCurrentButtons; ++i)
 	{
@@ -286,7 +286,7 @@ void ToolBar::reset(bool create)
 			_pTBB[i].fsState = tempBtn.fsState;
 		}
 		::DestroyWindow(_hSelf);
-		_hSelf = NULL;
+		_hSelf = Null;
 	}
 
 	if (!_hSelf)
@@ -305,7 +305,7 @@ void ToolBar::reset(bool create)
 			0, 0,
 			0, 0,
 			_hParent,
-			NULL,
+			Null,
 			_hInst,
 			0);
 
@@ -419,7 +419,7 @@ void ToolBar::reset(bool create)
 void ToolBar::registerDynBtn(UINT messageID, toolbarIcons* iconHandles, HICON absentIco)
 {
 	// Note: Register of buttons only possible before init!
-	if ((_hSelf == NULL) && (messageID != 0) && (iconHandles->hToolbarBmp != NULL))
+	if ((_hSelf == Null) && (messageID != 0) && (iconHandles->hToolbarBmp != Null))
 	{
 		DynamicCmdIcoBmp dynList;
 		dynList._message = messageID;
@@ -439,7 +439,7 @@ void ToolBar::registerDynBtn(UINT messageID, toolbarIcons* iconHandles, HICON ab
 			}
 			else
 			{
-				HBITMAP hbmMask = ::CreateCompatibleBitmap(::GetDC(NULL), bmp.bmWidth, bmp.bmHeight);
+				HBITMAP hbmMask = ::CreateCompatibleBitmap(::GetDC(Null), bmp.bmWidth, bmp.bmHeight);
 
 				ICONINFO iconinfoDest = {};
 				iconinfoDest.fIcon = TRUE;
@@ -460,8 +460,8 @@ void ToolBar::registerDynBtn(UINT messageID, toolbarIcons* iconHandles, HICON ab
 void ToolBar::registerDynBtnDM(UINT messageID, toolbarIconsWithDarkMode* iconHandles)
 {
 	// Note: Register of buttons only possible before init!
-	if ((_hSelf == NULL) && (messageID != 0) && (iconHandles->hToolbarBmp != NULL) && 
-		(iconHandles->hToolbarIcon != NULL) && (iconHandles->hToolbarIconDarkMode != NULL))
+	if ((_hSelf == Null) && (messageID != 0) && (iconHandles->hToolbarBmp != Null) && 
+		(iconHandles->hToolbarIcon != Null) && (iconHandles->hToolbarIconDarkMode != Null))
 	{
 		DynamicCmdIcoBmp dynList;
 		dynList._message = messageID;
@@ -478,7 +478,7 @@ void ToolBar::doPopop(POINT chevPoint)
 	int width = Window::getWidth();
 
 	size_t start = 0;
-	RECT btnRect = {0,0,0,0};
+	Rect btnRect = {0,0,0,0};
 	while (start < _nbCurrentButtons)
 	{
 		::SendMessage(_hSelf, TB_GETITEMRECT, start, reinterpret_cast<LPARAM>(&btnRect));
@@ -489,7 +489,7 @@ void ToolBar::doPopop(POINT chevPoint)
 
 	if (start < _nbCurrentButtons)
 	{	//some buttons are hidden
-		HMENU menu = ::CreatePopupMenu();
+		Menu* menu = ::CreatePopupMenu();
 		String text;
 		while (start < _nbCurrentButtons)
 		{
@@ -506,7 +506,7 @@ void ToolBar::doPopop(POINT chevPoint)
 			
 			++start;
 		}
-		TrackPopupMenu(menu, 0, chevPoint.x, chevPoint.y, 0, _hSelf, NULL);
+		TrackPopupMenu(menu, 0, chevPoint.x, chevPoint.y, 0, _hSelf, Null);
 	}
 }
 
@@ -538,7 +538,7 @@ void ToolBar::addToRebar(ReBar * rebar)
 constexpr UINT_PTR g_rebarSubclassID = 42;
 
 LRESULT CALLBACK RebarSubclass(
-	HWND hWnd,
+	Upp::Ctrl* hWnd,
 	UINT uMsg,
 	WPARAM wParam,
 	LPARAM lParam,
@@ -554,7 +554,7 @@ LRESULT CALLBACK RebarSubclass(
 		case WM_ERASEBKGND:
 			if (NppDarkMode::isEnabled())
 			{
-				RECT rc;
+				Rect rc;
 				GetClientRect(hWnd, &rc);
 				FillRect((HDC)wParam, &rc, NppDarkMode::getDarkerBackgroundBrush());
 				return TRUE;
@@ -571,14 +571,14 @@ LRESULT CALLBACK RebarSubclass(
 	return DefSubclassProc(hWnd, uMsg, wParam, lParam);
 }
 
-void ReBar::init(HINSTANCE hInst, HWND hPere)
+void ReBar::init(HINSTANCE hInst, Upp::Ctrl* hPere)
 {
 	Window::init(hInst, hPere);
 	_hSelf = CreateWindowEx(WS_EX_TOOLWINDOW,
 							REBARCLASSNAME,
-							NULL,
+							Null,
 							WS_CHILD|WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | RBS_VARHEIGHT | CCS_NODIVIDER | CCS_NOPARENTALIGN,
-							0,0,0,0, _hParent, NULL, _hInst, NULL);
+							0,0,0,0, _hParent, Null, _hInst, Null);
 
 	SetWindowSubclass(_hSelf, RebarSubclass, g_rebarSubclassID, 0);
 
@@ -586,7 +586,7 @@ void ReBar::init(HINSTANCE hInst, HWND hPere)
 	ZeroMemory(&rbi, sizeof(REBARINFO));
 	rbi.cbSize = sizeof(REBARINFO);
 	rbi.fMask  = 0;
-	rbi.himl   = (HIMAGELIST)NULL;
+	rbi.himl   = (HIMAGELIST)Null;
 	::SendMessage(_hSelf, RB_SETBARINFO, 0, reinterpret_cast<LPARAM>(&rbi));
 }
 
@@ -672,7 +672,7 @@ void ReBar::setGrayBackground(int id)
 	ZeroMemory(&rbBand, REBARBAND_SIZE);
 	rbBand.cbSize  = REBARBAND_SIZE;
 	rbBand.fMask = RBBIM_BACKGROUND;
-	rbBand.hbmBack = LoadBitmap((HINSTANCE)::GetModuleHandle(NULL), MAKEINTRESOURCE(IDB_INCREMENTAL_BG));
+	rbBand.hbmBack = LoadBitmap((HINSTANCE)::GetModuleHandle(Null), MAKEINTRESOURCE(IDB_INCREMENTAL_BG));
 	::SendMessage(_hSelf, RB_SETBANDINFO, index, reinterpret_cast<LPARAM>(&rbBand));
 }
 

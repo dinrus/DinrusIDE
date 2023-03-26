@@ -35,7 +35,7 @@ public:
 	DockingDlgInterface() = default;
 	explicit DockingDlgInterface(int dlgID): _dlgID(dlgID) {}
 
-	virtual void init(HINSTANCE hInst, HWND parent) {
+	virtual void init(HINSTANCE hInst, Upp::Ctrl* parent) {
 		StaticDialog::init(hInst, parent);
 		char temp[MAX_PATH];
 		::GetModuleFileName(reinterpret_cast<HMODULE>(hInst), temp, MAX_PATH);
@@ -57,7 +57,7 @@ public:
 		data->uMask = 0;
 
 		// additional info
-		data->pszAddInfo = NULL;
+		data->pszAddInfo = Null;
 	}
 
 	virtual void updateDockingDlg() {
@@ -105,7 +105,7 @@ protected :
 					break;
 				}
 
-				RECT rc = {};
+				Rect rc = {};
 				getClientRect(rc);
 				::FillRect(reinterpret_cast<HDC>(wParam), &rc, NppDarkMode::getDarkerBackgroundBrush());
 				return TRUE;

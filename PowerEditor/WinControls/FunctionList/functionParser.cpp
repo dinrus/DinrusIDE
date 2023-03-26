@@ -30,7 +30,7 @@ FunctionParsersManager::~FunctionParsersManager()
 	}
 }
 
-bool FunctionParsersManager::init(const String& xmlDirPath, const String& xmlInstalledPath, ScintillaEditView ** ppEditView)
+bool FunctionParsersManager::init(const char* xmlDirPath, const char* xmlInstalledPath, ScintillaEditView ** ppEditView)
 {
 	_ppEditView = ppEditView;
 	_xmlDirPath = xmlDirPath;
@@ -47,10 +47,10 @@ bool FunctionParsersManager::init(const String& xmlDirPath, const String& xmlIns
 
 bool FunctionParsersManager::getZonePaserParameters(TiXmlNode *classRangeParser, String &mainExprStr, String &openSymboleStr, String &closeSymboleStr, Vector<String> &classNameExprArray, String &functionExprStr, Vector<String> &functionNameExprArray)
 {
-	const char *mainExpr = NULL;
-	const char *openSymbole = NULL;
-	const char *closeSymbole = NULL;
-	const char *functionExpr = NULL;
+	const char *mainExpr = Null;
+	const char *openSymbole = Null;
+	const char *closeSymbole = Null;
+	const char *functionExpr = Null;
 
 	mainExpr = (classRangeParser->ToElement())->Attribute(TEXT("mainExpr"));
 	if (!mainExpr || !mainExpr[0])
@@ -139,7 +139,7 @@ bool FunctionParsersManager::getUnitPaserParameters(TiXmlNode *functionParser, S
 }
 
 
-bool FunctionParsersManager::loadFuncListFromXmlTree(String & xmlDirPath, LangType lType, const String& overrideId, int udlIndex)
+bool FunctionParsersManager::loadFuncListFromXmlTree(String & xmlDirPath, LangType lType, const char* overrideId, int udlIndex)
 {
 	String funcListRulePath = xmlDirPath;
 	funcListRulePath += TEXT("\\");
@@ -308,7 +308,7 @@ FunctionParser * FunctionParsersManager::getParser(const AssociationInfo & assoI
 	else if (assoInfo._langID == L_USER && assoInfo._userDefinedLangName != TEXT(""))
 		choice = checkUserDefined;
 	else
-		return NULL;
+		return Null;
 
 	switch (choice)
 	{
@@ -439,7 +439,7 @@ void FunctionParser::funcParse(std::vector<foundInfo> & foundInfos, size_t begin
 
 		if (fi._pos != -1 || fi._pos2 != -1) // at least one should be found
 		{
-			if (commentZones != NULL)
+			if (commentZones != Null)
 			{
 				if (!isInZones(fi._pos, *commentZones) && !isInZones(fi._pos2, *commentZones))
 					foundInfos.push_back(fi);

@@ -50,14 +50,14 @@ public:
 
 class ClipboardHistoryPanel : public DockingDlgInterface {
 public:
-	ClipboardHistoryPanel(): DockingDlgInterface(IDD_CLIPBOARDHISTORY_PANEL), _ppEditView(NULL), _hwndNextCbViewer(NULL), _lbBgColor(-1), _lbFgColor(-1) {};
+	ClipboardHistoryPanel(): DockingDlgInterface(IDD_CLIPBOARDHISTORY_PANEL), _ppEditView(Null), _hwndNextCbViewer(Null), _lbBgColor(-1), _lbFgColor(-1) {};
 
-	void init(HINSTANCE hInst, HWND hPere, ScintillaEditView **ppEditView) {
+	void init(HINSTANCE hInst, Upp::Ctrl* hPere, ScintillaEditView **ppEditView) {
 		DockingDlgInterface::init(hInst, hPere);
 		_ppEditView = ppEditView;
 	};
 
-    void setParent(HWND parent2set){
+    void setParent(Upp::Ctrl* parent2set){
         _hParent = parent2set;
     };
 
@@ -80,7 +80,7 @@ protected:
 private:
 	ScintillaEditView **_ppEditView = nullptr;
 	std::vector<ClipboardData> _clipboardDataVector;
-	HWND _hwndNextCbViewer = nullptr;
+	Upp::Ctrl* _hwndNextCbViewer = nullptr;
 	int _lbBgColor = -1;
 	int _lbFgColor= -1;
 

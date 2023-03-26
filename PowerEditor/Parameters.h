@@ -313,7 +313,7 @@ struct CmdLineParamsDTO
 struct FloatingWindowInfo
 {
 	int _cont = 0;
-	RECT _pos = {};
+	Rect _pos = {};
 
 	FloatingWindowInfo(int cont, int x, int y, int w, int h)
 		: _cont(cont)
@@ -366,7 +366,7 @@ struct DockingManagerData final
 	std::vector<PluginDlgDockingInfo> _pluginDockInfo;
 	std::vector<ContainerTabInfo> _containerTabInfo;
 
-	bool getFloatingRCFrom(int floatCont, RECT& rc) const
+	bool getFloatingRCFrom(int floatCont, Rect& rc) const
 	{
 		for (size_t i = 0, fwiLen = _flaotingWindowInfo.size(); i < fwiLen; ++i)
 		{
@@ -444,7 +444,7 @@ struct StyleArray
 
 	void addStyler(int styleID, TiXmlNode *styleNode);
 
-	void addStyler(int styleID, const String& styleName) {
+	void addStyler(int styleID, const char* styleName) {
 		_styleVect.emplace_back();
 		Style& s = _styleVect.back();
 		s._styleID = styleID;
@@ -462,7 +462,7 @@ struct StyleArray
 		return nullptr;
 	};
 
-	Style* findByName(const String& name) {
+	Style* findByName(const char* name) {
 		for (size_t i = 0; i < _styleVect.size(); ++i)
 		{
 			if (_styleVect[i]._styleDesc == name)
@@ -577,7 +577,7 @@ struct LangMenuItem final
 	int	_cmdID = -1;
 	String _langName;
 
-	LangMenuItem(LangType lt, int cmdID = 0, const String& langName = TEXT("")):
+	LangMenuItem(LangType lt, int cmdID = 0, const char* langName = TEXT("")):
 	_langType(lt), _cmdID(cmdID), _langName(langName){};
 };
 
@@ -599,7 +599,7 @@ struct PrintSettings final {
 	int _footerFontStyle = 0;
 	int _footerFontSize = 0;
 
-	RECT _marge = {};
+	Rect _marge = {};
 
 	PrintSettings() {
 		_marge.left = 0; _marge.top = 0; _marge.right = 0; _marge.bottom = 0;
@@ -692,9 +692,9 @@ struct NppGUI final
 
 	bool _checkHistoryFiles = false;
 
-	RECT _appPos = {};
+	Rect _appPos = {};
 
-	RECT _findWindowPos = {};
+	Rect _findWindowPos = {};
 
 	bool _isMaximized = false;
 	bool _isMinimizedToTray = false;
@@ -895,12 +895,12 @@ struct Lang final
 
 	Lang()
 	{
-		for (int i = 0 ; i < NB_LIST ; _langKeyWordList[i] = NULL, ++i);
+		for (int i = 0 ; i < NB_LIST ; _langKeyWordList[i] = Null, ++i);
 	}
 
 	Lang(LangType langID, const char *name) : _langID(langID), _langName(name ? name : TEXT(""))
 	{
-		for (int i = 0 ; i < NB_LIST ; _langKeyWordList[i] = NULL, ++i);
+		for (int i = 0 ; i < NB_LIST ; _langKeyWordList[i] = Null, ++i);
 	}
 
 	~Lang() = default;
@@ -1142,11 +1142,11 @@ class ThemeSwitcher final
 friend class NppParameters;
 
 public:
-	void addThemeFromXml(const String& xmlFullPath) {
+	void addThemeFromXml(const char* xmlFullPath) {
 		_themeList.push_back(std::pair<String, String>(getThemeFromXmlFileName(xmlFullPath.Begin()), xmlFullPath));
 	}
 
-	void addDefaultThemeFromXml(const String& xmlFullPath) {
+	void addDefaultThemeFromXml(const char* xmlFullPath) {
 		_themeList.push_back(std::pair<String, String>(_defaultThemeLabel, xmlFullPath));
 	}
 
@@ -1183,7 +1183,7 @@ public:
 
 	String getDefaultThemeLabel() const { return _defaultThemeLabel; }
 
-	String getSavePathFrom(const String& path) const {
+	String getSavePathFrom(const char* path) const {
 		const auto iter = _themeStylerSavePath.find(path);
 		if (iter == _themeStylerSavePath.end())
 		{
@@ -1349,8 +1349,8 @@ public:
 	COLORREF getCurLineHilitingColour();
 	void setCurLineHilitingColour(COLORREF colour2Set);
 
-	void setFontList(HWND hWnd);
-	bool isInFontList(const String& fontName2Search) const;
+	void setFontList(Upp::Ctrl* hWnd);
+	bool isInFontList(const char* fontName2Search) const;
 	const Vector<String>& getFontList() const { return _fontlist; }
 
 	HFONT getDefaultUIFont();
@@ -1373,7 +1373,7 @@ public:
 	void writeNonDefaultUDL();
 	void writeNeed2SaveUDL();
 	void writeShortcuts();
-	void writeSession(const Session & session, const char *fileName = NULL);
+	void writeSession(const Session & session, const char *fileName = Null);
 	bool writeFindHistory();
 
 	bool isExistingUserLangName(const char *newName) const
@@ -1403,14 +1403,14 @@ public:
 	TiXmlDocument * getCustomizedToolIcons() const {return _pXmlToolIconsDoc;};
 
 	bool isTransparentAvailable() const {
-		return (_transparentFuncAddr != NULL);
+		return (_transparentFuncAddr != Null);
 	}
 
 	// 0 <= percent < 256
 	// if (percent == 255) then opacq
-	void SetTransparent(HWND hwnd, int percent);
+	void SetTransparent(Upp::Ctrl* hwnd, int percent);
 
-	void removeTransparent(HWND hwnd);
+	void removeTransparent(Upp::Ctrl* hwnd);
 
 	void setCmdlineParam(const CmdLineParamsDTO & cmdLineParams)
 	{
@@ -1419,8 +1419,8 @@ public:
 
 	const CmdLineParamsDTO & getCmdLineParams() const {return _cmdLineParams;};
 
-	const String& getCmdLineString() const { return _cmdLineString; }
-	void setCmdLineString(const String& str) { _cmdLineString = str; }
+	const char* getCmdLineString() const { return _cmdLineString; }
+	void setCmdLineString(const char* str) { _cmdLineString = str; }
 
 	void setFileSaveDlgFilterIndex(int ln) {_fileSaveDlgFilterIndex = ln;};
 	int getFileSaveDlgFilterIndex() const {return _fileSaveDlgFilterIndex;};
@@ -1470,7 +1470,7 @@ public:
 
 	void setWorkingDir(const char * newPath);
 
-	void setStartWithLocFileName(const String& locPath) {
+	void setStartWithLocFileName(const char* locPath) {
 		_startWithLocFileName = locPath;
 	};
 
@@ -1517,8 +1517,8 @@ public:
 		return getPluginCmdsFromXmlTree();
 	}
 
-	bool getContextMenuFromXmlTree(HMENU mainMenuHadle, HMENU pluginsMenu);
-	bool reloadContextMenuFromXmlTree(HMENU mainMenuHadle, HMENU pluginsMenu);
+	bool getContextMenuFromXmlTree(Menu* mainMenuHadle, Menu* pluginsMenu);
+	bool reloadContextMenuFromXmlTree(Menu* mainMenuHadle, Menu* pluginsMenu);
 	winVer getWinVersion() const {return _winVersion;};
 	String getWinVersionStr() const;
 	String getWinVerBitStr() const;
@@ -1545,8 +1545,8 @@ public:
 		return false;
 	}
 
-	bool importUDLFromFile(const String& sourceFile);
-	bool exportUDLToFile(size_t langIndex2export, const String& fileName2save);
+	bool importUDLFromFile(const char* sourceFile);
+	bool exportUDLToFile(size_t langIndex2export, const char* fileName2save);
 	NativeLangSpeaker* getNativeLangSpeaker() {
 		return _pNativeLangSpeaker;
 	}
@@ -1593,16 +1593,16 @@ public:
 		_currentDefaultFgColor = c;
 	}
 
-	void setCmdSettingsDir(const String& settingsDir) {
+	void setCmdSettingsDir(const char* settingsDir) {
 		_cmdSettingsDir = settingsDir;
 	};
 
-	void setTitleBarAdd(const String& titleAdd)
+	void setTitleBarAdd(const char* titleAdd)
 	{
 		_titleBarAdditional = titleAdd;
 	}
 
-	const String& getTitleBarAdd() const
+	const char* getTitleBarAdd() const
 	{
 		return _titleBarAdditional;
 	}
@@ -1770,9 +1770,9 @@ public:
 	String getWingupParams() const { return _wingupParams; };
 	String getWingupDir() const { return _wingupDir; };
 	bool shouldDoUAC() const { return _isElevationRequired; };
-	void setWingupFullPath(const String& val2set) { _wingupFullPath = val2set; };
-	void setWingupParams(const String& val2set) { _wingupParams = val2set; };
-	void setWingupDir(const String& val2set) { _wingupDir = val2set; };
+	void setWingupFullPath(const char* val2set) { _wingupFullPath = val2set; };
+	void setWingupParams(const char* val2set) { _wingupParams = val2set; };
+	void setWingupDir(const char* val2set) { _wingupDir = val2set; };
 	void setElevationRequired(bool val2set) { _isElevationRequired = val2set; };
 
 	bool doNppLogNetworkDriveIssue() { return _doNppLogNetworkDriveIssue; };
@@ -1832,8 +1832,8 @@ private:
 	void writePrintSetting(TiXmlElement *element);
 	void initMenuKeys();		//initialise menu keys and scintilla keys. Other keys are initialized on their own
 	void initScintillaKeys();	//these functions have to be called first before any modifications are loaded
-	int getCmdIdFromMenuEntryItemName(HMENU mainMenuHadle, const String& menuEntryName, const String& menuItemName); // return -1 if not found
-	int getPluginCmdIdFromMenuEntryItemName(HMENU pluginsMenu, const String& pluginName, const String& pluginCmdName); // return -1 if not found
+	int getCmdIdFromMenuEntryItemName(Menu* mainMenuHadle, const char* menuEntryName, const char* menuItemName); // return -1 if not found
+	int getPluginCmdIdFromMenuEntryItemName(Menu* pluginsMenu, const char* pluginName, const char* pluginCmdName); // return -1 if not found
 	winVer getWindowsVersion();
 
 };

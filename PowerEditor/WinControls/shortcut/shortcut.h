@@ -162,7 +162,7 @@ public:
 		return _menuName;
 	}
 
-	void setName(const char * menuName, const char * shortcutName = NULL);
+	void setName(const char * menuName, const char * shortcutName = Null);
 
 	void clear(){
 		_keyCombo._isCtrl = false;
@@ -353,7 +353,7 @@ public:
 			::DestroyAcceleratorTable(_hFindAccTab);
 		delete [] _pAccelArray;
 	};
-	void init(HMENU hMenu, HWND menuParent) {
+	void init(Menu* hMenu, Upp::Ctrl* menuParent) {
 		_hAccelMenu = hMenu;
 		_hMenuParent = menuParent;
 		updateShortcuts();
@@ -366,8 +366,8 @@ public:
 	void updateFullMenu();
 
 private:
-	HMENU _hAccelMenu = nullptr;
-	HWND _hMenuParent = nullptr;
+	Menu* _hAccelMenu = nullptr;
+	Upp::Ctrl* _hMenuParent = nullptr;
 	HACCEL _hAccTable = nullptr;
 	HACCEL _hIncFindAccTab = nullptr;
 	HACCEL _hFindAccTab = nullptr;
@@ -380,13 +380,13 @@ private:
 class ScintillaAccelerator {	//Handles accelerator keys for scintilla
 public:
 	ScintillaAccelerator() = default;
-	void init(std::vector<HWND> * vScintillas, HMENU hMenu, HWND menuParent);
+	void init(std::vector<Upp::Ctrl*> * vScintillas, Menu* hMenu, Upp::Ctrl* menuParent);
 	void updateKeys();
 	size_t nbScintillas() { return _vScintillas.size(); };
 private:
-	HMENU _hAccelMenu = nullptr;
-	HWND _hMenuParent = nullptr;
-	std::vector<HWND> _vScintillas;
+	Menu* _hAccelMenu = nullptr;
+	Upp::Ctrl* _hMenuParent = nullptr;
+	std::vector<Upp::Ctrl*> _vScintillas;
 
 	void updateMenuItemByID(const ScintillaKeyMap& skm, int id);
 };

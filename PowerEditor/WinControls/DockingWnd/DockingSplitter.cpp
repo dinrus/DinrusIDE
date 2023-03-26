@@ -24,7 +24,7 @@
 BOOL DockingSplitter::_isVertReg = FALSE;
 BOOL DockingSplitter::_isHoriReg = FALSE;
 
-void DockingSplitter::init(HINSTANCE hInst, HWND hWnd, HWND hMessage, UINT flags)
+void DockingSplitter::init(HINSTANCE hInst, Upp::Ctrl* hWnd, Upp::Ctrl* hMessage, UINT flags)
 {
 	Window::init(hInst, hWnd);
 	_hMessage = hMessage;
@@ -37,13 +37,13 @@ void DockingSplitter::init(HINSTANCE hInst, HWND hWnd, HWND hMessage, UINT flags
 	if (flags & DMS_HORIZONTAL)
 	{
 		//double sided arrow pointing north-south as cursor
-		wc.hCursor			= ::LoadCursor(NULL,IDC_SIZENS);
+		wc.hCursor			= ::LoadCursor(Null,IDC_SIZENS);
 		wc.lpszClassName	= TEXT("nsdockspliter");
 	}
 	else
 	{
 		// double sided arrow pointing east-west as cursor
-		wc.hCursor			= ::LoadCursor(NULL,IDC_SIZEWE);
+		wc.hCursor			= ::LoadCursor(Null,IDC_SIZEWE);
 		wc.lpszClassName	= TEXT("wedockspliter");
 	}
 
@@ -55,9 +55,9 @@ void DockingSplitter::init(HINSTANCE hInst, HWND hWnd, HWND hMessage, UINT flags
 		wc.cbClsExtra = 0;
 		wc.cbWndExtra = 0;
 		wc.hInstance = _hInst;
-		wc.hIcon = NULL;
+		wc.hIcon = Null;
 		wc.hbrBackground = (HBRUSH)(COLOR_3DFACE+1);
-		wc.lpszMenuName = NULL;
+		wc.lpszMenuName = Null;
 
 		if (!::RegisterClass(&wc))
 		{
@@ -76,7 +76,7 @@ void DockingSplitter::init(HINSTANCE hInst, HWND hWnd, HWND hMessage, UINT flags
 	/* create splitter windows and initialize it */
 	_hSelf = ::CreateWindowEx( 0, wc.lpszClassName, TEXT(""), WS_CHILD | WS_VISIBLE,
 								CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
-								_hParent, NULL, _hInst, (LPVOID)this);
+								_hParent, Null, _hInst, (LPVOID)this);
 
 	if (!_hSelf)
 	{
@@ -86,9 +86,9 @@ void DockingSplitter::init(HINSTANCE hInst, HWND hWnd, HWND hMessage, UINT flags
 
 
 
-LRESULT CALLBACK DockingSplitter::staticWinProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK DockingSplitter::staticWinProc(Upp::Ctrl* hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	DockingSplitter *pDockingSplitter = NULL;
+	DockingSplitter *pDockingSplitter = Null;
 	switch (message)
 	{
 		case WM_NCCREATE :
@@ -106,7 +106,7 @@ LRESULT CALLBACK DockingSplitter::staticWinProc(HWND hwnd, UINT message, WPARAM 
 }
 
 
-LRESULT DockingSplitter::runProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+LRESULT DockingSplitter::runProc(Upp::Ctrl* hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch (message)
 	{
@@ -152,7 +152,7 @@ LRESULT DockingSplitter::runProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM 
 				break;
 			}
 
-			RECT rc = {};
+			Rect rc = {};
 			getClientRect(rc);
 			::FillRect(reinterpret_cast<HDC>(wParam), &rc, NppDarkMode::getBackgroundBrush());
 			return TRUE;

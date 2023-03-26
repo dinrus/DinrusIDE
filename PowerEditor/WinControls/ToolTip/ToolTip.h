@@ -17,8 +17,8 @@
 
 #pragma once
 
-#include <windows.h>
-#include <commctrl.h>
+//#include <windows.h>
+//#include <commctrl.h>
 #include "../Window.h"
 
 class ToolTip : public Window
@@ -28,18 +28,18 @@ public:
 
 	void destroy() {
 		::DestroyWindow(_hSelf);
-		_hSelf = NULL;
+		_hSelf = Null;
 	};
 
-	virtual void init(HINSTANCE hInst, HWND hParent);
-	void Show(RECT rectTitle, const char* pszTitleText, int iXOff = 0, int iWidthOff = 0);
+	virtual void init(HINSTANCE hInst, Upp::Ctrl* hParent);
+	void Show(Rect rectTitle, const char* pszTitleText, int iXOff = 0, int iWidthOff = 0);
 
 protected:
 	WNDPROC		_defaultProc = nullptr;
 	BOOL		_bTrackMouse = FALSE;
 	TOOLINFO	_ti = {};
 
-    static LRESULT CALLBACK staticWinProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam) {
+    static LRESULT CALLBACK staticWinProc(Upp::Ctrl* hwnd, UINT Message, WPARAM wParam, LPARAM lParam) {
         return (((ToolTip *)(::GetWindowLongPtr(hwnd, GWLP_USERDATA)))->runProc(Message, wParam, lParam));
     };
 	LRESULT runProc(UINT Message, WPARAM wParam, LPARAM lParam);

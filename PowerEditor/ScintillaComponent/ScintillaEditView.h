@@ -128,7 +128,7 @@ HMODULE loadSciLexerDll();
 
 char * int2str(char *str, int strLen, int number, int base, int nbChiffre, bool isZeroLeading);
 
-typedef LRESULT (WINAPI *CallWindowProcFunc) (WNDPROC,HWND,UINT,WPARAM,LPARAM);
+typedef LRESULT (WINAPI *CallWindowProcFunc) (WNDPROC,Upp::Ctrl*,UINT,WPARAM,LPARAM);
 
 const bool L2R = true;
 const bool R2L = false;
@@ -206,11 +206,11 @@ public:
     virtual void destroy()
     {
         ::DestroyWindow(_hSelf);
-        _hSelf = NULL;
-        _pScintillaFunc = NULL;
+        _hSelf = Null;
+        _pScintillaFunc = Null;
     };
 
-    virtual void init(HINSTANCE hInst, HWND hPere);
+    virtual void init(HINSTANCE hInst, Upp::Ctrl* hPere);
 
     LRESULT execute(UINT Msg, WPARAM wParam=0, LPARAM lParam=0) const {
         try {
@@ -528,7 +528,7 @@ public:
         execute(SCI_INDICATORCLEARRANGE, docStart, docEnd - docStart);
     };
 
-    bool getIndicatorRange(size_t indicatorNumber, size_t* from = NULL, size_t* to = NULL, size_t* cur = NULL);
+    bool getIndicatorRange(size_t indicatorNumber, size_t* from = Null, size_t* to = Null, size_t* cur = Null);
 
     static LanguageNameInfo _langNameInfoArray[L_EXTERNAL+1];
 
@@ -609,8 +609,8 @@ protected:
 
     static const int _markersArray[][NB_FOLDER_STATE];
 
-    static LRESULT CALLBACK scintillaStatic_Proc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
-    LRESULT scintillaNew_Proc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
+    static LRESULT CALLBACK scintillaStatic_Proc(Upp::Ctrl* hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
+    LRESULT scintillaNew_Proc(Upp::Ctrl* hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
 
     SCINTILLA_FUNC _pScintillaFunc = nullptr;
     SCINTILLA_PTR  _pScintillaPtr = nullptr;
@@ -641,7 +641,7 @@ protected:
     void setKeywords(LangType langType, const char *keywords, int index);
     void setLexer(LangType langID, int whichList);
     bool setLexerFromLangID(int langID);
-    void makeStyle(LangType langType, const char **keywordArray = NULL);
+    void makeStyle(LangType langType, const char **keywordArray = Null);
     void setStyle(Style styleToSet);            //NOT by reference  (style edited)
     void setSpecialStyle(const Style & styleToSet); //by reference
     void setSpecialIndicator(const Style & styleToSet) {
@@ -654,7 +654,7 @@ protected:
     void setJsLexer();
     void setTclLexer();
     void setObjCLexer(LangType type);
-    void setUserLexer(const char *userLangName = NULL);
+    void setUserLexer(const char *userLangName = Null);
     void setExternalLexer(LangType typeDoc);
     void setEmbeddedJSLexer();
     void setEmbeddedPhpLexer();

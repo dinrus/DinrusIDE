@@ -20,7 +20,7 @@
 #include <PowerEditor/menuCmdID.h>
 #include <PowerEditor/NppDarkMode.h>
 
-void ValueDlg::init(HINSTANCE hInst, HWND parent, int valueToSet, const char *text)
+void ValueDlg::init(HINSTANCE hInst, Upp::Ctrl* parent, int valueToSet, const char *text)
 {
 	Window::init(hInst, parent);
 	_defaultValue = valueToSet;
@@ -32,7 +32,7 @@ int ValueDlg::doDialog(POINT p, bool isRTL)
 	_p = p;
 	if (isRTL)
 	{
-		DLGTEMPLATE *pMyDlgTemplate = NULL;
+		DLGTEMPLATE *pMyDlgTemplate = Null;
 		HGLOBAL hMyDlgTemplate = makeRTLResource(IDD_VALUE_DLG, &pMyDlgTemplate);
 		int result = static_cast<int32_t>(::DialogBoxIndirectParam(_hInst, pMyDlgTemplate, _hParent, dlgProc, reinterpret_cast<LPARAM>(this)));
 		::GlobalFree(hMyDlgTemplate);
@@ -45,10 +45,10 @@ int ValueDlg::doDialog(POINT p, bool isRTL)
 int ValueDlg::reSizeValueBox()
 {
 	if (_nbNumber == DEFAULT_NB_NUMBER) return 0;
-	RECT rect;
+	Rect rect;
 	POINT p;
 
-	HWND hEdit = ::GetDlgItem(_hSelf, IDC_VALUE_EDIT);
+	Upp::Ctrl* hEdit = ::GetDlgItem(_hSelf, IDC_VALUE_EDIT);
 
 	//get screen coordonnees (x,y)
 	::GetWindowRect(hEdit, &rect);
@@ -61,7 +61,7 @@ int ValueDlg::reSizeValueBox()
 	// convert screen coordonnees to client coordonnees
 	::ScreenToClient(_hSelf, &p);
 
-	RECT rcText;
+	Rect rcText;
 	::SendMessage(hEdit, EM_GETRECT, 0, reinterpret_cast<LPARAM>(&rcText));
 	DWORD m = (DWORD)::SendMessage(hEdit, EM_GETMARGINS, 0, 0);
 	int margins = LOWORD(m) + HIWORD(m);
@@ -84,7 +84,7 @@ intptr_t CALLBACK ValueDlg::run_dlgProc(UINT Message, WPARAM wParam, LPARAM)
 			::SetDlgItemText(_hSelf, IDC_VALUE_STATIC, _name.Begin());
 			::SetDlgItemInt(_hSelf, IDC_VALUE_EDIT, _defaultValue, FALSE);
 
-			RECT rc;
+			Rect rc;
 			::GetWindowRect(_hSelf, &rc);
 			int size = reSizeValueBox();
 			::MoveWindow(_hSelf, _p.x, _p.y, rc.right - rc.left + size, rc.bottom - rc.top, TRUE);
@@ -124,7 +124,7 @@ intptr_t CALLBACK ValueDlg::run_dlgProc(UINT Message, WPARAM wParam, LPARAM)
 		{
 			if (NppDarkMode::isEnabled())
 			{
-				RECT rc = {};
+				Rect rc = {};
 				getClientRect(rc);
 				::FillRect(reinterpret_cast<HDC>(wParam), &rc, NppDarkMode::getDarkerBackgroundBrush());
 				return TRUE;
@@ -144,7 +144,7 @@ intptr_t CALLBACK ValueDlg::run_dlgProc(UINT Message, WPARAM wParam, LPARAM)
 			{
 				case IDOK :
 				{
-					int i = ::GetDlgItemInt(_hSelf, IDC_VALUE_EDIT, NULL, FALSE);
+					int i = ::GetDlgItemInt(_hSelf, IDC_VALUE_EDIT, Null, FALSE);
 					::EndDialog(_hSelf, i);
 					return TRUE;
 				}
@@ -206,7 +206,7 @@ intptr_t CALLBACK ButtonDlg::run_dlgProc(UINT Message, WPARAM wParam, LPARAM)
 		{
 			if (NppDarkMode::isEnabled())
 			{
-				RECT rc = {};
+				Rect rc = {};
 				getClientRect(rc);
 				::FillRect(reinterpret_cast<HDC>(wParam), &rc, NppDarkMode::getDarkerBackgroundBrush());
 				return TRUE;

@@ -71,7 +71,7 @@ void merge(TiXmlElement * n1, TiXmlElement * n2);
 
 int main(int argc, char *argv[])
 {
-    const char * file = NULL;
+    const char * file = Null;
 
     if (argc < 2) {
         cout << "Usage: sorter.exe xmlfile.xml" << endl;
@@ -79,7 +79,7 @@ int main(int argc, char *argv[])
     }
     file = argv[1];
 
-    TiXmlDocument *pXmlApi = NULL;
+    TiXmlDocument *pXmlApi = Null;
     pXmlApi = new TiXmlDocument(file);
     bool loadOkay = pXmlApi->LoadFile();
     if (!loadOkay) return 1;
@@ -174,7 +174,7 @@ int main(int argc, char *argv[])
 }
 
 void merge(TiXmlElement * n1, TiXmlElement * n2) {
-    const char * funcAttr = NULL;
+    const char * funcAttr = Null;
     funcAttr = n2->Attribute("func");
     if (!funcAttr || !strcmp(funcAttr, "yes")) {
         return;

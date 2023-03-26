@@ -106,13 +106,13 @@ public:
 
 	Finder() : DockingDlgInterface(IDD_FINDRESULT) {
 		_markingsStruct._length = 0;
-		_markingsStruct._markings = NULL;
+		_markingsStruct._markings = Null;
 	};
 
 	~Finder() {
 		_scintView.destroy();
 	}
-	void init(HINSTANCE hInst, HWND hPere, ScintillaEditView **ppEditView) {
+	void init(HINSTANCE hInst, Upp::Ctrl* hPere, ScintillaEditView **ppEditView) {
 		DockingDlgInterface::init(hInst, hPere);
 		_ppEditView = ppEditView;
 	};
@@ -219,7 +219,7 @@ struct FindersInfo
 class FindInFinderDlg : public StaticDialog
 {
 public:
-	void init(HINSTANCE hInst, HWND hPere) {
+	void init(HINSTANCE hInst, Upp::Ctrl* hPere) {
 		Window::init(hInst, hPere);
 	};
 	void doDialog(Finder *launcher, bool isRTL = false);
@@ -248,7 +248,7 @@ public :
 
 	~FindReplaceDlg();
 
-	void init(HINSTANCE hInst, HWND hPere, ScintillaEditView **ppEditView) {
+	void init(HINSTANCE hInst, Upp::Ctrl* hPere, ScintillaEditView **ppEditView) {
 		Window::init(hInst, hPere);
 		if (!ppEditView)
 			throw std::runtime_error("FindIncrementDlg::init : ppEditView is null.");
@@ -260,8 +260,8 @@ public :
 	void initOptionsFromDlg();
 
 	void doDialog(DIALOG_TYPE whichType, bool isRTL = false, bool toShow = true);
-	bool processFindNext(const char *txt2find, const FindOption *options = NULL, FindStatus *oFindStatus = NULL, FindNextType findNextType = FINDNEXTTYPE_FINDNEXT);
-	bool processReplace(const char *txt2find, const char *txt2replace, const FindOption *options = NULL);
+	bool processFindNext(const char *txt2find, const FindOption *options = Null, FindStatus *oFindStatus = Null, FindNextType findNextType = FINDNEXTTYPE_FINDNEXT);
+	bool processReplace(const char *txt2find, const char *txt2replace, const FindOption *options = Null);
 
 	int markAll(const char *txt2find, int styleID);
 	int markAllInc(const FindOption *opt);
@@ -340,10 +340,10 @@ public :
 		}
 	};
 
-	HWND getHFindResults() {
+	Upp::Ctrl* getHFindResults() {
 		if (_pFinder)
 			return _pFinder->_scintView.getHSelf();
-		return NULL;
+		return Null;
 	}
 
 	void updateFinderScintilla() {
@@ -353,9 +353,9 @@ public :
 		}
 	};
 
-	void execSavedCommand(int cmd, uptr_t intValue, const String& stringValue);
+	void execSavedCommand(int cmd, uptr_t intValue, const char* stringValue);
 	void clearMarks(const FindOption& opt);
-	void setStatusbarMessage(const String & msg, FindStatus staus, char const *pTooltipMsg = NULL);
+	void setStatusbarMessage(const String & msg, FindStatus staus, char const *pTooltipMsg = Null);
 	String getScopeInfoForStatusBar(FindOption const *pFindOpt) const;
 	Finder * createFinder();
 	bool removeFinder(Finder *finder2remove);
@@ -367,22 +367,22 @@ protected :
 	static LONG_PTR originalFinderProc;
 	static LONG_PTR originalComboEditProc;
 
-	static LRESULT FAR PASCAL comboEditProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
+	static LRESULT FAR PASCAL comboEditProc(Upp::Ctrl* hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 	// Window procedure for the finder
-	static LRESULT FAR PASCAL finderProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
+	static LRESULT FAR PASCAL finderProc(Upp::Ctrl* hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 
     void combo2ExtendedMode(int comboID);
 
 private :
-	RECT _initialWindowRect = {};
+	Rect _initialWindowRect = {};
 	LONG _deltaWidth = 0;
 	LONG _initialClientWidth = 0;
 
 	DIALOG_TYPE _currentStatus = DIALOG_TYPE::FIND_DLG;
-	RECT _findClosePos, _replaceClosePos, _findInFilesClosePos, _markClosePos;
-	RECT _countInSelFramePos, _replaceInSelFramePos;
-	RECT _countInSelCheckPos, _replaceInSelCheckPos;
+	Rect _findClosePos, _replaceClosePos, _findInFilesClosePos, _markClosePos;
+	Rect _countInSelFramePos, _replaceInSelFramePos;
+	Rect _countInSelCheckPos, _replaceInSelCheckPos;
 
 	ScintillaEditView **_ppEditView = nullptr;
 	Finder  *_pFinder = nullptr;
@@ -390,9 +390,9 @@ private :
 
 	std::vector<Finder*> _findersOfFinder{};
 
-	HWND _shiftTrickUpTip = nullptr;
-	HWND _2ButtonsTip = nullptr;
-	HWND _filterTip = nullptr;
+	Upp::Ctrl* _shiftTrickUpTip = nullptr;
+	Upp::Ctrl* _2ButtonsTip = nullptr;
+	Upp::Ctrl* _filterTip = nullptr;
 
 	bool _isRTL = false;
 
@@ -408,7 +408,7 @@ private :
 	FindStatus _statusbarFindStatus;
 
 	String _statusbarTooltipMsg;
-	HWND _statusbarTooltipWnd = nullptr;
+	Upp::Ctrl* _statusbarTooltipWnd = nullptr;
 	HICON _statusbarTooltipIcon = nullptr;
 	int _statusbarTooltipIconSize = 0;
 
@@ -463,7 +463,7 @@ class FindIncrementDlg : public StaticDialog
 {
 public :
 	FindIncrementDlg() = default;
-	void init(HINSTANCE hInst, HWND hPere, FindReplaceDlg *pFRDlg, bool isRTL = false);
+	void init(HINSTANCE hInst, Upp::Ctrl* hPere, FindReplaceDlg *pFRDlg, bool isRTL = false);
 	virtual void destroy();
 	virtual void display(bool toShow = true) const;
 
@@ -487,7 +487,7 @@ private :
 	REBARBANDINFO _rbBand = {};
 
 	virtual intptr_t CALLBACK run_dlgProc(UINT message, WPARAM wParam, LPARAM lParam);
-	void markSelectedTextInc(bool enable, FindOption *opt = NULL);
+	void markSelectedTextInc(bool enable, FindOption *opt = Null);
 };
 
 
@@ -501,7 +501,7 @@ public:
 	Progress(const Progress&) = delete;
 	const Progress& operator=(const Progress&) = delete;
 
-	HWND open(HWND hCallerWnd, const char* header = NULL);
+	Upp::Ctrl* open(Upp::Ctrl* hCallerWnd, const char* header = Null);
 	void close();
 
 	bool isCancelled() const
@@ -531,19 +531,19 @@ private:
 	static volatile LONG refCount;
 
 	static DWORD WINAPI threadFunc(LPVOID data);
-	static LRESULT APIENTRY wndProc(HWND hwnd, UINT umsg, WPARAM wparam, LPARAM lparam);
+	static LRESULT APIENTRY wndProc(Upp::Ctrl* hwnd, UINT umsg, WPARAM wparam, LPARAM lparam);
 
 	int thread();
 	int createProgressWindow();
 
 	HINSTANCE _hInst = nullptr;
-	volatile HWND _hwnd = nullptr;
-	HWND _hCallerWnd = nullptr;
+	volatile Upp::Ctrl* _hwnd = nullptr;
+	Upp::Ctrl* _hCallerWnd = nullptr;
 	char _header[128] = {'\0'};
 	HANDLE _hThread = nullptr;
 	HANDLE _hActiveState = nullptr;
-	HWND _hPText = nullptr;
-	HWND _hPBar = nullptr;
-	HWND _hBtn = nullptr;
+	Upp::Ctrl* _hPText = nullptr;
+	Upp::Ctrl* _hPBar = nullptr;
+	Upp::Ctrl* _hBtn = nullptr;
 };
 

@@ -127,7 +127,7 @@ void NativeLangSpeaker::init(TiXmlDocumentA *nativeLangDocRootA, bool loadIfEngl
 
 				if (!loadIfEnglish && _fileName && stricmp("english.xml", _fileName) == 0)
                 {
-					_nativeLangA = NULL;
+					_nativeLangA = Null;
 					return;
 				}
 				// get encoding
@@ -243,7 +243,7 @@ String NativeLangSpeaker::getShortcutNameString(int itemID) const
 	return TEXT("");
 }
 
-String NativeLangSpeaker::getLocalizedStrFromID(const char *strID, const String& defaultString) const
+String NativeLangSpeaker::getLocalizedStrFromID(const char *strID, const char* defaultString) const
 {
 	if (!_nativeLangA)
 		return defaultString;
@@ -281,7 +281,7 @@ MenuPosition & getMenuPosition(const char *id)
 	return menuPos[nbSubMenuPos-1];
 }
 
-void NativeLangSpeaker::changeMenuLang(HMENU menuHandle)
+void NativeLangSpeaker::changeMenuLang(Menu* menuHandle)
 {
 	if (nullptr == _nativeLangA)
 		return;
@@ -350,21 +350,21 @@ void NativeLangSpeaker::changeMenuLang(HMENU menuHandle)
 		int y = menuPos._y;
 		int z = menuPos._z;
 
-		HMENU hSubMenu = ::GetSubMenu(menuHandle, x);
+		Menu* hSubMenu = ::GetSubMenu(menuHandle, x);
 		if (!hSubMenu)
 			continue;
 
-		HMENU hSubMenu2 = ::GetSubMenu(hSubMenu, y);
+		Menu* hSubMenu2 = ::GetSubMenu(hSubMenu, y);
 		if (!hSubMenu2)
 			continue;
 
-		HMENU hMenu = hSubMenu;
+		Menu* hMenu = hSubMenu;
 		int pos = y;
 
 		//const char *zStr = element->Attribute("posZ", &z);
 		if (z != -1)
 		{
-			HMENU hSubMenu3 = ::GetSubMenu(hSubMenu2, z);
+			Menu* hSubMenu3 = ::GetSubMenu(hSubMenu2, z);
 			if (!hSubMenu3)
 				continue;
 			hMenu = hSubMenu2;
@@ -411,7 +411,7 @@ static const int tabContextMenuItemPos[] =
 };
 
 
-void NativeLangSpeaker::changeLangTabContextMenu(HMENU hCM)
+void NativeLangSpeaker::changeLangTabContextMenu(Menu* hCM)
 {
 	if (nullptr != _nativeLangA)
 	{
@@ -448,7 +448,7 @@ void NativeLangSpeaker::changeLangTabContextMenu(HMENU hCM)
 	}
 }
 
-void NativeLangSpeaker::changeLangTabDrapContextMenu(HMENU hCM)
+void NativeLangSpeaker::changeLangTabDrapContextMenu(Menu* hCM)
 {
 	const int POS_GO2VIEW = 0;
 	const int POS_CLONE2VIEW = 1;
@@ -495,7 +495,7 @@ void NativeLangSpeaker::changeLangTabDrapContextMenu(HMENU hCM)
 }
 
 
-void NativeLangSpeaker::changeConfigLang(HWND hDlg)
+void NativeLangSpeaker::changeConfigLang(Upp::Ctrl* hDlg)
 {
 	if (nullptr == _nativeLangA)
 		return;
@@ -527,7 +527,7 @@ void NativeLangSpeaker::changeConfigLang(HWND hDlg)
 		const char *name = element->Attribute("name");
 		if (sentinel && (name && name[0]))
 		{
-			HWND hItem = ::GetDlgItem(hDlg, id);
+			Upp::Ctrl* hItem = ::GetDlgItem(hDlg, id);
 			if (hItem)
 			{
 				const wchar_t *nameW = wmc.char2wchar(name, _nativeLangEncoding);
@@ -547,7 +547,7 @@ void NativeLangSpeaker::changeConfigLang(HWND hDlg)
 		const char *name = element->Attribute("name");
 		if (sentinel && (name && name[0]))
 		{
-			HWND hItem = ::GetDlgItem(hDlg, id);
+			Upp::Ctrl* hItem = ::GetDlgItem(hDlg, id);
 			if (hItem)
 			{
 				const wchar_t *nameW = wmc.char2wchar(name, _nativeLangEncoding);
@@ -558,12 +558,12 @@ void NativeLangSpeaker::changeConfigLang(HWND hDlg)
 }
 
 
-void NativeLangSpeaker::changeStyleCtrlsLang(HWND hDlg, int *idArray, const char **translatedText)
+void NativeLangSpeaker::changeStyleCtrlsLang(Upp::Ctrl* hDlg, int *idArray, const char **translatedText)
 {
 	const int iColorStyle = 0;
 	const int iUnderline = 8;
 
-	HWND hItem;
+	Upp::Ctrl* hItem;
 	for (int i = iColorStyle ; i < (iUnderline + 1) ; ++i)
 	{
 		if (translatedText[i] && translatedText[i][0])
@@ -579,7 +579,7 @@ void NativeLangSpeaker::changeStyleCtrlsLang(HWND hDlg, int *idArray, const char
 	}
 }
 
-void NativeLangSpeaker::changeUserDefineLangPopupDlg(HWND hDlg)
+void NativeLangSpeaker::changeUserDefineLangPopupDlg(Upp::Ctrl* hDlg)
 {
 	if (!_nativeLangA) return;
 
@@ -610,7 +610,7 @@ void NativeLangSpeaker::changeUserDefineLangPopupDlg(HWND hDlg)
 		const char *name = element->Attribute("name");
 		if (sentinel && (name && name[0]))
 		{
-			HWND hItem = ::GetDlgItem(hDlg, id);
+			Upp::Ctrl* hItem = ::GetDlgItem(hDlg, id);
 			if (hItem)
 			{
 				const wchar_t *nameW = wmc.char2wchar(name, _nativeLangEncoding);
@@ -631,7 +631,7 @@ void NativeLangSpeaker::changeUserDefineLang(UserDefineDialog *userDefineDlg)
 	userDefineDlgNode = userDefineDlgNode->FirstChild("UserDefine");
 	if (!userDefineDlgNode) return;
 
-	HWND hDlg = userDefineDlg->getHSelf();
+	Upp::Ctrl* hDlg = userDefineDlg->getHSelf();
 
 	WcharMbcsConvertor& wmc = WcharMbcsConvertor::getInstance();
 
@@ -646,7 +646,7 @@ void NativeLangSpeaker::changeUserDefineLang(UserDefineDialog *userDefineDlg)
 	const int nbControl = 9;
 	const char *translatedText[nbControl];
 	for (int i = 0 ; i < nbControl ; ++i)
-		translatedText[i] = NULL;
+		translatedText[i] = Null;
 
 	for (TiXmlNodeA *childNode = userDefineDlgNode->FirstChildElement("Item");
 		childNode ;
@@ -661,7 +661,7 @@ void NativeLangSpeaker::changeUserDefineLang(UserDefineDialog *userDefineDlg)
 		{
 			if (id > 30)
 			{
-				HWND hItem = ::GetDlgItem(hDlg, id);
+				Upp::Ctrl* hItem = ::GetDlgItem(hDlg, id);
 				if (hItem)
 				{
 					const wchar_t *nameW = wmc.char2wchar(name, _nativeLangEncoding);
@@ -680,7 +680,7 @@ void NativeLangSpeaker::changeUserDefineLang(UserDefineDialog *userDefineDlg)
 		}
 	}
 	const int nbDlg = 4;
-	HWND hDlgArrary[nbDlg];
+	Upp::Ctrl* hDlgArrary[nbDlg];
 	hDlgArrary[0] = userDefineDlg->getFolderHandle();
 	hDlgArrary[1] = userDefineDlg->getKeywordsHandle();
 	hDlgArrary[2] = userDefineDlg->getCommentHandle();
@@ -711,7 +711,7 @@ void NativeLangSpeaker::changeUserDefineLang(UserDefineDialog *userDefineDlg)
 				const char *name = element->Attribute("name");
 				if (sentinel && (name && name[0]))
 				{
-					HWND hItem = ::GetDlgItem(hDlgArrary[i], id);
+					Upp::Ctrl* hItem = ::GetDlgItem(hDlgArrary[i], id);
 					if (hItem)
 					{
 						const wchar_t *nameW = wmc.char2wchar(name, _nativeLangEncoding);
@@ -1087,7 +1087,7 @@ TiXmlNodeA * NativeLangSpeaker::searchDlgNode(TiXmlNodeA *node, const char *dlgT
 		dlgNode = searchDlgNode(childNode, dlgTagName);
 		if (dlgNode) return dlgNode;
 	}
-	return NULL;
+	return Null;
 }
 
 bool NativeLangSpeaker::getDoSaveOrNotStrings(String& title, String& msg)
@@ -1129,7 +1129,7 @@ bool NativeLangSpeaker::getDoSaveOrNotStrings(String& title, String& msg)
 	return false;
 }
 
-bool NativeLangSpeaker::changeDlgLang(HWND hDlg, const char *dlgTagName, char *title, size_t titleMaxSize)
+bool NativeLangSpeaker::changeDlgLang(Upp::Ctrl* hDlg, const char *dlgTagName, char *title, size_t titleMaxSize)
 {
 	if (title)
 		title[0] = '\0';
@@ -1166,7 +1166,7 @@ bool NativeLangSpeaker::changeDlgLang(HWND hDlg, const char *dlgTagName, char *t
 		const char *name = element->Attribute("name");
 		if (sentinel && (name && name[0]))
 		{
-			HWND hItem = ::GetDlgItem(hDlg, id);
+			Upp::Ctrl* hItem = ::GetDlgItem(hDlg, id);
 			if (hItem)
 			{
 				const wchar_t *nameW = wmc.char2wchar(name, _nativeLangEncoding);
@@ -1184,7 +1184,7 @@ bool NativeLangSpeaker::changeDlgLang(HWND hDlg, const char *dlgTagName, char *t
 		TiXmlElementA *element = childNode->ToElement();
 		int id;
 		element->Attribute("id", &id);
-		HWND hCombo = ::GetDlgItem(hDlg, id);
+		Upp::Ctrl* hCombo = ::GetDlgItem(hDlg, id);
 		if (!hCombo) return false;
 
 		for (TiXmlNodeA *gChildNode = childNode->FirstChildElement("Element");
@@ -1256,7 +1256,7 @@ String NativeLangSpeaker::getFileBrowserLangMenuStr(int cmdID, const char *defau
 	targetNode = targetNode->FirstChild("Menus");
 	if (!targetNode) return defaultStr;
 
-	const char *name = NULL;
+	const char *name = Null;
 	for (TiXmlNodeA *childNode = targetNode->FirstChildElement("Item");
 		childNode;
 		childNode = childNode->NextSibling("Item"))
@@ -1293,7 +1293,7 @@ String NativeLangSpeaker::getProjectPanelLangMenuStr(const char * nodeName, int 
 	targetNode = targetNode->FirstChild(nodeName);
 	if (!targetNode) return defaultStr;
 
-	const char *name = NULL;
+	const char *name = Null;
 	for (TiXmlNodeA *childNode = targetNode->FirstChildElement("Item");
 		childNode ;
 		childNode = childNode->NextSibling("Item") )
@@ -1337,7 +1337,7 @@ String NativeLangSpeaker::getAttrNameStr(const char *defaultStr, const char *nod
 	return defaultStr;
 }
 
-int NativeLangSpeaker::messageBox(const char *msgBoxTagName, HWND hWnd, const char *defaultMessage, const char *defaultTitle, int msgBoxType, int intInfo, const char *strInfo)
+int NativeLangSpeaker::messageBox(const char *msgBoxTagName, Upp::Ctrl* hWnd, const char *defaultMessage, const char *defaultTitle, int msgBoxType, int intInfo, const char *strInfo)
 {
 	String msg, title;
 	if (!getMsgBoxLang(msgBoxTagName, title, msg))

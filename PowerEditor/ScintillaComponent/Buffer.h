@@ -78,7 +78,7 @@ public:
 
 	void addBufferReference(BufferID id, ScintillaEditView * identifer);	//called by Scintilla etc indirectly
 
-	BufferID loadFile(const char * filename, Document doc = NULL, int encoding = -1, const char *backupFileName = NULL, FILETIME fileNameTimestamp = {});	//ID == BUFFER_INVALID on failure. If Doc == NULL, a new file is created, otherwise data is loaded in given document
+	BufferID loadFile(const char * filename, Document doc = Null, int encoding = -1, const char *backupFileName = Null, FILETIME fileNameTimestamp = {});	//ID == BUFFER_INVALID on failure. If Doc == Null, a new file is created, otherwise data is loaded in given document
 	BufferID newEmptyDocument();
 	//create SciBuffer from existing Scintilla, used from new Scintillas. If dontIncrease = true, then the new document number isnt increased afterwards.
 	//usefull for temporary but neccesary docs
@@ -230,21 +230,21 @@ public:
 	const char * getCommentLineSymbol() const {
 		Lang *l = getCurrentLang();
 		if (!l)
-			return NULL;
+			return Null;
 		return l->_pCommentLineSymbol;
 	}
 
 	const char * getCommentStart() const {
 		Lang *l = getCurrentLang();
 		if (!l)
-			return NULL;
+			return Null;
 		return l->_pCommentStart;
 	}
 
 	const char * getCommentEnd() const {
 		Lang *l = getCurrentLang();
 		if (!l)
-			return NULL;
+			return Null;
 		return l->_pCommentEnd;
 	}
 
@@ -282,7 +282,7 @@ public:
 	void setModifiedStatus(bool isModified) { _isModified = isModified; }
 
 	String getBackupFileName() const { return _backupFileName; }
-	void setBackupFileName(const String& fileName) { _backupFileName = fileName; }
+	void setBackupFileName(const char* fileName) { _backupFileName = fileName; }
 
 	FILETIME getLastModifiedTimestamp() const { return _timeStamp; }
 

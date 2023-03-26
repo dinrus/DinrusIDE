@@ -31,7 +31,7 @@ LRESULT CALLBACK hookProc(int nCode, WPARAM wParam, LPARAM lParam)
 	else if ((nCode >= 0) && (wParam == WM_MOUSEWHEEL) && windowsVersion >= WV_WIN10)
 	{
 		MSLLHOOKSTRUCT* pMD = (MSLLHOOKSTRUCT*)lParam;
-		RECT rCtrl;
+		Rect rCtrl;
 		GetWindowRect(hWndServer, &rCtrl);
 		//to avoid duplicate messages, only send this message to the list control if it comes from outside the control window. if the message occurs whilst the mouse is inside the control, the control will have receive the mouse wheel message itself
 		if (false == PtInRect(&rCtrl, pMD->pt))
@@ -47,7 +47,7 @@ LRESULT CALLBACK hookProc(int nCode, WPARAM wParam, LPARAM lParam)
  {
 	if (isRTL)
 	{
-		DLGTEMPLATE *pMyDlgTemplate = NULL;
+		DLGTEMPLATE *pMyDlgTemplate = Null;
 		HGLOBAL hMyDlgTemplate = makeRTLResource(IDD_VALUE_DLG, &pMyDlgTemplate);
 		int result = static_cast<int32_t>(::DialogBoxIndirectParam(_hInst, pMyDlgTemplate, _hParent, dlgProc, reinterpret_cast<LPARAM>(this)));
 		::GlobalFree(hMyDlgTemplate);
@@ -197,7 +197,7 @@ intptr_t CALLBACK TaskListDlg::run_dlgProc(UINT Message, WPARAM wParam, LPARAM l
 
 void TaskListDlg::drawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
 {
-	RECT rect = lpDrawItemStruct->rcItem;
+	Rect rect = lpDrawItemStruct->rcItem;
 	HDC hDC = lpDrawItemStruct->hDC;
 	int nItem = lpDrawItemStruct->itemID;
 	const char *label = _taskListInfo._tlfsLst[nItem]._fn.Begin();
@@ -223,7 +223,7 @@ void TaskListDlg::drawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
 	IMAGEINFO info;
 	::ImageList_GetImageInfo(hImgLst, iImage, &info);
 
-	RECT & imageRect = info.rcImage;
+	Rect & imageRect = info.rcImage;
 	// center icon position, prefer bottom orientation
 	imageRect.top = ((rect.bottom - rect.top) - (imageRect.bottom - imageRect.top) + 1) / 2;
 

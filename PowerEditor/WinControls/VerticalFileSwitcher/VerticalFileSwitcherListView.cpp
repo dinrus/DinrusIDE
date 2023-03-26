@@ -20,7 +20,7 @@
 #include <PowerEditor/ScintillaComponent/Buffer.h>
 #include <PowerEditor/localization.h>
 
-void VerticalFileSwitcherListView::init(HINSTANCE hInst, HWND parent, HIMAGELIST hImaLst)
+void VerticalFileSwitcherListView::init(HINSTANCE hInst, Upp::Ctrl* parent, HIMAGELIST hImaLst)
 {
 	Window::init(hInst, parent);
 	_hImaLst = hImaLst;
@@ -72,10 +72,10 @@ void VerticalFileSwitcherListView::destroy()
 		delete tlfs;
 	}
 	::DestroyWindow(_hSelf);
-	_hSelf = NULL;
+	_hSelf = Null;
 } 
 
-LRESULT VerticalFileSwitcherListView::runProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam)
+LRESULT VerticalFileSwitcherListView::runProc(Upp::Ctrl* hwnd, UINT Message, WPARAM wParam, LPARAM lParam)
 {
 	return ::CallWindowProc(_defaultProc, hwnd, Message, wParam, lParam);
 }
@@ -88,7 +88,7 @@ void VerticalFileSwitcherListView::initList()
 	bool isExtColumn = !nppParams.getNppGUI()._fileSwitcherWithoutExtColumn;
 	bool isPathColumn = !nppParams.getNppGUI()._fileSwitcherWithoutPathColumn;
 
-	RECT rc;
+	Rect rc;
 	::GetClientRect(_hParent, &rc);
 	int nameWidth = rc.right - rc.left;
 	int colIndex = 0;
@@ -112,7 +112,7 @@ void VerticalFileSwitcherListView::initList()
 	}
 
 	TaskListInfo taskListInfo;
-	static HWND nppHwnd = ::GetParent(_hParent);
+	static Upp::Ctrl* nppHwnd = ::GetParent(_hParent);
 	::SendMessage(nppHwnd, WM_GETTASKLISTINFO, reinterpret_cast<WPARAM>(&taskListInfo), TRUE);
 
 	for (size_t i = 0, len = taskListInfo._tlfsLst.size(); i < len ; ++i)
@@ -145,7 +145,7 @@ void VerticalFileSwitcherListView::initList()
 		if (isPathColumn)
 		{
 			char dir[MAX_PATH], drive[MAX_PATH];
-			_wsplitpath_s(fileNameStatus._fn.Begin(), drive, MAX_PATH, dir, MAX_PATH, NULL, 0, NULL, 0);
+			_wsplitpath_s(fileNameStatus._fn.Begin(), drive, MAX_PATH, dir, MAX_PATH, Null, 0, Null, 0);
 			wcscat_s(drive, dir);
 			ListView_SetItemText(_hSelf, i, ++colIndex, drive);
 		}
@@ -160,7 +160,7 @@ void VerticalFileSwitcherListView::reload()
 	removeAll();
 	initList();
 
-	RECT rc;
+	Rect rc;
 	::GetClientRect(_hParent, &rc);
 	resizeColumns(rc.right - rc.left);
 }
@@ -229,7 +229,7 @@ void VerticalFileSwitcherListView::setItemIconStatus(BufferID bufferID)
 			if (isPathColumn)
 			{
 				char dir[MAX_PATH], drive[MAX_PATH];
-				_wsplitpath_s(buf->getFullPathName(), drive, MAX_PATH, dir, MAX_PATH, NULL, 0, NULL, 0);
+				_wsplitpath_s(buf->getFullPathName(), drive, MAX_PATH, dir, MAX_PATH, Null, 0, Null, 0);
 				wcscat_s(drive, dir);
 				ListView_SetItemText(_hSelf, i, ++colIndex, drive);
 			}
@@ -305,7 +305,7 @@ int VerticalFileSwitcherListView::add(BufferID bufferID, int iView)
 	if (isPathColumn)
 	{
 		char dir[MAX_PATH], drive[MAX_PATH];
-		_wsplitpath_s(buf->getFullPathName(), drive, MAX_PATH, dir, MAX_PATH, NULL, 0, NULL, 0);
+		_wsplitpath_s(buf->getFullPathName(), drive, MAX_PATH, dir, MAX_PATH, Null, 0, Null, 0);
 		wcscat_s(drive, dir);
 		ListView_SetItemText(_hSelf, _currentIndex, ++colIndex, drive);
 	}
@@ -335,7 +335,7 @@ void VerticalFileSwitcherListView::removeAll()
 		remove(i);
 	}
 
-	HWND colHeader = reinterpret_cast<HWND>(SendMessage(_hSelf, LVM_GETHEADER, 0, 0));
+	Upp::Ctrl* colHeader = reinterpret_cast<Upp::Ctrl*>(SendMessage(_hSelf, LVM_GETHEADER, 0, 0));
 	int columnCount = static_cast<int32_t>(SendMessage(colHeader, HDM_GETITEMCOUNT, 0, 0));
 
 	for (int i = 0; i < columnCount; ++i)

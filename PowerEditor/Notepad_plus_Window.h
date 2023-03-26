@@ -58,7 +58,7 @@ filePath : file or folder name to open (absolute or relative path name)\r\
 class Notepad_plus_Window : public Window
 {
 public:
-	void init(HINSTANCE, HWND, const char *cmdLine, CmdLineParams *cmdLineParams);
+	void init(HINSTANCE, Upp::Ctrl*, const char *cmdLine, CmdLineParams *cmdLineParams);
 
 	bool isDlgsMsg(MSG *msg) const;
 
@@ -66,7 +66,7 @@ public:
 		return _notepad_plus_plus_core.getAccTable();
 	};
 
-	bool emergency(const String& emergencySavedDir) {
+	bool emergency(const char* emergencySavedDir) {
 		return _notepad_plus_plus_core.emergency(emergencySavedDir);
 	};
 
@@ -96,14 +96,14 @@ public:
 		return _hIconAbsent;
 	};
 
-	static HWND gNppHWND;	//static handle to Notepad++ window, NULL if non-existant
+	static Upp::Ctrl* gNppHWND;	//static handle to Notepad++ window, Null if non-existant
 
 	void setStartupBgColor(COLORREF BgColor);
 
 private:
 	Notepad_plus _notepad_plus_plus_core;
-	static LRESULT CALLBACK Notepad_plus_Proc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
-	LRESULT runProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
+	static LRESULT CALLBACK Notepad_plus_Proc(Upp::Ctrl* hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
+	LRESULT runProc(Upp::Ctrl* hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
 
 	static const char _className[32];
 	bool _isPrelaunch = false;

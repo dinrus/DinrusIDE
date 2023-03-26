@@ -16,7 +16,7 @@
 
 #include <iostream>
 #include <stdexcept>
-#include <windows.h>
+//#include <windows.h>
 #include "Splitter.h"
 #include <PowerEditor/Parameters.h>
 #include <PowerEditor/NppDarkMode.h>
@@ -29,9 +29,9 @@ bool Splitter::_isVerticalFixedRegistered = false;
 
 #define SPLITTER_SIZE 8
 
-void Splitter::init( HINSTANCE hInst, HWND hPere, int splitterSize, double iSplitRatio, DWORD dwFlags)
+void Splitter::init( HINSTANCE hInst, Upp::Ctrl* hPere, int splitterSize, double iSplitRatio, DWORD dwFlags)
 {
-	if (hPere == NULL)
+	if (hPere == Null)
 		throw std::runtime_error("Splitter::init : Parameter hPere is null");
 
 	if (iSplitRatio < 0)
@@ -70,7 +70,7 @@ void Splitter::init( HINSTANCE hInst, HWND hPere, int splitterSize, double iSpli
 	wcex.cbClsExtra		= 0;
 	wcex.cbWndExtra		= 0;
 	wcex.hInstance		= _hInst;
-	wcex.hIcon			= NULL;
+	wcex.hIcon			= Null;
 
 	::GetClientRect(_hParent, &_rect);
 
@@ -111,7 +111,7 @@ void Splitter::init( HINSTANCE hInst, HWND hPere, int splitterSize, double iSpli
 
 	if (_isFixed)
 	{
-		wcex.hCursor		= ::LoadCursor(NULL, IDC_ARROW);
+		wcex.hCursor		= ::LoadCursor(Null, IDC_ARROW);
 		// if fixed spliter then choose default cursor type.
 		if (_dwFlags & SV_HORIZONTAL)
 			wcex.lpszClassName	= TEXT("fxdnsspliter");
@@ -123,20 +123,20 @@ void Splitter::init( HINSTANCE hInst, HWND hPere, int splitterSize, double iSpli
 		if (_dwFlags & SV_HORIZONTAL)
 		{
 			//double sided arrow pointing north-south as cursor
-			wcex.hCursor		= ::LoadCursor(NULL,IDC_SIZENS);
+			wcex.hCursor		= ::LoadCursor(Null,IDC_SIZENS);
 			wcex.lpszClassName	= TEXT("nsspliter");
 		}
 		else
 		{
 			// double sided arrow pointing east-west as cursor
-			wcex.hCursor		= ::LoadCursor(NULL,IDC_SIZEWE);
+			wcex.hCursor		= ::LoadCursor(Null,IDC_SIZEWE);
 			wcex.lpszClassName	= TEXT("wespliter");
 		}
 	}
 
 	wcex.hbrBackground	= (HBRUSH)(COLOR_3DFACE+1);
-	wcex.lpszMenuName	= NULL;
-	wcex.hIconSm		= NULL;
+	wcex.lpszMenuName	= Null;
+	wcex.hIconSm		= Null;
 
 	if ((_dwFlags & SV_HORIZONTAL)&&(!_isHorizontalRegistered))
 	{
@@ -163,12 +163,12 @@ void Splitter::init( HINSTANCE hInst, HWND hPere, int splitterSize, double iSpli
 		TEXT(""),
 		dwStyle,
 		_rect.left, _rect.top, _rect.right, _rect.bottom,
-		_hParent, NULL, _hInst, this);
+		_hParent, Null, _hInst, this);
 
 	if (!_hSelf)
 		throw std::runtime_error("Splitter::init : CreateWindowEx() function return null");
 
-	RECT rc;
+	Rect rc;
 	getClientRect(rc);
 	//::GetClientRect(_hParent,&rc);
 
@@ -214,7 +214,7 @@ int Splitter::getClickZone(WH which)
 }
 
 
-LRESULT CALLBACK Splitter::staticWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK Splitter::staticWndProc(Upp::Ctrl* hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	switch(uMsg)
 	{
@@ -284,13 +284,13 @@ LRESULT CALLBACK Splitter::spliterWndProc(UINT uMsg, WPARAM wParam, LPARAM lPara
 			if (isInLeftTopZone(p) || isInRightBottomZone(p))
 			{
 				//::SetCursor(::LoadCursor(_hInst, MAKEINTRESOURCE(IDC_UP_ARROW)));
-				::SetCursor(::LoadCursor(NULL, IDC_HAND));
+				::SetCursor(::LoadCursor(Null, IDC_HAND));
 				return TRUE;
 			}
 
 			if ((!_isFixed) && (wParam == MK_LBUTTON) && _isLeftButtonDown)
 			{
-				POINT pt; RECT rt;
+				POINT pt; Rect rt;
 				::GetClientRect(_hParent, &rt);
 
 				::GetCursorPos(&pt);
@@ -348,7 +348,7 @@ LRESULT CALLBACK Splitter::spliterWndProc(UINT uMsg, WPARAM wParam, LPARAM lPara
 
 		case WM_LBUTTONDBLCLK:
 		{
-			RECT r;
+			Rect r;
 			::GetClientRect(_hParent, &r);
 
 			if (_dwFlags & SV_HORIZONTAL)
@@ -397,7 +397,7 @@ LRESULT CALLBACK Splitter::spliterWndProc(UINT uMsg, WPARAM wParam, LPARAM lPara
 				break;
 			}
 
-			RECT rc = {};
+			Rect rc = {};
 			getClientRect(rc);
 
 			::FillRect(reinterpret_cast<HDC>(wParam), &rc, NppDarkMode::getDarkerBackgroundBrush());
@@ -422,9 +422,9 @@ LRESULT CALLBACK Splitter::spliterWndProc(UINT uMsg, WPARAM wParam, LPARAM lPara
 }
 
 
-void Splitter::resizeSpliter(RECT *pRect)
+void Splitter::resizeSpliter(Rect *pRect)
 {
-	RECT rect;
+	Rect rect;
 
 	if (pRect)
 		rect = *pRect;
@@ -461,7 +461,7 @@ void Splitter::resizeSpliter(RECT *pRect)
 	::MoveWindow(_hSelf, _rect.left, _rect.top, _rect.right, _rect.bottom, TRUE);
 	::SendMessage(_hParent, WM_RESIZE_CONTAINER, _rect.left, _rect.top);
 
-	RECT rc;
+	Rect rc;
 	getClientRect(rc);
 	_clickZone2BR.right = getClickZone(WH::width);
 	_clickZone2BR.bottom = getClickZone(WH::height);
@@ -497,7 +497,7 @@ void Splitter::gotoRightBottom()
 {
 	if ((_dwFlags & SV_ENABLERDBLCLK) && (!_isFixed) && (_splitPercent < 99))
 	{
-		RECT rt;
+		Rect rt;
 		GetClientRect(_hParent,&rt);
 
 		if (_dwFlags & SV_HORIZONTAL)
@@ -517,7 +517,7 @@ void Splitter::gotoRightBottom()
 void Splitter::drawSplitter()
 {
 	PAINTSTRUCT ps;
-	RECT rc, rcToDraw1, rcToDraw2, TLrc, BRrc;
+	Rect rc, rcToDraw1, rcToDraw2, TLrc, BRrc;
 
 	HDC hdc = ::BeginPaint(_hSelf, &ps);
 	getClientRect(rc);
@@ -649,9 +649,9 @@ void Splitter::rotate()
 }
 
 
-void Splitter::paintArrow(HDC hdc, const RECT &rect, Arrow arrowDir)
+void Splitter::paintArrow(HDC hdc, const Rect &rect, Arrow arrowDir)
 {
-	RECT rc;
+	Rect rc;
 	rc.left = rect.left;
 	rc.top = rect.top;
 	rc.right = rect.right;
@@ -666,7 +666,7 @@ void Splitter::paintArrow(HDC hdc, const RECT &rect, Arrow arrowDir)
 
 			for (; (x > rc.left) && (y != rc.bottom) ; --x)
 			{
-				::MoveToEx(hdc, x, y++, NULL);
+				::MoveToEx(hdc, x, y++, Null);
 				::LineTo(hdc, x, rc.bottom--);
 			}
 			break;
@@ -679,7 +679,7 @@ void Splitter::paintArrow(HDC hdc, const RECT &rect, Arrow arrowDir)
 
 			for (; (x < rc.right) && (y != rc.bottom) ; ++x)
 			{
-				::MoveToEx(hdc, x, y++, NULL);
+				::MoveToEx(hdc, x, y++, Null);
 				::LineTo(hdc, x, rc.bottom--);
 			}
 			break;
@@ -692,7 +692,7 @@ void Splitter::paintArrow(HDC hdc, const RECT &rect, Arrow arrowDir)
 
 			for (; (y > rc.top) && (x != rc.right) ; --y)
 			{
-				::MoveToEx(hdc, x++, y, NULL);
+				::MoveToEx(hdc, x++, y, Null);
 				::LineTo(hdc, rc.right--, y);
 			}
 			break;
@@ -705,7 +705,7 @@ void Splitter::paintArrow(HDC hdc, const RECT &rect, Arrow arrowDir)
 
 			for (; (y < rc.bottom) && (x != rc.right) ; ++y)
 			{
-				::MoveToEx(hdc, x++, y, NULL);
+				::MoveToEx(hdc, x++, y, Null);
 				::LineTo(hdc, rc.right--, y);
 			}
 			break;
@@ -714,7 +714,7 @@ void Splitter::paintArrow(HDC hdc, const RECT &rect, Arrow arrowDir)
 }
 
 
-void Splitter::adjustZoneToDraw(RECT& rc2def, ZONE_TYPE whichZone)
+void Splitter::adjustZoneToDraw(Rect& rc2def, ZONE_TYPE whichZone)
 {
 	if (_splitterSize < 4)
 		return;

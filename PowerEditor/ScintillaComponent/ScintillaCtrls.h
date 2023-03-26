@@ -18,27 +18,27 @@
 #pragma once
 
 #include <vector>
-#include <windows.h>
+//#include <windows.h>
 
 class ScintillaEditView;
 
 class ScintillaCtrls {
 public :
-	void init(HINSTANCE hInst, HWND hNpp) {
+	void init(HINSTANCE hInst, Upp::Ctrl* hNpp) {
 		_hInst = hInst;
 		_hParent = hNpp;
 	};
 
-	HWND createSintilla(HWND hParent);
-	ScintillaEditView * getScintillaEditViewFrom(HWND handle2Find);
-	//bool destroyScintilla(HWND handle2Destroy);
+	Upp::Ctrl* createSintilla(Upp::Ctrl* hParent);
+	ScintillaEditView * getScintillaEditViewFrom(Upp::Ctrl* handle2Find);
+	//bool destroyScintilla(Upp::Ctrl* handle2Destroy);
 	void destroy();
 	
 private:
 	std::vector<ScintillaEditView *> _scintVector;
 	HINSTANCE _hInst = nullptr;
-	HWND _hParent = nullptr;
+	Upp::Ctrl* _hParent = nullptr;
 
-	int getIndexFrom(HWND handle2Find);
+	int getIndexFrom(Upp::Ctrl* handle2Find);
 };
 

@@ -646,7 +646,7 @@ void FileManager::closeBuffer(BufferID id, ScintillaEditView * identifier)
 }
 
 
-// backupFileName is sentinel of backup mode: if it's not NULL, then we use it (load it). Otherwise we use filename
+// backupFileName is sentinel of backup mode: if it's not Null, then we use it (load it). Otherwise we use filename
 BufferID FileManager::loadFile(const char* filename, Document doc, int encoding, const char* backupFileName, FILETIME fileNameTimestamp)
 {
 	//Get file size
@@ -691,13 +691,13 @@ BufferID FileManager::loadFile(const char* filename, Document doc, int encoding,
 	}
 
 	char fullpath[MAX_PATH];
-	::GetFullPathName(filename, MAX_PATH, fullpath, NULL);
+	::GetFullPathName(filename, MAX_PATH, fullpath, Null);
 	if (_tcschr(fullpath, '~'))
 	{
 		::GetLongPathName(fullpath, fullpath, MAX_PATH);
 	}
 
-	bool isSnapshotMode = backupFileName != NULL && PathFileExists(backupFileName);
+	bool isSnapshotMode = backupFileName != Null && PathFileExists(backupFileName);
 	if (isSnapshotMode && !PathFileExists(fullpath)) // if backup mode and fullpath doesn't exist, we guess is UNTITLED
 	{
 		wcscpy_s(fullpath, MAX_PATH, filename); // we restore fullpath with filename, in our case is "new  #"
@@ -722,7 +722,7 @@ BufferID FileManager::loadFile(const char* filename, Document doc, int encoding,
 		BufferID id = static_cast<BufferID>(newBuf);
 		newBuf->_id = id;
 
-		if (backupFileName != NULL)
+		if (backupFileName != Null)
 		{
 			newBuf->_backupFileName = backupFileName;
 			if (!PathFileExists(fullpath))
@@ -851,14 +851,14 @@ bool FileManager::deleteFile(BufferID id)
 		return false;
 
 	SHFILEOPSTRUCT fileOpStruct = {};
-	fileOpStruct.hwnd = NULL;
+	fileOpStruct.hwnd = Null;
 	fileOpStruct.pFrom = fileNamePath.Begin();
-	fileOpStruct.pTo = NULL;
+	fileOpStruct.pTo = Null;
 	fileOpStruct.wFunc = FO_DELETE;
 	fileOpStruct.fFlags = FOF_ALLOWUNDO;
 	fileOpStruct.fAnyOperationsAborted = false;
-	fileOpStruct.hNameMappings         = NULL;
-	fileOpStruct.lpszProgressTitle     = NULL;
+	fileOpStruct.hNameMappings         = Null;
+	fileOpStruct.lpszProgressTitle     = Null;
 
 	return SHFileOperation(&fileOpStruct) == 0;
 }
@@ -954,7 +954,7 @@ bool FileManager::backupCurrentBuffer()
 				// if "backup" folder doesn't exist, create it.
 				if (!PathFileExists(backupFilePath.Begin()))
 				{
-					::CreateDirectory(backupFilePath.Begin(), NULL);
+					::CreateDirectory(backupFilePath.Begin(), Null);
 				}
 
 				backupFilePath += buffer->getFileName();
@@ -979,7 +979,7 @@ bool FileManager::backupCurrentBuffer()
 			}
 
 			char fullpath[MAX_PATH];
-			::GetFullPathName(backupFilePath.Begin(), MAX_PATH, fullpath, NULL);
+			::GetFullPathName(backupFilePath.Begin(), MAX_PATH, fullpath, Null);
 			if (_tcschr(fullpath, '~'))
 			{
 				::GetLongPathName(fullpath, fullpath, MAX_PATH);
@@ -1090,7 +1090,7 @@ SavingStatus FileManager::saveBuffer(BufferID id, const char * filename, bool is
 	DWORD attrib = 0;
 
 	char fullpath[MAX_PATH];
-	::GetFullPathName(filename, MAX_PATH, fullpath, NULL);
+	::GetFullPathName(filename, MAX_PATH, fullpath, Null);
 	if (_tcschr(fullpath, '~'))
 	{
 		::GetLongPathName(fullpath, fullpath, MAX_PATH);

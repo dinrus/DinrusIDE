@@ -350,10 +350,10 @@ public:
     int len;
     unsigned char buffer[1024] ;
 
-	if ((file = fopen(filename, "rb")) == NULL)
+	if ((file = fopen(filename, "rb")) == Null)
 	{
 		//printf("%s can't be opened\n", filename);
-		return NULL;
+		return Null;
 	}
     else
     {

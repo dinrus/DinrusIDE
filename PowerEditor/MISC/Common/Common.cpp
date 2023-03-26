@@ -33,13 +33,13 @@ void printInt(int int2print)
 {
 	char str[32];
 	wsprintf(str, TEXT("%d"), int2print);
-	::MessageBox(NULL, str, TEXT(""), MB_OK);
+	::MessageBox(Null, str, TEXT(""), MB_OK);
 }
 
 
 void printStr(const char *str2print)
 {
-	::MessageBox(NULL, str2print, TEXT(""), MB_OK);
+	::MessageBox(Null, str2print, TEXT(""), MB_OK);
 }
 
 String commafyInt(size_t n)
@@ -95,7 +95,7 @@ String relativeFilePathToFullFilePath(const char *relativeFilePath)
 
 	if (isRelative)
 	{
-		::GetFullPathName(relativeFilePath, MAX_PATH, fullFileName, NULL);
+		::GetFullPathName(relativeFilePath, MAX_PATH, fullFileName, Null);
 		fullFilePathName += fullFileName;
 	}
 	else
@@ -128,13 +128,13 @@ void writeLog(const char *logFileName, const char *log2write)
 	const DWORD shareParam{ FILE_SHARE_READ | FILE_SHARE_WRITE };
 	const DWORD dispParam{ OPEN_ALWAYS }; // Open existing file for writing without destroying it or create new
 	const DWORD attribParam{ FILE_ATTRIBUTE_NORMAL };
-	HANDLE hFile = ::CreateFileW(logFileName, accessParam, shareParam, NULL, dispParam, attribParam, NULL);
+	HANDLE hFile = ::CreateFileW(logFileName, accessParam, shareParam, Null, dispParam, attribParam, Null);
 
 	if (hFile != INVALID_HANDLE_VALUE)
 	{
 		LARGE_INTEGER offset;
 		offset.QuadPart = 0;
-		::SetFilePointerEx(hFile, offset, NULL, FILE_END);
+		::SetFilePointerEx(hFile, offset, Null, FILE_END);
 
 		SYSTEMTIME currentTime = {};
 		::GetLocalTime(&currentTime);
@@ -146,7 +146,7 @@ void writeLog(const char *logFileName, const char *log2write)
 		log2writeStr += "\n";
 
 		DWORD bytes_written = 0;
-		::WriteFile(hFile, log2writeStr.Begin(), static_cast<DWORD>(log2writeStr.GetLength()), &bytes_written, NULL);
+		::WriteFile(hFile, log2writeStr.Begin(), static_cast<DWORD>(log2writeStr.GetLength()), &bytes_written, Null);
 
 		::FlushFileBuffers(hFile);
 		::CloseHandle(hFile);
@@ -154,7 +154,7 @@ void writeLog(const char *logFileName, const char *log2write)
 }
 
 
-String folderBrowser(HWND parent, const String & title, int outputCtrlID, const char *defaultStr)
+String folderBrowser(Upp::Ctrl* parent, const String & title, int outputCtrlID, const char *defaultStr)
 {
 	String folderName;
 	CustomFileDialog dlg(parent);
@@ -181,13 +181,13 @@ String folderBrowser(HWND parent, const String & title, int outputCtrlID, const 
 }
 
 
-String getFolderName(HWND parent, const char *defaultDir)
+String getFolderName(Upp::Ctrl* parent, const char *defaultDir)
 {
 	return folderBrowser(parent, TEXT("Select a folder"), 0, defaultDir);
 }
 
 
-void ClientRectToScreenRect(HWND hWnd, RECT* rect)
+void ClientRectToScreenRect(Upp::Ctrl* hWnd, Rect* rect)
 {
 	POINT		pt;
 
@@ -228,7 +228,7 @@ Vector<String> tokenizeString(const String & tokenString, const char delim)
 }
 
 
-void ScreenRectToClientRect(HWND hWnd, RECT* rect)
+void ScreenRectToClientRect(Upp::Ctrl* hWnd, Rect* rect)
 {
 	POINT		pt;
 
@@ -328,7 +328,7 @@ String purgeMenuItemString(const char * menuItemStr, bool keepAmpersand)
 
 const wchar_t * WcharMbcsConvertor::char2wchar(const char * mbcs2Convert, size_t codepage, int lenMbcs, int* pLenWc, int* pBytesNotProcessed)
 {
-	// Do not process NULL pointer
+	// Do not process Null pointer
 	if (!mbcs2Convert)
 		return nullptr;
 
@@ -346,7 +346,7 @@ const wchar_t * WcharMbcsConvertor::char2wchar(const char * mbcs2Convert, size_t
 	// If length not specified, simply convert without checking
 	if (lenMbcs == -1)
 	{
-		lenWc = MultiByteToWideChar(cp, 0, mbcs2Convert, lenMbcs, NULL, 0);
+		lenWc = MultiByteToWideChar(cp, 0, mbcs2Convert, lenMbcs, Null, 0);
 	}
 	// Otherwise, test if we are cutting a multi-byte character at end of buffer
 	else if (lenMbcs != -1 && cp == CP_UTF8) // For UTF-8, we know how to test it
@@ -356,20 +356,20 @@ const wchar_t * WcharMbcsConvertor::char2wchar(const char * mbcs2Convert, size_t
 		{
 			bytesNotProcessed = lenMbcs-indexOfLastChar;
 		}
-		lenWc = MultiByteToWideChar(cp, 0, mbcs2Convert, lenMbcs-bytesNotProcessed, NULL, 0);
+		lenWc = MultiByteToWideChar(cp, 0, mbcs2Convert, lenMbcs-bytesNotProcessed, Null, 0);
 	}
 	else // For other encodings, ask system if there are any invalid characters; note that it will not correctly know if last character is cut when there are invalid characters inside the text
 	{
-		lenWc = MultiByteToWideChar(cp, (lenMbcs == -1) ? 0 : MB_ERR_INVALID_CHARS, mbcs2Convert, lenMbcs, NULL, 0);
+		lenWc = MultiByteToWideChar(cp, (lenMbcs == -1) ? 0 : MB_ERR_INVALID_CHARS, mbcs2Convert, lenMbcs, Null, 0);
 		if (lenWc == 0 && GetLastError() == ERROR_NO_UNICODE_TRANSLATION)
 		{
 			// Test without last byte
-			if (lenMbcs > 1) lenWc = MultiByteToWideChar(cp, MB_ERR_INVALID_CHARS, mbcs2Convert, lenMbcs-1, NULL, 0);
+			if (lenMbcs > 1) lenWc = MultiByteToWideChar(cp, MB_ERR_INVALID_CHARS, mbcs2Convert, lenMbcs-1, Null, 0);
 			if (lenWc == 0) // don't have to check that the error is still ERROR_NO_UNICODE_TRANSLATION, since only the length parameter changed
 			{
 				// TODO: should warn user about incorrect loading due to invalid characters
 				// We still load the file, but the system will either strip or replace invalid characters (including the last character, if cut in half)
-				lenWc = MultiByteToWideChar(cp, 0, mbcs2Convert, lenMbcs, NULL, 0);
+				lenWc = MultiByteToWideChar(cp, 0, mbcs2Convert, lenMbcs, Null, 0);
 			}
 			else
 			{
@@ -400,10 +400,10 @@ const wchar_t * WcharMbcsConvertor::char2wchar(const char * mbcs2Convert, size_t
 // which are converted to the corresponding indexes in the returned wchar_t string.
 const wchar_t * WcharMbcsConvertor::char2wchar(const char * mbcs2Convert, size_t codepage, intptr_t* mstart, intptr_t* mend)
 {
-	// Do not process NULL pointer
-	if (!mbcs2Convert) return NULL;
+	// Do not process Null pointer
+	if (!mbcs2Convert) return Null;
 	UINT cp = static_cast<UINT>(codepage);
-	int len = MultiByteToWideChar(cp, 0, mbcs2Convert, -1, NULL, 0);
+	int len = MultiByteToWideChar(cp, 0, mbcs2Convert, -1, Null, 0);
 	if (len > 0)
 	{
 		_wideCharStr.sizeTo(len);
@@ -435,11 +435,11 @@ const char* WcharMbcsConvertor::wchar2char(const wchar_t * wcharStr2Convert, siz
 	if (nullptr == wcharStr2Convert)
 		return nullptr;
 	UINT cp = static_cast<UINT>(codepage);
-	int lenMbcs = WideCharToMultiByte(cp, 0, wcharStr2Convert, lenWc, NULL, 0, NULL, NULL);
+	int lenMbcs = WideCharToMultiByte(cp, 0, wcharStr2Convert, lenWc, Null, 0, Null, Null);
 	if (lenMbcs > 0)
 	{
 		_multiByteStr.sizeTo(lenMbcs);
-		WideCharToMultiByte(cp, 0, wcharStr2Convert, lenWc, _multiByteStr, lenMbcs, NULL, NULL);
+		WideCharToMultiByte(cp, 0, wcharStr2Convert, lenWc, _multiByteStr, lenMbcs, Null, Null);
 	}
 	else
 		_multiByteStr.IsEmpty();
@@ -455,16 +455,16 @@ const char * WcharMbcsConvertor::wchar2char(const wchar_t * wcharStr2Convert, si
 	if (nullptr == wcharStr2Convert)
 		return nullptr;
 	UINT cp = static_cast<UINT>(codepage);
-	int len = WideCharToMultiByte(cp, 0, wcharStr2Convert, -1, NULL, 0, NULL, NULL);
+	int len = WideCharToMultiByte(cp, 0, wcharStr2Convert, -1, Null, 0, Null, Null);
 	if (len > 0)
 	{
 		_multiByteStr.sizeTo(len);
-		len = WideCharToMultiByte(cp, 0, wcharStr2Convert, -1, _multiByteStr, len, NULL, NULL); // not needed?
+		len = WideCharToMultiByte(cp, 0, wcharStr2Convert, -1, _multiByteStr, len, Null, Null); // not needed?
 
         if (*mstart < lstrlenW(wcharStr2Convert) && *mend < lstrlenW(wcharStr2Convert))
         {
-			*mstart = WideCharToMultiByte(cp, 0, wcharStr2Convert, (int)*mstart, NULL, 0, NULL, NULL);
-			*mend = WideCharToMultiByte(cp, 0, wcharStr2Convert, (int)*mend, NULL, 0, NULL, NULL);
+			*mstart = WideCharToMultiByte(cp, 0, wcharStr2Convert, (int)*mstart, Null, 0, Null, Null);
+			*mend = WideCharToMultiByte(cp, 0, wcharStr2Convert, (int)*mend, Null, 0, Null, Null);
 			if (*mstart >= len || *mend >= len)
 			{
 				*mstart = 0;
@@ -481,7 +481,7 @@ const char * WcharMbcsConvertor::wchar2char(const wchar_t * wcharStr2Convert, si
 
 std::wstring string2wstring(const std::string & rString, UINT codepage)
 {
-	int len = MultiByteToWideChar(codepage, 0, rString.Begin(), -1, NULL, 0);
+	int len = MultiByteToWideChar(codepage, 0, rString.Begin(), -1, Null, 0);
 	if (len > 0)
 	{
 		std::vector<wchar_t> vw(len);
@@ -494,11 +494,11 @@ std::wstring string2wstring(const std::string & rString, UINT codepage)
 
 std::string wstring2string(const std::wstring & rwString, UINT codepage)
 {
-	int len = WideCharToMultiByte(codepage, 0, rwString.Begin(), -1, NULL, 0, NULL, NULL);
+	int len = WideCharToMultiByte(codepage, 0, rwString.Begin(), -1, Null, 0, Null, Null);
 	if (len > 0)
 	{
 		std::vector<char> vw(len);
-		WideCharToMultiByte(codepage, 0, rwString.Begin(), -1, &vw[0], len, NULL, NULL);
+		WideCharToMultiByte(codepage, 0, rwString.Begin(), -1, &vw[0], len, Null, Null);
 		return &vw[0];
 	}
 	return std::string();
@@ -642,7 +642,7 @@ String PathRemoveFileSpec(String& path)
 }
 
 
-String pathAppend(String& strDest, const String& str2append)
+String pathAppend(String& strDest, const char* str2append)
 {
 	if (strDest.IsEmpty() && str2append.IsEmpty()) // "" + ""
 	{
@@ -678,12 +678,12 @@ String pathAppend(String& strDest, const String& str2append)
 }
 
 
-COLORREF getCtrlBgColor(HWND hWnd)
+COLORREF getCtrlBgColor(Upp::Ctrl* hWnd)
 {
 	COLORREF crRet = CLR_INVALID;
 	if (hWnd && IsWindow(hWnd))
 	{
-		RECT rc;
+		Rect rc;
 		if (GetClientRect(hWnd, &rc))
 		{
 			HDC hDC = GetDC(hWnd);
@@ -732,7 +732,7 @@ String stringToLower(String strToConvert)
 }
 
 
-String stringReplace(String subject, const String& search, const String& replace)
+String stringReplace(String subject, const char* search, const char* replace)
 {
 	size_t pos = 0;
 	while ((pos = subject.find(search, pos)) != std::string::npos)
@@ -744,7 +744,7 @@ String stringReplace(String subject, const String& search, const String& replace
 }
 
 
-Vector<String> stringSplit(const String& input, const String& delimiter)
+Vector<String> stringSplit(const char* input, const char* delimiter)
 {
 	size_t start = 0U;
 	size_t end = input.find(delimiter);
@@ -794,7 +794,7 @@ bool str2numberVector(String str2convert, std::vector<size_t>& numVect)
 	return true;
 }
 
-String stringJoin(const Vector<String>& strings, const String& separator)
+String stringJoin(const Vector<String>& strings, const char* separator)
 {
 	String joined;
 	size_t length = strings.size();
@@ -810,7 +810,7 @@ String stringJoin(const Vector<String>& strings, const String& separator)
 }
 
 
-String stringTakeWhileAdmissable(const String& input, const String& admissable)
+String stringTakeWhileAdmissable(const char* input, const char* admissable)
 {
 	// Find first non-admissable character in "input", and remove everything after it.
 	size_t idx = input.find_first_not_of(admissable);
@@ -825,7 +825,7 @@ String stringTakeWhileAdmissable(const String& input, const String& admissable)
 }
 
 
-double stodLocale(const String& str, _locale_t loc, size_t* idx)
+double stodLocale(const char* str, _locale_t loc, size_t* idx)
 {
 	// Copied from the std::stod implementation but uses _wcstod_l instead of wcstod.
 	const wchar_t* ptr = str.Begin();
@@ -840,7 +840,7 @@ double stodLocale(const String& str, _locale_t loc, size_t* idx)
 		throw std::invalid_argument("invalid stod argument");
 	if (errno == ERANGE)
 		throw std::out_of_range("stod argument out of range");
-	if (idx != NULL)
+	if (idx != Null)
 		*idx = (size_t)(eptr - ptr);
 	return ans;
 }
@@ -903,11 +903,11 @@ int OrdinalIgnoreCaseCompareStrings(LPCTSTR sz1, LPCTSTR sz2)
 	}
 }
 
-bool str2Clipboard(const String &str2cpy, HWND hwnd)
+bool str2Clipboard(const String &str2cpy, Upp::Ctrl* hwnd)
 {
 	size_t len2Allocate = (str2cpy.size() + 1) * sizeof(char);
 	HGLOBAL hglbCopy = ::GlobalAlloc(GMEM_MOVEABLE, len2Allocate);
-	if (hglbCopy == NULL)
+	if (hglbCopy == Null)
 	{
 		return false;
 	}
@@ -925,7 +925,7 @@ bool str2Clipboard(const String &str2cpy, HWND hwnd)
 	}
 	// Lock the handle and copy the text to the buffer.
 	char *pStr = (char *)::GlobalLock(hglbCopy);
-	if (pStr == NULL)
+	if (pStr == Null)
 	{
 		::GlobalUnlock(hglbCopy);
 		::GlobalFree(hglbCopy);
@@ -936,7 +936,7 @@ bool str2Clipboard(const String &str2cpy, HWND hwnd)
 	::GlobalUnlock(hglbCopy);
 	// Place the handle on the clipboard.
 	unsigned int clipBoardFormat = CF_UNICODETEXT;
-	if (::SetClipboardData(clipBoardFormat, hglbCopy) == NULL)
+	if (::SetClipboardData(clipBoardFormat, hglbCopy) == Null)
 	{
 		::GlobalFree(hglbCopy);
 		::CloseClipboard();
@@ -949,7 +949,7 @@ bool str2Clipboard(const String &str2cpy, HWND hwnd)
 	return true;
 }
 
-bool buf2Clipborad(const std::vector<SciBuffer*>& buffers, bool isFullPath, HWND hwnd)
+bool buf2Clipborad(const std::vector<SciBuffer*>& buffers, bool isFullPath, Upp::Ctrl* hwnd)
 {
 	const String crlf = _T("\r\n");
 	String selection;
@@ -1045,31 +1045,31 @@ String GetLastErrorAsString(DWORD errorCode)
 	return errorMsg;
 }
 
-HWND CreateToolTip(int toolID, HWND hDlg, HINSTANCE hInst, const PTSTR pszText, bool isRTL)
+Upp::Ctrl* CreateToolTip(int toolID, Upp::Ctrl* hDlg, HINSTANCE hInst, const PTSTR pszText, bool isRTL)
 {
 	if (!toolID || !hDlg || !pszText)
 	{
-		return NULL;
+		return Null;
 	}
 
 	// Get the window of the tool.
-	HWND hwndTool = GetDlgItem(hDlg, toolID);
+	Upp::Ctrl* hwndTool = GetDlgItem(hDlg, toolID);
 	if (!hwndTool)
 	{
-		return NULL;
+		return Null;
 	}
 
 	// Create the tooltip. g_hInst is the global instance handle.
-	HWND hwndTip = CreateWindowEx(isRTL ? WS_EX_LAYOUTRTL : 0, TOOLTIPS_CLASS, NULL,
+	Upp::Ctrl* hwndTip = CreateWindowEx(isRTL ? WS_EX_LAYOUTRTL : 0, TOOLTIPS_CLASS, Null,
 		WS_POPUP | TTS_ALWAYSTIP | TTS_BALLOON,
 		CW_USEDEFAULT, CW_USEDEFAULT,
 		CW_USEDEFAULT, CW_USEDEFAULT,
-		hDlg, NULL,
-		hInst, NULL);
+		hDlg, Null,
+		hInst, Null);
 
 	if (!hwndTip)
 	{
-		return NULL;
+		return Null;
 	}
 
 	NppDarkMode::setDarkTooltips(hwndTip, NppDarkMode::ToolTipsType::tooltip);
@@ -1084,7 +1084,7 @@ HWND CreateToolTip(int toolID, HWND hDlg, HINSTANCE hInst, const PTSTR pszText, 
 	if (!SendMessage(hwndTip, TTM_ADDTOOL, 0, (LPARAM)&toolInfo))
 	{
 		DestroyWindow(hwndTip);
-		return NULL;
+		return Null;
 	}
 
 	SendMessage(hwndTip, TTM_ACTIVATE, TRUE, 0);
@@ -1095,24 +1095,24 @@ HWND CreateToolTip(int toolID, HWND hDlg, HINSTANCE hInst, const PTSTR pszText, 
 	return hwndTip;
 }
 
-HWND CreateToolTipRect(int toolID, HWND hWnd, HINSTANCE hInst, const PTSTR pszText, const RECT rc)
+Upp::Ctrl* CreateToolTipRect(int toolID, Upp::Ctrl* hWnd, HINSTANCE hInst, const PTSTR pszText, const Rect rc)
 {
 	if (!toolID || !hWnd || !pszText)
 	{
-		return NULL;
+		return Null;
 	}
 
 	// Create the tooltip. g_hInst is the global instance handle.
-	HWND hwndTip = CreateWindowEx(0, TOOLTIPS_CLASS, NULL,
+	Upp::Ctrl* hwndTip = CreateWindowEx(0, TOOLTIPS_CLASS, Null,
 		WS_POPUP | TTS_ALWAYSTIP | TTS_BALLOON,
 		CW_USEDEFAULT, CW_USEDEFAULT,
 		CW_USEDEFAULT, CW_USEDEFAULT,
-		hWnd, NULL,
-		hInst, NULL);
+		hWnd, Null,
+		hInst, Null);
 
 	if (!hwndTip)
 	{
-		return NULL;
+		return Null;
 	}
 
 	// Associate the tooltip with the tool.
@@ -1126,7 +1126,7 @@ HWND CreateToolTipRect(int toolID, HWND hWnd, HINSTANCE hInst, const PTSTR pszTe
 	if (!SendMessage(hwndTip, TTM_ADDTOOL, 0, (LPARAM)&toolInfo))
 	{
 		DestroyWindow(hwndTip);
-		return NULL;
+		return Null;
 	}
 
 	SendMessage(hwndTip, TTM_ACTIVATE, TRUE, 0);
@@ -1140,17 +1140,17 @@ HWND CreateToolTipRect(int toolID, HWND hWnd, HINSTANCE hInst, const PTSTR pszTe
 bool isCertificateValidated(const String & fullFilePath, const String & subjectName2check)
 {
 	bool isOK = false;
-	HCERTSTORE hStore = NULL;
-	HCRYPTMSG hMsg = NULL;
-	PCCERT_CONTEXT pCertContext = NULL;
+	HCERTSTORE hStore = Null;
+	HCRYPTMSG hMsg = Null;
+	PCCERT_CONTEXT pCertContext = Null;
 	BOOL result = FALSE;
 	DWORD dwEncoding = 0;
 	DWORD dwContentType = 0;
 	DWORD dwFormatType = 0;
-	PCMSG_SIGNER_INFO pSignerInfo = NULL;
+	PCMSG_SIGNER_INFO pSignerInfo = Null;
 	DWORD dwSignerInfo = 0;
 	CERT_INFO CertInfo;
-	LPTSTR szName = NULL;
+	LPTSTR szName = Null;
 
 	String subjectName;
 
@@ -1166,7 +1166,7 @@ bool isCertificateValidated(const String & fullFilePath, const String & subjectN
 			&dwFormatType,
 			&hStore,
 			&hMsg,
-			NULL);
+			Null);
 
 		if (!result)
 		{
@@ -1176,7 +1176,7 @@ bool isCertificateValidated(const String & fullFilePath, const String & subjectN
 		}
 
 		// Get signer information size.
-		result = CryptMsgGetParam(hMsg, CMSG_SIGNER_INFO_PARAM, 0, NULL, &dwSignerInfo);
+		result = CryptMsgGetParam(hMsg, CMSG_SIGNER_INFO_PARAM, 0, Null, &dwSignerInfo);
 		if (!result)
 		{
 			String errorMessage = TEXT("CryptMsgGetParam first call: ");
@@ -1207,7 +1207,7 @@ bool isCertificateValidated(const String & fullFilePath, const String & subjectN
 		CertInfo.Issuer = pSignerInfo->Issuer;
 		CertInfo.SerialNumber = pSignerInfo->SerialNumber;
 
-		pCertContext = CertFindCertificateInStore(hStore, X509_ASN_ENCODING | PKCS_7_ASN_ENCODING, 0, CERT_FIND_SUBJECT_CERT, (PVOID)&CertInfo, NULL);
+		pCertContext = CertFindCertificateInStore(hStore, X509_ASN_ENCODING | PKCS_7_ASN_ENCODING, 0, CERT_FIND_SUBJECT_CERT, (PVOID)&CertInfo, Null);
 		if (!pCertContext)
 		{
 			String errorMessage = TEXT("Certificate context: ");
@@ -1218,7 +1218,7 @@ bool isCertificateValidated(const String & fullFilePath, const String & subjectN
 		DWORD dwData;
 
 		// Get Subject name size.
-		dwData = CertGetNameString(pCertContext, CERT_NAME_SIMPLE_DISPLAY_TYPE, 0, NULL, NULL, 0);
+		dwData = CertGetNameString(pCertContext, CERT_NAME_SIMPLE_DISPLAY_TYPE, 0, Null, Null, 0);
 		if (dwData <= 1)
 		{
 			throw String(TEXT("Certificate checking error: getting data size problem."));
@@ -1232,7 +1232,7 @@ bool isCertificateValidated(const String & fullFilePath, const String & subjectN
 		}
 
 		// Get subject name.
-		if (CertGetNameString(pCertContext, CERT_NAME_SIMPLE_DISPLAY_TYPE, 0, NULL, szName, dwData) <= 1)
+		if (CertGetNameString(pCertContext, CERT_NAME_SIMPLE_DISPLAY_TYPE, 0, Null, szName, dwData) <= 1)
 		{
 			throw String(TEXT("Cannot get certificate info."));
 		}
@@ -1246,25 +1246,25 @@ bool isCertificateValidated(const String & fullFilePath, const String & subjectN
 
 		isOK = true;
 	}
-	catch (const String& s)
+	catch (const char* s)
 	{
 		// display error message
-		MessageBox(NULL, s.Begin(), TEXT("Certificate checking"), MB_OK);
+		MessageBox(Null, s.Begin(), TEXT("Certificate checking"), MB_OK);
 	}
 	catch (...)
 	{
 		// Unknown error
 		String errorMessage = TEXT("Unknown exception occured. ");
 		errorMessage += GetLastErrorAsString(GetLastError());
-		MessageBox(NULL, errorMessage.Begin(), TEXT("Certificate checking"), MB_OK);
+		MessageBox(Null, errorMessage.Begin(), TEXT("Certificate checking"), MB_OK);
 	}
 
 	// Clean up.
-	if (pSignerInfo != NULL) LocalFree(pSignerInfo);
-	if (pCertContext != NULL) CertFreeCertificateContext(pCertContext);
-	if (hStore != NULL) CertCloseStore(hStore, 0);
-	if (hMsg != NULL) CryptMsgClose(hMsg);
-	if (szName != NULL) LocalFree(szName);
+	if (pSignerInfo != Null) LocalFree(pSignerInfo);
+	if (pCertContext != Null) CertFreeCertificateContext(pCertContext);
+	if (hStore != Null) CertCloseStore(hStore, 0);
+	if (hMsg != Null) CryptMsgClose(hMsg);
+	if (szName != Null) LocalFree(szName);
 
 	return isOK;
 }
@@ -1284,11 +1284,11 @@ bool isAssoCommandExisting(LPCTSTR FullPathName)
 		DWORD bufferLen = MAX_PATH;
 
 		// check if association exist
-		hres = AssocQueryString(ASSOCF_VERIFY|ASSOCF_INIT_IGNOREUNKNOWN, ASSOCSTR_COMMAND, ext, NULL, buffer, &bufferLen);
+		hres = AssocQueryString(ASSOCF_VERIFY|ASSOCF_INIT_IGNOREUNKNOWN, ASSOCSTR_COMMAND, ext, Null, buffer, &bufferLen);
 
         isAssoCommandExisting = (hres == S_OK)                  // check if association exist and no error
-			&& (buffer != NULL)                                 // check if buffer is not NULL
-			&& (wcsstr(buffer, TEXT("notepad++.exe")) == NULL); // check association with notepad++
+			&& (buffer != Null)                                 // check if buffer is not Null
+			&& (wcsstr(buffer, TEXT("notepad++.exe")) == Null); // check association with notepad++
 
 	}
 	return isAssoCommandExisting;
@@ -1310,7 +1310,7 @@ std::string ws2s(const std::wstring& wstr)
 	return converterX.to_bytes(wstr);
 }
 
-bool deleteFileOrFolder(const String& f2delete)
+bool deleteFileOrFolder(const char* f2delete)
 {
 	auto len = f2delete.GetLength();
 	char* actionFolder = new char[len + 2];
@@ -1319,14 +1319,14 @@ bool deleteFileOrFolder(const String& f2delete)
 	actionFolder[len + 1] = 0;
 
 	SHFILEOPSTRUCT fileOpStruct = {};
-	fileOpStruct.hwnd = NULL;
+	fileOpStruct.hwnd = Null;
 	fileOpStruct.pFrom = actionFolder;
-	fileOpStruct.pTo = NULL;
+	fileOpStruct.pTo = Null;
 	fileOpStruct.wFunc = FO_DELETE;
 	fileOpStruct.fFlags = FOF_NOCONFIRMATION | FOF_SILENT | FOF_ALLOWUNDO;
 	fileOpStruct.fAnyOperationsAborted = false;
-	fileOpStruct.hNameMappings = NULL;
-	fileOpStruct.lpszProgressTitle = NULL;
+	fileOpStruct.hNameMappings = Null;
+	fileOpStruct.lpszProgressTitle = Null;
 
 	int res = SHFileOperation(&fileOpStruct);
 
@@ -1335,7 +1335,7 @@ bool deleteFileOrFolder(const String& f2delete)
 }
 
 // Get a vector of full file paths in a given folder. File extension type filter should be *.*, *.xml, *.dll... according the type of file you want to get.
-void getFilesInFolder(Vector<String>& files, const String& extTypeFilter, const String& inFolder)
+void getFilesInFolder(Vector<String>& files, const char* extTypeFilter, const char* inFolder)
 {
 	String filter = inFolder;
 	pathAppend(filter, extTypeFilter);
@@ -1374,7 +1374,7 @@ void trim(String& str)
 	else str.erase(str.begin(), str.end());
 }
 
-bool endsWith(const String& s, const String& suffix)
+bool endsWith(const char* s, const char* suffix)
 {
 #if defined(_MSVC_LANG) && (_MSVC_LANG > 201402L)
 #error Replace this function with basic_string::ends_with
@@ -1441,7 +1441,7 @@ namespace
 	}
 
 	// Replaces special time format characters by actual AM/PM string.
-	void unescapeTimeFormat(String& format, const String& midday)
+	void unescapeTimeFormat(String& format, const char* midday)
 	{
 		if (midday.IsEmpty())
 		{
@@ -1470,7 +1470,7 @@ namespace
 	}
 }
 
-String getDateTimeStrFrom(const String& dateTimeFormat, const SYSTEMTIME& st)
+String getDateTimeStrFrom(const char* dateTimeFormat, const SYSTEMTIME& st)
 {
 	const char* localeName = LOCALE_NAME_USER_DEFAULT;
 	const DWORD flags = 0;
@@ -1511,7 +1511,7 @@ String getDateTimeStrFrom(const String& dateTimeFormat, const SYSTEMTIME& st)
 }
 
 // Don't forget to use DeleteObject(createdFont) before leaving the program
-HFONT createFont(const char* fontName, int fontSize, bool isBold, HWND hDestParent)
+HFONT createFont(const char* fontName, int fontSize, bool isBold, Upp::Ctrl* hDestParent)
 {
 	HDC hdc = GetDC(hDestParent);
 
@@ -1529,7 +1529,7 @@ HFONT createFont(const char* fontName, int fontSize, bool isBold, HWND hDestPare
 	return newFont;
 }
 
-Version::Version(const String& versionStr)
+Version::Version(const char* versionStr)
 {
 	try {
 		auto ss = tokenizeString(versionStr, '.');
@@ -1578,13 +1578,13 @@ Version::Version(const String& versionStr)
 		_patch = 0;
 		_build = 0;
 #ifdef DEBUG
-		throw std::wstring(TEXT("Unknown exception from \"Version::Version(const String& versionStr)\""));
+		throw std::wstring(TEXT("Unknown exception from \"Version::Version(const char* versionStr)\""));
 #endif
 	}
 }
 
 
-void Version::setVersionFrom(const String& filePath)
+void Version::setVersionFrom(const char* filePath)
 {
 	if (!filePath.IsEmpty() && ::PathFileExists(filePath.Begin()))
 	{

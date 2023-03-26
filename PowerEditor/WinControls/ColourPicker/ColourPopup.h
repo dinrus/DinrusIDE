@@ -33,7 +33,7 @@ public :
 
 	bool isCreated() const
 	{
-		return (_hSelf != NULL);
+		return (_hSelf != Null);
 	}
 
 	void create(int dialogID);
@@ -58,9 +58,9 @@ public :
 	COLORREF getSelColour(){return _colour;};
 
 private :
-	RECT _rc = {};
+	Rect _rc = {};
 	COLORREF _colour = RGB(0xFF, 0xFF, 0xFF);
 
-	static intptr_t CALLBACK dlgProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
+	static intptr_t CALLBACK dlgProc(Upp::Ctrl* hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 	intptr_t CALLBACK run_dlgProc(UINT message, WPARAM wParam, LPARAM lParam);
 };

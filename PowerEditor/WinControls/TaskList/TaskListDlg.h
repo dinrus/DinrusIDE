@@ -32,7 +32,7 @@ struct TaskLstFnStatus {
 	String _fn;
 	int _status = 0;
 	void *_bufID = nullptr;
-	TaskLstFnStatus(const String& str, int status) : _fn(str), _status(status){};
+	TaskLstFnStatus(const char* str, int status) : _fn(str), _status(status){};
 	TaskLstFnStatus(int iView, int docIndex, String str, int status, void *bufID) : 
 	_iView(iView), _docIndex(docIndex), _fn(str), _status(status), _bufID(bufID) {};
 };
@@ -42,8 +42,8 @@ struct TaskListInfo {
 	int _currentIndex = -1;
 };
 
-static HWND hWndServer = NULL;
-static HHOOK hook = NULL;
+static Upp::Ctrl* hWndServer = Null;
+static HHOOK hook = Null;
 static winVer windowsVersion = WV_UNKNOWN;
 
 static LRESULT CALLBACK hookProc(int nCode, WPARAM wParam, LPARAM lParam);
@@ -52,7 +52,7 @@ class TaskListDlg : public StaticDialog
 {
 public :
 		TaskListDlg() : StaticDialog() { _instanceCount++; };
-		void init(HINSTANCE hInst, HWND parent, HIMAGELIST hImgLst, bool dir) {
+		void init(HINSTANCE hInst, Upp::Ctrl* parent, HIMAGELIST hImgLst, bool dir) {
             Window::init(hInst, parent);
 			_hImalist = hImgLst;
 			_initDir = dir;

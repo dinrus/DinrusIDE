@@ -24,7 +24,7 @@ class GoToLineDlg : public StaticDialog
 public :
 	GoToLineDlg() = default;
 
-	void init(HINSTANCE hInst, HWND hPere, ScintillaEditView **ppEditView) {
+	void init(HINSTANCE hInst, Upp::Ctrl* hPere, ScintillaEditView **ppEditView) {
 		Window::init(hInst, hPere);
 		if (!ppEditView)
 			throw std::runtime_error("GoToLineDlg::init : ppEditView is null.");

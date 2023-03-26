@@ -23,7 +23,7 @@ using namespace std;
 
 void ShortcutMapper::initTabs()
 {
-    HWND hTab = _hTabCtrl = ::GetDlgItem(_hSelf, IDC_BABYGRID_TABBAR);
+    Upp::Ctrl* hTab = _hTabCtrl = ::GetDlgItem(_hSelf, IDC_BABYGRID_TABBAR);
     NppDarkMode::subclassTabControl(hTab);
     TCITEM tie;
     tie.mask = TCIF_TEXT;
@@ -39,7 +39,7 @@ void ShortcutMapper::initTabs()
     TabCtrl_SetCurSel(_hTabCtrl, int(_currentState));
 
     // force alignment to babygrid
-    RECT rcTab;
+    Rect rcTab;
     WINDOWPLACEMENT wp;
     wp.length = sizeof(wp);
 
@@ -52,17 +52,17 @@ void ShortcutMapper::initTabs()
     ::SetWindowPlacement(hTab, &wp);
 }
 
-void ShortcutMapper::getClientRect(RECT & rc) const
+void ShortcutMapper::getClientRect(Rect & rc) const
 {
         Window::getClientRect(rc);
 
-        RECT tabRect, btnRect;
+        Rect tabRect, btnRect;
         ::GetClientRect(::GetDlgItem(_hSelf, IDC_BABYGRID_TABBAR), &tabRect);
         int tabH = tabRect.bottom - tabRect.top;
         int paddingTop = tabH / 2;
         rc.top += tabH + paddingTop;
 
-        RECT infoRect, filterRect;
+        Rect infoRect, filterRect;
         ::GetClientRect(::GetDlgItem(_hSelf, IDC_BABYGRID_INFO), &infoRect);
         ::GetClientRect(::GetDlgItem(_hSelf, IDC_BABYGRID_FILTER), &filterRect);
         ::GetClientRect(::GetDlgItem(_hSelf, IDOK), &btnRect);
@@ -104,7 +104,7 @@ String ShortcutMapper::getTabString(size_t i) const
 
 void ShortcutMapper::initBabyGrid()
 {
-    RECT rect;
+    Rect rect;
     getClientRect(rect);
 
     _lastHomeRow.resize(5, 1);
@@ -183,7 +183,7 @@ void ShortcutMapper::initBabyGrid()
     _conflictInfoEditing = nativeLangSpeaker->getShortcutMapperLangStr("ConflictInfoEditing", TEXT("No conflicts . . ."));
 }
 
-String ShortcutMapper::getTextFromCombo(HWND hCombo)
+String ShortcutMapper::getTextFromCombo(Upp::Ctrl* hCombo)
 {
     const int NB_MAX(128);
     char str[NB_MAX](TEXT("\0"));
@@ -463,7 +463,7 @@ intptr_t CALLBACK ShortcutMapper::run_dlgProc(UINT message, WPARAM wParam, LPARA
 
             NppDarkMode::autoSubclassAndThemeChildControls(_hSelf);
 
-            RECT rect;
+            Rect rect;
             Window::getClientRect(rect);
             _clientWidth = rect.right - rect.left;
             _clientHeight = rect.bottom - rect.top;
@@ -528,7 +528,7 @@ intptr_t CALLBACK ShortcutMapper::run_dlgProc(UINT message, WPARAM wParam, LPARA
         {
             LONG newWidth = LOWORD(lParam);
             LONG newHeight = HIWORD(lParam);
-            RECT rect;
+            Rect rect;
 
             LONG addWidth = newWidth - _clientWidth;
             LONG addHeight = newHeight - _clientHeight;
@@ -547,27 +547,27 @@ intptr_t CALLBACK ShortcutMapper::run_dlgProc(UINT message, WPARAM wParam, LPARA
 
             for (int moveWndID : moveWindowIDs)
             {
-                HWND moveHwnd = ::GetDlgItem(_hSelf, moveWndID);
+                Upp::Ctrl* moveHwnd = ::GetDlgItem(_hSelf, moveWndID);
                 ::GetWindowRect(moveHwnd, &rect);
-                ::MapWindowPoints(NULL, _hSelf, (LPPOINT)&rect, 2);
-                ::SetWindowPos(moveHwnd, NULL, rect.left + addWidth / 2, rect.top + addHeight, 0, 0, SWP_NOSIZE | flags);
+                ::MapWindowPoints(Null, _hSelf, (LPPOINT)&rect, 2);
+                ::SetWindowPos(moveHwnd, Null, rect.left + addWidth / 2, rect.top + addHeight, 0, 0, SWP_NOSIZE | flags);
             }
-            HWND moveHwnd = ::GetDlgItem(_hSelf, IDC_BABYGRID_STATIC);
+            Upp::Ctrl* moveHwnd = ::GetDlgItem(_hSelf, IDC_BABYGRID_STATIC);
             ::GetWindowRect(moveHwnd, &rect);
-            ::MapWindowPoints(NULL, _hSelf, (LPPOINT)&rect, 2);
-            ::SetWindowPos(moveHwnd, NULL, rect.left, rect.top + addHeight, 0, 0, SWP_NOSIZE | flags);
+            ::MapWindowPoints(Null, _hSelf, (LPPOINT)&rect, 2);
+            ::SetWindowPos(moveHwnd, Null, rect.left, rect.top + addHeight, 0, 0, SWP_NOSIZE | flags);
 
             // Move and resize IDC_BABYGRID_INFO and IDC_BABYGRID_FILTER
             // Move the Y position, Resize the width
-            HWND resizeHwnd = ::GetDlgItem(_hSelf, IDC_BABYGRID_INFO);
+            Upp::Ctrl* resizeHwnd = ::GetDlgItem(_hSelf, IDC_BABYGRID_INFO);
             ::GetWindowRect(resizeHwnd, &rect);
-            ::MapWindowPoints(NULL, _hSelf, (LPPOINT)&rect, 2);
-            ::SetWindowPos(resizeHwnd, NULL, rect.left, rect.top + addHeight, rect.right - rect.left + addWidth, rect.bottom - rect.top, flags);
+            ::MapWindowPoints(Null, _hSelf, (LPPOINT)&rect, 2);
+            ::SetWindowPos(resizeHwnd, Null, rect.left, rect.top + addHeight, rect.right - rect.left + addWidth, rect.bottom - rect.top, flags);
 
             resizeHwnd = ::GetDlgItem(_hSelf, IDC_BABYGRID_FILTER);
             ::GetWindowRect(resizeHwnd, &rect);
-            ::MapWindowPoints(NULL, _hSelf, (LPPOINT)&rect, 2);
-            ::SetWindowPos(resizeHwnd, NULL, rect.left, rect.top + addHeight, rect.right - rect.left + addWidth, rect.bottom - rect.top, flags);
+            ::MapWindowPoints(Null, _hSelf, (LPPOINT)&rect, 2);
+            ::SetWindowPos(resizeHwnd, Null, rect.left, rect.top + addHeight, rect.right - rect.left + addWidth, rect.bottom - rect.top, flags);
 
             break;
         }
@@ -951,7 +951,7 @@ intptr_t CALLBACK ShortcutMapper::run_dlgProc(UINT message, WPARAM wParam, LPARA
                         // Menu data
                         int32_t posBase = 0;
                         size_t nbElem = 0;
-                        HMENU hMenu = NULL;
+                        Menu* hMenu = Null;
                         int modifCmd = IDM_SETTING_SHORTCUT_MAPPER_RUN;
                         switch(_currentState)
                         {
@@ -984,7 +984,7 @@ intptr_t CALLBACK ShortcutMapper::run_dlgProc(UINT message, WPARAM wParam, LPARA
                                 // preparing to remove from menu
                                 posBase = 6;
                                 nbElem = theMacros.size();
-                                HMENU m = reinterpret_cast<HMENU>(::SendMessage(_hParent, NPPM_INTERNAL_GETMENU, 0, 0));
+                                Menu* m = reinterpret_cast<Menu*>(::SendMessage(_hParent, NPPM_INTERNAL_GETMENU, 0, 0));
                                 hMenu = ::GetSubMenu(m, MENUINDEX_MACRO);
 
                                 modifCmd = IDM_SETTING_SHORTCUT_MAPPER_MACRO;
@@ -1019,7 +1019,7 @@ intptr_t CALLBACK ShortcutMapper::run_dlgProc(UINT message, WPARAM wParam, LPARA
                                 // preparing to remove from menu
                                 posBase = 2;
                                 nbElem = theUserCmds.size();
-                                HMENU m = reinterpret_cast<HMENU>(::SendMessage(_hParent, NPPM_INTERNAL_GETMENU, 0, 0));
+                                Menu* m = reinterpret_cast<Menu*>(::SendMessage(_hParent, NPPM_INTERNAL_GETMENU, 0, 0));
                                 hMenu = ::GetSubMenu(m, MENUINDEX_RUN);
 
                                 modifCmd = IDM_SETTING_SHORTCUT_MAPPER_RUN;

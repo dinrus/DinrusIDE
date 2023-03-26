@@ -806,7 +806,7 @@ winVer NppParameters::getWindowsVersion()
     }
 
     pGNSI = (PGNSI) GetProcAddress(GetModuleHandle(TEXT("kernel32.dll")), "GetNativeSystemInfo");
-    if (pGNSI != NULL)
+    if (pGNSI != Null)
         pGNSI(&si);
     else
         GetSystemInfo(&si);
@@ -902,7 +902,7 @@ NppParameters::NppParameters()
 
     // Prepare for default path
     char nppPath[MAX_PATH];
-    ::GetModuleFileName(NULL, nppPath, MAX_PATH);
+    ::GetModuleFileName(Null, nppPath, MAX_PATH);
 
     PathRemoveFileSpec(nppPath);
     _nppPath = nppPath;
@@ -954,12 +954,12 @@ bool NppParameters::reloadStylers(const char* stylePath)
     {
         if (!_pNativeLangSpeaker)
         {
-            ::MessageBox(NULL, stylePathToLoad, TEXT("Load stylers.xml failed"), MB_OK);
+            ::MessageBox(Null, stylePathToLoad, TEXT("Load stylers.xml failed"), MB_OK);
         }
         else
         {
             _pNativeLangSpeaker->messageBox("LoadStylersFailed",
-                NULL,
+                Null,
                 TEXT("Load \"$STR_REPLACE$\" failed!"),
                 TEXT("Load stylers.xml failed"),
                 MB_OK,
@@ -967,7 +967,7 @@ bool NppParameters::reloadStylers(const char* stylePath)
                 stylePathToLoad);
         }
         delete _pXmlUserStylerDoc;
-        _pXmlUserStylerDoc = NULL;
+        _pXmlUserStylerDoc = Null;
         return false;
     }
     _lexerStylerVect.clear();
@@ -1090,15 +1090,15 @@ bool NppParameters::load()
 
         pathAppend(_userPath, TEXT("Notepad++"));
         if (!PathFileExists(_userPath.Begin()))
-            ::CreateDirectory(_userPath.Begin(), NULL);
+            ::CreateDirectory(_userPath.Begin(), Null);
 
         _appdataNppDir = _userPluginConfDir = _userPath;
         pathAppend(_userPluginConfDir, TEXT("plugins"));
         if (!PathFileExists(_userPluginConfDir.Begin()))
-            ::CreateDirectory(_userPluginConfDir.Begin(), NULL);
+            ::CreateDirectory(_userPluginConfDir.Begin(), Null);
         pathAppend(_userPluginConfDir, TEXT("Config"));
         if (!PathFileExists(_userPluginConfDir.Begin()))
-            ::CreateDirectory(_userPluginConfDir.Begin(), NULL);
+            ::CreateDirectory(_userPluginConfDir.Begin(), Null);
 
         // For PluginAdmin to launch the wingup with UAC
         setElevationRequired(true);
@@ -1108,9 +1108,9 @@ bool NppParameters::load()
     pathAppend(_pluginConfDir, TEXT("Config"));
 
     if (!PathFileExists(nppPluginRootParent.Begin()))
-        ::CreateDirectory(nppPluginRootParent.Begin(), NULL);
+        ::CreateDirectory(nppPluginRootParent.Begin(), Null);
     if (!PathFileExists(_pluginRootDir.Begin()))
-        ::CreateDirectory(_pluginRootDir.Begin(), NULL);
+        ::CreateDirectory(_pluginRootDir.Begin(), Null);
 
     _sessionPath = _userPath; // Session stock the absolute file path, it should never be on cloud
 
@@ -1148,7 +1148,7 @@ bool NppParameters::load()
             String errMsg = TEXT("The given path\r");
             errMsg += _cmdSettingsDir;
             errMsg += TEXT("\nvia command line \"-settingsDir=\" is not a valid directory.\rThis argument will be ignored.");
-            ::MessageBox(NULL, errMsg.Begin(), TEXT("Invalid directory"), MB_OK);
+            ::MessageBox(Null, errMsg.Begin(), TEXT("Invalid directory"), MB_OK);
         }
         else
         {
@@ -1189,14 +1189,14 @@ bool NppParameters::load()
                 if (_pNativeLangSpeaker)
                 {
                     doRecover = _pNativeLangSpeaker->messageBox("LoadLangsFailed",
-                        NULL,
+                        Null,
                         TEXT("Load langs.xml failed!\rDo you want to recover your langs.xml?"),
                         TEXT("Configurator"),
                         MB_YESNO);
                 }
                 else
                 {
-                    doRecover = ::MessageBox(NULL, TEXT("Load langs.xml failed!\rDo you want to recover your langs.xml?"), TEXT("Configurator"), MB_YESNO);
+                    doRecover = ::MessageBox(Null, TEXT("Load langs.xml failed!\rDo you want to recover your langs.xml?"), TEXT("Configurator"), MB_YESNO);
                 }
             }
         }
@@ -1220,14 +1220,14 @@ bool NppParameters::load()
         if (_pNativeLangSpeaker)
         {
             _pNativeLangSpeaker->messageBox("LoadLangsFailedFinal",
-                NULL,
+                Null,
                 TEXT("Load langs.xml failed!"),
                 TEXT("Configurator"),
                 MB_OK);
         }
         else
         {
-            ::MessageBox(NULL, TEXT("Load langs.xml failed!"), TEXT("Configurator"), MB_OK);
+            ::MessageBox(Null, TEXT("Load langs.xml failed!"), TEXT("Configurator"), MB_OK);
         }
 
         delete _pXmlDoc;
@@ -1288,7 +1288,7 @@ bool NppParameters::load()
         if (_pNativeLangSpeaker)
         {
             _pNativeLangSpeaker->messageBox("LoadStylersFailed",
-                NULL,
+                Null,
                 TEXT("Load \"$STR_REPLACE$\" failed!"),
                 TEXT("Load stylers.xml failed"),
                 MB_OK,
@@ -1297,10 +1297,10 @@ bool NppParameters::load()
         }
         else
         {
-            ::MessageBox(NULL, _stylerPath.Begin(), TEXT("Load stylers.xml failed"), MB_OK);
+            ::MessageBox(Null, _stylerPath.Begin(), TEXT("Load stylers.xml failed"), MB_OK);
         }
         delete _pXmlUserStylerDoc;
-        _pXmlUserStylerDoc = NULL;
+        _pXmlUserStylerDoc = Null;
         isAllLaoded = false;
     }
     else
@@ -1570,14 +1570,14 @@ void NppParameters::setWorkSpaceFilePath(int i, const char* wsFile)
 }
 
 
-void NppParameters::removeTransparent(HWND hwnd)
+void NppParameters::removeTransparent(Upp::Ctrl* hwnd)
 {
-    if (hwnd != NULL)
+    if (hwnd != Null)
         ::SetWindowLongPtr(hwnd, GWL_EXSTYLE,  ::GetWindowLongPtr(hwnd, GWL_EXSTYLE) & ~0x00080000);
 }
 
 
-void NppParameters::SetTransparent(HWND hwnd, int percent)
+void NppParameters::SetTransparent(Upp::Ctrl* hwnd, int percent)
 {
     if (nullptr != _transparentFuncAddr)
     {
@@ -1708,7 +1708,7 @@ static int CALLBACK EnumFontFamExProc(const LOGFONT* lpelfe, const TEXTMETRIC*, 
 }
 
 
-void NppParameters::setFontList(HWND hWnd)
+void NppParameters::setFontList(Upp::Ctrl* hWnd)
 {
     //---------------//
     // Sys font list //
@@ -1725,7 +1725,7 @@ void NppParameters::setFontList(HWND hWnd)
     ::EnumFontFamiliesEx(hDC, &lf, EnumFontFamExProc, reinterpret_cast<LPARAM>(&_fontlist), 0);
 }
 
-bool NppParameters::isInFontList(const String& fontName2Search) const
+bool NppParameters::isInFontList(const char* fontName2Search) const
 {
     if (fontName2Search.IsEmpty())
         return false;
@@ -1957,13 +1957,13 @@ void NppParameters::initScintillaKeys()
         prevID = skd.functionId;
     }
 }
-bool NppParameters::reloadContextMenuFromXmlTree(HMENU mainMenuHadle, HMENU pluginsMenu)
+bool NppParameters::reloadContextMenuFromXmlTree(Menu* mainMenuHadle, Menu* pluginsMenu)
 {
     _contextMenuItems.clear();
     return getContextMenuFromXmlTree(mainMenuHadle, pluginsMenu);
 }
 
-int NppParameters::getCmdIdFromMenuEntryItemName(HMENU mainMenuHadle, const String& menuEntryName, const String& menuItemName)
+int NppParameters::getCmdIdFromMenuEntryItemName(Menu* mainMenuHadle, const char* menuEntryName, const char* menuItemName)
 {
     int nbMenuEntry = ::GetMenuItemCount(mainMenuHadle);
     for (int i = 0; i < nbMenuEntry; ++i)
@@ -1972,10 +1972,10 @@ int NppParameters::getCmdIdFromMenuEntryItemName(HMENU mainMenuHadle, const Stri
         ::GetMenuString(mainMenuHadle, i, menuEntryString, 64, MF_BYPOSITION);
         if (generic_stricmp(menuEntryName.Begin(), purgeMenuItemString(menuEntryString).Begin()) == 0)
         {
-            vector< pair<HMENU, int> > parentMenuPos;
-            HMENU topMenu = ::GetSubMenu(mainMenuHadle, i);
+            vector< pair<Menu*, int> > parentMenuPos;
+            Menu* topMenu = ::GetSubMenu(mainMenuHadle, i);
             int maxTopMenuPos = ::GetMenuItemCount(topMenu);
-            HMENU currMenu = topMenu;
+            Menu* currMenu = topMenu;
             int currMaxMenuPos = maxTopMenuPos;
 
             int currMenuPos = 0;
@@ -2023,7 +2023,7 @@ int NppParameters::getCmdIdFromMenuEntryItemName(HMENU mainMenuHadle, const Stri
     return -1;
 }
 
-int NppParameters::getPluginCmdIdFromMenuEntryItemName(HMENU pluginsMenu, const String& pluginName, const String& pluginCmdName)
+int NppParameters::getPluginCmdIdFromMenuEntryItemName(Menu* pluginsMenu, const char* pluginName, const char* pluginCmdName)
 {
     int nbPlugins = ::GetMenuItemCount(pluginsMenu);
     for (int i = 0; i < nbPlugins; ++i)
@@ -2032,7 +2032,7 @@ int NppParameters::getPluginCmdIdFromMenuEntryItemName(HMENU pluginsMenu, const 
         ::GetMenuString(pluginsMenu, i, menuItemString, 256, MF_BYPOSITION);
         if (generic_stricmp(pluginName.Begin(), purgeMenuItemString(menuItemString).Begin()) == 0)
         {
-            HMENU pluginMenu = ::GetSubMenu(pluginsMenu, i);
+            Menu* pluginMenu = ::GetSubMenu(pluginsMenu, i);
             int nbPluginCmd = ::GetMenuItemCount(pluginMenu);
             for (int j = 0; j < nbPluginCmd; ++j)
             {
@@ -2048,7 +2048,7 @@ int NppParameters::getPluginCmdIdFromMenuEntryItemName(HMENU pluginsMenu, const 
     return -1;
 }
 
-bool NppParameters::getContextMenuFromXmlTree(HMENU mainMenuHadle, HMENU pluginsMenu)
+bool NppParameters::getContextMenuFromXmlTree(Menu* mainMenuHadle, Menu* pluginsMenu)
 {
     if (!_pXmlContextMenuDocA)
         return false;
@@ -2884,7 +2884,7 @@ std::pair<unsigned char, unsigned char> NppParameters::feedUserLang(TiXmlNode *n
     return pair<unsigned char, unsigned char>(static_cast<unsigned char>(iBegin), static_cast<unsigned char>(iEnd));
 }
 
-bool NppParameters::importUDLFromFile(const String& sourceFile)
+bool NppParameters::importUDLFromFile(const char* sourceFile)
 {
     TiXmlDocument *pXmlUserLangDoc = new TiXmlDocument(sourceFile);
 
@@ -2905,7 +2905,7 @@ bool NppParameters::importUDLFromFile(const String& sourceFile)
     return loadOkay;
 }
 
-bool NppParameters::exportUDLToFile(size_t langIndex2export, const String& fileName2save)
+bool NppParameters::exportUDLToFile(size_t langIndex2export, const char* fileName2save)
 {
     if (langIndex2export >= NB_MAX_USER_LANG)
         return false;
@@ -2932,7 +2932,7 @@ LangType NppParameters::getLangFromExt(const char *ext)
         Lang *l = getLangFromIndex(i--);
 
         const char *defList = l->getDefaultExtList();
-        const char *userList = NULL;
+        const char *userList = Null;
 
         LexerStylerArray &lsa = getLStylerArray();
         const char *lName = l->getLangName();
@@ -2963,7 +2963,7 @@ void NppParameters::setCloudChoice(const char *pathChoice)
 
     if (!PathFileExists(cloudChoicePath.Begin()))
     {
-        ::CreateDirectory(cloudChoicePath.Begin(), NULL);
+        ::CreateDirectory(cloudChoicePath.Begin(), Null);
     }
     cloudChoicePath += TEXT("choice");
 
@@ -3669,7 +3669,7 @@ bool NppParameters::feedStylerArray(TiXmlNode *node)
         if (lexerName)
         {
             _lexerStylerVect.addLexerStyler(lexerName, lexerDesc, lexerUserExt, childNode);
-            if (lexerExcluded != NULL && (lstrcmp(lexerExcluded, TEXT("yes")) == 0))
+            if (lexerExcluded != Null && (lstrcmp(lexerExcluded, TEXT("yes")) == 0))
             {
                 int index = getExternalLangIndexFromName(lexerName);
                 if (index != -1)
@@ -3964,7 +3964,7 @@ TiXmlNode * NppParameters::getChildElementByAttribut(TiXmlNode *pere, const char
                 return childNode;
         }
     }
-    return NULL;
+    return Null;
 }
 
 // 2 restes : L_H, L_USER
@@ -4786,7 +4786,7 @@ void NppParameters::feedGUIParameters(TiXmlNode *node)
 
         else if (!lstrcmp(nm, TEXT("AppPosition")))
         {
-            RECT oldRect = _nppGUI._appPos;
+            Rect oldRect = _nppGUI._appPos;
             bool fuckUp = true;
             int i;
 
@@ -4820,7 +4820,7 @@ void NppParameters::feedGUIParameters(TiXmlNode *node)
 
         else if (!lstrcmp(nm, TEXT("FindWindowPosition")))
         {
-            RECT oldRect = _nppGUI._findWindowPos;
+            Rect oldRect = _nppGUI._findWindowPos;
             bool incomplete = true;
             int i;
 
@@ -5391,14 +5391,14 @@ void NppParameters::feedGUIParameters(TiXmlNode *node)
         else if (!lstrcmp(nm, TEXT("stylerTheme")))
         {
             const char *themePath = element->Attribute(TEXT("path"));
-            if (themePath != NULL && themePath[0])
+            if (themePath != Null && themePath[0])
                 _nppGUI._themeName.assign(themePath);
         }
 
         else if (!lstrcmp(nm, TEXT("insertDateTime")))
         {
             const char* customFormat = element->Attribute(TEXT("customizedFormat"));
-            if (customFormat != NULL && customFormat[0])
+            if (customFormat != Null && customFormat[0])
                 _nppGUI._dateTimeFormat = customFormat;
 
             const char* value = element->Attribute(TEXT("reverseDefaultOrder"));
@@ -5442,7 +5442,7 @@ void NppParameters::feedGUIParameters(TiXmlNode *node)
                 _nppGUI._rightmostDelimiter = static_cast<char>(rightmost);
 
             const char *delimiterSelectionOnEntireDocument = element->Attribute(TEXT("delimiterSelectionOnEntireDocument"));
-            if (delimiterSelectionOnEntireDocument != NULL && !lstrcmp(delimiterSelectionOnEntireDocument, TEXT("yes")))
+            if (delimiterSelectionOnEntireDocument != Null && !lstrcmp(delimiterSelectionOnEntireDocument, TEXT("yes")))
                 _nppGUI._delimiterSelectionOnEntireDocument = true;
             else
                 _nppGUI._delimiterSelectionOnEntireDocument = false;
@@ -7651,8 +7651,8 @@ the evolution to remove UDL one by one:
 3[U1]  [NUDL, <3,4>]         3[U1]  [NUDL, <3,4>]         3[U1]  [NUDL, <3,4>]         2[U1]  [NUDL, <2,3>]          [U1]  [NUDL, <0,0>]
 4[U2]                        4[U2]                         [U2]                         [U2]                         [U2]
 5[U2]  [NUDL, <4,6>]         5[U2]  [NUDL, <4,6>]         4[U2]  [NUDL, <4,5>]         3[U2]  [NUDL, <3,4>]         0[U2]  [NUDL, <0,1>]
-6[C1]  [NULL, <6,7>]          [C1]  [NULL, <6,6>]          [C1]  [NULL, <5,5>]          [C1]  [NULL, <4,4>]          [C1]  [NULL, <1,1>]
-7[I1]  [NULL, <7,8>]         6[I1]  [NULL, <6,7>]         5[I1]  [NULL, <5,6>]         4[I1]  [NULL, <4,5>]         1[I1]  [NULL, <1,2>]
+6[C1]  [Null, <6,7>]          [C1]  [Null, <6,6>]          [C1]  [Null, <5,5>]          [C1]  [Null, <4,4>]          [C1]  [Null, <1,1>]
+7[I1]  [Null, <7,8>]         6[I1]  [Null, <6,7>]         5[I1]  [Null, <5,6>]         4[I1]  [Null, <4,5>]         1[I1]  [Null, <1,2>]
 */
 void NppParameters::removeIndexFromXmlUdls(size_t i)
 {

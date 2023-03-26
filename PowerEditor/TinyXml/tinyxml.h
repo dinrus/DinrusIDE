@@ -364,7 +364,7 @@ public:
 
     #ifdef TIXML_USE_STL
     /// STL string form.
-    void SetValue( const String& _value )
+    void SetValue( const char* _value )
     {
         StringToBuffer buf( _value );
         SetValue( buf.buffer ? buf.buffer : TEXT("") );
@@ -384,8 +384,8 @@ public:
     TiXmlNode* LastChild( const char * value ) const;          /// The last child of this node matching 'value'. Will be null if there are no children.
 
     #ifdef TIXML_USE_STL
-    TiXmlNode* FirstChild( const String& _value ) const {   return FirstChild (_value.Begin ());    }   ///< STL std::String form.
-    TiXmlNode* LastChild( const String& _value ) const      {   return LastChild (_value.Begin ()); }   ///< STL std::String form.
+    TiXmlNode* FirstChild( const char* _value ) const {   return FirstChild (_value.Begin ());    }   ///< STL std::String form.
+    TiXmlNode* LastChild( const char* _value ) const      {   return LastChild (_value.Begin ()); }   ///< STL std::String form.
     #endif
 
     /** An alternate way to walk the children of a node.
@@ -410,11 +410,11 @@ public:
     TiXmlNode* IterateChildren( const char * value, TiXmlNode* previous ) const;
 
     #ifdef TIXML_USE_STL
-    TiXmlNode* IterateChildren( const String& _value, TiXmlNode* previous ) const   {   return IterateChildren (_value.Begin (), previous); }   ///< STL std::String form.
+    TiXmlNode* IterateChildren( const char* _value, TiXmlNode* previous ) const   {   return IterateChildren (_value.Begin (), previous); }   ///< STL std::String form.
     #endif
 
     /** Add a new node related to this. Adds a child past the LastChild.
-        Returns a pointer to the new object or NULL if an error occured.
+        Returns a pointer to the new object or Null if an error occured.
     */
     TiXmlNode* InsertEndChild( const TiXmlNode& addThis );
 
@@ -431,17 +431,17 @@ public:
     TiXmlNode* LinkEndChild( TiXmlNode* addThis );
 
     /** Add a new node related to this. Adds a child before the specified child.
-        Returns a pointer to the new object or NULL if an error occured.
+        Returns a pointer to the new object or Null if an error occured.
     */
     TiXmlNode* InsertBeforeChild( TiXmlNode* beforeThis, const TiXmlNode& addThis );
 
     /** Add a new node related to this. Adds a child after the specified child.
-        Returns a pointer to the new object or NULL if an error occured.
+        Returns a pointer to the new object or Null if an error occured.
     */
     TiXmlNode* InsertAfterChild(  TiXmlNode* afterThis, const TiXmlNode& addThis );
 
     /** Replace a child of this node.
-        Returns a pointer to the new object or NULL if an error occured.
+        Returns a pointer to the new object or Null if an error occured.
     */
     TiXmlNode* ReplaceChild( TiXmlNode* replaceThis, const TiXmlNode& withThis );
 
@@ -455,8 +455,8 @@ public:
     TiXmlNode* PreviousSibling( const char * ) const;
 
     #ifdef TIXML_USE_STL
-    TiXmlNode* PreviousSibling( const String& _value ) const    {   return PreviousSibling (_value.Begin ());   }   ///< STL std::String form.
-    TiXmlNode* NextSibling( const String& _value) const     {   return NextSibling (_value.Begin ());   }   ///< STL std::String form.
+    TiXmlNode* PreviousSibling( const char* _value ) const    {   return PreviousSibling (_value.Begin ());   }   ///< STL std::String form.
+    TiXmlNode* NextSibling( const char* _value) const     {   return NextSibling (_value.Begin ());   }   ///< STL std::String form.
     #endif
 
     /// Navigate to a sibling node.
@@ -478,7 +478,7 @@ public:
     TiXmlElement* NextSiblingElement( const char * ) const;
 
     #ifdef TIXML_USE_STL
-    TiXmlElement* NextSiblingElement( const String& _value) const   {   return NextSiblingElement (_value.Begin ());    }   ///< STL std::String form.
+    TiXmlElement* NextSiblingElement( const char* _value) const   {   return NextSiblingElement (_value.Begin ());    }   ///< STL std::String form.
     #endif
 
     /// Convenience function to get through elements.
@@ -488,7 +488,7 @@ public:
     TiXmlElement* FirstChildElement( const char * value ) const;
 
     #ifdef TIXML_USE_STL
-    TiXmlElement* FirstChildElement( const String& _value ) const   {   return FirstChildElement (_value.Begin ()); }   ///< STL std::String form.
+    TiXmlElement* FirstChildElement( const char* _value ) const   {   return FirstChildElement (_value.Begin ()); }   ///< STL std::String form.
     #endif
 
     /** Query the type (as an enumerated value, above) of this node.
@@ -568,7 +568,7 @@ public:
 
     #ifdef TIXML_USE_STL
     /// string constructor.
-    TiXmlAttribute( const String& _name, const String& _value )
+    TiXmlAttribute( const char* _name, const char* _value )
     {
         name = _name;
         value = _value;
@@ -612,13 +612,13 @@ public:
 
     #ifdef TIXML_USE_STL
     /// STL string form.
-    void SetName( const String& _name )
+    void SetName( const char* _name )
     {
         StringToBuffer buf( _name );
         SetName ( buf.buffer ? buf.buffer : TEXT("error") );
     }
     /// STL string form.
-    void SetValue( const String& _value )
+    void SetValue( const char* _value )
     {
         StringToBuffer buf( _value );
         SetValue( buf.buffer ? buf.buffer : TEXT("error") );
@@ -699,7 +699,7 @@ public:
 
     #ifdef TIXML_USE_STL
     /// string constructor.
-    TiXmlElement( const String& _value ) :  TiXmlNode( TiXmlNode::ELEMENT )
+    TiXmlElement( const char* _value ) :  TiXmlNode( TiXmlNode::ELEMENT )
     {
         firstChild = lastChild = 0;
         value = _value;
@@ -746,11 +746,11 @@ public:
     void SetAttribute( const char* name, const char * value );
 
     #ifdef TIXML_USE_STL
-    const char* Attribute( const String& name ) const              { return Attribute( name.Begin() ); }
-    const char* Attribute( const String& name, int* i ) const      { return Attribute( name.Begin(), i ); }
+    const char* Attribute( const char* name ) const              { return Attribute( name.Begin() ); }
+    const char* Attribute( const char* name, int* i ) const      { return Attribute( name.Begin(), i ); }
 
     /// STL string form.
-    void SetAttribute( const String& name, const String& _value )
+    void SetAttribute( const char* name, const char* _value )
     {
         StringToBuffer n( name );
         StringToBuffer v( _value );
@@ -758,7 +758,7 @@ public:
             SetAttribute (n.buffer, v.buffer );
     }
     ///< STL string form.
-    void SetAttribute( const String& name, int _value )
+    void SetAttribute( const char* name, int _value )
     {
         StringToBuffer n( name );
         if ( n.buffer )
@@ -775,7 +775,7 @@ public:
     */
     void RemoveAttribute( const char * name );
     #ifdef TIXML_USE_STL
-    void RemoveAttribute( const String& name )  {   RemoveAttribute (name.Begin ());    }   ///< STL string form.
+    void RemoveAttribute( const char* name )  {   RemoveAttribute (name.Begin ());    }   ///< STL string form.
     #endif
 
     TiXmlAttribute* FirstAttribute() const  { return attributeSet.First(); }        ///< Access the first attribute in this element.
@@ -854,7 +854,7 @@ public:
 
     #ifdef TIXML_USE_STL
     /// Constructor.
-    TiXmlText( const String& initValue ) : TiXmlNode (TiXmlNode::TEXT)
+    TiXmlText( const char* initValue ) : TiXmlNode (TiXmlNode::TEXT)
     {
         SetValue( initValue );
     }
@@ -902,9 +902,9 @@ public:
 
 #ifdef TIXML_USE_STL
     /// Constructor.
-    TiXmlDeclaration(   const String& _version,
-                        const String& _encoding,
-                        const String& _standalone )
+    TiXmlDeclaration(   const char* _version,
+                        const char* _encoding,
+                        const char* _standalone )
             : TiXmlNode( TiXmlNode::DECLARATION )
     {
         version = _version;
@@ -993,7 +993,7 @@ public:
 
     #ifdef TIXML_USE_STL
     /// Constructor.
-    TiXmlDocument( const String& documentName ) :
+    TiXmlDocument( const char* documentName ) :
         TiXmlNode( TiXmlNode::DOCUMENT )
     {
         tabsize = 4;
@@ -1017,12 +1017,12 @@ public:
     bool SaveFile( const char * filename ) const;
 
     #ifdef TIXML_USE_STL
-    bool LoadFile( const String& filename )         ///< STL string version.
+    bool LoadFile( const char* filename )         ///< STL string version.
     {
         StringToBuffer f( filename );
         return ( f.buffer && LoadFile( f.buffer ));
     }
-    bool SaveFile( const String& filename ) const       ///< STL string version.
+    bool SaveFile( const char* filename ) const       ///< STL string version.
     {
         StringToBuffer f( filename );
         return ( f.buffer && SaveFile( f.buffer ));
@@ -1240,11 +1240,11 @@ public:
     TiXmlHandle ChildElement( int index ) const;
 
     #ifdef TIXML_USE_STL
-    TiXmlHandle FirstChild( const String& _value ) const            { return FirstChild( _value.Begin() ); }
-    TiXmlHandle FirstChildElement( const String& _value ) const     { return FirstChildElement( _value.Begin() ); }
+    TiXmlHandle FirstChild( const char* _value ) const            { return FirstChild( _value.Begin() ); }
+    TiXmlHandle FirstChildElement( const char* _value ) const     { return FirstChildElement( _value.Begin() ); }
 
-    TiXmlHandle Child( const String& _value, int index ) const          { return Child( _value.Begin(), index ); }
-    TiXmlHandle ChildElement( const String& _value, int index ) const   { return ChildElement( _value.Begin(), index ); }
+    TiXmlHandle Child( const char* _value, int index ) const          { return Child( _value.Begin(), index ); }
+    TiXmlHandle ChildElement( const char* _value, int index ) const   { return ChildElement( _value.Begin(), index ); }
     #endif
 
     /// Return the handle as a TiXmlNode. This may return null.

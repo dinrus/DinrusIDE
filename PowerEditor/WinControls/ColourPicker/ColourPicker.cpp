@@ -20,7 +20,7 @@
 #include "ColourPopup.h"
 #include <PowerEditor/NppDarkMode.h>
 
-void ColourPicker::init(HINSTANCE hInst, HWND parent)
+void ColourPicker::init(HINSTANCE hInst, Upp::Ctrl* parent)
 {
 	Window::init(hInst, parent);
 
@@ -30,7 +30,7 @@ void ColourPicker::init(HINSTANCE hInst, HWND parent)
 		TEXT("F"),
 		WS_CHILD |  WS_VISIBLE,
 		0, 0, 25, 25,
-		_hParent, NULL, _hInst, (LPVOID)0);
+		_hParent, Null, _hInst, (LPVOID)0);
 
 	if (!_hSelf)
 		throw std::runtime_error("ColourPicker::init : CreateWindowEx() function return null");
@@ -43,14 +43,14 @@ void ColourPicker::init(HINSTANCE hInst, HWND parent)
 void ColourPicker::destroy()
 {
 	delete _pColourPopup;
-	_pColourPopup = NULL;
+	_pColourPopup = Null;
 	::DestroyWindow(_hSelf);
 }
 
 
 void ColourPicker::drawBackground(HDC hDC)
 {
-	RECT rc;
+	Rect rc;
 	HBRUSH hbrush;
 
 	if (!hDC)
@@ -77,8 +77,8 @@ void ColourPicker::drawBackground(HDC hDC)
 
 void ColourPicker::drawForeground(HDC hDC)
 {
-	RECT rc;
-	HBRUSH hbrush = NULL;
+	Rect rc;
+	HBRUSH hbrush = Null;
 
 	if (!hDC || _isEnabled)
 		return;
@@ -108,7 +108,7 @@ LRESULT ColourPicker::runProc(UINT Message, WPARAM wParam, LPARAM lParam)
 		case WM_LBUTTONDBLCLK:
 		case WM_LBUTTONDOWN:
 		{
-			RECT rc;
+			Rect rc;
 			POINT p;
 			Window::getClientRect(rc);
 			::InflateRect(&rc, -2, -2);

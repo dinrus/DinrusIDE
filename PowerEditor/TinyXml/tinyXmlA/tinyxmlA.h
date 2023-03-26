@@ -40,7 +40,7 @@ distribution.
 #endif
 
 #if defined( DEBUG ) && defined( _MSC_VER )
-#include <windows.h>
+//#include <windows.h>
 #define TIXMLA_LOG OutputDebugString
 #else
 #define TIXMLA_LOG printf
@@ -411,7 +411,7 @@ public:
 	#endif
 
 	/** Add a new node related to this. Adds a child past the LastChild.
-		Returns a pointer to the new object or NULL if an error occured.
+		Returns a pointer to the new object or Null if an error occured.
 	*/
 	TiXmlNodeA* InsertEndChild( const TiXmlNodeA& addThis );
 
@@ -428,17 +428,17 @@ public:
 	TiXmlNodeA* LinkEndChild( TiXmlNodeA* addThis );
 
 	/** Add a new node related to this. Adds a child before the specified child.
-		Returns a pointer to the new object or NULL if an error occured.
+		Returns a pointer to the new object or Null if an error occured.
 	*/
 	TiXmlNodeA* InsertBeforeChild( TiXmlNodeA* beforeThis, const TiXmlNodeA& addThis );
 
 	/** Add a new node related to this. Adds a child after the specified child.
-		Returns a pointer to the new object or NULL if an error occured.
+		Returns a pointer to the new object or Null if an error occured.
 	*/
 	TiXmlNodeA* InsertAfterChild(  TiXmlNodeA* afterThis, const TiXmlNodeA& addThis );
 
 	/** Replace a child of this node.
-		Returns a pointer to the new object or NULL if an error occured.
+		Returns a pointer to the new object or Null if an error occured.
 	*/
 	TiXmlNodeA* ReplaceChild( TiXmlNodeA* replaceThis, const TiXmlNodeA& withThis );
 

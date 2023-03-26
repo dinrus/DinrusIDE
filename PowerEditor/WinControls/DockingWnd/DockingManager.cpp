@@ -27,9 +27,9 @@ using namespace std;
 BOOL DockingManager::_isRegistered = FALSE;
 
 //Window of event handling DockingManager (can only be one)
-static	HWND			hWndServer0	= NULL;
+static	Upp::Ctrl*			hWndServer0	= Null;
 //Next hook in line
-static	HHOOK			gWinCallHook = NULL;
+static	HHOOK			gWinCallHook = Null;
 LRESULT CALLBACK focusWndProc(int nCode, WPARAM wParam, LPARAM lParam);
 
 // Callback function that handles messages (to test focus)
@@ -90,7 +90,7 @@ DockingManager::~DockingManager()
 	}
 }
 
-void DockingManager::init(HINSTANCE hInst, HWND hWnd, Window ** ppWin)
+void DockingManager::init(HINSTANCE hInst, Upp::Ctrl* hWnd, Window ** ppWin)
 {
 	Window::init(hInst, hWnd);
 
@@ -103,10 +103,10 @@ void DockingManager::init(HINSTANCE hInst, HWND hWnd, Window ** ppWin)
 		clz.cbClsExtra = 0;
 		clz.cbWndExtra = 0;
 		clz.hInstance = _hInst;
-		clz.hIcon = NULL;
-		clz.hCursor = ::LoadCursor(NULL, IDC_ARROW);
-		clz.hbrBackground = NULL;
-		clz.lpszMenuName = NULL;
+		clz.hIcon = Null;
+		clz.hCursor = ::LoadCursor(Null, IDC_ARROW);
+		clz.hbrBackground = Null;
+		clz.lpszMenuName = Null;
 		clz.lpszClassName = DSPC_CLASS_NAME;
 
 		if (!::RegisterClass(&clz))
@@ -124,7 +124,7 @@ void DockingManager::init(HINSTANCE hInst, HWND hWnd, Window ** ppWin)
 					CW_USEDEFAULT, CW_USEDEFAULT,
 					CW_USEDEFAULT, CW_USEDEFAULT,
 					_hParent,
-					NULL,
+					Null,
 					_hInst,
 					(LPVOID)this);
 
@@ -150,7 +150,7 @@ void DockingManager::init(HINSTANCE hInst, HWND hWnd, Window ** ppWin)
 	// register window event hooking
 	if (!hWndServer0)
 		hWndServer0 = _hSelf;
-	CoInitialize(NULL);
+	CoInitialize(Null);
 	if (!gWinCallHook)	//only set if not already done
 		gWinCallHook = ::SetWindowsHookEx(WH_CALLWNDPROC, focusWndProc, hInst, GetCurrentThreadId());
 
@@ -169,9 +169,9 @@ void DockingManager::destroy()
 	::DestroyWindow(_hSelf);
 }
 
-LRESULT CALLBACK DockingManager::staticWinProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK DockingManager::staticWinProc(Upp::Ctrl* hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	DockingManager *pDockingManager = NULL;
+	DockingManager *pDockingManager = Null;
 	switch (message)
 	{
 		case WM_NCCREATE :
@@ -188,7 +188,7 @@ LRESULT CALLBACK DockingManager::staticWinProc(HWND hwnd, UINT message, WPARAM w
 	}
 }
 
-void DockingManager::updateContainerInfo(HWND hClient)
+void DockingManager::updateContainerInfo(Upp::Ctrl* hClient)
 {
 	for (size_t iCont = 0, len = _vContainer.size(); iCont < len; ++iCont)
 	{
@@ -212,7 +212,7 @@ void DockingManager::showFloatingContainers(bool show)
 	}
 }
 
-LRESULT DockingManager::runProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+LRESULT DockingManager::runProc(Upp::Ctrl* hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch (message)
 	{
@@ -242,12 +242,12 @@ LRESULT DockingManager::runProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 			if (hWndServer0 == hwnd)
 			{
 				UnhookWindowsHookEx(gWinCallHook);
-				gWinCallHook = NULL;
-				hWndServer0 = NULL;
+				gWinCallHook = Null;
+				hWndServer0 = Null;
 			}
 
 			// destroy imagelist if it exists
-			if (_hImageList != NULL)
+			if (_hImageList != Null)
 			{
 				::ImageList_Destroy(_hImageList);
 			}
@@ -288,7 +288,7 @@ LRESULT DockingManager::runProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 
 			for (int iCont = 0; iCont < DOCKCONT_MAX; ++iCont)
 			{
-				if (_vSplitter[iCont]->getHSelf() == reinterpret_cast<HWND>(lParam))
+				if (_vSplitter[iCont]->getHSelf() == reinterpret_cast<Upp::Ctrl*>(lParam))
 				{
 					switch (iCont)
 					{
@@ -373,7 +373,7 @@ LRESULT DockingManager::runProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 		{
 			for (size_t uImageCnt = 0, len = _vImageList.size(); uImageCnt < len; ++uImageCnt)
 			{
-				if (reinterpret_cast<HWND>(lParam) == _vImageList[uImageCnt])
+				if (reinterpret_cast<Upp::Ctrl*>(lParam) == _vImageList[uImageCnt])
 				{
 					return uImageCnt;
 				}
@@ -392,7 +392,7 @@ void DockingManager::resize()
     reSizeTo(_rect);
 }
 
-void DockingManager::reSizeTo(RECT & rc)
+void DockingManager::reSizeTo(Rect & rc)
 {
 	// store current size of client area
 	_rect = rc;
@@ -416,7 +416,7 @@ void DockingManager::reSizeTo(RECT & rc)
 		_rcWork.bottom	-= _dockData.rcRegion[CONT_TOP].bottom + SPLITTER_WIDTH;
 
 		// set size of splitter
-		RECT	rc = {_dockData.rcRegion[CONT_TOP].left  ,
+		Rect	rc = {_dockData.rcRegion[CONT_TOP].left  ,
 					  _dockData.rcRegion[CONT_TOP].top + _dockData.rcRegion[CONT_TOP].bottom,
 					  _dockData.rcRegion[CONT_TOP].right ,
 					  SPLITTER_WIDTH};
@@ -429,7 +429,7 @@ void DockingManager::reSizeTo(RECT & rc)
 	_dockData.rcRegion[CONT_BOTTOM].right  = rc.right-rc.left;
 
 	// create temporary rect for bottom container
-	RECT		rcBottom	= _dockData.rcRegion[CONT_BOTTOM];
+	Rect		rcBottom	= _dockData.rcRegion[CONT_BOTTOM];
 
 	_vSplitter[CONT_BOTTOM]->display(false);
 
@@ -437,7 +437,7 @@ void DockingManager::reSizeTo(RECT & rc)
 	{
 		_rcWork.bottom	-= _dockData.rcRegion[CONT_BOTTOM].bottom + SPLITTER_WIDTH;
 
-		// correct the visibility of bottom container when height is NULL
+		// correct the visibility of bottom container when height is Null
 		if (_rcWork.bottom < rc.top)
 		{
 			rcBottom.top     = _rcWork.top + rc.top + SPLITTER_WIDTH;
@@ -450,7 +450,7 @@ void DockingManager::reSizeTo(RECT & rc)
 		}
 
 		// set size of splitter
-		RECT	rc = {rcBottom.left,
+		Rect	rc = {rcBottom.left,
 					  rcBottom.top - SPLITTER_WIDTH,
 					  rcBottom.right,
 					  SPLITTER_WIDTH};
@@ -470,7 +470,7 @@ void DockingManager::reSizeTo(RECT & rc)
 		_rcWork.right	-= _dockData.rcRegion[CONT_LEFT].right + SPLITTER_WIDTH;
 
 		// set size of splitter
-		RECT	rc = {_dockData.rcRegion[CONT_LEFT].right,
+		Rect	rc = {_dockData.rcRegion[CONT_LEFT].right,
 					  _dockData.rcRegion[CONT_LEFT].top,
 					  SPLITTER_WIDTH,
 					  _dockData.rcRegion[CONT_LEFT].bottom};
@@ -483,14 +483,14 @@ void DockingManager::reSizeTo(RECT & rc)
 	_dockData.rcRegion[CONT_RIGHT].bottom  = _rcWork.bottom;
 
 	// create temporary rect for right container
-	RECT		rcRight		= _dockData.rcRegion[CONT_RIGHT];
+	Rect		rcRight		= _dockData.rcRegion[CONT_RIGHT];
 
 	_vSplitter[CONT_RIGHT]->display(false);
 	if (_vContainer[CONT_RIGHT]->isVisible())
 	{
 		_rcWork.right	-= _dockData.rcRegion[CONT_RIGHT].right + SPLITTER_WIDTH;
 
-		// correct the visibility of right container when width is NULL
+		// correct the visibility of right container when width is Null
 		if (_rcWork.right < 15)
 		{
 			rcRight.left    = _rcWork.left + 15 + SPLITTER_WIDTH;
@@ -499,7 +499,7 @@ void DockingManager::reSizeTo(RECT & rc)
 		}
 
 		// set size of splitter
-		RECT	rc = {rcRight.left - SPLITTER_WIDTH,
+		Rect	rc = {rcRight.left - SPLITTER_WIDTH,
 					  rcRight.top,
 					  SPLITTER_WIDTH,
 					  rcRight.bottom};
@@ -509,7 +509,7 @@ void DockingManager::reSizeTo(RECT & rc)
 	// set window positions of container
 	if (_vContainer[CONT_BOTTOM]->isVisible())
 	{
-		::SetWindowPos(_vContainer[CONT_BOTTOM]->getHSelf(), NULL,
+		::SetWindowPos(_vContainer[CONT_BOTTOM]->getHSelf(), Null,
 					   rcBottom.left  ,
 					   rcBottom.top   ,
 					   rcBottom.right ,
@@ -520,7 +520,7 @@ void DockingManager::reSizeTo(RECT & rc)
 
 	if (_vContainer[CONT_TOP]->isVisible())
 	{
-		::SetWindowPos(_vContainer[CONT_TOP]->getHSelf(), NULL,
+		::SetWindowPos(_vContainer[CONT_TOP]->getHSelf(), Null,
 					   _dockData.rcRegion[CONT_TOP].left  ,
 					   _dockData.rcRegion[CONT_TOP].top   ,
 					   _dockData.rcRegion[CONT_TOP].right ,
@@ -531,7 +531,7 @@ void DockingManager::reSizeTo(RECT & rc)
 
 	if (_vContainer[CONT_RIGHT]->isVisible())
 	{
-		::SetWindowPos(_vContainer[CONT_RIGHT]->getHSelf(), NULL,
+		::SetWindowPos(_vContainer[CONT_RIGHT]->getHSelf(), Null,
 					   rcRight.left  ,
 					   rcRight.top   ,
 					   rcRight.right ,
@@ -542,7 +542,7 @@ void DockingManager::reSizeTo(RECT & rc)
 
 	if (_vContainer[CONT_LEFT]->isVisible())
 	{
-		::SetWindowPos(_vContainer[CONT_LEFT]->getHSelf(), NULL,
+		::SetWindowPos(_vContainer[CONT_LEFT]->getHSelf(), Null,
 					   _dockData.rcRegion[CONT_LEFT].left  ,
 					   _dockData.rcRegion[CONT_LEFT].top   ,
 					   _dockData.rcRegion[CONT_LEFT].right ,
@@ -556,10 +556,10 @@ void DockingManager::reSizeTo(RECT & rc)
 void DockingManager::createDockableDlg(tTbData data, int iCont, bool isVisible)
 {
 	// add icons
-	if ((data.uMask & DWS_ICONTAB) && data.hIconTab != NULL)
+	if ((data.uMask & DWS_ICONTAB) && data.hIconTab != Null)
 	{
 		// create image list if not exist
-		if (_hImageList == NULL)
+		if (_hImageList == Null)
 		{
 			int iconDpiDynamicalSize = NppParameters::getInstance()._dpiManager.scaleY(12) + 2;
 			_hImageList = ::ImageList_Create(iconDpiDynamicalSize, iconDpiDynamicalSize, ILC_COLOR32 | ILC_MASK, 0, 0);
@@ -578,11 +578,11 @@ void DockingManager::createDockableDlg(tTbData data, int iCont, bool isVisible)
 	}
 
 	// create additional containers if necessary
-	RECT				rc			= {0,0,0,0};
-	DockingCont*		pCont		= NULL;
+	Rect				rc			= {0,0,0,0};
+	DockingCont*		pCont		= Null;
 
 	// if floated rect not set
-	if (memcmp(&data.rcFloat, &rc, sizeof(RECT)) == 0)
+	if (memcmp(&data.rcFloat, &rc, sizeof(Rect)) == 0)
 	{
 		// set default rect state
 		::GetWindowRect(data.hClient, &data.rcFloat);
@@ -660,7 +660,7 @@ void DockingManager::createDockableDlg(tTbData data, int iCont, bool isVisible)
 	}
 
 	// attach toolbar
-	if (_vContainer.size() > (size_t)iCont && _vContainer[iCont] != NULL)
+	if (_vContainer.size() > (size_t)iCont && _vContainer[iCont] != Null)
 		_vContainer[iCont]->createToolbar(data);
 
 	// notify client app
@@ -678,12 +678,12 @@ void DockingManager::setActiveTab(int iCont, int iItem)
 	_vContainer[_iContMap[iCont]]->setActiveTb(iItem);
 }
 
-void DockingManager::showDockableDlg(HWND hDlg, BOOL view)
+void DockingManager::showDockableDlg(Upp::Ctrl* hDlg, BOOL view)
 {
 	for (size_t i = 0, len = _vContainer.size(); i < len; ++i)
 	{
 		tTbData *pTbData = _vContainer[i]->findToolbarByWnd(hDlg);
-		if (pTbData != NULL)
+		if (pTbData != Null)
 		{
 			_vContainer[i]->showToolbar(pTbData, view);
 			return;
@@ -696,7 +696,7 @@ void DockingManager::showDockableDlg(char* pszName, BOOL view)
 	for (size_t i = 0, len = _vContainer.size(); i < len; ++i)
 	{
 		tTbData *pTbData = _vContainer[i]->findToolbarByName(pszName);
-		if (pTbData != NULL)
+		if (pTbData != Null)
 		{
 			_vContainer[i]->showToolbar(pTbData, view);
 			return;
@@ -704,7 +704,7 @@ void DockingManager::showDockableDlg(char* pszName, BOOL view)
 	}
 }
 
-LRESULT DockingManager::SendNotify(HWND hWnd, UINT message)
+LRESULT DockingManager::SendNotify(Upp::Ctrl* hWnd, UINT message)
 {
 	NMHDR	nmhdr;
 	nmhdr.code		= message;
@@ -741,10 +741,10 @@ DockingCont* DockingManager::toggleActiveTb(DockingCont* pContSrc, UINT message,
 	int				iContSrc	= GetContainer(pContSrc);
 	int				iContPrev	= TbData.iPrevCont;
 	BOOL			isCont		= ContExists(iContPrev);
-	DockingCont*	pContTgt	= NULL;
+	DockingCont*	pContTgt	= Null;
 
 	// if new float position is given
-	if (prcFloat != NULL)
+	if (prcFloat != Null)
 	{
 		TbData.rcFloat = *prcFloat;
 	}
@@ -807,7 +807,7 @@ DockingCont* DockingManager::toggleVisTb(DockingCont* pContSrc, UINT message, LP
 	int					iContSrc	= GetContainer(pContSrc);
 	int					iContPrev	= pTbData->iPrevCont;
 	BOOL				isCont		= ContExists(iContPrev);
-	DockingCont*		pContTgt	= NULL;
+	DockingCont*		pContTgt	= Null;
 
 	// at first hide container and resize
 	pContSrc->doDialog(false);
@@ -819,7 +819,7 @@ DockingCont* DockingManager::toggleVisTb(DockingCont* pContSrc, UINT message, LP
 		tTbData		TbData = *vTbData[iTb];
 
 		// if new float position is given
-		if (prcFloat != NULL)
+		if (prcFloat != Null)
 		{
 			TbData.rcFloat = *prcFloat;
 		}

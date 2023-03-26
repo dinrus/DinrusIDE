@@ -20,7 +20,7 @@
 #include <PowerEditor/Notepad_plus_Window.h>
 
 const char Notepad_plus_Window::_className[32] = TEXT("Notepad++");
-HWND Notepad_plus_Window::gNppHWND = NULL;
+Upp::Ctrl* Notepad_plus_Window::gNppHWND = Null;
 
 
 
@@ -29,7 +29,7 @@ namespace // anonymous
 
 	struct PaintLocker final
 	{
-		explicit PaintLocker(HWND handle)
+		explicit PaintLocker(Upp::Ctrl* handle)
 			: handle(handle)
 		{
 			// disallow drawing on the window
@@ -39,14 +39,14 @@ namespace // anonymous
 		~PaintLocker()
 		{
 			// re-allow drawing for the window
-			LockWindowUpdate(NULL);
+			LockWindowUpdate(Null);
 
 			// force re-draw
 			InvalidateRect(handle, nullptr, TRUE);
-			RedrawWindow(handle, nullptr, NULL, RDW_ERASE | RDW_ALLCHILDREN | RDW_FRAME | RDW_INVALIDATE);
+			RedrawWindow(handle, nullptr, Null, RDW_ERASE | RDW_ALLCHILDREN | RDW_FRAME | RDW_INVALIDATE);
 		}
 
-		HWND handle;
+		Upp::Ctrl* handle;
 	};
 
 } // anonymous namespace
@@ -54,8 +54,8 @@ namespace // anonymous
 
 void Notepad_plus_Window::setStartupBgColor(COLORREF BgColor)
 {
-	RECT windowClientArea;
-	HDC hdc = GetDCEx(_hSelf, NULL, DCX_CACHE | DCX_LOCKWINDOWUPDATE); //lock window update flag due to PaintLocker
+	Rect windowClientArea;
+	HDC hdc = GetDCEx(_hSelf, Null, DCX_CACHE | DCX_LOCKWINDOWUPDATE); //lock window update flag due to PaintLocker
 	GetClientRect(_hSelf, &windowClientArea);
 	FillRect(hdc, &windowClientArea, CreateSolidBrush(BgColor));
 	ReleaseDC(_hSelf, hdc);
@@ -63,11 +63,11 @@ void Notepad_plus_Window::setStartupBgColor(COLORREF BgColor)
 
 
 
-void Notepad_plus_Window::init(HINSTANCE hInst, HWND parent, const char *cmdLine, CmdLineParams *cmdLineParams)
+void Notepad_plus_Window::init(HINSTANCE hInst, Upp::Ctrl* parent, const char *cmdLine, CmdLineParams *cmdLineParams)
 {
 	time_t timestampBegin = 0;
 	if (cmdLineParams->_showLoadingTime)
-		timestampBegin = time(NULL);
+		timestampBegin = time(Null);
 
 	Window::init(hInst, parent);
 	WNDCLASS nppClass;
@@ -78,7 +78,7 @@ void Notepad_plus_Window::init(HINSTANCE hInst, HWND parent, const char *cmdLine
 	nppClass.cbWndExtra = 0;
 	nppClass.hInstance = _hInst;
 	nppClass.hIcon = ::LoadIcon(hInst, MAKEINTRESOURCE(IDI_M30ICON));
-	nppClass.hCursor = ::LoadCursor(NULL, IDC_ARROW);
+	nppClass.hCursor = ::LoadCursor(Null, IDC_ARROW);
 	nppClass.hbrBackground = ::CreateSolidBrush(::GetSysColor(COLOR_MENU));
 	nppClass.lpszMenuName = MAKEINTRESOURCE(IDR_M30_MENU);
 	nppClass.lpszClassName = _className;
@@ -112,7 +112,7 @@ void Notepad_plus_Window::init(HINSTANCE hInst, HWND parent, const char *cmdLine
         // for retrieve it in Notepad_plus_Proc from
         // the CREATESTRUCT.lpCreateParams afterward.
 
-	if (NULL == _hSelf)
+	if (Null == _hSelf)
 		throw std::runtime_error("Notepad_plus_Window::init : CreateWindowEx() function return null");
 
 
@@ -156,7 +156,7 @@ void Notepad_plus_Window::init(HINSTANCE hInst, HWND parent, const char *cmdLine
 		::SendMessage(_hSelf, WM_COMMAND, IDM_VIEW_DRAWTABBAR_MULTILINE, 0);
 
 	if (!nppGUI._menuBarShow)
-		::SetMenu(_hSelf, NULL);
+		::SetMenu(_hSelf, Null);
 
 	if (cmdLineParams->_isNoTab || (nppGUI._tabStatus & TAB_HIDE))
 	{
@@ -250,7 +250,7 @@ void Notepad_plus_Window::init(HINSTANCE hInst, HWND parent, const char *cmdLine
 
 				if (!::PathFileExists(appDataThemePath.Begin()))
 				{
-					::CreateDirectory(appDataThemePath.Begin(), NULL);
+					::CreateDirectory(appDataThemePath.Begin(), Null);
 				}
 
 				char* fn = PathFindFileName(fileNames[i].Begin());
@@ -342,12 +342,12 @@ void Notepad_plus_Window::init(HINSTANCE hInst, HWND parent, const char *cmdLine
 
 	if (cmdLineParams->_showLoadingTime)
 	{
-		time_t timestampEnd = time(NULL);
+		time_t timestampEnd = time(Null);
 		double loadTime = difftime(timestampEnd, timestampBegin);
 
 		char dest[256];
 		sprintf(dest, "Loading time : %.0lf seconds", loadTime);
-		::MessageBoxA(NULL, dest, "", MB_OK);
+		::MessageBoxA(Null, dest, "", MB_OK);
 	}
 
 	bool isSnapshotMode = nppGUI.isSnapshotMode();

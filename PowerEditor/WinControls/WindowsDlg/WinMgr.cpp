@@ -6,17 +6,17 @@
 // Set tabsize = 3 in your editor.
 //
 // Theo - Heavily modified to remove MFC dependencies.
-//        Replaced CWnd*/HWND, CRect/RECT, CSize/SIZE, CPoint/POINT
+//        Replaced CWnd*/Upp::Ctrl*, CRect/Rect, CSize/SIZE, CPoint/POINT
 
 
 #include "WinMgr.h"
 
 // Theo - Style Helpers
-inline static DWORD GetStyle(HWND hWnd) {
+inline static DWORD GetStyle(Upp::Ctrl* hWnd) {
 	return (DWORD)GetWindowLongPtr(hWnd, GWL_STYLE);
 }
 
-inline static DWORD GetExStyle(HWND hWnd) {
+inline static DWORD GetExStyle(Upp::Ctrl* hWnd) {
 	return (DWORD)GetWindowLongPtr(hWnd, GWL_EXSTYLE);
 }
 
@@ -35,7 +35,7 @@ CWinMgr::~CWinMgr()
 // Set each control's tofit (desired) size to current size. Useful for
 // dialogs, to "remember" the current sizes as desired size.
 //
-void CWinMgr::InitToFitSizeFromCurrent(HWND hWnd)
+void CWinMgr::InitToFitSizeFromCurrent(Upp::Ctrl* hWnd)
 {
 	assert(hWnd);
 	assert(m_map);
@@ -50,13 +50,13 @@ void CWinMgr::InitToFitSizeFromCurrent(HWND hWnd)
 //////////////////
 // Load all rectangles from current window positions.
 //
-void CWinMgr::GetWindowPositions(HWND hWnd)
+void CWinMgr::GetWindowPositions(Upp::Ctrl* hWnd)
 {
 	assert(m_map);
 	assert(hWnd);
 	for (WINRECT* wrc=m_map; !wrc->IsEnd(); ++wrc) {
 		if (wrc->IsWindow()) {
-			HWND HChild = GetDlgItem(hWnd, wrc->GetID());
+			Upp::Ctrl* HChild = GetDlgItem(hWnd, wrc->GetID());
 			if (HChild) {
 				GetWindowRect(HChild, &wrc->GetRect());
 				POINT p = RectToPoint(wrc->GetRect());
@@ -70,7 +70,7 @@ void CWinMgr::GetWindowPositions(HWND hWnd)
 // Move all the windows. Use DeferWindowPos for speed.
 //
 void
-CWinMgr::SetWindowPositions(HWND hWnd)
+CWinMgr::SetWindowPositions(Upp::Ctrl* hWnd)
 {
 	int nWindows = CountWindows();
 	if (m_map && hWnd && nWindows>0) {
@@ -79,15 +79,15 @@ CWinMgr::SetWindowPositions(HWND hWnd)
 		for (WINRECT* wrc=m_map; !wrc->IsEnd(); ++wrc) {
 			if (wrc->IsWindow()) {
 				assert(count < nWindows);
-				HWND hwndChild = ::GetDlgItem(hWnd, wrc->GetID());
+				Upp::Ctrl* hwndChild = ::GetDlgItem(hWnd, wrc->GetID());
 				if (hwndChild) {
-					const RECT& rc = wrc->GetRect();
+					const Rect& rc = wrc->GetRect();
 					::DeferWindowPos(hdwp,
 						hwndChild,
-						NULL,		// HWND insert after
+						Null,		// Upp::Ctrl* insert after
 						rc.left,rc.top,RectWidth(rc),RectHeight(rc),
 						SWP_NOZORDER);
-					InvalidateRect(hwndChild,NULL,TRUE); // repaint
+					InvalidateRect(hwndChild,Null,TRUE); // repaint
 					++count;
 				}
 			} else {
@@ -124,7 +124,7 @@ WINRECT* CWinMgr::FindRect(int nID)
 		if (w->GetID() == static_cast<UINT>(nID))
 			return w;
 	}
-	return NULL;
+	return Null;
 }
 
 //////////////////
@@ -133,14 +133,14 @@ WINRECT* CWinMgr::FindRect(int nID)
 // desired size for TOFIT types.
 //
 void
-CWinMgr::CalcGroup(WINRECT* pGroup, HWND hWnd)
+CWinMgr::CalcGroup(WINRECT* pGroup, Upp::Ctrl* hWnd)
 {
 	// If this bombs, most likely the first entry in your map is not a group!
 	assert(pGroup && pGroup->IsGroup());
 	assert(hWnd);
 
 	// adjust total avail by margins
-	RECT rcTotal = pGroup->GetRect();
+	Rect rcTotal = pGroup->GetRect();
 	int w,h;
 	if (pGroup->GetMargins(w,h)) {
 		w = min(abs(w), RectWidth(rcTotal)/2);
@@ -168,11 +168,11 @@ CWinMgr::CalcGroup(WINRECT* pGroup, HWND hWnd)
 	}
 
 	// Now adjust all rects upward to desired size. Save REST rect for last.
-	WINRECT* pRestRect = NULL;
+	WINRECT* pRestRect = Null;
 	for (it=pGroup; it; it.Next()) {
 		WINRECT* wrc = it;
 		if (wrc->Type()==WRCT_REST) {
-			assert(pRestRect==NULL);		 // can only be one REST rect!
+			assert(pRestRect==Null);		 // can only be one REST rect!
 			pRestRect = wrc;					 // remember it
 		} else {
 			AdjustSize(wrc, bRow, hwRemaining, hWnd);
@@ -205,14 +205,14 @@ CWinMgr::CalcGroup(WINRECT* pGroup, HWND hWnd)
 //
 void
 CWinMgr::AdjustSize(WINRECT* wrc, BOOL bRow,
-	int& hwRemaining, HWND hWnd)
+	int& hwRemaining, Upp::Ctrl* hWnd)
 {
 	SIZEINFO szi;
 	OnGetSizeInfo(szi, wrc, hWnd);
 	int hw = bRow ? szi.szDesired.cy : szi.szDesired.cx; // desired ht or wid
 	if (wrc->Type() == WRCT_REST) {
 		// for REST type, use all remaining space
-		RECT& rc = wrc->GetRect();
+		Rect& rc = wrc->GetRect();
 		hw = hwRemaining + (bRow ? RectHeight(rc) : RectWidth(rc));
 	}
 
@@ -237,14 +237,14 @@ CWinMgr::AdjustSize(WINRECT* wrc, BOOL bRow,
 // each to the right of the previous.
 //
 void
-CWinMgr::PositionRects(WINRECT* pGroup, const RECT& rcTotal, BOOL bRow)
+CWinMgr::PositionRects(WINRECT* pGroup, const Rect& rcTotal, BOOL bRow)
 {
 	LONG xoryPos = bRow ? rcTotal.top : rcTotal.left;
 
 	CWinGroupIterator it;
 	for (it=pGroup; it; it.Next()) {
 		WINRECT* wrc = it;
-		RECT& rc = wrc->GetRect();
+		Rect& rc = wrc->GetRect();
 		if (bRow) {							 // for ROWS:
 			LONG height = RectHeight(rc);		 // height of row = total height
 			rc.top    = xoryPos;				 // top = running yPos
@@ -270,7 +270,7 @@ CWinMgr::PositionRects(WINRECT* pGroup, const RECT& rcTotal, BOOL bRow)
 // subentries.
 //
 void
-CWinMgr::OnGetSizeInfo(SIZEINFO& szi, WINRECT* wrc, HWND hWnd)
+CWinMgr::OnGetSizeInfo(SIZEINFO& szi, WINRECT* wrc, Upp::Ctrl* hWnd)
 {
 	szi.szMin = SIZEZERO;				// default min size = zero
 	szi.szMax = SIZEMAX;					// default max size = infinite
@@ -317,7 +317,7 @@ CWinMgr::OnGetSizeInfo(SIZEINFO& szi, WINRECT* wrc, HWND hWnd)
 		// not a group
 		WINRECT* parent = wrc->Parent();
 		assert(parent);
-		RECT& rcParent = parent->GetRect();
+		Rect& rcParent = parent->GetRect();
 		BOOL bRow = parent->IsRowGroup();
 		int hw, hwMin, hwTotal, pct;
 
@@ -362,7 +362,7 @@ CWinMgr::OnGetSizeInfo(SIZEINFO& szi, WINRECT* wrc, HWND hWnd)
 		// Only set tofit size if type is TOFIT.
 		//
 		if (wrc->IsWindow() && hWnd) {
-			HWND hChild = GetDlgItem(hWnd, wrc->GetID());
+			Upp::Ctrl* hChild = GetDlgItem(hWnd, wrc->GetID());
 			if (hChild) {
 				if (!IsWindowVisible(hChild) && IsWindowVisible(hWnd)) {
 					// parent visible but child not ==> tofit size is zero
@@ -381,7 +381,7 @@ CWinMgr::OnGetSizeInfo(SIZEINFO& szi, WINRECT* wrc, HWND hWnd)
 //////////////////
 // Send message to parent, then window itself, to get size info.
 //
-BOOL CWinMgr::SendGetSizeInfo(SIZEINFO& szi, HWND hWnd, UINT nID)
+BOOL CWinMgr::SendGetSizeInfo(SIZEINFO& szi, Upp::Ctrl* hWnd, UINT nID)
 {
 	NMWINMGR nmw;
 	nmw.code = NMWINMGR::GET_SIZEINFO;	// request size info
@@ -390,7 +390,7 @@ BOOL CWinMgr::SendGetSizeInfo(SIZEINFO& szi, HWND hWnd, UINT nID)
 
 	if (!SendMessage(hWnd, WM_WINMGR, nID, reinterpret_cast<LPARAM>(&nmw)) && !nmw.processed)
 	{
-		HWND hwndChild = ::GetDlgItem(hWnd, nID);
+		Upp::Ctrl* hwndChild = ::GetDlgItem(hWnd, nID);
 		if (!hwndChild || !::SendMessage(hwndChild, WM_WINMGR, nID, reinterpret_cast<LPARAM>(&nmw)))
 			return FALSE;
 	}
@@ -402,7 +402,7 @@ BOOL CWinMgr::SendGetSizeInfo(SIZEINFO& szi, HWND hWnd, UINT nID)
 // Get min/max info.
 //
 void
-CWinMgr::GetMinMaxInfo(HWND hWnd, MINMAXINFO* lpMMI)
+CWinMgr::GetMinMaxInfo(Upp::Ctrl* hWnd, MINMAXINFO* lpMMI)
 {
 	SIZEINFO szi;
 	GetMinMaxInfo(hWnd, szi); // call overloaded version
@@ -413,7 +413,7 @@ CWinMgr::GetMinMaxInfo(HWND hWnd, MINMAXINFO* lpMMI)
 //////////////////
 // Get min/max info.
 //
-void CWinMgr::GetMinMaxInfo(HWND hWnd, SIZEINFO& szi)
+void CWinMgr::GetMinMaxInfo(Upp::Ctrl* hWnd, SIZEINFO& szi)
 {
 	OnGetSizeInfo(szi, m_map, hWnd);  // get size info
 	if (!hWnd)					 // window not created ==> done
@@ -456,7 +456,7 @@ void CWinMgr::GetMinMaxInfo(HWND hWnd, SIZEINFO& szi)
 // Move desired rectangle by a given vector amount.
 // Call this when a sizer bar tells you it has moved.
 //
-void CWinMgr::MoveRect(WINRECT* pwrcMove, POINT ptMove, HWND pParentWnd)
+void CWinMgr::MoveRect(WINRECT* pwrcMove, POINT ptMove, Upp::Ctrl* pParentWnd)
 {
 	assert(pwrcMove);
 	WINRECT* prev = pwrcMove->Prev();
@@ -466,8 +466,8 @@ void CWinMgr::MoveRect(WINRECT* pwrcMove, POINT ptMove, HWND pParentWnd)
 
 	BOOL bIsRow = pwrcMove->Parent()->IsRowGroup();
 
-	RECT& rcNext = next->GetRect();
-	RECT& rcPrev = prev->GetRect();
+	Rect& rcNext = next->GetRect();
+	Rect& rcPrev = prev->GetRect();
 	if (bIsRow)
 	{
 		// a row can only be moved up or down

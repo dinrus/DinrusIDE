@@ -248,7 +248,7 @@ protected :
     static UserLangContainer *_pUserLang;
     static ScintillaEditView *_pScintilla;
     intptr_t CALLBACK run_dlgProc(UINT Message, WPARAM wParam, LPARAM lParam);
-    bool setPropertyByCheck(HWND hwnd, WPARAM id, bool & bool2set);
+    bool setPropertyByCheck(Upp::Ctrl* hwnd, WPARAM id, bool & bool2set);
     virtual void setKeywords2List(int ctrlID) = 0;
 };
 
@@ -305,7 +305,7 @@ friend class ScintillaEditView;
 public :
     UserDefineDialog();
     ~UserDefineDialog();
-    void init(HINSTANCE hInst, HWND hPere, ScintillaEditView *pSev) {
+    void init(HINSTANCE hInst, Upp::Ctrl* hPere, ScintillaEditView *pSev) {
         if (!_pScintilla)
         {
             Window::init(hInst, hPere);
@@ -332,7 +332,7 @@ public :
             create(IDD_GLOBAL_USERDEFINE_DLG, isRTL);
         display(willBeShown);
     };
-    virtual void reSizeTo(RECT & rc) // should NEVER be const !!!
+    virtual void reSizeTo(Rect & rc) // should NEVER be const !!!
     {
         Window::reSizeTo(rc);
         display(false);
@@ -342,16 +342,16 @@ public :
     void changeStyle();
     bool isDocked() const {return _status == DOCK;};
     void setDockStatus(bool isDocked) {_status = isDocked;};
-    HWND getFolderHandle() const {
+    Upp::Ctrl* getFolderHandle() const {
         return _folderStyleDlg.getHSelf();
     };
-    HWND getKeywordsHandle() const {
+    Upp::Ctrl* getKeywordsHandle() const {
         return _keyWordsStyleDlg.getHSelf();
     };
-    HWND getCommentHandle() const {
+    Upp::Ctrl* getCommentHandle() const {
         return _commentStyleDlg.getHSelf();
     };
-    HWND getSymbolHandle() const {
+    Upp::Ctrl* getSymbolHandle() const {
         return _symbolsStyleDlg.getHSelf();
     };
     void setTabName(int index, const char *name2set) {
@@ -368,7 +368,7 @@ private :
     CommentStyleDialog      _commentStyleDlg;
     SymbolsStyleDialog      _symbolsStyleDlg;
     bool _status = UNDOCK;
-    RECT _dlgPos = {};
+    Rect _dlgPos = {};
     int _currentHight = 0;
     int _yScrollPos = 0;
     int _prevHightVal = 0;
@@ -388,7 +388,7 @@ class StringDlg : public StaticDialog
 {
 public :
     StringDlg() = default;
-	void init(HINSTANCE hInst, HWND parent, const char *title, const char *staticName, const char *text2Set, int txtLen = 0, const char* restrictedChars = nullptr, bool bGotoCenter = false) {
+	void init(HINSTANCE hInst, Upp::Ctrl* parent, const char *title, const char *staticName, const char *text2Set, int txtLen = 0, const char* restrictedChars = nullptr, bool bGotoCenter = false) {
 		Window::init(hInst, parent);
 		_title = title;
 		_static = staticName;
@@ -411,10 +411,10 @@ protected :
     intptr_t CALLBACK run_dlgProc(UINT Message, WPARAM wParam, LPARAM);
 
 	// Custom proc to subclass edit control
-	LRESULT static CALLBACK customEditProc(HWND hEdit, UINT msg, WPARAM wParam, LPARAM lParam);
+	LRESULT static CALLBACK customEditProc(Upp::Ctrl* hEdit, UINT msg, WPARAM wParam, LPARAM lParam);
 
-	bool isAllowed(const String& txt);
-	void HandlePaste(HWND hEdit);
+	bool isAllowed(const char* txt);
+	void HandlePaste(Upp::Ctrl* hEdit);
 
 private :
     String _title;
@@ -429,7 +429,7 @@ private :
 class StylerDlg
 {
 public:
-    StylerDlg( HINSTANCE hInst, HWND parent, int stylerIndex = 0, int enabledNesters = -1):
+    StylerDlg( HINSTANCE hInst, Upp::Ctrl* parent, int stylerIndex = 0, int enabledNesters = -1):
         _hInst(hInst), _parent(parent), _stylerIndex(stylerIndex), _enabledNesters(enabledNesters) {
         _pFgColour = new ColourPicker;
         _pBgColour = new ColourPicker;
@@ -447,16 +447,16 @@ public:
 		return long(::DialogBoxParam(_hInst, MAKEINTRESOURCE(IDD_STYLER_POPUP_DLG), _parent, dlgProc, reinterpret_cast<LPARAM>(this)));
     };
 
-    static intptr_t CALLBACK dlgProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
+    static intptr_t CALLBACK dlgProc(Upp::Ctrl* hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 private:
     HINSTANCE _hInst = nullptr;
-    HWND _parent = nullptr;
+    Upp::Ctrl* _parent = nullptr;
     int _stylerIndex = 0;
     int _enabledNesters = 0;
     ColourPicker * _pFgColour = nullptr;
     ColourPicker * _pBgColour = nullptr;
     Style _initialStyle;
 
-    void move2CtrlRight(HWND hwndDlg, int ctrlID, HWND handle2Move, int handle2MoveWidth, int handle2MoveHeight);
+    void move2CtrlRight(Upp::Ctrl* hwndDlg, int ctrlID, Upp::Ctrl* handle2Move, int handle2MoveWidth, int handle2MoveHeight);
 };

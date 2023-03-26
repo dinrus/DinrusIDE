@@ -23,7 +23,7 @@
 #pragma once
 
 #include <exception>
-#include <windows.h>
+//#include <windows.h>
 
 typedef const void* ExceptionAddress; // OK on Win32 platform
 

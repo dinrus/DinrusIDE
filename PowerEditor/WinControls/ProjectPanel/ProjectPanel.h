@@ -60,7 +60,7 @@ public:
 	ProjectPanel(): DockingDlgInterface(IDD_PROJECTPANEL) {};
 	~ProjectPanel();
 
-	void init(HINSTANCE hInst, HWND hPere, int panelID) {
+	void init(HINSTANCE hInst, Upp::Ctrl* hPere, int panelID) {
 		DockingDlgInterface::init(hInst, hPere);
 		_panelID = panelID;
 	}
@@ -69,7 +69,7 @@ public:
 		DockingDlgInterface::display(toShow);
 	};
 
-	void setParent(HWND parent2set){
+	void setParent(Upp::Ctrl* parent2set){
 		_hParent = parent2set;
 	};
 
@@ -107,11 +107,11 @@ public:
 protected:
 	TreeView _treeView;
 	HIMAGELIST _hImaLst = nullptr;
-	HWND _hToolbarMenu = nullptr;
-	HMENU _hWorkSpaceMenu = nullptr;
-	HMENU _hProjectMenu = nullptr;
-	HMENU _hFolderMenu = nullptr;
-	HMENU _hFileMenu = nullptr;
+	Upp::Ctrl* _hToolbarMenu = nullptr;
+	Menu* _hWorkSpaceMenu = nullptr;
+	Menu* _hProjectMenu = nullptr;
+	Menu* _hFolderMenu = nullptr;
+	Menu* _hFileMenu = nullptr;
 	String _panelTitle;
 	String _workSpaceFilePath;
 	String _selDirOfFilesFromDirDlg;
@@ -125,7 +125,7 @@ protected:
 	void recursiveAddFilesFrom(const char *folderPath, HTREEITEM hTreeItem);
 	HTREEITEM addFolder(HTREEITEM hTreeItem, const char *folderName);
 
-	bool writeWorkSpace(const char *projectFileName = NULL);
+	bool writeWorkSpace(const char *projectFileName = Null);
 	String getRelativePath(const String & fn, const char *workSpaceFileName);
 	void buildProjectXml(TiXmlNode *root, HTREEITEM hItem, const char* fn2write);
 	NodeType getNodeType(HTREEITEM hItem);
@@ -137,7 +137,7 @@ protected:
 	void notified(LPNMHDR notification);
 	void showContextMenu(int x, int y);
 	void showContextMenuFromMenuKey(HTREEITEM selectedItem, int x, int y);
-	HMENU getMenuHandler(HTREEITEM selectedItem);
+	Menu* getMenuHandler(HTREEITEM selectedItem);
 	String getAbsoluteFilePath(const char * relativePath);
 	void openSelectFile();
 	void setFileExtFilter(CustomFileDialog & fDlg);
@@ -148,7 +148,7 @@ class FileRelocalizerDlg : public StaticDialog
 {
 public :
 	FileRelocalizerDlg() = default;
-	void init(HINSTANCE hInst, HWND parent) {
+	void init(HINSTANCE hInst, Upp::Ctrl* parent) {
 		Window::init(hInst, parent);
 	};
 

@@ -33,9 +33,9 @@ using namespace std;
 
 BOOL Gripper::_isRegistered	= FALSE;
 
-static HWND		hWndServer		= NULL;
-static HHOOK	hookMouse		= NULL;
-static HHOOK	hookKeyboard	= NULL;
+static Upp::Ctrl*		hWndServer		= Null;
+static HHOOK	hookMouse		= Null;
+static HHOOK	hookKeyboard	= Null;
 
 static LRESULT CALLBACK hookProcMouse(int nCode, WPARAM wParam, LPARAM lParam)
 {
@@ -91,11 +91,11 @@ void Gripper::startGrip(DockingCont* pCont, DockingManager* pDockMgr)
 		clz.cbClsExtra = 0;
 		clz.cbWndExtra = 0;
 		clz.hInstance = _hInst;
-		clz.hIcon = NULL;
-		clz.hCursor = ::LoadCursor(NULL, IDC_ARROW);
+		clz.hIcon = Null;
+		clz.hCursor = ::LoadCursor(Null, IDC_ARROW);
 
-		clz.hbrBackground = NULL;
-		clz.lpszMenuName = NULL;
+		clz.hbrBackground = Null;
+		clz.lpszMenuName = Null;
 		clz.lpszClassName = MDLG_CLASS_NAME;
 
 		if (!::RegisterClass(&clz))
@@ -111,8 +111,8 @@ void Gripper::startGrip(DockingCont* pCont, DockingManager* pDockMgr)
 					TEXT(""), 0,
 					CW_USEDEFAULT, CW_USEDEFAULT,
 					CW_USEDEFAULT, CW_USEDEFAULT,
-					NULL,
-					NULL,
+					Null,
+					Null,
 					_hInst,
 					(LPVOID)this);
 	hWndServer = _hSelf;
@@ -124,9 +124,9 @@ void Gripper::startGrip(DockingCont* pCont, DockingManager* pDockMgr)
 }
 
 
-LRESULT CALLBACK Gripper::staticWinProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK Gripper::staticWinProc(Upp::Ctrl* hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	Gripper *pDlgMoving = NULL;
+	Gripper *pDlgMoving = Null;
 	switch (message)
 	{
 		case WM_NCCREATE :
@@ -166,8 +166,8 @@ LRESULT Gripper::runProc(UINT message, WPARAM wParam, LPARAM lParam)
 			{
 				::UnhookWindowsHookEx(hookMouse);
 				::UnhookWindowsHookEx(hookKeyboard);
-				hookMouse = NULL;
-				hookKeyboard = NULL;
+				hookMouse = Null;
+				hookKeyboard = Null;
 			}
 			onButtonUp();
 			::DestroyWindow(_hSelf);
@@ -182,7 +182,7 @@ LRESULT Gripper::runProc(UINT message, WPARAM wParam, LPARAM lParam)
 			getMousePoints(&pt, &ptBuf);
 
 			/* erase last drawn rectangle */
-			drawRectangle(NULL);
+			drawRectangle(Null);
 
 			/* end hooking */
 			::UnhookWindowsHookEx(hookMouse);
@@ -209,7 +209,7 @@ LRESULT Gripper::runProc(UINT message, WPARAM wParam, LPARAM lParam)
 
 void Gripper::create()
 {
-	RECT		rc		= {};
+	Rect		rc		= {};
 	POINT		pt		= {};
 
 	// start hooking
@@ -223,7 +223,7 @@ void Gripper::create()
         DWORD dwError = ::GetLastError();
         char  str[128];
         ::wsprintf(str, TEXT("GetLastError() returned %lu"), dwError);
-        ::MessageBox(NULL, str, TEXT("SetWindowsHookEx(MOUSE) failed on Gripper::create()"), MB_OK | MB_ICONERROR);
+        ::MessageBox(Null, str, TEXT("SetWindowsHookEx(MOUSE) failed on Gripper::create()"), MB_OK | MB_ICONERROR);
     }
 
 	if (ver != WV_UNKNOWN && ver < WV_VISTA)
@@ -234,7 +234,7 @@ void Gripper::create()
 			DWORD dwError = ::GetLastError();
 			char  str[128];
 			::wsprintf(str, TEXT("GetLastError() returned %lu"), dwError);
-			::MessageBox(NULL, str, TEXT("SetWindowsHookEx(KEYBOARD) failed on Gripper::create()"), MB_OK | MB_ICONERROR);
+			::MessageBox(Null, str, TEXT("SetWindowsHookEx(KEYBOARD) failed on Gripper::create()"), MB_OK | MB_ICONERROR);
 		}
 	}
 //  Removed regarding W9x systems
@@ -283,8 +283,8 @@ void Gripper::onButtonUp()
 {
 	POINT			pt			= {0,0};
 	POINT			ptBuf		= {0,0};
-	RECT			rc			= {};
-	RECT			rcCorr		= {};
+	Rect			rc			= {};
+	Rect			rcCorr		= {};
 
 	::GetCursorPos(&pt);
 	getMousePoints(&pt, &ptBuf);
@@ -294,18 +294,18 @@ void Gripper::onButtonUp()
 		return;
 
 	// erase last drawn rectangle
-	drawRectangle(NULL);
+	drawRectangle(Null);
 
 	// look if current position is within dockable area
 	DockingCont*	pDockCont = contHitTest(pt);
 
-	if (pDockCont == NULL)
+	if (pDockCont == Null)
 	{
 		pDockCont = workHitTest(pt);
 	}
 
 	/* add dependency to other container class */
-	if (pDockCont == NULL)
+	if (pDockCont == Null)
 	{
 		/* calculate new position */
 		rc = _pCont->getDataOfActiveTb()->rcFloat;
@@ -320,7 +320,7 @@ void Gripper::onButtonUp()
 		/* correct rectangle position when mouse is not within */
 		DoCalcGripperRect(&rc, rcCorr, pt);
 
-		DockingCont* pContMove	= NULL;
+		DockingCont* pContMove	= Null;
 		
 		/* change location of toolbars */
 		if (_startMovingFromTab == TRUE)
@@ -339,7 +339,7 @@ void Gripper::onButtonUp()
 		}
 
 		/* set moving container */
-		if (pContMove == NULL)
+		if (pContMove == Null)
 		{
 			pContMove = _pCont;
 		}
@@ -369,8 +369,8 @@ void Gripper::doTabReordering(POINT pt)
 {
 	vector<DockingCont*>	vCont		= _pDockMgr->getContainerInfo();
 	BOOL					inTab		= FALSE;
-	HWND					hTab		= NULL;
-	HWND					hTabOld		= _hTab;
+	Upp::Ctrl*					hTab		= Null;
+	Upp::Ctrl*					hTabOld		= _hTab;
 	int						iItemOld	= _iItem;
 
 	/* search for every tab entry */
@@ -381,7 +381,7 @@ void Gripper::doTabReordering(POINT pt)
 		/* search only if container is visible */
 		if (::IsWindowVisible(hTab) == TRUE)
 		{
-			RECT	rc		= {};
+			Rect	rc		= {};
 
 			::GetWindowRect(hTab, &rc);
 
@@ -390,7 +390,7 @@ void Gripper::doTabReordering(POINT pt)
 			{
 				TCHITTESTINFO	info	= {};
 
-				if (_hTab == NULL)
+				if (_hTab == Null)
 				{
 					initTabInformation();
 					hTabOld  = _hTab;
@@ -472,7 +472,7 @@ void Gripper::doTabReordering(POINT pt)
 	}
 
 #if 0
-	extern HWND g_hMainWnd;
+	extern Upp::Ctrl* g_hMainWnd;
 	char str[128];
 	wsprintf(str, TEXT("Size: %i"), vCont.size());
 	::SetWindowText(g_hMainWnd, str);
@@ -490,8 +490,8 @@ void Gripper::doTabReordering(POINT pt)
 // inconsistencies while erasing our drag-rectangle (because it could already have been erased
 // on some places).
 //
-// Parameter pPt==NULL says that only erasing is wanted and the drag-rectangle is no more needed,
-// thatswhy this also leads to a call of ::LockWindowUpdate(NULL) to enable drawing by others again.
+// Parameter pPt==Null says that only erasing is wanted and the drag-rectangle is no more needed,
+// thatswhy this also leads to a call of ::LockWindowUpdate(Null) to enable drawing by others again.
 // The previously drawn rectangle is memoried within _rectPrev (and _bPtOldValid says if it already
 // is valid - did not change this members name because didn't want change too much at once).
 //
@@ -510,22 +510,22 @@ void Gripper::doTabReordering(POINT pt)
 //
 void Gripper::drawRectangle(const POINT* pPt)
 {
-	HBRUSH hbrushOrig= NULL;
-	HBITMAP hbmOrig  = NULL;
-	RECT   rc	 = {};
-	RECT   rcNew	 = {};
-	RECT   rcOld	 = _rcPrev;
+	HBRUSH hbrushOrig= Null;
+	HBITMAP hbmOrig  = Null;
+	Rect   rc	 = {};
+	Rect   rcNew	 = {};
+	Rect   rcOld	 = _rcPrev;
 
 	// Get a screen device context with backstage redrawing disabled - to have a consistently
 	// and stable drawn rectangle while floating - keep in mind, that we must ensure, that
-	// finally ::LockWindowUpdate(NULL) will be called, to enable drawing for others again.
+	// finally ::LockWindowUpdate(Null) will be called, to enable drawing for others again.
 	if (!_hdc)
 	{
-		HWND hWnd = ::GetDesktopWindow();
+		Upp::Ctrl* hWnd = ::GetDesktopWindow();
 		#if defined (USE_LOCKWINDOWUPDATE)
-		_hdc = ::GetDCEx(hWnd, NULL, ::LockWindowUpdate(hWnd) ? DCX_WINDOW|DCX_CACHE|DCX_LOCKWINDOWUPDATE : DCX_WINDOW|DCX_CACHE);
+		_hdc = ::GetDCEx(hWnd, Null, ::LockWindowUpdate(hWnd) ? DCX_WINDOW|DCX_CACHE|DCX_LOCKWINDOWUPDATE : DCX_WINDOW|DCX_CACHE);
 		#else
-		_hdc = ::GetDCEx(hWnd, NULL, DCX_WINDOW|DCX_CACHE);
+		_hdc = ::GetDCEx(hWnd, Null, DCX_WINDOW|DCX_CACHE);
 		#endif
 	}
 
@@ -535,7 +535,7 @@ void Gripper::drawRectangle(const POINT* pPt)
 	if (!_hbrush)
 		_hbrush = ::CreatePatternBrush(_hbm);
 
-	if (pPt != NULL)
+	if (pPt != Null)
 	{
 		// Determine whether to draw a solid drag rectangle or checkered
 		// ???(jg) solid or checked ??? - must have been an old comment, I didn't
@@ -594,7 +594,7 @@ void Gripper::drawRectangle(const POINT* pPt)
 		::PatBlt(hdcMem, rcOld.left  , rcOld.top  , rcOld.right  , rcOld.bottom  , PATINVERT);
 		::PatBlt(hdcMem, rcOld.left+3, rcOld.top+3, rcOld.right-6, rcOld.bottom-6, PATINVERT);
 	}
-	if (pPt != NULL)
+	if (pPt != Null)
 	{	// draw the new drag-rectangle
 		::PatBlt(hdcMem, rcNew.left  , rcNew.top  , rcNew.right  , rcNew.bottom  , PATINVERT);
 		::PatBlt(hdcMem, rcNew.left+3, rcNew.top+3, rcNew.right-6, rcNew.bottom-6, PATINVERT);
@@ -606,16 +606,16 @@ void Gripper::drawRectangle(const POINT* pPt)
 	DeleteObject(hBm);
 	DeleteDC(hdcMem);
 
-	if (pPt == NULL)
+	if (pPt == Null)
 	{
 		#if defined(USE_LOCKWINDOWUPDATE)
-		::LockWindowUpdate(NULL);
+		::LockWindowUpdate(Null);
 		#endif
 		_bPtOldValid = FALSE;
 		if (_hdc)
 		{
 			::ReleaseDC(0, _hdc);
-			_hdc = NULL;
+			_hdc = Null;
 		}
 	}
 	else
@@ -630,15 +630,15 @@ void Gripper::getMousePoints(POINT* pt, POINT* ptPrev)
 }
 
 
-void Gripper::getMovingRect(POINT pt, RECT *rc)
+void Gripper::getMovingRect(POINT pt, Rect *rc)
 {
-	RECT			rcCorr			= {};
-	DockingCont*	pContHit		= NULL;
+	Rect			rcCorr			= {};
+	DockingCont*	pContHit		= Null;
 
 	/* test if mouse hits a container */
 	pContHit = contHitTest(pt);
 
-	if (pContHit != NULL)
+	if (pContHit != Null)
 	{
 		/* get rect of client */
 		::GetWindowRect(pContHit->getHSelf(), rc);
@@ -661,7 +661,7 @@ void Gripper::getMovingRect(POINT pt, RECT *rc)
 		pContHit = workHitTest(pt, rc);
 
 		/* calcutlates the rect and its position */
-		if (pContHit == NULL)
+		if (pContHit == Null)
 		{
 			/* calcutlates the rect and draws it */
 			if (!_pCont->isFloating())
@@ -686,7 +686,7 @@ void Gripper::getMovingRect(POINT pt, RECT *rc)
 DockingCont* Gripper::contHitTest(POINT pt)
 {
 	vector<DockingCont*>	vCont	= _pDockMgr->getContainerInfo();
-	HWND					hWnd	= ::WindowFromPoint(pt);
+	Upp::Ctrl*					hWnd	= ::WindowFromPoint(pt);
 
 	for (size_t iCont = 0, len = vCont.size(); iCont < len; ++iCont)
 	{
@@ -695,7 +695,7 @@ DockingCont* Gripper::contHitTest(POINT pt)
 		{
 			if (vCont[iCont]->isFloating())
 			{
-				RECT	rc	= {};
+				Rect	rc	= {};
 
 				vCont[iCont]->getWindowRect(rc);
 				if ((rc.top < pt.y) && (pt.y < (rc.top + 24)))
@@ -703,7 +703,7 @@ DockingCont* Gripper::contHitTest(POINT pt)
 					/* when it is the same container start moving immediately */
 					if (vCont[iCont] == _pCont)
 					{
-						return NULL;
+						return Null;
 					}
 					else
 					{
@@ -721,7 +721,7 @@ DockingCont* Gripper::contHitTest(POINT pt)
 		if (::IsWindowVisible(vCont[iCont]->getTabWnd()))
 		{
 			/* test if within tab (rect test is used, because of drag and drop behaviour) */
-			RECT		rc	= {};
+			Rect		rc	= {};
 
 			::GetWindowRect(vCont[iCont]->getTabWnd(), &rc);
 			if (::PtInRect(&rc, pt))
@@ -732,13 +732,13 @@ DockingCont* Gripper::contHitTest(POINT pt)
 	}
 
 	/* doesn't hit a container */
-	return NULL;
+	return Null;
 }
 
 
-DockingCont* Gripper::workHitTest(POINT pt, RECT *rc)
+DockingCont* Gripper::workHitTest(POINT pt, Rect *rc)
 {
-	RECT					rcCont	= {};
+	Rect					rcCont	= {};
 	vector<DockingCont*>	vCont	= _pDockMgr->getContainerInfo();
 
 	/* at first test if cursor points into a visible container */
@@ -751,7 +751,7 @@ DockingCont* Gripper::workHitTest(POINT pt, RECT *rc)
 			if (::PtInRect(&rcCont, pt) == TRUE)
 			{
 				/* when it does, return with non found docking area */
-				return NULL;
+				return Null;
 			}
 		}
 	}
@@ -765,7 +765,7 @@ DockingCont* Gripper::workHitTest(POINT pt, RECT *rc)
 			rcCont.right  += rcCont.left;
 			rcCont.bottom += rcCont.top;
 
-			if (rc != NULL)
+			if (rc != Null)
 			{
 				*rc = rcCont;
 			}
@@ -792,13 +792,13 @@ DockingCont* Gripper::workHitTest(POINT pt, RECT *rc)
 				default:
 					break;
 			}
-			::MapWindowPoints(_dockData.hWnd, NULL, (LPPOINT)(&rcCont), 2);
+			::MapWindowPoints(_dockData.hWnd, Null, (LPPOINT)(&rcCont), 2);
 
 			if (::PtInRect(&rcCont, pt) == TRUE)
 			{
-				if (rc != NULL)
+				if (rc != Null)
 				{
-					::MapWindowPoints(_dockData.hWnd, NULL, (LPPOINT)(rc), 2);
+					::MapWindowPoints(_dockData.hWnd, Null, (LPPOINT)(rc), 2);
 					rc->right  -= rc->left;
 					rc->bottom -= rc->top;
 				}
@@ -808,7 +808,7 @@ DockingCont* Gripper::workHitTest(POINT pt, RECT *rc)
 	}
 
 	/* no docking area found */
-	return NULL;
+	return Null;
 }
 
 

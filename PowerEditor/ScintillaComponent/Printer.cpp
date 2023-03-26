@@ -27,7 +27,7 @@ void replaceStr(String & str, String str2BeReplaced, String replacement)
         str.replace(pos, str2BeReplaced.GetLength(), replacement);
 }
 
-void Printer::init(HINSTANCE hInst, HWND hwnd, ScintillaEditView *pSEView, bool showDialog, size_t startPos, size_t endPos, bool isRTL)
+void Printer::init(HINSTANCE hInst, Upp::Ctrl* hwnd, ScintillaEditView *pSEView, bool showDialog, size_t startPos, size_t endPos, bool isRTL)
 {
     _pSEView = pSEView;
     _startPos = startPos;
@@ -43,15 +43,15 @@ void Printer::init(HINSTANCE hInst, HWND hwnd, ScintillaEditView *pSEView, bool 
                             // document until the printer is selected and the paper size is known.
     _pdlg.nCopies = 1;
     _pdlg.hDC = 0;
-    _pdlg.hDevMode = NULL;
-    _pdlg.hDevNames = NULL;
+    _pdlg.hDevMode = Null;
+    _pdlg.hDevNames = Null;
     _pdlg.lCustData = 0;
-    _pdlg.lpfnPrintHook = NULL;
-    _pdlg.lpfnSetupHook = NULL;
-    _pdlg.lpPrintTemplateName = NULL;
-    _pdlg.lpSetupTemplateName = NULL;
-    _pdlg.hPrintTemplate = NULL;
-    _pdlg.hSetupTemplate = NULL;
+    _pdlg.lpfnPrintHook = Null;
+    _pdlg.lpfnSetupHook = Null;
+    _pdlg.lpPrintTemplateName = Null;
+    _pdlg.lpSetupTemplateName = Null;
+    _pdlg.hPrintTemplate = Null;
+    _pdlg.hSetupTemplate = Null;
 
     // See if a range has been selected
     _pdlg.Flags |= (_startPos != _endPos)?PD_SELECTION:PD_NOSELECTION;
@@ -73,9 +73,9 @@ size_t Printer::doPrint(bool justDoIt)
     POINT ptPage;
     POINT ptDpi;
 
-    RECT rectMargins;
-    RECT rectPhysMargins;
-    RECT userMargins;
+    Rect rectMargins;
+    Rect rectPhysMargins;
+    Rect userMargins;
 
     // Get printer resolution
     ptDpi.x = GetDeviceCaps(_pdlg.hDC, LOGPIXELSX);    // dpi in X direction
@@ -176,12 +176,12 @@ size_t Printer::doPrint(bool justDoIt)
     docInfo.cbSize = sizeof(DOCINFO);
     docInfo.fwType = 0;
     docInfo.lpszDocName = _pSEView->getCurrentBuffer()->getFullPathName();
-    docInfo.lpszOutput = NULL;
-    docInfo.lpszDatatype = NULL;
+    docInfo.lpszOutput = Null;
+    docInfo.lpszDatatype = Null;
 
     if (::StartDoc(_pdlg.hDC, &docInfo) < 0)
     {
-        MessageBox(NULL, TEXT("Can not start printer document."), 0, MB_OK);
+        MessageBox(Null, TEXT("Can not start printer document."), 0, MB_OK);
         return 0;
     }
 
@@ -248,9 +248,9 @@ size_t Printer::doPrint(bool justDoIt)
 
     SYSTEMTIME st;
     ::GetLocalTime(&st);
-    ::GetDateFormat(LOCALE_USER_DEFAULT, DATE_SHORTDATE, &st, NULL, shortDate, bufferSize);
-    ::GetDateFormat(LOCALE_USER_DEFAULT, DATE_LONGDATE, &st, NULL, longDate, bufferSize);
-    ::GetTimeFormat(LOCALE_USER_DEFAULT, TIME_NOSECONDS, &st, NULL, time, bufferSize);
+    ::GetDateFormat(LOCALE_USER_DEFAULT, DATE_SHORTDATE, &st, Null, shortDate, bufferSize);
+    ::GetDateFormat(LOCALE_USER_DEFAULT, DATE_LONGDATE, &st, Null, longDate, bufferSize);
+    ::GetTimeFormat(LOCALE_USER_DEFAULT, TIME_NOSECONDS, &st, Null, time, bufferSize);
 
     if (nppGUI._printSettings.isHeaderPresent())
     {
@@ -349,7 +349,7 @@ size_t Printer::doPrint(bool justDoIt)
                 ::SetBkColor(_pdlg.hDC, RGB(255, 255, 255));
 
                 UINT oldTASettings = ::SetTextAlign(_pdlg.hDC, _isRTL ? TA_RTLREADING | TA_BOTTOM : TA_BOTTOM);
-                RECT rcw = {frPrint.rc.left, frPrint.rc.top - headerLineHeight - headerLineHeight / 2,
+                Rect rcw = {frPrint.rc.left, frPrint.rc.top - headerLineHeight - headerLineHeight / 2,
                             frPrint.rc.right, frPrint.rc.top - headerLineHeight / 2};
                 rcw.bottom = rcw.top + headerLineHeight;
 
@@ -366,7 +366,7 @@ size_t Printer::doPrint(bool justDoIt)
                         headerLeft.replace(pos, lstrlen(pageVar), pageString);
 
                     ::ExtTextOut(_pdlg.hDC, frPrint.rc.left + 5, frPrint.rc.top - headerLineHeight / 2,
-                        ETO_OPAQUE, &rcw, headerLeft.Begin(), static_cast<int>(headerLeft.GetLength()), NULL);
+                        ETO_OPAQUE, &rcw, headerLeft.Begin(), static_cast<int>(headerLeft.GetLength()), Null);
                 }
 
                 // Middle part
@@ -379,7 +379,7 @@ size_t Printer::doPrint(bool justDoIt)
 
                     ::GetTextExtentPoint32(_pdlg.hDC, headerMiddle.Begin(), static_cast<int>(headerMiddle.GetLength()), &size);
                     ::ExtTextOut(_pdlg.hDC, ((frPrint.rc.right - frPrint.rc.left)/2 + frPrint.rc.left) - (size.cx/2), frPrint.rc.top - headerLineHeight / 2,
-                        ETO_CLIPPED, &rcw, headerMiddle.Begin(), static_cast<int>(headerMiddle.GetLength()), NULL);
+                        ETO_CLIPPED, &rcw, headerMiddle.Begin(), static_cast<int>(headerMiddle.GetLength()), Null);
                 }
                 // Right part
                 if (headerR[0] != '\0')
@@ -391,13 +391,13 @@ size_t Printer::doPrint(bool justDoIt)
 
                     ::GetTextExtentPoint32(_pdlg.hDC, headerRight.Begin(), static_cast<int>(headerRight.GetLength()), &size);
                     ::ExtTextOut(_pdlg.hDC, frPrint.rc.right - size.cx, frPrint.rc.top - headerLineHeight / 2,
-                        ETO_CLIPPED, &rcw, headerRight.Begin(), static_cast<int>(headerRight.GetLength()), NULL);
+                        ETO_CLIPPED, &rcw, headerRight.Begin(), static_cast<int>(headerRight.GetLength()), Null);
                 }
 
                 ::SetTextAlign(_pdlg.hDC, oldTASettings);
                 HPEN pen = ::CreatePen(0, 1, 0x00000000);
                 HPEN penOld = static_cast<HPEN>(::SelectObject(_pdlg.hDC, pen));
-                ::MoveToEx(_pdlg.hDC, frPrint.rc.left, frPrint.rc.top - headerLineHeight / 4, NULL);
+                ::MoveToEx(_pdlg.hDC, frPrint.rc.left, frPrint.rc.top - headerLineHeight / 4, Null);
                 ::LineTo(_pdlg.hDC, frPrint.rc.right, frPrint.rc.top - headerLineHeight / 4);
                 ::SelectObject(_pdlg.hDC, penOld);
                 ::DeleteObject(pen);
@@ -418,7 +418,7 @@ size_t Printer::doPrint(bool justDoIt)
                 ::SetBkColor(_pdlg.hDC, RGB(255, 255, 255));
 
                 UINT oldta = ::SetTextAlign(_pdlg.hDC, _isRTL ? TA_RTLREADING | TA_TOP : TA_TOP);
-                RECT rcw = {frPrint.rc.left, frPrint.rc.bottom + footerLineHeight / 2,
+                Rect rcw = {frPrint.rc.left, frPrint.rc.bottom + footerLineHeight / 2,
                             frPrint.rc.right, frPrint.rc.bottom + footerLineHeight + footerLineHeight / 2};
 
                 SIZE size;
@@ -432,7 +432,7 @@ size_t Printer::doPrint(bool justDoIt)
                         footerLeft.replace(pos, lstrlen(pageVar), pageString);
 
                     ::ExtTextOut(_pdlg.hDC, frPrint.rc.left + 5, frPrint.rc.bottom + footerLineHeight / 2,
-                        ETO_OPAQUE, &rcw, footerLeft.Begin(), static_cast<int>(footerLeft.GetLength()), NULL);
+                        ETO_OPAQUE, &rcw, footerLeft.Begin(), static_cast<int>(footerLeft.GetLength()), Null);
                 }
 
                 // Middle part
@@ -445,7 +445,7 @@ size_t Printer::doPrint(bool justDoIt)
 
                     ::GetTextExtentPoint32(_pdlg.hDC, footerMiddle.Begin(), static_cast<int>(footerMiddle.GetLength()), &size);
                     ::ExtTextOut(_pdlg.hDC, ((frPrint.rc.right - frPrint.rc.left)/2 + frPrint.rc.left) - (size.cx/2), frPrint.rc.bottom + footerLineHeight / 2,
-                                    ETO_CLIPPED, &rcw, footerMiddle.Begin(), static_cast<int>(footerMiddle.GetLength()), NULL);
+                                    ETO_CLIPPED, &rcw, footerMiddle.Begin(), static_cast<int>(footerMiddle.GetLength()), Null);
                 }
                 // Right part
                 if (footerR[0] != '\0')
@@ -456,14 +456,14 @@ size_t Printer::doPrint(bool justDoIt)
                         footerRight.replace(pos, lstrlen(pageVar), pageString);
                     ::GetTextExtentPoint32(_pdlg.hDC, footerRight.Begin(), static_cast<int>(footerRight.GetLength()), &size);
                     ::ExtTextOut(_pdlg.hDC, frPrint.rc.right - size.cx, frPrint.rc.bottom + footerLineHeight / 2,
-                                    ETO_CLIPPED, &rcw, footerRight.Begin(), static_cast<int>(footerRight.GetLength()), NULL);
+                                    ETO_CLIPPED, &rcw, footerRight.Begin(), static_cast<int>(footerRight.GetLength()), Null);
                 }
 
                 ::SetTextAlign(_pdlg.hDC, oldta);
                 HPEN pen = ::CreatePen(0, 1, 0x00000000);
                 HPEN penOld = static_cast<HPEN>(::SelectObject(_pdlg.hDC, pen));
 
-                ::MoveToEx(_pdlg.hDC, frPrint.rc.left, frPrint.rc.bottom + footerLineHeight / 4, NULL);
+                ::MoveToEx(_pdlg.hDC, frPrint.rc.left, frPrint.rc.bottom + footerLineHeight / 4, Null);
                 ::LineTo(_pdlg.hDC, frPrint.rc.right, frPrint.rc.bottom + footerLineHeight / 4);
                 ::SelectObject(_pdlg.hDC, penOld);
                 ::DeleteObject(pen);

@@ -10,40 +10,50 @@ topic "О Потоке (класс Stream)";
 [b42;2 $$9,9#13035079074754324216151401829390:normal]
 [2 $$0,0#00000000000000000000000000000000:Default]
 [{_} 
-[s0; [*R6 О классе Stream]&]
+[s0; [*R@5;6 О классе Stream(Поток)]&]
 [s0; [/ (some loosely organized comments about Stream by Konstantin 
 Hartwich)]&]
 [s0;/ &]
-[s0;i150;O0; Stream represents only a logical `'cut out piece`' or 
-a finite snapshot of a per definition concurrent, infinite data 
-stream, beeing processed, handled or available to some extent. 
-hence the pos variable, it it is indicating the current offset 
-or pos`'ition of the data chunk represented by your Stream instance, 
-from the logical start or beginning of stream.&]
+[s0;i150;O0; Stream представляет собой только 
+логическую `'cut out piece`'(вырезку) или 
+конечный снэпшот (снимок) of a per definition 
+сопротекающего, бесконечного потока 
+данных, обрабатываемого, управляемого 
+или доступного в какой`-то степени; 
+поскольку переменная pos указывает 
+на текущее смещение или pos`'ицию куска 
+данных, представленного экземпляром 
+Stream, от логического начала или старта 
+потока.&]
 [s0; &]
-[s0;i150;O0; Stream is basicly only an interface class with some 
-pointers to ref some memory space somewhere. it usually does 
-not contain (own in U`+`+ terms) the data itself. Thats why it 
-may have MemStream, StringStream, FileStream etc.. `'they`' access 
-or even contain (StringBuffer) the buffer and are using the pointers 
-from Stream base to handle it. The buffer referenced by Stream 
-is a current chunk of data, `*entirely`* accessable in your stream.&]
+[s0;i150;O0; Stream в основном только класс`-интерфейс 
+с указателями для ссылки на какую`-то 
+область памяти. Сам он обычно никаких 
+данных (`"собственных`", в понятиях 
+U`+`+) не имеет. Поэтому он может быть 
+MemStream, StringStream, FileStream и т.д... `'Они`' получают 
+доступ, либо содержат (StringBuffer) буфер, 
+и используют указатели из базы Stream, 
+чтобы управлять им.  Буфер, на который 
+указывает Stream,`- это текущий отрезок 
+данных, `*всецело`* доступный в вашем 
+потоке.&]
 [s0; &]
-[s0;i150;O0; Stream is unidirectional per definition and should be 
-used as such. In contrast to other Stream implementations, Upp 
-Stream brings in all to be used both as Input or as Output stream. 
-these 2 modes are supported in one single instance, but should`'t 
-be used at same time. Nevertheless, it does not produce ASSERT, 
-Exception or errror messages if one tries to Put and Get stuff 
-from same Stream, it simply might not be logical or what you 
-expect or want, because Stream uses only one ptr to represent 
-current `'head`' position for reading or writing. (thus it is 
-not intrinsically possible to use a MemStream as a Circular Buffer, 
-which would be nice. (btw, how about implementing such one?) 
-These 2 Modes can be differed using the API functions IsStoring() 
-/ IsLoading(). The Modes are set using SetStoring() / SetLoading() 
-and are normally set automatically, depending on how you created 
-the stream instance.&]
+[s0;i150;O0; Stream по определению однонаправленный, 
+как таковой. В отличие от других реализаций 
+Stream, Upp Stream brings in all to be used both as Input or 
+as Output stream. these 2 modes are supported in one single instance, 
+but should`'t be used at same time. Nevertheless, it does not 
+produce ASSERT, Exception or errror messages if one tries to 
+Put and Get stuff from same Stream, it simply might not be logical 
+or what you expect or want, because Stream uses only one ptr 
+to represent current `'head`' position for reading or writing. 
+(thus it is not intrinsically possible to use a MemStream as 
+a Circular Buffer, which would be nice. (btw, how about implementing 
+such one?) These 2 Modes can be differed using the API functions 
+IsStoring() / IsLoading(). The Modes are set using SetStoring() 
+/ SetLoading() and are normally set automatically, depending 
+on how you created the stream instance.&]
 [s0; &]
 [s0;i150;O0; in both modes, the extension of the buffer marks the 
 accessible space for `*entire`* reading or writing, using rdlim 

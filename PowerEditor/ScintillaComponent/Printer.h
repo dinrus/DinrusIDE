@@ -23,8 +23,8 @@
 struct NPP_RangeToFormat {
 	HDC hdc = nullptr;
 	HDC hdcTarget = nullptr;
-	RECT rc = {};
-	RECT rcPage = {};
+	Rect rc = {};
+	Rect rcPage = {};
 	Sci_CharacterRangeFull chrg = {};
 };
 
@@ -33,7 +33,7 @@ class Printer
 public :
 	Printer() = default;
 
-	void init(HINSTANCE hInst, HWND hwnd, ScintillaEditView *pSEView, bool showDialog, size_t startPos, size_t endPos, bool isRTL = false);
+	void init(HINSTANCE hInst, Upp::Ctrl* hwnd, ScintillaEditView *pSEView, bool showDialog, size_t startPos, size_t endPos, bool isRTL = false);
 	size_t doPrint() {
 		if (!::PrintDlg(&_pdlg))
 				return 0;

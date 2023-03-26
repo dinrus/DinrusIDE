@@ -8,13 +8,13 @@
 // WinMgr.h -- Main header file for WinMgr library.
 //
 // Theo - Heavily modified to remove MFC dependencies
-//        Replaced CWnd*/HWND, CRect/RECT, CSize/SIZE, CPoint/POINT
+//        Replaced CWnd*/Upp::Ctrl*, CRect/Rect, CSize/SIZE, CPoint/POINT
 
 
 #pragma once
 
 #include <assert.h>
-#include <windows.h>
+//#include <windows.h>
 
 
 const SIZE SIZEZERO = {0, 0};
@@ -28,19 +28,19 @@ inline POINT GetPoint(LONG x, LONG y) {
 	POINT pt = {x, y}; return pt; 
 }
 
-inline LONG RectWidth(const RECT& rc) { 
+inline LONG RectWidth(const Rect& rc) { 
 	return rc.right - rc.left; 
 }
 
-inline LONG RectHeight(const RECT& rc) { 
+inline LONG RectHeight(const Rect& rc) { 
 	return rc.bottom - rc.top; 
 }
 
-inline SIZE RectToSize(const RECT& rc) { 
+inline SIZE RectToSize(const Rect& rc) { 
 	return GetSize(RectWidth(rc), RectHeight(rc));
 }
 
-inline POINT RectToPoint(const RECT& rc) { 
+inline POINT RectToPoint(const Rect& rc) { 
 	POINT pt = {rc.left, rc.top};
 	return pt; 
 }
@@ -49,7 +49,7 @@ inline POINT SizeToPoint(SIZE sz) {
 	return GetPoint(sz.cx, sz.cy);
 }
 
-inline RECT &OffsetRect(RECT& rc, POINT pt) {
+inline Rect &OffsetRect(Rect& rc, POINT pt) {
 	rc.left += pt.x; rc.right += pt.x;
 	rc.top += pt.y; rc.bottom += pt.y;
 	return rc;
@@ -100,7 +100,7 @@ protected:
 	WINRECT* prev;			// prev at this level
 
 	// data
-	RECT  rc;				// current rectangle position/size
+	Rect  rc;				// current rectangle position/size
 	WORD  flags;			// flags (see above)
 	UINT	nID;				// window ID if this WINRECT represents a window
 	LONG	param;			// arg depends on type
@@ -108,11 +108,11 @@ protected:
 public:
 	WINRECT(WORD f, int id, LONG p);
 
-	static WINRECT* InitMap(WINRECT* map, WINRECT* parent=NULL);
+	static WINRECT* InitMap(WINRECT* map, WINRECT* parent=Null);
 
 	WINRECT* Prev()			{ return prev; }
 	WINRECT* Next()			{ return next; }
-	WINRECT* Children()		{ return IsGroup() ? this+1 : NULL; }
+	WINRECT* Children()		{ return IsGroup() ? this+1 : Null; }
 	WINRECT* Parent();
 	WORD GetFlags()			{ return flags; }
 	WORD SetFlags(WORD f)	{ return flags=f; }
@@ -120,8 +120,8 @@ public:
 	LONG SetParam(LONG p)	{ return param=p; }
 	UINT GetID()				{ return nID; }
 	UINT SetID(UINT id)		{ return nID=id; }
-	RECT& GetRect()					{ return rc; }
-	void SetRect(const RECT& r)	{ rc = r; }
+	Rect& GetRect()					{ return rc; }
+	void SetRect(const Rect& r)	{ rc = r; }
 	WORD Type() const			{ return flags & WRCF_TYPEMASK; }
 	WORD GroupType() const	{ return flags & WRCF_GROUPMASK; }
 	BOOL IsGroup() const		{ return GroupType() && GroupType()!=WRCF_ENDGROUP; }
@@ -184,7 +184,7 @@ class CWinGroupIterator {
 protected:
 	WINRECT* pCur;	  // current entry
 public:
-	CWinGroupIterator() { pCur = NULL; }
+	CWinGroupIterator() { pCur = Null; }
 	CWinGroupIterator& operator=(WINRECT* pg) {
 		assert(pg->IsGroup()); // can only iterate a group!
 		pCur = pg->Children();
@@ -192,7 +192,7 @@ public:
 	}
 	operator WINRECT*()	{ return pCur; }
 	WINRECT* pWINRECT()	{ return pCur; }
-	WINRECT* Next()		{ return pCur = pCur ? pCur->Next() : NULL;}
+	WINRECT* Next()		{ return pCur = pCur ? pCur->Next() : Null;}
 };
 
 // Registered WinMgr message
@@ -227,65 +227,65 @@ public:
 	explicit CWinMgr(WINRECT* map);
 	virtual ~CWinMgr();
 
-	virtual void GetWindowPositions(HWND hWnd); // load map from window posns
-	virtual void SetWindowPositions(HWND hWnd); // set window posns from map
+	virtual void GetWindowPositions(Upp::Ctrl* hWnd); // load map from window posns
+	virtual void SetWindowPositions(Upp::Ctrl* hWnd); // set window posns from map
 
 	// get min/max/desired size of a rectangle
-	virtual void OnGetSizeInfo(SIZEINFO& szi, WINRECT* pwrc, HWND hWnd=NULL);
+	virtual void OnGetSizeInfo(SIZEINFO& szi, WINRECT* pwrc, Upp::Ctrl* hWnd=Null);
 
 	// calc layout using client area as total area
-	void CalcLayout(HWND hWnd) {
+	void CalcLayout(Upp::Ctrl* hWnd) {
 		assert(hWnd);
-		RECT rcClient;
+		Rect rcClient;
 		GetClientRect(hWnd, &rcClient);
 		CalcLayout(rcClient, hWnd);
 	}
 
 	// calc layout using cx, cy (for OnSize)
-	void CalcLayout(int cx, int cy, HWND hWnd=NULL) {
-		RECT rc = {0,0,cx,cy};
+	void CalcLayout(int cx, int cy, Upp::Ctrl* hWnd=Null) {
+		Rect rc = {0,0,cx,cy};
 		CalcLayout(rc, hWnd);
 	}
 
 	// calc layout using given rect as total area
-	void CalcLayout(RECT rcTotal, HWND hWnd=NULL) {
+	void CalcLayout(Rect rcTotal, Upp::Ctrl* hWnd=Null) {
 		assert(m_map);
 		m_map->SetRect(rcTotal);
 		CalcGroup(m_map, hWnd);
 	}
 
 	// Move rectangle vertically or horizontally. Used with sizer bars.
-	void MoveRect(int nID, POINT ptMove, HWND pParentWnd) {
+	void MoveRect(int nID, POINT ptMove, Upp::Ctrl* pParentWnd) {
 		MoveRect(FindRect(nID), ptMove, pParentWnd);
 	}
-	void MoveRect(WINRECT* pwrcMove, POINT ptMove, HWND pParentWnd);
+	void MoveRect(WINRECT* pwrcMove, POINT ptMove, Upp::Ctrl* pParentWnd);
 
-	RECT GetRect(UINT nID)						 { return FindRect(nID)->GetRect(); }
-	void SetRect(UINT nID, const RECT& rc) { FindRect(nID)->SetRect(rc); }
+	Rect GetRect(UINT nID)						 { return FindRect(nID)->GetRect(); }
+	void SetRect(UINT nID, const Rect& rc) { FindRect(nID)->SetRect(rc); }
 
 	// get WINRECT corresponding to ID
 	WINRECT* FindRect(int nID);
 
 	// Calculate MINMAXINFO
-	void GetMinMaxInfo(HWND hWnd, MINMAXINFO* lpMMI);
-	void GetMinMaxInfo(HWND hWnd, SIZEINFO& szi);
+	void GetMinMaxInfo(Upp::Ctrl* hWnd, MINMAXINFO* lpMMI);
+	void GetMinMaxInfo(Upp::Ctrl* hWnd, SIZEINFO& szi);
 
 	// set TOFIT size for all windows from current window sizes
-	void InitToFitSizeFromCurrent(HWND hWnd);
+	void InitToFitSizeFromCurrent(Upp::Ctrl* hWnd);
 
 
 protected:
 	WINRECT*	m_map = nullptr;			// THE window map
 
 	int  CountWindows();
-	BOOL SendGetSizeInfo(SIZEINFO& szi, HWND hWnd, UINT nID);
+	BOOL SendGetSizeInfo(SIZEINFO& szi, Upp::Ctrl* hWnd, UINT nID);
 
 	// you can override to do wierd stuff or fix bugs
-	virtual void CalcGroup(WINRECT* group, HWND hWnd);
+	virtual void CalcGroup(WINRECT* group, Upp::Ctrl* hWnd);
 	virtual void AdjustSize(WINRECT* pEntry, BOOL bRow,
-		int& hwRemaining, HWND hWnd);
+		int& hwRemaining, Upp::Ctrl* hWnd);
 	virtual void PositionRects(WINRECT* pGroup,
-		const RECT& rcTotal,BOOL bRow);
+		const Rect& rcTotal,BOOL bRow);
 
 private:
 	CWinMgr() { assert(FALSE); } // no default constructor

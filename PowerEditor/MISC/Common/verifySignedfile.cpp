@@ -19,7 +19,7 @@
 //
 
 #include <memory>
-#include <windows.h>
+//#include <windows.h>
 #include <wintrust.h>
 #include <softpub.h>
 #include <wincrypt.h>
@@ -100,12 +100,12 @@ bool SecurityGuard::checkSha256(const std::wstring& filePath, NppModule module2c
 	{
 		if (i == sha2hashStr)
 		{
-			//::MessageBox(NULL, filePath.Begin(), TEXT("OK"), MB_OK);
+			//::MessageBox(Null, filePath.Begin(), TEXT("OK"), MB_OK);
 			return true;
 		}
 	}
 
-	//::MessageBox(NULL, filePath.Begin(), TEXT("KO"), MB_OK);
+	//::MessageBox(Null, filePath.Begin(), TEXT("KO"), MB_OK);
 	return false;
 }
 
@@ -168,11 +168,11 @@ bool SecurityGuard::verifySignedLibrary(const std::wstring& filepath, NppModule 
 	{
 		// Verify signature and cert-chain validity
 		GUID policy = WINTRUST_ACTION_GENERIC_VERIFY_V2;
-		LONG vtrust = ::WinVerifyTrust(NULL, &policy, &winTEXTrust_data);
+		LONG vtrust = ::WinVerifyTrust(Null, &policy, &winTEXTrust_data);
 
 		// Post check cleanup
 		winTEXTrust_data.dwStateAction = WTD_STATEACTION_CLOSE;
-		LONG t2 = ::WinVerifyTrust(NULL, &policy, &winTEXTrust_data);
+		LONG t2 = ::WinVerifyTrust(Null, &policy, &winTEXTrust_data);
 
 		if (vtrust)
 		{
@@ -201,7 +201,7 @@ bool SecurityGuard::verifySignedLibrary(const std::wstring& filepath, NppModule 
 		BOOL result = ::CryptQueryObject(CERT_QUERY_OBJECT_FILE, filepath.Begin(),
 			CERT_QUERY_CONTENT_FLAG_PKCS7_SIGNED_EMBED, CERT_QUERY_FORMAT_FLAG_BINARY, 0,
 			&dwEncoding, &dwContentType, &dwFormatType,
-			&hStore, &hMsg, NULL);
+			&hStore, &hMsg, Null);
 
 		if (!result)
 		{
@@ -209,7 +209,7 @@ bool SecurityGuard::verifySignedLibrary(const std::wstring& filepath, NppModule 
 		}
 
 		// Get signer information size.
-		result = ::CryptMsgGetParam(hMsg, CMSG_SIGNER_INFO_PARAM, 0, NULL, &dwSignerInfo);
+		result = ::CryptMsgGetParam(hMsg, CMSG_SIGNER_INFO_PARAM, 0, Null, &dwSignerInfo);
 		if (!result)
 		{
 			throw wstring(TEXT("CryptMsgGetParam first call: ")) + GetLastErrorAsString(GetLastError());
@@ -217,7 +217,7 @@ bool SecurityGuard::verifySignedLibrary(const std::wstring& filepath, NppModule 
 
 		// Get Signer Information.
 		pSignerInfo = (PCMSG_SIGNER_INFO)LocalAlloc(LPTR, dwSignerInfo);
-		if (NULL == pSignerInfo)
+		if (Null == pSignerInfo)
 		{
 			throw wstring(TEXT("Failed to allocate memory for signature processing"));
 		}
@@ -232,14 +232,14 @@ bool SecurityGuard::verifySignedLibrary(const std::wstring& filepath, NppModule 
 		CERT_INFO cert_info = {};
 		cert_info.Issuer = pSignerInfo->Issuer;
 		cert_info.SerialNumber = pSignerInfo->SerialNumber;
-		PCCERT_CONTEXT context = ::CertFindCertificateInStore(hStore, X509_ASN_ENCODING | PKCS_7_ASN_ENCODING, 0, CERT_FIND_SUBJECT_CERT, (PVOID)&cert_info, NULL);
+		PCCERT_CONTEXT context = ::CertFindCertificateInStore(hStore, X509_ASN_ENCODING | PKCS_7_ASN_ENCODING, 0, CERT_FIND_SUBJECT_CERT, (PVOID)&cert_info, Null);
 		if (!context)
 		{
 			throw wstring(TEXT("Certificate context: ")) + GetLastErrorAsString(GetLastError());
 		}
 
 		// Getting the full subject
-		auto subject_sze = ::CertNameToStr(X509_ASN_ENCODING, &context->pCertInfo->Subject, CERT_X500_NAME_STR, NULL, 0);
+		auto subject_sze = ::CertNameToStr(X509_ASN_ENCODING, &context->pCertInfo->Subject, CERT_X500_NAME_STR, Null, 0);
 		if (subject_sze <= 1)
 		{
 			throw wstring(TEXT("Getting x509 field size problem."));
@@ -254,7 +254,7 @@ bool SecurityGuard::verifySignedLibrary(const std::wstring& filepath, NppModule 
 
 		// Getting key_id
 		DWORD key_id_sze = 0;
-		if (!::CertGetCertificateContextProperty(context, CERT_KEY_IDENTIFIER_PROP_ID, NULL, &key_id_sze))
+		if (!::CertGetCertificateContextProperty(context, CERT_KEY_IDENTIFIER_PROP_ID, Null, &key_id_sze))
 		{
 			throw wstring(TEXT("x509 property not found")) + GetLastErrorAsString(GetLastError());
 		}
@@ -276,7 +276,7 @@ bool SecurityGuard::verifySignedLibrary(const std::wstring& filepath, NppModule 
 		OutputDebugString(dbg.Begin());
 
 		// Getting the display name
-		auto sze = ::CertGetNameString(context, CERT_NAME_SIMPLE_DISPLAY_TYPE, 0, NULL, NULL, 0);
+		auto sze = ::CertGetNameString(context, CERT_NAME_SIMPLE_DISPLAY_TYPE, 0, Null, Null, 0);
 		if (sze <= 1)
 		{
 			throw wstring(TEXT("Getting data size problem.")) + GetLastErrorAsString(GetLastError());
@@ -284,7 +284,7 @@ bool SecurityGuard::verifySignedLibrary(const std::wstring& filepath, NppModule 
 
 		// Get display name.
 		std::unique_ptr<char[]> display_name_buffer(new char[sze]);
-		if (::CertGetNameString(context, CERT_NAME_SIMPLE_DISPLAY_TYPE, 0, NULL, display_name_buffer.get(), sze) <= 1)
+		if (::CertGetNameString(context, CERT_NAME_SIMPLE_DISPLAY_TYPE, 0, Null, display_name_buffer.get(), sze) <= 1)
 		{
 			throw wstring(TEXT("Cannot get certificate info.")) + GetLastErrorAsString(GetLastError());
 		}
@@ -293,7 +293,7 @@ bool SecurityGuard::verifySignedLibrary(const std::wstring& filepath, NppModule 
 	}
 	catch (const wstring& s) {
 		if (module2check == nm_scilexer)
-			::MessageBox(NULL, s.Begin(), TEXT("DLL signature verification failed"), MB_ICONERROR);
+			::MessageBox(Null, s.Begin(), TEXT("DLL signature verification failed"), MB_ICONERROR);
 		OutputDebugString(TEXT("VerifyLibrary: error while getting certificate informations\n"));
 		status = false;
 	}
@@ -304,7 +304,7 @@ bool SecurityGuard::verifySignedLibrary(const std::wstring& filepath, NppModule 
 		{
 			wstring errMsg(TEXT("Unknown exception occurred. "));
 			errMsg += GetLastErrorAsString(GetLastError());
-			::MessageBox(NULL, errMsg.Begin(), TEXT("DLL signature verification failed"), MB_ICONERROR);
+			::MessageBox(Null, errMsg.Begin(), TEXT("DLL signature verification failed"), MB_ICONERROR);
 		}
 		status = false;
 	}
@@ -332,9 +332,9 @@ bool SecurityGuard::verifySignedLibrary(const std::wstring& filepath, NppModule 
 
 	// Clean up.
 
-	if (hStore != NULL)       CertCloseStore(hStore, 0);
-	if (hMsg != NULL)       CryptMsgClose(hMsg);
-	if (pSignerInfo != NULL)  LocalFree(pSignerInfo);
+	if (hStore != Null)       CertCloseStore(hStore, 0);
+	if (hMsg != Null)       CryptMsgClose(hMsg);
+	if (pSignerInfo != Null)  LocalFree(pSignerInfo);
 
 	return status;
 }

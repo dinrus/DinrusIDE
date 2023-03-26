@@ -16,8 +16,8 @@
 
 #pragma once
 
-#include <windows.h>
-#include <commctrl.h>
+//#include <windows.h>
+//#include <commctrl.h>
 #include <PowerEditor/WinControls/Window.h>
 #include <PowerEditor/MISC/Common/Common.h>
 
@@ -38,9 +38,9 @@ public:
 	TreeView() = default;
 	virtual ~TreeView() = default;
 
-	virtual void init(HINSTANCE hInst, HWND parent, int treeViewID);
+	virtual void init(HINSTANCE hInst, Upp::Ctrl* parent, int treeViewID);
 	virtual void destroy();
-	HTREEITEM addItem(const char *itemName, HTREEITEM hParentItem, int iImage, LPARAM lParam = NULL);
+	HTREEITEM addItem(const char *itemName, HTREEITEM hParentItem, int iImage, LPARAM lParam = Null);
 	bool setItemParam(HTREEITEM Item2Set, LPARAM param);
 	LPARAM getItemParam(HTREEITEM Item2Get) const;
 	String getItemDisplayName(HTREEITEM Item2Set) const;
@@ -98,7 +98,7 @@ public:
 
 	// Drag and Drop operations
 	void beginDrag(NMTREEVIEW* tv);
-	void dragItem(HWND parentHandle, int x, int y);
+	void dragItem(Upp::Ctrl* parentHandle, int x, int y);
 	bool isDragging() const {
 		return _isItemDragged;
 	};
@@ -124,9 +124,9 @@ public:
 protected:
 	HIMAGELIST _hImaLst = nullptr;
 	WNDPROC _defaultProc = nullptr;
-	LRESULT runProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
+	LRESULT runProc(Upp::Ctrl* hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
 
-	static LRESULT CALLBACK staticProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam) {
+	static LRESULT CALLBACK staticProc(Upp::Ctrl* hwnd, UINT Message, WPARAM wParam, LPARAM lParam) {
 		return (((TreeView *)(::GetWindowLongPtr(hwnd, GWLP_USERDATA)))->runProc(hwnd, Message, wParam, lParam));
 	};
 

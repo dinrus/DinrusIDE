@@ -43,7 +43,7 @@ public :
 
 	void destroy();
 
-	void reSizeTo(RECT & rc);
+	void reSizeTo(Rect & rc);
 
 	virtual void display(bool toShow = true) const;
 
@@ -74,13 +74,13 @@ private :
 	int _ratio = 0;
 	int _x = 0;
 	int _y = 0;
-	HMENU _hPopupMenu = NULL;
+	Menu* _hPopupMenu = Null;
 	DWORD _dwSplitterStyle = (SV_ENABLERDBLCLK | SV_ENABLELDBLCLK | SV_RESIZEWTHPERCNT);
 
 	SplitterMode _splitterMode = SplitterMode::DYNAMIC;
 	static bool _isRegistered;
 
-	static LRESULT CALLBACK staticWinProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
+	static LRESULT CALLBACK staticWinProc(Upp::Ctrl* hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
 	LRESULT runProc(UINT Message, WPARAM wParam, LPARAM lParam);
 	void rotateTo(DIRECTION direction);
 };

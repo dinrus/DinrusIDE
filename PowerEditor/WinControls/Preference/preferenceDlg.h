@@ -50,7 +50,7 @@ public :
 	EditingSubDlg() = default;
 	
 private :
-	HWND _tip = nullptr;
+	Upp::Ctrl* _tip = nullptr;
 
 	intptr_t CALLBACK run_dlgProc(UINT message, WPARAM wParam, LPARAM lParam);
 	void initScintParam();
@@ -78,7 +78,7 @@ private:
 
 	intptr_t CALLBACK run_dlgProc(UINT message, WPARAM wParam, LPARAM lParam);
 	void enableCustomizedColorCtrls(bool doEnable);
-	void move2CtrlLeft(int ctrlID, HWND handle2Move, int handle2MoveWidth, int handle2MoveHeight);
+	void move2CtrlLeft(int ctrlID, Upp::Ctrl* handle2Move, int handle2MoveWidth, int handle2MoveHeight);
 };
 
 class MarginsBorderEdgeSubDlg : public StaticDialog
@@ -95,7 +95,7 @@ struct LangID_Name
 {
 	LangType _id = L_TEXT;
 	String _name;
-	LangID_Name(LangType id, const String& name) : _id(id), _name(name){};
+	LangID_Name(LangType id, const char* name) : _id(id), _name(name){};
 };
 
 class NewDocumentSubDlg : public StaticDialog
@@ -224,9 +224,9 @@ public :
 private :
 	POINT _singleLineModePoint = {};
 	POINT _multiLineModePoint = {};
-	RECT _closerRect = {};
-	RECT _closerLabelRect = {};
-	HWND _tip = nullptr;
+	Rect _closerRect = {};
+	Rect _closerLabelRect = {};
+	Upp::Ctrl* _tip = nullptr;
 
 	intptr_t CALLBACK run_dlgProc(UINT message, WPARAM wParam, LPARAM lParam);
 	void detectSpace(const char *text2Check, int & nbSp, int & nbTab) const;
@@ -259,7 +259,7 @@ friend class Notepad_plus;
 public :
 	PreferenceDlg() = default;
 
-    void init(HINSTANCE hInst, HWND parent)	{
+    void init(HINSTANCE hInst, Upp::Ctrl* parent)	{
         Window::init(hInst, parent);
 	};
 

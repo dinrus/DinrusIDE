@@ -41,16 +41,16 @@ public:
 	CThreadSafeQueue()
 	{
 		m_hEvent = ::CreateEvent(
-			NULL,		// no security attributes
+			Null,		// no security attributes
 			FALSE,		// auto reset
 			FALSE,		// non-signalled
-			NULL);		// anonymous
+			Null);		// anonymous
 	}
 
 	~CThreadSafeQueue()
 	{
 		::CloseHandle(m_hEvent);
-		m_hEvent = NULL;
+		m_hEvent = Null;
 	}
 
 	void push(C& c)

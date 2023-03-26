@@ -19,6 +19,7 @@
 
 //#include <windows.h>
 #include <Core/Core.h>
+#include <CtrlCore/CtrlCore.h>
 
 // ATTENTION : It's a part of interface header, so don't include the others header here
 
@@ -59,7 +60,7 @@ struct tTbData {
 	const char* pszAddInfo = nullptr;     // for plugin to display additional informations
 
 	// internal data, do not use !!!
-	Rect rcFloat = {};                    // floating position
+	Upp::Rect rcFloat = {};                    // floating position
 	int iPrevCont = 0;                     // stores the privious container (toggling between float and dock)
 	const char* pszModuleName = nullptr;  // it's the plugin file name. It's used to identify the plugin
 };
@@ -67,7 +68,7 @@ struct tTbData {
 
 struct tDockMgr {
 	Upp::Ctrl* hWnd = nullptr;                   // the docking manager wnd
-	Rect rcRegion[DOCKCONT_MAX] = {{}};   // position of docked dialogs
+	Upp::Rect rcRegion[DOCKCONT_MAX] = {{}};   // position of docked dialogs
 };
 
 

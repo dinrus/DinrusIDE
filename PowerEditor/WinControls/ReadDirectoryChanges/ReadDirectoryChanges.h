@@ -73,7 +73,7 @@ namespace ReadDirectoryChangesPrivate
 /// 	CReadDirectoryChanges changes;
 /// 	changes.AddDirectory(_T("C:\\"), false, dwNotificationFlags);
 ///
-///		const HANDLE handles[] = { hStopEvent, changes.GetWaitHandle() };
+///		const void* handles[] = { hStopEvent, changes.GetWaitHandle() };
 ///
 ///		while (!bTerminate)
 ///		{
@@ -135,7 +135,7 @@ public:
 	/// Return a handle for the Win32 Wait... functions that will be
 	/// signaled when there is a queue entry.
 	/// </summary>
-	HANDLE GetWaitHandle() { return m_Notifications.GetWaitHandle(); }
+	void* GetWaitHandle() { return m_Notifications.GetWaitHandle(); }
 
 	bool Pop(DWORD& dwAction, std::wstring& wstrFilename);
 
@@ -147,7 +147,7 @@ public:
 protected:
 	ReadDirectoryChangesPrivate::CReadChangesServer* m_pServer = nullptr;
 
-	HANDLE m_hThread = nullptr;
+	void* m_hThread = nullptr;
 
 	unsigned int m_dwThreadId = 0;
 

@@ -71,7 +71,7 @@ HRESULT ConvertToPARGB32(HDC hdc, ARGB *pargb, HBITMAP hbmp, SIZE& sizImage, int
     InitBitmapInfo(&bmi, sizeof(bmi), sizImage.cx, sizImage.cy, 32);
 
     HRESULT hr = E_OUTOFMEMORY;
-    HANDLE hHeap = GetProcessHeap();
+    void* hHeap = GetProcessHeap();
     void *pvBits = HeapAlloc(hHeap, 0, bmi.bmiHeader.biWidth * 4 * bmi.bmiHeader.biHeight);
     if (pvBits)
     {

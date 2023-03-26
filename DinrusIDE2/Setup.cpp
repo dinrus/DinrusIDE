@@ -430,7 +430,7 @@ void Ide::SetupFormat() {
 		(ide.hydra1_threads, hydra1_threads)
 		(ide.chstyle, chstyle)
 		(ide.console, HostConsole)
-		(ide.output_per_assembly, output_per_assembly)
+		//(ide.output_per_assembly, output_per_assembly)
 		(ide.setmain_newide, setmain_newide)
 		(ide.gui_font, gui_font_override)
 	;

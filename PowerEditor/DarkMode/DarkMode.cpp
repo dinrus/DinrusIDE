@@ -134,7 +134,7 @@ bool IsHighContrast()
 void SetTitleBarThemeColor(Upp::Ctrl* hWnd, BOOL dark)
 {
     if (g_buildNumber < 18362)
-        SetPropW(hWnd, L"UseImmersiveDarkModeColors", reinterpret_cast<HANDLE>(static_cast<intptr_t>(dark)));
+        SetPropW(hWnd, L"UseImmersiveDarkModeColors", reinterpret_cast<void*>(static_cast<intptr_t>(dark)));
     else if (_SetWindowCompositionAttribute)
     {
         WINDOWCOMPOSITIONATTRIBDATA data = { WCA_USEDARKMODECOLORS, &dark, sizeof(dark) };

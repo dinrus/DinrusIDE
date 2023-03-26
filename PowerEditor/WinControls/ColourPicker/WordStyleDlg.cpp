@@ -46,7 +46,7 @@ LRESULT CALLBACK ColourStaticTextHooker::colourStaticProc(Upp::Ctrl* hwnd, UINT 
 			// Get the default GUI font
 			HFONT hf = (HFONT)::GetStockObject(DEFAULT_GUI_FONT);
 
-			HANDLE hOld = SelectObject(hdc, hf);
+			void* hOld = SelectObject(hdc, hf);
 
 			// Draw the text!
 			char text[MAX_PATH];

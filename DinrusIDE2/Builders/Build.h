@@ -1,4 +1,5 @@
-namespace UPP{
+#include <Core/Core.h>
+
 struct PackageMode : Moveable<PackageMode> {
 	int debug;
 	int blitz;
@@ -102,4 +103,3 @@ private:
 };
 
 extern bool output_per_assembly;
-}

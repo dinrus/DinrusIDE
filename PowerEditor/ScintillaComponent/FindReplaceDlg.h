@@ -540,8 +540,8 @@ private:
 	volatile Upp::Ctrl* _hwnd = nullptr;
 	Upp::Ctrl* _hCallerWnd = nullptr;
 	char _header[128] = {'\0'};
-	HANDLE _hThread = nullptr;
-	HANDLE _hActiveState = nullptr;
+	void* _hThread = nullptr;
+	void* _hActiveState = nullptr;
 	Upp::Ctrl* _hPText = nullptr;
 	Upp::Ctrl* _hPBar = nullptr;
 	Upp::Ctrl* _hBtn = nullptr;

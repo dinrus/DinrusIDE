@@ -1257,7 +1257,7 @@ void ProjectPanel::recursiveAddFilesFrom(const char *folderPath, HTREEITEM hTree
 	WIN32_FIND_DATA foundData;
 	Vector<String> files;
 
-	HANDLE hFile = ::FindFirstFile(dirFilter.Begin(), &foundData);
+	void* hFile = ::FindFirstFile(dirFilter.Begin(), &foundData);
 
 	do {
 		if (hFile == INVALID_HANDLE_VALUE)

@@ -67,8 +67,8 @@ using namespace Upp;
 
 typedef Upp::StringStream generic_stringstream;
 
-String folderBrowser(Upp::Ctrl* parent, const char* title = TEXT(""), int outputCtrlID = 0, const char *defaultStr = Null);
-String getFolderName(Upp::Ctrl* parent, const char *defaultDir = Null);
+String folderBrowser(Upp::Ctrl* parent, const char* title = TEXT(""), int outputCtrlID = 0, const char *defaultStr = nullptr);
+String getFolderName(Upp::Ctrl* parent, const char *defaultDir = nullptr);
 
 void printInt(int int2print);
 void printStr(const char *str2print);
@@ -102,12 +102,12 @@ public:
 		return instance;
 	}
 
-	const wchar_t * char2wchar(const char *mbStr, size_t codepage, int lenMbcs =-1, int* pLenOut=Null, int* pBytesNotProcessed=Null);
+	const wchar_t * char2wchar(const char *mbStr, size_t codepage, int lenMbcs =-1, int* pLenOut=nullptr, int* pBytesNotProcessed=nullptr);
 	const wchar_t * char2wchar(const char *mbcs2Convert, size_t codepage, intptr_t* mstart, intptr_t* mend);
-	const char * wchar2char(const wchar_t *wcStr, size_t codepage, int lenIn = -1, int* pLenOut = Null);
+	const char * wchar2char(const wchar_t *wcStr, size_t codepage, int lenIn = -1, int* pLenOut = nullptr);
 	const char * wchar2char(const wchar_t *wcStr, size_t codepage, intptr_t* mstart, intptr_t* mend);
 
-	const char * encode(UINT fromCodepage, UINT toCodepage, const char *txt2Encode, int lenIn = -1, int* pLenOut=Null, int* pBytesNotProcessed=Null)
+	const char * encode(UINT fromCodepage, UINT toCodepage, const char *txt2Encode, int lenIn = -1, int* pLenOut=nullptr, int* pBytesNotProcessed=nullptr)
 	{
 		int lenWc = 0;
         const wchar_t * strW = char2wchar(txt2Encode, fromCodepage, lenIn, &lenWc, pBytesNotProcessed);
@@ -179,7 +179,7 @@ Upp::Vector<String> stringSplit(const char* input, const char* delimiter);
 bool str2numberVector(String str2convert, std::vector<size_t>& numVect);
 String stringJoin(const Upp::Vector<String>& strings, const char* separator);
 String stringTakeWhileAdmissable(const char* input, const char* admissable);
-double stodLocale(const char* str, _locale_t loc, size_t* idx = Null);
+double stodLocale(const char* str, _locale_t loc, size_t* idx = nullptr);
 
 int OrdinalIgnoreCaseCompareStrings(LPCTSTR sz1, LPCTSTR sz2);
 
@@ -249,8 +249,7 @@ public:
 	void setVersionFrom(const char* filePath);
 	String toString();
 	bool isNumber(const char* s) const {
-		return !s.IsEmpty() &&
-			std::find_if(s.begin(), s.end(), [](char c) { return !isdigit(c); }) == s.end();
+		return IsNumber(s);
 	};
 
 	int compareTo(const Version& v2c) const;

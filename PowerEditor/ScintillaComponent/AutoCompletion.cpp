@@ -426,7 +426,7 @@ void AutoCompletion::showPathCompletion()
 	// Get all files and directories in the path.
 	String autoCompleteEntries;
 	{
-		HANDLE hFind;
+		void* hFind;
 		WIN32_FIND_DATA data;
 		String pathToMatchPlusSlash = addTrailingSlash(pathToMatch);
 		String searchString = pathToMatchPlusSlash + TEXT("*.*");

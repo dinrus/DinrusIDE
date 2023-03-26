@@ -100,8 +100,8 @@ public:
 private:
 	FolderInfo _rootFolder;
 	FileBrowser* _pFileBrowser = nullptr;
-	HANDLE _watchThreadHandle = nullptr;
-	HANDLE _EventHandle = nullptr;
+	void* _watchThreadHandle = nullptr;
+	void* _EventHandle = nullptr;
 	static DWORD WINAPI watching(void *param);
 
 	static void processChange(DWORD dwAction, Upp::Vector<String> filesToChange, FolderUpdater* thisFolderUpdater);

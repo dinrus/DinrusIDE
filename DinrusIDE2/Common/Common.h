@@ -9,10 +9,8 @@
 #define IMAGEFILE  <DinrusIDE2/Common/common.iml>
 #include <Draw/iml_header.h>
 
-using namespace Upp;
-
 struct Debugger {
-	virtual void DebugBar(Upp::Bar& bar) = 0;
+	virtual void DebugBar(Bar& bar) = 0;
 	virtual bool SetBreakpoint(const String& filename, int line, const String& bp) = 0;
 	virtual bool RunTo() = 0;
 	virtual void Run() = 0;

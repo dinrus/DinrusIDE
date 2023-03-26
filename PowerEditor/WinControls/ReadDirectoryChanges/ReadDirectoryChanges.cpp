@@ -55,7 +55,7 @@ void CReadDirectoryChanges::Init()
 	// Kick off the worker thread, which will be
 	// managed by CReadChangesServer.
 	//
-	m_hThread = (HANDLE)_beginthreadex(Null,
+	m_hThread = (void*)_beginthreadex(Null,
 		0,
 		CReadChangesServer::ThreadStartProc,
 		m_pServer,

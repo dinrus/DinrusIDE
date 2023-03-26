@@ -128,7 +128,7 @@ void writeLog(const char *logFileName, const char *log2write)
 	const DWORD shareParam{ FILE_SHARE_READ | FILE_SHARE_WRITE };
 	const DWORD dispParam{ OPEN_ALWAYS }; // Open existing file for writing without destroying it or create new
 	const DWORD attribParam{ FILE_ATTRIBUTE_NORMAL };
-	HANDLE hFile = ::CreateFileW(logFileName, accessParam, shareParam, Null, dispParam, attribParam, Null);
+	void* hFile = ::CreateFileW(logFileName, accessParam, shareParam, Null, dispParam, attribParam, Null);
 
 	if (hFile != INVALID_HANDLE_VALUE)
 	{
@@ -1341,7 +1341,7 @@ void getFilesInFolder(Vector<String>& files, const char* extTypeFilter, const ch
 	pathAppend(filter, extTypeFilter);
 
 	WIN32_FIND_DATA foundData;
-	HANDLE hFindFile = ::FindFirstFile(filter.Begin(), &foundData);
+	void* hFindFile = ::FindFirstFile(filter.Begin(), &foundData);
 
 	if (hFindFile != INVALID_HANDLE_VALUE && !(foundData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY))
 	{

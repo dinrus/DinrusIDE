@@ -1700,7 +1700,7 @@ void StringDlg::HandlePaste(Upp::Ctrl* hEdit)
 {
 	if (OpenClipboard(hEdit))
 	{
-		HANDLE hClipboardData = GetClipboardData(CF_UNICODETEXT);
+		void* hClipboardData = GetClipboardData(CF_UNICODETEXT);
 		if (Null != hClipboardData)
 		{
 			LPTSTR pszText = reinterpret_cast<LPTSTR>(GlobalLock(hClipboardData));
@@ -1744,7 +1744,7 @@ intptr_t CALLBACK StylerDlg::dlgProc(Upp::Ctrl* hwnd, UINT message, WPARAM wPara
             NativeLangSpeaker *pNativeLangSpeaker = nppParam.getNativeLangSpeaker();
             pNativeLangSpeaker->changeUserDefineLangPopupDlg(hwnd);
 
-            ::SetProp(hwnd, TEXT("Styler dialog prop"), (HANDLE)lParam);
+            ::SetProp(hwnd, TEXT("Styler dialog prop"), (void*)lParam);
             dlg = (StylerDlg *)::GetProp(hwnd, TEXT("Styler dialog prop"));
             Style & style = SharedParametersDialog::_pUserLang->_styles.getStyler(dlg->_stylerIndex);
 

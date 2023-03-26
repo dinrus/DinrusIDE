@@ -80,7 +80,7 @@ protected:
 	std::wstring m_wstrDirectory;
 
 	// Result of calling CreateFile().
-	HANDLE		m_hDirectory = nullptr;
+	void*		m_hDirectory = nullptr;
 
 	// Required parameter for ReadDirectoryChangesW().
 	OVERLAPPED	m_Overlapped;

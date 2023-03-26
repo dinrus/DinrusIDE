@@ -50,7 +50,7 @@ bool MiniDumper::writeDump(EXCEPTION_POINTERS * pExceptionInfo)
 			if (msgret == IDYES)
 			{
 				// create the file
-				HANDLE hFile = ::CreateFile( szDumpPath, GENERIC_WRITE, FILE_SHARE_WRITE, Null, CREATE_ALWAYS,
+				void* hFile = ::CreateFile( szDumpPath, GENERIC_WRITE, FILE_SHARE_WRITE, Null, CREATE_ALWAYS,
 											FILE_ATTRIBUTE_NORMAL, Null );
 
 				if (hFile!=INVALID_HANDLE_VALUE)

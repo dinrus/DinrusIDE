@@ -583,12 +583,12 @@ const int RECT16_V = 77;
 const int RECTF_V  = 78;
 const int RECT64_V = 81;
 
-template<> inline dword ValueTypeNo(const Rect*)   { return RECT_V; }
+template<> inline dword ValueTypeNo(const Upp::Rect*)   { return RECT_V; }
 template<> inline dword ValueTypeNo(const Rect16*) { return RECT16_V; }
 template<> inline dword ValueTypeNo(const Rect64*) { return RECT64_V; }
 template<> inline dword ValueTypeNo(const Rectf*)  { return RECTF_V; }
 
-Rect    RectC(int x, int y, int cx, int cy);
+Upp::Rect    RectC(int x, int y, int cx, int cy);
 Rect16  Rect16C(int16 x, int16 y, int16 cx, int16 cy);
 Rectf   RectfC(double x, double y, double cx, double cy);
 
@@ -662,8 +662,8 @@ inline Sizef operator*(Size16 sz, Sizef a)  { return Sizef(sz.cx * a.cx, sz.cy *
 inline Sizef operator*(Sizef a, Size16 sz)  { return Sizef(sz.cx * a.cx, sz.cy * a.cy); }
 inline Sizef operator/(Size16 sz, Sizef a)  { return Sizef(sz.cx / a.cx, sz.cy / a.cy); }
 
-inline Rect RectC(int x, int y, int cx, int cy) {
-	return Rect(x, y, x + cx, y + cy);
+inline Upp::Rect RectC(int x, int y, int cx, int cy) {
+	return Upp::Rect(x, y, x + cx, y + cy);
 }
 
 inline Rect16  Rect16C(int16 x, int16 y, int16 cx, int16 cy) {
@@ -674,12 +674,12 @@ inline Rectf   RectfC(double x, double y, double cx, double cy) {
 	return Rectf(x, y, x + cx, y + cy);
 }
 
-inline Rect  RectSort(Point a, Point b)    { return Rect(min(a, b), max(a, b) + 1); }
+inline Upp::Rect  RectSort(Point a, Point b)    { return Upp::Rect(min(a, b), max(a, b) + 1); }
 inline Rectf RectfSort(Pointf a, Pointf b) { return Rectf(min(a, b), max(a, b)); }
 
 Stream& Pack16(Stream& s, Point& p);
 Stream& Pack16(Stream& s, Size& sz);
-Stream& Pack16(Stream& s, Rect& r);
+Stream& Pack16(Stream& s, Upp::Rect& r);
 
 Size iscale(Size a,  int b, int c);
 Size iscalefloor(Size a,  int b, int c);

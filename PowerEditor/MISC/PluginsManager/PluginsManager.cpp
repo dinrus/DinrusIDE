@@ -60,13 +60,13 @@ bool PluginsManager::unloadPlugin(int index, Upp::Ctrl* nppHandle)
 
 static WORD getBinaryArchitectureType(const char *filePath)
 {
-	HANDLE hFile = CreateFile(filePath, GENERIC_READ, FILE_SHARE_READ, Null, OPEN_EXISTING, FILE_ATTRIBUTE_READONLY, Null);
+	void* hFile = CreateFile(filePath, GENERIC_READ, FILE_SHARE_READ, Null, OPEN_EXISTING, FILE_ATTRIBUTE_READONLY, Null);
 	if (hFile == INVALID_HANDLE_VALUE)
 	{
 		return IMAGE_FILE_MACHINE_UNKNOWN;
 	}
 
-	HANDLE hMapping = CreateFileMapping(hFile, Null, PAGE_READONLY | SEC_IMAGE, 0, 0, Null);
+	void* hMapping = CreateFileMapping(hFile, Null, PAGE_READONLY | SEC_IMAGE, 0, 0, Null);
 	if (hMapping == Null)
 	{
 		CloseHandle(hFile);
@@ -341,8 +341,8 @@ bool PluginsManager::loadPlugins(const char* dir, const PluginViewList* pluginUp
 	pathAppend(pluginsFolderFilter, TEXT("*.*"));
 
 	WIN32_FIND_DATA foundData;
-	HANDLE hFindFolder = ::FindFirstFile(pluginsFolderFilter.Begin(), &foundData);
-	HANDLE hFindDll = INVALID_HANDLE_VALUE;
+	void* hFindFolder = ::FindFirstFile(pluginsFolderFilter.Begin(), &foundData);
+	void* hFindDll = INVALID_HANDLE_VALUE;
 
 	// Get Notepad++ current version
 	char nppFullPathName[MAX_PATH];

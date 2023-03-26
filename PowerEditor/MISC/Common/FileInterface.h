@@ -52,7 +52,7 @@ public:
 	};
 
 private:
-	HANDLE	_hFile		{INVALID_HANDLE_VALUE};
+	void*	_hFile		{INVALID_HANDLE_VALUE};
 	bool	_written	{false};
 	std::string _path;
 

@@ -54,7 +54,7 @@ DWORD WINAPI Notepad_plus::monitorFileOnChange(void * params)
 	CReadFileChanges fileChanges;
 	fileChanges.AddFile(fullFileName, FILE_NOTIFY_CHANGE_LAST_WRITE | FILE_NOTIFY_CHANGE_SIZE);
 
-	HANDLE changeHandles[] = { buf->getMonitoringEvent(), dirChanges.GetWaitHandle() };
+	void* changeHandles[] = { buf->getMonitoringEvent(), dirChanges.GetWaitHandle() };
 
 	bool toBeContinued = true;
 

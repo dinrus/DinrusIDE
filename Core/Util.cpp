@@ -276,7 +276,7 @@ Stream& Pack16(Stream& s, Size& sz) {
 	return Pack16(s, sz.cx, sz.cy);
 }
 
-Stream& Pack16(Stream& s, Rect& r) {
+Stream& Pack16(Stream& s, Upp::Rect& r) {
 	return Pack16(s, r.left, r.top, r.right, r.bottom);
 }
 

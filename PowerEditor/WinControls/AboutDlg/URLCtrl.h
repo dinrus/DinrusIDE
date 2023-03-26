@@ -24,7 +24,7 @@
 class URLCtrl : public Window {
 public:
     void create(Upp::Ctrl* itemHandle, const char * link, COLORREF linkColor = RGB(0,0,255));
-	void create(Upp::Ctrl* itemHandle, int cmd, Upp::Ctrl* msgDest = Null);
+	void create(Upp::Ctrl* itemHandle, int cmd, Upp::Ctrl* msgDest = nullptr);
     void destroy();
 private:
 	void action();
@@ -42,7 +42,7 @@ protected :
     bool  _clicking = false;
 
     static LRESULT CALLBACK URLCtrlProc(Upp::Ctrl* hwnd, UINT Message, WPARAM wParam, LPARAM lParam){
-        return ((URLCtrl *)(::GetWindowLongPtr(hwnd, GWLP_USERDATA)))->runProc(hwnd, Message, wParam, lParam);
+        return ((URLCtrl *)(::GetWindowLongPtr((HWND) hwnd, GWLP_USERDATA)))->runProc(hwnd, Message, wParam, lParam);
     };
     LRESULT runProc(Upp::Ctrl* hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
 };

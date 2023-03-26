@@ -25,7 +25,7 @@
 
 
 // based on dbghelp.h
-typedef BOOL (WINAPI *MINIDUMPWRITEDUMP)(HANDLE hProcess, DWORD dwPid, HANDLE hFile, MINIDUMP_TYPE DumpType,
+typedef BOOL (WINAPI *MINIDUMPWRITEDUMP)(void* hProcess, DWORD dwPid, void* hFile, MINIDUMP_TYPE DumpType,
 									const PMINIDUMP_EXCEPTION_INFORMATION ExceptionParam,
 									const PMINIDUMP_USER_STREAM_INFORMATION UserStreamParam,
 									const PMINIDUMP_CALLBACK_INFORMATION CallbackParam

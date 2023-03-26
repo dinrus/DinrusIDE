@@ -51,7 +51,7 @@ class TiXmlString
     TiXmlString ()
     {
         allocated = 0;
-        cstring = Null;
+        cstring = NULL;
         current_length = 0;
     }
 
@@ -184,7 +184,7 @@ class TiXmlString
     {
         if (cstring)
             delete [] cstring;
-        cstring = Null;
+        cstring = NULL;
         allocated = 0;
         current_length = 0;
     }

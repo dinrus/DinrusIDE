@@ -302,7 +302,7 @@ public:
 		_eventHandle = ::CreateEvent(nullptr, TRUE, FALSE, nullptr);
 	};
 
-	HANDLE getMonitoringEvent() const { return _eventHandle; };
+	void* getMonitoringEvent() const { return _eventHandle; };
 
 	void stopMonitoring() {
 		_isMonitoringOn = false;
@@ -384,7 +384,7 @@ private:
 	                                // This variable member keeps this situation in memory and when the undo state back to the save_point_reached, it'll still be dirty (its original state)
 
 	// For the monitoring
-	HANDLE _eventHandle = nullptr;
+	void* _eventHandle = nullptr;
 	bool _isMonitoringOn = false;
 
 	bool _hasLangBeenSetFromMenu = false;

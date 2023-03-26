@@ -885,7 +885,7 @@ void FileBrowser::getDirectoryStructure(const char *dir, const Vector<String> & 
     dirFilter += TEXT("*.*");
     WIN32_FIND_DATA foundData;
 
-    HANDLE hFile = ::FindFirstFile(dirFilter.Begin(), &foundData);
+    void* hFile = ::FindFirstFile(dirFilter.Begin(), &foundData);
 
     if (hFile != INVALID_HANDLE_VALUE)
     {
@@ -1622,7 +1622,7 @@ DWORD WINAPI FolderUpdater::watching(void *params)
     CReadDirectoryChanges changes;
     changes.AddDirectory(dir2Watch.Begin(), true, dwNotificationFlags);
 
-    HANDLE changeHandles[] = { thisFolderUpdater->_EventHandle, changes.GetWaitHandle() };
+    void* changeHandles[] = { thisFolderUpdater->_EventHandle, changes.GetWaitHandle() };
 
     bool toBeContinued = true;
 

@@ -7603,7 +7603,7 @@ void NppParameters::safeWow64EnableWow64FsRedirection(BOOL Wow64FsEnableRedirect
     if (kernel)
     {
         BOOL isWow64 = FALSE;
-        typedef BOOL (WINAPI *LPFN_ISWOW64PROCESS) (HANDLE, PBOOL);
+        typedef BOOL (WINAPI *LPFN_ISWOW64PROCESS) (void*, PBOOL);
         LPFN_ISWOW64PROCESS IsWow64ProcessFunc = (LPFN_ISWOW64PROCESS) GetProcAddress(kernel,"IsWow64Process");
 
         if (IsWow64ProcessFunc)

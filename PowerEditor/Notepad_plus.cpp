@@ -1483,7 +1483,7 @@ void Notepad_plus::getMatchedFileNames(const char *dir, size_t level, const Vect
 	dirFilter += TEXT("*.*");
 	WIN32_FIND_DATA foundData;
 
-	HANDLE hFile = ::FindFirstFile(dirFilter.Begin(), &foundData);
+	void* hFile = ::FindFirstFile(dirFilter.Begin(), &foundData);
 
 	if (hFile != INVALID_HANDLE_VALUE)
 	{
@@ -2468,7 +2468,7 @@ void Notepad_plus::pasteToMarkedLines()
 	intptr_t lastLine = _pEditView->lastZeroBasedLineNumber();
 
 	::OpenClipboard(_pPublicInterface->getHSelf());
-	HANDLE clipboardData = ::GetClipboardData(clipFormat);
+	void* clipboardData = ::GetClipboardData(clipFormat);
 	::GlobalSize(clipboardData);
 	LPVOID clipboardDataPtr = ::GlobalLock(clipboardData);
 	if (!clipboardDataPtr) return;
@@ -7046,7 +7046,7 @@ struct TextTrollerParams
 	ScintillaEditView *_pCurrentView;
 	const wchar_t*_text2display;
 	BufferID _targetBufID;
-	HANDLE _mutex;
+	void* _mutex;
 };
 
 
@@ -7399,7 +7399,7 @@ DWORD WINAPI Notepad_plus::threadTextPlayer(void *params)
 	trollerParams._pCurrentView = pCurrentView;
 	BufferID targetBufID = pCurrentView->getCurrentBufferID();
 	trollerParams._targetBufID = targetBufID;
-	HANDLE mutex = ::CreateMutex(Null, false, TEXT("nppTextWriter"));
+	void* mutex = ::CreateMutex(Null, false, TEXT("nppTextWriter"));
 	trollerParams._mutex = mutex;
 
     // Get the current scintilla
@@ -7434,7 +7434,7 @@ DWORD WINAPI Notepad_plus::threadTextPlayer(void *params)
 
 				ReleaseMutex(mutex);
 
-				HANDLE hThread = ::CreateThread(Null, 0, threadTextTroller, &trollerParams, 0, Null);
+				void* hThread = ::CreateThread(Null, 0, threadTextTroller, &trollerParams, 0, Null);
 
 				int sleepTime = 1000 / x * y;
 				::Sleep(sleepTime);
@@ -7673,7 +7673,7 @@ void Notepad_plus::showQuote(const QuoteParams* quote) const
 	params._nppHandle = Notepad_plus::_pPublicInterface->getHSelf();
 	params._pCurrentView = _pEditView;
 
-	HANDLE hThread = ::CreateThread(Null, 0, threadTextPlayer, &params, 0, Null);
+	void* hThread = ::CreateThread(Null, 0, threadTextPlayer, &params, 0, Null);
 	if (hThread)
 		::CloseHandle(hThread);
 }
@@ -7875,7 +7875,7 @@ void Notepad_plus::refreshDarkMode(bool resetStyle)
 
 void Notepad_plus::launchDocumentBackupTask()
 {
-	HANDLE hThread = ::CreateThread(Null, 0, backupDocument, Null, 0, Null);
+	void* hThread = ::CreateThread(Null, 0, backupDocument, Null, 0, Null);
 	if (hThread)
 		::CloseHandle(hThread);
 }
@@ -8130,7 +8130,7 @@ void Notepad_plus::monitoringStartOrStopAndUpdateUI(SciBuffer* pBuf, bool isStar
 void Notepad_plus::createMonitoringThread(SciBuffer* pBuf)
 {
 	MonitorInfo *monitorInfo = new Notepad_plus::MonitorInfo(pBuf, _pPublicInterface->getHSelf());
-	HANDLE hThread = ::CreateThread(Null, 0, monitorFileOnChange, (void *)monitorInfo, 0, Null); // will be deallocated while quitting thread
+	void* hThread = ::CreateThread(Null, 0, monitorFileOnChange, (void *)monitorInfo, 0, Null); // will be deallocated while quitting thread
 	::CloseHandle(hThread);
 }
 

@@ -246,7 +246,7 @@ void MsgBoxError(LPCTSTR lpszMsg) {
 //---------------------------------------------------------------------------
 BOOL CheckNpp(LPCTSTR path) {
 	WIN32_FIND_DATA fd;
-	HANDLE findHandle;
+	void* findHandle;
 
 	findHandle = FindFirstFile(path, &fd);
 	if (findHandle == INVALID_HANDLE_VALUE) {

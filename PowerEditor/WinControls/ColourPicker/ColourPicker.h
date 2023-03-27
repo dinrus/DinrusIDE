@@ -28,18 +28,18 @@ class ColourPicker : public Window
 public :
 	ColourPicker() = default;
     ~ColourPicker() = default;
-	virtual void init(HINSTANCE hInst, Upp::Ctrl* parent);
+	virtual void init(Ctrl& hInst, Upp::Ctrl* parent);
 	virtual void destroy();
-    void setColour(COLORREF c) {
+    void setColour(Color& c) {
         _currentColour = c;
     };
 
-	COLORREF getColour() const {return _currentColour;};
+	Color& getColour() const {return _currentColour;};
 	bool isEnabled() {return _isEnabled;};
 	void setEnabled(bool enabled) {_isEnabled = enabled;};
 
 private :
-	COLORREF _currentColour = RGB(0xFF, 0x00, 0x00);
+	Color& _currentColour = Color(0xFF, 0x00, 0x00);
     WNDPROC _buttonDefaultProc = nullptr;
 	ColourPopup *_pColourPopup = nullptr;
 	bool _isEnabled = true;

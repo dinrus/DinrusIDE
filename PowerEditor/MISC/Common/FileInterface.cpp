@@ -57,7 +57,7 @@ void Win32_IO_File::close()
 {
 	if (isOpened())
 	{
-		DWORD flushError = NOERROR;
+		dword flushError = NOERROR;
 		if (_written)
 		{
 			if (!::FlushFileBuffers(_hFile))
@@ -113,7 +113,7 @@ unsigned long Win32_IO_File::read(void *rbuf, unsigned long buf_size)
 	if (!isOpened() || (rbuf == nullptr) || (buf_size == 0))
 		return 0;
 
-	DWORD bytes_read = 0;
+	dword bytes_read = 0;
 
 	if (::ReadFile(_hFile, rbuf, buf_size, &bytes_read, Null) == FALSE)
 		return 0;
@@ -127,7 +127,7 @@ bool Win32_IO_File::write(const void *wbuf, unsigned long buf_size)
 	if (!isOpened() || (wbuf == nullptr))
 		return false;
 
-	DWORD bytes_written = 0;
+	dword bytes_written = 0;
 
 	NppParameters& nppParam = NppParameters::getInstance();
 	if (::WriteFile(_hFile, wbuf, buf_size, &bytes_written, Null) == FALSE)

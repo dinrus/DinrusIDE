@@ -90,7 +90,7 @@ DockingManager::~DockingManager()
 	}
 }
 
-void DockingManager::init(HINSTANCE hInst, Upp::Ctrl* hWnd, Window ** ppWin)
+void DockingManager::init(Ctrl& hInst, Upp::Ctrl* hWnd, Window ** ppWin)
 {
 	Window::init(hInst, hWnd);
 

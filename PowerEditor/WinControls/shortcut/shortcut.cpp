@@ -20,7 +20,7 @@
 #include <array>
 #include <PowerEditor/WinControls/shortcut/shortcut.h>
 #include <PowerEditor/Parameters.h>
-#include <PowerEditor/ScintillaComponent/ScintillaEditView.h>
+#include <PowerEditor/ScintillaComponent/ScintillaComponent.h>
 #include <PowerEditor/resource.h>
 #include <PowerEditor/Notepad_plus_Window.h>
 #include "keys.h"
@@ -287,7 +287,7 @@ void getKeyStrFromVal(UCHAR keyVal, String & str)
 		str = TEXT("Unlisted");
 }
 
-void getNameStrFromCmd(DWORD cmd, String & str)
+void getNameStrFromCmd(dword cmd, String & str)
 {
 	if ((cmd >= ID_MACRO) && (cmd < ID_MACRO_LIMIT))
 	{

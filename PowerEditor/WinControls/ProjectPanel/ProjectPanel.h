@@ -60,7 +60,7 @@ public:
 	ProjectPanel(): DockingDlgInterface(IDD_PROJECTPANEL) {};
 	~ProjectPanel();
 
-	void init(HINSTANCE hInst, Upp::Ctrl* hPere, int panelID) {
+	void init(Ctrl& hInst, Upp::Ctrl* hPere, int panelID) {
 		DockingDlgInterface::init(hInst, hPere);
 		_panelID = panelID;
 	}
@@ -96,10 +96,10 @@ public:
 	};
 	bool checkIfNeedSave();
 
-	virtual void setBackgroundColor(COLORREF bgColour) {
+	virtual void setBackgroundColor(Color& bgColour) {
 		TreeView_SetBkColor(_treeView.getHSelf(), bgColour);
 	};
-	virtual void setForegroundColor(COLORREF fgColour) {
+	virtual void setForegroundColor(Color& fgColour) {
 		TreeView_SetTextColor(_treeView.getHSelf(), fgColour);
 	};
 	bool enumWorkSpaceFiles(HTREEITEM tvFrom, const Vector<String> & patterns, Vector<String> & fileNames);
@@ -148,7 +148,7 @@ class FileRelocalizerDlg : public StaticDialog
 {
 public :
 	FileRelocalizerDlg() = default;
-	void init(HINSTANCE hInst, Upp::Ctrl* parent) {
+	void init(Ctrl& hInst, Upp::Ctrl* parent) {
 		Window::init(hInst, parent);
 	};
 

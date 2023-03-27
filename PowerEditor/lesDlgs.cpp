@@ -20,7 +20,7 @@
 #include <PowerEditor/menuCmdID.h>
 #include <PowerEditor/NppDarkMode.h>
 
-void ValueDlg::init(HINSTANCE hInst, Upp::Ctrl* parent, int valueToSet, const char *text)
+void ValueDlg::init(Ctrl& hInst, Upp::Ctrl* parent, int valueToSet, const char *text)
 {
 	Window::init(hInst, parent);
 	_defaultValue = valueToSet;
@@ -63,7 +63,7 @@ int ValueDlg::reSizeValueBox()
 
 	Rect rcText;
 	::SendMessage(hEdit, EM_GETRECT, 0, reinterpret_cast<LPARAM>(&rcText));
-	DWORD m = (DWORD)::SendMessage(hEdit, EM_GETMARGINS, 0, 0);
+	dword m = (dword)::SendMessage(hEdit, EM_GETMARGINS, 0, 0);
 	int margins = LOWORD(m) + HIWORD(m);
 	int textWidth = rcText.right - rcText.left;
 	int frameWidth = w - textWidth;

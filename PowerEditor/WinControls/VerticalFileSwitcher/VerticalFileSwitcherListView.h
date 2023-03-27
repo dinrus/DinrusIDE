@@ -46,7 +46,7 @@ public:
 	VerticalFileSwitcherListView() = default;
 	virtual ~VerticalFileSwitcherListView() = default;
 
-	virtual void init(HINSTANCE hInst, Upp::Ctrl* parent, HIMAGELIST hImaLst);
+	virtual void init(Ctrl& hInst, Upp::Ctrl* parent, HIMAGELIST hImaLst);
 	virtual void destroy();
 	void initList();
 	BufferID getBufferInfoFromIndex(int index, int & view) const;
@@ -74,13 +74,13 @@ public:
 		ListView_EnsureVisible(_hSelf, _currentIndex, false);
 	};
 
-	void setBackgroundColor(COLORREF bgColour) {
+	void setBackgroundColor(Color& bgColour) {
 		ListView_SetBkColor(_hSelf, bgColour);
 		ListView_SetTextBkColor(_hSelf, bgColour);
 		redraw(true);
     };
 
-	void setForegroundColor(COLORREF fgColour) {
+	void setForegroundColor(Color& fgColour) {
 		ListView_SetTextColor(_hSelf, fgColour);
 		redraw(true);
     };

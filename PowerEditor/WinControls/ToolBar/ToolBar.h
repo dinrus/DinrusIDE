@@ -16,7 +16,7 @@
 
 
 #pragma once
-
+#include <CtrlCore/CtrlCore.h>
 #include <PowerEditor/MISC/Common/Common.h>
 #include <PowerEditor/WinControls/Window.h>
 #include <PowerEditor/MISC/PluginsManager/Notepad_plus_msgs.h>
@@ -53,7 +53,7 @@ public :
 	~ToolBar() = default;
 
     void initTheme(TiXmlDocument *toolIconsDocRoot);
-	virtual bool init(HINSTANCE hInst, Upp::Ctrl* hPere, toolBarStatusType type,
+	virtual bool init(Ctrl& hInst, Upp::Ctrl* hPere, toolBarStatusType type,
 		ToolBarButtonUnit *buttonUnitArray, int arraySize);
 
 	virtual void destroy();
@@ -102,7 +102,7 @@ public :
 	void addToRebar(ReBar * rebar);
 
 private :
-	TBBUTTON *_pTBB = nullptr;
+	ToolButton *_pTBB = nullptr;
 	ToolBarIcons _toolBarIcons;
 	toolBarStatusType _state = TB_SMALL;
 	std::vector<DynamicCmdIcoBmp> _vDynBtnReg;
@@ -174,7 +174,7 @@ public :
 		usedIDs.clear();
 	};
 
-	void init(HINSTANCE hInst, Upp::Ctrl* hPere);
+	void init(Ctrl& hInst, Upp::Ctrl* hPere);
 	bool addBand(REBARBANDINFO * rBand, bool useID);	//useID true if ID from info should be used (false for plugins). wID in bandinfo will be set to used ID
 	void reNew(int id, REBARBANDINFO * rBand);					//wID from bandinfo is used for update
 	void removeBand(int id);

@@ -59,7 +59,7 @@ public:
 	virtual void destroy() override;
 
 	void resizeSpliter(Rect *pRect = Null);
-	void init(HINSTANCE hInst, Upp::Ctrl* hPere, int splitterSize, double iSplitRatio, DWORD dwFlags);
+	void init(Ctrl& hInst, Upp::Ctrl* hPere, int splitterSize, double iSplitRatio, dword dwFlags);
 	void rotate();
 
 	int getPhisicalSize() const
@@ -74,7 +74,7 @@ private:
 	int _splitterSize = 0;
 	bool _isDraged = false;
 	bool _isLeftButtonDown = false;
-	DWORD _dwFlags = 0;
+	dword _dwFlags = 0;
 	bool _isFixed = false;
 	static bool _isHorizontalRegistered;
 	static bool _isVerticalRegistered;

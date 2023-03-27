@@ -16,7 +16,7 @@
 
 
 #include <algorithm>
-#include <shlwapi.h>
+//#include <shlwapi.h>
 #include <PowerEditor/Notepad_plus_Window.h>
 #include <PowerEditor/WinControls/TaskList/TaskListDlg.h>
 #include <PowerEditor/WinControls/ImageListSet/ImageListSet.h>
@@ -671,7 +671,7 @@ LRESULT Notepad_plus::process(Upp::Ctrl* hwnd, UINT message, WPARAM wParam, LPAR
 				case COPYDATA_PARAMS:
 				{
 					const CmdLineParamsDTO *cmdLineParam = static_cast<const CmdLineParamsDTO *>(pCopyData->lpData); // CmdLineParams object from another instance
-					const DWORD cmdLineParamsSize = pCopyData->cbData;  // CmdLineParams size from another instance
+					const dword cmdLineParamsSize = pCopyData->cbData;  // CmdLineParams size from another instance
 					if (sizeof(CmdLineParamsDTO) == cmdLineParamsSize) // make sure the structure is the same
 					{
 						nppParam.setCmdlineParam(*cmdLineParam);
@@ -2848,7 +2848,7 @@ LRESULT Notepad_plus::process(Upp::Ctrl* hwnd, UINT message, WPARAM wParam, LPAR
 
 			ScintillaViewParams &svp = const_cast<ScintillaViewParams &>(nppParam.getSVP());
 
-			COLORREF multiEdgeColor = liteGrey;
+			Color& multiEdgeColor = liteGrey;
 			const Style * pStyle = NppParameters::getInstance().getMiscStylerArray().findByName(TEXT("Edge colour"));
 			if (pStyle)
 			{

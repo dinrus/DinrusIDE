@@ -12,12 +12,12 @@
 #include "WinMgr.h"
 
 // Theo - Style Helpers
-inline static DWORD GetStyle(Upp::Ctrl* hWnd) {
-	return (DWORD)GetWindowLongPtr(hWnd, GWL_STYLE);
+inline static dword GetStyle(Upp::Ctrl* hWnd) {
+	return (dword)GetWindowLongPtr(hWnd, GWL_STYLE);
 }
 
-inline static DWORD GetExStyle(Upp::Ctrl* hWnd) {
-	return (DWORD)GetWindowLongPtr(hWnd, GWL_EXSTYLE);
+inline static dword GetExStyle(Upp::Ctrl* hWnd) {
+	return (dword)GetWindowLongPtr(hWnd, GWL_EXSTYLE);
 }
 
 const UINT WM_WINMGR = RegisterWindowMessage(TEXT("WM_WINMGR"));
@@ -420,8 +420,8 @@ void CWinMgr::GetMinMaxInfo(Upp::Ctrl* hWnd, SIZEINFO& szi)
 		return;
 
 	// Add extra space for frame/dialog screen junk.
-	DWORD dwStyle = GetStyle(hWnd);
-	DWORD dwExStyle = GetExStyle(hWnd);
+	dword dwStyle = GetStyle(hWnd);
+	dword dwExStyle = GetExStyle(hWnd);
 	if (dwStyle & WS_VISIBLE)
 	{
 		SIZE& szMin = szi.szMin; // ref!

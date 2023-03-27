@@ -38,7 +38,7 @@ public:
 	TreeView() = default;
 	virtual ~TreeView() = default;
 
-	virtual void init(HINSTANCE hInst, Upp::Ctrl* parent, int treeViewID);
+	virtual void init(Ctrl& hInst, Upp::Ctrl* parent, int treeViewID);
 	virtual void destroy();
 	HTREEITEM addItem(const char *itemName, HTREEITEM hParentItem, int iImage, LPARAM lParam = Null);
 	bool setItemParam(HTREEITEM Item2Set, LPARAM param);

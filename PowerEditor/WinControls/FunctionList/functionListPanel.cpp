@@ -16,7 +16,7 @@
 
 #include "json.hpp"
 #include <PowerEditor/WinControls/FunctionList/functionListPanel.h>
-#include <PowerEditor/ScintillaComponent/ScintillaEditView.h>
+#include <PowerEditor/ScintillaComponent/ScintillaComponent.h>
 #include <PowerEditor/localization.h>
 #include <fstream>
 
@@ -509,7 +509,7 @@ void FunctionListPanel::findMarkEntry(HTREEITEM htItem, LONG line)
 	}
 }
 
-void FunctionListPanel::init(HINSTANCE hInst, Upp::Ctrl* hPere, ScintillaEditView **ppEditView)
+void FunctionListPanel::init(Ctrl& hInst, Upp::Ctrl* hPere, ScintillaEditView **ppEditView)
 {
 	DockingDlgInterface::init(hInst, hPere);
 	_ppEditView = ppEditView;

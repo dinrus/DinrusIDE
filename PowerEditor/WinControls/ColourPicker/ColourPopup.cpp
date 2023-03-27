@@ -21,14 +21,14 @@
 #include <PowerEditor/NppDarkMode.h>
 
 Upp::dword colourItems[] = {
-    RGB(  0,   0,   0), RGB( 64,   0,   0), RGB(128,   0,   0), RGB(128,  64,  64), RGB(255,   0,   0), RGB(255, 128, 128),
-    RGB(255, 255, 128), RGB(255, 255,   0), RGB(255, 128,  64), RGB(255, 128,   0), RGB(128,  64,   0), RGB(128, 128,   0),
-    RGB(128, 128,  64), RGB(  0,  64,   0), RGB(  0, 128,   0), RGB(  0, 255,   0), RGB(128, 255,   0), RGB(128, 255, 128),
-    RGB(  0, 255, 128), RGB(  0, 255,  64), RGB(  0, 128, 128), RGB(  0, 128,  64), RGB(  0,  64,  64), RGB(128, 128, 128),
-    RGB( 64, 128, 128), RGB(  0,   0, 128), RGB(  0,   0, 255), RGB(  0,  64, 128), RGB(  0, 255, 255), RGB(128, 255, 255),
-    RGB(  0, 128, 255), RGB(  0, 128, 192), RGB(128, 128, 255), RGB(  0,   0, 160), RGB(  0,   0,  64), RGB(192, 192, 192),
-    RGB( 64,   0,  64), RGB( 64,   0,  64), RGB(128,   0, 128), RGB(128,   0,  64), RGB(128, 128, 192), RGB(255, 128, 192),
-    RGB(255, 128, 255), RGB(255,   0, 255), RGB(255,   0, 128), RGB(128,   0, 255), RGB( 64,   0, 128), RGB(255, 255, 255),
+    Color(  0,   0,   0), Color( 64,   0,   0), Color(128,   0,   0), Color(128,  64,  64), Color(255,   0,   0), Color(255, 128, 128),
+    Color(255, 255, 128), Color(255, 255,   0), Color(255, 128,  64), Color(255, 128,   0), Color(128,  64,   0), Color(128, 128,   0),
+    Color(128, 128,  64), Color(  0,  64,   0), Color(  0, 128,   0), Color(  0, 255,   0), Color(128, 255,   0), Color(128, 255, 128),
+    Color(  0, 255, 128), Color(  0, 255,  64), Color(  0, 128, 128), Color(  0, 128,  64), Color(  0,  64,  64), Color(128, 128, 128),
+    Color( 64, 128, 128), Color(  0,   0, 128), Color(  0,   0, 255), Color(  0,  64, 128), Color(  0, 255, 255), Color(128, 255, 255),
+    Color(  0, 128, 255), Color(  0, 128, 192), Color(128, 128, 255), Color(  0,   0, 160), Color(  0,   0,  64), Color(192, 192, 192),
+    Color( 64,   0,  64), Color( 64,   0,  64), Color(128,   0, 128), Color(128,   0,  64), Color(128, 128, 192), Color(255, 128, 192),
+    Color(255, 128, 255), Color(255,   0, 255), Color(255,   0, 128), Color(128,   0, 255), Color( 64,   0, 128), Color(255, 255, 255),
 };
 
 void ColourPopup::create(int dialogID)
@@ -86,7 +86,7 @@ intptr_t CALLBACK ColourPopup::run_dlgProc(UINT message, WPARAM wParam, LPARAM l
             NppDarkMode::autoSubclassAndThemeChildControls(_hSelf);
 
             int nColor;
-            for (nColor = 0 ; nColor < int(sizeof(colourItems)/sizeof(DWORD)) ; ++nColor)
+            for (nColor = 0 ; nColor < int(sizeof(colourItems)/sizeof(dword)) ; ++nColor)
             {
                 ::SendDlgItemMessage(_hSelf, IDC_COLOUR_LIST, LB_ADDSTRING, nColor, reinterpret_cast<LPARAM>(""));
                 ::SendDlgItemMessage(_hSelf, IDC_COLOUR_LIST, LB_SETITEMDATA, nColor, static_cast<LPARAM>(colourItems[nColor]));
@@ -131,7 +131,7 @@ intptr_t CALLBACK ColourPopup::run_dlgProc(UINT message, WPARAM wParam, LPARAM l
         case WM_DRAWITEM:
         {
             HDC hdc;
-            COLORREF    cr;
+            Color&    cr;
             HBRUSH      hbrush;
 
             DRAWITEMSTRUCT *pdis = (DRAWITEMSTRUCT *)lParam;
@@ -151,12 +151,12 @@ intptr_t CALLBACK ColourPopup::run_dlgProc(UINT message, WPARAM wParam, LPARAM l
                     {
                         case IDC_COLOUR_LIST:
                             rc = pdis->rcItem;
-                            cr = (COLORREF) pdis->itemData;
+                            cr = (Color&) pdis->itemData;
                             InflateRect(&rc, -3, -3);
-                            hbrush = CreateSolidBrush((COLORREF)cr);
+                            hbrush = CreateSolidBrush((Color&)cr);
                             FillRect(hdc, &rc, hbrush);
                             DeleteObject(hbrush);
-                            hbrush = CreateSolidBrush(NppDarkMode::isEnabled() ? NppDarkMode::getEdgeColor() : RGB(0, 0, 0));
+                            hbrush = CreateSolidBrush(NppDarkMode::isEnabled() ? NppDarkMode::getEdgeColor() : Color(0, 0, 0));
                             FrameRect(hdc, &rc, hbrush);
                             DeleteObject(hbrush);
                             break;
@@ -209,11 +209,11 @@ intptr_t CALLBACK ColourPopup::run_dlgProc(UINT message, WPARAM wParam, LPARAM l
                 {
                     //isColourChooserLaunched = true;
                     CHOOSECOLOR cc;                 // common dialog box structure
-                    static COLORREF acrCustClr[16] = {
-                        RGB(0xFF,0xFF,0xFF),RGB(0xFF,0xFF,0xFF),RGB(0xFF,0xFF,0xFF),RGB(0xFF,0xFF,0xFF),\
-                        RGB(0xFF,0xFF,0xFF),RGB(0xFF,0xFF,0xFF),RGB(0xFF,0xFF,0xFF),RGB(0xFF,0xFF,0xFF),\
-                        RGB(0xFF,0xFF,0xFF),RGB(0xFF,0xFF,0xFF),RGB(0xFF,0xFF,0xFF),RGB(0xFF,0xFF,0xFF),\
-                        RGB(0xFF,0xFF,0xFF),RGB(0xFF,0xFF,0xFF),RGB(0xFF,0xFF,0xFF),RGB(0xFF,0xFF,0xFF),\
+                    static Color& acrCustClr[16] = {
+                        Color(0xFF,0xFF,0xFF),Color(0xFF,0xFF,0xFF),Color(0xFF,0xFF,0xFF),Color(0xFF,0xFF,0xFF),\
+                        Color(0xFF,0xFF,0xFF),Color(0xFF,0xFF,0xFF),Color(0xFF,0xFF,0xFF),Color(0xFF,0xFF,0xFF),\
+                        Color(0xFF,0xFF,0xFF),Color(0xFF,0xFF,0xFF),Color(0xFF,0xFF,0xFF),Color(0xFF,0xFF,0xFF),\
+                        Color(0xFF,0xFF,0xFF),Color(0xFF,0xFF,0xFF),Color(0xFF,0xFF,0xFF),Color(0xFF,0xFF,0xFF),\
                     }; // array of custom colors
 
                     // Initialize CHOOSECOLOR
@@ -244,7 +244,7 @@ intptr_t CALLBACK ColourPopup::run_dlgProc(UINT message, WPARAM wParam, LPARAM l
                     if (HIWORD(wParam) == LBN_SELCHANGE)
                     {
                         auto i = ::SendMessage(reinterpret_cast<Upp::Ctrl*>(lParam), LB_GETCURSEL, 0L, 0L);
-                        _colour = static_cast<COLORREF>(::SendMessage(reinterpret_cast<Upp::Ctrl*>(lParam), LB_GETITEMDATA, i, 0L));
+                        _colour = static_cast<Color&>(::SendMessage(reinterpret_cast<Upp::Ctrl*>(lParam), LB_GETITEMDATA, i, 0L));
 
                         ::SendMessage(_hParent, WM_PICKUP_COLOR, _colour, 0);
                         return TRUE;

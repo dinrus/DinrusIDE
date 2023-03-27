@@ -33,7 +33,7 @@ class VerticalFileSwitcher : public DockingDlgInterface {
 public:
 	VerticalFileSwitcher(): DockingDlgInterface(IDD_DOCLIST) {};
 
-	void init(HINSTANCE hInst, Upp::Ctrl* hPere, HIMAGELIST hImaLst) {
+	void init(Ctrl& hInst, Upp::Ctrl* hPere, HIMAGELIST hImaLst) {
 		DockingDlgInterface::init(hInst, hPere);
 		_hImaLst = hImaLst;
 	};
@@ -91,11 +91,11 @@ public:
 		}
 	};
 
-	virtual void setBackgroundColor(COLORREF bgColour) {
+	virtual void setBackgroundColor(Color& bgColour) {
 		_fileListView.setBackgroundColor(bgColour);
     };
 
-	virtual void setForegroundColor(COLORREF fgColour) {
+	virtual void setForegroundColor(Color& fgColour) {
 		_fileListView.setForegroundColor(fgColour);
     };
 protected:

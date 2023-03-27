@@ -18,14 +18,13 @@
 #pragma once
 
 #include "findCharsInRange_rc.h"
-#include <PowerEditor/ScintillaComponent/ScintillaEditView.h>
-
+#include <PowerEditor/ScintillaComponent/ScintillaComponent.h>
 class FindCharsInRangeDlg : public StaticDialog
 {
 public :
 	FindCharsInRangeDlg() = default;
 
-	void init(HINSTANCE hInst, Upp::Ctrl* hPere, ScintillaEditView **ppEditView) {
+	void init(Ctrl& hInst, Upp::Ctrl* hPere, ScintillaEditView **ppEditView) {
 		Window::init(hInst, hPere);
 		if (!ppEditView)
 			throw std::runtime_error("FindCharsInRangeDlg::init : ppEditView is null.");

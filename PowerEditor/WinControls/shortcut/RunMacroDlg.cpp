@@ -18,7 +18,7 @@
 
 
 #include "RunMacroDlg.h"
-#include <PowerEditor/ScintillaComponent/ScintillaEditView.h>
+#include <PowerEditor/ScintillaComponent/ScintillaComponent.h>
 #include <PowerEditor/MISC/PluginsManager/Notepad_plus_msgs.h>
 
 void RunMacroDlg::initMacroList()
@@ -41,8 +41,8 @@ void RunMacroDlg::initMacroList()
 }
 
 intptr_t CALLBACK RunMacroDlg::run_dlgProc(UINT message, WPARAM wParam, LPARAM)
-{	
-	switch (message) 
+{
+	switch (message)
 	{
 		case WM_INITDIALOG :
 		{
@@ -108,21 +108,21 @@ intptr_t CALLBACK RunMacroDlg::run_dlgProc(UINT message, WPARAM wParam, LPARAM)
 			return TRUE;
 		}
 
-		case WM_COMMAND : 
+		case WM_COMMAND :
 		{
 			if (HIWORD(wParam) == EN_CHANGE)
 			{
 				switch (LOWORD(wParam))
-				{	
+				{
 					case IDC_M_RUN_TIMES:
 						check(IDC_M_RUN_MULTI);
 						return TRUE;
-					
+
 					default:
 						return FALSE;
 				}
 			}
-			
+
 			switch (wParam)
 			{
 				case IDCANCEL :
@@ -172,7 +172,7 @@ void RunMacroDlg::check(int id)
 		::SendDlgItemMessage(_hSelf, IDC_M_RUN_EOF, BM_SETCHECK, BST_UNCHECKED, 0);
 }
 
-int RunMacroDlg::getMacro2Exec() const 
+int RunMacroDlg::getMacro2Exec() const
 {
 	bool isCurMacroPresent = static_cast<MacroStatus>(::SendMessage(_hParent, NPPM_GETCURRENTMACROSTATUS, 0, 0)) == MacroStatus::RecordingStopped;
 	return isCurMacroPresent?(_macroIndex - 1):_macroIndex;

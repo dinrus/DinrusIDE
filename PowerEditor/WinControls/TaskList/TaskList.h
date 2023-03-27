@@ -36,7 +36,7 @@ public:
 	};
 
 	virtual ~TaskList() = default;
-	void init(HINSTANCE hInst, Upp::Ctrl* hwnd, HIMAGELIST hImaLst, int nbItem, int index2set);
+	void init(Ctrl& hInst, Upp::Ctrl* hwnd, HIMAGELIST hImaLst, int nbItem, int index2set);
 	virtual void destroy();
 	void setFont(const char *fontName, int fontSize);
 	Rect adjustSize();

@@ -15,8 +15,8 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
-#include <shlwapi.h>
-#include <dbghelp.h>
+//#include <shlwapi.h>
+//#include <dbghelp.h>
 #include <algorithm>
 #include <cinttypes>
 #include "PluginsManager.h"
@@ -125,7 +125,7 @@ int PluginsManager::loadPluginFromPath(const char *pluginFilePath)
 			throw String(archErrMsg);
 		}
 
-        const DWORD dwFlags = GetProcAddress(GetModuleHandle(TEXT("kernel32.dll")), "AddDllDirectory") != Null ? LOAD_LIBRARY_SEARCH_DLL_LOAD_DIR | LOAD_LIBRARY_SEARCH_DEFAULT_DIRS : 0;
+        const dword dwFlags = GetProcAddress(GetModuleHandle(TEXT("kernel32.dll")), "AddDllDirectory") != Null ? LOAD_LIBRARY_SEARCH_DLL_LOAD_DIR | LOAD_LIBRARY_SEARCH_DEFAULT_DIRS : 0;
         pi->_hLib = ::LoadLibraryEx(pluginFilePath, Null, dwFlags);
         if (!pi->_hLib)
         {

@@ -39,8 +39,8 @@ const bool dirDown = false;
 
 #define LINKTRIGGERED WM_USER+555
 
-#define BCKGRD_COLOR (RGB(255,102,102))
-#define TXT_COLOR    (RGB(255,255,255))
+#define BCKGRD_COLOR (Color(255,102,102))
+#define TXT_COLOR    (Color(255,255,255))
 
 #define generic_strtol std::wcstol
 #define generic_strncpy std::wcsncpy
@@ -171,7 +171,7 @@ protected:
 
 String PathRemoveFileSpec(String & path);
 String pathAppend(String &strDest, const String & str2append);
-COLORREF getCtrlBgColor(Upp::Ctrl* hWnd);
+Color& getCtrlBgColor(Upp::Ctrl* hWnd);
 String stringToUpper(String strToConvert);
 String stringToLower(String strToConvert);
 String stringReplace(String subject, const char* search, const char* replace);
@@ -187,13 +187,13 @@ bool str2Clipboard(const String &str2cpy, Upp::Ctrl* hwnd);
 class SciBuffer;
 bool buf2Clipborad(const std::vector<SciBuffer*>& buffers, bool isFullPath, Upp::Ctrl* hwnd);
 
-String GetLastErrorAsString(DWORD errorCode = 0);
+String GetLastErrorAsString(dword errorCode = 0);
 
 String intToString(int val);
 String uintToString(unsigned int val);
 
-Upp::Ctrl* CreateToolTip(int toolID, Upp::Ctrl* hDlg, HINSTANCE hInst, const PTSTR pszText, bool isRTL);
-Upp::Ctrl* CreateToolTipRect(int toolID, Upp::Ctrl* hWnd, HINSTANCE hInst, const PTSTR pszText, const Rect rc);
+Upp::Ctrl* CreateToolTip(int toolID, Upp::Ctrl* hDlg, Ctrl& hInst, const PTSTR pszText, bool isRTL);
+Upp::Ctrl* CreateToolTipRect(int toolID, Upp::Ctrl* hWnd, Ctrl& hInst, const PTSTR pszText, const Rect rc);
 
 bool isCertificateValidated(const String & fullFilePath, const String & subjectName2check);
 bool isAssoCommandExisting(LPCTSTR FullPathName);

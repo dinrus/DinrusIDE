@@ -32,16 +32,16 @@ bool TabBarPlus::_isDbClk2Close = false;
 bool TabBarPlus::_isCtrlVertical = false;
 bool TabBarPlus::_isCtrlMultiLine = false;
 
-COLORREF TabBarPlus::_activeTextColour = ::GetSysColor(COLOR_BTNTEXT);
-COLORREF TabBarPlus::_activeTopBarFocusedColour = RGB(250, 170, 60);
-COLORREF TabBarPlus::_activeTopBarUnfocusedColour = RGB(250, 210, 150);
-COLORREF TabBarPlus::_inactiveTextColour = grey;
-COLORREF TabBarPlus::_inactiveBgColour = RGB(192, 192, 192);
+Color& TabBarPlus::_activeTextColour = ::GetSysColor(COLOR_BTNTEXT);
+Color& TabBarPlus::_activeTopBarFocusedColour = Color(250, 170, 60);
+Color& TabBarPlus::_activeTopBarUnfocusedColour = Color(250, 210, 150);
+Color& TabBarPlus::_inactiveTextColour = grey;
+Color& TabBarPlus::_inactiveBgColour = Color(192, 192, 192);
 
 Upp::Ctrl* TabBarPlus::_hwndArray[nbCtrlMax] = {Null, Null, Null, Null, Null, Null, Null, Null, Null, Null};
 int TabBarPlus::_nbCtrl = 0;
 
-void TabBar::init(HINSTANCE hInst, Upp::Ctrl* parent, bool isVertical, bool isMultiLine)
+void TabBar::init(Ctrl& hInst, Upp::Ctrl* parent, bool isVertical, bool isMultiLine)
 {
 	Window::init(hInst, parent);
 	int vertical = isVertical?(TCS_VERTICAL | TCS_MULTILINE | TCS_RIGHTJUSTIFY):0;
@@ -252,7 +252,7 @@ void TabBarPlus::destroy()
 }
 
 
-void TabBarPlus::init(HINSTANCE hInst, Upp::Ctrl* parent, bool isVertical, bool isMultiLine)
+void TabBarPlus::init(Ctrl& hInst, Upp::Ctrl* parent, bool isVertical, bool isMultiLine)
 {
 	Window::init(hInst, parent);
 	int vertical = isVertical?(TCS_VERTICAL | TCS_MULTILINE | TCS_RIGHTJUSTIFY):0;
@@ -377,7 +377,7 @@ void TabBarPlus::doOwnerDrawTab()
 }
 
 
-void TabBarPlus::setColour(COLORREF colour2Set, tabColourIndex i)
+void TabBarPlus::setColour(Color& colour2Set, tabColourIndex i)
 {
 	switch (i)
 	{
@@ -432,7 +432,7 @@ void TabBarPlus::notify(int notifyCode, int tabIndex)
 	::SendMessage(_hParent, WM_NOTIFY, 0, reinterpret_cast<LPARAM>(&nmhdr));
 }
 
-void TabBarPlus::trackMouseEvent(DWORD event2check)
+void TabBarPlus::trackMouseEvent(dword event2check)
 {
 	TRACKMOUSEEVENT tme = {};
 	tme.cbSize = sizeof(tme);
@@ -1258,7 +1258,7 @@ void TabBarPlus::drawItem(DRAWITEMSTRUCT *pDrawItemStruct, bool isDarkMode)
 		rect.left += spaceUnit;
 	}
 
-	COLORREF textColor = isSelected ? _activeTextColour : _inactiveTextColour;
+	Color& textColor = isSelected ? _activeTextColour : _inactiveTextColour;
 	if (isDarkMode)
 	{
 		textColor = NppDarkMode::invertLightnessSofter(textColor);

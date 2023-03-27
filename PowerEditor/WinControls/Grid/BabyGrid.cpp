@@ -53,20 +53,20 @@ struct _gridhandlestruct
         int visiblecolumns;
         int titleheight;
         int fontascentheight;
-		COLORREF cursorcolor;
-		COLORREF protectcolor;
-		COLORREF unprotectcolor;
-		COLORREF textcolor;
-		COLORREF highlightcolor;
-		COLORREF highlightcolorNoFocus;
-		COLORREF highlightcolorProtect;
-		COLORREF highlightcolorProtectNoFocus;
-		COLORREF gridlinecolor;
-        COLORREF highlighttextcolor;
-        COLORREF backgroundcolor;
-        COLORREF titletextcolor;
-        COLORREF titlecolor;
-        COLORREF titlegridlinecolor;
+		Color& cursorcolor;
+		Color& protectcolor;
+		Color& unprotectcolor;
+		Color& textcolor;
+		Color& highlightcolor;
+		Color& highlightcolorNoFocus;
+		Color& highlightcolorProtect;
+		Color& highlightcolorProtectNoFocus;
+		Color& gridlinecolor;
+        Color& highlighttextcolor;
+        Color& backgroundcolor;
+        Color& titletextcolor;
+        Color& titlecolor;
+        Color& titlegridlinecolor;
 		BOOL DRAWHIGHLIGHT;
         BOOL ADVANCEROW;
         BOOL CURRENTCELLPROTECTED;
@@ -1244,7 +1244,7 @@ void DisplayEditString(Upp::Ctrl* hWnd,int SI, const char* tstring)
 ////////////////////////////////////////////////////////////////////////
 
 
-ATOM RegisterGridClass(HINSTANCE hInstance)
+ATOM RegisterGridClass(Ctrl& hInstance)
 {
     //initialize BGHS structure
 
@@ -1269,20 +1269,20 @@ ATOM RegisterGridClass(HINSTANCE hInstance)
 		BGHS[j].columnwidths[0]=50;
         BGHS[j].ADVANCEROW = TRUE;
 		BGHS[j].DRAWHIGHLIGHT = TRUE;
-		BGHS[j].cursorcolor = RGB(255,255,255);
-		BGHS[j].protectcolor = RGB(255,255,255);
-		BGHS[j].unprotectcolor = RGB(255,255,255);
-		BGHS[j].highlightcolor = RGB(0,0,128);
-		BGHS[j].highlightcolorNoFocus = RGB(200,200,200);
-		BGHS[j].highlightcolorProtect = RGB(0,0,128);
-		BGHS[j].highlightcolorProtectNoFocus = RGB(200,200,200);
-		BGHS[j].gridlinecolor = RGB(220,220,220);
-        BGHS[j].highlighttextcolor = RGB(255,255,255);
-		BGHS[j].textcolor = RGB(0,0,0);
+		BGHS[j].cursorcolor = Color(255,255,255);
+		BGHS[j].protectcolor = Color(255,255,255);
+		BGHS[j].unprotectcolor = Color(255,255,255);
+		BGHS[j].highlightcolor = Color(0,0,128);
+		BGHS[j].highlightcolorNoFocus = Color(200,200,200);
+		BGHS[j].highlightcolorProtect = Color(0,0,128);
+		BGHS[j].highlightcolorProtectNoFocus = Color(200,200,200);
+		BGHS[j].gridlinecolor = Color(220,220,220);
+        BGHS[j].highlighttextcolor = Color(255,255,255);
+		BGHS[j].textcolor = Color(0,0,0);
         BGHS[j].backgroundcolor = GetSysColor(COLOR_BTNFACE);
-        BGHS[j].titletextcolor = RGB(0,0,0);
+        BGHS[j].titletextcolor = Color(0,0,0);
         BGHS[j].titlecolor = GetSysColor(COLOR_BTNFACE);
-        BGHS[j].titlegridlinecolor = RGB(120,120,120);
+        BGHS[j].titlegridlinecolor = Color(120,120,120);
         BGHS[j].titleheight = 0;
         BGHS[j].EXTENDLASTCOLUMN = TRUE;
         BGHS[j].SHOWINTEGRALROWS = TRUE;
@@ -1360,7 +1360,7 @@ LRESULT CALLBACK GridProc(Upp::Ctrl* hWnd, UINT message, WPARAM wParam, LPARAM l
 	int SelfIndex;
 	int ReturnValue;
     Menu* SelfMenu;
-	HINSTANCE hInst;
+	Ctrl& hInst;
     int iDataType;
 
 
@@ -2052,20 +2052,20 @@ LRESULT CALLBACK GridProc(Upp::Ctrl* hWnd, UINT message, WPARAM wParam, LPARAM l
             break;
         case BGM_SETGRIDLINECOLOR:
 			  DrawCursor(hWnd,SelfIndex);
-			  BGHS[SelfIndex].gridlinecolor = (COLORREF)wParam;
+			  BGHS[SelfIndex].gridlinecolor = (Color&)wParam;
 			  DrawCursor(hWnd,SelfIndex);
               RefreshGrid(hWnd);
             break;
 
 		case BGM_SETCURSORCOLOR:
 			  DrawCursor(hWnd,SelfIndex);
-			  BGHS[SelfIndex].cursorcolor = (COLORREF)wParam;
+			  BGHS[SelfIndex].cursorcolor = (Color&)wParam;
 			  DrawCursor(hWnd,SelfIndex);
               RefreshGrid(hWnd);
 			break;
 
         case BGM_SETHILIGHTTEXTCOLOR:
-               BGHS[SelfIndex].highlighttextcolor = (COLORREF)wParam;
+               BGHS[SelfIndex].highlighttextcolor = (Color&)wParam;
 				  {
 				   Rect rect;
 				   GetClientRect(hWnd,&rect);
@@ -2074,7 +2074,7 @@ LRESULT CALLBACK GridProc(Upp::Ctrl* hWnd, UINT message, WPARAM wParam, LPARAM l
             break;
 
         case BGM_SETHILIGHTCOLOR:
-               BGHS[SelfIndex].highlightcolor = (COLORREF)wParam;
+               BGHS[SelfIndex].highlightcolor = (Color&)wParam;
 				  {
 				   Rect rect;
 				   GetClientRect(hWnd,&rect);
@@ -2083,7 +2083,7 @@ LRESULT CALLBACK GridProc(Upp::Ctrl* hWnd, UINT message, WPARAM wParam, LPARAM l
             break;
 
         case BGM_SETHILIGHTCOLOR_NOFOCUS:
-               BGHS[SelfIndex].highlightcolorNoFocus = (COLORREF)wParam;
+               BGHS[SelfIndex].highlightcolorNoFocus = (Color&)wParam;
 				  {
 				   Rect rect;
 				   GetClientRect(hWnd,&rect);
@@ -2092,7 +2092,7 @@ LRESULT CALLBACK GridProc(Upp::Ctrl* hWnd, UINT message, WPARAM wParam, LPARAM l
             break;
 
         case BGM_SETHILIGHTCOLOR_PROTECT:
-               BGHS[SelfIndex].highlightcolorProtect = (COLORREF)wParam;
+               BGHS[SelfIndex].highlightcolorProtect = (Color&)wParam;
 				  {
 				   Rect rect;
 				   GetClientRect(hWnd,&rect);
@@ -2101,7 +2101,7 @@ LRESULT CALLBACK GridProc(Upp::Ctrl* hWnd, UINT message, WPARAM wParam, LPARAM l
             break;
 
         case BGM_SETHILIGHTCOLOR_PROTECT_NOFOCUS:
-               BGHS[SelfIndex].highlightcolorProtectNoFocus = (COLORREF)wParam;
+               BGHS[SelfIndex].highlightcolorProtectNoFocus = (Color&)wParam;
 				  {
 				   Rect rect;
 				   GetClientRect(hWnd,&rect);
@@ -2110,7 +2110,7 @@ LRESULT CALLBACK GridProc(Upp::Ctrl* hWnd, UINT message, WPARAM wParam, LPARAM l
             break;
 
 		case BGM_SETPROTECTCOLOR:
-			  BGHS[SelfIndex].protectcolor = (COLORREF)wParam;
+			  BGHS[SelfIndex].protectcolor = (Color&)wParam;
 				  {
 				   Rect rect;
 				   GetClientRect(hWnd,&rect);
@@ -2118,7 +2118,7 @@ LRESULT CALLBACK GridProc(Upp::Ctrl* hWnd, UINT message, WPARAM wParam, LPARAM l
 				  }
 			break;
 		case BGM_SETUNPROTECTCOLOR:
-			  BGHS[SelfIndex].unprotectcolor = (COLORREF)wParam;
+			  BGHS[SelfIndex].unprotectcolor = (Color&)wParam;
 				  {
 				   Rect rect;
 				   GetClientRect(hWnd,&rect);
@@ -2126,7 +2126,7 @@ LRESULT CALLBACK GridProc(Upp::Ctrl* hWnd, UINT message, WPARAM wParam, LPARAM l
 				  }
 			break;
 		case BGM_SETTEXTCOLOR:
-			  BGHS[SelfIndex].textcolor = (COLORREF)wParam;
+			  BGHS[SelfIndex].textcolor = (Color&)wParam;
 				  {
 				   Rect rect;
 				   GetClientRect(hWnd,&rect);
@@ -2134,7 +2134,7 @@ LRESULT CALLBACK GridProc(Upp::Ctrl* hWnd, UINT message, WPARAM wParam, LPARAM l
 				  }
 			break;
 		case BGM_SETBACKGROUNDCOLOR:
-			  BGHS[SelfIndex].backgroundcolor = (COLORREF)wParam;
+			  BGHS[SelfIndex].backgroundcolor = (Color&)wParam;
 				  {
 				   Rect rect;
 				   GetClientRect(hWnd,&rect);
@@ -2142,7 +2142,7 @@ LRESULT CALLBACK GridProc(Upp::Ctrl* hWnd, UINT message, WPARAM wParam, LPARAM l
 				  }
 			break;
 		case BGM_SETTITLETEXTCOLOR:
-			  BGHS[SelfIndex].titletextcolor = (COLORREF)wParam;
+			  BGHS[SelfIndex].titletextcolor = (Color&)wParam;
 				  {
 				   Rect rect;
 				   GetClientRect(hWnd,&rect);
@@ -2150,7 +2150,7 @@ LRESULT CALLBACK GridProc(Upp::Ctrl* hWnd, UINT message, WPARAM wParam, LPARAM l
 				  }
 			break;
 		case BGM_SETTITLECOLOR:
-			  BGHS[SelfIndex].titlecolor = (COLORREF)wParam;
+			  BGHS[SelfIndex].titlecolor = (Color&)wParam;
 				  {
 				   Rect rect;
 				   GetClientRect(hWnd,&rect);
@@ -2158,7 +2158,7 @@ LRESULT CALLBACK GridProc(Upp::Ctrl* hWnd, UINT message, WPARAM wParam, LPARAM l
 				  }
 			break;
 		case BGM_SETTITLEGRIDLINECOLOR:
-			  BGHS[SelfIndex].titlegridlinecolor = (COLORREF)wParam;
+			  BGHS[SelfIndex].titlegridlinecolor = (Color&)wParam;
 				  {
 				   Rect rect;
 				   GetClientRect(hWnd,&rect);
@@ -2223,11 +2223,11 @@ LRESULT CALLBACK GridProc(Upp::Ctrl* hWnd, UINT message, WPARAM wParam, LPARAM l
 		case WM_ENABLE:
 			if(wParam == FALSE)
 				{
-				 BGHS[SelfIndex].textcolor = RGB(120,120,120);
+				 BGHS[SelfIndex].textcolor = Color(120,120,120);
 				}
 			else
 				{
-				 BGHS[SelfIndex].textcolor = RGB(0,0,0);
+				 BGHS[SelfIndex].textcolor = Color(0,0,0);
 				}
 
         case WM_MOUSEMOVE:
@@ -3000,9 +3000,9 @@ LRESULT CALLBACK GridProc(Upp::Ctrl* hWnd, UINT message, WPARAM wParam, LPARAM l
 				BGHS[SelfIndex].cursorrow = 1;
 				BGHS[SelfIndex].columnwidths[0]=40;
 				BGHS[SelfIndex].ADVANCEROW = TRUE;
-				BGHS[SelfIndex].cursorcolor = RGB(255,255,255);
-				BGHS[SelfIndex].protectcolor = RGB(128,128,128);
-				BGHS[SelfIndex].unprotectcolor = RGB(255,255,255);
+				BGHS[SelfIndex].cursorcolor = Color(255,255,255);
+				BGHS[SelfIndex].protectcolor = Color(128,128,128);
+				BGHS[SelfIndex].unprotectcolor = Color(255,255,255);
 				for(k=1;k<MAX_COLS;k++)
 					{
 					 BGHS[SelfIndex].columnwidths[k]=50;

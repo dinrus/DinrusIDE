@@ -26,7 +26,7 @@
 //	http://qualapps.blogspot.com/2010/05/understanding-readdirectorychangesw.html
 //	See ReadMe.txt for overview information.
 
-#include <shlwapi.h>
+//#include <shlwapi.h>
 #include <cassert>
 #include "ReadDirectoryChanges.h"
 #include "ReadDirectoryChangesPrivate.h"
@@ -40,7 +40,7 @@ namespace ReadDirectoryChangesPrivate
 ///////////////////////////////////////////////////////////////////////////
 // CReadChangesRequest
 
-CReadChangesRequest::CReadChangesRequest(CReadChangesServer* pServer, LPCTSTR s, BOOL b, DWORD dw, DWORD size)
+CReadChangesRequest::CReadChangesRequest(CReadChangesServer* pServer, LPCTSTR s, BOOL b, dword dw, dword size)
 {
 	m_pServer		= pServer;
 	m_dwFilterFlags		= dw;
@@ -94,13 +94,13 @@ bool CReadChangesRequest::OpenDirectory()
 
 void CReadChangesRequest::BeginRead()
 {
-	DWORD dwBytes=0;
+	dword dwBytes=0;
 
 	// This call needs to be reissued after every APC.
 	::ReadDirectoryChangesW(
 		m_hDirectory,						// handle to directory
 		&m_Buffer[0],                       // read results buffer
-		static_cast<DWORD>(m_Buffer.size()),                    // length of buffer
+		static_cast<dword>(m_Buffer.size()),                    // length of buffer
 		m_bIncludeChildren,                 // monitoring option
 		m_dwFilterFlags,                    // filter conditions
 		&dwBytes,                           // bytes returned
@@ -110,8 +110,8 @@ void CReadChangesRequest::BeginRead()
 
 //static
 VOID CALLBACK CReadChangesRequest::NotificationCompletion(
-	DWORD dwErrorCode,									// completion code
-	DWORD dwNumberOfBytesTransfered,					// number of bytes transferred
+	dword dwErrorCode,									// completion code
+	dword dwNumberOfBytesTransfered,					// number of bytes transferred
 	LPOVERLAPPED lpOverlapped)							// I/O information buffer
 {
 	CReadChangesRequest* pBlock = static_cast<CReadChangesRequest*>(lpOverlapped->hEvent);

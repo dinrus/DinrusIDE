@@ -18,7 +18,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
-#include <shlwapi.h>
+//#include <shlwapi.h>
 #include <PowerEditor/MISC/Exception/MiniDumper.h>
 
 LPCTSTR msgTitle = TEXT("Notepad++ crash analysis");

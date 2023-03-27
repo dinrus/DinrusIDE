@@ -29,7 +29,7 @@ class DocumentPeeker : public StaticDialog {
 public:
 	DocumentPeeker() = default;
 
-	void init(HINSTANCE hInst, Upp::Ctrl* hPere) {
+	void init(Ctrl& hInst, Upp::Ctrl* hPere) {
 		Window::init(hInst, hPere);
 	};
 

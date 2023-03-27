@@ -20,7 +20,7 @@
 #include "ColourPopup.h"
 #include <PowerEditor/NppDarkMode.h>
 
-void ColourPicker::init(HINSTANCE hInst, Upp::Ctrl* parent)
+void ColourPicker::init(Ctrl& hInst, Upp::Ctrl* parent)
 {
 	Window::init(hInst, parent);
 
@@ -85,11 +85,11 @@ void ColourPicker::drawForeground(HDC hDC)
 
 	int oldMode = ::SetBkMode(hDC, TRANSPARENT);
 	getClientRect(rc);
-	COLORREF strikeOut = RGB(0,0,0);
+	Color& strikeOut = Color(0,0,0);
 	if ((((_currentColour      ) & 0xFF) +
 		 ((_currentColour >>  8) & 0xFF) +
 		 ((_currentColour >> 16) & 0xFF)) < 200)	//check if the color is too dark, if so, use white strikeout
-		strikeOut = RGB(0xFF,0xFF,0xFF);
+		strikeOut = Color(0xFF,0xFF,0xFF);
 	if (!_isEnabled)
 		hbrush = ::CreateHatchBrush(HS_FDIAGONAL, strikeOut);
 	HGDIOBJ oldObj = ::SelectObject(hDC, hbrush);
@@ -166,7 +166,7 @@ LRESULT ColourPicker::runProc(UINT Message, WPARAM wParam, LPARAM lParam)
 
 		case WM_PICKUP_COLOR:
 		{
-			_currentColour = (COLORREF)wParam;
+			_currentColour = (Color&)wParam;
 			redraw();
 
 			_pColourPopup->display(false);

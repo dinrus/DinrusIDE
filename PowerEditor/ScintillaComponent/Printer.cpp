@@ -1,21 +1,5 @@
-// This file is part of Notepad++ project
-// Copyright (C)2021 Don HO <don.h@free.fr>
 
-// This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// at your option any later version.
-//
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
-
-#include <PowerEditor/ScintillaComponent/Printer.h>
+#include <PowerEditor/ScintillaComponent/ScintillaComponent.h>>
 #include <PowerEditor/WinControls/StaticDialog/RunDlg//RunDlg.h>
 //#include <PowerEditor/Parameters.h>
 
@@ -27,7 +11,7 @@ void replaceStr(String & str, String str2BeReplaced, String replacement)
         str.replace(pos, str2BeReplaced.GetLength(), replacement);
 }
 
-void Printer::init(HINSTANCE hInst, Upp::Ctrl* hwnd, ScintillaEditView *pSEView, bool showDialog, size_t startPos, size_t endPos, bool isRTL)
+void Printer::init(Ctrl& hInst, Upp::Ctrl* hwnd, ScintillaEditView *pSEView, bool showDialog, size_t startPos, size_t endPos, bool isRTL)
 {
     _pSEView = pSEView;
     _startPos = startPos;
@@ -345,8 +329,8 @@ size_t Printer::doPrint(bool justDoIt)
             {
                 ::SelectObject(_pdlg.hDC, fontHeader);
 
-                ::SetTextColor(_pdlg.hDC, RGB(0, 0, 0));
-                ::SetBkColor(_pdlg.hDC, RGB(255, 255, 255));
+                ::SetTextColor(_pdlg.hDC, Color(0, 0, 0));
+                ::SetBkColor(_pdlg.hDC, Color(255, 255, 255));
 
                 UINT oldTASettings = ::SetTextAlign(_pdlg.hDC, _isRTL ? TA_RTLREADING | TA_BOTTOM : TA_BOTTOM);
                 Rect rcw = {frPrint.rc.left, frPrint.rc.top - headerLineHeight - headerLineHeight / 2,
@@ -414,8 +398,8 @@ size_t Printer::doPrint(bool justDoIt)
             {
                 ::SelectObject(_pdlg.hDC, fontFooter);
 
-                ::SetTextColor(_pdlg.hDC, RGB(0, 0, 0));
-                ::SetBkColor(_pdlg.hDC, RGB(255, 255, 255));
+                ::SetTextColor(_pdlg.hDC, Color(0, 0, 0));
+                ::SetBkColor(_pdlg.hDC, Color(255, 255, 255));
 
                 UINT oldta = ::SetTextAlign(_pdlg.hDC, _isRTL ? TA_RTLREADING | TA_TOP : TA_TOP);
                 Rect rcw = {frPrint.rc.left, frPrint.rc.bottom + footerLineHeight / 2,

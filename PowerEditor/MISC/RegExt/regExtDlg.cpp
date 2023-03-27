@@ -347,8 +347,8 @@ void RegExtDlg::getRegisteredExts()
 		{
 			//char valName[extNameLen];
 			char valData[extNameLen];
-			DWORD valDataLen = extNameLen * sizeof(char);
-			DWORD valType;
+			dword valDataLen = extNameLen * sizeof(char);
+			dword valType;
 			HKEY hKey2Check;
 			extNameActualLen = extNameLen;
 			::RegOpenKeyEx(HKEY_CLASSES_ROOT, extName, 0, KEY_ALL_ACCESS, &hKey2Check);
@@ -372,7 +372,7 @@ void RegExtDlg::getDefSupportedExts()
 void RegExtDlg::addExt(char *ext)
 {
 	HKEY  hKey;
-	DWORD dwDisp;
+	dword dwDisp;
 	long  nRet;
 
 	nRet = ::RegCreateKeyEx(HKEY_CLASSES_ROOT, ext, 0, nullptr, 0, KEY_ALL_ACCESS, nullptr, &hKey, &dwDisp);
@@ -380,7 +380,7 @@ void RegExtDlg::addExt(char *ext)
 	if (nRet == ERROR_SUCCESS)
 	{
 		char valData[MAX_PATH];
-		DWORD valDataLen = MAX_PATH * sizeof(char);
+		dword valDataLen = MAX_PATH * sizeof(char);
 
 		if (dwDisp == REG_OPENED_EXISTING_KEY)
 		{
@@ -412,8 +412,8 @@ bool RegExtDlg::deleteExts(const char *ext2Delete)
 	else
 	{
 		char valData[extNameLen];
-		DWORD valDataLen = extNameLen*sizeof(char);
-		DWORD valType;
+		dword valDataLen = extNameLen*sizeof(char);
+		dword valType;
 		int res = ::RegQueryValueEx(hKey, nppBackup, nullptr, &valType, (LPBYTE)valData, &valDataLen);
 
 		if (res == ERROR_SUCCESS)
@@ -432,7 +432,7 @@ bool RegExtDlg::deleteExts(const char *ext2Delete)
 void RegExtDlg::writeNppPath()
 {
 	HKEY  hKey, hRootKey;
-	DWORD dwDisp;
+	dword dwDisp;
 	long  nRet;
 	String regStr(nppName);
 	regStr += TEXT("\\shell\\open\\command");

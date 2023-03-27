@@ -1588,7 +1588,7 @@ void FolderUpdater::stopWatcher()
     ::CloseHandle(_EventHandle);
 }
 
-LPCWSTR explainAction(DWORD dwAction)
+LPCWSTR explainAction(dword dwAction)
 {
     switch (dwAction)
     {
@@ -1608,7 +1608,7 @@ LPCWSTR explainAction(DWORD dwAction)
 };
 
 
-DWORD WINAPI FolderUpdater::watching(void *params)
+dword WINAPI FolderUpdater::watching(void *params)
 {
     FolderUpdater *thisFolderUpdater = (FolderUpdater *)params;
 
@@ -1616,7 +1616,7 @@ DWORD WINAPI FolderUpdater::watching(void *params)
     if (dir2Watch[dir2Watch.GetLength() - 1] != '\\')
         dir2Watch += TEXT("\\"); // CReadDirectoryChanges will add another '\' so we will get "\\" as a separator (of monitored root) in the notification
 
-    const DWORD dwNotificationFlags = FILE_NOTIFY_CHANGE_CREATION | FILE_NOTIFY_CHANGE_DIR_NAME | FILE_NOTIFY_CHANGE_FILE_NAME;
+    const dword dwNotificationFlags = FILE_NOTIFY_CHANGE_CREATION | FILE_NOTIFY_CHANGE_DIR_NAME | FILE_NOTIFY_CHANGE_FILE_NAME;
 
     // Create the monitor and add directory to watch.
     CReadDirectoryChanges changes;
@@ -1628,7 +1628,7 @@ DWORD WINAPI FolderUpdater::watching(void *params)
 
     while (toBeContinued)
     {
-        DWORD waitStatus = ::WaitForMultipleObjects(_countof(changeHandles), changeHandles, FALSE, INFINITE);
+        dword waitStatus = ::WaitForMultipleObjects(_countof(changeHandles), changeHandles, FALSE, INFINITE);
         switch (waitStatus)
         {
             case WAIT_OBJECT_0 + 0:
@@ -1641,8 +1641,8 @@ DWORD WINAPI FolderUpdater::watching(void *params)
             {
                 static const unsigned int MAX_BATCH_SIZE = 100;
 
-                DWORD dwPreviousAction = 0;
-                DWORD dwAction;
+                dword dwPreviousAction = 0;
+                dword dwAction;
                 String wstrFilename;
 
                 Vector<String> filesToChange;
@@ -1706,7 +1706,7 @@ DWORD WINAPI FolderUpdater::watching(void *params)
     return EXIT_SUCCESS;
 }
 
-void FolderUpdater::processChange(DWORD dwAction, Vector<String> filesToChange, FolderUpdater* thisFolderUpdater)
+void FolderUpdater::processChange(dword dwAction, Vector<String> filesToChange, FolderUpdater* thisFolderUpdater)
 {
     static String oldName;
 

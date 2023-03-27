@@ -1,26 +1,8 @@
-// This file is part of Notepad++ project
-// Copyright (C)2021 Don HO <don.h@free.fr>
-
-// This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// at your option any later version.
-//
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
-
-#include "GoToLineDlg.h"
-
+#include <PowerEditor/ScintillaComponent/ScintillaComponent.h>
 
 intptr_t CALLBACK GoToLineDlg::run_dlgProc(UINT message, WPARAM wParam, LPARAM)
 {
-	switch (message) 
+	switch (message)
 	{
 		case WM_INITDIALOG :
 		{
@@ -77,7 +59,7 @@ intptr_t CALLBACK GoToLineDlg::run_dlgProc(UINT message, WPARAM wParam, LPARAM)
 			return TRUE;
 		}
 
-		case WM_COMMAND : 
+		case WM_COMMAND :
 		{
 			switch (wParam)
 			{
@@ -127,7 +109,7 @@ intptr_t CALLBACK GoToLineDlg::run_dlgProc(UINT message, WPARAM wParam, LPARAM)
 				case IDC_RADIO_GOTOLINE :
 				case IDC_RADIO_GOTOOFFSET :
 				{
-				
+
 					bool isLine, isOffset;
 					if (wParam == IDC_RADIO_GOTOLINE)
 					{
@@ -169,11 +151,11 @@ intptr_t CALLBACK GoToLineDlg::run_dlgProc(UINT message, WPARAM wParam, LPARAM)
 	return FALSE;
 }
 
-void GoToLineDlg::updateLinesNumbers() const 
+void GoToLineDlg::updateLinesNumbers() const
 {
 	size_t current = 0;
 	size_t limit = 0;
-	
+
 	if (_mode == go2line)
 	{
 		current = (*_ppEditView)->getCurrentLineNumber() + 1;
@@ -185,8 +167,8 @@ void GoToLineDlg::updateLinesNumbers() const
 		size_t currentDocLength = (*_ppEditView)->getCurrentDocLen();
 		limit = (currentDocLength > 0 ? currentDocLength - 1 : 0);
 	}
-    
-	
+
+
 	::SetDlgItemTextA(_hSelf, ID_CURRLINE, std::to_string(current).Begin());
 	::SetDlgItemTextA(_hSelf, ID_LASTLINE, std::to_string(limit).Begin());
 }

@@ -34,7 +34,7 @@ public :
     DockingManager();
     ~DockingManager();
 
-    void init(HINSTANCE hInst, Upp::Ctrl* hWnd, Window ** ppWin);
+    void init(Ctrl& hInst, Upp::Ctrl* hWnd, Window ** ppWin);
     virtual void reSizeTo(Rect & rc);
 
     void setClientWnd(Window ** ppWin) {

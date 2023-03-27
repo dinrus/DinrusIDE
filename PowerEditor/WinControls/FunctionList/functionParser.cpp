@@ -14,8 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-#include <shlwapi.h>
-#include <PowerEditor/ScintillaComponent/ScintillaEditView.h>
+//#include <shlwapi.h>
+#include <PowerEditor/ScintillaComponent/ScintillaComponent.h>
 #include "functionParser.h"
 #include <Scintilla/BoostRegexSearch.h>
 

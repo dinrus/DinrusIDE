@@ -20,10 +20,10 @@
 
 #include <memory>
 //#include <windows.h>
-#include <wintrust.h>
-#include <softpub.h>
-#include <wincrypt.h>
-#include <sensapi.h>
+//#include <wintrust.h>
+//#include <softpub.h>
+//#include <wincrypt.h>
+//#include <sensapi.h>
 #include <iomanip>
 #include <PowerEditor/MISC/Common/verifySignedfile.h>
 #include <PowerEditor/MISC/Common/Common.h>
@@ -149,7 +149,7 @@ bool SecurityGuard::verifySignedLibrary(const std::wstring& filepath, NppModule 
 	{
 		// if offline, revocation is not checked
 		// depending of windows version, this may introduce a latency on offline systems
-		DWORD netstatus;
+		dword netstatus;
 		QOCINFO oci;
 		oci.dwSize = sizeof(oci);
 		CONST char* msftTEXTest_site = TEXT("http://www.msftncsi.com/ncsi.txt");
@@ -193,8 +193,8 @@ bool SecurityGuard::verifySignedLibrary(const std::wstring& filepath, NppModule 
 	HCERTSTORE        hStore = nullptr;
 	HCRYPTMSG         hMsg = nullptr;
 	PCMSG_SIGNER_INFO pSignerInfo = nullptr;
-	DWORD dwEncoding, dwContentType, dwFormatType;
-	DWORD dwSignerInfo = 0L;
+	dword dwEncoding, dwContentType, dwFormatType;
+	dword dwSignerInfo = 0L;
 	bool status = true;
 
 	try {
@@ -253,7 +253,7 @@ bool SecurityGuard::verifySignedLibrary(const std::wstring& filepath, NppModule 
 		subject = subject_buffer.get();
 
 		// Getting key_id
-		DWORD key_id_sze = 0;
+		dword key_id_sze = 0;
 		if (!::CertGetCertificateContextProperty(context, CERT_KEY_IDENTIFIER_PROP_ID, Null, &key_id_sze))
 		{
 			throw wstring(TEXT("x509 property not found")) + GetLastErrorAsString(GetLastError());

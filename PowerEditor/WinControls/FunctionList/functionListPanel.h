@@ -73,17 +73,17 @@ public:
 	FunctionListPanel(): DockingDlgInterface(IDD_FUNCLIST_PANEL), _pTreeView(&_treeView) {};
 	~FunctionListPanel();
 
-	void init(HINSTANCE hInst, Upp::Ctrl* hPere, ScintillaEditView **ppEditView);
+	void init(Ctrl& hInst, Upp::Ctrl* hPere, ScintillaEditView **ppEditView);
 
     virtual void display(bool toShow = true) const {
         DockingDlgInterface::display(toShow);
     };
 
-	virtual void setBackgroundColor(COLORREF bgColour) {
+	virtual void setBackgroundColor(Color& bgColour) {
 		TreeView_SetBkColor(_treeView.getHSelf(), bgColour);
 		TreeView_SetBkColor(_treeViewSearchResult.getHSelf(), bgColour);
     };
-	virtual void setForegroundColor(COLORREF fgColour) {
+	virtual void setForegroundColor(Color& fgColour) {
 		TreeView_SetTextColor(_treeView.getHSelf(), fgColour);
 		TreeView_SetTextColor(_treeViewSearchResult.getHSelf(), fgColour);
     };

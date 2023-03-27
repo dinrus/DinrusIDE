@@ -27,7 +27,7 @@
 //	See ReadMe.txt for overview information.
 
 #pragma once
-
+#include <Core/Core.h>
 #include <list>
 #include <mutex>
 
@@ -41,16 +41,16 @@ public:
 	CThreadSafeQueue()
 	{
 		m_hEvent = ::CreateEvent(
-			Null,		// no security attributes
+			NULL,		// no security attributes
 			FALSE,		// auto reset
 			FALSE,		// non-signalled
-			Null);		// anonymous
+			NULL);		// anonymous
 	}
 
 	~CThreadSafeQueue()
 	{
 		::CloseHandle(m_hEvent);
-		m_hEvent = Null;
+		m_hEvent = NULL;
 	}
 
 	void push(C& c)

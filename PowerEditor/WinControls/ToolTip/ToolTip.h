@@ -31,7 +31,7 @@ public:
 		_hSelf = Null;
 	};
 
-	virtual void init(HINSTANCE hInst, Upp::Ctrl* hParent);
+	virtual void init(Ctrl& hInst, Upp::Ctrl* hParent);
 	void Show(Rect rectTitle, const char* pszTitleText, int iXOff = 0, int iWidthOff = 0);
 
 protected:

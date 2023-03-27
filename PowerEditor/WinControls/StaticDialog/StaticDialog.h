@@ -17,7 +17,7 @@
 //#include <PowerEditor/MISC/PluginsManager/Notepad_plus_msgs.h>
 #include <PowerEditor/WinControls/Window.h>
 
-typedef HRESULT (WINAPI * ETDTProc) (Upp::Ctrl*, DWORD);
+typedef HRESULT (WINAPI * ETDTProc) (Upp::Ctrl*, dword);
 
 enum class PosAlign { left, right, top, bottom };
 
@@ -25,9 +25,9 @@ struct DLGTEMPLATEEX
 {
       WORD   dlgVer = 0;
       WORD   signature = 0;
-      DWORD  helpID = 0;
-      DWORD  exStyle = 0;
-      DWORD  style = 0;
+      dword  helpID = 0;
+      dword  exStyle = 0;
+      dword  style = 0;
       WORD   cDlgItems = 0;
       short  x = 0;
       short  y = 0;
@@ -57,12 +57,12 @@ public :
 
 	bool isCheckedOrNot(int checkControlID) const
 	{
-		return (BST_CHECKED == ::SendMessage(::GetDlgItem(_hSelf, checkControlID), BM_GETCHECK, 0, 0));
+		return (BST_CHECKED == ::SendMessage(::GetDlgItem( (HWND)_hSelf, checkControlID), BM_GETCHECK, 0, 0));
 	}
 
 	void setChecked(int checkControlID, bool checkOrNot = true) const
 	{
-		::SendDlgItemMessage(_hSelf, checkControlID, BM_SETCHECK, checkOrNot ? BST_CHECKED : BST_UNCHECKED, 0);
+		::SendDlgItemMessage((HWND)_hSelf, checkControlID, BM_SETCHECK, checkOrNot ? BST_CHECKED : BST_UNCHECKED, 0);
 	}
 
     virtual void destroy() override;

@@ -75,7 +75,7 @@ private :
 	int _x = 0;
 	int _y = 0;
 	Menu* _hPopupMenu = Null;
-	DWORD _dwSplitterStyle = (SV_ENABLERDBLCLK | SV_ENABLELDBLCLK | SV_RESIZEWTHPERCNT);
+	dword _dwSplitterStyle = (SV_ENABLERDBLCLK | SV_ENABLELDBLCLK | SV_RESIZEWTHPERCNT);
 
 	SplitterMode _splitterMode = SplitterMode::DYNAMIC;
 	static bool _isRegistered;

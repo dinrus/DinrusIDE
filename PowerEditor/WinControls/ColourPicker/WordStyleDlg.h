@@ -34,10 +34,10 @@ const bool C_BACKGROUND = true;
 
 class ColourStaticTextHooker {
 public :
-	ColourStaticTextHooker() : _colour(RGB(0x00, 0x00, 0x00)) {};
+	ColourStaticTextHooker() : _colour(Color(0x00, 0x00, 0x00)) {};
 
-	COLORREF setColour(COLORREF colour2Set) {
-		COLORREF oldColour = _colour;
+	Color& setColour(Color& colour2Set) {
+		Color& oldColour = _colour;
 		_colour = colour2Set;
 		return oldColour;
 	};
@@ -46,7 +46,7 @@ public :
 		_oldProc = reinterpret_cast<WNDPROC>(::SetWindowLongPtr(staticHandle, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(staticProc)));
 	};
 private :
-	COLORREF _colour = RGB(0xFF, 0xFF, 0xFF);
+	Color& _colour = Color(0xFF, 0xFF, 0xFF);
 	WNDPROC _oldProc = nullptr;
 
 	static LRESULT CALLBACK staticProc(Upp::Ctrl* hwnd, UINT message, WPARAM wParam, LPARAM lParam){
@@ -61,7 +61,7 @@ class WordStyleDlg : public StaticDialog
 public :
 	WordStyleDlg() = default;
 
-    void init(HINSTANCE hInst, Upp::Ctrl* parent)	{
+    void init(Ctrl& hInst, Upp::Ctrl* parent)	{
         Window::init(hInst, parent);
 	};
 

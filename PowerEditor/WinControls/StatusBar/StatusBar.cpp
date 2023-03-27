@@ -22,8 +22,8 @@
 #include <cassert>
 #include <PowerEditor/Parameters.h>
 #include <PowerEditor/NppDarkMode.h>
-#include <Uxtheme.h>
-#include <Vssym32.h>
+//#include <Uxtheme.h>
+//#include <Vssym32.h>
 
 //#define IDC_STATUSBAR 789
 
@@ -40,7 +40,7 @@ StatusBar::~StatusBar()
 }
 
 
-void StatusBar::init(HINSTANCE, Upp::Ctrl*)
+void StatusBar::init(Ctrl&, Upp::Ctrl*)
 {
 	assert(false and "should never be called");
 }
@@ -114,7 +114,7 @@ LRESULT CALLBACK StatusBarSubclass(Upp::Ctrl* hWnd, UINT uMsg, WPARAM wParam, LP
 
 			SendMessage(hWnd, SB_GETBORDERS, 0, (LPARAM)&borders);
 
-			DWORD style = GetWindowLong(hWnd, GWL_STYLE);
+			dword style = GetWindowLong(hWnd, GWL_STYLE);
 			bool isSizeGrip = style & SBARS_SIZEGRIP;
 
 			PAINTSTRUCT ps;
@@ -152,7 +152,7 @@ LRESULT CALLBACK StatusBarSubclass(Upp::Ctrl* hWnd, UINT uMsg, WPARAM wParam, LP
 
 				Rect rcDivider = { rcPart.right - borders.vertical, rcPart.top, rcPart.right, rcPart.bottom };
 
-				DWORD cchText = 0;
+				dword cchText = 0;
 				cchText = LOWORD(SendMessage(hWnd, SB_GETTEXTLENGTH, i, 0));
 				str.resize(cchText + 1); // technically the std::wstring might not have an internal null character at the end of the buffer, so add one
 				LRESULT lr = SendMessage(hWnd, SB_GETTEXT, i, (LPARAM)&str[0]);
@@ -227,7 +227,7 @@ LRESULT CALLBACK StatusBarSubclass(Upp::Ctrl* hWnd, UINT uMsg, WPARAM wParam, LP
 }
 
 
-void StatusBar::init(HINSTANCE hInst, Upp::Ctrl* hPere, int nbParts)
+void StatusBar::init(Ctrl& hInst, Upp::Ctrl* hPere, int nbParts)
 {
 	Window::init(hInst, hPere);
 	InitCommonControls();

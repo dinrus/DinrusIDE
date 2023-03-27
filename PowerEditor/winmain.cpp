@@ -32,10 +32,10 @@ namespace
 void allowWmCopydataMessages(Notepad_plus_Window& notepad_plus_plus, const NppParameters& nppParameters, winVer ver)
 {
     #ifndef MSGFLT_ADD
-    const DWORD MSGFLT_ADD = 1;
+    const dword MSGFLT_ADD = 1;
     #endif
     #ifndef MSGFLT_ALLOW
-    const DWORD MSGFLT_ALLOW = 1;
+    const dword MSGFLT_ALLOW = 1;
     #endif
     // Tell UAC that lower integrity processes are allowed to send WM_COPYDATA messages to this process (or window)
     // This allows opening new files to already opened elevated Notepad++ process via explorer context menu.
@@ -48,7 +48,7 @@ void allowWmCopydataMessages(Notepad_plus_Window& notepad_plus_plus, const NppPa
             // that is why we use ChangeWindowMessageFilterEx if it is available (windows version >= Win7).
             if (nppParameters.getWinVersion() == WV_VISTA)
             {
-                typedef BOOL (WINAPI *MESSAGEFILTERFUNC)(UINT message,DWORD dwFlag);
+                typedef BOOL (WINAPI *MESSAGEFILTERFUNC)(UINT message,dword dwFlag);
 
                 MESSAGEFILTERFUNC func = (MESSAGEFILTERFUNC)::GetProcAddress( hDll, "ChangeWindowMessageFilter" );
 
@@ -57,7 +57,7 @@ void allowWmCopydataMessages(Notepad_plus_Window& notepad_plus_plus, const NppPa
             }
             else
             {
-                typedef BOOL (WINAPI *MESSAGEFILTERFUNCEX)(Upp::Ctrl* hWnd,UINT message,DWORD action,VOID* pChangeFilterStruct);
+                typedef BOOL (WINAPI *MESSAGEFILTERFUNCEX)(Upp::Ctrl* hWnd,UINT message,dword action,VOID* pChangeFilterStruct);
 
                 MESSAGEFILTERFUNCEX func = (MESSAGEFILTERFUNCEX)::GetProcAddress( hDll, "ChangeWindowMessageFilterEx" );
 
@@ -407,7 +407,7 @@ PWSTR stripIgnoredParams(ParamVector & params, PWSTR pCmdLine)
 
 
 
-int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE, PWSTR pCmdLine, int)
+int WINAPI wWinMain(Ctrl& hInstance, Ctrl&, PWSTR pCmdLine, int)
 {
     String cmdLineString = pCmdLine ? pCmdLine : "";
     ParamVector params;

@@ -20,8 +20,8 @@
 #include "DarkMode/DarkMode.h"
 #include "DarkMode/UAHMenuBar.h"
 
-#include <Uxtheme.h>
-#include <Vssym32.h>
+//#include <Uxtheme.h>
+//#include <Vssym32.h>
 
 #include <PowerEditor/Parameters.h>
 #include <PowerEditor/resource.h>
@@ -421,7 +421,7 @@ namespace NppDarkMode
         return IsWindows11();
     }
 
-    COLORREF invertLightness(COLORREF c)
+    Color& invertLightness(Color& c)
     {
         WORD h = 0;
         WORD s = 0;
@@ -430,12 +430,12 @@ namespace NppDarkMode
 
         l = 240 - l;
 
-        COLORREF invert_c = ColorHLSToRGB(h, l, s);
+        Color& invert_c = ColorHLSToRGB(h, l, s);
 
         return invert_c;
     }
 
-    COLORREF invertLightnessSofter(COLORREF c)
+    Color& invertLightnessSofter(Color& c)
     {
         WORD h = 0;
         WORD s = 0;
@@ -444,17 +444,17 @@ namespace NppDarkMode
 
         l = min(240 - l, 211);
 
-        COLORREF invert_c = ColorHLSToRGB(h, l, s);
+        Color& invert_c = ColorHLSToRGB(h, l, s);
 
         return invert_c;
     }
 
     TreeViewStyle treeViewStyle = TreeViewStyle::classic;
-    COLORREF treeViewBg = NppParameters::getInstance().getCurrentDefaultBgColor();
+    Color& treeViewBg = NppParameters::getInstance().getCurrentDefaultBgColor();
     double lighnessTreeView = 50.0;
 
     // adapted from https://stackoverflow.com/a/56678483
-    double calculatePerceivedLighness(COLORREF c)
+    double calculatePerceivedLighness(Color& c)
     {
         auto linearValue = [](double colorChannel) -> double
         {
@@ -474,18 +474,18 @@ namespace NppDarkMode
         return lighness;
     }
 
-    COLORREF getBackgroundColor()         { return getTheme()._colors.background; }
-    COLORREF getSofterBackgroundColor()   { return getTheme()._colors.softerBackground; }
-    COLORREF getHotBackgroundColor()      { return getTheme()._colors.hotBackground; }
-    COLORREF getDarkerBackgroundColor()   { return getTheme()._colors.pureBackground; }
-    COLORREF getErrorBackgroundColor()    { return getTheme()._colors.errorBackground; }
-    COLORREF getTextColor()               { return getTheme()._colors.text; }
-    COLORREF getDarkerTextColor()         { return getTheme()._colors.darkerText; }
-    COLORREF getDisabledTextColor()       { return getTheme()._colors.disabledText; }
-    COLORREF getLinkTextColor()           { return getTheme()._colors.linkText; }
-    COLORREF getEdgeColor()               { return getTheme()._colors.edge; }
-    COLORREF getHotEdgeColor()            { return getTheme()._colors.hotEdge; }
-    COLORREF getDisabledEdgeColor()       { return getTheme()._colors.disabledEdge; }
+    Color& getBackgroundColor()         { return getTheme()._colors.background; }
+    Color& getSofterBackgroundColor()   { return getTheme()._colors.softerBackground; }
+    Color& getHotBackgroundColor()      { return getTheme()._colors.hotBackground; }
+    Color& getDarkerBackgroundColor()   { return getTheme()._colors.pureBackground; }
+    Color& getErrorBackgroundColor()    { return getTheme()._colors.errorBackground; }
+    Color& getTextColor()               { return getTheme()._colors.text; }
+    Color& getDarkerTextColor()         { return getTheme()._colors.darkerText; }
+    Color& getDisabledTextColor()       { return getTheme()._colors.disabledText; }
+    Color& getLinkTextColor()           { return getTheme()._colors.linkText; }
+    Color& getEdgeColor()               { return getTheme()._colors.edge; }
+    Color& getHotEdgeColor()            { return getTheme()._colors.hotEdge; }
+    Color& getDisabledEdgeColor()       { return getTheme()._colors.disabledEdge; }
 
     HBRUSH getBackgroundBrush()           { return getTheme()._brushes.background; }
     HBRUSH getSofterBackgroundBrush()     { return getTheme()._brushes.softerBackground; }
@@ -502,84 +502,84 @@ namespace NppDarkMode
     HPEN getHotEdgePen()                  { return getTheme()._pens.hotEdgePen; }
     HPEN getDisabledEdgePen()             { return getTheme()._pens.disabledEdgePen; }
 
-    void setBackgroundColor(COLORREF c)
+    void setBackgroundColor(Color& c)
     {
         Colors clrs = getTheme()._colors;
         clrs.background = c;
         getTheme().change(clrs);
     }
 
-    void setSofterBackgroundColor(COLORREF c)
+    void setSofterBackgroundColor(Color& c)
     {
         Colors clrs = getTheme()._colors;
         clrs.softerBackground = c;
         getTheme().change(clrs);
     }
 
-    void setHotBackgroundColor(COLORREF c)
+    void setHotBackgroundColor(Color& c)
     {
         Colors clrs = getTheme()._colors;
         clrs.hotBackground = c;
         getTheme().change(clrs);
     }
 
-    void setDarkerBackgroundColor(COLORREF c)
+    void setDarkerBackgroundColor(Color& c)
     {
         Colors clrs = getTheme()._colors;
         clrs.pureBackground = c;
         getTheme().change(clrs);
     }
 
-    void setErrorBackgroundColor(COLORREF c)
+    void setErrorBackgroundColor(Color& c)
     {
         Colors clrs = getTheme()._colors;
         clrs.errorBackground = c;
         getTheme().change(clrs);
     }
 
-    void setTextColor(COLORREF c)
+    void setTextColor(Color& c)
     {
         Colors clrs = getTheme()._colors;
         clrs.text = c;
         getTheme().change(clrs);
     }
 
-    void setDarkerTextColor(COLORREF c)
+    void setDarkerTextColor(Color& c)
     {
         Colors clrs = getTheme()._colors;
         clrs.darkerText = c;
         getTheme().change(clrs);
     }
 
-    void setDisabledTextColor(COLORREF c)
+    void setDisabledTextColor(Color& c)
     {
         Colors clrs = getTheme()._colors;
         clrs.disabledText = c;
         getTheme().change(clrs);
     }
 
-    void setLinkTextColor(COLORREF c)
+    void setLinkTextColor(Color& c)
     {
         Colors clrs = getTheme()._colors;
         clrs.linkText = c;
         getTheme().change(clrs);
     }
 
-    void setEdgeColor(COLORREF c)
+    void setEdgeColor(Color& c)
     {
         Colors clrs = getTheme()._colors;
         clrs.edge = c;
         getTheme().change(clrs);
     }
 
-    void setHotEdgeColor(COLORREF c)
+    void setHotEdgeColor(Color& c)
     {
         Colors clrs = getTheme()._colors;
         clrs.hotEdge = c;
         getTheme().change(clrs);
     }
 
-    void setDisabledEdgeColor(COLORREF c)
+    void setDisabledEdgeColor(Color& c)
     {
         Colors clrs = getTheme()._colors;
         clrs.disabledEdge = c;
@@ -664,7 +664,7 @@ namespace NppDarkMode
 
             // get the item state for drawing
 
-            DWORD dwFlags = DT_CENTER | DT_SINGLELINE | DT_VCENTER;
+            dword dwFlags = DT_CENTER | DT_SINGLELINE | DT_VCENTER;
 
             int iTextStateID = MPI_NORMAL;
             int iBackgroundStateID = MPI_NORMAL;
@@ -845,9 +845,9 @@ namespace NppDarkMode
     {
         Rect rcClient = {};
         WCHAR szText[256] = { '\0' };
-        DWORD nState = static_cast<DWORD>(SendMessage(hwnd, BM_GETSTATE, 0, 0));
-        DWORD uiState = static_cast<DWORD>(SendMessage(hwnd, WM_QUERYUISTATE, 0, 0));
-        DWORD nStyle = GetWindowLong(hwnd, GWL_STYLE);
+        dword nState = static_cast<dword>(SendMessage(hwnd, BM_GETSTATE, 0, 0));
+        dword uiState = static_cast<dword>(SendMessage(hwnd, WM_QUERYUISTATE, 0, 0));
+        dword nStyle = GetWindowLong(hwnd, GWL_STYLE);
 
         HFONT hFont = nullptr;
         HFONT hOldFont = nullptr;
@@ -865,7 +865,7 @@ namespace NppDarkMode
 
         hOldFont = static_cast<HFONT>(SelectObject(hdc, hFont));
 
-        DWORD dtFlags = DT_LEFT; // DT_LEFT is 0
+        dword dtFlags = DT_LEFT; // DT_LEFT is 0
         dtFlags |= (nStyle & BS_MULTILINE) ? DT_WORDBREAK : DT_SINGLELINE;
         dtFlags |= ((nStyle & BS_CENTER) == BS_CENTER) ? DT_CENTER : (nStyle & BS_RIGHT) ? DT_RIGHT : 0;
         dtFlags |= ((nStyle & BS_VCENTER) == BS_VCENTER) ? DT_VCENTER : (nStyle & BS_BOTTOM) ? DT_BOTTOM : 0;
@@ -925,7 +925,7 @@ namespace NppDarkMode
 
     void paintButton(Upp::Ctrl* hwnd, HDC hdc, ButtonData& buttonData)
     {
-        DWORD nState = static_cast<DWORD>(SendMessage(hwnd, BM_GETSTATE, 0, 0));
+        dword nState = static_cast<dword>(SendMessage(hwnd, BM_GETSTATE, 0, 0));
         const auto nStyle = GetWindowLongPtr(hwnd, GWL_STYLE);
         const auto nButtonStyle = nStyle & BS_TYPEMASK;
 
@@ -1083,7 +1083,7 @@ namespace NppDarkMode
 
     void paintGroupbox(Upp::Ctrl* hwnd, HDC hdc, ButtonData& buttonData)
     {
-        DWORD nStyle = GetWindowLong(hwnd, GWL_STYLE);
+        dword nStyle = GetWindowLong(hwnd, GWL_STYLE);
         bool isDisabled = (nStyle & WS_DISABLED) == WS_DISABLED;
         int iPartID = BP_GROUPBOX;
         int iStateID = isDisabled ? GBS_DISABLED : GBS_NORMAL;
@@ -1156,7 +1156,7 @@ namespace NppDarkMode
             DTTOPTS dtto = { sizeof(DTTOPTS), DTT_TEXTCOLOR };
             dtto.crText = isDisabled ? NppDarkMode::getDisabledTextColor() : NppDarkMode::getTextColor();
 
-            DWORD textFlags = isCenter ? DT_CENTER : DT_LEFT;
+            dword textFlags = isCenter ? DT_CENTER : DT_LEFT;
 
             DrawThemeTextEx(buttonData.hTheme, hdc, BP_GROUPBOX, iStateID, szText, -1, textFlags | DT_SINGLELINE, &rcText, &dtto);
         }
@@ -2629,7 +2629,7 @@ namespace NppDarkMode
 
     void calculateTreeViewStyle()
     {
-        COLORREF bgColor = NppParameters::getInstance().getCurrentDefaultBgColor();
+        Color& bgColor = NppParameters::getInstance().getCurrentDefaultBgColor();
 
         if (treeViewBg != bgColor || lighnessTreeView == 50.0)
         {

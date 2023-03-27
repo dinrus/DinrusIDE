@@ -24,9 +24,7 @@ uses
 	plugin/md,
 	SysInfo,
 	Functions4U,
-	DropGrid,
-	Scintilla,
-	Lexilla;
+	DropGrid;
 
 link
 	-DUNICODE;

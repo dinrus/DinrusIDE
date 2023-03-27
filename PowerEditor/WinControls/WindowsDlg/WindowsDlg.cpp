@@ -19,7 +19,7 @@
 #include <algorithm>
 #include <PowerEditor/WinControls/WindowsDlg/WindowsDlg.h>
 #include <PowerEditor/WinControls/WindowsDlg/WindowsDlgRc.h>
-#include <PowerEditor/ScintillaComponent/DocTabView.h>
+#include <PowerEditor/ScintillaComponent/ScintillaComponent.h>
 #include <PowerEditor/EncodingMapper.h>
 #include <PowerEditor/localization.h>
 
@@ -45,26 +45,26 @@ using namespace std;
 static const char *readonlyString = TEXT(" [Read Only]");
 const UINT WDN_NOTIFY = RegisterWindowMessage(TEXT("WDN_NOTIFY"));
 /*
-inline static DWORD GetStyle(Upp::Ctrl* hWnd) {
-	return (DWORD)GetWindowLongPtr(hWnd, GWL_STYLE);
+inline static dword GetStyle(Upp::Ctrl* hWnd) {
+	return (dword)GetWindowLongPtr(hWnd, GWL_STYLE);
 }
 
-inline static DWORD GetExStyle(Upp::Ctrl* hWnd) {
-	return (DWORD)GetWindowLongPtr(hWnd, GWL_EXSTYLE);
+inline static dword GetExStyle(Upp::Ctrl* hWnd) {
+	return (dword)GetWindowLongPtr(hWnd, GWL_EXSTYLE);
 }
 
-inline static BOOL ModifyStyle(Upp::Ctrl* hWnd, DWORD dwRemove, DWORD dwAdd) {
-	DWORD dwStyle = (DWORD)::GetWindowLongPtr(hWnd, GWL_STYLE);
-	DWORD dwNewStyle = (dwStyle & ~dwRemove) | dwAdd;
+inline static BOOL ModifyStyle(Upp::Ctrl* hWnd, dword dwRemove, dword dwAdd) {
+	dword dwStyle = (dword)::GetWindowLongPtr(hWnd, GWL_STYLE);
+	dword dwNewStyle = (dwStyle & ~dwRemove) | dwAdd;
 	if (dwStyle == dwNewStyle)
 		return FALSE;
 	::SetWindowLongPtr(hWnd, GWL_STYLE, dwNewStyle);
 	return TRUE;
 }
 
-inline static BOOL ModifyStyleEx(Upp::Ctrl* hWnd, DWORD dwRemove, DWORD dwAdd) {
-	DWORD dwStyle = (DWORD)::GetWindowLongPtr(hWnd, GWL_EXSTYLE);
-	DWORD dwNewStyle = (dwStyle & ~dwRemove) | dwAdd;
+inline static BOOL ModifyStyleEx(Upp::Ctrl* hWnd, dword dwRemove, dword dwAdd) {
+	dword dwStyle = (dword)::GetWindowLongPtr(hWnd, GWL_EXSTYLE);
+	dword dwNewStyle = (dwStyle & ~dwRemove) | dwAdd;
 	if (dwStyle == dwNewStyle)
 		return FALSE;
 	::SetWindowLongPtr(hWnd, GWL_EXSTYLE, dwNewStyle);
@@ -249,13 +249,13 @@ WindowsDlg::WindowsDlg() : MyBaseClass(WindowsDlgMap)
 	_szMinListCtrl = SIZEZERO;
 }
 
-void WindowsDlg::init(HINSTANCE hInst, Upp::Ctrl* parent, DocTabView *pTab)
+void WindowsDlg::init(Ctrl& hInst, Upp::Ctrl* parent, DocTabView *pTab)
 {
 	MyBaseClass::init(hInst, parent);
 	_pTab = pTab;
 }
 
-void WindowsDlg::init(HINSTANCE hInst, Upp::Ctrl* parent)
+void WindowsDlg::init(Ctrl& hInst, Upp::Ctrl* parent)
 {
 	assert(!"Call other initialize method");
 	MyBaseClass::init(hInst, parent);
@@ -580,12 +580,12 @@ BOOL WindowsDlg::onInitDialog()
 	getClientRect(_rc);
 
 	_hList = ::GetDlgItem(_hSelf, IDC_WINDOWS_LIST);
-	DWORD exStyle = ListView_GetExtendedListViewStyle(_hList);
+	dword exStyle = ListView_GetExtendedListViewStyle(_hList);
 	exStyle |= LVS_EX_HEADERDRAGDROP|LVS_EX_FULLROWSELECT|LVS_EX_DOUBLEBUFFER;
 	ListView_SetExtendedListViewStyle(_hList, exStyle);
 
-	COLORREF fgColor = (NppParameters::getInstance()).getCurrentDefaultFgColor();
-	COLORREF bgColor = (NppParameters::getInstance()).getCurrentDefaultBgColor();
+	Color& fgColor = (NppParameters::getInstance()).getCurrentDefaultFgColor();
+	Color& bgColor = (NppParameters::getInstance()).getCurrentDefaultBgColor();
 
 	ListView_SetBkColor(_hList, bgColor);
 	ListView_SetTextBkColor(_hList, bgColor);

@@ -15,14 +15,13 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 #include <time.h>
-#include <shlwapi.h>
-#include <shlobj.h>
+//#include <shlwapi.h>
+//#include <shlobj.h>
 #include <PowerEditor/Parameters.h>
-#include <PowerEditor/ScintillaComponent/ScintillaEditView.h>
+#include <PowerEditor/ScintillaComponent/ScintillaComponent.h>
 #include <PowerEditor/keys.h>
 #include <PowerEditor/localization.h>
 #include <PowerEditor/localizationString.h>
-#include <PowerEditor/ScintillaComponent/UserDefineDialog.h>
 #include <PowerEditor/WinControls/WindowsDlg/WindowsDlgRc.h>
 
 #pragma warning(disable : 4996) // for GetVersionEx()
@@ -1668,16 +1667,16 @@ UserLangContainer* NppParameters::getULCFromName(const char *userLangName)
 }
 
 
-COLORREF NppParameters::getCurLineHilitingColour()
+Color& NppParameters::getCurLineHilitingColour()
 {
     const Style * pStyle = _widgetStyleArray.findByName(TEXT("Current line background colour"));
     if (!pStyle)
-        return COLORREF(-1);
+        return Color&(-1);
     return pStyle->_bgColor;
 }
 
 
-void NppParameters::setCurLineHilitingColour(COLORREF colour2Set)
+void NppParameters::setCurLineHilitingColour(Color& colour2Set)
 {
     Style * pStyle = _widgetStyleArray.findByName(TEXT("Current line background colour"));
     if (!pStyle)
@@ -1687,7 +1686,7 @@ void NppParameters::setCurLineHilitingColour(COLORREF colour2Set)
 
 
 
-static int CALLBACK EnumFontFamExProc(const LOGFONT* lpelfe, const TEXTMETRIC*, DWORD, LPARAM lParam)
+static int CALLBACK EnumFontFamExProc(const LOGFONT* lpelfe, const TEXTMETRIC*, dword, LPARAM lParam)
 {
     Vector<String>& strVect = *(Vector<String> *)lParam;
     const int32_t vectSize = static_cast<int32_t>(strVect.size());
@@ -3760,7 +3759,7 @@ void StyleArray::addStyler(int styleID, TiXmlNode *styleNode)
 
         // TODO: translate to English
         // Pour _fgColor, _bgColor :
-        // RGB() | (result & 0xFF000000) c'est pour le cas de -1 (0xFFFFFFFF)
+        // Color() | (result & 0xFF000000) c'est pour le cas de -1 (0xFFFFFFFF)
         // retourné par hexStrVal(str)
         const char *str = element->Attribute(TEXT("name"));
         if (str)
@@ -3775,7 +3774,7 @@ void StyleArray::addStyler(int styleID, TiXmlNode *styleNode)
         if (str)
         {
             unsigned long result = hexStrVal(str);
-            s._fgColor = (RGB((result >> 16) & 0xFF, (result >> 8) & 0xFF, result & 0xFF)) | (result & 0xFF000000);
+            s._fgColor = (Color((result >> 16) & 0xFF, (result >> 8) & 0xFF, result & 0xFF)) | (result & 0xFF000000);
 
         }
 
@@ -3783,7 +3782,7 @@ void StyleArray::addStyler(int styleID, TiXmlNode *styleNode)
         if (str)
         {
             unsigned long result = hexStrVal(str);
-            s._bgColor = (RGB((result >> 16) & 0xFF, (result >> 8) & 0xFF, result & 0xFF)) | (result & 0xFF000000);
+            s._bgColor = (Color((result >> 16) & 0xFF, (result >> 8) & 0xFF, result & 0xFF)) | (result & 0xFF000000);
         }
 
         str = element->Attribute(TEXT("colorStyle"));
@@ -4229,7 +4228,7 @@ void NppParameters::feedKeyWordsParameters(TiXmlNode *node)
 }
 
 extern "C" {
-typedef DWORD (WINAPI * EESFUNC) (LPCTSTR, LPTSTR, DWORD);
+typedef dword (WINAPI * EESFUNC) (LPCTSTR, LPTSTR, dword);
 }
 
 void NppParameters::feedGUIParameters(TiXmlNode *node)
@@ -6997,9 +6996,9 @@ TiXmlElement * NppParameters::insertGUIConfigBoolNode(TiXmlNode *r2w, const char
     return GUIConfigElement;
 }
 
-int RGB2int(COLORREF color)
+int RGB2int(Color& color)
 {
-    return (((((DWORD)color) & 0x0000FF) << 16) | ((((DWORD)color) & 0x00FF00)) | ((((DWORD)color) & 0xFF0000) >> 16));
+    return (((((dword)color) & 0x0000FF) << 16) | ((((dword)color) & 0x00FF00)) | ((((dword)color) & 0xFF0000) >> 16));
 }
 
 int NppParameters::langTypeToCommandID(LangType lt) const

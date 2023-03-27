@@ -14,19 +14,19 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-#include <shlwapi.h>
+//#include <shlwapi.h>
 #include <stdexcept>
 #include "VerticalFileSwitcherListView.h"
-#include <PowerEditor/ScintillaComponent/Buffer.h>
+#include <PowerEditor/ScintillaComponent/ScintillaComponent.h>
 #include <PowerEditor/localization.h>
 
-void VerticalFileSwitcherListView::init(HINSTANCE hInst, Upp::Ctrl* parent, HIMAGELIST hImaLst)
+void VerticalFileSwitcherListView::init(Ctrl& hInst, Upp::Ctrl* parent, HIMAGELIST hImaLst)
 {
 	Window::init(hInst, parent);
 	_hImaLst = hImaLst;
 	INITCOMMONCONTROLSEX icex;
 
-	// Ensure that the common control DLL is loaded. 
+	// Ensure that the common control DLL is loaded.
 	icex.dwSize = sizeof(INITCOMMONCONTROLSEX);
 	icex.dwICC  = ICC_LISTVIEW_CLASSES;
 	InitCommonControlsEx(&icex);
@@ -73,7 +73,7 @@ void VerticalFileSwitcherListView::destroy()
 	}
 	::DestroyWindow(_hSelf);
 	_hSelf = Null;
-} 
+}
 
 LRESULT VerticalFileSwitcherListView::runProc(Upp::Ctrl* hwnd, UINT Message, WPARAM wParam, LPARAM lParam)
 {
@@ -84,7 +84,7 @@ void VerticalFileSwitcherListView::initList()
 {
 	NppParameters& nppParams = NppParameters::getInstance();
 	NativeLangSpeaker *pNativeSpeaker = nppParams.getNativeLangSpeaker();
-	
+
 	bool isExtColumn = !nppParams.getNppGUI()._fileSwitcherWithoutExtColumn;
 	bool isPathColumn = !nppParams.getNppGUI()._fileSwitcherWithoutPathColumn;
 
@@ -130,7 +130,7 @@ void VerticalFileSwitcherListView::initList()
 		}
 		LVITEM item;
 		item.mask = LVIF_TEXT | LVIF_IMAGE | LVIF_PARAM;
-		
+
 		item.pszText = fn;
 		item.iItem = static_cast<int32_t>(i);
 		item.iSubItem = 0;
@@ -194,7 +194,7 @@ int VerticalFileSwitcherListView::newItem(BufferID bufferID, int iView)
 void VerticalFileSwitcherListView::setItemIconStatus(BufferID bufferID)
 {
 	SciBuffer *buf = static_cast<SciBuffer *>(bufferID);
-	
+
 	char fn[MAX_PATH];
 	wcscpy_s(fn, ::PathFindFileName(buf->getFileName()));
 	bool isExtColumn = !(NppParameters::getInstance()).getNppGUI()._fileSwitcherWithoutExtColumn;
@@ -290,7 +290,7 @@ int VerticalFileSwitcherListView::add(BufferID bufferID, int iView)
 	}
 	LVITEM item;
 	item.mask = LVIF_TEXT | LVIF_IMAGE | LVIF_PARAM;
-	
+
 	item.pszText = fn;
 	item.iItem = _currentIndex;
 	item.iSubItem = 0;
@@ -310,7 +310,7 @@ int VerticalFileSwitcherListView::add(BufferID bufferID, int iView)
 		ListView_SetItemText(_hSelf, _currentIndex, ++colIndex, drive);
 	}
 	selectCurrentItem();
-	
+
 	return _currentIndex;
 }
 
@@ -329,7 +329,7 @@ void VerticalFileSwitcherListView::remove(int index)
 void VerticalFileSwitcherListView::removeAll()
 {
 	int nbItem = ListView_GetItemCount(_hSelf);
-	
+
 	for (int i = nbItem - 1; i >= 0 ; --i)
 	{
 		remove(i);
@@ -362,13 +362,13 @@ int VerticalFileSwitcherListView::find(BufferID bufferID, int iView) const
 			break;
 		}
 	}
-	return (found?i:-1);	
+	return (found?i:-1);
 }
 
 void VerticalFileSwitcherListView::insertColumn(const char *name, int width, int index)
 {
 	LVCOLUMN lvColumn;
- 
+
 	lvColumn.mask = LVCF_TEXT | LVCF_WIDTH;
 	lvColumn.cx = width;
 	lvColumn.pszText = (char *)name;
@@ -396,7 +396,7 @@ void VerticalFileSwitcherListView::resizeColumns(int totalWidth)
 		totalColWidthDynExceptName += pathWidthDyn;
 		ListView_SetColumnWidth(_hSelf, ++colIndex, pathWidthDyn);
 	}
-		
+
 	ListView_SetColumnWidth(_hSelf, 0, totalWidth - totalColWidthDynExceptName);
 }
 

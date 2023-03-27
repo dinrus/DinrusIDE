@@ -45,10 +45,10 @@ class Gripper final
 public:
     Gripper() = default;;
 
-    void init(HINSTANCE hInst, Upp::Ctrl* hParent) {
+    void init(Ctrl& hInst, Upp::Ctrl* hParent) {
         _hInst   = hInst;
         _hParent = hParent;
-        DWORD hwndExStyle = (DWORD)GetWindowLongPtr(_hParent, GWL_EXSTYLE);
+        dword hwndExStyle = (dword)GetWindowLongPtr(_hParent, GWL_EXSTYLE);
         _isRTL = hwndExStyle & WS_EX_LAYOUTRTL;
     };
 
@@ -111,7 +111,7 @@ protected :
 
 private:
     // Handle
-    HINSTANCE _hInst = nullptr;
+    Ctrl& _hInst = nullptr;
     Upp::Ctrl* _hParent = nullptr;
     Upp::Ctrl* _hSelf = nullptr;
 

@@ -794,7 +794,7 @@ bool Ctrl::ProcessEvents0(bool *quit, bool fetch)
 
 bool Ctrl::ProcessEvents(bool *quit)
 {
-	ASSERT_(IsMainThread(), "ProcessEvents can only run in the main thread");
+	ASSERT_(IsMainThread(), "ProcessEvents может выполняться только в главном потоке");
 	return ProcessEvents0(quit, true);
 }
 
@@ -813,7 +813,7 @@ void Ctrl::EventLoop(Ctrl *ctrl)
 
 	cancel_preedit = DoCancelPreedit; // We really need this just once, but whatever..
 
-	ASSERT_(IsMainThread(), "EventLoop can only run in the main thread");
+	ASSERT_(IsMainThread(), "EventLoop может выполняться только в главном потоке");
 	ASSERT(LoopLevel == 0 || ctrl);
 	LoopLevel++;
 	LLOG("Entering event loop at level " << LoopLevel << LOG_BEGIN);
@@ -846,7 +846,7 @@ gboolean sOnce(GtkWidget *)
 void Ctrl::GuiSleep(int ms)
 {
 	GuiLock __;
-	ASSERT_(IsMainThread(), "Only the main thread can perform GuiSleep");
+	ASSERT_(IsMainThread(), "Только в главном потоке может выполняться GuiSleep");
 	if(ms < 20) // Periodic timer is each 20ms, so that is the longest possible wait
 		g_timeout_add(ms, (GSourceFunc) sOnce, NULL); // otherwise setup shorter timer
 	FetchEvents(TRUE);

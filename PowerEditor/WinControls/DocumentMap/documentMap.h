@@ -70,7 +70,7 @@ public :
 		return (_lowerY - _higherY)/2 + _higherY;
 	};
 
-	static void setColour(COLORREF colour2Set, ViewZoneColorIndex i);
+	static void setColour(Color& colour2Set, ViewZoneColorIndex i);
 
 protected :
 	virtual intptr_t CALLBACK run_dlgProc(UINT message, WPARAM wParam, LPARAM lParam);
@@ -78,8 +78,8 @@ protected :
 	static LRESULT CALLBACK canvasStaticProc(Upp::Ctrl* hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 	LRESULT CALLBACK canvas_runProc(Upp::Ctrl* hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 
-	static COLORREF _focus;
-	static COLORREF _frost;
+	static Color& _focus;
+	static Color& _frost;
 
 	void drawPreviewZone(DRAWITEMSTRUCT *pdis);
 
@@ -101,7 +101,7 @@ public:
 		data->pszAddInfo = id4dockingCont.Begin();
 	};
 
-	void init(HINSTANCE hInst, Upp::Ctrl* hPere, ScintillaEditView **ppEditView) {
+	void init(Ctrl& hInst, Upp::Ctrl* hPere, ScintillaEditView **ppEditView) {
 		DockingDlgInterface::init(hInst, hPere);
 		_ppEditView = ppEditView;
 	};

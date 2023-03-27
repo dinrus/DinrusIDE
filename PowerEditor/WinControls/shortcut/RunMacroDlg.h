@@ -31,7 +31,7 @@ public :
 	RunMacroDlg() = default;
 	~RunMacroDlg() = default;
 
-	void init(HINSTANCE hInst, Upp::Ctrl* hPere/*, ScintillaEditView **ppEditView*/) {
+	void init(Ctrl& hInst, Upp::Ctrl* hPere/*, ScintillaEditView **ppEditView*/) {
 		Window::init(hInst, hPere);
 	};
 

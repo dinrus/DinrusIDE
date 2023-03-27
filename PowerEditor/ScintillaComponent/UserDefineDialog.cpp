@@ -1,23 +1,5 @@
-// This file is part of Notepad++ project
-// Copyright (C)2021 Don HO <don.h@free.fr>
-
-// This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// at your option any later version.
-//
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
-
 #include <PowerEditor/localization.h>
-#include <PowerEditor/ScintillaComponent/UserDefineDialog.h>
-#include <PowerEditor/ScintillaComponent/ScintillaEditView.h>
+#include <PowerEditor/ScintillaComponent/ScintillaComponent.h>
 #include <PowerEditor/Parameters.h>
 #include <PowerEditor/resource.h>
 #include <PowerEditor/MISC/PluginsManager/Notepad_plus_msgs.h>
@@ -1788,10 +1770,10 @@ intptr_t CALLBACK StylerDlg::dlgProc(Upp::Ctrl* hwnd, UINT message, WPARAM wPara
                 i = 0;
             ::SendMessage(hFontNameCombo, CB_SETCURSEL, i, 0);
 
-            if (style._fgColor == COLORREF(-1))
+            if (style._fgColor == Color&(-1))
                 style._fgColor = black;
 
-            if (style._bgColor == COLORREF(-1))
+            if (style._bgColor == Color&(-1))
                 style._bgColor = white;
 
             dlg->_pFgColour->init(dlg->_hInst, hwnd);

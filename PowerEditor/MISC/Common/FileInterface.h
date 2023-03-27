@@ -56,8 +56,8 @@ private:
 	bool	_written	{false};
 	std::string _path;
 
-	const DWORD _accessParam  { GENERIC_READ | GENERIC_WRITE };
-	const DWORD _shareParam   { FILE_SHARE_READ | FILE_SHARE_WRITE };
-	const DWORD _dispParam    { CREATE_ALWAYS };
-	const DWORD _attribParam  { FILE_ATTRIBUTE_NORMAL };
+	const dword _accessParam  { GENERIC_READ | GENERIC_WRITE };
+	const dword _shareParam   { FILE_SHARE_READ | FILE_SHARE_WRITE };
+	const dword _dispParam    { CREATE_ALWAYS };
+	const dword _attribParam  { FILE_ATTRIBUTE_NORMAL };
 };

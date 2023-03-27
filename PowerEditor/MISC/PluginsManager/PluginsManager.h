@@ -45,7 +45,7 @@ struct PluginInfo
 			::FreeLibrary(_hLib);
 	}
 
-	HINSTANCE _hLib = nullptr;
+	Ctrl& _hLib = nullptr;
 	Menu* _pluginMenu = nullptr;
 
 	PFUNCSETINFO _pFuncSetInfo = nullptr;

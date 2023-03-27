@@ -743,21 +743,21 @@ void PainterCanvas::Load(String fileName) {
         FileSel fs;
 
         fs.NoExeIcons();
-        fs.Type("Image files", "*.png; *.jpg; *.tif; *.bmp");
-        fs.Type("All files", "*.*");
-        if(!fs.ExecuteOpen(t_("Loading background image"))) {
-            Exclamation(t_("Image has not been loaded"));
+        fs.Type("Файлы изображений", "*.png; *.jpg; *.tif; *.bmp");
+        fs.Type("Все файлы", "*.*");
+        if(!fs.ExecuteOpen(t_("Загружается фоновый рисунок"))) {
+            Exclamation(t_("Изображение не было загружено"));
             return;
         }
         fileName = fs;
     }
     if (!FileExists(fileName)) {
-        Exclamation(Format(t_("File \"%s\" not found"), DeQtf(fileName)));
+        Exclamation(Format(t_("Файл \"%s\" не найден"), DeQtf(fileName)));
         return;
     }
     SetBackground(fileName);
     if (IsNull(backImage)) {
-        Exclamation(Format(t_("File format \"%s\" not found"), GetFileExt(fileName)));
+        Exclamation(Format(t_("Формат файла \"%s\" не найден"), GetFileExt(fileName)));
         return;
     }
 }
@@ -768,16 +768,16 @@ void PainterCanvas::SaveToFile(String fileName) {
         FileSel fs;
 
         fs.NoExeIcons();
-        fs.Type("PNG file", "*.png");
-        fs.Type("JPEG file", "*.jpg");
-        if(!fs.ExecuteSaveAs(t_("Saving background image to PNG or JPEG file"))) {
-            Exclamation(t_("Image has not been saved"));
+        fs.Type("Файл PNG", "*.png");
+        fs.Type("Файл JPEG", "*.jpg");
+        if(!fs.ExecuteSaveAs(t_("Фоновый рисунок сохраняется в файл PNG или JPEG"))) {
+            Exclamation(t_("Изображение не было сохранено"));
             return;
         }
         fileName = fs;
     }
     if (FileExists(fileName)) {
-        if (!PromptOKCancel(Format(t_("File \"%s\" found.&Do you want to overwrite it?"), DeQtf(fileName))))
+        if (!PromptOKCancel(Format(t_("Файл \"%s\" найден.&Хотите переписать его?"), DeQtf(fileName))))
             return;
     }
 
@@ -789,7 +789,7 @@ void PainterCanvas::SaveToFile(String fileName) {
         JPGEncoder encoder(90);
         encoder.SaveFile(fileName, GetBackground());
     } else
-        Exclamation(Format(t_("File format \"%s\" not found"), ext));
+        Exclamation(Format(t_("Формат файла \"%s\" не найден"), ext));
 }
 
 Image PainterCanvas::CursorImage(Point , dword ) {

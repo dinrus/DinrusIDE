@@ -94,7 +94,7 @@ static BYTE ANDMask[128] =
 
 
 
-void URLCtrl::create(Upp::Ctrl* itemHandle, const char * link, COLORREF linkColor)
+void URLCtrl::create(Upp::Ctrl* itemHandle, const char * link, Color& linkColor)
 {
     // turn on notify style
     ::SetWindowLongPtr(itemHandle, GWL_STYLE, ::GetWindowLongPtr(itemHandle, GWL_STYLE) | SS_NOTIFY);
@@ -107,7 +107,7 @@ void URLCtrl::create(Upp::Ctrl* itemHandle, const char * link, COLORREF linkColo
     _linkColor = linkColor;
 
     // set the visited colour
-    _visitedColor = RGB(128,0,128);
+    _visitedColor = Color(128,0,128);
 
     // subclass the static control
     _oldproc = reinterpret_cast<WNDPROC>(::SetWindowLongPtr(itemHandle, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(URLCtrlProc)));
@@ -127,7 +127,7 @@ void URLCtrl::create(Upp::Ctrl* itemHandle, int cmd, Upp::Ctrl* msgDest)
     _msgDest = msgDest;
 
     // set the hyperlink colour
-    _linkColor = RGB(0,0,255);
+    _linkColor = Color(0,0,255);
 
     // subclass the static control
     _oldproc = reinterpret_cast<WNDPROC>(::SetWindowLongPtr(itemHandle, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(URLCtrlProc)));
@@ -187,8 +187,8 @@ LRESULT URLCtrl::runProc(Upp::Ctrl* hwnd, UINT Message, WPARAM wParam, LPARAM lP
         // colours, and with an underline text style
         case WM_PAINT:
         {
-            DWORD dwStyle = static_cast<DWORD>(::GetWindowLongPtr(hwnd, GWL_STYLE));
-            DWORD dwDTStyle = DT_SINGLELINE;
+            dword dwStyle = static_cast<dword>(::GetWindowLongPtr(hwnd, GWL_STYLE));
+            dword dwDTStyle = DT_SINGLELINE;
 
             //Test if centered horizontally or vertically
             if (dwStyle & SS_CENTER)         dwDTStyle |= DT_CENTER;

@@ -1,23 +1,7 @@
-// This file is part of Notepad++ project
-// Copyright (C)2021 Don HO <don.h@free.fr>
-
-// This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// at your option any later version.
-//
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
 #include <algorithm>
 #include <locale>
-#include <shlwapi.h>
-#include "AutoCompletion.h"
+//#include <shlwapi.h>
+#include <PowerEditor/ScintillaComponent/ScintillaComponent.h>
 #include <PowerEditor/MISC/PluginsManager/Notepad_plus_msgs.h>
 
 const auto FUNC_IMG_ID = 1000;
@@ -330,13 +314,13 @@ static String removeTrailingSlash(const char* path)
 
 static bool isDirectory(const char* path)
 {
-	DWORD type = ::GetFileAttributes(path.Begin());
+	dword type = ::GetFileAttributes(path.Begin());
 	return type != INVALID_FILE_ATTRIBUTES && (type & FILE_ATTRIBUTE_DIRECTORY);
 }
 
 static bool isFile(const char* path)
 {
-	DWORD type = ::GetFileAttributes(path.Begin());
+	dword type = ::GetFileAttributes(path.Begin());
 	return type != INVALID_FILE_ATTRIBUTES && ! (type & FILE_ATTRIBUTE_DIRECTORY);
 }
 
@@ -1083,15 +1067,15 @@ const char * AutoCompletion::getApiFileName()
 	return ScintillaEditView::_langNameInfoArray[_curLang]._langName;
 }
 
-COLORREF AutoCompletion::_autocompleteText = RGB(0x00, 0x00, 0x00);
-COLORREF AutoCompletion::_autocompleteBg = RGB(0xFF, 0xFF, 0xFF);
-COLORREF AutoCompletion::_selectedText = RGB(0xFF, 0xFF, 0xFF);
-COLORREF AutoCompletion::_selectedBg = RGB(0x00, 0x78, 0xD7);
-COLORREF AutoCompletion::_calltipBg = RGB(0xFF, 0xFF, 0xFF);
-COLORREF AutoCompletion::_calltipText = RGB(0x80, 0x80, 0x80);
-COLORREF AutoCompletion::_calltipHighlight = RGB(0x00, 0x00, 0x80);
+Color& AutoCompletion::_autocompleteText = Color(0x00, 0x00, 0x00);
+Color& AutoCompletion::_autocompleteBg = Color(0xFF, 0xFF, 0xFF);
+Color& AutoCompletion::_selectedText = Color(0xFF, 0xFF, 0xFF);
+Color& AutoCompletion::_selectedBg = Color(0x00, 0x78, 0xD7);
+Color& AutoCompletion::_calltipBg = Color(0xFF, 0xFF, 0xFF);
+Color& AutoCompletion::_calltipText = Color(0x80, 0x80, 0x80);
+Color& AutoCompletion::_calltipHighlight = Color(0x00, 0x00, 0x80);
 
-void AutoCompletion::setColour(COLORREF colour2Set, AutocompleteColorIndex i)
+void AutoCompletion::setColour(Color& colour2Set, AutocompleteColorIndex i)
 {
 	switch (i)
 	{

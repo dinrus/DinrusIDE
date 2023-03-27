@@ -54,7 +54,7 @@ class WindowsDlg : public SizeableDlg
 public :
 	WindowsDlg();
 	int doDialog();
-	virtual void init(HINSTANCE hInst, Upp::Ctrl* parent, DocTabView *pTab);
+	virtual void init(Ctrl& hInst, Upp::Ctrl* parent, DocTabView *pTab);
 	void doSortToTabs();
 	void doSort();
 	void sort(int columnID, bool reverseSort);
@@ -103,7 +103,7 @@ protected :
 	ContextMenu _listMenu;
 
 private:
-	virtual void init(HINSTANCE hInst, Upp::Ctrl* parent);
+	virtual void init(Ctrl& hInst, Upp::Ctrl* parent);
 };
 
 class WindowsMenu

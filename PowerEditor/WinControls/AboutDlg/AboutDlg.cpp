@@ -192,12 +192,12 @@ intptr_t CALLBACK DebugInfoDlg::run_dlgProc(UINT message, WPARAM wParam, LPARAM 
 
             // OS information
             HKEY hKey;
-            DWORD dataSize = 0;
+            dword dataSize = 0;
 
             char szProductName[96] = {'\0'};
             char szCurrentBuildNumber[32] = {'\0'};
             char szReleaseId[32] = {'\0'};
-            DWORD dwUBR = 0;
+            dword dwUBR = 0;
             char szUBR[12] = "0";
 /*
             // NOTE: RegQueryValueExW is not guaranteed to return null-terminated strings
@@ -219,7 +219,7 @@ intptr_t CALLBACK DebugInfoDlg::run_dlgProc(UINT message, WPARAM wParam, LPARAM 
                 RegQueryValueExW(hKey, TEXT("CurrentBuildNumber"), Null, Null, reinterpret_cast<LPBYTE>(szCurrentBuildNumber), &dataSize);
                 szCurrentBuildNumber[sizeof(szCurrentBuildNumber) / sizeof(char) - 1] = '\0';
 
-                dataSize = sizeof(DWORD);
+                dataSize = sizeof(dword);
                 if (RegQueryValueExW(hKey, TEXT("UBR"), Null, Null, reinterpret_cast<LPBYTE>(&dwUBR), &dataSize) == ERROR_SUCCESS)
                 {
                     generic_sprintf(szUBR, TEXT("%u"), dwUBR);
@@ -240,7 +240,7 @@ intptr_t CALLBACK DebugInfoDlg::run_dlgProc(UINT message, WPARAM wParam, LPARAM 
 
             if (szCurrentBuildNumber[0] == '\0')
             {
-                DWORD dwVersion = GetVersion();
+                dword dwVersion = GetVersion();
                 if (dwVersion < 0x80000000)
                 {
                     generic_sprintf(szCurrentBuildNumber, TEXT("%u"), HIWORD(dwVersion));

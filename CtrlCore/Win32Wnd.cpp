@@ -762,14 +762,14 @@ void Ctrl::sProcessMSG(MSG& msg)
 
 bool Ctrl::IsWaitingEvent()
 {
-	ASSERT_(IsMainThread(), "IsWaitingEvent can only run in the main thread");
+	ASSERT_(IsMainThread(), "IsWaitingEvent может выполняться только в главном потоке");
 	MSG msg;
 	return PeekMessage(&msg, NULL, 0, 0, PM_NOREMOVE);
 }
 
 bool Ctrl::ProcessEvent(bool *quit)
 {
-	ASSERT_(IsMainThread(), "ProcessEvent can only run in the main thread");
+	ASSERT_(IsMainThread(), "ProcessEvent может выполняться только в главном потоке");
 	if(!GetMouseLeft() && !GetMouseRight() && !GetMouseMiddle())
 		ReleaseCtrlCapture();
 	MSG msg;
@@ -796,7 +796,7 @@ void Ctrl::SysEndLoop()
 
 bool Ctrl::ProcessEvents(bool *quit)
 {
-	ASSERT_(IsMainThread(), "ProcessEvents can only run in the main thread");
+	ASSERT_(IsMainThread(), "ProcessEvents может выполняться только в главном потоке");
 	if(ProcessEvent(quit)) {
 		while(ProcessEvent(quit) && (!LoopCtrl || LoopCtrl->InLoop())); // LoopCtrl-MF 071008
 		SweepMkImageCache();
@@ -809,7 +809,7 @@ bool Ctrl::ProcessEvents(bool *quit)
 void Ctrl::EventLoop(Ctrl *ctrl)
 {
 	GuiLock __;
-	ASSERT_(IsMainThread(), "EventLoop can only run in the main thread");
+	ASSERT_(IsMainThread(), "EventLoop может выполняться только в главном потоке");
 	ASSERT(LoopLevel == 0 || ctrl);
 	LoopLevel++;
 	LLOG("Entering event loop at level " << LoopLevel << LOG_BEGIN);
@@ -842,7 +842,7 @@ void Ctrl::EventLoop(Ctrl *ctrl)
 void Ctrl::GuiSleep(int ms)
 {
 	GuiLock __;
-	ASSERT_(IsMainThread(), "Only the main thread can perform GuiSleep");
+	ASSERT_(IsMainThread(), "GuiSleep может выполнять только главный поток");
 	ELOG("GuiSleep");
 	int level = LeaveGuiMutexAll();
 #if !defined(flagDLL) && !defined(PLATFORM_WINCE)

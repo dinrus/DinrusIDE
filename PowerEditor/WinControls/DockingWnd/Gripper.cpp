@@ -220,7 +220,7 @@ void Gripper::create()
 
     if (!hookMouse)
     {
-        DWORD dwError = ::GetLastError();
+        dword dwError = ::GetLastError();
         char  str[128];
         ::wsprintf(str, TEXT("GetLastError() returned %lu"), dwError);
         ::MessageBox(Null, str, TEXT("SetWindowsHookEx(MOUSE) failed on Gripper::create()"), MB_OK | MB_ICONERROR);
@@ -231,7 +231,7 @@ void Gripper::create()
 		hookKeyboard = ::SetWindowsHookEx(WH_KEYBOARD_LL, hookProcKeyboard, _hInst, 0);
 		if (!hookKeyboard)
 		{
-			DWORD dwError = ::GetLastError();
+			dword dwError = ::GetLastError();
 			char  str[128];
 			::wsprintf(str, TEXT("GetLastError() returned %lu"), dwError);
 			::MessageBox(Null, str, TEXT("SetWindowsHookEx(KEYBOARD) failed on Gripper::create()"), MB_OK | MB_ICONERROR);

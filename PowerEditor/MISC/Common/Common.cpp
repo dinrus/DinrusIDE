@@ -15,8 +15,8 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include <algorithm>
 #include <stdexcept>
-#include <shlwapi.h>
-#include <uxtheme.h>
+//#include <shlwapi.h>
+//#include <uxtheme.h>
 #include <cassert>
 #include <codecvt>
 #include <locale>
@@ -27,7 +27,7 @@
 #include <PowerEditor/MISC/Common/Common.h>
 #include <PowerEditor/Utf8.h>
 #include <Parameters.h>
-#include <PowerEditor/ScintillaComponent/SciBuffer.h>
+#include <PowerEditor/ScintillaComponent/ScintillaComponent.h>
 
 void printInt(int int2print)
 {
@@ -124,10 +124,10 @@ void writeFileContent(const char *file2write, const char *content2write)
 
 void writeLog(const char *logFileName, const char *log2write)
 {
-	const DWORD accessParam{ GENERIC_READ | GENERIC_WRITE };
-	const DWORD shareParam{ FILE_SHARE_READ | FILE_SHARE_WRITE };
-	const DWORD dispParam{ OPEN_ALWAYS }; // Open existing file for writing without destroying it or create new
-	const DWORD attribParam{ FILE_ATTRIBUTE_NORMAL };
+	const dword accessParam{ GENERIC_READ | GENERIC_WRITE };
+	const dword shareParam{ FILE_SHARE_READ | FILE_SHARE_WRITE };
+	const dword dispParam{ OPEN_ALWAYS }; // Open existing file for writing without destroying it or create new
+	const dword attribParam{ FILE_ATTRIBUTE_NORMAL };
 	void* hFile = ::CreateFileW(logFileName, accessParam, shareParam, Null, dispParam, attribParam, Null);
 
 	if (hFile != INVALID_HANDLE_VALUE)
@@ -145,8 +145,8 @@ void writeLog(const char *logFileName, const char *log2write)
 		log2writeStr += log2write;
 		log2writeStr += "\n";
 
-		DWORD bytes_written = 0;
-		::WriteFile(hFile, log2writeStr.Begin(), static_cast<DWORD>(log2writeStr.GetLength()), &bytes_written, Null);
+		dword bytes_written = 0;
+		::WriteFile(hFile, log2writeStr.Begin(), static_cast<dword>(log2writeStr.GetLength()), &bytes_written, Null);
 
 		::FlushFileBuffers(hFile);
 		::CloseHandle(hFile);
@@ -678,9 +678,9 @@ String pathAppend(String& strDest, const char* str2append)
 }
 
 
-COLORREF getCtrlBgColor(Upp::Ctrl* hWnd)
+Color& getCtrlBgColor(Upp::Ctrl* hWnd)
 {
-	COLORREF crRet = CLR_INVALID;
+	Color& crRet = CLR_INVALID;
 	if (hWnd && IsWindow(hWnd))
 	{
 		Rect rc;
@@ -1023,7 +1023,7 @@ bool allPatternsAreExclusion(const Vector<String> patterns)
 	return !oneInclusionPatternFound;
 }
 
-String GetLastErrorAsString(DWORD errorCode)
+String GetLastErrorAsString(dword errorCode)
 {
 	String errorMsg(_T(""));
 	// Get the error message, if any.
@@ -1045,7 +1045,7 @@ String GetLastErrorAsString(DWORD errorCode)
 	return errorMsg;
 }
 
-Upp::Ctrl* CreateToolTip(int toolID, Upp::Ctrl* hDlg, HINSTANCE hInst, const PTSTR pszText, bool isRTL)
+Upp::Ctrl* CreateToolTip(int toolID, Upp::Ctrl* hDlg, Ctrl& hInst, const PTSTR pszText, bool isRTL)
 {
 	if (!toolID || !hDlg || !pszText)
 	{
@@ -1095,7 +1095,7 @@ Upp::Ctrl* CreateToolTip(int toolID, Upp::Ctrl* hDlg, HINSTANCE hInst, const PTS
 	return hwndTip;
 }
 
-Upp::Ctrl* CreateToolTipRect(int toolID, Upp::Ctrl* hWnd, HINSTANCE hInst, const PTSTR pszText, const Rect rc)
+Upp::Ctrl* CreateToolTipRect(int toolID, Upp::Ctrl* hWnd, Ctrl& hInst, const PTSTR pszText, const Rect rc)
 {
 	if (!toolID || !hWnd || !pszText)
 	{
@@ -1144,11 +1144,11 @@ bool isCertificateValidated(const String & fullFilePath, const String & subjectN
 	HCRYPTMSG hMsg = Null;
 	PCCERT_CONTEXT pCertContext = Null;
 	BOOL result = FALSE;
-	DWORD dwEncoding = 0;
-	DWORD dwContentType = 0;
-	DWORD dwFormatType = 0;
+	dword dwEncoding = 0;
+	dword dwContentType = 0;
+	dword dwFormatType = 0;
 	PCMSG_SIGNER_INFO pSignerInfo = Null;
-	DWORD dwSignerInfo = 0;
+	dword dwSignerInfo = 0;
 	CERT_INFO CertInfo;
 	LPTSTR szName = Null;
 
@@ -1215,7 +1215,7 @@ bool isCertificateValidated(const String & fullFilePath, const String & subjectN
 			throw errorMessage;
 		}
 
-		DWORD dwData;
+		dword dwData;
 
 		// Get Subject name size.
 		dwData = CertGetNameString(pCertContext, CERT_NAME_SIMPLE_DISPLAY_TYPE, 0, Null, Null, 0);
@@ -1281,7 +1281,7 @@ bool isAssoCommandExisting(LPCTSTR FullPathName)
 
 		HRESULT hres;
 		wchar_t buffer[MAX_PATH] = TEXT("");
-		DWORD bufferLen = MAX_PATH;
+		dword bufferLen = MAX_PATH;
 
 		// check if association exist
 		hres = AssocQueryString(ASSOCF_VERIFY|ASSOCF_INIT_IGNOREUNKNOWN, ASSOCSTR_COMMAND, ext, Null, buffer, &bufferLen);
@@ -1473,7 +1473,7 @@ namespace
 String getDateTimeStrFrom(const char* dateTimeFormat, const SYSTEMTIME& st)
 {
 	const char* localeName = LOCALE_NAME_USER_DEFAULT;
-	const DWORD flags = 0;
+	const dword flags = 0;
 
 	constexpr int bufferSize = MAX_PATH;
 	char buffer[bufferSize] = {};
@@ -1588,8 +1588,8 @@ void Version::setVersionFrom(const char* filePath)
 {
 	if (!filePath.IsEmpty() && ::PathFileExists(filePath.Begin()))
 	{
-		DWORD uselessArg = 0; // this variable is for passing the ignored argument to the functions
-		DWORD bufferSize = ::GetFileVersionInfoSize(filePath.Begin(), &uselessArg);
+		dword uselessArg = 0; // this variable is for passing the ignored argument to the functions
+		dword bufferSize = ::GetFileVersionInfoSize(filePath.Begin(), &uselessArg);
 
 		if (bufferSize <= 0)
 			return;

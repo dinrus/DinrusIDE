@@ -21,7 +21,7 @@
 #include "md5Dlgs_rc.h"
 #include <PowerEditor/WinControls/OpenSaveFileDialog/CustomFileDialog.h>
 #include <PowerEditor/Parameters.h>
-#include <shlwapi.h>
+//#include <shlwapi.h>
 #include <PowerEditor/resource.h>
 
 intptr_t CALLBACK HashFromFilesDlg::run_dlgProc(UINT message, WPARAM wParam, LPARAM lParam)

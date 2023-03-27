@@ -28,7 +28,7 @@ class ColourPopup : public Window
 {
 public :
 	ColourPopup() = default;
-	explicit ColourPopup(COLORREF defaultColor) : _colour(defaultColor) {}
+	explicit ColourPopup(Color& defaultColor) : _colour(defaultColor) {}
 	virtual ~ColourPopup() {}
 
 	bool isCreated() const
@@ -50,16 +50,16 @@ public :
 		::DestroyWindow(_hSelf);
 	}
 
-	void setColour(COLORREF c)
+	void setColour(Color& c)
 	{
 		_colour = c;
 	}
 
-	COLORREF getSelColour(){return _colour;};
+	Color& getSelColour(){return _colour;};
 
 private :
 	Rect _rc = {};
-	COLORREF _colour = RGB(0xFF, 0xFF, 0xFF);
+	Color& _colour = Color(0xFF, 0xFF, 0xFF);
 
 	static intptr_t CALLBACK dlgProc(Upp::Ctrl* hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 	intptr_t CALLBACK run_dlgProc(UINT message, WPARAM wParam, LPARAM lParam);

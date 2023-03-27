@@ -1,23 +1,5 @@
-// This file is part of Notepad++ project
-// Copyright (C)2021 Don HO <don.h@free.fr>
-
-// This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// at your option any later version.
-//
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
-
-#include <shlwapi.h>
-#include "FindReplaceDlg.h"
-#include <PowerEditor/ScintillaComponent/ScintillaEditView.h>
+//#include <shlwapi.h>
+#include <PowerEditor/ScintillaComponent/ScintillaComponent.h>
 #include <PowerEditor/MISC/PluginsManager/Notepad_plus_msgs.h>
 #include <PowerEditor/localization.h>
 #include <PowerEditor/MISC/Common/Common.h>
@@ -280,11 +262,11 @@ void FindReplaceDlg::create(int dialogID, bool isRTL, bool msgDestParent)
     int tabDpiDynamicalHeight = NppParameters::getInstance()._dpiManager.scaleY(13);
     _tab.setFont(TEXT("Tahoma"), tabDpiDynamicalHeight);
 
-    const char *find = TEXT("Find");
-    const char *replace = TEXT("Replace");
-    const char *findInFiles = TEXT("Find in Files");
-    const char *findInProjects = TEXT("Find in Projects");
-    const char *mark = TEXT("Mark");
+    const char *find = TEXT("Найти");
+    const char *replace = TEXT("Заменить");
+    const char *findInFiles = TEXT("найти в Файлах");
+    const char *findInProjects = TEXT("Найти в Проектах");
+    const char *mark = TEXT("Метка");
 
     _tab.insertAtEnd(find);
     _tab.insertAtEnd(replace);
@@ -1106,7 +1088,7 @@ void FindReplaceDlg::resizeDialogElements(LONG newWidth)
         ::GetClientRect(resizeHwnd, &rc);
 
         // Combo box for some reasons selects text on resize. So let's check befor resize if selection is present and clear it manually after resize.
-        DWORD endSelection = 0;
+        dword endSelection = 0;
         SendMessage(resizeHwnd, CB_GETEDITSEL, 0, (LPARAM)&endSelection);
 
         ::SetWindowPos(resizeHwnd, Null, 0, 0, rc.right + addWidth, rc.bottom, SWP_NOMOVE | flags);
@@ -4067,20 +4049,20 @@ void FindReplaceDlg::combo2ExtendedMode(int comboID)
 void FindReplaceDlg::drawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
 {
     //printStr(TEXT("OK"));
-    COLORREF fgColor = RGB(0, 0, 0); // black by default
+    Color& fgColor = Color(0, 0, 0); // black by default
     PCTSTR ptStr =(PCTSTR)lpDrawItemStruct->itemData;
 
     if (_statusbarFindStatus == FSNotFound)
     {
-        fgColor = RGB(0xFF, 00, 00); // red
+        fgColor = Color(0xFF, 00, 00); // red
     }
     else if (_statusbarFindStatus == FSMessage)
     {
-        fgColor = RGB(0, 0, 0xFF); // blue
+        fgColor = Color(0, 0, 0xFF); // blue
     }
     else if (_statusbarFindStatus == FSTopReached || _statusbarFindStatus == FSEndReached)
     {
-        fgColor = RGB(0, 166, 0); // green
+        fgColor = Color(0, 166, 0); // green
     }
     else if (_statusbarFindStatus == FSNoMessage)
     {
@@ -4093,21 +4075,21 @@ void FindReplaceDlg::drawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
 
         if (_statusbarFindStatus == FSNotFound)
         {
-            fgColor = RGB(0xFF, 0x50, 0x50); // red
+            fgColor = Color(0xFF, 0x50, 0x50); // red
         }
         else if (_statusbarFindStatus == FSMessage)
         {
-            fgColor = RGB(0x70, 0x70, 0xFF); // blue
+            fgColor = Color(0x70, 0x70, 0xFF); // blue
         }
         else if (_statusbarFindStatus == FSTopReached || _statusbarFindStatus == FSEndReached)
         {
-            fgColor = RGB(0x50, 0xFF, 0x50); // green
+            fgColor = Color(0x50, 0xFF, 0x50); // green
         }
     }
 
     SetTextColor(lpDrawItemStruct->hDC, fgColor);
 
-    COLORREF bgColor;
+    Color& bgColor;
     if (NppDarkMode::isEnabled())
     {
         bgColor = NppDarkMode::getBackgroundColor();
@@ -4846,7 +4828,7 @@ intptr_t CALLBACK Finder::run_dlgProc(UINT message, WPARAM wParam, LPARAM lParam
     return FALSE;
 }
 
-void FindIncrementDlg::init(HINSTANCE hInst, Upp::Ctrl* hPere, FindReplaceDlg *pFRDlg, bool isRTL)
+void FindIncrementDlg::init(Ctrl& hInst, Upp::Ctrl* hPere, FindReplaceDlg *pFRDlg, bool isRTL)
 {
     Window::init(hInst, hPere);
     if (!pFRDlg)
@@ -5193,7 +5175,7 @@ const int Progress::cBTNheight = NppParameters::getInstance()._dpiManager.scaleY
 volatile LONG Progress::refCount = 0;
 
 
-Progress::Progress(HINSTANCE hInst) : _hwnd(Null), _hCallerWnd(Null)
+Progress::Progress(Ctrl& hInst) : _hwnd(Null), _hCallerWnd(Null)
 {
     if (::InterlockedIncrement(&refCount) == 1)
     {
@@ -5297,10 +5279,10 @@ void Progress::setPercent(unsigned percent, const char *fileName) const
 }
 
 
-DWORD WINAPI Progress::threadFunc(LPVOID data)
+dword WINAPI Progress::threadFunc(LPVOID data)
 {
     Progress* pw = static_cast<Progress*>(data);
-    return (DWORD)pw->thread();
+    return (dword)pw->thread();
 }
 
 

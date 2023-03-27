@@ -150,31 +150,31 @@ void ShortcutMapper::initBabyGrid()
         _babygrid.setHighlightColor(NppDarkMode::getHotBackgroundColor());
         _babygrid.setHighlightColorNoFocus(NppDarkMode::getSofterBackgroundColor());
         _babygrid.setProtectColor(NppDarkMode::getErrorBackgroundColor());
-        _babygrid.setHighlightColorProtect(RGB(244, 10, 20));
-        _babygrid.setHighlightColorProtectNoFocus(RGB(230, 100, 110));
+        _babygrid.setHighlightColorProtect(Color(244, 10, 20));
+        _babygrid.setHighlightColorProtectNoFocus(Color(230, 100, 110));
 
         _babygrid.setGridlinesColor(NppDarkMode::getEdgeColor());
         _babygrid.setTitleGridlinesColor(NppDarkMode::getHotEdgeColor());
     }
     else
     {
-        _babygrid.setTextColor(RGB(0, 0, 0));
-        _babygrid.setHighlightTextColor(RGB(255, 255, 255));
-        _babygrid.setTitleTextColor(RGB(0, 0, 0));
+        _babygrid.setTextColor(Color(0, 0, 0));
+        _babygrid.setHighlightTextColor(Color(255, 255, 255));
+        _babygrid.setTitleTextColor(Color(0, 0, 0));
 
-        _babygrid.setUnprotectColor(RGB(255, 255, 255));
+        _babygrid.setUnprotectColor(Color(255, 255, 255));
         _babygrid.setTitleColor(::GetSysColor(COLOR_BTNFACE));
 
         _babygrid.setBackgroundColor(::GetSysColor(COLOR_BTNFACE));
 
-        _babygrid.setHighlightColor(RGB(0, 0, 128));
-        _babygrid.setHighlightColorNoFocus(RGB(200, 200, 210));
-        _babygrid.setProtectColor(RGB(255, 130, 120));
-        _babygrid.setHighlightColorProtect(RGB(244, 10, 20));
-        _babygrid.setHighlightColorProtectNoFocus(RGB(230, 194, 190));
+        _babygrid.setHighlightColor(Color(0, 0, 128));
+        _babygrid.setHighlightColorNoFocus(Color(200, 200, 210));
+        _babygrid.setProtectColor(Color(255, 130, 120));
+        _babygrid.setHighlightColorProtect(Color(244, 10, 20));
+        _babygrid.setHighlightColorProtectNoFocus(Color(230, 194, 190));
 
-        _babygrid.setGridlinesColor(RGB(220, 220, 220));
-        _babygrid.setTitleGridlinesColor(RGB(120, 120, 120));
+        _babygrid.setGridlinesColor(Color(220, 220, 220));
+        _babygrid.setTitleGridlinesColor(Color(120, 120, 120));
     }
 
     NativeLangSpeaker* nativeLangSpeaker = NppParameters::getInstance().getNativeLangSpeaker();
@@ -946,7 +946,7 @@ intptr_t CALLBACK ShortcutMapper::run_dlgProc(UINT message, WPARAM wParam, LPARA
                     {
                         const int row = _babygrid.getSelectedRow();
                         size_t shortcutIndex = _shortcutIndex[row-1];
-                        DWORD cmdID = 0;
+                        dword cmdID = 0;
 
                         // Menu data
                         int32_t posBase = 0;

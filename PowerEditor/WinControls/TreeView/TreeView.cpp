@@ -21,7 +21,7 @@
 
 #define CY_ITEMHEIGHT     18
 
-void TreeView::init(HINSTANCE hInst, Upp::Ctrl* parent, int treeViewID)
+void TreeView::init(Ctrl& hInst, Upp::Ctrl* parent, int treeViewID)
 {
 	Window::init(hInst, parent);
 	_hSelf = ::GetDlgItem(parent, treeViewID);
@@ -98,7 +98,7 @@ LRESULT TreeView::runProc(Upp::Ctrl* hwnd, UINT Message, WPARAM wParam, LPARAM l
 
 void TreeView::makeLabelEditable(bool toBeEnabled)
 {
-	DWORD dwNewStyle = (DWORD)GetWindowLongPtr(_hSelf, GWL_STYLE);
+	dword dwNewStyle = (dword)GetWindowLongPtr(_hSelf, GWL_STYLE);
 	if (toBeEnabled)
 		dwNewStyle |= TVS_EDITLABELS;
 	else
@@ -263,7 +263,7 @@ HTREEITEM TreeView::searchSubItemByName(const char *itemName, HTREEITEM hParentI
 BOOL TreeView::setImageList(int w, int h, int nbImage, int image_id, ...)
 {
 	HBITMAP hbmp;
-	COLORREF maskColour = RGB(192, 192, 192);
+	Color& maskColour = Color(192, 192, 192);
 
 	// Creation of image list
 	int bmDpiDynW = NppParameters::getInstance()._dpiManager.scaleX(w);

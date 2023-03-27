@@ -35,7 +35,7 @@ public:
 	DockingDlgInterface() = default;
 	explicit DockingDlgInterface(int dlgID): _dlgID(dlgID) {}
 
-	virtual void init(HINSTANCE hInst, Upp::Ctrl* parent) {
+	virtual void init(Ctrl& hInst, Upp::Ctrl* parent) {
 		StaticDialog::init(hInst, parent);
 		char temp[MAX_PATH];
 		::GetModuleFileName(reinterpret_cast<HMODULE>(hInst), temp, MAX_PATH);
@@ -68,8 +68,8 @@ public:
 		StaticDialog::destroy();
 	}
 
-	virtual void setBackgroundColor(COLORREF) {}
-	virtual void setForegroundColor(COLORREF) {}
+	virtual void setBackgroundColor(Color&) {}
+	virtual void setForegroundColor(Color&) {}
 
 	virtual void display(bool toShow = true) const {
 		::SendMessage(_hParent, toShow ? NPPM_DMMSHOW : NPPM_DMMHIDE, 0, reinterpret_cast<LPARAM>(_hSelf));

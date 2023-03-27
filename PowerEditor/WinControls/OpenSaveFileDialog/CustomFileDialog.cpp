@@ -15,13 +15,13 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
-#include <shobjidl.h>
-#include <shlwapi.h>	// PathIsDirectory
+//#include <shobjidl.h>
+//#include <shlwapi.h>	// PathIsDirectory
 #ifdef __MINGW32__
 #include <cwchar>
 #endif
-#include <comdef.h>		// _com_error
-#include <comip.h>		// _com_ptr_t
+//#include <comdef.h>		// _com_error
+//#include <comip.h>		// _com_ptr_t
 #include <unordered_map>
 #include <PowerEditor/WinControls/OpenSaveFileDialog/CustomFileDialog.h>
 #include <PowerEditor/Parameters.h>
@@ -95,10 +95,10 @@ namespace // anonymous
 	{
 		char buffer[MAX_PATH] = { '\0' };
 		// This returns the resulting string length or 0 in case of error.
-		DWORD ret = ExpandEnvironmentStrings(s.Begin(), buffer, static_cast<DWORD>(sizeof(buffer)));
+		dword ret = ExpandEnvironmentStrings(s.Begin(), buffer, static_cast<dword>(sizeof(buffer)));
 		if (ret != 0)
 		{
-			if (ret == static_cast<DWORD>(lstrlen(buffer) + 1))
+			if (ret == static_cast<dword>(lstrlen(buffer) + 1))
 			{
 				s = buffer;
 			}
@@ -106,8 +106,8 @@ namespace // anonymous
 			{
 				// SciBuffer was too small, try with a bigger buffer of the required size.
 				std::vector<char> buffer2(ret, 0);
-				ret = ExpandEnvironmentStrings(s.Begin(), buffer2.data(), static_cast<DWORD>(buffer2.size()));
-				assert(ret == static_cast<DWORD>(lstrlen(buffer2.data()) + 1));
+				ret = ExpandEnvironmentStrings(s.Begin(), buffer2.data(), static_cast<dword>(buffer2.size()));
+				assert(ret == static_cast<dword>(lstrlen(buffer2.data()) + 1));
 				s = buffer2.data();
 			}
 		}
@@ -305,8 +305,8 @@ public:
 		{
 			// Set the file name and clear the selection in the edit box.
 			// The selection is implicitly modified by SetFileName().
-			DWORD selStart = 0;
-			DWORD selEnd = 0;
+			dword selStart = 0;
+			dword selEnd = 0;
 			bool ok = SUCCEEDED(_dialog->SetFileName(name.Begin()));
 			if (ok)
 				SendMessage(_hwndNameEdit, EM_SETSEL, selStart, selEnd);
@@ -326,17 +326,17 @@ public:
 
 	// IFileDialogControlEvents methods
 
-	IFACEMETHODIMP OnItemSelected(IFileDialogCustomize*, DWORD, DWORD) override
+	IFACEMETHODIMP OnItemSelected(IFileDialogCustomize*, dword, dword) override
 	{
 		return E_NOTIMPL;
 	}
 
-	IFACEMETHODIMP OnButtonClicked(IFileDialogCustomize*, DWORD) override
+	IFACEMETHODIMP OnButtonClicked(IFileDialogCustomize*, dword) override
 	{
 		return E_NOTIMPL;
 	}
 
-	IFACEMETHODIMP OnCheckButtonToggled(IFileDialogCustomize*, DWORD id, BOOL bChecked) override
+	IFACEMETHODIMP OnCheckButtonToggled(IFileDialogCustomize*, dword id, BOOL bChecked) override
 	{
 		if (id == IDC_FILE_TYPE_CHECKBOX)
 		{
@@ -358,7 +358,7 @@ public:
 		return E_NOTIMPL;
 	}
 
-	IFACEMETHODIMP OnControlActivating(IFileDialogCustomize*, DWORD) override
+	IFACEMETHODIMP OnControlActivating(IFileDialogCustomize*, dword) override
 	{
 		return E_NOTIMPL;
 	}
@@ -565,8 +565,8 @@ private:
 				LONG style = GetWindowLong(hwnd, GWL_STYLE);
 				if (style & (WS_CHILDWINDOW | WS_GROUP))
 				{
-					DWORD type = style & 0xF;
-					DWORD appearance = style & 0xF0;
+					dword type = style & 0xF;
+					dword appearance = style & 0xF0;
 					if ((type == BS_PUSHBUTTON || type == BS_DEFPUSHBUTTON) && (appearance == BS_TEXT))
 					{
 						// Get the leftmost button.
@@ -746,11 +746,11 @@ public:
 		return init(CLSID_FileOpenDialog);
 	}
 
-	bool addFlags(DWORD dwNewFlags)
+	bool addFlags(dword dwNewFlags)
 	{
 		// Before setting, always get the options first in order
 		// not to override existing options.
-		DWORD dwOldFlags = 0;
+		dword dwOldFlags = 0;
 		HRESULT hr = _dialog->GetOptions(&dwOldFlags);
 		if (SUCCEEDED(hr))
 			hr = _dialog->SetOptions(dwOldFlags | dwNewFlags);
@@ -794,7 +794,7 @@ public:
 
 		isActive = true;
 		HRESULT hr = S_OK;
-		DWORD dwCookie = 0;
+		dword dwCookie = 0;
 		com_ptr<IFileDialogEvents> dialogEvents = _events;
 		if (dialogEvents)
 		{
@@ -871,11 +871,11 @@ public:
 			HRESULT hr = pfd->GetResults(&psiaResults);
 			if (SUCCEEDED(hr))
 			{
-				DWORD count = 0;
+				dword count = 0;
 				hr = psiaResults->GetCount(&count);
 				if (SUCCEEDED(hr))
 				{
-					for (DWORD i = 0; i != count; ++i)
+					for (dword i = 0; i != count; ++i)
 					{
 						com_ptr<IShellItem> psi;
 						hr = psiaResults->GetItemAt(i, &psi);

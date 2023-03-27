@@ -15,7 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 #include <stdexcept>
-#include <shlwapi.h>
+//#include <shlwapi.h>
 #include "ToolBar.h"
 #include <PowerEditor/WinControls/shortcut/shortcut.h>
 #include <PowerEditor/Parameters.h>
@@ -120,7 +120,7 @@ void ToolBar::initTheme(TiXmlDocument *toolIconsDocRoot)
 	}
 }
 
-bool ToolBar::init( HINSTANCE hInst, Upp::Ctrl* hPere, toolBarStatusType type, ToolBarButtonUnit *buttonUnitArray, int arraySize)
+bool ToolBar::init( Ctrl& hInst, Upp::Ctrl* hPere, toolBarStatusType type, ToolBarButtonUnit *buttonUnitArray, int arraySize)
 {
 	Window::init(hInst, hPere);
 	
@@ -223,8 +223,8 @@ int ToolBar::getWidth() const
 
 int ToolBar::getHeight() const
 {
-	DWORD size = static_cast<DWORD>(SendMessage(_hSelf, TB_GETBUTTONSIZE, 0, 0));
-	DWORD padding = static_cast<DWORD>(SendMessage(_hSelf, TB_GETPADDING, 0, 0));
+	dword size = static_cast<dword>(SendMessage(_hSelf, TB_GETBUTTONSIZE, 0, 0));
+	dword padding = static_cast<dword>(SendMessage(_hSelf, TB_GETPADDING, 0, 0));
 	int totalHeight = HIWORD(size) + HIWORD(padding) - 3;
 	return totalHeight;
 }
@@ -291,7 +291,7 @@ void ToolBar::reset(bool create)
 
 	if (!_hSelf)
 	{
-		DWORD dwExtraStyle = 0;
+		dword dwExtraStyle = 0;
 		if (NppDarkMode::isEnabled())
 		{
 			dwExtraStyle = TBSTYLE_CUSTOMERASE;
@@ -571,7 +571,7 @@ LRESULT CALLBACK RebarSubclass(
 	return DefSubclassProc(hWnd, uMsg, wParam, lParam);
 }
 
-void ReBar::init(HINSTANCE hInst, Upp::Ctrl* hPere)
+void ReBar::init(Ctrl& hInst, Upp::Ctrl* hPere)
 {
 	Window::init(hInst, hPere);
 	_hSelf = CreateWindowEx(WS_EX_TOOLWINDOW,
@@ -672,7 +672,7 @@ void ReBar::setGrayBackground(int id)
 	ZeroMemory(&rbBand, REBARBAND_SIZE);
 	rbBand.cbSize  = REBARBAND_SIZE;
 	rbBand.fMask = RBBIM_BACKGROUND;
-	rbBand.hbmBack = LoadBitmap((HINSTANCE)::GetModuleHandle(Null), MAKEINTRESOURCE(IDB_INCREMENTAL_BG));
+	rbBand.hbmBack = LoadBitmap((Ctrl&)::GetModuleHandle(Null), MAKEINTRESOURCE(IDB_INCREMENTAL_BG));
 	::SendMessage(_hSelf, RB_SETBANDINFO, index, reinterpret_cast<LPARAM>(&rbBand));
 }
 

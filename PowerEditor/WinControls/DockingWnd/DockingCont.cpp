@@ -295,7 +295,7 @@ LRESULT DockingCont::runProcCaption(Upp::Ctrl* hwnd, UINT Message, WPARAM wParam
 
 				if (!hookMouse)
 				{
-					DWORD dwError = ::GetLastError();
+					dword dwError = ::GetLastError();
 					char  str[128];
 					::wsprintf(str, TEXT("GetLastError() returned %lu"), dwError);
 					::MessageBox(Null, str, TEXT("SetWindowsHookEx(MOUSE) failed on runProcCaption"), MB_OK | MB_ICONERROR);
@@ -590,7 +590,7 @@ void DockingCont::drawCaptionItem(DRAWITEMSTRUCT *pDrawItemStruct)
 
 		if ((_isMouseOver == TRUE) && (_isMouseDown == TRUE))
 		{
-			::SetTextColor(hDc, RGB(0xFF, 0xFF, 0xFF));
+			::SetTextColor(hDc, Color(0xFF, 0xFF, 0xFF));
 		}
 
 		::DrawText(hDc, L"x", 1, &rc, DT_VCENTER | DT_CENTER | DT_SINGLELINE);
@@ -1028,7 +1028,7 @@ void DockingCont::drawTabItem(DRAWITEMSTRUCT *pDrawItemStruct)
 		Rect barRect = rc;
 		barRect.top += rc.bottom - 4;
 
-		HBRUSH hBrush = ::CreateSolidBrush(RGB(250, 170, 60));
+		HBRUSH hBrush = ::CreateSolidBrush(Color(250, 170, 60));
 		::FillRect(hDc, &barRect, hBrush);
 		::DeleteObject(hBrush);
 	}
@@ -1065,7 +1065,7 @@ void DockingCont::drawTabItem(DRAWITEMSTRUCT *pDrawItemStruct)
 
 	if (isSelected)
 	{
-		COLORREF _unselectedColor = RGB(0, 0, 0);
+		Color& _unselectedColor = Color(0, 0, 0);
 		::SetTextColor(hDc, NppDarkMode::isEnabled() ? NppDarkMode::getTextColor() : _unselectedColor);
 
 		// draw text

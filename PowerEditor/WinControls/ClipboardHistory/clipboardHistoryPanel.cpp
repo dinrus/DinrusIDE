@@ -16,7 +16,7 @@
 
 
 #include <PowerEditor/WinControls/ClipboardHistory/clipboardHistoryPanel.h>
-#include <PowerEditor/ScintillaComponent/ScintillaEditView.h>
+#include <PowerEditor/ScintillaComponent/ScintillaComponent.h>
 #include <PowerEditor/clipboardFormats.h>
 
 
@@ -173,8 +173,8 @@ void ClipboardHistoryPanel::drawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
 		return;
 
 	//printStr(TEXT("OK"));
-	COLORREF fgColor = _lbFgColor == -1?black:_lbFgColor; // fg black by default
-	COLORREF bgColor = _lbBgColor == -1?white:_lbBgColor; // bg white by default
+	Color& fgColor = _lbFgColor == -1?black:_lbFgColor; // fg black by default
+	Color& bgColor = _lbBgColor == -1?white:_lbBgColor; // bg white by default
 	
 	StringArray sa(_clipboardDataVector[lpDrawItemStruct->itemID], MAX_DISPLAY_LENGTH);
 	char *ptStr = (char *)sa.getPointer();

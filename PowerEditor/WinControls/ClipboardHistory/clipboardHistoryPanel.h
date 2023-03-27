@@ -52,7 +52,7 @@ class ClipboardHistoryPanel : public DockingDlgInterface {
 public:
 	ClipboardHistoryPanel(): DockingDlgInterface(IDD_CLIPBOARDHISTORY_PANEL), _ppEditView(Null), _hwndNextCbViewer(Null), _lbBgColor(-1), _lbFgColor(-1) {};
 
-	void init(HINSTANCE hInst, Upp::Ctrl* hPere, ScintillaEditView **ppEditView) {
+	void init(Ctrl& hInst, Upp::Ctrl* hPere, ScintillaEditView **ppEditView) {
 		DockingDlgInterface::init(hInst, hPere);
 		_ppEditView = ppEditView;
 	};
@@ -65,10 +65,10 @@ public:
 	void addToClipboadHistory(ClipboardData cbd);
 	int getClipboardDataIndex(ClipboardData cbd);
 
-	virtual void setBackgroundColor(COLORREF bgColour) {
+	virtual void setBackgroundColor(Color& bgColour) {
 		_lbBgColor = bgColour;
     };
-	virtual void setForegroundColor(COLORREF fgColour) {
+	virtual void setForegroundColor(Color& fgColour) {
 		_lbFgColor = fgColour;
     };
 

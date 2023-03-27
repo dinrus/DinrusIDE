@@ -29,7 +29,7 @@ bool Splitter::_isVerticalFixedRegistered = false;
 
 #define SPLITTER_SIZE 8
 
-void Splitter::init( HINSTANCE hInst, Upp::Ctrl* hPere, int splitterSize, double iSplitRatio, DWORD dwFlags)
+void Splitter::init( Ctrl& hInst, Upp::Ctrl* hPere, int splitterSize, double iSplitRatio, dword dwFlags)
 {
 	if (hPere == Null)
 		throw std::runtime_error("Splitter::init : Parameter hPere is null");
@@ -41,8 +41,8 @@ void Splitter::init( HINSTANCE hInst, Upp::Ctrl* hPere, int splitterSize, double
 	_splitterSize = splitterSize;
 
 	WNDCLASSEX wcex;
-	DWORD dwExStyle = 0L;
-	DWORD dwStyle   = WS_CHILD | WS_VISIBLE;
+	dword dwExStyle = 0L;
+	dword dwStyle   = WS_CHILD | WS_VISIBLE;
 
 
 	_hParent = hPere;
@@ -538,7 +538,7 @@ void Splitter::drawSplitter()
 	}
 	else
 	{
-		hBrush = ::CreateSolidBrush(RGB(0xFF, 0xFF, 0xFF));
+		hBrush = ::CreateSolidBrush(Color(0xFF, 0xFF, 0xFF));
 		hBrushTop = ::GetSysColorBrush(COLOR_3DSHADOW);
 	}
 

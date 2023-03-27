@@ -20,7 +20,7 @@
 #include <PowerEditor/WinControls/ToolTip/ToolTip.h>
 #include <PowerEditor/NppDarkMode.h>
 
-void ToolTip::init(HINSTANCE hInst, Upp::Ctrl* hParent)
+void ToolTip::init(Ctrl& hInst, Upp::Ctrl* hParent)
 {
 	if (_hSelf == Null)
 	{

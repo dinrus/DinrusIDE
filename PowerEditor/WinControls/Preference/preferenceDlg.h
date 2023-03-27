@@ -259,7 +259,7 @@ friend class Notepad_plus;
 public :
 	PreferenceDlg() = default;
 
-    void init(HINSTANCE hInst, Upp::Ctrl* parent)	{
+    void init(Ctrl& hInst, Upp::Ctrl* parent)	{
         Window::init(hInst, parent);
 	};
 

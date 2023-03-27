@@ -33,7 +33,7 @@ public :
 	virtual void destroy() {};
 
 public:
-	void init(HINSTANCE hInst, Upp::Ctrl* hWnd, Upp::Ctrl* hMessage, UINT flags);
+	void init(Ctrl& hInst, Upp::Ctrl* hWnd, Upp::Ctrl* hMessage, UINT flags);
 
 protected:
 

@@ -102,9 +102,9 @@ private:
 	FileBrowser* _pFileBrowser = nullptr;
 	void* _watchThreadHandle = nullptr;
 	void* _EventHandle = nullptr;
-	static DWORD WINAPI watching(void *param);
+	static dword WINAPI watching(void *param);
 
-	static void processChange(DWORD dwAction, Upp::Vector<String> filesToChange, FolderUpdater* thisFolderUpdater);
+	static void processChange(dword dwAction, Upp::Vector<String> filesToChange, FolderUpdater* thisFolderUpdater);
 };
 
 struct SortingData4lParam {
@@ -120,7 +120,7 @@ class FileBrowser : public DockingDlgInterface {
 public:
 	FileBrowser(): DockingDlgInterface(IDD_FILEBROWSER) {};
 	~FileBrowser();
-	void init(HINSTANCE hInst, Upp::Ctrl* hPere) {
+	void init(Ctrl& hInst, Upp::Ctrl* hPere) {
 		DockingDlgInterface::init(hInst, hPere);
 	}
 
@@ -132,11 +132,11 @@ public:
         _hParent = parent2set;
     };
 
-	virtual void setBackgroundColor(COLORREF bgColour) {
+	virtual void setBackgroundColor(Color& bgColour) {
 		TreeView_SetBkColor(_treeView.getHSelf(), bgColour);
     };
 
-	virtual void setForegroundColor(COLORREF fgColour) {
+	virtual void setForegroundColor(Color& fgColour) {
 		TreeView_SetTextColor(_treeView.getHSelf(), fgColour);
     };
 

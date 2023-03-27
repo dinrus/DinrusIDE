@@ -1,11 +1,11 @@
 #include "NppShell.h"
 #include "Bitmap.h"
 #include <PowerEditor/resource.h>
-#include <shellapi.h>
+//#include <shellapi.h>
 #include <algorithm>
 
 #ifndef RGBA
-#define RGBA(r,g,b,a)        ((COLORREF)( (((DWORD)(BYTE)(a))<<24) |     RGB(r,g,b) ))
+#define RGBA(r,g,b,a)        ((Color&)( (((dword)(BYTE)(a))<<24) |     Color(r,g,b) ))
 #endif
 
 
@@ -14,7 +14,7 @@
 //  Global variables
 //---------------------------------------------------------------------------
 UINT _cRef = 0; // COM Reference count.
-HINSTANCE _hModule = Null; // DLL Module.
+Ctrl& _hModule = Null; // DLL Module.
 
 //Some global default values for registering the DLL
 
@@ -35,12 +35,12 @@ char szShellExtensionKey[] = TEXT("*\\shellex\\ContextMenuHandlers\\ANotepad++")
 char szMenuTitle[TITLE_SIZE];
 char szDefaultCustomcommand[] = TEXT("");
 //Icon
-DWORD isDynamic = 1;
-DWORD maxText = 25;
-DWORD showIcon = 1;
+dword isDynamic = 1;
+dword maxText = 25;
+dword showIcon = 1;
 
 //Forward function declarations
-extern "C" int APIENTRY DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID lpReserved);
+extern "C" int APIENTRY DllMain(Ctrl& hInstance, dword dwReason, LPVOID lpReserved);
 STDAPI DllRegisterServer(void);
 STDAPI DllUnregisterServer(void);
 
@@ -65,14 +65,14 @@ struct DOREGSTRUCT {
 	HKEY	hRootKey;
 	LPCTSTR	szSubKey;
 	LPCTSTR	lpszValueName;
-	DWORD	type;
+	dword	type;
 	LPCTSTR	szData;
 };
 
 //---------------------------------------------------------------------------
 // DllMain
 //---------------------------------------------------------------------------
-int APIENTRY DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID /*lpReserved*/) {
+int APIENTRY DllMain(Ctrl& hInstance, dword dwReason, LPVOID /*lpReserved*/) {
 	if (dwReason == DLL_PROCESS_ATTACH) {
 		_hModule = hInstance;
 	}
@@ -130,7 +130,7 @@ BOOL RegisterServer() {
 	int      i;
 	HKEY     hKey;
 	LRESULT  lResult;
-	DWORD    dwDisp;
+	dword    dwDisp;
 	char    szSubKey[MAX_PATH];
 	char    szModule[MAX_PATH];
 	char    szDefaultPath[MAX_PATH];
@@ -187,7 +187,7 @@ BOOL RegisterServer() {
 				wsprintf(szData, ClsidEntries[i].szData, szModule);
 				lResult = RegSetValueEx(hKey, ClsidEntries[i].lpszValueName, 0, ClsidEntries[i].type, (LPBYTE)szData, (lstrlen(szData) + 1) * sizeof(char));
 			} else {
-				lResult = RegSetValueEx(hKey, ClsidEntries[i].lpszValueName, 0, ClsidEntries[i].type, (LPBYTE)ClsidEntries[i].szData, sizeof(DWORD));
+				lResult = RegSetValueEx(hKey, ClsidEntries[i].lpszValueName, 0, ClsidEntries[i].type, (LPBYTE)ClsidEntries[i].szData, sizeof(dword));
 			}
 			RegCloseKey(hKey);
 		}
@@ -262,12 +262,12 @@ intptr_t CALLBACK DlgProcSettings(Upp::Ctrl* hwndDlg, UINT uMsg, WPARAM wParam, 
 	static char customText[TITLE_SIZE] = {0};
 	static char szKeyTemp[MAX_PATH + GUID_STRING_SIZE];
 
-	static DWORD showMenu = 2;	//0 off, 1 on, 2 unknown
-	static DWORD useMenuIcon = 1;	// 0 off, otherwise on
+	static dword showMenu = 2;	//0 off, 1 on, 2 unknown
+	static dword useMenuIcon = 1;	// 0 off, otherwise on
 
 	HKEY settingKey;
 	LONG result;
-	DWORD size = 0;
+	dword size = 0;
 
 	switch(uMsg) {
 		case WM_INITDIALOG: {
@@ -286,13 +286,13 @@ intptr_t CALLBACK DlgProcSettings(Upp::Ctrl* hwndDlg, UINT uMsg, WPARAM wParam, 
 					lstrcpyn(customCommand, TEXT(""), MAX_PATH);
 				}
 
-				size = sizeof(DWORD);
+				size = sizeof(dword);
 				result = RegQueryValueEx(settingKey, TEXT("Dynamic"), Null, Null, (BYTE*)(&isDynamic), &size);
 				if (result != ERROR_SUCCESS) {
 					isDynamic = 1;
 				}
 
-				size = sizeof(DWORD);
+				size = sizeof(dword);
 				result = RegQueryValueEx(settingKey, TEXT("ShowIcon"), Null, Null, (BYTE*)(&useMenuIcon), &size);
 				if (result != ERROR_SUCCESS) {
 					useMenuIcon = 1;
@@ -328,8 +328,8 @@ intptr_t CALLBACK DlgProcSettings(Upp::Ctrl* hwndDlg, UINT uMsg, WPARAM wParam, 
 						result = RegSetValueEx(settingKey, TEXT("Title"), 0,REG_SZ, (LPBYTE)customText, (textLen+1)*sizeof(char));
 						result = RegSetValueEx(settingKey, TEXT("Custom"), 0,REG_SZ, (LPBYTE)customCommand, (commandLen+1)*sizeof(char));
 
-						result = RegSetValueEx(settingKey, TEXT("Dynamic"), 0, REG_DWORD, (LPBYTE)&isDynamic, sizeof(DWORD));
-						result = RegSetValueEx(settingKey, TEXT("ShowIcon"), 0, REG_DWORD, (LPBYTE)&useMenuIcon, sizeof(DWORD));
+						result = RegSetValueEx(settingKey, TEXT("Dynamic"), 0, REG_DWORD, (LPBYTE)&isDynamic, sizeof(dword));
+						result = RegSetValueEx(settingKey, TEXT("ShowIcon"), 0, REG_DWORD, (LPBYTE)&useMenuIcon, sizeof(dword));
 
 						RegCloseKey(settingKey);
 					}
@@ -488,8 +488,8 @@ CShellExt::CShellExt() :
 
 	HKEY settingKey;
 	LONG result;
-	DWORD size = 0;
-	DWORD dyn = 0, siz = 0, showicon = 0;
+	dword size = 0;
+	dword dyn = 0, siz = 0, showicon = 0;
 
 	wsprintf(szKeyTemp, TEXT("CLSID\\%s\\Settings"), szGUID);
 	result = RegOpenKeyEx(HKEY_CLASSES_ROOT, szKeyTemp, 0, KEY_READ, &settingKey);
@@ -500,19 +500,19 @@ CShellExt::CShellExt() :
 			lstrcpyn(m_szMenuTitle, szDefaultMenutext, TITLE_SIZE);
 		}
 
-		size = sizeof(DWORD);
+		size = sizeof(dword);
 		result = RegQueryValueEx(settingKey, TEXT("Dynamic"), Null, Null, (BYTE*)(&dyn), &size);
 		if (result == ERROR_SUCCESS && dyn != 0) {
 			m_isDynamic = true;
 		}
 
-		size = sizeof(DWORD);
+		size = sizeof(dword);
 		result = RegQueryValueEx(settingKey, TEXT("Maxtext"), Null, Null, (BYTE*)(&siz), &size);
 		if (result == ERROR_SUCCESS) {
-			m_nameMaxLength = std::max((DWORD)0,siz);
+			m_nameMaxLength = std::max((dword)0,siz);
 		}
 
-		size = sizeof(DWORD);
+		size = sizeof(dword);
 		result = RegQueryValueEx(settingKey, TEXT("ShowIcon"), Null, Null, (BYTE*)(&showicon), &size);
 		if (result == ERROR_SUCCESS) {
 			m_showIcon = (showicon != 0);
@@ -620,8 +620,8 @@ STDMETHODIMP CShellExt::QueryContextMenu(Menu* hMenu, UINT indexMenu, UINT idCmd
 		if (m_winVer >= WINVER_VISTA) {
 			icon = Null;
 			HICON hicon;
-			DWORD menuIconWidth = GetSystemMetrics(SM_CXMENUCHECK);
-			DWORD menuIconHeight = GetSystemMetrics(SM_CYMENUCHECK);
+			dword menuIconWidth = GetSystemMetrics(SM_CXMENUCHECK);
+			dword menuIconHeight = GetSystemMetrics(SM_CYMENUCHECK);
 			HRESULT hr = LoadShellIcon(menuIconWidth, menuIconHeight, &hicon);
 			if (SUCCEEDED(hr)) {
 				icon = IconToBitmapPARGB32(hicon, menuIconWidth, menuIconHeight);
@@ -692,9 +692,9 @@ STDMETHODIMP CShellExt::GetCommandString(UINT_PTR, UINT uFlags, UINT FAR *, LPST
 STDMETHODIMP CShellExt::HandleMenuMsg2(UINT uMsg, WPARAM /*wParam*/, LPARAM lParam, LRESULT *plResult) {
 
 	//Setup popup menu stuff (ownerdrawn)
-	DWORD menuIconWidth = GetSystemMetrics(SM_CXMENUCHECK);
-	DWORD menuIconHeight = GetSystemMetrics(SM_CYMENUCHECK);
-	DWORD menuIconPadding = 2;	//+1 pixels on each side, is this fixed?
+	dword menuIconWidth = GetSystemMetrics(SM_CXMENUCHECK);
+	dword menuIconHeight = GetSystemMetrics(SM_CYMENUCHECK);
+	dword menuIconPadding = 2;	//+1 pixels on each side, is this fixed?
 
 	switch(uMsg) {
 		case WM_MEASUREITEM: {	//for owner drawn menu
@@ -741,7 +741,7 @@ STDMETHODIMP CShellExt::HandleMenuMsg2(UINT uMsg, WPARAM /*wParam*/, LPARAM lPar
 }
 
 // *** IPersistFile methods ***
-HRESULT STDMETHODCALLTYPE CShellExt::Load(LPCOLESTR pszFileName, DWORD /*dwMode*/) {
+HRESULT STDMETHODCALLTYPE CShellExt::Load(LPCOLESTR pszFileName, dword /*dwMode*/) {
 	LPTSTR file[MAX_PATH];
 #ifdef UNICODE
 	lstrcpyn((LPWSTR)file, pszFileName, MAX_PATH);
@@ -837,7 +837,7 @@ STDMETHODIMP CShellExt::Extract(LPCTSTR /*pszFile*/, UINT /*nIconIndex*/, HICON 
     bmi.bmiHeader.biBitCount = 32;
     bmi.bmiHeader.biCompression = BI_RGB;
     hbm = CreateDIBSection(dcEditTemp, &bmi, DIB_RGB_COLORS, (VOID**)&pPix, Null, 0);
-    memset(pPix, 0x00FFFFFF, sizeof(DWORD)*sizeLarge*sizeLarge);	//initialize to white pixels, no alpha
+    memset(pPix, 0x00FFFFFF, sizeof(dword)*sizeLarge*sizeLarge);	//initialize to white pixels, no alpha
 
 	SelectObject(dcEditColor, iconinfo.hbmColor);
 	SelectObject(dcEditMask, iconinfo.hbmMask);
@@ -852,8 +852,8 @@ STDMETHODIMP CShellExt::Extract(LPCTSTR /*pszFile*/, UINT /*nIconIndex*/, HICON 
 	lstrcpyn(lf.lfFaceName, TEXT("Courier New"), LF_FACESIZE);
 	Rect rectText = {0, 0, 0, 0};
 	Rect rectBox = {0, 0, 0, 0};
-	COLORREF backGround = RGB(1, 1, 60);
-	COLORREF textColor = RGB(250,250,250);
+	Color& backGround = Color(1, 1, 60);
+	Color& textColor = Color(250,250,250);
 
 	font = CreateFontIndirect(&lf);
 	brush = CreateSolidBrush(backGround);
@@ -893,7 +893,7 @@ STDMETHODIMP CShellExt::Extract(LPCTSTR /*pszFile*/, UINT /*nIconIndex*/, HICON 
 	int red, green, blue, alpha;
 	for(int y = 0; y < sizeLarge; y++) {
 		for(int x = 0; x < sizeLarge; x++) {
-			DWORD * pix = pPix+(y*sizeLarge+x);
+			dword * pix = pPix+(y*sizeLarge+x);
 			red = *pix & 0xFF;
 			green = *pix >> 8 & 0xFF;
 			blue = *pix >> 16 & 0xFF;
@@ -915,7 +915,7 @@ STDMETHODIMP CShellExt::Extract(LPCTSTR /*pszFile*/, UINT /*nIconIndex*/, HICON 
 	AlphaBlend(dcEditColor, rectBox.left, rectBox.top, stringSize.cx, stringSize.cy, dcEditTemp, rectBox.left, rectBox.top, width, height, ftn);
 
 	//Adjust the mask image: simply draw the rectangle to it
-	backGround = RGB(0, 0, 0);
+	backGround = Color(0, 0, 0);
 	DeleteBrush(brush);
 	DeletePen(pen);
 	brush = CreateSolidBrush(backGround);
@@ -967,8 +967,8 @@ STDMETHODIMP CShellExt::InvokeNPP(Upp::Ctrl* /*hParent*/, LPCSTR /*pszWorkingDir
 	memset(szNotepadExecutableFilename, 0, sizeof(char) * 3 * MAX_PATH);
 
 	char szKeyTemp[MAX_PATH + GUID_STRING_SIZE];
-	DWORD regSize = 0;
-	DWORD pathSize = MAX_PATH;
+	dword regSize = 0;
+	dword pathSize = MAX_PATH;
 	HKEY settingKey;
 	LONG result;
 
@@ -1007,7 +1007,7 @@ STDMETHODIMP CShellExt::InvokeNPP(Upp::Ctrl* /*hParent*/, LPCSTR /*pszWorkingDir
 	}
 	*pszCommand = 0;
 
-	regSize = (DWORD)MAX_PATH*sizeof(char);
+	regSize = (dword)MAX_PATH*sizeof(char);
 	result = RegQueryValueEx(settingKey, TEXT("Path"), Null, Null, (LPBYTE)(szFilename), &regSize);
 	szFilename[MAX_PATH-1] = 0;
 	lstrcat(szNotepadExecutableFilename, TEXT("\""));
@@ -1048,12 +1048,12 @@ STDMETHODIMP CShellExt::InvokeNPP(Upp::Ctrl* /*hParent*/, LPCSTR /*pszWorkingDir
 		si.dwFlags = STARTF_USESHOWWINDOW;
 		si.wShowWindow = (WORD)iShowCmd;	//SW_RESTORE;
 		if (!CreateProcess (Null, pszCommand, Null, Null, FALSE, 0, Null, Null, &si, &pi)) {
-			DWORD errorCode = GetLastError();
+			dword errorCode = GetLastError();
 			if (errorCode == ERROR_ELEVATION_REQUIRED) {	//Fallback to shellexecute
 				CoInitializeEx(Null, 0);
-				HINSTANCE execVal = ShellExecute(Null, TEXT("runas"), pszCommand, Null, Null, iShowCmd);
+				Ctrl& execVal = ShellExecute(Null, TEXT("runas"), pszCommand, Null, Null, iShowCmd);
 				CoUninitialize();
-				if (execVal <= (HINSTANCE)32) {
+				if (execVal <= (Ctrl&)32) {
 					char * message = new char[512+bytesRequired];
 					wsprintf(message, TEXT("ShellExecute failed (%d): Is this command correct?\r\n%s"), execVal, pszCommand);
 					MsgBoxError(message);

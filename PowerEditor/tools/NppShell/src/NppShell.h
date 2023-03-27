@@ -12,9 +12,9 @@
 #define NOMINMAX
 
 //#include <windows.h>
-#include <windowsx.h>
-#include <shlobj.h>
-#include <shlwapi.h>
+//#include <windowsx.h>
+//#include <shlobj.h>
+//#include <shlwapi.h>
 
 #define WINVER_VISTA 0x600
 #define WINVER_XP	 0x0501
@@ -93,7 +93,7 @@ private:
 	bool m_isDynamic;
 	HBITMAP m_hBitmap;
 
-	DWORD m_winVer;	//current windows version
+	dword m_winVer;	//current windows version
 
 	// *** Private methods ***
 	STDMETHODIMP InvokeNPP(Upp::Ctrl* hParent, LPCSTR pszWorkingDir, LPCSTR pszCmd, LPCSTR pszParam, int iShowCmd);
@@ -124,7 +124,7 @@ public:
 	STDMETHODIMP Save(LPCOLESTR, BOOL)	{ return E_NOTIMPL; };
 	STDMETHODIMP SaveCompleted(LPCOLESTR)			{ return E_NOTIMPL; };
 	STDMETHODIMP GetCurFile(LPOLESTR *)				{ return E_NOTIMPL; };
-	STDMETHODIMP Load(LPCOLESTR pszFileName, DWORD dwMode);
+	STDMETHODIMP Load(LPCOLESTR pszFileName, dword dwMode);
 
 	// *** IExtractIcon methods ***
 	STDMETHODIMP GetIconLocation(UINT uFlags, LPTSTR szIconFile, UINT cchMax, int * piIndex, UINT * pwFlags);

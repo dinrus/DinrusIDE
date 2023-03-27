@@ -108,7 +108,7 @@
 
 
 //function forward declarations
-ATOM RegisterGridClass(HINSTANCE);
+ATOM RegisterGridClass(Ctrl&);
 LRESULT CALLBACK GridProc(Upp::Ctrl*, UINT, WPARAM, LPARAM);
 void SetCell(_BGCELL *cell,int row, int col);
 

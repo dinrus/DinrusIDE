@@ -32,7 +32,7 @@ public:
 	};
 	~ShortcutMapper() = default;
 
-	void init(HINSTANCE hInst, Upp::Ctrl* parent, GridState initState = STATE_MENU) {
+	void init(Ctrl& hInst, Upp::Ctrl* parent, GridState initState = STATE_MENU) {
         Window::init(hInst, parent);
         _currentState = initState;
     };

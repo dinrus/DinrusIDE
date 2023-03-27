@@ -16,11 +16,11 @@
 #include <stdexcept>
 #include "TaskList.h"
 #include "TaskListDlg_rc.h"
-#include <PowerEditor/ScintillaComponent/colors.h>
+#include <PowerEditor/ScintillaComponent/ScintillaComponent.h>
 #include <PowerEditor/WinControls/ImageListSet/ImageListSet.h>
 #include <PowerEditor/Parameters.h>
 
-void TaskList::init(HINSTANCE hInst, Upp::Ctrl* parent, HIMAGELIST hImaLst, int nbItem, int index2set)
+void TaskList::init(Ctrl& hInst, Upp::Ctrl* parent, HIMAGELIST hImaLst, int nbItem, int index2set)
 {
 	Window::init(hInst, parent);
 
@@ -59,7 +59,7 @@ void TaskList::init(HINSTANCE hInst, Upp::Ctrl* parent, HIMAGELIST hImaLst, int 
 	::SetWindowLongPtr(_hSelf, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
 	_defaultProc = reinterpret_cast<WNDPROC>(::SetWindowLongPtr(_hSelf, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(staticProc)));
 
-	DWORD exStyle = ListView_GetExtendedListViewStyle(_hSelf);
+	dword exStyle = ListView_GetExtendedListViewStyle(_hSelf);
 	exStyle |= LVS_EX_FULLROWSELECT | LVS_EX_BORDERSELECT | LVS_EX_DOUBLEBUFFER;
 	ListView_SetExtendedListViewStyle(_hSelf, exStyle);
 

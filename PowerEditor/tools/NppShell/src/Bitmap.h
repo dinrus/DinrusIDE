@@ -5,7 +5,7 @@
 #define BPPF_ERASE 1
 #endif
 
-typedef DWORD ARGB;
+typedef dword ARGB;
 typedef HRESULT (WINAPI *FN_GetBufferedPaintBits) (HPAINTBUFFER hBufferedPaint, RGBQUAD **ppbBuffer, int *pcxRow);
 typedef HPAINTBUFFER (WINAPI *FN_BeginBufferedPaint) (HDC hdcTarget, const Rect *prcTarget, BP_BUFFERFORMAT dwFormat, BP_PAINTPARAMS *pPaintParams, HDC *phdc);
 typedef HRESULT (WINAPI *FN_EndBufferedPaint) (HPAINTBUFFER hBufferedPaint, BOOL fUpdateTarget);
@@ -18,7 +18,7 @@ HRESULT Create32BitHBITMAP(HDC hdc, const SIZE *psize, void **ppvBits, HBITMAP* 
 HRESULT ConvertToPARGB32(HDC hdc, ARGB *pargb, HBITMAP hbmp, SIZE& sizImage, int cxRow);
 bool HasAlpha(ARGB *pargb, SIZE& sizImage, int cxRow);
 HRESULT ConvertBufferToPARGB32(HPAINTBUFFER hPaintBuffer, HDC hdc, HICON hicon, SIZE& sizIcon);
-HBITMAP IconToBitmapPARGB32(HICON hIcon, DWORD cx, DWORD cy);
+HBITMAP IconToBitmapPARGB32(HICON hIcon, dword cx, dword cy);
 
 typedef struct
 {
@@ -28,7 +28,7 @@ typedef struct
    BYTE   bReserved;            // Reserved
    WORD   wPlanes;              // Color Planes
    WORD   wBitCount;            // Bits per pixel
-   DWORD  dwBytesInRes;         // how many bytes in this resource?
+   dword  dwBytesInRes;         // how many bytes in this resource?
    WORD   nID;                  // the ID
 } GRPICONDIRENTRY, *LPGRPICONDIRENTRY;
 
@@ -42,4 +42,4 @@ typedef struct
 
 
 
-HICON LoadIconEx(HINSTANCE hInst, LPCTSTR lpszName, int cz, int cy, int depth);
+HICON LoadIconEx(Ctrl& hInst, LPCTSTR lpszName, int cz, int cy, int depth);

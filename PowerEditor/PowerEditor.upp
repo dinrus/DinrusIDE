@@ -8,7 +8,9 @@ uses
 	PowerEditor/DarkMode,
 	Core,
 	CtrlCore,
-	CtrlLib;
+	CtrlLib,
+	PolyXML,
+	ClassFactory;
 
 options
 	-D_UNICODE;

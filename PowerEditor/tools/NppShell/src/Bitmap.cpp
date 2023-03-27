@@ -155,7 +155,7 @@ HRESULT ConvertBufferToPARGB32(HPAINTBUFFER hPaintBuffer, HDC hdc, HICON hicon, 
     return hr;
 }
 
-HBITMAP IconToBitmapPARGB32(HICON hIcon, DWORD cx, DWORD cy)
+HBITMAP IconToBitmapPARGB32(HICON hIcon, dword cx, dword cy)
 {
 	HRESULT hr = E_OUTOFMEMORY;
 	HBITMAP hBmp = Null;
@@ -212,7 +212,7 @@ HBITMAP IconToBitmapPARGB32(HICON hIcon, DWORD cx, DWORD cy)
 // LoadIconEx: Loads an icon with a specific size and color depth. This function
 // will NOT try to strech or take an icon of another color depth if none is
 // present.
-HICON LoadIconEx(HINSTANCE hInstance, LPCTSTR lpszName, int cx, int cy, int depth)
+HICON LoadIconEx(Ctrl& hInstance, LPCTSTR lpszName, int cx, int cy, int depth)
 {
     HRSRC hRsrcIconGroup;
 

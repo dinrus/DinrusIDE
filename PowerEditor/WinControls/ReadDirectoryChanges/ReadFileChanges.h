@@ -16,13 +16,13 @@ class CReadFileChanges
 public:
 	CReadFileChanges();
 	~CReadFileChanges();
-	void AddFile(LPCTSTR szDirectory, DWORD dwNotifyFilter);
+	void AddFile(LPCTSTR szDirectory, dword dwNotifyFilter);
 	BOOL DetectChanges();
 	void Terminate();
 
 private:
 	LPCTSTR _szFile = nullptr;
-	DWORD _dwNotifyFilter = 0;
+	dword _dwNotifyFilter = 0;
 	WIN32_FILE_ATTRIBUTE_DATA _lastFileInfo = {};
 
 };

@@ -21,11 +21,11 @@
 #pragma once
 
 //#include <windows.h>
-#include <dbghelp.h>
+/////#include <dbghelp.h>
 
 
 // based on dbghelp.h
-typedef BOOL (WINAPI *MINIDUMPWRITEDUMP)(void* hProcess, DWORD dwPid, void* hFile, MINIDUMP_TYPE DumpType,
+typedef BOOL (WINAPI *MINIDUMPWRITEDUMP)(void* hProcess, dword dwPid, void* hFile, MINIDUMP_TYPE DumpType,
 									const PMINIDUMP_EXCEPTION_INFORMATION ExceptionParam,
 									const PMINIDUMP_USER_STREAM_INFORMATION UserStreamParam,
 									const PMINIDUMP_CALLBACK_INFORMATION CallbackParam

@@ -20,7 +20,7 @@
 #include <PowerEditor/WinControls/ImageListSet/ImageListSet.h>
 #include <PowerEditor/NppDarkMode.h>
 
-void IconList::init(HINSTANCE hInst, int iconSize) 
+void IconList::init(Ctrl& hInst, int iconSize) 
 {
 	InitCommonControls();
 	_hInst = hInst;
@@ -31,7 +31,7 @@ void IconList::init(HINSTANCE hInst, int iconSize)
 		throw std::runtime_error("IconList::create : ImageList_Create() function returns null");
 };
 
-void IconList::create(int iconSize, HINSTANCE hInst, int *iconIDArray, int iconIDArraySize)
+void IconList::create(int iconSize, Ctrl& hInst, int *iconIDArray, int iconIDArraySize)
 {
 	init(hInst, iconSize);
 	_pIconIDArray = iconIDArray;
@@ -64,7 +64,7 @@ bool IconList::changeIcon(size_t index, const char *iconLocation) const
 	if (!hBmp)
 		return false;
 	size_t i = ImageList_ReplaceIcon(_hImglst, int(index), (HICON)hBmp);
-	ImageList_AddMasked(_hImglst, (HBITMAP)hBmp, RGB(255,0,255));
+	ImageList_AddMasked(_hImglst, (HBITMAP)hBmp, Color(255,0,255));
 	::DeleteObject(hBmp);
 	return (i == index);
 }
@@ -164,8 +164,8 @@ void ToolBarIcons::reInit(int size)
 				bi.biClrUsed = 0;
 				bi.biClrImportant = 0;
 
-				DWORD dwLineSize = ((bmp.bmWidth * bi.biBitCount + 31) / 32) * 4;
-				DWORD dwBmpSize = dwLineSize * bmp.bmHeight;
+				dword dwLineSize = ((bmp.bmWidth * bi.biBitCount + 31) / 32) * 4;
+				dword dwBmpSize = dwLineSize * bmp.bmHeight;
 
 				std::unique_ptr<BYTE[]> dibits(new BYTE[dwBmpSize]);
 
@@ -180,8 +180,8 @@ void ToolBarIcons::reInit(int size)
 					{
 						RGBQUAD rgba = pLine[pixel];
 
-						COLORREF c = RGB(rgba.rgbRed, rgba.rgbGreen, rgba.rgbBlue);
-						COLORREF invert = NppDarkMode::invertLightness(c);
+						Color& c = Color(rgba.rgbRed, rgba.rgbGreen, rgba.rgbBlue);
+						Color& invert = NppDarkMode::invertLightness(c);
 
 						rgba.rgbRed = GetRValue(invert);
 						rgba.rgbBlue = GetBValue(invert);
@@ -217,7 +217,7 @@ void ToolBarIcons::reInit(int size)
 }
 
 
-void ToolBarIcons::create(HINSTANCE hInst, int iconSize)
+void ToolBarIcons::create(Ctrl& hInst, int iconSize)
 {
 	_iconListVector.push_back(IconList());
 	_iconListVector.push_back(IconList());

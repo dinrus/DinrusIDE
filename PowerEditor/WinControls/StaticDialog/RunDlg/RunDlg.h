@@ -42,8 +42,8 @@ public :
 	Command() = default;
 	explicit Command(const char *cmd) : _cmdLine(cmd){};
 	explicit Command(const char* cmd) : _cmdLine(cmd){};
-	HINSTANCE run(Upp::Ctrl* hWnd);
-	HINSTANCE run(Upp::Ctrl* hWnd, const char* cwd);
+	Ctrl& run(Upp::Ctrl* hWnd);
+	Ctrl& run(Upp::Ctrl* hWnd, const char* cwd);
 
 protected :
 	String _cmdLine;

@@ -32,7 +32,7 @@ BOOL CReadFileChanges::DetectChanges() {
 	return rValue;
 }
 
-void CReadFileChanges::AddFile(LPCTSTR szFile, DWORD dwNotifyFilter)
+void CReadFileChanges::AddFile(LPCTSTR szFile, dword dwNotifyFilter)
 {
 	_szFile = szFile;
 	_dwNotifyFilter = dwNotifyFilter;

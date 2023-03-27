@@ -16,7 +16,7 @@
 
 #include <memory>
 #include <regex>
-#include <shlwapi.h>
+//#include <shlwapi.h>
 #include <PowerEditor/Notepad_plus_Window.h>
 #include <PowerEditor/EncodingMapper.h>
 #include <PowerEditor/WinControls/Grid/ShortcutMapper.h>
@@ -158,7 +158,7 @@ void Notepad_plus::command(int id)
             // Opens file in its default viewer.
             // Has the same effect as double–clicking this file in Windows Explorer.
             BufferID buf = _pEditView->getCurrentBufferID();
-            HINSTANCE res = ::ShellExecute(Null, TEXT("open"), buf->getFullPathName(), Null, Null, SW_SHOW);
+            Ctrl& res = ::ShellExecute(Null, TEXT("open"), buf->getFullPathName(), Null, Null, SW_SHOW);
 
             // As per MSDN (https://msdn.microsoft.com/en-us/library/windows/desktop/bb762153(v=vs.85).aspx)
             // If the function succeeds, it returns a value greater than 32.
@@ -1936,7 +1936,7 @@ void Notepad_plus::command(int id)
         {
             SciBuffer * buf = _pEditView->getCurrentBuffer();
 
-            DWORD dwFileAttribs = ::GetFileAttributes(buf->getFullPathName());
+            dword dwFileAttribs = ::GetFileAttributes(buf->getFullPathName());
             dwFileAttribs &= ~FILE_ATTRIBUTE_READONLY;
 
             ::SetFileAttributes(buf->getFullPathName(), dwFileAttribs);
@@ -2225,8 +2225,8 @@ void Notepad_plus::command(int id)
                 }
 
                 char valData[MAX_PATH] = {'\0'};
-                DWORD valDataLen = MAX_PATH * sizeof(char);
-                DWORD valType;
+                dword valDataLen = MAX_PATH * sizeof(char);
+                dword valType;
                 HKEY hKey2Check = nullptr;
                 String appEntry = TEXT("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\");
                 appEntry += appName;
@@ -3760,7 +3760,7 @@ void Notepad_plus::command(int id)
             NppParameters& nppParams = NppParameters::getInstance();
             const ScintillaViewParams& svp = nppParams.getSVP();
 
-            const COLORREF bgColour { nppParams.getCurLineHilitingColour() };
+            const Color& bgColour { nppParams.getCurLineHilitingColour() };
             const LPARAM frameWidth { (svp._currentLineHiliteMode == LINEHILITE_FRAME) ? svp._currentLineFrameWidth : 0 };
 
             if (svp._currentLineHiliteMode != LINEHILITE_NONE)

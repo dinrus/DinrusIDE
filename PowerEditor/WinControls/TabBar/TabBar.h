@@ -60,7 +60,7 @@ public:
 	TabBar() = default;
 	virtual ~TabBar() = default;
 	virtual void destroy();
-	virtual void init(HINSTANCE hInst, Upp::Ctrl* hwnd, bool isVertical = false, bool isMultiLine = false);
+	virtual void init(Ctrl& hInst, Upp::Ctrl* hwnd, bool isVertical = false, bool isMultiLine = false);
 	virtual void reSizeTo(Rect & rc2Ajust);
 	int insertAtEnd(const char *subTabName);
 	void activateAt(int index) const;
@@ -141,7 +141,7 @@ public :
         _doDragNDrop = justDoIt;
     };
 
-	virtual void init(HINSTANCE hInst, Upp::Ctrl* hwnd, bool isVertical = false, bool isMultiLine = false);
+	virtual void init(Ctrl& hInst, Upp::Ctrl* hwnd, bool isVertical = false, bool isMultiLine = false);
 
 	virtual void destroy();
 
@@ -206,7 +206,7 @@ public :
 		doMultiLine();
 	}
 
-	static void setColour(COLORREF colour2Set, tabColourIndex i);
+	static void setColour(Color& colour2Set, tabColourIndex i);
 
 protected:
     // it's the boss to decide if we do the drag N drop
@@ -249,11 +249,11 @@ protected:
 	static bool _isCtrlVertical;
 	static bool _isCtrlMultiLine;
 
-	static COLORREF _activeTextColour;
-	static COLORREF _activeTopBarFocusedColour;
-	static COLORREF _activeTopBarUnfocusedColour;
-	static COLORREF _inactiveTextColour;
-	static COLORREF _inactiveBgColour;
+	static Color& _activeTextColour;
+	static Color& _activeTopBarFocusedColour;
+	static Color& _activeTopBarUnfocusedColour;
+	static Color& _inactiveTextColour;
+	static Color& _inactiveBgColour;
 
 	static int _nbCtrl;
 	static Upp::Ctrl* _hwndArray[nbCtrlMax];
@@ -283,5 +283,5 @@ protected:
     }
 
 	void notify(int notifyCode, int tabIndex);
-	void trackMouseEvent(DWORD event2check);
+	void trackMouseEvent(dword event2check);
 };

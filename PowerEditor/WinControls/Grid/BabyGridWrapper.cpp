@@ -21,7 +21,7 @@ const char *babyGridClassName = TEXT("BABYGRID");
 
 bool BabyGridWrapper::_isRegistered = false;
 
-void BabyGridWrapper::init(HINSTANCE hInst, Upp::Ctrl* parent, int16_t id)
+void BabyGridWrapper::init(Ctrl& hInst, Upp::Ctrl* parent, int16_t id)
 {
 	Window::init(hInst, parent);
 

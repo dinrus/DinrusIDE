@@ -24,14 +24,14 @@
 BOOL DockingSplitter::_isVertReg = FALSE;
 BOOL DockingSplitter::_isHoriReg = FALSE;
 
-void DockingSplitter::init(HINSTANCE hInst, Upp::Ctrl* hWnd, Upp::Ctrl* hMessage, UINT flags)
+void DockingSplitter::init(Ctrl& hInst, Upp::Ctrl* hWnd, Upp::Ctrl* hMessage, UINT flags)
 {
 	Window::init(hInst, hWnd);
 	_hMessage = hMessage;
 	_flags = flags;
 
 	WNDCLASS wc;
-	DWORD hwndExStyle = (DWORD)GetWindowLongPtr(hWnd, GWL_EXSTYLE);
+	dword hwndExStyle = (dword)GetWindowLongPtr(hWnd, GWL_EXSTYLE);
 	_isRTL = hwndExStyle & WS_EX_LAYOUTRTL;
 
 	if (flags & DMS_HORIZONTAL)

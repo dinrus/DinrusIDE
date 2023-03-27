@@ -20,10 +20,10 @@
 #include <fstream>
 #include <string>
 #include <cctype>
-#include <shlobj.h>
-#include <shlwapi.h>
+//#include <shlobj.h>
+//#include <shlwapi.h>
 #include "pluginsAdmin.h"
-#include <PowerEditor/ScintillaComponent/ScintillaEditView.h>
+#include <PowerEditor/ScintillaComponent/ScintillaComponent.h>
 #include <PowerEditor/localization.h>
 #include <PowerEditor/MISC/Process/Processus.h>
 #include "PluginsManager.h"
@@ -223,8 +223,8 @@ void PluginsAdminDlg::create(int dialogID, bool isRTL, bool msgDestParent)
 	//_availableList.addColumn(columnInfo(stabilityStr, nppParam._dpiManager.scaleX(70)));
 	_availableList.setViewStyleOption(LVS_EX_CHECKBOXES);
 
-	COLORREF fgColor = (NppParameters::getInstance()).getCurrentDefaultFgColor();
-	COLORREF bgColor = (NppParameters::getInstance()).getCurrentDefaultBgColor();
+	Color& fgColor = (NppParameters::getInstance()).getCurrentDefaultFgColor();
+	Color& bgColor = (NppParameters::getInstance()).getCurrentDefaultBgColor();
 
 	_availableList.initView(_hInst, _hSelf);
 

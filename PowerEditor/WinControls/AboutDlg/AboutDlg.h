@@ -63,10 +63,10 @@ class DebugInfoDlg : public StaticDialog
 public:
 	DebugInfoDlg() = default;
 
-	void init(HINSTANCE hInst, Upp::Ctrl* parent, bool isAdmin, const char* loadedPlugins) {
+	void init(Window& hInst, Upp::Ctrl* parent, bool isAdmin, const char* loadedPlugins) {
 		_isAdmin = isAdmin;
 		_loadedPlugins = loadedPlugins;
-		Window::init(hInst, parent);
+		Window::init(hInst.getHinst(), parent);
 	};
 
 	void doDialog();
@@ -95,7 +95,7 @@ class DoSaveOrNotBox : public StaticDialog
 public:
 	DoSaveOrNotBox() = default;
 
-	void init(HINSTANCE hInst, Upp::Ctrl* parent, const char* fn, bool isMulti) {
+	void init(Ctrl& hInst, Upp::Ctrl* parent, const char* fn, bool isMulti) {
 		Window::init(hInst, parent);
 		if (fn)
 			_fn = fn;

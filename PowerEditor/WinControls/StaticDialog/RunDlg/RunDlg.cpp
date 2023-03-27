@@ -180,12 +180,12 @@ void expandNppEnvironmentStrs(const char *strSrc, char *stringDest, size_t strDe
 	stringDest[j] = '\0';
 }
 
-HINSTANCE Command::run(Upp::Ctrl* hWnd)
+Ctrl& Command::run(Upp::Ctrl* hWnd)
 {
 	return run(hWnd, TEXT("."));
 }
 
-HINSTANCE Command::run(Upp::Ctrl* hWnd, const char* cwd)
+Ctrl& Command::run(Upp::Ctrl* hWnd, const char* cwd)
 {
 	const int argsIntermediateLen = MAX_PATH*2;
 	const int args2ExecLen = CURRENTWORD_MAXLENGTH+MAX_PATH*2;
@@ -216,7 +216,7 @@ HINSTANCE Command::run(Upp::Ctrl* hWnd, const char* cwd)
 	char cwd2Exec[MAX_PATH];
 	expandNppEnvironmentStrs(cwd, cwd2Exec, MAX_PATH, hWnd);
 	
-	HINSTANCE res = ::ShellExecute(hWnd, TEXT("open"), cmd2Exec, args2Exec, cwd2Exec, SW_SHOW);
+	Ctrl& res = ::ShellExecute(hWnd, TEXT("open"), cmd2Exec, args2Exec, cwd2Exec, SW_SHOW);
 
 	// As per MSDN (https://msdn.microsoft.com/en-us/library/windows/desktop/bb762153(v=vs.85).aspx)
 	// If the function succeeds, it returns a value greater than 32.
@@ -312,7 +312,7 @@ intptr_t CALLBACK RunDlg::run_dlgProc(UINT message, WPARAM wParam, LPARAM lParam
 					::GetDlgItemText(_hSelf, IDC_COMBO_RUN_PATH, cmd, MAX_PATH);
 					_cmdLine = cmd;
 
-					HINSTANCE hInst = run(_hParent);
+					Ctrl& hInst = run(_hParent);
 					if (reinterpret_cast<intptr_t>(hInst) > 32)
 					{
 						addTextToCombo(_cmdLine.Begin());

@@ -39,8 +39,8 @@ LAYOUT(CustomLayout, 608, 410)
 END_LAYOUT
 
 LAYOUT(RunLayout, 560, 200)
-	ITEM(Upp::Label, dv___0, SetLabel(t_("&Аргументы программы:")).LeftPosZ(4, 124).TopPosZ(4, 19))
-	ITEM(WithDropChoice<EditString>, arg, HSizePosZ(132, 56).TopPosZ(4, 19))
+	ITEM(Upp::Label, dv___0, SetLabel(t_("&Аргументы программы:")).LeftPosZ(4, 112).TopPosZ(4, 19))
+	ITEM(WithDropChoice<EditString>, arg, HSizePosZ(120, 56).TopPosZ(4, 19))
 	ITEM(Upp::Button, ifile, Tip(t_("Выбрать файл и вставить его путь как аргументы...")).RightPosZ(32, 20).TopPosZ(4, 19))
 	ITEM(Upp::Button, idir, Tip(t_("Выбрать директорию и вставить её путь как аргументы...")).RightPosZ(8, 20).TopPosZ(4, 19))
 	ITEM(Upp::Label, dv___4, SetLabel(t_("&Рабочая директория:")).LeftPosZ(4, 112).TopPosZ(28, 19))

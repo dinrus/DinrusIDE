@@ -28,7 +28,7 @@ const size_t nameLenMax = 64;
 class NppParameters;
 
 void getKeyStrFromVal(UCHAR keyVal, String & str);
-void getNameStrFromCmd(DWORD cmd, String & str);
+void getNameStrFromCmd(dword cmd, String & str);
 static size_t keyTranslate(size_t keyIn) {
 	switch (keyIn) {
 		case VK_DOWN:		return SCK_DOWN;

@@ -27,7 +27,7 @@ public:
 	BabyGridWrapper() = default;
 	~BabyGridWrapper() = default;
 
-	virtual void init(HINSTANCE hInst, Upp::Ctrl* parent, int16_t id);
+	virtual void init(Ctrl& hInst, Upp::Ctrl* parent, int16_t id);
 	virtual void destroy() {
 		::DestroyWindow(_hSelf);
 	};
@@ -35,12 +35,12 @@ public:
 		::SendMessage(_hSelf, BGM_SETGRIDDIM, nbRow, nbCol);
 	};
 
-	void setCursorColour(COLORREF coulour) {
+	void setCursorColour(Color& coulour) {
 		::SendMessage(_hSelf, BGM_SETCURSORCOLOR, coulour, 0);
 	};
 
 	void hideCursor() {
-		setCursorColour(RGB(0, 0, 0));
+		setCursorColour(Color(0, 0, 0));
 	};
 
 	void setColsNumbered(bool isNumbered = true) {
@@ -93,55 +93,55 @@ public:
 		::SendMessage(_hSelf, WM_PAINT, 0, 0);
 	};
 
-	void setTextColor(const COLORREF color) const {
+	void setTextColor(const Color& color) const {
 		::SendMessage(_hSelf, BGM_SETTEXTCOLOR, color, 0);
 	}
 
-	void setBackgroundColor(const COLORREF color) const {
+	void setBackgroundColor(const Color& color) const {
 		::SendMessage(_hSelf, BGM_SETBACKGROUNDCOLOR, color, 0);
 	}
 
-	void setUnprotectColor(const COLORREF color) const {
+	void setUnprotectColor(const Color& color) const {
 		::SendMessage(_hSelf, BGM_SETUNPROTECTCOLOR, color, 0);
 	}
 
-	void setTitleTextColor(const COLORREF color) const {
+	void setTitleTextColor(const Color& color) const {
 		::SendMessage(_hSelf, BGM_SETTITLETEXTCOLOR, color, 0);
 	}
 
-	void setTitleColor(const COLORREF color) const {
+	void setTitleColor(const Color& color) const {
 		::SendMessage(_hSelf, BGM_SETTITLECOLOR, color, 0);
 	}
 
-	void setTitleGridlinesColor(const COLORREF color) const {
+	void setTitleGridlinesColor(const Color& color) const {
 		::SendMessage(_hSelf, BGM_SETTITLEGRIDLINECOLOR, color, 0);
 	}
 
-	void setHighlightTextColor(const COLORREF color) const {
+	void setHighlightTextColor(const Color& color) const {
 		::SendMessage(_hSelf, BGM_SETHILIGHTTEXTCOLOR, color, 0);
 	}
 
-	void setHighlightColor(const COLORREF color) const {
+	void setHighlightColor(const Color& color) const {
 		::SendMessage(_hSelf, BGM_SETHILIGHTCOLOR, color, 0);
 	}
 
-	void setHighlightColorNoFocus(const COLORREF color) const {
+	void setHighlightColorNoFocus(const Color& color) const {
 		::SendMessage(_hSelf, BGM_SETHILIGHTCOLOR_NOFOCUS, color, 0);
 	}
 
-	void setProtectColor(const COLORREF color) const {
+	void setProtectColor(const Color& color) const {
 		::SendMessage(_hSelf, BGM_SETPROTECTCOLOR, color, 0);
 	}
 
-	void setHighlightColorProtect(const COLORREF color) const {
+	void setHighlightColorProtect(const Color& color) const {
 		::SendMessage(_hSelf, BGM_SETHILIGHTCOLOR_PROTECT, color, 0);
 	}
 
-	void setHighlightColorProtectNoFocus(const COLORREF color) const {
+	void setHighlightColorProtectNoFocus(const Color& color) const {
 		::SendMessage(_hSelf, BGM_SETHILIGHTCOLOR_PROTECT_NOFOCUS, color, 0);
 	}
 
-	void setGridlinesColor(const COLORREF color) const {
+	void setGridlinesColor(const Color& color) const {
 		::SendMessage(_hSelf, BGM_SETGRIDLINECOLOR, color, 0);
 	}
 

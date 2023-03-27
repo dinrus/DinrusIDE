@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-#include <shlwapi.h>
+//#include <shlwapi.h>
 #include <PowerEditor/WinControls/Preference/preferenceDlg.h>
 #include <PowerEditor/lesDlgs.h>
 #include <PowerEditor/EncodingMapper.h>
@@ -1404,7 +1404,7 @@ intptr_t CALLBACK DarkModeSubDlg::run_dlgProc(UINT message, WPARAM wParam, LPARA
 					{
 						case CPN_COLOURPICKED:
 						{
-							COLORREF c;
+							Color& c;
 							if (reinterpret_cast<Upp::Ctrl*>(lParam) == _pBackgroundColorPicker->getHSelf())
 							{
 								c = _pBackgroundColorPicker->getColour();
@@ -1501,7 +1501,7 @@ intptr_t CALLBACK DarkModeSubDlg::run_dlgProc(UINT message, WPARAM wParam, LPARA
 			{
 				if (!doEnableCustomizedColorCtrls)
 				{
-					COLORREF disabledColor = nppGUI._darkmode._isEnabled ? NppDarkMode::getDarkerBackgroundColor() : ::GetSysColor(COLOR_3DFACE);
+					Color& disabledColor = nppGUI._darkmode._isEnabled ? NppDarkMode::getDarkerBackgroundColor() : ::GetSysColor(COLOR_3DFACE);
 
 					_pBackgroundColorPicker->setColour(disabledColor);
 					_pSofterBackgroundColorPicker->setColour(disabledColor);
@@ -4485,12 +4485,12 @@ intptr_t CALLBACK DelimiterSubDlg::run_dlgProc(UINT message, WPARAM wParam, LPAR
 			}
 			else if (isBlabla)
 			{
-				COLORREF bgColor = getCtrlBgColor(_hSelf);
-				SetTextColor(hdcStatic, RGB(0, 0, 0));
+				Color& bgColor = getCtrlBgColor(_hSelf);
+				SetTextColor(hdcStatic, Color(0, 0, 0));
 				BYTE r = GetRValue(bgColor) - 30;
 				BYTE g = MyGetGValue(bgColor) - 30;
 				BYTE b = GetBValue(bgColor) - 30;
-				SetBkColor(hdcStatic, RGB(r, g, b));
+				SetBkColor(hdcStatic, Color(r, g, b));
 				return TRUE;
 			}
 			break;

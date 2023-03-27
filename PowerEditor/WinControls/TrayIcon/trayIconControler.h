@@ -30,7 +30,7 @@ class trayIconControler
 {
 public:
   trayIconControler(Upp::Ctrl* hwnd, UINT uID, UINT uCBMsg, HICON hicon, const char *tip);
-  int doTrayIcon(DWORD op);
+  int doTrayIcon(dword op);
   bool isInTray() const {return _isIconShowed;};
 
 private:

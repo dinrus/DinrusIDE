@@ -20,10 +20,8 @@
 #include <PowerEditor/TinyXml/tinyXmlA/tinyxmlA.h>
 #include <PowerEditor/TinyXml/tinyxml.h>
 #include <Scintilla/Scintilla.h>
-#include <PowerEditor/ScintillaComponent/ScintillaRef.h>
+#include <PowerEditor/ScintillaComponent/ScintillaComponent.h>
 #include <PowerEditor/WinControls/ToolBar/ToolBar.h>
-#include <PowerEditor/ScintillaComponent/UserDefineLangReference.h>
-#include <PowerEditor/ScintillaComponent/colors.h>
 #include <PowerEditor/WinControls/shortcut/shortcut.h>
 #include <PowerEditor/WinControls/ContextMenu/ContextMenu.h>
 #include <PowerEditor/dpiManager.h>
@@ -403,8 +401,8 @@ struct Style final
 	int _styleID = STYLE_NOT_USED;
 	String _styleDesc;
 
-	COLORREF _fgColor = COLORREF(STYLE_NOT_USED);
-	COLORREF _bgColor = COLORREF(STYLE_NOT_USED);
+	Color& _fgColor = Color&(STYLE_NOT_USED);
+	Color& _bgColor = Color&(STYLE_NOT_USED);
 	int _colorStyle = COLORSTYLE_ALL;
 
 	bool _isFontEnabled = false;
@@ -982,9 +980,9 @@ public:
 			this->_foldCompact = ulc._foldCompact;
 			for (Style & st : this->_styles)
 			{
-				if (st._bgColor == COLORREF(-1))
+				if (st._bgColor == Color&(-1))
 					st._bgColor = white;
-				if (st._fgColor == COLORREF(-1))
+				if (st._fgColor == Color&(-1))
 					st._fgColor = black;
 			}
 
@@ -1346,8 +1344,8 @@ public:
 	StyleArray & getMiscStylerArray() {return _widgetStyleArray;};
 	GlobalOverride & getGlobalOverrideStyle() {return _nppGUI._globalOverride;};
 
-	COLORREF getCurLineHilitingColour();
-	void setCurLineHilitingColour(COLORREF colour2Set);
+	Color& getCurLineHilitingColour();
+	void setCurLineHilitingColour(Color& colour2Set);
 
 	void setFontList(Upp::Ctrl* hWnd);
 	bool isInFontList(const char* fontName2Search) const;
@@ -1577,19 +1575,19 @@ public:
 	void removeCloudChoice();
 	bool isCloudPathChanged() const;
 	int archType() const { return ARCH_TYPE; };
-	COLORREF getCurrentDefaultBgColor() const {
+	Color& getCurrentDefaultBgColor() const {
 		return _currentDefaultBgColor;
 	}
 
-	COLORREF getCurrentDefaultFgColor() const {
+	Color& getCurrentDefaultFgColor() const {
 		return _currentDefaultFgColor;
 	}
 
-	void setCurrentDefaultBgColor(COLORREF c) {
+	void setCurrentDefaultBgColor(Color& c) {
 		_currentDefaultBgColor = c;
 	}
 
-	void setCurrentDefaultFgColor(COLORREF c) {
+	void setCurrentDefaultFgColor(Color& c) {
 		_currentDefaultFgColor = c;
 	}
 
@@ -1747,8 +1745,8 @@ private:
 
 	NativeLangSpeaker *_pNativeLangSpeaker = nullptr;
 
-	COLORREF _currentDefaultBgColor = RGB(0xFF, 0xFF, 0xFF);
-	COLORREF _currentDefaultFgColor = RGB(0x00, 0x00, 0x00);
+	Color& _currentDefaultBgColor = Color(0xFF, 0xFF, 0xFF);
+	Color& _currentDefaultFgColor = Color(0x00, 0x00, 0x00);
 
 	String _initialCloudChoice;
 

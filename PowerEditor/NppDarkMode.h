@@ -17,32 +17,32 @@
 #pragma once
 
 //#include <Windows.h>
-
-constexpr COLORREF HEXRGB(DWORD rrggbb) {
+/*
+constexpr Color& HEXRGB(dword rrggbb) {
 	// from 0xRRGGBB like natural #RRGGBB
 	// to the little-endian 0xBBGGRR
 	return
-		((rrggbb & 0xFF0000) >> 16) |
-		((rrggbb & 0x00FF00) ) |
-		((rrggbb & 0x0000FF) << 16);
+		((const int)(rrggbb & 0xFF0000) >> 16) |
+		((const int)(rrggbb & 0x00FF00) ) |
+		((const int)(rrggbb & 0x0000FF) << 16);
 }
-
+*/
 namespace NppDarkMode
 {
 	struct Colors
 	{
-		COLORREF background = 0;
-		COLORREF softerBackground = 0;
-		COLORREF hotBackground = 0;
-		COLORREF pureBackground = 0;
-		COLORREF errorBackground = 0;
-		COLORREF text = 0;
-		COLORREF darkerText = 0;
-		COLORREF disabledText = 0;
-		COLORREF linkText = 0;
-		COLORREF edge = 0;
-		COLORREF hotEdge = 0;
-		COLORREF disabledEdge = 0;
+		Color& background;
+		Color& softerBackground;
+		Color& hotBackground;
+		Color& pureBackground ;
+		Color& errorBackground;
+		Color& text;
+		Color& darkerText;
+		Color& disabledText;
+		Color& linkText;
+		Color& edge;
+		Color& hotEdge;
+		Color& disabledEdge;
 	};
 
 	struct Options
@@ -89,26 +89,26 @@ namespace NppDarkMode
 
 	bool isWindows11();
 
-	COLORREF invertLightness(COLORREF c);
-	COLORREF invertLightnessSofter(COLORREF c);
-	double calculatePerceivedLighness(COLORREF c);
+	Color& invertLightness(Color& c);
+	Color& invertLightnessSofter(Color& c);
+	double calculatePerceivedLighness(Color& c);
 
 	void setDarkTone(ColorTone colorToneChoice);
 
-	COLORREF getBackgroundColor();
-	COLORREF getSofterBackgroundColor();
-	COLORREF getHotBackgroundColor();
-	COLORREF getDarkerBackgroundColor();
-	COLORREF getErrorBackgroundColor();
+	Color& getBackgroundColor();
+	Color& getSofterBackgroundColor();
+	Color& getHotBackgroundColor();
+	Color& getDarkerBackgroundColor();
+	Color& getErrorBackgroundColor();
 
-	COLORREF getTextColor();
-	COLORREF getDarkerTextColor();
-	COLORREF getDisabledTextColor();
-	COLORREF getLinkTextColor();
+	Color& getTextColor();
+	Color& getDarkerTextColor();
+	Color& getDisabledTextColor();
+	Color& getLinkTextColor();
 
-	COLORREF getEdgeColor();
-	COLORREF getHotEdgeColor();
-	COLORREF getDisabledEdgeColor();
+	Color& getEdgeColor();
+	Color& getHotEdgeColor();
+	Color& getDisabledEdgeColor();
 
 	HBRUSH getBackgroundBrush();
 	HBRUSH getDarkerBackgroundBrush();
@@ -125,18 +125,18 @@ namespace NppDarkMode
 	HPEN getHotEdgePen();
 	HPEN getDisabledEdgePen();
 
-	void setBackgroundColor(COLORREF c);
-	void setSofterBackgroundColor(COLORREF c);
-	void setHotBackgroundColor(COLORREF c);
-	void setDarkerBackgroundColor(COLORREF c);
-	void setErrorBackgroundColor(COLORREF c);
-	void setTextColor(COLORREF c);
-	void setDarkerTextColor(COLORREF c);
-	void setDisabledTextColor(COLORREF c);
-	void setLinkTextColor(COLORREF c);
-	void setEdgeColor(COLORREF c);
-	void setHotEdgeColor(COLORREF c);
-	void setDisabledEdgeColor(COLORREF c);
+	void setBackgroundColor(Color& c);
+	void setSofterBackgroundColor(Color& c);
+	void setHotBackgroundColor(Color& c);
+	void setDarkerBackgroundColor(Color& c);
+	void setErrorBackgroundColor(Color& c);
+	void setTextColor(Color& c);
+	void setDarkerTextColor(Color& c);
+	void setDisabledTextColor(Color& c);
+	void setLinkTextColor(Color& c);
+	void setEdgeColor(Color& c);
+	void setHotEdgeColor(Color& c);
+	void setDisabledEdgeColor(Color& c);
 
 	Colors getDarkModeDefaultColors();
 	void changeCustomTheme(const Colors& colors);

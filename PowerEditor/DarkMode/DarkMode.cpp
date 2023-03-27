@@ -1,11 +1,11 @@
-#include <Windows.h>
+//#include <Windows.h>
 
 #include "DarkMode.h"
 
 #include "IatHook.h"
 
-#include <Uxtheme.h>
-#include <Vssym32.h>
+//#include <Uxtheme.h>
+//#include <Vssym32.h>
 
 #include <unordered_set>
 #include <mutex>
@@ -104,7 +104,7 @@ fnSetPreferredAppMode _SetPreferredAppMode = nullptr;
 
 bool g_darkModeSupported = false;
 bool g_darkModeEnabled = false;
-DWORD g_buildNumber = 0;
+dword g_buildNumber = 0;
 
 bool ShouldAppsUseDarkMode()
 {
@@ -226,7 +226,7 @@ void FixDarkScrollBar()
         auto addr = FindDelayLoadThunkInModule(hComctl, "uxtheme.dll", 49); // OpenNcThemeData
         if (addr)
         {
-            DWORD oldProtect;
+            dword oldProtect;
             if (VirtualProtect(addr, sizeof(IMAGE_THUNK_DATA), PAGE_READWRITE, &oldProtect) && _OpenNcThemeData)
             {
                 auto MyOpenThemeData = [](Upp::Ctrl* hWnd, LPCWSTR classList) WINAPI_LAMBDA_RETURN(HTHEME) {
@@ -247,7 +247,7 @@ void FixDarkScrollBar()
     }
 }
 
-constexpr bool CheckBuildNumber(DWORD buildNumber)
+constexpr bool CheckBuildNumber(dword buildNumber)
 {
     return (buildNumber == 17763 || // 1809
         buildNumber == 18362 || // 1903
@@ -276,7 +276,7 @@ void InitDarkMode()
 
     if (RtlGetNtVersionNumbers)
     {
-        DWORD major, minor;
+        dword major, minor;
         RtlGetNtVersionNumbers(&major, &minor, &g_buildNumber);
         g_buildNumber &= ~0xF0000000;
         if (major == 10 && minor == 0 && CheckBuildNumber(g_buildNumber))

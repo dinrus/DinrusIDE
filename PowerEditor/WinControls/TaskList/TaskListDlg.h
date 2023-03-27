@@ -52,7 +52,7 @@ class TaskListDlg : public StaticDialog
 {
 public :
 		TaskListDlg() : StaticDialog() { _instanceCount++; };
-		void init(HINSTANCE hInst, Upp::Ctrl* parent, HIMAGELIST hImgLst, bool dir) {
+		void init(Ctrl& hInst, Upp::Ctrl* parent, HIMAGELIST hImgLst, bool dir) {
             Window::init(hInst, parent);
 			_hImalist = hImgLst;
 			_initDir = dir;

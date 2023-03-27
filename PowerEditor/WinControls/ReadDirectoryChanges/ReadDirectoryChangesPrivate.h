@@ -40,7 +40,7 @@ class CReadChangesServer;
 class CReadChangesRequest
 {
 public:
-	CReadChangesRequest(CReadChangesServer* pServer, LPCTSTR sz, BOOL b, DWORD dw, DWORD size);
+	CReadChangesRequest(CReadChangesServer* pServer, LPCTSTR sz, BOOL b, dword dw, dword size);
 
 	~CReadChangesRequest();
 
@@ -49,7 +49,7 @@ public:
 	void BeginRead();
 
 	// The dwSize is the actual number of bytes sent to the APC.
-	void BackupBuffer(DWORD dwSize)
+	void BackupBuffer(dword dwSize)
 	{
 		// We could just swap back and forth between the two
 		// buffers, but this code is easier to understand and debug.
@@ -70,12 +70,12 @@ public:
 protected:
 
 	static VOID CALLBACK NotificationCompletion(
-			DWORD dwErrorCode,							// completion code
-			DWORD dwNumberOfBytesTransfered,			// number of bytes transferred
+			dword dwErrorCode,							// completion code
+			dword dwNumberOfBytesTransfered,			// number of bytes transferred
 			LPOVERLAPPED lpOverlapped);					// I/O information buffer
 
 	// Parameters from the caller for ReadDirectoryChangesW().
-	DWORD m_dwFilterFlags = 0;
+	dword m_dwFilterFlags = 0;
 	BOOL m_bIncludeChildren = FALSE;
 	std::wstring m_wstrDirectory;
 
@@ -132,7 +132,7 @@ public:
 
 	CReadDirectoryChanges* m_pBase = nullptr;
 
-	volatile DWORD m_nOutstandingRequests;
+	volatile dword m_nOutstandingRequests;
 
 protected:
 
@@ -160,7 +160,7 @@ protected:
 	{
 		m_bTerminate = true;
 
-		for (DWORD i=0; i<m_pBlocks.size(); ++i)
+		for (dword i=0; i<m_pBlocks.size(); ++i)
 		{
 			// Each Request object will delete itself.
 			m_pBlocks[i]->RequestTermination();

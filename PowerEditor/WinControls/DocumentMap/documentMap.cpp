@@ -16,7 +16,7 @@
 
 
 #include <PowerEditor/WinControls/DocumentMap/documentMap.h>
-#include <PowerEditor/ScintillaComponent/ScintillaEditView.h>
+#include <PowerEditor/ScintillaComponent/ScintillaComponent.h>
 
 
 void DocumentMap::reloadMap()
@@ -445,10 +445,10 @@ intptr_t CALLBACK DocumentMap::run_dlgProc(UINT message, WPARAM wParam, LPARAM l
 	return DockingDlgInterface::run_dlgProc(message, wParam, lParam);
 }
 
-COLORREF ViewZoneDlg::_focus = RGB(0xFF, 0x80, 0x00);
-COLORREF ViewZoneDlg::_frost = RGB(0xFF, 0xFF, 0xFF);
+Color& ViewZoneDlg::_focus = Color(0xFF, 0x80, 0x00);
+Color& ViewZoneDlg::_frost = Color(0xFF, 0xFF, 0xFF);
 
-void ViewZoneDlg::setColour(COLORREF colour2Set, ViewZoneColorIndex i)
+void ViewZoneDlg::setColour(Color& colour2Set, ViewZoneColorIndex i)
 {
 	switch (i)
 	{

@@ -17,9 +17,8 @@
 
 //#include <shlwapi.h>
 #include "WordStyleDlg.h"
-#include <PowerEditor/ScintillaComponent/ScintillaEditView.h>
+#include <PowerEditor/ScintillaComponent/ScintillaComponent.h>
 #include <PowerEditor/WinControls/DocumentMap/documentMap.h>
-#include <PowerEditor/ScintillaComponent/AutoCompletion.h>
 #include <PowerEditor/WinControls/Preference/preference_rc.h>
 
 using namespace std;
@@ -94,7 +93,7 @@ intptr_t CALLBACK WordStyleDlg::run_dlgProc(UINT Message, WPARAM wParam, LPARAM 
 			_hFontSizeStaticText = ::GetDlgItem(_hSelf, IDC_FONTSIZE_STATIC);
 			_hStyleInfoStaticText = ::GetDlgItem(_hSelf, IDC_STYLEDESCRIPTION_STATIC);
 
-			_colourHooker.setColour(RGB(0xFF, 0x00, 0x00));
+			_colourHooker.setColour(Color(0xFF, 0x00, 0x00));
 			_colourHooker.hookOn(_hStyleInfoStaticText);
 
 			_currentThemeIndex = -1;
@@ -998,7 +997,7 @@ void WordStyleDlg::setVisualFromStyleList()
 	//--Warning text
 	//bool showWarning = ((_currentLexerIndex == 0) && (style._styleID == STYLE_DEFAULT));//?SW_SHOW:SW_HIDE;
 
-	COLORREF c = NppDarkMode::isEnabled() ? NppDarkMode::getLinkTextColor() : RGB(0x00, 0x00, 0xFF);
+	Color& c = NppDarkMode::isEnabled() ? NppDarkMode::getLinkTextColor() : Color(0x00, 0x00, 0xFF);
 	const size_t strLen = 256;
 	char str[strLen + 1] = { '\0' };
 

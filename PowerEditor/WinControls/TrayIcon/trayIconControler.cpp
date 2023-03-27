@@ -31,7 +31,7 @@ trayIconControler::trayIconControler(Upp::Ctrl* hwnd, UINT uID, UINT uCBMsg, HIC
   _isIconShowed = false;
 }
 
-int trayIconControler::doTrayIcon(DWORD op)
+int trayIconControler::doTrayIcon(dword op)
 {
   if ((op != ADD)&&(op != REMOVE)) return INCORRECT_OPERATION;
   if (((_isIconShowed)&&(op == ADD))||((!_isIconShowed)&&(op == REMOVE)))

@@ -94,10 +94,10 @@ public:
         ::SetFocus((HWND)_hSelf);
     }
 
-    HINSTANCE getHinst() const
+    Ctrl& getHinst() const
     {
         //assert(_hInst != 0);
-        return (HINSTANCE)_hInst;
+        return (Ctrl&)_hInst;
     }
 
 

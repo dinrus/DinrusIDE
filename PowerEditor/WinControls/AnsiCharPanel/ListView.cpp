@@ -23,7 +23,7 @@
 
 using namespace std;
 
-void ListView::init(HINSTANCE hInst, Upp::Ctrl* parent)
+void ListView::init(Ctrl& hInst, Upp::Ctrl* parent)
 {
 	Window::init(hInst, parent);
 	INITCOMMONCONTROLSEX icex;
@@ -57,7 +57,7 @@ void ListView::init(HINSTANCE hInst, Upp::Ctrl* parent)
 	::SetWindowLongPtr(_hSelf, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
 	_defaultProc = reinterpret_cast<WNDPROC>(::SetWindowLongPtr(_hSelf, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(staticProc)));
 
-	DWORD exStyle = ListView_GetExtendedListViewStyle(_hSelf);
+	dword exStyle = ListView_GetExtendedListViewStyle(_hSelf);
 	exStyle |= LVS_EX_FULLROWSELECT | LVS_EX_BORDERSELECT | LVS_EX_DOUBLEBUFFER | _extraStyle;
 	ListView_SetExtendedListViewStyle(_hSelf, exStyle);
 

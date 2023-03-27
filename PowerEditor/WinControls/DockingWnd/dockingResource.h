@@ -48,20 +48,20 @@
 
 #define DMN_FIRST 1050
 	#define DMN_CLOSE					(DMN_FIRST + 1)
-	//nmhdr.code = DWORD(DMN_CLOSE, 0));
+	//nmhdr.code = dword(DMN_CLOSE, 0));
 	//nmhdr.hwndFrom = hwndNpp;
 	//nmhdr.idFrom = ctrlIdNpp;
 
 	#define DMN_DOCK		            (DMN_FIRST + 2)
     #define DMN_FLOAT					(DMN_FIRST + 3)
-	//nmhdr.code = DWORD(DMN_XXX, int newContainer);
+	//nmhdr.code = dword(DMN_XXX, int newContainer);
 	//nmhdr.hwndFrom = hwndNpp;
 	//nmhdr.idFrom = ctrlIdNpp;
 
 	#define DMN_SWITCHIN	            (DMN_FIRST + 4)
 	#define DMN_SWITCHOFF	            (DMN_FIRST + 5)
 	#define DMN_FLOATDROPPED			(DMN_FIRST + 6)
-	//nmhdr.code = DWORD(DMN_XXX, 0);
+	//nmhdr.code = dword(DMN_XXX, 0);
 	//nmhdr.hwndFrom = DockingCont::_hself;
 	//nmhdr.idFrom = 0;
 

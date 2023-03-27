@@ -16,8 +16,8 @@
 
 
 #include <time.h>
-#include <shlwapi.h>
-#include <shlobj.h>
+//#include <shlwapi.h>
+//#include <shlobj.h>
 #include <PowerEditor/Notepad_plus_Window.h>
 #include <PowerEditor/WinControls/OpenSaveFileDialog/CustomFileDialog.h>
 #include <PowerEditor/EncodingMapper.h>
@@ -31,7 +31,7 @@
 
 using namespace std;
 
-DWORD WINAPI Notepad_plus::monitorFileOnChange(void * params)
+dword WINAPI Notepad_plus::monitorFileOnChange(void * params)
 {
 	MonitorInfo *monitorInfo = static_cast<MonitorInfo *>(params);
 	SciBuffer *buf = monitorInfo->_buffer;
@@ -45,7 +45,7 @@ DWORD WINAPI Notepad_plus::monitorFileOnChange(void * params)
 
 	::PathRemoveFileSpecW(folderToMonitor);
 
-	const DWORD dwNotificationFlags = FILE_NOTIFY_CHANGE_LAST_WRITE | FILE_NOTIFY_CHANGE_FILE_NAME | FILE_NOTIFY_CHANGE_SIZE;
+	const dword dwNotificationFlags = FILE_NOTIFY_CHANGE_LAST_WRITE | FILE_NOTIFY_CHANGE_FILE_NAME | FILE_NOTIFY_CHANGE_SIZE;
 
 	// Create the monitor and add directory to watch.
 	CReadDirectoryChanges dirChanges;
@@ -60,7 +60,7 @@ DWORD WINAPI Notepad_plus::monitorFileOnChange(void * params)
 
 	while (toBeContinued)
 	{
-		DWORD waitStatus = ::WaitForMultipleObjects(_countof(changeHandles), changeHandles, FALSE, 250);
+		dword waitStatus = ::WaitForMultipleObjects(_countof(changeHandles), changeHandles, FALSE, 250);
 		switch (waitStatus)
 		{
 			case WAIT_OBJECT_0 + 0:
@@ -73,7 +73,7 @@ DWORD WINAPI Notepad_plus::monitorFileOnChange(void * params)
 			case WAIT_OBJECT_0 + 1:
 			// We've received a notification in the queue.
 			{
-				DWORD dwAction;
+				dword dwAction;
 				String fn;
 				// Process all available changes, ignore User actions
 				while (dirChanges.Pop(dwAction, fn))
@@ -176,7 +176,7 @@ BufferID Notepad_plus::doOpen(const char* fileName, bool isRecursive, bool isRea
 	NppParameters& nppParam = NppParameters::getInstance();
 	char longFileName[longFileNameBufferSize];
 
-	const DWORD getFullPathNameResult = ::GetFullPathName(targetFileName.Begin(), longFileNameBufferSize, longFileName, Null);
+	const dword getFullPathNameResult = ::GetFullPathName(targetFileName.Begin(), longFileNameBufferSize, longFileName, Null);
 	if (getFullPathNameResult == 0)
 	{
 		return BUFFER_INVALID;

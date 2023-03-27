@@ -47,7 +47,7 @@ using namespace std;
 
 #include "ThreadSafeQueue.h"
 
-typedef pair<DWORD, std::wstring> TDirectoryChangeNotification;
+typedef pair<dword, std::wstring> TDirectoryChangeNotification;
 
 namespace ReadDirectoryChangesPrivate
 {
@@ -91,7 +91,7 @@ namespace ReadDirectoryChangesPrivate
 ///			case WAIT_OBJECT_0 + 1:
 ///				// We've received a notification in the queue.
 ///				{
-///					DWORD dwAction;
+///					dword dwAction;
 ///					std::wstring wstrFilename;
 ///					while (changes.Pop(dwAction, wstrFilename))
 ///						wprintf(L"%s %s\n", ExplainAction(dwAction), wstrFilename);
@@ -129,7 +129,7 @@ public:
 	/// ReadDirectoryChangesW call for the given directory with the given flags.
 	/// </para>
 	/// </remarks>
-	void AddDirectory( LPCTSTR wszDirectory, BOOL bWatchSubtree, DWORD dwNotifyFilter, DWORD dwBufferSize=16384 );
+	void AddDirectory( LPCTSTR wszDirectory, BOOL bWatchSubtree, dword dwNotifyFilter, dword dwBufferSize=16384 );
 
 	/// <summary>
 	/// Return a handle for the Win32 Wait... functions that will be
@@ -137,10 +137,10 @@ public:
 	/// </summary>
 	void* GetWaitHandle() { return m_Notifications.GetWaitHandle(); }
 
-	bool Pop(DWORD& dwAction, std::wstring& wstrFilename);
+	bool Pop(dword& dwAction, std::wstring& wstrFilename);
 
 	// "Нажимные" is for usage by ReadChangesRequest.  Not intended for external usage.
-	void Push(DWORD dwAction, std::wstring& wstrFilename);
+	void Push(dword dwAction, std::wstring& wstrFilename);
 
 	unsigned int GetThreadId() { return m_dwThreadId; }
 

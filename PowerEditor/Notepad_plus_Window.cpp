@@ -16,7 +16,7 @@
 
 
 #include <time.h>
-#include <shlwapi.h>
+//#include <shlwapi.h>
 #include <PowerEditor/Notepad_plus_Window.h>
 
 const char Notepad_plus_Window::_className[32] = TEXT("Notepad++");
@@ -52,7 +52,7 @@ namespace // anonymous
 } // anonymous namespace
 
 
-void Notepad_plus_Window::setStartupBgColor(COLORREF BgColor)
+void Notepad_plus_Window::setStartupBgColor(Color& BgColor)
 {
 	Rect windowClientArea;
 	HDC hdc = GetDCEx(_hSelf, Null, DCX_CACHE | DCX_LOCKWINDOWUPDATE); //lock window update flag due to PaintLocker
@@ -63,7 +63,7 @@ void Notepad_plus_Window::setStartupBgColor(COLORREF BgColor)
 
 
 
-void Notepad_plus_Window::init(HINSTANCE hInst, Upp::Ctrl* parent, const char *cmdLine, CmdLineParams *cmdLineParams)
+void Notepad_plus_Window::init(Ctrl& hInst, Upp::Ctrl* parent, const char *cmdLine, CmdLineParams *cmdLineParams)
 {
 	time_t timestampBegin = 0;
 	if (cmdLineParams->_showLoadingTime)

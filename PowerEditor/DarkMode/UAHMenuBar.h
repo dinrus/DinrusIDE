@@ -21,20 +21,20 @@ typedef union tagUAHMENUITEMMETRICS
 	// cx appears to be 14 / 0xE less than rcItem's width!
 	// cy 0x14 seems stable, i wonder if it is 4 less than rcItem's height which is always 24 atm
 	struct {
-		DWORD cx;
-		DWORD cy;
+		dword cx;
+		dword cy;
 	} rgsizeBar[2];
 	struct {
-		DWORD cx;
-		DWORD cy;
+		dword cx;
+		dword cy;
 	} rgsizePopup[4];
 } UAHMENUITEMMETRICS;
 
 // not really used in our case but part of the other structures
 typedef struct tagUAHMENUPOPUPMETRICS
 {
-	DWORD rgcx[4];
-	DWORD fUpdateMaxWidths : 2; // from kernel symbols, padded to full dword
+	dword rgcx[4];
+	dword fUpdateMaxWidths : 2; // from kernel symbols, padded to full dword
 } UAHMENUPOPUPMETRICS;
 
 // hmenu is the main window menu; hdc is the context to draw in
@@ -42,7 +42,7 @@ typedef struct tagUAHMENU
 {
 	Menu* hmenu;
 	HDC hdc;
-	DWORD dwFlags; // no idea what these mean, in my testing it's either 0x00000a00 or sometimes 0x00000a10
+	dword dwFlags; // no idea what these mean, in my testing it's either 0x00000a00 or sometimes 0x00000a10
 } UAHMENU;
 
 // menu items are always referred to by iPosition here

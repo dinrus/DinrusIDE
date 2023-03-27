@@ -15,12 +15,12 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 #include <time.h>
-#include <shlwapi.h>
-#include <wininet.h>
+//#include <shlwapi.h>
+//#include <wininet.h>
 #include <PowerEditor/Notepad_plus.h>
 #include <PowerEditor/Notepad_plus_Window.h>
 #include <PowerEditor/WinControls/OpenSaveFileDialog/CustomFileDialog.h>
-#include <PowerEditor/ScintillaComponent/Printer.h>
+#include <PowerEditor/ScintillaComponent/ScintillaComponent.h>
 #include <PowerEditor/MISC/FileNameStringSplitter.h>
 #include "lesDlgs.h"
 #include "Utf8_16.h"
@@ -29,7 +29,7 @@
 #include <PowerEditor/WinControls/Grid/ShortcutMapper.h>
 #include <PowerEditor/WinControls/Preference/preferenceDlg.h>
 #include <PowerEditor/WinControls/TaskList/TaskListDlg.h>
-#include <PowerEditor/ScintillaComponent/xmlMatchedTagsHighlighter.h>
+
 #include <PowerEditor/EncodingMapper.h>
 #include <PowerEditor/WinControls/AnsiCharPanel/ansiCharPanel.h>
 #include <PowerEditor/WinControls/ClipboardHistory/clipboardHistoryPanel.h>
@@ -2283,7 +2283,7 @@ void Notepad_plus::setupColorSampleBitmapsOnMainMenuItems()
 			Rect rc = { 0, 0, bitmapXYsize, bitmapXYsize };
 
 			// paint full-size black square
-			HBRUSH hBlackBrush = CreateSolidBrush(RGB(0,0,0));
+			HBRUSH hBlackBrush = CreateSolidBrush(Color(0,0,0));
 			FillRect(hDCn, &rc, hBlackBrush);
 			DeleteObject(hBlackBrush);
 
@@ -5831,7 +5831,7 @@ void Notepad_plus::drawTabbarColoursFromStylerArray()
 		TabBarPlus::setColour(stInact->_bgColor, TabBarPlus::inactiveBg);
 }
 
-void Notepad_plus::drawAutocompleteColoursFromTheme(COLORREF fgColor, COLORREF bgColor)
+void Notepad_plus::drawAutocompleteColoursFromTheme(Color& fgColor, Color& bgColor)
 {
 	if (bgColor == 0xFFFFFF)
 		return;
@@ -5844,13 +5844,13 @@ void Notepad_plus::drawAutocompleteColoursFromTheme(COLORREF fgColor, COLORREF b
 	int gfv = GetGValue(fgColor);
 	int bfv = GetBValue(fgColor);
 
-	COLORREF bgDarker = RGB(rbv - 20 <= 0 ? 0 : rbv - 20, gbv - 20 <= 0 ? 0 : gbv - 20, bbv - 20 <= 0 ? 0 : bbv - 20);
+	Color& bgDarker = Color(rbv - 20 <= 0 ? 0 : rbv - 20, gbv - 20 <= 0 ? 0 : gbv - 20, bbv - 20 <= 0 ? 0 : bbv - 20);
 
-	if (bgColor == RGB(0, 0, 0)) // if the bg is pure black
-		bgDarker = RGB(20, 20, 20); // make bgDarker lighter for distinguishing between both
+	if (bgColor == Color(0, 0, 0)) // if the bg is pure black
+		bgDarker = Color(20, 20, 20); // make bgDarker lighter for distinguishing between both
 
-	COLORREF fgDarker = RGB(rfv - 20 <= 0 ? 0 : rfv - 20, gfv - 20 <= 0 ? 0 : gfv - 20, bfv - 20 <= 0 ? 0 : bfv - 20);
-	COLORREF fgLigher = RGB(rfv + 20 >= 255 ? 255 : rfv + 20, gfv + 20 >= 255 ? 255 : gfv + 20, bfv + 20 >= 255 ? 255 : bfv + 20);
+	Color& fgDarker = Color(rfv - 20 <= 0 ? 0 : rfv - 20, gfv - 20 <= 0 ? 0 : gfv - 20, bfv - 20 <= 0 ? 0 : bfv - 20);
+	Color& fgLigher = Color(rfv + 20 >= 255 ? 255 : rfv + 20, gfv + 20 >= 255 ? 255 : gfv + 20, bfv + 20 >= 255 ? 255 : bfv + 20);
 
 	AutoCompletion::setColour(bgDarker, AutoCompletion::AutocompleteColorIndex::autocompleteBg);
 	AutoCompletion::setColour(bgColor, AutoCompletion::AutocompleteColorIndex::selectedBg);
@@ -6645,8 +6645,8 @@ void Notepad_plus::launchClipboardHistoryPanel()
 		}
 		::SendMessage(_pPublicInterface->getHSelf(), NPPM_DMMREGASDCKDLG, 0, reinterpret_cast<LPARAM>(&data));
 
-		COLORREF fgColor = nppParams.getCurrentDefaultFgColor();
-		COLORREF bgColor = nppParams.getCurrentDefaultBgColor();
+		Color& fgColor = nppParams.getCurrentDefaultFgColor();
+		Color& bgColor = nppParams.getCurrentDefaultBgColor();
 
 		_pClipboardHistoryPanel->setBackgroundColor(bgColor);
 		_pClipboardHistoryPanel->setForegroundColor(fgColor);
@@ -6698,8 +6698,8 @@ void Notepad_plus::launchDocumentListPanel()
 		}
 		::SendMessage(_pPublicInterface->getHSelf(), NPPM_DMMREGASDCKDLG, 0, reinterpret_cast<LPARAM>(&data));
 
-		COLORREF fgColor = nppParams.getCurrentDefaultFgColor();
-		COLORREF bgColor = nppParams.getCurrentDefaultBgColor();
+		Color& fgColor = nppParams.getCurrentDefaultFgColor();
+		Color& bgColor = nppParams.getCurrentDefaultBgColor();
 
 		_pDocumentListPanel->setBackgroundColor(bgColor);
 		_pDocumentListPanel->setForegroundColor(fgColor);
@@ -6749,8 +6749,8 @@ void Notepad_plus::launchAnsiCharPanel()
 		}
 		::SendMessage(_pPublicInterface->getHSelf(), NPPM_DMMREGASDCKDLG, 0, reinterpret_cast<LPARAM>(&data));
 
-		COLORREF fgColor = nppParams.getCurrentDefaultFgColor();
-		COLORREF bgColor = nppParams.getCurrentDefaultBgColor();
+		Color& fgColor = nppParams.getCurrentDefaultFgColor();
+		Color& bgColor = nppParams.getCurrentDefaultBgColor();
 
 		_pAnsiCharPanel->setBackgroundColor(bgColor);
 		_pAnsiCharPanel->setForegroundColor(fgColor);
@@ -6802,8 +6802,8 @@ void Notepad_plus::launchFileBrowser(const Vector<String> & folders, const char*
 		}
 		::SendMessage(_pPublicInterface->getHSelf(), NPPM_DMMREGASDCKDLG, 0, reinterpret_cast<LPARAM>(&data));
 
-		COLORREF fgColor = nppParams.getCurrentDefaultFgColor();
-		COLORREF bgColor = nppParams.getCurrentDefaultBgColor();
+		Color& fgColor = nppParams.getCurrentDefaultFgColor();
+		Color& bgColor = nppParams.getCurrentDefaultBgColor();
 
 		_pFileBrowser->setBackgroundColor(bgColor);
 		_pFileBrowser->setForegroundColor(fgColor);
@@ -6905,8 +6905,8 @@ void Notepad_plus::launchProjectPanel(int cmdID, ProjectPanel ** pProjPanel, int
 		data.pszName = (*pProjPanel)->getPanelTitle();
 		::SendMessage(_pPublicInterface->getHSelf(), NPPM_DMMREGASDCKDLG, 0, reinterpret_cast<LPARAM>(&data));
 
-		COLORREF fgColor = nppParam.getCurrentDefaultFgColor();
-		COLORREF bgColor = nppParam.getCurrentDefaultBgColor();
+		Color& fgColor = nppParam.getCurrentDefaultFgColor();
+		Color& bgColor = nppParam.getCurrentDefaultBgColor();
 
 		(*pProjPanel)->setBackgroundColor(bgColor);
 		(*pProjPanel)->setForegroundColor(fgColor);
@@ -7023,8 +7023,8 @@ void Notepad_plus::launchFunctionList()
 		}
 
 		::SendMessage(_pPublicInterface->getHSelf(), NPPM_DMMREGASDCKDLG, 0, reinterpret_cast<LPARAM>(&data));
-		COLORREF fgColor = nppParam.getCurrentDefaultFgColor();
-		COLORREF bgColor = nppParam.getCurrentDefaultBgColor();
+		Color& fgColor = nppParam.getCurrentDefaultFgColor();
+		Color& bgColor = nppParam.getCurrentDefaultBgColor();
 
 		_pFuncList->setBackgroundColor(bgColor);
 		_pFuncList->setForegroundColor(fgColor);
@@ -7355,7 +7355,7 @@ bool isInList(int elem, vector<int> elemList)
 }
 
 
-DWORD WINAPI Notepad_plus::threadTextPlayer(void *params)
+dword WINAPI Notepad_plus::threadTextPlayer(void *params)
 {
 	// random seed generation needs only one time.
 	srand(static_cast<UINT>(time(Null)));
@@ -7507,7 +7507,7 @@ DWORD WINAPI Notepad_plus::threadTextPlayer(void *params)
 }
 
 
-DWORD WINAPI Notepad_plus::threadTextTroller(void *params)
+dword WINAPI Notepad_plus::threadTextTroller(void *params)
 {
 	TextTrollerParams *textTrollerParams = static_cast<TextTrollerParams *>(params);
 	WaitForSingleObject(textTrollerParams->_mutex, INFINITE);
@@ -7881,7 +7881,7 @@ void Notepad_plus::launchDocumentBackupTask()
 }
 
 
-DWORD WINAPI Notepad_plus::backupDocument(void * /*param*/)
+dword WINAPI Notepad_plus::backupDocument(void * /*param*/)
 {
 	bool isSnapshotMode = true;
 	while (isSnapshotMode)
@@ -7892,7 +7892,7 @@ DWORD WINAPI Notepad_plus::backupDocument(void * /*param*/)
 		if (timer < 1000)
 			timer = 1000;
 
-		::Sleep(DWORD(timer));
+		::Sleep(dword(timer));
 
 		isSnapshotMode = nppParam.getNppGUI().isSnapshotMode();
 		if (!isSnapshotMode)

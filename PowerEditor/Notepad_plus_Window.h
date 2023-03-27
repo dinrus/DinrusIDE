@@ -58,7 +58,7 @@ filePath : file or folder name to open (absolute or relative path name)\r\
 class Notepad_plus_Window : public Window
 {
 public:
-	void init(HINSTANCE, Upp::Ctrl*, const char *cmdLine, CmdLineParams *cmdLineParams);
+	void init(Ctrl&, Upp::Ctrl*, const char *cmdLine, CmdLineParams *cmdLineParams);
 
 	bool isDlgsMsg(MSG *msg) const;
 
@@ -98,7 +98,7 @@ public:
 
 	static Upp::Ctrl* gNppHWND;	//static handle to Notepad++ window, Null if non-existant
 
-	void setStartupBgColor(COLORREF BgColor);
+	void setStartupBgColor(Color& BgColor);
 
 private:
 	Notepad_plus _notepad_plus_plus_core;

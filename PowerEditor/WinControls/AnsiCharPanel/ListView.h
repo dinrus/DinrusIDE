@@ -85,7 +85,7 @@ public:
 
 	std::vector<size_t> getCheckedIndexes() const;
 
-	virtual void init(HINSTANCE hInst, Upp::Ctrl* hwnd);
+	virtual void init(Ctrl& hInst, Upp::Ctrl* hwnd);
 	virtual void destroy();
 
 

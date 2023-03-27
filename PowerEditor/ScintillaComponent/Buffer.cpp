@@ -1,32 +1,15 @@
-// This file is part of Notepad++ project
-// Copyright (C)2021 Don HO <don.h@free.fr>
-
-// This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// at your option any later version.
-//
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
 #include <deque>
 #include <algorithm>
 #include <time.h>
 #include <locale>
 #include <codecvt>
 #include <sys/stat.h>
-#include <PowerEditor/ScintillaComponent/SciBuffer.h>
+#include <PowerEditor/ScintillaComponent/ScintillaComponent.h>
 #include <Scintilla/Scintilla.h>
 #include <Scintilla/ILexer.h>
 #include <Lexilla/Lexilla.h>
 #include <PowerEditor/Parameters.h>
 #include <PowerEditor/Notepad_plus.h>
-#include <PowerEditor/ScintillaComponent/ScintillaEditView.h>
 #include <PowerEditor/EncodingMapper.h>
 #include <PowerEditor/uchardet/uchardet.h>
 #include <PowerEditor/MISC/Common/FileInterface.h>
@@ -986,7 +969,7 @@ bool FileManager::backupCurrentBuffer()
 			}
 
 			// Make sure the backup file is not read only
-			DWORD dwFileAttribs = ::GetFileAttributes(fullpath);
+			dword dwFileAttribs = ::GetFileAttributes(fullpath);
 			if (dwFileAttribs & FILE_ATTRIBUTE_READONLY) // if file is read only, remove read only attribute
 			{
 				dwFileAttribs ^= FILE_ATTRIBUTE_READONLY;
@@ -1087,7 +1070,7 @@ SavingStatus FileManager::saveBuffer(BufferID id, const char * filename, bool is
 
 	SciBuffer* buffer = getBufferByID(id);
 	bool isHiddenOrSys = false;
-	DWORD attrib = 0;
+	dword attrib = 0;
 
 	char fullpath[MAX_PATH];
 	::GetFullPathName(filename, MAX_PATH, fullpath, Null);

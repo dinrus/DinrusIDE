@@ -415,11 +415,11 @@ enum Platform { PF_UNKNOWN, PF_X86, PF_X64, PF_IA64, PF_ARM64 };
 
 	#define NPPM_GETEDITORDEFAULTFOREGROUNDCOLOR    (NPPMSG + 90)
 	// INT NPPM_GETEDITORDEFAULTFOREGROUNDCOLOR(0, 0)
-	// Return: current editor default foreground color. You should convert the returned value in COLORREF
+	// Return: current editor default foreground color. You should convert the returned value in Color&
 
 	#define NPPM_GETEDITORDEFAULTBACKGROUNDCOLOR    (NPPMSG + 91)
 	// INT NPPM_GETEDITORDEFAULTBACKGROUNDCOLOR(0, 0)
-	// Return: current editor default background color. You should convert the returned value in COLORREF
+	// Return: current editor default background color. You should convert the returned value in Color&
 
 	#define NPPM_SETSMOOTHFONT    (NPPMSG + 92)
 	// VOID NPPM_SETSMOOTHFONT(0, BOOL setSmoothFontOrNot)
@@ -515,18 +515,18 @@ enum Platform { PF_UNKNOWN, PF_X86, PF_X64, PF_IA64, PF_ARM64 };
 	// {
 	//	struct Colors
 	//	{
-	//		COLORREF background = 0;
-	//		COLORREF softerBackground = 0;
-	//		COLORREF hotBackground = 0;
-	//		COLORREF pureBackground = 0;
-	//		COLORREF errorBackground = 0;
-	//		COLORREF text = 0;
-	//		COLORREF darkerText = 0;
-	//		COLORREF disabledText = 0;
-	//		COLORREF linkText = 0;
-	//		COLORREF edge = 0;
-	//		COLORREF hotEdge = 0;
-	//		COLORREF disabledEdge = 0;
+	//		Color& background = 0;
+	//		Color& softerBackground = 0;
+	//		Color& hotBackground = 0;
+	//		Color& pureBackground = 0;
+	//		Color& errorBackground = 0;
+	//		Color& text = 0;
+	//		Color& darkerText = 0;
+	//		Color& disabledText = 0;
+	//		Color& linkText = 0;
+	//		Color& edge = 0;
+	//		Color& hotEdge = 0;
+	//		Color& disabledEdge = 0;
 	//	};
 	// }
 	//

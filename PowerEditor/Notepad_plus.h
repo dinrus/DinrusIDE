@@ -16,17 +16,14 @@
 
 #pragma once
 #include <Core/Core.h>
-#include <PowerEditor/ScintillaComponent/ScintillaEditView.h>
-#include <PowerEditor/ScintillaComponent/DocTabView.h>
+#include <PowerEditor/ScintillaComponent/ScintillaComponent.h>
 #include <PowerEditor/WinControls/SplitterContainer/SplitterContainer.h>
 #include <PowerEditor/ScintillaComponent/FindReplaceDlg.h>
 #include <PowerEditor/WinControls/AboutDlg/AboutDlg.h>
 #include <PowerEditor/WinControls/StaticDialog/RunDlg/RunDlg.h>
 #include <PowerEditor/WinControls/StatusBar/StatusBar.h>
 #include <PowerEditor/lastRecentFileList.h>
-#include <PowerEditor/ScintillaComponent/GoToLineDlg.h>
 #include <PowerEditor/WinControls/FindCharsInRange/FindCharsInRange.h>
-#include <PowerEditor/ScintillaComponent/columnEditor.h>
 #include <PowerEditor/WinControls/ColourPicker/WordStyleDlg.h>
 #include <PowerEditor/WinControls/TrayIcon/trayIconControler.h>
 #include <PowerEditor/MISC/PluginsManager/PluginsManager.h>
@@ -35,9 +32,6 @@
 #include <PowerEditor/WinControls/shortcut/RunMacroDlg.h>
 #include <PowerEditor/WinControls/DockingWnd/DockingManager.h>
 #include <PowerEditor/MISC/Process/Processus.h>
-#include <PowerEditor/ScintillaComponent/AutoCompletion.h>
-#include <PowerEditor/ScintillaComponent/SmartHighlighter.h>
-#include <PowerEditor/ScintillaComponent/ScintillaCtrls.h>
 #include "lesDlgs.h"
 #include <PowerEditor/WinControls/PluginsAdmin/pluginsAdmin.h>
 #include <PowerEditor/localization.h>
@@ -584,7 +578,7 @@ private:
 	Style * getStyleFromName(const char *styleName);
 	bool dumpFiles(const char * outdir, const char * fileprefix = TEXT(""));	//helper func
 	void drawTabbarColoursFromStylerArray();
-	void drawAutocompleteColoursFromTheme(COLORREF fgColor, COLORREF bgColor);
+	void drawAutocompleteColoursFromTheme(Color& fgColor, Color& bgColor);
 	void drawDocumentMapColoursFromStylerArray();
 
 	Vector<String> loadCommandlineParams(const char * commandLine, const CmdLineParams * pCmdParams) {
@@ -610,8 +604,8 @@ private:
 	void launchFunctionList();
 	void launchFileBrowser(const Vector<String> & folders, const char* selectedItemPath, bool fromScratch = false);
 	void showAllQuotes() const;
-	static DWORD WINAPI threadTextPlayer(void *text2display);
-	static DWORD WINAPI threadTextTroller(void *params);
+	static dword WINAPI threadTextPlayer(void *text2display);
+	static dword WINAPI threadTextTroller(void *params);
 	static int getRandomAction(int ranNum);
 	static bool deleteBack(ScintillaEditView *pCurrentView, BufferID targetBufID);
 	static bool deleteForward(ScintillaEditView *pCurrentView, BufferID targetBufID);
@@ -624,9 +618,9 @@ private:
 		return (rand() % rangeMax);
 	}
 
-	static DWORD WINAPI backupDocument(void *params);
+	static dword WINAPI backupDocument(void *params);
 
-	static DWORD WINAPI monitorFileOnChange(void * params);
+	static dword WINAPI monitorFileOnChange(void * params);
 	struct MonitorInfo final {
 		MonitorInfo(SciBuffer *buf, Upp::Ctrl* nppHandle) :
 			_buffer(buf), _nppHandle(nppHandle) {};

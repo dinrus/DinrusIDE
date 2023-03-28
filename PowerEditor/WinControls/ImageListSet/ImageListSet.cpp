@@ -20,7 +20,7 @@
 #include <PowerEditor/WinControls/ImageListSet/ImageListSet.h>
 #include <PowerEditor/NppDarkMode.h>
 
-void IconList::init(Ctrl& hInst, int iconSize) 
+void IconList::init(Window& hInst, int iconSize) 
 {
 	InitCommonControls();
 	_hInst = hInst;
@@ -31,7 +31,7 @@ void IconList::init(Ctrl& hInst, int iconSize)
 		throw std::runtime_error("IconList::create : ImageList_Create() function returns null");
 };
 
-void IconList::create(int iconSize, Ctrl& hInst, int *iconIDArray, int iconIDArraySize)
+void IconList::create(int iconSize, Window& hInst, int *iconIDArray, int iconIDArraySize)
 {
 	init(hInst, iconSize);
 	_pIconIDArray = iconIDArray;
@@ -139,7 +139,7 @@ void ToolBarIcons::reInit(int size)
 			ICONINFO iconinfoSrc;
 			GetIconInfo(i._hIcon, &iconinfoSrc);
 
-			HDC dcScreen = ::GetDC(Null);
+			HDC dcScreen = ::GetDC(nullptr);
 
 			BITMAP bmp;
 			int nbByteBmp = ::GetObject(iconinfoSrc.hbmColor, sizeof(BITMAP), &bmp);
@@ -195,7 +195,7 @@ void ToolBarIcons::reInit(int size)
 
 				SetDIBits(dcScreen, hBmpNew, 0, bi.biHeight, dibits.get(), (BITMAPINFO*)&bi, DIB_RGB_COLORS);
 
-				::ReleaseDC(Null, dcScreen);
+				::ReleaseDC(nullptr, dcScreen);
 
 				ICONINFO iconinfoDest = {};
 				iconinfoDest.fIcon = TRUE;
@@ -217,7 +217,7 @@ void ToolBarIcons::reInit(int size)
 }
 
 
-void ToolBarIcons::create(Ctrl& hInst, int iconSize)
+void ToolBarIcons::create(Window& hInst, int iconSize)
 {
 	_iconListVector.push_back(IconList());
 	_iconListVector.push_back(IconList());

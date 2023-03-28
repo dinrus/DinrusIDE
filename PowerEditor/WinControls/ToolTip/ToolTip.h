@@ -28,10 +28,10 @@ public:
 
 	void destroy() {
 		::DestroyWindow(_hSelf);
-		_hSelf = Null;
+		_hSelf = nullptr;
 	};
 
-	virtual void init(Ctrl& hInst, Upp::Ctrl* hParent);
+	virtual void init(Window& hInst, Window* hParent);
 	void Show(Rect rectTitle, const char* pszTitleText, int iXOff = 0, int iWidthOff = 0);
 
 protected:
@@ -39,7 +39,7 @@ protected:
 	BOOL		_bTrackMouse = FALSE;
 	TOOLINFO	_ti = {};
 
-    static LRESULT CALLBACK staticWinProc(Upp::Ctrl* hwnd, UINT Message, WPARAM wParam, LPARAM lParam) {
+    static LRESULT CALLBACK staticWinProc(Window* hwnd, UINT Message, WPARAM wParam, LPARAM lParam) {
         return (((ToolTip *)(::GetWindowLongPtr(hwnd, GWLP_USERDATA)))->runProc(Message, wParam, lParam));
     };
 	LRESULT runProc(UINT Message, WPARAM wParam, LPARAM lParam);

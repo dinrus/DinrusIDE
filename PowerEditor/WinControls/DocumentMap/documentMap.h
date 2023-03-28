@@ -44,7 +44,7 @@ enum moveMode {
 class ViewZoneDlg : public StaticDialog
 {
 public :
-	ViewZoneDlg() : StaticDialog(), _viewZoneCanvas(Null), _canvasDefaultProc(nullptr), _higherY(0), _lowerY(0) {}
+	ViewZoneDlg() : StaticDialog(), _viewZoneCanvas(nullptr), _canvasDefaultProc(nullptr), _higherY(0), _lowerY(0) {}
 
 	enum class ViewZoneColorIndex {
 		focus,
@@ -58,8 +58,8 @@ public :
 	void drawZone(long hY, long lY) {
 		_higherY = hY;
 		_lowerY = lY;
-		if (Null != _viewZoneCanvas)
-			::InvalidateRect(_viewZoneCanvas, Null, TRUE);
+		if (nullptr != _viewZoneCanvas)
+			::InvalidateRect(_viewZoneCanvas, nullptr, TRUE);
 	};
 
 	int getViewerHeight() const {
@@ -75,8 +75,8 @@ public :
 protected :
 	virtual intptr_t CALLBACK run_dlgProc(UINT message, WPARAM wParam, LPARAM lParam);
 
-	static LRESULT CALLBACK canvasStaticProc(Upp::Ctrl* hwnd, UINT message, WPARAM wParam, LPARAM lParam);
-	LRESULT CALLBACK canvas_runProc(Upp::Ctrl* hwnd, UINT message, WPARAM wParam, LPARAM lParam);
+	static LRESULT CALLBACK canvasStaticProc(Window* hwnd, UINT message, WPARAM wParam, LPARAM lParam);
+	LRESULT CALLBACK canvas_runProc(Window* hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 	static Color& _focus;
 	static Color& _frost;
@@ -84,7 +84,7 @@ protected :
 	void drawPreviewZone(DRAWITEMSTRUCT *pdis);
 
 private :
-	Upp::Ctrl* _viewZoneCanvas = nullptr;
+	Window* _viewZoneCanvas = nullptr;
 	WNDPROC _canvasDefaultProc = nullptr;
 	
 	long _higherY = 0;
@@ -101,7 +101,7 @@ public:
 		data->pszAddInfo = id4dockingCont.Begin();
 	};
 
-	void init(Ctrl& hInst, Upp::Ctrl* hPere, ScintillaEditView **ppEditView) {
+	void init(Window& hInst, Window* hPere, ScintillaEditView **ppEditView) {
 		DockingDlgInterface::init(hInst, hPere);
 		_ppEditView = ppEditView;
 	};
@@ -113,7 +113,7 @@ public:
 
 	virtual void redraw(bool forceUpdate = false) const;
 
-    void setParent(Upp::Ctrl* parent2set){
+    void setParent(Window* parent2set){
         _hParent = parent2set;
     };
 
@@ -144,7 +144,7 @@ private:
 	ScintillaEditView**_ppEditView = nullptr;
 	ScintillaEditView*_pMapView = nullptr;
 	ViewZoneDlg _vzDlg;
-	Upp::Ctrl* _hwndScintilla = nullptr;
+	Window* _hwndScintilla = nullptr;
 	bool _isTemporarilyShowing = false;
 
 	// for needToRecomputeWith function

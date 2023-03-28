@@ -1,54 +1,40 @@
-// This file is part of Notepad++ project
-// Copyright (C)2021 Don HO <don.h@free.fr>
-
-// This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// at your option any later version.
-//
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
-
 #pragma once
 
 #include <PowerEditor/WinControls/Window.h>
 
-class ColourPopup;
-
 #define CPN_COLOURPICKED (BN_CLICKED)
 
-class ColourPicker : public Window
-{
-public :
-	ColourPicker() = default;
-    ~ColourPicker() = default;
-	virtual void init(Ctrl& hInst, Upp::Ctrl* parent);
-	virtual void destroy();
-    void setColour(Color& c) {
-        _currentColour = c;
-    };
+namespace Upp{
+	
+class ColourPopup;
 
-	Color& getColour() const {return _currentColour;};
-	bool isEnabled() {return _isEnabled;};
-	void setEnabled(bool enabled) {_isEnabled = enabled;};
+	class ColourPicker : public Window
+	{
+	public :
+		ColourPicker() = default;
+	    ~ColourPicker() = default;
+		virtual void init(Window& hInst, Window* parent);
+		virtual void destroy();
+	    void setColour(Color& c) {
+	        _currentColour = c;
+	    };
+	
+		Color& getColour() const {return _currentColour;};
+		bool isEnabled() {return _isEnabled;};
+		void setEnabled(bool enabled) {_isEnabled = enabled;};
+	
+	private :
+		Color& _currentColour = Color(0xFF, 0x00, 0x00);
+	    WNDPROC _buttonDefaultProc = nullptr;
+		ColourPopup *_pColourPopup = nullptr;
+		bool _isEnabled = true;
+	
+	    static LRESULT CALLBACK staticWinProc(Window* hwnd, UINT Message, WPARAM wParam, LPARAM lParam) {
+	        return (((ColourPicker *)(::GetWindowLongPtr(hwnd, GWLP_USERDATA)))->runProc(Message, wParam, lParam));
+	    };
+		LRESULT runProc(UINT Message, WPARAM wParam, LPARAM lParam);
+	    void drawForeground(HDC hDC);
+		void drawBackground(HDC hDC);
+	};
 
-private :
-	Color& _currentColour = Color(0xFF, 0x00, 0x00);
-    WNDPROC _buttonDefaultProc = nullptr;
-	ColourPopup *_pColourPopup = nullptr;
-	bool _isEnabled = true;
-
-    static LRESULT CALLBACK staticWinProc(Upp::Ctrl* hwnd, UINT Message, WPARAM wParam, LPARAM lParam) {
-        return (((ColourPicker *)(::GetWindowLongPtr(hwnd, GWLP_USERDATA)))->runProc(Message, wParam, lParam));
-    };
-	LRESULT runProc(UINT Message, WPARAM wParam, LPARAM lParam);
-    void drawForeground(HDC hDC);
-	void drawBackground(HDC hDC);
-};
-
+}

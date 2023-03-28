@@ -50,7 +50,7 @@ notepad++ [--help] [-multiInst] [-noPlugin] [-lLanguage] [-udl=\"My UDL Name\"] 
 -quickPrint : Print the file given as argument then quit Notepad++\r\
 -settingsDir=\"d:\\your settings dir\\\": Override the default settings dir\r\
 -openFoldersAsWorkspace: open filePath of folder(s) as workspace\r\
--titleAdd=\"string\": add string to Notepad++ title bar\r\
+-titleAdd=\"String\": add String to Notepad++ title bar\r\
 filePath : file or folder name to open (absolute or relative path name)\r\
 ");
 
@@ -58,7 +58,7 @@ filePath : file or folder name to open (absolute or relative path name)\r\
 class Notepad_plus_Window : public Window
 {
 public:
-	void init(Ctrl&, Upp::Ctrl*, const char *cmdLine, CmdLineParams *cmdLineParams);
+	void init(Window&, Window*, const char *cmdLine, CmdLineParams *cmdLineParams);
 
 	bool isDlgsMsg(MSG *msg) const;
 
@@ -96,21 +96,21 @@ public:
 		return _hIconAbsent;
 	};
 
-	static Upp::Ctrl* gNppHWND;	//static handle to Notepad++ window, Null if non-existant
+	static Window* gNppHWND;	//static handle to Notepad++ window, nullptr if non-existant
 
 	void setStartupBgColor(Color& BgColor);
 
 private:
 	Notepad_plus _notepad_plus_plus_core;
-	static LRESULT CALLBACK Notepad_plus_Proc(Upp::Ctrl* hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
-	LRESULT runProc(Upp::Ctrl* hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
+	static LRESULT CALLBACK Notepad_plus_Proc(Window* hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
+	LRESULT runProc(Window* hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
 
 	static const char _className[32];
 	bool _isPrelaunch = false;
 	bool _disablePluginsManager = false;
 
 	QuoteParams _quoteParams; // keep the availability of quote parameters for thread using
-	std::wstring _userQuote; // keep the availability of this string for thread using
+	std::wstring _userQuote; // keep the availability of this String for thread using
 
 	HICON _hIconAbsent = nullptr;
 };

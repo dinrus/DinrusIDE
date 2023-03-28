@@ -17,7 +17,6 @@
 #pragma once
 
 #include <Core/Core.h>
-#include <PowerEditor/TinyXml/tinyXmlA/tinyxmlA.h>
 #include <PowerEditor/TinyXml/tinyxml.h>
 #include <Scintilla/Scintilla.h>
 #include <PowerEditor/ScintillaComponent/ScintillaComponent.h>
@@ -731,7 +730,7 @@ struct NppGUI final
 	bool _enableFoldCmdToggable = false;
 	writeTechnologyEngine _writeTechnologyEngine = defaultTechnology;
 	bool _isWordCharDefault = true;
-	std::string _customWordChars;
+	String _customWordChars;
 	urlMode _styleURL = urlUnderLineFg;
 	String _uriSchemes = TEXT("svn:// cvs:// git:// imap:// irc:// irc6:// ircs:// ldap:// ldaps:// news: telnet:// gopher:// ssh:// sftp:// smb:// skype: snmp:// spotify: steam:// sms: slack:// chrome:// bitcoin:");
 	NewDocDefaultSettings _newDocDefaultSettings;
@@ -893,12 +892,12 @@ struct Lang final
 
 	Lang()
 	{
-		for (int i = 0 ; i < NB_LIST ; _langKeyWordList[i] = Null, ++i);
+		for (int i = 0 ; i < NB_LIST ; _langKeyWordList[i] = nullptr, ++i);
 	}
 
 	Lang(LangType langID, const char *name) : _langID(langID), _langName(name ? name : TEXT(""))
 	{
-		for (int i = 0 ; i < NB_LIST ; _langKeyWordList[i] = Null, ++i);
+		for (int i = 0 ; i < NB_LIST ; _langKeyWordList[i] = nullptr, ++i);
 	}
 
 	~Lang() = default;
@@ -1037,7 +1036,7 @@ class ExternalLangContainer final
 {
 public:
 	// Mandatory for Lexilla
-	std::string _name;
+	String _name;
 	Lexilla::CreateLexerFn fnCL = nullptr;
 	//Lexilla::GetLibraryPropertyNamesFn fnGLPN = nullptr;
 	//Lexilla::SetLibraryPropertyFn fnSLP = nullptr;
@@ -1123,7 +1122,7 @@ public:
 			_fileName = fn;
 	}
 
-	std::string getFileName() const
+	String getFileName() const
 	{
 		return _fileName;
 	}
@@ -1131,7 +1130,7 @@ public:
 private:
 	std::vector< std::pair< std::wstring, std::wstring > > _localizationList;
 	std::wstring _nativeLangPath;
-	std::string _fileName;
+	String _fileName;
 };
 
 
@@ -1233,7 +1232,7 @@ public:
 	};
 
 	static LangType getLangIDFromStr(const char *langName);
-	static String getLocPathFromStr(const String & localizationCode);
+	static String getLocPathFromStr(const String& localizationCode);
 
 	bool load();
 	bool reloadLang();
@@ -1328,7 +1327,7 @@ public:
 	bool writeHistory(const char *fullpath);
 
 	bool writeProjectPanelsSettings() const;
-	bool writeFileBrowserSettings(const Vector<String> & rootPath, const String & latestSelectedItemPath) const;
+	bool writeFileBrowserSettings(const Vector<String> & rootPath, const String& latestSelectedItemPath) const;
 
 	TiXmlNode* getChildElementByAttribut(TiXmlNode *pere, const char *childName, const char *attributName, const char *attributVal) const;
 
@@ -1347,7 +1346,7 @@ public:
 	Color& getCurLineHilitingColour();
 	void setCurLineHilitingColour(Color& colour2Set);
 
-	void setFontList(Upp::Ctrl* hWnd);
+	void setFontList(Window* hWnd);
 	bool isInFontList(const char* fontName2Search) const;
 	const Vector<String>& getFontList() const { return _fontlist; }
 
@@ -1371,7 +1370,7 @@ public:
 	void writeNonDefaultUDL();
 	void writeNeed2SaveUDL();
 	void writeShortcuts();
-	void writeSession(const Session & session, const char *fileName = Null);
+	void writeSession(const Session & session, const char *fileName = nullptr);
 	bool writeFindHistory();
 
 	bool isExistingUserLangName(const char *newName) const
@@ -1401,14 +1400,14 @@ public:
 	TiXmlDocument * getCustomizedToolIcons() const {return _pXmlToolIconsDoc;};
 
 	bool isTransparentAvailable() const {
-		return (_transparentFuncAddr != Null);
+		return (_transparentFuncAddr != nullptr);
 	}
 
 	// 0 <= percent < 256
 	// if (percent == 255) then opacq
-	void SetTransparent(Upp::Ctrl* hwnd, int percent);
+	void SetTransparent(Window* hwnd, int percent);
 
-	void removeTransparent(Upp::Ctrl* hwnd);
+	void removeTransparent(Window* hwnd);
 
 	void setCmdlineParam(const CmdLineParamsDTO & cmdLineParams)
 	{
@@ -1488,7 +1487,7 @@ public:
 
 	bool loadSession(Session & session, const char *sessionFileName);
 
-	void setLoadedSessionFilePath(const String & loadedSessionFilePath) {
+	void setLoadedSessionFilePath(const String& loadedSessionFilePath) {
 		_loadedSessionFullFilePath = loadedSessionFilePath;
 	};
 
@@ -1570,7 +1569,7 @@ public:
 		return _userDefineLangPath;
 	}
 
-	bool writeSettingsFilesOnCloudForThe1stTime(const String & cloudSettingsPath);
+	bool writeSettingsFilesOnCloudForThe1stTime(const String& cloudSettingsPath);
 	void setCloudChoice(const char *pathChoice);
 	void removeCloudChoice();
 	bool isCloudPathChanged() const;

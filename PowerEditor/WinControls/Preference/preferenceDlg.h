@@ -50,7 +50,7 @@ public :
 	EditingSubDlg() = default;
 	
 private :
-	Upp::Ctrl* _tip = nullptr;
+	Window* _tip = nullptr;
 
 	intptr_t CALLBACK run_dlgProc(UINT message, WPARAM wParam, LPARAM lParam);
 	void initScintParam();
@@ -78,7 +78,7 @@ private:
 
 	intptr_t CALLBACK run_dlgProc(UINT message, WPARAM wParam, LPARAM lParam);
 	void enableCustomizedColorCtrls(bool doEnable);
-	void move2CtrlLeft(int ctrlID, Upp::Ctrl* handle2Move, int handle2MoveWidth, int handle2MoveHeight);
+	void move2CtrlLeft(int ctrlID, Window* handle2Move, int handle2MoveWidth, int handle2MoveHeight);
 };
 
 class MarginsBorderEdgeSubDlg : public StaticDialog
@@ -226,7 +226,7 @@ private :
 	POINT _multiLineModePoint = {};
 	Rect _closerRect = {};
 	Rect _closerLabelRect = {};
-	Upp::Ctrl* _tip = nullptr;
+	Window* _tip = nullptr;
 
 	intptr_t CALLBACK run_dlgProc(UINT message, WPARAM wParam, LPARAM lParam);
 	void detectSpace(const char *text2Check, int & nbSp, int & nbTab) const;
@@ -259,7 +259,7 @@ friend class Notepad_plus;
 public :
 	PreferenceDlg() = default;
 
-    void init(Ctrl& hInst, Upp::Ctrl* parent)	{
+    void init(Window& hInst, Window* parent)	{
         Window::init(hInst, parent);
 	};
 

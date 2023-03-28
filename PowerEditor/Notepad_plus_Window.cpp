@@ -20,7 +20,7 @@
 #include <PowerEditor/Notepad_plus_Window.h>
 
 const char Notepad_plus_Window::_className[32] = TEXT("Notepad++");
-Upp::Ctrl* Notepad_plus_Window::gNppHWND = Null;
+Window* Notepad_plus_Window::gNppHWND = nullptr;
 
 
 
@@ -29,7 +29,7 @@ namespace // anonymous
 
 	struct PaintLocker final
 	{
-		explicit PaintLocker(Upp::Ctrl* handle)
+		explicit PaintLocker(Window* handle)
 			: handle(handle)
 		{
 			// disallow drawing on the window
@@ -39,14 +39,14 @@ namespace // anonymous
 		~PaintLocker()
 		{
 			// re-allow drawing for the window
-			LockWindowUpdate(Null);
+			LockWindowUpdate(nullptr);
 
 			// force re-draw
 			InvalidateRect(handle, nullptr, TRUE);
-			RedrawWindow(handle, nullptr, Null, RDW_ERASE | RDW_ALLCHILDREN | RDW_FRAME | RDW_INVALIDATE);
+			RedrawWindow(handle, nullptr, nullptr, RDW_ERASE | RDW_ALLCHILDREN | RDW_FRAME | RDW_INVALIDATE);
 		}
 
-		Upp::Ctrl* handle;
+		Window* handle;
 	};
 
 } // anonymous namespace
@@ -55,7 +55,7 @@ namespace // anonymous
 void Notepad_plus_Window::setStartupBgColor(Color& BgColor)
 {
 	Rect windowClientArea;
-	HDC hdc = GetDCEx(_hSelf, Null, DCX_CACHE | DCX_LOCKWINDOWUPDATE); //lock window update flag due to PaintLocker
+	HDC hdc = GetDCEx(_hSelf, nullptr, DCX_CACHE | DCX_LOCKWINDOWUPDATE); //lock window update flag due to PaintLocker
 	GetClientRect(_hSelf, &windowClientArea);
 	FillRect(hdc, &windowClientArea, CreateSolidBrush(BgColor));
 	ReleaseDC(_hSelf, hdc);
@@ -63,11 +63,11 @@ void Notepad_plus_Window::setStartupBgColor(Color& BgColor)
 
 
 
-void Notepad_plus_Window::init(Ctrl& hInst, Upp::Ctrl* parent, const char *cmdLine, CmdLineParams *cmdLineParams)
+void Notepad_plus_Window::init(Window& hInst, Window* parent, const char *cmdLine, CmdLineParams *cmdLineParams)
 {
 	time_t timestampBegin = 0;
 	if (cmdLineParams->_showLoadingTime)
-		timestampBegin = time(Null);
+		timestampBegin = time(nullptr);
 
 	Window::init(hInst, parent);
 	WNDCLASS nppClass;
@@ -78,7 +78,7 @@ void Notepad_plus_Window::init(Ctrl& hInst, Upp::Ctrl* parent, const char *cmdLi
 	nppClass.cbWndExtra = 0;
 	nppClass.hInstance = _hInst;
 	nppClass.hIcon = ::LoadIcon(hInst, MAKEINTRESOURCE(IDI_M30ICON));
-	nppClass.hCursor = ::LoadCursor(Null, IDC_ARROW);
+	nppClass.hCursor = ::LoadCursor(nullptr, IDC_ARROW);
 	nppClass.hbrBackground = ::CreateSolidBrush(::GetSysColor(COLOR_MENU));
 	nppClass.lpszMenuName = MAKEINTRESOURCE(IDR_M30_MENU);
 	nppClass.lpszClassName = _className;
@@ -112,7 +112,7 @@ void Notepad_plus_Window::init(Ctrl& hInst, Upp::Ctrl* parent, const char *cmdLi
         // for retrieve it in Notepad_plus_Proc from
         // the CREATESTRUCT.lpCreateParams afterward.
 
-	if (Null == _hSelf)
+	if (nullptr == _hSelf)
 		throw std::runtime_error("Notepad_plus_Window::init : CreateWindowEx() function return null");
 
 
@@ -156,7 +156,7 @@ void Notepad_plus_Window::init(Ctrl& hInst, Upp::Ctrl* parent, const char *cmdLi
 		::SendMessage(_hSelf, WM_COMMAND, IDM_VIEW_DRAWTABBAR_MULTILINE, 0);
 
 	if (!nppGUI._menuBarShow)
-		::SetMenu(_hSelf, Null);
+		::SetMenu(_hSelf, nullptr);
 
 	if (cmdLineParams->_isNoTab || (nppGUI._tabStatus & TAB_HIDE))
 	{
@@ -250,7 +250,7 @@ void Notepad_plus_Window::init(Ctrl& hInst, Upp::Ctrl* parent, const char *cmdLi
 
 				if (!::PathFileExists(appDataThemePath.Begin()))
 				{
-					::CreateDirectory(appDataThemePath.Begin(), Null);
+					::CreateDirectory(appDataThemePath.Begin(), nullptr);
 				}
 
 				char* fn = PathFindFileName(fileNames[i].Begin());
@@ -317,7 +317,7 @@ void Notepad_plus_Window::init(Ctrl& hInst, Upp::Ctrl* parent, const char *cmdLi
 		{
 			if (::PathFileExists(cmdLineParams->_easterEggName.Begin()))
 			{
-				std::string content = getFileContent(cmdLineParams->_easterEggName.Begin());
+				String content = getFileContent(cmdLineParams->_easterEggName.Begin());
 				WcharMbcsConvertor& wmc = WcharMbcsConvertor::getInstance();
 				_userQuote = wmc.char2wchar(content.Begin(), SC_CP_UTF8);
 				if (!_userQuote.IsEmpty())
@@ -342,12 +342,12 @@ void Notepad_plus_Window::init(Ctrl& hInst, Upp::Ctrl* parent, const char *cmdLi
 
 	if (cmdLineParams->_showLoadingTime)
 	{
-		time_t timestampEnd = time(Null);
+		time_t timestampEnd = time(nullptr);
 		double loadTime = difftime(timestampEnd, timestampBegin);
 
 		char dest[256];
 		sprintf(dest, "Loading time : %.0lf seconds", loadTime);
-		::MessageBoxA(Null, dest, "", MB_OK);
+		::MessageBoxA(nullptr, dest, "", MB_OK);
 	}
 
 	bool isSnapshotMode = nppGUI.isSnapshotMode();

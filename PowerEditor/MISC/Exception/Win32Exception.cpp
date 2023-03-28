@@ -53,7 +53,7 @@ void Win32Exception::installHandler()
 void  Win32Exception::removeHandler()
 {
 #ifndef __MINGW32__
-	_set_se_translator(Null);
+	_set_se_translator(nullptr);
 #endif
 }
 

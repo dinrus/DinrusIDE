@@ -1,20 +1,3 @@
-// This file is part of Notepad++ project
-// Copyright (C)2021 Don HO <don.h@free.fr>
-
-// This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// at your option any later version.
-//
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
-
 #include "AboutDlg.h"
 #include "../../Parameters.h"
 #include "../../localization.h"
@@ -29,7 +12,7 @@ intptr_t CALLBACK AboutDlg::run_dlgProc(UINT message, WPARAM wParam, LPARAM lPar
         {
             NppDarkMode::autoSubclassAndThemeChildControls(_hSelf);
 
-            Upp::Ctrl* compileDateHandle = ::GetDlgItem(_hSelf, IDC_BUILD_DATETIME);
+            Window* compileDateHandle = ::GetDlgItem(_hSelf, IDC_BUILD_DATETIME);
             String buildTime = "Build time : ";
 
             //WcharMbcsConvertor& wmc = WcharMbcsConvertor::getInstance();
@@ -42,7 +25,7 @@ intptr_t CALLBACK AboutDlg::run_dlgProc(UINT message, WPARAM wParam, LPARAM lPar
             ::SendMessage(compileDateHandle, WM_SETTEXT, 0, reinterpret_cast<LPARAM>(buildTime.Begin()));
             ::EnableWindow(compileDateHandle, FALSE);
 
-            Upp::Ctrl* licenceEditHandle = ::GetDlgItem(_hSelf, IDC_LICENCE_EDIT);
+            Window* licenceEditHandle = ::GetDlgItem(_hSelf, IDC_LICENCE_EDIT);
             ::SendMessage(licenceEditHandle, WM_SETTEXT, 0, reinterpret_cast<LPARAM>(LICENCE_TXT));
 
             //_emailLink.init(_hInst, _hSelf);
@@ -102,7 +85,7 @@ intptr_t CALLBACK AboutDlg::run_dlgProc(UINT message, WPARAM wParam, LPARAM lPar
             //HICON hIcon = (HICON)::LoadImage(_hInst, MAKEINTRESOURCE(IDI_GILETJAUNE), IMAGE_ICON, 64, 64, LR_DEFAULTSIZE);
             //HICON hIcon = (HICON)::LoadImage(_hInst, MAKEINTRESOURCE(IDI_SAMESEXMARRIAGE), IMAGE_ICON, 64, 64, LR_DEFAULTSIZE);
             DRAWITEMSTRUCT *pdis = (DRAWITEMSTRUCT *)lParam;
-            ::DrawIconEx(pdis->hDC, 0, 0, hIcon, w, h, 0, Null, DI_NORMAL);
+            ::DrawIconEx(pdis->hDC, 0, 0, hIcon, w, h, 0, nullptr, DI_NORMAL);
             return TRUE;
         }
 
@@ -169,7 +152,7 @@ intptr_t CALLBACK DebugInfoDlg::run_dlgProc(UINT message, WPARAM wParam, LPARAM 
             // Binary path
             _debugInfoStr << "Path : ";
             char nppFullPath[MAX_PATH];
-            ::GetModuleFileName(Null, nppFullPath, MAX_PATH);
+            ::GetModuleFileName(nullptr, nppFullPath, MAX_PATH);
             _debugInfoStr << nppFullPath << "\r\n";
 
             // Command line as specified for program launch
@@ -204,23 +187,23 @@ intptr_t CALLBACK DebugInfoDlg::run_dlgProc(UINT message, WPARAM wParam, LPARAM 
             if (RegOpenKeyExW(HKEY_LOCAL_MACHINE, TEXT("SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion"), 0, KEY_READ, &hKey) == ERROR_SUCCESS)
             {
                 dataSize = sizeof(szProductName);
-                RegQueryValueExW(hKey, TEXT("ProductName"), Null, Null, reinterpret_cast<LPBYTE>(szProductName), &dataSize);
+                RegQueryValueExW(hKey, TEXT("ProductName"), nullptr, nullptr, reinterpret_cast<LPBYTE>(szProductName), &dataSize);
                 szProductName[sizeof(szProductName) / sizeof(char) - 1] = '\0';
 
                 dataSize = sizeof(szReleaseId);
-                if(RegQueryValueExW(hKey, TEXT("DisplayVersion"), Null, Null, reinterpret_cast<LPBYTE>(szReleaseId), &dataSize) != ERROR_SUCCESS)
+                if(RegQueryValueExW(hKey, TEXT("DisplayVersion"), nullptr, nullptr, reinterpret_cast<LPBYTE>(szReleaseId), &dataSize) != ERROR_SUCCESS)
                 {
                     dataSize = sizeof(szReleaseId);
-                    RegQueryValueExW(hKey, TEXT("ReleaseId"), Null, Null, reinterpret_cast<LPBYTE>(szReleaseId), &dataSize);
+                    RegQueryValueExW(hKey, TEXT("ReleaseId"), nullptr, nullptr, reinterpret_cast<LPBYTE>(szReleaseId), &dataSize);
                 }
                 szReleaseId[sizeof(szReleaseId) / sizeof(char) - 1] = '\0';
 
                 dataSize = sizeof(szCurrentBuildNumber);
-                RegQueryValueExW(hKey, TEXT("CurrentBuildNumber"), Null, Null, reinterpret_cast<LPBYTE>(szCurrentBuildNumber), &dataSize);
+                RegQueryValueExW(hKey, TEXT("CurrentBuildNumber"), nullptr, nullptr, reinterpret_cast<LPBYTE>(szCurrentBuildNumber), &dataSize);
                 szCurrentBuildNumber[sizeof(szCurrentBuildNumber) / sizeof(char) - 1] = '\0';
 
                 dataSize = sizeof(dword);
-                if (RegQueryValueExW(hKey, TEXT("UBR"), Null, Null, reinterpret_cast<LPBYTE>(&dwUBR), &dataSize) == ERROR_SUCCESS)
+                if (RegQueryValueExW(hKey, TEXT("UBR"), nullptr, nullptr, reinterpret_cast<LPBYTE>(&dwUBR), &dataSize) == ERROR_SUCCESS)
                 {
                     generic_sprintf(szUBR, TEXT("%u"), dwUBR);
                 }
@@ -372,7 +355,7 @@ void DebugInfoDlg::refreshDebugInfo()
     _debugInfoDisplay = _debugInfoStr;
 
     size_t replacePos = _debugInfoDisplay.Find(_cmdLinePlaceHolder);
-    if (replacePos != std::string::npos)
+    if (replacePos != String::npos)
     {
         _debugInfoDisplay.Replace(replacePos, _cmdLinePlaceHolder.GetLength(), NppParameters::getInstance().getCmdLineString());
     }
@@ -389,7 +372,7 @@ void DoSaveOrNotBox::doDialog(bool isRTL)
 
     if (isRTL)
     {
-        DLGTEMPLATE *pMyDlgTemplate = Null;
+        DLGTEMPLATE *pMyDlgTemplate = nullptr;
         HGLOBAL hMyDlgTemplate = makeRTLResource(IDD_DOSAVEORNOTBOX, &pMyDlgTemplate);
         ::DialogBoxIndirectParam(_hInst, pMyDlgTemplate, _hParent, dlgProc, reinterpret_cast<LPARAM>(this));
         ::GlobalFree(hMyDlgTemplate);
@@ -505,7 +488,7 @@ void DoSaveAllBox::doDialog(bool isRTL)
 
     if (isRTL)
     {
-        DLGTEMPLATE* pMyDlgTemplate = Null;
+        DLGTEMPLATE* pMyDlgTemplate = nullptr;
         HGLOBAL hMyDlgTemplate = makeRTLResource(IDD_DOSAVEALLBOX, &pMyDlgTemplate);
         ::DialogBoxIndirectParam(_hInst, pMyDlgTemplate, _hParent, dlgProc, reinterpret_cast<LPARAM>(this));
         ::GlobalFree(hMyDlgTemplate);

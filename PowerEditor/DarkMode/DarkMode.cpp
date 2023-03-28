@@ -74,16 +74,16 @@ struct WINDOWCOMPOSITIONATTRIBDATA
 };
 
 using fnRtlGetNtVersionNumbers = void (WINAPI *)(LPDWORD major, LPDWORD minor, LPDWORD build);
-using fnSetWindowCompositionAttribute = BOOL (WINAPI *)(Upp::Ctrl* hWnd, WINDOWCOMPOSITIONATTRIBDATA*);
+using fnSetWindowCompositionAttribute = BOOL (WINAPI *)(Window* hWnd, WINDOWCOMPOSITIONATTRIBDATA*);
 // 1809 17763
 using fnShouldAppsUseDarkMode = bool (WINAPI *)(); // ordinal 132
-using fnAllowDarkModeForWindow = bool (WINAPI *)(Upp::Ctrl* hWnd, bool allow); // ordinal 133
+using fnAllowDarkModeForWindow = bool (WINAPI *)(Window* hWnd, bool allow); // ordinal 133
 using fnAllowDarkModeForApp = bool (WINAPI *)(bool allow); // ordinal 135, in 1809
 using fnFlushMenuThemes = void (WINAPI *)(); // ordinal 136
 using fnRefreshImmersiveColorPolicyState = void (WINAPI *)(); // ordinal 104
-using fnIsDarkModeAllowedForWindow = bool (WINAPI *)(Upp::Ctrl* hWnd); // ordinal 137
+using fnIsDarkModeAllowedForWindow = bool (WINAPI *)(Window* hWnd); // ordinal 137
 using fnGetIsImmersiveColorUsingHighContrast = bool (WINAPI *)(IMMERSIVE_HC_CACHE_MODE mode); // ordinal 106
-using fnOpenNcThemeData = HTHEME(WINAPI *)(Upp::Ctrl* hWnd, LPCWSTR pszClassList); // ordinal 49
+using fnOpenNcThemeData = HTHEME(WINAPI *)(Window* hWnd, LPCWSTR pszClassList); // ordinal 49
 // 1903 18362
 using fnShouldSystemUseDarkMode = bool (WINAPI *)(); // ordinal 138
 using fnSetPreferredAppMode = PreferredAppMode (WINAPI *)(PreferredAppMode appMode); // ordinal 135, in 1903
@@ -116,7 +116,7 @@ bool ShouldAppsUseDarkMode()
     return _ShouldAppsUseDarkMode();
 }
 
-bool AllowDarkModeForWindow(Upp::Ctrl* hWnd, bool allow)
+bool AllowDarkModeForWindow(Window* hWnd, bool allow)
 {
     if (g_darkModeSupported && _AllowDarkModeForWindow)
         return _AllowDarkModeForWindow(hWnd, allow);
@@ -131,7 +131,7 @@ bool IsHighContrast()
     return false;
 }
 
-void SetTitleBarThemeColor(Upp::Ctrl* hWnd, BOOL dark)
+void SetTitleBarThemeColor(Window* hWnd, BOOL dark)
 {
     if (g_buildNumber < 18362)
         SetPropW(hWnd, L"UseImmersiveDarkModeColors", reinterpret_cast<void*>(static_cast<intptr_t>(dark)));
@@ -142,7 +142,7 @@ void SetTitleBarThemeColor(Upp::Ctrl* hWnd, BOOL dark)
     }
 }
 
-void RefreshTitleBarThemeColor(Upp::Ctrl* hWnd)
+void RefreshTitleBarThemeColor(Window* hWnd)
 {
     BOOL dark = FALSE;
     if (_IsDarkModeAllowedForWindow && _ShouldAppsUseDarkMode)
@@ -194,18 +194,18 @@ void FlushMenuThemes()
 
 // limit dark scroll bar to specific windows and their children
 
-std::unordered_set<Upp::Ctrl*> g_darkScrollBarWindows;
+std::unordered_set<Window*> g_darkScrollBarWindows;
 std::mutex g_darkScrollBarMutex;
 
-void EnableDarkScrollBarForWindowAndChildren(Upp::Ctrl* hwnd)
+void EnableDarkScrollBarForWindowAndChildren(Window* hwnd)
 {
     std::lock_guard<std::mutex> lock(g_darkScrollBarMutex);
     g_darkScrollBarWindows.insert(hwnd);
 }
 
-bool IsWindowOrParentUsingDarkScrollBar(Upp::Ctrl* hwnd)
+bool IsWindowOrParentUsingDarkScrollBar(Window* hwnd)
 {
-    Upp::Ctrl* hwndRoot = GetAncestor(hwnd, GA_ROOT);
+    Window* hwndRoot = GetAncestor(hwnd, GA_ROOT);
 
     std::lock_guard<std::mutex> lock(g_darkScrollBarMutex);
     if (g_darkScrollBarWindows.count(hwnd)) {
@@ -229,7 +229,7 @@ void FixDarkScrollBar()
             dword oldProtect;
             if (VirtualProtect(addr, sizeof(IMAGE_THUNK_DATA), PAGE_READWRITE, &oldProtect) && _OpenNcThemeData)
             {
-                auto MyOpenThemeData = [](Upp::Ctrl* hWnd, LPCWSTR classList) WINAPI_LAMBDA_RETURN(HTHEME) {
+                auto MyOpenThemeData = [](Window* hWnd, LPCWSTR classList) WINAPI_LAMBDA_RETURN(HTHEME) {
                     if (wcscmp(classList, L"ScrollBar") == 0)
                     {
                         if (IsWindowOrParentUsingDarkScrollBar(hWnd)) {

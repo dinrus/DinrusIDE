@@ -1,5 +1,10 @@
 file
 	WinControls readonly separator,
+	WinControls.lay,
+	filledFluentUI.iml,
+	DarkMode.iml,
+	Icons.iml,
+	WinControls.h,
 	Window.h,
 	AboutDlg readonly separator,
 	AboutDlg\AboutDlg.cpp,

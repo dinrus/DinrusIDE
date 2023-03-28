@@ -140,8 +140,8 @@ public:
 	Notepad_plus();
 	~Notepad_plus();
 
-	LRESULT init(Upp::Ctrl* hwnd);
-	LRESULT process(Upp::Ctrl* hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
+	LRESULT init(Window* hwnd);
+	LRESULT process(Window* hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
 	void killAllChildren();
 
 	enum comment_mode {cm_comment, cm_uncomment, cm_toggle};
@@ -154,7 +154,7 @@ public:
 	//! \name File Operations
 	//@{
 	//The doXXX functions apply to a single buffer and dont need to worry about views, with the excpetion of doClose, since closing one view doesnt have to mean the document is gone
-	BufferID doOpen(const char* fileName, bool isRecursive = false, bool isReadOnly = false, int encoding = -1, const char *backupFileName = Null, FILETIME fileNameTimestamp = {});
+	BufferID doOpen(const char* fileName, bool isRecursive = false, bool isReadOnly = false, int encoding = -1, const char *backupFileName = nullptr, FILETIME fileNameTimestamp = {});
 	bool doReload(BufferID id, bool alert = true);
 	bool doSave(BufferID, const char * filename, bool isSaveCopy = false);
 	void doClose(BufferID, int whichOne, bool doDeleteBackup = false);
@@ -315,12 +315,12 @@ private:
 	DocumentPeeker _documentPeeker;
 
 	// a handle list of all the Notepad++ dialogs
-	std::vector<Upp::Ctrl*> _hModelessDlgs;
+	std::vector<Window*> _hModelessDlgs;
 
 	LastRecentFileList _lastRecentFileList;
 
 	WindowsMenu _windowsMenu;
-	Menu* _mainMenuHandle = Null;
+	Menu* _mainMenuHandle = nullptr;
 
 	bool _sysMenuEntering = false;
 
@@ -398,7 +398,7 @@ private:
 	DocumentMap* _pDocMap = nullptr;
 	FunctionListPanel* _pFuncList = nullptr;
 
-	std::vector<Upp::Ctrl*> _sysTrayHiddenHwnd;
+	std::vector<Window*> _sysTrayHiddenHwnd;
 
 	BOOL notify(SCNotification *notification);
 	void command(int id);
@@ -493,7 +493,7 @@ private:
 	intptr_t findMachedBracePos(size_t startPos, size_t endPos, char targetSymbol, char matchedSymbol);
 	void maintainIndentation(char ch);
 
-	void addHotSpot(ScintillaEditView* view = Null);
+	void addHotSpot(ScintillaEditView* view = nullptr);
 
     void bookmarkAdd(intptr_t lineno) const {
 		if (lineno == -1)
@@ -558,16 +558,16 @@ private:
 	void showFunctionComp();
 	void showPathCompletion();
 
-	//void changeStyleCtrlsLang(Upp::Ctrl* hDlg, int *idArray, const char **translatedText);
+	//void changeStyleCtrlsLang(Window* hDlg, int *idArray, const char **translatedText);
 	void setCodePageForInvisibleView(SciBuffer const* pBuffer);
 	bool replaceInOpenedFiles();
 	bool findInOpenedFiles();
 	bool findInCurrentFile(bool isEntireDoc);
 
 	void getMatchedFileNames(const char *dir, size_t level, const Vector<String> & patterns, Vector<String> & fileNames, bool isRecursive, bool isInHiddenDir);
-	void doSynScorll(Upp::Ctrl* hW);
+	void doSynScorll(Window* hW);
 	void setWorkingDir(const char *dir);
-	bool str2Cliboard(const String & str2cpy);
+	bool str2Cliboard(const String& str2cpy);
 
 	bool getIntegralDockingData(tTbData & dockData, int & iCont, bool & isVisible);
 	int getLangFromMenuName(const char * langName);
@@ -622,10 +622,10 @@ private:
 
 	static dword WINAPI monitorFileOnChange(void * params);
 	struct MonitorInfo final {
-		MonitorInfo(SciBuffer *buf, Upp::Ctrl* nppHandle) :
+		MonitorInfo(SciBuffer *buf, Window* nppHandle) :
 			_buffer(buf), _nppHandle(nppHandle) {};
 		SciBuffer *_buffer = nullptr;
-		Upp::Ctrl* _nppHandle = nullptr;
+		Window* _nppHandle = nullptr;
 	};
 
 	void monitoringStartOrStopAndUpdateUI(SciBuffer* pBuf, bool isStarting);

@@ -24,7 +24,7 @@
 #define FS_PROJECTPANELTITLE		TEXT("Document List")
 
 struct sortCompareData {
-  Upp::Ctrl* hListView = nullptr;
+  Window* hListView = nullptr;
   int columnIndex = 0;
   int sortDirection = 0;
 };
@@ -33,14 +33,14 @@ class VerticalFileSwitcher : public DockingDlgInterface {
 public:
 	VerticalFileSwitcher(): DockingDlgInterface(IDD_DOCLIST) {};
 
-	void init(Ctrl& hInst, Upp::Ctrl* hPere, HIMAGELIST hImaLst) {
+	void init(Window& hInst, Window* hPere, HIMAGELIST hImaLst) {
 		DockingDlgInterface::init(hInst, hPere);
 		_hImaLst = hImaLst;
 	};
 
 	virtual void display(bool toShow = true) const; 
 
-    void setParent(Upp::Ctrl* parent2set){
+    void setParent(Window* parent2set){
         _hParent = parent2set;
     };
 	
@@ -99,7 +99,7 @@ public:
 		_fileListView.setForegroundColor(fgColour);
     };
 protected:
-	Menu* _hGlobalMenu = Null;
+	Menu* _hGlobalMenu = nullptr;
 
 	virtual intptr_t CALLBACK run_dlgProc(UINT message, WPARAM wParam, LPARAM lParam);
 	void initPopupMenus();

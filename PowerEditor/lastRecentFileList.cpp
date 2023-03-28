@@ -29,7 +29,7 @@ void LastRecentFileList::initMenu(Menu* hMenu, int idBase, int posBase, Accelera
 	}
 	else
 	{
-		_hParentMenu = Null;
+		_hParentMenu = nullptr;
 		_hMenu = hMenu;
 	}
 
@@ -55,7 +55,7 @@ void LastRecentFileList::switchMode()
 		::RemoveMenu(_hMenu, _lrfl.at(i)._id, MF_BYCOMMAND);
 	}
 
-	if (_hParentMenu == Null) // mode main menu
+	if (_hParentMenu == nullptr) // mode main menu
 	{	if (_size > 0)
 		{
 			::RemoveMenu(_hMenu, _posBase, MF_BYPOSITION);
@@ -76,7 +76,7 @@ void LastRecentFileList::switchMode()
 		// switch to main menu mode
 		::DestroyMenu(_hMenu);
 		_hMenu = _hParentMenu;
-		_hParentMenu = Null;
+		_hParentMenu = nullptr;
 	}
 	_hasSeparators = false;
 };
@@ -221,7 +221,7 @@ void LastRecentFileList::clear()
 }
 
 
-String & LastRecentFileList::getItem(int id)
+String& LastRecentFileList::getItem(int id)
 {
 	int i = 0;
 	for (; i < _size; ++i)
@@ -234,7 +234,7 @@ String & LastRecentFileList::getItem(int id)
 	return _lrfl.at(i)._name;	//if not found, return first
 };
 
-String & LastRecentFileList::getIndex(int index)
+String& LastRecentFileList::getIndex(int index)
 {
 	return _lrfl.at(index)._name;	//if not found, return first
 }

@@ -2,22 +2,22 @@
 
 #include "Bitmap.h"
 
-HMODULE hUxTheme = Null;
-FN_GetBufferedPaintBits pfnGetBufferedPaintBits = Null;
-FN_BeginBufferedPaint pfnBeginBufferedPaint = Null;
-FN_EndBufferedPaint pfnEndBufferedPaint = Null;
+HMODULE hUxTheme = nullptr;
+FN_GetBufferedPaintBits pfnGetBufferedPaintBits = nullptr;
+FN_BeginBufferedPaint pfnBeginBufferedPaint = nullptr;
+FN_EndBufferedPaint pfnEndBufferedPaint = nullptr;
 
 bool InitTheming() {
 	hUxTheme = ::LoadLibrary(TEXT("UxTheme.dll"));
-	if (hUxTheme == Null)
+	if (hUxTheme == nullptr)
 		return false;
 	pfnGetBufferedPaintBits = (FN_GetBufferedPaintBits)::GetProcAddress(hUxTheme, "GetBufferedPaintBits");
 	pfnBeginBufferedPaint = (FN_BeginBufferedPaint)::GetProcAddress(hUxTheme, "BeginBufferedPaint");
 	pfnEndBufferedPaint = (FN_EndBufferedPaint)::GetProcAddress(hUxTheme, "EndBufferedPaint");
-	if ((pfnGetBufferedPaintBits == Null) || (pfnBeginBufferedPaint == Null) || (pfnEndBufferedPaint == Null)) {
-		pfnGetBufferedPaintBits = Null;
-		pfnBeginBufferedPaint = Null;
-		pfnEndBufferedPaint = Null;
+	if ((pfnGetBufferedPaintBits == nullptr) || (pfnBeginBufferedPaint == nullptr) || (pfnEndBufferedPaint == nullptr)) {
+		pfnGetBufferedPaintBits = nullptr;
+		pfnBeginBufferedPaint = nullptr;
+		pfnEndBufferedPaint = nullptr;
 		return false;
 	}
 
@@ -25,11 +25,11 @@ bool InitTheming() {
 }
 
 bool DeinitTheming() {
-	pfnGetBufferedPaintBits = Null;
-	pfnBeginBufferedPaint = Null;
-	pfnEndBufferedPaint = Null;
+	pfnGetBufferedPaintBits = nullptr;
+	pfnBeginBufferedPaint = nullptr;
+	pfnEndBufferedPaint = nullptr;
 	FreeLibrary(hUxTheme);
-	hUxTheme = Null;
+	hUxTheme = nullptr;
 
 	return true;
 }
@@ -46,26 +46,26 @@ void InitBitmapInfo(BITMAPINFO *pbmi, ULONG cbInfo, LONG cx, LONG cy, WORD bpp)
     pbmi->bmiHeader.biBitCount = bpp;
 }
 
-HRESULT Create32BitHBITMAP(HDC hdc, const SIZE *psize, void **ppvBits, HBITMAP* phBmp)
+HRESULT Create32BitHBITMAP(HDC hdc, const Size *psize, void **ppvBits, HBITMAP* phBmp)
 {
-    *phBmp = Null;
+    *phBmp = nullptr;
 
     BITMAPINFO bmi;
     InitBitmapInfo(&bmi, sizeof(bmi), psize->cx, psize->cy, 32);
 
-    HDC hdcUsed = hdc ? hdc : GetDC(Null);
+    HDC hdcUsed = hdc ? hdc : GetDC(nullptr);
     if (hdcUsed)
     {
-        *phBmp = CreateDIBSection(hdcUsed, &bmi, DIB_RGB_COLORS, ppvBits, Null, 0);
+        *phBmp = CreateDIBSection(hdcUsed, &bmi, DIB_RGB_COLORS, ppvBits, nullptr, 0);
         if (hdc != hdcUsed)
         {
-            ReleaseDC(Null, hdcUsed);
+            ReleaseDC(nullptr, hdcUsed);
         }
     }
-    return (Null == *phBmp) ? E_OUTOFMEMORY : S_OK;
+    return (nullptr == *phBmp) ? E_OUTOFMEMORY : S_OK;
 }
 
-HRESULT ConvertToPARGB32(HDC hdc, ARGB *pargb, HBITMAP hbmp, SIZE& sizImage, int cxRow)
+HRESULT ConvertToPARGB32(HDC hdc, ARGB *pargb, HBITMAP hbmp, Size& sizImage, int cxRow)
 {
     BITMAPINFO bmi;
     InitBitmapInfo(&bmi, sizeof(bmi), sizImage.cx, sizImage.cy, 32);
@@ -109,7 +109,7 @@ HRESULT ConvertToPARGB32(HDC hdc, ARGB *pargb, HBITMAP hbmp, SIZE& sizImage, int
     return hr;
 }
 
-bool HasAlpha(ARGB *pargb, SIZE& sizImage, int cxRow)
+bool HasAlpha(ARGB *pargb, Size& sizImage, int cxRow)
 {
     ULONG cxDelta = cxRow - sizImage.cx;
     for (ULONG y = sizImage.cy; y; --y)
@@ -128,7 +128,7 @@ bool HasAlpha(ARGB *pargb, SIZE& sizImage, int cxRow)
     return false;
 }
 
-HRESULT ConvertBufferToPARGB32(HPAINTBUFFER hPaintBuffer, HDC hdc, HICON hicon, SIZE& sizIcon)
+HRESULT ConvertBufferToPARGB32(HPAINTBUFFER hPaintBuffer, HDC hdc, HICON hicon, Size& sizIcon)
 {
     RGBQUAD *prgbQuad;
     int cxRow;
@@ -158,21 +158,21 @@ HRESULT ConvertBufferToPARGB32(HPAINTBUFFER hPaintBuffer, HDC hdc, HICON hicon, 
 HBITMAP IconToBitmapPARGB32(HICON hIcon, dword cx, dword cy)
 {
 	HRESULT hr = E_OUTOFMEMORY;
-	HBITMAP hBmp = Null;
+	HBITMAP hBmp = nullptr;
 
 	if(!hIcon)
-		return Null;
+		return nullptr;
 
-	SIZE sizIcon;
+	Size sizIcon;
 	sizIcon.cx = cx;
 	sizIcon.cy = cy;
 
 	Rect rcIcon;
 	SetRect(&rcIcon, 0, 0, sizIcon.cx, sizIcon.cy);
 
-	HDC hdcDest = CreateCompatibleDC(Null);
+	HDC hdcDest = CreateCompatibleDC(nullptr);
 	if(hdcDest) {
-		hr = Create32BitHBITMAP(hdcDest, &sizIcon, Null, &hBmp);
+		hr = Create32BitHBITMAP(hdcDest, &sizIcon, nullptr, &hBmp);
 		if(SUCCEEDED(hr)) {
 			hr = E_FAIL;
 
@@ -187,7 +187,7 @@ HBITMAP IconToBitmapPARGB32(HICON hIcon, dword cx, dword cy)
 				HDC hdcBuffer;
 				HPAINTBUFFER hPaintBuffer = pfnBeginBufferedPaint(hdcDest, &rcIcon, BPBF_DIB, &paintParams, &hdcBuffer);
 				if(hPaintBuffer) {
-					if(DrawIconEx(hdcBuffer, 0, 0, hIcon, sizIcon.cx, sizIcon.cy, 0, Null, DI_NORMAL)) {
+					if(DrawIconEx(hdcBuffer, 0, 0, hIcon, sizIcon.cx, sizIcon.cy, 0, nullptr, DI_NORMAL)) {
 						// If icon did not have an alpha channel, we need to convert buffer to PARGB.
 						hr = ConvertBufferToPARGB32(hPaintBuffer, hdcDest, hIcon, sizIcon);
 					}
@@ -206,19 +206,19 @@ HBITMAP IconToBitmapPARGB32(HICON hIcon, dword cx, dword cy)
 		return hBmp;
 	}
 	DeleteObject(hBmp);
-	return Null;
+	return nullptr;
 }
 /*
 // LoadIconEx: Loads an icon with a specific size and color depth. This function
 // will NOT try to strech or take an icon of another color depth if none is
 // present.
-HICON LoadIconEx(Ctrl& hInstance, LPCTSTR lpszName, int cx, int cy, int depth)
+HICON LoadIconEx(Window& hInstance, LPCTSTR lpszName, int cx, int cy, int depth)
 {
     HRSRC hRsrcIconGroup;
 
     // Load the icon group of the desired icon
     if (!(hRsrcIconGroup=FindResource(hInstance,lpszName,RT_GROUP_ICON)))
-        return Null;
+        return nullptr;
 
     // Look for the specified color depth
 
@@ -228,12 +228,12 @@ HICON LoadIconEx(Ctrl& hInstance, LPCTSTR lpszName, int cx, int cy, int depth)
     HRSRC hGlobalIconDir;
 
     if (!(hGlobalIconDir=(HRSRC)LoadResource(hInstance,hRsrcIconGroup)))
-        return Null;
+        return nullptr;
 
     // Lock the resource
 
     if (!(pGrpIconDir=(GRPICONDIR*) LockResource(hGlobalIconDir)))
-        return Null;
+        return nullptr;
 
     // Cycle through all icon images trying to find the one we're looking for
 
@@ -264,7 +264,7 @@ HICON LoadIconEx(Ctrl& hInstance, LPCTSTR lpszName, int cx, int cy, int depth)
     }
 
     if (!bFound)
-        return Null;        // No icon was found matching the specs
+        return nullptr;        // No icon was found matching the specs
 
     // Icon was found! i contains the index to the GRPICONDIR structure in the
     // icon group. Find the ID of the icon
@@ -280,13 +280,13 @@ HICON LoadIconEx(Ctrl& hInstance, LPCTSTR lpszName, int cx, int cy, int depth)
     void* pIconBits;
 
     if (!(hRsrcIcon=FindResource(hInstance,MAKEINTRESOURCE(nID),RT_ICON)))
-        return Null;
+        return nullptr;
 
     if (!(hGlobalIcon=(HRSRC)LoadResource(hInstance,hRsrcIcon)))
-        return Null;
+        return nullptr;
 
     if (!(pIconBits=LockResource(hGlobalIcon)))
-        return Null;
+        return nullptr;
 
     // Now, use CreateIconFromResourceEx to create the actual HICON
 

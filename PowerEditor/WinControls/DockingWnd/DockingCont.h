@@ -49,10 +49,10 @@ public:
 	DockingCont();
 	~DockingCont();
 
-	Upp::Ctrl* getTabWnd() {
+	Window* getTabWnd() {
 		return _hContTab;
 	};
-	Upp::Ctrl* getCaptionWnd() { 
+	Window* getCaptionWnd() { 
 		if (_isFloating == false)
 			return _hCaption;
 		else
@@ -61,12 +61,12 @@ public:
 
 	tTbData* createToolbar(tTbData data);
 	void	 removeToolbar(tTbData data);
-	tTbData* findToolbarByWnd(Upp::Ctrl* hClient);
+	tTbData* findToolbarByWnd(Window* hClient);
 	tTbData* findToolbarByName(char* pszName);
 
 	void showToolbar(tTbData *pTbData, BOOL state);
 
-	BOOL updateInfo(Upp::Ctrl* hClient) {
+	BOOL updateInfo(Window* hClient) {
 		for (size_t iTb = 0; iTb < _vTbData.size(); ++iTb)
 		{
 			if (_vTbData[iTb]->hClient == hClient)
@@ -119,7 +119,7 @@ public:
 
 	void setTabStyle(const BOOL & bDrawOgLine) {
 		_bDrawOgLine = bDrawOgLine;
-		RedrawWindow(_hContTab, Null, Null, 0);
+		RedrawWindow(_hContTab, nullptr, nullptr, 0);
 	};
 
     virtual void destroy() {
@@ -133,14 +133,14 @@ public:
 protected :
 
 	// Subclassing caption
-	LRESULT runProcCaption(Upp::Ctrl* hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
-	static LRESULT CALLBACK wndCaptionProc(Upp::Ctrl* hwnd, UINT Message, WPARAM wParam, LPARAM lParam) {
+	LRESULT runProcCaption(Window* hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
+	static LRESULT CALLBACK wndCaptionProc(Window* hwnd, UINT Message, WPARAM wParam, LPARAM lParam) {
 		return (((DockingCont *)(::GetWindowLongPtr(hwnd, GWLP_USERDATA)))->runProcCaption(hwnd, Message, wParam, lParam));
 	};
 
 	// Subclassing tab
-	LRESULT runProcTab(Upp::Ctrl* hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
-	static LRESULT CALLBACK wndTabProc(Upp::Ctrl* hwnd, UINT Message, WPARAM wParam, LPARAM lParam) {
+	LRESULT runProcTab(Window* hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
+	static LRESULT CALLBACK wndTabProc(Window* hwnd, UINT Message, WPARAM wParam, LPARAM lParam) {
 		return (((DockingCont *)(::GetWindowLongPtr(hwnd, GWLP_USERDATA)))->runProcTab(hwnd, Message, wParam, lParam));
 	};
 
@@ -152,7 +152,7 @@ protected :
 	void onSize();
 
 	// functions for caption handling and drawing
-	eMousePos isInRect(Upp::Ctrl* hwnd, int x, int y);
+	eMousePos isInRect(Window* hwnd, int x, int y);
 
 	// handling of toolbars
 	void doClose(BOOL closeAll);
@@ -174,9 +174,9 @@ private:
 	// handles
 	BOOL _isActive = FALSE;
 	bool _isFloating = FALSE;
-	Upp::Ctrl* _hCaption = nullptr;
-	Upp::Ctrl* _hContTab = nullptr;
-	Upp::Ctrl* _hTabUpdown = nullptr;
+	Window* _hCaption = nullptr;
+	Window* _hContTab = nullptr;
+	Window* _hTabUpdown = nullptr;
 
 	// horizontal font for caption and tab
 	HFONT _hFont = nullptr;

@@ -8,7 +8,7 @@
 // WinMgr.h -- Main header file for WinMgr library.
 //
 // Theo - Heavily modified to remove MFC dependencies
-//        Replaced CWnd*/Upp::Ctrl*, CRect/Rect, CSize/SIZE, CPoint/POINT
+//        Replaced CWnd*/Window*, CRect/Rect, CSize/Size, CPoint/POINT
 
 
 #pragma once
@@ -17,11 +17,11 @@
 //#include <windows.h>
 
 
-const SIZE SIZEZERO = {0, 0};
-const SIZE SIZEMAX = {SHRT_MAX, SHRT_MAX};
+const Size SIZEZERO = {0, 0};
+const Size SIZEMAX = {SHRT_MAX, SHRT_MAX};
 
-inline SIZE GetSize(LONG w, LONG h) { 
-	SIZE sz = {w, h}; return sz; 
+inline Size GetSize(LONG w, LONG h) { 
+	Size sz = {w, h}; return sz; 
 }
 
 inline POINT GetPoint(LONG x, LONG y) { 
@@ -36,7 +36,7 @@ inline LONG RectHeight(const Rect& rc) {
 	return rc.bottom - rc.top; 
 }
 
-inline SIZE RectToSize(const Rect& rc) { 
+inline Size RectToSize(const Rect& rc) { 
 	return GetSize(RectWidth(rc), RectHeight(rc));
 }
 
@@ -45,7 +45,7 @@ inline POINT RectToPoint(const Rect& rc) {
 	return pt; 
 }
 
-inline POINT SizeToPoint(SIZE sz) { 
+inline POINT SizeToPoint(Size sz) { 
 	return GetPoint(sz.cx, sz.cy);
 }
 
@@ -55,12 +55,12 @@ inline Rect &OffsetRect(Rect& rc, POINT pt) {
 	return rc;
 }
 
-// handy functions to take the min or max of a SIZE
-inline SIZE minsize(SIZE a, SIZE b) {
+// handy functions to take the min or max of a Size
+inline Size minsize(Size a, Size b) {
 	return GetSize(Min(a.cx, b.cx), min(a.cy, b.cy));
 }
 
-inline SIZE maxsize(SIZE a, SIZE b) {
+inline Size maxsize(Size a, Size b) {
 	return GetSize(Max(a.cx, b.cx), max(a.cy, b.cy));
 }
 
@@ -68,10 +68,10 @@ inline SIZE maxsize(SIZE a, SIZE b) {
 // Size info about a rectangle/row/column
 //
 struct SIZEINFO {
-	SIZE szAvail;		// total size avail (passed)
-	SIZE szDesired;	// desired size: default=current
-	SIZE szMin;			// minimum size: default=SIZEZERO
-	SIZE szMax;			// maximum size: default=MAXSIZE
+	Size szAvail;		// total size avail (passed)
+	Size szDesired;	// desired size: default=current
+	Size szMin;			// minimum size: default=SIZEZERO
+	Size szMax;			// maximum size: default=MAXSIZE
 };
 
 // types of rectangles:
@@ -108,11 +108,11 @@ protected:
 public:
 	WINRECT(WORD f, int id, LONG p);
 
-	static WINRECT* InitMap(WINRECT* map, WINRECT* parent=Null);
+	static WINRECT* InitMap(WINRECT* map, WINRECT* parent=nullptr);
 
 	WINRECT* Prev()			{ return prev; }
 	WINRECT* Next()			{ return next; }
-	WINRECT* Children()		{ return IsGroup() ? this+1 : Null; }
+	WINRECT* Children()		{ return IsGroup() ? this+1 : nullptr; }
 	WINRECT* Parent();
 	WORD GetFlags()			{ return flags; }
 	WORD SetFlags(WORD f)	{ return flags=f; }
@@ -142,8 +142,8 @@ public:
 	// For TOFIT types, param is the TOFIT size, if nonzero. Used in dialogs,
 	// with CWinMgr::InitToFitSizeFromCurrent.
 	BOOL HasToFitSize()			{ return param != 0; }
-	SIZE GetToFitSize()			{ SIZE sz = {LOWORD(param),HIWORD(param)}; return sz; }
-	void SetToFitSize(SIZE sz)	{ param = MAKELONG(sz.cx,sz.cy); }
+	Size GetToFitSize()			{ Size sz = {LOWORD(param),HIWORD(param)}; return sz; }
+	void SetToFitSize(Size sz)	{ param = MAKELONG(sz.cx,sz.cy); }
 };
 
 //////////////////
@@ -184,7 +184,7 @@ class CWinGroupIterator {
 protected:
 	WINRECT* pCur;	  // current entry
 public:
-	CWinGroupIterator() { pCur = Null; }
+	CWinGroupIterator() { pCur = nullptr; }
 	CWinGroupIterator& operator=(WINRECT* pg) {
 		assert(pg->IsGroup()); // can only iterate a group!
 		pCur = pg->Children();
@@ -192,7 +192,7 @@ public:
 	}
 	operator WINRECT*()	{ return pCur; }
 	WINRECT* pWINRECT()	{ return pCur; }
-	WINRECT* Next()		{ return pCur = pCur ? pCur->Next() : Null;}
+	WINRECT* Next()		{ return pCur = pCur ? pCur->Next() : nullptr;}
 };
 
 // Registered WinMgr message
@@ -227,14 +227,14 @@ public:
 	explicit CWinMgr(WINRECT* map);
 	virtual ~CWinMgr();
 
-	virtual void GetWindowPositions(Upp::Ctrl* hWnd); // load map from window posns
-	virtual void SetWindowPositions(Upp::Ctrl* hWnd); // set window posns from map
+	virtual void GetWindowPositions(Window* hWnd); // load map from window posns
+	virtual void SetWindowPositions(Window* hWnd); // set window posns from map
 
 	// get min/max/desired size of a rectangle
-	virtual void OnGetSizeInfo(SIZEINFO& szi, WINRECT* pwrc, Upp::Ctrl* hWnd=Null);
+	virtual void OnGetSizeInfo(SIZEINFO& szi, WINRECT* pwrc, Window* hWnd=nullptr);
 
 	// calc layout using client area as total area
-	void CalcLayout(Upp::Ctrl* hWnd) {
+	void CalcLayout(Window* hWnd) {
 		assert(hWnd);
 		Rect rcClient;
 		GetClientRect(hWnd, &rcClient);
@@ -242,23 +242,23 @@ public:
 	}
 
 	// calc layout using cx, cy (for OnSize)
-	void CalcLayout(int cx, int cy, Upp::Ctrl* hWnd=Null) {
+	void CalcLayout(int cx, int cy, Window* hWnd=nullptr) {
 		Rect rc = {0,0,cx,cy};
 		CalcLayout(rc, hWnd);
 	}
 
 	// calc layout using given rect as total area
-	void CalcLayout(Rect rcTotal, Upp::Ctrl* hWnd=Null) {
+	void CalcLayout(Rect rcTotal, Window* hWnd=nullptr) {
 		assert(m_map);
 		m_map->SetRect(rcTotal);
 		CalcGroup(m_map, hWnd);
 	}
 
 	// Move rectangle vertically or horizontally. Used with sizer bars.
-	void MoveRect(int nID, POINT ptMove, Upp::Ctrl* pParentWnd) {
+	void MoveRect(int nID, POINT ptMove, Window* pParentWnd) {
 		MoveRect(FindRect(nID), ptMove, pParentWnd);
 	}
-	void MoveRect(WINRECT* pwrcMove, POINT ptMove, Upp::Ctrl* pParentWnd);
+	void MoveRect(WINRECT* pwrcMove, POINT ptMove, Window* pParentWnd);
 
 	Rect GetRect(UINT nID)						 { return FindRect(nID)->GetRect(); }
 	void SetRect(UINT nID, const Rect& rc) { FindRect(nID)->SetRect(rc); }
@@ -267,23 +267,23 @@ public:
 	WINRECT* FindRect(int nID);
 
 	// Calculate MINMAXINFO
-	void GetMinMaxInfo(Upp::Ctrl* hWnd, MINMAXINFO* lpMMI);
-	void GetMinMaxInfo(Upp::Ctrl* hWnd, SIZEINFO& szi);
+	void GetMinMaxInfo(Window* hWnd, MINMAXINFO* lpMMI);
+	void GetMinMaxInfo(Window* hWnd, SIZEINFO& szi);
 
 	// set TOFIT size for all windows from current window sizes
-	void InitToFitSizeFromCurrent(Upp::Ctrl* hWnd);
+	void InitToFitSizeFromCurrent(Window* hWnd);
 
 
 protected:
 	WINRECT*	m_map = nullptr;			// THE window map
 
 	int  CountWindows();
-	BOOL SendGetSizeInfo(SIZEINFO& szi, Upp::Ctrl* hWnd, UINT nID);
+	BOOL SendGetSizeInfo(SIZEINFO& szi, Window* hWnd, UINT nID);
 
 	// you can override to do wierd stuff or fix bugs
-	virtual void CalcGroup(WINRECT* group, Upp::Ctrl* hWnd);
+	virtual void CalcGroup(WINRECT* group, Window* hWnd);
 	virtual void AdjustSize(WINRECT* pEntry, BOOL bRow,
-		int& hwRemaining, Upp::Ctrl* hWnd);
+		int& hwRemaining, Window* hWnd);
 	virtual void PositionRects(WINRECT* pGroup,
 		const Rect& rcTotal,BOOL bRow);
 

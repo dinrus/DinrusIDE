@@ -23,7 +23,7 @@
 
 using namespace std;
 
-LRESULT CALLBACK ColourStaticTextHooker::colourStaticProc(Upp::Ctrl* hwnd, UINT Message, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK ColourStaticTextHooker::colourStaticProc(Window* hwnd, UINT Message, WPARAM wParam, LPARAM lParam)
 {
 	switch(Message)
 	{
@@ -166,7 +166,7 @@ intptr_t CALLBACK WordStyleDlg::run_dlgProc(UINT Message, WPARAM wParam, LPARAM 
 		{
 			if (NppDarkMode::isEnabled())
 			{
-				Upp::Ctrl* hwnd = reinterpret_cast<Upp::Ctrl*>(lParam);
+				Window* hwnd = reinterpret_cast<Window*>(lParam);
 				if (hwnd == ::GetDlgItem(_hSelf, IDC_USER_EXT_EDIT) || hwnd == ::GetDlgItem(_hSelf, IDC_USER_KEYWORDS_EDIT))
 				{
 					return NppDarkMode::onCtlColorSofter(reinterpret_cast<HDC>(wParam));
@@ -200,7 +200,7 @@ intptr_t CALLBACK WordStyleDlg::run_dlgProc(UINT Message, WPARAM wParam, LPARAM 
 		case WM_CTLCOLORSTATIC:
 		{
 			auto hdcStatic = reinterpret_cast<HDC>(wParam);
-			auto dlgCtrlID = ::GetDlgCtrlID(reinterpret_cast<Upp::Ctrl*>(lParam));
+			auto dlgCtrlID = ::GetDlgCtrlID(reinterpret_cast<Window*>(lParam));
 
 			bool isStaticText = (dlgCtrlID == IDC_FG_STATIC ||
 				dlgCtrlID == IDC_BG_STATIC ||
@@ -277,7 +277,7 @@ intptr_t CALLBACK WordStyleDlg::run_dlgProc(UINT Message, WPARAM wParam, LPARAM 
 
 		case WM_HSCROLL :
 		{
-			if (reinterpret_cast<Upp::Ctrl*>(lParam) == ::GetDlgItem(_hSelf, IDC_SC_PERCENTAGE_SLIDER))
+			if (reinterpret_cast<Window*>(lParam) == ::GetDlgItem(_hSelf, IDC_SC_PERCENTAGE_SLIDER))
 			{
 				int percent = static_cast<int32_t>(::SendDlgItemMessage(_hSelf, IDC_SC_PERCENTAGE_SLIDER, TBM_GETPOS, 0, 0));
 				(NppParameters::getInstance()).SetTransparent(_hSelf, percent);
@@ -522,7 +522,7 @@ intptr_t CALLBACK WordStyleDlg::run_dlgProc(UINT Message, WPARAM wParam, LPARAM 
 
 							case CPN_COLOURPICKED:
 							{
-								if (reinterpret_cast<Upp::Ctrl*>(lParam) == _pFgColour->getHSelf())
+								if (reinterpret_cast<Window*>(lParam) == _pFgColour->getHSelf())
 								{
 									updateColour(C_FOREGROUND);
 									notifyDataModified();
@@ -538,7 +538,7 @@ intptr_t CALLBACK WordStyleDlg::run_dlgProc(UINT Message, WPARAM wParam, LPARAM 
 									apply();
 									return TRUE;
 								}
-								else if (reinterpret_cast<Upp::Ctrl*>(lParam) == _pBgColour->getHSelf())
+								else if (reinterpret_cast<Window*>(lParam) == _pBgColour->getHSelf())
 								{
 									updateColour(C_BACKGROUND);
 									notifyDataModified();
@@ -575,7 +575,7 @@ intptr_t CALLBACK WordStyleDlg::run_dlgProc(UINT Message, WPARAM wParam, LPARAM 
 	return FALSE;
 }
 
-void WordStyleDlg::move2CtrlRight(int ctrlID, Upp::Ctrl* handle2Move, int handle2MoveWidth, int handle2MoveHeight)
+void WordStyleDlg::move2CtrlRight(int ctrlID, Window* handle2Move, int handle2MoveWidth, int handle2MoveHeight)
 {
 	POINT p;
 	Rect rc;
@@ -753,7 +753,7 @@ void WordStyleDlg::updateFontStyleStatus(fontStyleType whitchStyle)
 		style._fontStyle = FONTSTYLE_NONE;
 
 	int fontStyle = FONTSTYLE_UNDERLINE;
-	Upp::Ctrl* hWnd = _hCheckUnderline;
+	Window* hWnd = _hCheckUnderline;
 
 	if (whitchStyle == BOLD_STATUS)
 	{
@@ -1043,7 +1043,7 @@ void WordStyleDlg::setVisualFromStyleList()
 			isEnable = true;
 	}
 	::EnableWindow(_pFgColour->getHSelf(), isEnable);
-	InvalidateRect(_hFgColourStaticText, Null, FALSE);
+	InvalidateRect(_hFgColourStaticText, nullptr, FALSE);
 
 	isEnable = false;
 	if (HIBYTE(HIWORD(style._bgColor)) != 0xFF)
@@ -1053,7 +1053,7 @@ void WordStyleDlg::setVisualFromStyleList()
 		isEnable = true;
 	}
 	::EnableWindow(_pBgColour->getHSelf(), isEnable);
-	InvalidateRect(_hBgColourStaticText, Null, FALSE);
+	InvalidateRect(_hBgColourStaticText, nullptr, FALSE);
 
 	//-- font name
 	LRESULT iFontName;
@@ -1069,7 +1069,7 @@ void WordStyleDlg::setVisualFromStyleList()
 	}
 	::SendMessage(_hFontNameCombo, CB_SETCURSEL, iFontName, 0);
 	::EnableWindow(_hFontNameCombo, style._isFontEnabled);
-	InvalidateRect(_hFontNameStaticText, Null, FALSE);
+	InvalidateRect(_hFontNameStaticText, nullptr, FALSE);
 
 	//-- font size
 	const size_t intStrLen = 3;
@@ -1082,7 +1082,7 @@ void WordStyleDlg::setVisualFromStyleList()
 	}
 	::SendMessage(_hFontSizeCombo, CB_SETCURSEL, iFontSize, 0);
 	::EnableWindow(_hFontSizeCombo, style._isFontEnabled);
-	InvalidateRect(_hFontSizeStaticText, Null, FALSE);
+	InvalidateRect(_hFontSizeStaticText, nullptr, FALSE);
 	
 	//-- font style : bold & italic
 	if (style._fontStyle != STYLE_NOT_USED)

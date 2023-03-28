@@ -174,12 +174,12 @@ void IconDes::DrawBar(Bar& bar)
 	bar.Add("Заполнить", fill_cursor, [=] { SetTool(&IconDes::FillTool); })
 	   .Check(tool == &IconDes::FillTool && notpasting)
 	   .Tip("Заполнить (Shift+Click)");
-	bar.Add("Заполить с малой толерантностью", fill_cursor2, [=] { SetTool(&IconDes::Fill2Tool); })
+	bar.Add("Заполнить с малой толерантностью", fill_cursor2, [=] { SetTool(&IconDes::Fill2Tool); })
 	   .Check(tool == &IconDes::Fill2Tool && notpasting)
-	   .Tip("Заполить с малой толерантностью (Ctrl+Click)");
-	bar.Add("Заполить с большой толерантностью", fill_cursor3, [=] { SetTool(&IconDes::Fill3Tool); })
+	   .Tip("Заполнить с малой толерантностью (Ctrl+Click)");
+	bar.Add("Заполнить с большой толерантностью", fill_cursor3, [=] { SetTool(&IconDes::Fill3Tool); })
 	   .Check(tool == &IconDes::Fill3Tool && notpasting)
-	   .Tip("Заполить с большой толерантностью (Alt+Click)");
+	   .Tip("Заполнить с большой толерантностью (Alt+Click)");
 	bar.Add("Антизаполнение", antifill_cursor, [=] { SetTool(&IconDes::AntiFillTool); })
 	   .Check(tool == &IconDes::AntiFillTool && notpasting)
 	   .Tip("Антизаполнение (Shift+Ctrl+Click)");

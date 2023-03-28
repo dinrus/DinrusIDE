@@ -96,7 +96,7 @@ private:
 	dword m_winVer;	//current windows version
 
 	// *** Private methods ***
-	STDMETHODIMP InvokeNPP(Upp::Ctrl* hParent, LPCSTR pszWorkingDir, LPCSTR pszCmd, LPCSTR pszParam, int iShowCmd);
+	STDMETHODIMP InvokeNPP(Window* hParent, LPCSTR pszWorkingDir, LPCSTR pszCmd, LPCSTR pszParam, int iShowCmd);
 	STDMETHODIMP LoadShellIcon(int cx, int cy, HICON * phicon);
 
 public:
@@ -115,7 +115,7 @@ public:
 	STDMETHODIMP QueryContextMenu(Menu* hMenu, UINT indexMenu, UINT idCmdFirst, UINT idCmdLast, UINT uFlags);
 	STDMETHODIMP InvokeCommand(LPCMINVOKECOMMANDINFO lpcmi);
 	STDMETHODIMP GetCommandString(UINT_PTR idCmd, UINT uFlags, UINT FAR *reserved, LPSTR pszName, UINT cchMax);
-	STDMETHODIMP HandleMenuMsg(UINT uMsg, WPARAM wParam, LPARAM lParam) { return HandleMenuMsg2(uMsg, wParam, lParam, Null); };
+	STDMETHODIMP HandleMenuMsg(UINT uMsg, WPARAM wParam, LPARAM lParam) { return HandleMenuMsg2(uMsg, wParam, lParam, nullptr); };
 	STDMETHODIMP HandleMenuMsg2(UINT uMsg, WPARAM wParam, LPARAM lParam, LRESULT *plResult);
 
 	// *** IPersistFile methods ***

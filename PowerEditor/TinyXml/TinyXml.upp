@@ -1,16 +1,7 @@
 file
-	tinystr.cpp,
-	tinystr.h,
-	tinyxml.cpp,
 	tinyxml.h,
+	tinystr.cpp,
+	tinyxml.cpp,
 	tinyxmlerror.cpp,
-	tinyxmlparser.cpp,
-	TinyXmlA readonly separator,
-	tinyXmlA\tinystrA.cpp,
-	tinyXmlA\tinystrA.h,
-	tinyXmlA\tinyxmlA.cpp,
-	tinyXmlA\tinyxmlA.h,
-	tinyXmlA\tinyxmlerrorA.cpp,
-	tinyXmlA\tinyxmlparserA.cpp,
-	end readonly separator;
+	tinyxmlparser.cpp;
 

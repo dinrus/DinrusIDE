@@ -26,9 +26,9 @@ typedef const char * (__cdecl * PFUNCGETNAME)();
 
 struct NppData
 {
-	Upp::Ctrl* _nppHandle = nullptr;
-	Upp::Ctrl* _scintillaMainHandle = nullptr;
-	Upp::Ctrl* _scintillaSecondHandle = nullptr;
+	Window* _nppHandle = nullptr;
+	Window* _scintillaMainHandle = nullptr;
+	Window* _scintillaSecondHandle = nullptr;
 };
 
 typedef void (__cdecl * PFUNCSETINFO)(NppData);

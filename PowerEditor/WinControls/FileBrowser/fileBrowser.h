@@ -47,7 +47,7 @@ friend class FolderInfo;
 
 public:
 	FileInfo() = delete; // constructor by default is forbidden
-	FileInfo(const String & name, FolderInfo *parent) : _name(name), _parent(parent) {};
+	FileInfo(const String& name, FolderInfo *parent) : _name(name), _parent(parent) {};
 	String getName() const { return _name; };
 	void setName(String name) { _name = name; };
 
@@ -64,7 +64,7 @@ friend class FolderUpdater;
 
 public:
 	FolderInfo() = delete; // constructor by default is forbidden
-	FolderInfo(const String & name, FolderInfo *parent) : _name(name), _parent(parent) {};
+	FolderInfo(const String& name, FolderInfo *parent) : _name(name), _parent(parent) {};
 	void setRootPath(const char* rootPath) { _rootPath = rootPath; };
 	String getRootPath() const { return _rootPath; };
 	void setName(const char* name) { _name = name; };
@@ -72,7 +72,7 @@ public:
 	void addFile(const char* fn) { _files.push_back(FileInfo(fn, this)); };
 	void addSubFolder(FolderInfo subDirectoryStructure) { _subFolders.push_back(subDirectoryStructure); };
 
-	bool addToStructure(String & fullpath, Upp::Vector<String> linarPathArray);
+	bool addToStructure(String& fullpath, Upp::Vector<String> linarPathArray);
 	bool removeFromStructure(Upp::Vector<String> linarPathArray);
 	bool renameInStructure(Upp::Vector<String> linarPathArrayFrom, Upp::Vector<String> linarPathArrayTo);
 
@@ -120,7 +120,7 @@ class FileBrowser : public DockingDlgInterface {
 public:
 	FileBrowser(): DockingDlgInterface(IDD_FILEBROWSER) {};
 	~FileBrowser();
-	void init(Ctrl& hInst, Upp::Ctrl* hPere) {
+	void init(Window& hInst, Window* hPere) {
 		DockingDlgInterface::init(hInst, hPere);
 	}
 
@@ -128,7 +128,7 @@ public:
         DockingDlgInterface::display(toShow);
     };
 
-    void setParent(Upp::Ctrl* parent2set){
+    void setParent(Window* parent2set){
         _hParent = parent2set;
     };
 
@@ -144,7 +144,7 @@ public:
 	String getNodeName(HTREEITEM node) const;
 	void addRootFolder(String rootFolderPath);
 
-	HTREEITEM getRootFromFullPath(const String & rootPath) const;
+	HTREEITEM getRootFromFullPath(const String& rootPath) const;
 	HTREEITEM findChildNodeFromName(HTREEITEM parent, const char* label) const;
 
 	HTREEITEM findInTree(const char* rootPath, HTREEITEM node, Upp::Vector<String> linarPathArray) const;
@@ -153,7 +153,7 @@ public:
 		popupMenuCmd(IDM_FILEBROWSER_REMOVEALLROOTS);
 	};
 
-	bool renameInTree(const char* rootPath, HTREEITEM node, const Upp::Vector<String>& linarPathArrayFrom, const String & renameTo);
+	bool renameInTree(const char* rootPath, HTREEITEM node, const Upp::Vector<String>& linarPathArrayFrom, const String& renameTo);
 
 	Upp::Vector<String> getRoots() const;
 	String getSelectedItemPath() const;
@@ -161,15 +161,15 @@ public:
 	bool selectItemFromPath(const char* itemPath) const;
 
 protected:
-	Upp::Ctrl* _hToolbarMenu = nullptr;
+	Window* _hToolbarMenu = nullptr;
 
 	TreeView _treeView;
 	HIMAGELIST _hImaLst = nullptr;
 
-	Menu* _hGlobalMenu = Null;
-	Menu* _hRootMenu = Null;
-	Menu* _hFolderMenu = Null;
-	Menu* _hFileMenu = Null;
+	Menu* _hGlobalMenu = nullptr;
+	Menu* _hRootMenu = nullptr;
+	Menu* _hFolderMenu = nullptr;
+	Menu* _hFileMenu = nullptr;
 	std::vector<FolderUpdater *> _folderUpdaters;
 
 	String _selectedNodeFullPath; // this member is used only for PostMessage call

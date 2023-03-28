@@ -213,7 +213,7 @@ void XmlParser::Ent(StringBuffer& out)
 		}
 	}
 	if(!relaxed)
-		throw XmlError("Unknown entity");
+		throw XmlError("Неизвестная сущность");
 	out.Cat('&');
 }
 
@@ -279,7 +279,7 @@ void XmlParser::Next()
 	if(empty_tag) {
 		empty_tag = false;
 		type = XML_END;
-		LLOG("XML_END (empty tag) " << tagtext);
+		LLOG("XML_END (пустой тэг) " << tagtext);
 		return;
 	}
 
@@ -300,7 +300,7 @@ void XmlParser::Next()
 				LLOG("CDATA");
 				for(;;) {
 					if(!HasMore())
-						throw XmlError("Unterminated CDATA");
+						throw XmlError("Неоконченн. CDATA");
 					LoadMore();
 					if(term[0] == ']' && term[1] == ']' && term[2] == '>') { // ]]>
 						term += 3;
@@ -350,7 +350,7 @@ void XmlParser::Next()
 				if(term[0] == '-' && term[1] == '-' && term[2] == '>')
 					break;
 				if(!HasMore())
-					throw XmlError("Unterminated comment");
+					throw XmlError("Неоконченный коммент");
 				if(*term == '\n')
 					line++;
 				tagtext.Cat(*term++);
@@ -373,7 +373,7 @@ void XmlParser::Next()
 				break;
 			}
 			if(!HasMore())
-				throw XmlError("Unterminated declaration");
+				throw XmlError("Неоконченное объявление");
 			if(*term == '\n')
 				line++;
 			tagtext.Cat(*term++);
@@ -408,7 +408,7 @@ void XmlParser::Next()
 				return;
 			}
 			if(!HasMore())
-				throw XmlError("Unterminated processing info");
+				throw XmlError("Неоконченное инфо об обработке");
 			if(*term == '\n')
 				line++;
 			tagtext.Cat(*term++);
@@ -424,7 +424,7 @@ void XmlParser::Next()
 		tagtext = String(t, term);
 		LLOG("XML_END " << tagtext);
 		if(*term != '>')
-			throw XmlError("Unterminated end-tag");
+			throw XmlError("Неоконченный конечный тэг");
 		term++;
 	}
 	else {
@@ -447,7 +447,7 @@ void XmlParser::Next()
 				break;
 			}
 			if(!HasMore())
-				throw XmlError("Unterminated tag");
+				throw XmlError("Неоконченный тэг");
 			LoadMore();
 			const char *t = term++;
 			while((byte)*term > ' ' && *term != '=' && *term != '>')
@@ -501,7 +501,7 @@ bool   XmlParser::IsTag()
 String XmlParser::ReadTag(bool next)
 {
 	if(type != XML_TAG)
-		throw XmlError("Expected tag");
+		throw XmlError("Ожидался тэг");
 	LLOG("ReadTag " << tagtext);
 	String h = tagtext;
 	if(next) {
@@ -548,19 +548,19 @@ bool  XmlParser::Tag(const String& tag)
 void  XmlParser::PassTag(const char *tag)
 {
 	if(!Tag(tag))
-		throw XmlError(String().Cat() << '\'' << tag << "\' tag expected");
+		throw XmlError(String().Cat() << '\'' << tag << "\' ожидался");
 }
 
 void  XmlParser::PassTag(const String& tag)
 {
 	if(!Tag(tag))
-		throw XmlError(String().Cat() << '\'' << tag << "\' tag expected");
+		throw XmlError(String().Cat() << '\'' << tag << "\' ожидался");
 }
 
 String XmlParser::ReadEnd(bool next)
 {
 	if(type != XML_END)
-		throw XmlError("Expected end-tag");
+		throw XmlError("Ожидался конечный тэг");
 	String x = tagtext;
 	if(next)
 		Next();
@@ -575,15 +575,15 @@ bool  XmlParser::IsEnd()
 bool  XmlParser::End()
 {
 	if(IsEof())
-		throw XmlError("Unexpected end of file");
+		throw XmlError("Неожиданный конец файла");
 	if(IsEnd()) {
 		LLOG("EndTag " << tagtext);
 		if(!raw) {
 			if(stack.IsEmpty())
-				throw XmlError(Format("Unexpected end-tag: </%s>", tagtext));
+				throw XmlError(Format("Неожидавшийся конечный тэг: </%s>", tagtext));
 			if(stack.Top().tag != tagtext && !relaxed) {
 				LLOG("Tag/end-tag mismatch: <" << stack.Top().tag << "> </" << tagtext << ">");
-				throw XmlError(Format("Tag/end-tag mismatch: <%s> </%s>", stack.Top().tag, tagtext));
+				throw XmlError(Format("Несоответствие тэга/конечного тэга: <%s> </%s>", stack.Top().tag, tagtext));
 			}
 			stack.Drop();
 		}
@@ -615,13 +615,13 @@ bool XmlParser::End(const String& tag)
 void  XmlParser::PassEnd()
 {
 	if(!End())
-		throw XmlError(String().Cat() << "Expected \'" << (stack.GetCount() ? stack.Top().tag : String()) << "\' end-tag");
+		throw XmlError(String().Cat() << "Ожидался \'" << (stack.GetCount() ? stack.Top().tag : String()) << "\' конечный тэг");
 }
 
 void XmlParser::PassEnd(const char *tag)
 {
 	if(!End(tag))
-		throw XmlError(String().Cat() << "Expected \'" << tag << "\' end-tag");
+		throw XmlError(String().Cat() << "Ожидался \'" << tag << "\' конечный тэг");
 }
 
 bool  XmlParser::TagE(const char *tag)
@@ -722,7 +722,7 @@ bool   XmlParser::IsDecl()
 String XmlParser::ReadDecl(bool next)
 {
 	if(!IsDecl())
-		throw XmlError("Declaration expected");
+		throw XmlError("Ожидалось объявление");
 	String h = tagtext;
 	if(next)
 		Next();
@@ -737,7 +737,7 @@ bool   XmlParser::IsPI()
 String XmlParser::ReadPI(bool next)
 {
 	if(!IsPI())
-		throw XmlError("Processing info expected");
+		throw XmlError("Ожидалось инфо об обработке");
 	String h = tagtext;
 	if(next)
 		Next();
@@ -752,7 +752,7 @@ bool   XmlParser::IsComment()
 String XmlParser::ReadComment(bool next)
 {
 	if(!IsComment())
-		throw XmlError("Comment expected");
+		throw XmlError("Ожидался коммент");
 	String h = tagtext;
 	if(next)
 		Next();
@@ -762,7 +762,7 @@ String XmlParser::ReadComment(bool next)
 void XmlParser::Skip()
 {
 	if(IsEof())
-		throw XmlError("Unexpected end of file");
+		throw XmlError("Ожидался конец файла");
 	if(cdata.GetCount() && type != XML_TEXT)
 		cdata.Clear();
 	else
@@ -770,7 +770,7 @@ void XmlParser::Skip()
 		String n = ReadTag();
 		while(!End()) {
 			if(IsEof())
-				throw XmlError("Unexpected end of file expected when skipping tag \'" + n + "\'");
+				throw XmlError("Неожиданный конец файла при пропуске тэга \'" + n + "\'");
 			Skip();
 		}
 	}
@@ -1048,7 +1048,7 @@ XmlNode ParseXMLFile(const char *path, dword style)
 {
 	FileIn in(path);
 	if(!in)
-		throw XmlError("Unable to open intput file!");
+		throw XmlError("Не удаётся открыть входной файл!");
 	return ParseXML(in, style);
 }
 
@@ -1073,7 +1073,7 @@ XmlNode ParseXMLFile(const char *path, ParseXmlFilter& filter, dword style)
 {
 	FileIn in(path);
 	if(!in)
-		throw XmlError("Unable to open intput file!");
+		throw XmlError("Не удаётся открыть входной файл!");
 	return ParseXML(in, filter, style);
 }
 

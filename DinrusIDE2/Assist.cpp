@@ -608,9 +608,9 @@ bool AssistEditor::AssistTip(CodeEditor::MouseTip& mt)
 				qtf << " ";
 				qtf << "[@B \1" << GetFileName(d.path) << "\1] " << d.pos.y << ": ";
 				if(IsWarning(d.kind))
-					qtf << "[@m warning: ]";
+					qtf << "[@m предупреждение: ]";
 				if(IsError(d.kind))
-					qtf << "[@r error: ]";
+					qtf << "[@r ошибка: ]";
 				qtf << "\1" << d.text << "\1";
 				qtf << "]";
 			}
@@ -748,14 +748,14 @@ void AssistEditor::PopUpAssist(bool auto_insert)
 			return;
 		AssistItem& m = assist_item.Add();
 		m.kind = KIND_ERROR;
-		m.pretty = "No relevant autocomplete info found";
+		m.pretty = "Не найдено соответствующей инфо об автозаполнении";
 	}
 	Upp::Sort(assist_item, [=](const AssistItem& a, const AssistItem& b) {
 		return CombineCompare(a.priority, b.priority)(a.uname, b.uname) < 0;
 	});
 	int lcy = max(16, BrowserFont().Info().GetHeight());
 	type.Clear();
-	type.Add(AttrText("<all>").Ink(SColorHighlight()));
+	type.Add(AttrText("<все>").Ink(SColorHighlight()));
 	if(assist_type.GetCount() == 0)
 		popup.Zoom(1);
 	else {
@@ -763,7 +763,7 @@ void AssistEditor::PopUpAssist(bool auto_insert)
 			String s = assist_type[i];
 			if(s[0] == ':' && s[1] == ':')
 				s = s.Mid(2);
-			s = Nvl(s, "<globals>");
+			s = Nvl(s, "<глобальные>");
 			if(s[0] == '<')
 				type.Add(AttrText(s).Ink(SColorMark()));
 			else

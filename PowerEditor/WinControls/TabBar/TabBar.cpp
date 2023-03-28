@@ -38,10 +38,10 @@ Color& TabBarPlus::_activeTopBarUnfocusedColour = Color(250, 210, 150);
 Color& TabBarPlus::_inactiveTextColour = grey;
 Color& TabBarPlus::_inactiveBgColour = Color(192, 192, 192);
 
-Upp::Ctrl* TabBarPlus::_hwndArray[nbCtrlMax] = {Null, Null, Null, Null, Null, Null, Null, Null, Null, Null};
+Window* TabBarPlus::_hwndArray[nbCtrlMax] = {nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr};
 int TabBarPlus::_nbCtrl = 0;
 
-void TabBar::init(Ctrl& hInst, Upp::Ctrl* parent, bool isVertical, bool isMultiLine)
+void TabBar::init(Window& hInst, Window* parent, bool isVertical, bool isMultiLine)
 {
 	Window::init(hInst, parent);
 	int vertical = isVertical?(TCS_VERTICAL | TCS_MULTILINE | TCS_RIGHTJUSTIFY):0;
@@ -65,7 +65,7 @@ void TabBar::init(Ctrl& hInst, Upp::Ctrl* parent, bool isVertical, bool isMultiL
 				style,
 				0, 0, 0, 0,
 				_hParent,
-				Null,
+				nullptr,
 				_hInst,
 				0);
 
@@ -91,7 +91,7 @@ void TabBar::destroy()
 		DeleteObject(_hVerticalLargeFont);
 
 	::DestroyWindow(_hSelf);
-	_hSelf = Null;
+	_hSelf = nullptr;
 }
 
 
@@ -248,11 +248,11 @@ void TabBarPlus::destroy()
 {
 	TabBar::destroy();
 	::DestroyWindow(_tooltips);
-	_tooltips = Null;
+	_tooltips = nullptr;
 }
 
 
-void TabBarPlus::init(Ctrl& hInst, Upp::Ctrl* parent, bool isVertical, bool isMultiLine)
+void TabBarPlus::init(Window& hInst, Window* parent, bool isVertical, bool isMultiLine)
 {
 	Window::init(hInst, parent);
 	int vertical = isVertical?(TCS_VERTICAL | TCS_MULTILINE | TCS_RIGHTJUSTIFY):0;
@@ -276,7 +276,7 @@ void TabBarPlus::init(Ctrl& hInst, Upp::Ctrl* parent, bool isVertical, bool isMu
 				style,
 				0, 0, 0, 0,
 				_hParent,
-				Null,
+				nullptr,
 				_hInst,
 				0);
 
@@ -288,11 +288,11 @@ void TabBarPlus::init(Ctrl& hInst, Upp::Ctrl* parent, bool isVertical, bool isMu
 	_tooltips = ::CreateWindowEx(
 		0,
 		TOOLTIPS_CLASS,
-		Null,
+		nullptr,
 		TTS_ALWAYSTIP | TTS_NOPREFIX,
 		0, 0, 0, 0,
 		_hParent,
-		Null,
+		nullptr,
 		_hInst,
 		0);
 
@@ -335,10 +335,10 @@ void TabBarPlus::init(Ctrl& hInst, Upp::Ctrl* parent, bool isVertical, bool isMu
 
 	_hFont = (HFONT)::SendMessage(_hSelf, WM_GETFONT, 0, 0);
 
-	if (_hFont == Null)
+	if (_hFont == nullptr)
 		_hFont = (HFONT)::GetStockObject(DEFAULT_GUI_FONT);
 
-	if (_hLargeFont == Null)
+	if (_hLargeFont == nullptr)
 		_hLargeFont = (HFONT)::GetStockObject(SYSTEM_FONT);
 
 	if (::GetObject(_hFont, sizeof(LOGFONT), &LogFont) != 0)
@@ -367,7 +367,7 @@ void TabBarPlus::doOwnerDrawTab()
 				style &= ~TCS_OWNERDRAWFIXED;
 
 			::SetWindowLongPtr(_hwndArray[i], GWL_STYLE, style);
-			::InvalidateRect(_hwndArray[i], Null, TRUE);
+			::InvalidateRect(_hwndArray[i], nullptr, TRUE);
 
 			const int paddingSizeDynamicW = NppParameters::getInstance()._dpiManager.scaleX(6);
 			const int paddingSizePlusClosebuttonDynamicW = NppParameters::getInstance()._dpiManager.scaleX(9);
@@ -441,7 +441,7 @@ void TabBarPlus::trackMouseEvent(dword event2check)
 	TrackMouseEvent(&tme);
 }
 
-LRESULT TabBarPlus::runProc(Upp::Ctrl* hwnd, UINT Message, WPARAM wParam, LPARAM lParam)
+LRESULT TabBarPlus::runProc(Window* hwnd, UINT Message, WPARAM wParam, LPARAM lParam)
 {
 	switch (Message)
 	{
@@ -459,7 +459,7 @@ LRESULT TabBarPlus::runProc(Upp::Ctrl* hwnd, UINT Message, WPARAM wParam, LPARAM
 			_isMultiLine = ((style & TCS_MULTILINE) != 0);
 
 			::SetWindowLongPtr(hwnd, GWL_STYLE, style);
-			::InvalidateRect(hwnd, Null, TRUE);
+			::InvalidateRect(hwnd, nullptr, TRUE);
 
 			return TRUE;
 		}
@@ -987,7 +987,7 @@ LRESULT TabBarPlus::runProc(Upp::Ctrl* hwnd, UINT Message, WPARAM wParam, LPARAM
 			{
 				case WM_CREATE:
 				{
-					auto hwndUpdown = reinterpret_cast<Upp::Ctrl*>(lParam);
+					auto hwndUpdown = reinterpret_cast<Window*>(lParam);
 					if (NppDarkMode::subclassTabUpDownControl(hwndUpdown))
 					{
 						return 0;
@@ -1010,7 +1010,7 @@ void TabBarPlus::drawItem(DRAWITEMSTRUCT *pDrawItemStruct, bool isDarkMode)
 	int nTab = pDrawItemStruct->itemID;
 	if (nTab < 0)
 	{
-		::MessageBox(Null, TEXT("nTab < 0"), TEXT(""), MB_OK);
+		::MessageBox(nullptr, TEXT("nTab < 0"), TEXT(""), MB_OK);
 	}
 	bool isSelected = (nTab == ::SendMessage(_hSelf, TCM_GETCURSEL, 0, 0));
 
@@ -1022,7 +1022,7 @@ void TabBarPlus::drawItem(DRAWITEMSTRUCT *pDrawItemStruct, bool isDarkMode)
 
 	if (!::SendMessage(_hSelf, TCM_GETITEM, nTab, reinterpret_cast<LPARAM>(&tci)))
 	{
-		::MessageBox(Null, TEXT("! TCM_GETITEM"), TEXT(""), MB_OK);
+		::MessageBox(nullptr, TEXT("! TCM_GETITEM"), TEXT(""), MB_OK);
 	}
 	HDC hDC = pDrawItemStruct->hDC;
 
@@ -1204,7 +1204,7 @@ void TabBarPlus::drawItem(DRAWITEMSTRUCT *pDrawItemStruct, bool isDarkMode)
 		else
 			SelectObject(hDC, _hLargeFont);
 	}
-	SIZE charPixel;
+	Size charPixel;
 	::GetTextExtentPoint(hDC, TEXT(" "), 1, &charPixel);
 	int spaceUnit = charPixel.cx;
 
@@ -1273,9 +1273,9 @@ void TabBarPlus::drawItem(DRAWITEMSTRUCT *pDrawItemStruct, bool isDarkMode)
 
 void TabBarPlus::draggingCursor(POINT screenPoint)
 {
-	Upp::Ctrl* hWin = ::WindowFromPoint(screenPoint);
+	Window* hWin = ::WindowFromPoint(screenPoint);
 	if (_hSelf == hWin)
-		::SetCursor(::LoadCursor(Null, IDC_ARROW));
+		::SetCursor(::LoadCursor(nullptr, IDC_ARROW));
 	else
 	{
 		char className[256];

@@ -34,7 +34,7 @@ public :
     DockingManager();
     ~DockingManager();
 
-    void init(Ctrl& hInst, Upp::Ctrl* hWnd, Window ** ppWin);
+    void init(Window& hInst, Window* hWnd, Window ** ppWin);
     virtual void reSizeTo(Rect & rc);
 
     void setClientWnd(Window ** ppWin) {
@@ -44,14 +44,14 @@ public :
 
     void showFloatingContainers(bool show);
 
-    void updateContainerInfo(Upp::Ctrl* hClient);
+    void updateContainerInfo(Window* hClient);
     void createDockableDlg(tTbData data, int iCont = CONT_LEFT, bool isVisible = false);
     void setActiveTab(int iCont, int iItem);
-    void showDockableDlg(Upp::Ctrl* hDlg, BOOL view);
+    void showDockableDlg(Window* hDlg, BOOL view);
     void showDockableDlg(char* pszName, BOOL view);
 
-    DockingCont* toggleActiveTb(DockingCont* pContSrc, UINT message, BOOL bNew = FALSE, LPRECT rcFloat = Null);
-    DockingCont* toggleVisTb(DockingCont* pContSrc, UINT message, LPRECT rcFloat = Null);
+    DockingCont* toggleActiveTb(DockingCont* pContSrc, UINT message, BOOL bNew = FALSE, LPRECT rcFloat = nullptr);
+    DockingCont* toggleVisTb(DockingCont* pContSrc, UINT message, LPRECT rcFloat = nullptr);
     void         toggleActiveTb(DockingCont* pContSrc, DockingCont* pContTgt);
     void         toggleVisTb(DockingCont* pContSrc, DockingCont* pContTgt);
 
@@ -88,7 +88,7 @@ private :
     Rect                        _rcWork = {};
     Rect                        _rect = {};
     Window                      **_ppMainWindow = nullptr;
-    std::vector<Upp::Ctrl*>           _vImageList;
+    std::vector<Window*>           _vImageList;
     HIMAGELIST                  _hImageList = nullptr;
     std::vector<DockingCont*>   _vContainer;
     tDockMgr                    _dockData;
@@ -98,15 +98,15 @@ private :
     std::vector<DockingSplitter*>   _vSplitter;
 
 
-    static LRESULT CALLBACK staticWinProc(Upp::Ctrl* hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
-    LRESULT runProc(Upp::Ctrl* hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
+    static LRESULT CALLBACK staticWinProc(Window* hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
+    LRESULT runProc(Window* hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
 
     void    toggleTb(DockingCont* pContSrc, DockingCont* pContTgt, tTbData TbData);
 
     // test if container exists
     BOOL ContExists(size_t iCont);
     int  FindEmptyContainer();
-    LRESULT SendNotify(Upp::Ctrl* hWnd, UINT message);
+    LRESULT SendNotify(Window* hWnd, UINT message);
 
 
 };

@@ -14,10 +14,10 @@ bool InitTheming();
 bool DeinitTheming();
 
 void InitBitmapInfo(BITMAPINFO *pbmi, ULONG cbInfo, LONG cx, LONG cy, WORD bpp);
-HRESULT Create32BitHBITMAP(HDC hdc, const SIZE *psize, void **ppvBits, HBITMAP* phBmp);
-HRESULT ConvertToPARGB32(HDC hdc, ARGB *pargb, HBITMAP hbmp, SIZE& sizImage, int cxRow);
-bool HasAlpha(ARGB *pargb, SIZE& sizImage, int cxRow);
-HRESULT ConvertBufferToPARGB32(HPAINTBUFFER hPaintBuffer, HDC hdc, HICON hicon, SIZE& sizIcon);
+HRESULT Create32BitHBITMAP(HDC hdc, const Size *psize, void **ppvBits, HBITMAP* phBmp);
+HRESULT ConvertToPARGB32(HDC hdc, ARGB *pargb, HBITMAP hbmp, Size& sizImage, int cxRow);
+bool HasAlpha(ARGB *pargb, Size& sizImage, int cxRow);
+HRESULT ConvertBufferToPARGB32(HPAINTBUFFER hPaintBuffer, HDC hdc, HICON hicon, Size& sizIcon);
 HBITMAP IconToBitmapPARGB32(HICON hIcon, dword cx, dword cy);
 
 typedef struct
@@ -42,4 +42,4 @@ typedef struct
 
 
 
-HICON LoadIconEx(Ctrl& hInst, LPCTSTR lpszName, int cz, int cy, int depth);
+HICON LoadIconEx(Window& hInst, LPCTSTR lpszName, int cz, int cy, int depth);

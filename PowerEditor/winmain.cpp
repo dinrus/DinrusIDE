@@ -1,19 +1,3 @@
-// This file is part of Notepad++ project
-// Copyright (C)2021 Don HO <don.h@free.fr>
-
-// This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// at your option any later version.
-//
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
 #include <PowerEditor/Notepad_plus_Window.h>
 #include <PowerEditor/MISC/Process/Processus.h>
 #include <PowerEditor/MISC/Exception/Win32Exception.h> //Win32 exception
@@ -27,8 +11,6 @@ typedef Vector<String> ParamVector;
 
 namespace
 {
-
-
 void allowWmCopydataMessages(Notepad_plus_Window& notepad_plus_plus, const NppParameters& nppParameters, winVer ver)
 {
     #ifndef MSGFLT_ADD
@@ -57,18 +39,18 @@ void allowWmCopydataMessages(Notepad_plus_Window& notepad_plus_plus, const NppPa
             }
             else
             {
-                typedef BOOL (WINAPI *MESSAGEFILTERFUNCEX)(Upp::Ctrl* hWnd,UINT message,dword action,VOID* pChangeFilterStruct);
+                typedef BOOL (WINAPI *MESSAGEFILTERFUNCEX)(Window* hWnd,UINT message,dword action,VOID* pChangeFilterStruct);
 
                 MESSAGEFILTERFUNCEX func = (MESSAGEFILTERFUNCEX)::GetProcAddress( hDll, "ChangeWindowMessageFilterEx" );
 
                 if (func)
-                    func(notepad_plus_plus.getHSelf(), WM_COPYDATA, MSGFLT_ALLOW, Null );
+                    func(notepad_plus_plus.getHSelf(), WM_COPYDATA, MSGFLT_ALLOW, nullptr );
             }
         }
     }
 }
 
-// parseCommandLine() takes command line arguments part string, cuts arguments by using white space as separater.
+// parseCommandLine() takes command line arguments part String, cuts arguments by using white space as separater.
 // Only white space in double quotes will be kept, such as file path argument or "-settingsDir=" argument (ex.: -settingsDir="c:\my settings\my folder\")
 void parseCommandLine(const char* commandLine, ParamVector& paramVector)
 {
@@ -184,7 +166,7 @@ bool isInList(const char *token2Find, ParamVector& params, bool eraseArg = true)
     return false;
 };
 
-bool getParamVal(char c, ParamVector & params, String & value)
+bool getParamVal(char c, ParamVector & params, String& value)
 {
     value = TEXT("");
     size_t nbItems = params.size();
@@ -202,7 +184,7 @@ bool getParamVal(char c, ParamVector & params, String & value)
     return false;
 }
 
-bool getParamValFromString(const char *str, ParamVector & params, String & value)
+bool getParamValFromString(const char *str, ParamVector & params, String& value)
 {
     value = TEXT("");
     size_t nbItems = params.size();
@@ -336,15 +318,15 @@ void doException(Notepad_plus_Window & notepad_plus_plus)
         ::MessageBox(Notepad_plus_Window::gNppHWND, TEXT("Unfortunatly, Notepad++ was not able to save your work. We are sorry for any lost data."), TEXT("Recovery failure"), MB_OK | MB_ICONERROR);
 }
 
-PWSTR advanceCmdLine(PWSTR pCmdLine, const char* string)
+PWSTR advanceCmdLine(PWSTR pCmdLine, const char* String)
 {
-    const size_t len = string.GetLength();
+    const size_t len = String.GetLength();
     while (true)
     {
-        PWSTR ignoredString = wcsstr(pCmdLine, string.Begin());
+        PWSTR ignoredString = wcsstr(pCmdLine, String.Begin());
         if (ignoredString == nullptr)
         {
-            // Should never happen - tokenized parameters contain string somewhere, so it HAS to match
+            // Should never happen - tokenized parameters contain String somewhere, so it HAS to match
             // This is there just in case
             break;
         }
@@ -407,7 +389,7 @@ PWSTR stripIgnoredParams(ParamVector & params, PWSTR pCmdLine)
 
 
 
-int WINAPI wWinMain(Ctrl& hInstance, Ctrl&, PWSTR pCmdLine, int)
+int WINAPI wWinMain(Window& hInstance, Window&, PWSTR pCmdLine, int)
 {
     String cmdLineString = pCmdLine ? pCmdLine : "";
     ParamVector params;
@@ -418,7 +400,7 @@ int WINAPI wWinMain(Ctrl& hInstance, Ctrl&, PWSTR pCmdLine, int)
 
     bool TheFirstOne = true;
     ::SetLastError(NO_ERROR);
-    ::CreateMutex(Null, false, TEXT("nppInstance"));
+    ::CreateMutex(nullptr, false, TEXT("nppInstance"));
     if (::GetLastError() == ERROR_ALREADY_EXISTS)
         TheFirstOne = false;
 
@@ -514,7 +496,7 @@ int WINAPI wWinMain(Ctrl& hInstance, Ctrl&, PWSTR pCmdLine, int)
     }
 
     if (showHelp)
-        ::MessageBox(Null, COMMAND_ARG_HELP, TEXT("Notepad++ Command Argument Help"), MB_OK);
+        ::MessageBox(nullptr, COMMAND_ARG_HELP, TEXT("Notepad++ Command Argument Help"), MB_OK);
 
     if (cmdLineParams._localizationPath != TEXT(""))
     {
@@ -581,11 +563,11 @@ int WINAPI wWinMain(Ctrl& hInstance, Ctrl&, PWSTR pCmdLine, int)
 
     if ((!isMultiInst) && (!TheFirstOne))
     {
-        Upp::Ctrl* hNotepad_plus = ::FindWindow(Notepad_plus_Window::getClassName(), Null);
+        Window* hNotepad_plus = ::FindWindow(Notepad_plus_Window::getClassName(), nullptr);
         for (int i = 0 ;!hNotepad_plus && i < 5 ; ++i)
         {
             Sleep(100);
-            hNotepad_plus = ::FindWindow(Notepad_plus_Window::getClassName(), Null);
+            hNotepad_plus = ::FindWindow(Notepad_plus_Window::getClassName(), nullptr);
         }
 
         if (hNotepad_plus)
@@ -725,12 +707,12 @@ int WINAPI wWinMain(Ctrl& hInstance, Ctrl&, PWSTR pCmdLine, int)
     Win32Exception::installHandler();
     try
     {
-        notepad_plus_plus.init(hInstance, Null, quotFileName.Begin(), &cmdLineParams);
+        notepad_plus_plus.init(hInstance, nullptr, quotFileName.Begin(), &cmdLineParams);
         allowWmCopydataMessages(notepad_plus_plus, nppParameters, ver);
         bool going = true;
         while (going)
         {
-            going = ::GetMessageW(&msg, Null, 0, 0) != 0;
+            going = ::GetMessageW(&msg, nullptr, 0, 0) != 0;
             if (going)
             {
                 // if the message doesn't belong to the notepad_plus_plus's dialog

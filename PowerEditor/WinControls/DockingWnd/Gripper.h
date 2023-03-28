@@ -45,7 +45,7 @@ class Gripper final
 public:
     Gripper() = default;;
 
-    void init(Ctrl& hInst, Upp::Ctrl* hParent) {
+    void init(Window& hInst, Window* hParent) {
         _hInst   = hInst;
         _hParent = hParent;
         dword hwndExStyle = (dword)GetWindowLongPtr(_hParent, GWL_EXSTYLE);
@@ -59,7 +59,7 @@ public:
             // usually this should already have been done by a call to drawRectangle(),
             // here just for cases where usual handling was interrupted (jg)
             #ifdef USE_LOCKWINDOWUPDATE
-            ::LockWindowUpdate(Null);
+            ::LockWindowUpdate(nullptr);
             #endif
             ::ReleaseDC(0, _hdc);
         }
@@ -75,7 +75,7 @@ protected :
 
     void create();
 
-    static LRESULT CALLBACK staticWinProc(Upp::Ctrl* hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
+    static LRESULT CALLBACK staticWinProc(Window* hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
     LRESULT runProc(UINT Message, WPARAM wParam, LPARAM lParam);
 
     void onMove();
@@ -86,15 +86,15 @@ protected :
     void getMousePoints(POINT* pt, POINT* ptPrev);
     void getMovingRect(POINT pt, Rect *rc);
     DockingCont * contHitTest(POINT pt);
-    DockingCont * workHitTest(POINT pt, Rect *rcCont = Null);
+    DockingCont * workHitTest(POINT pt, Rect *rcCont = nullptr);
 
     void initTabInformation();
 
-    void CalcRectToScreen(Upp::Ctrl* hWnd, Rect *rc) {
+    void CalcRectToScreen(Window* hWnd, Rect *rc) {
         ClientRectToScreenRect(hWnd, rc);
         ShrinkRcToSize(rc);
     };
-    void CalcRectToClient(Upp::Ctrl* hWnd, Rect *rc) {
+    void CalcRectToClient(Window* hWnd, Rect *rc) {
         ScreenRectToClientRect(hWnd, rc);
         ShrinkRcToSize(rc);
     };
@@ -111,9 +111,9 @@ protected :
 
 private:
     // Handle
-    Ctrl& _hInst = nullptr;
-    Upp::Ctrl* _hParent = nullptr;
-    Upp::Ctrl* _hSelf = nullptr;
+    Window& _hInst = nullptr;
+    Window* _hParent = nullptr;
+    Window* _hSelf = nullptr;
 
     // data of container
     tDockMgr _dockData;
@@ -131,8 +131,8 @@ private:
     Rect _rcPrev = {};
 
     // for sorting tabs
-    Upp::Ctrl* _hTab = nullptr;
-    Upp::Ctrl* _hTabSource = nullptr;
+    Window* _hTab = nullptr;
+    Window* _hTabSource = nullptr;
     BOOL _startMovingFromTab = FALSE;
     int _iItem = 0;
     Rect _rcItem = {};

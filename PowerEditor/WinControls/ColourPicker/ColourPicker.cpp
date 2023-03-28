@@ -1,18 +1,3 @@
-// This file is part of Notepad++ project
-// Copyright (C)2021 Don HO <don.h@free.fr>
-
-// This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// at your option any later version.
-//
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 #include <iostream>
 #include <stdexcept>
@@ -20,7 +5,7 @@
 #include "ColourPopup.h"
 #include <PowerEditor/NppDarkMode.h>
 
-void ColourPicker::init(Ctrl& hInst, Upp::Ctrl* parent)
+void ColourPicker::init(Window& hInst, Window* parent)
 {
 	Window::init(hInst, parent);
 
@@ -30,7 +15,7 @@ void ColourPicker::init(Ctrl& hInst, Upp::Ctrl* parent)
 		TEXT("F"),
 		WS_CHILD |  WS_VISIBLE,
 		0, 0, 25, 25,
-		_hParent, Null, _hInst, (LPVOID)0);
+		_hParent, nullptr, _hInst, (LPVOID)0);
 
 	if (!_hSelf)
 		throw std::runtime_error("ColourPicker::init : CreateWindowEx() function return null");
@@ -43,7 +28,7 @@ void ColourPicker::init(Ctrl& hInst, Upp::Ctrl* parent)
 void ColourPicker::destroy()
 {
 	delete _pColourPopup;
-	_pColourPopup = Null;
+	_pColourPopup = nullptr;
 	::DestroyWindow(_hSelf);
 }
 
@@ -78,7 +63,7 @@ void ColourPicker::drawBackground(HDC hDC)
 void ColourPicker::drawForeground(HDC hDC)
 {
 	Rect rc;
-	HBRUSH hbrush = Null;
+	HBRUSH hbrush = nullptr;
 
 	if (!hDC || _isEnabled)
 		return;

@@ -36,7 +36,7 @@ public:
 	};
 
 	virtual ~TaskList() = default;
-	void init(Ctrl& hInst, Upp::Ctrl* hwnd, HIMAGELIST hImaLst, int nbItem, int index2set);
+	void init(Window& hInst, Window* hwnd, HIMAGELIST hImaLst, int nbItem, int index2set);
 	virtual void destroy();
 	void setFont(const char *fontName, int fontSize);
 	Rect adjustSize();
@@ -52,9 +52,9 @@ public:
 protected:
 
 	WNDPROC _defaultProc = nullptr;
-	LRESULT runProc(Upp::Ctrl* hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
+	LRESULT runProc(Window* hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
 
-	static LRESULT CALLBACK staticProc(Upp::Ctrl* hwnd, UINT Message, WPARAM wParam, LPARAM lParam) {
+	static LRESULT CALLBACK staticProc(Window* hwnd, UINT Message, WPARAM wParam, LPARAM lParam) {
 		return (((TaskList *)(::GetWindowLongPtr(hwnd, GWLP_USERDATA)))->runProc(hwnd, Message, wParam, lParam));
 	};
 

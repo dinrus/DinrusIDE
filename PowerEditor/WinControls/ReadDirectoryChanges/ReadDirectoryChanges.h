@@ -30,6 +30,8 @@
 #pragma once
 
 #define _CRT_SECURE_NO_DEPRECATE
+#include <Core/Core.h>
+using dword = Upp::dword;
 
 #include "targetver.h"
 

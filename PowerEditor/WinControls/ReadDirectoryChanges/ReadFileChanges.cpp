@@ -4,7 +4,7 @@
 
 CReadFileChanges::CReadFileChanges()
 {
-	_szFile = Null;
+	_szFile = nullptr;
 	_dwNotifyFilter = 0;
 }
 
@@ -42,6 +42,6 @@ void CReadFileChanges::AddFile(LPCTSTR szFile, dword dwNotifyFilter)
 
 void CReadFileChanges::Terminate()
 {
-	_szFile = Null;
+	_szFile = nullptr;
 	_dwNotifyFilter = 0;
 }

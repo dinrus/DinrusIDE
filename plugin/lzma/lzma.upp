@@ -1,8 +1,5 @@
 description "Компрессор LZMA (медленно, но отличное соотношение ratio)\3770,128,128";
 
-uses
-	Core;
-
 file
 	lzma.h,
 	lzma.cpp,

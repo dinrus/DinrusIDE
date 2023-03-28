@@ -130,7 +130,7 @@ static bool isInList(const char* word, const Vector<String> & wordArray)
 	return false;
 }
 
-static bool isAllDigits(const String &str)
+static bool isAllDigits(const String&str)
 {
 	for (const auto& i : str)
 	{
@@ -229,7 +229,7 @@ bool AutoCompletion::showApiAndWordComplete()
 	if (!wordArray.size())
 		return false;
 
-	// Sort word array and convert it to a single string with space-separated words
+	// Sort word array and convert it to a single String with space-separated words
 
 	sort(wordArray.begin(), wordArray.end());
 
@@ -330,7 +330,7 @@ static bool isAllowedBeforeDriveLetter(char c)
 	return c == '\'' || c == '"' || c == '(' || std::isspace(c, loc);
 }
 
-static bool getRawPath(const char* input, String &rawPath_out)
+static bool getRawPath(const char* input, String&rawPath_out)
 {
 	// Try to find a path in the given input.
 	// Algorithm: look for a colon. The colon must be preceded by an alphabetic character.
@@ -338,7 +338,7 @@ static bool getRawPath(const char* input, String &rawPath_out)
 	// a quotation mark.
 	locale loc;
 	size_t lastOccurrence = input.rfind(L":");
-	if (lastOccurrence == std::string::npos) // No match.
+	if (lastOccurrence == String::npos) // No match.
 		return false;
 	else if (lastOccurrence == 0)
 		return false;
@@ -351,7 +351,7 @@ static bool getRawPath(const char* input, String &rawPath_out)
 	return true;
 }
 
-static bool getPathsForPathCompletion(const char* input, String &rawPath_out, String &pathToMatch_out)
+static bool getPathsForPathCompletion(const char* input, String&rawPath_out, String&pathToMatch_out)
 {
 	String rawPath;
 	if (! getRawPath(input, rawPath))
@@ -371,7 +371,7 @@ static bool getPathsForPathCompletion(const char* input, String &rawPath_out, St
 	else
 	{
 		size_t last_occurrence = rawPath.rfind(L"\\");
-		if (last_occurrence == std::string::npos) // No match.
+		if (last_occurrence == String::npos) // No match.
 			return false;
 		else
 		{
@@ -493,7 +493,7 @@ bool AutoCompletion::showWordComplete(bool autoInsert)
 		return true;
 	}
 
-	// Sort word array and convert it to a single string with space-separated words
+	// Sort word array and convert it to a single String with space-separated words
 
 	sort(wordArray.begin(), wordArray.end());
 
@@ -691,7 +691,7 @@ void AutoCompletion::insertMatchedChars(int character, const MatchedPairConf & m
 {
 	const vector< pair<char, char> > & matchedPairs = matchedPairConf._matchedPairs;
 	size_t caretPos = _pEditView->execute(SCI_GETCURRENTPOS);
-	const char *matchedChars = Null;
+	const char *matchedChars = nullptr;
 
 	char charPrev = static_cast<char>(_pEditView->execute(SCI_GETCHARAT, caretPos - 2));
 	char charNext = static_cast<char>(_pEditView->execute(SCI_GETCHARAT, caretPos));
@@ -920,7 +920,7 @@ bool AutoCompletion::setLanguage(LangType language)
 	_curLang = language;
 
 	char path[MAX_PATH];
-	::GetModuleFileName(Null, path, MAX_PATH);
+	::GetModuleFileName(nullptr, path, MAX_PATH);
 	PathRemoveFileSpec(path);
 	std::wcscat(path, TEXT("\\autoCompletion\\"));
 	std::wcscat(path, getApiFileName());
@@ -931,7 +931,7 @@ bool AutoCompletion::setLanguage(LangType language)
 	_pXmlFile = new TiXmlDocument(path);
 	_funcCompletionActive = _pXmlFile->LoadFile();
 
-	TiXmlNode * pAutoNode = Null;
+	TiXmlNode * pAutoNode = nullptr;
 	if (_funcCompletionActive)
 	{
 		_funcCompletionActive = false;	//safety
@@ -995,7 +995,7 @@ bool AutoCompletion::setLanguage(LangType language)
 	}
 	else
 	{
-		_funcCalltip.setLanguageXML(Null);
+		_funcCalltip.setLanguageXML(nullptr);
 	}
 
 	_keyWords.clear();

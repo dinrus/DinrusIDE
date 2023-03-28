@@ -120,7 +120,7 @@ void ToolBar::initTheme(TiXmlDocument *toolIconsDocRoot)
 	}
 }
 
-bool ToolBar::init( Ctrl& hInst, Upp::Ctrl* hPere, toolBarStatusType type, ToolBarButtonUnit *buttonUnitArray, int arraySize)
+bool ToolBar::init( Window& hInst, Window* hPere, toolBarStatusType type, ToolBarButtonUnit *buttonUnitArray, int arraySize)
 {
 	Window::init(hInst, hPere);
 	
@@ -201,11 +201,11 @@ void ToolBar::destroy()
 	if (_pRebar)
 	{
 		_pRebar->removeBand(_rbBand.wID);
-		_pRebar = Null;
+		_pRebar = nullptr;
 	}
 	delete [] _pTBB;
 	::DestroyWindow(_hSelf);
-	_hSelf = Null;
+	_hSelf = nullptr;
 	_toolBarIcons.destroy();
 };
 
@@ -286,7 +286,7 @@ void ToolBar::reset(bool create)
 			_pTBB[i].fsState = tempBtn.fsState;
 		}
 		::DestroyWindow(_hSelf);
-		_hSelf = Null;
+		_hSelf = nullptr;
 	}
 
 	if (!_hSelf)
@@ -305,7 +305,7 @@ void ToolBar::reset(bool create)
 			0, 0,
 			0, 0,
 			_hParent,
-			Null,
+			nullptr,
 			_hInst,
 			0);
 
@@ -419,7 +419,7 @@ void ToolBar::reset(bool create)
 void ToolBar::registerDynBtn(UINT messageID, toolbarIcons* iconHandles, HICON absentIco)
 {
 	// Note: Register of buttons only possible before init!
-	if ((_hSelf == Null) && (messageID != 0) && (iconHandles->hToolbarBmp != Null))
+	if ((_hSelf == nullptr) && (messageID != 0) && (iconHandles->hToolbarBmp != nullptr))
 	{
 		DynamicCmdIcoBmp dynList;
 		dynList._message = messageID;
@@ -439,7 +439,7 @@ void ToolBar::registerDynBtn(UINT messageID, toolbarIcons* iconHandles, HICON ab
 			}
 			else
 			{
-				HBITMAP hbmMask = ::CreateCompatibleBitmap(::GetDC(Null), bmp.bmWidth, bmp.bmHeight);
+				HBITMAP hbmMask = ::CreateCompatibleBitmap(::GetDC(nullptr), bmp.bmWidth, bmp.bmHeight);
 
 				ICONINFO iconinfoDest = {};
 				iconinfoDest.fIcon = TRUE;
@@ -460,8 +460,8 @@ void ToolBar::registerDynBtn(UINT messageID, toolbarIcons* iconHandles, HICON ab
 void ToolBar::registerDynBtnDM(UINT messageID, toolbarIconsWithDarkMode* iconHandles)
 {
 	// Note: Register of buttons only possible before init!
-	if ((_hSelf == Null) && (messageID != 0) && (iconHandles->hToolbarBmp != Null) && 
-		(iconHandles->hToolbarIcon != Null) && (iconHandles->hToolbarIconDarkMode != Null))
+	if ((_hSelf == nullptr) && (messageID != 0) && (iconHandles->hToolbarBmp != nullptr) && 
+		(iconHandles->hToolbarIcon != nullptr) && (iconHandles->hToolbarIconDarkMode != nullptr))
 	{
 		DynamicCmdIcoBmp dynList;
 		dynList._message = messageID;
@@ -506,7 +506,7 @@ void ToolBar::doPopop(POINT chevPoint)
 			
 			++start;
 		}
-		TrackPopupMenu(menu, 0, chevPoint.x, chevPoint.y, 0, _hSelf, Null);
+		TrackPopupMenu(menu, 0, chevPoint.x, chevPoint.y, 0, _hSelf, nullptr);
 	}
 }
 
@@ -538,7 +538,7 @@ void ToolBar::addToRebar(ReBar * rebar)
 constexpr UINT_PTR g_rebarSubclassID = 42;
 
 LRESULT CALLBACK RebarSubclass(
-	Upp::Ctrl* hWnd,
+	Window* hWnd,
 	UINT uMsg,
 	WPARAM wParam,
 	LPARAM lParam,
@@ -571,14 +571,14 @@ LRESULT CALLBACK RebarSubclass(
 	return DefSubclassProc(hWnd, uMsg, wParam, lParam);
 }
 
-void ReBar::init(Ctrl& hInst, Upp::Ctrl* hPere)
+void ReBar::init(Window& hInst, Window* hPere)
 {
 	Window::init(hInst, hPere);
 	_hSelf = CreateWindowEx(WS_EX_TOOLWINDOW,
 							REBARCLASSNAME,
-							Null,
+							nullptr,
 							WS_CHILD|WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | RBS_VARHEIGHT | CCS_NODIVIDER | CCS_NOPARENTALIGN,
-							0,0,0,0, _hParent, Null, _hInst, Null);
+							0,0,0,0, _hParent, nullptr, _hInst, nullptr);
 
 	SetWindowSubclass(_hSelf, RebarSubclass, g_rebarSubclassID, 0);
 
@@ -586,7 +586,7 @@ void ReBar::init(Ctrl& hInst, Upp::Ctrl* hPere)
 	ZeroMemory(&rbi, sizeof(REBARINFO));
 	rbi.cbSize = sizeof(REBARINFO);
 	rbi.fMask  = 0;
-	rbi.himl   = (HIMAGELIST)Null;
+	rbi.himl   = (HIMAGELIST)nullptr;
 	::SendMessage(_hSelf, RB_SETBARINFO, 0, reinterpret_cast<LPARAM>(&rbi));
 }
 
@@ -672,7 +672,7 @@ void ReBar::setGrayBackground(int id)
 	ZeroMemory(&rbBand, REBARBAND_SIZE);
 	rbBand.cbSize  = REBARBAND_SIZE;
 	rbBand.fMask = RBBIM_BACKGROUND;
-	rbBand.hbmBack = LoadBitmap((Ctrl&)::GetModuleHandle(Null), MAKEINTRESOURCE(IDB_INCREMENTAL_BG));
+	rbBand.hbmBack = LoadBitmap((Window&)::GetModuleHandle(nullptr), MAKEINTRESOURCE(IDB_INCREMENTAL_BG));
 	::SendMessage(_hSelf, RB_SETBANDINFO, index, reinterpret_cast<LPARAM>(&rbBand));
 }
 

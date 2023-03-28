@@ -45,12 +45,12 @@ ContextMenu::~ContextMenu()
 }
 
 	
-void ContextMenu::create(Upp::Ctrl* hParent, const std::vector<MenuItemUnit> & menuItemArray, const Menu* mainMenuHandle, bool copyLink)
+void ContextMenu::create(Window* hParent, const std::vector<MenuItemUnit> & menuItemArray, const Menu* mainMenuHandle, bool copyLink)
 { 
 	_hParent = hParent;
 	_hMenu = ::CreatePopupMenu();
 	bool lastIsSep = false;
-	Menu* hParentFolder = Null;
+	Menu* hParentFolder = nullptr;
 	String currentParentFolderStr;
 	int j = 0;
 	MENUITEMINFO mii;
@@ -61,7 +61,7 @@ void ContextMenu::create(Upp::Ctrl* hParent, const std::vector<MenuItemUnit> & m
 		if (item._parentFolderName.IsEmpty())
 		{
 			currentParentFolderStr.Clear();
-			hParentFolder = Null;
+			hParentFolder = nullptr;
 			j = 0;
 		}
 		else

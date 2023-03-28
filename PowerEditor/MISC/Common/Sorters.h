@@ -204,7 +204,7 @@ public:
 						bNumSign = -1;
 					}
 
-					// One is number and one is string
+					// One is number and one is String
 					if (aChunkIsNum != bChunkIsNum)
 					{
 						compareResult = a[aNumIndex] - b[bNumIndex];
@@ -371,7 +371,7 @@ public:
 						bNumSign = -1;
 					}
 
-					// One is number and one is string
+					// One is number and one is String
 					if (aChunkIsNum != bChunkIsNum)
 					{
 						compareResult = a[aNumIndex] - b[bNumIndex];
@@ -518,7 +518,7 @@ public:
 	NumericSorter(bool isDescending, size_t fromColumn, size_t toColumn) : ISorter(isDescending, fromColumn, toColumn)
 	{
 #ifdef __MINGW32__
-		_usLocale = Null;
+		_usLocale = nullptr;
 #else
 		_usLocale = ::_create_locale(LC_NUMERIC, "en-US");
 #endif
@@ -592,17 +592,17 @@ protected:
 	bool considerStringEmpty(const char* input)
 	{
 		// String has something else than just whitespace.
-		return input.find_first_not_of(TEXT(" \t\r\n")) == std::string::npos;
+		return input.find_first_not_of(TEXT(" \t\r\n")) == String::npos;
 	}
 
-	// Prepare the string for conversion to number.
+	// Prepare the String for conversion to number.
 	virtual String prepareStringForConversion(const char* input) = 0;
 
-	// Should convert the input string to a number of the correct type.
+	// Should convert the input String to a number of the correct type.
 	// If unable to convert, throw either std::invalid_argument or std::out_of_range.
 	virtual T_Num convertStringToNumber(const char* input) = 0;
 
-	// We need a fixed locale so we get the same string-to-double behavior across all computers.
+	// We need a fixed locale so we get the same String-to-double behavior across all computers.
 	// This is the "enUS" locale.
 	_locale_t _usLocale;
 };
@@ -662,7 +662,7 @@ public:
 	unsigned seed;
 	RandomSorter(bool isDescending, size_t fromColumn, size_t toColumn) : ISorter(isDescending, fromColumn, toColumn)
 	{
-		seed = static_cast<unsigned>(time(Null));
+		seed = static_cast<unsigned>(time(nullptr));
 	}
 	Vector<String> sort(Vector<String> lines) override
 	{

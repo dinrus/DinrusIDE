@@ -45,7 +45,7 @@ struct PluginInfo
 			::FreeLibrary(_hLib);
 	}
 
-	Ctrl& _hLib = nullptr;
+	Window& _hLib = nullptr;
 	Menu* _pluginMenu = nullptr;
 
 	PFUNCSETINFO _pFuncSetInfo = nullptr;
@@ -67,7 +67,7 @@ struct LoadedDllInfo
 	String _fileName;
 	String _displayName;
 
-	LoadedDllInfo(const String & fullFilePath, const String & fileName) : _fullFilePath(fullFilePath), _fileName(fileName)
+	LoadedDllInfo(const String& fullFilePath, const String& fileName) : _fullFilePath(fullFilePath), _fileName(fileName)
 	{
 		// the plugin module's name, without '.dll'
 		_displayName = fileName.substr(0, fileName.find_last_of('.'));
@@ -91,9 +91,9 @@ public:
 		_nppData = nppData;
 	}
 
-	bool loadPlugins(const char *dir = Null, const PluginViewList* pluginUpdateInfoList = nullptr);
+	bool loadPlugins(const char *dir = nullptr, const PluginViewList* pluginUpdateInfoList = nullptr);
 
-    bool unloadPlugin(int index, Upp::Ctrl* nppHandle);
+    bool unloadPlugin(int index, Window* nppHandle);
 
 	void runPluginCommand(size_t i);
 	void runPluginCommand(const char *pluginName, int commandID);
@@ -121,7 +121,7 @@ public:
 
 private:
 	NppData _nppData;
-	Menu* _hPluginsMenu = Null;
+	Menu* _hPluginsMenu = nullptr;
 
 	std::vector<PluginInfo *> _pluginInfos;
 	std::vector<PluginCommand> _pluginsCommands;
@@ -138,7 +138,7 @@ private:
 		String msg = pluginName;
 		msg += TEXT(" just crashed in\r");
 		msg += funcSignature;
-		::MessageBox(Null, msg.Begin(), TEXT("Plugin Crash"), MB_OK|MB_ICONSTOP);
+		::MessageBox(nullptr, msg.Begin(), TEXT("Plugin Crash"), MB_OK|MB_ICONSTOP);
 	}
 
 	void pluginExceptionAlert(const char *pluginName, const std::exception& e)
@@ -148,7 +148,7 @@ private:
 		msg += TEXT("\r\n\r\nException reason: ");
 		msg += s2ws(e.what());
 
-		::MessageBox(Null, msg.Begin(), TEXT("Plugin Exception"), MB_OK);
+		::MessageBox(nullptr, msg.Begin(), TEXT("Plugin Exception"), MB_OK);
 	}
 
 	bool isInLoadedDlls(const char *fn) const

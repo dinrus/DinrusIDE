@@ -1,5 +1,5 @@
 #include <stdint.h>
-#include <string.h>
+#include <String.h>
 
 #include "sha-256.h"
 
@@ -118,7 +118,7 @@ static int calc_chunk(uint8_t chunk[CHUNK_SIZE], struct buffer_state * state)
  * - Since input is a pointer in RAM, the data to hash should be in RAM, which could be a problem
  *   for large data sizes.
  * - SHA algorithms theoretically operate on bit strings. However, this implementation has no support
- *   for bit string lengths that are not multiples of eight, and it really operates on arrays of bytes.
+ *   for bit String lengths that are not multiples of eight, and it really operates on arrays of bytes.
  *   In particular, the len parameter is a number of bytes.
  */
 void calc_sha_256(uint8_t hash[32], const void * input, size_t len)

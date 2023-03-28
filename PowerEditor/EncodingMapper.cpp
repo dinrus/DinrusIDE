@@ -15,7 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
-#include <string.h>
+#include <String.h>
 #include <PowerEditor/EncodingMapper.h>
 #include <Scintilla/Scintilla.h>
 

@@ -74,13 +74,13 @@ private :
 	int _ratio = 0;
 	int _x = 0;
 	int _y = 0;
-	Menu* _hPopupMenu = Null;
+	Menu* _hPopupMenu = nullptr;
 	dword _dwSplitterStyle = (SV_ENABLERDBLCLK | SV_ENABLELDBLCLK | SV_RESIZEWTHPERCNT);
 
 	SplitterMode _splitterMode = SplitterMode::DYNAMIC;
 	static bool _isRegistered;
 
-	static LRESULT CALLBACK staticWinProc(Upp::Ctrl* hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
+	static LRESULT CALLBACK staticWinProc(Window* hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
 	LRESULT runProc(UINT Message, WPARAM wParam, LPARAM lParam);
 	void rotateTo(DIRECTION direction);
 };

@@ -1,27 +1,8 @@
-// This file is part of Notepad++ project
-// Copyright (C)2006 Jens Lorenz <jens.plugin.npp@gmx.de>
-
-// This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// at your option any later version.
-//
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
-
 #pragma once
 
 #include "dockingResource.h"
 #include "Docking.h"
 
-#include <assert.h>
-//#include <shlwapi.h>
 #include <PowerEditor/MISC/Common/Common.h>
 #include <PowerEditor/WinControls/StaticDialog/StaticDialog.h>
 #include <PowerEditor/NppDarkMode.h>
@@ -35,7 +16,7 @@ public:
 	DockingDlgInterface() = default;
 	explicit DockingDlgInterface(int dlgID): _dlgID(dlgID) {}
 
-	virtual void init(Ctrl& hInst, Upp::Ctrl* parent) {
+	virtual void init(Window& hInst, Window* parent) {
 		StaticDialog::init(hInst, parent);
 		char temp[MAX_PATH];
 		::GetModuleFileName(reinterpret_cast<HMODULE>(hInst), temp, MAX_PATH);
@@ -57,7 +38,7 @@ public:
 		data->uMask = 0;
 
 		// additional info
-		data->pszAddInfo = Null;
+		data->pszAddInfo = nullptr;
 	}
 
 	virtual void updateDockingDlg() {
@@ -110,7 +91,7 @@ protected :
 				::FillRect(reinterpret_cast<HDC>(wParam), &rc, NppDarkMode::getDarkerBackgroundBrush());
 				return TRUE;
 			}
-			case WM_NOTIFY: 
+			case WM_NOTIFY:
 			{
 				LPNMHDR	pnmh = reinterpret_cast<LPNMHDR>(lParam);
 

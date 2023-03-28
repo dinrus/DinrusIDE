@@ -25,7 +25,7 @@ class ValueDlg : public StaticDialog
 {
 public :
         ValueDlg() = default;
-        void init(Ctrl& hInst, Upp::Ctrl* parent, int valueToSet, const char *text);
+        void init(Window& hInst, Window* parent, int valueToSet, const char *text);
         int doDialog(POINT p, bool isRTL = false);
 		void setNBNumber(int nbNumber) {
 			if (nbNumber > 0)
@@ -57,7 +57,7 @@ class ButtonDlg : public StaticDialog
 {
 public :
     ButtonDlg() = default;
-    void init(Ctrl& hInst, Upp::Ctrl* parent){
+    void init(Window& hInst, Window* parent){
         Window::init(hInst, parent);
     };
 

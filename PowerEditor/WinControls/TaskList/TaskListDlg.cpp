@@ -47,7 +47,7 @@ LRESULT CALLBACK hookProc(int nCode, WPARAM wParam, LPARAM lParam)
  {
 	if (isRTL)
 	{
-		DLGTEMPLATE *pMyDlgTemplate = Null;
+		DLGTEMPLATE *pMyDlgTemplate = nullptr;
 		HGLOBAL hMyDlgTemplate = makeRTLResource(IDD_VALUE_DLG, &pMyDlgTemplate);
 		int result = static_cast<int32_t>(::DialogBoxIndirectParam(_hInst, pMyDlgTemplate, _hParent, dlgProc, reinterpret_cast<LPARAM>(this)));
 		::GlobalFree(hMyDlgTemplate);

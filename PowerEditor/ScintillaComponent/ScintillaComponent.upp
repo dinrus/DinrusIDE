@@ -1,3 +1,6 @@
+uses
+	plugin/uchardet;
+
 link
 	-D__UNICODE__;
 

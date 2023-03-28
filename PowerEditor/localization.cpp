@@ -127,7 +127,7 @@ void NativeLangSpeaker::init(TiXmlDocumentA *nativeLangDocRootA, bool loadIfEngl
 
 				if (!loadIfEnglish && _fileName && stricmp("english.xml", _fileName) == 0)
                 {
-					_nativeLangA = Null;
+					_nativeLangA = nullptr;
 					return;
 				}
 				// get encoding
@@ -495,7 +495,7 @@ void NativeLangSpeaker::changeLangTabDrapContextMenu(Menu* hCM)
 }
 
 
-void NativeLangSpeaker::changeConfigLang(Upp::Ctrl* hDlg)
+void NativeLangSpeaker::changeConfigLang(Window* hDlg)
 {
 	if (nullptr == _nativeLangA)
 		return;
@@ -527,7 +527,7 @@ void NativeLangSpeaker::changeConfigLang(Upp::Ctrl* hDlg)
 		const char *name = element->Attribute("name");
 		if (sentinel && (name && name[0]))
 		{
-			Upp::Ctrl* hItem = ::GetDlgItem(hDlg, id);
+			Window* hItem = ::GetDlgItem(hDlg, id);
 			if (hItem)
 			{
 				const wchar_t *nameW = wmc.char2wchar(name, _nativeLangEncoding);
@@ -547,7 +547,7 @@ void NativeLangSpeaker::changeConfigLang(Upp::Ctrl* hDlg)
 		const char *name = element->Attribute("name");
 		if (sentinel && (name && name[0]))
 		{
-			Upp::Ctrl* hItem = ::GetDlgItem(hDlg, id);
+			Window* hItem = ::GetDlgItem(hDlg, id);
 			if (hItem)
 			{
 				const wchar_t *nameW = wmc.char2wchar(name, _nativeLangEncoding);
@@ -558,12 +558,12 @@ void NativeLangSpeaker::changeConfigLang(Upp::Ctrl* hDlg)
 }
 
 
-void NativeLangSpeaker::changeStyleCtrlsLang(Upp::Ctrl* hDlg, int *idArray, const char **translatedText)
+void NativeLangSpeaker::changeStyleCtrlsLang(Window* hDlg, int *idArray, const char **translatedText)
 {
 	const int iColorStyle = 0;
 	const int iUnderline = 8;
 
-	Upp::Ctrl* hItem;
+	Window* hItem;
 	for (int i = iColorStyle ; i < (iUnderline + 1) ; ++i)
 	{
 		if (translatedText[i] && translatedText[i][0])
@@ -579,7 +579,7 @@ void NativeLangSpeaker::changeStyleCtrlsLang(Upp::Ctrl* hDlg, int *idArray, cons
 	}
 }
 
-void NativeLangSpeaker::changeUserDefineLangPopupDlg(Upp::Ctrl* hDlg)
+void NativeLangSpeaker::changeUserDefineLangPopupDlg(Window* hDlg)
 {
 	if (!_nativeLangA) return;
 
@@ -610,7 +610,7 @@ void NativeLangSpeaker::changeUserDefineLangPopupDlg(Upp::Ctrl* hDlg)
 		const char *name = element->Attribute("name");
 		if (sentinel && (name && name[0]))
 		{
-			Upp::Ctrl* hItem = ::GetDlgItem(hDlg, id);
+			Window* hItem = ::GetDlgItem(hDlg, id);
 			if (hItem)
 			{
 				const wchar_t *nameW = wmc.char2wchar(name, _nativeLangEncoding);
@@ -631,7 +631,7 @@ void NativeLangSpeaker::changeUserDefineLang(UserDefineDialog *userDefineDlg)
 	userDefineDlgNode = userDefineDlgNode->FirstChild("UserDefine");
 	if (!userDefineDlgNode) return;
 
-	Upp::Ctrl* hDlg = userDefineDlg->getHSelf();
+	Window* hDlg = userDefineDlg->getHSelf();
 
 	WcharMbcsConvertor& wmc = WcharMbcsConvertor::getInstance();
 
@@ -646,7 +646,7 @@ void NativeLangSpeaker::changeUserDefineLang(UserDefineDialog *userDefineDlg)
 	const int nbControl = 9;
 	const char *translatedText[nbControl];
 	for (int i = 0 ; i < nbControl ; ++i)
-		translatedText[i] = Null;
+		translatedText[i] = nullptr;
 
 	for (TiXmlNodeA *childNode = userDefineDlgNode->FirstChildElement("Item");
 		childNode ;
@@ -661,7 +661,7 @@ void NativeLangSpeaker::changeUserDefineLang(UserDefineDialog *userDefineDlg)
 		{
 			if (id > 30)
 			{
-				Upp::Ctrl* hItem = ::GetDlgItem(hDlg, id);
+				Window* hItem = ::GetDlgItem(hDlg, id);
 				if (hItem)
 				{
 					const wchar_t *nameW = wmc.char2wchar(name, _nativeLangEncoding);
@@ -680,7 +680,7 @@ void NativeLangSpeaker::changeUserDefineLang(UserDefineDialog *userDefineDlg)
 		}
 	}
 	const int nbDlg = 4;
-	Upp::Ctrl* hDlgArrary[nbDlg];
+	Window* hDlgArrary[nbDlg];
 	hDlgArrary[0] = userDefineDlg->getFolderHandle();
 	hDlgArrary[1] = userDefineDlg->getKeywordsHandle();
 	hDlgArrary[2] = userDefineDlg->getCommentHandle();
@@ -711,7 +711,7 @@ void NativeLangSpeaker::changeUserDefineLang(UserDefineDialog *userDefineDlg)
 				const char *name = element->Attribute("name");
 				if (sentinel && (name && name[0]))
 				{
-					Upp::Ctrl* hItem = ::GetDlgItem(hDlgArrary[i], id);
+					Window* hItem = ::GetDlgItem(hDlgArrary[i], id);
 					if (hItem)
 					{
 						const wchar_t *nameW = wmc.char2wchar(name, _nativeLangEncoding);
@@ -1087,7 +1087,7 @@ TiXmlNodeA * NativeLangSpeaker::searchDlgNode(TiXmlNodeA *node, const char *dlgT
 		dlgNode = searchDlgNode(childNode, dlgTagName);
 		if (dlgNode) return dlgNode;
 	}
-	return Null;
+	return nullptr;
 }
 
 bool NativeLangSpeaker::getDoSaveOrNotStrings(String& title, String& msg)
@@ -1129,7 +1129,7 @@ bool NativeLangSpeaker::getDoSaveOrNotStrings(String& title, String& msg)
 	return false;
 }
 
-bool NativeLangSpeaker::changeDlgLang(Upp::Ctrl* hDlg, const char *dlgTagName, char *title, size_t titleMaxSize)
+bool NativeLangSpeaker::changeDlgLang(Window* hDlg, const char *dlgTagName, char *title, size_t titleMaxSize)
 {
 	if (title)
 		title[0] = '\0';
@@ -1166,7 +1166,7 @@ bool NativeLangSpeaker::changeDlgLang(Upp::Ctrl* hDlg, const char *dlgTagName, c
 		const char *name = element->Attribute("name");
 		if (sentinel && (name && name[0]))
 		{
-			Upp::Ctrl* hItem = ::GetDlgItem(hDlg, id);
+			Window* hItem = ::GetDlgItem(hDlg, id);
 			if (hItem)
 			{
 				const wchar_t *nameW = wmc.char2wchar(name, _nativeLangEncoding);
@@ -1184,7 +1184,7 @@ bool NativeLangSpeaker::changeDlgLang(Upp::Ctrl* hDlg, const char *dlgTagName, c
 		TiXmlElementA *element = childNode->ToElement();
 		int id;
 		element->Attribute("id", &id);
-		Upp::Ctrl* hCombo = ::GetDlgItem(hDlg, id);
+		Window* hCombo = ::GetDlgItem(hDlg, id);
 		if (!hCombo) return false;
 
 		for (TiXmlNodeA *gChildNode = childNode->FirstChildElement("Element");
@@ -1219,7 +1219,7 @@ bool NativeLangSpeaker::changeDlgLang(Upp::Ctrl* hDlg, const char *dlgTagName, c
 	return true;
 }
 
-bool NativeLangSpeaker::getMsgBoxLang(const char *msgBoxTagName, String & title, String & message)
+bool NativeLangSpeaker::getMsgBoxLang(const char *msgBoxTagName, String& title, String& message)
 {
 	title = TEXT("");
 	message = TEXT("");
@@ -1256,7 +1256,7 @@ String NativeLangSpeaker::getFileBrowserLangMenuStr(int cmdID, const char *defau
 	targetNode = targetNode->FirstChild("Menus");
 	if (!targetNode) return defaultStr;
 
-	const char *name = Null;
+	const char *name = nullptr;
 	for (TiXmlNodeA *childNode = targetNode->FirstChildElement("Item");
 		childNode;
 		childNode = childNode->NextSibling("Item"))
@@ -1293,7 +1293,7 @@ String NativeLangSpeaker::getProjectPanelLangMenuStr(const char * nodeName, int 
 	targetNode = targetNode->FirstChild(nodeName);
 	if (!targetNode) return defaultStr;
 
-	const char *name = Null;
+	const char *name = nullptr;
 	for (TiXmlNodeA *childNode = targetNode->FirstChildElement("Item");
 		childNode ;
 		childNode = childNode->NextSibling("Item") )
@@ -1337,7 +1337,7 @@ String NativeLangSpeaker::getAttrNameStr(const char *defaultStr, const char *nod
 	return defaultStr;
 }
 
-int NativeLangSpeaker::messageBox(const char *msgBoxTagName, Upp::Ctrl* hWnd, const char *defaultMessage, const char *defaultTitle, int msgBoxType, int intInfo, const char *strInfo)
+int NativeLangSpeaker::messageBox(const char *msgBoxTagName, Window* hWnd, const char *defaultMessage, const char *defaultTitle, int msgBoxType, int intInfo, const char *strInfo)
 {
 	String msg, title;
 	if (!getMsgBoxLang(msgBoxTagName, title, msg))

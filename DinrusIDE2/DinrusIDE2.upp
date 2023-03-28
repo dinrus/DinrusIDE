@@ -21,10 +21,10 @@ uses
 	Report,
 	Core/SSL,
 	plugin/md,
-	DinrusIDE2/clang;
+	DinrusIDE2/clang,
+	Core;
 
 file
-	DinrusIDE2.upp,
 	IDE readonly separator,
 	DinrusIDE2.h options(BUILDER_OPTION) PCH,
 	version.h,

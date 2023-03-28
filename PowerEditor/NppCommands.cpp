@@ -77,8 +77,8 @@ void Notepad_plus::command(int id)
             wchar_t timeStr[128] = { '\0' };
 
             int dateFlag = (id == IDM_EDIT_INSERT_DATETIME_SHORT) ? DATE_SHORTDATE : DATE_LONGDATE;
-            GetDateFormatEx(LOCALE_NAME_USER_DEFAULT, dateFlag, &currentTime, Null, dateStr, sizeof(dateStr) / sizeof(dateStr[0]), Null);
-            GetTimeFormatEx(LOCALE_NAME_USER_DEFAULT, TIME_NOSECONDS, &currentTime, Null, timeStr, sizeof(timeStr) / sizeof(timeStr[0]));
+            GetDateFormatEx(LOCALE_NAME_USER_DEFAULT, dateFlag, &currentTime, nullptr, dateStr, sizeof(dateStr) / sizeof(dateStr[0]), nullptr);
+            GetTimeFormatEx(LOCALE_NAME_USER_DEFAULT, TIME_NOSECONDS, &currentTime, nullptr, timeStr, sizeof(timeStr) / sizeof(timeStr[0]));
 
             String dateTimeStr;
             if (NppParameters::getInstance().getNppGUI()._dateTimeReverseDefaultOrder)
@@ -158,7 +158,7 @@ void Notepad_plus::command(int id)
             // Opens file in its default viewer.
             // Has the same effect as double–clicking this file in Windows Explorer.
             BufferID buf = _pEditView->getCurrentBufferID();
-            Ctrl& res = ::ShellExecute(Null, TEXT("open"), buf->getFullPathName(), Null, Null, SW_SHOW);
+            Window& res = ::ShellExecute(nullptr, TEXT("open"), buf->getFullPathName(), nullptr, nullptr, SW_SHOW);
 
             // As per MSDN (https://msdn.microsoft.com/en-us/library/windows/desktop/bb762153(v=vs.85).aspx)
             // If the function succeeds, it returns a value greater than 32.
@@ -381,13 +381,13 @@ void Notepad_plus::command(int id)
             _pEditView->getSelectedText(pBinText, textLen + 1);
 
             // Open the clipboard, and empty it.
-            if (!OpenClipboard(Null))
+            if (!OpenClipboard(nullptr))
                 return;
             EmptyClipboard();
 
             // Allocate a global memory object for the text.
             HGLOBAL hglbCopy = GlobalAlloc(GMEM_MOVEABLE, (textLen + 1) * sizeof(unsigned char));
-            if (hglbCopy == Null)
+            if (hglbCopy == nullptr)
             {
                 CloseClipboard();
                 return;
@@ -408,7 +408,7 @@ void Notepad_plus::command(int id)
 
             // Allocate a global memory object for the text length.
             HGLOBAL hglbLenCopy = GlobalAlloc(GMEM_MOVEABLE, sizeof(unsigned long));
-            if (hglbLenCopy == Null)
+            if (hglbLenCopy == nullptr)
             {
                 CloseClipboard();
                 return;
@@ -446,23 +446,23 @@ void Notepad_plus::command(int id)
             if (!IsClipboardFormatAvailable(CF_TEXT))
                 return;
 
-            if (!OpenClipboard(Null))
+            if (!OpenClipboard(nullptr))
                 return;
 
             HGLOBAL hglb = GetClipboardData(CF_TEXT);
-            if (hglb != Null)
+            if (hglb != nullptr)
             {
                 char *lpchar = (char *)GlobalLock(hglb);
-                if (lpchar != Null)
+                if (lpchar != nullptr)
                 {
                     UINT cf_nppTextLen = RegisterClipboardFormat(CF_NPPTEXTLEN);
                     if (IsClipboardFormatAvailable(cf_nppTextLen))
                     {
                         HGLOBAL hglbLen = GetClipboardData(cf_nppTextLen);
-                        if (hglbLen != Null)
+                        if (hglbLen != nullptr)
                         {
                             unsigned long *lpLen = (unsigned long *)GlobalLock(hglbLen);
-                            if (lpLen != Null)
+                            if (lpLen != nullptr)
                             {
                                 _pEditView->execute(SCI_REPLACESEL, 0, reinterpret_cast<LPARAM>(""));
                                 _pEditView->execute(SCI_ADDTEXT, *lpLen, reinterpret_cast<LPARAM>(lpchar));
@@ -489,7 +489,7 @@ void Notepad_plus::command(int id)
             if (_pEditView->execute(SCI_GETSELECTIONS) != 1) // Multi-Selection || Column mode || no selection
                 return;
 
-            Upp::Ctrl* hwnd = _pPublicInterface->getHSelf();
+            Window* hwnd = _pPublicInterface->getHSelf();
             char curentWord[CURRENTWORD_MAXLENGTH];
             ::SendMessage(hwnd, NPPM_GETFILENAMEATCURSOR, CURRENTWORD_MAXLENGTH, reinterpret_cast<LPARAM>(curentWord));
 
@@ -558,7 +558,7 @@ void Notepad_plus::command(int id)
                 auto httpPos = url.find(TEXT("http://"));
                 auto httpsPos = url.find(TEXT("https://"));
 
-                if (url.IsEmpty() || (httpPos != 0 && httpsPos != 0)) // if string is not a url (for launching only browser)
+                if (url.IsEmpty() || (httpPos != 0 && httpsPos != 0)) // if String is not a url (for launching only browser)
                 {
                     url = TEXT("https://www.google.com/search?q=$(CURRENT_WORD)");
                 }
@@ -601,14 +601,14 @@ void Notepad_plus::command(int id)
             if (!IsClipboardFormatAvailable(f))
                 return;
 
-            if (!OpenClipboard(Null))
+            if (!OpenClipboard(nullptr))
                 return;
 
             HGLOBAL hglb = GetClipboardData(f);
-            if (hglb != Null)
+            if (hglb != nullptr)
             {
                 LPSTR lptstr = (LPSTR)GlobalLock(hglb);
-                if (lptstr != Null)
+                if (lptstr != nullptr)
                 {
                     // Call the application-defined ReplaceSelection
                     // function to insert the text and repaint the
@@ -1221,7 +1221,7 @@ void Notepad_plus::command(int id)
                 _findReplaceDlg.setSearchText(str);
             }
 
-            setFindReplaceFolderFilter(Null, Null);
+            setFindReplaceFolderFilter(nullptr, nullptr);
 
             if (isFirstTime)
                 _nativeLangSpeaker.changeFindReplaceDlgLang(_findReplaceDlg);
@@ -1299,7 +1299,7 @@ void Notepad_plus::command(int id)
             _pEditView->getGenericSelectedText(str, strSize);
             _findReplaceDlg.setSearchText(str);
             _findReplaceDlg._env->_str2Search = str;
-            setFindReplaceFolderFilter(Null, Null);
+            setFindReplaceFolderFilter(nullptr, nullptr);
             if (isFirstTime)
                 _nativeLangSpeaker.changeFindReplaceDlgLang(_findReplaceDlg);
 
@@ -2240,7 +2240,7 @@ void Notepad_plus::command(int id)
 
                 if (hKey2Check && valData[0] != '\0')
                 {
-                    ::ShellExecute(Null, TEXT("open"), valData, fullCurrentPath.Begin(), Null, SW_SHOWNORMAL);
+                    ::ShellExecute(nullptr, TEXT("open"), valData, fullCurrentPath.Begin(), nullptr, SW_SHOWNORMAL);
                 }
                 else if (id == IDM_VIEW_IN_EDGE)
                 {
@@ -2251,7 +2251,7 @@ void Notepad_plus::command(int id)
                     String fullCurrentPath = currentBuf->getFullPathName();
                     //fullCurrentPath += TEXT("\"");
 
-                    ::ShellExecute(Null, TEXT("open"), TEXT("shell:Appsfolder\\Microsoft.MicrosoftEdge_8wekyb3d8bbwe!MicrosoftEdge"), fullCurrentPath.Begin(), Null, SW_SHOW);
+                    ::ShellExecute(nullptr, TEXT("open"), TEXT("shell:Appsfolder\\Microsoft.MicrosoftEdge_8wekyb3d8bbwe!MicrosoftEdge"), fullCurrentPath.Begin(), nullptr, SW_SHOW);
                 }
                 else
                 {
@@ -2940,7 +2940,7 @@ void Notepad_plus::command(int id)
             {
                 NativeLangSpeaker *pNativeSpeaker = (NppParameters::getInstance()).getNativeLangSpeaker();
                 pNativeSpeaker->messageBox("NeedToRestartToLoadPlugins",
-                    Null,
+                    nullptr,
                     TEXT("You have to restart Notepad++ to load plugins you installed."),
                     TEXT("Notepad++ need to be relaunched"),
                     MB_OK | MB_APPLMODAL);
@@ -2992,7 +2992,7 @@ void Notepad_plus::command(int id)
             const char* pluginHomePath = NppParameters::getInstance().getPluginRootDir();
             if (pluginHomePath && pluginHomePath[0])
             {
-                ::ShellExecute(Null, Null, pluginHomePath, Null, Null, SW_SHOWNORMAL);
+                ::ShellExecute(nullptr, nullptr, pluginHomePath, nullptr, nullptr, SW_SHOWNORMAL);
             }
             break;
         }
@@ -3055,7 +3055,7 @@ void Notepad_plus::command(int id)
         case IDM_VIEW_SWITCHTO_OTHER_VIEW:
         {
             int view_to_focus;
-            Upp::Ctrl* wnd = GetFocus();
+            Window* wnd = GetFocus();
             if (_pEditView->getHSelf() == wnd)
             {
                 view_to_focus = otherView();
@@ -3102,7 +3102,7 @@ void Notepad_plus::command(int id)
                     _pEditView->execute(SCI_GETSELTEXT, 0, reinterpret_cast<LPARAM>(selectedStr));
 
                     MD5 md5;
-                    std::string md5ResultA = md5.digestString(selectedStr);
+                    String md5ResultA = md5.digestString(selectedStr);
                     std::wstring md5ResultW(md5ResultA.begin(), md5ResultA.end());
                     str2Clipboard(md5ResultW, _pPublicInterface->getHSelf());
 
@@ -3215,7 +3215,7 @@ void Notepad_plus::command(int id)
                     if (_nativeLangSpeaker.getLangEncoding() == NPP_CP_BIG5)
                     {
                         const char *authorName = "«J¤µ§^";
-                        Upp::Ctrl* hItem = ::GetDlgItem(_aboutDlg.getHSelf(), IDC_AUTHOR_NAME);
+                        Window* hItem = ::GetDlgItem(_aboutDlg.getHSelf(), IDC_AUTHOR_NAME);
 
                         WcharMbcsConvertor& wmc = WcharMbcsConvertor::getInstance();
                         const wchar_t *authorNameW = wmc.char2wchar(authorName, NPP_CP_BIG5);
@@ -3229,18 +3229,18 @@ void Notepad_plus::command(int id)
 
         case IDM_HOMESWEETHOME :
         {
-            ::ShellExecute(Null, TEXT("open"), TEXT("https://notepad-plus-plus.org/"), Null, Null, SW_SHOWNORMAL);
+            ::ShellExecute(nullptr, TEXT("open"), TEXT("https://notepad-plus-plus.org/"), nullptr, nullptr, SW_SHOWNORMAL);
             break;
         }
         case IDM_PROJECTPAGE :
         {
-            ::ShellExecute(Null, TEXT("open"), TEXT("https://github.com/notepad-plus-plus/notepad-plus-plus/"), Null, Null, SW_SHOWNORMAL);
+            ::ShellExecute(nullptr, TEXT("open"), TEXT("https://github.com/notepad-plus-plus/notepad-plus-plus/"), nullptr, nullptr, SW_SHOWNORMAL);
             break;
         }
 
         case IDM_ONLINEDOCUMENT:
         {
-            ::ShellExecute(Null, TEXT("open"), TEXT("https://npp-user-manual.org/"), Null, Null, SW_SHOWNORMAL);
+            ::ShellExecute(nullptr, TEXT("open"), TEXT("https://npp-user-manual.org/"), nullptr, nullptr, SW_SHOWNORMAL);
             break;
         }
 
@@ -3253,7 +3253,7 @@ void Notepad_plus::command(int id)
 
         case IDM_FORUM:
         {
-            ::ShellExecute(Null, TEXT("open"), TEXT("https://community.notepad-plus-plus.org/"), Null, Null, SW_SHOWNORMAL);
+            ::ShellExecute(nullptr, TEXT("open"), TEXT("https://community.notepad-plus-plus.org/"), nullptr, nullptr, SW_SHOWNORMAL);
             break;
         }
 
@@ -3272,7 +3272,7 @@ void Notepad_plus::command(int id)
 
                 if (res == IDYES)
                 {
-                    ::ShellExecute(Null, TEXT("open"), TEXT("https://notepad-plus-plus.org/downloads/"), Null, Null, SW_SHOWNORMAL);
+                    ::ShellExecute(nullptr, TEXT("open"), TEXT("https://notepad-plus-plus.org/downloads/"), nullptr, nullptr, SW_SHOWNORMAL);
                 }
             }
             else
@@ -3461,13 +3461,13 @@ void Notepad_plus::command(int id)
         case IDM_LANG_OPENUDLDIR:
         {
             String userDefineLangFolderPath = NppParameters::getInstance().getUserDefineLangFolderPath();
-            ::ShellExecute(_pPublicInterface->getHSelf(), TEXT("open"), userDefineLangFolderPath.Begin(), Null, Null, SW_SHOW);
+            ::ShellExecute(_pPublicInterface->getHSelf(), TEXT("open"), userDefineLangFolderPath.Begin(), nullptr, nullptr, SW_SHOW);
             break;
         }
 
         case IDM_LANG_UDLCOLLECTION_PROJECT_SITE:
         {
-            ::ShellExecute(Null, TEXT("open"), TEXT("https://github.com/notepad-plus-plus/userDefinedLanguages"), Null, Null, SW_SHOWNORMAL);
+            ::ShellExecute(nullptr, TEXT("open"), TEXT("https://github.com/notepad-plus-plus/userDefinedLanguages"), nullptr, nullptr, SW_SHOWNORMAL);
             break;
         }
 
@@ -3560,7 +3560,7 @@ void Notepad_plus::command(int id)
             _windowsDlg.init(_pPublicInterface->getHinst(), _pPublicInterface->getHSelf(), _pDocTab);
 
             const TiXmlNodeA *nativeLangA = _nativeLangSpeaker.getNativeLangA();
-            TiXmlNodeA *dlgNode = Null;
+            TiXmlNodeA *dlgNode = nullptr;
             if (nativeLangA)
             {
                 dlgNode = nativeLangA->FirstChild("Dialog");
@@ -3770,8 +3770,8 @@ void Notepad_plus::command(int id)
             }
             else
             {
-                _mainEditView.execute(SCI_RESETELEMENTCOLOUR, SC_ELEMENT_CARET_LINE_BACK, Null);
-                _subEditView.execute(SCI_RESETELEMENTCOLOUR, SC_ELEMENT_CARET_LINE_BACK, Null);
+                _mainEditView.execute(SCI_RESETELEMENTCOLOUR, SC_ELEMENT_CARET_LINE_BACK, nullptr);
+                _subEditView.execute(SCI_RESETELEMENTCOLOUR, SC_ELEMENT_CARET_LINE_BACK, nullptr);
             }
 
             _mainEditView.execute(SCI_SETCARETLINEFRAME, frameWidth);
@@ -4038,8 +4038,8 @@ void Notepad_plus::command(int id)
                 _macro.push_back(recordedMacroStep(id));
                 break;
 
-            // The following 3 commands will insert date time string during the recording:
-            // SCI_REPLACESEL will be recorded firstly, then SCI_ADDTEXT (for adding date time string)
+            // The following 3 commands will insert date time String during the recording:
+            // SCI_REPLACESEL will be recorded firstly, then SCI_ADDTEXT (for adding date time String)
             // So we erase these 2 unwanted commanded for recording these 3 following commands.
             case IDM_EDIT_INSERT_DATETIME_SHORT:
             case IDM_EDIT_INSERT_DATETIME_LONG:

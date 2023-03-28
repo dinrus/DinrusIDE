@@ -3,7 +3,7 @@
 #include <PowerEditor/ScintillaComponent/ScintillaComponent.h>
 
 
-void ColumnEditorDlg::init(Ctrl& hInst, Upp::Ctrl* hPere, ScintillaEditView **ppEditView)
+void ColumnEditorDlg::init(Window& hInst, Window* hPere, ScintillaEditView **ppEditView)
 {
 	Window::init(hInst, hPere);
 	if (!ppEditView)
@@ -54,7 +54,7 @@ intptr_t CALLBACK ColumnEditorDlg::run_dlgProc(UINT message, WPARAM wParam, LPAR
 		case WM_CTLCOLORSTATIC:
 		{
 			auto hdcStatic = reinterpret_cast<HDC>(wParam);
-			auto dlgCtrlID = ::GetDlgCtrlID(reinterpret_cast<Upp::Ctrl*>(lParam));
+			auto dlgCtrlID = ::GetDlgCtrlID(reinterpret_cast<Window*>(lParam));
 
 			bool isStaticText = (dlgCtrlID == IDC_COL_INITNUM_STATIC ||
 				dlgCtrlID == IDC_COL_INCRNUM_STATIC ||
@@ -180,9 +180,9 @@ intptr_t CALLBACK ColumnEditorDlg::run_dlgProc(UINT message, WPARAM wParam, LPAR
 					}
 					else
 					{
-						int initialNumber = ::GetDlgItemInt(_hSelf, IDC_COL_INITNUM_EDIT, Null, TRUE);
-						int increaseNumber = ::GetDlgItemInt(_hSelf, IDC_COL_INCREASENUM_EDIT, Null, TRUE);
-						int repeat = ::GetDlgItemInt(_hSelf, IDC_COL_REPEATNUM_EDIT, Null, TRUE);
+						int initialNumber = ::GetDlgItemInt(_hSelf, IDC_COL_INITNUM_EDIT, nullptr, TRUE);
+						int increaseNumber = ::GetDlgItemInt(_hSelf, IDC_COL_INCREASENUM_EDIT, nullptr, TRUE);
+						int repeat = ::GetDlgItemInt(_hSelf, IDC_COL_REPEATNUM_EDIT, nullptr, TRUE);
 						if (repeat == 0)
 						{
 							repeat = 1; // Without this we might get an infinite loop while calculating the set "numbers" below.
@@ -330,11 +330,11 @@ intptr_t CALLBACK ColumnEditorDlg::run_dlgProc(UINT message, WPARAM wParam, LPAR
 
 void ColumnEditorDlg::switchTo(bool toText)
 {
-	Upp::Ctrl* hText = ::GetDlgItem(_hSelf, IDC_COL_TEXT_EDIT);
+	Window* hText = ::GetDlgItem(_hSelf, IDC_COL_TEXT_EDIT);
 	::EnableWindow(hText, toText);
 	::SendDlgItemMessage(_hSelf, IDC_COL_TEXT_RADIO, BM_SETCHECK, toText, 0);
 
-	Upp::Ctrl* hNum = ::GetDlgItem(_hSelf, IDC_COL_INITNUM_EDIT);
+	Window* hNum = ::GetDlgItem(_hSelf, IDC_COL_INITNUM_EDIT);
 	::SendDlgItemMessage(_hSelf, IDC_COL_NUM_RADIO, BM_SETCHECK, !toText, 0);
 	::EnableWindow(hNum, !toText);
 	::EnableWindow(::GetDlgItem(_hSelf, IDC_COL_INCREASENUM_EDIT), !toText);

@@ -10,8 +10,8 @@ class IconList
 {
 public :
     IconList() = default;
-    void init(Ctrl& hInst, int iconSize);
-    void create(int iconSize, Ctrl& hInst, int *iconIDArray, int iconIDArraySize);
+    void init(Window& hInst, int iconSize);
+    void create(int iconSize, Window& hInst, int *iconIDArray, int iconIDArraySize);
 
     void destroy() {
         ImageList_Destroy(_hImglst);
@@ -31,7 +31,7 @@ public :
 
 private :
     HIMAGELIST _hImglst = nullptr;
-    Ctrl& _hInst = nullptr;
+    Window& _hInst = nullptr;
     int *_pIconIDArray = nullptr;
     int _iconIDArraySize = 0;
     int _iconSize = 0;
@@ -82,7 +82,7 @@ public :
     ToolBarIcons() = default;
 
     void init(ToolBarButtonUnit *buttonUnitArray, int arraySize, std::vector<DynamicCmdIcoBmp> cmds2add);
-    void create(Ctrl& hInst, int iconSize);
+    void create(Window& hInst, int iconSize);
     void destroy();
 
     HIMAGELIST getDefaultLst() const {

@@ -60,7 +60,7 @@ public:
 	TabBar() = default;
 	virtual ~TabBar() = default;
 	virtual void destroy();
-	virtual void init(Ctrl& hInst, Upp::Ctrl* hwnd, bool isVertical = false, bool isMultiLine = false);
+	virtual void init(Window& hInst, Window* hwnd, bool isVertical = false, bool isMultiLine = false);
 	virtual void reSizeTo(Rect & rc2Ajust);
 	int insertAtEnd(const char *subTabName);
 	void activateAt(int index) const;
@@ -141,7 +141,7 @@ public :
         _doDragNDrop = justDoIt;
     };
 
-	virtual void init(Ctrl& hInst, Upp::Ctrl* hwnd, bool isVertical = false, bool isMultiLine = false);
+	virtual void init(Window& hInst, Window* hwnd, bool isVertical = false, bool isMultiLine = false);
 
 	virtual void destroy();
 
@@ -229,11 +229,11 @@ protected:
 	bool _isCloseHover = false;
 	int _whichCloseClickDown = -1;
 	bool _lmbdHit = false; // Left Mouse Button Down Hit
-	Upp::Ctrl* _tooltips = nullptr;
+	Window* _tooltips = nullptr;
 
-	LRESULT runProc(Upp::Ctrl* hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
+	LRESULT runProc(Window* hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
 
-	static LRESULT CALLBACK TabBarPlus_Proc(Upp::Ctrl* hwnd, UINT Message, WPARAM wParam, LPARAM lParam) {
+	static LRESULT CALLBACK TabBarPlus_Proc(Window* hwnd, UINT Message, WPARAM wParam, LPARAM lParam) {
 		return (((TabBarPlus *)(::GetWindowLongPtr(hwnd, GWLP_USERDATA)))->runProc(hwnd, Message, wParam, lParam));
 	};
 	void setActiveTab(int tabIndex);
@@ -256,7 +256,7 @@ protected:
 	static Color& _inactiveBgColour;
 
 	static int _nbCtrl;
-	static Upp::Ctrl* _hwndArray[nbCtrlMax];
+	static Window* _hwndArray[nbCtrlMax];
 
 	void drawItem(DRAWITEMSTRUCT *pDrawItemStruct, bool isDarkMode = false);
 	void draggingCursor(POINT screenPoint);

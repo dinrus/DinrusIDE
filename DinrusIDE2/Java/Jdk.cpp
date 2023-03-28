@@ -12,7 +12,7 @@ String Jdk::GetDownloadUrl()
 Jdk::Jdk(const String& path, Host* host)
 	: path(path)
 {
-	ASSERT_(host, "Host is null.");
+	ASSERT_(host, "Пустая ссылка на хост.");
 
 	FindVersion(host);
 }

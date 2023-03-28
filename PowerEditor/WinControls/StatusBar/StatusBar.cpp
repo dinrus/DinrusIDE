@@ -40,7 +40,7 @@ StatusBar::~StatusBar()
 }
 
 
-void StatusBar::init(Ctrl&, Upp::Ctrl*)
+void StatusBar::init(Window&, Window*)
 {
 	assert(false and "should never be called");
 }
@@ -55,7 +55,7 @@ struct StatusBarSubclassInfo
 		closeTheme();
 	}
 
-	bool ensureTheme(Upp::Ctrl* hwnd)
+	bool ensureTheme(Window* hwnd)
 	{
 		if (!hTheme)
 		{
@@ -78,7 +78,7 @@ struct StatusBarSubclassInfo
 constexpr UINT_PTR g_statusBarSubclassID = 42;
 
 
-LRESULT CALLBACK StatusBarSubclass(Upp::Ctrl* hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, DWORD_PTR dwRefData)
+LRESULT CALLBACK StatusBarSubclass(Window* hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, DWORD_PTR dwRefData)
 {
 	UNREFERENCED_PARAMETER(uIdSubclass);
 
@@ -156,7 +156,7 @@ LRESULT CALLBACK StatusBarSubclass(Upp::Ctrl* hWnd, UINT uMsg, WPARAM wParam, LP
 				cchText = LOWORD(SendMessage(hWnd, SB_GETTEXTLENGTH, i, 0));
 				str.resize(cchText + 1); // technically the std::wstring might not have an internal null character at the end of the buffer, so add one
 				LRESULT lr = SendMessage(hWnd, SB_GETTEXT, i, (LPARAM)&str[0]);
-				str.resize(cchText); // remove the extra Null character
+				str.resize(cchText); // remove the extra nullptr character
 				bool ownerDraw = false;
 				if (cchText == 0 && (lr & ~(SBT_NOBORDERS | SBT_POPOUT | SBT_RTLREADING)) != 0)
 				{
@@ -200,7 +200,7 @@ LRESULT CALLBACK StatusBarSubclass(Upp::Ctrl* hWnd, UINT uMsg, WPARAM wParam, LP
 			if (isSizeGrip)
 			{
 				pStatusBarInfo->ensureTheme(hWnd);
-				SIZE gripSize = {};
+				Size gripSize = {};
 				GetThemePartSize(pStatusBarInfo->hTheme, hdc, SP_GRIPPER, 0, &rcClient, TS_DRAW, &gripSize);
 				Rect rc = rcClient;
 				rc.left = rc.right - gripSize.cx;
@@ -227,12 +227,12 @@ LRESULT CALLBACK StatusBarSubclass(Upp::Ctrl* hWnd, UINT uMsg, WPARAM wParam, LP
 }
 
 
-void StatusBar::init(Ctrl& hInst, Upp::Ctrl* hPere, int nbParts)
+void StatusBar::init(Window& hInst, Window* hPere, int nbParts)
 {
 	Window::init(hInst, hPere);
 	InitCommonControls();
 
-	// _hSelf = CreateStatusWindow(WS_CHILD | WS_CLIPSIBLINGS, Null, _hParent, IDC_STATUSBAR);
+	// _hSelf = CreateStatusWindow(WS_CHILD | WS_CLIPSIBLINGS, nullptr, _hParent, IDC_STATUSBAR);
 	_hSelf = ::CreateWindowEx(
 		0,
 		STATUSCLASSNAME,

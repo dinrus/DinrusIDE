@@ -1,34 +1,13 @@
-// This file is part of Notepad++ project
-// Copyright (C)2021 Don HO <don.h@free.fr>
-
-// This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// at your option any later version.
-//
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #pragma once
 #include <Core/Core.h>
 #include <CtrlCore/CtrlCore.h>
-/*
-#include <vector>
-#include <string>
-#include <sstream>
-//#include <windows.h>
-#include <iso646.h>
-#include <cstdint>
-#include <algorithm>
-#include <char.h>
-#include <cwchar>
-*/
-#include <unordered_set>
+#include <PowerEditor/WinControls/Window.h>
 
+using namespace Upp;
+
+#define HWND Window*
+
+#include <unordered_set>
 
 const bool dirUp = true;
 const bool dirDown = false;
@@ -42,33 +21,15 @@ const bool dirDown = false;
 #define BCKGRD_COLOR (Color(255,102,102))
 #define TXT_COLOR    (Color(255,255,255))
 
-#define generic_strtol std::wcstol
-#define generic_strncpy std::wcsncpy
-#define generic_stricmp stricmp //wcsicmp
-#define generic_strncmp std::wcsncmp
-#define generic_strnicmp std::wcsnicmp
-#define generic_strncat std::wcsncat
-#define generic_strchr std::wcschr
-#define generic_atoi std::atoi //_wtoi
-#define generic_itoa std::itoa //_itow
-#define generic_atof std::atof //_wtof
-#define generic_strtok std::wcstok
-#define generic_strftime std::wcsftime
-#define generic_fprintf std::fwprintf
-#define generic_sprintf std::sprintf //swprintf
-#define generic_sscanf std::swscanf
-#define generic_fopen _wfopen
-#define generic_fgets std::fgetws
 #define COPYDATA_FILENAMES COPYDATA_FILENAMESW
 #define NPP_INTERNAL_FUCTION_STR TEXT("Notepad++::InternalFunction")
 
-//typedef std::basic_string<char> String;
 using namespace Upp;
 
 typedef Upp::StringStream generic_stringstream;
 
-String folderBrowser(Upp::Ctrl* parent, const char* title = TEXT(""), int outputCtrlID = 0, const char *defaultStr = nullptr);
-String getFolderName(Upp::Ctrl* parent, const char *defaultDir = nullptr);
+String folderBrowser(Window* parent, const char* title = TEXT(""), int outputCtrlID = 0, const char *defaultStr = nullptr);
+String getFolderName(Window* parent, const char *defaultDir = nullptr);
 
 void printInt(int int2print);
 void printStr(const char *str2print);
@@ -77,17 +38,17 @@ String commafyInt(size_t n);
 void writeLog(const char *logFileName, const char *log2write);
 int filter(unsigned int code, struct _EXCEPTION_POINTERS *ep);
 String purgeMenuItemString(const char * menuItemStr, bool keepAmpersand = false);
-Upp::Vector<String> tokenizeString(const String & tokenString, const char delim);
+Upp::Vector<String> tokenizeString(const String& tokenString, const char delim);
 
-void ClientRectToScreenRect(Upp::Ctrl* hWnd, Rect* rect);
-void ScreenRectToClientRect(Upp::Ctrl* hWnd, Rect* rect);
+void ClientRectToScreenRect(Window* hWnd, Rect* rect);
+void ScreenRectToClientRect(Window* hWnd, Rect* rect);
 
-std::wstring string2wstring(const std::string & rString, UINT codepage);
-std::string wstring2string(const std::wstring & rwString, UINT codepage);
+std::wstring string2wstring(const String& rString, UINT codepage);
+String wstring2string(const WString& rwString, UINT codepage);
 bool isInList(const char *token, const char *list);
-String BuildMenuFileName(int filenameLen, unsigned int pos, const String &filename, bool ordinalNumber = true);
+String BuildMenuFileName(int filenameLen, unsigned int pos, const String&filename, bool ordinalNumber = true);
 
-std::string getFileContent(const char *file2read);
+String getFileContent(const char *file2read);
 String relativeFilePathToFullFilePath(const char *relativeFilePath);
 void writeFileContent(const char *file2write, const char *content2write);
 bool matchInList(const char *fileName, const Upp::Vector<String> & patterns);
@@ -146,7 +107,7 @@ protected:
 
 		void empty()
 		{
-			static T nullStr = 0; // routines may return an empty string, with null terminator, without allocating memory; a pointer to this null character will be returned in that case
+			static T nullStr = 0; // routines may return an empty String, with null terminator, without allocating memory; a pointer to this null character will be returned in that case
 			if (_allocLen == 0)
 				_str = &nullStr;
 			else
@@ -169,9 +130,9 @@ protected:
 
 #define REBARBAND_SIZE sizeof(REBARBANDINFO)
 
-String PathRemoveFileSpec(String & path);
-String pathAppend(String &strDest, const String & str2append);
-Color& getCtrlBgColor(Upp::Ctrl* hWnd);
+String PathRemoveFileSpec(String& path);
+String pathAppend(String&strDest, const String& str2append);
+Color& getCtrlBgColor(Window* hWnd);
 String stringToUpper(String strToConvert);
 String stringToLower(String strToConvert);
 String stringReplace(String subject, const char* search, const char* replace);
@@ -183,23 +144,23 @@ double stodLocale(const char* str, _locale_t loc, size_t* idx = nullptr);
 
 int OrdinalIgnoreCaseCompareStrings(LPCTSTR sz1, LPCTSTR sz2);
 
-bool str2Clipboard(const String &str2cpy, Upp::Ctrl* hwnd);
+bool str2Clipboard(const String&str2cpy, Window* hwnd);
 class SciBuffer;
-bool buf2Clipborad(const std::vector<SciBuffer*>& buffers, bool isFullPath, Upp::Ctrl* hwnd);
+bool buf2Clipborad(const std::vector<SciBuffer*>& buffers, bool isFullPath, Window* hwnd);
 
 String GetLastErrorAsString(dword errorCode = 0);
 
 String intToString(int val);
 String uintToString(unsigned int val);
 
-Upp::Ctrl* CreateToolTip(int toolID, Upp::Ctrl* hDlg, Ctrl& hInst, const PTSTR pszText, bool isRTL);
-Upp::Ctrl* CreateToolTipRect(int toolID, Upp::Ctrl* hWnd, Ctrl& hInst, const PTSTR pszText, const Rect rc);
+Window* CreateToolTip(int toolID, Window* hDlg, Window& hInst, const PTSTR pszText, bool isRTL);
+Window* CreateToolTipRect(int toolID, Window* hWnd, Window& hInst, const PTSTR pszText, const Rect rc);
 
-bool isCertificateValidated(const String & fullFilePath, const String & subjectName2check);
+bool isCertificateValidated(const String& fullFilePath, const String& subjectName2check);
 bool isAssoCommandExisting(LPCTSTR FullPathName);
 
-std::wstring s2ws(const std::string& str);
-std::string ws2s(const std::wstring& wstr);
+std::wstring s2ws(const String& str);
+String ws2s(const std::wstring& wstr);
 
 bool deleteFileOrFolder(const char* f2delete);
 
@@ -238,7 +199,7 @@ int nbDigitsFromNbLines(size_t nbLines);
 
 String getDateTimeStrFrom(const char* dateTimeFormat, const SYSTEMTIME& st);
 
-HFONT createFont(const char* fontName, int fontSize, bool isBold, Upp::Ctrl* hDestParent);
+HFONT createFont(const char* fontName, int fontSize, bool isBold, Window* hDestParent);
 
 class Version final
 {

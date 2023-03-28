@@ -36,7 +36,7 @@ public:
 	  _id(id), _displayName(displayName), _commentExpr(commentExpr?commentExpr:TEXT("")), _functionExpr(functionExpr), _functionNameExprArray(functionNameExprArray), _classNameExprArray(classNameExprArray){};
 
 	virtual void parse(std::vector<foundInfo> & foundInfos, size_t begin, size_t end, ScintillaEditView **ppEditView, String classStructName = TEXT("")) = 0;
-	void funcParse(std::vector<foundInfo> & foundInfos, size_t begin, size_t end, ScintillaEditView **ppEditView, String classStructName = TEXT(""), const std::vector< std::pair<size_t, size_t> > * commentZones = Null);
+	void funcParse(std::vector<foundInfo> & foundInfos, size_t begin, size_t end, ScintillaEditView **ppEditView, String classStructName = TEXT(""), const std::vector< std::pair<size_t, size_t> > * commentZones = nullptr);
 	bool isInZones(size_t pos2Test, const std::vector< std::pair<size_t, size_t> > & zones);
 	virtual ~FunctionParser() = default;
 
@@ -159,9 +159,9 @@ private:
 	ParserInfo* _parsers[L_EXTERNAL + nbMaxUserDefined] = {nullptr};
 	int _currentUDIndex = L_EXTERNAL;
 
-	bool getOverrideMapFromXmlTree(String & xmlDirPath);
-	bool loadFuncListFromXmlTree(String & xmlDirPath, LangType lType, const char* overrideId, int udlIndex = -1);
-	bool getZonePaserParameters(TiXmlNode *classRangeParser, String &mainExprStr, String &openSymboleStr, String &closeSymboleStr, Upp::Vector<String> &classNameExprArray, String &functionExprStr, Upp::Vector<String> &functionNameExprArray);
-	bool getUnitPaserParameters(TiXmlNode *functionParser, String &mainExprStr, Upp::Vector<String> &functionNameExprArray, Upp::Vector<String> &classNameExprArray);
+	bool getOverrideMapFromXmlTree(String& xmlDirPath);
+	bool loadFuncListFromXmlTree(String& xmlDirPath, LangType lType, const char* overrideId, int udlIndex = -1);
+	bool getZonePaserParameters(TiXmlNode *classRangeParser, String&mainExprStr, String&openSymboleStr, String&closeSymboleStr, Upp::Vector<String> &classNameExprArray, String&functionExprStr, Upp::Vector<String> &functionNameExprArray);
+	bool getUnitPaserParameters(TiXmlNode *functionParser, String&mainExprStr, Upp::Vector<String> &functionNameExprArray, Upp::Vector<String> &classNameExprArray);
 	FunctionParser * getParser(const AssociationInfo & assoInfo);
 };

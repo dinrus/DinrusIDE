@@ -161,7 +161,7 @@ bool XmlMatchedTagsHighlighter::getXmlMatchedTagsPos(XmlMatchedTagsPos &xmlTags)
                 intptr_t position = openFound.start + 2;
 
                 // UTF-8 or ASCII tag name
-                std::string tagName;
+                String tagName;
                 nextChar = _pEditView->execute(SCI_GETCHARAT, position);
                 // Checking for " or ' is actually wrong here, but it means it works better with invalid XML
                 while (position < docLength && !isWhitespace(nextChar) && nextChar != '/' && nextChar != '>' && nextChar != '\"' && nextChar != '\'')
@@ -261,7 +261,7 @@ bool XmlMatchedTagsHighlighter::getXmlMatchedTagsPos(XmlMatchedTagsPos &xmlTags)
 
                 xmlTags.tagOpenStart = openFound.start;
 
-                std::string tagName;
+                String tagName;
                 nextChar = _pEditView->execute(SCI_GETCHARAT, position);
                 // Checking for " or ' is actually wrong here, but it means it works better with invalid XML
                 while (position < docLength && !isWhitespace(nextChar) && nextChar != '/' && nextChar != '>' && nextChar != '\"' && nextChar != '\'' )
@@ -363,9 +363,9 @@ bool XmlMatchedTagsHighlighter::getXmlMatchedTagsPos(XmlMatchedTagsPos &xmlTags)
     return tagFound;
 }
 
-XmlMatchedTagsHighlighter::FindResult XmlMatchedTagsHighlighter::findOpenTag(const std::string& tagName, intptr_t start, intptr_t end)
+XmlMatchedTagsHighlighter::FindResult XmlMatchedTagsHighlighter::findOpenTag(const String& tagName, intptr_t start, intptr_t end)
 {
-    std::string search("<");
+    String search("<");
     search.append(tagName);
     FindResult openTagFound;
     openTagFound.success = false;
@@ -470,9 +470,9 @@ intptr_t XmlMatchedTagsHighlighter::findCloseAngle(intptr_t startPosition, intpt
 }
 
 
-XmlMatchedTagsHighlighter::FindResult XmlMatchedTagsHighlighter::findCloseTag(const std::string& tagName, intptr_t start, intptr_t end)
+XmlMatchedTagsHighlighter::FindResult XmlMatchedTagsHighlighter::findCloseTag(const String& tagName, intptr_t start, intptr_t end)
 {
-    std::string search("</");
+    String search("</");
     search.append(tagName);
     FindResult closeTagFound;
     closeTagFound.success = false;
@@ -575,8 +575,8 @@ void XmlMatchedTagsHighlighter::tagMatch(bool doHiliteAttr)
     // If we're inside a code block (i.e not markup), don't try to match tags.
     if (lang == L_PHP || lang == L_ASP || lang == L_JSP)
     {
-        std::string codeBeginTag = lang == L_PHP ? "<?" : "<%";
-        std::string codeEndTag = lang == L_PHP ? "?>" : "%>";
+        String codeBeginTag = lang == L_PHP ? "<?" : "<%";
+        String codeEndTag = lang == L_PHP ? "?>" : "%>";
 
         const intptr_t caret = 1 + _pEditView->execute(SCI_GETCURRENTPOS); // +1 to deal with the case when the caret is between the angle and the question mark in "<?" (or between '<' and '%').
         const FindResult startFound = findText(codeBeginTag.Begin(), caret, 0, 0); // This searches backwards from "caret".

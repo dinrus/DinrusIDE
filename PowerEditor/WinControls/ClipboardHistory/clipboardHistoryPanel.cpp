@@ -29,25 +29,25 @@ ClipboardData ClipboardHistoryPanel::getClipboadData()
 	if (!IsClipboardFormatAvailable(CLIPBOARD_TEXTFORMAT))
 		return clipboardData;
 
-	if (!OpenClipboard(Null))
+	if (!OpenClipboard(nullptr))
 		return clipboardData;
 	 
 	HGLOBAL hglb = GetClipboardData(CLIPBOARD_TEXTFORMAT); 
-	if (hglb != Null) 
+	if (hglb != nullptr) 
 	{ 
 		char *lpchar = (char *)GlobalLock(hglb);
 		wchar_t *lpWchar = (wchar_t *)GlobalLock(hglb);
 		
-		if (lpchar != Null) 
+		if (lpchar != nullptr) 
 		{
 			UINT cf_nppTextLen = RegisterClipboardFormat(CF_NPPTEXTLEN);
 			if (IsClipboardFormatAvailable(cf_nppTextLen))
 			{
 				HGLOBAL hglbLen = GetClipboardData(cf_nppTextLen); 
-				if (hglbLen != Null) 
+				if (hglbLen != nullptr) 
 				{ 
 					unsigned long *lpLen = (unsigned long *)GlobalLock(hglbLen); 
-					if (lpLen != Null) 
+					if (lpLen != nullptr) 
 					{
 						for (size_t i = 0 ; i < (*lpLen) ; ++i)
 						{
@@ -78,7 +78,7 @@ ByteArray::ByteArray(ClipboardData cd)
 	_length = cd.size();
 	if (!_length)
 	{
-		_pBytes = Null;
+		_pBytes = nullptr;
 		return;
 	}
 	_pBytes = new unsigned char[_length];
@@ -92,7 +92,7 @@ StringArray::StringArray(ClipboardData cd, size_t maxLen)
 {
 	if (!cd.size())
 	{
-		_pBytes = Null;
+		_pBytes = nullptr;
 		return;
 	}
 
@@ -204,8 +204,8 @@ intptr_t CALLBACK ClipboardHistoryPanel::run_dlgProc(UINT message, WPARAM wParam
 		}
 
 		case WM_CHANGECBCHAIN:
-			if (_hwndNextCbViewer == reinterpret_cast<Upp::Ctrl*>(wParam))
-				_hwndNextCbViewer = reinterpret_cast<Upp::Ctrl*>(lParam);
+			if (_hwndNextCbViewer == reinterpret_cast<Window*>(wParam))
+				_hwndNextCbViewer = reinterpret_cast<Window*>(lParam);
 			else if (_hwndNextCbViewer)
 				::SendMessage(_hwndNextCbViewer, message, wParam, lParam);
 			return TRUE;
@@ -247,10 +247,10 @@ intptr_t CALLBACK ClipboardHistoryPanel::run_dlgProc(UINT message, WPARAM wParam
 							ByteArray ba(_clipboardDataVector[i]);
 							char* c = nullptr;
 							try {
-								int nbChar = WideCharToMultiByte(codepage, 0, (wchar_t *)ba.getPointer(), static_cast<int32_t>(ba.getLength()), Null, 0, Null, Null);
+								int nbChar = WideCharToMultiByte(codepage, 0, (wchar_t *)ba.getPointer(), static_cast<int32_t>(ba.getLength()), nullptr, 0, nullptr, nullptr);
 
 								c = new char[nbChar + 1];
-								WideCharToMultiByte(codepage, 0, (wchar_t *)ba.getPointer(), static_cast<int32_t>(ba.getLength()), c, nbChar + 1, Null, Null);
+								WideCharToMultiByte(codepage, 0, (wchar_t *)ba.getPointer(), static_cast<int32_t>(ba.getLength()), c, nbChar + 1, nullptr, nullptr);
 
 								(*_ppEditView)->execute(SCI_REPLACESEL, 0, reinterpret_cast<LPARAM>(""));
 								(*_ppEditView)->execute(SCI_ADDTEXT, strlen(c), reinterpret_cast<LPARAM>(c));

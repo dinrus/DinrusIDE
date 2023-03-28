@@ -32,7 +32,7 @@ public:
 	};
 	~ShortcutMapper() = default;
 
-	void init(Ctrl& hInst, Upp::Ctrl* parent, GridState initState = STATE_MENU) {
+	void init(Window& hInst, Window* parent, GridState initState = STATE_MENU) {
         Window::init(hInst, parent);
         _currentState = initState;
     };
@@ -41,7 +41,7 @@ public:
 	void doDialog(bool isRTL = false) {
 		if (isRTL)
 		{
-			DLGTEMPLATE *pMyDlgTemplate = Null;
+			DLGTEMPLATE *pMyDlgTemplate = nullptr;
 			HGLOBAL hMyDlgTemplate = makeRTLResource(IDD_SHORTCUTMAPPER_DLG, &pMyDlgTemplate);
 			::DialogBoxIndirectParam(_hInst, pMyDlgTemplate, _hParent, dlgProc, reinterpret_cast<LPARAM>(this));
 			::GlobalFree(hMyDlgTemplate);
@@ -54,7 +54,7 @@ public:
 	bool findKeyConflicts(__inout_opt String * const keyConflictLocation,
 							const KeyCombo & itemKeyCombo, const size_t & itemIndex) const;
 
-	String getTextFromCombo(Upp::Ctrl* hCombo);
+	String getTextFromCombo(Window* hCombo);
 	bool isFilterValid(Shortcut);
 	bool isFilterValid(PluginCmdShortcut sc);
 
@@ -66,7 +66,7 @@ private:
 	ContextMenu _rightClickMenu;
 
 	GridState _currentState;
-	Upp::Ctrl* _hTabCtrl = nullptr;
+	Window* _hTabCtrl = nullptr;
 
 	const static int _nbTab = 5;
 	String _tabNames[_nbTab];

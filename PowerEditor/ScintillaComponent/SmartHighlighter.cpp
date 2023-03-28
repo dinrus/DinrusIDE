@@ -9,7 +9,7 @@ SmartHighlighter::SmartHighlighter(FindReplaceDlg * pFRDlg)
     //Nothing to do
 }
 
-void SmartHighlighter::highlightViewWithWord(ScintillaEditView * pHighlightView, const String & word2Hilite)
+void SmartHighlighter::highlightViewWithWord(ScintillaEditView * pHighlightView, const String& word2Hilite)
 {
     // save target locations for other search functions
     auto originalStartPos = pHighlightView->execute(SCI_GETTARGETSTART);
@@ -66,12 +66,12 @@ void SmartHighlighter::highlightViewWithWord(ScintillaEditView * pHighlightView,
         if (endPos == -1)
         {   //past EOF
             frInfo._endRange = pHighlightView->getCurrentDocLen() - 1;
-            _pFRDlg->processRange(ProcessMarkAll_2, frInfo, Null, &fo, -1, pHighlightView);
+            _pFRDlg->processRange(ProcessMarkAll_2, frInfo, nullptr, &fo, -1, pHighlightView);
             break;
         }
         else
         {
-            _pFRDlg->processRange(ProcessMarkAll_2, frInfo, Null, &fo, -1, pHighlightView);
+            _pFRDlg->processRange(ProcessMarkAll_2, frInfo, nullptr, &fo, -1, pHighlightView);
         }
     }
 

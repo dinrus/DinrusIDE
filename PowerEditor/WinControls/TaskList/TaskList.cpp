@@ -20,7 +20,7 @@
 #include <PowerEditor/WinControls/ImageListSet/ImageListSet.h>
 #include <PowerEditor/Parameters.h>
 
-void TaskList::init(Ctrl& hInst, Upp::Ctrl* parent, HIMAGELIST hImaLst, int nbItem, int index2set)
+void TaskList::init(Window& hInst, Window* parent, HIMAGELIST hImaLst, int nbItem, int index2set)
 {
 	Window::init(hInst, parent);
 
@@ -48,9 +48,9 @@ void TaskList::init(Ctrl& hInst, Upp::Ctrl* parent, HIMAGELIST hImaLst, int nbIt
                                 0,
                                 0,
                                 _hParent,
-                                Null,
+                                nullptr,
                                 hInst,
-                                Null);
+                                nullptr);
 	if (!_hSelf)
 	{
 		throw std::runtime_error("TaskList::init : CreateWindowEx() function return null");
@@ -85,7 +85,7 @@ void TaskList::destroy()
 	if (_hFontSelected)
 		DeleteObject(_hFontSelected);
 	::DestroyWindow(_hSelf);
-	_hSelf = Null;
+	_hSelf = nullptr;
 }
 
 Rect TaskList::adjustSize()
@@ -164,7 +164,7 @@ int TaskList::updateCurrentIndex()
 	return _currentIndex;
 }
 
-LRESULT TaskList::runProc(Upp::Ctrl* hwnd, UINT Message, WPARAM wParam, LPARAM lParam)
+LRESULT TaskList::runProc(Window* hwnd, UINT Message, WPARAM wParam, LPARAM lParam)
 {
 	switch (Message)
 	{
@@ -224,7 +224,7 @@ LRESULT TaskList::runProc(Upp::Ctrl* hwnd, UINT Message, WPARAM wParam, LPARAM l
 		{
 			MSG *msg = (MSG*)lParam;
 
-			if ( msg != Null)
+			if ( msg != nullptr)
 			{
 				if ((msg->message == WM_KEYDOWN) && (0x80 & GetKeyState(VK_CONTROL)))
 				{

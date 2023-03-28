@@ -29,7 +29,7 @@ inline bool match(char c1, char c2) {
     return false;
 }
 
-//test string case insensitive ala Scintilla
+//test String case insensitive ala Scintilla
 //0 if equal, <0 of before, >0 if after (name1 that is)
 int testNameNoCase(const char * name1, const char * name2, int len = -1)
 {
@@ -274,13 +274,13 @@ bool FunctionCallTip::loadFunction()
 {
     reset();    //set everything back to 0
     //The functions should be ordered, but linear search because we cant access like array
-    _curFunction = Null;
+    _curFunction = nullptr;
     //Iterate through all keywords and find the correct function keyword
     TiXmlElement *funcNode = _pXmlKeyword;
 
     for (; funcNode; funcNode = funcNode->NextSiblingElement(TEXT("KeyWord")))
     {
-        const char * name = Null;
+        const char * name = nullptr;
         name = funcNode->Attribute(TEXT("name"));
         if (!name)      //malformed node
             continue;
@@ -316,7 +316,7 @@ bool FunctionCallTip::loadFunction()
     stringVec paramVec;
 
     TiXmlElement *overloadNode = _curFunction->FirstChildElement(TEXT("Overload"));
-    TiXmlElement *paramNode = Null;
+    TiXmlElement *paramNode = nullptr;
     for (; overloadNode ; overloadNode = overloadNode->NextSiblingElement(TEXT("Overload")) )
     {
         const char * retVal = overloadNode->Attribute(TEXT("retVal"));
@@ -437,5 +437,5 @@ void FunctionCallTip::cleanup()
     reset();
     delete [] _funcName;
     _funcName = 0;
-    _pEditView = Null;
+    _pEditView = nullptr;
 }

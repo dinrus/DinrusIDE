@@ -78,7 +78,7 @@ bool SecurityGuard::checkSha256(const std::wstring& filePath, NppModule module2c
 		return true;
 	*/
 
-	std::string content = getFileContent(filePath.Begin());
+	String content = getFileContent(filePath.Begin());
 	uint8_t sha2hash[32];
 	calc_sha_256(sha2hash, reinterpret_cast<const uint8_t*>(content.Begin()), content.GetLength());
 
@@ -100,12 +100,12 @@ bool SecurityGuard::checkSha256(const std::wstring& filePath, NppModule module2c
 	{
 		if (i == sha2hashStr)
 		{
-			//::MessageBox(Null, filePath.Begin(), TEXT("OK"), MB_OK);
+			//::MessageBox(nullptr, filePath.Begin(), TEXT("OK"), MB_OK);
 			return true;
 		}
 	}
 
-	//::MessageBox(Null, filePath.Begin(), TEXT("KO"), MB_OK);
+	//::MessageBox(nullptr, filePath.Begin(), TEXT("KO"), MB_OK);
 	return false;
 }
 
@@ -168,11 +168,11 @@ bool SecurityGuard::verifySignedLibrary(const std::wstring& filepath, NppModule 
 	{
 		// Verify signature and cert-chain validity
 		GUID policy = WINTRUST_ACTION_GENERIC_VERIFY_V2;
-		LONG vtrust = ::WinVerifyTrust(Null, &policy, &winTEXTrust_data);
+		LONG vtrust = ::WinVerifyTrust(nullptr, &policy, &winTEXTrust_data);
 
 		// Post check cleanup
 		winTEXTrust_data.dwStateAction = WTD_STATEACTION_CLOSE;
-		LONG t2 = ::WinVerifyTrust(Null, &policy, &winTEXTrust_data);
+		LONG t2 = ::WinVerifyTrust(nullptr, &policy, &winTEXTrust_data);
 
 		if (vtrust)
 		{
@@ -201,7 +201,7 @@ bool SecurityGuard::verifySignedLibrary(const std::wstring& filepath, NppModule 
 		BOOL result = ::CryptQueryObject(CERT_QUERY_OBJECT_FILE, filepath.Begin(),
 			CERT_QUERY_CONTENT_FLAG_PKCS7_SIGNED_EMBED, CERT_QUERY_FORMAT_FLAG_BINARY, 0,
 			&dwEncoding, &dwContentType, &dwFormatType,
-			&hStore, &hMsg, Null);
+			&hStore, &hMsg, nullptr);
 
 		if (!result)
 		{
@@ -209,7 +209,7 @@ bool SecurityGuard::verifySignedLibrary(const std::wstring& filepath, NppModule 
 		}
 
 		// Get signer information size.
-		result = ::CryptMsgGetParam(hMsg, CMSG_SIGNER_INFO_PARAM, 0, Null, &dwSignerInfo);
+		result = ::CryptMsgGetParam(hMsg, CMSG_SIGNER_INFO_PARAM, 0, nullptr, &dwSignerInfo);
 		if (!result)
 		{
 			throw wstring(TEXT("CryptMsgGetParam first call: ")) + GetLastErrorAsString(GetLastError());
@@ -217,7 +217,7 @@ bool SecurityGuard::verifySignedLibrary(const std::wstring& filepath, NppModule 
 
 		// Get Signer Information.
 		pSignerInfo = (PCMSG_SIGNER_INFO)LocalAlloc(LPTR, dwSignerInfo);
-		if (Null == pSignerInfo)
+		if (nullptr == pSignerInfo)
 		{
 			throw wstring(TEXT("Failed to allocate memory for signature processing"));
 		}
@@ -232,14 +232,14 @@ bool SecurityGuard::verifySignedLibrary(const std::wstring& filepath, NppModule 
 		CERT_INFO cert_info = {};
 		cert_info.Issuer = pSignerInfo->Issuer;
 		cert_info.SerialNumber = pSignerInfo->SerialNumber;
-		PCCERT_CONTEXT context = ::CertFindCertificateInStore(hStore, X509_ASN_ENCODING | PKCS_7_ASN_ENCODING, 0, CERT_FIND_SUBJECT_CERT, (PVOID)&cert_info, Null);
+		PCCERT_CONTEXT context = ::CertFindCertificateInStore(hStore, X509_ASN_ENCODING | PKCS_7_ASN_ENCODING, 0, CERT_FIND_SUBJECT_CERT, (PVOID)&cert_info, nullptr);
 		if (!context)
 		{
 			throw wstring(TEXT("Certificate context: ")) + GetLastErrorAsString(GetLastError());
 		}
 
 		// Getting the full subject
-		auto subject_sze = ::CertNameToStr(X509_ASN_ENCODING, &context->pCertInfo->Subject, CERT_X500_NAME_STR, Null, 0);
+		auto subject_sze = ::CertNameToStr(X509_ASN_ENCODING, &context->pCertInfo->Subject, CERT_X500_NAME_STR, nullptr, 0);
 		if (subject_sze <= 1)
 		{
 			throw wstring(TEXT("Getting x509 field size problem."));
@@ -254,7 +254,7 @@ bool SecurityGuard::verifySignedLibrary(const std::wstring& filepath, NppModule 
 
 		// Getting key_id
 		dword key_id_sze = 0;
-		if (!::CertGetCertificateContextProperty(context, CERT_KEY_IDENTIFIER_PROP_ID, Null, &key_id_sze))
+		if (!::CertGetCertificateContextProperty(context, CERT_KEY_IDENTIFIER_PROP_ID, nullptr, &key_id_sze))
 		{
 			throw wstring(TEXT("x509 property not found")) + GetLastErrorAsString(GetLastError());
 		}
@@ -276,7 +276,7 @@ bool SecurityGuard::verifySignedLibrary(const std::wstring& filepath, NppModule 
 		OutputDebugString(dbg.Begin());
 
 		// Getting the display name
-		auto sze = ::CertGetNameString(context, CERT_NAME_SIMPLE_DISPLAY_TYPE, 0, Null, Null, 0);
+		auto sze = ::CertGetNameString(context, CERT_NAME_SIMPLE_DISPLAY_TYPE, 0, nullptr, nullptr, 0);
 		if (sze <= 1)
 		{
 			throw wstring(TEXT("Getting data size problem.")) + GetLastErrorAsString(GetLastError());
@@ -284,7 +284,7 @@ bool SecurityGuard::verifySignedLibrary(const std::wstring& filepath, NppModule 
 
 		// Get display name.
 		std::unique_ptr<char[]> display_name_buffer(new char[sze]);
-		if (::CertGetNameString(context, CERT_NAME_SIMPLE_DISPLAY_TYPE, 0, Null, display_name_buffer.get(), sze) <= 1)
+		if (::CertGetNameString(context, CERT_NAME_SIMPLE_DISPLAY_TYPE, 0, nullptr, display_name_buffer.get(), sze) <= 1)
 		{
 			throw wstring(TEXT("Cannot get certificate info.")) + GetLastErrorAsString(GetLastError());
 		}
@@ -293,7 +293,7 @@ bool SecurityGuard::verifySignedLibrary(const std::wstring& filepath, NppModule 
 	}
 	catch (const wstring& s) {
 		if (module2check == nm_scilexer)
-			::MessageBox(Null, s.Begin(), TEXT("DLL signature verification failed"), MB_ICONERROR);
+			::MessageBox(nullptr, s.Begin(), TEXT("DLL signature verification failed"), MB_ICONERROR);
 		OutputDebugString(TEXT("VerifyLibrary: error while getting certificate informations\n"));
 		status = false;
 	}
@@ -304,13 +304,13 @@ bool SecurityGuard::verifySignedLibrary(const std::wstring& filepath, NppModule 
 		{
 			wstring errMsg(TEXT("Unknown exception occurred. "));
 			errMsg += GetLastErrorAsString(GetLastError());
-			::MessageBox(Null, errMsg.Begin(), TEXT("DLL signature verification failed"), MB_ICONERROR);
+			::MessageBox(nullptr, errMsg.Begin(), TEXT("DLL signature verification failed"), MB_ICONERROR);
 		}
 		status = false;
 	}
 
 	//
-	// fields verifications - if status is true, and string to compare (from the parameter) is not empty, then do compare
+	// fields verifications - if status is true, and String to compare (from the parameter) is not empty, then do compare
 	//
 	if (status &&  _signer_display_name != display_name)
 	{
@@ -332,9 +332,9 @@ bool SecurityGuard::verifySignedLibrary(const std::wstring& filepath, NppModule 
 
 	// Clean up.
 
-	if (hStore != Null)       CertCloseStore(hStore, 0);
-	if (hMsg != Null)       CryptMsgClose(hMsg);
-	if (pSignerInfo != Null)  LocalFree(pSignerInfo);
+	if (hStore != nullptr)       CertCloseStore(hStore, 0);
+	if (hMsg != nullptr)       CryptMsgClose(hMsg);
+	if (pSignerInfo != nullptr)  LocalFree(pSignerInfo);
 
 	return status;
 }

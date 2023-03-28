@@ -105,13 +105,13 @@ public:
 	};
 
 	void pushBack(PluginUpdateInfo* pi);
-	Upp::Ctrl* getViewHwnd() { return _ui.getHSelf(); };
+	Window* getViewHwnd() { return _ui.getHSelf(); };
 	void displayView(bool doShow) const { _ui.display(doShow); };
 	std::vector<size_t> getCheckedIndexes() const { return _ui.getCheckedIndexes(); };
 	std::vector<PluginUpdateInfo*> fromUiIndexesToPluginInfos(const std::vector<size_t>& ) const;
 	long getSelectedIndex() const { return _ui.getSelectedIndex(); };
 	void setSelection(int index) const { _ui.setSelection(index); };
-	void initView(Ctrl& hInst, Upp::Ctrl* parent) { _ui.init(hInst, parent); };
+	void initView(Window& hInst, Window* parent) { _ui.init(hInst, parent); };
 	void addColumn(const columnInfo & column2Add) { _ui.addColumn(column2Add); };
 	void reSizeView(Rect & rc) { _ui.reSizeTo(rc); }
 	void setViewStyleOption(int32_t extraStyle) { _ui.setStyleOption(extraStyle); };
@@ -143,7 +143,7 @@ public :
 	PluginsAdminDlg();
 	~PluginsAdminDlg() = default;
 
-    void init(Ctrl& hInst, Upp::Ctrl* parent)	{
+    void init(Window& hInst, Window* parent)	{
         Window::init(hInst, parent);
 	};
 

@@ -54,7 +54,7 @@ public:
     }
 
     // Scale Size from raw pixels to relative pixels.
-    void scaleSize(__inout SIZE *pSize)
+    void scaleSize(__inout Size *pSize)
     {
         pSize->cx = scaleX(pSize->cx);
         pSize->cy = scaleY(pSize->cy);
@@ -80,7 +80,7 @@ private:
 
 
 	void init() {
-	    HDC hdc = GetDC(Null);
+	    HDC hdc = GetDC(nullptr);
         if (hdc)
         {
             // Initialize the DPIManager member variable
@@ -88,7 +88,7 @@ private:
             // With all Windows OS's to date the X and Y DPI will be identical
             _dpiX = GetDeviceCaps(hdc, LOGPIXELSX);
             _dpiY = GetDeviceCaps(hdc, LOGPIXELSY);
-            ReleaseDC(Null, hdc);
+            ReleaseDC(nullptr, hdc);
         }
 	};
 

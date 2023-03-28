@@ -103,7 +103,7 @@ int whichVar(char *str)
 }
 
 // Since I'm sure the length will be 256, I won't check the lstrlen : watch out!
-void expandNppEnvironmentStrs(const char *strSrc, char *stringDest, size_t strDestLen, Upp::Ctrl* hWnd)
+void expandNppEnvironmentStrs(const char *strSrc, char *stringDest, size_t strDestLen, Window* hWnd)
 {
 	size_t j = 0;
 	for (int i = 0, len = lstrlen(strSrc); i < len; ++i)
@@ -180,12 +180,12 @@ void expandNppEnvironmentStrs(const char *strSrc, char *stringDest, size_t strDe
 	stringDest[j] = '\0';
 }
 
-Ctrl& Command::run(Upp::Ctrl* hWnd)
+Window& Command::run(Window* hWnd)
 {
 	return run(hWnd, TEXT("."));
 }
 
-Ctrl& Command::run(Upp::Ctrl* hWnd, const char* cwd)
+Window& Command::run(Window* hWnd, const char* cwd)
 {
 	const int argsIntermediateLen = MAX_PATH*2;
 	const int args2ExecLen = CURRENTWORD_MAXLENGTH+MAX_PATH*2;
@@ -216,7 +216,7 @@ Ctrl& Command::run(Upp::Ctrl* hWnd, const char* cwd)
 	char cwd2Exec[MAX_PATH];
 	expandNppEnvironmentStrs(cwd, cwd2Exec, MAX_PATH, hWnd);
 	
-	Ctrl& res = ::ShellExecute(hWnd, TEXT("open"), cmd2Exec, args2Exec, cwd2Exec, SW_SHOW);
+	Window& res = ::ShellExecute(hWnd, TEXT("open"), cmd2Exec, args2Exec, cwd2Exec, SW_SHOW);
 
 	// As per MSDN (https://msdn.microsoft.com/en-us/library/windows/desktop/bb762153(v=vs.85).aspx)
 	// If the function succeeds, it returns a value greater than 32.
@@ -312,7 +312,7 @@ intptr_t CALLBACK RunDlg::run_dlgProc(UINT message, WPARAM wParam, LPARAM lParam
 					::GetDlgItemText(_hSelf, IDC_COMBO_RUN_PATH, cmd, MAX_PATH);
 					_cmdLine = cmd;
 
-					Ctrl& hInst = run(_hParent);
+					Window& hInst = run(_hParent);
 					if (reinterpret_cast<intptr_t>(hInst) > 32)
 					{
 						addTextToCombo(_cmdLine.Begin());
@@ -400,7 +400,7 @@ intptr_t CALLBACK RunDlg::run_dlgProc(UINT message, WPARAM wParam, LPARAM lParam
 
 void RunDlg::addTextToCombo(const char *txt2Add) const
 {
-	Upp::Ctrl* handle = ::GetDlgItem(_hSelf, IDC_COMBO_RUN_PATH);
+	Window* handle = ::GetDlgItem(_hSelf, IDC_COMBO_RUN_PATH);
 	auto i = ::SendMessage(handle, CB_FINDSTRINGEXACT, static_cast<WPARAM>(-1), reinterpret_cast<LPARAM>(txt2Add));
 	if (i == CB_ERR)
 		i = ::SendMessage(handle, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(txt2Add));
@@ -408,7 +408,7 @@ void RunDlg::addTextToCombo(const char *txt2Add) const
 }
 void RunDlg::removeTextFromCombo(const char *txt2Remove) const
 {
-	Upp::Ctrl* handle = ::GetDlgItem(_hSelf, IDC_COMBO_RUN_PATH);
+	Window* handle = ::GetDlgItem(_hSelf, IDC_COMBO_RUN_PATH);
 	auto i = ::SendMessage(handle, CB_FINDSTRINGEXACT, static_cast<WPARAM>(-1), reinterpret_cast<LPARAM>(txt2Remove));
 	if (i == CB_ERR)
 		return;

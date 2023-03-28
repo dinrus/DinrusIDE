@@ -8,8 +8,8 @@
 
 using namespace std;
 
-UserLangContainer * SharedParametersDialog::_pUserLang = Null;
-ScintillaEditView * SharedParametersDialog::_pScintilla = Null;
+UserLangContainer * SharedParametersDialog::_pUserLang = nullptr;
+ScintillaEditView * SharedParametersDialog::_pScintilla = nullptr;
 
 GlobalMappers & globalMappper()
 {
@@ -68,7 +68,7 @@ void convertTo(char *dest, int destLen, const char *toConvert, const char *prefi
 	dest[index] = '\0';
 };
 
-bool SharedParametersDialog::setPropertyByCheck(Upp::Ctrl* hwnd, WPARAM id, bool & bool2set)
+bool SharedParametersDialog::setPropertyByCheck(Window* hwnd, WPARAM id, bool & bool2set)
 {
     bool2set = (BST_CHECKED == ::SendMessage(::GetDlgItem(hwnd, int(id)), BM_GETCHECK, 0, 0));
 
@@ -911,7 +911,7 @@ void UserDefineDialog::changeStyle()
 
 	auto style = ::GetWindowLongPtr(_hSelf, GWL_STYLE);
     if (!style)
-        ::MessageBox(Null, TEXT("GetWindowLongPtr failed in UserDefineDialog::changeStyle()"), TEXT(""), MB_OK);
+        ::MessageBox(nullptr, TEXT("GetWindowLongPtr failed in UserDefineDialog::changeStyle()"), TEXT(""), MB_OK);
 
     style = (_status == DOCK)?
         ((style & ~WS_POPUP) & ~DS_MODALFRAME & ~WS_CAPTION) | WS_CHILD :
@@ -919,14 +919,14 @@ void UserDefineDialog::changeStyle()
 
     auto result = ::SetWindowLongPtr(_hSelf, GWL_STYLE, style);
     if (!result)
-        ::MessageBox(Null, TEXT("SetWindowLongPtr failed in UserDefineDialog::changeStyle()"), TEXT(""), MB_OK);
+        ::MessageBox(nullptr, TEXT("SetWindowLongPtr failed in UserDefineDialog::changeStyle()"), TEXT(""), MB_OK);
 
     if (_status == DOCK)
         getActualPosSize();
     else
         restorePosSize();
 
-    ::SetParent(_hSelf, (_status == DOCK)?_hParent:Null);
+    ::SetParent(_hSelf, (_status == DOCK)?_hParent:nullptr);
 }
 
 void UserDefineDialog::enableLangAndControlsBy(size_t index)
@@ -1118,7 +1118,7 @@ intptr_t CALLBACK UserDefineDialog::run_dlgProc(UINT message, WPARAM wParam, LPA
 
         case WM_HSCROLL:
         {
-            if (reinterpret_cast<Upp::Ctrl*>(lParam) == ::GetDlgItem(_hSelf, IDC_UD_PERCENTAGE_SLIDER))
+            if (reinterpret_cast<Window*>(lParam) == ::GetDlgItem(_hSelf, IDC_UD_PERCENTAGE_SLIDER))
             {
 				int percent = static_cast<int32_t>(::SendDlgItemMessage(_hSelf, IDC_UD_PERCENTAGE_SLIDER, TBM_GETPOS, 0, 0));
                 nppParam.SetTransparent(_hSelf, percent);
@@ -1219,7 +1219,7 @@ intptr_t CALLBACK UserDefineDialog::run_dlgProc(UINT message, WPARAM wParam, LPA
                             nppParam.removeUserLang(i-1);
 
                             //remove current language from langMenu
-                            Upp::Ctrl* hNpp = ::GetParent(_hSelf);
+                            Window* hNpp = ::GetParent(_hSelf);
 							Menu* m = reinterpret_cast<Menu*>(::SendMessage(hNpp, NPPM_INTERNAL_GETMENU, 0, 0));
 							Menu* subMenu = ::GetSubMenu(m, MENUINDEX_LANGUAGE);
 							::RemoveMenu(subMenu, static_cast<UINT>(IDM_LANG_USER + i), MF_BYCOMMAND);
@@ -1272,7 +1272,7 @@ intptr_t CALLBACK UserDefineDialog::run_dlgProc(UINT message, WPARAM wParam, LPA
                             userLangContainer._name = newName;
 
                             //rename current language name in langMenu
-                            Upp::Ctrl* hNpp = ::GetParent(_hSelf);
+                            Window* hNpp = ::GetParent(_hSelf);
 							Menu* hM = reinterpret_cast<Menu*>(::SendMessage(hNpp, NPPM_INTERNAL_GETMENU, 0, 0));
 							Menu* hSubM = ::GetSubMenu(hM, MENUINDEX_LANGUAGE);
                             ::ModifyMenu(hSubM, static_cast<UINT>(IDM_LANG_USER + i), MF_BYCOMMAND, IDM_LANG_USER + i, newName);
@@ -1329,7 +1329,7 @@ intptr_t CALLBACK UserDefineDialog::run_dlgProc(UINT message, WPARAM wParam, LPA
 							::SendMessage(_hSelf, WM_COMMAND, MAKELONG(IDC_LANGNAME_COMBO, CBN_SELCHANGE), reinterpret_cast<LPARAM>(::GetDlgItem(_hSelf, IDC_LANGNAME_COMBO)));
 
                             //add new language name in langMenu
-                            Upp::Ctrl* hNpp = ::GetParent(_hSelf);
+                            Window* hNpp = ::GetParent(_hSelf);
 							Menu* m = reinterpret_cast<Menu*>(::SendMessage(hNpp, NPPM_INTERNAL_GETMENU, 0, 0));
                             ::InsertMenu(::GetSubMenu(m, MENUINDEX_LANGUAGE), IDM_LANG_USER + newIndex, MF_BYCOMMAND, IDM_LANG_USER + newIndex + 1, newName);
                             ::DrawMenuBar(hNpp);
@@ -1452,7 +1452,7 @@ intptr_t CALLBACK UserDefineDialog::run_dlgProc(UINT message, WPARAM wParam, LPA
                 {
                     _yScrollPos -= diff;
                     ::SetScrollPos(_hSelf, SB_VERT, _yScrollPos, TRUE);
-                    ::ScrollWindow(_hSelf, 0, diff, Null, Null);
+                    ::ScrollWindow(_hSelf, 0, diff, nullptr, nullptr);
                 }
             }
             return TRUE;
@@ -1501,7 +1501,7 @@ intptr_t CALLBACK UserDefineDialog::run_dlgProc(UINT message, WPARAM wParam, LPA
                     return FALSE;
             }
             ::SetScrollPos(_hSelf, SB_VERT, _yScrollPos, TRUE);
-            ::ScrollWindow(_hSelf, 0, oldy-_yScrollPos, Null, Null);
+            ::ScrollWindow(_hSelf, 0, oldy-_yScrollPos, nullptr, nullptr);
         }
         case NPPM_MODELESSDIALOG :
             return ::SendMessage(_hParent, NPPM_MODELESSDIALOG, wParam, lParam);
@@ -1622,7 +1622,7 @@ intptr_t CALLBACK StringDlg::run_dlgProc(UINT Message, WPARAM wParam, LPARAM)
 	return FALSE;
 }
 
-LRESULT StringDlg::customEditProc(Upp::Ctrl* hEdit, UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT StringDlg::customEditProc(Window* hEdit, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	StringDlg *pSelf = reinterpret_cast<StringDlg *>(::GetWindowLongPtr(hEdit, GWLP_USERDATA));
 	if (!pSelf)
@@ -1666,7 +1666,7 @@ LRESULT StringDlg::customEditProc(Upp::Ctrl* hEdit, UINT msg, WPARAM wParam, LPA
 	return CallWindowProc(pSelf->_oldEditProc, hEdit, msg, wParam, lParam);
 }
 
-bool StringDlg::isAllowed(const String & txt)
+bool StringDlg::isAllowed(const String& txt)
 {
 	for (auto ch : txt)
 	{
@@ -1678,15 +1678,15 @@ bool StringDlg::isAllowed(const String & txt)
 	return true;
 }
 
-void StringDlg::HandlePaste(Upp::Ctrl* hEdit)
+void StringDlg::HandlePaste(Window* hEdit)
 {
 	if (OpenClipboard(hEdit))
 	{
 		void* hClipboardData = GetClipboardData(CF_UNICODETEXT);
-		if (Null != hClipboardData)
+		if (nullptr != hClipboardData)
 		{
 			LPTSTR pszText = reinterpret_cast<LPTSTR>(GlobalLock(hClipboardData));
-			if (Null != pszText && isAllowed(pszText))
+			if (nullptr != pszText && isAllowed(pszText))
 			{
 				SendMessage(hEdit, EM_REPLACESEL, TRUE, reinterpret_cast<LPARAM>(pszText));
 			}
@@ -1698,7 +1698,7 @@ void StringDlg::HandlePaste(Upp::Ctrl* hEdit)
 	}
 }
 
-void StylerDlg::move2CtrlRight(Upp::Ctrl* hwndDlg, int ctrlID, Upp::Ctrl* handle2Move, int handle2MoveWidth, int handle2MoveHeight)
+void StylerDlg::move2CtrlRight(Window* hwndDlg, int ctrlID, Window* handle2Move, int handle2MoveWidth, int handle2MoveHeight)
 {
     POINT p;
     Rect rc;
@@ -1711,7 +1711,7 @@ void StylerDlg::move2CtrlRight(Upp::Ctrl* hwndDlg, int ctrlID, Upp::Ctrl* handle
     ::MoveWindow(handle2Move, p.x, p.y, handle2MoveWidth, handle2MoveHeight, TRUE);
 }
 
-intptr_t CALLBACK StylerDlg::dlgProc(Upp::Ctrl* hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+intptr_t CALLBACK StylerDlg::dlgProc(Window* hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     StylerDlg * dlg = (StylerDlg *)::GetProp(hwnd, TEXT("Styler dialog prop"));
     NppParameters& nppParam = NppParameters::getInstance();
@@ -1742,7 +1742,7 @@ intptr_t CALLBACK StylerDlg::dlgProc(Upp::Ctrl* hwnd, UINT message, WPARAM wPara
             ::SendDlgItemMessage(hwnd, IDC_STYLER_CHECK_BOLD,      BM_SETCHECK, style._fontStyle & FONTSTYLE_BOLD, 0);
 
             // for the font size combo
-            Upp::Ctrl* hFontSizeCombo = ::GetDlgItem(hwnd, IDC_STYLER_COMBO_FONT_SIZE);
+            Window* hFontSizeCombo = ::GetDlgItem(hwnd, IDC_STYLER_COMBO_FONT_SIZE);
             for (size_t j = 0 ; j < int(sizeof(fontSizeStrs))/(3*sizeof(char)) ; ++j)
 				::SendMessage(hFontSizeCombo, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(fontSizeStrs[j]));
 
@@ -1757,7 +1757,7 @@ intptr_t CALLBACK StylerDlg::dlgProc(Upp::Ctrl* hwnd, UINT message, WPARAM wPara
                 ::SendMessage(hFontSizeCombo, CB_SETCURSEL, i, 0);
 
             // for the font name combo
-            Upp::Ctrl* hFontNameCombo = ::GetDlgItem(hwnd, IDC_STYLER_COMBO_FONT_NAME);
+            Window* hFontNameCombo = ::GetDlgItem(hwnd, IDC_STYLER_COMBO_FONT_NAME);
             const Vector<String> & fontlist = nppParam.getFontList();
             for (size_t j = 0, len = fontlist.size() ; j < len ; ++j)
             {

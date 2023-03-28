@@ -24,7 +24,7 @@ Win32_IO_File::Win32_IO_File(const char *fname)
 	if (fname)
 	{
 		_path = fname;
-		_hFile = ::CreateFileA(fname, _accessParam, _shareParam, Null, _dispParam, _attribParam, Null);
+		_hFile = ::CreateFileA(fname, _accessParam, _shareParam, nullptr, _dispParam, _attribParam, nullptr);
 	}
 }
 
@@ -36,7 +36,7 @@ Win32_IO_File::Win32_IO_File(const wchar_t *fname)
 		std::wstring fn = fname;
 		std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
 		_path = converter.to_bytes(fn);
-		_hFile = ::CreateFileW(fname, _accessParam, _shareParam, Null, _dispParam, _attribParam, Null);
+		_hFile = ::CreateFileW(fname, _accessParam, _shareParam, nullptr, _dispParam, _attribParam, nullptr);
 
 		NppParameters& nppParam = NppParameters::getInstance();
 		if (nppParam.isQueryEndSessionStarted() && nppParam.doNppLogNulContentCorruptionIssue())
@@ -46,7 +46,7 @@ Win32_IO_File::Win32_IO_File(const wchar_t *fname)
 			String nppIssueLog = nppParam.getUserPath();
 			pathAppend(nppIssueLog, issueFn);
 
-			std::string msg = _path;
+			String msg = _path;
 			msg += " is opened.";
 			writeLog(nppIssueLog.Begin(), msg.Begin());
 		}
@@ -77,7 +77,7 @@ void Win32_IO_File::close()
 			pathAppend(nppIssueLog, issueFn);
 
 
-			std::string msg;
+			String msg;
 			if (flushError != NOERROR)
 			{
 				LPSTR messageBuffer = nullptr;
@@ -115,7 +115,7 @@ unsigned long Win32_IO_File::read(void *rbuf, unsigned long buf_size)
 
 	dword bytes_read = 0;
 
-	if (::ReadFile(_hFile, rbuf, buf_size, &bytes_read, Null) == FALSE)
+	if (::ReadFile(_hFile, rbuf, buf_size, &bytes_read, nullptr) == FALSE)
 		return 0;
 
 	return bytes_read;
@@ -130,7 +130,7 @@ bool Win32_IO_File::write(const void *wbuf, unsigned long buf_size)
 	dword bytes_written = 0;
 
 	NppParameters& nppParam = NppParameters::getInstance();
-	if (::WriteFile(_hFile, wbuf, buf_size, &bytes_written, Null) == FALSE)
+	if (::WriteFile(_hFile, wbuf, buf_size, &bytes_written, nullptr) == FALSE)
 	{
 		if (nppParam.isQueryEndSessionStarted() && nppParam.doNppLogNulContentCorruptionIssue())
 		{
@@ -139,7 +139,7 @@ bool Win32_IO_File::write(const void *wbuf, unsigned long buf_size)
 			String nppIssueLog = nppParam.getUserPath();
 			pathAppend(nppIssueLog, issueFn);
 
-			std::string msg = _path;
+			String msg = _path;
 			msg += " written failed: ";
 			std::wstring lastErrorMsg = GetLastErrorAsString(::GetLastError());
 			std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
@@ -158,7 +158,7 @@ bool Win32_IO_File::write(const void *wbuf, unsigned long buf_size)
 			String nppIssueLog = nppParam.getUserPath();
 			pathAppend(nppIssueLog, issueFn);
 
-			std::string msg = _path;
+			String msg = _path;
 			msg += "  ";
 			msg += std::to_string(bytes_written);
 			msg += "/";

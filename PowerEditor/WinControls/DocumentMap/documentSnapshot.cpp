@@ -24,7 +24,7 @@ intptr_t CALLBACK DocumentPeeker::run_dlgProc(UINT message, WPARAM /*wParam*/, L
 	{
         case WM_INITDIALOG :
 		{
-			Upp::Ctrl* hwndScintilla = reinterpret_cast<Upp::Ctrl*>(::SendMessage(_hParent, NPPM_CREATESCINTILLAHANDLE, 0, reinterpret_cast<LPARAM>(_hSelf)));
+			Window* hwndScintilla = reinterpret_cast<Window*>(::SendMessage(_hParent, NPPM_CREATESCINTILLAHANDLE, 0, reinterpret_cast<LPARAM>(_hSelf)));
 			_pPeekerView = reinterpret_cast<ScintillaEditView *>(::SendMessage(_hParent, NPPM_INTERNAL_GETSCINTEDTVIEW, 0, reinterpret_cast<LPARAM>(hwndScintilla)));
 			_pPeekerView->execute(SCI_SETZOOM, static_cast<WPARAM>(-10), 0);
 			_pPeekerView->execute(SCI_SETVSCROLLBAR, FALSE, 0);

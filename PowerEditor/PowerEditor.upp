@@ -1,5 +1,4 @@
 uses
-	PowerEditor\uchardet,
 	PowerEditor/WinControls,
 	PowerEditor\ScintillaComponent,
 	Lexilla,
@@ -9,7 +8,6 @@ uses
 	Core,
 	CtrlCore,
 	CtrlLib,
-	PolyXML,
 	ClassFactory;
 
 options

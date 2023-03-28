@@ -1,8 +1,5 @@
 description "Интерпретатор скриптового языка Esc\377";
 
-uses
-	Core;
-
 file
 	Esc.h options(BUILDER_OPTION) PCH,
 	EscValue.cpp,

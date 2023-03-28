@@ -54,7 +54,7 @@ class WindowsDlg : public SizeableDlg
 public :
 	WindowsDlg();
 	int doDialog();
-	virtual void init(Ctrl& hInst, Upp::Ctrl* parent, DocTabView *pTab);
+	virtual void init(Window& hInst, Window* parent, DocTabView *pTab);
 	void doSortToTabs();
 	void doSort();
 	void sort(int columnID, bool reverseSort);
@@ -89,12 +89,12 @@ protected :
 	SciBuffer* getBuffer(int index) const;
 
 	static LONG_PTR originalListViewProc;
-	static LRESULT CALLBACK listViewProc(Upp::Ctrl* hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
+	static LRESULT CALLBACK listViewProc(Window* hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
 
-	Upp::Ctrl* _hList = nullptr;
+	Window* _hList = nullptr;
 	static Rect _lastKnownLocation;
-	SIZE _szMinButton = {};
-	SIZE _szMinListCtrl = {};
+	Size _szMinButton = {};
+	Size _szMinListCtrl = {};
 	DocTabView* _pTab = nullptr;
 	std::vector<int> _idxMap;
 	int _currentColumn = -1;
@@ -103,7 +103,7 @@ protected :
 	ContextMenu _listMenu;
 
 private:
-	virtual void init(Ctrl& hInst, Upp::Ctrl* parent);
+	virtual void init(Window& hInst, Window* parent);
 };
 
 class WindowsMenu

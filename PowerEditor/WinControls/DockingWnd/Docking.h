@@ -50,7 +50,7 @@
 
 
 struct tTbData {
-	Upp::Ctrl* hClient = nullptr;                // client Window Handle
+	Window* hClient = nullptr;                // client Window Handle
 	const char* pszName = nullptr;        // name of plugin (shown in window)
 	int dlgID = 0;                         // a funcItem provides the function pointer to start a dialog. Please parse here these ID
 
@@ -67,7 +67,7 @@ struct tTbData {
 
 
 struct tDockMgr {
-	Upp::Ctrl* hWnd = nullptr;                   // the docking manager wnd
+	Window* hWnd = nullptr;                   // the docking manager wnd
 	Upp::Rect rcRegion[DOCKCONT_MAX] = {{}};   // position of docked dialogs
 };
 

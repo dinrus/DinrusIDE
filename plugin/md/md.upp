@@ -1,8 +1,5 @@
 description "Преобразователь из Markdown в QTF, на основе библиотеки MD4C\3770,128,128";
 
-uses
-	Core;
-
 file
 	Markdown.h,
 	Markdown.cpp,

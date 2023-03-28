@@ -73,7 +73,7 @@ public:
 	FunctionListPanel(): DockingDlgInterface(IDD_FUNCLIST_PANEL), _pTreeView(&_treeView) {};
 	~FunctionListPanel();
 
-	void init(Ctrl& hInst, Upp::Ctrl* hPere, ScintillaEditView **ppEditView);
+	void init(Window& hInst, Window* hPere, ScintillaEditView **ppEditView);
 
     virtual void display(bool toShow = true) const {
         DockingDlgInterface::display(toShow);
@@ -88,7 +88,7 @@ public:
 		TreeView_SetTextColor(_treeViewSearchResult.getHSelf(), fgColour);
     };
 
-    void setParent(Upp::Ctrl* parent2set){
+    void setParent(Window* parent2set){
         _hParent = parent2set;
     };
 	
@@ -97,18 +97,18 @@ public:
 	void sortOrUnsort();
 	void reload();
 	void markEntry();
-	bool serialize(const String & outputFilename = TEXT(""));
+	bool serialize(const String& outputFilename = TEXT(""));
 	void addEntry(const char *node, const char *displayText, size_t pos);
 	void removeAllEntries();
 	void searchFuncAndSwitchView();
 
 protected:
 	virtual intptr_t CALLBACK run_dlgProc(UINT message, WPARAM wParam, LPARAM lParam);
-	Menu* _hPreferencesMenu = Null;
+	Menu* _hPreferencesMenu = nullptr;
 
 private:
-	Upp::Ctrl* _hToolbarMenu = nullptr;
-	Upp::Ctrl* _hSearchEdit = nullptr;
+	Window* _hToolbarMenu = nullptr;
+	Window* _hSearchEdit = nullptr;
 
 	TreeView *_pTreeView = nullptr;
 	TreeView _treeView;

@@ -90,17 +90,17 @@ public:
     void callTipClick(size_t direction);
     void getCloseTag(char *closeTag, size_t closeTagLen, size_t caretPos, bool isHTML);
 
-    static void setColour(Color& colour2Set, AutocompleteColorIndex i);
+    static void setColour(Color colour2Set, AutocompleteColorIndex i);
     static void drawAutocomplete(ScintillaEditView* pEditView);
 
 protected:
-    static Color& _autocompleteBg;
-    static Color& _autocompleteText;
-    static Color& _selectedBg;
-    static Color& _selectedText;
-    static Color& _calltipBg;
-    static Color& _calltipText;
-    static Color& _calltipHighlight;
+    static Color _autocompleteBg;
+    static Color _autocompleteText;
+    static Color _selectedBg;
+    static Color _selectedText;
+    static Color _calltipBg;
+    static Color _calltipText;
+    static Color _calltipHighlight;
 
 private:
     bool _funcCompletionActive = false;
@@ -182,7 +182,7 @@ public:
 
     void addBufferReference(BufferID id, ScintillaEditView * identifer);    //called by Scintilla etc indirectly
 
-    BufferID loadFile(const char * filename, Document doc = Null, int encoding = -1, const char *backupFileName = Null, FILETIME fileNameTimestamp = {});   //ID == BUFFER_INVALID on failure. If Doc == Null, a new file is created, otherwise data is loaded in given document
+    BufferID loadFile(const char * filename, Document doc = nullptr, int encoding = -1, const char *backupFileName = nullptr, FILETIME fileNameTimestamp = {});   //ID == BUFFER_INVALID on failure. If Doc == nullptr, a new file is created, otherwise data is loaded in given document
     BufferID newEmptyDocument();
     //create SciBuffer from existing Scintilla, used from new Scintillas. If dontIncrease = true, then the new document number isnt increased afterwards.
     //usefull for temporary but neccesary docs
@@ -334,21 +334,21 @@ public:
     const char * getCommentLineSymbol() const {
         Lang *l = getCurrentLang();
         if (!l)
-            return Null;
+            return nullptr;
         return l->_pCommentLineSymbol;
     }
 
     const char * getCommentStart() const {
         Lang *l = getCurrentLang();
         if (!l)
-            return Null;
+            return nullptr;
         return l->_pCommentStart;
     }
 
     const char * getCommentEnd() const {
         Lang *l = getCurrentLang();
         if (!l)
-            return Null;
+            return nullptr;
         return l->_pCommentEnd;
     }
 
@@ -500,41 +500,41 @@ private:
 ////////////////////////////////////////////////////////////////////////
 //colors.h
 /////////////
-const Color& red                      = Color(0xFF,    0,    0);
-const Color& darkRed                  = Color(0x80,    0,    0);
-const Color& offWhite                 = Color(0xFF, 0xFB, 0xF0);
-const Color& darkGreen                = Color(0,    0x80,    0);
-const Color& liteGreen                = Color(0,    0xFF,    0);
-const Color& blueGreen                = Color(0,    0x80, 0x80);
-const Color& liteRed                  = Color(0xFF, 0xAA, 0xAA);
-const Color& liteBlueGreen            = Color(0xAA, 0xFF, 0xC8);
+const Color red                      = Color(0xFF,    0,    0);
+const Color darkRed                  = Color(0x80,    0,    0);
+const Color offWhite                 = Color(0xFF, 0xFB, 0xF0);
+const Color darkGreen                = Color(0,    0x80,    0);
+const Color liteGreen                = Color(0,    0xFF,    0);
+const Color blueGreen                = Color(0,    0x80, 0x80);
+const Color liteRed                  = Color(0xFF, 0xAA, 0xAA);
+const Color liteBlueGreen            = Color(0xAA, 0xFF, 0xC8);
 
-const Color& liteBlue                 = Color(0xA6, 0xCA, 0xF0);
-const Color& veryLiteBlue             = Color(0xC4, 0xF9, 0xFD);
-const Color& extremeLiteBlue          = Color(0xF2, 0xF4, 0xFF);
+const Color liteBlue                 = Color(0xA6, 0xCA, 0xF0);
+const Color veryLiteBlue             = Color(0xC4, 0xF9, 0xFD);
+const Color extremeLiteBlue          = Color(0xF2, 0xF4, 0xFF);
 
-const Color& darkBlue                 = Color(0,       0, 0x80);
-const Color& blue                     = Color(0,       0, 0xFF);
-const Color& black                    = Color(0,       0,    0);
-const Color& white                    = Color(0xFF, 0xFF, 0xFF);
-const Color& darkGrey                 = Color(64,     64,   64);
-const Color& grey                     = Color(128,   128,  128);
-const Color& liteGrey                 = Color(192,   192,  192);
-const Color& veryLiteGrey             = Color(224,   224,  224);
-const Color& brown                    = Color(128,    64,    0);
-//const Color& greenBlue              = Color(192,   128,   64);
-const Color& darkYellow               = Color(0xFF, 0xC0,    0);
-const Color& yellow                   = Color(0xFF, 0xFF,    0);
-const Color& lightYellow              = Color(0xFF, 0xFF, 0xD5);
-const Color& cyan                     = Color(0,    0xFF, 0xFF);
-const Color& orange                   = Color(0xFF, 0x80, 0x00);
-const Color& purple                   = Color(0x80, 0x00, 0xFF);
-const Color& deepPurple               = Color(0x87, 0x13, 0x97);
+const Color darkBlue                 = Color(0,       0, 0x80);
+const Color blue                     = Color(0,       0, 0xFF);
+const Color black                    = Color(0,       0,    0);
+const Color white                    = Color(0xFF, 0xFF, 0xFF);
+const Color darkGrey                 = Color(64,     64,   64);
+const Color grey                     = Color(128,   128,  128);
+const Color liteGrey                 = Color(192,   192,  192);
+const Color veryLiteGrey             = Color(224,   224,  224);
+const Color brown                    = Color(128,    64,    0);
+//const Color greenBlue              = Color(192,   128,   64);
+const Color darkYellow               = Color(0xFF, 0xC0,    0);
+const Color yellow                   = Color(0xFF, 0xFF,    0);
+const Color lightYellow              = Color(0xFF, 0xFF, 0xD5);
+const Color cyan                     = Color(0,    0xFF, 0xFF);
+const Color orange                   = Color(0xFF, 0x80, 0x00);
+const Color purple                   = Color(0x80, 0x00, 0xFF);
+const Color deepPurple               = Color(0x87, 0x13, 0x97);
 
-const Color& extremeLitePurple        = Color(0xF8, 0xE8, 0xFF);
-const Color& veryLitePurple           = Color(0xE7, 0xD8, 0xE9);
-const Color& liteBerge                = Color(0xFE, 0xFC, 0xF5);
-const Color& berge                    = Color(0xFD, 0xF8, 0xE3);
+const Color extremeLitePurple        = Color(0xF8, 0xE8, 0xFF);
+const Color veryLitePurple           = Color(0xE7, 0xD8, 0xE9);
+const Color liteBerge                = Color(0xFE, 0xFC, 0xF5);
+const Color berge                    = Color(0xFD, 0xF8, 0xE3);
 ////////////////////////////////////////////////////////////////////////
 ///columnEditor.h
 //////////////////////////////////////////////
@@ -545,7 +545,7 @@ class ColumnEditorDlg : public StaticDialog
 {
 public :
     ColumnEditorDlg() = default;
-    void init(Ctrl& hInst, Upp::Ctrl* hPere, ScintillaEditView **ppEditView);
+    void init(Window& hInst, Window* hPere, ScintillaEditView **ppEditView);
 
     virtual void create(int dialogID, bool isRTL = false, bool msgDestParent = true) {
         StaticDialog::create(dialogID, isRTL, msgDestParent);
@@ -613,14 +613,14 @@ const int MONITORING_IMG_INDEX = 3;
 class DocTabView : public TabBarPlus
 {
 public :
-    DocTabView():TabBarPlus(), _pView(Null) {};
+    DocTabView():TabBarPlus(), _pView(nullptr) {};
     virtual ~DocTabView(){};
 
     virtual void destroy() {
         TabBarPlus::destroy();
     };
 
-    void init(Ctrl& hInst, Upp::Ctrl* parent, ScintillaEditView * pView, std::vector<IconList *> pIconListVector, unsigned char indexChoice) {
+    void init(Window& hInst, Window* parent, ScintillaEditView * pView, std::vector<IconList *> pIconListVector, unsigned char indexChoice) {
         TabBarPlus::init(hInst, parent);
         _pView = pView;
 
@@ -766,13 +766,13 @@ public:
 
     Finder() : DockingDlgInterface(IDD_FINDRESULT) {
         _markingsStruct._length = 0;
-        _markingsStruct._markings = Null;
+        _markingsStruct._markings = nullptr;
     };
 
     ~Finder() {
         _scintView.destroy();
     }
-    void init(Ctrl& hInst, Upp::Ctrl* hPere, ScintillaEditView **ppEditView) {
+    void init(Window& hInst, Window* hPere, ScintillaEditView **ppEditView) {
         DockingDlgInterface::init(hInst, hPere);
         _ppEditView = ppEditView;
     };
@@ -840,8 +840,8 @@ private:
         _scintView.execute(SCI_SETREADONLY, isReadOnly);
     };
 
-    bool isLineActualSearchResult(const String & s) const;
-    String & prepareStringForClipboard(String & s) const;
+    bool isLineActualSearchResult(const String& s) const;
+    String& prepareStringForClipboard(String& s) const;
 
     static FoundInfo EmptyFoundInfo;
     static SearchResultMarkingLine EmptySearchResultMarking;
@@ -879,7 +879,7 @@ struct FindersInfo
 class FindInFinderDlg : public StaticDialog
 {
 public:
-    void init(Ctrl& hInst, Upp::Ctrl* hPere) {
+    void init(Window& hInst, Window* hPere) {
         Window::init(hInst, hPere);
     };
     void doDialog(Finder *launcher, bool isRTL = false);
@@ -908,7 +908,7 @@ public :
 
     ~FindReplaceDlg();
 
-    void init(Ctrl& hInst, Upp::Ctrl* hPere, ScintillaEditView **ppEditView) {
+    void init(Window& hInst, Window* hPere, ScintillaEditView **ppEditView) {
         Window::init(hInst, hPere);
         if (!ppEditView)
             throw std::runtime_error("FindIncrementDlg::init : ppEditView is null.");
@@ -920,8 +920,8 @@ public :
     void initOptionsFromDlg();
 
     void doDialog(DIALOG_TYPE whichType, bool isRTL = false, bool toShow = true);
-    bool processFindNext(const char *txt2find, const FindOption *options = Null, FindStatus *oFindStatus = Null, FindNextType findNextType = FINDNEXTTYPE_FINDNEXT);
-    bool processReplace(const char *txt2find, const char *txt2replace, const FindOption *options = Null);
+    bool processFindNext(const char *txt2find, const FindOption *options = nullptr, FindStatus *oFindStatus = nullptr, FindNextType findNextType = FINDNEXTTYPE_FINDNEXT);
+    bool processReplace(const char *txt2find, const char *txt2replace, const FindOption *options = nullptr);
 
     int markAll(const char *txt2find, int styleID);
     int markAllInc(const FindOption *opt);
@@ -960,8 +960,8 @@ public :
         return _env->_str2Search;
     };
 
-    const String & getFilters() const {return _env->_filters;};
-    const String & getDirectory() const {return _env->_directory;};
+    const String& getFilters() const {return _env->_filters;};
+    const String& getDirectory() const {return _env->_directory;};
     const FindOption & getCurrentOptions() const {return *_env;};
     bool isRecursive() const { return _env->_isRecursive; };
     bool isInHiddenDir() const { return _env->_isInHiddenDir; };
@@ -1000,10 +1000,10 @@ public :
         }
     };
 
-    Upp::Ctrl* getHFindResults() {
+    Window* getHFindResults() {
         if (_pFinder)
             return _pFinder->_scintView.getHSelf();
-        return Null;
+        return nullptr;
     }
 
     void updateFinderScintilla() {
@@ -1015,7 +1015,7 @@ public :
 
     void execSavedCommand(int cmd, uptr_t intValue, const char* stringValue);
     void clearMarks(const FindOption& opt);
-    void setStatusbarMessage(const String & msg, FindStatus staus, char const *pTooltipMsg = Null);
+    void setStatusbarMessage(const String& msg, FindStatus staus, char const *pTooltipMsg = nullptr);
     String getScopeInfoForStatusBar(FindOption const *pFindOpt) const;
     Finder * createFinder();
     bool removeFinder(Finder *finder2remove);
@@ -1027,10 +1027,10 @@ protected :
     static LONG_PTR originalFinderProc;
     static LONG_PTR originalComboEditProc;
 
-    static LRESULT FAR PASCAL comboEditProc(Upp::Ctrl* hwnd, UINT message, WPARAM wParam, LPARAM lParam);
+    static LRESULT FAR PASCAL comboEditProc(Window* hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 
     // Window procedure for the finder
-    static LRESULT FAR PASCAL finderProc(Upp::Ctrl* hwnd, UINT message, WPARAM wParam, LPARAM lParam);
+    static LRESULT FAR PASCAL finderProc(Window* hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 
     void combo2ExtendedMode(int comboID);
 
@@ -1050,9 +1050,9 @@ private :
 
     std::vector<Finder*> _findersOfFinder{};
 
-    Upp::Ctrl* _shiftTrickUpTip = nullptr;
-    Upp::Ctrl* _2ButtonsTip = nullptr;
-    Upp::Ctrl* _filterTip = nullptr;
+    Window* _shiftTrickUpTip = nullptr;
+    Window* _2ButtonsTip = nullptr;
+    Window* _filterTip = nullptr;
 
     bool _isRTL = false;
 
@@ -1068,7 +1068,7 @@ private :
     FindStatus _statusbarFindStatus;
 
     String _statusbarTooltipMsg;
-    Upp::Ctrl* _statusbarTooltipWnd = nullptr;
+    Window* _statusbarTooltipWnd = nullptr;
     HICON _statusbarTooltipIcon = nullptr;
     int _statusbarTooltipIconSize = 0;
 
@@ -1123,7 +1123,7 @@ class FindIncrementDlg : public StaticDialog
 {
 public :
     FindIncrementDlg() = default;
-    void init(Ctrl& hInst, Upp::Ctrl* hPere, FindReplaceDlg *pFRDlg, bool isRTL = false);
+    void init(Window& hInst, Window* hPere, FindReplaceDlg *pFRDlg, bool isRTL = false);
     virtual void destroy();
     virtual void display(bool toShow = true) const;
 
@@ -1147,21 +1147,21 @@ private :
     REBARBANDINFO _rbBand = {};
 
     virtual intptr_t CALLBACK run_dlgProc(UINT message, WPARAM wParam, LPARAM lParam);
-    void markSelectedTextInc(bool enable, FindOption *opt = Null);
+    void markSelectedTextInc(bool enable, FindOption *opt = nullptr);
 };
 
 
 class Progress
 {
 public:
-    explicit Progress(Ctrl& hInst);
+    explicit Progress(Window& hInst);
     ~Progress();
 
     // Disable copy construction and operator=
     Progress(const Progress&) = delete;
     const Progress& operator=(const Progress&) = delete;
 
-    Upp::Ctrl* open(Upp::Ctrl* hCallerWnd, const char* header = Null);
+    Window* open(Window* hCallerWnd, const char* header = nullptr);
     void close();
 
     bool isCancelled() const
@@ -1191,20 +1191,20 @@ private:
     static volatile LONG refCount;
 
     static dword WINAPI threadFunc(LPVOID data);
-    static LRESULT APIENTRY wndProc(Upp::Ctrl* hwnd, UINT umsg, WPARAM wparam, LPARAM lparam);
+    static LRESULT APIENTRY wndProc(Window* hwnd, UINT umsg, WPARAM wparam, LPARAM lparam);
 
     int thread();
     int createProgressWindow();
 
-    Ctrl& _hInst = nullptr;
-    volatile Upp::Ctrl* _hwnd = nullptr;
-    Upp::Ctrl* _hCallerWnd = nullptr;
+    Window& _hInst = nullptr;
+    volatile Window* _hwnd = nullptr;
+    Window* _hCallerWnd = nullptr;
     char _header[128] = {'\0'};
     void* _hThread = nullptr;
     void* _hActiveState = nullptr;
-    Upp::Ctrl* _hPText = nullptr;
-    Upp::Ctrl* _hPBar = nullptr;
-    Upp::Ctrl* _hBtn = nullptr;
+    Window* _hPText = nullptr;
+    Window* _hPBar = nullptr;
+    Window* _hBtn = nullptr;
 };
 ///////////////////////////////////////////////
 //////Ресурсы диалога
@@ -1387,7 +1387,7 @@ class GoToLineDlg : public StaticDialog
 public :
 	GoToLineDlg() = default;
 
-	void init(Ctrl& hInst, Upp::Ctrl* hPere, ScintillaEditView **ppEditView) {
+	void init(Window& hInst, Window* hPere, ScintillaEditView **ppEditView) {
 		Window::init(hInst, hPere);
 		if (!ppEditView)
 			throw std::runtime_error("GoToLineDlg::init : ppEditView is null.");
@@ -1451,7 +1451,7 @@ class Printer
 public :
 	Printer() = default;
 
-	void init(Ctrl& hInst, Upp::Ctrl* hwnd, ScintillaEditView *pSEView, bool showDialog, size_t startPos, size_t endPos, bool isRTL = false);
+	void init(Window& hInst, Window* hwnd, ScintillaEditView *pSEView, bool showDialog, size_t startPos, size_t endPos, bool isRTL = false);
 	size_t doPrint() {
 		if (!::PrintDlg(&_pdlg))
 				return 0;
@@ -1473,22 +1473,22 @@ private :
 /////////////////////
 class ScintillaCtrls {
 public :
-	void init(Ctrl& hInst, Upp::Ctrl* hNpp) {
+	void init(Window& hInst, Window* hNpp) {
 		_hInst = hInst;
 		_hParent = hNpp;
 	};
 
-	Upp::Ctrl* createSintilla(Upp::Ctrl* hParent);
-	ScintillaEditView * getScintillaEditViewFrom(Upp::Ctrl* handle2Find);
-	//bool destroyScintilla(Upp::Ctrl* handle2Destroy);
+	Window* createSintilla(Window* hParent);
+	ScintillaEditView * getScintillaEditViewFrom(Window* handle2Find);
+	//bool destroyScintilla(Window* handle2Destroy);
 	void destroy();
 	
 private:
 	std::vector<ScintillaEditView *> _scintVector;
-	Ctrl& _hInst = nullptr;
-	Upp::Ctrl* _hParent = nullptr;
+	Window& _hInst = nullptr;
+	Window* _hParent = nullptr;
 
-	int getIndexFrom(Upp::Ctrl* handle2Find);
+	int getIndexFrom(Window* handle2Find);
 };
 ////////////////////////////////
 ///ScintillaRef.h
@@ -1503,7 +1503,7 @@ class SmartHighlighter {
 public:
 	explicit SmartHighlighter(FindReplaceDlg * pFRDlg);
 	void highlightView(ScintillaEditView * pHighlightView, ScintillaEditView * unfocusView);
-	void highlightViewWithWord(ScintillaEditView * pHighlightView, const String & word2Hilite);
+	void highlightViewWithWord(ScintillaEditView * pHighlightView, const String& word2Hilite);
 
 private:
 	FindReplaceDlg * _pFRDlg = nullptr;
@@ -1532,7 +1532,7 @@ class GlobalMappers
 
         std::unordered_map<int, int> nestingMapper;
         std::unordered_map<int, int> dialogMapper;
-        std::unordered_map<int, std::string> setLexerMapper;
+        std::unordered_map<int, String> setLexerMapper;
 
         // only default constructor is needed
         GlobalMappers()
@@ -1546,7 +1546,7 @@ class GlobalMappers
             temp[TEXT("Words3")]                        = SCE_USER_KWLIST_KEYWORDS3;
             temp[TEXT("Words4")]                        = SCE_USER_KWLIST_KEYWORDS4;
 
-            // in case of duplicate entries, newer string should overwrite old one !
+            // in case of duplicate entries, newer String should overwrite old one !
             for (iter = temp.begin(); iter != temp.end(); ++iter)
                 keywordNameMapper[iter->second] = iter->first;
             keywordIdMapper.insert(temp.begin(), temp.end());
@@ -1579,7 +1579,7 @@ class GlobalMappers
             temp[TEXT("Keywords8")]                     = SCE_USER_KWLIST_KEYWORDS8;
             temp[TEXT("Delimiters")]                    = SCE_USER_KWLIST_DELIMITERS;
 
-            // in case of duplicate entries, newer string should overwrite old one !
+            // in case of duplicate entries, newer String should overwrite old one !
             for (iter = temp.begin(); iter != temp.end(); ++iter)
                 keywordNameMapper[iter->second] = iter->first;
             keywordIdMapper.insert(temp.begin(), temp.end());
@@ -1594,7 +1594,7 @@ class GlobalMappers
             temp[TEXT("Numbers, suffix2")]              = SCE_USER_KWLIST_NUMBER_SUFFIX2;
             temp[TEXT("Numbers, range")]                = SCE_USER_KWLIST_NUMBER_RANGE;
 
-            // in case of duplicate entries, newer string should overwrite old one !
+            // in case of duplicate entries, newer String should overwrite old one !
             for (iter = temp.begin(); iter != temp.end(); ++iter)
                 keywordNameMapper[iter->second] = iter->first;
             keywordIdMapper.insert(temp.begin(), temp.end());
@@ -1615,7 +1615,7 @@ class GlobalMappers
             temp[TEXT("DELIMINER2")]           = SCE_USER_STYLE_DELIMITER2;
             temp[TEXT("DELIMINER3")]           = SCE_USER_STYLE_DELIMITER3;
 
-            // in case of duplicate entries, newer string should overwrite old one !
+            // in case of duplicate entries, newer String should overwrite old one !
             for (iter = temp.begin(); iter != temp.end(); ++iter)
                 styleNameMapper[iter->second] = iter->first;
             styleIdMapper.insert(temp.begin(), temp.end());
@@ -1647,7 +1647,7 @@ class GlobalMappers
             temp[TEXT("DELIMITERS7")]          = SCE_USER_STYLE_DELIMITER7;
             temp[TEXT("DELIMITERS8")]          = SCE_USER_STYLE_DELIMITER8;
 
-            // in case of duplicate entries, newer string should overwrite old one !
+            // in case of duplicate entries, newer String should overwrite old one !
             for (iter = temp.begin(); iter != temp.end(); ++iter)
                 styleNameMapper[iter->second] = iter->first;
             styleIdMapper.insert(temp.begin(), temp.end());
@@ -1731,7 +1731,7 @@ protected :
     static UserLangContainer *_pUserLang;
     static ScintillaEditView *_pScintilla;
     intptr_t CALLBACK run_dlgProc(UINT Message, WPARAM wParam, LPARAM lParam);
-    bool setPropertyByCheck(Upp::Ctrl* hwnd, WPARAM id, bool & bool2set);
+    bool setPropertyByCheck(Window* hwnd, WPARAM id, bool & bool2set);
     virtual void setKeywords2List(int ctrlID) = 0;
 };
 
@@ -1788,7 +1788,7 @@ friend class ScintillaEditView;
 public :
     UserDefineDialog();
     ~UserDefineDialog();
-    void init(Ctrl& hInst, Upp::Ctrl* hPere, ScintillaEditView *pSev) {
+    void init(Window& hInst, Window* hPere, ScintillaEditView *pSev) {
         if (!_pScintilla)
         {
             Window::init(hInst, hPere);
@@ -1825,16 +1825,16 @@ public :
     void changeStyle();
     bool isDocked() const {return _status == DOCK;};
     void setDockStatus(bool isDocked) {_status = isDocked;};
-    Upp::Ctrl* getFolderHandle() const {
+    Window* getFolderHandle() const {
         return _folderStyleDlg.getHSelf();
     };
-    Upp::Ctrl* getKeywordsHandle() const {
+    Window* getKeywordsHandle() const {
         return _keyWordsStyleDlg.getHSelf();
     };
-    Upp::Ctrl* getCommentHandle() const {
+    Window* getCommentHandle() const {
         return _commentStyleDlg.getHSelf();
     };
-    Upp::Ctrl* getSymbolHandle() const {
+    Window* getSymbolHandle() const {
         return _symbolsStyleDlg.getHSelf();
     };
     void setTabName(int index, const char *name2set) {
@@ -1871,7 +1871,7 @@ class StringDlg : public StaticDialog
 {
 public :
     StringDlg() = default;
-    void init(Ctrl& hInst, Upp::Ctrl* parent, const char *title, const char *staticName, const char *text2Set, int txtLen = 0, const char* restrictedChars = nullptr, bool bGotoCenter = false) {
+    void init(Window& hInst, Window* parent, const char *title, const char *staticName, const char *text2Set, int txtLen = 0, const char* restrictedChars = nullptr, bool bGotoCenter = false) {
         Window::init(hInst, parent);
         _title = title;
         _static = staticName;
@@ -1894,10 +1894,10 @@ protected :
     intptr_t CALLBACK run_dlgProc(UINT Message, WPARAM wParam, LPARAM);
 
     // Custom proc to subclass edit control
-    LRESULT static CALLBACK customEditProc(Upp::Ctrl* hEdit, UINT msg, WPARAM wParam, LPARAM lParam);
+    LRESULT static CALLBACK customEditProc(Window* hEdit, UINT msg, WPARAM wParam, LPARAM lParam);
 
     bool isAllowed(const char* txt);
-    void HandlePaste(Upp::Ctrl* hEdit);
+    void HandlePaste(Window* hEdit);
 
 private :
     String _title;
@@ -1912,7 +1912,7 @@ private :
 class StylerDlg
 {
 public:
-    StylerDlg( Ctrl& hInst, Upp::Ctrl* parent, int stylerIndex = 0, int enabledNesters = -1):
+    StylerDlg( Window& hInst, Window* parent, int stylerIndex = 0, int enabledNesters = -1):
         _hInst(hInst), _parent(parent), _stylerIndex(stylerIndex), _enabledNesters(enabledNesters) {
         _pFgColour = new ColourPicker;
         _pBgColour = new ColourPicker;
@@ -1930,18 +1930,18 @@ public:
         return long(::DialogBoxParam(_hInst, MAKEINTRESOURCE(IDD_STYLER_POPUP_DLG), _parent, dlgProc, reinterpret_cast<LPARAM>(this)));
     };
 
-    static intptr_t CALLBACK dlgProc(Upp::Ctrl* hwnd, UINT message, WPARAM wParam, LPARAM lParam);
+    static intptr_t CALLBACK dlgProc(Window* hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 private:
-    Ctrl& _hInst = nullptr;
-    Upp::Ctrl* _parent = nullptr;
+    Window& _hInst = nullptr;
+    Window* _parent = nullptr;
     int _stylerIndex = 0;
     int _enabledNesters = 0;
     ColourPicker * _pFgColour = nullptr;
     ColourPicker * _pBgColour = nullptr;
     Style _initialStyle;
 
-    void move2CtrlRight(Upp::Ctrl* hwndDlg, int ctrlID, Upp::Ctrl* handle2Move, int handle2MoveWidth, int handle2MoveHeight);
+    void move2CtrlRight(Window* hwndDlg, int ctrlID, Window* handle2Move, int handle2MoveWidth, int handle2MoveHeight);
 };
 ////////////////////////////////////////
 ////Ресурс диалога
@@ -2543,8 +2543,8 @@ private:
 	bool isWhitespace(intptr_t ch) { return ch == ' ' || ch == '\t' || ch == '\r' || ch == '\n'; }
 
 	FindResult findText(const char *text, intptr_t start, intptr_t end, int flags = 0);
-	FindResult findOpenTag(const std::string& tagName, intptr_t start, intptr_t end);
-	FindResult findCloseTag(const std::string& tagName, intptr_t start, intptr_t end);
+	FindResult findOpenTag(const String& tagName, intptr_t start, intptr_t end);
+	FindResult findCloseTag(const String& tagName, intptr_t start, intptr_t end);
 	intptr_t findCloseAngle(intptr_t startPosition, intptr_t endPosition);
 	
 	std::vector< std::pair<intptr_t, intptr_t> > getAttributesPos(intptr_t start, intptr_t end);

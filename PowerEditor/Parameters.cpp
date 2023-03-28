@@ -805,7 +805,7 @@ winVer NppParameters::getWindowsVersion()
     }
 
     pGNSI = (PGNSI) GetProcAddress(GetModuleHandle(TEXT("kernel32.dll")), "GetNativeSystemInfo");
-    if (pGNSI != Null)
+    if (pGNSI != nullptr)
         pGNSI(&si);
     else
         GetSystemInfo(&si);
@@ -901,7 +901,7 @@ NppParameters::NppParameters()
 
     // Prepare for default path
     char nppPath[MAX_PATH];
-    ::GetModuleFileName(Null, nppPath, MAX_PATH);
+    ::GetModuleFileName(nullptr, nppPath, MAX_PATH);
 
     PathRemoveFileSpec(nppPath);
     _nppPath = nppPath;
@@ -953,12 +953,12 @@ bool NppParameters::reloadStylers(const char* stylePath)
     {
         if (!_pNativeLangSpeaker)
         {
-            ::MessageBox(Null, stylePathToLoad, TEXT("Load stylers.xml failed"), MB_OK);
+            ::MessageBox(nullptr, stylePathToLoad, TEXT("Load stylers.xml failed"), MB_OK);
         }
         else
         {
             _pNativeLangSpeaker->messageBox("LoadStylersFailed",
-                Null,
+                nullptr,
                 TEXT("Load \"$STR_REPLACE$\" failed!"),
                 TEXT("Load stylers.xml failed"),
                 MB_OK,
@@ -966,7 +966,7 @@ bool NppParameters::reloadStylers(const char* stylePath)
                 stylePathToLoad);
         }
         delete _pXmlUserStylerDoc;
-        _pXmlUserStylerDoc = Null;
+        _pXmlUserStylerDoc = nullptr;
         return false;
     }
     _lexerStylerVect.clear();
@@ -1089,15 +1089,15 @@ bool NppParameters::load()
 
         pathAppend(_userPath, TEXT("Notepad++"));
         if (!PathFileExists(_userPath.Begin()))
-            ::CreateDirectory(_userPath.Begin(), Null);
+            ::CreateDirectory(_userPath.Begin(), nullptr);
 
         _appdataNppDir = _userPluginConfDir = _userPath;
         pathAppend(_userPluginConfDir, TEXT("plugins"));
         if (!PathFileExists(_userPluginConfDir.Begin()))
-            ::CreateDirectory(_userPluginConfDir.Begin(), Null);
+            ::CreateDirectory(_userPluginConfDir.Begin(), nullptr);
         pathAppend(_userPluginConfDir, TEXT("Config"));
         if (!PathFileExists(_userPluginConfDir.Begin()))
-            ::CreateDirectory(_userPluginConfDir.Begin(), Null);
+            ::CreateDirectory(_userPluginConfDir.Begin(), nullptr);
 
         // For PluginAdmin to launch the wingup with UAC
         setElevationRequired(true);
@@ -1107,9 +1107,9 @@ bool NppParameters::load()
     pathAppend(_pluginConfDir, TEXT("Config"));
 
     if (!PathFileExists(nppPluginRootParent.Begin()))
-        ::CreateDirectory(nppPluginRootParent.Begin(), Null);
+        ::CreateDirectory(nppPluginRootParent.Begin(), nullptr);
     if (!PathFileExists(_pluginRootDir.Begin()))
-        ::CreateDirectory(_pluginRootDir.Begin(), Null);
+        ::CreateDirectory(_pluginRootDir.Begin(), nullptr);
 
     _sessionPath = _userPath; // Session stock the absolute file path, it should never be on cloud
 
@@ -1123,7 +1123,7 @@ bool NppParameters::load()
     if (::PathFileExists(cloudChoicePath.Begin()))
     {
         // Read cloud choice
-        std::string cloudChoiceStr = getFileContent(cloudChoicePath.Begin());
+        String cloudChoiceStr = getFileContent(cloudChoicePath.Begin());
         WcharMbcsConvertor& wmc = WcharMbcsConvertor::getInstance();
         std::wstring cloudChoiceStrW = wmc.char2wchar(cloudChoiceStr.Begin(), SC_CP_UTF8);
 
@@ -1147,7 +1147,7 @@ bool NppParameters::load()
             String errMsg = TEXT("The given path\r");
             errMsg += _cmdSettingsDir;
             errMsg += TEXT("\nvia command line \"-settingsDir=\" is not a valid directory.\rThis argument will be ignored.");
-            ::MessageBox(Null, errMsg.Begin(), TEXT("Invalid directory"), MB_OK);
+            ::MessageBox(nullptr, errMsg.Begin(), TEXT("Invalid directory"), MB_OK);
         }
         else
         {
@@ -1188,14 +1188,14 @@ bool NppParameters::load()
                 if (_pNativeLangSpeaker)
                 {
                     doRecover = _pNativeLangSpeaker->messageBox("LoadLangsFailed",
-                        Null,
+                        nullptr,
                         TEXT("Load langs.xml failed!\rDo you want to recover your langs.xml?"),
                         TEXT("Configurator"),
                         MB_YESNO);
                 }
                 else
                 {
-                    doRecover = ::MessageBox(Null, TEXT("Load langs.xml failed!\rDo you want to recover your langs.xml?"), TEXT("Configurator"), MB_YESNO);
+                    doRecover = ::MessageBox(nullptr, TEXT("Load langs.xml failed!\rDo you want to recover your langs.xml?"), TEXT("Configurator"), MB_YESNO);
                 }
             }
         }
@@ -1219,14 +1219,14 @@ bool NppParameters::load()
         if (_pNativeLangSpeaker)
         {
             _pNativeLangSpeaker->messageBox("LoadLangsFailedFinal",
-                Null,
+                nullptr,
                 TEXT("Load langs.xml failed!"),
                 TEXT("Configurator"),
                 MB_OK);
         }
         else
         {
-            ::MessageBox(Null, TEXT("Load langs.xml failed!"), TEXT("Configurator"), MB_OK);
+            ::MessageBox(nullptr, TEXT("Load langs.xml failed!"), TEXT("Configurator"), MB_OK);
         }
 
         delete _pXmlDoc;
@@ -1287,7 +1287,7 @@ bool NppParameters::load()
         if (_pNativeLangSpeaker)
         {
             _pNativeLangSpeaker->messageBox("LoadStylersFailed",
-                Null,
+                nullptr,
                 TEXT("Load \"$STR_REPLACE$\" failed!"),
                 TEXT("Load stylers.xml failed"),
                 MB_OK,
@@ -1296,10 +1296,10 @@ bool NppParameters::load()
         }
         else
         {
-            ::MessageBox(Null, _stylerPath.Begin(), TEXT("Load stylers.xml failed"), MB_OK);
+            ::MessageBox(nullptr, _stylerPath.Begin(), TEXT("Load stylers.xml failed"), MB_OK);
         }
         delete _pXmlUserStylerDoc;
-        _pXmlUserStylerDoc = Null;
+        _pXmlUserStylerDoc = nullptr;
         isAllLaoded = false;
     }
     else
@@ -1569,14 +1569,14 @@ void NppParameters::setWorkSpaceFilePath(int i, const char* wsFile)
 }
 
 
-void NppParameters::removeTransparent(Upp::Ctrl* hwnd)
+void NppParameters::removeTransparent(Window* hwnd)
 {
-    if (hwnd != Null)
+    if (hwnd != nullptr)
         ::SetWindowLongPtr(hwnd, GWL_EXSTYLE,  ::GetWindowLongPtr(hwnd, GWL_EXSTYLE) & ~0x00080000);
 }
 
 
-void NppParameters::SetTransparent(Upp::Ctrl* hwnd, int percent)
+void NppParameters::SetTransparent(Window* hwnd, int percent)
 {
     if (nullptr != _transparentFuncAddr)
     {
@@ -1707,7 +1707,7 @@ static int CALLBACK EnumFontFamExProc(const LOGFONT* lpelfe, const TEXTMETRIC*, 
 }
 
 
-void NppParameters::setFontList(Upp::Ctrl* hWnd)
+void NppParameters::setFontList(Window* hWnd)
 {
     //---------------//
     // Sys font list //
@@ -2931,7 +2931,7 @@ LangType NppParameters::getLangFromExt(const char *ext)
         Lang *l = getLangFromIndex(i--);
 
         const char *defList = l->getDefaultExtList();
-        const char *userList = Null;
+        const char *userList = nullptr;
 
         LexerStylerArray &lsa = getLStylerArray();
         const char *lName = l->getLangName();
@@ -2962,12 +2962,12 @@ void NppParameters::setCloudChoice(const char *pathChoice)
 
     if (!PathFileExists(cloudChoicePath.Begin()))
     {
-        ::CreateDirectory(cloudChoicePath.Begin(), Null);
+        ::CreateDirectory(cloudChoicePath.Begin(), nullptr);
     }
     cloudChoicePath += TEXT("choice");
 
     WcharMbcsConvertor& wmc = WcharMbcsConvertor::getInstance();
-    std::string cloudPathA = wmc.wchar2char(pathChoice, SC_CP_UTF8);
+    String cloudPathA = wmc.wchar2char(pathChoice, SC_CP_UTF8);
 
     writeFileContent(cloudChoicePath.Begin(), cloudPathA.Begin());
 }
@@ -3008,7 +3008,7 @@ bool NppParameters::isCloudPathChanged() const
     return true;
 }
 
-bool NppParameters::writeSettingsFilesOnCloudForThe1stTime(const String & cloudSettingsPath)
+bool NppParameters::writeSettingsFilesOnCloudForThe1stTime(const String& cloudSettingsPath)
 {
     bool isOK = false;
 
@@ -3586,19 +3586,19 @@ void NppParameters::feedUserKeywordList(TiXmlNode *node)
                 size_t pos = 0;
 
                 pos = temp.find(TEXT(" 0"));
-                while (pos != string::npos)
+                while (pos != String::npos)
                 {
                     temp.replace(pos, 2, TEXT(" 00"));
                     pos = temp.find(TEXT(" 0"), pos+1);
                 }
                 pos = temp.find(TEXT(" 1"));
-                while (pos != string::npos)
+                while (pos != String::npos)
                 {
                     temp.replace(pos, 2, TEXT(" 03"));
                     pos = temp.find(TEXT(" 1"));
                 }
                 pos = temp.find(TEXT(" 2"));
-                while (pos != string::npos)
+                while (pos != String::npos)
                 {
                     temp.replace(pos, 2, TEXT(" 04"));
                     pos = temp.find(TEXT(" 2"));
@@ -3622,7 +3622,7 @@ void NppParameters::feedUserKeywordList(TiXmlNode *node)
                     }
                     else
                     {
-                        wcscpy_s(_userLangArray[_nbUserLang - 1]->_keywordLists[id], TEXT("imported string too long, needs to be < max_char(30720)"));
+                        wcscpy_s(_userLangArray[_nbUserLang - 1]->_keywordLists[id], TEXT("imported String too long, needs to be < max_char(30720)"));
                     }
                 }
             }
@@ -3668,7 +3668,7 @@ bool NppParameters::feedStylerArray(TiXmlNode *node)
         if (lexerName)
         {
             _lexerStylerVect.addLexerStyler(lexerName, lexerDesc, lexerUserExt, childNode);
-            if (lexerExcluded != Null && (lstrcmp(lexerExcluded, TEXT("yes")) == 0))
+            if (lexerExcluded != nullptr && (lstrcmp(lexerExcluded, TEXT("yes")) == 0))
             {
                 int index = getExternalLangIndexFromName(lexerName);
                 if (index != -1)
@@ -3887,7 +3887,7 @@ bool NppParameters::writeProjectPanelsSettings() const
     return true;
 }
 
-bool NppParameters::writeFileBrowserSettings(const Vector<String> & rootPaths, const String & latestSelectedItemPath) const
+bool NppParameters::writeFileBrowserSettings(const Vector<String> & rootPaths, const String& latestSelectedItemPath) const
 {
     if (!_pXmlUserDoc) return false;
 
@@ -3963,7 +3963,7 @@ TiXmlNode * NppParameters::getChildElementByAttribut(TiXmlNode *pere, const char
                 return childNode;
         }
     }
-    return Null;
+    return nullptr;
 }
 
 // 2 restes : L_H, L_USER
@@ -3991,7 +3991,7 @@ LangType NppParameters::getLangIDFromStr(const char *langName)
     return L_TEXT;
 }
 
-String NppParameters::getLocPathFromStr(const String & localizationCode)
+String NppParameters::getLocPathFromStr(const String& localizationCode)
 {
     if (localizationCode == TEXT("af"))
         return TEXT("afrikaans.xml");
@@ -5390,14 +5390,14 @@ void NppParameters::feedGUIParameters(TiXmlNode *node)
         else if (!lstrcmp(nm, TEXT("stylerTheme")))
         {
             const char *themePath = element->Attribute(TEXT("path"));
-            if (themePath != Null && themePath[0])
+            if (themePath != nullptr && themePath[0])
                 _nppGUI._themeName.assign(themePath);
         }
 
         else if (!lstrcmp(nm, TEXT("insertDateTime")))
         {
             const char* customFormat = element->Attribute(TEXT("customizedFormat"));
-            if (customFormat != Null && customFormat[0])
+            if (customFormat != nullptr && customFormat[0])
                 _nppGUI._dateTimeFormat = customFormat;
 
             const char* value = element->Attribute(TEXT("reverseDefaultOrder"));
@@ -5441,7 +5441,7 @@ void NppParameters::feedGUIParameters(TiXmlNode *node)
                 _nppGUI._rightmostDelimiter = static_cast<char>(rightmost);
 
             const char *delimiterSelectionOnEntireDocument = element->Attribute(TEXT("delimiterSelectionOnEntireDocument"));
-            if (delimiterSelectionOnEntireDocument != Null && !lstrcmp(delimiterSelectionOnEntireDocument, TEXT("yes")))
+            if (delimiterSelectionOnEntireDocument != nullptr && !lstrcmp(delimiterSelectionOnEntireDocument, TEXT("yes")))
                 _nppGUI._delimiterSelectionOnEntireDocument = true;
             else
                 _nppGUI._delimiterSelectionOnEntireDocument = false;
@@ -6144,7 +6144,7 @@ bool NppParameters::writeScintillaParams()
     String edgeColumnPosStr;
     for (auto i : _svp._edgeMultiColumnPos)
     {
-        std::string s = std::to_string(i);
+        String s = std::to_string(i);
         edgeColumnPosStr += String(s.begin(), s.end());
         edgeColumnPosStr += TEXT(" ");
     }
@@ -7650,8 +7650,8 @@ the evolution to remove UDL one by one:
 3[U1]  [NUDL, <3,4>]         3[U1]  [NUDL, <3,4>]         3[U1]  [NUDL, <3,4>]         2[U1]  [NUDL, <2,3>]          [U1]  [NUDL, <0,0>]
 4[U2]                        4[U2]                         [U2]                         [U2]                         [U2]
 5[U2]  [NUDL, <4,6>]         5[U2]  [NUDL, <4,6>]         4[U2]  [NUDL, <4,5>]         3[U2]  [NUDL, <3,4>]         0[U2]  [NUDL, <0,1>]
-6[C1]  [Null, <6,7>]          [C1]  [Null, <6,6>]          [C1]  [Null, <5,5>]          [C1]  [Null, <4,4>]          [C1]  [Null, <1,1>]
-7[I1]  [Null, <7,8>]         6[I1]  [Null, <6,7>]         5[I1]  [Null, <5,6>]         4[I1]  [Null, <4,5>]         1[I1]  [Null, <1,2>]
+6[C1]  [nullptr, <6,7>]          [C1]  [nullptr, <6,6>]          [C1]  [nullptr, <5,5>]          [C1]  [nullptr, <4,4>]          [C1]  [nullptr, <1,1>]
+7[I1]  [nullptr, <7,8>]         6[I1]  [nullptr, <6,7>]         5[I1]  [nullptr, <5,6>]         4[I1]  [nullptr, <4,5>]         1[I1]  [nullptr, <1,2>]
 */
 void NppParameters::removeIndexFromXmlUdls(size_t i)
 {

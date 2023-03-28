@@ -5,9 +5,6 @@ charset "UTF-8";
 acceptflags
 	NOGTK;
 
-uses
-	Core;
-
 library(WIN32) "usp10 user32 gdi32";
 
 link(OSX !X11) "-framework Foundation -framework Cocoa -framework Carbon";

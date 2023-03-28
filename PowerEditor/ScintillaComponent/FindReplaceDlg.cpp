@@ -12,7 +12,7 @@ FindOption FindReplaceDlg::_options;
 
 #define SHIFTED 0x8000
 
-void addText2Combo(const char * txt2add, Upp::Ctrl* hCombo)
+void addText2Combo(const char * txt2add, Window* hCombo)
 {
     if (!hCombo) return;
     if (!lstrcmp(txt2add, TEXT(""))) return;
@@ -27,14 +27,14 @@ void addText2Combo(const char * txt2add, Upp::Ctrl* hCombo)
     ::SendMessage(hCombo, CB_SETCURSEL, i, 0);
 };
 
-String getTextFromCombo(Upp::Ctrl* hCombo)
+String getTextFromCombo(Window* hCombo)
 {
     char str[FINDREPLACE_MAXLENGTH] = { '\0' };
     ::SendMessage(hCombo, WM_GETTEXT, FINDREPLACE_MAXLENGTH - 1, reinterpret_cast<LPARAM>(str));
     return String(str);
 };
 
-void delLeftWordInEdit(Upp::Ctrl* hEdit)
+void delLeftWordInEdit(Window* hEdit)
 {
     char str[FINDREPLACE_MAXLENGTH];
     ::SendMessage(hEdit, WM_GETTEXT, FINDREPLACE_MAXLENGTH - 1, reinterpret_cast<LPARAM>(str));
@@ -210,8 +210,8 @@ void Searching::displaySectionCentered(size_t posStart, size_t posEnd, Scintilla
     pEditView->execute(SCI_CHOOSECARETX);
 }
 
-LONG_PTR FindReplaceDlg::originalFinderProc = Null;
-LONG_PTR FindReplaceDlg::originalComboEditProc = Null;
+LONG_PTR FindReplaceDlg::originalFinderProc = nullptr;
+LONG_PTR FindReplaceDlg::originalComboEditProc = nullptr;
 
 // important : to activate all styles
 const int STYLING_MASK = 255;
@@ -251,7 +251,7 @@ void FindReplaceDlg::create(int dialogID, bool isRTL, bool msgDestParent)
     _currentStatus = REPLACE_DLG;
     initOptionsFromDlg();
 
-    _statusBar.init(GetModuleHandle(Null), _hSelf, 0);
+    _statusBar.init(GetModuleHandle(nullptr), _hSelf, 0);
     _statusBar.display();
 
     Rect rect;
@@ -383,14 +383,14 @@ void FindReplaceDlg::fillFindHistory()
 
 void FindReplaceDlg::fillComboHistory(int id, const Vector<String> & strings)
 {
-    Upp::Ctrl* hCombo = ::GetDlgItem(_hSelf, id);
+    Window* hCombo = ::GetDlgItem(_hSelf, id);
 
     for (Vector<String>::const_reverse_iterator i = strings.rbegin() ; i != strings.rend(); ++i)
     {
         addText2Combo(i->Begin(), hCombo);
     }
 
-    //empty string is not added to CB items, so we need to set it manually
+    //empty String is not added to CB items, so we need to set it manually
     if (!strings.IsEmpty() && strings.begin()->empty())
     {
         SetWindowText(hCombo, _T(""));
@@ -415,7 +415,7 @@ void FindReplaceDlg::saveFindHistory()
 int FindReplaceDlg::saveComboHistory(int id, int maxcount, Vector<String> & strings, bool saveEmpty)
 {
     char text[FINDREPLACE_MAXLENGTH] = { '\0' };
-    Upp::Ctrl* hCombo = ::GetDlgItem(_hSelf, id);
+    Window* hCombo = ::GetDlgItem(_hSelf, id);
     int count = static_cast<int32_t>(::SendMessage(hCombo, CB_GETCOUNT, 0, 0));
     count = min(count, maxcount);
 
@@ -451,7 +451,7 @@ void FindReplaceDlg::updateCombos()
 
 void FindReplaceDlg::updateCombo(int comboID)
 {
-    Upp::Ctrl* hCombo = ::GetDlgItem(_hSelf, comboID);
+    Window* hCombo = ::GetDlgItem(_hSelf, comboID);
     addText2Combo(getTextFromCombo(hCombo).Begin(), hCombo);
 }
 
@@ -612,7 +612,7 @@ Vector<String> Finder::getResultFilePaths() const
     for (size_t i = 0; i < len; ++i)
     {
         // make sure that path is not already in
-        String & path2add = (*_pMainFoundInfos)[i]._fullPath;
+        String& path2add = (*_pMainFoundInfos)[i]._fullPath;
         bool found = path2add.IsEmpty();
         for (size_t j = 0; j < paths.size() && !found; ++j)
         {
@@ -912,7 +912,7 @@ void Finder::gotoNextFoundResult(int direction)
 
 void FindInFinderDlg::initFromOptions()
 {
-    Upp::Ctrl* hFindCombo = ::GetDlgItem(_hSelf, IDFINDWHAT_FIFOLDER);
+    Window* hFindCombo = ::GetDlgItem(_hSelf, IDFINDWHAT_FIFOLDER);
     addText2Combo(_options._str2Search.Begin(), hFindCombo);
 
     setChecked(IDC_MATCHLINENUM_CHECK_FIFOLDER, _options._isMatchLineNumber);
@@ -932,7 +932,7 @@ void FindInFinderDlg::initFromOptions()
 
 void FindInFinderDlg::writeOptions()
 {
-    Upp::Ctrl* hFindCombo = ::GetDlgItem(_hSelf, IDFINDWHAT_FIFOLDER);
+    Window* hFindCombo = ::GetDlgItem(_hSelf, IDFINDWHAT_FIFOLDER);
     _options._str2Search = getTextFromCombo(hFindCombo);
     _options._isMatchLineNumber = isCheckedOrNot(IDC_MATCHLINENUM_CHECK_FIFOLDER);
     _options._isWholeWord = isCheckedOrNot(IDWHOLEWORD_FIFOLDER);
@@ -1084,14 +1084,14 @@ void FindReplaceDlg::resizeDialogElements(LONG newWidth)
     Rect rc;
     for (int id : resizeWindowIDs)
     {
-        Upp::Ctrl* resizeHwnd = ::GetDlgItem(_hSelf, id);
+        Window* resizeHwnd = ::GetDlgItem(_hSelf, id);
         ::GetClientRect(resizeHwnd, &rc);
 
         // Combo box for some reasons selects text on resize. So let's check befor resize if selection is present and clear it manually after resize.
         dword endSelection = 0;
         SendMessage(resizeHwnd, CB_GETEDITSEL, 0, (LPARAM)&endSelection);
 
-        ::SetWindowPos(resizeHwnd, Null, 0, 0, rc.right + addWidth, rc.bottom, SWP_NOMOVE | flags);
+        ::SetWindowPos(resizeHwnd, nullptr, 0, 0, rc.right + addWidth, rc.bottom, SWP_NOMOVE | flags);
 
         if (endSelection == 0)
         {
@@ -1101,18 +1101,18 @@ void FindReplaceDlg::resizeDialogElements(LONG newWidth)
 
     for (int moveWndID : moveWindowIDs)
     {
-        Upp::Ctrl* moveHwnd = GetDlgItem(_hSelf, moveWndID);
+        Window* moveHwnd = GetDlgItem(_hSelf, moveWndID);
         ::GetWindowRect(moveHwnd, &rc);
-        ::MapWindowPoints(Null, _hSelf, (LPPOINT)&rc, 2);
+        ::MapWindowPoints(nullptr, _hSelf, (LPPOINT)&rc, 2);
 
-        ::SetWindowPos(moveHwnd, Null, rc.left + addWidth, rc.top, 0, 0, SWP_NOSIZE | flags);
+        ::SetWindowPos(moveHwnd, nullptr, rc.left + addWidth, rc.top, 0, 0, SWP_NOSIZE | flags);
     }
 
     auto additionalWindowHwndsToResize = { _tab.getHSelf() , _statusBar.getHSelf() };
-    for (Upp::Ctrl* resizeHwnd : additionalWindowHwndsToResize)
+    for (Window* resizeHwnd : additionalWindowHwndsToResize)
     {
         ::GetClientRect(resizeHwnd, &rc);
-        ::SetWindowPos(resizeHwnd, Null, 0, 0, rc.right + addWidth, rc.bottom, SWP_NOMOVE | flags);
+        ::SetWindowPos(resizeHwnd, nullptr, 0, 0, rc.right + addWidth, rc.bottom, SWP_NOMOVE | flags);
     }
 }
 
@@ -1189,7 +1189,7 @@ intptr_t CALLBACK FindReplaceDlg::run_dlgProc(UINT message, WPARAM wParam, LPARA
                 NppDarkMode::setDarkTooltips(_statusbarTooltipWnd, NppDarkMode::ToolTipsType::tooltip);
             }
 
-            Upp::Ctrl* finder = getHFindResults();
+            Window* finder = getHFindResults();
             if (finder)
             {
                 NppDarkMode::setDarkScrollBar(finder);
@@ -1203,10 +1203,10 @@ intptr_t CALLBACK FindReplaceDlg::run_dlgProc(UINT message, WPARAM wParam, LPARA
         {
             NppDarkMode::autoSubclassAndThemeChildControls(_hSelf);
 
-            Upp::Ctrl* hFindCombo = ::GetDlgItem(_hSelf, IDFINDWHAT);
-            Upp::Ctrl* hReplaceCombo = ::GetDlgItem(_hSelf, IDREPLACEWITH);
-            Upp::Ctrl* hFiltersCombo = ::GetDlgItem(_hSelf, IDD_FINDINFILES_FILTERS_COMBO);
-            Upp::Ctrl* hDirCombo = ::GetDlgItem(_hSelf, IDD_FINDINFILES_DIR_COMBO);
+            Window* hFindCombo = ::GetDlgItem(_hSelf, IDFINDWHAT);
+            Window* hReplaceCombo = ::GetDlgItem(_hSelf, IDREPLACEWITH);
+            Window* hFiltersCombo = ::GetDlgItem(_hSelf, IDD_FINDINFILES_FILTERS_COMBO);
+            Window* hDirCombo = ::GetDlgItem(_hSelf, IDD_FINDINFILES_DIR_COMBO);
 
             // Change handler of edit element in the comboboxes to support Ctrl+Backspace
             COMBOBOXINFO cbinfo = { sizeof(COMBOBOXINFO) };
@@ -1239,7 +1239,7 @@ intptr_t CALLBACK FindReplaceDlg::run_dlgProc(UINT message, WPARAM wParam, LPARA
             // ComboBoxes are scaled using the font used in them, however this results in weird optics
             // on scaling > 200% (192 DPI). Using this method we accomodate these scalings way better
             // than the OS does with the current dpiAware.manifest...
-            for (Upp::Ctrl* hComboBox : { hFindCombo, hReplaceCombo, hFiltersCombo, hDirCombo })
+            for (Window* hComboBox : { hFindCombo, hReplaceCombo, hFiltersCombo, hDirCombo })
             {
                 LOGFONT lf = {};
                 HFONT font = reinterpret_cast<HFONT>(SendMessage(hComboBox, WM_GETFONT, 0, 0));
@@ -1332,7 +1332,7 @@ intptr_t CALLBACK FindReplaceDlg::run_dlgProc(UINT message, WPARAM wParam, LPARA
 
         case WM_HSCROLL :
         {
-            if (reinterpret_cast<Upp::Ctrl*>(lParam) == ::GetDlgItem(_hSelf, IDC_PERCENTAGE_SLIDER))
+            if (reinterpret_cast<Window*>(lParam) == ::GetDlgItem(_hSelf, IDC_PERCENTAGE_SLIDER))
             {
                 int percent = static_cast<int32_t>(::SendDlgItemMessage(_hSelf, IDC_PERCENTAGE_SLIDER, TBM_GETPOS, 0, 0));
                 FindHistory & findHistory = (NppParameters::getInstance()).getFindHistory();
@@ -1350,7 +1350,7 @@ intptr_t CALLBACK FindReplaceDlg::run_dlgProc(UINT message, WPARAM wParam, LPARA
             NMHDR *nmhdr = (NMHDR *)lParam;
             if (nmhdr->code == TCN_SELCHANGE)
             {
-                Upp::Ctrl* tabHandle = _tab.getHSelf();
+                Window* tabHandle = _tab.getHSelf();
                 if (nmhdr->hwndFrom == tabHandle)
                 {
                     int indexClicked = int(::SendMessage(tabHandle, TCM_GETCURSEL, 0, 0));
@@ -1462,7 +1462,7 @@ intptr_t CALLBACK FindReplaceDlg::run_dlgProc(UINT message, WPARAM wParam, LPARA
                 {
                     setStatusbarMessage(String(), FSNoMessage);
 
-                    Upp::Ctrl* hFindCombo = ::GetDlgItem(_hSelf, IDFINDWHAT);
+                    Window* hFindCombo = ::GetDlgItem(_hSelf, IDFINDWHAT);
                     _options._str2Search = getTextFromCombo(hFindCombo);
                     updateCombo(IDFINDWHAT);
 
@@ -1525,9 +1525,9 @@ intptr_t CALLBACK FindReplaceDlg::run_dlgProc(UINT message, WPARAM wParam, LPARA
 
                 case IDD_FINDREPLACE_SWAP_BUTTON:
                 {
-                    Upp::Ctrl* hFindWhat = ::GetDlgItem(_hSelf, IDFINDWHAT);
+                    Window* hFindWhat = ::GetDlgItem(_hSelf, IDFINDWHAT);
                     String findWhatText = getTextFromCombo(hFindWhat);
-                    Upp::Ctrl* hPlaceWith = ::GetDlgItem(_hSelf, IDREPLACEWITH);
+                    Window* hPlaceWith = ::GetDlgItem(_hSelf, IDREPLACEWITH);
                     String replaceWithText = getTextFromCombo(hPlaceWith);
                     if ((!findWhatText.IsEmpty() || !replaceWithText.IsEmpty()) && (findWhatText != replaceWithText))
                     {
@@ -1572,8 +1572,8 @@ intptr_t CALLBACK FindReplaceDlg::run_dlgProc(UINT message, WPARAM wParam, LPARA
                     if (_currentStatus == REPLACE_DLG)
                     {
                         setStatusbarMessage(TEXT(""), FSNoMessage);
-                        Upp::Ctrl* hFindCombo = ::GetDlgItem(_hSelf, IDFINDWHAT);
-                        Upp::Ctrl* hReplaceCombo = ::GetDlgItem(_hSelf, IDREPLACEWITH);
+                        Window* hFindCombo = ::GetDlgItem(_hSelf, IDFINDWHAT);
+                        Window* hReplaceCombo = ::GetDlgItem(_hSelf, IDREPLACEWITH);
                         _options._str2Search = getTextFromCombo(hFindCombo);
                         _options._str4Replace = getTextFromCombo(hReplaceCombo);
                         updateCombos();
@@ -1591,7 +1591,7 @@ intptr_t CALLBACK FindReplaceDlg::run_dlgProc(UINT message, WPARAM wParam, LPARA
                     if (_currentStatus == FIND_DLG)
                     {
                         setStatusbarMessage(TEXT(""), FSNoMessage);
-                        Upp::Ctrl* hFindCombo = ::GetDlgItem(_hSelf, IDFINDWHAT);
+                        Window* hFindCombo = ::GetDlgItem(_hSelf, IDFINDWHAT);
                         combo2ExtendedMode(IDFINDWHAT);
                         _options._str2Search = getTextFromCombo(hFindCombo);
                         updateCombo(IDFINDWHAT);
@@ -1607,7 +1607,7 @@ intptr_t CALLBACK FindReplaceDlg::run_dlgProc(UINT message, WPARAM wParam, LPARA
                 case IDC_FINDALL_CURRENTFILE :
                 {
                     setStatusbarMessage(TEXT(""), FSNoMessage);
-                    Upp::Ctrl* hFindCombo = ::GetDlgItem(_hSelf, IDFINDWHAT);
+                    Window* hFindCombo = ::GetDlgItem(_hSelf, IDFINDWHAT);
                     combo2ExtendedMode(IDFINDWHAT);
                     _options._str2Search = getTextFromCombo(hFindCombo);
                     updateCombo(IDFINDWHAT);
@@ -1630,7 +1630,7 @@ intptr_t CALLBACK FindReplaceDlg::run_dlgProc(UINT message, WPARAM wParam, LPARA
                     addText2Combo(filters, ::GetDlgItem(_hSelf, IDD_FINDINFILES_FILTERS_COMBO));
                     _options._filters = filters;
 
-                    Upp::Ctrl* hFindCombo = ::GetDlgItem(_hSelf, IDFINDWHAT);
+                    Window* hFindCombo = ::GetDlgItem(_hSelf, IDFINDWHAT);
                     combo2ExtendedMode(IDFINDWHAT);
                     _options._str2Search = getTextFromCombo(hFindCombo);
                     updateCombo(IDFINDWHAT);
@@ -1691,9 +1691,9 @@ intptr_t CALLBACK FindReplaceDlg::run_dlgProc(UINT message, WPARAM wParam, LPARA
                                 _options._directory += TEXT("\\");
                             }
 
-                            Upp::Ctrl* hFindCombo = ::GetDlgItem(_hSelf, IDFINDWHAT);
+                            Window* hFindCombo = ::GetDlgItem(_hSelf, IDFINDWHAT);
                             _options._str2Search = getTextFromCombo(hFindCombo);
-                            Upp::Ctrl* hReplaceCombo = ::GetDlgItem(_hSelf, IDREPLACEWITH);
+                            Window* hReplaceCombo = ::GetDlgItem(_hSelf, IDREPLACEWITH);
                             _options._str4Replace = getTextFromCombo(hReplaceCombo);
                             updateCombo(IDFINDWHAT);
                             updateCombo(IDREPLACEWITH);
@@ -1719,9 +1719,9 @@ intptr_t CALLBACK FindReplaceDlg::run_dlgProc(UINT message, WPARAM wParam, LPARA
                     _options._filters = filters;
                     if (replaceInProjectsConfirmCheck())
                     {
-                        Upp::Ctrl* hFindCombo = ::GetDlgItem(_hSelf, IDFINDWHAT);
+                        Window* hFindCombo = ::GetDlgItem(_hSelf, IDFINDWHAT);
                         _options._str2Search = getTextFromCombo(hFindCombo);
-                        Upp::Ctrl* hReplaceCombo = ::GetDlgItem(_hSelf, IDREPLACEWITH);
+                        Window* hReplaceCombo = ::GetDlgItem(_hSelf, IDREPLACEWITH);
                         _options._str4Replace = getTextFromCombo(hReplaceCombo);
                         updateCombo(IDFINDWHAT);
                         updateCombo(IDREPLACEWITH);
@@ -1745,9 +1745,9 @@ intptr_t CALLBACK FindReplaceDlg::run_dlgProc(UINT message, WPARAM wParam, LPARA
                         if (!nppGui._confirmReplaceInAllOpenDocs || replaceInOpenDocsConfirmCheck())
                         {
                             setStatusbarMessage(TEXT(""), FSNoMessage);
-                            Upp::Ctrl* hFindCombo = ::GetDlgItem(_hSelf, IDFINDWHAT);
+                            Window* hFindCombo = ::GetDlgItem(_hSelf, IDFINDWHAT);
                             _options._str2Search = getTextFromCombo(hFindCombo);
-                            Upp::Ctrl* hReplaceCombo = ::GetDlgItem(_hSelf, IDREPLACEWITH);
+                            Window* hReplaceCombo = ::GetDlgItem(_hSelf, IDREPLACEWITH);
                             _options._str4Replace = getTextFromCombo(hReplaceCombo);
                             updateCombos();
 
@@ -1775,9 +1775,9 @@ intptr_t CALLBACK FindReplaceDlg::run_dlgProc(UINT message, WPARAM wParam, LPARA
                             return TRUE;
                         }
 
-                        Upp::Ctrl* hFindCombo = ::GetDlgItem(_hSelf, IDFINDWHAT);
+                        Window* hFindCombo = ::GetDlgItem(_hSelf, IDFINDWHAT);
                         _options._str2Search = getTextFromCombo(hFindCombo);
-                        Upp::Ctrl* hReplaceCombo = ::GetDlgItem(_hSelf, IDREPLACEWITH);
+                        Window* hReplaceCombo = ::GetDlgItem(_hSelf, IDREPLACEWITH);
                         _options._str4Replace = getTextFromCombo(hReplaceCombo);
                         updateCombos();
 
@@ -1819,7 +1819,7 @@ intptr_t CALLBACK FindReplaceDlg::run_dlgProc(UINT message, WPARAM wParam, LPARA
                     if (_currentStatus == FIND_DLG)
                     {
                         setStatusbarMessage(TEXT(""), FSNoMessage);
-                        Upp::Ctrl* hFindCombo = ::GetDlgItem(_hSelf, IDFINDWHAT);
+                        Window* hFindCombo = ::GetDlgItem(_hSelf, IDFINDWHAT);
                         updateCombo(IDFINDWHAT);
                         _options._str2Search = getTextFromCombo(hFindCombo);
 
@@ -1858,7 +1858,7 @@ intptr_t CALLBACK FindReplaceDlg::run_dlgProc(UINT message, WPARAM wParam, LPARA
                     if (_currentStatus == MARK_DLG)
                     {
                         setStatusbarMessage(TEXT(""), FSNoMessage);
-                        Upp::Ctrl* hFindCombo = ::GetDlgItem(_hSelf, IDFINDWHAT);
+                        Window* hFindCombo = ::GetDlgItem(_hSelf, IDFINDWHAT);
                         _options._str2Search = getTextFromCombo(hFindCombo);
                         updateCombo(IDFINDWHAT);
 
@@ -2443,7 +2443,7 @@ int FindReplaceDlg::markAll(const char *txt2find, int styleID)
     markAllOpt._isWholeWord = nppGUI._markAllWordOnly;
     markAllOpt._str2Search = txt2find;
 
-    int nbFound = processAll(ProcessMarkAllExt, &markAllOpt, true, Null, styleID);
+    int nbFound = processAll(ProcessMarkAllExt, &markAllOpt, true, nullptr, styleID);
     return nbFound;
 }
 
@@ -2567,10 +2567,10 @@ int FindReplaceDlg::processRange(ProcessOperation op, FindReplaceInfo & findRepl
     LRESULT stringSizeFind = 0;
     LRESULT stringSizeReplace = 0;
 
-    char *pTextFind = Null;
+    char *pTextFind = nullptr;
     if (!findReplaceInfo._txt2find)
     {
-        Upp::Ctrl* hFindCombo = ::GetDlgItem(_hSelf, IDFINDWHAT);
+        Window* hFindCombo = ::GetDlgItem(_hSelf, IDFINDWHAT);
         String str2Search = getTextFromCombo(hFindCombo);
         stringSizeFind = str2Search.GetLength();
         pTextFind = new char[stringSizeFind + 1];
@@ -2589,12 +2589,12 @@ int FindReplaceDlg::processRange(ProcessOperation op, FindReplaceInfo & findRepl
         return nbProcessed;
     }
 
-    char *pTextReplace = Null;
+    char *pTextReplace = nullptr;
     if (op == ProcessReplaceAll)
     {
         if (!findReplaceInfo._txt2replace)
         {
-            Upp::Ctrl* hReplaceCombo = ::GetDlgItem(_hSelf, IDREPLACEWITH);
+            Window* hReplaceCombo = ::GetDlgItem(_hSelf, IDREPLACEWITH);
             String str2Replace = getTextFromCombo(hReplaceCombo);
             stringSizeReplace = str2Replace.GetLength();
             pTextReplace = new char[stringSizeReplace + 1];
@@ -2834,7 +2834,7 @@ int FindReplaceDlg::processRange(ProcessOperation op, FindReplaceInfo & findRepl
         }
         if (processed) ++nbProcessed;
 
-        // After the processing of the last string occurrence the search loop should be stopped
+        // After the processing of the last String occurrence the search loop should be stopped
         // This helps to avoid the endless replacement during the EOL ("$") searching
         if (targetStart + foundTextLen == findReplaceInfo._endRange)
             break;
@@ -3108,10 +3108,10 @@ bool FindReplaceDlg::removeFinder(Finder *finder2remove)
 
 void FindReplaceDlg::setSearchText(char * txt2find)
 {
-    Upp::Ctrl* hCombo = ::GetDlgItem(_hSelf, IDFINDWHAT);
+    Window* hCombo = ::GetDlgItem(_hSelf, IDFINDWHAT);
     if (txt2find && txt2find[0])
     {
-        // We got a valid search string
+        // We got a valid search String
         ::SendMessage(hCombo, CB_SETCURSEL, static_cast<WPARAM>(-1), 0); // remove selection - to allow using down arrow to get to last searched word
         ::SetDlgItemText(_hSelf, IDFINDWHAT, txt2find);
     }
@@ -3120,7 +3120,7 @@ void FindReplaceDlg::setSearchText(char * txt2find)
 
 void FindReplaceDlg::enableFindDlgItem(int dlgItemID, bool isEnable /* = true*/)
 {
-    Upp::Ctrl* h = ::GetDlgItem(_hSelf, dlgItemID);
+    Window* h = ::GetDlgItem(_hSelf, dlgItemID);
     if (!h) return;
 
     ::EnableWindow(h, isEnable ? TRUE : FALSE);
@@ -3131,7 +3131,7 @@ void FindReplaceDlg::enableFindDlgItem(int dlgItemID, bool isEnable /* = true*/)
 
 void FindReplaceDlg::showFindDlgItem(int dlgItemID, bool isShow /* = true*/)
 {
-    Upp::Ctrl* h = ::GetDlgItem(_hSelf, dlgItemID);
+    Window* h = ::GetDlgItem(_hSelf, dlgItemID);
     if (!h) return;
 
     ::ShowWindow(h, isShow ? SW_SHOW : SW_HIDE);
@@ -3292,7 +3292,7 @@ void FindReplaceDlg::getAndValidatePatterns(Vector<String> & patternVect)
     getPatterns(patternVect);
     if (patternVect.size() == 0)
     {
-        setFindInFilesDirFilter(Null, TEXT("*.*"));
+        setFindInFilesDirFilter(nullptr, TEXT("*.*"));
         getPatterns(patternVect);
     }
     else if (allPatternsAreExclusion(patternVect))
@@ -3352,7 +3352,7 @@ void FindReplaceDlg::saveInMacro(size_t cmd, int cmdType)
     ::SendMessage(_hParent, WM_FRSAVE_INT, IDC_FRCOMMAND_EXEC, cmd);
 }
 
-void FindReplaceDlg::setStatusbarMessage(const String & msg, FindStatus staus, char const *pTooltipMsg)
+void FindReplaceDlg::setStatusbarMessage(const String& msg, FindStatus staus, char const *pTooltipMsg)
 {
     if (_statusbarTooltipWnd)
     {
@@ -3687,7 +3687,7 @@ void FindReplaceDlg::execSavedCommand(int cmd, uptr_t intValue, const char* stri
     }
     catch (const std::runtime_error& err)
     {
-        MessageBoxA(Null, err.what(), "Play Macro Exception", MB_OK);
+        MessageBoxA(nullptr, err.what(), "Play Macro Exception", MB_OK);
     }
 }
 
@@ -3835,7 +3835,7 @@ void FindInFinderDlg::doDialog(Finder *launcher, bool isRTL)
     _pFinder2Search = launcher;
     if (isRTL)
     {
-        DLGTEMPLATE *pMyDlgTemplate = Null;
+        DLGTEMPLATE *pMyDlgTemplate = nullptr;
         HGLOBAL hMyDlgTemplate = makeRTLResource(IDD_FINDINFINDER_DLG, &pMyDlgTemplate);
         ::DialogBoxIndirectParam(_hInst, pMyDlgTemplate, _hParent, dlgProc, reinterpret_cast<LPARAM>(this));
         ::GlobalFree(hMyDlgTemplate);
@@ -3866,7 +3866,7 @@ void FindReplaceDlg::doDialog(DIALOG_TYPE whichType, bool isRTL, bool toShow)
     display(toShow, true);
 }
 
-LRESULT FAR PASCAL FindReplaceDlg::finderProc(Upp::Ctrl* hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+LRESULT FAR PASCAL FindReplaceDlg::finderProc(Window* hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     if (message == WM_KEYDOWN && (wParam == VK_DELETE || wParam == VK_RETURN || wParam == VK_ESCAPE))
     {
@@ -3900,9 +3900,9 @@ LRESULT FAR PASCAL FindReplaceDlg::finderProc(Upp::Ctrl* hwnd, UINT message, WPA
         return CallWindowProc((WNDPROC) originalFinderProc, hwnd, message, wParam, lParam);
 }
 
-LRESULT FAR PASCAL FindReplaceDlg::comboEditProc(Upp::Ctrl* hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+LRESULT FAR PASCAL FindReplaceDlg::comboEditProc(Window* hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-    Upp::Ctrl* hwndCombo = reinterpret_cast<Upp::Ctrl*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
+    Window* hwndCombo = reinterpret_cast<Window*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
 
     bool isDropped = ::SendMessage(hwndCombo, CB_GETDROPPEDSTATE, 0, 0) != 0;
 
@@ -3999,7 +3999,7 @@ void FindReplaceDlg::enableMarkFunc()
 }
 void FindReplaceDlg::combo2ExtendedMode(int comboID)
 {
-    Upp::Ctrl* hFindCombo = ::GetDlgItem(_hSelf, comboID);
+    Window* hFindCombo = ::GetDlgItem(_hSelf, comboID);
     if (!hFindCombo) return;
 
     String str2transform = getTextFromCombo(hFindCombo);
@@ -4111,7 +4111,7 @@ void FindReplaceDlg::drawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
 
     if (_statusbarTooltipMsg.GetLength() == 0) return;
 
-    SIZE size;
+    Size size;
     ::GetTextExtentPoint32(lpDrawItemStruct->hDC, ptStr, lstrlen(ptStr), &size);
     int s = (rect.bottom - rect.top) & 0x70; // limit s to available icon sizes and avoid uneven scalings
     if (s > 0)
@@ -4130,7 +4130,7 @@ void FindReplaceDlg::drawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
             _statusbarTooltipIconSize = s;
             rect.left = rect.left + size.cx + s / 2;
             rect.top  = (rect.top + rect.bottom - s) / 2;
-            DrawIconEx (lpDrawItemStruct->hDC, rect.left, rect.top, _statusbarTooltipIcon, s, s, 0, Null, DI_NORMAL);
+            DrawIconEx (lpDrawItemStruct->hDC, rect.left, rect.top, _statusbarTooltipIcon, s, s, 0, nullptr, DI_NORMAL);
             if (!_statusbarTooltipWnd)
             {
                 rect.right = rect.left + s;
@@ -4167,7 +4167,7 @@ bool FindReplaceDlg::replaceInFilesConfirmCheck(String directory, String fileTyp
 
     msg += msg2;
 
-    int res = ::MessageBox(Null, msg.Begin(), title.Begin(), MB_OKCANCEL | MB_DEFBUTTON2 | MB_TASKMODAL);
+    int res = ::MessageBox(nullptr, msg.Begin(), title.Begin(), MB_OKCANCEL | MB_DEFBUTTON2 | MB_TASKMODAL);
 
     if (res == IDOK)
     {
@@ -4186,7 +4186,7 @@ bool FindReplaceDlg::replaceInProjectsConfirmCheck()
     String title = pNativeSpeaker->getLocalizedStrFromID("replace-in-projects-confirm-title", TEXT("Are you sure?"));
 
     String msg = pNativeSpeaker->getLocalizedStrFromID("replace-in-projects-confirm-message", TEXT("Do you want to replace all occurrences in all documents in the selected Project Panel(s)?"));
-    int res = ::MessageBox(Null, msg.Begin(), title.Begin(), MB_OKCANCEL | MB_DEFBUTTON2 | MB_TASKMODAL);
+    int res = ::MessageBox(nullptr, msg.Begin(), title.Begin(), MB_OKCANCEL | MB_DEFBUTTON2 | MB_TASKMODAL);
 
     if (res == IDOK)
     {
@@ -4204,7 +4204,7 @@ bool FindReplaceDlg::replaceInOpenDocsConfirmCheck(void)
     String title = pNativeSpeaker->getLocalizedStrFromID("replace-in-open-docs-confirm-title", TEXT("Are you sure?"));
     String msg = pNativeSpeaker->getLocalizedStrFromID("replace-in-open-docs-confirm-message", TEXT("Are you sure you want to replace all occurrences in all open documents?"));
 
-    int res = ::MessageBox(Null, msg.Begin(), title.Begin(), MB_OKCANCEL | MB_DEFBUTTON2 | MB_TASKMODAL);
+    int res = ::MessageBox(nullptr, msg.Begin(), title.Begin(), MB_OKCANCEL | MB_DEFBUTTON2 | MB_TASKMODAL);
 
     if (res == IDOK)
     {
@@ -4436,7 +4436,7 @@ void Finder::copyPathnames()
         if (!str2Clipboard(toClipboard, _hSelf))
         {
             assert(false);
-            ::MessageBox(Null, TEXT("Error placing pathnames into clipboard."), TEXT("Notepad++"), MB_ICONINFORMATION);
+            ::MessageBox(nullptr, TEXT("Error placing pathnames into clipboard."), TEXT("Notepad++"), MB_ICONINFORMATION);
         }
     }
 }
@@ -4468,21 +4468,21 @@ void Finder::purgeToggle()
     }
 }
 
-bool Finder::isLineActualSearchResult(const String & s) const
+bool Finder::isLineActualSearchResult(const String& s) const
 {
     // actual-search-result lines are the only type that start with a tab character
     // sample: "\tLine 123: xxxxxxHITxxxxxx"
     return (s.find(TEXT("\t")) == 0);
 }
 
-String & Finder::prepareStringForClipboard(String & s) const
+String& Finder::prepareStringForClipboard(String& s) const
 {
-    // Input: a string like "\tLine 3: search result".
+    // Input: a String like "\tLine 3: search result".
     // Output: "search result"
     s = stringReplace(s, TEXT("\r"), TEXT(""));
     s = stringReplace(s, TEXT("\n"), TEXT(""));
     const auto firstColon = s.find(TEXT(':'));
-    if (firstColon == std::string::npos)
+    if (firstColon == String::npos)
     {
         // Should never happen.
         assert(false);
@@ -4537,7 +4537,7 @@ void Finder::copy()
         if (!str2Clipboard(toClipboard, _hSelf))
         {
             assert(false);
-            ::MessageBox(Null, TEXT("Error placing text in clipboard."), TEXT("Notepad++"), MB_ICONINFORMATION);
+            ::MessageBox(nullptr, TEXT("Error placing text in clipboard."), TEXT("Notepad++"), MB_ICONINFORMATION);
         }
     }
 }
@@ -4746,7 +4746,7 @@ intptr_t CALLBACK Finder::run_dlgProc(UINT message, WPARAM wParam, LPARAM lParam
 
         case WM_CONTEXTMENU :
         {
-            if (Upp::Ctrl*(wParam) == _scintView.getHSelf())
+            if (Window*(wParam) == _scintView.getHSelf())
             {
                 POINT p;
                 ::GetCursorPos(&p);
@@ -4803,7 +4803,7 @@ intptr_t CALLBACK Finder::run_dlgProc(UINT message, WPARAM wParam, LPARAM lParam
 
                 ::TrackPopupMenu(scintillaContextmenu.getMenuHandle(),
                     NppParameters::getInstance().getNativeLangSpeaker()->isRTL() ? TPM_RIGHTALIGN | TPM_LAYOUTRTL : TPM_LEFTALIGN,
-                    p.x, p.y, 0, _hSelf, Null);
+                    p.x, p.y, 0, _hSelf, nullptr);
                 return TRUE;
             }
             return ::DefWindowProc(_hSelf, message, wParam, lParam);
@@ -4828,7 +4828,7 @@ intptr_t CALLBACK Finder::run_dlgProc(UINT message, WPARAM wParam, LPARAM lParam
     return FALSE;
 }
 
-void FindIncrementDlg::init(Ctrl& hInst, Upp::Ctrl* hPere, FindReplaceDlg *pFRDlg, bool isRTL)
+void FindIncrementDlg::init(Window& hInst, Window* hPere, FindReplaceDlg *pFRDlg, bool isRTL)
 {
     Window::init(hInst, hPere);
     if (!pFRDlg)
@@ -4844,7 +4844,7 @@ void FindIncrementDlg::destroy()
     if (_pRebar)
     {
         _pRebar->removeBand(_rbBand.wID);
-        _pRebar = Null;
+        _pRebar = nullptr;
     }
 }
 
@@ -4952,7 +4952,7 @@ intptr_t CALLBACK FindIncrementDlg::run_dlgProc(UINT message, WPARAM wParam, LPA
                     // if focus is on a some other control, return it to the edit field
                     if (::GetFocus() != ::GetDlgItem(_hSelf, IDC_INCFINDTEXT))
                     {
-                        Upp::Ctrl* hFindTxt = ::GetDlgItem(_hSelf, IDC_INCFINDTEXT);
+                        Window* hFindTxt = ::GetDlgItem(_hSelf, IDC_INCFINDTEXT);
                         ::PostMessage(_hSelf, WM_NEXTDLGCTL, reinterpret_cast<WPARAM>(hFindTxt), TRUE);
                         return TRUE;
                     }
@@ -5038,14 +5038,14 @@ intptr_t CALLBACK FindIncrementDlg::run_dlgProc(UINT message, WPARAM wParam, LPA
             }
             else
             {
-                Upp::Ctrl* hParent = ::GetParent(_hSelf);
+                Window* hParent = ::GetParent(_hSelf);
                 HDC winDC = (HDC)wParam;
                 //RTL handling
                 POINT pt = { 0, 0 }, ptOrig = { 0, 0 };
                 ::MapWindowPoints(_hSelf, hParent, &pt, 1);
                 ::OffsetWindowOrgEx((HDC)wParam, pt.x, pt.y, &ptOrig);
                 LRESULT lResult = SendMessage(hParent, WM_ERASEBKGND, reinterpret_cast<WPARAM>(winDC), 0);
-                ::SetWindowOrgEx(winDC, ptOrig.x, ptOrig.y, Null);
+                ::SetWindowOrgEx(winDC, ptOrig.x, ptOrig.y, nullptr);
                 return (BOOL)lResult;
             }
         }
@@ -5127,11 +5127,11 @@ void FindIncrementDlg::setFindStatus(FindStatus iStatus, int nbCounted)
 
     _findStatus = iStatus;
 
-    // get the Upp::Ctrl* of the editor
-    Upp::Ctrl* hEditor = ::GetDlgItem(_hSelf, IDC_INCFINDTEXT);
+    // get the Window* of the editor
+    Window* hEditor = ::GetDlgItem(_hSelf, IDC_INCFINDTEXT);
 
     // invalidate the editor rect
-    ::InvalidateRect(hEditor, Null, TRUE);
+    ::InvalidateRect(hEditor, nullptr, TRUE);
 
     ::SendDlgItemMessage(_hSelf, IDC_INCFINDSTATUS, WM_SETTEXT, 0, reinterpret_cast<LPARAM>(statusStr2Display.Begin()));
 }
@@ -5175,7 +5175,7 @@ const int Progress::cBTNheight = NppParameters::getInstance()._dpiManager.scaleY
 volatile LONG Progress::refCount = 0;
 
 
-Progress::Progress(Ctrl& hInst) : _hwnd(Null), _hCallerWnd(Null)
+Progress::Progress(Window& hInst) : _hwnd(nullptr), _hCallerWnd(nullptr)
 {
     if (::InterlockedIncrement(&refCount) == 1)
     {
@@ -5186,7 +5186,7 @@ Progress::Progress(Ctrl& hInst) : _hwnd(Null), _hCallerWnd(Null)
         wcex.style = CS_HREDRAW | CS_VREDRAW;
         wcex.lpfnWndProc = wndProc;
         wcex.hInstance = _hInst;
-        wcex.hCursor = ::LoadCursor(Null, IDC_ARROW);
+        wcex.hCursor = ::LoadCursor(nullptr, IDC_ARROW);
         wcex.hbrBackground = ::GetSysColorBrush(cBackgroundColor);
         wcex.lpszClassName = cClassName;
 
@@ -5210,22 +5210,22 @@ Progress::~Progress()
 }
 
 
-Upp::Ctrl* Progress::open(Upp::Ctrl* hCallerWnd, const char* header)
+Window* Progress::open(Window* hCallerWnd, const char* header)
 {
     if (_hwnd)
         return _hwnd;
 
     // Create manually reset non-signalled event
-    _hActiveState = ::CreateEvent(Null, TRUE, FALSE, Null);
+    _hActiveState = ::CreateEvent(nullptr, TRUE, FALSE, nullptr);
     if (!_hActiveState)
-        return Null;
+        return nullptr;
 
     if (!hCallerWnd)
-        return Null;
+        return nullptr;
 
     _hCallerWnd = hCallerWnd;
 
-    for (Upp::Ctrl* hwnd = _hCallerWnd; hwnd; hwnd = ::GetParent(hwnd))
+    for (Window* hwnd = _hCallerWnd; hwnd; hwnd = ::GetParent(hwnd))
         ::UpdateWindow(hwnd);
 
     if (header)
@@ -5233,11 +5233,11 @@ Upp::Ctrl* Progress::open(Upp::Ctrl* hCallerWnd, const char* header)
     else
         _tcscpy_s(_header, _countof(_header), cDefaultHeader);
 
-    _hThread = ::CreateThread(Null, 0, threadFunc, this, 0, Null);
+    _hThread = ::CreateThread(nullptr, 0, threadFunc, this, 0, nullptr);
     if (!_hThread)
     {
         ::CloseHandle(_hActiveState);
-        return Null;
+        return nullptr;
     }
 
     // Wait for the progress window to be created
@@ -5260,7 +5260,7 @@ void Progress::close()
     if (_hwnd)
     {
         ::PostMessage(_hwnd, WM_CLOSE, 0, 0);
-        _hwnd = Null;
+        _hwnd = nullptr;
         ::WaitForSingleObject(_hThread, INFINITE);
 
         ::CloseHandle(_hThread);
@@ -5295,7 +5295,7 @@ int Progress::thread()
 
     // Window message loop
     MSG msg;
-    while ((r = ::GetMessage(&msg, Null, 0, 0)) != 0 && r != -1)
+    while ((r = ::GetMessage(&msg, nullptr, 0, 0)) != 0 && r != -1)
     {
         ::TranslateMessage(&msg);
         ::DispatchMessage(&msg);
@@ -5313,7 +5313,7 @@ int Progress::createProgressWindow()
         WS_EX_APPWINDOW | WS_EX_TOOLWINDOW | WS_EX_OVERLAPPEDWINDOW,
         cClassName, _header, WS_POPUP | WS_CAPTION,
         CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
-        Null, Null, _hInst, (LPVOID)this);
+        nullptr, nullptr, _hInst, (LPVOID)this);
     if (!_hwnd)
         return -1;
 
@@ -5344,7 +5344,7 @@ int Progress::createProgressWindow()
     _hPText = ::CreateWindowEx(0, TEXT("STATIC"), TEXT(""),
         WS_CHILD | WS_VISIBLE | BS_TEXT | SS_PATHELLIPSIS,
         xStartPos, yTextPos,
-        ctrlWidth, textHeight, _hwnd, Null, _hInst, Null);
+        ctrlWidth, textHeight, _hwnd, nullptr, _hInst, nullptr);
 
     HFONT hf = (HFONT)::GetStockObject(DEFAULT_GUI_FONT);
     if (hf)
@@ -5354,7 +5354,7 @@ int Progress::createProgressWindow()
         WS_CHILD | WS_VISIBLE | PBS_SMOOTH,
         xStartPos, yTextPos + textHeight,
         ctrlWidth, cPBheight,
-        _hwnd, Null, _hInst, Null);
+        _hwnd, nullptr, _hInst, nullptr);
     SendMessage(_hPBar, PBM_SETRANGE, 0, MAKELPARAM(0, 100));
 
     // Set border so user can distinguish easier progress bar,
@@ -5372,7 +5372,7 @@ int Progress::createProgressWindow()
         WS_CHILD | WS_VISIBLE | BS_DEFPUSHBUTTON | BS_TEXT,
         (width - cBTNwidth) / 2, yTextPos + textHeight + cPBheight + progressBarPadding,
         cBTNwidth, cBTNheight,
-        _hwnd, Null, _hInst, Null);
+        _hwnd, nullptr, _hInst, nullptr);
 
     if (hf)
         ::SendMessage(_hBtn, WM_SETFONT, reinterpret_cast<WPARAM>(hf), MAKELPARAM(TRUE, 0));
@@ -5387,7 +5387,7 @@ int Progress::createProgressWindow()
 }
 
 
-LRESULT APIENTRY Progress::wndProc(Upp::Ctrl* hwnd, UINT umsg, WPARAM wparam, LPARAM lparam)
+LRESULT APIENTRY Progress::wndProc(Window* hwnd, UINT umsg, WPARAM wparam, LPARAM lparam)
 {
     switch (umsg)
     {

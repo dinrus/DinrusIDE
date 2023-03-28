@@ -18,7 +18,7 @@
 #include <algorithm>
 #include <iostream>
 #include <fstream>
-#include <string>
+//#include <string>
 #include <cctype>
 //#include <shlobj.h>
 //#include <shlwapi.h>
@@ -65,7 +65,7 @@ String PluginUpdateInfo::describe()
 }
 
 /// Try to find in the Haystack the Needle - ignore case
-bool findStrNoCase(const String & strHaystack, const String & strNeedle)
+bool findStrNoCase(const String& strHaystack, const String& strNeedle)
 {
 	auto it = std::search(
 		strHaystack.begin(), strHaystack.end(),
@@ -151,7 +151,7 @@ void PluginsAdminDlg::create(int dialogID, bool isRTL, bool msgDestParent)
 	const long marge = dpiManager.scaleX(10);
 	const int topMarge = dpiManager.scaleY(42);
 
-	Upp::Ctrl* hResearchLabel = ::GetDlgItem(_hSelf, IDC_PLUGINADM_SEARCH_STATIC);
+	Window* hResearchLabel = ::GetDlgItem(_hSelf, IDC_PLUGINADM_SEARCH_STATIC);
 	Rect researchLabelRect;
 	::GetClientRect(hResearchLabel, &researchLabelRect);
 	researchLabelRect.left = rect.left + marge;
@@ -159,7 +159,7 @@ void PluginsAdminDlg::create(int dialogID, bool isRTL, bool msgDestParent)
 	::MoveWindow(hResearchLabel, researchLabelRect.left, researchLabelRect.top, researchLabelRect.right, researchLabelRect.bottom, TRUE);
 	::InvalidateRect(hResearchLabel, nullptr, TRUE);
 
-	Upp::Ctrl* hResearchEdit = ::GetDlgItem(_hSelf, IDC_PLUGINADM_SEARCH_EDIT);
+	Window* hResearchEdit = ::GetDlgItem(_hSelf, IDC_PLUGINADM_SEARCH_EDIT);
 	Rect researchEditRect;
 	::GetClientRect(hResearchEdit, &researchEditRect);
 	researchEditRect.left = researchLabelRect.right + marge;
@@ -167,7 +167,7 @@ void PluginsAdminDlg::create(int dialogID, bool isRTL, bool msgDestParent)
 	::MoveWindow(hResearchEdit, researchEditRect.left, researchEditRect.top, researchEditRect.right, researchEditRect.bottom, TRUE);
 	::InvalidateRect(hResearchEdit, nullptr, TRUE);
 
-	Upp::Ctrl* hNextButton = ::GetDlgItem(_hSelf, IDC_PLUGINADM_RESEARCH_NEXT);
+	Window* hNextButton = ::GetDlgItem(_hSelf, IDC_PLUGINADM_RESEARCH_NEXT);
 	Rect researchNextRect;
 	::GetClientRect(hNextButton, &researchNextRect);
 	researchNextRect.left = researchEditRect.left + researchEditRect.right + marge;
@@ -175,7 +175,7 @@ void PluginsAdminDlg::create(int dialogID, bool isRTL, bool msgDestParent)
 	::MoveWindow(hNextButton, researchNextRect.left, researchNextRect.top, researchNextRect.right, researchNextRect.bottom, TRUE);
 	::InvalidateRect(hNextButton, nullptr, TRUE);
 
-	Upp::Ctrl* hActionButton = ::GetDlgItem(_hSelf, IDC_PLUGINADM_INSTALL);
+	Window* hActionButton = ::GetDlgItem(_hSelf, IDC_PLUGINADM_INSTALL);
 	Rect actionRect;
 	::GetClientRect(hActionButton, &actionRect);
 	long w = actionRect.right - actionRect.left;
@@ -260,7 +260,7 @@ void PluginsAdminDlg::create(int dialogID, bool isRTL, bool msgDestParent)
 
 	_installedList.reSizeView(listRect);
 
-	Upp::Ctrl* hDesc = ::GetDlgItem(_hSelf, IDC_PLUGINADM_EDIT);
+	Window* hDesc = ::GetDlgItem(_hSelf, IDC_PLUGINADM_EDIT);
 	::MoveWindow(hDesc, descRect.left, descRect.top, descRect.right, descRect.bottom, TRUE);
 	::InvalidateRect(hDesc, nullptr, TRUE);
 
@@ -347,7 +347,7 @@ bool PluginsAdminDlg::exitToInstallRemovePlugins(Operation op, const vector<Plug
 	String updaterParams = opStr;
 
 	char nppFullPath[MAX_PATH];
-	::GetModuleFileName(Null, nppFullPath, MAX_PATH);
+	::GetModuleFileName(nullptr, nppFullPath, MAX_PATH);
 	updaterParams += TEXT("\"");
 	updaterParams += nppFullPath;
 	updaterParams += TEXT("\" ");
@@ -570,7 +570,7 @@ std::pair<std::pair<Version, Version>, std::pair<Version, Version>> getTwoInterv
 	std::pair<std::pair<Version, Version>, std::pair<Version, Version>> r;
 	String sep = TEXT("][");
 	String::size_type pos = twoIntervalVerStr.find(sep, 0);
-	if (pos == string::npos)
+	if (pos == String::npos)
 		return r;
 
 	String intervalStr1 = twoIntervalVerStr.substr(0, pos + 1);
@@ -598,23 +598,23 @@ bool loadFromJson(std::vector<PluginUpdateInfo*>& pl, const json& j)
 		try {
 			PluginUpdateInfo* pi = new PluginUpdateInfo();
 
-			string valStr = i.at("folder-name").get<std::string>();
+			String valStr = i.at("folder-name").get<String>();
 			pi->_folderName = wmc.char2wchar(valStr.Begin(), CP_ACP);
 
-			valStr = i.at("display-name").get<std::string>();
+			valStr = i.at("display-name").get<String>();
 			pi->_displayName = wmc.char2wchar(valStr.Begin(), CP_ACP);
 
-			valStr = i.at("author").get<std::string>();
+			valStr = i.at("author").get<String>();
 			pi->_author = wmc.char2wchar(valStr.Begin(), CP_UTF8);
 
-			valStr = i.at("description").get<std::string>();
+			valStr = i.at("description").get<String>();
 			pi->_description = wmc.char2wchar(valStr.Begin(), CP_UTF8);
 
-			valStr = i.at("id").get<std::string>();
+			valStr = i.at("id").get<String>();
 			pi->_id = wmc.char2wchar(valStr.Begin(), CP_ACP);
 
 			try {
-				valStr = i.at("version").get<std::string>();
+				valStr = i.at("version").get<String>();
 				String newValStr(valStr.begin(), valStr.end());
 				pi->_version = Version(newValStr);
 
@@ -622,7 +622,7 @@ bool loadFromJson(std::vector<PluginUpdateInfo*>& pl, const json& j)
 				{
 					json jNppCompatibleVer = i["npp-compatible-versions"];
 
-					string versionsStr = jNppCompatibleVer.get<std::string>();
+					String versionsStr = jNppCompatibleVer.get<String>();
 					String nppCompatibleVersionStr(versionsStr.begin(), versionsStr.end());
 					pi->_nppCompatibleVersions = getIntervalVersions(nppCompatibleVersionStr);
 				}
@@ -631,7 +631,7 @@ bool loadFromJson(std::vector<PluginUpdateInfo*>& pl, const json& j)
 				{
 					json jOldVerCompatibility = i["old-versions-compatibility"];
 
-					string versionsStr = jOldVerCompatibility.get<std::string>();
+					String versionsStr = jOldVerCompatibility.get<String>();
 					String oldVerCompatibilityStr(versionsStr.begin(), versionsStr.end());
 					pi->_oldVersionCompatibility = getTwoIntervalVersions(oldVerCompatibilityStr);
 				}
@@ -642,10 +642,10 @@ bool loadFromJson(std::vector<PluginUpdateInfo*>& pl, const json& j)
 				msg += L": ";
 				throw msg + s;
 			}
-			valStr = i.at("repository").get<std::string>();
+			valStr = i.at("repository").get<String>();
 			pi->_repository = wmc.char2wchar(valStr.Begin(), CP_ACP);
 
-			valStr = i.at("homepage").get<std::string>();
+			valStr = i.at("homepage").get<String>();
 			pi->_homepage = wmc.char2wchar(valStr.Begin(), CP_ACP);
 
 			pl.push_back(pi);
@@ -653,20 +653,20 @@ bool loadFromJson(std::vector<PluginUpdateInfo*>& pl, const json& j)
 #ifdef DEBUG
 		catch (const wstring& s)
 		{
-			::MessageBox(Null, s.Begin(), TEXT("Exception caught in: PluginsAdmin loadFromJson()"), MB_ICONERROR);
+			::MessageBox(nullptr, s.Begin(), TEXT("Exception caught in: PluginsAdmin loadFromJson()"), MB_ICONERROR);
 			continue;
 		}
 
 		catch (std::exception& e)
 		{
-			::MessageBoxA(Null, e.what(), "Exception caught in: PluginsAdmin loadFromJson()", MB_ICONERROR);
+			::MessageBoxA(nullptr, e.what(), "Exception caught in: PluginsAdmin loadFromJson()", MB_ICONERROR);
 			continue;
 		}
 #endif
 		catch (...) // If one of mandatory properties is missing or with the incorrect format, an exception is thrown then this plugin will be ignored
 		{
 #ifdef DEBUG
-			::MessageBoxA(Null, "An unknown exception is just caught", "Unknown Exception", MB_OK);
+			::MessageBoxA(nullptr, "An unknown exception is just caught", "Unknown Exception", MB_OK);
 #endif
 			continue; 
 		}
@@ -682,7 +682,7 @@ PluginUpdateInfo::PluginUpdateInfo(const char* fullFilePath, const char* filenam
 	_fullFilePath = fullFilePath;
 	_displayName = filename;
 
-	std::string content = getFileContent(fullFilePath.Begin());
+	String content = getFileContent(fullFilePath.Begin());
 	if (content.IsEmpty())
 		return;
 
@@ -737,7 +737,7 @@ bool PluginsAdminDlg::initFromJson()
 
 	if (isSecured)
 	{
-		HMODULE hLib = Null;
+		HMODULE hLib = nullptr;
 		hLib = ::LoadLibraryEx(_pluginListFullPath.Begin(), 0, LOAD_LIBRARY_AS_DATAFILE_EXCLUSIVE);
 
 		if (!hLib)
@@ -798,7 +798,7 @@ bool PluginsAdminDlg::updateList()
 bool PluginsAdminDlg::initAvailablePluginsViewFromList()
 {
 	char nppFullPathName[MAX_PATH];
-	GetModuleFileName(Null, nppFullPathName, MAX_PATH);
+	GetModuleFileName(nullptr, nppFullPathName, MAX_PATH);
 
 	Version nppVer;
 	nppVer.setVersionFrom(nppFullPathName);
@@ -1073,9 +1073,9 @@ void PluginsAdminDlg::switchDialog(int indexToSwitch)
 
 	::SetDlgItemText(_hSelf, IDC_PLUGINADM_EDIT, desc.Begin());
 
-	Upp::Ctrl* hInstallButton = ::GetDlgItem(_hSelf, IDC_PLUGINADM_INSTALL);
-	Upp::Ctrl* hUpdateButton = ::GetDlgItem(_hSelf, IDC_PLUGINADM_UPDATE);
-	Upp::Ctrl* hRemoveButton = ::GetDlgItem(_hSelf, IDC_PLUGINADM_REMOVE);
+	Window* hInstallButton = ::GetDlgItem(_hSelf, IDC_PLUGINADM_INSTALL);
+	Window* hUpdateButton = ::GetDlgItem(_hSelf, IDC_PLUGINADM_UPDATE);
+	Window* hRemoveButton = ::GetDlgItem(_hSelf, IDC_PLUGINADM_REMOVE);
 
 	::ShowWindow(hInstallButton, showAvailable ? SW_SHOW : SW_HIDE);
 	if (showAvailable)
@@ -1128,7 +1128,7 @@ intptr_t CALLBACK PluginsAdminDlg::run_dlgProc(UINT message, WPARAM wParam, LPAR
 		{
 			if (NppDarkMode::isEnabled())
 			{
-				Upp::Ctrl* hwnd = reinterpret_cast<Upp::Ctrl*>(lParam);
+				Window* hwnd = reinterpret_cast<Window*>(lParam);
 				if (hwnd == ::GetDlgItem(_hSelf, IDC_PLUGINADM_EDIT))
 				{
 					return NppDarkMode::onCtlColor(reinterpret_cast<HDC>(wParam));
@@ -1210,7 +1210,7 @@ intptr_t CALLBACK PluginsAdminDlg::run_dlgProc(UINT message, WPARAM wParam, LPAR
 			LPNMHDR pnmh = reinterpret_cast<LPNMHDR>(lParam);
 			if (pnmh->code == TCN_SELCHANGE)
 			{
-				Upp::Ctrl* tabHandle = _tab.getHSelf();
+				Window* tabHandle = _tab.getHSelf();
 				if (pnmh->hwndFrom == tabHandle)
 				{
 					int indexClicked = int(::SendMessage(tabHandle, TCM_GETCURSEL, 0, 0));
@@ -1249,7 +1249,7 @@ intptr_t CALLBACK PluginsAdminDlg::run_dlgProc(UINT message, WPARAM wParam, LPAR
 						if ((pnmv->uNewState & LVIS_STATEIMAGEMASK) == INDEXTOSTATEIMAGEMASK(2) || // checked
 							(pnmv->uNewState & LVIS_STATEIMAGEMASK) == INDEXTOSTATEIMAGEMASK(1))   // unchecked
 						{
-							Upp::Ctrl* hButton = ::GetDlgItem(_hSelf, buttonID);
+							Window* hButton = ::GetDlgItem(_hSelf, buttonID);
 							vector<size_t> checkedArray = pViewList->getCheckedIndexes();
 							bool showButton = checkedArray.size() > 0;
 

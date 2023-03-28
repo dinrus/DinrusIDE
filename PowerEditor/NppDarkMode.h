@@ -31,18 +31,18 @@ namespace NppDarkMode
 {
 	struct Colors
 	{
-		Color& background;
-		Color& softerBackground;
-		Color& hotBackground;
-		Color& pureBackground ;
-		Color& errorBackground;
-		Color& text;
-		Color& darkerText;
-		Color& disabledText;
-		Color& linkText;
-		Color& edge;
-		Color& hotEdge;
-		Color& disabledEdge;
+		Color background;
+		Color softerBackground;
+		Color hotBackground;
+		Color pureBackground ;
+		Color errorBackground;
+		Color text;
+		Color darkerText;
+		Color disabledText;
+		Color linkText;
+		Color edge;
+		Color hotEdge;
+		Color disabledEdge;
 	};
 
 	struct Options
@@ -80,7 +80,7 @@ namespace NppDarkMode
 	};
 
 	void initDarkMode();				// pulls options from NppParameters
-	void refreshDarkMode(Upp::Ctrl* hwnd, bool forceRefresh = false);	// attempts to apply new options from NppParameters, sends NPPM_INTERNAL_REFRESHDARKMODE to hwnd's top level parent
+	void refreshDarkMode(Window* hwnd, bool forceRefresh = false);	// attempts to apply new options from NppParameters, sends NPPM_INTERNAL_REFRESHDARKMODE to hwnd's top level parent
 
 	bool isEnabled();
 	bool isDarkMenuEnabled();
@@ -142,55 +142,55 @@ namespace NppDarkMode
 	void changeCustomTheme(const Colors& colors);
 
 	// handle events
-	void handleSettingChange(Upp::Ctrl* hwnd, LPARAM lParam);
+	void handleSettingChange(Window* hwnd, LPARAM lParam);
 
 	// processes messages related to UAH / custom menubar drawing.
 	// return true if handled, false to continue with normal processing in your wndproc
-	bool runUAHWndProc(Upp::Ctrl* hWnd, UINT message, WPARAM wParam, LPARAM lParam, LRESULT* lr);
-	void drawUAHMenuNCBottomLine(Upp::Ctrl* hWnd);
+	bool runUAHWndProc(Window* hWnd, UINT message, WPARAM wParam, LPARAM lParam, LRESULT* lr);
+	void drawUAHMenuNCBottomLine(Window* hWnd);
 
 	// from DarkMode.h
 	void initExperimentalDarkMode();
 	void setDarkMode(bool useDark, bool fixDarkScrollbar);
 	void allowDarkModeForApp(bool allow);
-	bool allowDarkModeForWindow(Upp::Ctrl* hWnd, bool allow);
-	void setTitleBarThemeColor(Upp::Ctrl* hWnd);
+	bool allowDarkModeForWindow(Window* hWnd, bool allow);
+	void setTitleBarThemeColor(Window* hWnd);
 
 	// enhancements to DarkMode.h
-	void enableDarkScrollBarForWindowAndChildren(Upp::Ctrl* hwnd);
+	void enableDarkScrollBarForWindowAndChildren(Window* hwnd);
 
 	inline void paintRoundFrameRect(HDC hdc, const Rect rect, const HPEN hpen, int width = 0, int height = 0);
 
-	void subclassButtonControl(Upp::Ctrl* hwnd);
-	void subclassGroupboxControl(Upp::Ctrl* hwnd);
-	void subclassTabControl(Upp::Ctrl* hwnd);
-	void subclassComboBoxControl(Upp::Ctrl* hwnd);
+	void subclassButtonControl(Window* hwnd);
+	void subclassGroupboxControl(Window* hwnd);
+	void subclassTabControl(Window* hwnd);
+	void subclassComboBoxControl(Window* hwnd);
 
-	void autoSubclassAndThemeChildControls(Upp::Ctrl* hwndParent, bool subclass = true, bool theme = true);
-	void autoThemeChildControls(Upp::Ctrl* hwndParent);
+	void autoSubclassAndThemeChildControls(Window* hwndParent, bool subclass = true, bool theme = true);
+	void autoThemeChildControls(Window* hwndParent);
 
 	LRESULT darkToolBarNotifyCustomDraw(LPARAM lParam);
-	LRESULT darkListViewNotifyCustomDraw(Upp::Ctrl* hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, bool isPlugin);
+	LRESULT darkListViewNotifyCustomDraw(Window* hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, bool isPlugin);
 	LRESULT darkTreeViewNotifyCustomDraw(LPARAM lParam);
 
-	void autoSubclassAndThemePluginDockWindow(Upp::Ctrl* hwnd);
-	void autoSubclassAndThemeWindowNotify(Upp::Ctrl* hwnd);
+	void autoSubclassAndThemePluginDockWindow(Window* hwnd);
+	void autoSubclassAndThemeWindowNotify(Window* hwnd);
 
-	bool subclassTabUpDownControl(Upp::Ctrl* hwnd);
+	bool subclassTabUpDownControl(Window* hwnd);
 
-	void setDarkTitleBar(Upp::Ctrl* hwnd);
-	void setDarkExplorerTheme(Upp::Ctrl* hwnd);
-	void setDarkScrollBar(Upp::Ctrl* hwnd);
-	void setDarkTooltips(Upp::Ctrl* hwnd, ToolTipsType type);
-	void setDarkLineAbovePanelToolbar(Upp::Ctrl* hwnd);
-	void setDarkListView(Upp::Ctrl* hwnd);
+	void setDarkTitleBar(Window* hwnd);
+	void setDarkExplorerTheme(Window* hwnd);
+	void setDarkScrollBar(Window* hwnd);
+	void setDarkTooltips(Window* hwnd, ToolTipsType type);
+	void setDarkLineAbovePanelToolbar(Window* hwnd);
+	void setDarkListView(Window* hwnd);
 
-	void disableVisualStyle(Upp::Ctrl* hwnd, bool doDisable);
+	void disableVisualStyle(Window* hwnd, bool doDisable);
 	void calculateTreeViewStyle();
-	void setTreeViewStyle(Upp::Ctrl* hwnd);
-	void setBorder(Upp::Ctrl* hwnd, bool border = true);
+	void setTreeViewStyle(Window* hwnd);
+	void setBorder(Window* hwnd, bool border = true);
 
-	BOOL CALLBACK enumAutocompleteProc(Upp::Ctrl* hwnd, LPARAM lParam);
+	BOOL CALLBACK enumAutocompleteProc(Window* hwnd, LPARAM lParam);
 	void setDarkAutoCompletion();
 
 	LRESULT onCtlColor(HDC hdc);

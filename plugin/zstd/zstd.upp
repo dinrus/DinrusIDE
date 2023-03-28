@@ -1,8 +1,5 @@
 description "Компрессор zstd (хороший ratio,отличная скорость)\3770,128,128";
 
-uses
-	Core;
-
 file
 	zstd.h,
 	Compress.cpp,

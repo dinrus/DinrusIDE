@@ -31,7 +31,7 @@ const char * USERMSG = TEXT(" is not compatible with the current version of Note
 Do you want to remove this plugin from the plugins directory to prevent this message from the next launch?");
 
 
-bool PluginsManager::unloadPlugin(int index, Upp::Ctrl* nppHandle)
+bool PluginsManager::unloadPlugin(int index, Window* nppHandle)
 {
     SCNotification scnN;
 	scnN.nmhdr.code = NPPN_SHUTDOWN;
@@ -40,7 +40,7 @@ bool PluginsManager::unloadPlugin(int index, Upp::Ctrl* nppHandle)
 	_pluginInfos[index]->_pBeNotified(&scnN);
 
     //::DestroyMenu(_pluginInfos[index]->_pluginMenu);
-    //_pluginInfos[index]->_pluginMenu = Null;
+    //_pluginInfos[index]->_pluginMenu = nullptr;
 
 	if (::FreeLibrary(_pluginInfos[index]->_hLib))
 	{
@@ -60,21 +60,21 @@ bool PluginsManager::unloadPlugin(int index, Upp::Ctrl* nppHandle)
 
 static WORD getBinaryArchitectureType(const char *filePath)
 {
-	void* hFile = CreateFile(filePath, GENERIC_READ, FILE_SHARE_READ, Null, OPEN_EXISTING, FILE_ATTRIBUTE_READONLY, Null);
+	void* hFile = CreateFile(filePath, GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_READONLY, nullptr);
 	if (hFile == INVALID_HANDLE_VALUE)
 	{
 		return IMAGE_FILE_MACHINE_UNKNOWN;
 	}
 
-	void* hMapping = CreateFileMapping(hFile, Null, PAGE_READONLY | SEC_IMAGE, 0, 0, Null);
-	if (hMapping == Null)
+	void* hMapping = CreateFileMapping(hFile, nullptr, PAGE_READONLY | SEC_IMAGE, 0, 0, nullptr);
+	if (hMapping == nullptr)
 	{
 		CloseHandle(hFile);
 		return IMAGE_FILE_MACHINE_UNKNOWN;
 	}
 
 	LPVOID addrHeader = MapViewOfFile(hMapping, FILE_MAP_READ, 0, 0, 0);
-	if (addrHeader == Null) // couldn't memory map the file
+	if (addrHeader == nullptr) // couldn't memory map the file
 	{
 		CloseHandle(hFile);
 		CloseHandle(hMapping);
@@ -83,8 +83,8 @@ static WORD getBinaryArchitectureType(const char *filePath)
 
 	PIMAGE_NT_HEADERS peHdr = ImageNtHeader(addrHeader);
 
-	// Found the binary and architecture type, if peHdr is !Null
-	WORD machine_type = (peHdr == Null) ? IMAGE_FILE_MACHINE_UNKNOWN : peHdr->FileHeader.Machine;
+	// Found the binary and architecture type, if peHdr is !nullptr
+	WORD machine_type = (peHdr == nullptr) ? IMAGE_FILE_MACHINE_UNKNOWN : peHdr->FileHeader.Machine;
 
 	// release all of our handles
 	UnmapViewOfFile(addrHeader);
@@ -125,8 +125,8 @@ int PluginsManager::loadPluginFromPath(const char *pluginFilePath)
 			throw String(archErrMsg);
 		}
 
-        const dword dwFlags = GetProcAddress(GetModuleHandle(TEXT("kernel32.dll")), "AddDllDirectory") != Null ? LOAD_LIBRARY_SEARCH_DLL_LOAD_DIR | LOAD_LIBRARY_SEARCH_DEFAULT_DIRS : 0;
-        pi->_hLib = ::LoadLibraryEx(pluginFilePath, Null, dwFlags);
+        const dword dwFlags = GetProcAddress(GetModuleHandle(TEXT("kernel32.dll")), "AddDllDirectory") != nullptr ? LOAD_LIBRARY_SEARCH_DLL_LOAD_DIR | LOAD_LIBRARY_SEARCH_DEFAULT_DIRS : 0;
+        pi->_hLib = ::LoadLibraryEx(pluginFilePath, nullptr, dwFlags);
         if (!pi->_hLib)
         {
 			String lastErrorMsg = GetLastErrorAsString();
@@ -220,7 +220,7 @@ int PluginsManager::loadPluginFromPath(const char *pluginFilePath)
 				}
 				else
 				{
-					containers[x] = Null;
+					containers[x] = nullptr;
 				}
 			}
 
@@ -251,13 +251,13 @@ int PluginsManager::loadPluginFromPath(const char *pluginFilePath)
 			if (!pXmlDoc->LoadFile())
 			{
 				delete pXmlDoc;
-				pXmlDoc = Null;
+				pXmlDoc = nullptr;
 				throw String(String(xmlPath) + TEXT(" failed to load."));
 			}
 
 			for (int x = 0; x < numLexers; ++x) // postpone adding in case the xml is missing/corrupt
 			{
-				if (containers[x] != Null)
+				if (containers[x] != nullptr)
 					nppParams.addExternalLangToEnd(containers[x]);
 			}
 
@@ -346,7 +346,7 @@ bool PluginsManager::loadPlugins(const char* dir, const PluginViewList* pluginUp
 
 	// Get Notepad++ current version
 	char nppFullPathName[MAX_PATH];
-	GetModuleFileName(Null, nppFullPathName, MAX_PATH);
+	GetModuleFileName(nullptr, nppFullPathName, MAX_PATH);
 	Version nppVer;
 	nppVer.setVersionFrom(nppFullPathName);
 
@@ -536,7 +536,7 @@ void PluginsManager::addInMenuFromPMIndex(int i)
     unsigned short j = 0;
 	for ( ; j < _pluginInfos[i]->_nbFuncItem ; ++j)
 	{
-		if (_pluginInfos[i]->_funcItems[j]._pFunc == Null)
+		if (_pluginInfos[i]->_funcItems[j]._pFunc == nullptr)
 		{
 			::InsertMenu(_pluginInfos[i]->_pluginMenu, j, MF_BYPOSITION | MF_SEPARATOR, 0, TEXT(""));
 			continue;
@@ -601,7 +601,7 @@ void PluginsManager::runPluginCommand(size_t i)
 {
 	if (i < _pluginsCommands.size())
 	{
-		if (_pluginsCommands[i]._pFunc != Null)
+		if (_pluginsCommands[i]._pFunc != nullptr)
 		{
 			try
 			{
@@ -609,7 +609,7 @@ void PluginsManager::runPluginCommand(size_t i)
 			}
 			catch (std::exception& e)
 			{
-				::MessageBoxA(Null, e.what(), "PluginsManager::runPluginCommand Exception", MB_OK);
+				::MessageBoxA(nullptr, e.what(), "PluginsManager::runPluginCommand Exception", MB_OK);
 			}
 			catch (...)
 			{

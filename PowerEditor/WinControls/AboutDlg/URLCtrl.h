@@ -20,30 +20,31 @@
 #include <PowerEditor/WinControls/Window.h>
 
 //#include <PowerEditor/MISC/Common/Common.h>
-
-class URLCtrl : public Window {
-public:
-    void create(Upp::Ctrl* itemHandle, const char * link, const Color& linkColor = Color(0,0,255));
-	void create(Upp::Ctrl* itemHandle, int cmd, Upp::Ctrl* msgDest = nullptr);
-    void destroy();
-private:
-	void action();
-protected :
-    String _URL;
-    HFONT _hfUnderlined = nullptr;
-    HCURSOR _hCursor = nullptr;
-
-	Upp::Ctrl* _msgDest = nullptr;
-	unsigned long _cmdID = 0;
-
-    WNDPROC  _oldproc = nullptr;
-    const Color& _linkColor = Color(0xFF, 0xFF, 0xFF);
-    const Color& _visitedColor = Color(0xFF, 0xFF, 0xFF);
-    bool  _clicking = false;
-
-    static LRESULT CALLBACK URLCtrlProc(Upp::Ctrl* hwnd, UINT Message, WPARAM wParam, LPARAM lParam){
-        return ((URLCtrl *)(::GetWindowLongPtr((HWND) hwnd, GWLP_USERDATA)))->runProc(hwnd, Message, wParam, lParam);
-    };
-    LRESULT runProc(Upp::Ctrl* hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
-};
-
+namespace Upp{
+	
+	class URLCtrl : public Window {
+	public:
+	    void create(Window* itemHandle, const char * link, const Color& linkColor = Color(0,0,255));
+		void create(Window* itemHandle, int cmd, Window* msgDest = nullptr);
+	    void destroy();
+	private:
+		void action();
+	protected :
+	    String _URL;
+	    HFONT _hfUnderlined = nullptr;
+	    HCURSOR _hCursor = nullptr;
+	
+		Window* _msgDest = nullptr;
+		unsigned long _cmdID = 0;
+	
+	    WNDPROC  _oldproc = nullptr;
+	    const Color& _linkColor = Color(0xFF, 0xFF, 0xFF);
+	    const Color& _visitedColor = Color(0xFF, 0xFF, 0xFF);
+	    bool  _clicking = false;
+	
+	    static LRESULT CALLBACK URLCtrlProc(Window* hwnd, UINT Message, WPARAM wParam, LPARAM lParam){
+	        return ((URLCtrl *)(::GetWindowLongPtr((HWND) hwnd, GWLP_USERDATA)))->runProc(hwnd, Message, wParam, lParam);
+	    };
+	    LRESULT runProc(Window* hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
+	};
+}

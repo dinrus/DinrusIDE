@@ -38,9 +38,9 @@ public:
 	TreeView() = default;
 	virtual ~TreeView() = default;
 
-	virtual void init(Ctrl& hInst, Upp::Ctrl* parent, int treeViewID);
+	virtual void init(Window& hInst, Window* parent, int treeViewID);
 	virtual void destroy();
-	HTREEITEM addItem(const char *itemName, HTREEITEM hParentItem, int iImage, LPARAM lParam = Null);
+	HTREEITEM addItem(const char *itemName, HTREEITEM hParentItem, int iImage, LPARAM lParam = nullptr);
 	bool setItemParam(HTREEITEM Item2Set, LPARAM param);
 	LPARAM getItemParam(HTREEITEM Item2Get) const;
 	String getItemDisplayName(HTREEITEM Item2Set) const;
@@ -98,7 +98,7 @@ public:
 
 	// Drag and Drop operations
 	void beginDrag(NMTREEVIEW* tv);
-	void dragItem(Upp::Ctrl* parentHandle, int x, int y);
+	void dragItem(Window* parentHandle, int x, int y);
 	bool isDragging() const {
 		return _isItemDragged;
 	};
@@ -116,7 +116,7 @@ public:
 	bool swapTreeViewItem(HTREEITEM itemGoDown, HTREEITEM itemGoUp);
 	bool restoreFoldingStateFrom(const TreeStateNode & treeState2Compare, HTREEITEM treeviewNode);
 	bool retrieveFoldingStateTo(TreeStateNode & treeState2Construct, HTREEITEM treeviewNode);
-	bool searchLeafAndBuildTree(TreeView & tree2Build, const String & text2Search, int index2Search);
+	bool searchLeafAndBuildTree(TreeView & tree2Build, const String& text2Search, int index2Search);
 	void sort(HTREEITEM hTreeItem, bool isRecusive);
 	void customSorting(HTREEITEM hTreeItem, PFNTVCOMPARE sortingCallbackFunc, LPARAM lParam, bool isRecursive);
 	BOOL setImageList(int w, int h, int nbImage, int image_id, ...);
@@ -124,15 +124,15 @@ public:
 protected:
 	HIMAGELIST _hImaLst = nullptr;
 	WNDPROC _defaultProc = nullptr;
-	LRESULT runProc(Upp::Ctrl* hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
+	LRESULT runProc(Window* hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
 
-	static LRESULT CALLBACK staticProc(Upp::Ctrl* hwnd, UINT Message, WPARAM wParam, LPARAM lParam) {
+	static LRESULT CALLBACK staticProc(Window* hwnd, UINT Message, WPARAM wParam, LPARAM lParam) {
 		return (((TreeView *)(::GetWindowLongPtr(hwnd, GWLP_USERDATA)))->runProc(hwnd, Message, wParam, lParam));
 	};
 
 	void cleanSubEntries(HTREEITEM hTreeItem);
 	void dupTree(HTREEITEM hTree2Dup, HTREEITEM hParentItem);
-	bool searchLeafRecusivelyAndBuildTree(HTREEITEM tree2Build, const String & text2Search, int index2Search, HTREEITEM tree2Search);
+	bool searchLeafRecusivelyAndBuildTree(HTREEITEM tree2Build, const String& text2Search, int index2Search, HTREEITEM tree2Search);
 
 	// Drag and Drop operations
 	HTREEITEM _draggedItem = nullptr;

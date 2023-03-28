@@ -62,7 +62,7 @@ CReadChangesRequest::CReadChangesRequest(CReadChangesServer* pServer, LPCTSTR s,
 CReadChangesRequest::~CReadChangesRequest()
 {
 	// RequestTermination() must have been called successfully.
-	assert(m_hDirectory == Null);
+	assert(m_hDirectory == NULL);
 }
 
 
@@ -78,11 +78,11 @@ bool CReadChangesRequest::OpenDirectory()
 		FILE_SHARE_READ						// share mode
 		 | FILE_SHARE_WRITE
 		 | FILE_SHARE_DELETE,
-		Null,                               // security descriptor
+		NULL,                               // security descriptor
 		OPEN_EXISTING,                      // how to create
 		FILE_FLAG_BACKUP_SEMANTICS			// file attributes
 		 | FILE_FLAG_OVERLAPPED,
-		Null);                              // file with attributes to copy
+		NULL);                              // file with attributes to copy
 
 	if (m_hDirectory == INVALID_HANDLE_VALUE)
 	{

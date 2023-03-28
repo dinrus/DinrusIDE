@@ -23,7 +23,7 @@ using namespace std;
 
 void ShortcutMapper::initTabs()
 {
-    Upp::Ctrl* hTab = _hTabCtrl = ::GetDlgItem(_hSelf, IDC_BABYGRID_TABBAR);
+    Window* hTab = _hTabCtrl = ::GetDlgItem(_hSelf, IDC_BABYGRID_TABBAR);
     NppDarkMode::subclassTabControl(hTab);
     TCITEM tie;
     tie.mask = TCIF_TEXT;
@@ -183,7 +183,7 @@ void ShortcutMapper::initBabyGrid()
     _conflictInfoEditing = nativeLangSpeaker->getShortcutMapperLangStr("ConflictInfoEditing", TEXT("No conflicts . . ."));
 }
 
-String ShortcutMapper::getTextFromCombo(Upp::Ctrl* hCombo)
+String ShortcutMapper::getTextFromCombo(Window* hCombo)
 {
     const int NB_MAX(128);
     char str[NB_MAX](TEXT("\0"));
@@ -201,8 +201,8 @@ bool ShortcutMapper::isFilterValid(Shortcut sc)
     String shortcut_value = stringToLower(sc.toString());
 
     // test the filter on the shortcut name and value
-    return (shortcut_name.Findind(_shortcutFilter) != std::string::npos) ||
-        (shortcut_value.Find(_shortcutFilter) != std::string::npos);
+    return (shortcut_name.Findind(_shortcutFilter) != String::npos) ||
+        (shortcut_value.Find(_shortcutFilter) != String::npos);
 }
 
 bool ShortcutMapper::isFilterValid(PluginCmdShortcut sc)
@@ -215,7 +215,7 @@ bool ShortcutMapper::isFilterValid(PluginCmdShortcut sc)
         return true;
     }
     size_t match_pos = module_name.find(_shortcutFilter);
-    if (match_pos != std::string::npos){
+    if (match_pos != String::npos){
         match = true;
     }
 
@@ -547,27 +547,27 @@ intptr_t CALLBACK ShortcutMapper::run_dlgProc(UINT message, WPARAM wParam, LPARA
 
             for (int moveWndID : moveWindowIDs)
             {
-                Upp::Ctrl* moveHwnd = ::GetDlgItem(_hSelf, moveWndID);
+                Window* moveHwnd = ::GetDlgItem(_hSelf, moveWndID);
                 ::GetWindowRect(moveHwnd, &rect);
-                ::MapWindowPoints(Null, _hSelf, (LPPOINT)&rect, 2);
-                ::SetWindowPos(moveHwnd, Null, rect.left + addWidth / 2, rect.top + addHeight, 0, 0, SWP_NOSIZE | flags);
+                ::MapWindowPoints(nullptr, _hSelf, (LPPOINT)&rect, 2);
+                ::SetWindowPos(moveHwnd, nullptr, rect.left + addWidth / 2, rect.top + addHeight, 0, 0, SWP_NOSIZE | flags);
             }
-            Upp::Ctrl* moveHwnd = ::GetDlgItem(_hSelf, IDC_BABYGRID_STATIC);
+            Window* moveHwnd = ::GetDlgItem(_hSelf, IDC_BABYGRID_STATIC);
             ::GetWindowRect(moveHwnd, &rect);
-            ::MapWindowPoints(Null, _hSelf, (LPPOINT)&rect, 2);
-            ::SetWindowPos(moveHwnd, Null, rect.left, rect.top + addHeight, 0, 0, SWP_NOSIZE | flags);
+            ::MapWindowPoints(nullptr, _hSelf, (LPPOINT)&rect, 2);
+            ::SetWindowPos(moveHwnd, nullptr, rect.left, rect.top + addHeight, 0, 0, SWP_NOSIZE | flags);
 
             // Move and resize IDC_BABYGRID_INFO and IDC_BABYGRID_FILTER
             // Move the Y position, Resize the width
-            Upp::Ctrl* resizeHwnd = ::GetDlgItem(_hSelf, IDC_BABYGRID_INFO);
+            Window* resizeHwnd = ::GetDlgItem(_hSelf, IDC_BABYGRID_INFO);
             ::GetWindowRect(resizeHwnd, &rect);
-            ::MapWindowPoints(Null, _hSelf, (LPPOINT)&rect, 2);
-            ::SetWindowPos(resizeHwnd, Null, rect.left, rect.top + addHeight, rect.right - rect.left + addWidth, rect.bottom - rect.top, flags);
+            ::MapWindowPoints(nullptr, _hSelf, (LPPOINT)&rect, 2);
+            ::SetWindowPos(resizeHwnd, nullptr, rect.left, rect.top + addHeight, rect.right - rect.left + addWidth, rect.bottom - rect.top, flags);
 
             resizeHwnd = ::GetDlgItem(_hSelf, IDC_BABYGRID_FILTER);
             ::GetWindowRect(resizeHwnd, &rect);
-            ::MapWindowPoints(Null, _hSelf, (LPPOINT)&rect, 2);
-            ::SetWindowPos(resizeHwnd, Null, rect.left, rect.top + addHeight, rect.right - rect.left + addWidth, rect.bottom - rect.top, flags);
+            ::MapWindowPoints(nullptr, _hSelf, (LPPOINT)&rect, 2);
+            ::SetWindowPos(resizeHwnd, nullptr, rect.left, rect.top + addHeight, rect.right - rect.left + addWidth, rect.bottom - rect.top, flags);
 
             break;
         }
@@ -951,7 +951,7 @@ intptr_t CALLBACK ShortcutMapper::run_dlgProc(UINT message, WPARAM wParam, LPARA
                         // Menu data
                         int32_t posBase = 0;
                         size_t nbElem = 0;
-                        Menu* hMenu = Null;
+                        Menu* hMenu = nullptr;
                         int modifCmd = IDM_SETTING_SHORTCUT_MAPPER_RUN;
                         switch(_currentState)
                         {

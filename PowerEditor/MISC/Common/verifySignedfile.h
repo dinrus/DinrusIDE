@@ -45,7 +45,7 @@
 */
 #pragma once
 
-#include <string>
+//#include <string>
 #include <vector>
 
 enum SecurityMode { sm_certif = 0, sm_sha256 = 1 };

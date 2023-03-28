@@ -36,7 +36,7 @@ void StaticDialog::destroy()
 	::DestroyWindow(_hSelf);
 }
 
-POINT StaticDialog::getTopPoint(Upp::Ctrl* hwnd, bool isLeft) const
+POINT StaticDialog::getTopPoint(Window* hwnd, bool isLeft) const
 {
 	Rect rc;
 	::GetWindowRect(hwnd, &rc);
@@ -124,7 +124,7 @@ Rect StaticDialog::getViewablePositionRect(Rect testPositionRc) const
 
 	bool rectPosViewableWithoutChange = false;
 
-	if (hMon != Null)
+	if (hMon != nullptr)
 	{
 		// rect would be at least partially visible on a monitor
 
@@ -177,15 +177,15 @@ HGLOBAL StaticDialog::makeRTLResource(int dialogID, DLGTEMPLATE **ppMyDlgTemplat
 	// Get Dlg Template resource
 	HRSRC  hDialogRC = ::FindResource(_hInst, MAKEINTRESOURCE(dialogID), RT_DIALOG);
 	if (!hDialogRC)
-		return Null;
+		return nullptr;
 
 	HGLOBAL  hDlgTemplate = ::LoadResource(_hInst, hDialogRC);
 	if (!hDlgTemplate)
-		return Null;
+		return nullptr;
 
 	DLGTEMPLATE *pDlgTemplate = static_cast<DLGTEMPLATE *>(::LockResource(hDlgTemplate));
 	if (!pDlgTemplate)
-		return Null;
+		return nullptr;
 
 	// Duplicate Dlg Template resource
 	unsigned long sizeDlg = ::SizeofResource(_hInst, hDialogRC);
@@ -212,7 +212,7 @@ void StaticDialog::create(int dialogID, bool isRTL, bool msgDestParent)
 {
 	if (isRTL)
 	{
-		DLGTEMPLATE *pMyDlgTemplate = Null;
+		DLGTEMPLATE *pMyDlgTemplate = nullptr;
 		HGLOBAL hMyDlgTemplate = makeRTLResource(dialogID, &pMyDlgTemplate);
 		_hSelf = ::CreateDialogIndirectParam(_hInst, pMyDlgTemplate, _hParent, dlgProc, reinterpret_cast<LPARAM>(this));
 		::GlobalFree(hMyDlgTemplate);
@@ -222,9 +222,9 @@ void StaticDialog::create(int dialogID, bool isRTL, bool msgDestParent)
 
 	if (!_hSelf)
 	{
-		String errMsg = TEXT("CreateDialogParam() return Null.\rGetLastError(): ");
+		String errMsg = TEXT("CreateDialogParam() return nullptr.\rGetLastError(): ");
 		errMsg += GetLastErrorAsString();
-		::MessageBox(Null, errMsg.Begin(), TEXT("In StaticDialog::create()"), MB_OK);
+		::MessageBox(nullptr, errMsg.Begin(), TEXT("In StaticDialog::create()"), MB_OK);
 		return;
 	}
 
@@ -234,7 +234,7 @@ void StaticDialog::create(int dialogID, bool isRTL, bool msgDestParent)
 	::SendMessage(msgDestParent ? _hParent : (::GetParent(_hParent)), NPPM_MODELESSDIALOG, MODELESSDIALOGADD, reinterpret_cast<WPARAM>(_hSelf));
 }
 
-intptr_t CALLBACK StaticDialog::dlgProc(Upp::Ctrl* hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+intptr_t CALLBACK StaticDialog::dlgProc(Window* hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch (message)
 	{

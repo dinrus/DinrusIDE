@@ -20,7 +20,7 @@
 #include <PowerEditor/menuCmdID.h>
 #include <PowerEditor/NppDarkMode.h>
 
-void ValueDlg::init(Ctrl& hInst, Upp::Ctrl* parent, int valueToSet, const char *text)
+void ValueDlg::init(Window& hInst, Window* parent, int valueToSet, const char *text)
 {
 	Window::init(hInst, parent);
 	_defaultValue = valueToSet;
@@ -32,7 +32,7 @@ int ValueDlg::doDialog(POINT p, bool isRTL)
 	_p = p;
 	if (isRTL)
 	{
-		DLGTEMPLATE *pMyDlgTemplate = Null;
+		DLGTEMPLATE *pMyDlgTemplate = nullptr;
 		HGLOBAL hMyDlgTemplate = makeRTLResource(IDD_VALUE_DLG, &pMyDlgTemplate);
 		int result = static_cast<int32_t>(::DialogBoxIndirectParam(_hInst, pMyDlgTemplate, _hParent, dlgProc, reinterpret_cast<LPARAM>(this)));
 		::GlobalFree(hMyDlgTemplate);
@@ -48,7 +48,7 @@ int ValueDlg::reSizeValueBox()
 	Rect rect;
 	POINT p;
 
-	Upp::Ctrl* hEdit = ::GetDlgItem(_hSelf, IDC_VALUE_EDIT);
+	Window* hEdit = ::GetDlgItem(_hSelf, IDC_VALUE_EDIT);
 
 	//get screen coordonnees (x,y)
 	::GetWindowRect(hEdit, &rect);
@@ -144,7 +144,7 @@ intptr_t CALLBACK ValueDlg::run_dlgProc(UINT Message, WPARAM wParam, LPARAM)
 			{
 				case IDOK :
 				{
-					int i = ::GetDlgItemInt(_hSelf, IDC_VALUE_EDIT, Null, FALSE);
+					int i = ::GetDlgItemInt(_hSelf, IDC_VALUE_EDIT, nullptr, FALSE);
 					::EndDialog(_hSelf, i);
 					return TRUE;
 				}

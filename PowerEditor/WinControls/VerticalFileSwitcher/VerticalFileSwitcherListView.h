@@ -46,7 +46,7 @@ public:
 	VerticalFileSwitcherListView() = default;
 	virtual ~VerticalFileSwitcherListView() = default;
 
-	virtual void init(Ctrl& hInst, Upp::Ctrl* parent, HIMAGELIST hImaLst);
+	virtual void init(Window& hInst, Window* parent, HIMAGELIST hImaLst);
 	virtual void destroy();
 	void initList();
 	BufferID getBufferInfoFromIndex(int index, int & view) const;
@@ -91,9 +91,9 @@ protected:
 
 	int _currentIndex = 0;
 
-	LRESULT runProc(Upp::Ctrl* hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
+	LRESULT runProc(Window* hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
 
-	static LRESULT CALLBACK staticProc(Upp::Ctrl* hwnd, UINT Message, WPARAM wParam, LPARAM lParam) {
+	static LRESULT CALLBACK staticProc(Window* hwnd, UINT Message, WPARAM wParam, LPARAM lParam) {
 		return (((VerticalFileSwitcherListView *)(::GetWindowLongPtr(hwnd, GWLP_USERDATA)))->runProc(hwnd, Message, wParam, lParam));
 	};
 

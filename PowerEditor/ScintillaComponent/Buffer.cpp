@@ -144,7 +144,7 @@ void SciBuffer::updateTimeStamp()
 				pathAppend(nppIssueLog, issueFn);
 
 				std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
-				std::string msg = converter.to_bytes(_fullPathName);
+				String msg = converter.to_bytes(_fullPathName);
 				char buf[1024];
 				sprintf(buf, "  in updateTimeStamp(): timeStampLive (%u/%u) < _timeStamp (%u/%u)", timeStampLive.dwLowDateTime, timeStampLive.dwHighDateTime, _timeStamp.dwLowDateTime, _timeStamp.dwHighDateTime);
 				msg += buf;
@@ -304,7 +304,7 @@ bool SciBuffer::checkFileState() // returns true if the status has been changed 
 					pathAppend(nppIssueLog, issueFn);
 
 					std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
-					std::string msg = converter.to_bytes(_fullPathName);
+					String msg = converter.to_bytes(_fullPathName);
 					char buf[1024];
 					sprintf(buf, "  in checkFileState(): attributes.ftLastWriteTime (%u/%u) < _timeStamp (%u/%u)", attributes.ftLastWriteTime.dwLowDateTime, attributes.ftLastWriteTime.dwHighDateTime, _timeStamp.dwLowDateTime, _timeStamp.dwHighDateTime);
 					msg += buf;
@@ -629,7 +629,7 @@ void FileManager::closeBuffer(BufferID id, ScintillaEditView * identifier)
 }
 
 
-// backupFileName is sentinel of backup mode: if it's not Null, then we use it (load it). Otherwise we use filename
+// backupFileName is sentinel of backup mode: if it's not nullptr, then we use it (load it). Otherwise we use filename
 BufferID FileManager::loadFile(const char* filename, Document doc, int encoding, const char* backupFileName, FILETIME fileNameTimestamp)
 {
 	//Get file size
@@ -674,13 +674,13 @@ BufferID FileManager::loadFile(const char* filename, Document doc, int encoding,
 	}
 
 	char fullpath[MAX_PATH];
-	::GetFullPathName(filename, MAX_PATH, fullpath, Null);
+	::GetFullPathName(filename, MAX_PATH, fullpath, nullptr);
 	if (_tcschr(fullpath, '~'))
 	{
 		::GetLongPathName(fullpath, fullpath, MAX_PATH);
 	}
 
-	bool isSnapshotMode = backupFileName != Null && PathFileExists(backupFileName);
+	bool isSnapshotMode = backupFileName != nullptr && PathFileExists(backupFileName);
 	if (isSnapshotMode && !PathFileExists(fullpath)) // if backup mode and fullpath doesn't exist, we guess is UNTITLED
 	{
 		wcscpy_s(fullpath, MAX_PATH, filename); // we restore fullpath with filename, in our case is "new  #"
@@ -705,7 +705,7 @@ BufferID FileManager::loadFile(const char* filename, Document doc, int encoding,
 		BufferID id = static_cast<BufferID>(newBuf);
 		newBuf->_id = id;
 
-		if (backupFileName != Null)
+		if (backupFileName != nullptr)
 		{
 			newBuf->_backupFileName = backupFileName;
 			if (!PathFileExists(fullpath))
@@ -827,21 +827,21 @@ bool FileManager::deleteFile(BufferID id)
 	SciBuffer* buf = getBufferByID(id);
 	String fileNamePath = buf->getFullPathName();
 
-	// Make sure to form a string with double '\0' terminator.
+	// Make sure to form a String with double '\0' terminator.
 	fileNamePath.append(1, '\0');
 
 	if (!PathFileExists(fileNamePath.Begin()))
 		return false;
 
 	SHFILEOPSTRUCT fileOpStruct = {};
-	fileOpStruct.hwnd = Null;
+	fileOpStruct.hwnd = nullptr;
 	fileOpStruct.pFrom = fileNamePath.Begin();
-	fileOpStruct.pTo = Null;
+	fileOpStruct.pTo = nullptr;
 	fileOpStruct.wFunc = FO_DELETE;
 	fileOpStruct.fFlags = FOF_ALLOWUNDO;
 	fileOpStruct.fAnyOperationsAborted = false;
-	fileOpStruct.hNameMappings         = Null;
-	fileOpStruct.lpszProgressTitle     = Null;
+	fileOpStruct.hNameMappings         = nullptr;
+	fileOpStruct.lpszProgressTitle     = nullptr;
 
 	return SHFileOperation(&fileOpStruct) == 0;
 }
@@ -937,7 +937,7 @@ bool FileManager::backupCurrentBuffer()
 				// if "backup" folder doesn't exist, create it.
 				if (!PathFileExists(backupFilePath.Begin()))
 				{
-					::CreateDirectory(backupFilePath.Begin(), Null);
+					::CreateDirectory(backupFilePath.Begin(), nullptr);
 				}
 
 				backupFilePath += buffer->getFileName();
@@ -962,7 +962,7 @@ bool FileManager::backupCurrentBuffer()
 			}
 
 			char fullpath[MAX_PATH];
-			::GetFullPathName(backupFilePath.Begin(), MAX_PATH, fullpath, Null);
+			::GetFullPathName(backupFilePath.Begin(), MAX_PATH, fullpath, nullptr);
 			if (_tcschr(fullpath, '~'))
 			{
 				::GetLongPathName(fullpath, fullpath, MAX_PATH);
@@ -1073,7 +1073,7 @@ SavingStatus FileManager::saveBuffer(BufferID id, const char * filename, bool is
 	dword attrib = 0;
 
 	char fullpath[MAX_PATH];
-	::GetFullPathName(filename, MAX_PATH, fullpath, Null);
+	::GetFullPathName(filename, MAX_PATH, fullpath, nullptr);
 	if (_tcschr(fullpath, '~'))
 	{
 		::GetLongPathName(fullpath, fullpath, MAX_PATH);
@@ -1196,7 +1196,7 @@ size_t FileManager::nextUntitledNewNumber() const
 			// if untitled document is invisible, then don't put its number into array (so its number is available to be used)
 			if ((buf->_referees[0])->isVisible())
 			{
-				String newTitle = ((NppParameters::getInstance()).getNativeLangSpeaker())->getLocalizedStrFromID("tab-untitled-string", UNTITLED_STR);
+				String newTitle = ((NppParameters::getInstance()).getNativeLangSpeaker())->getLocalizedStrFromID("tab-untitled-String", UNTITLED_STR);
 				char *numberStr = buf->_fileName + newTitle.GetLength();
 				int usedNumber = generic_atoi(numberStr);
 				usedNumbers.push_back(usedNumber);
@@ -1233,7 +1233,7 @@ size_t FileManager::nextUntitledNewNumber() const
 
 BufferID FileManager::newEmptyDocument()
 {
-	String newTitle = ((NppParameters::getInstance()).getNativeLangSpeaker())->getLocalizedStrFromID("tab-untitled-string", UNTITLED_STR);
+	String newTitle = ((NppParameters::getInstance()).getNativeLangSpeaker())->getLocalizedStrFromID("tab-untitled-String", UNTITLED_STR);
 
 	char nb[10];
 	wsprintf(nb, TEXT("%d"), static_cast<int>(nextUntitledNewNumber()));
@@ -1251,7 +1251,7 @@ BufferID FileManager::newEmptyDocument()
 
 BufferID FileManager::bufferFromDocument(Document doc, bool dontIncrease, bool dontRef)
 {
-	String newTitle = ((NppParameters::getInstance()).getNativeLangSpeaker())->getLocalizedStrFromID("tab-untitled-string", UNTITLED_STR);
+	String newTitle = ((NppParameters::getInstance()).getNativeLangSpeaker())->getLocalizedStrFromID("tab-untitled-String", UNTITLED_STR);
 	char nb[10];
 	wsprintf(nb, TEXT("%d"), static_cast<int>(nextUntitledNewNumber()));
 	newTitle += nb;
@@ -1286,7 +1286,7 @@ LangType FileManager::detectLanguageFromTextBegining(const unsigned char *data, 
 {
 	struct FirstLineLanguages
 	{
-		std::string pattern;
+		String pattern;
 		LangType lang;
 	};
 
@@ -1310,18 +1310,18 @@ LangType FileManager::detectLanguageFromTextBegining(const unsigned char *data, 
 
 	// Create the buffer to need to test
 	const size_t longestLength = 40; // shebangs can be large
-	std::string buf2Test = std::string((const char *)data + i, longestLength);
+	String buf2Test = String((const char *)data + i, longestLength);
 
 	// Is there a \r or \n in the buffer? If so, truncate it
 	auto cr = buf2Test.find("\r");
 	auto nl = buf2Test.find("\n");
 	auto crnl = min(cr, nl);
-	if (crnl != std::string::npos && crnl < longestLength)
-		buf2Test = std::string((const char *)data + i, crnl);
+	if (crnl != String::npos && crnl < longestLength)
+		buf2Test = String((const char *)data + i, crnl);
 
 	// First test for a Unix-like Shebang
 	// See https://en.wikipedia.org/wiki/Shebang_%28Unix%29 for more details about Shebang
-	std::string shebang = "#!";
+	String shebang = "#!";
 
 	size_t foundPos = buf2Test.find(shebang);
 	if (foundPos == 0)
@@ -1340,7 +1340,7 @@ LangType FileManager::detectLanguageFromTextBegining(const unsigned char *data, 
 		// Go through the list of languages
 		for (i = 0; i < NB_SHEBANG_LANGUAGES; ++i)
 		{
-			if (buf2Test.find(ShebangLangs[i].pattern) != std::string::npos)
+			if (buf2Test.find(ShebangLangs[i].pattern) != String::npos)
 			{
 				return ShebangLangs[i].lang;
 			}

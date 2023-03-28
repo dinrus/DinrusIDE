@@ -29,10 +29,10 @@ topic "QTF - Quixotic Text Format";
 [s0; [^topic`:`/`/RichText`/srcdoc`/QTF`_ru`-ru`#3^ 3. Примеры]&]
 [s0; &]
 [s4;:1: [@(128.0.255) 1. Определение]&]
-[s5; [* Quixotic Text Format] ([* QTF]) is the native format of U`+`+ 
-rich texts (formatted texts). It is byte oriented format. Bytes 
-with values 2`-31 are ignored. Other values are interpreted as 
-characters or formatting commands.&]
+[s5; [* Quixotic Text Format] ([* QTF]) `- это нативный фоis 
+the native format of U`+`+ rich texts (formatted texts). It is 
+byte oriented format. Bytes with values 2`-31 are ignored. Other 
+values are interpreted as characters or formatting commands.&]
 [s5; QTF name existed before U`+`+ framework received its final name, 
 so its name does not directly refer to it. For backwards compatibility 
 reasons the community never decided to rename it.&]

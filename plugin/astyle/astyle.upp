@@ -1,8 +1,5 @@
 description "Утилита форматирования astyle C++\3770,128,128";
 
-uses
-	Core;
-
 file
 	ASStringTools.hpp,
 	ASStringTools.cpp,

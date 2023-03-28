@@ -58,8 +58,8 @@ public:
 
 	virtual void destroy() override;
 
-	void resizeSpliter(Rect *pRect = Null);
-	void init(Ctrl& hInst, Upp::Ctrl* hPere, int splitterSize, double iSplitRatio, dword dwFlags);
+	void resizeSpliter(Rect *pRect = nullptr);
+	void init(Window& hInst, Window* hPere, int splitterSize, double iSplitRatio, dword dwFlags);
 	void rotate();
 
 	int getPhisicalSize() const
@@ -84,7 +84,7 @@ private:
 	Rect _clickZone2TL = {};
 	Rect _clickZone2BR = {};
 
-	static LRESULT CALLBACK staticWndProc(Upp::Ctrl* hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+	static LRESULT CALLBACK staticWndProc(Window* hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 	LRESULT CALLBACK spliterWndProc(UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 	int getClickZone(WH which);

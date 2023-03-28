@@ -51,13 +51,13 @@ void SplitterContainer::create(Window *pWin0, Window *pWin1, int splitterSize, S
 		splitterContainerClass.cbClsExtra = 0;
 		splitterContainerClass.cbWndExtra = 0;
 		splitterContainerClass.hInstance = _hInst;
-		splitterContainerClass.hIcon = Null;
-		splitterContainerClass.hCursor = ::LoadCursor(Null, IDC_ARROW);
+		splitterContainerClass.hIcon = nullptr;
+		splitterContainerClass.hCursor = ::LoadCursor(nullptr, IDC_ARROW);
 
-		// hbrBackground must be Null,
+		// hbrBackground must be nullptr,
 		// otherwise this window will hide some parts of 2 windows
-		splitterContainerClass.hbrBackground = Null;
-		splitterContainerClass.lpszMenuName = Null;
+		splitterContainerClass.hbrBackground = nullptr;
+		splitterContainerClass.lpszMenuName = nullptr;
 		splitterContainerClass.lpszClassName = SPC_CLASS_NAME;
 
 		if (!::RegisterClass(&splitterContainerClass))
@@ -70,7 +70,7 @@ void SplitterContainer::create(Window *pWin0, Window *pWin1, int splitterSize, S
 		0, SPC_CLASS_NAME, TEXT("a koi sert?"),
 		WS_CHILD | WS_CLIPCHILDREN,
 		CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
-		_hParent, Null, _hInst, this);
+		_hParent, nullptr, _hInst, this);
 
 	if (!_hSelf)
 		throw std::runtime_error(" SplitterContainer::create : CreateWindowEx() function return null");
@@ -143,9 +143,9 @@ void SplitterContainer::rotateTo(DIRECTION direction)
 
 }
 
-LRESULT CALLBACK SplitterContainer::staticWinProc(Upp::Ctrl* hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK SplitterContainer::staticWinProc(Window* hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	SplitterContainer *pSplitterContainer = Null;
+	SplitterContainer *pSplitterContainer = nullptr;
 	switch (message)
 	{
 		case WM_NCCREATE:
@@ -228,7 +228,7 @@ LRESULT SplitterContainer::runProc(UINT message, WPARAM wParam, LPARAM lParam)
 			_pWin0->reSizeTo(rc0);
 			_pWin1->reSizeTo(rc1);
 
-			::InvalidateRect(_splitter.getHSelf(), Null, TRUE);
+			::InvalidateRect(_splitter.getHSelf(), nullptr, TRUE);
 			return TRUE;
 		}
 
@@ -253,7 +253,7 @@ LRESULT SplitterContainer::runProc(UINT message, WPARAM wParam, LPARAM lParam)
 					::InsertMenu(_hPopupMenu, 0, MF_BYPOSITION, ROTATION_RIGHT, textRight.Begin());
 				}
 
-				::TrackPopupMenu(_hPopupMenu, TPM_LEFTALIGN, p.x, p.y, 0, _hSelf, Null);
+				::TrackPopupMenu(_hPopupMenu, TPM_LEFTALIGN, p.x, p.y, 0, _hSelf, nullptr);
 			}
 			return TRUE;
 		}
@@ -307,7 +307,7 @@ LRESULT SplitterContainer::runProc(UINT message, WPARAM wParam, LPARAM lParam)
 			::GetCursorPos(&pt);
 			::ScreenToClient(_splitter.getHSelf(), &pt);
 
-			Upp::Ctrl* parent = ::GetParent(getHSelf());
+			Window* parent = ::GetParent(getHSelf());
 
 			Window* targetWindow = (this->isVertical())
 				? (pt.x < 0 ? _pWin0 : _pWin1)

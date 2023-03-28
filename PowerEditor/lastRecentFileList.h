@@ -57,8 +57,8 @@ public:
 		return _userMax;
 	};
 
-	String & getItem(int id);	//use menu id
-	String & getIndex(int index);	//use menu id
+	String& getItem(int id);	//use menu id
+	String& getIndex(int index);	//use menu id
 
 	String getFirstItem() const {
 		if (_lrfl.size() == 0)
@@ -79,7 +79,7 @@ public:
 	};
 
 	bool isSubMenuMode() const {
-		return (_hParentMenu != Null);
+		return (_hParentMenu != nullptr);
 	};
 
 private:

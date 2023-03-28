@@ -43,7 +43,7 @@ void ColourPopup::create(int dialogID)
     display();
 }
 
-intptr_t CALLBACK ColourPopup::dlgProc(Upp::Ctrl* hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+intptr_t CALLBACK ColourPopup::dlgProc(Window* hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     switch (message)
     {
@@ -141,7 +141,7 @@ intptr_t CALLBACK ColourPopup::run_dlgProc(UINT message, WPARAM wParam, LPARAM l
             // Transparent.
             SetBkMode(hdc,TRANSPARENT);
 
-            // Null object
+            // nullptr object
             if (pdis->itemID == UINT(-1)) return 0;
 
             switch (pdis->itemAction)
@@ -171,7 +171,7 @@ intptr_t CALLBACK ColourPopup::run_dlgProc(UINT message, WPARAM wParam, LPARAM l
                         // Draw the lighted side.
                         HPEN hpen = CreatePen(PS_SOLID, 1, NppDarkMode::isEnabled() ? NppDarkMode::getEdgeColor() : GetSysColor(COLOR_BTNSHADOW));
                         HPEN holdPen = (HPEN)SelectObject(hdc, hpen);
-                        MoveToEx(hdc, rc.left, rc.bottom, Null);
+                        MoveToEx(hdc, rc.left, rc.bottom, nullptr);
                         LineTo(hdc, rc.left, rc.top);
                         LineTo(hdc, rc.right, rc.top);
                         SelectObject(hdc, holdPen);
@@ -243,8 +243,8 @@ intptr_t CALLBACK ColourPopup::run_dlgProc(UINT message, WPARAM wParam, LPARAM l
                 {
                     if (HIWORD(wParam) == LBN_SELCHANGE)
                     {
-                        auto i = ::SendMessage(reinterpret_cast<Upp::Ctrl*>(lParam), LB_GETCURSEL, 0L, 0L);
-                        _colour = static_cast<Color&>(::SendMessage(reinterpret_cast<Upp::Ctrl*>(lParam), LB_GETITEMDATA, i, 0L));
+                        auto i = ::SendMessage(reinterpret_cast<Window*>(lParam), LB_GETCURSEL, 0L, 0L);
+                        _colour = static_cast<Color&>(::SendMessage(reinterpret_cast<Window*>(lParam), LB_GETITEMDATA, i, 0L));
 
                         ::SendMessage(_hParent, WM_PICKUP_COLOR, _colour, 0);
                         return TRUE;

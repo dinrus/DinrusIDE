@@ -37,8 +37,8 @@ intptr_t CALLBACK HashFromFilesDlg::run_dlgProc(UINT message, WPARAM wParam, LPA
 				OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY,
 				DEFAULT_PITCH | FF_DONTCARE, "Courier New");
 
-			const Upp::Ctrl* hHashPathEdit = ::GetDlgItem(_hSelf, IDC_HASH_PATH_EDIT);
-			const Upp::Ctrl* hHashResult = ::GetDlgItem(_hSelf, IDC_HASH_RESULT_EDIT);
+			const Window* hHashPathEdit = ::GetDlgItem(_hSelf, IDC_HASH_PATH_EDIT);
+			const Window* hHashResult = ::GetDlgItem(_hSelf, IDC_HASH_RESULT_EDIT);
 
 			::SendMessage(hHashPathEdit, WM_SETFONT, reinterpret_cast<WPARAM>(hFont), TRUE);
 			::SendMessage(hHashResult, WM_SETFONT, reinterpret_cast<WPARAM>(hFont), TRUE);
@@ -64,7 +64,7 @@ intptr_t CALLBACK HashFromFilesDlg::run_dlgProc(UINT message, WPARAM wParam, LPA
 		{
 			if (NppDarkMode::isEnabled())
 			{
-				Upp::Ctrl* hwnd = reinterpret_cast<Upp::Ctrl*>(lParam);
+				Window* hwnd = reinterpret_cast<Window*>(lParam);
 				if (hwnd == ::GetDlgItem(_hSelf, IDC_HASH_PATH_EDIT) || hwnd == ::GetDlgItem(_hSelf, IDC_HASH_RESULT_EDIT))
 				{
 					return NppDarkMode::onCtlColor(reinterpret_cast<HDC>(wParam));
@@ -138,7 +138,7 @@ intptr_t CALLBACK HashFromFilesDlg::run_dlgProc(UINT message, WPARAM wParam, LPA
 							}
 							else if (_ht == hashType::hash_sha256)
 							{
-								std::string content = getFileContent(it.Begin());
+								String content = getFileContent(it.Begin());
 
 								uint8_t sha2hash[32];
 								calc_sha_256(sha2hash, reinterpret_cast<const uint8_t*>(content.Begin()), content.GetLength());
@@ -192,7 +192,7 @@ intptr_t CALLBACK HashFromFilesDlg::run_dlgProc(UINT message, WPARAM wParam, LPA
 	return FALSE;
 }
 
-LRESULT run_textEditProc(WNDPROC oldEditProc, Upp::Ctrl* hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+LRESULT run_textEditProc(WNDPROC oldEditProc, Window* hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch (message)
 	{
@@ -291,7 +291,7 @@ void HashFromTextDlg::generateHashPerLine()
 
 		std::wstringstream ss(text);
 		std::wstring aLine;
-		std::string result;
+		String result;
 		MD5 md5;
 		WcharMbcsConvertor& wmc = WcharMbcsConvertor::getInstance();
 		while (std::getline(ss, aLine))
@@ -349,8 +349,8 @@ intptr_t CALLBACK HashFromTextDlg::run_dlgProc(UINT message, WPARAM wParam, LPAR
 				OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY,
 				DEFAULT_PITCH | FF_DONTCARE, "Courier New");
 
-			const Upp::Ctrl* hHashTextEdit = ::GetDlgItem(_hSelf, IDC_HASH_TEXT_EDIT);
-			const Upp::Ctrl* hHashResult = ::GetDlgItem(_hSelf, IDC_HASH_RESULT_FOMTEXT_EDIT);
+			const Window* hHashTextEdit = ::GetDlgItem(_hSelf, IDC_HASH_TEXT_EDIT);
+			const Window* hHashResult = ::GetDlgItem(_hSelf, IDC_HASH_RESULT_FOMTEXT_EDIT);
 
 			::SendMessage(hHashTextEdit, WM_SETFONT, reinterpret_cast<WPARAM>(hFont), TRUE);
 			::SendMessage(hHashResult, WM_SETFONT, reinterpret_cast<WPARAM>(hFont), TRUE);
@@ -367,7 +367,7 @@ intptr_t CALLBACK HashFromTextDlg::run_dlgProc(UINT message, WPARAM wParam, LPAR
 		{
 			if (NppDarkMode::isEnabled())
 			{
-				Upp::Ctrl* hwnd = reinterpret_cast<Upp::Ctrl*>(lParam);
+				Window* hwnd = reinterpret_cast<Window*>(lParam);
 				if (hwnd == ::GetDlgItem(_hSelf, IDC_HASH_TEXT_EDIT))
 				{
 					return NppDarkMode::onCtlColorSofter(reinterpret_cast<HDC>(wParam));
@@ -393,7 +393,7 @@ intptr_t CALLBACK HashFromTextDlg::run_dlgProc(UINT message, WPARAM wParam, LPAR
 		{
 			if (NppDarkMode::isEnabled())
 			{
-				Upp::Ctrl* hwnd = reinterpret_cast<Upp::Ctrl*>(lParam);
+				Window* hwnd = reinterpret_cast<Window*>(lParam);
 				if (hwnd == ::GetDlgItem(_hSelf, IDC_HASH_RESULT_FOMTEXT_EDIT))
 				{
 					return NppDarkMode::onCtlColor(reinterpret_cast<HDC>(wParam));

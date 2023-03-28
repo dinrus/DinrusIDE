@@ -27,7 +27,7 @@ public:
 	BabyGridWrapper() = default;
 	~BabyGridWrapper() = default;
 
-	virtual void init(Ctrl& hInst, Upp::Ctrl* parent, int16_t id);
+	virtual void init(Window& hInst, Window* parent, int16_t id);
 	virtual void destroy() {
 		::DestroyWindow(_hSelf);
 	};

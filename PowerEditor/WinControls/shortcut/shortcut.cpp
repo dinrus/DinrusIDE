@@ -268,7 +268,7 @@ size_t ScintillaKeyMap::getSize() const
 	return _size;
 }
 
-void getKeyStrFromVal(UCHAR keyVal, String & str)
+void getKeyStrFromVal(UCHAR keyVal, String& str)
 {
 	str = TEXT("");
 	bool found = false;
@@ -287,7 +287,7 @@ void getKeyStrFromVal(UCHAR keyVal, String & str)
 		str = TEXT("Unlisted");
 }
 
-void getNameStrFromCmd(dword cmd, String & str)
+void getNameStrFromCmd(dword cmd, String& str)
 {
 	if ((cmd >= ID_MACRO) && (cmd < ID_MACRO_LIMIT))
 	{
@@ -317,7 +317,7 @@ void getNameStrFromCmd(dword cmd, String & str)
 	}
 	else
 	{
-		Upp::Ctrl* hNotepad_plus = ::FindWindow(Notepad_plus_Window::getClassName(), Null);
+		Window* hNotepad_plus = ::FindWindow(Notepad_plus_Window::getClassName(), nullptr);
 		const int commandSize = 64;
 		char cmdName[commandSize];
 		Menu* m = reinterpret_cast<Menu*>(::SendMessage(hNotepad_plus, NPPM_INTERNAL_GETMENU, 0, 0));
@@ -429,7 +429,7 @@ intptr_t CALLBACK Shortcut::run_dlgProc(UINT Message, WPARAM wParam, LPARAM lPar
 		{
 			if (NppDarkMode::isEnabled())
 			{
-				auto dlgCtrlID = ::GetDlgCtrlID(reinterpret_cast<Upp::Ctrl*>(lParam));
+				auto dlgCtrlID = ::GetDlgCtrlID(reinterpret_cast<Window*>(lParam));
 				if (dlgCtrlID == IDC_NAME_EDIT)
 				{
 					return NppDarkMode::onCtlColor(reinterpret_cast<HDC>(wParam));
@@ -881,9 +881,9 @@ void recordedMacroStep::PlayBack(Window* pNotepad, ScintillaEditView *pEditView)
 
 		if (_macroType == mtUseSParameter) 
 		{
-			int byteBufferLength = ::WideCharToMultiByte(static_cast<UINT>(pEditView->execute(SCI_GETCODEPAGE)), 0, _sParameter.Begin(), -1, Null, 0, Null, Null);
+			int byteBufferLength = ::WideCharToMultiByte(static_cast<UINT>(pEditView->execute(SCI_GETCODEPAGE)), 0, _sParameter.Begin(), -1, nullptr, 0, nullptr, nullptr);
 			auto byteBuffer = std::make_unique< char[] >(byteBufferLength);
-			::WideCharToMultiByte(static_cast<UINT>(pEditView->execute(SCI_GETCODEPAGE)), 0, _sParameter.Begin(), -1, byteBuffer.get(), byteBufferLength, Null, Null);
+			::WideCharToMultiByte(static_cast<UINT>(pEditView->execute(SCI_GETCODEPAGE)), 0, _sParameter.Begin(), -1, byteBuffer.get(), byteBufferLength, nullptr, nullptr);
 			auto lParam = reinterpret_cast<LPARAM>(byteBuffer.get());
 			pEditView->execute(_message, _wParameter, lParam);
 		}
@@ -915,7 +915,7 @@ void recordedMacroStep::PlayBack(Window* pNotepad, ScintillaEditView *pEditView)
 	}
 }
 
-void ScintillaAccelerator::init(vector<Upp::Ctrl*> * vScintillas, Menu* hMenu, Upp::Ctrl* menuParent)
+void ScintillaAccelerator::init(vector<Window*> * vScintillas, Menu* hMenu, Window* menuParent)
 {
 	_hAccelMenu = hMenu;
 	_hMenuParent = menuParent;
@@ -1098,7 +1098,7 @@ intptr_t CALLBACK ScintillaKeyMap::run_dlgProc(UINT Message, WPARAM wParam, LPAR
 		{
 			if (NppDarkMode::isEnabled())
 			{
-				auto dlgCtrlID = ::GetDlgCtrlID(reinterpret_cast<Upp::Ctrl*>(lParam));
+				auto dlgCtrlID = ::GetDlgCtrlID(reinterpret_cast<Window*>(lParam));
 				if (dlgCtrlID == IDC_NAME_EDIT)
 				{
 					return NppDarkMode::onCtlColor(reinterpret_cast<HDC>(wParam));

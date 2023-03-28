@@ -48,7 +48,7 @@ int CALLBACK ListViewCompareProc(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSo
 void VerticalFileSwitcher::startColumnSort()
 {
 	// reset sorting if exts column was just disabled
-	Upp::Ctrl* colHeader = reinterpret_cast<Upp::Ctrl*>(SendMessage(_fileListView.getHSelf(), LVM_GETHEADER, 0, 0));
+	Window* colHeader = reinterpret_cast<Window*>(SendMessage(_fileListView.getHSelf(), LVM_GETHEADER, 0, 0));
 	int columnCount = static_cast<int32_t>(SendMessage(colHeader, HDM_GETITEMCOUNT, 0, 0));
 	if (_lastSortingColumn >= columnCount)
 	{
@@ -205,7 +205,7 @@ intptr_t CALLBACK VerticalFileSwitcher::run_dlgProc(UINT message, WPARAM wParam,
 					NativeLangSpeaker* pNativeSpeaker = nppParams.getNativeLangSpeaker();
 
 					LPNMHEADER test = (LPNMHEADER)lParam;
-					Upp::Ctrl* hwndHD = ListView_GetHeader(_fileListView.getHSelf());
+					Window* hwndHD = ListView_GetHeader(_fileListView.getHSelf());
 					char HDtext[MAX_PATH];
 					HDITEM hdi = {};
 					hdi.mask = HDI_TEXT | HDI_WIDTH;
@@ -266,7 +266,7 @@ intptr_t CALLBACK VerticalFileSwitcher::run_dlgProc(UINT message, WPARAM wParam,
 			{
 				::TrackPopupMenu(_hGlobalMenu,
 					NppParameters::getInstance().getNativeLangSpeaker()->isRTL() ? TPM_RIGHTALIGN | TPM_LAYOUTRTL : TPM_LEFTALIGN,
-					GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam), 0, _hSelf, Null);
+					GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam), 0, _hSelf, nullptr);
 				colHeaderRClick = false;
 			}
 			return TRUE;
@@ -358,14 +358,14 @@ void VerticalFileSwitcher::activateDoc(TaskLstFnStatus *tlfs) const
 
 int VerticalFileSwitcher::setHeaderOrder(int columnIndex)
 {
-	Upp::Ctrl* hListView = _fileListView.getHSelf();
+	Window* hListView = _fileListView.getHSelf();
 	LVCOLUMN lvc;
 	lvc.mask = LVCF_FMT;
 
 	//strip HDF_SORTUP and HDF_SORTDOWN from old sort column
 	if (_lastSortingColumn != columnIndex && _lastSortingDirection != SORT_DIRECTION_NONE)
 	{
-		Upp::Ctrl* colHeader = reinterpret_cast<Upp::Ctrl*>(SendMessage(hListView, LVM_GETHEADER, 0, 0));
+		Window* colHeader = reinterpret_cast<Window*>(SendMessage(hListView, LVM_GETHEADER, 0, 0));
 		int columnCount = static_cast<int32_t>(SendMessage(colHeader, HDM_GETITEMCOUNT, 0, 0));
 		if (_lastSortingColumn < columnCount)
 		{
@@ -396,7 +396,7 @@ int VerticalFileSwitcher::setHeaderOrder(int columnIndex)
 
 void VerticalFileSwitcher::updateHeaderArrow()
 {
-	Upp::Ctrl* hListView = _fileListView.getHSelf();
+	Window* hListView = _fileListView.getHSelf();
 	LVCOLUMN lvc;
 	lvc.mask = LVCF_FMT;
 

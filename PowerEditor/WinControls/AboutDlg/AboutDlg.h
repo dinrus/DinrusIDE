@@ -36,108 +36,109 @@ GNU General Public License for more details. \r\n\
 You should have received a copy of the GNU General Public License \
 along with this program. If not, see <https://www.gnu.org/licenses/>.")
 
-
-class AboutDlg : public StaticDialog
-{
-public :
-	AboutDlg() = default;
-
-	void doDialog();
-
-    virtual void destroy() {
-        _emailLink.destroy();
-        _pageLink.destroy();
-    };
-
-protected :
-	virtual intptr_t CALLBACK run_dlgProc(UINT message, WPARAM wParam, LPARAM lParam);
-
-private :
-    URLCtrl _emailLink;
-    URLCtrl _pageLink;
-};
-
-
-class DebugInfoDlg : public StaticDialog
-{
-public:
-	DebugInfoDlg() = default;
-
-	void init(Window& hInst, Upp::Ctrl* parent, bool isAdmin, const char* loadedPlugins) {
-		_isAdmin = isAdmin;
-		_loadedPlugins = loadedPlugins;
-		Window::init(hInst.getHinst(), parent);
+namespace Upp{
+	class AboutDlg : public StaticDialog
+	{
+	public :
+		AboutDlg() = default;
+	
+		void doDialog();
+	
+	    virtual void destroy() {
+	        _emailLink.destroy();
+	        _pageLink.destroy();
+	    };
+	
+	protected :
+		virtual intptr_t CALLBACK run_dlgProc(UINT message, WPARAM wParam, LPARAM lParam);
+	
+	private :
+	    URLCtrl _emailLink;
+	    URLCtrl _pageLink;
 	};
-
-	void doDialog();
-
-	void refreshDebugInfo();
-
-	virtual void destroy() {
-		_copyToClipboardLink.destroy();
+	
+	
+	class DebugInfoDlg : public StaticDialog
+	{
+	public:
+		DebugInfoDlg() = default;
+	
+		void init(Window& hInst, Window* parent, bool isAdmin, const char* loadedPlugins) {
+			_isAdmin = isAdmin;
+			_loadedPlugins = loadedPlugins;
+			Window::init(hInst.getHinst(), parent);
+		};
+	
+		void doDialog();
+	
+		void refreshDebugInfo();
+	
+		virtual void destroy() {
+			_copyToClipboardLink.destroy();
+		};
+	
+	protected:
+		virtual intptr_t CALLBACK run_dlgProc(UINT message, WPARAM wParam, LPARAM lParam);
+	
+	private:
+		typedef const CHAR * (__cdecl * PWINEGETVERSION)();
+		String _debugInfoStr;
+		String _debugInfoDisplay;
+		const String _cmdLinePlaceHolder = "$COMMAND_LINE_PLACEHOLDER$";
+		bool _isAdmin = false;
+		String _loadedPlugins;
+		URLCtrl _copyToClipboardLink;
 	};
-
-protected:
-	virtual intptr_t CALLBACK run_dlgProc(UINT message, WPARAM wParam, LPARAM lParam);
-
-private:
-	typedef const CHAR * (__cdecl * PWINEGETVERSION)();
-	String _debugInfoStr;
-	String _debugInfoDisplay;
-	const String _cmdLinePlaceHolder = "$COMMAND_LINE_PLACEHOLDER$";
-	bool _isAdmin = false;
-	String _loadedPlugins;
-	URLCtrl _copyToClipboardLink;
-};
-
-class DoSaveOrNotBox : public StaticDialog
-{
-public:
-	DoSaveOrNotBox() = default;
-
-	void init(Ctrl& hInst, Upp::Ctrl* parent, const char* fn, bool isMulti) {
-		Window::init(hInst, parent);
-		if (fn)
-			_fn = fn;
-
-		_isMulti = isMulti;
+	
+	class DoSaveOrNotBox : public StaticDialog
+	{
+	public:
+		DoSaveOrNotBox() = default;
+	
+		void init(Window& hInst, Window* parent, const char* fn, bool isMulti) {
+			Window::init(hInst, parent);
+			if (fn)
+				_fn = fn;
+	
+			_isMulti = isMulti;
+		};
+	
+		void doDialog(bool isRTL = false);
+	
+		virtual void destroy() {};
+	
+		int getClickedButtonId() const {
+			return clickedButtonId;
+		};
+	
+		void changeLang();
+	
+	protected:
+		virtual intptr_t CALLBACK run_dlgProc(UINT message, WPARAM wParam, LPARAM lParam);
+	
+	private:
+		int clickedButtonId = -1;
+		String _fn;
+		bool _isMulti = false;
 	};
-
-	void doDialog(bool isRTL = false);
-
-	virtual void destroy() {};
-
-	int getClickedButtonId() const {
-		return clickedButtonId;
+	
+	class DoSaveAllBox : public StaticDialog
+	{
+	public:
+		DoSaveAllBox() = default;
+		void doDialog(bool isRTL = false);
+		virtual void destroy() {};
+	
+		int getClickedButtonId() const {
+			return clickedButtonId;
+		};
+	
+		void changeLang();
+	
+	protected:
+		virtual intptr_t CALLBACK run_dlgProc(UINT message, WPARAM wParam, LPARAM lParam);
+	
+	private:
+		int clickedButtonId = -1;
 	};
-
-	void changeLang();
-
-protected:
-	virtual intptr_t CALLBACK run_dlgProc(UINT message, WPARAM wParam, LPARAM lParam);
-
-private:
-	int clickedButtonId = -1;
-	String _fn;
-	bool _isMulti = false;
-};
-
-class DoSaveAllBox : public StaticDialog
-{
-public:
-	DoSaveAllBox() = default;
-	void doDialog(bool isRTL = false);
-	virtual void destroy() {};
-
-	int getClickedButtonId() const {
-		return clickedButtonId;
-	};
-
-	void changeLang();
-
-protected:
-	virtual intptr_t CALLBACK run_dlgProc(UINT message, WPARAM wParam, LPARAM lParam);
-
-private:
-	int clickedButtonId = -1;
-};
+}

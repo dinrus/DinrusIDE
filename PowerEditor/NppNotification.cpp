@@ -55,7 +55,7 @@ BOOL Notepad_plus::notify(SCNotification *notification)
 				_pEditView->updateBeginEndSelectPosition(notification->modificationType & SC_MOD_INSERTTEXT, notification->position, notification->length);
 				prevWasEdit = true;
 				_linkTriggered = true;
-				::InvalidateRect(notifyView->getHSelf(), Null, TRUE);
+				::InvalidateRect(notifyView->getHSelf(), nullptr, TRUE);
 			}
 
 			if (notification->modificationType & (SC_MOD_DELETETEXT | SC_MOD_INSERTTEXT | SC_PERFORMED_UNDO | SC_PERFORMED_REDO))
@@ -79,7 +79,7 @@ BOOL Notepad_plus::notify(SCNotification *notification)
 
 			if (notification->modificationType & SC_MOD_CHANGEINDICATOR)
 			{
-				::InvalidateRect(notifyView->getHSelf(), Null, FALSE);
+				::InvalidateRect(notifyView->getHSelf(), nullptr, FALSE);
 			}
 			break;
 		}
@@ -248,7 +248,7 @@ BOOL Notepad_plus::notify(SCNotification *notification)
 
 				//It's the coordinate of screen, so we can call
 				//"WindowFromPoint" function without converting the point
-				Upp::Ctrl* hWin = ::WindowFromPoint(p);
+				Window* hWin = ::WindowFromPoint(p);
 				if (hWin == _pEditView->getHSelf()) // In the same view group
 				{
 					if (!_tabPopupDropMenu.isCreated())
@@ -286,7 +286,7 @@ BOOL Notepad_plus::notify(SCNotification *notification)
 					fileNamesData.lpData = (void *)quotFileName.Begin();
 					fileNamesData.cbData = long(quotFileName.GetLength() + 1)*(sizeof(char));
 
-					Upp::Ctrl* hWinParent = ::GetParent(hWin);
+					Window* hWinParent = ::GetParent(hWin);
 					const rsize_t classNameBufferSize = MAX_PATH;
 					char className[classNameBufferSize];
 					::GetClassName(hWinParent,className, classNameBufferSize);
@@ -433,7 +433,7 @@ BOOL Notepad_plus::notify(SCNotification *notification)
 					POINT p;
 					::GetCursorPos(&p);
 					Menu* hLangMenu = ::GetSubMenu(_mainMenuHandle, MENUINDEX_LANGUAGE);
-					TrackPopupMenu(hLangMenu, 0, p.x, p.y, 0, _pPublicInterface->getHSelf(), Null);
+					TrackPopupMenu(hLangMenu, 0, p.x, p.y, 0, _pPublicInterface->getHSelf(), nullptr);
 				}
 				else if (lpnm->dwItemSpec == dword(STATUSBAR_EOF_FORMAT))
 				{
@@ -446,14 +446,14 @@ BOOL Notepad_plus::notify(SCNotification *notification)
 					Menu* hEolFormatMenu = ::GetSubMenu(hEditMenu, menuPos._y);
 					if (!hEolFormatMenu)
 						return TRUE;
-					TrackPopupMenu(hEolFormatMenu, 0, p.x, p.y, 0, _pPublicInterface->getHSelf(), Null);
+					TrackPopupMenu(hEolFormatMenu, 0, p.x, p.y, 0, _pPublicInterface->getHSelf(), nullptr);
 				}
 				else if (lpnm->dwItemSpec == dword(STATUSBAR_UNICODE_TYPE))
 				{
 					POINT p;
 					::GetCursorPos(&p);
 					Menu* hLangMenu = ::GetSubMenu(_mainMenuHandle, MENUINDEX_FORMAT);
-					TrackPopupMenu(hLangMenu, 0, p.x, p.y, 0, _pPublicInterface->getHSelf(), Null);
+					TrackPopupMenu(hLangMenu, 0, p.x, p.y, 0, _pPublicInterface->getHSelf(), nullptr);
 				}
 			}
 			break;
@@ -478,7 +478,7 @@ BOOL Notepad_plus::notify(SCNotification *notification)
 				if (lpnm->dwItemSpec == dword(STATUSBAR_DOC_TYPE))
 				{
 					Menu* hLangMenu = ::GetSubMenu(_mainMenuHandle, MENUINDEX_LANGUAGE);
-					TrackPopupMenu(hLangMenu, 0, p.x, p.y, 0, _pPublicInterface->getHSelf(), Null);
+					TrackPopupMenu(hLangMenu, 0, p.x, p.y, 0, _pPublicInterface->getHSelf(), nullptr);
 				}
 				else if (lpnm->dwItemSpec == dword(STATUSBAR_EOF_FORMAT))
 				{
@@ -489,14 +489,14 @@ BOOL Notepad_plus::notify(SCNotification *notification)
 					Menu* hEolFormatMenu = ::GetSubMenu(hEditMenu, menuPos._y);
 					if (!hEolFormatMenu)
 						return TRUE;
-					TrackPopupMenu(hEolFormatMenu, 0, p.x, p.y, 0, _pPublicInterface->getHSelf(), Null);
+					TrackPopupMenu(hEolFormatMenu, 0, p.x, p.y, 0, _pPublicInterface->getHSelf(), nullptr);
 				}
 				else if (lpnm->dwItemSpec == dword(STATUSBAR_UNICODE_TYPE))
 				{
 					POINT p;
 					::GetCursorPos(&p);
 					Menu* hLangMenu = ::GetSubMenu(_mainMenuHandle, MENUINDEX_FORMAT);
-					TrackPopupMenu(hLangMenu, 0, p.x, p.y, 0, _pPublicInterface->getHSelf(), Null);
+					TrackPopupMenu(hLangMenu, 0, p.x, p.y, 0, _pPublicInterface->getHSelf(), nullptr);
 				}
 				return TRUE;
 			}
@@ -546,20 +546,20 @@ BOOL Notepad_plus::notify(SCNotification *notification)
 				itemUnitArray.push_back(MenuItemUnit(IDM_FILE_DELETE, TEXT("Move to Recycle Bin")));
 				itemUnitArray.push_back(MenuItemUnit(IDM_FILE_RELOAD, TEXT("Reload")));
 				itemUnitArray.push_back(MenuItemUnit(IDM_FILE_PRINT, TEXT("Print")));
-				itemUnitArray.push_back(MenuItemUnit(0, Null));
+				itemUnitArray.push_back(MenuItemUnit(0, nullptr));
 				itemUnitArray.push_back(MenuItemUnit(IDM_FILE_OPEN_FOLDER, TEXT("Open Containing Folder in Explorer")));
 				itemUnitArray.push_back(MenuItemUnit(IDM_FILE_OPEN_CMD, TEXT("Open Containing Folder in cmd")));
 				itemUnitArray.push_back(MenuItemUnit(IDM_FILE_CONTAININGFOLDERASWORKSPACE, TEXT("Open Containing Folder as Workspace")));
-				itemUnitArray.push_back(MenuItemUnit(0, Null));
+				itemUnitArray.push_back(MenuItemUnit(0, nullptr));
 				itemUnitArray.push_back(MenuItemUnit(IDM_FILE_OPEN_DEFAULT_VIEWER, TEXT("Open in Default Viewer")));
-				itemUnitArray.push_back(MenuItemUnit(0, Null));
+				itemUnitArray.push_back(MenuItemUnit(0, nullptr));
 				itemUnitArray.push_back(MenuItemUnit(IDM_EDIT_SETREADONLY,   TEXT("Read-Only")));
 				itemUnitArray.push_back(MenuItemUnit(IDM_EDIT_CLEARREADONLY, TEXT("Clear Read-Only Flag")));
-				itemUnitArray.push_back(MenuItemUnit(0, Null));
+				itemUnitArray.push_back(MenuItemUnit(0, nullptr));
 				itemUnitArray.push_back(MenuItemUnit(IDM_EDIT_FULLPATHTOCLIP,   TEXT("Full File Path to Clipboard")));
 				itemUnitArray.push_back(MenuItemUnit(IDM_EDIT_FILENAMETOCLIP,   TEXT("Filename to Clipboard")));
 				itemUnitArray.push_back(MenuItemUnit(IDM_EDIT_CURRENTDIRTOCLIP, TEXT("Current Dir. Path to Clipboard")));
-				itemUnitArray.push_back(MenuItemUnit(0, Null));
+				itemUnitArray.push_back(MenuItemUnit(0, nullptr));
 				itemUnitArray.push_back(MenuItemUnit(IDM_VIEW_GOTO_ANOTHER_VIEW, TEXT("Move to Other View")));
 				itemUnitArray.push_back(MenuItemUnit(IDM_VIEW_CLONE_TO_ANOTHER_VIEW, TEXT("Clone to Other View")));
 				itemUnitArray.push_back(MenuItemUnit(IDM_VIEW_GOTO_NEW_INSTANCE, TEXT("Move to New Instance")));
@@ -644,7 +644,7 @@ BOOL Notepad_plus::notify(SCNotification *notification)
 					Menu* hBookmarkMenu = ::GetSubMenu(hSearchMenu, menuPos._y);
 					if (hBookmarkMenu)
 					{
-						TrackPopupMenu(hBookmarkMenu, 0, p.x, p.y, 0, _pPublicInterface->getHSelf(), Null);
+						TrackPopupMenu(hBookmarkMenu, 0, p.x, p.y, 0, _pPublicInterface->getHSelf(), nullptr);
 					}
 				}
 			}
@@ -699,7 +699,7 @@ BOOL Notepad_plus::notify(SCNotification *notification)
 			{
 				const NppGUI & nppGUI = NppParameters::getInstance().getNppGUI();
 
-				std::string bufstring;
+				String bufstring;
 
 				size_t position_of_click;
 				// For some reason Ctrl+DoubleClick on an empty line means that notification->position == 1.
@@ -709,7 +709,7 @@ BOOL Notepad_plus::notify(SCNotification *notification)
 				else
 					position_of_click = _pEditView->execute(SCI_GETCURRENTPOS);
 
-				// Anonymous scope to limit use of the buf pointer (much easier to deal with std::string).
+				// Anonymous scope to limit use of the buf pointer (much easier to deal with String).
 				{
 					char *buf;
 
@@ -861,7 +861,7 @@ BOOL Notepad_plus::notify(SCNotification *notification)
 
 				// Open URL
 				String url = notifyView->getGenericTextAsString(static_cast<size_t>(startPos), static_cast<size_t>(endPos));
-				::ShellExecute(_pPublicInterface->getHSelf(), TEXT("open"), url.Begin(), Null, Null, SW_SHOW);
+				::ShellExecute(_pPublicInterface->getHSelf(), TEXT("open"), url.Begin(), nullptr, nullptr, SW_SHOW);
 			}
 			break;
 		}
@@ -937,12 +937,12 @@ BOOL Notepad_plus::notify(SCNotification *notification)
 			try
 			{
 				LPTOOLTIPTEXT lpttt = (LPTOOLTIPTEXT)notification;
-				lpttt->hinst = Null;
+				lpttt->hinst = nullptr;
 
 				POINT p;
 				::GetCursorPos(&p);
-				::MapWindowPoints(Null, _pPublicInterface->getHSelf(), &p, 1);
-				Upp::Ctrl* hWin = ::ChildWindowFromPointEx(_pPublicInterface->getHSelf(), p, CWP_SKIPINVISIBLE);
+				::MapWindowPoints(nullptr, _pPublicInterface->getHSelf(), &p, 1);
+				Window* hWin = ::ChildWindowFromPointEx(_pPublicInterface->getHSelf(), p, CWP_SKIPINVISIBLE);
 				const int tipMaxLen = 1024;
 				static char docTip[tipMaxLen];
 				docTip[0] = '\0';
@@ -1050,7 +1050,7 @@ BOOL Notepad_plus::notify(SCNotification *notification)
 			notifyView->updateLineNumberWidth();
 
 			if (_syncInfo.doSync())
-				doSynScorll(Upp::Ctrl*(notification->nmhdr.hwndFrom));
+				doSynScorll(Window*(notification->nmhdr.hwndFrom));
 
 			NppParameters& nppParam = NppParameters::getInstance();
 

@@ -133,7 +133,7 @@ intptr_t CALLBACK RunMacroDlg::run_dlgProc(UINT message, WPARAM wParam, LPARAM)
 					if ( isCheckedOrNot(IDC_M_RUN_MULTI) )
 					{
 						_mode = RM_RUN_MULTI;
-						_times = ::GetDlgItemInt(_hSelf, IDC_M_RUN_TIMES, Null, FALSE);
+						_times = ::GetDlgItemInt(_hSelf, IDC_M_RUN_TIMES, nullptr, FALSE);
 					}
 					else if ( isCheckedOrNot(IDC_M_RUN_EOF) )
 					{

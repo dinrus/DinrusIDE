@@ -20,14 +20,14 @@
 #include <PowerEditor/WinControls/ToolTip/ToolTip.h>
 #include <PowerEditor/NppDarkMode.h>
 
-void ToolTip::init(Ctrl& hInst, Upp::Ctrl* hParent)
+void ToolTip::init(Window& hInst, Window* hParent)
 {
-	if (_hSelf == Null)
+	if (_hSelf == nullptr)
 	{
 		Window::init(hInst, hParent);
 
-		_hSelf = CreateWindowEx( 0, TOOLTIPS_CLASS, Null, WS_POPUP | TTS_NOPREFIX | TTS_ALWAYSTIP,
-             CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, Null, Null, Null, Null );
+		_hSelf = CreateWindowEx( 0, TOOLTIPS_CLASS, nullptr, WS_POPUP | TTS_NOPREFIX | TTS_ALWAYSTIP,
+             CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, nullptr, nullptr, nullptr, nullptr );
 		if (!_hSelf)
 		{
 			throw std::runtime_error("ToolTip::init : CreateWindowEx() function return null");

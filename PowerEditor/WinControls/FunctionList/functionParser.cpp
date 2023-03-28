@@ -45,12 +45,12 @@ bool FunctionParsersManager::init(const char* xmlDirPath, const char* xmlInstall
 		return false;
 }
 
-bool FunctionParsersManager::getZonePaserParameters(TiXmlNode *classRangeParser, String &mainExprStr, String &openSymboleStr, String &closeSymboleStr, Vector<String> &classNameExprArray, String &functionExprStr, Vector<String> &functionNameExprArray)
+bool FunctionParsersManager::getZonePaserParameters(TiXmlNode *classRangeParser, String&mainExprStr, String&openSymboleStr, String&closeSymboleStr, Vector<String> &classNameExprArray, String&functionExprStr, Vector<String> &functionNameExprArray)
 {
-	const char *mainExpr = Null;
-	const char *openSymbole = Null;
-	const char *closeSymbole = Null;
-	const char *functionExpr = Null;
+	const char *mainExpr = nullptr;
+	const char *openSymbole = nullptr;
+	const char *closeSymbole = nullptr;
+	const char *functionExpr = nullptr;
 
 	mainExpr = (classRangeParser->ToElement())->Attribute(TEXT("mainExpr"));
 	if (!mainExpr || !mainExpr[0])
@@ -103,7 +103,7 @@ bool FunctionParsersManager::getZonePaserParameters(TiXmlNode *classRangeParser,
 	return true;
 }
 
-bool FunctionParsersManager::getUnitPaserParameters(TiXmlNode *functionParser, String &mainExprStr, Vector<String> &functionNameExprArray, Vector<String> &classNameExprArray)
+bool FunctionParsersManager::getUnitPaserParameters(TiXmlNode *functionParser, String&mainExprStr, Vector<String> &functionNameExprArray, Vector<String> &classNameExprArray)
 {
 	const char *mainExpr = (functionParser->ToElement())->Attribute(TEXT("mainExpr"));
 	if (!mainExpr || !mainExpr[0])
@@ -139,7 +139,7 @@ bool FunctionParsersManager::getUnitPaserParameters(TiXmlNode *functionParser, S
 }
 
 
-bool FunctionParsersManager::loadFuncListFromXmlTree(String & xmlDirPath, LangType lType, const char* overrideId, int udlIndex)
+bool FunctionParsersManager::loadFuncListFromXmlTree(String& xmlDirPath, LangType lType, const char* overrideId, int udlIndex)
 {
 	String funcListRulePath = xmlDirPath;
 	funcListRulePath += TEXT("\\");
@@ -241,7 +241,7 @@ bool FunctionParsersManager::loadFuncListFromXmlTree(String & xmlDirPath, LangTy
 	return true;
 }
 
-bool FunctionParsersManager::getOverrideMapFromXmlTree(String & xmlDirPath)
+bool FunctionParsersManager::getOverrideMapFromXmlTree(String& xmlDirPath)
 {
 	String funcListRulePath = xmlDirPath;
 	funcListRulePath += TEXT("\\overrideMap.xml");
@@ -308,7 +308,7 @@ FunctionParser * FunctionParsersManager::getParser(const AssociationInfo & assoI
 	else if (assoInfo._langID == L_USER && assoInfo._userDefinedLangName != TEXT(""))
 		choice = checkUserDefined;
 	else
-		return Null;
+		return nullptr;
 
 	switch (choice)
 	{
@@ -439,7 +439,7 @@ void FunctionParser::funcParse(std::vector<foundInfo> & foundInfos, size_t begin
 
 		if (fi._pos != -1 || fi._pos2 != -1) // at least one should be found
 		{
-			if (commentZones != Null)
+			if (commentZones != nullptr)
 			{
 				if (!isInZones(fi._pos, *commentZones) && !isInZones(fi._pos2, *commentZones))
 					foundInfos.push_back(fi);

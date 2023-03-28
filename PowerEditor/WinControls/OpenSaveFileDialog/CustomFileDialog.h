@@ -27,7 +27,7 @@
 class CustomFileDialog
 {
 public:
-	explicit CustomFileDialog(Upp::Ctrl* hwnd);
+	explicit CustomFileDialog(Window* hwnd);
 	~CustomFileDialog();
 	void setTitle(const char* title);
 	void setExtFilter(const char* text, const char* ext);
@@ -41,7 +41,7 @@ public:
 	void enableFileTypeCheckbox(const char* text, bool value);
 	bool getFileTypeCheckboxValue() const;
 
-	// Empty string is not a valid file name and may signal that the dialog was canceled.
+	// Empty String is not a valid file name and may signal that the dialog was canceled.
 	String doSaveDlg();
 	String pickFolder();
 	String doOpenSingleFileDlg();

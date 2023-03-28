@@ -60,7 +60,7 @@ public:
 	ProjectPanel(): DockingDlgInterface(IDD_PROJECTPANEL) {};
 	~ProjectPanel();
 
-	void init(Ctrl& hInst, Upp::Ctrl* hPere, int panelID) {
+	void init(Window& hInst, Window* hPere, int panelID) {
 		DockingDlgInterface::init(hInst, hPere);
 		_panelID = panelID;
 	}
@@ -69,7 +69,7 @@ public:
 		DockingDlgInterface::display(toShow);
 	};
 
-	void setParent(Upp::Ctrl* parent2set){
+	void setParent(Window* parent2set){
 		_hParent = parent2set;
 	};
 
@@ -107,7 +107,7 @@ public:
 protected:
 	TreeView _treeView;
 	HIMAGELIST _hImaLst = nullptr;
-	Upp::Ctrl* _hToolbarMenu = nullptr;
+	Window* _hToolbarMenu = nullptr;
 	Menu* _hWorkSpaceMenu = nullptr;
 	Menu* _hProjectMenu = nullptr;
 	Menu* _hFolderMenu = nullptr;
@@ -125,8 +125,8 @@ protected:
 	void recursiveAddFilesFrom(const char *folderPath, HTREEITEM hTreeItem);
 	HTREEITEM addFolder(HTREEITEM hTreeItem, const char *folderName);
 
-	bool writeWorkSpace(const char *projectFileName = Null);
-	String getRelativePath(const String & fn, const char *workSpaceFileName);
+	bool writeWorkSpace(const char *projectFileName = nullptr);
+	String getRelativePath(const String& fn, const char *workSpaceFileName);
 	void buildProjectXml(TiXmlNode *root, HTREEITEM hItem, const char* fn2write);
 	NodeType getNodeType(HTREEITEM hItem);
 	void setWorkSpaceDirty(bool isDirty);
@@ -148,7 +148,7 @@ class FileRelocalizerDlg : public StaticDialog
 {
 public :
 	FileRelocalizerDlg() = default;
-	void init(Ctrl& hInst, Upp::Ctrl* parent) {
+	void init(Window& hInst, Window* parent) {
 		Window::init(hInst, parent);
 	};
 

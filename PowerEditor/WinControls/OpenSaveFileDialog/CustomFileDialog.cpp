@@ -52,7 +52,7 @@ namespace // anonymous
 	static const int IDC_FILE_CUSTOM_CHECKBOX = 4;
 	static const int IDC_FILE_TYPE_CHECKBOX = IDC_FILE_CUSTOM_CHECKBOX + 1;
 
-	// Returns a first extension from the extension specification string.
+	// Returns a first extension from the extension specification String.
 	// Multiple extensions are separated with ';'.
 	// Example: input - ".c;.cpp;.h", output - ".c"
 	String get1stExt(const char* extSpec)
@@ -94,7 +94,7 @@ namespace // anonymous
 	void expandEnv(String& s)
 	{
 		char buffer[MAX_PATH] = { '\0' };
-		// This returns the resulting string length or 0 in case of error.
+		// This returns the resulting String length or 0 in case of error.
 		dword ret = ExpandEnvironmentStrings(s.Begin(), buffer, static_cast<dword>(sizeof(buffer)));
 		if (ret != 0)
 		{
@@ -172,12 +172,12 @@ namespace // anonymous
 		return {};
 	}
 
-	Upp::Ctrl* getDialogHandle(IFileDialog* dialog)
+	Window* getDialogHandle(IFileDialog* dialog)
 	{
 		com_ptr<IOleWindow> pOleWnd = dialog;
 		if (pOleWnd)
 		{
-			Upp::Ctrl* hwnd = nullptr;
+			Window* hwnd = nullptr;
 			if (SUCCEEDED(pOleWnd->GetWindow(&hwnd)))
 				return hwnd;
 		}
@@ -212,7 +212,7 @@ public:
 
 	IFACEMETHODIMP QueryInterface(REFIID riid, void** ppv) override
 	{
-		// Always set out parameter to Null, validating it first.
+		// Always set out parameter to nullptr, validating it first.
 		if (!ppv)
 			return E_INVALIDARG;
 		*ppv = nullptr;
@@ -389,7 +389,7 @@ private:
 	bool findControls()
 	{
 		assert(_dialog);
-		Upp::Ctrl* hwndDlg = getDialogHandle(_dialog);
+		Window* hwndDlg = getDialogHandle(_dialog);
 		if (hwndDlg)
 		{
 			EnumChildWindows(hwndDlg, &EnumChildProc, reinterpret_cast<LPARAM>(this));
@@ -439,7 +439,7 @@ private:
 		}
 		else
 		{
-			std::vector<Upp::Ctrl*> handlesToErase;
+			std::vector<Window*> handlesToErase;
 			for (auto&& x : s_handleMap)
 			{
 				if (x.second == this)
@@ -524,7 +524,7 @@ private:
 
 	// Enumerates the child windows of a dialog.
 	// Remember handles of "OK" button and file name edit box.
-	static BOOL CALLBACK EnumChildProc(Upp::Ctrl* hwnd, LPARAM param)
+	static BOOL CALLBACK EnumChildProc(Window* hwnd, LPARAM param)
 	{
 		const int bufferLen = MAX_PATH;
 		static char buffer[bufferLen];
@@ -540,7 +540,7 @@ private:
 			{
 				// The edit box of interest is a child of the combo box and has empty window text.
 				// We use the first combo box, but there might be the others (file type dropdown, address bar, etc).
-				Upp::Ctrl* hwndChild = FindWindowEx(hwnd, nullptr, "Edit", "");
+				Window* hwndChild = FindWindowEx(hwnd, nullptr, "Edit", "");
 				if (hwndChild && !inst->_hwndNameEdit)
 				{
 					inst->_hwndNameEdit = hwndChild;
@@ -606,7 +606,7 @@ private:
 				// 2. left mouse click on a button (WM_LBUTTONDOWN)
 				// 3. Alt + S
 				auto ctrlId = LOWORD(msg->wParam);
-				Upp::Ctrl* hwnd = GetDlgItem(msg->hwnd, ctrlId);
+				Window* hwnd = GetDlgItem(msg->hwnd, ctrlId);
 				auto it = s_handleMap.find(hwnd);
 				if (it != s_handleMap.end() && it->second && hwnd == it->second->_hwndButton)
 					it->second->onPreFileOk();
@@ -622,7 +622,7 @@ private:
 			if (wParam == VK_RETURN)
 			{
 				// Handle return key passed to the file name edit box.
-				Upp::Ctrl* hwnd = GetFocus();
+				Window* hwnd = GetFocus();
 				auto it = s_handleMap.find(hwnd);
 				if (it != s_handleMap.end() && it->second && hwnd == it->second->_hwndNameEdit)
 					it->second->onPreFileOk();
@@ -631,7 +631,7 @@ private:
 		return ::CallNextHookEx(nullptr, nCode, wParam, lParam);
 	}
 
-	static std::unordered_map<Upp::Ctrl*, FileDialogEventHandler*> s_handleMap;
+	static std::unordered_map<Window*, FileDialogEventHandler*> s_handleMap;
 
 	long _cRef;
 	com_ptr<IFileDialog> _dialog;
@@ -640,13 +640,13 @@ private:
 	String _lastUsedFolder;
 	HHOOK _prevKbdHook = nullptr;
 	HHOOK _prevCallHook = nullptr;
-	Upp::Ctrl* _hwndNameEdit = nullptr;
-	Upp::Ctrl* _hwndButton = nullptr;
+	Window* _hwndNameEdit = nullptr;
+	Window* _hwndButton = nullptr;
 	UINT _currentType = 0;  // File type currenly selected in dialog.
 	UINT _lastSelectedType = 0;  // Last selected non-wildcard file type.
 	UINT _wildcardType = 0;  // Wildcard *.* file type index (usually 1).
 };
-std::unordered_map<Upp::Ctrl*, FileDialogEventHandler*> FileDialogEventHandler::s_handleMap;
+std::unordered_map<Window*, FileDialogEventHandler*> FileDialogEventHandler::s_handleMap;
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -668,7 +668,7 @@ public:
 			_fileTypeIndex = 0;
 
 		HRESULT hr = CoCreateInstance(id,
-			Null,
+			nullptr,
 			CLSCTX_INPROC_SERVER,
 			IID_PPV_ARGS(&_dialog));
 		_customize = _dialog;
@@ -891,7 +891,7 @@ public:
 		return result;
 	}
 
-	Upp::Ctrl* _hwndOwner = nullptr;
+	Window* _hwndOwner = nullptr;
 	const char* _title = nullptr;
 	const char* _defExt = nullptr;
 	String _initialFolder;
@@ -915,7 +915,7 @@ private:
 
 ///////////////////////////////////////////////////////////////////////////////
 
-CustomFileDialog::CustomFileDialog(Upp::Ctrl* hwnd) : _impl{ std::make_unique<Impl>() }
+CustomFileDialog::CustomFileDialog(Window* hwnd) : _impl{ std::make_unique<Impl>() }
 {
 	_impl->_hwndOwner = hwnd;
 

@@ -27,8 +27,8 @@ const size_t nameLenMax = 64;
 
 class NppParameters;
 
-void getKeyStrFromVal(UCHAR keyVal, String & str);
-void getNameStrFromCmd(dword cmd, String & str);
+void getKeyStrFromVal(UCHAR keyVal, String& str);
+void getNameStrFromCmd(dword cmd, String& str);
 static size_t keyTranslate(size_t keyIn) {
 	switch (keyIn) {
 		case VK_DOWN:		return SCK_DOWN;
@@ -162,7 +162,7 @@ public:
 		return _menuName;
 	}
 
-	void setName(const char * menuName, const char * shortcutName = Null);
+	void setName(const char * menuName, const char * shortcutName = nullptr);
 
 	void clear(){
 		_keyCombo._isCtrl = false;
@@ -353,7 +353,7 @@ public:
 			::DestroyAcceleratorTable(_hFindAccTab);
 		delete [] _pAccelArray;
 	};
-	void init(Menu* hMenu, Upp::Ctrl* menuParent) {
+	void init(Menu* hMenu, Window* menuParent) {
 		_hAccelMenu = hMenu;
 		_hMenuParent = menuParent;
 		updateShortcuts();
@@ -367,7 +367,7 @@ public:
 
 private:
 	Menu* _hAccelMenu = nullptr;
-	Upp::Ctrl* _hMenuParent = nullptr;
+	Window* _hMenuParent = nullptr;
 	HACCEL _hAccTable = nullptr;
 	HACCEL _hIncFindAccTab = nullptr;
 	HACCEL _hFindAccTab = nullptr;
@@ -380,13 +380,13 @@ private:
 class ScintillaAccelerator {	//Handles accelerator keys for scintilla
 public:
 	ScintillaAccelerator() = default;
-	void init(std::vector<Upp::Ctrl*> * vScintillas, Menu* hMenu, Upp::Ctrl* menuParent);
+	void init(std::vector<Window*> * vScintillas, Menu* hMenu, Window* menuParent);
 	void updateKeys();
 	size_t nbScintillas() { return _vScintillas.size(); };
 private:
 	Menu* _hAccelMenu = nullptr;
-	Upp::Ctrl* _hMenuParent = nullptr;
-	std::vector<Upp::Ctrl*> _vScintillas;
+	Window* _hMenuParent = nullptr;
+	std::vector<Window*> _vScintillas;
 
 	void updateMenuItemByID(const ScintillaKeyMap& skm, int id);
 };

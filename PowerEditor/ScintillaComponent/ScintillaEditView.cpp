@@ -21,8 +21,8 @@ const int ScintillaEditView::_SC_MARGE_LINENUMBER = 0;
 const int ScintillaEditView::_SC_MARGE_SYBOLE = 1;
 const int ScintillaEditView::_SC_MARGE_FOLDER = 2;
 
-WNDPROC ScintillaEditView::_scintillaDefaultProc = Null;
-string ScintillaEditView::_defaultCharList = "";
+WNDPROC ScintillaEditView::_scintillaDefaultProc = nullptr;
+String ScintillaEditView::_defaultCharList = "";
 
 /*
 SC_MARKNUM_*     | Arrow               Plus/minus           Circle tree                 Box tree
@@ -166,7 +166,7 @@ int getNbDigits(int aNum, int base)
     return nbChiffre;
 }
 
-void ScintillaEditView::init(Ctrl& hInst, Upp::Ctrl* hPere)
+void ScintillaEditView::init(Window& hInst, Window* hPere)
 {
     if (!_SciInit)
     {
@@ -185,9 +185,9 @@ void ScintillaEditView::init(Ctrl& hInst, Upp::Ctrl* hPere)
                     WS_CHILD | WS_VSCROLL | WS_HSCROLL | WS_CLIPCHILDREN | WS_EX_RTLREADING,\
                     0, 0, 100, 100,\
                     _hParent,\
-                    Null,\
+                    nullptr,\
                     _hInst,\
-                    Null);
+                    nullptr);
 
     if (!_hSelf)
     {
@@ -303,7 +303,7 @@ void ScintillaEditView::init(Ctrl& hInst, Upp::Ctrl* hPere)
     attachDefaultDoc();
 }
 
-LRESULT CALLBACK ScintillaEditView::scintillaStatic_Proc(Upp::Ctrl* hwnd, UINT Message, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK ScintillaEditView::scintillaStatic_Proc(Window* hwnd, UINT Message, WPARAM wParam, LPARAM lParam)
 {
     ScintillaEditView *pScint = (ScintillaEditView *)(::GetWindowLongPtr(hwnd, GWLP_USERDATA));
 
@@ -312,12 +312,12 @@ LRESULT CALLBACK ScintillaEditView::scintillaStatic_Proc(Upp::Ctrl* hwnd, UINT M
         POINT pt;
         POINTS pts = MAKEPOINTS(lParam);
         POINTSTOPOINT(pt, pts);
-        Upp::Ctrl* hwndOnMouse = WindowFromPoint(pt);
+        Window* hwndOnMouse = WindowFromPoint(pt);
 
         //Hack for Synaptics TouchPad Driver
         char synapticsHack[26];
         GetClassNameA(hwndOnMouse, (LPSTR)&synapticsHack, 26);
-        bool isSynpnatic = std::string(synapticsHack) == "SynTrackCursorWindowClass";
+        bool isSynpnatic = String(synapticsHack) == "SynTrackCursorWindowClass";
         bool makeTouchPadCompetible = ((NppParameters::getInstance()).getSVP())._disableAdvancedScrolling;
 
         if (pScint && (isSynpnatic || makeTouchPadCompetible))
@@ -333,7 +333,7 @@ LRESULT CALLBACK ScintillaEditView::scintillaStatic_Proc(Upp::Ctrl* hwnd, UINT M
         return ::DefWindowProc(hwnd, Message, wParam, lParam);
 
 }
-LRESULT ScintillaEditView::scintillaNew_Proc(Upp::Ctrl* hwnd, UINT Message, WPARAM wParam, LPARAM lParam)
+LRESULT ScintillaEditView::scintillaNew_Proc(Window* hwnd, UINT Message, WPARAM wParam, LPARAM lParam)
 {
     switch (Message)
     {
@@ -412,11 +412,11 @@ LRESULT ScintillaEditView::scintillaNew_Proc(Upp::Ctrl* hwnd, UINT Message, WPAR
                     selectedStr = new char[selectSize + 1];
                 getText(selectedStr, range.cpMin, range.cpMax);
 
-                if (reconvert == Null)
+                if (reconvert == nullptr)
                 {
                     // convert the selection to Unicode, and get the number
                     // of bytes required for the converted text
-                    textLength = sizeof(WCHAR) * ::MultiByteToWideChar(codepage, 0, selectedStr, (int)selectSize, Null, 0);
+                    textLength = sizeof(WCHAR) * ::MultiByteToWideChar(codepage, 0, selectedStr, (int)selectSize, nullptr, 0);
                 }
                 else
                 {
@@ -512,7 +512,7 @@ void ScintillaEditView::setSpecialStyle(const Style & styleToSet)
         }
         else
         {
-            std::string fontNameA = wstring2string(styleToSet._fontName, CP_UTF8);
+            String fontNameA = wstring2string(styleToSet._fontName, CP_UTF8);
             execute(SCI_STYLESETFONT, styleID, reinterpret_cast<LPARAM>(fontNameA.Begin()));
         }
     }
@@ -652,7 +652,7 @@ void ScintillaEditView::setXmlLexer(LangType type)
 
 void ScintillaEditView::setEmbeddedJSLexer()
 {
-    const char *pKwArray[10] = {Null, Null, Null, Null, Null, Null, Null, Null, Null, Null};
+    const char *pKwArray[10] = {nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr};
     makeStyle(L_JS, pKwArray);
 
     basic_string<char> keywordList("");
@@ -672,12 +672,12 @@ void ScintillaEditView::setJsonLexer()
 {
     setLexerFromLangID(L_JSON);
 
-    const char *pKwArray[10] = { Null, Null, Null, Null, Null, Null, Null, Null, Null, Null };
+    const char *pKwArray[10] = { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr };
 
     makeStyle(L_JSON, pKwArray);
 
-    string keywordList;
-    string keywordList2;
+    String keywordList;
+    String keywordList2;
     if (pKwArray[LANG_INDEX_INSTR])
     {
         wstring kwlW = pKwArray[LANG_INDEX_INSTR];
@@ -702,7 +702,7 @@ void ScintillaEditView::setJsonLexer()
 
 void ScintillaEditView::setEmbeddedPhpLexer()
 {
-    const char *pKwArray[10] = {Null, Null, Null, Null, Null, Null, Null, Null, Null, Null};
+    const char *pKwArray[10] = {nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr};
     makeStyle(L_PHP, pKwArray);
 
     basic_string<char> keywordList("");
@@ -720,7 +720,7 @@ void ScintillaEditView::setEmbeddedPhpLexer()
 
 void ScintillaEditView::setEmbeddedAspLexer()
 {
-    const char *pKwArray[10] = {Null, Null, Null, Null, Null, Null, Null, Null, Null, Null};
+    const char *pKwArray[10] = {nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr};
     makeStyle(L_ASP, pKwArray);
 
     basic_string<char> keywordList("");
@@ -918,7 +918,7 @@ void ScintillaEditView::setCppLexer(LangType langType)
         }
     }
 
-    const char *pKwArray[10] = {Null, Null, Null, Null, Null, Null, Null, Null, Null, Null};
+    const char *pKwArray[10] = {nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr};
     makeStyle(langType, pKwArray);
 
     basic_string<char> keywordListInstruction("");
@@ -957,7 +957,7 @@ void ScintillaEditView::setJsLexer()
     const char *doxygenKeyWords = NppParameters::getInstance().getWordList(L_CPP, LANG_INDEX_TYPE2);
 
     setLexerFromLangID(L_JAVASCRIPT);
-    const char *pKwArray[10] = { Null, Null, Null, Null, Null, Null, Null, Null, Null, Null };
+    const char *pKwArray[10] = { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr };
     makeStyle(L_JAVASCRIPT, pKwArray);
 
     if (doxygenKeyWords)
@@ -1072,7 +1072,7 @@ void ScintillaEditView::setTclLexer()
 
     setLexerFromLangID(L_TCL);
 
-    const char *pKwArray[10] = {Null, Null, Null, Null, Null, Null, Null, Null, Null, Null};
+    const char *pKwArray[10] = {nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr};
     makeStyle(L_TCL, pKwArray);
 
     basic_string<char> keywordListInstruction("");
@@ -1099,7 +1099,7 @@ void ScintillaEditView::setObjCLexer(LangType langType)
 {
     setLexerFromLangID(L_OBJC);
 
-    const char *pKwArray[10] = {Null, Null, Null, Null, Null, Null, Null, Null, Null, Null};
+    const char *pKwArray[10] = {nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr};
 
     makeStyle(langType, pKwArray);
 
@@ -1168,7 +1168,7 @@ void ScintillaEditView::setTypeScriptLexer()
         execute(SCI_SETKEYWORDS, 2, reinterpret_cast<LPARAM>(doxygenKeyWords_char));
     }
 
-    const char* pKwArray[10] = { Null, Null, Null, Null, Null, Null, Null, Null, Null, Null };
+    const char* pKwArray[10] = { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr };
     makeStyle(L_TYPESCRIPT, pKwArray);
 
     auto getKeywordList = [&pKwArray](const int i)
@@ -1184,7 +1184,7 @@ void ScintillaEditView::setTypeScriptLexer()
     auto keywordListInstruction = getKeywordList(LANG_INDEX_INSTR);
     const char* tsInstructions = getCompleteKeywordList(keywordListInstruction, L_TYPESCRIPT, LANG_INDEX_INSTR);
 
-    string keywordListType = getKeywordList(LANG_INDEX_TYPE);
+    String keywordListType = getKeywordList(LANG_INDEX_TYPE);
     const char* tsTypes = getCompleteKeywordList(keywordListType, L_TYPESCRIPT, LANG_INDEX_TYPE);
 
     execute(SCI_SETKEYWORDS, 0, reinterpret_cast<LPARAM>(tsInstructions));
@@ -1212,7 +1212,7 @@ void ScintillaEditView::setLexer(LangType langType, int whichList)
 {
     setLexerFromLangID(langType);
 
-    const char *pKwArray[10] = {Null, Null, Null, Null, Null, Null, Null, Null, Null, Null};
+    const char *pKwArray[10] = {nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr};
 
     makeStyle(langType, pKwArray);
 
@@ -1308,7 +1308,7 @@ void ScintillaEditView::addCustomWordChars()
     if (nppGUI._customWordChars.IsEmpty())
         return;
 
-    string chars2addStr;
+    String chars2addStr;
     for (size_t i = 0; i < nppGUI._customWordChars.GetLength(); ++i)
     {
         bool found = false;
@@ -1330,7 +1330,7 @@ void ScintillaEditView::addCustomWordChars()
 
     if (!chars2addStr.IsEmpty())
     {
-        string newCharList = _defaultCharList;
+        String newCharList = _defaultCharList;
         newCharList += chars2addStr;
         execute(SCI_SETWORDCHARS, 0, reinterpret_cast<LPARAM>(newCharList.Begin()));
     }
@@ -2267,8 +2267,8 @@ void ScintillaEditView::getGenericText(char *dest, size_t destlen, size_t start,
     delete [] destA;
 }
 
-// "mstart" and "mend" are pointers to indexes in the read string,
-// which are converted to the corresponding indexes in the returned char string.
+// "mstart" and "mend" are pointers to indexes in the read String,
+// which are converted to the corresponding indexes in the returned char String.
 
 void ScintillaEditView::getGenericText(char *dest, size_t destlen, size_t start, size_t end, intptr_t* mstart, intptr_t* mend) const
 {
@@ -2296,7 +2296,7 @@ void ScintillaEditView::replaceSelWith(const char * replaceText)
 
 void ScintillaEditView::getVisibleStartAndEndPosition(intptr_t* startPos, intptr_t* endPos)
 {
-    assert(startPos != Null && endPos != Null);
+    assert(startPos != nullptr && endPos != nullptr);
     // Get the position of the 1st and last showing chars from the edit view
     Rect rcEditView;
     getClientRect(rcEditView);
@@ -2311,7 +2311,7 @@ void ScintillaEditView::getVisibleStartAndEndPosition(intptr_t* startPos, intptr
 char * ScintillaEditView::getWordFromRange(char * txt, size_t size, size_t pos1, size_t pos2)
 {
     if (!size)
-        return Null;
+        return nullptr;
     if (pos1 > pos2)
     {
         size_t tmp = pos1;
@@ -2320,7 +2320,7 @@ char * ScintillaEditView::getWordFromRange(char * txt, size_t size, size_t pos1,
     }
 
     if (size < pos2 - pos1)
-        return Null;
+        return nullptr;
 
     getText(txt, pos1, pos2);
     return txt;
@@ -2329,7 +2329,7 @@ char * ScintillaEditView::getWordFromRange(char * txt, size_t size, size_t pos1,
 char * ScintillaEditView::getWordOnCaretPos(char * txt, size_t size)
 {
     if (!size)
-        return Null;
+        return nullptr;
 
     pair<size_t, size_t> range = getWordRange();
     return getWordFromRange(txt, size, range.first, range.second);
@@ -2351,7 +2351,7 @@ char * ScintillaEditView::getGenericWordOnCaretPos(char * txt, int size)
 char * ScintillaEditView::getSelectedText(char * txt, size_t size, bool expand)
 {
     if (!size)
-        return Null;
+        return nullptr;
     Sci_CharacterRange range = getSelection();
     if (range.cpMax == range.cpMin && expand)
     {
@@ -2911,14 +2911,14 @@ intptr_t ScintillaEditView::caseConvertRange(intptr_t start, intptr_t end, TextC
     char *mbStr = new char[mbLenMax];
     getText(mbStr, start, end);
 
-    if (int wideLen = ::MultiByteToWideChar(codepage, 0, mbStr, mbLen, Null, 0))
+    if (int wideLen = ::MultiByteToWideChar(codepage, 0, mbStr, mbLen, nullptr, 0))
     {
         wchar_t *wideStr = new wchar_t[wideLen];  // not NUL terminated
         ::MultiByteToWideChar(codepage, 0, mbStr, mbLen, wideStr, wideLen);
 
         changeCase(wideStr, wideLen, caseToConvert);
 
-        if (int mbLenOut = ::WideCharToMultiByte(codepage, 0, wideStr, wideLen, mbStr, mbLenMax, Null, Null))
+        if (int mbLenOut = ::WideCharToMultiByte(codepage, 0, wideStr, wideLen, mbStr, mbLenMax, nullptr, nullptr))
         {
             // mbStr isn't NUL terminated either at this point
             mbLen = mbLenOut;
@@ -3118,7 +3118,7 @@ bool ScintillaEditView::expandWordSelection()
 
 char * int2str(char *str, int strLen, int number, int base, int nbChiffre, bool isZeroLeading)
 {
-    if (nbChiffre >= strLen) return Null;
+    if (nbChiffre >= strLen) return nullptr;
     char f[64];
     char fStr[2] = TEXT("d");
     if (base == 16)
@@ -3832,7 +3832,7 @@ void ScintillaEditView::setBorderEdge(bool doWithBorderEdge)
 
     ::SetWindowLongPtr(_hSelf, GWL_STYLE, style);
     ::SetWindowLongPtr(_hSelf, GWL_EXSTYLE, exStyle);
-    ::SetWindowPos(_hSelf, Null, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED);
+    ::SetWindowPos(_hSelf, nullptr, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED);
 }
 
 void ScintillaEditView::getFoldColor(Color&& fgColor, Color&& bgColor, Color&& activeFgColor)
@@ -3971,8 +3971,8 @@ void ScintillaEditView::markedTextToClipboard(int indiStyle, bool doAll /*= fals
                     String styledText = getGenericTextAsString(prevPos, pos);
                     if (!textContainsLineEndingChar)
                     {
-                        if (styledText.find(cr) != std::string::npos ||
-                            styledText.find(lf) != std::string::npos)
+                        if (styledText.find(cr) != String::npos ||
+                            styledText.find(lf) != String::npos)
                         {
                             textContainsLineEndingChar = true;
                         }
@@ -4009,7 +4009,7 @@ void ScintillaEditView::markedTextToClipboard(int indiStyle, bool doAll /*= fals
             joined += TEXT("\r\n");
         }
 
-        str2Clipboard(joined, Null);
+        str2Clipboard(joined, nullptr);
     }
 }
 

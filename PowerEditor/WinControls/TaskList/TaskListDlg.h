@@ -42,8 +42,8 @@ struct TaskListInfo {
 	int _currentIndex = -1;
 };
 
-static Upp::Ctrl* hWndServer = Null;
-static HHOOK hook = Null;
+static Window* hWndServer = nullptr;
+static HHOOK hook = nullptr;
 static winVer windowsVersion = WV_UNKNOWN;
 
 static LRESULT CALLBACK hookProc(int nCode, WPARAM wParam, LPARAM lParam);
@@ -52,7 +52,7 @@ class TaskListDlg : public StaticDialog
 {
 public :
 		TaskListDlg() : StaticDialog() { _instanceCount++; };
-		void init(Ctrl& hInst, Upp::Ctrl* parent, HIMAGELIST hImgLst, bool dir) {
+		void init(Window& hInst, Window* parent, HIMAGELIST hImgLst, bool dir) {
             Window::init(hInst, parent);
 			_hImalist = hImgLst;
 			_initDir = dir;

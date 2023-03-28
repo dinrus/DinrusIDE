@@ -25,14 +25,14 @@
 
 // The original md5 implementation avoids external libraries.
 // This version has dependency on stdio.h for file input and
-// string.h for memcpy.
+// String.h for memcpy.
 
 //
 // http://www.ietf.org/ietf-ftp/IPR/RSA-MD-all
 
 
 #include <stdio.h>
-#include <string.h>
+#include <String.h>
 
 #pragma region MD5 defines
 // Constants for MD5Transform routine.
@@ -350,10 +350,10 @@ public:
     int len;
     unsigned char buffer[1024] ;
 
-	if ((file = fopen(filename, "rb")) == Null)
+	if ((file = fopen(filename, "rb")) == nullptr)
 	{
 		//printf("%s can't be opened\n", filename);
-		return Null;
+		return nullptr;
 	}
     else
     {
@@ -377,11 +377,11 @@ public:
     return digestChars ;
   }
 
-  // Digests a string and prints the result.
-  char* digestString(const char *string )
+  // Digests a String and prints the result.
+  char* digestString(const char *String )
   {
     Init() ;
-    Update( (unsigned char*)string, static_cast<unsigned int>(strlen(string)) ) ;
+    Update( (unsigned char*)String, static_cast<unsigned int>(strlen(String)) ) ;
     Final() ;
 
     return digestChars ;

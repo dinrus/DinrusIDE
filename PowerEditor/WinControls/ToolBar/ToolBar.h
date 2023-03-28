@@ -53,7 +53,7 @@ public :
 	~ToolBar() = default;
 
     void initTheme(TiXmlDocument *toolIconsDocRoot);
-	virtual bool init(Ctrl& hInst, Upp::Ctrl* hPere, toolBarStatusType type,
+	virtual bool init(Window& hInst, Window* hPere, toolBarStatusType type,
 		ToolBarButtonUnit *buttonUnitArray, int arraySize);
 
 	virtual void destroy();
@@ -170,11 +170,11 @@ public :
 
 	virtual void destroy() {
 		::DestroyWindow(_hSelf);
-		_hSelf = Null;
+		_hSelf = nullptr;
 		usedIDs.clear();
 	};
 
-	void init(Ctrl& hInst, Upp::Ctrl* hPere);
+	void init(Window& hInst, Window* hPere);
 	bool addBand(REBARBANDINFO * rBand, bool useID);	//useID true if ID from info should be used (false for plugins). wID in bandinfo will be set to used ID
 	void reNew(int id, REBARBANDINFO * rBand);					//wID from bandinfo is used for update
 	void removeBand(int id);

@@ -53,9 +53,8 @@ LAYOUT(Gdb_MI2Registers64Layout, 252, 132)
 END_LAYOUT
 
 LAYOUT(Gdb_MI2QuickwatchLayout, 400, 224)
-	ITEM(EditString>, expression, HSizePosZ(4, 72).TopPosZ(4, 19))
+	ITEM(Upp::WithDropChoice<Upp::EditString>, expression, HSizePosZ(4, 72).TopPosZ(4, 19))
 	ITEM(Upp::Button, evaluate, SetLabel(t_("Оценить")).RightPosZ(4, 64).TopPosZ(4, 20))
 	ITEM(WatchEdit, value, HSizePosZ(4, 4).VSizePosZ(28, 28))
 	ITEM(Upp::Button, close, SetLabel(t_("Закрыть")).RightPosZ(4, 64).BottomPosZ(4, 20))
 END_LAYOUT
-

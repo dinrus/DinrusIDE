@@ -18,7 +18,7 @@
 #pragma once
 
 //#include <windows.h>
-#include <string>
+//#include <string>
 //#include <char.h>
 //#include <cstdint>
 
@@ -47,14 +47,14 @@ public:
 
 	bool write(const void *wbuf, unsigned long buf_size);
 
-	bool writeStr(const std::string& str) {
-		return write(str.c_str(), static_cast<unsigned long>(str.length()));
+	bool writeStr(const String& str) {
+		return write(str.c_str(), static_cast<unsigned long>(str.GetLength()));
 	};
 
 private:
 	void*	_hFile		{INVALID_HANDLE_VALUE};
 	bool	_written	{false};
-	std::string _path;
+	String _path;
 
 	const dword _accessParam  { GENERIC_READ | GENERIC_WRITE };
 	const dword _shareParam   { FILE_SHARE_READ | FILE_SHARE_WRITE };

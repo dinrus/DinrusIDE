@@ -36,11 +36,11 @@ class ContextMenu final
 public:
 	~ContextMenu();
 
-	void create(Upp::Ctrl* hParent, const std::vector<MenuItemUnit> & menuItemArray, const Menu* mainMenuHandle = Null, bool copyLink = false);
-	bool isCreated() const {return _hMenu != Null;}
+	void create(Window* hParent, const std::vector<MenuItemUnit> & menuItemArray, const Menu* mainMenuHandle = nullptr, bool copyLink = false);
+	bool isCreated() const {return _hMenu != nullptr;}
 	
 	void display(const POINT & p) const {
-		::TrackPopupMenu(_hMenu, TPM_LEFTALIGN, p.x, p.y, 0, _hParent, Null);
+		::TrackPopupMenu(_hMenu, TPM_LEFTALIGN, p.x, p.y, 0, _hParent, nullptr);
 	}
 
 	void enableItem(int cmdID, bool doEnable) const
@@ -60,8 +60,8 @@ public:
 	}
 
 private:
-	Upp::Ctrl* _hParent = Null;
-	Menu* _hMenu = Null;
+	Window* _hParent = nullptr;
+	Menu* _hMenu = nullptr;
 	std::vector<Menu*> _subMenus;
 
 };

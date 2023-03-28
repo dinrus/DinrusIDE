@@ -56,7 +56,7 @@ FileBrowser::~FileBrowser()
     }
 }
 
-Vector<String> split(const String & string2split, char sep)
+Vector<String> split(const String& string2split, char sep)
 {
     Vector<String> splitedStrings;
     size_t len = string2split.GetLength();
@@ -72,7 +72,7 @@ Vector<String> split(const String & string2split, char sep)
     return splitedStrings;
 };
 
-bool isRelatedRootFolder(const String & relatedRoot, const String & subFolder)
+bool isRelatedRootFolder(const String& relatedRoot, const String& subFolder)
 {
     if (relatedRoot.IsEmpty())
         return false;
@@ -100,7 +100,7 @@ intptr_t CALLBACK FileBrowser::run_dlgProc(UINT message, WPARAM wParam, LPARAM l
         {
             NppParameters& nppParam = NppParameters::getInstance();
             int style = WS_CHILD | WS_VISIBLE | CCS_ADJUSTABLE | TBSTYLE_AUTOSIZE | TBSTYLE_FLAT | TBSTYLE_LIST | TBSTYLE_TRANSPARENT | BTNS_AUTOSIZE | BTNS_SEP | TBSTYLE_TOOLTIPS | TBSTYLE_CUSTOMERASE;
-            _hToolbarMenu = CreateWindowEx(WS_EX_LAYOUTRTL, TOOLBARCLASSNAME, Null, style, 0, 0, 0, 0, _hSelf, nullptr, _hInst, Null);
+            _hToolbarMenu = CreateWindowEx(WS_EX_LAYOUTRTL, TOOLBARCLASSNAME, nullptr, style, 0, 0, 0, 0, _hSelf, nullptr, _hInst, nullptr);
 
             // Add the bmap image into toolbar's imagelist
             int iconSizeDyn = nppParam._dpiManager.scaleX(16);
@@ -215,7 +215,7 @@ intptr_t CALLBACK FileBrowser::run_dlgProc(UINT message, WPARAM wParam, LPARAM l
 
             ::MoveWindow(_hToolbarMenu, 0, 0, width, toolbarMenuRect.bottom, TRUE);
 
-            Upp::Ctrl* hwnd = _treeView.getHSelf();
+            Window* hwnd = _treeView.getHSelf();
             if (hwnd)
                 ::MoveWindow(hwnd, 0, toolbarMenuRect.bottom + extraValue, width, height - toolbarMenuRect.bottom - extraValue, TRUE);
             break;
@@ -314,7 +314,7 @@ intptr_t CALLBACK FileBrowser::run_dlgProc(UINT message, WPARAM wParam, LPARAM l
             bool isRenamed = renameInTree(rootPath, nullptr, linarPathArray, linarPathArray2[linarPathArray2.size() - 1]);
             if (!isRenamed)
             {
-                //MessageBox(Null, file2Change[0].Begin(), TEXT("file/folder is not removed"), MB_OK);
+                //MessageBox(nullptr, file2Change[0].Begin(), TEXT("file/folder is not removed"), MB_OK);
             }
             break;
         }
@@ -493,7 +493,7 @@ void FileBrowser::notified(LPNMHDR notification)
     else if (notification->code == TTN_GETDISPINFO)
     {
         LPTOOLTIPTEXT lpttt = (LPTOOLTIPTEXT)notification;
-        lpttt->hinst = Null;
+        lpttt->hinst = nullptr;
 
         if (notification->idFrom == FB_CMD_AIMFILE)
         {
@@ -714,7 +714,7 @@ void FileBrowser::showContextMenu(int x, int y)
     {
         TrackPopupMenu(_hGlobalMenu,
             NppParameters::getInstance().getNativeLangSpeaker()->isRTL() ? TPM_RIGHTALIGN | TPM_LAYOUTRTL : TPM_LEFTALIGN,
-            x, y, 0, _hSelf, Null);
+            x, y, 0, _hSelf, nullptr);
     }
     else
     {
@@ -723,7 +723,7 @@ void FileBrowser::showContextMenu(int x, int y)
 
         // get clicked item type
         BrowserNodeType nodeType = getNodeType(tvHitInfo.hItem);
-        Menu* hMenu = Null;
+        Menu* hMenu = nullptr;
         if (nodeType == browserNodeType_root)
             hMenu = _hRootMenu;
         else if (nodeType == browserNodeType_folder)
@@ -733,7 +733,7 @@ void FileBrowser::showContextMenu(int x, int y)
 
         TrackPopupMenu(hMenu,
             NppParameters::getInstance().getNativeLangSpeaker()->isRTL() ? TPM_RIGHTALIGN | TPM_LAYOUTRTL : TPM_LEFTALIGN,
-            x, y, 0, _hSelf, Null);
+            x, y, 0, _hSelf, nullptr);
     }
 }
 
@@ -866,7 +866,7 @@ void FileBrowser::popupMenuCmd(int cmdID)
             String path = getNodePath(selectedNode);
 
             if (::PathFileExists(path.Begin()))
-                ::ShellExecute(Null, TEXT("open"), path.Begin(), Null, Null, SW_SHOWNORMAL);
+                ::ShellExecute(nullptr, TEXT("open"), path.Begin(), nullptr, nullptr, SW_SHOWNORMAL);
         }
         break;
     }
@@ -1063,7 +1063,7 @@ HTREEITEM FileBrowser::createFolderItemsFromDirStruct(HTREEITEM hParentItem, con
     return hFolderItem;
 }
 
-HTREEITEM FileBrowser::getRootFromFullPath(const String & rootPath) const
+HTREEITEM FileBrowser::getRootFromFullPath(const String& rootPath) const
 {
     HTREEITEM node = nullptr;
     for (HTREEITEM hItemNode = _treeView.getRoot();
@@ -1085,7 +1085,7 @@ HTREEITEM FileBrowser::getRootFromFullPath(const String & rootPath) const
 HTREEITEM FileBrowser::findChildNodeFromName(HTREEITEM parent, const char* label) const
 {
     for (HTREEITEM hItemNode = _treeView.getChildFrom(parent);
-        hItemNode != Null;
+        hItemNode != nullptr;
         hItemNode = _treeView.getNextSibling(hItemNode))
     {
         char textBuffer[MAX_PATH] = { '\0' };
@@ -1245,7 +1245,7 @@ bool FileBrowser::addToTree(FilesToChange & group, HTREEITEM node)
     else
     {
         for (HTREEITEM hItemNode = _treeView.getChildFrom(node);
-            hItemNode != Null;
+            hItemNode != nullptr;
             hItemNode = _treeView.getNextSibling(hItemNode))
         {
             char textBuffer[MAX_PATH] = { '\0' };
@@ -1306,7 +1306,7 @@ HTREEITEM FileBrowser::findInTree(const char* rootPath, HTREEITEM node, Vector<S
     else
     {
         for (HTREEITEM hItemNode = _treeView.getChildFrom(node);
-            hItemNode != Null;
+            hItemNode != nullptr;
             hItemNode = _treeView.getNextSibling(hItemNode))
         {
             char textBuffer[MAX_PATH] = { '\0' };
@@ -1347,7 +1347,7 @@ std::vector<HTREEITEM> FileBrowser::findInTree(FilesToChange & group, HTREEITEM 
     else
     {
         for (HTREEITEM hItemNode = _treeView.getChildFrom(node);
-            hItemNode != Null;
+            hItemNode != nullptr;
             hItemNode = _treeView.getNextSibling(hItemNode))
         {
             char textBuffer[MAX_PATH] = {'\0'};
@@ -1374,7 +1374,7 @@ std::vector<HTREEITEM> FileBrowser::findChildNodesFromNames(HTREEITEM parent, Ve
     std::vector<HTREEITEM> itemNodes;
 
     for (HTREEITEM hItemNode = _treeView.getChildFrom(parent);
-        hItemNode != Null && !labels.IsEmpty();
+        hItemNode != nullptr && !labels.IsEmpty();
         hItemNode = _treeView.getNextSibling(hItemNode)
         )
     {
@@ -1400,7 +1400,7 @@ void FileBrowser::removeNamesAlreadyInNode(HTREEITEM parent, Vector<String> & la
 {
     // We have to search for the labels in the child nodes of parent, and remove the ones that already exist
     for (HTREEITEM hItemNode = _treeView.getChildFrom(parent);
-        hItemNode != Null && !labels.IsEmpty();
+        hItemNode != nullptr && !labels.IsEmpty();
         hItemNode = _treeView.getNextSibling(hItemNode)
         )
     {
@@ -1420,7 +1420,7 @@ void FileBrowser::removeNamesAlreadyInNode(HTREEITEM parent, Vector<String> & la
     }
 }
 
-bool FileBrowser::renameInTree(const char* rootPath, HTREEITEM node, const Vector<String>& linarPathArrayFrom, const String & renameTo)
+bool FileBrowser::renameInTree(const char* rootPath, HTREEITEM node, const Vector<String>& linarPathArrayFrom, const String& renameTo)
 {
     HTREEITEM foundItem = findInTree(rootPath, node, linarPathArrayFrom);
     if (foundItem == nullptr)
@@ -1451,7 +1451,7 @@ int CALLBACK FileBrowser::categorySortFunc(LPARAM lParam1, LPARAM lParam2, LPARA
         return lstrcmpi(item1->_label.Begin(), item2->_label.Begin());
 }
 
-bool FolderInfo::addToStructure(String & fullpath, Vector<String> linarPathArray)
+bool FolderInfo::addToStructure(String& fullpath, Vector<String> linarPathArray)
 {
     if (linarPathArray.size() == 1) // could be file or folder
     {
@@ -1578,7 +1578,7 @@ void FolderUpdater::startWatcher()
 {
     // no thread yet, create a event with non-signaled, to block all threads
     _EventHandle = ::CreateEvent(nullptr, TRUE, FALSE, nullptr);
-    _watchThreadHandle = ::CreateThread(Null, 0, watching, this, 0, Null);
+    _watchThreadHandle = ::CreateThread(nullptr, 0, watching, this, 0, nullptr);
 }
 
 void FolderUpdater::stopWatcher()

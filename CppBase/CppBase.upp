@@ -1,8 +1,5 @@
 description "Отчасти эвристический (неточный) парсер  C++ для Assist++ (intellisense)\377";
 
-uses
-	Core;
-
 file
 	CppBase.h options(BUILDER_OPTION) PCH,
 	Internal.h,

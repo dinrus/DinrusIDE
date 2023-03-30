@@ -1,4 +1,4 @@
-﻿/***********************************************************************\
+/***********************************************************************\
 *                                regstr.d                               *
 *                                                                       *
 *                       Windows API header module                       *
@@ -76,7 +76,7 @@ const PCI_FLAG_IS_IDE            = 0x0100;
 const PCI_FLAG_IS_VIDEO          = 0x0200;
 const PCI_FLAG_FAIL_START        = 0x0400;
 
-const size_t REGSTR_VAL_MAX_HCID_LEN = 1024;
+const т_мера REGSTR_VAL_MAX_HCID_LEN = 1024;
 
 const REGDF_NOTDETIO        = 0x00000001;
 const REGDF_NOTDETMEM       = 0x00000002;

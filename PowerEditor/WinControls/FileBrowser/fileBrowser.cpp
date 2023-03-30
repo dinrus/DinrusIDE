@@ -17,7 +17,7 @@
 
 #include <PowerEditor/WinControls/FileBrowser/fileBrowser.h>
 #include <PowerEditor/resource.h>
-#include "tinyxml.h"
+#include <PowerEditor/TinyXml/tinyxml.h>
 #include <PowerEditor/localization.h>
 #include <PowerEditor/Parameters.h>
 #include <PowerEditor/WinControls/StaticDialog/RunDlg/RunDlg.h>

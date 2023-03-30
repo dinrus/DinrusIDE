@@ -1,4 +1,4 @@
-﻿/***********************************************************************\
+/***********************************************************************\
 *                               iprtrmib.d                              *
 *                                                                       *
 *                       Windows API header module                       *
@@ -15,7 +15,7 @@ private import win32.windef;
 
 // FIXME: check types of constants
 
-const size_t
+const т_мера
 	MAXLEN_PHYSADDR        =   8,
 	MAXLEN_IFDESCR         = 256,
 	MAX_INTERFACE_NAME_LEN = 256;

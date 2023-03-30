@@ -1,4 +1,4 @@
-﻿/***********************************************************************\
+/***********************************************************************\
 *                                winber.d                               *
 *                                                                       *
 *                       Windows API header module                       *
@@ -16,7 +16,7 @@ module win32.winber;
   Written by Filip Navara <xnavara@volny.cz>
 
   Ссылки:
-    The C LDAP Application Program Interface
+    The C LDAP Application Program Интерфейс
     http://www.watersprings.org/pub/id/draft-ietf-ldapext-ldap-c-api-05.txt
 
     Lightweight Directory Access Protocol Reference

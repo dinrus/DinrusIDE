@@ -3,55 +3,81 @@ topic "Концепты Дизайна Контролов";
 [{_}%RU-RU 
 [s0; [*R@5;6 Концепты Дизайна Контролов]&]
 [s0; &]
-[s0; When developing own Ctrl`'s one often is `'reinventing`' the 
-wheel, because there are common patterns to do in your Ctrl that 
-Ultimate`+`+ is probably already providing in Ctrl base class. 
-Thus, knowing the base class and some of its key design concepts 
-can make your life easier and the development of your Ctrl faster, 
-while focusing more on the problem than the methods. As always, 
-the best reference for Ctrl is its source code, which is quite 
-large, thats why I try to summarize some of the useful things 
-you can already use. In any case, look at the [C virtual ]functions 
-in Ctrl to see what is meant to be implemented or used by you. 
-I won`'t cover LogPos related things here, it is covered in another 
-documentation.&]
+[s0; При разработке собственных Ctrl`'ов 
+часто `'реинвентируют`' `- повторно 
+изобретают `- колесо... А ведь есть 
+общие образцы, как это делать, и для 
+вашего контрола Ultimate`+`+ , вероятно, 
+уже имеет класс`-основу. Так, знание 
+класса`-основы и некоторых его ключевых 
+концептов дизайна может сделать вашу 
+жизнь спокойней, а разработку которолов 
+быстрее, позволяя более фокусироваться 
+на проблеме, нежели на методах её 
+решения. Как всегда, лучшая справка 
+по Ctrl `- это его исходный код, который 
+довольно`-таки не маловат, отчего 
+попытаемся `"собрать до кучи`" (суммировать) 
+некоторые полезности. В любом случае, 
+стоит просмотреть [C virtual ]функции в 
+Ctrl, чтобы понять, что подразумевается 
+для использования или реализации 
+лично вами...&]
 [s0; &]
-[s0; Generally, a Ctrl in U`+`+ is helper to visualize some kind 
-of data. The data, though, is not static, and can be changed 
-from GUI (point and click) perspective or from API perspective, 
-using manipulating functions. The difference is, that GUI interaction 
-should modify the internal data (or state) of Ctrl AND notify 
-application somehow about change, but modifying it using API 
-should NOT generate change notifications. This is a very important 
-design rule that keeps you away from a lot of head ache from 
-recursive invocations when modifying Ctrl`'s in API.&]
+[s0; В целом, Ctrl в U`+`+ `- это визуализатор 
+какого`-то рода данных. Данные, однако, 
+не статичны, могут меняться из ГИП(GUI) 
+(point and click) или из ИПП(API) перспектив, 
+с помощью манипуляционных функций. 
+Разница в том, что GUI interaction нацелена 
+на изменение внутренних данных (или 
+состояния) Ctrl`'а, И на уведомление 
+приложения об изменениях, но изменение 
+этого с помощью ИПП НЕ должно генерировать 
+никаких уведомлений об изменении. 
+Это очень важное правило дизайна, 
+предохраняющее от множества `"головняков`", 
+из`-за рекурсивных инвокаций при модификации
+ Ctrl`'а через API.&]
 [s0; &]
 [s0; [* Ctrl Tree]&]
 [s0; &]
-[s0; Ultimate`+`+ uses a linked list for all the child Ctrl`'s that 
-have been Add()ed to it, partaking of its drawing space. The 
-Ctrl does NOT own its children, but simply references them (Ptr<Ctrl>). 
-They should be owned by your application, somewhere in a U`+`+ 
-container, i.e. Array<Label> or they are already made members 
-of your application when using Layout files. If a Ctrl is added 
-to another, it is ensured to be properly removed from its previous 
-parent, thus a Ctrl cant be part of 2 trees.&]
+[s0; В Ultimate`+`+ используется linked list (линкованный 
+список) со всеми `"чадами`" (контролами`-отпрыс
+ками) Ctrl`'а, которые Add()ированы в нему, 
+разделяя с ним его пространство отрисовки. 
+Ctrl НЕ `"владеет`" своими отпрысками, 
+а просто ссылается на них (Ptr<Ctrl>). Владеть 
+ими должно ваше приложение, где`-нибудь 
+в контейнере U`+`+, напр. Array<Label>,  либо 
+они уже являются членами вашего приложения, 
+если используются файлы Layout. Если 
+какой`-то Ctrl добавляется к какому`-то 
+другому, надо удалить его у предыдущего 
+родителя, а то Ctrl может стать частью 
+двух деревьев.&]
 [s0; &]
 [s0; [* GetData / SetData]&]
 [s0; &]
-[s0; Most Ctrl`'s you will ever create will only need one single 
-value to visualize or represent. This is true for EditFields, 
-Buttons, Labels, etc. To be able to Get / Set this single value 
-into/from the Ctrl, U`+`+ uses it`'s own `'polymorphic`' Value 
-class (see another documentation), which enables the Ctrl`'s 
-to receive and handle intrinsic data types internally through 
-one single interface, relieving you from the conversion pain. 
-That`'s why exists GetData / SetData pair. it is the main door 
-into your Ctrl. Even more complex Ctrl`'s like TreeCtrl  use 
-it to provide the currently selected index. Think of your Ctrl, 
-which information it could provide as general through this interface. 
-it makes implicit usage easy, also in terms of notification (see 
-next)&]
+[s0; Большинству Ctrl`'ов, создаваемых вами, 
+потребуется только одно единственное 
+значение, чтобы визуализировать его 
+или представить. Это верно для EditFields, 
+Buttons, Labels и проч. Чтобы мочь Get / Set это 
+единственное значение в/из Ctrl`'а, в 
+U`+`+ используется его собственный 
+класс `'полиморфного`' Value, который 
+даёт контролам способность получать 
+и обрабатывать intrinsic типы данных внутри 
+себя, через единый интерфейс, не требуя 
+от вас никаких преобразований. Для 
+этого существует парочка GetData / SetData. 
+Это главная дверь в ваш Ctrl. Она есть 
+даже у более сложных Ctrl`'ов, типа TreeCtrl, 
+ предоставляя текущий выделенный 
+индекс. Think of your Ctrl, which information it could 
+provide as general through this interface. it makes implicit 
+usage easy, also in terms of notification (see next)&]
 [s0; &]
 [s0; [* WhenAction Callback]&]
 [s0; &]

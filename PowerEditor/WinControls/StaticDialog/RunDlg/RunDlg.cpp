@@ -21,7 +21,7 @@
 #include <PowerEditor/WinControls/shortcut/shortcut.h>
 #include <PowerEditor/Parameters.h>
 #include <PowerEditor/Notepad_plus.h>
-#include <strsafe.h>
+//#include <strsafe.h>
 
 
 void Command::extractArgs(char* cmd2Exec, size_t cmd2ExecLen, char* args, size_t argsLen, const char* cmdEntier)

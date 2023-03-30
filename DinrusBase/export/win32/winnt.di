@@ -1,4 +1,4 @@
-﻿/***********************************************************************\
+/***********************************************************************\
 *                                winnt.d                                *
 *                                                                       *
 *                       Windows API header module                       *
@@ -267,7 +267,7 @@ const THREAD_BASE_PRIORITY_MIN   =  -2;
 const THREAD_BASE_PRIORITY_IDLE  = -15;
 
 const DWORD EXCEPTION_NONCONTINUABLE      =  1;
-const size_t EXCEPTION_MAXIMUM_PARAMETERS = 15;
+const т_мера EXCEPTION_MAXIMUM_PARAMETERS = 15;
 
 // These are not documented on MSDN
 const ACCESS_MASK
@@ -1134,7 +1134,7 @@ const WORD
 // ???
 const IMAGE_SEPARATE_DEBUG_SIGNATURE = 0x4944;
 
-const size_t
+const т_мера
 	IMAGE_NUMBEROF_DIRECTORY_ENTRIES =  16,
 	IMAGE_SIZEOF_ROM_OPTIONAL_HEADER =  56,
 	IMAGE_SIZEOF_STD_OPTIONAL_HEADER =  28,
@@ -1496,7 +1496,7 @@ enum {
 }
 // End of constants documented in pecoff.doc
 
-const size_t IMAGE_ARCHIVE_START_SIZE = 8;
+const т_мера IMAGE_ARCHIVE_START_SIZE = 8;
 
 const TCHAR[]
 	IMAGE_ARCHIVE_START            = "!<arch>\n",
@@ -1626,7 +1626,7 @@ alias SECURITY_IMPERSONATION_LEVEL* PSECURITY_IMPERSONATION_LEVEL;
 alias BOOLEAN SECURITY_CONTEXT_TRACKING_MODE;
 alias BOOLEAN* PSECURITY_CONTEXT_TRACKING_MODE;
 
-const size_t SECURITY_DESCRIPTOR_MIN_LENGTH = 20;
+const т_мера SECURITY_DESCRIPTOR_MIN_LENGTH = 20;
 
 const DWORD
 	SECURITY_DESCRIPTOR_REVISION  = 1,
@@ -1674,7 +1674,7 @@ const DWORD
                               | TOKEN_ADJUST_DEFAULT,
 	TOKEN_EXECUTE           = STANDARD_RIGHTS_EXECUTE;
 
-const size_t TOKEN_SOURCE_LENGTH = 8;
+const т_мера TOKEN_SOURCE_LENGTH = 8;
 // end ddk/ntifs.в
 
 enum : DWORD {
@@ -3368,7 +3368,7 @@ struct REPARSE_GUID_DATA_BUFFER {
 }
 alias REPARSE_GUID_DATA_BUFFER* PREPARSE_GUID_DATA_BUFFER;
 
-const size_t
+const т_мера
 	REPARSE_DATA_BUFFER_HEADER_SIZE = REPARSE_DATA_BUFFER.GenericReparseBuffer.offsetof,
 	REPARSE_GUID_DATA_BUFFER_HEADER_SIZE = REPARSE_GUID_DATA_BUFFER.GenericReparseBuffer.offsetof,
 	MAXIMUM_REPARSE_DATA_BUFFER_SIZE = 16384;
@@ -3626,7 +3626,7 @@ const ULONG
 	POWER_USER_NOTIFY_SHUTDOWN    = 0x00000010,
 	POWER_FORCE_TRIGGER_RESET     = 0x80000000;
 
-const size_t
+const т_мера
 	DISCHARGE_POLICY_CRITICAL = 0,
 	DISCHARGE_POLICY_LOW      = 1,
 	NUM_DISCHARGE_POLICIES    = 4;

@@ -1,4 +1,4 @@
-﻿/***********************************************************************\
+/***********************************************************************\
 *                              winsock2.d                               *
 *                                                                       *
 *                       Windows API header module                       *
@@ -41,7 +41,7 @@ alias char u_char;
 alias ushort u_short;
 alias uint u_int, u_long, SOCKET;
 
-const size_t FD_SETSIZE = 64;
+const т_мера FD_SETSIZE = 64;
 
 /* shutdown() how types */
 enum : int {
@@ -318,7 +318,7 @@ struct SOCKADDR_IN {
 }
 alias SOCKADDR_IN* PSOCKADDR_IN, LPSOCKADDR_IN;
 
-const size_t
+const т_мера
 	WSADESCRIPTION_LEN = 256,
 	WSASYS_STATUS_LEN  = 128;
 
@@ -471,7 +471,7 @@ const int
 	MSG_MAXIOVLEN = 16,
 	MSG_PARTIAL   = 0x8000;
 
-const size_t MAXGETHOSTSTRUCT = 1024;
+const т_мера MAXGETHOSTSTRUCT = 1024;
 
 // Not documented on MSDN
 enum {
@@ -813,7 +813,7 @@ enum GUARANTEE {
 /* TODO: FLOWSPEC and related definitions belong in qos.в */
 
 /*
-   Windows Sockets 2 Application Programming Interface,
+   Windows Sockets 2 Application Programming Интерфейс,
    revision 2.2.2 (1997) uses the type uint32 for SERVICETYPE
    and the elements of _flowspec, but the type uint32 is not defined
    or used anywhere else in the w32api. For now, just use

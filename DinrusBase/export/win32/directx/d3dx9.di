@@ -1,4 +1,4 @@
-﻿// D3DX Types and Constants ---------------------------------------------------------------------------------------
+// D3DX Types and Constants ---------------------------------------------------------------------------------------
 
 module win32.directx.d3dx9;
 
@@ -1933,7 +1933,7 @@ struct D3DXF_FILELOADRESOURCE
 struct D3DXF_FILELOADMEMORY
 {
     LPCVOID lpMemory; // Desc
-    size_t  dSize;     // Desc
+    т_мера  dSize;     // Desc
 }
 
 const GUID IID_ID3DXFile = DEFINE_GUID!(0xcef08cf9, 0x7b4f, 0x4429, 0x96, 0x24, 0x2a, 0x69, 0x0a, 0x93, 0x32, 0x01 );
@@ -1946,32 +1946,32 @@ interface ID3DXFile : IUnknown
 {
     HRESULT CreateEnumObject(LPCVOID, D3DXF_FILELOADOPTIONS, ID3DXFileEnumObject*);
     HRESULT CreateSaveObject(LPCVOID, D3DXF_FILESAVEOPTIONS, D3DXF_FILEFORMAT, ID3DXFileSaveObject*);
-    HRESULT RegisterTemplates(LPCVOID, size_t);
+    HRESULT RegisterTemplates(LPCVOID, т_мера);
     HRESULT RegisterEnumTemplates(ID3DXFileEnumObject);
 }
 
 interface ID3DXFileSaveObject : IUnknown
 {
     HRESULT GetFile(ID3DXFile*);
-    HRESULT AddDataObject(GUID*, LPCSTR, GUID*, size_t, LPCVOID, ID3DXFileSaveData*);
+    HRESULT AddDataObject(GUID*, LPCSTR, GUID*, т_мера, LPCVOID, ID3DXFileSaveData*);
     HRESULT Save();
 }
 
 interface ID3DXFileSaveData : IUnknown
 {
     HRESULT GetSave(ID3DXFileSaveObject*);
-    HRESULT GetName(LPSTR, size_t*);
+    HRESULT GetName(LPSTR, т_мера*);
     HRESULT GetId(GUID*);
     HRESULT GetType(GUID*);
-    HRESULT AddDataObject(GUID*, LPCSTR, GUID*, size_t, LPCVOID, ID3DXFileSaveData*);
+    HRESULT AddDataObject(GUID*, LPCSTR, GUID*, т_мера, LPCVOID, ID3DXFileSaveData*);
     HRESULT AddDataReference(LPCSTR, GUID* );
 }
 
 interface ID3DXFileEnumObject : IUnknown
 {
     HRESULT GetFile(ID3DXFile*);
-    HRESULT GetChildren(size_t*);
-    HRESULT GetChild(size_t, ID3DXFileData*);
+    HRESULT GetChildren(т_мера*);
+    HRESULT GetChild(т_мера, ID3DXFileData*);
     HRESULT GetDataObjectById(REFGUID, ID3DXFileData*);
     HRESULT GetDataObjectByName(LPCSTR, ID3DXFileData*);
 }
@@ -1979,12 +1979,12 @@ interface ID3DXFileEnumObject : IUnknown
 interface ID3DXFileData : IUnknown
 {
     HRESULT GetEnum(ID3DXFileEnumObject*);
-    HRESULT GetName(LPSTR, size_t*);
+    HRESULT GetName(LPSTR, т_мера*);
     HRESULT GetId(GUID*);
-    HRESULT Lock(size_t*, LPCVOID*);
+    HRESULT Lock(т_мера*, LPCVOID*);
     HRESULT Unlock();
     HRESULT GetType(GUID*);
     BOOL IsReference();
-    HRESULT GetChildren(size_t*);
-    HRESULT GetChild(size_t, ID3DXFileData*);
+    HRESULT GetChildren(т_мера*);
+    HRESULT GetChild(т_мера, ID3DXFileData*);
 }

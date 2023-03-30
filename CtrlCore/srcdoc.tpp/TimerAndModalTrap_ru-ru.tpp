@@ -1,5 +1,4 @@
-topic "About modal loops and periodic timer events";
-[2 $$0,0#00000000000000000000000000000000:Default]
+topic "О модальных петлях и периодических таймерных событиях";
 [l288;i704;a17;O9;~~~.992;2 $$1,0#10431211400427159095818037425705:param]
 [a83;*R6 $$2,5#31310162474203024125188417583966:caption]
 [b83;*2 $$3,5#07864147445237544204411237157677:title]
@@ -18,8 +17,10 @@ topic "About modal loops and periodic timer events";
 [l321;*C$7;2 $$16,16#03451589433145915344929335295360:result]
 [l321;b83;a83;*C$7;2 $$17,17#07531550463529505371228428965313:result`-line]
 [l160;t4167;*C+117 $$18,5#88603949442205825958800053222425:package`-title]
+[2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%RU-RU 
-[s2; About modal loops and periodic timer events&]
+[s2; [@5 О модальных петлях и периодических 
+таймерных событиях]&]
 [s0; &]
 [s0; In this article we try to explain what is wrong with this piece 
 of code:&]
@@ -137,4 +138,4 @@ main reason for the Shutdown mechanism in Ctrl`'s.) Most critical
 spots in the CtrlCore library ifself are protected by various 
 means against such situations, but this doesn`'t mean that such 
 a recursion cannot crash your application.&]
-[s0; ]
+[s0; ]]

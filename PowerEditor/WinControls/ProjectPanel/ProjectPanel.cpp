@@ -14,11 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-#include <windowsx.h>
+//#include <windowsx.h>
 
 #include <PowerEditor/WinControls/ProjectPanel/ProjectPanel.h>
 #include <PowerEditor/resource.h>
-#include "tinyxml.h"
+#include <PowerEditor/TinyXml/tinyxml.h>
 #include <PowerEditor/WinControls/OpenSaveFileDialog/CustomFileDialog.h>
 #include <PowerEditor/localization.h>
 #include <PowerEditor/Parameters.h>

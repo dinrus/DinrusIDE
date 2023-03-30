@@ -1,13 +1,14 @@
 #pragma once
 #include <Core/Core.h>
 #include <CtrlCore/CtrlCore.h>
-#include <PowerEditor/WinControls/Window.h>
-
-using namespace Upp;
-
-#define HWND Window*
-
+#include <PowerEditor/WinControls/WinControls.h>
 #include <unordered_set>
+
+
+namespace Upp{
+
+typedef Upp::Window* HWND;
+typedef Upp::StringStream generic_stringstream;
 
 const bool dirUp = true;
 const bool dirDown = false;
@@ -23,10 +24,6 @@ const bool dirDown = false;
 
 #define COPYDATA_FILENAMES COPYDATA_FILENAMESW
 #define NPP_INTERNAL_FUCTION_STR TEXT("Notepad++::InternalFunction")
-
-using namespace Upp;
-
-typedef Upp::StringStream generic_stringstream;
 
 String folderBrowser(Window* parent, const char* title = TEXT(""), int outputCtrlID = 0, const char *defaultStr = nullptr);
 String getFolderName(Window* parent, const char *defaultDir = nullptr);
@@ -253,3 +250,5 @@ private:
 	unsigned long _patch = 0;
 	unsigned long _build = 0;
 };
+
+}//ns end

@@ -1,7 +1,7 @@
 #ifndef _PowerEditor_ScintillaComponent_ScintillaComponent_h_
 #define _PowerEditor_ScintillaComponent_ScintillaComponent_h_
 ////////////////////////////////////
-#include "tinyxml.h"
+#include <PowerEditor/TinyXml/tinyxml.h>
 #include <mutex>
 #include <PowerEditor/Utf8_16.h>
 #include <PowerEditor/WinControls/StaticDialog/StaticDialog.h>

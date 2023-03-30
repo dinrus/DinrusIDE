@@ -7,7 +7,7 @@ module win32.activex;
  */
 
 private:
-//import std.array; /* for ArrayBoundsError */
+//import inner.array; /* for ArrayBoundsError */
 import dinrus;
 
 import win32.winnt, win32.winnls, win32.uuid, win32.wtypes, win32.basetyps;
@@ -160,7 +160,7 @@ class AXO
 		
 	}
 	
-    VARIANTARG [] makeArray(TypeInfo [] args, void* ptr)
+    VARIANTARG [] makeArray(ИнфОТипе [] args, void* ptr)
     {
         VARIANTARG [] array;
         array.length = args.length;
@@ -170,7 +170,7 @@ class AXO
             if (args[i] == typeid(VARIANTARG))
                 array [i] = va_arg!(VARIANTARG)(ptr);
             else
-                throw new Exception( "Ожидались аргументы типа VARIANTARG" );
+                throw new Искл( "Ожидались аргументы типа VARIANTARG" );
         }
 
         return array;
@@ -187,9 +187,9 @@ class AXO
                     tmp=mem.invkind;
 
         if (tmp==0xffff)
-            throw new Exception(фм("отсутствует член '%s'",member));
+            throw new Искл(фм("отсутствует член '%s'",member));
         else
-		    throw new Exception(фм("член '%s' найден с INVOKEKIND %s",member,tmp));
+		    throw new Искл(фм("член '%s' найден с INVOKEKIND %s",member,tmp));
     }
 
     VARIANT get(ткст member)
@@ -198,7 +198,7 @@ class AXO
         DISPID dispid = findMember(member,ik);
 
         if (!(dispid in getters))
-            throw new Exception("можно получить только свойства");
+            throw new Искл("можно получить только свойства");
 
         DISPPARAMS param;
         VARIANT result;
@@ -213,7 +213,7 @@ class AXO
         DISPID dispid = findMember(member,ik);
 
         if (!(dispid in setters))
-            throw new Exception("можно только установить свойства");
+            throw new Искл("можно только установить свойства");
 
         VARIANTARG [] myArgs = (&arg)[0..1];
 
@@ -235,7 +235,7 @@ class AXO
         DISPID dispid = findMember(member,ik);
 
         if (!(dispid in settersbyref))
-            throw new Exception("можно только установить свойства");
+            throw new Искл("можно только установить свойства");
 
         VARIANTARG [] myArgs = (&arg)[0..1];
 
@@ -262,7 +262,7 @@ class AXO
         DISPID dispid = findMember(member,ik);
 
         if (!(dispid in methods))
-            throw new Exception("можно только вызывать методы");
+            throw new Искл("можно только вызывать методы");
 
         VARIANTARG [] myArgs = makeArray(_arguments,_argptr);
 
@@ -393,22 +393,22 @@ VARIANTARG toVariant(...)
 
         /* objects */
 
-		else if (_arguments[0] == typeid(Object)) 
+		else if (_arguments[0] == typeid(Объект)) 
 			/* need to be an AXO to work right now */
 		{
             debug пишиф("object\t");
 			variant.vt = VARENUM.VT_BYREF; //VARENUM.VT_STORED_OBJECT; /* I doubt this is right. */
-			variant.byref = cast(void*)( va_arg!(Object)(_argptr) );
+			variant.byref = cast(void*)( va_arg!(Объект)(_argptr) );
 				/* need to get some kind of pointer from the AXO object */
 		}
 		
 
         else
-            throw new Exception("toVariant doesn't know what to do with it.");
+            throw new Искл("toVariant doesn't know what to do with it.");
 
     }
     else 
-        throw new Exception("[unimplemented feature] toVariant can't use more than one arguemnt yet");
+        throw new Искл("[unimplemented feature] toVariant can't use more than one arguemnt yet");
 
     return variant;
 }

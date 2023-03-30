@@ -1,4 +1,4 @@
-﻿/***********************************************************************\
+/***********************************************************************\
 *                                 snmp.d                                *
 *                                                                       *
 *                       Windows API header module                       *
@@ -126,7 +126,7 @@ const INT
 	SNMP_OUTPUT_TO_EVENTLOG = 4,
 	SNMP_OUTPUT_TO_DEBUGGER = 8;
 
-const size_t SNMP_MAX_OID_LEN = 128;
+const т_мера SNMP_MAX_OID_LEN = 128;
 
 enum : DWORD {
 	SNMP_MEM_ALLOC_ERROR          =  1,

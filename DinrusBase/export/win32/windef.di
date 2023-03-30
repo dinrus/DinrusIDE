@@ -1,4 +1,4 @@
-﻿/***********************************************************************\
+/***********************************************************************\
 *                                windef.d                               *
 *                                                                       *
 *                       Windows API header module                       *
@@ -13,7 +13,7 @@ module win32.windef;
 public import win32.winnt;
 private import win32.w32api;
 
-const size_t MAX_PATH = 260;
+const т_мера MAX_PATH = 260;
 
 ushort MAKEWORD(ubyte a, ubyte b) {
 	return cast(ushort) ((b << 8) | a);

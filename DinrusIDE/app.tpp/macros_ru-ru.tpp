@@ -40,9 +40,9 @@ API]&]
 [s0; &]
 [s3;:1: [@(128.0.255) 1. Обзор]&]
 [s5; Макросы DinrusIDE пишутся на  [^topic`:`/`/Esc`/srcdoc`/Esc`_ru`-ru^ E
-sc языке сценариев] и помещаюься в 
+sc языке сценариев] и помещаются в 
 файлы .usc. Файлы .usc могут быть либо 
-частью обычных пакетов, либо помещаются 
+частью обычных пакетов, либо помещены 
 в Общую или Локальную директорию.&]
 [s5; Определение макроса в файле .usc начинается 
 с заголовка в следующей форме:&]
@@ -71,24 +71,29 @@ Ctrl`+T `{&]
 [s7; -|.Insert(s);&]
 [s7; `}&]
 [s0; &]
-[s5; Formally, from Esc perspective, macro is a `"method`" of editor 
-`- all editor commands are written in `"method`" notation (starting 
-with dot).&]
-[s5; Additionally, helper functions can be defined using the [*/@5 fn] 
-keyword:&]
+[s5; Формально, с точки зрения Esc, макрос 
+является `"методом`" редактора `- все 
+команды редактора записаны в нотации 
+`"method`" (начинающейся с точки).&]
+[s5; Могут быть определены дополнительные 
+функции,`- используется ключевое слово 
+[*/@5 fn]:&]
 [s0; &]
 [s7; fn Duplicate(str) `{&]
 [s7; -|return str `+ str;&]
 [s7; `}&]
 [s0; &]
-[s5; Functions defined like this can be simply called in the code 
-of macros as a global functions.&]
+[s5; Определённые подобным образом функции 
+могут запросто вызываться в коде 
+макроса как глобальные.&]
 [s3;:2: [@5 2. DinrusIDE `- API]&]
 [s19;:2`.1: [@(128.0.255) 2.1 Методы редактирования 
 текста]&]
-[s5; Most of text editing methods are provided in two (`"overloaded`") 
-forms `- implicit that works with cursor and selection or explicit 
-with given positions.&]
+[s5; Большинство методов редактирования 
+кода представляется в двух `"перегруженных`" 
+(`"overloaded`") формах `- implicit (косвенная), 
+которая работает с курсорами и выделением, 
+либо в explicit (явной), с заданными позициями.&]
 [s0; &]
 [ {{3667:6333h1;@(204) [s0; Метод]
 :: [s0; Описание]
@@ -97,49 +102,54 @@ with given positions.&]
 :: [s0;ph [*C+75 GetLineCount()]]
 :: [s20; Число строк в тексте.]
 :: [s0;ph [*C+75 GetLinePos(][/C+75 строка][*C+75 )]]
-:: [s20; Position (offset from the beginning of the file) of the first 
-character of [/ line].]
-:: [s0;ph [*C+75 GetLineLength(][/C+75 line][*C+75 )]]
-:: [s20; Returns the number of characters in given line.]
+:: [s20; Позиция(смещение от начала файла) 
+первого символа [/ строки].]
+:: [s0;ph [*C+75 GetLineLength(][/C+75 строка][*C+75 )]]
+:: [s20; Возвращает число символов в заданной 
+строке.]
 :: [s0;ph [*C+75 GetCursor()]]
-:: [s20; Cursor offset.]
-:: [s0;ph [*C+75 GetLine(][/C+75 position][*C+75 )]]
-:: [s20; Line for given [/ position].]
-:: [s0;ph [*C+75 GetColumn(][/C+75 position][*C+75 )]]
-:: [s20; Position in line for given [/ position].]
+:: [s20; Смещение курсора.]
+:: [s0;ph [*C+75 GetLine(][/C+75 позиция][*C+75 )]]
+:: [s20; Строка для заданной [/ позиция].]
+:: [s0;ph [*C+75 GetColumn(][/C+75 позиция][*C+75 )]]
+:: [s20; Позиция в строке для заданной [/ позиция].]
 :: [s0;ph [*C+75 GetSelBegin()]]
-:: [s20; Start of selection.]
+:: [s20; Начало выделения.]
 :: [s0;ph [*C+75 GetSelCount()]]
-:: [s20; Number of characters in selection. If zero, GetSelBegin() is 
-equal to GetCursor().]
-:: [s0;ph [*C+75 SetCursor(][/C+75 position][*C+75 )]]
-:: [s20; Sets cursor to given [/ position].]
-:: [s0;ph [*C+75 SetSelection(][/C+75 position][*C+75 , ][/C+75 count][*C+75 )]]
-:: [s20; Sets selection starting with [/ position] with [/ count] characters.]
+:: [s20; Число символов в выделении. Если 
+ноль, GetSelBegin() равно GetCursor().]
+:: [s0;ph [*C+75 SetCursor(][/C+75 позиция][*C+75 )]]
+:: [s20; Установить курсор в данную [/ позиция].]
+:: [s0;ph [*C+75 SetSelection(][/C+75 позиция][*C+75 , ][/C+75 счёт][*C+75 )]]
+:: [s20; Установить выделение, начиная с [/ позиция 
+со] [/ счёт ]символов.]
 :: [s0;ph [*C+75 ClearSelection()]]
-:: [s20; Cancels selection.]
-:: [s0;ph [*C+75 Get(][/C+75 position][*C+75 , ][/C+75 count][*C+75 )]]
-:: [s20; Returns array of [/ count] characters, starting at [/ position.]]
-:: [s0;ph [*C+75 Get(][/C+75 position][*C+75 )]]
-:: [s20; Same as Get(position, 1).]
-:: [s0;ph [*C+75 Remove(][/C+75 position][*C+75 , ][/C+75 count][*C+75 )]]
-:: [s20; Removes [/ count] characters at [/ position.]]
-:: [s0;ph [*C+75 Remove(][/C+75 count][*C+75 )]]
-:: [s20; Same as Remove(GetCursor(), [/ count]) `- removes [/ count] characters 
-at cursor position.]
+:: [s20; Отменяет выделение.]
+:: [s0;ph [*C+75 Get(][/C+75 позиция][*C+75 , ][/C+75 счёт][*C+75 )]]
+:: [s20; Возвращает массив символов [/ счёт], 
+начиная с [/ позиция .]]
+:: [s0;ph [*C+75 Get(][/C+75 позиция][*C+75 )]]
+:: [s20; То же что и Get(позиция, 1).]
+:: [s0;ph [*C+75 Remove(][/C+75 позиция][*C+75 , ][/C+75 счёт][*C+75 )]]
+:: [s20; Удаляет [/ счёт ]символов с [/ позиция.]]
+:: [s0;ph [*C+75 Remove(][/C+75 счёт][*C+75 )]]
+:: [s20; То же что и Remove(GetCursor(), [/ счёт ]) `- удаляет 
+[/ счёт ]символов с позиции курсора.]
 :: [s0;ph [*C+75 Remove()]]
-:: [s20; Same as Remove(GetSelBegin(), GetSelCount()) `- removes selection.]
-:: [s0;ph [*C+75 Insert(][/C+75 position][*C+75 , ][/C+75 text][*C+75 )]]
-:: [s20; Inserts array of characters [/ text] at the [/ position.]]
-:: [s0;ph [*C+75 Insert(][/C+75 text][*C+75 )]]
-:: [s20; Same as Insert(GetCursor(), [/ text]) `- inserts [/ text] at cursor 
-position.]
-:: [s0;ph [*C+75 Find(][/C+75 text][*C+75 , ][/C+75 down][*C+75 , ][/C+75 whole`_word][*C+75 , 
+:: [s20; То же что и Remove(GetSelBegin(), GetSelCount()) `- 
+удаляет выделение.]
+:: [s0;ph [*C+75 Insert(][/C+75 позиция][*C+75 , ][/C+75 текст][*C+75 )]]
+:: [s20; Вставляет массив символов [/ текст 
+]в [/ позиция.]]
+:: [s0;ph [*C+75 Insert(][/C+75 текст][*C+75 )]]
+:: [s20; То же что и Insert(GetCursor(), [/ text]) `- вставляет 
+[/ текст ]в позиции курсора.]
+:: [s0;ph [*C+75 Find(][/C+75 текст][*C+75 , ][/C+75 down][*C+75 , ][/C+75 whole`_word][*C+75 , 
 ][/C+75 ignore`_case][*C+75 , ][/C+75 wildcards][*C+75 )]]
-:: [s20; Finds [/ text], using give options. Options can be omitted `- 
-in that case [/ down] is considered true and rest of options false. 
-If text is found, function returns 1, otherwise 0.]
-:: [s0;ph [*C+75 Replace(][/C+75 text][*C+75 , ][/C+75 replace`_with][*C+75 , 
+:: [s20; Finds [/ текст ], using give options. Options can be omitted 
+`- in that case [/ down] is considered true and rest of options 
+false. If text is found, function returns 1, otherwise 0.]
+:: [s0;ph [*C+75 Replace(][/C+75 текст][*C+75 , ][/C+75 replace`_with][*C+75 , 
 ][/C+75 whole`_word][*C+75 , ][/C+75 ignore`_case][*C+75 , ][/C+75 widcards][*C+75 )]]
 :: [s20; Block replace, using given options. Options ca be omitted `- 
 in that case they are considered false. Returns number of strings 
@@ -176,8 +186,8 @@ replaced.]
 [s5; This section grouped methods that allows to manipulate DinrusIDE 
 files.&]
 [s0; &]
-[ {{3667:6333h1;@(204) [s0; Method]
-:: [s0; Description]
+[ {{3667:6333h1;@(204) [s0; Метод]
+:: [s0; Описание]
 ::^@2 [s0;ph [*C+75 FileName()]]
 :: [s20; Returns the name of currently edited file.]
 :: [s0;ph [*C+75 EditFile(][/C+75 path][*C+75 )]&]
@@ -194,8 +204,8 @@ files.&]
 from user to the macro or vice versa, which is exactly what these 
 methods do.&]
 [s0; &]
-[ {{3629:6371h1;@(204) [s0; Method]
-:: [s0; Description]
+[ {{3629:6371h1;@(204) [s0; Метод]
+:: [s0; Описание]
 ::^@2 [s0;ph [*C+75 Input(][/C+75 label, ...][*C+75 )]]
 :: [s20; Simple input dialog. Provides as many input text fields as is 
 number of parameters specifying labels for these fields. If user 
@@ -212,8 +222,8 @@ edit fields.]
 For that, there is a few methods that allow executing other programs 
 and also to trigger building U`+`+ packages.&]
 [s0; &]
-[ {{3667:6333h1;@(204) [s0; Method]
-:: [s0; Description]
+[ {{3667:6333h1;@(204) [s0; Метод]
+:: [s0; Описание]
 ::^@2 [s0;ph [*C+75 Execute(][/C+75 cmdline][*C+75 )]]
 :: [s20; Executes cmdline, capturing the output to the console.]
 :: [s0;ph [*C+75 Launch(][/C+75 cmdline][*C+75 )]]
@@ -223,16 +233,16 @@ and also to trigger building U`+`+ packages.&]
 specify the flags (e.g. `"GUI MT`") and target path for the compiled 
 executable.]
 :: [s0;ph [*C+75 BuildProject(][/C+75 uppfile, flags`[, outfile`]][*C+75 )]]
-:: [s20; Same as previous, but works with any package specified by passing 
-path to it`'s .upp file as a first parameter.]}}&]
+:: [s20; То же что и previous, but works with any package specified 
+by passing path to it`'s .upp file as a first parameter.]}}&]
 [s0; &]
 [s19;:2`.5: [@(128.0.255) 2.5 Информативные методы]&]
 [s5; The methods providing information about packages and build settings. 
 If the optional parameter [/ pkg] is not specified, the currently 
 selected package is used.&]
 [s0; &]
-[ {{3667:6333h1;@(204) [s0; Method]
-:: [s0; Description]
+[ {{3667:6333h1;@(204) [s0; Метод]
+:: [s0; Описание]
 ::^@2 [s0; [*C+75 ActivePackage()]]
 :: [s20; The name of package in which the currently edited file belongs 
 to.]

@@ -16,7 +16,7 @@
 
 #pragma once
 
-#include <oleacc.h>
+//#include <oleacc.h>
 #include <PowerEditor/MISC/Common/Common.h>
 #include "RunDlg_rc.h"
 

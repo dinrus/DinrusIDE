@@ -1,4 +1,4 @@
-﻿/***********************************************************************\
+/***********************************************************************\
 *                               iptypes.d                               *
 *                                                                       *
 *                       Windows API header module                       *
@@ -15,7 +15,7 @@ import win32.windef;
     private import dinrus;
 
 
-const size_t
+const т_мера
 	DEFAULT_MINIMUM_ENTITIES       =  32,
 	MAX_ADAPTER_ADDRESS_LENGTH     =   8,
 	MAX_ADAPTER_DESCRIPTION_LENGTH = 128,

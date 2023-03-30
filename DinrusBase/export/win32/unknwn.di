@@ -1,4 +1,4 @@
-﻿/***********************************************************************\
+/***********************************************************************\
 *                                unknwn.d                               *
 *                                                                       *
 *                       Windows API header module                       *
@@ -13,7 +13,7 @@ import win32.objfwd, win32.windef, win32.wtypes;
 private import win32.basetyps;
 
 extern (Windows) {
-	void* MIDL_user_allocate(size_t);
+	void* MIDL_user_allocate(т_мера);
 	void MIDL_user_free(void*);
 }
 

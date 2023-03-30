@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-#include "json.hpp"
+#include <PowerEditor/json/json.hpp>
 #include <algorithm>
 #include <iostream>
 #include <fstream>
@@ -26,7 +26,7 @@
 #include <PowerEditor/ScintillaComponent/ScintillaComponent.h>
 #include <PowerEditor/localization.h>
 #include <PowerEditor/MISC/Process/Processus.h>
-#include "PluginsManager.h"
+#include <PowerEditor/MISC/PluginsManager/PluginsManager.h>
 #include <PowerEditor/MISC/Common/verifySignedfile.h>
 
 #define TEXTFILE        256

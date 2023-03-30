@@ -1,4 +1,4 @@
-﻿/***********************************************************************\
+/***********************************************************************\
 *                               rassapi.d                               *
 *                                                                       *
 *                       Windows API header module                       *
@@ -14,7 +14,7 @@ private import win32.lmcons, win32.windef;
 
 // FIXME: check types of constants
 
-const size_t
+const т_мера
 	RASSAPI_MAX_PHONENUMBER_SIZE = 128,
 	RASSAPI_MAX_MEDIA_NAME	     =  16,
 	RASSAPI_MAX_PORT_NAME	     =  16,
@@ -61,7 +61,7 @@ const GATEWAY_ACTIVE     = 0x0008;
 const REMOTE_LISTEN      = 0x0010;
 const PORT_MULTILINKED   = 0x0020;
 
-const size_t
+const т_мера
 	RAS_IPADDRESSLEN  = 15,
 	RAS_IPXADDRESSLEN = 22,
 	RAS_ATADDRESSLEN  = 32;

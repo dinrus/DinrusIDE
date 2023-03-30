@@ -853,15 +853,16 @@ void Ide::MainMenu(Bar& menu)
 		.Help("Информация, просмотр кода и поддержка");
 	menu.Add("Настройка", THISBACK(Setup))
 		.Help("Пути, настройки редактора, подключение к удалённому хосту");
-			menu.Add("Система", THISBACK(SysOps))
-		.Help("Средства работы с текущими файловой или операционной системами");
+	menu.Add("Данные", THISBACK(DataOps))
+		.Help("Средства работы с различными данными");
 	menu.Add("Помощь", THISBACK(HelpMenu))
 		.Help("Помощь, доверие и лицензия");
 }
 
-void Ide::SysOps(Bar& bar)
+void Ide::DataOps(Bar& bar)
 {
-	bar.Add("Информация об ОС..", IdeImg::Computer(), THISBACK(ShowSysInfo));
+	bar.Add("Информация об ОС", IdeImg::Computer(), THISBACK(ShowSysInfo));
+	bar.Add("Хранилище Контактов", IdeImg::Computer(), THISBACK(ShowContacts));
 
 }
 
@@ -869,6 +870,12 @@ void Ide::ShowSysInfo()
 {
 	SysInfoGui sig; //ИнфОСистеме
     sig.Execute();
+}
+
+void Ide::ShowContacts()
+{
+	//SysInfoGui sig; //ИнфОСистеме
+    //sig.Execute();
 }
 
 void Ide::MainTool(Bar& bar)

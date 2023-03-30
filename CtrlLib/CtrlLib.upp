@@ -4,7 +4,8 @@ acceptflags
 	NOGTK;
 
 uses
-	CtrlCore;
+	CtrlCore,
+	Core;
 
 uses(POSIX) PdfDraw;
 

@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-#include "json.hpp"
+#include <PowerEditor/json/json.hpp>
 #include <PowerEditor/WinControls/FunctionList/functionListPanel.h>
 #include <PowerEditor/ScintillaComponent/ScintillaComponent.h>
 #include <PowerEditor/localization.h>

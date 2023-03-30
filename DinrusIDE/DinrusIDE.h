@@ -442,9 +442,10 @@ public:
     virtual void   SetErrorEditor();
     virtual String GetMain();
 
-    //Показываем ИнфОСистеме
-    virtual void   SysOps(Bar& bar);
+    //Данные
+    virtual void DataOps(Bar& bar);
     virtual void   ShowSysInfo();
+    virtual void   ShowContacts();
    ///////////////
 
     enum {

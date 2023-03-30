@@ -1,4 +1,4 @@
-﻿/***********************************************************************\
+/***********************************************************************\
 *                                shlobj.d                               *
 *                                                                       *
 *                       Windows API header module                       *
@@ -225,7 +225,7 @@ enum {
 
 const TCHAR[]
 	CFSTR_SHELLIDLIST       = "Shell IDList Array",
-	CFSTR_SHELLIDLISTOFFSET = "Shell Object Offsets",
+	CFSTR_SHELLIDLISTOFFSET = "Shell Объект Offsets",
 	CFSTR_NETRESOURCES      = "Net Resource",
 	CFSTR_FILECONTENTS      = "FileContents",
 	CFSTR_FILENAMEA         = "FileName",

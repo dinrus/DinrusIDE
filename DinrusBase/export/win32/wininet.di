@@ -1,4 +1,4 @@
-﻿/***********************************************************************\
+/***********************************************************************\
 *                               wininet.d                               *
 *                                                                       *
 *                       Windows API header module                       *
@@ -23,7 +23,7 @@ enum {
 	INTERNET_DEFAULT_SOCKS_PORT  = 1080
 }
 
-const size_t
+const т_мера
 	MAX_CACHE_ENTRY_INFO_SIZE       =  4096,
 	INTERNET_MAX_HOST_NAME_LENGTH   =   256,
 	INTERNET_MAX_USER_NAME_LENGTH   =   128,
@@ -83,7 +83,7 @@ const DWORD
 
 const INTERNET_NO_CALLBACK = 0;
 const INTERNET_RFC1123_FORMAT = 0;
-const size_t INTERNET_RFC1123_BUFSIZE = 30;
+const т_мера INTERNET_RFC1123_BUFSIZE = 30;
 
 const DWORD
 	ICU_ESCAPE             = 0x80000000,
@@ -227,7 +227,7 @@ enum {
 	FTP_TRANSFER_TYPE_MASK    = 3
 }
 
-const size_t
+const т_мера
 	MAX_GOPHER_DISPLAY_TEXT   = 128,
 	MAX_GOPHER_SELECTOR_TEXT  = 256,
 	MAX_GOPHER_HOST_NAME      = INTERNET_MAX_HOST_NAME_LENGTH,
@@ -306,7 +306,7 @@ BOOL IS_GOPHER_TYPE_KNOWN(DWORD t) {
 	return !(t & GOPHER_TYPE_UNKNOWN);
 }
 
-const size_t
+const т_мера
 	MAX_GOPHER_CATEGORY_NAME    = 128,
 	MAX_GOPHER_ATTRIBUTE_NAME   = 128,
 	MIN_GOPHER_ATTRIBUTE_LENGTH = 256;
@@ -934,7 +934,7 @@ struct INTERNET_BUFFERSW {
 }
 alias INTERNET_BUFFERSW* LPINTERNET_BUFFERSW;
 
-const size_t
+const т_мера
 	GROUP_OWNER_STORAGE_SIZE =   4,
 	GROUPNAME_MAX_LENGTH     = 120;
 

@@ -1,4 +1,4 @@
-﻿/***********************************************************************\
+/***********************************************************************\
 *                               custcntl.d                              *
 *                                                                       *
 *                       Windows API header module                       *
@@ -15,7 +15,7 @@ private import win32.windef;
 // FIXME: check type
 const CCF_NOTEXT = 1;
 
-const size_t
+const т_мера
 	CCHCCCLASS =  32,
 	CCHCCDESC  =  32,
 	CCHCCTEXT  = 256;

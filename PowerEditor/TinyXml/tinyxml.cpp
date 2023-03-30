@@ -1,6 +1,6 @@
 #include <sstream>
 #include <memory>
-#include "tinyxml.h"
+#include <PowerEditor/TinyXml/tinyxml.h>
 
 bool TiXmlBase::condenseWhiteSpace = true;
 

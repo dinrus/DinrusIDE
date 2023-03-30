@@ -1,4 +1,4 @@
-﻿/***********************************************************************\
+/***********************************************************************\
 *                              ws2tcpip.d                               *
 *                                                                       *
 *                       Windows API header module                       *
@@ -216,7 +216,7 @@ struct addrinfo {
 	int			ai_family;
 	int			ai_socktype;
 	int			ai_protocol;
-	size_t		ai_addrlen;
+	т_мера		ai_addrlen;
 	char*		ai_canonname;
 	SOCKADDR*	ai_addr;
 	addrinfo*	ai_next;

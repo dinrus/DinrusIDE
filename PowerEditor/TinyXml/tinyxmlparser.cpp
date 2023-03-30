@@ -25,7 +25,7 @@ distribution.
 
 #include <sstream>
 #include <tchar.h>
-#include "tinyxml.h"
+#include <PowerEditor/TinyXml/tinyxml.h>
 
 //#define DEBUG_PARSER
 

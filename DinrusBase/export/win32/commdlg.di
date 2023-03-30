@@ -1,4 +1,4 @@
-﻿/***********************************************************************\
+/***********************************************************************\
 *                               commdlg.d                               *
 *                                                                       *
 *                       Windows API header module                       *
@@ -449,7 +449,7 @@ struct OPENFILENAMEW {
 }
 alias OPENFILENAMEW* LPOPENFILENAMEW;
 
-const size_t OPENFILENAME_SIZE_VERSION_400 = 76;
+const т_мера OPENFILENAME_SIZE_VERSION_400 = 76;
 
 struct OFNOTIFYA {
 	NMHDR           hdr;

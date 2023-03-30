@@ -7,8 +7,7 @@ uses
 	PowerEditor/DarkMode,
 	Core,
 	CtrlCore,
-	CtrlLib,
-	ClassFactory;
+	CtrlLib;
 
 options
 	-D_UNICODE;
@@ -47,7 +46,8 @@ file
 	Utf8.h,
 	Utf8_16.cpp,
 	Utf8_16.h,
-	winmain.cpp;
+	winmain.cpp,
+	json/json.hpp;
 
 mainconfig
 	"" = "GUI",

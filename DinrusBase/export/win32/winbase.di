@@ -1,4 +1,4 @@
-﻿/***********************************************************************\
+/***********************************************************************\
 *                               winbase.d                               *
 *                                                                       *
 *                       Windows API header module                       *
@@ -415,7 +415,7 @@ enum : DWORD {
 	SCS_OS216_BINARY
 }
 
-const size_t
+const т_мера
 	MAX_COMPUTERNAME_LENGTH = 15,
 	HW_PROFILE_GUIDLEN      = 39,
 	MAX_PROFILE_LEN         = 80;
@@ -1157,7 +1157,7 @@ struct DEBUG_EVENT {
 	DWORD dwProcessId;
 	DWORD dwThreadId;
 	union {
-		EXCEPTION_DEBUG_INFO      Exception;
+		EXCEPTION_DEBUG_INFO      Искл;
 		CREATE_THREAD_DEBUG_INFO  CreateThread;
 		CREATE_PROCESS_DEBUG_INFO CreateProcessInfo;
 		EXIT_THREAD_DEBUG_INFO    ExitThread;

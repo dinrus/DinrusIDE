@@ -1,8 +1,6 @@
-#include "AboutDlg.h"
-#include "../../Parameters.h"
-#include "../../localization.h"
 
-#pragma warning(disable : 4996) // for GetVersion()
+#include "../WinControls.h"
+
 
 intptr_t CALLBACK AboutDlg::run_dlgProc(UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -182,36 +180,7 @@ intptr_t CALLBACK DebugInfoDlg::run_dlgProc(UINT message, WPARAM wParam, LPARAM 
             char szReleaseId[32] = {'\0'};
             dword dwUBR = 0;
             char szUBR[12] = "0";
-/*
-            // NOTE: RegQueryValueExW is not guaranteed to return null-terminated strings
-            if (RegOpenKeyExW(HKEY_LOCAL_MACHINE, TEXT("SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion"), 0, KEY_READ, &hKey) == ERROR_SUCCESS)
-            {
-                dataSize = sizeof(szProductName);
-                RegQueryValueExW(hKey, TEXT("ProductName"), nullptr, nullptr, reinterpret_cast<LPBYTE>(szProductName), &dataSize);
-                szProductName[sizeof(szProductName) / sizeof(char) - 1] = '\0';
 
-                dataSize = sizeof(szReleaseId);
-                if(RegQueryValueExW(hKey, TEXT("DisplayVersion"), nullptr, nullptr, reinterpret_cast<LPBYTE>(szReleaseId), &dataSize) != ERROR_SUCCESS)
-                {
-                    dataSize = sizeof(szReleaseId);
-                    RegQueryValueExW(hKey, TEXT("ReleaseId"), nullptr, nullptr, reinterpret_cast<LPBYTE>(szReleaseId), &dataSize);
-                }
-                szReleaseId[sizeof(szReleaseId) / sizeof(char) - 1] = '\0';
-
-                dataSize = sizeof(szCurrentBuildNumber);
-                RegQueryValueExW(hKey, TEXT("CurrentBuildNumber"), nullptr, nullptr, reinterpret_cast<LPBYTE>(szCurrentBuildNumber), &dataSize);
-                szCurrentBuildNumber[sizeof(szCurrentBuildNumber) / sizeof(char) - 1] = '\0';
-
-                dataSize = sizeof(dword);
-                if (RegQueryValueExW(hKey, TEXT("UBR"), nullptr, nullptr, reinterpret_cast<LPBYTE>(&dwUBR), &dataSize) == ERROR_SUCCESS)
-                {
-                    generic_sprintf(szUBR, TEXT("%u"), dwUBR);
-                }
-
-                RegCloseKey(hKey);
-            }
-*/
-            // Get alternative OS information
             if (szProductName[0] == '\0')
             {
                 generic_sprintf(szProductName, TEXT("%s"), (NppParameters::getInstance()).getWinVersionStr().Begin());

@@ -1,4 +1,4 @@
-﻿/***********************************************************************\
+/***********************************************************************\
 *                               ipexport.d                              *
 *                                                                       *
 *                       Windows API header module                       *
@@ -12,7 +12,7 @@ module win32.ipexport;
 
 private import win32.windef;
 
-const size_t MAX_ADAPTER_NAME = 128;
+const т_мера MAX_ADAPTER_NAME = 128;
 
 // IP STATUS flags
 enum : IP_STATUS {

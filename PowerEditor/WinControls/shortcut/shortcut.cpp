@@ -23,7 +23,7 @@
 #include <PowerEditor/ScintillaComponent/ScintillaComponent.h>
 #include <PowerEditor/resource.h>
 #include <PowerEditor/Notepad_plus_Window.h>
-#include "keys.h"
+#include <PowerEditor/keys.h>
 
 using namespace std;
 

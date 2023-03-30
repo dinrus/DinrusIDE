@@ -18,7 +18,6 @@
 #include <Core/Core.h>
 #include <PowerEditor/ScintillaComponent/ScintillaComponent.h>
 #include <PowerEditor/WinControls/SplitterContainer/SplitterContainer.h>
-#include <PowerEditor/ScintillaComponent/FindReplaceDlg.h>
 #include <PowerEditor/WinControls/AboutDlg/AboutDlg.h>
 #include <PowerEditor/WinControls/StaticDialog/RunDlg/RunDlg.h>
 #include <PowerEditor/WinControls/StatusBar/StatusBar.h>

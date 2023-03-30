@@ -36,8 +36,8 @@
  * ***** END LICENSE BLOCK ***** */
 
 #include "nsUTF8Prober.h"
-#include <PowerEditor/uchardet/nsEscCharsetProber.h>
-#include <PowerEditor/uchardet/nsCharSetProber.h>
+#include "nsEscCharsetProber.h"
+#include "nsCharSetProber.h"
 
 #define SHORTCUT_THRESHOLD      (float)0.95
 

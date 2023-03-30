@@ -1,4 +1,4 @@
-﻿/***********************************************************************\
+/***********************************************************************\
 *                               commctrl.d                              *
 *                                                                       *
 *                       Windows API header module                       *
@@ -2452,8 +2452,8 @@ static if (_WIN32_WINNT >= 0x0501) {
 		LM_GETITEM     // = WM_USER + 771
 	}
 
-	const size_t MAX_LINKID_TEXT  =   48;
-	const size_t L_MAX_URL_LENGTH = 2084;
+	const т_мера MAX_LINKID_TEXT  =   48;
+	const т_мера L_MAX_URL_LENGTH = 2084;
 }
 
 
@@ -3125,7 +3125,7 @@ static if (_WIN32_WINNT >= 0x501) {
 		void*     lpReserved;
 	}
 
-	const size_t
+	const т_мера
 		TTTOOLINFOA_V1_SIZE = TOOLINFOA.lParam.offsetof,
 		TTTOOLINFOW_V1_SIZE = TOOLINFOW.lParam.offsetof,
 		TTTOOLINFOA_V2_SIZE = TOOLINFOA.lpReserved.offsetof,
@@ -3155,7 +3155,7 @@ static if (_WIN32_WINNT >= 0x501) {
 		LPARAM    lParam;
 	}
 
-	const size_t
+	const т_мера
 		TTTOOLINFOA_V1_SIZE = TOOLINFOA.lParam.offsetof,
 		TTTOOLINFOW_V1_SIZE = TOOLINFOW.lParam.offsetof,
 		TTTOOLINFOA_V2_SIZE = TOOLINFOA.sizeof,
@@ -3181,7 +3181,7 @@ static if (_WIN32_WINNT >= 0x501) {
 		LPWSTR    lpszText;
 	}
 
-	const size_t
+	const т_мера
 		TTTOOLINFOA_V1_SIZE = TOOLINFOA.sizeof,
 		TTTOOLINFOW_V1_SIZE = TOOLINFOW.sizeof;
 }
@@ -3941,7 +3941,7 @@ static if (_WIN32_IE >= 0x400) {
 		UINT     cxHeader;
 	}
 
-	enum : size_t {
+	enum : т_мера {
 		REBARBANDINFOA_V3_SIZE = REBARBANDINFOA.cyChild.offsetof,
 		REBARBANDINFOW_V3_SIZE = REBARBANDINFOW.cyChild.offsetof
 	}
@@ -3980,7 +3980,7 @@ static if (_WIN32_IE >= 0x400) {
 		UINT     wID;
 	}
 
-	enum : size_t {
+	enum : т_мера {
 		REBARBANDINFOA_V3_SIZE = REBARBANDINFOA.sizeof,
 		REBARBANDINFOW_V3_SIZE = REBARBANDINFOW.sizeof
 	}

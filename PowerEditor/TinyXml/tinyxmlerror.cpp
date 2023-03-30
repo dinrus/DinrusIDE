@@ -23,7 +23,7 @@ distribution.
 */
 
 
-#include "tinyxml.h"
+#include <PowerEditor/TinyXml/tinyxml.h>
 
 // The goal of the separate error file is to make the first
 // step towards localization. tinyxml (currently) only supports

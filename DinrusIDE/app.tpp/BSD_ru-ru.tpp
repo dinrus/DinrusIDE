@@ -19,26 +19,26 @@ topic "Copyright ©  2023 DinrusPro";
 [l160;t4167;*C+117 $$18,5#88603949442205825958800053222425:package`-title]
 [2 $$0,0#00000000000000000000000000000000:Default]
 [{_} 
-[s0;%% [*+117 Copyright © 1998, 2021 U`+`+ team]&]
-[s0;%% [*+117 Copyright ©  2023 DinrusPro]&]
-[s0;%% All rights reserved.&]
-[s0;%% &]
-[s0;%% Redistribution and use in source and binary forms, with or 
-without modification, are permitted provided that the following 
+[s0;%RU-RU [*+117 Copyright © 1998 `- 2021 U`+`+ team]&]
+[s0;%RU-RU [*+117 Copyright ©  2012 `- 2023 DinrusPro]&]
+[s0;%RU-RU All rights reserved.&]
+[s0;%RU-RU &]
+[s0;%RU-RU Redistribution and use in source and binary forms, with 
+or without modification, are permitted provided that the following 
 conditions are met:&]
-[s0;%% &]
-[s0;%% 1. Redistributions of source code must retain the above copyright 
-notice, this list of conditions and the following disclaimer.&]
-[s0;%% &]
-[s0;%% 2. Redistributions in binary form must reproduce the above 
+[s0;%RU-RU &]
+[s0;%RU-RU 1. Redistributions of source code must retain the above 
+copyright notice, this list of conditions and the following disclaimer.&]
+[s0;%RU-RU &]
+[s0;%RU-RU 2. Redistributions in binary form must reproduce the above 
 copyright notice, this list of conditions and the following disclaimer 
 in the documentation and/or other materials provided with the 
 distribution.&]
-[s0;%% &]
-[s0;%% THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
-`"AS IS`" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT 
-NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND 
-FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT 
+[s0;%RU-RU &]
+[s0;%RU-RU THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND 
+CONTRIBUTORS `"AS IS`" AND ANY EXPRESS OR IMPLIED WARRANTIES, 
+INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY 
+AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT 
 SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY 
 DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL 
 DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE 
@@ -50,7 +50,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.&]
 [s0; &]
 [s0;H8;0 &]
 [s0; [/ U`+`+ is using 3rd party code:]&]
-[s0;%% &]
+[s0;%RU-RU &]
 [s0; Package [* plugin/astyle] has following licence notice:&]
 [ {{10000@(255.255.192) [s0; [C1 The `"Artistic Style`" project, including all files needed 
 to]&]
@@ -4063,4 +4063,4 @@ copyrights,]&]
 [s0; [C1 pyyaml tests        llvm/test/YAMLParser/`{`*.data, LICENSE.TXT`}]&]
 [s0; [C1 ARM contributions   llvm/lib/Target/ARM/LICENSE.TXT]&]
 [s0; [C1 md5 contributions   llvm/lib/Support/MD5.cpp llvm/include/llvm/Support/MD5.h]]}}&]
-[s0;%% ]]
+[s0;%RU-RU ]]

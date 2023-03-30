@@ -1,4 +1,4 @@
-﻿/***********************************************************************\
+/***********************************************************************\
 *                               nddeapi.d                               *
 *                                                                       *
 *                       Windows API header module                       *
@@ -57,7 +57,7 @@ enum {
 	NDDE_TRUST_SHARE_FAIL
 }
 
-const size_t
+const т_мера
 	MAX_NDDESHARENAME = 256,
 	MAX_DOMAINNAME = 15,
 	MAX_USERNAME = 15,

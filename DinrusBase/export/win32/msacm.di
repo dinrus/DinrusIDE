@@ -1,4 +1,4 @@
-﻿/***********************************************************************\
+/***********************************************************************\
 *                                msacm.d                                *
 *                                                                       *
 *                       Windows API header module                       *
@@ -18,7 +18,7 @@ alias HANDLE* LPHACMDRIVER;
 /* Comment from MinGW
 	found through experimentation
  */
-const size_t
+const т_мера
 	ACMDRIVERDETAILS_SHORTNAME_CHARS =  32,
 	ACMDRIVERDETAILS_LONGNAME_CHARS  = 128,
 	ACMDRIVERDETAILS_COPYRIGHT_CHARS =  80,
@@ -27,7 +27,7 @@ const size_t
 /* Comment from MinGW
 	I don't know the right values for these macros
  */
-const size_t
+const т_мера
 	ACMFORMATDETAILS_FORMAT_CHARS       = 256,
 	ACMFORMATTAGDETAILS_FORMATTAG_CHARS = 256,
 	ACMDRIVERDETAILS_FEATURES_CHARS     = 256;

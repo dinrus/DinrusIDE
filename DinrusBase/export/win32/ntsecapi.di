@@ -1,4 +1,4 @@
-﻿/***********************************************************************\
+/***********************************************************************\
 *                              ntsecapi.d                               *
 *                                                                       *
 *                       Windows API header module                       *
@@ -58,7 +58,7 @@ const MSV1_0_MAX_NTLM3_LIFE                  =     1800;
 const MSV1_0_MAX_AVL_SIZE                    =    64000;
 const MSV1_0_MNS_LOGON                       = 16777216;
 
-const size_t
+const т_мера
 	MSV1_0_CHALLENGE_LENGTH          = 8,
 	MSV1_0_LANMAN_SESSION_KEY_LENGTH = 8,
 	MSV1_0_NTLM3_RESPONSE_LENGTH     = 16,

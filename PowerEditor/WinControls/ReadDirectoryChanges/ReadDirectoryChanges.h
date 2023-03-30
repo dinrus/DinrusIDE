@@ -33,7 +33,7 @@
 #include <Core/Core.h>
 using dword = Upp::dword;
 
-#include "targetver.h"
+//#include "targetver.h"
 
 #include <stdio.h>
 

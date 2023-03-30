@@ -4,20 +4,30 @@ topic "Cameleon Rendering & Создание своих хамелоенизир
 [s0; [*R@5;6 Cameleon Rendering `& Создание своих хамелоенизир
 ованных контролов]&]
 [s0; &]
-[s0; [2 Ultimate`+`+ uses a key feature to yield almost identical look 
-on target platforms. It is called `'Chameleon`' and was meant 
-to be only a slim layer to resemble target platform look, but 
-passing time has evolved to a rich featured part of Ultimate`+`+. 
-Own custom Controls can be created quite fast, but often lack 
-the proper support for Chameleon technology, rendering an ugly 
-spot in your overall application, when it uses the other Ultimate`+`+ 
-standard controls, which are `'Chameleon aware`'. So here is 
-how you can extend / properly create a Ctrl derived Ultimate`+`+ 
-control with chameleon support.]&]
+[s0; [2 В Ultimate`+`+ используется ключевая фишка, 
+позволяющая получать почти идентичный 
+внешний вид на целевых платформах. 
+Она называется `'Chameleon`' и является 
+лишь тонкой прослойкой для воссоздания 
+внешнего вида на целевой платформе. 
+Собственные кастомные контролы могут 
+создаваться довольно быстро, но в 
+них часто отсутствует надлежащая 
+поддержка технологии Chameleon. Поэтому 
+при использовании других стандартных 
+контролов Ultimate`+`+, `"знакомых`" с `"Хамелеоном`"
+, кастомные контролы могут проявлять 
+неадекватное поведение.]&]
+[s0; [2 Вот почему здесь `- далее `- описывается 
+то, как можно расширить/правильно 
+создать какой`-либо Ctrl, производный 
+от контрола Ultimate`+`+, с поддержкой `"Хамелеон`".
+]&]
 [s0;2 &]
-[s0; [*2 1) Define what you consider Style for your control]&]
+[s0; [*@(128.0.255)2 1) Определение стиля для контрола 
+(Style)]&]
 [s0;2 &]
-[s0; [2 In .h file]&]
+[s0; [2 В файле .h]&]
 [s0;C1 &]
 [s0; [C1 struct Style : ChStyle<Style> `{]&]
 [s0; [C1 -|Color paper;]&]
@@ -31,32 +41,50 @@ control with chameleon support.]&]
 [s0; [C1 -|int   vfm;]&]
 [s0; [C1 `};]&]
 [s0;2 &]
-[s0; [2 This is maybe the most important task to do. When you go ahead 
-implementing your Ctrl, you should already use the respective 
-properties, where possible, thats why this is important to do 
-as soon as possible in development. Later porting can be pain. 
-Parts considered to be Style of your Control are Colors of parts, 
-think of states, your Ctrl can be in (active, inactive..), general 
-sizes of  bars, margins, etc. Font should `*not`* be part of 
-it. It should be specified via API (thus later including of your 
-Ctrl in DinrusIDE can be done easier, provide SetFont() for it)]&]
+[s0; [2 Это, вероятнее всего, наиболее важная 
+из задач. Продвигаясь в создании собственног
+о Ctrl, вы уже, конечно же, научились 
+использовать соответствующие свойства... 
+Вот почему это первостепенной важности 
+задача при разработке! Позднее портирование
+ может оказаться не из лёгких... Те 
+части, которые создадут стиль вашего 
+контрола, `- это цвета элементов`-деталей, 
+продуманность состояний, `- ваш Ctrl 
+может быть в нескольких (активном, 
+неактивном..),`- общие размеры баров 
+ (брусов), кромок (margins) и т.п. Шрифт 
+к этому не относится. Его нужно задавать 
+через API (позднее включение этого 
+Ctrl в DinrusIDE можно будет легко выполнить, 
+обеспечив его методом SetFont()).]&]
 [s0;2 &]
-[s0; [2 The ChStyle base enriches your own style with some handling 
-with respect to static Style instances for all Ctrl instances 
-of that type. so do not forget it.]&]
+[s0; [2 Основа ChStyle обогащает ваш собственный 
+стиль некоторой обработкой, относящейся 
+к статическим экземплярам Style, и касающейся 
+ всех экземпляров Ctrl данного типа. 
+Не стоит забывать про это!]&]
 [s0;2 &]
-[s0; [2 Stick to the naming convention, Style...]&]
+[s0; [2 И придерживаться конвенции (договорённости
+) об именовании `- Style...]&]
 [s0;2 &]
-[s0; [*2 2) Setup a default style]&]
+[s0; [*@(128.0.255)2 2) Установка дефолтного стиля 
+(`= стиля по умолчанию)]&]
 [s0;2 &]
-[s0; [2 It is registered globally in Chameleon database for this special 
-control (thats why the macro needs Ctrl class name, Style class 
-name. It generates the function with name `'StyleDefault`'`'). 
-Use default System color descriptions, where possible, like SColorFace, 
-SColorPaper, to remain consistent to global GUI design. They 
-are derived from current target Platform settings.]&]
+[s0; [2 Он регистрируется в базе данных 
+Chameleon глобально для конкретного контрола 
+(элемента управления, упрэлта)(поэтому 
+макросу нужны имя класса Ctrl, имя класса 
+Style `- он генерирует функцию `'StyleDefault`'`' 
+`- `"дефолт стиля`"). Используйте, по 
+врзможности, описания дефолтным системных 
+цветов (System), типа SColorFace, SColorPaper, чтобы 
+сохранять соответствие глобальному 
+дизайну ГИП (GUI). Они производятся 
+из текущих целевых настроек Platform 
+(платформы).]&]
 [s0;2 &]
-[s0; [2 In .cpp file]&]
+[s0; [2 В файле .cpp]&]
 [s0; [C1 CH`_STYLE(EditField, Style, StyleDefault)]&]
 [s0; [C1 `{]&]
 [s0; [C1 -|paper `= SColorPaper();]&]
@@ -73,21 +101,25 @@ are derived from current target Platform settings.]&]
 [s0; [C1 -|vfm `= 2;]&]
 [s0; [C1 `}]&]
 [s0;2 &]
-[s0; [*2 3) Use a const Style `*style to reference]&]
+[s0; [*@(128.0.255)2 3) Использование стиля const 
+Style `* для ссылки]&]
 [s0;2 &]
-[s0; [2  It is the currently used style in your control code. Don`'t 
-forget to initialize the pointer to your default style. Now, 
-that you have a StyleDefault() function, you can use this one. 
-provide means to override the Style  settings used in your Ctrl 
-(SetStyle). Of course, the referenced Style needs to exist as 
-long as the Ctrl uses it.]&]
+[s0; [2 Это текущий используемый стиль в 
+коде контрола. Не забывате инициализировать
+ указатель на ваш дефолтный стиль.Теперь, 
+когда у вас есть функция StyleDefault(), 
+её можно использовать как средство 
+для  перезаписи настроек Style, используемых 
+в вашем Ctrl (SetStyle). Конечно, стиль Style 
+под ссылкой должен существовать жо 
+тех пор, пока его использует Ctrl.]&]
 [s0;2 &]
-[s0; In .h file&]
+[s0; В файле .h&]
 [s0; [C1 -|const Style `*style;]&]
 [s0; [C1 -|static const Style`& StyleDefault();]&]
 [s0; [C1 -|EditField`&  SetStyle(const Style`& s);]&]
 [s0; &]
-[s0; In .cpp file&]
+[s0; В файле .cpp&]
 [s0; [C1 -|style `= `&StyleDefault(); //ctor]&]
 [s0; &]
 [s0; [C1 EditField`& EditField`::SetStyle(const Style`& s)]&]
@@ -98,10 +130,14 @@ long as the Ctrl uses it.]&]
 [s0; [C1 -|return `*this;]&]
 [s0; [C1 `}]&]
 [s0;2 &]
-[s0; [*2 4) Use your style information to paint your control]&]
+[s0; [*@(128.0.255)2 4) Использование собственной 
+информации о стиле для отрисовки 
+контрола]&]
 [s0;2 &]
-[s0; [2 Either use it directly, or provide Chameleon helper functions 
-with some of your style info]&]
+[s0; [2 Либо используйте её непосредственно, 
+либо обеспечьте некоторые вспомогательные 
+функции Chameleon с вашей информацией 
+о стиле]&]
 [s0;2 &]
 [s0; [C1 void EditField`::Paint(Draw`& w)]&]
 [s0; [C1 `{]&]
@@ -116,7 +152,8 @@ style`->focus : style`->paper) : style`->disabled;]&]
 [s0; [C1 ....]&]
 [s0; [C1 `}]&]
 [s0; &]
-[s0; [2 other controls use it like that (ScrollBar)]&]
+[s0; [2 другими контролами это используется 
+так (ScrollBar)]&]
 [s0; &]
 [s0; [C1 -|-|if(i !`= 2 `|`| thumbsize >`= style`->thumbmin)]&]
 [s0; [C1 -|-|-|ChPaint(w, pr, l`[i`]`[p `=`= i ? CTRL`_PRESSED : light 
@@ -143,25 +180,33 @@ sz.cx / 2, sz.cy, l`[1`]`[CTRL`_DISABLED`]);]&]
 `- sz.cy / 2, l`[1`]`[CTRL`_DISABLED`]);]&]
 [s0; [C1 ...-|-|`}]&]
 [s0;2 &]
-[s0; [*2 Usage Hints:]&]
+[s0; [*@(128.0.255)2 Советы по Использованию:]&]
 [s0;2 &]
-[s0; [2 Normally, the used Style struct is not alterable (thats why 
-`'const Style `*`'), you can only replace ist as an entity at 
-once (SetStyle) by a reference to another style. The referenced 
-struct needs to exist as long as the control that`'s using it, 
-exists as well (logical since it`'s no copy).]&]
+[s0; [2 Как правило, мспользуемая структура 
+Style `"неальтерабильна`" (поэтому и const 
+Style `*`') `- можно только полностью заменить 
+её, как сущность, (SetStyle) указав на другой 
+стиль. Указываемая структура должна 
+существовать всё время жизни использующего 
+её контрола.]&]
 [s0;2 &]
-[s0; [2 if you want to permanently alter the default Style for `*all`* 
-controls of that type, you can disable the const lock, to edit 
-the static global instance of your custom control`'s default 
-style]&]
-[s0; [2 (or even others if your control supports multiple global styles, 
-see below). You can always make a preinitialisation to a Standard() 
-style, which was defined one time as copy from the first global 
-registered style (i.e. StyleDefault()) for your control. The 
-Standard() preinit saves a lot of code when to alter only few 
-properties. this is also how to restore an altered StyleDefault 
-to its previous state.]&]
+[s0; [2 Емли требуется навсегда изменить 
+дефолный Style для `*всех`* контролов 
+данного типа, можно отключить const 
+lock, чтобы отредактировать статический 
+глобальный экземпляр дефолтного 
+стиля вашего кастомного контрола 
+(или иных, если эти контролы поддерживают 
+несколько глобальных стиле, о чём 
+смотри ниже). Можно всегда выполнить 
+преинициализацию стиля Standard(), определённого
+ как`-то как копия от первого зарегистрирован
+ного глобального стиля (т.е. StyleDefault()) 
+для вашего контрола. Преиниц Standard() 
+позволяет не писать много кода, а 
+только поменять некоторые свойства. 
+Также надо уметь восстановить изменённый 
+StyleDefault  в предыдущее состояние.]&]
 [s0;2 &]
 [s0; [C1 -|EditField`::Style`& es `= EditField`::StyleDefault().Write();]&]
 [s0;C1 &]
@@ -170,35 +215,55 @@ to its previous state.]&]
 [s0; [C1 -|es.disabled `= SColorFace();]&]
 [s0; [C1 -|es.focus `= Blend(Green(), Black(), 192);]&]
 [s0;2 &]
-[s0; [2 your main application window should update all instantiated 
-controls after finishing updating all desired styles]&]
+[s0; [2 главное приложение должно обновить 
+ все экземпляры контролов по окончании 
+обновления нужных стилей]&]
 [s0; [C1  -|RefreshLayoutDeep();]&]
 [s0;2 &]
-[s0; [2 Some Ctrl`'s may have more than one global style (i.e. Button). 
-if your Ctrl`'s also needs more, just use another CH`_STYLE macro 
-to provide it. Do not forget to define it in .h just in the same 
-way as StyleDefault.]&]
-[s0; [2 Thus, your Ctrl can be constructed parametrized or use another 
-default Style (Button`::StyleNormal, Button`::StyleOk..)]&]
+[s0; [2 У некоторых Ctrl`'ов могут иметься 
+несколько глобальных стилей (напр., 
+у Button). Если и вашим Ctrl`'ам нужно большего, 
+просто примените другой макрос CH`_STYLE, 
+обеспечив это. Не забудьте определить 
+его в .h точно так же, как и StyleDefault. 
+Теперь ваш Ctrl может быть построен 
+`"параметрированно`", либо использовать 
+другой дефолтный стиль Style (Button`::StyleNormal, 
+Button`::StyleOk..)]&]
 [s0;2 &]
-[s0; [2 As of chameleonized helper functions, ][C2 ChPaint][2  is the only 
-one you will likely need. The others are for internal use in 
-the OS theming engine. The beauty and cornerstone of ChPaint 
-and Chameleon is that ChPaint expects Value and can be extended 
-w.r.t. Value types it is able to render. There are two basic 
-types supported directly in Draw: Color and Image. Image has `"hotspots`" 
-logic to define intelligent scaling, and color is self explaining. 
-You can extend recognized types using ChLookFn. This way, e.g. 
-XP chameleon registers its internal Value type `"XpElement`" 
-and is able to use XP style rendering system to render Values 
-from Styles. (thanks Mirek)]&]
+[s0; [2 Что касается `"хамелионизированных`" 
+вспомогательных функций, ][C2 ChPaint,][2 возможно, 
+единственная, которая вам понадобится. 
+Другие применяются для внутреннего 
+пользования в движке OS theming. Краса 
+и краеугольный камень ChPaint и Chameleon 
+в том, что ChPaint ожидает Value и может 
+быть расширен w.r.t. Value, типами, которые 
+он способен отображать. Есть два основных 
+типа, прямо поддерживаемых в Draw: Color 
+и Image. Image (Отображение) имеет логику 
+`"hotspots`" (`"горячие точки`"), чтобы определять 
+`"интеллегентное масштабирование`", 
+а цвет (Color) говорит сам за себя, не 
+требуя пояснений. Распознаваемые 
+типы можно расширять с помощью ChLookFn. 
+Так, напр., XP chameleon регистрирует свой 
+внутренний тип Value,`"XpElement`", и способен 
+использовать систему отображения 
+в стиле XP , чтобы отображать Values из 
+Styles. (благодаря Mirek`'у)]&]
 [s0;2 &]
-[s0; [2 Use SColorFace for drawing background color, SColorText for 
-text, SColorPaper for controls that really draw some data (graphs, 
-text background in Editfields..) Here is a list of common SColor...derivates:]&]
-[s0; [2 (i.e. the values used are for a dark look, BLENDIT `= 180, 
-should be setup at the beginning in aplication, but it is not 
-used in all Ctrl`'s in upp.)]&]
+[s0; [2 Для отрисовку фонового цвета используется 
+SColorFace, для текста `-  SColorText, для контролов 
+`- SColorPaper, реально отрисовывающие некоторые 
+данные (графы, фон текст в Editfields (полях 
+редактирования)). Вот список общих 
+дериватов SColor...:]&]
+[s0; [2 (iт.е. значения, используемые для 
+тёмного dark look, BLENDIT `= 180, должны с самого 
+начала быть установлены в приложении, 
+но они отнюдь не используются во всех 
+Ctrl`'ах upp.)]&]
 [s0;2 &]
 [s0; [C2 -|SColorPaper`_Write(Blend(White(), Black(), BLENDIT`-20));]&]
 [s0; [C2 -|SColorText`_Write(LtGray());]&]
@@ -221,11 +286,10 @@ used in all Ctrl`'s in upp.)]&]
 [s0; [C2 -|LabelBoxTextColor`_Write(SColorText());]&]
 [s0; [C2 -|LabelBoxColor`_Write(SColorHighlight());]&]
 [s0;2 &]
-[s0; [2 Play around with the Colors to see where they show up or browse 
-the uppsrc :)]&]
+[s0; [2 `"Поиграйтесь`" (`=потренируйтесь) 
+с этими Colors (колорами), чтобы узнать, 
+как они влияют на uppsrc :)]&]
 [s0;2 &]
-[s0; [2 Chameleon is not that complicated, the problem is that the 
-underlying code ][/2 is][2  complicated so it`'s difficult to work 
-out documentation.]&]
-[s0;2 &]
-[s0; ]]
+[s0; [2 Chameleon не так уж и сложен, проблема 
+в том, что код под ним очень замысловат, 
+что и затрудняет данное документирование....]]]

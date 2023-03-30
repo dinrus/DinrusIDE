@@ -1,4 +1,4 @@
-topic "Reacting to resolution";
+topic "Реакция на действительное разрешение, поддержка UHD";
 [l288;i1120;a17;O9;~~~.1408;2 $$1,0#10431211400427159095818037425705:param]
 [a83;*R6 $$2,5#31310162474203024125188417583966:caption]
 [H4;b83;*4 $$3,5#07864147445237544204411237157677:title]
@@ -22,19 +22,26 @@ topic "Reacting to resolution";
 [b50;2 $$21,21#03324558446220344731010354752573:Par]
 [2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%RU-RU 
-[s2; Reacting to actual resolution, UHD support&]
-[s0; While all widgets coordinates are always in pixels, applications 
-need to react actual settings of target GUI to scale things accordingly.&]
+[s2; [*@5 Реакция на действительное разрешение, 
+поддержка UHD]&]
+[s0; Та как координаты всех виджетов всегда 
+заданы в пикселях, приложению приходится 
+реагировать на действительную настройку 
+целевого ГИП, чтобы соответствующим 
+образом менять масштабы.&]
 [s0; &]
-[s0; In U`+`+, the basic scaling factor is always determined by standard 
-font size, which is read from host platform (scaling factor can 
-also be adjusted by application, but that is less relevant here).&]
+[s0; В U`+`+, базовый фактор масштабирования 
+всегда определён размером стандартного 
+шрифта, который считывается из хостовой 
+платформы (фактор масштабирования 
+может регулироваться и самим приложением, 
+но это в данном случае не очень уместно).&]
 [s0; &]
 [s0; All layouts are designed in some artificial defined, relatively 
 small, `'basic font`' font size, then scaled based on ratios 
 of standard system font to this basic font. Also, it is possible 
 to scale individual dimensions by Ctrl`::`[Horz`|Vert`]LayoutZoom 
-or [^topic`:`/`/CtrlCore`/src`/Zooming`$en`-us^ Zx/Zy/Zsz] functions.&]
+or [^topic`:`/`/CtrlCore`/src`/Zooming`_ru`-ru^ Zx/Zy/Zsz] functions.&]
 [s0; &]
 [s0; This, when used appropriately, works well for host GUI font 
 size between 12`-22. When GUI font gets bigger, there starts 

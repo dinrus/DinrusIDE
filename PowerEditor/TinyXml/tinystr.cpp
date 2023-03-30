@@ -1,7 +1,7 @@
 
 #ifndef TIXML_USE_STL
 
-#include "tinyxml.h"
+#include <PowerEditor/TinyXml/tinyxml.h>
 
 
   //  TiXmlString (const char* instring);

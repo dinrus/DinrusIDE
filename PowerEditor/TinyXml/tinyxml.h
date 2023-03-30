@@ -6,7 +6,7 @@
 #define TIXML_OSTREAM   TiXmlOutStream
 
 #include <assert.h>
-#include <tchar.h>
+//#include <tchar.h>
 //#include <string>
 #include <PowerEditor/MISC/Common/Common.h>
 #include <PowerEditor/MISC/Common/FileInterface.h>

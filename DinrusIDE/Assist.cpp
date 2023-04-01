@@ -116,7 +116,7 @@ void AssistEditor::CloseAssist()
 	CloseTip();
 }
 
-bool isincludefnchar(long c)
+bool isincludefnchar(char c)
 {
 	return c && c != '<' && c != '>' && c != '?' &&
 	       c != ' ' && c != '\"' && c != '/' && c != '\\' && c >= 32 && c < 65536;
@@ -125,7 +125,7 @@ bool isincludefnchar(long c)
 String AssistEditor::ReadIdBackPos(int& pos, bool include)
 {
 	String id;
-	bool (*test)(long c) = include ? isincludefnchar : iscid;
+	bool (*test)(char c) = include ? isincludefnchar : iscid;
 	while(pos > 0 && (*test)(GetChar(pos - 1)))
 		pos--;
 	int q = pos;
@@ -803,7 +803,7 @@ bool AssistEditor::InCode()
 	return st->CanAssist();
 }
 
-bool isaid(long c)
+bool isaid(char c)
 {
 	return c == '~' || iscid(c);
 }
@@ -848,7 +848,7 @@ bool AssistEditor::Key(dword key, int count)
 	if(IsReadOnly())
 		return b;
 	if(assist.IsOpen()) {
-		bool (*test)(long c) = include_assist ? isincludefnchar : isaid;
+		bool (*test)(char c) = include_assist ? isincludefnchar : isaid;
 		if(!(*test)(key) &&
 		   !((*test)(cc) && (key == K_DELETE || key == K_RIGHT)) &&
 		   !((*test)(bcc) && (key == K_LEFT || key == K_BACKSPACE))) {

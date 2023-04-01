@@ -258,7 +258,7 @@ void Ide::Statistics()
 	String qtf = "[1 ";
 	ArrayMap<String, FileStat> all;
 	String tab = "{{45:20:25:20:35:30:30:30:30@L [* ";
-	String hdr = "]:: [= Files:: Lines:: - avg.:: Length:: - avg.:: Oldest:: Newest:: Avg. age]";
+	String hdr = "]:: [= Файлов:: Строк:: - Средн.:: Длина:: - Средн.:: Старейш:: Новые:: Средн. возраст]";
 	for(int i = 0; i < wspc.GetCount(); i++) {
 		qtf << tab << DeQtf(wspc[i]) << hdr;
 		sPut(qtf, stat[i], all);
@@ -573,7 +573,7 @@ void Ide::RemoveDs()
 
 void Ide::LaunchAndroidSDKManager(const AndroidSDK& androidSDK)
 {
-	PromptOK("SDK managment is not yet implemented in ИСР РНЦП Динрус. Use Android Studio for this purpose instead.");
+	PromptOK("Менеджкр SDK пока не реализован в ИСР РНЦП Динрус. Use Android Studio for this purpose instead.");
 }
 
 void Ide::LaunchAndroidAVDManager(const AndroidSDK& androidSDK)

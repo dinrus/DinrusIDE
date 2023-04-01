@@ -278,7 +278,7 @@ void Ide::Statistics()
 	String qtf = "[1 ";
 	ArrayMap<String, FileStat> all;
 	String tab = "{{45:20:25:20:35:30:30:30:30@L [* ";
-	String hdr = "]:: [= Files:: Lines:: - avg.:: Length:: - avg.:: Oldest:: Newest:: Avg. age]";
+	String hdr = "]:: [= Файлов:: Строк:: - Средн.:: Длина:: - Средн.:: Старейшие:: Новые:: Средн. возраст]";
 	for(int i = 0; i < wspc.GetCount(); i++) {
 		qtf << tab << DeQtf(wspc[i]) << hdr;
 		sPut(qtf, stat[i], all);

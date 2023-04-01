@@ -8,16 +8,15 @@
 	case L'С':case L'Т':case L'У':case L'Ф':case L'Х':case L'Ц':case L'Ч':case L'Ш':case L'Щ': \
 	case L'Ъ':case L'Ы':case L'Ь':case L'Э':case L'Ю':case L'Я'
 
-inline bool iscib(int c) {
+inline bool iscib(char c) {
 	return c >= 'a' && c <= 'z' || c >= 'A' && c <= 'Z' || c == '_' || c == '$';
 }
 
-inline bool iscid(long c) {
+inline bool iscid(char c) {
 	switch(c) {
 		case_id_rus: return true;
 			}
-	int i = static_cast<int>(c);
-		return iscib(i) || i >= '0' && i <= '9';
+		return iscib(c) || c >= '0' && c <= '9';
 }
 
 class CParser {

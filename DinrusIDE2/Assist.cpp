@@ -148,7 +148,7 @@ bool isincludefnchar(long v)
 String AssistEditor::ReadIdBackPos(int& pos, bool include)
 {
 	String id;
-	bool (*test)(long c) = include ? isincludefnchar : iscid;
+	bool (*test)(char c) = include ? isincludefnchar : iscid;
 	while(pos > 0 && (*test)(GetChar(pos - 1)))
 		pos--;
 	int q = pos;
@@ -986,10 +986,9 @@ bool AssistEditor::InCode()
 	return st->CanAssist();
 }
 
-bool isaid(long c)
+bool isaid(char c)
 {
-	int i = static_cast<int>(c);
-	return i == '~' || iscid(c);
+	return c == '~' || iscid(c);
 }
 
 bool AssistEditor::Key(dword key, int count)
@@ -1047,7 +1046,7 @@ bool AssistEditor::Key(dword key, int count)
 	if(IsReadOnly())
 		return b;
 	if(assist.IsOpen()) {
-		bool (*test)(long c) = include_assist ? isincludefnchar : isaid;
+		bool (*test)(char c) = include_assist ? isincludefnchar : isaid;
 		if(!(*test)(key) &&
 		   !((*test)(cc) && (key == K_DELETE || key == K_RIGHT)) &&
 		   !((*test)(bcc) && (key == K_LEFT || key == K_BACKSPACE))) {

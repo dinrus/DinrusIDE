@@ -160,7 +160,7 @@ public:
 
 public:
 	PropertyPane();
-	
+
 	int        y;
 	StaticRect pane;
 	ScrollBar  sb;
@@ -303,7 +303,7 @@ private:
 	LayDesigner       *frame;
 	ToolBar            toolbar;
 	MenuBar            menubar;
-	
+
 	ParentCtrl         layouts;
 	ArrayCtrl          list;
 	EditString         search;
@@ -459,7 +459,7 @@ private:
 	void        MainMenuBar(Bar& bar);
 
 	void        EditMenu(Bar& bar);
-	
+
 	void        GotoUsing();
 
 	void        SyncUsc();
@@ -468,7 +468,7 @@ private:
 
 	void        SaveEditPos();
 	void        RestoreEditPos();
-	
+
 	void        FindLayout(const String& name, const String& item_name);
 	String      GetLayoutName() const;
 

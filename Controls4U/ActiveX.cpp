@@ -125,7 +125,7 @@ bool DHCtrlActiveX::Attach(HWND hwd) {
 }
 
 HRESULT STDMETHODCALLTYPE AXStorage::QueryInterface(REFIID , void __RPC_FAR *__RPC_FAR *) {
-	throw Exc(t_("Function not implemented"));
+	throw Exc(t_("Функция не реализована"));
 }
 
 ULONG STDMETHODCALLTYPE AXStorage::AddRef( void) {
@@ -137,51 +137,51 @@ ULONG STDMETHODCALLTYPE AXStorage::Release( void) {
 }
 
 HRESULT STDMETHODCALLTYPE AXStorage::CreateStream(const OLECHAR *, DWORD , DWORD , DWORD , IStream **) {
-	throw Exc(t_("Function not implemented"));
+	throw Exc(t_("Функция не реализована"));
 }
 
 HRESULT STDMETHODCALLTYPE AXStorage::OpenStream(const OLECHAR *, void *, DWORD , DWORD , IStream **) {
-	throw Exc(t_("Function not implemented"));
+	throw Exc(t_("Функция не реализована"));
 }
 
 HRESULT STDMETHODCALLTYPE AXStorage::CreateStorage(const OLECHAR *, DWORD , DWORD , DWORD , IStorage **) {
-	throw Exc(t_("Function not implemented"));
+	throw Exc(t_("Функция не реализована"));
 }
 
 HRESULT STDMETHODCALLTYPE AXStorage::OpenStorage(const OLECHAR *, IStorage *, DWORD , SNB , DWORD , IStorage **) {
-	throw Exc(t_("Function not implemented"));
+	throw Exc(t_("Функция не реализована"));
 }
 
 HRESULT STDMETHODCALLTYPE AXStorage::CopyTo(DWORD , const IID *, SNB , IStorage *) {
-	throw Exc(t_("Function not implemented"));
+	throw Exc(t_("Функция не реализована"));
 }
 
 HRESULT STDMETHODCALLTYPE AXStorage::MoveElementTo(const OLECHAR *, IStorage *, const OLECHAR *, DWORD ) {
-	throw Exc(t_("Function not implemented"));
+	throw Exc(t_("Функция не реализована"));
 }
 
 HRESULT STDMETHODCALLTYPE AXStorage::Commit(DWORD ) {
-	throw Exc(t_("Function not implemented"));
+	throw Exc(t_("Функция не реализована"));
 }
 
 HRESULT STDMETHODCALLTYPE AXStorage::Revert() {
-	throw Exc(t_("Function not implemented"));
+	throw Exc(t_("Функция не реализована"));
 }
 
 HRESULT STDMETHODCALLTYPE AXStorage::EnumElements(DWORD , void *, DWORD , IEnumSTATSTG **) {
-	throw Exc(t_("Function not implemented"));
+	throw Exc(t_("Функция не реализована"));
 }
 
 HRESULT STDMETHODCALLTYPE AXStorage::DestroyElement(const OLECHAR *) {
-	throw Exc(t_("Function not implemented"));
+	throw Exc(t_("Функция не реализована"));
 }
 
 HRESULT STDMETHODCALLTYPE AXStorage::RenameElement(const OLECHAR *, const OLECHAR *) {
-	throw Exc(t_("Function not implemented"));
+	throw Exc(t_("Функция не реализована"));
 }
 
 HRESULT STDMETHODCALLTYPE AXStorage::SetElementTimes(const OLECHAR *, const FILETIME *, const FILETIME *, const FILETIME *) {
-	throw Exc(t_("Function not implemented"));
+	throw Exc(t_("Функция не реализована"));
 }
 
 HRESULT STDMETHODCALLTYPE AXStorage::SetClass(REFCLSID clsid) {
@@ -189,11 +189,11 @@ HRESULT STDMETHODCALLTYPE AXStorage::SetClass(REFCLSID clsid) {
 }
 
 HRESULT STDMETHODCALLTYPE AXStorage::SetStateBits(DWORD , DWORD ) {
-	throw Exc(t_("Function not implemented"));
+	throw Exc(t_("Функция не реализована"));
 }
 
 HRESULT STDMETHODCALLTYPE AXStorage::Stat(STATSTG *pstatstg, DWORD ) {
-	throw Exc(t_("Function not implemented"));
+	throw Exc(t_("Функция не реализована"));
 }
 
 HRESULT STDMETHODCALLTYPE AXClientSite::QueryInterface(REFIID riid, void __RPC_FAR *__RPC_FAR *ppvObject) {
@@ -219,11 +219,11 @@ ULONG STDMETHODCALLTYPE AXClientSite::Release() {
 }
 
 HRESULT STDMETHODCALLTYPE AXClientSite::SaveObject() {
-	throw Exc(t_("Function not implemented"));
+	throw Exc(t_("Функция не реализована"));
 }
 
 HRESULT STDMETHODCALLTYPE AXClientSite::GetMoniker(DWORD dwAssign, DWORD dwWhichMoniker, IMoniker **ppmk) {
-	throw Exc(t_("Function not implemented"));
+	throw Exc(t_("Функция не реализована"));
 }
 
 HRESULT STDMETHODCALLTYPE AXClientSite::GetContainer(IOleContainer **ppContainer) {
@@ -240,7 +240,7 @@ HRESULT STDMETHODCALLTYPE AXClientSite::OnShowWindow(BOOL fShow) {
 }
 
 HRESULT STDMETHODCALLTYPE AXClientSite::RequestNewObjectLayout() {
-	throw Exc(t_("Function not implemented"));
+	throw Exc(t_("Функция не реализована"));
 }
 
 
@@ -250,19 +250,19 @@ HRESULT STDMETHODCALLTYPE AXClientSite::GetWindow(HWND *phwnd) {
 }
 
 HRESULT STDMETHODCALLTYPE AXClientSite::ContextSensitiveHelp(BOOL fEnterMode) {
-	throw Exc(t_("Function not implemented"));
+	throw Exc(t_("Функция не реализована"));
 }
 
 HRESULT STDMETHODCALLTYPE AXClientSite::GetBorder(LPRECT lprectBorder) {
-	throw Exc(t_("Function not implemented"));
+	throw Exc(t_("Функция не реализована"));
 }
 
 HRESULT STDMETHODCALLTYPE AXClientSite::RequestBorderSpace(LPCBORDERWIDTHS pborderwidths) {
-	throw Exc(t_("Function not implemented"));
+	throw Exc(t_("Функция не реализована"));
 }
 
 HRESULT STDMETHODCALLTYPE AXClientSite::SetBorderSpace(LPCBORDERWIDTHS pborderwidths) {
-	throw Exc(t_("Function not implemented"));
+	throw Exc(t_("Функция не реализована"));
 }
 
 HRESULT STDMETHODCALLTYPE AXClientSite::SetActiveObject(IOleInPlaceActiveObject *pActiveObject, LPCOLESTR pszObjName) {
@@ -270,7 +270,7 @@ HRESULT STDMETHODCALLTYPE AXClientSite::SetActiveObject(IOleInPlaceActiveObject 
 }
 
 HRESULT STDMETHODCALLTYPE AXClientSite::InsertMenus(HMENU hmenuShared, LPOLEMENUGROUPWIDTHS lpMenuWidths) {
-	throw Exc(t_("Function not implemented"));
+	throw Exc(t_("Функция не реализована"));
 }
 
 HRESULT STDMETHODCALLTYPE AXClientSite::SetMenu(HMENU hmenuShared, HOLEMENU holemenu, HWND hwndActiveObject) {
@@ -278,7 +278,7 @@ HRESULT STDMETHODCALLTYPE AXClientSite::SetMenu(HMENU hmenuShared, HOLEMENU hole
 }
 
 HRESULT STDMETHODCALLTYPE AXClientSite::RemoveMenus(HMENU hmenuShared) {
-	throw Exc(t_("Function not implemented"));
+	throw Exc(t_("Функция не реализована"));
 }
 
 HRESULT STDMETHODCALLTYPE AXClientSite::SetStatusText(LPCOLESTR pszStatusText) {
@@ -290,7 +290,7 @@ HRESULT STDMETHODCALLTYPE AXClientSite::EnableModeless(BOOL fEnable) {
 }
 
 HRESULT STDMETHODCALLTYPE AXClientSite::TranslateAccelerator(LPMSG lpmsg, WORD wID) {
-	throw Exc(t_("Function not implemented"));
+	throw Exc(t_("Функция не реализована"));
 }
 
 HRESULT STDMETHODCALLTYPE AXClientSite::CanInPlaceActivate() {
@@ -322,7 +322,7 @@ HRESULT STDMETHODCALLTYPE AXClientSite::GetWindowContext(IOleInPlaceFrame **ppFr
 }
 
 HRESULT STDMETHODCALLTYPE AXClientSite::Scroll(SIZE scrollExtant) {
-	throw Exc(t_("Function not implemented"));
+	throw Exc(t_("Функция не реализована"));
 }
 
 HRESULT STDMETHODCALLTYPE AXClientSite::OnUIDeactivate(BOOL fUndoable) {
@@ -334,11 +334,11 @@ HRESULT STDMETHODCALLTYPE AXClientSite::OnInPlaceDeactivate() {
 }
 
 HRESULT STDMETHODCALLTYPE AXClientSite::DiscardUndoState() {
-	throw Exc(t_("Function not implemented"));
+	throw Exc(t_("Функция не реализована"));
 }
 
 HRESULT STDMETHODCALLTYPE AXClientSite::DeactivateAndUndo() {
-	throw Exc(t_("Function not implemented"));
+	throw Exc(t_("Функция не реализована"));
 }
 
 HRESULT STDMETHODCALLTYPE AXClientSite::OnPosRectChange(LPCRECT lprcPosRect) {

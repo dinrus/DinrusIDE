@@ -9,9 +9,9 @@
 #include <psapi.h>
 #include <rtcapi.h>
 #include <shellapi.h>
-	#ifdef COMPILER_MSC
-	#include <verrsrc.h>
-	#endif
+    #ifdef COMPILER_MSC
+    #include <verrsrc.h>
+    #endif
 #include <dbghelp.h>
 #include <eh.h>
 #include <memory>
@@ -26,96 +26,96 @@ namespace Upp {
 
 CrashHandler::CrashHandler() {
 #if defined(PLATFORM_WIN32)
-	_clearfp();
-	_controlfp(_controlfp(0, 0) & ~(_EM_INVALID | _EM_ZERODIVIDE | _EM_OVERFLOW), _MCW_EM);
+    _clearfp();
+    _controlfp(_controlfp(0, 0) & ~(_EM_INVALID | _EM_ZERODIVIDE | _EM_OVERFLOW), _MCW_EM);
 
-	SetUnhandledExceptionFilter(UnhandledHandler);
-	_set_purecall_handler(PureCallHandler);
-	_set_invalid_parameter_handler(InvalidParameterHandler);
-	//_set_abort_behavior(_CALL_REPORTFAULT, _CALL_REPORTFAULT);
+    SetUnhandledExceptionFilter(UnhandledHandler);
+    _set_purecall_handler(PureCallHandler);
+    _set_invalid_parameter_handler(InvalidParameterHandler);
+    //_set_abort_behavior(_CALL_REPORTFAULT, _CALL_REPORTFAULT);
 #else
-	feenableexcept(FE_DIVBYZERO | FE_INVALID | FE_OVERFLOW);
+    feenableexcept(FE_DIVBYZERO | FE_INVALID | FE_OVERFLOW);
 #endif
 
-	std::set_new_handler(NewHandler);
-	std::set_terminate(TerminateHandler);
-	//std::set_unexpected(UnexpectedHandler);
+    std::set_new_handler(NewHandler);
+    std::set_terminate(TerminateHandler);
+    //std::set_unexpected(UnexpectedHandler);
 
-	signal(SIGABRT, SigabrtHandler);
-	signal(SIGINT, SigintHandler);
-	signal(SIGTERM, SigtermHandler);
-	signal(SIGFPE, SigfpeHandler);
-	signal(SIGILL, SigillHandler);
-	signal(SIGSEGV, SigsegvHandler);
+    signal(SIGABRT, SigabrtHandler);
+    signal(SIGINT, SigintHandler);
+    signal(SIGTERM, SigtermHandler);
+    signal(SIGFPE, SigfpeHandler);
+    signal(SIGILL, SigillHandler);
+    signal(SIGSEGV, SigsegvHandler);
 
-	//InstallPanicMessageBox(PanicMessage);
+    //InstallPanicMessageBox(PanicMessage);
 }
 
 #if defined(PLATFORM_WIN32)
 LONG WINAPI CrashHandler::UnhandledHandler(EXCEPTION_POINTERS *exceptionPtrs) {
-	Panic("Default exception");
-	return EXCEPTION_EXECUTE_HANDLER;
+    Panic("Дефолтное исключение");
+    return EXCEPTION_EXECUTE_HANDLER;
 }
 
 void __cdecl CrashHandler::SEHHandler(unsigned u, EXCEPTION_POINTERS* p) {
-	switch(u) {
-		case EXCEPTION_FLT_DIVIDE_BY_ZERO:
-		case EXCEPTION_INT_DIVIDE_BY_ZERO:
-		Panic("Floating point exception");
-		break;
-	default:
-		Panic("SEH exception");
-	}
+    switch(u) {
+        case EXCEPTION_FLT_DIVIDE_BY_ZERO:
+        case EXCEPTION_INT_DIVIDE_BY_ZERO:
+        Panic("Исключение плавающей запятой");
+        break;
+    default:
+        Panic("Исключение SEH");
+    }
 }
 #endif
 
 void __cdecl CrashHandler::TerminateHandler() {
-	Panic("Terminate exception");
+    Panic("Исключение Terminate");
 }
 
 void __cdecl CrashHandler::UnexpectedHandler() {
- 	Panic("Unexpected exception");
+    Panic("Неожиданное исключение");
 }
 
 void __cdecl CrashHandler::PureCallHandler() {
-	Panic("Pure virtual function call");
+    Panic("Pure virtual function call");
 }
 
 void __cdecl CrashHandler::InvalidParameterHandler(const wchar_t* expression, const wchar_t *function,
-	const wchar_t* file, unsigned int line, uintptr_t) {
-	if (line == 0)
-		Panic("Invalid parameter");
-	else
-		Panic(Format("Invalid parameter in %s, function %s, file %s, line %d", AsString(expression),
-			AsString(function), AsString(file), int(line)));
+    const wchar_t* file, unsigned int line, uintptr_t) {
+    if (line == 0)
+        Panic("Неверный параметр");
+    else
+        Panic(Format("Неверный параметр в in %s, функция %s, фвйл %s, строка %d", AsString(expression),
+            AsString(function), AsString(file), int(line)));
 }
 
 void __cdecl CrashHandler::NewHandler() {
-	Panic("Нехватка памяти available");
+    Panic("Нехватка доступной памяти");
 }
 
 void CrashHandler::SigabrtHandler(int) {
-	Panic("SIGABRT: Process has aborted");
+    Panic("SIGABRT: Процесс прерван");
 }
 
 void CrashHandler::SigfpeHandler(int) {
-	Panic("SIGFPE: Floating point error");
+    Panic("SIGFPE: Ошибка плавающей запятой");
 }
 
 void CrashHandler::SigillHandler(int) {
-	Panic("SIGILL: Executable code seems corrupted");
+    Panic("SIGILL: Исполнимый код, кажется, повреждён");
 }
 
 void CrashHandler::SigintHandler(int) {
-	Panic("SIGINT: Process has been asked to terminate by user");
+    Panic("SIGINT: Процесс прерван пользователем");
 }
 
 void CrashHandler::SigsegvHandler(int) {
-	Panic("SIGSEGV: Trying to read or write from/to a memory area that your process does not have access to");
+    Panic("SIGSEGV: Попытка чтения/записи из/в область памяти, к которой у процесса нет доступа");
 }
 
 void CrashHandler::SigtermHandler(int) {
-	Panic("SIGTERM: Process has been asked to terminate by other application");
+    Panic("SIGTERM: Процесс прерван из другого приложения");
 }
 
 

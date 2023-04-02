@@ -907,4 +907,3 @@ LAYOUT(UppHubSettingsLayout, 544, 64)
 	ITEM(Upp::Button, ok, SetLabel(t_("OK")).LeftPosZ(372, 64).TopPosZ(32, 24))
 	ITEM(Upp::Button, cancel, SetLabel(t_("Отмена")).LeftPosZ(440, 64).TopPosZ(32, 24))
 END_LAYOUT
-

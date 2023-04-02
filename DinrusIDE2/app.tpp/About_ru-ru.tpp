@@ -14,15 +14,20 @@ topic "О Программе DinrusIDE";
 ]&]
 [s0;= [@(255.170.150)$3 Авторское право© 2012`-2023 
 DinrusPro (EnergonV)]&]
+[s0;=@(255.170.150)$3 &]
 [s0;= [@(255.170.150)$3 Авторы:][@6$3       ][^http`:`/`/ok`.ru`/vit`.klich^@8$3 Вит
 алий Кулич]&]
+[s0;=^http`:`/`/ok`.ru`/vit`.klich^@8$3 &]
 [s0;= [@(255.170.150)$3 `*А ТАКЖЕ:`*`*`*`*`*`*`*`*][@2$3 `*]&]
-[s0;= [@(255.170.150)$3 Авторское право© 1998, 2022 
+[s0;=@2$3 &]
+[s0;= [@(255.170.150)$3 Авторское право© 1998`-2022 
 Команда U`+`+]&]
+[s0;=@(255.170.150)$3 &]
 [s0;i704;O9; [@2$(128.128.0) Авторы:]-|Mirek_Fídler, Iñaki Zabala, 
 Tomáš_Rylek, [^http`:`/`/www`.digitalsoftware`.pl^ Daniel_Kos], 
 Massimo Del Fedele, İsmail Yılmaz, [^https`:`/`/www`.linkedin`.com`/in`/zbigniewrebacz^ Z
 bigniew Rębacz]&]
+[s0;i704;O9;^https`:`/`/www`.linkedin`.com`/in`/zbigniewrebacz^ &]
 [s0;i704;O9; [@2$(128.128.0) Контрибуторы:]-|Sandor_Hojtsy, 
 Zsolt_Debre, Guido_Schimmels, Augusto_Roman, Arijus Bernotas, 
 Michael_Albert , Marcus_Mauhart, [^http`:`/`/nullptr`.nl`/^ Jan_Wilmans], 
@@ -42,6 +47,7 @@ Rakibul Islam, Nahar Pengatteeri, Ralph Klautke, Victor Picheev,
 Navadvipa Chandra das, Radek Malčic, Amrein`-Marie Christophe, 
 Abdelghani Omari, Clément Hamon, [^https`:`/`/github`.com`/EnergonV^ Виталий
  Кулич]&]
+[s0;i704;O9;^https`:`/`/github`.com`/EnergonV^ &]
 [s0;i704;O9; [@2$(128.128.0) Переводчики:]-|Mauro_Bottizzo, 
 Miklós_Somogyi, Arlen_Albert, Ivica_Puljic, Richard_Gill, Werner_Wenzel, 
 Tom Olá, Sergey Nikitin, Koldo Ramirez, Gabriel Schmotzer, Andrei 
@@ -50,7 +56,9 @@ Aleshkevich, Lionel Orry, 黃俊達 (Kasome), phirox, Didier,
 谢威扬 (Bonami), Frederico Rodrigues, Ruben Proost, Willem 
 Kroes, Koncz Márton, [^http`:`/`/ok`.ru`/metascience^ Виталий 
 Кулич]&]
+[s0;i704;O9;^http`:`/`/ok`.ru`/metascience^ &]
 [s0;i704;O9; [@2$(128.128.0) PR `& SEO:]-|Pavel_Stratil&]
+[s0;i704;O9; &]
 [s0;i704;O9; [@2$(128.128.0) U`+`+ Logo][@6$(128.128.0) :]-|Pavel Ostapenko, 
 Robert_Vroemisse, &]
 [s0;+108 &]

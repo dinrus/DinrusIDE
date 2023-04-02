@@ -42,7 +42,7 @@ BufferPainter::PathJob::PathJob(Rasterizer& rasterizer, double width, const Path
 		tolerance = 0.3 / attr.mtx.GetScale();
 	}
 
-	if(width == ONPATH) {
+	if((int) width == ONPATH) {
 		g = &onpathtarget;
 		regular = false;
 	}
@@ -142,12 +142,12 @@ Buffer<ClippingLine> BufferPainter::RenderPath(double width, Event<One<SpanSourc
 	PAINTER_TIMING("RenderPath");
 	Buffer<ClippingLine> newclip;
 
-	if(width == FILL)
+	if( (int)width == FILL)
 		Close();
 
 	current = Null;
 
-	if(width == 0 || !ss && color.a == 0 && width >= FILL) {
+	if(width == 0 || !ss && color.a == 0 && (int)width >= FILL) {
 		if(co && ++emptycount + jobcount >= BATCH_SIZE) { // not to exhaust 'paths'
 			FinishPathJob();
 			FinishFillJob();
@@ -178,7 +178,7 @@ Buffer<ClippingLine> BufferPainter::RenderPath(double width, Event<One<SpanSourc
 	}
 
 	if(co) {
-		if(width >= FILL && !ss && !alt && findarg(mode, MODE_ANTIALIASED, MODE_SUBPIXEL) >= 0) {
+		if((int) width >= FILL && !ss && !alt && findarg(mode, MODE_ANTIALIASED, MODE_SUBPIXEL) >= 0) {
 			for(int i = 0; i < path_info->path.GetCount(); i++) {
 				while(jobcount >= cojob.GetCount())
 					cojob.Add().rasterizer.Create(ip->GetWidth(), ip->GetHeight(), mode == MODE_SUBPIXEL);
@@ -213,7 +213,7 @@ Buffer<ClippingLine> BufferPainter::RenderPath(double width, Event<One<SpanSourc
 			co_span[i].Alloc((subpixel ? 3 : 1) * ip->GetWidth() + 3);
 	}
 	
-	bool doclip = width == CLIP;
+	bool doclip = (int) width == CLIP;
 	auto fill = [&](CoWork *co) {
 		int opacity = int(256 * pathattr.opacity);
 		if(!opacity)
@@ -279,7 +279,7 @@ Buffer<ClippingLine> BufferPainter::RenderPath(double width, Event<One<SpanSourc
 			noaa_filler.Set(rg);
 			rg = &noaa_filler;
 		}
-		if(width != ONPATH) {
+		if((int) width != ONPATH) {
 			if(alt)
 				alt->Fill(width, ~rss, color);
 			else {
@@ -315,7 +315,7 @@ Buffer<ClippingLine> BufferPainter::RenderPath(double width, Event<One<SpanSourc
 	bool doco = co && !doclip && !alt && !(subpixel && clip.GetCount());
 	for(const auto& p : path_info->path) {
 		RenderPathSegments(j.g, p, j.regular ? &pathattr : NULL, j.tolerance);
-		if(width != ONPATH) {
+		if( (int)width != ONPATH) {
 			int n = rasterizer.MaxY() - rasterizer.MinY();
 			if(n >= 0) {
 				PAINTER_TIMING("RenderPath2 Fill");
@@ -329,7 +329,7 @@ Buffer<ClippingLine> BufferPainter::RenderPath(double width, Event<One<SpanSourc
 			}
 		}
 	}
-	if(width == ONPATH) {
+	if((int)width == ONPATH) {
 		onpath = pick(j.onpathtarget.path);
 		pathlen = j.onpathtarget.len;
 	}

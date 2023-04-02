@@ -8,11 +8,11 @@
 	case L'С':case L'Т':case L'У':case L'Ф':case L'Х':case L'Ц':case L'Ч':case L'Ш':case L'Щ': \
 	case L'Ъ':case L'Ы':case L'Ь':case L'Э':case L'Ю':case L'Я'
 
-inline bool iscib(char c) {
+inline bool iscib(wchar c) {
 	return c >= 'a' && c <= 'z' || c >= 'A' && c <= 'Z' || c == '_' || c == '$';
 }
 
-inline bool iscid(char c) {
+inline bool iscid(wchar c) {
 	switch(c) {
 		case_id_rus: return true;
 			}

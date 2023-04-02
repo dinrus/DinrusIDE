@@ -138,23 +138,22 @@ void AssistEditor::PostRemove(int pos, int size)
 	CodeEditor::PostRemove(pos, size);
 }
 
-bool isincludefnchar(long v)
+bool isincludefnchar(wchar c)
 {
-	int c = static_cast<int>(v);
 	return c && c != '<' && c != '>' && c != '?' &&
 	       c != ' ' && c != '\"' && c != '/' && c != '\\' && c >= 32 && c < 65536;
 }
 
 String AssistEditor::ReadIdBackPos(int& pos, bool include)
 {
-	String id;
-	bool (*test)(char c) = include ? isincludefnchar : iscid;
+	WString id;
+	bool (*test)(wchar c) = include ? isincludefnchar : iscid;
 	while(pos > 0 && (*test)(GetChar(pos - 1)))
 		pos--;
 	int q = pos;
 	while(q < GetLength64() && (*test)(GetChar(q)))
-		id << (char)GetChar(q++);
-	return id;
+		id << (wchar)GetChar(q++);
+	return id.ToString();
 }
 
 String AssistEditor::ReadIdBack(int q, bool include)
@@ -986,7 +985,7 @@ bool AssistEditor::InCode()
 	return st->CanAssist();
 }
 
-bool isaid(char c)
+bool isaid(wchar c)
 {
 	return c == '~' || iscid(c);
 }
@@ -1046,7 +1045,7 @@ bool AssistEditor::Key(dword key, int count)
 	if(IsReadOnly())
 		return b;
 	if(assist.IsOpen()) {
-		bool (*test)(char c) = include_assist ? isincludefnchar : isaid;
+		bool (*test)(wchar c) = include_assist ? isincludefnchar : isaid;
 		if(!(*test)(key) &&
 		   !((*test)(cc) && (key == K_DELETE || key == K_RIGHT)) &&
 		   !((*test)(bcc) && (key == K_LEFT || key == K_BACKSPACE))) {

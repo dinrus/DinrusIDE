@@ -1,32 +1,9 @@
-/*
-www.sourceforge.net/projects/tinyxml
-Original code (2.0 and earlier )copyright (c) 2000-2002 Lee Thomason (www.grinninglizard.com)
-
-This software is provided 'as-is', without any express or implied
-warranty. In no event will the authors be held liable for any
-damages arising from the use of this software.
-
-Permission is granted to anyone to use this software for any
-purpose, including commercial applications, and to alter it and
-redistribute it freely, subject to the following restrictions:
-
-1. The origin of this software must not be misrepresented; you must
-not claim that you wrote the original software. If you use this
-software in a product, an acknowledgment in the product documentation
-would be appreciated but is not required.
-
-2. Altered source versions must be plainly marked as such, and
-must not be misrepresented as being the original software.
-
-3. This notice may not be removed or altered from any source
-distribution.
-*/
-
 
 #include <sstream>
-#include <tchar.h>
+//#include <tchar.h>
 #include <PowerEditor/TinyXml/tinyxml.h>
 
+namespace UPP{
 //#define DEBUG_PARSER
 
 // Note tha "PutString" hardcodes the same list. This
@@ -39,33 +16,6 @@ TiXmlBase::Entity TiXmlBase::entity[ NUM_ENTITY ] =
     { TEXT("&gt;"),   4, '>' },
     { TEXT("&quot;"), 6, '\"' },
     { TEXT("&apos;"), 6, '\'' }
-};
-
-
-class TiXmlParsingData
-{
-    friend class TiXmlDocument;
-  public:
-    //TiXmlParsingData( const char* now, const TiXmlParsingData* prevData );
-    void Stamp( const char* now );
-
-    const TiXmlCursor& Cursor() { return cursor; }
-    //void Update( const char* now );
-
-  private:
-    // Only used by the document!
-    TiXmlParsingData( const char* start, int _tabsize, int row, int col )
-    {
-        assert( start );
-        stamp = start;
-        tabsize = _tabsize;
-        cursor.row = row;
-        cursor.col = col;
-    }
-
-    TiXmlCursor     cursor;
-    const char*     stamp;
-    int             tabsize;
 };
 
 
@@ -1142,3 +1092,4 @@ bool TiXmlText::Blank() const
     return true;
 }
 
+}

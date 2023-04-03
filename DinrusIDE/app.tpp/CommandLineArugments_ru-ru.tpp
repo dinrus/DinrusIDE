@@ -26,18 +26,18 @@ topic "Аргументы Командной Строки DinrusIDE";
 [s2; [@3 Аргументы Командной Строки DinrusIDE]&]
 [s3; [@3 Содержание]&]
 [s0; &]
-[s0; [^topic`:`/`/DinrusIDE`/app`/CommandLineArugments`_ru`-ru`#1^ 1. 
+[s3; [^topic`:`/`/DinrusIDE`/app`/CommandLineArugments`_ru`-ru`#1^ 1. 
 Обзор аргументов командной строки]&]
-[s0;     [^topic`:`/`/DinrusIDE`/app`/CommandLineArugments`_ru`-ru`#1`_1^ 1.1 
+[s3;     [^topic`:`/`/DinrusIDE`/app`/CommandLineArugments`_ru`-ru`#1`_1^ 1.1 
 Открытие определённого пакета]&]
-[s0;     [^topic`:`/`/DinrusIDE`/app`/CommandLineArugments`_ru`-ru`#1`_2^ 1.2 
+[s3;     [^topic`:`/`/DinrusIDE`/app`/CommandLineArugments`_ru`-ru`#1`_2^ 1.2 
 Открытие определённого файла (в режиме 
 Редактора)]&]
-[s0;     [^topic`:`/`/DinrusIDE`/app`/CommandLineArugments`_ru`-ru`#1`_3^ 1.3 
+[s3;     [^topic`:`/`/DinrusIDE`/app`/CommandLineArugments`_ru`-ru`#1`_3^ 1.3 
 Общие опции]&]
-[s0;     [^topic`:`/`/DinrusIDE`/app`/CommandLineArugments`_ru`-ru`#1`_4^ 1.4 
+[s3;     [^topic`:`/`/DinrusIDE`/app`/CommandLineArugments`_ru`-ru`#1`_4^ 1.4 
 Продвинутые опции]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/CommandLineArugments`_ru`-ru`#2^ 2. 
+[s3; [^topic`:`/`/DinrusIDE`/app`/CommandLineArugments`_ru`-ru`#2^ 2. 
 Построение приложения из командной 
 строки]&]
 [s0; &]

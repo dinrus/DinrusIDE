@@ -22,15 +22,15 @@ topic "Флаги построения";
 [s2; [@3 Флаги построения]&]
 [s3; [@3;4 Содержание]&]
 [s0; &]
-[s0; [^topic`:`/`/DinrusIDE`/app`/Flags`_ru`-ru`#1^ 1. Введение]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/Flags`_ru`-ru`#2^ 2. Флаги главной 
+[s3; [^topic`:`/`/DinrusIDE`/app`/Flags`_ru`-ru`#1^ 1. Введение]&]
+[s3; [^topic`:`/`/DinrusIDE`/app`/Flags`_ru`-ru`#2^ 2. Флаги главной 
 конфигурации]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/Flags`_ru`-ru`#3^ 3. Флаги метода 
+[s3; [^topic`:`/`/DinrusIDE`/app`/Flags`_ru`-ru`#3^ 3. Флаги метода 
 вывода]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/Flags`_ru`-ru`#4^ 4. Флаги платформы]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/Flags`_ru`-ru`#5^ 5. Флаги определения
+[s3; [^topic`:`/`/DinrusIDE`/app`/Flags`_ru`-ru`#4^ 4. Флаги платформы]&]
+[s3; [^topic`:`/`/DinrusIDE`/app`/Flags`_ru`-ru`#5^ 5. Флаги определения
  построителя]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/Flags`_ru`-ru`#6^ 6. Прочие 
+[s3; [^topic`:`/`/DinrusIDE`/app`/Flags`_ru`-ru`#6^ 6. Прочие 
 флаги]&]
 [s0; &]
 [s3;:1: [@(128.0.255)4 1. Введение]&]

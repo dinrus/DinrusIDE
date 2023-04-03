@@ -25,23 +25,22 @@ topic "Ассист++";
 [s2; [@3 Ассист`+`+]&]
 [s3; [@3 Содержание]&]
 [s0; &]
-[s0; [^topic`:`/`/DinrusIDE`/app`/Assist`_ru`-ru`#1^ 1. Вве][^topic`:`/`/DinrusIDE`/app`/Assist`_ru`-ru`#1^ д
-ение]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/Assist`_ru`-ru`#2^ 2. Ассист: 
+[s3; [^topic`:`/`/DinrusIDE`/app`/Assist`_ru`-ru`#1^ 1. Введение]&]
+[s3; [^topic`:`/`/DinrusIDE`/app`/Assist`_ru`-ru`#2^ 2. Ассист: 
 автозаполнение кода]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/Assist`_ru`-ru`#3^ 3. Простые 
+[s3; [^topic`:`/`/DinrusIDE`/app`/Assist`_ru`-ru`#3^ 3. Простые 
 автозаполнения символами, сокращения]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/Assist`_ru`-ru`#4^ 4. Навигация 
+[s3; [^topic`:`/`/DinrusIDE`/app`/Assist`_ru`-ru`#4^ 4. Навигация 
 по коду]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/Assist`_ru`-ru`#5^ 5. Навигатор]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/Assist`_ru`-ru`#6^ 6. Графические 
+[s3; [^topic`:`/`/DinrusIDE`/app`/Assist`_ru`-ru`#5^ 5. Навигатор]&]
+[s3; [^topic`:`/`/DinrusIDE`/app`/Assist`_ru`-ru`#6^ 6. Графические 
 символы, используемые Ассистом`+`+]&]
-[s0;# [^topic`:`/`/DinrusIDE`/app`/Assist`_ru`-ru`#7^ 7. Преобразование 
+[s3; [^topic`:`/`/DinrusIDE`/app`/Assist`_ru`-ru`#7^ 7. Преобразование 
 Определение/Объявление]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/Assist`_ru`-ru`#8^ 8. Виртуальные 
+[s3; [^topic`:`/`/DinrusIDE`/app`/Assist`_ru`-ru`#8^ 8. Виртуальные 
 функции]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/Assist`_ru`-ru`#9^ 9. THISBACKи]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/Assist`_ru`-ru`#10^ 10. Генерация 
+[s3; [^topic`:`/`/DinrusIDE`/app`/Assist`_ru`-ru`#9^ 9. THISBACKи]&]
+[s3; [^topic`:`/`/DinrusIDE`/app`/Assist`_ru`-ru`#10^ 10. Генерация 
 кода выкладки]&]
 [s0; &]
 [s3;:1: [@(128.0.255) 1. Введение]&]

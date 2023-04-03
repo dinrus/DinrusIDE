@@ -178,7 +178,7 @@ Array<Drawing> RenderPages(const RichText& txt, Size pagesize)
 
 String Pdf(const RichText& txt, Size pagesize, int margin, bool pdfa, const PdfSignatureInfo *sign)
 {
-	ASSERT_(GetDrawingToPdfFn(), "Pdf requires PdfDraw package");
+	ASSERT_(GetDrawingToPdfFn(), "Pdf зависит от пакета PdfDraw");
 	Array<Drawing> pages = RenderPages(txt, pagesize);
 	return GetDrawingToPdfFn() && pages.GetCount() ? (*GetDrawingToPdfFn())(pages, pagesize, margin, pdfa, sign)
 	                                               : String();

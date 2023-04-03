@@ -25,32 +25,31 @@ topic "Формат файла пакета U++";
 [s2; [@(28.85.200) Формат файла пакета U`+`+]&]
 [s3; [@5 Содержание]&]
 [s0;@5 &]
-[s0; [^topic`:`/`/DinrusIDE`/app`/upp`_ru`-ru`#1^@5 1. Введение]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/upp`_ru`-ru`#2^@5 2. Принимаемые 
+[s3; [^topic`:`/`/DinrusIDE`/app`/upp`_ru`-ru`#1^ 1. Введение]&]
+[s3; [^topic`:`/`/DinrusIDE`/app`/upp`_ru`-ru`#2^ 2. Принимаемые 
 флаги]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/upp`_ru`-ru`#3^@5 3. Кодировка]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/upp`_ru`-ru`#4^@5 4. Кастомные 
+[s3; [^topic`:`/`/DinrusIDE`/app`/upp`_ru`-ru`#3^ 3. Кодировка]&]
+[s3; [^topic`:`/`/DinrusIDE`/app`/upp`_ru`-ru`#4^ 4. Кастомные 
 этапы построения]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/upp`_ru`-ru`#5^@5 5. Описание]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/upp`_ru`-ru`#6^@5 6. Файлы]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/upp`_ru`-ru`#7^@5 7. Добавить/Удалить 
+[s3; [^topic`:`/`/DinrusIDE`/app`/upp`_ru`-ru`#5^ 5. Описание]&]
+[s3; [^topic`:`/`/DinrusIDE`/app`/upp`_ru`-ru`#6^ 6. Файлы]&]
+[s3; [^topic`:`/`/DinrusIDE`/app`/upp`_ru`-ru`#7^ 7. Добавить/Удалить 
 флаги]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/upp`_ru`-ru`#8^@5 8. Дополнительные 
+[s3; [^topic`:`/`/DinrusIDE`/app`/upp`_ru`-ru`#8^ 8. Дополнительные 
 включения]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/upp`_ru`-ru`#9^@5 9. Библиотеки]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/upp`_ru`-ru`#10^@5 10.Опции 
-компоновки]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/upp`_ru`-ru`#11^@5 11. Оптимизация 
+[s3; [^topic`:`/`/DinrusIDE`/app`/upp`_ru`-ru`#9^ 9. Библиотеки]&]
+[s3; [^topic`:`/`/DinrusIDE`/app`/upp`_ru`-ru`#10^ 10.Опции компоновки]&]
+[s3; [^topic`:`/`/DinrusIDE`/app`/upp`_ru`-ru`#11^ 11. Оптимизация 
 размера]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/upp`_ru`-ru`#12^@5 12. Оптимизация 
+[s3; [^topic`:`/`/DinrusIDE`/app`/upp`_ru`-ru`#12^ 12. Оптимизация 
 скорости]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/upp`_ru`-ru`#13^@5 13. Опции 
-компилятора]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/upp`_ru`-ru`#14^@5 14.  Конфигурация 
+[s3; [^topic`:`/`/DinrusIDE`/app`/upp`_ru`-ru`#13^ 13. Опции компилятора
+]&]
+[s3; [^topic`:`/`/DinrusIDE`/app`/upp`_ru`-ru`#14^ 14.  Конфигурация 
 Главного]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/upp`_ru`-ru`#15^@5 15. Без БЛИЦа]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/upp`_ru`-ru`#16^@5 16. Цель]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/upp`_ru`-ru`#17^@5 17. Используемые 
+[s3; [^topic`:`/`/DinrusIDE`/app`/upp`_ru`-ru`#15^ 15. Без БЛИЦа]&]
+[s3; [^topic`:`/`/DinrusIDE`/app`/upp`_ru`-ru`#16^ 16. Цель]&]
+[s3; [^topic`:`/`/DinrusIDE`/app`/upp`_ru`-ru`#17^ 17. Используемые 
 пакеты]&]
 [s0; &]
 [s3;:1: [@(128.0.255) 1. Введение]&]

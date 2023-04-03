@@ -7,11 +7,11 @@ topic "Дизайнер Иконок";
 [s1; [@3 Дизайнер Иконок]&]
 [s2; [@3 Содержание]&]
 [s0;2 &]
-[s0; [^topic`:`/`/DinrusIDE`/app`/IconDes`_ru`-ru`#1^2 1. Введение]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/IconDes`_ru`-ru`#2^2 2. Фундаментальные
+[s2; [^topic`:`/`/DinrusIDE`/app`/IconDes`_ru`-ru`#1^ 1. Введение]&]
+[s2; [^topic`:`/`/DinrusIDE`/app`/IconDes`_ru`-ru`#2^ 2. Фундаментальные
  элементы управления]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/IconDes`_ru`-ru`#3^2 3. Суперсэмплинг]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/IconDes`_ru`-ru`#4^2 4. Интерполяция]&]
+[s2; [^topic`:`/`/DinrusIDE`/app`/IconDes`_ru`-ru`#3^ 3. Суперсэмплинг]&]
+[s2; [^topic`:`/`/DinrusIDE`/app`/IconDes`_ru`-ru`#4^ 4. Интерполяция]&]
 [s0; &]
 [s2;:1: [@(128.0.255) 1. Введение]&]
 [s3; Дизайнер Иконок `- это инструмент, 

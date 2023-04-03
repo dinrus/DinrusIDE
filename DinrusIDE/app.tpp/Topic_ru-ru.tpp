@@ -28,15 +28,15 @@ topic "Тематика++";
 [s2; [@3 Тематика`+`+]&]
 [s3; [@3 Содержание]&]
 [s0; &]
-[s0; [^topic`:`/`/DinrusIDE`/app`/Topic`_ru`-ru`#1^ 1. Введение]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/Topic`_ru`-ru`#2^ 2. Основы]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/Topic`_ru`-ru`#3^ 3. Краткое 
+[s3; [^topic`:`/`/DinrusIDE`/app`/Topic`_ru`-ru`#1^ 1. Введение]&]
+[s3; [^topic`:`/`/DinrusIDE`/app`/Topic`_ru`-ru`#2^ 2. Основы]&]
+[s3; [^topic`:`/`/DinrusIDE`/app`/Topic`_ru`-ru`#3^ 3. Краткое 
 описнаие редактора Тематика`+`+]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/Topic`_ru`-ru`#4^ 4. Использование 
+[s3; [^topic`:`/`/DinrusIDE`/app`/Topic`_ru`-ru`#4^ 4. Использование 
 Тематика`+`+ для создания ссылок на 
 код]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/Topic`_ru`-ru`#5^ 5. Экспорт]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/Topic`_ru`-ru`#6^ 6. Технический 
+[s3; [^topic`:`/`/DinrusIDE`/app`/Topic`_ru`-ru`#5^ 5. Экспорт]&]
+[s3; [^topic`:`/`/DinrusIDE`/app`/Topic`_ru`-ru`#6^ 6. Технический 
 фон]&]
 [s0; &]
 [s3;:1: [@(128.0.255) 1. Введение]&]

@@ -5,10 +5,10 @@
 String FormatNest(String nest)
 {
 	int q = nest.Find("@");
-//	if(q >= 0) {
-	//	nest.Trim(q);
-	//	nest << "[анонимное]";
-//	}
+	if(q >= 0) {
+		nest.Trim(q);
+		nest << "[anonymous]";
+	}
 	return nest;
 }
 
@@ -85,7 +85,7 @@ Navigator::Navigator()
 	list.WhenLeftClick = THISBACK(NavigatorClick);
 	list.WhenSel = THISBACK(SyncNavLines);
 	list.WhenLineEnabled = THISBACK(ListLineEnabled);
-	
+
 	navlines.NoHeader().NoWantFocus();
 	navlines.WhenLeftClick = THISBACK(GoToNavLine);
 	navlines.AddColumn().SetDisplay(Single<LineDisplay>());
@@ -93,11 +93,11 @@ Navigator::Navigator()
 	search <<= THISBACK(TriggerSearch);
 	search.SetFilter(CharFilterNavigator);
 	search.WhenEnter = THISBACK(NavigatorEnter);
-	
+
 	sortitems.Image(BrowserImg::Sort());
 	sortitems <<= THISBACK(NaviSort);
 	sorting = false;
-	
+
 	dlgmode = false;
 }
 
@@ -396,7 +396,7 @@ int Navigator::NavigatorDisplay::DoPaint(Draw& w, const Rect& r, const Value& q,
 		w.DrawText(x, y, h, StdFont().Bold(), ink);
 		return GetTextSize(h, StdFont().Bold()).cx;
 	}
-	
+
 	w.DrawRect(r, paper);
 
 	if(m.kind == KIND_SRCFILE)

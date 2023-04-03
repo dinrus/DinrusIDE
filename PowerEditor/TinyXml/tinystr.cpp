@@ -1,8 +1,6 @@
 
-#ifndef TIXML_USE_STL
-
 #include <PowerEditor/TinyXml/tinyxml.h>
-
+namespace UPP{
 
   //  TiXmlString (const char* instring);
 
@@ -389,6 +387,4 @@ bool TiXmlString::operator > (const TiXmlString & compare) const
     }
     return false;
 }
-
-
-#endif  // TIXML_USE_STL
+}

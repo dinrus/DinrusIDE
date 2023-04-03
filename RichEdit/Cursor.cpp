@@ -456,7 +456,15 @@ bool RichEdit::GotoLabel(Gate<const WString&> match)
 
 bool RichEdit::GotoLabel(const String& lbl)
 {
-	return GotoLabel([=](const WString& data) { return data == WString(lbl); });
+	Vector<RichValPos> f = text.GetValPos(pagesz, RichText::LABELS);
+	for(int i = 0; i < f.GetCount(); i++)
+		if(f[i].data == WString(lbl)) {
+			Move(f[i].pos);
+			return true;
+		}
+	return false;
+
+	//return GotoLabel([=](const WString& data) { return data == WString(lbl); });
 }
 
 void RichEdit::BeginPara()

@@ -857,7 +857,7 @@ void RichQtfParser::Parse(const char *qtf, int _accesskey)
 		else
 		if(Key2('}')) {
 			if(oldtab)
-				Error("}} in ++ table");
+				Error("}} в ++ таблице");
 			FinishTable();
 		}
 		else

@@ -5,11 +5,14 @@
 #define TIXML_STRING    TiXmlString
 #define TIXML_OSTREAM   TiXmlOutStream
 
+#include <Core/Core.h>
 #include <assert.h>
-//#include <tchar.h>
-//#include <string>
-#include <PowerEditor/MISC/Common/Common.h>
-#include <PowerEditor/MISC/Common/FileInterface.h>
+#include <tchar.h>
+#include <string>
+//#include <PowerEditor/MISC/Common/Common.h>
+//#include <PowerEditor/MISC/Common/FileInterface.h>
+
+namespace Upp{
 
 class TiXmlDocument;
 class TiXmlElement;
@@ -20,6 +23,7 @@ class TiXmlText;
 class TiXmlDeclaration;
 class TiXmlParsingData;
 
+
 /*
    TiXmlString is an emulation of the String template.
    Its purpose is to allow compiling TinyXML on compilers with no or poor STL support.
@@ -27,7 +31,7 @@ class TiXmlParsingData;
    The buffer allocation is made by a simplistic power of 2 like mechanism : if we increase
    a String and there's no more room, we allocate a buffer twice as big as we need.
 */
-class TiXmlString
+class TiXmlString : public Upp::String
 {
   public :
     // TiXmlString constructor, based on a String
@@ -1331,6 +1335,34 @@ public:
 private:
     TiXmlNode* node;
 };
+////////////////////////
 
+class TiXmlParsingData
+{
+    friend class TiXmlDocument;
+  public:
+    //TiXmlParsingData( const char* now, const TiXmlParsingData* prevData );
+    void Stamp( const char* now );
+
+    const TiXmlCursor& Cursor() { return cursor; }
+    //void Update( const char* now );
+
+  private:
+    // Only used by the document!
+    TiXmlParsingData( const char* start, int _tabsize, int row, int col )
+    {
+        assert( start );
+        stamp = start;
+        tabsize = _tabsize;
+        cursor.row = row;
+        cursor.col = col;
+    }
+
+    TiXmlCursor     cursor;
+    const char*     stamp;
+    int             tabsize;
+};
+
+}
 #endif
 

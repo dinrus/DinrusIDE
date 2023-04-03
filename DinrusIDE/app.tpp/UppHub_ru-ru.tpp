@@ -26,19 +26,19 @@ topic "DinrusUppHub";
 [s2; [@(0.0.255) DinrusUppHub]&]
 [s3; [@(0.0.255) Содержание]&]
 [s0; &]
-[s0; [^topic`:`/`/DinrusIDE`/app`/UppHub`_ru`-ru`#1^ 1. Пользовательская
+[s3; [^topic`:`/`/DinrusIDE`/app`/UppHub`_ru`-ru`#1^ 1. Пользовательская
  перспектива]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/UppHub`_ru`-ru`#2^ 2. Требования]&]
-[s0;     [^topic`:`/`/DinrusIDE`/app`/UppHub`_ru`-ru`#2`.1^ 2.1 Git]&]
-[s0;         [^topic`:`/`/DinrusIDE`/app`/UppHub`_ru`-ru`#2`.1`.1^ 2.1.1 
+[s3; [^topic`:`/`/DinrusIDE`/app`/UppHub`_ru`-ru`#2^ 2. Требования]&]
+[s3;     [^topic`:`/`/DinrusIDE`/app`/UppHub`_ru`-ru`#2`.1^ 2.1 Git]&]
+[s3;         [^topic`:`/`/DinrusIDE`/app`/UppHub`_ru`-ru`#2`.1`.1^ 2.1.1 
 Windows]&]
-[s0;         [^topic`:`/`/DinrusIDE`/app`/UppHub`_ru`-ru`#2`.1`.2^ 2.1.2 
+[s3;         [^topic`:`/`/DinrusIDE`/app`/UppHub`_ru`-ru`#2`.1`.2^ 2.1.2 
 POSIX]&]
-[s0;         [^topic`:`/`/DinrusIDE`/app`/UppHub`_ru`-ru`#2`.1`.3^ 2.1.3 
+[s3;         [^topic`:`/`/DinrusIDE`/app`/UppHub`_ru`-ru`#2`.1`.3^ 2.1.3 
 macOS]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/UppHub`_ru`-ru`#3^ 3. Перспектива 
+[s3; [^topic`:`/`/DinrusIDE`/app`/UppHub`_ru`-ru`#3^ 3. Перспектива 
 разработчика модулей DinrusUppHub]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/UppHub`_ru`-ru`#4^ 4. Информация 
+[s3; [^topic`:`/`/DinrusIDE`/app`/UppHub`_ru`-ru`#4^ 4. Информация 
 хранителям UppHub]&]
 [s0;^topic`:`/`/DinrusIDE`/app`/UppHub`_ru`-ru`#4^ &]
 [s3;:1: [@(128.0.255) 1. Пользовательская перспектива]&]

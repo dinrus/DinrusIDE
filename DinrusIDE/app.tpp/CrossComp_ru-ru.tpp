@@ -26,18 +26,18 @@ topic "Использование DinrusIDE как Инструмент Крос
 Кросс`-Компиляции]&]
 [s3; [@3 Содержание]&]
 [s0; &]
-[s0; [^topic`:`/`/DinrusIDE`/app`/CrossComp`_ru`-ru`#1^ 1. Введение]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/CrossComp`_ru`-ru`#2^ 2. Создать 
+[s3; [^topic`:`/`/DinrusIDE`/app`/CrossComp`_ru`-ru`#1^ 1. Введение]&]
+[s3; [^topic`:`/`/DinrusIDE`/app`/CrossComp`_ru`-ru`#2^ 2. Создать 
 пустой пакет в Projects]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/CrossComp`_ru`-ru`#3^ 3. Создать 
+[s3; [^topic`:`/`/DinrusIDE`/app`/CrossComp`_ru`-ru`#3^ 3. Создать 
 файл макросов  для пакета <имя>]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/CrossComp`_ru`-ru`#4^ 4. Запуск 
+[s3; [^topic`:`/`/DinrusIDE`/app`/CrossComp`_ru`-ru`#4^ 4. Запуск 
 кросс`-компиляции]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/CrossComp`_ru`-ru`#5^ 5. Добавление 
+[s3; [^topic`:`/`/DinrusIDE`/app`/CrossComp`_ru`-ru`#5^ 5. Добавление 
 файлов и спейсеров]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/CrossComp`_ru`-ru`#6^ 6. Открыть 
+[s3; [^topic`:`/`/DinrusIDE`/app`/CrossComp`_ru`-ru`#6^ 6. Открыть 
 файл  или Открыть Edited Files Warning]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/CrossComp`_ru`-ru`#7^ 7. Встройка 
+[s3; [^topic`:`/`/DinrusIDE`/app`/CrossComp`_ru`-ru`#7^ 7. Встройка 
 в DinrusIDE]&]
 [s0; &]
 [s3;:1: [@(128.0.255) 1. Введение]&]

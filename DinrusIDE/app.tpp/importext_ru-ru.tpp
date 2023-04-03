@@ -26,11 +26,11 @@ topic "Импортирование внешних библиотек";
 [s2; [@3 Импортирование внешних библиотек]&]
 [s3; [@3 Содержание]&]
 [s0; &]
-[s0; [^topic`:`/`/DinrusIDE`/app`/importext`_ru`-ru`#1^ 1. Импортирование
+[s3; [^topic`:`/`/DinrusIDE`/app`/importext`_ru`-ru`#1^ 1. Импортирование
  больших библиотек]&]
-[s0;     [^topic`:`/`/DinrusIDE`/app`/importext`_ru`-ru`#1`_1^ 1.1 
+[s3;     [^topic`:`/`/DinrusIDE`/app`/importext`_ru`-ru`#1`_1^ 1.1 
 Введение]&]
-[s0;     [^topic`:`/`/DinrusIDE`/app`/importext`_ru`-ru`#1`_2^ 1.2. 
+[s3;     [^topic`:`/`/DinrusIDE`/app`/importext`_ru`-ru`#1`_2^ 1.2. 
 Директивы]&]
 [s0; &]
 [s3;:1: [@5 1. Импортирование больших библиотек]&]

@@ -116,7 +116,7 @@ void AssistEditor::CloseAssist()
 	CloseTip();
 }
 
-bool isincludefnchar(dword c)
+bool isincludefnchar(wchar c)
 {
 	return c && c != '<' && c != '>' && c != '?' &&
 	       c != ' ' && c != '\"' && c != '/' && c != '\\' && c >= 32 && c < 65536;
@@ -125,7 +125,7 @@ bool isincludefnchar(dword c)
 String AssistEditor::ReadIdBackPos(int& pos, bool include)
 {
 	String id;
-	bool (*test)(dword c) = include ? isincludefnchar : iscid;
+	bool (*test)(wchar c) = include ? isincludefnchar : iscid;
 	while(pos > 0 && (*test)(GetChar(pos - 1)))
 		pos--;
 	int q = pos;

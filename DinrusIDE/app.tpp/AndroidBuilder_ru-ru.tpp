@@ -10,23 +10,22 @@ topic "Работа с построителем Android";
 [s1; [@(28.85.200) Работа с построителем Android]&]
 [s3; Содержание&]
 [s0;2 &]
-[s0; [^`#1^2 1. ][^topic`:`/`/DinrusIDE`/app`/AndroidBuilder`_ru`-ru`#1^2 Введение
-]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/AndroidBuilder`_ru`-ru`#2^2 2. Загрузка 
+[s3; [^`#1^ 1. ][^topic`:`/`/DinrusIDE`/app`/AndroidBuilder`_ru`-ru`#1^ Введение]&]
+[s3; [^topic`:`/`/DinrusIDE`/app`/AndroidBuilder`_ru`-ru`#2^ 2. Загрузка 
 Android SDK]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/AndroidBuilder`_ru`-ru`#3^2 3. Конфигуриро
-вание Android SDK]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/AndroidBuilder`_ru`-ru`#4^2 4. Создание 
+[s3; [^topic`:`/`/DinrusIDE`/app`/AndroidBuilder`_ru`-ru`#3^ 3. Конфигуриров
+ание Android SDK]&]
+[s3; [^topic`:`/`/DinrusIDE`/app`/AndroidBuilder`_ru`-ru`#4^ 4. Создание 
 построителя Android]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/AndroidBuilder`_ru`-ru`#5^2 5. Линковка 
+[s3; [^topic`:`/`/DinrusIDE`/app`/AndroidBuilder`_ru`-ru`#5^ 5. Линковка 
 построителя Android к Android NDK]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/AndroidBuilder`_ru`-ru`#6^2 6. Конфигуриро
-вание построителя Android]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/AndroidBuilder`_ru`-ru`#7^2 7. Трюки 
+[s3; [^topic`:`/`/DinrusIDE`/app`/AndroidBuilder`_ru`-ru`#6^ 6. Конфигуриров
+ание построителя Android]&]
+[s3; [^topic`:`/`/DinrusIDE`/app`/AndroidBuilder`_ru`-ru`#7^ 7. Трюки 
 и подсказки]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/AndroidBuilder`_ru`-ru`#8^2 8. Известные 
+[s3; [^topic`:`/`/DinrusIDE`/app`/AndroidBuilder`_ru`-ru`#8^ 8. Известные 
 проблемы]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/AndroidBuilder`_ru`-ru`#9^2 9. Приложение]&]
+[s3; [^topic`:`/`/DinrusIDE`/app`/AndroidBuilder`_ru`-ru`#9^ 9. Приложение]&]
 [s0; &]
 [s3;:1: [@(128.0.255) 1. Введение]&]
 [s2; Android является ведущей мобильной операционно

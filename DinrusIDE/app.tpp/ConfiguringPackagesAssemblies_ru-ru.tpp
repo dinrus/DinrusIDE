@@ -11,26 +11,26 @@ topic "Конфигурирование Пакетов & Сборок";
 [s4; [@3 Конфигурирование Пакетов `& Сборок]&]
 [s6; [@3 Содержание]&]
 [s0;2 &]
-[s0; [^topic`:`/`/DinrusIDE`/app`/ConfiguringPackagesAssemblies`_ru`-ru`#1^2 1. 
+[s6; [^topic`:`/`/DinrusIDE`/app`/ConfiguringPackagesAssemblies`_ru`-ru`#1^ 1. 
 Открытие пакета]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/ConfiguringPackagesAssemblies`_ru`-ru`#2^2 2. 
+[s6; [^topic`:`/`/DinrusIDE`/app`/ConfiguringPackagesAssemblies`_ru`-ru`#2^ 2. 
 Настройка сборки]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/ConfiguringPackagesAssemblies`_ru`-ru`#3^2 3.Созд
-ание пакета]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/ConfiguringPackagesAssemblies`_ru`-ru`#4^2 4. 
+[s6; [^topic`:`/`/DinrusIDE`/app`/ConfiguringPackagesAssemblies`_ru`-ru`#3^ 3.Созда
+ние пакета]&]
+[s6; [^topic`:`/`/DinrusIDE`/app`/ConfiguringPackagesAssemblies`_ru`-ru`#4^ 4. 
 Конфигурация построения пакета]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/ConfiguringPackagesAssemblies`_ru`-ru`#5^2 5. 
+[s6; [^topic`:`/`/DinrusIDE`/app`/ConfiguringPackagesAssemblies`_ru`-ru`#5^ 5. 
 Настройки построения пакета]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/ConfiguringPackagesAssemblies`_ru`-ru`#6^2 6. 
+[s6; [^topic`:`/`/DinrusIDE`/app`/ConfiguringPackagesAssemblies`_ru`-ru`#6^ 6. 
 Добавление зависимых пакетов]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/ConfiguringPackagesAssemblies`_ru`-ru`#7^2 7. 
+[s6; [^topic`:`/`/DinrusIDE`/app`/ConfiguringPackagesAssemblies`_ru`-ru`#7^ 7. 
 Шаги кастомного построения]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/ConfiguringPackagesAssemblies`_ru`-ru`#8^2 8. 
+[s6; [^topic`:`/`/DinrusIDE`/app`/ConfiguringPackagesAssemblies`_ru`-ru`#8^ 8. 
 Добавление исходников в пакет]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/ConfiguringPackagesAssemblies`_ru`-ru`#9^2 9. 
+[s6; [^topic`:`/`/DinrusIDE`/app`/ConfiguringPackagesAssemblies`_ru`-ru`#9^ 9. 
 Построение пакетов из макроса ESC]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/ConfiguringPackagesAssemblies`_ru`-ru`#10^2 10.Рас
-ширения бинарных ресурсов]&]
+[s6; [^topic`:`/`/DinrusIDE`/app`/ConfiguringPackagesAssemblies`_ru`-ru`#10^ 10.Расш
+ирения бинарных ресурсов]&]
 [s0;2 &]
 [s6;:1: [@(128.0.255) 1. Открытие пакета]&]
 [s5; Для того, чтобы открыть пакет, в меню 

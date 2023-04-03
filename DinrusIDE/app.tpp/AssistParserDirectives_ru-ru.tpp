@@ -17,17 +17,17 @@ topic "Директивы парсера Ассиста++";
 [s13; [@3 Директивы парсера Ассиста`+`+]&]
 [s10; [@5 Содержание]&]
 [s0; &]
-[s0; [^topic`:`/`/DinrusIDE`/app`/AssistParserDirectives`_ru`-ru`#1^ 1. 
+[s10; [^topic`:`/`/DinrusIDE`/app`/AssistParserDirectives`_ru`-ru`#1^ 1. 
 Введение]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/AssistParserDirectives`_ru`-ru`#2^ 2. 
+[s10; [^topic`:`/`/DinrusIDE`/app`/AssistParserDirectives`_ru`-ru`#2^ 2. 
 Управление исходниками, заголовочниками, 
 макросами и пространствами имён]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/AssistParserDirectives`_ru`-ru`#3^ 3. 
+[s10; [^topic`:`/`/DinrusIDE`/app`/AssistParserDirectives`_ru`-ru`#3^ 3. 
 Перепись макросов, макросы пространства 
 имён]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/AssistParserDirectives`_ru`-ru`#4^ 4. 
+[s10; [^topic`:`/`/DinrusIDE`/app`/AssistParserDirectives`_ru`-ru`#4^ 4. 
 Основание эвристики]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/AssistParserDirectives`_ru`-ru`#5^ 5. 
+[s10; [^topic`:`/`/DinrusIDE`/app`/AssistParserDirectives`_ru`-ru`#5^ 5. 
 Assist`+`+ C`+`+ `- директивы парсера]&]
 [s0; &]
 [s10;:1: [@(128.0.255) 1. Введение]&]

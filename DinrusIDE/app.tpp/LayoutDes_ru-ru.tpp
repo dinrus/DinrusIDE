@@ -26,31 +26,31 @@ topic "Дизайнер Выкладок";
 [s2; [@5 Дизайнер Выкладок]&]
 [s3; [@5 Содержание]&]
 [s0; &]
-[s0; [^topic`:`/`/DinrusIDE`/app`/LayoutDes`_ru`-ru`#1^ 1. Обзор]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/LayoutDes`_ru`-ru`#2^ 2. Управление 
+[s3; [^topic`:`/`/DinrusIDE`/app`/LayoutDes`_ru`-ru`#1^ 1. Обзор]&]
+[s3; [^topic`:`/`/DinrusIDE`/app`/LayoutDes`_ru`-ru`#2^ 2. Управление 
 выкладками]&]
-[s0;     [^topic`:`/`/DinrusIDE`/app`/LayoutDes`_ru`-ru`#2`_1^ 2.1 
+[s3;     [^topic`:`/`/DinrusIDE`/app`/LayoutDes`_ru`-ru`#2`_1^ 2.1 
 Создание новой выкладки]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/LayoutDes`_ru`-ru`#3^ 3. Добавление 
+[s3; [^topic`:`/`/DinrusIDE`/app`/LayoutDes`_ru`-ru`#3^ 3. Добавление 
 виджета к выкладке]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/LayoutDes`_ru`-ru`#4^ 4. Команды 
+[s3; [^topic`:`/`/DinrusIDE`/app`/LayoutDes`_ru`-ru`#4^ 4. Команды 
 бруса инструментов]&]
-[s0;     [^topic`:`/`/DinrusIDE`/app`/LayoutDes`_ru`-ru`#4`_1^ 4.1 
+[s3;     [^topic`:`/`/DinrusIDE`/app`/LayoutDes`_ru`-ru`#4`_1^ 4.1 
 Масштабирование размера виджета]&]
-[s0;     [^topic`:`/`/DinrusIDE`/app`/LayoutDes`_ru`-ru`#4`_2^ 4.2 
+[s3;     [^topic`:`/`/DinrusIDE`/app`/LayoutDes`_ru`-ru`#4`_2^ 4.2 
 Порядок виджетов]&]
-[s0;     [^topic`:`/`/DinrusIDE`/app`/LayoutDes`_ru`-ru`#4`_3^ 4.3 
+[s3;     [^topic`:`/`/DinrusIDE`/app`/LayoutDes`_ru`-ru`#4`_3^ 4.3 
 Настройка поведения виджета]&]
-[s0;     [^topic`:`/`/DinrusIDE`/app`/LayoutDes`_ru`-ru`#4`_4^ 4.4 
+[s3;     [^topic`:`/`/DinrusIDE`/app`/LayoutDes`_ru`-ru`#4`_4^ 4.4 
 Ассистенция]&]
-[s0;         [^topic`:`/`/DinrusIDE`/app`/LayoutDes`_ru`-ru`#4`_4`_1^ 4.4.1 
+[s3;         [^topic`:`/`/DinrusIDE`/app`/LayoutDes`_ru`-ru`#4`_4`_1^ 4.4.1 
 Автоматическая генерация кода для 
 выкладки]&]
-[s0;         [^topic`:`/`/DinrusIDE`/app`/LayoutDes`_ru`-ru`#4`_4`_2^ 4.4.2 
+[s3;         [^topic`:`/`/DinrusIDE`/app`/LayoutDes`_ru`-ru`#4`_4`_2^ 4.4.2 
 Переход к классу, реализующему выкладку]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/LayoutDes`_ru`-ru`#5^ 5. Добавление 
+[s3; [^topic`:`/`/DinrusIDE`/app`/LayoutDes`_ru`-ru`#5^ 5. Добавление 
 поддержки кастомных виджетов]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/LayoutDes`_ru`-ru`#6^ 6. Скрытое]&]
+[s3; [^topic`:`/`/DinrusIDE`/app`/LayoutDes`_ru`-ru`#6^ 6. Скрытое]&]
 [s0; &]
 [s3;:1: [@(128.0.255) 1. Обзор]&]
 [s5; Дизайнер Выкладок `- это инструмент, 

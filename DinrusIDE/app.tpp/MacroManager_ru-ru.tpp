@@ -11,9 +11,9 @@ topic "Менеджер Макросов DinrusIDE";
 [s1; [@3 Менеджер Макросов DinrusIDE]&]
 [s2; [@3 Содержание]&]
 [s0;2 &]
-[s0; [^topic`:`/`/DinrusIDE`/app`/MacroManager`_ru`-ru`#1^2 1. Введение]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/MacroManager`_ru`-ru`#2^2 2. Функциональн
-ость]&]
+[s2; [^topic`:`/`/DinrusIDE`/app`/MacroManager`_ru`-ru`#1^ 1. Введение]&]
+[s2; [^topic`:`/`/DinrusIDE`/app`/MacroManager`_ru`-ru`#2^ 2. Функционально
+сть]&]
 [s0;2 &]
 [s2;:1: [@(128.0.255) 1. Введение]&]
 [s3; DinrusIDE обладает собственной системой 

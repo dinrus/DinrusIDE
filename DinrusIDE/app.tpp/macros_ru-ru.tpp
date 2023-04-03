@@ -24,18 +24,18 @@ topic "Макросы DinrusIDE";
 [s2; [@3 Макросы DinrusIDE]&]
 [s3; [@3 Содержание]&]
 [s0; &]
-[s0; [^topic`:`/`/DinrusIDE`/app`/macros`_ru`-ru`#1^ 1. Обзор]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/macros`_ru`-ru`#2^ 2. DinrusIDE `- 
+[s3; [^topic`:`/`/DinrusIDE`/app`/macros`_ru`-ru`#1^ 1. Обзор]&]
+[s3; [^topic`:`/`/DinrusIDE`/app`/macros`_ru`-ru`#2^ 2. DinrusIDE `- 
 API]&]
-[s0;     [^topic`:`/`/DinrusIDE`/app`/macros`_ru`-ru`#2`.1^ 2.1 Методы 
+[s3;     [^topic`:`/`/DinrusIDE`/app`/macros`_ru`-ru`#2`.1^ 2.1 Методы 
 редактирования текста]&]
-[s0;     [^topic`:`/`/DinrusIDE`/app`/macros`_ru`-ru`#2`.2^ 2.2 Файловые 
+[s3;     [^topic`:`/`/DinrusIDE`/app`/macros`_ru`-ru`#2`.2^ 2.2 Файловые 
 методы]&]
-[s0;     [^topic`:`/`/DinrusIDE`/app`/macros`_ru`-ru`#2`.3^ 2.3 Методы 
+[s3;     [^topic`:`/`/DinrusIDE`/app`/macros`_ru`-ru`#2`.3^ 2.3 Методы 
 взаимодействия с пользователем]&]
-[s0;     [^topic`:`/`/DinrusIDE`/app`/macros`_ru`-ru`#2`.4^ 2.4 Методы 
+[s3;     [^topic`:`/`/DinrusIDE`/app`/macros`_ru`-ru`#2`.4^ 2.4 Методы 
 построения и выполнения]&]
-[s0;     [^topic`:`/`/DinrusIDE`/app`/macros`_ru`-ru`#2`.5^ 2.5 Информативны
+[s3;     [^topic`:`/`/DinrusIDE`/app`/macros`_ru`-ru`#2`.5^ 2.5 Информативны
 е методы]&]
 [s0; &]
 [s3;:1: [@(128.0.255) 1. Обзор]&]

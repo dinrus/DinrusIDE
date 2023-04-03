@@ -24,15 +24,15 @@ topic "Типы Файлов";
 [s2; [@3 Типы Файлов]&]
 [s3; [@3 Содержание]&]
 [s0;2 &]
-[s0; [^topic`:`/`/DinrusIDE`/app`/Files`_ru`-ru`#1^2 1. Введение]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/Files`_ru`-ru`#2^2 2. Типы файлов]&]
-[s0; [2     ][^topic`:`/`/DinrusIDE`/app`/Files`_ru`-ru`#2`_1^2 2.1 Текстовые 
+[s3; [^topic`:`/`/DinrusIDE`/app`/Files`_ru`-ru`#1^ 1. Введение]&]
+[s3; [^topic`:`/`/DinrusIDE`/app`/Files`_ru`-ru`#2^ 2. Типы файлов]&]
+[s3;     [^topic`:`/`/DinrusIDE`/app`/Files`_ru`-ru`#2`_1^ 2.1 Текстовые 
 файлы]&]
-[s0; [2     ][^topic`:`/`/DinrusIDE`/app`/Files`_ru`-ru`#2`_2^2 2.2 Особые 
+[s3;     [^topic`:`/`/DinrusIDE`/app`/Files`_ru`-ru`#2`_2^ 2.2 Особые 
 файлы]&]
-[s0; [2     ][^topic`:`/`/DinrusIDE`/app`/Files`_ru`-ru`#2`_3^2 2.3 Прочие 
+[s3;     [^topic`:`/`/DinrusIDE`/app`/Files`_ru`-ru`#2`_3^ 2.3 Прочие 
 файлы и директории]&]
-[s0; [2     ][^topic`:`/`/DinrusIDE`/app`/Files`_ru`-ru`#2`_4^2 2.4 Файлы 
+[s3;     [^topic`:`/`/DinrusIDE`/app`/Files`_ru`-ru`#2`_4^ 2.4 Файлы 
 настроек]&]
 [s0;2 &]
 [s3;:1: [@(28.85.200) 1. Введение]&]

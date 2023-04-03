@@ -25,29 +25,29 @@ topic "Начало работы в DinrusIDE";
 [s2; [@4 Начало работы в DinrusIDE]&]
 [s3; Содержание&]
 [s0; &]
-[s0; [^topic`:`/`/DinrusIDE`/app`/GettingStarted`_ru`-ru`#1^ 1. Запуск 
+[s3; [^topic`:`/`/DinrusIDE`/app`/GettingStarted`_ru`-ru`#1^ 1. Запуск 
 DinrusIDE]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/GettingStarted`_ru`-ru`#2^ 2. Сборки 
+[s3; [^topic`:`/`/DinrusIDE`/app`/GettingStarted`_ru`-ru`#2^ 2. Сборки 
 и Пакеты]&]
-[s0;     [^topic`:`/`/DinrusIDE`/app`/GettingStarted`_ru`-ru`#2`_1^ 2.1 
+[s3;     [^topic`:`/`/DinrusIDE`/app`/GettingStarted`_ru`-ru`#2`_1^ 2.1 
 Выбор сборки]&]
-[s0;     [^topic`:`/`/DinrusIDE`/app`/GettingStarted`_ru`-ru`#2`_2^ 2.2 
+[s3;     [^topic`:`/`/DinrusIDE`/app`/GettingStarted`_ru`-ru`#2`_2^ 2.2 
 Создание  нового пакета]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/GettingStarted`_ru`-ru`#3^ 3. Конфигуриров
+[s3; [^topic`:`/`/DinrusIDE`/app`/GettingStarted`_ru`-ru`#3^ 3. Конфигуриров
 ание пакета]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/GettingStarted`_ru`-ru`#4^ 4. Создание 
+[s3; [^topic`:`/`/DinrusIDE`/app`/GettingStarted`_ru`-ru`#4^ 4. Создание 
 нового файла]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/GettingStarted`_ru`-ru`#5^ 5. Добавление 
+[s3; [^topic`:`/`/DinrusIDE`/app`/GettingStarted`_ru`-ru`#5^ 5. Добавление 
 зависимостей в пакет]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/GettingStarted`_ru`-ru`#6^ 6. Разъяснения 
+[s3; [^topic`:`/`/DinrusIDE`/app`/GettingStarted`_ru`-ru`#6^ 6. Разъяснения 
 по поводу DinrusIDE]&]
-[s0;     [^topic`:`/`/DinrusIDE`/app`/GettingStarted`_ru`-ru`#6`_1^ 6.1 
+[s3;     [^topic`:`/`/DinrusIDE`/app`/GettingStarted`_ru`-ru`#6`_1^ 6.1 
 Где и что хранится?]&]
-[s0;     [^topic`:`/`/DinrusIDE`/app`/GettingStarted`_ru`-ru`#6`_2^ 6.2 
+[s3;     [^topic`:`/`/DinrusIDE`/app`/GettingStarted`_ru`-ru`#6`_2^ 6.2 
 Органайзер пакетов]&]
-[s0;     [^topic`:`/`/DinrusIDE`/app`/GettingStarted`_ru`-ru`#6`_3^ 6.3 
+[s3;     [^topic`:`/`/DinrusIDE`/app`/GettingStarted`_ru`-ru`#6`_3^ 6.3 
 Методы построения]&]
-[s0;     [^topic`:`/`/DinrusIDE`/app`/GettingStarted`_ru`-ru`#6`_4^ 6.4 
+[s3;     [^topic`:`/`/DinrusIDE`/app`/GettingStarted`_ru`-ru`#6`_4^ 6.4 
 Режим вывода]&]
 [s3;:1: [@(128.0.255) 1. Запуск DinrusIDE]&]
 [s5; После установки U`+`+ найдите соответствуюший

@@ -2,6 +2,7 @@
 #include <memory>
 #include <PowerEditor/TinyXml/tinyxml.h>
 
+namespace UPP{
 bool TiXmlBase::condenseWhiteSpace = true;
 
 void TiXmlBase::PutString( const TIXML_STRING& str, TIXML_OSTREAM* stream )
@@ -770,7 +771,7 @@ bool TiXmlDocument::SaveFile( const char* filename ) const
 	{
 		std::unique_ptr<String> outputStr = std::make_unique<String>();
 		Print(*outputStr, 0);
-		if (!outputStr->empty())
+		if (!outputStr->IsEmpty())
 			file.writeStr(*outputStr);
 		return true;
 	}
@@ -1296,4 +1297,5 @@ TiXmlHandle TiXmlHandle::ChildElement( const char* value, int count ) const
 			return TiXmlHandle( child );
 	}
 	return TiXmlHandle( 0 );
+}
 }

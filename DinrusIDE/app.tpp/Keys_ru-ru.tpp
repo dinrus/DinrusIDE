@@ -23,14 +23,14 @@ topic "Клавиши DinrusIDE";
 [s2; [@3 Клавиши DinrusIDE]&]
 [s3; [@3 Содержание]&]
 [s0;2 &]
-[s0; [^topic`:`/`/DinrusIDE`/app`/Keys`_ru`-ru`#1^2 1. Фиксированные 
+[s3; [^topic`:`/`/DinrusIDE`/app`/Keys`_ru`-ru`#1^ 1. Фиксированные 
 клавиши]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/Keys`_ru`-ru`#2^2 2. Предопределённые
- клавиши]&]
-[s0; [2     ][^topic`:`/`/DinrusIDE`/app`/Keys`_ru`-ru`#2`_1^2 2.1 DinrusIDE]&]
-[s0; [2     ][^topic`:`/`/DinrusIDE`/app`/Keys`_ru`-ru`#2`_2^2 2.2 Дизайнер 
+[s3; [^topic`:`/`/DinrusIDE`/app`/Keys`_ru`-ru`#2^ 2. Предопределённые 
+клавиши]&]
+[s3;     [^topic`:`/`/DinrusIDE`/app`/Keys`_ru`-ru`#2`_1^ 2.1 DinrusIDE]&]
+[s3;     [^topic`:`/`/DinrusIDE`/app`/Keys`_ru`-ru`#2`_2^ 2.2 Дизайнер 
 выкладок]&]
-[s0; [2     ][^topic`:`/`/DinrusIDE`/app`/Keys`_ru`-ru`#2`_3^2 2.3 Нативный 
+[s3;     [^topic`:`/`/DinrusIDE`/app`/Keys`_ru`-ru`#2`_3^ 2.3 Нативный 
 отладчик]&]
 [s0;2 &]
 [s3;:1: [@(128.0.255) 1. Фиксированные клавиши]&]

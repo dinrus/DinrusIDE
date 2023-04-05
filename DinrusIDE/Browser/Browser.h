@@ -38,7 +38,7 @@ struct SourceFileInfo {
 	String                    md5sum; // preprocessing 'fingerprint' to detect changes
 	Vector<int>               depends; // indicies of file this files depends on, for time-check
 	Time                      depends_time;
-	
+
 	void Serialize(Stream& s);
 
 	SourceFileInfo() { time = Null; depends_time = Null; }
@@ -83,7 +83,7 @@ struct CppItemInfo : CppItem {
 	bool   overed;
 	int    inherited;
 	int    typei;
-	
+
 	CppItemInfo() { over = overed = virt = false; inherited = line = 0; }
 };
 
@@ -98,7 +98,7 @@ enum {
 	ITEM_SIGN,
 	ITEM_UPP,
 	ITEM_TYPE,
-	
+
 	ITEM_PTYPE = ITEM_TYPE + 10000,
 };
 
@@ -140,7 +140,7 @@ struct CppItemInfoDisplay : public Display
 	virtual void Paint(Draw& w, const Rect& r, const Value& q,
 		               Color _ink, Color paper, dword style) const;
 	virtual Size GetStdSize(const Value& q) const;
-	
+
 	CppItemInfoDisplay() { namestart = false; showtopic = false; }
 };
 
@@ -160,7 +160,7 @@ struct CodeBrowser {
 	ButtonOption           sort;
 	Event<>                WhenKeyItem;
 	Event<>                WhenClear;
-	
+
 	String             GetPm();
 	void               Load();
 	void               LoadScope();
@@ -176,7 +176,7 @@ struct CodeBrowser {
 	void               ClearSearch();
 	void               SetRange(int r);
 	void               Sort();
-	
+
 	CodeBrowser();
 };
 
@@ -288,7 +288,7 @@ public:
 
 protected:
 	ToolBar           tool;
-	
+
 	Vector<String>    topics;
 	ParentCtrl        topics_parent;
 	FileList          topics_list;
@@ -299,7 +299,7 @@ protected:
 
 	StaticRect        right;
 	Splitter          left_right;
-	
+
 	String            grouppath;
 	String            topicpath;
 	String            singlefilepath;
@@ -369,10 +369,10 @@ protected:
 	String GetLang() const;
 
 	void   FixTopic();
-	
+
 	void   OnSearch();
 	void   DoSearch();
-	
+
 public:
 	Event<Bar&> WhenTemplatesMenu;
 
@@ -397,11 +397,11 @@ public:
 	void OpenFile(const String& path);
 	void GoTo(const String& topic, const String& link, const String& create, bool before);
 	void PersistentFindReplace(bool b)               { editor.PersistentFindReplace(b); }
-	
+
 	static int  GetSerial();
 
 	static void SerializeEditPos(Stream& s);
-	
+
 	void Serialize(Stream& s);
 
 	TopicEditor();

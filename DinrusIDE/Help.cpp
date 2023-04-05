@@ -84,7 +84,7 @@ void TopicCtrl::LoadMap()
 	Sort(l);
 	String lng = ~lang;
 	lang.Clear();
-	lang.Add("All");
+	lang.Add("Все");
 	for(int i = 0; i < l.GetCount(); i++)
 		lang.Add(l[i]);
 	if(lng.GetCount() && lang.Find(lng))
@@ -137,14 +137,14 @@ void TopicCtrl::SyncDocTree()
 		LoadMap();
 		map_serial = topic_serial;
 	}
-	
+
 	Vector<String> ss = Split((String)~search, ' ');
-	
+
 	if(ss.GetCount() && !SyncRefsFinished) {
 		SyncRefsShowProgress = true;
 		return;
 	}
-	
+
 	Vector<String> sdx;
 	for(int i = 0; i < ss.GetCount(); i++)
 		sdx.Add(ToUtf8(ToLower(ToUtf32(ss[i]))));
@@ -206,7 +206,7 @@ void TopicCtrl::SyncDocTree()
 					if(q >= 0)
 						l = ToUpper(tl.topic.Mid(q + 1));
 					String link = TopicLinkString(tl);
-					if(idelink.Find(link) < 0 && MatchTopicLink(link, sdx) && (lng == "All" || lng == l)) {
+					if(idelink.Find(link) < 0 && MatchTopicLink(link, sdx) && (lng == "Все" || lng == l)) {
 						int pd;
 						if(used.Find(tl.package) >= 0) {
 							if(usedfirst) {
@@ -354,7 +354,7 @@ void TopicCtrl::FinishText(RichText& text)
 	if(!showwords)
 		return;
 	Vector<String> ss = Split((String)~search, ' ');
-	
+
 	if(ss.GetCount() == 0)
 		return;
 	HighlightWords hw;
@@ -449,7 +449,7 @@ void  TopicCtrl::BarEx(Bar& bar)
 	bar.Add(search, HorzLayoutZoom(300));
 	bar.Add(search.GetLength(), "Предыдущая", IdeImg::GoPrev(), THISBACK(Prev));
 	bar.Add(search.GetLength(), "Следующая", IdeImg::GoNext(), THISBACK(Next));
-	
+
 	bar.AddKey(K_CTRL_F, THISBACK(FocusSearch));
 /*	bar.Add("Highlight search keywords in topic", IdeImg::ShowWords(), THISBACK(ShowWords))
 	   .Check(showwords);*/
@@ -483,7 +483,7 @@ struct HelpDes : public IdeDesigner {
 	virtual void   EditMenu(Bar& menu)              {}
 	virtual Ctrl&  DesignerCtrl()                   { return *topic; }
 	virtual void   SetFocus()                       { topic->SetFocus(); }
-	
+
 	~HelpDes()                                      { topic->Remove(); }
 };
 

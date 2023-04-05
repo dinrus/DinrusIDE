@@ -39,7 +39,7 @@ struct PackageTemplate {
 	bool                main, sub;
 	Array<TemplateItem> item;
 	Array<FileTemplate> file;
-	
+
 	rval_default(PackageTemplate);
 	PackageTemplate() {}
 };
@@ -153,7 +153,7 @@ struct SelectPackageDlg : public WithSelectPackageLayout<TopWindow> {
 	ArrayCtrl         alist;
 	ProgressIndicator progress;
 	StatusBar         lists_status;
-	
+
 	Vector<String> nest_list;
 
 	bool           selectvars;
@@ -172,14 +172,14 @@ struct SelectPackageDlg : public WithSelectPackageLayout<TopWindow> {
 		bool   upphub;
 
 		bool operator<(const PkInfo& b) const { return PackageLess(package, b.package); }
-		
+
 		PkInfo() { main = false; }
 	};
-	
+
 	struct PkData : PkInfo {
 		bool   ispackage;
 		Time   tm, itm;
-		
+
 		void Serialize(Stream& s)  { s % package % description % nest % icon % main % ispackage % tm % itm; }
 		PkData()                   { tm = itm = Null; ispackage = true; }
 	};
@@ -217,7 +217,7 @@ struct SelectPackageDlg : public WithSelectPackageLayout<TopWindow> {
 	void           SyncBase(String initvars);
 	void           SyncList(const String& find);
 	static bool    Pless(const SelectPackageDlg::PkInfo& a, const SelectPackageDlg::PkInfo& b);
-	
+
 	Vector<String> GetSvnDirs();
 	void           SyncSvnDir(const String& dir);
 	void           SyncSvnDirs();
@@ -227,7 +227,7 @@ struct SelectPackageDlg : public WithSelectPackageLayout<TopWindow> {
 	void           DeletePackage();
 	void           PackageMenu(Bar& bar);
 	void           MovePackage(bool copy);
-	
+
 	enum {
 		MAIN = 1, NONMAIN = 2, ALL = 0x8000, UPPHUB = 0x4000, NEST_MASK = 0xfff
 	};
@@ -301,11 +301,11 @@ struct WorkspaceWork {
 	};
 
 	ArrayMap<String, Backup> backup;
-	
+
 	bool         organizer;
 	bool         showtime;
 	bool         sort;
-	
+
 	Index<String> errorfiles;
 
 	virtual void   PackageCursor();
@@ -365,9 +365,9 @@ struct WorkspaceWork {
 
 	void DnDInsert(int line, PasteClip& d);
 	void Drag();
-	
+
 	void NewPackageFile();
-	
+
 	enum ADDFILE { PACKAGE_FILE, OUTPUT_FILE, HOME_FILE, LOCAL_FILE, CONFIG_FILE, ANY_FILE };
 	void AddFile(ADDFILE type);
 	void AddItem(const String& name, bool separator, bool readonly);
@@ -406,7 +406,7 @@ struct WorkspaceWork {
 	void InsertSpecialMenu(Bar& menu);
 
 	String PackagePathA(const String& pn);
-	
+
 	void SetErrorFiles(const Vector<String>& files);
 
 	void SerializeClosed(Stream& s);

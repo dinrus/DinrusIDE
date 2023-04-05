@@ -7,7 +7,7 @@
 
 namespace Upp {
 
-inline bool iscidplus(wchar c) {
+inline bool iscidplus(char c) {
     return iscib(c) || c == '.' || (c >= '0' && c <= '9');
 }
 

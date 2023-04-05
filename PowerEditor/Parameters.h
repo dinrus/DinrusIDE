@@ -17,7 +17,7 @@
 #pragma once
 
 #include <Core/Core.h>
-#include <PowerEditor/TinyXml/tinyxml.h>
+#include <plugin/TinyXml/tinyxml.h>
 #include <Scintilla/Scintilla.h>
 #include <PowerEditor/ScintillaComponent/ScintillaComponent.h>
 #include <PowerEditor/WinControls/ToolBar/ToolBar.h>

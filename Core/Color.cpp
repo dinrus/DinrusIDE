@@ -1,5 +1,5 @@
 #include "Core.h"
-	
+
 namespace Upp {
 
 void RGBtoHSV(double r, double g, double b, double& h, double& s, double& v)
@@ -154,7 +154,7 @@ void Color::Xmlize(XmlIO& xio)
 	if(IsNull(r))
 		*this = Null;
 	else
-		*this = Color(r, g, b);	
+		*this = Color(r, g, b);
 }
 
 RGBA operator*(int alpha, Color c)
@@ -246,7 +246,7 @@ Color DarkTheme(Color color)
 {
 	if(IsNull(color))
 		return Null;
-	
+
 	double v[3];
 	v[0] = color.GetR();
 	v[1] = color.GetG();
@@ -257,7 +257,7 @@ Color DarkTheme(Color color)
 	static double c[3] = { 0.3, 0.5, 0.2 }; // with this set, blues and reds are more pronounced
 
 	double m0 = c[0] * v[0] + c[1] * v[1] + c[2] * v[2]; // base brightness
-	
+
 	const int middle = 155; // this value represents gamma-like feature, imbalance of perception of dark vs bright
 	const double up = (256.0 - middle) / middle;
 	const double down = 1 / up;
@@ -267,11 +267,11 @@ Color DarkTheme(Color color)
 		m = middle + (middle - m0) * up;
 	else
 		m = middle - (m0 - middle) * down;
-	
+
 	int i0 = 0;
 	int i1 = 1;
 	int i2 = 2;
-	
+
 	if(v[i0] > v[i1])
 		Swap(i0, i1);
 	if(v[i1] > v[i2])
@@ -309,7 +309,7 @@ Color DarkTheme(Color color)
 
 		v[i2] = max(v[i2] - m / c[i2], 0.0);
 	}
-	
+
 	return Color((int)v[0], (int)v[1], (int)v[2]);
 }
 
@@ -320,7 +320,7 @@ Color DarkThemeCached(Color c)
 		Color icolor[N];
 		Color ocolor[N];
 		int   ii = 0;
-		
+
 		Cache() {
 			for(int i = 0; i < N; i++) {
 				icolor[i] = Color(0, 0, 0);

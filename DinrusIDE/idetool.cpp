@@ -34,7 +34,7 @@ void Ide::CopyPosition()
 				return;
 			}
 	}
-	
+
 	WriteClipboardText(GetFileName(editfile) << ":" << editor.GetCurrentLine());
 }
 
@@ -240,7 +240,7 @@ void Ide::Licenses()
 		    << " следующее лицензионное уведомление:&"
 		    << "{{@Y [C1 " << DeQtf(license_package.GetKey(i)) << "]}}&&";
 	}
-	
+
 	ShowQTF(qtf, "Лицензии");
 }
 
@@ -502,7 +502,7 @@ void Ide::DoDirDiff()
 	if(n.GetCount())
 		dir.FindAdd(n);
 	SortIndex(dir);
-	
+
 	static DirDiffDlg dlg;
 	dlg.diff.WhenLeftLine = THISBACK1(GotoDirDiffLeft, &dlg);
 	dlg.diff.WhenRightLine = THISBACK1(GotoDirDiffRight, &dlg);

@@ -2,12 +2,12 @@ uses
 	PowerEditor/WinControls,
 	PowerEditor\ScintillaComponent,
 	Lexilla,
-	PowerEditor/TinyXml,
 	PowerEditor/MISC,
 	PowerEditor/DarkMode,
 	Core,
 	CtrlCore,
-	CtrlLib;
+	CtrlLib,
+	plugin/TinyXml;
 
 options
 	-D_UNICODE;

@@ -84,7 +84,7 @@ void TopicCtrl::LoadMap()
 	Sort(l);
 	String lng = ~lang;
 	lang.Clear();
-	lang.Add("All");
+	lang.Add("Все");
 	for(int i = 0; i < l.GetCount(); i++)
 		lang.Add(l[i]);
 	if(lng.GetCount() && lang.Find(lng))
@@ -206,7 +206,7 @@ void TopicCtrl::SyncDocTree()
 					if(q >= 0)
 						l = ToUpper(tl.topic.Mid(q + 1));
 					String link = TopicLinkString(tl);
-					if(idelink.Find(link) < 0 && MatchTopicLink(link, sdx) && (lng == "All" || lng == l)) {
+					if(idelink.Find(link) < 0 && MatchTopicLink(link, sdx) && (lng == "Все" || lng == l)) {
 						int pd;
 						if(used.Find(tl.package) >= 0) {
 							if(usedfirst) {

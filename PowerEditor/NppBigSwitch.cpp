@@ -2232,7 +2232,7 @@ LRESULT Notepad_plus::process(Window* hwnd, UINT message, WPARAM wParam, LPARAM 
 
 			killAllChildren();
 			::PostQuitMessage(0);
-			_pPublicInterface->gNppHWND = nullptr;
+			_pPublicInterface->gNppWindow& = nullptr;
 			return TRUE;
 		}
 
@@ -2348,7 +2348,7 @@ LRESULT Notepad_plus::process(Window* hwnd, UINT message, WPARAM wParam, LPARAM 
 			return TRUE;
 		}
 
-		case NPPM_DMMGETPLUGINHWNDBYNAME : //(const char *windowName, const char *moduleName)
+		case NPPM_DMMGETPLUGINWindow&BYNAME : //(const char *windowName, const char *moduleName)
 		{
 			if (!lParam)
 				return nullptr;
@@ -2611,7 +2611,7 @@ LRESULT Notepad_plus::process(Window* hwnd, UINT message, WPARAM wParam, LPARAM 
 			return TRUE;
 		}
 
-		case NPPM_INTERNAL_SWITCHVIEWFROMHWND:
+		case NPPM_INTERNAL_SWITCHVIEWFROMWindow&:
 		{
 			Window* handle = reinterpret_cast<Window*>(lParam);
 			if (_mainEditView.getHSelf() == handle || _mainDocTab.getHSelf() == handle)

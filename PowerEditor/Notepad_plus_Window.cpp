@@ -3,7 +3,7 @@
 #include <PowerEditor/Notepad_plus_Window.h>
 
 const char Notepad_plus_Window::_className[32] = TEXT("Notepad++");
-Window* Notepad_plus_Window::gNppHWND = nullptr;
+Window* Notepad_plus_Window::gNppWindow& = nullptr;
 
 
 
@@ -103,7 +103,7 @@ void Notepad_plus_Window::init(Window& hInst, Window* parent, const char *cmdLin
 
 	_notepad_plus_plus_core.staticCheckMenuAndTB();
 
-	gNppHWND = _hSelf;
+	gNppWindow& = _hSelf;
 
 	if (cmdLineParams->isPointValid())
 	{

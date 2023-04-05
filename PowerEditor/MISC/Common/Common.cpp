@@ -29,7 +29,7 @@ void printStr(const char *str2print)
 
 String commafyInt(size_t n)
 {
-	generic_stringstream ss;
+	StringStream ss;
 	ss.imbue(std::locale(""));
 	ss << n;
 	return ss.str();
@@ -1063,7 +1063,7 @@ Window* CreateToolTip(int toolID, Window* hDlg, Window& hInst, const PTSTR pszTe
 	TOOLINFO toolInfo = {};
 	toolInfo.cbSize = sizeof(toolInfo);
 	toolInfo.hwnd = hDlg;
-	toolInfo.uFlags = TTF_IDISHWND | TTF_SUBCLASS;
+	toolInfo.uFlags = TTF_IDISWindow& | TTF_SUBCLASS;
 	toolInfo.uId = (UINT_PTR)hwndTool;
 	toolInfo.lpszText = pszText;
 	if (!SendMessage(hwndTip, TTM_ADDTOOL, 0, (LPARAM)&toolInfo))

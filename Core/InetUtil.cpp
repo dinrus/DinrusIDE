@@ -377,7 +377,7 @@ void HMAC_SHA1(const byte *text, int text_len, const byte *key, int key_len, byt
 	unsigned char k_opad[65];
 	unsigned char tk[20];
 	int i;
-	
+
 	if(key_len > 64) {
 		SHA1(tk, key, key_len);
 		key = tk;
@@ -388,17 +388,17 @@ void HMAC_SHA1(const byte *text, int text_len, const byte *key, int key_len, byt
 	memset( k_opad, 0, sizeof(k_opad));
 	memcpy( k_ipad, key, key_len);
 	memcpy( k_opad, key, key_len);
-	
+
 	for(i = 0; i < 64; i++) {
 		k_ipad[i] ^= 0x36;
 		k_opad[i] ^= 0x5c;
 	}
-	
+
 	Sha1Stream sha1;
 	sha1.Put(k_ipad, 64);
 	sha1.Put(text, text_len);
 	sha1.Finish(digest);
-	
+
 	sha1.New();
 	sha1.Put(k_opad, 64);
 	sha1.Put(digest, 20);
@@ -686,7 +686,7 @@ void UrlInfo::Parse(const String& url_)
 			q++;
 		h.Remove(0, q);
 	}
-		
+
 	q = h.Find('@');
 	if(q >= 0) {
 		username = h.Mid(0, q);
@@ -708,7 +708,7 @@ void UrlInfo::Parse(const String& url_)
 		h.Trim(q);
 	}
 	host = h;
-	
+
 	const char *p = query;
 	while(*p) {
 		const char *last = p;

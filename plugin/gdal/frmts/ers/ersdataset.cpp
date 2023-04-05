@@ -47,7 +47,7 @@ class ERSDataset : public RawDataset
 {
     friend class ERSRasterBand;
 
-    VSILFILE	*fpImage;	// image data file.
+    VSILFILE    *fpImage;   // image data file.
     GDALDataset *poDepFile;
 
     int         bGotTransform;
@@ -83,16 +83,16 @@ class ERSDataset : public RawDataset
     virtual int         CloseDependentDatasets();
 
   public:
-    		ERSDataset();
-	       ~ERSDataset();
-    
+            ERSDataset();
+           ~ERSDataset();
+
     virtual void FlushCache(void);
     virtual CPLErr GetGeoTransform( double * padfTransform );
     virtual CPLErr SetGeoTransform( double *padfTransform );
     virtual const char *GetProjectionRef(void);
     virtual CPLErr SetProjection( const char * );
     virtual char **GetFileList(void);
-    
+
     virtual int    GetGCPCount();
     virtual const char *GetGCPProjection();
     virtual const GDAL_GCP *GetGCPs();
@@ -204,7 +204,7 @@ void ERSDataset::FlushCache()
         VSILFILE * fpERS = VSIFOpenL( GetDescription(), "w" );
         if( fpERS == NULL )
         {
-            CPLError( CE_Failure, CPLE_OpenFailed, 
+            CPLError( CE_Failure, CPLE_OpenFailed,
                       "Unable to rewrite %s header.",
                       GetDescription() );
         }
@@ -355,18 +355,18 @@ CPLErr ERSDataset::SetGCPs( int nGCPCountIn, const GDAL_GCP *pasGCPListIn,
     /* Write the above computed values, unless they have been overriden by */
     /* the creation options PROJ, DATUM or UNITS */
 
-    poHeader->Set( "RasterInfo.WarpControl.CoordinateSpace.Datum", 
+    poHeader->Set( "RasterInfo.WarpControl.CoordinateSpace.Datum",
                    CPLString().Printf( "\"%s\"",
                         (osDatum.size()) ? osDatum.c_str() : szERSDatum ) );
-    poHeader->Set( "RasterInfo.WarpControl.CoordinateSpace.Projection", 
+    poHeader->Set( "RasterInfo.WarpControl.CoordinateSpace.Projection",
                    CPLString().Printf( "\"%s\"",
                         (osProj.size()) ? osProj.c_str() : szERSProj ) );
-    poHeader->Set( "RasterInfo.WarpControl.CoordinateSpace.CoordinateType", 
+    poHeader->Set( "RasterInfo.WarpControl.CoordinateSpace.CoordinateType",
                    CPLString().Printf( "EN" ) );
-    poHeader->Set( "RasterInfo.WarpControl.CoordinateSpace.Units", 
+    poHeader->Set( "RasterInfo.WarpControl.CoordinateSpace.Units",
                    CPLString().Printf( "\"%s\"",
                         (osUnits.size()) ? osUnits.c_str() : szERSUnits ) );
-    poHeader->Set( "RasterInfo.WarpControl.CoordinateSpace.Rotation", 
+    poHeader->Set( "RasterInfo.WarpControl.CoordinateSpace.Rotation",
                    "0:0:0.0" );
 
 /* -------------------------------------------------------------------- */
@@ -374,7 +374,7 @@ CPLErr ERSDataset::SetGCPs( int nGCPCountIn, const GDAL_GCP *pasGCPListIn,
 /* -------------------------------------------------------------------- */
     CPLString osControlPoints = "{\n";
     int iGCP;
-    
+
     for( iGCP = 0; iGCP < nGCPCount; iGCP++ )
     {
         CPLString osLine;
@@ -393,7 +393,7 @@ CPLErr ERSDataset::SetGCPs( int nGCPCountIn, const GDAL_GCP *pasGCPListIn,
         osControlPoints += osLine;
     }
     osControlPoints += "\t\t}";
-    
+
     poHeader->Set( "RasterInfo.WarpControl.ControlPoints", osControlPoints );
 
     return CE_None;
@@ -464,15 +464,15 @@ void ERSDataset::WriteProjectionInfo(const char* pszProj,
                                      const char* pszUnits)
 {
     bHDRDirty = TRUE;
-    poHeader->Set( "CoordinateSpace.Datum", 
+    poHeader->Set( "CoordinateSpace.Datum",
                    CPLString().Printf( "\"%s\"", pszDatum ) );
-    poHeader->Set( "CoordinateSpace.Projection", 
+    poHeader->Set( "CoordinateSpace.Projection",
                    CPLString().Printf( "\"%s\"", pszProj ) );
-    poHeader->Set( "CoordinateSpace.CoordinateType", 
+    poHeader->Set( "CoordinateSpace.CoordinateType",
                    CPLString().Printf( "EN" ) );
-    poHeader->Set( "CoordinateSpace.Units", 
+    poHeader->Set( "CoordinateSpace.Units",
                    CPLString().Printf( "\"%s\"", pszUnits ) );
-    poHeader->Set( "CoordinateSpace.Rotation", 
+    poHeader->Set( "CoordinateSpace.Rotation",
                    "0:0:0.0" );
 
 /* -------------------------------------------------------------------- */
@@ -546,7 +546,7 @@ CPLErr ERSDataset::SetGeoTransform( double *padfTransform )
 
     if( adfGeoTransform[2] != 0 || adfGeoTransform[4] != 0 )
     {
-        CPLError( CE_Failure, CPLE_AppDefined, 
+        CPLError( CE_Failure, CPLE_AppDefined,
                   "Rotated and skewed geotransforms not currently supported for ERS driver." );
         return CE_Failure;
     }
@@ -556,17 +556,17 @@ CPLErr ERSDataset::SetGeoTransform( double *padfTransform )
 
     bHDRDirty = TRUE;
 
-    poHeader->Set( "RasterInfo.CellInfo.Xdimension", 
+    poHeader->Set( "RasterInfo.CellInfo.Xdimension",
                    CPLString().Printf( "%.15g", fabs(adfGeoTransform[1]) ) );
-    poHeader->Set( "RasterInfo.CellInfo.Ydimension", 
+    poHeader->Set( "RasterInfo.CellInfo.Ydimension",
                    CPLString().Printf( "%.15g", fabs(adfGeoTransform[5]) ) );
-    poHeader->Set( "RasterInfo.RegistrationCoord.Eastings", 
+    poHeader->Set( "RasterInfo.RegistrationCoord.Eastings",
                    CPLString().Printf( "%.15g", adfGeoTransform[0] ) );
-    poHeader->Set( "RasterInfo.RegistrationCoord.Northings", 
+    poHeader->Set( "RasterInfo.RegistrationCoord.Northings",
                    CPLString().Printf( "%.15g", adfGeoTransform[3] ) );
 
     if( CPLAtof(poHeader->Find("RasterInfo.RegistrationCellX", "0")) != 0.0 ||
-        CPLAtof(poHeader->Find("RasterInfo.RegistrationCellY", "0")) != 0.0 ) 
+        CPLAtof(poHeader->Find("RasterInfo.RegistrationCellY", "0")) != 0.0 )
     {
         // Reset RegistrationCellX/Y to 0 if the header gets rewritten (#5493)
         poHeader->Set("RasterInfo.RegistrationCellX", "0");
@@ -616,18 +616,18 @@ char **ERSDataset::GetFileList()
 {
     char **papszFileList = NULL;
 
-    // Main data file, etc. 
+    // Main data file, etc.
     papszFileList = GDALPamDataset::GetFileList();
 
-    // Add raw data file if we have one. 
+    // Add raw data file if we have one.
     if( strlen(osRawFilename) > 0 )
         papszFileList = CSLAddString( papszFileList, osRawFilename );
 
-    // If we have a dependent file, merge it's list of files in. 
+    // If we have a dependent file, merge it's list of files in.
     if( poDepFile )
     {
         char **papszDepFiles = poDepFile->GetFileList();
-        papszFileList = 
+        papszFileList =
             CSLInsertStrings( papszFileList, -1, papszDepFiles );
         CSLDestroy( papszDepFiles );
     }
@@ -644,7 +644,7 @@ char **ERSDataset::GetFileList()
 void ERSDataset::ReadGCPs()
 
 {
-    const char *pszCP = 
+    const char *pszCP =
         poHeader->Find( "RasterInfo.WarpControl.ControlPoints", NULL );
 
     if( pszCP == NULL )
@@ -707,9 +707,9 @@ void ERSDataset::ReadGCPs()
         if( nItemsPerLine == 8 )
             psGCP->dfGCPZ = CPLAtof(papszTokens[iGCP*nItemsPerLine+7]);
     }
-    
+
     CSLDestroy( papszTokens );
-    
+
 /* -------------------------------------------------------------------- */
 /*      Parse the GCP projection.                                       */
 /* -------------------------------------------------------------------- */
@@ -840,7 +840,7 @@ GDALDataset *ERSDataset::Open( GDALOpenInfo * poOpenInfo )
 /*      Open the .ers file, and read the first line.                    */
 /* -------------------------------------------------------------------- */
     VSILFILE *fpERS = VSIFOpenL( poOpenInfo->pszFilename, "rb" );
-    
+
     if( fpERS == NULL )
         return NULL;
 
@@ -863,14 +863,14 @@ GDALDataset *ERSDataset::Open( GDALOpenInfo * poOpenInfo )
 /* -------------------------------------------------------------------- */
 /*      Do we have the minimum required information from this header?   */
 /* -------------------------------------------------------------------- */
-    if( poHeader->Find( "RasterInfo.NrOfLines" ) == NULL 
-        || poHeader->Find( "RasterInfo.NrOfCellsPerLine" ) == NULL 
+    if( poHeader->Find( "RasterInfo.NrOfLines" ) == NULL
+        || poHeader->Find( "RasterInfo.NrOfCellsPerLine" ) == NULL
         || poHeader->Find( "RasterInfo.NrOfBands" ) == NULL )
     {
         if( poHeader->FindNode( "Algorithm" ) != NULL )
         {
-            CPLError( CE_Failure, CPLE_OpenFailed, 
-                      "%s appears to be an algorithm ERS file, which is not currently supported.", 
+            CPLError( CE_Failure, CPLE_OpenFailed,
+                      "%s appears to be an algorithm ERS file, which is not currently supported.",
                       poOpenInfo->pszFilename );
         }
         delete poHeader;
@@ -892,7 +892,7 @@ GDALDataset *ERSDataset::Open( GDALOpenInfo * poOpenInfo )
     int nBands = atoi(poHeader->Find( "RasterInfo.NrOfBands" ));
     poDS->nRasterXSize = atoi(poHeader->Find( "RasterInfo.NrOfCellsPerLine" ));
     poDS->nRasterYSize = atoi(poHeader->Find( "RasterInfo.NrOfLines" ));
-    
+
     if (!GDALCheckDatasetDimensions(poDS->nRasterXSize, poDS->nRasterYSize) ||
         !GDALCheckBandCount(nBands, FALSE))
     {
@@ -913,7 +913,7 @@ GDALDataset *ERSDataset::Open( GDALOpenInfo * poOpenInfo )
 /*      Establish the data type.                                        */
 /* -------------------------------------------------------------------- */
     GDALDataType eType;
-    CPLString osCellType = poHeader->Find( "RasterInfo.CellType", 
+    CPLString osCellType = poHeader->Find( "RasterInfo.CellType",
                                            "Unsigned8BitInteger" );
     if( EQUAL(osCellType,"Unsigned8BitInteger") )
         eType = GDT_Byte;
@@ -962,7 +962,7 @@ GDALDataset *ERSDataset::Open( GDALOpenInfo * poOpenInfo )
         osDataFile = CPLGetFilename( poOpenInfo->pszFilename );
         osDataFile = osDataFile.substr( 0, osDataFile.find_last_of('.') );
     }
-        
+
     osDataFilePath = CPLFormFilename( osPath, osDataFile, NULL );
 
 /* -------------------------------------------------------------------- */
@@ -971,10 +971,10 @@ GDALDataset *ERSDataset::Open( GDALOpenInfo * poOpenInfo )
 /* -------------------------------------------------------------------- */
     if( EQUAL(poHeader->Find("DataSetType",""),"Translated") )
     {
-        poDS->poDepFile = (GDALDataset *) 
+        poDS->poDepFile = (GDALDataset *)
             GDALOpenShared( osDataFilePath, poOpenInfo->eAccess );
 
-        if( poDS->poDepFile != NULL 
+        if( poDS->poDepFile != NULL
             && poDS->poDepFile->GetRasterCount() >= nBands )
         {
             int iBand;
@@ -982,7 +982,7 @@ GDALDataset *ERSDataset::Open( GDALOpenInfo * poOpenInfo )
             for( iBand = 0; iBand < nBands; iBand++ )
             {
                 // Assume pixel interleaved.
-                poDS->SetBand( iBand+1, 
+                poDS->SetBand( iBand+1,
                                poDS->poDepFile->GetRasterBand( iBand+1 ) );
             }
         }
@@ -1009,17 +1009,17 @@ GDALDataset *ERSDataset::Open( GDALOpenInfo * poOpenInfo )
             for( iBand = 0; iBand < nBands; iBand++ )
             {
                 // Assume pixel interleaved.
-                poDS->SetBand( 
-                    iBand+1, 
+                poDS->SetBand(
+                    iBand+1,
                     new ERSRasterBand( poDS, iBand+1, poDS->fpImage,
-                                       nHeaderOffset 
+                                       nHeaderOffset
                                        + iWordSize * iBand * poDS->nRasterXSize,
                                        iWordSize,
                                        iWordSize * nBands * poDS->nRasterXSize,
                                        eType, bNative, TRUE ));
                 if( EQUAL(osCellType,"Signed8BitInteger") )
                     poDS->GetRasterBand(iBand+1)->
-                        SetMetadataItem( "PIXELTYPE", "SIGNEDBYTE", 
+                        SetMetadataItem( "PIXELTYPE", "SIGNEDBYTE",
                                          "IMAGE_STRUCTURE" );
             }
         }
@@ -1040,14 +1040,14 @@ GDALDataset *ERSDataset::Open( GDALOpenInfo * poOpenInfo )
     int iChild, iBand = 0;
     ERSHdrNode *poRI = poHeader->FindNode( "RasterInfo" );
 
-    for( iChild = 0; 
-         poRI != NULL && iChild < poRI->nItemCount && iBand < poDS->nBands; 
+    for( iChild = 0;
+         poRI != NULL && iChild < poRI->nItemCount && iBand < poDS->nBands;
          iChild++ )
     {
         if( poRI->papoItemChild[iChild] != NULL
             && EQUAL(poRI->papszItemName[iChild],"BandId") )
         {
-            const char *pszValue = 
+            const char *pszValue =
                 poRI->papoItemChild[iChild]->Find( "Value", NULL );
 
             iBand++;
@@ -1090,30 +1090,30 @@ GDALDataset *ERSDataset::Open( GDALOpenInfo * poOpenInfo )
     if( poHeader->Find( "RasterInfo.RegistrationCoord.Eastings", NULL ) )
     {
         poDS->bGotTransform = TRUE;
-        poDS->adfGeoTransform[0] = CPLAtof( 
+        poDS->adfGeoTransform[0] = CPLAtof(
             poHeader->Find( "RasterInfo.RegistrationCoord.Eastings", "" ));
-        poDS->adfGeoTransform[1] = CPLAtof( 
+        poDS->adfGeoTransform[1] = CPLAtof(
             poHeader->Find( "RasterInfo.CellInfo.Xdimension", "1.0" ));
         poDS->adfGeoTransform[2] = 0.0;
-        poDS->adfGeoTransform[3] = CPLAtof( 
+        poDS->adfGeoTransform[3] = CPLAtof(
             poHeader->Find( "RasterInfo.RegistrationCoord.Northings", "" ));
         poDS->adfGeoTransform[4] = 0.0;
-        poDS->adfGeoTransform[5] = -CPLAtof( 
+        poDS->adfGeoTransform[5] = -CPLAtof(
             poHeader->Find( "RasterInfo.CellInfo.Ydimension", "1.0" ));
     }
     else if( poHeader->Find( "RasterInfo.RegistrationCoord.Latitude", NULL )
              && poHeader->Find( "RasterInfo.CellInfo.Xdimension", NULL ) )
     {
         poDS->bGotTransform = TRUE;
-        poDS->adfGeoTransform[0] = ERSDMS2Dec( 
+        poDS->adfGeoTransform[0] = ERSDMS2Dec(
             poHeader->Find( "RasterInfo.RegistrationCoord.Longitude", "" ));
-        poDS->adfGeoTransform[1] = CPLAtof( 
+        poDS->adfGeoTransform[1] = CPLAtof(
             poHeader->Find( "RasterInfo.CellInfo.Xdimension", "" ));
         poDS->adfGeoTransform[2] = 0.0;
-        poDS->adfGeoTransform[3] = ERSDMS2Dec( 
+        poDS->adfGeoTransform[3] = ERSDMS2Dec(
             poHeader->Find( "RasterInfo.RegistrationCoord.Latitude", "" ));
         poDS->adfGeoTransform[4] = 0.0;
-        poDS->adfGeoTransform[5] = -CPLAtof( 
+        poDS->adfGeoTransform[5] = -CPLAtof(
             poHeader->Find( "RasterInfo.CellInfo.Ydimension", "" ));
     }
 
@@ -1139,7 +1139,7 @@ GDALDataset *ERSDataset::Open( GDALOpenInfo * poOpenInfo )
         poDS->adfGeoTransform[0] -=
             dfCellX * poDS->adfGeoTransform[1]
             + dfCellY * poDS->adfGeoTransform[2];
-        poDS->adfGeoTransform[3] -= 
+        poDS->adfGeoTransform[3] -=
             dfCellX * poDS->adfGeoTransform[4]
             + dfCellY * poDS->adfGeoTransform[5];
     }
@@ -1164,19 +1164,19 @@ GDALDataset *ERSDataset::Open( GDALOpenInfo * poOpenInfo )
     }
 
 /* -------------------------------------------------------------------- */
-/*      Do we have an "All" region?                                     */
+/*      Do we have an "Все" region?                                     */
 /* -------------------------------------------------------------------- */
     ERSHdrNode *poAll = NULL;
 
-    for( iChild = 0; 
-         poRI != NULL && iChild < poRI->nItemCount; 
+    for( iChild = 0;
+         poRI != NULL && iChild < poRI->nItemCount;
          iChild++ )
     {
         if( poRI->papoItemChild[iChild] != NULL
             && EQUAL(poRI->papszItemName[iChild],"RegionInfo") )
         {
-            if( EQUAL(poRI->papoItemChild[iChild]->Find("RegionName",""), 
-                      "All") )
+            if( EQUAL(poRI->papoItemChild[iChild]->Find("RegionName",""),
+                      "Все") )
                 poAll = poRI->papoItemChild[iChild];
         }
     }
@@ -1190,7 +1190,7 @@ GDALDataset *ERSDataset::Open( GDALOpenInfo * poOpenInfo )
 
         for( iBand = 1; iBand <= poDS->nBands; iBand++ )
         {
-            const char *pszValue = 
+            const char *pszValue =
                 poAll->FindElem( "Stats.MinimumValue", iBand-1 );
 
             if( pszValue )
@@ -1215,9 +1215,9 @@ GDALDataset *ERSDataset::Open( GDALOpenInfo * poOpenInfo )
                 poDS->GetRasterBand(iBand)->SetMetadataItem(
                     "STATISTICS_MEDIAN", pszValue );
         }
-        
+
         CPLPopErrorHandler();
-        
+
     }
 
 /* -------------------------------------------------------------------- */
@@ -1231,7 +1231,7 @@ GDALDataset *ERSDataset::Open( GDALOpenInfo * poOpenInfo )
 /* -------------------------------------------------------------------- */
     poDS->SetDescription( poOpenInfo->pszFilename );
     poDS->TryLoadXML();
-    
+
     // if no SR in xml, try aux
     const char* pszPrj = poDS->GDALPamDataset::GetProjectionRef();
     if( !pszPrj || strlen(pszPrj) == 0 )
@@ -1272,7 +1272,7 @@ GDALDataset *ERSDataset::Create( const char * pszFilename,
 /* -------------------------------------------------------------------- */
     if (nBands <= 0)
     {
-        CPLError( CE_Failure, CPLE_NotSupported, 
+        CPLError( CE_Failure, CPLE_NotSupported,
                   "ERS driver does not support %d bands.\n", nBands);
         return NULL;
     }
@@ -1281,8 +1281,8 @@ GDALDataset *ERSDataset::Create( const char * pszFilename,
         && eType != GDT_Int32 && eType != GDT_UInt32
         && eType != GDT_Float32 && eType != GDT_Float64 )
     {
-        CPLError( CE_Failure, CPLE_AppDefined, 
-                  "The ERS driver does not supporting creating files of types %s.", 
+        CPLError( CE_Failure, CPLE_AppDefined,
+                  "The ERS driver does not supporting creating files of types %s.",
                   GDALGetDataTypeName( eType ) );
         return NULL;
     }
@@ -1332,8 +1332,8 @@ GDALDataset *ERSDataset::Create( const char * pszFilename,
 /*      Handling for signed eight bit data.                             */
 /* -------------------------------------------------------------------- */
     const char *pszPixelType = CSLFetchNameValue( papszOptions, "PIXELTYPE" );
-    if( pszPixelType 
-        && EQUAL(pszPixelType,"SIGNEDBYTE") 
+    if( pszPixelType
+        && EQUAL(pszPixelType,"SIGNEDBYTE")
         && eType == GDT_Byte )
         pszCellType = "Signed8BitInteger";
 
@@ -1347,19 +1347,19 @@ GDALDataset *ERSDataset::Create( const char * pszFilename,
 
     if( fpBin == NULL )
     {
-        CPLError( CE_Failure, CPLE_FileIO, 
-                  "Failed to create %s:\n%s", 
+        CPLError( CE_Failure, CPLE_FileIO,
+                  "Failed to create %s:\n%s",
                   osBinFile.c_str(), VSIStrerror( errno ) );
         return NULL;
     }
 
-    nSize = nXSize * (GUIntBig) nYSize 
+    nSize = nXSize * (GUIntBig) nYSize
         * nBands * (GDALGetDataTypeSize(eType) / 8);
     if( VSIFSeekL( fpBin, nSize-1, SEEK_SET ) != 0
         || VSIFWriteL( &byZero, 1, 1, fpBin ) != 1 )
     {
-        CPLError( CE_Failure, CPLE_FileIO, 
-                  "Failed to write %s:\n%s", 
+        CPLError( CE_Failure, CPLE_FileIO,
+                  "Failed to write %s:\n%s",
                   osBinFile.c_str(), VSIStrerror( errno ) );
         VSIFCloseL( fpBin );
         return NULL;
@@ -1371,11 +1371,11 @@ GDALDataset *ERSDataset::Create( const char * pszFilename,
 /*      Try writing header file.                                        */
 /* -------------------------------------------------------------------- */
     VSILFILE *fpERS = VSIFOpenL( osErsFile, "w" );
-    
+
     if( fpERS == NULL )
     {
-        CPLError( CE_Failure, CPLE_FileIO, 
-                  "Failed to create %s:\n%s", 
+        CPLError( CE_Failure, CPLE_FileIO,
+                  "Failed to create %s:\n%s",
                   osErsFile.c_str(), VSIStrerror( errno ) );
         return NULL;
     }
@@ -1386,7 +1386,7 @@ GDALDataset *ERSDataset::Create( const char * pszFilename,
 
 // Last updated requires timezone info which we don't necessarily get
 // get from VSICTime() so perhaps it is better to omit this.
-//    VSIFPrintfL( fpERS, "\tLastUpdated\t= %s", 
+//    VSIFPrintfL( fpERS, "\tLastUpdated\t= %s",
 //                 VSICTime( VSITime( NULL ) ) );
 
     VSIFPrintfL( fpERS, "\tDataSetType\t= ERStorage\n" );
@@ -1400,8 +1400,8 @@ GDALDataset *ERSDataset::Create( const char * pszFilename,
     VSIFPrintfL( fpERS, "\tRasterInfo End\n" );
     if( VSIFPrintfL( fpERS, "DatasetHeader End\n" ) < 17 )
     {
-        CPLError( CE_Failure, CPLE_FileIO, 
-                  "Failed to write %s:\n%s", 
+        CPLError( CE_Failure, CPLE_FileIO,
+                  "Failed to write %s:\n%s",
                   osErsFile.c_str(), VSIStrerror( errno ) );
         return NULL;
     }
@@ -1435,7 +1435,7 @@ GDALDataset *ERSDataset::Create( const char * pszFilename,
                                   pszDatum ? pszDatum : "RAW",
                                   pszUnits ? pszUnits : "METERS");
     }
-    
+
     return poDS;
 }
 
@@ -1446,22 +1446,22 @@ GDALDataset *ERSDataset::Create( const char * pszFilename,
 void GDALRegister_ERS()
 
 {
-    GDALDriver	*poDriver;
+    GDALDriver  *poDriver;
 
     if( GDALGetDriverByName( "ERS" ) == NULL )
     {
         poDriver = new GDALDriver();
-        
+
         poDriver->SetDescription( "ERS" );
         poDriver->SetMetadataItem( GDAL_DCAP_RASTER, "YES" );
-        poDriver->SetMetadataItem( GDAL_DMD_LONGNAME, 
+        poDriver->SetMetadataItem( GDAL_DMD_LONGNAME,
                                    "ERMapper .ers Labelled" );
-        poDriver->SetMetadataItem( GDAL_DMD_HELPTOPIC, 
+        poDriver->SetMetadataItem( GDAL_DMD_HELPTOPIC,
                                    "frmt_ers.html" );
-        poDriver->SetMetadataItem( GDAL_DMD_CREATIONDATATYPES, 
+        poDriver->SetMetadataItem( GDAL_DMD_CREATIONDATATYPES,
                                    "Byte Int16 UInt16 Int32 UInt32 Float32 Float64" );
 
-        poDriver->SetMetadataItem( GDAL_DMD_CREATIONOPTIONLIST, 
+        poDriver->SetMetadataItem( GDAL_DMD_CREATIONOPTIONLIST,
 "<CreationOptionList>"
 "   <Option name='PIXELTYPE' type='string' description='By setting this to SIGNEDBYTE, a new Byte file can be forced to be written as signed byte'/>"
 "   <Option name='PROJ' type='string' description='ERS Projection Name'/>"

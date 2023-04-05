@@ -71,7 +71,7 @@ class PrinterJob {
 	String              options;
 	bool                dlgSuccess;
 	bool                Execute0();
-	
+
 public:
 	Draw&               GetDraw();
 	operator            Draw&()                         { return GetDraw(); }
@@ -332,7 +332,7 @@ typedef FileSel FileSelNative;
 class FileSelNative {
 	Vector<String> path;
 	Vector< Tuple2<String, String> > type;
-	
+
 	String ipath;
 	bool   confirm;
 	bool   multi;
@@ -354,7 +354,7 @@ public:
 	String Get() const                                    { return path.GetCount() ? path[0] : String::GetVoid(); }
 	operator String() const                               { return Get(); }
 	String operator~() const                              { return Get(); }
-	
+
 	void   Set(const String& s)                           { ipath = s; }
 	void   operator=(const String& s)                     { Set(s); }
 	void   operator<<=(const String& s)                   { Set(s); }
@@ -385,7 +385,7 @@ class CtrlMapper {
 public:
 	template <class T>
 	CtrlMapper& operator()(Ctrl& ctrl, T& val) { if(toctrls) ctrl <<= val; else val = ~ctrl; return *this; }
-	
+
 	CtrlMapper& ToCtrls()                      { toctrls = true; return *this; }
 	CtrlMapper& ToValues()                     { toctrls = false; return *this; }
 };
@@ -430,7 +430,7 @@ public:
 
 	Event<>  operator^=(Event<> cb);
 	Event<>  operator<<(Event<> cb);
-	
+
 	void Reset()                                  { item.Clear(); }
 
 // Backward compatibility
@@ -472,7 +472,7 @@ public:
 	void            Enable(bool b = true);
 	void            Disable()                        { Enable(false); }
 	void            SetNull();
-	
+
 	Event<>         operator<<(Event<> action);
 	Event<>         operator^=(Event<> action);
 
@@ -487,16 +487,16 @@ class FileSelButton : public FileSel
 public:
 	enum MODE { MODE_OPEN, MODE_SAVE, MODE_DIR };
 	FileSelButton(MODE mode = MODE_OPEN, const char *title = NULL);
-	
+
 	void               Attach(Ctrl& parent);
 	void               Detach();
 	void               Title(String t)      { title = t; }
 	String             GetTitle() const     { return title; }
-	
+
 	Event<>            WhenSelected;
-	
+
 	FileSelButton&     Tip(const char *txt) { button.Tip(txt); return *this; }
-	
+
 private:
 	void               OnAction();
 
@@ -523,7 +523,7 @@ void MemoryProfileInfo();
 
 struct sPaintRedirectCtrl : Ctrl {
 	Ctrl *ctrl;
-	
+
 	virtual void Paint(Draw& w) {
 		ctrl->Paint(w);
 	}

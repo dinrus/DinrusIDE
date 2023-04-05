@@ -144,16 +144,22 @@ Ctrl`+T `{&]
 :: [s0;ph [*C+75 Insert(][/C+75 текст][*C+75 )]]
 :: [s20; То же что и Insert(GetCursor(), [/ text]) `- вставляет 
 [/ текст ]в позиции курсора.]
-:: [s0;ph [*C+75 Find(][/C+75 текст][*C+75 , ][/C+75 down][*C+75 , ][/C+75 whole`_word][*C+75 , 
-][/C+75 ignore`_case][*C+75 , ][/C+75 wildcards][*C+75 )]]
-:: [s20; Finds [/ текст ], using give options. Options can be omitted 
-`- in that case [/ down] is considered true and rest of options 
-false. If text is found, function returns 1, otherwise 0.]
-:: [s0;ph [*C+75 Replace(][/C+75 текст][*C+75 , ][/C+75 replace`_with][*C+75 , 
-][/C+75 whole`_word][*C+75 , ][/C+75 ignore`_case][*C+75 , ][/C+75 widcards][*C+75 )]]
-:: [s20; Block replace, using given options. Options ca be omitted `- 
-in that case they are considered false. Returns number of strings 
-replaced.]
+:: [s0;ph [*C+75 Find(][/C+75 текст][*C+75 , ][/C+75 вниз][*C+75 , ][/C+75 всё`_слов
+о][*C+75 , ][/C+75 игнорировать`_регистр][*C+75 , 
+][/C+75 уайллкарды][*C+75 )]]
+:: [s20; Находит [/ текст ], используя указанные 
+опции. Опции можно опустить `- в этом 
+случае [/ вниз] считается верным, а остальные 
+опции неверными. Если текст найден, 
+функция вернёт 1, в противном случае 
+`- 0.]
+:: [s0;ph [*C+75 Replace(][/C+75 текст][*C+75 , ][/C+75 заменить`_на][*C+75 , 
+][/C+75 всё`_слово][*C+75 , ][/C+75 игнорировать`_регистр][*C+75 ,
+ ][/C+75 уайллкарды][*C+75 )]]
+:: [s20; Блочная замена, с применением заданных 
+опций. Опции можно не указывать `- 
+в таком случае они считаются неверными. 
+Возвращает число заменённых строк.]
 :: [s0;ph [*C+75 MoveLeft(...)]&]
 [s0;ph [*C+75 MoveRight(...)]&]
 [s0;ph [*C+75 MoveWordLeft(...)]&]
@@ -166,80 +172,99 @@ replaced.]
 [s0;ph [*C+75 MovePageDown(...)]&]
 [s0;ph [*C+75 MoveTextBegin(...)]&]
 [s0;ph [*C+75 MoveTextEnd(...)]&]
-[s0;ph [*C+75 MoveLeft(][/C+75 sel][*C+75 )]&]
-[s0;ph [*C+75 MoveRight(][/C+75 sel][*C+75 )]&]
-[s0;ph [*C+75 MoveWordLeft(][/C+75 sel][*C+75 )]&]
-[s0;ph [*C+75 MoveWordRight(][/C+75 sel][*C+75 )]&]
-[s0;ph [*C+75 MoveUp(][/C+75 sel][*C+75 )]&]
-[s0;ph [*C+75 MoveDown(][/C+75 sel][*C+75 )]&]
-[s0;ph [*C+75 MoveHome(][/C+75 sel][*C+75 )]&]
-[s0;ph [*C+75 MoveEnd(][/C+75 sel][*C+75 )]&]
-[s0;ph [*C+75 MovePageUp(][/C+75 sel][*C+75 )]&]
-[s0;ph [*C+75 MovePageDown(][/C+75 sel][*C+75 )]&]
-[s0;ph [*C+75 MoveTextBegin(][/C+75 sel][*C+75 )]&]
-[s0;ph [*C+75 MoveTextEnd(sel)]]
-:: [s20; Moves cursor in given direction. Variant with [/ sel] makes selection 
-(like when corresponding movement while pressing Shift key) if 
-[/ sel] is 1.]}}&]
+[s0;ph [*C+75 MoveLeft(][/C+75 выд][*C+75 )]&]
+[s0;ph [*C+75 MoveRight(][/C+75 выд][*C+75 )]&]
+[s0;ph [*C+75 MoveWordLeft(][/C+75 выд][*C+75 )]&]
+[s0;ph [*C+75 MoveWordRight(][/C+75 выд][*C+75 )]&]
+[s0;ph [*C+75 MoveUp(][/C+75 выд][*C+75 )]&]
+[s0;ph [*C+75 MoveDown(][/C+75 выд][*C+75 )]&]
+[s0;ph [*C+75 MoveHome(][/C+75 выд][*C+75 )]&]
+[s0;ph [*C+75 MoveEnd(][/C+75 выд][*C+75 )]&]
+[s0;ph [*C+75 MovePageUp(][/C+75 выд][*C+75 )]&]
+[s0;ph [*C+75 MovePageDown(][/C+75 выд][*C+75 )]&]
+[s0;ph [*C+75 MoveTextBegin(][/C+75 выд][*C+75 )]&]
+[s0;ph [*C+75 MoveTextEnd(][/C+75 выд][*C+75 )]]
+:: [s20; Перемещает курсор в указанном направлении. 
+Вариант с [/ выд] производит выделение 
+(как и соответствующее перемещение 
+при нажатой клавише Shif), если [/ sel] равно 
+1.]}}&]
 [s0; &]
 [s19;:2`.2: [@(128.0.255) 2.2 Файловые методы]&]
-[s5; This section grouped methods that allows to manipulate DinrusIDE 
-files.&]
+[s5; В этой секции сгруппированы методы, 
+позволяющие манипулировать файлами 
+DinrusIDE.&]
 [s0; &]
 [ {{3667:6333h1;@(204) [s0; Метод]
 :: [s0; Описание]
 ::^@2 [s0;ph [*C+75 FileName()]]
-:: [s20; Returns the name of currently edited file.]
-:: [s0;ph [*C+75 EditFile(][/C+75 path][*C+75 )]&]
-[s0;ph [*C+75 EditFile(][/C+75 filename, pkg][*C+75 )]]
-:: [s20; Opens the specified file in editor.]
+:: [s20; Возвращает имя текущего редактируемого 
+файла.]
+:: [s0;ph [*C+75 EditFile(][/C+75 путь][*C+75 )]&]
+[s0;ph [*C+75 EditFile(][/C+75 имяф, пкт][*C+75 )]]
+:: [s20; Открывает указанный файл в редакторе.]
 :: [s0;ph [*C+75 SaveCurrentFile()]]
-:: [s20; Saves file in active tab.]
+:: [s20; Сохраняет файл в активной вкладке]
 :: [s0;ph [*C+75 CloseFile()]]
-:: [s20; Closes active tab.]}}&]
+:: [s20; Закрывает активную вкладку]}}&]
 [s0; &]
 [s19;:2`.3: [@(128.0.255) 2.3 Методы взаимодействия 
 с пользователем]&]
-[s5; From time to time, it is necessary to communicate some information 
-from user to the macro or vice versa, which is exactly what these 
-methods do.&]
+[s5; Время от времени необходимо передавать 
+какую`-то информацию от пользователя 
+макросу или наоборот, чем и занимаются 
+данные методы.&]
 [s0; &]
 [ {{3629:6371h1;@(204) [s0; Метод]
 :: [s0; Описание]
-::^@2 [s0;ph [*C+75 Input(][/C+75 label, ...][*C+75 )]]
-:: [s20; Simple input dialog. Provides as many input text fields as is 
-number of parameters specifying labels for these fields. If user 
-chooses Cancel, returns void, otherwise returns single string 
-if there is just one edit field or array of strings for multiple 
-edit fields.]
+::^@2 [s0;ph [*C+75 Input(][/C+75 ярлык, ...][*C+75 )]]
+:: [s20; Простой диалог ввода. Предоставляет 
+столько же текстовых полей, сколько 
+задано в параметрах ярлыков для этих 
+полей. Если пользователь выбрал `"Отмена`", 
+возвращается void, в противном случае 
+`- единичная строка, если поле редактирования
+ только одно, или массив строк, если 
+полей редактирования несколько.]
 :: [s0;ph [*C+75 ClearConsole()]]
-:: [s20; Clear the output console.]
+:: [s20; Очистить консоль вывода.]
 :: [s0;ph [*C+75 Echo(][/C+75 ...][*C+75 )]]
-:: [s20; Prints all arguments to the output console, one per line.]}}&]
+:: [s20; Выводит все аргументы на консоль 
+вывода, по одному на строку.]}}&]
 [s0; &]
 [s19;:2`.4: [@(128.0.255) 2.4 Методы построения и выполнения]&]
-[s5; The macros can be used to extend the capabilities of DinrusIDE. 
-For that, there is a few methods that allow executing other programs 
-and also to trigger building U`+`+ packages.&]
+[s5; Для расширения способностей DinrusIDE 
+может использоваться макрокоманда 
+(макрос). Для этого есть несколько 
+методов, позволяющих выполнять другие 
+программы, а также триггировать построение 
+пакетов U`+`+.&]
 [s0; &]
 [ {{3667:6333h1;@(204) [s0; Метод]
 :: [s0; Описание]
-::^@2 [s0;ph [*C+75 Execute(][/C+75 cmdline][*C+75 )]]
-:: [s20; Executes cmdline, capturing the output to the console.]
-:: [s0;ph [*C+75 Launch(][/C+75 cmdline][*C+75 )]]
-:: [s20; Launches the application.]
-:: [s0;ph [*C+75 Build(][/C+75 `[flags`[, outfile`]`]][*C+75 )]]
-:: [s20; Builds open main package. Optional parameters can be used to 
-specify the flags (e.g. `"GUI MT`") and target path for the compiled 
-executable.]
-:: [s0;ph [*C+75 BuildProject(][/C+75 uppfile, flags`[, outfile`]][*C+75 )]]
-:: [s20; То же что и previous, but works with any package specified 
-by passing path to it`'s .upp file as a first parameter.]}}&]
+::^@2 [s0;ph [*C+75 Execute(][/C+75 кмд`_стр][*C+75 )]]
+:: [s20; Выполняет строку команды, захватывая 
+вывод на консоль.]
+:: [s0;ph [*C+75 Launch(][/C+75 кмд`_стр][*C+75 )]]
+:: [s20; Запускает приложение.]
+:: [s0;ph [*C+75 Build(][/C+75 `[флаги`[, фвыхода`]`]][*C+75 )]]
+:: [s20; Строит открытый главный пакет. Могут 
+использоваться необязательные параметры 
+для указания флагов (напр., `"GUI MT`") 
+и целевой путь для скомпилированных 
+исполнимых.]
+:: [s0;ph [*C+75 BuildProject(][/C+75 uppфайл, флаги`[, фвыхода`]][*C+75 )]]
+:: [s20; То же что и выше, но работает с любым 
+пакетом, задаваемым передачей пути 
+к его файлу .upp в качестве первого 
+параметра.]}}&]
 [s0; &]
 [s19;:2`.5: [@(128.0.255) 2.5 Информативные методы]&]
-[s5; The methods providing information about packages and build settings. 
-If the optional parameter [/ pkg] is not specified, the currently 
-selected package is used.&]
+[s5; Методы, предоставляющие информацию 
+о пакетах и настройках построения. 
+Если опционный параметр [/ пкт] не указан, 
+используется текущий выделенный 
+пакет.&]
 [s0; &]
 [ {{3667:6333h1;@(204) [s0; Метод]
 :: [s0; Описание]
@@ -250,9 +275,9 @@ to.]
 :: [s20; The name of main package.]
 :: [s0; [*C+75 AllPackages()]]
 :: [s20; Array of all used packages.]
-:: [s0; [*C+75 PackageDir(][/C+75 `[pkg`]][*C+75 )]]
+:: [s0; [*C+75 PackageDir(][/C+75 `[пкт`]][*C+75 )]]
 :: [s20; The directory where the package resides.]
-:: [s0; [*C+75 PackageFiles(][/C+75 `[pkg`]][*C+75 )]]
+:: [s0; [*C+75 PackageFiles(][/C+75 `[пкт`]][*C+75 )]]
 :: [s20; List of all files in the package.]
 :: [s0; [*C+75 Assembly()]]
 :: [s20; Name of the assembly.]

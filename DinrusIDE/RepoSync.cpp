@@ -412,7 +412,7 @@ again:
 			url = GetGitUrl(repo_dir);
 			if(url.GetCount())
 				sys.Log("git origin url: " + url, Gray());
-			
+
 		}
 		if(svn) {
 			url = GetSvnUrl(repo_dir);
@@ -447,7 +447,7 @@ again:
 					l++;
 					break;
 				}
-				
+
 				if(SvnFile(sys, filelist, action, path, revert))
 					commit = true;
 			}
@@ -459,7 +459,7 @@ again:
 					l++;
 					break;
 				}
-				
+
 				if(GitFile(sys, action, path, revert))
 					commit = true;
 			}

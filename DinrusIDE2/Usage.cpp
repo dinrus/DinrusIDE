@@ -80,7 +80,7 @@ void GatherBaseVirtuals(const String& cls, const String& signature, Index<String
 				// two bases
 				for(String bcls : Split(m.bases, [](int c) { return iscid(c) || c == ':' ? 0 : 1; }))
 					GatherBaseVirtuals(bcls, signature, ids, visited);
-	
+
 
 	for(const auto& f : ~CodeIndex()) // now check virtual methods of this cls
 		for(const AnnotationItem& m : f.value.items) {
@@ -134,7 +134,7 @@ void Ide::Usage(const String& id, const String& name, Point ref_pos)
 			}
 		}
 	}
-	
+
 	SetFFound(ffoundi_next);
 	FFound().Clear();
 
@@ -155,16 +155,16 @@ void Ide::Usage(const String& id, const String& name, Point ref_pos)
 					cls = m.nest;
 					break;
 				}
-		
+
 		Index<String> ids;
 		ids.FindAdd(id);
-		
+
 		if(isvirtual) {
 			Index<String> visited;
 			String signature = ScopeWorkaround(id.Mid(cls.GetCount()));
 			Index<String> base_id;
 			GatherBaseVirtuals(cls, signature, base_id, visited);
-			
+
 
 			VectorMap<String, String> bases;
 			for(const auto& f : ~CodeIndex()) // check derived classes
@@ -173,14 +173,14 @@ void Ide::Usage(const String& id, const String& name, Point ref_pos)
 						for(String bcls : Split(m.bases, [](int c) { return iscid(c) || c == ':' ? 0 : 1; }))
 							bases.Add(bcls, m.id);
 
-			
+
 
 			visited.Clear();
 			for(const String& cls : base_id)
 				GatherVirtuals(bases, cls, signature, ids, visited);
-			
+
 		}
-		
+
 		SortByKey(CodeIndex());
 		for(int src = 0; src < 2; src++)
 			for(const auto& f : ~CodeIndex())

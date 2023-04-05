@@ -44,7 +44,7 @@ String CppBuilder::GetSrcType(String fn) const
 // from complete lib name/path (libXXX.so.ver.minVer) gets the soname (libXXX.so.ver)
 String CppBuilder::GetSoname(String libName) const
 {
-	
+
 	String soname = GetFileName(libName);
 	int soLen = soname.GetCount();
 	int soPos = ToLower(soname).ReverseFind(".so");
@@ -64,7 +64,7 @@ String CppBuilder::GetSoname(String libName) const
 // from complete lib name/path (libXXX.so.ver.minVer) gets the link name (libXXX.so)
 String CppBuilder::GetSoLinkName(String libName) const
 {
-	
+
 	String linkName = GetFileName(libName);
 	int soPos = ToLower(linkName).ReverseFind(".so");
 	if(soPos < 0)
@@ -332,13 +332,13 @@ Vector<String> CppBuilder::CustomStep(const String& pf, const String& package_, 
 		Vector<String> const &flags = config.GetKeys();
 
 		String packageFolder = GetFileFolder(path);
-		
+
 		Index<String> pkg_files;
 		Package pkg;
 		pkg.Load(PackagePath(package));
 		for(int i = 0; i < pkg.GetCount(); i++)
 			pkg_files.Add(pkg[i]);
-		
+
 		Index<String> out;
 		Index<String> include_path;
 		String f = LoadFile(path);
@@ -398,10 +398,10 @@ Vector<String> CppBuilder::CustomStep(const String& pf, const String& package_, 
 			error = true;
 			return Vector<String>();
 		}
-		
+
 		for(int i = 0; i < include_path.GetCount(); i++)
 			include.Add(include_path[i]);
-		
+
 		Vector<String> o;
 		for(int i = 0; i < out.GetCount(); i++)
 			o.Add(SourcePath(package, out[i]));
@@ -532,7 +532,7 @@ String CppBuilder::DefinesTargetTime(const char *sep, const String& package, con
 	if(main_conf)
 		cc << sep << "MAIN_CONF";
 	targettime = GetFileTime(target);
-	
+
 	return cc;
 }
 

@@ -86,7 +86,7 @@ typedef struct {
     H5S_hyper_span_t *     span[H5S_MAX_RANK]; /* Array of pointers to span nodes */
 } H5S_hyper_iter_t;
 
-/* "All" selection iteration container */
+/* "Все" selection iteration container */
 typedef struct {
     hsize_t elmt_offset; /* Next element to output */
     hsize_t byte_offset; /* Next byte to output */
@@ -110,7 +110,7 @@ typedef struct H5S_sel_iter_t {
     union {
         H5S_point_iter_t pnt; /* Point selection iteration information */
         H5S_hyper_iter_t hyp; /* New Hyperslab selection iteration information */
-        H5S_all_iter_t   all; /* "All" selection iteration information */
+        H5S_all_iter_t   all; /* "Все" selection iteration information */
     } u;
 } H5S_sel_iter_t;
 

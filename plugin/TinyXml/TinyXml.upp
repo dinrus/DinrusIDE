@@ -1,0 +1,12 @@
+description "\3770,128,128";
+
+uses
+	Core;
+
+file
+	tinyxml.h,
+	tinystr.cpp,
+	tinyxml.cpp,
+	tinyxmlerror.cpp,
+	tinyxmlparser.cpp;
+

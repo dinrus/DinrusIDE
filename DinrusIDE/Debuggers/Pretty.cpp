@@ -13,13 +13,13 @@ Pdb::Val Pdb::MakeVal(const String& type, adr_t address)
 bool Pdb::PrettyVal(Pdb::Val val, int64 from, int count, Pretty& p)
 {
 	ASSERT(count < 100000);
-	
+
 	if(val.type < 0)
 		return false;
 
 	const Type& t = GetType(val.type);
-	
-	
+
+
 	current_modbase = t.modbase; // so that we do not need to pass it as parameter in Pretty routines
 
 	String type = t.name;
@@ -51,7 +51,7 @@ bool Pdb::PrettyVal(Pdb::Val val, int64 from, int count, Pretty& p)
 				}
 				i++;
 			}
-			
+
 			type = TrimBoth(type.Mid(0, q));
 		}
 	}
@@ -91,7 +91,7 @@ bool Pdb::PrettyVal(Pdb::Val val, int64 from, int count, Pretty& p)
 		pretty.Add("std::unordered_map", { 2, [=](Val val, const Vector<String>& tparam, int64 from, int count, Pdb::Pretty& p) { PrettyStdUnordered(val, false, tparam, from, count, p); }});
 		pretty.Add("std::unordered_multimap", { 2, [=](Val val, const Vector<String>& tparam, int64 from, int count, Pdb::Pretty& p) { PrettyStdUnordered(val, false, tparam, from, count, p); }});
 	}
-	
+
 	type = Filter(type, [](int c) { return c != ' ' ? c : 0; });
 	type.Replace("::__1", ""); // CLANG has some weird stuff in names...
 
@@ -115,7 +115,7 @@ bool Pdb::VisualisePretty(Visual& result, Pdb::Val val, dword flags)
 		result.Cat(count == INT64_MAX ? ">10000" : AsString(count), SRed);
 		result.Cat("] ", SLtBlue);
 	};
-	
+
 	Pretty p;
 	if(PrettyVal(val, 0, 0, p)) {
 		if(p.kind == TEXT) {
@@ -185,7 +185,7 @@ bool Pdb::VisualisePretty(Visual& result, Pdb::Val val, dword flags)
 				result.Cat("}", bc);
 				bc_lvl--;
 			}
-	
+
 			if(p.data_count > count)
 				result.Cat("..", SGray);
 		}

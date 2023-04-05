@@ -18,7 +18,7 @@
 
 #include <PowerEditor/WinControls/ProjectPanel/ProjectPanel.h>
 #include <PowerEditor/resource.h>
-#include <PowerEditor/TinyXml/tinyxml.h>
+#include <plugin/TinyXml/tinyxml.h>
 #include <PowerEditor/WinControls/OpenSaveFileDialog/CustomFileDialog.h>
 #include <PowerEditor/localization.h>
 #include <PowerEditor/Parameters.h>

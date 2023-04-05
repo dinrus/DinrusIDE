@@ -1,0 +1,35 @@
+template "U++ Core console project" main;
+
+option "создай header" header;
+option "Commandline loop" cmdline;
+
+@@<:ПАКЕТ:>.h
+??header
+#ifndef _<:ПАКЕТ:>_<:ПАКЕТ:>_h
+#define _<:ПАКЕТ:>_<:ПАКЕТ:>_h
+
+#include <DinrusC/Core.h>
+
+using namespace РНЦП;
+
+#endif
+@@<:ПАКЕТ:>.cpp
+#include <:?header:>"<:ПАКЕТ:>.h"<:/:><DinrusC/Core.h>
+
+using namespace РНЦП;<:.:>
+
+ГЛАВНАЯ_КОНСОЛЬН_ПРИЛ
+{<:?cmdline:>
+	const Вектор<Ткст>& cmdline = комСтрока();
+	for(int i = 0; i < cmdline.дайСчёт(); i++) {
+	}<:.:>
+}
+@@<:ПАКЕТ:>.upp
+uses Core;
+
+file<:?header:>
+	<:ПАКЕТ:>.h,<:.:>
+	<:ПАКЕТ:>.cpp;
+
+mainconfig
+	"" = "";

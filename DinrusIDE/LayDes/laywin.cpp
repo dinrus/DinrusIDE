@@ -165,7 +165,7 @@ void LayDes::GotoUsing()
 {
 	if(IsNull(currentlayout))
 		return;
-	
+
 	String lid = "With" + CurrentLayout().name;
 	const Workspace& wspc = GetIdeWorkspace();
 	for(int i = 0; i < wspc.GetCount(); i++) { // find lowest file time
@@ -348,10 +348,10 @@ LayDes::LayDes()
 	list.WhenBar = THISBACK(LayoutMenu);
 	list.WhenLeftDouble = THISBACK(RenameLayout);
 	list.NoWantFocus();
-	
+
 	list.WhenDrag = THISBACK(DragLayout);
 	list.WhenDropInsert = THISBACK(DnDInsertLayout);
-	
+
 	search.NullText("Поиск (Ctrl+F)");
 	search <<= THISBACK(Search);
 	search.SetFilter(CharFilterToUpper);

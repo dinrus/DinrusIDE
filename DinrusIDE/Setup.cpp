@@ -171,7 +171,7 @@ void Ide::UpdateFormat() {
 	console.WrapText(wrap_console_text);
 	statusbar.Show(show_status_bar);
 	SetupBars();
-	
+
 	if(!designer) {
 		if(filetabs >=0) {
 			tabs.SetAlign(filetabs);
@@ -397,19 +397,19 @@ void Ide::SetupFormat() {
 		.Add(CRLF, "CRLF")
 		.Add(DETECT_LF, "Обнаружить с дефолтом LF")
 		.Add(DETECT_CRLF, "Обнаружить с дефолтом CRLF");
-	
+
 	edt.filetabs
 		.Add(AlignedFrame::LEFT, "Слева")
 		.Add(AlignedFrame::TOP, "Вверху")
 		.Add(AlignedFrame::RIGHT, "Справа")
 		.Add(AlignedFrame::BOTTOM, "Внизу")
 		.Add(-1, "Отключить");
-		
+
 	edt.tabs_crosses
 		.Add(AlignedFrame::LEFT, "Слева")
 		.Add(AlignedFrame::RIGHT, "Справа")
 		.Add(-1, "Отключить");
-	
+
 	dlg.Add(fnt, "Шрифты");
 	dlg.Add(hlt, "Подсветка синтаксиса");
 	dlg.Add(edt, "Редактор");
@@ -462,7 +462,7 @@ void Ide::SetupFormat() {
 	int hs = hilite_scope;
 
 	DlSpellerLangs(edt.spellcheck_comments);
-	
+
 	web_search.Load();
 
 	rtvr
@@ -564,7 +564,7 @@ void Ide::SetupFormat() {
 	hlt.hl_restore <<= dlg.Breaker(333);
 	hlt.hl_restore_white <<= dlg.Breaker(334);
 	hlt.hl_restore_dark <<= dlg.Breaker(335);
-	
+
 	for(auto sk : GetAllChSkins())
 		ide.chstyle.Add(ide.chstyle.GetCount(), sk.b);
 
@@ -575,7 +575,7 @@ void Ide::SetupFormat() {
 	ide.upphub <<= LoadFile(DefaultHubFilePath());
 	ide.upphub.NullText(ConfigFile("UppHub"));
 	DirSelect(ide.upphub, ide.upphub_sel);
-	
+
 	fnt.defaults << [&] {
 		Ide def;
 
@@ -604,7 +604,7 @@ void Ide::SetupFormat() {
 		font1 = f1.Get();
 		font2 = f2.Get();
 		gui_font = gui.Get();
-		
+
 		editortabsize = Nvl((int)~edt.tabsize, 4);
 		rtvr.Retrieve();
 		console.SetSlots(minmax(hydra1_threads, 1, 256));
@@ -621,9 +621,9 @@ void Ide::SetupFormat() {
 			editor.SetHlStyle(i, hlt.hlstyle.Get(i, 1), hlt.hlstyle.Get(i, 2),
 			                     hlt.hlstyle.Get(i, 3), hlt.hlstyle.Get(i, 4));
 		UpdateFormat();
-		
+
 		web_search.Save();
-		
+
 		if(c == IDEXIT)
 			break;
 		if(c == 222)

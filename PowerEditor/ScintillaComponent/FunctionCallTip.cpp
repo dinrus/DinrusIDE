@@ -377,7 +377,7 @@ void FunctionCallTip::showCalltip()
         }
     }
 
-    generic_stringstream callTipText;
+    StringStream callTipText;
 
     if (_currentNbOverloads > 1)
     {

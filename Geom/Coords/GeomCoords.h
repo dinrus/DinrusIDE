@@ -451,12 +451,12 @@ private:
 class GisCoordsGaussLatitude {
 public:
 	GisCoordsGaussLatitude();
-	
+
 	void Create(double a, double e2, double base_parallel);
-	
+
 	double Spherical(double latitude) const { return gauss_projected(latitude); }
 	double Elliptical(double latitude) const { return gauss_latitude(latitude); }
-	
+
 public:
 	double radius;
 
@@ -780,7 +780,7 @@ public:
 	Point     target1;
 	Point     target2;
 	One<Node> split;
-	
+
 	rval_default(LinearSegmentTree);
 	LinearSegmentTree() {}
 };
@@ -796,7 +796,7 @@ public:
 		Rect       source;
 		Point      trg_topleft, trg_topright, trg_bottomleft, trg_bottomright;
 		One<Split> split;
-		
+
 		rval_default(Node);
 		Node() {}
 	};
@@ -811,7 +811,7 @@ public:
 
 public:
 	Node root;
-	
+
 	rval_default(PlanarSegmentTree);
 	PlanarSegmentTree() {}
 };

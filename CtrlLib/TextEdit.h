@@ -13,7 +13,7 @@ public:
 		int    size;
 		String data;
 		bool   typing;
-		
+
 		void   SetText(const String& text) { data = FastCompress(text); }
 		String GetText() const             { return FastDecompress(data); }
 	};
@@ -102,7 +102,7 @@ protected:
 	bool             nobg;
 	int              max_total;
 	int              max_line_len;
-	
+
 	mutable Stream  *view;
 	struct ViewCache {
 		int        blk;
@@ -110,7 +110,7 @@ protected:
 	};
 	mutable ViewCache view_cache[2];
 	mutable int viewlines;
-	
+
 	Vector<int64>     offset256;
 	Vector<int>       total256;
 	int               view_loading_lock;
@@ -325,7 +325,7 @@ public:
 
 		bool operator==(const Highlight& h) const
 		     { return paper == h.paper && ink == h.ink && font == h.font; }
-		
+
 		Highlight() { flags = 0; }
 	};
 
@@ -382,7 +382,7 @@ protected:
 
 public:
 	Event<> WhenScroll;
-	
+
 	Size   GetFontSize() const;
 	int64  GetGPos(int ln, int cl) const;
 	int64  GetMousePos(Point p) const;
@@ -429,7 +429,7 @@ public:
 
 	void   PasteColumn(const WString& text);
 	void   PasteColumn();
-	
+
 	void   Sort();
 
 	Point   GetScrollPos() const              { return sb; }
@@ -477,7 +477,7 @@ public:
 	bool      IsShowReadOnly()                { return showreadonly; }
 	LineEdit& ShowCurrentLine(Color color)    { hline = color; Refresh(); return *this; }
 	LineEdit& ShowCurrentColumn(Color color)  { vline = color; Refresh(); return *this; }
-	
+
 	LineEdit& SetScrollBarStyle(const ScrollBar::Style& s)   { sb.SetStyle(s); return *this; }
 
 	typedef LineEdit CLASSNAME;

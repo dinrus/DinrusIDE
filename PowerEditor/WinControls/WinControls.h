@@ -75,12 +75,12 @@ public :
 
 	bool isCheckedOrNot(int checkControlID) const
 	{
-		return (BST_CHECKED == ::SendMessage(::GetDlgItem( (HWND)_hSelf, checkControlID), BM_GETCHECK, 0, 0));
+		return (BST_CHECKED == ::SendMessage(::GetDlgItem( (Window&)_hSelf, checkControlID), BM_GETCHECK, 0, 0));
 	}
 
 	void setChecked(int checkControlID, bool checkOrNot = true) const
 	{
-		::SendDlgItemMessage((HWND)_hSelf, checkControlID, BM_SETCHECK, checkOrNot ? BST_CHECKED : BST_UNCHECKED, 0);
+		::SendDlgItemMessage((Window&)_hSelf, checkControlID, BM_SETCHECK, checkOrNot ? BST_CHECKED : BST_UNCHECKED, 0);
 	}
 
     virtual void destroy() override;
@@ -115,7 +115,7 @@ protected:
 	    bool  _clicking = false;
 	
 	    static LRESULT CALLBACK URLCtrlProc(Window* hwnd, UINT Message, WPARAM wParam, LPARAM lParam){
-	        return ((URLCtrl *)(::GetWindowLongPtr((HWND) hwnd, GWLP_USERDATA)))->runProc(hwnd, Message, wParam, lParam);
+	       // return ((URLCtrl *)(::GetWindowLongPtr((Window&) hwnd, GWLP_USERDATA)))->runProc(hwnd, Message, wParam, lParam);
 	    };
 	    LRESULT runProc(Window* hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
 	};

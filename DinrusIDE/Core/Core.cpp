@@ -375,7 +375,7 @@ String NormalizeExePath(String exePath)
 		exePath.Replace(" ", "\\ ");
 	#endif
 	}
-	
+
 	return exePath;
 }
 
@@ -386,7 +386,7 @@ String NormalizePathSeparator(String path)
 	#else
 		path.Replace("\\", DIR_SEPS);
 	#endif
-	
+
 	return path;
 }
 

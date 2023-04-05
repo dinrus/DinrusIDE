@@ -195,11 +195,11 @@ Buffer<ClippingLine> BufferPainter::RenderPath(double width, Event<One<SpanSourc
 				FinishPathJob();
 			return newclip;
 		}
-	
+
 		FinishPathJob();
 		FinishFillJob();
 	}
-	
+
 	rasterizer.Reset();
 
 	PathJob j(rasterizer, width, path_info, pathattr, preclip, regular);
@@ -212,7 +212,7 @@ Buffer<ClippingLine> BufferPainter::RenderPath(double width, Event<One<SpanSourc
 		for(int i = 0; i < n; i++)
 			co_span[i].Alloc((subpixel ? 3 : 1) * ip->GetWidth() + 3);
 	}
-	
+
 	bool doclip = (int) width == CLIP;
 	auto fill = [&](CoWork *co) {
 		int opacity = int(256 * pathattr.opacity);
@@ -231,7 +231,7 @@ Buffer<ClippingLine> BufferPainter::RenderPath(double width, Event<One<SpanSourc
 			int ci = CoWork::GetWorkerIndex();
 			subpixel_filler.sbuffer = co && ci >= 0 ? co_subpixel[ci] : subpixel;
 		}
-		
+
 		if(doclip) {
 			clip_filler.Init(render_cx);
 			rg = &clip_filler;
@@ -358,7 +358,7 @@ void BufferPainter::FinishPathJob()
 	};
 
 	FinishFillJob();
-	
+
 	fillcount = jobcount;
 	Swap(cofill, cojob); // Swap to keep allocated rasters (instead of pick)
 
@@ -426,7 +426,7 @@ void BufferPainter::FinishPathJob()
 				}
 			}
 		};
-	
+
 		int n = maxy - miny;
 		if(n >= 0) {
 			if(n > 6) {

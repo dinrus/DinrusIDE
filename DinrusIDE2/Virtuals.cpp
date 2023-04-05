@@ -121,7 +121,7 @@ String AssistEditor::FindCurrentNest()
 		return Null;
 	AnnotationItem cm = FindCurrentAnnotation();
 	if(IsNull(cm.nest))
-		Exclamation("No class can be associated with current position.");
+		Exclamation("Ни один класс не ассоциирован с текущей позицией.");
 	return cm.nest;
 }
 

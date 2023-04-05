@@ -402,7 +402,7 @@ void CommonInit()
 				int lang = 0;
 				int lang2 = 0;
 				byte charset = CHARSET_UTF8;
-				String fn = "все";
+				String fn = "Все";
 				if(i < cmd.GetCount())
 					if(cmd[i].GetLength() == 4 || cmd[i].GetLength() == 5) {
 						lang = LNGFromText(cmd[i].ToString());

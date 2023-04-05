@@ -17,7 +17,7 @@
 
 #include <cstdlib>
 #include <iostream>
-#include <PowerEditor/TinyXml/tinyxml.h>
+#include <plugin/TinyXml/tinyxml.h>
 
 #include <vector>
 #include <algorithm>

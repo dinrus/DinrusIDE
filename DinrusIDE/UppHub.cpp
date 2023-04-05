@@ -28,7 +28,7 @@ void VerifyUppHubRequirements()
 	{
 		return;
 	}
-	
+
 	Loge() << UPP_FUNCTION_NAME << "(): Git недоступен!";
 	ErrorOK(
 		"Исполнимый файл Git не обнаружен. UppHub не сможет работать."
@@ -69,7 +69,7 @@ struct UppHubDlg : WithUppHubLayout<TopWindow> {
 	bool  Installed();
 	void  UrlLoading();
 	void  Menu(Bar& bar);
-	
+
 	UppHubNest *Get(const String& name) { return upv.FindPtr(name); }
 	UppHubNest *Current()               { return list.IsCursor() ? Get(list.Get("NAME")) : NULL; }
 
@@ -85,11 +85,11 @@ UppHubDlg::UppHubDlg()
 
 	CtrlLayoutOKCancel(settings, "Настройки");
 	FileSelectOpen(settings.url, settings.selfile);
-	
+
 	list.AddKey("NAME");
 	list.AddColumn("Имя").Sorting();
 	list.AddColumn("Описание");
-	
+
 	list.ColumnWidths("109 378");
 	list.WhenSel = [=] {
 		UppHubNest *n = Current();
@@ -125,24 +125,24 @@ UppHubDlg::UppHubDlg()
 		Menu(bar);
 	};
 	reinstall << [=] { Reinstall(); };
-	
+
 	more << [=] {
 		MenuBar bar;
 		Menu(bar);
 		bar.Execute();
 	};
-	
+
 	update << [=] { Update(); };
-	
+
 	help << [=] { LaunchWebBrowser("https://www.ultimatepp.org/app$ide$UppHub_en-us.html"); };
-	
+
 	search.NullText("Поиск (Ctrl+K)");
 	search.SetFilter([](int c) { return (int)ToUpper(ToAscii(c)); });
 	search << [=] { SyncList(); };
-	
+
 	experimental <<= true;
 	broken <<= false;
-	
+
 	category ^= experimental ^= broken ^= [=] { SyncList(); };
 
 	LoadFromGlobal(settings, "UppHubDlgSettings");
@@ -184,7 +184,7 @@ void UppHubDlg::Menu(Bar& bar)
 
 	if(sep)
 		bar.Separator();
-	
+
 	bar.Add("Отрыть папку UppHub", [=] { ShellOpenFolder(hubdir); });
 	bar.Add("Копировать путь к папке UppHub", [=] { WriteClipboardText(hubdir); });
 	if(ide)
@@ -328,30 +328,30 @@ void UppHubDlg::Settings()
 Value UppHubDlg::LoadJson(const String& url)
 {
 	String s = LoadFile(url);
-	
+
 	if(IsNull(s)) {
 		pi.SetText(url);
 
 		HttpRequest r(url);
-		
+
 		r.WhenWait = r.WhenDo = [&] {
 			if(pi.StepCanceled()) {
 				r.Abort();
 				loading_stopped = true;
 			}
 		};
-		
+
 		r.Execute();
-		
+
 		if(loading_stopped)
 			return ErrorValue();
-	
+
 		s = r.GetContent();
 	}
-	
+
 	int begin = s.FindAfter("UPPHUB_BEGIN");
 	int end = s.Find("UPPHUB_END");
-	
+
 	if(begin >= 0 && end >= 0)
 		s = s.Mid(begin, end - begin);
 
@@ -369,7 +369,7 @@ void UppHubDlg::Load(int tier, const String& url)
 	if(loaded.Find(url) >= 0)
 		return;
 	loaded.Add(url);
-	
+
 	Value v = LoadJson(url);
 
 	try {
@@ -446,7 +446,7 @@ void UppHubDlg::Load()
 		url = ~settings.url;
 
 	Load(0, url);
-	
+
 	category.ClearList();
 	Index<String> cat;
 	for(const UppHubNest& n : upv)
@@ -540,7 +540,7 @@ void UppHubDlg::Reinstall()
 String UppHub()
 {
 	VerifyUppHubRequirements();
-	
+
 	UppHubDlg dlg;
 	dlg.Load();
 	dlg.Run();

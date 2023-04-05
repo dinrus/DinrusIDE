@@ -280,7 +280,7 @@ String ConvertTLine(const String& line, int flag)
 {
 	String r;
 	const char *s = line;
-	
+
 	while(*s) {
 		if(*s == '\"') {
 			CParser p(s);
@@ -481,10 +481,10 @@ void Ide::EditFile0(const String& path, byte charset, int spellcheck_comments, c
 
 	editfile_isfolder = IsFolder(editfile) || IsHelpName(editfile);
 	repo_dirs = RepoDirs(true).GetCount(); // Perhaps not the best place, but should be ok
-	
+
 	bool candesigner = !(debugger && !editfile_isfolder && (PathIsEqual(path, posfile[0]) || PathIsEqual(path, posfile[0])))
 	   && editastext.Find(path) < 0 && editashex.Find(path) < 0 && !IsNestReadOnly(editfile);
-	
+
 	if(candesigner) {
 		for(int i = 0; i < GetIdeModuleCount() && !designer; i++)
 			designer = GetIdeModule(i).CreateDesigner(this, path, charset);
@@ -496,9 +496,9 @@ void Ide::EditFile0(const String& path, byte charset, int spellcheck_comments, c
 	            CHARSET_UTF16_LE_BOM, CHARSET_UTF16_BE_BOM) < 0 &&
 	    FileIsBinary(path) || editashex.Find(path) >= 0))
 		designer.Create<FileHexView>().Open(path);
-	
+
 	ManageDisplayVisibility();
-	
+
 	if(designer) {
 		editpane.Add(designer->DesignerCtrl().SizePos());
 		designer->DesignerCtrl().SetFocus();
@@ -572,7 +572,7 @@ void Ide::EditFile0(const String& path, byte charset, int spellcheck_comments, c
 				}
 				else
 					ViewFile(editor, view_file, editfile, charset);
-				
+
 				editfile_line_endings = le == TextCtrl::LE_CRLF ? CRLF : le == TextCtrl::LE_LF ? LF : (int)Null;
 			}
 		}
@@ -798,7 +798,7 @@ void Ide::EditFile(const String& p)
 	FlushFile();
 	if(path.IsEmpty())
 		return;
-	
+
 	for(int i = 0; i < package.GetCount(); i++) {
 		String pkg = package[i].name;
 		Package p;
@@ -1055,7 +1055,7 @@ void Ide::SplitEditor(bool horz)
 		editorsplit.Horz(editor2, editor);
 	else
 		editorsplit.Vert(editor2, editor);
-	
+
 	tabs.SetSplitColor(editfile, Yellow);
 	PassEditor();
 }

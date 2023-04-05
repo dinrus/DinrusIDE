@@ -30,7 +30,7 @@ class ColourPopup;
 		bool _isEnabled = true;
 	
 	    static LRESULT CALLBACK staticWinProc(Window* hwnd, UINT Message, WPARAM wParam, LPARAM lParam) {
-	        return (((ColourPicker *)(::GetWindowLongPtr(hwnd, GWLP_USERDATA)))->runProc(Message, wParam, lParam));
+	        //return (((ColourPicker *)(::GetWindowLongPtr(hwnd, GWLP_USERDATA)))->runProc(Message, wParam, lParam));
 	    };
 		LRESULT runProc(UINT Message, WPARAM wParam, LPARAM lParam);
 	    void drawForeground(HDC hDC);

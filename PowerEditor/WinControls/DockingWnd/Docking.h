@@ -17,7 +17,7 @@
 
 #pragma once
 
-//#include <windows.h>
+#include <PowerEditor/WinControls/WinControls.h>
 #include <Core/Core.h>
 #include <CtrlCore/CtrlCore.h>
 

@@ -291,7 +291,7 @@ void DockWindow::HideRestoreDocker(DockableCtrl& dc)
 void DockWindow::DockGroup(int align, String group, int pos)
 {
 	ALIGN_ASSERT(align);
-	bool all = group == "All"; 
+	bool all = group == "Все"; 
 	for (int i = 0; i < dockers.GetCount(); i++)
 		if (all || dockers[i]->GetGroup() == group && IsDockAllowed(align, *dockers[i]))
 			Dock(align, *dockers[i], pos);
@@ -300,7 +300,7 @@ void DockWindow::DockGroup(int align, String group, int pos)
 void DockWindow::ForceDockGroup(int align, String group, int pos)
 {
 	ALIGN_ASSERT(align);
-	bool all = group == "All"; 
+	bool all = group == "Все"; 
 	for (int i = 0; i < dockers.GetCount(); i++)
 		if (all || dockers[i]->GetGroup() == group)
 			Dock(align, *dockers[i], pos);
@@ -308,7 +308,7 @@ void DockWindow::ForceDockGroup(int align, String group, int pos)
 
 void DockWindow::FloatGroup(String group)
 {
-	bool all = group == "All"; 	
+	bool all = group == "Все"; 	
 	Point p = GetScreenRect().TopLeft();
 	Point inc(20, 20);	
 	for (int i = 0; i < dockers.GetCount(); i++)
@@ -321,7 +321,7 @@ void DockWindow::FloatGroup(String group)
 void DockWindow::AutoHideGroup(int align, String group)
 {
 	ALIGN_ASSERT(align);
-	bool all = group == "All"; 	
+	bool all = group == "Все"; 	
 	for (int i = 0; i < dockers.GetCount(); i++)
 		if (all || dockers[i]->GetGroup() == group)
 			AutoHide(align, *dockers[i]);
@@ -329,7 +329,7 @@ void DockWindow::AutoHideGroup(int align, String group)
 
 void DockWindow::AutoHideGroup(String group)
 {
-	bool all = group == "All"; 	
+	bool all = group == "Все"; 	
 	for (int i = 0; i < dockers.GetCount(); i++)
 		if (all || dockers[i]->GetGroup() == group)
 			AutoHide(*dockers[i]);	
@@ -360,7 +360,7 @@ void DockWindow::TabFloatGroup(String group)
 DockCont * DockWindow::TabifyGroup(String group)
 {
 	DockCont *c = NULL;	
-	bool all = group == "All"; 
+	bool all = group == "Все"; 
 	for (int i = 0; i < dockers.GetCount(); i++)
 		if (all || dockers[i]->GetGroup() == group) {
 			if (c)
@@ -373,7 +373,7 @@ DockCont * DockWindow::TabifyGroup(String group)
 
 void DockWindow::CloseGroup(String group)
 {
-	bool all = group == "All"; 	
+	bool all = group == "Все"; 	
 	for (int i = 0; i < dockers.GetCount(); i++)
 		if (all || dockers[i]->GetGroup() == group)
 			Close(*dockers[i]);

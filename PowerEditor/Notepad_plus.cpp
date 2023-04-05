@@ -7898,7 +7898,7 @@ dword WINAPI Notepad_plus::backupDocument(void * /*param*/)
 		if (!isSnapshotMode)
 			break;
 
-		::PostMessage(Notepad_plus_Window::gNppHWND, NPPM_INTERNAL_SAVEBACKUP, 0, 0);
+		::PostMessage(Notepad_plus_Window::gNppWindow&, NPPM_INTERNAL_SAVEBACKUP, 0, 0);
 	}
 	return TRUE;
 }

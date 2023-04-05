@@ -8,10 +8,10 @@ static int CharFilterFindFileMask(int c)
 class FindFileData final : public Moveable<FindFileData> {
 public:
 	FindFileData(const String& file, const String& package);
-	
+
 	String GetFile()    const;
 	String GetPackage() const;
-	
+
 private:
 	String file;
 	String package;
@@ -41,9 +41,9 @@ private:
 		{
 			String txt = q;
 			Image fileImage = IdeFileImage(txt, false, false);
-		
+
 			int cellHeight = r.bottom - r.top;
-		
+
 			w.DrawRect(r, paper);
 			w.DrawImage(r.left, r.top + ((cellHeight - fileImage.GetHeight()) / 2), fileImage);
 			w.DrawText(r.left + fileImage.GetWidth() + Zx(5), r.top +
@@ -51,20 +51,20 @@ private:
 					  txt, StdFont(), ink);
 		}
 	};
-	
+
 public:
 	FindFileWindow(const Workspace& wspc, const String& acctualPackage);
 	bool Key(dword key, int count) override;
-	
+
 	Vector<FindFileData> GetFindedFilesData() const;
-	
+
 	void Find();
-	
+
 private:
 	bool DoesFileMeetTheCriteria(
 		const Package::File& file, const String& packageName, const String& query);
 	bool IsActualPackage(const String& packageName);
-	
+
 private:
 	const String     actualPackage;
 	const Workspace& wspc;
@@ -99,13 +99,13 @@ bool FindFileWindow::Key(dword key, int count)
 Vector<FindFileData> FindFileWindow::GetFindedFilesData() const
 {
 	Vector<FindFileData> data;
-	
+
 	for(int i = 0; i < list.GetCount(); i++) {
 		if(list.IsSelected(i)) {
 			data.Add(FindFileData(list.Get(i, 0), list.Get(i, 1)));
 		}
 	}
-	
+
 	return data;
 }
 
@@ -125,7 +125,7 @@ void FindFileWindow::Find()
 	if(list.GetCount() > 0) {
 		list.SetCursor(0);
 	}
-	
+
 	ok.Enable(list.IsCursor());
 }
 
@@ -135,7 +135,7 @@ bool FindFileWindow::DoesFileMeetTheCriteria(const Package::File& file, const St
 	if (searchInCurrentPackage && !IsActualPackage(packageName)) {
 		return false;
 	}
-	
+
 	return !file.separator && (ToUpper(packageName).Find(query) >= 0 || ToUpper(file).Find(query) >= 0);
 }
 
@@ -150,20 +150,20 @@ void Ide::FindFileName()
 	window.mask.SetText(find_file_search_string);
 	window.searchInCurrentPackage.Set(find_file_search_in_current_package);
 	window.Find();
-	
+
 	auto status = window.Execute();
-	
+
 	find_file_search_in_current_package = ~window.searchInCurrentPackage;
 	find_file_search_string = ~window.mask;
 	find_file_search_in_current_package = ~window.searchInCurrentPackage;
-	
+
 	if (status != IDOK) {
 		return;
 	}
-	
+
 	for(const auto& currentData : window.GetFindedFilesData()) {
 		AddHistory();
-			
+
 		String filePath = SourcePath(currentData.GetPackage(), currentData.GetFile());
 		EditFile(filePath);
 	}

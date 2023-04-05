@@ -113,7 +113,7 @@ void AppPreview::Paint(Draw& w)
 		auto is_header = i < line.GetCount() && line[i].header;
 		auto font = is_header ? ArialZ(12).Bold().Italic() : CourierZ(12);
 		auto rect_color = is_header ? (IsDarkTheme() ? DarkTheme(LtCyan) : LtCyan) : SColorPaper;
-		
+
 		w.DrawRect(0, y, sz.cx, font.GetCy(), rect_color);
 		if(i < line.GetCount())
 			w.DrawText(0, y, line[i].text, font, SColorText);

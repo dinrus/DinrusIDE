@@ -138,7 +138,7 @@ void AssistEditor::PostRemove(int pos, int size)
 	CodeEditor::PostRemove(pos, size);
 }
 
-bool isincludefnchar(wchar c)
+bool isincludefnchar(int c)
 {
 	return c && c != '<' && c != '>' && c != '?' &&
 	       c != ' ' && c != '\"' && c != '/' && c != '\\' && c >= 32 && c < 65536;
@@ -146,14 +146,14 @@ bool isincludefnchar(wchar c)
 
 String AssistEditor::ReadIdBackPos(int& pos, bool include)
 {
-	WString id;
-	bool (*test)(wchar c) = include ? isincludefnchar : iscid;
+	String id;
+	bool (*test)(int c) = include ? isincludefnchar : iscid;
 	while(pos > 0 && (*test)(GetChar(pos - 1)))
 		pos--;
 	int q = pos;
 	while(q < GetLength64() && (*test)(GetChar(q)))
-		id << (wchar)GetChar(q++);
-	return id.ToString();
+		id << GetChar(q++);
+	return id;
 }
 
 String AssistEditor::ReadIdBack(int q, bool include)
@@ -754,7 +754,7 @@ void AssistEditor::PopUpAssist(bool auto_insert)
 	});
 	int lcy = max(16, BrowserFont().Info().GetHeight());
 	type.Clear();
-	type.Add(AttrText("<все>").Ink(SColorHighlight()));
+	type.Add(AttrText("<Все>").Ink(SColorHighlight()));
 	if(assist_type.GetCount() == 0)
 		popup.Zoom(1);
 	else {
@@ -985,7 +985,7 @@ bool AssistEditor::InCode()
 	return st->CanAssist();
 }
 
-bool isaid(wchar c)
+bool isaid(int c)
 {
 	return c == '~' || iscid(c);
 }
@@ -1045,7 +1045,7 @@ bool AssistEditor::Key(dword key, int count)
 	if(IsReadOnly())
 		return b;
 	if(assist.IsOpen()) {
-		bool (*test)(wchar c) = include_assist ? isincludefnchar : isaid;
+		bool (*test)(int c) = include_assist ? isincludefnchar : isaid;
 		if(!(*test)(key) &&
 		   !((*test)(cc) && (key == K_DELETE || key == K_RIGHT)) &&
 		   !((*test)(bcc) && (key == K_LEFT || key == K_BACKSPACE))) {

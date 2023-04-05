@@ -572,7 +572,7 @@ ArpackGeneralizedSelfAdjointEigenSolver<MatrixType, MatrixSolver, BisSPD>&
     //
     int rvec = (options & ComputeEigenvectors) == ComputeEigenvectors;
 
-    // "A" means "All", use "S" to choose specific eigenvalues (not yet supported in ARPACK))
+    // "A" means "Все", use "S" to choose specific eigenvalues (not yet supported in ARPACK))
     //
     char howmny[2] = "A"; 
 

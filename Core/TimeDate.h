@@ -15,7 +15,7 @@ struct Date : RelOps< Date, Moveable<Date> > {
 
 	static Date Low()                    { return Date(-4000, 1, 1); }
 	static Date High()                   { return Date(4000, 1, 1); }
-	
+
 	int      Compare(Date b) const;
 
 	Date& operator++()                   { if(day < 28) day++; else Set(Get() + 1); return *this; }

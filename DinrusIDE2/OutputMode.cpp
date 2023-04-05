@@ -205,7 +205,7 @@ private:
 	struct PathConvert : ConvertString {
 		virtual int Filter(int chr) const
 		{
-			if (chr == '<' || chr == '>' || chr == '|' || chr == '*' || chr == '?' || chr == '\"') return Null;
+			if (chr == '<' || chr == '>' || chr == '|' || chr == '*' || chr == '?' || chr == '\"') return INT_NULL;
 			return ConvertString::Filter(chr);
 		}
 	};

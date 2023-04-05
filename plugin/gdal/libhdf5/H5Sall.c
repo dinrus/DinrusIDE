@@ -15,7 +15,7 @@
  * Programmer:  Quincey Koziol
  *              Tuesday, June 16, 1998
  *
- * Purpose:	"All" selection dataspace I/O functions.
+ * Purpose:	"Все" selection dataspace I/O functions.
  */
 
 #define H5S_PACKAGE /*suppress error about including H5Spkg	  */

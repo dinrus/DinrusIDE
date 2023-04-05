@@ -6,7 +6,7 @@ struct EventsDlg : WithEventsLayout<TopWindow> {
 		String type;
 		String name;
 	};
-	
+
 	String cls;
 	Index<String> existing_methods; // to avoid duplicite names
 	Array<CbInfo> cb;

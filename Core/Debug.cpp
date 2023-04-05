@@ -37,12 +37,12 @@ void CheckLogEtalon(const char *etalon_path)
 		String s = Filter(LoadFile(path), [](int c) { return c == '\r' ? 0 : c; });
 		return s.Mid(max(s.FindAfter("\n"), 0));
 	};
-	
+
 	String log = LoadLog(GetStdLogPath());
 	String etalon = LoadLog(etalon_path);
-	
+
 	ASSERT(log == etalon);
-	
+
 	LOG("================= OK");
 #endif
 }
@@ -351,4 +351,3 @@ String CppDemangle(const char* name) {
 }
 
 #endif
-

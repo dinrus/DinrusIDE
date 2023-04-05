@@ -96,7 +96,7 @@ public:
 		return _hIconAbsent;
 	};
 
-	static Window* gNppHWND;	//static handle to Notepad++ window, nullptr if non-existant
+	static Window* gNppWindow&;	//static handle to Notepad++ window, nullptr if non-existant
 
 	void setStartupBgColor(Color& BgColor);
 

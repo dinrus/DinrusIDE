@@ -109,19 +109,19 @@ void SyncTopicFile(const RichText& text, const String& link, const String& path,
 {
 	LLOG("Scanning topic " << link);
 	LTIMING("Scanning topic");
-	
+
 	ClearLinkRef(link);
-	
+
 	ScanTopicIterator sti;
 	sti.link = link;
 	text.Iterate(sti);
-	
+
 	TopicInfo& ti = topic_info().GetPut(link);
 	ti.title = title;
 	ti.path = path;
 	ti.time = FileGetTime(path);
 	ti.words = sti.words.PickKeys();
-	
+
 	FileOut out(TopicCacheName(path));
 	out << tdx_version << "\n";
 	out << title << '\n';
@@ -261,7 +261,7 @@ Vector<String> GetRefLinks(const String& ref_)
 			l.Add(ref_link()[q]);
 			q = ref_ref().FindNext(q);
 		}
-		
+
 		if(pass == 0 && !LegacyRef(ref))
 			break;
 	}

@@ -105,7 +105,7 @@ public:
 
 protected:
 	ToolBar           tool;
-	
+
 	Vector<String>    topics;
 	ParentCtrl        topics_parent;
 	FileList          topics_list;
@@ -116,7 +116,7 @@ protected:
 
 	StaticRect        right;
 	Splitter          left_right;
-	
+
 	String            grouppath;
 	String            topicpath;
 	String            singlefilepath;
@@ -187,7 +187,7 @@ protected:
 
 	void   OnSearch();
 	void   DoSearch();
-	
+
 public:
 	Event<Bar&> WhenTemplatesMenu;
 
@@ -213,11 +213,11 @@ public:
 	void GoTo(const String& _topic, const String& link, const AnnotationItem& create, bool before);
 	void GoToPart(int ii);
 	void PersistentFindReplace(bool b)               { editor.PersistentFindReplace(b); }
-	
+
 	static int  GetSerial();
 
 	static void SerializeEditPos(Stream& s);
-	
+
 	void Serialize(Stream& s);
 
 	TopicEditor();

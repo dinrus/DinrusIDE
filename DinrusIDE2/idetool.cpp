@@ -578,5 +578,5 @@ void Ide::LaunchAndroidSDKManager(const AndroidSDK& androidSDK)
 
 void Ide::LaunchAndroidAVDManager(const AndroidSDK& androidSDK)
 {
-	PromptOK("AVD managment is not yet implemented in ИСР РНЦП Динрус. Use Android Studio for this purpose instead.");
+	PromptOK("Управление AVD в ИСР РНЦП Динрус ещё не реализовано. Используйте Android Studio для этого.");
 }

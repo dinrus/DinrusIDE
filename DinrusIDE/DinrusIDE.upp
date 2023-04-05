@@ -24,7 +24,8 @@ uses
 	plugin/md,
 	SysInfo,
 	Functions4U,
-	DropGrid;
+	DropGrid,
+	Controls4U;
 
 link
 	-DUNICODE;

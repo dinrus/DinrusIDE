@@ -77,7 +77,7 @@ public:
 		void   RemoveCache(int i);
 		void   ClearCache();
 		void   Sorts();
-		
+
 		typedef Column CLASSNAME;
 
 		friend class ArrayCtrl;
@@ -187,7 +187,7 @@ private:
 
 		Line() { select = false; enabled = true; visible = true; heading = false; paper = Null; }
 	};
-	
+
 	static int StdValueCompare(const Value& a, const Value& b) { return Upp::StdValueCompare(a, b); }
 
 
@@ -257,7 +257,7 @@ private:
 	mutable bool  selectiondirty:1;
 
 	unsigned  bains:2;
-	
+
 	bool  isdrag:1;
 	bool  selclick:1;
 
@@ -334,7 +334,7 @@ private:
 	void   SortB(const Vector<int>& o);
 
 	void   SelectOne(int i, bool sel = true, bool raise = true);
-	
+
 	int    AsNdx(const String& id)              { return id_ndx.FindAdd(id); }
 
 	using Ctrl::IsModified;
@@ -342,7 +342,7 @@ private:
 	// These are listed here as private because name has changed to SetMap/AddMap
 	void       Set(int i, const ValueMap& m);
 	void       Add(const ValueMap& m);
-	
+
 	bool       IsLineVisible0(int i) const { return i < 0 ? false : i < array.GetCount() ? array[i].visible : true; }
 
 public: // temporary (TRC 06/07/28) // will be removed!
@@ -599,7 +599,7 @@ public:
 	int        GetLineCy(int i) const;
 	int        GetTotalCy() const;
 	int        GetLineAt(int y) const;
-	
+
 	void       SetLineColor(int i, Color c);
 
 	Rect       GetCellRect(int i, int col) const;
@@ -695,7 +695,7 @@ public:
 	ArrayCtrl& AutoHideHorzSb(bool b = true)           { header.AutoHideSb(b); return *this; }
 	ArrayCtrl& NoAutoHideHorzSb()                      { return AutoHideHorzSb(false); }
 	ArrayCtrl& HideHorzSb(bool b = true)               { header.HideSb(b); return *this; }
-	
+
 	ArrayCtrl& MultiSelect(bool b = true)              { multiselect = b; return *this; }
 	bool       IsMultiSelect() const                   { return multiselect; }
 	ArrayCtrl& NoBackground(bool b = true)             { nobg = b; Transparent(); Refresh(); return *this; }
@@ -718,9 +718,9 @@ public:
 
 	ArrayCtrl& CursorOverride(const Image& arrow)             { cursor_override = arrow; return *this; }
 	ArrayCtrl& NoCursorOverride()                             { return CursorOverride(Null); }
-	
+
 	ArrayCtrl& SpanWideCells(bool b = true)                   { spanwidecells = b; Refresh(); return *this; }
-	
+
 	ArrayCtrl& AcceptEdits(bool b = true)                     { accept_edits = b; return *this; }
 
 	void Reset();

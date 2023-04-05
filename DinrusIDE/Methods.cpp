@@ -82,17 +82,17 @@ void BuilderSetupInterface::InitBuilderSetup(BuilderSetup& bs)
 AndroidBuilderSetup::AndroidBuilderSetup()
 {
 	CtrlLayout(*this);
-	
+
 	sdk_path << [=] { OnSdkPathChange(); };
 	sdk_path_download << [=] { LaunchWebBrowser(AndroidSDK::GetDownloadUrl()); };
 	sdk_path_download.SetImage(IdeImg::arrow_down());
 	DirSelect(sdk_path, sdk_path_select);
-	
+
 	ndk_path << [=] { OnNdkPathChange(); };
 	ndk_path_download << [=] { LaunchWebBrowser(AndroidNDK::GetDownloadUrl()); };
 	ndk_path_download.SetImage(IdeImg::arrow_down());
 	DirSelect(ndk_path, ndk_path_select);
-	
+
 	jdk_path_download << [=] { LaunchWebBrowser(Jdk::GetDownloadUrl()); };
 	jdk_path_download.SetImage(IdeImg::arrow_down());
 	DirSelect(jdk_path, jdk_path_select);
@@ -131,7 +131,7 @@ void AndroidBuilderSetup::OnCtrlLoad(const String& ctrlKey, const String& value)
 {
 	VectorMap<Id, Ctrl*> map;
 	InitSetupCtrlsMap(map);
-	
+
 	if(map.Find(ctrlKey) > -1) {
 		Ctrl* ctrl = map.Get(ctrlKey);
 		if(ctrl == &sdk_path) {
@@ -158,7 +158,7 @@ void AndroidBuilderSetup::OnSdkShow()
 		return;
 	}
 	EnableSdkCtrls();
-	
+
 	if(sdk_platform_version.GetValue().IsNull())
 		sdk_platform_version.SetData(sdk.FindDefaultPlatform());
 	if(sdk_build_tools_release.GetValue().IsNull())
@@ -168,9 +168,9 @@ void AndroidBuilderSetup::OnSdkShow()
 void AndroidBuilderSetup::OnSdkPathInsert()
 {
 	String currentPath = sdk_path.GetData();
-	
+
 	InsertPath(&sdk_path);
-	
+
 	String newPath = sdk_path.GetData();
 	if(currentPath != newPath)
 		OnSdkPathChange();
@@ -206,9 +206,9 @@ void AndroidBuilderSetup::OnNdkShow()
 void AndroidBuilderSetup::OnNdkPathInsert()
 {
 	String currentPath = ndk_path.GetData();
-	
+
 	InsertPath(&ndk_path);
-	
+
 	String newPath = ndk_path.GetData();
 	if(currentPath != newPath)
 		OnNdkPathChange();
@@ -226,7 +226,7 @@ void AndroidBuilderSetup::OnNdkPathChange0(const String& ndkPath)
 	if(ndk.Validate()) {
 		LoadToolchains(ndk);
 		LoadCppRuntimes(ndk);
-		
+
 		ndk_arch_arm64_v8a.Set(1);
 		ndk_arch_x86_64.Set(1);
 		ndk_common_cpp_options.SetData("-std=c++17 -fexceptions -frtti -Wno-logical-op-parentheses");
@@ -239,7 +239,7 @@ void AndroidBuilderSetup::LoadPlatforms(const AndroidSDK& sdk)
 {
 	Vector<String> platforms = sdk.FindPlatforms();
 	Sort(platforms, StdGreater<String>());
-	
+
 	LoadDropList(sdk_platform_version,
 	             platforms,
 	             sdk.FindDefaultPlatform());
@@ -249,7 +249,7 @@ void AndroidBuilderSetup::LoadBuildTools(const AndroidSDK& sdk)
 {
 	Vector<String> releases = sdk.FindBuildToolsReleases();
 	Sort(releases, StdGreater<String>());
-	
+
 	LoadDropList(sdk_build_tools_release,
 	             releases,
 	             sdk.FindDefaultBuildToolsRelease());
@@ -259,14 +259,14 @@ void AndroidBuilderSetup::LoadToolchains(const AndroidNDK& ndk)
 {
 	Vector<String> toolchains = ndk.FindToolchains();
 	Sort(toolchains, StdGreater<String>());
-	
+
 	LoadDropList(ndk_toolchain, toolchains, ndk.FindDefaultToolchain());
 }
 
 void AndroidBuilderSetup::LoadCppRuntimes(const AndroidNDK& ndk)
 {
 	Vector<String> runtimes = ndk.FindCppRuntimes();
-	
+
 	LoadDropList(ndk_cpp_runtime, runtimes, ndk.FindDefaultCppRuntime());
 }
 
@@ -276,10 +276,10 @@ void AndroidBuilderSetup::LoadDropList(
 	const String& defaultKey)
 {
 	dropList.Clear();
-	
+
 	for(int i = 0; i < values.GetCount(); i++)
 		dropList.Add(values[i]);
-	
+
 	if(!defaultKey.IsEmpty() && dropList.GetCount()) {
 		int idx = dropList.Find(defaultKey);
 		if(idx >= 0)
@@ -338,7 +338,7 @@ void AndroidBuilderSetup::ClearNdkCtrls()
 DefaultBuilderSetup::DefaultBuilderSetup()
 {
 	CtrlLayout(*this);
-	
+
 	paths.Add(path.SizePos(), "PATH - папки с исполнимыми");
 	paths.Add(include.SizePos(), "INCLUDE папки");
 	paths.Add(lib.SizePos(), "LIB папки");
@@ -411,13 +411,13 @@ BuildMethods::BuildMethods()
 	Sizeable().Zoomable();
 	method.AddColumn("Метод").Edit(name);
 	name.SetFilter(CharFilterFileName);
-	
+
 	method.AddCtrl("BUILDER", builder);
 	InitSetups();
-	
+
 	method.AddCtrl("SCRIPT", scriptfile);
 	method.AddCtrl("LINKMODE_LOCK", linkmode_lock);
-	
+
 	open_script.Attach(scriptfile);
 	open_script.Type("Сценарии построения (*.bsc)", "*.bsc")
 		.AllFilesType();
@@ -483,7 +483,7 @@ void BuildMethods::NewBuilder()
 		if(currentBuilders.Find(builderName) > -1)
 			setups[i].setupCtrl->New(builderName);
 	}
-	
+
 	SwitchSetupView();
 }
 
@@ -499,7 +499,7 @@ void BuildMethods::ChangeMethod()
 void BuildMethods::Load()
 {
 	method.Clear();
-	
+
 	FindFile ff(ConfigFile("*.bm"));
 	while(ff) {
 		VectorMap<String, String> map;
@@ -516,10 +516,10 @@ void BuildMethods::Load()
 					break;
 				}
 			}
-			
+
 			if(setupIdx >= 0)
 				setups[setupIdx].setupCtrl->OnLoad();
-			
+
 			map = MapBuilderVars(map);
 			origfile.Add(fn);
 			method.Add(GetFileTitle(fn));
@@ -559,9 +559,9 @@ bool BuildMethods::Save()
 			map.Add(method.GetId(j).ToString(), method.Get(i, j));
 		if(map.Get("BUILDER", Null) != "SCRIPT")
 			map.RemoveKey("SCRIPT");
-		
+
 		map = SieveBuilderVars(map);
-		
+
 		String fn = ConfigFile(String(method.Get(i, 0)) + ".bm");
 		if(!SaveVarFile(fn, map)) {
 			Exclamation("Ошибка при сохранении [* " + fn + "] !");
@@ -606,25 +606,25 @@ String BuildMethods::GetSetupPrefix(const Index<String>& buildersGroup) const
 void BuildMethods::InitSetups()
 {
 	Index<String> builders = GetBuilders();
-	
+
 	String androidKey = BuildersToString(AndroidBuilder::GetBuildersNames());
 	androidSetup.InitBuilderSetup(setups.Add(androidKey));
 	SieveBuilders(builders, AndroidBuilder::GetBuildersNames());
 
 	String defaultKey = BuildersToString(builders);
 	defaultSetup.InitBuilderSetup(setups.Add(defaultKey));
-	
+
 	for(int i = 0; i < setups.GetCount(); i++) {
 		Index<String> currentBuilders = StringToBuilders(setups.GetKey(i));
 		if(currentBuilders.IsEmpty())
 			continue;
-			
+
 		String setupKey = currentBuilders[0];
-		
+
 		ParentCtrl *currentSetup = setups[i].setupCtrl;
 		setup.Add(currentSetup->SizePos());
 		currentSetup->Hide();
-		
+
 		for(int j = 0; j < setups[i].setupCtrlsMap.GetCount(); j++) {
 			String ctrlKey = setups[i].setupCtrlsMap.GetKey(j);
 			Ctrl*  ctrl    = setups[i].setupCtrlsMap[j];
@@ -647,11 +647,11 @@ void BuildMethods::SwitchSetupView()
 	}
 	String builderName = ~builder;
 	builderName.IsEmpty() ? setup.Hide() : setup.Show();
-	
+
 	if(!builderName.IsEmpty()) {
 		for(int i = 0; i < setups.GetCount(); i++) {
 			Index<String> currentBuilders = StringToBuilders(setups.GetKey(i));
-			
+
 			if(currentBuilders.Find(builderName) > -1) {
 				setups[i].setupCtrl->Show();
 				setups[i].setupCtrl->OnShow();
@@ -665,15 +665,15 @@ void BuildMethods::SwitchSetupView()
 VectorMap<String, String> BuildMethods::SieveBuilderVars(const VectorMap<String, String>& map)
 {
 	VectorMap<String, String> sievedMap;
-	
+
 	String builder = map.Get("BUILDER", Null);
 	if(builder.IsEmpty())
 		return VectorMap<String, String>();
-	
+
 	for(int i = 0; i < map.GetCount(); i++) {
 		String key = map.GetKey(i);
 		String value = map[i];
-		
+
 		bool toInsert = true;
 		for(int j = 0; j < setups.GetCount(); j++) {
 			Index<String> currentBuilders = StringToBuilders(setups.GetKey(j));
@@ -690,7 +690,7 @@ VectorMap<String, String> BuildMethods::SieveBuilderVars(const VectorMap<String,
 		if(toInsert)
 			sievedMap.Add(key, value);
 	}
-	
+
 	return sievedMap;
 }
 
@@ -702,18 +702,18 @@ VectorMap<String, String> BuildMethods::MapBuilderVars(const VectorMap<String, S
 	String builder = map.Get("BUILDER", Null);
 	if(builder.IsEmpty())
 		return VectorMap<String, String>();
-	
+
 	for(int i = 0; i < setups.GetCount(); i++) {
 		Index<String> currentBuilders = StringToBuilders(setups.GetKey(i));
 		if(currentBuilders.IsEmpty())
 			continue;
-		
+
 		if(currentBuilders.Find(builder) >= 0) {
 			String setupPrefix = GetSetupPrefix(currentBuilders);
-			
+
 			for(int j = 0; j < map.GetCount(); j++) {
 				String ctrlName = map.GetKey(j);
-				
+
 				if(setups[i].setupCtrlsMap.Find(ctrlName) > -1)
 					mapedMap.Add(setupPrefix + ctrlName, map[j]);
 				else
@@ -845,7 +845,7 @@ String Ide::GetIncludePath()
 		AndroidNDK ndk(bm.Get("NDK_PATH", ""));
 		if(ndk.Validate()) {
 			MergeWith(include_path, ";", ndk.GetIncludeDir());
-			
+
 			String cppIncludeDir = ndk.GetCppIncludeDir(bm.Get("NDK_CPP_RUNTIME", ""));
 			if(!cppIncludeDir.IsEmpty()) {
 				MergeWith(include_path, ";", cppIncludeDir);

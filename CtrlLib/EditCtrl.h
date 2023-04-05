@@ -79,7 +79,7 @@ public:
 		bool  activeedge;
 		int   vfm;
 	};
-	
+
 	struct Highlight : Moveable<Highlight> {
 		Color ink;
 		Color paper;
@@ -100,7 +100,7 @@ protected:
 		ATTR_BACKGROUND,
 		ATTR_LAST,
 	};
-	
+
 	ActiveEdgeFrame edge;
 
 	WString    text;
@@ -163,7 +163,7 @@ protected:
 	virtual void  HighlightText(Vector<Highlight>& hl);
 	virtual int64 GetTotal() const             { return text.GetLength(); }
 	virtual int   GetCharAt(int64 pos) const   { return text[(int)pos]; }
-	
+
 	// Spin support
 	virtual void  PaintSpace(Draw& w);
 	virtual int   GetSpaceLeft() const;
@@ -225,9 +225,9 @@ public:
 
 	void    Clear();
 	void    Reset();
-	
+
 	void    Error(bool error = true)         { if(errorbg != error) { errorbg = error; RefreshAll(); } }
-	
+
 	EditField& Password(bool pwd = true)     { password = pwd; Finish(); return *this; }
 	bool       IsPassword() const            { return password; }
 	EditField& SetFilter(int (*f)(int))      { filter = f; return *this; }
@@ -244,9 +244,9 @@ public:
 	bool       IsClickSelect() const         { return clickselect; }
 	EditField& InitCaps(bool b = true)       { initcaps = b; return *this; }
 	bool       IsInitCaps() const            { return initcaps; }
-	EditField& NullText(const Image& icon, const char *text = t_("(default)"), Color ink = Null);
+	EditField& NullText(const Image& icon, const char *text = t_("(дефолт)"), Color ink = Null);
 	EditField& NullText(const Image& icon, const char *text, Font fnt, Color ink);
-	EditField& NullText(const char *text = t_("(default)"), Color ink = Null);
+	EditField& NullText(const char *text = t_("(дефолт)"), Color ink = Null);
 	EditField& NullText(const char *text, Font fnt, Color ink);
 	EditField& MaxChars(int mc)              { maxlen = mc; return *this; }
 	int        GetMaxChars() const           { return maxlen; }
@@ -423,20 +423,20 @@ public:
 
 	WithSpin&          SetInc(IncType _inc = 1)     { inc = _inc; return *this; }
 	DataType           GetInc() const               { return inc; }
-	
+
 	WithSpin&          SetStyle(const SpinButtons::Style& s) { style = &s; return *this; }
 
 	WithSpin&          OnSides(bool b = true);
 	bool               IsOnSides() const            { return style->onsides; }
-	
+
 	WithSpin&          ShowSpin(bool b = true)      { visible = b; Base::RefreshLayout(); return *this; }
 	bool               IsSpinVisible() const        { return visible; }
-	
+
 	WithSpin&          RoundFromMin(bool b = true)  { roundfrommin = b; return *this; }
-	
+
 	WithSpin&          MouseWheelSpin(bool b = true){ mousewheel = b; return *this; }
 	WithSpin&          NoMouseWheelSpin()           { return MouseWheelSpin(false); }
-	
+
 	WithSpin&          KeySpin(bool b = true)       { keys = b; return *this; }
 	WithSpin&          NoKeySpin()                  { return KeySpin(false); }
 
@@ -461,4 +461,3 @@ typedef WithSpin<double, EditDoubleNotNull>  EditDoubleNotNullSpin;
 typedef WithSpin<double, EditFloatNotNull>   EditFloatNotNullSpin;
 typedef WithSpin<Date, EditDateNotNull, int> EditDateNotNullSpin;
 typedef WithSpin<Time, EditTimeNotNull, int> EditTimeNotNullSpin;
-

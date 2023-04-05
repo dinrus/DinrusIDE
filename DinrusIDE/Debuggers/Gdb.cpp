@@ -268,7 +268,7 @@ String Gdb::Cmdp(const char *cmdline, bool fr, bool setframe)
 	else {
 		running_interrupted = false;
 	}
-	
+
 	if(ParsePos(s, file, line, addr)) {
 		IdeSetDebugPos(file, line - 1, fr ? DbgImg::FrameLinePtr()
 		                                  : DbgImg::IpLinePtr(), 0);
@@ -302,13 +302,13 @@ String Gdb::Cmdp(const char *cmdline, bool fr, bool setframe)
 		frame <<= 0;
 		SyncFrameButtons();
 	}
-	
+
 	if (dbg.IsRunning()) {
 		if (IsProcessExitedNormally(s))
 			Stop();
 		else {
 			s = ObtainThreadsInfo();
-			
+
 			ObtainData();
 		}
 	}
@@ -335,19 +335,19 @@ String Gdb::ObtainThreadsInfo()
 			bool is_active = p.Char('*');
 			if(!p.IsNumber())
 				continue;
-			
+
 			int id = p.ReadInt();
-				
+
 			String name;
 			while (!p.IsEof()) {
 				if (p.IsString()) {
 					name = p.ReadString();
 					break;
 				}
-					
+
 				p.SkipTerm();
 			}
-			
+
 			AttrText text(String() << "Поток " << id);
 			if (!name.IsEmpty())
 				text.Set(text.ToString() << " (" << name << ")");
@@ -366,10 +366,10 @@ String Gdb::ObtainThreadsInfo()
 			Loge() << METHOD_NAME << e;
 		}
 	}
-		
+
 	if(active_thread >= 0)
 		threads <<= active_thread;
-	
+
 	return output;
 }
 
@@ -403,7 +403,7 @@ String Gdb::DoRun()
 		}
 		IdeSetBar();
 	}
-	
+
 	String s;
 	for(;;) {
 		ClearCtrls();
@@ -447,14 +447,14 @@ bool Gdb::RunTo()
 void Gdb::BreakRunning()
 {
 	Logd() << METHOD_NAME << "PID: " << pid << "\n";
-	
+
 	auto error = gdb_utils->BreakRunning(pid);
 	if(!error.IsEmpty()) {
 		Loge() << METHOD_NAME << error;
 		ErrorOK(error);
 		return;
 	}
-	
+
 	running_interrupted = true;
 }
 
@@ -572,12 +572,12 @@ void Gdb::ClearCtrls()
 {
 	threads.Clear();
 	disas.Clear();
-	
+
 	locals.Clear();
 	autos.Clear();
 	self.Clear();
 	cpu.Clear();
-	
+
 	tree.Clear();
 }
 
@@ -612,7 +612,7 @@ bool Gdb::Create(Host& host, const String& exefile, const String& cmdline, bool 
 
 	if(!host.StartProcess(dbg, gdb_command)) {
 		Loge() << METHOD_NAME << "Не удалось запустить gdb (\"" << gdb_command << "\").";
-		
+
 		ErrorOK("Ошибка при вызове gdb! Детали ищите в DinrusIDE логах.");
 		return false;
 	}
@@ -624,7 +624,7 @@ bool Gdb::Create(Host& host, const String& exefile, const String& cmdline, bool 
 	disas.WhenFocus = THISBACK(DisasFocus);
 	frame.WhenDrop = THISBACK(DropFrames);
 	frame <<= THISBACK(SwitchFrame);
-	
+
 	threads <<= THISBACK(SwitchThread);
 
 	watches.WhenAcceptEdit = THISBACK(ObtainData);
@@ -786,7 +786,7 @@ Gdb::Gdb()
 	              .Add(nodebuginfo_text.SizePos());
 	nodebuginfo_text = text;
 	nodebuginfo_text.AlignCenter().SetInk(Yellow()).SetFont(StdFont().Italic().Bold());
-	
+
 	pane.Add(nodebuginfo_bg);
 }
 

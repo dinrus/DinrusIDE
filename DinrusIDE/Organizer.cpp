@@ -632,7 +632,7 @@ PackageEditor::PackageEditor()
 	CtrlLayoutOKCancel(*this, "Органайзер пакета");
 	description.Disable();
 	description <<= THISBACK(Description);
-	
+
 	spellcheck_comments.Add(Null, "Дефолт");
 	DlSpellerLangs(spellcheck_comments);
 	DlCharsetD(charset);
@@ -646,7 +646,7 @@ PackageEditor::PackageEditor()
 	pch_file <<=
 	nopch_file <<=
 	noblitz_file <<= THISBACK(SaveOptionsLoad);
-	
+
 	includeable_file <<= THISBACK(ToggleIncludeable);
 
 	Add("Добавить/удалить флаги", actual.flag);
@@ -668,12 +668,12 @@ PackageEditor::PackageEditor()
 	fileoption.WhenCursor = THISBACK(AdjustFileOptionCursor);
 	fileoption.WhenBar = THISBACK(FileOptionMenu);
 	fileoption.WhenLeftDouble = THISBACK(EditFileOption);
-	
+
 	ink.NullText("(std)");
 	ink <<=
 	bold <<=
 	italic <<= THISBACK(SaveOptionsLoad);
-	
+
 	merge << [=] {
 		const Workspace& wspc = GetIdeWorkspace();
 		if(wspc.GetCount() == 0)

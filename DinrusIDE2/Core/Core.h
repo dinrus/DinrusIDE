@@ -57,7 +57,7 @@ class Hdepend { // to be replaced by PPInfo
 		bool                      blitzprohibit; // has BLITZ_PROHIBIT
 
 		bool                      CanBlitz() { return guarded && !blitzprohibit; }
-		
+
 		void Serialize(Stream& s);
 
 		Info()                   { time = Null; flag = false; timedirty = true; guarded = false; }
@@ -86,7 +86,7 @@ public:
 
 	Time                  FileTime(const String& path);
 	bool                  BlitzApproved(const String& path);
-	
+
 	static String         FindIncludeFile(const char *s, const String& filedir, const Vector<String>& incdirs);
 
 	String                FindIncludeFile(const char *s, const String& filedir) { return FindIncludeFile(s, filedir, incdir); }
@@ -94,7 +94,7 @@ public:
 	Vector<String>        GetDependencies(const String& path, bool bydefine_too = true);
 	const Vector<String>& GetAllFiles()                           { return map.GetKeys(); }
 	void                  NoConsole()                             { console = false; }
-	
+
 	void                  Serialize(Stream& s);
 };
 
@@ -109,20 +109,20 @@ class PPInfo {
 		bool                          guarded; // has include guards
 		int                           blitz; // AUTO, APPROVED, PROHIBITED
 		Time                          time = Null; // file time
-		
+
 		bool                          dirty = true; // need to be rechecked
-		
+
 		void Dirty()                          { dirty = true; time = Null; }
 		void Parse(Stream& in);
 		void Serialize(Stream& s);
 	};
-	
+
 	ArrayMap<String, PPFile>                   files;
 	Vector<String>                             includes; // include dirs
 	VectorMap<String, String>                  inc_cache; // cache for FindIncludeFile
 	VectorMap<String, VectorMap<String, Time>> dir_cache; // cache for GetFileTime, FileExists
 	static std::atomic<int>                    scan_serial;
-	
+
 
 	PPFile& File(const String& path);
 
@@ -148,7 +148,7 @@ public:
 	                                         bool speculative = true);
 
 	Time                  GetTime(const String& path);
-	
+
 	const VectorMap<String, String>& GetFileDefines(const String& path) { return File(NormalizePath(path)).defines; }
 	const Vector<Tuple<String, int>>& GetFileFlags(const String& path)  { return File(NormalizePath(path)).flags; }
 
@@ -179,7 +179,7 @@ public:
 	virtual bool             IdeConsoleWait() = 0;
 	virtual bool             IdeConsoleWait(int slot) = 0;
 	virtual void             IdeConsoleOnFinish(Event<>  cb) = 0;
-	
+
 	virtual void             IdeProcessEvents() = 0;
 
 	virtual bool      IdeIsDebug() const = 0;
@@ -580,7 +580,7 @@ struct Builder {
 	Vector<String>   Macro;
 
 	VectorMap<String, int> tmpfilei; // for naming automatic response files
-	
+
 	static VectorMap<String, String> cmdx_cache; // caching e.g. pkg-config
 
 	String                 CmdX(const char *s);

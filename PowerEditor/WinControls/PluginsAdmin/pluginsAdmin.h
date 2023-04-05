@@ -22,7 +22,7 @@
 #include "pluginsAdminRes.h"
 #include <PowerEditor/WinControls/TabBar/TabBar.h>
 #include <PowerEditor/WinControls/AnsiCharPanel/ListView.h>
-#include <PowerEditor/TinyXml/tinyxml.h>
+#include <plugin/TinyXml/tinyxml.h>
 
 class PluginsManager;
 

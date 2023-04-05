@@ -1,14 +1,9 @@
 #pragma once
-#include <Core/Core.h>
-#include <CtrlCore/CtrlCore.h>
 #include <PowerEditor/WinControls/WinControls.h>
 #include <unordered_set>
 
 
 namespace Upp{
-
-typedef Upp::Window* HWND;
-typedef Upp::StringStream generic_stringstream;
 
 const bool dirUp = true;
 const bool dirDown = false;

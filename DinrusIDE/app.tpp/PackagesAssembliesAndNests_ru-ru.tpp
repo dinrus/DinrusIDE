@@ -242,22 +242,27 @@ U`+`+ в гнезде uppsrc. Угловые скобки используютс
 папок и файлов в верхнеуровневых 
 гнёздах сборки были [*_@(113.42.150) уникальными 
 для всех верхнеуровневых папок гнезда 
-этой сборки],unless duplicated names are referenced 
-using a complete path specification.  This means that if an assembly 
-includes the uppsrc nest, then the other nests of that assembly 
-must not contain packages or folders that have the same name 
-as folders/packages in the uppsrc nest.  e.g. The HelloWorld 
-examples nest cannot contain packages with names such as CtrlLib, 
-RichEdit or Common because these are the names of uppsrc library 
-packages.&]
-[s5; Hence the names of uppsrc packages need to be avoided when choosing 
-names for folders/packages that are located in a top level nest 
-folder if the assembly includes the uppsrc nest.  Refer to the 
-uppsrc folder in the U`+`+ installation path for the full list 
-of uppsrc package/folder names.  The names of uppsrc packages 
-need to be avoided as folder names within any folder that is 
-specified as an include path to the compiler (see [/ alternative`-include`-path`-me
-chanisms] below).&]
+этой сборки], чтобы не было ссылок 
+на имена`-дубликаты, для которых потребуется
+ полное определение пути.  Это означает, 
+что если в сборку входит гнездо uppsrc, 
+то другие гнёзда этой сборки не должны 
+содержать пакетов или папок, имеющие 
+такие же названия как папки/пакеты 
+в гнезде uppsrc. Например. гнездо примеров 
+HelloWorld не может содержать пакеты с 
+такими именами, как CtrlLib, RichEdit или 
+Common, так как это имена пакетов библиотеки 
+uppsrc.&]
+[s5; Итак, имён пакетов uppsrc нужно избегать 
+при подборе названий для папок/пакетов, 
+расположенных в папке гнёзд вехнего 
+уровня, если в сборку входит гнездо 
+uppsrc.  Refer to the uppsrc folder in the U`+`+ installation 
+path for the full list of uppsrc package/folder names.  The names 
+of uppsrc packages need to be avoided as folder names within 
+any folder that is specified as an include path to the compiler 
+(see [/ alternative`-include`-path`-mechanisms] below).&]
 [s5; If a package is to be distributed to others, one way of avoiding 
 a clash of package names is to locate them in a folder whose 
 name is likely to be unique e.g. &]
@@ -335,18 +340,21 @@ being compiled.  The [/^topic`:`/`/DinrusIDE`/app`/ConfiguringPackagesAssemblies
 ackage`-organizer] also allows you to specify compiler switches 
 for specific files.&]
 [s6;:10: [I9;@(128.0.255) 9.  #includes файла выкладки]&]
-[s5; A layout file contains a description of the GUI part of a project 
-i.e. the layout of widgets etc.  e.g. the AddressBook example 
-in the examples assembly uses a layout file and the AddressBook.cpp 
-file has the following two lines.&]
+[s5; Файл выкладок содержит описание 
+ГИП`-части проекта, т.е. выкладок виджетов 
+и .т.д. Например,  AddressBook из сборки примеров 
+использет файл выкладок, и в файле 
+AddressBook.cpp есть следующие две строки:&]
 [s7; #define LAYOUTFILE <AddressBook/AddressBook.lay>&]
 [s7; #include <CtrlCore/lay.h>&]
-[s5; The #define for LAYOUTFILE should use angle brackets and not 
-double quotes and must also include a path specification that 
-starts with a top level folder of a nest. i.e. it should not 
-be written as&]
+[s5; В директиве #define для LAYOUTFILE следует 
+использовать угловые скобки, а не 
+двойные кавычки, а определение пути 
+нужно начинать с с попки гнезда верхнего 
+уровня, т.е. нельзя написать так:&]
 [s7; #define LAYOUTFILE `"AddressBook.lay`"&]
-[s5; because the CtrlCore/lay.h file uses it to #include the layout 
-file (multiple times) with&]
-[s7; #include LAYOUTFILE&]
+[s5; поскольку файл CtrlCore/lay.h использует 
+это для  #include`'ирования файла выкладок 
+(несколько раз) как&]
+[s5; #include LAYOUTFILE&]
 [s5; ]]

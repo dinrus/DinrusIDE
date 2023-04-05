@@ -154,7 +154,7 @@ One<Builder> MakeBuild::CreateBuilder(Host *host)
 		ab->sdk.SetPath((bm.Get("SDK_PATH", "")));
 		ab->ndk.SetPath((bm.Get("NDK_PATH", "")));
 		ab->SetJdk(One<Jdk>(new Jdk(bm.Get("JDK_PATH", ""), host)));
-		
+
 		String platformVersion = bm.Get("SDK_PLATFORM_VERSION", "");
 		if(!platformVersion.IsEmpty())
 			ab->sdk.SetPlatform(platformVersion);
@@ -165,7 +165,7 @@ One<Builder> MakeBuild::CreateBuilder(Host *host)
 			ab->sdk.SetBuildToolsRelease(buildToolsRelease);
 		else
 			ab->sdk.DeduceBuildToolsRelease();
-		
+
 		ab->ndk_blitz = bm.Get("NDK_BLITZ", "") == "1";
 		if(bm.Get("NDK_ARCH_ARMEABI_V7A", "") == "1")
 			ab->ndkArchitectures.Add("armeabi-v7a");
@@ -179,7 +179,7 @@ One<Builder> MakeBuild::CreateBuilder(Host *host)
 		ab->ndkCppRuntime = bm.Get("NDK_CPP_RUNTIME", "");
 		ab->ndkCppFlags = bm.Get("NDK_COMMON_CPP_OPTIONS", "");
 		ab->ndkCFlags = bm.Get("NDK_COMMON_C_OPTIONS", "");
-		
+
 		b = ab;
 	}
 	else {
@@ -200,7 +200,7 @@ One<Builder> MakeBuild::CreateBuilder(Host *host)
 		b->common_link = bm.Get("COMMON_LINK", "");
 		b->debug_link = bm.Get("DEBUG_LINK", "");
 		b->release_link = bm.Get("RELEASE_LINK", "");
-		
+
 		b->main_conf = !!main_conf.GetCount();
 		b->allow_pch = bm.Get("ALLOW_PRECOMPILED_HEADERS", "") == "1";
 		b->start_time = start_time;
@@ -407,7 +407,7 @@ Vector<String> MakeBuild::GetAllLibraries(const Workspace& wspc, int index,
 	Vector<String> uses = GetAllUses(wspc, index, bm, mainparam, host, builder);
 	uses.Add(wspc[index]);
 	Index<String> libraries;
-	
+
 	for(int i = 0; i < uses.GetCount(); i++) {
 		int f = wspc.package.Find(UnixPath(uses[i]));
 		if(f >= 0) {
@@ -428,7 +428,7 @@ bool MakeBuild::Build(const Workspace& wspc, String mainparam, String outfile, b
 	SaveFile(hfile, "");
 	start_time = GetFileTime(hfile); // Defensive way to get correct filetime of start
 	DeleteFile(hfile);
-	
+
 	ClearErrorEditor();
 	BeginBuilding(clear_console);
 	bool ok = true;
@@ -571,14 +571,14 @@ void MakeBuild::Clean()
 	if(!builder)
 		return;
 	builder->target = target;
-	
+
 	Workspace wspc;
 	BuildWorkspace(wspc, host, *builder);
 	for(int i = 0; i < wspc.GetCount(); i++)
 		CleanPackage(wspc, i);
-	
+
 	builder->AfterClean();
-	
+
 	PutConsole("...готово");
 }
 

@@ -24,24 +24,31 @@ topic "Включение бинарных данных с помощью фай
 [{_}%EN-US 
 [s2; [@5 Включение бинарных данных с помощью 
 файлов .brc]&]
-[s0; In Ultimate`+`+, using TheIDE, it is very easy to embed binary 
-data in your applications using brc (binary resource) source 
-files. Just insert a file with the extension `".brc`" into a 
-package and type into it:&]
+[s0; В Ultimate`+`+, используя DinrusIDE, не так уж 
+и сложно внедрить в приложение двоичные 
+данные с помощью исходников с расширением 
+brc (binary resource). Просто вставьте файл 
+с расширением `".brc`" в пакет и напечатайте 
+в нём:&]
 [s0; &]
 [s7; BINARY(std`_tmpl`_vfk, `"vfk.wtl`")&]
 [s0; &]
-[s0; The first argument ([/ std`_tmpl`_vfk] in the above example) is 
-the public identifier of type [/ byte `*] which points at the beginning 
-of the binary data block. Also, another public variable is automatically 
-generated, int [/ std`_tmpl`_vfk`_length], which contains the block 
-length. `\0 is automatically appended after the end of the block. 
-Each block is aligned to a multiple of 4 bytes (in the current 
-version, it is not possible to adjust the alignment individually). 
-The second parameter is the filename (relative to the location 
-of the brc file) of the file to embed as the binary block.&]
+[s0; Первый аргумент ([/ std`_tmpl`_vfk] в примере 
+выше) `- это публичный идентификатор 
+типа [/ byte `*, ]который указывает на начало 
+блока двоичных данных. Также автоматически 
+сгенерируется другая публичная переменная, 
+int [/ std`_tmpl`_vfk`_length], которая содержит 
+длину этого блока. `\0 автоматически 
+приставляется в конце блока. Каждый 
+блок будет aligned (`"разлинуется`") как 
+произведение 4 байтов (в текущей версии, 
+но можно `"разлиновывать`" его индивидуально)
+. Второй параметр `- это имя файла (относитель
+но к расположению файла brc) ,`- файла, 
+который внедряется как двоичный блок.&]
 [s0; &]
-[s0; After doing this, just type somewhere in your source code:&]
+[s0; После этого просто наберите в исходнике:&]
 [s0; &]
 [s7; #include `"myfile.brc`"&]
 [s0; &]

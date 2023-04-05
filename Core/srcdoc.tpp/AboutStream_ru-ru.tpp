@@ -41,44 +41,64 @@ MemStream, StringStream, FileStream и т.д... `'Они`' получают
 [s0; &]
 [s0;i150;O0; Stream по определению однонаправленный, 
 как таковой. В отличие от других реализаций 
-Stream, Upp Stream brings in all to be used both as Input or 
-as Output stream. these 2 modes are supported in one single instance, 
-but should`'t be used at same time. Nevertheless, it does not 
-produce ASSERT, Exception or errror messages if one tries to 
-Put and Get stuff from same Stream, it simply might not be logical 
-or what you expect or want, because Stream uses only one ptr 
-to represent current `'head`' position for reading or writing. 
-(thus it is not intrinsically possible to use a MemStream as 
-a Circular Buffer, which would be nice. (btw, how about implementing 
-such one?) These 2 Modes can be differed using the API functions 
-IsStoring() / IsLoading(). The Modes are set using SetStoring() 
-/ SetLoading() and are normally set automatically, depending 
-on how you created the stream instance.&]
+Stream, Upp Stream имеет всё для того, чтобы 
+использоваться как Input (вводный) или 
+Output (выводящий) поток. Эти два режима 
+поддерживаются в одном экземпляре, 
+но одновременно использоваться не 
+могут. Тем не менее, не будет производиться 
+никаких ASSERT, Exception или сообщений об 
+ошибке, если кто`-то попытается сделать 
+Put и Get из одного и того же Stream. Может 
+быть, это просто вне логики и не то, 
+чего вам хотелось бы, но Stream использует 
+только один ptr для представления текущей 
+`'head`' позиции чтения или записи. (так 
+что `"интринсикально`" никак не возможно 
+использовать MemStream как Circular Buffer, что 
+было бы неплохо... (btw, а не реализовать 
+бы такое?)  Эти 2 Modes можно `"разнить`" 
+посредством функций API (ИПП) IsStoring() 
+/ IsLoading(). Эти Modes устанавливаются с 
+помощью SetStoring() / SetLoading() и, как правило, 
+устанавливаются автоматически, в 
+зависимости от того, как вами был 
+создан экземпляр потока.&]
 [s0; &]
-[s0;i150;O0; in both modes, the extension of the buffer marks the 
-accessible space for `*entire`* reading or writing, using rdlim 
-and wrlim pointers. for reading, it means the current available, 
-readable data chunk. For writing, it means the `*already allocated`* 
-data for beeing able to write to. When reading, ptr meaning the 
-curent read position. buffer to ptr is data already processed 
-by read. the space from ptr till rdlim meaning the still to read 
-data. When writing, buffer till ptr meaning the data, already 
-written to the space, ptr till wrlim the space free to fill (before 
-a Flush should be triggered, if supported, or is triggered automatically, 
-ie. FileStream)&]
+[s0;i150;O0; В обох режимах, расширение буфера 
+обозначает доступное пространство 
+для `*всего`* чтения или записи, используя 
+указатели rdlim и wrlim. Для чтения это 
+означает текущий доступный, читаемый 
+чанк (сегмент)  данных. Для записи 
+`- это `*уже аллоцированные`* данные, 
+в которые можно писать. При чтении, 
+ptr означает текущую позицию чтения. 
+Буфер to ptr `- это данные, которыми уже 
+`"овладело`" чтение. Пространство от 
+ptr до rdlim означает данные, которые 
+ещё надлежит прочесть. При записи, 
+буфер до ptr означает данные, уже записанные 
+в данное пространство, ptr до wrlim  `- 
+пространство, свободное для заполнения 
+(перед тем как нужно будет триггировать 
+Flush, если он поддерживается, или он 
+тригируется автоматически, как у 
+FileStream)&]
 [s0; &]
-[s0;i150;O0; Serializing stuff to Stream is quite cool. in other 
-implementations, Stream has a split interface for serializing 
-and deserializing stuff, so the user had to keep track which 
-order the elements go and use 2 different functions basicly, 
-for Serializing and Deserializing. upp stream puts away this 
-head ache. it uses 1 interface, and handles the difference about 
-serialize/deserialize internally `& implicitly with the help 
-of IsLoading() / IsStoring()..the user benefits from this only 
-having to specify `*one`* functionional place, that determines 
-the order of serialization and that is maintained the same on 
-both directions, hurray. (drawback, one cant deserialize from 
-a `'const Stream `&`', because the function needs a `'Stream 
+[s0;i150;O0; Сериализация stuff`'а в Stream довольно 
+крута в иных реализациях, у Stream в наличии 
+есть сплит`-интерфейс для сериализации 
+и десериализации `"стаффа`", so the user 
+had to keep track which order the elements go and use 2 different 
+functions basicly, for Serializing and Deserializing. upp stream 
+puts away this head ache. it uses 1 interface, and handles the 
+difference about serialize/deserialize internally `& implicitly 
+with the help of IsLoading() / IsStoring()..the user benefits 
+from this only having to specify `*one`* functionional place, 
+that determines the order of serialization and that is maintained 
+the same on both directions, hurray. (drawback, one cant deserialize 
+from a `'const Stream `&`', because the function needs a `'Stream 
 `&`', but the case where this happens is to be neglacted). since 
 this is somehow unusual, one needs to get familiar with the Stream.&]
 [s0; &]

@@ -146,7 +146,7 @@ void InitX11Draw(XDisplay *display)
 {
 	Xdisplay = display;
 	if(!Xdisplay) {
-		puts(NFormat("No X11 display, errno = %d, %s", errno, strerror(errno)));
+		puts(NFormat("Отсутствует дисплей X11, errno = %d, %s", errno, strerror(errno)));
 		fflush(stdout);
 		XError();
 	}

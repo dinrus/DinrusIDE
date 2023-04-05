@@ -414,7 +414,7 @@ bool Ctrl::IsWaitingEvent0(bool fetch)
 
 bool Ctrl::IsWaitingEvent()
 {
-	ASSERT_(IsMainThread(), "IsWaitingEvent can only run in the main thread");
+	ASSERT_(IsMainThread(), "IsWaitingEvent может выполняться только в главном потоке");
 	return IsWaitingEvent0(true);
 }
 

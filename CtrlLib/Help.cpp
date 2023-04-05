@@ -15,15 +15,16 @@ void HelpWindow::FinishText(RichText& text)
 
 bool HelpWindow::GoTo0(const String& link)
 {
-	if(IsNull(link) || doing_goto)
-		return true;
-	if(current_link != link) {
-		Topic t = AcquireTopic(link);
-		SetBar();
-		if(IsNull(t.text))
-			return false;
-		label = t.label;
-		topic = t.link;
+	Topic t;
+	t = AcquireTopic(link);
+	ASSERT(current_link == link);
+	current_link = link;
+	SetBar();
+	label = t.label;
+	topic = t.link;
+
+	if(!IsNull(t.text))
+		{
 		doing_goto++; // suppress recursive GoTo
 		if(~tree != topic)
 			tree.FindSetCursor(topic);
@@ -32,13 +33,16 @@ bool HelpWindow::GoTo0(const String& link)
 		RichText txt = ParseQTF(t.text);
 		FinishText(txt);
 		view.Pick(pick(txt), zoom);
-		current_link = link;
-	}
-	if(WhenMatchLabel) {
+		return view.GotoLabel(label, true, true);
+		}
+	else if(WhenMatchLabel) {
 		WString lw = label.ToWString();
 		return view.GotoLabel([=](const WString& data) { return WhenMatchLabel(data, lw); }, true, true);
 	}
-	return view.GotoLabel(label, true, true);
+
+	else if(IsNull(link) || doing_goto)	return true;
+
+	return false;
 }
 
 HelpWindow::Pos HelpWindow::GetPos()
@@ -51,7 +55,7 @@ HelpWindow::Pos HelpWindow::GetPos()
 
 bool HelpWindow::GoTo(const String& link)
 {
-	if(IsNull(link))
+	if(IsNull(link) || current_link == link)
 		return false;
 	Pos p = GetPos();
 	if(GoTo0(link)) {

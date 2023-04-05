@@ -542,7 +542,7 @@ void Value::Jsonize(JsonIO& jio)
 				int st = (dword)type == VOID_V ? VOIDV : (dword)type == STRING_V ? STRING : type;
 				if(st == STRING) {
 					if(!Upp::IsString(val))
-						throw JsonizeError("serialized_binary Error");
+						throw JsonizeError("Ошибка в serialized_binary");
 					data = val;
 				}
 				else {

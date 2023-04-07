@@ -191,7 +191,7 @@ _libssh2_channel_open(LIBSSH2_SESSION * session, const char *channel_type,
             LIBSSH2_ALLOC(session, session->open_packet_len);
         if(!session->open_packet) {
             _libssh2_error(session, LIBSSH2_ERROR_ALLOC,
-                           "Unable to allocate temporary space for packet");
+                           "Не удаётся разместить временное пространство для пакета");
             goto channel_error;
         }
         *(s++) = SSH_MSG_CHANNEL_OPEN;
@@ -212,12 +212,12 @@ _libssh2_channel_open(LIBSSH2_SESSION * session, const char *channel_type,
                                      message, message_len);
         if(rc == LIBSSH2_ERROR_EAGAIN) {
             _libssh2_error(session, rc,
-                           "Would block sending channel-open request");
+                           "Заблокирует отправку запроса channel-open");
             return NULL;
         }
         else if(rc) {
             _libssh2_error(session, rc,
-                           "Unable to send channel-open request");
+                           "Не удаётся отправить запрос channel-open");
             goto channel_error;
         }
 
@@ -232,17 +232,17 @@ _libssh2_channel_open(LIBSSH2_SESSION * session, const char *channel_type,
                                       channel_type_len, 4,
                                       &session->open_packet_requirev_state);
         if(rc == LIBSSH2_ERROR_EAGAIN) {
-            _libssh2_error(session, LIBSSH2_ERROR_EAGAIN, "Would block");
+            _libssh2_error(session, LIBSSH2_ERROR_EAGAIN, "Будет блокировать");
             return NULL;
         }
         else if(rc) {
-            _libssh2_error(session, rc, "Unexpected error");
+            _libssh2_error(session, rc, "Неожиданная ошибка");
             goto channel_error;
         }
 
         if(session->open_data_len < 1) {
             _libssh2_error(session, LIBSSH2_ERROR_PROTO,
-                           "Unexpected packet size");
+                           "Неожиданный размер пакета");
             goto channel_error;
         }
 
@@ -250,7 +250,7 @@ _libssh2_channel_open(LIBSSH2_SESSION * session, const char *channel_type,
 
             if(session->open_data_len < 17) {
                 _libssh2_error(session, LIBSSH2_ERROR_PROTO,
-                               "Unexpected packet size");
+                               "Неожиданный размер пакета");
                 goto channel_error;
             }
 
@@ -286,24 +286,24 @@ _libssh2_channel_open(LIBSSH2_SESSION * session, const char *channel_type,
             switch(reason_code) {
             case SSH_OPEN_ADMINISTRATIVELY_PROHIBITED:
                 _libssh2_error(session, LIBSSH2_ERROR_CHANNEL_FAILURE,
-                               "Channel open failure "
-                               "(administratively prohibited)");
+                               "Неудача при открытии канала "
+                               "(запрещено административно)");
                 break;
             case SSH_OPEN_CONNECT_FAILED:
                 _libssh2_error(session, LIBSSH2_ERROR_CHANNEL_FAILURE,
-                               "Channel open failure (connect failed)");
+                               "Неудача при открытии канала (ошибка подключения)");
                 break;
             case SSH_OPEN_UNKNOWN_CHANNELTYPE:
                 _libssh2_error(session, LIBSSH2_ERROR_CHANNEL_FAILURE,
-                               "Channel open failure (unknown channel type)");
+                               "Неудача при открытии канала (канал неизвестного типа)");
                 break;
             case SSH_OPEN_RESOURCE_SHORTAGE:
                 _libssh2_error(session, LIBSSH2_ERROR_CHANNEL_FAILURE,
-                               "Channel open failure (resource shortage)");
+                               "Неудача при открытии канала (нехватка ресурсов)");
                 break;
             default:
                 _libssh2_error(session, LIBSSH2_ERROR_CHANNEL_FAILURE,
-                               "Channel open failure");
+                               "Неудача при открытии канала");
             }
         }
     }
@@ -398,8 +398,8 @@ channel_direct_tcpip(LIBSSH2_SESSION * session, const char *host,
             LIBSSH2_ALLOC(session, session->direct_message_len);
         if(!session->direct_message) {
             _libssh2_error(session, LIBSSH2_ERROR_ALLOC,
-                           "Unable to allocate memory for "
-                           "direct-tcpip connection");
+                           "Не удаётся разместить память под "
+                           "подключение direct-tcpip");
             return NULL;
         }
         _libssh2_store_str(&s, host, session->direct_host_len);
@@ -488,7 +488,7 @@ channel_forward_listen(LIBSSH2_SESSION * session, const char *host,
             LIBSSH2_ALLOC(session, session->fwdLstn_packet_len);
         if(!session->fwdLstn_packet) {
             _libssh2_error(session, LIBSSH2_ERROR_ALLOC,
-                           "Unable to allocate memory for setenv packet");
+                           "Не удаётся разместить память под пакет setenv");
             return NULL;
         }
 
@@ -515,8 +515,8 @@ channel_forward_listen(LIBSSH2_SESSION * session, const char *host,
         }
         else if(rc) {
             _libssh2_error(session, LIBSSH2_ERROR_SOCKET_SEND,
-                           "Unable to send global-request packet for forward "
-                           "listen request");
+                           "Не удаётся отправка пакета global-request для запроса "
+                           "forward listen");
             LIBSSH2_FREE(session, session->fwdLstn_packet);
             session->fwdLstn_packet = NULL;
             session->fwdLstn_state = libssh2_NB_state_idle;
@@ -535,11 +535,11 @@ channel_forward_listen(LIBSSH2_SESSION * session, const char *host,
                                       0, NULL, 0,
                                       &session->fwdLstn_packet_requirev_state);
         if(rc == LIBSSH2_ERROR_EAGAIN) {
-            _libssh2_error(session, LIBSSH2_ERROR_EAGAIN, "Would block");
+            _libssh2_error(session, LIBSSH2_ERROR_EAGAIN, "Будет заблокировано");
             return NULL;
         }
         else if(rc || (data_len < 1)) {
-            _libssh2_error(session, LIBSSH2_ERROR_PROTO, "Unknown");
+            _libssh2_error(session, LIBSSH2_ERROR_PROTO, "Неизвестная ошибка");
             session->fwdLstn_state = libssh2_NB_state_idle;
             return NULL;
         }
@@ -550,14 +550,14 @@ channel_forward_listen(LIBSSH2_SESSION * session, const char *host,
             listener = LIBSSH2_CALLOC(session, sizeof(LIBSSH2_LISTENER));
             if(!listener)
                 _libssh2_error(session, LIBSSH2_ERROR_ALLOC,
-                               "Unable to allocate memory for listener queue");
+                               "Не удаётся разместить память под очередь прослушчика");
             else {
                 listener->host =
                     LIBSSH2_ALLOC(session, session->fwdLstn_host_len + 1);
                 if(!listener->host) {
                     _libssh2_error(session, LIBSSH2_ERROR_ALLOC,
-                                   "Unable to allocate memory "
-                                   "for listener queue");
+                                   "Не удаётся разместить память "
+                                   "под очередь прослушчика");
                     LIBSSH2_FREE(session, listener);
                     listener = NULL;
                 }
@@ -594,7 +594,7 @@ channel_forward_listen(LIBSSH2_SESSION * session, const char *host,
         else if(data[0] == SSH_MSG_REQUEST_FAILURE) {
             LIBSSH2_FREE(session, data);
             _libssh2_error(session, LIBSSH2_ERROR_REQUEST_DENIED,
-                           "Unable to complete request for forward-listen");
+                           "Не удаётся завершить запрос на forward-listen");
             session->fwdLstn_state = libssh2_NB_state_idle;
             return NULL;
         }
@@ -654,7 +654,7 @@ int _libssh2_channel_forward_cancel(LIBSSH2_LISTENER *listener)
         s = packet = LIBSSH2_ALLOC(session, packet_len);
         if(!packet) {
             _libssh2_error(session, LIBSSH2_ERROR_ALLOC,
-                           "Unable to allocate memory for setenv packet");
+                           "Не удаётся разместить память под пакет setenv");
             return LIBSSH2_ERROR_ALLOC;
         }
 
@@ -676,14 +676,14 @@ int _libssh2_channel_forward_cancel(LIBSSH2_LISTENER *listener)
         rc = _libssh2_transport_send(session, packet, packet_len, NULL, 0);
         if(rc == LIBSSH2_ERROR_EAGAIN) {
             _libssh2_error(session, rc,
-                           "Would block sending forward request");
+                           "Будет заблокирована отправка форвард-запроса");
             listener->chanFwdCncl_data = packet;
             return rc;
         }
         else if(rc) {
             _libssh2_error(session, LIBSSH2_ERROR_SOCKET_SEND,
-                           "Unable to send global-request packet for forward "
-                           "listen request");
+                           "Не удаётся отправить пакет global-request под запрос "
+                           "forward listen");
             /* set the state to something we don't check for, for the
                unfortunate situation where we get an EAGAIN further down
                when trying to bail out due to errors! */
@@ -766,11 +766,11 @@ channel_forward_accept(LIBSSH2_LISTENER *listener)
 
     if(rc == LIBSSH2_ERROR_EAGAIN) {
         _libssh2_error(listener->session, LIBSSH2_ERROR_EAGAIN,
-                       "Would block waiting for packet");
+                       "Будет блокировать ожидание пакета");
     }
     else
         _libssh2_error(listener->session, LIBSSH2_ERROR_CHANNEL_UNKNOWN,
-                       "Channel not found");
+                       "Канал не найден");
     return NULL;
 }
 
@@ -827,8 +827,8 @@ static int channel_setenv(LIBSSH2_CHANNEL *channel,
             LIBSSH2_ALLOC(session, channel->setenv_packet_len);
         if(!channel->setenv_packet) {
             return _libssh2_error(session, LIBSSH2_ERROR_ALLOC,
-                                  "Unable to allocate memory "
-                                  "for setenv packet");
+                                  "Не удаётся разместить память "
+                                  "под пакет setenv");
         }
 
         *(s++) = SSH_MSG_CHANNEL_REQUEST;
@@ -848,7 +848,7 @@ static int channel_setenv(LIBSSH2_CHANNEL *channel,
                                      NULL, 0);
         if(rc == LIBSSH2_ERROR_EAGAIN) {
             _libssh2_error(session, rc,
-                           "Would block sending setenv request");
+                           "Заблокирует отправку запроса setenv");
             return rc;
         }
         else if(rc) {
@@ -856,8 +856,8 @@ static int channel_setenv(LIBSSH2_CHANNEL *channel,
             channel->setenv_packet = NULL;
             channel->setenv_state = libssh2_NB_state_idle;
             return _libssh2_error(session, LIBSSH2_ERROR_SOCKET_SEND,
-                                  "Unable to send channel-request packet for "
-                                  "setenv request");
+                                  "Не удаётся отправить пакет channel-request на "
+                                  "запрос setenv");
         }
         LIBSSH2_FREE(session, channel->setenv_packet);
         channel->setenv_packet = NULL;
@@ -882,7 +882,7 @@ static int channel_setenv(LIBSSH2_CHANNEL *channel,
         else if(data_len < 1) {
             channel->setenv_state = libssh2_NB_state_idle;
             return _libssh2_error(session, LIBSSH2_ERROR_PROTO,
-                                  "Unexpected packet size");
+                                  "Неожиданный размер пакета");
         }
 
         if(data[0] == SSH_MSG_CHANNEL_SUCCESS) {
@@ -896,7 +896,7 @@ static int channel_setenv(LIBSSH2_CHANNEL *channel,
 
     channel->setenv_state = libssh2_NB_state_idle;
     return _libssh2_error(session, LIBSSH2_ERROR_CHANNEL_REQUEST_DENIED,
-                          "Unable to complete request for channel-setenv");
+                          "Не удаётся выполнить запрос на channel-setenv");
 }
 
 /*
@@ -985,7 +985,7 @@ static int channel_request_pty(LIBSSH2_CHANNEL *channel,
         else if(rc) {
             channel->reqPTY_state = libssh2_NB_state_idle;
             return _libssh2_error(session, rc,
-                                  "Unable to send pty-request packet");
+                                  "Не ужаётся отправить пакет pty-request");
         }
         _libssh2_htonu32(channel->reqPTY_local_channel, channel->local.id);
 
@@ -1005,7 +1005,7 @@ static int channel_request_pty(LIBSSH2_CHANNEL *channel,
         else if(rc || data_len < 1) {
             channel->reqPTY_state = libssh2_NB_state_idle;
             return _libssh2_error(session, LIBSSH2_ERROR_PROTO,
-                                  "Failed to require the PTY package");
+                                  "Не удалось затребовать пакет PTY");
         }
 
         code = data[0];
@@ -1018,7 +1018,7 @@ static int channel_request_pty(LIBSSH2_CHANNEL *channel,
     }
 
     return _libssh2_error(session, LIBSSH2_ERROR_CHANNEL_REQUEST_DENIED,
-                          "Unable to complete request for "
+                          "Не удалось выполнить запрос на "
                           "channel request-pty");
 }
 
@@ -1042,7 +1042,7 @@ static int channel_request_auth_agent(LIBSSH2_CHANNEL *channel,
          * actually longer than the longest possible. */
         if(request_str_len > 26) {
             return _libssh2_error(session, LIBSSH2_ERROR_INVAL,
-                                  "request_str length too large");
+                                  "Длина request_str слишком велика");
         }
 
         /*
@@ -1087,7 +1087,7 @@ static int channel_request_auth_agent(LIBSSH2_CHANNEL *channel,
         else if(rc) {
             channel->req_auth_agent_state = libssh2_NB_state_idle;
             return _libssh2_error(session, rc,
-                                  "Unable to send auth-agent request");
+                                  "Не удаётся отправить запрос auth-agent");
         }
         _libssh2_htonu32(channel->req_auth_agent_local_channel,
                          channel->local.id);
@@ -1109,7 +1109,7 @@ static int channel_request_auth_agent(LIBSSH2_CHANNEL *channel,
         else if(rc) {
             channel->req_auth_agent_state = libssh2_NB_state_idle;
             return _libssh2_error(session, LIBSSH2_ERROR_PROTO,
-                                  "Failed to request auth-agent");
+                                  "Не удалось запросить auth-agent");
         }
 
         code = data[0];
@@ -1122,7 +1122,7 @@ static int channel_request_auth_agent(LIBSSH2_CHANNEL *channel,
     }
 
     return _libssh2_error(session, LIBSSH2_ERROR_CHANNEL_REQUEST_DENIED,
-                          "Unable to complete request for auth-agent");
+                          "Не удаётся завершить запрос на auth-agent");
 }
 
 /**
@@ -1238,13 +1238,13 @@ channel_request_pty_size(LIBSSH2_CHANNEL * channel, int width,
                                      NULL, 0);
         if(rc == LIBSSH2_ERROR_EAGAIN) {
             _libssh2_error(session, rc,
-                           "Would block sending window-change request");
+                           "Заблокирует отправку запроса window-change");
             return rc;
         }
         else if(rc) {
             channel->reqPTY_state = libssh2_NB_state_idle;
             return _libssh2_error(session, rc,
-                                  "Unable to send window-change packet");
+                                  "Не удаётся отправить пакет window-change");
         }
         _libssh2_htonu32(channel->reqPTY_local_channel, channel->local.id);
         retcode = LIBSSH2_ERROR_NONE;

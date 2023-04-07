@@ -3,9 +3,9 @@
 namespace Upp {
 
 namespace Ini {
-	INI_BOOL(Smtp_Trace, false, "Activates HTTP requests tracing")
-	INI_BOOL(Smtp_TraceBody, false, "Activates HTTP requests body tracing")
-	INI_BOOL(Smtp_CompressLog, false, "Activates log compression (removes long hex/encode64-like data)")
+	INI_BOOL(Smtp_Trace, false, "Активирует трассировку запросов HTTP")
+	INI_BOOL(Smtp_TraceBody, false, "Активирует трассировку тед запросов HTTP")
+	INI_BOOL(Smtp_CompressLog, false, "Активирует сжатие лога (удаляет длинные данные, закодированные в hex/encode64)")
 };
 
 #define LLOG(x)      do { if(Ini::Smtp_Trace) { if(Ini::Smtp_CompressLog) RLOG(CompressLog(String().Cat() << x)); else RLOG(x); } } while(0)
@@ -166,7 +166,7 @@ void Smtp::StartTls()
 {
 	SendRecv("STARTTLS");
 	if(!ReplyIsSuccess() || !StartSSL())
-		throw Exc("Unable to init TLS session.");
+		throw Exc("Не удаётся инициализировать сессию TLS.");
 	LLOG("++ STARTTLS successful.");
 }
 
@@ -218,7 +218,7 @@ void Smtp::SendData(const String &s)
 	else
 		LLOG(">> [Smtp send body: " << s.GetCharCount() << " bytes]");
 	if(!PutAll(s))
-		throw Exc("Send failed. " << GetErrorDesc());
+		throw Exc("Неудавшаяся отправка. " << GetErrorDesc());
 }
 
 

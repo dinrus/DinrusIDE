@@ -718,17 +718,17 @@ PainterCanvas &PainterCanvas::SetBackground(const String &imageFilename)    {
 }
 
 void PainterCanvas::ContextMenu(Bar& bar) {
-    bar.Add(t_("Fit to size"),  Controls4UImgC::ShapeHandles(), THISBACK(FitInCanvas));
-    bar.Add(t_("Zoom +"),       Controls4UImgC::ZoomPlus(),     THISBACK1(Zoom, 1.2));
-    bar.Add(t_("Zoom -"),       Controls4UImgC::ZoomMinus(),    THISBACK1(Zoom, 1/1.2));
-    bar.Add(t_("Scroll Left"),  Controls4UImgC::LeftArrow(),    THISBACK2(Scroll, 0.2, 0));
-    bar.Add(t_("Scroll Right"), Controls4UImgC::RightArrow(),   THISBACK2(Scroll, -0.2, 0));
-    bar.Add(t_("Scroll Up"),    Controls4UImgC::UpArrow(),      THISBACK2(Scroll, 0, -0.2));
-    bar.Add(t_("Scroll Down"),  Controls4UImgC::DownArrow(),    THISBACK2(Scroll, 0, 0.2));
+    bar.Add(t_("Подогнать под размер"),  Controls4UImgC::ShapeHandles(), THISBACK(FitInCanvas));
+    bar.Add(t_("Приблизить"),       Controls4UImgC::ZoomPlus(),     THISBACK1(Zoom, 1.2));
+    bar.Add(t_("Удалить"),       Controls4UImgC::ZoomMinus(),    THISBACK1(Zoom, 1/1.2));
+    bar.Add(t_("Промотать влево"),  Controls4UImgC::LeftArrow(),    THISBACK2(Scroll, 0.2, 0));
+    bar.Add(t_("Промотать вправо"), Controls4UImgC::RightArrow(),   THISBACK2(Scroll, -0.2, 0));
+    bar.Add(t_("Промотать вверх"),    Controls4UImgC::UpArrow(),      THISBACK2(Scroll, 0, -0.2));
+    bar.Add(t_("Промотать вниз"),  Controls4UImgC::DownArrow(),    THISBACK2(Scroll, 0, 0.2));
     bar.Separator();
     bar.Add(t_("Копировать"), Controls4UImgC::Copy(),             THISBACK(SaveToClipboard)).Key(K_CTRL_C);
-    bar.Add(t_("Save background"), Controls4UImgC::Save(),  THISBACK1(SaveToFile, Null));
-    bar.Add(t_("Load background"), Controls4UImgC::Save(),  THISBACK1(Load, Null));
+    bar.Add(t_("Сохранить фон"), Controls4UImgC::Save(),  THISBACK1(SaveToFile, Null));
+    bar.Add(t_("Загрузить фон"), Controls4UImgC::Save(),  THISBACK1(Load, Null));
 }
 
 void PainterCanvas::SaveToClipboard()  {

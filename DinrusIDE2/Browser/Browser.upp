@@ -1,4 +1,4 @@
-description "TheIDE - code browser and Topic++\377B";
+description "TheIDE - code browser and Topic++\377B128,0,0";
 
 uses
 	PdfDraw,

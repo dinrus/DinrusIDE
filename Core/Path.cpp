@@ -980,7 +980,7 @@ Array<FileSystemInfo::FileInfo> FileSystemInfo::Find(String mask, int max_count,
 				}
 				else if(n == DRIVE_REMOVABLE || n == DRIVE_CDROM) {
 					if(unmounted) {
-						f.root_desc = t_("Empty drive");
+						f.root_desc = t_("Пустой диск");
 					} else {
 						fi.Drop();
 						continue;

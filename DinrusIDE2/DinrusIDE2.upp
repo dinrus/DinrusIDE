@@ -1,4 +1,4 @@
-description "Главный пакет DinrusIDE2\377";
+description "Главный пакет DinrusIDE2\377128,0,0";
 
 uses
 	DinrusIDE2\Common,

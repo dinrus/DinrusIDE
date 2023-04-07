@@ -269,26 +269,29 @@ DinrusIDE.&]
 [ {{3667:6333h1;@(204) [s0; Метод]
 :: [s0; Описание]
 ::^@2 [s0; [*C+75 ActivePackage()]]
-:: [s20; The name of package in which the currently edited file belongs 
-to.]
+:: [s20; Имя пакета, которому принадлежит 
+текущий редактируемый файл.]
 :: [s0; [*C+75 MainPackage()]]
-:: [s20; The name of main package.]
+:: [s20; Имя главного пакета.]
 :: [s0; [*C+75 AllPackages()]]
-:: [s20; Array of all used packages.]
+:: [s20; Массив из всех используемых пакетов]
 :: [s0; [*C+75 PackageDir(][/C+75 `[пкт`]][*C+75 )]]
-:: [s20; The directory where the package resides.]
+:: [s20; Директория, в которой находится пакет.]
 :: [s0; [*C+75 PackageFiles(][/C+75 `[пкт`]][*C+75 )]]
-:: [s20; List of all files in the package.]
+:: [s20; Список всех файлов в пакете]
 :: [s0; [*C+75 Assembly()]]
-:: [s20; Name of the assembly.]
+:: [s20; Имя сборки]
 :: [s0; [*C+75 Flags()]]
-:: [s20; Array of currently set build flags.]
+:: [s20; Массив из установленных на данный 
+момент флагов построения]
 :: [s0; [*C+75 BuildMethod()]]
-:: [s20; Currently selected build method.]
+:: [s20; Текущий выбранный метод построения]
 :: [s0; [*C+75 BuildMode()]]
-:: [s20; Currently selected build mode (0 `= Debug, 1 `= Optimal, 2 `= 
-Speed, 3 `= Size).]
+:: [s20; Текущий выбранный режим построения 
+(0 `= Отладка, 1 `= Оптимально, 2 `= Скорость, 
+3 `= Размер).]
 :: [s0; [*C+75 Target()]]
-:: [s20; Returns current target name. To obtain this value project must 
-be firstly build.]}}&]
+:: [s20; Возвращает текущее целевое имя. Чтобы 
+получить это значение, вначале нужно 
+построить проект.]}}&]
 [s0; ]]

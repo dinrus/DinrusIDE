@@ -1,4 +1,4 @@
-description "DinrusIDE - утилита управления расширениями (macro)\377B";
+description "DinrusIDE - утилита управления расширениями (macro)\377B128,0,0";
 
 uses
 	CtrlLib,
@@ -15,3 +15,4 @@ file
 	MacroManager.iml,
 	Info readonly separator,
 	Copying;
+

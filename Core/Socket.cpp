@@ -445,7 +445,7 @@ void TcpSocket::Attach(SOCKET s)
 bool TcpSocket::RawConnect(addrinfo *arp)
 {
 	if(!arp) {
-		SetSockError("connect", -1, "not found");
+		SetSockError("подключение", -1, "не найдено");
 		return false;
 	}
 	String err;
@@ -468,7 +468,7 @@ bool TcpSocket::RawConnect(addrinfo *arp)
 			rp = rp->ai_next;
 		}
     }
-	SetSockError("connect", -1, Nvl(err, "failed"));
+	SetSockError("подключение", -1, Nvl(err, "не удалось"));
 	return false;
 }
 
@@ -490,7 +490,7 @@ bool TcpSocket::Connect(const char *host, int port)
 	Reset();
 	IpAddrInfo info;
 	if(!info.Execute(host, port)) {
-		SetSockError(Format("getaddrinfo(%s) failed", host));
+		SetSockError(Format("getaddrinfo(%s) неудачно", host));
 		return false;
 	}
 	return Connect(info);
@@ -599,7 +599,7 @@ String TcpSocket::GetHostName()
 bool TcpSocket::IsGlobalTimeout()
 {
 	if(!IsNull(global_timeout) && msecs() - start_time > global_timeout) {
-		SetSockError("wait", ERROR_GLOBAL_TIMEOUT, "Timeout");
+		SetSockError("wait", ERROR_GLOBAL_TIMEOUT, "Таймаут");
 		return true;
 	}
 	return false;

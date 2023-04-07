@@ -76,7 +76,7 @@ void Ide::File(Bar& menu)
 		    .Help("Закрыть все вкладки");
 		if(!designer) {
 			menu.Add("Закладки", THISBACK(FileBookmark))
-				.Help("Установите оодну из закладок (1..9, 0) на текущий файл");
+				.Help("Установите одну из закладок (1..9, 0) на текущий файл");
 			menu.MenuSeparator();
 		}
 		menu.Add("Показать/скрыть нижнюю панель", THISBACK(SwapBottom))
@@ -234,7 +234,7 @@ void Ide::Edit(Bar& menu)
 
 		if(editor.IsView()) {
 			menu.Add(AK_EDITASTEXT, THISBACK(EditAsText))
-			    .Help("Edit file");
+			    .Help("Редактировать файл");
 			menu.MenuSeparator();
 		}
 		if(GetFileExt(editfile) == ".t") {
@@ -786,7 +786,7 @@ void Ide::BrowseMenu(Bar& menu)
 
 		if(menu.IsMenuBar()) {
 			menu.MenuSeparator();
-			menu.Add("Reindex all source files", [=] {
+			menu.Add("Реиндексировать все исходники", [=] {
 				PPInfo::RescanAll();
 				for(FileAnnotation& m : CodeIndex())
 					m.time = Null;
@@ -815,19 +815,19 @@ void Ide::BrowseMenu(Bar& menu)
 
 	if(AssistDiagnostics) {
 		menu.Separator();
-		menu.Add("Dump and show whole current index", [=] {
+		menu.Add("Сделать дамп и показать текущий индекс", [=] {
 			String path = CacheFile("index_" + AsString(Random()) + AsString(Random()));
 			DumpIndex(path);
 			EditFile(path);
 		});
-		menu.Add("Dump and show current file index", [=] {
+		menu.Add("Сделать дамп и показать индекс текущего файла", [=] {
 			String path = CacheFile("index_" + AsString(Random()) + AsString(Random()));
 			DumpIndex(path, editfile);
 			EditFile(path);
 		});
-		menu.Add("Current file parse errors", [=] { EditFile(CacheFile("parse_errors")); });
-		menu.Add("Current file autocomplete errors", [=] { EditFile(CacheFile("autocomplete_errors")); });
-		menu.Add("Current parsed file content", [=] {
+		menu.Add("Ошибки разбора текущего файла", [=] { EditFile(CacheFile("parse_errors")); });
+		menu.Add("Ошибки автозаполнения текущего файла", [=] { EditFile(CacheFile("autocomplete_errors")); });
+		menu.Add("Контент текущего парсированного файла", [=] {
 			String p = CacheFile("CurrentContext" + AsString(Random()) + AsString(Random()) + ".txt");
 			Upp::SaveFile(p, editor.CurrentContext().content);
 			EditFile(p);

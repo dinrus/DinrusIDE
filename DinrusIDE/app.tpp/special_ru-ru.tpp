@@ -19,16 +19,23 @@ DinrusIDE:&]
 DinrusIDE!&]
 [s2; Использование Alt`+Left для `"возврата`" 
 к важным местам (например, где что`-то 
-написано). Используйте Alt`+Right to cycle 
-this places forward.&]
-[s2; Esc key closes (and reopens) the bottom pane (with compilation 
-results etc...)&]
-[s2; Rectangular blocks are activated by pressing ALT key.&]
-[s2; You can copy files (Ctrl`+C in system file manager, Ctrl`+V 
-in DinrusIDE) into text directly. If more than single file is 
-on clipboard, all text is copied.&]
-[s2; Dragging file onto DinrusIDE opens it (as `"temp`" file).&]
-[s2; Use Ctrl`+/ to hide project overview `- useful e.g. when editing 
-wide layouts.&]
-[s2; Use Ctrl`+`-, Ctrl`+`| to split editor vertically/horizontally.&]
+написано). Используйте Alt`+Right для перемещения
+ вперёд (по вкладкам).&]
+[s2; Клавиша Esc закрывает (и повторно открывает 
+нижнюю панель (с результатами компиляции 
+и прочим.)&]
+[s2; Прямоугольные блоки активируются 
+нажатием клавиши ALT.&]
+[s2; Можно копировать файлы (Ctrl`+C в системном 
+менеджере файлов, Ctrl`+V в DinrusIDE) прямо 
+в текст. Если в буфере обмена более 
+одного файла, копируется весь текст.&]
+[s2; Перетягивание файла на DinrusIDE открывает 
+его (как файл `"temp`").&]
+[s2; Используйте Ctrl`+/ для того, чтобы скрыть 
+обзор проекта, `- это полезно, например, 
+во время редактирования широких выкладок.&]
+[s2; Используйте Ctrl`+`-, Ctrl`+`| для того, чтобы 
+разделить редактор вертикально/горизонталь
+но.&]
 [s0; ]]

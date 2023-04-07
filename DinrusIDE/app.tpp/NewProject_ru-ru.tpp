@@ -21,8 +21,9 @@ topic "Новый Проект";
 [{_}%RU-RU 
 [s2; [@5 Создание нового приложения (не используя 
 шаблон пакета)]&]
-[s0; -|In this example we will create a simple `"Hello world`" application 
-which contains two packages, called [* Main] and [* Util].&]
+[s0; -|В этом примере мы создадим простое 
+приложение `"Hello world`", которое состоит 
+из двух пакетов, [* Main] и [* Util].&]
 [s0; -|U`+`+ requires that we store our source files under a root 
 directory called a [* nest]. The nest directory will contain other 
 directories that will hold the source files. The directories 

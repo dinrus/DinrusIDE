@@ -109,12 +109,14 @@ DinrusIDE!&]
 [s3; &]
 [s0; &]
 [s2; Лицензия U`+`+&]
-[s3; The U`+`+ license is BSD, allowing almost unrestricted use of 
-the product and its source&]
-[s3; code.  Full C`+`+ source code is provided for both DinrusIDE 
-and the class framework,&]
-[s3; ensuring both the future of U`+`+ and the ability to support 
-and extend your &]
-[s3; own applications.&]
+[s3; Лицензия у U`+`+ типа BSD, что допускает 
+почти неограниченное использование 
+продукта и его исходного кода.  Полный 
+исходный код на C`+`+ предоставляется 
+как для DinrusIDE, так и для фреймворка 
+классов, что гарантирует не только 
+использование U`+`+ в будущем, но и возможность
+ поддерживать его и расширять в ваших 
+собственных приложениях.&]
 [s0; &]
 [s0; ]]

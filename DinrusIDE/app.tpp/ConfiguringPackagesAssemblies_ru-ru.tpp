@@ -150,67 +150,98 @@ C:/MyApps, а новый пакет должен быть с именем
 будет создан и открыт в DinrusIDE.&]
 [s2; 3.1 Приложение CtrlLib с шаблоном главного 
 окна&]
-[s5; The [/ Create`-new`-package] example dialog box above shows the 
-[* CtrlLib application with main window] [* template] selected.  
-This is the template to select if you are creating a standard 
-GUI application.  You need to enter a name for the C`+`+ class 
-that represents the main window&]
-[s5; The drop`-down list labeled `"Layout`" gives the following choices:&]
-[s5;l288;i150;O0; No layouts&]
-[s5;l288;i150;O0; Generate layout file&]
-[s5;l288;i150;O0; Main window has layout&]
-[s5;l288;i150;O0; Main window has OK/cancel&]
-[s5; If you want to create the visual interface for your package 
-at design time (i.e. using DinrusIDE) then you should select 
-either `"Generate layout file`" or `"Main window has layout`". 
- If `"Main window has layout`" is chosen, then at runtime when 
-the application is started, a visible window will appear.  If 
-the application needs to start without a visible window (or does 
-not always want the same visible window), then you can choose 
-`"Generate layout file`".&]
+[s5; Пример диалога создания нового пакета, 
+показанный выше, демонстрирует выбранный 
+шаблон [* приложение CtrlLib с шаблоном 
+главного окна].  Этот шаблон подойдёт 
+при создании стандартного ГИП`-приложения. 
+ Здесь нужно ввести имя класса C`+`+, 
+который будет представлять главное 
+окно&]
+[s5; В выподающем списке с ярлыком `"Выкладка`" 
+предоставляются следующие варианты 
+выбора:&]
+[s5;l288;i150;O0; Без выкладок&]
+[s5;l288;i150;O0; Генерировать файл выкладки&]
+[s5;l288;i150;O0; Выкладка у главного окна&]
+[s5;l288;i150;O0; У главного окна есть OK/Отмена&]
+[s5; Если вы вы намерены создать визуальный 
+интерфейс своего пакета во время 
+дизайна (т.е. используя DinrusIDE), то нужно 
+выбрать либо `"Генерировать файл выкладки`", 
+либо `"У главного окна есть выкладка`". 
+ Если выбрано `"У главного окна есть 
+выкладка`", то в рантайм, при старте 
+приложения, будет появляться видимое 
+окно.  Если приложению нужно запускаться 
+без видимого окна (или не всегда требуется 
+одно и то же видимое окно),тогда выбирайте 
+пункт `"Генерировать файл выкладки`".&]
 [s6;:4: [@(128.0.255) 4. Конфигурации построения 
 пакета]&]
-[s5; The left`-hand drop`-down list on DinrusIDE toolbar shows which 
-build configuration is currently selected. To change the build 
-configurations for the [* main package] use the [/ main`-package`-configuration 
-]option on the Project menu in DinrusIDE.  Alternatively, click 
-within the text area of the drop`-down list that shows the currently 
-selected build configuration.  The `"Main package configurations`" 
-dialog will appear.&]
+[s5; Левый выпадающий список в брусе инструменто
+в DinrusIDE показывает выбранную на данный 
+момент конфигурацию построения. Чтобы 
+зменить конфигурацию построения 
+для [* главного пакета], используется 
+опция `"конфигурация главного пакета`" 
+в меню `"Проект`" DinrusIDE.  Альтернативно, 
+сделайте клик в текстовой области 
+выпадающего списка, показывающего 
+текущую конфигурацию построения. 
+Появится диалоговое окно `"Конфигурации 
+главного пакета`".&]
 [s3; &]
 [s0;= 
 @@image:2668&934
 (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)
 &]
 [s3; &]
-[s5; A package can have more than one build configuration.  Each 
-line in this dialog corresponds to one particular build configuration. 
- To add a new line, use mouse right click and select `"append 
-row`". To edit an existing line, right click and select `"edit`". 
-In the right`-hand column (headed `"optional name`") you can 
-optionally enter a name for that particular build.  This name 
-will appear in the left`-hand drop`-down list on DinrusIDE tool 
-bar. When a build command is initiated in DinrusIDE, the main 
-package is built according to the currently selected build configuration.as 
-shown in the drop`-down list.  For example, a package can have 
-a DEBUG build and a non`-DEBUG build.  If the DEBUG flags name 
-is not present in a particular build configuration, then a non`-debug 
-build occurs by default.  Similarly, if the MT name is not present 
-then a single`-threaded application is built by default and if 
-the GUI flags name is not present, then a console type application 
-is built.&]
-[s5; The names that appear in the Flags column are alpha`-numeric 
-strings separated by spaces.  There are some predefined names 
-that can be used (e.g. GUI DEBUG WIN32 MT) however, you can enter 
-any names you desire (e.g. PRO`_VERSION) as shown above.  DinrusIDE 
-build process will react to some of these names (such as GUI 
-and DEBUG) and these affect the switches etc that are used when 
-the compiler or linker are invoked.and also which libs are used. 
- Each of the Flag names also becomes a #define`'d MACRO name 
-that can be used in source files where each flag name is prefixed 
-with `"flag`"  e.g. flagGUI, flagDEBUG, flagSTD`_VERSION.  Hence 
-you can then test for these in source code with #ifdef or #if 
-defined(flagNAME)&]
+[s5; У пакета может быть более одной конфигураци
+й построения. Каждая строка в этом 
+диалоге соответствует одной конкретной 
+конфигурации построения. Чтобы добавить 
+новую строку, сделайте мышью правый 
+клик и выберите `"приставить ряд`". 
+Чтобы отредактировать существующую 
+строку, сделайте правый клик и выберите 
+`"редактировать`". В колонке справа 
+(озаглавленной `"опциональное имя`") 
+можно ввести имя для отдельного построения. 
+ Это имя появится в левом выпадающем 
+списке бруса инструментов DinrusIDE. Если 
+команда на построение будет иициирована 
+в DinrusIDE,  главный пакет бует построен 
+в согласии с текущей выбранной конфигурацие
+й построения, показанной в выпадающем 
+списке. Например, у пакета может быть 
+ОТЛАДОЧНОЕ и неоладочное построение. 
+ Если имя флага DEBUG отсутствует в конфигураци
+и, то по умолчанию идёт неотладочное 
+построение.  Точно так же, если имя 
+MT отсутствует, то по умолчанию построиться 
+одно`-поточное приложение, а если 
+отсутствует флаг GUI, построится консольное 
+приложение.&]
+[s5; Названия, появляющиеся в колонке 
+`"Флаги`" представляют собой число`-буквенные
+ строки, разделённые пробелами.  Могут 
+быть использованы несколько предопределённ
+ых имён (например, GUI DEBUG WIN32 MT) . Однако, 
+можно ввести любое имя по желанию 
+(например,. PRO`_VERSION), как показано выше. 
+ Процесс построения DinrusIDE прореагирует 
+на некоторые из этих названий (такие 
+как GUI и DEBUG) и это повлияет на переключатели 
+и т.д., используемые при вызове компилятора 
+или компоновщика, а также на используемые 
+библиотеки.  Каждое название Флагов 
+к тому же становится #define`'d MACRO именем, 
+которое может использоваться в исходниках, 
+где у каждого имени есть префикс `"flag`", 
+например. flagGUI, flagDEBUG, flagSTD`_VERSION.  Это 
+можно проверить в исходниках с помощью 
+#ifdef или #if defined(flagNAME)&]
 [s5; All of the packages that are directly or indirectly used by 
 the main package are built with the same build configuration 
 as the main package, however it is possible to restrict a Flag 
@@ -230,7 +261,7 @@ all of the names that are present in the build configuration
 flags names list, not just predefined names e.g. PRO`_VERSION. 
  By using these names in the package`-organizer dialog, the build 
 process can be customized for each build configuration.&]
-[s6;:5: [@(128.0.255) 5. Package build settings]&]
+[s6;:5: [@(128.0.255) 5. Настройки построения пакета]&]
 [s5; From DinrusIDE project menu, select [/ package`-organizer.]&]
 [s3; &]
 [s0;= 
@@ -275,7 +306,7 @@ only if listed in the `"accepts`" edit`-box for the used package.
  Build flags from the main package that are not `"dotted`" will 
 be applied to all used packages regardless of whether listed 
 in the `"accepts`" list of a particular package or not.&]
-[s6;:6: [@(128.0.255) 6. Adding Dependent Packages]&]
+[s6;:6: [@(128.0.255) 6. Добавление пакетов`-зависимостей]&]
 [s5; If a package uses other packages, then they must be `"added`" 
 to the using package.  For example, the HelloWorld package in 
 the `"examples`" assembly uses the CtrlLib package which you 
@@ -286,7 +317,7 @@ packages and you can also select the order in which the used
 packages are built.  Use mouse right`-click in the `"uses`" pane 
 of the [/ package`-organizer] dialog to do this.  Alternatively 
 you can use `"[/ add package]`" from the Project menu.&]
-[s6;:7: [@(128.0.255) 7. Custom Build Steps]&]
+[s6;:7: [@(128.0.255) 7. Кастомные шаги построения]&]
 [s5; Custom build steps allow you to specify how files with a particular 
 extension are `"built`".  For example, you can specify the invocation 
 of a particular assembler for assembler files or the Microsoft 
@@ -316,7 +347,7 @@ executed after linking.  The uppsrc Ole/Ctrl/Calc package uses
 the entry of build flags so that the custom build step can be 
 applied selectively e.g. for one particular compiler or to have 
 separate commands for debug and non`-debug builds.&]
-[s6;:8: [@(128.0.255) 8. Adding source files to a package]&]
+[s6;:8: [@(128.0.255) 8. Добавление в пакет исходников]&]
 [s5; The source files that belong to a package must be added to the 
 package.  DinrusIDE will attempt to build all of the files that 
 belong to the package, according to the file extension.  In DinrusIDE 
@@ -334,7 +365,8 @@ in sub`-directories of the package directory or in any folder
 at all, but it is recommended to keep them in the package folder 
 tree because this makes it easier to move or copy the package 
 and is easier to organize.&]
-[s6;:9: [@(128.0.255) 9. Building packages from an ESC macro]&]
+[s6;:9: [@(128.0.255) 9. Построение пакетов из макроса 
+ESC]&]
 [s5; You can build a package from a macro. The `"brc`" reference 
 example (in the reference assembly) includes the following macro.&]
 [ {{10000@(255.255.150) [s3; [* macro ]`"Ship`" Ctrl`+Shift`+W `{&]
@@ -394,7 +426,7 @@ application and continues running&]
 [s5;l288;i150;O0; [/ void ClearConsole()] clears the IDE console&]
 [s5;l288;i150;O0; [/ void cout(message)]  `- outputs message to the 
 console.&]
-[s6;:10: [@(128.0.255) 10. Binary resource extensions]&]
+[s6;:10: [@(128.0.255) 10. Расширения двоичных ресурсов]&]
 [s5; [*/ BINARY`_MASK(mydir, `"`*.`*`")]&]
 [s5; adds all files matching a given mask to the binary resource 
 file. This behaves more or less like BINARY`_ARRAY, so an array 

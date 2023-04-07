@@ -184,20 +184,20 @@ agent_connect_openssh(LIBSSH2_AGENT *agent)
 
     if(pipe == INVALID_HANDLE_VALUE) {
         ret = _libssh2_error(agent->session, LIBSSH2_ERROR_AGENT_PROTOCOL,
-                             "unable to connect to agent pipe");
+                             "не удаётся подключиться к пайпу агента");
         goto cleanup;
     }
 
     if(SetHandleInformation(pipe, HANDLE_FLAG_INHERIT, 0) == FALSE) {
         ret = _libssh2_error(agent->session, LIBSSH2_ERROR_AGENT_PROTOCOL,
-                             "unable to set handle information of agent pipe");
+                             "Не удаётся установить инфо об указателе на пайп агента");
         goto cleanup;
     }
 
     event = CreateEventA(NULL, TRUE, FALSE, NULL);
     if(event == NULL) {
         ret = _libssh2_error(agent->session, LIBSSH2_ERROR_AGENT_PROTOCOL,
-                             "unable to create async I/O event");
+                             "не удаётся создать событие async I/O");
         goto cleanup;
     }
 
@@ -279,7 +279,7 @@ agent_transact_openssh(LIBSSH2_AGENT *agent, agent_transaction_ctx_t transctx)
             return LIBSSH2_ERROR_EAGAIN;
         else if(rc < 0)
             return _libssh2_error(agent->session, LIBSSH2_ERROR_SOCKET_SEND,
-                                  "agent send failed");
+                                  "не удалась отправка через агента");
         transctx->state = agent_NB_state_request_length_sent;
     }
 
@@ -292,7 +292,7 @@ agent_transact_openssh(LIBSSH2_AGENT *agent, agent_transaction_ctx_t transctx)
             return LIBSSH2_ERROR_EAGAIN;
         else if(rc < 0)
             return _libssh2_error(agent->session, LIBSSH2_ERROR_SOCKET_SEND,
-                                  "agent send failed");
+                                  "не удалась отправка через агента");
         transctx->state = agent_NB_state_request_sent;
     }
 
@@ -304,7 +304,7 @@ agent_transact_openssh(LIBSSH2_AGENT *agent, agent_transaction_ctx_t transctx)
             return LIBSSH2_ERROR_EAGAIN;
         else if(rc < 0)
             return _libssh2_error(agent->session, LIBSSH2_ERROR_SOCKET_RECV,
-                                  "agent recv failed");
+                                  "не удалось получение через агента");
 
         transctx->response_len = _libssh2_ntohu32(buf);
         transctx->response = LIBSSH2_ALLOC(agent->session,
@@ -324,7 +324,7 @@ agent_transact_openssh(LIBSSH2_AGENT *agent, agent_transaction_ctx_t transctx)
             return LIBSSH2_ERROR_EAGAIN;
         else if(rc < 0)
             return _libssh2_error(agent->session, LIBSSH2_ERROR_SOCKET_RECV,
-                                  "agent recv failed");
+                                  "не удалось получение через агента");
         transctx->state = agent_NB_state_response_received;
     }
 

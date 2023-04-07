@@ -11,7 +11,7 @@ Value ParseXmlRpcValue(XmlParser& p)
 		String s = p.ReadText();
 		CParser p(s);
 		if(!p.IsInt())
-			throw XmlError("integer expected");
+			throw XmlError("ожидалось целое");
 		r = p.ReadInt();
 	}
 	else
@@ -19,14 +19,14 @@ Value ParseXmlRpcValue(XmlParser& p)
 		String s = p.ReadText();
 		CParser p(s);
 		if(!p.IsInt())
-			throw XmlError("integer expected");
+			throw XmlError("ожидалось целое");
 		r = p.ReadInt64();
 	}
 	else
 	if(p.Tag("boolean")) {
 		int n = StrInt(p.ReadText());
 		if(n != 0 && n != 1)
-			throw XmlError("boolean expected");
+			throw XmlError("ожидалось булево");
 		r = (bool)n;
 	}
 	else
@@ -34,7 +34,7 @@ Value ParseXmlRpcValue(XmlParser& p)
 		String s = p.ReadText();
 		CParser p(s);
 		if(!p.IsDouble())
-			throw XmlError("double expected");
+			throw XmlError("ожидалось дво");
 		r = p.ReadDouble();
 	}
 	else
@@ -51,7 +51,7 @@ Value ParseXmlRpcValue(XmlParser& p)
 		// 19980717T14:08:55
 		// 01234567890123456
 		if(s.GetCount() < 17 || s[8] != 'T' || s[11] != ':' || s[14] != ':') // <17 to allow zone ignored zone info
-			throw XmlError("invalid dateTime format");
+			throw XmlError("неверный фомат даты/времени");
 		Time tm;
 		tm.year = atoi(s.Mid(0, 4));
 		tm.month = atoi(s.Mid(4, 2));
@@ -82,7 +82,7 @@ Value ParseXmlRpcValue(XmlParser& p)
 		r = vm;
 	}
 	else
-		throw XmlError("unknown value type");
+		throw XmlError("значение неизвестного типа");
 	p.PassEnd();
 	p.PassEnd();
 	return r;

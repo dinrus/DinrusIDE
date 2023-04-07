@@ -16,81 +16,104 @@ topic "UMK - Построитель из командной строки";
 [s10; [@3 UMK `- Построитель из командной строки]&]
 [s12; [@3 Содержание]&]
 [s0; &]
-[s0; [^topic`:`/`/DinrusIDE`/app`/umk`_ru`-ru`#1^ 1. Definition]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/umk`_ru`-ru`#2^ 2. Command line interface]&]
-[s0; [^topic`:`/`/DinrusIDE`/app`/umk`_ru`-ru`#3^ 3. Examples]&]
+[s0; [^topic`:`/`/DinrusIDE`/app`/umk`_ru`-ru`#1^ 1. Определение]&]
+[s0; [^topic`:`/`/DinrusIDE`/app`/umk`_ru`-ru`#2^ 2. Интерфейс 
+командной строки]&]
+[s0; [^topic`:`/`/DinrusIDE`/app`/umk`_ru`-ru`#3^ 3. Примеры]&]
 [s0; &]
-[s12;:1: [@(128.0.255) 1. Definition]&]
-[s11; [* UMK] (U`+`+ MaKe) is a command line utility to build the U`+`+ 
-program, with U`+`+ assembly/package/build method system.&]
-[s12;:2: [@(128.0.255) 2. Command line interface]&]
-[s11; Below is a command line interface of UMK:&]
+[s12;:1: [@(128.0.255) 1. Определение]&]
+[s11; [* UMK] (U`+`+ MaKe) `- это утилита из командной 
+строки для построения программ U`+`+, 
+использующая систему и метод построения 
+пакетов/сборок U`+`+.&]
+[s12;:2: [@(128.0.255) 2. Интерфейс командной строки]&]
+[s11; Ниже приводится интерфейс командной 
+строки UMK:&]
 [s0; &]
-[s0;l128;i224;O9; [*C3 umk ][*C@(0.0.255)3 assembly package ][*C3 `[][*C@(0.0.255)3 build`_me
-thod][*C3 `]][*C@4;3  ][*C3 `[`-`[][*C@4;3 a][*C3 `]`[][*C@4;3 b][*C3 `]`[][*C@4;3 u][*C3 `]`[][*C@4;3 r
-][*C3 `]`[][*C@4;3 s][*C3 `]`[][*C@4;3 S][*C3 `]`[][*C@4;3 v][*C3 `]`[][*C@4;3 m][*C3 `]`[][*C@4;3 d][*C3 `]
-`[][*C@4;3 M][*C3 `]`[][*C@4;3 M`=][*/C@3;3 makefile][*C3 `]`[][*C@4;3 l][*C3 `]`[][*C@4;3 x][*C3 `]
-`[][*C@4;3 X][*C3 `]`[][%-*C@4;3 H][%-*/C@3;3 n][*C3 `]`]..][*C@4;3  ][*C3 `[`+][*C@(0.0.255)3 FL
-AG][*C3 `[,][*C@(0.0.255)3 FLAG][*C3 `]..`]][*C@4;3  ][*C3 `[][*C@(0.0.255)3 out][*C3 `] 
-`[][*C@(0.0.255)3 !][*C3  `[][*C@(0.0.255)3 runarg][*C3 `]..`]]&]
+[s0;l128;i224;O9; [*C3 umk ][*C@(0.0.255)3 сборка пакет ][*C3 `[][*C@(0.0.255)3 м
+етод`_построения][*C3 `]][*C@4;3  ][*C3 `[`-`[][*C@4;3 a][*C3 `]`[][*C@4;3 b][*C3 `]
+`[][*C@4;3 u][*C3 `]`[][*C@4;3 r][*C3 `]`[][*C@4;3 s][*C3 `]`[][*C@4;3 S][*C3 `]`[][*C@4;3 v][*C3 `]`[
+][*C@4;3 m][*C3 `]`[][*C@4;3 d][*C3 `]`[][*C@4;3 M][*C3 `]`[][*C@4;3 M`=][*/C@3;3 makefile][*C3 `]`[
+][*C@4;3 l][*C3 `]`[][*C@4;3 x][*C3 `]`[][*C@4;3 X][*C3 `]`[][%-*C@4;3 H][%-*/C@3;3 n][*C3 `]`]..][*C@4;3  
+][*C3 `[`+][*C@(0.0.255)3 ФЛАГ][*C3 `[,][*C@(0.0.255)3 ФЛАГ][*C3 `]..`]][*C@4;3  
+][*C3 `[][*C@(0.0.255)3 вых][*C3 `] `[][*C@(0.0.255)3 !][*C3  `[][*C@(0.0.255)3 аргпу
+ска][*C3 `]..`]]&]
 [s0;3 &]
-[s11; Let`'s take a closer look at all available options:&]
-[s11;l128;i150;O0; [*@(0.0.255) assembly] is a direct set of package 
-nest directories relative to working directory that represent 
-U`+`+ assembly separated by `',`'. Alternatively it can be a 
-predefined assembly (in .var file) which is in Win32 in directory 
-where is located umk.exe or in POSIX systems in directories [@3 .config/u`+`+/umk 
-]or [@3 .config/u`+`+/DinrusIDE] or direct path to .var file.&]
-[s11;l128;i150;O0; [*@(0.0.255) package ]is the main package (a program 
-to build).&]
-[s11;l128;i150;O0; [*@(0.0.255) build`_method] is build method that 
-is to be used to build the resulting executable, specified either 
-as name of build method (which is then searched for in [@3 .config/u`+`+/umk 
-]or [@3 .config/u`+`+/DinrusIDE] directories) or it is a direct 
-path to the .bm file. If not specified, [* CLANG] build method 
-is assumed. Note that in POSIX, umk automatically creates [* CLANG] 
-and [* GCC] build methods if they do not exist.&]
-[s11;l128;i150;O0; [*@(0.0.255) FLAG][* s] are [^topic`:`/`/DinrusIDE`/app`/Flags`$en`-us^ compila
-tion flags]. If flags are not specified, the first main configuration 
-entry in .upp file is used.&]
-[s11;l128;i150;O0; [*@(0.0.255) out] overrides output name, file or 
-directory.&]
-[s11;l128;i150;O0; [*C@(0.0.255)3 !] means the the resulting binary 
-should be also executed after successful build, using optional 
-arguments after [*C@(0.0.255)3 !] as its arguments.&]
-[s11;l128;i160;O0; All other options are located below:&]
-[ {{1914:8086<283;h1;@1 [s0; [3 Option]]
-:: [s0; [3 Description]]
+[s11; Рассмотрим поближе все доступные 
+опции:&]
+[s11;l128;i150;O0; [*@(0.0.255) сборка] `- это прямой 
+набор директорий гнёзд пакетов, относительн
+ый к рабочей директории, который представляе
+т сборку U`+`+, разделённых с помощью 
+`',`'. Альтернативно это может быть 
+предопределённая сборка (в файле 
+.var), который в Win32 находится в одной 
+директории с umk.exe, а на системах POSIX 
+`- в директориях [@3 .config/u`+`+/umk ]или [@3 .config/u`+`+/DinrusID
+E] или прямой путь к файлу .var.&]
+[s11;l128;i150;O0; [*@(0.0.255) пакет ]`- главный пакет 
+(программа под построение).&]
+[s11;l128;i150;O0; [*@(0.0.255) метод`_построения] `- 
+метод построения, который будет использоват
+ься для постройки итогового исполнимого, 
+указанный либо как имя, либо как метод 
+построения (который затем нужно найти 
+в [@3 .config/u`+`+/umk ]или [@3 .config/u`+`+/DinrusIDE] директориях)
+, либо это прямой путь к файлу .bm. Если 
+не указан, подразумевается метод 
+построения [* CLANG]. Заметьте что на POSIX, 
+umk автоматически создаёт [* CLANG] и [* GCC] 
+методы построения, если их ещё нет.&]
+[s11;l128;i150;O0; [*@(0.0.255) ФЛАГ][* и] `- [^topic`:`/`/DinrusIDE`/app`/Flags`_ru`-ru^ ф
+лаги компиляции]. Если флаги не указаны, 
+используется первая главная конфигурация, 
+записанная в файле .upp.&]
+[s11;l128;i150;O0; [*@(0.0.255) вых] переписывает имя 
+папки вывода, файла или директории.&]
+[s11;l128;i150;O0; [*C@(0.0.255)3 !] означает, что итоговый 
+бинарник следует в случае успешного 
+построения ещё и выполнить, и опциональные 
+(необязательные) аргументы после 
+[*C@(0.0.255)3 !] используются как аргументы 
+для его пуска.&]
+[s11;l128;i160;O0; Все прочие опции представлены 
+ниже:&]
+[ {{1914:8086<283;h1;@1 [s0; [3 Опция]]
+:: [s0; [3 Описание]]
 ::^@2 [s0; [*C@4;3 a]]
-::= [s0; [3 Rebuild all.]]
+::= [s0; [3 Перестроить все.]]
 ::^ [s0; [*C@4;3 b]]
-::= [s0; [3 Use BLITZ.]]
+::= [s0; [3 Использовать БЛИЦ.]]
 ::^ [s0; [*C@4;3 l]]
-::= [s0; [3 Silent mode.]]
+::= [s0; [3 Тихий режим.]]
 ::^ [s0; [*C@4;3 u]]
-::= [s0; [3 Use target directory.]]
+::= [s0; [3 Использовать целевую директорию.]]
 ::^ [s0; [*C@4;3 m]]
-::= [s0; [3 Create a map file.]]
+::= [s0; [3 Создать файл map.]]
 ::^ [s0; [*C@4;3 r]]
-::= [s0; [3 Release mode (default is debug mode with full debug).]]
+::= [s0; [3 Режим выпуска (дефолтен режим отладки 
+с полной отладкой).]]
 ::^ [s0; [*C@4;3 d]]
-::= [s0; [3 Debug mode without debug symbols.]]
+::= [s0; [3 Режим отладки без отладочных символов.]]
 ::^ [s0; [*C@4;3 s]]
-::= [s0; [3 Use shared libraries.]]
+::= [s0; [3 Использовать совместные библиотеки.]]
 ::^ [s0; [*C@4;3 S]]
-::= [s0; [3 Use shared libraries and build as shared libraries.]]
+::= [s0; [3 Использовать совместные библиотеки 
+и строить как совместные библиотеки.]]
 ::^ [s0; [*C@4;3 v]]
-::= [s0; [3 Be verbose.]]
+::= [s0; [3 Подробно.]]
 ::^ [s0; [*C@4;3 M]]
-::= [s0; [3 Create makefile (to file ][*3 Makefile][3 ).]]
+::= [s0; [3 Создать makefile (в файл ][*3 Makefile][3 ).]]
 ::^ [s0; [%-*C@4;3 M`=][*/C@3;3 makefile]]
-::= [s0; [3 Create mafile with given name.]]
+::= [s0; [3 Создать makefile с заданным именем.]]
 ::^ [s0;%- [*C@4;3 H][*/C@3;3 n]]
-::= [s0; [3 Number of threads used for building. Default is number of logical 
-cores available.]]}}&]
+::= [s0; [3 Число потоков, используемых при 
+построении. Дефолт равен числу имеющихся 
+логических ядер.]]}}&]
 [s0; &]
-[s12;:3: [@(128.0.255) 3. Examples]&]
-[s11; Sample usage of UMK is located below:&]
+[s12;:3: [@(128.0.255) 3. Примеры]&]
+[s11; Примеры использования UMK расположены 
+ниже:&]
 [s0;*C@5+92 &]
 [s0;l128; [*C@5+92 umk uppsrc ide GCC `-br `+GUI,SSE2,SHARED `~/DinrusIDE]&]
 [s0;l128; [*C@5+92 umk uppsrc ide /usr/share/upp/GCC.bm `-br `+GUI,SSE2,SHARED 

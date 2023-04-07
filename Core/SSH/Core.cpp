@@ -54,13 +54,13 @@ bool Ssh::Run(Gate<>&& fn, bool abortable)
 		Mutex::Lock __(sLoopLock);
 
 		if(IsTimeout())
-			ThrowError(-1, "Operation timed out.");
+			ThrowError(-1, "Вышло время на операцию.");
 
 		if(abortable && ssh->status == ABORTED)
-			ThrowError(-1, "Operation aborted.");
+			ThrowError(-1, "Операция прервана.");
 	
 		if(ssh->socket && ssh->socket->IsError())
-			ThrowError(-1, "[Socket error]: " << ssh->socket->GetErrorDesc());
+			ThrowError(-1, "[Ошибка сокета]: " << ssh->socket->GetErrorDesc());
 
 		if(!ssh->init)
 			ssh->init = Init();
@@ -80,7 +80,7 @@ bool Ssh::Run(Gate<>&& fn, bool abortable)
 		SetError(e.code, e);
 	}
 	catch(...) {
-		SetError(-1, "Unhandled exception.");
+		SetError(-1, "Необработанное исключение.");
 	}
 
 	return !IsError();

@@ -1,4 +1,4 @@
-description "DinrusIDE - модуль поддержки Android SDK/NDK\377B255,0,0";
+description "DinrusIDE - модуль поддержки Android SDK/NDK\377B128,0,0";
 
 uses
 	DinrusIDE2/Core,
@@ -21,3 +21,4 @@ file
 	Devices.h,
 	Info readonly separator,
 	Copying;
+

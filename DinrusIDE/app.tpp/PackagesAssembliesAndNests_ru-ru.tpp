@@ -249,36 +249,39 @@ U`+`+ в гнезде uppsrc. Угловые скобки используютс
 то другие гнёзда этой сборки не должны 
 содержать пакетов или папок, имеющие 
 такие же названия как папки/пакеты 
-в гнезде uppsrc. Например. гнездо примеров 
+в гнезде uppsrc. Например, гнездо примеров 
 HelloWorld не может содержать пакеты с 
 такими именами, как CtrlLib, RichEdit или 
 Common, так как это имена пакетов библиотеки 
 uppsrc.&]
 [s5; Итак, имён пакетов uppsrc нужно избегать 
 при подборе названий для папок/пакетов, 
-расположенных в папке гнёзд вехнего 
+расположенных в папке гнёзд верхнего 
 уровня, если в сборку входит гнездо 
 uppsrc.  Refer to the uppsrc folder in the U`+`+ installation 
 path for the full list of uppsrc package/folder names.  The names 
 of uppsrc packages need to be avoided as folder names within 
 any folder that is specified as an include path to the compiler 
 (see [/ alternative`-include`-path`-mechanisms] below).&]
-[s5; If a package is to be distributed to others, one way of avoiding 
-a clash of package names is to locate them in a folder whose 
-name is likely to be unique e.g. &]
+[s5; Если пакет будет распространяться 
+для других, одним из способов избежать 
+конфликта имён пакетов `- располагать 
+их в папке, имя которой по всей вероятности 
+уникально. Например, &]
 [s5; Nest1/CZ1Soft/Pkg1.  &]
-[s5; and&]
+[s5; и&]
 [s7; #include <CZ1Soft/Pkg1/File1.h>&]
-[s5; CZ1Soft is a name that has a reasonable chance of being unique. 
- The name of the Pkg1 folder can be anything because it is not 
-a top level nest folder and.is not specified as an include path 
-to the compiler.&]
-[s5; If source files are placed directly in a nest folder (e.g. Nest1 
-above), then the names need to be unique across all nest folders 
-of the assembly unless they are always accessed with either a 
-complete path specification or with no path specification (in 
-which case they need to be in the same folder as the including 
-file). e.g.&]
+[s5; CZ1Soft `- это название, у которого есть 
+резон быть уникальным. Имя папки Pkg1 
+может быть любым, так как это не папка 
+верхнеуровневого гнезда и она не 
+указана как путь включений для компилятора.&]
+[s5; Если исходники помещены прямо в гнездовой 
+папке (например,  Nest1 выше), then the names 
+need to be unique across all nest folders of the assembly unless 
+they are always accessed with either a complete path specification 
+or with no path specification (in which case they need to be 
+in the same folder as the including file). e.g.&]
 [s3;l160;i96;O0; #include `"File1.h`" contains no path specification.&]
 [s3;l160;i96;O0; #include `"../Pkg2/File2.h`" is a complete path 
 specification.&]
@@ -343,7 +346,7 @@ for specific files.&]
 [s5; Файл выкладок содержит описание 
 ГИП`-части проекта, т.е. выкладок виджетов 
 и .т.д. Например,  AddressBook из сборки примеров 
-использет файл выкладок, и в файле 
+использует файл выкладок, и в файле 
 AddressBook.cpp есть следующие две строки:&]
 [s7; #define LAYOUTFILE <AddressBook/AddressBook.lay>&]
 [s7; #include <CtrlCore/lay.h>&]

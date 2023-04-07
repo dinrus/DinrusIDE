@@ -1,4 +1,4 @@
-description "DinrusIDE - модуль поддержки Java\377B";
+description "DinrusIDE - модуль поддержки Java\377B128,0,0";
 
 uses
 	DinrusIDE2/Core;

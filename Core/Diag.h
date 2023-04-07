@@ -258,7 +258,7 @@ void CheckLogEtalon();
 #ifdef UPP_HEAP
 String AsString(const MemoryProfile& mem);
 #else
-inline String AsString(const MemoryProfile&) { return "Using malloc - no memory profile available"; }
+inline String AsString(const MemoryProfile&) { return "Используется malloc - профиль памяти недоступен"; }
 #endif
 
 String CppDemangle(const char* name);

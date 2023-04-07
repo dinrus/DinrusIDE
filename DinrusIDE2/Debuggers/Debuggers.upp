@@ -1,4 +1,4 @@
-description "DinrusIDE - отладчики\377B";
+description "DinrusIDE - отладчики\377B128,0,0";
 
 uses
 	DinrusIDE2/Common,
@@ -47,3 +47,4 @@ file
 	Info readonly separator,
 	Copying,
 	app.tpp;
+

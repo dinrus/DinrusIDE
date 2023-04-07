@@ -1,4 +1,4 @@
-description "DinrusIDE - различные небольшие дизайнеры (просмотр фото, редактор QTF, ...)\377B255,0,0";
+description "DinrusIDE - различные небольшие дизайнеры (просмотр фото, редактор QTF, ...)\377B128,0,0";
 
 uses
 	HexView,
@@ -15,3 +15,4 @@ file
 	Xml.cpp,
 	Json.cpp,
 	md.cpp;
+

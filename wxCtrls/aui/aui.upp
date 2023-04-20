@@ -1,0 +1,17 @@
+file
+	aui.h,
+	auibar.h,
+	auibook.h,
+	dockart.h,
+	floatpane.h,
+	framemanager.h,
+	tabmdi.h,
+	code readonly separator,
+	code\auibar.cpp,
+	code\auibook.cpp,
+	code\dockart.cpp,
+	code\floatpane.cpp,
+	code\framemanager.cpp,
+	code\tabmdi.cpp,
+	end readonly separator;
+

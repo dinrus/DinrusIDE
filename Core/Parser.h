@@ -1,13 +1,3 @@
-#define case_id_rus \
-	case L'а':case L'б':case L'в':case L'г':case L'д':case L'е':case L'ё':case L'ж':case L'з': \
-	case L'и':case L'й':case L'к':case L'л':case L'м':case L'н':case L'о':case L'п':case L'р': \
-	case L'с':case L'т':case L'у':case L'ф':case L'х':case L'ц':case L'ч':case L'ш':case L'щ': \
-	case L'ъ':case L'ы':case L'ь':case L'э':case L'ю':case L'я': \
-	case L'А':case L'Б':case L'В':case L'Г':case L'Д':case L'Е':case L'Ё':case L'Ж':case L'З': \
-	case L'И':case L'Й':case L'К':case L'Л':case L'М':case L'Н':case L'О':case L'П':case L'Р': \
-	case L'С':case L'Т':case L'У':case L'Ф':case L'Х':case L'Ц':case L'Ч':case L'Ш':case L'Щ': \
-	case L'Ъ':case L'Ы':case L'Ь':case L'Э':case L'Ю':case L'Я'
-
 inline bool iscib(int c) {
 	return c >= 'a' && c <= 'z' || c >= 'A' && c <= 'Z' || c == '_' || c == '$';
 }

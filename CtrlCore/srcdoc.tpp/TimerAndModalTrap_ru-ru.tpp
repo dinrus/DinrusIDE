@@ -22,8 +22,8 @@ topic "О модальных петлях и периодических тайм
 [s2; [@5 О модальных петлях и периодических 
 таймерных событиях]&]
 [s0; &]
-[s0; In this article we try to explain what is wrong with this piece 
-of code:&]
+[s0; В этой статье мы пытаемся объяснить, 
+что не так со следующим кодом:&]
 [s0; &]
 [s7; #include <CtrlLib/CtrlLib.h>&]
 [s7; &]

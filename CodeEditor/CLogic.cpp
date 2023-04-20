@@ -1,7 +1,7 @@
 #include "CodeEditor.h"
 
 namespace Upp {
-	
+//Вставка отступа
 void CSyntax::IndentInsert(CodeEditor& e, int chr, int count)
 {
 	IndentInsert0(e, chr, count, false);

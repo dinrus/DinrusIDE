@@ -72,13 +72,14 @@ U`+`+)]&]
 [s3;         [^`#5`_4`_2^ 5.4.2 `"??`"]&]
 [s3;     [^`#5`_5^ 5.5 Выражения]&]
 [s3;         [^`#5`_5`_1^ 5.5.1 Базовое Правило]&]
-[s3;         [^`#5`_5`_2^ 5.5.2 `"`@`@][/^`#5`_5`_2^ filename`_expression][^`#5`_5`_2^ `"]&]
-[s3;         [^`#5`_5`_3^ 5.5.3 `"??][/^`#5`_5`_3^ expression][^`#5`_5`_3^ `"]&]
+[s3;         [^`#5`_5`_2^ 5.5.2 `"`@`@][/^`#5`_5`_2^ выражение`_имяф][^`#5`_5`_2^ `"
+]&]
+[s3;         [^`#5`_5`_3^ 5.5.3 `"??][/^`#5`_5`_3^ выражение][^`#5`_5`_3^ `"]&]
 [s3;         [^`#5`_5`_4^ 5.5.4 `"<: ... :>`"]&]
-[s3;         [^`#5`_5`_5^ 5.5.5 `"<:? ][/^`#5`_5`_5^ expression][^`#5`_5`_5^  
-:> ... <:.:>`"]&]
-[s3;         [^`#5`_5`_6^ 5.5.6 `"<:? ][/^`#5`_5`_6^ expression][^`#5`_5`_6^  
-:> ... <:/:> ... <:.:>`"]&]
+[s3;         [^`#5`_5`_5^ 5.5.5 `"<:? ][/^`#5`_5`_5^ выражение][^`#5`_5`_5^ :> 
+... <:.:>`"]&]
+[s3;         [^`#5`_5`_6^ 5.5.6 `"<:? ][/^`#5`_5`_6^ выражение][^`#5`_5`_6^ :> 
+... <:/:> ... <:.:>`"]&]
 [s3;     [^`#5`_6^ 5.6 `"PACKAGE`"]&]
 [s3;         [^`#5`_6`_1^ 5.6.1 Описание]&]
 [s3;         [^`#5`_6`_2^ 5.6.2 Использование]&]
@@ -121,7 +122,7 @@ U`+`+)]&]
 [s3; [^`#9^ 9. Синтаксис файла  UPP]&]
 [s0; &]
 [s3;:1: [@5 1. Пролог]&]
-[s5; У проектов часто бывает одинаковая 
+[s5;# У проектов часто бывает одинаковая 
 база, одинаковая структура и / или 
 даже идентичные части кода. И одним 
 из способов избежать ненужного набора 
@@ -129,21 +130,22 @@ U`+`+)]&]
 нового однотипного проекта, является 
 использование параметрированного 
 шаблона.&]
-[s5; Шаблон пакета Ultimate`+`+ (UPT) и есть такой 
-параметрированный шаблон. Он испоьзуется 
-для создания одного и более пакетных 
+[s5;# Шаблон пакета Ultimate`+`+ (UPT) и есть такой 
+параметрированный шаблон. Он используется 
+для создания одного или более пакетных 
 файлов, которые далее можно будет 
-редактировать. Могут использоваться 
-несколько UPT.&]
-[s5; И новый UPT можно сделать самому! А 
+редактировать. &]
+[s5;# Могут использоваться несколько 
+UPT.&]
+[s5;# И новый UPT можно сделать самому! А 
 чтобы у вас получилось `- это и есть 
 главная задача этого документа.&]
 [s0; &]
 [s3;:2: [@5 2. Описание]&]
-[s5; UPT `- особый файл с расширением .upt, 
+[s5;# UPT `- особый файл с расширением .upt, 
 в котором находится текст и правила 
 создания дополнительного текста.&]
-[s5; При запуске DinrusIDE или вызове `"Файл 
+[s5;# При запуске DinrusIDE или вызове `"Файл 
 / Открыть главный пакет..`", в появившемся 
 окошке видим опцию `"Новый пакет`". 
 Если выбрать её, DinrusIDE найдёт UPT`'ы 
@@ -172,7 +174,7 @@ U`+`+)&]
 [s5; `"<пустой>`" означает, что никаких шаблонов 
 пакета не будет применено.&]
 [s42;:3`_2: [@(128.0.255) 3.2 Базовое приложение CtrlLib]&]
-[s5; Этот UPT строит только основу приложения 
+[s5;# Этот UPT строит только основу приложения 
 с ГИП (GUI): необходимая директива include, 
  ГИП`-эквивалент `"main()`" и необходимый 
 флаг построения. Среди опций есть 
@@ -180,165 +182,225 @@ U`+`+)&]
 и добавление флага построения `"multithreaded`".&]
 [s42;:3`_3: [@(128.0.255) 3.3 Консольное приложение 
 (без U`+`+)]&]
-[s5; Этот UPT создаёт основы простого консольного
+[s5;# Этот UPT создаёт основы простого консольного
  приложения на C`+`+. В нём нельзя будет 
 использовать даже не`-ГИП средства 
 из Ultimate`+`+. И нет никаких дополнительных 
 опций&]
-[s5; Этот шаблон подходит для использования 
+[s5;# Этот шаблон подходит для использования 
 DinrusIDE как иного другого редактора.&]
 [s42;:3`_4: [@(128.0.255) 3.4 Консольный проект Core]&]
-[s5; Этот UPT строит базу консольного приложения, 
-использующего только не`-ГИП средства 
+[s5;# Этот UPT строит базу консольного приложения,
+ использующего только не`-ГИП средства 
 из Ultimate`+`+. Среди опций есть генерирование 
 файла header (with include guards) и добавление 
-флага построения `"multithreaded`". Additionally 
-you can direct the template to include code which reads the command 
-line arguments into a const Vector<String>. (Please note that 
-this is not the same as char`* argv`[`], the `"pointees`" of 
-which are modifiable and include an additional string `- argv`[0`], 
-the path and name of the running program.)&]
+флага построения `"multithreaded`". Дополнительно 
+шаблон может включать код, который 
+считывает аргументы командной строки 
+в const Vector<String>. (Заметьте, что это не 
+одно и то же, что char`* argv`[`], `"указуемые`" 
+у которых изменяемы и включают дополнительн
+ую строку `- argv`[0`], путь к/имя выполняемой 
+программы.)&]
 [s42;:3`_5: [@(128.0.255) 3.5 Приложение CtrlLib с главным 
 окном]&]
-[s5; This seems to be the most useful UPT which lays the foundations 
-of a `"big`" GUI application. You get  files containing the framework 
-of your own application class, the name of which you can choose. 
-You have a layout menu offering: no layouts, a general layout 
-file, a main window`-specific layout file, and a main`-window`-specific 
-layout file generating an `"OK`"`- and a `"Cancel`"`-Button. 
-Finally there is an option to generate an image list file and 
-an option to add the `"multithreaded`" build flag.&]
+[s5;# Кажется, этот  UPT `- самый полезный, 
+так как закладывает основу `"большого`" 
+ГИП`-приложения. Он даёт файлы, содержащие 
+фреймворк для пользовательского 
+класса приложения, имя которого нужно 
+выбрать пользователю (вам). Предлагается 
+выкладка меню: без выкладок, общий 
+файл выкладки, файл выкладки специфично 
+для главного окна, и специфичный для 
+главного окна файд выкладки, генерирующий 
+кнопки `"OK`" и `"Отмена`". Наконец, имеется 
+опция для генерации файла списка 
+изображений и опция для добавления 
+флага построения `"multithreaded`".&]
 [s42;:3`_6: [@(128.0.255) 3.6 Проект SDL (без U`+`+)]&]
-[s5; This UPT generates the foundations of a Simple DirectMedia Layer 
-(SDL) console application. The Ultimate`+`+ facilities cannot 
-be used. Apart from an option to create a header file and an 
-option to write an event loop, there are three more multimedia`-specific 
-options.&]
-[s5; This template comes in handy when you just want to exploit DinrusIDE.&]
+[s5;# Этот UPT генерирует основы консольного 
+приложения Simple DirectMedia Layer (SDL). Средства 
+Ultimate`+`+ использовать нельзя. Помимо 
+опции по созданию заголовочника и 
+опции по записи цикла событий, здесь 
+можно найти ещё более трёх мультимедийных 
+опций.&]
+[s5;# Этот шаблон подходит, когда есть 
+просто желание использовать DinrusIDE.&]
 [s42;:3`_7: [@(128.0.255) 3.7 Пакет SDL с Core]&]
-[s5; This UPT builds the foundations of a Simple DirectMedia Layer 
-(SDL) console application. Additionally, the non`-GUI Ultimate`+`+ 
-facilities are enabled. Apart from an option to create a header 
-file and an option to write an event loop, there are three more 
-multimedia`-specific options .&]
+[s5;# Этот UPT создаёт основы консольного 
+приложения Simple DirectMedia Layer (SDL)  Дополнительно, 
+активируются не`-ГИП средства Ultimate`+`+. 
+Помимо опции по созданию заголовочника 
+и записи цикла событий, есть ещё более 
+трёх мультимедийных.&]
 [s0; &]
 [s3;:4: [@5 4. Выкладка Файла Шаблона]&]
 [s42;:4`_1: [@(128.0.255) 4.1 Расширение]&]
-[s5; The extension of a UPT file must be `".upt`". If a file has 
-a different extension or none at all it is not even considered 
-to contain a UPT.&]
+[s5; Расширение у файла UPT должно быть 
+`".upt`". Если у файла другое расширение 
+или оно отсутствует, он даже не будет 
+рассматриваться, как файл, содержащий 
+UPT.&]
 [s42;:4`_2: [@(128.0.255) 4.2 Секции]&]
-[s5; A UPT file is made up of three distinct sections:&]
-[s5;l160;i150;O2;~~~0; The header line&]
-[s5;l160;i150;O2;~~~0; The variable definitions&]
-[s5;l160;i150;O2;~~~0; The file definitions&]
-[s5; If the header line is missing, the file is classified as invalid 
-and ignored.&]
-[s5; In principle the variable definitions are optional, although 
-it is just them which makes a UPT flexible and thus valuable.&]
-[s5; The non`-existence of any file definition, although syntactically 
-safe, makes a UPT file absolutely useless. After all, a UPT is 
-to generate files. If there is no file definition, a file simply 
-cannot be created.&]
+[s5; Файл UPT состоит из трёх отдельных 
+разделов:&]
+[s5;l160;i150;O2;~~~0; Строка заголовка&]
+[s5;l160;i150;O2;~~~0; Определения переменных&]
+[s5;l160;i150;O2;~~~0; Определения файлов&]
+[s5; Если строка заголовка отсутствует, 
+то файл считается повреждённым и 
+игнорируется.&]
+[s5; В принципе, определения переменных 
+необязательны, хотя именно они делают 
+ UPT гибким и ценным.&]
+[s5; Отсутствие определения файлов, при 
+синтактической норме, делает файл 
+UPT абсолютно бесполезным. Всё`-таки, 
+UPT должен сгненерировать файлы. А 
+если нет определения файлов, то файл 
+просто невозможно создать.&]
 [s42;:4`_3: [@(128.0.255) 4.3 Порядок Секций]&]
-[s5; The sections of a UPT file must appear in the following order:&]
-[s5;l160; [* 1.] The header line&]
-[s5;l160; [* 2.] The variable definitions `- if there aren`'t any: the 
-file definitions&]
-[s5;l160; [* 3.] The file definitions (if there are variable definitions)&]
-[s5; If the header line is not at the beginning of the file `- apart 
-from comments or any white space `-, the file is classified as 
-invalid and ignored. The header line is terminated by a semicolon.&]
-[s5; The variable definition section is terminated by the beginning 
-of the file definition section which starts with (the first) 
-`"`@`@`". Variable definitions which follow the file definition(s) 
-are considered simple text, belonging to the (last) file.&]
-[s5; The file definition section is terminated by the end of the 
-UPT file.&]
+[s5; Разделы в файле UPT должны появляться 
+в следующем порядке:&]
+[s5;l160; [* 1.] Строка заголовка&]
+[s5;l160; [* 2.] Определения переменных `- а 
+если они отсутствуют: определения 
+файлов&]
+[s5;l160; [* 3.] Определения файлов (если есть 
+определения переменных)&]
+[s5; Если строки заголовка нет в начале 
+файла `- помимо коментариев или пробелов 
+`-, то файл классифицируется как повреждённый
+ и игнорируется. Строка заголовка 
+заканчивается точкой с запятой.&]
+[s5; Раздел определения переменных заканчиваетс
+я в начале раздела определения файлов, 
+которое начинается с (первого) `"`@`@`". 
+Определения переменных, следующие 
+за определением (`-ями) файлов, рассматривают
+ся как простой текст, принадлежащий 
+к (последнему) файлу.&]
+[s5; Раздел определения файлов заканчивается 
+в конце файла UPT.&]
 [s42;:4`_4: [@(128.0.255) 4.4 Размер]&]
-[s5; The size of the UPT file and such the number and the size(s) 
-of the generated file(s) are virtually unlimited.&]
+[s5; Размер файла UPT, а также число и размер(`-ы) 
+генерируемых файла(`-ов), виртуально 
+не ограничены.&]
 [s0; &]
 [s3;:5: [@5 5. Синтаксис]&]
 [s42;:5`_1: [@(128.0.255) 5.1 Комментарии]&]
-[s5; You can write standard C`+`+ comments (`"/`* ... `*/ and `"//`") 
-as usual. Inside of the variable definition section they behave 
-as expected. Inside of the file definition section they become 
-comments in the generated file. Putting `"/`*`" into the variable 
-definition section and `"`*/`" into the file definition section 
-leads to weird results.&]
+[s5; Можно писать стандартные комментарии 
+C`+`+ (`"/`* ... `*/ и `"//`") как обычно. Внутри 
+раздела определения переменных они 
+ведут себя предсказуемо. А внутри 
+раздела определения файла они становятся 
+комментариями в сгенерированном 
+файле. Если же `"/`*`" находится в разделе 
+определения переменных, а `"`*/`" в определении
+ файла, то результат будет печален.&]
 [s42;:5`_2: [@(128.0.255) 5.2 Пробелы]&]
-[s5; Inside of the header line and the variable definition section, 
-but outside of a word or a number, extra white space doesn`'t 
-count.&]
-[s5; Inside of the file definition section and starting with the 
-second line of each file definition the same rule applies inside 
-of expressions. Outside of expressions any white space defines 
-the layout of the respective file. That simply means: white space 
-appears as white space in the generated file.&]
+[s5; Внутри строки заголовка и раздела 
+определения переменных, но вне слова 
+или числа, лишние пробелы не имеют 
+значения.&]
+[s5; Внутри раздела определения файла 
+и начиная со второй строки каждого 
+определения файла внутри выражений 
+применяется то же самое правило. Вне 
+выражений любой пробел определяет 
+выкладку соответствующего файла. 
+Проще говоря, пробелы будут появляться 
+как пробелы в сгенерированном файле.&]
 [s42;:5`_3: [@(128.0.255) 5.3 Базовое Правило]&]
-[s5; Inside of the file definition section any text which is not 
-part of an expression appears unchanged in the generated file.&]
+[s5; Находящийся внутри раздела определения 
+файла, любой текст, не являющийся 
+частью выражения, появится без изменений 
+в сгенерированном файле.&]
 [s42;:5`_4: [@(128.0.255) 5.4 Разграничители]&]
 [s42;l160;:5`_4`_1: [@6 5.4.1 `"`@`@`"]&]
-[s5;l160; `"`@`@`" marks the beginning of a file definition. Everything 
-up to this delimiter is part of the header line, a variable definition, 
-or a previous file definition.&]
-[s5;l160; But `"`@`@`" is a valid delimiter only at the beginning 
-of a line. In this case even white space matters. If `"`@`@`" 
-are not the very first two characters of the line, they represent 
-just plain text.&]
-[s5;l160; `"`@`@`" functions not only as a delimiter but mainly as 
-(the beginning of) an expression.&]
+[s5;l160; `"`@`@`" отмечает начало определения 
+файла. Всё, что находится до этого 
+разграничителя, является строкой 
+заголовка, определением переменной 
+или определением предыдущего файла.&]
+[s5;l160; Но`"`@`@`" является валидным разграничителе
+м только в начале строки. В таком случае 
+имеет значение даже пробел. Если `"`@`@`" 
+не самые первые два символа в строке, 
+то они представляют просто текст.&]
+[s5;l160; `"`@`@`" функционирует не только как 
+разграничитель, но в основном как 
+(начало) выражение.&]
 [s42;l160;:5`_4`_2: [@6 5.4.2 `"??`"]&]
-[s5;l160; Although `"??`" marks the possible nullification of a file 
-definition, it is more an expression than a delimiter.&]
-[s5;l160; It must appear inside of a file definition. If not, the 
-UPT file is classified as invalid and ignored.&]
-[s5;l160; `"??`" is a valid delimiter only at the beginning of a 
-line. In this case even white space matters. If `"??`" are not 
-the very first two characters of the line, they represent just 
-plain text.&]
-[s5;l160; `"??`" makes sense only in cooperation with an expression. 
-Standing alone it makes its line disappear.&]
+[s5;l160; Хотя `"??`" отмечает возможную `"нуллификаци
+ю`" определения файла, это больше выражение, 
+нежели разграничитель.&]
+[s5;l160; Оно должно появляться внутри определения
+ файла. Если это не так, то файл UPT классифицир
+уется как неполноценный и игнорируется.&]
+[s5;l160; `"??`" является полноценным разграничителе
+м только в начале строки. В таком случае 
+имеет значение даже пробел. Если `"??`" 
+не является двумя самыми первыми 
+символами строки, то они представляют 
+простой текст.&]
+[s5;l160; `"??`" имеет смысл только в кооперации 
+с выражением. В одиночку он делает 
+свою строку невидимой.&]
 [s42;:5`_5: [@(128.0.255) 5.5 Выражения]&]
-[s42;l160;:5`_5`_1: [@6 5.5.1-|Базовое Правило]&]
-[s5;l160; As the UPT file is evaluated by CParser, you can use any 
-valid numerical or logical C expression or any combination of 
-them, wherever an expression is permitted. The numeric values 
-are of type `"double`".&]
-[s5;l160; Expressions are meant to be used inside of the file definition 
-section.&]
-[s5;l160; You can also use such an expression inside of the variable 
-definition section as a default value for an option variable 
-and a select variable, if this makes sense to you.&]
-[s5;l160; NEVER USE AN EXPRESSION TO SET THE DEFAULT VALUE OF A FILENAME 
-VARIABLE OR AN ID VARIABLE! YOUR COMPUTER IS LIKELY TO CRASH 
-AS SOON AS YOUR TEMPLATE IS SELECTED.&]
-[s42;l160;:5`_5`_2: [@6 5.5.2 `"`@`@][/@6 filename`_expression][@6 `"]&]
-[s5;l160; `"`@`@`" marks the beginning of a file name. The name starts 
-immediately after the second `"`@`" (with the third character 
-of the line) and ends with the last character of the logical 
-line. If you enter a filename as a literal, make sure that it 
-is valid, especially if you use white space. The validity of 
-a filename depends on the OS.&]
-[s5;l160; There are three typical patterns (the file extensions are 
-just examples), although other or more complicated expressions 
-are possible:&]
-[s0; [C -|`@`@<:PACKAGE:>.cpp]&]
-[s0; [C -|`@`@<:][/C filename`_variable][C :>.hpp]&]
-[s0; [C -|`@`@][/C filename`_literal][C .txt]&]
-[s42;l160;:5`_5`_3: [@6 5.5.3 `"??][/@6 expression][@6 `"]&]
-[s5;l160; `"??`" decides whether a file is to be created. It evaluates 
-the following expression. If the result is true, the file is 
-created. If the result is false, the entire file is discarded. 
-This holds, even if there are lines above the line containing 
-the `"??`".&]
-[s5;l160; `"??`" has a second effect. Beginning with the first file 
-template containing a `"??[/ expression]`" (`"??`" alone does not 
-suffice!) `"<:PACKAGE:>`" retains the path `- if any `- in the 
-variable. Without such a line the path `- if any `- is removed 
-from the variable. That means:&]
+[s42;l160;:5`_5`_1: [@6 5.5.1 Базовое Правило]&]
+[s5;l160; Так как файл UPT оценивает CParser, 
+можно использовать любые полноценные 
+числовые или логические выражения 
+языка Си или любые их сочетания, там, 
+где выражение допустимо. Числовые 
+значения должны быть типа `"double`".&]
+[s5;l160; Выражения должны использоваться 
+внутри раздела определения файла.&]
+[s5;l160; Можно использовать такое выражение 
+даже внутри раздела определения переменных,
+ в качестве дефолтного значения переменной 
+опции и переменной выбора, если для 
+вас в этом есть какой`-то смысл.&]
+[s5;l160; НИКОГДА НЕ ИСПОЛЬЗУЙТЕ ВЫРАЖЕНИЕ 
+ДЛЯ УСТАНОВКИ ДЕФОЛТНОГО ЗНАЧЕНИЯ 
+ПЕРЕМЕННОЙ ИМЕНИ ФАЙЛА ИЛИ ПЕРЕМЕННОЙ 
+ИД! YOUR COMPUTER IS LIKELY TO CRASH AS SOON AS YOUR TEMPLATE 
+IS SELECTED.&]
+[s42;l160;:5`_5`_2: [@6 5.5.2 `"`@`@][/@6 выражение`_имяф][@6 `"]&]
+[s5;l160; `"`@`@`" отмечает начало имени файла. 
+Имя начинается сразу после второго 
+`"`@`" (с третьего символа на строке) 
+и заканчивается с последним символом 
+логичекой строки. Если имя файла вводится 
+как литерал, нужно убедиться в его 
+полноценности, особенно если используется 
+пробел. Полноценности имени файла 
+зависит от ОС.&]
+[s5;l160; Существует три типичных образца 
+(файловые расширения просто примеры), 
+хотя возможны иные или более сложные 
+выражения:&]
+[s0; [C -|`@`@<:ПАКЕТ:>.cpp]&]
+[s0; [C -|`@`@<:][/C переменная`_имени`_файла][C :>.hpp]&]
+[s0; [C -|`@`@][/C литерал`_имяф][C .txt]&]
+[s42;l160;:5`_5`_3: [@6 5.5.3 `"??][/@6 выражение][@6 `"]&]
+[s5;l160; `"??`" определяет, должен ли быть 
+создан файл. Оценивается следующее 
+за ним выражение. Если результат равен 
+true, тогда файл будет создан. Если результат 
+равен false, весь файл будет скинут. 
+ Этому придерживается, даже если есть 
+строки над строкой с `"??`".&]
+[s5;l160; `"??`" имеет второе действие. Начиная 
+с первого шаблона файла, содержащего 
+`"??[/ выражение]`" (просто `"??`" недостаточно!) 
+`"<:PACKAGE:>`" получаем из пути `- если он 
+есть `- в переменной. Без такой строки 
+путь `- если он есть `- удаляется из 
+переменной. То есть:&]
 [s5;l160; Independent of the value of `"[/ expression]`" the filename 
 templates of all the files preceding the file template containing 
 the first `"??[/ expression]`" don`'t show the path `- if any `- 
@@ -352,23 +414,30 @@ templates of all the files following the file template containing
 the first `"??[/ expression]`" DO show the path `- if any `- in 
 <: PACKAGE :>.&]
 [s42;l160;:5`_5`_4: [@6 5.5.4 `"<: ... :>`"]&]
-[s5;l160; `"<:`" and `":>`" convert the enclosed literal into an expression 
-which is evaluated. The result is then displayed without the 
-delimiters.&]
-[s5;l160; A string, enclosed in quotation marks, yields exactly this 
-string. Without quotations marks it is considered a variable. 
-If this variable has been defined, its value is displayed. Otherwise, 
-nothing is shown.&]
-[s5;l160; You can combine numerical expressions and strings, e.g.:&]
-[s5;l160; <:condition`_1 ? `"text`_1`" : `"text`_2`":>&]
-[s5;l160; You cannot nest `"<: ... :>`".&]
-[s5;l160; `"<: :>`" and a single `"<:`" show a corresponding error message. 
-A single `":>`" is just a plain string.&]
-[s42;l160;:5`_5`_5: [@6 5.5.5 `"<:? ][/@6 expression][@6  :> ... <:.:>`"]&]
+[s5;l160; `"<:`" и `":>`" преобразуют заключённый 
+в них литерал в оцениваемое выражение. 
+Затем итог отображается без этих 
+разграничителей.&]
+[s5;l160; Если строка заключена в кавычки, 
+то будет получена ровно эта самая 
+строка. Без кавычек она рассматривается 
+как переменная. Если эта переменная 
+определена, будет отображаться её 
+значение. В притивом случае ничего 
+не будет.&]
+[s5;l160; Можно сочетать численные выражения 
+и строки, напр.:&]
+[s5;l160; <:условие`_1 ? `"текст`_1`" : `"текст`_2`":>&]
+[s5;l160; Можно встраивать `"<: ... :>`".&]
+[s5;l160; `"<: :>`" и единичная `"<:`" показывает 
+соответствующее сообщение об ошибке. 
+Единичная `":>`" `- это просто строка.&]
+[s42;l160;:5`_5`_5: [@6 5.5.5 `"<:? выражение :> ... <:.:>`"]&]
 [s5;l160; This pattern emulates `"if ([/ expression]) ...;`"&]
 [s5;l160; White space inside of the `"<`::>`"s doesn`'t matter. Between 
 them it does: it produces white space in the resulting file.&]
-[s42;l160;:5`_5`_6: [@6 5.5.6-|`"<:? ][/@6 expression][@6  :> ... <:/:> ... <:.:>`"]&]
+[s42;l160;:5`_5`_6: [@6 5.5.6-|`"<:? выражение :> ... <:/:> ... 
+<:.:>`"]&]
 [s5;l160; This pattern emulates `"if ([/ expression]) ...; else ...;`"&]
 [s5;l160; White space inside of the `"<`::>`"s doesn`'t matter. Between 
 them it does: it produces white space in the resulting file.&]

@@ -258,11 +258,15 @@ uppsrc.&]
 при подборе названий для папок/пакетов, 
 расположенных в папке гнёзд верхнего 
 уровня, если в сборку входит гнездо 
-uppsrc.  Refer to the uppsrc folder in the U`+`+ installation 
-path for the full list of uppsrc package/folder names.  The names 
-of uppsrc packages need to be avoided as folder names within 
-any folder that is specified as an include path to the compiler 
-(see [/ alternative`-include`-path`-mechanisms] below).&]
+uppsrc.  Ссылаемся на папку uppsrc на пути 
+установки U`+`+, чтобы получить полный 
+список имён пакетов/папок uppsrc.  Имён 
+пакетов uppsrc следует избегать, так 
+же как и имен папок, уже имеющихся 
+в любой папке, указанной как путь 
+включения для компилятора (смотрите 
+ниже [I8;@(128.0.255)  ][^topic`:`/`/DinrusIDE`/app`/PackagesAssembliesAndNests`_ru`-ru`#8^I8;@(128.0.255) А
+льтернативный путевой механизм #include]).&]
 [s5; Если пакет будет распространяться 
 для других, одним из способов избежать 
 конфликта имён пакетов `- располагать 
@@ -277,71 +281,103 @@ any folder that is specified as an include path to the compiler
 верхнеуровневого гнезда и она не 
 указана как путь включений для компилятора.&]
 [s5; Если исходники помещены прямо в гнездовой 
-папке (например,  Nest1 выше), then the names 
-need to be unique across all nest folders of the assembly unless 
-they are always accessed with either a complete path specification 
-or with no path specification (in which case they need to be 
-in the same folder as the including file). e.g.&]
-[s3;l160;i96;O0; #include `"File1.h`" contains no path specification.&]
-[s3;l160;i96;O0; #include `"../Pkg2/File2.h`" is a complete path 
-specification.&]
-[s3;l160;i96;O0; #include <Project1/Pkg2/File2.h> is an incomplete 
-path specification.&]
-[s5; Note `"..`" in a path specification means `"parent folder`" 
-i.e. up one level.&]
+папке (например,  Nest1 выше), то имена 
+должны быть уникальными по всем гнездовым 
+папкам сборки, если доступ к ним не 
+всегда проводится по полным определениям 
+пути или без определения пути (в случае 
+чего они должны находиться в одной 
+папке с включающим их файлом), например:&]
+[s3;l160;i96;O0; #include `"File1.h`" не содержит определения 
+пути.&]
+[s3;l160;i96;O0; #include `"../Pkg2/File2.h`" является полным 
+определением пути.&]
+[s3;l160;i96;O0; #include <Project1/Pkg2/File2.h> `- это неполное 
+определение пути.&]
+[s5; [*/ Заметка].[/ `"..`" в определении пути 
+обозначает `"родительскую папку`", 
+то есть уровнем выше].&]
 [s6;:9: [I8;@(128.0.255) 8. Альтернативный путевой 
 механизм #include]&]
-[s5; The nest paths specified in an assembly are normally used to 
-identify the directory (or directory tree) where packages can 
-be found and, as explained above, the `"normal`" method of #including 
-header files is that when the header file name involves an incomplete 
-path, the given pathname begins with the name of a top`-level 
-nest folder e.g. #include <CtrlLib/CtrlLib.h>.  CtrlLib is the 
-name of a top`-level nest folder because it is located in the 
-uppsrc nest.&]
-[s5; Because the paths specified in an assembly are added to the 
-`"include path list`" for the compiler (using `-I or /I), you 
-can use this mechanism to add directories to the include path 
-list, even if those directories don`'t contain any packages. 
- You need to remember that the search for packages looks in all 
-sub`-folders of the assembly nest paths and also that you may 
-need to avoid using folder names that are the names of uppsrc 
-packages (see the [/ Package`-folder`-names] section above).  The 
-order of the `-I (or /I) directives supplied to the compiler 
-is the same as the order of the nest paths specified in the assembly 
-and this determines the search order when the compiler looks 
-for #include files.&]
-[s5; e.g. suppose you have a folder, C:/SomeFolder, that contains 
-a header file SomeHeader.h.  You can add SomeFolder to the assembly 
-nest path like this&]
+[s5; Пути гнёзд, указанных в сборке, как 
+правило, используются для определения 
+директории (или дерева директорий). 
+в которой нужно искать пакеты, и, как 
+объяснено выше, `"нормальным`" методом 
+#include`'ирования (включения) файлов`-заголовочн
+иков (`'header files`') считается тот, когда 
+имя заголовочника использует неполный 
+путь, указанное имя пути начинается 
+с имени верхнеуровневой гнездовой 
+папки, например,. #include <CtrlLib/CtrlLib.h>. 
+ CtrlLib `- это имя верхнеуровневой гнездовой 
+папки, так как она расположена в гнезде 
+uppsrc.&]
+[s5; Так как пути, указанные в сборке, 
+добавляются к `"списку путей включения`" 
+компилятора (с помощью `-I или /I), этот 
+механизм можно использовать для добавления 
+директорий в список путей включения, 
+если в этих директориях отсутствуют 
+какие`-либо пакеты.  Следует помнить, 
+что поиск пакетов ведётся во всех 
+подпапках гнездовых путей сборки, 
+и о том что требуется избегать использования
+ имён папок, являющихся именами пакетов 
+uppsrc (смотрите выше в разделе [^topic`:`/`/DinrusIDE`/app`/PackagesAssembliesAndNests`_ru`-ru`#7^I7;@(128.0.255) И
+мена пакета/папки/файла]).  Порядок 
+директив  `-I (или /I), передаваемых компилятору
+, такой же, как и порядок гнездовых 
+путей, указанных в сборке, и этим определяетс
+я порядок поиска компилятором файлов 
+#include.&]
+[s5; Допустим, у нас есть папка, C:/SomeFolder, 
+содержащая заголовочник SomeHeader.h.  
+Можно добавить SomeFolder в гнездовой 
+путь сборки, примерно так:&]
 [s5; C:/upp/examples;C:/upp/uppsrc;C:/SomeFolder&]
 [s3; &]
-[s3; In your source files you can now write&]
+[s3; Теперь можно написать в исходниках&]
 [s7; #include <SomeHeader.h>&]
-[s3; or&]
+[s3; или&]
 [s7; #include `"SomeHeader.h`"&]
-[s5; Angle brackets are preferred because they mean the search begins 
-in paths specified in `-I directives rather than in the folder 
-containing the file doing the #include&]
-[s5; .Providing the header files in the SomeFolder folder use angle 
-brackets when #including uppsrc files, it will not matter if 
-the SomeFolder folder contains directories that have the same 
-name as uppsrc directories, because C:/SomeFolder is last in the 
-assembly nest path list.&]
-[s5; You can also use the [/ package`-organizer] in DinrusIDE to specify 
-additional include paths.  The [/ package`-organizer] allows you 
-to enter additional switches to be passed to the compiler for 
-all packages, for specific packages or for specific source files. 
- This allows you to add a `-I switch (or /I) to specify an include 
-path.  These switches get added to the compiler command line 
-[/ after] the `-I switches for the assembly nest paths.  To see 
-how the compiler is invoked when a source file is compiled, turn 
-on the [/ verbose] option in the Setup menu in DinrusIDE.  You 
-can use [* build flags] to restrict the additional compiler switches 
-to be in effect only when your own package`'s source files are 
-being compiled.  The [/^topic`:`/`/DinrusIDE`/app`/ConfiguringPackagesAssemblies`$en`-us^ p
-ackage`-organizer] also allows you to specify compiler switches 
-for specific files.&]
+[s5; Угловые скобки предпочтительнее, 
+так как означают, что поиск начинается 
+с пути, указанного в директиве `-I, 
+а не с папки, содержащей файл, который 
+выполняет #include.&]
+[s5; При условии, что заголовочники в 
+папке SomeFolderимеют угловые скобки при 
+#include`'ировании файлов uppsrc, будт не 
+важно, содержит ли папка SomeFolder директории, 
+у которых есть такие же имена, как 
+у директорий из uppsrc, так как C:/SomeFolder 
+находится на последнем месте в списке 
+гнездовых путей.&]
+[s5; Чтобы задать дополнительные пути 
+включения, можно ещё использовать 
+Органайзер пакетов DinrusIDE. [/ Органайзер 
+пакетов] позволяет ввести дополнительные 
+переключатели, передаваемые компилятору, 
+для всех пакетов, для специфичных 
+пакетов или для специфичных исходников. 
+Это позволяет добавлять переключатель 
+`-I (или /I) для указания пути включения. 
+Эти переключатели далее войдут в 
+строку команды компилятору [/ после] 
+переключателей `-I для гнездовых путей 
+сборки.  Чтобы посмотреть, как вызывается 
+компилятор, когда он компилирует 
+исходники, включите опцию `"Подробнее[/ `"] 
+в меню `"Настройка`" DinrusIDE.  Можно применить 
+[* флаги построения], чтобы ограничить 
+дополнительные переключатели компилятора, 
+которые будут действовать только 
+при компиляции ваших собственных 
+исходников пакета.  [/^topic`:`/`/DinrusIDE`/app`/ConfiguringPackagesAssemblies`_ru`-ru^ О
+рганайзер пакетов] позволяет также 
+указывать переключатели компилятора 
+для специфичных файлов.&]
 [s6;:10: [I9;@(128.0.255) 9.  #includes файла выкладки]&]
 [s5; Файл выкладок содержит описание 
 ГИП`-части проекта, т.е. выкладок виджетов 

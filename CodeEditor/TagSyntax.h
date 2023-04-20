@@ -12,7 +12,7 @@ public:
 private:
 
 	enum { TEXT, TAG0, TAG, ENDTAG, ATTR, COMMENT, DECL, PI, SCRIPT };
-	
+
 	bool    html;
 	bool    witz;
 	int     status;
@@ -22,7 +22,7 @@ private:
 
 	CSyntax script;     // for <style> or <script>
 	enum { CSS, JS };
-	int     script_type; 
+	int     script_type;
 
 	HighlightOutput *hout;
 

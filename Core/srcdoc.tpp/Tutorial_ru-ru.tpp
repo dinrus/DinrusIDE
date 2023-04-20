@@ -24,56 +24,60 @@ topic "Учебник по U++ Core";
 [2 $$0,0#00000000000000000000000000000000:Default]
 [{_} 
 [s2;%RU-RU [@5 Учебник по U`+`+ Core]&]
-[s22; Table of contents&]
+[s22; Содержание&]
 [s0;^`#Chapter`_1^ &]
-[s0; [^`#Chapter`_1^ 1. Basics]&]
-[s0; ___[^`#Section`_1`_1^ 1.1 Logging]&]
+[s0; [^`#Chapter`_1^ 1. Основы]&]
+[s0; ___[^`#Section`_1`_1^ 1.1 Логгирование]&]
 [s0; ___[^`#Section`_1`_2^ 1.2 String]&]
 [s0; ___[^`#Section`_1`_3^ 1.3 StringBuffer]&]
 [s0; ___[^`#Section`_1`_4^ 1.4 WString]&]
-[s0; ___[^`#Section`_1`_5^ 1.5 Date and Time]&]
-[s0; ___[^`#Section`_1`_6^ 1.6 AsString, ToString and operator<<]&]
+[s0; ___[^`#Section`_1`_5^ 1.5 Date и Time]&]
+[s0; ___[^`#Section`_1`_6^ 1.6 AsString, ToString и operator<<]&]
 [s0; ___[^`#Section`_1`_7^ 1.7 CombineHash]&]
-[s0; ___[^`#Section`_1`_8^ 1.8 SgnCompare and CombineCompare]&]
+[s0; ___[^`#Section`_1`_8^ 1.8 SgnCompare и CombineCompare]&]
 [s0; &]
-[s0; [^`#Chapter`_2^ 2. Streams]&]
-[s0; ___[^`#Section`_2`_1^ 2.1 Streams basics]&]
-[s0; ___[^`#Section`_2`_2^ 2.2 Special streams]&]
-[s0; ___[^`#Section`_2`_3^ 2.3 Binary serialization]&]
+[s0; [^`#Chapter`_2^ 2. Потоки]&]
+[s0; ___[^`#Section`_2`_1^ 2.1 Основы Потоков]&]
+[s0; ___[^`#Section`_2`_2^ 2.2 Особые Потоки]&]
+[s0; ___[^`#Section`_2`_3^ 2.3 Двоичная сериализация]&]
 [s0; &]
-[s0; [^`#Chapter`_3^ 3. Array containers]&]
-[s0; ___[^`#Section`_3`_1^ 3.1 Vector basics]&]
-[s0; ___[^`#Section`_3`_2^ 3.2 Vector operations]&]
-[s0; ___[^`#Section`_3`_3^ 3.3 Transfer issues]&]
-[s0; ___[^`#Section`_3`_4^ 3.4 Client types in U`+`+ containers]&]
+[s0; [^`#Chapter`_3^ 3. Контейнеры`-массивы]&]
+[s0; ___[^`#Section`_3`_1^ 3.1 Основы Векторов]&]
+[s0; ___[^`#Section`_3`_2^ 3.2 Векторные операции]&]
+[s0; ___[^`#Section`_3`_3^ 3.3 Проблемы Трансфера]&]
+[s0; ___[^`#Section`_3`_4^ 3.4 Клиентские типы в контейнерах 
+U`+`+]&]
 [s0; ___[^`#Section`_3`_5^ 3.5 Array flavor]&]
-[s0; ___[^`#Section`_3`_6^ 3.6 Polymorphic Array]&]
-[s0; ___[^`#Section`_3`_7^ 3.7 Bidirectional containers]&]
-[s0; ___[^`#Section`_3`_8^ 3.8 Index]&]
-[s0; ___[^`#Section`_3`_9^ 3.9 Index and client types]&]
+[s0; ___[^`#Section`_3`_6^ 3.6Полиморфный Массив]&]
+[s0; ___[^`#Section`_3`_7^ 3.7 Двунаправленные контейнеры]&]
+[s0; ___[^`#Section`_3`_8^ 3.8 Индекс]&]
+[s0; ___[^`#Section`_3`_9^ 3.9 Индекс и клиентские 
+типы]&]
 [s0; ___[^`#Section`_3`_10^ 3.10 VectorMap, ArrayMap]&]
 [s0; ___[^`#Section`_3`_11^ 3.11 One]&]
 [s0; ___[^`#Section`_3`_12^ 3.12 Any]&]
 [s0; ___[^`#Section`_3`_13^ 3.13 InVector, InArray]&]
 [s0; ___[^`#Section`_3`_14^ 3.14 SortedIndex, SortedVectorMap, SortedArrayMap]&]
-[s0; ___[^`#Section`_3`_15^ 3.15 Tuples]&]
+[s0; ___[^`#Section`_3`_15^ 3.15  Кортежи]&]
 [s0; &]
-[s0; [^`#Chapter`_4^ 4. Ranges and algorithms]&]
-[s0; ___[^`#Section`_4`_1^ 4.1 Range]&]
-[s0; ___[^`#Section`_4`_2^ 4.2 Algorithms]&]
-[s0; ___[^`#Section`_4`_3^ 4.3 Sorting]&]
+[s0; [^`#Chapter`_4^ 4. Диапазоны и Алгоритмы]&]
+[s0; ___[^`#Section`_4`_1^ 4.1 Диапазон]&]
+[s0; ___[^`#Section`_4`_2^ 4.2 Алгоритмы]&]
+[s0; ___[^`#Section`_4`_3^ 4.3 Сортировка]&]
 [s0; &]
-[s0; [^`#Chapter`_5^ 5. Value]&]
+[s0; [^`#Chapter`_5^ 5. Значение]&]
 [s0; ___[^`#Section`_5`_1^ 5.1 Value]&]
 [s0; ___[^`#Section`_5`_2^ 5.2 Null]&]
-[s0; ___[^`#Section`_5`_3^ 5.3 Client types and Value, RawValue, RichValue]&]
-[s0; ___[^`#Section`_5`_4^ 5.4 ValueArray and ValueMap]&]
+[s0; ___[^`#Section`_5`_3^ 5.3 Клиентские типы и Value, 
+RawValue, RichValue]&]
+[s0; ___[^`#Section`_5`_4^ 5.4 ValueArray и ValueMap]&]
 [s0; &]
-[s0; [^`#Chapter`_6^ 6. Function and lambdas]&]
+[s0; [^`#Chapter`_6^ 6. Функция и лямбды]&]
 [s0; ___[^`#Section`_6`_1^ 6.1 Function]&]
-[s0; ___[^`#Section`_6`_2^ 6.2 Capturing U`+`+ containers into lambdas]&]
+[s0; ___[^`#Section`_6`_2^ 6.2 Захват контейнеров 
+U`+`+ в лямбдах]&]
 [s0; &]
-[s0; [^`#Chapter`_7^ 7. Multithreading]&]
+[s0; [^`#Chapter`_7^ 7. Многопоточность]&]
 [s0; ___[^`#Section`_7`_1^ 7.1 Thread]&]
 [s0; ___[^`#Section`_7`_2^ 7.2 Mutex]&]
 [s0; ___[^`#Section`_7`_3^ 7.3 ConditionVariable]&]
@@ -81,43 +85,49 @@ topic "Учебник по U++ Core";
 [s0; ___[^`#Section`_7`_5^ 7.5 AsyncWork]&]
 [s0; ___[^`#Section`_7`_6^ 7.6 CoPartition]&]
 [s0; ___[^`#Section`_7`_7^ 7.7 CoDo]&]
-[s0; ___[^`#Section`_7`_8^ 7.8 Parallel algorithms]&]
-[s22;:Chapter`_1: 1. Basics&]
-[s3;:Section`_1`_1: 1.1 Logging&]
-[s5; Logging is a useful technique to trace the flow of the code 
-and examine results. In this tutorial we will be using logging 
-extensively, so let us start tutorial with the explanation of 
-logging.&]
-[s5; In debug mode and with default settings, macro [*C@5 LOG] puts 
-string into output log file. Log file is placed into `'config`-directory`', 
-which by default is .exe directory in Win32 and `~/.upp/appname 
-in POSIX.&]
-[s5; In DinrusIDE, you can access the log using `'Debug`'/`'View 
-the log file Alt`+L`'.&]
+[s0; ___[^`#Section`_7`_8^ 7.8 Параллельные алгоритмы]&]
+[s22;:Chapter`_1: [@3 1. Основы]&]
+[s3;:Section`_1`_1: [@(128.0.255) 1.1 Логгирование]&]
+[s5; Логгирование (Logging) `- это техника, 
+применяемая для трассировки потока 
+кода и изучения результатов. В этом 
+уроке мы будем экстенсивно его использовать
+, поэтому начнём с объяснения.&]
+[s5; В режиме отладки и с дефолтными настройками
+, макрос [*C@5 LOG] помещает строку в файл 
+вывода лога. Файл лога находится в 
+директории `'config`-directory`', которая дефолтно 
+является директорией с .exe на Win32 и 
+`~/.upp/appname на POSIX.&]
+[s5; В DinrusIDE лог доступен с помощью `'Отладка`'/`'По
+смотреть лог`-файл Alt`+L`'.&]
 [s0; &]
 [s7; LOG(`"Hello world`");&]
 [s0; &]
 [s17; Hello world&]
 [s0; &]
-[s5; You can log values of various types, as long as they have [*C@5 AsString] 
-function defined You can chain values in single [*C@5 LOG] using 
-[*C@5 operator<<]:&]
+[s5; `"Логировать`" можно значения любых 
+типов, если для них определена функция 
+[*C@5 AsString.] Можно сцеплять значения в 
+одном макросе [*C@5 LOG] с помощью [*C@5 operator<<]:&]
 [s0; &]
 [s7; int x `= 123;&]
-[s7; LOG(`"Value of x is `" << x);&]
+[s7; LOG(`"Значение x равно `" << x);&]
 [s0; &]
-[s17; Value of x is 123&]
+[s17; Значение x равно 123&]
 [s0; &]
-[s5; As it is very common to log a value of single variable, [*C@5 DUMP] 
-macro provides a useful shortcut, creating a log line with the 
-variable name and value:&]
+[s5; Так как довольно распространено 
+логирование значения единичной переменной, 
+макрос [*C@5 DUMP] предлагает полезное 
+сокращение, создающее строку лога 
+и именем и значением переменной:&]
 [s0; &]
 [s7; DUMP(x);&]
 [s0; &]
 [s17; x `= 123&]
 [s0; &]
-[s5; To get the value in hexadecimal code, you can use [*C@5 LOGHEX] 
-/ [*C@5 DUMPHEX]&]
+[s5; Чтобы получить значение из 16`-ричного 
+кода, используется [*C@5 LOGHEX] / [*C@5 DUMPHEX]&]
 [s0; &]
 [s7; DUMPHEX(x);&]
 [s7; String h `= `"foo`";&]
@@ -128,8 +138,9 @@ variable name and value:&]
 [s17;     `+0 0x0208FE08 66 6F 6F                                 
            foo             &]
 [s0; &]
-[s5; To log the value of a container (or generic Range), you can 
-either use normal [*C@5 LOG] / [*C@5 DUMP]:&]
+[s5; Для логгирования значения контейнера 
+(или генерного Range), можно либо использовать 
+обычный [*C@5 LOG] / [*C@5 DUMP]:&]
 [s0; &]
 [s7; Vector<int> v `= `{ 1, 2, 3 `};&]
 [s7; &]
@@ -137,7 +148,7 @@ either use normal [*C@5 LOG] / [*C@5 DUMP]:&]
 [s0; &]
 [s17; v `= `[1, 2, 3`]&]
 [s0; &]
-[s5; or you can use DUMPC for multi`-line output:&]
+[s5; либо DUMPC для многострочного вывода:&]
 [s0; &]
 [s7; DUMPC(v);&]
 [s0; &]
@@ -146,7 +157,7 @@ either use normal [*C@5 LOG] / [*C@5 DUMP]:&]
 [s17; -|`[1`] `= 2&]
 [s17; -|`[2`] `= 3&]
 [s0; &]
-[s5; For maps, use DUMPM:&]
+[s5; Для мапов (карт) используется DUMPM:&]
 [s0; &]
 [s7; VectorMap<int, String> map `= `{ `{ 1, `"one`" `}, `{ 2, `"two`" 
 `} `};&]
@@ -162,57 +173,74 @@ either use normal [*C@5 LOG] / [*C@5 DUMP]:&]
 [s17; -|`[0`] `= (1) one&]
 [s17; -|`[1`] `= (2) two&]
 [s0; &]
-[s5; All normal [*C@5 LOG]s are removed in release mode. If you need 
-to log things in release mode, you need to use [*C@5 LOG]/``DUMP`` 
-variant with `'[*C@5 R]`' prefix ([*C@5 RLOG], [*C@5 RDUMP], [*C@5 RDUMPHEX]...):&]
+[s5; Все нормальные [*C@5 LOG]s удаляются в 
+режиме выпуска. Если требуется что`-то 
+логгировать в релизном режиме, нужно 
+использовать вариант [*C@5 LOG]/``DUMP`` с 
+префиксом `'[*C@5 R]`' ([*C@5 RLOG], [*C@5 RDUMP], [*C@5 RDUMPHEX]...):&]
 [s0; &]
-[s7; RLOG(`"This will be logged in release mode too!`");&]
+[s7; RLOG(`"Это будет также логгировано и 
+в релизном режиме!`");&]
 [s0; &]
-[s17; This will be logged in release mode too!&]
+[s17; Это будет также логгировано и в релизном 
+режиме!&]
 [s0; &]
-[s5; Sort of opposite situation is when adding temporary [*C@5 LOG]s 
-to the code for debugging. In that case, `'[*C@5 D]`' prefixed 
-variants ([*C@5 DLOG], [*C@5 DDUMP], [*C@5 DDUMPHEX]...) are handy 
-`- these cause compile error in release mode (unless you define 
-the flag DEBUGCODE in the main configuration), so will not get 
-forgotten in the code past the release:&]
+[s5; Своего рода противоположная ситуация, 
+когда для отладки кода ведутся временные 
+[*C@5 LOG]s. В этом случае применимы варианты, 
+префиксованные  `'[*C@5 D]`' ([*C@5 DLOG], [*C@5 DDUMP], 
+[*C@5 DDUMPHEX]...) `- в релизном режиме они 
+вызывают ошибку компиляции (если 
+в главной конфигурации не установлен 
+флаг DEBUGCODE), поэтому о нём нельзя забыть 
+и оставить в коде после выпуска:&]
 [s0; &]
 [s7; DLOG(`"This would not compile in release mode.`");&]
 [s0; &]
 [s17; This would not compile in release mode.&]
 [s0; &]
-[s5; The last flavor of [*C@5 LOG] you can encounter while reading 
-U`+`+ sources is the one prefixed with `'[*C@5 L]`'. This one is 
-not actually defined in U`+`+ library and is just a convention. 
-On the start of file, there is usually something like:&]
+[s5; Последняя разновидность [*C@5 LOG,] которая 
+может встретиться при чтении исходников 
+U`+`+,`- префиксированная `'[*C@5 L]`'. Она 
+в реальности не определена в библиотеке 
+U`+`+, а простая конвенция. В начале 
+файла обычно можно встретить:&]
 [s0; &]
 [s7; #define LLOG(x) // DLOG(x)&]
 [s0; &]
-[s5; and by uncommenting the body part, you can activate the logging 
-in that particular file.&]
-[s5; While logging to .log file is default, there are various ways 
-how to affect logging, for example following line adjusts logging 
-to output the log both to the console and .log file:&]
+[s5; убрав комментарий из части тела, 
+можно активировать логгирование 
+для этого отдельного файла.&]
+[s5; Хотя логгирование в файл .log является 
+дефолтом, есть различные способы 
+повлиять на логгирование, например, 
+следующая строка регулирует логгирование 
+на вывод как в лог`-файл, так и на консоль:&]
 [s0; &]
 [s7; StdLogSetup(LOG`_COUT`|LOG`_FILE);&]
 [s0; &]
-[s3;H4;:Section`_1`_2: 1.2 String&]
-[s5; String is a value type useful for storing text or binary data.&]
+[s3;H4;:Section`_1`_2: [@(128.0.255) 1.2 String (Строка)]&]
+[s5; String `- тип значения, используемый 
+для сохранения текста или двоичных 
+данных.&]
 [s0; &]
 [s7; String a `= `"Hello`";&]
 [s7; DUMP(a);&]
 [s0; &]
 [s17; a `= Hello&]
 [s0; &]
-[s5; You can concatenate it with another String or literal:&]
+[s5; Строки можно объединять (concatenate) `- 
+конкатенировать `- с другой String или 
+литералом:&]
 [s0; &]
 [s7; a `= a `+ `" world`";&]
 [s7; DUMP(a);&]
 [s0; &]
 [s17; a `= Hello world&]
 [s0; &]
-[s5; Or single character or specified number of characters from another 
-[*C@5 String] or literal:&]
+[s5; а также с единичным символом или 
+заданным числом символов из другой 
+[*C@5 String] или литерала:&]
 [s0; &]
 [s7; a.Cat(`'!`');&]
 [s7; DUMP(a);&]
@@ -225,17 +253,21 @@ to output the log both to the console and .log file:&]
 [s0; &]
 [s17; a `= Hello world!ABC&]
 [s0; &]
-[s5; [*C@5 Clear] method empties the String:&]
+[s5; Метод [*C@5 Clear] делает String пустой:&]
 [s0; &]
 [s7; a.Clear();&]
 [s7; DUMP(a);&]
 [s0; &]
 [s17; a `= &]
 [s0; &]
-[s5; You can use [*C@5 operator<<] to append to existing [*C@5 String]. 
-Non`-string values are converted to appropriate [*C@5 String] representation 
-(using standard function [*C@5 AsString], whose default template 
-definition calls [*C@5 ToString] method for value):&]
+[s5; Можно использовать [*C@5 operator<<] , чтобы 
+приставить к существующей [*C@5 String]. 
+Нестроковые значения преобразуются 
+в соответствующее строковое представление 
+(используется стандартная функция 
+[*C@5 AsString], дефолтное шаблонное определение 
+которой для значения называется методом 
+[*C@5 ToString]):&]
 [s0; &]
 [s7; for(int i `= 0; i < 10; i`+`+)&]
 [s7; -|a << i << `", `";&]
@@ -244,8 +276,10 @@ definition calls [*C@5 ToString] method for value):&]
 [s0; &]
 [s17; a `= 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, &]
 [s0; &]
-[s5; Sometimes is is useful to use [*C@5 operator<<] to produce a temporary 
-[*C@5 String] value (e.g. as real argument to function call):&]
+[s5; Иногда используют [*C@5 operator<<], чтобы 
+произвести временное значение типа 
+[*C@5 String] (например, как реальный аргумент 
+к вызову функции):&]
 [s0; &]
 [s7; String b `= String() << `"Number is `" << 123 << `".`";&]
 [s7; &]
@@ -253,8 +287,10 @@ definition calls [*C@5 ToString] method for value):&]
 [s0; &]
 [s17; b `= Number is 123.&]
 [s0; &]
-[s5; String provides many various methods for obtaining character 
-count, inserting characters into [*C@5 String] or removing them:&]
+[s5; Класс String предоставляет много различных 
+методов для получения числа символов, 
+вставки или удаления символов в/из 
+[*C@5 String]:&]
 [s0; &]
 [s7; a `= `"0123456789`";&]
 [s7; &]
@@ -263,7 +299,7 @@ count, inserting characters into [*C@5 String] or removing them:&]
 [s17; a.GetCount() `= 10&]
 [s0; &]
 [s0; &]
-[s7; DUMP(a.GetLength()); // GetLength is a synonym of GetCount&]
+[s7; DUMP(a.GetLength()); // GetLength `- это синоним GetCount&]
 [s0; &]
 [s17; a.GetLength() `= 10&]
 [s0; &]
@@ -279,7 +315,7 @@ count, inserting characters into [*C@5 String] or removing them:&]
 [s0; &]
 [s17; a `= 0145<inserted>6789&]
 [s0; &]
-[s5; as well as searching and comparing methods:&]
+[s5; а также методы поиска и сравнения:&]
 [s0; &]
 [s7; DUMP(a.Find(`'e`'));&]
 [s7; DUMP(a.ReverseFind(`'e`'));&]
@@ -301,8 +337,9 @@ count, inserting characters into [*C@5 String] or removing them:&]
 [s17; a.StartsWith(`"01`") `= true&]
 [s17; a.EndsWith(`"89`") `= true&]
 [s0; &]
-[s5; You can get slice of String using Mid method; with single parameter 
-it provides slice to the end of String:&]
+[s5; Можно получить срез String с помощью 
+метода Mid; с одним параметром он даёт 
+срез до конца строки:&]
 [s0; &]
 [s7; DUMP(a.Mid(3, 3));&]
 [s7; DUMP(a.Mid(3));&]
@@ -310,23 +347,26 @@ it provides slice to the end of String:&]
 [s17; a.Mid(3, 3) `= 5<i&]
 [s17; a.Mid(3) `= 5<inserted>6789&]
 [s0; &]
-[s5; You can also trim the length of String using Trim (this is faster 
-than using any other method):&]
+[s5; Можно также обрезать длину строки, 
+используя Trim (это быстрее, чем использование
+ любого другого метода):&]
 [s0; &]
 [s7; a.Trim(4);&]
 [s7; DUMP(a);&]
 [s0; &]
 [s17; a `= 0145&]
 [s0; &]
-[s5; You can obtain integer values of individual characters using 
+[s5; Можно получить целочисленные значения 
+индивидуальных символов с помощью 
 operator`[`]:&]
 [s0; &]
 [s7; DUMP(a`[0`]);&]
 [s0; &]
 [s17; a`[0`] `= 48&]
 [s0; &]
-[s5; or the value of first character using operator`* (note that 
-if [*C@5 GetCount() `=`= 0], this will return zero terminator):&]
+[s5; или значение первого символа с помощью 
+operator`* (заметьте, что если [*C@5 GetCount() 
+`=`= 0], this вернёт терминатор ноль):&]
 [s0; &]
 [s7;     DUMP(`*a);&]
 [s0; &]
@@ -339,8 +379,10 @@ if [*C@5 GetCount() `=`= 0], this will return zero terminator):&]
 [s0; &]
 [s17; `*a `= 0&]
 [s0; &]
-[s5; [*C@5 String] has implicit cast to zero terminated [*C@5 const char 
-`*ptr] (only valid as long as [*C@5 String] does not mutate:&]
+[s5; [*C@5 String] имеет неявный каст (implicit cast), 
+приведение к типу, [*C@5 const char `*ptr] с нулевым 
+окончанием (которое полноценно, пока 
+[*C@5 String] остаётся неизменённой):&]
 [s0; &]
 [s7; a `= `"1234`";&]
 [s7; const char `*s `= a;&]
@@ -352,8 +394,10 @@ if [*C@5 GetCount() `=`= 0], this will return zero terminator):&]
 [s17; 3&]
 [s17; 4&]
 [s0; &]
-[s5; [*C@5 String] also has standard [*C@5 begin] [*C@5 end] methods, which 
-e.g. allows for C`+`+11 [*C@5 for]:&]
+[s5; [*C@5 String] также имеет стандартные методы 
+[*C@5 begin] [*C@5 end], которые, например, позволяют 
+использовать из C`+`+11 конструкцию 
+[*C@5 for]:&]
 [s0; &]
 [s7; for(char ch : a)&]
 [s7; -|LOG(ch);&]
@@ -363,8 +407,9 @@ e.g. allows for C`+`+11 [*C@5 for]:&]
 [s17; 3&]
 [s17; 4&]
 [s0; &]
-[s5; It is absolutely OK and common to use String for storing binary 
-data, including zeroes:&]
+[s5; Абсолютно OK `- и обще `- использовать 
+String для сохранения двоичных данных, 
+включая нули:&]
 [s0; &]
 [s7; a.Cat(0);&]
 [s7; &]
@@ -374,12 +419,16 @@ data, including zeroes:&]
 [s17;     `+0 0x0208FDE0 31 32 33 34 00                           
            1234.           &]
 [s0; &]
-[s3;H4;:Section`_1`_3: 1.3 StringBuffer&]
-[s5; If you need a direct write access to [*C@5 String]`'s C`-string 
-character buffer, you can use complementary [*C@5 StringBuffer] 
-class. One of reasons to do so is when you have to deal with 
-some C`-API functions that expects to write directly to [*C@5 char 
-`*] and you would like that result converted to the [*C@5 String]:&]
+[s3;H4;:Section`_1`_3: [@(128.0.255) 1.3 StringBuffer]&]
+[s5; Если требуется прямой доступ для 
+записи к [*C@5 String]`'овому C`-string буферу 
+символов, можно использовать комплементарны
+й класс [*C@5 StringBuffer]. Одна из причин это 
+делать `- когда нужно работать с некоторыми 
+функциями C`-API, которые ожидают прямой 
+записи в [*C@5 char `*, ]а вам хотелось бы, 
+чтобы результат был преобразован 
+в [*C@5 String]:&]
 [s0; &]
 [s7; void CApiFunction(char `*c)&]
 [s7; `{&]
@@ -396,15 +445,19 @@ some C`-API functions that expects to write directly to [*C@5 char
 [s0; &]
 [s17; x `= Hello&]
 [s0; &]
-[s5; In this case, [*C@5 SetLength] creates a C array of 200 characters. 
-You can then call C`-API function. Later you set the real length 
-using [*C@5 Strlen] `- this function performs strlen of buffer 
-and sets the length accordingly. Later you simply assign the 
-[*C@5 StringBuffer] to [*C@5 String]. Note that for performance reasons, 
-this operation clears the [*C@5 StringBuffer] content (operation 
-is fast and does not depend on the number of characters).&]
-[s5; Another usage scenario of StringBuffer is altering existing 
-String:&]
+[s5; В данном случае, [*C@5 SetLength] создаёт 
+массив Си из 200 символов. Затем можно 
+вызвать функцию C`-API. Далее устанавливается 
+реальная длина с помощью [*C@5 Strlen] `- 
+фукнция эта выполняет strlen буфера 
+и устанавливает соответственно длину. 
+Позже мы просто присваиваем [*C@5 StringBuffer] 
+к [*C@5 String]. Заметьте, по причинам производитель
+ности, эта операция очищает от содержимого 
+[*C@5 StringBuffer] (операция быстрая и не зависит 
+от числа символов).&]
+[s5; Другой сценарий StringBuffer `- изменение 
+существующей String:&]
 [s0; &]
 [s7; b `= x;&]
 [s7; b`[1`] `= `'a`';&]
@@ -414,9 +467,11 @@ String:&]
 [s0; &]
 [s17; x `= Hallo&]
 [s0; &]
-[s5; Similar to assigning StringBuffer to String, assigning String 
-to StringBuffer clears the source String.&]
-[s5; StringBuffer also provides appending operations:&]
+[s5; Подобно присваиванию StringBuffer к String, 
+присваивание String к StringBuffer очищает 
+исходную String.&]
+[s5; StringBuffer также предоставляет операции 
+по приставлению (appending operations):&]
 [s0; &]
 [s7; b `= x;&]
 [s7; b.Cat(`'!`');&]
@@ -426,21 +481,30 @@ to StringBuffer clears the source String.&]
 [s0; &]
 [s17; x `= Hallo!&]
 [s0; &]
-[s5; Note that sometimes when creating some String from a lot of 
-single characters, using StringBuffer for the operation is slightly 
-faster then using String directly.&]
-[s3;H4;:Section`_1`_4: 1.4 WString&]
-[s5; String works with 8 bit characters. For 16`-bit character encoding 
-use [*C@5 WString]. Both classes are closely related and share 
-most of interface methods. U`+`+ also provides conversions between 
-[*C@5 String] and [*C@5 WString] and you can also use 8 bit string 
-literals with [*C@5 WString]. Conversion is ruled by current default 
-character set. Default value of default character set is [*C@5 CHARSET`_UTF8]. 
-This conversion is also used in [*C@5 WString`::ToString], e.g. 
-when putting [*C@5 WString] to log:&]
+[s5; Заметьте, что иногда, при создании 
+какой`-либо String из множества единичных 
+символов, использовать StringBuffer для 
+такой операции работает несколько 
+скорее, чем прямое использование 
+String.&]
+[s3;H4;:Section`_1`_4: [@(128.0.255) 1.4 WString]&]
+[s5; String работает с 8`-битными символами. 
+Для 16`-битной символьной кодировки 
+используется [*C@5 WString]. Оба класса тесно 
+связаны и разделяют большинство методов 
+интерфейса. U`+`+ также предоставляет 
+преобразования между [*C@5 String] и [*C@5 WString,] 
+также можно использовать и 8`-битные 
+строковые литералы с [*C@5 WString]. Преобразование
+ проводится по правилам текущего 
+дефолтного набора символов. Дефолтное 
+значение дефолтного набора символов 
+`- [*C@5 CHARSET`_UTF8]. Это преобразование также 
+используется и в [*C@5 WString`::ToString], например, 
+при помещении [*C@5 WString] в лог:&]
 [s0; &]
-[s7; WString x `= `"characters 280`-300: `"; // you can assign 8`-bit 
-character literal to WString&]
+[s7; WString x `= `"characters 280`-300: `"; // можно присвоить 
+8`-битный символьный литерал WString&]
 [s7; for(int i `= 280; i < 300; i`+`+)&]
 [s7; -|x.Cat(i);&]
 [s7; &]
@@ -448,17 +512,18 @@ character literal to WString&]
 [s0; &]
 [s17; x `= characters 280`-300: ĘęĚěĜĝĞğĠġĢģĤĥĦħĨĩĪī&]
 [s0; &]
-[s5; [*C@5 ToString] converts [*C@5 WString] to [*C@5 String]:&]
+[s5; [*C@5 ToString] преобразует [*C@5 WString] в [*C@5 String]:&]
 [s0; &]
 [s7; String y `= x.ToString();&]
 [s7; DUMP(y);&]
 [s0; &]
 [s17; y `= characters 280`-300: ĘęĚěĜĝĞğĠġĢģĤĥĦħĨĩĪī&]
 [s0; &]
-[s5; [*C@5 ToWString] converts [*C@5 String] to [*C@5 WString]:&]
+[s5; [*C@5 ToWString] преобразует [*C@5 String] в [*C@5 WString]:&]
 [s0; &]
-[s7; y.Cat(`" (appended)`"); // you can use 8`-bit character literals 
-in most WString operations&]
+[s7; y.Cat(`" (appended)`"); // можно использовать 
+8`-битные символьные литералы в большинстве&]
+[s7;                      // операций с WString&]
 [s7; x `= y.ToWString();&]
 [s7; &]
 [s7; DUMP(x);&]
@@ -466,9 +531,10 @@ in most WString operations&]
 [s17; x `= characters 280`-300: ĘęĚěĜĝĞğĠġĢģĤĥĦħĨĩĪī 
 (appended)&]
 [s0; &]
-[s3;H4;:Section`_1`_5: 1.5 Date and Time&]
-[s5; To represent date and time, U`+`+ provides [*C@5 Date] and [*C@5 Time] 
-concrete types.&]
+[s3;H4;:Section`_1`_5: [@(128.0.255) 1.5 Date и Time]&]
+[s5; Для представления дат и времени, 
+U`+`+ предоставляет конкретные типы 
+ [*C@5 Date] и [*C@5 Time].&]
 [s0; &]
 [s7; Date date `= GetSysDate();&]
 [s7; &]
@@ -476,26 +542,29 @@ concrete types.&]
 [s0; &]
 [s17; date `= 07/21/2021&]
 [s0; &]
-[s5; All data members of [*C@5 Date] structure are public:&]
+[s5; Все члены данных структуры [*C@5 Date] 
+публичны (public):&]
 [s0; &]
-[s7; DUMP((int)date.year); // we need to cast to int because some 
-date members&]
-[s7; DUMP((int)date.month); // are of unsigned character type which 
-would log&]
-[s7; DUMP((int)date.day); // as characters&]
+[s7; DUMP((int)date.year); // нужно сделать каст 
+в int, т.к. некоторые члены даты&]
+[s7; DUMP((int)date.month); // типа беззначного символа, 
+что логируется&]
+[s7; DUMP((int)date.day); // как символы&]
 [s0; &]
 [s17; (int)date.year `= 2021&]
 [s17; (int)date.month `= 7&]
 [s17; (int)date.day `= 21&]
 [s0; &]
-[s5; Dates can be compared:&]
+[s5; Даты можно сравнивать:&]
 [s0; &]
 [s7; DUMP(date > Date(2000, 1, 1));&]
 [s0; &]
 [s17; date > Date(2000, 1, 1) `= true&]
 [s0; &]
-[s5; Adding a number to [*C@5 Date] adds a number of days to it, incrementing/decrement
-ing goes to the next/previous day:&]
+[s5; При прибавлении числа к [*C@5 Date] к ней 
+прибавляется число дней, а инкрементировани
+е/декрементирование приводит к следующему/п
+редыдущему дню:&]
 [s0; &]
 [s7; DUMP(date `+ 1);&]
 [s7; DUMP(`-`-date);&]
@@ -505,13 +574,15 @@ ing goes to the next/previous day:&]
 [s17; `-`-date `= 07/20/2021&]
 [s17; `+`+date `= 07/21/2021&]
 [s0; &]
-[s5; Subtraction of dates yields a number of days between them:&]
+[s5; При вычитании дат получается число 
+дней между ними:&]
 [s0; &]
 [s7; DUMP(date `- Date(2000, 1, 1));&]
 [s0; &]
 [s17; date `- Date(2000, 1, 1) `= 7872&]
 [s0; &]
-[s5; There are several [*C@5 Date] and calendar related functions:&]
+[s5; Несколько функций связано с [*C@5 Date] 
+и календарём:&]
 [s0; &]
 [s7; DUMP(IsLeapYear(2012));&]
 [s7; DUMP(IsLeapYear(2014));&]
@@ -533,7 +604,7 @@ ing goes to the next/previous day:&]
 [s17; GetDaysOfMonth(2, 2016) `= 29&]
 [s0; &]
 [s0; &]
-[s7; DUMP(DayOfWeek(date)); // 0 is Sunday&]
+[s7; DUMP(DayOfWeek(date)); // 0 равно Воскресенью&]
 [s0; &]
 [s17; DayOfWeek(date) `= 3&]
 [s0; &]
@@ -542,7 +613,7 @@ ing goes to the next/previous day:&]
 [s7; DUMP(FirstDayOfMonth(date));&]
 [s7; DUMP(LastDayOfYear(date));&]
 [s7; DUMP(FirstDayOfYear(date));&]
-[s7; DUMP(DayOfYear(date)); // number of days since Jan`-1 `+ 1&]
+[s7; DUMP(DayOfYear(date)); // число дней с Jan`-1 `+ 1&]
 [s7; DUMP(DayOfYear(Date(2016, 1, 1)));&]
 [s0; &]
 [s17; LastDayOfMonth(date) `= 07/31/2021&]
@@ -554,10 +625,11 @@ ing goes to the next/previous day:&]
 [s0; &]
 [s0; &]
 [s7; DUMP(AddMonths(date, 20));&]
-[s7; DUMP(GetMonths(date, date `+ 100)); // number of `'whole months`' 
-between two dates&]
-[s7; DUMP(GetMonthsP(date, date `+ 100)); // number of `'whole or 
-partial months`' between two dates&]
+[s7; DUMP(GetMonths(date, date `+ 100)); // число `'полных 
+месяцев`' между двумя датами&]
+[s7; DUMP(GetMonthsP(date, date `+ 100)); // число`'полных 
+или частичных месяцев`' между двумя 
+датами&]
 [s7; DUMP(AddYears(date, 2));&]
 [s0; &]
 [s17; AddMonths(date, 20) `= 03/21/2023&]
@@ -568,8 +640,9 @@ partial months`' between two dates&]
 [s0; &]
 [s7; DUMP(GetWeekDate(2015, 1));&]
 [s7; int year;&]
-[s7; DUMP(GetWeek(Date(2016, 1, 1), year)); // first day of year 
-can belong to previous year&]
+[s7; DUMP(GetWeek(Date(2016, 1, 1), year)); // первый день 
+года может относиться к предыдущему 
+году&]
 [s7; DUMP(year);&]
 [s0; &]
 [s17; GetWeekDate(2015, 1) `= 12/29/2014&]
@@ -583,9 +656,11 @@ can belong to previous year&]
 [s17; EasterDay(2015) `= 04/05/2015&]
 [s17; EasterDay(2016) `= 03/27/2016&]
 [s0; &]
-[s5; U`+`+ defines the beginning and the end of era, most algorithms 
-can safely assume that as minimal and maximal values [*C@5 Date] 
-can represent:&]
+[s5; U`+`+ определяет начало и конец эры, 
+большинство алгоритмов безопасны 
+и `"понимают`", какие минимальные и 
+максимальные значения могут быть 
+у [*C@5 Date]:&]
 [s0; &]
 [s7; DUMP(Date`::Low());&]
 [s7; DUMP(Date`::High());&]
@@ -593,8 +668,8 @@ can represent:&]
 [s17; Date`::Low() `= 01/01/`-4000&]
 [s17; Date`::High() `= 01/01/4000&]
 [s0; &]
-[s5; Time is derived from [*C@5 Date], adding members to represent 
-time:&]
+[s5; Time `- производное от [*C@5 Date], с добавлением 
+членов для представления времени:&]
 [s0; &]
 [s7; Time time `= GetSysTime();&]
 [s7; DUMP(time);&]
@@ -609,37 +684,42 @@ time:&]
 [s17; (int)time.minute `= 1&]
 [s17; (int)time.second `= 38&]
 [s0; &]
-[s5; Times can be compared:&]
+[s5; `"Времена`" можно сравнивать:&]
 [s0; &]
 [s7; DUMP(time > Time(1970, 0, 0));&]
 [s0; &]
 [s17; time > Time(1970, 0, 0) `= true&]
 [s0; &]
-[s5; Warning: As [*C@5 Time] is derived from the [*C@5 Date], most operations 
-automatically convert [*C@5 Time] back to [*C@5 Date]. You have to 
-use [*C@5 ToTime] conversion function to convert [*C@5 Date] to [*C@5 Time]:&]
+[s5; Предупреждение: Поскольку [*C@5 Time] `- 
+производное от [*C@5 Date], большинство 
+операций автоматически преобразует 
+[*C@5 Time] обратно в [*C@5 Date]. Нужно использовать 
+функцию преобразования [*C@5 ToTime], чтобы 
+преобразовать [*C@5 Date] в [*C@5 Time]:&]
 [s0; &]
-[s7; DUMP(time > date); // time gets converted to Date...&]
+[s7; DUMP(time > date); // time преобразуется в Date...&]
 [s7; DUMP(time > ToTime(date));&]
 [s0; &]
 [s17; time > date `= false&]
 [s17; time > ToTime(date) `= true&]
 [s0; &]
-[s5; Like [*C@5 Date], [*C@5 Time] supports add and subtract operations, 
-but numbers represent seconds (using [*C@5 int64] datatype):&]
+[s5; Подобно [*C@5 Date], [*C@5 Time] поддерживает 
+операции прибавления и вычитания, 
+но числа представляют секунды (используется
+ тип данных [*C@5 int64]):&]
 [s0; &]
 [s7; DUMP(time `+ 1);&]
 [s7; DUMP(time `+ 24 `* 3600);&]
-[s7; DUMP(time `- date); // time converts to Date, so the result 
-is in days&]
-[s7; DUMP(time `- ToTime(date)); // Time `- Time is in seconds&]
+[s7; DUMP(time `- date); // time преобразуется в Date, 
+sрезультат в днях&]
+[s7; DUMP(time `- ToTime(date)); // Time `- Time в секундах&]
 [s0; &]
 [s17; time `+ 1 `= 07/21/2021 15:01:39&]
 [s17; time `+ 24 `* 3600 `= 07/22/2021 15:01:38&]
 [s17; time `- date `= 0&]
 [s17; time `- ToTime(date) `= 54098&]
 [s0; &]
-[s5; [*C@5 Time] defines era limits too:&]
+[s5; [*C@5 Time] тоже определяет пределы эры:&]
 [s0; &]
 [s7; DUMP(Time`::Low());&]
 [s7; DUMP(Time`::High());&]
@@ -647,11 +727,13 @@ is in days&]
 [s17; Time`::Low() `= 01/01/`-4000 00:00:00&]
 [s17; Time`::High() `= 01/01/4000 00:00:00&]
 [s0; &]
-[s3;H4;:Section`_1`_6: 1.6 [C@5 AsString], [C@5 ToString] and [C@5 operator<<]&]
-[s5; U`+`+ Core provides simple yet effective standard schema for 
-converting values to default textual form. System is based on 
-the combination of template functions (following code is part 
-of U`+`+ library):&]
+[s3;H4;:Section`_1`_6: 1.6 [C@5 AsString], [C@5 ToString] и [C@5 operator<<]&]
+[s5; U`+`+ Core предоставляет простую, но действенную
+, стандартную схему для преобразования 
+значений в дефолтную текстовую форму. 
+Система основана на комбинации шаблонных 
+функций (следующий код является частью 
+библиотеки U`+`+):&]
 [s0; &]
 [s7; namespace Upp `{&]
 [s7; -|template <class T>&]
@@ -675,11 +757,14 @@ of U`+`+ library):&]
 [s7; -|`}&]
 [s7; `};&]
 [s0; &]
-[s5; Client types have to either define [*C@5 String ToString] method 
-or specialize [*C@5 AsString] template in [*C@5 Upp] namespace. Such 
-types can be appended to Streams or Strings using [*C@5 operator<<]. 
-Of course, U`+`+ value types and primitive types have required 
-items predefined by U`+`+:&]
+[s5; Клиентские типы должны либо определить 
+метод [*C@5 String ToString] , либо создать специальный 
+шаблон [*C@5 AsString]  в пространстве имён 
+[*C@5 Upp]. Такие типы могут приставляться 
+к Потокам или Строкам с помощью [*C@5 operator<<]. 
+Конечно, типы значений U`+`+ и примитивные 
+типы имеют предопределённые элементы 
+в U`+`+:&]
 [s0; &]
 [s7; FileOut fout(ConfigFile(`"test.txt`"));&]
 [s7; String  sout;&]
@@ -696,8 +781,9 @@ items predefined by U`+`+:&]
 15:01:38&]
 [s17; sout `= 1.23 07/21/2021 07/21/2021 15:01:38&]
 [s0; &]
-[s5; Getting client types involved into this schema is not too difficult, 
-all you need to do is to add [*C@5 ToString] method:&]
+[s5; Включить в эту схему клиентские типы 
+не так уж сложно, нужно только добавить 
+метод [*C@5 ToString]:&]
 [s0; &]
 [s7; struct BinFoo `{&]
 [s7; -|int x;&]
@@ -714,8 +800,9 @@ all you need to do is to add [*C@5 ToString] method:&]
 [s0; &]
 [s17; sout `= 11110&]
 [s0; &]
-[s5; If you cannot add [*C@5 ToString], you can still specialize template 
-in Upp namespace:&]
+[s5; Если добавить [*C@5 ToString ]не получается, 
+можно специализировать для этого 
+шаблон в пространстве имён Upp:&]
 [s0; &]
 [s7; struct RomanFoo `{&]
 [s7; -|int x;&]
@@ -728,11 +815,15 @@ in Upp namespace:&]
 FormatIntRoman(a.x); `}&]
 [s7; `};&]
 [s0; &]
-[s3;H4;:Section`_1`_7: 1.7 CombineHash&]
-[s5; To simplify providing of high quality hash codes for composite 
-types, U`+`+ provides [*C@5 CombineHash] utility class. This class 
-uses [*C@5 GetHashValue] function to gather hash codes of all values 
-and combines them to provide final hash value for composite type:&]
+[s3;H4;:Section`_1`_7: [@(128.0.255) 1.7 CombineHash]&]
+[s5; Чтобы упростить предоставление высококачес
+твенных хэш`-кодов для составных типов, 
+U`+`+ предлагает вспомогательный класс 
+[*C@5 CombineHash]. Этот класс использует функцию 
+[*C@5 GetHashValue] для сбора хэш`-кодов всех 
+значений и комбинирования их, чтобы 
+дать итоговое хэш`-значение составному 
+типу:&]
 [s0; &]
 [s7; struct Foo `{&]
 [s7; -|String a;&]
@@ -742,10 +833,11 @@ and combines them to provide final hash value for composite type:&]
 `}&]
 [s7; `};&]
 [s0; &]
-[s5; Note that [*C@5 GetHashValue] is defined as function template 
-that calls [*C@5 GetHashValue] method of its argument, therefore 
-defining [*C@5 GetHashValue] method defines [*C@5 GetHashValue] function 
-too:&]
+[s5; Заметьте, что [*C@5 GetHashValue] определён 
+как шаблон функции, вызывающий метод 
+[*C@5 GetHashValue] своего аргумента, следовательно, 
+определение метода [*C@5 GetHashValue] определяет 
+также и функцию [*C@5 GetHashValue]:&]
 [s0; &]
 [s7; Foo x;&]
 [s7; x.a `= `"world`";&]
@@ -762,14 +854,18 @@ too:&]
 [s0; &]
 [s17; GetHashValue(x) `= 1959050319&]
 [s0; &]
-[s3;H4;:Section`_1`_8: 1.8 SgnCompare and CombineCompare&]
-[s5; Traditional approach of C language of representing comparison 
-results was 3`-state: comparing a and b results in negative value 
-(if a < b), zero (if a `=`= b) or positive value (a > b). In 
-C`+`+ standard library, comparisons are usually represented with 
-[*C@5 bool] predicates.&]
-[s5; However, with [*C@5 bool] predicate it becomes somewhat more difficult 
-to provide comparisons for composite types:&]
+[s3;H4;:Section`_1`_8: [@(128.0.255) 1.8 SgnCompare и CombineCompare]&]
+[s5; Традиционным подходом языка Си к 
+представлению результатов сравнения 
+был из трёх состояний: сравнение a 
+и b даёт отрицательное значение (if 
+a < b), ноль (if a `=`= b) или положительное 
+значение (a > b). В стандартной библиотеке 
+C`+`+ сравнения обычно представляются 
+с предикатом [*C@5 bool].&]
+[s5; Однако, с предикатом [*C@5 bool] становится 
+несколько труднее проводить сравнение 
+составных типов:&]
 [s0; &]
 [s7; struct Foo `{&]
 [s7; -|String a;&]
@@ -788,8 +884,9 @@ c&]
 [s7; -|`}&]
 [s7; `};&]
 [s0; &]
-[s5; U`+`+ provides standard function [*C@5 SgnCompare], which returns 
-negative value/zero/positive in `"C style`":&]
+[s5; U`+`+ предоставляет стандартную функцию 
+[*C@5 SgnCompare], возвращающую отрицательное 
+значение/ноль/позитив в стиле `"C style`":&]
 [s0; &]
 [s7; int a `= 1;&]
 [s7; int b `= 2;&]
@@ -802,8 +899,8 @@ negative value/zero/positive in `"C style`":&]
 [s17; SgnCompare(b, a) `= 1&]
 [s17; SgnCompare(a, a) `= 0&]
 [s0; &]
-[s5; Default implementation of [*C@5 SgnCompare] calls [*C@5 Compare] 
-method of value:&]
+[s5; Дефолтная реализация [*C@5 SgnCompare] вызывает 
+метод значения [*C@5 Compare]:&]
 [s0; &]
 [s7; struct MyClass `{&]
 [s7; -|int val;&]
@@ -812,7 +909,7 @@ method of value:&]
 x.val); `}&]
 [s7; `};&]
 [s0; &]
-[s5; [*C@5 SgnCompare] is now defined for [*C@5 MyClass]:&]
+[s5; [*C@5 SgnCompare] теперь определён для [*C@5 MyClass]:&]
 [s0; &]
 [s7; MyClass u, v;&]
 [s7; u.val `= 1;&]
@@ -826,8 +923,8 @@ x.val); `}&]
 [s17; SgnCompare(v, u) `= 1&]
 [s17; SgnCompare(v, v) `= 0&]
 [s0; &]
-[s5; Now getting back to [*C@5 Foo], with [*C@5 SgnCompare] [*C@5 operator<] 
-becomes much less difficult:&]
+[s5; Теперь вернуться к [*C@5 Foo], с [*C@5 SgnCompare] 
+[*C@5 operator<] становится не так уж трудно:&]
 [s0; &]
 [s7; struct Foo2 `{&]
 [s7; -|String a;&]
@@ -844,9 +941,11 @@ becomes much less difficult:&]
 [s7; -|`}&]
 [s7; `};&]
 [s0; &]
-[s5; Alternatively, it is possible to define just [*C@5 Compare] method 
-and use [*C@5 Comparable] [^https`:`/`/en`.wikipedia`.org`/wiki`/Curiously`_recurring`_template`_pattern^ C
-RTP idiom] to define all relation operators:&]
+[s5; Альтернативно, можно определить 
+только метод [*C@5 Compare] и использовать 
+[*C@5 Comparable] [^https`:`/`/en`.wikipedia`.org`/wiki`/Curiously`_recurring`_template`_pattern^ C
+RTP идиому] , чтобы определить все реляционные
+ операторы:&]
 [s0; &]
 [s7; struct Foo3 : Comparable<Foo3> `{&]
 [s7; -|String a;&]
@@ -880,8 +979,10 @@ RTP idiom] to define all relation operators:&]
 [s17; m !`= n `= true&]
 [s17; SgnCompare(m, n) `= `-1&]
 [s0; &]
-[s5; While the content of [*C@5 Compare] method is trivial, it can 
-be further simplified using [*C@5 CombineCompare] helper class:&]
+[s5; Хотя содержание метода [*C@5 Compare]  и 
+так достаточно тривиально, его можно 
+ещё более упростить, используя вспомогатель
+ный класс [*C@5 CombineCompare]:&]
 [s0; &]
 [s7; struct Foo4 : Comparable<Foo4> `{&]
 [s7; -|String a;&]
@@ -911,21 +1012,24 @@ be further simplified using [*C@5 CombineCompare] helper class:&]
 [s17; o !`= p `= true&]
 [s17; SgnCompare(o, p) `= `-1&]
 [s0; &]
-[s22;:Chapter`_2: 2. Streams&]
-[s3;:Section`_2`_1: 2.1 Streams basics&]
-[s5; U`+`+ stream working with files is [*C@5 FileStream]. It has 3 
-derived classes, [*C@5 FileIn], [*C@5 FileOut] and [*C@5 FileAppend], 
-for the most common uses.&]
+[s22;:Chapter`_2: [@3 2. Потоки]&]
+[s3;:Section`_2`_1: [@(128.0.255) 2.1 Основы Потоков]&]
+[s5; Потоком U`+`+, работающим с файлами, 
+является [*C@5 FileStream]. У него 3 производных 
+класса `- [*C@5 FileIn], [*C@5 FileOut] и [*C@5 FileAppend], 
+для самых общих применений.&]
 [s0; &]
 [s7; FileIn in(GetDataFile(`"test.txt`"));&]
 [s7; if(!in) `{&]
-[s7; -|LOG(`"Failed to open the file`");&]
+[s7; -|LOG(`"Не удалось открыть файл`");&]
 [s7; -|return;&]
 [s7; `}&]
 [s0; &]
-[s5; The most basic operations of streams are [*C@5 Put] and [*C@5 Get]. 
-[*C@5 Get] works in the same ways as good old C getc `- it returns 
-negative number on eof or error:&]
+[s5; Самыми основными операциями потоков 
+являются [*C@5 Put] и [*C@5 Get]. [*C@5 Get] работает 
+точно так же, как и старый добрый getc 
+из языка Си `- он возвращает отрицательное 
+число при eof или ошибке:&]
 [s0; &]
 [s7; String h;&]
 [s7; int c;&]
@@ -942,12 +1046,16 @@ negative number on eof or error:&]
 [s17; sint occaecat cupidatat non proident, sunt in culpa qui&]
 [s17; officia deserunt mollit anim id est laborum.&]
 [s0; &]
-[s5; U`+`+ streams provide no formatting capabilities (that is deferred 
-to text utilities), but they have some unique features. U`+`+ 
-does not distinguish between `'text`' and `'binary`' mode streams, 
-methods are well suited to work with both in common mode.&]
-[s5; [*C@5 GetLine] returns [*C@5 String] of single line read (lines 
-separator being `'`\n`', `'`\r`' is ignored):&]
+[s5; Потоки U`+`+ не предоставляют возможностей 
+форматирования (это относится к текстовым 
+утилитам), но у них есть некоторые 
+уникальные черты. U`+`+ не делает различия 
+между режимами потока `'text`' и `'binary`'; 
+методы отлично приспособлены работать 
+с обеими, в общем режиме.&]
+[s5; [*C@5 GetLine] возвращает [*C@5 String] одной считанной 
+строки (разделители строк `'`\n`', `'`\r`' 
+игнорируются):&]
 [s0; &]
 [s7; in.Seek(0);&]
 [s7; while(!in.IsEof())&]
@@ -969,8 +1077,9 @@ Excepteur&]
 culpa qui&]
 [s17; in.GetLine() `= officia deserunt mollit anim id est laborum.&]
 [s0; &]
-[s5; [*C@5 Peek] can be used to look at the next character without 
-actually moving on to the next one:&]
+[s5; [*C@5 Peek] можно использовать для того, 
+чтобы заглянуть в следующий символ, 
+не переходя к нему:&]
 [s0; &]
 [s7; in.Seek(0);&]
 [s7; DDUMP((char)in.Peek());&]
@@ -980,25 +1089,28 @@ actually moving on to the next one:&]
 [s17; in.GetLine() `= Lorem ipsum dolor sit amet, consectetur adipiscing 
 elit,&]
 [s0; &]
-[s5; [*C@5 Get] method reads at most specified number of bytes from 
-the stream and returns them as [*C@5 String]:&]
+[s5; [*C@5 Get] `- метод, который считывает из 
+потока указанное число байтов и возвращает 
+их как [*C@5 String]:&]
 [s0; &]
 [s7; in.Seek(0);&]
 [s7; DUMP(in.Get(10));&]
 [s0; &]
 [s17; in.Get(10) `= Lorem ipsu&]
 [s0; &]
-[s5; If there is not enough characters in the Stream as required 
-by Get, everything till EOF is returned:&]
+[s5; Если в Stream`'е меньше символов, чем 
+требуется для Get`'а, то возвращается 
+всё, что есть, до EOF`'а (конца файла):&]
 [s0; &]
 [s7; in.Seek(0);&]
 [s7; DUMP(in.Get(999999).GetCount());&]
 [s0; &]
 [s17; in.Get(999999).GetCount() `= 452&]
 [s0; &]
-[s5; In contrast, [*C@5 GetAll] method fails when there is not enough 
-characters in the Stream and returns Void [*C@5 String] if Stream 
-is not in [*C@5 LoadThrowing] mode:&]
+[s5; В отличие он него, метод [*C@5 GetAll] испытывает 
+провал, когда в Stream`'е не хватает символов. 
+И возвращает Void [*C@5 String], если Stream не 
+находится в режиме [*C@5 LoadThrowing]:&]
 [s0; &]
 [s7; in.Seek(0);&]
 [s7; h `= in.GetAll(100);&]
@@ -1012,44 +1124,50 @@ is not in [*C@5 LoadThrowing] mode:&]
 [s0; &]
 [s17; h.IsVoid() `= true&]
 [s0; &]
-[s5; In [*C@5 LoadThrowing] mode, [*C@5 Stream] throws [*C@5 LoadingError] 
-exception when there is problem with input [*C@5 Stream]:&]
+[s5; В режиме [*C@5 LoadThrowing], [*C@5 Stream] выбрасывает 
+исключение [*C@5 LoadingError], если у него 
+появляется проблема с вводным [*C@5 Stream`'ом]:&]
 [s0; &]
 [s7; in.LoadThrowing();&]
 [s7; try `{&]
 [s7; -|in.GetAll(999999);&]
 [s7; `}&]
 [s7; catch(LoadingError) `{&]
-[s7; -|LOG(`"Loading error`");&]
+[s7; -|LOG(`"Ошибка загрузки`");&]
 [s7; `}&]
 [s0; &]
 [s17; Loading error&]
 [s0; &]
-[s5; Template variant of [*C@5 Stream`::operator<<] is using [*C@5 AsString] 
-to convert data to text:&]
+[s5; Шаблонный вариант [*C@5 Stream`::operator<<] использует 
+[*C@5 AsString] для преобразования данных 
+в текст:&]
 [s0; &]
 [s7; String fn `= GetHomeDirFile(`"test.txt`");&]
 [s7; FileOut out(fn);&]
 [s7; if(!out) `{&]
-[s7; -|LOG(`"Failed to open the file`");&]
+[s7; -|LOG(`"Не удалось открыть файл`");&]
 [s7; -|return;&]
 [s7; `}&]
 [s7; out << `"Some number `" << 321 << `" and Point `" << Point(1, 
 2);&]
 [s7; out.Close();&]
 [s0; &]
-[s5; When writing to the [*C@5 Stream], the good way to check for errors 
-is to write all data, close the stream and then check for [*C@5 IsError]:&]
+[s5; При записи в [*C@5 Stream], хороший способ 
+проверки на ошибки `- запись всех данных, 
+закрытие потока и затем проверка 
+на [*C@5 IsError]:&]
 [s0; &]
-[s7; if(out.IsError()) `{ // check whether file was properly written&]
-[s7; -|LOG(`"Error`");&]
+[s7; if(out.IsError()) `{ // проверка правильности 
+записи файла&]
+[s7; -|LOG(`"Ошибка`");&]
 [s7; -|return;&]
 [s7; `}&]
 [s7; DUMP(LoadFile(fn));&]
 [s0; &]
 [s17; LoadFile(fn) `= Some number 321 and Point `[1, 2`]&]
 [s0; &]
-[s5; [*C@5 FileAppend] can be used to append data to the file:&]
+[s5; [*C@5 FileAppend] можно использовать для приставлени
+я (`"постановки в хвост`") данных к файлу:&]
 [s0; &]
 [s7; FileAppend out2(fn);&]
 [s7; out2 << `"`\nSomething more`";&]
@@ -1059,10 +1177,13 @@ is to write all data, close the stream and then check for [*C@5 IsError]:&]
 [s17; LoadFile(fn) `= Some number 321 and Point `[1, 2`]&]
 [s17; Something more&]
 [s0; &]
-[s5; Important and often used type of [*C@5 Stream] is [*C@5 StringStream] 
-which works with [*C@5 String] as input/output.&]
-[s5; [*C@5 Stream] also provides methods to store/load primitive types, 
-in both little`-endian and big`-endian modes:&]
+[s5; Важным и часто используемым типом 
+[*C@5 Stream`'а] является [*C@5 StringStream], который 
+работает со [*C@5 String`'ом] как с вводом/выводом.&]
+[s5; [*C@5 Stream] также предосталяет методы 
+для сохранения/загрузки примитивных 
+типов, как в режиме little`-endian, так и 
+в big`-endian:&]
 [s0; &]
 [s7; StringStream ss;&]
 [s7; ss.Put32le(0x12345678);&]
@@ -1081,8 +1202,9 @@ in both little`-endian and big`-endian modes:&]
 [s17; ss2.Get32le() `= 0x12345678&]
 [s17; ss2.Get32be() `= 0x12345678&]
 [s0; &]
-[s3;H4;:Section`_2`_2: 2.2 Special streams&]
-[s5; [*C@5 SizeStream] counts the number of bytes written to the stream:&]
+[s3;H4;:Section`_2`_2: [@(128.0.255) 2.2 Особые потоки]&]
+[s5; [*C@5 SizeStream] считает число байтов, записанных 
+в поток:&]
 [s0; &]
 [s7; SizeStream szs;&]
 [s7; szs << `"1234567`";&]
@@ -1090,8 +1212,9 @@ in both little`-endian and big`-endian modes:&]
 [s0; &]
 [s17; szs.GetSize() `= 7&]
 [s0; &]
-[s5; [*C@5 CompareStream] can be used to compare the content of some 
-stream with data written to [*C@5 CompareStream]:&]
+[s5; [*C@5 CompareStream] можно использовать для 
+сравнения содержимого некоторого 
+потока с данными, записанными в  [*C@5 CompareStream]:&]
 [s0; &]
 [s7; StringStream in(`"123456`");&]
 [s7; CompareStream cs(in);&]
@@ -1106,8 +1229,9 @@ stream with data written to [*C@5 CompareStream]:&]
 [s0; &]
 [s17; cs.IsEqual() `= false&]
 [s0; &]
-[s5; [*C@5 OutStream] buffers output data to bigger blocks, then outputs 
-them via [*C@5 Out] virtual method:&]
+[s5; [*C@5 OutStream] буферирует выводные данные 
+в большие блоки, затем выводит их 
+виртуальным методом [*C@5 Out]:&]
 [s0; &]
 [s7; struct MyOutStream : OutStream `{&]
 [s7; -|virtual  void  Out(const void `*data, dword size) `{&]
@@ -1126,7 +1250,8 @@ them via [*C@5 Out] virtual method:&]
 [s17;    `+16 0x07604A20 32 33 34 35                              
            2345            &]
 [s0; &]
-[s5; [*C@5 TeeStream] sends output data to two separate streams:&]
+[s5; [*C@5 TeeStream] отсылает выводные данные 
+в два разных потока:&]
 [s0; &]
 [s7; StringStream ss1;&]
 [s7; StringStream ss2;&]
@@ -1139,8 +1264,9 @@ them via [*C@5 Out] virtual method:&]
 [s17; ss1.GetResult() `= Tee stream test&]
 [s17; ss2.GetResult() `= Tee stream test&]
 [s0; &]
-[s5; [*C@5 MemReadStream] can be used to convert read`-only memory 
-block to stream data:&]
+[s5; [*C@5 MemReadStream] можно использовать для 
+преобразования блока памяти read`-only 
+в данные потока:&]
 [s0; &]
 [s7; static const char s`[`] `= `"Some line`\nAnother line`";&]
 [s7; MemReadStream ms(s, sizeof(s) `- 1);&]
@@ -1154,21 +1280,29 @@ block to stream data:&]
 [s17;     `+0 0x0208F6F8 41 6E 6F 74 68 65 72 20 6C 69 6E 65      
            Another line    &]
 [s0; &]
-[s3;H4;:Section`_2`_3: 2.3 Binary serialization&]
-[s5; Serialization is a mechanism that converts structured data to/from 
-binary stream. In U`+`+, loading and storing of data is performed 
-by single code, in most cases represented by method [*C@5 Serialize]. 
-Serialization is performed directly with basic [*C@5 Stream]. To 
-this end, [*C@5 Stream] features a single boolean representing 
-the direction of serialization process. The direction can be 
-checked using [*C@5 IsLoading] and [*C@5 IsStoring] methods and changed 
-with [*C@5 SetStoring] and [*C@5 SetLoading] methods. Direction is 
-usually set properly by derived classes (e.g. FileOut sets it 
-to storing, FileIn to loading).&]
-[s5; Shortcut to calling [*C@5 Serialize] method is [*C@5 operator%], 
-which is templated overload that calls [*C@5 Serialize] for given 
-variable (primitive types have direct overload in [*C@5 Stream] 
-class):&]
+[s3;H4;:Section`_2`_3: [@(128.0.255) 2.3 Двоичная сериализация]&]
+[s5; Сериализация `- это механизм, преобразующий 
+структурированные данные в /из двоичного 
+потока. В U`+`+ загрузка и сохранение 
+данных выполняется одним и тем же 
+кодом, в большинстве случаев представленным
+ методом [*C@5 Serialize]. Сериализация выполняется 
+напрямую, с базовым [*C@5 Stream`'ом]. На всём 
+протяжении у [*C@5 Stream`'а] имеется булев 
+член, который представляет направление 
+процесса сериализации. Направление 
+можно проверить `- с помощью методов 
+[*C@5 IsLoading] и [*C@5 IsStoring;] и изменить `- с помощью 
+методов [*C@5 SetStoring] и [*C@5 SetLoading]. Обычно 
+направление, нужным образом, устанавливаетс
+я производными классами (например, 
+FileOut устанавливает его в сохранение, 
+а FileIn `- в загрузку).&]
+[s5; Краткий вызов метода [*C@5 Serialize] выполняет 
+[*C@5 operator%], являющийся шаблонной перегрузкой, 
+которая вызывает [*C@5 Serialize] для заданной 
+переменной (у примитивных типов в 
+классе [*C@5 Stream] есть прямая перегрузка):&]
 [s0; &]
 [s7; StringStream ss;&]
 [s7; &]
@@ -1190,10 +1324,12 @@ class):&]
 [s17; x2 `= 123&]
 [s17; h2 `= Color(255, 255, 255)&]
 [s0; &]
-[s5; When serialization fails to load the data (e.g. because of wrong 
-structure or not enough data in the stream), [*C@5 Stream`::LoadError] 
-is invoked, which can trigger the exception if the stream is 
-[*C@5 LoadThrowing]:&]
+[s5; Когда при сериализации не удаётся 
+загрузить данные (например, из`-за 
+ошибочной структуры или недостатка 
+данных в потоке), вызывается [*C@5 Stream`::LoadError], 
+которая может триггировать исключение, 
+если поток [*C@5 LoadThrowing]:&]
 [s0; &]
 [s7; ss2.Seek(0);&]
 [s7; ss2.LoadThrowing();&]
@@ -1201,16 +1337,18 @@ is invoked, which can trigger the exception if the stream is
 [s7; -|ss2 % x2 % h2 % x2;&]
 [s7; `}&]
 [s7; catch(LoadingError) `{&]
-[s7; -|LOG(`"Deserialization has failed`");&]
+[s7; -|LOG(`"Десериализация не удалась`");&]
 [s7; `}&]
 [s0; &]
-[s17; Deserialization has failed&]
+[s17; Десериализация не удалась&]
 [s0; &]
-[s5; Examples so far serve mostly like basic demonstration of serialization. 
-In practice, the implementation is usually represented by [*C@5 Serialize] 
-method of class that is to be compatible with this concept. To 
-that end, it is a good idea to provide means for future expansion 
-of such class:&]
+[s5; Сериализация, главным образом, может 
+быть продемонстрирована на конкретных 
+примерах. На практике обычно реализация 
+представлена методом [*C@5 Serialize] класса, 
+совместимого с этим понятием. Неплохо 
+предоставлять средства для последующего 
+расширения подобного класса:&]
 [s0; &]
 [s7; struct MyFoo `{&]
 [s7; -|int    number;&]
@@ -1218,9 +1356,11 @@ of such class:&]
 [s7; -|&]
 [s7; -|void Serialize(Stream`& s) `{&]
 [s7; -|-|int version `= 0;&]
-[s7; -|-|s / version; // allow backward compatibility in the future&]
-[s7; -|-|s.Magic(31415); // put magic number into the stream to check 
-for invalid data&]
+[s7; -|-|s / version; // позволяет в будущем достичь 
+обратной совместимости&]
+[s7; -|-|s.Magic(31415); // помещает магическое число 
+в поток для проверки&]
+[s7;                               // некорректных данных&]
 [s7; -|-|s % number % color;&]
 [s7; -|`}&]
 [s7; `};&]
@@ -1229,9 +1369,10 @@ for invalid data&]
 [s7; foo.number `= 321;&]
 [s7; foo.color `= Blue();&]
 [s0; &]
-[s5; [*C@5 StoreAsFile], [*C@5 StoreAsString], [*C@5 LoadFromFile] and 
-[*C@5 LoadFromString] are convenience functions that simplify storing 
-/ loading objects to / from the most common forms of storage:&]
+[s5; [*C@5 StoreAsFile], [*C@5 StoreAsString], [*C@5 LoadFromFile] и [*C@5 LoadFromString] 
+`- эти функции удобны тем, что упрощают 
+сохранение/загрузку объектов в/из 
+наиболее распространённых форм сохранения:&]
 [s0; &]
 [s7; String data `= StoreAsString(foo);&]
 [s7; MyFoo foo2;&]
@@ -1242,9 +1383,12 @@ for invalid data&]
 [s17; foo2.number `= 321&]
 [s17; foo2.color `= Color(0, 0, 128)&]
 [s0; &]
-[s5; Now if [*C@5 MyFoo] was to be extended to [*C@5 MyFoo2] and we wanted 
-to maintain the ability to load it from binary data stored by 
-original [*C@5 MyFoo], we can branch on previously stored [*C@5 version]:&]
+[s5; Теперь, если [*C@5 MyFoo] нужно расширить 
+до [*C@5 MyFoo2], и требуется поддержать 
+способность загружать из двоичных 
+данных, сохранённых посредством исходного 
+[*C@5 MyFoo], можно ответвиться от ранее 
+сохранённой версии ([*C@5 version)]:&]
 [s0; &]
 [s7; struct MyFoo2 `{&]
 [s7; -|int    number;&]
@@ -1267,22 +1411,29 @@ original [*C@5 MyFoo], we can branch on previously stored [*C@5 version]:&]
 [s17; foo3.number `= 0&]
 [s17; foo3.color `= Color(Null)&]
 [s0; &]
-[s5; Note: [*C@5 operator/] is Stream method with several overloads 
-optimized for small value `- in this case [*C@5 int] is stored 
-as single byte if possible (and as 5 bytes if not).&]
-[s22;:Chapter`_3: 3. Array containers&]
-[s3;:Section`_3`_1: 3.1 [C@5 Vector] basics&]
-[s5; [*C@5 Vector] is the basic container of U`+`+. It is the random 
-access container similar to [*C@5 std`::vector] with one important 
-performance related difference: There are rules for elements of 
-[*C@5 Vector] that allow its implementation to move elements in 
-memory using plain [*C@5 memcpy]/``memmove`` (`"Moveable`" concept).&]
-[s5; Anyway, for now let us start with simple [*C@5 Vector] of [*C@5 int]s:&]
+[s5; Примечание: [*C@5 operator/] `- это метод Stream 
+с несколькими пергрузками, оптимизированный
+ для небольшого значения `- в этом 
+случае [*C@5 int] сохраняется как единичный 
+байт по возможности (и как 5 байтов, 
+при её отсутствии).&]
+[s22;:Chapter`_3: [@3 3. Контейнеры`-массивы]&]
+[s3;:Section`_3`_1: [@(128.0.255) 3.1 Основы] [C@5 Vector`'а]&]
+[s5; [*C@5 Vector] `- это базовый контейнер U`+`+. 
+Это контейнер случайного доступа, 
+подобный [*C@5 std`::vector], с одним отличием, 
+относящимся к производительности 
+(performance): Правила для элементов [*C@5 Vector`'а] 
+позволяют в его реализации перемещать 
+элементы в памяти, использую простые 
+[*C@5 memcpy]/``memmove`` (понятие `"Moveable`").&]
+[s5; В любом случае, начнём с простого 
+[*C@5 Vector`'а из] [*C@5 int`'ов]:&]
 [s0; &]
 [s7; -|Vector<int> v;&]
 [s0; &]
-[s5; You can add elements to the Vector as parameters of the Add 
-method&]
+[s5; Добавить элементы в этот Vector можно 
+в виде параметров к методу Add:&]
 [s0; &]
 [s7; -|v.Add(1);&]
 [s7; -|v.Add(2);&]
@@ -1291,9 +1442,11 @@ method&]
 [s0; &]
 [s17; v `= `[1, 2`]&]
 [s0; &]
-[s5; Alternative and very important possibility for U`+`+ containers 
-is `'in`-place creation`'. In this case, parameter`-less Add 
-returns a reference to a new element in [*C@5 Vector]:&]
+[s5; Альтернативная и очень важная возможность 
+для контейнеров U`+`+ `- `'in`-place creation`' 
+(`"создание на месте`"). При этом беспараметрны
+й Add возвращает ссылку на новый элемент 
+в [*C@5 Vector`'е]:&]
 [s0; &]
 [s7; -|v.Add() `= 3;&]
 [s7; -|&]
@@ -1301,7 +1454,7 @@ returns a reference to a new element in [*C@5 Vector]:&]
 [s0; &]
 [s17; v `= `[1, 2, 3`]&]
 [s0; &]
-[s5; You can also use [*C@5 operator<<]&]
+[s5; Можно также использовать [*C@5 operator<<]&]
 [s0; &]
 [s7; -|v << 4 << 5;&]
 [s7; &]
@@ -1309,7 +1462,8 @@ returns a reference to a new element in [*C@5 Vector]:&]
 [s0; &]
 [s17; v `= `[1, 2, 3, 4, 5`]&]
 [s0; &]
-[s5; [*C@5 Vector] also supports initializer lists:&]
+[s5; [*C@5 Vector] к тому же поддерживает списки 
+инициализаторов:&]
 [s0; &]
 [s7; -|v.Append(`{ 6, 7 `});&]
 [s7; &]
@@ -1317,7 +1471,8 @@ returns a reference to a new element in [*C@5 Vector]:&]
 [s0; &]
 [s17; v `= `[1, 2, 3, 4, 5, 6, 7`]&]
 [s0; &]
-[s5; To iterate [*C@5 Vector] you can use indices:&]
+[s5; Для итерации (обхода) по [*C@5 Vector`'у] 
+используются индексы:&]
 [s0; &]
 [s7; -|for(int i `= 0; i < v.GetCount(); i`+`+)&]
 [s7; -|-|LOG(v`[i`]);&]
@@ -1330,7 +1485,7 @@ returns a reference to a new element in [*C@5 Vector]:&]
 [s17; 6&]
 [s17; 7&]
 [s0; &]
-[s5; begin/end interface:&]
+[s5; интерфейс begin/end:&]
 [s0; &]
 [s7; -|for(auto q `= v.begin(), e `= v.end(); q !`= e; q`+`+)&]
 [s7; -|-|LOG(`*q);&]
@@ -1343,7 +1498,7 @@ returns a reference to a new element in [*C@5 Vector]:&]
 [s17; 6&]
 [s17; 7&]
 [s0; &]
-[s5; C`+`+11 range`-for syntax:&]
+[s5; синтаксис C`+`+11 range`-for:&]
 [s0; &]
 [s7; -|for(const auto`& q : v)&]
 [s7; -|-|LOG(q);&]
@@ -1356,9 +1511,10 @@ returns a reference to a new element in [*C@5 Vector]:&]
 [s17; 6&]
 [s17; 7&]
 [s0; &]
-[s3;H4;:Section`_3`_2: 3.2 [C@5 Vector] operations&]
-[s5; You can [*C@5 Insert] or [*C@5 Remove] elements at random positions 
-of Vector (O(n) complexity):&]
+[s3;H4;:Section`_3`_2: [@(128.0.255) 3.2 Операции с] [C@5 Vector`'ом]&]
+[s5; Вставка и удаление элеметов (методами 
+[*C@5 Insert] или [*C@5 Remove)] в случайные позиции 
+вектора Vector (сложность O(n)):&]
 [s0; &]
 [s7; Vector<int> v;&]
 [s7; v.Add(1);&]
@@ -1384,11 +1540,14 @@ of Vector (O(n) complexity):&]
 [s0; &]
 [s17; v `= `[6, 5, 1, 10, 2`]&]
 [s0; &]
-[s5; [*C@5 At] method returns element at specified position ensuring 
-that such a position exists. If there is not enough elements 
-in [*C@5 Vector], required number of elements is added. If second 
-parameter of [*C@5 At] is present, newly added elements are initialized 
-to this value.&]
+[s5; [*C@5 At] `- метод, возвращающий элементы 
+в указанной позиции, проверяющий 
+такую позицию на наличие. Если в [*C@5 Vector`'е 
+]недостаточно элементов, он добавляет 
+их в требуемом количестве. Если у 
+[*C@5 At] есть второй параметр, то новые 
+добавленные элементы инициализируются 
+с этим значением.&]
 [s0; &]
 [s7; v.Clear();&]
 [s7; for(int i `= 0; i < 10000; i`+`+)&]
@@ -1398,10 +1557,14 @@ to this value.&]
 [s0; &]
 [s17; v `= `[922, 995, 1050, 1007, 1002, 998, 1020, 1023, 1000, 983`]&]
 [s0; &]
-[s5; Referencing invalid index is undefined operation. Sometimes 
-however it is useful to return the element value if index is 
-valid and some default value if it is not. This can be achieved 
-with two parameter Get method:&]
+[s5; Ссылка на некорректный индекс приводит 
+к неопределённой операции. Иногда, 
+правда, полезно вернуть значение 
+элемента, если индекс некорректен; 
+либо какое`-то значение по умолчанию, 
+если значение вообще отсутствует. 
+Этого можно достичь двухпараметрным 
+методом Get:&]
 [s0; &]
 [s7; DUMP(v.Get(4, 0));&]
 [s7; DUMP(v.Get(`-10, 0));&]
@@ -1411,7 +1574,8 @@ with two parameter Get method:&]
 [s17; v.Get(`-10, 0) `= 0&]
 [s17; v.Get(13, `-1) `= `-1&]
 [s0; &]
-[s5; You can apply algorithms on containers, e.g. Sort&]
+[s5; К контейнерам можно применять алгоритмы, 
+например, Sort (алгоритм сортировки)&]
 [s0; &]
 [s7; Sort(v);&]
 [s7; &]
@@ -1419,13 +1583,17 @@ with two parameter Get method:&]
 [s0; &]
 [s17; v `= `[922, 983, 995, 998, 1000, 1002, 1007, 1020, 1023, 1050`]&]
 [s0; &]
-[s3;H4;:Section`_3`_3: 3.3 Transfer issues&]
-[s5; Often you need to pass content of one container to another of 
-the same type. U`+`+ containers always support [^topic`:`/`/Core`/srcdoc`/pick`_`$en`-us^ p
-ick semantics] (synonym of std`::move), and, depending on type 
-stored, also might support [^topic`:`/`/Core`/srcdoc`/pick`_`$en`-us^ clone 
-semantics]. When transferring the value, you have to explicitly 
-specify which one to use:&]
+[s3;H4;:Section`_3`_3: [@(128.0.255) 3.3 Проблемы трансфера]&]
+[s5; Часто приходится передавать содержимое 
+из одного контейнера в другой, такого 
+же типа. Контейнеры U`+`+ всегда поддерживают 
+[^topic`:`/`/Core`/srcdoc`/pick`_`_ru`-ru^ семантику pick] 
+(синоним std`::move), и, в зависимости от 
+типа сохранения, также могут поддерживать 
+[^topic`:`/`/Core`/srcdoc`/pick`_`_ru`-ru^ семантику clone]. 
+При перемещении (трансфере) значения 
+нужно явно указать, какую из них использоват
+ь:&]
 [s0; &]
 [s7; Vector<int> v`{ 1, 2 `};&]
 [s7; &]
@@ -1440,10 +1608,12 @@ specify which one to use:&]
 [s17; v `= `[`]&]
 [s17; v1 `= `[1, 2`]&]
 [s0; &]
-[s5; now source [*C@5 Vector] [*C@5 v] is empty, as elements were `'picked`' 
-to [*C@5 v1].&]
-[s5; If you really need to preserve value of source (and elements 
-support deep copy operation), you can use [*C@5 clone]:&]
+[s5; теперь исходный [*C@5 Vector] [*C@5 v] пуст, так 
+как элементы `'picked`'(`"сброшены`") в [*C@5 v1].&]
+[s5; Если же нужно сохранить значение 
+в исходнике (и элементы поддерживают 
+операцию глубокого копирования), 
+можно использовать [*C@5 clone]:&]
 [s0; &]
 [s7; v `= clone(v1);&]
 [s7; &]
@@ -1453,27 +1623,31 @@ support deep copy operation), you can use [*C@5 clone]:&]
 [s17; v `= `[1, 2`]&]
 [s17; v1 `= `[1, 2`]&]
 [s0; &]
-[s5; The requirement of explicit [*C@5 clone] has the advantage of 
-avoiding unexpected deep copies. For example:&]
+[s5; Требование явного [*C@5 clone] имеет преимущество
+ избежания неожидаемых глубоких копий. 
+Например:&]
 [s0; &]
 [s7; Vector<Vector<int>> x;&]
 [s7; x.Add() << 1 << 2 << 3;&]
 [s7; &]
 [s7; for(auto i : x) `{ LOG(i); `}&]
 [s0; &]
-[s5; results in run`-time error, whereas the equivalent code with 
-[*C@5 std`::vector] compiles but silently performs deep copy for 
-each iteration:&]
+[s5; приводит к рантаймной ошибке, а эквивалентн
+ый код с [*C@5 std`::vector] компилируется, но 
+`"втихаря`" выполняет глубокое копирование 
+на каждой итерации:&]
 [s0; &]
 [s7; std`::vector<std`::vector<int>> sv;&]
 [s7; sv.push`_back(`{1, 2, 3`});&]
-[s7; for(auto i : sv) // invokes std`::vector<int> copy constructor&]
+[s7; for(auto i : sv) // вызывает конструктор копии 
+std`::vector<int>&]
 [s7; -|for(auto j : i)&]
 [s7; -|-|DUMP(j);&]
 [s0; &]
-[s5; That said, in certain cases it is simpler to have default copy 
-instead of explicit [*C@5 clone]. You can easily achieve that using 
-[*C@5 WithDeepCopy] template:&]
+[s5; Печально, но в некоторых случаях 
+проще иметь дефолтную копию, вместо 
+явного [*C@5 clone]. Этого можно легко добиться, 
+применив шаблон [*C@5 WithDeepCopy]:&]
 [s0; &]
 [s7; WithDeepCopy<Vector<int>> v2;&]
 [s7; &]
@@ -1485,14 +1659,19 @@ instead of explicit [*C@5 clone]. You can easily achieve that using
 [s17; v `= `[1, 2`]&]
 [s17; v2 `= `[1, 2`]&]
 [s0; &]
-[s3;H4;:Section`_3`_4: 3.4 Client types in U`+`+ containers&]
-[s5; So far we were using int as type of elements. In order to store 
-client defined types into the [*C@5 Vector] (and the Vector [^topic`:`/`/Core`/src`/Overview`$en`-us^ f
-lavor]) the type must satisfy [^topic`:`/`/Core`/src`/Moveable`$en`-us^ moveable] 
-requirement `- in short, it must not contain back`-pointers nor 
-virtual methods. Type must be marked as [/ moveable] in order to 
-define interface contract using [*C@5 Moveable] [^https`:`/`/en`.wikipedia`.org`/wiki`/Curiously`_recurring`_template`_pattern^ C
-RTP idiom]:&]
+[s3;H4;:Section`_3`_4: [@(128.0.255) 3.4 Клентские типы 
+в контейнерах U`+`+]&]
+[s5; До сих пор в качестве типа элементов 
+нами использовался int. В целях сохранения 
+клиентских типов в [*C@5 Vector] (и Vector [^topic`:`/`/Core`/src`/Vector`_ru`-ru^ f
+lavor]) тип должен удовлетворять требованию 
+[^topic`:`/`/Core`/srcdoc`/Moveable`_ru`-ru^ moveable] `- короче, 
+он не должен содержать ни обратных 
+указателей, ни виртуальных методов. 
+Тип должен быть отмечен как [/ moveable 
+]с тем, чтобы определить интерфейс`-контракт,
+ используя [*C@5 Moveable] [^https`:`/`/en`.wikipedia`.org`/wiki`/Curiously`_recurring`_template`_pattern^ C
+RTP идиому]:&]
 [s0; &]
 [s7; struct Distribution : Moveable<Distribution> `{&]
 [s7; -|String      text;&]
@@ -1502,15 +1681,22 @@ RTP idiom]:&]
 `}&]
 [s7; `};&]
 [s0; &]
-[s5; Now to add [*C@5 Distribution] elements you cannot use [*C@5 Vector`::Add(const 
-T`&)], because it requires elements to have default deep`-copy 
-constructor `- and [*C@5 Distribution does not have one, as ]Vector<int>`` 
-has default pick`-constructor, so Distribution itself has pick`-constructor. 
-It would no be a good idea either, because deep`-copy would involve 
-expensive copying of inner Vector.&]
-[s5; Instead, Add without parameters has to be used `- it default 
-constructs (that is cheap) element in Vector and returns reference 
-to it:&]
+[s5; Теперь, чтобы добавить элементы [*C@5 Distribution], 
+нельзя использовать [*C@5 Vector`::Add(const T`&)], 
+так как ему требуются элементы с дефолтным 
+конструктором глубокой копии `- а 
+у [*C@5 Distribution ]он отсутствует, так как[*C@5  
+]Vector<int>`` имеет дефолтный pick`-конструктор, 
+как и сама Distribution имеет pick`-конструктор. 
+В любом случае это плохая идея, так 
+как глубокое копирование применяет 
+ресурсозатратное копирование внутреннего 
+Vector`'а.&]
+[s5; В качестве замены нужно использовать 
+Add без параметров `- по умолчанию он 
+строит (`"сердито и дёшево`" `-that is cheap) 
+элемент в Vector`'е и возвращает ссылку 
+на него:&]
 [s0; &]
 [s7; Vector<Distribution> dist;&]
 [s7; for(int n `= 5; n <`= 10; n`+`+) `{&]
@@ -1533,31 +1719,42 @@ to it:&]
 [s17; -|`[5`] `= Test 10: `[998, 995, 1012, 973, 1003, 1000, 1009, 1010, 
 991, 1009`]&]
 [s0; &]
-[s5; Another possibility is to use [*C@5 Vector`::Add(T`&`&)] method, 
-which uses pick`-constructor instead of deep`-copy constructor. 
-E.g. [*C@5 Distribution] elements might be generated by some function:&]
+[s5; Другой вариант `- использовать метод 
+[*C@5 Vector`::Add(T`&`&)], который использует 
+pick`-конструктор вместо конструктора 
+deep`-copy. Например, элементы. [*C@5 Distribution] 
+могут быть сгенерированы некоей функцией:&]
 [s0; &]
 [s7; Distribution CreateDist(int n);&]
 [s0; &]
-[s5; and code for adding such elements to Vector then looks like:&]
+[s5; а код для добавления таких элементов 
+в Vector, в таком случае, выглядит так:&]
 [s0; &]
 [s7; for(n `= 5; n <`= 10; n`+`+)&]
 [s7; -|dist.Add(CreateDist(n));&]
 [s0; &]
-[s5; alternatively, you can use default`-constructed variant too&]
+[s5; альтернативно, можно также использовать 
+default`-constructed вариант&]
 [s0; &]
 [s7; -|dist.Add() `= CreateDist();&]
 [s0; &]
-[s3;H4;:Section`_3`_5: 3.5 Array flavor&]
-[s5; If elements are not [*C@5 Moveable] and therefore cannot be stored 
-in [*C@5 Vector] flavor, they can still be stored in [*C@5 Array] 
-flavor. Another reason for using Array is the need for referencing 
-elements `- Array flavor never invalidates references or pointers 
-to them. Finally, if sizeof(T) is large (say more than 100`-200 
-bytes), using Array might be better from performance perspective.&]
-[s5; Example of elements that cannot be stored in Vector flavor are 
-standard library objects like [*C@5 std`::string] (because obviously, 
-standard library knows nothing about U`+`+ Moveable concept):&]
+[s3;H4;:Section`_3`_5: [@(128.0.255) 3.5 Array flavor]&]
+[s5; Если элементы не [*C@5 Moveable] и, следовательно, 
+не могут сохраняться в [*C@5 Vector] flavor, 
+их всё же можно сохранить в [*C@5 Array] 
+flavor. Другая причина для использования 
+Array `- необходимость ссылаться на элементы 
+`- Array flavor никогда не инвалидирует 
+ссылки или указатели на них. Наконец, 
+если sizeof(T) большой (скажем, более 100`-200 
+байтов), то использовать Array может 
+быть лучше, с точки зрения перформанса.&]
+[s5; Примерами элементов, которые нельзя 
+сохранить в Vector flavor, являются объекты 
+стандартной библиотеки типа [*C@5 std`::string] 
+(поскольку очевидно, что стандартная 
+библиотека ничего не знает о понятии 
+U`+`+ Moveable):&]
 [s0; &]
 [s7; Array<std`::string> as;&]
 [s7; for(int i `= 0; i < 4; i`+`+)&]
@@ -1571,8 +1768,9 @@ standard library knows nothing about U`+`+ Moveable concept):&]
 [s17; s.c`_str() `= Test&]
 [s17; s.c`_str() `= Test&]
 [s0; &]
-[s3;H4;:Section`_3`_6: 3.6 Polymorphic [C@5 Array]&]
-[s5; [*C@5 Array] can even be used for storing polymorphic elements:&]
+[s3;H4;:Section`_3`_6: [@(128.0.255) 3.6 Полиморфный] [C@5 Array]&]
+[s5; [*C@5 Array] можно использовать даже для 
+хранения полиморфных элементов:&]
 [s0; &]
 [s7; struct Number `{&]
 [s7; -|virtual double Get() const `= 0;&]
@@ -1590,8 +1788,9 @@ standard library knows nothing about U`+`+ Moveable concept):&]
 [s7; -|virtual double Get() const `{ return n; `}&]
 [s7; `};&]
 [s0; &]
-[s5; To add such derived types to [*C@5 Array], you can best use in`-place 
-creation with [*C@5 Create] method:&]
+[s5; Чтобы добавить такие производные 
+типы в [*C@5 Array], лучше всего использовать 
+in`-place создание методом [*C@5 Create]:&]
 [s0; &]
 [s7; Array<Number> num;&]
 [s7; num.Create<Double>().n `= 15.5;&]
@@ -1601,9 +1800,10 @@ creation with [*C@5 Create] method:&]
 [s0; &]
 [s17; num `= `[15.5, 3`]&]
 [s0; &]
-[s5; Alternatively, you can use [*C@5 Add(T `*)] method and provide 
-a pointer to the newly created instance on the heap ([*C@5 Add] 
-returns a reference to the instance):&]
+[s5; Альтернативно, можно использовать 
+метод [*C@5 Add(T `*)] и предоставить указатель 
+на новый созданный экземпляр на куче 
+([*C@5 Add] возвращает ссылку на этот экземпляр):&]
 [s0; &]
 [s7; Double `*nd `= new Double;&]
 [s7; nd`->n `= 1.1;&]
@@ -1613,13 +1813,16 @@ returns a reference to the instance):&]
 [s0; &]
 [s17; num `= `[15.5, 3, 1.1`]&]
 [s0; &]
-[s5; Array takes ownership of heap object and deletes it as appropriate. 
-We recommend to use this variant only if in`-place creation with 
-[*C@5 Create] is not possible.&]
-[s5; It is OK do directly apply U`+`+ algorithms on [*C@5 Array] (the 
-most stringent requirement of any of basic algorithms is that 
-there is [*C@5 IterSwap] provided for container iterators and that 
-is specialized for [*C@5 Array] iterators):&]
+[s5; Array овладевает объектом кучи и удаляет 
+его, как следует. Рекомендуем использовать 
+этот вариант только, если создание 
+in`-place методом [*C@5 Create] невозможно.&]
+[s5; Всё OK с прямым применением алгоритмов 
+U`+`+ к [*C@5 Array`'ю] (самое stringent`'ное требование 
+любых базовых алгоритмов `- этот [*C@5 IterSwap], 
+который предоставляется итераторам 
+контейнеров и который определяется 
+для итераторов [*C@5 Array`'я]):&]
 [s0; &]
 [s7; Sort(num, `[`](const Number`& a, const Number`& b) `{ return 
 a.Get() < b.Get(); `});&]
@@ -1628,11 +1831,15 @@ a.Get() < b.Get(); `});&]
 [s0; &]
 [s17; num `= `[1.1, 3, 15.5`]&]
 [s0; &]
-[s3;H4;:Section`_3`_7: 3.7 Bidirectional containers&]
-[s5; [*C@5 Vector] and [*C@5 Array] containers allow fast adding and 
-removing elements at the end of sequence. Sometimes, same is 
-needed at begin of sequence too (usually to support FIFO queues). 
-[*C@5 BiVector] and [*C@5 BiArray] are optimal for this scenario:&]
+[s3;H4;:Section`_3`_7: [@(128.0.255) 3.7 Двунаправленные 
+контейнеры]&]
+[s5; Контейнеры[*C@5  Vector] и [*C@5 Array] позволяют 
+быстро добавлять и удалять элементы 
+в конце последовательности. Иногда 
+такое же нужно делать и в начале последовате
+льности (обычно для поддержки очередей 
+FIFO). [*C@5 BiVector] и [*C@5 BiArray] для этого сценария 
+оптимальны:&]
 [s0; &]
 [s7; BiVector<int> n;&]
 [s7; n.AddHead(1);&]
@@ -1682,12 +1889,16 @@ needed at begin of sequence too (usually to support FIFO queues).
 [s17; num `= `[World, 3, Hello, 2`]&]
 [s0; &]
 [s3;H4;:Section`_3`_8: 3.8 [C@5 Index]&]
-[s5; [*C@5 Index] is the the foundation of all U`+`+ associative operations 
-and is one of defining features of U`+`+.&]
-[s5; [*C@5 Index] is a container very similar to the plain [*C@5 Vector] 
-(it is random access array of elements with fast addition at 
-the end) with one additional feature `- it is able to fast retrieve 
-position of element with required value using [*C@5 Find] method:&]
+[s5; [*C@5 Index] является основой всех ассоциативных 
+операций U`+`+ и одна из определяющих 
+фишек в U`+`+.&]
+[s5; [*C@5 Index] `- это контейнер, весьма подобный 
+простому [*C@5 Vector`'у] (это массив элементов 
+случайного доступа с быстрым добавлением 
+в конец), но с одной дополнительной 
+чертой `- он может быстро `"вычислять`" 
+позицию элемента с требуемым значением, 
+используя метод [*C@5 Find]:&]
 [s0; &]
 [s7; Index<String> ndx;&]
 [s7; ndx.Add(`"alfa`");&]
@@ -1702,14 +1913,15 @@ position of element with required value using [*C@5 Find] method:&]
 [s17; ndx `= `[alfa, beta, gamma, delta, kappa`]&]
 [s17; ndx.Find(`"beta`") `= 1&]
 [s0; &]
-[s5; If element is not present in [*C@5 Index], [*C@5 Find] returns a 
-negative value:&]
+[s5; Если элемент отсутствует в [*C@5 Index`'е], 
+[*C@5 Find] возвращает отрицательное значение:&]
 [s0; &]
 [s7; DUMP(ndx.Find(`"something`"));&]
 [s0; &]
 [s17; ndx.Find(`"something`") `= `-1&]
 [s0; &]
-[s5; Any element can be replaced using [*C@5 Set] method:&]
+[s5; Любой элемент может заменить метод 
+[*C@5 Set]:&]
 [s0; &]
 [s7; ndx.Set(1, `"alfa`");&]
 [s7; &]
@@ -1717,8 +1929,9 @@ negative value:&]
 [s0; &]
 [s17; ndx `= `[alfa, alfa, gamma, delta, kappa`]&]
 [s0; &]
-[s5; If there are more elements with the same value, they can be 
-iterated using [*C@5 FindNext] method:&]
+[s5; Если элементов с одинаковым значением 
+несколько, `"проитерировать`" (обойти) 
+их можно методом [*C@5 FindNext]:&]
 [s0; &]
 [s7; int fi `= ndx.Find(`"alfa`");&]
 [s7; while(fi >`= 0) `{&]
@@ -1729,8 +1942,10 @@ iterated using [*C@5 FindNext] method:&]
 [s17; fi `= 0&]
 [s17; fi `= 1&]
 [s0; &]
-[s5; [*C@5 FindAdd] method retrieves position of element like [*C@5 Find], 
-but if element is not present in [*C@5 Index], it is added:&]
+[s5; Метод[*C@5  FindAdd] , подобно [*C@5 Find], `"добывает`" 
+позицию элемента, но если элемент 
+отсутствует в [*C@5 Index`'е], то он будет 
+добавлен:&]
 [s0; &]
 [s7; DUMP(ndx.FindAdd(`"one`"));&]
 [s7; DUMP(ndx.FindAdd(`"two`"));&]
@@ -1746,10 +1961,14 @@ but if element is not present in [*C@5 Index], it is added:&]
 [s17; ndx.FindAdd(`"three`") `= 7&]
 [s17; ndx.FindAdd(`"one`") `= 5&]
 [s0; &]
-[s5; Removing elements from random access sequence tends to be expensive, 
-that is why rather than remove, [*C@5 Index] supports [*C@5 Unlink] 
-and [*C@5 UnlinkKey] operations, which retain the element in [*C@5 Index] 
-but make it invisible for [*C@5 Find] operation:&]
+[s5; Удаление элементов из последовательности 
+случайного доступа потенциально 
+`"расточительно`" (ресурсозатратно), 
+потому, вместо удаления, [*C@5 Index] поддерживает 
+операции [*C@5 Unlink] и [*C@5 UnlinkKey], которые 
+придерживают элемент в [*C@5 Index`'е], но 
+делают его невидимым для операции 
+[*C@5 Find]:&]
 [s0; &]
 [s7; ndx.Unlink(2);&]
 [s7; ndx.UnlinkKey(`"kappa`");&]
@@ -1760,8 +1979,9 @@ but make it invisible for [*C@5 Find] operation:&]
 [s17; ndx.Find(ndx`[2`]) `= `-1&]
 [s17; ndx.Find(`"kappa`") `= `-1&]
 [s0; &]
-[s5; You can test whether element at given position is unlinked using 
-[*C@5 IsUnlinked] method&]
+[s5; Протестировать, является ли элемент 
+в определённой позиции `"отлинкованным`", 
+можно методом [*C@5 IsUnlinked:]&]
 [s0; &]
 [s7; DUMP(ndx.IsUnlinked(1));&]
 [s7; DUMP(ndx.IsUnlinked(2));&]
@@ -1769,7 +1989,8 @@ but make it invisible for [*C@5 Find] operation:&]
 [s17; ndx.IsUnlinked(1) `= false&]
 [s17; ndx.IsUnlinked(2) `= true&]
 [s0; &]
-[s5; Unlinked positions can be reused by [*C@5 Put] method:&]
+[s5; Отлинкованные позиции можно повторно 
+использовать методом [*C@5 Put]:&]
 [s0; &]
 [s7; ndx.Put(`"foo`");&]
 [s7; &]
@@ -1779,8 +2000,9 @@ but make it invisible for [*C@5 Find] operation:&]
 [s17; ndx `= `[alfa, alfa, gamma, delta, foo, one, two, three`]&]
 [s17; ndx.Find(`"foo`") `= 4&]
 [s0; &]
-[s5; You can also remove all unlinked elements from [*C@5 Index] using 
-[*C@5 Sweep] method:&]
+[s5; Также можно удалить все отлинкованные 
+элементы из [*C@5 Index`'а] с помощью метода 
+[*C@5 Sweep]:&]
 [s0; &]
 [s7; ndx.Sweep();&]
 [s7; &]
@@ -1788,8 +2010,9 @@ but make it invisible for [*C@5 Find] operation:&]
 [s0; &]
 [s17; ndx `= `[alfa, alfa, delta, foo, one, two, three`]&]
 [s0; &]
-[s5; Operations directly removing or inserting elements of Index 
-are expensive, but available too:&]
+[s5; Операции, непосредственно удаляющие 
+или вставляющие элементы Index`'а, ресурсоёмки,
+ но тоже доступны:&]
 [s0; &]
 [s7; ndx.Remove(1);&]
 [s7; &]
@@ -1811,8 +2034,9 @@ are expensive, but available too:&]
 [s0; &]
 [s17; ndx `= `[insert, alfa, delta, foo, one, three`]&]
 [s0; &]
-[s5; PickKeys operation allows you to obtain Vector of elements of 
-Index in low constant time operation (while destroying source 
+[s5; Операция PickKeys позволяет получить 
+Vector из элементов Index`'а за `"low constant 
+time`" операцию (при этом разрушая исходный 
 Index)&]
 [s0; &]
 [s7; Vector<String> d `= ndx.PickKeys();&]
@@ -1821,7 +2045,8 @@ Index)&]
 [s0; &]
 [s17; d `= `[insert, alfa, delta, foo, one, three`]&]
 [s0; &]
-[s5; Pick`-assigning [*C@5 Vector] to [*C@5 Index] is supported as well:&]
+[s5; Pick`-присваивание [*C@5 Vector`'а] к [*C@5 Index`'у] 
+поддерживается также:&]
 [s0; &]
 [s7; d`[0`] `= `"test`";&]
 [s7; &]
@@ -1831,12 +2056,16 @@ Index)&]
 [s0; &]
 [s17; ndx `= `[test, alfa, delta, foo, one, three`]&]
 [s0; &]
-[s3;H4;:Section`_3`_9: 3.9 Index and client types&]
-[s5; In order to store elements to [*C@5 Index], they type must be 
-[*C@5 Moveable], have deep copy and defined the [*C@5 operator`=`=] 
-and a [*C@5 GetHashValue] function or method to compute the hash 
-code. It is recommended to use [*C@5 CombineHash] to combine hash 
-values of types that already provide [*C@5 GetHashValue]:&]
+[s3;H4;:Section`_3`_9: [@(128.0.255) 3.9 Index и клиентские 
+типы]&]
+[s5; С тем, чтобы сохранить элементы в 
+[*C@5 Index], нужно, чтобы они были типа [*C@5 Moveable], 
+имели глубокую копию, и определяли 
+[*C@5 operator`=`=] и функцию [*C@5 GetHashValue,] или 
+метод для вычисления хэш`-кода. Рекомендуетс
+я использовать [*C@5 CombineHash], чтобы комбинироват
+ь хэш`-значения типов, которые уже 
+предоставляют [*C@5 GetHashValue]:&]
 [s0; &]
 [s7; struct Person : Moveable<Person> `{&]
 [s7; -|String name;&]
@@ -1862,9 +2091,10 @@ b.name `&`& surname `=`= b.surname; `}&]
 [s17; p.Find(Person(`"Paul`", `"Carpenter`")) `= 1&]
 [s0; &]
 [s3;H4;:Section`_3`_10: 3.10 [C@5 VectorMap], [C@5 ArrayMap]&]
-[s5; [*C@5 VectorMap] is nothing else than a simple composition of 
-[*C@5 Index] of keys and [*C@5 Vector] of values. You can use [*C@5 Add] 
-methods to put elements into the [*C@5 VectorMap]:&]
+[s5; [*C@5 VectorMap] `- ни что иное, как простая 
+композиция из [*C@5 Index`'а] ключей и [*C@5 Vector`'а 
+]значений. Методы [*C@5 Add] используются 
+для помещения элементов в [*C@5 VectorMap]:&]
 [s0; &]
 [s7; struct Person : Moveable<Person> `{&]
 [s7; -|String name;&]
@@ -1891,8 +2121,10 @@ methods to put elements into the [*C@5 VectorMap]:&]
 [s0; &]
 [s17; m `= `{1: John Smith, 2: Carl Engles, 3: Paul Carpenter`}&]
 [s0; &]
-[s5; [*C@5 VectorMap] provides read`-only access to its [*C@5 Index] 
-of keys and read`-write access to its [*C@5 Vector] of values:&]
+[s5; [*C@5 VectorMap] предоставляет доступ read`-only 
+(только чтение) к своему [*C@5 Index`'у] ключей 
+и доступ read`-write (чтение`-запись) к своему 
+[*C@5 Vector`'у] значений:&]
 [s0; &]
 [s7; DUMP(m.GetKeys());&]
 [s7; DUMP(m.GetValues());&]
@@ -1907,7 +2139,8 @@ of keys and read`-write access to its [*C@5 Vector] of values:&]
 [s0; &]
 [s17; m `= `{1: John Smith, 2: Carl Engles, 3: Peter Carpenter`}&]
 [s0; &]
-[s5; You can use indices to iterate [*C@5 VectorMap] contents:&]
+[s5; Для обхода (итерирования) по содержимому 
+[*C@5 VectorMap] можно использовать индексы:&]
 [s0; &]
 [s7; for(int i `= 0; i < m.GetCount(); i`+`+)&]
 [s7; -|LOG(m.GetKey(i) << `": `" << m`[i`]);&]
@@ -1916,9 +2149,10 @@ of keys and read`-write access to its [*C@5 Vector] of values:&]
 [s17; 2: Carl Engles&]
 [s17; 3: Peter Carpenter&]
 [s0; &]
-[s5; Standard [*C@5 begin] / [*C@5 end] pair for [*C@5 VectorMap] is the 
-range of just values (internal Vector) `- it corresponds with 
-[*C@5 operator`[`]] returning values:&]
+[s5; Стандартная пара [*C@5 begin] / [*C@5 end] для 
+[*C@5 VectorMap] `- это диапазон из одних значений 
+(внутренний Vector) `- она соответствует 
+[*C@5 operator`'у`[`]], возвращающему значения:&]
 [s0; &]
 [s7; for(const auto`& p : m)&]
 [s7; -|DUMP(p);&]
@@ -1927,8 +2161,8 @@ range of just values (internal Vector) `- it corresponds with
 [s17; p `= Carl Engles&]
 [s17; p `= Peter Carpenter&]
 [s0; &]
-[s5; To iterate through keys, you can use [*C@5 begin]/``end`` of internal 
-[*C@5 Index]:&]
+[s5; Для обхода ключей можно использовать 
+[*C@5 begin]/``end`` внутреннего [*C@5 Index`'а]:&]
 [s0; &]
 [s7; for(const auto`& p : m.GetKeys())&]
 [s7; -|DUMP(p);&]
@@ -1937,10 +2171,12 @@ range of just values (internal Vector) `- it corresponds with
 [s17; p `= 2&]
 [s17; p `= 3&]
 [s0; &]
-[s5; Alternatively, it is possible to create `'projection range`' 
-of VectorMap that provides convenient key/value iteration, using 
-[*C@5 operator`~] (note that is also removes `'unlinked`' items, 
-see later):&]
+[s5; Альтернативно, можно создать `'диапазон 
+проекции`' VectorMap`'а, предоставляющий 
+удобную итерацию ключ/значение, применяя 
+[*C@5 operator`~] (заметьте, что он также удаляет 
+и `'отлинкованные`' элементы, смотрите 
+далее):&]
 [s0; &]
 [s7; for(const auto`& e : `~m) `{&]
 [s7; -|DUMP(e.key);&]
@@ -1954,10 +2190,13 @@ see later):&]
 [s17; e.key `= 3&]
 [s17; e.value `= Peter Carpenter&]
 [s0; &]
-[s5; Note that the `'projection range`' obtained by [*C@5 operator`~] 
-is temporary value, which means that if mutating operation is 
-required for values, r`-value reference has to be used instead 
-of plain reference:&]
+[s5; Заметьте, что `'диапазон проекции`', 
+получаемый с помощью [*C@5 operator`'а `~] ,`- 
+значение временное, что если потребуется 
+изменяющая операция для значений, 
+ссылку на правое значение (r`-value) нужно 
+использовать вместо простой ссылки 
+(reference):&]
 [s0; &]
 [s7; for(const auto`& e : `~m)&]
 [s7; -|if(e.key `=`= `"2`")&]
@@ -1967,45 +2206,52 @@ of plain reference:&]
 [s0; &]
 [s17; m `= `{1: John Smith, 2: Carl May, 3: Peter Carpenter`}&]
 [s0; &]
-[s5; You can use Find method to retrieve position of element with 
-required key:&]
+[s5; Чтобы получить позицию элемента 
+с нужным ключом, можно использовать 
+метод Find:&]
 [s0; &]
 [s7; DUMP(m.Find(`"2`"));&]
 [s0; &]
 [s17; m.Find(`"2`") `= 1&]
 [s0; &]
-[s5; or Get method to retrieve corresponding value:&]
+[s5; или метод Get, чтобы получить соответствующее
+ значение:&]
 [s0; &]
 [s7; DUMP(m.Get(`"2`"));&]
 [s0; &]
 [s17; m.Get(`"2`") `= Carl May&]
 [s0; &]
-[s5; Passing key not present in [*C@5 VectorMap] as [*C@5 Get] parameter 
-is undefined behavior (ASSERT fails in debug mode), but there 
-exists two parameter version of [*C@5 Get] that returns second 
-parameter if the key is not found in VectorMap:&]
+[s5; При передаче ключа, отсутствующего 
+в [*C@5 VectorMap`'е, ]в качестве параметра 
+[*C@5 Get], возникает неопределённое поведение 
+(ASSERT в отладочном режиме неуспешен). 
+Но есть двухпараметрная версия [*C@5 Get], 
+которая возвращает второй параметр, 
+если ключ в VectorMap`'е не найден:&]
 [s0; &]
 [s7; DUMP(m.Get(`"33`", Person(`"unknown`", `"person`")));&]
 [s0; &]
 [s17; m.Get(`"33`", Person(`"unknown`", `"person`")) `= unknown person&]
 [s0; &]
-[s5; As with [*C@5 Index], you can use [*C@5 Unlink] to make elements 
-invisible for Find operations:&]
+[s5; Как в случае с [*C@5 Index`'ом], можно пользоваться 
+[*C@5 Unlink], делая элементы невидимыми 
+для операций Find:&]
 [s0; &]
 [s7; m.Unlink(1);&]
 [s7; DUMP(m.Find(`"2`"));&]
 [s0; &]
 [s17; m.Find(`"2`") `= `-1&]
 [s0; &]
-[s5; [*C@5 SetKey] changes the key of the element:&]
+[s5; [*C@5 SetKey] изменяет ключ элемента:&]
 [s0; &]
 [s7; m.SetKey(1, `"33`");&]
 [s7; DUMP(m.Get(`"33`", Person(`"unknown`", `"person`")));&]
 [s0; &]
 [s17; m.Get(`"33`", Person(`"unknown`", `"person`")) `= Carl May&]
 [s0; &]
-[s5; If there are more elements with the same key in [*C@5 VectorMap], 
-you can iterate them using [*C@5 FindNext] method:&]
+[s5; Если есть ещё элементы, с таким же 
+ключом, в [*C@5 VectorMap`'е], можно проитерировать 
+по ним методом [*C@5 FindNext]:&]
 [s0; &]
 [s7; m.Add(`"33`", Person(`"Peter`", `"Pan`"));&]
 [s7; &]
@@ -2018,7 +2264,8 @@ you can iterate them using [*C@5 FindNext] method:&]
 [s17; m`[q`] `= Carl May&]
 [s17; m`[q`] `= Peter Pan&]
 [s0; &]
-[s5; Unlinked positions can be `'reused`' using Put method:&]
+[s5; Отлинкованные позиции повторно используютс
+я через метод Put:&]
 [s0; &]
 [s7; m.UnlinkKey(`"33`");&]
 [s7; m.Put(`"22`", Person(`"Ali`", `"Baba`"));&]
@@ -2029,8 +2276,9 @@ you can iterate them using [*C@5 FindNext] method:&]
 [s17; m `= `{1: John Smith, 44: Ivan Wilks, 3: Peter Carpenter, 22: Ali 
 Baba`}&]
 [s0; &]
-[s5; [*C@5 PickValues] / [*C@5 PickIndex] / [*C@5 PickKeys] / pick internal 
-[*C@5 Vector] / [*C@5 Index] / [*C@5 Vector] of [*C@5 Index]:&]
+[s5; [*C@5 PickValues] / [*C@5 PickIndex] / [*C@5 PickKeys] / `"пикирует`" 
+внутренний [*C@5 Vector] / [*C@5 Index] / [*C@5 Vector] из 
+[*C@5 Index]:&]
 [s0; &]
 [s7; Vector<Person> ps `= m.PickValues();&]
 [s7; Vector<String> ks `= m.PickKeys();&]
@@ -2043,7 +2291,8 @@ Baba`}&]
 [s17; ks `= `[1, 44, 3, 22`]&]
 [s17; m `= `{`}&]
 [s0; &]
-[s5; [*C@5 VectorMap] pick constructor to create map by picking:&]
+[s5; Пик`-конструктор[*C@5  VectorMap`'а] создаёт 
+мап `"пикингом`":&]
 [s0; &]
 [s7; ks`[0`] `= `"Changed key`";&]
 [s7; &]
@@ -2054,8 +2303,10 @@ Baba`}&]
 [s17; m `= `{Changed key: John Smith, 44: Ivan Wilks, 3: Peter Carpenter, 
 22: Ali Baba`}&]
 [s0; &]
-[s5; [*C@5 ArrayMap] is composition of Index and Array, for cases where 
-Array is better fit for value type (e.g. they are polymorphic):&]
+[s5; [*C@5 ArrayMap] `- это композиция Index`'а и Array`'я, 
+для тех случаев, когда Array лучше подходит 
+для даннного типа значений (например, 
+они полиморфны):&]
 [s0; &]
 [s7; ArrayMap<String, Person> am;&]
 [s7; am.Create<Person>(`"key`", `"new`", `"person`");&]
@@ -2065,9 +2316,11 @@ Array is better fit for value type (e.g. they are polymorphic):&]
 [s17; am `= `{key: new person`}&]
 [s0; &]
 [s3;H4;:Section`_3`_11: 3.11 [C@5 One]&]
-[s5; [*C@5 One] is a container that can store none or one element of 
-T or derived from T. It is functionally quite similar to [*C@5 std`::unique`_ptr], 
-but has some convenient features.&]
+[s5; [*C@5 One] `- это контейнер, который может 
+хранить нисколько или один элемент 
+типа T... Или производный от T... По функционалу
+ он очень похож на [*C@5 std`::unique`_ptr], но 
+обладает некоторыми удобными чертами.&]
 [s0; &]
 [s7; struct Base `{&]
 [s7; -|virtual String Get() `= 0;&]
@@ -2084,7 +2337,8 @@ but has some convenient features.&]
 [s7; &]
 [s7; One<Base> s;&]
 [s0; &]
-[s5; [*C@5 operator bool] of one returns true if it contains an element:&]
+[s5; [*C@5 operator bool] `"Вана`" возвращает true, если 
+в нём есть элемент:&]
 [s0; &]
 [s7; DUMP((bool)s);&]
 [s0; &]
@@ -2098,8 +2352,9 @@ but has some convenient features.&]
 [s17; (bool)s `= true&]
 [s17; s`->Get() `= Derived1&]
 [s0; &]
-[s5; You can use [*C@5 Is] to check if certain type is currently stored 
-in [*C@5 One]:&]
+[s5; Используется [*C@5 Is] для проверки, есть 
+ли на данный момент какой`-то тип в 
+[*C@5 One]:&]
 [s0; &]
 [s7; DUMP(s.Is<Derived1>());&]
 [s7; DUMP(s.Is<Base>());&]
@@ -2109,22 +2364,24 @@ in [*C@5 One]:&]
 [s17; s.Is<Base>() `= true&]
 [s17; s.Is<Derived2>() `= false&]
 [s0; &]
-[s5; To get a pointer to the contained instance, use [*C@5 operator`~]:&]
+[s5; Чтобы получить указатель на содержимый 
+экземпляр, используется [*C@5 operator`~]:&]
 [s0; &]
 [s7; Base `*b `= `~s;&]
 [s7; DUMP(b`->Get());&]
 [s0; &]
 [s17; b`->Get() `= Derived1&]
 [s0; &]
-[s5; Clear method removes the element from One:&]
+[s5; Метод Clear удаляет элемент из One:&]
 [s0; &]
 [s7; s.Clear();&]
 [s7; DUMP((bool)s);&]
 [s0; &]
 [s17; (bool)s `= false&]
 [s0; &]
-[s5; Helper function MakeOne derived from One can be used to create 
-contained element:&]
+[s5; Вспомогательная функция MakeOne, производная 
+от One, может использоваться для создания 
+содержимого элемента:&]
 [s0; &]
 [s7; s `= MakeOne<Derived1>();&]
 [s7; DUMP(s`->Get());&]
@@ -2138,10 +2395,13 @@ contained element:&]
 [s17; t`->Get() `= Derived1&]
 [s0; &]
 [s3;H4;:Section`_3`_12: 3.12 [C@5 Any]&]
-[s5; [*C@5 Any] is a container that can contain none or one element 
-of [/ any] type. [*C@5 Any`::Is] method matches exact type ignoring 
-class hierarchies (unlike [*C@5 One`::Is]). You can use [*C@5 Get] 
-to retrieve a reference to the instance stored:&]
+[s5; [*C@5 Any] `- это контейнер, могущий содержать 
+нисколько или один элемент [/ любого] 
+типа. Метод [*C@5 Any`::Is ]сверяет точный 
+тип, игнорируя иерархии классов (в 
+отличие от [*C@5 One`::Is]). Можно употребить 
+[*C@5 Get] для дела получения ссылки на 
+сохраняемый экземпляр:&]
 [s0; &]
 [s7; for(int pass `= 0; pass < 2; pass`+`+) `{&]
 [s7; -|Any x;&]
@@ -2161,27 +2421,33 @@ to retrieve a reference to the instance stored:&]
 [s17; Any is now String: Hello!&]
 [s0; &]
 [s3;H4;:Section`_3`_13: 3.13 [C@5 InVector], [C@5 InArray]&]
-[s5; [*C@5 InVector] and [*C@5 InArray] are container types quite similar 
-to [*C@5 Vector]/``Array``, but they trade the speed of [*C@5 operator`[`]] 
-with the ability to insert or remove elements at any position 
-quickly. You can expect [*C@5 operator`[`]] to be about 10 times 
-slower than in Vector (but that is still quite fast), while [*C@5 Insert] 
-at any position scales well up to hundreds of megabytes of data 
-(e.g. [*C@5 InVector] containing 100M of String elements is handled 
-without problems).&]
+[s5; [*C@5 InVector] и [*C@5 InArray] `- контейнерные типы, 
+весьма подобные [*C@5 Vector]/``Array``, но они 
+торгуют скоростью, присущей [*C@5 operator`[`],] 
+и способностью вставлять или удалять 
+элементы в любой позиции, и быстро. 
+Можно ожидать от [*C@5 operator`[`]] в 10 раз 
+большую медлительность, чем у Vector`'а 
+(но это ещё пока не так уж и медленно!), 
+в то время как [*C@5 Insert] в любой позиции 
+может `"раздуваться`" до сотен мегабайт 
+данных (например, [*C@5 InVector], содержащий 
+100 Мб элементов String, справляется без 
+проблем).&]
 [s0; &]
 [s7; InVector<int> v;&]
 [s7; for(int i `= 0; i < 1000000; i`+`+)&]
 [s7; -|v.Add(i);&]
 [s7; v.Insert(0, `-1); // This is fast&]
 [s0; &]
-[s5; While the interface of [*C@5 InVector]/``InArray`` is almost identical 
-to [*C@5 Vector]/``Array``, [*C@5 InVector]/``InArray`` in addition 
-implements [*C@5 FindLowerBound]/``FindUpperBound`` methods `- 
-while normal generic range algorithms work, it is possible to 
-provide [*C@5 InVector]/``InArray`` specific optimizations that 
-basically match the performace of [*C@5 Find`*Bound] on simple 
-[*C@5 Vector].&]
+[s5; В то время как интерфейс [*C@5 InVector]/``InArray`` 
+почти идентичен [*C@5 Vector]/``Array``, [*C@5 InVector]/``InArray`` 
+в добавок реализует методы [*C@5 FindLowerBound]/``FindUpper
+Bound`` `- пока работают нормальные генерные 
+алгоритмы диапазона, можно предоставлять 
+[*C@5 InVector]/``InArray`` специфичные оптимизации, 
+которые в основном сверяют перформанс 
+[*C@5 Find`*Bound] на простом [*C@5 Vector`'е].&]
 [s0; &]
 [s7; DUMP(v.FindLowerBound(55));&]
 [s0; &]
@@ -2189,13 +2455,17 @@ basically match the performace of [*C@5 Find`*Bound] on simple
 [s0; &]
 [s3;H4;:Section`_3`_14: 3.14 [C@5 SortedIndex], [C@5 SortedVectorMap], 
 [C@5 SortedArrayMap]&]
-[s5; [*C@5 SortedIndex] is similar to regular [*C@5 Index], but keeps 
-its elements in sorted order (sorting predicate is a template 
-parameter, defaults to [*C@5 StdLess]). Implementation is using 
-[*C@5 InVector], so it works fine even with very large number of 
-elements (performance is similar to tree based [*C@5 std`::set]). 
-Unlike [*C@5 Index], [*C@5 SortedIndex] provides lower/upper bounds 
-searches, so it allows range search.&]
+[s5; [*C@5 SortedIndex] подобен обычному (regular) [*C@5 Index`'у], 
+но держит свои элементы в отсортированном 
+порядке (предикат сортировки `- это 
+шаблонный параметр, по дефолту `-  
+[*C@5 StdLess]). Реализация использует [*C@5 InVector], 
+так что работает отлично даже с очень 
+большим числом элементов (перформанс 
+подобен, основанному на дереве, [*C@5 std`::set]). 
+В отличие от [*C@5 Index], [*C@5 SortedIndex] предоставляет 
+поиск в нижних/верхних пределах, а 
+также допускает поиск диапазона.&]
 [s0; &]
 [s7; SortedIndex<int> x;&]
 [s7; x.Add(5);&]
@@ -2219,8 +2489,8 @@ searches, so it allows range search.&]
 [s17; x.FindLowerBound(3) `= 1&]
 [s17; x.FindUpperBound(6) `= 3&]
 [s0; &]
-[s5; [*C@5 SortedVectorMap] and [*C@5 SortedArrayMap] are then [*C@5 SortedIndex] 
-based equivalents to [*C@5 VectorMap]/``ArrayMap``:&]
+[s5; [*C@5 SortedVectorMap] и [*C@5 SortedArrayMap] это основанные 
+на [*C@5 SortedIndex] эквиваленты [*C@5 VectorMap]/``ArrayMap``:&]
 [s0; &]
 [s7; SortedVectorMap<String, int> m;&]
 [s7; m.Add(`"zulu`", 11);&]
@@ -2236,20 +2506,25 @@ based equivalents to [*C@5 VectorMap]/``ArrayMap``:&]
 [s17; -|`[2`] `= (zulu) 11&]
 [s17; m.Get(`"zulu`") `= 11&]
 [s0; &]
-[s3;H4;:Section`_3`_15: 3.15 Tuples&]
-[s5; Template class [*C@5 Tuple] allows combining 2`-4 values with 
-different types. These are principally similar to [*C@5 std`::tuple], 
-with some advantages. Unlike [*C@5 std`::tuple], individual elements 
-are directly accessible as member variables [*C@5 a]..``d``, [*C@5 Tuple] 
-supports persistent storage patterns ([*C@5 Serialize], [*C@5 Jsonize], 
-[*C@5 Xmlize]), hash code ([*C@5 GetHashValue]), conversion to [*C@5 String] 
-and Value conversions.&]
-[s5; To create a [*C@5 Tuple] value, you can use the [*C@5 MakeTuple] 
-function.&]
+[s3;H4;:Section`_3`_15: [@(128.0.255) 3.15 Кортежи]&]
+[s5; Шаблонный класс [*C@5 Tuple] позволяет 
+комбинировать 2`-4 значения разных 
+типов. В принципе, это подобно [*C@5 std`::tuple], 
+с некоторыми преимуществами. В отличие 
+от [*C@5 std`::tuple], индивидуальные элементы 
+прямо доступны, как переменные`-члены 
+[*C@5 a]..``d``, [*C@5 Tuple] поддерживает паттерн 
+персистентного хранения ([*C@5 Serialize], 
+[*C@5 Jsonize], [*C@5 Xmlize]), хэш`-код ([*C@5 GetHashValue]), 
+преобразование в [*C@5 String] и преобразования 
+Value.&]
+[s5; Чтобы создать значение [*C@5 Tuple`'а], можно 
+использовать функцию [*C@5 MakeTuple].&]
 [s0; &]
 [s7; Tuple<int, String, String> x `= MakeTuple(12, `"hello`", `"world`");&]
 [s0; &]
-[s5; Individual values are accessible as members [*C@5 a] .. [*C@5 d]:&]
+[s5; Индивидуальные значения доступны 
+как члены [*C@5 a] .. [*C@5 d]:&]
 [s0; &]
 [s7; DUMP(x.a);&]
 [s7; DUMP(x.b);&]
@@ -2259,7 +2534,7 @@ function.&]
 [s17; x.b `= hello&]
 [s17; x.c `= world&]
 [s0; &]
-[s5; Or using [*C@5 Get]:&]
+[s5; Или с помощью [*C@5 Get]:&]
 [s0; &]
 [s7; DUMP(x.Get<1>());&]
 [s7; DUMP(x.Get<int>());&]
@@ -2267,23 +2542,26 @@ function.&]
 [s17; x.Get<1>() `= hello&]
 [s17; x.Get<int>() `= 12&]
 [s0; &]
-[s5; As long as all individual types have conversion to [*C@5 String] 
-([*C@5 AsString]), the tuple also has such conversion and thus 
-can e.g. be easily logged:&]
+[s5; Поскольку все индивидуальные типы 
+имеют преобразование в [*C@5 String] ([*C@5 AsString]), 
+кортеж тоже имеет такое преобразование, 
+и, таким образом, может быть, например, 
+легко логгирован:&]
 [s0; &]
 [s7; DUMP(x);&]
 [s0; &]
 [s17; x `= (12, hello, world)&]
 [s0; &]
-[s5; As long as individual types have defined [*C@5 GetHashValue], 
-so does [*C@5 Tuple]:&]
+[s5; Поскольку все индивидуальные типы 
+определяют [*C@5 GetHashValue], тоже и у [*C@5 Tuple]:&]
 [s0; &]
 [s7; DUMP(GetHashValue(x));&]
 [s0; &]
 [s17; GetHashValue(x) `= 2465159845&]
 [s0; &]
-[s5; As long as individual types have defined [*C@5 operator`=`=], 
-[*C@5 Tuple] has defined [*C@5 operator`=`=] and [*C@5 operator!`=]:&]
+[s5; Поскольку у всех индивидуальных 
+типов определён [*C@5 operator`=`=], [*C@5 Tuple] определяет 
+[*C@5 operator`=`=] и [*C@5 operator!`=]:&]
 [s0; &]
 [s7; Tuple<int, String, String> y `= x;&]
 [s7; DUMP(x `=`= y);&]
@@ -2297,9 +2575,10 @@ so does [*C@5 Tuple]:&]
 [s17; x `=`= y `= false&]
 [s17; x !`= y `= true&]
 [s0; &]
-[s5; As long as all individual types have defined [*C@5 SgnCompare], 
-Tuple has SgnCompare, Compare method and operators <, <`=, >, 
->`=:&]
+[s5; Поскольку у всех индивидуальных 
+типов определён [*C@5 SgnCompare], Tuple имеет 
+SgnCompare, метод Compare и операторы <, <`=, 
+>, >`=:&]
 [s0; &]
 [s7; DUMP(x.Compare(y));&]
 [s7; DUMP(SgnCompare(x, y));&]
@@ -2309,14 +2588,15 @@ Tuple has SgnCompare, Compare method and operators <, <`=, >,
 [s17; SgnCompare(x, y) `= `-1&]
 [s17; x < y `= true&]
 [s0; &]
-[s5; GetCount returns the width of [*C@5 Tuple]:&]
+[s5; GetCount возвращает ширину [*C@5 Tuple`'а]:&]
 [s0; &]
 [s7; DUMP(x.GetCount());&]
 [s0; &]
 [s17; x.GetCount() `= 3&]
 [s0; &]
-[s5; Elements that are directly convertible with [*C@5 Value] can be 
-`'Get`'/`'Set`':&]
+[s5; Элементы, прямо преобразуемые в [*C@5 Value], 
+могут быть `'Get`'/`'Set`' (получены или 
+установлены):&]
 [s0; &]
 [s7; for(int i `= 0; i < x.GetCount(); i`+`+)&]
 [s7; -|DUMP(x.Get(i));&]
@@ -2331,8 +2611,9 @@ Tuple has SgnCompare, Compare method and operators <, <`=, >,
 [s0; &]
 [s17; x `= (12, Hi, world)&]
 [s0; &]
-[s5; As long as all individual types are convertible with [*C@5 Value], 
-you can convert Tuple to [*C@5 ValueArray] and back:&]
+[s5; Поскольку все индивидуальные типы 
+преобразуемы через [*C@5 Value], можно преобразова
+ть Tuple в [*C@5 ValueArray,] и обратно:&]
 [s0; &]
 [s7; ValueArray va `= x.GetArray();&]
 [s7; DUMP(va);&]
@@ -2342,15 +2623,17 @@ you can convert Tuple to [*C@5 ValueArray] and back:&]
 [s0; &]
 [s17; va `= `[12, Hi, world`]&]
 [s0; &]
-[s5; It is OK to assign [*C@5 Tuple] to [*C@5 Tuple] with different individual 
-types, as long as types are directly convertible:&]
+[s5; Всё OK с присваиванием [*C@5 Tuple`'а] к [*C@5 Tuple`'у] 
+с иными индивидуальными типами, поскольку 
+типы преобразуемы напрямую:&]
 [s0; &]
 [s7; Tuple<double, String, String> d `= x;&]
 [s7; DUMP(d);&]
 [s0; &]
 [s17; d `= (12, Hi, Joe)&]
 [s0; &]
-[s5; Tie can be used to assign tuple to l`-values:&]
+[s5; Tie можно использовать для присваивания 
+кортежа l`-values (левым значениям):&]
 [s0; &]
 [s7; int i;&]
 [s7; String s1, s2;&]
@@ -2365,8 +2648,9 @@ types, as long as types are directly convertible:&]
 [s17; s1 `= Hi&]
 [s17; s2 `= Joe&]
 [s0; &]
-[s5; U`+`+ Tuples are carefully designed as POD type, which allows 
-POD arrays to be intialized with classic C style:&]
+[s5; U`+`+ Tuples тщательно проработаны как 
+POD`-типы, позволяющие инициализировать 
+POD`-массивы в классическом Си`-стайле:&]
 [s0; &]
 [s7; static Tuple2<int, const char `*> map`[`] `= `{&]
 [s7; -|`{ 1, `"one`" `},&]
@@ -2374,31 +2658,39 @@ POD arrays to be intialized with classic C style:&]
 [s7; -|`{ 3, `"one`" `},&]
 [s7; `};&]
 [s0; &]
-[s5; Simple FindTuple template function is provided to search for 
-tuple based on the first value ([*C@5 a]) (linear O(n) search):&]
+[s5; Простая шаблонная функция FindTuple предназнача
+ется для поиска кортежа, основываясь 
+на первом значении ([*C@5 a]) (линейный 
+поиск O(n) ):&]
 [s0; &]
 [s7; DUMP(FindTuple(map, `_`_countof(map), 3)`->b);&]
 [s0; &]
 [s17; FindTuple(map, `_`_countof(map), 3)`->b `= one&]
 [s0; &]
-[s22;:Chapter`_4: 4. Ranges and algorithms&]
-[s3;:Section`_4`_1: 4.1 Range&]
-[s5; Unlike STL, which interface algorithms with data using [*C@5 begin] 
-/ [*C@5 end] pair, U`+`+ algorithms usually work on [/ Ranges]. Range 
-is an object that has [*C@5 begin] / [*C@5 end] methods providing 
-random access to elements (all U`+`+ containers are random access), 
-[*C@5 operator`[`]] and [*C@5 GetCount] method.&]
-[s5; Obviously, U`+`+ containers are ranges:&]
+[s22;:Chapter`_4: [@3 4. Диапазоны и алгоритмы]&]
+[s3;:Section`_4`_1: [@(128.0.255) 4.1 Диапазон (Range)]&]
+[s5; В отличие от STL, который `"интерфейсит`" 
+алгоритмы с данными, используя пару 
+[*C@5 begin] / [*C@5 end], алгоритмы U`+`+ обычно 
+работают над [/ Range`'ами]. Range `- это объект, 
+у которого есть методы [*C@5 begin] / [*C@5 end], 
+предоставляющий случайный доступ 
+к элементам (у всех контейнеров U`+`+ 
+случайный доступ), [*C@5 operator`[`]] и метод 
+[*C@5 GetCount].&]
+[s5; Очевидно, что контейнеры U`+`+ `- это 
+диапазоны:&]
 [s0; &]
 [s7; Vector<int> x `= `{ 1, 2, 3, 4, 5, 1, 2, 3, 4 `};&]
 [s7; &]
-[s7; DUMP(FindIndex(x, 2)); // FindIndex is a trivial algorithm that 
-does linear search&]
+[s7; DUMP(FindIndex(x, 2)); // FindIndex `-тривиальный 
+алгоритм линейного поиска&]
 [s0; &]
 [s17; FindIndex(x, 2) `= 1&]
 [s0; &]
-[s5; If you want the algorithm to run on part of container only, 
-you can use [*C@5 SubRange] instance:&]
+[s5; Если требуется выполнить алгоритм 
+над частью контейнера, используется 
+экземпляр [*C@5 SubRange (ПодДиапазона)]:&]
 [s0; &]
 [s7; DUMP(SubRange(x, 3, 6));&]
 [s7; DUMP(FindIndex(SubRange(x, 3, 6), 4));&]
@@ -2406,8 +2698,10 @@ you can use [*C@5 SubRange] instance:&]
 [s17; SubRange(x, 3, 6) `= `[4, 5, 1, 2, 3, 4`]&]
 [s17; FindIndex(SubRange(x, 3, 6), 4) `= 0&]
 [s0; &]
-[s5; As a side`-job, SubRange can also be created from `'begin`' 
-/ `'end`' pair, thus e.g. allowing algorithms to work on C arrays:&]
+[s5; Как подработка, SubRange также создаваем... 
+`"созидаем`"... из пары `'begin`' / `'end`', тем 
+самым, например, позволяя алгоритмам 
+работать над массивами Си:&]
 [s0; &]
 [s7; int a`[`] `= `{ 1, 22, 4, 2, 8 `};&]
 [s7; &]
@@ -2423,8 +2717,9 @@ you can use [*C@5 SubRange] instance:&]
 [s0; &]
 [s17; ar `= `[1, 2, 4, 8, 22`]&]
 [s0; &]
-[s5; There are some macro aliases that make type management of ranges 
-easier:&]
+[s5; Имеется несколько алиасов макроса, 
+чем облегчается управление типами 
+диапазонов:&]
 [s0; &]
 [s7; DUMP(typeid(ValueTypeOf<decltype(x)>).name());&]
 [s7; DUMP(typeid(ValueTypeOf<decltype(SubRange(x, 1, 1))>).name());&]
@@ -2439,16 +2734,18 @@ easier:&]
 `= Pi&]
 [s17; typeid(SubRangeOf<Vector<int>>).name() `= N3Upp13SubRangeClassIPiEE&]
 [s0; &]
-[s5; While containers themselves and SubRange are the two most common 
-range types, U`+`+ has two special ranges. [*C@5 ConstRange] simply 
-provides the range of single value:&]
+[s5; В то время, как сами контейнеры и 
+ SubRange, `- два самых общих типа диапазонов, 
+у U`+`+ есть ещё два особых диапазона. 
+[*C@5 ConstRange] просто провайдит диапазон 
+единичного значения:&]
 [s0; &]
 [s7; DUMP(ConstRange(1, 10));&]
 [s0; &]
 [s17; ConstRange(1, 10) `= `[1, 1, 1, 1, 1, 1, 1, 1, 1, 1`]&]
 [s0; &]
-[s5; [*C@5 ReverseRange] reverses the order of elements in the source 
-range:&]
+[s5; [*C@5 ReverseRange] реверсирует порядок элементов 
+в исходном диапазоне:&]
 [s0; &]
 [s7; Vector<int> v`{ 1, 2, 3, 4 `};&]
 [s7; &]
@@ -2456,8 +2753,10 @@ range:&]
 [s0; &]
 [s17; ReverseRange(v) `= `[4, 3, 2, 1`]&]
 [s0; &]
-[s5; [*C@5 ViewRange] picks a source range and [*C@5 Vector] of integer 
-indices a provides a view of source range through this [*C@5 Vector]:&]
+[s5; [*C@5 ViewRange] `"пикирует`" исходный диапазон 
+и [*C@5 Vector] из целочисленных индексов 
+и провайдит просмотр исходного диапазона 
+через этот [*C@5 Vector]:&]
 [s0; &]
 [s7; Vector<int> h`{ 2, 4, 0 `};&]
 [s7; &]
@@ -2473,21 +2772,23 @@ indices a provides a view of source range through this [*C@5 Vector]:&]
 [s17; ViewRange(x, clone(h)) `= `[1, 3, 5`]&]
 [s17; x `= `[5, 2, 1, 4, 3, 1, 2, 3, 4`]&]
 [s0; &]
-[s5; [*C@5 SortedRange] returns range sorted by predicate (default 
-is std`::less):&]
+[s5; [*C@5 SortedRange] возвращает диапазон отсортированн
+ым по предикату (дефолт есть std`::less):&]
 [s0; &]
 [s7; DUMP(SortedRange(x));&]
 [s0; &]
 [s17; SortedRange(x) `= `[1, 1, 2, 2, 3, 3, 4, 4, 5`]&]
 [s0; &]
-[s5; Finally [*C@5 FilterRange] creates a subrange of elements satisfying 
-certain condition:&]
+[s5; Наконец, [*C@5 FilterRange] создаёт поддиапазон 
+элементов, удовлетворяющий определённому 
+условию:&]
 [s0; &]
 [s7; DUMP(FilterRange(x, `[`](int x) `{ return x > 3; `}));&]
 [s0; &]
 [s17; FilterRange(x, `[`](int x) `{ return x > 3; `}) `= `[5, 4, 4`]&]
 [s0; &]
-[s5; Various Range functions can be combined to produce complex results:&]
+[s5; Различные функции Range`'а можно комбинировать
+, производя комплексные результаты:&]
 [s0; &]
 [s7; DUMP(ReverseRange(FilterRange(x, `[`](int x) `{ return x < 4; 
 `})));&]
@@ -2495,14 +2796,19 @@ certain condition:&]
 [s17; ReverseRange(FilterRange(x, `[`](int x) `{ return x < 4; `})) 
 `= `[3, 2, 1, 3, 1, 2`]&]
 [s0; &]
-[s3;H4;:Section`_4`_2: 4.2 Algorithms&]
-[s5; In principle, is is possible to apply C`+`+ standard library 
-algorithms on U`+`+ containers or ranges.&]
-[s5; U`+`+ algorithms are tuned for U`+`+ approach `- they work on 
-ranges and they prefer indices. Sometimes, U`+`+ algorithm will 
-perform faster with U`+`+ types than standard library algorithm.&]
-[s5; [*C@5 FindIndex] performs linear search to find element with given 
-value and returns its index or `-1 if not found:&]
+[s3;H4;:Section`_4`_2: [@(128.0.255) 4.2 Алгоритмы]&]
+[s5; В принципе, можно применять алгоритмы 
+из стандартной библиотеки C`+`+ к контейнерам 
+или диапазонам U`+`+.&]
+[s5; Алгоритмы U`+`+ имеют `"тюнинг`" под 
+подход U`+`+ `- они работают над диапазонами 
+и предпочитают индексы. Иногда алгоритм 
+U`+`+ выполняется быстрее с типами U`+`+, 
+чем алгоритм стандартной библиотеки.&]
+[s5; [*C@5 FindIndex] выполняет линейный поиск, 
+ища элемент с заданным значением, 
+и возвращает его индекс или `-1, если 
+не находит:&]
 [s0; &]
 [s7; Vector<int> data `{ 5, 3, 7, 9, 3, 4, 2 `};&]
 [s7; &]
@@ -2513,15 +2819,15 @@ value and returns its index or `-1 if not found:&]
 [s17; FindIndex(data, 3) `= 1&]
 [s17; FindIndex(data, 6) `= `-1&]
 [s0; &]
-[s5; [*C@5 SubRange] can be used to apply algorithm on subrange of 
-container:&]
+[s5; [*C@5 SubRange] можно использовать для применения 
+алгоритма к поддиапазону контейнера:&]
 [s0; &]
 [s7; DUMP(FindIndex(SubRange(data, 2, data.GetCount() `- 2), 3));&]
 [s0; &]
 [s17; FindIndex(SubRange(data, 2, data.GetCount() `- 2), 3) `= 2&]
 [s0; &]
-[s5; [*C@5 FindMin] and [*C@5 FindMax] return the index of minimal / 
-maximal element:&]
+[s5; [*C@5 FindMin] и [*C@5 FindMax] возвращает индекс 
+минимального/максимального элемента:&]
 [s0; &]
 [s7; DUMP(FindMin(data));&]
 [s7; DUMP(FindMax(data));&]
@@ -2529,8 +2835,8 @@ maximal element:&]
 [s17; FindMin(data) `= 6&]
 [s17; FindMax(data) `= 3&]
 [s0; &]
-[s5; [*C@5 Min] and [*C@5 Max] return the [/ value] of minimal / maximal 
-element:&]
+[s5; [*C@5 Min] и [*C@5 Max] возвращают [/ значение] 
+минимального/максимального элемента:&]
 [s0; &]
 [s7; DUMP(Min(data));&]
 [s7; DUMP(Max(data));&]
@@ -2538,18 +2844,21 @@ element:&]
 [s17; Min(data) `= 2&]
 [s17; Max(data) `= 9&]
 [s0; &]
-[s5; If the range is empty, [*C@5 Min] and [*C@5 Max] are undefined (ASSERT 
-fails in debug mode), unless the value is specified as second 
-parameter to be used in this case:&]
+[s5; Если диапазон пуст, [*C@5 Min] и [*C@5 Max] неопределённ
+ы (ASSERT не удаётся в отладочном режиме), 
+но можно определить значение как 
+второй параметр:&]
 [s0; &]
 [s7; -|Vector<int> empty;&]
-[s7; //-|DUMP(Min(empty)); // This is undefined (fails in ASSERT)&]
+[s7; //-|DUMP(Min(empty)); // Это неопределённо (неуспешный 
+ASSERT)&]
 [s7; -|DUMP(Min(empty, `-99999));&]
 [s0; &]
 [s17; Min(empty, `-99999) `= `-99999&]
 [s0; &]
-[s5; [*C@5 Count] returns the number of elements with specified value, 
-[*C@5 CountIf] the number of elements that satisfy predicate:&]
+[s5; [*C@5 Count] возвращает число элементов 
+с заданным значением, [*C@5 CountIf] `- число 
+элементов, удовлетворяющих предикату:&]
 [s0; &]
 [s7; DUMP(Count(data, 11));&]
 [s7; DUMP(CountIf(data, `[`=`](int c) `{ return c >`= 5; `}));&]
@@ -2557,15 +2866,20 @@ parameter to be used in this case:&]
 [s17; Count(data, 11) `= 0&]
 [s17; CountIf(data, `[`=`](int c) `{ return c >`= 5; `}) `= 3&]
 [s0; &]
-[s5; [*C@5 Sum] return the sum of all elements in range:&]
+[s5; [*C@5 Sum] возвращает сумму всех элементов 
+диапазона:&]
 [s0; &]
 [s7; DUMP(Sum(data));&]
 [s0; &]
 [s17; Sum(data) `= 33&]
 [s0; &]
-[s5; Sorted containers can be searched with bisection. U`+`+ provides 
-usual upper / lower bound algorithms. [*C@5 FindBinary] returns 
-the index of element with given value or `-1 if not found:&]
+[s5; Отсортированные контейнеры допускают 
+поиск с бисекцией (т.е. разбиением 
+их содержимого надвое). U`+`+ предоставляет 
+обычные алгоритмы верхнего/нижнего 
+предела. [*C@5 FindBinary] возвращает индекс 
+элемента с заданным значением или 
+`-1, если не находит такового:&]
 [s0; &]
 [s7; data `= `{ 5, 7, 9,  9, 14, 20, 23, 50 `};&]
 [s7;       // 0  1  2   3   4   5   6   7&]
@@ -2583,9 +2897,10 @@ the index of element with given value or `-1 if not found:&]
 [s17; FindUpperBound(data, 10) `= 4&]
 [s17; FindBinary(data, 10) `= `-1&]
 [s0; &]
-[s3;H4;:Section`_4`_3: 4.3 Sorting&]
-[s5; Unsurprisingly, [*C@5 Sort] function sorts a range. You can specify 
-sorting predicate, default is [*C@5 operator<]:&]
+[s3;H4;:Section`_4`_3: [@(128.0.255) 4.3 Сортировка]&]
+[s5; Неудивительно, но функция [*C@5 Sort] сортирует 
+диапазон)) Можно указать предикат 
+сортировки, по дефолту идёт [*C@5 operator<]:&]
 [s0; &]
 [s7; Vector<String> x `{ `"1`", `"2`", `"10`" `};&]
 [s7; &]
@@ -2603,9 +2918,10 @@ sorting predicate, default is [*C@5 operator<]:&]
 [s0; &]
 [s17; x `= `[1, 2, 10`]&]
 [s0; &]
-[s5; [*C@5 IndexSort] is sort variant that is able to sort two ranges 
-(like [*C@5 Vector] or [*C@5 Array]) of the same size, based on values 
-in the first range:&]
+[s5; [*C@5 IndexSort] `- вариант сортировки, способный 
+сортировать два диапазона (типа [*C@5 Vector] 
+или [*C@5 Array]), одинакового размера, основываясь
+ на значениях в первом диапазоне:&]
 [s0; &]
 [s7; Vector<int> a `{ 5, 10, 2, 9, 7, 3 `};&]
 [s7; Vector<String> b `{ `"five`", `"ten`", `"two`", `"nine`", `"seven`", 
@@ -2628,10 +2944,13 @@ in the first range:&]
 [s17; a `= `[5, 9, 7, 10, 3, 2`]&]
 [s17; b `= `[five, nine, seven, ten, three, two`]&]
 [s0; &]
-[s5; There are also [*C@5 IndexSort2] and [*C@5 IndexSort3] variants 
-that sort 2 or 3 dependent ranges.&]
-[s5; Sometimes, instead of sorting items in the range, it is useful 
-to know the order of items as sorted, using [*C@5 GetSortOrder]:&]
+[s5; Также есть варианты [*C@5 IndexSort2] и [*C@5 IndexSort3], 
+которые сотрируют 2 или 3 зависимых 
+диапазона.&]
+[s5; Иногда, вместо сортировки элементов 
+в диапазоне, полезно узнать порядок 
+элементов после сортировки,`- используется 
+[*C@5 GetSortOrder]:&]
 [s0; &]
 [s7; Vector<int> o `= GetSortOrder(a);&]
 [s7; &]
@@ -2639,10 +2958,12 @@ to know the order of items as sorted, using [*C@5 GetSortOrder]:&]
 [s0; &]
 [s17; o `= `[5, 4, 0, 2, 1, 3`]&]
 [s0; &]
-[s5; Normal [*C@5 Sort] is not stable `- equal items can appear in 
-sorted range in random order. If maintaining original order of 
-equal items is important, use [*C@5 StableSort] variant (with performance 
-penalty):&]
+[s5; Нормальный [*C@5 Sort] нестабилен `- одинаковые 
+элементы могут появляться в отсортированном
+ диапазоне в случайном порядке. Если 
+поддерживать исходный порядок равных 
+элементов важно, тогда используйте 
+вариант [*C@5 StableSort] (с пенальти по перформансу):&]
 [s0; &]
 [s7; Vector<Point> t `{ Point(10, 10), Point(7, 1), Point(7, 2), 
 Point(7, 3), Point(1, 0) `};&]
@@ -2653,19 +2974,24 @@ a.x < b.x; `});&]
 [s0; &]
 [s17; t `= `[`[1, 0`], `[7, 1`], `[7, 2`], `[7, 3`], `[10, 10`]`]&]
 [s0; &]
-[s5; All sorting algorithms have they `'Stable`' variant, so there 
-is [*C@5 StableIndexSort], [*C@5 GetStableSortOrder] etc...&]
-[s22;:Chapter`_5: 5. Value&]
-[s3;:Section`_5`_1: 5.1 Value&]
-[s5; Value is sort of equivalent of polymorphic data types from scripting 
-languages like Python or JavaSript. [*C@5 Value] can represent 
-values of concrete types, some types also have extended interoperability 
-with [*C@5 Value] and it is then possible to e.g. compare [*C@5 Value]s 
-containing such types against each other or serialize them for 
-persistent storage.&]
-[s5; Usually, Value compatible types define typecast operator to 
-[*C@5 Value] and constructor from [*C@5 Value], so that interaction 
-is for the most part seamless:&]
+[s5; Все алгоритмы сортировки имеют свой 
+`'Stable`' вариант. Так, существуют [*C@5 StableIndexSort], 
+[*C@5 GetStableSortOrder] и т.д....&]
+[s22;:Chapter`_5: [@3 5. Значение]&]
+[s3;:Section`_5`_1: [@(128.0.255) 5.1 Value]&]
+[s5; Value `- своего рода эквивалент полиморфным 
+типам данных из скриптовых языков 
+типа Python или JavaSript. [*C@5 Value] может представлять 
+значения конкретных типов, некоторые 
+типы также имеют расширенную интеропрерабил
+ьность с [*C@5 Value], что делает возможным, 
+например, сравнение [*C@5 Value`'й], содержащих 
+такие типы, друг с другом, или их сериализаци
+ю для постоянного хранения.&]
+[s5; Обычно совместимые с Value типы имеют 
+определение оператора typecast`'а в [*C@5 Value] 
+и конструктор из [*C@5 Value. ]Таким образом, 
+взаимодействие по большей часть несомненно:&]
 [s0; &]
 [s7; Value a `= 1;&]
 [s7; Value b `= 2.34;&]
@@ -2696,22 +3022,25 @@ is for the most part seamless:&]
 [s17; z `= 07/21/2021&]
 [s17; s `= hello&]
 [s0; &]
-[s5; As for primitive types, Value seamlessly works with [*C@5 int], 
-[*C@5 int64], [*C@5 bool] and [*C@5 double]. Casting [*C@5 Value] to 
-a type that it does not contain throws an exception:&]
+[s5; Что касается примитивных типов, Value 
+безупречно работает с [*C@5 int], [*C@5 int64], 
+[*C@5 bool] и [*C@5 double]. Переброс (кастинг) [*C@5 Value] 
+в тип, который оно не содержит, приводит 
+к выводу ошибки:&]
 [s0; &]
 [s7; try `{&]
 [s7; -|s `= a;&]
 [s7; -|DUMP(s); // we never get here....&]
 [s7; `}&]
 [s7; catch(ValueTypeError) `{&]
-[s7; -|LOG(`"Failed Value conversion`");&]
+[s7; -|LOG(`"Неудачное преобразование Value`");&]
 [s7; `}&]
 [s0; &]
-[s17; Failed Value conversion&]
+[s17; Неудачное преобразование Value&]
 [s0; &]
-[s5; However, conversion between related types is possible (as long 
-as it is supported by these types):&]
+[s5; Однако, преобразование между взаимосвязанн
+ыми типами возможно (поскольку оно 
+поддерживается этими типами):&]
 [s0; &]
 [s7; double i `= a;&]
 [s7; int j `= b;&]
@@ -2728,8 +3057,9 @@ as it is supported by these types):&]
 [s17; k `= 07/21/2021 00:00:00&]
 [s17; t `= hello&]
 [s0; &]
-[s5; To determine type of value stored in [*C@5 Value], you can use 
-[*C@5 Is] method:&]
+[s5; Чтобы определить тип значения, сохранённого
+ в [*C@5 Value], можно использовать метод 
+[*C@5 Is]:&]
 [s0; &]
 [s7; DUMP(a.Is<int>());&]
 [s7; DUMP(a.Is<double>());&]
@@ -2745,9 +3075,11 @@ as it is supported by these types):&]
 [s17; c.Is<Date>() `= true&]
 [s17; d.Is<String>() `= true&]
 [s0; &]
-[s5; Note that Is tests for absolute type match, not for compatible 
-types. For that reason, for widely used compatible types helper 
-functions are defined:&]
+[s5; Заметьте, что Is тестирует на абсолютное 
+совпадение типов, а не на совместимые 
+типы. По этой причине, определены 
+вспомогательные функции для широко 
+используемых совместимых типов:&]
 [s0; &]
 [s7; DUMP(IsNumber(a));&]
 [s7; DUMP(IsNumber(b));&]
@@ -2760,12 +3092,17 @@ functions are defined:&]
 [s17; IsString(d) `= true&]
 [s0; &]
 [s3;H4;:Section`_5`_2: 5.2 [C@5 Null]&]
-[s5; U`+`+ defines a special [*C@5 Null] constant to represent an empty 
-value. This constant is convertible to many value types including 
-primitive types [*C@5 double], [*C@5 int] and [*C@5 int64] (defined 
-as lowest number the type can represent). If type supports ordering 
-(<, >), all values of the type are greater than Null value. To 
-test whether a value is empty, use [*C@5 IsNull] function.&]
+[s5; U`+`+ определяет специальную константу 
+[*C@5 Null], чтобы представлять пустое значение. 
+Эта константа преобразуема во многие 
+типы значений, включая примитивные 
+типы [*C@5 double], [*C@5 int] и [*C@5 int64] (определяется 
+как наименьшее число, которое может 
+представлять тип). Если тип поддерживает 
+упорядочивание (<, >), то все значения 
+этого типа больше, чем значение Null. 
+Для тестирования на пустое значение 
+используется функция [*C@5 IsNull].&]
 [s0; &]
 [s7; int x `= Null;&]
 [s7; int y `= 120;&]
@@ -2782,11 +3119,15 @@ test whether a value is empty, use [*C@5 IsNull] function.&]
 [s17; d `= &]
 [s17; e > d `= true&]
 [s0; &]
-[s5; [*C@5 Null] is the only instance of [*C@5 Nuller] type. Assigning 
-[*C@5 Null] to primitive types is achieved by cast operators of 
-[*C@5 Nuller], other types can do it using constructor from [*C@5 Nuller].&]
-[s5; As a special case, if [*C@5 Value] contains [*C@5 Null], it is convertible 
-to any value type that can contain [*C@5 Null]:&]
+[s5; [*C@5 Null] `- это единственный экземпляр 
+типа [*C@5 Nuller]. Присваивание [*C@5 Null] примитивным 
+типам достигается оператором переброса 
+класса [*C@5 Nuller; ]другие типы могут выполнять 
+это, используя конструктор из [*C@5 Nuller`'а].&]
+[s5; Как особый случай, если [*C@5 Value] содержит 
+[*C@5 Null], то оно конвертабильно в любой 
+тип значения, который может содержать 
+[*C@5 Null]:&]
 [s0; &]
 [s7; Value v `= x; // x is int&]
 [s7; e `= v; // e is Date, but v is Null, so Null is assigned to 
@@ -2796,9 +3137,10 @@ e&]
 [s0; &]
 [s17; IsNull(e) `= true&]
 [s0; &]
-[s5; Function [*C@5 Nvl] is U`+`+ analog of well known SQL function 
-coalesce (ifnull, Nvl), which returns the first non`-null argument 
-(or [*C@5 Null] if all are [*C@5 Null]).&]
+[s5; Функция [*C@5 Nvl] `- это U`+`+ аналог хорошо 
+известной функции SQL coalesce (ifnull, Nvl), 
+которая возвращает первый не`-null аргумент 
+(или [*C@5 Null], если все равны [*C@5 Null]).&]
 [s0; &]
 [s7; int a `= Null;&]
 [s7; int b `= 123;&]
@@ -2808,20 +3150,25 @@ coalesce (ifnull, Nvl), which returns the first non`-null argument
 [s0; &]
 [s17; Nvl(a, b, c) `= 123&]
 [s0; &]
-[s3;H4;:Section`_5`_3: 5.3 Client types and [C@5 Value], [C@5 RawValue], 
-[C@5 RichValue]&]
-[s5; There are two Value compatibility levels. The simple one, [*C@5 RawValue], 
-has little requirements for the type used `- only copy constructor 
-and assignment operator are required (and there are even forms 
-of [*C@5 RawValue] that work for types missing these):&]
+[s3;H4;:Section`_5`_3: [@(128.0.255) 5.3 Клиентские типы 
+и] [C@5 Value], [C@5 RawValue], [C@5 RichValue]&]
+[s5; У Value есть два уровня совместимости. 
+Простой, [*C@5 RawValue], имеет невысокие 
+требования к используемому типу `- 
+нужны только конструктор копии и 
+оператор присваивания (существуют 
+даже формы [*C@5 RawValue], которые работают 
+с типами, у которые этого нет):&]
 [s0; &]
 [s7; struct RawFoo `{&]
 [s7; -|String x;&]
-[s7; -|// default copy constructor and assignment operator are provided 
-by compiler&]
+[s7; -|// дефолтный конструктор копии и 
+оператор присваивания предоставляет 
+компилятор&]
 [s7; `};&]
 [s0; &]
-[s5; To convert such type to [*C@5 Value], use [*C@5 RawToValue]:&]
+[s5; Чтобы преобразовать такие типы в 
+[*C@5 Value], используется [*C@5 RawToValue]:&]
 [s0; &]
 [s7; RawFoo h;&]
 [s7; h.x `= `"hello`";&]
@@ -2831,21 +3178,29 @@ by compiler&]
 [s0; &]
 [s17; q.Is<RawFoo>() `= true&]
 [s0; &]
-[s5; To convert it back, us `'To`' templated member function of [*C@5 Value], 
-it returns a constant reference to the value:&]
+[s5; Для обратного преобразования, используется
+ шаблонная функция`-член `'To`' класса 
+[*C@5 Value], она возвращает константную 
+ссылку на это значение:&]
 [s0; &]
 [s7; DUMP(q.To<RawFoo>().x);&]
 [s0; &]
 [s17; q.To<RawFoo>().x `= hello&]
 [s0; &]
-[s5; [*C@5 RichValue] level [*C@5 Value]s provide more operations for 
-[*C@5 Value] `- equality test, [*C@5 IsNull] test, hashing, conversion 
-to text, serialization (possibly to XML and Json), comparison. 
-In order to make serialization work, type must also have assigned 
-an integer id (client types should use ids in range 10000..20000). 
-Type can provide the support for these operations via template 
-function specializations or (perhaps more convenient) using defined 
-methods and inheriting from [*C@5 ValueType] base class template:&]
+[s5; Значения уровня[*C@5  RichValue] предоставляют 
+дополнительные операции `- тест на 
+равенство, тест [*C@5 IsNull], хэширование, 
+преобразование в текст, сериализацию 
+(можно в XML и Json), сравнение. Чтобы сериализаци
+я работала, типу должен быть присвоен 
+целочисленный идентификатор (клиентские 
+типы должны использовать иды в диапазоне 
+10000..20000). Тип может предоставлять поддержку 
+этих операций через определение шаблонной 
+функции, либо (что, возможно, удобней) 
+с применением определённых методов 
+и наследованием от шаблона класса`-основы 
+[*C@5 ValueType]:&]
 [s0; &]
 [s7; struct Foo : ValueType<Foo, 10010> `{&]
 [s7; -|int x;&]
@@ -2912,8 +3267,9 @@ correct type, then uses&]
 [s0; &]
 [s17; loaded `= 54321&]
 [s0; &]
-[s3;H4;:Section`_5`_4: 5.4 [C@5 ValueArray] and [C@5 ValueMap]&]
-[s5; [*C@5 ValueArray] is a type that represents an array of [*C@5 Value]s:&]
+[s3;H4;:Section`_5`_4: 5.4 [C@5 ValueArray] и [C@5 ValueMap]&]
+[s5; [*C@5 ValueArray] `- это тип, представляющий 
+массив из [*C@5 Value`'й]:&]
 [s0; &]
 [s7; ValueArray va`{1, 2, 3`};&]
 [s7; &]
@@ -2921,7 +3277,7 @@ correct type, then uses&]
 [s0; &]
 [s17; va `= `[1, 2, 3`]&]
 [s0; &]
-[s5; ValueArray can be assigned to Value (and back):&]
+[s5; ValueArray можно присвоить к Value (и наоборот):&]
 [s0; &]
 [s7; Value v `= va;&]
 [s7; &]
@@ -2939,8 +3295,9 @@ convertible to ValueArray)&]
 [s17; IsValueArray(v) `= true&]
 [s17; va2 `= `[1, 2, 3`]&]
 [s0; &]
-[s5; Elements can be appended using [*C@5 Add] method or [*C@5 operator<<], 
-element at index can be changed with [*C@5 Set]:&]
+[s5; Элементы могут приставляться с помощью 
+метода [*C@5 Add] или [*C@5 operator<<.]Элементы 
+по индексу изменяют методом [*C@5 Set]:&]
 [s0; &]
 [s7; va.Add(10);&]
 [s7; va << 20 << 21;&]
@@ -2950,7 +3307,7 @@ element at index can be changed with [*C@5 Set]:&]
 [s0; &]
 [s17; va `= `[999, 2, 3, 10, 20, 21`]&]
 [s0; &]
-[s5; Elements can be removed:&]
+[s5; Элементы можно удалять:&]
 [s0; &]
 [s7; va.Remove(0, 2);&]
 [s7; &]
@@ -2958,7 +3315,7 @@ element at index can be changed with [*C@5 Set]:&]
 [s0; &]
 [s17; va `= `[3, 10, 20, 21`]&]
 [s0; &]
-[s5; and inserted:&]
+[s5; и вставлять:&]
 [s0; &]
 [s7; va.Insert(1, v);&]
 [s7; &]
@@ -2966,9 +3323,10 @@ element at index can be changed with [*C@5 Set]:&]
 [s0; &]
 [s17; va `= `[3, 1, 2, 3, 10, 20, 21`]&]
 [s0; &]
-[s5; It is possible to get a reference to element at index, however 
-note that some [^topic`:`/`/Core`/srcdoc`/ValueReference`$en`-us^ special 
-rules] apply here:&]
+[s5; Можно получить сылку на элемент по 
+индексу, но помните, что здесь прилагаются 
+кое`-какие [^topic`:`/`/Core`/srcdoc`/ValueReference`_ru`-ru^ особые 
+правила]:&]
 [s0; &]
 [s7; va.At(0) `= 222;&]
 [s7; &]
@@ -2976,11 +3334,13 @@ rules] apply here:&]
 [s0; &]
 [s17; va `= `[222, 1, 2, 3, 10, 20, 21`]&]
 [s0; &]
-[s5; If [*C@5 Value] contains [*C@5 ValueArray], [*C@5 Value`::GetCount] 
-method returns the number of elements in the array (if there 
-is no [*C@5 ValueArray] in [*C@5 Value], it returns zero). You can 
-use [*C@5 Value`::operator`[`](int)] to get constant reference to 
-[*C@5 ValueArray] elements:&]
+[s5; Если [*C@5 Value] содержит [*C@5 ValueArray], метод 
+[*C@5 Value`::GetCount] возвращает число элементов 
+в массиве (если в [*C@5 Value ]отсутствует 
+какой`-либо [*C@5 ValueArray], возвращается 
+ноль). Можно использовать [*C@5 Value`::operator`[`](int)], 
+чтобы получить ссылку на элементы 
+[*C@5 ValueArray`'я]:&]
 [s0; &]
 [s7; for(int i `= 0; i < v.GetCount(); i`+`+)&]
 [s7; -|LOG(v`[i`]);&]
@@ -2989,8 +3349,9 @@ use [*C@5 Value`::operator`[`](int)] to get constant reference to
 [s17; 2&]
 [s17; 3&]
 [s0; &]
-[s5; It is even possible to directly add element to [*C@5 Value] if 
-it contains [*C@5 ValueArray]:&]
+[s5; Есть возможность прямо добавлять 
+элементы в [*C@5 Value], если оно содержит 
+[*C@5 ValueArray]:&]
 [s0; &]
 [s7; v.Add(4);&]
 [s7; &]
@@ -2998,8 +3359,9 @@ it contains [*C@5 ValueArray]:&]
 [s0; &]
 [s17; v `= `[1, 2, 3, 4`]&]
 [s0; &]
-[s5; Or even get a reference to element at some index (with [^topic`:`/`/Core`/srcdoc`/ValueReference`$en`-us^ s
-pecial rules]):&]
+[s5; Или даже получать ссылку на элемент 
+по какому`-либо индексу (с [^topic`:`/`/Core`/srcdoc`/ValueReference`_ru`-ru^ о
+собыми правилами]):&]
 [s0; &]
 [s7; v.At(0) `= 111;&]
 [s7; &]
@@ -3007,11 +3369,14 @@ pecial rules]):&]
 [s0; &]
 [s17; v `= `[111, 2, 3, 4`]&]
 [s0; &]
-[s5; [*C@5 ValueMap] can store key `- value pairs and retrieve value 
-for key quickly. Note that keys are not limited to [*C@5 String], 
-but can be any [*C@5 Value] with [*C@5 operator`=`=] and hash code 
-defined.&]
-[s5; [*C@5 Add] method or [*C@5 operator()] add data to [*C@5 ValueMap]:&]
+[s5; [*C@5 ValueMap] может хранить пары ключ`-значение 
+и быстро получать значение по ключу. 
+Заметьте, что ключи не ограничиваются 
+типом [*C@5 String], но могут быть любыми 
+[*C@5 Value], с [*C@5 operator`=`=] и определением 
+хэш`-кода.&]
+[s5; Метод[*C@5  Add] или [*C@5 operator()] добавляют 
+данные в [*C@5 ValueMap]:&]
 [s0; &]
 [s7; ValueMap m;&]
 [s7; &]
@@ -3022,14 +3387,15 @@ defined.&]
 [s0; &]
 [s17; m `= `{ one: 1, two: 2, three: 3 `}&]
 [s0; &]
-[s5; [*C@5 operator`[`]] retrieves the value at the key:&]
+[s5; [*C@5 operator`[`]] получает значение по ключу:&]
 [s0; &]
 [s7; DUMP(m`[`"two`"`]);&]
 [s0; &]
 [s17; m`[`"two`"`] `= 2&]
 [s0; &]
-[s5; When key is not present in the map, [*C@5 operator`[`]] returns 
-void Value (which is also Null):&]
+[s5; Когда ключ отсутствует в map`'е, [*C@5 operator`[`]] 
+возвращает void (пустое) Value (которое 
+также является Null):&]
 [s0; &]
 [s7; DUMP(m`[`"key`"`]);&]
 [s7; DUMP(m`[`"key`"`].IsVoid());&]
@@ -3039,8 +3405,9 @@ void Value (which is also Null):&]
 [s17; m`[`"key`"`].IsVoid() `= true&]
 [s17; IsNull(m`[`"key`"`]) `= true&]
 [s0; &]
-[s5; Just like [*C@5 VectorMap], [*C@5 ValueMap] is ordered, so the order 
-of adding pairs to it matters:&]
+[s5; Подобно [*C@5 VectorMap], [*C@5 ValueMap] упорядочен, 
+поэтому порядок добавления в него 
+пар имеет значение:&]
 [s0; &]
 [s7; ValueMap m2;&]
 [s7; &]
@@ -3054,14 +3421,15 @@ not equal&]
 [s17; m2 `= `{ two: 2, one: 1, three: 3 `}&]
 [s17; m `=`= m2 `= false&]
 [s0; &]
-[s5; `'Unordered`' equality test can be done using [*C@5 IsSame]:&]
+[s5; Тест на равенство `'Unordered`' можно выполнить 
+посредством [*C@5 IsSame]:&]
 [s0; &]
 [s7; DUMP(m.IsSame(m2));&]
 [s0; &]
 [s17; m.IsSame(m2) `= true&]
 [s0; &]
-[s5; Iterating ValueMap can be achieved with [*C@5 GetCount], [*C@5 GetKey] 
-and [*C@5 GetValue]:&]
+[s5; Итерирование по ValueMap может быть достигнуто 
+через [*C@5 GetCount], [*C@5 GetKey] и [*C@5 GetValue]:&]
 [s0; &]
 [s7; for(int i `= 0; i < m.GetCount(); i`+`+)&]
 [s7; -|LOG(m.GetKey(i) << `" `= `" << m.GetValue(i));&]
@@ -3070,20 +3438,21 @@ and [*C@5 GetValue]:&]
 [s17; two `= 2&]
 [s17; three `= 3&]
 [s0; &]
-[s5; It is possible to get [*C@5 ValueArray] of values:&]
+[s5; Можно получить [*C@5 ValueArray] из значений:&]
 [s0; &]
 [s7; LOG(m.GetValues());&]
 [s0; &]
 [s17; `[1, 2, 3`]&]
 [s0; &]
-[s5; [*C@5 GetKeys] gets constant reference to [*C@5 Index<Value>] of 
-keys:&]
+[s5; [*C@5 GetKeys] получает константную ссылку 
+на [*C@5 Index<Value>] ключей:&]
 [s0; &]
 [s7; LOG(m.GetKeys());&]
 [s0; &]
 [s17; `[one, two, three`]&]
 [s0; &]
-[s5; It is possible to change the value with [*C@5 Set]:&]
+[s5; Значение изменяется посредством 
+[*C@5 Set]:&]
 [s0; &]
 [s7; m.Set(`"two`", 4);&]
 [s7; &]
@@ -3091,7 +3460,8 @@ keys:&]
 [s0; &]
 [s17; m `= `{ one: 1, two: 4, three: 3 `}&]
 [s0; &]
-[s5; Or to change the value of key with [*C@5 SetKey]:&]
+[s5; Значение ключа изменяется посредством 
+[*C@5 SetKey]:&]
 [s0; &]
 [s7; m.SetKey(1, `"four`");&]
 [s7; &]
@@ -3099,9 +3469,10 @@ keys:&]
 [s0; &]
 [s17; m `= `{ one: 1, four: 4, three: 3 `}&]
 [s0; &]
-[s5; It is possible get a reference of value at given key, (with 
-[^topic`:`/`/Core`/srcdoc`/ValueReference`$en`-us^ special rules]) 
-with [*C@5 GetAdd] or [*C@5 operator()]:&]
+[s5; Можно получить ссылку на значение 
+по ключу, (с [^topic`:`/`/Core`/srcdoc`/ValueReference`_ru`-ru^ особым
+и правилами]) посредством [*C@5 GetAdd] или 
+[*C@5 operator()]:&]
 [s0; &]
 [s7; Value`& h `= m(`"five`");&]
 [s7; &]
@@ -3111,9 +3482,10 @@ with [*C@5 GetAdd] or [*C@5 operator()]:&]
 [s0; &]
 [s17; m `= `{ one: 1, four: 4, three: 3, five: 5 `}&]
 [s0; &]
-[s5; When ValueMap is stored into Value, [*C@5 operator`[`](String)] 
-provides access to value at key. Note that this narrows keys 
-to text values:&]
+[s5; Когда ValueMap сохраняется в Value, [*C@5 operator`[`](String)] 
+предоставляет доступ к значению по 
+ключу. Заметьте, что это сужает ключи 
+до текстовых значений:&]
 [s0; &]
 [s7; v `= m;&]
 [s7; DUMP(v);&]
@@ -3122,9 +3494,9 @@ to text values:&]
 [s17; v `= `{ one: 1, four: 4, three: 3, five: 5 `}&]
 [s17; v`[`"five`"`] `= 5&]
 [s0; &]
-[s5; [*C@5 Value`::GetAdd] and [*C@5 Value`::operator()] provide a reference 
-to value at key, with [^topic`:`/`/Core`/srcdoc`/ValueReference`$en`-us^ special 
-rules]:&]
+[s5; [*C@5 Value`::GetAdd] и [*C@5 Value`::operator()] предоставляют 
+ссылку на значение по ключу, с [^topic`:`/`/Core`/srcdoc`/ValueReference`_ru`-ru^ о
+собыми правилами]:&]
 [s0; &]
 [s7; v.GetAdd(`"newkey`") `= `"foo`";&]
 [s7; v(`"five`") `= `"FIVE`";&]
@@ -3133,9 +3505,9 @@ rules]:&]
 [s0; &]
 [s17; v `= `{ one: 1, four: 4, three: 3, five: FIVE, newkey: foo `}&]
 [s0; &]
-[s5; [*C@5 ValueMap] and [*C@5 ValueArray] are convertible with each 
-other. When assigning [*C@5 ValueMap] to [*C@5 ValueArray], values 
-are simply used:&]
+[s5; [*C@5 ValueMap] и [*C@5 ValueArray] взаимоконвертируемы. 
+При присваивании [*C@5 ValueMap] к [*C@5 ValueArray], 
+просто используются значения:&]
 [s0; &]
 [s7; ValueArray v2 `= m;&]
 [s7; &]
@@ -3143,8 +3515,9 @@ are simply used:&]
 [s0; &]
 [s17; v2 `= `[1, 4, 3, 5`]&]
 [s0; &]
-[s5; When assigning [*C@5 ValueArray] to [*C@5 ValueMap], keys are set 
-as indices of elements:&]
+[s5; При присваивании [*C@5 ValueArray] к [*C@5 ValueMap], 
+устанавливаются ключи как индексы 
+элементов:&]
 [s0; &]
 [s7; ValueMap m3 `= v2;&]
 [s7; &]
@@ -3152,8 +3525,9 @@ as indices of elements:&]
 [s0; &]
 [s17; m3 `= `{ 0: 1, 1: 4, 2: 3, 3: 5 `}&]
 [s0; &]
-[s5; With basic [*C@5 Value] types [*C@5 int], [*C@5 String], [*C@5 ValueArray] 
-and [*C@5 ValueMap], [*C@5 Value] can represent JSON:&]
+[s5; Базовые типы [*C@5 Value] `- [*C@5 int], [*C@5 String], 
+[*C@5 ValueArray] и [*C@5 ValueMap `-] могут быть представлены 
+в JSON:&]
 [s0; &]
 [s7; Value j `= ParseJSON(`"`{ `\`"array`\`" : `[ 1, 2, 3 `] `}`");&]
 [s7; &]
@@ -3177,17 +3551,22 @@ e`":5`}`}&]
 [s17; AsJSON(j) `= `{`"array`":`[1,`{`"key`":1`},3`],`"value`":`{`"one`":1,`"four`":4,`"thr
 ee`":3,`"five`":5`}`}&]
 [s0; &]
-[s22;:Chapter`_6: 6. Function and lambdas&]
-[s3;:Section`_6`_1: 6.1 Function&]
-[s5; U`+`+ [*C@5 Function] is quite similar to [*C@5 std`::function] `- 
-it is a function wrapper that can store/copy/invoke any callable 
-target. There are two important differences. First, invoking 
-empty [*C@5 Function] is NOP, if [*C@5 Function] has return type 
-[*C@5 T], it returns [*C@5 T()]. Second, [*C@5 Function] allows effective 
-chaining of callable targets using [*C@5 operator<<], if [*C@5 Function] 
-has return type, the return type of last callable appended is 
-used.&]
-[s5; Usually, the callable target is C`+`+11 lambda:&]
+[s22;:Chapter`_6: [@3 6. Функция и лямбды]&]
+[s3;:Section`_6`_1: [@(128.0.255) 6.1 Function]&]
+[s5; U`+`+ [*C@5 Function] весьма подобна [*C@5 std`::function] 
+`- это обёртка функции, способная хранить/коп
+ировать/вызывать любую `"вызывабельную`" 
+цель. Есть два важных различия. Во`-первых, 
+вызов пустой [*C@5 Function] есть NOP, если 
+[*C@5 Function] имеет тип возврата [*C@5 T], она 
+возвращает [*C@5 T()]. Во`-вторых, [*C@5 Function] 
+позволяет эффективно сцеплять `"вызывабельн
+ые`" цели, используя [*C@5 operator<<;] если 
+у [*C@5 Function] есть тип возврата, то используется 
+тип возврата последнего приставленного 
+`"вызывабельного`".&]
+[s5; Обычно, `"вызывабельной`" целью является 
+лямбда C`+`+11:&]
 [s0; &]
 [s7; Function<int (int)> fn `= `[`](int n) `{ LOG(`"Called A`"); 
 return 3 `* n; `};&]
@@ -3296,7 +3675,8 @@ less verbose&]
 [s17; Foo`::Test 1, using lambda&]
 [s17; Foo`::Test 2, using THISFN&]
 [s0; &]
-[s3;H4;:Section`_6`_2: 6.2 Capturing U`+`+ containers into lambdas&]
+[s3;H4;:Section`_6`_2: [@(128.0.255) 6.2 Захват контейнеров 
+U`+`+ в лямбды]&]
 [s5; Capturing objects with pick/clone semantics can be achieved 
 using [/ capture with an initializer]:&]
 [s0; &]
@@ -3318,7 +3698,7 @@ using [/ capture with an initializer]:&]
 [s17; x `= `[1, 2`]&]
 [s17; y `= `[one, two`]&]
 [s0; &]
-[s22;:Chapter`_7: 7. Multithreading&]
+[s22;:Chapter`_7: [@3 7. Многопоточность]&]
 [s3;:Section`_7`_1: 7.1 [C@5 Thread]&]
 [s5; Since C`+`+11, there is now a reasonable support for threads 
 in standard library. There are however reasons to use U`+`+ threads 
@@ -3699,7 +4079,7 @@ by Cancel method too)&]
 [s0; &]
 [s17; Work was canceled&]
 [s0; &]
-[s3;H4;:Section`_7`_6: 7.6 CoPartition&]
+[s3;H4;:Section`_7`_6: [@(128.0.255) 7.6 CoPartition]&]
 [s5; There is some overhead associated with CoWork worker threads. 
 That is why e.g. performing a simple operation on the array spawning 
 worker thread for each element is not a good idea performance 
@@ -3773,7 +4153,7 @@ h) `{&]
 [s0; &]
 [s17; sum `= 49995000&]
 [s0; &]
-[s3;H4;:Section`_7`_7: 7.7 CoDo&]
+[s3;H4;:Section`_7`_7: [@(128.0.255) 7.7 CoDo]&]
 [s5; An alternative to [*C@5 CoPartition] is [*C@5 CoDo]. In this pattern, 
 the job is simply started in all threads and the code is responsible 
 for scheduling the work. [*C@5 CoDo] waits for all started threads 
@@ -3804,7 +4184,7 @@ is available.&]
 [s0; &]
 [s17; sum `= 5.17737751763962&]
 [s0; &]
-[s3;H4;:Section`_7`_8: 7.8 Parallel algorithms&]
+[s3;H4;:Section`_7`_8: [@(128.0.255) 7.8 Параллельные алгоритмы]&]
 [s5; U`+`+ provides a parallel versions of algorithms where it makes 
 sense. The naming scheme is `'Co`' prefix before the name of 
 algorithm designates the parallel version.&]

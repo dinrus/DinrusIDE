@@ -1,0 +1,5 @@
+LAYOUT(IDD_FIND_REPLACE_DLG, 400, 200)
+	ITEM(Upp::Label, findLbl, SetLabel(t_("Найти")).LeftPosZ(28, 24).TopPosZ(24, 19))
+	ITEM(Upp::EditString, dv___1, LeftPosZ(56, 192).TopPosZ(20, 19))
+END_LAYOUT
+

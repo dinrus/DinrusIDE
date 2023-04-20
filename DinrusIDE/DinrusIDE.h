@@ -494,7 +494,7 @@ public:
     IdeCalc     calc;
     Ptr<Ctrl>   bottomctrl;
 
-    enum Bottoms { BCLOSE, BCONSOLE, BERRORS, BFINDINFILES1, BFINDINFILES2, BFINDINFILES3, BCALC, BDEBUG };
+    enum Bottoms { BCLOSE, BCONSOLE, BERRORS, BFINDINFILES1, BFINDINFILES2, BFINDINFILES3, BCALC, BEDIT2, BDEBUG };
 
     FileOut    stdout_fout;
 

@@ -20,14 +20,19 @@ topic "Ultimate++ Windows Installation";
 [2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%RU-RU 
 [s2; [@5 Установка U`+`+ на Windows]&]
-[s5; Windows release is a simple archive [^http`:`/`/www`.7`-zip`.org`/^ .7z] 
-archive. Unpack to directory of your preference, then just run 
-DinrusIDE.exe. U`+`+ does not write anything to registry or outside 
-its directory.&]
-[s5; The archive contains CLANG based Win32 toolchain and also SDL 
-2, OpenSSL, MySql and PostgreSQL client libraries. DinrusIDE 
-will also setup Microsoft C`+`+ compiler if it finds one.&]
-[s5; U`+`+ minimum requirement is Windows 7 64 with latest patches 
-for DinrusIDE to run and Windows 7 64 or 32 with latest patches 
-for compiled applications.&]
+[s5; Выпуск для Windows являет собой простой 
+архив [^http`:`/`/www`.7`-zip`.org`/^ .7z]. Он распаковывается
+ в любую удобную для вас директорию, 
+и затем просто запускается DinrusIDE.exe. 
+U`+`+ ничего не записывает ни в реестр, 
+ни вне этой директории.&]
+[s5; Архив содержит CLANG, основанный на 
+тулчейне Win32, а также SDL 2, OpenSSL, MySql и 
+PostgreSQL клиентские библиотеки. DinrusIDEтакже 
+настраивает компилятор Microsoft C`+`+, 
+если обнаружит его.&]
+[s5; Минимальные требования U`+`+ `- это 
+Windows 7 64 с последними патчами для выполнения 
+ DinrusIDE, или 7 64 или 32 с последними патчами 
+для скомпилированных приложений.&]
 [s5; ]]

@@ -8,7 +8,7 @@ topic "Концепты Дизайна Контролов";
 изобретают `- колесо... А ведь есть 
 общие образцы, как это делать, и для 
 вашего контрола Ultimate`+`+ , вероятно, 
-уже имеет класс`-основу. Так, знание 
+уже имеется класс`-основа. Так, знание 
 класса`-основы и некоторых его ключевых 
 концептов дизайна может сделать вашу 
 жизнь спокойней, а разработку которолов 
@@ -22,17 +22,17 @@ topic "Концепты Дизайна Контролов";
 стоит просмотреть [C virtual ]функции в 
 Ctrl, чтобы понять, что подразумевается 
 для использования или реализации 
-лично вами...&]
+лично вами.&]
 [s0; &]
 [s0; В целом, Ctrl в U`+`+ `- это визуализатор 
 какого`-то рода данных. Данные, однако, 
 не статичны, могут меняться из ГИП(GUI) 
 (point and click) или из ИПП(API) перспектив, 
 с помощью манипуляционных функций. 
-Разница в том, что GUI interaction нацелена 
-на изменение внутренних данных (или 
-состояния) Ctrl`'а, И на уведомление 
-приложения об изменениях, но изменение 
+Разница в том, что ГИП`-интеракция 
+нацелена на изменение внутренних 
+данных (или состояния) Ctrl`'а, И на уведомление
+ приложения об изменениях, но изменение 
 этого с помощью ИПП НЕ должно генерировать 
 никаких уведомлений об изменении. 
 Это очень важное правило дизайна, 
@@ -75,66 +75,112 @@ U`+`+ используется его собственный
 Это главная дверь в ваш Ctrl. Она есть 
 даже у более сложных Ctrl`'ов, типа TreeCtrl, 
  предоставляя текущий выделенный 
-индекс. Think of your Ctrl, which information it could 
-provide as general through this interface. it makes implicit 
-usage easy, also in terms of notification (see next)&]
+индекс. Думайте о вашем Ctrl`'е, о той 
+информации, которую он должен донести, 
+как о главном, через этот интерфейс. 
+Это облегчает неявное использование, 
+даже к понятиях нотификации (смотрите 
+далее)&]
 [s0; &]
-[s0; [* WhenAction Callback]&]
+[s0; [* WhenAction Callback `- обратный вызов (обрвыз) 
+ПриДействии]&]
 [s0; &]
-[s0; To notify upper layers of some changes, your Ctrl can use internally 
-(or the user externally) the Action() function, which will call 
-WhenCallback. and provide the feedback  This is the Callback 
-that can be set using `'<<`= THISBACK()`' approach, so using 
-it for your own Ctrl is preferable, since it leads to U`+`+ conform 
-short syntaxes. Be careful to only call Action() inside your 
-code upon graphical user interaction. When modifying your Ctrl 
-from API, it should generate no Action(). More or diverse notifications 
-can be provided in your controls using other global Callbacks 
-(or even Callback1<yourtype> or more), if needed. Use the WhenSomething 
-name convention to reflect Event behavior.&]
+[s0; Чтобы сообщить `"высшим слоям`" о каких`-либо 
+изменениях, ваш Ctrl внутренне может 
+воспользоваться (или внешне это сделать 
+пользователь) функцией Action(), которая 
+вызовет WhenCallback.и обеспечит feedback (поступление
+ информации в обратном направлении 
+по дереву контролов). Этот Callback можно 
+установить, воспользовавшись подходом 
+`'<<`= THISBACK()`'. Поэтому использовать 
+его для своих собственных контролов 
+предпочтительнее, так как это ведёт 
+к соответствиям. кратких синтаксисов 
+U`+`+. Нужно быть осторожным, только 
+при вызове Action() внутри кода при графической 
+интеракции с пользователем. Модифицируя 
+свой контрол через ИПП, она не должна 
+генерировать никакий Action(). Ещё больше 
+или несколько иные нотификации можно 
+обеспечить своим контролам с помощью 
+других глобальных Callback`'ов (или даже 
+Callback1<yourtype> или более), при необходимости. 
+Используйте конвенцию имён WhenSomething, 
+чтобы отражать поведение Event`'а (события).&]
 [s0; &]
 [s0; [* Updated(), SetModify(), ResetModify(), ClearModify(), IsModified()]&]
 [s0; &]
-[s0; Often, the control needs to process or calculate other things 
-based on the change of some data inside the control (like maybe 
-some results, cached values or the like, NOT graphical helper 
-data, this is done using Layout() which is invoked when resizing 
-or opening the Ctrl). Use the Updated() virtual function to realize 
-this, because it can be triggered from `'outside`' using the 
-Update() function. It also SetModified()`'s your Ctrl, so you 
-can check for it. Often, when data is changed, Ctrl needs to 
-be updated somehow calculating its things and then the user needs 
-to be notified. UpdateAction() does this in one step, calling 
-both. If graphical data needs change as well, UpdateActionRefresh() 
-is the chain to go, which will invoke an additional Paint(). 
-ClearModify() acts recursively on all children too.&]
+[s0; Зачастую контрол должен обработать 
+или вычислить иные вещи на основе 
+изменений внутри него каких`-либо 
+данных (это могут быть какие`-то результаты, 
+кэшированные значения или типа того,а 
+НЕ графические вспомогательные данные. 
+Это делается с помощью Layout(), которая 
+вызывается при изменении размеров 
+(перемере) или открытии Ctrl`'а). Используйте 
+виртуальную функцию Updated(), чтобы реализовать
+ её, так как её можно триггировать 
+снаружи, используя функцию Update(). Она 
+также SetModified()`'ет ваш Ctrl, и вы это в 
+состоянии проверить. Часто, при изменении 
+данных, Ctrl`'у нужно каким`-то образом 
+обновиться, перевычислить свои `"штуки`" 
+и сообщить пользователю (`"нотифицировать`" 
+его). UpdateAction() делает это одним шагом, 
+вызывая обе. Если ещё нужно изменить 
+и графические данные, UpdateActionRefresh() 
+`- следующее звено, которое вызовет 
+дополнительно Paint(). ClearModify() также 
+рекурсивно действует на всех отпрысков.&]
 [s0; &]
 [s0;* &]
-[s0; [* Refresh() strategies]&]
+[s0; [* Стратегии Refresh()`'а]&]
 [s0; &]
-[s0; Each U`+`+ Ctrl can be scheduled for Refresh() explicitly. This 
-does not always cause a Draw() immediately, i.e. in Win32, the 
-control draw area is marked for repaint to be processed as soon 
-as some time is available (the Message Queue decides and fires 
-WM`_PAINT to causes the repaint). Sync() causes a manual repaint 
-immediately This is sometimes handy to display immediate changes 
-while Main Thread, which would draw it, is known to be locked 
-for quite a while. This is used in Progress for example, to let 
-the user know, that work in Main Thread is in progress (and cant 
-repaint). More on this topic can be found in the Source Code 
-documentation and the Manual.&]
+[s0; Каждый U`+`+ Ctrl можно явно запланировать 
+под Refresh(). Это не всегда вызывает немедленный
+ Draw(), т.е. в Win32, область отрисовки контрола 
+отмечается меткой `"на перерисовку`", 
+и она будет обработана `"как только, 
+так сразу`" (Message Queue, т.е. очередь сообщений, 
+решает и `"зажигает`" событие WM`_PAINT, 
+что и ведёт к перерисовке). Sync() вызывает 
+немедленную перерисовку в ручном 
+режиме Иногда это очень полезно `- 
+отобразить изменения незамедлительно, 
+так как Main Thread (главный поток), который 
+должен бы это сделать,на какое`-то 
+время будет под блокировкой. Например, 
+это используется в контроле Progress, 
+чтобы дать знать пользователю о работе 
+в Main Thread, которая `"в прогрессе`" (и 
+из`-за этого перерисовка невозможна). 
+Подробнее на эту тематику можно прочитать 
+в документации к исходникам и в этом 
+Руководстве.&]
 [s0; &]
-[s0; But When is the right point to call Refresh()? This depends. 
-Think of your control and determine logically, what is considered 
-representation of your data, and what is only setup or helping 
-parametrization.So changing any of the data that renders invalid 
-any portion of the Ctrl`'s draw space should trigger a Refresh(). 
-Anything else probably not. Helping point: SetData() is probably 
-changing your data for sure, it should generally call Refresh() 
-after manipulation of the Ctrl`'s data. OTOH, i.e. changing Style 
-should not immediately Refresh() because some other Settings 
-might be necessary to change as well, and implicit calls to Refresh() 
-would equal to performance pain and be in vain.&]
+[s0; Так когда же (When) бывает нужная точка 
+для вызова Refresh()? Это относительно. 
+Подумайте о своём контроле и логически 
+определитесь, что можно считать представлен
+ием ваших данных, а что является просто 
+сетапом (настройкой) или вспомогательной 
+параметризацией.Итак, изменение любых 
+данных, при котором неверно отображается 
+любая порция пространства отрисовки 
+Ctrl`'а, должна триггировать Refresh(). При 
+всём ином, вероятно, этого не требуется. 
+Пункт помощи: SetData(), вероятно, наверняка 
+меняет ваши данные. В целом, эта функция, 
+как правило, должна вызывать Refresh() 
+после манипуляций с данными Ctrl`'а. 
+OTOH, т.е. изменение Style, немедленно делать 
+Refresh() не должно, так как кроме того 
+ещё необходимо изменить какие`-то 
+иные параметры`-настройки, а неявные 
+вызовы Refresh() будут напрасны и приведут 
+к потере производительности.&]
 [s0; &]
 [s0; User interactions from GUI perspective, changing your data, 
 should generally repaint your Ctrl, at least in portions. Changing 

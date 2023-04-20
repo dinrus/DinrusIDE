@@ -627,7 +627,7 @@ void Ide::SetIcon()
 	case 1:  Icon(DPI(IdeImg::IconDebugging(), IdeImg::IconDebuggingLarge())); break;
 	case 2:  Icon(DPI(IdeImg::IconRunning(), IdeImg::IconRunningLarge())); break;
 	case 3:  Icon(DPI(IdeImg::IconBuilding(), IdeImg::IconBuildingLarge())); break;
-	default: Icon(DPI(IdeImg::Icon(), IdeImg::dinrus()));
+	default: Icon(DPI(IdeImg::Icon(), IdeImg::PackageLarge()));
 	}
 #else
 	switch(state_icon) {

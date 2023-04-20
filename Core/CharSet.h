@@ -24,6 +24,24 @@ enum {
 
 #include "Utf.hpp"
 
+#define case_id_rus \
+	case L'а':case L'б':case L'в':case L'г':case L'д':case L'е':case L'ё':case L'ж':case L'з': \
+	case L'и':case L'й':case L'к':case L'л':case L'м':case L'н':case L'о':case L'п':case L'р': \
+	case L'с':case L'т':case L'у':case L'ф':case L'х':case L'ц':case L'ч':case L'ш':case L'щ': \
+	case L'ъ':case L'ы':case L'ь':case L'э':case L'ю':case L'я': \
+	case L'А':case L'Б':case L'В':case L'Г':case L'Д':case L'Е':case L'Ё':case L'Ж':case L'З': \
+	case L'И':case L'Й':case L'К':case L'Л':case L'М':case L'Н':case L'О':case L'П':case L'Р': \
+	case L'С':case L'Т':case L'У':case L'Ф':case L'Х':case L'Ц':case L'Ч':case L'Ш':case L'Щ': \
+	case L'Ъ':case L'Ы':case L'Ь':case L'Э':case L'Ю':case L'Я'
+	
+ inline bool IsRus(int c)
+ {
+     switch(c) {
+		case_id_rus: return true;
+			}
+			return false;
+ }
+ 
 inline bool IsUtf8Lead(int c) {	return (c & 0xc0) != 0x80; }
 
 wchar ReadSurrogatePair(const char16 *s, const char16 *lim);
@@ -146,7 +164,7 @@ inline bool  IsLetter(wchar c)    { return c < 2048 ? unicode_fast_info__[c] & 4
 inline bool IsRTL(wchar c)         { return (wchar)c >= 1470 && IsRTL_(c); }
 inline bool IsMark(wchar c)        { return c < 0x300 ? false : c <= 0x36f ? true : IsMark_(c); }
 
-inline bool IsLetter(int c)        { return IsLetter((wchar) c); }
+inline bool IsLetter(int c)        { if(IsRus(c)) return true; else return IsLetter((wchar) c); }
 inline bool IsUpper(int c)         { return IsUpper((wchar) c); }
 inline bool IsLower(int c)         { return IsLower((wchar) c); }
 inline int  ToUpper(int c)         { return ToUpper((wchar) c); }
@@ -183,7 +201,17 @@ inline char  ToUpperAscii(char16 c)  { return ToUpperAscii((wchar) c); }
 inline char  ToLowerAscii(char16 c)  { return ToLowerAscii((wchar) c); }
 
 inline bool IsDigit(int c)         { return c >= '0' && c <= '9'; }
-inline bool IsAlpha(int c)         { return c >= 'A' && c <= 'Z' || c >= 'a' && c <= 'z'; }
+
+inline bool IsAlpha(int c)
+{
+ switch(c) {
+		case_id_rus: return true;
+			}
+ return c >= 'A' && c <= 'Z' || c >= 'a' && c <= 'z';
+  }
+ 
+
+ 
 inline bool IsAlNum(int c)         { return IsDigit(c) || IsAlpha(c); }
 inline bool IsLeNum(int c)         { return IsDigit(c) || IsLetter(c); }
 inline bool IsPunct(int c)         { return c != ' ' && !IsAlNum(c); }

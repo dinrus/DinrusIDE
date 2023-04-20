@@ -12,30 +12,45 @@ topic "Программирование ГИП и многопоточность
 [2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%RU-RU 
 [s10; [@5 Программирование ГИП и многопоточность]&]
-[s0; Multithreading in GUI programming model has to follow target 
-platform limitations, where most target platforms have a notion 
-of `"main thread`" and limit GUI actions allowed in non`-main 
-threads.&]
+[s0; Многопоточность при модели программировани
+я ГИП (GUI) имеет ограничения целевой 
+платформы, так как большинство целевых 
+платформ имеют понятие `"главного 
+потока (main thread)`" и действия ГИП во 
+второстепенных потоках ограничиваются.&]
 [s0; &]
-[s0; Everything that is manipulating the status of top`-level windows 
-(TopWindow or popups) and everything related to event loop must 
-run on the main thread. The only non`-const operation allowed 
-to non`-main thread on top`-level windows is Refresh.&]
+[s0; Всё, что манипулирует состоянием 
+верхнеуровневых окон (TopWindow или popups), 
+и всё, что связано с событийным циклом, 
+должно выполняться в главном потоке. 
+Единственная неконстантная операция, 
+дозволенная неглавным потокам над 
+верхнеуровневым окном,`- это Refresh.&]
 [s0; &]
-[s0; Non`-main threads are in general allowed to alter the status 
-of widgets, as long as they serialize access with single global 
-GUI mutex, either with EnterGuiMutex/LeaveGuiMutex or with GuiLock 
-helper guard class (it calls EnterGuiMutex in constructor, LeaveGuiMutex 
-in destructor). GuiLock is reentrant and is optimized for great 
-reentrant performance. It is NOT required to use GuiLock in the 
-even processing methods (like MouseLeft or Key) as U`+`+ locks 
-it in this case itself.&]
+[s0; Неглавным потокам, в целом, разрешается 
+изменять состояние виджетов, если 
+они при этом сериализуют доступ через 
+единый глобальный ГИП`-мютекс, либо 
+через EnterGuiMutex/LeaveGuiMutex или же через 
+вспомогательный гвард`-класс GuiLock 
+(он вызывает в конструкторе EnterGuiMutex, 
+а в деструкторе LeaveGuiMutex). GuiLock допускает 
+повторный вход и оптимизирован под 
+ great reentrant performance.Но НЕ нужно использовать 
+GuiLock в рядовых методах обработки (типа 
+MouseLeft или Key), та как U`+`+ выполняет блокировку 
+самостоятельно.&]
 [s0; &]
-[s0; Other means of communication of non`-main threads with main 
-thread is PostCallback, which posts an Event to timer queue for 
-immediate processing, but does not wait for it to finish and 
-Ctrl`::Call, which passes event to main thread to be processed 
-and returns when the event is executed by the main thread. Both 
-of these methods have quite high latency, GuiLock and direct 
-access should be preferred if possible.&]
+[s0; Другим средством коммуникации неглавных 
+потоков с главным является PostCallback, 
+который `"постирует`" Event в очередь 
+таймера для немедленной обработки, 
+но не дожидатся её окончания. А также 
+Ctrl`::Call, который передаёт событие, нуждающееся
+ в обработки, в главный поток и возвращает, 
+когда это событие выполнится в главном 
+потоке. Оба эти метода имеют довольно 
+высокую латентность, GuiLock и прямой 
+доступ следует предпочесть (по возможности).
+&]
 [s0; ]]

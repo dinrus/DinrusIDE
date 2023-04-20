@@ -24,38 +24,60 @@ topic "Новый Проект";
 [s0; -|В этом примере мы создадим простое 
 приложение `"Hello world`", которое состоит 
 из двух пакетов, [* Main] и [* Util].&]
-[s0; -|U`+`+ requires that we store our source files under a root 
-directory called a [* nest]. The nest directory will contain other 
-directories that will hold the source files. The directories 
-contained in the nest directory will become package directories 
-as we create our application.&]
-[s0; -|U`+`+ requires one of our packages to be a [* main package]. 
-We will see shortly how to create a main package.&]
-[s0; -|Start DinrusIDE. A dialog will appear titled [* Select main package]. 
-A list of [* assemblies ]appears on the left. Right click over 
-the list of assemblies and select [* New assembly].&]
-[s0; -|A dialog will appear titled [* Assembly setup]. First, give the 
-assembly a name in the field titled [* Assembly name]. A good choice 
-is the name of the application, which we will call `"Hello`".&]
-[s0; -|Next, provide a list of nest directories in the field titled 
-[* Package nests]. The first directory must be the directory we 
-want to contain the application`'s files. If you needed to use 
-packages stored elsewhere, you would provide the names of the 
-nests that contain them, separating the name of each directory 
-with a semi`-colon.&]
-[s0; -|We don`'t want to do this, so you should only provide the name 
-of our application`'s source nest. So in the [* Package nest ]field, 
-type `"c:/Hello`".&]
-[s0; -|The two other fields in this dialog can be left with their 
-default settings. Exit the dialog by clicking the [* OK] button.&]
-[s0; -|At this stage, U`+`+ will have created the nest directory `"c:/Hello`". 
-We now want to create two packages called [* Main] and [* Util]. 
-Click on the [* New] button to start the [* Create new package ]dialog 
-and give the package the name `"Main`" . DinrusIDE will start, 
-showing package [* Main ]at the top left of the display.&]
-[s0; -|We now want to make [* Main] a main package, because it is this 
-package that must produce our target application. Right click 
-on [* Main] and select [* Main package configuration] or select [* Workspace`|Main 
-package configuration...] through the menu bar.&]
-[s0; -|Now let`'s create package [* Util ]and add it to package [* Main].&]
+[s0; -|Требование U`+`+ состоит в том, чтбы 
+мы сохраняли свои исходники под корневой 
+директорией, называемой [* гнездом]. 
+В гнездовой директории будут находиться 
+другие директории с исходниками. 
+Директории, находящиеся в гнездовой, 
+при создании приложений становятся 
+директориями пакетов.&]
+[s0; -|U`+`+ требует, чтобы один из пакетов 
+был [* главным пакетом]. Вскоре мы научимся 
+создавать такой главный пакет.&]
+[s0; -|Запустим DinrusIDE. Появится диалоговое 
+окно с названием [* `"Открыть главный 
+пакет`"]. Слева появляется список [* сборок]. 
+Сделаем правый клик над списком сборок 
+и выберем пункт [* `"Новая сборка`"].&]
+[s0; -|Появится диалоговое окно, озаглавленное 
+[* `"Настройка сборки`"]. Первым делом, 
+зададим сборке имя в поле, под титулом 
+[* `"Имя сборки`"]. Неплохо бы назвать 
+главный пакет именем приложения, 
+которое мы назовём `"Hello`".&]
+[s0; -|Далее, предоставляем список гнездовых 
+директорий в поле с титулом `"[* Гнёзда 
+пакета`"]. В первой директории должны 
+содержаться файлы приложения. Если 
+нужно использовать пакеты, хранимые 
+где`-то в ином месте, следует предоставить 
+имена гнёзд, содержащих их, отделяя 
+имя каждой директории точкой с запятой.&]
+[s0; -|Нам это делать не желательно, поэтому 
+предоставим только имя гнезда исходников 
+приложения. Итак, в поле [* `"Гнездо пакета`"], 
+вводим `"c:/Hello`".&]
+[s0; -|Два других поля в диалоговом окне 
+можно оставить с их дефолтными настройками. 
+Выходим из диалогового окна, кликая 
+на кнопке `"[* OK`"].&]
+[s0; -|На этом этапе, U`+`+ создаст гнездовую 
+директорию `"c:/Hello`". Теперь нам нужно 
+создать два пакета, с названиями [* Main] 
+и [* Util]. Кликаем кнопку [* `"Новый`"], чтобы 
+запустить диалоговое окно [* `"Создать 
+новый пакет`" ]и задаём пакету имя 
+`"Main`" . Откроется DinrusIDE, в котором вверху 
+слева отображён пакет [* Main].&]
+[s0; -|Теперь нам требуется сделать [* Main] 
+главным пакетом, так как именно этот 
+пакет должен произвести наше целевое 
+приложение. Сделаем правый клик на 
+[* Main] и выбираем [* `"Конфигурация главного 
+пакета`"], либо в брусе меню находим 
+и выбираем [* `"Проект`|Конфигурация 
+главного пакета...`"].&]
+[s0; -|Теперь создадим пакет [* Util ]и добавим 
+его к пакету [* Main].&]
 [s0; ]]

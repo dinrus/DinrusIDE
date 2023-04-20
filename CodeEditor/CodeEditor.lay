@@ -34,3 +34,4 @@ LAYOUT(BlockReplaceLayout, 364, 136)
 	ITEM(Upp::Label, find_lbl, SetLabel(t_("Найти")).LeftPosZ(8, 48).TopPosZ(4, 19))
 	ITEM(Upp::Label, replace_lbl, SetLabel(t_("Заменить")).LeftPosZ(8, 48).TopPosZ(48, 19))
 END_LAYOUT
+

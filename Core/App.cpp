@@ -519,6 +519,8 @@ void AppInit__(int argc, const char **argv, const char **envptr)
 
 void AppInitEnvironment__()
 {
+	SetConsoleCP(65001);
+	SetConsoleOutputCP(65001);
 	SetLanguage(LNG_('R', 'U', 'R', 'U'));
 	int nArgs;
     LPWSTR *szArglist = CommandLineToArgvW(GetCommandLineW(), &nArgs);

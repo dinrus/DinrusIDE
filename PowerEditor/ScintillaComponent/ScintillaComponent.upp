@@ -5,6 +5,7 @@ link
 	-D__UNICODE__;
 
 file
+	sci.lay,
 	ScintillaComponent.h,
 	AutoCompletion.cpp,
 	Buffer.cpp,

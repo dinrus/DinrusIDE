@@ -125,7 +125,7 @@ const char Lex::GetCharacter()
 	if(c == '\\') {
 		c = *ptr++;
 		switch(c) {
-		case_id_rus: break;
+		case_id_rus: return char(c); break;
 		case 'a': return char((byte)'\a');
 		case 'b': return char((byte)'\b');
 		case 't': return char((byte)'\t');

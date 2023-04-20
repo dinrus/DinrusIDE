@@ -762,14 +762,14 @@ void ChHostSkin()
 Vector<Tuple<void (*)(), String>> GetAllChSkins()
 {
 	return Vector<Tuple<void (*)(), String>> {
-		{ ChHostSkin, "Host platform" },
-	    { ChClassicSkin, "Classic" },
-		{ ChStdSkin, "Standard" },
-		{ ChGraySkin, "Gray" },
-		{ ChDarkSkin, "Dark" },
-		{ ChFlatSkin, "Flat" },
-		{ ChFlatGraySkin, "Flat Gray" },
-		{ ChFlatDarkSkin, "Flat Dark" }
+		{ ChHostSkin, "Платформа Хоста" },
+	    { ChClassicSkin, "Классическая" },
+		{ ChStdSkin, "Стандартная" },
+		{ ChGraySkin, "Серая" },
+		{ ChDarkSkin, "Тёмная" },
+		{ ChFlatSkin, "Плоская" },
+		{ ChFlatGraySkin, "Плоская Серая" },
+		{ ChFlatDarkSkin, "Плоская Тёмная" }
 	};
 }
 

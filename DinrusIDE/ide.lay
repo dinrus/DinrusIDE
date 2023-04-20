@@ -1066,7 +1066,7 @@ LAYOUT(SystemInfo, 844, 540)
 	ITEM(Upp::Label, TextBiosSerial, SetFrame(Upp::ThinInsetFrame()).LeftPosZ(292, 80).TopPosZ(32, 16))
 	ITEM(Upp::Label, dv___91, SetLabel(t_("Выпуск Bios:")).LeftPosZ(240, 52).TopPosZ(16, 16))
 	ITEM(Upp::Label, TextBiosRelease, SetFrame(Upp::ThinInsetFrame()).LeftPosZ(292, 80).TopPosZ(16, 16))
-	ITEM(Upp::Button, ButClose, SetLabel(t_("Выход")).LeftPosZ(394, 56).BottomPosZ(4, 24))
+	ITEM(Upp::Button, ButClose, SetLabel(t_("Выход")).HSizePosZ(394, 394).BottomPosZ(4, 24))
 END_LAYOUT
 
 LAYOUT(ScreenGrabTab, 468, 204)

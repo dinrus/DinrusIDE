@@ -20,7 +20,7 @@ topic "Обзор контейнеров U++ - NTL";
 [2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%RU-RU 
 [s2; [@5 Обзор контейнеров U`+`+ `- NTL]&]
-[s3; Table of contents&]
+[s3; Содержание&]
 [s0; &]
 [s0; [^topic`:`/`/Core`/srcdoc`/NTL`_ru`-ru`#1^ 1. Introduction]&]
 [s0; [^topic`:`/`/Core`/srcdoc`/NTL`_ru`-ru`#2^ 2. Random access]&]

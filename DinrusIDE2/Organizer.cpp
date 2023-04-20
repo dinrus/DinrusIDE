@@ -389,7 +389,7 @@ void PackageEditor::OptionMenu(Bar& bar)
 	bar.Add(b, "Добавить пакет..", IdeImg::package_add(), THISBACK1(AddOption, USES));
 	for(int j = FLAG; j <= PKG_LAST; j++)
 		if(j != USES)
-			bar.Add(b, "Новый " + opt_name[j] + "..", THISBACK1(AddOption, j));
+			bar.Add(b, "<+> " + opt_name[j] + "..", THISBACK1(AddOption, j));
 	bar.Separator();
 	b = option.IsCursor() && (int)option.Get(0) >= 0;
 	bar.Add(b, "Редактировать..", [=] { EditOption(false); })

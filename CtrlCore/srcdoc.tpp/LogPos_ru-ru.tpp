@@ -20,29 +20,50 @@ topic "Логические позиции";
 [2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%EN-US 
 [s2; [@5 Логические позиции]&]
-[s5; Placement of Ctrls within its parent is determined by logical 
-positions. Logical position alow more complex placement relative 
-to parent Ctrl rectangle. There are four types of horizontal 
-logical positions:&]
-[s5;i150;O0; [* left] `- in this case, logical position determines 
-distance from left edge of parent rectangle and horizontal size.&]
-[s5;i150;O0; [* size] `- logical position determines distance from 
-both left and right edges of parent Rect&]
-[s5;i150;O0; [* right ]`- logical position determines horizontal size 
-and distance from right edge of Rect.&]
-[s5;i150;O0; [* center] `- logical position determines distance from 
-center horizontal size.&]
-[s5; Vertical logical positions are equivalent.&]
-[s5; Each time parent Ctrl changes its layout (usually as result 
-of creation or resizing), pixel positions of all Ctrls are recomputed 
-based on logical positions.&]
-[s5; Another issue that is related to positions is layout zooming. 
-The problem here is that application can use font of different 
-size or type than standard one used in layout designer when designing 
-layout. That is why layout logical position need to be zoomed. 
-Zoom factor is determined by ratio of text [@3 `"OK_Cancel_Exit_Retry`"] 
-in runtime standard font size to Size(99, 13) `- size of this 
-text using standard font.&]
-[s5; Zooming layout positions is done using placement methods with 
-Z suffix (like LeftPosZ etc...).&]
+[s5; Положение Ctrl`'ов в пределах своего 
+родителя определено логическими 
+позициями. Логические позиции позволяют 
+выполнять более сложные размещения 
+относительно прямоугольника родительского 
+Ctrl`'а. Есть четыре типа горизонтальных 
+логических позиций:&]
+[s5;i150;O0; [* left] `- в этом случае логическая 
+позиция определяет расстояние от 
+левой кромки родительского прямоугольника 
+и горизонтальным размером.&]
+[s5;i150;O0; [* size] `- логическая позиция определяет 
+расстояние как от левой, так и от правой 
+кромок родительского прямоугольника&]
+[s5;i150;O0; [* right ]`- логическая позиция определяет 
+горизонтальный размер и расстояние 
+от правой кромки Прямоугольника.&]
+[s5;i150;O0; [* center] `- логическая позиция определяет 
+расстояние от центрального горизонтального
+ размера.&]
+[s5; Вертикальные логические позиции 
+эквивалентны.&]
+[s5; При каждом изменении выкладки родительског
+о контрола (обычно при создании или 
+перемере), пиксельные позиции всех 
+Ctrl`'ов пересчитываются на основе логических 
+позиций.&]
+[s5; Ещё один вопрос, связанный с позициями, 
+касается layout zooming (зуминга выкладки) 
+`- то есть увеличения`-уменьшения (положитель
+ного или отрицательного масштабирования). 
+Проблема состоит в том, что в приложении 
+может использоваться шрифт другого 
+размера или типа, отличающийся от 
+стандартного, использованного в дизайнере 
+выкладок при дизайнерской работе. 
+Поэтому логическая позиция выкладки 
+подлежит масштабированию. Фактор 
+масштабирования определяется соотношением 
+текста [@3 `"OK_Cancel_Exit_Retry`"] при шрифте 
+стандартного рантаймного размера 
+к Size(99, 13) `- размеру этого текста с 
+использованием стандартного шрифта.&]
+[s5; Зуминг позиций выкладки выполняется 
+методами размещения с суффиксом Z 
+(типа LeftPosZ и т.д.).&]
 [s0;3 ]]

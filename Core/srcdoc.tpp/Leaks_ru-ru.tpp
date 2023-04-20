@@ -24,13 +24,13 @@ topic "Устранение утечек памяти в приложениях 
 [{_}%RU-RU 
 [s2; [@5 Устранение утечек памяти в приложениях 
 U`+`+]&]
-[s3; Table of contents&]
+[s3; Содержание&]
 [s0; &]
-[s0; [^topic`:`/`/Core`/srcdoc`/Leaks`_ru`-ru`#1^ 1. Introduction]&]
+[s0; [^topic`:`/`/Core`/srcdoc`/Leaks`_ru`-ru`#1^ 1. Введение]&]
 [s0; [^topic`:`/`/Core`/srcdoc`/Leaks`_ru`-ru`#2^ 2. Debugging leaks]&]
 [s0; [^topic`:`/`/Core`/srcdoc`/Leaks`_ru`-ru`#3^ 3. False positives]&]
 [s0; &]
-[s3;:1: 1. Introduction&]
+[s3;:1: [@(128.0.255) 1. Введение]&]
 [s5; Before 2008.1 release, the memory leaks debugging facilities 
 have changed. Here we try to explain why logic has changed and 
 what problem is it supposed to solve:&]

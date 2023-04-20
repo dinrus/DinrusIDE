@@ -23,7 +23,7 @@ topic "New features of U++ Core 2016 (C++11)";
 [2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%RU-RU 
 [s2; New features of U`+`+ Core 2016 (C`+`+11)&]
-[s3; Table of contents&]
+[s3; Содержание&]
 [s0; &]
 [s0; [^topic`:`/`/Core`/srcdoc`/Core2016`_ru`-ru`#1^ 1. Allocator]&]
 [s0; [^topic`:`/`/Core`/srcdoc`/Core2016`_ru`-ru`#2^ 2. Multithreading]&]

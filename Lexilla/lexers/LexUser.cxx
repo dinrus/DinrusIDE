@@ -21,7 +21,7 @@ Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 #include <map>
 #include <vector>
 #include <assert.h>
-#include <windows.h>
+//#include <windows.h>
 
 #include "Scintilla/ILexer.h"
 #include "Scintilla/Scintilla.h"
@@ -133,6 +133,44 @@ const int foldingtMapper[MAPPER_TOTAL] =
 
 using namespace std;
 typedef vector<vector<string>> vvstring;
+
+//A Replacement taken temporarily from <assimp/StringComparison.h>
+unsigned int _itoa(unsigned int max, char* out,  int32_t number) {
+    assert(NULL != out);
+
+    // write the unary minus to indicate we have a negative number
+    unsigned int written = 1u;
+    if (number < 0 && written < max)    {
+        *out++ = '-';
+        ++written;
+        number = -number;
+    }
+
+    // We begin with the largest number that is not zero.
+    int32_t cur = 1000000000; // 2147483648
+    bool mustPrint = false;
+    while (written < max)   {
+
+        const unsigned int digit = number / cur;
+        if (mustPrint || digit > 0 || 1 == cur) {
+            // print all future zeroe's from now
+            mustPrint = true;
+
+            *out++ = '0'+static_cast<char>(digit);
+
+            ++written;
+            number -= digit*cur;
+            if (1 == cur) {
+                break;
+            }
+        }
+        cur /= 10;
+    }
+
+    // append a terminal zero
+    *out++ = '\0';
+    return written-1;
+}
 
 // static vector<int> * foldVectorStatic;  // foldVectorStatic is used for debugging only, it should be commented out in production code !
 

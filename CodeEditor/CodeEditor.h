@@ -40,20 +40,30 @@ struct LineInfoRemRecord : Moveable<LineInfoRemRecord> {
 
 typedef Vector<LineInfoRemRecord> LineInfoRem;
 
+//Пересчёт
 void Renumber(LineInfo& lf);
+//Удаление отладочных остановов
 void ClearBreakpoints(LineInfo& lf);
+//Валидация отладочных остановов
 void ValidateBreakpoints(LineInfo& lf);
 
 class CodeEditor;
 
+//БрусРедактора:ЛевыйФрейм
 class EditorBar : public FrameLeft<Ctrl> {
 public:
+//Отрисовка
 	virtual void Paint(Draw& w);
+//Двиг мыши
 	virtual void MouseMove(Point p, dword flags);
+//Выход мыши
 	virtual void MouseLeave();
 	virtual void LeftDown(Point p, dword flags);
+//Двуклик левый
 	virtual void LeftDouble(Point p, dword flags);
+//Правая внизу
 	virtual void RightDown(Point p, dword flags);
+//Колёсико
 	virtual void MouseWheel(Point p, int zdelta, dword keyflags);
 
 private:
@@ -91,19 +101,22 @@ private:
 	friend class CodeEditor;
 
 public:
-	Event<int> WhenBreakpoint;
-	Event<>    WhenAnnotationMove;
-	Event<>    WhenAnnotationClick;
-	Event<>    WhenAnnotationRightClick;
+	Event<int> WhenBreakpoint;//Событие:останов
+	Event<>    WhenAnnotationMove;//Событие:Перемещение аннотации
+	Event<>    WhenAnnotationClick;//Событие:Клик на аннотации
+	Event<>    WhenAnnotationRightClick;//Событие:Правый клик на аннотации
 
+//Вставить строки
 	void InsertLines(int i, int count);
+//Удалить строки
 	void RemoveLines(int i, int count);
+//Очистить строки
 	void ClearLines();
-
+//Промотка
 	void Scroll()                          { Refresh(); }
-
+//Синхронизация размера
 	void SyncSize();
-
+//Пересчёт
 	void Renumber(int linecount);
 	void ClearBreakpoints();
 	void ValidateBreakpoints();
@@ -149,6 +162,7 @@ public:
 	virtual ~EditorBar();
 };
 
+//Позиция идентификатора
 struct IdentPos {
 	int    begin;
 	int    end;

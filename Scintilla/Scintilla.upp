@@ -2,9 +2,13 @@ description "Библиотека Scintilla\3770,128,128";
 
 noblitz;
 
-options(CLANG) "--std=c++17 -Wpedantic -Wall -Os";
+options(CLANG WIN32) "-Wpedantic -Wall -Os -Ie:\\dinrus\\clang64\\include\\glib-2.0 -Ie:\\dinrus\\clang64\\include\\gtk-2.0 -Ie:\\dinrus\\clang64\\include\\pango-1.0";
+
+options(CLANG POSIX) "-Wpedantic -Wall -Os -DGTK -I/usr/include/glib-2.0 -I/usr/include/gtk-3.0 -I/usr/include/pango-1.0 -I/usr/include/harfbuzz -I/usr/include/cairo -I/usr/include/gdk-pixbuf-2.0 -I/usr/include/atk-1.0";
 
 link(WIN32 WIN64) "-loleaut32 -lole32 -lgdi32 -limm32 -luuid -lmsimg32";
+
+link(CLANG POSIX) ;
 
 file
 	"Заголовочники" readonly separator,
@@ -58,12 +62,6 @@ file
 	code\Indicator.h,
 	code\KeyMap.cxx,
 	code\KeyMap.h,
-	code\HanjaDic.cxx,
-	code\HanjaDic.h,
-	code\PlatWin.h,
-	code\ScintillaDLL.cxx,
-	code\ScintillaWin.cxx,
-	code\ScintillaWin.h,
 	code\LineMarker.cxx,
 	code\LineMarker.h,
 	code\MarginView.cxx,
@@ -75,8 +73,6 @@ file
 	code\Position.h,
 	code\PositionCache.cxx,
 	code\PositionCache.h,
-	code\PlatWin.cxx,
-	code\PlatWin.h,
 	code\RESearch.cxx,
 	code\RESearch.h,
 	code\RunStyles.cxx,
@@ -96,7 +92,27 @@ file
 	code\ViewStyle.cxx,
 	code\ViewStyle.h,
 	code\XPM.cxx,
-	code\XPM.h;
+	code\XPM.h,
+	win readonly separator,
+	code\HanjaDic.cxx,
+	code\HanjaDic.h,
+	code\PlatWin.cxx,
+	code\PlatWin.h,
+	code\ScintillaDLL.cxx,
+	code\ScintillaWin.cxx,
+	code\ScintillaWin.h,
+	code\WinTypes.h,
+	gtk readonly separator,
+	code\gtk\Converter.h,
+	code\gtk\PlatGTK.cxx,
+	code\gtk\scintilla-marshal.c,
+	code\gtk\scintilla-marshal.h,
+	code\gtk\ScintillaGTK.cxx,
+	code\gtk\ScintillaGTK.h,
+	code\gtk\ScintillaGTKAccessible.cxx,
+	code\gtk\ScintillaGTKAccessible.h,
+	code\gtk\Wrappers.h,
+	app.tpp;
 
 mainconfig
 	"" = "MAKE_LIB";

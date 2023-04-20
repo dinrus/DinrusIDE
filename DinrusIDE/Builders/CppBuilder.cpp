@@ -19,8 +19,8 @@ void CppBuilder::CleanPackage(const String& package, const String& outdir)
 	DeleteFolderDeep(outdir);
 }
 
-// POSIX lib files have names in form of libXXXXXX.so.ver.minver(.rel)
-// so we can't simply get file extension
+// Файлы библиотек POSIX имеют имена в форме libXXXXXX.so.ver.minver(.rel),
+// поэтому просто взять расширение недостаточно.
 String CppBuilder::GetSrcType(String fn) const
 {
 	fn = ToLower(fn);

@@ -157,7 +157,7 @@ void Ide::ExecuteBinary()
 		PutConsole(String().Cat() << "Выполняется: " << cmdline);
 		console.Sync();
 		exitcode = h.ExecuteWithInput(cmdline, console_utf8);
-		PutConsole("Завершено за " + GetPrintTime(time) + ", код выхода: " + AsString(exitcode));
+		PutConsole("Выполнено за " + GetPrintTime(time) + ", код выхода: " + AsString(exitcode));
 		break;
 	case RUN_FILE: {
 			HideBottom();

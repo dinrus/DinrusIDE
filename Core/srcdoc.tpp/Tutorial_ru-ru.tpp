@@ -3579,8 +3579,10 @@ return 3 `* n; `};&]
 [s17; Called A&]
 [s17; n `= 21&]
 [s0; &]
-[s5; If you chain another lambda into [*C@5 Function], all are called, 
-but the last one`'s return value is used:&]
+[s5; Если приторочить ещё одну лямбду 
+в [*C@5 Function], будут вызываться все, но 
+использовано будет возвратное значение 
+самой последней:&]
 [s0; &]
 [s7; fn << `[`](int n) `{ LOG(`"Called B`"); return n `* n; `};&]
 [s7; LOG(`"About to call combined function`");&]
@@ -3592,10 +3594,13 @@ but the last one`'s return value is used:&]
 [s17; Called B&]
 [s17; n `= 49&]
 [s0; &]
-[s5; Invoking empty lambda does nothing and returns default constructed 
-return value. This is quite useful for GUI classes, which have 
-a lot of output events represented by [*C@5 Function] which are 
-often unassigned to any action.&]
+[s5; Вызов пустой лямбды ничего нед делает, 
+возвращается дефолтно сконструированное 
+возвратное значение. Это очень употребимо 
+ГИП`-классами, у которых множество 
+выводных событий, представленных 
+[*C@5 Function], которая зачастую не присваивается 
+ни к какому действию.&]
 [s0; &]
 [s7; fn.Clear();&]
 [s7; LOG(`"About to call empty function`");&]
@@ -3605,9 +3610,11 @@ often unassigned to any action.&]
 [s17; About to call empty function&]
 [s17; n `= 0&]
 [s0; &]
-[s5; While using [*C@5 Function] with lambda expression is the most 
-common, you can use any target that has corresponding [*C@5 operator()] 
-defined:&]
+[s5; В то время как использование [*C@5 Function] 
+с лямбда`-выражением обще распространено, 
+можно использовать любую цель (target), 
+у которой определён соответствующий 
+[*C@5 operator()]:&]
 [s0; &]
 [s7; struct Functor `{&]
 [s7; -|int operator()(int x) `{ LOG(`"Called Foo`"); return x % 2; 
@@ -3623,16 +3630,18 @@ defined:&]
 [s17; Called Foo&]
 [s17; n `= 1&]
 [s0; &]
-[s5; As [*C@5 Function] with [*C@5 void] and [*C@5 bool] return types are 
-the most frequently used, U`+`+ defines template aliases [*C@5 Event]:&]
+[s5; Так как наиболее часто используются 
+[*C@5 Function] с типами возврата [*C@5 void] и [*C@5 bool,] 
+U`+`+ определяет шаблонные алиасы [*C@5 Event]:&]
 [s0; &]
-[s7; Event<> ev `= `[`] `{ LOG(`"Event invoked`"); `};&]
+[s7; Event<> ev `= `[`] `{ LOG(`"Вызвано Событие`"); 
+`};&]
 [s7; &]
 [s7; ev();&]
 [s0; &]
-[s17; Event invoked&]
+[s17; Вызвано Событие&]
 [s0; &]
-[s5; and [*C@5 Gate]:&]
+[s5; и [*C@5 Gate]:&]
 [s0; &]
 [s7; Gate<int> gt `= `[`](int x) `{ LOG(`"Gate invoked with `" << 
 x); return x < 10; `};&]
@@ -3647,9 +3656,11 @@ x); return x < 10; `};&]
 [s17; Gate invoked with 10&]
 [s17; b `= false&]
 [s0; &]
-[s5; Using lambda to define calls to methods with more parameters 
-can be verbose and error`-prone. The issue can be simplified 
-by using [*C@5 THISFN] macro:&]
+[s5; Использование лямбды для определения 
+вызово методов с большим числом параметров 
+может быть verbose и error`-prone. Эту проблему 
+можно упростить использованием макроса 
+[*C@5 THISFN]:&]
 [s0; &]
 [s7; struct Foo `{&]
 [s7; -|void Test(int a, const String`& b) `{ LOG(`"Foo`::Test `" << 
@@ -3677,8 +3688,9 @@ less verbose&]
 [s0; &]
 [s3;H4;:Section`_6`_2: [@(128.0.255) 6.2 Захват контейнеров 
 U`+`+ в лямбды]&]
-[s5; Capturing objects with pick/clone semantics can be achieved 
-using [/ capture with an initializer]:&]
+[s5; Захвата объектов с семантикой pick/clone 
+может быть достигнуто посредством 
+[/ захвата с инициализатором]:&]
 [s0; &]
 [s7; Vector<int> x`{ 1, 2 `};&]
 [s7; Array<String> y`{ `"one`", `"two`" `};&]
@@ -3700,60 +3712,71 @@ using [/ capture with an initializer]:&]
 [s0; &]
 [s22;:Chapter`_7: [@3 7. Многопоточность]&]
 [s3;:Section`_7`_1: 7.1 [C@5 Thread]&]
-[s5; Since C`+`+11, there is now a reasonable support for threads 
-in standard library. There are however reasons to use U`+`+ threads 
-instead. One of them is that U`+`+ high performance memory allocator 
-needs a cleanup call at the the thread exit, which is naturally 
-implemented into [*C@5 Upp`::Thread]. Second `'hard`' reason is 
-that Microsoft compiler is using Win32 API function for condition 
-variable that are not available for Windows XP, while U`+`+ has 
-alternative implementation for Windows XP, thus making executable 
-compatible with it.&]
-[s5; Then of course we believe U`+`+ multithreading / parallel programming 
-support is easier to use and leads to higher performance...&]
-[s5; [*C@5 Thread] class can start the thread and allows launching 
-thread to [*C@5 Wait] for its completion:&]
+[s5; С C`+`+11 появилась резонная поддержка 
+потоков (`"нитей`") в стандартной библиотеке. 
+Но есть, однако, причины использовать 
+вместо неё потоки U`+`+. Одна из них 
+в том, что высокопроизводительный 
+аллокатор памяти U`+`+  требует очищающего 
+вызова на выходе потока, который, 
+естественно, реализован в [*C@5 Upp`::Thread]. 
+Второй `'веской`' причиной является 
+компилятор Microsoft, использующий функцию 
+Win32 API  для переменной условия, которая 
+недоступна для Windows XP, в то время как 
+у U`+`+ есть альтернативная реализация 
+для Windows XP, что делает исполнимый совместимым
+.&]
+[s5; Кроме того, считаем, что в U`+`+ поддержка 
+многопоточности / параллельного программиро
+вания проще в использовании и приводит 
+к более высокой производительности...&]
+[s5; Класс[*C@5  Thread]  может запускать поток 
+и позволяет запуску потока ждать 
+([*C@5 Wait) ]его выполнения:&]
 [s0; &]
 [s7; Thread t;&]
 [s7; t.Run(`[`] `{&]
 [s7; -|for(int i `= 0; i < 10; i`+`+) `{&]
-[s7; -|-|LOG(`"In the thread `" << i);&]
+[s7; -|-|LOG(`"В потоке `" << i);&]
 [s7; -|-|Sleep(100);&]
 [s7; -|`}&]
-[s7; -|LOG(`"Thread is ending...`");&]
+[s7; -|LOG(`"Поток завершается...`");&]
 [s7; `});&]
 [s7; for(int i `= 0; i < 5; i`+`+) `{&]
-[s7; -|LOG(`"In the main thread `" << i);&]
+[s7; -|LOG(`"В главном потоке `" << i);&]
 [s7; -|Sleep(100);&]
 [s7; `}&]
-[s7; LOG(`"About to wait for thread to finish`");&]
+[s7; LOG(`"В ожидании финиша потока`");&]
 [s7; t.Wait();&]
-[s7; LOG(`"Wait for thread done`");&]
+[s7; LOG(`"Ожидание потока выполнено`");&]
 [s0; &]
-[s17; In the main thread 0&]
-[s17; In the thread 0&]
-[s17; In the thread 1&]
-[s17; In the main thread 1&]
-[s17; In the main thread 2&]
-[s17; In the thread 2&]
-[s17; In the main thread 3&]
-[s17; In the thread 3&]
-[s17; In the main thread 4&]
-[s17; In the thread 4&]
-[s17; About to wait for thread to finish&]
-[s17; In the thread 5&]
-[s17; In the thread 6&]
-[s17; In the thread 7&]
-[s17; In the thread 8&]
-[s17; In the thread 9&]
-[s17; Thread is ending...&]
-[s17; Wait for thread done&]
+[s17; В главном потоке 0&]
+[s17; В потоке 0&]
+[s17; В потоке 1&]
+[s17; В главном потоке 1&]
+[s17; В главном потоке 2&]
+[s17; В потоке 2&]
+[s17; В главном потоке 3&]
+[s17; В потоке 3&]
+[s17; В главном потоке 4&]
+[s17; В потоке 4&]
+[s17; В ожидании финиша потока&]
+[s17; В потоке 5&]
+[s17; В потоке 6&]
+[s17; В потоке 7&]
+[s17; В потоке 8&]
+[s17; В потоке 9&]
+[s17; Поток завершается...&]
+[s17; Ожидание потока выполнено&]
 [s0; &]
-[s5; [*C@5 Thread] destructor calls [*C@5 Detach] method with `'disconnects`' 
-[*C@5 Thread] from the thread. Thread continues running.&]
-[s5; [*C@5 Thread`::Start] static method launches a thread without possibility 
-to wait for its completion; if you need to wait, you have to 
-use some other method:&]
+[s5; Деструктор[*C@5  Thread] вызывает метод 
+[*C@5 Detach] с `'отключением`' [*C@5 Thread] от потока. 
+Поток продолжает выполняться.&]
+[s5; Статический метод[*C@5  Thread`::Start] запускает 
+поток без возможности ожидания его 
+завершения; если требуется подождать, 
+нужно использовать другие методы:&]
 [s0; &]
 [s7; bool x `= false;&]
 [s7; &]
@@ -3768,12 +3791,17 @@ true; `});&]
 [s17; In the Started thread&]
 [s17; Wait for thread done&]
 [s0; &]
-[s5; (method used here is horrible, but should demonstrate the point).&]
+[s5; (используемый здесь метод ужасен, 
+но должен продемонстрировать данный 
+пункт).&]
 [s3;H4;:Section`_7`_2: 7.2 [C@5 Mutex]&]
-[s5; Mutex (`"mutual exclusion`") is a well known concept in multithreaded 
-programming: When multiple threads write and read the same data, 
-the access has to be serialized using Mutex. Following invalid 
-code demonstrates why:&]
+[s5; Mutex (`"mutual exclusion`" `- взаимное исключение) 
+`- хорошо известное понятие из многопоточног
+о программирования: Когда несколько 
+потоков пишут и читают одни и те же 
+данные, доступ нужно сериализовать 
+с помощью Mutex. Следующий неправильный 
+код показывает, почему:&]
 [s0; &]
 [s7; Thread t;&]
 [s7; &]
@@ -3791,15 +3819,23 @@ code demonstrates why:&]
 [s0; &]
 [s17; sum `= 1631489&]
 [s0; &]
-[s5; While the expected value is 2000000, produced value is different. 
-The problem is that both thread read / modify / write [*C@5 sum] 
-value without any locking. Using [*C@5 Mutex] locks the [*C@5 sum] 
-and thus serializes access to it `- read / modify / write sequence 
- is now exclusive for the thread that has [*C@5 Mutex] locked, 
-this fixing the issue. [*C@5 Mutex] can be locked / unlocked with 
-[*C@5 Enter] / [*C@5 Leave] methods. Alternatively, [*C@5 Mutex`::Lock] 
-helper class locks [*C@5 Mutex] in constructor and unlocks it in 
-destructor:&]
+[s5; В то время как ожидаемое значение 
+равно 2000000, произведёное значение 
+другое. Проблема состоит в том, что 
+чтение /изменение /запись значения 
+[*C@5 sum] в обоих потоках выполняется 
+без блокировки. Применение [*C@5 Mutex] 
+блокирует [*C@5 sum], и, таким образом, сериализует
+ доступ к ней `- последовательность 
+чтение/ изменение / запись теперь 
+выполняется исключительно для потока, 
+который заблокировал [*C@5 Mutex], чем решил 
+проблему. [*C@5 Mutex] может блокироваться 
+/ разблокироваться методами [*C@5 Enter] 
+/ [*C@5 Leave]. Альтернативно, вспомогательный 
+класс [*C@5 Mutex`::Lock] блокирует [*C@5 Mutex] в 
+своём конструкторе и разблокирует 
+в деструкторе:&]
 [s0; &]
 [s7; Mutex m;&]
 [s7; sum `= 0;&]
@@ -3812,7 +3848,8 @@ destructor:&]
 [s7; `});&]
 [s7; &]
 [s7; for(int i `= 0; i < 1000000; i`+`+) `{&]
-[s7; -|Mutex`::Lock `_`_(m); // Lock m till the end of scope&]
+[s7; -|Mutex`::Lock `_`_(m); // Блокирует m до конца 
+масштаба(scope)&]
 [s7; -|sum`+`+;&]
 [s7; `}&]
 [s7; &]
@@ -3822,16 +3859,21 @@ destructor:&]
 [s17; sum `= 2000000&]
 [s0; &]
 [s3;H4;:Section`_7`_3: 7.3 [C@5 ConditionVariable]&]
-[s5; [*C@5 ConditionVariable] in general is a synchronization primitive 
-used to block/awaken the thread. [*C@5 ConditionVariable] is associated 
-with [*C@5 Mutex] used to protect some data; in the thread that 
-is to be blocked, [*C@5 Mutex] has to locked; call to [*C@5 Wait] 
-atomically unlocks the [*C@5 Mutex] and puts the thread to waiting. 
-Another thread then can resume the thread by calling [*C@5 Signal], 
-which also causes [*C@5 Mutex] to lock again. Multiple threads 
-can be waiting on single [*C@5 ConditionVariable]; [*C@5 Signal] 
-resumes single waiting thread, [*C@5 Brodcast] resumes all waitng 
-threads.&]
+[s5; [*C@5 ConditionVariable] в целом является примитивом 
+синхронизации, используемым для блокировки/
+пробуждения потока. [*C@5 ConditionVariable] ассоциирова
+на с [*C@5 Mutex,] используемым для защиты 
+данных; в блокируемом потоке [*C@5 Mutex] 
+выполняет блокировку; при вызове 
+[*C@5 Wait] автоматически разблокируется 
+[*C@5 Mutex] и поток входит в ожидание. Затем 
+другой поток может возобновить этот 
+поток, вызвав [*C@5 Signal], который опять 
+заставляет [*C@5 Mutex] заблокироваться. 
+Несколько потоков могут ожидать единую 
+[*C@5 ConditionVariable]; [*C@5 Signal] возобновляет 
+единичный ждущий поток, [*C@5 Brodcast] возобновляет
+ все ждущие потоки.&]
 [s0; &]
 [s7; bool  stop `= false;&]
 [s7; BiVector<int> data;&]
@@ -3875,28 +3917,40 @@ threads.&]
 [s17; Data received: 8&]
 [s17; Data received: 9&]
 [s0; &]
-[s5; Important note: rarely thread can be resumed from [*C@5 Wait] even 
-if no other called [*C@5 Signal]. This is not a bug, but [^https`:`/`/en`.wikipedia`.org`/wiki`/Spurious`_wakeup^ d
-esign decision for performance reason]. In practice it only means 
-that situation has to be (re)checked after resume.&]
+[s5; Важное замечание: едва ли поток восстановитс
+я после [*C@5 Wait], даже если никто другой 
+не вызовет [*C@5 Signal]. Это не баг, а [^https`:`/`/en`.wikipedia`.org`/wiki`/Spurious`_wakeup^ д
+изайнерское решение из соображений 
+производительности]. На практике 
+это означает только то, что ситуацию 
+нужно (пере)проверить после возобновления.&]
 [s3;H4;:Section`_7`_4: 7.4 [C@5 CoWork]&]
-[s5; [*C@5 CoWork] is intented to be use when thread are used to speedup 
-code by distributing tasks over multiple CPU cores. [*C@5 CoWork] 
-spans a single set of worker threads that exist for the whole 
-duration of program run. [*C@5 CoWork] instances then manage assigning 
-jobs to these worker threads and waiting for the all work to 
-finish.&]
-[s5; Job units to [*C@5 CoWork] are represented by [*C@5 Function<void 
-()>] and thus can be written inline as lambdas.&]
-[s5; As an example, following code reads input file by lines, splits 
-lines into words (this is the parallelized work) and then adds 
-resulting words to [*C@5 Index]:&]
+[s5; [*C@5 CoWork] предназначен для использования 
+когда поток используем для ускорения 
+путём распределения задачи на несколько 
+ядер ЦПБ. [*C@5 CoWork] spans единый набор рабочих 
+потоков, который существует на всём 
+протяжении выполнения программы. 
+Экземпляры [*C@5 CoWork] затем управляют 
+присваиванием задач этим рабочим 
+потокам и ожиданием завершения всей 
+работы.&]
+[s5; Единицы работы [*C@5 CoWork] представлены 
+[*C@5 Function<void ()>] и, таким образом, могут 
+записываться инлайн как лямбды.&]
+[s5; В качестве примера,`- следующий код, 
+по строкам, считывает вводный файл, 
+разбивает строки на слова (это `"параллелиров
+анная`" (запараллеленная!) работа), 
+и затем добавляет итоговые слова 
+в [*C@5 Index]:&]
 [s0; &]
-[s7; FileIn in(GetDataFile(`"test.txt`")); // let us open some tutorial 
-testing data&]
+[s7; FileIn in(GetDataFile(`"test.txt`")); // откроем какие`-нибудь
+ учебные тестовые данные&]
 [s7; &]
 [s7; Index<String> w;&]
-[s7; Mutex m; // need mutex to serialize access to w&]
+[s7; Mutex m; // мютекс (`"стопор`") необходим 
+для сериализации доступа к w&]
 [s7; &]
 [s7; CoWork co;&]
 [s7; while(!in.IsEof()) `{&]
@@ -3922,14 +3976,20 @@ irure, in, reprehenderit, voluptate, velit, officia, deserunt,
 mollit, anim, id, est, laborum, sint, occaecat, cupidatat, non, 
 proident, sunt, culpa, qui`]&]
 [s0; &]
-[s5; Adding words to [*C@5 w] requires [*C@5 Mutex]. Alternative to this 
-`'result gathering`' [*C@5 Mutex] is [*C@5 CoWork`::FinLock]. The 
-idea behind this is that CoWork requires an internal [*C@5 Mutex] 
-to serialize access to common data, so why [*C@5 FinLock] locks 
-this internal mutex a bit earlier, saving CPU cycles required 
-to lock and unlock dedicated mutex. From API contract perspective, 
-you can consider [*C@5 FinLock] to serialize code till the end 
-of worker job.&]
+[s5; Добавление слов в [*C@5 w] требует [*C@5 Mutex`'а]. 
+Альтернативой этому `'собирающему 
+результаты`' [*C@5 Mutex`'у] является [*C@5 CoWork`::FinLock]. 
+За этим кроется идея, что CoWork требуется 
+внутренний [*C@5 Mutex], чтобы сериализовать 
+доступ к общим данным, вот почему 
+[*C@5 FinLock] блокирует этот внутренний 
+стопор немного раньше, сберегая циклы 
+ЦПБ, необходимые на блокировку и разблокиров
+ку используемого мютекса. С точки 
+зрения контракта API (ИПП), можно рассмотреть 
+[*C@5 FinLock] в качестве сериализатора кода 
+до конца `"работы работяги`" (the worker 
+job).&]
 [s0; &]
 [s7; in.Seek(0);&]
 [s7; while(!in.IsEof()) `{&]
@@ -3937,8 +3997,8 @@ of worker job.&]
 [s7; -|co `& `[ln, `&w, `&m`] `{&]
 [s7; -|-|Vector<String> h `= Split(ln, `[`](int c) `{ return IsAlpha(c) 
 ? 0 : c; `});&]
-[s7; -|-|CoWork`::FinLock(); // replaces the mutex, locked till the 
-end of CoWork job&]
+[s7; -|-|CoWork`::FinLock(); // заменяет мютекс, блокирован 
+до конца работы CoWork&]
 [s7; -|-|for(const auto`& s : h)&]
 [s7; -|-|-|w.FindAdd(s);&]
 [s7; -|`};&]
@@ -3956,8 +4016,8 @@ irure, in, reprehenderit, voluptate, velit, officia, deserunt,
 mollit, anim, id, est, laborum, sint, occaecat, cupidatat, non, 
 proident, sunt, culpa, qui`]&]
 [s0; &]
-[s5; Of course, the code performed after [*C@5 FinLock] should not 
-take long, otherwise there is negative impact on all [*C@5 CoWork] 
+[s5; Конечно, the code performed after [*C@5 FinLock] should 
+not take long, otherwise there is negative impact on all [*C@5 CoWork] 
 instances. In fact, from this perspective, above code is probably 
 past the threshold...&]
 [s5; When exception is thrown in [*C@5 CoWork], it is propagated to 

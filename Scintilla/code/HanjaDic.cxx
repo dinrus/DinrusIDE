@@ -6,6 +6,8 @@
 // Copyright 2015 by Neil Hodgson <neilh@scintilla.org>
 // The License.txt file describes the conditions under which this software may be distributed.
 
+#ifndef GTK
+
 #include <string>
 #include <string_view>
 #include <memory>
@@ -157,3 +159,5 @@ bool GetHangulOfHanja(std::wstring &inout) noexcept {
 }
 
 }
+
+#endif

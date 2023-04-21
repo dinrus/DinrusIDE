@@ -776,7 +776,7 @@ void Editor::MultipleSelectAdd(AddNumber addNumber) {
 			const Sci::Position searchEnd = range.end;
 			for (;;) {
 				Sci::Position lengthFound = selectedText.length();
-				const Sci::Position pos = pdoc->FindText(searchStart, searchEnd,
+				const Sci::Position pos = pdoc->findText(searchStart, searchEnd,
 					selectedText.c_str(), searchFlags, &lengthFound);
 				if (pos >= 0) {
 					sel.AddSelection(SelectionRange(pos + lengthFound, pos));
@@ -4105,7 +4105,7 @@ std::unique_ptr<CaseFolder> Editor::CaseFolderForEncoding() {
  * Search of a text in the document, in the given range.
  * @return The position of the found text, -1 if not found.
  */
-Sci::Position Editor::FindText(
+Sci::Position Editor::findText(
     uptr_t wParam,		///< Search modes : @c FindOption::MatchCase, @c FindOption::WholeWord,
     ///< @c FindOption::WordStart, @c FindOption::RegExp or @c FindOption::Posix.
     sptr_t lParam) {	///< @c Sci_TextToFind structure: The text to search for in the given range.
@@ -4115,7 +4115,7 @@ Sci::Position Editor::FindText(
 	if (!pdoc->HasCaseFolder())
 		pdoc->SetCaseFolder(CaseFolderForEncoding());
 	try {
-		const Sci::Position pos = pdoc->FindText(
+		const Sci::Position pos = pdoc->findText(
 			static_cast<Sci::Position>(ft->chrg.cpMin),
 			static_cast<Sci::Position>(ft->chrg.cpMax),
 			ft->lpstrText,
@@ -4146,7 +4146,7 @@ Sci::Position Editor::FindTextFull(
 	if (!pdoc->HasCaseFolder())
 		pdoc->SetCaseFolder(CaseFolderForEncoding());
 	try {
-		const Sci::Position pos = pdoc->FindText(
+		const Sci::Position pos = pdoc->findText(
 			static_cast<Sci::Position>(ft->chrg.cpMin),
 			static_cast<Sci::Position>(ft->chrg.cpMax),
 			ft->lpstrText,
@@ -4196,11 +4196,11 @@ Sci::Position Editor::SearchText(
 		pdoc->SetCaseFolder(CaseFolderForEncoding());
 	try {
 		if (iMessage == Message::SearchNext) {
-			pos = pdoc->FindText(searchAnchor, pdoc->Length(), txt,
+			pos = pdoc->findText(searchAnchor, pdoc->Length(), txt,
 					static_cast<FindOption>(wParam),
 					&lengthFound);
 		} else {
-			pos = pdoc->FindText(searchAnchor, 0, txt,
+			pos = pdoc->findText(searchAnchor, 0, txt,
 					static_cast<FindOption>(wParam),
 					&lengthFound);
 		}
@@ -4242,7 +4242,7 @@ Sci::Position Editor::SearchInTarget(const char *text, Sci::Position length) {
 	if (!pdoc->HasCaseFolder())
 		pdoc->SetCaseFolder(CaseFolderForEncoding());
 	try {
-		const Sci::Position pos = pdoc->FindText(targetRange.start.Position(), targetRange.end.Position(), text,
+		const Sci::Position pos = pdoc->findText(targetRange.start.Position(), targetRange.end.Position(), text,
 				searchFlags,
 				&lengthFound);
 		if (pos != -1) {
@@ -6284,8 +6284,8 @@ sptr_t Editor::WndProc(Message iMessage, uptr_t wParam, sptr_t lParam) {
 			return static_cast<int>(pt.y);
 		}
 
-	case Message::FindText:
-		return FindText(wParam, lParam);
+	case Message::findText:
+		return findText(wParam, lParam);
 
 	case Message::FindTextFull:
 		return FindTextFull(wParam, lParam);

@@ -73,7 +73,8 @@ the web]
 :: [s0; `"external`" sources adapted to work with U`+`+ or support for 
 various file formats]}}&]
 [s0; &]
-[s3; Standard applications (main packages)&]
+[s3; Стандартные приложения (главные 
+пакеты)&]
 [s0; &]
 [ {{1851:8149 [s0; DinrusIDE]
 :: [s0; DinrusIDE development environment.]

@@ -9,6 +9,11 @@ class TopTextFrame : public CtrlFrame {
 };
 
 Console::Console() {
+	
+#if defined(PLATFORM_WIN32)
+	SetConsoleCP(65001);
+	SetConsoleOutputCP(65001);
+#endif
 	verbosebuild = false;
 	processes.SetCount(1);
 	console_lock = -1;

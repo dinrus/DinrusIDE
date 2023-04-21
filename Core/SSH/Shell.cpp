@@ -85,7 +85,7 @@ void SshShell::ReadWrite(String& in, const void* out, int out_len)
 			INPUT_RECORD ir[1];
 
 			if(!PeekConsoleInput(stdinput, ir, 1, &n))
-				ThrowError(-1, "Unable to peek console input events.");
+				ThrowError(-1, "Не удаётся заполучить события ввода в консоль.");
 			if(n) {
 				switch(ir[0].EventType) {
 					case KEY_EVENT:
@@ -103,10 +103,10 @@ void SshShell::ReadWrite(String& in, const void* out, int out_len)
 					case FOCUS_EVENT:
 						break;
 					default:
-						ThrowError(-1, "Unknown console event type encountered.");
+						ThrowError(-1, "Столкнулся с неизвестным типом события консоли.");
 				}
 				if(!ReadConsoleInput(stdinput, ir, 1, &n))
-					ThrowError(-1, "Unable to filter console input events.");
+					ThrowError(-1, "Не удаётся отфильтровать события ввода в консоль.");
 			}
 #endif
 			break;
@@ -163,7 +163,7 @@ void SshShell::ConsoleRead()
 		Send(String(buffer, n));
 	else
 	if(n == -1 && errno != EAGAIN)
-		ThrowError(-1, "Couldn't read input from console.");
+		ThrowError(-1, "Не удалось прочесть ввод из консоли.");
 }
 
 void SshShell::ConsoleWrite(const void* buffer, int len)
@@ -172,7 +172,7 @@ void SshShell::ConsoleWrite(const void* buffer, int len)
 		return;
 	auto n = write(STDOUT_FILENO, buffer, size_t(len));
 	if(n == -1 && errno != EAGAIN)
-		ThrowError(-1, "Couldn't write output to console.");
+		ThrowError(-1, "не удалось записать вывод в консоль.");
 }
 
 void SshShell::ConsoleRawMode(bool b)

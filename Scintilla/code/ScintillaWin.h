@@ -5,6 +5,8 @@
 // Copyright 1998-2018 by Neil Hodgson <neilh@scintilla.org>
 // The License.txt file describes the conditions under which this software may be distributed.
 
+#ifndef GTK
+
 #ifndef SCINTILLAWIN_H
 #define SCINTILLAWIN_H
 
@@ -18,4 +20,5 @@ Scintilla::sptr_t DirectFunction(ScintillaWin *sci, UINT iMessage, Scintilla::up
 
 }
 
+#endif
 #endif

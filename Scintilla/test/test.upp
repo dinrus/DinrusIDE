@@ -1,0 +1,25 @@
+uses
+	Lexilla;
+
+options
+	-DUNICODE;
+
+file
+	testCellBuffer.cxx,
+	testCharacterCategoryMap.cxx,
+	testCharClassify.cxx,
+	testContractionState.cxx,
+	testDecoration.cxx,
+	testDocument.cxx,
+	testGeometry.cxx,
+	testPartitioning.cxx,
+	testPerLine.cxx,
+	testRESearch.cxx,
+	testRunStyles.cxx,
+	testSparseVector.cxx,
+	testSplitVector.cxx,
+	testUniConversion.cxx,
+	unitTest.cxx,
+	catch.hpp,
+	UnitTester.cxx;
+

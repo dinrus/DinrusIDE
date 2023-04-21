@@ -19,14 +19,18 @@ topic "Moveable";
 [l160;t4167;*C+117 $$18,5#88603949442205825958800053222425:package`-title]
 [2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%RU-RU 
-[s2; Moveable&]
-[s5; First important note: U`+`+ Moveable is not to be confused with 
-C`+`+ standard library move semantics.&]
-[s5; Moveable concept represents basic requirement for types stored 
-in Vector flavor of containers (namely Vector, BiVector, Index, 
-VectorMap, InVector, SortedIndex, SortedVectorMap). To explain 
-what it is and why it is so important let us first create a very 
-primitive Vector`-like container template&]
+[s2; [@3 Moveable]&]
+[s5; Первое важное замечание: U`+`+ Moveable 
+не следует путать с семантикой move 
+из стандартной библиотеки C`+`+.&]
+[s5; Понятие Moveable представляет собой 
+базовые требования к типам, сохраняемым 
+в Vector flavor контейнеров (а именно Vector, 
+BiVector, Index, VectorMap, InVector, SortedIndex, SortedVectorMap). 
+Чтобы обяснить что это такое (`"и с 
+чем его едят`"), почему это так важно, 
+для начала создадим очень примитивный 
+шаблон Vector`-`"образного`" контейнера&]
 [s0; &]
 [s7; template <class T>&]
 [s7; class SimpleVector `{&]
@@ -61,16 +65,24 @@ primitive Vector`-like container template&]
 [s7; -|`}&]
 [s7; `};&]
 [s0; &]
-[s5; This [* SimpleVector] stores added elements in the [* vector] member 
-field. If there is no more empty storage space left in [* vector], 
-[* SimpleVector] simply doubles its capacity using [* Expand] method. 
-This method is what interests us `- because [* Expand ]requires 
-means to copy values of elements from the original memory area 
-to the newly allocated one. The version above uses placement 
-new and copy constructor for this purpose. This also means that 
-[* SimpleVector] requires T to have copy constructor (in standard 
-C`+`+ library terms: it must be [/ copy`-constructible]). Now let 
-us create a typical element that can be stored in such container&]
+[s5; Этот [* SimpleVector] сохраняет добавленные 
+элементы в поле`-члене [* vector]. Если места 
+для сохранения больше не осталось 
+в [* vector], то [* SimpleVector] просто удваивает 
+его ёмкость, с помощью метода [* Expand]. 
+Этот метод нас`-то и интересует `- так 
+как [* Expand ]требует наличия средств 
+для копирования значений элементов 
+из исходной области памяти во вновь 
+размещённую. В версии выше, для этой 
+цели используется размещение new и 
+конструктор копии. Это, к тому же, 
+означает, что [* SimpleVector`'у] требуется, 
+чтобы у T был конструктор копии (в 
+терминах стандартной библиотеки 
+C`+`+: он должен быть [/ copy`-constructible]). Теперь 
+создадим типичный элемент, который 
+можно сохранить в таком контейнере&]
 [s0; &]
 [s7; class SimpleString `{&]
 [s7; -|char `*text;&]
@@ -93,17 +105,25 @@ us create a typical element that can be stored in such container&]
 [s7; -|`}&]
 [s7; `};&]
 [s0; &]
-[s5; and see what happens when [* SimpleVector] of [* SimpleString]s 
-is expanded: First, copies of all elements are created, that means 
-allocating new storage for [* text] member of new element and copying 
-source [* text] to it using [* strcpy]. A moment later, [* Expand] 
-invokes destructor for element, thus deleting all [* text]s in 
-the original elements. Does not it seem we are wasting a lot 
-of CPU cycles just to make copies of things that we throw away 
-a moment later anyway? What if instead of making copies we could 
-find a way to transfer original elements`' [* text] members to 
-new elements and somehow disallow [* delete`[`] text] in destructor? 
-See how primitive it can be:&]
+[s5; и смотрим, что происходит, когда [* SimpleVector] 
+из [* SimpleString`'ов] `"расширяется`": Во`-первых, 
+создаются копии всех элементов, что 
+означает размещение нового хранилища 
+для члена [* text] нового элемента и копирование 
+исходного [* text] в него, с помощью [* strcpy]. 
+Моментом позднее, [* Expand] вызывает для 
+элемента деструктор, таким образом 
+удаляются все [* text`'ы ]в исходных элементах. 
+Не кажется ли, что на этом мы теряем 
+много циклов ЦПБ (CPU), просто чтобы 
+сделать копии вещей, которые чуть 
+позднее просто выбросим, в любом случае? 
+А что если вместо делания копий нашёлся 
+бы какой`-то способ перемещения (трансфера) 
+членов [* text] исходных элементов в новые 
+элементы?.. и как`-то был запрешён [* delete`[`] 
+text] в деструкторе?.. Смотрите, как можно 
+это `"опримитивить`":&]
 [s0; &]
 [s7; template <class T>&]
 [s7; class SimpleVector `{&]
@@ -134,20 +154,25 @@ See how primitive it can be:&]
 [s7; -|`}&]
 [s7; `};&]
 [s0; &]
-[s5; For the moment please ignore fact that by using memcpy to move 
-non`-POD types we are violating C`+`+ standard (we will discuss 
-it later). Now, what we get here is exactly what we wanted `- 
-instead of a series of copy construction and destruction we simply 
-copy raw binary data to the new location. This way we simply 
-transfer the old value in the [* text ]member of elements into 
-the new expanded [* vector]. We need to invoke neither copy constructor 
-nor destructor when expanding vector. Not a single CPU cycle 
-is lost.&]
-[s5; The types that can be moved in memory using memcpy are called 
-[*/ moveable.]&]
-[s5; Clearly not all types are moveable. Being moveable has a lot 
-to do with [/ not] storing references to the object itself or to 
-it`'s parts. Example:&]
+[s5; Проигрнорируем тот факт, что, используя 
+memcpy для move`'инга не`-POD типов, мы нарушаем 
+стандарт C`+`+ (обсудим это позднее).Теперь 
+мы получили ровных счётом то, что 
+хотели,`- вместо череды копиконструкций 
+и деструкций мы просто копируем сырые 
+двоичные данные в новое положение. 
+Таким образом, мы просто переносим 
+старые значения из членов [* text ]элементов 
+в новый расширенный [* vector]. Не нужно 
+вызывать ни конструктор копий, ни 
+деструктор при расширении вектора. 
+Не потерян даром ни один цикл ЦПБ!&]
+[s5; Типы, которые можно перемещать в 
+памяти с помощью memcpy, называются [*/ moveable.]&]
+[s5; Ясно, что не все типы moveable (т.е. `"перемещаемы`"
+). Чтобы быть `"перемещаемым`", это как`-то 
+связано с [/ несохранением ]ссылок на 
+сам объект или на его части. Пример:&]
 [s0; &]
 [s7; struct Link `{&]
 [s7; -|Link `*prev;&]
@@ -156,18 +181,24 @@ it`'s parts. Example:&]
 [s7; -|Link(Link `*p) `{ prev `= p; `}&]
 [s7; `};&]
 [s0; &]
-[s5; is [* not] moveable, because memcpy`-ing to a new location would 
-break the existing links. All of the following requirements should 
-be fullfilled for moveable types:&]
-[s5;l128;i150;O0; It does not have any virtual method nor virtual 
-base class.&]
-[s5;l128;i150;O0; Base classes (if any) and any instance member variables 
-are moveable.&]
-[s5;l128;i150;O0; No references or pointers are stored to the object 
-itself or to subobjects in the methods of the type, into variables 
-that exist after the method finishes execution. &]
-[s5; Fundamental types fulfills these requirements so they are moveable.&]
-[s5; Example:&]
+[s5; это [* не] moveable, так как memcpy`'ирование 
+в новую локацию сломает существующие 
+связи. Все следующие требования должны 
+выполняться для типов moveable:&]
+[s5;l128;i150;O0; У него нет никакого виртуального 
+метода, нет никакого виртуального 
+класса`-основы.&]
+[s5;l128;i150;O0; Классы`-основы (если они есть) 
+и переменные`-члены любого экземпляра 
+`"суть`" moveable.&]
+[s5;l128;i150;O0; Нет ссылок или указателей 
+сохранённых в самом объекте, либо 
+в подобъектах в методах типа, в переменных, 
+которые существуют, после того как 
+метод завершил выполнение. &]
+[s5; Фундаментальные типы удовлетворяют 
+этим требованиям, поэтому они moveable.&]
+[s5; Пример:&]
 [s0; &]
 [s7; struct Foo;&]
 [s7; &]
@@ -178,83 +209,111 @@ that exist after the method finishes execution. &]
 [s7; -|Foo `*foo;&]
 [s7; -|int `*ptr;&]
 [s7; public:&]
-[s7; -|void Set(Foo `* f) `{&]
+[s7; -|void Set(Foo `*f) `{&]
 [s7; -|-|foo `= f;&]
 [s7; -|`}&]
 [s7; -|void Ok1() `{&]
 [s7; -|-|Foo `*x `= this;&]
-[s7; -|// local variable will not exist outside method&]
-[s7; -|// `-> does not prevent Foo from being moveable&]
+[s7; -|// локальная переменная не будет 
+существовать вне метода&]
+[s7; -|// `-> не мешает Foo быть moveable&]
 [s7; -|`}&]
 [s7; -|void Ok2() `{&]
 [s7; -|-|memset(`&a, 0, sizeof(int));&]
-[s7; -|// pointer will not exist outside method&]
-[s7; -|// `-> does not prevent Foo from being moveable&]
+[s7; -|// указатель не будет существовать 
+вне метода&]
+[s7; -|// `-> не мешает Foo быть moveable&]
 [s7; -|`}&]
 [s7; -|void Bad1() `{&]
 [s7; -|-|foo `= this;&]
-[s7; -|// member variable foo exists outside method&]
-[s7; -|// `-> makes Foo non`-moveable&]
+[s7; -|// переменная`-член foo существует 
+вне метода&]
+[s7; -|// `-> делает Foo не`-moveable&]
 [s7; -|`}&]
 [s7; -|void Bad2() `{&]
 [s7; -|-|ptr `= `&a;&]
-[s7; -|// pointer to subobject stored, ptr exists outside method&]
-[s7; -|// `-> makes Foo non`-moveable&]
+[s7; -|// указатель на подобъект сохранён, 
+ptr существует вне метода&]
+[s7; -|// `-> делает Foo не`-moveable&]
 [s7; -|`}&]
 [s7; -|void Bad3() `{&]
 [s7; -|-|global`_foo `= this;&]
-[s7; -|// pointer stored to global variable&]
-[s7; -|// `-> makes Foo non`-moveable&]
+[s7; -|// указатель хранит глобальную переменную&]
+[s7; -|// `-> делает Foo не`-moveable&]
 [s7; -|`}&]
 [s7; -|void Bad4(Foo`& another) `{&]
 [s7; -|-|another.Set(this);&]
-[s7; -|// pointer stored indirectly in object that exist outside method&]
-[s7; -|// `-> makes Foo non`-moveable&]
+[s7; -|// указатель косвенно сохраняется 
+в объекте, существующем вне метода&]
+[s7; -|// `-> делает Foo не`-moveable&]
 [s7; -|`}&]
 [s7; `};&]
 [s0; &]
-[s5; These requirements satisfies fairly large number of types, incidentally 
-most of the types you ever wanted to store in a container of 
-elements of a single type are moveable. Most important, all NTL 
-containers [* are ]moveable.&]
-[s5; Now we have an effective method how to organize the storing 
-of elements in containers. We have to deal with the fact that 
-being moveable is part of an object`'s interface, and we should 
-ensure that only movable elements are stored into NTL containers. 
-For this we need a way to declare at compile time that a certain 
-type is moveable and also a way to check it.&]
-[s5; To achieve this goal, you can mark moveable types by deriving 
-them from the [* Moveable] template class e.g.:&]
+[s5; Этим требованиям соответствует довольно 
+большое количество типов; большинство 
+типов, которые требуется хранить 
+в контейнере элементов одного типа, 
+являются moveable. Что наиболее важно, 
+все крнтейнеры NTL [* являются ]moveable.&]
+[s5; Теперь у нас есть действенный способ 
+организовывать сохранение элементов 
+в контейнерах. Нам нужно иметь дело 
+с тем фактом, что быть moveable  `- это часть 
+интерфейса объекта, и нужно следить 
+за тем, чтобы только movable эоементы 
+сохранялись в контейнерах NTL. Для 
+этого нам нужен способ объявлять 
+во время компиляции, что некий тип 
+есть moveable, а также способ проверки 
+этого.&]
+[s5; Чтобы добиться этой цели, можно отметить 
+типы moveable, произведя их от шаблонного 
+класса [* Moveable], например:&]
 [s0; &]
 [s7; class SimpleString : Moveable<SimpleString> `{ ... `}&]
 [s0; &]
-[s5; Alternatively the [* NTL`_MOVEABLE ]macro can be used to mark 
-types as moveable if the class interface can not be changed, 
-such as in:&]
+[s5; Альтернативно можно использовать 
+макрос [* NTL`_MOVEABLE ,  ]чтобы метить типы 
+как moveable, если интерфейс класса нельзя 
+изменить, как в случае:&]
 [s0; &]
 [s7; NTL`_MOVEABLE(std`::string);&]
 [s0; &]
-[s5; Now that we can mark types as moveable, we need a way to check 
-a type for being moveable. This is done by adding the line:&]
+[s5; Теперь, когда мы можем отмечать типы 
+как moveable, нам нужен способ проверки 
+типа на перемещаемость. Это выполняется 
+добавкой строки:&]
 [s0; &]
 [s7; AssertMoveable<T>()&]
 [s0; &]
-[s5; to one of the methods of a template that gets compiled for any 
-template argument `- the destructor is the most obvious place. 
-The [* AssertMovable] function is defined only if [* T] is marked 
-as moveable, so it results in compilation error for non`-moveable 
-T types.&]
-[s5; Finally, time has come to deal with the C`+`+ standard. Current 
-C`+`+ defines memcpy only for POD types. The moveable concept 
-requires memcpy of non`-POD types to be defined. In fact, difference 
-between POD and moveable non`-POD types is the existence of constructors 
-and non`-virtual destructor. To get things work, all we need 
-is that the result of memcpy`-ing non`-POD type [* T ]is same as 
-memcpy`-ing the POD [* T1 ]type which you would get by removing 
-the destructor and the constructors from [* T]. While this operation 
-is still undefined by C`+`+, it is really hard to imagine an 
-optimal C`+`+ implementation that would break this rule. Indeed, 
-all current implementation we have met so far support moveable 
-semantics in the way we have defined here. Performance and other 
-gains realized by using the moveable concept are too big to ignore.&]
+[s5; в один из методов шаблона, который 
+компилируется для любого аргумента 
+шаблона `- деструктор наиболее очевидное 
+место. Функция [* AssertMovable] определяется 
+только, если [* T] отмечен как moveable, таким 
+образом, она приводит к ошибке компиляции 
+для не`-moveable типов T.&]
+[s5; Наконец, настало время разобраться 
+со стандартом C`+`+. Текущий C`+`+ определяет 
+memcpy только для типов POD. Понятие moveable 
+тредует определения memcpy для не`-POD 
+типов. Фактически, разница между  
+POD и moveable не`-POD типами состоит в существовани
+и конструкторов и невиртуальных деструкторо
+в.Чтобы это работало, всё, что требуется 
+`-  чтобы результат memcpy`'ирования не`-POD 
+типа [* T ]был ьакой же, как у memcpy`'ирования 
+типа POD [* T1] , который можно получить, 
+удалив деструктор и конструкторы 
+из [* T]. Покуда эта операция всё ещё 
+не определена в C`+`+, трудно представить 
+себе оптисальную реализацию C`+`+, которая 
+нарушит это правило. Действительно, 
+вся текущая реализация, встречавшаяся 
+нам доселе, поддерживает семантику 
+moveable способом, который мы здесь определили. 
+Производительность и прочие достижения, 
+реализуемые использованием этого 
+концепта о moveable, очень велики, чтобы 
+остаться незамеченными.&]
 [s5; ]]

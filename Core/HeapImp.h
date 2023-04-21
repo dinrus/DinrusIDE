@@ -79,7 +79,7 @@ template <typename Detail, int BlkSize>
 void BlkHeap<Detail, BlkSize>::Assert(bool b)
 {
 	if(!b)
-		Panic("Heap is corrupted!");
+		Panic("Куча повреждена!");
 }
 
 #ifdef HEAPDBG
@@ -100,7 +100,7 @@ void BlkHeap<Detail, BlkSize>::DbgFreeCheck(void *p, size_t size)
 	dword *ptr = (dword *)p;
 	while(count--)
 		if(*ptr++ != 0x65657246)
-			Panic("Writes to freed blocks detected");
+			Panic("Детектируются записи в освобождённые блоки");
 }
 
 template <typename Detail, int BlkSize>

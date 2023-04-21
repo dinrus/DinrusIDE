@@ -13,20 +13,20 @@
 // $Id: evthandler.cpp,v 1.10 2007/01/15 11:55:36 afb Exp $
 //-----------------------------------------------------------------------------
 /*
-#include <wxCtrls/wx.h>
-#include "common.h>
-#include "local_events.h>
+#include <wx/wx.h>
+#include "common.h"
+#include "local_events.h"
 */
 #include "pch.h"
 //-----------------------------------------------------------------------------
 
-typedef void (CALLBACK* ƒелегатћаршалинга—об)(wxc_object obj, wxEvent* event, int iListener);
+typedef void (CALLBACK* delegateMarshalingObj)(wxc_object obj, wxEvent* event, int iListener);
 
 //-----------------------------------------------------------------------------
 
-struct ƒанные—об лиента {
-	ƒелегатћаршалинга—об датчик;
-	wxc_object объ;
+struct ClientData {
+	delegateMarshalingObj listener;
+	wxc_object obj;
 };
 
 struct wxProxyData : public wxObject
@@ -41,15 +41,15 @@ public:
 	{
 		wxProxyData* data = (wxProxyData*)event.m_callbackUserData;
 
-		ƒанные—об лиента*u = (ƒанные—об лиента*)GetClientData();
-		u->датчик(u->объ,&event, data->iListener);
+		ClientData *u = (ClientData*)GetClientData();
+		u->listener(u->obj,&event, data->iListener);
 	}
 };
 
 //-----------------------------------------------------------------------------
 
 extern "C" WXEXPORT
-void wxEvtHandler_proxy(wxEvtHandler* self, ƒанные—об лиента* data)
+void wxEvtHandler_proxy(wxEvtHandler* self, ClientData* data)
 {
 	self->SetClientData((void*)data);
 }

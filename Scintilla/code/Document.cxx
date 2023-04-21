@@ -2068,7 +2068,7 @@ bool SplitMatch(const SplitView &view, size_t start, std::string_view text) noex
  * searches (just pass minPos > maxPos to do a backward search)
  * Has not been tested with backwards DBCS searches yet.
  */
-Sci::Position Document::FindText(Sci::Position minPos, Sci::Position maxPos, const char *search,
+Sci::Position Document::findText(Sci::Position minPos, Sci::Position maxPos, const char *search,
                         FindOption flags, Sci::Position *length) {
 	if (*length <= 0)
 		return minPos;
@@ -2079,7 +2079,7 @@ Sci::Position Document::FindText(Sci::Position minPos, Sci::Position maxPos, con
 	if (regExp) {
 		if (!regex)
 			regex = std::unique_ptr<RegexSearchBase>(CreateRegexSearch(&charClass));
-		return regex->FindText(this, minPos, maxPos, search, caseSensitive, word, wordStart, flags, length);
+		return regex->findText(this, minPos, maxPos, search, caseSensitive, word, wordStart, flags, length);
 	} else {
 
 		const bool forward = minPos <= maxPos;
@@ -2798,7 +2798,7 @@ class BuiltinRegex : public RegexSearchBase {
 public:
 	explicit BuiltinRegex(CharClassify *charClassTable) : search(charClassTable) {}
 
-	Sci::Position FindText(Document *doc, Sci::Position minPos, Sci::Position maxPos, const char *s,
+	Sci::Position findText(Document *doc, Sci::Position minPos, Sci::Position maxPos, const char *s,
                         bool caseSensitive, bool word, bool wordStart, FindOption flags,
                         Sci::Position *length) override;
 
@@ -3202,7 +3202,7 @@ Sci::Position Cxx11RegexFindText(const Document *doc, Sci::Position minPos, Sci:
 
 }
 
-Sci::Position BuiltinRegex::FindText(Document *doc, Sci::Position minPos, Sci::Position maxPos, const char *s,
+Sci::Position BuiltinRegex::findText(Document *doc, Sci::Position minPos, Sci::Position maxPos, const char *s,
                         bool caseSensitive, bool, bool, FindOption flags,
                         Sci::Position *length) {
 

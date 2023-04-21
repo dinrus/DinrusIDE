@@ -322,7 +322,7 @@ public:
 	int PrintMagnification();
 	void SetPrintColourMode(Scintilla::PrintOption mode);
 	Scintilla::PrintOption PrintColourMode();
-	Position FindText(Scintilla::FindOption searchFlags, void *ft);
+	Position findText(Scintilla::FindOption searchFlags, void *ft);
 	Position FindTextFull(Scintilla::FindOption searchFlags, void *ft);
 	Position FormatRange(bool draw, void *fr);
 	Position FormatRangeFull(bool draw, void *fr);

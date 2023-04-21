@@ -5,6 +5,8 @@
 // Copyright 1998-2003 by Neil Hodgson <neilh@scintilla.org>
 // The License.txt file describes the conditions under which this software may be distributed.
 
+#ifndef GTK
+
 #include <cstddef>
 #include <cstdlib>
 #include <cstdint>
@@ -1301,7 +1303,7 @@ Message SciMessageFromEM(unsigned int iMessage) noexcept {
 	case EM_CANPASTE: return Message::CanPaste;
 	case EM_CANUNDO: return Message::CanUndo;
 	case EM_EMPTYUNDOBUFFER: return Message::EmptyUndoBuffer;
-	case EM_FINDTEXTEX: return Message::FindText;
+	case EM_FINDTEXTEX: return Message::findText;
 	case EM_FORMATRANGE: return Message::FormatRange;
 	case EM_GETFIRSTVISIBLELINE: return Message::GetFirstVisibleLine;
 	case EM_GETLINECOUNT: return Message::GetLineCount;
@@ -3777,3 +3779,5 @@ int RegisterClasses(void *hInstance) noexcept {
 extern "C" int Scintilla_ReleaseResources() {
 	return Scintilla::Internal::ResourcesRelease(false);
 }
+
+#endif

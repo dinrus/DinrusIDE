@@ -492,6 +492,10 @@ void s_fpe_handler(int)
 
 void AppInit__(int argc, const char **argv, const char **envptr)
 {
+#if defined(PLATFORM_WIN32)
+	SetConsoleCP(65001);
+	SetConsoleOutputCP(65001);
+#endif
 	SetLanguage(LNG_CURRENT);
 	sSetArgv0__(argv[0]);
 	for(const char *var; (var = *envptr) != 0; envptr++)
@@ -519,6 +523,7 @@ void AppInit__(int argc, const char **argv, const char **envptr)
 
 void AppInitEnvironment__()
 {
+
 	SetConsoleCP(65001);
 	SetConsoleOutputCP(65001);
 	SetLanguage(LNG_('R', 'U', 'R', 'U'));

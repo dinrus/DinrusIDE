@@ -22,35 +22,39 @@ topic "Обзор контейнеров U++ - NTL";
 [s2; [@5 Обзор контейнеров U`+`+ `- NTL]&]
 [s3; Содержание&]
 [s0; &]
-[s0; [^topic`:`/`/Core`/srcdoc`/NTL`_ru`-ru`#1^ 1. Introduction]&]
-[s0; [^topic`:`/`/Core`/srcdoc`/NTL`_ru`-ru`#2^ 2. Random access]&]
-[s0; [^topic`:`/`/Core`/srcdoc`/NTL`_ru`-ru`#3^ 3. Requirements]&]
+[s0; [^topic`:`/`/Core`/srcdoc`/NTL`_ru`-ru`#1^ 1. Введение]&]
+[s0; [^topic`:`/`/Core`/srcdoc`/NTL`_ru`-ru`#2^ 2. Случайный 
+доступ]&]
+[s0; [^topic`:`/`/Core`/srcdoc`/NTL`_ru`-ru`#3^ 3. Требования]&]
 [s0; [^topic`:`/`/Core`/srcdoc`/NTL`_ru`-ru`#4^ 4. Flavors]&]
-[s0; [^topic`:`/`/Core`/srcdoc`/NTL`_ru`-ru`#5^ 5. Containers as return 
-values]&]
-[s0; [^topic`:`/`/Core`/srcdoc`/NTL`_ru`-ru`#6^ 6. Basic random access 
-containers]&]
-[s0; [^topic`:`/`/Core`/srcdoc`/NTL`_ru`-ru`#7^ 7. Bidirectional containers]&]
+[s0; [^topic`:`/`/Core`/srcdoc`/NTL`_ru`-ru`#5^ 5. Контейнеры 
+как возвратные значения]&]
+[s0; [^topic`:`/`/Core`/srcdoc`/NTL`_ru`-ru`#6^ 6. Базовые контейнеры 
+случайного доступа]&]
+[s0; [^topic`:`/`/Core`/srcdoc`/NTL`_ru`-ru`#7^ 7. Двунаправленные 
+контейнеры]&]
 [s0; [^topic`:`/`/Core`/srcdoc`/NTL`_ru`-ru`#8^ 8. Index]&]
 [s0; [^topic`:`/`/Core`/srcdoc`/NTL`_ru`-ru`#9^ 9. Maps]&]
-[s0; [^topic`:`/`/Core`/srcdoc`/NTL`_ru`-ru`#10^ 10. InVector and Sorted 
+[s0; [^topic`:`/`/Core`/srcdoc`/NTL`_ru`-ru`#10^ 10. InVector и Sorted 
 maps]&]
 [s0; [^topic`:`/`/Core`/srcdoc`/NTL`_ru`-ru`#11^ 11. One]&]
 [s0; [^topic`:`/`/Core`/srcdoc`/NTL`_ru`-ru`#12^ 12. Any]&]
 [s0; [^topic`:`/`/Core`/srcdoc`/NTL`_ru`-ru`#13^ 13. Buffer]&]
 [s0; &]
-[s3;:1: 1. Introduction&]
-[s5; [* NTL] (Non`-standard Template library) is a library of container 
-and algorithm templates. It is designed to solve some problems 
-we see in current C`+`+ standard library STL.&]
-[s5; For code examples please visit [^topic`:`/`/Core`/srcdoc`/Tutorial`_en`-us^ Core 
-tutorial].&]
-[s3;:2: 2. Random access&]
+[s3;:1: [@(28.127.0) 1. Введение]&]
+[s5; [* NTL] (Non`-standard Template library) `- это библиотека 
+шаблонов контейнеров и алгоритмов. 
+Она разработана с целью решения некоторых 
+проблем, встречающихся в текущей 
+стандартной библиотеке C`+`+ STL.&]
+[s5; Примеры кода найдутся в [^topic`:`/`/Core`/srcdoc`/Tutorial`_ru`-ru^ У
+чебнике по Core].&]
+[s3;:2: [@(28.127.0) 2. Случайный доступ]&]
 [s5; Each single NTL container template that can store more than 
 one element has random access. This random access is as fast 
 as access using iterators so for iterating elements you can use 
 indices rather than iterators and we recommend this approach.&]
-[s3;:3: 3. Requirements&]
+[s3;:3: [@(28.127.0) 3. Требования]&]
 [s5; An important feature of NTL are requirements for stored elements. 
 Unlike STL, which has single [/ copy`-constructible] and [/ assignable] 
 requirement for whole library, NTL makes requirements on per 
@@ -58,7 +62,7 @@ container and even per method basis. This way NTL allows [/ direct]
 storing of [/ any] type of elements. NTL provides two or even three 
 flavors for each basic ADT kind of container relative to requirements 
 for elements.&]
-[s3;:4: 4. Flavors&]
+[s3;:4: [@(28.127.0) 4. Flavors]&]
 [s5; [*/ Vector] flavor of containers requires types to be [*/^dpp`:`/`/SourceDoc`/Containers`/Moveable^ m
 oveable] and have either [*/^dpp`:`/`/SourceDoc`/Containers`/pick`_^ deep 
 copy constructor][^dpp`:`/`/SourceDoc`/Containers`/pick`_^  ]and 
@@ -75,11 +79,12 @@ use Array flavor to create recursive data structures. Another
 feature of this flavor is that references to elements are never 
 invalidated. Containers of this flavor have [* Array] in their 
 name.&]
-[s3;:5: 5. Containers as return values&]
+[s3;:5: [@(28.127.0) 5. Контейнеры как возвратные 
+значения]&]
 [s5; NTL allows containers to be used as return values, in single 
 constant time operation. It is allowed by defining specific [*/^topic`:`/`/Core`/src`/pick`_`$en`-us^ t
 ransfer semantics][/ .]&]
-[s3;:6: 6. Basic random access containers&]
+[s3;:6: [@(28.127.0) 6. Basic random access containers]&]
 [s5; This kind of containers allows adding/removing elements at the 
 end of the sequence in amortized constant time. As these containers 
 are basic building blocks for NTL, their names are the same as 
@@ -87,12 +92,12 @@ names for all three flavors. [* Vector] flavor allows direct access
 to underlying C vector of elements. [* Vector] and [* Array] flavors 
 allow removing and inserting of elements at any position (with 
 complexity based on number of elements moved).&]
-[s3;:7: 7. Bidirectional containers&]
+[s3;:7: [@(28.127.0) 7. Bidirectional containers]&]
 [s5; This kind of containers allows adding/removing elements to/from 
 both beginning and end of sequence in constant amortized time. 
 It is well suited for FIFO operations. [* BiVector] and [* BiArray] 
 are two flavors of bidirectional containers.&]
-[s3;:8: 8. Index&]
+[s3;:8: [@(28.127.0) 8. Index]&]
 [s5; Basically, this kind of container provides random access sequence 
 that allows adding elements at the end of sequence in constant 
 amortized time (much like basic random access containers) with 
@@ -112,7 +117,7 @@ operations are shared in common template class [* AIndex], which
 represents index container without concrete flavor. [* Index] and 
 [* ArrayIndex] are derived from this [* AIndex], adding few operations 
 specific for their flavors.&]
-[s3;:9: 9. Maps&]
+[s3;:9: [@(28.127.0) 9. Maps]&]
 [s5; Basically, maps are just simple compositions of Index and basic 
 random access container to store values, thus getting classical 
 map design. In find operation, position of key in Index is retrieved 
@@ -125,12 +130,12 @@ be moveable). [* VectorMap], [* ArrayMap] and [* SegtorMap] are flavors
 of maps. As with [* Index], the common operations of this flavor 
 are implemented in template base class [* AMap]. Also, picking 
 operations for any part of maps are available.&]
-[s3;:10: 10. InVector and Sorted maps&]
+[s3;:10: [@(28.127.0) 10. InVector and Sorted maps]&]
 [s5; NTL provides random access containers with fast insertion at 
 arbitrary position, which scale well to milions of items. These 
 containers then provide basis for `'sorted maps`' that are using 
 binary search. Sorted maps are useful when range`-search is required.&]
-[s3;:11: 11. One&]
+[s3;:11: [@(28.127.0) 11. One]&]
 [s5; [* One] is a container that can hold one or none elements of the 
 specified type or a type derived from it. Its functionally rather 
 close to standard library auto`_ptr but with improvements in 
@@ -138,11 +143,11 @@ direction of NTL, like transfer semantics, moveable concept (yes,
 you [/ can] have Vector< One<T> >) and others. Also it is important 
 from conceptual view, because it is it is treated like a container 
 rather than a pointer.&]
-[s3;:12: 12. Any&]
+[s3;:12: [@(28.127.0) 12. Any]&]
 [s5; Any is a container that can store none or single element of 
 [/ any] type. Container provides Is<T> method to determine the 
 type of stored element and Create<T> method to create the element 
 in container.&]
-[s3;:13: 13. Buffer&]
+[s3;:13: [@(28.127.0) 13. Buffer]&]
 [s0; Buffer is a simple random access container without growing properties.&]
 [s0; ]]

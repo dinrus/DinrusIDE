@@ -13,7 +13,7 @@ namespace Upp {
 void OutOfMemoryPanic(size_t size)
 {
 	char h[200];
-	sprintf(h, "Нехватка памяти!\nРазмешённая U++ память: %d KB", MemoryUsedKb());
+	sprintf(h, "Нехватка памяти!\nРазмещённая U++ память: %d KB", MemoryUsedKb());
 	Panic(h);
 }
 
@@ -287,16 +287,16 @@ EXITBLOCK {
 		sum += stat[i];
 	sum += bigstat;
 	int total = 0;
-	VppLog() << Sprintf("Allocation statistics: (total allocations: %d)\n", sum);
+	VppLog() << Sprintf("Статистика размещений: (всего размещений: %d)\n", sum);
 	for(int i = 0; i < 65536; i++)
 		if(stat[i]) {
 			total += stat[i];
-			VppLog() << Sprintf("%5d %8dx %2d%%, total %8dx %2d%%\n",
+			VppLog() << Sprintf("%5d %8dx %2d%%, всего %8dx %2d%%\n",
 			                    i, stat[i], 100 * stat[i] / sum, total, 100 * total / sum);
 		}
 	if(bigstat) {
 		total += bigstat;
-		VppLog() << Sprintf(">64KB %8dx %2d%%, total %8dx %2d%%\n",
+		VppLog() << Sprintf(">64KB %8dx %2d%%, всего %8dx %2d%%\n",
 		                    bigstat, 100 * bigstat / sum, total, 100 * total / sum);
 	}
 }

@@ -1,5 +1,4 @@
 topic "Runtime dynamic linking using .dli files";
-[2 $$0,0#00000000000000000000000000000000:Default]
 [l288;i1120;a17;O9;~~~.1408;2 $$1,0#10431211400427159095818037425705:param]
 [a83;*R6 $$2,5#31310162474203024125188417583966:caption]
 [b83;*4 $$3,5#07864147445237544204411237157677:title]
@@ -21,12 +20,15 @@ topic "Runtime dynamic linking using .dli files";
 [2 $$19,0#53580023442335529039900623488521:gap]
 [t4167;C2 $$20,20#70211524482531209251820423858195:class`-nested]
 [b50;2 $$21,21#03324558446220344731010354752573:Par]
+[2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%RU-RU 
 [s2; Runtime dynamic linking using .dli files&]
-[s0; In Ultimate`+`+ you can use .dli file to automatize generating 
-.dll wrapper objects. To create such object you have to provide 
-`".dli`" file with content like (actual example is for Lotus 
-Notes client .dll):&]
+[s0; В Ultimate`+`+ используется файл .dli для 
+того, чтобы автоматизировать генерацию 
+объекта`-обёртки .dll. Чтобы создать 
+такой объект, нужно предоставить 
+файл `".dli`" с содержимым типа (actual example 
+is for Lotus Notes client .dll):&]
 [s0; &]
 [s7; FN(WORD,   OSLoadString, (HMODULE hModule, STATUS StringCode, 
 char `*retBuffer, WORD BufferLength))&]
@@ -39,8 +41,8 @@ char far `*FileName, char `*retPathName))&]
 [s7; FN(STATUS, NSFDbClose,  (DBHANDLE hDB))&]
 [s7; ...........&]
 [s0; &]
-[s0; `- basically, this is somewhat `"reparsed`" header file for 
-.dll. Then place&]
+[s0; `- в основном, это слегка репарсированный 
+файл`=заголовочник для .dll. Далее помещаем&]
 [s0; &]
 [s7; #define DLLFILENAME `"nnotes.dll`"&]
 [s7; #define DLIMODULE   NOTES&]
@@ -48,7 +50,7 @@ char far `*FileName, char `*retPathName))&]
 [s7; #define DLLCALL     LNPUBLIC&]
 [s7; #include <Core/dli`_header.h>&]
 [s0; &]
-[s0; to common header file and&]
+[s0; в общий файл`-заголовочник и&]
 [s0; &]
 [s7; #define DLLFILENAME `"nnotes.dll`"&]
 [s7; #define DLIMODULE   NOTES&]
@@ -56,8 +58,9 @@ char far `*FileName, char `*retPathName))&]
 [s7; #define DLLCALL     LNPUBLIC&]
 [s7; #include <Core/dli`_source.h>&]
 [s0; &]
-[s0; to some .cpp file or, if you need that .dll just in single .cpp 
-file, you can use&]
+[s0; в какой`-либо файл .cpp или, если нужно, 
+чтобы .dll была только в одном файле 
+.cpp, используем&]
 [s0; &]
 [s7; #define DLLFILENAME `"nnotes.dll`"&]
 [s7; #define DLIMODULE   NOTES&]
@@ -65,13 +68,16 @@ file, you can use&]
 [s7; #define DLLCALL     LNPUBLIC&]
 [s7; #include <Core/dli.h>&]
 [s0; &]
-[s0; in .cpp (this is equivalent of placing both above variants to 
-.cpp).&]
+[s0; в .cpp (это равносильно помещению обеих 
+вариантов в .cpp).&]
 [s0; &]
-[s0; This creates global function NOTES() returning the object instance 
-that has all .dll functions described in .dli file defined as 
-its methods. Moreover, it has operator bool that can be used 
-to test whether .dll is present:&]
+[s0; Создаётся глобальная функция NOTES(), 
+возвращающая экземпляр объекта, у 
+которого есть все функции .dll, описанные 
+в файле .dli, в виде его методов. Более 
+того, у него есть оператор bool, который 
+можно использовать для тестирования 
+на наличие .dll:&]
 [s0; &]
 [s7; char h`[256`];&]
 [s7; if(NOTES())&]

@@ -9,6 +9,8 @@
 #ifndef RESEARCH_H
 #define RESEARCH_H
 
+#include <string>
+
 namespace Scintilla::Internal {
 
 class CharacterIndexer {

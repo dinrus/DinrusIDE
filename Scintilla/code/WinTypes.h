@@ -6,6 +6,8 @@
 // Copyright 2020-2021 by Neil Hodgson <neilh@scintilla.org>
 // The License.txt file describes the conditions under which this software may be distributed.
 
+#ifndef GTK
+
 #ifndef WINTYPES_H
 #define WINTYPES_H
 
@@ -55,4 +57,5 @@ inline T DLLFunction(HMODULE hModule, LPCSTR lpProcName) noexcept {
 
 }
 
+#endif
 #endif

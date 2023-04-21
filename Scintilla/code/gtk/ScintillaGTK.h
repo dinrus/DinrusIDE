@@ -6,6 +6,8 @@
 #ifndef SCINTILLAGTK_H
 #define SCINTILLAGTK_H
 
+#include <Scintilla/ScintillaWidget.h>
+
 namespace Scintilla::Internal {
 
 class ScintillaGTKAccessible;

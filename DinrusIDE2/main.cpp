@@ -270,6 +270,8 @@ void AppMain___()
 			AllocConsole();
 			SetConsoleTitle(cmdline);
 			int time = msecs();
+			SetConsoleCP(65001);
+			SetConsoleOutputCP(65001);
 			if(CreateProcess(NULL, cmd, &sa, &sa, TRUE,
 				             NORMAL_PRIORITY_CLASS,
 			                 NULL, NULL, &si, &pi)) {

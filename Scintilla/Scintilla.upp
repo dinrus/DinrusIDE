@@ -2,9 +2,9 @@ description "Библиотека Scintilla\3770,128,128";
 
 noblitz;
 
-options(CLANG WIN32) "-Wpedantic -Wall -Os -Ie:\\dinrus\\clang64\\include\\glib-2.0 -Ie:\\dinrus\\clang64\\include\\gtk-2.0 -Ie:\\dinrus\\clang64\\include\\pango-1.0";
+options(CLANG WIN32) "-DUNICODE -Wpedantic -Wall -Os -DGTK -Ie:\\dinrus\\clang64\\include\\glib-2.0 -Ie:\\dinrus\\clang64\\include\\gtk-3.0 -Ie:\\dinrus\\clang64\\include\\pango-1.0 -Ie:\\dinrus\\clang64\\include\\cairo -Ie:\\dinrus\\clang64\\include\\gdk-pixbuf-2.0 -Ie:\\dinrus\\clang64\\include\\atk-1.0";
 
-options(CLANG POSIX) "-Wpedantic -Wall -Os -DGTK -I/usr/include/glib-2.0 -I/usr/include/gtk-3.0 -I/usr/include/pango-1.0 -I/usr/include/harfbuzz -I/usr/include/cairo -I/usr/include/gdk-pixbuf-2.0 -I/usr/include/atk-1.0";
+options(CLANG POSIX) "-DUNICODE -Wpedantic -Wall -Os -DGTK -I/usr/include/glib-2.0 -I/usr/include/gtk-3.0 -I/usr/include/pango-1.0 -I/usr/include/harfbuzz -I/usr/include/cairo -I/usr/include/gdk-pixbuf-2.0 -I/usr/include/atk-1.0";
 
 link(WIN32 WIN64) "-loleaut32 -lole32 -lgdi32 -limm32 -luuid -lmsimg32";
 
@@ -23,6 +23,7 @@ file
 	ScintillaTypes.h,
 	ScintillaWidget.h,
 	"Код" readonly separator,
+	code\ScintillaCall.cxx,
 	code\AutoComplete.cxx,
 	code\AutoComplete.h,
 	code\CallTip.cxx,
@@ -112,6 +113,11 @@ file
 	code\gtk\ScintillaGTKAccessible.cxx,
 	code\gtk\ScintillaGTKAccessible.h,
 	code\gtk\Wrappers.h,
+	boostregex readonly separator,
+	code\boostregex\AnsiDocumentIterator.h,
+	code\boostregex\BoostRegExSearch.cxx,
+	code\boostregex\UTF8DocumentIterator.cxx,
+	code\boostregex\UTF8DocumentIterator.h,
 	app.tpp;
 
 mainconfig

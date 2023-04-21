@@ -5,7 +5,7 @@ noblitz;
 uses
 	Scintilla;
 
-options(CLANG) "--std=c++17 -Wpedantic -Wall -Os";
+options(CLANG) "-DUNICODE -Wpedantic -Wall -Os";
 
 file
 	"Код" readonly separator,

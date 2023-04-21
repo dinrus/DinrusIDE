@@ -257,7 +257,7 @@ enum class Message {
 	GetPrintMagnification = 2147,
 	SetPrintColourMode = 2148,
 	GetPrintColourMode = 2149,
-	FindText = 2150,
+	findText = 2150,
 	FindTextFull = 2196,
 	FormatRange = 2151,
 	FormatRangeFull = 2777,

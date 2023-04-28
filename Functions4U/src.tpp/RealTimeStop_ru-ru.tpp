@@ -21,7 +21,7 @@ is paused by other process or because the computer is suspended
 during minutes or hours, it readjust itself to manage just running 
 time and not clock time.&]
 [s3; &]
-[ {{10000F(128)G(128)@1 [s0; [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0; [* Список Публичных Методов]]}}&]
 [s4; &]
 [s5;:Upp`:`:RealTimeStop`:`:Start`(`): [@(0.0.255) void]_[* Start]()&]
 [s2; Starts the timer.&]

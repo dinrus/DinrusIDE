@@ -21,7 +21,7 @@ using SetDateScan. In place of month both number and text is
 accepted `- text must match abbreviated or full name of month.&]
 [s7; [%-*C@3 d]-|Found date.&]
 [s7; [%-*C@3 s]-|String to scan.&]
-[s7; [*/ Return value]-|NULL if no date is found in s or pointer to 
+[s7; [*/ Возвратное значение]-|NULL if no date is found in s or pointer to 
 character right after the date.&]
 [s3; &]
 [s4;%- &]
@@ -31,14 +31,14 @@ ormat] function, where the string set by SetDateFormat is used
 as formating string, and the three supplied integer value arguments 
 are year, month and day.&]
 [s7; [%-*C@3 date]-|Date to format.&]
-[s7; [*/ Return value]-|Formatted date.&]
+[s7; [*/ Возвратное значение]-|Formatted date.&]
 [s3; &]
 [s4;%- &]
 [s5;:CharFilterDate`(int`):%- [@(0.0.255) int]_[* CharFilterDate]([@(0.0.255) int]_[*@3 c])&]
 [s2; Character filter for dates. Its behaviour is specified by SetDateFilter 
 function.&]
 [s7; [%-*C@3 c]-|Character to filter.&]
-[s7; [*/ Return value]-|Filtered character.&]
+[s7; [*/ Возвратное значение]-|Filtered character.&]
 [s3; &]
 [s4;%- &]
 [s5;:SetDateFormat`(const char`*`):%- [@(0.0.255) void]_[* SetDateFormat]([@(0.0.255) const

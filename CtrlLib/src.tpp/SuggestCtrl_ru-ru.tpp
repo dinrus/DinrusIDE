@@ -23,7 +23,7 @@ topic "SuggestCtrl";
 [s0;i448;a25;kKO9; This widget complements EditString with suggestions. 
 &]
 [s0;i448;a25;kKO9;@(0.0.255) &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Public Member List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Членов]]}}&]
 [s3; &]
 [s5;:SuggestCtrl`:`:ClearList`(`): [@(0.0.255) void]_[* ClearList]()&]
 [s2;%% Clears the suggestions list.&]

@@ -18,7 +18,7 @@ ublic][3 _][*@3;3 RasterEncoder]&]
 to RasterEncoder.&]
 [s3; &]
 [s0; &]
-[ {{10000F(128)G(128)@1 [s0; [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0; [* Список Публичных Методов]]}}&]
 [s3;%- &]
 [s5;:StreamRasterEncoder`:`:SetStream`(Stream`&`):%- [@(0.0.255) void]_[* SetStream]([_^Stream^ S
 tream][@(0.0.255) `&]_[*@3 `_s])&]

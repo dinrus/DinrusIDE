@@ -17,7 +17,7 @@ topic "IdCtrls";
 some relation between widgets and text identifiers. IdCtrls is 
 basically a simple mapping between identifiers and widgets.&]
 [s3; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:IdCtrls`:`:Reset`(`): [@(0.0.255) void]_[* Reset]()&]
 [s2;%% Removes all entries from IdCtrls.&]

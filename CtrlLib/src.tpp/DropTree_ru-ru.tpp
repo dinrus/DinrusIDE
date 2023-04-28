@@ -24,7 +24,7 @@ topic "DropTree";
 the list with tree hierarchy.&]
 [s3; &]
 [s0;i448;a25;kKO9;:noref:@(0.0.255) &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Public Member List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Членов]]}}&]
 [s0;%% &]
 [s4; &]
 [s5;:Upp`:`:DropTree`:`:WhenDrop: [_^Upp`:`:Event^ Event]<>_[* WhenDrop]&]

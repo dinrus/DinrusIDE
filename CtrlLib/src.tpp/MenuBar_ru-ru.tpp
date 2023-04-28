@@ -25,7 +25,7 @@ as Frame or as regular Ctrl (in that case it represents top`-level
 menu), or be pop`-up as local menu (PopUp or Execute).&]
 [s3; &]
 [s0;%- &]
-[ {{10000F(128)G(128)@1 [s0; [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0; [* Список Публичных Методов]]}}&]
 [s3;%- &]
 [s5;:MenuBar`:`:GetStdHeight`(Font`):%- [@(0.0.255) static] [@(0.0.255) int]_[* GetStdHeigh
 t]([_^Font^ Font]_[*@3 font]_`=_StdFont())&]

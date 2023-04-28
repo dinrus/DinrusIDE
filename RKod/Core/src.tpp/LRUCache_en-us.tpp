@@ -52,7 +52,7 @@ created data in bytes.&]
 [s2;%% Virtual destructor.&]
 [s3; &]
 [s0; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:LRUCache`:`:GetSize`(`)const: [@(0.0.255) int]_[* GetSize]()_[@(0.0.255) const]&]
 [s2;%% Returns the total size of data in cache (as sum of numbers 

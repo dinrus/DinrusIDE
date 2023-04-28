@@ -23,7 +23,7 @@ ic][3 _][*@3;3 Ctrl][3 , ][@(0.0.255)3 private][3 _][*@3;3 CtrlFrame]&]
 The number of columns can be altered by user action. It is typically 
 used to display a list of files.&]
 [s3; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:Upp`:`:ColumnList`:`:WhenLeftClick: [_^Upp`:`:Event^ Event]<>_[* WhenLeftClick]&]
 [s2;%% This event is dispatched when the user clicks the widget with 

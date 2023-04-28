@@ -54,7 +54,7 @@ Value so that it can be successfully deserialized from stream
 or decoded from JSON or XML.&]
 [s3;%- &]
 [s0;i448;a25;kKO9;@(0.0.255)%- &]
-[ {{10000F(128)G(128)@1 [s0; [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0; [* Список Публичных Методов]]}}&]
 [s3;%- &]
 [s5;:Value`:`:Register`(const char`*`):%- [@(0.0.255) static] [@(0.0.255) template]_<[@(0.0.255) c
 lass]_[*@4 T]>_[@(0.0.255) void]_[* Register]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 nam
@@ -352,7 +352,7 @@ compatibility&]
 as list of methods that Value compatible concrete type might 
 define to gain support of certain operations with Value: &]
 [s3;%- &]
-[ {{10000F(128)G(128)@1 [s0; [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0; [* Список Публичных Методов]]}}&]
 [s3;%- &]
 [s5;:ValueType`:`:IsNullInstance`(`)const:%- [@(0.0.255) bool]_[* IsNullInstance]()_[@(0.0.255) c
 onst]&]

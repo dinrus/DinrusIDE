@@ -19,7 +19,7 @@ loop. It can reposition and/or resize rectangle or line as single
 modal operation.&]
 [s3;%% &]
 [s0; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Public Member List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Членов]]}}&]
 [s3; &]
 [s5;:RectTracker`:`:sync: [_^Callback1^ Callback1]<[_^Rect^ Rect]>_[* sync]&]
 [s2;%% This callback is called each time the dimensions change.&]

@@ -383,7 +383,7 @@ IS SELECTED.&]
 (файловые расширения просто примеры), 
 хотя возможны иные или более сложные 
 выражения:&]
-[s0; [C -|`@`@<:ПАКЕТ:>.cpp]&]
+[s0; [C -|`@`@<:]PACKAGE[C :>.cpp]&]
 [s0; [C -|`@`@<:][/C переменная`_имени`_файла][C :>.hpp]&]
 [s0; [C -|`@`@][/C литерал`_имяф][C .txt]&]
 [s42;l160;:5`_5`_3: [@6 5.5.3 `"??][/@6 выражение][@6 `"]&]
@@ -392,7 +392,7 @@ IS SELECTED.&]
 за ним выражение. Если результат равен 
 true, тогда файл будет создан. Если результат 
 равен false, весь файл будет скинут. 
- Этому придерживается, даже если есть 
+Этому придерживается, даже если есть 
 строки над строкой с `"??`".&]
 [s5;l160; `"??`" имеет второе действие. Начиная 
 с первого шаблона файла, содержащего 
@@ -401,18 +401,23 @@ true, тогда файл будет создан. Если результат
 есть `- в переменной. Без такой строки 
 путь `- если он есть `- удаляется из 
 переменной. То есть:&]
-[s5;l160; Independent of the value of `"[/ expression]`" the filename 
-templates of all the files preceding the file template containing 
-the first `"??[/ expression]`" don`'t show the path `- if any `- 
-in <: PACKAGE :>.&]
-[s5;l160; If `"??[/ expression]`" evaluates to `"true`" `"<:PACKAGE:>`" 
-in the containing file template shows path `- if any `- and filename.&]
-[s5;l160; If `"??[/ expression]`" evaluates to `"false`" the containing 
-file template simply doesn`'t show up.&]
-[s5;l160; Independent of the value of `"[/ expression]`" the filename 
-templates of all the files following the file template containing 
-the first `"??[/ expression]`" DO show the path `- if any `- in 
-<: PACKAGE :>.&]
+[s5;l160; Независимо от значения `"[/ выражение]`", 
+шаблоны имён файлов всех файлов, предшествую
+щих шаблону файла, содержащему первое 
+`"??[/ выражение]`"  не показывают пути 
+`- если он имеется `- в <: PACKAGE :>.&]
+[s5;l160; Если `"??[/ выражение]`" оценивается 
+в `"true`", `"<:PACKAGE:>`" в содержащем его файловом 
+шаблоне показывает путь `- если он 
+имется `- и имя файла.&]
+[s5;l160; Если `"??[/ выражение]`" оценивается 
+в `"false`", то содержащий файловый шаблон 
+просто doesn`'t show up.&]
+[s5;l160; Независимо от значения `"[/ выражение]`", 
+шаблоны имён файлов всех файлов, следующим 
+за этим файловым шаблоном, содержащие 
+первое `"??[/ выражение]`", ПОКАЗЫВАЮТ 
+путь `- если он имеется `- в <: PACKAGE :>.&]
 [s42;l160;:5`_5`_4: [@6 5.5.4 `"<: ... :>`"]&]
 [s5;l160; `"<:`" и `":>`" преобразуют заключённый 
 в них литерал в оцениваемое выражение. 
@@ -423,7 +428,7 @@ the first `"??[/ expression]`" DO show the path `- if any `- in
 строка. Без кавычек она рассматривается 
 как переменная. Если эта переменная 
 определена, будет отображаться её 
-значение. В притивом случае ничего 
+значение. В противном случае ничего 
 не будет.&]
 [s5;l160; Можно сочетать численные выражения 
 и строки, напр.:&]
@@ -433,42 +438,55 @@ the first `"??[/ expression]`" DO show the path `- if any `- in
 соответствующее сообщение об ошибке. 
 Единичная `":>`" `- это просто строка.&]
 [s42;l160;:5`_5`_5: [@6 5.5.5 `"<:? выражение :> ... <:.:>`"]&]
-[s5;l160; This pattern emulates `"if ([/ expression]) ...;`"&]
-[s5;l160; White space inside of the `"<`::>`"s doesn`'t matter. Between 
-them it does: it produces white space in the resulting file.&]
+[s5;l160; Этот паттерн эмулирует `"if ([/ выражение]) 
+...;`"&]
+[s5;l160; Пробелы внутри `"<`::>`" не имеют значения. 
+Между ними `- да: в итоговом файле будут 
+сделаны пробелы.&]
 [s42;l160;:5`_5`_6: [@6 5.5.6-|`"<:? выражение :> ... <:/:> ... 
 <:.:>`"]&]
-[s5;l160; This pattern emulates `"if ([/ expression]) ...; else ...;`"&]
-[s5;l160; White space inside of the `"<`::>`"s doesn`'t matter. Between 
-them it does: it produces white space in the resulting file.&]
+[s5;l160; Этот паттерн эмулирует `"if ([/ выражение]) 
+...; else ...;`"&]
+[s5;l160; Пробелы внутри `"<`::>`" не имеют значения. 
+Между ними `- да: в итоговом файле будут 
+сделаны пробелы.&]
 [s42;:5`_6: [@(128.0.255) 5.6 `"PACKAGE`"]&]
 [s42;l160;:5`_6`_1: [@6 5.6.1-|Описание]&]
-[s5;l160; `"PACKAGE`" is the predefined identifier of a variable 
-to which the content of the `"Package name`" input field is assigned.&]
+[s5;l160; `"PACKAGE`" `- это предопределённый 
+идентификатор переменной, которой 
+присваивается содержимое поля ввода 
+`"Имя пакета`".&]
 [s42;l160;:5`_6`_2: [@6 5.6.2 Использование]&]
-[s5;l160; The input is filtered. Only alphanumeric characters, `"`_`", 
-`"/`", and `"`\`" are accepted. That means that you can enter 
-a path but not a drive specification as `":`" is not a valid character 
-(e. g., Windows).  `"`\`" is immediately transformed into `"/`".&]
-[s5;l160; Whether the path part in the `"Package name`" input field 
-`- if any `- is shown by <: PACKAGE :> depends on the preceding 
-existence of a `"??[/ expression]`" in the UPT file. Refer to section 
-5.5.3 `"??[/ expression]`".&]
+[s5;l160; Этот ввод фильтруется. Принимаются 
+только числобуквенные символы `"`_`", 
+`"/`", и `"`\`". Это значит, что можно ввести 
+путь, но не определение диска, так 
+как `":`" является неполноценным символом 
+(например., Windows).  `"`\`" сразу же преобразуется 
+в `"/`".&]
+[s5;l160; Будет ли часть пути в поле ввода 
+`"Имя пакета`" `- если имеется `- показана 
+через <: PACKAGE :>, зависит от существования 
+перед нею `"??[/ выражение]`" в файле UPT. 
+Смотрите раздел 5.5.3 `"??[/ выражение]`".&]
 [s5;l160; [C ... <: PACKAGE :> ...]&]
 [s42;:5`_7: [@(128.0.255) 5.7 `"PACKAGE`_TOUPPER`"]&]
 [s42;l160;:5`_7`_1: [@6 5.7.1 Описание]&]
-[s5;l160; `"PACKAGE`_TOUPPER`" is the predefined identifier of a 
-variable to which the content of the `"Package name`" input field, 
-transformed into uppercase letters, is assigned. If there were 
-uppercase letters before, they are not changed.&]
-[s5;l160; The reason for the existence of this variable is a well`-established 
-practice to write uppercase include guards in .hpp`- (.h`-) files.&]
-[s5;l160; `"PACKAGE`_TOUPPER`" is only available with Ultimate`+`+ 
-releases later than `"609`-dev3`".&]
+[s5;l160; `"PACKAGE`_TOUPPER`" `- это предопрежедённый 
+идентификатор переменной, которой 
+присваивается содержимое поля ввода 
+`"Имя пакета`", преоблазованное в заглавные 
+буквы. Если ранее были заглавные буквы, 
+то они не изменяются.&]
+[s5;l160; Причина существования этой переменной 
+`- хорошо устоявшаяся практика записывать 
+заглавными include guards в файлах .hpp (.h).&]
+[s5;l160; `"PACKAGE`_TOUPPER`" доступен только в выпусках 
+Ultimate`+`+ позднее `"609`-dev3`".&]
 [s42;l160;:5`_7`_2: [@6 5.7.2 Использование]&]
-[s5;l160; In contrast to `"PACKAGE`", `"PACKAGE`_TOUPPER`" always 
-contains the path part `- if any `- of the `"Package name`" input 
-field.&]
+[s5;l160; В отличие от `"PACKAGE`", `"PACKAGE`_TOUPPER`" 
+всегда содержит путевую часть `- если 
+есть `- поля ввода `"Имя пакета`".&]
 [s5;l160; [C ... <: PACKAGE`_TOUPPER :> ...]&]
 [s42;:5`_8: [@(128.0.255) 5.8-|`"PACKAGE`_TOUPPER`_CAPS`"]&]
 [s42;l160;:5`_8`_1: [@6 5.8.1 Описание]&]

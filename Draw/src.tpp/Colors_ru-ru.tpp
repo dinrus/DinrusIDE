@@ -1,4 +1,4 @@
-topic "Draw Colors";
+topic "Цвета Draw";
 [i448;a25;kKO9;2 $$1,0#37138531426314131252341829483380:class]
 [l288;2 $$2,2#27521748481378242620020725143825:desc]
 [0 $$3,0#96390100711032703541132217272105:end]
@@ -10,20 +10,24 @@ topic "Draw Colors";
 [b42;2 $$9,9#13035079074754324216151401829390:normal]
 [2 $$0,0#00000000000000000000000000000000:Default]
 [{_} 
-[ {{10000@(113.42.0) [s0;%% [*@7;4 Draw Colors]]}}&]
-[s0;%% &]
-[s0;%% U`+`+ provides a set of colors that are adjusted according 
-to current settings of host platform. Using these colors makes 
-it easier to adapt the application to host platform settings.&]
-[s0;%% &]
-[s0;%% Following table shows colors that represent certain hue. When 
-transformed to dark theme, hue is maintained while brightness 
-of color changes.&]
+[ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 Цвета Draw]]}}&]
+[s0;%RU-RU &]
+[s0;%RU-RU U`+`+предоставляет набор цветов, 
+настраиваемых в соответствии с текущими 
+настройками хостовой платформы. Использован
+ие этих цветов  упрощает адаптирование 
+приложения к хостовым настройкам.&]
+[s0;%RU-RU &]
+[s0;%RU-RU В следующей таблице показаны 
+цвета, представляющие конкретный 
+hue. При преобразовании в тёмную тему 
+hue продолжает поддерживаться, тогда 
+как яркость цвета меняется.&]
 [s0;3 &]
-[ {{3044:3508:1778:1670@7 [s0; Color]
-:: [s0; Description]
-:: [s0;= Light theme]
-:: [s0;= Dark theme]
+[ {{3044:3508:1778:1670@7 [s0; Цвет]
+:: [s0; Описание]
+:: [s0;= Светлая тема]
+:: [s0;= Тёмная тема]
 ::@2 [s0;:SBlack`(`): Color [* SBlack]()]
 :: [s0; Possibly theme adjusted color.]
 :: [s0;= 
@@ -204,16 +208,17 @@ of color changes.&]
 @@rawimage:256&96
 (iVBORw0KGgoAAAANSUhEUgAAAIAAAAAwCAYAAADZ9HK+AAAACXBIWXMAAAAAAAAAAAHqZRakAAAApElEQVR4nO3coRGAQAwAwcDQIzVSJWgGz4vbdXkVcRP528zcQ9a+egHWEkCcAOKOz8t1LViD35zna3QB4gQQJ4A4AcQJIE4AcQKIE0CcAOIEECeAOAHECSBOAHECiBNAnADiBBAngDgBxAkgTgBxAogTQJwA4gQQJ4A4AcQJIE4AcQKIE0CcAOIEECeAOAHECSBOAHECiNvGX8FpLkCcAOIEEPcA038EXwIEgSEAAAAASUVORK5CYII=)
 ]}}&]
-[s0;%% &]
-[s0;%% Following colors provide host platform provided information 
-about colors of GUI element parts:&]
+[s0;%RU-RU &]
+[s0;%RU-RU Следующие цвета предоставляют 
+информацию хостовой платформы о цветах 
+частей ГИП`-элементов:&]
 [s0; &]
-[ {{3044:3508:1778:1670@7 [s0; Color]
-:: [s0; Description]
-:: [s0;= Win 10 light]
-:: [s0;= Win 10 dark]
+[ {{3044:3508:1778:1670@7 [s0; Цвет]
+:: [s0; Описание]
+:: [s0;= Win 10 светлое]
+:: [s0;= Win 10 тёмное]
 ::@2 [s0;:SColorPaper`(`): Color [* SColorPaper]()]
-:: [s0; Normal background.]
+:: [s0; Нормальный фон.]
 :: [s0;= 
 @@rawimage:256&96
 (iVBORw0KGgoAAAANSUhEUgAAAIAAAAAwCAYAAADZ9HK+AAAACXBIWXMAAAAAAAAAAAHqZRakAAAAo0lEQVR4nO3cMQ4DIQwAQfuU/3+Z1JcPIGVnOqhcrCwqdmbOkPXcHoC7BBAngLjP78U5ngT/bHdfZxsgTgBxAogTQJwA4gQQJ4A4AcQJIE4AcQKIE0CcAOIEECeAOAHECSBOAHECiBNAnADiBBAngDgBxAkgTgBxAogTQJwA4gQQJ4A4AcQJIE4AcQKIE0CcAOIEECeAuB1/BafZAHECiBNA3Bc0ZQVfjRhi4wAAAABJRU5ErkJggg==)
@@ -223,7 +228,7 @@ about colors of GUI element parts:&]
 (iVBORw0KGgoAAAANSUhEUgAAAIAAAAAwCAYAAADZ9HK+AAAACXBIWXMAAAAAAAAAAAHqZRakAAAApElEQVR4nO3coREDMQwAQSnz/bfsx0kBMbhdKCRwozHyzswZsj63F+AuAcQJIO75HezujT34k3O+n3wuQJwA4gQQJ4A4AcQJIE4AcQKIE0CcAOIEECeAOAHECSBOAHECiBNAnADiBBAngDgBxAkgTgBxAogTQJwA4gQQJ4A4AcQJIE4AcQKIE0CcAOIEECeAOAHECSBOAHE7/gpOcwHiBBAngLgXn0sFX43/O6IAAAAASUVORK5CYII=)
 ]
 :: [s0;:SColorText`(`): Color [* SColorText]()]
-:: [s0; Normal text.]
+:: [s0; Нормальный текст.]
 :: [s0;= 
 @@rawimage:256&96
 (iVBORw0KGgoAAAANSUhEUgAAAIAAAAAwCAYAAADZ9HK+AAAACXBIWXMAAAAAAAAAAAHqZRakAAAAj0lEQVR4nO3SMQEAIAzAsIF/zyBjRxMFPXpm5g1ZdzuAXQaIM0CcAeIMEGeAOAPEGSDOAHEGiDNAnAHiDBBngDgDxBkgzgBxBogzQJwB4gwQZ4A4A8QZIM4AcQaIM0CcAeIMEGeAOAPEGSDOAHEGiDNAnAHiDBBngDgDxBkgzgBxBogzQJwB4gwQZ4A4A8R9O7IBXz2gPQkAAAAASUVORK5CYII=)
@@ -233,7 +238,7 @@ about colors of GUI element parts:&]
 (iVBORw0KGgoAAAANSUhEUgAAAIAAAAAwCAYAAADZ9HK+AAAACXBIWXMAAAAAAAAAAAHqZRakAAAAo0lEQVR4nO3cMQ4DIQwAQfuU/3+Z1JcPIGVnOqhcrCwqdmbOkPXcHoC7BBAngLjP78U5ngT/bHdfZxsgTgBxAogTQJwA4gQQJ4A4AcQJIE4AcQKIE0CcAOIEECeAOAHECSBOAHECiBNAnADiBBAngDgBxAkgTgBxAogTQJwA4gQQJ4A4AcQJIE4AcQKIE0CcAOIEECeAuB1/BafZAHECiBNA3Bc0ZQVfjRhi4wAAAABJRU5ErkJggg==)
 ]
 :: [s0;:SColorFace`(`): Color [* SColorFace]()]
-:: [s0; Dialog background.]
+:: [s0; Фон диалогового окна.]
 :: [s0;= 
 @@rawimage:256&96
 (iVBORw0KGgoAAAANSUhEUgAAAIAAAAAwCAYAAADZ9HK+AAAACXBIWXMAAAAAAAAAAAHqZRakAAAAqElEQVR4nO3csRHDMAwAMTqXAbT/lNogruMBrOKBjqpY/LHUNTO/IetzegHOEkCcAOK+z4e994k9eMla6292AeIEECeAOAHECSBOAHECiBNAnADiBBAngDgBxAkgTgBxAogTQJwA4gQQJ4A4AcQJIE4AcQKIE0CcAOIEECeAOAHECSBOAHECiBNAnADiBBAngDgBxAkgTgBxAoi7xl/BaS5AnADiBBB3A9/2BV/DZ4jVAAAAAElFTkSuQmCC)
@@ -243,7 +248,7 @@ about colors of GUI element parts:&]
 (iVBORw0KGgoAAAANSUhEUgAAAIAAAAAwCAYAAADZ9HK+AAAACXBIWXMAAAAAAAAAAAHqZRakAAAAqElEQVR4nO3csRHDMAwAMTqXIbT/dNoiruMBrOKBjqpY/LHUNTO/IetzegHOEkCcAOK+z4e11ok9eMne+292AeIEECeAOAHECSBOAHECiBNAnADiBBAngDgBxAkgTgBxAogTQJwA4gQQJ4A4AcQJIE4AcQKIE0CcAOIEECeAOAHECSBOAHECiBNAnADiBBAngDgBxAkgTgBxAoi7xl/BaS5AnADiBBB3AyC6BV9Rcj7oAAAAAElFTkSuQmCC)
 ]
 :: [s0;:SColorHighlight`(`): Color [* SColorHighlight]()]
-:: [s0; Background of selected item.]
+:: [s0; Фон выделенного элемента]
 :: [s0;= 
 @@rawimage:256&96
 (iVBORw0KGgoAAAANSUhEUgAAAIAAAAAwCAYAAADZ9HK+AAAACXBIWXMAAAAAAAAAAAHqZRakAAAAqUlEQVR4nO3csRGDQAwAQcG4GXdICXRIOSZmnPPB7Wb6SMGNwt9m5jdk7asXYC0BxAkg7vP3clwL1uA15/cxugBxAogTQJwA4gQQJ4A4AcQJIE4AcQKIE0CcAOIEECeAOAHECSBOAHECiBNAnADiBBAngDgBxAkgTgBxAogTQJwA4gQQJ4A4AcQJIE4AcQKIE0CcAOIEECeAOAHEbeOv4DQXIE4AcQKIuwHN3wRfLntksgAAAABJRU5ErkJggg==)
@@ -253,7 +258,7 @@ about colors of GUI element parts:&]
 (iVBORw0KGgoAAAANSUhEUgAAAIAAAAAwCAYAAADZ9HK+AAAACXBIWXMAAAAAAAAAAAHqZRakAAAAqklEQVR4nO3csQ2EMBAAwfOLXr4uKvu6qAZivgEkdiazowtWJ0deM3MOWZ+nB+BZAogTQNz2f7EfngRv9vuu29kGiBNAnADiBBAngDgBxAkgTgBxAogTQJwA4gQQJ4A4AcQJIE4AcQKIE0CcAOIEECeAOAHECSBOAHECiBNAnADiBBAngDgBxAkgTgBxAogTQJwA4gQQJ4A4AcQJIG6Nv4LTbIA4AcQJIO4CxMcFX0RFMYMAAAAASUVORK5CYII=)
 ]
 :: [s0;:SColorHighlightText`(`): Color [* SColorHighlightText]()]
-:: [s0; Text of selected item.]
+:: [s0; Текст выделенного элемента]
 :: [s0;= 
 @@rawimage:256&96
 (iVBORw0KGgoAAAANSUhEUgAAAIAAAAAwCAYAAADZ9HK+AAAACXBIWXMAAAAAAAAAAAHqZRakAAAAo0lEQVR4nO3cMQ4DIQwAQfuU/3+Z1JcPIGVnOqhcrCwqdmbOkPXcHoC7BBAngLjP78U5ngT/bHdfZxsgTgBxAogTQJwA4gQQJ4A4AcQJIE4AcQKIE0CcAOIEECeAOAHECSBOAHECiBNAnADiBBAngDgBxAkgTgBxAogTQJwA4gQQJ4A4AcQJIE4AcQKIE0CcAOIEECeAuB1/BafZAHECiBNA3Bc0ZQVfjRhi4wAAAABJRU5ErkJggg==)
@@ -263,7 +268,7 @@ about colors of GUI element parts:&]
 (iVBORw0KGgoAAAANSUhEUgAAAIAAAAAwCAYAAADZ9HK+AAAACXBIWXMAAAAAAAAAAAHqZRakAAAApElEQVR4nO3coREDMQwAQSnz/bfsx0kBMbhdKCRwozHyzswZsj63F+AuAcQJIO75HezujT34k3O+n3wuQJwA4gQQJ4A4AcQJIE4AcQKIE0CcAOIEECeAOAHECSBOAHECiBNAnADiBBAngDgBxAkgTgBxAogTQJwA4gQQJ4A4AcQJIE4AcQKIE0CcAOIEECeAOAHECSBOAHE7/gpOcwHiBBAngLgXn0sFX43/O6IAAAAASUVORK5CYII=)
 ]
 :: [s0;:SColorMenu`(`): Color [* SColorMenu]()]
-:: [s0; Normal menu background.]
+:: [s0; Фон нормального меню]
 :: [s0;= 
 @@rawimage:256&96
 (iVBORw0KGgoAAAANSUhEUgAAAIAAAAAwCAYAAADZ9HK+AAAACXBIWXMAAAAAAAAAAAHqZRakAAAAqElEQVR4nO3csRHDMAwAMTqXAbT/lNogruMBrOKBjqpY/LHUNTO/IetzegHOEkCcAOK+z4e994k9eMla6292AeIEECeAOAHECSBOAHECiBNAnADiBBAngDgBxAkgTgBxAogTQJwA4gQQJ4A4AcQJIE4AcQKIE0CcAOIEECeAOAHECSBOAHECiBNAnADiBBAngDgBxAkgTgBxAoi7xl/BaS5AnADiBBB3A9/2BV/DZ4jVAAAAAElFTkSuQmCC)
@@ -273,7 +278,7 @@ about colors of GUI element parts:&]
 (iVBORw0KGgoAAAANSUhEUgAAAIAAAAAwCAYAAADZ9HK+AAAACXBIWXMAAAAAAAAAAAHqZRakAAAAqElEQVR4nO3csRHDMAwAMTqXIbT/dNoiruMBrOKBjqpY/LHUNTO/IetzegHOEkCcAOK+z4e11ok9eMne+292AeIEECeAOAHECSBOAHECiBNAnADiBBAngDgBxAkgTgBxAogTQJwA4gQQJ4A4AcQJIE4AcQKIE0CcAOIEECeAOAHECSBOAHECiBNAnADiBBAngDgBxAkgTgBxAoi7xl/BaS5AnADiBBB3AyC6BV9Rcj7oAAAAAElFTkSuQmCC)
 ]
 :: [s0;:SColorMenuText`(`): Color [* SColorMenuText]()]
-:: [s0; Normal text background.]
+:: [s0; Фон нормального текста]
 :: [s0;= 
 @@rawimage:256&96
 (iVBORw0KGgoAAAANSUhEUgAAAIAAAAAwCAYAAADZ9HK+AAAACXBIWXMAAAAAAAAAAAHqZRakAAAAj0lEQVR4nO3SMQEAIAzAsIF/zyBjRxMFPXpm5g1ZdzuAXQaIM0CcAeIMEGeAOAPEGSDOAHEGiDNAnAHiDBBngDgDxBkgzgBxBogzQJwB4gwQZ4A4A8QZIM4AcQaIM0CcAeIMEGeAOAPEGSDOAHEGiDNAnAHiDBBngDgDxBkgzgBxBogzQJwB4gwQZ4A4A8R9O7IBXz2gPQkAAAAASUVORK5CYII=)
@@ -283,7 +288,7 @@ about colors of GUI element parts:&]
 (iVBORw0KGgoAAAANSUhEUgAAAIAAAAAwCAYAAADZ9HK+AAAACXBIWXMAAAAAAAAAAAHqZRakAAAAo0lEQVR4nO3cMQ4DIQwAQfuU/3+Z1JcPIGVnOqhcrCwqdmbOkPXcHoC7BBAngLjP78U5ngT/bHdfZxsgTgBxAogTQJwA4gQQJ4A4AcQJIE4AcQKIE0CcAOIEECeAOAHECSBOAHECiBNAnADiBBAngDgBxAkgTgBxAogTQJwA4gQQJ4A4AcQJIE4AcQKIE0CcAOIEECeAuB1/BafZAHECiBNA3Bc0ZQVfjRhi4wAAAABJRU5ErkJggg==)
 ]
 :: [s0;:SColorInfo`(`): Color [* SColorInfo]()]
-:: [s0; Tooltip background.]
+:: [s0; Фон подсказки инструмента (тултипа).]
 :: [s0;= 
 @@rawimage:256&96
 (iVBORw0KGgoAAAANSUhEUgAAAIAAAAAwCAYAAADZ9HK+AAAACXBIWXMAAAAAAAAAAAHqZRakAAAAqElEQVR4nO3csRHDMAwAMcqXPbL/WJ5Erp0BouKBjqpY/LHUmpk9ZF2nF+AsAcQJIO7z+7D3fWIP/mSt72t2AeIEECeAOAHECSBOAHECiBNAnADiBBAngDgBxAkgTgBxAogTQJwA4gQQJ4A4AcQJIE4AcQKIE0CcAOIEECeAOAHECSBOAHECiBNAnADiBBAngDgBxAkgTgBxAohb46/gNBcgTgBxAoh7APwWBV/vrz2yAAAAAElFTkSuQmCC)
@@ -293,7 +298,7 @@ about colors of GUI element parts:&]
 (iVBORw0KGgoAAAANSUhEUgAAAIAAAAAwCAYAAADZ9HK+AAAACXBIWXMAAAAAAAAAAAHqZRakAAAApElEQVR4nO3coRGAQAwAwcBg6b9QCgANBfDidl1eRdxE/jYz95C1r16AtQQQJ4C44/twnivW4C/X9Z5dgDgBxAkgTgBxAogTQJwA4gQQJ4A4AcQJIE4AcQKIE0CcAOIEECeAOAHECSBOAHECiBNAnADiBBAngDgBxAkgTgBxAogTQJwA4gQQJ4A4AcQJIE4AcQKIE0CcAOK28VdwmgsQJ4A4AcQ9jGEEX8ofrxUAAAAASUVORK5CYII=)
 ]
 :: [s0;:SColorInfoText`(`): Color [* SColorInfoText]()]
-:: [s0; Tooltip text.]
+:: [s0; Текст тултипа.]
 :: [s0;= 
 @@rawimage:256&96
 (iVBORw0KGgoAAAANSUhEUgAAAIAAAAAwCAYAAADZ9HK+AAAACXBIWXMAAAAAAAAAAAHqZRakAAAAj0lEQVR4nO3SMQEAIAzAsIF/zyBjRxMFPXpm5g1ZdzuAXQaIM0CcAeIMEGeAOAPEGSDOAHEGiDNAnAHiDBBngDgDxBkgzgBxBogzQJwB4gwQZ4A4A8QZIM4AcQaIM0CcAeIMEGeAOAPEGSDOAHEGiDNAnAHiDBBngDgDxBkgzgBxBogzQJwB4gwQZ4A4A8R9O7IBXz2gPQkAAAAASUVORK5CYII=)
@@ -303,7 +308,7 @@ about colors of GUI element parts:&]
 (iVBORw0KGgoAAAANSUhEUgAAAIAAAAAwCAYAAADZ9HK+AAAACXBIWXMAAAAAAAAAAAHqZRakAAAAo0lEQVR4nO3cMQ4DIQwAQfuU/3+Z1JcPIGVnOqhcrCwqdmbOkPXcHoC7BBAngLjP78U5ngT/bHdfZxsgTgBxAogTQJwA4gQQJ4A4AcQJIE4AcQKIE0CcAOIEECeAOAHECSBOAHECiBNAnADiBBAngDgBxAkgTgBxAogTQJwA4gQQJ4A4AcQJIE4AcQKIE0CcAOIEECeAuB1/BafZAHECiBNA3Bc0ZQVfjRhi4wAAAABJRU5ErkJggg==)
 ]
 :: [s0;:SColorMark`(`): Color [* SColorMark]()]
-:: [s0; Marked text, e.g. hyperlink.]
+:: [s0; Меченный текст, напр., гиперссылка.]
 :: [s0;= 
 @@rawimage:256&96
 (iVBORw0KGgoAAAANSUhEUgAAAIAAAAAwCAYAAADZ9HK+AAAACXBIWXMAAAAAAAAAAAHqZRakAAAAoElEQVR4nO3csQ3AIAwAQRNl/5WTOmIApPxdB5WLl0XFmplnyLpOD8BZAogTQNy9X3kS/Nv6nGyAOAHECSBOAHECiBNAnADiBBAngDgBxAkgTgBxAogTQJwA4gQQJ4A4AcQJIE4AcQKIE0CcAOIEECeAOAHECSBOAHECiBNAnADiBBAngDgBxAkgTgBxAogTQJwA4tb4GDDNBogTQJwA4l74xgNfWe9guAAAAABJRU5ErkJggg==)
@@ -313,7 +318,7 @@ about colors of GUI element parts:&]
 (iVBORw0KGgoAAAANSUhEUgAAAIAAAAAwCAYAAADZ9HK+AAAACXBIWXMAAAAAAAAAAAHqZRakAAAApklEQVR4nO3csQ2AMAwAQQcxDfvPwjpQwwJI/F2XVC5eVqqsmbmGrO3rAfiWAOIEELe/L87Tk+DPjmM9zjZAnADiBBAngDgBxAkgTgBxAogTQJwA4gQQJ4A4AcQJIE4AcQKIE0CcAOIEECeAOAHECSBOAHECiBNAnADiBBAngDgBxAkgTgBxAogTQJwA4gQQJ4A4AcQJIE4AcWv8FZxmA8QJIE4AcTealgVfodX7qgAAAABJRU5ErkJggg==)
 ]
 :: [s0;:SColorMenuMark`(`): Color [* SColorMenuMark]()]
-:: [s0; Marked text in menu.]
+:: [s0; Меченный текст в меню.]
 :: [s0;= 
 @@rawimage:256&96
 (iVBORw0KGgoAAAANSUhEUgAAAIAAAAAwCAYAAADZ9HK+AAAACXBIWXMAAAAAAAAAAAHqZRakAAAAoElEQVR4nO3csQ3AIAwAQRNl/5WTOmIApPxdB5WLl0XFmplnyLpOD8BZAogTQNy9X3kS/Nv6nGyAOAHECSBOAHECiBNAnADiBBAngDgBxAkgTgBxAogTQJwA4gQQJ4A4AcQJIE4AcQKIE0CcAOIEECeAOAHECSBOAHECiBNAnADiBBAngDgBxAkgTgBxAogTQJwA4tb4GDDNBogTQJwA4l74xgNfWe9guAAAAABJRU5ErkJggg==)
@@ -323,7 +328,7 @@ about colors of GUI element parts:&]
 (iVBORw0KGgoAAAANSUhEUgAAAIAAAAAwCAYAAADZ9HK+AAAACXBIWXMAAAAAAAAAAAHqZRakAAAApklEQVR4nO3csQ2AMAwAQQcxDfvPwjpQwwJI/F2XVC5eVqqsmbmGrO3rAfiWAOIEELe/L87Tk+DPjmM9zjZAnADiBBAngDgBxAkgTgBxAogTQJwA4gQQJ4A4AcQJIE4AcQKIE0CcAOIEECeAOAHECSBOAHECiBNAnADiBBAngDgBxAkgTgBxAogTQJwA4gQQJ4A4AcQJIE4AcWv8FZxmA8QJIE4AcTealgVfodX7qgAAAABJRU5ErkJggg==)
 ]
 :: [s0;:SColorDisabled`(`): Color [* SColorDisabled]()]
-:: [s0; Disabled item text.]
+:: [s0; Текст отключенного элемента.]
 :: [s0;= 
 @@rawimage:256&96
 (iVBORw0KGgoAAAANSUhEUgAAAIAAAAAwCAYAAADZ9HK+AAAACXBIWXMAAAAAAAAAAAHqZRakAAAApklEQVR4nO3csRHDMAwAMTqXdTWNBo7reACreKCjKhZ/LHXNzG/I+pxegLMEECeAuO/zYa11Yg9esvf+m12AOAHECSBOAHECiBNAnADiBBAngDgBxAkgTgBxAogTQJwA4gQQJ4A4AcQJIE4AcQKIE0CcAOIEECeAOAHECSBOAHECiBNAnADiBBAngDgBxAkgTgBxAogTQJwA4q7xV3CaCxAngDgBxN3+6QVf9LrqGQAAAABJRU5ErkJggg==)
@@ -343,7 +348,7 @@ about colors of GUI element parts:&]
 (iVBORw0KGgoAAAANSUhEUgAAAIAAAAAwCAYAAADZ9HK+AAAACXBIWXMAAAAAAAAAAAHqZRakAAAApElEQVR4nO3coREDMQwAQSnz/bfsx0kBMbhdKCRwozHyzswZsj63F+AuAcQJIO75HezujT34k3O+n3wuQJwA4gQQJ4A4AcQJIE4AcQKIE0CcAOIEECeAOAHECSBOAHECiBNAnADiBBAngDgBxAkgTgBxAogTQJwA4gQQJ4A4AcQJIE4AcQKIE0CcAOIEECeAOAHECSBOAHE7/gpOcwHiBBAngLgXn0sFX43/O6IAAAAASUVORK5CYII=)
 ]
 :: [s0;:SColorLabel`(`): Color [* SColorLabel]()]
-:: [s0; Label text color.]
+:: [s0; Цвет текста ярлыка.]
 :: [s0;= 
 @@rawimage:256&96
 (iVBORw0KGgoAAAANSUhEUgAAAIAAAAAwCAYAAADZ9HK+AAAACXBIWXMAAAAAAAAAAAHqZRakAAAAj0lEQVR4nO3SMQEAIAzAsIF/zyBjRxMFPXpm5g1ZdzuAXQaIM0CcAeIMEGeAOAPEGSDOAHEGiDNAnAHiDBBngDgDxBkgzgBxBogzQJwB4gwQZ4A4A8QZIM4AcQaIM0CcAeIMEGeAOAPEGSDOAHEGiDNAnAHiDBBngDgDxBkgzgBxBogzQJwB4gwQZ4A4A8R9O7IBXz2gPQkAAAAASUVORK5CYII=)
@@ -363,7 +368,7 @@ about colors of GUI element parts:&]
 (iVBORw0KGgoAAAANSUhEUgAAAIAAAAAwCAYAAADZ9HK+AAAACXBIWXMAAAAAAAAAAAHqZRakAAAApklEQVR4nO3csRHDMAwAMTqXdTWNBo7reACreKCjKhZ/LHXNzG/I+pxegLMEECeAuO/zYe99Yg9estb6m12AOAHECSBOAHECiBNAnADiBBAngDgBxAkgTgBxAogTQJwA4gQQJ4A4AcQJIE4AcQKIE0CcAOIEECeAOAHECSBOAHECiBNAnADiBBAngDgBxAkgTgBxAogTQJwA4q7xV3CaCxAngDgBxN3UuAVfZki0iwAAAABJRU5ErkJggg==)
 ]
 :: [s0;:SColorLtFace`(`): Color [* SColorLtFace]()]
-:: [s0; Somewhat lighter SColorFace.]
+:: [s0; Немного светлее SColorFace.]
 :: [s0;= 
 @@rawimage:256&96
 (iVBORw0KGgoAAAANSUhEUgAAAIAAAAAwCAYAAADZ9HK+AAAACXBIWXMAAAAAAAAAAAHqZRakAAAApklEQVR4nO3cIRLDMAwAQaVT4v8/1rDBzQNicLtMRgI3gr5m5jdkfU4vwFkCiBNA3Pf5sPc+sQcvWWv9zS5AnADiBBAngDgBxAkgTgBxAogTQJwA4gQQJ4A4AcQJIE4AcQKIE0CcAOIEECeAOAHECSBOAHECiBNAnADiBBAngDgBxAkgTgBxAogTQJwA4gQQJ4A4AcQJIE4Acdf4KzjNBYgTQJwA4m4HZQVf5ov4gQAAAABJRU5ErkJggg==)
@@ -373,7 +378,7 @@ about colors of GUI element parts:&]
 (iVBORw0KGgoAAAANSUhEUgAAAIAAAAAwCAYAAADZ9HK+AAAACXBIWXMAAAAAAAAAAAHqZRakAAAAp0lEQVR4nO3cIRLDMAwAQaVT6v8/1A9ocPOAGNwuk5HAjaCvmfkNWZ/TC3CWAOIEEPd9Pqy1TuzBS/bef7MLECeAOAHECSBOAHECiBNAnADiBBAngDgBxAkgTgBxAogTQJwA4gQQJ4A4AcQJIE4AcQKIE0CcAOIEECeAOAHECSBOAHECiBNAnADiBBAngDgBxAkgTgBxAogTQNw1/gpOcwHiBBAngLgb4ssFXzHiK8UAAAAASUVORK5CYII=)
 ]
 :: [s0;:SColorDkShadow`(`): Color [* SColorDkShadow]()]
-:: [s0; Somewhat darker SColorShadow.]
+:: [s0; Немного темнее SColorShadow.]
 :: [s0;= 
 @@rawimage:256&96
 (iVBORw0KGgoAAAANSUhEUgAAAIAAAAAwCAYAAADZ9HK+AAAACXBIWXMAAAAAAAAAAAHqZRakAAAApklEQVR4nO3csRHDMAwAMTqX/TSrJozreACreKCjKhZ/LHXNzG/I+pxegLMEECeAuO/zYa11Yg9esvf+m12AOAHECSBOAHECiBNAnADiBBAngDgBxAkgTgBxAogTQJwA4gQQJ4A4AcQJIE4AcQKIE0CcAOIEECeAOAHECSBOAHECiBNAnADiBBAngDgBxAkgTgBxAogTQJwA4q7xV3CaCxAngDgBxN1WKQVfMEtQ1gAAAABJRU5ErkJggg==)
@@ -385,25 +390,25 @@ about colors of GUI element parts:&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:IsDarkTheme`(`): [@(0.0.255) bool]_[* IsDarkTheme]()&]
-[s2;%% Returns true if SColorPaper is dark, which is indicator of 
-dark theme.&]
+[s2;%RU-RU Returns true if SColorPaper is dark, which is indicator 
+of dark theme.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:AdjustIfDark`(Upp`:`:Color`): [_^Upp`:`:Color^ Color]_[* AdjustIfDark]([_^Upp`:`:Color^ C
 olor]_[*@3 c])&]
-[s2;%% If current color scheme is dark, color [%-*@3 c] (which should 
-be intended for light theme) is adjusted to dark theme.&]
-[s3;%% &]
+[s2;%RU-RU If current color scheme is dark, color [%-*@3 c] (which 
+should be intended for light theme) is adjusted to dark theme.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:DefaultInk`(`): [_^Upp`:`:Color^ Color]_[* DefaultInk]()&]
-[s2;%% This special pseudo`-color is used as default argument to 
-several Draw methods. Inside Draw, DefaultInk is converted to 
-White() if the Draw target is pixels and dark theme is active, 
+[s2;%RU-RU This special pseudo`-color is used as default argument 
+to several Draw methods. Inside Draw, DefaultInk is converted 
+to White() if the Draw target is pixels and dark theme is active, 
 otherwise it resolves to Black().&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:InvertColor`(`): [_^Upp`:`:Color^ Color]_[* InvertColor]()&]
-[s2;%% This special pseudo`-color can be used with Draw`::DrawRect 
+[s2;%RU-RU This special pseudo`-color can be used with Draw`::DrawRect 
 for pixel targets and instructs DrawRect to invert target pixels 
 (perform binary not on all color channels).&]
-[s0;%% ]]
+[s0;%RU-RU ]]

@@ -69,7 +69,7 @@ to be used as video progress counter.&]
 [s2;i150;O0; m`_nThumbNumber (index of pre`-defined thumb to use) 
 `= 1.&]
 [s3; &]
-[ {{10000F(128)G(128)@1 [s0; [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0; [* Список Публичных Методов]]}}&]
 [s4;%- &]
 [s5;:SliderCtrlX`:`:AddOutCtrl`(Ctrl`*`):%- [_^SliderCtrlX^ SliderCtrlX][@(0.0.255) `&]_[* A
 ddOutCtrl](_[_^Ctrl^ Ctrl][@(0.0.255) `*]_[*@3 c]_)&]

@@ -21,7 +21,7 @@ then decreases it by one. Release operation increases counter
 by 1.&]
 [s3; &]
 [s0; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:Upp`:`:Semaphore`:`:Wait`(int`): [@(0.0.255) bool]_[* Wait]([@(0.0.255) int]_[*@3 timeou
 t`_ms]_`=_`-[@3 1])&]
@@ -54,7 +54,7 @@ is called. That avoids problems with initialization order or
 multithreaded initialization issues.&]
 [s3; &]
 [s0; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:StaticSemaphore`:`:Get`(`): [_^Semaphore^ Semaphore][@(0.0.255) `&]_[* Get]()&]
 [s0; [* operator_Semaphore`&]()&]

@@ -16,7 +16,7 @@ topic "Thread";
 [s9; Encapsulation of thread.&]
 [s3; &]
 [s0; &]
-[ {{10000F(128)G(128)@1 [s0; [* Constructor Detail]]}}&]
+[ {{10000F(128)G(128)@1 [s0; [* Детали Конструктора]]}}&]
 [s3;%- &]
 [s5;:Thread`:`:Thread`(`):%- [* Thread]()&]
 [s2; Default constructor.&]
@@ -26,7 +26,7 @@ topic "Thread";
 [s2; Destructor. Performs Detach `- thread continues running.&]
 [s3; &]
 [s0; &]
-[ {{10000F(128)G(128)@1 [s0; [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0; [* Список Публичных Методов]]}}&]
 [s3;%- &]
 [s5;:Upp`:`:Thread`:`:Run`(Upp`:`:Function`<void`(`)`>`,bool`):%- [@(0.0.255) bool]_[* Ru
 n]([_^Upp`:`:Function^ Function]<[@(0.0.255) void]_()>_[*@3 cb], [@(0.0.255) bool]_[*@3 nos

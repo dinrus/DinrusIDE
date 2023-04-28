@@ -54,7 +54,7 @@ disjunct. For the rest of the cases, it is always possible to
 restore ordering using [* Sweep] method.&]
 [s3; &]
 [s0; &]
-[ {{10000F(128)G(128)@1 [s0; [* Public Member List]]}}&]
+[ {{10000F(128)G(128)@1 [s0; [* Список Публичных Членов]]}}&]
 [s3;%- &]
 [s5;:Index`:`:Index`(`):%- [* Index]()&]
 [s2; Constructs empty Index.&]

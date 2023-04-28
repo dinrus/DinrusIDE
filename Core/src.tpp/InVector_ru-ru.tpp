@@ -30,7 +30,7 @@ It is [^topic`:`/`/Core`/srcdoc`/Moveable`$en`-us^ Moveable].&]
 [s2; InVector requires elements to be [^topic`:`/`/Core`/srcdoc`/Moveable`$en`-us^ Move
 able].&]
 [s0;i448;a25;kKO9;@(0.0.255)%- &]
-[ {{10000F(128)G(128)@1 [s0; [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0; [* Список Публичных Методов]]}}&]
 [s3;%- &]
 [s5;:InVector`:`:Insert`(int`):%- [*@4 T][@(0.0.255) `&]_[* Insert]([@(0.0.255) int]_[*@3 i])&]
 [s2; Inserts default constructed elementa at [%-*@3 i]. Invalidates 

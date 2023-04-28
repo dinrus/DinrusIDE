@@ -22,7 +22,7 @@ ARRAY columns are represented as fixed C`+`+ arrays. If TABLE
 or TYPE has any base TYPEs or TABLEs, S`_[/ type] structure contains 
 them as well.&]
 [s0; &]
-[ {{10000F(128)G(128)@1 [s0; [* Public Member List]]}}&]
+[ {{10000F(128)G(128)@1 [s0; [* Список Публичных Членов]]}}&]
 [s3;%- &]
 [s5;:S`_type`:`:TableName:%- [@(0.0.255) static]_[@(0.0.255) const]_[@(0.0.255) char]_[* Tabl
 eName][@(0.0.255) `[`]]&]

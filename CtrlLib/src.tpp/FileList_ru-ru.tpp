@@ -26,7 +26,7 @@ with elements appropriate to describe and display individual
 files.&]
 [s3;%% &]
 [s0; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Public Member List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Членов]]}}&]
 [s3;%% &]
 [s5;:FileList`:`:WhenRename: [_^Callback2^ Callback2][@(0.0.255) <const]_String[@(0.0.255) `&
 ], [@(0.0.255) const]_String[@(0.0.255) `&>]_[* WhenRename]&]
@@ -183,7 +183,7 @@ are only provided to make FileList usage simpler for its primary
 applications (e.g. file selectors).&]
 [s3;%% &]
 [s0;%% &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Public Member List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Членов]]}}&]
 [s3; &]
 [s5;:FileList`:`:File`:`:isdir: [@(0.0.255) bool]_[* isdir]&]
 [s2;%% If true, item contains directory.&]

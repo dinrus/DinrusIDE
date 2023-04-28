@@ -29,7 +29,7 @@ oveable][*/  ]type with [*/^topic`:`/`/Core`/srcdoc`/Moveable`$en`-us^ pick
 and optional deep copy] transfer semantics, although these features 
 are more important in derived concrete AMap flavors.&]
 [s0;%- &]
-[ {{10000F(128)G(128)@1 [s0; [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0; [* Список Публичных Методов]]}}&]
 [s3;%- &]
 [s5;:SortedAMap`:`:FindLowerBound`(const K`&`)const:%- [@(0.0.255) int]_[* FindLowerBound
 ]([@(0.0.255) const]_[*@4 K][@(0.0.255) `&]_[*@3 k])_[@(0.0.255) const]&]

@@ -19,7 +19,7 @@ can return a value. It is similar to future/promise pattern,
 but it allows cancelation and is based on U`+`+ thread pool shared 
 with CoWork. AsyncWork has pick constructor / operator.&]
 [s3; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:Upp`:`:AsyncWork`:`:Do`(Upp`:`:Function`&`&`,Args`&`&`.`.`.args`): [@(0.0.255) tem
 plate]_<_[@(0.0.255) class]_[*@4 Function], [@(0.0.255) class...]_[*@4 Args]>&]

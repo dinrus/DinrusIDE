@@ -24,7 +24,7 @@ i`+`+).&]
 [s2;%% &]
 [s6;%% Requires OpenSSL library.&]
 [s3; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
 [s0; &]
 [s5;:Pop3`:`:Host`(const String`&`): [_^Pop3^ Pop3][@(0.0.255) `&]_[* Host]([@(0.0.255) const
 ]_[_^String^ String][@(0.0.255) `&]_[*@3 h])&]

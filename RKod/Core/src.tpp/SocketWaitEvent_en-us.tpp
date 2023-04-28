@@ -16,7 +16,7 @@ topic "SocketWaitEvent";
 [s2;%% Encapsulates POSIX select call, allowing waiting on set of 
 sockets for specified events.&]
 [s3; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:SocketWaitEvent`:`:Clear`(`): [@(0.0.255) void]_[* Clear]()&]
 [s2;%% Clears the set of socket to wait on.&]

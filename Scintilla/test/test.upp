@@ -5,6 +5,7 @@ options
 	-DUNICODE;
 
 file
+	UnitTester.cxx,
 	testCellBuffer.cxx,
 	testCharacterCategoryMap.cxx,
 	testCharClassify.cxx,
@@ -20,6 +21,5 @@ file
 	testSplitVector.cxx,
 	testUniConversion.cxx,
 	unitTest.cxx,
-	catch.hpp,
-	UnitTester.cxx;
+	catch.hpp;
 

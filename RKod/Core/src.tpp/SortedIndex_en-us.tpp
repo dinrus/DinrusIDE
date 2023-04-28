@@ -25,7 +25,7 @@ nVector] `- use it as reference for performace aspects.&]
 oveable][*/  ]type with [*/^topic`:`/`/Core`/srcdoc`/Moveable`$en`-us^ pick 
 and optional deep copy] transfer semantics.&]
 [s0;3%- &]
-[ {{10000F(128)G(128)@1 [s0; [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0; [* Список Публичных Методов]]}}&]
 [s3;%- &]
 [s5;:SortedIndex`:`:Add`(const T`&`):%- [@(0.0.255) int]_[* Add]([@(0.0.255) const]_[*@4 T][@(0.0.255) `&
 ]_[*@3 x])&]

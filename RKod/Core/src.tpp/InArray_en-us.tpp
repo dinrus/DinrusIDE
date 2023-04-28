@@ -25,7 +25,7 @@ in InVector.&]
 [s2; InVector has default pick transfer semantics with optional deep`-copy. 
 It is [^topic`:`/`/Core`/srcdoc`/Moveable`$en`-us^ Moveable].&]
 [s0;i448;a25;kKO9;:noref:@(0.0.255)%- &]
-[ {{10000F(128)G(128)@1 [s0; [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0; [* Список Публичных Методов]]}}&]
 [s3;%- &]
 [s5;:InArray`:`:Insert`(int`,T`*`):%- [*@4 T][@(0.0.255) `&]_[* Insert]([@(0.0.255) int]_[*@3 i
 ], [*@4 T]_`*[*@3 newt])&]

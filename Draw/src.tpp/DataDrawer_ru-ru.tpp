@@ -1,5 +1,4 @@
 topic "DataDrawer";
-[2 $$0,0#00000000000000000000000000000000:Default]
 [i448;a25;kKO9;2 $$1,0#37138531426314131252341829483380:class]
 [l288;2 $$2,2#27521748481378242620020725143825:desc]
 [0 $$3,0#96390100711032703541132217272105:end]
@@ -9,55 +8,68 @@ topic "DataDrawer";
 [l288;i1121;b17;O9;~~~.1408;2 $$7,0#10431211400427159095818037425705:param]
 [i448;b42;O9;2 $$8,8#61672508125594000341940100500538:tparam]
 [b42;2 $$9,9#13035079074754324216151401829390:normal]
+[2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%RU-RU 
 [ {{10000@(113.42.0) [s0;%- [*@7;4 DataDrawer]]}}&]
 [s3;%- &]
 [s1;:DataDrawer`:`:class:%- [@(0.0.255)3 class][3 _][*3 DataDrawer]&]
-[s9; This abstract class provides the ability to render the binary 
-data of specific type into Draw output. Each type of binary data 
-has assigned id, which is used in the call to Draw`::DrawData 
-method, to this id there is corresponding registered (using DataDrawer`::Register)
- class of DataDrawer. Draw`::DrawData creates and instance of 
-this class and uses it to render the binary data as one or more 
-ImageBuffer pixel arrays.&]
-[s9; Draw package predefines DataDrawer registered with id `"image`_data`". 
-This represents Image binary encoded with any encoding supported 
-by actually included image format plugins like plugin/bmp or 
-plugin/jpg.&]
+[s9; Этот абстрактный класс предоставляет 
+возможность отображать двоичные 
+даннные определённого типа в выводе 
+Draw. Каждому типу двоичных данных присвоен 
+id, который используется при вызове 
+метода Draw`::DrawData, На этот id есть соответствующ
+ий зарегистрированный (с помощью 
+DataDrawer`::Register) класс DataDrawer. Draw`::DrawData создаёт 
+экземпляр этого класса и использует 
+его для отображения двоичных данных 
+как один или более массивов пикселей 
+ImageBuffer.&]
+[s9; Пакет Draw предопределяет DataDrawer, зарегистриро
+ванный с id `"image`_data`". Он представляет 
+Image, закодированный двоично в любой 
+кодировке, поддерживаемой включаемыми 
+плагинами форматов изображений, типа 
+plugin/bmp или plugin/jpg.&]
 [s3; &]
 [s0; &]
-[ {{10000F(128)G(128)@1 [s0; [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0; [* Список Публичных Методов]]}}&]
 [s3;%- &]
 [s5;:DataDrawer`:`:Open`(const String`&`,int`,int`):%- [*@(0.0.255) virtual][*  
 ][*@(0.0.255) void][* _Open]([@(0.0.255) const]_[_^topic`:`/`/Core`/src`/String`$en`-us^ S
 tring][@(0.0.255) `&]_[*@3 data], [@(0.0.255) int]_[*@3 cx], [@(0.0.255) int]_[*@3 cy])_`=_[@3 0
 ]&]
-[s2; Called to open [%-*@3 data] for processing, the output size being 
-[%-*@3 cx], [%-*@3 cy].&]
+[s2; Вызывается для открытия [%-*@3 data] для 
+обработки, размер вывода равен [%-*@3 cx], 
+[%-*@3 cy].&]
 [s3; &]
 [s4; &]
 [s5;:DataDrawer`:`:Render`(ImageBuffer`&`):%- [*@(0.0.255) virtual][*  
 ][*@(0.0.255) void][* _Render]([_^topic`:`/`/Draw`/src`/ImageBuffer`$en`-us^ ImageBuffe
 r][@(0.0.255) `&]_[*@3 ib])_`=_[@3 0]&]
-[s2; Called to render the part (or all) of the result into [%-*@3 ib]. 
-The width of [%-*@3 ib] is the same as  specified in Open, the 
-height is the required height of band to render.&]
+[s2; Вызывается для отображения части 
+(или всего) результата в [%-*@3 ib]. Ширина 
+[%-*@3 ib] такая же как задано в Open, высота 
+соответствует тредуемой высоте отображаемо
+го диапазона (band to render).&]
 [s3; &]
 [s4; &]
 [s5;:DataDrawer`:`:`~DataDrawer`(`):%- [@(0.0.255) `~][* DataDrawer]()&]
-[s2; Virtual destructor.&]
+[s2; Виртуальный деструктор.&]
 [s3; &]
 [s4; &]
 [s5;:DataDrawer`:`:Create`(const String`&`):%- [*@(0.0.255) static][*  
 ][*_^topic`:`/`/Core`/src`/One`$en`-us^ One][* <][*_^DataDrawer^ DataDrawer][* >_Create(][*@(0.0.255) c
 onst][* _][*_^topic`:`/`/Core`/src`/String`$en`-us^ String][*@(0.0.255) `&][* _][*@3 id][* )]&]
-[s2; Creates a derived DataDrawer with type [%-*@3 id].&]
+[s2; Создаёт произвольный DataDrawer с типом 
+[%-*@3 id].&]
 [s3; &]
 [s4; &]
 [s5;:DataDrawer`:`:Register`(const char`*`):%- [*@(0.0.255) static][*  
 ][*@(0.0.255) template][* _<][*@(0.0.255) class][* _][*@4 T][* >_][*@(0.0.255) void][* _Register(
 ][*@(0.0.255) const][* _][*@(0.0.255) char][* _`*][*@3 id][* )]&]
-[s2; This method registers specific DataDrawer derived class as renderer 
-for type [%-*@3 id].&]
+[s2; Этот метод регистрирует специфичный 
+производный от DataDrawer класс, как оторбражател
+ь для типа [%-*@3 id].&]
 [s3; &]
 [s0; ]]

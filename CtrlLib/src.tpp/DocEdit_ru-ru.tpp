@@ -26,7 +26,7 @@ paragraphs (wraps them).&]
 tCtrl]&]
 [s3; &]
 [s0; &]
-[ {{10000F(128)G(128)@1 [s0; [* Public Member List]]}}&]
+[ {{10000F(128)G(128)@1 [s0; [* Список Публичных Членов]]}}&]
 [s3;%- &]
 [s5;:DocEdit`:`:SetFont`(Font`):%- [_^DocEdit^ DocEdit][@(0.0.255) `&]_[* SetFont]([_^Font^ F
 ont]_[*@3 f])&]

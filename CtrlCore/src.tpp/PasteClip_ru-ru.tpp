@@ -66,7 +66,7 @@ clipboard or drag and drop operations (and also in X11 selection
 operations).&]
 [s3; &]
 [s0;%% &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Public Member List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Членов]]}}&]
 [s0; &]
 [s5;:PasteClip`:`:IsAvailable`(const char`*`)const: [@(0.0.255) bool]_[* IsAvailable]([@(0.0.255) c
 onst]_[@(0.0.255) char]_`*[*@3 fmt])_[@(0.0.255) const]&]

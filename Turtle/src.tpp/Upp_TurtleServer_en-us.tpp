@@ -21,7 +21,7 @@ gui applications to be accessed remotely via modern web browsers,
 or, possibly, via specialized client software that understands 
 the Turtle wire protocol.&]
 [s3;%% &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:Upp`:`:TurtleServer`:`:Bind`(const Upp`:`:String`&`): [_^Upp`:`:TurtleServer^ Turt
 leServer][@(0.0.255) `&]_[* Bind]([@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&

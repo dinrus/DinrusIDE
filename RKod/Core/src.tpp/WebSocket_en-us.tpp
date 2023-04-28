@@ -16,7 +16,7 @@ topic "WebSocket";
 [s2;%% Provides the WebSocket protocol support. &]
 [s0;i448;a25;kKO9;:noref:@(0.0.255) &]
 [s3;%% &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:Upp`:`:WebSocket`:`:NonBlocking`(bool`): [_^Upp`:`:WebSocket^ WebSocket][@(0.0.255) `&
 ]_[* NonBlocking]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) true])&]

@@ -13,7 +13,7 @@ topic "RGBA";
 [s2;%% Structure that represents RGBA (Red, Green, Blue `& Alpha) 
 color.&]
 [s3; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Public Member List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Членов]]}}&]
 [s4;_^dword^ &]
 [s4;:Ref`:`:GetType`(`)const: [^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:byte`:`:typedef^@(0.0.255) b
 yte][@(0.0.255)  ]r&]

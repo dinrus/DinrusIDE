@@ -43,7 +43,7 @@ LRESULT CALLBACK hookProc(int nCode, WPARAM wParam, LPARAM lParam)
 	return ::CallNextHookEx(hook, nCode, wParam, lParam);
 }
 
- int TaskListDlg::doDialog(bool isRTL) 
+ int TaskListDlg::doDialog(bool isRTL)
  {
 	if (isRTL)
 	{
@@ -68,7 +68,7 @@ intptr_t CALLBACK TaskListDlg::run_dlgProc(UINT Message, WPARAM wParam, LPARAM l
 			int nbTotal = static_cast<int32_t>(_taskListInfo._tlfsLst.size());
 
 			int i2set = _taskListInfo._currentIndex + (_initDir == dirDown?1:-1);
-			
+
 			if (i2set < 0)
 				i2set = nbTotal - 1;
 
@@ -127,7 +127,7 @@ intptr_t CALLBACK TaskListDlg::run_dlgProc(UINT Message, WPARAM wParam, LPARAM l
 			::SendMessage(_hSelf, WM_COMMAND, ID_PICKEDUP, _taskList.getCurrentIndex());
 			return TRUE;
 		}
-		
+
 		case WM_MOUSEWHEEL:
 		{
 			::SendMessage(_taskList.getHSelf(), WM_MOUSEWHEEL, wParam, lParam);
@@ -155,7 +155,7 @@ intptr_t CALLBACK TaskListDlg::run_dlgProc(UINT Message, WPARAM wParam, LPARAM l
 
 					return TRUE;
 				}
-		
+
 				case NM_CLICK :
 				case NM_RCLICK :
 				{
@@ -169,7 +169,7 @@ intptr_t CALLBACK TaskListDlg::run_dlgProc(UINT Message, WPARAM wParam, LPARAM l
 			break;
 		}
 
-		case WM_COMMAND : 
+		case WM_COMMAND :
 		{
 			switch (wParam)
 			{
@@ -214,7 +214,7 @@ void TaskListDlg::drawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
 		textColor = NppDarkMode::isEnabled() ? NppDarkMode::getTextColor() : black;
 		::SelectObject(hDC, _taskList.GetFontSelected());
 	}
-	
+
 	//
 	// DRAW IMAGE
 	//

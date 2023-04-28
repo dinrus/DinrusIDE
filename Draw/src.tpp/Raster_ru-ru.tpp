@@ -42,7 +42,7 @@ exists.&]
 [s2;%% For convenience, this class is also typedefed as RasterLine.&]
 [s3; &]
 [s0; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Raster`::Line Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Raster`::Line Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:Raster`:`:Line`:`:GetRGBA`(`)const: [@(0.0.255) const]_[_^RGBA^ RGBA]_`*[* GetRGBA]()_
 [@(0.0.255) const]&]

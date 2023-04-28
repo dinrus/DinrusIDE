@@ -20,7 +20,7 @@ the distribution of area between individual widgets by dragging
 separator bars.&]
 [s3;%% &]
 [s0; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:Splitter`:`:WhenSplitFinish: [_^Callback^ Callback]_[* WhenSplitFinish]&]
 [s2;%% Invoked after use has finished moving the split.&]

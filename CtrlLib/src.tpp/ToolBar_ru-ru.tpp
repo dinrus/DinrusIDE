@@ -23,7 +23,7 @@ rCtrl]&]
 [s9;%% This class provides tool`-bars.&]
 [s3;%% &]
 [s0; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:ToolBar`:`:Set`(Callback1`<Bar`&`>`): [@(0.0.255) void]_[* Set]([_^topic`:`/`/Core`/src`/Callbacks`$en`-us`#Callback1`:`:class^ C
 allback1][@(0.0.255) <]Bar[@(0.0.255) `&>]_[*@3 bar])&]

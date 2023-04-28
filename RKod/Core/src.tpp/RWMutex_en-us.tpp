@@ -20,7 +20,7 @@ can EnterRead. RWMutex is NOT reentrant (same thread can Enter
 the Mutex multiple times).&]
 [s3; &]
 [s0; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:RWMutex`:`:EnterWrite`(`): [@(0.0.255) void]_[* EnterWrite]()&]
 [s2;%% Blocks until all threads Leave the RWMutex, then enters it 
@@ -53,7 +53,7 @@ is called. That avoids problems with initialization order or
 multithreaded initialization issues.&]
 [s3; &]
 [s0; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:StaticRWMutex`:`:Get`(`): [_^RWMutex^ RWMutex][@(0.0.255) `&]_[* Get]()&]
 [s5;:StaticRWMutex`:`:operator RWMutex`&`(`): [* operator_RWMutex`&]()&]

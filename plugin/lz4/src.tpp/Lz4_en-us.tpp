@@ -21,7 +21,7 @@ Compressed stream follows [^https`:`/`/docs`.google`.com`/document`/d`/1cl8N1bmk
 Z4 frame format] (and thus can be decompressed by commandline 
 routines provided by LZ4 author, Yann Collet).&]
 [s0;i448;a25;kKO9;:noref:@(0.0.255) &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:Upp`:`:LZ4CompressStream`:`:Co`(bool`): [@(0.0.255) void]_[* Co]([@(0.0.255) bool]_[*@3 b
 ]_`=_[@(0.0.255) true])&]
@@ -43,7 +43,7 @@ ream]([_^Upp`:`:Stream^ Stream][@(0.0.255) `&]_[*@3 out])&]
 stream compressed by plugin/lz4 and [/ most] (but not all) of lz4`-frame 
 format compliant streams.&]
 [s9; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
 [s3;%% &]
 [s5;:Upp`:`:LZ4DecompressStream`:`:Co`(bool`): [@(0.0.255) void]_[* Co]([@(0.0.255) bool]_[*@3 b
 ]_`=_[@(0.0.255) true])&]

@@ -26,7 +26,7 @@ button placed at right side of the frame, to any widget with
 associated value accessible via SetData/GetData interface.&]
 [s3;%% &]
 [s0; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Public Member List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Членов]]}}&]
 [s3; &]
 [s5;:WithDropChoice`:`:WhenDrop: [_^Callback^ Callback]_[* WhenDrop]&]
 [s2;%% This callback is invoked when the drop button is pushed (before 

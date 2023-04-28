@@ -18,7 +18,7 @@ texts (RFC822). In addition, InetHeader also detects `"set`-cookie`"
 headers and parses the content according to cookie syntax (this 
 can be ignored if header is not HTTP related).&]
 [s3; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Public Member List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Членов]]}}&]
 [s3; &]
 [s5;:InetHeader`:`:fields: [_^VectorMap^ VectorMap]<[_^String^ String], 
 [_^String^ String]>_[* fields]&]

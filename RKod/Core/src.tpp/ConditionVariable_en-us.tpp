@@ -19,7 +19,7 @@ Broadcast methods). ConditionVariable has associated Mutex to
 avoid possible race conditions when entering suspended state.&]
 [s3; &]
 [s0; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:Upp`:`:ConditionVariable`:`:Wait`(Upp`:`:Mutex`&`,int`): [@(0.0.255) void]_[* Wait](
 [_^Upp`:`:Mutex^ Mutex][@(0.0.255) `&]_[*@3 m], [@(0.0.255) int]_[*@3 timeout`_ms]_`=_`-[@3 1
@@ -52,7 +52,7 @@ is called. That avoids problems with initialization order or
 multithreaded initialization issues.&]
 [s3; &]
 [s0; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:StaticConditionVariable`:`:Get`(`): [_^ConditionVariable^ ConditionVariable][@(0.0.255) `&
 ]_[* Get]()&]

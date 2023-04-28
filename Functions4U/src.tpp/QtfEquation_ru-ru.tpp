@@ -23,7 +23,7 @@ convert them into its graphic format.]&]
 [s0;i150;O0; [2 Parenthesis () and brackets `[`].]&]
 [s0;2 &]
 [s0;2 &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
 [s1; &]
 [s2;:QtfEquation`(const String`&`): [_^QtfRichObject^ QtfRichObject]_[* QtfEquation]([@(0.0.255) c
 onst]_[_^String^ String]_`&[*@3 str])&]

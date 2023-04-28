@@ -34,7 +34,7 @@ of properties.&]
 of properties.&]
 [s3; &]
 [s0; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:TabDlg`:`:Add`(T`&`,const char`*`): [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 T][@(0.0.255) >
 ]_[_^TabCtrl`:`:Item^ TabCtrl`::Item][@(0.0.255) `&]_[* Add]([*@4 T][@(0.0.255) `&]_[*@3 tab],

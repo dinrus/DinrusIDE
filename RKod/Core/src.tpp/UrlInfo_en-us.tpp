@@ -15,7 +15,7 @@ topic "UrlInfo";
 [s1;:Upp`:`:UrlInfo`:`:struct: [@(0.0.255)3 struct][3 _][*3 UrlInfo]&]
 [s2;%% Parses URL into parts and provides easy access to query parameters.&]
 [s0;i448;a25;kKO9;:noref:@(0.0.255) &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Public Member List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Членов]]}}&]
 [s0;%% &]
 [s0;%% Example values are based on parsing URL&]
 [s0;%% &]

@@ -26,5 +26,5 @@ but provided string could contain symbols that have meaning in
 QTF (like `'`[`'). Note that alternative is [^topic`:`/`/RichText`/srcdoc`/QTF`$en`-us^ u
 sing `'`\1`' escape character].&]
 [s7; [%-*C@3 s]-|C string.&]
-[s7; [*/ Return value]-|String converted to Qtf format.&]
+[s7; [*/ Возвратное значение]-|String converted to Qtf format.&]
 [s3; ]]

@@ -18,7 +18,7 @@ topic "ImageEncoder";
 regular Image as result.&]
 [s3;%% &]
 [s0;%% &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:ImageEncoder`:`:operator const RGBA`*`(`): [@(0.0.255) operator]_[@(0.0.255) const]_
 [_^RGBA^ RGBA]_`*()&]

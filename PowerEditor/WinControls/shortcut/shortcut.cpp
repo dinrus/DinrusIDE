@@ -283,7 +283,7 @@ void getKeyStrFromVal(UCHAR keyVal, String& str)
 	}
 	if (found)
 		str = namedKeyArray[i].name;
-	else 
+	else
 		str = TEXT("Unlisted");
 }
 
@@ -367,7 +367,7 @@ void Shortcut::updateConflictState(const bool endSession) const
 	::ShowWindow(::GetDlgItem(_hSelf, IDC_CONFLICT_STATIC), isConflict ? SW_SHOW : SW_HIDE);
 }
 
-intptr_t CALLBACK Shortcut::run_dlgProc(UINT Message, WPARAM wParam, LPARAM lParam) 
+intptr_t CALLBACK Shortcut::run_dlgProc(UINT Message, WPARAM wParam, LPARAM lParam)
 {
 	switch (Message)
 	{
@@ -395,10 +395,10 @@ intptr_t CALLBACK Shortcut::run_dlgProc(UINT Message, WPARAM wParam, LPARAM lPar
 
 			if (iFound != -1)
 				::SendDlgItemMessage(_hSelf, IDC_KEY_COMBO, CB_SETCURSEL, iFound, 0);
-			
+
 			// Hide this warning on startup
 			::ShowWindow(::GetDlgItem(_hSelf, IDC_WARNING_STATIC), SW_HIDE);
-			
+
 			updateConflictState();
 			NativeLangSpeaker* nativeLangSpeaker = NppParameters::getInstance().getNativeLangSpeaker();
 			nativeLangSpeaker->changeDlgLang(_hSelf, "ShortcutMapperSubDialg");
@@ -455,7 +455,7 @@ intptr_t CALLBACK Shortcut::run_dlgProc(UINT Message, WPARAM wParam, LPARAM lPar
 			return TRUE;
 		}
 
-		case WM_COMMAND : 
+		case WM_COMMAND :
 		{
 			auto textlen = ::SendDlgItemMessage(_hSelf, IDC_NAME_EDIT, WM_GETTEXTLENGTH, 0, 0);
 			switch (wParam)
@@ -529,7 +529,7 @@ intptr_t CALLBACK Shortcut::run_dlgProc(UINT Message, WPARAM wParam, LPARAM lPar
 }
 
 // return true if one of CommandShortcuts is deleted. Otherwise false.
-void Accelerator::updateShortcuts() 
+void Accelerator::updateShortcuts()
 {
 	const array<unsigned long, 3> incrFindAccIds = { IDM_SEARCH_FINDNEXT, IDM_SEARCH_FINDPREV, IDM_SEARCH_FINDINCREMENT };
 
@@ -574,7 +574,7 @@ void Accelerator::updateShortcuts()
 
 	for (i = 0; i < nbMacro; ++i)
 	{
-		if (macros[i].isEnabled()) 
+		if (macros[i].isEnabled())
 		{
 			_pAccelArray[offset].cmd = (WORD)(macros[i].getID());
 			_pAccelArray[offset].fVirt = macros[i].getAcceleratorModifiers();
@@ -608,7 +608,7 @@ void Accelerator::updateShortcuts()
 	_nbAccelItems = offset;
 
 	updateFullMenu();
-	
+
 	//update the table
 	if (_hAccTable)
 		::DestroyAcceleratorTable(_hAccTable);
@@ -678,7 +678,7 @@ void Accelerator::updateFullMenu()
 void Accelerator::updateMenuItemByCommand(const CommandShortcut& csc)
 {
 	int cmdID = csc.getID();
-	
+
 	// Ensure that the menu item checks set prior to this update remain in affect.
 	// Ensure that the menu item state is also maintained
 	UINT cmdFlags = GetMenuState(_hAccelMenu, cmdID, MF_BYCOMMAND );
@@ -688,7 +688,7 @@ void Accelerator::updateMenuItemByCommand(const CommandShortcut& csc)
 
 recordedMacroStep::recordedMacroStep(int iMessage, uptr_t wParam, uptr_t lParam, int codepage)
 	: _message(iMessage), _wParameter(wParam), _lParameter(lParam), _macroType(mtUseLParameter)
-{ 
+{
 	if (_lParameter)
 	{
 		switch (_message)
@@ -723,7 +723,7 @@ recordedMacroStep::recordedMacroStep(int iMessage, uptr_t wParam, uptr_t lParam,
 			}
 			break;
 
-				
+
 			default : // for all other messages, use _lParameter "as is"
 				break;
 		}
@@ -879,7 +879,7 @@ void recordedMacroStep::PlayBack(Window* pNotepad, ScintillaEditView *pEditView)
 		if (!isMacroable())
 			return;
 
-		if (_macroType == mtUseSParameter) 
+		if (_macroType == mtUseSParameter)
 		{
 			int byteBufferLength = ::WideCharToMultiByte(static_cast<UINT>(pEditView->execute(SCI_GETCODEPAGE)), 0, _sParameter.Begin(), -1, nullptr, 0, nullptr, nullptr);
 			auto byteBuffer = std::make_unique< char[] >(byteBufferLength);
@@ -895,10 +895,10 @@ void recordedMacroStep::PlayBack(Window* pNotepad, ScintillaEditView *pEditView)
 		// If text content has been modified in Scintilla,
 		// then notify Notepad++
 		if ( (_message == SCI_SETTEXT)
-			|| (_message == SCI_REPLACESEL) 
-			|| (_message == SCI_ADDTEXT) 
-			|| (_message == SCI_ADDSTYLEDTEXT) 
-			|| (_message == SCI_INSERTTEXT) 
+			|| (_message == SCI_REPLACESEL)
+			|| (_message == SCI_ADDTEXT)
+			|| (_message == SCI_ADDSTYLEDTEXT)
+			|| (_message == SCI_INSERTTEXT)
 			|| (_message == SCI_APPENDTEXT) )
 		{
 			SCNotification scnN;
@@ -926,7 +926,7 @@ void ScintillaAccelerator::init(vector<Window*> * vScintillas, Menu* hMenu, Wind
 	}
 }
 
-void ScintillaAccelerator::updateKeys() 
+void ScintillaAccelerator::updateKeys()
 {
 	NppParameters& nppParam = NppParameters::getInstance();
 	vector<ScintillaKeyMap> & map = nppParam.getScintillaKeyList();
@@ -937,15 +937,15 @@ void ScintillaAccelerator::updateKeys()
 	{
 		::SendMessage(_vScintillas[i], SCI_CLEARALLCMDKEYS, 0, 0);
 		for (int32_t j = static_cast<int32_t>(mapSize) - 1; j >= 0; j--) //reverse order, top of the list has highest priority
-		{	
+		{
 			ScintillaKeyMap skm = map[j];
-			if (skm.isEnabled()) 
+			if (skm.isEnabled())
 			{		//no validating, scintilla accepts more keys
 				size_t size = skm.getSize();
 				for (index = 0; index < size; ++index)
 					::SendMessage(_vScintillas[i], SCI_ASSIGNCMDKEY, skm.toKeyDef(index), skm.getScintillaKeyID());
 			}
-			if (skm.getMenuCmdID() != 0) 
+			if (skm.getMenuCmdID() != 0)
 			{
 				updateMenuItemByID(skm, skm.getMenuCmdID());
 			}
@@ -997,10 +997,10 @@ void ScintillaKeyMap::validateDialog()
 {
 	bool valid = isValid();	//current combo valid?
 	bool isDisabling = _keyCombo._key == 0;	//true if this keycombo were to disable the shortcut
-	bool isDisabled = !isEnabled();	//true if this shortcut already is 
+	bool isDisabled = !isEnabled();	//true if this shortcut already is
 	bool isDuplicate = false; //true if already in the list
 
-	for (size_t i = 0; i < _size; ++i) 
+	for (size_t i = 0; i < _size; ++i)
 	{
 		if (_keyCombo._key   == _keyCombos[i]._key   && _keyCombo._isCtrl  == _keyCombos[i]._isCtrl &&
 			_keyCombo._isAlt == _keyCombos[i]._isAlt && _keyCombo._isShift == _keyCombos[i]._isShift)
@@ -1040,9 +1040,9 @@ void ScintillaKeyMap::updateListItem(int index)
 	::SendDlgItemMessage(_hSelf, IDC_LIST_KEYS, LB_DELETESTRING, index+1, 0);
 }
 
-intptr_t CALLBACK ScintillaKeyMap::run_dlgProc(UINT Message, WPARAM wParam, LPARAM lParam) 
+intptr_t CALLBACK ScintillaKeyMap::run_dlgProc(UINT Message, WPARAM wParam, LPARAM lParam)
 {
-	
+
 	switch (Message)
 	{
 		case WM_INITDIALOG :
@@ -1123,7 +1123,7 @@ intptr_t CALLBACK ScintillaKeyMap::run_dlgProc(UINT Message, WPARAM wParam, LPAR
 			return TRUE;
 		}
 
-		case WM_COMMAND : 
+		case WM_COMMAND :
 		{
 			switch (wParam)
 			{
@@ -1153,7 +1153,7 @@ intptr_t CALLBACK ScintillaKeyMap::run_dlgProc(UINT Message, WPARAM wParam, LPAR
 					::EndDialog(_hSelf, -1);
 					return TRUE;
 
-				case IDC_BUTTON_ADD: 
+				case IDC_BUTTON_ADD:
 				{
 					size_t oldsize = _size;
 					int res = addKeyCombo(_keyCombo);
@@ -1171,7 +1171,7 @@ intptr_t CALLBACK ScintillaKeyMap::run_dlgProc(UINT Message, WPARAM wParam, LPAR
 					}
 					showCurrentSettings();
 					validateDialog();
-					return TRUE; 
+					return TRUE;
 				}
 
 				case IDC_BUTTON_RMVE:
@@ -1186,7 +1186,7 @@ intptr_t CALLBACK ScintillaKeyMap::run_dlgProc(UINT Message, WPARAM wParam, LPAR
 					::SendDlgItemMessage(_hSelf, IDC_LIST_KEYS, LB_SETCURSEL, i, 0);
 					showCurrentSettings();
 					validateDialog();
-					return TRUE; 
+					return TRUE;
 				}
 
 				case IDC_BUTTON_APPLY:

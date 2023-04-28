@@ -17,7 +17,7 @@ topic "Dl";
 [s0;i150;a25;kKO0; Linux: Shared libraries, relocatable files, or 
 programs&]
 [s3; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
 [s4; &]
 [s5;:Dl`:`:Load`(const String`&`): [@(0.0.255) bool]_[* Load]([@(0.0.255) const]_[_^String^ S
 tring]_`&[*@3 fileDl])&]

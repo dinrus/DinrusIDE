@@ -23,7 +23,7 @@ thread indicates leaving the section by invoking Leave. Mutex
 is reentrant (same thread can Enter the Mutex multiple times).&]
 [s3; &]
 [s0; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:Mutex`:`:Enter`(`): [@(0.0.255) void]_[* Enter]()&]
 [s2;%% Enter the protected region of code. Only single thread can 
@@ -53,7 +53,7 @@ is called. That avoids problems with initialization order or
 multithreaded initialization issues.&]
 [s3; &]
 [s0; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:StaticMutex`:`:Get`(`): [_^Mutex^ Mutex][@(0.0.255) `&]_[* Get]()&]
 [s5;:StaticMutex`:`:operator Mutex`&`(`): [* operator_Mutex`&]()&]

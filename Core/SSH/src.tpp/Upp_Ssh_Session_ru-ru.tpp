@@ -20,7 +20,7 @@ and managing a cryptographically secured shell session on an
 SSH2 compliant server. SshSession class is derived from [^topic`:`/`/Core`/SSH`/src`/Upp`_Ssh`_Base`_ru`-ru`#Upp`:`:Ssh`:`:class^ S
 sh] base class, and has pick semantics.&]
 [s3; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:Upp`:`:SshSession`:`:Timeout`(int`): [_^Upp`:`:SshSession^ SshSession][@(0.0.255) `&
 ]_[* Timeout]([@(0.0.255) int]_[*@3 ms])&]

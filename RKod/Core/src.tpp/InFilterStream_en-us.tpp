@@ -17,7 +17,7 @@ lic][3 _][*@3;3 Stream]&]
 [s2;%% Adapter Stream that glues an input stream with some filtering 
 object, typically of compression/decompression class.&]
 [s3; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:InFilterStream`:`:in: [_^Stream^ Stream]_`*[* in]&]
 [s2;%% Pointer to input stream that serves as the source of data 

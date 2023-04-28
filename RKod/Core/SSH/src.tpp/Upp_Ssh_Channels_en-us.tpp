@@ -39,7 +39,7 @@ provides a means for securely transferring files between local
 host and a remote host. Scp class is derived from SshChannel 
 class, and has pick semantics.&]
 [s3;%- &]
-[ {{10000F(128)G(128)@1 [s0; [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0; [* Список Публичных Методов]]}}&]
 [s3;%- &]
 [s5;:Upp`:`:Scp`:`:SaveFile`(const char`*`,const Upp`:`:String`&`):%- [@(0.0.255) bool]_
 [* SaveFile]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 path], [@(0.0.255) const]_[_^Upp`:`:String^ S
@@ -99,7 +99,7 @@ line interface, you should consider using [^topic`:`/`/Core`/SSH`/src`/Upp`_Ssh`
 shShell] class instead. SshExec class is derived from SshChannel 
 class, and has pick semantics. &]
 [s3;%- &]
-[ {{10000F(128)G(128)@1 [s0; [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0; [* Список Публичных Методов]]}}&]
 [s3;%- &]
 [s5;:Upp`:`:SshExec`:`:Execute`(const Upp`:`:String`&`,Upp`:`:String`&`,Upp`:`:String`&`):%- [@(0.0.255) i
 nt]_[* Execute]([@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 cmd], 
@@ -224,7 +224,7 @@ you should consider using [^topic`:`/`/Core`/SSH`/src`/Upp`_Ssh`_Channels`_en`-u
 shExec] class. Also note that the shell object needs to be put 
 into blocking mode if it is not planned to run as a timed session.&]
 [s3;%- &]
-[ {{10000F(128)G(128)@1 [s0; [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0; [* Список Публичных Методов]]}}&]
 [s3;%- &]
 [s5;:Upp`:`:SshShell`:`:Run`(const Upp`:`:String`&`,Upp`:`:Size`,const Upp`:`:String`&`):%- [@(0.0.255) b
 ool]_[* Run]([@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 terminal], 

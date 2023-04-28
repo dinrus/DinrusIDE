@@ -19,7 +19,7 @@ reference to the Display to provide `"visual content`" of rectangle.
 It is [%-*@(0.0.255) Moveable].&]
 [s3;%- &]
 [s0;%- &]
-[ {{10000F(128)G(128)@1 [s0; [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0; [* Список Публичных Методов]]}}&]
 [s3;%- &]
 [s5;:PaintRect`:`:Paint`(Draw`&`,const Rect`&`,Color`,Color`,dword`)const:%- [@(0.0.255) v
 oid]_[* Paint]([_^Draw^ Draw][@(0.0.255) `&]_[*@3 w], [@(0.0.255) const]_[_^Rect^ Rect][@(0.0.255) `&
@@ -48,7 +48,7 @@ oid]_[* Paint]([_^Draw^ Draw][@(0.0.255) `&]_[*@3 w], [@(0.0.255) int]_[*@3 x],
 [s4;%- &]
 [s5;:PaintRect`:`:GetStdSize`(`)const:%- [_^Size^ Size]_[* GetStdSize]()_[@(0.0.255) const]&]
 [s2; Invokes GetStdSize of contained Display for contained Value.&]
-[s7; [*/ Return value]-|Preferred Size of Value.&]
+[s7; [*/ Возвратное значение]-|Preferred Size of Value.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:PaintRect`:`:RatioSize`(int`,int`)const:%- [_^Size^ Size]_[* RatioSize]([@(0.0.255) in
@@ -58,7 +58,7 @@ t]_[*@3 cx], [@(0.0.255) int]_[*@3 cy])_[@(0.0.255) const]&]
 keep aspect ratio with cy.&]
 [s7; [%-*C@3 cy]-|Required height. If zero, it should be computed to 
 keep aspect ratio with cx.&]
-[s7; [*/ Return value]-|Size of Value for Display.&]
+[s7; [*/ Возвратное значение]-|Size of Value for Display.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:PaintRect`:`:RatioSize`(Size`)const:%- [_^Size^ Size]_[* RatioSize]([_^Size^ Size]_[*@3 s
@@ -95,17 +95,17 @@ operation`", calls to GetStdSize and RatioSize return Size(0,
 [s5;:PaintRect`:`:GetValue`(`)const:%- [@(0.0.255) const]_[_^Value^ Value][@(0.0.255) `&]_[* G
 etValue]()_[@(0.0.255) const]&]
 [s2; Returns the Value.&]
-[s7; [*/ Return value]-|Value.&]
+[s7; [*/ Возвратное значение]-|Value.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:PaintRect`:`:GetDisplay`(`)const:%- [@(0.0.255) const]_[_^Display^ Display][@(0.0.255) `&
 ]_[* GetDisplay]()_[@(0.0.255) const]&]
 [s2; Returns the Display.&]
-[s7; [*/ Return value]-|Display.&]
+[s7; [*/ Возвратное значение]-|Display.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:PaintRect`:`:operator bool`(`)const:%- [* operator_bool]()_[@(0.0.255) const]&]
-[s7; [*/ Return value]-|true if Display is set.&]
+[s7; [*/ Возвратное значение]-|true if Display is set.&]
 [s3;%- &]
 [s0;* &]
 [ {{10000F(128)G(128)@1 [s0; [* Constructor detail]]}}&]

@@ -17,7 +17,7 @@ topic "HttpCookie";
 [s2;%% This simple structure is used to store information about HTTP 
 Cookie.&]
 [s0;i448;a25;kKO9;:noref:@(0.0.255) &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Public Member List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Членов]]}}&]
 [s3; &]
 [s5;:HttpCookie`:`:id: [_^String^ String]_[* id]&]
 [s2;%% The name of cookie.&]

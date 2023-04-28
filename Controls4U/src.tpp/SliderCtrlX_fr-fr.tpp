@@ -73,7 +73,7 @@ permettant de l`'utiliser comme compteur de temps pour une vidéo.&]
 [s6;i150;O0; m`_nThumbNumber (index du curseur prédéfini à utiliser) 
 `= 1.&]
 [s1; &]
-[ {{10000F(128)G(128)@1 [s0; [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0; [* Список Публичных Методов]]}}&]
 [s4;%- &]
 [s5;:SliderCtrlX`:`:AddOutCtrl`(Ctrl`*`):%- [_^SliderCtrlX^ SliderCtrlX][@(0.0.255) `&]_[* A
 ddOutCtrl](_[_^Ctrl^ Ctrl][@(0.0.255) `*]_[*@3 c]_)&]

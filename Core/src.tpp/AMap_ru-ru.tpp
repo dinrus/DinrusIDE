@@ -16,56 +16,72 @@ topic "AMap";
 ][@(0.0.255)3 class][3 _][*@4;3 T][3 , ][@(0.0.255)3 class][3 _][*@4;3 V][3 , 
 ][@(0.0.255)3 class][3 _][*@4;3 HashFn][@(0.0.255)3 >]&]
 [s1;:AMap`:`:class:%- [@(0.0.255) class]_[* AMap]&]
-[s8; [*@4 K]-|Type of keys. K must have deep copy constructor, be [/^dpp`:`/`/SourceDoc`/Containers`/Moveable^ m
-oveable] and must have operator`=`= defined.&]
-[s8; [*@4 T]-|Type of values. T must satisfy requirements for container 
-flavor identified by parameter V.&]
-[s8; [*@4 V]-|Type of basic random access container.&]
-[s8; [*@4 HashFn]-|Hashing class. Must have defined unsigned operator()(const 
-K`& x) method returning hash value for elements.&]
+[s8; [*@4 K]-|Тип ключей. K должен иметь конструктор 
+глубокой копии, быть [/^dpp`:`/`/SourceDoc`/Containers`/Moveable^ m
+oveable] и иметь operator`=`= определённым.&]
+[s8; [*@4 T]-|Тип значений. T должно удовлетворять 
+требованиям к container flavor, идентифицируемым 
+параметром V.&]
+[s8; [*@4 V]-|Тип базового контейнера случайного 
+доступа.&]
+[s8; [*@4 HashFn]-|Класс хэширования. Должен иметь 
+определение беззначного оператора()(const 
+K`& x), метод, возвращающий хэш`-значение 
+для элементов.&]
 [s0; &]
-[s0;~~~.416; AMap is a class that combines Index of keys with basic 
-random access container of values, forming map flavors. It is 
-used as base class for concrete map flavors, [* VectorMap], [* ArrayMap] 
-and [* SegtorMap].&]
-[s0;~~~.416; Like any other NTL container, AMap is [*/^topic`:`/`/Core`/srcdoc`/Moveable`$en`-us^ m
-oveable][*/  ]type with [*/^topic`:`/`/Core`/srcdoc`/pick`_`$en`-us^ pick 
-and optional deep copy] transfer semantics, although these features 
-are more important in derived concrete index flavors.&]
+[s0;~~~.416; AMap `- это класс, комбинирующий 
+Index из ключей с базовым контейнером 
+значений случайного доступа, формируя 
+map flavors. Используется как класс`-основа 
+для конкретных map flavors, [* VectorMap], [* ArrayMap] 
+и [* SegtorMap].&]
+[s0;~~~.416; Как любой другой NTL`-контейнер, 
+AMap `-  [*/^topic`:`/`/Core`/srcdoc`/Moveable`_ru`-ru^ moveable][*/  
+тип с] [*/^topic`:`/`/Core`/srcdoc`/pick`_`_ru`-ru^ pick and 
+optional deep copy] семантикой трансфера, 
+хотя эти фичи более важны в производных 
+конкретных index flavors.&]
 [s3; &]
 [s0; &]
-[ {{10000F(128)G(128)@1 [s0; [* Constructor Detail]]}}&]
+[ {{10000F(128)G(128)@1 [s0; [* Детали Конструктора]]}}&]
 [s3; &]
 [s5;:AMap`:`:AMap`(`):%- [* AMap]()&]
-[s2; Constructor. Constructs an empty AMap.&]
+[s2; Конструктор. Конструирует пустой 
+AMap.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:AMap`:`:AMap`(const AMap`&`,int`):%- [* AMap]([@(0.0.255) const]_[* AMap][@(0.0.255) `&]_
 [*@3 s], [@(0.0.255) int])&]
-[s2; Optional deep copy constructor.&]
-[s6; Requires T to have deep copy constructor or optional deep copy 
-constructor.&]
-[s7; [*C s]-|Source AMap.&]
+[s2; Опциональный конструктор глубокой 
+копии.&]
+[s6; Требуется, чтобы у T был конструктор 
+глубокой копии или опциональный конструктор
+ глубокой копии constructor.&]
+[s7; [*C s]-|Исходный AMap.&]
 [s4; &]
 [s5;:AMap`:`:AMap`(pick`_ Index`<K`,HashFn`>`&`,pick`_ V`&`):%- [* AMap]([@(0.128.128) pi
 ck`_]_Index[@(0.0.255) <][*@4 K], [*@4 HashFn][@(0.0.255) >`&]_[*@3 ndx], 
 [@(0.128.128) pick`_]_[*@4 V][@(0.0.255) `&]_[*@3 val])&]
-[s2; This form of constructors creates AMap by picking Index of keys 
-[%-*@3 ndx] and basic random access container of values. Both containers 
-must have same number of elements [%-*@3 val].&]
+[s2; Эта форма конструкторов создаёт 
+AMap, `"пикируя`" Index ключей [%-*@3 ndx]  и базовый 
+контейнер значений, случайного доступа. 
+Оба контейнера должны иметь одинаковое 
+число элементов [%-*@3 val].&]
 [s3;%- &]
 [s4;%- &]
 [s5;:AMap`:`:AMap`(pick`_ Vector`<K`>`&`,pick`_ V`&`):%- [* AMap]([@(0.128.128) pick`_]_V
 ector[@(0.0.255) <][*@4 K][@(0.0.255) >`&]_[*@3 ndx], [@(0.128.128) pick`_]_[*@4 V][@(0.0.255) `&
 ]_[*@3 val])&]
-[s2; This form of constructors creates AMap by picking Vector of 
-keys and basic random access container of values. Both containers 
-must have same number of elements.&]
-[s7; [*C@3 ndx]-|Keys.&]
-[s7; [*@3 val]-|Values.&]
+[s2; Эта форма конструктора создаёт AMap, 
+`"пикируя`" Vector ключей и базовый контейнер 
+случайного доступа со значениями. 
+Оба контейнера должны иметь одинаковое 
+число элементов.&]
+[s7; [*C@3 ndx]-|Ключи.&]
+[s7; [*@3 val]-|Значения.&]
 [s3; &]
 [s0; &]
-[ {{10000F(128)G(128)@1 [s0; [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0; [* Список Публичных Методов]]}}&]
 [s3;%- &]
 [s5;:AMap`:`:Add`(const K`&`,const T`&`):%- [*@4 T][@(0.0.255) `&]_[* Add]([@(0.0.255) const]_
 [*@4 K][@(0.0.255) `&]_[*@3 k], [@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[*@3 x])&]
@@ -79,103 +95,149 @@ st]_[*@4 K][@(0.0.255) `&]_[*@3 k], [*@4 T][@(0.0.255) `&`&]_[*@3 x])&]
 `&]_[*@3 k], [*@4 T][@(0.0.255) `&`&]_[*@3 x])&]
 [s5;:Upp`:`:AMap`:`:Add`(K`&`&`):%- [*@4 T][@(0.0.255) `&]_[* Add]([*@4 K][@(0.0.255) `&`&]_[*@3 k
 ])&]
-[s2; Adds a key and value pair to the AMap. Returns a reference to 
-the element. If value is not specified, it is default constructed.&]
-[s6; Invalidates iterators to AIndex.&]
-[s6; Invalidates iterators to AMap.&]
-[s6; Invalidates references to keys.&]
-[s6; Invalidates references to AMap values.&]
+[s2; Добавляет пару из ключа и значения 
+к AMap. Возвращает ссылку на этот элемент. 
+Если значение не указано, оно конструируется
+ по дефолту.&]
+[s6; Повреждает итераторы AIndex.&]
+[s6; Повреждает итераторы AMap.&]
+[s6; Повреждает ссылки на ключи.&]
+[s6; Повреждает ссылки на значения AMap.&]
 [s3; &]
 [s4;%- &]
 [s5;:AMap`:`:FindAdd`(const K`&`):%- [@(0.0.255) int]_[* FindAdd]([@(0.0.255) const]_[*@4 K][@(0.0.255) `&
 ]_[*@3 k])&]
-[s2; Retrieves the position of first element with the specified key 
-in AMap, using a precomputed hash value. The precomputed hash 
-value must be the same as the hash value that would be the result 
-of HashFn. If multi`-key ordering is not broken and more than 
-one element with the same value exists in AMap, the lowest position 
-is retrieved. If the element does not exist in AMap, a negative 
-number is returned. Unlinked elements are ignored.&]
-[s7; [*C@3 x]-|Key to find.&]
-[s7; [*C@3 h]-|Precomputed hash value.&]
-[s7; [*/ Return value]-|Position of element or a negative value if element 
-is not in AMap.&]
+[s2; Получает позицию первого элемента 
+с указанным ключом в AMap, используя 
+предварительно вычисленное хэш`-значение. 
+Это хэш`-значение должно быть такое 
+же, которое было бы получено от HashFn. 
+Если многоключевое упорядочивание 
+не сломано и более одного элемента 
+с одинаковым значением существуют 
+в AMap, то будет получена самая нижняя 
+позиция. Если такого элемента не существует 
+в AMap, то возвращается отрицательное 
+число. Отлинкованные элементы игнорируются.
+&]
+[s7; [*C@3 x]-|Искомый ключ.&]
+[s7; [*C@3 h]-|Предварительно вычисленное хэш`-значени
+е.&]
+[s7; [*/ Возвратное значение]-|Позиция элемента 
+или отрицательное число, если элемента 
+нет в AMap.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:AMap`:`:Find`(const K`&`)const:%- [@(0.0.255) int]_[* Find]([@(0.0.255) const]_[*@4 K][@(0.0.255) `&
 ]_[*@3 k])_[@(0.0.255) const]&]
-[s2; Retrieves the position of first element with the specified key 
-in AMap. If multi`-key ordering is not broken and more than one 
-element with the same value exists in AMap, the lowest position 
-is retrieved. If the element does not exist in AMap, a negative 
-number is returned. Unlinked elements are ignored.&]
-[s7; [*C@3 x]-|Key to find.&]
-[s7; [*/ Return value]-|Position of element or a negative value if element 
-is not in AMap.&]
+[s2; Получает позицию первого элемента 
+с указанным ключом, находящегося 
+в AMap. Если многоключевое упорядочивание 
+не сломано и более одного элемента 
+с одинаковым значением существуют 
+в AMap, то будет получена самая нижняя 
+позиция. Если такого элемента не существует 
+в AMap, то возвращается отрицательное 
+число. Отлинкованные элементы игнорируются&]
+[s7; [*C@3 x]-|Искомый ключ.&]
+[s7; [*/ Возвратное значение]-|Позиция элемента 
+или отрицательное число, если элемента 
+нет в AMap.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:AMap`:`:FindNext`(int`)const:%- [@(0.0.255) int]_[* FindNext]([@(0.0.255) int]_[*@3 i])_
 [@(0.0.255) const]&]
-[s2; Retrieves the position of next element with the same key as 
-element at the specified position. If multi`-key ordering is 
-not broken and more than one element with that value exists in 
-AMap, the lowest position greater than specified one is retrieved 
-(so that positions got by subsequent calls to FindNext are in 
-ascending order). When there are no more elements with required 
-key, a negative number is returned. Unlinked elements are ignored.&]
+[s2; Получить позицию следующего элемента 
+с таким же ключом, как у элемента в 
+указанной позиции. Если многоключевое 
+упорядочивание не сломано и более 
+одного элемента с одинаковым значением 
+существуют в AMap, то будет получена 
+самая нижняя позиция, большая чем 
+указанная (при этом позиции, получаемые 
+при последующих вызовах FindNext, будут 
+в восходящем порядке). Когда элементов 
+с требуемым ключом больше не останется, 
+будет возвращено отрицательное значение. 
+Отлинкованные элементы игнорируются.&]
 [s3; &]
 [s4;%- &]
 [s5;:AMap`:`:Find`(const K`&`,unsigned`)const:%- [@(0.0.255) int]_[* Find]([@(0.0.255) cons
 t]_[*@4 K][@(0.0.255) `&]_[*@3 k], [@(0.0.255) unsigned]_[*@3 h])_[@(0.0.255) const]&]
-[s2; Retrieves the position of next element with the same key as 
-element at the specified position. If multi`-key ordering is 
-not broken and more than one element with that value exists in 
-AMap, the lowest position greater than specified one is retrieved 
-(so that positions got by subsequent calls to FindNext are in 
-ascending order). When there are no more elements with required 
-key, negative number is returned. Unlinked elements are ignored.&]
-[s7; [*C@3 i]-|Position of element.&]
-[s7; [*/ Return value]-|Position of next element with same value.&]
+[s2; Получить позицию следующего элемента 
+с таким же ключом, как у элемента в 
+указанной позиции. Если многоключевое 
+упорядочивание не сломано и более 
+одного элемента с одинаковым значением 
+существуют в AMap, то будет получена 
+самая нижняя позиция, большая чем 
+указанная (при этом позиции, получаемые 
+при последующих вызовах FindNext, будут 
+в восходящем порядке). Когда элементов 
+с требуемым ключом больше не останется, 
+будет возвращено отрицательное значение. 
+Отлинкованные элементы игнорируются.&]
+[s7; [*C@3 i]-|Позиция элемента.&]
+[s7; [*/ Возвратное значение]-|Положение 
+следующего элемента с таким же значением.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:AMap`:`:FindLast`(const K`&`,unsigned`)const:%- [@(0.0.255) int]_[* FindLast]([@(0.0.255) c
 onst]_[*@4 K][@(0.0.255) `&]_[*@3 k], [@(0.0.255) unsigned]_[*@3 h])_[@(0.0.255) const]&]
-[s2; Retrieves position of last element with the specified key in 
-AMap, using a precomputed hash value. The precomputed hash value 
-must be the same as the hash value that would be the result of 
-HashFn. If multi`-key ordering is not broken and more than one 
-element with the same value exists in AMap, the greatest position 
-is retrieved. If element does not exist in AMap, a negative number 
-is returned. Unlinked elements are ignored.&]
-[s7; [*C@3 x]-|Key to find.&]
-[s7; [*C@3 h]-|Precomputed hash value.&]
-[s7; [*/ Return value]-|Position of element or a negative value if element 
-is not in AMap.&]
+[s2; Получает позицию последнего элемента 
+с указанным ключом в AMap, используя 
+предварительно вычисленное хэш`-значение. 
+Это хэш`-значение должно быть такое 
+же, как в результате работы функции 
+HashFn. Если многоключевое упорядочивание 
+не сломано и существует более одного 
+элемента с одинаковым значением в 
+AMap, плучена будет наибольшая позиция. 
+Если элемента не существует в AMap, 
+возвращается отрицательное число. 
+Отлинкованные элементы игнорируются.&]
+[s7; [*C@3 x]-|Искомый ключ.&]
+[s7; [*C@3 h]-|Предварительно вычисленное хэш`-значени
+е.&]
+[s7; [*/ Возвратное значение]-|Позиция элемента 
+или отрицательное число, если элемента 
+нет в AMap.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:AMap`:`:FindLast`(const K`&`)const:%- [@(0.0.255) int]_[* FindLast]([@(0.0.255) const]_
 [*@4 K][@(0.0.255) `&]_[*@3 k])_[@(0.0.255) const]&]
-[s2; Retrieves the position of last element with the specified key 
-in AMap. If multi`-key ordering is not broken and more than one 
-element with the same value exists in AIndex, the greatest position 
-is retrieved. If element does not exist in AMap, a negative number 
-is returned. Unlinked elements are ignored.&]
-[s7; [*C@3 x]-|Element to find.&]
-[s7; [*/ Return value]-|Position of element or a negative value if element 
-is not in AMap.&]
+[s2; Получает позицию последнего элемента 
+с указанным ключом в AMap. Если многоключевое 
+упорядочивание не сломано и более 
+одного элемента с одинаковым значением 
+есть в AIndex, то возвращается наибольшая 
+позиция. Если элемента нет в AMap, возвращается
+ отрицательное число. Отлинкованные 
+элементы игнорируются.&]
+[s7; [*C@3 x]-|Искомый элемент.&]
+[s7; [*/ Возвратное значение]-|Позиция элемента 
+или отрицательное число, если элемента 
+нет в AMap.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:AMap`:`:FindPrev`(int`)const:%- [@(0.0.255) int]_[* FindPrev]([@(0.0.255) int]_[*@3 i])_
 [@(0.0.255) const]&]
-[s2; Retrieves the position of previous element with the same key 
-as element at the specified position. If multi`-key ordering 
-is not broken and more than one element with that value exists 
-in AMap, the greatest position lower than specified one is retrieved 
-(so that positions got by subsequent calls to FindPrev are in 
-descending order). When there are no more elements with required 
-key, a negative number is returned. Unlinked elements are ignored.&]
-[s7; [*C@3 i]-|Position of element.&]
-[s7; [*/ Return value]-|Position of previous element with same value.&]
+[s2; Получает позицию предыдущего элемета 
+с таким же ключом, как у элемента в 
+указанной позиции. Если многоключевое 
+упорядочивание не сломано и более 
+одного элемента с одинаковым значением 
+существует в AMap, то получается ноибольшая 
+позиция, но меньшая, чем указанная 
+(так, что позиции, получаемые при последующих
+ вызовах FindPrev, располагаются в нисходящем 
+порядке). Когда больше не осталось 
+элементов с требуемым ключом, возвращается 
+отрицательное число. Отлинкованные 
+элементы игнорируются.&]
+[s7; [*C@3 i]-|Позиция элемента.&]
+[s7; [*/ Возвратное значение]-|Позиция предыдущего 
+элемента с таким же значением.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:AMap`:`:FindAdd`(const K`&`):%- [@(0.0.255) int]_[* FindAdd]([@(0.0.255) const]_[*@4 K][@(0.0.255) `&
@@ -190,22 +252,28 @@ onst]_[*@4 K][@(0.0.255) `&]_[*@3 k], [*@4 T][@(0.0.255) `&`&]_[*@3 x])&]
 `&]_[*@3 k], [@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[*@3 init])&]
 [s5;:Upp`:`:AMap`:`:FindAdd`(K`&`&`,T`&`&`):%- [@(0.0.255) int]_[* FindAdd]([*@4 K][@(0.0.255) `&
 `&]_[*@3 k], [*@4 T][@(0.0.255) `&`&]_[*@3 init])&]
-[s2; Retrieves the position of first element with the specified key 
-in AMap. If multi`-key ordering is not broken and more than one 
-element with the same value exists in AMap, lowest position is 
-retrieved. If the element does not exist in AMap, adds new element 
-(if [%-*@3 init] is present, constructed form [%-*@3 init] otherwise 
-default constructed) at the end of AMap and returns its position. 
-Unlinked elements are ignored.&]
-[s6; Invalidates iterators to AMap.&]
-[s6; Invalidates references to keys.&]
-[s6; Invalidates references to VectorMap values.&]
+[s2; Получает позицию первого элемента 
+с указанным ключом в AMap. Если многоключевое 
+упорядочивание не сломано и в AMap есть 
+несколько элементов с одинаковым 
+значением, будет получена наименьшая 
+позиция. Если элемента не существует 
+в AMap, добавится новый элемент (если 
+присутствует [%-*@3 init], то конструируемый 
+из [%-*@3 init, ] иначе `- дефолтно конструируемый) 
+в конец AMap, возвращается его позиция. 
+Отлинкованные элементы игнорируются.&]
+[s6; Повреждает итераторы AMap.&]
+[s6; Повреждает ссылки на ключи.&]
+[s6; Повреждает ссылки на значения VectorMap.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:AMap`:`:Unlink`(int`):%- [@(0.0.255) void]_[* Unlink]([@(0.0.255) int]_[*@3 i])&]
-[s2; Unlinks element at the specified position. Unlinked item stays 
-in AMap but is ignored by any Find operation.&]
-[s7; [*C@3 i]-|Position of element to unlink.&]
+[s2; Отлинковывает элемент в заданной 
+позиции. Отлинкованные элементы остаются 
+в AMap, но их игнорирует любая операция 
+поиска Find.&]
+[s7; [*C@3 i]-|Позиция отлинковываемого элемента.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:AMap`:`:Put`(const K`&`,const T`&`):%- [@(0.0.255) int]_[* Put]([@(0.0.255) const]_[*@4 K
@@ -216,41 +284,48 @@ in AMap but is ignored by any Find operation.&]
 `&]_[*@3 k], [@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[*@3 x])&]
 [s5;:Upp`:`:AMap`:`:Put`(K`&`&`,T`&`&`):%- [@(0.0.255) int]_[* Put]([*@4 K][@(0.0.255) `&`&]_
 [*@3 k], [*@4 T][@(0.0.255) `&`&]_[*@3 x])&]
-[s2; If there are any unlinked elements in AMap, one of them is replaced 
-by the specified key/value pair. If there is no unlinked element, 
-the key/value pair is added to the end of AIndex using Add. Value 
-is transfered using deep copy constructor. The return values 
-is the index of replaced / added pair.&]
-[s6; Invalidates multi`-key ordering.&]
-[s6; Invalidates iterators to AMap.&]
-[s6; Invalidates references to keys.&]
-[s6; Invalidates references to VectorMap values.&]
+[s2; Если в AMap есть отлинкованные элементы, 
+один из них заменяется указанной 
+парой ключ/значение. Если отлинкованных 
+элементов нет, эта пара ключ/значение 
+добавляется в конец AIndex с помощью 
+Add. Значение `"трансферуется`" конструктором 
+глубокой копии. Возвратные значения 
+представляют индекс из заменённых/добавленн
+ых пар.&]
+[s6; Повреждает многоключевое упорядочивание.&]
+[s6; Повреждает итераторы AMap.&]
+[s6; Повреждает ссылки на ключи.&]
+[s6; Повреждает ссылки на значения VectorMap.&]
 [s3; &]
 [s4;%- &]
 [s5;:AMap`:`:Put`(const K`&`):%- [*@4 T][@(0.0.255) `&]_[* Put]([@(0.0.255) const]_[*@4 K][@(0.0.255) `&
 ]_[*@3 k])&]
 [s5;:Upp`:`:AMap`:`:Put`(K`&`&`):%- [*@4 T][@(0.0.255) `&]_[* Put]([*@4 K][@(0.0.255) `&`&]_[*@3 k
 ])&]
-[s2; If there is any unlinked element in AMap, it is replaced by 
-the specified key and reference to the value is returned. If 
-there is none unlinked element, key is added at the end of AIndex 
-using Add and a reference to corresponding default constructed 
-Value is returned.&]
-[s6; Invalidates multi`-key ordering.&]
-[s6; Invalidates iterators to AMap.&]
-[s6; Invalidates references to keys.&]
-[s6; Invalidates references to VectorMap values.&]
+[s2; Если в AMap есть отлинкованный элемент, 
+он заменяется указанным ключом и 
+возвращается ссылка на это значение. 
+Если нет отлинкованного элемента, 
+ключ добавляется в конец AIndex посредством 
+Add и возвращается ссылка на соответствующее,
+ дефолтно построенное, значение Value.&]
+[s6; Повреждает многоключевое упорядочивание.&]
+[s6; Повреждает итераторы AMap.&]
+[s6; Повреждает ссылки на ключи.&]
+[s6; Повреждает ссылки на значения VectorMap.&]
 [s3; &]
 [s4;%- &]
 [s5;:AMap`:`:PutDefault`(const K`&`):%- [@(0.0.255) int]_[* PutDefault]([@(0.0.255) const]_
 [*@4 K][@(0.0.255) `&]_[*@3 k])&]
 [s5;:Upp`:`:AMap`:`:PutDefault`(K`&`&`):%- [@(0.0.255) int]_[* PutDefault]([*@4 K][@(0.0.255) `&
 `&]_[*@3 k])&]
-[s2; Similar to Put, but value is default constructed.&]
-[s6; Invalidates multi`-key ordering.&]
-[s6; Invalidates iterators to AMap.&]
-[s6; Invalidates references to keys.&]
-[s6; Invalidates references to VectorMap values.&]
+[s2; Подобно Put, но значение конструируется 
+дефолтно.&]
+[s6; Повреждает многоключевое упорядочивание.&]
+[s6; Повреждает итераторы AMap.&]
+[s6; Повреждает ссылки на ключи.&]
+[s6; Повреждает ссылки на значения VectorMap.&]
 [s3; &]
 [s4;%- &]
 [s5;:AMap`:`:FindPut`(const K`&`):%- [@(0.0.255) int]_[* FindPut]([@(0.0.255) const]_[*@4 K][@(0.0.255) `&
@@ -265,50 +340,69 @@ onst]_[*@4 K][@(0.0.255) `&]_[*@3 k], [*@4 T][@(0.0.255) `&`&]_[*@3 init])&]
 `&]_[*@3 k], [@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[*@3 init])&]
 [s5;:Upp`:`:AMap`:`:FindPut`(K`&`&`,T`&`&`):%- [@(0.0.255) int]_[* FindPut]([*@4 K][@(0.0.255) `&
 `&]_[*@3 k], [*@4 T][@(0.0.255) `&`&]_[*@3 init])&]
-[s2; Retrieves the position of first element with the specified key 
-in AMap. Unlinked elements are ignored. If the element does not 
-exist in AMap, puts new element, deep copy constructed from init, 
-using Put and returns its position. &]
-[s6; Invalidates iterators to AMap.&]
-[s6; Invalidates references to keys.&]
-[s6; Invalidates references to VectorMap values.&]
+[s2; Получает позицию первого элемета 
+с заданным ключом в AMap. Отлинкованные 
+элементы игнорируются. Если элемента 
+не существует в AMap, помещает новый 
+элемент, глубокая копия конструируется 
+из init, с помощью Put, и возвращается 
+его позиция. &]
+[s6; Повреждает итераторы AMap.&]
+[s6; Повреждает ссылки на ключи.&]
+[s6; Повреждает ссылки на значения VectorMap.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:AMap`:`:Get`(const K`&`):%- [*@4 T][@(0.0.255) `&]_[* Get]([@(0.0.255) const]_[*@4 K][@(0.0.255) `&
 ]_[*@3 k])&]
-[s2; Retrieves a reference to the first element with the specified 
-key. If multi`-key ordering is not broken and more than one element 
-with the same value exists in AMap, the lowest position element 
-is retrieved. Unlinked elements are ignored. Required key must 
-be in AMap, otherwise it is logic error (asserted in debug mode).&]
-[s7; [*C@3 k]-|Key to find.&]
-[s7; [*/ Return value]-|Reference to corresponding value.&]
+[s2; Получает ссылку на первый элемент 
+с указанным ключом. Если многоключевое 
+упорядочивание не сломано и есть 
+несколько элементов с одинаковым 
+значением в AMap, то возвращается элемент 
+в наименьшей позиции. Отлинкованные 
+элементы игнорируются. Требуемый 
+ключ должен быть в AMap, иначе происходит 
+логическая ошибка (ассертируемая 
+в отладочном режиме).&]
+[s7; [*C@3 k]-|Искомый ключ.&]
+[s7; [*/ Возвратное значение]-|Ссылка на соответству
+ющее значение.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:AMap`:`:Get`(const K`&`)const:%- [@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[* Get]([@(0.0.255) c
 onst]_[*@4 K][@(0.0.255) `&]_[*@3 k])_[@(0.0.255) const]&]
-[s2; Retrieves a constant reference of the first element with the 
-specified key. If multi`-key ordering is not broken and more 
-than one element with the same value exists in AMap, the lowest 
-position element is retrieved. Unlinked elements are ignored. 
-Required key must be in AMap, otherwise it is logic error (asserted 
-in debug mode).&]
-[s7; [*C@3 k]-|Key to find.&]
-[s7; [*/ Return value]-|Reference to corresponding value.&]
+[s2; Получает константную ссылку на первый 
+элемент с указанным ключом. Если многоключев
+ое упорядочивание не нарушено и есть 
+несколько элементов с одинаковым 
+значением в AMap, то возвращается элемент 
+в наименьшей позиции. Отлинкованные 
+элементы игнорируются. Требуемый 
+ключ должен быть в AMap, иначе происходит 
+логическая ошибка (ассертируемая 
+в отладочном режиме).&]
+[s7; [*C@3 k]-|Искомый ключ.&]
+[s7; [*/ Возвратное значение]-|Ссылка на соответству
+ющее значение.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:AMap`:`:Get`(const K`&`,const T`&`)const:%- [@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_
 [* Get]([@(0.0.255) const]_[*@4 K][@(0.0.255) `&]_[*@3 k], [@(0.0.255) const]_[*@4 T][@(0.0.255) `&
 ]_[*@3 d])_[@(0.0.255) const]&]
-[s2; Retrieves a constant reference value of the first element with 
-the specified key. If multi`-key ordering is not broken and more 
-than one element with the same value exists in AMap, the lowest 
-position element is retrieved. Unlinked elements are ignored. 
-If the required key is not in the AMap, constant reference to 
-the specified value is returned instead.&]
-[s7; [*C@3 k]-|Key to find.&]
-[s7; [*C@3 d]-|Value to be returned if key is not found.&]
-[s7; [*/ Return value]-|Reference to found element or supplied value.&]
+[s2; Получает константную ссылку на первый 
+элемент с указанным ключом. Если многоключев
+ое упорядочивание не нарушено и есть 
+несколько элементов с одинаковым 
+значением в AMap, то возвращается элемент 
+в наименьшей позиции. Отлинкованные 
+элементы игнорируются. Если требуемого 
+ключа нет в AMap, возвращается константная 
+ссылка на указанное значение.&]
+[s7; [*C@3 k]-|Искомый ключ.&]
+[s7; [*C@3 d]-|Значение, возвращаемое, если 
+ключ не найден.&]
+[s7; [*/ Возвратное значение]-|Ссылка на найденный 
+элемент или прилагаемое значение.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:AMap`:`:GetAdd`(const K`&`):%- [*@4 T][@(0.0.255) `&]_[* GetAdd]([@(0.0.255) const]_[*@4 K
@@ -323,16 +417,20 @@ onst]_[*@4 K][@(0.0.255) `&]_[*@3 k], [*@4 T][@(0.0.255) `&`&]_[*@3 x])&]
 `&]_[*@3 k], [@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[*@3 x])&]
 [s5;:Upp`:`:AMap`:`:GetAdd`(K`&`&`,T`&`&`):%- [*@4 T][@(0.0.255) `&]_[* GetAdd]([*@4 K][@(0.0.255) `&
 `&]_[*@3 k], [*@4 T][@(0.0.255) `&`&]_[*@3 x])&]
-[s2; Retrieves a constant reference to the first element with the 
-specified key. If multi`-key ordering is not broken and more 
-than one element with the same value exists in AMap, the lowest 
-position element is retrieved. Unlinked elements are ignored. 
-If required key is not in the AMap, adds new element ([%-*@3 x 
-]or default constructed) at the end of AMap and returns a reference 
-to it.&]
-[s6; Invalidates iterators to AMap.&]
-[s6; Invalidates references to keys.&]
-[s6; Invalidates references to VectorMap values.&]
+[s2; Получает константную ссылку на первый 
+элемент с указанным ключом. Если многоключев
+ое упорядочивание не нарушено и есть 
+несколько элементов с одинаковым 
+значением в AMap, то возвращается элемент 
+в наименьшей позиции. Отлинкованные 
+элементы игнорируются. Если требуемого 
+ключа нет в AMap, новый элемент добавляется 
+([%-*@3 x ]или конструируемый дефолтно) 
+в конец AMap и возвращается ссылка на 
+него.&]
+[s6; Повреждает итераторы AMap.&]
+[s6; Повреждает ссылки на ключи.&]
+[s6; Повреждает ссылки на значения VectorMap.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:AMap`:`:GetPut`(const K`&`):%- [*@4 T][@(0.0.255) `&]_[* GetPut]([@(0.0.255) const]_[*@4 K
@@ -347,91 +445,120 @@ onst]_[*@4 K][@(0.0.255) `&]_[*@3 k], [*@4 T][@(0.0.255) `&`&]_[*@3 x])&]
 `&]_[*@3 k], [@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[*@3 x])&]
 [s5;:Upp`:`:AMap`:`:GetPut`(K`&`&`,T`&`&`):%- [*@4 T][@(0.0.255) `&]_[* GetPut]([*@4 K][@(0.0.255) `&
 `&]_[*@3 k], [*@4 T][@(0.0.255) `&`&]_[*@3 x])&]
-[s2; Retrieves a constant reference value of the first element with 
-the specified key. If multi`-key ordering is not broken and more 
-than one element with the same value exists in AMap, lowest position 
-element is retrieved. Unlinked elements are ignored. If required 
-key is not in the AMap, puts new element ([%-@3 x ]or default constructed) 
-into the AMap using Put and returns a reference to it.&]
-[s6; Invalidates iterators to AMap.&]
-[s6; Invalidates references to keys.&]
-[s6; Invalidates references to VectorMap values.&]
+[s2; Получает константную ссылку на первый 
+элемент с указанным ключом. Если многоключев
+ое упорядочивание не нарушено и есть 
+несколько элементов с одинаковым 
+значением в AMap, то возвращается элемент 
+в наименьшей позиции. Отлинкованные 
+элементы игнорируются. Если требуемого 
+ключа нет в AMap, помещается новый элемент 
+([%-@3 x ]или конструируемый дефолтно) 
+в AMap, с помощью Put, и возвращается ссылка 
+на него.&]
+[s6; Повреждает итераторы AMap.&]
+[s6; Повреждает ссылки на ключи.&]
+[s6; Повреждает ссылки на значения VectorMap.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:AMap`:`:SetKey`(int`,const K`&`):%- [@(0.0.255) void]_[* SetKey]([@(0.0.255) int]_[*@3 i
 ], [@(0.0.255) const]_[*@4 K][@(0.0.255) `&]_[*@3 k])&]
 [s5;:Upp`:`:AMap`:`:SetKey`(int`,K`&`&`):%- [@(0.0.255) void]_[* SetKey]([@(0.0.255) int]_[*@3 i
 ], [*@4 K][@(0.0.255) `&`&]_[*@3 k])&]
-[s2; Replaces key of element at the specified position.&]
+[s2; Заменяет ключ элемента в указанной 
+позиции.&]
 [s3; &]
 [s4;%- &]
 [s5;:AMap`:`:FindPtr`(const K`&`):%- [*@4 T]_`*[* FindPtr]([@(0.0.255) const]_[*@4 K][@(0.0.255) `&
 ]_[*@3 k])&]
-[s2; Retrieves a pointer to value of first element with the specified 
-key in AMap. If multi`-key ordering is not broken and more than 
-one element with the same value exists in AMap, the lowest position 
-is retrieved. If the element does not exist in AMap, NULL pointer 
-is returned. Unlinked elements are ignored.&]
-[s7; [*C@3 k]-|Key to find.&]
-[s7; [*/ Return value]-|Pointer to value or NULL pointer if element 
-is not in AMap.&]
+[s2; Получает указатель на значение первого 
+элемента с заданным ключом в AMap. Если 
+многоключевое упорядочивание не 
+нарушено и есть несколько элементов 
+с одинаковым значением в AMap, то возвращается
+ элемент в наименьшей позиции. Если 
+элемента нет в AMap, возвращается указатель 
+NULL. Отлинкованные элементы игнорируются.&]
+[s7; [*C@3 k]-|Искомый ключ.&]
+[s7; [*/ Возвратное значение]-|Указатель 
+на значение или NULL.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:AMap`:`:FindPtr`(const K`&`)const:%- [@(0.0.255) const]_[*@4 T]_`*[* FindPtr]([@(0.0.255) c
 onst]_[*@4 K][@(0.0.255) `&]_[*@3 k])_[@(0.0.255) const]&]
-[s2; Retrieves a constant pointer to value of the first element with 
-the specified key in AMap. If multi`-key ordering is not broken 
-and more than one element with the same value exists in AMap, 
-the lowest position is retrieved. If the element does not exist 
-in AMap, NULL pointer is returned. Unlinked elements are ignored.&]
-[s7; [*C@3 k]-|Key to find.&]
-[s7; [*/ Return value]-|Pointer to value or NULL pointer if element 
-is not in AMap.&]
+[s2; Получает константный указатель на 
+значение первого элемента с заданным 
+ключом в AMap. Если многоключевое упорядочиван
+ие не нарушено и есть несколько элементов 
+с одинаковым значением в AMap, то будет 
+получена наименьшая позиция. Если 
+элемента нет в AMap, возвращается указатель 
+NULL. Отлинкованные элементы игнорируются.&]
+[s7; [*C@3 k]-|Искомый ключ.&]
+[s7; [*/ Возвратное значение]-|Указатель 
+на значение или NULL.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:AMap`:`:FindLastPtr`(const K`&`):%- [*@4 T]_`*[* FindLastPtr]([@(0.0.255) const]_[*@4 K][@(0.0.255) `&
 ]_[*@3 k])&]
 [s5;:AMap`:`:FindLastPtr`(const K`&`)const:%- [@(0.0.255) const]_[*@4 T]_`*[* FindLastPtr](
 [@(0.0.255) const]_[*@4 K][@(0.0.255) `&]_[*@3 k])_[@(0.0.255) const]&]
-[s2; Retrieves a constant pointer to value of the last element with 
-the specified key in AMap. If multi`-key ordering is not broken 
-and more than one element with the same value exists in AMap, 
-the greatest position is retrieved. If the element does not exist 
-in AMap, NULL pointer is returned. Unlinked elements are ignored..&]
+[s2; Получает константный указатель на 
+значение последнего элемента с заданным 
+ключом в AMap. Если многоключевое упорядочиван
+ие не нарушено и есть несколько элементов 
+с одинаковым значением в AMap, то возвращается
+ наибольшая позиция. Если элемента 
+нет в AMap, возвращается указатель NULL. 
+Отлинкованные элементы игнорируются.&]
 [s3; &]
 [s4;%- &]
 [s5;:AMap`:`:UnlinkKey`(const K`&`,unsigned`):%- [@(0.0.255) int]_[* UnlinkKey]([@(0.0.255) c
 onst]_[*@4 K][@(0.0.255) `&]_[*@3 k], [@(0.0.255) unsigned]_[*@3 h])&]
-[s2; Unlinks all elements with the specified key using precomputed 
-hash`-value. Unlinked elements stay in AIndex but are ignored 
-by any Find operations. The precomputed hash value must be the 
-same as the hash value that would be the result of HashFn. &]
-[s7; [*C@3 k]-|Key to unlink.&]
-[s7; [*C@3 h]-|Precomputed hash value.&]
-[s7; [*/ Return value]-|Number of elements unlinked.&]
+[s2; Отлинковывает все элементы с указанным 
+значением, с применением предварительно 
+вычисленного хэш`-значения. Отлинкованные 
+элементы отстаются в AIndex, но игнорируются 
+любыми операциями поиска Find. Предварительно
+ вычисленное хэш`-значение должно 
+быть такое же, как хэш`-значение, которое 
+могло быть получено, как результат 
+HashFn. &]
+[s7; [*C@3 k]-|Отлинковываемый ключ.&]
+[s7; [*C@3 h]-|Предварительно вычисленное хэш`-значени
+е.&]
+[s7; [*/ Возвратное значение]-|Число отлинкованных 
+элементов.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:AMap`:`:UnlinkKey`(const K`&`):%- [@(0.0.255) int]_[* UnlinkKey]([@(0.0.255) const]_[*@4 K
 ][@(0.0.255) `&]_[*@3 k])&]
-[s2; Unlinks all elements with the specified key. Unlinked elements 
-stay in AIndex but are ignored by any Find operations.&]
-[s7; [*C@3 k]-|Key to unlink.&]
-[s7; [*/ Return value]-|Number of elements unlinked.&]
+[s2; Отлинковывает все элементы с указанным 
+ключом. Отлинкованные элементы остаются 
+в AIndex, но игнорируются любыми операциями 
+поиска Find.&]
+[s7; [*C@3 k]-|Отлинковываемый ключ.&]
+[s7; [*/ Возвратное значение]-|Число отлинкованных 
+элементов.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:AMap`:`:IsUnlinked`(int`)const:%- [@(0.0.255) bool]_[* IsUnlinked]([@(0.0.255) int]_[*@3 i
 ])_[@(0.0.255) const]&]
-[s2; Tests whether element at the specified position is unlinked.&]
-[s7; [*C@3 i]-|Position.&]
-[s7; [*/ Return value]-|true if element is unlinked.&]
+[s2; Тестирует, отлинкован ли элемент 
+в заданной позиции.&]
+[s7; [*C@3 i]-|Позиция.&]
+[s7; [*/ Возвратное значение]-|true, если элемент 
+отлинкован.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:AMap`:`:Sweep`(`):%- [@(0.0.255) void]_[* Sweep]()&]
-[s2; Removes all unlinked elements from the container.&]
+[s2; Удаляет все отлинкованные элементы 
+из контейнера.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:AMap`:`:HasUnlinked`(`)const:%- [@(0.0.255) bool]_[* HasUnlinked]()_[@(0.0.255) const]&]
-[s2; Returns true if AMap has any unlinked elements.&]
+[s2; Возвращает true, если в AMap есть любые 
+отлинкованные элементы.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:AMap`:`:Insert`(int`,const K`&`):%- [*@4 T][@(0.0.255) `&]_[* Insert]([@(0.0.255) int]_[*@3 i
@@ -449,201 +576,234 @@ nt]_[*@3 i], [*@4 K][@(0.0.255) `&`&]_[*@3 k], [@(0.0.255) const]_[*@4 T][@(0.0.
 &]
 [s5;:Upp`:`:AMap`:`:Insert`(int`,K`&`&`,T`&`&`):%- [*@4 T][@(0.0.255) `&]_[* Insert]([@(0.0.255) i
 nt]_[*@3 i], [*@4 K][@(0.0.255) `&`&]_[*@3 k], [*@4 T][@(0.0.255) `&`&]_[*@3 x])&]
-[s2; Inserts an element with the specified key at the specified position, 
-with value [%-*@3 x] or default constructed. Returns a reference 
-to the new element.&]
+[s2; Вставляет элемент с указанным ключом 
+в указанной позиции,со значением 
+[%-*@3 x] или дефолтно сконструированным. 
+Возвращает ссылку на новый элемент.&]
 [s3; &]
 [s4;%- &]
 [s5;:AMap`:`:Remove`(int`):%- [@(0.0.255) void]_[* Remove]([@(0.0.255) int]_[*@3 i])&]
-[s2; Removes the element at the specified position. This is a slow 
-operation, especially when combined with any search operations.&]
-[s6; Invalidates iterators to AMap.&]
-[s6; Invalidates references to keys.&]
-[s6; Invalidates references to VectorMap values.&]
-[s7; [*C@3 i]-|Position of element to remove.&]
+[s2; Удаляет элемент в заданной позиции. 
+Это медленная операция, особенно 
+в сочетании с любыми операциями поиска.&]
+[s6; Повреждает итераторы AMap.&]
+[s6; Повреждает ссылки на ключи.&]
+[s6; Повреждает ссылки на значения VectorMap.&]
+[s7; [*C@3 i]-|Позиция удаляемого элемента.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:AMap`:`:Remove`(int`,int`):%- [@(0.0.255) void]_[* Remove]([@(0.0.255) int]_[*@3 i], 
 [@(0.0.255) int]_[*@3 count])&]
-[s2; Removes [%-*@3 count] elements at [%-*@3 i].&]
-[s6; Invalidates iterators to AMap.&]
-[s6; Invalidates references to keys.&]
-[s6; Invalidates references to VectorMap values.&]
+[s2; Удаляет [%-*@3 count] элементов по [%-*@3 i].&]
+[s6; Повреждает итераторы AMap.&]
+[s6; Повреждает ссылки на ключи.&]
+[s6; Повреждает ссылки на значения VectorMap.&]
 [s3; &]
 [s4;%- &]
 [s5;:AMap`:`:Remove`(const int`*`,int`):%- [@(0.0.255) void]_[* Remove]([@(0.0.255) const]_
 [@(0.0.255) int]_`*[*@3 sl], [@(0.0.255) int]_[*@3 n])&]
-[s2; Removes number of elements from AMap. Time of operation only 
-slightly depends on the number of removed elements. This is a 
-slow operation, especially when combined with any search operations.&]
-[s6; Invalidates iterators to AMap.&]
-[s6; Invalidates references to keys.&]
-[s6; Invalidates references to VectorMap values.&]
-[s7; [*C@3 i]-|Position of element to remove.&]
-[s7; [*C@3 sl]-|Pointer to array of the positions to remove, in ascending 
-order.&]
-[s7; [*C@3 n]-|Number of elements to remove. &]
+[s2; Удаляет число элементов из AMap. Время 
+операции только слегка зависит от 
+числа удаляемых элементов. Это медленная 
+операция, особенно в сочетании с любыми 
+операциями поиска.&]
+[s6; Повреждает итераторы AMap.&]
+[s6; Повреждает ссылки на ключи.&]
+[s6; Повреждает ссылки на значения VectorMap.&]
+[s7; [*C@3 i]-|Позиция удаляемого элемента.&]
+[s7; [*C@3 sl]-|Указатель на массив удаляемых 
+позиций, в восходящем порядке.&]
+[s7; [*C@3 n]-|Число удаляемых элементов. &]
 [s3;%- &]
 [s4;%- &]
 [s5;:AMap`:`:Remove`(const Vector`<int`>`&`):%- [@(0.0.255) void]_[* Remove]([@(0.0.255) co
 nst]_Vector[@(0.0.255) <int>`&]_[*@3 sl])&]
-[s2; Removes number of elements from AMap. Same as Remove(sorted`_list, 
-sorted`_list.GetCount()).&]
-[s6; Invalidates iterators to AMap.&]
-[s6; Invalidates references to keys.&]
-[s6; Invalidates references to VectorMap values.&]
-[s7; [*C@3 sl]-|Sorted Vector of positions to remove.&]
+[s2; Удаляет число элементов из AMap. То 
+же, что и Remove(sorted`_list, sorted`_list.GetCount()).&]
+[s6; Повреждает итераторы AMap.&]
+[s6; Повреждает ссылки на ключи.&]
+[s6; Повреждает ссылки на значения VectorMap.&]
+[s7; [*C@3 sl]-|Отсортированный Vector удаляемых 
+позиций.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:AMap`:`:RemoveKey`(const K`&`):%- [@(0.0.255) int]_[* RemoveKey]([@(0.0.255) const]_[*@4 K
 ][@(0.0.255) `&]_[*@3 k])&]
-[s2; Removes all elements with the specified value. This is a slow 
-operation, especially when combined with any search operations.&]
-[s7; [*C@3 k]-|Key to remove.&]
+[s2; Удаляет все элементы с указаным значением. 
+Это медленная операция, особенно 
+в сочетании с любыми операциями поиска.&]
+[s7; [*C@3 k]-|Удаляемый ключ.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:AMap`:`:operator`[`]`(int`)const:%- [@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[* operato
 r`[`]]([@(0.0.255) int]_[*@3 i])_[@(0.0.255) const]&]
-[s2; Returns a constant reference to the element at the specified 
-position.&]
-[s7; [*C@3 i]-|Position.&]
-[s7; [*/ Return value]-|Constant reference to the element at the specified 
-position.&]
+[s2; Возвращает константную ссылку на 
+элемент в указанной позиции.&]
+[s7; [*C@3 i]-|Позиция.&]
+[s7; [*/ Возвратное значение]-|Константная 
+ссылка на элемент.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:AMap`:`:operator`[`]`(int`):%- [*@4 T][@(0.0.255) `&]_[* operator`[`]]([@(0.0.255) int]_
 [*@3 i])&]
-[s2; Returns a reference to the element at the specified position.&]
-[s7; [*C@3 i]-|Position.&]
-[s7; [*/ Return value]-|Constant reference to the element at the specified 
-position.&]
+[s2; Возвращает ссылку на элемент в указанной 
+позиции.&]
+[s7; [*C@3 i]-|Позиция.&]
+[s7; [*/ Возвратное значение]-|Ссылка на элемент.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:AMap`:`:GetCount`(`)const:%- [@(0.0.255) int]_[* GetCount]()_[@(0.0.255) const]&]
-[s2; Returns the number of elements in AMap.&]
-[s7; [*/ Return value]-|Actual number of elements.&]
+[s2; Возвращает число элементов в AMap.&]
+[s7; [*/ Возвратное значение]-|Действительное 
+число элементов.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:AMap`:`:IsEmpty`(`)const:%- [@(0.0.255) bool]_[* IsEmpty]()_[@(0.0.255) const]&]
-[s2; Tests whether AMap is empty. Same as GetCount() `=`= 0.&]
-[s7; [*/ Return value]-|true if AMap is empty, false otherwise.&]
+[s2; Тестирует, пустой ли AMap. То же, что 
+и GetCount() `=`= 0.&]
+[s7; [*/ Возвратное значение]-|true, если AMap 
+пустой, false иначе.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:AMap`:`:Clear`(`):%- [@(0.0.255) void]_[* Clear]()&]
-[s2; Removes all elements from AMap.&]
+[s2; Удаляет все элементы из AMap.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:AMap`:`:Shrink`(`):%- [@(0.0.255) void]_[* Shrink]()&]
-[s2; Minimizes memory consumption of AMap by decreasing the capacity 
-to the number of elements.&]
+[s2; Уменьшает потребление памяти AMap, 
+путём уменьшения ёмкости до числа 
+элементов.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:AMap`:`:Reserve`(int`):%- [@(0.0.255) void]_[* Reserve]([@(0.0.255) int]_[*@3 xtra])&]
-[s2; Reserves capacity. If the required capacity is greater than 
-current capacity, capacity is increased to the required value.&]
-[s7; [*C@3 n]-|Required capacity.&]
+[s2; Резервирует ёмкость. Если требуемая 
+ёмкость больше текущейy,ёмкость увеличивает
+ся до требуемого значения.&]
+[s7; [*C@3 n]-|Требуемая ёмкость.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:AMap`:`:GetAlloc`(`)const:%- [@(0.0.255) int]_[* GetAlloc]()_[@(0.0.255) const]&]
-[s2; Returns the current capacity of Array.&]
-[s7; [*/ Return value]-|Capacity of Array.&]
+[s2; Возвращает текущую ёмкость Array.&]
+[s7; [*/ Возвратное значение]-|Ёмкость Array.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:AMap`:`:GetHash`(int`)const:%- [@(0.0.255) unsigned]_[* GetHash]([@(0.0.255) int]_[*@3 i
 ])_[@(0.0.255) const]&]
-[s2; Returns a hash of element [%-*@3 i]. This is perhaps only useful 
-when making the exact copy of AMap, e.g. in the persistent storage.&]
+[s2; Возвращает хэш элемента [%-*@3 i]. Это 
+используется, наверное, только при 
+создании точной копии AMap, например, 
+в постоянном хранилище.&]
 [s3; &]
 [s4;%- &]
 [s5;:AMap`:`:Drop`(int`):%- [@(0.0.255) void]_[* Drop]([@(0.0.255) int]_[*@3 n]_`=_[@3 1])&]
-[s2; Drops the specified number of elements at the end of the AMap.&]
-[s7; [*C@3 n]-|Number of elements.&]
+[s2; `"Роняет`" указанное число элементов 
+в конце AMap.&]
+[s7; [*C@3 n]-|Число элементов.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:AMap`:`:Top`(`):%- [*@4 T][@(0.0.255) `&]_[* Top]()&]
 [s5;:AMap`:`:Top`(`)const:%- [@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[* Top]()_[@(0.0.255) co
 nst]&]
-[s2; Returns a reference to the value of the last element of AMap.&]
-[s7; [*/ Return value]-|Reference to the value of the last element.&]
+[s2; Возвращает ссылку на значение последнего 
+элемента AMap.&]
+[s7; [*/ Возвратное значение]-|Ссылка на значение 
+последнего элемента.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:AMap`:`:TopKey`(`)const:%- [@(0.0.255) const]_[*@4 K][@(0.0.255) `&]_[* TopKey]()_[@(0.0.255) c
 onst]&]
-[s2; Returns a constant reference to the key of the last element 
-of AMap.&]
-[s7; [*/ Return value]-|Reference to the key of the last element.&]
+[s2; Возвращает постоянную ссылку на 
+ключ последнего элемента AMap.&]
+[s7; [*/ Возвратное значение]-|Ссылка на ключ 
+последнего элемента.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:AMap`:`:PopKey`(`):%- [*@4 K]_[* PopKey]()&]
-[s2; Drops the last element of AMap and returns the key of the dropped 
-element.&]
-[s7; [*/ Return value]-|Key of the element dropped at the end of AMap.&]
+[s2; `"роняет`" последний элемент AMap и возвращает 
+ключ `"уроненного`" элемента.&]
+[s7; [*/ Возвратное значение]-|Ключ элемента, 
+уроненного в конце AMap.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:AMap`:`:Trim`(int`):%- [@(0.0.255) void]_[* Trim]([@(0.0.255) int]_[*@3 n])&]
-[s2; Reduces the number of items in map to [%-*@3 n]. [%-*@3 n] must 
-be lover than or equal to GetCount().&]
+[s2; Снижает число элементов в мапе до 
+[%-*@3 n]. [%-*@3 n] должно быть меньше или равно 
+GetCount().&]
 [s3; &]
 [s4;%- &]
 [s5;:AMap`:`:GetKey`(int`)const:%- [@(0.0.255) const]_[*@4 K][@(0.0.255) `&]_[* GetKey]([@(0.0.255) i
 nt]_[*@3 i])_[@(0.0.255) const]&]
-[s2; Returns a constant reference to the key of element at the specified 
-position.&]
-[s7; [*C@3 i]-|Position.&]
-[s7; [*/ Return value]-|Constant reference to the key.&]
+[s2; Возвращает константную ссылку на 
+ключ элемента в указанной позиции.&]
+[s7; [*C@3 i]-|Позиция.&]
+[s7; [*/ Возвратное значение]-|Константная 
+ссылка на ключ.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:AMap`:`:Serialize`(Stream`&`):%- [@(0.0.255) void]_[* Serialize](Stream[@(0.0.255) `&]_
 [*@3 s])&]
-[s2; Serializes the content of AMap to/from Stream. Works only if 
-NTL is used as part of UPP.&]
-[s6; Requires T to have serialization operator defined.&]
-[s7; [*C@3 s]-|Target/source stream.&]
+[s2; Сериализует контент AMap в/из Stream. Работает 
+только, если NTL используется как часть 
+UPP.&]
+[s6; Требует у T определённого оператора 
+сериализации.&]
+[s7; [*C@3 s]-|Целевой/исходный поток.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:AMap`:`:Swap`(AMap`&`):%- [@(0.0.255) void]_[* Swap]([_^AMap^ AMap][@(0.0.255) `&]_[*@3 x])
 &]
-[s2; Swap AMap content with another AMap (of the same type).&]
+[s2; Обменяться контентом AMap с другим 
+AMap (такого же типа).&]
 [s3; &]
 [s4;%- &]
 [s5;:AMap`:`:GetIndex`(`)const:%- [@(0.0.255) const]_Index[@(0.0.255) <][*@4 K], 
 [*@4 HashFn][@(0.0.255) >`&]_[* GetIndex]()_[@(0.0.255) const]&]
-[s2; Returns a constant reference to the internal Index of keys.&]
-[s7; [*/ Return value]-|Constant reference to the Index of keys.&]
+[s2; Возвращает константную ссылку на 
+внутренний индекс ключей.&]
+[s7; [*/ Возвратное значение]-|Константная 
+ссылка на индекс ключей.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:AMap`:`:PickIndex`(`):%- [_^Upp`:`:Index^ Index]<[*@4 K], 
 [*@4 HashFn]>_[* PickIndex]()&]
-[s2; Returns Index of keys. Destroys AMap by picking.&]
-[s7; [*/ Return value]-|Index of keys.&]
+[s2; Возвращает Index ключей. Разрушает 
+AMap при пикинге.&]
+[s7; [*/ Возвратное значение]-|Индекс ключей.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:AMap`:`:GetKeys`(`)const:%- [@(0.0.255) const]_Vector[@(0.0.255) <][*@4 K][@(0.0.255) >`&
 ]_[* GetKeys]()_[@(0.0.255) const]&]
-[s2; Returns a constant reference to the Vector of keys.&]
-[s7; [*/ Return value]-|Constant reference to the Vector of keys.&]
+[s2; Возвращает константную ссылку на 
+Vector ключей.&]
+[s7; [*/ Возвратное значение]-|Константная 
+ссылка на Вектор ключей.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:AMap`:`:PickKeys`(`):%- [_^Upp`:`:Vector^ Vector]<[*@4 K]>_[* PickKeys]()&]
-[s2; Returns Vector of keys. Destroys AMap by picking.&]
-[s7; [*/ Return value]-|Vector of keys.&]
+[s2; Возвращает Vector ключей. Разрушает 
+AMap при пикинге.&]
+[s7; [*/ Возвратное значение]-|Вектор ключей.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:AMap`:`:GetValues`(`)const:%- [@(0.0.255) const]_[*@4 V][@(0.0.255) `&]_[* GetValues]()_
 [@(0.0.255) const]&]
-[s7; Returns a constant reference to the basic random access container 
-of values.&]
+[s7; Возвращает константную ссылку на 
+базовый контейнер случайного доступа 
+со значениями.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:AMap`:`:GetValues`(`):%- [*@4 V][@(0.0.255) `&]_[* GetValues]()&]
-[s2; Returns a (writable) reference to the basic random access container 
-of values. Destroys AIndex by picking.&]
+[s2; Возвращает (записываемую) ссылку 
+на базовый контейнер случайного доступа 
+со значениями. Разрушает AIndex при пикинге.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:AMap`:`:PickValues`(`):%- [*@4 V]_[* PickValues]()&]
-[s2; Returns basic random access container of values. Destroys AIndex 
-by picking.&]
-[s7; [*/ Return value]-|Basic random access container of values.&]
+[s2; Возвращает базовый контейнер случайного 
+доступа со значениями. Разрушает 
+AIndex при пикинге.&]
+[s7; [*/ Возвратное значение]-|Базовый контейнер 
+со значениями.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:AMap`:`:operator`~`(`):%- [_^Upp`:`:MapKVRange^ MapKVRange]<[_^Upp`:`:AMap^ A
@@ -651,83 +811,105 @@ Map]<[*@4 K], [*@4 T], [*@4 V]>, [*@4 K], [*@4 T]>_[* operator`~]()&]
 [s5;:Upp`:`:AMap`:`:operator`~`(`)const:%- [_^Upp`:`:MapKVRange^ MapKVRange]<[_^Upp`:`:AMap^ A
 Map]<[@(0.0.255) const]_[*@4 K], [*@4 T], [*@4 V]>, [*@4 K], [@(0.0.255) const]_[*@4 T]>_[* opera
 tor`~]()_[@(0.0.255) const]&]
-[s2; Returns a special range object that can be used in C`+`+11 range 
-for to iterate over key/value pairs. Unlinked objects are automatically 
-skipped.&]
+[s2; Возвращает специоальный объект диапазона, 
+который можно использовать в диапазоне 
+C`+`+11 для обхода по парам ключ/значение. 
+Отлинкованные объекты автоматически 
+пропускаются.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:AMap`:`:operator`(`)`(const K`&`,const T`&`):%- [_^AMap^ AMap][@(0.0.255) `&]_[* opera
 tor()]([@(0.0.255) const]_[*@4 K][@(0.0.255) `&]_[*@3 k], [@(0.0.255) const]_[*@4 T][@(0.0.255) `&
 ]_[*@3 v])&]
-[s2; Same as Add([%-*@3 k], [%-*@3 v]), returns `*this. Syntax sugar 
-for creating map.&]
+[s2; То же, что и Add([%-*@3 k], [%-*@3 v]), возвращает 
+`*this. Синтактический сахар для создания 
+map.&]
 [s3; &]
 [s4;%- &]
 [s5;:AMap`:`:KeyType`:`:typedef:%- [@(0.0.255) typedef]_K_[* KeyType]&]
-[s2; Typedef of K for use in templated algorithms.&]
+[s2; Typedef типа K для использования в шаблонных 
+алгоритмах.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:AMap`:`:KeyConstIterator`:`:typedef:%- [@(0.0.255) typedef]_[@(0.0.255) typename]_In
 dex[@(0.0.255) <]K, HashFn[@(0.0.255) >`::]ConstIterator_[* KeyConstIterator]&]
-[s2; Key iterator type.&]
+[s2; Тип обходчика ключей.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:AMap`:`:KeyBegin`(`)const:%- KeyConstIterator_[* KeyBegin]()_[@(0.0.255) const]&]
-[s2; Returns a constant iterator to the first key in AMap.&]
-[s7; [*/ Return value]-|Constant key iterator.&]
+[s2; Возвращает константный итератор 
+к первому ключу в AMap.&]
+[s7; [*/ Возвратное значение]-|Константный 
+обходчик ключей.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:AMap`:`:KeyEnd`(`)const:%- KeyConstIterator_[* KeyEnd]()_[@(0.0.255) const]&]
-[s2; Returns a constant iterator to the key just beyond the last 
-key in AMap.&]
-[s7; [*/ Return value]-|Constant key iterator.&]
+[s2; Возвращает константный итератор 
+к ключу за последним ключом в AMap.&]
+[s7; [*/ Возвратное значение]-|Константный 
+обходчик ключей.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:AMap`:`:KeyGetIter`(int`)const:%- KeyConstIterator_[* KeyGetIter]([@(0.0.255) int]_[*@3 p
 os])_[@(0.0.255) const]&]
-[s2; Returns a constant iterator to the key at the specified position. 
-Same as [* KeyBegin() `+ i]. The benefit of this method is that 
-[* pos] is range checked in debug mode. &]
-[s7; [*C@3 i]-|Required position.&]
-[s7; [*/ Return value]-|Constant key iterator.&]
+[s2; Возвращает константный обходчик 
+ к ключу в указанной позиции. То же, 
+что и [* KeyBegin() `+ i]. Преимущество этого 
+метода в том, что [* pos] является диапазоном, 
+проверяемым при отладочном режиме. 
+&]
+[s7; [*C@3 i]-|Требуемая позиция.&]
+[s7; [*/ Возвратное значение]-|Константный 
+обходчик ключей.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:AMap`:`:Begin`(`):%- Iterator_[* Begin]()&]
-[s2; Returns an iterator to the first value in AMap.&]
-[s7; [*/ Return value]-|Value iterator.&]
+[s2; Возвращает обходчик к первому значению 
+в AMap.&]
+[s7; [*/ Возвратное значение]-|Обходчик значений.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:AMap`:`:End`(`):%- Iterator_[* End]()&]
-[s2; Returns a constant iterator to the value just beyond the last 
-key in AMap.&]
-[s7; [*/ Return value]-|Value iterator.&]
+[s2; Возвращает константный обходчик 
+к значению сразу за последним ключом 
+в AMap.&]
+[s7; [*/ Возвратное значение]-|Обходчик значений.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:AMap`:`:GetIter`(int`):%- Iterator_[* GetIter]([@(0.0.255) int]_[*@3 pos])&]
-[s2; Returns an iterator to the value at the specified position. 
-Same as [* Begin() `+ i]. The benefit of this method is that [* pos] 
-is range checked in debug mode.&]
-[s7; [*C@3 i]-|Required position.&]
-[s7; [*/ Return value]-|Value iterator.&]
+[s2; Возвращает обходчик к значению в 
+указанной позиции. То же, что и [* Begin() 
+`+ i]. Полезность этого метода в том, 
+что [* pos] является диапазоном, проверяемым 
+в отладочном режиме.&]
+[s7; [*C@3 i]-|Требуемая позиция.&]
+[s7; [*/ Возвратное значение]-|Обходчик значений.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:AMap`:`:Begin`(`)const:%- ConstIterator_[* Begin]()_[@(0.0.255) const]&]
-[s2; Returns a constant iterator to the first value in AMap.&]
-[s7; [*/ Return value]-|Constant value iterator.&]
+[s2; Возвращает константный обходчик 
+к первому значению в AMap.&]
+[s7; [*/ Возвратное значение]-|Константный 
+обходчик значений.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:AMap`:`:End`(`)const:%- ConstIterator_[* End]()_[@(0.0.255) const]&]
-[s2; Returns a constant iterator to the value just beyond the last 
-value in AMap.&]
-[s7; [*/ Return value]-|Constant value iterator.&]
+[s2; Возвращает константный обходчик 
+к значению сразу за последним значением 
+в AMap.&]
+[s7; [*/ Возвратное значение]-|Константный 
+обходчик значений.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:AMap`:`:GetIter`(int`)const:%- ConstIterator_[* GetIter]([@(0.0.255) int]_[*@3 pos])_[@(0.0.255) c
 onst]&]
-[s2; Returns a constant iterator to the value at the specified position. 
-Same as [* Begin() `+ i]. Benefit of this methods is that in debug 
-mode [* pos] is range checked.&]
-[s7; [*C@3 i]-|Required position.&]
-[s7; [*/ Return value]-|Constant value iterator.&]
+[s2; Возвращает константный обходчик 
+к значению в указанной позиции. То 
+же, что и [* Begin() `+ i]. Полезность этого 
+метода в том, что в отладочном режиме 
+[* pos] проверяется.&]
+[s7; [*C@3 i]-|Требуемая позиция.&]
+[s7; [*/ Возвратное значение]-|Константный 
+обходчик значений.&]
 [s3; &]
 [s0; ]]

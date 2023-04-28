@@ -23,7 +23,7 @@ torLayout][@(0.0.255) <][_^TopWindow^ TopWindow][@(0.0.255) >]_&]
 [s9;%% Dialog for selecting files or directories.&]
 [s3; &]
 [s0; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
 [s3;%% &]
 [s5;:FileSel`:`:WhenIcon: [_^Callback3^ Callback3][@(0.0.255) <bool], 
 [@(0.0.255) const]_String[@(0.0.255) `&], Image[@(0.0.255) `&>]_[* WhenIcon]&]

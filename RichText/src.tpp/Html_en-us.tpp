@@ -16,7 +16,7 @@ topic "RichText to HTML output";
 [s2; This is a helper abstract class used to save RichObject instances 
 when exporting RichText to HTML.&]
 [s0;i448;a25;kKO9;:noref:@(0.0.255)%- &]
-[ {{10000F(128)G(128)@1 [s0; [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0; [* Список Публичных Методов]]}}&]
 [s3;%- &]
 [s5;:Upp`:`:HtmlObjectSaver`:`:GetHtml`(const Upp`:`:RichObject`&`):%- [@(0.0.255) virt
 ual] [_^Upp`:`:String^ String]_[* GetHtml]([@(0.0.255) const]_[_^Upp`:`:RichObject^ RichO

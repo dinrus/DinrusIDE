@@ -33,7 +33,7 @@ topic "Knob";
 [s5;:Knob`:`:Knob`(`): [* Knob]()&]
 [s2;%% Initializes Knob.&]
 [s3; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
 [s4; &]
 [s5;:Knob`:`:SetData`(const Value`&`): [@(0.0.255) virtual] [@(0.0.255) void]_[* SetData]([@(0.0.255) c
 onst]_[_^Value^ Value][@(0.0.255) `&]_[*@3 v])&]

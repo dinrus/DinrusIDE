@@ -85,9 +85,9 @@ void SliderCtrl::LeftDown(Point pos, dword keyflags)
 	if(jump) {
 		value = ClientToSlider(p);
 		WhenSlideFinish();
-		UpdateActionRefresh();		
+		UpdateActionRefresh();
 	}
-	else {		
+	else {
 		if( ( ( p < thumb) && (min == Min() ) ) || ( (p > thumb) && ( min == Max() ) ) )
 			Dec();
 		else

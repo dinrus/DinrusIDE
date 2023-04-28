@@ -19,7 +19,7 @@ fast (200MB/s per CPU core) compression algorithm with good compression
 ratio (average 50%) by Yann Collet. File compressed using ZstdCompressStream 
 can be decompressed by Zstd commandline utilities.&]
 [s3; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:Upp`:`:ZstdCompressStream`:`:Co`(bool`): [@(0.0.255) void]_[* Co]([@(0.0.255) bool]_[*@3 b
 ]_`=_[@(0.0.255) true])&]
@@ -46,7 +46,7 @@ but slower speed. For fast compression, level 1 is recommended.&]
 ][3 _:_][@(0.0.255)3 public][3 _][*@3;3 Stream]&]
 [s2;%% Provides Zstd decompression.&]
 [s3; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
 [s3;%% &]
 [s5;:Upp`:`:ZstdDecompressStream`:`:Co`(bool`): [@(0.0.255) void]_[* Co]([@(0.0.255) bool]_
 [*@3 b]_`=_[@(0.0.255) true])&]

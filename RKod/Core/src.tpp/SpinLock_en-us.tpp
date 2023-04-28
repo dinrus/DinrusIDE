@@ -22,7 +22,7 @@ of active waiting. SpinLock methods are also usually inlined
 (if more threads are waiting on the same SpinLock, the order 
 of acquiring it is not specified).&]
 [s3; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:SpinLock`:`:TryEnter`(`): [@(0.0.255) bool]_[* TryEnter]()&]
 [s2;%% Tries to acquire lock, returns true of lock acquired.&]

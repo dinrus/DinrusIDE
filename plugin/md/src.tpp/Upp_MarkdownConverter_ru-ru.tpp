@@ -15,7 +15,7 @@ topic "MarkdownConverter";
 [s1;:Upp`:`:MarkdownConverter`:`:class: [@(0.0.255)3 class][3 _][*3 MarkdownConverter]&]
 [s2;%% Converts a markdown formatted text into qtf formatted text.&]
 [s3; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:Upp`:`:MarkdownConverter`:`:CollapseWhitespaces`(bool`): [_^Upp`:`:MarkdownConverter^ M
 arkdownConverter][@(0.0.255) `&]_[* CollapseWhitespaces]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) t

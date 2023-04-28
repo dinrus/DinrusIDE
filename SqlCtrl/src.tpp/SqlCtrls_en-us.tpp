@@ -17,7 +17,7 @@ topic "";
 [s2;%% This class extends [^topic`:`/`/CtrlLib`/src`/IdCtrls`$en`-us^ IdCtrls] 
 class with SQL related operations.&]
 [s0;i448;a25;kKO9;:noref:@(0.0.255) &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
 [s4; &]
 [s5;:Upp`:`:SqlCtrls`:`:operator`(`)`(Upp`:`:SqlId`,Upp`:`:Ctrl`&`): [_^Upp`:`:SqlCtrls^ S
 qlCtrls][@(0.0.255) `&]_[* operator()]([_^Upp`:`:SqlId^ SqlId]_[*@3 id], 

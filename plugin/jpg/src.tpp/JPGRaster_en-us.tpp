@@ -20,7 +20,7 @@ jpeg format.&]
 functions specific to jpeg.&]
 [s3; &]
 [s0;i448;a25;kKO9;:noref:@(0.0.255) &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
 [s4; &]
 [s5;:JPGRaster`:`:GetExifThumbnail`(`): [_^Image^ Image]_[* GetExifThumbnail]()&]
 [s2;%% Returns jpeg image thumbnail if available. If not it returns 

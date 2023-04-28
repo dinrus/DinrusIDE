@@ -26,7 +26,7 @@ pseodovariables SQL and SQLR.&]
 classes, which provide their unique methods for connection and 
 other tasks.&]
 [s0;i448;a25;kKO9;:noref:@(0.0.255) &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
 [s3;%% &]
 [s5;:SqlSession`:`:Begin`(`): [@(0.0.255) virtual] [@(0.0.255) void]_[* Begin]()&]
 [s2;%% Starts a transaction.&]

@@ -20,7 +20,7 @@ files managing its input and output.&]
 its use like WhenTimer callback that lets user to manage program 
 status.&]
 [s3; &]
-[ {{10000F(128)G(128)@1 [s0; [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0; [* Список Публичных Методов]]}}&]
 [s4;%- &]
 [s5;:Upp`:`:LocalProcessX`:`:Start`(const char`*`,const char`*`,const char`*`,double`,double`,double`,bool`):%- [@(0.0.255) b
 ool]_[* Start]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 cmd], [@(0.0.255) const]_[@(0.0.255) c

@@ -25,7 +25,7 @@ Value it supports equality comparisons, serialization, Null compatibility
 and hash`-value support.&]
 [s3; &]
 [s0; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:Drawing`:`:operator bool`(`)const: [* operator_bool]()_[@(0.0.255) const]&]
 [s2;%% True if Drawing is non`-empty.&]

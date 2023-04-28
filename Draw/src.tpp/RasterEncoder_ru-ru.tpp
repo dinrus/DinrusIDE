@@ -47,7 +47,7 @@ line])&]
 data to direct targets..&]
 [s3; &]
 [s0; &]
-[ {{10000F(128)G(128)@1 [s0; [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0; [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:RasterEncoder`:`:GetPaletteCount`(`):%- [@(0.0.255) virtual] [@(0.0.255) int]_[* GetPa
 letteCount]()&]

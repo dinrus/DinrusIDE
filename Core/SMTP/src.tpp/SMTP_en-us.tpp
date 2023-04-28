@@ -16,7 +16,7 @@ topic "SMTP";
 ket]&]
 [s2; Sends emails using SMTP protocol.&]
 [s9; &]
-[ {{10000F(128)G(128)@1 [s0; [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0; [* Список Публичных Методов]]}}&]
 [s3;%- &]
 [s5;:Smtp`:`:RequestTimeout`(int`):%- [_^Smtp^ Smtp][@(0.0.255) `&]_[* RequestTimeout]([@(0.0.255) i
 nt]_[*@3 ms])&]

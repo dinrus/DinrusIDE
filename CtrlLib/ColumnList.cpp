@@ -211,7 +211,7 @@ Rect ColumnList::GetItemRect(int i) const {
 		return (i >= 0) ? RectC( (i % ncl) * cx, (i / ncl) * cy - sb, cx, cy) : Rect(0, 0, 0, 0);
 	i -= GetSbPos();
 	int n = GetColumnItems();
-	if(i < 0 || n == 0) 
+	if(i < 0 || n == 0)
 		return Rect(0, 0, 0, 0);
 	int cl = i / n;
 	int x = 0;
@@ -429,8 +429,8 @@ void ColumnList::Paint(Draw& w) {
 	}
 	if(HasCapture())
 		w.DrawRect(mpos - dx, 0, 1, sz.cy, Blend(SColorHighlight, SColorFace));
-	(mode == MODE_COLUMN) ? 
-		scroller.Set(Point(sb, 0)) : 
+	(mode == MODE_COLUMN) ?
+		scroller.Set(Point(sb, 0)) :
 		scroller.Set(sb);
 }
 
@@ -480,12 +480,12 @@ Image ColumnList::GetDragSample()
 	return Crop(iw, 0, 0, sz.cx, y);;
 }
 
-int  ColumnList::GetPageItems() const 
+int  ColumnList::GetPageItems() const
 {
 	return ncl * GetColumnItems();
 }
 
-void ColumnList::SetSb() 
+void ColumnList::SetSb()
 {
 	switch (mode) {
 	case MODE_LIST:
@@ -528,14 +528,14 @@ void ColumnList::ScrollInto(int pos)
 	}
 }
 
-void ColumnList::Layout() 
+void ColumnList::Layout()
 {
 	if (mode == MODE_ROWS)
 		ncl = max(GetSize().cx / cx, 1);
 	SetSb();
 }
 
-void ColumnList::Scroll() 
+void ColumnList::Scroll()
 {
 	Size sz = GetSize();
 	switch (mode) {
@@ -771,7 +771,7 @@ void ColumnList::Insert(int ii, const Value& key, const Value& val, bool cansele
 	SyncInfo();
 	SetSb();
 	if(c >= 0)
-		SetCursor(c);	
+		SetCursor(c);
 }
 
 void ColumnList::Insert(int ii, const Value& key, const Value& val, const Display& display, bool canselect)

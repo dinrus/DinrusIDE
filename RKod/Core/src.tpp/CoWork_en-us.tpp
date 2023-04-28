@@ -43,7 +43,7 @@ CoWork instance are finished, while waiting it attempts to perform
 scheduled jobs from the same instance. That way work always progresses 
 even if there is shortage of worker threads.&]
 [s0;%% &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:Upp`:`:CoWork`:`:TrySchedule`(Upp`:`:Function`<void`(`)`>`&`&`): [@(0.0.255) stati
 c bool]_[* TrySchedule]([_^Upp`:`:Function^ Function]<[@(0.0.255) void]_()>`&`&_[*@3 fn])
@@ -249,7 +249,7 @@ own instance. CoWorkerResources helps to manage such situation.&]
 cases better solved by using CoDo function.&]
 [s0;%% &]
 [s3;%% &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:Upp`:`:CoWorkerResources`:`:CoWorkerResources`(`): [* CoWorkerResources]()&]
 [s2;%% Creates a required number of instances so that each sub`-job 

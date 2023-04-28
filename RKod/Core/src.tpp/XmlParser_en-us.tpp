@@ -17,7 +17,7 @@ topic "XmlParser";
 for implementation of descent parsers of XML.&]
 [s3; &]
 [s0;i448;a25;kKO9;@(0.0.255) &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:XmlParser`:`:SkipWhites`(`): [@(0.0.255) void]_[* SkipWhites]()&]
 [s2;%% Skips any whitespaces in the input XML.&]

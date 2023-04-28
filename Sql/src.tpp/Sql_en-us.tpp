@@ -20,7 +20,7 @@ per process (or per thread), when session is not specified with
 constructor, this default session is used.&]
 [s3;%- &]
 [s0;%- &]
-[ {{10000F(128)G(128)@1 [s0; [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0; [* Список Публичных Методов]]}}&]
 [s3;%- &]
 [s5;:Sql`:`:Compile`(const SqlStatement`&`):%- [_^String^ String]_[* Compile]([@(0.0.255) c
 onst]_[_^SqlStatement^ SqlStatement][@(0.0.255) `&]_[*@3 s])&]

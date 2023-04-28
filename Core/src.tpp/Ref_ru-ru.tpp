@@ -21,7 +21,7 @@ the reference, not the value (in this regard, it works more like
 C`+`+ pointer than C`+`+ reference).&]
 [s3; &]
 [s0;i448;a25;kKO9;:noref:@(0.0.255) &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:Ref`:`:GetType`(`)const: [_^dword^ dword]_[* GetType]()_[@(0.0.255) const]&]
 [s2;%% Returns the type of referenced variable (same codes as for 

@@ -24,7 +24,7 @@ It has default pick transfer semantics with optional deep`-copy.
 It is [^topic`:`/`/Core`/srcdoc`/Moveable`$en`-us^ Moveable]. Both 
 keys and values have to be [^topic`:`/`/Core`/srcdoc`/Moveable`$en`-us^ Moveable].&]
 [s0;*@7;4 &]
-[ {{10000F(128)G(128)@1 [s0; [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0; [* Список Публичных Методов]]}}&]
 [s3;%- &]
 [s5;:SortedVectorMap`:`:Add`(const K`&`,const T`&`):%- [*@4 T][@(0.0.255) `&]_[* Add]([@(0.0.255) c
 onst]_[*@4 K][@(0.0.255) `&]_[*@3 k], [@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[*@3 x])&]

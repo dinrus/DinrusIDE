@@ -16,7 +16,7 @@ topic "FindFile";
 [s9; This class serves as platform independent encapsulation of directory 
 enumeration.&]
 [s0;%- &]
-[ {{10000F(128)G(128)@1 [s0; [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0; [* Список Публичных Методов]]}}&]
 [s3;%- &]
 [s5;:FindFile`:`:Search`(const char`*`):%- [@(0.0.255) bool]_[* Search]([@(0.0.255) const]_
 [@(0.0.255) char]_`*[*@3 path])&]

@@ -18,7 +18,7 @@ ic][3 _][*@3;3 BlockStream]&]
 that are able to read and write blocks of data from the [^topic`:`/`/Core`/SSH`/src`/Upp`_Ssh`_SFtp`_en`-us`#Upp`:`:SFtp`:`:class^ S
 Ftp] file system objects.at random position. &]
 [s3; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:Upp`:`:SFtpStream`:`:operator bool`(`)const: [* operator_bool]()_[@(0.0.255) const]&]
 [s2;%% Returns true if the stream is open.&]
@@ -61,7 +61,7 @@ object. &]
 ic][3 _][*@3;3 SFtpStream]&]
 [s2;%% A simple helper class that represents SFtpStream in read mode.&]
 [s3; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:Upp`:`:SFtpFileIn`:`:Open`(Upp`:`:SFtp`&`,const char`*`): [@(0.0.255) bool]_[* Open](
 [_^Upp`:`:SFtp^ SFtp][@(0.0.255) `&]_[*@3 sftp], [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 f
@@ -89,7 +89,7 @@ blic][3 _][*@3;3 SFtpStream]&]
 [s2;%% A simple helper class that represents SFtpStream in write 
 mode.&]
 [s3;%% &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:Upp`:`:SFtpFileOut`:`:Open`(Upp`:`:SFtp`&`,const char`*`,int`): [@(0.0.255) bool]_
 [* Open]([_^Upp`:`:SFtp^ SFtp][@(0.0.255) `&]_[*@3 sftp], [@(0.0.255) const]_[@(0.0.255) char
@@ -118,7 +118,7 @@ ublic][3 _][*@3;3 SFtpStream]&]
 [s2;%% A simple helper class that represents SFtpStream in append 
 mode.&]
 [s0; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:Upp`:`:SFtpFileAppend`:`:Open`(Upp`:`:SFtp`&`,const char`*`): [@(0.0.255) bool]_[* O
 pen]([_^Upp`:`:SFtp^ SFtp][@(0.0.255) `&]_[*@3 sftp], [@(0.0.255) const]_[@(0.0.255) char]_

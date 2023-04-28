@@ -23,7 +23,7 @@ of Images. To acquire Iml instance for particular image list
 class, call its Iml class method.&]
 [s3; &]
 [s0;%- &]
-[ {{10000F(128)G(128)@1 [s0; [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0; [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:Iml`:`:Reset`(`):%- [@(0.0.255) void]_[* Reset]()&]
 [s2; Resets image list class to the content designed in Image designer.&]

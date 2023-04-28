@@ -28,7 +28,7 @@ EditField is achieved by using [^`:`:Convert^ Convert] based object
 to transform Value to text and back.&]
 [s3; &]
 [s0; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Public Member List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Членов]]}}&]
 [s3; &]
 [s5;:EditField`:`:GetViewHeight`(Font`): [@(0.0.255) static] [@(0.0.255) int]_[* GetViewHei
 ght]([_^Font^ Font]_[*@3 font]_`=_StdFont())&]

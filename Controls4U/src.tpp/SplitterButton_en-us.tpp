@@ -38,13 +38,13 @@ button options:&]
 (AxEARAEAAAAAAAAAAHic7dnNTsJAFAXgPjIbUo07N2o3wBv4RkajxmjcEBYENfafMkNSb8SSGTLc3DaALZyT2TDkY1rCDZwQhn+JoiiO49lsVpbl5dUwNEIPSyMhiIzcVmnbhYGAtJBgXkBA5ATzAgIiJ5gXEBA5wbyAdI74vt8zcnZ+wZObIJhOp0sjo9GINhnS7/eVUrGR1SYzL3QlsR06iDaZU+jZyI7W+qRIaKfT5NvOqZEvOzQ+tMnPi5M0OKUN5NNOp8mHnaMhnudJyHsV7zd5nguJV0VIPCMrws9Ls1Pq3subkQaE0mnyaqfT5MVOlmVHRvh5ebYjOeWYyKOdNE27Sx7snBq5t5MkCU+oqtB3/Z2R8XjM95cgCCaTSWJkMBgEbEuiTXrNnhH/7Jwa3Ho5yUbj2xaTbDS+4dD9CmvibHxX19cM2db4GNLb0viY2++1uIsdhmy8mS0nWi/nhaLlJM6WpPQyny9o7ZconeUFrb2ShdJpNqflJM6WVCxUkua09ksKFScZLTmZF4soTmnJyVMVJ3EWK11FTviPJRpfA0K1pRZZ96NVV6pb3xqQBiWx7inye1kVvX/pYvwPeDQ+NL5apLVdbFeEn5fW1jc0vv9qfAzZVeMrjTgJ/uAGAekEwbyAgMgJ5gUERE4wLyAgcoJ5AQGRE8wLCIicHHhefgAINu1j)
 &]
 [s1; &]
-[ {{10000F(128)G(128)@1 [s0; [*2 Constructor Detail]]}}&]
+[ {{10000F(128)G(128)@1 [s0; [*2 Детали Конструктора]]}}&]
 [s5;%- &]
 [s6;:Upp`:`:SplitterButton`:`:SplitterButton`(`):%- [* SplitterButton]()&]
 [s3; Initializes StaticLine.&]
 [s1; &]
 [s0;%- &]
-[ {{10000F(128)G(128)@1 [s0; [*2 Public Member List]]}}&]
+[ {{10000F(128)G(128)@1 [s0; [*2 Список Публичных Членов]]}}&]
 [s5;%- &]
 [s6;:Upp`:`:SplitterButton`:`:Horz`(Upp`:`:Ctrl`&`,Upp`:`:Ctrl`&`):%- [_^Upp`:`:SplitterButton^ S
 plitterButton][@(0.0.255) `&]_[* Horz]([_^Upp`:`:Ctrl^ Ctrl]_`&[*@3 left], 

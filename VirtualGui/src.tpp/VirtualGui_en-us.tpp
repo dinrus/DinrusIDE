@@ -20,7 +20,7 @@ working GUI desktop over given surface.&]
 also has to implement or use some Draw to paint on surface and 
 some font system to measure fonts (e.g. DrawGL and plugin/FT`_fontsys).&]
 [s3; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:Upp`:`:VirtualGui`:`:GetOptions`(`): [@(0.0.255) virtual] [_^Upp`:`:dword^ dword]_[* G
 etOptions]()&]

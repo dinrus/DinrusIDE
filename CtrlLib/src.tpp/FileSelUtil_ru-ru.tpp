@@ -1,5 +1,4 @@
-topic "FileSel utilities";
-[2 $$0,0#00000000000000000000000000000000:Default]
+topic "Утилиты FileSel";
 [i448;a25;kKO9;2 $$1,0#37138531426314131252341829483380:class]
 [l288;2 $$2,2#27521748481378242620020725143825:desc]
 [0 $$3,0#96390100711032703541132217272105:end]
@@ -9,10 +8,11 @@ topic "FileSel utilities";
 [l288;i1121;b17;O9;~~~.1408;2 $$7,0#10431211400427159095818037425705:param]
 [i448;b42;O9;2 $$8,8#61672508125594000341940100500538:tparam]
 [b42;2 $$9,9#13035079074754324216151401829390:normal]
+[2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%RU-RU 
 [ {{10000@(113.42.0) [s0; [*@7;4 FileSel based utility functions]]}}&]
 [s9; These functions simplify opening files using single global file`-selector. 
-The configuration of file`-selector is stored into [^topic`:`/`/Core`/src`/SerializationUtils`$en`-us^ g
+The configuration of file`-selector is stored into [^topic`:`/`/Core`/src`/SerializationUtils`_ru`-ru^ g
 lobal configuration].&]
 [s3; &]
 [s0; &]
@@ -20,14 +20,14 @@ lobal configuration].&]
 [s3;%- &]
 [s5;:SelectFileOpen`(const char`*`):%- [_^String^ String]_[* SelectFileOpen]([@(0.0.255) co
 nst]_[@(0.0.255) char]_`*[*@3 types])&]
-[s2; Selects file for opening, [%-*@3 types] follow rules of [^topic`:`/`/CtrlLib`/src`/FileSel`$en`-us`#FileSel`:`:Types`(const char`*`)^ T
+[s2; Selects file for opening, [%-*@3 types] follow rules of [^topic`:`/`/CtrlLib`/src`/FileSel`_ru`-ru`#FileSel`:`:Types`(const char`*`)^ T
 ypes] method of FileSel. If selections is canceled, returns empty 
 String.&]
 [s3; &]
 [s4; &]
 [s5;:SelectFileSaveAs`(const char`*`):%- [_^String^ String]_[* SelectFileSaveAs]([@(0.0.255) c
 onst]_[@(0.0.255) char]_`*[*@3 types])&]
-[s2; Selects file for saving, [%-*@3 types] follow rules of [^topic`:`/`/CtrlLib`/src`/FileSel`$en`-us`#FileSel`:`:Types`(const char`*`)^ T
+[s2; Selects file for saving, [%-*@3 types] follow rules of [^topic`:`/`/CtrlLib`/src`/FileSel`_ru`-ru`#FileSel`:`:Types`(const char`*`)^ T
 ypes] method of FileSel. If selections is canceled, returns empty 
 String.&]
 [s3; &]

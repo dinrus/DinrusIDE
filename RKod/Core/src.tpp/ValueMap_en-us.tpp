@@ -34,7 +34,7 @@ elements with corresponding indices.&]
 ValueArray elements contained in Value with text keys (if Value 
 does not contain ValueMap or requested key, Void Value is returned).&]
 [s2; &]
-[ {{10000F(128)G(128)@1 [s0; [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0; [* Список Публичных Методов]]}}&]
 [s3;%- &]
 [s5;:ValueMap`:`:ValueMap`(`):%- [* ValueMap]()&]
 [s2; Default constructor.&]

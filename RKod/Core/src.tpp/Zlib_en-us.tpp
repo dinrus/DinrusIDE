@@ -21,7 +21,7 @@ be either obtained at output as partial String, or through output
 callback. If using String, it is also always possible to clear 
 this output partial String to conserve memory.&]
 [s3; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:Zlib`:`:WhenOut: [_^Callback2^ Callback2]<[@(0.0.255) const]_[@(0.0.255) void]_`*, 
 [_^dword^ int]>_[* WhenOut]&]

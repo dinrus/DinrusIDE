@@ -23,7 +23,7 @@ is similar to std`::function with two differences:&]
 zero.&]
 [s2;i150;O0; Functions can be combined (chained) using operator<<.&]
 [s3;%- &]
-[ {{10000F(128)G(128)@1 [s0; [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0; [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:Function`<Res`(ArgTypes`.`.`.`)`> `:`:Function`(`):%- [* Function]()&]
 [s5;:Upp`:`:Function`<Res`(ArgTypes`.`.`.`)`> `:`:Function`(const Upp`:`:Nuller`&`):%- [* F

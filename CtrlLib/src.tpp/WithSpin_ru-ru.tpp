@@ -33,7 +33,7 @@ increment/decrement process:  [* WithSpin`_DefaultIncValue] defines
 the default increment value and [* WithSpin`_Add] defines a way 
 how the value is incremented or decremented.&]
 [s0;i448;a25;kKO9;:noref:@(0.0.255)%- &]
-[ {{10000F(128)G(128)@1 [s0; [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0; [* Список Публичных Методов]]}}&]
 [s3;%- &]
 [s5;:WithSpin`:`:SetInc`(IncType`):%- [_^WithSpin^ WithSpin][@(0.0.255) `&]_[* SetInc]([*@4 I
 ncType]_[*@3 `_inc]_`=_[@3 1])&]

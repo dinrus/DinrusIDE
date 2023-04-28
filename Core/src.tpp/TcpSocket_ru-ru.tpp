@@ -17,7 +17,7 @@ topic "TcpSocket";
 semantics of sockets to allow non`-blocking or time constrained 
 operations.&]
 [s3; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:TcpSocket`:`:WhenWait: [_^topic`:`/`/Core`/src`/Callbacks`$en`-us`#Callback`:`:class^ C
 allback]_[* WhenWait]&]

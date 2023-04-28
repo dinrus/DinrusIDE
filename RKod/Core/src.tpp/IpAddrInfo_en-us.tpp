@@ -26,7 +26,7 @@ yet), so from the client view, this limit has little impact.
 It also means that client should release the slot as soon as 
 possible, using Clear method or by destructing IpAddrInfo.&]
 [s3; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:IpAddrInfo`:`:Start`(const String`&`,int`,int`): [@(0.0.255) void]_[* Start]([@(0.0.255) c
 onst]_[_^String^ String][@(0.0.255) `&]_[*@3 host], [@(0.0.255) int]_[*@3 port], 

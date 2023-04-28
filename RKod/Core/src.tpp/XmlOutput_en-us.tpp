@@ -19,7 +19,7 @@ It provides means of formatting XML tags and attributes and outputs
 String.&]
 [s3; &]
 [s0; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
 [s4;H0; &]
 [s5;:XmlTag`:`:Tag`(const char`*`): [_^XmlTag^ XmlTag][@(0.0.255) `&]_[* Tag]([@(0.0.255) con
 st]_[@(0.0.255) char]_`*[*@3 s])&]
@@ -73,7 +73,7 @@ perator()]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 attr], [@(0.0.255) double
 [s2;%% These methods add XML tag attributes.&]
 [s3;%% &]
 [s0;%% &]
-[ {{10000t/25b/25@1 [s0; [* Constructor Detail]]}}&]
+[ {{10000t/25b/25@1 [s0; [* Детали Конструктора]]}}&]
 [s3;%% &]
 [s5;:XmlTag`:`:XmlTag`(`): [* XmlTag]()&]
 [s2; Empty constructor. You have to use Tag method to set the tag 

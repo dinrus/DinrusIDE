@@ -21,7 +21,7 @@ they are moved back from widget to variables using CtrlRetriever`::Retrieve
 method.&]
 [s2;%% &]
 [s3; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:Upp`:`:CtrlRetriever`:`:Put`(Upp`:`:Ctrl`&`,T`&`): [@(0.0.255) template]_<[@(0.0.255) c
 lass]_[*@4 T]>_[@(0.0.255) void]_[* Put]([_^Upp`:`:Ctrl^ Ctrl][@(0.0.255) `&]_[*@3 ctrl], 

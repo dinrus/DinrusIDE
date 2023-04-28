@@ -24,7 +24,7 @@ FtpFileSystemInfo], and [^topic`:`/`/Core`/SSH`/src`/Upp`_Ssh`_SFtpStream`_en`-u
 FtpStream]  classes.&]
 [s0;#l288; &]
 [s3;%- &]
-[ {{10000F(128)G(128)@1 [s0; [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0; [* Список Публичных Методов]]}}&]
 [s3;%- &]
 [s5;:Upp`:`:SFtp`:`:Timeout`(int`):%- [_^Upp`:`:SFtp^ SFtp][@(0.0.255) `&]_[* Timeout]([@(0.0.255) i
 nt]_[*@3 ms])&]
@@ -389,7 +389,7 @@ ublic][3 _][*@3;3 Moveable][3 <][*3 DirEntry][3 >_]&]
 of file system objects (files, directories, symbolic links, etc.) 
 returned by the SFtp class. DirEntry class has pick semantics.&]
 [s3;%- &]
-[ {{10000F(128)G(128)@1 [s0; [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0; [* Список Публичных Методов]]}}&]
 [s3;%- &]
 [s5;:Upp`:`:SFtp`:`:DirEntry`:`:GetName`(`)const:%- [_^Upp`:`:String^ String]_[* GetName](
 )_[@(0.0.255) const]&]
@@ -547,7 +547,7 @@ It allows SFtp objects to be used with FileSystemInfo class that
 provides uniform access to folder hierarchies in a file`-system 
 agnostic (`"transparent`") way.&]
 [s3; &]
-[ {{10000F(128)G(128)@1 [s0; [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0; [* Список Публичных Методов]]}}&]
 [s3;%- &]
 [s5;:Upp`:`:SFtpFileSystemInfo`:`:Mount`(Upp`:`:SFtp`&`):%- [_^Upp`:`:SFtpFileSystemInfo^ S
 FtpFileSystemInfo][@(0.0.255) `&]_[* Mount]([_^Upp`:`:SFtp^ SFtp][@(0.0.255) `&]_[*@3 sftp])

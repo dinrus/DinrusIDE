@@ -44,7 +44,7 @@ external Option widgets to be used as nodes or provides internal
 Option widgets if no external Option is specified.&]
 [s3;%% &]
 [s0; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Public Member List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Членов]]}}&]
 [s3;%% &]
 [s5;:OptionTree`:`:WhenOption: [_^Callback^ Callback]_[* WhenOption]&]
 [s2;%% Some option has changed.&]

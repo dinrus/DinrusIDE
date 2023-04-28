@@ -20,7 +20,7 @@ in places where the distinction between text value and identifier
 is required.&]
 [s3; &]
 [s0;i448;a25;kKO9;@(0.0.255) &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:Id`:`:ToString`(`)const: [@(0.0.255) const]_[_^String^ String][@(0.0.255) `&]_[* ToStrin
 g]()_[@(0.0.255) const]&]

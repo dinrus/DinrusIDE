@@ -18,7 +18,7 @@ topic "DrawingDraw";
 and to create Drawing value that can be replayed using Draw`::DrawDrawing.&]
 [s3;%- &]
 [s0;%- &]
-[ {{10000F(128)G(128)@1 [s0; [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0; [* Список Публичных Методов]]}}&]
 [s3;%- &]
 [s5;:DrawingDraw`:`:Create`(int`,int`,bool`):%- [@(0.0.255) void]_[* Create]([@(0.0.255) in
 t]_[*@3 cx], [@(0.0.255) int]_[*@3 cy], [@(0.0.255) bool]_[*@3 dots]_`=_[@(0.0.255) true])&]

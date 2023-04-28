@@ -33,7 +33,7 @@ struct TaskLstFnStatus {
 	int _status = 0;
 	void *_bufID = nullptr;
 	TaskLstFnStatus(const char* str, int status) : _fn(str), _status(status){};
-	TaskLstFnStatus(int iView, int docIndex, String str, int status, void *bufID) : 
+	TaskLstFnStatus(int iView, int docIndex, String str, int status, void *bufID) :
 	_iView(iView), _docIndex(docIndex), _fn(str), _status(status), _bufID(bufID) {};
 };
 

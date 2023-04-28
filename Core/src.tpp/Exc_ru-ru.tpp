@@ -19,7 +19,7 @@ be either managed by specific handlers, or simple Exc handler
 can be used, displaying textual information to the user.&]
 [s3;%% &]
 [s0;%% &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Constructor Detail]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Детали Конструктора]]}}&]
 [s0; &]
 [s5;:Exc`:`:Exc`(`): [* Exc]()&]
 [s2;%% Default constructor.&]

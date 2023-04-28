@@ -27,7 +27,7 @@ elements with corresponding indices.&]
 to directly access ValueArray elements contained in Value (if 
 Value does not contain ValueArray, GetCount() returns 0).&]
 [s3; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:ValueArray`:`:ValueArray`(`): [* ValueArray]()&]
 [s2;%% Creates an empty ValueArray.&]

@@ -20,7 +20,7 @@ due to network traffic. SqlMassInsert buffers single inserts
 and, based on specific SQL dialect, inserts many rows with single 
 SQL statement.&]
 [s3;%- &]
-[ {{10000F(128)G(128)@1 [s0; [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0; [* Список Публичных Методов]]}}&]
 [s3;%- &]
 [s5;:SqlMassInsert`:`:operator`(`)`(SqlId`,const Value`&`):%- [_^SqlMassInsert^ SqlMass
 Insert][@(0.0.255) `&]_[* operator()]([_^SqlId^ SqlId]_[*@3 col], [@(0.0.255) const]_[_^Value^ V

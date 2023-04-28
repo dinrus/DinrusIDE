@@ -21,7 +21,7 @@ when implementation using method is not possible (e.g. for supported
 primitive types), global templated specializations can be used.&]
 [s2;%% &]
 [s3; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:XmlIO`:`:IsLoading`(`)const: [@(0.0.255) bool]_[* IsLoading]()_[@(0.0.255) const]&]
 [s2;%% True if actual operation is retrieving data from XML to C`+`+ 

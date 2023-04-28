@@ -26,7 +26,7 @@ have to be [^topic`:`/`/Core`/srcdoc`/Moveable`$en`-us^ Moveable]
 but there is no general restriction on values, they can even 
 be derived from [%-*@4 T].&]
 [s0;i448;a25;kKO9;@(0.0.255)%- &]
-[ {{10000F(128)G(128)@1 [s0; [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0; [* Список Публичных Методов]]}}&]
 [s3;%- &]
 [s5;:SortedArrayMap`:`:Add`(const K`&`,const T`&`):%- [*@4 T][@(0.0.255) `&]_[* Add]([@(0.0.255) c
 onst]_[*@4 K][@(0.0.255) `&]_[*@3 k], [@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[*@3 x])&]

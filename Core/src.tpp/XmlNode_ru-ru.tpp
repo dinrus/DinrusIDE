@@ -23,7 +23,7 @@ XML document.&]
 optional deep copy] transfer semantics&]
 [s3; &]
 [s0; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Public Member List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Членов]]}}&]
 [s3; &]
 [s5;:XmlNode`:`:Void`(`): [@(0.0.255) static] [@(0.0.255) const]_[_^XmlNode^ XmlNode][@(0.0.255) `&
 ]_[* Void]()&]

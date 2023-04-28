@@ -18,7 +18,7 @@ used to verify the identity of a remote ssh server, and provides
 methods for managing the list. Currently only OpenSSH known hosts 
 file format is supported.  &]
 [s3; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:Upp`:`:SshHosts`:`:Add`(const Upp`:`:String`&`,int`,const Upp`:`:SshHosts`:`:Info`&`,const Upp`:`:String`&`): [@(0.0.255) b
 ool]_[* Add]([@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 host], 

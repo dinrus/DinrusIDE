@@ -4016,18 +4016,25 @@ irure, in, reprehenderit, voluptate, velit, officia, deserunt,
 mollit, anim, id, est, laborum, sint, occaecat, cupidatat, non, 
 proident, sunt, culpa, qui`]&]
 [s0; &]
-[s5; Конечно, the code performed after [*C@5 FinLock] should 
-not take long, otherwise there is negative impact on all [*C@5 CoWork] 
-instances. In fact, from this perspective, above code is probably 
-past the threshold...&]
-[s5; When exception is thrown in [*C@5 CoWork], it is propagated to 
-the thread that calls [*C@5 Finish] and [*C@5 CoWork] is canceled. 
-If more than single job throws, one of exceptions is selected 
-randomly to be rethrown in Finish.&]
-[s5; As [*C@5 CoWork] destructor calls [*C@5 Finish] too, it is possible 
-that it will be thrown by destructor, which is not exactly recommended 
-thing to do in C`+`+, but is well defined and really the best 
-option here:&]
+[s5; Конечно, код, выполняемый после [*C@5 FinLock, 
+]не может продолжаться долго, иначе 
+будет негативное влияние на все экземпляры 
+[*C@5 CoWork]. Фактически, с этой точки зрения, 
+код выще, вероятно, превышвет этот 
+порог...&]
+[s5; Когда в [*C@5 CoWork ]выводится исключение, 
+оно распространяется на поток, который 
+вызывает [*C@5 Finish] и [*C@5 CoWork] прекращается. 
+Если исключение бросает не единственная 
+`"работа`" (job), в таком случае случайно 
+выбирается одно из исключений, которое 
+повторно выбрасывается в Finish.&]
+[s5; Так как деструктор [*C@5 CoWork] тоже вызывает 
+[*C@5 Finish], можно сделать так, чтобы оно 
+выводилось деструктором, но это то, 
+что в  C`+`+ делать не рекомендуется, 
+но отлично определено и в данном случае 
+является наиболее уместной опцией:&]
 [s0; &]
 [s7; in.Seek(0);&]
 [s7; try `{&]
@@ -4050,10 +4057,12 @@ end of CoWork job&]
 [s7; -|DUMP(exception);&]
 [s7; `}&]
 [s0; &]
-[s5; Sometimes there is a need for cancellation of the whole [*C@5 CoWork]. 
-[*C@5 Cancel] method cancels all scheduled jobs that have not been 
-yet executed and sets [*C@5 CoWork] to canceled state, which can 
-be checked in job routine using [*C@5 CoWork`::IsCanceled]:&]
+[s5; Иногда требуется прервать всю [*C@5 CoWork]. 
+Метод [*C@5 Cancel] отменяет все запланированные 
+роботы, которые пока ещё не выполнялись, 
+и устанавливает [*C@5 CoWork] в отменённое 
+состояние, которое можно проверить 
+в процедуре работы с помощью [*C@5 CoWork`::IsCanceled]:&]
 [s0; &]
 [s7; for(int i `= 0; i < 100; i`+`+)&]
 [s7; -|co `& `[`] `{&]
@@ -4087,14 +4096,19 @@ be checked in job routine using [*C@5 CoWork`::IsCanceled]:&]
 [s17; Job was canceled&]
 [s17; Job was canceled&]
 [s0; &]
-[s5; Canceling CoWork is common in GUI applications.&]
+[s5; Отмена CoWork в ГИП`-проиложениях довольно 
+распространена.&]
 [s3;H4;:Section`_7`_5: 7.5 [C@5 AsyncWork]&]
-[s5; [*C@5 AsyncWork] is [*C@5 CoWork] based tool that resembles std`::future. 
-[*C@5 AsyncWork] instances are created using [*C@5 Async] function 
-and represent a work that can be done in parallel with current 
-thread. [*C@5 AsyncWork] supports returning values. A call to [*C@5 AsyncWork`::Get] 
-makes sure that a work routine was finished and returns the return 
-value (if any):&]
+[s5; [*C@5 AsyncWork] `- это инструмент, основанный 
+на [*C@5 CoWork], напоминающий std`::future. Экземпляры 
+[*C@5 AsyncWork] создаются посредством функции 
+[*C@5 Async] и представляют собой работу, 
+которая может выполняться параллельно 
+с текущим потоком. [*C@5 AsyncWork] поддерживает 
+возврат значений. Вызов [*C@5 AsyncWork`::Get] 
+гарантирует, что рабочая процедура 
+завершена, и выводит возвратное значение 
+(если оно имеется):&]
 [s0; &]
 [s7; auto a `= Async(`[`](int n) `-> double `{&]
 [s7; -|double f `= 1;&]
@@ -4107,8 +4121,8 @@ value (if any):&]
 [s0; &]
 [s17; a.Get() `= 9.33262154439441e157&]
 [s0; &]
-[s5; Exceptions thrown in Async work are propagated upon call to 
-[*C@5 Get]:&]
+[s5; Исключения, выбрасываемые при работе 
+Async, пропагируются на вызов [*C@5 Get]:&]
 [s0; &]
 [s7; auto b `= Async(`[`] `{ throw `"error`"; `});&]
 [s7; &]
@@ -4121,8 +4135,9 @@ value (if any):&]
 [s0; &]
 [s17; Exception has been caught&]
 [s0; &]
-[s5; [*C@5 AsyncWork] instances can be canceled (and are canceled in 
-destructor if Get is not called on them):&]
+[s5; Экземпляры[*C@5  AsyncWork] можно отменять 
+(и они отменяются в деструкторе, если 
+к ним не прилагается вызов Get):&]
 [s0; &]
 [s7; `{&]
 [s7; -|auto c `= Async(`[`] `{&]
@@ -4140,10 +4155,13 @@ by Cancel method too)&]
 [s17; Work was canceled&]
 [s0; &]
 [s3;H4;:Section`_7`_6: [@(128.0.255) 7.6 CoPartition]&]
-[s5; There is some overhead associated with CoWork worker threads. 
-That is why e.g. performing a simple operation on the array spawning 
-worker thread for each element is not a good idea performance 
-wise:&]
+[s5; Это некая перегрузка, связанная с 
+рабочими потоками CoWork. Это и причина, 
+по которой, например, выполнение простой 
+операции над массивом, когда вызывается 
+(spawning) рабочий поток для каждого элемента, 
+не является хорошей идее, с точки 
+зрения производительности:&]
 [s0; &]
 [s7; Vector<int> data;&]
 [s7; for(int i `= 0; i < 10000; i`+`+)&]
@@ -4160,29 +4178,33 @@ wise:&]
 [s0; &]
 [s17; sum `= 49995000&]
 [s0; &]
-[s5; Above code computes the sum of all elements in the [*C@5 Vector], 
-using CoWorker job for each element. While producing the correct 
-result, it is likely to run much slower than single`-threaded 
-version.&]
-[s5; The solution to the problem is to split the array into small 
-number of larger subranges that are processed in parallel. This 
-is what [*C@5 CoPartition] template algorithm does:&]
+[s5; Код выше вычисляет сумму всех элементов 
+в [*C@5 Vector`'е], для каждого элемента используетс
+я работа CoWorker. Хотя  результат производится 
+верно, вероятно, выполняться это будет 
+медленнее, чем в однопоточной версии.&]
+[s5; Решением является разбиение массива 
+на небольшое число обширных поддиапазонов, 
+обрабатываемых параллельно. Вот что 
+делает шаблонный алгоритм [*C@5 CoPartition]:&]
 [s0; &]
 [s7; sum `= 0;&]
 [s7; CoPartition(data, `[`&sum`](const auto`& subrange) `{&]
 [s7; -|int partial`_sum `= 0;&]
 [s7; -|for(const auto`& x : subrange)&]
 [s7; -|-|partial`_sum `+`= x;&]
-[s7; -|CoWork`::FinLock(); // available as CoPartition uses CoWork&]
+[s7; -|CoWork`::FinLock(); // доступно, так как CoPartition 
+использует CoWork&]
 [s7; -|sum `+`= partial`_sum;&]
 [s7; `});&]
 [s7; DUMP(sum);&]
 [s0; &]
 [s17; sum `= 49995000&]
 [s0; &]
-[s5; Note that CoWork is still internally used, so [*C@5 CoWork`::FinLock] 
-is available. Instead of working on subranges, it is also possible 
-to use iterators:&]
+[s5; Заметьте, что CoWork внутренне продолжает 
+использоваться, поэтому доступен 
+[*C@5 CoWork`::FinLock]. Вместо работы над поддиапазонам
+и, можно использовать итераторы:&]
 [s0; &]
 [s7; sum `= 0;&]
 [s7; CoPartition(data.begin(), data.end(), `[`&sum`] (auto l, auto 
@@ -4190,15 +4212,17 @@ h) `{&]
 [s7; -|int partial`_sum `= 0;&]
 [s7; -|while(l !`= h)&]
 [s7; -|-|partial`_sum `+`= `*l`+`+;&]
-[s7; -|CoWork`::FinLock(); // available as CoPartition uses CoWork&]
+[s7; -|CoWork`::FinLock(); // доступно, так как CoPartition 
+использует CoWork&]
 [s7; -|sum `+`= partial`_sum;&]
 [s7; `});&]
 [s7; DUMP(sum);&]
 [s0; &]
 [s17; sum `= 49995000&]
 [s0; &]
-[s5; There is no requirement on the type of iterators, so it is even 
-possible to use just indices:&]
+[s5; Поскольку нет никаких требований 
+к типу итераторов, можно даже использовать 
+просто индексы:&]
 [s0; &]
 [s7; sum `= 0;&]
 [s7; CoPartition(0, data.GetCount(), `[`&sum, `&data`] (int l, int 
@@ -4206,7 +4230,8 @@ h) `{&]
 [s7; -|int partial`_sum `= 0;&]
 [s7; -|while(l !`= h)&]
 [s7; -|-|partial`_sum `+`= data`[l`+`+`];&]
-[s7; -|CoWork`::FinLock(); // available as CoPartition uses CoWork&]
+[s7; -|CoWork`::FinLock(); // доступно, так как CoPartition 
+использует CoWork&]
 [s7; -|sum `+`= partial`_sum;&]
 [s7; `});&]
 [s7; DUMP(sum);&]
@@ -4214,15 +4239,15 @@ h) `{&]
 [s17; sum `= 49995000&]
 [s0; &]
 [s3;H4;:Section`_7`_7: [@(128.0.255) 7.7 CoDo]&]
-[s5; An alternative to [*C@5 CoPartition] is [*C@5 CoDo]. In this pattern, 
-the job is simply started in all threads and the code is responsible 
-for scheduling the work. [*C@5 CoDo] waits for all started threads 
-to finish. Scheduling is the responsibility of client code, but 
-can be easily managed using the std`::atomic counter. This way, 
-the overhead associated with creating lambdas and scheduling 
-them is kept to the minimum (basically the cost of atomic increment). 
-Once again, CoDo is based on CoWork, so [*C@5 CoWork`::FinLock] 
-is available.&]
+[s5; Альтернативой [*C@5 CoPartition] является 
+[*C@5 CoDo]. In this pattern, the job is simply started in all 
+threads and the code is responsible for scheduling the work. 
+[*C@5 CoDo] waits for all started threads to finish. Scheduling 
+is the responsibility of client code, but can be easily managed 
+using the std`::atomic counter. This way, the overhead associated 
+with creating lambdas and scheduling them is kept to the minimum 
+(basically the cost of atomic increment). Once again, CoDo is 
+based on CoWork, so [*C@5 CoWork`::FinLock] is available.&]
 [s0; &]
 [s7; Vector<String> data;&]
 [s7; for(int i `= 0; i < 100; i`+`+)&]

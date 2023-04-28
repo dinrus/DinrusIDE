@@ -19,7 +19,7 @@ array of bools, implemented using binary arrays, packing 8 bits
 per byte of allocated space (plus some allocation reserve). It 
 is moveable type with pick transfer sematics.&]
 [s3; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:Bits`:`:Clear`(`): [@(0.0.255) void]_[* Clear]()&]
 [s2;%% Sets all bools to false.&]

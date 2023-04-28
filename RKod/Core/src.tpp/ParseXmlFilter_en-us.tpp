@@ -16,7 +16,7 @@ topic "ParseXmlFilter and IgnoreXmlPaths";
 [s2;%% This abstract class serves as filter for ParseXML function, 
 allowing it to ignore certain parts of source XML.&]
 [s3; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:ParseXmlFilter`:`:DoTag`(const String`&`): [@(0.0.255) virtual] 
 [@(0.0.255) bool]_[* DoTag]([@(0.0.255) const]_[_^String^ String][@(0.0.255) `&]_[*@3 tag])_`=

@@ -18,7 +18,7 @@ classes. It provides support for time`-constrained or blocking
 operations, polymorphism, [^https`:`/`/en`.wikipedia`.org`/wiki`/Run`-time`_type`_information`?oldformat`=true^ R
 TTI], error management, and logging.&]
 [s3; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:Upp`:`:Ssh`:`:operator bool`(`)const: [* operator_bool]()_[@(0.0.255) const]&]
 [s2;%% Tests whether the object is picked (moved).&]

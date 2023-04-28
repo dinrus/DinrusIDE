@@ -21,7 +21,7 @@ using method is not possible (e.g. for supported primitive types),
 global templated specialization of Jsonize can be used.&]
 [s2;%% &]
 [s3; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
 [s3;%% &]
 [s5;:JsonIO`:`:IsLoading`(`)const: [@(0.0.255) bool]_[* IsLoading]()_[@(0.0.255) const]&]
 [s2;%% Returns true when retrieving data from JSON.&]

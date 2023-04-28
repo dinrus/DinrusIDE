@@ -60,7 +60,7 @@ get copied one more time and that for particular element, twice
 as much memory is required to load it, however, usually these 
 are negligible.&]
 [s0;i448;a25;kKO9;:noref:@(0.0.255)%- &]
-[ {{10000F(128)G(128)@1 [s0; [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0; [* Список Публичных Методов]]}}&]
 [s3;%- &]
 [s5;:Upp`:`:Huge`:`:CHUNK:%- [@(0.0.255) enum]_[* CHUNK]_`=_[@3 1024]_`*_[@3 1024]_&]
 [s2; This is the size of allocation chunk for [* Huge], currently at 

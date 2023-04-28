@@ -18,7 +18,7 @@ It is sort of similar to CtrlRetriever, but does immediate transfer
 of values based on flag&]
 [s2;%% &]
 [s3; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:Upp`:`:CtrlMapper`:`:operator`(`)`(Upp`:`:Ctrl`&`,T`&`): [@(0.0.255) template]_<[@(0.0.255) c
 lass]_[*@4 T]>_[_^Upp`:`:CtrlMapper^ CtrlMapper][@(0.0.255) `&]_[* operator()]([_^Upp`:`:Ctrl^ C

@@ -15,7 +15,7 @@ topic "ValueGen";
 [s1;:ValueGen`:`:class: [@(0.0.255)3 class][3 _][*3 ValueGen]&]
 [s2;%% Simple abstract base class intended as `"Value generator`".&]
 [s0;i448;a25;kKO9;:noref:@(0.0.255) &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:ValueGen`:`:Get`(`): [@(0.0.255) virtual] [_^Value^ Value]_[* Get]()_`=_[@3 0]&]
 [s2;%% Supposed to return next Value in generator sequence.&]

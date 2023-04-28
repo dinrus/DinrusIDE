@@ -34,7 +34,7 @@ represents true. Value of ButtonOption is either 1 or 0.&]
 trl]&]
 [s3; &]
 [s0;%- &]
-[ {{10000F(128)G(128)@1 [s0; [* Public Method List]]}}&]
+[ {{10000F(128)G(128)@1 [s0; [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:ButtonOption`:`:SetImage`(const Image`&`):%- [_^ButtonOption^ ButtonOption][@(0.0.255) `&
 ]_[* SetImage]([@(0.0.255) const]_[_^Image^ Image][@(0.0.255) `&]_[*@3 img])&]

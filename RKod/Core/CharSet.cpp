@@ -1,4 +1,4 @@
-#include <DinrusC/Core.h>
+#include <RKod/Core.h>
 
 namespace РНЦПДинрус {
 

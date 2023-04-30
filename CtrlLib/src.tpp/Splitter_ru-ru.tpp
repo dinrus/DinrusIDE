@@ -124,12 +124,12 @@ s], [_^Ctrl^ Ctrl][@(0.0.255) `&]_[*@3 pane])&]
 [s4; &]
 [s5;:Splitter`:`:Horz`(Ctrl`&`,Ctrl`&`): [_^Splitter^ Splitter][@(0.0.255) `&]_[* Horz]([_^Ctrl^ C
 trl][@(0.0.255) `&]_[*@3 left], [_^Ctrl^ Ctrl][@(0.0.255) `&]_[*@3 right])&]
-[s2;%% Same as Set([%-*@3 left], [%-*@3 right]); return Vert();&]
+[s2;%% То же, что и Set([%-*@3 left], [%-*@3 right]); return Vert();&]
 [s3;%% &]
 [s4; &]
 [s5;:Splitter`:`:Vert`(Ctrl`&`,Ctrl`&`): [_^Splitter^ Splitter][@(0.0.255) `&]_[* Vert]([_^Ctrl^ C
 trl][@(0.0.255) `&]_[*@3 top], [_^Ctrl^ Ctrl][@(0.0.255) `&]_[*@3 bottom])&]
-[s2;%% Same as Set([%-*@3 top] [%-*@3 bottom]); return Horz();&]
+[s2;%% То же, что и Set([%-*@3 top] [%-*@3 bottom]); return Horz();&]
 [s3;%% &]
 [s4; &]
 [s5;:Splitter`:`:BarWidth`(int`): [_^Splitter^ Splitter][@(0.0.255) `&]_[* BarWidth]([@(0.0.255) i

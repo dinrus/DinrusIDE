@@ -57,7 +57,7 @@ and optional deep copy] transfer semantics.&]
 [ {{10000F(128)G(128)@1 [s0; [* Детали Конструктора]]}}&]
 [s3;%- &]
 [s5;:Array`:`:Array`(`):%- [* Array]()&]
-[s2; Default constructor. Constructs an empty Array.&]
+[s2; Дефолтный конструктор. Конструирует пустой Array.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:Array`:`:Array`(int`):%- [@(0.0.255) explicit]_[* Array]([@(0.0.255) int]_[*@3 n])
@@ -174,7 +174,7 @@ the reference to the element at [%-*@3 i], otherwiser returns [%-*@3 def].&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Array`:`:IsEmpty`(`)const:%- [@(0.0.255) bool]_[* IsEmpty]()_[@(0.0.255) const]&]
-[s2; Tests whether Array is empty. Same as GetCount() `=`= 0.&]
+[s2; Tests whether Array is empty. То же, что и GetCount() `=`= 0.&]
 [s7; [*/ Возвратное значение]-|true if Array is empty, false otherwise.&]
 [s3;%- &]
 [s4;%- &]
@@ -332,7 +332,7 @@ It must be sorted from lowest to greatest value.&]
 [s4;%- &]
 [s5;:Array`:`:Remove`(const Vector`<int`>`&`):%- [@(0.0.255) void]_[* Remove]([@(0.0.255) c
 onst]_[_^Vector^ Vector][@(0.0.255) <int>`&]_[*@3 sorted`_list])&]
-[s2; Removes number of elements from the Array. Same as [* Remove(sorted`_list, 
+[s2; Removes number of elements from the Array. То же, что и [* Remove(sorted`_list, 
 sorted`_list.GetCount())].&]
 [s6; Invalidates iterators to the Array.&]
 [s7; [*C@3 sorted`_list]-|Sorted Vector of positions to remove.&]
@@ -609,7 +609,7 @@ the last element in Array.&]
 [s5;:Array`:`:GetIter`(int`):%- [_^topic`:`/`/Core`/src`/Array`$en`-us`#Array`:`:Iterator`:`:class^ I
 terator]_[* GetIter]([@(0.0.255) int]_[*@3 pos])&]
 [s2; Returns a non`-constant iterator to the element at the specified 
-position. Same as [* Begin() `+ pos]. The benefit of this method 
+position. То же, что и [* Begin() `+ pos]. The benefit of this method 
 is that [* pos] is range checked in debug mode.&]
 [s7; [*C@3 pos]-|Required position.&]
 [s7; [*/ Возвратное значение]-|Iterator.&]
@@ -631,7 +631,7 @@ last element in Array.&]
 [s5;:Array`:`:GetIter`(int`)const:%- [_^topic`:`/`/Core`/src`/Array`$en`-us`#Upp`:`:Array`:`:ConstIterator`:`:class^ C
 onstIterator]_[* GetIter]([@(0.0.255) int]_[*@3 pos])_[@(0.0.255) const]&]
 [s2; Returns a constant iterator to the element at the specified 
-position. Same as [* Begin() `+ pos]. The benefit of this method 
+position. То же, что и [* Begin() `+ pos]. The benefit of this method 
 is that [* pos] is range checked in debug mode..&]
 [s7; [*C@3 pos]-|Required position.&]
 [s7; [*/ Возвратное значение]-|Iterator.&]

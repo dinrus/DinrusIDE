@@ -978,7 +978,7 @@ T Replace__(const T& s, const Вектор<T>& find, const Вектор<T>& repl
 
 Ткст GetP7Signature(const void *данные, int length, const Ткст& cert_pem, const Ткст& pkey_pem)
 {
-	ПРОВЕРЬ_(GetP7Signature__, "Missing SSL support (DinrusC/SSL)");
+	ПРОВЕРЬ_(GetP7Signature__, "Missing SSL support (RKod/SSL)");
 	return (*GetP7Signature__)(данные, length, cert_pem, pkey_pem);
 }
 

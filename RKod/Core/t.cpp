@@ -2,8 +2,8 @@
 
 namespace РНЦПДинрус {
 
-#define TFILE <DinrusC/Core.t>
-#include <DinrusC/t.h>
+#define TFILE <RKod/Core.t>
+#include <RKod/t.h>
 
 static СтатическийСтопор slng;
 

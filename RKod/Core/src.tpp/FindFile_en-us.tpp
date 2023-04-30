@@ -169,13 +169,13 @@ this is used as condition to the loop that enumerates directory.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:FindFile`:`:operator`+`+`(`):%- [@(0.0.255) bool]_[* operator`+`+]()&]
-[s2; Same as Next(). Improves [* for] syntax: for(FindFile ff(...); 
+[s2; То же, что и Next(). Improves [* for] syntax: for(FindFile ff(...); 
 ff; `+`+ff)&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:FindFile`:`:operator`+`+`(int`):%- [@(0.0.255) bool]_[* operator`+`+]([@(0.0.255) i
 nt])&]
-[s2; Same as Next(). Improves [* for] syntax: for(FindFile ff(...); 
+[s2; То же, что и Next(). Improves [* for] syntax: for(FindFile ff(...); 
 ff; ff`+`+)&]
 [s3;%- &]
 [s4;%- &]

@@ -149,7 +149,7 @@ public:
 		about.NoLazy();
 		Background(PaintRect(ColorDisplay(), SColorPaper()));
 		Add(about);
-		Title("Об ИСР РНЦП Динрус");
+		Title("Об ИСР РНЦП Динрус-2");
 	}
 
 	bool Key(dword key, int) override

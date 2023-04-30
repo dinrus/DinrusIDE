@@ -919,7 +919,7 @@ bool TcpSocket::StartSSL()
 {
 	ПРОВЕРЬ(открыт());
 	if(!CreateSSL) {
-		SetSockError("StartSSL", -1, "Missing SSL support (DinrusC/SSL)");
+		SetSockError("StartSSL", -1, "Missing SSL support (RKod/SSL)");
 		return false;
 	}
 	if(!открыт()) {

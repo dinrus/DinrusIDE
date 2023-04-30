@@ -71,7 +71,7 @@ that are connected to Filter and End callbacks.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:OutFilterStream`:`:OutFilterStream`(`): [* OutFilterStream]()&]
-[s2;%% Default constructor.&]
+[s2;%% Дефолтный конструктор.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:OutFilterStream`:`:OutFilterStream`(Stream`&`,F`&`): [@(0.0.255) template]_<[@(0.0.255) c

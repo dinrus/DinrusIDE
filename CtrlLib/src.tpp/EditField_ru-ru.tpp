@@ -261,7 +261,7 @@ Returns `*this.&]
 [s4; &]
 [s5;:EditField`:`:NoAutoFormat`(`): [_^EditField^ EditField][@(0.0.255) `&]_[* NoAutoFormat
 ]()&]
-[s2; Same as AutoFormat(false).&]
+[s2; То же, что и AutoFormat(false).&]
 [s3; &]
 [s4; &]
 [s5;:EditField`:`:IsAutoFormat`(`)const: [@(0.0.255) bool]_[* IsAutoFormat]()_[@(0.0.255) c
@@ -400,7 +400,7 @@ view coordinates.&]
 [s4; &]
 [s5;:EditField`:`:GetCaretRect`(`)const: [_^Rect^ Rect]_[* GetCaretRect]()_[@(0.0.255) cons
 t]&]
-[s2;%% Same as GetCaretRect(cursor).&]
+[s2;%% То же, что и GetCaretRect(cursor).&]
 [s3; &]
 [s4; &]
 [s5;:EditField`:`:StyleDefault`(`): [@(0.0.255) static] [@(0.0.255) const]_[_^EditField`:`:Style^ S

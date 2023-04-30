@@ -56,11 +56,11 @@ be defined by issuing individual Add methods before calling PopUp.&]
 [s3; &]
 [s4;%- &]
 [s5;:MenuBar`:`:PopUp`(Point`):%- [@(0.0.255) void]_[* PopUp]([_^Point^ Point]_[*@3 p])&]
-[s2; Same as PopUp(GetActiveWindow(), p).&]
+[s2; То же, что и PopUp(GetActiveWindow(), p).&]
 [s3; &]
 [s4;%- &]
 [s5;:MenuBar`:`:PopUp`(`):%- [@(0.0.255) void]_[* PopUp]()&]
-[s2; Same as previous method, with p set to the current mouse position.&]
+[s2; То же, что и previous method, with p set to the current mouse position.&]
 [s3; &]
 [s4;%- &]
 [s5;:MenuBar`:`:Execute`(Ctrl`*`,Point`):%- [@(0.0.255) bool]_[* Execute]([_^Ctrl^ Ctrl]_`*
@@ -71,12 +71,12 @@ without performing any action.&]
 [s3; &]
 [s4;%- &]
 [s5;:MenuBar`:`:Execute`(Point`):%- [@(0.0.255) bool]_[* Execute]([_^Point^ Point]_[*@3 p])&]
-[s2; Same as Execute(GetActiveWindow(), [%-*@3 p]). Returns false when 
+[s2; То же, что и Execute(GetActiveWindow(), [%-*@3 p]). Returns false when 
 menu is canceled without performing any action.&]
 [s3; &]
 [s4;%- &]
 [s5;:MenuBar`:`:Execute`(`):%- [@(0.0.255) bool]_[* Execute]()&]
-[s2; Same as previous method, with p set to the current mouse position. 
+[s2; То же, что и previous method, with p set to the current mouse position. 
 Returns false when menu is canceled without performing any action.&]
 [s3; &]
 [s4;%- &]
@@ -90,13 +90,13 @@ is canceled without performing any action.&]
 [s5;:Upp`:`:MenuBar`:`:Execute`(Upp`:`:Event`<Upp`:`:Bar`&`>`,Upp`:`:Point`):%- [@(0.0.255) s
 tatic] [@(0.0.255) bool]_[* Execute]([_^Upp`:`:Event^ Event]<Bar[@(0.0.255) `&]>_[*@3 proc],
  [_^Upp`:`:Point^ Point]_[*@3 p])&]
-[s2; Same as previous method, using GetActiveWindow() as owner. Returns 
+[s2; То же, что и previous method, using GetActiveWindow() as owner. Returns 
 false when menu is canceled without performing any action.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:MenuBar`:`:Execute`(Upp`:`:Event`<Upp`:`:Bar`&`>`):%- [@(0.0.255) static] 
 [@(0.0.255) bool]_[* Execute]([_^Upp`:`:Event^ Event]<Bar[@(0.0.255) `&]>_[*@3 proc])&]
-[s2; Same as previous method, using current mouse position. Returns 
+[s2; То же, что и previous method, using current mouse position. Returns 
 false when menu is canceled without performing any action.&]
 [s3; &]
 [s4;%- &]

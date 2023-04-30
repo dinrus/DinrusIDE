@@ -180,22 +180,22 @@ numbers with numbers etc...). If types are not comparable, returns
 [s4;%- &]
 [s5;:Value`:`:operator`<`=`(const Value`&`)const:%- [@(0.0.255) bool]_[* operator<`=]([@(0.0.255) c
 onst]_[_^Value^ Value][@(0.0.255) `&]_[*@3 x])_[@(0.0.255) const]&]
-[s2;%- [%% Same as Compare(][*@3 x]) <`= 0.&]
+[s2;%- [%% То же, что и Compare(][*@3 x]) <`= 0.&]
 [s3; &]
 [s4;%- &]
 [s5;:Value`:`:operator`>`=`(const Value`&`)const:%- [@(0.0.255) bool]_[* operator>`=]([@(0.0.255) c
 onst]_[_^Value^ Value][@(0.0.255) `&]_[*@3 x])_[@(0.0.255) const]&]
-[s2;%- [%% Same as Compare(][*@3 x]) >`= 0.&]
+[s2;%- [%% То же, что и Compare(][*@3 x]) >`= 0.&]
 [s3; &]
 [s4;%- &]
 [s5;:Value`:`:operator`<`(const Value`&`)const:%- [@(0.0.255) bool]_[* operator<]([@(0.0.255) c
 onst]_[_^Value^ Value][@(0.0.255) `&]_[*@3 x])_[@(0.0.255) const]&]
-[s2;%- [%% Same as Compare(][*@3 x]) < 0.&]
+[s2;%- [%% То же, что и Compare(][*@3 x]) < 0.&]
 [s3; &]
 [s4;%- &]
 [s5;:Value`:`:operator`>`(const Value`&`)const:%- [@(0.0.255) bool]_[* operator>]([@(0.0.255) c
 onst]_[_^Value^ Value][@(0.0.255) `&]_[*@3 x])_[@(0.0.255) const]&]
-[s2;%- [%% Same as Compare(][*@3 x]) > 0.&]
+[s2;%- [%% То же, что и Compare(][*@3 x]) > 0.&]
 [s3; &]
 [s4;%- &]
 [s5;:Value`:`:ToString`(`)const:%- [_^String^ String]_[* ToString]()_[@(0.0.255) const]&]
@@ -204,7 +204,7 @@ onst]_[_^Value^ Value][@(0.0.255) `&]_[*@3 x])_[@(0.0.255) const]&]
 [s4;%- &]
 [s5;:Value`:`:operator`~`(`)const:%- [_^String^ String]_[@(0.0.255) operator]_`~()_[@(0.0.255) c
 onst]&]
-[s2; Same as ToString().&]
+[s2; То же, что и ToString().&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Value`:`:GetTypeName`(`)const:%- [_^String^ String]_[* GetTypeName]()_[@(0.0.255) cons
@@ -269,7 +269,7 @@ is undefined (ASSERT in debug mode fails).&]
 [s4;%- &]
 [s5;:Value`:`:operator`(`)`(int`):%- [_^Value^ Value][@(0.0.255) `&]_[* operator()]([@(0.0.255) i
 nt]_[*@3 i])&]
-[s2; Same as At([%-*@3 i]).&]
+[s2; То же, что и At([%-*@3 i]).&]
 [s3; &]
 [s4;%- &]
 [s5;:Value`:`:Add`(const Value`&`):%- [@(0.0.255) void]_[* Add]([@(0.0.255) const]_[_^Value^ V
@@ -283,7 +283,7 @@ in debug mode fails).&]
 [s5;:Value`:`:operator`<`<`(const T`&`):%- [@(0.0.255) template]_<[@(0.0.255) typename]_[*@4 T
 ]>_[_^Value^ Value][@(0.0.255) `&]_[* operator<<]([@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[*@3 s
 rc])&]
-[s2; Same as Add([%-*@3 src]).&]
+[s2; То же, что и Add([%-*@3 src]).&]
 [s3; &]
 [s4;%- &]
 [s5;:Value`:`:GetAdd`(const Value`&`):%- [_^Value^ Value][@(0.0.255) `&]_[* GetAdd]([@(0.0.255) c
@@ -300,7 +300,7 @@ is undefined (ASSERT in debug mode fails).&]
 [s4;%- &]
 [s5;:Value`:`:operator`(`)`(const String`&`):%- [_^Value^ Value][@(0.0.255) `&]_[* operator
 ()]([@(0.0.255) const]_[_^String^ String][@(0.0.255) `&]_[*@3 key])&]
-[s2; Same as GetAdd([%-*@3 key]).&]
+[s2; То же, что и GetAdd([%-*@3 key]).&]
 [s3; &]
 [s4;%- &]
 [s5;:Value`:`:operator`(`)`(const char`*`):%- [_^Value^ Value][@(0.0.255) `&]_[* operator()
@@ -324,7 +324,7 @@ is undefined (ASSERT in debug mode fails).&]
 [s3; &]
 [s4;%- &]
 [s5;:Value`:`:Value`(`):%- [* Value]()&]
-[s2; Default constructor, creates void Value.&]
+[s2; Дефолтный конструктор, creates void Value.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Value`:`:`~Value`(`):%- [@(0.0.255) `~][* Value]()&]
@@ -469,12 +469,12 @@ tring][@(0.0.255) `&]_[*@3 s])&]
 [s3;%- &]
 [s5;:IsVoid`(const Value`&`):%- [@(0.0.255) bool]_[* IsVoid]([@(0.0.255) const]_[_^Value^ Val
 ue][@(0.0.255) `&]_[*@3 v])&]
-[s2; Same as [%-*@3 v].IsVoid().&]
+[s2; То же, что и [%-*@3 v].IsVoid().&]
 [s3; &]
 [s4;%- &]
 [s5;:IsError`(const Value`&`):%- [@(0.0.255) bool]_[* IsError]([@(0.0.255) const]_[_^Value^ V
 alue][@(0.0.255) `&]_[*@3 v])&]
-[s2; Same as [%-*@3 v].IsError().&]
+[s2; То же, что и [%-*@3 v].IsError().&]
 [s3; &]
 [s4;%- &]
 [s5;:IsString`(const Value`&`):%- [@(0.0.255) bool]_[* IsString]([@(0.0.255) const]_[_^Value^ V
@@ -511,7 +511,7 @@ empty String.&]
 [s4;%- &]
 [s5;:IsNull`(const Value`&`):%- [@(0.0.255) bool]_[* IsNull]([@(0.0.255) const]_[_^Value^ Val
 ue][@(0.0.255) `&]_[*@3 v])&]
-[s2; Same as [%-*@3 v].IsNull().&]
+[s2; То же, что и [%-*@3 v].IsNull().&]
 [s3; &]
 [s4;%- &]
 [s5;:Nvl`(const Value`&`,const Value`&`):%- [@(0.0.255) const]_[_^Value^ Value][@(0.0.255) `&

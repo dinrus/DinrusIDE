@@ -42,14 +42,14 @@ to XML.&]
 [s4; &]
 [s5;:XmlIO`:`:GetAttr`(const char`*`): [_^String^ String]_[* GetAttr]([@(0.0.255) const]_[@(0.0.255) c
 har]_`*[*@3 id])&]
-[s2;%% Same as Node().GetAttr([%-*@3 id]) `- returns the value of attribute 
+[s2;%% То же, что и Node().GetAttr([%-*@3 id]) `- returns the value of attribute 
 of current XmlNode (used when retrieving data from XML).&]
 [s3;%% &]
 [s4;%% &]
 [s5;:XmlIO`:`:SetAttr`(const char`*`,const String`&`): [@(0.0.255) void]_[* SetAttr]([@(0.0.255) c
 onst]_[@(0.0.255) char]_`*[*@3 id], [@(0.0.255) const]_[_^String^ String][@(0.0.255) `&]_[*@3 v
 al])&]
-[s2;%% Same as Node().SetAttr([%-*@3 id], [%-*@3 val]) `- sets the value 
+[s2;%% То же, что и Node().SetAttr([%-*@3 id], [%-*@3 val]) `- sets the value 
 of attribute of current XmlNode (used when storing data to XML).&]
 [s3;%% &]
 [s4;%% &]

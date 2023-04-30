@@ -670,7 +670,7 @@ Default is border: 0, margin: 15.]
 :: [s0; Sets all cell borders (first [/@(0.0.255) number]) and margins 
 in dots. If any of numbers is missing, sets only the one present.]
 :: [s0; [C@(128.0.255) `*]]
-:: [s0; Same as f0g0a0/0 `- sets everything to zero to use table as 
+:: [s0; То же, что и f0g0a0/0 `- sets everything to zero to use table as 
 organizing element.]
 :: [s0; [C@(128.0.255) o]]
 :: [s0; Sets round border.]

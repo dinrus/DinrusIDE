@@ -98,7 +98,7 @@ operator`=`=, hashing, Null and serialization.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:Drawing`:`:Drawing`(`): [* Drawing]()&]
-[s2;%% Default constructor.&]
+[s2;%% Дефолтный конструктор.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:Drawing`:`:Drawing`(const Nuller`&`): [* Drawing]([@(0.0.255) const]_[_^Nuller^ Nuller

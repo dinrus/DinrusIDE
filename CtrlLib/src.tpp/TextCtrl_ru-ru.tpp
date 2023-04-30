@@ -161,7 +161,7 @@ value.&]
 [s4; &]
 [s5;:TextCtrl`:`:CheckCharset`(byte`)const: [@(0.0.255) bool]_[* CheckCharset]([_^byte^ byt
 e]_[*@3 charset]_`=_CHARSET`_DEFAULT)_[@(0.0.255) const]&]
-[s2; [%% Same as GetInvalidCharPos(]charset) < 0.&]
+[s2; [%% То же, что и GetInvalidCharPos(]charset) < 0.&]
 [s3;%% &]
 [s4; &]
 [s5;:TextCtrl`:`:Set`(const WString`&`): [@(0.0.255) void]_[* Set]([@(0.0.255) const]_[_^WString^ W
@@ -227,7 +227,7 @@ index within the line.&]
 [s4; &]
 [s5;:TextCtrl`:`:GetPos`(int`)const: [@(0.0.255) int]_[* GetPos]([@(0.0.255) int]_[*@3 line])
 _[@(0.0.255) const]&]
-[s2;%% Same as GetPos([%-*@3 line], 0).&]
+[s2;%% То же, что и GetPos([%-*@3 line], 0).&]
 [s3;%% &]
 [s4; &]
 [s5;:TextCtrl`:`:GetUtf8Line`(int`)const: [@(0.0.255) const]_[_^String^ String][@(0.0.255) `&
@@ -278,7 +278,7 @@ the last character.&]
 [s4; &]
 [s5;:Upp`:`:TextCtrl`:`:GetCursorLine`(`)const: [@(0.0.255) int]_[* GetCursorLine]()_[@(0.0.255) c
 onst]&]
-[s2;%% Same as GetLine(GetCursor).&]
+[s2;%% То же, что и GetLine(GetCursor).&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:TextCtrl`:`:SetSelection`(Upp`:`:int64`,Upp`:`:int64`): [@(0.0.255) void]_[* S
@@ -365,18 +365,18 @@ nt]_[*@3 pos], [@(0.0.255) const]_[_^String^ String][@(0.0.255) `&]_[*@3 txt],
 [s4; &]
 [s5;:Upp`:`:TextCtrl`:`:Append`(const Upp`:`:WString`&`): [@(0.0.255) int]_[* Append]([@(0.0.255) c
 onst]_[_^Upp`:`:WString^ WString][@(0.0.255) `&]_[*@3 txt])&]
-[s2;%% Same as Insert(GetLength(), [%-*@3 txt]).&]
+[s2;%% То же, что и Insert(GetLength(), [%-*@3 txt]).&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:TextCtrl`:`:Append`(const Upp`:`:String`&`,Upp`:`:byte`): [@(0.0.255) int]_
 [* Append]([@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 txt], 
 [_^Upp`:`:byte^ byte]_[*@3 charset]_`=_CHARSET`_DEFAULT)&]
-[s2;%% Same as Insert(GetLength(), [%-*@3 txt], [%-*@3 charset]).&]
+[s2;%% То же, что и Insert(GetLength(), [%-*@3 txt], [%-*@3 charset]).&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:TextCtrl`:`:Append`(const char`*`): [@(0.0.255) int]_[* Append]([@(0.0.255) con
 st]_[@(0.0.255) char]_`*[*@3 txt])&]
-[s2;%% Same as Append(WString([%-*@3 txt])).&]
+[s2;%% То же, что и Append(WString([%-*@3 txt])).&]
 [s3;%% &]
 [s4; &]
 [s5;:TextCtrl`:`:NextUndo`(`): [@(0.0.255) void]_[* NextUndo]()&]
@@ -552,7 +552,7 @@ ool]_[*@3 b]_`=_[@(0.0.255) true])&]
 [s4; &]
 [s5;:TextCtrl`:`:NoProcessTab`(`): [_^TextCtrl^ TextCtrl][@(0.0.255) `&]_[* NoProcessTab]()
 &]
-[s2;%% Same as ProcessTab(false).&]
+[s2;%% То же, что и ProcessTab(false).&]
 [s3;%% &]
 [s4; &]
 [s5;:TextCtrl`:`:ProcessEnter`(bool`): [_^TextCtrl^ TextCtrl][@(0.0.255) `&]_[* ProcessEnte
@@ -563,7 +563,7 @@ r]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) true])&]
 [s4; &]
 [s5;:TextCtrl`:`:NoProcessEnter`(`): [_^TextCtrl^ TextCtrl][@(0.0.255) `&]_[* NoProcessEnte
 r]()&]
-[s2;%% Same as ProcessEnter(false).&]
+[s2;%% То же, что и ProcessEnter(false).&]
 [s3; &]
 [s4; &]
 [s5;:TextCtrl`:`:NoBackground`(bool`): [_^TextCtrl^ TextCtrl][@(0.0.255) `&]_[* NoBackgroun

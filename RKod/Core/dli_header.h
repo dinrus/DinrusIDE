@@ -1,2 +1,2 @@
 #define DLI_HEADER
-#include <DinrusC/dli.h>
+#include <RKod/dli.h>

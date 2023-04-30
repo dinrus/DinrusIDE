@@ -24,7 +24,7 @@ serialization etc.).&]
 [ {{10000F(128)G(128)@1 [s0; [* Детали Конструктора]]}}&]
 [s3; &]
 [s5;:Color`:`:Color`(`):%- [* Color]()&]
-[s2; Default constructor. Leaves component values uninitialized.&]
+[s2; Дефолтный конструктор. Leaves component values uninitialized.&]
 [s3; &]
 [s4;%- &]
 [s5;:Color`:`:Color`(int`,int`,int`):%- [* Color]([@(0.0.255) int]_[*@3 r], 

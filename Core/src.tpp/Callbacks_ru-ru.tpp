@@ -11,362 +11,432 @@ topic "Обратные вызовы";
 [2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%RU-RU 
 [ {{10000@(113.42.0) [s0; [*@7;4 Обратные вызовы]]}}&]
-[s9; [*/^topic`:`/`/Core`/src`/Function`_en`-us^ Callbacks are now 
-deprecated. Use Function/Event/Gate instead!]&]
-[s9; Callbacks can be described as a very generalized form of function 
-pointers. Each Callback represents some kind of action (usually 
-calling a certain function or a certain object method) that can 
-be invoked at any time.&]
-[s9; If you are happy enough to be able to use C`+`+11, you can also 
-assign C`+`+ lambda to Callback using operator << (see bellow).&]
-[s9; There are several basic callback types, depending on number 
-of parameters passed and return value. In order to keep description 
-of callbacks short, all these types are described in a single 
-`"parametrized`" description, with parameters [*/@(128.0.255) highlighted].&]
-[s9; Generally, callbacks are now defined for up to 5 parameters 
-of target (function, method, another callback).&]
+[s9; [*/^topic`:`/`/Core`/src`/Function`_en`-us^ Обратные вызовы 
+(Callbacks) теперь деприкированы. Вместо 
+них  Function/Event/Gate!]&]
+[s9; Обратные вызовы можно определить 
+как весьма генерализованную форму 
+указателей на функцию.Каждый Callback 
+представляет своего рода действие 
+(обычно, вызывая определённую функцию 
+или метод объекта) , которое можно 
+вызвать в любое время.&]
+[s9; Если вы неплохо ладите с использованием 
+C`+`+11, можно также присвоить лямбду 
+C`+`+ Callback`'у с помощью оператора << (смотрите 
+ниже).&]
+[s9; Имеется несколько базовых (основных) 
+типов обратных вызовов, зависящих 
+от числа передаваемых параметров 
+и возвратного значения. В целях `"укорочения`"
+ описания обратных вызовов (обрвызов), 
+все эти типы описываются в едином 
+`"параметрированном`" описании, с [*/@(128.0.255) подс
+веткой параметров].&]
+[s9; В целом, обрвызы на данный момент 
+определены для функций, имеющих до 
+5 параметров цели (функция, метод, 
+другой обрвыз).&]
 [s0; &]
-[s0; Callback types:&]
+[s0; Типы обрвызов:&]
 [s3; &]
-[ {{1514:5185:1933:1368h1;t/17b/17@(204) [s0;%- [*/@(128.0.255)1 CallbackType]]
-:: [s0;%- [*/@(128.0.255)1 parameters]]
-:: [s0;%- [*/@(128.0.255)1 arguments]]
-:: [s0;%- [*/@(128.0.255)1 return`_type]]
+[ {{1514:5185:1933:1368h1;t/17b/17@(204) [s0;=%- [*/@(128.0.255) Тип обрвыза]]
+:: [s0;=%- [*/@(128.0.255) Парметры]]
+:: [s0;=%- [*/@(128.0.255) Аргументы]]
+:: [s0;=%- [*/@(128.0.255) Тип возврата]]
 ::@2 [s0;:Callback`:`:class:%- [*C+75 Callback]]
-:: [s0;%- [*/C@(0.0.255)+75 none]]
-:: [s0;%- [*/C@(0.0.255)+75 none]]
+:: [s0;%- [*/C@(0.0.255)+75 отсутствуют]]
+:: [s0;%- [*/C@(0.0.255)+75 отсутствуют]]
 :: [s0;%- [*/C+75 void]]
 :: [s0;:Callback1`:`:class:%- [*C+75 Callback1]]
-:: [s0;%- [*/C+75 class P1]]
+:: [s0;%- [*/C+75 класс P1]]
 :: [s0;%- [*/C+75 P1]]
 :: [s0;%- [*/C+75 void]]
 :: [s0;:Callback2`:`:class: [*C+75 Callback2]]
-:: [s0; [*/C+75 class P1, class P2]]
+:: [s0; [%-*/C+75 класс ][*/C+75 P1, ][%-*/C+75 класс ][*/C+75 P2]]
 :: [s0; [*/C+75 P1, P2]]
 :: [s0; [*/C+75 void]]
 :: [s0;:Callback3`:`:class: [*C+75 Callback3]]
-:: [s0; [*/C+75 class P1, class P2, class P3]]
+:: [s0; [%-*/C+75 класс ][*/C+75 P1, ][%-*/C+75 класс ][*/C+75 P2, 
+][%-*/C+75 класс ][*/C+75 P3]]
 :: [s0; [*/C+75 P1, P2, P3]]
 :: [s0; [*/C+75 void]]
 :: [s0;:Callback4`:`:class: [*C+75 Callback4]]
-:: [s0; [*/C+75 class P1, class P2, class P3, class P4]]
+:: [s0; [%-*/C+75 класс ][*/C+75 P1, ][%-*/C+75 класс ][*/C+75 P2, 
+][%-*/C+75 класс ][*/C+75 P3, ][%-*/C+75 класс ][*/C+75 P4]]
 :: [s0; [*/C+75 P1, P2, P3, P4]]
 :: [s0; [*/C+75 void]]
 :: [s0;:Callback5`:`:class: [*C+75 Callback5]]
-:: [s0; [*/C+75 class P1, ... , class P5]]
+:: [s0; [%-*/C+75 класс ][*/C+75 P1, ... , ][%-*/C+75 класс ][*/C+75 P5]]
 :: [s0; [*/C+75 P1, ... , P5]]
 :: [s0; [*/C+75 void]]
 :: [s0;:Gate`:`:class: [*C+75 Gate]]
-:: [s0; [*/C@(0.0.255)+75 none]]
-:: [s0; [*/C@(0.0.255)+75 none]]
+:: [s0;%- [*/C@(0.0.255)+75 отсутствуют]]
+:: [s0;%- [*/C@(0.0.255)+75 отсутствуют]]
 :: [s0; [*/C+75 bool]]
 :: [s0;:Gate1`:`:class: [*C+75 Gate1]]
-:: [s0; [*/C+75 class P1]]
+:: [s0; [%-*/C+75 класс ][*/C+75 P1]]
 :: [s0; [*/C+75 P1]]
 :: [s0; [*/C+75 bool]]
 :: [s0;:Gate2`:`:class: [*C+75 Gate2]]
-:: [s0; [*/C+75 class P1, class P2]]
+:: [s0; [%-*/C+75 класс ][*/C+75 P1, ][%-*/C+75 класс ][*/C+75 P2]]
 :: [s0; [*/C+75 P1, P2]]
 :: [s0; [*/C+75 bool]]
 :: [s0;:Gate3`:`:class: [*C+75 Gate3]]
-:: [s0; [*/C+75 class P1, class P2, class P3]]
+:: [s0; [%-*/C+75 класс ][*/C+75 P1, ][%-*/C+75 класс ][*/C+75 P2, 
+][%-*/C+75 класс ][*/C+75 P3]]
 :: [s0; [*/C+75 P1, P2, P3]]
 :: [s0; [*/C+75 bool]]
 :: [s0;:Gate4`:`:class: [*C+75 Gate4]]
-:: [s0; [*/C+75 class P1, class P2, class P3, class P4]]
+:: [s0; [%-*/C+75 класс ][*/C+75 P1, ][%-*/C+75 класс ][*/C+75 P2, 
+][%-*/C+75 класс ][*/C+75 P3, ][%-*/C+75 класс ][*/C+75 P4]]
 :: [s0; [*/C+75 P1, P2, P3, P4]]
 :: [s0; [*/C+75 bool]]
 :: [s0;:Gate5`:`:class: [*C+75 Gate5]]
-:: [s0; [*/C+75 class P1, ... , class P5]]
+:: [s0; [%-*/C+75 класс ][*/C+75 P1, ... , ][%-*/C+75 класс ][*/C+75 P5]]
 :: [s0; [*/C+75 P1, ... , P5]]
 :: [s0; [*/C+75 bool]]}}&]
 [s0; &]
-[s0; `[ template_<[*/@(128.0.255) parameters]> `]&]
+[s0; `[ template_<[*/@(128.0.255) параметры]> `]&]
 [s0; [%- class_][*/@(128.0.255) CallbackType]&]
 [s2; &]
-[s2; Callback type. Callbacks are moveable types with fast deep copy 
-(using reference counting).&]
+[s2; Тип обрвыза. Обрвызы `- это перемещаемые 
+(moveable) типы, с быстрой глубокой копией 
+(достигаемой использованием подсчёта 
+ссылок).&]
 [s2; &]
 [s0; &]
 [s0;%- explicit_[%RU-RU*/@(128.0.255) CallbackType]([%RU-RU*/@(128.0.255) CallbackType]Ac
-tion<[%RU-RU*/@(128.0.255) arguments>]_`*[*@3 newaction])&]
-[s2; Constructs callback based from new action.&]
-[s7; [%-*C@3 newaction]-|Action. Must be created using [* new] operator. 
-Callback takes over its ownership.&]
+tion<[%RU-RU*/@(128.0.255) аргументы>]_`*[*@3 newaction])&]
+[s2; Конструирует обрвыз, основанный 
+на новом действии.&]
+[s7; [%-*C@3 newaction]-|Действие. Должно быть создано 
+оператором [* new]. Обрвыз перенимает 
+правообладание.&]
 [s3; &]
 [s0; &]
 [s0;:Callback1`:`:Callback1`(`):%- [%RU-RU*/@(128.0.255) CallbackType]()&]
-[s2; Creates an empty callback.&]
+[s2; Создаёт пустой обрвыз.&]
 [s3; &]
 [s4; &]
 [s0;:Callback1`:`:Callback1`(const Callback1`&`):%- [%RU-RU*/@(128.0.255) CallbackType](
 const_[%RU-RU*/@(128.0.255) CallbackType]`&_[*@3 c])&]
-[s2; Copy constructor. &]
-[s7; [%-*C@3 c]-|Source callback.&]
+[s2; Копи`-конструктор. &]
+[s7; [%-*C@3 c]-|Исходный обрвыз.&]
 [s3; &]
 [s4; &]
 [s0;:`:`:Callback1`:`:`~Callback1`(`):%- `~[%RU-RU*/@(128.0.255) CallbackType]()&]
-[s2; Destructor.&]
+[s2; Деструктор.&]
 [s3; &]
 [s4; &]
 [s0;:`:`:Callback1`:`:Clear`(`):%- void_[* Clear]()&]
-[s2; Empties the callback.&]
+[s2; Опустошает обрвыз.&]
 [s3; &]
 [s4; &]
 [s0;:`:`:Gate`:`:ClearTrue`(`):%- void_[* ClearTrue]()&]
-[s6; Only in Gate callbacks.&]
-[s2; Clears Gate. After this method is invoked, the Gate performs 
-no actions but returns true.&]
+[s6; Только в обрвызах Gate.&]
+[s2; Очищает Gate. После вызова этого метода 
+этот Gate не выполняет никаких действий, 
+.но возвращает true.&]
 [s3; &]
 [s4; &]
 [s0;:`:`:Gate`:`:ClearFalse`(`):%- void_[* ClearFalse]()&]
-[s6; Only in Gate callbacks.&]
-[s2; Clears Gate. After this method is invoked, the Gate performs 
-no actions and returns false. This is the same as Clear.&]
+[s6; Только в обрвызах Gate.&]
+[s2; Очищает Gate. После вызова этого метода 
+этот Gate не выполяет никаких действий, 
+.но возвращаетs false. Это то же, что и 
+Clear.&]
 [s3; &]
 [s4; &]
 [s0;:`:`:Callback1`:`:operator bool`(`)const:%- [* operator_bool]()_const&]
-[s7; [*/ Возвратное значение]-|True if the callback is valid. Invoking a valid 
-callback invokes an action.&]
+[s7; [*/ Возвратное значение]-|Верно, если 
+обрвыз полноценен (в силе). Вызов полноценног
+о обрвыза `- это вызов действия.&]
 [s3; &]
 [s4; &]
-[s0;:`:`:Callback1`:`:Execute`(P1`)const:%- [*/@(128.0.255) return`_type]_[* Execute]([%RU-RU*/@(128.0.255) a
-rguments])_const&]
-[s2; Executes the callback with given set of arguments.&]
+[s0;:`:`:Callback1`:`:Execute`(P1`)const:%- [*/@(128.0.255) return`_type]_[* Execute]([%RU-RU*/@(128.0.255) а
+ргументы])_const&]
+[s2; Выполняет обрвыз с данным набором 
+аргументов.&]
 [s3; &]
 [s4; &]
 [s0;:`:`:Callback1`:`:operator`(`)`(P1`)const:%- [%RU-RU*/@(128.0.255) return`_type]_[* o
-perator()]([%RU-RU*/@(128.0.255) arguments])_const&]
-[s2; Same as the Execute method.&]
+perator()]([%RU-RU*/@(128.0.255) аргументы])_const&]
+[s2; То же, что и метод Execute.&]
 [s3; &]
 [s0; &]
-[s0;:Callback1Action`:`:struct:%- `[ template_<[*/@(128.0.255) parameters]> 
+[s0;:Callback1Action`:`:struct:%- `[ template_<[*/@(128.0.255) параметры]> 
 `]&]
 [s0;%- struct_[*/@(128.0.255) CallbackType][* Action]&]
-[s2; This is the abstract base class for callback action implementations. 
-Callback holds reference counted pointer to instance of class 
-derived from this class.&]
+[s2; Это абстрактный класс`-основа для 
+реализации действий обратных вызовов. 
+Обрвыз содержит указатель, включённый 
+в счётчик ссылок, чтобы создать экземпляр 
+класса, производного от этого класса 
+(this).&]
 [s3; &]
 [s0; &]
 [s0;:Callback1Action`:`:Callback1Action`(`):%- [*/@(128.0.255) CallbackType][* Action]()&]
-[s2; Constructor. Assigns 1 to the reference count.&]
+[s2; Конструктор. Присваивает значение 
+1 счётчику ссылок.&]
 [s3; &]
 [s4; &]
 [s0;:Callback1Action`:`:`~Callback1Action`(`):%- `~[*/@(128.0.255) CallbackType][* Action
 ]()&]
-[s2; Virtual destructor.&]
+[s2; Виртуальный деструктор.&]
 [s3; &]
 [s4; &]
 [s0;:Callback1Action`:`:Execute`(P1`):%- virtual [%RU-RU*/@(128.0.255) return`_type]_[* E
-xecute]([*/@(128.0.255) arguments])_`=_[@3 0]&]
-[s2; Performs the action with specified set of arguments.&]
+xecute]([%RU-RU*/@(128.0.255) аргументы])_`=_[@3 0]&]
+[s2; Выполняет данное действие с заданным 
+набором аргументов.&]
 [s3; &]
 [s4; &]
 [s0;:Callback1Action`:`:IsValid`(`)const:%- virtual bool_[* IsValid]()_const&]
-[s7; [*/ Возвратное значение]-|true if the Action is valid. Default implementation 
-returns true.&]
+[s7; [*/ Возвратное значение]-|верно, если 
+этот Action полноценен. Дефолтная реализация 
+возвращает true.&]
 [s3; &]
 [s4; &]
 [s0;:Callback1Action`:`:count:%- Atomic_[* count]&]
-[s2; Member variable used as reference count.&]
-[s3; &]
+[s2; Переменная`-член, используемая как 
+счётчик ссылок.&]
 [s0;%- &]
-[s0;%- &]
-[s0;%- &]
-[ {{10000@(113.42.0) [s0; [*@7;4 Common Callback/Gate functions]]}}&]
+[ {{10000@(113.42.0) [s0; [*@7;4 Общие функции Callback/Gate]]}}&]
 [s3; &]
 [s0;:`:`:callback`(OBJECT`*`,void`(METHOD`:`:`*`)`(P1 p1`)`): template_<class 
-[*@4 OBJECT], class [*@4 METHOD][*@(128.0.255) ,][*@4  ][*/@(128.0.255) parameters]>&]
-[s0;%- [*/@(128.0.255) CallbackType]<[*/@(128.0.255) arguments]> [* callback]([*@4 OBJECT]_`*
-[*@3 object], void_([*@4 METHOD]`::`*[*@3 method])([%RU-RU*/@(128.0.255) arguments]))&]
-[s2; Creates a callback that invokes the specified method of the 
-specified object.&]
-[s7; [%-*C@3 object]-|Pointer to the object.&]
-[s7; [%-*C@3 method]-|Pointer to the method.&]
-[s7; [*/ Возвратное значение]-|Created callback.&]
+[*@4 OBJECT], class [*@4 METHOD][*@(128.0.255) ,][*@4  ][*/@(128.0.255) параметры]>
+&]
+[s0;%- [*/@(128.0.255) CallbackType]<[%RU-RU*/@(128.0.255) аргументы]> 
+[* callback]([*@4 OBJECT]_`*[*@3 object], void_([*@4 METHOD]`::`*[*@3 method])([%RU-RU*/@(128.0.255) а
+ргументы]))&]
+[s2; Создаёт обрвыз, который вызывает 
+указанный метод указанного объекта.&]
+[s7; [%-*C@3 object]-|Указатель на объект.&]
+[s7; [%-*C@3 method]-|Указатель на метод.&]
+[s7; [*/ Возвратное значение]-|Созданный 
+обрвыз.&]
 [s3; &]
 [s4; &]
 [s0;:`:`:callback`(OBJECT`*`,void`(METHOD`:`:`*`)`(P1 p1`)`): template_<class 
-[*@4 OBJECT], class [*@4 METHOD][*@(128.0.255) ,][*@4  ][*/@(128.0.255) parameters]>&]
-[s0;%- [*/@(128.0.255) CallbackType]<[*/@(128.0.255) arguments]> [* callback](const 
-[*@4 OBJECT]_`*[*@3 object], void_([*@4 METHOD]`::`*[*@3 method])([%RU-RU*/@(128.0.255) argu
-ments]) const)&]
-[s2; Constant variant of callback. The created Callback object invokes 
-a constant method of the object.&]
-[s7; [%-*C@3 object]-|Pointer to the object.&]
-[s7; [%-*C@3 method]-|Pointer to the constant method to invoke.&]
-[s7; [*/ Возвратное значение]-|Created callback.&]
+[*@4 OBJECT], class [*@4 METHOD][*@(128.0.255) ,][*@4  ][*/@(128.0.255) параметры]>
+&]
+[s0;%- [*/@(128.0.255) CallbackType]<[%RU-RU*/@(128.0.255) аргументы]> 
+[* callback](const [*@4 OBJECT]_`*[*@3 object], void_([*@4 METHOD]`::`*[*@3 method])([%RU-RU*/@(128.0.255) а
+ргументы]) const)&]
+[s2; Константный вариант обрвыза. Созданный 
+объект Callback вызывает константный 
+метод объекта.&]
+[s7; [%-*C@3 oobject]-|Указатель на объект.&]
+[s7; [%-*C@3 method]-|Указатель на константный 
+вызываемый метод.&]
+[s7; [*/ Возвратное значение]-|Созданный 
+обрвыз.&]
 [s3; &]
 [s4; &]
-[s0;:`:`:pteback`(OBJECT`*`,void`(METHOD`:`:`*`)`(P1 p1`)`): `[ template_<[*/@(128.0.255) p
-arameters]> `]&]
-[s0;%- [*/@(128.0.255) CallbackType][%RU-RU <][%RU-RU*/@(128.0.255) arguments][%RU-RU > 
-][* pteback]([*@4 OBJECT]_`*[*@3 object], void_([*@4 METHOD]`::`*[*@3 method])([%RU-RU*/@(128.0.255) a
-rguments]))&]
-[s2; Creates a Callback object which is similar to the one created 
-by callback, but which can be safely invoked even after destruction 
-of [@3 object] (results in no operation).&]
-[s7; [%-*C@3 object]-|Pointer to the object. Must be an ancestor of 
-the [^topic`:`/`/Core`/src`/PtePtr`$en`-us`#`:`:Pte`:`:template `<class T`> class Pte^ P
-te] class.&]
-[s7; [%-*C@3 method]-|Pointer to the method.&]
-[s7; [*/ Возвратное значение]-|Created callback.&]
+[s0;:`:`:pteback`(OBJECT`*`,void`(METHOD`:`:`*`)`(P1 p1`)`): `[ template_<[*/@(128.0.255) п
+араметры]> `]&]
+[s0;%- [*/@(128.0.255) CallbackType][%RU-RU <][%RU-RU*/@(128.0.255) аргументы][%RU-RU >
+ ][* pteback]([*@4 OBJECT]_`*[*@3 object], void_([*@4 METHOD]`::`*[*@3 method])([%RU-RU*/@(128.0.255) а
+ргументы]))&]
+[s2; Создаёт объект Callback, который подобен 
+тому, что создаётся обрвызом, но который 
+может безопасно вызываться даже после 
+деструкции [@3 object`'а] (приводит к отсутствию 
+операций).&]
+[s7; [%-*C@3 object]-|Указатель на объект. Должен 
+быть потомком класса [^topic`:`/`/Core`/src`/PtePtr`_ru`-ru`#Pte`:`:class^ P
+te].&]
+[s7; [%-*C@3 method]-|Указатель на метод.&]
+[s7; [*/ Возвратное значение]-|Созданный 
+обрвыз.&]
 [s3; &]
 [s4; &]
-[s0;:`:`:callback`(void`(`*`)`(P1 p1`)`): `[ template_<[*/@(128.0.255) parameters]> 
+[s0;:`:`:callback`(void`(`*`)`(P1 p1`)`): `[ template_<[*/@(128.0.255) параметр
+ы]> `]&]
+[s0;%- [*/@(128.0.255) CallbackType][%RU-RU <][%RU-RU*/@(128.0.255) аргументы][%RU-RU >
+ ][* callback](void_(`*[*@3 fn])([%RU-RU*/@(128.0.255) аргументы]))&]
+[s2; Создаёт объектa Callback, вызывающий 
+нечленскую функцию.&]
+[s7; [%-*C@3 fn]-|Указатель на функцию.&]
+[s7; [*/ Возвратное значение]-|Созданный 
+обрвыз.&]
+[s3; &]
+[s4; &]
+[s0;:Proxy`(Callback1`<P1`>`&`): `[ template_<[*/@(128.0.255) параметры]> 
 `]&]
-[s0;%- [*/@(128.0.255) CallbackType][%RU-RU <][%RU-RU*/@(128.0.255) arguments][%RU-RU > 
-][* callback](void_(`*[*@3 fn])([%RU-RU*/@(128.0.255) arguments]))&]
-[s2; Creates a Callback object that invokes a non`-member function.&]
-[s7; [%-*C@3 fn]-|Pointer to the function.&]
-[s7; [*/ Возвратное значение]-|Created callback.&]
+[s0;%- [*/@(128.0.255) CallbackType][%RU-RU <][%RU-RU*/@(128.0.255) аргументы][%RU-RU >
+] [* Proxy]([*/@(128.0.255) CallbackType][%RU-RU <][%RU-RU*/@(128.0.255) аргумент
+ы][%RU-RU >]`&_[*@3 cb])&]
+[s2; Создаёт объект Callback, который вызывает 
+другой объект Callback. Используется 
+для `"рутинга`" обрвызов (callback routing) 
+(Например, когда какой`-то родительский 
+Ctrl намерен `"рерутить`" (to reroute) некоторые 
+из своих обрвызов`-`"отпрысков`" посредством 
+этого интерфейса). Заметьте, что эта 
+функция сохраняет ссылку на целевой 
+обрвыз в созданном обрвызе: сохранение 
+обрвызов, которые используются как 
+цели Proxy, в Vector flavor`'е контейнеров `- 
+нехорошая идея!.&]
+[s7; [%-*C@3 cb]-|Целевой обрвыз.&]
+[s7; [*/ Возвратное значение]-|Созданный 
+обрвыз.&]
 [s3; &]
 [s4; &]
-[s0;:Proxy`(Callback1`<P1`>`&`): `[ template_<[*/@(128.0.255) parameters]> 
-`]&]
-[s0;%- [*/@(128.0.255) CallbackType][%RU-RU <][%RU-RU*/@(128.0.255) arguments][%RU-RU >] 
-[* Proxy]([*/@(128.0.255) CallbackType][%RU-RU <][%RU-RU*/@(128.0.255) arguments][%RU-RU >]`&
-_[*@3 cb])&]
-[s2; Creates a Callback object that invokes another Callback object. 
-Useful for callback routing (e.g. when some parent Ctrl wants 
-to reroute some of its child callbacks via its interface). Note 
-that this function stores a reference to the target callback 
-in the created callback `- storing callbacks that are used as 
-Proxy targets in Vector flavor of containers is not a good idea.&]
-[s7; [%-*C@3 cb]-|Target callback.&]
-[s7; [*/ Возвратное значение]-|Created callback.&]
+[s0;:callback`(Callback1`<P1`>`,Callback1`<P1`>`): `[ template_<[*/@(128.0.255) пара
+метры]> `]&]
+[s0;%- [%RU-RU*/@(128.0.255) CallbackType][%RU-RU <][%RU-RU*/@(128.0.255) аргументы
+][%RU-RU > ][* callback]([%RU-RU*/@(128.0.255) CallbackType][%RU-RU <][%RU-RU*/@(128.0.255) а
+ргументы][%RU-RU > ]_[*@3 cb1], [%RU-RU*/@(128.0.255) CallbackType][%RU-RU <][%RU-RU*/@(128.0.255) а
+ргументы][%RU-RU > ]_[*@3 cb2])&]
+[s2; Создаёт объект Callback, вызывающий два 
+других обрвыза. Заметьте, что эта 
+функция сохраняет ссылку на целевые 
+обрвызы в созданном обрвызе: сохранение 
+обрвызов, которые используются здесь 
+как цели, в Vector flavor`'е контейнеров 
+`- нехорошая идея!. Для обрвызов Gate, 
+в результате этой операции возвращается 
+булево значение от [*@3 cb2].&]
+[s7; [%-*C@3 cb1]-|Первый целевой обрвыз.&]
+[s7; [%-*C@3 cb2]-|Второй целевой обрвыз.&]
+[s7; [*/ Возвратное значение]-|Созданный 
+обрвыз.&]
 [s3; &]
 [s4; &]
-[s0;:callback`(Callback1`<P1`>`,Callback1`<P1`>`): `[ template_<[*/@(128.0.255) paramet
-ers]> `]&]
-[s0;%- [%RU-RU*/@(128.0.255) CallbackType][%RU-RU <][%RU-RU*/@(128.0.255) arguments][%RU-RU >
- ][* callback]([%RU-RU*/@(128.0.255) CallbackType][%RU-RU <][%RU-RU*/@(128.0.255) argumen
-ts][%RU-RU > ]_[*@3 cb1], [%RU-RU*/@(128.0.255) CallbackType][%RU-RU <][%RU-RU*/@(128.0.255) a
-rguments][%RU-RU > ]_[*@3 cb2])&]
-[s2; Creates a Callback object that invokes two other callbacks. 
-Note that this function stores a reference to the target callbacks 
-in the created callback `- storing callbacks that are used as 
-targets here in Vector flavor of containers is not a good idea. 
-For Gate callbacks, the result of this operation is the boolean 
-value returned by [*@3 cb2].&]
-[s7; [%-*C@3 cb1]-|First target callback.&]
-[s7; [%-*C@3 cb2]-|Second target callback.&]
-[s7; [*/ Возвратное значение]-|Created callback.&]
-[s3; &]
-[s4; &]
-[s0;:operator`<`<`(Callback1`<P1`>`&`,Callback1`<P1`>`): `[ template_<[*/@(128.0.255) p
-arameters]> `]&]
-[s0;%- [%RU-RU*/@(128.0.255) CallbackType][%RU-RU <][%RU-RU*/@(128.0.255) arguments][%RU-RU >
-]`&_[* operator<<]([%RU-RU*/@(128.0.255) CallbackType][%RU-RU <][%RU-RU*/@(128.0.255) arg
-uments][%RU-RU > ]`&_[*@3 a], [%RU-RU*/@(128.0.255) CallbackType][%RU-RU <][%RU-RU*/@(128.0.255) a
-rguments][%RU-RU >]_[*@3 b])&]
-[s2; Operator variant of the previous function. Allows chaining thus 
-imitating callback insertion.&]
-[s7; [%-*C@3 a]-|First callback. Its value is replaced by a callback 
-that calls both the first and the second callback.&]
-[s7; [%-*C@3 b]-|Second callback.&]
-[s7; [*/ Возвратное значение]-|Reference to the first callback.&]
+[s0;:operator`<`<`(Callback1`<P1`>`&`,Callback1`<P1`>`): `[ template_<[*/@(128.0.255) п
+араметры]> `]&]
+[s0;%- [%RU-RU*/@(128.0.255) CallbackType][%RU-RU <][%RU-RU*/@(128.0.255) аргументы
+][%RU-RU >]`&_[* operator<<]([%RU-RU*/@(128.0.255) CallbackType][%RU-RU <][%RU-RU*/@(128.0.255) а
+ргументы][%RU-RU > ]`&_[*@3 a], [%RU-RU*/@(128.0.255) CallbackType][%RU-RU <][%RU-RU*/@(128.0.255) а
+ргументы][%RU-RU >]_[*@3 b])&]
+[s2; Вариант`-оператор предыдущей функции. 
+Позволяет делать сцепку, тем самым 
+имитируя вставку обрвыза.&]
+[s7; [%-*C@3 a]-|Первый обрвыз. Его значение 
+заменяется обрвызом, вызывающим как 
+первый, так и второй обрвыз.&]
+[s7; [%-*C@3 b]-|Второй обрвыз.&]
+[s7; [*/ Возвратное значение]-|Ссылка на первый 
+обрвыз.&]
 [s3; &]
 [s4;%- &]
-[s0;:operator`<`<`(Callback1`<P1`>`&`,Callback1`<P1`>`): `[ template_<[*/@(128.0.255) p
-arameters]> `]&]
-[s0;%- [%RU-RU*/@(128.0.255) CallbackType][%RU-RU <][%RU-RU*/@(128.0.255) arguments][%RU-RU >
-]`&_[* operator<<]([%RU-RU*/@(128.0.255) CallbackType][%RU-RU <][%RU-RU*/@(128.0.255) arg
-uments][%RU-RU > ]`&_[*@3 a], [%RU-RU*/@(128.0.255) C`+`+11Lambda]_[*@3 b])&]
-[s2; Variant of merging callbacks that can be used for C`+`+11 lambdas.&]
+[s0;:operator`<`<`(Callback1`<P1`>`&`,Callback1`<P1`>`): `[ template_<[*/@(128.0.255) п
+араметры]> `]&]
+[s0;%- [%RU-RU*/@(128.0.255) CallbackType][%RU-RU <][%RU-RU*/@(128.0.255) аргументы
+][%RU-RU >]`&_[* operator<<]([%RU-RU*/@(128.0.255) CallbackType][%RU-RU <][%RU-RU*/@(128.0.255) а
+ргументы][%RU-RU > ]`&_[*@3 a], [%RU-RU*/@(128.0.255) C`+`+11Lambda]_[*@3 b])&]
+[s2; Вариант `"маржирования`" обрвызов, 
+который может использоваться для 
+лямбд C`+`+11.&]
 [s3; &]
 [s0; &]
-[ {{10000@(113.42.0) [s0; [*@7;4 Storing arguments in callback]]}}&]
+[ {{10000@(113.42.0) [s0; [*@7;4 Сохранение аргументов в обрвызе]]}}&]
 [s0; &]
-[s0; It is possible to store some arguments that are passed to target 
-(function or method) as parameters when creating. If simultaneously 
-passing other parameters in callback call, those passed on call 
-represent beginning arguments and those defined in callback creation 
-fill the rest of arguments.&]
+[s0; Есть возможность сохранять некоторые 
+аргументы, которые передаются цели 
+(функции или методу) в качестве параметров, 
+при создании. Если одновременно передаются 
+другие параметры в вызов обрвыза, 
+этот переданный вызов представляет 
+аргументы в начале, а определённые 
+при создании обрвыза заполняют остаточную 
+часть аргументов.&]
 [s0; &]
-[s0; Again, all this is defined for up to 5 target parameters:&]
+[s0; Опять же, всё это определено для (до) 
+5 целевых параметров:&]
 [s0; &]
 [s0;:`:`:callback1`(Object`*`,void`(M`:`:`*`)`(P`)`,T`):%- template_<class_[*@4 Object],
  class_[*@4 M], class_[*@4 P1], ..., class_[*@4 T1], ...>&]
 [s0;:`:`:callback1`(Object`*`,void`(M`:`:`*`)`(P`)`,T`):%- [%RU-RU*/@(128.0.255) Callba
-ckType][%RU-RU <][%RU-RU*/@(128.0.255) arguments][%RU-RU >]_[* callback1]([*@4 Object]_`*[*@3 o
-bject], void_([*@4 M]`::`*[*@3 method])([*@4 P1], ...), [*@4 T1]_[*@3 arg1], 
+ckType][%RU-RU <][%RU-RU*/@(128.0.255) аргументы][%RU-RU >]_[* callback1]([*@4 Obj
+ect]_`*[*@3 object], void_([*@4 M]`::`*[*@3 method])([*@4 P1], ...), [*@4 T1]_[*@3 arg1], 
 ...)&]
 [s3;%- &]
 [s0;:`:`:callback1`(const Object`*`,void`(M`:`:`*`)`(P`)const`,T`):%- template_<class
 _[*@4 Object], class_[*@4 M], class_[*@4 P1], ..., class_[*@4 T1], ...>&]
 [s0;:`:`:callback1`(const Object`*`,void`(M`:`:`*`)`(P`)const`,T`):%- [%RU-RU*/@(128.0.255) C
-allbackType][%RU-RU <][%RU-RU*/@(128.0.255) arguments][%RU-RU >]_[* callback1]([*@4 Object]_
-`*[*@3 object], void_([*@4 M]`::`*[*@3 method])([*@4 P1], ...) const, 
-[*@4 T1]_[*@3 arg1], ...)&]
+allbackType][%RU-RU <][%RU-RU*/@(128.0.255) аргументы][%RU-RU >]_[* callback1]([*@4 O
+bject]_`*[*@3 object], void_([*@4 M]`::`*[*@3 method])([*@4 P1], ...) 
+const, [*@4 T1]_[*@3 arg1], ...)&]
 [s3;%- &]
 [s0;:`:`:pteback1`(Object`*`,void`(M`:`:`*`)`(P`)`,T`):%- template_<class_[*@4 Object],
  class_[*@4 M], class_[*@4 P1], ..., class_[*@4 T1], ...>&]
 [s0;:`:`:pteback1`(Object`*`,void`(M`:`:`*`)`(P`)`,T`):%- [%RU-RU*/@(128.0.255) Callbac
-kType][%RU-RU <][%RU-RU*/@(128.0.255) arguments][%RU-RU >]_[* pteback1]([*@4 Object]_`*[*@3 o
-bject], void_([*@4 M]`::`*[*@3 method])([*@4 P1], ...), [*@4 T1]_[*@3 arg1], 
+kType][%RU-RU <][%RU-RU*/@(128.0.255) аргументы][%RU-RU >]_[* pteback1]([*@4 Objec
+t]_`*[*@3 object], void_([*@4 M]`::`*[*@3 method])([*@4 P1], ...), [*@4 T1]_[*@3 arg1], 
 ...)&]
 [s3;%- &]
 [s0;:`:`:pteback1`(Object`*`,void`(M`:`:`*`)`(P`)const`,T`):%- template_<class_[*@4 Obj
 ect], class_[*@4 M], class_[*@4 P1], ..., class_[*@4 T1], ...>&]
 [s0;:`:`:pteback1`(Object`*`,void`(M`:`:`*`)`(P`)const`,T`):%- [%RU-RU*/@(128.0.255) Ca
-llbackType][%RU-RU <][%RU-RU*/@(128.0.255) arguments][%RU-RU >]_[* pteback1]([*@4 Object]_`*
-[*@3 object], void_([*@4 M]`::`*[*@3 method])([*@4 P1], ...) const, [*@4 T1]_[*@3 arg1], 
-...)&]
+llbackType][%RU-RU <][%RU-RU*/@(128.0.255) аргументы][%RU-RU >]_[* pteback1]([*@4 O
+bject]_`*[*@3 object], void_([*@4 M]`::`*[*@3 method])([*@4 P1], ...) 
+const, [*@4 T1]_[*@3 arg1], ...)&]
 [s3;%- &]
 [s0;:`:`:callback1`(void`(`*`)`(P`)`,T`):%- template_<class_[*@4 P1], 
 ..., class_[*@4 T1], ...>&]
-[s0;:`:`:callback1`(void`(`*`)`(P`)`,T`):%- [%RU-RU*/@(128.0.255) CallbackType][%RU-RU <][%RU-RU*/@(128.0.255) a
-rguments][%RU-RU >]_[* callback1](void_(`*[*@3 fn])([*@4 P1], ...), [*@4 T1]_[*@3 arg], 
-...)&]
+[s0;:`:`:callback1`(void`(`*`)`(P`)`,T`):%- [%RU-RU*/@(128.0.255) CallbackType][%RU-RU <][%RU-RU*/@(128.0.255) а
+ргументы][%RU-RU >]_[* callback1](void_(`*[*@3 fn])([*@4 P1], 
+...), [*@4 T1]_[*@3 arg], ...)&]
 [s0;%- &]
-[s2; [%-*@4 P1] ([%-*@4 P2, P3 ][%- ...]) are arguments passed on method 
-invocation, [%-*@4 T1] ([%-*@4 T2, T3 ][%- ...]) are parameters stored 
-in Callback object.&]
+[s2; [%-*@4 P1] ([%-*@4 P2, P3 ][%- ...]) `- аргументы, передаваемые 
+при вызове метода, [%-*@4 T1] ([%-*@4 T2, T3 ][%- ...]) 
+`- параметры, сохраняемые в объекте 
+Callback.&]
 [s3; &]
 [s0; &]
 [s0;%- &]
-[ {{10000@(113.42.0) [s0; [*@7;4 Callback macros]]}}&]
-[s9; Callback macros reduce verbosity of instance method callbacks. 
-They expect CLASSNAME to be typedef`-ed as the type of current 
-class and return method callbacks bound to the [*@(0.0.255) this] 
-pointer.&]
+[ {{10000@(113.42.0) [s0; [*@7;4 Макросы Callback`'а]]}}&]
+[s9; Макросы обратного вызова понижают 
+многословность обрвызов методов 
+экземпляра. Ими ожидается, что объявлена 
+константа CLASSNAME  (через # typedef), которая 
+определяет тип текущего класса, и 
+возвращают обрвызы метода, привязанного 
+к указателю [*@(0.0.255) this].&]
 [s3; &]
 [s0; &]
 [s0;:`:`:THISBACK`(x`):%- [* THISBACK]([*@3 x])&]
-[s2; Expands to callback(this, `&CLASSNAME`::[@3 m]).&]
-[s7; [%-*C@3 m]-|Name of method.&]
+[s2; Разворачивается в callback(this, `&CLASSNAME`::[@3 m]).&]
+[s7; [%-*C@3 m]-|Имя метода.&]
 [s3; &]
 [s4; &]
 [s0;:`:`:THISBACK1`(x`, arg`):%- [* THISBACK1]([*@3 x], [*@3 arg])&]
-[s2; Expands to callback1(this, `&CLASSNAME`::[@3 m], [@3 arg]).&]
-[s7; [%-*C@3 m]-|Name of method.&]
-[s7; [%-*C@3 arg]-|Additional parameter.&]
+[s2; Разворачивается в callback1(this, `&CLASSNAME`::[@3 m], 
+[@3 arg]).&]
+[s7; [%-*C@3 m]-|Имя метода.&]
+[s7; [%-*C@3 arg]-|Дополнительный параметр.&]
 [s3; &]
 [s4; &]
 [s0;:`:`:THISBACK2`(m`, a`, b`):%- [* THISBACK2]([*@3 m], [*@3 a], [*@3 b])&]
-[s2; Expands to callback2(this, `&CLASSNAME`::[@3 m], [@3 a],[@3  b]).&]
-[s7; [%-*C@3 m]-|Name of method.&]
-[s7; [%-*C@3 a]-|First additional parameter.&]
-[s7; [%-*C@3 b]-|Second additional parameter.&]
+[s2; Разворачивается в callback2(this, `&CLASSNAME`::[@3 m], 
+[@3 a],[@3  b]).&]
+[s7; [%-*C@3 m]-|Имя метода.&]
+[s7; [%-*C@3 a]-|Первый дополнительный параметр.&]
+[s7; [%-*C@3 b]-|Второй дополнительный параметр.&]
 [s3; &]
 [s4; &]
 [s0;:`:`:PTEBACK`(x`):%- [* PTEBACK]([*@3 x])&]
-[s2; Expands to pteback(this, `&CLASSNAME`::[@3 m]).&]
-[s7; [%-*C@3 m]-|Name of method.&]
+[s2; Разворачивается в pteback(this, `&CLASSNAME`::[@3 m]).&]
+[s7; [%-*C@3 m]-|Имя метода.&]
 [s3; &]
 [s4; &]
 [s0;:`:`:PTEBACK1`(x`, arg`):%- [* PTEBACK1]([*@3 x], [*@3 arg])&]
-[s2; Expands to pteback1(this, `&CLASSNAME`::[@3 m], [@3 arg]).&]
-[s7; [%-*C@3 m]-|Name of method.&]
-[s7; [%-*C@3 arg]-|Additional parameter.&]
+[s2; Разворачивается в pteback1(this, `&CLASSNAME`::[@3 m], 
+[@3 arg]).&]
+[s7; [%-*C@3 m]-|Имя метода.&]
+[s7; [%-*C@3 arg]-|Дополнительный параметр.&]
 [s3; &]
 [s4; &]
 [s0;:`:`:PTEBACK2`(m`, a`, b`):%- [* PTEBACK2]([*@3 m], [*@3 a], [*@3 b])&]
-[s2; Expands to pteback2(this, `&CLASSNAME`::[@3 m], [@3 a],[@3  b]).&]
-[s7; [%-*C@3 m]-|Name of method.&]
-[s7; [%-*C@3 a]-|First additional parameter.&]
-[s7; [%-*C@3 b]-|Second additional parameter.&]
+[s2; Разворачивается в pteback2(this, `&CLASSNAME`::[@3 m], 
+[@3 a],[@3  b]).&]
+[s7; [%-*C@3 m]-|Имя метода.&]
+[s7; [%-*C@3 a]-|Первый дополнительный параметр.&]
+[s7; [%-*C@3 b]-|Второй дополнительный параметр.&]
 [s3; &]
 [s0; &]
 [s0;%- &]
@@ -391,13 +461,14 @@ selection.&]
 [s4; &]
 [s5;:EventArgTarget`:`:operator const T`&`(`)const:%- [* operator_const_T`&]()_[@(0.0.255) c
 onst]&]
-[s7; [*/ Возвратное значение]-|The result. If no CallbackArgTarget was invoked, 
-returns Null.&]
+[s7; [*/ Возвратное значение]-|The result. If no CallbackArgTarget 
+was invoked, returns Null.&]
 [s3; &]
 [s4;%- &]
 [s5;:EventArgTarget`:`:IsNullInstance`(`)const:%- [@(0.0.255) bool]_[* IsNullInstance]()_
 [@(0.0.255) const]&]
-[s7; [*/ Возвратное значение]-|True if there is not Null in output value.&]
+[s7; [*/ Возвратное значение]-|True if there is not 
+Null in output value.&]
 [s3; &]
 [s4;%- &]
 [s5;:EventArgTarget`:`:operator`[`]`(const T`&`):%- [_^Callback^ Callback]_[* operator`[`]

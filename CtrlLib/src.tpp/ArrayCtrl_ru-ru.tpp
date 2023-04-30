@@ -875,7 +875,7 @@ when not.&]
 [s4; &]
 [s5;:ArrayCtrl`:`:AutoAppending`(bool`): [_^ArrayCtrl^ ArrayCtrl][@(0.0.255) `&]_[* AutoApp
 ending]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) true])&]
-[s2; Same as [* Appending] but Enter pressed when editing a new row 
+[s2; То же, что и [* Appending] but Enter pressed when editing a new row 
 accepts it and adds another one at the table end.&]
 [s7; [*C@3 b]-|[* true ]to enable the mode&]
 [s7; [*/ Возвратное значение]-|[* `*this]&]
@@ -1158,7 +1158,7 @@ mode only) to autohide. Default is on.&]
 [s4; &]
 [s5;:ArrayCtrl`:`:NoAutoHideHorzSb`(`): [_^ArrayCtrl^ ArrayCtrl][@(0.0.255) `&]_[* NoAutoHi
 deHorzSb]()&]
-[s2; Same as AutoHideHorzSb(false).&]
+[s2; То же, что и AutoHideHorzSb(false).&]
 [s3; &]
 [s4; &]
 [s5;:ArrayCtrl`:`:HideHorzSb`(bool`): [_^ArrayCtrl^ ArrayCtrl][@(0.0.255) `&]_[* HideHorzSb
@@ -1196,7 +1196,7 @@ is activated.&]
 [s3; &]
 [s4; &]
 [s5;:ArrayCtrl`:`:NoPopUpEx`(`): [_^ArrayCtrl^ ArrayCtrl][@(0.0.255) `&]_[* NoPopUpEx]()&]
-[s2; Same as PopUpEx(false).&]
+[s2; То же, что и PopUpEx(false).&]
 [s3; &]
 [s4; &]
 [s5;:ArrayCtrl`:`:NoFocusSetCursor`(`): [_^ArrayCtrl^ ArrayCtrl][@(0.0.255) `&]_[* NoFocusS
@@ -1214,7 +1214,7 @@ ader]([@(0.0.255) bool]_[*@3 b])&]
 [s4; &]
 [s5;:ArrayCtrl`:`:NoMovingHeader`(`): [_^ArrayCtrl^ ArrayCtrl][@(0.0.255) `&]_[* NoMovingHe
 ader]()&]
-[s2; Same as MovingHeader(false).&]
+[s2; То же, что и MovingHeader(false).&]
 [s3; &]
 [s4; &]
 [s5;:ArrayCtrl`:`:ColumnSortFindKey`(bool`): [_^ArrayCtrl^ ArrayCtrl][@(0.0.255) `&]_[* Col
@@ -1267,7 +1267,7 @@ blank`-separated decimal numbers, e.g. `"1 4 6 4 1`".&]
 [s4; &]
 [s5;:ArrayCtrl`:`:NoCursorOverride`(`): [_^ArrayCtrl^ ArrayCtrl][@(0.0.255) `&]_[* NoCursor
 Override]()&]
-[s2; Same as CursorOverride(Null).&]
+[s2; То же, что и CursorOverride(Null).&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:ArrayCtrl`:`:SpanWideCells`(bool`):%- [_^Upp`:`:ArrayCtrl^ ArrayCtrl][@(0.0.255) `&
@@ -1504,7 +1504,7 @@ the newly added index&]
 [s4; &]
 [s5;:ArrayCtrl`:`:AddIdCtrl`(Ctrl`&`): [_^ArrayCtrl`:`:IdInfo^ IdInfo][@(0.0.255) `&]_[* Ad
 dIdCtrl]([_^Ctrl^ Ctrl][@(0.0.255) `&]_[*@3 ctrl])&]
-[s2; Same as AddCtrl(ctrl.GetLayoutId(), ctrl). Helpful when adding 
+[s2; То же, что и AddCtrl(ctrl.GetLayoutId(), ctrl). Helpful when adding 
 dialog widgets whose id is the same as widget`'s variable id.&]
 [s3; &]
 [s4; &]
@@ -2423,7 +2423,7 @@ default.&]
 [s4; &]
 [s5;:Upp`:`:ArrayCtrl`:`:DisableLine`(int`): [@(0.0.255) void]_[* DisableLine]([@(0.0.255) i
 nt]_[*@3 i])&]
-[s2; Same as EnableLine(false).&]
+[s2; То же, что и EnableLine(false).&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:ArrayCtrl`:`:IsLineEnabled`(int`)const: [@(0.0.255) bool]_[* IsLineEnabled]([@(0.0.255) i
@@ -2434,7 +2434,7 @@ method, callback WhenLineEnabled affects the status too.&]
 [s4; &]
 [s5;:Upp`:`:ArrayCtrl`:`:IsLineDisabled`(int`)const: [@(0.0.255) bool]_[* IsLineDisabled](
 [@(0.0.255) int]_[*@3 i])_[@(0.0.255) const]&]
-[s2; Same as !IsLineEnabled([*@3 i]).&]
+[s2; То же, что и !IsLineEnabled([*@3 i]).&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:ArrayCtrl`:`:ShowLine`(int`,bool`): [@(0.0.255) void]_[* ShowLine]([@(0.0.255) i
@@ -2445,7 +2445,7 @@ list.&]
 [s4; &]
 [s5;:Upp`:`:ArrayCtrl`:`:HideLine`(int`): [@(0.0.255) void]_[* HideLine]([@(0.0.255) int]_[*@3 i
 ])&]
-[s2; Same as ShowLine([*@3 i], false).&]
+[s2; То же, что и ShowLine([*@3 i], false).&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:ArrayCtrl`:`:IsLineVisible`(int`)const: [@(0.0.255) bool]_[* IsLineVisible]([@(0.0.255) i

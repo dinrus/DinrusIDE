@@ -1,4 +1,4 @@
-topic "Color";
+topic "Класс Color";
 [i448;a25;kKO9;2 $$1,0#37138531426314131252341829483380:class]
 [l288;2 $$2,0#27521748481378242620020725143825:desc]
 [0 $$3,0#96390100711032703541132217272105:end]
@@ -10,7 +10,7 @@ topic "Color";
 [b42;2 $$9,9#13035079074754324216151401829390:normal]
 [2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%RU-RU 
-[ {{10000@(113.42.0) [s0; [*@(229)4 Color]]}}&]
+[ {{10000@(113.42.0) [s0; [*@7;4 Класс ][*@(229)4 Color]]}}&]
 [s3;%- &]
 [s1;:Color`:`:class:%- [@(0.0.255)3 class][3 _][*3 Color][3 _:_][@(0.0.255)3 private][3 _][*@3;3 Ass
 ignValueTypeNo][@(0.0.255)3 <][*3 Color][3 , COLOR`_V, ][_^Moveable^3 Moveable][@(0.0.255)3 <
@@ -24,7 +24,8 @@ serialization etc.).&]
 [ {{10000F(128)G(128)@1 [s0; [* Детали Конструктора]]}}&]
 [s3; &]
 [s5;:Color`:`:Color`(`):%- [* Color]()&]
-[s2; Default constructor. Leaves component values uninitialized.&]
+[s2; Дефолтный конструктор. Leaves component 
+values uninitialized.&]
 [s3; &]
 [s4;%- &]
 [s5;:Color`:`:Color`(int`,int`,int`):%- [* Color]([@(0.0.255) int]_[*@3 r], 
@@ -68,7 +69,8 @@ libraries.&]
 [s3; &]
 [s4;%- &]
 [s5;:Color`:`:GetRaw`(`)const:%- [_^dword^ dword]_[* GetRaw]()_[@(0.0.255) const]&]
-[s7; [*/ Возвратное значение]-|Platform specific dword representing the color.&]
+[s7; [*/ Возвратное значение]-|Platform specific dword 
+representing the color.&]
 [s3; &]
 [s4;%- &]
 [s5;:Color`:`:GetR`(`)const:%- [@(0.0.255) int]_[* GetR]()_[@(0.0.255) const]&]
@@ -89,8 +91,8 @@ libraries.&]
 [s4;%- &]
 [s5;:Color`:`:IsNullInstance`(`)const:%- [@(0.0.255) bool]_[* IsNullInstance]()_[@(0.0.255) c
 onst]&]
-[s7; [*/ Возвратное значение]-|True if Color is Null. Used to implement IsNull 
-for Color.&]
+[s7; [*/ Возвратное значение]-|True if Color is Null. 
+Used to implement IsNull for Color.&]
 [s3; &]
 [s4;%- &]
 [s5;:Color`:`:GetHashValue`(`)const:%- [@(0.0.255) unsigned]_[* GetHashValue]()_[@(0.0.255) c
@@ -101,13 +103,15 @@ onst]&]
 [s5;:Color`:`:operator`=`=`(Color`)const:%- [@(0.0.255) bool]_[* operator`=`=]([_^Color^ Co
 lor]_[*@3 c])_[@(0.0.255) const]&]
 [s7; [%-*C@3 c]-|Color to compare with.&]
-[s7; [*/ Возвратное значение]-|True if Color is equal to [@3 c].&]
+[s7; [*/ Возвратное значение]-|True if Color is equal 
+to [@3 c].&]
 [s3; &]
 [s4;%- &]
 [s5;:Color`:`:operator`!`=`(Color`)const:%- [@(0.0.255) bool]_[* operator!`=]([_^Color^ Col
 or]_[*@3 c])_[@(0.0.255) const]&]
 [s7; [%-*C@3 c]-|Color to compare with.&]
-[s7; [*/ Возвратное значение]-|True if Color is not equal to [@3 c].&]
+[s7; [*/ Возвратное значение]-|True if Color is not 
+equal to [@3 c].&]
 [s3; &]
 [s4;%- &]
 [s5;:Color`:`:Serialize`(Stream`&`):%- [@(0.0.255) void]_[* Serialize]([_^Stream^ Stream][@(0.0.255) `&
@@ -301,8 +305,8 @@ ykColorf]([@(0.0.255) double]_[*@3 c], [@(0.0.255) double]_[*@3 m], [@(0.0.255) 
 [s7; [%-*C@3 c1]-|First color.&]
 [s7; [%-*C@3 c2]-|Second color.&]
 [s7; [%-*C@3 alpha]-|Blending factor in the range 0..255.&]
-[s7; [*/ Возвратное значение]-|Blended color `- (255 `- alpha) / 255.0 `* c1 
-`+ alpha / 255.0 `* c2.&]
+[s7; [*/ Возвратное значение]-|Blended color `- (255 
+`- alpha) / 255.0 `* c1 `+ alpha / 255.0 `* c2.&]
 [s3; &]
 [s4;%- &]
 [s5;:ColorToHtml`(Color`):%- [_^String^ String]_[* ColorToHtml]([_^Color^ Color]_[*@3 color])

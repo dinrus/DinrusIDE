@@ -174,7 +174,7 @@ to application one. Default setting is true.&]
 [ {{10000F(128)G(128)@1 [s0;%% [* Детали Конструктора]]}}&]
 [s4;H0; &]
 [s5;:LocalProcess`:`:LocalProcess`(`): [* LocalProcess]()&]
-[s2;%% Default constructor.&]
+[s2;%% Дефолтный конструктор.&]
 [s3; &]
 [s4; &]
 [s5;:LocalProcess`:`:LocalProcess`(const char`*`,const char`*`): [* LocalProcess]([@(0.0.255) c

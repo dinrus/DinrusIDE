@@ -1,4 +1,4 @@
-// NOTE: Because of clash with Windows rpc.h, DinrusC/Core.h has to be included before this header
+// NOTE: Because of clash with Windows rpc.h, RKod/Core.h has to be included before this header
 // For the same reason implementation files are in 'imp' subdirectory
 
 #ifndef Rpc_Rpc_h

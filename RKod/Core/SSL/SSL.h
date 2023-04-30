@@ -1,4 +1,4 @@
-#include <DinrusC/Core.h>
+#include <RKod/Core.h>
 
 #include <openssl/ssl.h>
 #include <openssl/conf.h>

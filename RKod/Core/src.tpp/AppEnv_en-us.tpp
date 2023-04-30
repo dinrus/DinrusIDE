@@ -181,7 +181,7 @@ to define the directory.&]
 [s4; &]
 [s5;:LoadDataFile`(const char`*`): [_^topic`:`/`/Core`/src`/String`$en`-us`#String`:`:class^ S
 tring]_[* LoadDataFile]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 filename])&]
-[s2;%% Same as LoadFile(GetDataFile([%-*@3 filename])).&]
+[s2;%% То же, что и LoadFile(GetDataFile([%-*@3 filename])).&]
 [s3;%% &]
 [s4; &]
 [s5;:SetDataPath`(const char`*`): [@(0.0.255) void]_[* SetDataPath]([@(0.0.255) const]_[@(0.0.255) c

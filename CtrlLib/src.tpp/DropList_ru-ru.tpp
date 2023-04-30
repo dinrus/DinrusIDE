@@ -71,7 +71,7 @@ td`::pair]<[_^Upp`:`:Value^ Value], [_^Upp`:`:Value^ Value]>>_[*@3 init])&]
 [s4; &]
 [s5;:DropList`:`:Add`(const Value`&`): [_^DropList^ DropList][@(0.0.255) `&]_[* Add]([@(0.0.255) c
 onst]_[_^Value^ Value][@(0.0.255) `&]_[*@3 value])&]
-[s2;%% Same as Add(value, value).&]
+[s2;%% То же, что и Add(value, value).&]
 [s3; &]
 [s4; &]
 [s5;:DropList`:`:Remove`(int`): [@(0.0.255) void]_[* Remove]([@(0.0.255) int]_[*@3 i])&]
@@ -130,7 +130,7 @@ ndex] based).&]
 [s4; &]
 [s5;:DropList`:`:Find`(const Value`&`)const: [@(0.0.255) int]_[* Find]([@(0.0.255) const]_[_^Value^ V
 alue][@(0.0.255) `&]_[*@3 k])_[@(0.0.255) const]&]
-[s2;%% Same as FindKey(k).&]
+[s2;%% То же, что и FindKey(k).&]
 [s3; &]
 [s4; &]
 [s5;:DropList`:`:FindValue`(const Value`&`)const: [@(0.0.255) int]_[* FindValue]([@(0.0.255) c
@@ -176,7 +176,7 @@ the current value of DropList.&]
 [s4; &]
 [s5;:DropList`:`:operator`[`]`(int`)const: [_^Value^ Value]_[* operator`[`]]([@(0.0.255) in
 t]_[*@3 i])_[@(0.0.255) const]&]
-[s2;%% Same as GetValue(i).&]
+[s2;%% То же, что и GetValue(i).&]
 [s3; &]
 [s4; &]
 [s5;:DropList`:`:Adjust`(`): [@(0.0.255) void]_[* Adjust]()&]
@@ -245,7 +245,7 @@ nt]_[*@3 lcy])&]
 [s5;:DropList`:`:SetDisplay`(const Display`&`,int`): [_^DropList^ DropList][@(0.0.255) `&
 ]_[* SetDisplay]([@(0.0.255) const]_[_^Display^ Display][@(0.0.255) `&]_[*@3 d], 
 [@(0.0.255) int]_[*@3 lcy])&]
-[s2;%% Same as SetDisplay(d), SetLineCy(lcy). Returns `*this.&]
+[s2;%% То же, что и SetDisplay(d), SetLineCy(lcy). Returns `*this.&]
 [s3; &]
 [s4; &]
 [s5;:DropList`:`:ValueDisplay`(const Display`&`): [_^DropList^ DropList][@(0.0.255) `&]_[* V
@@ -272,7 +272,7 @@ keyboard focus to the widget. Default is on. Returns `*this.&]
 [s3; &]
 [s4; &]
 [s5;:DropList`:`:NoDropFocus`(`): [_^DropList^ DropList][@(0.0.255) `&]_[* NoDropFocus]()&]
-[s2;%% Same as DropFocus(false).&]
+[s2;%% То же, что и DropFocus(false).&]
 [s3; &]
 [s4; &]
 [s5;:DropList`:`:AlwaysDrop`(bool`): [_^DropList^ DropList][@(0.0.255) `&]_[* AlwaysDrop]([@(0.0.255) b
@@ -301,7 +301,7 @@ by default is the same as the width of DropList).&]
 [s4; &]
 [s5;:DropList`:`:DropWidthZ`(int`): [_^DropList^ DropList][@(0.0.255) `&]_[* DropWidthZ]([@(0.0.255) i
 nt]_[*@3 w])&]
-[s2;%% Same as DropWidth(HorzLayoutZoom([%-*@3 w])) `- this adjusts 
+[s2;%% То же, что и DropWidth(HorzLayoutZoom([%-*@3 w])) `- this adjusts 
 the width according to current standard GUI font zooming.&]
 [s3;%% &]
 [s4; &]
@@ -312,7 +312,7 @@ wheel. Default is active.&]
 [s3;%% &]
 [s4; &]
 [s5;:DropList`:`:NoWheel`(`): [_^DropList^ DropList][@(0.0.255) `&]_[* NoWheel]()&]
-[s2;%% Same as Wheel(false).&]
+[s2;%% То же, что и Wheel(false).&]
 [s3; &]
 [s4; &]
 [s5;:DropList`:`:SetScrollBarStyle`(const ScrollBar`:`:Style`&`): [_^DropList^ DropList

@@ -600,7 +600,7 @@ bool HttpResponse(TcpSocket& socket, bool scgi, int код_, const char *phrase,
                   const char *content_type = NULL, const Ткст& данные = Null,
                   const char *server = NULL, bool gzip = false);
 
-#include <DinrusC/Core.h>
+#include <RKod/Core.h>
 
 class WebSocket {
 	Ткст     Ошибка;

@@ -256,7 +256,7 @@ Set as Value of default constructed AttrText.&]
 [s3; &]
 [s4;%- &]
 [s5;:AttrText`:`:AttrText`(`):%- [* AttrText]()&]
-[s2; Default constructor. Assigns Null to all members except font, 
+[s2; Дефолтный конструктор. Assigns Null to all members except font, 
 which is initialized to StdFont.&]
 [s3; &]
 [s0; &]

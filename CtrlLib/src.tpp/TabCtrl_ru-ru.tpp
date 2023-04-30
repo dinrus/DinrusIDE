@@ -44,7 +44,7 @@ tem] which can be used to setup tab`'s properties.&]
 [s4;%- &]
 [s5;:TabCtrl`:`:Add`(const char`*`):%- [_^TabCtrl`:`:Item^ TabCtrl`::Item][@(0.0.255) `&]_
 [* Add]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 text])&]
-[s2; Same as Add(), but also sets the [%-*@3 text] of tab.&]
+[s2; То же, что и Add(), but also sets the [%-*@3 text] of tab.&]
 [s3; &]
 [s4;%- &]
 [s5;:TabCtrl`:`:Add`(const Image`&`,const char`*`):%- [_^TabCtrl`:`:Item^ TabCtrl`::Item
@@ -223,7 +223,7 @@ all of them. Returns `*this.&]
 [s3; &]
 [s4;%- &]
 [s5;:TabCtrl`:`:AcceptAll`(`):%- [_^TabCtrl^ TabCtrl][@(0.0.255) `&]_[* AcceptAll]()&]
-[s2; Same as AcceptCurrent(false).&]
+[s2; То же, что и AcceptCurrent(false).&]
 [s3; &]
 [s4;%- &]
 [s5;:TabCtrl`:`:SetStyle`(const TabCtrl`:`:Style`&`):%- [_^TabCtrl^ TabCtrl][@(0.0.255) `&
@@ -274,7 +274,7 @@ tCtrl]([_^Ctrl^ Ctrl]_`*[*@3 `_ctrl])&]
 [s4;%- &]
 [s5;:TabCtrl`:`:Item`:`:SetCtrl`(Ctrl`&`):%- [_^TabCtrl`:`:Item^ Item][@(0.0.255) `&]_[* Se
 tCtrl]([_^Ctrl^ Ctrl][@(0.0.255) `&]_[*@3 c])&]
-[s2; Same as SetCtrl(`&[%-*@3 c]). Returns `*this.&]
+[s2; То же, что и SetCtrl(`&[%-*@3 c]). Returns `*this.&]
 [s3; &]
 [s4;%- &]
 [s5;:TabCtrl`:`:Item`:`:Slave`(Ctrl`*`):%- [_^TabCtrl`:`:Item^ Item][@(0.0.255) `&]_[* Slav
@@ -294,7 +294,7 @@ e]([@(0.0.255) bool]_[*@3 `_en]_`=_[@(0.0.255) true])&]
 [s4;%- &]
 [s5;:TabCtrl`:`:Item`:`:Disable`(`):%- [_^TabCtrl`:`:Item^ Item][@(0.0.255) `&]_[* Disable](
 )&]
-[s2; Same as Enable(false).&]
+[s2; То же, что и Enable(false).&]
 [s3; &]
 [s4;%- &]
 [s5;:TabCtrl`:`:Item`:`:IsEnabled`(`)const:%- [@(0.0.255) bool]_[* IsEnabled]()_[@(0.0.255) c

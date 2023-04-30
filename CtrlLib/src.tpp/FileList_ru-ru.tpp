@@ -80,7 +80,7 @@ lse], [@(0.0.255) bool]_[*@3 hidden]_`=_[@(0.0.255) false])&]
 [s4; &]
 [s5;:FileList`:`:operator`[`]`(int`)const: [@(0.0.255) const]_[_^FileList`:`:File^ File][@(0.0.255) `&
 ]_[* operator`[`]]([@(0.0.255) int]_[*@3 i])_[@(0.0.255) const]&]
-[s2;%% Same as Get([%-*@3 i]).&]
+[s2;%% То же, что и Get([%-*@3 i]).&]
 [s3; &]
 [s4; &]
 [s5;:FileList`:`:Insert`(int`,const String`&`,const Image`&`,Font`,Color`,bool`,int64`,Time`,Color`,const String`&`,Font`,Value`,Color`,bool`,bool`): [@(0.0.255) v

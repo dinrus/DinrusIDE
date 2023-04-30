@@ -113,6 +113,6 @@ writes first elements of container to arguments and returns sizeof...(args).&]
 [s5;:Upp`:`:scatter`(const C`&`,Args`&`.`.`.args`): [@(0.0.255) template]_<[@(0.0.255) cl
 ass]_[*@4 C], [@(0.0.255) typename...]_[*@4 Args]>_[@(0.0.255) int]_[* scatter]([@(0.0.255) c
 onst]_[*@4 C][@(0.0.255) `&]_[*@3 c], [*@4 Args][@(0.0.255) `&]_...args)&]
-[s2;%% Same as scatter`_n(c.size(), c, args...).&]
+[s2;%% То же, что и scatter`_n(c.size(), c, args...).&]
 [s2;%% &]
 [s0;%% ]]

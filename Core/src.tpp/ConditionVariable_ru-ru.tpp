@@ -1,4 +1,4 @@
-topic "ConditionVariable";
+topic "Класс ConditionVariable";
 [i448;a25;kKO9;2 $$1,0#37138531426314131252341829483380:class]
 [l288;2 $$2,0#27521748481378242620020725143825:desc]
 [0 $$3,0#96390100711032703541132217272105:end]
@@ -10,40 +10,40 @@ topic "ConditionVariable";
 [b42;2 $$9,9#13035079074754324216151401829390:normal]
 [2 $$0,0#00000000000000000000000000000000:Default]
 [{_} 
-[ {{10000t/25b/25@(113.42.0) [s0; [*@7;4 ConditionVariable]]}}&]
+[ {{10000t/25b/25@(113.42.0) [s0; [%RU-RU*@7;4 Класс ][*@7;4 ConditionVariable]]}}&]
 [s3; &]
 [s1;:ConditionVariable`:`:class: [@(0.0.255)3 class][3 _][*3 ConditionVariable]&]
-[s9;%% ConditionVariable allows threads to suspend execution (using 
-Wait) until they are awaken by another thread (using Signal or 
-Broadcast methods). ConditionVariable has associated Mutex to 
-avoid possible race conditions when entering suspended state.&]
+[s9;%RU-RU ConditionVariable allows threads to suspend execution 
+(using Wait) until they are awaken by another thread (using Signal 
+or Broadcast methods). ConditionVariable has associated Mutex 
+to avoid possible race conditions when entering suspended state.&]
 [s3; &]
 [s0; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%RU-RU [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:Upp`:`:ConditionVariable`:`:Wait`(Upp`:`:Mutex`&`,int`): [@(0.0.255) void]_[* Wait](
 [_^Upp`:`:Mutex^ Mutex][@(0.0.255) `&]_[*@3 m], [@(0.0.255) int]_[*@3 timeout`_ms]_`=_`-[@3 1
 ])&]
-[s2;%% Atomically unlocks [%-*@3 m ]and starts waiting for Signal or 
-Broadcast or until [%-*@3 timeout`_ms] milliseconds elapses. [%-*@3 m] 
-has to be owned by calling thread before invoking. When Signal 
-or Broadcast are received, resumes execution and reacquires [%-*@3 m][%- . 
-]Negative value for [%-*@3 timeout`_ms] means the waiting time 
-is unlimited.&]
-[s3;%% &]
-[s4;%% &]
+[s2;%RU-RU Atomically unlocks [%-*@3 m ]and starts waiting for Signal 
+or Broadcast or until [%-*@3 timeout`_ms] milliseconds elapses. 
+[%-*@3 m] has to be owned by calling thread before invoking. When 
+Signal or Broadcast are received, resumes execution and reacquires 
+[%-*@3 m][%- . ]Negative value for [%-*@3 timeout`_ms] means the waiting 
+time is unlimited.&]
+[s3;%RU-RU &]
+[s4;%RU-RU &]
 [s5;:ConditionVariable`:`:Signal`(`): [@(0.0.255) void]_[* Signal]()&]
-[s2;%% Resumes execution of single waiting thread, if any.&]
-[s3;%% &]
-[s4;%% &]
+[s2;%RU-RU Resumes execution of single waiting thread, if any.&]
+[s3;%RU-RU &]
+[s4;%RU-RU &]
 [s5;:ConditionVariable`:`:Broadcast`(`): [@(0.0.255) void]_[* Broadcast]()&]
-[s2;%% Resumes execution of all currently waiting threads.&]
-[s3;%% &]
+[s2;%RU-RU Resumes execution of all currently waiting threads.&]
+[s3;%RU-RU &]
 [s0;3 &]
 [s0;3 &]
 [s0;3 &]
 [ {{10000t/25b/25@(113.42.0) [s0; [*@7;4 StaticConditionVariable]]}}&]
-[s3;%% &]
+[s3;%RU-RU &]
 [s1;:StaticConditionVariable`:`:class: [@(0.0.255)3 class][3 _][*3 StaticConditionVariable]&]
 [s9; Variant of ConditionVariable that can be used as static or global 
 variable without the need of initialization  `- it has no constructor 
@@ -52,19 +52,19 @@ is called. That avoids problems with initialization order or
 multithreaded initialization issues.&]
 [s3; &]
 [s0; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%RU-RU [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:StaticConditionVariable`:`:Get`(`): [_^ConditionVariable^ ConditionVariable][@(0.0.255) `&
 ]_[* Get]()&]
 [s5;:StaticConditionVariable`:`:operator ConditionVariable`&`(`): [* operator_Condition
 Variable`&]()&]
-[s2;%% Returns the instance of ConditionVariable.&]
+[s2;%RU-RU Returns the instance of ConditionVariable.&]
 [s3; &]
 [s4; &]
 [s5;:StaticConditionVariable`:`:Wait`(Mutex`&`): [@(0.0.255) void]_[* Wait]([_^Mutex^ Mutex
 ][@(0.0.255) `&]_[*@3 m])&]
 [s5;:StaticConditionVariable`:`:Signal`(`): [@(0.0.255) void]_[* Signal]()&]
 [s5;:StaticConditionVariable`:`:Broadcast`(`): [@(0.0.255) void]_[* Broadcast]()&]
-[s2;%% Calls respective ConditionVariable methods.&]
+[s2;%RU-RU Calls respective ConditionVariable methods.&]
 [s3; &]
 [s0; ]]

@@ -137,7 +137,7 @@ rguments])_const&]
 [s4; &]
 [s0;:`:`:Callback1`:`:operator`(`)`(P1`)const:%- [%%*/@(128.0.255) return`_type]_[* opera
 tor()]([%%*/@(128.0.255) arguments])_const&]
-[s2; Same as the Execute method.&]
+[s2; То же, что и the Execute method.&]
 [s3; &]
 [s0; &]
 [s0;:Callback1Action`:`:struct:%- `[ template_<[*/@(128.0.255) parameters]> 

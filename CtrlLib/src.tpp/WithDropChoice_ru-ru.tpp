@@ -92,7 +92,7 @@ remove the drop`-down list capability. Default is on.&]
 [s4; &]
 [s5;:WithDropChoice`:`:NoDropping`(`): [_^WithDropChoice^ WithDropChoice][@(0.0.255) `&]_
 [* NoDropping]()&]
-[s2;%% Same as Dropping(false).&]
+[s2;%% То же, что и Dropping(false).&]
 [s3;%% &]
 [s4; &]
 [s5;:WithDropChoice`:`:NoDropFocus`(`): [_^WithDropChoice^ WithDropChoice][@(0.0.255) `&]_
@@ -134,7 +134,7 @@ Display is assigned.&]
 [s5;:WithDropChoice`:`:SetDisplay`(const Display`&`,int`): [_^WithDropChoice^ WithDropC
 hoice][@(0.0.255) `&]_[* SetDisplay]([@(0.0.255) const]_[_^Display^ Display][@(0.0.255) `&]_
 [*@3 d], [@(0.0.255) int]_[*@3 lcy])&]
-[s2;%% Same as SetDisplay(d).SetLineCy(lcy).&]
+[s2;%% То же, что и SetDisplay(d).SetLineCy(lcy).&]
 [s3;%% &]
 [s4; &]
 [s5;:WithDropChoice`:`:SetConvert`(const Convert`&`): [_^WithDropChoice^ WithDropChoice
@@ -167,7 +167,7 @@ and AlwaysDrop is false, the drop arrow is hidden.&]
 [s4; &]
 [s5;:WithDropChoice`:`:NoWithWheel`(`): [_^WithDropChoice^ WithDropChoice][@(0.0.255) `&]_
 [* NoWithWheel]()&]
-[s2;%% Same as WithWheel(false).&]
+[s2;%% То же, что и WithWheel(false).&]
 [s3; &]
 [s4; &]
 [s5;:WithDropChoice`:`:DropWidth`(int`): [_^WithDropChoice^ WithDropChoice][@(0.0.255) `&
@@ -189,7 +189,7 @@ is active..&]
 [s4; &]
 [s5;:WithDropChoice`:`:NoUpDownKeys`(`): [_^WithDropChoice^ WithDropChoice][@(0.0.255) `&
 ]_[* NoUpDownKeys]()&]
-[s2;%% Same as UpDownKeys(false).&]
+[s2;%% То же, что и UpDownKeys(false).&]
 [s3;%% &]
 [s4; &]
 [s5;:WithDropChoice`:`:GetCount`(`)const: [@(0.0.255) int]_[* GetCount]()_[@(0.0.255) const

@@ -11,7 +11,7 @@ bool естьМпбУтф8(Поток& in)
 	return false;
 }
 
-static void sLoadBom(Поток& in, Ткст *t, ШТкст *wt, byte def_charset) 
+static void sLoadBom(Поток& in, Ткст *t, ШТкст *wt, byte def_charset)
 {
 	if(in.открыт()) {
 		Ткст s;
@@ -102,7 +102,7 @@ static void sLoadBom(Поток& in, Ткст *t, ШТкст *wt, byte def_chars
 }
 
 bool сохраниМПБПотока(Поток& out, const ШТкст& данные) {
-	if(!out.открыт() || out.ошибка_ли()) 
+	if(!out.открыт() || out.ошибка_ли())
 		return false;
 	word w = 0xfeff;
 	out.помести(&w, 2);
@@ -118,7 +118,7 @@ bool сохраниМПБФайла(const char *path, const ШТкст& данн
 }
 
 bool сохраниМПБПотокаУтф8(Поток& out, const Ткст& данные) {
-	if(!out.открыт() || out.ошибка_ли()) 
+	if(!out.открыт() || out.ошибка_ли())
 		return false;
 	static unsigned char bom[] = {0xEF, 0xBB, 0xBF};
 	out.помести(bom, 3);

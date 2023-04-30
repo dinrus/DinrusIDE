@@ -45,7 +45,7 @@ already any records stored in DrawingDraw, they are cleaned.&]
 [ {{10000F(128)G(128)@1 [s0; [* Constructor detail]]}}&]
 [s3; &]
 [s5;:DrawingDraw`:`:DrawingDraw`(`):%- [* DrawingDraw]()&]
-[s2; Default constructor. Create has to be explicitly called on default 
+[s2; Дефолтный конструктор. Create has to be explicitly called on default 
 constructed DrawingDraw.&]
 [s3; &]
 [s4; &]

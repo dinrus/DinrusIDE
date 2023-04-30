@@ -1,4 +1,4 @@
-topic "FindFile";
+topic "Класс FindFile";
 [i448;a25;kKO9;2 $$1,0#37138531426314131252341829483380:class]
 [l288;2 $$2,0#27521748481378242620020725143825:desc]
 [0 $$3,0#96390100711032703541132217272105:end]
@@ -10,7 +10,7 @@ topic "FindFile";
 [b42;2 $$9,9#13035079074754324216151401829390:normal]
 [2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%RU-RU 
-[ {{10000@(113.42.0) [s0; [*@7;4 FindFile]]}}&]
+[ {{10000@(113.42.0) [s0; [*@7;4 Класс FindFile]]}}&]
 [s3;%- &]
 [s1;:FindFile`:`:class:%- [@(0.0.255)3 class][3 _][*3 FindFile]&]
 [s9; This class serves as platform independent encapsulation of directory 
@@ -169,14 +169,14 @@ this is used as condition to the loop that enumerates directory.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:FindFile`:`:operator`+`+`(`):%- [@(0.0.255) bool]_[* operator`+`+]()&]
-[s2; Same as Next(). Improves [* for] syntax: for(FindFile ff(...); 
-ff; `+`+ff)&]
+[s2; То же, что и Next(). Improves [* for] syntax: for(FindFile 
+ff(...); ff; `+`+ff)&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:FindFile`:`:operator`+`+`(int`):%- [@(0.0.255) bool]_[* operator`+`+]([@(0.0.255) i
 nt])&]
-[s2; Same as Next(). Improves [* for] syntax: for(FindFile ff(...); 
-ff; ff`+`+)&]
+[s2; То же, что и Next(). Improves [* for] syntax: for(FindFile 
+ff(...); ff; ff`+`+)&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:FindFile`:`:begin`(`):%- [_^Upp`:`:FindFile`:`:Iterator^ Iterator]_[* begin](

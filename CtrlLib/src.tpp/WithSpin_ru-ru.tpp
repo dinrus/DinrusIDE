@@ -82,7 +82,7 @@ active.&]
 [s4;%- &]
 [s5;:Upp`:`:WithSpin`:`:NoMouseWheelSpin`(`):%- [_^Upp`:`:WithSpin^ WithSpin][@(0.0.255) `&
 ]_[* NoMouseWheelSpin]()&]
-[s2; Same as MouseWheelSpin(false).&]
+[s2; То же, что и MouseWheelSpin(false).&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:WithSpin`:`:KeySpin`(bool`):%- [_^Upp`:`:WithSpin^ WithSpin][@(0.0.255) `&]_[* K
@@ -93,7 +93,7 @@ is active.&]
 [s4;%- &]
 [s5;:Upp`:`:WithSpin`:`:NoKeySpin`(`):%- [_^Upp`:`:WithSpin^ WithSpin][@(0.0.255) `&]_[* No
 KeySpin]()&]
-[s2; Same as KeySpin(false).&]
+[s2; То же, что и KeySpin(false).&]
 [s3;%- &]
 [s4; &]
 [s5;:WithSpin`:`:SpinButtonsObject`(`):%- [_^SpinButtons^ SpinButtons][@(0.0.255) `&]_[* Sp

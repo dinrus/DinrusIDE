@@ -200,7 +200,7 @@ used as result of conversion.&]
 [s4; &]
 [s5;:Upp`:`:FromUnicodeBuffer`(const Upp`:`:wchar`*`): [_^Upp`:`:String^ String]_[* FromU
 nicodeBuffer]([@(0.0.255) const]_[_^Upp`:`:wchar^ wchar]_`*[*@3 src])&]
-[s2;%RU-RU Same as FromUnicodeBuffer([%-*@3 src] , wstrlen([%-*@3 src])).&]
+[s2;%RU-RU То же, что и FromUnicodeBuffer([%-*@3 src] , wstrlen([%-*@3 src])).&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:FromUnicode`(const WString`&`,byte`,int`): [_^String^ String]_[* FromUnicode]([@(0.0.255) c
@@ -255,12 +255,12 @@ such conversion is not possible, returns 32 (space).&]
 [s4; &]
 [s5;:Upp`:`:ToUpperAscii`(int`): [@(0.0.255) char]_[* ToUpperAscii]([@(0.0.255) int]_[*@3 c])
 &]
-[s2;%RU-RU Same as ToUpper(ToAscii([%-*@3 c]) (but faster).&]
+[s2;%RU-RU То же, что и ToUpper(ToAscii([%-*@3 c]) (but faster).&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:ToLowerAscii`(int`): [@(0.0.255) char]_[* ToLowerAscii]([@(0.0.255) int]_[*@3 c])
 &]
-[s2;%RU-RU Same as ToLower(ToAscii([%-*@3 c]) (but faster).&]
+[s2;%RU-RU То же, что и ToLower(ToAscii([%-*@3 c]) (but faster).&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:IsLetter`(char`): [@(0.0.255) bool]_[* IsLetter]([@(0.0.255) char]_[*@3 c])&]
@@ -307,22 +307,22 @@ yte)[%-*@3 c]).&]
 [s4; &]
 [s5;:Upp`:`:ToUpperAscii`(signed char`): [@(0.0.255) char]_[* ToUpperAscii]([@(0.0.255) sig
 ned]_[@(0.0.255) char]_[*@3 c])&]
-[s2;%RU-RU Same as ToUpper(ToAscii([%-*@3 c])).&]
+[s2;%RU-RU То же, что и ToUpper(ToAscii([%-*@3 c])).&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:ToLowerAscii`(signed char`): [@(0.0.255) char]_[* ToLowerAscii]([@(0.0.255) sig
 ned]_[@(0.0.255) char]_[*@3 c])&]
-[s2;%RU-RU Same as ToLower(ToAscii([%-*@3 c])).&]
+[s2;%RU-RU То же, что и ToLower(ToAscii([%-*@3 c])).&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:ToUpperAscii`(char`): [@(0.0.255) char]_[* ToUpperAscii]([@(0.0.255) char]_[*@3 c
 ])&]
-[s2;%RU-RU Same as ToUpper(ToAscii([%-*@3 c])).&]
+[s2;%RU-RU То же, что и ToUpper(ToAscii([%-*@3 c])).&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:ToLowerAscii`(char`): [@(0.0.255) char]_[* ToLowerAscii]([@(0.0.255) char]_[*@3 c
 ])&]
-[s2;%RU-RU Same as ToLower(ToAscii([%-*@3 c])).&]
+[s2;%RU-RU То же, что и ToLower(ToAscii([%-*@3 c])).&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:IsLetter`(wchar`): [@(0.0.255) bool]_[* IsLetter]([_^wchar^ wchar]_[*@3 c])&]
@@ -357,12 +357,12 @@ ned]_[@(0.0.255) char]_[*@3 c])&]
 [s4; &]
 [s5;:Upp`:`:ToUpperAscii`(Upp`:`:wchar`): [@(0.0.255) char]_[* ToUpperAscii]([_^Upp`:`:wchar^ w
 char]_[*@3 c])&]
-[s2;%RU-RU Same as ToUpper(ToAscii([%-*@3 c])).&]
+[s2;%RU-RU То же, что и ToUpper(ToAscii([%-*@3 c])).&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:ToLowerAscii`(Upp`:`:wchar`): [@(0.0.255) char]_[* ToLowerAscii]([_^Upp`:`:wchar^ w
 char]_[*@3 c])&]
-[s2;%RU-RU Same as ToLower(ToAscii([%-*@3 c])).&]
+[s2;%RU-RU То же, что и ToLower(ToAscii([%-*@3 c])).&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:IsDigit`(int`): [@(0.0.255) bool]_[* IsDigit]([@(0.0.255) int]_[*@3 c])&]
@@ -415,12 +415,12 @@ is not possible, returns 32 (space).&]
 [s4; &]
 [s5;:Upp`:`:Utf8ToUpperAscii`(const Upp`:`:String`&`): [_^Upp`:`:String^ String]_[* Utf8T
 oUpperAscii]([@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 src])&]
-[s2;%RU-RU Same as ToUpper(ToAscii([%-*@3 src]) but faster.&]
+[s2;%RU-RU То же, что и ToUpper(ToAscii([%-*@3 src]) but faster.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:Utf8ToLowerAscii`(const Upp`:`:String`&`): [_^Upp`:`:String^ String]_[* Utf8T
 oLowerAscii]([@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 src])&]
-[s2;%RU-RU Same as ToLower(ToAscii([%-*@3 src]) but faster.&]
+[s2;%RU-RU То же, что и ToLower(ToAscii([%-*@3 src]) but faster.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:ToUpper`(wchar`*`,const wchar`*`,int`): [@(0.0.255) void]_[* ToUpper]([_^wchar^ wchar]_
@@ -592,14 +592,14 @@ ASCII by removing diacritical markings. [*@3 charset] can be CHARSET`_UTF8.&]
 [s5;:Upp`:`:ToUpperAscii`(const Upp`:`:String`&`,Upp`:`:byte`): [_^Upp`:`:String^ Strin
 g]_[* ToUpperAscii]([@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 s], 
 [_^Upp`:`:byte^ byte]_[*@3 charset])&]
-[s2;%RU-RU Same as ToUpper(ToAscii([%-*@3 s]), [%-*@3 charset]), but 
+[s2;%RU-RU То же, что и ToUpper(ToAscii([%-*@3 s]), [%-*@3 charset]), but 
 faster.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:ToLowerAscii`(const Upp`:`:String`&`,Upp`:`:byte`): [_^Upp`:`:String^ Strin
 g]_[* ToLowerAscii]([@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 s], 
 [_^Upp`:`:byte^ byte]_[*@3 charset])&]
-[s2;%RU-RU Same as ToLower(ToAscii([%-*@3 s]), [%-*@3 charset]), but 
+[s2;%RU-RU То же, что и ToLower(ToAscii([%-*@3 s]), [%-*@3 charset]), but 
 faster.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]

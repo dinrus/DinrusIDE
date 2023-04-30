@@ -78,7 +78,7 @@ onst]&]
 [s5;:S`_type`:`:operator`!`=`(const S`_type`&`)const:%- [@(0.0.255) bool]_[* operator!`=](
 [@(0.0.255) const]_[_^S`_type^ S`_][/_^S`_type^ type][@(0.0.255) `&]_[*@3 x])_[@(0.0.255) con
 st]&]
-[s2; Same as !operator`=`=(x).&]
+[s2; То же, что и !operator`=`=(x).&]
 [s3; &]
 [s4; &]
 [s5;:S`_type`:`:ToString`(`)const:%- [_^String^ String]_[* ToString]()_[@(0.0.255) const]&]

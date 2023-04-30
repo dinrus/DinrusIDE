@@ -264,7 +264,7 @@ word]_[*@3 size])&]
 [ {{10000F(128)G(128)@1 [s0; [* Детали Конструктора]]}}&]
 [s3; &]
 [s5;:Stream`:`:Stream`(`):%- [* Stream]()&]
-[s2; Default constructor. Sets stream into Loading serialization 
+[s2; Дефолтный конструктор. Sets stream into Loading serialization 
 mode and zero level indentation. All protected variables are 
 set to 0 / NULL.&]
 [s3;%- &]
@@ -371,14 +371,14 @@ stream `- equivalent to GetSize() `- GetPos().&]
 [s5;:Stream`:`:SeekEnd`(int64`):%- [@(0.0.255) void]_[* SeekEnd]([_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:int64`:`:typedef^ i
 nt64]_[*@3 rel]_`=_[@3 0])&]
 [s2; Sets current position in the stream relative to the end of stream. 
-Same as Seek(GetSize() `+ rel).&]
+То же, что и Seek(GetSize() `+ rel).&]
 [s7; [%-*C@3 rel]-|Position `- should be less or equal to zero.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:SeekCur`(int64`):%- [@(0.0.255) void]_[* SeekCur]([_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:int64`:`:typedef^ i
 nt64]_[*@3 rel])&]
 [s2; Sets current position in the stream relative to the current 
-position. Same as Seek(GetPos() `+ rel).&]
+position. То же, что и Seek(GetPos() `+ rel).&]
 [s7; [%-*C@3 rel]-|Relative offset.&]
 [s3; &]
 [s4;%- &]
@@ -1419,7 +1419,7 @@ ufferStream]&]
 [ {{10000F(128)G(128)@1 [s0; [* Детали Конструктора]]}}&]
 [s3; &]
 [s0;:`:`:SizeStream`:`:SizeStream`(`):%- [* SizeStream]()&]
-[s2; Default constructor.&]
+[s2; Дефолтный конструктор.&]
 [s3; &]
 [s0;%- &]
 [ {{10000F(128)G(128)@1 [s0; [* Список Публичных Членов]]}}&]

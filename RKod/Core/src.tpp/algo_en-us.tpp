@@ -60,7 +60,7 @@ representing initial zero value. ][*@4 T]_must have defined operator`+`=.&]
 [s5;:Sum`(const T`&`): [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 Range]>_&]
 [s5;:Sum`(const T`&`): [@(0.0.255) typename]_[_^Upp`:`:ValueTypeOf^ ValueTypeOf]<[*@4 Range
 ]>_[* Sum]([@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[*@3 c])&]
-[s2;%% Same as Sum(c, 0).&]
+[s2;%% То же, что и Sum(c, 0).&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:Count`(const Range`&`,const V`&`): [@(0.0.255) template]_<[@(0.0.255) class]_

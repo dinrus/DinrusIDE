@@ -86,7 +86,7 @@ method). When loading and [%-*@3 key] is missing in source data,
 [s5;:Upp`:`:JsonIO`:`:List`(const char`*`,const char`*`,T`&`): [@(0.0.255) template]_<[@(0.0.255) c
 lass]_[*@4 T]>_[_^Upp`:`:JsonIO^ JsonIO][@(0.0.255) `&]_[* List]([@(0.0.255) const]_[@(0.0.255) c
 har]_`*[*@3 key], [@(0.0.255) const]_[@(0.0.255) char]_`*, [*@4 T][@(0.0.255) `&]_[*@3 var])&]
-[s2;%% Same as operator()([%-*@3 key], [%-*@3 var]). Provides compatibility 
+[s2;%% То же, что и operator()([%-*@3 key], [%-*@3 var]). Provides compatibility 
 with Xmlize for common template routines that provide both Jsonize 
 and Xmlize code.&]
 [s3;%% &]

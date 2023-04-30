@@ -121,7 +121,7 @@ the empty text).&]
 [s4;%- &]
 [s5;:ConvertDate`:`:NoNotNull`(`):%- [_^ConvertDate^ ConvertDate][@(0.0.255) `&]_[* NoNotNu
 ll]()&]
-[s2; Same as [^topic`:`/`/Core`/src`/Convert`$en`-us`#ConvertDate`:`:NotNull`(bool`)^ N
+[s2; То же, что и [^topic`:`/`/Core`/src`/Convert`$en`-us`#ConvertDate`:`:NotNull`(bool`)^ N
 otNull](false).&]
 [s3; &]
 [s4;%- &]
@@ -218,7 +218,7 @@ ll]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) true])&]
 [s4;%- &]
 [s5;:ConvertTime`:`:NoNotNull`(`):%- [_^ConvertTime^ ConvertTime][@(0.0.255) `&]_[* NoNotNu
 ll]()&]
-[s2; Same as [^topic`:`/`/Core`/src`/Convert`$en`-us`#ConvertTime`:`:NotNull`(bool`)^ N
+[s2; То же, что и [^topic`:`/`/Core`/src`/Convert`$en`-us`#ConvertTime`:`:NotNull`(bool`)^ N
 otNull](false).&]
 [s3; &]
 [s4;%- &]
@@ -229,7 +229,7 @@ otNull](false).&]
 [s4;%- &]
 [s5;:Upp`:`:ConvertTime`:`:NoSeconds`(`):%- [_^Upp`:`:ConvertTime^ ConvertTime][@(0.0.255) `&
 ]_[* NoSeconds]()&]
-[s2; Same as Seconds(fale)&]
+[s2; То же, что и Seconds(fale)&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:ConvertTime`:`:IsSeconds`(`)const:%- [@(0.0.255) bool]_[* IsSeconds]()_[@(0.0.255) c
@@ -511,7 +511,7 @@ onst]&]
 [s4;%- &]
 [s5;:ConvertString`:`:NoNotNull`(`):%- [_^ConvertString^ ConvertString][@(0.0.255) `&]_[* N
 oNotNull]()&]
-[s2; Same as [^topic`:`/`/Core`/src`/Convert`$en`-us`#ConvertString`:`:NotNull`(bool`)^ N
+[s2; То же, что и [^topic`:`/`/Core`/src`/Convert`$en`-us`#ConvertString`:`:NotNull`(bool`)^ N
 otNull](false).&]
 [s3; &]
 [s4;%- &]

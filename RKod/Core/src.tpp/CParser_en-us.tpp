@@ -77,7 +77,7 @@ paces][*  ]method. Default is true.&]
 [s3;%% &]
 [s4; &]
 [s5;:CParser`:`:NoSkipSpaces`(`): [_^CParser^ CParser][@(0.0.255) `&]_[* NoSkipSpaces]()&]
-[s2;%% Same as SkipSpaces(false).&]
+[s2;%% То же, что и SkipSpaces(false).&]
 [s3; &]
 [s4; &]
 [s5;:CParser`:`:UnicodeEscape`(bool`): [_^CParser^ CParser][@(0.0.255) `&]_[* UnicodeEscape
@@ -96,7 +96,7 @@ Note that SkipComments has to be called before any parsing happens.&]
 [s4; &]
 [s5;:CParser`:`:NoSkipComments`(`): [_^CParser^ CParser][@(0.0.255) `&]_[* NoSkipComments](
 )&]
-[s2;%% Same as SkipComments(false).&]
+[s2;%% То же, что и SkipComments(false).&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:CParser`:`:NestComments`(bool`): [_^Upp`:`:CParser^ CParser][@(0.0.255) `&]_[* N
@@ -107,7 +107,7 @@ level1 /`* level2 `*/ `*/]`").&]
 [s4; &]
 [s5;:Upp`:`:CParser`:`:NoNestComments`(`): [_^Upp`:`:CParser^ CParser][@(0.0.255) `&]_[* No
 NestComments]()&]
-[s2;%% Same as NestComments(false).&]
+[s2;%% То же, что и NestComments(false).&]
 [s3; &]
 [s4; &]
 [s5;:CParser`:`:Spaces`(`): [@(0.0.255) bool]_[* Spaces]()&]
@@ -305,7 +305,7 @@ form starting with decimal point, like `".21`".&]
 [s4; &]
 [s5;:CParser`:`:IsString`(`)const: [@(0.0.255) bool]_[* IsString]()_[@(0.0.255) const]&]
 [s2;%% Tests for C`-like string literal at the current position. 
-Same as [* IsChar](`'`\`"`');&]
+То же, что и [* IsChar](`'`\`"`');&]
 [s3; &]
 [s4; &]
 [s5;:CParser`:`:ReadOneString`(bool`): [_^String^ String]_[* ReadOneString]([@(0.0.255) boo
@@ -355,7 +355,7 @@ is advanced by 1 character.&]
 [s3; &]
 [s4; &]
 [s5;:CParser`:`:SkipTerm`(`): [@(0.0.255) void]_[* SkipTerm]()&]
-[s2;%% Same as Skip, legacy name.&]
+[s2;%% То же, что и Skip, legacy name.&]
 [s3; &]
 [s4; &]
 [s5;:CParser`:`:GetPtr`(`)const: [@(0.0.255) const]_[@(0.0.255) char]_`*[* GetPtr]()_[@(0.0.255) c
@@ -452,7 +452,7 @@ tring] with error description.&]
 [ {{10000F(128)G(128)@1 [s0;%% [* Детали Конструктора]]}}&]
 [s3; &]
 [s5;:Exc`:`:Exc`(`): [* Exc]()&]
-[s2;%% Default constructor. Error message is empty.&]
+[s2;%% Дефолтный конструктор. Error message is empty.&]
 [s3;%% &]
 [s4; &]
 [s5;:Exc`:`:Exc`(const String`&`): [* Exc]([@(0.0.255) const]_[_^String^ String][@(0.0.255) `&
@@ -542,7 +542,7 @@ long&]
 X, [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 linepfx]_`=_NULL, [_^dword^ dword]_[*@3 flag
 s]_`=_[@3 0])&]
 [s2;%% Creates C`-like literal from zero terminated character data. 
-Same as [^topic`:`/`/Core`/src`/CParser`$en`-us`#AsCString`(const char`*`,const char`*`,int`,const char`*`,dword`)^ A
+То же, что и [^topic`:`/`/Core`/src`/CParser`$en`-us`#AsCString`(const char`*`,const char`*`,int`,const char`*`,dword`)^ A
 sCString]([%-*@3 s],[%- _][%-*@3 s][%- _]`+[%- _][* strlen]([%-*@3 s]),[%- _][%-*@3 linemax],[%- _][%-*@3 l
 inepfx],[%- _][%-*@3 flags]).&]
 [s3;%% &]
@@ -552,7 +552,7 @@ ng]([@(0.0.255) const]_[_^String^ String][@(0.0.255) `&]_[*@3 s], [@(0.0.255) in
 ax]_`=_INT`_MAX, [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 linepfx]_`=_NULL, 
 [_^dword^ dword]_[*@3 flags]_`=_[@3 0])&]
 [s2;%% Creates C`-like literal from [^topic`:`/`/Core`/src`/String`$en`-us`#String`:`:class^ S
-tring]. String can contain zero characters. Same as [^topic`:`/`/Core`/src`/CParser`$en`-us`#AsCString`(const char`*`,const char`*`,int`,const char`*`,dword`)^ A
+tring]. String can contain zero characters. То же, что и [^topic`:`/`/Core`/src`/CParser`$en`-us`#AsCString`(const char`*`,const char`*`,int`,const char`*`,dword`)^ A
 sCString]([%-*@3 s].[^topic`:`/`/Core`/src`/String`$en`-us`#String0`:`:Begin`(`)const^ B
 egin](),[%- _][%-*@3 s].[^topic`:`/`/Core`/src`/String`$en`-us`#String0`:`:End`(`)const^ E
 nd](),[%- _][%-*@3 linemax],[%- _][%-*@3 linepfx],[%- _][%-*@3 flags]).&]

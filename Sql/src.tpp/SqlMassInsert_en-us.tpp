@@ -71,7 +71,7 @@ is default.&]
 [s4; &]
 [s5;:SqlMassInsert`:`:NoUseTransaction`(`):%- [_^SqlMassInsert^ SqlMassInsert][@(0.0.255) `&
 ]_[* NoUseTransaction]()&]
-[s2; Same as UseTransaction(false).&]
+[s2; То же, что и UseTransaction(false).&]
 [s3; &]
 [s4; &]
 [s5;:SqlMassInsert`:`:SqlMassInsert`(Sql`&`,SqlId`):%- [* SqlMassInsert]([_^Sql^ Sql][@(0.0.255) `&

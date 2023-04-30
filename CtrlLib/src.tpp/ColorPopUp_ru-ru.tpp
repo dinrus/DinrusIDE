@@ -172,7 +172,7 @@ known name, or numbers).&]
 [s4;%- &]
 [s5;:ColorPusher`:`:NoTrack`(`):%- [_^ColorPusher^ ColorPusher][@(0.0.255) `&]_[* NoTrack](
 )&]
-[s2; Same as Track(false).&]
+[s2; То же, что и Track(false).&]
 [s7; [*/ Возвратное значение]-|`*this.&]
 [s3; &]
 [s0; &]

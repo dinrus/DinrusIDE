@@ -37,7 +37,7 @@ are more important in derived concrete index flavors.&]
 [ {{10000F(128)G(128)@1 [s0; [* Детали Конструктора]]}}&]
 [s3; &]
 [s5;:AMap`:`:AMap`(`):%- [* AMap]()&]
-[s2; Constructor. Constructs an empty AMap.&]
+[s2; Constructor. Конструирует пустой AMap.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:AMap`:`:AMap`(const AMap`&`,int`):%- [* AMap]([@(0.0.255) const]_[* AMap][@(0.0.255) `&]_
@@ -487,7 +487,7 @@ order.&]
 [s4;%- &]
 [s5;:AMap`:`:Remove`(const Vector`<int`>`&`):%- [@(0.0.255) void]_[* Remove]([@(0.0.255) co
 nst]_Vector[@(0.0.255) <int>`&]_[*@3 sl])&]
-[s2; Removes number of elements from AMap. Same as Remove(sorted`_list, 
+[s2; Removes number of elements from AMap. То же, что и Remove(sorted`_list, 
 sorted`_list.GetCount()).&]
 [s6; Invalidates iterators to AMap.&]
 [s6; Invalidates references to keys.&]
@@ -525,7 +525,7 @@ position.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:AMap`:`:IsEmpty`(`)const:%- [@(0.0.255) bool]_[* IsEmpty]()_[@(0.0.255) const]&]
-[s2; Tests whether AMap is empty. Same as GetCount() `=`= 0.&]
+[s2; Tests whether AMap is empty. То же, что и GetCount() `=`= 0.&]
 [s7; [*/ Возвратное значение]-|true if AMap is empty, false otherwise.&]
 [s3;%- &]
 [s4;%- &]
@@ -659,7 +659,7 @@ skipped.&]
 [s5;:AMap`:`:operator`(`)`(const K`&`,const T`&`):%- [_^AMap^ AMap][@(0.0.255) `&]_[* opera
 tor()]([@(0.0.255) const]_[*@4 K][@(0.0.255) `&]_[*@3 k], [@(0.0.255) const]_[*@4 T][@(0.0.255) `&
 ]_[*@3 v])&]
-[s2; Same as Add([%-*@3 k], [%-*@3 v]), returns `*this. Syntax sugar 
+[s2; То же, что и Add([%-*@3 k], [%-*@3 v]), returns `*this. Syntax sugar 
 for creating map.&]
 [s3; &]
 [s4;%- &]
@@ -686,7 +686,7 @@ key in AMap.&]
 [s5;:AMap`:`:KeyGetIter`(int`)const:%- KeyConstIterator_[* KeyGetIter]([@(0.0.255) int]_[*@3 p
 os])_[@(0.0.255) const]&]
 [s2; Returns a constant iterator to the key at the specified position. 
-Same as [* KeyBegin() `+ i]. The benefit of this method is that 
+То же, что и [* KeyBegin() `+ i]. The benefit of this method is that 
 [* pos] is range checked in debug mode. &]
 [s7; [*C@3 i]-|Required position.&]
 [s7; [*/ Возвратное значение]-|Константный обходчик ключей.&]
@@ -705,7 +705,7 @@ key in AMap.&]
 [s4;%- &]
 [s5;:AMap`:`:GetIter`(int`):%- Iterator_[* GetIter]([@(0.0.255) int]_[*@3 pos])&]
 [s2; Returns an iterator to the value at the specified position. 
-Same as [* Begin() `+ i]. The benefit of this method is that [* pos] 
+То же, что и [* Begin() `+ i]. The benefit of this method is that [* pos] 
 is range checked in debug mode.&]
 [s7; [*C@3 i]-|Required position.&]
 [s7; [*/ Возвратное значение]-|Value iterator.&]
@@ -725,7 +725,7 @@ value in AMap.&]
 [s5;:AMap`:`:GetIter`(int`)const:%- ConstIterator_[* GetIter]([@(0.0.255) int]_[*@3 pos])_[@(0.0.255) c
 onst]&]
 [s2; Returns a constant iterator to the value at the specified position. 
-Same as [* Begin() `+ i]. Benefit of this methods is that in debug 
+То же, что и [* Begin() `+ i]. Benefit of this methods is that in debug 
 mode [* pos] is range checked.&]
 [s7; [*C@3 i]-|Required position.&]
 [s7; [*/ Возвратное значение]-|Константный обходчик значений.&]

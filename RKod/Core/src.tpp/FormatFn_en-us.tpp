@@ -107,7 +107,7 @@ to FormatHex, god knows why there are two of them.&]
 [s4;%- &]
 [s5;:FormatHex`(const void`*`):%- [_^String^ String]_[* FormatHex]([@(0.0.255) const]_[@(0.0.255) v
 oid]_`*[*@3 ptr])&]
-[s2; Same as FormatIntHex.&]
+[s2; То же, что и FormatIntHex.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:FormatDouble`(char`*`,double`,int`,Upp`:`:dword`):%- [@(0.0.255) char]_`*[* F
@@ -161,7 +161,7 @@ FormatE)]]
 har]_`*[*@3 t], [@(0.0.255) double]_[*@3 x])&]
 [s5;:FormatDouble`(double`):%- [_^String^ String]_[* FormatDouble]([@(0.0.255) double]_[*@3 a
 ])&]
-[s2; Same as FormatDouble with flags FD`_TOLERANCE(6)`|FD`_MINIMAL`_EXP`|FD`_SPECIAL 
+[s2; То же, что и FormatDouble with flags FD`_TOLERANCE(6)`|FD`_MINIMAL`_EXP`|FD`_SPECIAL 
 and precision 15. Should represent the most reasonable formatting 
 for displayed output. The first variant requires the buffer of 
 size 32 and returns a pointer after the last character produced 

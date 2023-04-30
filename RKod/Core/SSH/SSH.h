@@ -1,7 +1,7 @@
 #ifndef _SSH_SSH_h
 #define _SSH_SSH_h
 
-#include <DinrusC/Core.h>
+#include <RKod/Core.h>
 
 #ifdef PLATFORM_POSIX
 #include <signal.h>

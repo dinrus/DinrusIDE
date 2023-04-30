@@ -42,7 +42,7 @@ Runs in parallel, operator`+`= must be reentrant.&]
 [s4; &]
 [s5;:Upp`:`:CoSum`(const T`&`): [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 T]>_[_^Upp`:`:ValueTypeOf^ V
 alueTypeOf]<[*@4 T]>_[* CoSum]([@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[*@3 c])&]
-[s2;%% Same as CoSum(c, 0).&]
+[s2;%% То же, что и CoSum(c, 0).&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:CoCount`(const Range`&`,const V`&`): [@(0.0.255) template]_<[@(0.0.255) class

@@ -1,11 +1,12 @@
 inline bool iscib(int c) {
+		switch(c) {
+		case_id_rus: return true;
+			}
 	return c >= 'a' && c <= 'z' || c >= 'A' && c <= 'Z' || c == '_' || c == '$';
 }
 
 inline bool iscid(int c) {
-	switch(c) {
-		case_id_rus: return true;
-			}
+
 		return iscib(c) || c >= '0' && c <= '9';
 }
 

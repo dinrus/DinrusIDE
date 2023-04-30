@@ -23,7 +23,7 @@ has deep copy.&]
 [ {{10000F(128)G(128)@1 [s0;%% [* Детали Конструктора]]}}&]
 [s3; &]
 [s5;:NetNode`:`:NetNode`(`): [* NetNode]()&]
-[s2;%% Default constructor.&]
+[s2;%% Дефолтный конструктор.&]
 [s3; &]
 [s4; &]
 [s5;:NetNode`:`:NetNode`(const NetNode`&`): [* NetNode]([@(0.0.255) const]_[* NetNode][@(0.0.255) `&

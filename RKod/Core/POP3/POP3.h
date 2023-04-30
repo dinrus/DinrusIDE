@@ -1,7 +1,7 @@
 #ifndef _POP3_POP3_h
 #define _POP3_POP3_h
 
-#include <DinrusC/Core.h>
+#include <RKod/Core.h>
 
 namespace РНЦПДинрус {
 

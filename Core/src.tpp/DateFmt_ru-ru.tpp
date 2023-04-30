@@ -1,5 +1,4 @@
-topic "Date formatting and scanning";
-[2 $$0,0#00000000000000000000000000000000:Default]
+topic "Форматирование и сканирование дат";
 [i448;a25;kKO9;2 $$1,0#37138531426314131252341829483380:class]
 [l288;2 $$2,0#27521748481378242620020725143825:desc]
 [0 $$3,0#96390100711032703541132217272105:end]
@@ -9,10 +8,12 @@ topic "Date formatting and scanning";
 [l288;i1121;b17;O9;~~~.1408;2 $$7,0#10431211400427159095818037425705:param]
 [i448;b42;O9;2 $$8,8#61672508125594000341940100500538:tparam]
 [b42;2 $$9,9#13035079074754324216151401829390:normal]
+[2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%RU-RU 
-[ {{10000@(113.42.0) [s0;%- [*@7;4 Date formatting and scanning]]}}&]
+[ {{10000@(113.42.0) [s0;%- [*@7;4 Форматирование и сканирование 
+дат]]}}&]
 [s0;*@3;4%- &]
-[ {{10000F(128)G(128)@1 [s0; [* Global functions]]}}&]
+[ {{10000F(128)G(128)@1 [s0; [* Глобальные функции]]}}&]
 [s3;%- &]
 [s5;:StrToDate`(Date`&`,const char`*`):%- [@(0.0.255) const]_[@(0.0.255) char]_`*[* StrToDa
 te]([_^Date^ Date][@(0.0.255) `&]_[*@3 d], [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 s])&]
@@ -21,8 +22,8 @@ using SetDateScan. In place of month both number and text is
 accepted `- text must match abbreviated or full name of month.&]
 [s7; [%-*C@3 d]-|Found date.&]
 [s7; [%-*C@3 s]-|String to scan.&]
-[s7; [*/ Возвратное значение]-|NULL if no date is found in s or pointer to 
-character right after the date.&]
+[s7; [*/ Возвратное значение]-|NULL if no date is 
+found in s or pointer to character right after the date.&]
 [s3; &]
 [s4;%- &]
 [s5;:Format`(Date`):%- [_^String^ String]_[* Format]([_^Date^ Date]_[*@3 date])&]

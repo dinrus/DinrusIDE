@@ -49,7 +49,7 @@ uffer] class might be more suitable in these cases.&]
 [ {{10000F(128)G(128)@1 [s0; [* Детали Конструктора]]}}&]
 [s3;%- &]
 [s5;:Vector`:`:Vector`(`):%- [* Vector]()&]
-[s2; Default constructor. Constructs empty Vector.&]
+[s2; Дефолтный конструктор. Constructs empty Vector.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:Vector`:`:Vector`(int`):%- [@(0.0.255) explicit]_[* Vector]([@(0.0.255) int]_[*@3 n
@@ -158,7 +158,7 @@ the reference to the element at [%-*@3 i], otherwiser returns [%-*@3 def].&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Vector`:`:IsEmpty`(`)const:%- [@(0.0.255) bool]_[* IsEmpty]()_[@(0.0.255) const]&]
-[s2; Tests whether Vector  is empty. Same as GetCount() `=`= 0.&]
+[s2; Tests whether Vector  is empty. То же, что и GetCount() `=`= 0.&]
 [s7; [*/ Возвратное значение]-|true if Vector is empty, false otherwise.&]
 [s3;%- &]
 [s4;%- &]
@@ -312,7 +312,7 @@ must be sorted from lowest to greatest value.&]
 [s4;%- &]
 [s5;:Vector`:`:Remove`(const Vector`<int`>`&`):%- [@(0.0.255) void]_[* Remove]([@(0.0.255) c
 onst]_[_^Vector^ Vector][@(0.0.255) <int>`&]_[*@3 sorted`_list])&]
-[s2; Removes multiple elements from Vector. Same as [* Remove(sorted`_list, 
+[s2; Removes multiple elements from Vector. То же, что и [* Remove(sorted`_list, 
 sorted`_list.GetCount())].&]
 [s6; Invalidates iterators and references to Vector.&]
 [s7; [*C@3 sorted`_list]-|Sorted Vector of positions to remove.&]
@@ -595,7 +595,7 @@ element in Vector.&]
 [s5;:Vector`:`:GetIter`(int`)const:%- [_^Vector`:`:ConstIterator^ ConstIterator]_[* GetIt
 er]([@(0.0.255) int]_[*@3 i])_[@(0.0.255) const]&]
 [s2; Returns constant iterator to the element at specified position. 
-Same as [* Begin() `+ i]. Benefit of this methods is that in debug 
+То же, что и [* Begin() `+ i]. Benefit of this methods is that in debug 
 mode [* pos] is range checked.&]
 [s7; [*C@3 i]-|Required position.&]
 [s7; [*/ Возвратное значение]-|Iterator.&]
@@ -615,7 +615,7 @@ last element in Vector.&]
 [s5;:Vector`:`:GetIter`(int`):%- [_^Vector`:`:Iterator^ Iterator]_[* GetIter]([@(0.0.255) i
 nt]_[*@3 i])&]
 [s2; Returns non`-constant iterator to the element at specified position. 
-Same as [* Begin() `+ pos]. Benefit of this methods is that in 
+То же, что и [* Begin() `+ pos]. Benefit of this methods is that in 
 debug mode [* pos] is range checked.&]
 [s7; [*C@3 i]-|Required position.&]
 [s7; [*/ Возвратное значение]-|Iterator.&]

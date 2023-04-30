@@ -142,7 +142,7 @@ har]_`*[*@3 path])&]
 [s4; &]
 [s5;:NativePath`(const char`*`): [_^String^ String]_[* NativePath]([@(0.0.255) const]_[@(0.0.255) c
 har]_`*[*@3 path])&]
-[s2;%% Same as [^topic`:`/`/Core`/src`/Path`$en`-us`#WinPath`(const char`*`)^ WinPath] 
+[s2;%% То же, что и [^topic`:`/`/Core`/src`/Path`$en`-us`#WinPath`(const char`*`)^ WinPath] 
 in Win32 or [^topic`:`/`/Core`/src`/Path`$en`-us`#UnixPath`(const char`*`)^ UnixPat
 h] in POSIX.&]
 [s3;%% &]
@@ -256,7 +256,7 @@ a folder path, it has be ended with a `'`\`\`'.&]
 [s5;:RealizePath`(const String`&`,int`): [@(0.0.255) bool]_[* RealizePath]([@(0.0.255) cons
 t]_[_^String^ String][@(0.0.255) `&]_[*@3 path], [@(0.0.255) int]_[*@3 mode]_`=_[@3 0755])&]
 [s6; `[POSIX`]&]
-[s2;%% Same as RealizeDirectory(GetFileFolder([%-*@3 path]), [%-*@3 mode]) 
+[s2;%% То же, что и RealizeDirectory(GetFileFolder([%-*@3 path]), [%-*@3 mode]) 
 `- creates all directories required before writing file at [%-*@3 path.]Remember 
 that [%-*@3 path] is a file path. To realize a folder path, it 
 has be ended with a `'`\`\`'.&]
@@ -279,7 +279,7 @@ ended with a `'`\`\`'.&]
 [s5;:RealizePath`(const String`&`): [@(0.0.255) bool]_[* RealizePath]([@(0.0.255) const]_[_^String^ S
 tring][@(0.0.255) `&]_[*@3 path])&]
 [s6; `[Win32`]&]
-[s2;%% Same as RealizeDirectory(GetFileFolder([%-*@3 path])) `- creates 
+[s2;%% То же, что и RealizeDirectory(GetFileFolder([%-*@3 path])) `- creates 
 all directories required before writing file at [%-*@3 path.] Remember 
 that [%-*@3 path] is a file path. To realize a folder path, it 
 has be ended with a `'`\`\`'.&]
@@ -301,7 +301,7 @@ and removed from the result.&]
 [s4; &]
 [s5;:NormalizePath`(const char`*`): [_^String^ String]_[* NormalizePath]([@(0.0.255) const]_
 [@(0.0.255) char]_`*[*@3 path])&]
-[s2;%% Same as NormalizePath([%-*@3 path]., GetCurrentDirectory()).&]
+[s2;%% То же, что и NormalizePath([%-*@3 path]., GetCurrentDirectory()).&]
 [s3;%% &]
 [s4; &]
 [s5;:PathIsEqual`(const char`*`,const char`*`): [@(0.0.255) bool]_[* PathIsEqual]([@(0.0.255) c

@@ -103,7 +103,7 @@ lass]_[*@4 BaseRange], [@(0.0.255) class]_[*@4 Predicate]>_&]
 [s5;:Upp`:`:FilterRange`(BaseRange`&`&`,Predicate`):%- [_^Upp`:`:ViewRangeClass^ ViewRa
 ngeClass]<[*@4 BaseRange]>_[* FilterRange]([*@4 BaseRange][@(0.0.255) `&`&]_[*@3 r], 
 [*@4 Predicate]_[*@3 p])&]
-[s2; Same as ViewRangeClass<BaseRange>([%-*@3 r], FindAll([%-*@3 r], 
+[s2; То же, что и ViewRangeClass<BaseRange>([%-*@3 r], FindAll([%-*@3 r], 
 [%-*@3 p])). Creates a view of elements of master Range that satisfy 
 condition [%-*@3 p].&]
 [s3; &]

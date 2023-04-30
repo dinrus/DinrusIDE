@@ -56,7 +56,7 @@ void Ide::InstallDesktop()
 			"Encoding=UTF-8\n"
 			"Name=DinrusIDE2\n"
 			"GenericName=DinrusIDE2\n"
-			"Comment=ИСР РНЦП Динрус\n"
+			"Comment=ИСР РНЦП Динрус-2\n"
 			"MimeType=application/x-upp;\n"
 			"Exec=" + GetExeFilePath() + "\n"
 			"Icon=" + icon + "\n"

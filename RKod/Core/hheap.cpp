@@ -1,4 +1,4 @@
-#include <DinrusC/Core.h>
+#include <RKod/Core.h>
 
 #define LTIMING(x)  // RTIMING(x)
 // #define LSTAT

@@ -37,7 +37,7 @@ are excluded (tested using dynamic`_cast)&]
 [s5;:Upp`:`:SqlCtrls`:`:operator`(`)`(Upp`:`:Ctrl`&`,Upp`:`:SqlId`): [_^Upp`:`:SqlCtrls^ S
 qlCtrls][@(0.0.255) `&]_[* operator()]([_^Upp`:`:Ctrl^ Ctrl][@(0.0.255) `&]_[*@3 dlg], 
 [_^Upp`:`:SqlId^ SqlId]_[*@3 table])&]
-[s2;%% Same as Table([%-*@3 dlg], [%-*@3 table]).&]
+[s2;%% То же, что и Table([%-*@3 dlg], [%-*@3 table]).&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:SqlCtrls`:`:Set`(`)const: [_^Upp`:`:SqlSet^ SqlSet]_[* Set]()_[@(0.0.255) const
@@ -47,7 +47,7 @@ qlCtrls][@(0.0.255) `&]_[* operator()]([_^Upp`:`:Ctrl^ Ctrl][@(0.0.255) `&]_[*@3
 [s4; &]
 [s5;:Upp`:`:SqlCtrls`:`:operator SqlSet`(`)const: [* operator_SqlSet]()_[@(0.0.255) const
 ]&]
-[s2;%% Same as Set().&]
+[s2;%% То же, что и Set().&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:SqlCtrls`:`:Read`(Upp`:`:Sql`&`): [@(0.0.255) void]_[* Read]([_^Upp`:`:Sql^ Sql
@@ -80,17 +80,17 @@ based on ids of widgets, given [%-*@3 table] and [%-*@3 where] expression.&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:SqlCtrls`:`:Fetch`(`): [@(0.0.255) bool]_[* Fetch]()&]
-[s2;%% Same as Fetch(SQL).&]
+[s2;%% То же, что и Fetch(SQL).&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:SqlCtrls`:`:Load`(Upp`:`:SqlSelect`): [@(0.0.255) bool]_[* Load]([_^Upp`:`:SqlSelect^ S
 qlSelect]_[*@3 select])&]
-[s2;%% Same as Load(SQL, [%-*@3 select]).&]
+[s2;%% То же, что и Load(SQL, [%-*@3 select]).&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:SqlCtrls`:`:Load`(Upp`:`:SqlId`,Upp`:`:SqlBool`): [@(0.0.255) bool]_[* Load](
 [_^Upp`:`:SqlId^ SqlId]_[*@3 table], [_^Upp`:`:SqlBool^ SqlBool]_[*@3 set])&]
-[s2;%% Same as Load(SQL, [%-*@3 table], [%-*@3 set]).&]
+[s2;%% То же, что и Load(SQL, [%-*@3 table], [%-*@3 set]).&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:SqlCtrls`:`:Insert`(Upp`:`:SqlInsert`&`)const: [@(0.0.255) void]_[* Insert]([_^Upp`:`:SqlInsert^ S

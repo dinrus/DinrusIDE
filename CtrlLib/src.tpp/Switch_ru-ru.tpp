@@ -125,7 +125,7 @@ its index. See SetLabel for [%-*@3 gap] parameter explanation.&]
 [s4; &]
 [s5;:Switch`:`:DisableCase`(int`): [@(0.0.255) void]_[* DisableCase]([@(0.0.255) int]_[*@3 i])
 &]
-[s2;%% Same as [^topic`:`/`/CtrlLib`/src`/Switch`$en`-us`#Switch`:`:EnableCase`(int`,bool`)^ E
+[s2;%% То же, что и [^topic`:`/`/CtrlLib`/src`/Switch`$en`-us`#Switch`:`:EnableCase`(int`,bool`)^ E
 nableCase](i, false).&]
 [s3;%% &]
 [s4; &]
@@ -139,7 +139,7 @@ rue])&]
 [s4; &]
 [s5;:Switch`:`:DisableValue`(const Value`&`): [@(0.0.255) void]_[* DisableValue]([@(0.0.255) c
 onst]_[_^Value^ Value][@(0.0.255) `&]_[*@3 val])&]
-[s2;%% Same as [^topic`:`/`/CtrlLib`/src`/Switch`$en`-us`#Switch`:`:EnableValue`(const Value`&`,bool`)^ E
+[s2;%% То же, что и [^topic`:`/`/CtrlLib`/src`/Switch`$en`-us`#Switch`:`:EnableValue`(const Value`&`,bool`)^ E
 nableValue](val, false).&]
 [s3;%% &]
 [s4; &]

@@ -136,7 +136,7 @@ element.&]
 [* operator<<]([@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[*@3 x])&]
 [s5;:Upp`:`:Index`:`:operator`<`<`(T`&`&`):%- [_^Upp`:`:Index^ Index][@(0.0.255) `&]_[* ope
 rator<<]([*@4 T][@(0.0.255) `&`&]_[*@3 x])&]
-[s2; Same as Add([%-*@3 x]).&]
+[s2; То же, что и Add([%-*@3 x]).&]
 [s3; &]
 [s4;%- &]
 [s5;:Index`:`:Find`(const T`&`,unsigned`)const:%- [@(0.0.255) int]_[* Find]([@(0.0.255) con
@@ -342,7 +342,7 @@ nd]()_[@(0.0.255) const]&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Index`:`:IsEmpty`(`)const:%- [@(0.0.255) bool]_[* IsEmpty]()_[@(0.0.255) const]&]
-[s2; Tests whether AIndex is empty. Same as GetCount() `=`= 0.&]
+[s2; Tests whether AIndex is empty. То же, что и GetCount() `=`= 0.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Index`:`:GetHash`(int`)const:%- [@(0.0.255) unsigned]_[* GetHash]([@(0.0.255) int]_[*@3 i
@@ -441,7 +441,7 @@ positions, sorted in ascending order.&]
 [s4;%- &]
 [s5;:Index`:`:Remove`(const Vector`<int`>`&`):%- [@(0.0.255) void]_[* Remove]([@(0.0.255) c
 onst]_Vector[@(0.0.255) <int>`&]_[*@3 sorted`_list])&]
-[s2; Removes multiple elements from AIndex. Same as Remove(sorted`_list, 
+[s2; Removes multiple elements from AIndex. То же, что и Remove(sorted`_list, 
 sorted`_list.GetCount()).&]
 [s6; Invalidates iterators to AIndex.&]
 [s6; Invalidates references to Index.&]

@@ -42,7 +42,7 @@ transport method settings.&]
 [s4; &]
 [s5;:Upp`:`:SshSession`:`:NoCompression`(`): [_^Upp`:`:SshSession^ SshSession][@(0.0.255) `&
 ]_[* NoCompression]()&]
-[s2;%% Disables Z compression. Same as Compression(false). Returns 
+[s2;%% Disables Z compression. То же, что и Compression(false). Returns 
 `*this for method chaining. Compression is disabled by default. 
 This method affects the whole session. Therefore it must be invoked 
 either before any connection attempt or within the [^topic`:`/`/Core`/SSH`/src`/Upp`_Ssh`_Session`_ru`-ru`#Upp`:`:SshSession`:`:WhenConfig^ W
@@ -273,7 +273,7 @@ the connection attempt.&]
 [ {{10000F(128)G(128)@1 [s0;%% [* Constructor detail]]}}&]
 [s3; &]
 [s5;:Upp`:`:SshSession`:`:SshSession`(`): [* SshSession]()&]
-[s2;%% Default constructor.&]
+[s2;%% Дефолтный конструктор.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:SshSession`:`:`~SshSession`(`): [@(0.0.255) `~][* SshSession]()&]

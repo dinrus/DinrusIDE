@@ -22,7 +22,7 @@ topic "ValueGen";
 [s3; &]
 [s4; &]
 [s5;:ValueGen`:`:operator`+`+`(`): [_^Value^ Value]_[* operator`+`+]()&]
-[s2;%% Same as Get()&]
+[s2;%% То же, что и Get()&]
 [s3; &]
 [s4; &]
 [s5;:ValueGen`:`:`~ValueGen`(`): [@(0.0.255) `~][* ValueGen]()&]

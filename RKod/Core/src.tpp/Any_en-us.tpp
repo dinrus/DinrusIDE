@@ -24,7 +24,7 @@ type.&]
 [ {{10000F(128)G(128)@1 [s0; [* Детали Конструктора]]}}&]
 [s0;0%- &]
 [s5;:Any`:`:Any`(`):%- [* Any]()&]
-[s2; Constructs an empty Any.&]
+[s2; Конструирует пустой Any.&]
 [s3; &]
 [s4;%- &]
 [s5;:Any`:`:Any`(pick`_ Any`&`):%- [* Any]([@(0.128.128) pick`_]_[_^topic`:`/`/Core`/src`/Any`$en`-us`#Any`:`:class^ A

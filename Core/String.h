@@ -59,7 +59,7 @@ public:
 	void Insert(int pos, const tchar *s, int count)           { B::Insert(pos, count, s); }
 	void Insert(int pos, const String& s)                     { Insert(pos, s, s.GetCount()); }
 	void Insert(int pos, const char *s);
-	
+
 	void TrimLast(int count = 1)                              { B::Trim(B::GetCount() - count); }
 
 	void  Cat(int c)                                          { B::Cat(c); }
@@ -94,7 +94,7 @@ public:
 
 	int    FindAfter(const tchar *s, int from = 0) const      { int n = strlen__(s); int q = Find(n, s, from); return q < 0 ? -1 : q + n; }
 	int    FindAfter(const String& s, int from = 0) const     { int n = s.GetCount(); int q = Find(n, ~s, from); return q < 0 ? -1 : q + n; }
-	
+
 	int    ReverseFind(int len, const tchar *s, int from) const;
 	int    ReverseFind(const tchar *s, int from) const;
 	int    ReverseFind(const String& s, int from) const       { return ReverseFind(s.GetCount(), ~s, from); }
@@ -106,13 +106,13 @@ public:
 	int    ReverseFindAfter(const String& s, int from) const  { return ReverseFindAfter(s.GetCount(), ~s, from); }
 	int    ReverseFindAfter(const tchar *s) const             { return GetLength() ? ReverseFindAfter(s, GetLength()-1) : -1;}
 	int    ReverseFindAfter(const String& s) const            { return GetLength() ? ReverseFindAfter(s, GetLength()-1) : -1;}
-	
+
 	void   Replace(const tchar *find, int findlen, const tchar *replace, int replacelen);
 	void   Replace(const String& find, const String& replace);
 	void   Replace(const tchar *find, const tchar *replace);
 	void   Replace(const String& find, const tchar *replace);
 	void   Replace(const tchar *find, const String& replace);
-	
+
 	bool   StartsWith(const tchar *s, int len) const;
 	bool   StartsWith(const tchar *s) const;
 	bool   StartsWith(const String& s) const                  { return StartsWith(~s, s.GetLength()); }
@@ -124,7 +124,7 @@ public:
 	bool   EndsWith(const tchar *s, int len) const;
 	bool   EndsWith(const tchar *s) const;
 	bool   EndsWith(const String& s) const                    { return EndsWith(~s, s.GetLength()); }
-	
+
 	bool   TrimEnd(const tchar *s, int len)                   { if(!EndsWith(s, len)) return false; TrimLast(len); return true; }
 	bool   TrimEnd(const tchar *s)                            { return TrimEnd(s, strlen__(s)); }
 	bool   TrimEnd(const String& s)                           { return TrimEnd(~s, s.GetLength()); }
@@ -132,7 +132,7 @@ public:
 	int    FindFirstOf(int len, const tchar *set, int from = 0) const;
 	int    FindFirstOf(const tchar *set, int from = 0) const  { return FindFirstOf(strlen__(set), set, from); }
 	int    FindFirstOf(const String& set, int from = 0) const { return FindFirstOf(set.GetCount(), ~set, from); }
-	
+
 	friend bool operator<(const String& a, const String& b)   { return a.Compare(b) < 0; }
 	friend bool operator<(const String& a, const tchar *b)    { return a.Compare(b) < 0; }
 	friend bool operator<(const tchar *a, const String& b)    { return b.Compare(a) > 0; }
@@ -167,7 +167,7 @@ public:
 };
 
 class String0 : Moveable<String0> {
-	enum { // 
+	enum { //
 		KIND = 14,    // chr[KIND] is String tier flag, 0 - small, 31 - medium, 32..254 ref alloc, 255 - read alloc from Ref
 		SLEN = 15,    // chr[SLEN] stores the length of small tier strings (up to 14 bytes)
 		LLEN = 2,     // chr[LLEN] stores the length of medium (< 32) and large tier strings
@@ -236,7 +236,7 @@ class String0 : Moveable<String0> {
 	static String0::Rc voidptr[2];
 
 	void Swap(String0& b);
-	
+
 	// interface for Value
 	static dword StW(byte st)     { return MAKE4B(0, st, 0, 0); }
 	void SetSpecial0(byte st)     { w[3] = StW(st); }
@@ -246,7 +246,7 @@ class String0 : Moveable<String0> {
 	dword GetStW() const          { return w[3]; }
 	bool IsSpecial() const        { return !v[7] && v[6]; }
 	bool IsSpecial(byte st) const { return w[3] == StW(st); }
-	
+
 	friend class String;
 	friend class StringBuffer;
 	friend class Value;
@@ -338,7 +338,7 @@ public:
 	int GetAlloc() const        { return IsSmall() ? 14 : LAlloc(); }
 
 	void Reserve(int r);
-	
+
 	String0()                   {}
 	~String0()                  { Free(); }
 };
@@ -355,9 +355,9 @@ class String : public Moveable<String, AString<String0> > {
 #endif
 
 	void AssignLen(const char *s, int slen);
-	
+
 	enum SSPECIAL { SPECIAL };
-	
+
 	template <class T>
 	String(const T& x, byte st, SSPECIAL) {
 		*(T*)chr = x;
@@ -366,7 +366,7 @@ class String : public Moveable<String, AString<String0> > {
 	String(SSPECIAL) {}
 
 	friend class Value;
-	
+
 public:
 	const String& operator+=(char c)                       { Cat(c); return *this; }
 	const String& operator+=(const char *s)                { Cat(s); return *this; }
@@ -401,12 +401,12 @@ public:
 
 	static String GetVoid();
 	bool   IsVoid() const;
-	
+
 	friend void Swap(String& a, String& b)                 { a.Swap(b); }
-	
+
 	String(const std::string& s)                           { String0::Set0(s.c_str(), (int)s.length()); }
 	std::string ToStd() const                              { return std::string(Begin(), End()); }
-	
+
 	template <class Maker>
 	static String Make(int alloc, Maker m);
 };

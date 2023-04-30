@@ -50,7 +50,7 @@ size.&]
 [s4;%- &]
 [s5;:ProgressIndicator`:`:operator`=`(int`):%- [@(0.0.255) void]_[* operator`=]([@(0.0.255) i
 nt]_[*@3 i])&]
-[s2; Same as [^topic`:`/`/CtrlLib`/src`/ProgressInd`$en`-us`#ProgressIndicator`:`:Set`(int`)^ S
+[s2; То же, что и [^topic`:`/`/CtrlLib`/src`/ProgressInd`$en`-us`#ProgressIndicator`:`:Set`(int`)^ S
 et]([%-*@3 i]).&]
 [s3; &]
 [s4;%- &]

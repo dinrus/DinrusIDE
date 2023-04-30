@@ -19,7 +19,7 @@ topic "Thread";
 [ {{10000F(128)G(128)@1 [s0; [* Детали Конструктора]]}}&]
 [s3;%- &]
 [s5;:Thread`:`:Thread`(`):%- [* Thread]()&]
-[s2; Default constructor.&]
+[s2; Дефолтный конструктор.&]
 [s3; &]
 [s4;%- &]
 [s5;:Thread`:`:`~Thread`(`):%- [@(0.0.255) `~][* Thread]()&]
@@ -48,13 +48,13 @@ basically it means that it does not affect thread counter.&]
 [s5;:Upp`:`:Thread`:`:StartNice`(Upp`:`:Function`<void`(`)`>`,bool`):%- [@(0.0.255) sta
 tic] [@(0.0.255) void]_[* StartNice]([_^Upp`:`:Function^ Function]<[@(0.0.255) void]_()>_
 [*@3 cb], [@(0.0.255) bool]_[*@3 noshutdown]_`=_[@(0.0.255) false])&]
-[s2; Same as [%-* Start] but adjusts priority to [* Nice].&]
+[s2; То же, что и [%-* Start] but adjusts priority to [* Nice].&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:Thread`:`:StartCritical`(Upp`:`:Function`<void`(`)`>`,bool`):%- [@(0.0.255) s
 tatic] [@(0.0.255) void]_[* StartCritical]([_^Upp`:`:Function^ Function]<[@(0.0.255) void
 ]_()>_[*@3 cb], [@(0.0.255) bool]_[*@3 noshutdown]_`=_[@(0.0.255) false])&]
-[s2; Same as [%-* Start] but adjusts priority to [* Critical].&]
+[s2; То же, что и [%-* Start] but adjusts priority to [* Critical].&]
 [s3; &]
 [s4;%- &]
 [s5;:Thread`:`:Detach`(`):%- [@(0.0.255) void]_[* Detach]()&]

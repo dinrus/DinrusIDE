@@ -203,7 +203,7 @@ Sql`::ERRORCLASS_clss))&]
 [s3;%% &]
 [s4;%% &]
 [s5;:SqlSession`:`:operator bool`(`)const: [* operator_bool]()_[@(0.0.255) const]&]
-[s2;%% Same as IsOpen().&]
+[s2;%% То же, что и IsOpen().&]
 [s3;%% &]
 [s4;%% &]
 [s5;:SqlSession`:`:PerThread`(bool`): [@(0.0.255) static] [@(0.0.255) void]_[* PerThread]([@(0.0.255) b

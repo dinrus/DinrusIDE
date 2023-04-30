@@ -1,5 +1,4 @@
-topic "FixedAMap";
-[2 $$0,0#00000000000000000000000000000000:Default]
+topic "Класс FixedAMap";
 [i448;a25;kKO9;2 $$1,0#37138531426314131252341829483380:class]
 [l288;2 $$2,2#27521748481378242620020725143825:desc]
 [0 $$3,0#96390100711032703541132217272105:end]
@@ -9,8 +8,9 @@ topic "FixedAMap";
 [l288;i1121;b17;O9;~~~.1408;2 $$7,0#10431211400427159095818037425705:param]
 [i448;b42;O9;2 $$8,8#61672508125594000341940100500538:tparam]
 [b42;2 $$9,9#13035079074754324216151401829390:normal]
+[2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%RU-RU 
-[ {{10000@(113.42.0) [s0; [*@7;4 FixedAMap]]}}&]
+[ {{10000@(113.42.0) [s0; [*@7;4 Класс FixedAMap]]}}&]
 [s3;%- &]
 [s1;:noref:%- [@(0.0.255)3 template][3 _<][@(0.0.255)3 class][3 _][*@4;3 K][3 , 
 ][@(0.0.255)3 class][3 _][*@4;3 T][3 , ][@(0.0.255)3 class][3 _][*@4;3 V][3 , 
@@ -92,7 +92,7 @@ nt]_[*@3 i])&]
 [s3; &]
 [s4; &]
 [s5;:FixedAMap`:`:IsEmpty`(`)const:%- [@(0.0.255) bool]_[* IsEmpty]()_[@(0.0.255) const]&]
-[s2; Same as GetCount() `=`= 0.&]
+[s2; То же, что и GetCount() `=`= 0.&]
 [s3; &]
 [s4; &]
 [s5;:FixedAMap`:`:Clear`(`):%- [@(0.0.255) void]_[* Clear]()&]
@@ -165,8 +165,8 @@ s]()_[@(0.0.255) const]&]
 [s5;:FixedAMap`:`:operator`(`)`(const K`&`,const T`&`):%- [_^FixedAMap^ FixedAMap][@(0.0.255) `&
 ]_[* operator()]([@(0.0.255) const]_[*@4 K][@(0.0.255) `&]_[*@3 k], [@(0.0.255) const]_[*@4 T][@(0.0.255) `&
 ]_[*@3 v])&]
-[s2; Same as Add([%-*@3 k], [%-*@3 v]), returns `*this. Convenience variant 
-for creating maps.&]
+[s2; То же, что и Add([%-*@3 k], [%-*@3 v]), returns `*this. 
+Convenience variant for creating maps.&]
 [s3; &]
 [s4; &]
 [s5;:FixedAMap`:`:FixedAMap`(const FixedAMap`&`,int`):%- [* FixedAMap]([@(0.0.255) const]_

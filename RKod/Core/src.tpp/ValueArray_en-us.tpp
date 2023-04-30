@@ -111,7 +111,7 @@ increases, new elements are set to [%-*@3 v] .&]
 [s3; &]
 [s4; &]
 [s5;:ValueArray`:`:IsEmpty`(`)const: [@(0.0.255) bool]_[* IsEmpty]()_[@(0.0.255) const]&]
-[s2;%% Same as GetCount() `=`= 0 (or as IsNull()).&]
+[s2;%% То же, что и GetCount() `=`= 0 (or as IsNull()).&]
 [s3; &]
 [s4; &]
 [s5;:ValueArray`:`:Add`(const Value`&`): [@(0.0.255) void]_[* Add]([@(0.0.255) const]_[_^Value^ V
@@ -121,7 +121,7 @@ alue][@(0.0.255) `&]_[*@3 v])&]
 [s4; &]
 [s5;:ValueArray`:`:operator`<`<`(const Value`&`): [_^ValueArray^ ValueArray][@(0.0.255) `&
 ]_[* operator<<]([@(0.0.255) const]_[_^Value^ Value][@(0.0.255) `&]_[*@3 v])&]
-[s2;%% Same as Add([%-*@3 v]).&]
+[s2;%% То же, что и Add([%-*@3 v]).&]
 [s3;%% &]
 [s4; &]
 [s5;:ValueArray`:`:Set`(int`,const Value`&`): [@(0.0.255) void]_[* Set]([@(0.0.255) int]_[*@3 i

@@ -77,7 +77,7 @@ tring][@(0.0.255) `&]_[*@3 s])&]
 [s4; &]
 [s5;:StringBuffer`:`:Cat`(const char`*`,const char`*`): [@(0.0.255) void]_[* Cat]([@(0.0.255) c
 onst]_[@(0.0.255) char]_`*[*@3 s], [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 e])&]
-[s2;%% Same as Cat(s, e `- s).&]
+[s2;%% То же, что и Cat(s, e `- s).&]
 [s3;%% &]
 [s4; &]
 [s5;:StringBuffer`:`:GetLength`(`)const: [@(0.0.255) int]_[* GetLength]()_[@(0.0.255) const
@@ -216,7 +216,7 @@ t]_[_^wchar^ wchar]_`*[*@3 s], [@(0.0.255) int]_[*@3 l])&]
 [s4; &]
 [s5;:WStringBuffer`:`:Cat`(const wchar`*`,const wchar`*`): [@(0.0.255) void]_[* Cat]([@(0.0.255) c
 onst]_[_^wchar^ wchar]_`*[*@3 s], [@(0.0.255) const]_[_^wchar^ wchar]_`*[*@3 e])&]
-[s2;%% Same as Cat([%-*@3 s], [%-*@3 e] `- [%-*@3 s]).&]
+[s2;%% То же, что и Cat([%-*@3 s], [%-*@3 e] `- [%-*@3 s]).&]
 [s3;%% &]
 [s4; &]
 [s5;:WStringBuffer`:`:GetLength`(`)const: [@(0.0.255) int]_[* GetLength]()_[@(0.0.255) cons

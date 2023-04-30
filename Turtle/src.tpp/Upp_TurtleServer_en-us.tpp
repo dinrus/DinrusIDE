@@ -65,7 +65,7 @@ Useful for debugging purposes.&]
 [ {{10000F(128)G(128)@1 [s0;%% [* Constructor detail]]}}&]
 [s3; &]
 [s5;:Upp`:`:TurtleServer`:`:TurtleServer`(`): [* TurtleServer]()&]
-[s2;%% Default constructor. Initializes the server bind address to 
+[s2;%% Дефолтный конструктор. Initializes the server bind address to 
 `"0.0.0.0`", the host URL to `"localhost`", and the connection 
 port number to 8888.&]
 [s3; &]

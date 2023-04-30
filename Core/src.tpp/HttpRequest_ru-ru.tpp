@@ -107,41 +107,41 @@ is used as method. Returns `*this.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:HttpRequest`:`:GET`(`): [_^HttpRequest^ HttpRequest][@(0.0.255) `&]_[* GET]()&]
-[s2;%% Same as Method(METHOD`_GET) (default). Returns `*this.&]
+[s2;%% То же, что и Method(METHOD`_GET) (default). Returns `*this.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:HttpRequest`:`:POST`(`): [_^HttpRequest^ HttpRequest][@(0.0.255) `&]_[* POST]()&]
-[s2;%% Same as Method(METHOD`_POST). Returns `*this.&]
+[s2;%% То же, что и Method(METHOD`_POST). Returns `*this.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:HttpRequest`:`:HEAD`(`): [_^HttpRequest^ HttpRequest][@(0.0.255) `&]_[* HEAD]()&]
-[s2;%% Same as Method(METHOD`_HEAD). Returns `*this.&]
+[s2;%% То же, что и Method(METHOD`_HEAD). Returns `*this.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:HttpRequest`:`:PUT`(`): [_^HttpRequest^ HttpRequest][@(0.0.255) `&]_[* PUT]()&]
-[s2;%% Same as Method(METHOD`_PUT). Returns `*this.&]
+[s2;%% То же, что и Method(METHOD`_PUT). Returns `*this.&]
 [s3;%% &]
 [s4; &]
 [s5;:HttpRequest`:`:DEL`(`): [_^HttpRequest^ HttpRequest][@(0.0.255) `&]_[* DEL]()&]
-[s2;%% Same as Method(METHOD`_DELETE). Returns `*this. Note that 
+[s2;%% То же, что и Method(METHOD`_DELETE). Returns `*this. Note that 
 this method is not named `"DELETE`" because of name`-clash with 
 Win32 #define.&]
 [s3; &]
 [s4; &]
 [s5;:HttpRequest`:`:TRACE`(`): [_^HttpRequest^ HttpRequest][@(0.0.255) `&]_[* TRACE]()&]
-[s2;%% Same as Method(METHOD`_TRACE). Returns `*this.&]
+[s2;%% То же, что и Method(METHOD`_TRACE). Returns `*this.&]
 [s3; &]
 [s4; &]
 [s5;:HttpRequest`:`:OPTIONS`(`): [_^HttpRequest^ HttpRequest][@(0.0.255) `&]_[* OPTIONS]()&]
-[s2;%% Same as Method(METHOD`_OPTIONS). Returns `*this.&]
+[s2;%% То же, что и Method(METHOD`_OPTIONS). Returns `*this.&]
 [s3; &]
 [s4; &]
 [s5;:HttpRequest`:`:CONNECT`(`): [_^HttpRequest^ HttpRequest][@(0.0.255) `&]_[* CONNECT]()&]
-[s2;%% Same as Method(METHOD`_CONNECT). Returns `*this.&]
+[s2;%% То же, что и Method(METHOD`_CONNECT). Returns `*this.&]
 [s3; &]
 [s4; &]
 [s5;:HttpRequest`:`:PATCH`(`): [_^HttpRequest^ HttpRequest][@(0.0.255) `&]_[* PATCH]()&]
-[s2;%% Same as Method(METHOD`_PATCH). Returns `*this.&]
+[s2;%% То же, что и Method(METHOD`_PATCH). Returns `*this.&]
 [s3; &]
 [s4;%% &]
 [s5;:HttpRequest`:`:Host`(const String`&`): [_^HttpRequest^ HttpRequest][@(0.0.255) `&]_[* H
@@ -188,7 +188,7 @@ Returns `*this.&]
 [s5;:Upp`:`:HttpRequest`:`:Digest`(const Upp`:`:String`&`,const Upp`:`:String`&`): [_^Upp`:`:HttpRequest^ H
 ttpRequest][@(0.0.255) `&]_[* Digest]([@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&
 ]_[*@3 u], [@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 p])&]
-[s2;%% Same as User([%-*@3 u] , [%-*@3 p]).Digest().&]
+[s2;%% То же, что и User([%-*@3 u] , [%-*@3 p]).Digest().&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:HttpRequest`:`:SetDigest`(const Upp`:`:String`&`): [_^Upp`:`:HttpRequest^ H
@@ -248,7 +248,7 @@ of data. Returns `*this.&]
 [s4;%% &]
 [s5;:HttpRequest`:`:Post`(const String`&`): [_^HttpRequest^ HttpRequest][@(0.0.255) `&]_[* P
 ost]([@(0.0.255) const]_[_^String^ String][@(0.0.255) `&]_[*@3 data])&]
-[s2;%% Same as POST().PostData([%-*@3 data]). Returns `*this.&]
+[s2;%% То же, что и POST().PostData([%-*@3 data]). Returns `*this.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:HttpRequest`:`:Post`(const char`*`,const String`&`): [_^HttpRequest^ HttpRequest][@(0.0.255) `&
@@ -284,7 +284,7 @@ generated header fields. Returns `*this.&]
 [s4;%% &]
 [s5;:HttpRequest`:`:ClearHeaders`(`): [_^HttpRequest^ HttpRequest][@(0.0.255) `&]_[* ClearH
 eaders]()&]
-[s2;%% Same as Headers(Null).&]
+[s2;%% То же, что и Headers(Null).&]
 [s3;%% &]
 [s4;%% &]
 [s5;:HttpRequest`:`:AddHeaders`(const String`&`): [_^HttpRequest^ HttpRequest][@(0.0.255) `&
@@ -336,7 +336,7 @@ Returns `*this.&]
 [s4;%% &]
 [s5;:HttpRequest`:`:NoStdHeaders`(`): [_^HttpRequest^ HttpRequest][@(0.0.255) `&]_[* NoStdH
 eaders]()&]
-[s2;%% Same as StdHeaders(false).&]
+[s2;%% То же, что и StdHeaders(false).&]
 [s3;%% &]
 [s4;%% &]
 [s5;:HttpRequest`:`:Accept`(const String`&`): [_^HttpRequest^ HttpRequest][@(0.0.255) `&]_
@@ -409,14 +409,14 @@ Returns `*this.&]
 ]_[* CommonProxy]([@(0.0.255) const]_[_^String^ String][@(0.0.255) `&]_[*@3 host], 
 [@(0.0.255) int]_[*@3 port])&]
 [s2;%% Defines both SSL and non`-SSL proxies to the same [%-*@3 host] 
-and [%-*@3 port]. Same as Proxy(host, port); SSLProxy(host, port). 
+and [%-*@3 port]. То же, что и Proxy(host, port); SSLProxy(host, port). 
 Returns `*this.&]
 [s3;%% &]
 [s4; &]
 [s5;:HttpRequest`:`:CommonProxy`(const char`*`): [_^HttpRequest^ HttpRequest][@(0.0.255) `&
 ]_[* CommonProxy]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 p])&]
 [s2;%% Defines both SSL and non`-SSL proxies to the same server. 
-Same as Proxy(p); SSLProxy(p), including default port definitions. 
+То же, что и Proxy(p); SSLProxy(p), including default port definitions. 
 Returns `*this.&]
 [s3;%% &]
 [s4; &]
@@ -424,7 +424,7 @@ Returns `*this.&]
 ttpRequest][@(0.0.255) `&]_[* CommonProxyAuth]([@(0.0.255) const]_[_^String^ String][@(0.0.255) `&
 ]_[*@3 u], [@(0.0.255) const]_[_^String^ String][@(0.0.255) `&]_[*@3 p])&]
 [s2;%% Defines username and password authentication for both SSL 
-and non`-SSL proxis. Same as ProxyAuth(u, p); SSLProxyAuth(u, 
+and non`-SSL proxis. То же, что и ProxyAuth(u, p); SSLProxyAuth(u, 
 p). Returns `*this.&]
 [s3;%% &]
 [s4;%% &]
@@ -439,7 +439,7 @@ onst]&]
 [s3;%% &]
 [s4;%% &]
 [s5;:HttpRequest`:`:IsError`(`)const: [@(0.0.255) bool]_[* IsError]()_[@(0.0.255) const]&]
-[s2;%% Same as IsSocketError() `|`| IsHttpError().&]
+[s2;%% То же, что и IsSocketError() `|`| IsHttpError().&]
 [s3;%% &]
 [s4;%% &]
 [s5;:HttpRequest`:`:GetErrorDesc`(`)const: [_^String^ String]_[* GetErrorDesc]()_[@(0.0.255) c
@@ -572,7 +572,7 @@ to server.&]
 [s3; &]
 [s4;%% &]
 [s5;:HttpRequest`:`:HttpRequest`(`): [* HttpRequest]()&]
-[s2;%% Default constructor.&]
+[s2;%% Дефолтный конструктор.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:HttpRequest`:`:HttpRequest`(const char`*`): [* HttpRequest]([@(0.0.255) const]_[@(0.0.255) c

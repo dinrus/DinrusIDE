@@ -92,7 +92,7 @@ art][@(0.0.255) `&]_[* operator`[`]]([@(0.0.255) int]_[*@3 i])_[@(0.0.255) const
 [s4;%% &]
 [s5;:InetMessage`:`:operator`[`]`(const char`*`)const: [_^String^ String]_[* operator`[`]
 ]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 id])_[@(0.0.255) const]&]
-[s2;%% Same as part`[0`]`[[%-*@3 id]`] `- returns the header of whole 
+[s2;%% То же, что и part`[0`]`[[%-*@3 id]`] `- returns the header of whole 
 email.&]
 [s3;%% &]
 [s4; &]

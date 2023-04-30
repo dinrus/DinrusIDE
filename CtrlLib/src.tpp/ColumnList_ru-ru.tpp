@@ -99,7 +99,7 @@ it is `"fixed`" (negative becomes 0, >GetCount() becomes GetCount()
 [s4; &]
 [s5;:Upp`:`:ColumnList`:`:IsCursor`(`)const: [@(0.0.255) bool]_[* IsCursor]()_[@(0.0.255) c
 onst]&]
-[s2;%% Tests whether cursor is at any item. Same as [C GetCursor() 
+[s2;%% Tests whether cursor is at any item. То же, что и [C GetCursor() 
 >`= 0].&]
 [s3; &]
 [s4; &]
@@ -302,19 +302,19 @@ modes: [C MODE`_LIST], [C MODE`_COLUMN], [C MODE`_ROWS]. &]
 [s4; &]
 [s5;:Upp`:`:ColumnList`:`:ListMode`(`): [_^Upp`:`:ColumnList^ ColumnList][@(0.0.255) `&]_
 [* ListMode]()&]
-[s2;%% Puts the ColumnList into list mode. Same as Mode([C MODE`_LIST]). 
+[s2;%% Puts the ColumnList into list mode. То же, что и Mode([C MODE`_LIST]). 
 Returns `*this for method chaining.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:ColumnList`:`:RowMode`(`): [_^Upp`:`:ColumnList^ ColumnList][@(0.0.255) `&]_[* R
 owMode]()&]
-[s2;%% Puts the ColumnList into row mode. Same as Mode([C MODE`_ROWS]). 
+[s2;%% Puts the ColumnList into row mode. То же, что и Mode([C MODE`_ROWS]). 
 Returns `*this for method chaining.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:ColumnList`:`:ColumnMode`(`): [_^Upp`:`:ColumnList^ ColumnList][@(0.0.255) `&
 ]_[* ColumnMode]()&]
-[s2;%% Puts the ColumnList into column mode. Same as Mode([C MODE`_COLUMN]). 
+[s2;%% Puts the ColumnList into column mode. То же, что и Mode([C MODE`_COLUMN]). 
 Returns `*this for method chaining.&]
 [s3; &]
 [s4; &]
@@ -361,7 +361,7 @@ chaining.&]
 [s4; &]
 [s5;:Upp`:`:ColumnList`:`:NoRoundSize`(`): [_^Upp`:`:ColumnList^ ColumnList][@(0.0.255) `&
 ]_[* NoRoundSize]()&]
-[s2;%% Same as RoundSize(false). Returns `*this for method chaining.&]
+[s2;%% То же, что и RoundSize(false). Returns `*this for method chaining.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:ColumnList`:`:ClickKill`(bool`): [_^Upp`:`:ColumnList^ ColumnList][@(0.0.255) `&
@@ -373,7 +373,7 @@ contain any items, cursor is canceled. Default is off. Returns
 [s4; &]
 [s5;:Upp`:`:ColumnList`:`:NoClickKill`(`): [_^Upp`:`:ColumnList^ ColumnList][@(0.0.255) `&
 ]_[* NoClickKill]()&]
-[s2;%% Same as ClickKill(false). Returns `*this for method chaining.&]
+[s2;%% То же, что и ClickKill(false). Returns `*this for method chaining.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:ColumnList`:`:SetDisplay`(const Upp`:`:Display`&`): [_^Upp`:`:ColumnList^ C
@@ -416,7 +416,7 @@ than Display`::GetMinSize). Default is active.&]
 [s4; &]
 [s5;:Upp`:`:ColumnList`:`:NoPopUpEx`(`): [_^Upp`:`:ColumnList^ ColumnList][@(0.0.255) `&]_
 [* NoPopUpEx]()&]
-[s2;%% Same as PopUpEx(false).&]
+[s2;%% То же, что и PopUpEx(false).&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:ColumnList`:`:AutoHideSb`(bool`): [_^Upp`:`:ColumnList^ ColumnList][@(0.0.255) `&
@@ -427,7 +427,7 @@ fit into the widget`'s view. Returns `*this for method chaining.&]
 [s4; &]
 [s5;:Upp`:`:ColumnList`:`:NoAutoHideSb`(`): [_^Upp`:`:ColumnList^ ColumnList][@(0.0.255) `&
 ]_[* NoAutoHideSb]()&]
-[s2;%% Same as AutoHideSb(false). Returns `*this for method chaining.&]
+[s2;%% То же, что и AutoHideSb(false). Returns `*this for method chaining.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:ColumnList`:`:SetScrollBarStyle`(const Upp`:`:ScrollBar`:`:Style`&`): [_^Upp`:`:ColumnList^ C
@@ -439,6 +439,6 @@ for method chaining.&]
 [ {{10000F(128)G(128)@1 [s0;%% [* Constructor detail]]}}&]
 [s3; &]
 [s5;:Upp`:`:ColumnList`:`:ColumnList`(`): [* ColumnList]()&]
-[s2;%% Default constructor.&]
+[s2;%% Дефолтный конструктор.&]
 [s3; &]
 [s0;%% ]]

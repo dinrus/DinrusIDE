@@ -1,4 +1,4 @@
-topic "Function";
+topic "Класс Function";
 [i448;a25;kKO9;2 $$1,0#37138531426314131252341829483380:class]
 [l288;2 $$2,2#27521748481378242620020725143825:desc]
 [0 $$3,0#96390100711032703541132217272105:end]
@@ -10,7 +10,7 @@ topic "Function";
 [b42;2 $$9,9#13035079074754324216151401829390:normal]
 [2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%RU-RU 
-[ {{10000@(113.42.0) [s0; [*@7;4 Function]]}}&]
+[ {{10000@(113.42.0) [s0; [*@7;4 Класс Function]]}}&]
 [s3;%- &]
 [s1;:noref:%- [@(0.0.255)3 template][3 _<][@(0.0.255)3 typename][3 _][*@4;3 Res][3 , 
 ][@(0.0.255)3 typename...][3 _][*@4;3 ArgTypes][3 >]&]
@@ -85,7 +85,7 @@ es]_[* operator()]([*@4 ArgTypes][@(0.0.255) ...]_args)_[@(0.0.255) const]&]
 [s2; Sets Function empty.&]
 [s0; &]
 [s0;%- &]
-[ {{10000@(113.42.0) [s0; [*@7;4 Event and Gate]]}}&]
+[ {{10000@(113.42.0) [s0; [*@7;4 Event и Gate]]}}&]
 [s3;%- &]
 [s0;%- Two most common types of Function in U`+`+ are those that 
 return `'void`' and those that return `'bool`'. U`+`+ defines 
@@ -105,7 +105,7 @@ Note that empty Gate returns false (because empty Function returns
 bool(0), which is false).&]
 [s3;%- &]
 [s0;%- &]
-[ {{10000@(113.42.0) [s0; [*@7;4 MemFn and THISFN]]}}&]
+[ {{10000@(113.42.0) [s0; [*@7;4 MemFn и THISFN]]}}&]
 [s3;%- &]
 [s3;%- &]
 [s0;%- Despide the power of C`+`+11, there are still situations where 

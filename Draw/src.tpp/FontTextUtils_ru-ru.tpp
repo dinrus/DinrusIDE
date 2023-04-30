@@ -28,7 +28,7 @@ and application rarely need to call this function.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:StdFont`(`): [_^Upp`:`:Font^ Font]_[* StdFont]()&]
-[s2;%% Same as GetStdFont().&]
+[s2;%% То же, что и GetStdFont().&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:StdFont`(int`): [_^Upp`:`:Font^ Font]_[* StdFont]([@(0.0.255) int]_[*@3 h])&]
@@ -124,6 +124,6 @@ etTLTextSize]([@(0.0.255) const]_[_^Upp`:`:wchar^ wchar]_`*[*@3 text],
 [s5;:Upp`:`:GetTLTextHeight`(const Upp`:`:wchar`*`,Upp`:`:Font`): [@(0.0.255) int]_[* Get
 TLTextHeight]([@(0.0.255) const]_[_^Upp`:`:wchar^ wchar]_`*[*@3 s], 
 [_^Upp`:`:Font^ Font]_[*@3 font])&]
-[s2;%% Same as GetTLTextSize(s, font).cy.&]
+[s2;%% То же, что и GetTLTextSize(s, font).cy.&]
 [s3;%% &]
 [s0; ]]

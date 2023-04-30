@@ -96,7 +96,7 @@ nt]_[*@3 l], [@(0.0.255) int]_[*@3 h])&]
 [s4; &]
 [s5;:LineEdit`:`:SetRectSelection`(const Rect`&`): [@(0.0.255) void]_[* SetRectSelection](
 [@(0.0.255) const]_[_^Rect^ Rect][@(0.0.255) `&]_[*@3 rect])&]
-[s2;%% Same as SetRectSelection(GetGPos(rect.top, rect.left), GetGPos(rect.bottom, 
+[s2;%% То же, что и SetRectSelection(GetGPos(rect.top, rect.left), GetGPos(rect.bottom, 
 rect.right));&]
 [s3;%% &]
 [s4; &]

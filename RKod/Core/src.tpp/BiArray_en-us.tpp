@@ -62,7 +62,7 @@ macro.&]
 [ {{10000F(128)G(128)@1 [s0; [* Детали Конструктора]]}}&]
 [s3;%- &]
 [s5;:BiArray`:`:BiArray`(`):%- [* BiArray]()&]
-[s2; Default constructor. Constructs empty BiArray.&]
+[s2; Дефолтный конструктор. Constructs empty BiArray.&]
 [s3; &]
 [s4; &]
 [s0;:`:`:BiArray`:`:BiArray`(const`:`:BiArray`&`,int`): [* BiArray](const 
@@ -193,25 +193,25 @@ is undefined.&]
 [s3; &]
 [s4;%- &]
 [s5;:BiArray`:`:Head`(`):%- [*@4 T][@(0.0.255) `&]_[* Head]()&]
-[s2; Returns reference to the head of the BiArray. Same as operator`[`](0).&]
+[s2; Returns reference to the head of the BiArray. То же, что и operator`[`](0).&]
 [s7; [*/ Возвратное значение]-|Reference to the head of BiArray.&]
 [s3; &]
 [s4;%- &]
 [s5;:BiArray`:`:Tail`(`):%- [*@4 T][@(0.0.255) `&]_[* Tail]()&]
-[s2; Returns reference to the tail of the BiArray. Same as operator`[`](GetCount() 
+[s2; Returns reference to the tail of the BiArray. То же, что и operator`[`](GetCount() 
 `- 1).&]
 [s7; [*/ Возвратное значение]-|Reference to the tail of BiArray.&]
 [s3; &]
 [s4;%- &]
 [s5;:BiArray`:`:Head`(`)const:%- [@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[* Head]()_[@(0.0.255) c
 onst]&]
-[s2; Returns reference to the head of the BiArray. Same as operator`[`](0).&]
+[s2; Returns reference to the head of the BiArray. То же, что и operator`[`](0).&]
 [s7; [*/ Возвратное значение]-|Constant reference to the head of BiArray.&]
 [s3; &]
 [s4;%- &]
 [s5;:BiArray`:`:Tail`(`)const:%- [@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[* Tail]()_[@(0.0.255) c
 onst]&]
-[s2; Returns reference to the tail of the BiArray. Same as operator`[`](GetCount() 
+[s2; Returns reference to the tail of the BiArray. То же, что и operator`[`](GetCount() 
 `- 1).&]
 [s7; [*/ Возвратное значение]-|Constant reference to the tail of BiArray.&]
 [s3; &]
@@ -260,7 +260,7 @@ ator`[`]]([@(0.0.255) int]_[*@3 i])_[@(0.0.255) const]&]
 [s3; &]
 [s4;%- &]
 [s5;:BiArray`:`:IsEmpty`(`)const:%- [@(0.0.255) bool]_[* IsEmpty]()_[@(0.0.255) const]&]
-[s2; Tests whether the BiArray is empty. Same as GetCount() `=`= 
+[s2; Tests whether the BiArray is empty. То же, что и GetCount() `=`= 
 0.&]
 [s7; [*/ Возвратное значение]-|true if Vector is empty, false otherwise.&]
 [s3; &]
@@ -367,7 +367,7 @@ the tail of the BiArray.&]
 [s5;:BiArray`:`:GetIter`(int`):%- [_^BiArray`:`:Iterator^ Iterator]_[* GetIter]([@(0.0.255) i
 nt]_[*@3 pos])&]
 [s2; Returns a non`-constant iterator to the element at the specified 
-position. Same as [* Begin() `+ pos]. The benefit of this method 
+position. То же, что и [* Begin() `+ pos]. The benefit of this method 
 is that [* pos] is range checked in debug mode.&]
 [s7; [*C@3 pos]-|Required position.&]
 [s7; [*/ Возвратное значение]-|Iterator.&]
@@ -389,7 +389,7 @@ tail of the Array.&]
 [s5;:BiArray`:`:GetIter`(int`)const:%- [_^BiArray`:`:ConstIterator^ ConstIterator]_[* Get
 Iter]([@(0.0.255) int]_[*@3 pos])_[@(0.0.255) const]&]
 [s2; Returns a constant iterator to the element at the specified 
-position. Same as [* Begin() `+ pos]. The benefit of this method 
+position. То же, что и [* Begin() `+ pos]. The benefit of this method 
 is that [* pos] is range checked in debug mode.&]
 [s7; [*C@3 pos]-|Required position.&]
 [s7; [*/ Возвратное значение]-|Iterator.&]

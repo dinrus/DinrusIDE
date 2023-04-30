@@ -35,22 +35,22 @@ SplitterFrame`::[* LEFT], SplitterFrame`::[* RIGHT], SplitterFrame`::[* TOP
 [s4;%- &]
 [s5;:SplitterFrame`:`:Left`(Ctrl`&`,int`):%- [_^SplitterFrame^ SplitterFrame][@(0.0.255) `&
 ]_[* Left]([_^Ctrl^ Ctrl][@(0.0.255) `&]_[*@3 c], [@(0.0.255) int]_[*@3 size])&]
-[s2; Same as Set([%-*@3 c] , [%-*@3 size], SplitterFrame`::LEFT).&]
+[s2; То же, что и Set([%-*@3 c] , [%-*@3 size], SplitterFrame`::LEFT).&]
 [s3; &]
 [s4;%- &]
 [s5;:SplitterFrame`:`:Top`(Ctrl`&`,int`):%- [_^SplitterFrame^ SplitterFrame][@(0.0.255) `&
 ]_[* Top]([_^Ctrl^ Ctrl][@(0.0.255) `&]_[*@3 c], [@(0.0.255) int]_[*@3 size])&]
-[s2; Same as Set([%-*@3 c] , [%-*@3 size], SplitterFrame`::TOP).&]
+[s2; То же, что и Set([%-*@3 c] , [%-*@3 size], SplitterFrame`::TOP).&]
 [s3; &]
 [s4;%- &]
 [s5;:SplitterFrame`:`:Right`(Ctrl`&`,int`):%- [_^SplitterFrame^ SplitterFrame][@(0.0.255) `&
 ]_[* Right]([_^Ctrl^ Ctrl][@(0.0.255) `&]_[*@3 c], [@(0.0.255) int]_[*@3 size])&]
-[s2; Same as Set([%-*@3 c] , [%-*@3 size], SplitterFrame`::RIGHT).&]
+[s2; То же, что и Set([%-*@3 c] , [%-*@3 size], SplitterFrame`::RIGHT).&]
 [s3; &]
 [s4;%- &]
 [s5;:SplitterFrame`:`:Bottom`(Ctrl`&`,int`):%- [_^SplitterFrame^ SplitterFrame][@(0.0.255) `&
 ]_[* Bottom]([_^Ctrl^ Ctrl][@(0.0.255) `&]_[*@3 c], [@(0.0.255) int]_[*@3 size])&]
-[s2; Same as Set([%-*@3 c] , [%-*@3 size], SplitterFrame`::BOTTOM).&]
+[s2; То же, что и Set([%-*@3 c] , [%-*@3 size], SplitterFrame`::BOTTOM).&]
 [s3; &]
 [s4;%- &]
 [s5;:SplitterFrame`:`:MinSize`(int`):%- [_^SplitterFrame^ SplitterFrame][@(0.0.255) `&]_[* M

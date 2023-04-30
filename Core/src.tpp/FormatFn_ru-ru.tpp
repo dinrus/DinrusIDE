@@ -1,4 +1,4 @@
-topic "Formatting functions";
+topic "Форматирование чисел";
 [i448;a25;kKO9;2 $$1,0#37138531426314131252341829483380:class]
 [l288;2 $$2,0#27521748481378242620020725143825:desc]
 [0 $$3,0#96390100711032703541132217272105:end]
@@ -10,7 +10,7 @@ topic "Formatting functions";
 [b42;2 $$9,9#13035079074754324216151401829390:normal]
 [2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%RU-RU 
-[ {{10000@(113.42.0) [s0; [*@7;4 Number formatting]]}}&]
+[ {{10000@(113.42.0) [s0; [*@7;4 Форматирование чисел]]}}&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:FormatUnsigned`(Upp`:`:dword`):%- [_^Upp`:`:String^ String]_[* FormatUnsigned
@@ -107,7 +107,7 @@ to FormatHex, god knows why there are two of them.&]
 [s4;%- &]
 [s5;:FormatHex`(const void`*`):%- [_^String^ String]_[* FormatHex]([@(0.0.255) const]_[@(0.0.255) v
 oid]_`*[*@3 ptr])&]
-[s2; Same as FormatIntHex.&]
+[s2; То же, что и FormatIntHex.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:FormatDouble`(char`*`,double`,int`,Upp`:`:dword`):%- [@(0.0.255) char]_`*[* F
@@ -161,11 +161,11 @@ FormatE)]]
 har]_`*[*@3 t], [@(0.0.255) double]_[*@3 x])&]
 [s5;:FormatDouble`(double`):%- [_^String^ String]_[* FormatDouble]([@(0.0.255) double]_[*@3 a
 ])&]
-[s2; Same as FormatDouble with flags FD`_TOLERANCE(6)`|FD`_MINIMAL`_EXP`|FD`_SPECIAL 
-and precision 15. Should represent the most reasonable formatting 
-for displayed output. The first variant requires the buffer of 
-size 32 and returns a pointer after the last character produced 
-(terminating `'`\0`' is NOT appended).&]
+[s2; То же, что и FormatDouble with flags FD`_TOLERANCE(6)`|FD`_MINIMAL`_EXP`|
+FD`_SPECIAL and precision 15. Should represent the most reasonable 
+formatting for displayed output. The first variant requires the 
+buffer of size 32 and returns a pointer after the last character 
+produced (terminating `'`\0`' is NOT appended).&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:FormatE`(char`*`,double`,int`,Upp`:`:dword`):%- [@(0.0.255) char]_`*[* Format

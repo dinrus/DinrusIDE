@@ -40,7 +40,7 @@ macro.&]
 [ {{10000F(128)G(128)@1 [s0; [* Детали Конструктора]]}}&]
 [s3; &]
 [s5;:BiVector`:`:BiVector`(`):%- [* BiVector]()&]
-[s2; Default constructor. Creates an empty [* BiVector].&]
+[s2; Дефолтный конструктор. Creates an empty [* BiVector].&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:BiVector`:`:BiVector`(Upp`:`:BiVector`&`&`):%- [* BiVector]([* BiVector][@(0.0.255) `&
@@ -106,25 +106,25 @@ of the [* BiVector]. The new element will be at position [* GetCount]()
 [s3;%- &]
 [s4;%- &]
 [s5;:BiVector`:`:Head`(`):%- [*@4 T][@(0.0.255) `&]_[* Head]()&]
-[s2; Returns a reference to the head of the [* BiVector] . Same as 
+[s2; Returns a reference to the head of the [* BiVector] . То же, что и 
 operator`[`](0).&]
 [s3;%- &]
 [s4;%- &]
 [s5;:BiVector`:`:Tail`(`):%- [*@4 T][@(0.0.255) `&]_[* Tail]()&]
-[s2; Returns a reference to the tail of the [* BiVector] . Same as 
+[s2; Returns a reference to the tail of the [* BiVector] . То же, что и 
 operator`[`]([* GetCount]() `- 1).&]
 [s3;%- &]
 [s4;%- &]
 [s5;:BiVector`:`:Head`(`)const:%- [@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[* Head]()_[@(0.0.255) c
 onst]&]
 [s2; Returns a [* const] reference to the head of the [* BiVector] . 
-Same as operator`[`](0).&]
+То же, что и operator`[`](0).&]
 [s3;%- &]
 [s4;%- &]
 [s5;:BiVector`:`:Tail`(`)const:%- [@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[* Tail]()_[@(0.0.255) c
 onst]&]
 [s2; Returns a [* const ]reference to the tail of the [* BiVector] . 
-Same as operator`[`]([* GetCount]() `- 1).&]
+То же, что и operator`[`]([* GetCount]() `- 1).&]
 [s3;%- &]
 [s4;%- &]
 [s5;:BiVector`:`:DropHead`(`):%- [@(0.0.255) void]_[* DropHead]()&]
@@ -154,7 +154,7 @@ position [%-*@3 i].&]
 [s3;%- &]
 [s4;%- &]
 [s5;:BiVector`:`:IsEmpty`(`)const:%- [@(0.0.255) bool]_[* IsEmpty]()_[@(0.0.255) const]&]
-[s2; Tests whether the [* BiVector ]is empty. Same as [* GetCount]() 
+[s2; Tests whether the [* BiVector ]is empty. То же, что и [* GetCount]() 
 `=`= 0.&]
 [s3;%- &]
 [s4;%- &]
@@ -220,7 +220,7 @@ last element in the BiVector.&]
 [s5;:BiVector`:`:GetIter`(int`)const:%- [_^BiVector`:`:ConstIterator^ ConstIterator]_[* G
 etIter]([@(0.0.255) int]_[*@3 pos])_[@(0.0.255) const]&]
 [s2; Returns a constant iterator to the element at the specified 
-position [%-*@3 pos]. Same as [* Begin() `+ ][%-*@3 pos]. The benefit 
+position [%-*@3 pos]. То же, что и [* Begin() `+ ][%-*@3 pos]. The benefit 
 of this method is that [%-*@3 pos] is range checked in debug mode.&]
 [s3;%- &]
 [s4;%- &]
@@ -237,7 +237,7 @@ last element in the [* BiVector].&]
 [s5;:BiVector`:`:GetIter`(int`):%- [_^BiVector`:`:Iterator^ Iterator]_[* GetIter]([@(0.0.255) i
 nt]_[*@3 pos])&]
 [s2; Returns a non`-constant iterator to the element at the specified 
-position. Same as [* Begin() `+ pos]. The benefit of this method 
+position. То же, что и [* Begin() `+ pos]. The benefit of this method 
 is that [* pos] is range checked in debug mode.&]
 [s3; &]
 [s4; &]

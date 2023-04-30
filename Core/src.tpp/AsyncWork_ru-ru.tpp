@@ -10,14 +10,17 @@ topic "AsyncWork и Async";
 [b42;2 $$9,9#13035079074754324216151401829390:normal]
 [2 $$0,0#00000000000000000000000000000000:Default]
 [{_} 
-[ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 AsyncWork и Async]]}}&]
+[ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 Классы AsyncWork и Async]]}}&]
 [s3; &]
 [s1;:noref: [@(0.0.255)3 template][3 _<][@(0.0.255)3 class][3 _][*@4;3 Ret][3 >]&]
 [s1;:Upp`:`:AsyncWork`:`:class: [@(0.0.255) class]_[* AsyncWork]&]
-[s2;%RU-RU Represents a job that can be executed in another thread 
-and can return a value. It is similar to future/promise pattern, 
-but it allows cancelation and is based on U`+`+ thread pool shared 
-with CoWork. AsyncWork has pick constructor / operator.&]
+[s2;%RU-RU Представляет работу (job), которая 
+может быть выполнена в другом потоке, 
+и может вернуть значение. Подобно 
+паттерну future/promise, но допускает отмену 
+и основывается на пуле потоков U`+`+, 
+разделяемом с CoWork. AsyncWork имеет pick конструктор
+ / оператор.&]
 [s3; &]
 [ {{10000F(128)G(128)@1 [s0;%RU-RU [* Список Публичных Методов]]}}&]
 [s3; &]
@@ -25,46 +28,52 @@ with CoWork. AsyncWork has pick constructor / operator.&]
 plate]_<_[@(0.0.255) class]_[*@4 Function], [@(0.0.255) class...]_[*@4 Args]>&]
 [s5;:Upp`:`:AsyncWork`:`:Do`(Upp`:`:Function`&`&`,Args`&`&`.`.`.args`): [@(0.0.255) voi
 d]_[* Do]([*@4 Function][@(0.0.255) `&`&]_[*@3 f], [*@4 Args][@(0.0.255) `&`&...]_args)&]
-[s2;%RU-RU Schedules job [%-*@3 f] with parameters args to be asynchronously 
-performed in (possibly) another thread.&]
+[s2;%RU-RU Пранирует работу [%-*@3 f] с параметрами 
+args на асинхронное выполнение в (по 
+возможности) другом потоке.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:AsyncWork`:`:Cancel`(`): [@(0.0.255) void]_[* Cancel]()&]
-[s2;%RU-RU Cancels the job.&]
+[s2;%RU-RU Отменяет работу.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:AsyncWork`:`:IsCanceled`(`): [@(0.0.255) static] [@(0.0.255) bool]_[* IsCancele
 d]()&]
-[s2;%RU-RU Returns true [*/ in the job routine] if the master AsyncWork 
-was canceled.&]
+[s2;%RU-RU Возвращает true [*/ в этой рабочей 
+процедуре], если master AsyncWork был отменён.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:AsyncWork`:`:IsFinished`(`): [@(0.0.255) bool]_[* IsFinished]()&]
-[s2;%RU-RU Returns true if job was finished.&]
+[s2;%RU-RU Возвращает true, если работа завершена.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:AsyncWork`:`:Get`(`): [*@4 Ret]_[* Get]()&]
-[s2;%RU-RU Waits for job to be finished (if necessary), then returns 
-the return value of [%-*@3 f]. If there was exception, it is rethrown.&]
+[s2;%RU-RU Ждёт окончания работы (при необходимости
+), затем возвращает возвратное значение 
+[%-*@3 f]. Если при этом были исключения, 
+они перебрасываются (rethrown).&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:AsyncWork`:`:operator`~`(`): [*@4 Ret]_[* operator`~]()&]
-[s2;%RU-RU Same as Get().&]
+[s2;%RU-RU То же, что и Get().&]
 [s2;%RU-RU &]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:AsyncWork`:`:Pick`(`): [*@4 Ret]_[* Pick]()&]
-[s2;%RU-RU Similar to Get, but uses pick constructor instead of copy 
-constructor to pass the return value.&]
+[s2;%RU-RU Подобно Get, но используется pick`-конструкт
+ор, вместо copy`-конструктора, для передачи 
+возвратного значения.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:AsyncWork`:`:`~AsyncWork`(`): [@(0.0.255) `~][* AsyncWork]()&]
-[s2;%RU-RU If work has not be finished, destructor cancels it.&]
+[s2;%RU-RU Если работа не была завершена, 
+деструктор её отменяем.&]
 [s3; &]
 [ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 Async]]}}&]
 [s3; &]
 [s5;:Upp`:`:Async`(Upp`:`:Function`&`&`,Args`&`&`.`.`.args`): [@(0.0.255) auto]_[* Async](
 [_^Upp`:`:Function^ Function][@(0.0.255) `&`&]_[*@3 f], Args[@(0.0.255) `&`&...]_args)&]
-[s2;%RU-RU Returns AsyncWork for given job [%-*@3 f] with [%- args].&]
+[s2;%RU-RU Возвращает AsyncWork для данной работы 
+[%-*@3 f] с аргументами [%- args].&]
 [s3;%RU-RU &]
 [s0;@(0.0.255)3 ]]

@@ -46,7 +46,7 @@ in rightmost position) values. Returns `*this.&]
 [s4;%- &]
 [s5;:SliderCtrl`:`:Range`(int`):%- [_^SliderCtrl^ SliderCtrl][@(0.0.255) `&]_[* Range]([@(0.0.255) i
 nt]_[*@3 max])&]
-[s2; Same as [^topic`:`/`/CtrlLib`/src`/Slider`$en`-us`#SliderCtrl`:`:MinMax`(int`,int`)^ M
+[s2; То же, что и [^topic`:`/`/CtrlLib`/src`/Slider`$en`-us`#SliderCtrl`:`:MinMax`(int`,int`)^ M
 inMax](0, [%-*@3 max]).&]
 [s3; &]
 [s4;%- &]

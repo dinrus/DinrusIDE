@@ -70,19 +70,19 @@ email recipient types.&]
 [s4; &]
 [s5;:Smtp`:`:To`(const String`&`,AS`):%- [_^Smtp^ Smtp][@(0.0.255) `&]_[* To]([@(0.0.255) con
 st]_[_^String^ String][@(0.0.255) `&]_[*@3 email], AS_[*@3 a]_`=_TO)&]
-[s2; Same as To([%-*@3 email], Null, [%-*@3 a]).&]
+[s2; То же, что и To([%-*@3 email], Null, [%-*@3 a]).&]
 [s3; &]
 [s4; &]
 [s5;:Smtp`:`:Cc`(const String`&`,const String`&`):%- [_^Smtp^ Smtp][@(0.0.255) `&]_[* Cc]([@(0.0.255) c
 onst]_[_^String^ String][@(0.0.255) `&]_[*@3 email], [@(0.0.255) const]_[_^String^ String][@(0.0.255) `&
 ]_[*@3 name]_`=_Null)&]
-[s2; Same as To([%-*@3 email], [%-*@3 name], Smtp`::CC).&]
+[s2; То же, что и To([%-*@3 email], [%-*@3 name], Smtp`::CC).&]
 [s3; &]
 [s4; &]
 [s5;:Smtp`:`:Bcc`(const String`&`,const String`&`):%- [_^Smtp^ Smtp][@(0.0.255) `&]_[* Bcc](
 [@(0.0.255) const]_[_^String^ String][@(0.0.255) `&]_[*@3 email], [@(0.0.255) const]_[_^String^ S
 tring][@(0.0.255) `&]_[*@3 name]_`=_Null)&]
-[s2; Same as To([%-*@3 email], [%-*@3 name], Smtp`::BCC).&]
+[s2; То же, что и To([%-*@3 email], [%-*@3 name], Smtp`::BCC).&]
 [s3; &]
 [s4; &]
 [s5;:Smtp`:`:ReplyTo`(const String`&`,const String`&`):%- [_^Smtp^ Smtp][@(0.0.255) `&]_[* R
@@ -159,7 +159,7 @@ even as they are contained in message.&]
 [s3; &]
 [s4; &]
 [s5;:Smtp`:`:Send`(`):%- [@(0.0.255) bool]_[* Send]()&]
-[s2; Sends email. Returns true on success. Same as Send(GetMessage()), 
+[s2; Sends email. Returns true on success. То же, что и Send(GetMessage()), 
 except that this form is able to send attachments in chunks.&]
 [s3; &]
 [s4; &]
@@ -168,7 +168,7 @@ except that this form is able to send attachments in chunks.&]
 [s3; &]
 [s4; &]
 [s5;:Smtp`:`:Smtp`(`):%- [* Smtp]()&]
-[s2; Default constructor.&]
+[s2; Дефолтный конструктор.&]
 [s3; &]
 [s4; &]
 [s5;:Smtp`:`:Trace`(bool`):%- [@(0.0.255) static] [@(0.0.255) void]_[* Trace]([@(0.0.255) boo

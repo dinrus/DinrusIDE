@@ -1,7 +1,7 @@
 #ifndef _smtp_smtp_h
 #define _smtp_smtp_h
 
-#include <DinrusC/Core.h>
+#include <RKod/Core.h>
 
 namespace РНЦПДинрус {
 

@@ -1,5 +1,5 @@
-#include <DinrusC/Core.h>
-#include <DinrusC/Rpc/Rpc.h>
+#include <RKod/Core.h>
+#include <RKod/Rpc/Rpc.h>
 
 namespace РНЦПДинрус {
 

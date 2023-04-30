@@ -77,7 +77,7 @@ Default is not active.&]
 [s4; &]
 [s5;:Upp`:`:DropTree`:`:NoDropFocus`(`): [_^Upp`:`:DropTree^ DropTree][@(0.0.255) `&]_[* No
 DropFocus]()&]
-[s2;%% Same as DropFocus(false).&]
+[s2;%% То же, что и DropFocus(false).&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:DropTree`:`:SetDropLines`(int`): [_^Upp`:`:DropTree^ DropTree][@(0.0.255) `&]_
@@ -94,6 +94,6 @@ it is equal to the width of DropTree widget).&]
 [s4; &]
 [s5;:Upp`:`:DropTree`:`:DropWidthZ`(int`): [_^Upp`:`:DropTree^ DropTree][@(0.0.255) `&]_[* D
 ropWidthZ]([@(0.0.255) int]_[*@3 w])&]
-[s2;%% Same as DropWidth(Zx([%-*@3 w])).&]
+[s2;%% То же, что и DropWidth(Zx([%-*@3 w])).&]
 [s3;%% &]
 [s0;%% ]]

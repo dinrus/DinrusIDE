@@ -92,7 +92,7 @@ nt]_[*@3 i])&]
 [s3; &]
 [s4; &]
 [s5;:FixedAMap`:`:IsEmpty`(`)const:%- [@(0.0.255) bool]_[* IsEmpty]()_[@(0.0.255) const]&]
-[s2; Same as GetCount() `=`= 0.&]
+[s2; То же, что и GetCount() `=`= 0.&]
 [s3; &]
 [s4; &]
 [s5;:FixedAMap`:`:Clear`(`):%- [@(0.0.255) void]_[* Clear]()&]
@@ -165,7 +165,7 @@ s]()_[@(0.0.255) const]&]
 [s5;:FixedAMap`:`:operator`(`)`(const K`&`,const T`&`):%- [_^FixedAMap^ FixedAMap][@(0.0.255) `&
 ]_[* operator()]([@(0.0.255) const]_[*@4 K][@(0.0.255) `&]_[*@3 k], [@(0.0.255) const]_[*@4 T][@(0.0.255) `&
 ]_[*@3 v])&]
-[s2; Same as Add([%-*@3 k], [%-*@3 v]), returns `*this. Convenience variant 
+[s2; То же, что и Add([%-*@3 k], [%-*@3 v]), returns `*this. Convenience variant 
 for creating maps.&]
 [s3; &]
 [s4; &]

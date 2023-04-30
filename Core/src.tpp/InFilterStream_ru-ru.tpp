@@ -74,7 +74,7 @@ data before being filtered.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:InFilterStream`:`:InFilterStream`(`): [* InFilterStream]()&]
-[s2;%% Default constructor.&]
+[s2;%% Дефолтный конструктор.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:InFilterStream`:`:InFilterStream`(Stream`&`,F`&`): [@(0.0.255) template]_<[@(0.0.255) c

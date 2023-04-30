@@ -79,7 +79,7 @@ from [%-*@3 x].&]
 [s5;:SortedVectorMap`:`:operator`(`)`(const K`&`,const T`&`):%- [_^SortedVectorMap^ Sor
 tedVectorMap][@(0.0.255) `&]_[* operator()]([@(0.0.255) const]_[*@4 K][@(0.0.255) `&]_[*@3 k],
  [@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[*@3 v])&]
-[s2; Same as Add([%-*@3 k], [%-*@3 v]), returns `*this. Syntax sugar 
+[s2; То же, что и Add([%-*@3 k], [%-*@3 v]), returns `*this. Syntax sugar 
 for creating map.&]
 [s3; &]
 [s4; &]

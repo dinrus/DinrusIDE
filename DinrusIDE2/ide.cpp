@@ -14,7 +14,7 @@ void Ide::MakeTitle()
 	}
 	if(!title.IsEmpty())
 		title << " - ";
-	title << "ИСР РНЦП Динрус";
+	title << "ИСР РНЦП Динрус-2";
 	if(designer) {
 		title << " - " << designer->GetFileName();
 		int cs = designer->GetCharset();
@@ -151,10 +151,10 @@ bool Ide::OpenMainPackage()
 	String version = SplashCtrl::GenerateVersionNumber();
 	String tt = "Select main package";
 #ifdef bmYEAR
-	tt << " (ИСР РНЦП Динрус " << version
+	tt << " (ИСР РНЦП Динрус-2 " << version
 	   << Format(" %d-%02d-%02d %d:%02d)", bmYEAR , bmMONTH, bmDAY, bmHOUR, bmMINUTE);
 #else
-	tt << " (ИСР РНЦП Динрус " << version << ')';
+	tt << " (ИСР РНЦП Динрус-2 " << version << ')';
 #endif
 	String nest;
 	String p = SelectPackage(nest, tt, main, true, true);

@@ -102,12 +102,12 @@ WriteLine.&]
 [s4; &]
 [s5;:RasterEncoder`:`:GetWidth`(`)const:%- [@(0.0.255) int]_[* GetWidth]()_[@(0.0.255) cons
 t]&]
-[s2; Same as GetSize().cx.&]
+[s2; То же, что и GetSize().cx.&]
 [s3; &]
 [s4; &]
 [s5;:RasterEncoder`:`:GetHeight`(`)const:%- [@(0.0.255) int]_[* GetHeight]()_[@(0.0.255) co
 nst]&]
-[s2; Same as GetSize().cy.&]
+[s2; То же, что и GetSize().cy.&]
 [s3; &]
 [s4; &]
 [s5;:RasterEncoder`:`:SetHotSpot`(Point`):%- [@(0.0.255) void]_[* SetHotSpot]([_^Point^ Poi

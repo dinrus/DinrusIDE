@@ -51,7 +51,7 @@ T, Array<T>, HashFn >]&]
 [ {{10000F(128)G(128)@1 [s0; [* Детали Конструктора]]}}&]
 [s3;%- &]
 [s5;:ArrayMap`:`:ArrayMap`(`):%- [* ArrayMap]()&]
-[s2; Default constructor. Creates empty ArrayMap.&]
+[s2; Дефолтный конструктор. Creates empty ArrayMap.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:ArrayMap`:`:ArrayMap`(std`:`:initializer`_list`<std`:`:pair`<K`,T`>`>`):%- [* A
@@ -64,7 +64,7 @@ d`::pair]<[*@4 K], [*@4 T]>>_[*@3 init])&]
 [s5;:Upp`:`:ArrayMap`:`:operator`(`)`(KK`&`&`,TT`&`&`):%- [@(0.0.255) template]_<[@(0.0.255) c
 lass]_[*@4 KK], [@(0.0.255) class]_[*@4 TT]>_[*_^Upp`:`:ArrayMap^ ArrayMap][@(0.0.255) `&]_
 [* operator()]([*@4 KK][@(0.0.255) `&`&]_[*@3 k], [*@4 TT][@(0.0.255) `&`&]_[*@3 v])&]
-[s2; Same as Add([%-*@3 k], [%-*@3 v]), returns `*this. Syntax sugar 
+[s2; То же, что и Add([%-*@3 k], [%-*@3 v]), returns `*this. Syntax sugar 
 for creating map. Note the use of universal reference that gets 
 resolved to correct Add variant.&]
 [s3; &]

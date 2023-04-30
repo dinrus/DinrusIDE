@@ -1,4 +1,4 @@
-topic "AProcess и LocalProcess";
+topic "Классы AProcess и LocalProcess";
 [i448;a25;kKO9;2 $$1,0#37138531426314131252341829483380:class]
 [l288;2 $$2,0#27521748481378242620020725143825:desc]
 [0 $$3,0#96390100711032703541132217272105:end]
@@ -10,13 +10,13 @@ topic "AProcess и LocalProcess";
 [b42;2 $$9,9#13035079074754324216151401829390:normal]
 [2 $$0,0#00000000000000000000000000000000:Default]
 [{_} 
-[ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 AProcess]]}}&]
+[ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 Класс AProcess]]}}&]
 [s3; &]
 [s1;:AProcess`:`:struct: [@(0.0.255)3 struct][3 _][*3 AProcess][3 _:_][@(0.0.255)3 public][3 _][*@3;3 N
 oCopy]&]
 [s9;%RU-RU Это абстрактный класс, представляющий 
 контролируемый процесс`-отпрыск. 
-Клиенсткий код может коммуницировать 
+Клиентский код может коммуницировать 
 с таким процессом, предоставляя стандартный
  ввод и читая стандартный вывод. Заметьте, 
 что, в то время как LocalProcess реализует 
@@ -46,8 +46,8 @@ tring]_[*@3 s])_`=_[@3 0]&]
 [s5;:AProcess`:`:Read`(String`&`): [@(0.0.255) virtual] [@(0.0.255) bool]_[* Read]([_^topic`:`/`/Core`/src`/String`$en`-us`#String`:`:class^ S
 tring][@(0.0.255) `&]_[*@3 s])_`=_[@3 0]&]
 [s2;%RU-RU Читает данные с комбинированного 
-стандартного вывода.Возвращает true, 
-если это процесс выполняется или 
+стандартного вывода. Возвращает true, 
+если этот процесс выполняется или 
 есть ещё данные для чтения (даже после 
 терминации процесса).&]
 [s3;%RU-RU &]
@@ -57,10 +57,10 @@ tring][@(0.0.255) `&]_[*@3 s])_`=_[@3 0]&]
 tring][@(0.0.255) `&]_[*@3 os], [_^topic`:`/`/Core`/src`/String`$en`-us`#String`:`:class^ S
 tring][@(0.0.255) `&]_[*@3 es])&]
 [s2;%RU-RU Читает данные отдельно из стандартного 
-вывода в из стандартного вывода ошибок. 
+вывода и из стандартного вывода ошибок. 
 Возвращает true, если процесс выполняется 
 или есть ещё данные для чтения  (даже 
-после терминации процесса).Обычно, 
+после терминации процесса). Обычно, 
 реализация класса должна быть в специальном
  режиме, чтобы это сработало (например, 
 LocalProcess должен быть запущен через 
@@ -127,63 +127,84 @@ ing]_[* Get]()&]
 ool]_[* Start]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 cmdline], 
 [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 envptr]_`=_NULL, [@(0.0.255) const]_[@(0.0.255) c
 har]_`*[*@3 cd]_`=_NULL)&]
-[s2;%RU-RU Starts a new process defined by [%-*@3 cmdline], [%-*@3 envptr 
-]can provide a new environment for the process, if NULL, then 
-the new process inherits caller`'s environment. [%-*@3 cd] can 
-be used to specify the new current directory for the process.&]
+[s2;%RU-RU Стартует новый процесс, определённый 
+[%-*@3 cmdline], [%-*@3 envptr ]может предоставлять 
+новую среду для процесса, если NULL, 
+тогда новый процесс наследует среду 
+вызывающего его. [%-*@3 cd] может использоваться 
+для определения новой текущей директории 
+для процесса.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:LocalProcess`:`:Start2`(const char`*`,const char`*`,const char`*`): [@(0.0.255) b
 ool]_[* Start2]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 cmdline], 
 [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 envptr]_`=_NULL, [@(0.0.255) const]_[@(0.0.255) c
 har]_`*[*@3 cd]_`=_NULL)&]
-[s2;%RU-RU Starts a new process defined by [%-*@3 cmdline], [%-*@3 envptr 
-]can provide a new environment for the process, if NULL, then 
-the new process inherits caller`'s environment. This variant 
-activates mode when standard output and standard error output 
-are read separately using Read2 method. [%-*@3 cd] can be used 
-to specify the new current directory for the process.&]
+[s2;%RU-RU Стартует новый процесс, определённый 
+[%-*@3 cmdline], [%-*@3 envptr ]может предоставлять 
+новую среду для процесса, если NULL, 
+то новый процесс наследует среду 
+вызывающего его. Этот вариант активирует 
+режим, когда стандартный вывод и стандартный
+ вывод ошибок читаются отдельно, с 
+помощью метода Read2. [%-*@3 cd] может использоватьс
+я для определения новой текущей директории 
+для процесса.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:LocalProcess`:`:Start`(const char`*`,const Upp`:`:Vector`<Upp`:`:String`>`&`,const char`*`,const char`*`): [@(0.0.255) b
 ool]_[* Start]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 cmd], [@(0.0.255) const]_[_^Upp`:`:Vector^ V
 ector]<[_^Upp`:`:String^ String]>`&_[*@3 arg], [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 e
 nvptr]_`=_NULL, [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 cd]_`=_NULL)&]
-[s2;%RU-RU Starts a new process defined by [%-*@3 cmd], [%-*@3 arg].[%-*@3  
-envptr ]can provide a new environment for the process, if NULL, 
-then the new process inherits caller`'s environment. This variant 
-passes individual arguments instead of whole commandline, this 
-has advantage that arguments are in POSIX passed directly to 
-execv, without parsing the commandline. [%-*@3 cd] can be used 
-to specify the new current directory for the process.&]
+[s2;%RU-RU Стартует новый процесс, определённый 
+[%-*@3 cmd], [%-*@3 arg].[%-*@3  envptr ][%- может предоставлять 
+новую среду для процесса], если NULL, 
+тогда новый процесс наследует среду 
+вызывающего. Этот вариант передаёт 
+индивидуальные аргументы вместо 
+всей командной строки, у этого есть 
+преимущество в том, что аргументы 
+в POSIX передаются прямо execv, без парсинга 
+командной строки. [%-*@3 cd] может использоваться
+ для определения новой текущей директории 
+для процесса.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:LocalProcess`:`:Start2`(const char`*`,const Upp`:`:Vector`<Upp`:`:String`>`&`,const char`*`,const char`*`): [@(0.0.255) b
 ool]_[* Start2]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 cmd], [@(0.0.255) const]_[_^Upp`:`:Vector^ V
 ector]<[_^Upp`:`:String^ String]>`&_[*@3 arg], [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 e
 nvptr]_`=_NULL, [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 cd]_`=_NULL)&]
-[s2;%RU-RU Starts a new process defined by [%-*@3 cmd], [%-*@3 arg].[%-*@3  
-envptr ]can provide a new environment for the process, if NULL, 
-then the new process inherits caller`'s environment. This variant 
-activates mode when standard output and standard error output 
-are read separately using Read2 method. This variant passes individual 
-arguments instead of whole commandline, this has advantage that 
-arguments are in POSIX passed directly to execv, without parsing 
-the commandline. [%-*@3 cd] can be used to specify the new current 
-directory for the process.&]
+[s2;%RU-RU Стартует новый процесс, определённый 
+[%-*@3 cmd], [%-*@3 arg].[%-*@3  envptr ][%- может предоставлять 
+новую среду для процесса], если NULL, 
+тогда новый процесс наследует среду 
+вызывающего. Этот вариант активирует 
+режим, когда стандартный вывод и стандартный
+ вывод ошибок читаются отдельно, с 
+помощью метода Read2.Этот вариант передаёт 
+индивидуальные аргументы вместо 
+всей командной строки, у этого есть 
+преимущество в том, что аргументы 
+в POSIX передаются прямо execv, без парсинга 
+командной строки. [%-*@3 cd] может использоваться
+ для определения новой текущей директории 
+для процесса.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:LocalProcess`:`:Finish`(Upp`:`:String`&`): [@(0.0.255) int]_[* Finish]([_^topic`:`/`/Core`/src`/String`$en`-us`#String`:`:class^ S
 tring][@(0.0.255) `&]_[*@3 out])&]
-[s2;%RU-RU Runs the started process until it exits. Returns standard 
-output in [%-*@3 out] and exit code as return value.&]
+[s2;%RU-RU Выполняет стартованный процесс 
+до его выхода. Возвращает стандартный 
+вывод в [%-*@3 out] и код выхода в качестве 
+возвратного значения.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:LocalProcess`:`:DoubleFork`(bool`): [_^topic`:`/`/Core`/src`/AProcess`$en`-us`#LocalProcess`:`:class^ L
 ocalProcess][@(0.0.255) `&]_[* DoubleFork]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) true])&]
 [s6; `[POSIX`]&]
-[s2;%RU-RU Activates double`-fork mode to avoid zombies. Use this 
-in POSIX if you want to Detach the process.&]
+[s2;%RU-RU Активирует режим double`-fork во избежание 
+zombies. Используется на POSIX, если необходимо 
+открепить процесс (Detach).&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:LocalProcess`:`:ConvertCharset`(bool`): [_^topic`:`/`/Core`/src`/AProcess`$en`-us`#LocalProcess`:`:class^ L
@@ -191,28 +212,31 @@ ocalProcess][@(0.0.255) `&]_[* ConvertCharset]([@(0.0.255) bool]_[*@3 b]_`=_[@(0
 e])&]
 [s5;:LocalProcess`:`:NoConvertCharset`(`): [_^topic`:`/`/Core`/src`/AProcess`$en`-us`#LocalProcess`:`:class^ L
 ocalProcess][@(0.0.255) `&]_[* NoConvertCharset]()&]
-[s2;%RU-RU Determines LocalProcess should convert encoding from system 
-to application one. Default setting is true.&]
+[s2;%RU-RU Определяет, что LocalProcess должен 
+преобразовать кодировку из системной 
+в кодировку приложения. Дефолтная 
+установка `= true.&]
 [s3;%RU-RU &]
 [ {{10000F(128)G(128)@1 [s0;%RU-RU [* Детали Конструктора]]}}&]
 [s4;H0; &]
 [s5;:LocalProcess`:`:LocalProcess`(`): [* LocalProcess]()&]
-[s2;%RU-RU Default constructor.&]
+[s2;%RU-RU Дефолтный конструктор.&]
 [s3; &]
 [s4; &]
 [s5;:LocalProcess`:`:LocalProcess`(const char`*`,const char`*`): [* LocalProcess]([@(0.0.255) c
 onst]_[@(0.0.255) char]_`*[*@3 cmdline], [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 envptr
 ]_`=_NULL)&]
-[s2;%RU-RU Equivalent of default constructor and then invoking Start([%-*@3 cmdline][%- ,
- ][%-*@3 envptr]).&]
+[s2;%RU-RU Эквивалент дефолтному конструктору, 
+далее вызывает Start([%-*@3 cmdline][%- , ][%-*@3 envptr]).&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:LocalProcess`:`:LocalProcess`(const char`*`,const Vector`<String`>`&`,const char`*`): [* L
 ocalProcess]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 cmd], [@(0.0.255) const]_[_^topic`:`/`/Core`/src`/Vector`$en`-us`#Vector`:`:class^ V
 ector]<[_^topic`:`/`/Core`/src`/String`$en`-us`#String`:`:class^ String]>`&_[*@3 arg],
  [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 envptr]_`=_NULL)&]
-[s2;%RU-RU Equivalent of default constructor and then invoking Start([%-*@3 cmd][%- , 
-][%-*@3 arg][%- , ][%-*@3 envptr]).&]
+[s2;%RU-RU Эквивалент дефолтного конструктора, 
+далее вызывает Start([%-*@3 cmd][%- , ][%-*@3 arg][%- , 
+][%-*@3 envptr]).&]
 [s3; &]
 [ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 Глобальные функции, относящиеся 
 к LocalProcess]]}}&]
@@ -220,20 +244,27 @@ ector]<[_^topic`:`/`/Core`/src`/String`$en`-us`#String`:`:class^ String]>`&_[*@3
 [s5;:Sys`(const char`*`,String`&`,bool`): [@(0.0.255) int]_[* Sys]([@(0.0.255) const]_[@(0.0.255) c
 har]_`*[*@3 cmd], [_^topic`:`/`/Core`/src`/String`$en`-us`#String`:`:class^ String][@(0.0.255) `&
 ]_[*@3 out], [@(0.0.255) bool]_[*@3 convertcharset]_`=_[@(0.0.255) true])&]
-[s2;%RU-RU Runs process defined by [%-*@3 cmd] command line, returns 
-its standard output in [%-*@3 out].and its exit code as return 
-value. If there was error invoking [%-*@3 cmd], returns `-1. If 
-[%-*@3 convertcharset] is true, output is converted from system 
-character encoding to application encoding.&]
+[s2;%RU-RU Выполняет процесс, определённый 
+командной строкой [%-*@3 cmd], возвращает 
+его стандартный вывод в [%-*@3 out], а код 
+выхода становится его возвратным 
+значением. Если при вызове [%-*@3 cmd ]были 
+ошибки, возвращает `-1. Если [%-*@3 convertcharset] 
+`= true, вывод преобразуется из системной 
+символьной кодировки в кодировку 
+приложения.&]
 [s4; &]
 [s5;:Sys`(const char`*`,bool`): [_^topic`:`/`/Core`/src`/String`$en`-us`#String`:`:class^ S
 tring]_[* Sys]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 cmd], [@(0.0.255) bool]_[*@3 conve
 rtcharset]_`=_[@(0.0.255) true])&]
-[s2;%RU-RU Runs process defined by [%-*@3 cmd] command line. If [%-*@3 cmd] 
-was executed successfully and returned zero exit code, returns 
-its standard output, otherwise returns String`::GetVoid(). If 
-[%-*@3 convertcharset] is true, output is converted from system 
-character encoding to application encoding.&]
+[s2;%RU-RU Выполняет процесс, определённый 
+командной строкой [%-*@3 cmd]. Если [%-*@3 cmd] 
+выполнен успешно и возвращён код 
+выхода 0, вызвращает его стандартный 
+вывод, иначе возвращает String`::GetVoid(). 
+Если [%-*@3 convertcharset] `= true, вывод преобразуется 
+из системной символьной кодировки 
+в кодировку приложения.&]
 [s3; &]
 [s4; &]
 [s5;:Sys`(const char`*`,const Vector`<String`>`&`,String`&`,bool`): [@(0.0.255) int]_[* S
@@ -241,21 +272,28 @@ ys]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 cmd], [@(0.0.255) const]_[_^topi
 ector]<[_^topic`:`/`/Core`/src`/String`$en`-us`#String`:`:class^ String]>`&_[*@3 arg],
  [_^topic`:`/`/Core`/src`/String`$en`-us`#String`:`:class^ String][@(0.0.255) `&]_[*@3 o
 ut], [@(0.0.255) bool]_[*@3 convertcharset]_`=_[@(0.0.255) true])&]
-[s2;%RU-RU Runs process defined by [%-*@3 cmd] [%-*@3 arg] command line, 
-returns its standard output in [%-*@3 output].and its exit code 
-as return value. If there was error invoking [%-*@3 cmd], returns 
-`-1. If [%-*@3 convertcharset] is true, output is converted from 
-system character encoding to application encoding.&]
+[s2;%RU-RU Выполняет процесс, определённый 
+командной строкой [%-*@3 cmd] [%-*@3 arg], возвращает 
+его стандартный вывод в [%-*@3 output], а 
+его код выхода становится возвратным 
+значением. Если были ошибки при вызове 
+[%-*@3 cmd], возвращает `-1. Если [%-*@3 convertcharset] 
+`= true, вывод преобразуется из системной 
+символьной кодировки в кодировку 
+приложения.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Sys`(const char`*`,const Vector`<String`>`&`,bool`): [_^topic`:`/`/Core`/src`/String`$en`-us`#String`:`:class^ S
 tring]_[* Sys]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 cmd], [@(0.0.255) const]_[_^topic`:`/`/Core`/src`/Vector`$en`-us`#Vector`:`:class^ V
 ector]<[_^topic`:`/`/Core`/src`/String`$en`-us`#String`:`:class^ String]>`&_[*@3 arg],
  [@(0.0.255) bool]_[*@3 convertcharset]_`=_[@(0.0.255) true])&]
-[s2;%RU-RU Runs process defined by [%-*@3 cmd] [%-*@3 arg] command line. 
-If [%-*@3 cmd] was executed successfully and returned zero exit 
-code, returns its standard output, otherwise returns String`::GetVoid(). 
-If [%-*@3 convertcharset] is true, output is converted from system 
-character encoding to application encoding.&]
+[s2;%RU-RU Выполняет процесс, определённый 
+командной строкой [%-*@3 cmd] [%-*@3 arg.] Если 
+[%-*@3 cmd] выполнен успешно и возвращён 
+код выхода 0,  вызвращает его стандартный 
+вывод, иначе возвращает String`::GetVoid(). 
+If [%-*@3 convertcharset] is true,  вывод преобразуется 
+из системной символьной кодировки 
+в кодировку приложения.&]
 [s3;%RU-RU &]
 [s0; ]]

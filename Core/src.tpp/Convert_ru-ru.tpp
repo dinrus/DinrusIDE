@@ -1,4 +1,4 @@
-topic "Convert";
+topic "Класс Convert";
 [i448;a25;kKO9;2 $$1,0#37138531426314131252341829483380:class]
 [l288;2 $$2,0#27521748481378242620020725143825:desc]
 [0 $$3,0#96390100711032703541132217272105:end]
@@ -10,7 +10,7 @@ topic "Convert";
 [b42;2 $$9,9#13035079074754324216151401829390:normal]
 [2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%RU-RU 
-[ {{10000@(113.42.0) [s0; [*@7;4 Convert]]}}&]
+[ {{10000@(113.42.0) [s0; [*@7;4 Класс Convert]]}}&]
 [s3;%- &]
 [s1;:Convert`:`:class:%- [@(0.0.255)3 class][3 _][*3 Convert]&]
 [s9; Convert`-derived classes serve as bidirectional Value`-Value 
@@ -46,10 +46,11 @@ returns [@3 text] (no conversion is performed).&]
 nt]_[*@3 chr])_[@(0.0.255) const]&]
 [s2; Adjusts characters allowed in textual representation of Value.&]
 [s7; [%-*C@3 chr]-|Character to adjust.&]
-[s7; [*/ Возвратное значение]-|Adjusted character. Zero indicates that character 
-is rejected. Filter is allowed to alter the input character (e.g. 
-by upper`-casing it, changing `',`' to `'.`' etc..). Default 
-implementation returns unaltered [@3 chr].&]
+[s7; [*/ Возвратное значение]-|Adjusted character. 
+Zero indicates that character is rejected. Filter is allowed 
+to alter the input character (e.g. by upper`-casing it, changing 
+`',`' to `'.`' etc..). Default implementation returns unaltered 
+[@3 chr].&]
 [s3; &]
 [s4;%- &]
 [s5;:Convert`:`:operator`(`)`(const Value`&`)const:%- [_^Value^ Value]_[* operator()]([@(0.0.255) c
@@ -68,8 +69,8 @@ onst]_[_^Value^ Value][@(0.0.255) `&]_[*@3 q])_[@(0.0.255) const]&]
 [s9; Date Converter. Textual date format depends on actual regional 
 settings.&]
 [s9; &]
-[s0;%- [%% Derived from ][^topic`:`/`/Core`/src`/Convert`$en`-us`#Convert`:`:class^ Conve
-rt]&]
+[s0;%- [%RU-RU Derived from ][^topic`:`/`/Core`/src`/Convert`$en`-us`#Convert`:`:class^ C
+onvert]&]
 [s3; &]
 [s0; &]
 [ {{10000F(128)G(128)@1 [s0; [* Детали Конструктора]]}}&]
@@ -121,7 +122,7 @@ the empty text).&]
 [s4;%- &]
 [s5;:ConvertDate`:`:NoNotNull`(`):%- [_^ConvertDate^ ConvertDate][@(0.0.255) `&]_[* NoNotNu
 ll]()&]
-[s2; Same as [^topic`:`/`/Core`/src`/Convert`$en`-us`#ConvertDate`:`:NotNull`(bool`)^ N
+[s2; То же, что и [^topic`:`/`/Core`/src`/Convert`$en`-us`#ConvertDate`:`:NotNull`(bool`)^ N
 otNull](false).&]
 [s3; &]
 [s4;%- &]
@@ -170,7 +171,7 @@ st]&]
 ][*@3;3 Convert]&]
 [s9; Time converter.&]
 [s0; &]
-[s0;%- [%%/ Derived from][%%  ][^topic`:`/`/Core`/src`/Convert`$en`-us`#Convert`:`:class^ C
+[s0;%- [%RU-RU/ Derived from][%RU-RU  ][^topic`:`/`/Core`/src`/Convert`$en`-us`#Convert`:`:class^ C
 onvert]&]
 [s3; &]
 [s0; &]
@@ -218,7 +219,7 @@ ll]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) true])&]
 [s4;%- &]
 [s5;:ConvertTime`:`:NoNotNull`(`):%- [_^ConvertTime^ ConvertTime][@(0.0.255) `&]_[* NoNotNu
 ll]()&]
-[s2; Same as [^topic`:`/`/Core`/src`/Convert`$en`-us`#ConvertTime`:`:NotNull`(bool`)^ N
+[s2; То же, что и [^topic`:`/`/Core`/src`/Convert`$en`-us`#ConvertTime`:`:NotNull`(bool`)^ N
 otNull](false).&]
 [s3; &]
 [s4;%- &]
@@ -229,7 +230,7 @@ otNull](false).&]
 [s4;%- &]
 [s5;:Upp`:`:ConvertTime`:`:NoSeconds`(`):%- [_^Upp`:`:ConvertTime^ ConvertTime][@(0.0.255) `&
 ]_[* NoSeconds]()&]
-[s2; Same as Seconds(fale)&]
+[s2; То же, что и Seconds(fale)&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:ConvertTime`:`:IsSeconds`(`)const:%- [@(0.0.255) bool]_[* IsSeconds]()_[@(0.0.255) c
@@ -286,7 +287,8 @@ set by Max and default maximum (GetDefaultMax).&]
 [s4;%- &]
 [s5;:ConvertTime`:`:IsNotNull`(`)const:%- [@(0.0.255) bool]_[* IsNotNull]()_[@(0.0.255) con
 st]&]
-[s7; [*/ Возвратное значение]-|true means Nulls are disallowed.&]
+[s7; [*/ Возвратное значение]-|true means Nulls are 
+disallowed.&]
 [s3; &]
 [s0; &]
 [s0;%- &]
@@ -296,7 +298,7 @@ st]&]
 lic][3 _][*@3;3 Convert]&]
 [s9; Floating point number converter.&]
 [s0; &]
-[s0;%- [%%/ Derived from][%%  ][^topic`:`/`/Core`/src`/Convert`$en`-us`#Convert`:`:class^ C
+[s0;%- [%RU-RU/ Derived from][%RU-RU  ][^topic`:`/`/Core`/src`/Convert`$en`-us`#Convert`:`:class^ C
 onvert]&]
 [s3; &]
 [s0; &]
@@ -390,7 +392,7 @@ onst]&]
 ][*@3;3 Convert]&]
 [s9; Integer converter.&]
 [s0; &]
-[s0;%- [%%/ Derived from][%%  ][^topic`:`/`/Core`/src`/Convert`$en`-us`#Convert`:`:class^ C
+[s0;%- [%RU-RU/ Derived from][%RU-RU  ][^topic`:`/`/Core`/src`/Convert`$en`-us`#Convert`:`:class^ C
 onvert]&]
 [s3; &]
 [s0;%- &]
@@ -458,7 +460,8 @@ otNull](false).&]
 [s4;%- &]
 [s5;:ConvertInt`:`:IsNotNull`(`)const:%- [@(0.0.255) bool]_[* IsNotNull]()_[@(0.0.255) cons
 t]&]
-[s7; [*/ Возвратное значение]-|true if null are not allowed.&]
+[s7; [*/ Возвратное значение]-|true if null are not 
+allowed.&]
 [s3; &]
 [s0; &]
 [s0; &]
@@ -471,7 +474,7 @@ lic][3 _][*@3;3 Convert]&]
 of itself, the real purpose of this class is to introduce constraints 
 of String value.&]
 [s0; &]
-[s0;%- [%%/ Derived from][%%  ][^topic`:`/`/Core`/src`/Convert`$en`-us`#Convert`:`:class^ C
+[s0;%- [%RU-RU/ Derived from][%RU-RU  ][^topic`:`/`/Core`/src`/Convert`$en`-us`#Convert`:`:class^ C
 onvert]&]
 [s3; &]
 [s0;%- &]
@@ -499,7 +502,8 @@ axLen]([@(0.0.255) int]_[*@3 `_maxlen])&]
 [s4;%- &]
 [s5;:ConvertString`:`:GetMaxLength`(`)const:%- [@(0.0.255) int]_[* GetMaxLength]()_[@(0.0.255) c
 onst]&]
-[s7; [*/ Возвратное значение]-|Maximum length of String allowed.&]
+[s7; [*/ Возвратное значение]-|Maximum length of String 
+allowed.&]
 [s3; &]
 [s4;%- &]
 [s5;:ConvertString`:`:NotNull`(bool`):%- [_^ConvertString^ ConvertString][@(0.0.255) `&]_
@@ -511,13 +515,14 @@ onst]&]
 [s4;%- &]
 [s5;:ConvertString`:`:NoNotNull`(`):%- [_^ConvertString^ ConvertString][@(0.0.255) `&]_[* N
 oNotNull]()&]
-[s2; Same as [^topic`:`/`/Core`/src`/Convert`$en`-us`#ConvertString`:`:NotNull`(bool`)^ N
+[s2; То же, что и [^topic`:`/`/Core`/src`/Convert`$en`-us`#ConvertString`:`:NotNull`(bool`)^ N
 otNull](false).&]
 [s3; &]
 [s4;%- &]
 [s5;:ConvertString`:`:IsNotNull`(`)const:%- [@(0.0.255) bool]_[* IsNotNull]()_[@(0.0.255) c
 onst]&]
-[s7; [*/ Возвратное значение]-|true mean empty Strings are not allowed.&]
+[s7; [*/ Возвратное значение]-|true mean empty Strings 
+are not allowed.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:ConvertString`:`:TrimLeft`(bool`):%- [_^Upp`:`:ConvertString^ ConvertString
@@ -546,7 +551,7 @@ lic][3 _][*@3;3 Convert]&]
 converts single Value or ValueArray using Format function and 
 specified formatter pattern.&]
 [s9; &]
-[s0;%- [%%/ Derived from][%%  ][^topic`:`/`/Core`/src`/Convert`$en`-us`#Convert`:`:class^ C
+[s0;%- [%RU-RU/ Derived from][%RU-RU  ][^topic`:`/`/Core`/src`/Convert`$en`-us`#Convert`:`:class^ C
 onvert]&]
 [s3; &]
 [s0;%- &]
@@ -571,7 +576,7 @@ a set of defined elements `- some of them static texts, others
 referring to elements of input ValueArray, converted using specified 
 Convert.&]
 [s0; &]
-[s0;%- [%%/ Derived from][%%  ][^topic`:`/`/Core`/src`/Convert`$en`-us`#Convert`:`:class^ C
+[s0;%- [%RU-RU/ Derived from][%RU-RU  ][^topic`:`/`/Core`/src`/Convert`$en`-us`#Convert`:`:class^ C
 onvert]&]
 [s3; &]
 [s0;%- &]

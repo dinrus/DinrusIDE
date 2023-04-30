@@ -63,18 +63,18 @@ nt]_[*@3 i])&]
 [s3; &]
 [s4; &]
 [s5;:InVector`:`:Add`(`):%- [*@4 T][@(0.0.255) `&]_[* Add]()&]
-[s2; Same as Insert(GetCount()). Invalidates iterators and references 
+[s2; То же, что и Insert(GetCount()). Invalidates iterators and references 
 to elements.&]
 [s3; &]
 [s4; &]
 [s5;:InVector`:`:Add`(const T`&`):%- [*@4 T][@(0.0.255) `&]_[* Add]([@(0.0.255) const]_[*@4 T][@(0.0.255) `&
 ]_[*@3 x])&]
-[s2; Same as Insert(GetCount(), [%-*@3 x]). Invalidates iterators and 
+[s2; То же, что и Insert(GetCount(), [%-*@3 x]). Invalidates iterators and 
 references to elements.&]
 [s3; &]
 [s4; &]
 [s5;:InVector`:`:AddN`(int`):%- [@(0.0.255) void]_[* AddN]([@(0.0.255) int]_[*@3 n])&]
-[s2; Same as InsertN(GetCount(), [%-*@3 n]). Invalidates iterators 
+[s2; То же, что и InsertN(GetCount(), [%-*@3 n]). Invalidates iterators 
 and references to elements.&]
 [s3; &]
 [s4; &]
@@ -83,11 +83,11 @@ and references to elements.&]
 [s3; &]
 [s4; &]
 [s5;:InVector`:`:IsEmpty`(`)const:%- [@(0.0.255) bool]_[* IsEmpty]()_[@(0.0.255) const]&]
-[s2; Same as GetCount() `=`= 0.&]
+[s2; То же, что и GetCount() `=`= 0.&]
 [s3; &]
 [s4; &]
 [s5;:InVector`:`:Trim`(int`):%- [@(0.0.255) void]_[* Trim]([@(0.0.255) int]_[*@3 n])&]
-[s2; Same as Remove(n, GetCount() `- n). Invalidates iterators and 
+[s2; То же, что и Remove(n, GetCount() `- n). Invalidates iterators and 
 references to elements.&]
 [s3; &]
 [s4; &]
@@ -98,7 +98,7 @@ and references to elements.&]
 [s3; &]
 [s4; &]
 [s5;:InVector`:`:Clear`(`):%- [@(0.0.255) void]_[* Clear]()&]
-[s2; Same as Remove(0, GetCount()). Invalidates iterators and references 
+[s2; То же, что и Remove(0, GetCount()). Invalidates iterators and references 
 to elements.&]
 [s3; &]
 [s4; &]

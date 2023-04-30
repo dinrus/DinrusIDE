@@ -142,7 +142,7 @@ lickFocus]([@(0.0.255) bool]_[*@3 cf]_`=_[@(0.0.255) true])&]
 [s3;%% &]
 [s4; &]
 [s5;:Pusher`:`:NoClickFocus`(`): [_^Pusher^ Pusher][@(0.0.255) `&]_[* NoClickFocus]()&]
-[s2;%% Same as [^topic`:`/`/CtrlLib`/src`/Pusher`$en`-us`#Pusher`:`:ClickFocus`(bool`)^ C
+[s2;%% То же, что и [^topic`:`/`/CtrlLib`/src`/Pusher`$en`-us`#Pusher`:`:ClickFocus`(bool`)^ C
 lickFocus](false).&]
 [s3; &]
 [s4; &]

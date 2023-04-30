@@ -123,7 +123,7 @@ et]()&]
 [s4;%- &]
 [s5;:Option`:`:operator`=`(int`):%- [@(0.0.255) void]_[* operator`=]([@(0.0.255) int]_[*@3 b])
 &]
-[s2; Same as [^topic`:`/`/CtrlLib`/src`/Option`$en`-us`#Option`:`:Set`(int`)^ Set](b).&]
+[s2; То же, что и [^topic`:`/`/CtrlLib`/src`/Option`$en`-us`#Option`:`:Set`(int`)^ Set](b).&]
 [s7; [%-*C@3 b]-|State.&]
 [s3; &]
 [s4;%- &]

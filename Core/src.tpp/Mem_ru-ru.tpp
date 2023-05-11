@@ -128,7 +128,7 @@ for binary value 1010, this value is 4. For 0, the value is 0.&]
 [s4; &]
 [s5;:Upp`:`:FitsInInt64`(double`): [@(0.0.255) bool]_[* FitsInInt64]([@(0.0.255) double]_[*@3 x
 ])&]
-[s2;%% Returns true if [%-*@3 x] can be converted to int64 without 
+[s2;%% Возвращает true, если [%-*@3 x] can be converted to int64 without 
 loosing the precision.&]
 [s3;%% &]
 [s4; &]

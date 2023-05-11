@@ -136,7 +136,7 @@ AMap][@(0.0.255) `&]_[*@3 x])&]
 [s3; &]
 [s4; &]
 [s5;:SortedAMap`:`:IsPicked`(`)const:%- [@(0.0.255) bool]_[* IsPicked]()_[@(0.0.255) const]&]
-[s2; Returns true if SortedAMap is picked.&]
+[s2; Возвращает true, если SortedAMap is picked.&]
 [s3; &]
 [s4; &]
 [s5;:SortedAMap`:`:GetIndex`(`)const:%- [@(0.0.255) const]_[_^SortedIndex^ SortedIndex]<[*@4 K

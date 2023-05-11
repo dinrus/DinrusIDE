@@ -133,7 +133,7 @@ multithreaded.&]
 [s5;:Upp`:`:IsLZ4`(Upp`:`:Stream`&`): [@(0.0.255) bool]_[* IsLZ4]([_^Upp`:`:Stream^ Stream][@(0.0.255) `&
 ]_[*@3 s])&]
 [s2;%% Checks the Stream for magic number identifying LZ4 stream. 
-Seeks back after the check. Returns true if magic number was 
+Seeks back after the check. Возвращает true, если magic number was 
 detected.&]
 [s3;%% &]
 [s3;%% &]

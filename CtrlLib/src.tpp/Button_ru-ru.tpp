@@ -29,131 +29,165 @@ er]&]
 (AxMAFAAAAOz/AAAAAHicvZM/CsIwFIcP6B08gqsXcPEIigdwKG4O/qmODtqonbRQEbTVSkDwAvGnTx4xTQJ2MHxD+OV9SSAvstjJ31FKBf1OBdR7VDuRxV4QtrrDRnvgAquoMUQkIDnm8v5QtoEcq1Smi9gN+Wwj/Yg4QqUu4ibYM1zf/KRp/Kr8FjGZikKnVm8ayecIi3hlYBF66BIn0YVgi+DcJY5XOeB6Yw7cYqZVZoSeuMTR8gxQQxOGE7d48mMV8Y5zcfBTfkfqnMV276fcOdSEyLGn9Tsgx2q5Vyv/jn/+xyeSj381)
 &]
 [s0;%RU-RU &]
-[s9;%RU-RU The famous foundation of any GUI. It has no Value.&]
+[s9;%RU-RU Знаменитое основание любого ГИП 
+(GUI). У него отсутствует значение (Value).&]
 [s0;%RU-RU &]
-[s0; [%RU-RU/ Derived from][%RU-RU  ][^topic`:`/`/CtrlLib`/src`/Pusher`_ru`-ru^ Pusher]&]
+[s0; [%RU-RU/ Производное от][%RU-RU  ][^topic`:`/`/CtrlLib`/src`/Pusher`_ru`-ru^ P
+usher]&]
 [s3;%RU-RU &]
 [s0; &]
 [ {{10000F(128)G(128)@1 [s0;%RU-RU [* Детали Конструктора]]}}&]
 [s3; &]
 [s5;:Button`:`:Button`(`): [* Button]()&]
-[s2;%RU-RU Initializes the button.&]
+[s2;%RU-RU Инициализует данную кнопку.&]
 [s3; &]
 [s4; &]
 [s5;:Button`:`:`~Button`(`): [@(0.0.255) `~][* Button]()&]
-[s2;%RU-RU Default destructor.&]
+[s2;%RU-RU Дефолтный деструктор.&]
 [s3; &]
 [s0; &]
 [ {{10000F(128)G(128)@1 [s0;%RU-RU [* Список Публичных Членов]]}}&]
 [s3; &]
 [s5;:Button`:`:SetImage`(const Image`&`): [_^Button^ Button][@(0.0.255) `&]_[* SetImage]([@(0.0.255) c
 onst]_[_^Image^ Image][@(0.0.255) `&]_[*@3 img])&]
-[s2;%RU-RU Sets the image of the button.&]
-[s7;%RU-RU [%-*C@3 img]-|Image.&]
-[s7;%RU-RU [*/ Возвратное значение]-|`*this for chaining.&]
+[s2;%RU-RU Устанавливает изображение данной 
+кнопки.&]
+[s7;%RU-RU [%-*C@3 img]-|Изображение.&]
+[s7;%RU-RU [*/ Возвратное значение]-|`*this для 
+сцепления.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Button`:`:SetMonoImage`(const Image`&`): [_^Button^ Button][@(0.0.255) `&]_[* SetMonoI
 mage]([@(0.0.255) const]_[_^Image^ Image][@(0.0.255) `&]_[*@3 img])&]
-[s2;%RU-RU Sets the monochromatic image. Image is colored according 
-to current GUI look`&feel.&]
-[s7;%RU-RU [%-*C@3 img]-|Image.&]
-[s7;%RU-RU [*/ Возвратное значение]-|`*this for chaining.&]
+[s2;%RU-RU Устанавливает монохромное изображение. 
+Image раскрашен в соответствии с текущим 
+`"look`&feel`" ГИП.&]
+[s7;%RU-RU [%-*C@3 img]-|Изображение.&]
+[s7;%RU-RU [*/ Возвратное значение]-|`*this для 
+сцепления.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Button`:`:EdgeStyle`(`): [_^Button^ Button][@(0.0.255) `&]_[* EdgeStyle]()&]
-[s2;%RU-RU Activates visual style suitable for buttons used inside 
-frame of other Ctrls, like drop`-down buttons in droplists.&]
+[s2;%RU-RU Активирует визуальный стиль, 
+применяемый для кнопок, используемых 
+внутри фрейма других Ctrl`'ов, наподобии 
+`"ниспадающих`" кнопок в выпадающих 
+списках ( drop`-down buttons in droplists).&]
 [s2;%RU-RU 
 @@image:362&150
 (AzoAGAAAAOj/AAAAAHic7dZNCsIwEIbh3s87eAS3nsEbeAp3brViRSUqFhWDK/8Qi0G8gQYGQk1omdhCP6HhXSTTLh66aKsSqerqvmt1eoDlaN9gq1qtOLy6/TMnfWflWmJw0nciaOfyyekHbRAE1pFWEe1srzh5aV1Y1t5XO909OBV8tmVpJ9uEajTbZu9OQLTR5q7TMIqO7gREO45vlOFZewpEO1pfTQZJpS+BaMPVJZ2hWnMQ7XB5stJUdwjyvh0sjpxAvmWhkJxAtJGIOSFo/+sfzHflawHL0taV2wcrMASt)
 &]
-[s7;%RU-RU [*/ Возвратное значение]-|`*this for chaining.&]
+[s7;%RU-RU [*/ Возвратное значение]-|`*this для 
+сцепления.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Button`:`:ScrollStyle`(`): [_^Button^ Button][@(0.0.255) `&]_[* ScrollStyle]()&]
-[s2;%RU-RU Activates visual style suitable for buttons used in Scrollbars.&]
+[s2;%RU-RU Активирует визуальный стиль, 
+применяемый для кнопок в полосах 
+прокрутки (Scrollbars).&]
 [s2;%RU-RU 
 @@image:125&325
 (AxQANAAAAMz/AAAAAHic7ZM9DoJAEEYP6B08gq0XsPEIGg9gQews/EFLCwWVSk0wJgiCITHxAvjJ6GazLGPUimTJKzYz8xbCzFj9jvUT2ftJk923KG7PslvdYaM9KANZ1BRdBMHhFKW3e6Z7EEeWyhQXdyI126Q8ruegUnHxSbjZXl95fN97VhZcHKZuIlOrN5XI6y16NxZAJOQg406cCyFEQsQZd7yKgFCUM2DdUCoOCTnCuKPlGaCMDgIRYd2Ap8xFf+fukUfbX5qrxXbPo50rGlSkcLN2cRBHVjvP/+xRpfcXi5avTIzpzecwzKciQIPK/jP196PL7O9Hl5lJ4xrXuMY1rnEr5z4AzX37Fw==)
 &]
-[s7;%RU-RU [*/ Возвратное значение]-|`*this for chaining.&]
+[s7;%RU-RU [*/ Возвратное значение]-|`*this для 
+сцепления.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Button`:`:NormalStyle`(`): [_^Button^ Button][@(0.0.255) `&]_[* NormalStyle]()&]
-[s2;%RU-RU Activates the visual style suitable for a standard button.&]
-[s7;%RU-RU [*/ Возвратное значение]-|`*this for chaining.&]
+[s2;%RU-RU Активирует визуальный стиль, 
+применяемый для обычной (стандартной) 
+кнопки.&]
+[s7;%RU-RU [*/ Возвратное значение]-|`*this для 
+сцепления.&]
 [s3; &]
 [s4; &]
 [s5;:Button`:`:LeftEdgeStyle`(`): [_^Button^ Button][@(0.0.255) `&]_[* LeftEdgeStyle]()&]
-[s2;%RU-RU Activates visual style suitable for buttons used inside 
-frame of other Ctrls, on the left side, like in MultiButton.&]
-[s7;%RU-RU [*/ Возвратное значение]-|`*this for chaining.&]
+[s2;%RU-RU Активирует визуальный стиль, 
+применяемый для кнопок внутри фрейма 
+других Ctrl`'ов, слева, как в MultiButton.&]
+[s7;%RU-RU [*/ Возвратное значение]-|`*this для 
+сцепления.&]
 [s3; &]
 [s4; &]
 [s5;:Button`:`:AutoStyle`(`): [_^Button^ Button][@(0.0.255) `&]_[* AutoStyle]()&]
-[s2;%RU-RU Sets the button to automatic look, clearing all style 
-information.&]
-[s7;%RU-RU [*/ Возвратное значение]-|`*this for chaining.&]
+[s2;%RU-RU Устанавливает кнопку в автоматический 
+`"вид`", очищая всю инфу о стиле.&]
+[s7;%RU-RU [*/ Возвратное значение]-|`*this для 
+сцепления.&]
 [s0; &]
 [s4; &]
 [s5;:Button`:`:Ok`(`): [_^Button^ Button][@(0.0.255) `&]_[* Ok]()&]
-[s2;%RU-RU Makes button `"default accept`" `- it might have different 
-visual representation and it is activated by Enter hotkey.&]
-[s7;%RU-RU [*/ Возвратное значение]-|`*this for chaining.&]
+[s2;%RU-RU Делает кнопку `"дефолтно принятой`": 
+у неё может быть иное визуальное представлен
+ие и она активируется горячей клавишей 
+Enter.&]
+[s7;%RU-RU [*/ Возвратное значение]-|`*this для 
+сцепления.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Button`:`:Cancel`(`): [_^Button^ Button][@(0.0.255) `&]_[* Cancel]()&]
-[s2;%RU-RU Makes button `"default cancel`" `- it might have different 
-visual representation and it is activated by Esc hotkey.&]
-[s7;%RU-RU [*/ Возвратное значение]-|`*this for chaining.&]
+[s2;%RU-RU Делает кнопку `"дефолтно отменённой`": 
+у неё может быть иное визуальное представлен
+ие и она активируется горячей клавишей 
+Esc.&]
+[s7;%RU-RU [*/ Возвратное значение]-|`*this для 
+сцепления.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Button`:`:Exit`(`): [_^Button^ Button][@(0.0.255) `&]_[* Exit]()&]
-[s2;%RU-RU Makes button `"default exit`" `- it might have different 
-visual representation and it is activated by both Esc or Enter 
-hotkey.&]
-[s7;%RU-RU [*/ Возвратное значение]-|`*this for chaining.&]
+[s2;%RU-RU Делает кнопку `"дефолтно выход`": 
+у неё может быть иное визуальное представлен
+ие и она активируется горячими клавишими 
+как Esc, так и Enter.&]
+[s7;%RU-RU [*/ Возвратное значение]-|`*this для 
+сцепления.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Button`:`:Normal`(`): [_^Button^ Button][@(0.0.255) `&]_[* Normal]()&]
-[s2;%RU-RU Makes button (previously modifies with Ok, Cancel or Exit) 
-`"normal`".&]
-[s7;%RU-RU [*/ Возвратное значение]-|`*this for chaining.&]
+[s2;%RU-RU Делает кнопку (ранее модифицированную 
+с помощью Ok, Cancel или Exit) `"нормальной`".&]
+[s7;%RU-RU [*/ Возвратное значение]-|`*this для 
+сцепления.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Button`:`:SetStyle`(const Button`:`:Style`&`): [_^Button^ Button][@(0.0.255) `&]_[* Se
 tStyle]([@(0.0.255) const]_[_^Button`:`:Style^ Style][@(0.0.255) `&]_[*@3 s])&]
-[s2;%RU-RU Sets the style of to button to [^topic`:`/`/CtrlLib`/src`/Button`$en`-us`#Button`:`:Style`:`:struct^ B
-utton`::Style] [%-*@3 s].&]
+[s2;%RU-RU Устанавливает стиль кнопки в 
+[^topic`:`/`/CtrlLib`/src`/Button`_ru`-ru`#Button`:`:Style`:`:struct^ Button`::Style
+] [%-*@3 s].&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Button`:`:StyleNormal`(`): [@(0.0.255) static] [@(0.0.255) const]_[_^Button`:`:Style^ S
 tyle][@(0.0.255) `&]_[* StyleNormal]()&]
-[s2;%RU-RU Returns the style used when painting `"normal`" buttons.&]
+[s2;%RU-RU Возвращает стиль, используемый 
+при отрисовке `"нормальных`" кнопок.&]
 [s3; &]
 [s4; &]
 [s5;:Button`:`:StyleOk`(`): [@(0.0.255) static] [@(0.0.255) const]_[_^Button`:`:Style^ Styl
 e][@(0.0.255) `&]_[* StyleOk]()&]
-[s2;%RU-RU Returns the style used when painting `"default accept`" 
-buttons.&]
+[s2;%RU-RU Возвращает стиль, используемый 
+при отрисовке `"дефолтно принятых`" 
+кнопок.&]
 [s3; &]
 [s4; &]
 [s5;:Button`:`:StyleEdge`(`): [@(0.0.255) static] [@(0.0.255) const]_[_^Button`:`:Style^ St
 yle][@(0.0.255) `&]_[* StyleEdge]()&]
-[s2;%RU-RU Returns the style used when painting buttons on the inside 
-of a frame.&]
+[s2;%RU-RU Возвращает стиль, используемый 
+при отрисовке кнопок, расположенных 
+внутри фрейма.&]
 [s3; &]
 [s4; &]
 [s5;:Button`:`:StyleLeftEdge`(`): [@(0.0.255) static] [@(0.0.255) const]_[_^Button`:`:Style^ S
 tyle][@(0.0.255) `&]_[* StyleLeftEdge]()&]
-[s2;%RU-RU Returns the style used when painting buttons on the inside 
-of a frame, on the left side.&]
+[s2;%RU-RU Возвращает стиль, используемый 
+при отрисовке кнопок, расположенных 
+внутри фрейма, слева.&]
 [s3; &]
 [s4; &]
 [s5;:Button`:`:StyleScroll`(`): [@(0.0.255) static] [@(0.0.255) const]_[_^Button`:`:Style^ S
 tyle][@(0.0.255) `&]_[* StyleScroll]()&]
-[s2;%RU-RU Returns the style used when painting scrollbar buttons.&]
+[s2;%RU-RU Возвращает стиль, используемый 
+при отрисовке кнопок.полосы прокрутки.&]
 [s3; &]
 [s0; &]
 [s0;3%RU-RU &]
@@ -162,6 +196,7 @@ tyle][@(0.0.255) `&]_[* StyleScroll]()&]
 [s3; &]
 [s1;:Button`:`:Style`:`:struct: [@(0.0.255)3 struct][3 _][*3 Style][3 _:_][@(0.0.255)3 public][3 _
 ][*@3;3 ChStyle][@(0.0.255)3 <][*3 Style][@(0.0.255)3 >][3 _]&]
-[s9;%RU-RU This structure defines the look of a Button.&]
+[s9;%RU-RU Эта структура определяет внешний 
+вид (look) кнопки (Button).&]
 [s3; &]
 [s0; ]]

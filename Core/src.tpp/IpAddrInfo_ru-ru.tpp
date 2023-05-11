@@ -37,14 +37,14 @@ protocol (FAMILY`_IPV4, FAMILY`_IPV6).&]
 [s3;%% &]
 [s4; &]
 [s5;:IpAddrInfo`:`:InProgress`(`): [@(0.0.255) bool]_[* InProgress]()&]
-[s2;%% Returns true if resolving of address is still in progress.&]
+[s2;%% Возвращает true, если resolving of address is still in progress.&]
 [s3; &]
 [s4; &]
 [s5;:IpAddrInfo`:`:Execute`(const String`&`,int`,int`): [@(0.0.255) bool]_[* Execute]([@(0.0.255) c
 onst]_[_^String^ String][@(0.0.255) `&]_[*@3 host], [@(0.0.255) int]_[*@3 port], 
 [@(0.0.255) int]_[*@3 family]_`=_FAMILY`_ANY)&]
 [s2;%% Resolves address [%-*@3 host] (with [%-*@3 port]). This is blocking 
-variant, returns after address is resolved. Returns true if address 
+variant, returns after address is resolved. Возвращает true, если address 
 was found. [%-*@3 family] can be used to narrow the scan to particular 
 IP protocol (FAMILY`_IPV4, FAMILY`_IPV6).&]
 [s3;%% &]

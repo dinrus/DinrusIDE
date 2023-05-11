@@ -19,7 +19,7 @@ topic "Ultra High Definition Displays support";
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:IsUHDMode`(`): [@(0.0.255) bool]_[* IsUHDMode]()&]
-[s2;%% Returns true if UHD mode is active.&]
+[s2;%% Возвращает true, если UHD mode is active.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:SyncUHDMode`(`): [@(0.0.255) void]_[* SyncUHDMode]()&]

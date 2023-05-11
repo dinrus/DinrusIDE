@@ -172,7 +172,7 @@ until the file end.&]
 [s4;%- &]
 [s5;:IsFile`(const char`*`):%- [@(0.0.255) bool]_[* IsFile]([@(0.0.255) const]_[@(0.0.255) ch
 ar]_`*[*@3 fileName])&]
-[s2; Returns true if [%-*@3 fileName] is a file.&]
+[s2; Возвращает true, если [%-*@3 fileName] is a file.&]
 [s3; &]
 [s4; &]
 [s5;:IsFolder`(const char`*`):%- [@(0.0.255) bool]_[* IsFolder]([@(0.0.255) const]_[@(0.0.255) c
@@ -275,7 +275,7 @@ true) and/or folders (if [%-*@3 forfolder] is set to true) under
 [s4;%- &]
 [s5;:Upp`:`:DirectoryCreateX`(const char`*`):%- [@(0.0.255) bool]_[* DirectoryCreateX]([@(0.0.255) c
 onst]_[@(0.0.255) char]_`*[*@3 path])&]
-[s2; Creates [%-*@3 path] directory. Returns true if [%-*@3 path] exists.&]
+[s2; Creates [%-*@3 path] directory. Возвращает true, если [%-*@3 path] exists.&]
 [s3; &]
 [s4;%- &]
 [s5;:FileMoveX`(const char`*`,const char`*`,EXT`_FILE`_FLAGS`):%- [@(0.0.255) bool]_[* Fi
@@ -475,7 +475,7 @@ intermediate folder names replacing them with `"...`".&]
 [s3; &]
 [s4; &]
 [s5;:IsPunctuation`(wchar`):%- [@(0.0.255) bool]_[* IsPunctuation]([_^wchar^ wchar]_[*@3 c])&]
-[s2; Returns true if [%-*@3 c ]is a punctuation character.&]
+[s2; Возвращает true, если [%-*@3 c ]is a punctuation character.&]
 [s3;%- &]
 [s4; &]
 [s5;:Replace`(String`,String`,String`):%- [_^String^ String]_[* Replace]([_^String^ String]_
@@ -545,7 +545,7 @@ round]([*@4 T]_[*@3 x], [@(0.0.255) int]_[*@3 numdec])&]
 ss]_[*@4 T]>_[@(0.0.255) bool]_[* Between]([@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[*@3 val],
  [@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[*@3 min], [@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_
 [*@3 max])&]
-[s2; Returns true if [%-*@3 val] is between [%-*@3 min] and [%-*@3 max].&]
+[s2; Возвращает true, если [%-*@3 val] is between [%-*@3 min] and [%-*@3 max].&]
 [s3; &]
 [s4;%- &]
 [s5;:AngleAdd360`(T`,T`):%- [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 T]>_[*@4 T]_[* Angle
@@ -595,11 +595,11 @@ oint`_]<[*@4 T]>`&_[*@3 p1], [@(0.0.255) const]_[_^Point`_^ Point`_]<[*@4 T]>`&_
 [s3; &]
 [s4; &]
 [s5;:Odd`(int`):%- [@(0.0.255) bool]_[* Odd]([@(0.0.255) int]_[*@3 val])&]
-[s2; Returns true if [%-*@3 val ]is odd.&]
+[s2; Возвращает true, если [%-*@3 val ]is odd.&]
 [s3; &]
 [s4;%- &]
 [s5;:Even`(int`):%- [@(0.0.255) bool]_[* Even]([@(0.0.255) int]_[*@3 val])&]
-[s2; Returns true if [%-*@3 val ]is even.&]
+[s2; Возвращает true, если [%-*@3 val ]is even.&]
 [s3; &]
 [s4;%- &]
 [s5;:RoundEven`(int`):%- [@(0.0.255) int]_[* RoundEven]([@(0.0.255) int]_[*@3 val])&]
@@ -712,24 +712,24 @@ mg], [@(0.0.255) int]_[*@3 x], [@(0.0.255) int]_[*@3 y])&]
 [s4; &]
 [s5;:IsValid`(const Image`&`,int`,int`):%- [@(0.0.255) bool]_[* IsValid]([@(0.0.255) const]_
 [_^Image^ Image]_`&[*@3 img], [@(0.0.255) int]_[*@3 x], [@(0.0.255) int]_[*@3 y])&]
-[s2; Returns true if coordinates [%-*@3 x] and [%-*@3 y] are inside Image 
+[s2; Возвращает true, если coordinates [%-*@3 x] and [%-*@3 y] are inside Image 
 [%-*@3 img].&]
 [s3; &]
 [s4; &]
 [s5;:IsValid`(ImageBuffer`&`,int`,int`):%- [@(0.0.255) bool]_[* IsValid]([_^ImageBuffer^ Im
 ageBuffer]_`&[*@3 img], [@(0.0.255) int]_[*@3 x], [@(0.0.255) int]_[*@3 y])&]
-[s2; Returns true if coordinates [%-*@3 x] and [%-*@3 y] are inside ImageBuffer 
+[s2; Возвращает true, если coordinates [%-*@3 x] and [%-*@3 y] are inside ImageBuffer 
 [%-*@3 img].&]
 [s3; &]
 [s4;%- &]
 [s5;:IsValid`(const Image`&`,T`&`):%- [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 T]>_[@(0.0.255) b
 ool]_[* IsValid]([@(0.0.255) const]_[_^Image^ Image]_`&[*@3 img], [*@4 T]_`&[*@3 t])&]
-[s2; Returns true if point [%-*@3 t] is inside Image [%-*@3 img].&]
+[s2; Возвращает true, если point [%-*@3 t] is inside Image [%-*@3 img].&]
 [s3; &]
 [s4;%- &]
 [s5;:IsValid`(ImageBuffer`&`,T`&`):%- [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 T]>_[@(0.0.255) b
 ool]_[* IsValid]([_^ImageBuffer^ ImageBuffer]_`&[*@3 img], [*@4 T]_`&[*@3 t])&]
-[s2; Returns true if point [%-*@3 t] is inside ImageBuffer [%-*@3 img].&]
+[s2; Возвращает true, если point [%-*@3 t] is inside ImageBuffer [%-*@3 img].&]
 [s3; &]
 [ {{10000@1 [s0; [* Other functions]]}}&]
 [s3; &]
@@ -756,7 +756,7 @@ working directory.&]
 [s5;:Chdir`(const String`&`):%- [@(0.0.255) bool]_[* Chdir]_([@(0.0.255) const]_[_^String^ St
 ring]_`&[*@3 folder])&]
 [s2; Sets the process`'s working directory to [%-*@3 folder].&]
-[s0;l288; Returns true if successful.&]
+[s0;l288; Возвращает true, если successful.&]
 [s6; Replaced by SetCurrentDurectory().&]
 [s3; &]
 [s4;%- &]
@@ -808,7 +808,7 @@ plate]_<[@(0.0.255) class]_[*@4 T]>_[@(0.0.255) bool]_[* EqualRatio]([@(0.0.255)
 ][@(0.0.255) `&]_[*@3 a], [@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[*@3 b], 
 [@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[*@3 ratio], [@(0.0.255) const]_[*@4 T][@(0.0.255) `&
 ]_[*@3 zero]_`=_[@3 0])&]
-[s2; Returns true if the difference ratio between [%-*@3 a] and [%-*@3 b] 
+[s2; Возвращает true, если the difference ratio between [%-*@3 a] and [%-*@3 b] 
 is lower than [%-*@3 ratio]. A value lower than [%-*@3 zero] is considered 
 zero.&]
 [s3; &]
@@ -893,7 +893,7 @@ e`_type[@(0.0.255) `&]_[*@3 value], [@(0.0.255) int]_[*@3 from]_`=_[@3 0])&]
 [s5;:Upp`:`:Compare`(const Range`&`,const Range`&`):%- [@(0.0.255) template]_<[@(0.0.255) c
 lass]_[*@4 Range]>_[@(0.0.255) bool]_[* Compare]([@(0.0.255) const]_[*@4 Range][@(0.0.255) `&
 ]_[*@3 a], [@(0.0.255) const]_[*@4 Range][@(0.0.255) `&]_[*@3 b])&]
-[s2; Returns true if Ranges (Vector<>, Array<>, ...) [%-*@3 a] and 
+[s2; Возвращает true, если Ranges (Vector<>, Array<>, ...) [%-*@3 a] and 
 [%-*@3 b] are equal.&]
 [s3; &]
 [s4; &]
@@ -901,7 +901,7 @@ lass]_[*@4 Range]>_[@(0.0.255) bool]_[* Compare]([@(0.0.255) const]_[*@4 Range][
 late]_<[@(0.0.255) class]_[*@4 Range], [@(0.0.255) class]_[*@4 V]>_[@(0.0.255) bool]_[* Compa
 reRatio]([@(0.0.255) const]_[*@4 Range][@(0.0.255) `&]_[*@3 a], [@(0.0.255) const]_[*@4 Range
 ][@(0.0.255) `&]_[*@3 b], [@(0.0.255) const]_[*@4 V][@(0.0.255) `&]_[*@3 ratio])&]
-[s2;%- [%% Returns true if the elements of Ranges (Vector<>, Array<>, 
+[s2;%- [%% Возвращает true, если the elements of Ranges (Vector<>, Array<>, 
 ...) ][*@3 a][%%  and ][*@3 b][%%  are closer than ][*@3 ratio.]&]
 [s3; &]
 [s4;%- &]

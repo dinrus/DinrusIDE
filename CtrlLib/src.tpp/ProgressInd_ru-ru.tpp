@@ -1,5 +1,4 @@
 topic "ProgressIndicator";
-[2 $$0,0#00000000000000000000000000000000:Default]
 [i448;a25;kKO9;2 $$1,0#37138531426314131252341829483380:class]
 [l288;2 $$2,0#27521748481378242620020725143825:desc]
 [0 $$3,0#96390100711032703541132217272105:end]
@@ -9,6 +8,7 @@ topic "ProgressIndicator";
 [l288;i1121;b17;O9;~~~.1408;2 $$7,0#10431211400427159095818037425705:param]
 [i448;b42;O9;2 $$8,8#61672508125594000341940100500538:tparam]
 [b42;2 $$9,9#13035079074754324216151401829390:normal]
+[2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%RU-RU 
 [ {{10000@3 [s0; [*@(229)4 ProgressIndicator]]}}&]
 [s3; &]
@@ -19,38 +19,37 @@ of lengthy operation.&]
 [s0; &]
 [s2; 
 @@image:2006&125
-€ƒÁ”€€€€€€€€€€ø§œíšÁÊÃÀš”†ï¤è½”ß÷¥®½Á¬´Ö­¹€úŠô‘÷ì²÷’İˆĞ°Õ…­Ô²ĞÀÎ¤Âø˜‡±òÔƒ§ƒßÇ
-öÇ˜ğç‘Åû¸ÉÈæ·½ß¡À¢¢¢¢¢¢şÖË­µé²ÜÌ ç—€°îò¼Àï×¸ÍâãÌÔ€Œ›©ğ–šåíŠËó×¯ÉÈàÄÈÉ£Ğ¨ê×Øªİ÷
-Ğ·ùÉ»ığÂ†šÚˆŸí¨—´õ›ŠËå×¥óñò³ÓÅ÷í»ƒ´ĞÔ÷ûôÁĞªª²®ùÅ¿Öøäáì™´áıúæ ê´õ½€°”ş€•¾Øµ½Ü
-ëâÕÁšèêû€á¨åÙùÚş•¬§““õ¹»Î›ëıĞÉ£´õ½€¦°”¢¨ì¿Šß¼ßŠ×Ïßƒê©şª¡´Åõ½€°”ù¿ë²û«¬¿•ô
-¦û—ï»…€î¿´¡ÒÖ®­´ËãÌßıÚ‚¡€ß¢½Í“ø­Ï†Ë˜–€€ãÆšªÏÛéû«÷­Ùˆˆˆ¿ˆˆˆˆ¾ü„‰ç†‘
+(A0EBFAAAAAAAAAAAAHic7ZpBSsNAFIZvpOg9FPelrr3BLLQtuYB6inSR7LL3Et2I0FUFLVSy0EAkwviYBzGQVIMBJ4Pfx0eY8GeRxftJSGa3vd8hIiIiIiIi/kuttWmyXMxnFwAwbvI8b1c4TWJjzB0AjBupcJZl7QrL81cvyAFgxEhJoyhqV1iqXfc3eUk7/XCQBppaCB9tqLT1mwrLZVePc/FyM9NF7buDNNDU9/TBUKqqsq7FP1b45OHstGF9+uYgDTT1PYAwlP4VPlgdNT1cHevi1UEaaOp7AGEoZVnafhWerKeT9bk7TptrfUkjDTT1PYAwlKIobL8K3zzfitdPX+qpfiohDTT1PYAwFHm/svsrrD+V9HuX7zsFgG60odLWrq0dS2PMX/3aAoBfIj1Nk3jPBsuYDZYAY0YaKk9baav3LdmIiIiIiIiIvvwE5wYNkQ==)
 &]
-[s0; &]
+[s0; 
+@@image:2006&125
+(AlETUJFQgwCdUAJQgtBQglACUAJQUIJQAlACUUInUZpQPVHQEVCa0BNQURliAJ1iAFA/QiRQuFDiAJ1QL1EHEMIuUIVQkSzSEVAmQq0EllACUYrQ0QRigBhRBzxQBlGHYoDQLWKCrFAgMNAlYgAmwtAk0IZQoFBQHkIk0BJRQhhigCFCMZJRAlCkUZMDQidRk1CvF1EGUJdCmIBQN2KAGNDRC9ER0BlQUDZCt9AFUNCO0JBRnlFRntGe0R5RUY7QptAbQsI10LlQhlBQHMKgULdiFFACQjBQPoJRGFCQUL8nURFQnVCyM1AcUKRRnAJQCmKAOsLRAGKAE9EZNVA9UIlQm4NQJ1CHUJkYUANQsFCUGFAZUIhQoAFQOlCnUKgEUC1Rh1CgN9EJUBlCu41RAFGSUJIAoFEZUKriLNEfUD1QAQCUUhFRheI6UAlQG1A1J1IQUI9Rg4FRAlGWUKMVUQdQvUK7k1IRUKBQpIdRC1GEUJEgUARQhFCGLtEJUBVRlyZRCFC0ULE8YgQi0hHQ0Q1RCtC2QlAMUDpSkVHQBdACQjBiHVEOUAJiAFGVUChRnELQBdAs0ItRUDvQstAlUNEZUDjQA1BRi1CC0LFQ0DVQKVEJUFGOYoAi0RsswidiABziHFEFYgQWQtCeYoC60DuNUCBQmVCIDFIRUYVQhQJCJkKwYoDRHtCB0DxR0InRHNAvUVAvUInQJ1DQr9GT0DpC0Q5QhFCOUFIR0JVRBVDQAsIwYgAdiVEXULtQhotCK0KsUZcAolEEQqbR4oAU0D9COwCmUAJQvtHSkdAO0CJQQq7CLVGcUtAbUDPQHFDRjdCqYoAaDlACUK9RngVQHWKAHNFCLVCfYgAgG0IYUIxigNCCUALQM1BRmdAE0B9Q0LlRi0KrUcKt0CliAiwCrGICLNGXAqxiAizigmICrNEV0QwAnmIAMNC3AKBQDGKAmA==)
+&]
 [s0; [/ Derived from] [^topic`:`/`/CtrlCore`/src`/Ctrl`$en`-us`#`:`:Ctrl`:`:class Ctrl^ C
 trl]&]
 [s3; &]
 [s0;%- &]
-[ {{10000F(128)G(128)@1 [s0; [* Ñïèñîê Ïóáëè÷íûõ ×ëåíîâ]]}}&]
+[ {{10000F(128)G(128)@1 [s0; [* Ğ¡Ğ¿Ğ¸ÑĞ¾Ğº ĞŸÑƒĞ±Ğ»Ğ¸Ñ‡Ğ½Ñ‹Ñ… Ğ§Ğ»ĞµĞ½Ğ¾Ğ²]]}}&]
 [s3;%- &]
 [s5;:ProgressIndicator`:`:Set`(int`,int`):%- [@(0.0.255) void]_[* Set]([@(0.0.255) int]_[*@3 a
 ctual], [@(0.0.255) int]_[*@3 total])&]
-[s2;%- [%% Sets the progress to ][*@3 actual][%%  steps of ][*@3 total][%%  
+[s2;%- [%RU-RU Sets the progress to ][*@3 actual][%RU-RU  steps of ][*@3 total][%RU-RU  
 steps. If ][*@3 total][@2  ]is zero, ProgressIndicator displays a 
 bar starting at pixel position [*@3 actual] with reasonable size.&]
 [s3; &]
 [s4;%- &]
 [s5;:ProgressIndicator`:`:Set`(int`):%- [@(0.0.255) void]_[* Set]([@(0.0.255) int]_[*@3 `_act
 ual])&]
-[s2;%- [%% Sets the progress to ][%%*@3 `_][*@3 actual][%%  steps. Total 
-number of steps is defined by previous call to ][%%* Set][%%  or 
-][%%* SetTotal][%% . If ][*@3 total][@2  ]is zero, ProgressIndicator 
+[s2;%- [%RU-RU Sets the progress to ][%RU-RU*@3 `_][*@3 actual][%RU-RU  steps. 
+Total number of steps is defined by previous call to ][%RU-RU* Set][%RU-RU  
+or ][%RU-RU* SetTotal][%RU-RU . If ][*@3 total][@2  ]is zero, ProgressIndicator 
 displays a bar starting at pixel position [*@3 actual] with reasonable 
 size.&]
 [s3; &]
 [s4;%- &]
 [s5;:ProgressIndicator`:`:operator`=`(int`):%- [@(0.0.255) void]_[* operator`=]([@(0.0.255) i
 nt]_[*@3 i])&]
-[s2; Òî æå, ÷òî è [^topic`:`/`/CtrlLib`/src`/ProgressInd`$en`-us`#ProgressIndicator`:`:Set`(int`)^ S
+[s2; Ğ¢Ğ¾ Ğ¶Ğµ, Ñ‡Ñ‚Ğ¾ Ğ¸ [^topic`:`/`/CtrlLib`/src`/ProgressInd`$en`-us`#ProgressIndicator`:`:Set`(int`)^ S
 et]([%-*@3 i]).&]
 [s3; &]
 [s4;%- &]
@@ -92,4 +91,4 @@ onst]&]
 ]_[* NoPercent]()&]
 [s2; In [* Percent] mode, number of percent is displayed in ProgressIndicator.&]
 [s3; &]
-[s0; ]
+[s0; ]]

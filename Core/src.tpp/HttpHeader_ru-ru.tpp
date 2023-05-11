@@ -97,7 +97,7 @@ st]&]
 [s4; &]
 [s5;:Upp`:`:HttpHeader`:`:HasContentLength`(`)const: [@(0.0.255) bool]_[* HasContentLengt
 h]()_[@(0.0.255) const]&]
-[s2;%% Returns true if header has content`-length field.&]
+[s2;%% Возвращает true, если header has content`-length field.&]
 [s3; &]
 [s4; &]
 [s5;:HttpHeader`:`:GetContentLength`(`)const: [_^int64^ int64]_[* GetContentLength]()_[@(0.0.255) c

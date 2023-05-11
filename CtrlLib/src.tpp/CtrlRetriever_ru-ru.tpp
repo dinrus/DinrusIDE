@@ -10,18 +10,22 @@ topic "CtrlRetriever";
 [b42;2 $$9,9#13035079074754324216151401829390:normal]
 [2 $$0,0#00000000000000000000000000000000:Default]
 [{_} 
-[ {{10000@(113.42.0) [s0;%% [*@7;4 CtrlRetriever]]}}&]
+[ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 CtrlRetriever]]}}&]
 [s0; &]
 [s1;:Upp`:`:CtrlRetriever`:`:class: [@(0.0.255)3 class][3 _][*3 CtrlRetriever]&]
-[s2;%% Small helper class used to map data to widget (usually in 
-context of dialog). Usually scenario is that before opening dialog, 
-data are are put into widget through CtrlRetriever Put method 
-(it has operator() alias). Then, after user edits data in dialog, 
-they are moved back from widget to variables using CtrlRetriever`::Retrieve 
-method.&]
-[s2;%% &]
+[s2;%RU-RU Небольшой вспомогательный класс, 
+используемый для маппинга данных 
+в виджет (обычно в контексте диалога). 
+Сценарий, как правило, следующий: перед 
+открытием диалога данные помещаются 
+в виджет методом CtrlRetriever`'а Put (у него 
+есть алиас operator()). Затем, после редактировани
+я пользователем в диалоговом окне, 
+они перемещаются обратно, из виджета 
+в переменые, с помощью метода CtrlRetriever`::Retrieve.&]
+[s2;%RU-RU &]
 [s3; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%RU-RU [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:Upp`:`:CtrlRetriever`:`:Put`(Upp`:`:Ctrl`&`,T`&`): [@(0.0.255) template]_<[@(0.0.255) c
 lass]_[*@4 T]>_[@(0.0.255) void]_[* Put]([_^Upp`:`:Ctrl^ Ctrl][@(0.0.255) `&]_[*@3 ctrl], 
@@ -29,31 +33,38 @@ lass]_[*@4 T]>_[@(0.0.255) void]_[* Put]([_^Upp`:`:Ctrl^ Ctrl][@(0.0.255) `&]_[*
 [s5;:Upp`:`:CtrlRetriever`:`:operator`(`)`(Upp`:`:Ctrl`&`,T`&`): [@(0.0.255) template]_
 <[@(0.0.255) class]_[*@4 T]>_[_^Upp`:`:CtrlRetriever^ CtrlRetriever][@(0.0.255) `&]_[* oper
 ator()]([_^Upp`:`:Ctrl^ Ctrl][@(0.0.255) `&]_[*@3 ctrl], [*@4 T][@(0.0.255) `&]_[*@3 val])&]
-[s2;%% Assigns [%-*@3 val] to [%-*@3 ctrl] and adds this to widget `- 
-data mappings (to be used by Retrieve).&]
-[s3;%% &]
+[s2;%RU-RU Присваивает значение [%-*@3 val] виджету 
+[%-*@3 ctrl] и добавляет его в маппинг виджет`-данны
+е (используемый затем методом Retrieve).&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:CtrlRetriever`:`:Set`(`): [@(0.0.255) void]_[* Set]()&]
-[s2;%% Reassigns values to widgets.&]
+[s2;%RU-RU Переназначает значения виджетам.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:CtrlRetriever`:`:Retrieve`(`): [@(0.0.255) void]_[* Retrieve]()&]
-[s2;%% Moves data mapped using Put from widgets back to variables.&]
+[s2;%RU-RU Перемещает данные, `"маппированные`" 
+с помощью Put, из виджетов обратно в 
+переменные.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:CtrlRetriever`:`:operator`<`<`(Upp`:`:Event`<`>`): [_^Upp`:`:Event^ Event]<
 >_[* operator<<]([_^Upp`:`:Event^ Event]<>_[*@3 cb])&]
-[s2;%% Adds [%-*@3 cb] event to WhenAction events of all mapped widgets.&]
-[s3;%% &]
+[s2;%RU-RU Добавляет событие [%-*@3 cb] к событиям 
+WhenAction всех маппированных виджетов.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:CtrlRetriever`:`:operator`^`=`(Upp`:`:Event`<`>`): [_^Upp`:`:Event^ Event]<
 >_[* operator`^`=]([_^Upp`:`:Event^ Event]<>_[*@3 cb])&]
-[s2;%% Sets WhenAction of all mapped widgets to [%-*@3 cb].&]
-[s3;%% &]
+[s2;%RU-RU Устанавливает WhenAction всех маппированных 
+виджетов в [%-*@3 cb].&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:CtrlRetriever`:`:Reset`(`): [@(0.0.255) void]_[* Reset]()&]
-[s2;%% Resets CtrlRetriever to initial state `- all mapping between 
-widgets and data are removed and CtrlRetriever can be used for 
-another set of data/widgets.&]
+[s2;%RU-RU Переустанавливает CtrlRetriever в исходное 
+состояние: весь маппинг между виджетами 
+и данными удаляется, и CtrlRetriever можно 
+использовать под другой набор данных/виджет
+ов.&]
 [s3; &]
-[s0;%% ]]
+[s0;%RU-RU ]]

@@ -145,12 +145,12 @@ ool]_[*@3 b]_`=_[@(0.0.255) true])&]
 background (SColorPaper), like in list, as opposed to default 
 representation suitable for placing it on dialog (SColorFace).&]
 [s7; [%-*C@3 b]-|true to activate.&]
-[s7; [*/ Возвратное значение]-|`*this for chaining.&]
+[s7; [*/ Возвратное значение]-|`*this для сцепления.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:Option`:`:IsBlackEdge`(`)const:%- [@(0.0.255) bool]_[* IsBlackEdge]()_[@(0.0.255) c
 onst]&]
-[s2; Returns true if BlackEdge is active.&]
+[s2; Возвращает true, если BlackEdge is active.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Option`:`:SwitchImage`(bool`):%- [_^Option^ Option][@(0.0.255) `&]_[* SwitchImage]([@(0.0.255) b
@@ -161,7 +161,7 @@ the Switch appearance.&]
 [s4;%- &]
 [s5;:Upp`:`:Option`:`:IsSwitchImage`(`)const:%- [@(0.0.255) bool]_[* IsSwitchImage]()_[@(0.0.255) c
 onst]&]
-[s2; Returns true if SwitchImage is active.&]
+[s2; Возвращает true, если SwitchImage is active.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Option`:`:ThreeState`(bool`):%- [_^Option^ Option][@(0.0.255) `&]_[* ThreeState]([@(0.0.255) b
@@ -171,7 +171,7 @@ ool]_[*@3 b]_`=_[@(0.0.255) true])&]
 [s4;%- &]
 [s5;:Upp`:`:Option`:`:IsThreeState`(`)const:%- [@(0.0.255) bool]_[* IsThreeState]()_[@(0.0.255) c
 onst]&]
-[s2; Returns true if ThreeState is active.&]
+[s2; Возвращает true, если ThreeState is active.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Option`:`:NotNull`(bool`):%- [_^Option^ Option][@(0.0.255) `&]_[* NotNull]([@(0.0.255) b
@@ -183,12 +183,12 @@ SetData) is interpreted as false.&]
 [s5;:Option`:`:NoNotNull`(`):%- [_^Option^ Option][@(0.0.255) `&]_[* NoNotNull]()&]
 [s2; Activates NoNotNull mode `- Null Value assigned to Option is 
 interpreted as Null.&]
-[s7; [*/ Возвратное значение]-|`*this for chaining.&]
+[s7; [*/ Возвратное значение]-|`*this для сцепления.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:Option`:`:IsNotNull`(`)const:%- [@(0.0.255) bool]_[* IsNotNull]()_[@(0.0.255) c
 onst]&]
-[s2; Returns true if NotNull is active.&]
+[s2; Возвращает true, если NotNull is active.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:Option`:`:SetColor`(Upp`:`:Color`):%- [_^Upp`:`:Option^ Option][@(0.0.255) `&
@@ -216,7 +216,7 @@ ool]_[*@3 b]_`=_[@(0.0.255) true])&]
 [s4;%- &]
 [s5;:Upp`:`:Option`:`:IsShowLabel`(`)const:%- [@(0.0.255) bool]_[* IsShowLabel]()_[@(0.0.255) c
 onst]&]
-[s2; Returns true if ShowLabel is active.&]
+[s2; Возвращает true, если ShowLabel is active.&]
 [s0;%- &]
 [s0;%- &]
 [ {{10000@3 [s0; [*@(229)4 OptionBox]]}}&]

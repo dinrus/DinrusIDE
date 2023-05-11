@@ -309,7 +309,7 @@ t]_[*@3 id])_[@(0.0.255) const]&]
 [s4; &]
 [s5;:Upp`:`:TreeCtrl`:`:IsValid`(int`)const: [@(0.0.255) bool]_[* IsValid]([@(0.0.255) int]_
 [*@3 id])_[@(0.0.255) const]&]
-[s2;%% Returns true if [%-*@3 id] represents a valid node id.&]
+[s2;%% Возвращает true, если [%-*@3 id] represents a valid node id.&]
 [s3;%% &]
 [s4; &]
 [s5;:TreeCtrl`:`:IsOpen`(int`)const: [@(0.0.255) bool]_[* IsOpen]([@(0.0.255) int]_[*@3 id])_
@@ -378,7 +378,7 @@ if there is none.&]
 [s3; &]
 [s4; &]
 [s5;:TreeCtrl`:`:IsCursor`(`)const: [@(0.0.255) bool]_[* IsCursor]()_[@(0.0.255) const]&]
-[s2;%% Returns true if there is cursor in the tree.&]
+[s2;%% Возвращает true, если there is cursor in the tree.&]
 [s3; &]
 [s4; &]
 [s5;:TreeCtrl`:`:GetItemClickPos`(`)const: [_^Point^ Point]_[* GetItemClickPos]()_[@(0.0.255) c
@@ -502,12 +502,12 @@ d], [@(0.0.255) bool]_[*@3 sel])&]
 [s4; &]
 [s5;:TreeCtrl`:`:IsSelected`(int`)const: [@(0.0.255) bool]_[* IsSelected]([@(0.0.255) int]_
 [*@3 id])_[@(0.0.255) const]&]
-[s2;%% Returns true if item with [%-*@3 id] is selected.&]
+[s2;%% Возвращает true, если item with [%-*@3 id] is selected.&]
 [s3; &]
 [s4; &]
 [s5;:TreeCtrl`:`:IsSel`(int`)const: [@(0.0.255) bool]_[* IsSel]([@(0.0.255) int]_[*@3 id])_[@(0.0.255) c
 onst]&]
-[s2;%% Returns true if item with [%-*@3 id] is selected [*/ or has cursor][/ .]&]
+[s2;%% Возвращает true, если item with [%-*@3 id] is selected [*/ or has cursor][/ .]&]
 [s3; &]
 [s4; &]
 [s5;:TreeCtrl`:`:GetSelectCount`(`)const: [@(0.0.255) int]_[* GetSelectCount]()_[@(0.0.255) c

@@ -72,7 +72,7 @@ in Sql`::Fetch.&]
 [s5;:S`_type`:`:operator`=`=`(const S`_type`&`)const:%- [@(0.0.255) bool]_[* operator`=`=
 ]([@(0.0.255) const]_[_^S`_type^ S`_][/_^S`_type^ type][@(0.0.255) `&]_[*@3 x])_[@(0.0.255) c
 onst]&]
-[s2; Returns true if all fields are the same.&]
+[s2; Возвращает true, если all fields are the same.&]
 [s3; &]
 [s4; &]
 [s5;:S`_type`:`:operator`!`=`(const S`_type`&`)const:%- [@(0.0.255) bool]_[* operator!`=](

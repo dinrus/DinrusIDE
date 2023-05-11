@@ -119,7 +119,7 @@ is converted using .NET trick as `"`\/Date([/ miliseconds`_since`_1970`-1`-1])`\
 [s3;%% &]
 [s4; &]
 [s5;:Json`:`:operator bool`(`)const: [* operator_bool]()_[@(0.0.255) const]&]
-[s2;%% Returns true if any key`-value pairs were added to this JSON 
+[s2;%% Возвращает true, если any key`-value pairs were added to this JSON 
 object.&]
 [s3; &]
 [s4; &]
@@ -178,7 +178,7 @@ t]&]
 [s3; &]
 [s4; &]
 [s5;:JsonArray`:`:operator bool`(`)const: [* operator_bool]()_[@(0.0.255) const]&]
-[s2;%% Returns true if there were any elements inserted JSON array.&]
+[s2;%% Возвращает true, если there were any elements inserted JSON array.&]
 [s3; &]
 [s4; &]
 [s5;:JsonArray`:`:CatRaw`(const String`&`): [_^JsonArray^ JsonArray][@(0.0.255) `&]_[* CatR

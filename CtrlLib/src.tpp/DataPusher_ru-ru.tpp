@@ -1,5 +1,4 @@
 topic "DataPusher";
-[2 $$0,0#00000000000000000000000000000000:Default]
 [i448;a25;kKO9;2 $$1,0#37138531426314131252341829483380:class]
 [l288;2 $$2,0#27521748481378242620020725143825:desc]
 [0 $$3,0#96390100711032703541132217272105:end]
@@ -9,6 +8,7 @@ topic "DataPusher";
 [l288;i1121;b17;O9;~~~.1408;2 $$7,0#10431211400427159095818037425705:param]
 [i448;b42;O9;2 $$8,8#61672508125594000341940100500538:tparam]
 [b42;2 $$9,9#13035079074754324216151401829390:normal]
+[2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%RU-RU 
 [ {{10000@3 [s0; [*@(229)4 DataPusher]]}}&]
 [s3; &]
@@ -17,112 +17,126 @@ topic "DataPusher";
 [s0; &]
 [s2; 
 @@image:1906&143
-�������������������ѭ°��Ż����ۘ���Ď��ű�㶔����ݏ������餐ϓ�Ǔ���������Ё
-ײ���࠰������������������֍������׎��׹���Δ�����ᄌ������ڔ���䥍�����Ѯ�
-�����ْє���䛈��ޓ������붽�Ȯ��ی�ٞ����������ޅ۶�ϖ���������������П��Ҿ
-��я��ܘ���������蘧���ݮ����޷�����ʞ���곷����֔�����ң�����ӯ���������ܙ����
-і��҄��Į��ܷ������Ұ���ϗ����ۘ���⏧���܀��������ϗ�������Ѳ������Ƭ������
-������׳���׻�߀�ݧ������ٌ������������ؒ���Ƣ���ؒ��ᮥ�����������ނ���
-
+(AzEBFwAAAOn/AAAAAHic7ZzRrcIwDEU7MXu8ZZiHFZ7EDuUPRbF947aUmvYc3Q+SJrYbcmkkEM//xxMhhBBCsW5/d4TQgbKWnAHgILAkQCmwJEApsCRAKT5ryWma1o18N6cGPdcOiPpXlBdFzpS3PenqOuEEDC250/ZwLZnpFP1u5OQljSgvOXdRrkWWh5NR2ZJRASe2ZJsIV16TjCXtqbJrtj3RyC6m24ws2Z4b53jH2uNllNTehVu2Ls+WEcXsemwifWvuYrpP0mExUJ/8U9K+3VGPuzHcmCKFuDq0pJtoGCcz0fpdLIv1jl63NouoJMqeKQbqs7clLcNdFI3fYslM0uGnR35AxlOttd3HYvs6GtyZNH9fUJZrWlKEFdUuGpBcNzeyXkxR0rAYqM+XD64rmtstGWWJ4g8nRtHcgPl1m71lzEzPFwP1yXwvaQ9RXdN1TdTvRm57urlzvG+7wbZfZ7FX9cRoV7v7XzhdJ3JvfxgwWQzUZ8tPBXijd4KFvTJYEqAU/MYVoBRYEqAUriURQgfq+/8lghBCCP2cXgKYpno=)
 &]
 [s0; &]
-[s9; DataPusher is a class that is able to Convert and Display some 
-Value and also allows user to click this value (usually in order 
-to change it). Note that both Convert and Display lifetime must 
-exceed the lifetime of DataPusher (DataPusher stores just the 
-reference to them).&]
+[s9; DataPusher `- класс, который способен преобразовы
+вать (Convert) и отображать (Display) некторое 
+значение (Value), а также позволяет пользовател
+ю кликать на этом значении (обычно 
+в целях его изменения). Заметьте, что 
+`"время жизни`" как Convert, так и Display, 
+должно превышать `"лайфтайм`" DataPusher`'а 
+(DataPusher хранит только ссылки на них).&]
 [s2; &]
-[s9; Usual usage pattern is that DataPusher displays some data that 
-can be changed by some complex dialog. This pattern can be implemented 
-either by deriving new class from DataPusher, overriding DoAction 
-method and using SetDataAction at the end of it to both change 
-the value of DataPusher and invoke repainting and WhenAction, 
-or it can use default DoAction implementation and WhenAction 
-callback (do not call SetDataAction in this case).&]
+[s9; Обычный пример использования: DataPusher 
+отображает некоторые данные, которые 
+могут меняться посредством некоторого 
+сложного диалога. Этот паттерн можно 
+реализовать либо произведя новый 
+класс от DataPusher, переписав метод DoAction 
+и использовав SetDataAction в конце всего, 
+чтобы сменить значение DataPusher`'а и 
+одновременно вызвать перерисовку 
+и событие WhenAction, либо использовав 
+дефолтную реализацию DoAction и обратный 
+вызов WhenAction (в этом случае не вызывается 
+SetDataAction).&]
 [s2; &]
-[s0;%- [%%/ Derived from][%%  ][^topic`:`/`/CtrlLib`/src`/Pusher`$en`-us^ Pusher]&]
+[s0;%- [%RU-RU/ Производный от][%RU-RU  ][^topic`:`/`/CtrlLib`/src`/Pusher`_ru`-ru^ P
+usher]&]
 [s3; &]
 [s0; &]
-[ {{10000F(128)G(128)@1 [s0; [* ������ ������������]]}}&]
+[ {{10000F(128)G(128)@1 [s0; [* Детали Конструктора]]}}&]
 [s3;%- &]
 [s5;:DataPusher`:`:DataPusher`(`):%- [* DataPusher]()&]
-[s2; Initializes the data pusher.&]
+[s2; Инициализует `"поместитель`" данных.&]
 [s3; &]
 [s4; &]
 [s5;:DataPusher`:`:DataPusher`(const Convert`&`,const Display`&`):%- [* DataPusher]([@(0.0.255) c
 onst]_[_^Convert^ Convert][@(0.0.255) `&]_[*@3 convert], [@(0.0.255) const]_[_^Display^ Dis
 play][@(0.0.255) `&]_[*@3 display]_`=_StdDisplay())&]
-[s2; Creates DataPusher with specified Convert and Display used to 
-Convert a then Display the Value of DataPusher. Note that both 
-convert and display lifetime must exceed the lifetime of DataPusher 
-(DataPusher stores just the reference to them).&]
+[s2; Создаёт DataPusher с заданными Convert и Display, 
+используемыми для преобразования 
+и отображения значения ( Value) DataPusher`'а. 
+Заметьте, что и тот и другой метод 
+жолдны превышать время жизни DataPusher`'а 
+(DataPusher сохраняет только ссылки на 
+них).&]
 [s7; [%-*C@3 convert]-|Convert.&]
 [s7; [%-*C@3 display]-|Display.&]
 [s3; &]
 [s4;%- &]
 [s5;:DataPusher`:`:DataPusher`(const Display`&`):%- [* DataPusher]([@(0.0.255) const]_[_^Display^ D
 isplay][@(0.0.255) `&]_[*@3 display])&]
-[s2; Creates DataPusher with specified Display.&]
+[s2; Создаёт DataPusher с указанным Display.&]
 [s7; [%-*C@3 display]-|Display.&]
 [s3; &]
 [s0; &]
 [ {{10000F(128)G(128)@1 [s0; [* Protected Method List]]}}&]
 [s3;%- &]
 [s5;:DataPusher`:`:DoAction`(`):%- [@(0.0.255) virtual] [@(0.0.255) void]_[* DoAction]()&]
-[s2; This virtual method is invoked when user clicks DataPusher. 
-Default action is to call WhenAction callback.&]
+[s2; Этот виртуальный метод вызывается, 
+когда пользователь кликает DataPusher. 
+При дефолтном действии вызывается 
+обратный вызов (обрвыз) WhenAction.&]
 [s3; &]
 [s0;%- &]
-[ {{10000F(128)G(128)@1 [s0; [* ������ ��������� ������]]}}&]
+[ {{10000F(128)G(128)@1 [s0; [* Список Публичных Членов]]}}&]
 [s3;%- &]
 [s5;:DataPusher`:`:SetConvert`(const Convert`&`):%- [_^DataPusher^ DataPusher][@(0.0.255) `&
 ]_[* SetConvert]([@(0.0.255) const]_[_^Convert^ Convert][@(0.0.255) `&]_[*@3 `_convert])&]
-[s2; Sets the new Convert.&]
-[s7; [%-*C@3 `_convert]-|New Convert.&]
-[s7; [*/ ���������� ��������]-|`*this for chaining.&]
+[s2; Устанавливает новый Convert.&]
+[s7; [%-*C@3 `_convert]-|Новый Convert.&]
+[s7; [*/ Возвратное значение]-|`*this для сцепления.&]
 [s3; &]
 [s4;%- &]
 [s5;:DataPusher`:`:GetConvert`(`)const:%- [@(0.0.255) const]_[_^Convert^ Convert][@(0.0.255) `&
 ]_[* GetConvert]()_[@(0.0.255) const]&]
-[s2; Returns current Convert.&]
-[s7; [*/ ���������� ��������]-|Current Convert.&]
+[s2; Возвращает текущий Convert.&]
+[s7; [*/ Возвратное значение]-|Текущий Convert.&]
 [s3; &]
 [s4;%- &]
 [s5;:DataPusher`:`:SetDisplay`(const Display`&`):%- [_^DataPusher^ DataPusher][@(0.0.255) `&
 ]_[* SetDisplay]([@(0.0.255) const]_[_^Display^ Display][@(0.0.255) `&]_[*@3 `_display])&]
-[s2; Sets the new Display.&]
-[s7; [%-*C@3 `_display]-|New Display.&]
-[s7; [*/ ���������� ��������]-|`*this for chaining.&]
+[s2; Устанавливает новый Display.&]
+[s7; [%-*C@3 `_display]-|Новый Display.&]
+[s7; [*/ Возвратное значение]-|`*this для сцепления.&]
 [s3; &]
 [s4;%- &]
 [s5;:DataPusher`:`:GetDisplay`(`)const:%- [@(0.0.255) const]_[_^Display^ Display][@(0.0.255) `&
 ]_[* GetDisplay]()_[@(0.0.255) const]&]
-[s2; Returns current Display.&]
-[s7; [*/ ���������� ��������]-|Current Display.&]
+[s2; Возвращает текущий Display.&]
+[s7; [*/ Возвратное значение]-|Текущий Display.&]
 [s3; &]
 [s4;%- &]
 [s5;:DataPusher`:`:SetDataAction`(const Value`&`):%- [@(0.0.255) void]_[* SetDataAction](
 [@(0.0.255) const]_[_^Value^ Value][@(0.0.255) `&]_[*@3 value])&]
-[s2; Invokes SetData([%-*C@3 value]) and then UpdateActionRefresh(). 
-Useful when building DataPusher derived class.&]
+[s2; Вызывает SetData([%-*C@3 value]) и, далее, UpdateActionRefresh(). 
+Применятся при построении производного 
+класса от DataPusher`'а.&]
 [s3; &]
 [s4;%- &]
 [s5;:DataPusher`:`:Set`(const Value`&`):%- [@(0.0.255) void]_[* Set]([@(0.0.255) const]_[_^Value^ V
 alue][@(0.0.255) `&]_[*@3 value])&]
-[s2; Alternative way to set data, decoupled from SetData interface. 
-Sets the data to be displayed. Intended to be used by derived 
-classes that implement own SetData/GetData.&]
+[s2; Альтернативный способ установки 
+данных, декупирован из интерфейса 
+SetData. Устанавливает отображаемые 
+данные. Предназначен для использования 
+в производных классах, реализующих 
+собственные методы SetData/GetData.&]
 [s3; &]
 [s4;%- &]
 [s5;:DataPusher`:`:SetData`(const Value`&`):%- [@(0.0.255) virtual] 
 [@(0.0.255) void]_[* SetData]([@(0.0.255) const]_[_^Value^ Value][@(0.0.255) `&]_[*@3 value])
 &]
-[s2; Sets the control`'s data to [%-*@3 value].&]
+[s2; Устанавливает данные этого контрола 
+в значение [%-*@3 value].&]
 [s3; &]
 [s4;%- &]
 [s5;:DataPusher`:`:GetData`(`)const:%- [@(0.0.255) virtual] [_^Value^ Value]_[* GetData]()_
 [@(0.0.255) const]&]
-[s2; Returns the control`'s data.&]
+[s2; Возвращает данные этого контрола.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:DataPusher`:`:NullText`(const char`*`,Color`):%- [_^DataPusher^ DataPusher][@(0.0.255) `&
@@ -131,13 +145,15 @@ ult])`"), [_^Color^ Color]_[*@3 ink]_`=_Brown)&]
 [s5;:DataPusher`:`:NullText`(const char`*`,Font`,Color`):%- [_^DataPusher^ DataPusher][@(0.0.255) `&
 ]_[* NullText]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 text], [_^Font^ Font]_[*@3 fnt], 
 [_^Color^ Color]_[*@3 ink])&]
-[s2; Sets the default text that will be displayed if no data is supplied.&]
-[s7;%- [*@3 text]-|default text&]
-[s7;%- [*@3 ink]-|color of the text&]
-[s7;%- [*@3 fnt]-|font of the text&]
+[s2; Устанавливает дефолтный текст, которые 
+отображается, когда нет никаких представлен
+ных данных.&]
+[s7;%- [*@3 text]-|дефолтный текст&]
+[s7;%- [*@3 ink]-|цвет текста&]
+[s7;%- [*@3 fnt]-|шрифт текста&]
 [s3; &]
 [s4;%- &]
 [s5;:DataPusher`:`:WhenPreAction:%- [_^Callback^ Callback]_[* WhenPreAction]&]
-[s2; This callback is invoked before DoAction.&]
+[s2; Этот обрвыз вызывается перед DoAction.&]
 [s3; &]
-[s0; ]
+[s0; ]]

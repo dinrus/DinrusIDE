@@ -754,7 +754,7 @@ void AssistEditor::PopUpAssist(bool auto_insert)
 	});
 	int lcy = max(16, BrowserFont().Info().GetHeight());
 	type.Clear();
-	type.Add(AttrText("<Все>").Ink(SColorHighlight()));
+	type.Add(AttrText("<all>").Ink(SColorHighlight()));
 	if(assist_type.GetCount() == 0)
 		popup.Zoom(1);
 	else {
@@ -762,7 +762,7 @@ void AssistEditor::PopUpAssist(bool auto_insert)
 			String s = assist_type[i];
 			if(s[0] == ':' && s[1] == ':')
 				s = s.Mid(2);
-			s = Nvl(s, "<глобальные>");
+			s = Nvl(s, "<globals>");
 			if(s[0] == '<')
 				type.Add(AttrText(s).Ink(SColorMark()));
 			else

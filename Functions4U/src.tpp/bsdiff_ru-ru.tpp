@@ -37,7 +37,7 @@ the differences in [%-*@3 patchfile].so that it is possible to
 rebuild [%-*@3 newfile].&]
 [s3; In arithmetical notation it would be: &]
 [s0;l448;%- [*@3;2 patchfile `= newfile `- oldfile]&]
-[s0;l288; [2 Returns true if correct. Error String can be got with 
+[s0;l288; [2 Возвращает true, если correct. Error String can be got with 
 BSGetLastError()]&]
 [s4;%- &]
 [s1;%- &]
@@ -46,7 +46,7 @@ BSGetLastError()]&]
 [s3; Takes [%-*@3 oldfile] and [%-*@3 patchfile], to rebuild [%-*@3 newfile].&]
 [s3; In arithmetical notation it would be: &]
 [s0;l448;%- [*@3;2 newfile `= oldfile `+ patchfile]&]
-[s0;l288; [2 Returns true if correct. Error String can be got with 
+[s0;l288; [2 Возвращает true, если correct. Error String can be got with 
 BSGetLastError()]&]
 [s4; &]
 [s1;%- &]

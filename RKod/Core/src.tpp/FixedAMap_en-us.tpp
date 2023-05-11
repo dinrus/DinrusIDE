@@ -159,7 +159,7 @@ s]()_[@(0.0.255) const]&]
 [s3; &]
 [s4; &]
 [s5;:FixedAMap`:`:IsPicked`(`)const:%- [@(0.0.255) bool]_[* IsPicked]()_[@(0.0.255) const]&]
-[s2; Returns true if map is picked.&]
+[s2; Возвращает true, если map is picked.&]
 [s3; &]
 [s4; &]
 [s5;:FixedAMap`:`:operator`(`)`(const K`&`,const T`&`):%- [_^FixedAMap^ FixedAMap][@(0.0.255) `&

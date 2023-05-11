@@ -62,19 +62,19 @@ one or more `'.`' charactera), returns the pointer to the last
 [s4; &]
 [s5;:HasFileExt`(const char`*`): [@(0.0.255) bool]_[* HasFileExt]([@(0.0.255) const]_[@(0.0.255) c
 har]_`*[*@3 path])&]
-[s2;%% Returns true if [%-*@3 path] ends with filename with extension 
+[s2;%% Возвращает true, если [%-*@3 path] ends with filename with extension 
 (in other words, if filename contains `'.`').&]
 [s3;%% &]
 [s4; &]
 [s5;:HasWildcards`(const char`*`): [@(0.0.255) bool]_[* HasWildcards]([@(0.0.255) const]_[@(0.0.255) c
 har]_`*[*@3 path])&]
-[s2;%% Returns true if [%-*@3 path] contains `'`*`' or `'?`' characters 
+[s2;%% Возвращает true, если [%-*@3 path] contains `'`*`' or `'?`' characters 
 (wildcards).&]
 [s3;%% &]
 [s4; &]
 [s5;:IsFullPath`(const char`*`): [@(0.0.255) bool]_[* IsFullPath]([@(0.0.255) const]_[@(0.0.255) c
 har]_`*[*@3 path])&]
-[s2;%% Returns true if [%-*@3 path] is absolute `- starting with `'/`' 
+[s2;%% Возвращает true, если [%-*@3 path] is absolute `- starting with `'/`' 
 in POSIX system or drive letter in Win32.&]
 [s3;%% &]
 [s4; &]
@@ -182,12 +182,12 @@ if file does not exist.&]
 [s4; &]
 [s5;:FileExists`(const char`*`): [@(0.0.255) bool]_[* FileExists]([@(0.0.255) const]_[@(0.0.255) c
 har]_`*[*@3 path])&]
-[s2;%% Returns true if [%-*@3 path] represents a file.&]
+[s2;%% Возвращает true, если [%-*@3 path] represents a file.&]
 [s3;%% &]
 [s4; &]
 [s5;:DirectoryExists`(const char`*`): [@(0.0.255) bool]_[* DirectoryExists]([@(0.0.255) con
 st]_[@(0.0.255) char]_`*[*@3 path])&]
-[s2;%% Returns true if [%-*@3 path] represents a directory.&]
+[s2;%% Возвращает true, если [%-*@3 path] represents a directory.&]
 [s3;%% &]
 [s4; &]
 [s5;:GetFileTime`(const char`*`): [_^FileTime^ FileTime]_[* GetFileTime]([@(0.0.255) const]_
@@ -306,7 +306,7 @@ and removed from the result.&]
 [s4; &]
 [s5;:PathIsEqual`(const char`*`,const char`*`): [@(0.0.255) bool]_[* PathIsEqual]([@(0.0.255) c
 onst]_[@(0.0.255) char]_`*[*@3 p1], [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 p2])&]
-[s2;%% Returns true if [%-*@3 p1] and [%-*@3 p2] identify the same file 
+[s2;%% Возвращает true, если [%-*@3 p1] and [%-*@3 p2] identify the same file 
 or directory. Both paths can be relative (current directory is 
 then used as reference point) and can contain segments `".`" 
 or `"..`".&]

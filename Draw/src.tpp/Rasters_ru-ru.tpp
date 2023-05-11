@@ -88,7 +88,7 @@ StreamRaster in error state and returns false.&]
 [s3;%% &]
 [s4; &]
 [s5;:StreamRaster`:`:IsError`(`): [@(0.0.255) bool]_[* IsError]()&]
-[s2;%% Returns true if there was any error encountered. Gets reset 
+[s2;%% Возвращает true, если there was any error encountered. Gets reset 
 in Open.&]
 [s3; &]
 [s4; &]

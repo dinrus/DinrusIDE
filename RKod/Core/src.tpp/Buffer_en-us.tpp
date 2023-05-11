@@ -112,6 +112,6 @@ All current elements are destroyed.&]
 [s4;%- &]
 [s5;:Upp`:`:Buffer`:`:IsEmpty`(`)const:%- [@(0.0.255) bool]_[* IsEmpty]()_[@(0.0.255) const
 ]&]
-[s2; Returns true if Buffer is empty.&]
+[s2; Возвращает true, если Buffer is empty.&]
 [s3;%- &]
 [s0; ]]

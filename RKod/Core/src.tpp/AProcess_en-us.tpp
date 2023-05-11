@@ -29,7 +29,7 @@ choose to e.g. represent a process on remote system.&]
 [s4; &]
 [s5;:AProcess`:`:IsRunning`(`): [@(0.0.255) virtual] [@(0.0.255) bool]_[* IsRunning]()_`=_[@3 0
 ]&]
-[s2;%% Returns true if process is running.&]
+[s2;%% Возвращает true, если process is running.&]
 [s3; &]
 [s4; &]
 [s5;:AProcess`:`:Write`(String`): [@(0.0.255) virtual] [@(0.0.255) void]_[* Write]([_^topic`:`/`/Core`/src`/String`$en`-us`#String`:`:class^ S
@@ -39,7 +39,7 @@ tring]_[*@3 s])_`=_[@3 0]&]
 [s4; &]
 [s5;:AProcess`:`:Read`(String`&`): [@(0.0.255) virtual] [@(0.0.255) bool]_[* Read]([_^topic`:`/`/Core`/src`/String`$en`-us`#String`:`:class^ S
 tring][@(0.0.255) `&]_[*@3 s])_`=_[@3 0]&]
-[s2;%% Reads data from standard output combined. Returns true if 
+[s2;%% Reads data from standard output combined. Возвращает true, если 
 the process is running or there are more data to be read (even 
 after the process terminated).&]
 [s3;%% &]
@@ -49,7 +49,7 @@ after the process terminated).&]
 tring][@(0.0.255) `&]_[*@3 os], [_^topic`:`/`/Core`/src`/String`$en`-us`#String`:`:class^ S
 tring][@(0.0.255) `&]_[*@3 es])&]
 [s2;%% Reads data separately from standard output and from standard 
-error output. Returns true if the process is running or there 
+error output. Возвращает true, если the process is running or there 
 are more data to be read  (even after the process terminated). 
 Usually, implementing class has to be in special mode for this 
 to work (e.g. LocalProcess must be started with Start2).&]

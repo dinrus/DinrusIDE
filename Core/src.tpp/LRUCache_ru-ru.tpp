@@ -113,7 +113,7 @@ ool]_[* RemoveOne]([*@4 P]_[*@3 predicate])&]
 [s2;%% Removes the first data item from the cache for which [%-*@3 predicate] 
 (which should have single const [%-*@4 T][%-@(0.0.255) `&] parameter) 
 returns true, scanning the cache from the most recently used 
-items to least recently used. Returns true if item was found 
+items to least recently used. Возвращает true, если item was found 
 and removed.&]
 [s3;%% &]
 [s4; &]

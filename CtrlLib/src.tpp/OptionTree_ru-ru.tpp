@@ -1,5 +1,4 @@
 topic "OptionTree";
-[2 $$0,0#00000000000000000000000000000000:Default]
 [i448;a25;kKO9;2 $$1,0#37138531426314131252341829483380:class]
 [l288;2 $$2,0#27521748481378242620020725143825:desc]
 [0 $$3,0#96390100711032703541132217272105:end]
@@ -9,46 +8,30 @@ topic "OptionTree";
 [l288;i1121;b17;O9;~~~.1408;2 $$7,0#10431211400427159095818037425705:param]
 [i448;b42;O9;2 $$8,8#61672508125594000341940100500538:tparam]
 [b42;2 $$9,9#13035079074754324216151401829390:normal]
+[2 $$0,0#00000000000000000000000000000000:Default]
 [{_} 
-[ {{10000@3 [s0;%% [*@(229)4 OptionTree]]}}&]
-[s3;%% &]
+[ {{10000@3 [s0;%RU-RU [*@(229)4 OptionTree]]}}&]
+[s3;%RU-RU &]
 [s1;:OptionTree`:`:class: [@(0.0.255)3 class][3 _][*3 OptionTree][3 _:_][@(0.0.255)3 public][3 _][*@3;3 T
 reeCtrl]&]
-[s2;%% &]
-[s2;%% 
+[s2;%RU-RU &]
+[s2;%RU-RU 
 @@image:700&1000
-ˆƒğ€ €€€‚àÿ€€€€ø§œíáêÛ°ú˜†ó§œ¤—ÑØ¹†»Åî°„Ÿ»Ïˆ£”ÊÀ‰¡”Ê™ãì±Ÿ¦¬¦„õÙ«–ä×–¬½İùÑ«©í¼•
-ØåÉï„•¢„Í•ÎçÏ±¯ûÚ§ÙŸ“„ÿ¾¶íêÇÄåòıù¹ñüüüò¿òòúŸÇãÁ«Ÿ¢º±¼àÓï›¼ßïûúôÜÏïéƒìÌ’ßÏËÄÓ—§ÿ
-ãµÏûÖØõóÉòéª¥è¢ÓËüûû£Ïèóâşã©ú¼şŞ¯ÚÛ’ÏÑç¬Íö›÷ì–ÎŞ³»ª÷¼ıÍ·ä„Ö¾ûô›ÔÅ‘¨Ÿß¿ıµ
-”¯Ó¢İé†³ÓÕ§ï¯©ÄÔ³¥âÌ®í¼´¥‘í»öåî¾Ó¢Ïß“¢Ï¿ÚúˆòÄ«£ğŞ§³³ÿç•®¦Ş§é—‰¾¼ÿÏ„ëç¬Ğñ”³«¹¢ÏÈ
-İƒšŸ·ÛÍôéùç¢æúùÕÙïıæïìÜµ§øô™ÚÕııâ±¡ïæºÁÿÔ×¸®–Úäßß‰˜û‘û¸ó¥÷„¤„½‰’ÿè·¸û¾‹œëÓËüÿÿ
-ÛôÙô¬êí¸ê»™ã÷“ÇÑÒ‘¡µªÖå¦¤„€öèÄ² Ğ§–úÄ’£öÉü¤’¿×å¹´Şç¾²Ê¶Ò¯Ø¯ÏÎÇó†êş§ùÌÈĞÇêÍßÔ¢É
-ĞçÆ¾²¦Ï¿‘ñ”ıæä£ãÕú”Ë‹å£İãÿÌ¥ûûŞä¾’ŞíÿÄû×Ü˜ŒâÓÕ•ÈÇºçé¶ä“Áæ££Ğæ¾ğòÜ¸şÇÂùÜ¥¬ô‰…¾±
-ï¤ú¤ÿ°ô‰¥…¾±àı²ÿâ…÷¹ø¾²›ÕÏÁò‘¸Ï“ıè“×ëÕ­½œöÜÚ÷ü‰ïÜ§©–Æ¦½»ÌİÉ€ğõÎ±Ÿ®¶ŸÑø²¢ƒëÇ¬ƒú”
-†ßæ·¶ŸùõÄø¸„ıİ¦¸ªĞ¿İ»¹¿”ñªæ£†ä‘ª‚¾Å™š³Ôëªæ£ª—™ßªŒÏÛíæïî¾®Ì˜üäèÉÀıæä£Û¾ëŸßšåü™
-½ğü…óËÂØè“‹ıâ¡ÜÏ¬ô‰…¾±×°¿„¥Ò§×©ƒÄ’ã“µÈÄï²ïĞÙëşÁü¼ãôù´äó´¼£ã½­È¬ïĞ²Ïáæªı½ˆö
-×¦íÍäê—óäÃêúãÓè¨õå†ıÓ®şª”õ‹æú¥·šÍ«¦ïˆëìöÀÀıú—ôùÌŞ‘Şí—ˆïÏ§­‡±ªÓÊ³™£¬‡ ÉšŸñ½Èª
-Ë©ãÍ®‡‰ƒ¿ßàøóÅ‚Øè“‹ıâ©íó´ÿ—ıâá¡Ï¬õıö×ß¿ªî³³ü¤ÿ„ÏøïËåå £­ÿŸîÓÛœ‰ŠÌŸìÌüÇÚ£¨ÏÕ‰
-«£¼ü„¾ÅÍç•›´û±«Ìâ¾—š¸›‘÷˜Í¼ü¤åùßÒêõ³³ü¤ÆúûÙÙ¾ÒıãşŞÙ¾Ò½ÿÁÙÙ¾ÒıüÔèÙ¾Òİ§Çï–Íí¿µè“‹
-äıâ¡Ï¬ô‰ı…¾±°¿„¥õºÏæ«”Îú»ÔÈãÍó·Ö”ÖŸ¯ã™Ş‘æŸ¼ƒûéÎÀš÷ŒÙÔş–Ê»ØşªÓåö³£ï˜ÖÙ§­áŞ±…æ
-úµàŞ…ã´÷’†¾±Ğ§Ö–úÄÂŸØè‚“ËèùÄéÆ‘Ë£ÊÓèùœª½‘õ¾”úœÇ›ƒë¨™÷¼úô¹ïŒøÇ°¾‹½ùãØŸß
-á‡ÿÇª…÷Ç¡èÓâœõĞ¼ƒıúäç²‘Š¾¥úË£¦ÊÃñ»–Î¯òá¡Ï¬ô‰…æ¾±Ğ§–úÄÓÂş’–æÛ–Á­¿ˆçê‘Œ¡§êıÅ 
-ÅïØİíÏÀÖäßÄæ£ûô¾·Õ†¼Ã®ÊÊ¨ğ‰Ú¢ãıÔÅÆŞ±šÏÿ˜çÿÓåæö„¿£ûÜİÿ‘Ÿ÷Ä÷ŸºàŸËú‹¤¼Ã¼¾Ö—ì°şÂ
-§¨ÀéŸ˜æØ¸ş§„Âäˆ¡„Â²ùˆ‡¾¿ªô
+(A3AAoAAAAGD/AAAAAHic7Z1hatswGIZzp5ykl9g5BjvFbrAfO88IIxRKCSEUShlj7J8mLCaE9VmW5FeWLL0P+VGrqe08lWVJb4SVIoSQFc7nTzGv2qdZn5OE/zbt6sfE5XL5OfH8/Pzy8vL6n8fjQZ+iOrE84FObvN/ve/r0T2/pg+xMks/LxNOXJ/+1j097Vo3Y80nyaaql6FPLfHt7o09zYn7jKfq8Xq/a25LPj48P0eesTXb37BbO3jM7Dfc8/U23ZFY++3QbVEURqJ/fv301L1OiXekGM9Wnby+pRNSl4kwu7bw0kW27dmXuPqLPXxOiT796iHLEqyPwJ7Ozjf9nlSbep+kXiT5/T4Tr56xQlDMrOaLPyIMan7fbTfT5ZyLmeo/52W/9Zu9s3Kd49Bna1X3iMaHv5rrB1Ne4rpba5N+JmPuRe7il9wQkhL2Jf+g3OPsQPpzrU8t8f3+P9Fn0rGrtajsZ4/eTR9IRITWqVuUkhJAAduhEINAnFvrEEvbJfCQSv1e5NN5nPrLKUq/YL8/OR4bqfif5zMhHak1f1CLJZ0Y+MqZPv/EUfWbkI2P6FMsL5SPd43/Mpft7Xj4S3m1/xPvcmI8M4lPVyEe6Z+k2ZMHmIyPQZj5yXDh+x8L5JSz0iYU+saT6pP8w9ImFPrFgfbJ/Bfc5eD6ym89B8hG4T5OPaJPX69WtnHbc2vf8CdynqZZGpr3M3UmA8PVOny42H9H4MgPrRywD+hRf5rc2H3l1eDiEfR5dpipQP927uT9xKuYjhg5kqgI+RZkaM2sq5iOqF5mqjM/b7WbvPq7MmHzk6MB9ZuQjW76f3xrlfI6Zj3D8joXzS1joEwt9YqFPLPSJhT6xsL+EJdIn14NEEuMTtR5EbzLvUFnrQfy84/T5tORztLwjYz3ILO/QMo1P5h0qfT2I9qbtzWTqF/MOQ+p6EOPTKHVlhn2O036qlPUL5nq3Gs0rJu8I7PZAwH36l3lM3hHe7YGI788nrQcxU8ozmSOsB0kaH3E9yCqp402uBwmDnd/g+J3zRVjoEwt9Yintc7T/F31ioU8sdX3217+q7rOzfKSEz/jvy+XlIy1/Hw/uU5yJCsyfbMxHWqOoz9WJo7x8hD7FTZWbjzR7satiPpeaOBuRmM28fKTl+dLq9bOzfKR6+9lZPlL9/t5ZPlK9/9lZPlJ9fNRZPlLdJ8fvTe2/NegTC31ioU8s9ImFPrGwv4Sluk/mHauUzjvUSOPNnfOO1pRWn69j3hFmn7wDe85ADpp3jNl+Fso72H6q5fYzI+8Y1qctYd6xBeYdtWDegYXjdxKGPrHQJxb6xEKfWOgTy2h5RGlGyyNKU+h5HKq9kfU+FHoeR5uD6x0o9zwO+vQ5b3gex7A+Cz2PY1ifgd+eh38eRyqFnseh6FPinPU8DgN9+mTnEYo+JfrLI0rD8TsWzi9hoU8s9ImFPrHQJxb6xML+EhbmHdtBrb8I5x1qjCEnav1FIO9Y3W1PQNZfROYdI/v0N9WGvMOuSijwCdoiY/1FRt4xmk//Z39T5eYddj8j+1xdfxGfd8T3Hzpgy/qLpLxDPFaX7LD+wh6owOkfGOYdWDh+J4QQQgghhBBCsvkHPj+qdA==)
 &]
-[s3;%% &]
-[s9;%% Specialized TreeCtrl representing a tree of options. Parent 
+[s3;%RU-RU &]
+[s9;%RU-RU Specialized TreeCtrl representing a tree of options. Parent 
 node option status is 3 state, representing all child items off, 
 child items mixed and all child items on. Option tree allows 
 external Option widgets to be used as nodes or provides internal 
 Option widgets if no external Option is specified.&]
-[s3;%% &]
+[s3;%RU-RU &]
 [s0; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Ñïèñîê Ïóáëè÷íûõ ×ëåíîâ]]}}&]
-[s3;%% &]
+[ {{10000F(128)G(128)@1 [s0;%RU-RU [* Ğ¡Ğ¿Ğ¸ÑĞ¾Ğº ĞŸÑƒĞ±Ğ»Ğ¸Ñ‡Ğ½Ñ‹Ñ… Ğ§Ğ»ĞµĞ½Ğ¾Ğ²]]}}&]
+[s3;%RU-RU &]
 [s5;:OptionTree`:`:WhenOption: [_^Callback^ Callback]_[* WhenOption]&]
-[s2;%% Some option has changed.&]
-[s3;%% &]
+[s2;%RU-RU Some option has changed.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:OptionTree`:`:SetRoot`(const Image`&`,Option`&`,const char`*`): [@(0.0.255) void]_
 [* SetRoot]([@(0.0.255) const]_[_^Image^ Image][@(0.0.255) `&]_[*@3 img], 
@@ -62,8 +45,8 @@ LL)&]
 har]_`*[*@3 text])&]
 [s5;:OptionTree`:`:SetRoot`(const char`*`): [@(0.0.255) void]_[* SetRoot]([@(0.0.255) const
 ]_[@(0.0.255) char]_`*[*@3 text])&]
-[s2;%% Sets the root item.&]
-[s3;%% &]
+[s2;%RU-RU Sets the root item.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:OptionTree`:`:Add`(int`,const Image`&`,Option`&`,const char`*`): [@(0.0.255) int]_
 [* Add]([@(0.0.255) int]_[*@3 parent], [@(0.0.255) const]_[_^Image^ Image][@(0.0.255) `&]_[*@3 i
@@ -77,8 +60,8 @@ nt]_[*@3 parent], [@(0.0.255) const]_[_^Image^ Image][@(0.0.255) `&]_[*@3 img],
 [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 text])&]
 [s5;:OptionTree`:`:Add`(int`,const char`*`): [@(0.0.255) int]_[* Add]([@(0.0.255) int]_[*@3 p
 arent], [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 text])&]
-[s2;%% Adds an item. &]
-[s3;%% &]
+[s2;%RU-RU Adds an item. &]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:OptionTree`:`:Insert`(int`,int`,const Image`&`,Option`&`,const char`*`): [@(0.0.255) i
 nt]_[* Insert]([@(0.0.255) int]_[*@3 parent], [@(0.0.255) int]_[*@3 i], 
@@ -96,32 +79,32 @@ mage][@(0.0.255) `&]_[*@3 img], [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 text
 [s5;:OptionTree`:`:Insert`(int`,int`,const char`*`): [@(0.0.255) int]_[* Insert]([@(0.0.255) i
 nt]_[*@3 parent], [@(0.0.255) int]_[*@3 i], [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 text])
 &]
-[s2; [%% Insert an item at position ][*@3 i][%%  into ][*@3 parent.]&]
-[s3;%% &]
+[s2; [%RU-RU Insert an item at position ][*@3 i][%RU-RU  into ][*@3 parent.]&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:OptionTree`:`:Get`(int`)const: [@(0.0.255) virtual] [@(0.0.255) int]_[* Get]([@(0.0.255) i
 nt]_[*@3 id])_[@(0.0.255) const]&]
-[s2;%% Returns the option setting for the item with id. Returns 1, 
-0 or Null if node is mixed.&]
-[s3;%% &]
+[s2;%RU-RU Returns the option setting for the item with id. Returns 
+1, 0 or Null if node is mixed.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:OptionTree`:`:Clear`(`): [@(0.0.255) void]_[* Clear]()&]
-[s2;%% Removes all items.&]
-[s3;%% &]
+[s2;%RU-RU Removes all items.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:OptionTree`:`:ManualMode`(`): [_^OptionTree^ OptionTree][@(0.0.255) `&]_[* ManualMode](
 )&]
-[s2;%% Switches the OptionTree to manual mode: checking an item does 
-not affect the checked/unchecked status of child items.&]
+[s2;%RU-RU Switches the OptionTree to manual mode: checking an item 
+does not affect the checked/unchecked status of child items.&]
 [s3; &]
 [s4; &]
 [s5;:OptionTree`:`:SetLabel`(int`,const char`*`): [@(0.0.255) void]_[* SetLabel]([@(0.0.255) i
 nt]_[*@3 id], [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 text])&]
-[s2;%% Sets the label of node [%-*@3 id] to [%-*@3 text].&]
-[s3;%% &]
+[s2;%RU-RU Sets the label of node [%-*@3 id] to [%-*@3 text].&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:OptionTree`:`:GetLabel`(int`)const: [_^String^ String]_[* GetLabel]([@(0.0.255) int]_[*@3 i
 d])_[@(0.0.255) const]&]
-[s2;%% Returns the label of node [%-*@3 id].&]
-[s3;%% &]
-[s0; ]
+[s2;%RU-RU Returns the label of node [%-*@3 id].&]
+[s3;%RU-RU &]
+[s0; ]]

@@ -131,7 +131,7 @@ both] [%-*@3 l] [%-*@3 h] return the current cursor position.&]
 [s4; &]
 [s5;:EditField`:`:IsSelection`(`)const: [@(0.0.255) bool]_[* IsSelection]()_[@(0.0.255) con
 st]&]
-[s2;%% [%- Returns true if there is a selection. ] &]
+[s2;%% [%- Возвращает true, если there is a selection. ] &]
 [s3; &]
 [s4; &]
 [s5;:EditField`:`:RemoveSelection`(`): [@(0.0.255) bool]_[* RemoveSelection]()&]
@@ -217,7 +217,7 @@ displayed as asterisk. Returns `*this.&]
 [s4; &]
 [s5;:EditField`:`:IsPassword`(`)const: [@(0.0.255) bool]_[* IsPassword]()_[@(0.0.255) const
 ]&]
-[s2;%% Returns true if password mode is active.&]
+[s2;%% Возвращает true, если password mode is active.&]
 [s3; &]
 [s4; &]
 [s5;:EditField`:`:SetFilter`(int`(`*`)`(int`)`): [_^EditField^ EditField][@(0.0.255) `&]_
@@ -287,7 +287,7 @@ clicked by mouse. Returns `*this.&]
 [s4; &]
 [s5;:EditField`:`:IsClickSelect`(`)const: [@(0.0.255) bool]_[* IsClickSelect]()_[@(0.0.255) c
 onst]&]
-[s2;%% Returns true if ClickSelect is active.&]
+[s2;%% Возвращает true, если ClickSelect is active.&]
 [s3; &]
 [s4; &]
 [s5;:EditField`:`:InitCaps`(bool`): [_^EditField^ EditField][@(0.0.255) `&]_[* InitCaps]([@(0.0.255) b
@@ -298,7 +298,7 @@ Returns `*this.&]
 [s4; &]
 [s5;:EditField`:`:IsInitCaps`(`)const: [@(0.0.255) bool]_[* IsInitCaps]()_[@(0.0.255) const
 ]&]
-[s2;%% Returns true if InitCaps is active.&]
+[s2;%% Возвращает true, если InitCaps is active.&]
 [s3; &]
 [s4; &]
 [s5;:EditField`:`:NullText`(const Image`&`,const char`*`,Color`): [_^EditField^ EditFie
@@ -367,12 +367,12 @@ the right. Left alignment is default.&]
 [s4; &]
 [s5;:EditField`:`:IsNoBackground`(`)const: [@(0.0.255) bool]_[* IsNoBackground]()_[@(0.0.255) c
 onst]&]
-[s2;%% Returns true if NoBackground is active.&]
+[s2;%% Возвращает true, если NoBackground is active.&]
 [s3; &]
 [s4; &]
 [s5;:EditField`:`:IsAlignRight`(`)const: [@(0.0.255) bool]_[* IsAlignRight]()_[@(0.0.255) c
 onst]&]
-[s2;%% Returns true if AlignRight is active.&]
+[s2;%% Возвращает true, если AlignRight is active.&]
 [s3; &]
 [s4; &]
 [s5;:EditField`:`:ShowSpaces`(bool`): [@(0.0.255) bool]_[* ShowSpaces]([@(0.0.255) bool]_[*@3 b

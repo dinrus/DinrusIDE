@@ -81,12 +81,12 @@ AssistEditor::AssistEditor()
 	annotation_popup.SetFrame(BlackFrame());
 	annotation_popup.Margins(6);
 	annotation_popup.NoSb();
-	
+
 	thisback = false;
-	
+
 	cachedpos = INT_MAX;
 	cachedln = -1;
-	
+
 	parami = 0;
 
 	param_info.Margins(2);
@@ -94,9 +94,9 @@ AssistEditor::AssistEditor()
 	param_info.SetFrame(BlackFrame());
 	param_info.BackPaint();
 	param_info.NoSb();
-	
+
 	include_assist = false;
-	
+
 	NoFindReplace();
 }
 
@@ -557,7 +557,7 @@ void AssistEditor::PopUpAssist(bool auto_insert)
 			if(s[0] == '<')
 				type.Add(AttrText(s).Ink(SColorMark()));
 			else
-				type.Add(Nvl(s, "<globals>"));
+				type.Add(s);
 		}
 		popup.NoZoom();
 	}
@@ -620,7 +620,7 @@ void AssistEditor::Complete()
 			return;
 		}
 	}
-	
+
 	Vector<String> id = ids.PickKeys();
 	Upp::Sort(id, sILess);
 
@@ -1077,7 +1077,7 @@ void AssistEditor::SerializeNavigator(Stream& s)
 	if(version >= 5)
 		s % navigator_right;
 	Navigator(navigator);
-	
+
 	if(s.IsLoading())
 		SyncNavigatorPlacement();
 }

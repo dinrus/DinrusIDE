@@ -49,7 +49,7 @@ now deprecated).&]
 [s4;%% &]
 [s5;:SqlSession`:`:IsOpen`(`)const: [@(0.0.255) virtual] [@(0.0.255) bool]_[* IsOpen]()_[@(0.0.255) c
 onst]&]
-[s2;%% Returns true if session is connected and ready to recieve 
+[s2;%% Возвращает true, если session is connected and ready to recieve 
 statements.&]
 [s3;%% &]
 [s4;%% &]
@@ -150,11 +150,11 @@ error happens.&]
 [s4;%% &]
 [s5;:SqlSession`:`:IsThrowOnError`(`)const: [@(0.0.255) bool]_[* IsThrowOnError]()_[@(0.0.255) c
 onst]&]
-[s2;%% Returns true if ThrowOnError is active.&]
+[s2;%% Возвращает true, если ThrowOnError is active.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:SqlSession`:`:WasError`(`)const: [@(0.0.255) bool]_[* WasError]()_[@(0.0.255) const]&]
-[s2;%% Returns true if there was error since the start of session 
+[s2;%% Возвращает true, если there was error since the start of session 
 or since ClearError.&]
 [s3;%% &]
 [s4;%% &]

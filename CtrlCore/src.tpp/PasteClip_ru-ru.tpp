@@ -145,16 +145,16 @@ operation is no suitable for particular drop target.&]
 [s4; &]
 [s5;:PasteClip`:`:IsAccepted`(`)const: [@(0.0.255) bool]_[* IsAccepted]()_[@(0.0.255) const
 ]&]
-[s2;%% Returns true if status is accepted.&]
+[s2;%% Возвращает true, если status is accepted.&]
 [s3; &]
 [s4; &]
 [s5;:PasteClip`:`:IsQuery`(`)const: [@(0.0.255) bool]_[* IsQuery]()_[@(0.0.255) const]&]
-[s2;%% Returns true if PasteClip represents drag phase (no pasting, 
+[s2;%% Возвращает true, если PasteClip represents drag phase (no pasting, 
 Accept returns false).&]
 [s3; &]
 [s4; &]
 [s5;:PasteClip`:`:IsPaste`(`)const: [@(0.0.255) bool]_[* IsPaste]()_[@(0.0.255) const]&]
-[s2;%% Returns true if PasteClip represents drop/paste phase (Accept 
+[s2;%% Возвращает true, если PasteClip represents drop/paste phase (Accept 
 returns true).&]
 [s3; &]
 [s4; &]

@@ -50,6 +50,6 @@ to provide resources like images.&]
 [s1;%- &]
 [s2;:Upp`:`:IsSVG`(const char`*`):%- [@(0.0.255) bool]_[* IsSVG]([@(0.0.255) const]_[@(0.0.255) c
 har]_`*[*@3 svg])&]
-[s3; Returns true if [%-*@3 svg] likely contains SVG image.&]
+[s3; Возвращает true, если [%-*@3 svg] likely contains SVG image.&]
 [s4; &]
 [s0; ]]

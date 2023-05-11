@@ -840,7 +840,7 @@ second or minute.&]
 [s1; &]
 [s6;%- &]
 [s5;:StaticClock`:`:IsAuto`(`):%- [@(0.0.255) bool]_[* IsAuto]()&]
-[s3; Returns true if StaticClock is in `"auto`" mode&]
+[s3; Возвращает true, если StaticClock is in `"auto`" mode&]
 [s1;%- &]
 [s6;%- &]
 [s5;:StaticClock`:`:SetData`(const Value`&`):%- [@(0.0.255) void]_[* SetData]([@(0.0.255) c

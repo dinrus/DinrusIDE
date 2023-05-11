@@ -100,65 +100,65 @@ ession][@(0.0.255) `&]_[*@3 session])&]
 [s4; &]
 [s5;:Upp`:`:SshHosts`:`:Info`:`:IsRSA`(`)const: [@(0.0.255) bool]_[* IsRSA]()_[@(0.0.255) c
 onst]&]
-[s2;%% Returns true if the public key of the given host is using 
+[s2;%% Возвращает true, если the public key of the given host is using 
 RSA algorithm.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:SshHosts`:`:Info`:`:IsDSS`(`)const: [@(0.0.255) bool]_[* IsDSS]()_[@(0.0.255) c
 onst]&]
-[s2;%% Returns true if the public key of the given host is using 
+[s2;%% Возвращает true, если the public key of the given host is using 
 DSS algorithm.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:SshHosts`:`:Info`:`:IsECDSA256`(`)const: [@(0.0.255) bool]_[* IsECDSA256]()_[@(0.0.255) c
 onst]&]
-[s2;%% Returns true if the public key of the given host is using 
+[s2;%% Возвращает true, если the public key of the given host is using 
 ECDSA 256 algorithm.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:SshHosts`:`:Info`:`:IsECDSA384`(`)const: [@(0.0.255) bool]_[* IsECDSA384]()_[@(0.0.255) c
 onst]&]
-[s2;%% Returns true if the public key of the given host is using 
+[s2;%% Возвращает true, если the public key of the given host is using 
 ECDSA 384 algorithm.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:SshHosts`:`:Info`:`:IsECDSA521`(`)const: [@(0.0.255) bool]_[* IsECDSA521]()_[@(0.0.255) c
 onst]&]
-[s2;%% Returns true if the public key of the given host is using 
+[s2;%% Возвращает true, если the public key of the given host is using 
 ECDSA 521 algorithm.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:SshHosts`:`:Info`:`:IsED25519`(`)const: [@(0.0.255) bool]_[* IsED25519]()_[@(0.0.255) c
 onst]&]
-[s2;%% Returns true if the public key of the given host is using 
+[s2;%% Возвращает true, если the public key of the given host is using 
 ED 25519 algorithm.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:SshHosts`:`:Info`:`:IsUnknown`(`)const: [@(0.0.255) bool]_[* IsUnknown]()_[@(0.0.255) c
 onst]&]
-[s2;%% Returns true if the public key of the given host is of unknown 
+[s2;%% Возвращает true, если the public key of the given host is of unknown 
 type.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:SshHosts`:`:Info`:`:IsFailure`(`)const: [@(0.0.255) bool]_[* IsFailure]()_[@(0.0.255) c
 onst]&]
-[s2;%% Returns true if something prevented the check to be made. 
+[s2;%% Возвращает true, если something prevented the check to be made. 
 &]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:SshHosts`:`:Info`:`:IsNotFound`(`)const: [@(0.0.255) bool]_[* IsNotFound]()_[@(0.0.255) c
 onst]&]
-[s2;%% Returns true if  no host match was found.&]
+[s2;%% Возвращает true, если  no host match was found.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:SshHosts`:`:Info`:`:IsMismatch`(`)const: [@(0.0.255) bool]_[* IsMismatch]()_[@(0.0.255) c
 onst]&]
-[s2;%% Returns true if the host was found, but the keys didn`'t match. 
+[s2;%% Возвращает true, если the host was found, but the keys didn`'t match. 
 (This [/ may ]mean an attack!) &]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:SshHosts`:`:Info`:`:IsMatch`(`)const: [@(0.0.255) bool]_[* IsMatch]()_[@(0.0.255) c
 onst]&]
-[s2;%% Returns true if the hosts and the keys match.&]
+[s2;%% Возвращает true, если the hosts and the keys match.&]
 [s3; &]
 [s0;%% ]]

@@ -223,16 +223,16 @@ of conversion.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:IsLetter`(int`): [@(0.0.255) bool]_[* IsLetter]([@(0.0.255) int]_[*@3 c])&]
-[s2;%% Returns true if [%-*@3 c] < 2048 and it represents a letter.&]
+[s2;%% Возвращает true, если [%-*@3 c] < 2048 and it represents a letter.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:IsUpper`(int`): [@(0.0.255) bool]_[* IsUpper]([@(0.0.255) int]_[*@3 c])&]
-[s2;%% Returns true if [%-*@3 c] < 2048 and it is upper`-case UNICODE 
+[s2;%% Возвращает true, если [%-*@3 c] < 2048 and it is upper`-case UNICODE 
 code`-point.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:IsLower`(int`): [@(0.0.255) bool]_[* IsLower]([@(0.0.255) int]_[*@3 c])&]
-[s2;%% Returns true if [%-*@3 c] < 2048 and it is lower`-case UNICODE 
+[s2;%% Возвращает true, если [%-*@3 c] < 2048 and it is lower`-case UNICODE 
 code`-point.&]
 [s3;%% &]
 [s4;%% &]
@@ -365,28 +365,28 @@ char]_[*@3 c])&]
 [s3;%% &]
 [s4;%% &]
 [s5;:IsDigit`(int`): [@(0.0.255) bool]_[* IsDigit]([@(0.0.255) int]_[*@3 c])&]
-[s2;%% Returns true if [%-*@3 c] is a digit: [%-*@3 c] >`= `'0`' `&`& 
+[s2;%% Возвращает true, если [%-*@3 c] is a digit: [%-*@3 c] >`= `'0`' `&`& 
 [%-*@3 c] <`= `'9`'.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:IsAlpha`(int`): [@(0.0.255) bool]_[* IsAlpha]([@(0.0.255) int]_[*@3 c])&]
-[s2;%% Returns true if [%-*@3 c].is [*/ ASCII] alphabetic character: [%-*@3 c] 
+[s2;%% Возвращает true, если [%-*@3 c].is [*/ ASCII] alphabetic character: [%-*@3 c] 
 >`= `'A`' `&`& [%-*@3 c] <`= `'Z`' `|`| [%-*@3 c] >`= `'a`' `&`& 
 [%-*@3 c] <`= `'z`'.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:IsAlNum`(int`): [@(0.0.255) bool]_[* IsAlNum]([@(0.0.255) int]_[*@3 c])&]
-[s2;%% Returns true if [%-*@3 c].is either digit or [*/ ASCII ]alphabetic 
+[s2;%% Возвращает true, если [%-*@3 c].is either digit or [*/ ASCII ]alphabetic 
 character.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:IsLeNum`(int`): [@(0.0.255) bool]_[* IsLeNum]([@(0.0.255) int]_[*@3 c])&]
-[s2;%% Returns true if [%-*@3 c].is either digit or [*/ UNICODE] letter 
+[s2;%% Возвращает true, если [%-*@3 c].is either digit or [*/ UNICODE] letter 
 < 2048.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:IsPunct`(int`): [@(0.0.255) bool]_[* IsPunct]([@(0.0.255) int]_[*@3 c])&]
-[s2;%% Returns true if: [%-*@3 c] !`= `' `' `&`& !IsAlNum([%-*@3 c]).&]
+[s2;%% Возвращает true, если: [%-*@3 c] !`= `' `' `&`& !IsAlNum([%-*@3 c]).&]
 [s3;%% &]
 [s4;%% &]
 [s5;:IsSpace`(int`): [@(0.0.255) bool]_[* IsSpace]([@(0.0.255) int]_[*@3 c])&]
@@ -400,7 +400,7 @@ character.&]
 [s4; &]
 [s5;:Upp`:`:IsDoubleWidth`(int`): [@(0.0.255) bool]_[* IsDoubleWidth]([@(0.0.255) int]_[*@3 c
 ])&]
-[s2;%% Returns true if [%-*@3 c] is a double`-width UNICODE character 
+[s2;%% Возвращает true, если [%-*@3 c] is a double`-width UNICODE character 
 (like CJK ideograph).&]
 [s3;%% &]
 [s4; &]
@@ -455,19 +455,19 @@ oAscii]).&]
 [s4;%% &]
 [s5;:IsLetter`(int`,byte`): [@(0.0.255) bool]_[* IsLetter]([@(0.0.255) int]_[*@3 c], 
 [_^byte^ byte]_[*@3 charset])&]
-[s2;%% Returns true if character [%-*@3 c] encoded using 8`-bit [%-*@3 charset] 
+[s2;%% Возвращает true, если character [%-*@3 c] encoded using 8`-bit [%-*@3 charset] 
 is letter.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:IsUpper`(int`,byte`): [@(0.0.255) bool]_[* IsUpper]([@(0.0.255) int]_[*@3 c], 
 [_^byte^ byte]_[*@3 charset])&]
-[s2; Returns true if character [*@3 c] encoded using 8`-bit [*@3 charset] 
+[s2; Возвращает true, если character [*@3 c] encoded using 8`-bit [*@3 charset] 
 is upper`-case letter.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:IsLower`(int`,byte`): [@(0.0.255) bool]_[* IsLower]([@(0.0.255) int]_[*@3 c], 
 [_^byte^ byte]_[*@3 charset])&]
-[s2; Returns true if character [*@3 c] encoded using 8`-bit [*@3 charset] 
+[s2; Возвращает true, если character [*@3 c] encoded using 8`-bit [*@3 charset] 
 is lower`-case letter.&]
 [s3;%% &]
 [s4;%% &]

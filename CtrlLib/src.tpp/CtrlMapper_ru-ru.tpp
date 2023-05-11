@@ -10,30 +10,35 @@ topic "CtrlMapper";
 [b42;2 $$9,9#13035079074754324216151401829390:normal]
 [2 $$0,0#00000000000000000000000000000000:Default]
 [{_} 
-[ {{10000@(113.42.0) [s0;%% [*@7;4 CtrlMapper]]}}&]
+[ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 CtrlMapper]]}}&]
 [s1;@(0.0.255)3 &]
 [s1;:Upp`:`:CtrlMapper`:`:class: [@(0.0.255)3 class][3 _][*3 CtrlMapper]&]
-[s2;%% Trivial utility class for mapping values to widgets and back. 
-It is sort of similar to CtrlRetriever, but does immediate transfer 
-of values based on flag&]
-[s2;%% &]
+[s2;%RU-RU Тривиальный вспомогательный 
+класс для маппинга значений в виджеты 
+и наоборот. Чем то напоминает CtrlRetriever,но 
+выполняет немедленный трансфер значений, 
+основанный на флаге&]
+[s2;%RU-RU &]
 [s3; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%RU-RU [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:Upp`:`:CtrlMapper`:`:operator`(`)`(Upp`:`:Ctrl`&`,T`&`): [@(0.0.255) template]_<[@(0.0.255) c
 lass]_[*@4 T]>_[_^Upp`:`:CtrlMapper^ CtrlMapper][@(0.0.255) `&]_[* operator()]([_^Upp`:`:Ctrl^ C
 trl][@(0.0.255) `&]_[*@3 ctrl], [*@4 T][@(0.0.255) `&]_[*@3 val])&]
-[s2;%% Sets value of [%-*@3 ctrl] to [%-*@3 val] or [%-*@3 val] to [%-*@3 ctrl] 
-based on current direction setting.&]
-[s3;%% &]
+[s2;%RU-RU Устанавливает значение  [%-*@3 ctrl`'а] 
+в [%-*@3 val] или [%-*@3 val`'а] в [%-*@3 ctrl], основываясь 
+на текущей установке направления.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:CtrlMapper`:`:ToCtrls`(`): [_^Upp`:`:CtrlMapper^ CtrlMapper][@(0.0.255) `&]_[* T
 oCtrls]()&]
-[s2;%% Sets direction flag to move values to widgets.&]
+[s2;%RU-RU Устанавливает флаг направления 
+на перемещение значений в виджеты.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:CtrlMapper`:`:ToValues`(`): [_^Upp`:`:CtrlMapper^ CtrlMapper][@(0.0.255) `&]_
 [* ToValues]()&]
-[s2;%% Sets direction flag to move widgets to values&]
+[s2;%RU-RU Устанавливает флаг направления 
+на перемещение виджетов в значения&]
 [s3; &]
-[s0;%% ]]
+[s0;%RU-RU ]]

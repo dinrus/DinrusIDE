@@ -14,49 +14,61 @@ topic "BarCtrl";
 [s3; &]
 [s1;:BarCtrl`:`:class: [@(0.0.255)3 class][3 _][*3 BarCtrl][3 _:_][@(0.0.255)3 public][3 _][*@3;3 Ba
 r][3 , ][@(0.0.255)3 public][3 _][*@3;3 CtrlFrame]&]
-[s9;%RU-RU This class provides common methods for MenuBar and ToolBar. 
-Derived from Bar, it adds support for widget placement as [^topic`:`/`/CtrlCore`/srcdoc`/AboutFrames`_ru`-ru^ f
-rame] and status help line.&]
+[s9;%RU-RU В данном классе находятся общие 
+методы для контролов MenuBar и ToolBar. Производный
+ от Bar, он добавляет поддержку размещения 
+виджетов, таких как  [^topic`:`/`/CtrlCore`/srcdoc`/AboutFrames`_ru`-ru^ ф
+рейм] и строка справки о состоянии.&]
 [s3;%RU-RU &]
 [s0; &]
 [ {{10000F(128)G(128)@1 [s0;%RU-RU [* Список Публичных Членов]]}}&]
 [s3; &]
 [s5;:BarCtrl`:`:WhenHelp: [_^Callback1^ Callback1][@(0.0.255) <const]_String[@(0.0.255) `&>
 ]_[* WhenHelp]&]
-[s2;%RU-RU This callback is called when SendHelpLine or ClearHelpLine 
-static methods request displaying the status help line. Thanks 
-to operator overload, this callback can be directly assigned 
-the StatusBar instance.&]
+[s2;%RU-RU Этот обратный вызов делается, 
+когда статические методы SendHelpLine или 
+ClearHelpLine запрашивают отображение строки 
+справки о состоянии (status help line). Благодаря 
+перегрузке операторов, этот обратный 
+вызов можно непосредственно присваивать 
+экземпляру StatusBar.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:BarCtrl`:`:WhenLeftClick: [_^Callback^ Callback]_[* WhenLeftClick]&]
-[s2;%RU-RU Called when user clicks on bar area.&]
+[s2;%RU-RU Вызывается при пользовательском 
+клике в области бара (бруса).&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:BarCtrl`:`:GetBarCtrlParent`(Ctrl`*`): [@(0.0.255) static] [_^BarCtrl^ BarCtrl]_`*[* G
 etBarCtrlParent]([_^Ctrl^ Ctrl]_`*[*@3 child])&]
-[s2;%RU-RU Returns the first parent of BarCtrl type for [%-*@3 child].&]
+[s2;%RU-RU Возвращает первого родителя типа 
+BarCtrl для отпрыска [%-*@3 child].&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:BarCtrl`:`:SendHelpLine`(Ctrl`*`): [@(0.0.255) static] [@(0.0.255) void]_[* SendHelpLi
 ne]([_^Ctrl^ Ctrl]_`*[*@3 q])&]
-[s2;%RU-RU If [%-*@3 q] has help line defined (using Ctrl`::HelpLine 
-method), sends it to the CtrlBar obtained by calling GetBarCtrlParent 
-(if any) WhenHelp callback.&]
+[s2;%RU-RU Если у [%-*@3 q] определена строка 
+справки (методом Ctrl`::HelpLine), она отправляется 
+этим методом к CtrlBar`'у, полученному 
+в итоге вызова GetBarCtrlParent (если он есть) 
+обратного вызова WhenHelp.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:BarCtrl`:`:ClearHelpLine`(Ctrl`*`): [@(0.0.255) static] [@(0.0.255) void]_[* ClearHelp
 Line]([_^Ctrl^ Ctrl]_`*[*@3 q])&]
-[s2;%RU-RU Sends empty String to the CtrlBar obtained by calling 
-GetBarCtrlParent (if any) WhenHelp callback.&]
+[s2;%RU-RU Отправляет пустую String к CtrlBar`'у, 
+полученную при вызове GetBarCtrlParent (если 
+он есть) обратного вызова WhenHelp.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:BarCtrl`:`:Align`(int`): [_^BarCtrl^ BarCtrl][@(0.0.255) `&]_[* Align]([@(0.0.255) int]_
 [*@3 align])&]
-[s2; [%RU-RU Sets the placement of bar when used as frame, ][*@3 align][%RU-RU  
-can be one of BarCtrl`::][* BAR`_BOTTOM], [%RU-RU BarCtrl`::][* BAR`_TOP], 
-[%RU-RU BarCtrl`::][* BAR`_RIGHT], [%RU-RU BarCtrl`::][* BAR`_LEFT]. Default 
-value is BAR`_TOP.&]
+[s2; [%RU-RU Устанавливает размещение бруса 
+при его использование как фрейма, 
+][*@3 align][%RU-RU  может быть одним из следующих 
+вариантов `- BarCtrl`::][* BAR`_BOTTOM], [%RU-RU BarCtrl`::][* BAR`_TOP], 
+[%RU-RU BarCtrl`::][* BAR`_RIGHT], [%RU-RU BarCtrl`::][* BAR`_LEFT]. Дефолтное 
+значение равно BAR`_TOP.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:BarCtrl`:`:Top`(`): [_^BarCtrl^ BarCtrl][@(0.0.255) `&]_[* Top]()&]
@@ -76,14 +88,18 @@ value is BAR`_TOP.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:BarCtrl`:`:GetAlign`(`)const: [@(0.0.255) int]_[* GetAlign]()_[@(0.0.255) const]&]
-[s2;%RU-RU Returns current Align setting.&]
+[s2;%RU-RU Возвращает текущую настройку 
+Align.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:BarCtrl`:`:Wrap`(int`): [_^BarCtrl^ BarCtrl][@(0.0.255) `&]_[* Wrap]([@(0.0.255) int]_[*@3 q
 ]_`=_[@3 1])&]
-[s2;%RU-RU Sets the line (or column for vertical bars) wrap mode. 
-1 `- wrap mode is active, 0 `- wrap is active for frame BarCtrl, 
-`-1 `- wrap mode is not active. Default is 0 (active in frame).&]
+[s2;%RU-RU Устанавливает режим `"обёртки`" 
+строки (или колонки для вертикального 
+бруса). 1 `- режим `"обёртки`" (wrap mode) активен, 
+0 `- он активен для фрейма BarCtrl, 1 `- режим 
+обёртки дезактивирован. Дефолт равен 
+0 (активен в фрейме).&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:BarCtrl`:`:NoWrap`(`): [_^BarCtrl^ BarCtrl][@(0.0.255) `&]_[* NoWrap]()&]

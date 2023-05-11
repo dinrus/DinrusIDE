@@ -32,7 +32,7 @@ g]()_[@(0.0.255) const]&]
 [s3; &]
 [s4; &]
 [s5;:Id`:`:IsNull`(`)const: [@(0.0.255) bool]_[* IsNull]()_[@(0.0.255) const]&]
-[s2;%% Returns true if empty.&]
+[s2;%% Возвращает true, если empty.&]
 [s3; &]
 [s4; &]
 [s5;:Id`:`:operator const String`&`(`)const: [* operator_const_String`&]()_[@(0.0.255) co
@@ -51,7 +51,7 @@ tor`~]()_[@(0.0.255) const]&]
 [s4; &]
 [s5;:Id`:`:operator`=`=`(const Id`&`)const: [@(0.0.255) bool]_[* operator`=`=]([@(0.0.255) c
 onst]_[_^Id^ Id][@(0.0.255) `&]_[*@3 b])_[@(0.0.255) const]&]
-[s2;%% Returns true if both Id contain the same text.&]
+[s2;%% Возвращает true, если both Id contain the same text.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:Id`:`:operator`!`=`(const Id`&`)const: [@(0.0.255) bool]_[* operator!`=]([@(0.0.255) c

@@ -36,7 +36,7 @@ setup.&]
 [s3;%% &]
 [s4; &]
 [s5;:SqlArray`:`:CanInsert`(`)const: [@(0.0.255) bool]_[* CanInsert]()_[@(0.0.255) const]&]
-[s2;%% Returns true if it is possible to insert row into database. 
+[s2;%% Возвращает true, если it is possible to insert row into database. 
 In reality, this can be false for detail SqlArray in master`-detail 
 (see Join) relation when master SqlArray has no row selected 
 (and thus there is no foreign key to bind the record to).&]

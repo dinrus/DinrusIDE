@@ -21,7 +21,7 @@ enumeration.&]
 [s5;:FindFile`:`:Search`(const char`*`):%- [@(0.0.255) bool]_[* Search]([@(0.0.255) const]_
 [@(0.0.255) char]_`*[*@3 path])&]
 [s2; Starts a new listing. [%-*@3 path] can contain wildcards (`'`*`', 
-`'?`') to list more than single file. Returns true if first file 
+`'?`') to list more than single file. Возвращает true, если first file 
 is found. Wildcard pattern follows Windows conventions, `*.`* 
 matches all files, even those without extension.&]
 [s3; &]
@@ -79,19 +79,19 @@ with all filesystems.&]
 [s5;:FindFile`:`:GetLastChangeTime`(`)const:%- [@(0.0.255) bool]_[* CanRead]()_[@(0.0.255) c
 onst]&]
 [s6; `[POSIX`]&]
-[s2; Returns true if current user can read the file.&]
+[s2; Возвращает true, если current user can read the file.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:FindFile`:`:GetLastChangeTime`(`)const:%- [@(0.0.255) bool]_[* CanWrite]()_[@(0.0.255) c
 onst]&]
 [s6; `[POSIX`]&]
-[s2; Returns true if current user can write the file.&]
+[s2; Возвращает true, если current user can write the file.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:FindFile`:`:GetLastChangeTime`(`)const:%- [@(0.0.255) bool]_[* CanExecute]()_[@(0.0.255) c
 onst]&]
 [s6; `[POSIX`]&]
-[s2; Returns true if current user can execute the file.&]
+[s2; Возвращает true, если current user can execute the file.&]
 [s3;%- &]
 [s4; &]
 [s5;:FindFile`:`:GetLastChangeTime`(`)const:%- [_^FileTime^ FileTime]_[* GetLastChangeTim
@@ -102,59 +102,59 @@ e]()_[@(0.0.255) const]&]
 [s4; &]
 [s5;:FindFile`:`:IsDirectory`(`)const:%- [@(0.0.255) bool]_[* IsDirectory]()_[@(0.0.255) co
 nst]&]
-[s2; Returns true if entry is a directory. Note that FindFile returns 
+[s2; Возвращает true, если entry is a directory. Note that FindFile returns 
 `'..`' and `'.`' pseudo`-directories in the listing (on both 
 platforms), these return true as well.&]
 [s3; &]
 [s4; &]
 [s5;:FindFile`:`:IsFolder`(`)const:%- [@(0.0.255) bool]_[* IsFolder]()_[@(0.0.255) const]&]
-[s2; Returns true if entry is a directory, but [* not] `'..`' nor `'.`'.&]
+[s2; Возвращает true, если entry is a directory, but [* not] `'..`' nor `'.`'.&]
 [s3; &]
 [s4; &]
 [s5;:FindFile`:`:IsFile`(`)const:%- [@(0.0.255) bool]_[* IsFile]()_[@(0.0.255) const]&]
-[s2; Returns true if entry is a file.&]
+[s2; Возвращает true, если entry is a file.&]
 [s3; &]
 [s4; &]
 [s5;:FindFile`:`:IsArchive`(`)const:%- [@(0.0.255) bool]_[* IsArchive]()_[@(0.0.255) const]&]
 [s6; `[Win32`]&]
-[s2; Returns true if entry has archive flag set.&]
+[s2; Возвращает true, если entry has archive flag set.&]
 [s3; &]
 [s4; &]
 [s5;:FindFile`:`:IsCompressed`(`)const:%- [@(0.0.255) bool]_[* IsCompressed]()_[@(0.0.255) c
 onst]&]
 [s6; `[Win32`]&]
-[s2; Returns true if entry has compressed flag set.&]
+[s2; Возвращает true, если entry has compressed flag set.&]
 [s3; &]
 [s4; &]
 [s5;:FindFile`:`:IsHidden`(`)const:%- [@(0.0.255) bool]_[* IsHidden]()_[@(0.0.255) const]&]
-[s2; Returns true if entry has hidden flag set in Win32 or starts 
+[s2; Возвращает true, если entry has hidden flag set in Win32 or starts 
 with `'.`' in POSIX.&]
 [s3; &]
 [s4; &]
 [s5;:FindFile`:`:IsReadOnly`(`)const:%- [@(0.0.255) bool]_[* IsReadOnly]()_[@(0.0.255) cons
 t]&]
-[s2; Returns true if entry is read only (in current user context).&]
+[s2; Возвращает true, если entry is read only (in current user context).&]
 [s3; &]
 [s4; &]
 [s5;:FindFile`:`:IsSystem`(`)const:%- [@(0.0.255) bool]_[* IsSystem]()_[@(0.0.255) const]&]
 [s6; `[Win32`]&]
-[s2; Returns true if entry has system flag set.&]
+[s2; Возвращает true, если entry has system flag set.&]
 [s3; &]
 [s4; &]
 [s5;:FindFile`:`:IsTemporary`(`)const:%- [@(0.0.255) bool]_[* IsTemporary]()_[@(0.0.255) co
 nst]&]
 [s6; `[Win32`]&]
-[s2; Returns true if entry has system flag set.&]
+[s2; Возвращает true, если entry has system flag set.&]
 [s3; &]
 [s4; &]
 [s5;:FindFile`:`:IsSymLink`(`)const:%- [@(0.0.255) bool]_[* IsSymLink]()_[@(0.0.255) const]&]
-[s2; POSIX: Returns true if entry is POSIX symlink. Win32: Returns 
+[s2; POSIX: Возвращает true, если entry is POSIX symlink. Win32: Returns 
 true if entry is Shell link file (.lnk with proper content).&]
 [s3; &]
 [s4;%- &]
 [s5;:FindFile`:`:IsExecutable`(`)const:%- [@(0.0.255) bool]_[* IsExecutable]()_[@(0.0.255) c
 onst]&]
-[s2; Returns true if target file is executable binary.&]
+[s2; Возвращает true, если target file is executable binary.&]
 [s3;%- &]
 [s4; &]
 [s5;:FindFile`:`:GetMode`(`)const:%- [_^dword^ dword]_[* GetMode]()_[@(0.0.255) const]&]
@@ -163,7 +163,7 @@ onst]&]
 [s3; &]
 [s4; &]
 [s5;:FindFile`:`:operator bool`(`)const:%- [* operator_bool]()_[@(0.0.255) const]&]
-[s2; Returns true if there is current entry in FindFile (if false, 
+[s2; Возвращает true, если there is current entry in FindFile (if false, 
 all entry information methods have undefined behaviour). Usually, 
 this is used as condition to the loop that enumerates directory.&]
 [s3; &]

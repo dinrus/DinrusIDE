@@ -390,7 +390,7 @@ hue продолжает поддерживаться, тогда
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:IsDarkTheme`(`): [@(0.0.255) bool]_[* IsDarkTheme]()&]
-[s2;%RU-RU Returns true if SColorPaper is dark, which is indicator 
+[s2;%RU-RU Возвращает true, если SColorPaper is dark, which is indicator 
 of dark theme.&]
 [s3; &]
 [s4; &]

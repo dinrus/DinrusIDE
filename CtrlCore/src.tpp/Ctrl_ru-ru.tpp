@@ -1065,7 +1065,7 @@ oint][@(0.0.255) `&]_[*@3 pt])_[@(0.0.255) const]&]
 [s4;%- &]
 [s5;:Ctrl`:`:IsForeground`(`)const:%- [@(0.0.255) bool]_[* IsForeground]()_[@(0.0.255) cons
 t]&]
-[s2; Returns true if Ctrl or its top`-level parent is foreground 
+[s2; Возвращает true, если Ctrl or its top`-level parent is foreground 
 window.&]
 [s3;%- &]
 [s4;%- &]
@@ -1834,7 +1834,7 @@ events.&]
 [s4;%- &]
 [s5;:Ctrl`:`:HasMouseDeep`(`)const:%- [@(0.0.255) bool]_[* HasMouseDeep]()_[@(0.0.255) cons
 t]&]
-[s2; Returns true if Ctrl or any of its descendants is target for 
+[s2; Возвращает true, если Ctrl or any of its descendants is target for 
 mouse events.&]
 [s3;%- &]
 [s4;%- &]
@@ -2170,7 +2170,7 @@ all its descendants.&]
 [s4;%- &]
 [s5;:Upp`:`:Ctrl`:`:IsModifiedDeep`(`)const:%- [@(0.0.255) bool]_[* IsModifiedDeep]()_[@(0.0.255) c
 onst]&]
-[s2; Returns true if widget or any of its descendants have modify 
+[s2; Возвращает true, если widget or any of its descendants have modify 
 flag active.&]
 [s3;%- &]
 [s4;%- &]

@@ -18,7 +18,7 @@ topic "Bar";
 для чтения клавиш`-акселераторов 
 клавиатуры из процедур класса Bar.&]
 [s9; &]
-[s0; [/ Derived from] [^topic`:`/`/CtrlCore`/src`/Ctrl`$en`-us`#`:`:Ctrl`:`:class Ctrl^ C
+[s0; [/ Производный от] [^topic`:`/`/CtrlCore`/src`/Ctrl`_ru`-ru`#Ctrl`:`:class^ C
 trl]&]
 [s3; &]
 [s0; &]
@@ -26,39 +26,47 @@ trl]&]
 [s3;%- &]
 [s5;:Bar`:`:IsEmpty`(`)const:%- [@(0.0.255) virtual] [@(0.0.255) bool]_[* IsEmpty]()_[@(0.0.255) c
 onst]_`=_[@3 0]&]
-[s2; Returns true if Bar is empty.&]
+[s2; Возвращает true, если Bar пустой.&]
 [s3; &]
 [s4;%- &]
 [s5;:Bar`:`:Separator`(`):%- [@(0.0.255) virtual] [@(0.0.255) void]_[* Separator]()_`=_[@3 0]&]
-[s2; Adds a visual separator to the Bar.&]
+[s2; Добавляет видимый разделитель к 
+этому Bar.&]
 [s3; &]
 [s4;%- &]
 [s5;:Bar`:`:NilItem`(`):%- [@(0.0.255) static] [_^Bar`:`:Item^ Item][@(0.0.255) `&]_[* NilIte
 m]()&]
-[s2; Returns a reference to dummy item `- all method calls on this 
-item are ignored.&]
-[s3; &]
-[s4;%- &]
+[s2; Возвращает ссылку на `"произвольный`" 
+(dummy) элемент `- все методы, вызываемые 
+по отношению к этому элементу, игнорируются.
+&]
+[s0; &]
+[s4; &]
 [s5;:Bar`:`:Scan`(Callback1`<Bar`&`>`,dword`):%- [@(0.0.255) static] 
 [@(0.0.255) bool]_[* Scan]([_^Callback1^ Callback1][@(0.0.255) <]Bar[@(0.0.255) `&>]_[*@3 pro
 c], [_^dword^ dword]_[*@3 key])&]
-[s2; Scans bar routines hierarchy testing for[*  ][%-*@3 key] accelerator. 
-If any Item has this accelerator, associated action Callback 
-of item is invoked and method returns true.&]
+[s2; Сканирует иерархию процедур бруса, 
+тестируя на акселератор клавиши[*  
+][%-*@3 key]. Если у любого элемента есть 
+этот акселератор, вызывается ассоциированны
+й обратный вызов действия элемента 
+и возвращается true.&]
 [s3; &]
 [s4;%- &]
 [s5;:Bar`:`:Break`(`):%- [@(0.0.255) void]_[* Break]()&]
-[s2; This method breaks current bar line (or column) and starts a 
-new one.&]
-[s3; &]
+[s2; Этот метод прерывает текущую строку 
+(или колонку) бруса и начинает новую.&]
+[s0; &]
 [s4;%- &]
 [s5;:Bar`:`:Gap`(int`):%- [@(0.0.255) void]_[* Gap]([@(0.0.255) int]_[*@3 size]_`=_[@3 8])&]
-[s2; Adds a visual gap of [%-*@3 size] pixels to the Bar.&]
+[s2; Добавляет зримый промежуток размером 
+[%-*@3 size] пикселей к этому Bar.&]
 [s3; &]
 [s4;%- &]
 [s5;:Bar`:`:GapRight`(`):%- [@(0.0.255) void]_[* GapRight]()&]
-[s2; Adds a gap that aligns the rest of items of the Bar line to 
-the right size.&]
+[s2; Добавляет промежуток, который помещает 
+остальные элементы строки этого Bar 
+в `"правый`" размер (right size).&]
 [s3; &]
 [s4;%- &]
 [s5;:Bar`:`:Add`(Ctrl`&`):%- [@(0.0.255) void]_[* Add]([_^Ctrl^ Ctrl][@(0.0.255) `&]_[*@3 ctrl])
@@ -74,19 +82,27 @@ trl], [_^Size^ Size]_[*@3 sz])&]
 [s5;:Bar`:`:Add`(bool`,Ctrl`&`,int`,int`):%- [@(0.0.255) void]_[* Add]([@(0.0.255) bool]_[*@3 e
 n], [_^Ctrl^ Ctrl][@(0.0.255) `&]_[*@3 ctrl], [@(0.0.255) int]_[*@3 cx], 
 [@(0.0.255) int]_[*@3 cy]_`=_[@3 0])&]
-[s2; Adds a [%-*@3 ctrl] widget to the bar.&]
+[s2; Добавляет виджет [%-*@3 ctrl] к данному 
+брусу.&]
 [s2; &]
-[s2; If the [%-*@3 ctrl] has defined horizontal/vertical logical position 
-using LeftPos/TopPos, the non`-zero size of logical position 
-is used to define the size of widget in the Bar.  (in other words, 
-you can set the size by calling SetRect(0, 0, width, height).&]
+[s2; Если у [%-*@3 ctrl] определена горизонтальная/верт
+икальная логическая позиция посредством 
+LeftPos/TopPos, ненулевой размер логической 
+позиции используется для определения 
+размера виджета в этом Bar (другими 
+словами, можно установить размер, 
+вызвав SetRect(0, 0, ширина, высота).&]
 [s2; &]
-[s2; If either horizontal or vertical size of logical position is 
-empty, non`-zero [%-*@3 cx] [%-*@3 cy] method parameters are used.&]
+[s2; Если либо вертикальный, либо горизонтальный
+ размер логической позиции пуст, тогда 
+используются ненулевые параметры 
+метода [%-*@3 cx] [%-*@3 cy].&]
 [s2; &]
-[s2; If even any of them is zero (or not present in method declaration), 
-GetMinSize() for [%-*@3 ctrl] is used. Enable([%-*@3 en]) is called 
-for the widget to enable or disable it.&]
+[s2; Если хотя бы какой`-то из них равен 
+нулю (или отсутствует в декларации 
+метода), то GetMinSize() используется для 
+[%-*@3 ctrl]. Enable([%-*@3 en]) вызывается для активировани
+я или дезактивирования этого виджета.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:Bar`:`:Add`(bool`,const char`*`,const Upp`:`:Image`&`,const Upp`:`:Callback`&`):%- [_^Upp`:`:Bar`:`:Item^ I
@@ -147,15 +163,21 @@ tem][@(0.0.255) `&]_[* Add]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 text],
 [s5;:Upp`:`:Bar`:`:Add`(Upp`:`:KeyInfo`&`(`*`)`(`)`,const Upp`:`:Function`<void`(`)`>`&`):%- [_^Upp`:`:Bar`:`:Item^ I
 tem][@(0.0.255) `&]_[* Add]([_^Upp`:`:KeyInfo^ KeyInfo][@(0.0.255) `&]_(`*[*@3 key])(), 
 [@(0.0.255) const]_Function<[@(0.0.255) void]_()>`&_[*@3 fn])&]
-[s2; Adds an item to menu or toolbar. If [%-*@3 text] is present, item 
-is added to menu; if [%-*@3 image] is present, it is added to toolbar. 
-If both are present, [%-*@3 image] is used as icon in menu too 
-and [%-*@3 text] is used as toolbar button tooltip. When menu item 
-is selected or toolbar button pushed, [%-*@3 callback] or [%-*@3 fn] 
-is invoked. [%-*@3 enable] sets the item status and [%-*@3 key] is 
-an accelerator key or adjustable accelerator info. All variants 
-return a reference to Item which can be used to further adjust 
-the item.&]
+[s2; Добавляет элемент к меню или тулбару. 
+Если присутствует [%-*@3 text], то элемент 
+добавляется к меню; если же присутствует 
+[%-*@3 image], то он добавляется к тулбару. 
+Если присутствуют оба, то [%-*@3 image] также 
+используется как иконка в меню, а 
+[%-*@3 text] как подсказка к кнопке тулбара 
+(т.е. `"тултип`"). Когда выделен элемент 
+меню или нажата кнопка тулбара, вызывается 
+[%-*@3 callback] или [%-*@3 fn]. [%-*@3 enable] устанавливает 
+статус этого элемента, а [%-*@3 key] `- это 
+клавиша акселератора, любо настаиваемое 
+инфо акселератора. Все варианты возвращают 
+ссылку на элемент, которую можно использоват
+ь для последующей его настройки.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:Bar`:`:Add`(bool`,const char`*`,const Upp`:`:Event`<Upp`:`:Bar`&`>`&`):%- [_^Upp`:`:Bar`:`:Item^ I
@@ -191,10 +213,13 @@ tem][@(0.0.255) `&]_[* Sub]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 text],
 [@(0.0.255) const]_[_^Upp`:`:Image^ Upp`::Image][@(0.0.255) `&]_[*@3 image], 
 [@(0.0.255) const]_[_^Upp`:`:Function^ Function]<[@(0.0.255) void]_(Bar[@(0.0.255) `&])>`&
 _[*@3 submenu])&]
-[s2; Adds a submenu. For toolbar, simply adds all items of [%-*@3 submenu]. 
-[%-*@3 enable] sets the item status. Note that lambda variants 
-(with Function) have to be named differently because of overloading 
-issues.&]
+[s2; Добавляет подменю. Для тулбара просто 
+добавляет все элементы [%-*@3 submenu]. [%-*@3 enable] 
+устанавливает статус этого элемента. 
+Заметьте, что лямбда`-варианты (которые 
+с Function) должны быть проименованы по 
+разному, по причине перегрузочных 
+проблем.&]
 [s3; &]
 [s4;%- &]
 [s5;:Bar`:`:MenuSeparator`(`):%- [@(0.0.255) void]_[* MenuSeparator]()&]
@@ -248,8 +273,10 @@ tem][@(0.0.255) `&]_[* AddMenu]([@(0.0.255) const]_[_^Upp`:`:String^ String][@(0
 tem][@(0.0.255) `&]_[* AddMenu]([_^Upp`:`:KeyInfo^ KeyInfo][@(0.0.255) `&]_(`*[*@3 key])(),
  [@(0.0.255) const]_Upp`::Image[@(0.0.255) `&]_[*@3 m], [@(0.0.255) const]_Function<[@(0.0.255) v
 oid]_()>`&_[*@3 fn])&]
-[s2; These methods are equivalents to methods without [* Menu][*/  ]in 
-the name, but perform respective operations only if Bar is menu.&]
+[s2; Эти методы эквивалентны методам 
+без [* Menu][*/  ]в названии, но выполняют 
+соответствующие операции только 
+тогда, когда этот Bar является меню.&]
 [s3; &]
 [s4;%- &]
 [s5;:Bar`:`:ToolSeparator`(`):%- [@(0.0.255) void]_[* ToolSeparator]()&]
@@ -263,31 +290,36 @@ the name, but perform respective operations only if Bar is menu.&]
 ]_[*@3 ctrl], [_^Size^ Size]_[*@3 sz])&]
 [s5;:Bar`:`:AddTool`(Ctrl`&`,int`,int`):%- [@(0.0.255) void]_[* AddTool]([_^Ctrl^ Ctrl][@(0.0.255) `&
 ]_[*@3 ctrl], [@(0.0.255) int]_[*@3 cx], [@(0.0.255) int]_[*@3 cy]_`=_[@3 0])&]
-[s2; These methods are equivalents to methods without [* Tool][*/  ]in 
-the name, but perform respective operations only if Bar is toolbar.&]
+[s2; Эти методы эквивалентны методам 
+без [* Tool][*/  ]в названии, но выполняют 
+соответствующие операции только 
+тогда, когда этот Bar является тулбаром&]
+[s0; &]
 [s3; &]
 [s4;%- &]
 [s5;:Bar`:`:AddKey`(dword`,Callback`):%- [@(0.0.255) virtual] [@(0.0.255) void]_[* AddKey](
 [_^dword^ dword]_[*@3 key], [_^Callback^ Callback]_[*@3 cb])&]
 [s5;:Bar`:`:AddKey`(KeyInfo`&`(`*`)`(`)`,Callback`):%- [@(0.0.255) void]_[* AddKey]([_^KeyInfo^ K
 eyInfo][@(0.0.255) `&]_(`*[*@3 key])(), Callback_[*@3 cb])&]
-[s2; These variants do not add items to neither menu or toolbar, 
-but do add accelerator keys.&]
+[s2; Эти варианты не добавляют элементов 
+ни в меню, ни в тулбар, но добавляют 
+клавиши`-акселероторы.&]
 [s3; &]
 [s4;%- &]
 [s5;:Bar`:`:IsMenuBar`(`)const:%- [@(0.0.255) virtual] [@(0.0.255) bool]_[* IsMenuBar]()_[@(0.0.255) c
 onst]&]
-[s2; Returns true if Bar is menubar.&]
+[s2; Возвращает true, если Bar является менюбаром.&]
 [s3; &]
 [s4;%- &]
 [s5;:Bar`:`:IsToolBar`(`)const:%- [@(0.0.255) virtual] [@(0.0.255) bool]_[* IsToolBar]()_[@(0.0.255) c
 onst]&]
-[s2; Returns true if Bar is toolbar.&]
+[s2; Возвращает true, если Bar является тулбаром.&]
 [s3; &]
 [s4;%- &]
 [s5;:Bar`:`:IsScanKeys`(`)const:%- [@(0.0.255) virtual] [@(0.0.255) bool]_[* IsScanKeys]()_
 [@(0.0.255) const]&]
-[s2; Returns true if Bar is only scanning the accelerator keys.&]
+[s2; Возвращает true, если Bar сканирует только 
+клавиши`-акселераторы.&]
 [s3; &]
 [s0; &]
 [s0; &]
@@ -295,16 +327,18 @@ onst]&]
 [ {{10000@3 [s0; [*@(229)4 Bar`::Item]]}}&]
 [s3; &]
 [s1;:Bar`:`:Item`:`:struct:%- [@(0.0.255)3 struct][3 _][*3 Item]&]
-[s9; This structure is used to describe additional properties of 
-individual bar items. Methods return `*this to allow chaining 
-of calls.&]
+[s9; Эта структура используется для описания 
+дополнительных свойств индивидуального 
+элемента бруса (бара). Методы возвращают 
+`*this, что позволяет делать сцепку вызовов.&]
 [s3; &]
 [s0;%- &]
 [ {{10000F(128)G(128)@1 [s0; [* Список Публичных Членов]]}}&]
 [s3; &]
 [s5;:Bar`:`:Item`:`:Image`(const Image`&`):%- [_^Bar`:`:Item^ Bar`::Item][@(0.0.255) `&]_[* I
 mage]([@(0.0.255) const]_[_^Image^ UPP`::Image][@(0.0.255) `&]_[*@3 img])&]
-[s2; Sets the image used with the item.&]
+[s2; Устанавливает изображение, используемое 
+с этим элементом.&]
 [s3; &]
 [s4;%- &]
 [s5;:Bar`:`:Item`:`:Text`(const char`*`):%- [@(0.0.255) virtual] [_^Bar`:`:Item^ Item][@(0.0.255) `&
@@ -312,55 +346,66 @@ mage]([@(0.0.255) const]_[_^Image^ UPP`::Image][@(0.0.255) `&]_[*@3 img])&]
 [s5;:Upp`:`:Bar`:`:Item`:`:Text`(const Upp`:`:String`&`):%- [@(0.0.255) virtual] 
 [_^Upp`:`:Bar`:`:Item^ Item][@(0.0.255) `&]_[* Text]([@(0.0.255) const]_[_^Upp`:`:String^ S
 tring][@(0.0.255) `&]_[*@3 text])&]
-[s2; Sets the [%-*@3 text] of item.&]
+[s2; Устанавливат текст [%-*@3 text] элемента.&]
 [s3; &]
 [s4;%- &]
 [s5;:Bar`:`:Item`:`:Key`(dword`):%- [@(0.0.255) virtual] [_^Bar`:`:Item^ Item][@(0.0.255) `&
 ]_[* Key]([_^dword^ dword]_[*@3 key])&]
-[s2; Sets the accelerator [%-*@3 key]. Items can have more than single 
-accelerator key (only the last one is displayed but all are active).&]
+[s2; Устанавливает клавишу акселератора 
+[%-*@3 key]. У элементов может быть более 
+одной клавиши`-акселератора (отображается 
+только последняя, но активны все).&]
 [s3; &]
 [s4;%- &]
 [s5;:Bar`:`:Item`:`:Repeat`(bool`):%- [@(0.0.255) virtual] [_^Bar`:`:Item^ Item][@(0.0.255) `&
 ]_[* Repeat]([@(0.0.255) bool]_[*@3 repeat]_`=_[@(0.0.255) true])&]
-[s2; In repeat mode, action from ToolBar buttons is called repeatedly 
-when mouse is hold down over them.&]
+[s2; В режиме повтора (repeat mode), действие 
+от кнопок ToolBar`'а вызываются повторно, 
+когда над ними выжата кнопка мыши.&]
 [s3; &]
 [s4;%- &]
 [s5;:Bar`:`:Item`:`:Check`(bool`):%- [@(0.0.255) virtual] [_^Bar`:`:Item^ Item][@(0.0.255) `&
 ]_[* Check]([@(0.0.255) bool]_[*@3 check])&]
-[s2; Makes the item `"checked`". Use with on/off option buttons or 
-menu items.&]
+[s2; Делает элемент `"checked`" (`"отмеченным`"). 
+Испольуется с кнопками опций on/off 
+или элементами меню.&]
 [s3; &]
 [s4;%- &]
 [s5;:Bar`:`:Item`:`:Radio`(bool`):%- [@(0.0.255) virtual] [_^Bar`:`:Item^ Item][@(0.0.255) `&
 ]_[* Radio]([@(0.0.255) bool]_[*@3 check])&]
-[s2; Makes the item `"choosen`". Similar to check, with visual style 
-resembling Switch.&]
+[s2; Делает элемент `"choosen`" (`"выбранным`"). 
+Похоже на check, визуальный стиль напоминает 
+Switch.&]
 [s3; &]
 [s4;%- &]
 [s5;:Bar`:`:Item`:`:Enable`(bool`):%- [@(0.0.255) virtual] [_^Bar`:`:Item^ Item][@(0.0.255) `&
 ]_[* Enable]([@(0.0.255) bool]_[*@3 `_enable]_`=_[@(0.0.255) true])&]
-[s2; Enables the item (default is enabled).&]
+[s2; Делает элемент активным (дефолтно 
+он активен).&]
 [s3; &]
 [s4;%- &]
 [s5;:Bar`:`:Item`:`:Bold`(bool`):%- [@(0.0.255) virtual] [_^Bar`:`:Item^ Item][@(0.0.255) `&
 ]_[* Bold]([@(0.0.255) bool]_[*@3 bold]_`=_[@(0.0.255) true])&]
-[s2; Sets bold text to menu item [%-*@3 bold].&]
+[s2; Устанавливает полужирным текст элемента 
+меню, в соответствии со значением 
+[%-*@3 bold].&]
 [s3; &]
 [s4;%- &]
 [s5;:Bar`:`:Item`:`:Tip`(const char`*`):%- [@(0.0.255) virtual] [_^Bar`:`:Item^ Item][@(0.0.255) `&
 ]_[* Tip]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 tip])&]
-[s2; Adds a tooltip to the ToolBar item.&]
+[s2; Добавляет подсказку`-тултип к элементу 
+ToolBar`'а.&]
 [s3; &]
 [s4;%- &]
 [s5;:Bar`:`:Item`:`:Help`(const char`*`):%- [@(0.0.255) virtual] [_^Bar`:`:Item^ Item][@(0.0.255) `&
 ]_[* Help]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 help])&]
-[s2; Adds a [%-*@3 help] line to the the item.&]
+[s2; Добавляет строку справки [%-*@3 help] к 
+данному элементу.&]
 [s3; &]
 [s4;%- &]
 [s5;:Bar`:`:Item`:`:Key`(KeyInfo`&`(`*`)`(`)`):%- [_^Bar`:`:Item^ Item][@(0.0.255) `&]_[* K
 ey]([_^KeyInfo^ KeyInfo][@(0.0.255) `&]_(`*[*@3 key])())&]
-[s2; Adds all keys from configurable accelerator info.&]
+[s2; Добавляет все клавиши из конфигурабильной 
+инфо об акселераторе.&]
 [s3; &]
 [s0; ]]

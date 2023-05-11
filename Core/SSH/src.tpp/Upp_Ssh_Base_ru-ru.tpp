@@ -58,12 +58,12 @@ st]&]
 [s4; &]
 [s5;:Upp`:`:Ssh`:`:InProgress`(`)const: [@(0.0.255) bool]_[* InProgress]()_[@(0.0.255) cons
 t]&]
-[s2;%% Returns true if a command or data transfer is currently in 
+[s2;%% Возвращает true, если a command or data transfer is currently in 
 progress.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:Ssh`:`:IsError`(`)const: [@(0.0.255) bool]_[* IsError]()_[@(0.0.255) const]&]
-[s2;%% Returns true if there was an error.&]
+[s2;%% Возвращает true, если there was an error.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:Ssh`:`:GetError`(`)const: [@(0.0.255) int]_[* GetError]()_[@(0.0.255) const]&]

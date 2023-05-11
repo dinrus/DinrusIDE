@@ -1,5 +1,4 @@
 topic "Frame";
-[2 $$0,0#00000000000000000000000000000000:Default]
 [i448;a25;kKO9;2 $$1,0#37138531426314131252341829483380:class]
 [l288;2 $$2,2#27521748481378242620020725143825:desc]
 [0 $$3,0#96390100711032703541132217272105:end]
@@ -9,9 +8,10 @@ topic "Frame";
 [l288;i1121;b17;O9;~~~.1408;2 $$7,0#10431211400427159095818037425705:param]
 [i448;b42;O9;2 $$8,8#61672508125594000341940100500538:tparam]
 [b42;2 $$9,9#13035079074754324216151401829390:normal]
+[2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%RU-RU 
 [ {{10000t/25b/25@3 [s0;%- [*@(229)4 Frame]]}}&]
-[s9; [^topic`:`/`/CtrlCore`/srcdoc`/AboutFrames`$en`-us^ Frames] are 
+[s9; [^topic`:`/`/CtrlCore`/srcdoc`/AboutFrames`_ru`-ru^ Frames] are 
 objects derived from CtrlFrame class that form appearance and 
 functionality of area between outer Ctrl border and its view.&]
 [s3; &]
@@ -200,7 +200,7 @@ trlFrame] so that they add/remove `'this`' from parent`'s children`-list.&]
 [s2; &]
 [s7; [%-*C@4 T]-|Ctrl type.&]
 [s0; &]
-[s0;%- [%%/ Derived from][%%  ]T, [^topic`:`/`/CtrlCore`/src`/Frame`$en`-us`#`:`:CtrlFrame`:`:class CtrlFrame^@(0.0.255) C
+[s0;%- [%RU-RU/ Derived from][%RU-RU  ]T, [^topic`:`/`/CtrlCore`/src`/Frame`$en`-us`#`:`:CtrlFrame`:`:class CtrlFrame^@(0.0.255) C
 trlFrame]&]
 [s0;^topic`:`/`/CtrlCore`/src`/Frame`$en`-us`#`:`:CtrlFrame`:`:class CtrlFrame^@(0.0.255)%- &]
 [s0;^topic`:`/`/CtrlCore`/src`/Frame`$en`-us`#`:`:CtrlFrame`:`:class CtrlFrame^@(0.0.255)%- &]
@@ -218,7 +218,7 @@ indicates that width is equal to the height.&]
 [s2; &]
 [s7; [%-*C@4 T]-|Ctrl type.&]
 [s0; &]
-[s0;%- [%%/ Derived from][%%  ][^topic`:`/`/CtrlCore`/src`/Frame`$en`-us`#`:`:FrameCtrl`:`:template `<class T`> class FrameCtrl^ F
+[s0;%- [%RU-RU/ Derived from][%RU-RU  ][^topic`:`/`/CtrlCore`/src`/Frame`$en`-us`#`:`:FrameCtrl`:`:template `<class T`> class FrameCtrl^ F
 rameCtrl<T>] &]
 [s0; &]
 [s0; &]
@@ -239,7 +239,7 @@ rameCtrl<T>] &]
 [s2; This class places Ctrl to the parent`'s left side as frame.&]
 [s7; [%-*C@4 T]-|Ctrl type.&]
 [s0; &]
-[s0;%- [%%/ Derived from][%%  ][^topic`:`/`/CtrlCore`/src`/Frame`$en`-us`#`:`:FrameLR`:`:template `<class T`> class FrameLR^ F
+[s0;%- [%RU-RU/ Derived from][%RU-RU  ][^topic`:`/`/CtrlCore`/src`/Frame`$en`-us`#`:`:FrameLR`:`:template `<class T`> class FrameLR^ F
 rameLR<T>] &]
 [s3; &]
 [s4; &]
@@ -249,7 +249,7 @@ LR]<[*@4 T]>_&]
 [s2; This class places Ctrl to the parent`'s right side as frame.&]
 [s7; [%-*C@4 T]-|Ctrl type.&]
 [s0; &]
-[s0;%- [%%/ Derived from][%%  ][^topic`:`/`/CtrlCore`/src`/Frame`$en`-us`#`:`:FrameLR`:`:template `<class T`> class FrameLR^ F
+[s0;%- [%RU-RU/ Derived from][%RU-RU  ][^topic`:`/`/CtrlCore`/src`/Frame`$en`-us`#`:`:FrameLR`:`:template `<class T`> class FrameLR^ F
 rameLR<T>] &]
 [s3; &]
 [s1;:noref:%- [@(0.0.255)3 template][3 _<][@(0.0.255)3 class][3 _][*@4;3 T][3 >]&]
@@ -261,7 +261,7 @@ side of parent Ctrl frame. Height is initialized to 0. 0 as height
 indicates that height is equal to the width.&]
 [s7; [%-*C@4 T]-|Ctrl type.&]
 [s0; &]
-[s0;%- [%%/ Derived from][%%  ][^topic`:`/`/CtrlCore`/src`/Frame`$en`-us`#`:`:FrameCtrl`:`:template `<class T`> class FrameCtrl^ F
+[s0;%- [%RU-RU/ Derived from][%RU-RU  ][^topic`:`/`/CtrlCore`/src`/Frame`$en`-us`#`:`:FrameCtrl`:`:template `<class T`> class FrameCtrl^ F
 rameCtrl<T>] &]
 [s3; &]
 [s0; &]
@@ -282,7 +282,7 @@ nt]_[*@3 `_cy])&]
 [s2; This class places Ctrl to the parent`'s top side as frame.&]
 [s7; [%-*C@4 T]-|Ctrl type.&]
 [s0; &]
-[s0;%- [%%/ Derived from][%%  ][^topic`:`/`/CtrlCore`/src`/Frame`$en`-us`#`:`:FrameTB`:`:template `<class T`> class FrameTB^ F
+[s0;%- [%RU-RU/ Derived from][%RU-RU  ][^topic`:`/`/CtrlCore`/src`/Frame`$en`-us`#`:`:FrameTB`:`:template `<class T`> class FrameTB^ F
 rameTB<T>] &]
 [s3; &]
 [s4; &]
@@ -292,7 +292,7 @@ meTB]<[*@4 T]>_&]
 [s2; This class places Ctrl to the parent`'s bottom side as frame.&]
 [s7; [%-*C@4 T]-|Ctrl type.&]
 [s0; &]
-[s0;%- [%%/ Derived from][%%  ][^topic`:`/`/CtrlCore`/src`/Frame`$en`-us`#`:`:FrameTB`:`:template `<class T`> class FrameTB^ F
+[s0;%- [%RU-RU/ Derived from][%RU-RU  ][^topic`:`/`/CtrlCore`/src`/Frame`$en`-us`#`:`:FrameTB`:`:template `<class T`> class FrameTB^ F
 rameTB<T>] &]
 [s3; &]
 [s0; &]

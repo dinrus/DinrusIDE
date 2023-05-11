@@ -78,7 +78,7 @@ es]_[* operator()]([*@4 ArgTypes][@(0.0.255) ...]_args)_[@(0.0.255) const]&]
 [s4; &]
 [s5;:Function`<Res`(ArgTypes`.`.`.`)`> `:`:operator bool`(`)const:%- [* operator_bool](
 )_[@(0.0.255) const]&]
-[s2; Returns true if Function is not empty.&]
+[s2; Возвращает true, если Function is not empty.&]
 [s3; &]
 [s4; &]
 [s5;:Function`<Res`(ArgTypes`.`.`.`)`> `:`:Clear`(`):%- [@(0.0.255) void]_[* Clear]()&]

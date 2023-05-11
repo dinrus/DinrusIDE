@@ -75,21 +75,21 @@ is the name to be used with JSON or XML.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Value`:`:IsError`(`)const:%- [@(0.0.255) bool]_[* IsError]()_[@(0.0.255) const]&]
-[s2; Returns true if Value contains ErrorValue.&]
+[s2; Возвращает true, если Value contains ErrorValue.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Value`:`:IsVoid`(`)const:%- [@(0.0.255) bool]_[* IsVoid]()_[@(0.0.255) const]&]
-[s2; Returns true if Value is void (default constructed Value is 
+[s2; Возвращает true, если Value is void (default constructed Value is 
 void). IsError implies IsVoid.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Value`:`:IsNull`(`)const:%- [@(0.0.255) bool]_[* IsNull]()_[@(0.0.255) const]&]
-[s2; Returns true if Value is Null. IsVoid implies IsNull.&]
+[s2; Возвращает true, если Value is Null. IsVoid implies IsNull.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Value`:`:Is`(`)const:%- [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 T]>_[@(0.0.255) b
 ool]_[* Is]()_[@(0.0.255) const]&]
-[s2; Returns true if Value contains exactly type [%-*@4 T].&]
+[s2; Возвращает true, если Value contains exactly type [%-*@4 T].&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Value`:`:To`(`)const:%- [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 T]>_[@(0.0.255) c
@@ -409,7 +409,7 @@ onst]_[_^Value^ Value][@(0.0.255) `&])_[@(0.0.255) const]&]
 [s3;%- &]
 [s5;:FitsSvoValue`(`):%- [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 T]>_[@(0.0.255) bool]_
 [* FitsSvoValue]()&]
-[s2; Returns true if sizeof(T) fits into SVO Value optimization.&]
+[s2; Возвращает true, если sizeof(T) fits into SVO Value optimization.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:SvoToValue`(const T`&`):%- [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 T]>_[_^Value^ V
@@ -479,18 +479,18 @@ alue][@(0.0.255) `&]_[*@3 v])&]
 [s4;%- &]
 [s5;:IsString`(const Value`&`):%- [@(0.0.255) bool]_[* IsString]([@(0.0.255) const]_[_^Value^ V
 alue][@(0.0.255) `&]_[*@3 v])&]
-[s2; Returns true if [%-*@3 v] contains String, WString or Null value.&]
+[s2; Возвращает true, если [%-*@3 v] contains String, WString or Null value.&]
 [s3; &]
 [s4;%- &]
 [s5;:IsNumber`(const Value`&`):%- [@(0.0.255) bool]_[* IsNumber]([@(0.0.255) const]_[_^Value^ V
 alue][@(0.0.255) `&]_[*@3 v])&]
-[s2; Returns true if [%-*@3 v] contains bool, int, int64, double or 
+[s2; Возвращает true, если [%-*@3 v] contains bool, int, int64, double or 
 Null value.&]
 [s3; &]
 [s4;%- &]
 [s5;:IsDateTime`(const Value`&`):%- [@(0.0.255) bool]_[* IsDateTime]([@(0.0.255) const]_[_^Value^ V
 alue][@(0.0.255) `&]_[*@3 v])&]
-[s2; Returns true if [%-*@3 v] contains Date, Time or Null value.&]
+[s2; Возвращает true, если [%-*@3 v] contains Date, Time or Null value.&]
 [s3; &]
 [s4;%- &]
 [s5;:IsValueArray`(const Value`&`):%- [@(0.0.255) bool]_[* IsValueArray]([@(0.0.255) const]_

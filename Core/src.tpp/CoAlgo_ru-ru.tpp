@@ -146,7 +146,7 @@ If not found, returns `-1. Search starts at index ][*@3 from][%RU-RU .
 lass]_[*@4 Range1], [@(0.0.255) class]_[*@4 Range2]>_[@(0.0.255) int]_[* CoIsEqualRange]([@(0.0.255) c
 onst]_[*@4 Range1][@(0.0.255) `&]_[*@3 r1], [@(0.0.255) const]_[*@4 Range2][@(0.0.255) `&]_[*@3 r
 2])&]
-[s2; [%RU-RU Returns true if ][*@3 a][%RU-RU  and ][*@3 b][%RU-RU  are equal. 
+[s2; [%RU-RU Возвращает true, если ][*@3 a][%RU-RU  and ][*@3 b][%RU-RU  are equal. 
 operator`=`= is used to compare elements. Ranges are considered 
 equal if they have the same number of elements and for every 
 element at index ][%RU-RU/ i: ][*@3 a][%RU-RU `[i`] `=`= ][*@3 b][%RU-RU `[i`]. 

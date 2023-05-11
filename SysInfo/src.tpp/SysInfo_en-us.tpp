@@ -210,13 +210,13 @@ iningMin])&]
 connected to the grid, [%-*@3 percentage] of charging where 100% 
 means full charge, and number of expected computer running minutes 
 in [%-*@3 remainingMin].&]
-[s2; Returns true if the values got are valid.&]
+[s2; Возвращает true, если the values got are valid.&]
 [s3; &]
 [s4;%- &]
 [s5;:GetBatteryInfo`(bool`&`):%- [@(0.0.255) bool]_[* GetBatteryInfo]([@(0.0.255) bool]_`&[*@3 p
 resent]_)&]
 [s2; Gets if battery is [%-*@3 present ]or not.&]
-[s2; Returns true if the values got are valid.&]
+[s2; Возвращает true, если the values got are valid.&]
 [s3; &]
 [s4;%- &]
 [s5;:OpenCDTray`(`):%- [@(0.0.255) void]_[* OpenCDTray]()&]
@@ -342,7 +342,7 @@ if possible.&]
 [s4;%- &]
 [s5;:ProcessExists`(int64`):%- [@(0.0.255) bool]_[* ProcessExists]([@(0.0.255) int64]_[*@3 pi
 d])&]
-[s2; Returns true if a process with handle [%-*@3 pid ]exists.&]
+[s2; Возвращает true, если a process with handle [%-*@3 pid ]exists.&]
 [s3; &]
 [s4;%- &]
 [s5;:GetProcessId`(`):%- [@(0.0.255) int64]_[* GetProcessId]()&]
@@ -364,7 +364,7 @@ om])&]
 [s2; Giving this function the [%-*@3 windowId], it returns the window 
 location in the screen in [%-*@3 left], [%-*@3 top], [%-*@3 right] 
 and [%-*@3 bottom].&]
-[s2; Returns true if the values got are valid.&]
+[s2; Возвращает true, если the values got are valid.&]
 [s3; &]
 [s4;%- &]
 [s5;:Window`_SetRect`(int64`,long`,long`,long`,long`):%- [@(0.0.255) bool]_[* Window`_Set
@@ -373,7 +373,7 @@ Rect]([_^int64^ int64]_[*@3 windowId], [@(0.0.255) long]_[*@3 left],
 [s2; Giving this function the [%-*@3 windowId], it sets the window 
 location in the screen in [%-*@3 left], [%-*@3 top], [%-*@3 right] 
 and [%-*@3 bottom].&]
-[s2; Returns true if the values got are valid.&]
+[s2; Возвращает true, если the values got are valid.&]
 [s3; &]
 [s4;%- &]
 [s5;:Window`_Bottom`(int64`):%- [@(0.0.255) void]_[* Window`_Bottom]([_^int64^ int64]_[*@3 wi
@@ -397,14 +397,14 @@ indowId])&]
 `&[*@3 x], [@(0.0.255) int]_`&[*@3 y])&]
 [s2; Gets the mouse position [%-*@3 x, y].in screen pixels where upper 
 left corner is (0, 0).&]
-[s2; Returns true if the operation has been done successfully.&]
+[s2; Возвращает true, если the operation has been done successfully.&]
 [s3; &]
 [s4; &]
 [s5;:Mouse`_SetPos`(int`,int`,int64`):%- [@(0.0.255) bool]_[* Mouse`_SetPos]([@(0.0.255) in
 t]_[*@3 x], [@(0.0.255) int]_[*@3 y], [@(0.0.255) int64]_[*@3 windowId])&]
 [s2; Sets the mouse position to [%-*@3 x] [%-*@3 y] referenced to the 
 upper left vertex of window with window handle [%-*@3 windowId].&]
-[s2; Returns true if the operation has been done successfully.&]
+[s2; Возвращает true, если the operation has been done successfully.&]
 [s3; &]
 [s4;%- &]
 [s5;:Mouse`_LeftClick`(`):%- [@(0.0.255) void]_[* Mouse`_LeftClick]()&]

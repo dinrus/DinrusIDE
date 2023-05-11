@@ -101,7 +101,7 @@ from non`-main thread without restriction.&]
 [s4;%- &]
 [s5;:Progress`:`:Canceled`(`):%- [@(0.0.255) bool]_[* Canceled]()&]
 [s2; Shows a Cancel button if not shown yet. If this button is pressed, 
-sets dialog to canceled mode. Returns true if dialog was canceled. 
+sets dialog to canceled mode. Возвращает true, если dialog was canceled. 
 This method can be called from non`-main thread without restriction. 
 Calling this method from the main thread also invokes processing 
 GUI events, including paint event, so calling this as often as 

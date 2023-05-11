@@ -21,7 +21,7 @@ Ftp] file system objects.at random position. &]
 [ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:Upp`:`:SFtpStream`:`:operator bool`(`)const: [* operator_bool]()_[@(0.0.255) const]&]
-[s2;%% Returns true if the stream is open.&]
+[s2;%% Возвращает true, если the stream is open.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:SFtpStream`:`:Open`(Upp`:`:SFtp`&`,const char`*`,Upp`:`:dword`,int`): [@(0.0.255) b

@@ -124,7 +124,7 @@ multithreaded.&]
 [s5;:Upp`:`:IsZstd`(Upp`:`:Stream`&`): [@(0.0.255) bool]_[* IsZstd]([_^Upp`:`:Stream^ Strea
 m][@(0.0.255) `&]_[*@3 s])&]
 [s2;%% Checks the Stream for magic number identifying Zstd stream. 
-Seeks back after the check. Returns true if magic number was 
+Seeks back after the check. Возвращает true, если magic number was 
 detected.&]
 [s3;%% &]
 [s0;%% ]]

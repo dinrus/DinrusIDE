@@ -300,12 +300,12 @@ from the font metadata is unreliable.&]
 [s4; &]
 [s5;:Font`:`:IsNormal`(int`)const: [@(0.0.255) bool]_[* IsNormal]([@(0.0.255) int]_[@3 ch])_[@(0.0.255) c
 onst]&]
-[s2;%% Returns true if [%-*@3 ch] exists as regular glyph in the font.&]
+[s2;%% Возвращает true, если [%-*@3 ch] exists as regular glyph in the font.&]
 [s3;%% &]
 [s4; &]
 [s5;:Font`:`:IsComposed`(int`)const: [@(0.0.255) bool]_[* IsComposed]([@(0.0.255) int]_[@3 ch
 ])_[@(0.0.255) const]&]
-[s2;%% Returns true if [%-*@3 ch].is to be rendered as composition 
+[s2;%% Возвращает true, если [%-*@3 ch].is to be rendered as composition 
 of 2 other glyphs (ASCII letter and diacritical mark).&]
 [s3;%% &]
 [s4; &]
@@ -317,12 +317,12 @@ some other font.&]
 [s4; &]
 [s5;:Font`:`:IsMissing`(int`)const: [@(0.0.255) bool]_[* IsMissing]([@(0.0.255) int]_[@3 ch])
 _[@(0.0.255) const]&]
-[s2;%% Returns true if [%-*@3 ch] cannot be rendered.&]
+[s2;%% Возвращает true, если [%-*@3 ch] cannot be rendered.&]
 [s3;%% &]
 [s4; &]
 [s5;:Font`:`:HasChar`(int`)const: [@(0.0.255) int]_HasChar([@(0.0.255) int]_[@3 ch])_[@(0.0.255) c
 onst]&]
-[s2;%% Returns true if [%-*@3 ch] can be rendered (in any way).&]
+[s2;%% Возвращает true, если [%-*@3 ch] can be rendered (in any way).&]
 [s3;%% &]
 [s4; &]
 [s5;:Font`:`:GetWidth`(int`)const: [@(0.0.255) int]_[* GetWidth]([@(0.0.255) int]_[@3 c])_[@(0.0.255) c
@@ -366,12 +366,12 @@ there is a space inside the cell not used for glyph.&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:IsSpecial`(`)const: [@(0.0.255) bool]_[* IsSpecial]()_[@(0.0.255) const]&]
-[s2;%% Returns true if font does not use unicode placement of glyphs, 
+[s2;%% Возвращает true, если font does not use unicode placement of glyphs, 
 for example some symbol fonts have this issue.&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:IsTrueType`(`)const: [@(0.0.255) bool]_[* IsTrueType]()_[@(0.0.255) const]&]
-[s2;%% Returns true if font is TrueType font. (Note that PdfDraw 
+[s2;%% Возвращает true, если font is TrueType font. (Note that PdfDraw 
 and Linux printing are only able to handle TrueType fonts).&]
 [s3; &]
 [s4; &]

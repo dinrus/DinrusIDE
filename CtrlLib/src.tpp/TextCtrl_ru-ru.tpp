@@ -296,12 +296,12 @@ t]&]
 [s4; &]
 [s5;:TextCtrl`:`:IsRectSelection`(`)const: [@(0.0.255) bool]_[* IsRectSelection]()_[@(0.0.255) c
 onst]&]
-[s2;%% Returns true if there is rectangular selection.&]
+[s2;%% Возвращает true, если there is rectangular selection.&]
 [s3; &]
 [s4; &]
 [s5;:TextCtrl`:`:IsAnySelection`(`)const: [@(0.0.255) bool]_[* IsAnySelection]()_[@(0.0.255) c
 onst]&]
-[s2;%% Returns true if there is either rectangular or normal selection.&]
+[s2;%% Возвращает true, если there is either rectangular or normal selection.&]
 [s3;%% &]
 [s4; &]
 [s5;:TextCtrl`:`:GetSelection`(int`&`,int`&`)const: [@(0.0.255) bool]_[* GetSelection]([@(0.0.255) i
@@ -519,7 +519,7 @@ zeViewMap]([_^Upp`:`:Stream^ Stream][@(0.0.255) `&]_[*@3 s])&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:TextCtrl`:`:IsView`(`)const: [@(0.0.255) bool]_[* IsView]()_[@(0.0.255) const]&]
-[s2;%% Returns true if TextCtrl is in view mode.&]
+[s2;%% Возвращает true, если TextCtrl is in view mode.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:TextCtrl`:`:GetViewSize`(`)const: [_^Upp`:`:int64^ int64]_[* GetViewSize]()_[@(0.0.255) c

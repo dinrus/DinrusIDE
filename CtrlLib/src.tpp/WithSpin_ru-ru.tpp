@@ -61,7 +61,7 @@ ool]_[*@3 s]_`=_[@(0.0.255) true])&]
 [s4; &]
 [s5;:WithSpin`:`:IsSpinVisible`(`)const:%- [@(0.0.255) bool]_[* IsSpinVisible]()_[@(0.0.255) c
 onst]&]
-[s2; Returns true if spin buttons are shown.&]
+[s2; Возвращает true, если spin buttons are shown.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:WithSpin`:`:RoundFromMin`(bool`):%- [_^Upp`:`:WithSpin^ WithSpin][@(0.0.255) `&

@@ -53,7 +53,7 @@ topic "Date and Time";
 [s3;%% &]
 [s4; &]
 [s5;:Date`:`:IsValid`(`)const: [@(0.0.255) bool]_[* IsValid]()_[@(0.0.255) const]&]
-[s2;%% Returns true if the date is valid.&]
+[s2;%% Возвращает true, если the date is valid.&]
 [s3; &]
 [s4; &]
 [s5;:Date`:`:Set`(int`): [@(0.0.255) void]_[* Set]([@(0.0.255) int]_[*@3 scalar])&]
@@ -157,7 +157,7 @@ _>_]&]
 [s3; &]
 [s4; &]
 [s5;:Time`:`:IsValid`(`)const: [@(0.0.255) bool]_[* IsValid]()_[@(0.0.255) const]&]
-[s2;%% Returns true if Time is valid (Date is valid and hour/minute/second 
+[s2;%% Возвращает true, если Time is valid (Date is valid and hour/minute/second 
 values are in range).&]
 [s3; &]
 [s4; &]
@@ -174,7 +174,7 @@ values are in range).&]
 [s3;%% &]
 [s4; &]
 [s5;:IsLeapYear`(int`): [@(0.0.255) bool]_[* IsLeapYear]([@(0.0.255) int]_[*@3 year])&]
-[s2;%% Returns true if [%-*@3 year] is leap (there is 29 days in February 
+[s2;%% Возвращает true, если [%-*@3 year] is leap (there is 29 days in February 
 in that year).&]
 [s3;%% &]
 [s4; &]

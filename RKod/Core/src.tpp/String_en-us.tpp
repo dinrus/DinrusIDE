@@ -135,7 +135,7 @@ empty string if it is empty.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:String`:`:IsVoid`(`)const:%- [@(0.0.255) bool]_[* IsVoid]()_[@(0.0.255) const]&]
-[s2; Returns true if String is special value returned by [* GetVoid].&]
+[s2; Возвращает true, если String is special value returned by [* GetVoid].&]
 [s3;%- &]
 [s4;%- &]
 [s5;:String0`:`:IsEqual`(const String0`&`)const:%- [@(0.0.255) bool]_[* IsEqual]([@(0.0.255) c
@@ -385,7 +385,7 @@ empty string if it is empty.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:WString`:`:IsVoid`(`)const:%- [@(0.0.255) bool]_[* IsVoid]()_[@(0.0.255) const]&]
-[s2; Returns true if String is special value returned by [* GetVoid].&]
+[s2; Возвращает true, если String is special value returned by [* GetVoid].&]
 [s3;%- &]
 [s4;%- &]
 [s5;:WString0`:`:Begin`(`)const:%- [@(0.0.255) const]_[_^wchar^ wchar]_`*[* Begin]()_[@(0.0.255) c
@@ -654,7 +654,7 @@ onst]&]
 [s5;:Upp`:`:AString`:`:StartsWith`(const Upp`:`:AString`:`:String`&`)const:%- [@(0.0.255) b
 ool]_[* StartsWith]([@(0.0.255) const]_[_^Upp`:`:AString`:`:String^ String][@(0.0.255) `&
 ]_[*@3 s])_[@(0.0.255) const]&]
-[s2; Returns true if string starts with [%-*@3 s].&]
+[s2; Возвращает true, если string starts with [%-*@3 s].&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:AString`:`:TrimStart`(const Upp`:`:AString`:`:tchar`*`,int`):%- [@(0.0.255) b
@@ -678,7 +678,7 @@ onst]&]
 [s5;:Upp`:`:AString`:`:EndsWith`(const Upp`:`:AString`:`:String`&`)const:%- [@(0.0.255) b
 ool]_[* EndsWith]([@(0.0.255) const]_[_^Upp`:`:AString`:`:String^ String][@(0.0.255) `&]_
 [*@3 s])_[@(0.0.255) const]&]
-[s2; Returns true if string ends with [%-*@3 s].&]
+[s2; Возвращает true, если string ends with [%-*@3 s].&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:AString`:`:TrimEnd`(const Upp`:`:AString`:`:tchar`*`,int`):%- [@(0.0.255) b

@@ -60,7 +60,7 @@ to retrieve the final IsError.&]
 [s4; &]
 [s5;:SqlMassInsert`:`:IsError`(`)const:%- [@(0.0.255) bool]_[* IsError]()_[@(0.0.255) const
 ]&]
-[s2; Returns true if SQL error was detected.&]
+[s2; Возвращает true, если SQL error was detected.&]
 [s3; &]
 [s4; &]
 [s5;:SqlMassInsert`:`:UseTransaction`(bool`):%- [_^SqlMassInsert^ SqlMassInsert][@(0.0.255) `&

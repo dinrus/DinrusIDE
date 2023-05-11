@@ -38,17 +38,17 @@ intended to be called from WhenWait routine&]
 [s3; &]
 [s4; &]
 [s5;:TcpSocket`:`:IsOpen`(`)const: [@(0.0.255) bool]_[* IsOpen]()_[@(0.0.255) const]&]
-[s2;%% Returns true if socket is open.&]
+[s2;%% Возвращает true, если socket is open.&]
 [s3; &]
 [s4; &]
 [s5;:TcpSocket`:`:IsEof`(`)const: [@(0.0.255) bool]_[* IsEof]()_[@(0.0.255) const]&]
-[s2;%% Returns true if there are no more input data to process. Also 
+[s2;%% Возвращает true, если there are no more input data to process. Also 
 returns true if socket is not open, if there was an error or 
 if socket was aborted.&]
 [s3; &]
 [s4; &]
 [s5;:TcpSocket`:`:IsError`(`)const: [@(0.0.255) bool]_[* IsError]()_[@(0.0.255) const]&]
-[s2;%% Returns true if some previous operations reported error. In 
+[s2;%% Возвращает true, если some previous operations reported error. In 
 that case, all subsequent request are ignored.&]
 [s3; &]
 [s4; &]
@@ -80,7 +80,7 @@ request are ignored. Intended to be called from WhenWait routine.&]
 [s3; &]
 [s4; &]
 [s5;:TcpSocket`:`:IsTimeout`(`)const: [@(0.0.255) bool]_[* IsTimeout]()_[@(0.0.255) const]&]
-[s2;%% Returns true if the last operation time`-outed.&]
+[s2;%% Возвращает true, если the last operation time`-outed.&]
 [s3; &]
 [s4; &]
 [s5;:TcpSocket`:`:GetSOCKET`(`)const: SOCKET_[* GetSOCKET]()_[@(0.0.255) const]&]
@@ -256,13 +256,13 @@ false.&]
 [s4;%% &]
 [s5;:TcpSocket`:`:StartSSL`(`): [@(0.0.255) bool]_[* StartSSL]()&]
 [s2;%% Sets TcpSocket to SSL mode and starts SSL handshake. Core/SSL 
-must be present in project. Returns true if SSL could have been 
+must be present in project. Возвращает true, если SSL could have been 
 started. Handshake is not finished until SSLHandshake returns 
 false.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:TcpSocket`:`:IsSSL`(`)const: [@(0.0.255) bool]_[* IsSSL]()_[@(0.0.255) const]&]
-[s2;%% Returns true if TcpSocket is in SSL mode.&]
+[s2;%% Возвращает true, если TcpSocket is in SSL mode.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:TcpSocket`:`:SSLHandshake`(`): [@(0.0.255) dword]_[* SSLHandshake]()&]

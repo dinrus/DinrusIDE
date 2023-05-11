@@ -14,56 +14,64 @@ topic "DocEdit";
 [s3; &]
 [s1;:DocEdit`:`:class:%- [@(0.0.255)3 class][3 _][*3 DocEdit][3 _:_][@(0.0.255)3 public][3 _][*@3;3 T
 extCtrl]&]
-[s9; DocEdit is form of raw text editor that interprets lines as 
-paragraphs (wraps them).&]
+[s9; DocEdit `- это форма `"сырого`" редактора 
+текста, который интерпретирует строки 
+как параграфы (`"оборачивает`" их).&]
 [s0; &]
 [s2; 
 @@image:875&475
 (A4wATAAAALT/AAAAAHic7V1bjtswDMyJ9x49Qm/Qj6JXdIF+GIrmIcqWbW7DgREkEjkiOZISawHv148/X3Wlv7ZCYpRG+VEa5UdplB+dRq937I2dF7bEe78dlqRzhoSuo44wf83jER7OxczYM4iwlUazjpk1ortf24jutBfbcWvdP3pLSqg2akqIBmiJH/1YpiaKwWcX1AjDoNmhjepFM+OoLBWnYfMzKuLoxxrWZEiLvrN7na+/ycITevI2QTrZcCqauUqDUa8+qm6s4SwKVnKtRiZr1du1H1tHEba29yKNVBjY+5RGw3Xt2eJhB2dphE2JaKgiGmVeR+0UpWkOJ/b+0RQBtxfKOctmEoy/UYs0qFEkuzpnyI/SKD9Ko/wojfJDaUS/lxVeDWYDeL1DRTJkzhDDRcBz7+5NBOb3zJTvGfIMMVyE5Rqd9PUGQY2eiuEi0L8fbc3q7sKju4GpD7qYe4qOpLWk8SSJAXnQEkdUUWEYZh3hiJGC0JgNiYqWOqpiPhuD0UjFaaJCr8heh4ks0UiFZByXa7QkBuylQrSlo5NBZTelEWXArtLILA2jkYrkmEZmHUW2C9UydAxqdH8Mfl1MxTDc6wzJ1ixYjHDYpVpe71CcXQoZYsCiYbkMlRpuA9Q5wyOgWiiURo+gNPrPUBrlx5Iz1SVQX9yFK87rjlkGSe6UL8lUKY2SjGWw6kwV7zX2j+0bs4/RdvTyY6nYIu7HjIcBD2uict+x9kwVbQwJZufrQAk9+TAems7UWFiKYd0WaoTMtIydF9rQKYSgXT7BbiyvUTxUJFTGwYApLb4qrD1TVWFfpNGQwWt0ZqwDJLT9Oo06zohXXGjVaOoWWUdT7nFjVQpDqxoVlpypGpvIm85RrTvKMFyknrBLxwSgjFUdhr70PcVT5wzDwAo76iwoP0qj/CiN8iOVRvUlRVEa5UdplB/mOSfY2H6kXchgjNXNCL3v+GSoc4aNzeq9hsiDXceM6c3mhyOiES6N1sZ0nTReleN3x1Aj03Kd8VYaNSiN8mPqN8Nw+5oypr6t8VZK/YNZRycxpKr6B7FWI7oMjfGZsT4Hqe5hCxSlUX7U81QP4OYE/49ndd6M0ig/0mpEdz/6Ey7Sq27BkEGFhD8g6Z0a7UIGY6w2/+DP1/N45HmqlM37mqVtpgHmOxwxaKwCuwL3P09VpdzNavpqSDoetDFdJ40xx7W4/3mqkTl8QKPgRFprTINfjgefp4qWymtW6NJoe8/IFND3oqXKnZJQF7NHdfZxY+qrCnIFvuk5w8KaDKluWCken6kRXYYXjXUerUa/f/2sK9WFGhVyojTKj9IoP0qj/CiN8qM0yo+vp//Fc12R6y/AZWMf)
 &]
 [s0; &]
-[s0; [/ Derived from] [^topic`:`/`/CtrlLib`/src`/TextCtrl`$en`-us`#TextCtrl`:`:class^ Tex
-tCtrl]&]
+[s0; [/ Производный от] [^topic`:`/`/CtrlLib`/src`/TextCtrl`_ru`-ru`#TextCtrl`:`:class^ T
+extCtrl]&]
 [s3; &]
 [s0; &]
 [ {{10000F(128)G(128)@1 [s0; [* Список Публичных Членов]]}}&]
 [s3;%- &]
 [s5;:DocEdit`:`:SetFont`(Font`):%- [_^DocEdit^ DocEdit][@(0.0.255) `&]_[* SetFont]([_^Font^ F
 ont]_[*@3 f])&]
-[s2; Sets the font to be used by widget to [%-*@3 f].&]
+[s2; Устанавливает используемый виджетом 
+шрифт на [%-*@3 f].&]
 [s3; &]
 [s4;%- &]
 [s5;:DocEdit`:`:After`(int`):%- [_^DocEdit^ DocEdit][@(0.0.255) `&]_[* After]([@(0.0.255) int
 ]_[*@3 a])&]
-[s2; The height of empty block after the paragraph in pixels. Default 
-is 0.&]
+[s2; Высота пустого блока после этого 
+параграфа в пикселях. Дефолт равен 
+0.&]
 [s3; &]
 [s4;%- &]
 [s5;:DocEdit`:`:SetFilter`(int`(`*`)`(int c`)`):%- [_^DocEdit^ DocEdit][@(0.0.255) `&]_[* S
 etFilter]([@(0.0.255) int]_(`*[*@3 f])([@(0.0.255) int]_c))&]
-[s2; [%- Sets the character filter] [%-*@3 f]. All characters keystrokes 
-are first altered by this function and used only if the result 
-is not zero.&]
+[s2; [%- Устанавливает фильтр символов] 
+[%-*@3 f]. Все нажатые на клавиатуре символы 
+вначале меняются этой функцией, и 
+только потом используются, если результат 
+не равен нулю.&]
 [s3; &]
 [s4;%- &]
 [s5;:DocEdit`:`:AutoHideSb`(bool`):%- [_^DocEdit^ DocEdit][@(0.0.255) `&]_[* AutoHideSb]([@(0.0.255) b
 ool]_[*@3 b]_`=_[@(0.0.255) true])&]
-[s2; In AutoHideSb mode, scrollbar is only visible when it is needed 
-(text height is bigger than the height of the window). This mode 
-is active by default.&]
+[s2; В режиме AutoHideSb полоса прокрутки видна 
+только тогда, когда в ней есть необходимость
+ (высота текста больше высоты окна). 
+Этот режим дефолтно активен.&]
 [s3; &]
 [s4;%- &]
 [s5;:DocEdit`:`:IsAutoHideSb`(`)const:%- [@(0.0.255) bool]_[* IsAutoHideSb]()_[@(0.0.255) c
 onst]&]
-[s2; Returns true if AutoHideSb is active.&]
+[s2; Возвращает true, если AutoHideSb активен.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:DocEdit`:`:UpDownLeave`(bool`):%- [_^DocEdit^ DocEdit][@(0.0.255) `&]_[* UpDownLeave](
 [@(0.0.255) bool]_[*@3 u]_`=_[@(0.0.255) true])&]
-[s2; In UpDownLeave mode, Up key at the top of text or Down key at 
-the bottom is not processed by DocEdit, which in turn means that 
-it can be processed by parent Ctrl. In TopWindow, this will move 
-the focus to previous / next Ctrl that IsWantFocus.&]
+[s2; В режиме UpDownLeave, клавиша Up в верху 
+текста, или клавиша Down внизу, не обрабатывает
+ся DocEdit`'ом, что, в свою очередь, означает, 
+что она может обрабатываться родительским 
+Ctrl`'ом. В TopWindow перемещает фокус к предыдущему
+ / следующему Ctrl`'у, который IsWantFocus.&]
 [s3; &]
 [s4;%- &]
 [s5;:DocEdit`:`:NoUpDownLeave`(`):%- [_^DocEdit^ DocEdit][@(0.0.255) `&]_[* NoUpDownLeave](
@@ -73,19 +81,20 @@ the focus to previous / next Ctrl that IsWantFocus.&]
 [s4;%- &]
 [s5;:DocEdit`:`:IsUpDownLeave`(`)const:%- [@(0.0.255) bool]_[* IsUpDownLeave]()_[@(0.0.255) c
 onst]&]
-[s2; Tests UpDownLeave mode.&]
+[s2; Тестирует на режим UpDownLeave.&]
 [s3; &]
 [s4;%- &]
 [s5;:DocEdit`:`:SetScrollBarStyle`(const ScrollBar`:`:Style`&`):%- [_^DocEdit^ DocEdit][@(0.0.255) `&
 ]_[* SetScrollBarStyle]([@(0.0.255) const]_[_^ScrollBar`:`:Style^ ScrollBar`::Style][@(0.0.255) `&
 ]_[*@3 s])&]
-[s2; Sets the chameleon style of scrollbar.&]
+[s2; Устанавливает стиль `"chameleon`" для полосы 
+прокрутки.&]
 [s3; &]
 [s4;%- &]
 [s5;:DocEdit`:`:EofLine`(bool`):%- [_^DocEdit^ DocEdit][@(0.0.255) `&]_[* EofLine]([@(0.0.255) b
 ool]_[*@3 b]_`=_[@(0.0.255) true])&]
-[s2; If active, paints faint line at the end of text. Default is 
-active.&]
+[s2; Если активен, отрисовывется faint line 
+в конце текста. По дефолту активен.&]
 [s3; &]
 [s4;%- &]
 [s5;:DocEdit`:`:NoEofLine`(`):%- [_^DocEdit^ DocEdit][@(0.0.255) `&]_[* NoEofLine]()&]
@@ -93,18 +102,21 @@ active.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:DocEdit`:`:IsEofLine`(`)const:%- [@(0.0.255) bool]_[* IsEofLine]()_[@(0.0.255) const]&]
-[s2; Returns true if EofLine is active.&]
+[s2; Возвращает true, если EofLine активен.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:DocEdit`:`:GetEditPos`(`)const:%- [_^Upp`:`:TextCtrl`:`:EditPos^ EditPos]_[* G
 etEditPos]()_[@(0.0.255) const]&]
-[s2; Returns the edit position in the text to be restored later. 
-Edit position comprises cursor and scrollbar positions.&]
+[s2; Возвращает позицию редактирования 
+в тексте, для восстановления позднее. 
+Позиция редактирования сочетает 
+позиции курсора и полосы прокрутки.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:DocEdit`:`:SetEditPos`(const Upp`:`:TextCtrl`:`:EditPos`&`):%- [@(0.0.255) v
 oid]_[* SetEditPos]([@(0.0.255) const]_[_^Upp`:`:TextCtrl`:`:EditPos^ TextCtrl`::EditPos
 ][@(0.0.255) `&]_[*@3 pos])&]
-[s2; Restores the position obtained with GetEditPos.&]
+[s2; Восстанавливает позицию, полученную 
+посредством GetEditPos.&]
 [s3; &]
 [s0; ]]

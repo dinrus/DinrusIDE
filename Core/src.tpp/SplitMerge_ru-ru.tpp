@@ -133,7 +133,7 @@ To]([@(0.0.255) const]_[_^wchar^ wchar]_`*[*@3 s], [@(0.0.255) const]_[_^wchar^ 
 elim], [_^WString^ WString][@(0.0.255) `&]_[*@3 p1][@(0.0.255) ...])&]
 [s2;%% Splits text into one or more targets substrings, inserting 
 them into string variables (current implementation supports up 
-to 8 output strings). Returns true if the source text contains 
+to 8 output strings). Возвращает true, если the source text contains 
 enough substrings. Delimiter can be defined as single character 
 [%-*@3 chr], character filter function [%-*@3 filter] (returns non`-zero 
 for delimiter character) or as string [%-*@3 text]. If [%-*@3 ignoreempty] 

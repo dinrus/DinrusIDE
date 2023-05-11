@@ -52,7 +52,7 @@ c bool]_[* TrySchedule]([_^Upp`:`:Function^ Function]<[@(0.0.255) void]_()>`&`&_
 tatic] [@(0.0.255) bool]_[* TrySchedule]([@(0.0.255) const]_[_^Upp`:`:Function^ Function]<
 [@(0.0.255) void]_()>`&_[*@3 fn])&]
 [s2;%% This is a low`-level function that attempts to schedule [%-*@3 fn] 
-to be executed by worker thread. Returns true if [%-*@3 fn] was 
+to be executed by worker thread. Возвращает true, если [%-*@3 fn] was 
 scheduled, false if not (in case there is no slot left in scheduling 
 stacks). Note that this function only schedules the function, 
 the exact time of execution is unknown.&]
@@ -162,7 +162,7 @@ Finish should be called separately before destructor.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:CoWork`:`:IsWorker`(`): [@(0.0.255) static] [@(0.0.255) bool]_[* IsWorker]()&]
-[s2;%% Returns true if current thread is CoWork worker thread.&]
+[s2;%% Возвращает true, если current thread is CoWork worker thread.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:CoWork`:`:GetWorkerIndex`(`): [@(0.0.255) static] [@(0.0.255) int]_[* GetWorker

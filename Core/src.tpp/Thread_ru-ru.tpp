@@ -96,7 +96,7 @@ is running so far).&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Thread`:`:IsMain`(`):%- [@(0.0.255) static] [@(0.0.255) bool]_[* IsMain]()&]
-[s2; Returns true if current thread is main.&]
+[s2; Возвращает true, если current thread is main.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:Thread`:`:IsUpp`(`):%- [@(0.0.255) static] [@(0.0.255) bool]_[* IsUpp]()&]
@@ -141,7 +141,7 @@ t])&]
 [s2; Sets the treads priority to [%-*@3 percent ][%- (0 to 200)]. In 
 reality, current implementation supports only 5 levels, 25%, 
 75%, 125%, 175% and more than 175%; last two levels require root 
-privileges. Returns true if setting the priority was successful.&]
+privileges. Возвращает true, если setting the priority was successful.&]
 [s4;%- &]
 [s5;:Upp`:`:Thread`:`:Nice`(`):%- [_^Upp`:`:Thread^ Thread][@(0.0.255) `&]_[* Nice]()&]
 [s2; Sets the priority suitable for long running threads.&]

@@ -477,7 +477,7 @@ because of EOF).&]
 ata], [@(0.0.255) int]_[*@3 size])&]
 [s2; Reads [%-*@3 size] bytes from the stream to memory at [%-*@3 data]. 
 If there is not enough data in the stream, LoadError is invoked 
-(that in turn might throw an exception). Returns true if required 
+(that in turn might throw an exception). Возвращает true, если required 
 number of bytes was read.&]
 [s3;%- &]
 [s4;%- &]
@@ -502,7 +502,7 @@ block size can be greater than 2GB, if CPU is 64 bit.&]
 nt64]_[*@3 size])&]
 [s2; Reads [%-*@3 size] bytes from the stream to memory at [%-*@3 data]. 
 If there is not enough data in the stream, LoadError is invoked 
-(that in turn might throw an exception). Returns true if required 
+(that in turn might throw an exception). Возвращает true, если required 
 number of bytes was read. Unlike regular Get, block size can 
 be greater than 2GB, if CPU is 64 bit.&]
 [s3; &]
@@ -755,11 +755,11 @@ the end is written.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:IsLoading`(`)const:%- [@(0.0.255) bool]_[* IsLoading]()_[@(0.0.255) const]&]
-[s2; Returns true if stream is in loading mode.&]
+[s2; Возвращает true, если stream is in loading mode.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Stream`:`:IsStoring`(`)const:%- [@(0.0.255) bool]_[* IsStoring]()_[@(0.0.255) const]&]
-[s2; Returns true if stream is in storing mode.&]
+[s2; Возвращает true, если stream is in storing mode.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:Stream`:`:SerializeRaw`(Upp`:`:byte`*`,Upp`:`:int64`):%- [@(0.0.255) void]_
@@ -932,7 +932,7 @@ nt`&]_[*@3 i])&]
 values. Might invoke LoadError if there is not enough data to 
 load or input data are invalid.&]
 [s7; [%-*C@3 i]-|Variable to serialize.&]
-[s7; [*/ Возвратное значение]-|`*this for chaining.&]
+[s7; [*/ Возвратное значение]-|`*this для сцепления.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:operator`/`(unsigned int`&`):%- [_^Stream^ Stream][@(0.0.255) `&]_[* operato
@@ -941,7 +941,7 @@ r/]([@(0.0.255) unsigned]_[@(0.0.255) int`&]_[*@3 i])&]
 small values. Might invoke LoadError if there is not enough data 
 to load or input data are invalid.&]
 [s7; [%-*C@3 i]-|Variable to serialize.&]
-[s7; [*/ Возвратное значение]-|`*this for chaining.&]
+[s7; [*/ Возвратное значение]-|`*this для сцепления.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:Magic`(dword`):%- [@(0.0.255) void]_[* Magic]([_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:dword`:`:typedef^ d

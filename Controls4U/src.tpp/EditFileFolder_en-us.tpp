@@ -122,7 +122,7 @@ nst]_[_^String^ String][@(0.0.255) `&]_[*@3 s])&]
 [s3; &]
 [s4;%- &]
 [s5;:IsEmpty`(`):%- [@(0.0.255) bool]_[* IsEmpty]()&]
-[s2; Returns true if field is empty.&]
+[s2; Возвращает true, если field is empty.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:NotNull`(bool`):%- [_^EditFileFolder^ EditFileFolder]_`&[* NotNull]([@(0.0.255) bool]_

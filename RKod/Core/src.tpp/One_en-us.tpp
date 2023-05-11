@@ -139,7 +139,7 @@ can be specified for [%-*@4 TT ]constructor.&]
 [s4; &]
 [s5;:One`:`:Is`(`)const: [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 TT]>_[@(0.0.255) bool
 ]_[* Is]()_[@(0.0.255) const]&]
-[s2;%% Returns true if One contains object of type [%-*@4 TT] or derived 
+[s2;%% Возвращает true, если One contains object of type [%-*@4 TT] or derived 
 from [%-*@4 TT]. [%-*@4 T] must be polymorphic.&]
 [s3; &]
 [s4; &]

@@ -46,8 +46,24 @@ TOPIC("DropList_ru-ru")
 #include "DropList_ru-ru.tppi"
 END_TOPIC
 
+TOPIC("DropTree_ru-ru")
+#include "DropTree_ru-ru.tppi"
+END_TOPIC
+
+TOPIC("EditField_ru-ru")
+#include "EditField_ru-ru.tppi"
+END_TOPIC
+
+TOPIC("FileList_ru-ru")
+#include "FileList_ru-ru.tppi"
+END_TOPIC
+
 TOPIC("FileSelUtil_ru-ru")
 #include "FileSelUtil_ru-ru.tppi"
+END_TOPIC
+
+TOPIC("FileSel_ru-ru")
+#include "FileSel_ru-ru.tppi"
 END_TOPIC
 
 TOPIC("HeaderCtrl_ru-ru")

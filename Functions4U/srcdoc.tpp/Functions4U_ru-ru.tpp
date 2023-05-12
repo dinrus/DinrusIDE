@@ -18,6 +18,6 @@ topic "General description";
 [s0;i150;O0; [^topic`:`/`/Functions4U`/src`/LocalProcess2`$en`-us^2 LocalProcess2]&]
 [s0;2 &]
 [s0;2 &]
-[s0; [2 Имеется также ][^topic`:`/`/Functions4U`/srcdoc`/ToDo`$en`-us^2 ToDo 
+[s0; [2 Имеется также ][^topic`:`/`/Functions4U`/srcdoc`/ToDo`_ru`-ru^2 ToDo 
 list][2 .]&]
 [s0;2 ]]

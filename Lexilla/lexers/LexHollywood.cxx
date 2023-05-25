@@ -1,4 +1,4 @@
-// Scintilla source code edit control
+// Контрол редактирования исходного кода Scintilla
 /** @file LexHollywood.cxx
  ** Lexer for Hollywood
  ** Written by Andreas Falkenhahn, based on the BlitzBasic/PureBasic/Lua lexers

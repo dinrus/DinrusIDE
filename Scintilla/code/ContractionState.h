@@ -1,4 +1,4 @@
-// Scintilla source code edit control
+// Контрол редактирования исходного кода Scintilla
 /** @file ContractionState.h
  ** Manages visibility of lines for folding and wrapping.
  **/

@@ -2,6 +2,8 @@ enum { REMOTE_TIMEOUT = 2000 };
 
 extern String HostConsole;
 
+void AddHostFlags(Index<String>& cfg);
+
 struct Host {
 	struct FileInfo : Time, Moveable<FileInfo> {
 		int length;
@@ -11,17 +13,17 @@ struct Host {
 	String         environment;
 
 	String        *cmdout;
-	
+
 	String         onefile; // support for Ctrl+F7 - build single file
-	
+
 	bool           canlog = true; // it does PutVerbose for commands
 
 	void    DoDir(const String& s);
 
 	Host();
-	
+
 	void                  Log(const String& s) { if(canlog) PutVerbose(s); }
-	
+
 	String                GetEnvironment();
 	void                  AddEnvironment(const char *id, const char *value);
 	Vector<FileInfo>      GetFileInfo(const Vector<String>& path);
@@ -41,9 +43,9 @@ struct Host {
 	bool                  StartProcess(LocalProcess& p, const char *cmdline);
 	void                  Launch(const char *cmdline, bool console = false);
 	void                  AddFlags(Index<String>& cfg);
-	
+
 	const Vector<String>& GetExecutablesDirs() const;
-	
+
 private:
 	bool HasPlatformFlag(const Index<String>& cfg);
 };

@@ -1,4 +1,4 @@
-topic "WithFactory and PolyXML";
+topic "WithFactory и PolyXML";
 [l288;i1120;a17;O9;~~~.1408;2 $$1,0#10431211400427159095818037425705:param]
 [a83;*R6 $$2,5#31310162474203024125188417583966:caption]
 [H4;b83;*4 $$3,5#07864147445237544204411237157677:title]
@@ -22,17 +22,19 @@ topic "WithFactory and PolyXML";
 [b50;2 $$21,21#03324558446220344731010354752573:Par]
 [2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%EN-US 
-[s2; WithFactory template&]
+[s2; Шаблон WithFactory&]
 [s0; &]
-[s0; [^topic`:`/`/PolyXML`/src`/WithPolyXML`_ru`-ru^ WithFactory ]is 
-a generic class`-factory template.&]
-[s0; It allows registering classes derived from it and provide many 
-useful functions on them :&]
+[s0; [^topic`:`/`/PolyXML`/src`/WithPolyXML`_ru`-ru^ WithFactory ] 
+`- это генерный шаблон `"фабрики классов`".&]
+[s0; Он позволяет регистрировать производные 
+от него классы и предоставляет много 
+полезных функций для работы с ними:&]
 [s0; &]
-[s0;i150;O0; Object creation by class name&]
-[s0;i150;O0; Query of class name from object&]
-[s0;i150;O0; Association of some fields to class types, as an icon, 
-a group, a description and so on&]
+[s0;i150;O0; Создание объекта по имени класса&]
+[s0;i150;O0; Запрос имени класса у объекта&]
+[s0;i150;O0; Ассоциирование некоторых полей 
+к типам класса, как, например, иконки, 
+группы, описания и проч.&]
 [s0;i150;O0; Query of above fields given any object belonging to 
 the class hierarchy&]
 [s0;i150;O0; Get a list of registered classes belonging to hierarchy&]

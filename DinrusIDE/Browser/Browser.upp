@@ -9,6 +9,7 @@ uses
 
 file
 	Browser.h options(BUILDER_OPTION) PCH,
+	Signature.h,
 	CodeBase readonly separator,
 	Lay.cpp,
 	Iml.cpp,

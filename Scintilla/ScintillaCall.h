@@ -1,6 +1,6 @@
-// SciTE - Scintilla based Text Editor
+// SciTE - Текстовый Редактор на основе Scintilla
 /** @file ScintillaCall.h
- ** Interface to calling a Scintilla instance.
+ ** Интерфейс для вызова экземпляра Scintilla.
  **/
 // Copyright 1998-2019 by Neil Hodgson <neilh@scintilla.org>
 // The License.txt file describes the conditions under which this software may be distributed.
@@ -24,8 +24,8 @@ struct Failure {
 };
 
 struct Span {
-	// An ordered range
-	// end may be less than start when, for example, searching backwards
+	// Упорядоченный диапазон
+	// end может быть меньше, чем start, когда, например, идёт обратный поиск
 	Position start;
 	Position end;
 	explicit Span(Position position) noexcept : start(position), end(position) {

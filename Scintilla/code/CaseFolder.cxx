@@ -1,4 +1,4 @@
-// Scintilla source code edit control
+// Контрол редактирования исходного кода Scintilla
 /** @file CaseFolder.cxx
  ** Classes for case folding.
  **/

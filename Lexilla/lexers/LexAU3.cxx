@@ -1,4 +1,4 @@
-// Scintilla source code edit control
+// Контрол редактирования исходного кода Scintilla
 // @file LexAU3.cxx
 // Lexer for AutoIt3 https://www.autoitscript.com/site/
 // by Jos van der Zande, jvdzande@yahoo.com
@@ -48,7 +48,7 @@
 //
 // Copyright for Scintilla: 1998-2001 by Neil Hodgson <neilh@scintilla.org>
 // The License.txt file describes the conditions under which this software may be distributed.
-// Scintilla source code edit control
+// Контрол редактирования исходного кода Scintilla
 
 #include <stdlib.h>
 #include <string.h>

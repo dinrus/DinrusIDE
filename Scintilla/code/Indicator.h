@@ -1,4 +1,4 @@
-// Scintilla source code edit control
+// Контрол редактирования исходного кода Scintilla
 /** @file Indicator.h
  ** Defines the style of indicators which are text decorations such as underlining.
  **/

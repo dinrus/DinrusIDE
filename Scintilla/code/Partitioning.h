@@ -1,4 +1,4 @@
-// Scintilla source code edit control
+// Контрол редактирования исходного кода Scintilla
 /** @file Partitioning.h
  ** Data structure used to partition an interval. Used for holding line start/end positions.
  **/

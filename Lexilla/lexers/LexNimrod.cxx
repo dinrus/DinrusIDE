@@ -1,4 +1,4 @@
-// Scintilla source code edit control
+// Контрол редактирования исходного кода Scintilla
 // Nimrod lexer
 // (c) 2009 Andreas Rumpf
 /** @file LexNimrod.cxx

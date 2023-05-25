@@ -7,7 +7,7 @@
 
 void Ide::ToggleVerboseBuild() {
 	console.verbosebuild = !console.verbosebuild;
-	
+
 	SetToolBar();
 }
 
@@ -54,6 +54,7 @@ void Ide::PutConsole(const char *s)
 void Ide::PutVerbose(const char *s)
 {
 	LOG("VERBOSE: " << s);
+	GuiLock __;
 	if(console.verbosebuild) {
 		PutConsole(s);
 		console.Sync();
@@ -134,7 +135,12 @@ void Ide::IdeConsoleOnFinish(Event<>  cb)
 {
 	console.OnFinish(cb);
 }
-
+/*
+void Ide::IdeProcessEvents()
+{
+	Ctrl::ProcessEvents();
+}
+*/
 void Ide::IdeSetRight(Ctrl& ctrl)
 {
 	right.Add(ctrl.SizePos());
@@ -284,14 +290,14 @@ void Ide::IdeSetBar()
 void Ide::SetupBars()
 {
 	ClearFrames();
-	
+
 	int r = HorzLayoutZoom(170);
 #ifdef PLATFORM_COCOA
 	AddFrame(toolbar);
 	display.RightPos(4, r).VSizePos(2, 3);
 #else
 	int l = HorzLayoutZoom(350);
-	
+
 	menubar.Transparent();
 	if(toolbar_in_row) {
 		toolbar.SetFrame(NullFrame());
@@ -323,7 +329,7 @@ void SetupError(ArrayCtrl& error, const char *s)
 	error.AddColumn("Строка").SetDisplay(Single<Ide::TopAlignedDisplay>());
 	error.AddColumn(s);
 	error.AddIndex("INFO");
-	error.ColumnWidths("184 44 298");
+	error.ColumnWidths("200 50 298");
 	error.NoWantFocus();
 }
 
@@ -340,6 +346,20 @@ static void sHighlightLine(const String& path, Vector<LineEdit::Highlight>& hln,
 	es->Highlight(ln.Begin(), ln.End(), hl, NULL, 0, 0);
 }
 
+void CursorInfoCtrl::Paint(Draw& w)
+{
+	Size sz = GetSize();
+	Size tsz = GetTextSize(text, StdFont());
+	int x = sz.cx - tsz.cx;
+	int y = (sz.cy - tsz.cy) / 2;
+	w.DrawText(x, y, text, StdFont(), SColorText());
+}
+
+CursorInfoCtrl::CursorInfoCtrl()
+{
+	Transparent();
+}
+
 Ide::Ide()
 {
 	DiffDlg::WhenHighlight = callback(sHighlightLine);
@@ -348,14 +368,14 @@ Ide::Ide()
 	editor.WhenSel << [=] {
 		delayed_toolbar.KillSet(150, [=] { SetToolBar(); });
 	};
-	
+
 	editormode = false;
-	
+
 	start_time = GetSysTime();
 	stat_build_time = 0;
 	build_start_time = Null;
 	hydra1_threads = CPU_Cores();
-	
+
 	chstyle = 0;
 
 	Sizeable().Zoomable();
@@ -368,7 +388,7 @@ Ide::Ide()
 	filetabs = AlignedFrame::TOP;
 	auto_enclose = false;
 	mark_lines = true;
-	
+
 	persistent_find_replace = false;
 
 	idestate = EDITING;
@@ -384,12 +404,12 @@ Ide::Ide()
 	editorsplit.Vert(editor, editor2);
 	editorsplit.Zoom(0);
 	SyncEditorSplit();
-	
+
 	editpane.AddFrame(editor.navigatorframe);
 
 	right_split.Horz(editpane, right);
 	right_split.Zoom(0);
-	
+
 	SetupError(error, "Сообщение");
 	error.AddIndex("NOTES");
 	error.ColumnWidths("207 41 834");
@@ -408,7 +428,7 @@ Ide::Ide()
 	error.WhenLeftClick = THISBACK(ShowError);
 	console.WhenLine = THISBACK1(ConsoleLine, false);
 	console.WhenRunEnd = THISBACK(ConsoleRunEnd);
-	
+
 	addnotes = false;
 	removing_notes = false;
 
@@ -423,7 +443,7 @@ Ide::Ide()
 		bottom.Add(ffound[i].SizePos().SetFrame(NullFrame()));
 	btabs <<= THISBACK(SyncBottom);
 	BTabs();
-	
+
 	editor.WhenSelectionChanged << [=] {
 		editor2.Illuminate(editor.GetIlluminated());
 	};
@@ -437,6 +457,11 @@ Ide::Ide()
 	editor.topsbbutton.ScrollStyle().NoWantFocus().Show();
 	editor.topsbbutton1.ScrollStyle().NoWantFocus().Show();
 	tabs <<= THISBACK(TabFile);
+	tabs.WhenClose = [=](Value file) { // remove file from Ctrl+Tab logic
+		int q = FindIndex(tablru, ~file);
+		if(q >= 0)
+			tablru.Remove(q);
+	};
 //	tabs.WhenCloseRest = THISBACK1(CloseRest, &tabs);
 //	editor2.SetFrame(NullFrame());
 	editor2.DinrusIDE = this;
@@ -448,7 +473,7 @@ Ide::Ide()
 	editor.WhenFontScroll = THISBACK(EditorFontScroll);
 	editor.WhenOpenFindReplace = THISBACK(AddHistory);
 	editor.WhenPaste = THISBACK(IdePaste);
-	
+
 	editor.WhenFindAll << THISFN(FindFileAll);
 
 	macro_api = MacroEditor();
@@ -536,7 +561,7 @@ Ide::Ide()
 	astyle_EmptyLineFill = false;
 	astyle_TabSpaceConversionMode = false;
 	astyle_TestBox = "#include <stdio.h>\n#ifndef __abcd_h\n#include <abcd.h>\n#endif\n\nvoid test(int a, int b)\n{\n  /* this is a switch */\n  switch(a)\n\n  {\n    case 1:\n      b = 2;\n      break;\n    case 2:\n      b = 4;\n      break;\n    default:\n    break;\n  }\n\n  /* this are more statements on one line */\n  a = 2*a;b=-5;a=2*(b+2)*(a+3)/4;\n\n  /* single line blocks */\n  {int z;z = 2*a+b;}\n\n  /* loop */\n  for(int i = 0;i< 10;i++) { a = b+2*i;}\n\n}\n";
-	
+
 	console.WhenSelect = THISBACK(FindError);
 	console.SetSlots(hydra1_threads);
 
@@ -596,30 +621,30 @@ Ide::Ide()
 	doc_serial = -1;
 
 	showtime = true;
-	
+
 	editor.WhenTip = THISBACK(EditorTip);
 	editor.WhenCtrlClick = THISBACK(CtrlClick);
-	
+
 	find_pick_sel = true;
 	find_pick_text = false;
-	
+
 	deactivate_save = true;
-	
+
 	output_per_assembly = true;
-	
+
 	issaving = 0;
 	isscanning = 0;
-	
+
 	linking = false;
-	
+
 	error_count = 0;
 	warning_count = 0;
-	
+
 	editor.WhenUpdate = THISBACK(TriggerAssistSync);
 
 	editfile_isfolder = false;
 	editfile_repo = NOT_REPO_DIR;
-	
+
 	auto_rescan = auto_check = true;
 	file_scan = 0;
 
@@ -643,6 +668,28 @@ Ide::Ide()
 Ide::~Ide()
 {
 	DinrusIde(NULL);
+}
+/*
+String LibClangCommandLine()
+{
+	GuiLock __;
+	IdeContext *q = DinrusIde();
+	return q ? ((Ide *)q)->libclang_options : String();
+}
+
+String LibClangCommandLineC()
+{
+	GuiLock __;
+	IdeContext *q = DinrusIde();
+	return q ? ((Ide *)q)->libclang_coptions : String();
+}
+*/
+void IdeShowConsole()
+{
+	GuiLock __;
+	IdeContext *q = DinrusIde();
+	if(q)
+		((Ide *)q)->ShowConsole();
 }
 
 void Ide::Paint(Draw&) {}

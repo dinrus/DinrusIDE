@@ -1,4 +1,4 @@
-// Scintilla source code edit control
+// Контрол редактирования исходного кода Scintilla
 // Encoding: UTF-8
 /** @file LexCSS.cxx
  ** Lexer for Cascading Style Sheets

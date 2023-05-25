@@ -1,4 +1,4 @@
-/* Scintilla source code edit control */
+/* Контрол редактирования исходного кода Scintilla */
 /** @file SciLexer.h
  ** Interface to the added lexer functions in the SciLexer version of the edit control.
  **/

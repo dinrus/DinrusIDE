@@ -1,4 +1,4 @@
-// Scintilla source code edit control
+// Контрол редактирования исходного кода Scintilla
 /** @file DefaultLexer.cxx
  ** A lexer base class that provides reasonable default behaviour.
  **/

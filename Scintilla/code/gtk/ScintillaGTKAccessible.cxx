@@ -1,4 +1,4 @@
-/* Scintilla source code edit control */
+/* Контрол редактирования исходного кода Scintilla */
 /* ScintillaGTKAccessible.cxx - GTK+ accessibility for ScintillaGTK */
 /* Copyright 2016 by Colomban Wendling <colomban@geany.org>
  * The License.txt file describes the conditions under which this software may be distributed. */

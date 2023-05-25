@@ -1,4 +1,4 @@
-// Scintilla source code edit control
+// Контрол редактирования исходного кода Scintilla
 // Encoding: UTF-8
 /** @file CaseConvert.cxx
  ** Case fold characters and convert them to upper or lower case.

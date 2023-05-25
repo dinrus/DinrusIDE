@@ -1,4 +1,4 @@
-// Scintilla source code edit control
+// Контрол редактирования исходного кода Scintilla
 /** @file LexNim.cxx
 ** Lexer for Nim
 ** Written by Jad Altahan (github.com/xv)

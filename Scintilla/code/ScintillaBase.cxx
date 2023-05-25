@@ -1,4 +1,4 @@
-// Scintilla source code edit control
+// Контрол редактирования исходного кода Scintilla
 /** @file ScintillaBase.cxx
  ** An enhanced subclass of Editor with calltips, autocomplete and context menu.
  **/

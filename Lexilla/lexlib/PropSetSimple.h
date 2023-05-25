@@ -1,4 +1,4 @@
-// Scintilla source code edit control
+// Контрол редактирования исходного кода Scintilla
 /** @file PropSetSimple.h
  ** A basic string to string map.
  **/

@@ -1,4 +1,4 @@
-// Scintilla source code edit control
+// Контрол редактирования исходного кода Scintilla
 /** @file XPM.cxx
  ** Define a class that holds data in the X Pixmap (XPM) format.
  **/

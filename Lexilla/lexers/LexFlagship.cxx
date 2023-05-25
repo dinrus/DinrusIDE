@@ -1,4 +1,4 @@
-// Scintilla source code edit control
+// Контрол редактирования исходного кода Scintilla
 /** @file LexFlagship.cxx
  ** Lexer for Harbour and FlagShip.
  ** (Syntactically compatible to other xBase dialects, like Clipper, dBase, Clip, FoxPro etc.)

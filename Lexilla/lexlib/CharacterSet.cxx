@@ -1,4 +1,4 @@
-// Scintilla source code edit control
+// Контрол редактирования исходного кода Scintilla
 /** @file CharacterSet.cxx
  ** Simple case functions for ASCII.
  ** Lexer infrastructure.

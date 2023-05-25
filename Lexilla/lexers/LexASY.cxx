@@ -1,4 +1,4 @@
-// Scintilla source code edit control
+// Контрол редактирования исходного кода Scintilla
 // @file LexASY.cxx
 //Author: instanton (email: soft_share<at>126<dot>com)
 // This lexer is for the Asymptote vector graphics language

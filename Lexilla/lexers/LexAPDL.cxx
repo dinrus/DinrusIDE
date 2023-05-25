@@ -1,4 +1,4 @@
-// Scintilla source code edit control
+// Контрол редактирования исходного кода Scintilla
 /** @file LexAPDL.cxx
  ** Lexer for APDL. Based on the lexer for Assembler by The Black Horus.
  ** By Hadar Raz.

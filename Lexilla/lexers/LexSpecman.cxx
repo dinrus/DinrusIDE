@@ -1,4 +1,4 @@
-// Scintilla source code edit control
+// Контрол редактирования исходного кода Scintilla
 /** @file LexSpecman.cxx
  ** Lexer for Specman E language.
  ** Written by Avi Yegudin, based on C++ lexer by Neil Hodgson

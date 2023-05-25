@@ -1,4 +1,4 @@
-// Scintilla source code edit control
+// Контрол редактирования исходного кода Scintilla
 /** @file LexNull.cxx
  ** Lexer for no language. Used for plain text and unrecognized files.
  **/

@@ -1,4 +1,4 @@
-// Scintilla source code edit control
+// Контрол редактирования исходного кода Scintilla
 /** @file HanjaDic.cxx
  ** Korean Hanja Dictionary
  ** Convert between Korean Hanja and Hangul by COM interface.

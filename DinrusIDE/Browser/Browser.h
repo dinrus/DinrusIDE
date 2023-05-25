@@ -1,4 +1,5 @@
 #ifndef _Browser_Browser_h
+// #include <DinrusIDE/Browser/Browser.h>
 #define _Browser_Browser_h
 
 #include <CtrlLib/CtrlLib.h>
@@ -90,6 +91,7 @@ struct CppItemInfo : CppItem {
 enum {
 	ITEM_TEXT,
 	ITEM_NAME,
+	ITEM_OPERATOR,
 	ITEM_CPP_TYPE,
 	ITEM_CPP,
 	ITEM_PNAME,
@@ -98,7 +100,7 @@ enum {
 	ITEM_SIGN,
 	ITEM_UPP,
 	ITEM_TYPE,
-
+	
 	ITEM_PTYPE = ITEM_TYPE + 10000,
 };
 
@@ -118,11 +120,19 @@ Vector<ItemTextPart> ParseItemNatural(const CppItemInfo& m);
 Vector<ItemTextPart> ParseItemNatural(const CppItemInfo& m);
 
 int GetItemHeight(const CppItem& m, int cx);
-
+/*
 enum AdditionalKinds {
 	KIND_INCLUDEFILE = 100,
 	KIND_INCLUDEFILE_ANY,
 	KIND_INCLUDEFOLDER,
+};
+*/
+enum AdditionalKinds {
+	KIND_INCLUDEFILE = 100, //-1000,
+	KIND_INCLUDEFILE_ANY,
+	KIND_INCLUDEFOLDER,
+	KIND_COMPLETE,
+	KIND_ERROR,
 };
 
 void PaintText(Draw& w, int& x, int y, const char *text,

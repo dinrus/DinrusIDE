@@ -1,4 +1,4 @@
-// Scintilla source code edit control
+// Контрол редактирования исходного кода Scintilla
 /** @file LexPowerShell.cxx
  ** Lexer for PowerShell scripts.
  **/

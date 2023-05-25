@@ -1,4 +1,4 @@
-// Scintilla source code edit control
+// Контрол редактирования исходного кода Scintilla
 /** @file LexDiff.cxx
  ** Lexer for diff results.
  **/

@@ -1,4 +1,4 @@
-// Scintilla source code edit control
+// Контрол редактирования исходного кода Scintilla
 // Copyright 1998-2002 by Neil Hodgson <neilh@scintilla.org>
 // @file LexGui4Cli.cxx
 /*

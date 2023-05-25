@@ -1,4 +1,4 @@
-// Scintilla source code edit control
+// Контрол редактирования исходного кода Scintilla
 /** @file LexCIL.cxx
  ** Lexer for Common Intermediate Language
  ** Written by Jad Altahan (github.com/xv)

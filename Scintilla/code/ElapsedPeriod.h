@@ -1,4 +1,4 @@
-// Scintilla source code edit control
+// Контрол редактирования исходного кода Scintilla
 /** @file ElapsedPeriod.h
  ** Encapsulate C++ <chrono> to simplify use.
  **/

@@ -1,4 +1,4 @@
-// Scintilla source code edit control
+// Контрол редактирования исходного кода Scintilla
 /** @file CharacterSet.h
  ** Encapsulates a set of characters. Used to test if a character is within a set.
  **/

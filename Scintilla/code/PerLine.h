@@ -1,4 +1,4 @@
-// Scintilla source code edit control
+// Контрол редактирования исходного кода Scintilla
 /** @file PerLine.h
  ** Manages data associated with each line of the document
  **/

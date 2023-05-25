@@ -1,5 +1,5 @@
 //-*- coding: utf-8 -*-
-// Scintilla source code edit control
+// Контрол редактирования исходного кода Scintilla
 /** @file LexSQL.cxx
  ** Lexer for SQL, including PL/SQL and SQL*Plus.
  ** Improved by Jérôme LAFORGE <jerome.laforge_AT_gmail_DOT_com> from 2010 to 2012.

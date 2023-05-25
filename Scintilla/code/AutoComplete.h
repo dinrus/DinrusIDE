@@ -1,6 +1,6 @@
-// Scintilla source code edit control
+// Контрол редактирования исходного кода Scintilla
 /** @file AutoComplete.h
- ** Defines the auto completion list box.
+ ** Определяет листбокс автозаполнения.
  **/
 // Copyright 1998-2003 by Neil Hodgson <neilh@scintilla.org>
 // The License.txt file describes the conditions under which this software may be distributed.

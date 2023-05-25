@@ -1,4 +1,4 @@
-// Scintilla source code edit control
+// Контрол редактирования исходного кода Scintilla
 /** @file UniConversion.cxx
  ** Functions to handle UTF-8 and UTF-16 strings.
  **/

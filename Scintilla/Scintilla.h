@@ -1,6 +1,6 @@
-/* Scintilla source code edit control */
+/* Контрол редактирования исходного кода Scintilla */
 /** @file Scintilla.h
- ** Interface to the edit control.
+ ** Интерфейс к контролу редактирования.
  **/
 /* Copyright 1998-2003 by Neil Hodgson <neilh@scintilla.org>
  * The License.txt file describes the conditions under which this software may be distributed. */
@@ -25,12 +25,14 @@ int Scintilla_ReleaseResources(void);
 }
 #endif
 
-// Include header that defines basic numeric types.
+// Включение хедера, определяющего базовые числовые типы.
 #include <stdint.h>
 
-// Define uptr_t, an unsigned integer type large enough to hold a pointer.
+// Определение uptr_t,- беззначного целочисленного типа, достаточного для
+//сохранения указателя.
 typedef uintptr_t uptr_t;
-// Define sptr_t, a signed integer large enough to hold a pointer.
+// Определение sptr_t,- значного целочисленного типа, достаточного для
+//сохранения указателя.
 typedef intptr_t sptr_t;
 
 #include "Sci_Position.h"

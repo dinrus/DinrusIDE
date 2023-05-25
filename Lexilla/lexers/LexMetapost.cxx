@@ -1,4 +1,4 @@
-// Scintilla source code edit control
+// Контрол редактирования исходного кода Scintilla
 
 // @file LexMetapost.cxx - general context conformant metapost coloring scheme
 // Author: Hans Hagen - PRAGMA ADE - Hasselt NL - www.pragma-ade.com

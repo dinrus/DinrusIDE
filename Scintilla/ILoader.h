@@ -1,6 +1,6 @@
-// Scintilla source code edit control
+// Контрол редактирования исходного кода Scintilla
 /** @file ILoader.h
- ** Interface for loading into a Scintilla document from a background thread.
+ ** Интерфейс для загрузки в документ Scintilla из фонового потока.
  **/
 // Copyright 1998-2017 by Neil Hodgson <neilh@scintilla.org>
 // The License.txt file describes the conditions under which this software may be distributed.

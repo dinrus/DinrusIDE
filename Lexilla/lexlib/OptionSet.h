@@ -1,4 +1,4 @@
-// Scintilla source code edit control
+// Контрол редактирования исходного кода Scintilla
 /** @file OptionSet.h
  ** Manage descriptive information about an options struct for a lexer.
  ** Hold the names, positions, and descriptions of boolean, integer and string options and

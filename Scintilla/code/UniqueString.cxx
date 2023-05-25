@@ -1,4 +1,4 @@
-// Scintilla source code edit control
+// Контрол редактирования исходного кода Scintilla
 /** @file UniqueString.cxx
  ** Define an allocator for UniqueString.
  **/

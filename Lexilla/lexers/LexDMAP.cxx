@@ -1,4 +1,4 @@
-// Scintilla source code edit control
+// Контрол редактирования исходного кода Scintilla
 /** @file LexDMAP.cxx
  ** Lexer for MSC Nastran DMAP.
  ** Written by Mark Robinson, based on the Fortran lexer by Chuan-jian Shen, Last changed Aug. 2013

@@ -1,4 +1,4 @@
-// Scintilla source code edit control
+// Контрол редактирования исходного кода Scintilla
 /** @file SparseVector.h
  ** Hold data sparsely associated with elements in a range.
  **/

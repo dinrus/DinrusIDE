@@ -1,4 +1,4 @@
-// Scintilla source code edit control
+// Контрол редактирования исходного кода Scintilla
 /** @file WinTypes.h
  ** Implement safe release of COM objects and access to functions in DLLs.
  ** Header contains all implementation - there is no .cxx file.

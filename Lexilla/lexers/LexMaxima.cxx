@@ -1,4 +1,4 @@
-// Scintilla source code edit control
+// Контрол редактирования исходного кода Scintilla
 /** @file LexMaxima.cxx
  ** Lexer for Maxima (http://maxima.sourceforge.net).
  ** Written by Gunter Königsmann based on the lisp lexer by Alexey Yutkin and Neil Hodgson .

@@ -1,4 +1,4 @@
-// Scintilla source code edit control
+// Контрол редактирования исходного кода Scintilla
 /** @file LexLout.cxx
  ** Lexer for the Basser Lout (>= version 3) typesetting language
  **/

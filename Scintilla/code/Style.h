@@ -1,4 +1,4 @@
-// Scintilla source code edit control
+// Контрол редактирования исходного кода Scintilla
 /** @file Style.h
  ** Defines the font and colour style for a class of text.
  **/

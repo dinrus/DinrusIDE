@@ -2,7 +2,7 @@
 
 static IdeContext *the_ide;
 
-IdeContext *DinrusIde() { return the_ide; }
+IdeContext *DinrusIde()                    { return the_ide; }
 void        DinrusIde(IdeContext *context) { the_ide = context; }
 
 bool IsVerbose()               { return the_ide ? the_ide->IsVerbose() : false; }
@@ -10,6 +10,8 @@ void PutConsole(const char *s) { if(the_ide) the_ide->PutConsole(s); }
 void PutVerbose(const char *s) { if(the_ide) the_ide->PutVerbose(s); }
 void PutLinking()              { if(the_ide) the_ide->PutLinking(); }
 void PutLinkingEnd(bool ok)    { if(the_ide) the_ide->PutLinkingEnd(ok); }
+
+//void IdeProcessEvents()        { if(the_ide) the_ide->IdeProcessEvents(); }
 
 const Workspace& GetIdeWorkspace()
 {
@@ -248,4 +250,3 @@ void IdeGotoFileAndId(const String& path, const String& id)
 	if(the_ide)
 		the_ide->IdeGotoFileAndId(path, id);
 }
-

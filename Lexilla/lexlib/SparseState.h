@@ -1,4 +1,4 @@
-// Scintilla source code edit control
+// Контрол редактирования исходного кода Scintilla
 /** @file SparseState.h
  ** Hold lexer state that may change rarely.
  ** This is often per-line state such as whether a particular type of section has been entered.

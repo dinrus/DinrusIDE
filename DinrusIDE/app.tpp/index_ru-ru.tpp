@@ -79,9 +79,10 @@ Ultimate`+`+. И первоначально рассчитывается
 [s0; [@(128.0.255) ВОТ КРАТКИЙ ИНДЕКС вводных 
 тематик для новичков по пользованию 
 кодом и работе в ИСР РНЦП:]&]
+[s0;@(128.0.255) &]
 [s3; [^topic`:`/`/DinrusIDE`/app`/GettingStarted`_ru`-ru^ Начало 
 работы в DinrusIDE]&]
-[s3; [^topic`:`/`/DinrusIDE`/app`/Guide`_ru`-ru^ Справочника 
+[s3; [^topic`:`/`/DinrusIDE`/app`/Guide`_ru`-ru^ Справочник 
 новичка в DinrusIDE]&]
 [s3; [^topic`:`/`/DinrusIDE`/app`/PackagesAssembliesAndNests`_ru`-ru^ Пакеты, 
 Сборки и Гнёзда]&]

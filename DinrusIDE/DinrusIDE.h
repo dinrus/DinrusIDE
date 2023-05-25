@@ -1,4 +1,5 @@
 #ifndef IDE_H
+
 #define IDE_H
 
 #include <DinrusIDE/Common/Common.h>
@@ -1253,7 +1254,6 @@ public:
 inline void ShowConsole() { if(DinrusIde()) ((Ide *)DinrusIde())->ShowConsole(); }
 
 void InstantSetup();
-
 bool SetupGITMaster();
 
 String UppHub();
@@ -1373,6 +1373,16 @@ struct SpecialFolders : WithSpecialFolders<StaticRect> {
    // private:
        // TimeCallback timeCallback;
     };
+    
+    struct CursorInfoCtrl : Ctrl {
+	String text;
+
+	void Paint(Draw& w) override;
+
+	void Set(const String& s) { text = s; Refresh(); }
+
+	CursorInfoCtrl();
+};
 
 
 #include "urepo.h"

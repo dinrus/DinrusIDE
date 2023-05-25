@@ -37,6 +37,70 @@ class  Ctrl;
 class  Image;
 }
 
+String CacheDir();
+String CacheFile(const char *name);
+void   ReduceCache();
+void   ReduceCache(int mb_limit);
+void   ReduceCacheFolder(const char *path, int64 max_total);
+/*
+class PPInfo {
+	enum { AUTO, APPROVED, PROHIBITED };
+	struct PPFile : Moveable<PPFile> {
+		int                           scan_serial = 0;
+		Vector<Tuple<String, int>>    flags; // "#if... flagXXXX"
+		VectorMap<String, String>     defines; // #define ...
+		Index<String>                 includes[2]; // 1 - speculative includes
+		Index<String>                 define_includes[2]; // #define LAYOUTFILE
+		bool                          guarded; // has include guards
+		int                           blitz; // AUTO, APPROVED, PROHIBITED
+		Time                          time = Null; // file time
+
+		bool                          dirty = true; // need to be rechecked
+
+		void Dirty()                          { dirty = true; time = Null; }
+		void Parse(Stream& in);
+		void Serialize(Stream& s);
+	};
+
+	ArrayMap<String, PPFile>                   files;
+	Vector<String>                             includes; // include dirs
+	VectorMap<String, String>                  inc_cache; // cache for FindIncludeFile
+	VectorMap<String, VectorMap<String, Time>> dir_cache; // cache for GetFileTime, FileExists
+	static std::atomic<int>                    scan_serial;
+
+
+	PPFile& File(const String& path);
+
+public:
+	static void           RescanAll()                                           { scan_serial++; }
+
+	Event<const String&, const String&> WhenBlitzBlock;
+	Time                  GetFileTime(const String& path);
+	bool                  FileExists(const String& path)                        { return !IsNull(GetFileTime(path)); }
+
+	void                  SetIncludes(const String& includes);
+
+	String                FindIncludeFile(const char *s, const String& filedir, const Vector<String>& incdirs);
+	String                FindIncludeFile(const char *s, const String& filedir);
+
+	bool                  BlitzApproved(const String& path);
+
+	Time                  GatherDependencies(const String& path, VectorMap<String, Time>& result,
+	                                         ArrayMap<String, Index<String>>& define_includes,
+	                                         Vector<Tuple<String, String, int>>& flags, bool speculative = true);
+	void                  GatherDependencies(const String& path, VectorMap<String, Time>& result,
+	                                         ArrayMap<String, Index<String>>& define_includes,
+	                                         bool speculative = true);
+
+	Time                  GetTime(const String& path);
+
+	const VectorMap<String, String>& GetFileDefines(const String& path) { return File(NormalizePath(path)).defines; }
+	const Vector<Tuple<String, int>>& GetFileFlags(const String& path)  { return File(NormalizePath(path)).flags; }
+
+	void                  Dirty();
+};
+*/
+
 class IdeContext
 {
 public:
@@ -61,6 +125,8 @@ public:
 	virtual bool             IdeConsoleWait() = 0;
 	virtual bool             IdeConsoleWait(int slot) = 0;
 	virtual void             IdeConsoleOnFinish(Event<>  cb) = 0;
+
+	//virtual void             IdeProcessEvents() = 0;
 
 	virtual bool      IdeIsDebug() const = 0;
 	virtual void      IdeEndDebug() = 0;
@@ -127,10 +193,11 @@ bool             IdeConsoleWait();
 bool             IdeConsoleWait(int slot);
 void             IdeConsoleOnFinish(Event<>  cb);
 void             IdeGotoCodeRef(String s);
+void             IdeProcessEvents();
 
 String GetSourcePackage(const String& path);
 
-//String GetDefaultMethod();
+String GetDefaultMethod();
 VectorMap<String, String> GetMethodVars(const String& method);
 String GetMethodPath(const String& method);
 
@@ -390,6 +457,7 @@ class Workspace {
 
 public:
 	ArrayMap<String, Package> package;
+	Vector<int>               use_order;
 
 	void           Clear()                     { package.Clear(); }
 	String         operator[](int i) const     { return package.GetKey(i); }
@@ -463,6 +531,8 @@ struct Builder {
 	Vector<String>   Macro;
 
 	VectorMap<String, int> tmpfilei; // for naming automatic response files
+
+	static VectorMap<String, String> cmdx_cache; // caching e.g. pkg-config
 
 	String                 CmdX(const char *s);
 

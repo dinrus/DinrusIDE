@@ -1,4 +1,4 @@
-// Scintilla source code edit control
+// Контрол редактирования исходного кода Scintilla
 // Encoding: UTF-8
 /** @file LexMMIXAL.cxx
  ** Lexer for MMIX Assembler Language.

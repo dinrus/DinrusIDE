@@ -1,4 +1,4 @@
-// Scintilla source code edit control
+// Контрол редактирования исходного кода Scintilla
 /** @file Document.cxx
  ** Text document that handles notifications, DBCS, styling, words and end of line.
  **/

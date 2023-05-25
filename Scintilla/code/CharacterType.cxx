@@ -1,4 +1,4 @@
-// Scintilla source code edit control
+// Контрол редактирования исходного кода Scintilla
 /** @file CharacterType.cxx
  ** Tests for character type and case-insensitive comparisons.
  **/

@@ -1,4 +1,4 @@
-// Scintilla source code edit control
+// Контрол редактирования исходного кода Scintilla
 /** @file ViewStyle.cxx
  ** Store information on how the document is to be viewed.
  **/

@@ -1,4 +1,4 @@
-// Scintilla source code edit control
+// Контрол редактирования исходного кода Scintilla
 /** @file Geometry.cxx
  ** Helper functions for geometric calculations.
  **/

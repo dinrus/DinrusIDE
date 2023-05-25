@@ -1,4 +1,4 @@
-// Scintilla source code edit control
+// Контрол редактирования исходного кода Scintilla
 /** @file LexAsn1.cxx
  ** Lexer for ASN.1
  **/

@@ -1,4 +1,4 @@
-// Scintilla source code edit control
+// Контрол редактирования исходного кода Scintilla
 /** @file LexTACL.cxx
  ** Lexer for TACL
  ** Based on LexPascal.cxx

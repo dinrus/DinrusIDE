@@ -1,4 +1,4 @@
-// Scintilla source code edit control
+// Контрол редактирования исходного кода Scintilla
 // @file LexPB.cxx
 // Lexer for PowerBasic by Roland Walter, roland@rowalt.de (for PowerBasic see www.powerbasic.com)
 //

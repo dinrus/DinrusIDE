@@ -12,17 +12,18 @@ topic "Цвета Draw";
 [{_} 
 [ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 Цвета Draw]]}}&]
 [s0;%RU-RU &]
-[s0;%RU-RU U`+`+предоставляет набор цветов, 
-настраиваемых в соответствии с текущими 
-настройками хостовой платформы. Использован
-ие этих цветов  упрощает адаптирование 
-приложения к хостовым настройкам.&]
-[s0;%RU-RU &]
-[s0;%RU-RU В следующей таблице показаны 
+[s0;%RU-RU [*@(128.0.255) U`+`+предоставляет набор 
+цветов, настраиваемых в соответствии 
+с текущими настройками хостовой платформы. 
+Использование этих цветов  упрощает 
+адаптирование приложения к хостовым 
+настройкам.]&]
+[s0;*@(128.0.255)%RU-RU &]
+[s0;%RU-RU [*@(128.0.255) В следующей таблице показаны 
 цвета, представляющие конкретный 
 hue. При преобразовании в тёмную тему 
 hue продолжает поддерживаться, тогда 
-как яркость цвета меняется.&]
+как яркость цвета меняется.]&]
 [s0;3 &]
 [ {{3044:3508:1778:1670@7 [s0; Цвет]
 :: [s0; Описание]
@@ -209,9 +210,9 @@ hue продолжает поддерживаться, тогда
 (iVBORw0KGgoAAAANSUhEUgAAAIAAAAAwCAYAAADZ9HK+AAAACXBIWXMAAAAAAAAAAAHqZRakAAAApElEQVR4nO3coRGAQAwAwcDQIzVSJWgGz4vbdXkVcRP528zcQ9a+egHWEkCcAOKOz8t1LViD35zna3QB4gQQJ4A4AcQJIE4AcQKIE0CcAOIEECeAOAHECSBOAHECiBNAnADiBBAngDgBxAkgTgBxAogTQJwA4gQQJ4A4AcQJIE4AcQKIE0CcAOIEECeAOAHECSBOAHECiNvGX8FpLkCcAOIEEPcA038EXwIEgSEAAAAASUVORK5CYII=)
 ]}}&]
 [s0;%RU-RU &]
-[s0;%RU-RU Следующие цвета предоставляют 
+[s0;%RU-RU [*@(128.0.255) Следующие цвета предоставляют 
 информацию хостовой платформы о цветах 
-частей ГИП`-элементов:&]
+частей ГИП`-элементов:]&]
 [s0; &]
 [ {{3044:3508:1778:1670@7 [s0; Цвет]
 :: [s0; Описание]
@@ -390,25 +391,31 @@ hue продолжает поддерживаться, тогда
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:IsDarkTheme`(`): [@(0.0.255) bool]_[* IsDarkTheme]()&]
-[s2;%RU-RU Возвращает true, если SColorPaper is dark, which is indicator 
-of dark theme.&]
+[s2;%RU-RU Возвращает true, если SColorPaper тёмный, 
+что является индикатором тёмной темы.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:AdjustIfDark`(Upp`:`:Color`): [_^Upp`:`:Color^ Color]_[* AdjustIfDark]([_^Upp`:`:Color^ C
 olor]_[*@3 c])&]
-[s2;%RU-RU If current color scheme is dark, color [%-*@3 c] (which 
-should be intended for light theme) is adjusted to dark theme.&]
+[s2;%RU-RU Если текущая цветовая схема тёмная, 
+цвет [%-*@3 c] (который предназначался 
+для ствелой темы) настраивается на 
+тёмную тему.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:DefaultInk`(`): [_^Upp`:`:Color^ Color]_[* DefaultInk]()&]
-[s2;%RU-RU This special pseudo`-color is used as default argument 
-to several Draw methods. Inside Draw, DefaultInk is converted 
-to White() if the Draw target is pixels and dark theme is active, 
-otherwise it resolves to Black().&]
+[s2;%RU-RU Этот особый псевдоцвет используется 
+как дефолтный аргумент к нескольким 
+методам отрисовки Draw. Внутри Draw, DefaultInk 
+преобразуется в White(), если цель отрисовки 
+(Draw target) пиксели и активна тёмная тема, 
+иначе он разрешается в чёрный Black().&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:InvertColor`(`): [_^Upp`:`:Color^ Color]_[* InvertColor]()&]
-[s2;%RU-RU This special pseudo`-color can be used with Draw`::DrawRect 
-for pixel targets and instructs DrawRect to invert target pixels 
-(perform binary not on all color channels).&]
+[s2;%RU-RU Этот особый псевдоцвет может 
+использоваться с Draw`::DrawRect для пиксельных 
+целей. Он инструктирует DrawRect инвертировать 
+целевые пиксели (выполняться двоично 
+не на всех цветовых каналах).&]
 [s0;%RU-RU ]]

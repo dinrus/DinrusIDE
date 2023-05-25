@@ -1,6 +1,6 @@
-// Scintilla source code edit control
+// Контрол редактирования исходного кода Scintilla
 /** @file ILexer.h
- ** Interface between Scintilla and lexers.
+ ** Интерфейс между Scintilla и лексерами.
  **/
 // Copyright 1998-2010 by Neil Hodgson <neilh@scintilla.org>
 // The License.txt file describes the conditions under which this software may be distributed.

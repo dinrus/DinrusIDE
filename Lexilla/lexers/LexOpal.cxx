@@ -1,4 +1,4 @@
-// Scintilla source code edit control
+// Контрол редактирования исходного кода Scintilla
 /** @file LexOpal.cxx
  ** Lexer for OPAL (functional language similar to Haskell)
  ** Written by Sebastian Pipping <webmaster@hartwork.org>

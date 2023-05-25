@@ -1,4 +1,4 @@
-// Scintilla source code edit control
+// Контрол редактирования исходного кода Scintilla
 /** @file EditView.h
  ** Defines the appearance of the main text area of the editor window.
  **/

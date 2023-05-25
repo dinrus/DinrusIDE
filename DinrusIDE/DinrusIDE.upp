@@ -25,10 +25,11 @@ uses
 	SysInfo,
 	Functions4U,
 	DropGrid,
-	Controls4U;
+	Controls4U,
+	CtrlLib/MessageCtrl;
 
 link
-	-DUNICODE;
+	"-DUNICODE -DCINDEX_NO_EXPORTS";
 
 file
 	IDE readonly separator,

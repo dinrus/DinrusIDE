@@ -12,15 +12,15 @@ String Jdk::GetDownloadUrl()
 Jdk::Jdk(const String& path, Host* host)
 	: path(path)
 {
-	ASSERT_(host, "Host is null.");
-	
+	ASSERT_(host, "Пустая ссылка на хост.");
+
 	FindVersion(host);
 }
 
 bool Jdk::Validate() const
 {
 	if(!FileExists(GetJavacPath())) return false;
-	
+
 	return true;
 }
 
@@ -30,13 +30,13 @@ void Jdk::FindVersion(Host* host)
 		Logw() << METHOD_NAME << "Путь к JDK неверен или файлы повреждены.";
 		return;
 	}
-	
+
 	StringStream ss;
 	if (host->Execute(GetJavacPath() + " -version", ss) != 0) {
 		Logw() << METHOD_NAME << "Не удалось узнать версию из-за неудачного выполнения команды.";
 		return;
 	}
-	
+
 	String output = static_cast<String>(ss);
 	output.Replace("\n", "");
 	Vector<String> splitedOutput = Split(output, " ");
@@ -44,25 +44,25 @@ void Jdk::FindVersion(Host* host)
 		Logw() << METHOD_NAME << "Splited output is too short (" + output + ").";
 		return;
 	}
-	
+
 	Vector<String> splitedVersion = Split(splitedOutput[1], ".");
 	if (splitedVersion.GetCount() != 3) {
 		Logw() << METHOD_NAME << "Splited version is too short (" + output + ").";
 		return;
 	}
-	
+
 	int major = StrInt(splitedVersion[0]);
 	if (major == INT_NULL) {
 		Logw() << METHOD_NAME << "Major version conversion to int failed (" + splitedVersion[0] + ").";
 		return;
 	}
-	
+
 	int minor = StrInt(splitedVersion[1]);
 	if (minor == INT_NULL) {
 		Logw() << METHOD_NAME << "Minor version conversion to int failed (" + splitedVersion[1] + ").";
 		return;
 	}
-	
+
 	version = JavaVersion(major, minor);
 }
 

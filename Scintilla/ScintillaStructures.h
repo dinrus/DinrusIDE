@@ -1,8 +1,8 @@
-// Scintilla source code edit control
+// Контрол редактирования исходного кода Scintilla
 /** @file ScintillaStructures.h
- ** Structures used to communicate with Scintilla.
- ** The same structures are defined for C in Scintilla.h.
- ** Uses definitions from ScintillaTypes.h.
+ ** Структуры, используемые для коммуникации с Scintilla.
+ ** Эти же структуры определены для Си в Scintilla.h.
+ ** Используются определения из ScintillaTypes.h.
  **/
 // Copyright 2021 by Neil Hodgson <neilh@scintilla.org>
 // The License.txt file describes the conditions under which this software may be distributed.
@@ -55,7 +55,7 @@ struct Rectangle {
 	int bottom;
 };
 
-/* This structure is used in printing. Not needed by most client code. */
+/* Эта структура используется при печати. Большинству клиентских кодов не требуется. */
 
 struct RangeToFormat {
 	SurfaceID hdc;
@@ -74,9 +74,9 @@ struct RangeToFormatFull {
 };
 
 struct NotifyHeader {
-	/* Compatible with Windows NMHDR.
-	 * hwndFrom is really an environment specific window handle or pointer
-	 * but most clients of Scintilla.h do not have this type visible. */
+	/* Совместима с Windows NMHDR.
+	 * hwndFrom  реально есть хэнндл зависящего от среды окна или указатель,
+	 * но у большинства клиентов Scintilla.h этот тип невидим. */
 	void *hwndFrom;
 	uptr_t idFrom;
 	Notification code;

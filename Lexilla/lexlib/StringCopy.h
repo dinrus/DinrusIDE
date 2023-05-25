@@ -1,4 +1,4 @@
-// Scintilla source code edit control
+// Контрол редактирования исходного кода Scintilla
 /** @file StringCopy.h
  ** Safe string copy function which always NUL terminates.
  ** ELEMENTS macro for determining array sizes.

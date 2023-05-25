@@ -1,4 +1,4 @@
-// Scintilla source code edit control
+// Контрол редактирования исходного кода Scintilla
 /** @file SubStyles.h
  ** Manage substyles for a lexer.
  **/

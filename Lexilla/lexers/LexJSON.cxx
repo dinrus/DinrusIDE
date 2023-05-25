@@ -1,4 +1,4 @@
-// Scintilla source code edit control
+// Контрол редактирования исходного кода Scintilla
 /**
  * @file LexJSON.cxx
  * @date February 19, 2016

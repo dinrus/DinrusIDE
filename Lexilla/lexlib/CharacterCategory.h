@@ -1,4 +1,4 @@
-// Scintilla source code edit control
+// Контрол редактирования исходного кода Scintilla
 /** @file CharacterCategory.h
  ** Returns the Unicode general category of a character.
  **/

@@ -1,5 +1,5 @@
 //	-*- coding: utf-8 -*-
-//	Scintilla source code edit control
+//	Контрол редактирования исходного кода Scintilla
 /**
  *	@file LexModula.cxx
  *	@author Dariusz "DKnoto" Knociński

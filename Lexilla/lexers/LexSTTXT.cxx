@@ -1,4 +1,4 @@
-// Scintilla source code edit control
+// Контрол редактирования исходного кода Scintilla
 /** @file LexSTTXT.cxx
  ** Lexer for Structured Text language.
  ** Written by Pavel Bulochkin

@@ -1,4 +1,4 @@
-// Scintilla source code edit control
+// Контрол редактирования исходного кода Scintilla
 // @file LexPowerPro.cxx
 // PowerPro utility, written by Bruce Switzer, is available from http://powerpro.webeddie.com
 // PowerPro lexer is written by Christopher Bean (cbean@cb-software.net)

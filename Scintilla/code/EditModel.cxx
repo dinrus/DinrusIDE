@@ -1,4 +1,4 @@
-// Scintilla source code edit control
+// Контрол редактирования исходного кода Scintilla
 /** @file EditModel.cxx
  ** Defines the editor state that must be visible to EditorView.
  **/

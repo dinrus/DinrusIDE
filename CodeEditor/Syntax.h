@@ -10,7 +10,7 @@ struct HlStyle {
 	bool  underline;
 };
 
-struct Isx : Moveable<Isx> { // '(', '[' position
+struct Isx : Moveable<Isx> { // Позиция '(', '['
 	int    line;
 	int    pos;
 
@@ -36,7 +36,7 @@ struct IfState : Moveable<IfState> {
 	IfState()                         { ifline = state = 0; }
 };
 
-struct HighlightSetup { // Global highlighting settings
+struct HighlightSetup { // Глобальные настройки подсветки
 public:
 #define HL_COLOR(x, a, b)      x,
 	enum {
@@ -95,7 +95,7 @@ public:
 	~HighlightOutput();
 };
 
-class EditorSyntax : public HighlightSetup { // Inheriting to make static members available
+class EditorSyntax : public HighlightSetup { // Наследуется, чтобы стали доступны статические члены
 	struct SyntaxDef {
 		Event<One<EditorSyntax>&> factory;
 		String                    patterns;
@@ -113,7 +113,7 @@ public:
 	virtual void            ScanSyntax(const wchar *ln, const wchar *e, int line, int tab_size);
 	virtual void            Serialize(Stream& s);
 	virtual void            IndentInsert(CodeEditor& editor, int chr, int count);
-	virtual bool            CheckBrackets(CodeEditor& e, int64& bpos0, int64& bpos); // СДЕЛАТЬ: Replace with generic mechanism
+	virtual bool            CheckBrackets(CodeEditor& e, int64& bpos0, int64& bpos); // СДЕЛАТЬ: Заменить генерным механизмом
 	virtual void            CheckSyntaxRefresh(CodeEditor& e, int64 pos, const WString& text);
 	virtual bool            CanAssist() const;
 	virtual void            Highlight(const wchar *s, const wchar *end, HighlightOutput& hls,

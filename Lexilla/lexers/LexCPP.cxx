@@ -1,4 +1,4 @@
-// Scintilla source code edit control
+// Контрол редактирования исходного кода Scintilla
 /** @file LexCPP.cxx
  ** Lexer for C++, C, Java, and JavaScript.
  ** Further folding features and configuration properties added by "Udo Lechner" <dlchnr(at)gmx(dot)net>

@@ -1,4 +1,4 @@
-// Scintilla source code edit control
+// Контрол редактирования исходного кода Scintilla
 /** @file LexOScript.cxx
  ** Lexer for OScript sources; ocx files and/or OSpace dumps.
  ** OScript is a programming language used to develop applications for the

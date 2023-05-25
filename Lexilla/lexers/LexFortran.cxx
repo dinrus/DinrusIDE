@@ -1,4 +1,4 @@
-// Scintilla source code edit control
+// Контрол редактирования исходного кода Scintilla
 /** @file LexFortran.cxx
  ** Lexer for Fortran.
  ** Written by Chuan-jian Shen, Last changed Sep. 2003

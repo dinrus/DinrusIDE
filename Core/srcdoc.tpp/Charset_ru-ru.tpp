@@ -23,15 +23,17 @@ topic "Проблемы набора символов и кодировки";
 [{_}%RU-RU 
 [s2; [@5 Проблемы набора символов и кодировки]&]
 [s3; [3 UTF`-8EE]&]
-[s5; U`+`+ is not using pure UTF`-8, but our extension that we have 
-named `"UTF`-8EE`" as for `"Error Escaped`".&]
-[s5; The idea is that not every sequence of bytes is valid UTF`-8. 
-Now the issues is how to react to this problem when loading file 
-into DinrusIDE (or other editor). Of course, error message is 
-one solution, but we sometimes have to process text files that 
-have several sections with different encodings, UTF`-8 being 
-one of them. It is of course cool to have editor capable of dealing 
-with this.&]
+[s5; U`+`+ не использует чистый UTF`-8, а расширение, 
+называемое нами `"UTF`-8EE`", что означает 
+`"Error Escaped`".&]
+[s5; Идея состоит в том, что не каждая 
+последовательность байтов является 
+полноценным UTF`-8. Now the issues is how to react 
+to this problem when loading file into DinrusIDE (or other editor). 
+Of course, error message is one solution, but we sometimes have 
+to process text files that have several sections with different 
+encodings, UTF`-8 being one of them. It is of course cool to 
+have editor capable of dealing with this.&]
 [s5; So let us introduce UTF`-8EE. The idea is this `- when invalid 
 input sequence is encountered, it is `"escaped`" into the unicode 
 private area (0xe000 `- 0xf8ff) `- all bytes are escaped as 0xEE[@(0.0.255) xx] 

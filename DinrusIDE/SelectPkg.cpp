@@ -167,7 +167,7 @@ SelectPackageDlg::SelectPackageDlg(const char *title, bool selectvars_, bool mai
 {
 	CtrlLayoutOKCancel(*this, title);
 	Sizeable().Zoomable();
-	Icon(IdeImg::MainPackage(), IdeImg::PackageLarge());
+	Icon(IdeImg::MainPackage(), IdeImg::dinrus());
 	base.AutoHideSb();
 	base.NoGrid();
 	base.AddColumn("Сборка");

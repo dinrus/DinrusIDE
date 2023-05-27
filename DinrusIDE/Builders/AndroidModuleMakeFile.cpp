@@ -4,7 +4,7 @@ namespace Upp {
 
 AndroidModuleMakeFile::AndroidModuleMakeFile()
 {
-	
+
 }
 
 AndroidModuleMakeFile::AndroidModuleMakeFile(const String& name)
@@ -14,7 +14,7 @@ AndroidModuleMakeFile::AndroidModuleMakeFile(const String& name)
 
 AndroidModuleMakeFile::~AndroidModuleMakeFile()
 {
-	
+
 }
 
 void AndroidModuleMakeFile::Clear()
@@ -31,7 +31,7 @@ void AndroidModuleMakeFile::Clear()
 String AndroidModuleMakeFile::ToString() const
 {
 	String makeFile;
-	
+
 	makeFile << "include $(CLEAR_VARS)\n";
 	AppendName(makeFile);
 	AppendSourceFiles(makeFile);
@@ -42,7 +42,7 @@ String AndroidModuleMakeFile::ToString() const
 	AppendSharedLibraries(makeFile);
 	makeFile << "include $(BUILD_SHARED_LIBRARY)\n";
 	AppendModules(makeFile);
-	
+
 	return makeFile;
 }
 
@@ -101,7 +101,7 @@ void AndroidModuleMakeFile::AppendCppFlags(String& makeFile) const
 	if(cppFlags.IsEmpty()) {
 		return;
 	}
-	
+
 	makeFile << "LOCAL_CPPFLAGS := ";
 	for(int i = 0; i < cppFlags.GetCount(); i++) {
 		String value = cppFlags[i];
@@ -124,7 +124,7 @@ void AndroidModuleMakeFile::AppendStaticLibraries(String& makeFile) const
 	Vector<String> allLibs;
 	allLibs.Append(staticLibraries);
 	allLibs.Append(staticModuleLibraries);
-	
+
 	AndroidMakeFile::AppendStringVector(makeFile, allLibs, "LOCAL_STATIC_LIBRARIES");
 }
 
@@ -139,15 +139,15 @@ void AndroidModuleMakeFile::AppendModules(String& makeFile) const
 		for(int i = 0; i < staticModuleLibraries.GetCount(); i++) {
 			if(i == 0)
 				makeFile << "\n";
-			
-			const String androidPrefix = "android_";
-			
-			String module = staticModuleLibraries[i];
-			if(module.StartsWith(androidPrefix))
-				module.Remove(0, androidPrefix.GetCount());
-			module = "android/" + module;
-			
-			makeFile << "$(call import-module, " << module << ")\n";
+
+			const String android_prefix = "android_";
+
+			String module_name = staticModuleLibraries[i];
+			if(module_name.StartsWith(android_prefix))
+				module_name.Remove(0, android_prefix.GetCount());
+			module_name = "android/" + module_name;
+
+			makeFile << "$(call import-module, " << module_name << ")\n";
 		}
 	}
 }

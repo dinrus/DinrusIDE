@@ -1,0 +1,44 @@
+description "\377B";
+
+uses
+	Core;
+
+options
+	-DUNICODE;
+
+file
+	"Заголовочные" readonly separator,
+	Defs.h,
+	DinrusPro.h,
+	config.h,
+	Windows.h,
+	Posix.h,
+	Ops.h,
+	Tpl.h,
+	TextCore.h,
+	Funcs.h,
+	DinrusCore.h,
+	_______________ readonly separator,
+	"Ядро" readonly separator,
+	Ops.cpp,
+	Core\sheap.cpp,
+	Core\heap.cpp,
+	Core\HeapImp.h,
+	Core\Heap.h,
+	Core\heapdbg.cpp,
+	Core\App.cpp,
+	Core\Funcs.cpp,
+	Core\Index.hpp,
+	Core\InMap.hpp,
+	Core\InVector.hpp,
+	Core\Map.hpp,
+	Core\Stream.cpp,
+	Core\Stream.h,
+	Core\String.cpp,
+	Core\StringFind.cpp,
+	Core\StringMem.i,
+	Core\StrUtil.cpp,
+	Core\CoWork.cpp,
+	Core\WString.cpp,
+	"кон" readonly separator;
+

@@ -1,5 +1,4 @@
-topic "String and WString";
-[2 $$0,0#00000000000000000000000000000000:Default]
+topic "String и WString";
 [i448;a25;kKO9;*@(64)2 $$1,0#37138531426314131252341829483380:class]
 [l288;2 $$2,2#27521748481378242620020725143825:desc]
 [a83;*R6 $$3,0#31310162474203024125188417583966:caption]
@@ -8,8 +7,9 @@ topic "String and WString";
 [*+117 $$6,6#14700283458701402223321329925657:header]
 [l416;2 $$7,7#55548704457842300043401641954952:nested`-desc]
 [l288;i448;a25;kO9;*2 $$8,8#64691275497409617375831514634295:nested`-class]
+[2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%RU-RU 
-[s3; String and WString&]
+[s3; String и WString&]
 [s0; Core implementation of String and WString is totally independent.&]
 [s0; &]
 [s0; Core implementation is represented by String0 and WString0 classes. 

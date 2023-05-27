@@ -21,8 +21,8 @@ uses
 	Report,
 	Core/SSL,
 	plugin/md,
-	DinrusIDE2/clang,
-	Core;
+	Core,
+	DinrusIDE2/clang;
 
 file
 	IDE readonly separator,

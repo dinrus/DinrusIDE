@@ -99,7 +99,7 @@ DinrusIDE, то здесь рекомендуется установка
 MSYS2 (clang64), так, чтобы из средового пути 
 были видны все главные инструменты 
 (в том числе bash, git, clang, ldc, python и прочие). 
- Возможно, в будущем DinrusIDE создаст 
+Возможно, в будущем DinrusIDE создаст 
 свой собственный набор. Однако на 
 данный момент инструментарий Msys2 
 полностью удовлетворяет, за исключением 
@@ -114,8 +114,8 @@ CUDA)&]
 Он становится доступным после установки 
 различными менеджерами пакетов, типа 
 apt. По умолчанию git также устанавливается 
-при установке U`+`+ запускаемым пользователем
- сценарием&]
+при установке U`+`+,`- запускаемым пользователе
+м сценарием&]
 [s22;:2`.1`.3: [@(255.0.255) 2.1.2 macOS]&]
 [s5; На платформе macOS git должен быть установлен 
 пользователем и доступен в среде. 
@@ -135,22 +135,30 @@ git, представляющие собой гнёзда U`+`+.
 модуля может также иметь некоторый 
 главный пакет: пакеты примеров и тестировки. 
 Предлагаются следующие правила:&]
-[s0;l128;i150;b42;a42;phO0; do not mix packages in single UppHub 
-nest that are solving different problems (like mixing SysInfo 
-with STEM4U)&]
-[s5;l128;i150;O0; try to make sure the package names that are to 
-be used are unique (obvious reasons) `- does not apply the name 
-of examples, tests and other main packages that come with the 
-module.&]
-[s5;l128;i150;O0; if you are adapting 3rd party code (or perhaps 
-format), consider putting it to [* plugin ](like plugin/md)&]
-[s5;l128;i150;O0; put examples into [* examples ]directory&]
-[s5;l128;i150;O0; put U`+`+ style tests (those that can be be compiled 
-/ run automatically and fail with non`-zero exit, e.g. with ASSERT) 
-into [* autotest ]directory&]
-[s5;l128;i150;O0; put other tests to [* test]&]
+[s0;l128;i150;b42;a42;phO0; не смешивать пакеты, 
+решающие разные проблемы, в едином 
+гнезде UppHub (например, смешивание SysInfo 
+с STEM4U)&]
+[s5;l128;i150;O0; проверяйте, чтобы имена пакетов 
+были уникальными (по вполне очевидным 
+причинам) `- не применяйте названия 
+примеров, тестов и других главных 
+пакетов, поставляемых с иными модулями.&]
+[s5;l128;i150;O0; если адаптируете код 3`-ей 
+стороны (или, возможно, формат), рассматривай
+те его помещение в пакет [* plugin ](например, 
+plugin/md)&]
+[s5;l128;i150;O0; помещайте примеры в папку 
+[* examples]&]
+[s5;l128;i150;O0; помещайте тесты стиля U`+`+ 
+(которые могут компилироваться / выполняться
+ автоматически и `"падать`" с ненулевым 
+кодом выхода, например, с ASSERT), в директорию 
+[* autotest]&]
+[s5;l128;i150;O0; остальные тесты помещайте 
+в [* test]&]
 [s5; &]
-[s3;:4: [@(128.0.255) 4. UppHub maintainer information]&]
+[s3;:4: [@(128.0.255) 4. Информация для UppHub maintainer`'ов]&]
 [s5; This information is only important for maintainers of UppHub. 
 Module nests are listed in json files that are accessible through 
 http. JSON file specifies information about individual module 

@@ -3,6 +3,8 @@
 
 #include <plugin/bz2/bz2.h>
 
+//#define METHOD_NAME "MakeBuild::" << UPP_FUNCTION_NAME << "(): "
+
 #define LDUMP(x) // DUMP(x)
 
 MakeBuild::MakeBuild()

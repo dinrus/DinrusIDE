@@ -14,9 +14,10 @@ topic "Ловушки и загвоздки U++";
 [ {{5000:5000l/33r/33t/33b/33 [s0; [C@5 Vector<Foo> x;]&]
 [s0; [C@5 ....]&]
 [s0; [C@5 x.At(i) `= x`[q`];]]
-::l/25r/25t/15b/15 [s0; Problem: At invalidates references to Vector; if x`[q`] gets 
-evaluated first, the reference can be later invalidated by At. 
-(Note: Array does not have the same problem).]
+::l/25r/25t/15b/15 [s0; Проблема: At повреждает ссылки на Vector; 
+если вначале оценивается x`[q`], позднее 
+ссылка может повреждаться At. (Примечание: 
+У Array такой проблемы нет).]
 ::l/33r/33t/33b/33 [s0; [C@5 Vector<Foo> x;]&]
 [s0; [C@5 ....]&]
 [s0; [C@5 const Foo`& s `= x.Top(); ]&]
@@ -25,7 +26,8 @@ evaluated first, the reference can be later invalidated by At.
 [s0; [C@5 x.Add(x.Top());]&]
 [s0; [C@5 ....]&]
 [s0; [C@5 x.Add(x`[0`]);]]
-::l/25r/25t/15b/15 [s0; Very similar to above problem, only more explicit.]
+::l/25r/25t/15b/15 [s0; Очень похоже на проблему выше, но 
+более явная.]
 ::l/33r/33t/33b/33 [s0; [C@5 void MyFn(Array<Foo> x);]]
 ::l/25r/25t/15b/15 [s0; This is in most cases a bug `- U`+`+ containers have `"[^topic`:`/`/Core`/srcdoc`/pick`_`$en`-us^ p
 ick transfer semantics]`", means that such function destroys 

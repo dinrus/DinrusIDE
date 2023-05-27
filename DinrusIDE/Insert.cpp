@@ -299,15 +299,8 @@ void Ide::InsertInclude(Bar& bar)
 
 void Ide::ToggleWordwrap()
 {
-	RLOG("===========");
-	RDUMPHEX((int)*(byte *)&wordwrap);
-	RDUMP(wordwrap);
 	wordwrap = !wordwrap;
-	RDUMPHEX((int)*(byte *)&wordwrap);
-	RDUMP(wordwrap);
 	SetupEditor();
-	RDUMP(wordwrap);
-	RLOG(".........");
 }
 
 void Ide::EditorMenu(Bar& bar)

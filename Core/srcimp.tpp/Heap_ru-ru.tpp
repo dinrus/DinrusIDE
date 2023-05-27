@@ -1,4 +1,4 @@
-topic "Heap implementation";
+topic "Реализация кучи";
 [i448;a25;kKO9;*@(64)2 $$1,0#37138531426314131252341829483380:class]
 [l288;2 $$2,2#27521748481378242620020725143825:desc]
 [a83;*R6 $$3,0#31310162474203024125188417583966:caption]
@@ -9,7 +9,7 @@ topic "Heap implementation";
 [l288;i448;a25;kO9;*2 $$8,8#64691275497409617375831514634295:nested`-class]
 [b33;2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%RU-RU 
-[s3; Heap implementation&]
+[s3; Реализация кучи&]
 [s0; U`+`+ heap is divided into 4 categories based on the block size 
 `- small, medium, huge and system.&]
 [s0; &]

@@ -72,7 +72,7 @@ void CSyntax::InitKeywords()
 		"int8", "uint8", "int16", "uint16", "int32", "uint32", "int64", "uint64", "qword",
 		"INTERLOCKED_", "INTERLOCKED", "ONCELOCK", "ONCELOCK_", "INITBLOCK", "EXITBLOCK",
 		"rval_", "rval_default", "size_t", "intptr_t", "uintptr_t", "INITIALIZER", "INITIALIZE",
-		"hash_t",
+		"hash_t", "байт","ббайт","цел", "дол","бцел", "шим", "ткст0", "крат", "бкрат", "плав",
 		NULL
 	};
 	static const char *usc[] = {

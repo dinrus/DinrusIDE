@@ -48,7 +48,7 @@ void Ide::InstallDesktop()
 	if(PromptYesNo("Записать DinrusIDE.desktop в&[* \1" + apps + "\1]?&"
 	               "После этого ИСР РНЦП Динрус будет доступна через приложения рабочего стола.")) {
 		String icon = ConfigFile("DinrusIDE.png");
-		PNGEncoder().SaveFile(icon, IdeImg::PackageLarge());
+		PNGEncoder().SaveFile(icon, IdeImg::dinrus());
 		String path = apps + "/DinrusIDE.desktop";
 		RealizePath(path);
 		Upp::SaveFile(path,

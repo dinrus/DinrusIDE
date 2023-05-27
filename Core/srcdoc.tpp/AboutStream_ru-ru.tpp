@@ -89,14 +89,18 @@ FileStream)&]
 [s0;i150;O0; Сериализация stuff`'а в Stream довольно 
 крута в иных реализациях, у Stream в наличии 
 есть сплит`-интерфейс для сериализации 
-и десериализации `"стаффа`", so the user 
-had to keep track which order the elements go and use 2 different 
-functions basicly, for Serializing and Deserializing. upp stream 
-puts away this head ache. it uses 1 interface, and handles the 
-difference about serialize/deserialize internally `& implicitly 
-with the help of IsLoading() / IsStoring()..the user benefits 
-from this only having to specify `*one`* functionional place, 
-that determines the order of serialization and that is maintained 
+и десериализации `"стаффа`", так, чтобы 
+пользователю нужно было отслеживать, 
+в каком порядке идут элементы, и использоват
+ь в основном две функции, для Сериализации 
+и Десериализации. Поток upp снимает 
+эту головную боль. Он использует 1 
+интерфейс, и внутренне и косвенно 
+обрабатывает разницу, относящуюся 
+к сериализации/десериализации, с 
+помощью IsLoading() / IsStoring()..the user benefits from 
+this only having to specify `*one`* functionional place, that 
+determines the order of serialization and that is maintained 
 the same on both directions, hurray. (drawback, one cant deserialize 
 from a `'const Stream `&`', because the function needs a `'Stream 
 `&`', but the case where this happens is to be neglacted). since 

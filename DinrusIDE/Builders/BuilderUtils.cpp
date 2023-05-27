@@ -28,7 +28,6 @@ bool BuilderUtils::IsCppFile(const String& path)
 	return HasExt(path, { "icpp", "cpp", "cc", "cxx" });
 }
 
-
 bool BuilderUtils::IsCppOrCFile(const String& path)
 {
 	return HasExt(path, { "c", "icpp", "cpp", "cc", "cxx" });

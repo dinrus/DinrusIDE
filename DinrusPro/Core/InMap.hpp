@@ -80,16 +80,16 @@ template <class K, class T, class Less, class Данные>
 template <class K, class T, class Less>
 SortedVectorMap<K, T, Less>::SortedVectorMap(SortedVectorMap&& s)
 {
-	B::ключ = pick(s.ключ);
-	B::значение.данные = pick(s.значение.данные);
+	B::ключ = пикуй(s.ключ);
+	B::значение.данные = пикуй(s.значение.данные);
 	B::SetSlave();
 }
 
 template <class K, class T, class Less>
 SortedVectorMap<K, T, Less>& SortedVectorMap<K, T, Less>::operator=(SortedVectorMap&& s)
 {
-	B::ключ = pick(s.ключ);
-	B::значение.данные = pick(s.значение.данные);
+	B::ключ = пикуй(s.ключ);
+	B::значение.данные = пикуй(s.значение.данные);
 	B::SetSlave();
 	return *this;
 }
@@ -167,16 +167,16 @@ template <class K, class T, class Less>
 template <class K, class T, class Less>
 SortedArrayMap<K, T, Less>::SortedArrayMap(SortedArrayMap&& s)
 {
-	B::ключ = pick(s.ключ);
-	B::значение.данные = pick(s.значение.данные);
+	B::ключ = пикуй(s.ключ);
+	B::значение.данные = пикуй(s.значение.данные);
 	B::SetSlave();
 }
 
 template <class K, class T, class Less>
 SortedArrayMap<K, T, Less>& SortedArrayMap<K, T, Less>::operator=(SortedArrayMap&& s)
 {
-	B::ключ = pick(s.ключ);
-	B::значение.данные = pick(s.значение.данные);
+	B::ключ = пикуй(s.ключ);
+	B::значение.данные = пикуй(s.значение.данные);
 	B::SetSlave();
 	return *this;
 }

@@ -47,7 +47,7 @@ public:
             бул файл_ли() const                     { return LIBSSH2_SFTP_S_ISREG(a->permissions); }
             бул директория_ли() const                { return LIBSSH2_SFTP_S_ISDIR(a->permissions); }
             бул симссылка_ли() const                  { return LIBSSH2_SFTP_S_ISLNK(a->permissions); }
-            бул особый_ли() const                  { return LIBSSH2_SFTP_S_ISCHR(a->permissions); }
+            бул спец_ли() const                  { return LIBSSH2_SFTP_S_ISCHR(a->permissions); }
             бул IsBlock() const                    { return LIBSSH2_SFTP_S_ISBLK(a->permissions); }
             бул IsPipe() const                     { return LIBSSH2_SFTP_S_ISFIFO(a->permissions); }
             бул IsSocket() const                   { return LIBSSH2_SFTP_S_ISSOCK(a->permissions); }

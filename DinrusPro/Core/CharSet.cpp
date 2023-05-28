@@ -1858,19 +1858,19 @@ static МассивМап<Ткст, CharSetData>& s_map()
 	return s_map().дайСчёт();
 }
 
-цел cs_filter(цел c)
+цел cs_фильтр(цел c)
 {
 	return цифра_ли(c) ? c : альфа_ли(c) ? впроп(c) : 0;
 }
 
 цел набсимПоИмени(кткст0 имя)
 {
-	Ткст nm = фильтруй(имя, cs_filter);
+	Ткст nm = фильтруй(имя, cs_фильтр);
 	if(nm == "utf8" || nm == "utf-8")
 		return НАБСИМ_УТФ8;
 	for(цел pass = 0; pass < 2; pass++) {
 		for(цел i = 1; i < счётНабСим(); i++)
-			if(nm == фильтруй(имяНабСим(i), cs_filter))
+			if(nm == фильтруй(имяНабСим(i), cs_фильтр))
 				return i;
 		nm.замени("win", "windows");
 	}
@@ -2081,13 +2081,13 @@ static CharSetData& s_cset(ббайт charset)
 	scharset = разрешиНабСим(scharset);
 	if(charset == scharset)
 		return ист;
-	цел slen = ист.дайДлину();
+	цел МДЛИН = ист.дайДлину();
 	if(scharset == НАБСИМ_УТФ8)
-		return изЮникода(вУтф32(ист, slen), charset, опр);
+		return изЮникода(вУтф32(ист, МДЛИН), charset, опр);
 	if(charset == НАБСИМ_УТФ8)
 		return вУтф8(вЮникод(ист, scharset));
-	ТкстБуф result(slen);
-	преобразуйНабСим(result, charset, ист, scharset, slen);
+	ТкстБуф result(МДЛИН);
+	преобразуйНабСим(result, charset, ист, scharset, МДЛИН);
 	return Ткст(result);
 }
 

@@ -70,7 +70,7 @@ SshHosts::Info SshHosts::Check(const Ткст& host, цел port)
 		if(!p) {
 			Ошибка();
 			инфо.status = LIBSSH2_KNOWNHOST_CHECK_FAILURE;
-			return pick(инфо);
+			return пикуй(инфо);
 		}
 		инфо.status = libssh2_knownhost_checkp(
 			handle,
@@ -108,7 +108,7 @@ SshHosts::Info SshHosts::Check(const Ткст& host, цел port)
 				break;
 		}
 	}
-	return pick(инфо);
+	return пикуй(инфо);
 }
 
 Вектор<SshHost*> SshHosts::GetHosts()
@@ -129,7 +129,7 @@ SshHosts::Info SshHosts::Check(const Ткст& host, цел port)
 			}
 	}
 	if(rc < 0) Ошибка();
-	return pick(v);
+	return пикуй(v);
 }
 
 бул SshHosts::Ошибка()

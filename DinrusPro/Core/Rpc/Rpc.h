@@ -266,7 +266,7 @@ struct RpcError {
 	Ткст text;
 };
 
-проц   SetRpcMethodFilter(Ткст (*filter)(const Ткст& methodname));
+проц   SetRpcMethodFilter(Ткст (*фильтр)(const Ткст& methodname));
 бул   RpcPerform(TcpSocket& http, кткст0 группа);
 бул   RpcServerLoop(цел port, кткст0 группа = NULL);
 

@@ -27,10 +27,10 @@ force_inline бул equal_back_4(кткст0 a, кткст0 b, цел len)
 #endif
 
 template <цел step> // Template parameter to be a constant
-цел t_find(кткст0 укз, цел slen, кткст0 p, цел len, цел from)
+цел t_find(кткст0 укз, цел МДЛИН, кткст0 p, цел len, цел from)
 {
-	ПРОВЕРЬ(from >= 0 && from <= slen);
-	цел l = slen - len - from;
+	ПРОВЕРЬ(from >= 0 && from <= МДЛИН);
+	цел l = МДЛИН - len - from;
 	if(l < 0)
 		return -1;
 	кткст0 s = укз + from;

@@ -43,7 +43,7 @@ template <class I, class Less>
 			++ih;
 
 		цел count_l = i - l;
-		if(count_l == 1) // this happens if there are many elements equal to pivot, filter them out
+		if(count_l == 1) // this happens if there are many elements equal to pivot, фильтр them out
 			for(I q = ih + 1; q != h; ++q)
 				if(!less(*i, *q))
 					IterSwap(++ih, q);
@@ -285,7 +285,7 @@ template <class вКарту, class Less>
 	typename вКарту::КонтейнерКлючей k = map.подбериКлючи();
 	typename вКарту::КонтейнерЗначений v = map.подбериЗначения();
 	соИндексСортируй(k, v, less);
-	map = вКарту(pick(k), pick(v));
+	map = вКарту(пикуй(k), пикуй(v));
 }
 
 template <class вКарту>
@@ -300,7 +300,7 @@ template <class вКарту, class Less>
 	typename вКарту::КонтейнерКлючей k = map.подбериКлючи();
 	typename вКарту::КонтейнерЗначений v = map.подбериЗначения();
 	соИндексСортируй(v, k, less);
-	map = вКарту(pick(k), pick(v));
+	map = вКарту(пикуй(k), пикуй(v));
 }
 
 template <class вКарту>
@@ -315,7 +315,7 @@ template <class вКарту, class Less>
 	typename вКарту::КонтейнерКлючей k = map.подбериКлючи();
 	typename вКарту::КонтейнерЗначений v = map.подбериЗначения();
 	соСтабилИндексСортируй(k, v, less);
-	map = вКарту(pick(k), pick(v));
+	map = вКарту(пикуй(k), пикуй(v));
 }
 
 template <class вКарту>
@@ -330,7 +330,7 @@ template <class вКарту, class Less>
 	typename вКарту::КонтейнерКлючей k = map.подбериКлючи();
 	typename вКарту::КонтейнерЗначений v = map.подбериЗначения();
 	соСтабилИндексСортируй(v, k, less);
-	map = вКарту(pick(k), pick(v));
+	map = вКарту(пикуй(k), пикуй(v));
 }
 
 template <class вКарту>
@@ -344,7 +344,7 @@ template <class Индекс, class Less>
 {
 	typename Индекс::КонтейнерЗначений k = индекс.подбериКлючи();
 	соСортируй(k, less);
-	индекс = Индекс(pick(k));
+	индекс = Индекс(пикуй(k));
 }
 
 template <class Индекс>
@@ -358,7 +358,7 @@ template <class Индекс, class Less>
 {
 	typename Индекс::КонтейнерЗначений k = индекс.подбериКлючи();
 	соСтабилСортируй(k, less);
-	индекс = Индекс(pick(k));
+	индекс = Индекс(пикуй(k));
 }
 
 template <class Индекс>
@@ -368,5 +368,5 @@ template <class Индекс>
 }
 
 //////////////
-КОНЕЦ_ПИ_РНЦП
+КОН_ПИ_РНЦП
 /////////////

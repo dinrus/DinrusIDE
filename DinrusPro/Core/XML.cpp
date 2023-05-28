@@ -507,7 +507,7 @@ inline static бул IsXmlNameChar(цел c)
 	if(next) {
 		if(!raw)
 			stack.добавь(Nesting(h, npreserve));
-		attr = pick(nattr);
+		attr = пикуй(nattr);
 		attr1 = nattr1;
 		attrval1 = nattrval1;
 		следщ();
@@ -521,7 +521,7 @@ inline static бул IsXmlNameChar(цел c)
 		LLOG("Тэг " << tagtext);
 		if(!raw)
 			stack.добавь(Nesting(tagtext, npreserve));
-		attr = pick(nattr);
+		attr = пикуй(nattr);
 		attr1 = nattr1;
 		attrval1 = nattrval1;
 		следщ();
@@ -536,7 +536,7 @@ inline static бул IsXmlNameChar(цел c)
 		LLOG("Тэг " << tagtext);
 		if(!raw)
 			stack.добавь(Nesting(tagtext, npreserve));
-		attr = pick(nattr);
+		attr = пикуй(nattr);
 		attr1 = nattr1;
 		attrval1 = nattrval1;
 		следщ();
@@ -660,8 +660,8 @@ inline static бул IsXmlNameChar(цел c)
 ВекторМап<Ткст, Ткст> ПарсерРяр::PickAttrs()
 {
 	if(!пусто_ли(attr1))
-		pick(const_cast<ВекторМап<Ткст, Ткст>&>(attr).вставь(0, attr1, attrval1));
-	return pick(attr);
+		пикуй(const_cast<ВекторМап<Ткст, Ткст>&>(attr).вставь(0, attr1, attrval1));
+	return пикуй(attr);
 }
 
 цел   ПарсерРяр::Цел(кткст0 ид, цел опр) const
@@ -928,7 +928,7 @@ const УзелРяр& УзелРяр::operator[](кткст0 tag) const
 	else {
 		if(!attr)
 			attr.создай();
-		*attr = pick(a);
+		*attr = пикуй(a);
 	}
 }
 
@@ -971,22 +971,22 @@ const УзелРяр& УзелРяр::operator[](кткст0 tag) const
 	return false;
 }
 
-static УзелРяр sReadXmlNode(ПарсерРяр& p, ФильтрРазбораРяр *filter, бцел style)
+static УзелРяр sReadXmlNode(ПарсерРяр& p, ФильтрРазбораРяр *фильтр, бцел style)
 {
 	УзелРяр m;
 	if(p.тэг_ли()) {
 		Ткст tag = p.читайТэг();
-		if(!filter || filter->сделайТэг(tag)) {
+		if(!фильтр || фильтр->сделайТэг(tag)) {
 			m.создайТэг(tag);
 			m.устАтры(p.PickAttrs());
 			while(!p.стоп())
 				if(!Ignore(p, style)) {
-					УзелРяр n = sReadXmlNode(p, filter, style);
+					УзелРяр n = sReadXmlNode(p, фильтр, style);
 					if(n.дайТип() != XML_DOC) // tag was ignored
-						m.добавь() = pick(n);
+						m.добавь() = пикуй(n);
 				}
-			if(filter)
-				filter->завершиТэг();
+			if(фильтр)
+				фильтр->завершиТэг();
 		}
 		else
 			p.пропустиКонец();
@@ -1015,14 +1015,14 @@ static УзелРяр sReadXmlNode(ПарсерРяр& p, ФильтрРазбо
 
 проц ФильтрРазбораРяр::завершиТэг() {}
 
-УзелРяр разбериРЯР(ПарсерРяр& p, бцел style, ФильтрРазбораРяр *filter)
+УзелРяр разбериРЯР(ПарсерРяр& p, бцел style, ФильтрРазбораРяр *фильтр)
 {
 	УзелРяр r;
 	while(!p.кф_ли())
 		if(!Ignore(p, style)) {
-			УзелРяр n = sReadXmlNode(p, filter, style);
+			УзелРяр n = sReadXmlNode(p, фильтр, style);
 			if(n.дайТип() != XML_DOC) // tag was ignored
-				r.добавь() = pick(n);
+				r.добавь() = пикуй(n);
 		}
 	return r;
 }
@@ -1052,29 +1052,29 @@ static УзелРяр sReadXmlNode(ПарсерРяр& p, ФильтрРазбо
 	return разбериРЯР(in, style);
 }
 
-УзелРяр разбериРЯР(ПарсерРяр& p, ФильтрРазбораРяр& filter, бцел style)
+УзелРяр разбериРЯР(ПарсерРяр& p, ФильтрРазбораРяр& фильтр, бцел style)
 {
-	return разбериРЯР(p, style, &filter);
+	return разбериРЯР(p, style, &фильтр);
 }
 
-УзелРяр разбериРЯР(кткст0 s, ФильтрРазбораРяр& filter, бцел style)
+УзелРяр разбериРЯР(кткст0 s, ФильтрРазбораРяр& фильтр, бцел style)
 {
 	ПарсерРяр p(s);
-	return разбериРЯР(p, filter, style);
+	return разбериРЯР(p, фильтр, style);
 }
 
-УзелРяр разбериРЯР(Поток& in, ФильтрРазбораРяр& filter, бцел style)
+УзелРяр разбериРЯР(Поток& in, ФильтрРазбораРяр& фильтр, бцел style)
 {
 	ПарсерРяр p(in);
-	return разбериРЯР(p, filter, style);
+	return разбериРЯР(p, фильтр, style);
 }
 
-УзелРяр разбериФайлРЯР(кткст0 path, ФильтрРазбораРяр& filter, бцел style)
+УзелРяр разбериФайлРЯР(кткст0 path, ФильтрРазбораРяр& фильтр, бцел style)
 {
 	ФайлВвод in(path);
 	if(!in)
 		throw ОшибкаРяр("Unable to open intput file!");
-	return разбериРЯР(in, filter, style);
+	return разбериРЯР(in, фильтр, style);
 }
 
 бул ShouldPreserve(const Ткст& s)

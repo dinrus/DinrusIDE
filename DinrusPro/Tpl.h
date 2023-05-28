@@ -4,7 +4,10 @@
 ///////////////////////
 namespace ДинрусРНЦП  {
 ///////////////////////
-
+т_хэш дайХэшЗначУкз(const ук a) ;
+ук TinyAlloc(цел size);
+ук разместиПам(т_мера size);
+///////////////////////////////
 template <class T>
 inline цел зн(T a) { return a > 0 ? 1 : a < 0 ? -1 : 0; }
 
@@ -71,7 +74,7 @@ template <class T>
 }
 
 template <class T>
-inline т_хэш дайХэшЗнач(T *укз)                             { return дайХэшЗначУкз(reinterpret_cast<const ук>(укз)); }
+inline т_хэш дайХэшЗнач(T *укз)                             { return РНЦП::дайХэшЗначУкз(reinterpret_cast<const ук>(укз)); }
 
 template <class T>
 inline т_хэш дайХэшЗнач(const T& x)                              { return x.дайХэшЗнач(); }
@@ -304,7 +307,7 @@ template <class T> проц устПусто(T& x) { x = Null; }
 template <class T> бул пусто_ли(const T& x)       { return x.экзПусто_ли(); }
 
 template <class T>
-inline проц разверни(T& a, T& b) { T tmp = pick(a); a = pick(b); b = pick(tmp); }
+inline проц разверни(T& a, T& b) { T tmp = пикуй(a); a = пикуй(b); b = пикуй(tmp); }
 
 ///
 #ifdef _ОТЛАДКА
@@ -344,6 +347,145 @@ inline проц стройГлубКопию(T *t, const S *s, const S *end) {
 	while(s != end)
 		new (t++) T(клонируй(*s++));
 }
+
+//////////////////////////////////////////////
+template <class B>
+class АТкст : public B {
+	typedef typename B::tchar  tchar;
+	typedef typename B::bchar  bchar;
+	typedef typename B::Буфер буфер;
+	typedef typename B::Ткст  Ткст;
+
+public:
+	проц очисть()                                              { B::освободи(); B::обнули(); }
+	цел  дайДлину() const                                    { return B::дайСчёт(); }
+	бул пустой() const                                      { return B::дайСчёт() == 0; }
+
+	const tchar *стоп() const                                  { return B::старт() + дайДлину(); }
+	const tchar *end() const                                  { return стоп(); }
+	const tchar *последний() const                                 { return стоп() - !!B::дайСчёт(); }
+	const tchar *дайОбх(цел i) const                         { ПРОВЕРЬ(i >= 0 && i <= B::дайСчёт()); return B::старт() + i; }
+
+	цел operator*() const                                     { return *B::старт(); }
+	цел operator[](цел i) const                               { ПРОВЕРЬ(i >= 0 && i <= B::дайСчёт()); return B::старт()[i]; }
+
+	operator const tchar *() const                            { return B::старт(); }
+	const tchar *operator~() const                            { return B::старт(); }
+	operator const bchar *() const                            { return (bchar *)B::старт(); }
+	operator const проц *() const                             { return B::старт(); }
+
+	проц вставь(цел pos, цел c)                               { *B::вставь(pos, 1, NULL) = c; }
+	проц вставь(цел pos, const tchar *s, цел count)           { B::вставь(pos, count, s); }
+	проц вставь(цел pos, const Ткст& s)                     { вставь(pos, s, s.дайСчёт()); }
+	проц вставь(цел pos, кткст0 s);
+
+	проц обрежьПоследн(цел count = 1)                              { B::обрежь(B::дайСчёт() - count); }
+
+	проц  кат(цел c)                                          { B::кат(c); }
+	проц  кат(const tchar *s, цел len)                        { B::кат(s, len); }
+	проц  кат(const tchar *s);
+	проц  кат(const Ткст& s)                                { кат(~s, s.дайДлину()); }
+	проц  кат(цел c, цел count);
+	проц  кат(const tchar *s, const tchar *lim)               { ПРОВЕРЬ(s <= lim); кат(s, цел(lim - s)); }
+	проц  кат(const Ткст& s, цел len)                       { B::кат(~s, len); }
+	проц  кат(const bchar *s, цел len)                        { кат((const tchar *) s, len); }
+
+	Ткст& кат()                                             { return *(Ткст *)this; }
+
+	цел    сравни(const Ткст& s) const                     { return B::сравни(s); }
+	цел    сравни(const tchar *s) const;
+
+	бул   равен(const Ткст& s) const                     { return B::равен(s); }
+	бул   равен(const tchar *s) const                      { return B::равен(s); }
+
+	Ткст середина(цел pos, цел length) const;
+	Ткст середина(цел pos) const                                 { return середина(pos, дайДлину() - pos); }
+	Ткст право(цел count) const                             { return середина(дайДлину() - count); }
+	Ткст лево(цел count) const                              { return середина(0, count); }
+
+	цел    найди(цел chr, цел from = 0) const;
+	цел    найдирек(цел chr, цел from) const;
+	цел    найдирек(цел chr) const;
+
+	цел    найди(цел len, const tchar *s, цел from) const      { return найди(B::старт(), B::дайСчёт(), s, len, from); }
+	цел    найди(const tchar *s, цел from = 0) const           { return найди(длинтекс__(s), s, from); }
+	цел    найди(const Ткст& s, цел from = 0) const          { return найди(s.дайСчёт(), ~s, from); }
+
+	цел    найдиПосле(const tchar *s, цел from = 0) const      { цел n = длинтекс__(s); цел q = найди(n, s, from); return q < 0 ? -1 : q + n; }
+	цел    найдиПосле(const Ткст& s, цел from = 0) const     { цел n = s.дайСчёт(); цел q = найди(n, ~s, from); return q < 0 ? -1 : q + n; }
+
+	цел    найдирек(цел len, const tchar *s, цел from) const;
+	цел    найдирек(const tchar *s, цел from) const;
+	цел    найдирек(const Ткст& s, цел from) const       { return найдирек(s.дайСчёт(), ~s, from); }
+	цел    найдирек(const tchar *s) const                  { return дайДлину() ? найдирек(s, дайДлину()-1) : -1;}
+	цел    найдирек(const Ткст& s) const                 { return дайДлину() ? найдирек(s, дайДлину()-1) : -1;}
+
+	цел    найдирекПосле(цел len, const tchar *s, цел from) const;
+	цел    найдирекПосле(const tchar *s, цел from) const;
+	цел    найдирекПосле(const Ткст& s, цел from) const  { return найдирекПосле(s.дайСчёт(), ~s, from); }
+	цел    найдирекПосле(const tchar *s) const             { return дайДлину() ? найдирекПосле(s, дайДлину()-1) : -1;}
+	цел    найдирекПосле(const Ткст& s) const            { return дайДлину() ? найдирекПосле(s, дайДлину()-1) : -1;}
+
+	проц   замени(const tchar *найди, цел findlen, const tchar *replace, цел replacelen);
+	проц   замени(const Ткст& найди, const Ткст& replace);
+	проц   замени(const tchar *найди, const tchar *replace);
+	проц   замени(const Ткст& найди, const tchar *replace);
+	проц   замени(const tchar *найди, const Ткст& replace);
+
+	бул   начинаетсяС(const tchar *s, цел len) const;
+	бул   начинаетсяС(const tchar *s) const;
+	бул   начинаетсяС(const Ткст& s) const                  { return начинаетсяС(~s, s.дайДлину()); }
+
+	бул   обрежьСтарт(const tchar *s, цел len)                 { if(!начинаетсяС(s, len)) return false; B::удали(0, len); return true; }
+	бул   обрежьСтарт(const tchar *s)                          { return обрежьСтарт(s, длинтекс__(s)); }
+	бул   обрежьСтарт(const Ткст& s)                         { return обрежьСтарт(~s, s.дайДлину()); }
+
+	бул   заканчиваетсяНа(const tchar *s, цел len) const;
+	бул   заканчиваетсяНа(const tchar *s) const;
+	бул   заканчиваетсяНа(const Ткст& s) const                    { return заканчиваетсяНа(~s, s.дайДлину()); }
+
+	бул   обрежьКонец(const tchar *s, цел len)                   { if(!заканчиваетсяНа(s, len)) return false; обрежьПоследн(len); return true; }
+	бул   обрежьКонец(const tchar *s)                            { return обрежьКонец(s, длинтекс__(s)); }
+	бул   обрежьКонец(const Ткст& s)                           { return обрежьКонец(~s, s.дайДлину()); }
+
+	цел    найдиПервыйИз(цел len, const tchar *set, цел from = 0) const;
+	цел    найдиПервыйИз(const tchar *set, цел from = 0) const  { return найдиПервыйИз(длинтекс__(set), set, from); }
+	цел    найдиПервыйИз(const Ткст& set, цел from = 0) const { return найдиПервыйИз(set.дайСчёт(), ~set, from); }
+
+	friend бул operator<(const Ткст& a, const Ткст& b)   { return a.сравни(b) < 0; }
+	friend бул operator<(const Ткст& a, const tchar *b)    { return a.сравни(b) < 0; }
+	friend бул operator<(const tchar *a, const Ткст& b)    { return b.сравни(a) > 0; }
+
+	friend бул operator<=(const Ткст& a, const Ткст& b)  { return a.сравни(b) <= 0; }
+	friend бул operator<=(const Ткст& a, const tchar *b)   { return a.сравни(b) <= 0; }
+	friend бул operator<=(const tchar *a, const Ткст& b)   { return b.сравни(a) >= 0; }
+
+	friend бул operator>(const Ткст& a, const Ткст& b)   { return a.сравни(b) > 0; }
+	friend бул operator>(const Ткст& a, const tchar *b)    { return a.сравни(b) > 0; }
+	friend бул operator>(const tchar *a, const Ткст& b)    { return b.сравни(a) < 0; }
+
+	friend бул operator>=(const Ткст& a, const Ткст& b)   { return a.сравни(b) >= 0; }
+	friend бул operator>=(const Ткст& a, const tchar *b)    { return a.сравни(b) >= 0; }
+	friend бул operator>=(const tchar *a, const Ткст& b)    { return b.сравни(a) <= 0; }
+
+	friend бул operator==(const Ткст& a, const Ткст& b)   { return a.равен(b); }
+	friend бул operator!=(const Ткст& a, const Ткст& b)   { return !a.равен(b); }
+	friend бул operator==(const Ткст& a, const tchar *b)    { return a.равен(b); }
+	friend бул operator==(const tchar *a, const Ткст& b)    { return b.равен(a); }
+	friend бул operator!=(const Ткст& a, const tchar *b)    { return !a.равен(b); }
+	friend бул operator!=(const tchar *a, const Ткст& b)    { return !b.равен(a); }
+
+	friend Ткст operator+(const Ткст& a, const Ткст& b)  { Ткст c(a); c += b; return c; }
+	friend Ткст operator+(const Ткст& a, const tchar *b)   { Ткст c(a); c += b; return c; }
+	friend Ткст operator+(const Ткст& a, tchar b)          { Ткст c(a); c += b; return c; }
+	friend Ткст operator+(Ткст&& a, const Ткст& b)       { Ткст c(пикуй(a)); c += b; return c; }
+	friend Ткст operator+(Ткст&& a, const tchar *b)        { Ткст c(пикуй(a)); c += b; return c; }
+	friend Ткст operator+(Ткст&& a, tchar b)               { Ткст c(пикуй(a)); c += b; return c; }
+	friend Ткст operator+(const tchar *a, const Ткст& b)   { Ткст c(a); c += b; return c; }
+	friend Ткст operator+(tchar a, const Ткст& b)          { Ткст c(a, 1); c += b; return c; }
+
+};
+////////////////////////////////////////////////////////////////////
 
 ///////////
 }// ns end

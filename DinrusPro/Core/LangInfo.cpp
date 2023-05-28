@@ -238,7 +238,7 @@ LCID GetLanguageLCID(цел язык)
 LanguageInfo::LanguageInfo()
 {
 	getindexletter = DefaultGetIndexLetter;
-	compare = DefaultLanguageCompare;
+	сравни = DefaultLanguageCompare;
 }
 
 проц LanguageInfo::уст(цел lang_)
@@ -249,10 +249,10 @@ LanguageInfo::LanguageInfo()
 		return;
 
 	getindexletter = DefaultGetIndexLetter;
-	compare = DefaultLanguageCompare;
+	сравни = DefaultLanguageCompare;
 	if(язык == LNG_('C','S','C','Z')) {
 		getindexletter = CSCZGetIndexLetter;
-		compare = CSCZLanguageCompare;
+		сравни = CSCZLanguageCompare;
 	}
 
 	decimal_point = ".";

@@ -26,7 +26,7 @@
  * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
  * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
  * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+ * СПЕЦ, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
  * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
  * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
  * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
@@ -371,7 +371,7 @@ fullpacket(LIBSSH2_SESSION * session, цел encrypted /* 1 or 0 */ )
                               PACKETBUFSIZE - remainbuf,
                               LIBSSH2_SOCKET_RECV_FLAGS(session));
             if(nread <= 0) {
-                /* check if this is due to EAGAIN and return the special
+                /* check if this is due to EAGAIN and return the СПЕЦ
                    return код_ if so, Ошибка out normally otherwise */
                 if((nread < 0) && (nread == -EAGAIN)) {
                     session->socket_block_directions |=

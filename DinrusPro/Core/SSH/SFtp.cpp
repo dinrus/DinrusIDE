@@ -232,7 +232,7 @@ SFtp& SFtp::перейди(SFtpHandle handle, дол position)
 	ТкстПоток out;
 	SFtpFileIn in(*this, path);
 	CopyData(out, in, INT_MAX);
-	return pick(out.дайРез());
+	return пикуй(out.дайРез());
 }
 
 бул SFtp::сохраниФайл(кткст0 path, Поток& in)
@@ -387,7 +387,7 @@ SFtp::DirEntry SFtp::GetInfo(const Ткст& path)
 	finfo.имяф = path;
 	finfo.valid = true;
 
-	return pick(finfo);
+	return пикуй(finfo);
 }
 
 бул SFtp::GetAttrs(SFtpHandle handle, SFtpAttrs& attrs)
@@ -458,7 +458,7 @@ SFtp::DirEntry SFtp::GetInfo(const Ткст& path)
 			v = finfo.IsBlock();
 			break;
 		case SFTP_ATTR_SPECIAL:
-			v = finfo.особый_ли();
+			v = finfo.спец_ли();
 			break;
 		case SFTP_ATTR_SIZE:
 			v = finfo.дайРазм();
@@ -472,7 +472,7 @@ SFtp::DirEntry SFtp::GetInfo(const Ткст& path)
 		default:
 			break;
 	}
-	return pick(v);
+	return пикуй(v);
 }
 
 бул SFtp::ModifyAttr(const Ткст& path, цел attr, const Значение& v)
@@ -531,7 +531,7 @@ SFtp::~SFtp()
 				? 'l' : (IsSocket()
 				? 's' : (IsPipe()
 				? 'p' : (IsBlock()
-				? 'b' : (особый_ли()
+				? 'b' : (спец_ли()
 				? 'c' : 'o' ))))))),
 				((a->permissions & IRUSR) ? *r : *hypen),
 				((a->permissions & IWUSR) ? *w : *hypen),
@@ -561,8 +561,8 @@ SFtp::~SFtp()
 				? "symlink" : (IsSocket()
 				? "socket" : (IsPipe()
 				? "pipe" : (IsBlock()
-				? "block-special" : (особый_ли()
-				? "character-special" : "other")
+				? "block-СПЕЦ" : (спец_ли()
+				? "character-СПЕЦ" : "other")
 			)))))))
 			("uid", какТкст(дайУид()))
 			("gid", какТкст(дайГид()))
@@ -597,7 +597,7 @@ SFtp::~SFtp()
 	fi.is_symlink       = симссылка_ли();
 	fi.is_read_only     = толькочтен_ли();
 	fi.root_style       = ИнфОФС::ROOT_FIXED;
-	return pick(fi);
+	return пикуй(fi);
 }
 
 проц SFtp::DirEntry::сериализуй(Поток& s)
@@ -674,7 +674,7 @@ SFtp::DirEntry::DirEntry(const Ткст& path, const SFtpAttrs& attrs)
 			}
 		}
 	}
-	return pick(fi);
+	return пикуй(fi);
 }
 
 бул SFtpFileSystemInfo::создайПапку(Ткст path, Ткст& Ошибка) const

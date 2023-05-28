@@ -329,7 +329,7 @@ template <class Диапазон>
 template <class T>
 проц InVector<T>::Join(цел blki)
 {
-	данные[blki].приставьПодбор(pick(данные[blki + 1]));
+	данные[blki].приставьПодбор(пикуй(данные[blki + 1]));
 	данные.удали(blki + 1);
 }
 
@@ -459,8 +459,8 @@ InVector<T>::InVector(const InVector<T>& v, цел)
 template <class T>
 проц InVector<T>::подбери(InVector&& v)
 {
-	данные = pick(v.данные);
-	индекс = pick(v.индекс);
+	данные = пикуй(v.данные);
+	индекс = пикуй(v.индекс);
 	count = v.count;
 	hcount = v.hcount;
 	blk_high = v.blk_high;

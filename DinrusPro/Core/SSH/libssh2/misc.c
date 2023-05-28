@@ -27,7 +27,7 @@
  * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
  * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
  * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+ * СПЕЦ, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
  * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
  * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
  * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
@@ -147,7 +147,7 @@ _libssh2_recv(libssh2_socket_t sock, ук буфер, т_мера length,
            Solaris and HP-UX */
         if(errno == ENOENT)
             return -EAGAIN;
-#ifdef EWOULDBLOCK /* For VMS and other special unixes */
+#ifdef EWOULDBLOCK /* For VMS and other СПЕЦ unixes */
         else if(errno == EWOULDBLOCK)
           return -EAGAIN;
 #endif
@@ -176,7 +176,7 @@ _libssh2_send(libssh2_socket_t sock, const ук буфер, т_мера length,
         return -wsa2errno();
 #else
     if(rc < 0) {
-#ifdef EWOULDBLOCK /* For VMS and other special unixes */
+#ifdef EWOULDBLOCK /* For VMS and other СПЕЦ unixes */
       if(errno == EWOULDBLOCK)
         return -EAGAIN;
 #endif

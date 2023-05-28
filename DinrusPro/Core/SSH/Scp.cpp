@@ -103,7 +103,7 @@ namespace ДинрусРНЦП {
 	ScpAttrs attrs;
 	if(OpenRead(path, attrs))
 		грузи(s, attrs, INT_MAX);
-	return pick(s.дайРез());
+	return пикуй(s.дайРез());
 }
 
 бул Scp::сохраниФайл(кткст0 path, Поток& in)

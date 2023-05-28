@@ -23,20 +23,20 @@ template <class S, class Char, class F>
 	return r;
 }
 
-Вектор<Ткст> разбей(цел maxcount, кткст0 s, кткст0  (*text_filter)(const char *), бул ignoreempty)
+Вектор<Ткст> разбей(цел maxcount, кткст0 s, кткст0  (*text_фильтр)(const char *), бул ignoreempty)
 {
-	return SplitGeneric<Ткст>(maxcount, text_filter, s, ignoreempty);
+	return SplitGeneric<Ткст>(maxcount, text_фильтр, s, ignoreempty);
 }
 
 struct SplitDelimFilter__ {
-	цел (*filter)(цел);
-	кткст0 operator()(кткст0 s) const { return (*filter)((ббайт)*s) ? s + 1 : NULL; }
+	цел (*фильтр)(цел);
+	кткст0 operator()(кткст0 s) const { return (*фильтр)((ббайт)*s) ? s + 1 : NULL; }
 };
 
-Вектор<Ткст> разбей(цел maxcount, кткст0 s, цел (*filter)(цел), бул ignoreempty)
+Вектор<Ткст> разбей(цел maxcount, кткст0 s, цел (*фильтр)(цел), бул ignoreempty)
 {
 	SplitDelimFilter__ delim;
-	delim.filter = filter;
+	delim.фильтр = фильтр;
 	return SplitGeneric<Ткст>(maxcount, delim, s, ignoreempty);
 }
 
@@ -66,14 +66,14 @@ struct SplitDelimText__ {
 	return delim.l ? SplitGeneric<Ткст>(maxcount, delim, s, ignoreempty) : Вектор<Ткст>();
 }
 
-Вектор<Ткст> разбей(кткст0 s, кткст0  (*text_filter)(const char *), бул ignoreempty)
+Вектор<Ткст> разбей(кткст0 s, кткст0  (*text_фильтр)(const char *), бул ignoreempty)
 {
-	return разбей(INT_MAX, s, text_filter, ignoreempty);
+	return разбей(INT_MAX, s, text_фильтр, ignoreempty);
 }
 
-Вектор<Ткст> разбей(кткст0 s, цел (*filter)(цел), бул ignoreempty)
+Вектор<Ткст> разбей(кткст0 s, цел (*фильтр)(цел), бул ignoreempty)
 {
-	return разбей(INT_MAX, s, filter, ignoreempty);
+	return разбей(INT_MAX, s, фильтр, ignoreempty);
 }
 
 Вектор<Ткст> разбей(кткст0 s, цел chr, бул ignoreempty)
@@ -86,20 +86,20 @@ struct SplitDelimText__ {
 	return разбей(INT_MAX, s, text, ignoreempty);
 }
 
-Вектор<ШТкст> разбей(цел maxcount, const шим *s, const шим * (*text_filter)(const шим *), бул ignoreempty)
+Вектор<ШТкст> разбей(цел maxcount, const шим *s, const шим * (*text_фильтр)(const шим *), бул ignoreempty)
 {
-	return SplitGeneric<ШТкст>(maxcount, text_filter, s, ignoreempty);
+	return SplitGeneric<ШТкст>(maxcount, text_фильтр, s, ignoreempty);
 }
 
 struct SplitDelimWFilter__ {
-	цел (*filter)(цел);
-	const шим *operator()(const шим *s) const { return (*filter)((ббайт)*s) ? s + 1 : NULL; }
+	цел (*фильтр)(цел);
+	const шим *operator()(const шим *s) const { return (*фильтр)((ббайт)*s) ? s + 1 : NULL; }
 };
 
-Вектор<ШТкст> разбей(цел maxcount, const шим *s, цел (*filter)(цел), бул ignoreempty)
+Вектор<ШТкст> разбей(цел maxcount, const шим *s, цел (*фильтр)(цел), бул ignoreempty)
 {
 	SplitDelimWFilter__ delim;
-	delim.filter = filter;
+	delim.фильтр = фильтр;
 	return SplitGeneric<ШТкст>(maxcount, delim, s, ignoreempty);
 }
 
@@ -142,9 +142,9 @@ struct SplitDelimWText {
 	return delim.l ? SplitGeneric<ШТкст>(maxcount, delim, s, ignoreempty) : Вектор<ШТкст>();
 }
 
-Вектор<ШТкст> разбей(const шим *s, цел (*filter)(цел), бул ignoreempty)
+Вектор<ШТкст> разбей(const шим *s, цел (*фильтр)(цел), бул ignoreempty)
 {
-	return разбей(INT_MAX, s, filter, ignoreempty);
+	return разбей(INT_MAX, s, фильтр, ignoreempty);
 }
 
 Вектор<ШТкст> разбей(const шим *s, цел chr, бул ignoreempty)
@@ -157,9 +157,9 @@ struct SplitDelimWText {
 	return разбей(INT_MAX, s, text, ignoreempty);
 }
 
-Вектор<ШТкст> разбей(const шим *s, const шим * (*text_filter)(const шим *), бул ignoreempty)
+Вектор<ШТкст> разбей(const шим *s, const шим * (*text_фильтр)(const шим *), бул ignoreempty)
 {
-	return SplitGeneric<ШТкст>(INT_MAX, text_filter, s, ignoreempty);
+	return SplitGeneric<ШТкст>(INT_MAX, text_фильтр, s, ignoreempty);
 }
 
 template <class B, class T>

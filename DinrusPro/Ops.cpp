@@ -161,26 +161,26 @@ NOUBSAN  проц   помести64лэ(const ук укз, дол знач)  { 
 
 #define HASH64
 
-#define HASH_CONST1 I64(0xf7c21089bee7c0a5)
-#define HASH_CONST2 I64(0xc85abc8da7534a4d)
-#define HASH_CONST3 I64(0x8642b0fe3e86671b)
+#define ХЭШ_КОНСТ1 I64(0xf7c21089bee7c0a5)
+#define ХЭШ_КОНСТ2 I64(0xc85abc8da7534a4d)
+#define ХЭШ_КОНСТ3 I64(0x8642b0fe3e86671b)
 
  бцел складиХэш(qword h)
 {
-	return (бцел)эндианРазворот64(HASH_CONST3 * h);
+	return (бцел)эндианРазворот64(ХЭШ_КОНСТ3 * h);
 }
 
 #else
 
-#define HASH_CONST1 0xbee7c0a5
-#define HASH_CONST2 0xa7534a4d
-#define HASH_CONST3 0x8e86671b
+#define ХЭШ_КОНСТ1 0xbee7c0a5
+#define ХЭШ_КОНСТ2 0xa7534a4d
+#define ХЭШ_КОНСТ3 0x8e86671b
 
 typedef бцел т_хэш;
 
  бцел складиХэш(бцел h)
 {
-	return эндианРазворот32(HASH_CONST3 * h);
+	return эндианРазворот32(ХЭШ_КОНСТ3 * h);
 }
 
 #endif
@@ -287,4 +287,4 @@ typedef бцел т_хэш;
 #endif
 
 ///////////////////////////
-} ns end
+} //ns end

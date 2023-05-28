@@ -472,7 +472,7 @@ static бул сГлавнВыполняется;
 
 проц иницПрил__(цел argc, const char **argv, const char **envptr)
 {
-    SetLanguage(LNG_ENGLISH);
+    устЯз(LNG_ENGLISH);
     сУстАргЗ0__(argv[0]);
     for(кткст0 var; (var = *envptr) != 0; envptr++)
     {
@@ -499,7 +499,7 @@ static бул сГлавнВыполняется;
 
 проц иницПрилСреду__()
 {
-    SetLanguage(LNG_('E', 'N', 'U', 'S'));
+    устЯз(LNG_('E', 'N', 'U', 'S'));
     цел nArgs;
     LPWSTR *szArglist = CommandLineToArgvW(GetCommandLineW(), &nArgs);
     if(szArglist) {

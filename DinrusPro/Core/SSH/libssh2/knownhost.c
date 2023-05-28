@@ -26,7 +26,7 @@
  * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
  * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
  * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+ * СПЕЦ, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
  * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
  * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
  * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
@@ -415,7 +415,7 @@ knownhost_check(LIBSSH2_KNOWNHOSTS *hosts,
             case LIBSSH2_KNOWNHOST_TYPE_SHA1:
                 if(тип == LIBSSH2_KNOWNHOST_TYPE_PLAIN) {
                     /* when we have the sha1 version stored, we can use a
-                       plain input to produce a hash to compare with the
+                       plain input to produce a hash to сравни with the
                        stored hash.
                     */
                     unsigned char hash[SHA_DIGEST_LENGTH];
@@ -454,7 +454,7 @@ knownhost_check(LIBSSH2_KNOWNHOSTS *hosts,
                 if(host_key_type != LIBSSH2_KNOWNHOST_KEY_UNKNOWN &&
                      (host_key_type == 0 ||
                       host_key_type == known_key_type)) {
-                    /* host имя and ключ тип match, now compare the keys */
+                    /* host имя and ключ тип match, now сравни the keys */
                     if(!strcmp(ключ, node->ключ)) {
                         /* they match! */
                         if(ext)

@@ -1,8 +1,9 @@
+namespace ДинрусРНЦП{
 class Обнул;
 class Поток;
 struct ФВремя;
 
-struct Дата : RelOps< Дата, Движ<Дата> > {
+struct Дата : ОпыРеляций< Дата, Движ<Дата> > {
 	ббайт   day;
 	ббайт   month;
 	крат  year;
@@ -91,7 +92,7 @@ template<> inline бул  пусто_ли(const Дата& d)    { return d.year 
 template<>
 inline Ткст какТкст(const Дата& date) { return фмт(date); }
 
-struct Время : Дата, RelOps< Время, Движ<Время> > {
+struct Время : Дата, ОпыРеляций< Время, Движ<Время> > {
 	ббайт   hour;
 	ббайт   minute;
 	ббайт   second;
@@ -170,3 +171,4 @@ inline Ткст какТкст(const Время& time) { return фмт(time); }
 цел   GetLeapSeconds(Дата dt);
 дол GetUTCSeconds(Время tm);
 Время  TimeFromUTC(дол seconds);
+}

@@ -150,19 +150,19 @@ class LangConvertClass : public Преобр {
 	return Single<LangConvertClass>();
 }
 
-проц SetLanguage(цел lang) {
+проц устЯз(цел lang) {
 	if(lang != LNG_CURRENT)
 		устДефНабСим(GetLNGCharset(lang));
 	SetCurrentLanguage(lang);
 }
 
 ИНИЦБЛОК {
-	SetLanguage(LNG_('E', 'N', 'U', 'S'));
+	устЯз(LNG_('E', 'N', 'U', 'S'));
 }
 
-проц SetLanguage(кткст0 s)
+проц устЯз(кткст0 s)
 {
-	SetLanguage(LNGFromText(s));
+	устЯз(LNGFromText(s));
 }
 
 Ткст GetCurrentLanguageString()

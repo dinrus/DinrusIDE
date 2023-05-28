@@ -1,18 +1,18 @@
-Вектор<Ткст> разбей(цел maxcount, кткст0 s, кткст0  (*text_filter)(const char *), бул ignoreempty = true);
-Вектор<Ткст> разбей(цел maxcount, кткст0 s, цел (*filter)(цел), бул ignoreempty = true);
+Вектор<Ткст> разбей(цел maxcount, кткст0 s, кткст0  (*text_фильтр)(const char *), бул ignoreempty = true);
+Вектор<Ткст> разбей(цел maxcount, кткст0 s, цел (*фильтр)(цел), бул ignoreempty = true);
 Вектор<Ткст> разбей(цел maxcount, кткст0 s, цел chr, бул ignoreempty = true);
 Вектор<Ткст> разбей(цел maxcount, кткст0 s, кткст0 text, бул ignoreempty = true);
-Вектор<Ткст> разбей(кткст0 s, кткст0  (*text_filter)(const char *), бул ignoreempty = true);
-Вектор<Ткст> разбей(кткст0 s, цел (*filter)(цел), бул ignoreempty = true);
+Вектор<Ткст> разбей(кткст0 s, кткст0  (*text_фильтр)(const char *), бул ignoreempty = true);
+Вектор<Ткст> разбей(кткст0 s, цел (*фильтр)(цел), бул ignoreempty = true);
 Вектор<Ткст> разбей(кткст0 s, цел chr, бул ignoreempty = true);
 Вектор<Ткст> разбей(кткст0 s, кткст0 text, бул ignoreempty = true);
 
-Вектор<ШТкст> разбей(цел maxcount, const шим *s, const шим * (*text_filter)(const шим *), бул ignoreempty = true);
-Вектор<ШТкст> разбей(цел maxcount, const шим *s, цел (*filter)(цел), бул ignoreempty = true);
+Вектор<ШТкст> разбей(цел maxcount, const шим *s, const шим * (*text_фильтр)(const шим *), бул ignoreempty = true);
+Вектор<ШТкст> разбей(цел maxcount, const шим *s, цел (*фильтр)(цел), бул ignoreempty = true);
 Вектор<ШТкст> разбей(цел maxcount, const шим *s, цел chr, бул ignoreempty = true);
 Вектор<ШТкст> разбей(цел maxcount, const шим *s, const шим *text, бул ignoreempty = true);
-Вектор<ШТкст> разбей(const шим *s, const шим * (*text_filter)(const шим *), бул ignoreempty = true);
-Вектор<ШТкст> разбей(const шим *s, цел (*filter)(цел), бул ignoreempty = true);
+Вектор<ШТкст> разбей(const шим *s, const шим * (*text_фильтр)(const шим *), бул ignoreempty = true);
+Вектор<ШТкст> разбей(const шим *s, цел (*фильтр)(цел), бул ignoreempty = true);
 Вектор<ШТкст> разбей(const шим *s, цел chr, бул ignoreempty = true);
 Вектор<ШТкст> разбей(const шим *s, const шим *text, бул ignoreempty = true);
 
@@ -21,15 +21,15 @@
 
 //$ бул   SplitTo(кткст0 s, цел delim, бул ignoreempty, Ткст& p1...);
 //$ бул   SplitTo(кткст0 s, цел delim, Ткст& p1...);
-//$ бул   SplitTo(кткст0 s, цел (*filter)(цел), Ткст& p1...);
-//$ бул   SplitTo(кткст0 s, цел (*filter)(цел), Ткст& p1...);
+//$ бул   SplitTo(кткст0 s, цел (*фильтр)(цел), Ткст& p1...);
+//$ бул   SplitTo(кткст0 s, цел (*фильтр)(цел), Ткст& p1...);
 //$ бул   SplitTo(кткст0 s, кткст0 delim, бул ignoreempty, Ткст& p1...);
 //$ бул   SplitTo(кткст0 s, кткст0 delim, Ткст& p1...);
 
 //$ бул   SplitTo(const шим *s, цел delim, бул ignoreempty, ШТкст& p1...);
 //$ бул   SplitTo(const шим *s, цел delim, ШТкст& p1...);
-//$ бул   SplitTo(const шим *s, цел (*filter)(цел), ШТкст& p1...);
-//$ бул   SplitTo(const шим *s, цел (*filter)(цел), ШТкст& p1...);
+//$ бул   SplitTo(const шим *s, цел (*фильтр)(цел), ШТкст& p1...);
+//$ бул   SplitTo(const шим *s, цел (*фильтр)(цел), ШТкст& p1...);
 //$ бул   SplitTo(const шим *s, const шим *delim, бул ignoreempty, ШТкст& p1...);
 //$ бул   SplitTo(const шим *s, const шим *delim, ШТкст& p1...);
 

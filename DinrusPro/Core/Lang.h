@@ -18,10 +18,10 @@
 
 #define LNG_CURRENT       0
 
-проц                      SetLanguage(цел lang);
+проц                      устЯз(цел lang);
 цел                       GetCurrentLanguage();
 
-проц                      SetLanguage(кткст0 s);
+проц                      устЯз(кткст0 s);
 Ткст                    GetCurrentLanguageString();
 
 цел                       GetSystemLNG();
@@ -57,7 +57,7 @@ public:
 	
 	Ткст          month[12], smonth[12], day[7], sday[7];
 
-	цел     (*compare)(const шим *a, цел alen, const шим *b, цел blen, цел lang);
+	цел     (*сравни)(const шим *a, цел alen, const шим *b, цел blen, цел lang);
 	ШТкст (*getindexletter)(const шим *text, цел lang);
 
 	Ткст          фмтЦел(цел значение) const;
@@ -66,7 +66,7 @@ public:
 	Ткст          фмтВремя(Время time) const;
 
 	ШТкст         GetIndexLetter(const шим *text) const                            { return (*getindexletter)(text, язык); }
-	цел             сравни(const шим *a, цел alen, const шим *b, цел blen) const  { return (*compare)(a, alen, b, blen, язык); }
+	цел             сравни(const шим *a, цел alen, const шим *b, цел blen) const  { return (*сравни)(a, alen, b, blen, язык); }
 
 	цел             сравни(const шим *a, const шим *b) const    { return сравни(a, длинтекс__(a), b, длинтекс__(b)); }
 	цел             сравни(ШТкст a, ШТкст b) const              { return сравни(a, a.дайДлину(), b, b.дайДлину()); }

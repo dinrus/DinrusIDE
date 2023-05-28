@@ -146,7 +146,7 @@ template <class T>
 T& Вектор<T>::нарастиДобавь(T&& x) {
 	T *prev = vector;
 	бул b = GrowSz();
-	T *q = ::new(Rdd()) T(pick(x));
+	T *q = ::new(Rdd()) T(пикуй(x));
 	if(b) освободиРяд(prev);
 	return *q;
 }
@@ -327,7 +327,7 @@ T& Вектор<T>::вставь(цел q, T&& x)
 {
 	ПРОВЕРЬ(&x < vector || &x > vector + items);
 	вставьРяд(q, 1);
-	::new(vector + q) T(pick(x));
+	::new(vector + q) T(пикуй(x));
 	return дай(q);
 }
 
@@ -603,7 +603,7 @@ template <class T>
 T& Массив<T>::вставь(цел i, T&& x)
 {
 	vector.вставьН(i, 1);
-	vector[i] = new T(pick(x));
+	vector[i] = new T(пикуй(x));
 	return дай(i);
 }
 

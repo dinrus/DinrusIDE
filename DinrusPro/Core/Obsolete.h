@@ -40,14 +40,14 @@ inline MethodRelationCls<O (T::*)() const, T, R>
 { return MethodRelationCls<O (T::*)() const, T, R>(method, relation); }
 
 template <class I, class C>
-цел IterCompare(I a, I a_end, I b, I b_end, const C& compare)
+цел IterCompare(I a, I a_end, I b, I b_end, const C& сравни)
 {
 	for(;;) {
 		if(a >= a_end)
 			return b < b_end ? -1 : 0;
 		if(b >= b_end)
 			return a < a_end ? 1 : 0;
-		цел q = compare(*a++, *b++);
+		цел q = сравни(*a++, *b++);
 		if(q)
 			return q;
 	}

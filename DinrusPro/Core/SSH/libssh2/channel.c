@@ -28,7 +28,7 @@
  * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
  * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
  * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+ * СПЕЦ, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
  * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
  * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
  * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
@@ -2001,7 +2001,7 @@ ssize_t _libssh2_channel_read(LIBSSH2_CHANNEL *channel, цел stream_id,
             adjustment = LIBSSH2_CHANNEL_MINADJUST;
 
         /* the actual window adjusting may not finish so we need to deal with
-           this special state here */
+           this СПЕЦ state here */
         channel->read_state = libssh2_NB_state_jump1;
         rc = _libssh2_channel_receive_window_adjust(channel, adjustment,
                                                     0, NULL);

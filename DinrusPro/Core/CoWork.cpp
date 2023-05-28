@@ -100,7 +100,7 @@ thread_local СоРабота *СоРабота::текущ;
 	}
 	else {
 		job.отлинкуйВсе();
-		фн = pick(job.фн);
+		фн = пикуй(job.фн);
 		освободи(job); // using 'job' after this point is grave Ошибка....
 	}
 
@@ -176,11 +176,11 @@ thread_local СоРабота *СоРабота::текущ;
 	job.work = work;
 	job.looper = looper;
 	if(looper) {
-		work->looper_fn = pick(фн);
+		work->looper_fn = пикуй(фн);
 		work->looper_count = дайРазмерПула();
 	}
 	else
-		job.фн = pick(фн);
+		job.фн = пикуй(фн);
 	LLOG("Adding job");
 	if(looper)
 		waitforjob.Broadcast();
@@ -198,13 +198,13 @@ thread_local СоРабота *СоРабота::текущ;
 	Стопор::Замок __(p.lock);
 	if(!p.free)
 		return false;
-	p.суньРаботу(pick(фн), NULL);
+	p.суньРаботу(пикуй(фн), NULL);
 	return true;
 }
 
 проц СоРабота::планируй(Функция<проц ()>&& фн)
 {
-	while(!пробуйПлан(pick(фн))) Sleep(0);
+	while(!пробуйПлан(пикуй(фн))) Sleep(0);
 }
 
 проц СоРабота::делай0(Функция<проц ()>&& фн, бул looper)
@@ -224,7 +224,7 @@ thread_local СоРабота *СоРабота::текущ;
 			p.lock.выйди();
 		return;
 	}
-	p.суньРаботу(pick(фн), this, looper);
+	p.суньРаботу(пикуй(фн), this, looper);
 	if(looper)
 		todo += дайРазмерПула();
 	else
@@ -235,7 +235,7 @@ thread_local СоРабота *СоРабота::текущ;
 проц СоРабота::цикл(Функция<проц ()>&& фн)
 {
 	индекс = 0;
-	делай0(pick(фн), true);
+	делай0(пикуй(фн), true);
 	финиш();
 }
 
@@ -316,7 +316,7 @@ thread_local СоРабота *СоРабота::текущ;
 	Стопор::Замок __(stepmutex);
 	auto& q = step.по(stepi);
 	LLOG("Step " << stepi << ", count: " << q.дайСчёт() << ", running: " << steprunning.дайСчёт());
-	q.добавьГолову(pick(фн));
+	q.добавьГолову(пикуй(фн));
 	if(!steprunning.по(stepi, false)) {
 		steprunning.по(stepi) = true;
 		*this & [=]() {
@@ -328,7 +328,7 @@ thread_local СоРабота *СоРабота::текущ;
 				LLOG("StepWork " << stepi << ", todo:" << q.дайСчёт());
 				if(q.дайСчёт() == 0)
 					break;
-				f = pick(q.дайХвост());
+				f = пикуй(q.дайХвост());
 				q.сбросьХвост();
 				stepmutex.выйди();
 				f();

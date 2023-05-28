@@ -135,42 +135,42 @@ unsigned ctoi(цел c)
 	return c != '\r' && c != '\n' ? c : 0;
 }
 
-Ткст фильтруй(кткст0 s, цел (*filter)(цел))
+Ткст фильтруй(кткст0 s, цел (*фильтр)(цел))
 {
 	Ткст result;
 	while(*s) {
-		цел c = (*filter)((ббайт)*s++);
+		цел c = (*фильтр)((ббайт)*s++);
 		if(c) result.кат(c);
 	}
 	return result;
 }
 
-Ткст FilterWhile(кткст0 s, цел (*filter)(цел))
+Ткст FilterWhile(кткст0 s, цел (*фильтр)(цел))
 {
 	Ткст result;
 	while(*s) {
-		цел c = (*filter)((ббайт)*s++);
+		цел c = (*фильтр)((ббайт)*s++);
 		if(!c) break;
 		result.кат(c);
 	}
 	return result;
 }
 
-ШТкст фильтруй(const шим *s, цел (*filter)(цел))
+ШТкст фильтруй(const шим *s, цел (*фильтр)(цел))
 {
 	ШТкст result;
 	while(*s) {
-		цел c = (*filter)(*s++);
+		цел c = (*фильтр)(*s++);
 		if(c) result.кат(c);
 	}
 	return result;
 }
 
-ШТкст FilterWhile(const шим *s, цел (*filter)(цел))
+ШТкст FilterWhile(const шим *s, цел (*фильтр)(цел))
 {
 	ШТкст result;
 	while(*s) {
-		цел c = (*filter)(*s++);
+		цел c = (*фильтр)(*s++);
 		if(!c) break;
 		result.кат(c);
 	}

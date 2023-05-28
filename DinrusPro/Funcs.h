@@ -4,13 +4,15 @@
 //////////////////////
 namespace ДинрусРНЦП {
 /////////////////////
-typedef std::atomic<цел> Атомар;
-
-inline цел  атомнИнк(volatile Атомар& t)             { return ++t; }
-inline цел  атомнДек(volatile Атомар& t)             { return --t; }
-
+class Ткст;
+class ШТкст;
+class Дата;
+class Время;
+class Поток;
+class   Ид;
+class   Значение;
 //Defs.h
-
+проц LOGNOP__();
 бул    режимПаники_ли();
 проц   паника(кткст0 msg);
 проц   неуспехПроверки(кткст0 file, цел line, кткст0 cond);

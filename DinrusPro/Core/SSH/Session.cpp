@@ -341,37 +341,37 @@ Bailout:
 SFtp SshSession::CreateSFtp()
 {
 	ПРОВЕРЬ(ssh && ssh->session);
-	return pick(SFtp(*this));
+	return пикуй(SFtp(*this));
 }
 
 SshChannel SshSession::CreateChannel()
 {
 	ПРОВЕРЬ(ssh && ssh->session);
-	return pick(SshChannel(*this));
+	return пикуй(SshChannel(*this));
 }
 
 SshExec SshSession::CreateExec()
 {
 	ПРОВЕРЬ(ssh && ssh->session);
-	return pick(SshExec(*this));
+	return пикуй(SshExec(*this));
 }
 
 Scp SshSession::CreateScp()
 {
 	ПРОВЕРЬ(ssh && ssh->session);
-	return pick(Scp(*this));
+	return пикуй(Scp(*this));
 }
 
 SshTunnel SshSession::CreateTunnel()
 {
 	ПРОВЕРЬ(ssh && ssh->session);
-	return pick(SshTunnel(*this));
+	return пикуй(SshTunnel(*this));
 }
 
 SshShell SshSession::CreateShell()
 {
 	ПРОВЕРЬ(ssh && ssh->session);
-	return pick(SshShell(*this));
+	return пикуй(SshShell(*this));
 }
 
 Ткст SshSession::GetHostKeyHash(цел тип, цел length) const
@@ -401,7 +401,7 @@ SshShell SshSession::CreateShell()
 			}
 		}
 	}
-	return pick(methods);
+	return пикуй(methods);
 }
 
 Ткст SshSession::GetMethodNames(цел тип) const
@@ -413,7 +413,7 @@ SshShell SshSession::CreateShell()
 			names << v[i].To<Ткст>() << (i < v.дайСчёт() - 1 ? "," : "");
 	}
 	else names << v;
-	return pick(names);
+	return пикуй(names);
 }
 
 цел SshSession::TryAgent(const Ткст& username)

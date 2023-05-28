@@ -11,12 +11,12 @@ public:
 	ОбрВызН(const ОбрВызН& ист) : фн(ист.фн)       {}
 	ОбрВызН& operator=(const ОбрВызН& ист)         { фн = ист.фн; return *this; }
 
-	ОбрВызН(Фн&& ист, цел) : фн(pick(ист))       {} // Helper for обрвыз compatibility код_
+	ОбрВызН(Фн&& ист, цел) : фн(пикуй(ист))       {} // Helper for обрвыз compatibility код_
 	template <class F>
 	ОбрВызН(F ист, цел) : фн(ист)                {} // Helper for обрвыз compatibility код_
 	
-	ОбрВызН(ОбрВызН&& ист) : фн(pick(ист.фн))      {}
-	ОбрВызН& operator=(ОбрВызН&& ист)              { фн = pick(ист.фн); return *this; }
+	ОбрВызН(ОбрВызН&& ист) : фн(пикуй(ист.фн))      {}
+	ОбрВызН& operator=(ОбрВызН&& ист)              { фн = пикуй(ист.фн); return *this; }
 
 	ОбрВызН(CNULLer)                             {}
 	ОбрВызН& operator=(CNULLer)                  { фн.очисть(); return *this; }
@@ -27,7 +27,7 @@ public:
 	ОбрВызН& operator<<(const F& f)              { фн << f; return *this; }
 
 	template <class F>
-	ОбрВызН& operator<<(F&& f)                   { фн << pick(f); return *this; }
+	ОбрВызН& operator<<(F&& f)                   { фн << пикуй(f); return *this; }
 	
 	проц operator()(ТипыАрг... арги) const    { return фн(арги...); }
 
@@ -59,8 +59,8 @@ public:
 
 	ЛазН(const Фн& ист) : фн(ист)   {}
 
-	ЛазН(Фн&& ист, цел) : фн(pick(ист))   {}
-	ЛазН& operator=(ЛазН&& a)        { фн = pick(a.фн); return *this; }
+	ЛазН(Фн&& ист, цел) : фн(пикуй(ист))   {}
+	ЛазН& operator=(ЛазН&& a)        { фн = пикуй(a.фн); return *this; }
 
 	ЛазН(CNULLer)                         {}
 	ЛазН& operator=(CNULLer)              { фн.очисть(); return *this; }
@@ -71,7 +71,7 @@ public:
 	ЛазН& operator<<(const F& f)          { фн << f; return *this; }
 
 	template <class F>
-	ЛазН& operator<<(F&& f)               { фн << pick(f); return *this; }
+	ЛазН& operator<<(F&& f)               { фн << пикуй(f); return *this; }
 	
 	бул operator()(ТипыАрг... арги) const    { return фн(арги...); }
 

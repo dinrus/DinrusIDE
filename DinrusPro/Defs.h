@@ -177,7 +177,7 @@ template <typename T> T клонируй(const T& x) { return x; }
 #define rval_default(T) T(T&&) = default; T& operator=(T&&) = default;
 
 template <typename T>
-auto pick(T&& x) noexcept -> decltype(std::move(x)) { return std::move(x); }
+auto пикуй(T&& x) noexcept -> decltype(std::move(x)) { return std::move(x); }
 
 template<class T> class Функция;
 
@@ -186,10 +186,10 @@ template<class T> class Функция;
 #define иниц_
 #endif
 
-#ifdef _ОТЛАДКА
+//#ifdef _ОТЛАДКА
 #undef force_inline
 #define force_inline inline
-#endif
+//#endif
 
 #define BINARY(i, f) \
 extern "C" ббайт *i; \
@@ -258,7 +258,7 @@ struct ОпцииПамяти { // sizes are in KB
 	цел мастер_резерв; // free master blocks kept in reserve
 	цел большой_резерв; // free large blocks kept in reserve
 	цел малый_резерв; // free formatted small block pages kept in reserve
-	
+
 	ОпцииПамяти(); // loads default options
 	~ОпцииПамяти(); // sets options
 };

@@ -1,4 +1,4 @@
-#include <DinrusPro/DinrusPro.h>
+#include <DinrusPro/DinrusCore.h>
 
 #ifdef PLATFORM_POSIX
 #include <sys/mman.h>

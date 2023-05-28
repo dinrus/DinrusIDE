@@ -1,6 +1,6 @@
 // These are Ткст methods which are best inlined in heap allocator
 
-проц Ткст0::LSet(const Ткст0& s)
+проц Ткст0::бУст(const Ткст0& s)
 {
 	w[2] = s.w[2];
 	w[3] = s.w[3];
@@ -15,7 +15,7 @@
 	}
 }
 
-проц Ткст0::LFree()
+проц Ткст0::бОсвободи()
 {
 	if(реф_ли()) {
 		if(укз != (char *)(voidptr + 1)) {
@@ -29,10 +29,10 @@
 }
 
 force_inline
-char *Ткст0::Alloc_(цел count, char& kind)
+char *Ткст0::размести_(цел count, char& kind)
 {
 	if(count < 32) {
-		kind = MEDIUM;
+		kind = СРЕДНИЙ;
 		return (char *)разместиПам32_i();
 	}
 	т_мера sz = sizeof(Rc) + count + 1;
@@ -45,33 +45,33 @@ char *Ткст0::Alloc_(цел count, char& kind)
 
 char *Ткст0::размести(цел count, char& kind)
 {
-	return Alloc_(count, kind);
+	return размести_(count, kind);
 }
 
-проц Ткст0::SetL(кткст0 s, цел len)
+проц Ткст0::устБ(кткст0 s, цел len)
 {
-	укз = Alloc_(len, chr[KIND]);
+	укз = размести_(len, chr[РОД]);
 	memcpy8(укз, s, len);
 	укз[len] = 0;
-	LLen() = len;
-	SLen() = 15;
+	бДлин() = len;
+	мДлин() = 15;
 }
 
-проц Ткст0::LCat(цел c)
+проц Ткст0::бКат(цел c)
 {
-	if(смолл_ли()) {
+	if(малый()) {
 		qword *x = (qword *)разместиПам32_i();
 		x[0] = q[0];
 		x[1] = q[1];
-		LLen() = SLen();
-		SLen() = 15;
-		chr[KIND] = MEDIUM;
+		бДлин() = МДЛИН();
+		мДлин() = 15;
+		chr[РОД] = СРЕДНИЙ;
 		qptr = x;
 	}
-	цел l = LLen();
-	if(реф_ли() ? !IsShared() && l < (цел)Реф()->alloc : l < 31) {
+	цел l = БДЛИН();
+	if(реф_ли() ? !совместный() && l < (цел)Реф()->alloc : l < 31) {
 		укз[l] = c;
-		укз[LLen() = l + 1] = 0;
+		укз[бДлин() = l + 1] = 0;
 	}
 	else {
 		char *s = вставь(l, 1, NULL);

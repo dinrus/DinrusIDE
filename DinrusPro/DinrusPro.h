@@ -17,6 +17,7 @@
 
 	typedef void                проц;
 	typedef void*               ук;
+	typedef  void* const        кук;
 
 	typedef bool                бул;
 
@@ -50,39 +51,12 @@ struct m128 {
 	
 	static m128 обнули()             { m128 a; a.i64[0] = a.i64[1] = 0; return a; }
 };
-	
+
 
 //Определения и переопределения по-русски
 #define ПИ_РНЦП     namespace ДинрусРНЦП {
-#define КОНЕЦ_ПИ_РНЦП }
+#define КОН_ПИ_РНЦП }
 #define РНЦП               ДинрусРНЦП
-
-ПИ_РНЦП
-///////////
-class Ткст;
-class ШТкст;
-class Дата;
-class Время;
-class ТкстБуф;
-class ШТкстБуф;
-class Поток;
-class   Ид;
-class   Значение;
-class   МассивЗнач;
-class   МапЗнач;
-class   РярВВ;
-class   ДжейсонВВ;
-
-class   Реф;
-struct  РефНаТипЗнач;
-
-template <class T>
-проц вДжейсон(ДжейсонВВ& io, T& var);
-
-template <class T>
-проц вРяр(РярВВ& xml, T& var);
-//////////////
-КОНЕЦ_ПИ_РНЦП
 
 //Включения
 #include <DinrusPro/Defs.h>
@@ -93,23 +67,27 @@ typedef qword               т_хэш;
 
 #define HASH64
 
-#define HASH_CONST1 I64(0xf7c21089bee7c0a5)
-#define HASH_CONST2 I64(0xc85abc8da7534a4d)
-#define HASH_CONST3 I64(0x8642b0fe3e86671b)
+#define ХЭШ_КОНСТ1 I64(0xf7c21089bee7c0a5)
+#define ХЭШ_КОНСТ2 I64(0xc85abc8da7534a4d)
+#define ХЭШ_КОНСТ3 I64(0x8642b0fe3e86671b)
 
 #else
 
-#define HASH_CONST1 0xbee7c0a5
-#define HASH_CONST2 0xa7534a4d
-#define HASH_CONST3 0x8e86671b
+#define ХЭШ_КОНСТ1 0xbee7c0a5
+#define ХЭШ_КОНСТ2 0xa7534a4d
+#define ХЭШ_КОНСТ3 0x8e86671b
 
 typedef бцел т_хэш;
 
 #endif
 
-#include <DinrusPro/Funcs.h>
-#include <DinrusPro/Tpl.h>
-#include <DinrusPro/DinrusCore.h>
-#include <DinrusPro/Ops.h>
+typedef std::atomic<цел> Атомар;
+
+inline цел  атомнИнк(volatile Атомар& t)             { return ++t; }
+inline цел  атомнДек(volatile Атомар& t)             { return --t; }
+
+
+
+//#include <DinrusPro/DinrusCore.h>
 
 #endif

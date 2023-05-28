@@ -200,7 +200,7 @@ template <class T, class X>
 			item_jsonize(jio, array[i]);
 			jio.помести(va[i]);
 		}
-		io.уст(МассивЗнач(pick(va)));
+		io.уст(МассивЗнач(пикуй(va)));
 	}
 }
 
@@ -335,7 +335,7 @@ template <class T, class K, class V>
 			V значение;
 			LoadFromJsonValue(ключ, va[i][keyid]);
 			LoadFromJsonValue(значение, va[i][valueid]);
-			map.добавь(ключ, pick(значение));
+			map.добавь(ключ, пикуй(значение));
 		}
 	}
 	else {
@@ -348,7 +348,7 @@ template <class T, class K, class V>
 				элт.добавь(valueid, StoreAsJsonValue(map[i]));
 				va[i] = элт;
 			}
-		io.уст(МассивЗнач(pick(va)));
+		io.уст(МассивЗнач(пикуй(va)));
 	}
 }
 
@@ -363,7 +363,7 @@ template <class T, class K, class V>
 			V значение;
 			LoadFromJsonValue(ключ, va[i][keyid]);
 			LoadFromJsonValue(значение, va[i][valueid]);
-			map.добавь(ключ, pick(значение));
+			map.добавь(ключ, пикуй(значение));
 		}
 	}
 	else {
@@ -375,7 +375,7 @@ template <class T, class K, class V>
 			элт.добавь(valueid, StoreAsJsonValue(map[i]));
 			va[i] = элт;
 		}
-		io.уст(МассивЗнач(pick(va)));
+		io.уст(МассивЗнач(пикуй(va)));
 	}
 }
 
@@ -391,7 +391,7 @@ template <class T, class K, class V>
 			Ткст ключ = va.дайКлюч(i);
 			LoadFromJsonValue(ключ, va.дайКлюч(i));
 			LoadFromJsonValue(значение, va.дайЗначение(i));
-			map.добавь(ключ, pick(значение));
+			map.добавь(ключ, пикуй(значение));
 		}
 	}
 	else {
@@ -404,7 +404,7 @@ template <class T, class K, class V>
 			индекс.добавь(StoreAsJsonValue(map.дайКлюч(i)));
 			values.добавь(StoreAsJsonValue(map[i]));
 		}
-		МапЗнач vm(pick(индекс), pick(values));
+		МапЗнач vm(пикуй(индекс), пикуй(values));
 		io.уст(vm);
 	}
 }
@@ -430,7 +430,7 @@ template <class T, class V>
 		for(цел i = 0; i < va.дайСчёт(); i++) {
 			V v;
 			LoadFromJsonValue(v, va[i]);
-			индекс.добавь(pick(v));
+			индекс.добавь(пикуй(v));
 		}
 	}
 	else {
@@ -438,7 +438,7 @@ template <class T, class V>
 		for(цел i = 0; i < индекс.дайСчёт(); i++)
 			if(!индекс.отлинкован(i))
 				va.добавь(StoreAsJsonValue(индекс[i]));
-		io.уст(МассивЗнач(pick(va)));
+		io.уст(МассивЗнач(пикуй(va)));
 	}
 }
 

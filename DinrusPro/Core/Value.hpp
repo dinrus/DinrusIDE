@@ -1,11 +1,11 @@
 inline
 Значение::Значение(const Значение& v)
-:	данные(Ткст::SPECIAL)
+:	данные(Ткст::СПЕЦ)
 {
-	if(v.реф_ли() || v.данные.IsLarge())
+	if(v.реф_ли() || v.данные.большой())
 		устЛардж(v);
 	else
-		данные.устСмолл(v.данные);
+		данные.устМалый(v.данные);
 	Magic();
 }
 
@@ -130,7 +130,7 @@ public:
 	T&       дай()                            { return v; }
 	
 	RawValueRep(const T& v) : v(v)             {}
-	RawValueRep(T&& v, VPICK) : v(pick(v))     {}
+	RawValueRep(T&& v, VPICK) : v(пикуй(v))     {}
 	RawValueRep(const T& v, VDEEP) : v(v, 1)   {}
 	RawValueRep()                              {}
 };
@@ -187,7 +187,7 @@ template <class T>
 	цел typeno = дайНомТипаЗнач<T>();
 	ПРОВЕРЬ(typeno >= 0 && typeno < 256);
 	svo[typeno] = &sval;
-	данные.устОсобо(typeno);
+	данные.устСпец(typeno);
 	new(&данные) T(init);
 }
 
@@ -349,7 +349,7 @@ template <class T>
 inline Значение RawPickToValue(T&& данные)
 {
 	typedef RawValueRep<T> R;
-	return Значение(new R(pick(данные), R::PICK), дайНомТипаЗнач<T>());
+	return Значение(new R(пикуй(данные), R::PICK), дайНомТипаЗнач<T>());
 }
 
 template <class T>

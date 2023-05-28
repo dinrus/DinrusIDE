@@ -22,9 +22,9 @@ typedef RpcError XmlRpcError;
 typedef RpcData XmlRpcData;
 
 inline
-проц   SetXmlRpcMethodFilter(Ткст (*filter)(const Ткст& methodname))
+проц   SetXmlRpcMethodFilter(Ткст (*фильтр)(const Ткст& methodname))
 {
-	SetRpcMethodFilter(filter);
+	SetRpcMethodFilter(фильтр);
 }
 
 inline

@@ -74,7 +74,7 @@ namespace ДинрусРНЦП {
 }
 #endif
 
-ук Куча::LAlloc(т_мера& size)
+ук Куча::бРазмести(т_мера& size)
 {
 	if(!initialized)
 		иниц();
@@ -100,7 +100,7 @@ namespace ДинрусРНЦП {
 	stat[wcount]++;
 #endif
 
-	LTIMING("LAlloc");
+	LTIMING("бРазмести");
 
 	size = ((цел)wcount * LUNIT) - sizeof(BlkPrefix);
 	цел i0 = alloc_lclass[wcount];
@@ -142,7 +142,7 @@ namespace ДинрусРНЦП {
 	HugeFree(l);
 }
 
-проц Куча::LFree(ук укз)
+проц Куча::бОсвободи(ук укз)
 {
 	BlkPrefix *h = (BlkPrefix *)укз - 1;
 
@@ -186,7 +186,7 @@ namespace ДинрусРНЦП {
 	ПРОВЕРЬ(укз);
 
 #ifdef _ОТЛАДКА
-	if(смолл_ли(укз))
+	if(малый(укз))
 		return false;
 #endif
 

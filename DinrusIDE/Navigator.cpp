@@ -5,7 +5,7 @@
 String FormatNest(String nest)
 {
 	int q = nest.Find("@");
-	if(q >= 0) {
+	if(q >= 0) {////
 		nest.Trim(q);
 		nest << "[анонимное]";
 	}

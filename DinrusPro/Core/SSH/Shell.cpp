@@ -65,7 +65,7 @@ namespace ДинрусРНЦП {
 			// This part is a little bit tricky. We need to handle Windows console events here.
 			// But we cannot simply ignore the events we don't look for. We need to actively
 			// remove them from the event queue. Otherwise they'll cause erratic behaviour, and
-			// a lot of head ache. Thus to filter out these unwanted events, or the event's that
+			// a lot of head ache. Thus to фильтр out these unwanted events, or the event's that
 			// we don't want to get in our way, we'll first подбери at the console event queue to
 			// see if they met our criteria and remove them one by one as we encounter, using
 			// the ReadConsoleInput method.
@@ -106,7 +106,7 @@ namespace ДинрусРНЦП {
 						выведиОш(-1, "Unknown console event тип encountered.");
 				}
 				if(!ReadConsoleInput(stdinput, ir, 1, &n))
-					выведиОш(-1, "Unable to filter console input events.");
+					выведиОш(-1, "Unable to фильтр console input events.");
 			}
 #endif
 			break;

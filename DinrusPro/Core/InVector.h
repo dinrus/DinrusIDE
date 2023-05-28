@@ -116,7 +116,7 @@ public:
 	проц     сбрось(цел n = 1)                        { ПРОВЕРЬ(n <= дайСчёт()); обрежь(дайСчёт() - n); }
 	T&       верх()                                  { ПРОВЕРЬ(дайСчёт()); return (*this)[дайСчёт() - 1]; }
 	const T& верх() const                            { ПРОВЕРЬ(дайСчёт()); return (*this)[дайСчёт() - 1]; }
-	T        вынь()                                  { T h = pick(верх()); сбрось(); return h; }
+	T        вынь()                                  { T h = пикуй(верх()); сбрось(); return h; }
 
 	template <class L>
 	цел найдиВерхнГран(const T& знач, const L& less) const { цел off, pos; найдиВерхнГран(знач, less, off, pos); return off + pos; }
@@ -141,8 +141,8 @@ public:
 	Обходчик         end()                               { Обходчик it; SetEnd(it); return it; }
 
 	InVector();
-	InVector(InVector&& v)                               { подбери(pick(v)); }
-	проц operator=(InVector&& v)                         { подбери(pick(v)); }
+	InVector(InVector&& v)                               { подбери(пикуй(v)); }
+	проц operator=(InVector&& v)                         { подбери(пикуй(v)); }
 	InVector(const InVector& v, цел);
 	InVector(std::initializer_list<T> init)              { иниц(); for(const auto& i : init) добавь(i); }
 
@@ -341,7 +341,7 @@ public:
 	проц     сбрось(цел n = 1)                        { обрежь(дайСчёт() - n); }
 	T&       верх()                                  { return (*this)[дайСчёт() - 1]; }
 	const T& верх() const                            { return (*this)[дайСчёт() - 1]; }
-	T        вынь()                                  { T h = pick(верх()); сбрось(); return h; }
+	T        вынь()                                  { T h = пикуй(верх()); сбрось(); return h; }
 
 	template <class L>
 	цел найдиВерхнГран(const T& знач, const L& less) const  { return iv.найдиВерхнГран((T*)&знач, ALess<L>(less)); }
@@ -366,8 +366,8 @@ public:
 	Обходчик         end()                          { Обходчик it; SetEnd(it); return it; }
 
 	InArray() {}
-	InArray(InArray&& v) : iv(pick(v.iv))           {}
-	InArray& operator=(InArray&& v)                 { if(this != &v) { освободи(); iv.operator=(pick(v.iv)); } return *this; }
+	InArray(InArray&& v) : iv(пикуй(v.iv))           {}
+	InArray& operator=(InArray&& v)                 { if(this != &v) { освободи(); iv.operator=(пикуй(v.iv)); } return *this; }
 	InArray(const InArray& v, цел);
 
 	~InArray()                                      { освободи(); }
@@ -648,7 +648,7 @@ class SortedVectorMap : public SortedAMap<K, T, Less, Slaved_InVector__<T> >,
 public:
 	T&       добавь(const K& k)                        { B::ключ.добавь(k); return *B::значение.res; }
 	T&       добавь(const K& k, const T& x)            { B::ключ.добавь(k); *B::значение.res = клонируй(x); return *B::значение.res; }
-	T&       добавь(const K& k, T&& x)                 { B::ключ.добавь(k); *B::значение.res = pick(x); return *B::значение.res; }
+	T&       добавь(const K& k, T&& x)                 { B::ключ.добавь(k); *B::значение.res = пикуй(x); return *B::значение.res; }
 
 	цел      найдиДобавь(const K& k)                    { return B::ключ.найдиДобавь(k); }
 	цел      найдиДобавь(const K& k, const T& init);
@@ -726,7 +726,7 @@ class SortedArrayMap : public ОпцияДвижимогоИГлубКопии<S
 
 public:
 	T&       добавь(const K& k, const T& x)          { B::значение.res = new T(клонируй(x)); B::ключ.добавь(k); return *(T*)B::значение.res; }
-	T&       добавь(const K& k, T&& x)               { B::значение.res = new T(pick(x)); B::ключ.добавь(k); return *(T*)B::значение.res; }
+	T&       добавь(const K& k, T&& x)               { B::значение.res = new T(пикуй(x)); B::ключ.добавь(k); return *(T*)B::значение.res; }
 	T&       добавь(const K& k)                      { B::значение.res = NULL; B::ключ.добавь(k); return *(T*)B::значение.res; }
 	T&       добавь(const K& k, T *newt)             { B::значение.res = newt; B::ключ.добавь(k); return *newt; }
 	template <class TT, class... Арги>

@@ -238,7 +238,7 @@ public:
 	~МассивЗнач();
 
 	МассивЗнач& operator=(const МассивЗнач& v);
-	МассивЗнач& operator=(Вектор<Значение>&& values)  { *this = МассивЗнач(pick(values)); return *this; }
+	МассивЗнач& operator=(Вектор<Значение>&& values)  { *this = МассивЗнач(пикуй(values)); return *this; }
 
 	operator Значение() const;
 	МассивЗнач(const Значение& ист);
@@ -359,7 +359,7 @@ public:
 	~МапЗнач();
 
 	МапЗнач& operator=(const МапЗнач& v);
-	МапЗнач& operator=(ВекторМап<Значение, Значение>&& m) { *this = МапЗнач(pick(m)); return *this; }
+	МапЗнач& operator=(ВекторМап<Значение, Значение>&& m) { *this = МапЗнач(пикуй(m)); return *this; }
 
 	operator Значение() const;
 	МапЗнач(const Значение& ист);

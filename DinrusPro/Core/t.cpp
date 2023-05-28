@@ -269,7 +269,7 @@ thread_local цел thread_current_lang;
 	}
 	устФорматДаты(t_("date-формат\a%2:02d/%3:02d/%1:4d"));
 	устСканДат(t_("date-scan\amdy"));
-	устФильтрДат(t_("date-filter\aA/\a .-"));
+	устФильтрДат(t_("date-фильтр\aA/\a .-"));
 }
 
 кткст0 t_GetLngString_(кткст0 ид)

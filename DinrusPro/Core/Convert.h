@@ -317,19 +317,19 @@ template <typename F, typename S, class R>
 struct КлассЛямбдаПреобр : Преобр {
 	Функция<Значение(const Значение& w)> формат;
 	Функция<Значение(const Значение& text)> scan;
-	Функция<цел(цел)> filter;
+	Функция<цел(цел)> фильтр;
 
 	virtual Значение фмт(const Значение& q) const { return формат(q); }
 	virtual Значение скан(const Значение& text) const { return scan(text); }
-	virtual цел фильтруй(цел chr) const { return filter(chr); }
+	virtual цел фильтруй(цел chr) const { return фильтр(chr); }
 	
-	КлассЛямбдаПреобр(F формат, S scan, R filter) : формат(формат), scan(scan), filter(filter) {}
+	КлассЛямбдаПреобр(F формат, S scan, R фильтр) : формат(формат), scan(scan), фильтр(фильтр) {}
 };
 
 template <typename F, typename S, class R>
-const auto& лямбдаПреобр(F формат, S scan, R filter)
+const auto& лямбдаПреобр(F формат, S scan, R фильтр)
 {
-	static КлассЛямбдаПреобр<F, S, R> x(формат, scan, filter);
+	static КлассЛямбдаПреобр<F, S, R> x(формат, scan, фильтр);
 	return x;
 }
 

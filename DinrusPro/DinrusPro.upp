@@ -4,7 +4,7 @@ uses
 	Core;
 
 options
-	-DUNICODE;
+	"-DUNICODE ";
 
 file
 	"Заголовочные" readonly separator,
@@ -15,7 +15,6 @@ file
 	Posix.h,
 	Ops.h,
 	Tpl.h,
-	TextCore.h,
 	Funcs.h,
 	DinrusCore.h,
 	_______________ readonly separator,
@@ -40,5 +39,7 @@ file
 	Core\StrUtil.cpp,
 	Core\CoWork.cpp,
 	Core\WString.cpp,
+	Core/Mt.cpp,
+	Core/Map.hpp,
 	"кон" readonly separator;
 

@@ -4,9 +4,9 @@ namespace ДинрусРНЦП {
 
 шим *ШТкст0::размести(цел& count)
 {
-	if(count <= SMALL) {
-		count = SMALL;
-		шим *p = (шим *)разместиПам((SMALL + 1) * sizeof(шим));
+	if(count <= МАЛЫЙ) {
+		count = МАЛЫЙ;
+		шим *p = (шим *)разместиПам((МАЛЫЙ + 1) * sizeof(шим));
 		return p;
 	}
 	т_мера sz = sizeof(Атомар) + ((т_мера)count + 1) * sizeof(шим);
@@ -45,7 +45,7 @@ namespace ДинрусРНЦП {
 	цел newlen = length + count;
 	if(newlen < length)
 		паника("ШТкст is too big!");
-	if(newlen < alloc && !IsShared() && (!s || s < укз || s > укз + length)) {
+	if(newlen < alloc && !совместный() && (!s || s < укз || s > укз + length)) {
 		if(pos < length)
 			memmove(укз + pos + count, укз + pos, (length - pos) * sizeof(шим));
 		length = newlen;
@@ -94,15 +94,15 @@ namespace ДинрусРНЦП {
 		атомнИнк(Rc());
 	}
 	else {
-		укз = (шим *)разместиПам((SMALL + 1) * sizeof(шим));
-		memcpy(укз, ист.укз, sizeof(шим) * (SMALL + 1));
+		укз = (шим *)разместиПам((МАЛЫЙ + 1) * sizeof(шим));
+		memcpy(укз, ист.укз, sizeof(шим) * (МАЛЫЙ + 1));
 	}
 	Dsyn();
 }
 
 проц ШТкст0::кат(const шим *s, цел l)
 {
-	if(length + l >= alloc || IsShared())
+	if(length + l >= alloc || совместный())
 		вставь(length, l, s);
 	else {
 		т_копирпам(укз + length, s, l);
@@ -117,7 +117,7 @@ namespace ДинрусРНЦП {
 	уст0(s, length);
 }
 
-проц ШТкст0::LCat(цел c)
+проц ШТкст0::бКат(цел c)
 {
 	*вставь(length, 1, NULL) = c;
 }
@@ -132,7 +132,7 @@ namespace ДинрусРНЦП {
 
 проц ШТкст0::разшарь()
 {
-	if(!IsShared()) return;
+	if(!совместный()) return;
 	цел al = length;
 	шим *p = размести(al);
 	т_копирпам(p, укз, length + 1);
@@ -279,7 +279,7 @@ std::wstring ШТкст::вСтд() const
 {
 	if(count <= 23) {
 		шим *s = (шим *)разместиПам(24 * sizeof(шим));
-		alloc = ШТкст0::SMALL;
+		alloc = ШТкст0::МАЛЫЙ;
 		return s;
 	}
 	else {
@@ -295,9 +295,9 @@ std::wstring ШТкст::вСтд() const
 проц ШТкстБуф::освободи()
 {
 	цел all = (цел)(limit - pbegin);
-	if(all == ШТкст0::SMALL)
+	if(all == ШТкст0::МАЛЫЙ)
 		освободиПам(pbegin);
-	if(all > ШТкст0::SMALL)
+	if(all > ШТкст0::МАЛЫЙ)
 		освободиПам((Атомар *)pbegin - 1);
 }
 

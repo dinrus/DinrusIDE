@@ -50,7 +50,7 @@ struct ФВремя;
 
 #ifdef PLATFORM_WIN32
 
-struct ФВремя : FILETIME, CompareRelOps<const ФВремя&, &Compare_FileTime> {
+struct ФВремя : FILETIME, ОпыРелСравнения<const ФВремя&, &Compare_FileTime> {
 	ФВремя()                          {}
 	ФВремя(const FILETIME& ft)        { dwLowDateTime = ft.dwLowDateTime;
 	                                      dwHighDateTime = ft.dwHighDateTime; }
@@ -114,7 +114,7 @@ public:
 
 #ifdef PLATFORM_POSIX
 
-struct ФВремя : CompareRelOps<const ФВремя&, &Compare_FileTime>
+struct ФВремя : ОпыРелСравнения<const ФВремя&, &Compare_FileTime>
 {
 	ФВремя() {}
 	ФВремя(time_t ft) : ft(ft) {}

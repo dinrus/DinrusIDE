@@ -164,7 +164,7 @@ force_inline
 		sz = 992;
 		return Allok(16);
 	}
-	return LAlloc(sz);
+	return бРазмести(sz);
 }
 
 force_inline
@@ -241,19 +241,19 @@ force_inline
 {
 	if(!укз) return;
 	LLOG("освободи " << укз);
-	if(смолл_ли(укз)) {
+	if(малый(укз)) {
 		Страница *page = дайСтраницу(укз);
 		освободи(укз, page, page->klass);
 	}
 	else
-		LFree(укз);
+		бОсвободи(укз);
 }
 
 т_мера Куча::GetBlockSize(ук укз)
 {
 	if(!укз) return 0;
 	LLOG("GetBlockSize " << укз);
-	if(смолл_ли(укз)) {
+	if(малый(укз)) {
 		Страница *page = дайСтраницу(укз);
 		цел k = page->klass;
 		return Ksz(k);
@@ -337,7 +337,7 @@ static thread_local Куча *heap_tls__;
 	иниц();
 	RemoteFlushRaw(); // перемести remote blocks to originating heaps
 	FreeRemoteRaw(); // освободи all remotely freed blocks
-	for(цел i = 0; i < NKLASS; i++) { // move all small pages to aux (some heap will pick them later)
+	for(цел i = 0; i < NKLASS; i++) { // move all small pages to aux (some heap will пикуй them later)
 		LLOG("освободи cache " << какТкст(i));
 		FreeLink *l = cache[i];
 		while(l) {
@@ -366,7 +366,7 @@ static thread_local Куча *heap_tls__;
 			LLOG("Orphan empty " << (проц *)empty[i]);
 		}
 	}
-	MoveLargeTo(&aux); // move all large pages to aux, some heap will pick them later
+	MoveLargeTo(&aux); // move all large pages to aux, some heap will пикуй them later
 	memset(this, 0, sizeof(Куча));
 	LLOG("++++ Done Shutdown heap " << какТкст(this));
 }

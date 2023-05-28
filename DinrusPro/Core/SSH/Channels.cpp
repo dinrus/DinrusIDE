@@ -219,7 +219,7 @@ namespace ДинрусРНЦП {
 	ТкстБуф sb(size);
 	цел len = дай(~sb, size, sid);
 	sb.устСчёт(len);
-	return pick(Ткст(sb));
+	return пикуй(Ткст(sb));
 }
 
 Ткст SshChannel::дайСтроку(цел maxlen, цел sid)

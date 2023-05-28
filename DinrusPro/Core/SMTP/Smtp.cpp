@@ -84,7 +84,7 @@ static Ткст GetDelimiter(Ткст s, Ткст init)
 				features(v[0]) << v[i];
 		}
 	}
-	return pick(features);
+	return пикуй(features);
 }
 
 цел Smtp::GetSmtpCode(const Ткст& s)

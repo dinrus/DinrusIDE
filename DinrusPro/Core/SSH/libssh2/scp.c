@@ -26,7 +26,7 @@
  * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
  * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
  * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+ * СПЕЦ, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
  * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
  * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
  * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
@@ -58,7 +58,7 @@
   with the two most common shell types: Bourne Shell derived shells
   (sh, ksh, ksh93, bash, zsh) and C-Shell derivates (csh, tcsh).
 
-  The following special cases are handled:
+  The following СПЕЦ cases are handled:
   o  If the string contains an apostrophy itself, the apostrophy
   character is written in quotation marks, e.g. "'".
   The shell cannot handle the syntax 'doesn\'t', so we close the
@@ -111,7 +111,7 @@
   characters should be safe.
 
   References:
-  o  csh-compatible quotation (special handling for '!' etc.), see
+  o  csh-compatible quotation (СПЕЦ handling for '!' etc.), see
   http://www.grymoire.com/Unix/Csh.html#toc-uh-10
 
   Return значение:

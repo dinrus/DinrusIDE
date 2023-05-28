@@ -1,3 +1,7 @@
+#include <DinrusPro/DinrusCore.h>
+
+namespace ДинрусРНЦП {
+
 проц  OutOfMemoryPanic();
 
 ук SysAllocRaw(т_мера size, т_мера reqsize);
@@ -415,7 +419,7 @@ struct Куча : BlkHeap<HugeHeapDetail, 4096> {
 	static проц  DblCheck(Страница *p);
 	static проц  AssertLeaks(бул b);
 
-	static бул  смолл_ли(ук укз) { return (((бцел)(uintptr_t)укз) & 16) == 0; }
+	static бул  малый(ук укз) { return (((бцел)(uintptr_t)укз) & 16) == 0; }
 	static Страница *дайСтраницу(ук укз) { return (Страница *)((uintptr_t)укз & ~(uintptr_t)4095); }
 
 	Страница *WorkPage(цел k);
@@ -430,9 +434,9 @@ struct Куча : BlkHeap<HugeHeapDetail, 4096> {
 
 	проц   LИниt();
 	ук TryLAlloc(цел i0, бкрат wcount);
-	ук LAlloc(т_мера& size);
+	ук бРазмести(т_мера& size);
 	проц   FreeLargePage(DLink *l);
-	проц   LFree(ук укз);
+	проц   бОсвободи(ук укз);
 	бул   LTryRealloc(ук укз, т_мера& newsize);
 	т_мера LGetBlockSize(ук укз);
 
@@ -515,7 +519,7 @@ force_inline
 {
 	while(small_remote_list) { // avoid mutex if likely nothing to free
 		FreeLink *list;
-		{ // only pick values in mutex, resolve later
+		{ // only пикуй values in mutex, resolve later
 			Стопор::Замок __(mutex);
 			list = small_remote_list;
 			small_remote_list = NULL;
@@ -530,7 +534,7 @@ force_inline
 	while(list) {
 		FreeLink *f = list;
 		list = list->next;
-		LFree(f);
+		бОсвободи(f);
 	}
 }
 
@@ -539,7 +543,7 @@ force_inline
 {
 	while(large_remote_list) { // avoid mutex if likely nothing to free
 		FreeLink *list;
-		{ // only pick values in mutex, resolve later
+		{ // only пикуй values in mutex, resolve later
 			Стопор::Замок __(mutex);
 			list = large_remote_list;
 			large_remote_list = NULL;
@@ -547,3 +551,5 @@ force_inline
 		LargeFreeRemoteRaw(list);
 	}
 }
+
+}//ns end

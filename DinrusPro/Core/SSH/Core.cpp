@@ -36,7 +36,7 @@ namespace SSH {
 		default:
 			return "";
 	}
-	return pick(фмт("SSH: %s, oid: %d: ", s, ид));
+	return пикуй(фмт("SSH: %s, oid: %d: ", s, ид));
 }
 }
 

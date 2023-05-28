@@ -77,7 +77,7 @@ public:
 	static Цвет изСырого(бцел co)     { Цвет c; c.color = co; return c; }
 	static Цвет особый(цел n)        { Цвет c; c.color = 0x80000000 | n; return c; }
 	
-	цел  дайОсобый() const            { return color & 0x80000000 ? color & 0x7fffffff : -1; }
+	цел  дайСпец() const            { return color & 0x80000000 ? color & 0x7fffffff : -1; }
 
 #ifdef PLATFORM_WIN32
 	operator COLORREF() const          { return (COLORREF) дай(); }

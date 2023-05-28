@@ -28,8 +28,8 @@ public:
     SshSession&         NoCompression()                         { return Compression(false); }
 
     SshSession&         Keys(const Ткст& prikey, const Ткст& pubkey, const Ткст& phrase, бул fromfile = true);
-    SshSession&         Method(цел тип, Значение method)          { session->iomethods(тип) << pick(method); return *this; }
-    SshSession&         Methods(МапЗнач methods)               { session->iomethods = pick(methods); return *this; }
+    SshSession&         Method(цел тип, Значение method)          { session->iomethods(тип) << пикуй(method); return *this; }
+    SshSession&         Methods(МапЗнач methods)               { session->iomethods = пикуй(methods); return *this; }
  
     SshSession&         PasswordAuth()                          { session->authmethod = PASSWORD;  return *this; }
     SshSession&         PublicKeyAuth()                         { session->authmethod = PUBLICKEY; return *this; }
@@ -39,11 +39,11 @@ public:
  
     LIBSSH2_SESSION*    дайУк()                             { return ssh->session; }
     
-    Ткст              GetBanner() const                       { return ssh->session ? pick(Ткст(libssh2_session_banner_get(ssh->session))) : Null; }
+    Ткст              GetBanner() const                       { return ssh->session ? пикуй(Ткст(libssh2_session_banner_get(ssh->session))) : Null; }
     Ткст              GetMD5Fingerprint() const               { return GetHostKeyHash(LIBSSH2_HOSTKEY_HASH_MD5, 16);    }
     Ткст              GetSHA1Fingerprint() const              { return GetHostKeyHash(LIBSSH2_HOSTKEY_HASH_SHA1, 20);   }
     Ткст              GetSHA256Fingerprint() const            { return GetHostKeyHash(LIBSSH2_HOSTKEY_HASH_SHA256, 32); }
-    Вектор<Ткст>      GetAuthMethods()                        { return pick(разбей(session->authmethods, ',')); }
+    Вектор<Ткст>      GetAuthMethods()                        { return пикуй(разбей(session->authmethods, ',')); }
     TcpSocket&          GetSocket()                             { return session->socket;  }
     МапЗнач            GetMethods() const;
 

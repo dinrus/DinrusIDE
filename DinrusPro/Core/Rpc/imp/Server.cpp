@@ -29,9 +29,9 @@ RpcFnPtr RpcMapGet(кткст0 группа, кткст0 имя)
 
 Ткст (*sRpcMethodFilter)(const Ткст& methodname);
 
-проц SetRpcMethodFilter(Ткст (*filter)(const Ткст& methodname))
+проц SetRpcMethodFilter(Ткст (*фильтр)(const Ткст& methodname))
 {
-	sRpcMethodFilter = filter;
+	sRpcMethodFilter = фильтр;
 }
 
 проц ThrowRpcError(цел код_, кткст0 s)

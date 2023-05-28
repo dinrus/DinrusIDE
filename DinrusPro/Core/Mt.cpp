@@ -9,7 +9,7 @@ namespace ДинрусРНЦП {
 #define LLOG(x)  // DLOG(x)
 
 static Стопор& sMutexLock()
-{ // this is Стопор intended to synchronize initialization of other primitives
+{ // этот Стопор служит для синхронизованной инициализации других примитивов
 	static Стопор m;
 	return m;
 }

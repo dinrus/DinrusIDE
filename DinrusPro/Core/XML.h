@@ -263,10 +263,10 @@ struct ФильтрРазбораРяр {
 УзелРяр разбериРЯР(Поток& in, бцел style = XML_IGNORE_DECLS|XML_IGNORE_PIS|XML_IGNORE_COMMENTS);
 УзелРяр разбериФайлРЯР(кткст0 path, бцел style = XML_IGNORE_DECLS|XML_IGNORE_PIS|XML_IGNORE_COMMENTS);
 
-УзелРяр разбериРЯР(ПарсерРяр& p, ФильтрРазбораРяр& filter, бцел style = XML_IGNORE_DECLS|XML_IGNORE_PIS|XML_IGNORE_COMMENTS);
-УзелРяр разбериРЯР(кткст0 s, ФильтрРазбораРяр& filter, бцел style = XML_IGNORE_DECLS|XML_IGNORE_PIS|XML_IGNORE_COMMENTS);
-УзелРяр разбериРЯР(Поток& in, ФильтрРазбораРяр& filter, бцел style = XML_IGNORE_DECLS|XML_IGNORE_PIS|XML_IGNORE_COMMENTS);
-УзелРяр разбериФайлРЯР(кткст0 path, ФильтрРазбораРяр& filter, бцел style = XML_IGNORE_DECLS|XML_IGNORE_PIS|XML_IGNORE_COMMENTS);
+УзелРяр разбериРЯР(ПарсерРяр& p, ФильтрРазбораРяр& фильтр, бцел style = XML_IGNORE_DECLS|XML_IGNORE_PIS|XML_IGNORE_COMMENTS);
+УзелРяр разбериРЯР(кткст0 s, ФильтрРазбораРяр& фильтр, бцел style = XML_IGNORE_DECLS|XML_IGNORE_PIS|XML_IGNORE_COMMENTS);
+УзелРяр разбериРЯР(Поток& in, ФильтрРазбораРяр& фильтр, бцел style = XML_IGNORE_DECLS|XML_IGNORE_PIS|XML_IGNORE_COMMENTS);
+УзелРяр разбериФайлРЯР(кткст0 path, ФильтрРазбораРяр& фильтр, бцел style = XML_IGNORE_DECLS|XML_IGNORE_PIS|XML_IGNORE_COMMENTS);
 
 class IgnoreXmlPaths : public ФильтрРазбораРяр {
 public:

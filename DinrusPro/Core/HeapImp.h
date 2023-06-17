@@ -1,86 +1,76 @@
 #include <DinrusPro/DinrusCore.h>
 
-namespace ДинрусРНЦП {
-
-проц  OutOfMemoryPanic();
-
-ук SysAllocRaw(т_мера size, т_мера reqsize);
-проц  SysFreeRaw(ук укз, т_мера size);
-
-кткст0 какТкст(цел i);
-кткст0 какТкст(ук укз);
-
 struct Куча;
 
 // This is used internally by U++ to manage large (64KB) and huge (up to 256MB) blocks
 
-struct BlkPrefix { // this part is at the start of Blk allocated block, client must not touch it
+struct ПрефиксБлока { // this part is at the start of Blk allocated block, client must not touch it
 	бкрат        prev_size;
 	бкрат        size;
 	бул        free;
 	бул        last;
-	Куча       *heap; // we need this for 4KB pages and large blocks, NULL for Huge blocks
+	Куча       *heap; // we need this for 4KB pages and large blocks, NULL for Хьюдж blocks
 #ifdef CPU_32
 	бцел       filler;
 #endif
 
 	проц  устРазм(бкрат sz)           { size = sz; }
-	проц  SetPrevSize(бкрат sz)       { prev_size = sz; }
-	проц  SetFree(бул b)            { free = b; }
-	проц  SetLast(бул b)            { last = b; }
+	проц  устПредшРазм(бкрат sz)       { prev_size = sz; }
+	проц  устСвободен(бул b)            { free = b; }
+	проц  устПоследний(бул b)            { last = b; }
 
 	бкрат  дайРазм()                  { return size; }
-	бкрат  GetPrevSize()              { return prev_size; }
-	бул  IsFirst()                  { return GetPrevSize() == 0; }
-	бул  IsFree()                   { return free; }
-	бул  IsLast()                   { return last; }
+	бкрат  дайПредшРазм()              { return prev_size; }
+	бул  первый_ли()                  { return дайПредшРазм() == 0; }
+	бул  свободен_ли()                   { return free; }
+	бул  последний_ли()                   { return last; }
 
-	BlkPrefix *GetPrevHeader(цел BlkSize) { return (BlkPrefix *)((ббайт *)this - BlkSize * GetPrevSize()); }
-	BlkPrefix *GetNextHeader(цел BlkSize) { return (BlkPrefix *)((ббайт *)this + BlkSize * дайРазм()); }
+	ПрефиксБлока *дайПредшЗаг(цел размБлк) { return (ПрефиксБлока *)((ббайт *)this - размБлк * дайПредшРазм()); }
+	ПрефиксБлока *дайСледщЗаг(цел размБлк) { return (ПрефиксБлока *)((ббайт *)this + размБлк * дайРазм()); }
 };
 
-template <цел BlkSize>
-struct BlkHeader_ : BlkPrefix { // free block record
-	BlkHeader_ *prev; // linked list of free blocks
-	BlkHeader_ *next; // linked list of free blocks
+template <цел размБлк>
+struct ЗагБлока_ : ПрефиксБлока { // free block record
+	ЗагБлока_ *prev; // linked list of free blocks
+	ЗагБлока_ *next; // linked list of free blocks
 
-	BlkHeader_ *GetPrevHeader()      { return (BlkHeader_ *)BlkPrefix::GetPrevHeader(BlkSize); }
-	BlkHeader_ *GetNextHeader()      { return (BlkHeader_ *)BlkPrefix::GetNextHeader(BlkSize); }
+	ЗагБлока_ *дайПредшЗаг()      { return (ЗагБлока_ *)ПрефиксБлока::дайПредшЗаг(размБлк); }
+	ЗагБлока_ *дайСледщЗаг()      { return (ЗагБлока_ *)ПрефиксБлока::дайСледщЗаг(размБлк); }
 
-	проц  SetNextPrevSz()            { if(!IsLast()) GetNextHeader()->SetPrevSize(дайРазм()); }
+	проц  устСледщПредшТн()            { if(!последний_ли()) дайСледщЗаг()->устПредшРазм(дайРазм()); }
 
-	проц  UnlinkFree()               { Dbl_Unlink(this); }
+	проц  отлинкуйСвоб()               { Dbl_Unlink(this); }
 };
 
-template <typename Detail, цел BlkSize>
-struct BlkHeap : Detail {
-	typedef BlkHeader_<BlkSize> BlkHeader;
-	typedef Detail D;
+template <typename Деталь, цел размБлк>
+struct КучаБлока : Деталь {
+	typedef ЗагБлока_<размБлк> ЗагБлока;
+	typedef Деталь D;
 
-	бул       JoinNext(BlkHeader *h, бкрат needs_count = 0);
-	проц       разбей(BlkHeader *h, бкрат wcount, бул fill = false);
-	проц       AddChunk(BlkHeader *h, цел count);
-	проц      *MakeAlloc(BlkHeader *h, бкрат wcount);
-	BlkHeader *освободи(BlkHeader *h); // returns final joined block
-	бул       TryRealloc(ук укз, т_мера count, т_мера& n);
-	проц       BlkCheck(ук page, цел size, бул check_heap = false);
+	бул       присоединиСледщ(ЗагБлока *h, бкрат needs_count = 0);
+	проц       разбей(ЗагБлока *h, бкрат wcount, бул fill = false);
+	проц       добавьКусок(ЗагБлока *h, цел count);
+	проц      *сделайРазмест(ЗагБлока *h, бкрат wcount);
+	ЗагБлока *освободи(ЗагБлока *h); // returns final joined block
+	бул       пробуйПеремест(ук укз, т_мера count, т_мера& n);
+	проц       проверьБлок(ук page, цел size, бул check_heap = false);
 
-	static проц  Assert(бул b);
+	static проц  подтверди(бул b);
 #ifdef HEAPDBG
-	static проц  DbgFreeFill(ук укз, т_мера size);
-	static проц  DbgFreeCheck(ук укз, т_мера size);
-	static проц  FillFree(BlkHeader *h);
-	static проц  CheckFree(BlkHeader *h);
+	static проц  заполниСвобОтл(ук укз, т_мера size);
+	static проц  проверьСвобОтл(ук укз, т_мера size);
+	static проц  заполниСвоб(ЗагБлока *h);
+	static проц  проверьСвоб(ЗагБлока *h);
 #else
-	static проц  DbgFreeFill(ук укз, т_мера size) {}
-	static проц  DbgFreeCheck(ук укз, т_мера size) {}
-	static проц  FillFree(BlkHeader *h) {}
-	static проц  CheckFree(BlkHeader *h) {}
+	static проц  заполниСвобОтл(ук укз, т_мера size) {}
+	static проц  проверьСвобОтл(ук укз, т_мера size) {}
+	static проц  заполниСвоб(ЗагБлока *h) {}
+	static проц  проверьСвоб(ЗагБлока *h) {}
 #endif
 };
 
-template <typename Detail, цел BlkSize>
-проц BlkHeap<Detail, BlkSize>::Assert(бул b)
+template <typename Деталь, цел размБлк>
+проц КучаБлока<Деталь, размБлк>::подтверди(бул b)
 {
 	if(!b)
 		паника("Куча повреждена!");
@@ -88,8 +78,8 @@ template <typename Detail, цел BlkSize>
 
 #ifdef HEAPDBG
 
-template <typename Detail, цел BlkSize>
-проц BlkHeap<Detail, BlkSize>::DbgFreeFill(ук p, т_мера size)
+template <typename Деталь, цел размБлк>
+проц КучаБлока<Деталь, размБлк>::заполниСвобОтл(ук p, т_мера size)
 {
 	т_мера count = size >> 2;
 	бцел *укз = (бцел *)p;
@@ -97,8 +87,8 @@ template <typename Detail, цел BlkSize>
 		*укз++ = 0x65657246;
 }
 
-template <typename Detail, цел BlkSize>
-проц BlkHeap<Detail, BlkSize>::DbgFreeCheck(ук p, т_мера size)
+template <typename Деталь, цел размБлк>
+проц КучаБлока<Деталь, размБлк>::проверьСвобОтл(ук p, т_мера size)
 {
 	т_мера count = size >> 2;
 	бцел *укз = (бцел *)p;
@@ -107,126 +97,126 @@ template <typename Detail, цел BlkSize>
 			паника("Writes to freed blocks detected");
 }
 
-template <typename Detail, цел BlkSize>
-проц BlkHeap<Detail, BlkSize>::FillFree(BlkHeader *h)
+template <typename Деталь, цел размБлк>
+проц КучаБлока<Деталь, размБлк>::заполниСвоб(ЗагБлока *h)
 {
-	if(BlkSize == 4096) // it is too slow to check huge blocks
+	if(размБлк == 4096) // it is too slow to check huge blocks
 		return;
-	DbgFreeFill(h + 1, h->дайРазм() * BlkSize - sizeof(BlkHeader));
+	заполниСвобОтл(h + 1, h->дайРазм() * размБлк - sizeof(ЗагБлока));
 }
 
-template <typename Detail, цел BlkSize>
-проц BlkHeap<Detail, BlkSize>::CheckFree(BlkHeader *h)
+template <typename Деталь, цел размБлк>
+проц КучаБлока<Деталь, размБлк>::проверьСвоб(ЗагБлока *h)
 {
-	if(BlkSize == 4096) // it is too slow to check huge blocks
+	if(размБлк == 4096) // it is too slow to check huge blocks
 		return;
-	DbgFreeCheck(h + 1, h->дайРазм() * BlkSize - sizeof(BlkHeader));
+	проверьСвобОтл(h + 1, h->дайРазм() * размБлк - sizeof(ЗагБлока));
 }
 
 #endif
 
-template <typename Detail, цел BlkSize>
-проц BlkHeap<Detail, BlkSize>::BlkCheck(ук page, цел page_size, бул check_heap)
+template <typename Деталь, цел размБлк>
+проц КучаБлока<Деталь, размБлк>::проверьБлок(ук page, цел page_size, бул check_heap)
 {
 	#define CLOG(x) // LOG(x)
 	CLOG("=== " << какТкст(page_size) << " " << какТкст(page));
-	BlkPrefix *h = (BlkPrefix *)page;
+	ПрефиксБлока *h = (ПрефиксБлока *)page;
 	цел size = 0;
 	цел psize = 0;
-	Assert(h->IsFirst());
+	подтверди(h->первый_ли());
 	for(;;) {
 		size += h->дайРазм();
 		CLOG("h: " << какТкст(h) << ", дайРазм: " << какТкст(h->дайРазм())
-		     << ", size: " << какТкст(size) << ", islast: " << какТкст(h->IsLast()));
-		Assert(h->дайРазм());
-		Assert(h->GetPrevSize() == psize);
-		Assert(!check_heap || h->IsFree() || h->heap);
-		if(h->IsFree())
-			CheckFree((BlkHeader *)h);
+		     << ", size: " << какТкст(size) << ", islast: " << какТкст(h->последний_ли()));
+		подтверди(h->дайРазм());
+		подтверди(h->дайПредшРазм() == psize);
+		подтверди(!check_heap || h->свободен_ли() || h->heap);
+		if(h->свободен_ли())
+			проверьСвоб((ЗагБлока *)h);
 		psize = h->дайРазм();
-		if(h->IsLast() && size == page_size)
+		if(h->последний_ли() && size == page_size)
 			return;
-		Assert(size < page_size);
-		h = h->GetNextHeader(BlkSize);
+		подтверди(size < page_size);
+		h = h->дайСледщЗаг(размБлк);
 	}
 	#undef CLOG
 }
 
-template <typename Detail, цел BlkSize>
-force_inline
-бул BlkHeap<Detail, BlkSize>::JoinNext(BlkHeader *h, бкрат needs_count)
+template <typename Деталь, цел размБлк>
+форс_инлайн
+бул КучаБлока<Деталь, размБлк>::присоединиСледщ(ЗагБлока *h, бкрат needs_count)
 { // try to join with next header if it is free, does not link it to free
-	if(h->IsLast())
+	if(h->последний_ли())
 		return false;
-	BlkHeader *nh = h->GetNextHeader();
-	if(!nh->IsFree() || h->дайРазм() + nh->дайРазм() < needs_count)
+	ЗагБлока *nh = h->дайСледщЗаг();
+	if(!nh->свободен_ли() || h->дайРазм() + nh->дайРазм() < needs_count)
 		return false;
-	CheckFree(nh);
-	h->SetLast(nh->IsLast());
-	nh->UnlinkFree();
+	проверьСвоб(nh);
+	h->устПоследний(nh->последний_ли());
+	nh->отлинкуйСвоб();
 	бкрат nsz = h->дайРазм() + nh->дайРазм();
 	h->устРазм(nsz);
-	h->SetNextPrevSz();
+	h->устСледщПредшТн();
 	return true;
 }
 
-template <typename Detail, цел BlkSize>
-force_inline
-проц BlkHeap<Detail, BlkSize>::разбей(BlkHeader *h, бкрат wcount, бул fill)
+template <typename Деталь, цел размБлк>
+форс_инлайн
+проц КучаБлока<Деталь, размБлк>::разбей(ЗагБлока *h, бкрат wcount, бул fill)
 { // splits the block if bigger, links new block to free
-	ПРОВЕРЬ(BlkSize != 4096 || ((бцел)(uintptr_t)h & 4095) == 0);
-	BlkHeader *h2 = (BlkHeader *)((ббайт *)h + BlkSize * (цел)wcount);
+	ПРОВЕРЬ(размБлк != 4096 || ((бцел)(uintptr_t)h & 4095) == 0);
+	ЗагБлока *h2 = (ЗагБлока *)((ббайт *)h + размБлк * (цел)wcount);
 	бкрат nsz = h->дайРазм() - wcount;
 	if(nsz == 0) // nothing to split
 		return;
 
-	h2->SetFree(true);
-	h2->SetLast(h->IsLast());
+	h2->устСвободен(true);
+	h2->устПоследний(h->последний_ли());
 	h2->устРазм(nsz);
-	h2->SetPrevSize(wcount);
-	h2->SetNextPrevSz();
-	D::LinkFree(h2);
+	h2->устПредшРазм(wcount);
+	h2->устСледщПредшТн();
+	D::линкуйСвод(h2);
 	if(fill)
-		FillFree(h2);
+		заполниСвоб(h2);
 
 	h->устРазм(wcount);
-	h->SetLast(false);
+	h->устПоследний(false);
 }
 
-template <typename Detail, цел BlkSize>
-проц BlkHeap<Detail, BlkSize>::AddChunk(BlkHeader *h, цел count)
+template <typename Деталь, цел размБлк>
+проц КучаБлока<Деталь, размБлк>::добавьКусок(ЗагБлока *h, цел count)
 {
 	h->устРазм(count);
-	h->SetPrevSize(0); // is first
-	h->SetLast(true);
-	h->SetFree(true);
-	D::LinkFree(h);
-	FillFree(h);
+	h->устПредшРазм(0); // is first
+	h->устПоследний(true);
+	h->устСвободен(true);
+	D::линкуйСвод(h);
+	заполниСвоб(h);
 }
 
-template <typename Detail, цел BlkSize>
-force_inline
-ук BlkHeap<Detail, BlkSize>::MakeAlloc(BlkHeader *h, бкрат wcount)
+template <typename Деталь, цел размБлк>
+форс_инлайн
+ук КучаБлока<Деталь, размБлк>::сделайРазмест(ЗагБлока *h, бкрат wcount)
 {
-	h->UnlinkFree();
-	h->SetFree(false);
+	h->отлинкуйСвоб();
+	h->устСвободен(false);
 	разбей(h, wcount);
-	CheckFree(h);
+	проверьСвоб(h);
 	return h;
 }
 
-template <typename Detail, цел BlkSize>
-бул BlkHeap<Detail, BlkSize>::TryRealloc(ук укз, т_мера count, т_мера& n)
+template <typename Деталь, цел размБлк>
+бул КучаБлока<Деталь, размБлк>::пробуйПеремест(ук укз, т_мера count, т_мера& n)
 {
 	ПРОВЕРЬ(count);
 
-	BlkHeader *h = (BlkHeader *)укз;
+	ЗагБлока *h = (ЗагБлока *)укз;
 	if(h->size == 0)
 		return false;
 
 	бкрат sz = h->дайРазм();
 	if(sz != count) {
-		if(!JoinNext(h, (бкрат)count) && count > sz)
+		if(!присоединиСледщ(h, (бкрат)count) && count > sz)
 			return false;
 		разбей(h, (бкрат)count, true);
 		n = n - sz + count;
@@ -234,38 +224,38 @@ template <typename Detail, цел BlkSize>
 	return true;
 }
 
-template <typename Detail, цел BlkSize>
-force_inline
-typename BlkHeap<Detail, BlkSize>::BlkHeader *BlkHeap<Detail, BlkSize>::освободи(BlkHeader *h)
+template <typename Деталь, цел размБлк>
+форс_инлайн
+typename КучаБлока<Деталь, размБлк>::ЗагБлока *КучаБлока<Деталь, размБлк>::освободи(ЗагБлока *h)
 {
-	ПРОВЕРЬ(BlkSize != 4096 || ((бцел)(uintptr_t)h & 4095) == 0);
-	JoinNext(h);
-	if(!h->IsFirst()) { // try to join with previous header if it is free
-		BlkHeader *ph = h->GetPrevHeader();
-		if(ph->IsFree()) {
-			ph->UnlinkFree(); // remove because size will change, might end in another bucket then
+	ПРОВЕРЬ(размБлк != 4096 || ((бцел)(uintptr_t)h & 4095) == 0);
+	присоединиСледщ(h);
+	if(!h->первый_ли()) { // try to join with previous header if it is free
+		ЗагБлока *ph = h->дайПредшЗаг();
+		if(ph->свободен_ли()) {
+			ph->отлинкуйСвоб(); // remove because size will change, might end in another bucket then
 			бкрат nsz = ph->дайРазм() + h->дайРазм();
 			ph->устРазм(nsz);
-			ph->SetLast(h->IsLast());
-			ph->SetNextPrevSz();
+			ph->устПоследний(h->последний_ли());
+			ph->устСледщПредшТн();
 			h = ph;
 		}
 	}
-	h->SetFree(true);
-	D::LinkFree(h); // was not joined with previous header
-	FillFree(h);
+	h->устСвободен(true);
+	D::линкуйСвод(h); // was not joined with previous header
+	заполниСвоб(h);
 	return h;
 }
 
-struct HugeHeapDetail {
-	static BlkHeader_<4096> freelist[20][1];
+struct ДетальКучиХьюдж {
+	static ЗагБлока_<4096> freelist[20][1];
 
 	static цел  Cv(цел n)                         { return n < 16 ? 0 : значимыеБиты(n - 16) + 1; }
-	static проц LinkFree(BlkHeader_<4096> *h)     { Dbl_LinkAfter(h, freelist[Cv(h->дайРазм())]); }
-	static проц NewFreeSize(BlkHeader_<4096> *h)  {}
+	static проц линкуйСвод(ЗагБлока_<4096> *h)     { Dbl_LinkAfter(h, freelist[Cv(h->дайРазм())]); }
+	static проц новРазмСвоб(ЗагБлока_<4096> *h)  {}
 };
 
-struct Куча : BlkHeap<HugeHeapDetail, 4096> {
+struct Куча : КучаБлока<ДетальКучиХьюдж, 4096> {
 	enum {
 		LUNIT = 256, // granularity of large blocks (size always a multiple of this)
 		LPAGE = 255, // number of LUNITs in large page (need to fix freelist and lclass if changing)
@@ -280,12 +270,12 @@ struct Куча : BlkHeap<HugeHeapDetail, 4096> {
 	static бкрат HPAGE; // size of master page, in 4KB units
 	static цел  max_free_hpages; // maximum free master pages kept in reserve (if more, they are returned to the system)
 	static цел  max_free_lpages; // maximum free large pages kept in reserve (if more, they are returned to huge system)
-	static цел  max_free_spages; // maximum free small pages kept in reserve (but HugeAlloc also converts them)
+	static цел  max_free_spages; // maximum free small pages kept in reserve (but разместиХьюдж also converts them)
 	static бкрат сис_блок_лимит; // > this (in 4KB) blocks are managed directly by system
 
-	ук HugeAlloc(т_мера count); // count in 4KB, client needs to not touch HugePrefix
-	цел   HugeFree(ук укз);
-	бул  HugeTryRealloc(ук укз, т_мера count);
+	ук разместиХьюдж(т_мера count); // count in 4KB, client needs to not touch HugePrefix
+	цел   освободиХьюдж(ук укз);
+	бул  пробуйПереместХьюдж(ук укз, т_мера count);
 
 	static цел Ksz(цел k) { // small block size classes
 		static цел sz[] = {
@@ -293,26 +283,26 @@ struct Куча : BlkHeap<HugeHeapDetail, 4096> {
 			32, 64, 96, 128, 160, 192, 224, 256, 288, 320, 352, 384,
 			448, 576, 672, 800, 992, 8, 16, 24, 40, 48, 56
 		//  12   13   14   15   16  17  18  19  20  21  22
-		//  8 - 56 sizes are only available with TinyAlloc
+		//  8 - 56 sizes are only available with разместиТини
 		};
-		static_assert(__countof(sz) == 23, "NKLASS mismatch");
+		static_assert(__количество(sz) == 23, "NKLASS mismatch");
 		return sz[k];
 	}
 
-	struct FreeLink {
-		FreeLink *next;
+	struct СвобЛинк {
+		СвобЛинк *next;
 	};
 
-	struct Страница : BlkPrefix { // small block Страница
+	struct Страница : ПрефиксБлока { // small block Страница
 		ббайт         klass;    // size class
 		бкрат         active;   // number of used (active) blocks in this page
-		FreeLink    *freelist; // single linked list of free blocks in Страница
+		СвобЛинк    *freelist; // single linked list of free blocks in Страница
 		Страница        *next;     // Pages are in work/full/empty lists
 		Страница        *prev;
 
 		проц         линкуйся()            { Dbl_Self(this); }
 		проц         отлинкуй()              { Dbl_Unlink(this); }
-		проц         Линк(Страница *lnk)       { Dbl_LinkAfter(this, lnk);  }
+		проц         линкуй(Страница *lnk)       { Dbl_LinkAfter(this, lnk);  }
 
 		проц         фмт(цел k);
 
@@ -321,16 +311,16 @@ struct Куча : BlkHeap<HugeHeapDetail, 4096> {
 		цел   счёт()                      { return (цел)(uintptr_t)(стоп() - старт()) / Ksz(klass); }
 	};
 
-	struct LargeHeapDetail {
-		BlkHeader_<LUNIT> freelist[25][1];
-		проц LinkFree(BlkHeader_<LUNIT> *h);
+	struct ДетальКучиЛардж {
+		ЗагБлока_<LUNIT> freelist[25][1];
+		проц линкуйСвод(ЗагБлока_<LUNIT> *h);
 	};
 
-	struct LargeHeap : BlkHeap<LargeHeapDetail, LUNIT> {};
+	struct КучаЛардж : КучаБлока<ДетальКучиЛардж, LUNIT> {};
 
-	typedef LargeHeap::BlkHeader LBlkHeader;
+	typedef КучаЛардж::ЗагБлока ЛЗагБлока;
 
-	struct DLink : BlkPrefix { // Large Страница header / big block header
+	struct DLink : ПрефиксБлока { // Large Страница header / big block header
 		DLink       *next;
 		DLink       *prev;
 		т_мера       size; // only used for big header
@@ -342,16 +332,16 @@ struct Куча : BlkHeap<HugeHeapDetail, 4096> {
 
 		проц         линкуйся()            { Dbl_Self(this); }
 		проц         отлинкуй()              { Dbl_Unlink(this); }
-		проц         Линк(DLink *lnk)      { Dbl_LinkAfter(this, lnk);  }
+		проц         линкуй(DLink *lnk)      { Dbl_LinkAfter(this, lnk);  }
 
-		LargeHeap::BlkHeader *дайПерв()   { return (LargeHeap::BlkHeader *)((ббайт *)this + LOFFSET); } // pointer to данные area
+		КучаЛардж::ЗагБлока *дайПерв()   { return (КучаЛардж::ЗагБлока *)((ббайт *)this + LOFFSET); } // pointer to данные area
 	};
 
 	static цел lclass[];
 	static цел free_lclass[LPAGE + 1];
 	static цел alloc_lclass[LPAGE + 1];
 
-	static_assert(sizeof(BlkPrefix) == 16, "Wrong sizeof(BlkPrefix)");
+	static_assert(sizeof(ПрефиксБлока) == 16, "Wrong sizeof(ПрефиксБлока)");
 	static_assert(sizeof(DLink) == 64, "Wrong sizeof(DLink)");
 
 	static СтатическийСтопор mutex;
@@ -359,12 +349,12 @@ struct Куча : BlkHeap<HugeHeapDetail, 4096> {
 	Страница      work[NKLASS][1];   // circular list of pages that contain some empty blocks
 	Страница      full[NKLASS][1];   // circular list of pages that contain NO empty blocks
 	Страница     *empty[NKLASS];     // last fully freed page per klass (hot reserve) / shared global list of empty pages in aux
-	FreeLink *cache[NKLASS];     // hot frontend cache of small blocks
+	СвобЛинк *cache[NKLASS];     // hot frontend cache of small blocks
 	цел       cachen[NKLASS];    // counter of small blocks that are allowed to be stored in cache
 
 	бул      initialized;
 
-	LargeHeap lheap;
+	КучаЛардж lheap;
 	DLink     large[1]; // all large 64KB chunks that belong to this heap
 	цел       free_lpages; // empty large pages (in reserve)
 
@@ -374,18 +364,18 @@ struct Куча : BlkHeap<HugeHeapDetail, 4096> {
 
 	ббайт      filler1[64]; // make sure the next ПЕРЕМЕННАЯ is in distinct cacheline
 
-	FreeLink *small_remote_list; // list of remotely freed small blocks for lazy reclamation
-	FreeLink *large_remote_list; // list of remotely freed large blocks for lazy reclamation
+	СвобЛинк *small_remote_list; // list of remotely freed small blocks for lazy reclamation
+	СвобЛинк *large_remote_list; // list of remotely freed large blocks for lazy reclamation
 
-	struct HugePage { // to store the list of all huge pages in permanent storage
+	struct СтраницаХьюдж { // to store the list of all huge pages in permanent storage
 		проц     *page;
-		HugePage *next;
+		СтраницаХьюдж *next;
 	};
 
-	static HugePage *huge_pages;
+	static СтраницаХьюдж *huge_pages;
 
 	static DLink  big[1]; // Список of all big blocks
-	static Куча   aux;    // Single global auxiliary heap to store orphans and global list of free pages
+	static Куча   aux;    // Сингл global auxiliary heap to store orphans and global list of free pages
 
 	static т_мера huge_4KB_count; // total number of 4KB pages in small/large/huge blocks
 	static цел    free_4KB; // number of empty 4KB pages (linked in aux.empty)
@@ -395,15 +385,15 @@ struct Куча : BlkHeap<HugeHeapDetail, 4096> {
 	static т_мера sys_count;
 	static т_мера huge_chunks; // 32MB master pages
 	static т_мера huge_4KB_count_max; // peak huge memory allocated
-	static HugePage *free_huge_pages; // list of records of freed hpages (to be reused)
+	static СтраницаХьюдж *free_huge_pages; // list of records of freed hpages (to be reused)
 	static цел       free_hpages; // empty huge pages (in reserve)
 
 #ifdef HEAPDBG
-	static проц  DbgFreeFillK(ук укз, цел k);
-	static ук DbgFreeCheckK(ук p, цел k);
+	static проц  заполниСвобОтлK(ук укз, цел k);
+	static ук проверьСвобОтлK(ук p, цел k);
 #else
-	static проц  DbgFreeFillK(ук укз, цел k) {}
-	static ук DbgFreeCheckK(ук p, цел k) { return p; }
+	static проц  заполниСвобОтлK(ук укз, цел k) {}
+	static ук проверьСвобОтлK(ук p, цел k) { return p; }
 #endif
 
 #ifdef flagHEAPSTAT
@@ -414,10 +404,10 @@ struct Куча : BlkHeap<HugeHeapDetail, 4096> {
 
 	проц  иниц();
 
-	static цел   CheckFree(FreeLink *l, цел k, бул page = true);
+	static цел   проверьСвоб(СвобЛинк *l, цел k, бул page = true);
 	проц  Check();
 	static проц  DblCheck(Страница *p);
-	static проц  AssertLeaks(бул b);
+	static проц  подтвердиLeaks(бул b);
 
 	static бул  малый(ук укз) { return (((бцел)(uintptr_t)укз) & 16) == 0; }
 	static Страница *дайСтраницу(ук укз) { return (Страница *)((uintptr_t)укз & ~(uintptr_t)4095); }
@@ -432,12 +422,12 @@ struct Куча : BlkHeap<HugeHeapDetail, 4096> {
 
 	static бул FreeSmallEmpty(цел size4KB, цел count = INT_MAX);
 
-	проц   LИниt();
+	проц   иницЛ();
 	ук TryLAlloc(цел i0, бкрат wcount);
 	ук бРазмести(т_мера& size);
 	проц   FreeLargePage(DLink *l);
 	проц   бОсвободи(ук укз);
-	бул   LTryRealloc(ук укз, т_мера& newsize);
+	бул   пробуйПереместЛ(ук укз, т_мера& newsize);
 	т_мера LGetBlockSize(ук укз);
 
 	проц   сделай(ПрофильПамяти& f);
@@ -451,10 +441,10 @@ struct Куча : BlkHeap<HugeHeapDetail, 4096> {
 	проц RemoteFlushRaw();
 	проц RemoteFlush();
 	проц RemoteFree(ук укз, цел size);
-	проц SmallFreeRemoteRaw(FreeLink *list);
+	проц SmallFreeRemoteRaw(СвобЛинк *list);
 	проц SmallFreeRemoteRaw() { SmallFreeRemoteRaw(small_remote_list); small_remote_list = NULL; }
 	проц SmallFreeRemote();
-	проц LargeFreeRemoteRaw(FreeLink *list);
+	проц LargeFreeRemoteRaw(СвобЛинк *list);
 	проц LargeFreeRemoteRaw() { LargeFreeRemoteRaw(large_remote_list); large_remote_list = NULL; }
 	проц LargeFreeRemote();
 	проц FreeRemoteRaw();
@@ -472,16 +462,16 @@ struct Куча : BlkHeap<HugeHeapDetail, 4096> {
 	ук Alloc48();
 	проц   Free48(ук укз);
 
-	бул   TryRealloc(ук укз, т_мера& newsize);
+	бул   пробуйПеремест(ук укз, т_мера& newsize);
 };
 
-force_inline
+форс_инлайн
 проц Куча::RemoteFlushRaw()
 { // transfer all buffered freed remote blocks to target heaps, no locking
 	if(!initialized)
 		иниц();
 	for(проц **o = out; o < out_ptr; o++) {
-		FreeLink *f = (FreeLink *)*o;
+		СвобЛинк *f = (СвобЛинк *)*o;
 		Куча *heap = дайСтраницу(f)->heap;
 		f->next = heap->small_remote_list;
 		heap->small_remote_list = f;
@@ -490,7 +480,7 @@ force_inline
 	out_size = 0;
 }
 
-force_inline
+форс_инлайн
 проц Куча::RemoteFree(ук укз, цел size)
 { // буфер freed remote block until REMOTE_OUT_SZ is reached
 	if(!initialized)
@@ -504,21 +494,21 @@ force_inline
 	}
 }
 
-force_inline
-проц Куча::SmallFreeRemoteRaw(FreeLink *list)
+форс_инлайн
+проц Куча::SmallFreeRemoteRaw(СвобЛинк *list)
 {
 	while(list) {
-		FreeLink *f = list;
+		СвобЛинк *f = list;
 		list = list->next;
 		SmallFreeDirect(f);
 	}
 }
 
-force_inline
+форс_инлайн
 проц Куча::SmallFreeRemote()
 {
 	while(small_remote_list) { // avoid mutex if likely nothing to free
-		FreeLink *list;
+		СвобЛинк *list;
 		{ // only пикуй values in mutex, resolve later
 			Стопор::Замок __(mutex);
 			list = small_remote_list;
@@ -528,21 +518,21 @@ force_inline
 	}
 }
 
-force_inline
-проц Куча::LargeFreeRemoteRaw(FreeLink *list)
+форс_инлайн
+проц Куча::LargeFreeRemoteRaw(СвобЛинк *list)
 {
 	while(list) {
-		FreeLink *f = list;
+		СвобЛинк *f = list;
 		list = list->next;
 		бОсвободи(f);
 	}
 }
 
-force_inline
+форс_инлайн
 проц Куча::LargeFreeRemote()
 {
 	while(large_remote_list) { // avoid mutex if likely nothing to free
-		FreeLink *list;
+		СвобЛинк *list;
 		{ // only пикуй values in mutex, resolve later
 			Стопор::Замок __(mutex);
 			list = large_remote_list;
@@ -552,4 +542,3 @@ force_inline
 	}
 }
 
-}//ns end

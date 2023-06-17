@@ -21,7 +21,7 @@ template <class T, class X> РярВВ РярВВ::Массив(кткст0 tag,
 }
 
 template <class T> РярВВ РярВВ::Список(кткст0 tag, кткст0 itemtag, T& var) {
-	return Массив(tag, var, [](РярВВ& io, типЗначУ<T>& данные) { вРяр(io, данные); }, itemtag);
+	return Массив(tag, var, [](РярВВ& io, ТипЗначУ<T>& данные) { вРяр(io, данные); }, itemtag);
 }
 
 template <class T, class D> РярВВ РярВВ::operator()(кткст0 tag, T& var, const D& опр)
@@ -65,7 +65,7 @@ template <class T, class X>
 template<class T>
 проц контейнерВРяр(РярВВ& xml, кткст0 tag, T& данные)
 {
-	контейнерВРяр(xml, tag, данные, [](РярВВ& xml, типЗначУ<T>& данные) { вРяр(xml, данные); });
+	контейнерВРяр(xml, tag, данные, [](РярВВ& xml, ТипЗначУ<T>& данные) { вРяр(xml, данные); });
 }
 
 template<class K, class V, class T>

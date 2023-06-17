@@ -1,14 +1,12 @@
-#include <DinrusPro/DinrusPro.h>
+#include <DinrusPro/DinrusCore.h>
 //#BLITZ_APPROVE
-
-namespace ДинрусРНЦП {
 
 // Old формат ---------------------------
 
 Ткст  вфмт(кткст0 fmt, va_list укз) {
 	цел limit = 2 * (цел)strlen(fmt) + 1024;
 	if(limit < 1500) {
-		char буфер[1500];
+		сим буфер[1500];
 		vsprintf(буфер, fmt, укз);
 		va_end(укз);
 		цел len = (цел)strlen(буфер);
@@ -16,7 +14,7 @@ namespace ДинрусРНЦП {
 		return Ткст(буфер, len);
 	}
 	else {
-		Буфер<char> буфер(limit);
+		Буфер<сим> буфер(limit);
 		vsprintf(буфер, fmt, укз);
 		va_end(укз);
 		цел len = (цел)strlen(буфер);
@@ -31,7 +29,7 @@ namespace ДинрусРНЦП {
 // https://github.com/miloyip/itoa-benchmark/blob/940542a7770155ee3e9f2777ebc178dc899b43e0/ист/branchlut.cpp
 // by Milo Yip
 
-const char s100[] =
+const сим s100[] =
     "00010203040506070809"
     "10111213141516171819"
     "20212223242526272829"
@@ -46,33 +44,33 @@ const char s100[] =
 
 namespace utoa_private {
 
-force_inline
-проц  Do2(char *t, бцел d) {
+форс_инлайн
+проц  Do2(сим *t, бцел d) {
 	memcpy(t, s100 + 2 * d, 2);
 };
 
-force_inline
-проц  Do4(char *t, бцел значение) {
+форс_инлайн
+проц  Do4(сим *t, бцел значение) {
 	Do2(t, значение / 100);
 	Do2(t + 2, значение % 100);
 }
 
-force_inline
-проц  Do8(char *t, бцел значение) {
+форс_инлайн
+проц  Do8(сим *t, бцел значение) {
 	Do4(t, значение / 10000);
 	Do4(t + 4, значение % 10000);
 }
 
 };
 
-цел utoa32(бцел значение, char *буфер)
+цел utoa32(бцел значение, сим *буфер)
 {
 	using namespace utoa_private;
 
 	if (значение < 10000) {
 		if(значение < 100) {
 			if(значение < 10) {
-				*буфер = char(значение + '0');
+				*буфер = сим(значение + '0');
 				return 1;
 			}
 			Do2(буфер, значение % 100);
@@ -80,7 +78,7 @@ force_inline
 		}
 
 		if(значение < 1000) {
-			*буфер = char(значение / 100 + '0');
+			*буфер = сим(значение / 100 + '0');
 			Do2(буфер + 1, значение % 100);
 			return 3;
 		}
@@ -91,7 +89,7 @@ force_inline
 	else if (значение < 100000000) {
 		if(значение < 10000000) {
 			if(значение < 100000) {
-				*буфер = char(значение / 10000 + '0');
+				*буфер = сим(значение / 10000 + '0');
 				Do4(буфер + 1, значение % 10000);
 				return 5;
 			}
@@ -100,7 +98,7 @@ force_inline
 				Do4(буфер + 2, значение % 10000);
 				return 6;
 			}
-			*буфер = char(значение / 1000000 + '0');
+			*буфер = сим(значение / 1000000 + '0');
 			Do2(буфер + 1, значение / 10000 % 100);
 			Do4(буфер + 3, значение % 10000);
 			return 7;
@@ -114,7 +112,7 @@ force_inline
 		значение %= 100000000;
 
 		if(a < 10) {
-			*буфер = char(a + '0');
+			*буфер = сим(a + '0');
 			Do8(буфер + 1, значение);
 			return 9;
 		}
@@ -125,7 +123,7 @@ force_inline
 	}
 }
 
-цел utoa64(бдол значение, char *буфер)
+цел utoa64(бдол значение, сим *буфер)
 {
 	using namespace utoa_private;
 
@@ -145,9 +143,9 @@ force_inline
 Ткст фмтБцел64(бдол w)
 {
 	if(w < 100000000000000)
-		return Ткст::сделай(14, [&](char *s) { return utoa64(w, s); });
+		return Ткст::сделай(14, [&](сим *s) { return utoa64(w, s); });
 	else
-		return Ткст::сделай(20, [&](char *s) { return utoa64(w, s); });
+		return Ткст::сделай(20, [&](сим *s) { return utoa64(w, s); });
 }
 
 Ткст фмтЦел64(дол i)
@@ -157,28 +155,28 @@ force_inline
 	if(i < 0) {
 		i = -i;
 		if(i < 10000000000000)
-			return Ткст::сделай(14, [&](char *s) {
+			return Ткст::сделай(14, [&](сим *s) {
 				*s++ = '-';
 				return utoa64(i, s) + 1;
 			});
-		return Ткст::сделай(20, [&](char *s) {
+		return Ткст::сделай(20, [&](сим *s) {
 			*s++ = '-';
 			return utoa64(i, s) + 1;
 		});
 	}
 	if(i < 100000000000000)
-		return Ткст::сделай(14, [&](char *s) { return utoa64(i, s); });
-	return Ткст::сделай(20, [&](char *s) { return utoa64(i, s); });
+		return Ткст::сделай(14, [&](сим *s) { return utoa64(i, s); });
+	return Ткст::сделай(20, [&](сим *s) { return utoa64(i, s); });
 }
 
-Ткст фмтЦелОснова(цел i, цел base, цел width, char lpad, цел sign, бул upper)
+Ткст фмтЦелОснова(цел i, цел base, цел width, сим lpad, цел sign, бул upper)
 {
 	enum { BUFFER = sizeof(цел) * 8 + 1 };
 	if(base < 2 || base > 36)
 		return "<invalid base>";
-	char буфер[BUFFER];
-	char *const e = буфер + (цел)BUFFER;
-	char *p = e;
+	сим буфер[BUFFER];
+	сим *const e = буфер + (цел)BUFFER;
+	сим *p = e;
 	кткст0 itoc = upper ? "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ" : "0123456789abcdefghijklmnopqrstuvwxyz";
 	if(sign < 0 || !пусто_ли(i))
 	{
@@ -195,7 +193,7 @@ force_inline
 		*--p = (minus ? '-' : '+');
 	if(width > e - p)
 	{
-		char *b = e - мин<цел>(width, BUFFER);
+		сим *b = e - мин<цел>(width, BUFFER);
 		while(p > b)
 			*--p = lpad;
 	}
@@ -204,29 +202,29 @@ force_inline
 	цел dwd = (цел)(e - p);
 	цел pad = (width = макс(width, dwd)) - dwd;
 	ТкстБуф out(width);
-	char *o = out;
+	сим *o = out;
 	if(dwd < width)
 		memset(o, lpad, pad);
 	копирпам8(o + pad, p, dwd);
 	return Ткст(out);
 }
 
-Ткст фмтЦелДес(цел i, цел width, char lpad, бул always_sign)
+Ткст фмтЦелДес(цел i, цел width, сим lpad, бул always_sign)
 {
 	return фмтЦелОснова(i, 10, width, lpad, always_sign ? 1 : 0);
 }
 
-Ткст фмтЦелГекс(цел i, цел width, char lpad)
+Ткст фмтЦелГекс(цел i, цел width, сим lpad)
 {
 	return фмтЦелОснова(i, 16, width, lpad, -1);
 }
 
-Ткст фмтЦелГексВерхРег(цел i, цел width, char lpad)
+Ткст фмтЦелГексВерхРег(цел i, цел width, сим lpad)
 {
 	return фмтЦелОснова(i, 16, width, lpad, -1, true);
 }
 
-Ткст фмтЦелВосьм(цел i, цел width, char lpad)
+Ткст фмтЦелВосьм(цел i, цел width, сим lpad)
 {
 	return фмтЦелОснова(i, 8, width, lpad, -1);
 }
@@ -241,7 +239,7 @@ force_inline
 		out << '-';
 		i = -i;
 	}
-	char temp[10], *p = temp + 10;
+	сим temp[10], *p = temp + 10;
 	кткст0 itoc = upper ? "ZABCDEFGHIJKLMNOPQRSTUVWXYZ" : "zabcdefghijklmnopqrstuvwxyz";
 	do
 		*--p = itoc[i-- % 26];
@@ -268,22 +266,22 @@ force_inline
 		i -= 1000 * m;
 	}
 
-	char shift = upper ? 0 : 'a' - 'A';
+	сим shift = upper ? 0 : 'a' - 'A';
 	static const цел  значение[] =  { 1000, 500, 100, 50,  10,  5,   1 };
-	static const char letter[] = { 'M',  'D', 'C', 'L', 'X', 'V', 'I' };
-	for(цел n = 0; i && n < __countof(значение); n++)
+	static const сим letter[] = { 'M',  'D', 'C', 'L', 'X', 'V', 'I' };
+	for(цел n = 0; i && n < __количество(значение); n++)
 	{
 		цел v = значение[n];
 		while(i >= v)
 		{
-			out << (char)(letter[n] + shift);
+			out << (сим)(letter[n] + shift);
 			i -= v;
 		}
-		if(n < __countof(значение) - 1)
-			for(цел j = n + (значение[n + 1] * 2 >= v ? 2 : 1); j < __countof(значение); j++)
+		if(n < __количество(значение) - 1)
+			for(цел j = n + (значение[n + 1] * 2 >= v ? 2 : 1); j < __количество(значение); j++)
 				if(i >= v - значение[j])
 				{ // subtraction scheme
-					out << (char)(letter[j] + shift) << (char)(letter[n] + shift);
+					out << (сим)(letter[j] + shift) << (сим)(letter[n] + shift);
 					i -= v - значение[j];
 					break;
 				}
@@ -293,8 +291,8 @@ force_inline
 
 Ткст фмт64Гекс(бдол a)
 {
-	char b[50];
-	char *p = b + 50;
+	сим b[50];
+	сим *p = b + 50;
 	do {
 		*--p = "0123456789abcdef"[a & 15];
 		a >>= 4;
@@ -304,7 +302,7 @@ force_inline
 }
 
 Ткст FormatBool(бул a)              { return a ? "true" : "false"; }
-Ткст фмтУк(const ук p)        { return "0x" + фмтГекс(p); }
+Ткст фмтУк(кук p)        { return "0x" + фмтГекс(p); }
 
 Ткст фмтДата(Дата date, кткст0 формат, цел язык)
 {
@@ -434,7 +432,7 @@ struct FormId : Движ<FormId> {
 
 т_хэш дайХэшЗнач(const FormId& fid)
 {
-	return комбинируйХэш(fid.тип, дайХэшЗнач(fid.ид));
+	return КомбХэш(fid.тип, дайХэшЗнач(fid.ид));
 }
 
 бул operator==(const FormId& a, const FormId& b)
@@ -444,7 +442,7 @@ struct FormId : Движ<FormId> {
 
 ВекторМап<FormId, Форматировщик>& formatmap()
 {
-	return Single< ВекторМап<FormId, Форматировщик> > ();
+	return Сингл< ВекторМап<FormId, Форматировщик> > ();
 }
 
 проц регФорматировщик(цел тип, кткст0 ид, Форматировщик f)
@@ -558,7 +556,7 @@ struct FormId : Движ<FormId> {
 				fillz = true;
 			бцел n;
 			бул overflow = false;
-			s = сканБцел<char, ббайт, бцел, 10>(n, s, overflow);
+			s = сканБцел<сим, ббайт, бцел, 10>(n, s, overflow);
 			if(overflow || !s || n > (wd ? 1000u : 100u))
 				return Null;
 			(wd ? width : precision) = n;
@@ -582,7 +580,7 @@ struct FormId : Движ<FormId> {
 	if(lng) {
 		цел q = r.найди('.');
 		if(q >= 0)
-			r = r.середина(0, q) + GetLanguageInfo(f.язык).decimal_point + r.середина(q + 1);
+			r = r.середина(0, q) + дайИнфОЯз(f.язык).decimal_point + r.середина(q + 1);
 	}
 	if(width > r.дайСчёт()) {
 		if(fillz && !left && !пусто_ли(f.арг))
@@ -633,7 +631,7 @@ struct FormId : Движ<FormId> {
 	if(фн && значение >= 1e-15 && значение <= 1e15)
 		flags |= FD_FIX;
 	if(lng)
-		return GetLanguageInfo(f.язык).фмтДво(значение, digits, flags, 0);
+		return дайИнфОЯз(f.язык).фмтДво(значение, digits, flags, 0);
 	else
 		return фмтДво(значение, digits, flags);
 }
@@ -672,7 +670,7 @@ struct FormId : Движ<FormId> {
 }
 
 static inline
-проц sFixPoint(char *s) // We do not want locale to affect decimal point, convert ',' to '.'
+проц sFixPoint(сим *s) // We do not want locale to affect decimal point, convert ',' to '.'
 {
 	while(*s) {
 		if(*s == ',')
@@ -685,7 +683,7 @@ static inline
 {
 	дво d = f.арг;
 	Ткст fmt = '%' + f.формат + f.ид;
-	char h[256];
+	сим h[256];
 #ifdef COMPILER_MSC
 	цел n = _snprintf(h, 256, fmt, d);
 	if(n < 0)
@@ -697,7 +695,7 @@ static inline
 #ifdef COMPILER_MSC
 		n = _scprintf(fmt, d);
 #endif
-		Буфер<char> ah(n + 1);
+		Буфер<сим> ah(n + 1);
 		sprintf(ah, fmt, d);
 		sFixPoint(ah);
 		return Ткст(ah, n);
@@ -710,12 +708,12 @@ static inline
 
 Ткст DateFormatter(const Форматирование& f)
 {
-	return GetLanguageInfo(f.язык).фмтДата(f.арг);
+	return дайИнфОЯз(f.язык).фмтДата(f.арг);
 }
 
 Ткст TimeFormatter(const Форматирование& f)
 {
-	return GetLanguageInfo(f.язык).фмтВремя(f.арг);
+	return дайИнфОЯз(f.язык).фмтВремя(f.арг);
 }
 
 Ткст SwitchFormatter(const Форматирование& f)
@@ -781,7 +779,7 @@ static inline
 
 Ткст MonFormatter(const Форматирование& f)
 {
-	return MonName((цел)f.арг - 1, f.язык);
+	return имяМес((цел)f.арг - 1, f.язык);
 }
 
 Ткст MONFormatter(const Форматирование& f)
@@ -811,7 +809,7 @@ static inline
 
 Ткст DyFormatter(const Форматирование& f)
 {
-	return DyName((цел)f.арг, f.язык);
+	return имяДняГода((цел)f.арг, f.язык);
 }
 
 Ткст DYFormatter(const Форматирование& f)
@@ -1128,7 +1126,7 @@ static проц sRegisterFormatters()
 	}
 }
 
-Ткст фмт(кткст0 s, const Вектор<Значение>& v) { return фмт(GetCurrentLanguage(), s, v); }
+Ткст фмт(кткст0 s, const Вектор<Значение>& v) { return фмт(дайТекЯз(), s, v); }
 
 Ткст спринтф(кткст0 fmt, ...) {
 	va_list argptr;
@@ -1145,6 +1143,4 @@ static проц sRegisterFormatters()
 		x.кат(*text++);
 	}
 	return Ткст(x);
-}
-
 }

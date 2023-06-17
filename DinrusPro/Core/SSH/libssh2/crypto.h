@@ -64,34 +64,34 @@
 
 #if LIBSSH2_RSA
 цел _libssh2_rsa_new(libssh2_rsa_ctx ** rsa,
-                     const unsigned char *edata,
+                     const ббайт *edata,
                      unsigned long elen,
-                     const unsigned char *ndata,
+                     const ббайт *ndata,
                      unsigned long nlen,
-                     const unsigned char *ddata,
+                     const ббайт *ddata,
                      unsigned long dlen,
-                     const unsigned char *pdata,
+                     const ббайт *pdata,
                      unsigned long plen,
-                     const unsigned char *qdata,
+                     const ббайт *qdata,
                      unsigned long qlen,
-                     const unsigned char *e1data,
+                     const ббайт *e1data,
                      unsigned long e1len,
-                     const unsigned char *e2data,
+                     const ббайт *e2data,
                      unsigned long e2len,
-                     const unsigned char *coeffdata, unsigned long coefflen);
+                     const ббайт *coeffdata, unsigned long coefflen);
 цел _libssh2_rsa_new_private(libssh2_rsa_ctx ** rsa,
                              LIBSSH2_SESSION * session,
                              кткст0 имяф,
                              unsigned кткст0 passphrase);
 цел _libssh2_rsa_sha1_verify(libssh2_rsa_ctx * rsa,
-                             const unsigned char *sig,
+                             const ббайт *sig,
                              unsigned long sig_len,
-                             const unsigned char *m, unsigned long m_len);
+                             const ббайт *m, unsigned long m_len);
 цел _libssh2_rsa_sha1_sign(LIBSSH2_SESSION * session,
                            libssh2_rsa_ctx * rsactx,
-                           const unsigned char *hash,
+                           const ббайт *hash,
                            т_мера hash_len,
-                           unsigned char **signature,
+                           ббайт **signature,
                            т_мера *signature_len);
 цел _libssh2_rsa_new_private_frommemory(libssh2_rsa_ctx ** rsa,
                                         LIBSSH2_SESSION * session,
@@ -102,25 +102,25 @@
 
 #if LIBSSH2_DSA
 цел _libssh2_dsa_new(libssh2_dsa_ctx ** dsa,
-                     const unsigned char *pdata,
+                     const ббайт *pdata,
                      unsigned long plen,
-                     const unsigned char *qdata,
+                     const ббайт *qdata,
                      unsigned long qlen,
-                     const unsigned char *gdata,
+                     const ббайт *gdata,
                      unsigned long glen,
-                     const unsigned char *ydata,
+                     const ббайт *ydata,
                      unsigned long ylen,
-                     const unsigned char *x, unsigned long x_len);
+                     const ббайт *x, unsigned long x_len);
 цел _libssh2_dsa_new_private(libssh2_dsa_ctx ** dsa,
                              LIBSSH2_SESSION * session,
                              кткст0 имяф,
                              unsigned кткст0 passphrase);
 цел _libssh2_dsa_sha1_verify(libssh2_dsa_ctx * dsactx,
-                             const unsigned char *sig,
-                             const unsigned char *m, unsigned long m_len);
+                             const ббайт *sig,
+                             const ббайт *m, unsigned long m_len);
 цел _libssh2_dsa_sha1_sign(libssh2_dsa_ctx * dsactx,
-                           const unsigned char *hash,
-                           unsigned long hash_len, unsigned char *sig);
+                           const ббайт *hash,
+                           unsigned long hash_len, ббайт *sig);
 цел _libssh2_dsa_new_private_frommemory(libssh2_dsa_ctx ** dsa,
                                         LIBSSH2_SESSION * session,
                                         кткст0 filedata,
@@ -131,7 +131,7 @@
 #if LIBSSH2_ECDSA
 цел
 _libssh2_ecdsa_curve_name_with_octal_new(libssh2_ecdsa_ctx ** ecdsactx,
-                                         const unsigned char *k,
+                                         const ббайт *k,
                                          т_мера k_len,
                                          libssh2_curve_type тип);
 цел
@@ -142,26 +142,26 @@ _libssh2_ecdsa_new_private(libssh2_ecdsa_ctx ** ec_ctx,
 
 цел
 _libssh2_ecdsa_verify(libssh2_ecdsa_ctx * ctx,
-                      const unsigned char *r, т_мера r_len,
-                      const unsigned char *s, т_мера s_len,
-                      const unsigned char *m, т_мера m_len);
+                      const ббайт *r, т_мера r_len,
+                      const ббайт *s, т_мера s_len,
+                      const ббайт *m, т_мера m_len);
 
 цел
 _libssh2_ecdsa_create_key(LIBSSH2_SESSION *session,
                           _libssh2_ec_key **out_private_key,
-                          unsigned char **out_public_key_octal,
+                          ббайт **out_public_key_octal,
                           т_мера *out_public_key_octal_len,
                           libssh2_curve_type curve_type);
 
 цел
 _libssh2_ecdh_gen_k(_libssh2_bn **k, _libssh2_ec_key *private_key,
-                    const unsigned char *server_public_key,
+                    const ббайт *server_public_key,
                     т_мера server_public_key_len);
 
 цел
 _libssh2_ecdsa_sign(LIBSSH2_SESSION *session, libssh2_ecdsa_ctx *ec_ctx,
-                    const unsigned char *hash, unsigned long hash_len,
-                    unsigned char **signature, т_мера *signature_len);
+                    const ббайт *hash, unsigned long hash_len,
+                    ббайт **signature, т_мера *signature_len);
 
 цел _libssh2_ecdsa_new_private_frommemory(libssh2_ecdsa_ctx ** ec_ctx,
                                           LIBSSH2_SESSION * session,
@@ -201,7 +201,7 @@ _libssh2_ed25519_new_private(libssh2_ed25519_ctx **ed_ctx,
 цел
 _libssh2_ed25519_new_public(libssh2_ed25519_ctx **ed_ctx,
                             LIBSSH2_SESSION *session,
-                            const unsigned char *raw_pub_key,
+                            const ббайт *raw_pub_key,
                             const uint8_t key_len);
 
 цел
@@ -221,25 +221,25 @@ _libssh2_ed25519_new_private_frommemory(libssh2_ed25519_ctx **ed_ctx,
 
 цел _libssh2_cipher_init(_libssh2_cipher_ctx * h,
                          _libssh2_cipher_type(algo),
-                         unsigned char *iv,
-                         unsigned char *secret, цел encrypt);
+                         ббайт *iv,
+                         ббайт *secret, цел encrypt);
 
 цел _libssh2_cipher_crypt(_libssh2_cipher_ctx * ctx,
                           _libssh2_cipher_type(algo),
-                          цел encrypt, unsigned char *block, т_мера blocksize);
+                          цел encrypt, ббайт *block, т_мера blocksize);
 
 цел _libssh2_pub_priv_keyfile(LIBSSH2_SESSION *session,
-                              unsigned char **method,
+                              ббайт **method,
                               т_мера *method_len,
-                              unsigned char **pubkeydata,
+                              ббайт **pubkeydata,
                               т_мера *pubkeydata_len,
                               кткст0 privatekey,
                               кткст0 passphrase);
 
 цел _libssh2_pub_priv_keyfilememory(LIBSSH2_SESSION *session,
-                                    unsigned char **method,
+                                    ббайт **method,
                                     т_мера *method_len,
-                                    unsigned char **pubkeydata,
+                                    ббайт **pubkeydata,
                                     т_мера *pubkeydata_len,
                                     кткст0 privatekeydata,
                                     т_мера privatekeydata_len,

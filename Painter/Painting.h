@@ -1,6 +1,6 @@
 enum {
 	PAINTING_CLEAR,
-	
+
 	PAINTING_MOVE = 4,
 	PAINTING_MOVE_REL,
 	PAINTING_LINE,
@@ -19,22 +19,22 @@ enum {
 	PAINTING_SVGARC_REL,
 	PAINTING_CLOSE,
 	PAINTING_DIV,
-	
+
 	PAINTING_FILL_SOLID,
 	PAINTING_FILL_IMAGE,
 	PAINTING_FILL_GRADIENT,
 	PAINTING_FILL_RADIAL,
-	
+
 	PAINTING_STROKE_SOLID,
 	PAINTING_STROKE_IMAGE,
 	PAINTING_STROKE_GRADIENT,
 	PAINTING_STROKE_RADIAL,
-	
+
 	PAINTING_CLIP,
-	
+
 	PAINTING_CHARACTER,
 	PAINTING_TEXT,
-	
+
 	PAINTING_COLORSTOP,
 	PAINTING_CLEARSTOPS,
 	PAINTING_OPACITY,
@@ -43,13 +43,13 @@ enum {
 	PAINTING_MITERLIMIT,
 	PAINTING_EVENODD,
 	PAINTING_DASH,
-	
+
 	PAINTING_TRANSFORM,
 	PAINTING_BEGIN,
 	PAINTING_END,
 	PAINTING_BEGINMASK,
 	PAINTING_BEGINONPATH,
-	
+
 	PAINTING_INVERT,
 
 	PAINTING_FILL_GRADIENT_X,
@@ -94,7 +94,7 @@ protected:
 	                      int style);
 	virtual void   FillOp(const RGBA& color1, const RGBA& color2, const Xform2D& transsrc,
 	                      int style);
-	virtual void   FillOp(const Pointf& f, const RGBA& color1, 
+	virtual void   FillOp(const Pointf& f, const RGBA& color1,
 	                      const Pointf& c, double r, const RGBA& color2,
 	                      int style);
 	virtual void   FillOp(const Pointf& f, const RGBA& color1, const RGBA& color2,
@@ -108,7 +108,7 @@ protected:
 	                        int style);
 	virtual void   StrokeOp(double width, const RGBA& color1, const RGBA& color2,
 	                        const Xform2D& transsrc, int style);
-	virtual void   StrokeOp(double width, const Pointf& f, const RGBA& color1, 
+	virtual void   StrokeOp(double width, const Pointf& f, const RGBA& color1,
 	                        const Pointf& c, double r, const RGBA& color2,
 	                        int style);
 	virtual void   StrokeOp(double width, const Pointf& f,
@@ -118,12 +118,12 @@ protected:
 	virtual void   ClipOp();
 
 	virtual void   CharacterOp(const Pointf& p, int ch, Font fnt);
-	virtual void   TextOp(const Pointf& p, const wchar *text, Font fnt, int n = -1, 
+	virtual void   TextOp(const Pointf& p, const wchar *text, Font fnt, int n = -1,
 	                      const double *dx = NULL);
 
 	virtual void   ColorStopOp(double pos, const RGBA& color);
 	virtual void   ClearStopsOp();
-	
+
 	virtual void   OpacityOp(double o);
 	virtual void   LineCapOp(int linecap);
 	virtual void   LineJoinOp(int linejoin);
@@ -143,12 +143,12 @@ protected:
 public:
 	Painting GetResult();
 	operator Painting()                              { return GetResult(); }
-	
+
 	void Create(double cx, double cy);
 	void Create(Sizef sz);
-	
+
 	Sizef GetSize() const                            { return size; }
-	
+
 	PaintingPainter()                                {}
 	PaintingPainter(double cx, double cy)            { Create(cx, cy); }
 	PaintingPainter(Sizef sz)                        { Create(sz); }

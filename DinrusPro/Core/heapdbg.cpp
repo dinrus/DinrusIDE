@@ -1,8 +1,6 @@
-#include <DinrusPro/DinrusPro.h>
+#include <DinrusPro/DinrusCore.h>
 
 // #define LOGAF
-
-namespace ДинрусРНЦП {
 
 static бул  sIgnoreNonMainLeaks;
 static бул  sIgnoreNonUppThreadsLeaks;
@@ -33,15 +31,11 @@ static бцел serial_main_end;
 	serial_main_end = serial_number;
 }
 
-};
-
 #if (defined(TESTLEAKS) || defined(HEAPDBG)) && defined(COMPILER_GCC) && defined(КУЧА_РНЦП)
 
 цел сНачСчётДиагПам;
 
 #endif
-
-namespace ДинрусРНЦП {
 
 extern бул AppNormalExit;
 
@@ -56,10 +50,10 @@ extern бул PanicMode;
 
 static СтатическийСтопор sHeapLock2;
 
-struct alignas(16) DbgBlkHeader {
+struct alignas(16) DbgЗагБлока {
 	т_мера        size;
-	DbgBlkHeader *prev;
-	DbgBlkHeader *next;
+	DbgЗагБлока *prev;
+	DbgЗагБлока *next;
 	бцел         serial;
 
 	проц линкуйся() {
@@ -69,7 +63,7 @@ struct alignas(16) DbgBlkHeader {
 		prev->next = next;
 		next->prev = prev;
 	}
-	проц вставь(DbgBlkHeader *lnk) {
+	проц вставь(DbgЗагБлока *lnk) {
 		lnk->prev = this;
 		lnk->next = next;
 		next->prev = lnk;
@@ -77,22 +71,22 @@ struct alignas(16) DbgBlkHeader {
 	}
 };
 
-static кткст0 DbgFormat(char *b, DbgBlkHeader *p)
+static кткст0 DbgFormat(сим *b, DbgЗагБлока *p)
 {
 	sprintf(b, "--memory-breakpoint__ %u ", (бцел)~(p->serial ^ (uintptr_t)p));
 	return b;
 }
 
-static проц DbgHeapPanic(кткст0 text, DbgBlkHeader *p)
+static проц DbgHeapPanic(кткст0 text, DbgЗагБлока *p)
 {
-	char h[256];
-	char b[100];
+	сим h[256];
+	сим b[100];
 	strcpy(h, text);
 	strcat(h, DbgFormat(b, p));
 	паникаКучи(h, p + 1, (цел)(uintptr_t)p->size);
 }
 
-static DbgBlkHeader dbg_live = { 0, &dbg_live, &dbg_live, 0 };
+static DbgЗагБлока dbg_live = { 0, &dbg_live, &dbg_live, 0 };
 
 static бцел s_allocbreakpoint;
 static thread_local бцел s_ignoreleaks;
@@ -116,7 +110,7 @@ static thread_local бцел s_ignoreleaks;
 
 ук разместиПамТн_(т_мера& size);
 
-проц  DbgSet(DbgBlkHeader *p, т_мера size)
+проц  DbgSet(DbgЗагБлока *p, т_мера size)
 {
 	бул allow_leak = s_ignoreleaks ||
 	                  sIgnoreNonUppThreadsLeaks && !Нить::рнцп_ли() && !Нить::главная_ли()
@@ -138,12 +132,12 @@ static thread_local бцел s_ignoreleaks;
 	if(PanicMode)
 		return malloc(size);
 	Стопор::Замок __(sHeapLock2);
-	size += sizeof(DbgBlkHeader) + sizeof(бцел);
-	DbgBlkHeader *p = (DbgBlkHeader *)разместиПамТн_(size);
-	size -= sizeof(DbgBlkHeader) + sizeof(бцел);
+	size += sizeof(DbgЗагБлока) + sizeof(бцел);
+	DbgЗагБлока *p = (DbgЗагБлока *)разместиПамТн_(size);
+	size -= sizeof(DbgЗагБлока) + sizeof(бцел);
 	DbgSet(p, size);
 #ifdef LOGAF
-	char h[200];
+	сим h[200];
 	sprintf(h, "ALLOCATED %d at %p - %p", size, p + 1, (ббайт *)(p + 1) + size);
 	DLOG(h);
 #endif
@@ -157,7 +151,7 @@ static thread_local бцел s_ignoreleaks;
 
 проц освободиПам_(ук укз);
 
-проц DbgCheck(DbgBlkHeader *p)
+проц DbgCheck(DbgЗагБлока *p)
 {
 	if((бцел)подбери32лэ((ббайт *)(p + 1) + p->size) != p->serial)
 		DbgHeapPanic("Куча повреждена ", p);
@@ -166,7 +160,7 @@ static thread_local бцел s_ignoreleaks;
 проц освободиПам(ук укз)
 {
 #ifdef LOGAF
-	char h[200];
+	сим h[200];
 	sprintf(h, "FREE %p", укз);
 	DLOG(h);
 #endif
@@ -174,24 +168,24 @@ static thread_local бцел s_ignoreleaks;
 		return;
 	if(!укз) return;
 	Стопор::Замок __(sHeapLock2);
-	DbgBlkHeader *p = (DbgBlkHeader *)укз - 1;
+	DbgЗагБлока *p = (DbgЗагБлока *)укз - 1;
 	DbgCheck(p);
 	p->отлинкуй();
 	освободиПам_(p);
 }
 
-бул MemoryTryRealloc_(ук укз, т_мера& newsize);
+бул MemoryпробуйПеремест_(ук укз, т_мера& newsize);
 
-бул MemoryTryRealloc__(ук укз, т_мера& newsize)
+бул MemoryпробуйПеремест__(ук укз, т_мера& newsize)
 {
 	if(!укз || PanicMode) return false;
 	Стопор::Замок __(sHeapLock2);
-	DbgBlkHeader *p = (DbgBlkHeader *)укз - 1;
+	DbgЗагБлока *p = (DbgЗагБлока *)укз - 1;
 	DbgCheck(p);
 	т_мера sz = newsize;
-	sz += sizeof(DbgBlkHeader) + sizeof(бцел);
-	if(MemoryTryRealloc_((DbgBlkHeader *)укз - 1, sz)) {
-		newsize = sz - sizeof(DbgBlkHeader) - sizeof(бцел);
+	sz += sizeof(DbgЗагБлока) + sizeof(бцел);
+	if(MemoryпробуйПеремест_((DbgЗагБлока *)укз - 1, sz)) {
+		newsize = sz - sizeof(DbgЗагБлока) - sizeof(бцел);
 		p->отлинкуй();
 		DbgSet(p, newsize);
 		return true;
@@ -204,7 +198,7 @@ static thread_local бцел s_ignoreleaks;
 т_мера дайРазмБлокаПам(ук укз)
 {
 	if(!укз) return 0;
-	return ((DbgBlkHeader *)укз - 1)->size;
+	return ((DbgЗагБлока *)укз - 1)->size;
 }
 
 ук разместиПам32()             { return разместиПам(32); }
@@ -216,7 +210,7 @@ static thread_local бцел s_ignoreleaks;
 		return;
 	проверьПам();
 	Стопор::Замок __(sHeapLock2);
-	DbgBlkHeader *p = dbg_live.next;
+	DbgЗагБлока *p = dbg_live.next;
 	while(p != &dbg_live) {
 		if((бцел)подбери32лэ((ббайт *)(p + 1) + p->size) != p->serial)
 			DbgHeapPanic("ПРОВЕРКА КУЧИ: Куча повреждена ", p);
@@ -240,7 +234,7 @@ static thread_local бцел s_ignoreleaks;
 		паника("Ignore leaks старт/стоп mismatch!");
 #endif
 	MemoryCheckDebug();
-	DbgBlkHeader *p = dbg_live.next;
+	DbgЗагБлока *p = dbg_live.next;
 	бул leaks = false;
 	цел n = 0;
 	while(p != &dbg_live) {
@@ -249,7 +243,7 @@ static thread_local бцел s_ignoreleaks;
 			if(!leaks)
 				VppLog() << "\n\nHeap leaks detected:\n";
 			leaks = true;
-			char b[100];
+			сим b[100];
 			DbgFormat(b, p);
 			VppLog() << '\n' << b << ": ";
 			гексДамп(VppLog(), p + 1, (цел)(uintptr_t)p->size, 64);
@@ -290,20 +284,18 @@ static thread_local бцел s_ignoreleaks;
 #endif
 
 
-}
-
 #if (defined(TESTLEAKS) || defined(HEAPDBG)) && defined(COMPILER_GCC) && defined(КУЧА_РНЦП)
 
 MemDiagCls::MemDiagCls()
 {
 	if(сНачСчётДиагПам++ == 0)
-		РНЦП::диагнозИницПам();
+		диагнозИницПам();
 }
 
 MemDiagCls::~MemDiagCls()
 {
 	if(--сНачСчётДиагПам == 0)
-		РНЦП::MemoryDumpLeaks();
+		MemoryDumpLeaks();
 }
 
 static const MemDiagCls sMemDiagHelper __attribute__ ((init_priority (101)));

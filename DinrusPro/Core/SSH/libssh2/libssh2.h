@@ -120,8 +120,8 @@ extern "C" {
 
 #if (defined(NETWARE) && !defined(__NOVELL_LIBC__))
 # include <sys/bsdskt.h>
-typedef unsigned char uint8_t;
-typedef unsigned short цел uint16_t;
+typedef ббайт uint8_t;
+typedef бкрат цел uint16_t;
 typedef бцел uint32_t;
 typedef цел int32_t;
 typedef unsigned long long uint64_t;
@@ -129,8 +129,8 @@ typedef long long int64_t;
 #endif
 
 #ifdef _MSC_VER
-typedef unsigned char uint8_t;
-typedef unsigned short цел uint16_t;
+typedef ббайт uint8_t;
+typedef бкрат цел uint16_t;
 typedef бцел uint32_t;
 typedef __int32 int32_t;
 typedef __int64 int64_t;
@@ -253,7 +253,7 @@ typedef off_t libssh2_struct_stat_size;
 #define LIBSSH2_SOCKET_POLL_MAXLOOPS    120
 
 /* Maximum size to allow a payload to compress to, plays it safe by falling
-   short of spec limits */
+   крат of spec limits */
 #define LIBSSH2_PACKET_MAXCOMP      32000
 
 /* Maximum size to allow a payload to deccompress to, plays it safe by
@@ -272,21 +272,21 @@ typedef off_t libssh2_struct_stat_size;
 
 typedef struct _LIBSSH2_USERAUTH_KBDINT_PROMPT
 {
-    char *text;
+    сим *text;
     бцел length;
-    unsigned char echo;
+    ббайт echo;
 } LIBSSH2_USERAUTH_KBDINT_PROMPT;
 
 typedef struct _LIBSSH2_USERAUTH_KBDINT_RESPONSE
 {
-    char *text;
+    сим *text;
     бцел length;
 } LIBSSH2_USERAUTH_KBDINT_RESPONSE;
 
 /* 'publickey' authentication обрвыз */
 #define LIBSSH2_USERAUTH_PUBLICKEY_SIGN_FUNC(имя) \
-  цел имя(LIBSSH2_SESSION *session, unsigned char **sig, т_мера *sig_len, \
-           const unsigned char *данные, т_мера data_len, проц **abstract)
+  цел имя(LIBSSH2_SESSION *session, ббайт **sig, т_мера *sig_len, \
+           const ббайт *данные, т_мера data_len, проц **abstract)
 
 /* 'keyboard-interactive' authentication обрвыз */
 #define LIBSSH2_USERAUTH_KBDINT_RESPONSE_FUNC(name_) \
@@ -311,7 +311,7 @@ typedef struct _LIBSSH2_USERAUTH_KBDINT_RESPONSE
            проц **abstract)
 
 #define LIBSSH2_PASSWD_CHANGEREQ_FUNC(имя) \
- проц имя(LIBSSH2_SESSION *session, char **newpw, цел *newpw_len, \
+ проц имя(LIBSSH2_SESSION *session, сим **newpw, цел *newpw_len, \
            проц **abstract)
 
 #define LIBSSH2_MACERROR_FUNC(имя) \
@@ -333,7 +333,7 @@ typedef struct _LIBSSH2_USERAUTH_KBDINT_RESPONSE
                  цел flags, проц **abstract)
 #define LIBSSH2_SEND_FUNC(имя)                                         \
     ssize_t имя(libssh2_socket_t socket,                               \
-                 const ук буфер, т_мера length,                     \
+                 кук буфер, т_мера length,                     \
                  цел flags, проц **abstract)
 
 /* libssh2_session_обрвыз_set() constants */
@@ -368,7 +368,7 @@ typedef struct _LIBSSH2_KNOWNHOSTS                  LIBSSH2_KNOWNHOSTS;
 typedef struct _LIBSSH2_AGENT                       LIBSSH2_AGENT;
 
 typedef struct _LIBSSH2_POLLFD {
-    unsigned char тип; /* LIBSSH2_POLLFD_* below */
+    ббайт тип; /* LIBSSH2_POLLFD_* below */
 
     union {
         libssh2_socket_t socket; /* Файл descriptors -- examined with
@@ -411,7 +411,7 @@ typedef struct _LIBSSH2_POLLFD {
 #define LIBSSH2_POLLFD_LISTENER_CLOSED  0x0080 /* Listener Disconnect */
 
 #define HAVE_LIBSSH2_SESSION_BLOCK_DIRECTION
-/* Block направление Types */
+/* Блок направление Types */
 #define LIBSSH2_SESSION_BLOCK_INBOUND                  0x0001
 #define LIBSSH2_SESSION_BLOCK_OUTBOUND                 0x0002
 
@@ -554,7 +554,7 @@ LIBSSH2_API проц libssh2_free(LIBSSH2_SESSION *session, ук укз);
  */
 LIBSSH2_API цел libssh2_session_supported_algs(LIBSSH2_SESSION* session,
                                                цел method_type,
-                                               const char ***algs);
+                                               кткст0 **algs);
 
 /* Session API */
 LIBSSH2_API LIBSSH2_SESSION *
@@ -597,7 +597,7 @@ LIBSSH2_API цел libssh2_session_method_pref(LIBSSH2_SESSION *session,
 LIBSSH2_API кткст0 libssh2_session_methods(LIBSSH2_SESSION *session,
                                                 цел method_type);
 LIBSSH2_API цел libssh2_session_last_error(LIBSSH2_SESSION *session,
-                                           char **errmsg,
+                                           сим **errmsg,
                                            цел *errmsg_len, цел want_buf);
 LIBSSH2_API цел libssh2_session_last_errno(LIBSSH2_SESSION *session);
 LIBSSH2_API цел libssh2_session_set_last_error(LIBSSH2_SESSION* session,
@@ -610,7 +610,7 @@ LIBSSH2_API цел libssh2_session_flag(LIBSSH2_SESSION *session, цел flag,
 LIBSSH2_API кткст0 libssh2_session_banner_get(LIBSSH2_SESSION *session);
 
 /* Userauth API */
-LIBSSH2_API char *libssh2_userauth_list(LIBSSH2_SESSION *session,
+LIBSSH2_API сим *libssh2_userauth_list(LIBSSH2_SESSION *session,
                                         кткст0 username,
                                         бцел username_len);
 LIBSSH2_API цел libssh2_userauth_authenticated(LIBSSH2_SESSION *session);
@@ -647,7 +647,7 @@ libssh2_userauth_publickey_fromfile_ex(LIBSSH2_SESSION *session,
 LIBSSH2_API цел
 libssh2_userauth_publickey(LIBSSH2_SESSION *session,
                            кткст0 username,
-                           const unsigned char *pubkeydata,
+                           const ббайт *pubkeydata,
                            т_мера pubkeydata_len,
                            LIBSSH2_USERAUTH_PUBLICKEY_SIGN_FUNC
                            ((*sign_обрвыз)),
@@ -813,7 +813,7 @@ LIBSSH2_API цел libssh2_channel_process_startup(LIBSSH2_CHANNEL *channel,
                                   (бцел)strlen(subsystem))
 
 LIBSSH2_API ssize_t libssh2_channel_read_ex(LIBSSH2_CHANNEL *channel,
-                                            цел stream_id, char *buf,
+                                            цел stream_id, сим *buf,
                                             т_мера buflen);
 #define libssh2_channel_read(channel, buf, buflen) \
   libssh2_channel_read_ex((channel), 0, (buf), (buflen))
@@ -834,12 +834,12 @@ libssh2_channel_window_read_ex(LIBSSH2_CHANNEL *channel,
 LIBSSH2_API unsigned long
 libssh2_channel_receive_window_adjust(LIBSSH2_CHANNEL *channel,
                                       unsigned long adjustment,
-                                      unsigned char force);
+                                      ббайт force);
 
 LIBSSH2_API цел
 libssh2_channel_receive_window_adjust2(LIBSSH2_CHANNEL *channel,
                                        unsigned long adjustment,
-                                       unsigned char force,
+                                       ббайт force,
                                        бцел *storewindow);
 
 LIBSSH2_API ssize_t libssh2_channel_write_ex(LIBSSH2_CHANNEL *channel,
@@ -899,11 +899,11 @@ LIBSSH2_API цел libssh2_channel_flush_ex(LIBSSH2_CHANNEL *channel,
 
 LIBSSH2_API цел libssh2_channel_get_exit_status(LIBSSH2_CHANNEL* channel);
 LIBSSH2_API цел libssh2_channel_get_exit_signal(LIBSSH2_CHANNEL* channel,
-                                                char **exitsignal,
+                                                сим **exitsignal,
                                                 т_мера *exitsignal_len,
-                                                char **errmsg,
+                                                сим **errmsg,
                                                 т_мера *errmsg_len,
-                                                char **langtag,
+                                                сим **langtag,
                                                 т_мера *langtag_len);
 LIBSSH2_API цел libssh2_channel_send_eof(LIBSSH2_CHANNEL *channel);
 LIBSSH2_API цел libssh2_channel_eof(LIBSSH2_CHANNEL *channel);
@@ -931,7 +931,7 @@ libssh2_scp_send64(LIBSSH2_SESSION *session, кткст0 path, цел mode,
 #define libssh2_scp_send(session, path, mode, size) \
   libssh2_scp_send_ex((session), (path), (mode), (size), 0, 0)
 
-LIBSSH2_API цел libssh2_base64_decode(LIBSSH2_SESSION *session, char **dest,
+LIBSSH2_API цел libssh2_base64_decode(LIBSSH2_SESSION *session, сим **приёмник,
                                       бцел *dest_len,
                                       кткст0 ист, бцел src_len);
 
@@ -944,8 +944,8 @@ LIBSSH2_API
 struct libssh2_knownhost {
     бцел magic;  /* magic stored by the library */
     ук node; /* handle to the internal representation of this host */
-    char *имя; /* this is NULL if no plain text host имя exists */
-    char *ключ;  /* ключ in base64/printable формат */
+    сим *имя; /* this is NULL if no plain text host имя exists */
+    сим *ключ;  /* ключ in base64/printable формат */
     цел typemask;
 };
 
@@ -966,7 +966,7 @@ libssh2_knownhost_init(LIBSSH2_SESSION *session);
  * The 'тип' argument specifies on what формат the given host and keys are:
  *
  * plain  - ascii "hostname.domain.tld"
- * sha1   - SHA1(<salt> <host>) base64-encoded!
+ * sha1   - ша1(<salt> <host>) base64-encoded!
  * custom - another hash
  *
  * If 'sha1' is selected as тип, the salt must be provided to the salt
@@ -1023,7 +1023,7 @@ libssh2_knownhost_add(LIBSSH2_KNOWNHOSTS *hosts,
  * The 'тип' argument specifies on what формат the given host and keys are:
  *
  * plain  - ascii "hostname.domain.tld"
- * sha1   - SHA1(<salt> <host>) base64-encoded!
+ * sha1   - ша1(<salt> <host>) base64-encoded!
  * custom - another hash
  *
  * If 'sha1' is selected as тип, the salt must be provided to the salt
@@ -1148,7 +1148,7 @@ libssh2_knownhost_readfile(LIBSSH2_KNOWNHOSTS *hosts,
 LIBSSH2_API цел
 libssh2_knownhost_writeline(LIBSSH2_KNOWNHOSTS *hosts,
                             struct libssh2_knownhost *known,
-                            char *буфер, т_мера buflen,
+                            сим *буфер, т_мера buflen,
                             т_мера *outlen, /* the amount of written данные */
                             цел тип);
 
@@ -1187,9 +1187,9 @@ libssh2_knownhost_get(LIBSSH2_KNOWNHOSTS *hosts,
 struct libssh2_agent_publickey {
     бцел magic;              /* magic stored by the library */
     ук node;     /* handle to the internal representation of ключ */
-    unsigned char *blob;           /* public ключ blob */
+    ббайт *blob;           /* public ключ blob */
     т_мера blob_len;               /* length of the public ключ blob */
-    char *comment;                 /* comment in printable формат */
+    сим *comment;                 /* comment in printable формат */
 };
 
 /*
@@ -1333,7 +1333,7 @@ LIBSSH2_API цел libssh2_trace(LIBSSH2_SESSION *session, цел bitmask);
 
 typedef проц (*libssh2_trace_handler_func)(LIBSSH2_SESSION*,
                                            проц *,
-                                           const char *,
+                                           кткст0 ,
                                            т_мера);
 LIBSSH2_API цел libssh2_trace_sethandler(LIBSSH2_SESSION *session,
                                          ук context,

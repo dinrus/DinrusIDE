@@ -1,9 +1,7 @@
-#include <DinrusPro/DinrusPro.h>
+#include <DinrusPro/DinrusCore.h>
 
 #define LTIMING(x) // RTIMING(x)
 #define LHITCOUNT(x) // RHITCOUNT(x)
-
-namespace ДинрусРНЦП {
 
 static_assert(sizeof(бдол) == sizeof(дво), "несовпадение размера");
 static_assert(std::numeric_limits<дво>::is_iec559, "поддерживается только IEEE754 FP");
@@ -26,7 +24,7 @@ sF128 ipow10table[] = {
 	#include "ipow10.i"
 };
 
-force_inline
+форс_инлайн
 дво sF128::делайДво() const
 {
 	бдол u;
@@ -60,7 +58,7 @@ force_inline
 }
 
 #ifndef _ОТЛАДКА
-force_inline
+форс_инлайн
 #endif
 проц sF128::устДво(дво d)
 {
@@ -79,7 +77,7 @@ force_inline
 	l = 0;
 }
 
-force_inline
+форс_инлайн
 проц sF128::умножьСтепень10(цел powi)
 {
 	LTIMING("умножьСтепень10");
@@ -96,7 +94,7 @@ force_inline
 	}
 }
 
-force_inline
+форс_инлайн
 проц sF128::устБцел64(бдол digits)
 {
 	l = 0;
@@ -111,7 +109,7 @@ force_inline
 	}
 }
 
-force_inline
+форс_инлайн
 бдол sF128::дайБцел64() const
 {
 	LTIMING("дайБцел64");
@@ -131,7 +129,7 @@ force_inline
 	return v;
 }
 
-static const char s100[] =
+static const сим s100[] =
     "00010203040506070809"
     "10111213141516171819"
     "20212223242526272829"
@@ -144,7 +142,7 @@ static const char s100[] =
     "90919293949596979899"
 ;
 
-цел фмтДвоЦифры(const sF128& w, char *digits, цел precision)
+цел фмтДвоЦифры(const sF128& w, сим *digits, цел precision)
 { // produces exactly precision valid numbers of result, returns its E
 	ПРОВЕРЬ(precision > 0 && precision < 19);
 	
@@ -167,7 +165,7 @@ static const char s100[] =
 		}
 	};
 
-	auto D1 = [&](бцел u) { *digits++ = char(u + '0'); };
+	auto D1 = [&](бцел u) { *digits++ = сим(u + '0'); };
 	auto D2 = [&](бцел u) { memcpy(digits, s100 + 2 * u, 2); digits += 2; };
 
 	auto D3 = [&](бцел u) { цел q = (5243 * u) >> 19; D1(q); D2(u - 100 * q); }; // bit faster than / % here
@@ -204,16 +202,16 @@ static const char s100[] =
 	return -e10;
 }
 
-force_inline
-цел фмтДвоЦифры(дво x, char *digits, цел precision)
+форс_инлайн
+цел фмтДвоЦифры(дво x, сим *digits, цел precision)
 {
 	sF128 w;
 	w.устДво(x);
 	return фмтДвоЦифры(w, digits, precision);
 }
 
-force_inline
-проц фмтЭ10(char *&t, цел exp, бцел flags = FD_SIGN_EXP)
+форс_инлайн
+проц фмтЭ10(сим *&t, цел exp, бцел flags = FD_SIGN_EXP)
 {
 	LTIMING("фмтЭ");
 	*t++ = flags & FD_CAP_E ? 'E' :  'e';
@@ -236,22 +234,22 @@ force_inline
 	}
 }
 
-force_inline
-проц tCat(char *&t, цел ch, цел count)
+форс_инлайн
+проц tCat(сим *&t, цел ch, цел count)
 {
 	memset(t, ch, count);
 	t += count;
 }
 
-force_inline
-проц tCat(char *&t, кткст0 s, цел count)
+форс_инлайн
+проц tCat(сим *&t, кткст0 s, цел count)
 {
 	memcpy(t, s, count);
 	t += count;
 }
 
-force_inline
-бул do_sgn_inf_nan(char *&t, дво x, бцел flags)
+форс_инлайн
+бул do_sgn_inf_nan(сим *&t, дво x, бцел flags)
 {
 	LTIMING("do_sgn_inf_nan");
 	if(std::isinf(x)) {
@@ -283,13 +281,13 @@ force_inline
 	return false;
 }
 
-force_inline
-проц do_point(char *&t, бцел flags)
+форс_инлайн
+проц do_point(сим *&t, бцел flags)
 {
 	*t++ = flags & FD_COMMA ? ',' : '.';
 }
 
-char *фмтЭ(char *t, дво x, цел precision, бцел flags)
+сим *фмтЭ(сим *t, дво x, цел precision, бцел flags)
 {
 	if(do_sgn_inf_nan(t, x, flags))
 		return t;
@@ -302,7 +300,7 @@ char *фмтЭ(char *t, дво x, цел precision, бцел flags)
 		tCat(t, "e+00", 4);
 	}
 	else {
-		char digits[32];
+		сим digits[32];
 		precision++;
 		цел ndigits = clamp(precision, 1, 18);
 		цел exp = фмтДвоЦифры(x, digits, ndigits) + 1;
@@ -319,13 +317,13 @@ char *фмтЭ(char *t, дво x, цел precision, бцел flags)
 
 Ткст фмтЭ(дво x, цел precision, бцел flags)
 {
-	char h[512];
+	сим h[512];
 	ПРОВЕРЬ(precision < 300);
 	return Ткст(h, фмтЭ(h, x, precision, flags));
 }
 
-force_inline
-char *фмтДво_(char *t, дво x, цел precision, бцел flags)
+форс_инлайн
+сим *фмтДво_(сим *t, дво x, цел precision, бцел flags)
 {
 	if(flags & FD_FIX)
 		return фмтФ(t, x, precision, flags);
@@ -337,7 +335,7 @@ char *фмтДво_(char *t, дво x, цел precision, бцел flags)
 		*t++ = '0';
 		return t;
 	}
-	char digits[32];
+	сим digits[32];
 	precision = clamp(precision, 1, 18);
 	цел exp = фмтДвоЦифры(x, digits, precision);
 	цел decimal_point = exp + precision;
@@ -380,53 +378,53 @@ char *фмтДво_(char *t, дво x, цел precision, бцел flags)
 	return t;
 }
 
-char *фмтДво(char *t, дво x, цел precision, бцел flags)
+сим *фмтДво(сим *t, дво x, цел precision, бцел flags)
 {
 	return фмтДво_(t, x, precision, flags);
 }
 
 Ткст фмтДво(дво x, цел precision, бцел flags)
 {
-	char h[512];
+	сим h[512];
 	ПРОВЕРЬ(precision < 300);
 	return Ткст(h, фмтДво_(h, x, precision, flags));
 }
 
-char *фмтДво(char *t, дво x)
+сим *фмтДво(сим *t, дво x)
 {
 	return фмтДво_(t, x, 15, FD_TOLERANCE(6)|FD_MINIMAL_EXP|FD_SPECIAL);
 }
 
 Ткст фмтДво(дво x)
 {
-	char h[512];
+	сим h[512];
 	return Ткст(h, фмтДво(h, x));
 }
 
 Ткст фмтДвоЧ(дво x)
 {
-	char h[512];
+	сим h[512];
 	return Ткст(h, фмтДво_(h, x, 15, FD_TOLERANCE(6)|FD_MINIMAL_EXP));
 }
 
-char *фмтГ(char *t, дво x, цел precision, бцел flags)
+сим *фмтГ(сим *t, дво x, цел precision, бцел flags)
 {
 	return фмтДво_(t, x, precision, flags);
 }
 
 Ткст фмтГ(дво x, цел precision, бцел flags)
 {
-	char h[512];
+	сим h[512];
 	ПРОВЕРЬ(precision < 300);
 	return Ткст(h, фмтГ(h, x, precision, flags));
 }
 
-char *фмтФ(char *t, дво x, цел precision, бцел flags)
+сим *фмтФ(сим *t, дво x, цел precision, бцел flags)
 {
 	if(do_sgn_inf_nan(t, x, flags))
 		return t;
 	бул haspoint = false;
-	char *b = t;
+	сим *b = t;
 	if(!x) {
 		*t++ = '0';
 		if(precision) {
@@ -447,7 +445,7 @@ char *фмтФ(char *t, дво x, цел precision, бцел flags)
 		sF128 v = w;
 		v.умножьСтепень10(precision);
 		u = v.дайБцел64();
-		char digits[32];
+		сим digits[32];
 		if(u < 1000000000000000000) { // integer part is less than 18 digits
 			цел n = utoa64(u, digits);
 			if(precision >= n) {
@@ -504,7 +502,7 @@ char *фмтФ(char *t, дво x, цел precision, бцел flags)
 
 Ткст фмтФ(дво x, цел precision, бцел flags)
 {
-	char h[512];
+	сим h[512];
 	ПРОВЕРЬ(precision < 300);
 	return Ткст(h, фмтФ(h, x, precision, flags));
 }
@@ -600,7 +598,7 @@ const CHAR *сканДво(дво& result, const CHAR *s, цел alt_dp)
 
 кткст0 сканДво(дво& result, кткст0 s, цел alt_dp)
 {
-	return сканДво<char, ббайт>(result, s, alt_dp);
+	return сканДво<сим, ббайт>(result, s, alt_dp);
 }
 
 const шим *сканДво(дво& result, const шим *s, цел alt_dp)
@@ -608,10 +606,10 @@ const шим *сканДво(дво& result, const шим *s, цел alt_dp)
 	return сканДво<шим, бцел>(result, s, alt_dp);
 }
 
-дво сканДво(кткст0 укз, const char **endptr, бул accept_comma)
+дво сканДво(кткст0 укз, кткст0 *endptr, бул accept_comma)
 {
 	дво n;
-	укз = сканДво<char, ббайт>(n, укз, accept_comma ? ',' : '.');
+	укз = сканДво<сим, ббайт>(n, укз, accept_comma ? ',' : '.');
 	if(укз && endptr)
 		*endptr = укз;
 	return укз ? n : Null;
@@ -626,10 +624,10 @@ const шим *сканДво(дво& result, const шим *s, цел alt_dp)
 	return укз ? n : Null;
 }
 
-дво сканДво(кткст0 укз, const char **endptr)
+дво сканДво(кткст0 укз, кткст0 *endptr)
 {
 	дво n;
-	укз = сканДво<char, ббайт>(n, укз, ',');
+	укз = сканДво<сим, ббайт>(n, укз, ',');
 	if(укз && endptr)
 		*endptr = укз;
 	return укз ? n : Null;
@@ -647,7 +645,7 @@ const шим *сканДво(дво& result, const шим *s, цел alt_dp)
 дво сканДво(кткст0 укз)
 {
 	дво n;
-	укз = сканДво<char, ббайт>(n, укз, ',');
+	укз = сканДво<сим, ббайт>(n, укз, ',');
 	return укз ? n : Null;
 }
 
@@ -660,14 +658,14 @@ const шим *сканДво(дво& result, const шим *s, цел alt_dp)
 дво Atof(кткст0 s)
 {
 	дво n;
-	return сканДво<char, ббайт>(n, s, '.') ? n : 0;
+	return сканДво<сим, ббайт>(n, s, '.') ? n : 0;
 }
 
 дво СиПарсер::читайДво()
 {
 	LTIMING("читайДво");
 	дво n;
-	кткст0 t = сканДво<char, ббайт>(n, term, '.');
+	кткст0 t = сканДво<сим, ббайт>(n, term, '.');
 	if(!t) выведиОш("отсутствует число");
 	if(!конечен(n))
 		выведиОш("неверное число");
@@ -676,4 +674,3 @@ const шим *сканДво(дво& result, const шим *s, цел alt_dp)
 	return n;
 }
 
-};

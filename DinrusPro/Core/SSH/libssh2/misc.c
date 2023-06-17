@@ -66,14 +66,14 @@
                          кткст0 errmsg, цел errflags)
 {
     if(session->err_flags & LIBSSH2_ERR_FLAG_DUP)
-        LIBSSH2_FREE(session, (char *)session->err_msg);
+        LIBSSH2_FREE(session, (сим *)session->err_msg);
 
     session->err_code = errcode;
     session->err_flags = 0;
 
     if((errmsg != NULL) && ((errflags & LIBSSH2_ERR_FLAG_DUP) != 0)) {
         т_мера len = strlen(errmsg);
-        char *copy = LIBSSH2_ALLOC(session, len + 1);
+        сим *copy = LIBSSH2_ALLOC(session, len + 1);
         if(copy) {
             memcpy(copy, errmsg, len + 1);
             session->err_flags = LIBSSH2_ERR_FLAG_DUP;
@@ -163,7 +163,7 @@ _libssh2_recv(libssh2_socket_t sock, ук буфер, т_мера length,
  * Replacement for the standard send, return -errno on failure.
  */
 ssize_t
-_libssh2_send(libssh2_socket_t sock, const ук буфер, т_мера length,
+_libssh2_send(libssh2_socket_t sock, кук буфер, т_мера length,
               цел flags, проц **abstract)
 {
     ssize_t rc;
@@ -189,7 +189,7 @@ _libssh2_send(libssh2_socket_t sock, const ук буфер, т_мера length,
 /* libssh2_ntohu32
  */
 бцел
-_libssh2_ntohu32(const unsigned char *buf)
+_libssh2_ntohu32(const ббайт *buf)
 {
     return (((бцел)buf[0] << 24)
            | ((бцел)buf[1] << 16)
@@ -201,7 +201,7 @@ _libssh2_ntohu32(const unsigned char *buf)
 /* _libssh2_ntohu64
  */
 libssh2_uint64_t
-_libssh2_ntohu64(const unsigned char *buf)
+_libssh2_ntohu64(const ббайт *buf)
 {
     unsigned long msl, lsl;
 
@@ -216,7 +216,7 @@ _libssh2_ntohu64(const unsigned char *buf)
 /* _libssh2_htonu32
  */
 проц
-_libssh2_htonu32(unsigned char *buf, uint32_t значение)
+_libssh2_htonu32(ббайт *buf, uint32_t значение)
 {
     buf[0] = (значение >> 24) & 0xFF;
     buf[1] = (значение >> 16) & 0xFF;
@@ -226,7 +226,7 @@ _libssh2_htonu32(unsigned char *buf, uint32_t значение)
 
 /* _libssh2_store_u32
  */
-проц _libssh2_store_u32(unsigned char **buf, uint32_t значение)
+проц _libssh2_store_u32(ббайт **buf, uint32_t значение)
 {
     _libssh2_htonu32(*buf, значение);
     *buf += sizeof(uint32_t);
@@ -234,7 +234,7 @@ _libssh2_htonu32(unsigned char *buf, uint32_t значение)
 
 /* _libssh2_store_str
  */
-проц _libssh2_store_str(unsigned char **buf, кткст0 str, т_мера len)
+проц _libssh2_store_str(ббайт **buf, кткст0 str, т_мера len)
 {
     _libssh2_store_u32(buf, (uint32_t)len);
     if(len) {
@@ -245,7 +245,7 @@ _libssh2_htonu32(unsigned char *buf, uint32_t значение)
 
 /* Base64 Conversion */
 
-static const short base64_reverse_table[256] = {
+static const крат base64_reverse_table[256] = {
     -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
     -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
     -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 62, -1, -1, -1, 63,
@@ -269,36 +269,36 @@ static const short base64_reverse_table[256] = {
  * Decode a base64 chunk and store it into a newly alloc'd буфер
  */
 LIBSSH2_API цел
-libssh2_base64_decode(LIBSSH2_SESSION *session, char **data,
+libssh2_base64_decode(LIBSSH2_SESSION *session, сим **data,
                       бцел *datalen, кткст0 src,
                       бцел src_len)
 {
-    unsigned char *s, *d;
-    short v;
+    ббайт *s, *d;
+    крат v;
     цел i = 0, len = 0;
 
     *data = LIBSSH2_ALLOC(session, (3 * src_len / 4) + 1);
-    d = (unsigned char *) *data;
+    d = (ббайт *) *data;
     if(!d) {
         return _libssh2_error(session, LIBSSH2_ERROR_ALLOC,
                               "Unable to allocate memory for base64 decoding");
     }
 
-    for(s = (unsigned char *) src; ((char *) s) < (src + src_len); s++) {
+    for(s = (ббайт *) src; ((сим *) s) < (src + src_len); s++) {
         v = base64_reverse_table[*s];
         if(v < 0)
             continue;
         switch(i % 4) {
         case 0:
-            d[len] = (unsigned char)(v << 2);
+            d[len] = (ббайт)(v << 2);
             break;
         case 1:
             d[len++] |= v >> 4;
-            d[len] = (unsigned char)(v << 4);
+            d[len] = (ббайт)(v << 4);
             break;
         case 2:
             d[len++] |= v >> 2;
-            d[len] = (unsigned char)(v << 6);
+            d[len] = (ббайт)(v << 6);
             break;
         case 3:
             d[len++] |= v;
@@ -319,7 +319,7 @@ libssh2_base64_decode(LIBSSH2_SESSION *session, char **data,
 }
 
 /* ---- Base64 Encoding/Decoding Table --- */
-static const char table64[]=
+static const сим table64[]=
   "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
 /*
@@ -331,14 +331,14 @@ static const char table64[]=
  *
  */
 т_мера _libssh2_base64_encode(LIBSSH2_SESSION *session,
-                              кткст0 inp, т_мера insize, char **outptr)
+                              кткст0 inp, т_мера insize, сим **outptr)
 {
-    unsigned char ibuf[3];
-    unsigned char obuf[4];
+    ббайт ibuf[3];
+    ббайт obuf[4];
     цел i;
     цел inputparts;
-    char *output;
-    char *base64data;
+    сим *output;
+    сим *base64data;
     кткст0 indata = inp;
 
     *outptr = NULL; /* set to NULL in case of failure before we reach the
@@ -363,12 +363,12 @@ static const char table64[]=
                 ibuf[i] = 0;
         }
 
-        obuf[0] = (unsigned char)  ((ibuf[0] & 0xFC) >> 2);
-        obuf[1] = (unsigned char) (((ibuf[0] & 0x03) << 4) | \
+        obuf[0] = (ббайт)  ((ibuf[0] & 0xFC) >> 2);
+        obuf[1] = (ббайт) (((ibuf[0] & 0x03) << 4) | \
                                    ((ibuf[1] & 0xF0) >> 4));
-        obuf[2] = (unsigned char) (((ibuf[1] & 0x0F) << 2) | \
+        obuf[2] = (ббайт) (((ibuf[1] & 0x0F) << 2) | \
                                    ((ibuf[2] & 0xC0) >> 6));
-        obuf[3] = (unsigned char)   (ibuf[2] & 0x3F);
+        obuf[3] = (ббайт)   (ibuf[2] & 0x3F);
 
         switch(inputparts) {
         case 1: /* only one ббайт read */
@@ -427,7 +427,7 @@ libssh2_trace_sethandler(LIBSSH2_SESSION *session, ук handler_context,
 проц
 _libssh2_debug(LIBSSH2_SESSION * session, цел context, кткст0 формат, ...)
 {
-    char буфер[1536];
+    сим буфер[1536];
     цел len, msglen, buflen = sizeof(буфер);
     va_list vargs;
     struct timeval now;
@@ -658,9 +658,9 @@ libssh2_trace_sethandler(LIBSSH2_SESSION *session, ук handler_context,
 
 /* XOR operation on buffers input1 and input2, result in output.
    It is safe to use an input буфер as the output буфер. */
-проц _libssh2_xor_data(unsigned char *output,
-                       const unsigned char *input1,
-                       const unsigned char *input2,
+проц _libssh2_xor_data(ббайт *output,
+                       const ббайт *input1,
+                       const ббайт *input2,
                        т_мера length)
 {
     т_мера i;
@@ -671,10 +671,10 @@ libssh2_trace_sethandler(LIBSSH2_SESSION *session, ук handler_context,
 
 /* Increments an AES CTR буфер to prepare it for use with the
    next AES block. */
-проц _libssh2_aes_ctr_increment(unsigned char *ctr,
+проц _libssh2_aes_ctr_increment(ббайт *ctr,
                                 т_мера length)
 {
-    unsigned char *pc;
+    ббайт *pc;
     бцел знач, carry;
 
     pc = ctr + length - 1;
@@ -756,16 +756,16 @@ struct string_buf* _libssh2_string_buf_new(LIBSSH2_SESSION *session)
 
 цел _libssh2_match_string(struct string_buf *buf, кткст0 match)
 {
-    unsigned char *out;
+    ббайт *out;
     т_мера len = 0;
     if(_libssh2_get_string(buf, &out, &len) || len != strlen(match) ||
-        strncmp((char *)out, match, strlen(match)) != 0) {
+        strncmp((сим *)out, match, strlen(match)) != 0) {
         return -1;
     }
     return 0;
 }
 
-цел _libssh2_get_string(struct string_buf *buf, unsigned char **outbuf,
+цел _libssh2_get_string(struct string_buf *buf, ббайт **outbuf,
                         т_мера *outlen)
 {
     uint32_t data_len;
@@ -785,10 +785,10 @@ struct string_buf* _libssh2_string_buf_new(LIBSSH2_SESSION *session)
 }
 
 цел _libssh2_copy_string(LIBSSH2_SESSION *session, struct string_buf *buf,
-                         unsigned char **outbuf, т_мера *outlen)
+                         ббайт **outbuf, т_мера *outlen)
 {
     т_мера str_len;
-    unsigned char *str;
+    ббайт *str;
 
     if(_libssh2_get_string(buf, &str, &str_len)) {
         return -1;
@@ -808,12 +808,12 @@ struct string_buf* _libssh2_string_buf_new(LIBSSH2_SESSION *session)
     return 0;
 }
 
-цел _libssh2_get_bignum_bytes(struct string_buf *buf, unsigned char **outbuf,
+цел _libssh2_get_bignum_bytes(struct string_buf *buf, ббайт **outbuf,
                               т_мера *outlen)
 {
     uint32_t data_len;
     uint32_t bn_len;
-    unsigned char *bnptr;
+    ббайт *bnptr;
 
     if(_libssh2_get_u32(buf, &data_len)) {
         return -1;
@@ -846,7 +846,7 @@ struct string_buf* _libssh2_string_buf_new(LIBSSH2_SESSION *session)
 
 цел _libssh2_check_length(struct string_buf *buf, т_мера len)
 {
-    unsigned char *endp = &buf->data[buf->len];
+    ббайт *endp = &buf->data[buf->len];
     т_мера left = endp - buf->dataptr;
     return ((len <= left) && (left <= buf->len));
 }

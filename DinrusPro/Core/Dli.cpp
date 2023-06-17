@@ -1,4 +1,4 @@
-#include <DinrusPro/DinrusPro.h>
+#include <DinrusPro/DinrusCore.h>
 
 #ifdef PLATFORM_WIN32
 typedef HMODULE УКДЛЛ;
@@ -12,8 +12,6 @@ typedef проц   *УКДЛЛ;
 
 #include <winnt.h>
 
-namespace ДинрусРНЦП {
-
 class ПеФайл
 {
 public:
@@ -22,13 +20,13 @@ public:
 	бул                        открой(кткст0 данные);
 
 	цел                         дайСчётЭкспортов() const;
-	const char                 *дайЭкспорт(цел индекс) const;
-	const char                 *найдиРядЭкспорта(кткст0 имя, бул case_sensitive = true) const;
+	const сим                 *дайЭкспорт(цел индекс) const;
+	const сим                 *найдиРядЭкспорта(кткст0 имя, бул case_sensitive = true) const;
 
 	цел                         дайИндексСекции(кткст0 имя) const;
 
 private:
-	const char                 *данные;
+	const сим                 *данные;
 	const IMAGE_NT_HEADERS     *заголовки;
 	const IMAGE_SECTION_HEADER *секции;
 	const IMAGE_EXPORT_DIRECTORY *экспорты;
@@ -54,7 +52,7 @@ private:
 цел ПеФайл::дайИндексСекции(кткст0 имя) const
 {
 	for(цел i = 0, n = заголовки->FileHeader.NumberOfSections; i < n; i++)
-		if(!strcmp((const char *)секции[i].Name, имя))
+		if(!strcmp((кткст0 )секции[i].Name, имя))
 			return i;
 	return -1;
 }
@@ -101,17 +99,15 @@ static бул равнаяПам(кткст0 a, кткст0 b, цел len, бу�
 	return 0;
 }
 
-}
-
-HMODULE проверьДлл__(кткст0 фн, кткст0 const *names, РНЦП::Вектор<проц *>& plist)
+HMODULE проверьДлл__(кткст0 фн, кткст0 const *names, Вектор<проц *>& plist)
 {
 	HMODULE hmod = LoadLibrary(фн);
 
 	if(!hmod)
 		return 0;
 
-	РНЦП::ПеФайл pe;
-	if(!pe.открой((const char *)hmod)) {
+	ПеФайл pe;
+	if(!pe.открой((кткст0 )hmod)) {
 		FreeLibrary(hmod);
 		return 0;
 	}
@@ -152,14 +148,14 @@ HMODULE проверьДлл__(кткст0 фн, кткст0 const *names, РН�
 
 #include <dlfcn.h>
 
-ук проверьДлл__(кткст0 фн, кткст0 const *names, РНЦП::Вектор<проц *>& plist)
+ук проверьДлл__(кткст0 фн, кткст0 const *names, Вектор<проц *>& plist)
 {
 	ук hmod = dlopen(фн, RTLD_LAZY | RTLD_GLOBAL);
 	if(!hmod) {
 		RLOG("Ошибка при загрузки библиотеки " << фн << ": " << dlerror());
 /*
 		for(цел i = 0; i < 100; i++) {
-			hmod = dlopen(фн + ("." + РНЦП::какТкст(i)), RTLD_LAZY | RTLD_GLOBAL);
+			hmod = dlopen(фн + ("." + какТкст(i)), RTLD_LAZY | RTLD_GLOBAL);
 			if(hmod)
 				break;
 		}
@@ -199,7 +195,7 @@ HMODULE проверьДлл__(кткст0 фн, кткст0 const *names, РН�
 
 #endif//PLATFORM_POSIX
 
-УКДЛЛ грузиДлл__(РНЦП::Ткст& inoutfn, кткст0 const *names, ук const *procs)
+УКДЛЛ грузиДлл__(Ткст& inoutfn, кткст0 const *names, ук const *procs)
 {
 	кткст0 фн = inoutfn;
 	while(*фн) {
@@ -210,10 +206,10 @@ HMODULE проверьДлл__(кткст0 фн, кткст0 const *names, РН�
 #endif
 		)
 			фн++;
-		РНЦП::Ткст libname(b, фн);
+		Ткст libname(b, фн);
 		if(*фн)
 			фн++;
-		РНЦП::Вектор<проц *> plist;
+		Вектор<проц *> plist;
 		if(УКДЛЛ hmod = проверьДлл__(libname, names, plist)) {
 			for(цел i = 0; i < plist.дайСчёт(); i++)
 				*(проц **)*procs++ = plist[i];

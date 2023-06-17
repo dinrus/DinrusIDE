@@ -55,15 +55,15 @@ typedef struct _libssh2_publickey_attribute {
     unsigned long name_len;
     кткст0 значение;
     unsigned long value_len;
-    char mandatory;
+    сим mandatory;
 } libssh2_publickey_attribute;
 
 typedef struct _libssh2_publickey_list {
-    unsigned char *packet; /* For freeing */
+    ббайт *packet; /* For freeing */
 
-    const unsigned char *имя;
+    const ббайт *имя;
     unsigned long name_len;
-    const unsigned char *blob;
+    const ббайт *blob;
     unsigned long blob_len;
     unsigned long num_attrs;
     libssh2_publickey_attribute *attrs; /* free me */
@@ -86,10 +86,10 @@ libssh2_publickey_init(LIBSSH2_SESSION *session);
 
 LIBSSH2_API цел
 libssh2_publickey_add_ex(LIBSSH2_PUBLICKEY *pkey,
-                         const unsigned char *имя,
+                         const ббайт *имя,
                          unsigned long name_len,
-                         const unsigned char *blob,
-                         unsigned long blob_len, char overwrite,
+                         const ббайт *blob,
+                         unsigned long blob_len, сим overwrite,
                          unsigned long num_attrs,
                          const libssh2_publickey_attribute attrs[]);
 #define libssh2_publickey_add(pkey, имя, blob, blob_len, overwrite,    \
@@ -98,9 +98,9 @@ libssh2_publickey_add_ex(LIBSSH2_PUBLICKEY *pkey,
                            (overwrite), (num_attrs), (attrs))
 
 LIBSSH2_API цел libssh2_publickey_remove_ex(LIBSSH2_PUBLICKEY *pkey,
-                                            const unsigned char *имя,
+                                            const ббайт *имя,
                                             unsigned long name_len,
-                                            const unsigned char *blob,
+                                            const ббайт *blob,
                                             unsigned long blob_len);
 #define libssh2_publickey_remove(pkey, имя, blob, blob_len) \
   libssh2_publickey_remove_ex((pkey), (имя), strlen(имя), (blob), (blob_len))

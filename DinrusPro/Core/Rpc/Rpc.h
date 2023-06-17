@@ -4,8 +4,6 @@
 #ifndef Rpc_Rpc_h
 #define Rpc_Rpc_h
 
-namespace ДинрусРНЦП {
-
 enum {
 	RPC_SERVER_JSON_ERROR = -32700,    // Parse Ошибка
 	RPC_SERVER_JSON_REQUEST_ERROR = -32600, // Invalid Request
@@ -25,9 +23,9 @@ struct ValueTypeMismatch {};
 
 Ткст FormatIso8601(Время t);
 Время   ScanIso8601(const Ткст& p);
-Значение  JsonRpcData(const Значение& v);
+Значение  ДжейсонRpcData(const Значение& v);
 
-struct RawJsonText {
+struct RawДжейсонText {
 	Ткст json;
 };
 
@@ -123,7 +121,7 @@ template <class T>
 проц ValuePut(Значение& v, const Значение& t);
 проц ValuePut(Значение& v, const МассивЗнач& va);
 проц ValuePut(Значение& v, const МапЗнач& vm);
-проц ValuePut(Значение& v, const Json& json);
+проц ValuePut(Значение& v, const Джейсон& json);
 
 template <class T>
 Значение AsXmlRpcValue(const T& x)
@@ -331,7 +329,7 @@ public:
 	
 	RpcRequest& Url(кткст0 url);
 	
-	RpcRequest& JsonRpc()                                       { json = true; return *this; }
+	RpcRequest& ДжейсонRpc()                                       { json = true; return *this; }
 	RpcRequest& Notification()                                  { notification = true; return *this; }
 	RpcRequest& SupportsI8()                                    { supports_i8 = true; protocol_version = "2.1"; return *this; }
 	
@@ -344,18 +342,18 @@ struct XmlRpcRequest : RpcRequest {
 	XmlRpcRequest() {}
 };
 
-struct JsonRpcRequest : RpcRequest {
-	JsonRpcRequest(кткст0 url) : RpcRequest(url) { JsonRpc(); }
-	JsonRpcRequest() { JsonRpc(); }
+struct ДжейсонRpcRequest : RpcRequest {
+	ДжейсонRpcRequest(кткст0 url) : RpcRequest(url) { ДжейсонRpc(); }
+	ДжейсонRpcRequest() { ДжейсонRpc(); }
 };
 
-struct JsonRpcRequestNamed : RpcRequest {
+struct ДжейсонRpcRequestNamed : RpcRequest {
 	template <class T>
-	JsonRpcRequestNamed& operator()(кткст0 ид, const T& x)   { Named(ид, x); return *this; }
-	JsonRpcRequestNamed& operator()(кткст0 method)           { Method(method); return *this; }
+	ДжейсонRpcRequestNamed& operator()(кткст0 ид, const T& x)   { Named(ид, x); return *this; }
+	ДжейсонRpcRequestNamed& operator()(кткст0 method)           { Method(method); return *this; }
 	
-	JsonRpcRequestNamed(кткст0 url) : RpcRequest(url)        { JsonRpc(); }
-	JsonRpcRequestNamed()                                         { JsonRpc(); }
+	ДжейсонRpcRequestNamed(кткст0 url) : RpcRequest(url)        { ДжейсонRpc(); }
+	ДжейсонRpcRequestNamed()                                         { ДжейсонRpc(); }
 };
 
 проц LogRpcRequests(бул b = true);
@@ -367,7 +365,5 @@ struct JsonRpcRequestNamed : RpcRequest {
 проц SuppressRpcServerTraceForMethodCall();
 
 #include "legacy.h"
-
-}
 
 #endif

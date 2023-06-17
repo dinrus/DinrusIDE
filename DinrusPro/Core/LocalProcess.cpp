@@ -1,6 +1,4 @@
-#include <DinrusPro/DinrusPro.h>
-
-namespace ДинрусРНЦП {
+#include <DinrusPro/DinrusCore.h>
 
 #ifdef PLATFORM_POSIX
 //#BLITZ_APPROVE
@@ -176,8 +174,8 @@ static проц sNoBlock(цел fd)
 	return true;
 #endif
 #ifdef PLATFORM_POSIX
-	Буфер<char> cmd_buf;
-	Вектор<char *> арги;
+	Буфер<сим> cmd_buf;
+	Вектор<сим *> арги;
 
 	Ткст app;
 	if(арг) {
@@ -186,7 +184,7 @@ static проц sNoBlock(цел fd)
 		for(цел i = 0; i < арг->дайСчёт(); i++)
 			n += (*арг)[i].дайСчёт() + 1;
 		cmd_buf.размести(n + 1);
-		char *p = cmd_buf;
+		сим *p = cmd_buf;
 		арги.добавь(p);
 		цел l = strlen(command) + 1;
 		memcpy(p, command, l);
@@ -200,7 +198,7 @@ static проц sNoBlock(цел fd)
 	}
 	else { // parse command line for execve
 		cmd_buf.размести(strlen(command) + 1);
-		char *cmd_out = cmd_buf;
+		сим *cmd_out = cmd_buf;
 		кткст0 p = command;
 		while(*p)
 			if((ббайт)*p <= ' ')
@@ -241,7 +239,7 @@ static проц sNoBlock(цел fd)
 	if(пусто_ли(app_full))
 		return false;
 	
-	Буфер<char> arg0(app_full.дайСчёт() + 1);
+	Буфер<сим> arg0(app_full.дайСчёт() + 1);
 	memcpy(~arg0, ~app_full, app_full.дайСчёт() + 1);
 	арги[0] = ~arg0;
 
@@ -299,7 +297,7 @@ static проц sNoBlock(цел fd)
 				close(epipe[1]); epipe[1]=-1;
 			}
 			// we call exec instead of выход, because exit doesn't behave nicelly with threads
-			execl("/usr/bin/true", "[closing fork]", (char*)NULL);
+			execl("/usr/bin/true", "[closing fork]", (сим*)NULL);
 			// only call выход when execl fails
 			выход(0);
 		}
@@ -331,13 +329,13 @@ static проц sNoBlock(цел fd)
 	LLOG("running execve, app = " << app << ", #арги = " << арги.дайСчёт());
 	if(envptr) {
 		кткст0 from = envptr;
-		Вектор<const char *> env;
+		Вектор<кткст0 > env;
 		while(*from) {
 			env.добавь(from);
 			from += strlen(from) + 1;
 		}
 		env.добавь(NULL);
-		execve(app_full, арги.старт(), (char *const *)env.старт());
+		execve(app_full, арги.старт(), (сим *const *)env.старт());
 	}
 	else
 		execv(app_full, арги.старт());
@@ -377,7 +375,7 @@ SIGDEF(SIGIO) SIGDEF(SIGWINCH)
 		цел sig = (WIFSIGNALED(status) ? WTERMSIG(status) : WSTOPSIG(status));
 		exit_code = (WIFSIGNALED(status) ? 1000 : 2000) + sig;
 		exit_string << "\nProcess " << (WIFSIGNALED(status) ? "terminated" : "stopped") << " on signal " << sig;
-		for(цел i = 0; i < __countof(signal_map); i++)
+		for(цел i = 0; i < __количество(signal_map); i++)
 			if(signal_map[i].код_ == sig)
 			{
 				exit_string << " (" << signal_map[i].имя << ")";
@@ -489,7 +487,7 @@ SIGDEF(SIGIO) SIGDEF(SIGWINCH)
 #ifdef PLATFORM_WIN32
 	LLOG("ЛокальнПроцесс::читай");
 	бул was_running = пущен();
-	char буфер[1024];
+	сим буфер[1024];
 	бцел n;
 	if(hOutputRead && PeekNamedPipe(hOutputRead, NULL, 0, NULL, &n, NULL) && n &&
 	   ReadFile(hOutputRead, буфер, sizeof(буфер), &n, NULL) && n)
@@ -522,7 +520,7 @@ SIGDEF(SIGIO) SIGDEF(SIGWINCH)
 		цел sv;
 		if((sv = select(pipe[0]+1, set, NULL, NULL, &tval)) > 0) {
 			LLOG("читай() -> select");
-			char буфер[1024];
+			сим буфер[1024];
 			цел done = read(pipe[0], буфер, sizeof(буфер));
 			LLOG("читай(), read -> " << done);
 			if(done > 0)
@@ -635,7 +633,7 @@ SIGDEF(SIGIO) SIGDEF(SIGWINCH)
 	return дайКодВыхода();
 }
 
-цел Sys(кткст0 cmd, Ткст& out, бул convertcharset)
+цел сис(кткст0 cmd, Ткст& out, бул convertcharset)
 {
 	ЛокальнПроцесс p;
 	p.преобразуйНабСим(convertcharset);
@@ -644,13 +642,13 @@ SIGDEF(SIGIO) SIGDEF(SIGWINCH)
 	return p.финиш(out);
 }
 
-Ткст Sys(кткст0 cmd, бул convertcharset)
+Ткст сис(кткст0 cmd, бул convertcharset)
 {
 	Ткст r;
-	return Sys(cmd, r, convertcharset) ? Ткст::дайПроц() : r;
+	return сис(cmd, r, convertcharset) ? Ткст::дайПроц() : r;
 }
 
-цел Sys(кткст0 cmd, const Вектор<Ткст>& арг, Ткст& out, бул convertcharset)
+цел сис(кткст0 cmd, const Вектор<Ткст>& арг, Ткст& out, бул convertcharset)
 {
 	ЛокальнПроцесс p;
 	p.преобразуйНабСим(convertcharset);
@@ -659,10 +657,9 @@ SIGDEF(SIGIO) SIGDEF(SIGWINCH)
 	return p.финиш(out);
 }
 
-Ткст Sys(кткст0 cmd, const Вектор<Ткст>& арг, бул convertcharset)
+Ткст сис(кткст0 cmd, const Вектор<Ткст>& арг, бул convertcharset)
 {
 	Ткст r;
-	return Sys(cmd, арг, r, convertcharset) ? Ткст::дайПроц() : r;
+	return сис(cmd, арг, r, convertcharset) ? Ткст::дайПроц() : r;
 }
 
-}

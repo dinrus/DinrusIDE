@@ -1,10 +1,8 @@
-#include <DinrusPro/DinrusPro.h>
+#include <DinrusPro/DinrusCore.h>
 
 #ifdef PLATFORM_POSIX
 #include <sys/mman.h>
 #endif
-
-namespace ДинрусРНЦП {
 
 static цел sMappingGranularity_()
 {
@@ -226,6 +224,4 @@ static цел sMappingGranularity_()
 		НИКОГДА();
 		return Ткст::дайПроц();
 	}
-}
-
 }

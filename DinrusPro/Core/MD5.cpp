@@ -1,23 +1,21 @@
-#include <DinrusPro/DinrusPro.h>
+#include <DinrusPro/DinrusCore.h>
 
-namespace ДинрусРНЦП {
+#define MD5_CTX РНЦП_МД5_КОНТЕКСТ
 
-#define MD5_CTX РНЦП_MD5_CTX
-
-/* MD5C.C - RSA Данные Security, Inc., MD5 message-digest algorithm
+/* MD5C.C - RSA Данные Security, Inc., мд5 message-digest algorithm
 */
 
 /* Copyright (C) 1991-2, RSA Данные Security, Inc. Created 1991. All
 rights reserved.
 
 License to copy and use this software is granted provided that it
-is identified as the "RSA Данные Security, Inc. MD5 Message-Digest
+is identified as the "RSA Данные Security, Inc. мд5 Message-Digest
 Algorithm" in all material mentioning or referencing this software
 or this ФУНКЦИЯ.
 
 License is also granted to make and use derivative works provided
 that such works are identified as "derived from the RSA Данные
-Security, Inc. MD5 Message-Digest Algorithm" in all material
+Security, Inc. мд5 Message-Digest Algorithm" in all material
 mentioning or referencing the derived work.
 
 RSA Данные Security, Inc. makes no representations concerning either
@@ -49,19 +47,19 @@ documentation and/or software.
 #define S43 15
 #define S44 21
 
-static проц MD5Transform (бцел [4], const unsigned char [64]);
-static проц Encode (unsigned char *, const бцел *, бцел);
-static проц Decode (бцел *, const unsigned char *, бцел);
+static проц MD5Transform (бцел [4], const ббайт [64]);
+static проц Encode (ббайт *, const бцел *, бцел);
+static проц Decode (бцел *, const ббайт *, бцел);
 static проц MD5_memcpy (проц *, const проц *, бцел);
 static проц MD5_memset (проц *, цел, бцел);
 
-static unsigned char PADDING[64] = {
+static ббайт PADDING[64] = {
 	0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 };
 
-/* F, G, H and I are basic MD5 functions.
+/* F, G, H and I are basic мд5 functions.
 */
 #define F(x, y, z) (((x) & (y)) | ((~x) & (z)))
 #define G(x, y, z) (((x) & (z)) | ((y) & (~z)))
@@ -96,7 +94,7 @@ Rotation is separate from addition to prevent recomputation.
 		(a) += (b); \
 	}
 
-/* MD5 initialization. Begins an MD5 operation, writing a new context.
+/* мд5 initialization. Begins an мд5 operation, writing a new context.
 */
 проц MD5Иниt (MD5_CTX *context)
 {
@@ -109,13 +107,13 @@ Rotation is separate from addition to prevent recomputation.
 	context->state[3] = 0x10325476;
 }
 
-/* MD5 block update operation. Continues an MD5 message-digest
+/* мд5 block update operation. Continues an мд5 message-digest
 	operation, processing another message block, and updating the
 	context.
 */
-проц MD5Update (MD5_CTX *context, const unsigned char *input, бцел inputLen)
+проц MD5Update (MD5_CTX *context, const ббайт *input, бцел inputLen)
 //MD5_CTX *context;                                        /* context */
-//unsigned char *input;                                /* input block */
+//ббайт *input;                                /* input block */
 //бцел inputLen;                     /* length of input block */
 {
 	бцел i, индекс, partLen;
@@ -150,12 +148,12 @@ Rotation is separate from addition to prevent recomputation.
 	inputLen-i);
 }
 
-/* MD5 finalization. Ends an MD5 message-digest operation, writing the
+/* мд5 finalization. Ends an мд5 message-digest operation, writing the
 	the message digest and zeroizing the context.
 */
-проц MD5Final (unsigned char *digest, MD5_CTX *context)
+проц MD5Final (ббайт *digest, MD5_CTX *context)
 {
-	unsigned char bits[8];
+	ббайт bits[8];
 	бцел индекс, padLen;
 
 	/* сохрани number of bits */
@@ -178,9 +176,9 @@ Rotation is separate from addition to prevent recomputation.
 	MD5_memset ((проц *)context, 0, sizeof (*context));
 }
 
-/* MD5 basic transformation. Transforms state based on block.
+/* мд5 basic transformation. Transforms state based on block.
 */
-static проц MD5Transform (бцел state[4], const unsigned char block[64])
+static проц MD5Transform (бцел state[4], const ббайт block[64])
 {
 	бцел a = state[0], b = state[1], c = state[2], d = state[3], x[16];
 
@@ -270,25 +268,25 @@ static проц MD5Transform (бцел state[4], const unsigned char block[64])
 	MD5_memset ((проц *)x, 0, sizeof (x));
 }
 
-/* Encodes input (бцел) into output (unsigned char). Assumes len is
+/* Encodes input (бцел) into output (ббайт). Assumes len is
 	a multiple of 4.
 */
-static проц Encode (unsigned char *output, const бцел *input, бцел len)
+static проц Encode (ббайт *output, const бцел *input, бцел len)
 {
 	бцел i, j;
 
 	for (i = 0, j = 0; j < len; i++, j += 4) {
-		output[j] = (unsigned char)(input[i] & 0xff);
-		output[j+1] = (unsigned char)((input[i] >> 8) & 0xff);
-		output[j+2] = (unsigned char)((input[i] >> 16) & 0xff);
-		output[j+3] = (unsigned char)((input[i] >> 24) & 0xff);
+		output[j] = (ббайт)(input[i] & 0xff);
+		output[j+1] = (ббайт)((input[i] >> 8) & 0xff);
+		output[j+2] = (ббайт)((input[i] >> 16) & 0xff);
+		output[j+3] = (ббайт)((input[i] >> 24) & 0xff);
 	}
 }
 
-/* Decodes input (unsigned char) into output (бцел). Assumes len is
+/* Decodes input (ббайт) into output (бцел). Assumes len is
 	a multiple of 4.
 */
-static проц Decode (бцел *output, const unsigned char *input, бцел len)
+static проц Decode (бцел *output, const ббайт *input, бцел len)
 {
 	бцел i, j;
 
@@ -300,7 +298,7 @@ static проц Decode (бцел *output, const unsigned char *input, бцел l
 /* Note: замени "for loop" with standard memcpy if possible.
 */
 
-static проц MD5_memcpy (ук  output, const ук  input, бцел len)
+static проц MD5_memcpy (ук  output, кук  input, бцел len)
 {
 	memcpy(output, input, len);
 }
@@ -314,80 +312,79 @@ static проц MD5_memset (ук  output, цел значение, бцел len)
 
 // ------------------ U++ код_ starts here: ----------------------
 
-проц Md5Stream::выведи(const ук данные, бцел size)
+проц ПотокМд5::выведи(кук данные, бцел size)
 {
-	MD5Update (&context, (const unsigned char *)данные, size);
+	MD5Update (&context, (const ббайт *)данные, size);
 }
 
-проц Md5Stream::финиш(ббайт *hash16)
+проц ПотокМд5::финиш(ббайт *hash16)
 {
 	слей();
 	MD5Final(hash16, &context);
 }
 
-Ткст Md5Stream::FinishString()
+Ткст ПотокМд5::завершиТкст()
 {
 	ббайт hash[16];
 	финиш(hash);
 	return гексТкст(hash, 16);
 }
 
-Ткст Md5Stream::FinishStringS()
+Ткст ПотокМд5::завершиПТкст()
 {
 	ббайт hash[16];
 	финиш(hash);
 	return гексТкст(hash, 16, 4);
 }
 
-проц Md5Stream::переустанов()
+проц ПотокМд5::переустанов()
 {
 	MD5Иниt (&context);
 }
 
-Md5Stream::Md5Stream()
+ПотокМд5::ПотокМд5()
 {
 	переустанов();
 }
 
-Md5Stream::~Md5Stream()
+ПотокМд5::~ПотокМд5()
 {
 	memset(&context, 0, sizeof(context));
 }
 
-проц MD5(ббайт *hash16, const ук данные, бцел size)
+проц мд5(ббайт *hash16, кук данные, бцел size)
 {
-	Md5Stream md5;
+	ПотокМд5 md5;
 	md5.помести(данные, size);
 	md5.финиш(hash16);
 }
 
-Ткст MD5String(const ук данные, бцел size)
+Ткст мд5Ткст(кук данные, бцел size)
 {
-	Md5Stream md5;
+	ПотокМд5 md5;
 	md5.помести(данные, size);
-	return md5.FinishString();
+	return md5.завершиТкст();
 }
 
-проц MD5(ббайт *hash16, const Ткст& данные)
+проц мд5(ббайт *hash16, const Ткст& данные)
 {
-	return MD5(hash16, ~данные, данные.дайСчёт());
+	return мд5(hash16, ~данные, данные.дайСчёт());
 }
 
-Ткст MD5String(const Ткст& данные)
+Ткст мд5Ткст(const Ткст& данные)
 {
-	return MD5String(~данные, данные.дайСчёт());
+	return мд5Ткст(~данные, данные.дайСчёт());
 }
 
-Ткст MD5StringS(const ук данные, бцел size)
+Ткст мд5ПТкст(кук данные, бцел size)
 {
-	Md5Stream md5;
+	ПотокМд5 md5;
 	md5.помести(данные, size);
-	return md5.FinishStringS();
+	return md5.завершиПТкст();
 }
 
-Ткст MD5StringS(const Ткст& данные)
+Ткст мд5ПТкст(const Ткст& данные)
 {
-	return MD5StringS(~данные, данные.дайСчёт());
+	return мд5ПТкст(~данные, данные.дайСчёт());
 }
 
-}

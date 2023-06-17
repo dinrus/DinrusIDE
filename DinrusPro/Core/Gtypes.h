@@ -10,7 +10,7 @@ struct Размер_ : Движ< Размер_<T> > {
 	бул          пустой() const              { return cx == 0 || cy == 0; }
 
 	проц          устПусто()                    { cx = cy = Null; }
-	бул          экзПусто_ли() const       { return РНЦП::пусто_ли(cx); }
+	бул          экзПусто_ли() const       { return пусто_ли(cx); }
 
 	Размер_&        operator+=(Размер_ p)          { cx  += p.cx; cy  += p.cy; return *this; }
 	Размер_&        operator+=(T t)              { cx  += t;    cy  += t;    return *this; }
@@ -56,7 +56,7 @@ struct Размер_ : Движ< Размер_<T> > {
 	friend T      вКвадрате(Размер_ a)             { return a.cx * a.cx + a.cy * a.cy; }
 	friend дво длина(Размер_ a)              { return hypot(a.cx, a.cy); }
 
-	т_хэш        дайХэшЗнач() const         { return комбинируйХэш(cx, cy); }
+	т_хэш        дайХэшЗнач() const         { return КомбХэш(cx, cy); }
 
 	Ткст        вТкст() const;
 
@@ -64,7 +64,7 @@ struct Размер_ : Движ< Размер_<T> > {
 	Размер_(T cx, T cy) : cx(cx), cy(cy) {}
 
 	Размер_(const Размер_<цел>& sz)  : cx((T)sz.cx), cy((T)sz.cy) {}	
-	Размер_(const Размер_<short>& sz)  : cx((T)sz.cx), cy((T)sz.cy) {}
+	Размер_(const Размер_<крат>& sz)  : cx((T)sz.cx), cy((T)sz.cy) {}
 	Размер_(const Размер_<дво>& sz)  : cx((T)sz.cx), cy((T)sz.cy) {}
 	Размер_(const Размер_<дол>& sz) : cx((T)sz.cx), cy((T)sz.cy) {}
 
@@ -72,7 +72,7 @@ struct Размер_ : Движ< Размер_<T> > {
 
 	Размер_(const Обнул&)                       { cx = cy = Null; }
 
-	operator Значение() const                     { return FitsSvoValue<Размер_>() ? SvoToValue(*this) : богатыйВЗнач(*this); }
+	operator Значение() const                     { return вмещаетсяВЗначСво<Размер_>() ? своВЗнач(*this) : богатыйВЗнач(*this); }
 	Размер_(const Значение& ист)                    { *this = ист.дай<Размер_>(); }
 
 	operator Реф()                             { return какРеф(*this); }
@@ -112,7 +112,7 @@ struct Точка_ : Движ< Точка_<T> > {
 	бул          нуль_ли() const                    { return x == 0 && y == 0; }
 
 	проц          устПусто()                         { x = y = Null; }
-	бул          экзПусто_ли() const            { return РНЦП::пусто_ли(x); }
+	бул          экзПусто_ли() const            { return пусто_ли(x); }
 
 	проц          смещение(T dx, T dy)                { x += dx; y += dy; }
 
@@ -167,7 +167,7 @@ struct Точка_ : Движ< Точка_<T> > {
 
 	friend Точка_ Nvl(Точка_ a, Точка_ b)           { return пусто_ли(a) ? b : a; }
 
-	т_хэш        дайХэшЗнач() const              { return комбинируйХэш(x, y); }
+	т_хэш        дайХэшЗнач() const              { return КомбХэш(x, y); }
 
 	Ткст        вТкст() const;
 
@@ -175,7 +175,7 @@ struct Точка_ : Движ< Точка_<T> > {
 	Точка_(T x, T y) : x(x), y(y) {}
 
 	Точка_(const Точка_<цел>& pt) : x((T)pt.x), y((T)pt.y) {}
-	Точка_(const Точка_<short>& pt) : x((T)pt.x), y((T)pt.y) {}
+	Точка_(const Точка_<крат>& pt) : x((T)pt.x), y((T)pt.y) {}
 	Точка_(const Точка_<дво>& pt) : x((T)pt.x), y((T)pt.y) {}
 	Точка_(const Точка_<дол>& pt) : x((T)pt.x), y((T)pt.y) {}
 
@@ -183,7 +183,7 @@ struct Точка_ : Движ< Точка_<T> > {
 
 	Точка_(const Обнул&)                           { x = y = Null; }
 
-	operator Значение() const                          { return FitsSvoValue<Точка_>() ? SvoToValue(*this) : богатыйВЗнач(*this); }
+	operator Значение() const                          { return вмещаетсяВЗначСво<Точка_>() ? своВЗнач(*this) : богатыйВЗнач(*this); }
 	Точка_(const Значение& ист)                        { *this = ист.дай<Точка_>(); }
 
 	operator Реф()                                  { return какРеф(*this); }
@@ -357,7 +357,7 @@ struct Прямоугольник_ : Движ< Прямоугольник_<T> > 
 
 	friend const Прямоугольник_& Nvl(const Прямоугольник_& a, const Прямоугольник_& b) { return пусто_ли(a) ? b : a; }
 
-	т_хэш дайХэшЗнач() const                             { return комбинируйХэш(left, top, right, bottom); }
+	т_хэш дайХэшЗнач() const                             { return КомбХэш(left, top, right, bottom); }
 
 	Ткст вТкст() const;
 
@@ -368,7 +368,7 @@ struct Прямоугольник_ : Движ< Прямоугольник_<T> > 
 	Прямоугольник_(Sz sz)                                { уст(0, 0, sz.cx, sz.cy); }
 
 	Прямоугольник_(const Прямоугольник_<цел>& r) { уст((T)r.left, (T)r.top, (T)r.right, (T)r.bottom); }
-	Прямоугольник_(const Прямоугольник_<short>& r) { уст((T)r.left, (T)r.top, (T)r.right, (T)r.bottom); }
+	Прямоугольник_(const Прямоугольник_<крат>& r) { уст((T)r.left, (T)r.top, (T)r.right, (T)r.bottom); }
 	Прямоугольник_(const Прямоугольник_<дво>& r) { уст((T)r.left, (T)r.top, (T)r.right, (T)r.bottom); }
 	Прямоугольник_(const Прямоугольник_<дол>& r) { уст((T)r.left, (T)r.top, (T)r.right, (T)r.bottom); }
 

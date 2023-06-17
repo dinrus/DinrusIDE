@@ -1,4 +1,4 @@
-force_inline
+форс_инлайн
 проц ИндексОбщее::линкуй(цел& m, Хэш& hh, цел ii)
 {
 	if(m < 0)
@@ -11,13 +11,13 @@ force_inline
 	}
 }
 
-force_inline
+форс_инлайн
 проц ИндексОбщее::линкуй(цел ii, бцел sh)
 {
 	линкуй(map[sh & mask], hash[ii], ii);
 }
 
-force_inline
+форс_инлайн
 проц ИндексОбщее::уд(цел& m, Хэш& hh, цел ii)
 { // unlink from m
 	if(ii == m) { // this is элт pointed by map
@@ -33,7 +33,7 @@ force_inline
 
 template <typename T>
 никогда_inline
-проц Индекс<T>::ReallocHash(цел n)
+проц Индекс<T>::переразместиХэш(цел n)
 { // realloc hash to have the same capacity as ключ, copy n elements from previous alloc
 	if(ключ.дайРазмест()) {
 		т_мера sz = ключ.дайРазмест() * sizeof(Хэш);
@@ -57,7 +57,7 @@ template <typename T>
 никогда_inline
 проц Индекс<T>::фиксируйХэш(бул makemap)
 {
-	ReallocHash(0);
+	переразместиХэш(0);
 	unlinked = -1;
 	for(цел i = 0; i < ключ.дайСчёт(); i++)
 		hash[i].hash = Smear(ключ[i]);
@@ -74,7 +74,7 @@ template <typename U>
 {
 	цел n = ключ.дайСчёт();
 	ключ.нарастиДобавь(std::forward<U>(k));
-	ReallocHash(n);
+	переразместиХэш(n);
 }
 
 template <typename T>
@@ -102,7 +102,7 @@ template <typename U>
 }
 
 template <typename T>
-force_inline
+форс_инлайн
 цел Индекс<T>::найдиОт(цел i, бцел sh, const T& k, цел end) const
 {
 	if(i >= 0)
@@ -132,7 +132,7 @@ template <class T>
 }
 
 template <typename T>
-force_inline
+форс_инлайн
 цел Индекс<T>::FindBack(цел i, бцел sh, const T& k, цел end) const
 {
 	do {
@@ -163,7 +163,7 @@ template <class T>
 
 template <class T>
 template <class OP, class U>
-force_inline
+форс_инлайн
 цел Индекс<T>::найдиДобавь(U&& k, OP op) {
 	бцел sh = Smear(k);
 	цел& m = map[sh & mask];
@@ -241,7 +241,7 @@ template <typename U>
 
 template <class T>
 template <class U>
-force_inline
+форс_инлайн
 цел Индекс<T>::FindPut0(U&& k) {
 	бцел sh = Smear(k);
 	цел& m = map[sh & mask];
@@ -290,7 +290,7 @@ template <typename T>
 	цел a = ключ.дайРазмест();
 	ключ.резервируй(n);
 	if(a != ключ.дайРазмест()) {
-		ReallocHash(ключ.дайСчёт());
+		переразместиХэш(ключ.дайСчёт());
 		AdjustMap(ключ.дайСчёт(), n);
 	}
 }
@@ -302,7 +302,7 @@ template <typename T>
 	цел a = ключ.дайРазмест();
 	ключ.сожми();
 	if(a != ключ.дайРазмест()) {
-		ReallocHash(ключ.дайСчёт());
+		переразместиХэш(ключ.дайСчёт());
 		AdjustMap(ключ.дайСчёт(), ключ.дайСчёт());
 	}
 }
@@ -364,7 +364,7 @@ template <class T>
 template <class T>
 проц Индекс<T>::вДжейсон(ДжейсонВВ& jio)
 {
-	JsonizeIndex<Индекс<T>, T>(jio, *this);
+	джейсонируйИндекс<Индекс<T>, T>(jio, *this);
 }
 
 template <class T>

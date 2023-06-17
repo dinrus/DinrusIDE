@@ -1,7 +1,6 @@
-#include <DinrusPro/DinrusPro.h>
+#include <DinrusPro/DinrusCore.h>
 
-namespace ДинрусРНЦП {
-	
+
 static бул sTrace;
 
 #define LLOG(x)  if(sTrace) RLOG((client ? "WS CLIENT " : "WS SERVER ") << x)
@@ -235,13 +234,13 @@ WebSocket& WebSocket::Header(кткст0 ид, const Ткст& данные)
 		}
 	
 		ббайт sha1[20];
-		SHA1(sha1, ключ + "258EAFA5-E914-47DA-95CA-C5AB0DC85B11");
+		ша1(sha1, ключ + "258EAFA5-E914-47DA-95CA-C5AB0DC85B11");
 		
 		выведи(
 			"HTTP/1.1 101 Switching Protocols\r\n"
 			"Upgrade: websocket\r\n"
 			"Connection: Upgrade\r\n"
-			"Sec-WebSocket-прими: " + Base64Encode((char *)sha1, 20) + "\r\n\r\n"
+			"Sec-WebSocket-прими: " + Base64Encode((сим *)sha1, 20) + "\r\n\r\n"
 		);
 		
 		LLOG("HTTP request header received, sending response");
@@ -335,7 +334,7 @@ WebSocket& WebSocket::Header(кткст0 ид, const Ткст& данные)
 
 проц WebSocket::FrameData()
 {
-	Буфер<char> буфер(32768);
+	Буфер<сим> буфер(32768);
 	while(data_pos < length) {
 		цел n = socket->дай(~буфер, (цел)мин(length - data_pos, (дол)32768));
 		if(n == 0)
@@ -365,7 +364,7 @@ WebSocket& WebSocket::Header(кткст0 ид, const Ткст& данные)
 		Input& m = in_queue.добавьХвост();
 		m.opcode = opcode;
 		m.данные = данные;
-		LLOG((m.opcode & TEXT ? "TEXT: " : "BINARY: ") << FormatBlock(данные));
+		LLOG((m.opcode & TEXT ? "TEXT: " : "БИНАР: ") << FormatBlock(данные));
 		LLOG("Input queue count is now " << in_queue.дайСчёт());
 		break;
 	}
@@ -451,7 +450,7 @@ WebSocket& WebSocket::Header(кткст0 ид, const Ткст& данные)
 			if(out_at >= s.дайСчёт()) {
 				out_at = 0;
 				out_queue.сбросьГолову();
-				LLOG("Block sent complete, " << out_queue.дайСчёт() << " remaining blocks in queue");
+				LLOG("Блок sent complete, " << out_queue.дайСчёт() << " remaining blocks in queue");
 			}
 		}
 	}
@@ -520,13 +519,13 @@ WebSocket& WebSocket::Header(кткст0 ид, const Ткст& данные)
 		return false;
 	
 	ббайт sha1[20];
-	SHA1(sha1, ключ + "258EAFA5-E914-47DA-95CA-C5AB0DC85B11");
+	ша1(sha1, ключ + "258EAFA5-E914-47DA-95CA-C5AB0DC85B11");
 	
 	выведи(
 		"HTTP/1.1 101 Switching Protocols\r\n"
 		"Upgrade: websocket\r\n"
 		"Connection: Upgrade\r\n"
-		"Sec-WebSocket-прими: " + Base64Encode((char *)sha1, 20) + "\r\n\r\n"
+		"Sec-WebSocket-прими: " + Base64Encode((сим *)sha1, 20) + "\r\n\r\n"
 	);
 
 	LLOG("HTTP request header received, sending response");
@@ -543,4 +542,4 @@ WebSocket& WebSocket::Header(кткст0 ид, const Ткст& данные)
 	return WebAccept(socket, hdr);
 }
 
-}
+

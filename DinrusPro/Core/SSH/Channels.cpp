@@ -1,7 +1,5 @@
 #include "SSH.h"
 
-namespace ДинрусРНЦП {
-
 #define LLOG(x)       do { if(SSH::sTrace) RLOG(SSH::дайИмя(ssh->otype, ssh->oid) << x); } while(false)
 #define VLOG(x)       if(SSH::sTraceVerbose) LLOG(x);
 #define LDUMPHEX(x)	  do { if(SSH::sTraceVerbose) RDUMPHEX(x); } while(false)
@@ -168,7 +166,7 @@ namespace ДинрусРНЦП {
 
 бул SshChannel::SetWndSz(бцел size, бул force)
 {
-	цел rc = libssh2_channel_receive_window_adjust2(*channel, size, (unsigned char) force, nullptr);
+	цел rc = libssh2_channel_receive_window_adjust2(*channel, size, (ббайт) force, nullptr);
 	if(!WouldBlock(rc) && rc < 0) выведиОш(rc);
 	if(!rc) LLOG(фмт("Receive window size set is to %d.", какТкст(size)));
 	return !rc;
@@ -187,7 +185,7 @@ namespace ДинрусРНЦП {
 
 Ткст SshChannel::GetExitSignal()
 {
-	char *sig = (char *)"none";
+	сим *sig = (сим *)"none";
 	т_мера len = 0;
 	Ткст s;
 	INTERLOCKED
@@ -249,7 +247,7 @@ namespace ДинрусРНЦП {
 	return line;
 }
 
-цел SshChannel::помести(const ук укз, цел size, цел sid)
+цел SshChannel::помести(кук укз, цел size, цел sid)
 {
 	done = 0;
 	пуск([=]() mutable {
@@ -269,7 +267,7 @@ namespace ДинрусРНЦП {
 	цел sz = мин(size - done, ssh->chunk_size);
 
 	цел rc = static_cast<цел>(
-		libssh2_channel_read_ex(*channel, sid, (char*) укз + done, т_мера(sz))
+		libssh2_channel_read_ex(*channel, sid, (сим*) укз + done, т_мера(sz))
 		);
 	if(rc < 0 && !WouldBlock(rc)) {
 		выведиОш(rc);
@@ -285,17 +283,17 @@ namespace ДинрусРНЦП {
 
 цел SshChannel::читай(цел sid)
 {
-	char c;
+	сим c;
 	done = 0;
 	return читай(&c, 1, sid) == 1 ? цел(c) : -1;
 }
 
-цел SshChannel::пиши(const ук укз, цел size, цел sid)
+цел SshChannel::пиши(кук укз, цел size, цел sid)
 {
 	цел sz = мин(size - done, ssh->chunk_size);
 
 	цел rc = static_cast<цел>(
-		libssh2_channel_write_ex(*channel, sid, (const char*) укз + done, т_мера(sz))
+		libssh2_channel_write_ex(*channel, sid, (const сим*) укз + done, т_мера(sz))
 		);
 	if(rc < 0 && !WouldBlock(rc)) {
 		выведиОш(rc);
@@ -309,7 +307,7 @@ namespace ДинрусРНЦП {
 	return rc;
 }
 
-бул SshChannel::пиши(char c, цел sid)
+бул SshChannel::пиши(сим c, цел sid)
 {
 	done = 0;
 	return пиши(&c, 1, sid) == 1;
@@ -324,7 +322,7 @@ namespace ДинрусРНЦП {
 
 бул SshChannel::обработайСобытия(Ткст& input)
 {
-	Буфер<char> буфер(ssh->chunk_size, 0);
+	Буфер<сим> буфер(ssh->chunk_size, 0);
 
 	return пуск([=, &буфер, &input]{
 		done = 0;
@@ -368,5 +366,4 @@ SshChannel::SshChannel(SshSession& session)
 SshChannel::~SshChannel()
 {
 	выход();
-}
 }

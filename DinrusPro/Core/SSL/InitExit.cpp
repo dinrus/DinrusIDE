@@ -2,8 +2,6 @@
 
 #define LLOG(x) // DLOG(x)
 
-namespace ДинрусРНЦП {
-
 #ifdef КУЧА_РНЦП
 
 static дол РНЦП_SSL_alloc = 0;
@@ -137,6 +135,4 @@ static проц sslExitThread()
 		return;
 	sThreadИниt = true;
 	sPrevExit = Нить::приВыходе(sslExitThread);
-}
-
 }

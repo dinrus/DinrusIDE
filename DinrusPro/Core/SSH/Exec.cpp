@@ -1,7 +1,5 @@
 #include "SSH.h"
 
-namespace ДинрусРНЦП {
-
 цел SshExec::выполни(const Ткст& cmd, Ткст& out, Ткст& err)
 {
 	if(RequestExec(cmd)) {
@@ -45,6 +43,4 @@ namespace ДинрусРНЦП {
 {
 	Ткст out, err;
 	return SshExecute(session, cmd, out, err) ? Ткст::дайПроц(): out;
-}
-
 }

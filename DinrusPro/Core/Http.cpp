@@ -1,11 +1,9 @@
-#include <DinrusPro/DinrusPro.h>
-
-namespace ДинрусРНЦП {
+#include <DinrusPro/DinrusCore.h>
 
 namespace Ини {
 	INI_BOOL(HttpRequest_Trace, false, "Activates HTTP requests tracing")
 	INI_BOOL(HttpRequest_TraceBody, false, "Activates HTTP requests body tracing")
-	INI_BOOL(HttpRequest_TraceShort, false, "Activates HTTP requests short tracing")
+	INI_BOOL(HttpRequest_TraceShort, false, "Activates HTTP requests крат tracing")
 };
 
 #define LLOG(x)      LOG_(Ини::HttpRequest_Trace, x)
@@ -160,7 +158,7 @@ HttpRequest& HttpRequest::Part(кткст0 ид, const Ткст& данные,
 {
 	if(пусто_ли(multipart)) {
 		POST();
-		multipart = какТкст(Uuid::создай());
+		multipart = какТкст(Ууид::создай());
 		ContentType("multipart/form-данные; boundary=" + multipart);
 	}
 	postdata << "--" << multipart << "\r\n"
@@ -234,10 +232,10 @@ HttpRequest& HttpRequest::UrlVar(кткст0 ид, const Ткст& данные)
 	}
 	Ткст hv1, hv2;
 	hv1 << username << ':' << realm << ':' << password;
-	Ткст ha1 = MD5String(hv1);
+	Ткст ha1 = мд5Ткст(hv1);
 	hv2 << (method == METHOD_GET ? "GET" : method == METHOD_PUT ? "PUT" : method == METHOD_POST ? "POST" : "READ")
 	<< ':' << path;
-	Ткст ha2 = MD5String(hv2);
+	Ткст ha2 = мд5Ткст(hv2);
 	цел nc = 1;
 	Ткст cnonce = фмтЦелГекс(случ(), 8);
 	Ткст hv;
@@ -246,7 +244,7 @@ HttpRequest& HttpRequest::UrlVar(кткст0 ид, const Ткст& данные)
 	   << ':' << фмтЦелГекс(nc, 8)
 	   << ':' << cnonce
 	   << ':' << qop << ':' << ha2;
-	Ткст ha = MD5String(hv);
+	Ткст ha = мд5Ткст(hv);
 	Ткст auth;
 	auth << "username=" << какТкстСи(username)
 	     << ", realm=" << какТкстСи(realm)
@@ -418,7 +416,7 @@ HttpRequest& HttpRequest::CopyCookies(const HttpRequest& r)
 			HttpError("connection timed out");
 		else
 		if(аборт_ли())
-			HttpError("connection was aborted");
+			HttpError("connection was абортed");
 	}
 	
 	if(phase == FAILED) {
@@ -772,7 +770,7 @@ HttpRequest& HttpRequest::CopyCookies(const HttpRequest& r)
 	}
 }
 
-проц HttpRequest::выведи(const ук укз, цел size)
+проц HttpRequest::выведи(кук укз, цел size)
 {
 	LLOG("HTTP выведи " << size);
 	if(z.ошибка_ли()) {
@@ -786,7 +784,7 @@ HttpRequest& HttpRequest::CopyCookies(const HttpRequest& r)
 	if(WhenContent && (status_code >= 200 && status_code < 300 || all_content))
 		WhenContent(укз, size);
 	else
-		body.кат((const char *)укз, size);
+		body.кат((кткст0 )укз, size);
 }
 
 
@@ -922,4 +920,4 @@ HttpRequest& HttpRequest::CopyCookies(const HttpRequest& r)
 	return phase >= 0 && phase <= FAILED ? m[phase] : "";
 }
 
-}
+

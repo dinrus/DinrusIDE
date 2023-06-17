@@ -1,4 +1,4 @@
-#include <DinrusPro/DinrusPro.h>
+#include <DinrusPro/DinrusCore.h>
 
 #ifdef PLATFORM_WIN32
 #include <wingdi.h>
@@ -11,14 +11,12 @@
 	#endif
 #endif
 
-namespace ДинрусРНЦП {
-
 #define LLOG(x) // LOG(x)
 
 extern цел  LanguageList[];
 extern кткст0 LanguageInfoList[];
 
-const цел *GetAllLanguages()
+const цел *дайВсеЯзы()
 {
 	return LanguageList;
 }
@@ -194,7 +192,7 @@ static цел LangCompareDigits(const шим *&a, const шим *&b, const шим
 Ткст GetLocaleInfoA(LCID lcid, LCTYPE lctype)
 {
 	WCHAR cbuf[1000];
-	::GetLocaleInfoW(lcid, lctype, cbuf, __countof(cbuf));
+	::GetLocaleInfoW(lcid, lctype, cbuf, __количество(cbuf));
 	return cbuf;
 }
 
@@ -202,14 +200,14 @@ static цел LangCompareDigits(const шим *&a, const шим *&b, const шим
 {
 	WCHAR wbuf[1000];
 	обнули(wbuf);
-	if(::GetLocaleInfoW(lcid, lctype, (WCHAR *)wbuf, __countof(wbuf)))
+	if(::GetLocaleInfoW(lcid, lctype, (WCHAR *)wbuf, __количество(wbuf)))
 		return wbuf;
 	return Null;
 }
 
 #endif
 
-static бцел sGetLanguageDetails(цел язык, Ткст *english_name, Ткст *native_name)
+static бцел sGetLanguageДетальs(цел язык, Ткст *english_name, Ткст *native_name)
 {
 	цел q = 0;
 	ббайт cs = GetLNGCharset(язык);
@@ -231,20 +229,20 @@ static бцел sGetLanguageDetails(цел язык, Ткст *english_name, Т�
 #ifdef PLATFORM_WIN32
 LCID GetLanguageLCID(цел язык)
 {
-	return sGetLanguageDetails(язык, NULL, NULL);
+	return sGetLanguageДетальs(язык, NULL, NULL);
 }
 #endif
 
-LanguageInfo::LanguageInfo()
+ИнфОЯз::ИнфОЯз()
 {
 	getindexletter = DefaultGetIndexLetter;
 	сравни = DefaultLanguageCompare;
 }
 
-проц LanguageInfo::уст(цел lang_)
+проц ИнфОЯз::уст(цел lang_)
 {
 	язык = lang_;
-	бцел q = sGetLanguageDetails(язык, &english_name, &native_name);
+	бцел q = sGetLanguageДетальs(язык, &english_name, &native_name);
 	if(!q)
 		return;
 
@@ -276,9 +274,9 @@ LanguageInfo::LanguageInfo()
 		LOCALE_SABBREVMONTHNAME7,  LOCALE_SABBREVMONTHNAME8,  LOCALE_SABBREVMONTHNAME9,
 		LOCALE_SABBREVMONTHNAME10, LOCALE_SABBREVMONTHNAME11, LOCALE_SABBREVMONTHNAME12,
 	};
-	ПРОВЕРЬ(__countof(months) == __countof(month_names));
+	ПРОВЕРЬ(__количество(months) == __количество(month_names));
 	цел i;
-	for(i = 0; i < __countof(months); i++)
+	for(i = 0; i < __количество(months); i++)
 	{
 		month_names[i] = GetLocaleInfoW(lcid, months[i]);
 		short_month_names[i] = GetLocaleInfoW(lcid, smonths[i]);
@@ -293,8 +291,8 @@ LanguageInfo::LanguageInfo()
 		LOCALE_SABBREVDAYNAME1, LOCALE_SABBREVDAYNAME2, LOCALE_SABBREVDAYNAME3, LOCALE_SABBREVDAYNAME4,
 		LOCALE_SABBREVDAYNAME5, LOCALE_SABBREVDAYNAME6, LOCALE_SABBREVDAYNAME7,
 	};
-	ПРОВЕРЬ(__countof(days) == __countof(day_names));
-	for(i = 0; i < __countof(days); i++)
+	ПРОВЕРЬ(__количество(days) == __количество(day_names));
+	for(i = 0; i < __количество(days); i++)
 	{
 		day_names[i] = GetLocaleInfoW(lcid, days[i]);
 		short_day_names[i] = GetLocaleInfoW(lcid, sdays[i]);
@@ -317,9 +315,9 @@ LanguageInfo::LanguageInfo()
 		{
 			ABMON_1, ABMON_2, ABMON_3, ABMON_4, ABMON_5, ABMON_6, ABMON_7, ABMON_8, ABMON_9, ABMON_10, ABMON_11, ABMON_12,
 		};
-		ПРОВЕРЬ(__countof(months) == __countof(month_names) && __countof(smonths) == __countof(month_names));
+		ПРОВЕРЬ(__количество(months) == __количество(month_names) && __количество(smonths) == __количество(month_names));
 		цел i;
-		for(i = 0; i < __countof(months); i++)
+		for(i = 0; i < __количество(months); i++)
 		{
 			month_names[i] = nl_langinfo(months[i]);
 			short_month_names[i] = nl_langinfo(smonths[i]);
@@ -332,8 +330,8 @@ LanguageInfo::LanguageInfo()
 		{
 			ABDAY_2, ABDAY_3, ABDAY_4, ABDAY_5, ABDAY_6, ABDAY_7, ABDAY_1,
 		};
-		ПРОВЕРЬ(__countof(days) == __countof(day_names) && __countof(sdays) == __countof(day_names));
-		for(i = 0; i < __countof(days); i++)
+		ПРОВЕРЬ(__количество(days) == __количество(day_names) && __количество(sdays) == __количество(day_names));
+		for(i = 0; i < __количество(days); i++)
 		{
 			day_names[i] = nl_langinfo(days[i]);
 			short_day_names[i] = nl_langinfo(sdays[i]);
@@ -353,7 +351,7 @@ LanguageInfo::LanguageInfo()
 	}
 }
 
-Ткст LanguageInfo::вТкст() const
+Ткст ИнфОЯз::вТкст() const
 {
 	Ткст out;
 	out << "LANGUAGE={" << LNGAsText(язык) << "}\n"
@@ -363,31 +361,31 @@ LanguageInfo::LanguageInfo()
 		"DECIMAL_POINT={" << decimal_point << "}\n"
 		"MONTH_NAMES={\n";
 	цел i;
-	for(i = 0; i < __countof(month_names); i++)
+	for(i = 0; i < __количество(month_names); i++)
 		out << "    {" << изЮникода(month_names[i]) << "} / {" << изЮникода(short_month_names[i]) << "}\n";
 	out << "}\n"
 		"DAY_NAMES={\n";
-	for(i = 0; i < __countof(day_names); i++)
+	for(i = 0; i < __количество(day_names); i++)
 		out << "    {" << изЮникода(day_names[i]) << "} / {" << изЮникода(short_day_names[i]) << "}\n";
 	out << "}\n";
 	return out;
 }
 
-static кткст0 NlsFindDigits(кткст0 ист, Ткст& dest)
+static кткст0 NlsFindDigits(кткст0 ист, Ткст& приёмник)
 {
 	if(*ист && !цифра_ли(*ист))
 	{
 		кткст0 start = ист;
 		while(*++ист && !цифра_ли(*ист))
 			;
-		dest.кат(start, (цел)(ист - start));
+		приёмник.кат(start, (цел)(ист - start));
 	}
 	return ист;
 }
 
-static кткст0 NlsCopyDigits(кткст0 ист, Ткст& dest, Ткст thousands)
+static кткст0 NlsCopyDigits(кткст0 ист, Ткст& приёмник, Ткст thousands)
 {
-	if(цифра_ли(*(ист = NlsFindDigits(ист, dest))))
+	if(цифра_ли(*(ист = NlsFindDigits(ист, приёмник))))
 	{
 		кткст0 p = ист;
 		while(цифра_ли(*++ист))
@@ -395,10 +393,10 @@ static кткст0 NlsCopyDigits(кткст0 ист, Ткст& dest, Ткст th
 		цел first = ((цел)(ист - p) + 2) % 3 + 1;
 		while(p < ист)
 		{
-			dest.кат(p, first);
+			приёмник.кат(p, first);
 			if((p += first) < ист)
 			{
-				dest.кат(thousands);
+				приёмник.кат(thousands);
 				first = 3;
 			}
 		}
@@ -426,80 +424,80 @@ static Ткст NlsFormatRaw(кткст0 n, Ткст thousands, Ткст decimal
 	return result;
 }
 
-Ткст LanguageInfo::фмтЦел(цел значение) const
+Ткст ИнфОЯз::фмтЦел(цел значение) const
 {
 	if(пусто_ли(значение))
 		return Null;
-	Ткст dest;
-	Ткст is = РНЦП::фмтЦел(значение);
-	кткст0 p = NlsCopyDigits(is, dest, thousand_separator);
+	Ткст приёмник;
+	Ткст is = фмтЦел(значение);
+	кткст0 p = NlsCopyDigits(is, приёмник, thousand_separator);
 	if(*p)
-		dest.кат(p);
-	return dest;
+		приёмник.кат(p);
+	return приёмник;
 }
 
-Ткст LanguageInfo::фмтДво(дво значение, цел digits, цел FD_flags, цел fill_exp) const
+Ткст ИнфОЯз::фмтДво(дво значение, цел digits, цел FD_flags, цел fill_exp) const
 {
 	if(пусто_ли(значение))
 		return Null;
-	return NlsFormatRaw(РНЦП::фмтДво(значение, digits, FD_flags),
+	return NlsFormatRaw(фмтДво(значение, digits, FD_flags),
 	                    FD_flags & FD_NOTHSEPS ? Ткст() : thousand_separator,
 	                    FD_flags & FD_COMMA ? "," : decimal_point);
 }
 
-Ткст LanguageInfo::фмтДата(Дата date) const
+Ткст ИнфОЯз::фмтДата(Дата date) const
 {
-	return РНЦП::фмтДата(date, date_format, язык);
+	return фмтДата(date, date_format, язык);
 }
 
-Ткст LanguageInfo::фмтВремя(Время time) const
+Ткст ИнфОЯз::фмтВремя(Время time) const
 {
-	return РНЦП::фмтВремя(time, time_format, язык);
+	return фмтВремя(time, time_format, язык);
 }
 
-МассивМап<цел, LanguageInfo>& LangMap()
+МассивМап<цел, ИнфОЯз>& LangMap()
 {
-	static МассивМап<цел, LanguageInfo> x;
+	static МассивМап<цел, ИнфОЯз> x;
 	return x;
 }
 
 СтатическийСтопор sLanguageInfoMutex;
 
-static std::atomic<const LanguageInfo *> sCurrentLangInfo;
+static std::atomic<const ИнфОЯз *> sCurrentLangInfo;
 
-const LanguageInfo& GetLanguageInfo(цел lang)
+const ИнфОЯз& дайИнфОЯз(цел lang)
 {
 	Стопор::Замок __(sLanguageInfoMutex);
 	if(!lang)
-		lang = GetCurrentLanguage();
+		lang = дайТекЯз();
 	lang = SetLNGCharset(lang, 0);
-	МассивМап<цел, LanguageInfo>& m = LangMap();
+	МассивМап<цел, ИнфОЯз>& m = LangMap();
 	цел q = m.найди(lang);
 	if(q >= 0)
 		return m[q];
-	LanguageInfo& f = m.добавь(lang);
+	ИнфОЯз& f = m.добавь(lang);
 	f.уст(lang);
 	return f;
 }
 
 проц SyncLngInfo__()
 {
-	sCurrentLangInfo = &GetLanguageInfo(GetCurrentLanguage());
+	sCurrentLangInfo = &дайИнфОЯз(дайТекЯз());
 }
 
-const LanguageInfo& GetLanguageInfo()
+const ИнфОЯз& дайИнфОЯз()
 {
 	if(!sCurrentLangInfo.load())
 		SyncLngInfo__();
 	return *sCurrentLangInfo;
 }
 
-проц SetLanguageInfo(цел lang, const LanguageInfo& lf)
+проц устИнфОЯз(цел lang, const ИнфОЯз& lf)
 {
 	Стопор::Замок __(sLanguageInfoMutex);
 	if(!lang)
-		lang = GetCurrentLanguage();
-	МассивМап<цел, LanguageInfo>& m = LangMap();
+		lang = дайТекЯз();
+	МассивМап<цел, ИнфОЯз>& m = LangMap();
 	m.дайДобавь(lang) = lf;
 }
 
@@ -852,4 +850,4 @@ const LanguageInfo& GetLanguageInfo()
 	"Malayalam\t\340\264\256\340\264\262\340\264\257\340\264\276\340\264\263\340\264\202\t\004L",
 };
 
-};
+

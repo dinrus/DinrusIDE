@@ -1,6 +1,4 @@
-#include <DinrusPro/DinrusPro.h>
-
-namespace ДинрусРНЦП {
+#include <DinrusPro/DinrusCore.h>
 
 бул естьМпбУтф8(Поток& in)
 {
@@ -37,7 +35,7 @@ static проц sLoadBom(Поток& in, Ткст *t, ШТкст *wt, ббайт
 				if(wt)
 					*wt = вУтф32(загрузиПоток(in));
 				else
-					*t = вНабсим(CHARSET_DEFAULT, загрузиПоток(in), НАБСИМ_УТФ8);
+					*t = вНабсим(ДЕФНАБСИМ, загрузиПоток(in), НАБСИМ_УТФ8);
 				return;
 			}
 			s.кат(h, 2);
@@ -47,7 +45,7 @@ static проц sLoadBom(Поток& in, Ткст *t, ШТкст *wt, ббайт
 		if(wt)
 			*wt = вЮникод(s, def_charset);
 		else
-			*t = вНабсим(CHARSET_DEFAULT, s, def_charset);
+			*t = вНабсим(ДЕФНАБСИМ, s, def_charset);
 		return;
 	}
 	return;
@@ -62,7 +60,7 @@ static проц sLoadBom(Поток& in, Ткст *t, ШТкст *wt, ббайт
 
 ШТкст загрузиМПБПотокаШ(Поток& in)
 {
-	return загрузиМПБПотокаШ(in, GetLNGCharset(GetSystemLNG()));
+	return загрузиМПБПотокаШ(in, GetLNGCharset(дайСисЯЗ()));
 }
 
 Ткст загрузиМПБПотока(Поток& in, ббайт def_charset)
@@ -74,7 +72,7 @@ static проц sLoadBom(Поток& in, Ткст *t, ШТкст *wt, ббайт
 
 Ткст загрузиМПБПотока(Поток& in)
 {
-	return загрузиМПБПотока(in, GetLNGCharset(GetSystemLNG()));
+	return загрузиМПБПотока(in, GetLNGCharset(дайСисЯЗ()));
 }
 
 ШТкст загрузиМПБФайлаШ(кткст0 path, ббайт def_charset)
@@ -120,7 +118,7 @@ static проц sLoadBom(Поток& in, Ткст *t, ШТкст *wt, ббайт
 бул сохраниМПБПотокаУтф8(Поток& out, const Ткст& данные) {
 	if(!out.открыт() || out.ошибка_ли())
 		return false;
-	static unsigned char bom[] = {0xEF, 0xBB, 0xBF};
+	static ббайт bom[] = {0xEF, 0xBB, 0xBF};
 	out.помести(bom, 3);
 	out.помести(вНабсим(НАБСИМ_УТФ8, данные));
 	out.закрой();
@@ -131,6 +129,4 @@ static проц sLoadBom(Поток& in, Ткст *t, ШТкст *wt, ббайт
 {
 	ФайлВывод out(path);
 	return сохраниМПБПотокаУтф8(out, данные);
-}
-
 }

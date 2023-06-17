@@ -2,12 +2,10 @@
 
 #define LLOG(x)  // DLOG(x)
 
-namespace ДинрусРНЦП {
-
 struct TcpSocket::SSLImp : TcpSocket::SSL {
 	virtual бул  старт();
 	virtual бул  жди(бцел flags, цел end_time);
-	virtual цел   Send(const ук буфер, цел maxlen);
+	virtual цел   Send(кук буфер, цел maxlen);
 	virtual цел   Recv(ук буфер, цел maxlen);
 	virtual проц  открой();
 	virtual бцел Handshake();
@@ -92,7 +90,7 @@ TcpSocket::SSLImp::~SSLImp()
 	Ткст txt = дайТекстОш(код_);
 	цел err = ERR_get_error();
 	if(err) {
-		char h[260];
+		сим h[260];
 		ERR_error_string(err, h);
 		txt << "; " << h;
 	}
@@ -134,7 +132,7 @@ TcpSocket::SSLImp::~SSLImp()
 	}
 
 	if(socket.sni.дайСчёт()) {
-		Буфер<char> h(socket.sni.дайСчёт() + 1);
+		Буфер<сим> h(socket.sni.дайСчёт() + 1);
 		strcpy(~h, ~socket.sni);
 		SSL_set_tlsext_host_name(ssl, h);
 	}
@@ -197,11 +195,11 @@ TcpSocket::SSLImp::~SSLImp()
 	return socket.RawWait(flags, end_time);
 }
 
-цел TcpSocket::SSLImp::Send(const ук буфер, цел maxlen)
+цел TcpSocket::SSLImp::Send(кук буфер, цел maxlen)
 {
 	LLOG("SSL Send " << maxlen);
 	ERR_clear_error();
-	цел res = SSL_write(ssl, (const char *)буфер, maxlen);
+	цел res = SSL_write(ssl, (кткст0 )буфер, maxlen);
 	if(res > 0)
 		return res;
 	if(res == 0)
@@ -216,7 +214,7 @@ TcpSocket::SSLImp::~SSLImp()
 {
 	LLOG("SSL Recv " << maxlen);
 	ERR_clear_error();
-	цел res = SSL_read(ssl, (char *)буфер, maxlen);
+	цел res = SSL_read(ssl, (сим *)буфер, maxlen);
 	if(res > 0)
 		return res;
 	if(res == 0)
@@ -234,6 +232,4 @@ TcpSocket::SSLImp::~SSLImp()
 	socket.RawClose();
 	SSL_free(ssl);
 	ssl = NULL;
-}
-
 }

@@ -1,6 +1,4 @@
-#include <DinrusPro/DinrusPro.h>
-
-namespace ДинрусРНЦП {
+#include <DinrusPro/DinrusCore.h>
 
 дво ipow10_table[601];
 
@@ -11,7 +9,7 @@ unsigned stou(кткст0 s, ук endptr, unsigned base)
 	if(digit >= base)
 	{ // Ошибка
 		if(endptr)
-			*(const char **)endptr = s;
+			*(кткст0 *)endptr = s;
 		return ~0;
 	}
 	unsigned значение = digit;
@@ -22,7 +20,7 @@ unsigned stou(кткст0 s, ук endptr, unsigned base)
 			return ~0;
 	}
 	if(endptr)
-		*(const char **)endptr = s;
+		*(кткст0 *)endptr = s;
 	return значение;
 }
 
@@ -56,7 +54,7 @@ unsigned stou(const шим *s, ук endptr, unsigned base)
 	if(digit >= base)
 	{ // Ошибка
 		if(endptr)
-			*(const char **)endptr = s;
+			*(кткст0 *)endptr = s;
 		return ~0;
 	}
 	бдол значение = digit;
@@ -67,11 +65,11 @@ unsigned stou(const шим *s, ук endptr, unsigned base)
 			return ~0;
 	}
 	if(endptr)
-		*(const char **)endptr = s;
+		*(кткст0 *)endptr = s;
 	return значение;
 }
 
-цел сканЦел(кткст0 укз, const char **endptr, цел base)
+цел сканЦел(кткст0 укз, кткст0 *endptr, цел base)
 {
 	кткст0 s = укз;
 	бул minus = false;
@@ -101,7 +99,7 @@ unsigned stou(const шим *s, ук endptr, unsigned base)
 		return Null;
 }
 
-дол сканЦел64(кткст0 укз, const char **endptr, цел base)
+дол сканЦел64(кткст0 укз, кткст0 *endptr, цел base)
 {
 	кткст0 s = укз;
 	бул minus = false;
@@ -116,11 +114,11 @@ unsigned stou(const шим *s, ук endptr, unsigned base)
 		return Null;
 }
 
-цел сканЦел(кткст0 укз, const char **endptr)
+цел сканЦел(кткст0 укз, кткст0 *endptr)
 {
 	цел x;
 	бул overflow = false;
-	укз = сканЦел<char, ббайт, бцел, цел, 10>(x, укз, overflow);
+	укз = сканЦел<сим, ббайт, бцел, цел, 10>(x, укз, overflow);
 	if(укз && endptr)
 		*endptr = укз;
 	return !overflow && укз ? x : Null;
@@ -130,14 +128,14 @@ unsigned stou(const шим *s, ук endptr, unsigned base)
 {
 	цел x;
 	бул overflow = false;
-	return сканЦел<char, ббайт, бцел, цел, 10>(x, укз, overflow) && !overflow ? x : Null;
+	return сканЦел<сим, ббайт, бцел, цел, 10>(x, укз, overflow) && !overflow ? x : Null;
 }
 
-дол сканЦел64(кткст0 укз, const char **endptr)
+дол сканЦел64(кткст0 укз, кткст0 *endptr)
 {
 	дол x;
 	бул overflow = false;
-	укз = сканЦел<char, ббайт, бдол, дол, 10>(x, укз, overflow);
+	укз = сканЦел<сим, ббайт, бдол, дол, 10>(x, укз, overflow);
 	if(укз && endptr)
 		*endptr = укз;
 	return !overflow && укз ? x : Null;
@@ -147,7 +145,7 @@ unsigned stou(const шим *s, ук endptr, unsigned base)
 {
 	дол x;
 	бул overflow = false;
-	return сканЦел<char, ббайт, бдол, дол, 10>(x, укз, overflow) && !overflow ? x : Null;
+	return сканЦел<сим, ббайт, бдол, дол, 10>(x, укз, overflow) && !overflow ? x : Null;
 }
 
 Значение тктЦелЗнач(кткст0 s)
@@ -269,9 +267,9 @@ unsigned stou(const шим *s, ук endptr, unsigned base)
 	case DOUBLE_V:
 		return двоТкт((дво)q);
 	case DATE_V:
-		return РНЦП::фмт(Дата(q));
+		return фмт(Дата(q));
 	case TIME_V:
-		return РНЦП::фмт(Время(q));
+		return фмт(Время(q));
 	case STRING_V:
 	case WSTRING_V:
 		return q;
@@ -302,7 +300,7 @@ const Преобр& стдПреобр()
 }
 
 Значение ПреобрЦел::скан(const Значение& text) const {
-	Значение v = РНЦП::скан(INT_V, text);
+	Значение v = скан(INT_V, text);
 	if(ошибка_ли(v)) return v;
 	if(пусто_ли(v)) return notnull ? ОшибкаНеПусто() : v;
 	дол m = v;
@@ -312,37 +310,37 @@ const Преобр& стдПреобр()
 		else
 			return v;
 	}
-	return значОш(РНЦП::фмт(t_("Number must be between %d and %d."), минзнач, максзнач));
+	return значОш(фмт(t_("Number must be between %d and %d."), минзнач, максзнач));
 }
 
 цел   ПреобрЦел::фильтруй(цел chr) const {
-	return минзнач >= 0 ? CharFilterDigit(chr) : CharFilterInt(chr);
+	return минзнач >= 0 ? СимФильтрЦифра(chr) : СимФильтрЦел(chr);
 }
 
 Значение ПреобрДво::фмт(const Значение& q) const
 {
 	if(пусто_ли(q))
 		return Null;
-	return РНЦП::фмт(pattern, (дво)q);
+	return фмт(pattern, (дво)q);
 }
 
 Значение ПреобрДво::скан(const Значение& txt) const {
 	Ткст text = txt;
 	if(pattern.дайСчёт() && pattern != "%.10g") { // фиксируй text with patterns like "%2.!n EUR" (e.g. 1.2 EUR)
-		text = РНЦП::фильтруй(text, CharFilterDouble);
+		text = фильтруй(text, СимФильтрДво);
 		while(взаг(*text.последний()) == 'E')
 			text.обрежь(text.дайСчёт() - 1);
 	}
-	Значение v = РНЦП::скан(DOUBLE_V, text);
+	Значение v = скан(DOUBLE_V, text);
 	if(ошибка_ли(v)) return v;
 	if(пусто_ли(v)) return notnull ? ОшибкаНеПусто() : v;
 	дво m = v;
 	if(m >= минзнач && m <= максзнач) return v;
-	return значОш(РНЦП::фмт(t_("Number must be between %g and %g."), минзнач, максзнач));
+	return значОш(фмт(t_("Number must be between %g and %g."), минзнач, максзнач));
 }
 
 цел   ПреобрДво::фильтруй(цел chr) const {
-	chr = CharFilterDouble(chr);
+	chr = СимФильтрДво(chr);
 	return comma && chr == '.' ? ',' : chr;
 }
 
@@ -391,14 +389,14 @@ const Преобр& стдПреобр()
 }
 
 Значение ПреобрДату::скан(const Значение& text) const {
-	Значение v = РНЦП::скан(DATE_V, text, defaultval);
+	Значение v = скан(DATE_V, text, defaultval);
 	if(ошибка_ли(v)) return v;
 	if(пусто_ли(v)) return notnull ? ОшибкаНеПусто() : v;
 	Дата m = v;
 	Дата минзнач = дайМин();
 	Дата максзнач = дайМакс();
 	if(m >= минзнач && m <= максзнач) return v;
-	return значОш(t_("Дата должна быть между ") + РНЦП::фмт(минзнач) + t_("диапазоном\v и ") + РНЦП::фмт(максзнач) + ".");
+	return значОш(t_("Дата должна быть между ") + фмт(минзнач) + t_("диапазоном\v и ") + фмт(максзнач) + ".");
 }
 
 цел   ПреобрДату::фильтруй(цел chr) const {
@@ -419,7 +417,7 @@ const Преобр& стдПреобр()
 Значение ПреобрВремя::скан(const Значение& text) const
 {
 	бул hastime;
-	Значение v = РНЦП::скан(TIME_V, text, defaultval, &hastime);
+	Значение v = скан(TIME_V, text, defaultval, &hastime);
 	if(ошибка_ли(v)) return v;
 	if(пусто_ли(v)) return notnull ? ОшибкаНеПусто() : v;
 	Время m = v;
@@ -432,7 +430,7 @@ const Преобр& стдПреобр()
 	Время минзнач = дайМин();
 	Время максзнач = дайМакс();
 	if(m >= минзнач && m <= максзнач) return v;
-	return значОш(t_("Время must be between ") + РНЦП::фмт(минзнач) + t_("range\v and ") + РНЦП::фмт(максзнач) + ".");
+	return значОш(t_("Время must be between ") + фмт(минзнач) + t_("range\v and ") + фмт(максзнач) + ".");
 }
 
 цел ПреобрВремя::фильтруй(цел chr) const
@@ -450,7 +448,7 @@ const Преобр& стдПреобр()
 		return Ткст();
 	else
 	if(q.дайТип() == TIME_V || timealways)
-		return воВремя((Дата)q) != (Время)q || timealways ? РНЦП::фмт(Время(q), seconds) : РНЦП::фмт(Дата(q));
+		return воВремя((Дата)q) != (Время)q || timealways ? фмт(Время(q), seconds) : фмт(Дата(q));
 	else
 		return Преобр::фмт(q);
 }
@@ -460,22 +458,22 @@ const Преобр& стдПреобр()
 	if(text.дайТип() == STRING_V) {
 		Ткст s = text;
 		if(trimleft)
-			s = ДинрусРНЦП::обрежьЛево(s);
+			s = обрежьЛево(s);
 		if(trimright)
-			s = ДинрусРНЦП::обрежьПраво(s);
+			s = обрежьПраво(s);
 		if(пусто_ли(s)) return notnull ? ОшибкаНеПусто() : Значение(s);
 		if(s.дайДлину() <= maxlen) return s;
 	}
 	if(text.дайТип() == WSTRING_V) {
 		ШТкст s = text;
 		if(trimleft)
-			s = ДинрусРНЦП::обрежьЛево(s);
+			s = обрежьЛево(s);
 		if(trimright)
-			s = ДинрусРНЦП::обрежьПраво(s);
+			s = обрежьПраво(s);
 		if(пусто_ли(s)) return notnull ? ОшибкаНеПусто() : Значение(s);
 		if(s.дайДлину() <= maxlen) return s;
 	}
-	return значОш(РНЦП::фмт(t_("Please enter no more than %d characters."), maxlen));
+	return значОш(фмт(t_("Please enter no more than %d characters."), maxlen));
 }
 
 const ПреобрЦел& стдПреобрЦел() { static ПреобрЦел h; return h; }
@@ -504,7 +502,7 @@ const ПреобрТкст& стдПреобрТкстНеПусто() { static 
 }
 
 const КлассНеПреобр& NoConvert() {
-	return Single<КлассНеПреобр>();
+	return Сингл<КлассНеПреобр>();
 }
 
 Значение КлассОшибкаПреобр::скан(const Значение& v) const
@@ -514,7 +512,7 @@ const КлассНеПреобр& NoConvert() {
 
 const КлассОшибкаПреобр& ошибкаПреобр()
 {
-	return Single<КлассОшибкаПреобр>();
+	return Сингл<КлассОшибкаПреобр>();
 }
 
 Значение ПреобрСоед::фмт(const Значение& v) const {
@@ -573,7 +571,5 @@ const КлассОшибкаПреобр& ошибкаПреобр()
 		va = v;
 	else
 		va.добавь(v);
-	return РНЦП::фмт(формат, va.дай());
-}
-
+	return фмт(формат, va.дай());
 }

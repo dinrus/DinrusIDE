@@ -1,6 +1,4 @@
-#include <DinrusPro/DinrusPro.h>
-	
-namespace ДинрусРНЦП {
+#include <DinrusPro/DinrusCore.h>
 
 проц RGBtoHSV(дво r, дво g, дво b, дво& h, дво& s, дво& v)
 {
@@ -154,7 +152,7 @@ template <>
 	if(пусто_ли(r))
 		*this = Null;
 	else
-		*this = Цвет(r, g, b);	
+		*this = Цвет(r, g, b);
 }
 
 КЗСА operator*(цел alpha, Цвет c)
@@ -246,7 +244,7 @@ static цел sCharFilterHex(цел c)
 {
 	if(пусто_ли(color))
 		return Null;
-	
+
 	дво v[3];
 	v[0] = color.дайК();
 	v[1] = color.дайЗ();
@@ -257,7 +255,7 @@ static цел sCharFilterHex(цел c)
 	static дво c[3] = { 0.3, 0.5, 0.2 }; // with this set, blues and reds are more pronounced
 
 	дво m0 = c[0] * v[0] + c[1] * v[1] + c[2] * v[2]; // base brightness
-	
+
 	const цел middle = 155; // this значение represents gamma-like feature, imbalance of perception of dark vs bright
 	const дво up = (256.0 - middle) / middle;
 	const дво down = 1 / up;
@@ -267,11 +265,11 @@ static цел sCharFilterHex(цел c)
 		m = middle + (middle - m0) * up;
 	else
 		m = middle - (m0 - middle) * down;
-	
+
 	цел i0 = 0;
 	цел i1 = 1;
 	цел i2 = 2;
-	
+
 	if(v[i0] > v[i1])
 		разверни(i0, i1);
 	if(v[i1] > v[i2])
@@ -309,7 +307,7 @@ static цел sCharFilterHex(цел c)
 
 		v[i2] = макс(v[i2] - m / c[i2], 0.0);
 	}
-	
+
 	return Цвет((цел)v[0], (цел)v[1], (цел)v[2]);
 }
 
@@ -320,7 +318,7 @@ static цел sCharFilterHex(цел c)
 		Цвет icolor[N];
 		Цвет ocolor[N];
 		цел   ii = 0;
-		
+
 		Кэш() {
 			for(цел i = 0; i < N; i++) {
 				icolor[i] = Цвет(0, 0, 0);
@@ -335,6 +333,4 @@ static цел sCharFilterHex(цел c)
 	c = тёмнаяТема(c);
 	cache.ocolor[cache.ii] = c;
 	return c;
-}
-
 }

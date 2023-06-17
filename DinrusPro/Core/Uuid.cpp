@@ -1,19 +1,17 @@
-#include <DinrusPro/DinrusPro.h>
-
-namespace ДинрусРНЦП {
+#include <DinrusPro/DinrusCore.h>
 
 //#BLITZ_APPROVE
 
 ИНИЦБЛОК {
-	Значение::регистрируй<Uuid>("Uuid");
+	Значение::регистрируй<Ууид>("Ууид");
 }
 
-проц Uuid::сериализуй(Поток& s) {
+проц Ууид::сериализуй(Поток& s) {
 	цел версия = 0;
 	s / версия % v[0] % v[1];
 }
 
-проц Uuid::вДжейсон(ДжейсонВВ& jio)
+проц Ууид::вДжейсон(ДжейсонВВ& jio)
 {
 	Ткст h;
 	if(jio.сохраняется()) {
@@ -21,25 +19,25 @@ namespace ДинрусРНЦП {
 		jio.уст(h);
 	}
 	else
-		*this = ScanUuid((Ткст)jio.дай());
+		*this = сканируйУуид((Ткст)jio.дай());
 }
 
-проц Uuid::нов()
+проц Ууид::нов()
 {
 	do
 		случ64(v, 2);
 	while(экзПусто_ли());
 }
 
-Ткст фмт(const Uuid& ид) {
-	return спринтф("%08X%08X%08X%08X", LODWORD(ид.v[0]), HIDWORD(ид.v[0]), LODWORD(ид.v[1]), HIDWORD(ид.v[1]));
+Ткст фмт(const Ууид& ид) {
+	return спринтф("%08X%08X%08X%08X", МЛБЦЕЛ(ид.v[0]), СДЕЛАЙБЦЕЛ(ид.v[0]), МЛБЦЕЛ(ид.v[1]), СДЕЛАЙБЦЕЛ(ид.v[1]));
 }
 
-Ткст FormatWithDashes(const Uuid& ид) {
-	return спринтф("%08X-%04X-%04X-%04X-%04X%08X", LODWORD(ид.v[0]),
-	               HIWORD(HIDWORD(ид.v[0])), LOWORD(HIDWORD(ид.v[0])),
-	               HIWORD(LODWORD(ид.v[1])), LOWORD(LODWORD(ид.v[1])),
-	               HIDWORD(ид.v[1]));
+Ткст фмтСТире(const Ууид& ид) {
+	return спринтф("%08X-%04X-%04X-%04X-%04X%08X", МЛБЦЕЛ(ид.v[0]),
+	               HIWORD(СДЕЛАЙБЦЕЛ(ид.v[0])), LOWORD(СДЕЛАЙБЦЕЛ(ид.v[0])),
+	               HIWORD(МЛБЦЕЛ(ид.v[1])), LOWORD(МЛБЦЕЛ(ид.v[1])),
+	               СДЕЛАЙБЦЕЛ(ид.v[1]));
 }
 
 бцел scanX(кткст0 s)
@@ -54,9 +52,9 @@ namespace ДинрусРНЦП {
     return r;
 }
 
-Uuid ScanUuid(кткст0 s)
+Ууид сканируйУуид(кткст0 s)
 {
-	Uuid ид;
+	Ууид ид;
 	Ткст xu;
 	while(*s) {
 		if(IsXDigit(*s))
@@ -65,45 +63,43 @@ Uuid ScanUuid(кткст0 s)
 	}
 	if(xu.дайСчёт() < 32)
 		return Null;
-	ид.v[0] = MAKEQWORD(scanX(~xu), scanX(~xu + 8));
-	ид.v[1] = MAKEQWORD(scanX(~xu + 16), scanX(~xu + 24));
+	ид.v[0] = СДЕЛАЙБДОЛ(scanX(~xu), scanX(~xu + 8));
+	ид.v[1] = СДЕЛАЙБДОЛ(scanX(~xu + 16), scanX(~xu + 24));
 	return ид;
 }
 
-проц Uuid::вРяр(РярВВ& xio)
+проц Ууид::вРяр(РярВВ& xio)
 {
 	Ткст h;
 	if(xio.сохраняется())
 		h = фмт(*this);
 	xio.Атр("значение", h);
 	if(xio.грузится())
-		*this = ScanUuid(h);
+		*this = сканируйУуид(h);
 }
 
-Ткст Uuid::вТкст() const
+Ткст Ууид::вТкст() const
 {
 	return фмт(*this);
 }
 
-Ткст Uuid::ToStringWithDashes() const
+Ткст Ууид::ToStringWithDashes() const
 {
-	return FormatWithDashes(*this);
+	return фмтСТире(*this);
 }
 
-Ткст дамп(const Uuid& ид) {
+Ткст дамп(const Ууид& ид) {
 	return "UUID: " + фмт(ид);
 }
 
-struct UuidValueGenClass : ГенЗначения
+struct УуидValueGenClass : ГенЗнач
 {
 	virtual Значение дай() {
-		return фмт(Uuid::создай());
+		return фмт(Ууид::создай());
 	}
 };
 
-ГенЗначения& UuidValueGen()
+ГенЗнач& генЗначУуид()
 {
-	return Single<UuidValueGenClass>();
-}
-
+	return Сингл<УуидValueGenClass>();
 }

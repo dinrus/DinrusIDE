@@ -1,6 +1,5 @@
-#include <DinrusPro/DinrusPro.h>
+#include <DinrusPro/DinrusCore.h>
 
-namespace ДинрусРНЦП {
 
 static кткст0 s_www_month[] = {
 	"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
@@ -67,7 +66,7 @@ static кткст0 s_www_month[] = {
 
 Ткст MIMECharsetName(ббайт charset)
 {
-	if(charset == CHARSET_DEFAULT)
+	if(charset == ДЕФНАБСИМ)
 		charset = дайДефНабСим();
 	switch(charset) {
 	case CHARSET_ISO8859_1:  return "ISO-8859-1";
@@ -103,7 +102,7 @@ static кткст0 s_www_month[] = {
 	}
 }
 
-static const char hex_digits[] = "0123456789ABCDEF";
+static const сим hex_digits[] = "0123456789ABCDEF";
 
 Ткст UrlEncode(кткст0 p, кткст0 e)
 {
@@ -169,7 +168,7 @@ static const char hex_digits[] = "0123456789ABCDEF";
 	return UrlDecode(~s, s.дайДлину());
 }
           
-Ткст QPEncode(const char* s)
+Ткст QPEncode(const сим* s)
 {
 	ТкстБуф r;
 	цел len = 0;
@@ -195,7 +194,7 @@ static const char hex_digits[] = "0123456789ABCDEF";
 			len++;
 		}
 		else {
-			static const char hex[] = "0123456789ABCDEF";
+			static const сим hex[] = "0123456789ABCDEF";
 			r.кат('=');
 			r.кат(hex[(s[0] >> 4) & 15]);
 			r.кат(hex[s[0] & 15]);
@@ -237,7 +236,7 @@ static const char hex_digits[] = "0123456789ABCDEF";
 
 Ткст Base64Encode(кткст0 _b, кткст0 _e)
 {
-	static const char encoder[] =
+	static const сим encoder[] =
 		"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 		"abcdefghijklmnopqrstuvwxyz"
 		"0123456789+/";
@@ -249,7 +248,7 @@ static const char hex_digits[] = "0123456789ABCDEF";
 	цел rem = цел(e - b) % 3;
 	e -= rem;
 	ТкстБуф s(out);
-	char *p = s;
+	сим *p = s;
 	while(b < e)
 	{
 		p[0] = encoder[(b[0] >> 2) & 0x3F];
@@ -373,13 +372,13 @@ static const char hex_digits[] = "0123456789ABCDEF";
 
 проц HMAC_SHA1(const ббайт *text, цел text_len, const ббайт *ключ, цел key_len, ббайт *digest)
 {
-	unsigned char k_ipad[65];
-	unsigned char k_opad[65];
-	unsigned char tk[20];
+	ббайт k_ipad[65];
+	ббайт k_opad[65];
+	ббайт tk[20];
 	цел i;
 	
 	if(key_len > 64) {
-		SHA1(tk, ключ, key_len);
+		ша1(tk, ключ, key_len);
 		ключ = tk;
 		key_len = 20;
 	}
@@ -394,7 +393,7 @@ static const char hex_digits[] = "0123456789ABCDEF";
 		k_opad[i] ^= 0x5c;
 	}
 	
-	Sha1Stream sha1;
+	ПотокШа1 sha1;
 	sha1.помести(k_ipad, 64);
 	sha1.помести(text, text_len);
 	sha1.финиш(digest);
@@ -633,7 +632,7 @@ static const char hex_digits[] = "0123456789ABCDEF";
 {
 	Ткст r;
 	r << (scgi ? "Статус: " : "HTTP/1.1 ") << код_ << ' ' << phrase << "\r\n"
-		"Дата: " <<  WwwFormat(GetUtcTime()) << "\r\n"
+		"Дата: " <<  WwwFormat(дайВремяУВИ()) << "\r\n"
 		"Server: " << (server ? server : "U++ based server") << "\r\n"
 		"Connection: close\r\n";
 	if(данные.дайСчёт())
@@ -732,4 +731,4 @@ const Вектор<Ткст>& UrlInfo::дайМассив(кткст0 ид) cons
 	}
 }
 
-}
+

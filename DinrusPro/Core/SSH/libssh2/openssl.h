@@ -160,8 +160,8 @@
 #define libssh2_sha1_update(ctx, данные, len) EVP_DigestUpdate(&(ctx), данные, len)
 #define libssh2_sha1_final(ctx, out) EVP_DigestFinal(&(ctx), out, NULL)
 #endif
-цел _libssh2_sha1(const unsigned char *message, unsigned long len,
-                  unsigned char *out);
+цел _libssh2_sha1(const ббайт *message, unsigned long len,
+                  ббайт *out);
 #define libssh2_sha1(x,y,z) _libssh2_sha1(x,y,z)
 
 #ifdef HAVE_OPAQUE_STRUCTS
@@ -184,8 +184,8 @@
     EVP_DigestUpdate(&(ctx), данные, len)
 #define libssh2_sha256_final(ctx, out) EVP_DigestFinal(&(ctx), out, NULL)
 #endif
-цел _libssh2_sha256(const unsigned char *message, unsigned long len,
-                  unsigned char *out);
+цел _libssh2_sha256(const ббайт *message, unsigned long len,
+                  ббайт *out);
 #define libssh2_sha256(x,y,z) _libssh2_sha256(x,y,z)
 
 #ifdef HAVE_OPAQUE_STRUCTS
@@ -208,8 +208,8 @@
     EVP_DigestUpdate(&(ctx), данные, len)
 #define libssh2_sha384_final(ctx, out) EVP_DigestFinal(&(ctx), out, NULL)
 #endif
-цел _libssh2_sha384(const unsigned char *message, unsigned long len,
-                    unsigned char *out);
+цел _libssh2_sha384(const ббайт *message, unsigned long len,
+                    ббайт *out);
 #define libssh2_sha384(x,y,z) _libssh2_sha384(x,y,z)
 
 #ifdef HAVE_OPAQUE_STRUCTS
@@ -232,8 +232,8 @@
     EVP_DigestUpdate(&(ctx), данные, len)
 #define libssh2_sha512_final(ctx, out) EVP_DigestFinal(&(ctx), out, NULL)
 #endif
-цел _libssh2_sha512(const unsigned char *message, unsigned long len,
-                    unsigned char *out);
+цел _libssh2_sha512(const ббайт *message, unsigned long len,
+                    ббайт *out);
 #define libssh2_sha512(x,y,z) _libssh2_sha512(x,y,z)
 
 #ifdef HAVE_OPAQUE_STRUCTS

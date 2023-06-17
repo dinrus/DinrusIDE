@@ -1,6 +1,4 @@
-#include <DinrusPro/DinrusPro.h>
-
-namespace ДинрусРНЦП {
+#include <DinrusPro/DinrusCore.h>
 
 /*  Written in 2018 by David Blackman and Sebastiano Vigna (vigna@acm.org)
 
@@ -20,11 +18,11 @@ See <http://creativecommons.org/publicdomain/zero/1.0/>. */
    a 64-bit seed, we suggest to seed a splitmix64 generator and use its
    output to fill s. */
 
-static force_inline uint64_t s_rotl(const uint64_t x, цел k) {
+static форс_инлайн uint64_t s_rotl(const uint64_t x, цел k) {
 	return (x << k) | (x >> (64 - k)); // GCC/CLANG/MSC happily optimize this
 }
 
-force_inline
+форс_инлайн
 static бдол sNext(бдол *s)
 {
 	const uint64_t result_starstar = s_rotl(s[1] * 5, 7) * 9;
@@ -48,7 +46,7 @@ static проц sSeed(бдол *s)
 #ifdef PLATFORM_POSIX
 	цел fd = open("/dev/urandom", O_RDONLY);
 	if(fd != -1) {
-		IGNORE_RESULT(
+		ИГНОРРЕЗ(
 			read(fd, s, 4 * sizeof(бдол))
 		);
 		close(fd);
@@ -56,22 +54,22 @@ static проц sSeed(бдол *s)
 #else
 	for(цел pass = 0; pass < 4; pass++) {
 		for(цел i = 0; i < 4; i++) {
-			комбинируйХэш h[2];
+			КомбХэш h[2];
 			for(цел j = 0; j < 2; j++) {
 				h[j] << дайСисВремя().дай() << usecs() << msecs() << j << pass << i;
 				for(цел p = 0; p < 2; p++) {
-					Uuid uuid;
+					Ууид uuid;
 					CoCreateGuid((GUID *)&uuid); // GUID is basically a random number...
 					h[j] << uuid.v[0] << uuid.v[1];
 				}
 			}
-			s[i] ^= MAKEQWORD(h[0], h[1]);
+			s[i] ^= СДЕЛАЙБДОЛ(h[0], h[1]);
 		}
 	}
 #endif
 }
 
-force_inline
+форс_инлайн
 static бдол *sState()
 {
 	thread_local бдол *s;
@@ -139,6 +137,4 @@ static бдол *sState()
 	бдол *s = sState();
 	for(цел i = 0; i < 4; i++)
 		s[i] = 12345678 + seed + i; // xoshiro does not work well if all is zero
-}
-
 }

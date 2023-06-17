@@ -1,6 +1,4 @@
-#include <DinrusPro/DinrusPro.h>
-
-namespace ДинрусРНЦП {
+#include <DinrusPro/DinrusCore.h>
 
 цел ИндексОбщее::empty[1] = { -1 };
 
@@ -40,10 +38,10 @@ namespace ДинрусРНЦП {
 
 проц ИндексОбщее::разверни(ИндексОбщее& b)
 {
-	РНЦП::разверни(hash, b.hash);
-	РНЦП::разверни(map, b.map);
-	РНЦП::разверни(mask, b.mask);
-	РНЦП::разверни(unlinked, b.unlinked);
+	разверни(hash, b.hash);
+	разверни(map, b.map);
+	разверни(mask, b.mask);
+	разверни(unlinked, b.unlinked);
 }
 
 ИндексОбщее::~ИндексОбщее()
@@ -158,6 +156,4 @@ namespace ДинрусРНЦП {
 			hash[ti++].hash = hash[i].hash;
 	ремапируй(ti);
 	unlinked = -1;
-}
-
 }

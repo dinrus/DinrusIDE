@@ -1,7 +1,5 @@
-#include <DinrusPro/DinrusPro.h>
+#include <DinrusPro/DinrusCore.h>
 #include <RKod/Rpc/Rpc.h>
-
-namespace ДинрусРНЦП {
 
 Ткст FormatIso8601(Время t)
 {
@@ -164,11 +162,9 @@ namespace ДинрусРНЦП {
 	v = vm;
 }
 
-проц ValuePut(Значение& v, const Json& json)
+проц ValuePut(Значение& v, const Джейсон& json)
 {
-	RawJsonText x;
+	RawДжейсонText x;
 	x.json = json;
-	v = RawToValue(x);
-}
-
+	v = сырВЗнач(x);
 }

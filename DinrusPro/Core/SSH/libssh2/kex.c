@@ -179,8 +179,8 @@ static проц _libssh2_sha_algo_ctx_final(цел sha_algo, ук ctx,
 static проц _libssh2_sha_algo_value_hash(цел sha_algo,
                                       LIBSSH2_SESSION *session,
                                       kmdhgGPshakex_state_t *exchange_state,
-                                      unsigned char **data, т_мера data_len,
-                                      const unsigned char *version)
+                                      ббайт **data, т_мера data_len,
+                                      const ббайт *version)
 {
     if(sha_algo == 512) {
         LIBSSH2_KEX_METHOD_SHA_VALUE_HASH(512, *data, data_len, version);
@@ -214,9 +214,9 @@ static цел diffie_hellman_sha_algo(LIBSSH2_SESSION *session,
                                    цел group_order,
                                    цел sha_algo_value,
                                    ук exchange_hash_ctx,
-                                   unsigned char packet_type_init,
-                                   unsigned char packet_type_reply,
-                                   unsigned char *midhash,
+                                   ббайт packet_type_init,
+                                   ббайт packet_type_reply,
+                                   ббайт *midhash,
                                    unsigned long midhash_len,
                                    kmdhgGPshakex_state_t *exchange_state)
 {
@@ -405,14 +405,14 @@ static цел diffie_hellman_sha_algo(LIBSSH2_SESSION *session,
         }
 #ifdef LIBSSH2DEBUG
         {
-            char fingerprint[50], *fprint = fingerprint;
+            сим fingerprint[50], *fprint = fingerprint;
             цел i;
             for(i = 0; i < 16; i++, fprint += 3) {
                 snprintf(fprint, 4, "%02x:", session->server_hostkey_md5[i]);
             }
             *(--fprint) = '\0';
             _libssh2_debug(session, LIBSSH2_TRACE_KEX,
-                           "Server's MD5 Fingerprint: %s", fingerprint);
+                           "Server's мд5 Fingerprint: %s", fingerprint);
         }
 #endif /* LIBSSH2DEBUG */
 #endif /* ! LIBSSH2_MD5 */
@@ -433,7 +433,7 @@ static цел diffie_hellman_sha_algo(LIBSSH2_SESSION *session,
         }
 #ifdef LIBSSH2DEBUG
         {
-            char fingerprint[64], *fprint = fingerprint;
+            сим fingerprint[64], *fprint = fingerprint;
             цел i;
 
             for(i = 0; i < 20; i++, fprint += 3) {
@@ -441,7 +441,7 @@ static цел diffie_hellman_sha_algo(LIBSSH2_SESSION *session,
             }
             *(--fprint) = '\0';
             _libssh2_debug(session, LIBSSH2_TRACE_KEX,
-                           "Server's SHA1 Fingerprint: %s", fingerprint);
+                           "Server's ша1 Fingerprint: %s", fingerprint);
         }
 #endif /* LIBSSH2DEBUG */
 
@@ -461,14 +461,14 @@ static цел diffie_hellman_sha_algo(LIBSSH2_SESSION *session,
         }
 #ifdef LIBSSH2DEBUG
         {
-            char *base64Fingerprint = NULL;
+            сим *base64Fingerprint = NULL;
             _libssh2_base64_encode(session,
-                                   (const char *)
+                                   (кткст0 )
                                    session->server_hostkey_sha256,
                                    SHA256_DIGEST_LENGTH, &base64Fingerprint);
             if(base64Fingerprint != NULL) {
                 _libssh2_debug(session, LIBSSH2_TRACE_KEX,
-                               "Server's SHA256 Fingerprint: %s",
+                               "Server's ша256 Fingerprint: %s",
                                base64Fingerprint);
                 LIBSSH2_FREE(session, base64Fingerprint);
             }
@@ -531,12 +531,12 @@ static цел diffie_hellman_sha_algo(LIBSSH2_SESSION *session,
 
         if(session->local.banner) {
             _libssh2_htonu32(exchange_state->h_sig_comp,
-                             strlen((char *) session->local.banner) - 2);
+                             strlen((сим *) session->local.banner) - 2);
             _libssh2_sha_algo_ctx_update(sha_algo_value, exchange_hash_ctx,
                                          exchange_state->h_sig_comp, 4);
             _libssh2_sha_algo_ctx_update(sha_algo_value, exchange_hash_ctx,
                                 session->local.banner,
-                                strlen((char *) session->local.banner) - 2);
+                                strlen((сим *) session->local.banner) - 2);
         }
         else {
             _libssh2_htonu32(exchange_state->h_sig_comp,
@@ -544,18 +544,18 @@ static цел diffie_hellman_sha_algo(LIBSSH2_SESSION *session,
             _libssh2_sha_algo_ctx_update(sha_algo_value, exchange_hash_ctx,
                                          exchange_state->h_sig_comp, 4);
             _libssh2_sha_algo_ctx_update(sha_algo_value, exchange_hash_ctx,
-                                    (unsigned char *)
+                                    (ббайт *)
                                     LIBSSH2_SSH_DEFAULT_BANNER,
                                     sizeof(LIBSSH2_SSH_DEFAULT_BANNER) - 1);
         }
 
         _libssh2_htonu32(exchange_state->h_sig_comp,
-                         strlen((char *) session->remote.banner));
+                         strlen((сим *) session->remote.banner));
         _libssh2_sha_algo_ctx_update(sha_algo_value, exchange_hash_ctx,
                                      exchange_state->h_sig_comp, 4);
         _libssh2_sha_algo_ctx_update(sha_algo_value, exchange_hash_ctx,
                                      session->remote.banner,
-                                     strlen((char *) session->remote.banner));
+                                     strlen((сим *) session->remote.banner));
 
         _libssh2_htonu32(exchange_state->h_sig_comp,
                          session->local.kexinit_len);
@@ -689,7 +689,7 @@ static цел diffie_hellman_sha_algo(LIBSSH2_SESSION *session,
                            "session_id calculated");
         }
 
-        /* Cleanup any existing cipher */
+        /* зачисть any existing cipher */
         if(session->local.crypt->dtor) {
             session->local.crypt->dtor(session,
                                        &session->local.crypt_abstract);
@@ -697,13 +697,13 @@ static цел diffie_hellman_sha_algo(LIBSSH2_SESSION *session,
 
         /* Calculate IV/Secret/Key for each direction */
         if(session->local.crypt->init) {
-            unsigned char *iv = NULL, *secret = NULL;
+            ббайт *iv = NULL, *secret = NULL;
             цел free_iv = 0, free_secret = 0;
 
             _libssh2_sha_algo_value_hash(sha_algo_value, session,
                                          exchange_state, &iv,
                                          session->local.crypt->iv_len,
-                                         (const unsigned char *)"A");
+                                         (const ббайт *)"A");
 
             if(!iv) {
                 ret = -1;
@@ -712,7 +712,7 @@ static цел diffie_hellman_sha_algo(LIBSSH2_SESSION *session,
             _libssh2_sha_algo_value_hash(sha_algo_value, session,
                                          exchange_state, &secret,
                                          session->local.crypt->secret_len,
-                                         (const unsigned char *)"C");
+                                         (const ббайт *)"C");
 
             if(!secret) {
                 LIBSSH2_FREE(session, iv);
@@ -743,19 +743,19 @@ static цел diffie_hellman_sha_algo(LIBSSH2_SESSION *session,
                        "Client to Server IV and Key calculated");
 
         if(session->remote.crypt->dtor) {
-            /* Cleanup any existing cipher */
+            /* зачисть any existing cipher */
             session->remote.crypt->dtor(session,
                                         &session->remote.crypt_abstract);
         }
 
         if(session->remote.crypt->init) {
-            unsigned char *iv = NULL, *secret = NULL;
+            ббайт *iv = NULL, *secret = NULL;
             цел free_iv = 0, free_secret = 0;
 
             _libssh2_sha_algo_value_hash(sha_algo_value, session,
                                          exchange_state, &iv,
                                          session->remote.crypt->iv_len,
-                                         (const unsigned char *)"B");
+                                         (const ббайт *)"B");
             if(!iv) {
                 ret = LIBSSH2_ERROR_KEX_FAILURE;
                 goto clean_exit;
@@ -763,7 +763,7 @@ static цел diffie_hellman_sha_algo(LIBSSH2_SESSION *session,
             _libssh2_sha_algo_value_hash(sha_algo_value, session,
                                          exchange_state, &secret,
                                          session->remote.crypt->secret_len,
-                                         (const unsigned char *)"D");
+                                         (const ббайт *)"D");
             if(!secret) {
                 LIBSSH2_FREE(session, iv);
                 ret = LIBSSH2_ERROR_KEX_FAILURE;
@@ -797,13 +797,13 @@ static цел diffie_hellman_sha_algo(LIBSSH2_SESSION *session,
         }
 
         if(session->local.mac->init) {
-            unsigned char *ключ = NULL;
+            ббайт *ключ = NULL;
             цел free_key = 0;
 
             _libssh2_sha_algo_value_hash(sha_algo_value, session,
                                          exchange_state, &ключ,
                                          session->local.mac->key_len,
-                                         (const unsigned char *)"E");
+                                         (const ббайт *)"E");
             if(!ключ) {
                 ret = LIBSSH2_ERROR_KEX_FAILURE;
                 goto clean_exit;
@@ -824,13 +824,13 @@ static цел diffie_hellman_sha_algo(LIBSSH2_SESSION *session,
         }
 
         if(session->remote.mac->init) {
-            unsigned char *ключ = NULL;
+            ббайт *ключ = NULL;
             цел free_key = 0;
 
             _libssh2_sha_algo_value_hash(sha_algo_value, session,
                                          exchange_state, &ключ,
                                          session->remote.mac->key_len,
-                                         (const unsigned char *)"F");
+                                         (const ббайт *)"F");
             if(!ключ) {
                 ret = LIBSSH2_ERROR_KEX_FAILURE;
                 goto clean_exit;
@@ -848,7 +848,7 @@ static цел diffie_hellman_sha_algo(LIBSSH2_SESSION *session,
 
         /* Initialize compression for each direction */
 
-        /* Cleanup any existing compression */
+        /* зачисть any existing compression */
         if(session->local.comp && session->local.comp->dtor) {
             session->local.comp->dtor(session, 1,
                                       &session->local.comp_abstract);
@@ -915,14 +915,14 @@ static цел diffie_hellman_sha_algo(LIBSSH2_SESSION *session,
 
 
 /* kex_method_diffie_hellman_group1_sha1_key_exchange
- * Diffie-Hellman Group1 (Actually Group2) Key Exchange using SHA1
+ * Diffie-Hellman Group1 (Actually Group2) Key Exchange using ша1
  */
 static цел
 kex_method_diffie_hellman_group1_sha1_key_exchange(LIBSSH2_SESSION *session,
                                                    key_exchange_state_low_t
                                                    * key_state)
 {
-    static const unsigned char p_value[128] = {
+    static const ббайт p_value[128] = {
         0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
         0xC9, 0x0F, 0xDA, 0xA2, 0x21, 0x68, 0xC2, 0x34,
         0xC4, 0xC6, 0x62, 0x8B, 0x80, 0xDC, 0x1C, 0xD1,
@@ -987,9 +987,9 @@ typedef цел (*diffie_hellman_hash_func_t)(LIBSSH2_SESSION *,
                                           цел,
                                           цел,
                                           проц *,
-                                          unsigned char,
-                                          unsigned char,
-                                          unsigned char *,
+                                          ббайт,
+                                          ббайт,
+                                          ббайт *,
                                           unsigned long,
                                           kmdhgGPshakex_state_t *);
 static цел
@@ -1001,7 +1001,7 @@ kex_method_diffie_hellman_group14_key_exchange(LIBSSH2_SESSION *session,
                                                diffie_hellman_hash_func_t
                                                hashfunc)
 {
-    static const unsigned char p_value[256] = {
+    static const ббайт p_value[256] = {
         0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
         0xC9, 0x0F, 0xDA, 0xA2, 0x21, 0x68, 0xC2, 0x34,
         0xC4, 0xC6, 0x62, 0x8B, 0x80, 0xDC, 0x1C, 0xD1,
@@ -1071,7 +1071,7 @@ kex_method_diffie_hellman_group14_key_exchange(LIBSSH2_SESSION *session,
 
 
 /* kex_method_diffie_hellman_group14_sha1_key_exchange
- * Diffie-Hellman Group14 Key Exchange using SHA1
+ * Diffie-Hellman Group14 Key Exchange using ша1
  */
 static цел
 kex_method_diffie_hellman_group14_sha1_key_exchange(LIBSSH2_SESSION *session,
@@ -1088,7 +1088,7 @@ kex_method_diffie_hellman_group14_sha1_key_exchange(LIBSSH2_SESSION *session,
 
 
 /* kex_method_diffie_hellman_group14_sha256_key_exchange
- * Diffie-Hellman Group14 Key Exchange using SHA256
+ * Diffie-Hellman Group14 Key Exchange using ша256
  */
 static цел
 kex_method_diffie_hellman_group14_sha256_key_exchange(LIBSSH2_SESSION *session,
@@ -1111,7 +1111,7 @@ kex_method_diffie_hellman_group16_sha512_key_exchange(LIBSSH2_SESSION *session,
                                                       * key_state)
 
 {
-    static const unsigned char p_value[512] = {
+    static const ббайт p_value[512] = {
     0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xC9, 0x0F, 0xDA, 0xA2,
     0x21, 0x68, 0xC2, 0x34, 0xC4, 0xC6, 0x62, 0x8B, 0x80, 0xDC, 0x1C, 0xD1,
     0x29, 0x02, 0x4E, 0x08, 0x8A, 0x67, 0xCC, 0x74, 0x02, 0x0B, 0xBE, 0xA6,
@@ -1201,7 +1201,7 @@ kex_method_diffie_hellman_group18_sha512_key_exchange(LIBSSH2_SESSION *session,
                                                       * key_state)
 
 {
-    static const unsigned char p_value[1024] = {
+    static const ббайт p_value[1024] = {
     0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xC9, 0x0F, 0xDA, 0xA2,
     0x21, 0x68, 0xC2, 0x34, 0xC4, 0xC6, 0x62, 0x8B, 0x80, 0xDC, 0x1C, 0xD1,
     0x29, 0x02, 0x4E, 0x08, 0x8A, 0x67, 0xCC, 0x74, 0x02, 0x0B, 0xBE, 0xA6,
@@ -1326,7 +1326,7 @@ kex_method_diffie_hellman_group18_sha512_key_exchange(LIBSSH2_SESSION *session,
 }
 
 /* kex_method_diffie_hellman_group_exchange_sha1_key_exchange
- * Diffie-Hellman Группа Exchange Key Exchange using SHA1
+ * Diffie-Hellman Группа Exchange Key Exchange using ша1
  * Negotiates random(ish) группа for secret derivation
  */
 static цел
@@ -1394,7 +1394,7 @@ kex_method_diffie_hellman_group_exchange_sha1_key_exchange
 
     if(key_state->state == libssh2_NB_state_sent1) {
         т_мера p_len, g_len;
-        unsigned char *p, *g;
+        ббайт *p, *g;
         struct string_buf buf;
         libssh2_sha1_ctx exchange_hash_ctx;
 
@@ -1453,7 +1453,7 @@ kex_method_diffie_hellman_group_exchange_sha1_key_exchange
 
 
 /* kex_method_diffie_hellman_group_exchange_sha256_key_exchange
- * Diffie-Hellman Группа Exchange Key Exchange using SHA256
+ * Diffie-Hellman Группа Exchange Key Exchange using ша256
  * Negotiates random(ish) группа for secret derivation
  */
 static цел
@@ -1475,14 +1475,14 @@ kex_method_diffie_hellman_group_exchange_sha256_key_exchange
         key_state->request_len = 13;
         _libssh2_debug(session, LIBSSH2_TRACE_KEX,
                        "Initiating Diffie-Hellman Группа-Exchange "
-                       "(нов Method SHA256)");
+                       "(нов Method ша256)");
 #else
         key_state->request[0] = SSH_MSG_KEX_DH_GEX_REQUEST_OLD;
         _libssh2_htonu32(key_state->request + 1, LIBSSH2_DH_GEX_OPTGROUP);
         key_state->request_len = 5;
         _libssh2_debug(session, LIBSSH2_TRACE_KEX,
                        "Initiating Diffie-Hellman Группа-Exchange "
-                       "(Old Method SHA256)");
+                       "(Old Method ша256)");
 #endif
 
         key_state->state = libssh2_NB_state_created;
@@ -1497,7 +1497,7 @@ kex_method_diffie_hellman_group_exchange_sha256_key_exchange
         else if(rc) {
             ret = _libssh2_error(session, rc,
                                  "Unable to send "
-                                 "Группа Exchange Request SHA256");
+                                 "Группа Exchange Request ша256");
             goto dh_gex_clean_exit;
         }
 
@@ -1513,7 +1513,7 @@ kex_method_diffie_hellman_group_exchange_sha256_key_exchange
         }
         else if(rc) {
             ret = _libssh2_error(session, rc,
-                                 "Timeout waiting for GEX_GROUP reply SHA256");
+                                 "Timeout waiting for GEX_GROUP reply ша256");
             goto dh_gex_clean_exit;
         }
 
@@ -1521,7 +1521,7 @@ kex_method_diffie_hellman_group_exchange_sha256_key_exchange
     }
 
     if(key_state->state == libssh2_NB_state_sent1) {
-        unsigned char *p, *g;
+        ббайт *p, *g;
         т_мера p_len, g_len;
         struct string_buf buf;
         libssh2_sha256_ctx exchange_hash_ctx;
@@ -1636,12 +1636,12 @@ kex_session_ecdh_curve_type(кткст0 имя, libssh2_curve_type *out_type)
     libssh2_sha##digest_type##_init(&ctx);                              \
     if(session->local.banner) {                                         \
         _libssh2_htonu32(exchange_state->h_sig_comp,                    \
-                         strlen((char *) session->local.banner) - 2);   \
+                         strlen((сим *) session->local.banner) - 2);   \
         libssh2_sha##digest_type##_update(ctx,                          \
                                           exchange_state->h_sig_comp, 4); \
         libssh2_sha##digest_type##_update(ctx,                          \
-                                          (char *) session->local.banner, \
-                                          strlen((char *)               \
+                                          (сим *) session->local.banner, \
+                                          strlen((сим *)               \
                                                  session->local.banner) \
                                           - 2);                         \
     }                                                                   \
@@ -1657,12 +1657,12 @@ kex_session_ecdh_curve_type(кткст0 имя, libssh2_curve_type *out_type)
     }                                                                   \
                                                                         \
     _libssh2_htonu32(exchange_state->h_sig_comp,                        \
-                     strlen((char *) session->remote.banner));          \
+                     strlen((сим *) session->remote.banner));          \
     libssh2_sha##digest_type##_update(ctx,                              \
                                       exchange_state->h_sig_comp, 4);   \
     libssh2_sha##digest_type##_update(ctx,                              \
                                       session->remote.banner,           \
-                                      strlen((char *)                   \
+                                      strlen((сим *)                   \
                                              session->remote.banner));  \
                                                                         \
     _libssh2_htonu32(exchange_state->h_sig_comp,                        \
@@ -1726,8 +1726,8 @@ kex_session_ecdh_curve_type(кткст0 имя, libssh2_curve_type *out_type)
  */
 
 static цел ecdh_sha2_nistp(LIBSSH2_SESSION *session, libssh2_curve_type тип,
-                           unsigned char *data, т_мера data_len,
-                           unsigned char *public_key,
+                           ббайт *data, т_мера data_len,
+                           ббайт *public_key,
                            т_мера public_key_len, _libssh2_ec_key *private_key,
                            kmdhgGPshakex_state_t *exchange_state)
 {
@@ -1736,7 +1736,7 @@ static цел ecdh_sha2_nistp(LIBSSH2_SESSION *session, libssh2_curve_type ти�
 
     if(data_len < 5) {
         ret = _libssh2_error(session, LIBSSH2_ERROR_HOSTKEY_INIT,
-                            "Хост ключ data is too short");
+                            "Хост ключ data is too крат");
         return ret;
     }
 
@@ -1752,13 +1752,13 @@ static цел ecdh_sha2_nistp(LIBSSH2_SESSION *session, libssh2_curve_type ти�
         /* parse INIT reply data */
 
         /* host ключ K_S */
-        unsigned char *s = data + 1; /* Advance past packet тип */
-        unsigned char *server_public_key;
+        ббайт *s = data + 1; /* Advance past packet тип */
+        ббайт *server_public_key;
         т_мера server_public_key_len;
         т_мера host_sig_len;
 
         session->server_hostkey_len =
-            _libssh2_ntohu32((const unsigned char *)s);
+            _libssh2_ntohu32((const ббайт *)s);
         s += 4;
 
         session->server_hostkey = LIBSSH2_ALLOC(session,
@@ -1790,14 +1790,14 @@ static цел ecdh_sha2_nistp(LIBSSH2_SESSION *session, libssh2_curve_type ти�
         }
 #ifdef LIBSSH2DEBUG
         {
-            char fingerprint[50], *fprint = fingerprint;
+            сим fingerprint[50], *fprint = fingerprint;
             цел i;
             for(i = 0; i < 16; i++, fprint += 3) {
                 snprintf(fprint, 4, "%02x:", session->server_hostkey_md5[i]);
             }
             *(--fprint) = '\0';
             _libssh2_debug(session, LIBSSH2_TRACE_KEX,
-                           "Server's MD5 Fingerprint: %s", fingerprint);
+                           "Server's мд5 Fingerprint: %s", fingerprint);
         }
 #endif /* LIBSSH2DEBUG */
 #endif /* ! LIBSSH2_MD5 */
@@ -1818,7 +1818,7 @@ static цел ecdh_sha2_nistp(LIBSSH2_SESSION *session, libssh2_curve_type ти�
         }
 #ifdef LIBSSH2DEBUG
         {
-            char fingerprint[64], *fprint = fingerprint;
+            сим fingerprint[64], *fprint = fingerprint;
             цел i;
 
             for(i = 0; i < 20; i++, fprint += 3) {
@@ -1826,11 +1826,11 @@ static цел ecdh_sha2_nistp(LIBSSH2_SESSION *session, libssh2_curve_type ти�
             }
             *(--fprint) = '\0';
             _libssh2_debug(session, LIBSSH2_TRACE_KEX,
-                           "Server's SHA1 Fingerprint: %s", fingerprint);
+                           "Server's ша1 Fingerprint: %s", fingerprint);
         }
 #endif /* LIBSSH2DEBUG */
 
-        /* SHA256 */
+        /* ша256 */
         {
             libssh2_sha256_ctx fingerprint_ctx;
 
@@ -1847,14 +1847,14 @@ static цел ecdh_sha2_nistp(LIBSSH2_SESSION *session, libssh2_curve_type ти�
         }
 #ifdef LIBSSH2DEBUG
         {
-            char *base64Fingerprint = NULL;
+            сим *base64Fingerprint = NULL;
             _libssh2_base64_encode(session,
-                                   (const char *)
+                                   (кткст0 )
                                    session->server_hostkey_sha256,
                                    SHA256_DIGEST_LENGTH, &base64Fingerprint);
             if(base64Fingerprint != NULL) {
                 _libssh2_debug(session, LIBSSH2_TRACE_KEX,
-                               "Server's SHA256 Fingerprint: %s",
+                               "Server's ша256 Fingerprint: %s",
                                base64Fingerprint);
                 LIBSSH2_FREE(session, base64Fingerprint);
             }
@@ -1870,14 +1870,14 @@ static цел ecdh_sha2_nistp(LIBSSH2_SESSION *session, libssh2_curve_type ти�
         }
 
         /* server public ключ Q_S */
-        server_public_key_len = _libssh2_ntohu32((const unsigned char *)s);
+        server_public_key_len = _libssh2_ntohu32((const ббайт *)s);
         s += 4;
 
         server_public_key = s;
         s += server_public_key_len;
 
         /* server signature */
-        host_sig_len = _libssh2_ntohu32((const unsigned char *)s);
+        host_sig_len = _libssh2_ntohu32((const ббайт *)s);
         s += 4;
 
         exchange_state->h_sig = s;
@@ -2006,7 +2006,7 @@ static цел ecdh_sha2_nistp(LIBSSH2_SESSION *session, libssh2_curve_type ти�
                            "session_id calculated");
         }
 
-        /* Cleanup any existing cipher */
+        /* зачисть any existing cipher */
         if(session->local.crypt->dtor) {
             session->local.crypt->dtor(session,
                                        &session->local.crypt_abstract);
@@ -2014,7 +2014,7 @@ static цел ecdh_sha2_nistp(LIBSSH2_SESSION *session, libssh2_curve_type ти�
 
         /* Calculate IV/Secret/Key for each direction */
         if(session->local.crypt->init) {
-            unsigned char *iv = NULL, *secret = NULL;
+            ббайт *iv = NULL, *secret = NULL;
             цел free_iv = 0, free_secret = 0;
 
             LIBSSH2_KEX_METHOD_EC_SHA_VALUE_HASH(iv,
@@ -2058,13 +2058,13 @@ static цел ecdh_sha2_nistp(LIBSSH2_SESSION *session, libssh2_curve_type ти�
                        "Client to Server IV and Key calculated");
 
         if(session->remote.crypt->dtor) {
-            /* Cleanup any existing cipher */
+            /* зачисть any existing cipher */
             session->remote.crypt->dtor(session,
                                         &session->remote.crypt_abstract);
         }
 
         if(session->remote.crypt->init) {
-            unsigned char *iv = NULL, *secret = NULL;
+            ббайт *iv = NULL, *secret = NULL;
             цел free_iv = 0, free_secret = 0;
 
             LIBSSH2_KEX_METHOD_EC_SHA_VALUE_HASH(iv,
@@ -2112,7 +2112,7 @@ static цел ecdh_sha2_nistp(LIBSSH2_SESSION *session, libssh2_curve_type ти�
         }
 
         if(session->local.mac->init) {
-            unsigned char *ключ = NULL;
+            ббайт *ключ = NULL;
             цел free_key = 0;
 
             LIBSSH2_KEX_METHOD_EC_SHA_VALUE_HASH(ключ,
@@ -2139,7 +2139,7 @@ static цел ecdh_sha2_nistp(LIBSSH2_SESSION *session, libssh2_curve_type ти�
         }
 
         if(session->remote.mac->init) {
-            unsigned char *ключ = NULL;
+            ббайт *ключ = NULL;
             цел free_key = 0;
 
             LIBSSH2_KEX_METHOD_EC_SHA_VALUE_HASH(ключ,
@@ -2163,7 +2163,7 @@ static цел ecdh_sha2_nistp(LIBSSH2_SESSION *session, libssh2_curve_type ти�
 
         /* Initialize compression for each direction */
 
-        /* Cleanup any existing compression */
+        /* зачисть any existing compression */
         if(session->local.comp && session->local.comp->dtor) {
             session->local.comp->dtor(session, 1,
                                       &session->local.comp_abstract);
@@ -2213,7 +2213,7 @@ clean_exit:
 /* kex_method_ecdh_key_exchange
  *
  * Elliptic Curve Diffie Hellman Key Exchange
- * supports SHA256/384/512 hashes based on negotated ecdh method
+ * supports ша256/384/512 hashes based on negotated ecdh method
  *
  */
 
@@ -2223,7 +2223,7 @@ kex_method_ecdh_key_exchange
 {
     цел ret = 0;
     цел rc = 0;
-    unsigned char *s;
+    ббайт *s;
     libssh2_curve_type тип;
 
     if(key_state->state == libssh2_NB_state_idle) {
@@ -2253,7 +2253,7 @@ kex_method_ecdh_key_exchange
 
         key_state->request[0] = SSH2_MSG_KEX_ECDH_INIT;
         s = key_state->request + 1;
-        _libssh2_store_str(&s, (const char *)key_state->public_key_oct,
+        _libssh2_store_str(&s, (кткст0 )key_state->public_key_oct,
                            key_state->public_key_oct_len);
         key_state->request_len = key_state->public_key_oct_len + 5;
 
@@ -2300,7 +2300,7 @@ kex_method_ecdh_key_exchange
 
         ret = ecdh_sha2_nistp(session, тип, key_state->data,
                               key_state->data_len,
-                              (unsigned char *)key_state->public_key_oct,
+                              (ббайт *)key_state->public_key_oct,
                               key_state->public_key_oct_len,
                               key_state->private_key,
                               &key_state->exchange_state);
@@ -2339,10 +2339,10 @@ ecdh_clean_exit:
  */
 
 static цел
-curve25519_sha256(LIBSSH2_SESSION *session, unsigned char *data,
+curve25519_sha256(LIBSSH2_SESSION *session, ббайт *data,
                   т_мера data_len,
-                  unsigned char public_key[LIBSSH2_ED25519_KEY_LEN],
-                  unsigned char private_key[LIBSSH2_ED25519_KEY_LEN],
+                  ббайт public_key[LIBSSH2_ED25519_KEY_LEN],
+                  ббайт private_key[LIBSSH2_ED25519_KEY_LEN],
                   kmdhgGPshakex_state_t *exchange_state)
 {
     цел ret = 0;
@@ -2351,7 +2351,7 @@ curve25519_sha256(LIBSSH2_SESSION *session, unsigned char *data,
 
     if(data_len < 5) {
         return _libssh2_error(session, LIBSSH2_ERROR_HOSTKEY_INIT,
-                              "Data is too short");
+                              "Data is too крат");
     }
 
     if(exchange_state->state == libssh2_NB_state_idle) {
@@ -2364,7 +2364,7 @@ curve25519_sha256(LIBSSH2_SESSION *session, unsigned char *data,
 
     if(exchange_state->state == libssh2_NB_state_created) {
         /* parse INIT reply data */
-        unsigned char *server_public_key, *server_host_key;
+        ббайт *server_public_key, *server_host_key;
         т_мера server_public_key_len, hostkey_len;
         struct string_buf buf;
 
@@ -2415,14 +2415,14 @@ curve25519_sha256(LIBSSH2_SESSION *session, unsigned char *data,
         }
 #ifdef LIBSSH2DEBUG
         {
-            char fingerprint[50], *fprint = fingerprint;
+            сим fingerprint[50], *fprint = fingerprint;
             цел i;
             for(i = 0; i < 16; i++, fprint += 3) {
                 snprintf(fprint, 4, "%02x:", session->server_hostkey_md5[i]);
             }
             *(--fprint) = '\0';
             _libssh2_debug(session, LIBSSH2_TRACE_KEX,
-                             "Server's MD5 Fingerprint: %s", fingerprint);
+                             "Server's мд5 Fingerprint: %s", fingerprint);
         }
 #endif /* LIBSSH2DEBUG */
 #endif /* ! LIBSSH2_MD5 */
@@ -2443,7 +2443,7 @@ curve25519_sha256(LIBSSH2_SESSION *session, unsigned char *data,
         }
 #ifdef LIBSSH2DEBUG
         {
-            char fingerprint[64], *fprint = fingerprint;
+            сим fingerprint[64], *fprint = fingerprint;
             цел i;
 
             for(i = 0; i < 20; i++, fprint += 3) {
@@ -2451,11 +2451,11 @@ curve25519_sha256(LIBSSH2_SESSION *session, unsigned char *data,
             }
             *(--fprint) = '\0';
             _libssh2_debug(session, LIBSSH2_TRACE_KEX,
-                             "Server's SHA1 Fingerprint: %s", fingerprint);
+                             "Server's ша1 Fingerprint: %s", fingerprint);
         }
 #endif /* LIBSSH2DEBUG */
 
-        /* SHA256 */
+        /* ша256 */
         {
             libssh2_sha256_ctx fingerprint_ctx;
 
@@ -2472,14 +2472,14 @@ curve25519_sha256(LIBSSH2_SESSION *session, unsigned char *data,
         }
 #ifdef LIBSSH2DEBUG
         {
-            char *base64Fingerprint = NULL;
+            сим *base64Fingerprint = NULL;
             _libssh2_base64_encode(session,
-                                   (const char *)
+                                   (кткст0 )
                                    session->server_hostkey_sha256,
                                    SHA256_DIGEST_LENGTH, &base64Fingerprint);
             if(base64Fingerprint != NULL) {
                 _libssh2_debug(session, LIBSSH2_TRACE_KEX,
-                               "Server's SHA256 Fingerprint: %s",
+                               "Server's ша256 Fingerprint: %s",
                                base64Fingerprint);
                 LIBSSH2_FREE(session, base64Fingerprint);
             }
@@ -2615,7 +2615,7 @@ curve25519_sha256(LIBSSH2_SESSION *session, unsigned char *data,
                            "session_id calculated");
         }
 
-        /* Cleanup any existing cipher */
+        /* зачисть any existing cipher */
         if(session->local.crypt->dtor) {
             session->local.crypt->dtor(session,
                                         &session->local.crypt_abstract);
@@ -2623,7 +2623,7 @@ curve25519_sha256(LIBSSH2_SESSION *session, unsigned char *data,
 
         /* Calculate IV/Secret/Key for each direction */
         if(session->local.crypt->init) {
-            unsigned char *iv = NULL, *secret = NULL;
+            ббайт *iv = NULL, *secret = NULL;
             цел free_iv = 0, free_secret = 0;
 
             LIBSSH2_KEX_METHOD_SHA_VALUE_HASH(256, iv,
@@ -2667,13 +2667,13 @@ curve25519_sha256(LIBSSH2_SESSION *session, unsigned char *data,
                         "Client to Server IV and Key calculated");
 
         if(session->remote.crypt->dtor) {
-            /* Cleanup any existing cipher */
+            /* зачисть any existing cipher */
             session->remote.crypt->dtor(session,
                                         &session->remote.crypt_abstract);
         }
 
         if(session->remote.crypt->init) {
-            unsigned char *iv = NULL, *secret = NULL;
+            ббайт *iv = NULL, *secret = NULL;
             цел free_iv = 0, free_secret = 0;
 
             LIBSSH2_KEX_METHOD_SHA_VALUE_HASH(256, iv,
@@ -2721,7 +2721,7 @@ curve25519_sha256(LIBSSH2_SESSION *session, unsigned char *data,
         }
 
         if(session->local.mac->init) {
-            unsigned char *ключ = NULL;
+            ббайт *ключ = NULL;
             цел free_key = 0;
 
             LIBSSH2_KEX_METHOD_SHA_VALUE_HASH(256, ключ,
@@ -2748,7 +2748,7 @@ curve25519_sha256(LIBSSH2_SESSION *session, unsigned char *data,
         }
 
         if(session->remote.mac->init) {
-            unsigned char *ключ = NULL;
+            ббайт *ключ = NULL;
             цел free_key = 0;
 
             LIBSSH2_KEX_METHOD_SHA_VALUE_HASH(256, ключ,
@@ -2772,7 +2772,7 @@ curve25519_sha256(LIBSSH2_SESSION *session, unsigned char *data,
 
         /* Initialize compression for each direction */
 
-        /* Cleanup any existing compression */
+        /* зачисть any existing compression */
         if(session->local.comp && session->local.comp->dtor) {
             session->local.comp->dtor(session, 1,
                                       &session->local.comp_abstract);
@@ -2820,7 +2820,7 @@ clean_exit:
 
 /* kex_method_curve25519_key_exchange
  *
- * Elliptic Curve X25519 Key Exchange with SHA256 hash
+ * Elliptic Curve X25519 Key Exchange with ша256 hash
  *
  */
 
@@ -2838,7 +2838,7 @@ kex_method_curve25519_key_exchange
     }
 
     if(key_state->state == libssh2_NB_state_created) {
-        unsigned char *s = NULL;
+        ббайт *s = NULL;
 
         rc = strcmp(session->kex->имя, "curve25519-sha256@libssh.org");
         if(rc != 0)
@@ -2862,7 +2862,7 @@ kex_method_curve25519_key_exchange
 
         key_state->request[0] = SSH2_MSG_KEX_ECDH_INIT;
         s = key_state->request + 1;
-        _libssh2_store_str(&s, (const char *)key_state->curve25519_public_key,
+        _libssh2_store_str(&s, (кткст0 )key_state->curve25519_public_key,
                            LIBSSH2_ED25519_KEY_LEN);
         key_state->request_len = LIBSSH2_ED25519_KEY_LEN + 5;
 
@@ -3081,7 +3081,7 @@ kex_method_strlen(LIBSSH2_COMMON_METHOD ** method)
  * Generate formatted preference list in buf
  */
 static т_мера
-kex_method_list(unsigned char *buf, т_мера list_strlen,
+kex_method_list(ббайт *buf, т_мера list_strlen,
                 LIBSSH2_COMMON_METHOD ** method)
 {
     _libssh2_htonu32(buf, list_strlen);
@@ -3133,7 +3133,7 @@ static цел kexinit(LIBSSH2_SESSION * session)
     т_мера comp_cs_len, comp_sc_len;
     т_мера mac_cs_len, mac_sc_len;
     т_мера lang_cs_len, lang_sc_len;
-    unsigned char *data, *s;
+    ббайт *data, *s;
     цел rc;
 
     if(session->kexinit_state == libssh2_NB_state_idle) {
@@ -3217,7 +3217,7 @@ static цел kexinit(LIBSSH2_SESSION * session)
 #ifdef LIBSSH2DEBUG
         {
             /* Funnily enough, they'll all "appear" to be '\0' terminated */
-            unsigned char *p = data + 21;   /* тип(1) + cookie(16) + len(4) */
+            ббайт *p = data + 21;   /* тип(1) + cookie(16) + len(4) */
 
             _libssh2_debug(session, LIBSSH2_TRACE_KEX, "Sent KEX: %s", p);
             p += kex_len + 4;
@@ -3282,19 +3282,19 @@ static цел kexinit(LIBSSH2_SESSION * session)
  * Kex specific variant of strstr()
  * Needle must be precede by BOL or ',', and followed by ',' or EOL
  */
-static unsigned char *
-kex_agree_instr(unsigned char *haystack, unsigned long haystack_len,
-                const unsigned char *needle, unsigned long needle_len)
+static ббайт *
+kex_agree_instr(ббайт *haystack, unsigned long haystack_len,
+                const ббайт *needle, unsigned long needle_len)
 {
-    unsigned char *s;
+    ббайт *s;
 
-    /* Haystack too short to bother trying */
+    /* Haystack too крат to bother trying */
     if(haystack_len < needle_len) {
         return NULL;
     }
 
     /* Needle at start of haystack */
-    if((strncmp((char *) haystack, (char *) needle, needle_len) == 0) &&
+    if((strncmp((сим *) haystack, (сим *) needle, needle_len) == 0) &&
         (needle_len == haystack_len || haystack[needle_len] == ',')) {
         return haystack;
     }
@@ -3302,11 +3302,11 @@ kex_agree_instr(unsigned char *haystack, unsigned long haystack_len,
     s = haystack;
     /* Search until we run out of comas or we run out of haystack,
        whichever comes first */
-    while((s = (unsigned char *) strchr((char *) s, ','))
+    while((s = (ббайт *) strchr((сим *) s, ','))
            && ((haystack_len - (s - haystack)) > needle_len)) {
         s++;
         /* Needle at X position */
-        if((strncmp((char *) s, (char *) needle, needle_len) == 0) &&
+        if((strncmp((сим *) s, (сим *) needle, needle_len) == 0) &&
             (((s - haystack) + needle_len) == haystack_len
              || s[needle_len] == ',')) {
             return s;
@@ -3341,21 +3341,21 @@ kex_get_method_by_name(кткст0 имя, т_мера name_len,
  */
 static цел kex_agree_hostkey(LIBSSH2_SESSION * session,
                              unsigned long kex_flags,
-                             unsigned char *hostkey, unsigned long hostkey_len)
+                             ббайт *hostkey, unsigned long hostkey_len)
 {
     const LIBSSH2_HOSTKEY_METHOD **hostkeyp = libssh2_hostkey_methods();
-    unsigned char *s;
+    ббайт *s;
 
     if(session->hostkey_prefs) {
-        s = (unsigned char *) session->hostkey_prefs;
+        s = (ббайт *) session->hostkey_prefs;
 
         while(s && *s) {
-            unsigned char *p = (unsigned char *) strchr((char *) s, ',');
-            т_мера method_len = (p ? (т_мера)(p - s) : strlen((char *) s));
+            ббайт *p = (ббайт *) strchr((сим *) s, ',');
+            т_мера method_len = (p ? (т_мера)(p - s) : strlen((сим *) s));
             if(kex_agree_instr(hostkey, hostkey_len, s, method_len)) {
                 const LIBSSH2_HOSTKEY_METHOD *method =
                     (const LIBSSH2_HOSTKEY_METHOD *)
-                    kex_get_method_by_name((char *) s, method_len,
+                    kex_get_method_by_name((сим *) s, method_len,
                                            (const LIBSSH2_COMMON_METHOD **)
                                            hostkeyp);
 
@@ -3387,7 +3387,7 @@ static цел kex_agree_hostkey(LIBSSH2_SESSION * session,
 
     while(hostkeyp && (*hostkeyp) && (*hostkeyp)->имя) {
         s = kex_agree_instr(hostkey, hostkey_len,
-                            (unsigned char *) (*hostkeyp)->имя,
+                            (ббайт *) (*hostkeyp)->имя,
                             strlen((*hostkeyp)->имя));
         if(s) {
             /* So far so good, but does it suit our purposes? (Encrypting vs
@@ -3416,23 +3416,23 @@ static цел kex_agree_hostkey(LIBSSH2_SESSION * session,
 /* kex_agree_kex_hostkey
  * Agree on a Key Exchange method and a hostkey encoding тип
  */
-static цел kex_agree_kex_hostkey(LIBSSH2_SESSION * session, unsigned char *kex,
-                                 unsigned long kex_len, unsigned char *hostkey,
+static цел kex_agree_kex_hostkey(LIBSSH2_SESSION * session, ббайт *kex,
+                                 unsigned long kex_len, ббайт *hostkey,
                                  unsigned long hostkey_len)
 {
     const LIBSSH2_KEX_METHOD **kexp = libssh2_kex_methods;
-    unsigned char *s;
+    ббайт *s;
 
     if(session->kex_prefs) {
-        s = (unsigned char *) session->kex_prefs;
+        s = (ббайт *) session->kex_prefs;
 
         while(s && *s) {
-            unsigned char *q, *p = (unsigned char *) strchr((char *) s, ',');
-            т_мера method_len = (p ? (т_мера)(p - s) : strlen((char *) s));
+            ббайт *q, *p = (ббайт *) strchr((сим *) s, ',');
+            т_мера method_len = (p ? (т_мера)(p - s) : strlen((сим *) s));
             q = kex_agree_instr(kex, kex_len, s, method_len);
             if(q) {
                 const LIBSSH2_KEX_METHOD *method = (const LIBSSH2_KEX_METHOD *)
-                    kex_get_method_by_name((char *) s, method_len,
+                    kex_get_method_by_name((сим *) s, method_len,
                                            (const LIBSSH2_COMMON_METHOD **)
                                            kexp);
 
@@ -3464,7 +3464,7 @@ static цел kex_agree_kex_hostkey(LIBSSH2_SESSION * session, unsigned char *ke
 
     while(*kexp && (*kexp)->имя) {
         s = kex_agree_instr(kex, kex_len,
-                            (unsigned char *) (*kexp)->имя,
+                            (ббайт *) (*kexp)->имя,
                             strlen((*kexp)->имя));
         if(s) {
             /* We've agreed on a ключ exchange method,
@@ -3494,25 +3494,25 @@ static цел kex_agree_kex_hostkey(LIBSSH2_SESSION * session, unsigned char *ke
  */
 static цел kex_agree_crypt(LIBSSH2_SESSION * session,
                            libssh2_endpoint_data *endpoint,
-                           unsigned char *crypt,
+                           ббайт *crypt,
                            unsigned long crypt_len)
 {
     const LIBSSH2_CRYPT_METHOD **cryptp = libssh2_crypt_methods();
-    unsigned char *s;
+    ббайт *s;
 
     (проц) session;
 
     if(endpoint->crypt_prefs) {
-        s = (unsigned char *) endpoint->crypt_prefs;
+        s = (ббайт *) endpoint->crypt_prefs;
 
         while(s && *s) {
-            unsigned char *p = (unsigned char *) strchr((char *) s, ',');
-            т_мера method_len = (p ? (т_мера)(p - s) : strlen((char *) s));
+            ббайт *p = (ббайт *) strchr((сим *) s, ',');
+            т_мера method_len = (p ? (т_мера)(p - s) : strlen((сим *) s));
 
             if(kex_agree_instr(crypt, crypt_len, s, method_len)) {
                 const LIBSSH2_CRYPT_METHOD *method =
                     (const LIBSSH2_CRYPT_METHOD *)
-                    kex_get_method_by_name((char *) s, method_len,
+                    kex_get_method_by_name((сим *) s, method_len,
                                            (const LIBSSH2_COMMON_METHOD **)
                                            cryptp);
 
@@ -3532,7 +3532,7 @@ static цел kex_agree_crypt(LIBSSH2_SESSION * session,
 
     while(*cryptp && (*cryptp)->имя) {
         s = kex_agree_instr(crypt, crypt_len,
-                            (unsigned char *) (*cryptp)->имя,
+                            (ббайт *) (*cryptp)->имя,
                             strlen((*cryptp)->имя));
         if(s) {
             endpoint->crypt = *cryptp;
@@ -3550,23 +3550,23 @@ static цел kex_agree_crypt(LIBSSH2_SESSION * session,
  * Agree on a message authentication hash
  */
 static цел kex_agree_mac(LIBSSH2_SESSION * session,
-                         libssh2_endpoint_data * endpoint, unsigned char *mac,
+                         libssh2_endpoint_data * endpoint, ббайт *mac,
                          unsigned long mac_len)
 {
     const LIBSSH2_MAC_METHOD **macp = _libssh2_mac_methods();
-    unsigned char *s;
+    ббайт *s;
     (проц) session;
 
     if(endpoint->mac_prefs) {
-        s = (unsigned char *) endpoint->mac_prefs;
+        s = (ббайт *) endpoint->mac_prefs;
 
         while(s && *s) {
-            unsigned char *p = (unsigned char *) strchr((char *) s, ',');
-            т_мера method_len = (p ? (т_мера)(p - s) : strlen((char *) s));
+            ббайт *p = (ббайт *) strchr((сим *) s, ',');
+            т_мера method_len = (p ? (т_мера)(p - s) : strlen((сим *) s));
 
             if(kex_agree_instr(mac, mac_len, s, method_len)) {
                 const LIBSSH2_MAC_METHOD *method = (const LIBSSH2_MAC_METHOD *)
-                    kex_get_method_by_name((char *) s, method_len,
+                    kex_get_method_by_name((сим *) s, method_len,
                                            (const LIBSSH2_COMMON_METHOD **)
                                            macp);
 
@@ -3585,7 +3585,7 @@ static цел kex_agree_mac(LIBSSH2_SESSION * session,
     }
 
     while(*macp && (*macp)->имя) {
-        s = kex_agree_instr(mac, mac_len, (unsigned char *) (*macp)->имя,
+        s = kex_agree_instr(mac, mac_len, (ббайт *) (*macp)->имя,
                             strlen((*macp)->имя));
         if(s) {
             endpoint->mac = *macp;
@@ -3603,24 +3603,24 @@ static цел kex_agree_mac(LIBSSH2_SESSION * session,
  * Agree on a compression scheme
  */
 static цел kex_agree_comp(LIBSSH2_SESSION *session,
-                          libssh2_endpoint_data *endpoint, unsigned char *comp,
+                          libssh2_endpoint_data *endpoint, ббайт *comp,
                           unsigned long comp_len)
 {
     const LIBSSH2_COMP_METHOD **compp = _libssh2_comp_methods(session);
-    unsigned char *s;
+    ббайт *s;
     (проц) session;
 
     if(endpoint->comp_prefs) {
-        s = (unsigned char *) endpoint->comp_prefs;
+        s = (ббайт *) endpoint->comp_prefs;
 
         while(s && *s) {
-            unsigned char *p = (unsigned char *) strchr((char *) s, ',');
-            т_мера method_len = (p ? (т_мера)(p - s) : strlen((char *) s));
+            ббайт *p = (ббайт *) strchr((сим *) s, ',');
+            т_мера method_len = (p ? (т_мера)(p - s) : strlen((сим *) s));
 
             if(kex_agree_instr(comp, comp_len, s, method_len)) {
                 const LIBSSH2_COMP_METHOD *method =
                     (const LIBSSH2_COMP_METHOD *)
-                    kex_get_method_by_name((char *) s, method_len,
+                    kex_get_method_by_name((сим *) s, method_len,
                                            (const LIBSSH2_COMMON_METHOD **)
                                            compp);
 
@@ -3639,7 +3639,7 @@ static цел kex_agree_comp(LIBSSH2_SESSION *session,
     }
 
     while(*compp && (*compp)->имя) {
-        s = kex_agree_instr(comp, comp_len, (unsigned char *) (*compp)->имя,
+        s = kex_agree_instr(comp, comp_len, (ббайт *) (*compp)->имя,
                             strlen((*compp)->имя));
         if(s) {
             endpoint->comp = *compp;
@@ -3659,10 +3659,10 @@ static цел kex_agree_comp(LIBSSH2_SESSION *session,
 /* kex_agree_methods
  * Decide which specific method to use of the methods offered by each party
  */
-static цел kex_agree_methods(LIBSSH2_SESSION * session, unsigned char *data,
+static цел kex_agree_methods(LIBSSH2_SESSION * session, ббайт *data,
                              unsigned data_len)
 {
-    unsigned char *kex, *hostkey, *crypt_cs, *crypt_sc, *comp_cs, *comp_sc,
+    ббайт *kex, *hostkey, *crypt_cs, *crypt_sc, *comp_cs, *comp_sc,
         *mac_cs, *mac_sc;
     т_мера kex_len, hostkey_len, crypt_cs_len, crypt_sc_len, comp_cs_len;
     т_мера comp_sc_len, mac_cs_len, mac_sc_len;
@@ -3671,7 +3671,7 @@ static цел kex_agree_methods(LIBSSH2_SESSION * session, unsigned char *data,
     if(data_len < 17)
         return -1;
 
-    buf.data = (unsigned char *)data;
+    buf.data = (ббайт *)data;
     buf.len = data_len;
     buf.dataptr = buf.data;
     buf.dataptr++; /* advance past packet тип */
@@ -3902,7 +3902,7 @@ LIBSSH2_API цел
 libssh2_session_method_pref(LIBSSH2_SESSION * session, цел method_type,
                             кткст0 prefs)
 {
-    char **prefvar, *s, *newprefs;
+    сим **prefvar, *s, *newprefs;
     цел prefs_len = strlen(prefs);
     const LIBSSH2_COMMON_METHOD **mlist;
 
@@ -3972,7 +3972,7 @@ libssh2_session_method_pref(LIBSSH2_SESSION * session, цел method_type,
     memcpy(s, prefs, prefs_len + 1);
 
     while(s && *s && mlist) {
-        char *p = strchr(s, ',');
+        сим *p = strchr(s, ',');
         цел method_len = p ? (p - s) : (цел) strlen(s);
 
         if(!kex_get_method_by_name(s, method_len, mlist)) {
@@ -4017,7 +4017,7 @@ libssh2_session_method_pref(LIBSSH2_SESSION * session, цел method_type,
 
 LIBSSH2_API цел libssh2_session_supported_algs(LIBSSH2_SESSION* session,
                                                цел method_type,
-                                               const char ***algs)
+                                               кткст0 **algs)
 {
     бцел i;
     бцел j;
@@ -4089,7 +4089,7 @@ LIBSSH2_API цел libssh2_session_supported_algs(LIBSSH2_SESSION* session,
                               "No algorithm found");
 
     /* allocate буфер */
-    *algs = (const char **) LIBSSH2_ALLOC(session, ialg*sizeof(const char *));
+    *algs = (кткст0 *) LIBSSH2_ALLOC(session, ialg*sizeof(кткст0 ));
     if(NULL == *algs) {
         return _libssh2_error(session, LIBSSH2_ERROR_ALLOC,
                               "Memory allocation failed");

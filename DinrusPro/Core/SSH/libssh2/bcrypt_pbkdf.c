@@ -162,11 +162,11 @@ bcrypt_pbkdf(кткст0 pass, т_мера passlen, const uint8_t *salt,
          */
         amt = MINIMUM(amt, keylen);
         for(i = 0; i < amt; i++) {
-            т_мера dest = i * stride + (count - 1);
-            if(dest >= origkeylen) {
+            т_мера приёмник = i * stride + (count - 1);
+            if(приёмник >= origkeylen) {
                 break;
             }
-            ключ[dest] = out[i];
+            ключ[приёмник] = out[i];
         }
         keylen -= i;
     }

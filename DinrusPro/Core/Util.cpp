@@ -1,4 +1,4 @@
-#include <DinrusPro/DinrusPro.h>
+#include <DinrusPro/DinrusCore.h>
 
 #ifdef PLATFORM_WIN32
 #	include <winnls.h>
@@ -8,8 +8,6 @@
 #	include <execinfo.h>
 #	include <cxxabi.h>
 #endif
-
-namespace ДинрусРНЦП {
 
 бул PanicMode;
 
@@ -28,10 +26,10 @@ static  проц (*sPanicMessageBox)(кткст0 title, кткст0 text);
 	if(sPanicMessageBox)
 		(*sPanicMessageBox)(title, text);
 	else {
-		IGNORE_RESULT(
+		ИГНОРРЕЗ(
 			write(2, text, (цел)strlen(text))
 		);
-		IGNORE_RESULT(
+		ИГНОРРЕЗ(
 			write(2, "\n", 1)
 		);
 	}
@@ -39,12 +37,12 @@ static  проц (*sPanicMessageBox)(кткст0 title, кткст0 text);
 
 
 #if defined(PLATFORM_LINUX) && defined(COMPILER_GCC) && !defined(PLATFORM_ANDROID) && defined(flagSTACKTRACE)
-проц AddStackTrace(char * str, цел len)
+проц AddStackTrace(сим * str, цел len)
 {
 	const т_мера max_depth = 100;
     ук stack_addrs[max_depth];
-    char **stack_strings;
-    const char msg[] = "\nТрассировка стэка:\n";
+    сим **stack_strings;
+    const сим msg[] = "\nТрассировка стэка:\n";
 
     т_мера stack_depth = backtrace(stack_addrs, max_depth);
     stack_strings = backtrace_symbols(stack_addrs, stack_depth);
@@ -55,16 +53,16 @@ static  проц (*sPanicMessageBox)(кткст0 title, кткст0 text);
 	
     for (т_мера i = 0; i < stack_depth && space > 0; i++) {
 
-		char * start = strchr(stack_strings[i], '(');
+		сим * start = strchr(stack_strings[i], '(');
 		if (start == NULL) continue;
 
 		т_мера len;
 		цел stat;
 
-		char * end = strchr(start, '+');
+		сим * end = strchr(start, '+');
 		if (end != NULL) *end = '\0';
 
-		char * demangled = abi::__cxa_demangle(start+1, NULL, &len, &stat);
+		сим * demangled = abi::__cxa_demangle(start+1, NULL, &len, &stat);
 
 		if (stat == 0 && demangled != NULL){
 			strncat(str, demangled, макс(space, 0));
@@ -118,12 +116,12 @@ static  проц (*sPanicMessageBox)(кткст0 title, кткст0 text);
 #ifdef _ОТЛАДКА
 	__ВСЁ__;
 #endif
-	abort();
+	аборт();
 }
 
-static проц (*s_assert_hook)(const char *);
+static проц (*s_assert_hook)(кткст0 );
 
-проц    устХукНеудачаАссертации(проц (*h)(const char *))
+проц    устХукНеудачаАссертации(проц (*h)(кткст0 ))
 {
 	s_assert_hook = h;
 }
@@ -133,7 +131,7 @@ static проц (*s_assert_hook)(const char *);
 	if(PanicMode)
 		return;
 	PanicMode = true;
-	char s[2048];
+	сим s[2048];
 	sprintf(s, "Неудача ассертации в %s, строка %d\n%s\n", file, line, cond);
 #if defined(PLATFORM_LINUX) && defined(COMPILER_GCC) && defined(flagSTACKTRACE)
 	AddStackTrace(s, sizeof(s));
@@ -169,7 +167,7 @@ static проц (*s_assert_hook)(const char *);
 #endif
 
 	__ВСЁ__;
-	abort();
+	аборт();
 }
 
 #ifdef PLATFORM_POSIX
@@ -227,7 +225,7 @@ static проц (*s_assert_hook)(const char *);
 	return Ткст() << time / 1e6 << " s";
 }
 
-цел RegisterTypeNo__(кткст0 тип)
+цел регистрируйНомТипа__(кткст0 тип)
 {
 	INTERLOCKED {
 		static Индекс<Ткст> types;
@@ -236,9 +234,9 @@ static проц (*s_assert_hook)(const char *);
 	return -1;
 }
 
-char *перманентнаяКопия(кткст0 s)
+сим *перманентнаяКопия(кткст0 s)
 {
-	char *t = (char *)разместиПамПерманентно(strlen(s) + 1);
+	сим *t = (сим *)разместиПамПерманентно(strlen(s) + 1);
 	strcpy(t, s);
 	return t;
 }
@@ -253,10 +251,10 @@ char *перманентнаяКопия(кткст0 s)
 }
 #endif
 
-цел памсравнИ(const ук dest, const ук ист, цел count)
+цел памсравнИ(кук приёмник, кук ист, цел count)
 {
 
-	const ббайт *a = (const ббайт *)dest;
+	const ббайт *a = (const ббайт *)приёмник;
 	const ббайт *b = (const ббайт *)ист;
 	const ббайт *l = a + count;
 	while(a < l) {
@@ -322,7 +320,7 @@ char *перманентнаяКопия(кткст0 s)
 		e = s + strlen(s);
 	while(s != e)
 	{
-		result.кат(*s++ ^ (char)c);
+		result.кат(*s++ ^ (сим)c);
 		if((c <<= 1) & 0x100)
 			c ^= 0x137;
 	}
@@ -341,7 +339,7 @@ char *перманентнаяКопия(кткст0 s)
 	enc << l << ':';
 	for(цел i = 0; i < l;)
 	{
-		char a = 0, b = 0, c = 0;
+		сим a = 0, b = 0, c = 0;
 		if(i < l) a = s[i++];
 		if(i < l) b = s[i++];
 		if(i < l) c = s[i++];
@@ -358,7 +356,7 @@ char *перманентнаяКопия(кткст0 s)
 	if(!цифра_ли(*s))
 		return s;
 	кткст0 p = s;
-	char *h;
+	сим *h;
 	цел len = strtol(p, &h, 10);
 	p = h;
 	if(*p++ != ':' || len < 0 || (len + 2) / 3 * 4 > (s.стоп() - p))
@@ -386,9 +384,9 @@ char *перманентнаяКопия(кткст0 s)
 	if(count == 0)
 		return Ткст();
 	ТкстБуф b(2 * count + (count - 1) / sep);
-	static const char itoc[] = "0123456789abcdef";
+	static const сим itoc[] = "0123456789abcdef";
 	цел i = 0;
-	char *t = b;
+	сим *t = b;
 	for(;;) {
 		for(цел q = 0; q < sep; q++) {
 			if(i >= count)
@@ -574,13 +572,13 @@ char *перманентнаяКопия(кткст0 s)
 
 цел ChNoInvalid(цел c)
 {
-	return c == DEFAULTCHAR ? '_' : c;
+	return c == ДЕФСИМ ? '_' : c;
 }
 
 #ifdef PLATFORM_WIN32
 Ткст вСисНабсим(const Ткст& ист, цел cp)
 {
-	Вектор<char16> s = вУтф16(ист);
+	Вектор<сим16> s = вУтф16(ист);
 	цел l = s.дайСчёт() * 8;
 	ТкстБуф b(l);
 	цел q = WideCharToMultiByte(cp, 0, s, s.дайСчёт(), b, l, NULL, NULL);
@@ -597,7 +595,7 @@ char *перманентнаяКопия(кткст0 s)
 
 Ткст изНабсимаВин32(const Ткст& ист, цел cp)
 {
-	Буфер<char16> b(ист.дайДлину());
+	Буфер<сим16> b(ист.дайДлину());
 	цел q = MultiByteToWideChar(cp, MB_PRECOMPOSED, ~ист, ист.дайДлину(), b, ист.дайДлину());
 	if(q <= 0)
 		return ист;
@@ -617,45 +615,45 @@ char *перманентнаяКопия(кткст0 s)
 #else
 Ткст вСисНабсим(const Ткст& ист)
 {
-	return главнаяПущена() ? фильтруй(вНабсим(GetLNGCharset(GetSystemLNG()), ист), ChNoInvalid)
+	return главнаяПущена() ? фильтруй(вНабсим(GetLNGCharset(дайСисЯЗ()), ист), ChNoInvalid)
 	                       : ист;
 }
 
 Ткст изСисНабсима(const Ткст& ист)
 {
-	return главнаяПущена() ? фильтруй(вНабсим(CHARSET_DEFAULT, ист, GetLNGCharset(GetSystemLNG())), ChNoInvalid) : ист;
+	return главнаяПущена() ? фильтруй(вНабсим(ДЕФНАБСИМ, ист, GetLNGCharset(дайСисЯЗ())), ChNoInvalid) : ист;
 }
 #endif
 
-Вектор<char16> вСисНабсимШ(const ШТкст& ист)
+Вектор<сим16> вСисНабсимШ(const ШТкст& ист)
 {
-	Вектор<char16> h = вУтф16(ист);
+	Вектор<сим16> h = вУтф16(ист);
 	h.добавь(0);
 	return h;
 }
 
-Вектор<char16> вСисНабсимШ(const Ткст& ист)
+Вектор<сим16> вСисНабсимШ(const Ткст& ист)
 {
-	Вектор<char16> h = вУтф16(ист);
+	Вектор<сим16> h = вУтф16(ист);
 	h.добавь(0);
 	return h;
 }
 
-Вектор<char16> вСисНабсимШ(const шим *ист)
+Вектор<сим16> вСисНабсимШ(const шим *ист)
 {
-	Вектор<char16> h = вУтф16(ист);
+	Вектор<сим16> h = вУтф16(ист);
 	h.добавь(0);
 	return h;
 }
 
-Вектор<char16> вСисНабсимШ(кткст0 ист)
+Вектор<сим16> вСисНабсимШ(кткст0 ист)
 {
-	Вектор<char16> h = вУтф16(ист);
+	Вектор<сим16> h = вУтф16(ист);
 	h.добавь(0);
 	return h;
 }
 
-Ткст изСисНабсимаШ(const char16 *ист)
+Ткст изСисНабсимаШ(const сим16 *ист)
 {
 	return вУтф8(ист);
 }
@@ -773,7 +771,7 @@ static ВекторМап<Ткст, Событие<Поток&>>& sGSerialize()
 #ifdef PLATFORM_WIN32
 
 Ткст дайОшСооб(DWORD dwError) {
-	char h[2048];
+	сим h[2048];
 	sprintf(h, "%08x", (цел)dwError);
 #ifdef PLATFORM_WINCE //TODO
 	return h;
@@ -782,7 +780,7 @@ static ВекторМап<Ткст, Событие<Поток&>>& sGSerialize()
 		          NULL, dwError, 0, h, 2048, NULL);
 	Ткст result = h;
 	Ткст modf;
-	const char* s = result;
+	const сим* s = result;
 	BYTE c;
 	while((c = *s++) != 0)
 		if(c <= ' ') {
@@ -794,8 +792,8 @@ static ВекторМап<Ткст, Событие<Поток&>>& sGSerialize()
 			modf += "<###>";
 		}
 		else
-			modf += (char)c;
-	const char* p = modf;
+			modf += (сим)c;
+	const сим* p = modf;
 	for(s = p + modf.дайДлину(); s > p && s[-1] == ' '; s--);
 	return изСисНабсима(modf.лево((цел)(s - p)));
 #endif
@@ -834,8 +832,8 @@ static проц LinuxBeep(кткст0 имя)
 	static Ткст player;
 	ONCELOCK {
 		кткст0 players[] = { "play", "ogg123", "gst123", "gst-play-1.0" };
-		for(цел i = 0; i < __countof(players); i++)
-			if(Sys("which " + Ткст(players[i])).дайСчёт()) {
+		for(цел i = 0; i < __количество(players); i++)
+			if(сис("which " + Ткст(players[i])).дайСчёт()) {
 				player = players[i];
 				break;
 			}
@@ -843,7 +841,7 @@ static проц LinuxBeep(кткст0 имя)
 
 	if(player.дайСчёт()) {
 		Ткст фн = "/usr/share/sounds/" + CurrentSoundTheme + "/stereo/dialog-" + имя;
-		IGNORE_RESULT(system(player + " -q " + фн +
+		ИГНОРРЕЗ(system(player + " -q " + фн +
 		              (файлЕсть(фн + ".ogg") ? ".ogg" :
 		               файлЕсть(фн + ".oga") ? ".oga" :
 	                       файлЕсть(фн + ".wav") ? ".wav" :
@@ -955,12 +953,12 @@ T Replace__(const T& s, const Вектор<T>& найди, const Вектор<T>
 
 Ткст замени(const Ткст& s, const Вектор<Ткст>& найди, const Вектор<Ткст>& replace)
 {
-	return Replace__<char>(s, найди, replace);
+	return Replace__<сим>(s, найди, replace);
 }
 
 Ткст замени(const Ткст& s, const ВекторМап<Ткст, Ткст>& fr)
 {
-	return Replace__<char>(s, fr.дайКлючи(), fr.дайЗначения());
+	return Replace__<сим>(s, fr.дайКлючи(), fr.дайЗначения());
 }
 
 ШТкст замени(const ШТкст& s, const Вектор<ШТкст>& найди, const Вектор<ШТкст>& replace)
@@ -974,9 +972,9 @@ T Replace__(const T& s, const Вектор<T>& найди, const Вектор<T>
 }
 
 
-Ткст (*GetP7Signature__)(const ук данные, цел length, const Ткст& cert_pem, const Ткст& pkey_pem);
+Ткст (*GetP7Signature__)(кук данные, цел length, const Ткст& cert_pem, const Ткст& pkey_pem);
 
-Ткст GetP7Signature(const ук данные, цел length, const Ткст& cert_pem, const Ткст& pkey_pem)
+Ткст GetP7Signature(кук данные, цел length, const Ткст& cert_pem, const Ткст& pkey_pem)
 {
 	ПРОВЕРЬ_(GetP7Signature__, "Missing SSL support (RKod/SSL)");
 	return (*GetP7Signature__)(данные, length, cert_pem, pkey_pem);
@@ -987,4 +985,3 @@ T Replace__(const T& s, const Вектор<T>& найди, const Вектор<T>
 	return GetP7Signature(данные, данные.дайДлину(), cert_pem, pkey_pem);
 }
 
-}

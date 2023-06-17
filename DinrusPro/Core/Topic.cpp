@@ -1,6 +1,4 @@
-#include <DinrusPro/DinrusPro.h>
-
-namespace ДинрусРНЦП {
+#include <DinrusPro/DinrusCore.h>
 
 struct TopicData__ : Движ<TopicData__> {
 	Ткст      title;
@@ -100,23 +98,23 @@ Topic GetTopic(кткст0 path)
 Topic GetTopicLNG(кткст0 path)
 {
 	return GetTopic(path +
-	                ("$" + впроп(LNGAsText(SetLNGCharset(GetCurrentLanguage(), CHARSET_DEFAULT)))));
+	                ("$" + впроп(LNGAsText(SetLNGCharset(дайТекЯз(), ДЕФНАБСИМ)))));
 }
 
-}
+
 
 проц RegisterTopic__(кткст0 topicfile, кткст0 topic, кткст0 title,
-                     const РНЦП::ббайт *данные, цел len)
+                     const ббайт *данные, цел len)
 {
-	ДинрусРНЦП::Стопор::Замок __(ДинрусРНЦП::sTopicLock);
+	Стопор::Замок __(sTopicLock);
 	ПРОВЕРЬ(*topicfile == '<');
-	ПРОВЕРЬ(*РНЦП::дайИмяф(topicfile).последний() == '>');
-	РНЦП::Ткст q = РНЦП::дайПапкуФайла(topicfile + 1);
-	РНЦП::Ткст группа = РНЦП::дайТитулф(q);
-	РНЦП::Ткст package = РНЦП::UnixPath(РНЦП::дайПапкуФайла(q));
-	РНЦП::TopicData__& d = РНЦП::Topics__().дайДобавь(package).дайДобавь(группа).дайДобавь(topic);
+	ПРОВЕРЬ(*дайИмяф(topicfile).последний() == '>');
+	Ткст q = дайПапкуФайла(topicfile + 1);
+	Ткст группа = дайТитулф(q);
+	Ткст package = UnixPath(дайПапкуФайла(q));
+	TopicData__& d = Topics__().дайДобавь(package).дайДобавь(группа).дайДобавь(topic);
 	d.title = title;
 	d.данные = данные;
 	d.len = len;
-	РНЦП::TopicBase().дайДобавь(package).дайДобавь(группа).добавь(topic);
+	TopicBase().дайДобавь(package).дайДобавь(группа).добавь(topic);
 }

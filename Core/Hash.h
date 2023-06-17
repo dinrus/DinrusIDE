@@ -18,7 +18,7 @@ public:
 	String FinishString();
 	String FinishStringS();
 	void   Reset();
-	
+
 	Md5Stream();
 	~Md5Stream();
 };
@@ -50,7 +50,7 @@ public:
 
 	void   Reset();
 	void   New()                         { Reset(); }
-	
+
 	Sha1Stream();
 	~Sha1Stream();
 };
@@ -76,8 +76,8 @@ public:
 
 	void   Reset();
 	void   New()                         { Reset(); }
-	
-	Sha256Stream(); 
+
+	Sha256Stream();
 	~Sha256Stream();
 };
 
@@ -90,14 +90,14 @@ String  SHA256StringS(const String& data);
 
 class xxHashStream : public OutStream {
 	byte context[8 * 8];
-	
+
 	virtual  void  Out(const void *data, dword size);
 
 public:
 	int Finish();
-	
+
 	void Reset(dword seed = 0);
-	
+
 	xxHashStream(dword seed = 0);
 };
 
@@ -106,14 +106,14 @@ int xxHash(const String& s);
 
 class xxHash64Stream : public OutStream {
 	byte context[12 * 8];
-	
+
 	virtual  void  Out(const void *data, dword size);
 
 public:
 	int64 Finish();
-	
+
 	void Reset(dword seed = 0);
-	
+
 	xxHash64Stream(dword seed = 0);
 };
 

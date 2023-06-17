@@ -42,7 +42,7 @@
 _libssh2_userauth_publickey(LIBSSH2_SESSION *session,
                             кткст0 username,
                             бцел username_len,
-                            const unsigned char *pubkeydata,
+                            const ббайт *pubkeydata,
                             unsigned long pubkeydata_len,
                             LIBSSH2_USERAUTH_PUBLICKEY_SIGN_FUNC
                             ((*sign_обрвыз)),

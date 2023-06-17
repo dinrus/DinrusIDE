@@ -115,7 +115,7 @@
 #define libssh2_hmac_cleanup(pctx) \
   mbedtls_md_free(pctx)
 #define libssh2_hmac_update(ctx, данные, datalen) \
-  mbedtls_md_hmac_update(&ctx, (unsigned char *) данные, datalen)
+  mbedtls_md_hmac_update(&ctx, (ббайт *) данные, datalen)
 #define libssh2_hmac_final(ctx, hash) \
   mbedtls_md_hmac_finish(&ctx, hash)
 
@@ -135,7 +135,7 @@
 
 /*******************************************************************/
 /*
- * mbedTLS backend: SHA1 functions
+ * mbedTLS backend: ша1 functions
  */
 
 #define libssh2_sha1_ctx      mbedtls_md_context_t
@@ -143,7 +143,7 @@
 #define libssh2_sha1_init(pctx) \
   _libssh2_mbedtls_hash_init(pctx, MBEDTLS_MD_SHA1, NULL, 0)
 #define libssh2_sha1_update(ctx, данные, datalen) \
-  mbedtls_md_update(&ctx, (unsigned char *) данные, datalen)
+  mbedtls_md_update(&ctx, (ббайт *) данные, datalen)
 #define libssh2_sha1_final(ctx, hash) \
   _libssh2_mbedtls_hash_final(&ctx, hash)
 #define libssh2_sha1(данные, datalen, hash) \
@@ -151,7 +151,7 @@
 
 /*******************************************************************/
 /*
- * mbedTLS backend: SHA256 functions
+ * mbedTLS backend: ша256 functions
  */
 
 #define libssh2_sha256_ctx      mbedtls_md_context_t
@@ -159,7 +159,7 @@
 #define libssh2_sha256_init(pctx) \
   _libssh2_mbedtls_hash_init(pctx, MBEDTLS_MD_SHA256, NULL, 0)
 #define libssh2_sha256_update(ctx, данные, datalen) \
-  mbedtls_md_update(&ctx, (unsigned char *) данные, datalen)
+  mbedtls_md_update(&ctx, (ббайт *) данные, datalen)
 #define libssh2_sha256_final(ctx, hash) \
   _libssh2_mbedtls_hash_final(&ctx, hash)
 #define libssh2_sha256(данные, datalen, hash) \
@@ -176,7 +176,7 @@
 #define libssh2_sha384_init(pctx) \
   _libssh2_mbedtls_hash_init(pctx, MBEDTLS_MD_SHA384, NULL, 0)
 #define libssh2_sha384_update(ctx, данные, datalen) \
-  mbedtls_md_update(&ctx, (unsigned char *) данные, datalen)
+  mbedtls_md_update(&ctx, (ббайт *) данные, datalen)
 #define libssh2_sha384_final(ctx, hash) \
   _libssh2_mbedtls_hash_final(&ctx, hash)
 #define libssh2_sha384(данные, datalen, hash) \
@@ -193,7 +193,7 @@
 #define libssh2_sha512_init(pctx) \
   _libssh2_mbedtls_hash_init(pctx, MBEDTLS_MD_SHA512, NULL, 0)
 #define libssh2_sha512_update(ctx, данные, datalen) \
-  mbedtls_md_update(&ctx, (unsigned char *) данные, datalen)
+  mbedtls_md_update(&ctx, (ббайт *) данные, datalen)
 #define libssh2_sha512_final(ctx, hash) \
   _libssh2_mbedtls_hash_final(&ctx, hash)
 #define libssh2_sha512(данные, datalen, hash) \
@@ -202,7 +202,7 @@
 
 /*******************************************************************/
 /*
- * mbedTLS backend: MD5 functions
+ * mbedTLS backend: мд5 functions
  */
 
 #define libssh2_md5_ctx      mbedtls_md_context_t
@@ -210,7 +210,7 @@
 #define libssh2_md5_init(pctx) \
   _libssh2_mbedtls_hash_init(pctx, MBEDTLS_MD_MD5, NULL, 0)
 #define libssh2_md5_update(ctx, данные, datalen) \
-  mbedtls_md_update(&ctx, (unsigned char *) данные, datalen)
+  mbedtls_md_update(&ctx, (ббайт *) данные, datalen)
 #define libssh2_md5_final(ctx, hash) \
   _libssh2_mbedtls_hash_final(&ctx, hash)
 #define libssh2_md5(данные, datalen, hash) \
@@ -425,19 +425,19 @@ _libssh2_mbedtls_init(проц);
 _libssh2_mbedtls_free(проц);
 
 цел
-_libssh2_mbedtls_random(unsigned char *buf, цел len);
+_libssh2_mbedtls_random(ббайт *buf, цел len);
 
 цел
 _libssh2_mbedtls_cipher_init(_libssh2_cipher_ctx *ctx,
                             _libssh2_cipher_type(тип),
-                            unsigned char *iv,
-                            unsigned char *secret,
+                            ббайт *iv,
+                            ббайт *secret,
                             цел encrypt);
 цел
 _libssh2_mbedtls_cipher_crypt(_libssh2_cipher_ctx *ctx,
                              _libssh2_cipher_type(тип),
                              цел encrypt,
-                             unsigned char *block,
+                             ббайт *block,
                              т_мера blocklen);
 проц
 _libssh2_mbedtls_cipher_dtor(_libssh2_cipher_ctx *ctx);
@@ -445,13 +445,13 @@ _libssh2_mbedtls_cipher_dtor(_libssh2_cipher_ctx *ctx);
 цел
 _libssh2_mbedtls_hash_init(mbedtls_md_context_t *ctx,
                           mbedtls_md_type_t mdtype,
-                          const unsigned char *ключ, unsigned long keylen);
+                          const ббайт *ключ, unsigned long keylen);
 
 цел
-_libssh2_mbedtls_hash_final(mbedtls_md_context_t *ctx, unsigned char *hash);
+_libssh2_mbedtls_hash_final(mbedtls_md_context_t *ctx, ббайт *hash);
 цел
-_libssh2_mbedtls_hash(const unsigned char *данные, unsigned long datalen,
-                      mbedtls_md_type_t mdtype, unsigned char *hash);
+_libssh2_mbedtls_hash(const ббайт *данные, unsigned long datalen,
+                      mbedtls_md_type_t mdtype, ббайт *hash);
 
 _libssh2_bn *
 _libssh2_mbedtls_bignum_init(проц);
@@ -461,28 +461,28 @@ _libssh2_mbedtls_bignum_free(_libssh2_bn *bn);
 
 цел
 _libssh2_mbedtls_rsa_new(libssh2_rsa_ctx **rsa,
-                        const unsigned char *edata,
+                        const ббайт *edata,
                         unsigned long elen,
-                        const unsigned char *ndata,
+                        const ббайт *ndata,
                         unsigned long nlen,
-                        const unsigned char *ddata,
+                        const ббайт *ddata,
                         unsigned long dlen,
-                        const unsigned char *pdata,
+                        const ббайт *pdata,
                         unsigned long plen,
-                        const unsigned char *qdata,
+                        const ббайт *qdata,
                         unsigned long qlen,
-                        const unsigned char *e1data,
+                        const ббайт *e1data,
                         unsigned long e1len,
-                        const unsigned char *e2data,
+                        const ббайт *e2data,
                         unsigned long e2len,
-                        const unsigned char *coeffdata,
+                        const ббайт *coeffdata,
                         unsigned long coefflen);
 
 цел
 _libssh2_mbedtls_rsa_new_private(libssh2_rsa_ctx **rsa,
                                 LIBSSH2_SESSION *session,
                                 кткст0 имяф,
-                                const unsigned char *passphrase);
+                                const ббайт *passphrase);
 
 цел
 _libssh2_mbedtls_rsa_new_private_frommemory(libssh2_rsa_ctx **rsa,
@@ -492,33 +492,33 @@ _libssh2_mbedtls_rsa_new_private_frommemory(libssh2_rsa_ctx **rsa,
                                            unsigned кткст0 passphrase);
 цел
 _libssh2_mbedtls_rsa_sha1_verify(libssh2_rsa_ctx *rsa,
-                                const unsigned char *sig,
+                                const ббайт *sig,
                                 unsigned long sig_len,
-                                const unsigned char *m,
+                                const ббайт *m,
                                 unsigned long m_len);
 цел
 _libssh2_mbedtls_rsa_sha1_sign(LIBSSH2_SESSION *session,
                               libssh2_rsa_ctx *rsa,
-                              const unsigned char *hash,
+                              const ббайт *hash,
                               т_мера hash_len,
-                              unsigned char **signature,
+                              ббайт **signature,
                               т_мера *signature_len);
 проц
 _libssh2_mbedtls_rsa_free(libssh2_rsa_ctx *rsa);
 
 цел
 _libssh2_mbedtls_pub_priv_keyfile(LIBSSH2_SESSION *session,
-                                 unsigned char **method,
+                                 ббайт **method,
                                  т_мера *method_len,
-                                 unsigned char **pubkeydata,
+                                 ббайт **pubkeydata,
                                  т_мера *pubkeydata_len,
                                  кткст0 privatekey,
                                  кткст0 passphrase);
 цел
 _libssh2_mbedtls_pub_priv_keyfilememory(LIBSSH2_SESSION *session,
-                                       unsigned char **method,
+                                       ббайт **method,
                                        т_мера *method_len,
-                                       unsigned char **pubkeydata,
+                                       ббайт **pubkeydata,
                                        т_мера *pubkeydata_len,
                                        кткст0 privatekeydata,
                                        т_мера privatekeydata_len,
@@ -527,41 +527,41 @@ _libssh2_mbedtls_pub_priv_keyfilememory(LIBSSH2_SESSION *session,
 цел
 _libssh2_mbedtls_ecdsa_create_key(LIBSSH2_SESSION *session,
                                   _libssh2_ec_key **privkey,
-                                  unsigned char **pubkey_octal,
+                                  ббайт **pubkey_octal,
                                   т_мера *pubkey_octal_len,
                                   libssh2_curve_type curve);
 цел
 _libssh2_mbedtls_ecdsa_curve_name_with_octal_new(libssh2_ecdsa_ctx **ctx,
-                                                 const unsigned char *k,
+                                                 const ббайт *k,
                                                  т_мера k_len,
                                                  libssh2_curve_type curve);
 цел
 _libssh2_mbedtls_ecdh_gen_k(_libssh2_bn **k,
                             _libssh2_ec_key *privkey,
-                            const unsigned char *server_pubkey,
+                            const ббайт *server_pubkey,
                             т_мера server_pubkey_len);
 цел
 _libssh2_mbedtls_ecdsa_verify(libssh2_ecdsa_ctx *ctx,
-                              const unsigned char *r, т_мера r_len,
-                              const unsigned char *s, т_мера s_len,
-                              const unsigned char *m, т_мера m_len);
+                              const ббайт *r, т_мера r_len,
+                              const ббайт *s, т_мера s_len,
+                              const ббайт *m, т_мера m_len);
 цел
 _libssh2_mbedtls_ecdsa_new_private(libssh2_ecdsa_ctx **ctx,
                                   LIBSSH2_SESSION *session,
                                   кткст0 имяф,
-                                  const unsigned char *passphrase);
+                                  const ббайт *passphrase);
 цел
 _libssh2_mbedtls_ecdsa_new_private_frommemory(libssh2_ecdsa_ctx **ctx,
                                               LIBSSH2_SESSION *session,
                                               кткст0 filedata,
                                               т_мера filedata_len,
-                                              const unsigned char *passphrase);
+                                              const ббайт *passphrase);
 цел
 _libssh2_mbedtls_ecdsa_sign(LIBSSH2_SESSION *session,
                             libssh2_ecdsa_ctx *ctx,
-                            const unsigned char *hash,
+                            const ббайт *hash,
                             unsigned long hash_len,
-                            unsigned char **signature,
+                            ббайт **signature,
                             т_мера *signature_len);
 libssh2_curve_type
 _libssh2_mbedtls_ecdsa_key_get_curve_type(libssh2_ecdsa_ctx *ctx);

@@ -50,11 +50,11 @@ struct _LIBSSH2_MAC_METHOD
     цел key_len;
 
     /* Message Authentication Code Hashing algo */
-    цел (*init) (LIBSSH2_SESSION * session, unsigned char *ключ, цел *free_key,
+    цел (*init) (LIBSSH2_SESSION * session, ббайт *ключ, цел *free_key,
                  проц **abstract);
-    цел (*hash) (LIBSSH2_SESSION * session, unsigned char *buf,
-                 uint32_t seqno, const unsigned char *packet,
-                 uint32_t packet_len, const unsigned char *addtl,
+    цел (*hash) (LIBSSH2_SESSION * session, ббайт *buf,
+                 uint32_t seqno, const ббайт *packet,
+                 uint32_t packet_len, const ббайт *addtl,
                  uint32_t addtl_len, проц **abstract);
     цел (*dtor) (LIBSSH2_SESSION * session, проц **abstract);
 };

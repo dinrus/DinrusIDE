@@ -47,7 +47,7 @@
 struct ТИПДЛЛ{
 	ТИПДЛЛ();
 
-	РНЦП::Ткст       дайИмяБиб() const        { return libname; }
+	Ткст       дайИмяБиб() const        { return libname; }
 	проц              устИмяБиб(кткст0 n) { if(handle) освободи(); libname = n; checked = false; }
 
 	бул              грузи();
@@ -59,7 +59,7 @@ struct ТИПДЛЛ{
 
 #include DLIHEADER
 private:
-	РНЦП::Ткст       libname;
+	Ткст       libname;
 	УКДЛЛ         handle;
 	бул              checked;
 };

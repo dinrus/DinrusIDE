@@ -2,8 +2,6 @@
 
 #define LLOG(x)  // DLOG(x)
 
-namespace ДинрусРНЦП {
-
 Ткст QDecode(const Ткст& s) 
 {
 	Ткст r, begin, end, chs, enc, txt;
@@ -15,14 +13,14 @@ namespace ДинрусРНЦП {
 		return s;
 	enc = взаг(enc);
 	if(enc == "B")
-		r = Base64Decode(txt);	
+		r = Base64Decode(txt);
 	else
 	if(enc == "Q")
 		r = QPDecode(txt, true);
 	else
 		return s;
 	цел charset = набсимПоИмени(chs);
-	return charset >= 0 ? вНабсим(CHARSET_DEFAULT, r, charset, '?') : r;
+	return charset >= 0 ? вНабсим(ДЕФНАБСИМ, r, charset, '?') : r;
 }
 
 Ткст DecodeHeaderValue(const Ткст& s)
@@ -269,7 +267,7 @@ static проц sLn(Ткст& r)
 	                  body);
 	цел cs = набсимПоИмени(MIMEHeader(впроп(header.дай("content-тип", Null)))["charset"]);
 	if(cs >= 0)
-		r = вНабсим(CHARSET_DEFAULT, r, cs, '?');
+		r = вНабсим(ДЕФНАБСИМ, r, cs, '?');
 	return r;
 }
 
@@ -352,6 +350,4 @@ static проц sLn(Ткст& r)
 			r << '<' << ид[i] << '>';
 		}
 	return r;
-}
-
 }

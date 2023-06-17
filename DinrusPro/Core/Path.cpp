@@ -1,4 +1,4 @@
-#include <DinrusPro/DinrusPro.h>
+#include <DinrusPro/DinrusCore.h>
 //#BLITZ_APPROVE
 
 #ifdef PLATFORM_POSIX
@@ -28,8 +28,6 @@
 #undef CY
 
 #endif
-
-namespace ДинрусРНЦП {
 
 static цел sDirSep(цел c) {
 	return c == '/' || c == '\\' ? c : 0;
@@ -91,7 +89,7 @@ static бул strecmp0(кткст0 p, кткст0 s) {
 кткст0 дайПозИмяф(кткст0 fileName) {
 	кткст0 s = fileName;
 	кткст0 fname = s;
-	char c;
+	сим c;
 	while((c = *s++) != '\0')
 	#ifdef PLATFORM_WIN32
 		if(c == '\\' || c == ':' || c == '/')
@@ -190,7 +188,7 @@ static бул strecmp0(кткст0 p, кткст0 s) {
 	GetCurrentDirectoryW(MAX_PATH, h);
 	return изСисНабсимаШ(h);
 #elif defined(PLATFORM_POSIX)
-	char h[1024];
+	сим h[1024];
 	return getcwd(h, 1024) ? изСисНабсима(h) : Ткст();
 #else
 #error дайТекДир not implemented for this platform, comment this line to get Null
@@ -242,22 +240,22 @@ static бул strecmp0(кткст0 p, кткст0 s) {
 
 #ifndef PLATFORM_WINCE
 Ткст дайВремИмяф(кткст0 prefix) {
-	Uuid ид = Uuid::создай();
+	Ууид ид = Ууид::создай();
 	return приставьИмяф(дайВремПуть(), Ткст(prefix) + фмт(ид) + ".tmp");
 }
 #endif
 
-Ткст FromUnixName(const char* фн, const char* stop = NULL) {
+Ткст FromUnixName(const сим* фн, const сим* stop = NULL) {
 	Ткст s;
-	char c;
+	сим c;
 	while(фн != stop && (c = *фн++))
 		s += (c == '/' ? '\\' : c);
 	return s;
 }
 
-Ткст ToUnixName(const char* фн, const char* stop = NULL) {
+Ткст ToUnixName(const сим* фн, const сим* stop = NULL) {
 	Ткст s;
-	char c;
+	сим c;
 	while(фн != stop && (c = *фн++))
 		s += (c == '\\' ? '/' : c);
 	return s;
@@ -274,7 +272,7 @@ static бул strecmp0(кткст0 p, кткст0 s) {
 #endif
 }
 
-Ткст дайФайлПоПути(const char* file, const char* paths, бул текущ, кткст0 curdir) {
+Ткст дайФайлПоПути(const сим* file, const сим* paths, бул текущ, кткст0 curdir) {
 	Ткст ufn = NativePath(file);
 	if(полнпуть_ли(ufn) && файлЕсть(ufn))
 		return ufn;
@@ -288,7 +286,7 @@ static бул strecmp0(кткст0 p, кткст0 s) {
 	{
 		фн = Null;
 		while(*paths) {
-			const char* start = paths;
+			const сим* start = paths;
 #ifdef PLATFORM_WIN32
 			while(*paths && *paths != ';')
 				paths++;
@@ -333,14 +331,14 @@ static бул strecmp0(кткст0 p, кткст0 s) {
 	return r;
 }
 
-Ткст приставьРасш(const char* фн, const char* ext) {
+Ткст приставьРасш(const сим* фн, const сим* ext) {
 	Ткст result = NativePath(фн);
 	if(!естьРасшф(фн))
 		result += ext;
 	return result;
 }
 
-Ткст форсируйРасш(const char* фн, const char* ext) {
+Ткст форсируйРасш(const сим* фн, const сим* ext) {
 	return NativePath(Ткст(фн, дайПозРасшф(фн))) + ext;
 }
 
@@ -627,7 +625,7 @@ struct stat& ФайлПоиск::Stat() const {
 				p.добавь(s);
 		}
 	}
-	out.кат(Join(p, DIR_SEPS));
+	out.кат(соедини(p, DIR_SEPS));
 	return out;
 }
 
@@ -701,7 +699,7 @@ struct stat& ФайлПоиск::Stat() const {
 бул удалифл(кткст0 имяф)
 {
 #if defined(PLATFORM_WIN32)
-	return !!DeleteFileW(вСисНабсимШ(имяф));
+	return !!удалифлW(вСисНабсимШ(имяф));
 #elif defined(PLATFORM_POSIX)
 	return !unlink(вСисНабсим(имяф));
 #else
@@ -723,7 +721,7 @@ struct stat& ФайлПоиск::Stat() const {
 }
 
 #ifdef PLATFORM_WIN32
-цел Compare_FileTime(const ФВремя& fa, const ФВремя& fb)
+цел сравни_ФВремя(const ФВремя& fa, const ФВремя& fb)
 {
 	return CompareFileTime(&fa, &fb);
 }
@@ -922,7 +920,7 @@ struct stat& ФайлПоиск::Stat() const {
 	sGetSymLinkPath0(linkpath, &path);
 	return path;
 #else
-	char buff[_МАКС_ПУТЬ + 1];
+	сим buff[_МАКС_ПУТЬ + 1];
 	цел len = readlink(linkpath, buff, _МАКС_ПУТЬ);
 	if(len > 0 && len < _МАКС_ПУТЬ)
 		return Ткст(buff, len);
@@ -1048,7 +1046,7 @@ struct stat& ФайлПоиск::Stat() const {
 
 бул ИнфОФС::создайПапку(Ткст path, Ткст& Ошибка) const
 {
-	if(РНЦП::создайДир(path))
+	if(создайДир(path))
 		return true;
 	Ошибка = дайОшСооб(GetLastError());
 	return false;
@@ -1069,7 +1067,7 @@ static проц FindAllPaths_(Вектор<Ткст>& r, const Ткст& dir, к
 	for(ФайлПоиск ff(dir + "/*.*"); ff; ff++) {
 		Ткст p = ff.дайПуть();
 		if(PatternMatchMulti(patterns, ff.дайИмя()) &&
-		   ((opt & FINDALLFILES) && ff.файл_ли() || (opt & FINDALLFOLDERS) && ff.папка_ли()))
+		   ((opt & НАЙТИВСЕФАЙЛЫ) && ff.файл_ли() || (opt & НАЙТИВСЕПАПКИ) && ff.папка_ли()))
 			r.добавь(ff.дайПуть());
 		if(ff.папка_ли())
 			FindAllPaths_(r, ff.дайПуть(), patterns, opt);
@@ -1081,6 +1079,4 @@ static проц FindAllPaths_(Вектор<Ткст>& r, const Ткст& dir, к
 	Вектор<Ткст> r;
 	FindAllPaths_(r, dir, patterns, opt);
 	return r;
-}
-
 }

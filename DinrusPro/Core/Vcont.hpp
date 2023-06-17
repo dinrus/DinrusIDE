@@ -425,7 +425,7 @@ template <class T>
 template <class T>
 проц Вектор<T>::вДжейсон(ДжейсонВВ& jio)
 {
-	JsonizeArray<Вектор<T>>(jio, *this);
+	джейсонируйМассив<Вектор<T>>(jio, *this);
 }
 
 template <class C>
@@ -644,7 +644,7 @@ template <class T>
 template <class T>
 проц Массив<T>::вДжейсон(ДжейсонВВ& jio)
 {
-	JsonizeArray<Массив<T>>(jio, *this);
+	джейсонируйМассив<Массив<T>>(jio, *this);
 }
 
 template <class T>
@@ -873,11 +873,11 @@ inline
 проц Биты::уст64(цел i, бдол bits, цел count)
 {
 	if(count > 32) {
-		уст(i, LODWORD(bits), 32);
-		уст(i + 32, HIDWORD(bits), count - 32);
+		уст(i, МЛБЦЕЛ(bits), 32);
+		уст(i + 32, СДЕЛАЙБЦЕЛ(bits), count - 32);
 	}
 	else
-		уст(i, LODWORD(bits), count);
+		уст(i, МЛБЦЕЛ(bits), count);
 }
 
 inline
@@ -885,7 +885,7 @@ inline
 {
 	if(count > 32) {
 		бцел l = дай(i, 32);
-		return MAKEQWORD(l, дай(i + 32, count - 32));
+		return СДЕЛАЙБДОЛ(l, дай(i + 32, count - 32));
 	}
 	else
 		return дай(i, count);

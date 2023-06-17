@@ -1,1 +1,1 @@
-#define IDE_VERSION "2023.05"
+#define IDE_VERSION "2023.06"

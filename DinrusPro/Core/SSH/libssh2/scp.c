@@ -123,11 +123,11 @@
 */
 
 static unsigned
-shell_quotearg(кткст0 path, unsigned char *buf,
+shell_quotearg(кткст0 path, ббайт *buf,
                unsigned bufsize)
 {
     кткст0 src;
-    unsigned char *dst, *endp;
+    ббайт *dst, *endp;
 
     /*
      * Processing States:
@@ -294,11 +294,11 @@ scp_recv(LIBSSH2_SESSION * session, кткст0 path, libssh2_struct_stat * sb)
             return NULL;
         }
 
-        snprintf((char *)session->scpRecv_command,
+        snprintf((сим *)session->scpRecv_command,
                  session->scpRecv_command_len,
                  "scp -%sf ", sb?"p":"");
 
-        cmd_len = strlen((char *)session->scpRecv_command);
+        cmd_len = strlen((сим *)session->scpRecv_command);
         cmd_len += shell_quotearg(path,
                                   &session->scpRecv_command[cmd_len],
                                   session->scpRecv_command_len - cmd_len);
@@ -341,7 +341,7 @@ scp_recv(LIBSSH2_SESSION * session, кткст0 path, libssh2_struct_stat * sb)
         /* Request SCP for the desired file */
         rc = _libssh2_channel_process_startup(session->scpRecv_channel, "exec",
                                               sizeof("exec") - 1,
-                                              (char *)session->scpRecv_command,
+                                              (сим *)session->scpRecv_command,
                                               session->scpRecv_command_len);
         if(rc == LIBSSH2_ERROR_EAGAIN) {
             _libssh2_error(session, LIBSSH2_ERROR_EAGAIN,
@@ -385,11 +385,11 @@ scp_recv(LIBSSH2_SESSION * session, кткст0 path, libssh2_struct_stat * sb)
         || (session->scpRecv_state == libssh2_NB_state_sent3)) {
         while(sb && (session->scpRecv_response_len <
                       LIBSSH2_SCP_RESPONSE_BUFLEN)) {
-            unsigned char *s, *p;
+            ббайт *s, *p;
 
             if(session->scpRecv_state == libssh2_NB_state_sent2) {
                 rc = _libssh2_channel_read(session->scpRecv_channel, 0,
-                                           (char *) session->
+                                           (сим *) session->
                                            scpRecv_response +
                                            session->scpRecv_response_len, 1);
                 if(rc == LIBSSH2_ERROR_EAGAIN) {
@@ -409,7 +409,7 @@ scp_recv(LIBSSH2_SESSION * session, кткст0 path, libssh2_struct_stat * sb)
 
                 if(session->scpRecv_response[0] != 'T') {
                     т_мера err_len;
-                    char *err_msg;
+                    сим *err_msg;
 
                     /* there can be
                        01 for warnings
@@ -479,8 +479,8 @@ scp_recv(LIBSSH2_SESSION * session, кткст0 path, libssh2_struct_stat * sb)
                                        "SCP server");
                         goto scp_recv_error;
                     }
-                    /* Way too short to be an SCP response, or not done yet,
-                       short circuit */
+                    /* Way too крат to be an SCP response, or not done yet,
+                       крат circuit */
                     continue;
                 }
 
@@ -500,13 +500,13 @@ scp_recv(LIBSSH2_SESSION * session, кткст0 path, libssh2_struct_stat * sb)
                     /* EOL came too soon */
                     _libssh2_error(session, LIBSSH2_ERROR_SCP_PROTOCOL,
                                    "Invalid response from SCP server, "
-                                   "too short");
+                                   "too крат");
                     goto scp_recv_error;
                 }
 
                 s = session->scpRecv_response + 1;
 
-                p = (unsigned char *) strchr((char *) s, ' ');
+                p = (ббайт *) strchr((сим *) s, ' ');
                 if(!p || ((p - s) <= 0)) {
                     /* No пробелы or space in the wrong spot */
                     _libssh2_error(session, LIBSSH2_ERROR_SCP_PROTOCOL,
@@ -517,9 +517,9 @@ scp_recv(LIBSSH2_SESSION * session, кткст0 path, libssh2_struct_stat * sb)
 
                 *(p++) = '\0';
                 /* сделай sure we don't get fooled by leftover values */
-                session->scpRecv_mtime = strtol((char *) s, NULL, 10);
+                session->scpRecv_mtime = strtol((сим *) s, NULL, 10);
 
-                s = (unsigned char *) strchr((char *) p, ' ');
+                s = (ббайт *) strchr((сим *) p, ' ');
                 if(!s || ((s - p) <= 0)) {
                     /* No пробелы or space in the wrong spot */
                     _libssh2_error(session, LIBSSH2_ERROR_SCP_PROTOCOL,
@@ -530,18 +530,18 @@ scp_recv(LIBSSH2_SESSION * session, кткст0 path, libssh2_struct_stat * sb)
 
                 /* Ignore mtime.usec */
                 s++;
-                p = (unsigned char *) strchr((char *) s, ' ');
+                p = (ббайт *) strchr((сим *) s, ' ');
                 if(!p || ((p - s) <= 0)) {
                     /* No пробелы or space in the wrong spot */
                     _libssh2_error(session, LIBSSH2_ERROR_SCP_PROTOCOL,
                                    "Invalid response from SCP server, "
-                                   "too short or malformed");
+                                   "too крат or malformed");
                     goto scp_recv_error;
                 }
 
                 *p = '\0';
                 /* сделай sure we don't get fooled by leftover values */
-                session->scpRecv_atime = strtol((char *) s, NULL, 10);
+                session->scpRecv_atime = strtol((сим *) s, NULL, 10);
 
                 /* SCP ACK */
                 session->scpRecv_response[0] = '\0';
@@ -583,11 +583,11 @@ scp_recv(LIBSSH2_SESSION * session, кткст0 path, libssh2_struct_stat * sb)
     if((session->scpRecv_state == libssh2_NB_state_sent5)
         || (session->scpRecv_state == libssh2_NB_state_sent6)) {
         while(session->scpRecv_response_len < LIBSSH2_SCP_RESPONSE_BUFLEN) {
-            char *s, *p, *e = NULL;
+            сим *s, *p, *e = NULL;
 
             if(session->scpRecv_state == libssh2_NB_state_sent5) {
                 rc = _libssh2_channel_read(session->scpRecv_channel, 0,
-                                           (char *) session->
+                                           (сим *) session->
                                            scpRecv_response +
                                            session->scpRecv_response_len, 1);
                 if(rc == LIBSSH2_ERROR_EAGAIN) {
@@ -639,8 +639,8 @@ scp_recv(LIBSSH2_SESSION * session, кткст0 path, libssh2_struct_stat * sb)
                                        "from SCP server");
                         goto scp_recv_error;
                     }
-                    /* Way too short to be an SCP response, or not done yet,
-                       short circuit */
+                    /* Way too крат to be an SCP response, or not done yet,
+                       крат circuit */
                     continue;
                 }
 
@@ -661,11 +661,11 @@ scp_recv(LIBSSH2_SESSION * session, кткст0 path, libssh2_struct_stat * sb)
                     /* EOL came too soon */
                     _libssh2_error(session, LIBSSH2_ERROR_SCP_PROTOCOL,
                                    "Invalid response from SCP server, "
-                                   "too short");
+                                   "too крат");
                     goto scp_recv_error;
                 }
 
-                s = (char *) session->scpRecv_response + 1;
+                s = (сим *) session->scpRecv_response + 1;
 
                 p = strchr(s, ' ');
                 if(!p || ((p - s) <= 0)) {
@@ -692,7 +692,7 @@ scp_recv(LIBSSH2_SESSION * session, кткст0 path, libssh2_struct_stat * sb)
                     /* No пробелы or space in the wrong spot */
                     _libssh2_error(session, LIBSSH2_ERROR_SCP_PROTOCOL,
                                    "Invalid response from SCP server, "
-                                   "too short or malformed");
+                                   "too крат or malformed");
                     goto scp_recv_error;
                 }
 
@@ -742,7 +742,7 @@ scp_recv(LIBSSH2_SESSION * session, кткст0 path, libssh2_struct_stat * sb)
         sb->st_mtime = session->scpRecv_mtime;
         sb->st_atime = session->scpRecv_atime;
         sb->st_size = session->scpRecv_size;
-        sb->st_mode = (unsigned short)session->scpRecv_mode;
+        sb->st_mode = (бкрат)session->scpRecv_mode;
     }
 
     session->scpRecv_state = libssh2_NB_state_idle;
@@ -852,11 +852,11 @@ scp_send(LIBSSH2_SESSION * session, кткст0 path, цел mode,
             return NULL;
         }
 
-        snprintf((char *)session->scpSend_command,
+        snprintf((сим *)session->scpSend_command,
                  session->scpSend_command_len,
                  "scp -%st ", (mtime || atime)?"p":"");
 
-        cmd_len = strlen((char *)session->scpSend_command);
+        cmd_len = strlen((сим *)session->scpSend_command);
         cmd_len += shell_quotearg(path,
                                   &session->scpSend_command[cmd_len],
                                   session->scpSend_command_len - cmd_len);
@@ -898,7 +898,7 @@ scp_send(LIBSSH2_SESSION * session, кткст0 path, цел mode,
         /* Request SCP for the desired file */
         rc = _libssh2_channel_process_startup(session->scpSend_channel, "exec",
                                               sizeof("exec") - 1,
-                                              (char *)session->scpSend_command,
+                                              (сим *)session->scpSend_command,
                                               session->scpSend_command_len);
         if(rc == LIBSSH2_ERROR_EAGAIN) {
             _libssh2_error(session, LIBSSH2_ERROR_EAGAIN,
@@ -923,7 +923,7 @@ scp_send(LIBSSH2_SESSION * session, кткст0 path, цел mode,
     if(session->scpSend_state == libssh2_NB_state_sent1) {
         /* Wait for ACK */
         rc = _libssh2_channel_read(session->scpSend_channel, 0,
-                                   (char *) session->scpSend_response, 1);
+                                   (сим *) session->scpSend_response, 1);
         if(rc == LIBSSH2_ERROR_EAGAIN) {
             _libssh2_error(session, LIBSSH2_ERROR_EAGAIN,
                            "Would block waiting for response from remote");
@@ -944,7 +944,7 @@ scp_send(LIBSSH2_SESSION * session, кткст0 path, цел mode,
         if(mtime || atime) {
             /* Send mtime and atime to be used for file */
             session->scpSend_response_len =
-                snprintf((char *) session->scpSend_response,
+                snprintf((сим *) session->scpSend_response,
                          LIBSSH2_SCP_RESPONSE_BUFLEN, "T%ld 0 %ld 0\n",
                          (long)mtime, (long)atime);
             _libssh2_debug(session, LIBSSH2_TRACE_SCP, "Sent %s",
@@ -977,7 +977,7 @@ scp_send(LIBSSH2_SESSION * session, кткст0 path, цел mode,
         if(session->scpSend_state == libssh2_NB_state_sent3) {
             /* Wait for ACK */
             rc = _libssh2_channel_read(session->scpSend_channel, 0,
-                                       (char *) session->scpSend_response, 1);
+                                       (сим *) session->scpSend_response, 1);
             if(rc == LIBSSH2_ERROR_EAGAIN) {
                 _libssh2_error(session, LIBSSH2_ERROR_EAGAIN,
                                "Would block waiting for response");
@@ -1014,7 +1014,7 @@ scp_send(LIBSSH2_SESSION * session, кткст0 path, цел mode,
             base = path;
 
         session->scpSend_response_len =
-            snprintf((char *) session->scpSend_response,
+            snprintf((сим *) session->scpSend_response,
                      LIBSSH2_SCP_RESPONSE_BUFLEN, "C0%o %"
                      LIBSSH2_INT64_T_FORMAT " %s\n", mode,
                      size, base);
@@ -1045,7 +1045,7 @@ scp_send(LIBSSH2_SESSION * session, кткст0 path, цел mode,
     if(session->scpSend_state == libssh2_NB_state_sent6) {
         /* Wait for ACK */
         rc = _libssh2_channel_read(session->scpSend_channel, 0,
-                                   (char *) session->scpSend_response, 1);
+                                   (сим *) session->scpSend_response, 1);
         if(rc == LIBSSH2_ERROR_EAGAIN) {
             _libssh2_error(session, LIBSSH2_ERROR_EAGAIN,
                            "Would block waiting for response");
@@ -1061,7 +1061,7 @@ scp_send(LIBSSH2_SESSION * session, кткст0 path, цел mode,
 
         else if(session->scpSend_response[0] != 0) {
             т_мера err_len;
-            char *err_msg;
+            сим *err_msg;
 
             err_len =
                 _libssh2_channel_packet_data_len(session->scpSend_channel, 0);

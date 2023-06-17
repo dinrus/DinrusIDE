@@ -116,7 +116,7 @@ template <class T>
 }
 
 template <class T>
-проц вРяр(РярВВ& xml, const char* itemtag, T& var)
+проц вРяр(РярВВ& xml, const сим* itemtag, T& var)
 {
 	var.вРяр(xml, itemtag);
 }
@@ -214,24 +214,24 @@ template <class T>
 		try {
 			грузиИзТкст(x, сканГексТкст(h));
 		}
-		catch(LoadingError) {
+		catch(ОшЗагрузки) {
 			throw ОшибкаРяр("xmlize by serialize Ошибка");
 		}
 }
 
-проц  StoreJsonValue(РярВВ& xio, const Значение& v);
-Значение LoadJsonValue(const УзелРяр& n);
+проц  StoreДжейсонValue(РярВВ& xio, const Значение& v);
+Значение LoadДжейсонValue(const УзелРяр& n);
 
 template <class T>
-проц XmlizeByJsonize(РярВВ& xio, T& x)
+проц XmlizeByДжейсонize(РярВВ& xio, T& x)
 {
 	if(xio.сохраняется())
-		StoreJsonValue(xio, StoreAsJsonValue(x));
+		StoreДжейсонValue(xio, сохраниКакЗначДжейсон(x));
 	else {
 		try {
-			LoadFromJsonValue(x, LoadJsonValue(xio.Узел()));
+			загрузиИзЗначДжейсон(x, LoadДжейсонValue(xio.Узел()));
 		}
-		catch(JsonizeError e) {
+		catch(ОшДжейсонизации e) {
 			throw ОшибкаРяр("xmlize by jsonize Ошибка: " + e);
 		}
 	}

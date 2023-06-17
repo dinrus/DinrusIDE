@@ -56,10 +56,10 @@ read_openssh_private_key_from_memory(проц **key_ctx, LIBSSH2_SESSION *sessio
                                      т_мера filedata_len,
                                      unsigned кткст0 passphrase);
 
-static unsigned char *
-write_bn(unsigned char *buf, const BIGNUM *bn, цел bn_bytes)
+static ббайт *
+write_bn(ббайт *buf, const BIGNUM *bn, цел bn_bytes)
 {
-    unsigned char *p = buf;
+    ббайт *p = buf;
 
     /* лево space for bn size which will be written below. */
     p += 4;
@@ -76,21 +76,21 @@ write_bn(unsigned char *buf, const BIGNUM *bn, цел bn_bytes)
 
 цел
 _libssh2_rsa_new(libssh2_rsa_ctx ** rsa,
-                 const unsigned char *edata,
+                 const ббайт *edata,
                  unsigned long elen,
-                 const unsigned char *ndata,
+                 const ббайт *ndata,
                  unsigned long nlen,
-                 const unsigned char *ddata,
+                 const ббайт *ddata,
                  unsigned long dlen,
-                 const unsigned char *pdata,
+                 const ббайт *pdata,
                  unsigned long plen,
-                 const unsigned char *qdata,
+                 const ббайт *qdata,
                  unsigned long qlen,
-                 const unsigned char *e1data,
+                 const ббайт *e1data,
                  unsigned long e1len,
-                 const unsigned char *e2data,
+                 const ббайт *e2data,
                  unsigned long e2len,
-                 const unsigned char *coeffdata, unsigned long coefflen)
+                 const ббайт *coeffdata, unsigned long coefflen)
 {
     BIGNUM * e;
     BIGNUM * n;
@@ -155,32 +155,32 @@ _libssh2_rsa_new(libssh2_rsa_ctx ** rsa,
 
 цел
 _libssh2_rsa_sha1_verify(libssh2_rsa_ctx * rsactx,
-                         const unsigned char *sig,
+                         const ббайт *sig,
                          unsigned long sig_len,
-                         const unsigned char *m, unsigned long m_len)
+                         const ббайт *m, unsigned long m_len)
 {
-    unsigned char hash[SHA_DIGEST_LENGTH];
+    ббайт hash[SHA_DIGEST_LENGTH];
     цел ret;
 
     if(_libssh2_sha1(m, m_len, hash))
         return -1; /* failure */
     ret = RSA_verify(NID_sha1, hash, SHA_DIGEST_LENGTH,
-                     (unsigned char *) sig, sig_len, rsactx);
+                     (ббайт *) sig, sig_len, rsactx);
     return (ret == 1) ? 0 : -1;
 }
 
 #if LIBSSH2_DSA
 цел
 _libssh2_dsa_new(libssh2_dsa_ctx ** dsactx,
-                 const unsigned char *p,
+                 const ббайт *p,
                  unsigned long p_len,
-                 const unsigned char *q,
+                 const ббайт *q,
                  unsigned long q_len,
-                 const unsigned char *g,
+                 const ббайт *g,
                  unsigned long g_len,
-                 const unsigned char *y,
+                 const ббайт *y,
                  unsigned long y_len,
-                 const unsigned char *x, unsigned long x_len)
+                 const ббайт *x, unsigned long x_len)
 {
     BIGNUM * p_bn;
     BIGNUM * q_bn;
@@ -226,10 +226,10 @@ _libssh2_dsa_new(libssh2_dsa_ctx ** dsactx,
 
 цел
 _libssh2_dsa_sha1_verify(libssh2_dsa_ctx * dsactx,
-                         const unsigned char *sig,
-                         const unsigned char *m, unsigned long m_len)
+                         const ббайт *sig,
+                         const ббайт *m, unsigned long m_len)
 {
-    unsigned char hash[SHA_DIGEST_LENGTH];
+    ббайт hash[SHA_DIGEST_LENGTH];
     DSA_SIG * dsasig;
     BIGNUM * r;
     BIGNUM * s;
@@ -313,7 +313,7 @@ _libssh2_ecdsa_curve_type_from_name(кткст0 имя,
 
 цел
 _libssh2_ecdsa_curve_name_with_octal_new(libssh2_ecdsa_ctx ** ec_ctx,
-     const unsigned char *k,
+     const ббайт *k,
      т_мера k_len, libssh2_curve_type curve)
 {
 
@@ -340,7 +340,7 @@ _libssh2_ecdsa_curve_name_with_octal_new(libssh2_ecdsa_ctx ** ec_ctx,
 
 #define LIBSSH2_ECDSA_VERIFY(digest_type)                           \
 {                                                                   \
-    unsigned char hash[SHA##digest_type##_DIGEST_LENGTH];           \
+    ббайт hash[SHA##digest_type##_DIGEST_LENGTH];           \
     libssh2_sha##digest_type(m, m_len, hash);                       \
     ret = ECDSA_do_verify(hash, SHA##digest_type##_DIGEST_LENGTH,   \
       ecdsa_sig, ec_key);                                           \
@@ -349,9 +349,9 @@ _libssh2_ecdsa_curve_name_with_octal_new(libssh2_ecdsa_ctx ** ec_ctx,
 
 цел
 _libssh2_ecdsa_verify(libssh2_ecdsa_ctx * ctx,
-      const unsigned char *r, т_мера r_len,
-      const unsigned char *s, т_мера s_len,
-      const unsigned char *m, т_мера m_len)
+      const ббайт *r, т_мера r_len,
+      const ббайт *s, т_мера s_len,
+      const ббайт *m, т_мера m_len)
 {
     цел ret = 0;
     EC_KEY *ec_key = (EC_KEY*)ctx;
@@ -401,7 +401,7 @@ _libssh2_ecdsa_verify(libssh2_ecdsa_ctx * ctx,
 цел
 _libssh2_cipher_init(_libssh2_cipher_ctx * h,
                      _libssh2_cipher_type(algo),
-                     unsigned char *iv, unsigned char *secret, цел encrypt)
+                     ббайт *iv, ббайт *secret, цел encrypt)
 {
 #ifdef HAVE_OPAQUE_STRUCTS
     *h = EVP_CIPHER_CTX_new();
@@ -415,9 +415,9 @@ _libssh2_cipher_init(_libssh2_cipher_ctx * h,
 цел
 _libssh2_cipher_crypt(_libssh2_cipher_ctx * ctx,
                       _libssh2_cipher_type(algo),
-                      цел encrypt, unsigned char *block, т_мера blocksize)
+                      цел encrypt, ббайт *block, т_мера blocksize)
 {
-    unsigned char buf[EVP_MAX_BLOCK_LENGTH];
+    ббайт buf[EVP_MAX_BLOCK_LENGTH];
     цел ret;
     (проц) algo;
     (проц) encrypt;
@@ -442,7 +442,7 @@ typedef struct
 {
     AES_KEY       ключ;
     EVP_CIPHER_CTX *aes_ctx;
-    unsigned char ctr[AES_BLOCK_SIZE];
+    ббайт ctr[AES_BLOCK_SIZE];
 } aes_ctr_ctx;
 
 static EVP_CIPHER * aes_128_ctr_cipher = NULL;
@@ -450,8 +450,8 @@ static EVP_CIPHER * aes_192_ctr_cipher = NULL;
 static EVP_CIPHER * aes_256_ctr_cipher = NULL;
 
 static цел
-aes_ctr_init(EVP_CIPHER_CTX *ctx, const unsigned char *ключ,
-             const unsigned char *iv, цел enc) /* init ключ */
+aes_ctr_init(EVP_CIPHER_CTX *ctx, const ббайт *ключ,
+             const ббайт *iv, цел enc) /* init ключ */
 {
     /*
      * ПЕРЕМЕННАЯ "c" is leaked from this scope, but is later freed
@@ -509,12 +509,12 @@ aes_ctr_init(EVP_CIPHER_CTX *ctx, const unsigned char *ключ,
 }
 
 static цел
-aes_ctr_do_cipher(EVP_CIPHER_CTX *ctx, unsigned char *out,
-                  const unsigned char *in,
+aes_ctr_do_cipher(EVP_CIPHER_CTX *ctx, ббайт *out,
+                  const ббайт *in,
                   т_мера inl) /* encrypt/decrypt data */
 {
     aes_ctr_ctx *c = EVP_CIPHER_CTX_get_app_data(ctx);
-    unsigned char b1[AES_BLOCK_SIZE];
+    ббайт b1[AES_BLOCK_SIZE];
     цел outlen = 0;
 
     if(inl != 16) /* libssh2 only ever encrypt one block */
@@ -693,7 +693,7 @@ _libssh2_EVP_aes_256_ctr(проц)
  * calling program
  */
 static цел
-passphrase_cb(char *buf, цел size, цел rwflag, char *passphrase)
+passphrase_cb(сим *buf, цел size, цел rwflag, сим *passphrase)
 {
     цел passphrase_len = strlen(passphrase);
     (проц) rwflag;
@@ -721,7 +721,7 @@ read_private_key_from_memory(проц **key_ctx,
 
     *key_ctx = NULL;
 
-    bp = BIO_new_mem_buf((char *)filedata, filedata_len);
+    bp = BIO_new_mem_buf((сим *)filedata, filedata_len);
     if(!bp) {
         return -1;
     }
@@ -780,14 +780,14 @@ _libssh2_rsa_new_private_frommemory(libssh2_rsa_ctx ** rsa,
 return rc;
 }
 
-static unsigned char *
+static ббайт *
 gen_publickey_from_rsa(LIBSSH2_SESSION *session, RSA *rsa,
                        т_мера *key_len)
 {
     цел            e_bytes, n_bytes;
     unsigned long  len;
-    unsigned char *ключ;
-    unsigned char *p;
+    ббайт *ключ;
+    ббайт *p;
     const BIGNUM * e;
     const BIGNUM * n;
 #ifdef HAVE_OPAQUE_STRUCTS
@@ -824,15 +824,15 @@ gen_publickey_from_rsa(LIBSSH2_SESSION *session, RSA *rsa,
 
 static цел
 gen_publickey_from_rsa_evp(LIBSSH2_SESSION *session,
-                           unsigned char **method,
+                           ббайт **method,
                            т_мера *method_len,
-                           unsigned char **pubkeydata,
+                           ббайт **pubkeydata,
                            т_мера *pubkeydata_len,
                            EVP_PKEY *pk)
 {
     RSA*           rsa = NULL;
-    unsigned char *ключ;
-    unsigned char *method_buf = NULL;
+    ббайт *ключ;
+    ббайт *method_buf = NULL;
     т_мера  key_len;
 
     _libssh2_debug(session,
@@ -951,15 +951,15 @@ out:
 static цел
 gen_publickey_from_rsa_openssh_priv_data(LIBSSH2_SESSION *session,
                                          struct string_buf *decrypted,
-                                         unsigned char **method,
+                                         ббайт **method,
                                          т_мера *method_len,
-                                         unsigned char **pubkeydata,
+                                         ббайт **pubkeydata,
                                          т_мера *pubkeydata_len,
                                          libssh2_rsa_ctx **rsa_ctx)
 {
     цел rc = 0;
     т_мера nlen, elen, dlen, plen, qlen, coefflen, commentlen;
-    unsigned char *n, *e, *d, *p, *q, *coeff, *comment;
+    ббайт *n, *e, *d, *p, *q, *coeff, *comment;
     RSA *rsa = NULL;
 
     _libssh2_debug(session,
@@ -1059,7 +1059,7 @@ _libssh2_rsa_new_openssh_private(libssh2_rsa_ctx ** rsa,
 {
     FILE *fp;
     цел rc;
-    unsigned char *buf = NULL;
+    ббайт *buf = NULL;
     struct string_buf *decrypted = NULL;
 
     if(session == NULL) {
@@ -1092,7 +1092,7 @@ _libssh2_rsa_new_openssh_private(libssh2_rsa_ctx ** rsa,
         return -1;
     }
 
-    if(strcmp("ssh-rsa", (const char *)buf) == 0) {
+    if(strcmp("ssh-rsa", (кткст0 )buf) == 0) {
         rc = gen_publickey_from_rsa_openssh_priv_data(session, decrypted,
                                                       NULL, 0,
                                                       NULL, 0, rsa);
@@ -1155,14 +1155,14 @@ _libssh2_dsa_new_private_frommemory(libssh2_dsa_ctx ** dsa,
     return rc;
 }
 
-static unsigned char *
+static ббайт *
 gen_publickey_from_dsa(LIBSSH2_SESSION* session, DSA *dsa,
                        т_мера *key_len)
 {
     цел            p_bytes, q_bytes, g_bytes, k_bytes;
     unsigned long  len;
-    unsigned char *ключ;
-    unsigned char *p;
+    ббайт *ключ;
+    ббайт *p;
 
     const BIGNUM * p_bn;
     const BIGNUM * q;
@@ -1213,15 +1213,15 @@ gen_publickey_from_dsa(LIBSSH2_SESSION* session, DSA *dsa,
 
 static цел
 gen_publickey_from_dsa_evp(LIBSSH2_SESSION *session,
-                           unsigned char **method,
+                           ббайт **method,
                            т_мера *method_len,
-                           unsigned char **pubkeydata,
+                           ббайт **pubkeydata,
                            т_мера *pubkeydata_len,
                            EVP_PKEY *pk)
 {
     DSA*           dsa = NULL;
-    unsigned char *ключ;
-    unsigned char *method_buf = NULL;
+    ббайт *ключ;
+    ббайт *method_buf = NULL;
     т_мера  key_len;
 
     _libssh2_debug(session,
@@ -1268,15 +1268,15 @@ gen_publickey_from_dsa_evp(LIBSSH2_SESSION *session,
 static цел
 gen_publickey_from_dsa_openssh_priv_data(LIBSSH2_SESSION *session,
                                          struct string_buf *decrypted,
-                                         unsigned char **method,
+                                         ббайт **method,
                                          т_мера *method_len,
-                                         unsigned char **pubkeydata,
+                                         ббайт **pubkeydata,
                                          т_мера *pubkeydata_len,
                                          libssh2_dsa_ctx **dsa_ctx)
 {
     цел rc = 0;
     т_мера plen, qlen, glen, pub_len, priv_len;
-    unsigned char *p, *q, *g, *pub_key, *priv_key;
+    ббайт *p, *q, *g, *pub_key, *priv_key;
     DSA *dsa = NULL;
 
     _libssh2_debug(session,
@@ -1359,7 +1359,7 @@ _libssh2_dsa_new_openssh_private(libssh2_dsa_ctx ** dsa,
 {
     FILE *fp;
     цел rc;
-    unsigned char *buf = NULL;
+    ббайт *buf = NULL;
     struct string_buf *decrypted = NULL;
 
     if(session == NULL) {
@@ -1392,7 +1392,7 @@ _libssh2_dsa_new_openssh_private(libssh2_dsa_ctx ** dsa,
         return -1;
     }
 
-    if(strcmp("ssh-dss", (const char *)buf) == 0) {
+    if(strcmp("ssh-dss", (кткст0 )buf) == 0) {
         rc = gen_publickey_from_dsa_openssh_priv_data(session, decrypted,
                                                       NULL, 0,
                                                       NULL, 0, dsa);
@@ -1466,12 +1466,12 @@ _libssh2_ecdsa_new_private_frommemory(libssh2_ecdsa_ctx ** ec_ctx,
 
 цел
 _libssh2_curve25519_new(LIBSSH2_SESSION *session,
-                        unsigned char **out_public_key,
-                        unsigned char **out_private_key)
+                        ббайт **out_public_key,
+                        ббайт **out_private_key)
 {
     EVP_PKEY *ключ = NULL;
     EVP_PKEY_CTX *pctx = NULL;
-    unsigned char *priv = NULL, *pub = NULL;
+    ббайт *priv = NULL, *pub = NULL;
     т_мера privLen, pubLen;
     цел rc = -1;
 
@@ -1534,18 +1534,18 @@ cleanExit:
 
 static цел
 gen_publickey_from_ed_evp(LIBSSH2_SESSION *session,
-                          unsigned char **method,
+                          ббайт **method,
                           т_мера *method_len,
-                          unsigned char **pubkeydata,
+                          ббайт **pubkeydata,
                           т_мера *pubkeydata_len,
                           EVP_PKEY *pk)
 {
-    const char methodName[] = "ssh-ed25519";
-    unsigned char *methodBuf = NULL;
+    const сим methodName[] = "ssh-ed25519";
+    ббайт *methodBuf = NULL;
     т_мера rawKeyLen = 0;
-    unsigned char *keyBuf = NULL;
+    ббайт *keyBuf = NULL;
     т_мера bufLen = 0;
-    unsigned char *bufPos = NULL;
+    ббайт *bufPos = NULL;
 
     _libssh2_debug(session, LIBSSH2_TRACE_AUTH,
                    "Computing public ключ from ED private ключ envelope");
@@ -1600,19 +1600,19 @@ fail:
 static цел
 gen_publickey_from_ed25519_openssh_priv_data(LIBSSH2_SESSION *session,
                                              struct string_buf *decrypted,
-                                             unsigned char **method,
+                                             ббайт **method,
                                              т_мера *method_len,
-                                             unsigned char **pubkeydata,
+                                             ббайт **pubkeydata,
                                              т_мера *pubkeydata_len,
                                              libssh2_ed25519_ctx **out_ctx)
 {
     libssh2_ed25519_ctx *ctx = NULL;
-    unsigned char *method_buf = NULL;
-    unsigned char *ключ = NULL;
+    ббайт *method_buf = NULL;
+    ббайт *ключ = NULL;
     цел i, ret = 0;
-    unsigned char *pub_key, *priv_key, *buf;
+    ббайт *pub_key, *priv_key, *buf;
     т_мера key_len = 0, tmp_len = 0;
-    unsigned char *p;
+    ббайт *p;
 
     _libssh2_debug(session,
                    LIBSSH2_TRACE_AUTH,
@@ -1636,7 +1636,7 @@ gen_publickey_from_ed25519_openssh_priv_data(LIBSSH2_SESSION *session,
     /* first 32 bytes of priv_key is the private ключ, the last 32 bytes are
        the public ключ */
     ctx = EVP_PKEY_new_raw_private_key(EVP_PKEY_ED25519, NULL,
-                                       (const unsigned char *)priv_key,
+                                       (const ббайт *)priv_key,
                                        LIBSSH2_ED25519_KEY_LEN);
 
     /* comment */
@@ -1648,7 +1648,7 @@ gen_publickey_from_ed25519_openssh_priv_data(LIBSSH2_SESSION *session,
     }
 
     if(tmp_len > 0) {
-        unsigned char *comment = LIBSSH2_CALLOC(session, tmp_len + 1);
+        ббайт *comment = LIBSSH2_CALLOC(session, tmp_len + 1);
         if(comment != NULL) {
             memcpy(comment, buf, tmp_len);
             memcpy(comment + tmp_len, "\0", 1);
@@ -1695,7 +1695,7 @@ gen_publickey_from_ed25519_openssh_priv_data(LIBSSH2_SESSION *session,
         p = ключ;
 
         _libssh2_store_str(&p, "ssh-ed25519", 11);
-        _libssh2_store_str(&p, (const char *)pub_key, LIBSSH2_ED25519_KEY_LEN);
+        _libssh2_store_str(&p, (кткст0 )pub_key, LIBSSH2_ED25519_KEY_LEN);
 
         memcpy(method_buf, "ssh-ed25519", 11);
 
@@ -1744,7 +1744,7 @@ _libssh2_ed25519_new_private(libssh2_ed25519_ctx ** ed_ctx,
 {
     цел rc;
     FILE *fp;
-    unsigned char *buf;
+    ббайт *buf;
     struct string_buf *decrypted = NULL;
     libssh2_ed25519_ctx *ctx = NULL;
 
@@ -1778,7 +1778,7 @@ _libssh2_ed25519_new_private(libssh2_ed25519_ctx ** ed_ctx,
         return -1;
     }
 
-    if(strcmp("ssh-ed25519", (const char *)buf) == 0) {
+    if(strcmp("ssh-ed25519", (кткст0 )buf) == 0) {
         rc = gen_publickey_from_ed25519_openssh_priv_data(session,
                                                           decrypted,
                                                           NULL,
@@ -1838,7 +1838,7 @@ _libssh2_ed25519_new_private_frommemory(libssh2_ed25519_ctx ** ed_ctx,
 цел
 _libssh2_ed25519_new_public(libssh2_ed25519_ctx ** ed_ctx,
                             LIBSSH2_SESSION * session,
-                            const unsigned char *raw_pub_key,
+                            const ббайт *raw_pub_key,
                             const uint8_t key_len)
 {
     libssh2_ed25519_ctx *ctx = NULL;
@@ -1865,12 +1865,12 @@ _libssh2_ed25519_new_public(libssh2_ed25519_ctx ** ed_ctx,
 цел
 _libssh2_rsa_sha1_sign(LIBSSH2_SESSION * session,
                        libssh2_rsa_ctx * rsactx,
-                       const unsigned char *hash,
+                       const ббайт *hash,
                        т_мера hash_len,
-                       unsigned char **signature, т_мера *signature_len)
+                       ббайт **signature, т_мера *signature_len)
 {
     цел ret;
-    unsigned char *sig;
+    ббайт *sig;
     бцел sig_len;
 
     sig_len = RSA_size(rsactx);
@@ -1896,8 +1896,8 @@ _libssh2_rsa_sha1_sign(LIBSSH2_SESSION * session,
 #if LIBSSH2_DSA
 цел
 _libssh2_dsa_sha1_sign(libssh2_dsa_ctx * dsactx,
-                       const unsigned char *hash,
-                       unsigned long hash_len, unsigned char *signature)
+                       const ббайт *hash,
+                       unsigned long hash_len, ббайт *signature)
 {
     DSA_SIG *sig;
     const BIGNUM * r;
@@ -1942,16 +1942,16 @@ _libssh2_dsa_sha1_sign(libssh2_dsa_ctx * dsactx,
 
 цел
 _libssh2_ecdsa_sign(LIBSSH2_SESSION * session, libssh2_ecdsa_ctx * ec_ctx,
-    const unsigned char *hash, unsigned long hash_len,
-    unsigned char **signature, т_мера *signature_len)
+    const ббайт *hash, unsigned long hash_len,
+    ббайт **signature, т_мера *signature_len)
 {
     цел r_len, s_len;
     цел rc = 0;
     т_мера out_buffer_len = 0;
-    unsigned char *sp;
+    ббайт *sp;
     const BIGNUM *pr = NULL, *ps = NULL;
-    unsigned char *temp_buffer = NULL;
-    unsigned char *out_buffer = NULL;
+    ббайт *temp_buffer = NULL;
+    ббайт *out_buffer = NULL;
 
     ECDSA_SIG *sig = ECDSA_do_sign(hash, hash_len, ec_ctx);
     if(sig == NULL)
@@ -2024,8 +2024,8 @@ _libssh2_sha1_init(libssh2_sha1_ctx *ctx)
 }
 
 цел
-_libssh2_sha1(const unsigned char *message, unsigned long len,
-              unsigned char *out)
+_libssh2_sha1(const ббайт *message, unsigned long len,
+              ббайт *out)
 {
 #ifdef HAVE_OPAQUE_STRUCTS
     EVP_MD_CTX * ctx = EVP_MD_CTX_new();
@@ -2076,8 +2076,8 @@ _libssh2_sha256_init(libssh2_sha256_ctx *ctx)
 }
 
 цел
-_libssh2_sha256(const unsigned char *message, unsigned long len,
-                unsigned char *out)
+_libssh2_sha256(const ббайт *message, unsigned long len,
+                ббайт *out)
 {
 #ifdef HAVE_OPAQUE_STRUCTS
     EVP_MD_CTX * ctx = EVP_MD_CTX_new();
@@ -2128,8 +2128,8 @@ _libssh2_sha384_init(libssh2_sha384_ctx *ctx)
 }
 
 цел
-_libssh2_sha384(const unsigned char *message, unsigned long len,
-    unsigned char *out)
+_libssh2_sha384(const ббайт *message, unsigned long len,
+    ббайт *out)
 {
 #ifdef HAVE_OPAQUE_STRUCTS
     EVP_MD_CTX * ctx = EVP_MD_CTX_new();
@@ -2180,8 +2180,8 @@ _libssh2_sha512_init(libssh2_sha512_ctx *ctx)
 }
 
 цел
-_libssh2_sha512(const unsigned char *message, unsigned long len,
-    unsigned char *out)
+_libssh2_sha512(const ббайт *message, unsigned long len,
+    ббайт *out)
 {
 #ifdef HAVE_OPAQUE_STRUCTS
     EVP_MD_CTX * ctx = EVP_MD_CTX_new();
@@ -2235,19 +2235,19 @@ _libssh2_md5_init(libssh2_md5_ctx *ctx)
 
 static цел
 gen_publickey_from_ec_evp(LIBSSH2_SESSION *session,
-                          unsigned char **method,
+                          ббайт **method,
                           т_мера *method_len,
-                          unsigned char **pubkeydata,
+                          ббайт **pubkeydata,
                           т_мера *pubkeydata_len,
                           EVP_PKEY *pk)
 {
     цел rc = 0;
     EC_KEY *ec = NULL;
-    unsigned char *p;
-    unsigned char *method_buf = NULL;
-    unsigned char *ключ;
+    ббайт *p;
+    ббайт *method_buf = NULL;
+    ббайт *ключ;
     т_мера  key_len = 0;
-    unsigned char *octal_value = NULL;
+    ббайт *octal_value = NULL;
     т_мера octal_len;
     const EC_POINT *public_key;
     const EC_GROUP *группа;
@@ -2327,13 +2327,13 @@ gen_publickey_from_ec_evp(LIBSSH2_SESSION *session,
     p = ключ;
 
     /* Key тип */
-    _libssh2_store_str(&p, (const char *)method_buf, 19);
+    _libssh2_store_str(&p, (кткст0 )method_buf, 19);
 
     /* Имя domain */
-    _libssh2_store_str(&p, (const char *)method_buf + 11, 8);
+    _libssh2_store_str(&p, (кткст0 )method_buf + 11, 8);
 
     /* Public ключ */
-    _libssh2_store_str(&p, (const char *)octal_value, octal_len);
+    _libssh2_store_str(&p, (кткст0 )octal_value, octal_len);
 
     *method         = method_buf;
     *method_len     = 19;
@@ -2365,15 +2365,15 @@ static цел
 gen_publickey_from_ecdsa_openssh_priv_data(LIBSSH2_SESSION *session,
                                            libssh2_curve_type curve_type,
                                            struct string_buf *decrypted,
-                                           unsigned char **method,
+                                           ббайт **method,
                                            т_мера *method_len,
-                                           unsigned char **pubkeydata,
+                                           ббайт **pubkeydata,
                                            т_мера *pubkeydata_len,
                                            libssh2_ecdsa_ctx **ec_ctx)
 {
     цел rc = 0;
     т_мера curvelen, exponentlen, pointlen;
-    unsigned char *curve, *exponent, *point_buf;
+    ббайт *curve, *exponent, *point_buf;
     EC_KEY *ec_key = NULL;
     BIGNUM *bn_exponent;
 
@@ -2455,7 +2455,7 @@ _libssh2_ecdsa_new_openssh_private(libssh2_ecdsa_ctx ** ec_ctx,
 {
     FILE *fp;
     цел rc;
-    unsigned char *buf = NULL;
+    ббайт *buf = NULL;
     libssh2_curve_type тип;
     struct string_buf *decrypted = NULL;
 
@@ -2489,7 +2489,7 @@ _libssh2_ecdsa_new_openssh_private(libssh2_ecdsa_ctx ** ec_ctx,
         return -1;
     }
 
-    rc = _libssh2_ecdsa_curve_type_from_name((const char *)buf, &тип);
+    rc = _libssh2_ecdsa_curve_type_from_name((кткст0 )buf, &тип);
 
     if(rc == 0) {
         rc = gen_publickey_from_ecdsa_openssh_priv_data(session, тип,
@@ -2539,13 +2539,13 @@ _libssh2_ecdsa_new_private(libssh2_ecdsa_ctx ** ec_ctx,
 цел
 _libssh2_ecdsa_create_key(LIBSSH2_SESSION *session,
                           _libssh2_ec_key **out_private_key,
-                          unsigned char **out_public_key_octal,
+                          ббайт **out_public_key_octal,
                           т_мера *out_public_key_octal_len,
                           libssh2_curve_type curve_type)
 {
     цел ret = 1;
     т_мера octal_len = 0;
-    unsigned char octal_value[EC_MAX_POINT_LEN];
+    ббайт octal_value[EC_MAX_POINT_LEN];
     const EC_POINT *public_key = NULL;
     EC_KEY *private_key = NULL;
     const EC_GROUP *группа = NULL;
@@ -2609,12 +2609,12 @@ clean_exit:
 
 цел
 _libssh2_ecdh_gen_k(_libssh2_bn **k, _libssh2_ec_key *private_key,
-    const unsigned char *server_public_key, т_мера server_public_key_len)
+    const ббайт *server_public_key, т_мера server_public_key_len)
 {
     цел ret = 0;
     цел rc;
     т_мера secret_len;
-    unsigned char *secret = NULL;
+    ббайт *secret = NULL;
     const EC_GROUP *private_key_group;
     EC_POINT *server_public_key_point;
 
@@ -2683,7 +2683,7 @@ _libssh2_ed25519_sign(libssh2_ed25519_ctx *ctx, LIBSSH2_SESSION *session,
     цел rc = -1;
     EVP_MD_CTX *md_ctx = EVP_MD_CTX_new();
     т_мера sig_len = 0;
-    unsigned char *sig = NULL;
+    ббайт *sig = NULL;
 
     if(md_ctx != NULL) {
         if(EVP_DigestSignInit(md_ctx, NULL, NULL, NULL, ctx) != 1)
@@ -2725,7 +2725,7 @@ _libssh2_curve25519_gen_k(_libssh2_bn **k,
                           uint8_t server_public_key[LIBSSH2_ED25519_KEY_LEN])
 {
     цел rc = -1;
-    unsigned char out_shared_key[LIBSSH2_ED25519_KEY_LEN];
+    ббайт out_shared_key[LIBSSH2_ED25519_KEY_LEN];
     EVP_PKEY *peer_key = NULL, *server_key = NULL;
     EVP_PKEY_CTX *server_key_ctx = NULL;
     BN_CTX *bn_ctx = NULL;
@@ -2820,15 +2820,15 @@ _libssh2_ed25519_verify(libssh2_ed25519_ctx *ctx, const uint8_t *s,
 
 static цел
 _libssh2_pub_priv_openssh_keyfile(LIBSSH2_SESSION *session,
-                                  unsigned char **method,
+                                  ббайт **method,
                                   т_мера *method_len,
-                                  unsigned char **pubkeydata,
+                                  ббайт **pubkeydata,
                                   т_мера *pubkeydata_len,
                                   кткст0 privatekey,
                                   кткст0 passphrase)
 {
     FILE *fp;
-    unsigned char *buf = NULL;
+    ббайт *buf = NULL;
     struct string_buf *decrypted = NULL;
     цел rc = 0;
 
@@ -2847,7 +2847,7 @@ _libssh2_pub_priv_openssh_keyfile(LIBSSH2_SESSION *session,
         return -1;
     }
 
-    rc = _libssh2_openssh_pem_parse(session, (const unsigned char *)passphrase,
+    rc = _libssh2_openssh_pem_parse(session, (const ббайт *)passphrase,
                                     fp, &decrypted);
     fclose(fp);
     if(rc) {
@@ -2868,7 +2868,7 @@ _libssh2_pub_priv_openssh_keyfile(LIBSSH2_SESSION *session,
     rc = -1;
 
 #if LIBSSH2_ED25519
-    if(strcmp("ssh-ed25519", (const char *)buf) == 0) {
+    if(strcmp("ssh-ed25519", (кткст0 )buf) == 0) {
         rc = gen_publickey_from_ed25519_openssh_priv_data(session, decrypted,
                                                           method, method_len,
                                                           pubkeydata,
@@ -2877,7 +2877,7 @@ _libssh2_pub_priv_openssh_keyfile(LIBSSH2_SESSION *session,
     }
 #endif
 #if LIBSSH2_RSA
-    if(strcmp("ssh-rsa", (const char *)buf) == 0) {
+    if(strcmp("ssh-rsa", (кткст0 )buf) == 0) {
         rc = gen_publickey_from_rsa_openssh_priv_data(session, decrypted,
                                                       method, method_len,
                                                       pubkeydata,
@@ -2886,7 +2886,7 @@ _libssh2_pub_priv_openssh_keyfile(LIBSSH2_SESSION *session,
     }
 #endif
 #if LIBSSH2_DSA
-    if(strcmp("ssh-dss", (const char *)buf) == 0) {
+    if(strcmp("ssh-dss", (кткст0 )buf) == 0) {
         rc = gen_publickey_from_dsa_openssh_priv_data(session, decrypted,
                                                       method, method_len,
                                                       pubkeydata,
@@ -2898,7 +2898,7 @@ _libssh2_pub_priv_openssh_keyfile(LIBSSH2_SESSION *session,
     {
         libssh2_curve_type тип;
 
-        if(_libssh2_ecdsa_curve_type_from_name((const char *)buf,
+        if(_libssh2_ecdsa_curve_type_from_name((кткст0 )buf,
                                                &тип) == 0) {
             rc = gen_publickey_from_ecdsa_openssh_priv_data(session, тип,
                                                             decrypted,
@@ -2923,9 +2923,9 @@ _libssh2_pub_priv_openssh_keyfile(LIBSSH2_SESSION *session,
 
 цел
 _libssh2_pub_priv_keyfile(LIBSSH2_SESSION *session,
-                          unsigned char **method,
+                          ббайт **method,
                           т_мера *method_len,
-                          unsigned char **pubkeydata,
+                          ббайт **pubkeydata,
                           т_мера *pubkeydata_len,
                           кткст0 privatekey,
                           кткст0 passphrase)
@@ -3022,16 +3022,16 @@ static цел
 _libssh2_pub_priv_openssh_keyfilememory(LIBSSH2_SESSION *session,
                                         проц **key_ctx,
                                         кткст0 key_type,
-                                        unsigned char **method,
+                                        ббайт **method,
                                         т_мера *method_len,
-                                        unsigned char **pubkeydata,
+                                        ббайт **pubkeydata,
                                         т_мера *pubkeydata_len,
                                         кткст0 privatekeydata,
                                         т_мера privatekeydata_len,
                                         unsigned кткст0 passphrase)
 {
     цел rc;
-    unsigned char *buf = NULL;
+    ббайт *buf = NULL;
     struct string_buf *decrypted = NULL;
 
     if(key_ctx != NULL)
@@ -3071,7 +3071,7 @@ _libssh2_pub_priv_openssh_keyfilememory(LIBSSH2_SESSION *session,
    rc = -1;
 
 #if LIBSSH2_ED25519
-    if(strcmp("ssh-ed25519", (const char *)buf) == 0) {
+    if(strcmp("ssh-ed25519", (кткст0 )buf) == 0) {
         if(key_type == NULL || strcmp("ssh-ed25519", key_type) == 0) {
             rc = gen_publickey_from_ed25519_openssh_priv_data(session,
                                                               decrypted,
@@ -3084,7 +3084,7 @@ _libssh2_pub_priv_openssh_keyfilememory(LIBSSH2_SESSION *session,
    }
 #endif
 #if LIBSSH2_RSA
-    if(strcmp("ssh-rsa", (const char *)buf) == 0) {
+    if(strcmp("ssh-rsa", (кткст0 )buf) == 0) {
         if(key_type == NULL || strcmp("ssh-rsa", key_type) == 0) {
             rc = gen_publickey_from_rsa_openssh_priv_data(session, decrypted,
                                                           method, method_len,
@@ -3095,7 +3095,7 @@ _libssh2_pub_priv_openssh_keyfilememory(LIBSSH2_SESSION *session,
    }
 #endif
 #if LIBSSH2_DSA
-    if(strcmp("ssh-dss", (const char *)buf) == 0) {
+    if(strcmp("ssh-dss", (кткст0 )buf) == 0) {
         if(key_type == NULL || strcmp("ssh-dss", key_type) == 0) {
             rc = gen_publickey_from_dsa_openssh_priv_data(session, decrypted,
                                                          method, method_len,
@@ -3109,7 +3109,7 @@ _libssh2_pub_priv_openssh_keyfilememory(LIBSSH2_SESSION *session,
 {
    libssh2_curve_type тип;
 
-   if(_libssh2_ecdsa_curve_type_from_name((const char *)buf, &тип) == 0) {
+   if(_libssh2_ecdsa_curve_type_from_name((кткст0 )buf, &тип) == 0) {
        if(key_type == NULL || strcmp("ssh-ecdsa", key_type) == 0) {
            rc = gen_publickey_from_ecdsa_openssh_priv_data(session, тип,
                                                            decrypted,
@@ -3143,9 +3143,9 @@ read_openssh_private_key_from_memory(проц **key_ctx, LIBSSH2_SESSION *sessio
 
 цел
 _libssh2_pub_priv_keyfilememory(LIBSSH2_SESSION *session,
-                                unsigned char **method,
+                                ббайт **method,
                                 т_мера *method_len,
-                                unsigned char **pubkeydata,
+                                ббайт **pubkeydata,
                                 т_мера *pubkeydata_len,
                                 кткст0 privatekeydata,
                                 т_мера privatekeydata_len,
@@ -3160,7 +3160,7 @@ _libssh2_pub_priv_keyfilememory(LIBSSH2_SESSION *session,
                    LIBSSH2_TRACE_AUTH,
                    "Computing public ключ from private ключ.");
 
-    bp = BIO_new_mem_buf((char *)privatekeydata, privatekeydata_len);
+    bp = BIO_new_mem_buf((сим *)privatekeydata, privatekeydata_len);
     if(!bp) {
         return -1;
     }
@@ -3178,7 +3178,7 @@ _libssh2_pub_priv_keyfilememory(LIBSSH2_SESSION *session,
                                                      pubkeydata_len,
                                                      privatekeydata,
                                                      privatekeydata_len,
-                                           (unsigned const char *)passphrase);
+                                           (unsigned кткст0 )passphrase);
         if(st != 0) {
             return _libssh2_error(session,
                                   LIBSSH2_ERROR_FILE,

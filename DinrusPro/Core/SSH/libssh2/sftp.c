@@ -93,8 +93,8 @@
    some kind of server problem. */
 #define LIBSSH2_SFTP_PACKET_MAXLEN  (256 * 1024)
 
-static цел sftp_packet_ask(LIBSSH2_SFTP *sftp, unsigned char packet_type,
-                           uint32_t request_id, unsigned char **data,
+static цел sftp_packet_ask(LIBSSH2_SFTP *sftp, ббайт packet_type,
+                           uint32_t request_id, ббайт **data,
                            т_мера *data_len);
 static проц sftp_packet_flush(LIBSSH2_SFTP *sftp);
 
@@ -113,20 +113,20 @@ static цел sftp_attrsize(unsigned long flags)
 
 /* _libssh2_store_u64
  */
-static проц _libssh2_store_u64(unsigned char **укз, libssh2_uint64_t значение)
+static проц _libssh2_store_u64(ббайт **укз, libssh2_uint64_t значение)
 {
     uint32_t msl = (uint32_t)(значение >> 32);
-    unsigned char *buf = *укз;
+    ббайт *buf = *укз;
 
-    buf[0] = (unsigned char)((msl >> 24) & 0xFF);
-    buf[1] = (unsigned char)((msl >> 16) & 0xFF);
-    buf[2] = (unsigned char)((msl >> 8)  & 0xFF);
-    buf[3] = (unsigned char)( msl        & 0xFF);
+    buf[0] = (ббайт)((msl >> 24) & 0xFF);
+    buf[1] = (ббайт)((msl >> 16) & 0xFF);
+    buf[2] = (ббайт)((msl >> 8)  & 0xFF);
+    buf[3] = (ббайт)( msl        & 0xFF);
 
-    buf[4] = (unsigned char)((значение >> 24) & 0xFF);
-    buf[5] = (unsigned char)((значение >> 16) & 0xFF);
-    buf[6] = (unsigned char)((значение >> 8)  & 0xFF);
-    buf[7] = (unsigned char)( значение        & 0xFF);
+    buf[4] = (ббайт)((значение >> 24) & 0xFF);
+    buf[5] = (ббайт)((значение >> 16) & 0xFF);
+    buf[6] = (ббайт)((значение >> 8)  & 0xFF);
+    buf[7] = (ббайт)( значение        & 0xFF);
 
     *укз += 8;
 }
@@ -198,7 +198,7 @@ add_zombie_request(LIBSSH2_SFTP *sftp, uint32_t request_id)
  * добавь a packet to the SFTP packet brigade
  */
 static цел
-sftp_packet_add(LIBSSH2_SFTP *sftp, unsigned char *data,
+sftp_packet_add(LIBSSH2_SFTP *sftp, ббайт *data,
                 т_мера data_len)
 {
     LIBSSH2_SESSION *session = sftp->channel->session;
@@ -297,7 +297,7 @@ sftp_packet_read(LIBSSH2_SFTP *sftp)
 {
     LIBSSH2_CHANNEL *channel = sftp->channel;
     LIBSSH2_SESSION *session = channel->session;
-    unsigned char *packet = NULL;
+    ббайт *packet = NULL;
     ssize_t rc;
     unsigned long recv_window;
     цел packet_type;
@@ -329,7 +329,7 @@ sftp_packet_read(LIBSSH2_SFTP *sftp)
 
             /* each packet starts with a 32 bit length field */
             rc = _libssh2_channel_read(channel, 0,
-                                       (char *)&sftp->partial_size[
+                                       (сим *)&sftp->partial_size[
                                            sftp->partial_size_len],
                                        4 - sftp->partial_size_len);
             if(rc == LIBSSH2_ERROR_EAGAIN)
@@ -340,7 +340,7 @@ sftp_packet_read(LIBSSH2_SFTP *sftp)
             sftp->partial_size_len += rc;
 
             if(4 != sftp->partial_size_len)
-                /* we got a short read for the length part */
+                /* we got a крат read for the length part */
                 return LIBSSH2_ERROR_EAGAIN;
 
             sftp->partial_len = _libssh2_ntohu32(sftp->partial_size);
@@ -394,7 +394,7 @@ sftp_packet_read(LIBSSH2_SFTP *sftp)
         /* читай as much of the packet as we can */
         while(sftp->partial_len > sftp->partial_received) {
             rc = _libssh2_channel_read(channel, 0,
-                                       (char *)&packet[sftp->partial_received],
+                                       (сим *)&packet[sftp->partial_received],
                                        sftp->partial_len -
                                        sftp->partial_received);
 
@@ -447,7 +447,7 @@ static проц sftp_packetlist_flush(LIBSSH2_SFTP_HANDLE *handle)
     /* remove pending packets, if any */
     chunk = _libssh2_list_first(&handle->packet_list);
     while(chunk) {
-        unsigned char *data;
+        ббайт *data;
         т_мера data_len;
         цел rc;
         struct sftp_pipeline_chunk *next = _libssh2_list_next(&chunk->node);
@@ -479,8 +479,8 @@ static проц sftp_packetlist_flush(LIBSSH2_SFTP_HANDLE *handle)
  * Checks if there's a matching SFTP packet available.
  */
 static цел
-sftp_packet_ask(LIBSSH2_SFTP *sftp, unsigned char packet_type,
-                uint32_t request_id, unsigned char **data,
+sftp_packet_ask(LIBSSH2_SFTP *sftp, ббайт packet_type,
+                uint32_t request_id, ббайт **data,
                 т_мера *data_len)
 {
     LIBSSH2_SESSION *session = sftp->channel->session;
@@ -516,8 +516,8 @@ sftp_packet_ask(LIBSSH2_SFTP *sftp, unsigned char packet_type,
  * A la libssh2_packet_require
  */
 static цел
-sftp_packet_require(LIBSSH2_SFTP *sftp, unsigned char packet_type,
-                    uint32_t request_id, unsigned char **data,
+sftp_packet_require(LIBSSH2_SFTP *sftp, ббайт packet_type,
+                    uint32_t request_id, ббайт **data,
                     т_мера *data_len, т_мера required_size)
 {
     LIBSSH2_SESSION *session = sftp->channel->session;
@@ -570,8 +570,8 @@ sftp_packet_require(LIBSSH2_SFTP *sftp, unsigned char packet_type,
  */
 static цел
 sftp_packet_requirev(LIBSSH2_SFTP *sftp, цел num_valid_responses,
-                     const unsigned char *valid_responses,
-                     uint32_t request_id, unsigned char **data,
+                     const ббайт *valid_responses,
+                     uint32_t request_id, ббайт **data,
                      т_мера *data_len, т_мера required_size)
 {
     цел i;
@@ -634,9 +634,9 @@ sftp_packet_requirev(LIBSSH2_SFTP *sftp, цел num_valid_responses,
  * Populate attributes into an SFTP block
  */
 static ssize_t
-sftp_attr2bin(unsigned char *p, const LIBSSH2_SFTP_ATTRIBUTES * attrs)
+sftp_attr2bin(ббайт *p, const LIBSSH2_SFTP_ATTRIBUTES * attrs)
 {
-    unsigned char *s = p;
+    ббайт *s = p;
     uint32_t flag_mask =
         LIBSSH2_SFTP_ATTR_SIZE | LIBSSH2_SFTP_ATTR_UIDGID |
         LIBSSH2_SFTP_ATTR_PERMISSIONS | LIBSSH2_SFTP_ATTR_ACMODTIME;
@@ -675,12 +675,12 @@ sftp_attr2bin(unsigned char *p, const LIBSSH2_SFTP_ATTRIBUTES * attrs)
 /* sftp_bin2attr
  */
 static цел
-sftp_bin2attr(LIBSSH2_SFTP_ATTRIBUTES *attrs, const unsigned char *p,
+sftp_bin2attr(LIBSSH2_SFTP_ATTRIBUTES *attrs, const ббайт *p,
               т_мера data_len)
 {
     struct string_buf buf;
     uint32_t flags = 0;
-    buf.data = (unsigned char *)p;
+    buf.data = (ббайт *)p;
     buf.dataptr = buf.data;
     buf.len = data_len;
 
@@ -764,12 +764,12 @@ LIBSSH2_CHANNEL_CLOSE_FUNC(libssh2_sftp_dtor)
  */
 static LIBSSH2_SFTP *sftp_init(LIBSSH2_SESSION *session)
 {
-    unsigned char *data;
+    ббайт *data;
     т_мера data_len;
     ssize_t rc;
     LIBSSH2_SFTP *sftp_handle;
     struct string_buf buf;
-    unsigned char *endp;
+    ббайт *endp;
 
     if(session->sftpInit_state == libssh2_NB_state_idle) {
         _libssh2_debug(session, LIBSSH2_TRACE_SFTP,
@@ -938,19 +938,19 @@ static LIBSSH2_SFTP *sftp_init(LIBSSH2_SESSION *session)
                    "Enabling SFTP version %lu compatibility",
                    sftp_handle->version);
     while(buf.dataptr < endp) {
-        unsigned char *extname, *extdata;
+        ббайт *extname, *extdata;
 
         if(_libssh2_get_string(&buf, &extname, NULL)) {
             LIBSSH2_FREE(session, data);
             _libssh2_error(session, LIBSSH2_ERROR_BUFFER_TOO_SMALL,
-                           "Data too short when extracting extname");
+                           "Data too крат when extracting extname");
             goto sftp_init_error;
         }
 
         if(_libssh2_get_string(&buf, &extdata, NULL)) {
             LIBSSH2_FREE(session, data);
             _libssh2_error(session, LIBSSH2_ERROR_BUFFER_TOO_SMALL,
-                           "Data too short when extracting extdata");
+                           "Data too крат when extracting extdata");
             goto sftp_init_error;
         }
     }
@@ -1111,7 +1111,7 @@ sftp_open(LIBSSH2_SFTP *sftp, кткст0 имяф,
     LIBSSH2_SFTP_ATTRIBUTES attrs = {
         LIBSSH2_SFTP_ATTR_PERMISSIONS, 0, 0, 0, 0, 0, 0
     };
-    unsigned char *s;
+    ббайт *s;
     ssize_t rc;
     цел open_file = (open_type == LIBSSH2_SFTP_OPENFILE)?1:0;
 
@@ -1186,8 +1186,8 @@ sftp_open(LIBSSH2_SFTP *sftp, кткст0 имяф,
 
     if(sftp->open_state == libssh2_NB_state_sent) {
         т_мера data_len;
-        unsigned char *data;
-        static const unsigned char fopen_responses[2] =
+        ббайт *data;
+        static const ббайт fopen_responses[2] =
             { SSH_FXP_HANDLE, SSH_FXP_STATUS };
         rc = sftp_packet_requirev(sftp, 2, fopen_responses,
                                   sftp->open_request_id, &data,
@@ -1334,7 +1334,7 @@ libssh2_sftp_open_ex(LIBSSH2_SFTP *sftp, кткст0 имяф,
  * читай from an SFTP file handle
  *
  */
-static ssize_t sftp_read(LIBSSH2_SFTP_HANDLE * handle, char *буфер,
+static ssize_t sftp_read(LIBSSH2_SFTP_HANDLE * handle, сим *буфер,
                          т_мера buffer_size)
 {
     LIBSSH2_SFTP *sftp = handle->sftp;
@@ -1347,7 +1347,7 @@ static ssize_t sftp_read(LIBSSH2_SFTP_HANDLE * handle, char *буфер,
     struct _libssh2_sftp_handle_file_data *filep =
         &handle->u.file;
     т_мера bytes_in_buffer = 0;
-    char *sliding_bufferp = буфер;
+    сим *sliding_bufferp = буфер;
 
     /* This ФУНКЦИЯ can be interrupted in three different places where it
        might need to wait for data from the network.  It returns EAGAIN to
@@ -1355,7 +1355,7 @@ static ssize_t sftp_read(LIBSSH2_SFTP_HANDLE * handle, char *буфер,
        expected to call this ФУНКЦИЯ again (possibly many times) to finish
        the operation.
 
-       The tricky part is that if we previously aborted a sftp_read due to
+       The tricky part is that if we previously абортed a sftp_read due to
        EAGAIN, we must continue at the same spot to continue the previously
        interrupted operation.  This is done using a state machine to record
        what phase of execution we were at.  The state is stored in
@@ -1464,7 +1464,7 @@ static ssize_t sftp_read(LIBSSH2_SFTP_HANDLE * handle, char *буфер,
         }
 
         while(count > 0) {
-            unsigned char *s;
+            ббайт *s;
 
             /* 25 = packet_len(4) + packet_type(1) + request_id(4) +
                handle_len(4) + offset(8) + count(4) */
@@ -1560,10 +1560,10 @@ static ssize_t sftp_read(LIBSSH2_SFTP_HANDLE * handle, char *буфер,
         chunk = _libssh2_list_first(&handle->packet_list);
 
         while(chunk) {
-            unsigned char *data;
+            ббайт *data;
             т_мера data_len;
             uint32_t rc32;
-            static const unsigned char read_responses[2] = {
+            static const ббайт read_responses[2] = {
                 SSH_FXP_DATA, SSH_FXP_STATUS
             };
 
@@ -1655,7 +1655,7 @@ static ssize_t sftp_read(LIBSSH2_SFTP_HANDLE * handle, char *буфер,
                 }
 
                 if(rc32 != chunk->len) {
-                    /* a short read does not imply end of file, but we must
+                    /* a крат read does not imply end of file, but we must
                        adjust the offset_sent since it was advanced with a
                        full chunk->len before */
                     filep->offset_sent -= (chunk->len - rc32);
@@ -1729,7 +1729,7 @@ static ssize_t sftp_read(LIBSSH2_SFTP_HANDLE * handle, char *буфер,
  * читай from an SFTP file handle
  */
 LIBSSH2_API ssize_t
-libssh2_sftp_read(LIBSSH2_SFTP_HANDLE *hnd, char *буфер,
+libssh2_sftp_read(LIBSSH2_SFTP_HANDLE *hnd, сим *буфер,
                   т_мера buffer_maxlen)
 {
     ssize_t rc;
@@ -1743,8 +1743,8 @@ libssh2_sftp_read(LIBSSH2_SFTP_HANDLE *hnd, char *буфер,
 /* sftp_readdir
  * читай from an SFTP directory handle
  */
-static ssize_t sftp_readdir(LIBSSH2_SFTP_HANDLE *handle, char *буфер,
-                            т_мера buffer_maxlen, char *longentry,
+static ssize_t sftp_readdir(LIBSSH2_SFTP_HANDLE *handle, сим *буфер,
+                            т_мера buffer_maxlen, сим *longentry,
                             т_мера longentry_maxlen,
                             LIBSSH2_SFTP_ATTRIBUTES *attrs)
 {
@@ -1755,8 +1755,8 @@ static ssize_t sftp_readdir(LIBSSH2_SFTP_HANDLE *handle, char *буфер,
     uint32_t num_names;
     /* 13 = packet_len(4) + packet_type(1) + request_id(4) + handle_len(4) */
     uint32_t packet_len = handle->handle_len + 13;
-    unsigned char *s, *data;
-    static const unsigned char read_responses[2] = {
+    ббайт *s, *data;
+    static const ббайт read_responses[2] = {
         SSH_FXP_NAME, SSH_FXP_STATUS };
     ssize_t retcode;
 
@@ -1775,7 +1775,7 @@ static ssize_t sftp_readdir(LIBSSH2_SFTP_HANDLE *handle, char *буфер,
             цел attr_len = 0;
 
             if(names_packet_len >= 4) {
-                s = (unsigned char *) handle->u.dir.next_name;
+                s = (ббайт *) handle->u.dir.next_name;
                 real_filename_len = _libssh2_ntohu32(s);
                 s += 4;
                 names_packet_len -= 4;
@@ -1850,7 +1850,7 @@ static ssize_t sftp_readdir(LIBSSH2_SFTP_HANDLE *handle, char *буфер,
                 goto end;
             }
 
-            handle->u.dir.next_name = (char *) s;
+            handle->u.dir.next_name = (сим *) s;
             handle->u.dir.names_packet_len = names_packet_len;
           end:
 
@@ -1912,7 +1912,7 @@ static ssize_t sftp_readdir(LIBSSH2_SFTP_HANDLE *handle, char *буфер,
             LIBSSH2_FREE(session, data);
         }
         return _libssh2_error(session, LIBSSH2_ERROR_SFTP_PROTOCOL,
-                              "Статус message too short");
+                              "Статус message too крат");
     }
     else if(retcode) {
         sftp->readdir_state = libssh2_NB_state_idle;
@@ -1947,7 +1947,7 @@ static ssize_t sftp_readdir(LIBSSH2_SFTP_HANDLE *handle, char *буфер,
 
     handle->u.dir.names_left = num_names;
     handle->u.dir.names_packet = data;
-    handle->u.dir.next_name = (char *) data + 9;
+    handle->u.dir.next_name = (сим *) data + 9;
     handle->u.dir.names_packet_len = data_len - 9;
 
     /* use the имя popping mechanism from the start of the ФУНКЦИЯ */
@@ -1959,8 +1959,8 @@ static ssize_t sftp_readdir(LIBSSH2_SFTP_HANDLE *handle, char *буфер,
  * читай from an SFTP directory handle
  */
 LIBSSH2_API цел
-libssh2_sftp_readdir_ex(LIBSSH2_SFTP_HANDLE *hnd, char *буфер,
-                        т_мера buffer_maxlen, char *longentry,
+libssh2_sftp_readdir_ex(LIBSSH2_SFTP_HANDLE *hnd, сим *буфер,
+                        т_мера buffer_maxlen, сим *longentry,
                         т_мера longentry_maxlen,
                         LIBSSH2_SFTP_ATTRIBUTES *attrs)
 {
@@ -2020,7 +2020,7 @@ static ssize_t sftp_write(LIBSSH2_SFTP_HANDLE *handle, кткст0 буфер,
     т_мера data_len;
     uint32_t retcode;
     uint32_t packet_len;
-    unsigned char *s, *data;
+    ббайт *s, *data;
     ssize_t rc;
     struct sftp_pipeline_chunk *chunk;
     struct sftp_pipeline_chunk *next;
@@ -2147,7 +2147,7 @@ static ssize_t sftp_write(LIBSSH2_SFTP_HANDLE *handle, кткст0 буфер,
                     LIBSSH2_FREE(session, data);
                 }
                 return _libssh2_error(session, LIBSSH2_ERROR_SFTP_PROTOCOL,
-                                      "FXP write packet too short");
+                                      "FXP write packet too крат");
             }
             else if(rc < 0) {
                 if(rc == LIBSSH2_ERROR_EAGAIN)
@@ -2246,7 +2246,7 @@ static цел sftp_fsync(LIBSSH2_SFTP_HANDLE *handle)
        string_len(4) + strlen("fsync@openssh.com")(17) + handle_len(4) */
     uint32_t packet_len = handle->handle_len + 34;
     т_мера data_len;
-    unsigned char *packet, *s, *data;
+    ббайт *packet, *s, *data;
     ssize_t rc;
     uint32_t retcode;
 
@@ -2302,7 +2302,7 @@ static цел sftp_fsync(LIBSSH2_SFTP_HANDLE *handle)
             LIBSSH2_FREE(session, data);
         }
         return _libssh2_error(session, LIBSSH2_ERROR_SFTP_PROTOCOL,
-                              "SFTP fsync packet too short");
+                              "SFTP fsync packet too крат");
     }
     else if(rc) {
         sftp->fsync_state = libssh2_NB_state_idle;
@@ -2354,8 +2354,8 @@ static цел sftp_fstat(LIBSSH2_SFTP_HANDLE *handle,
     /* 13 = packet_len(4) + packet_type(1) + request_id(4) + handle_len(4) */
     uint32_t packet_len =
         handle->handle_len + 13 + (setstat ? sftp_attrsize(attrs->flags) : 0);
-    unsigned char *s, *data;
-    static const unsigned char fstat_responses[2] =
+    ббайт *s, *data;
+    static const ббайт fstat_responses[2] =
         { SSH_FXP_ATTRS, SSH_FXP_STATUS };
     ssize_t rc;
 
@@ -2412,7 +2412,7 @@ static цел sftp_fstat(LIBSSH2_SFTP_HANDLE *handle,
             LIBSSH2_FREE(session, data);
         }
         return _libssh2_error(session, LIBSSH2_ERROR_SFTP_PROTOCOL,
-                              "SFTP fstat packet too short");
+                              "SFTP fstat packet too крат");
     }
     else if(rc) {
         sftp->fstat_state = libssh2_NB_state_idle;
@@ -2440,7 +2440,7 @@ static цел sftp_fstat(LIBSSH2_SFTP_HANDLE *handle,
     if(sftp_bin2attr(attrs, data + 5, data_len - 5) < 0) {
         LIBSSH2_FREE(session, data);
         return _libssh2_error(session, LIBSSH2_ERROR_SFTP_PROTOCOL,
-                              "Attributes too short in SFTP fstat");
+                              "Attributes too крат in SFTP fstat");
     }
 
     LIBSSH2_FREE(session, data);
@@ -2578,7 +2578,7 @@ sftp_close_handle(LIBSSH2_SFTP_HANDLE *handle)
     т_мера data_len;
     /* 13 = packet_len(4) + packet_type(1) + request_id(4) + handle_len(4) */
     uint32_t packet_len = handle->handle_len + 13;
-    unsigned char *s, *data = NULL;
+    ббайт *s, *data = NULL;
     цел rc = 0;
 
     if(handle->close_state == libssh2_NB_state_idle) {
@@ -2632,7 +2632,7 @@ sftp_close_handle(LIBSSH2_SFTP_HANDLE *handle)
             }
             data = NULL;
             _libssh2_error(session, LIBSSH2_ERROR_SFTP_PROTOCOL,
-                           "Packet too short in FXP_CLOSE command");
+                           "Packet too крат in FXP_CLOSE command");
         }
         else if(rc) {
             _libssh2_error(session, rc,
@@ -2709,7 +2709,7 @@ static цел sftp_unlink(LIBSSH2_SFTP *sftp, кткст0 имяф,
     цел retcode;
     /* 13 = packet_len(4) + packet_type(1) + request_id(4) + filename_len(4) */
     uint32_t packet_len = filename_len + 13;
-    unsigned char *s, *data;
+    ббайт *s, *data;
     цел rc;
 
     if(sftp->unlink_state == libssh2_NB_state_idle) {
@@ -2759,7 +2759,7 @@ static цел sftp_unlink(LIBSSH2_SFTP *sftp, кткст0 имяф,
             LIBSSH2_FREE(session, data);
         }
         return _libssh2_error(session, LIBSSH2_ERROR_SFTP_PROTOCOL,
-                              "SFTP unlink packet too short");
+                              "SFTP unlink packet too крат");
     }
     else if(rc) {
         sftp->unlink_state = libssh2_NB_state_idle;
@@ -2816,7 +2816,7 @@ static цел sftp_rename(LIBSSH2_SFTP *sftp, кткст0 source_filename,
                                                         5 ? 4 : 0);
     /* packet_len(4) + packet_type(1) + request_id(4) +
        source_filename_len(4) + dest_filename_len(4) + flags(4){SFTP5+) */
-    unsigned char *data;
+    ббайт *data;
     ssize_t rc;
 
     if(sftp->version < 2) {
@@ -2879,7 +2879,7 @@ static цел sftp_rename(LIBSSH2_SFTP *sftp, кткст0 source_filename,
             LIBSSH2_FREE(session, data);
         }
         return _libssh2_error(session, LIBSSH2_ERROR_SFTP_PROTOCOL,
-                              "SFTP rename packet too short");
+                              "SFTP rename packet too крат");
     }
     else if(rc) {
         sftp->rename_state = libssh2_NB_state_idle;
@@ -2954,10 +2954,10 @@ static цел sftp_fstatvfs(LIBSSH2_SFTP_HANDLE *handle, LIBSSH2_SFTP_STATVFS *s
        + handle_len (4) */
     /* 20 = strlen ("fstatvfs@openssh.com") */
     uint32_t packet_len = handle->handle_len + 20 + 17;
-    unsigned char *packet, *s, *data;
+    ббайт *packet, *s, *data;
     ssize_t rc;
     бцел flag;
-    static const unsigned char responses[2] =
+    static const ббайт responses[2] =
         { SSH_FXP_EXTENDED_REPLY, SSH_FXP_STATUS };
 
     if(sftp->fstatvfs_state == libssh2_NB_state_idle) {
@@ -3013,7 +3013,7 @@ static цел sftp_fstatvfs(LIBSSH2_SFTP_HANDLE *handle, LIBSSH2_SFTP_STATVFS *s
             LIBSSH2_FREE(session, data);
         }
         return _libssh2_error(session, LIBSSH2_ERROR_SFTP_PROTOCOL,
-                              "SFTP rename packet too short");
+                              "SFTP rename packet too крат");
     }
     else if(rc) {
         sftp->fstatvfs_state = libssh2_NB_state_idle;
@@ -3034,7 +3034,7 @@ static цел sftp_fstatvfs(LIBSSH2_SFTP_HANDLE *handle, LIBSSH2_SFTP_STATVFS *s
         LIBSSH2_FREE(session, data);
         sftp->fstatvfs_state = libssh2_NB_state_idle;
         return _libssh2_error(session, LIBSSH2_ERROR_SFTP_PROTOCOL,
-                              "SFTP Protocol Ошибка: short response");
+                              "SFTP Protocol Ошибка: крат response");
     }
 
     sftp->fstatvfs_state = libssh2_NB_state_idle;
@@ -3090,10 +3090,10 @@ static цел sftp_statvfs(LIBSSH2_SFTP *sftp, кткст0 path,
        + path_len (4) */
     /* 19 = strlen ("statvfs@openssh.com") */
     uint32_t packet_len = path_len + 19 + 17;
-    unsigned char *packet, *s, *data;
+    ббайт *packet, *s, *data;
     ssize_t rc;
     бцел flag;
-    static const unsigned char responses[2] =
+    static const ббайт responses[2] =
         { SSH_FXP_EXTENDED_REPLY, SSH_FXP_STATUS };
 
     if(sftp->statvfs_state == libssh2_NB_state_idle) {
@@ -3148,7 +3148,7 @@ static цел sftp_statvfs(LIBSSH2_SFTP *sftp, кткст0 path,
             LIBSSH2_FREE(session, data);
         }
         return _libssh2_error(session, LIBSSH2_ERROR_SFTP_PROTOCOL,
-                              "SFTP fstat packet too short");
+                              "SFTP fstat packet too крат");
     }
     else if(rc) {
         sftp->statvfs_state = libssh2_NB_state_idle;
@@ -3169,7 +3169,7 @@ static цел sftp_statvfs(LIBSSH2_SFTP *sftp, кткст0 path,
         LIBSSH2_FREE(session, data);
         sftp->statvfs_state = libssh2_NB_state_idle;
         return _libssh2_error(session, LIBSSH2_ERROR_SFTP_PROTOCOL,
-                              "SFTP Protocol Ошибка: short response");
+                              "SFTP Protocol Ошибка: крат response");
     }
 
     sftp->statvfs_state = libssh2_NB_state_idle;
@@ -3228,7 +3228,7 @@ static цел sftp_mkdir(LIBSSH2_SFTP *sftp, кткст0 path,
     т_мера data_len;
     цел retcode;
     ssize_t packet_len;
-    unsigned char *packet, *s, *data;
+    ббайт *packet, *s, *data;
     цел rc;
 
     if(mode != LIBSSH2_SFTP_DEFAULT_MODE) {
@@ -3291,7 +3291,7 @@ static цел sftp_mkdir(LIBSSH2_SFTP *sftp, кткст0 path,
             LIBSSH2_FREE(session, data);
         }
         return _libssh2_error(session, LIBSSH2_ERROR_SFTP_PROTOCOL,
-                              "SFTP mkdir packet too short");
+                              "SFTP mkdir packet too крат");
     }
     else if(rc) {
         sftp->mkdir_state = libssh2_NB_state_idle;
@@ -3344,7 +3344,7 @@ static цел sftp_rmdir(LIBSSH2_SFTP *sftp, кткст0 path,
     цел retcode;
     /* 13 = packet_len(4) + packet_type(1) + request_id(4) + path_len(4) */
     ssize_t packet_len = path_len + 13;
-    unsigned char *s, *data;
+    ббайт *s, *data;
     цел rc;
 
     if(sftp->rmdir_state == libssh2_NB_state_idle) {
@@ -3395,7 +3395,7 @@ static цел sftp_rmdir(LIBSSH2_SFTP *sftp, кткст0 path,
             LIBSSH2_FREE(session, data);
         }
         return _libssh2_error(session, LIBSSH2_ERROR_SFTP_PROTOCOL,
-                              "SFTP rmdir packet too short");
+                              "SFTP rmdir packet too крат");
     }
     else if(rc) {
         sftp->rmdir_state = libssh2_NB_state_idle;
@@ -3448,8 +3448,8 @@ static цел sftp_stat(LIBSSH2_SFTP *sftp, кткст0 path,
         path_len + 13 +
         ((stat_type ==
           LIBSSH2_SFTP_SETSTAT) ? sftp_attrsize(attrs->flags) : 0);
-    unsigned char *s, *data;
-    static const unsigned char stat_responses[2] =
+    ббайт *s, *data;
+    static const ббайт stat_responses[2] =
         { SSH_FXP_ATTRS, SSH_FXP_STATUS };
     цел rc;
 
@@ -3517,7 +3517,7 @@ static цел sftp_stat(LIBSSH2_SFTP *sftp, кткст0 path,
             LIBSSH2_FREE(session, data);
         }
         return _libssh2_error(session, LIBSSH2_ERROR_SFTP_PROTOCOL,
-                              "SFTP stat packet too short");
+                              "SFTP stat packet too крат");
     }
     else if(rc) {
         sftp->stat_state = libssh2_NB_state_idle;
@@ -3547,7 +3547,7 @@ static цел sftp_stat(LIBSSH2_SFTP *sftp, кткст0 path,
     if(sftp_bin2attr(attrs, data + 5, data_len - 5) < 0) {
         LIBSSH2_FREE(session, data);
         return _libssh2_error(session, LIBSSH2_ERROR_SFTP_PROTOCOL,
-                              "Attributes too short in SFTP fstat");
+                              "Attributes too крат in SFTP fstat");
     }
 
     LIBSSH2_FREE(session, data);
@@ -3575,7 +3575,7 @@ libssh2_sftp_stat_ex(LIBSSH2_SFTP *sftp, кткст0 path,
  * читай or set a symlink
  */
 static цел sftp_symlink(LIBSSH2_SFTP *sftp, кткст0 path,
-                        бцел path_len, char *target,
+                        бцел path_len, сим *target,
                         бцел target_len, цел link_type)
 {
     LIBSSH2_CHANNEL *channel = sftp->channel;
@@ -3585,8 +3585,8 @@ static цел sftp_symlink(LIBSSH2_SFTP *sftp, кткст0 path,
     ssize_t packet_len =
         path_len + 13 +
         ((link_type == LIBSSH2_SFTP_SYMLINK) ? (4 + target_len) : 0);
-    unsigned char *s, *data;
-    static const unsigned char link_responses[2] =
+    ббайт *s, *data;
+    static const ббайт link_responses[2] =
         { SSH_FXP_NAME, SSH_FXP_STATUS };
     цел retcode;
 
@@ -3662,7 +3662,7 @@ static цел sftp_symlink(LIBSSH2_SFTP *sftp, кткст0 path,
             LIBSSH2_FREE(session, data);
         }
         return _libssh2_error(session, LIBSSH2_ERROR_SFTP_PROTOCOL,
-                              "SFTP symlink packet too short");
+                              "SFTP symlink packet too крат");
     }
     else if(retcode) {
         sftp->symlink_state = libssh2_NB_state_idle;
@@ -3696,7 +3696,7 @@ static цел sftp_symlink(LIBSSH2_SFTP *sftp, кткст0 path,
             LIBSSH2_FREE(session, data);
         }
         return _libssh2_error(session, LIBSSH2_ERROR_SFTP_PROTOCOL,
-                              "SFTP stat packet too short");
+                              "SFTP stat packet too крат");
     }
 
     /* this reads a u32 and stores it into a signed 32bit значение */
@@ -3718,7 +3718,7 @@ static цел sftp_symlink(LIBSSH2_SFTP *sftp, кткст0 path,
  */
 LIBSSH2_API цел
 libssh2_sftp_symlink_ex(LIBSSH2_SFTP *sftp, кткст0 path,
-                        бцел path_len, char *target,
+                        бцел path_len, сим *target,
                         бцел target_len, цел link_type)
 {
     цел rc;

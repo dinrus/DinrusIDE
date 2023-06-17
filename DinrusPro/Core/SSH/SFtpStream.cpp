@@ -1,7 +1,5 @@
 #include "SSH.h"
 
-namespace ДинрусРНЦП {
-
 проц SFtpStream::устПоз(дол pos)
 {
 	sftp->перейди(handle, pos);
@@ -20,7 +18,7 @@ namespace ДинрусРНЦП {
 	return бцел(n);
 }
 
-проц SFtpStream::пиши(дол at, const ук данные, бцел size)
+проц SFtpStream::пиши(дол at, кук данные, бцел size)
 {
 	устПоз(at);
 	sftp->помести(handle, данные, size);
@@ -84,5 +82,3 @@ SFtpStream::~SFtpStream()
 {
 	открой();
 }
-
-};

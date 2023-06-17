@@ -1,4 +1,13 @@
-// Backward compatibility; use Функция/Событие in the new код_
+#ifndef _DinrusPro_Callbacks_h_
+#define _DinrusPro_Callbacks_h_
+
+#include "Tpl.h"
+
+template <class T> class Ук;
+
+typedef цел (*СимФильтр)(цел);
+typedef проц (*фнСтрокиЛога)(кткст0 буфер, цел len, цел depth);
+typedef Ткст (*Форматировщик)(const Форматирование& fmt);
 
 template <class... ТипыАрг>
 class ОбрВызН : Движ<ОбрВызН<ТипыАрг...>> {
@@ -18,9 +27,6 @@ public:
 	ОбрВызН(ОбрВызН&& ист) : фн(пикуй(ист.фн))      {}
 	ОбрВызН& operator=(ОбрВызН&& ист)              { фн = пикуй(ист.фн); return *this; }
 
-	ОбрВызН(CNULLer)                             {}
-	ОбрВызН& operator=(CNULLer)                  { фн.очисть(); return *this; }
-
 	ОбрВызН прокси() const                        { return ОбрВызН(фн.прокси(), 1); }
 
 	template <class F>
@@ -36,7 +42,7 @@ public:
 	проц очисть()                               { фн.очисть(); }
 	
 	friend ОбрВызН прокси(const ОбрВызН& a)   { return a.прокси(); }
-	friend проц разверни(ОбрВызН& a, ОбрВызН& b) { РНЦП::разверни(a.фн, b.фн); }
+	friend проц разверни(ОбрВызН& a, ОбрВызН& b) { разверни(a.фн, b.фн); }
 };
 
 // we need "isolation level" to avoid overloading issues
@@ -62,9 +68,6 @@ public:
 	ЛазН(Фн&& ист, цел) : фн(пикуй(ист))   {}
 	ЛазН& operator=(ЛазН&& a)        { фн = пикуй(a.фн); return *this; }
 
-	ЛазН(CNULLer)                         {}
-	ЛазН& operator=(CNULLer)              { фн.очисть(); return *this; }
-
 	ЛазН прокси() const                    { return фн.прокси(); }
 
 	template <class F>
@@ -80,7 +83,7 @@ public:
 	проц очисть()                               { фн.очисть(); }
 
 	friend ЛазН прокси(const ЛазН& a)     { return a.прокси(); }
-	friend проц разверни(ЛазН& a, ЛазН& b)   { РНЦП::разверни(a.фн, b.фн); }
+	friend проц разверни(ЛазН& a, ЛазН& b)   { разверни(a.фн, b.фн); }
 };
 
 // backward compatibility
@@ -151,3 +154,5 @@ public:
 
 template <class T>
 using ЦельАргаОбрвыз = ЦельАргаОбрвызН<T>;
+
+#endif

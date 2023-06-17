@@ -110,7 +110,7 @@ extern "C" {
 #define LZ4_VERSION_STRING LZ4_EXPAND_AND_QUOTE(LZ4_LIB_VERSION)
 
 LZ4LIB_API цел LZ4_versionNumber (проц);  /**< library версия number; useful to check dll версия */
-LZ4LIB_API const char* LZ4_versionString (проц);   /**< library версия string; useful to check dll версия */
+LZ4LIB_API const сим* LZ4_versionString (проц);   /**< library версия string; useful to check dll версия */
 
 
 /*-************************************
@@ -145,7 +145,7 @@ LZ4LIB_API const char* LZ4_versionString (проц);   /**< library версия
  *                or 0 if compression fails
  * Note : This function is protected against буфер overflow scenarios (никогда writes outside 'dst' буфер, nor read outside 'source' буфер).
  */
-LZ4LIB_API цел LZ4_compress_default(const char* ист, char* dst, цел srcSize, цел dstCapacity);
+LZ4LIB_API цел LZ4_compress_default(const сим* ист, сим* dst, цел srcSize, цел dstCapacity);
 
 /*! LZ4_decompress_safe() :
  *  compressedSize : is the exact complete size of the compressed block.
@@ -161,7 +161,7 @@ LZ4LIB_API цел LZ4_compress_default(const char* ист, char* dst, цел src
  *          The implementation is free to send / store / derive this information in whichever way is most beneficial.
  *          If there is a need for a different формат which bundles together both compressed данные and its metadata, consider looking at lz4frame.h instead.
  */
-LZ4LIB_API цел LZ4_decompress_safe (const char* ист, char* dst, цел compressedSize, цел dstCapacity);
+LZ4LIB_API цел LZ4_decompress_safe (const сим* ист, сим* dst, цел compressedSize, цел dstCapacity);
 
 
 /*-************************************
@@ -188,7 +188,7 @@ LZ4LIB_API цел LZ4_compressBound(цел inputSize);
     An acceleration значение of "1" is the same as regular LZ4_compress_default()
     Values <= 0 will be replaced by ACCELERATION_DEFAULT (currently == 1, see lz4.c).
 */
-LZ4LIB_API цел LZ4_compress_fast (const char* ист, char* dst, цел srcSize, цел dstCapacity, цел acceleration);
+LZ4LIB_API цел LZ4_compress_fast (const сим* ист, сим* dst, цел srcSize, цел dstCapacity, цел acceleration);
 
 
 /*! LZ4_compress_fast_extState() :
@@ -198,7 +198,7 @@ LZ4LIB_API цел LZ4_compress_fast (const char* ист, char* dst, цел srcSi
  *  Then, provide this буфер as `ук state` to compression function.
  */
 LZ4LIB_API цел LZ4_sizeofState(проц);
-LZ4LIB_API цел LZ4_compress_fast_extState (ук state, const char* ист, char* dst, цел srcSize, цел dstCapacity, цел acceleration);
+LZ4LIB_API цел LZ4_compress_fast_extState (ук state, const сим* ист, сим* dst, цел srcSize, цел dstCapacity, цел acceleration);
 
 
 /*! LZ4_compress_destSize() :
@@ -213,7 +213,7 @@ LZ4LIB_API цел LZ4_compress_fast_extState (ук state, const char* ист, ch
  * @return : Nb bytes written into 'dst' (necessarily <= targetDestSize)
  *           or 0 if compression fails.
 */
-LZ4LIB_API цел LZ4_compress_destSize (const char* ист, char* dst, цел* srcSizePtr, цел targetDstSize);
+LZ4LIB_API цел LZ4_compress_destSize (const сим* ист, сим* dst, цел* srcSizePtr, цел targetDstSize);
 
 
 /*! LZ4_decompress_safe_partial() :
@@ -240,7 +240,7 @@ LZ4LIB_API цел LZ4_compress_destSize (const char* ист, char* dst, цел* 
  *           This is no longer necessary.
  *           The function nonetheless keeps its signature, in an effort to not break API.
  */
-LZ4LIB_API цел LZ4_decompress_safe_partial (const char* ист, char* dst, цел srcSize, цел targetOutputSize, цел dstCapacity);
+LZ4LIB_API цел LZ4_decompress_safe_partial (const сим* ист, сим* dst, цел srcSize, цел targetOutputSize, цел dstCapacity);
 
 
 /*-*********************************************
@@ -286,7 +286,7 @@ LZ4LIB_API проц LZ4_resetStream_fast (LZ4_stream_t* streamPtr);
  *  Loading a size of 0 is allowed, and is the same as reset.
  * @return : loaded dictionary size, in bytes (necessarily <= 64 KB)
  */
-LZ4LIB_API цел LZ4_loadDict (LZ4_stream_t* streamPtr, const char* dictionary, цел dictSize);
+LZ4LIB_API цел LZ4_loadDict (LZ4_stream_t* streamPtr, const сим* dictionary, цел dictSize);
 
 /*! LZ4_compress_fast_continue() :
  *  Compress 'ист' content using данные from previously compressed blocks, for better compression ratio.
@@ -311,16 +311,16 @@ LZ4LIB_API цел LZ4_loadDict (LZ4_stream_t* streamPtr, const char* dictionary,
  *
  *  Note 5 : After an Ошибка, the stream status is undefined (invalid), it can only be reset or freed.
  */
-LZ4LIB_API цел LZ4_compress_fast_continue (LZ4_stream_t* streamPtr, const char* ист, char* dst, цел srcSize, цел dstCapacity, цел acceleration);
+LZ4LIB_API цел LZ4_compress_fast_continue (LZ4_stream_t* streamPtr, const сим* ист, сим* dst, цел srcSize, цел dstCapacity, цел acceleration);
 
 /*! LZ4_saveDict() :
  *  If last 64KB данные cannot be guaranteed to remain available at its текущ memory location,
- *  save it into a safer place (char* safeBuffer).
+ *  save it into a safer place (сим* safeBuffer).
  *  This is schematically equivalent to a memcpy() followed by LZ4_loadDict(),
  *  but is much faster, because LZ4_saveDict() doesn't need to rebuild tables.
  * @return : saved dictionary size in bytes (necessarily <= maxDictSize), or 0 if Ошибка.
  */
-LZ4LIB_API цел LZ4_saveDict (LZ4_stream_t* streamPtr, char* safeBuffer, цел maxDictSize);
+LZ4LIB_API цел LZ4_saveDict (LZ4_stream_t* streamPtr, сим* safeBuffer, цел maxDictSize);
 
 
 /*-**********************************************
@@ -343,7 +343,7 @@ LZ4LIB_API цел                 LZ4_freeStreamDecode (LZ4_streamDecode_t* LZ4_
  *  Dictionary is presumed stable : it must remain accessible and unmodified during next decompression.
  * @return : 1 if OK, 0 if Ошибка
  */
-LZ4LIB_API цел LZ4_setStreamDecode (LZ4_streamDecode_t* LZ4_streamDecode, const char* dictionary, цел dictSize);
+LZ4LIB_API цел LZ4_setStreamDecode (LZ4_streamDecode_t* LZ4_streamDecode, const сим* dictionary, цел dictSize);
 
 /*! LZ4_decoderRingBufferSize() : v1.8.2+
  *  Note : in a ring буфер scenario (optional),
@@ -384,7 +384,7 @@ LZ4LIB_API цел LZ4_decoderRingBufferSize(цел maxBlockSize);
  *  save the last 64KB of decoded данные into a safe буфер where it can't be modified during decompression,
  *  then indicate where this данные is saved using LZ4_setStreamDecode(), before decompressing next block.
 */
-LZ4LIB_API цел LZ4_decompress_safe_continue (LZ4_streamDecode_t* LZ4_streamDecode, const char* ист, char* dst, цел srcSize, цел dstCapacity);
+LZ4LIB_API цел LZ4_decompress_safe_continue (LZ4_streamDecode_t* LZ4_streamDecode, const сим* ист, сим* dst, цел srcSize, цел dstCapacity);
 
 
 /*! LZ4_decompress_*_usingDict() :
@@ -395,7 +395,7 @@ LZ4LIB_API цел LZ4_decompress_safe_continue (LZ4_streamDecode_t* LZ4_streamDe
  *  Performance tip : Decompression speed can be substantially increased
  *                    when dst == dictStart + dictSize.
  */
-LZ4LIB_API цел LZ4_decompress_safe_usingDict (const char* ист, char* dst, цел srcSize, цел dstCapcity, const char* dictStart, цел dictSize);
+LZ4LIB_API цел LZ4_decompress_safe_usingDict (const сим* ист, сим* dst, цел srcSize, цел dstCapcity, const сим* dictStart, цел dictSize);
 
 #endif /* LZ4_H_2983827168210 */
 
@@ -446,7 +446,7 @@ LZ4LIB_API цел LZ4_decompress_safe_usingDict (const char* ист, char* dst, 
  *  this function initializes the provided state with a call to something like LZ4_resetStream_fast()
  *  while LZ4_compress_fast_extState() starts with a call to LZ4_resetStream().
  */
-LZ4LIB_STATIC_API цел LZ4_compress_fast_extState_fastReset (ук state, const char* ист, char* dst, цел srcSize, цел dstCapacity, цел acceleration);
+LZ4LIB_STATIC_API цел LZ4_compress_fast_extState_fastReset (ук state, const сим* ист, сим* dst, цел srcSize, цел dstCapacity, цел acceleration);
 
 /*! LZ4_attach_dictionary() :
  *  This is an experimental API that allows
@@ -492,7 +492,7 @@ LZ4LIB_STATIC_API проц LZ4_attach_dictionary(LZ4_stream_t* workingStream, co
  *
  * This technique is more useful for decompression,
  * since decompressed size is typically larger,
- * and margin is short.
+ * and margin is крат.
  *
  * In-place decompression will work inside any буфер
  * which size is >= LZ4_DECOMPRESS_INPLACE_BUFFER_SIZE(decompressedSize).
@@ -584,16 +584,16 @@ typedef struct LZ4_stream_t_internal LZ4_stream_t_internal;
 struct LZ4_stream_t_internal {
     бцел hashTable[LZ4_HASH_SIZE_U32];
     бцел currentOffset;
-    unsigned short dirty;
-    unsigned short tableType;
-    const unsigned char* dictionary;
+    бкрат dirty;
+    бкрат tableType;
+    const ббайт* dictionary;
     const LZ4_stream_t_internal* dictCtx;
     бцел dictSize;
 };
 
 typedef struct {
-    const unsigned char* externalDict;
-    const unsigned char* prefixEnd;
+    const ббайт* externalDict;
+    const ббайт* prefixEnd;
     т_мера extDictSize;
     т_мера prefixSize;
 } LZ4_streamDecode_t_internal;
@@ -683,16 +683,16 @@ union LZ4_streamDecode_u {
 #endif /* LZ4_DISABLE_DEPRECATE_WARNINGS */
 
 /* Obsolete compression functions */
-LZ4_DEPRECATED("use LZ4_compress_default() instead")       LZ4LIB_API цел LZ4_compress               (const char* ист, char* dest, цел srcSize);
-LZ4_DEPRECATED("use LZ4_compress_default() instead")       LZ4LIB_API цел LZ4_compress_limitedOutput (const char* ист, char* dest, цел srcSize, цел maxOutputSize);
-LZ4_DEPRECATED("use LZ4_compress_fast_extState() instead") LZ4LIB_API цел LZ4_compress_withState               (ук state, const char* source, char* dest, цел inputSize);
-LZ4_DEPRECATED("use LZ4_compress_fast_extState() instead") LZ4LIB_API цел LZ4_compress_limitedOutput_withState (ук state, const char* source, char* dest, цел inputSize, цел maxOutputSize);
-LZ4_DEPRECATED("use LZ4_compress_fast_continue() instead") LZ4LIB_API цел LZ4_compress_continue                (LZ4_stream_t* LZ4_streamPtr, const char* source, char* dest, цел inputSize);
-LZ4_DEPRECATED("use LZ4_compress_fast_continue() instead") LZ4LIB_API цел LZ4_compress_limitedOutput_continue  (LZ4_stream_t* LZ4_streamPtr, const char* source, char* dest, цел inputSize, цел maxOutputSize);
+LZ4_DEPRECATED("use LZ4_compress_default() instead")       LZ4LIB_API цел LZ4_compress               (const сим* ист, сим* приёмник, цел srcSize);
+LZ4_DEPRECATED("use LZ4_compress_default() instead")       LZ4LIB_API цел LZ4_compress_limitedOutput (const сим* ист, сим* приёмник, цел srcSize, цел maxOutputSize);
+LZ4_DEPRECATED("use LZ4_compress_fast_extState() instead") LZ4LIB_API цел LZ4_compress_withState               (ук state, const сим* source, сим* приёмник, цел inputSize);
+LZ4_DEPRECATED("use LZ4_compress_fast_extState() instead") LZ4LIB_API цел LZ4_compress_limitedOutput_withState (ук state, const сим* source, сим* приёмник, цел inputSize, цел maxOutputSize);
+LZ4_DEPRECATED("use LZ4_compress_fast_continue() instead") LZ4LIB_API цел LZ4_compress_continue                (LZ4_stream_t* LZ4_streamPtr, const сим* source, сим* приёмник, цел inputSize);
+LZ4_DEPRECATED("use LZ4_compress_fast_continue() instead") LZ4LIB_API цел LZ4_compress_limitedOutput_continue  (LZ4_stream_t* LZ4_streamPtr, const сим* source, сим* приёмник, цел inputSize, цел maxOutputSize);
 
 /* Obsolete decompression functions */
-LZ4_DEPRECATED("use LZ4_decompress_fast() instead") LZ4LIB_API цел LZ4_uncompress (const char* source, char* dest, цел outputSize);
-LZ4_DEPRECATED("use LZ4_decompress_safe() instead") LZ4LIB_API цел LZ4_uncompress_unknownOutputSize (const char* source, char* dest, цел isize, цел maxOutputSize);
+LZ4_DEPRECATED("use LZ4_decompress_fast() instead") LZ4LIB_API цел LZ4_uncompress (const сим* source, сим* приёмник, цел outputSize);
+LZ4_DEPRECATED("use LZ4_decompress_safe() instead") LZ4LIB_API цел LZ4_uncompress_unknownOutputSize (const сим* source, сим* приёмник, цел isize, цел maxOutputSize);
 
 /* Obsolete streaming functions; degraded functionality; do not use!
  *
@@ -703,14 +703,14 @@ LZ4_DEPRECATED("use LZ4_decompress_safe() instead") LZ4LIB_API цел LZ4_uncomp
  * achieved will therefore be no better than compressing each chunk
  * independently.
  */
-LZ4_DEPRECATED("Use LZ4_createStream() instead") LZ4LIB_API ук LZ4_create (char* inputBuffer);
+LZ4_DEPRECATED("Use LZ4_createStream() instead") LZ4LIB_API ук LZ4_create (сим* inputBuffer);
 LZ4_DEPRECATED("Use LZ4_createStream() instead") LZ4LIB_API цел   LZ4_sizeofStreamState(проц);
-LZ4_DEPRECATED("Use LZ4_resetStream() instead")  LZ4LIB_API цел   LZ4_resetStreamState(ук state, char* inputBuffer);
-LZ4_DEPRECATED("Use LZ4_saveDict() instead")     LZ4LIB_API char* LZ4_slideInputBuffer (ук state);
+LZ4_DEPRECATED("Use LZ4_resetStream() instead")  LZ4LIB_API цел   LZ4_resetStreamState(ук state, сим* inputBuffer);
+LZ4_DEPRECATED("Use LZ4_saveDict() instead")     LZ4LIB_API сим* LZ4_slideInputBuffer (ук state);
 
 /* Obsolete streaming decoding functions */
-LZ4_DEPRECATED("use LZ4_decompress_safe_usingDict() instead") LZ4LIB_API цел LZ4_decompress_safe_withPrefix64k (const char* ист, char* dst, цел compressedSize, цел maxDstSize);
-LZ4_DEPRECATED("use LZ4_decompress_fast_usingDict() instead") LZ4LIB_API цел LZ4_decompress_fast_withPrefix64k (const char* ист, char* dst, цел originalSize);
+LZ4_DEPRECATED("use LZ4_decompress_safe_usingDict() instead") LZ4LIB_API цел LZ4_decompress_safe_withPrefix64k (const сим* ист, сим* dst, цел compressedSize, цел maxDstSize);
+LZ4_DEPRECATED("use LZ4_decompress_fast_usingDict() instead") LZ4LIB_API цел LZ4_decompress_fast_withPrefix64k (const сим* ист, сим* dst, цел originalSize);
 
 /*! LZ4_decompress_fast() : **unsafe!**
  *  These functions used to be faster than LZ4_decompress_safe(),
@@ -741,11 +741,11 @@ LZ4_DEPRECATED("use LZ4_decompress_fast_usingDict() instead") LZ4LIB_API цел 
  */
 
 LZ4_DEPRECATED("This function is deprecated and unsafe. Consider using LZ4_decompress_safe() instead")
-LZ4LIB_API цел LZ4_decompress_fast (const char* ист, char* dst, цел originalSize);
+LZ4LIB_API цел LZ4_decompress_fast (const сим* ист, сим* dst, цел originalSize);
 LZ4_DEPRECATED("This function is deprecated and unsafe. Consider using LZ4_decompress_safe_continue() instead")
-LZ4LIB_API цел LZ4_decompress_fast_continue (LZ4_streamDecode_t* LZ4_streamDecode, const char* ист, char* dst, цел originalSize);
+LZ4LIB_API цел LZ4_decompress_fast_continue (LZ4_streamDecode_t* LZ4_streamDecode, const сим* ист, сим* dst, цел originalSize);
 LZ4_DEPRECATED("This function is deprecated and unsafe. Consider using LZ4_decompress_safe_usingDict() instead")
-LZ4LIB_API цел LZ4_decompress_fast_usingDict (const char* ист, char* dst, цел originalSize, const char* dictStart, цел dictSize);
+LZ4LIB_API цел LZ4_decompress_fast_usingDict (const сим* ист, сим* dst, цел originalSize, const сим* dictStart, цел dictSize);
 
 /*! LZ4_resetStream() :
  *  An LZ4_stream_t structure must be initialized at least once.

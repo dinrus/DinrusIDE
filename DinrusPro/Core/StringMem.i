@@ -6,11 +6,11 @@
 	w[3] = s.w[3];
 	if(s.реф_ли()) {
 		укз = s.укз;
-		if(укз != (char *)(voidptr + 1))
+		if(укз != (сим *)(voidptr + 1))
 			атомнИнк(s.Реф()->refcount);
 	}
 	else {
-		укз = (char *)разместиПам32_i();
+		укз = (сим *)разместиПам32_i();
 		memcpy(qptr, s.qptr, 32); // optimizes to movups
 	}
 }
@@ -18,7 +18,7 @@
 проц Ткст0::бОсвободи()
 {
 	if(реф_ли()) {
-		if(укз != (char *)(voidptr + 1)) {
+		if(укз != (сим *)(voidptr + 1)) {
 			Rc *rc = Реф();
 			ПРОВЕРЬ(rc->refcount > 0);
 			if(атомнДек(rc->refcount) == 0) освободиПам(rc);
@@ -28,12 +28,12 @@
 		освободиПам32_i(укз);
 }
 
-force_inline
-char *Ткст0::размести_(цел count, char& kind)
+форс_инлайн
+сим *Ткст0::размести_(цел count, сим& kind)
 {
 	if(count < 32) {
 		kind = СРЕДНИЙ;
-		return (char *)разместиПам32_i();
+		return (сим *)разместиПам32_i();
 	}
 	т_мера sz = sizeof(Rc) + count + 1;
 	Rc *rc = (Rc *)разместиПамТн(sz);
@@ -43,7 +43,7 @@ char *Ткст0::размести_(цел count, char& kind)
 	return rc->дайУк();
 }
 
-char *Ткст0::размести(цел count, char& kind)
+сим *Ткст0::размести(цел count, сим& kind)
 {
 	return размести_(count, kind);
 }
@@ -60,7 +60,7 @@ char *Ткст0::размести(цел count, char& kind)
 проц Ткст0::бКат(цел c)
 {
 	if(малый()) {
-		qword *x = (qword *)разместиПам32_i();
+		дим *x = (дим *)разместиПам32_i();
 		x[0] = q[0];
 		x[1] = q[1];
 		бДлин() = МДЛИН();
@@ -74,16 +74,16 @@ char *Ткст0::размести(цел count, char& kind)
 		укз[бДлин() = l + 1] = 0;
 	}
 	else {
-		char *s = вставь(l, 1, NULL);
+		сим *s = вставь(l, 1, NULL);
 		s[0] = c;
 		s[1] = 0;
 	}
 }
 
-char *ТкстБуф::размести(цел count, цел& alloc)
+сим *ТкстБуф::размести(цел count, цел& alloc)
 {
 	if(count <= 31) {
-		char *s = (char *)разместиПам32_i();
+		сим *s = (сим *)разместиПам32_i();
 		alloc = 31;
 		return s;
 	}
@@ -92,7 +92,7 @@ char *ТкстБуф::размести(цел count, цел& alloc)
 		Rc *rc = (Rc *)разместиПам(sz);
 		alloc = rc->alloc = (цел)min((т_мера)INT_MAX, sz - sizeof(Rc) - 1);
 		rc->refcount = 1;
-		return (char *)(rc + 1);
+		return (сим *)(rc + 1);
 	}
 }
 
@@ -101,7 +101,7 @@ char *ТкстБуф::размести(цел count, цел& alloc)
 	s.UnShare();
 	цел l = s.дайДлину();
 	if(s.дайРазмест() == 14) {
-		pbegin = (char *)разместиПам32_i();
+		pbegin = (сим *)разместиПам32_i();
 		limit = pbegin + 31;
 		memcpy8(pbegin, s.старт(), l);
 		pend = pbegin + l;

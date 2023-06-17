@@ -1,6 +1,4 @@
-#include <DinrusPro/DinrusPro.h>
-
-namespace ДинрусРНЦП {
+#include <DinrusPro/DinrusCore.h>
 
 const Обнул Null;
 
@@ -270,14 +268,14 @@ SVO_FN(s_date, Дата);
 SVO_FN(s_time, Время);
 
 struct SvoVoidFn {
-	static бул       пусто_ли(const ук p)                      { return true; }
+	static бул       пусто_ли(кук p)                      { return true; }
 	static проц       сериализуй(ук p, Поток& s)              {}
 	static проц       вРяр(ук p, РярВВ& xio)               {}
 	static проц       вДжейсон(ук p, ДжейсонВВ& jio)             {}
-	static т_хэш     дайХэшЗнач(const ук p)                { return 0; }
-	static бул       равен(const ук p1, const ук p2)    { return true; }
-	static бул       полиРавны(const ук p, const Значение& v) { return false; }
-	static Ткст     какТкст(const ук p)                    { return Ткст(); }
+	static т_хэш     дайХэшЗнач(кук p)                { return 0; }
+	static бул       равен(кук p1, кук p2)    { return true; }
+	static бул       полиРавны(кук p, const Значение& v) { return false; }
+	static Ткст     какТкст(кук p)                    { return Ткст(); }
 };
 
 static Значение::Sval s_void = {
@@ -415,7 +413,7 @@ static Ткст s_binary("serialized_binary");
 		if(имя.дайСчёт() == 0) {
 			xio.устАтр("тип", s_binary);
 			Ткст s = гексТкст(сохраниКакТкст(*this));
-			ДинрусРНЦП::вРяр(xio, s);
+			вРяр(xio, s);
 		}
 		else {
 			xio.устАтр("тип", имя);
@@ -426,7 +424,7 @@ static Ткст s_binary("serialized_binary");
 			if(st == VOIDV)
 				return;
 			if(st == STRING)
-				ДинрусРНЦП::вРяр(xio, данные);
+				вРяр(xio, данные);
 			else
 			if(реф_ли())
 				укз()->вРяр(xio);
@@ -436,27 +434,27 @@ static Ткст s_binary("serialized_binary");
 	}
 	else {
 		Ткст имя = xio.дайАтр("тип");
-		if(ДинрусРНЦП::пусто_ли(имя))
+		if(пусто_ли(имя))
 			*this = Значение();
 		else
 		if(имя == s_binary) {
 			Ткст s;
-			ДинрусРНЦП::вРяр(xio, s);
+			вРяр(xio, s);
 			try {
 				грузиИзТкст(*this, сканГексТкст(s));
 			}
-			catch(LoadingError) {
+			catch(ОшЗагрузки) {
 				throw ОшибкаРяр("xmlize serialized_binary Ошибка");
 			}
 		}
 		else {
 			цел тип = дайТип(имя);
-			if(ДинрусРНЦП::пусто_ли(тип))
+			if(пусто_ли(тип))
 				throw ОшибкаРяр("неверное значение типа");
 			освободи();
 			цел st = (бцел)тип == VOID_V ? VOIDV : (бцел)тип == STRING_V ? STRING : тип;
 			if(st == STRING)
-				ДинрусРНЦП::вРяр(xio, данные);
+				вРяр(xio, данные);
 			else
 			if(st < 255 && svo[st]) {
 				данные.устСпец((ббайт)тип);
@@ -501,7 +499,7 @@ static Ткст s_binary("serialized_binary");
 				ДжейсонВВ hio;
 				if(st == STRING) {
 					Ткст h = данные;
-					ДинрусРНЦП::вДжейсон(hio, h);
+					вДжейсон(hio, h);
 				}
 				else {
 					if(реф_ли())
@@ -524,25 +522,25 @@ static Ткст s_binary("serialized_binary");
 			Ткст имя = g["тип"];
 			Значение  знач = g["значение"];
 			if(имя == s_binary) {
-				if(!ДинрусРНЦП::ткст_ли(знач))
-					throw JsonizeError("serialized_binary Ошибка");
+				if(!ткст_ли(знач))
+					throw ОшДжейсонизации("serialized_binary Ошибка");
 				Ткст s = знач;
 				try {
 					грузиИзТкст(*this, сканГексТкст(s));
 				}
-				catch(LoadingError) {
-					throw JsonizeError("serialized_binary Ошибка");
+				catch(ОшЗагрузки) {
+					throw ОшДжейсонизации("serialized_binary Ошибка");
 				}
 			}
 			else {
 				цел тип = дайТип(имя);
-				if(ДинрусРНЦП::пусто_ли(тип))
-					throw JsonizeError("invalid Значение тип");
+				if(пусто_ли(тип))
+					throw ОшДжейсонизации("invalid Значение тип");
 				освободи();
 				цел st = (бцел)тип == VOID_V ? VOIDV : (бцел)тип == STRING_V ? STRING : тип;
 				if(st == STRING) {
-					if(!ДинрусРНЦП::ткст_ли(знач))
-						throw JsonizeError("serialized_binary Ошибка");
+					if(!ткст_ли(знач))
+						throw ОшДжейсонизации("serialized_binary Ошибка");
 					данные = знач;
 				}
 				else {
@@ -560,7 +558,7 @@ static Ткст s_binary("serialized_binary");
 							иницРеф(p, тип);
 						}
 						else
-							throw JsonizeError("invalid Значение тип");
+							throw ОшДжейсонизации("invalid Значение тип");
 					}
 				}
 			}
@@ -625,7 +623,7 @@ const Вектор<Значение>& Значение::GetVA() const
 	return МассивЗнач::VoidData;
 }
 
-force_inline
+форс_инлайн
 Вектор<Значение>& Значение::разшарьArray()
 {
 	МассивЗнач::Данные *данные = (МассивЗнач::Данные *)укз();
@@ -716,7 +714,7 @@ const Значение& Значение::operator[](const Ткст& ключ) c
 	}
 	if(ткст_ли())
 		return "Ткст";
-	static Кортеж<ббайт, const char *> tp[] = {
+	static Кортеж<ббайт, кткст0 > tp[] = {
 		{ (ббайт)INT_V, "цел" },
 		{ (ббайт)DOUBLE_V, "дво" },
 		{ (ббайт)VOIDV, "проц" },
@@ -725,7 +723,7 @@ const Значение& Значение::operator[](const Ткст& ключ) c
 		{ (ббайт)INT64_V, "дол" },
 		{ (ббайт)BOOL_V, "бул" },
 	};
-	Кортеж<ббайт, const char *> *x = найдиКортеж(tp, __countof(tp), данные.дайСпец());
+	Кортеж<ббайт, кткст0 > *x = найдиКортеж(tp, __количество(tp), данные.дайСпец());
 	return x ? Ткст(x->b) : какТкст(дайТип());
 }
 
@@ -755,6 +753,4 @@ const Значение& значОш() {
 Ткст дайТекстОш(const Значение& v) {
 	ПРОВЕРЬ(ошибка_ли(v));
 	return ((RichValueRep<Ткст> *)v.дайПроцУк())->дай();
-}
-
 }

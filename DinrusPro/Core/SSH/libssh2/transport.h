@@ -63,8 +63,8 @@
  * This ФУНКЦИЯ DOES NOT call _libssh2_error() on any errors.
  */
 цел _libssh2_transport_send(LIBSSH2_SESSION *session,
-                            const unsigned char *данные, т_мера data_len,
-                            const unsigned char *data2, т_мера data2_len);
+                            const ббайт *данные, т_мера data_len,
+                            const ббайт *data2, т_мера data2_len);
 
 /*
  * _libssh2_transport_read

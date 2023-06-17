@@ -35,8 +35,8 @@ public:
             дол  дайУид() const                   { return (a->flags & LIBSSH2_SFTP_ATTR_UIDGID) ? a->uid : -1; }
             дол  дайГид() const                   { return (a->flags & LIBSSH2_SFTP_ATTR_UIDGID) ? a->gid : -1; }
             дол  дайРазм() const                  { return (a->flags & LIBSSH2_SFTP_ATTR_SIZE) ? a->filesize : -1; }
-            Время   GetLastModified() const          { return (a->flags & LIBSSH2_SFTP_ATTR_ACMODTIME) ? TimeFromUTC(a->mtime) : Null; }
-            Время   GetLastAccessed() const          { return (a->flags & LIBSSH2_SFTP_ATTR_ACMODTIME) ? TimeFromUTC(a->atime) : Null; }
+            Время   GetLastModified() const          { return (a->flags & LIBSSH2_SFTP_ATTR_ACMODTIME) ? времяИзУВИ(a->mtime) : Null; }
+            Время   GetLastAccessed() const          { return (a->flags & LIBSSH2_SFTP_ATTR_ACMODTIME) ? времяИзУВИ(a->atime) : Null; }
             бцел  GetPermissions() const           { return a->permissions; }
             SFtpAttrs& GetAttrs()                   { return *a; }
 
@@ -100,7 +100,7 @@ public:
 
     // читай/пиши
     цел                     дай(SFtpHandle handle, ук укз, цел size = INT_MAX);
-    цел                     помести(SFtpHandle handle, const ук укз, цел size);
+    цел                     помести(SFtpHandle handle, кук укз, цел size);
     бул                    сохраниФайл(кткст0 path, const Ткст& данные);
     Ткст                  загрузиФайл(кткст0 path);
     бул                    сохраниФайл(кткст0 path, Поток& in);
@@ -131,9 +131,9 @@ public:
     дол                   дайРазм(const Ткст& path)                             { return QueryAttr(path, SFTP_ATTR_SIZE); }
     бул                    устРазм(const Ткст& path, дол size)                 { return ModifyAttr(path, SFTP_ATTR_SIZE, size); }
     Время                    GetLastModifyTime(const Ткст& path)                   { return QueryAttr(path, SFTP_ATTR_LAST_MODIFIED); }
-    бул                    SetLastModifyTime(const Ткст& path, const Время& time) { return ModifyAttr(path, SFTP_ATTR_LAST_MODIFIED, time); }
+    бул                    устПоследнийModifyTime(const Ткст& path, const Время& time) { return ModifyAttr(path, SFTP_ATTR_LAST_MODIFIED, time); }
     Время                    дайВремяПоследнДоступа(const Ткст& path)                   { return QueryAttr(path, SFTP_ATTR_LAST_ACCESSED); }
-    бул                    SetLastAccessTime(const Ткст& path, const Время& time) { return ModifyAttr(path, SFTP_ATTR_LAST_ACCESSED, time); }
+    бул                    устПоследнийAccessTime(const Ткст& path, const Время& time) { return ModifyAttr(path, SFTP_ATTR_LAST_ACCESSED, time); }
 
     // Tests
     бул                    файлЕсть(const Ткст& path)                          { return QueryAttr(path, SFTP_ATTR_FILE); }
@@ -161,8 +161,8 @@ private:
     бул                    ModifyAttr(const Ткст& path, цел attr, const Значение& v);
     бул                    SymLink(const Ткст& path, Ткст& target, цел тип);
     цел                     читай(SFtpHandle handle, ук укз, цел size);
-    цел                     пиши(SFtpHandle handle, const ук укз, цел size);
-    бул                    CopyData(Поток& dest, Поток& ист, дол maxsize = INT64_MAX);
+    цел                     пиши(SFtpHandle handle, кук укз, цел size);
+    бул                    CopyData(Поток& приёмник, Поток& ист, дол maxsize = ЦЕЛ64_МАКС);
   
     Один<LIBSSH2_SFTP*>      sftp_session;
     цел                     done;
@@ -188,7 +188,7 @@ class SFtpStream : public БлокПоток {
 protected:
     virtual  проц  устРазмПотока(дол size);
     virtual  бцел читай(дол at, ук укз, бцел size);
-    virtual  проц  пиши(дол at, const ук данные, бцел size);
+    virtual  проц  пиши(дол at, кук данные, бцел size);
 
 public:
     virtual  проц  открой();

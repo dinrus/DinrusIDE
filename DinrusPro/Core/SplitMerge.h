@@ -1,8 +1,8 @@
-Вектор<Ткст> разбей(цел maxcount, кткст0 s, кткст0  (*text_фильтр)(const char *), бул ignoreempty = true);
+Вектор<Ткст> разбей(цел maxcount, кткст0 s, кткст0  (*text_фильтр)(кткст0 ), бул ignoreempty = true);
 Вектор<Ткст> разбей(цел maxcount, кткст0 s, цел (*фильтр)(цел), бул ignoreempty = true);
 Вектор<Ткст> разбей(цел maxcount, кткст0 s, цел chr, бул ignoreempty = true);
 Вектор<Ткст> разбей(цел maxcount, кткст0 s, кткст0 text, бул ignoreempty = true);
-Вектор<Ткст> разбей(кткст0 s, кткст0  (*text_фильтр)(const char *), бул ignoreempty = true);
+Вектор<Ткст> разбей(кткст0 s, кткст0  (*text_фильтр)(кткст0 ), бул ignoreempty = true);
 Вектор<Ткст> разбей(кткст0 s, цел (*фильтр)(цел), бул ignoreempty = true);
 Вектор<Ткст> разбей(кткст0 s, цел chr, бул ignoreempty = true);
 Вектор<Ткст> разбей(кткст0 s, кткст0 text, бул ignoreempty = true);
@@ -16,8 +16,8 @@
 Вектор<ШТкст> разбей(const шим *s, цел chr, бул ignoreempty = true);
 Вектор<ШТкст> разбей(const шим *s, const шим *text, бул ignoreempty = true);
 
-Ткст  Join(const Вектор<Ткст>& im, const Ткст& delim, бул ignoreempty = false);
-ШТкст Join(const Вектор<ШТкст>& im, const ШТкст& delim, бул ignoreempty = false);
+Ткст  соедини(const Вектор<Ткст>& im, const Ткст& delim, бул ignoreempty = false);
+ШТкст соедини(const Вектор<ШТкст>& im, const ШТкст& delim, бул ignoreempty = false);
 
 //$ бул   SplitTo(кткст0 s, цел delim, бул ignoreempty, Ткст& p1...);
 //$ бул   SplitTo(кткст0 s, цел delim, Ткст& p1...);
@@ -36,8 +36,8 @@
 //$ Ткст Merge(кткст0 delim, Ткст& p1...);
 //$ ШТкст Merge(const шим *delim, ШТкст& p1...);
 
-//$ проц   MergeWith(Ткст& dest, кткст0 delim, Ткст& p1...);
-//$ проц   MergeWith(ШТкст& dest, const шим *delim, ШТкст& p1...);
+//$ проц   MergeWith(Ткст& приёмник, кткст0 delim, Ткст& p1...);
+//$ проц   MergeWith(ШТкст& приёмник, const шим *delim, ШТкст& p1...);
 
 //$-
 template <typename... Арги>
@@ -77,13 +77,13 @@ template <typename... Арги>
 }
 
 template <typename... Арги>
-проц MergeWith(Ткст& dest, кткст0 delim, const Арги& ...арги)
+проц MergeWith(Ткст& приёмник, кткст0 delim, const Арги& ...арги)
 {
 	foreach_arg([&](const Ткст& арг) {
 		if(арг.дайСчёт()) {
-			if(dest.дайСчёт())
-				dest << delim;
-			dest << арг;
+			if(приёмник.дайСчёт())
+				приёмник << delim;
+			приёмник << арг;
 		}
 	}, арги...);
 }
@@ -133,13 +133,13 @@ template <typename... Арги>
 }
 
 template <typename... Арги>
-проц MergeWith(ШТкст& dest, const шим *delim, const Арги& ...арги)
+проц MergeWith(ШТкст& приёмник, const шим *delim, const Арги& ...арги)
 {
 	foreach_arg([&](const ШТкст& арг) {
 		if(арг.дайСчёт()) {
-			if(dest.дайСчёт())
-				dest << delim;
-			dest << арг;
+			if(приёмник.дайСчёт())
+				приёмник << delim;
+			приёмник << арг;
 		}
 	}, арги...);
 }

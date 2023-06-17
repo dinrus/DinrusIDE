@@ -11,7 +11,7 @@
 Ткст UrlDecode(кткст0 s, цел len);
 Ткст UrlDecode(const Ткст& s);
 
-Ткст QPEncode(const char* s);
+Ткст QPEncode(const сим* s);
 Ткст QPDecode(кткст0 s, бул undescore_to_space = false);
 
 Ткст Base64Encode(кткст0 s, кткст0 end);
@@ -92,13 +92,13 @@ class TcpSocket : БезКопий {
 	enum { NONE, CONNECT, ACCEPT, SSL_CONNECTED };
 	SOCKET                  socket;
 	цел                     mode;
-	char                    буфер[BUFFERSIZE];
-	char                   *укз;
-	char                   *end;
+	сим                    буфер[BUFFERSIZE];
+	сим                   *укз;
+	сим                   *end;
 	бул                    is_eof;
 	бул                    is_error;
 	бул                    is_timeout;
-	бул                    is_abort;
+	бул                    is_аборт;
 	бул                    ipv6;
 
 	цел                     timeout;
@@ -118,7 +118,7 @@ class TcpSocket : БезКопий {
 	struct SSL {
 		virtual бул  старт() = 0;
 		virtual бул  жди(бцел flags, цел end_time) = 0;
-		virtual цел   Send(const ук буфер, цел maxlen) = 0;
+		virtual цел   Send(кук буфер, цел maxlen) = 0;
 		virtual цел   Recv(ук буфер, цел maxlen) = 0;
 		virtual проц  открой() = 0;
 		virtual бцел Handshake() = 0;
@@ -148,8 +148,8 @@ class TcpSocket : БезКопий {
 	бул                    открой(цел family, цел тип, цел protocol);
 	цел                     RawRecv(ук буфер, цел maxlen);
 	цел                     Recv(ук буфер, цел maxlen);
-	цел                     RawSend(const ук буфер, цел maxlen);
-	цел                     Send(const ук буфер, цел maxlen);
+	цел                     RawSend(кук буфер, цел maxlen);
+	цел                     Send(кук буфер, цел maxlen);
 	бул                    RawConnect(addrinfo *arp);
 	проц                    RawClose();
 
@@ -191,9 +191,9 @@ public:
 	цел             дайОш() const                         { return errorcode; }
 	Ткст          GetErrorDesc() const                     { return errordesc; }
 
-	проц            Abort()                                  { is_abort = true; }
-	бул            аборт_ли() const                          { return is_abort; }
-	проц            ClearAbort()                             { is_abort = false; }
+	проц            Abort()                                  { is_аборт = true; }
+	бул            аборт_ли() const                          { return is_аборт; }
+	проц            ClearAbort()                             { is_аборт = false; }
 	
 	бул            таймаут_ли() const                        { return is_timeout; }
 	
@@ -224,14 +224,14 @@ public:
 	цел             дай(ук буфер, цел len);
 	Ткст          дай(цел len);
 
-	цел             помести(const ук s, цел len);
+	цел             помести(кук s, цел len);
 	цел             помести(const Ткст& s)                     { return помести(s.старт(), s.дайДлину()); }
 
 	бул            дайВсе(ук буфер, цел len);
 	Ткст          дайВсе(цел len);
 	Ткст          дайСтроку(цел maxlen = 65536);
 
-	бул            PutAll(const ук s, цел len);
+	бул            PutAll(кук s, цел len);
 	бул            PutAll(const Ткст& s);
 	
 	бул            StartSSL();
@@ -445,7 +445,7 @@ class HttpRequest : public TcpSocket {
 	проц         CopyCookies();
 
 	проц         HttpError(кткст0 s);
-	проц         выведи(const ук укз, цел size);
+	проц         выведи(кук укз, цел size);
 
 	Ткст       CalculateDigest(const Ткст& authenticate) const;
 
@@ -650,7 +650,7 @@ class WebSocket {
 
 		FIN = 0x80,
 		TEXT = 0x1,
-		BINARY = 0x2,
+		БИНАР = 0x2,
 		CLOSE = 0x8,
 		PING = 0x9,
 		PONG = 0xa,
@@ -707,15 +707,15 @@ public:
 	Ткст Receive();
 	бул   конечен() const                                { return current_opcode & FIN; }
 	бул   текст_ли() const                               { return current_opcode & TEXT; }
-	бул   IsBinary() const                             { return current_opcode & BINARY; }
+	бул   IsBinary() const                             { return current_opcode & БИНАР; }
 
 	проц   SendText(const Ткст& данные)                 { SendRaw(FIN|TEXT, данные); }
 	проц   SendTextMasked(const Ткст& данные)           { SendRaw(FIN|TEXT, данные, MASK); }
-	проц   SendBinary(const Ткст& данные)               { SendRaw(FIN|BINARY, данные); }
+	проц   SendBinary(const Ткст& данные)               { SendRaw(FIN|БИНАР, данные); }
 	проц   Ping(const Ткст& данные)                     { SendRaw(FIN|PING, данные); }
 
 	проц   BeginText(const Ткст& данные)                { SendRaw(TEXT, данные); }
-	проц   BeginBinary(const Ткст& данные)              { SendRaw(BINARY, данные); }
+	проц   BeginBinary(const Ткст& данные)              { SendRaw(БИНАР, данные); }
 	проц   Continue(const Ткст& данные)                 { SendRaw(0, данные); }
 	проц   Fin(const Ткст& данные)                      { SendRaw(FIN, данные); }
 
@@ -739,10 +739,10 @@ public:
 	цел    GetOpCode() const { return current_opcode & 15; }
 
 	бул   SendText(const Ткст& данные, бул fin)                   { SendRaw((fin ? 0x80 : 0)|TEXT, данные); return !ошибка_ли(); }
-	бул   SendText(const ук данные, цел len, бул fin = true)     { return SendText(Ткст((char *)данные, len), fin); }
+	бул   SendText(кук данные, цел len, бул fin = true)     { return SendText(Ткст((сим *)данные, len), fin); }
 
-	бул   SendBinary(const Ткст& данные, бул fin)                 { SendRaw((fin ? 0x80 : 0)|BINARY, данные); return !ошибка_ли(); }
-	бул   SendBinary(const ук данные, цел len, бул fin = true)   { return SendText(Ткст((char *)данные, len), fin); }
+	бул   SendBinary(const Ткст& данные, бул fin)                 { SendRaw((fin ? 0x80 : 0)|БИНАР, данные); return !ошибка_ли(); }
+	бул   SendBinary(кук данные, цел len, бул fin = true)   { return SendText(Ткст((сим *)данные, len), fin); }
 
 	Ткст GetErrorDesc() const                                     { return дайОш(); }
 

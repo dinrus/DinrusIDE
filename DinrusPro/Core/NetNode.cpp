@@ -1,8 +1,6 @@
-#include <DinrusPro/DinrusPro.h>
+#include <DinrusPro/DinrusCore.h>
 
 #ifdef PLATFORM_WIN32
-
-namespace ДинрусРНЦП {
 
 УзелСети::УзелСети()
 {
@@ -32,7 +30,7 @@ namespace ДинрусРНЦП {
 
 проц УзелСети::SetPtrs()
 {
-	auto устУк = [](Вектор<char16>& s, char16 *& укз) { if(укз) укз = s; };
+	auto устУк = [](Вектор<сим16>& s, сим16 *& укз) { if(укз) укз = s; };
 	устУк(local, net.lpLocalName);
 	устУк(remote, net.lpRemoteName);
 	устУк(comment, net.lpComment);
@@ -84,7 +82,7 @@ namespace ДинрусРНЦП {
 			УзелСети& nn = r.добавь();
 			NETRESOURCEW& n = nn.net;
 			n = sn;
-			auto get = [](const char16 *s) { Вектор<char16> x; while(s && *s) x.добавь(*s++); x.добавь(0); return x; };
+			auto get = [](const сим16 *s) { Вектор<сим16> x; while(s && *s) x.добавь(*s++); x.добавь(0); return x; };
 			nn.local = get(n.lpLocalName);
 			nn.remote = get(n.lpRemoteName);
 			nn.comment = get(n.lpComment);
@@ -131,6 +129,5 @@ namespace ДинрусРНЦП {
 	return UNKNOWN;
 }
 
-}
 
 #endif

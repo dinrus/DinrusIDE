@@ -1,8 +1,7 @@
-#include <DinrusPro/DinrusPro.h>
+#include <DinrusPro/DinrusCore.h>
 
-namespace ДинрусРНЦП {
 /*
- * SHA256
+ * ша256
  *
  * The author (Brad Conte) has released this file "into the public domain free
  * of any restrictions".  This file is unchanged except for some style
@@ -169,87 +168,87 @@ static проц sha256_final(SHA256_CTX *ctx, ббайт *hash)
    }
 }
 
-проц Sha256Stream::Cleanup()
+проц ПотокШа256::зачисть()
 {
 	STATIC_ASSERT(sizeof(SHA256_CTX) < 128);
 
 	memset(буфер, 0, sizeof(буфер));
 }
 
-проц Sha256Stream::выведи(const ук данные, бцел length)
+проц ПотокШа256::выведи(кук данные, бцел length)
 {
 	sha256_update((SHA256_CTX *)буфер, (const ббайт *)данные, length);
 }
 
-проц Sha256Stream::финиш(ббайт *hash32)
+проц ПотокШа256::финиш(ббайт *hash32)
 {
 	слей();
 	sha256_final((SHA256_CTX *)буфер, hash32);
-	Cleanup();
+	зачисть();
 }
 
-Ткст Sha256Stream::FinishString()
+Ткст ПотокШа256::завершиТкст()
 {
 	ббайт hash[32];
 	финиш(hash);
 	return гексТкст(hash, 32);
 }
 
-Ткст Sha256Stream::FinishStringS()
+Ткст ПотокШа256::завершиПТкст()
 {
 	ббайт hash[32];
 	финиш(hash);
 	return гексТкст(hash, 32, 4);
 }
 
-проц Sha256Stream::переустанов() {
+проц ПотокШа256::переустанов() {
 	sha256_init((SHA256_CTX *)буфер);
 }
 
-Sha256Stream::Sha256Stream()
+ПотокШа256::ПотокШа256()
 {
 	переустанов();
 }
 
-Sha256Stream::~Sha256Stream()
+ПотокШа256::~ПотокШа256()
 {
-	Cleanup();
+	зачисть();
 }
 
-проц SHA256(ббайт *hash20, const ук данные, бцел size)
+проц ша256(ббайт *hash20, кук данные, бцел size)
 {
-	Sha256Stream sha1;
+	ПотокШа256 sha1;
 	sha1.помести(данные, size);
 	sha1.финиш(hash20);
 }
 
-проц SHA256(ббайт *hash20, const Ткст& s)
+проц ша256(ббайт *hash20, const Ткст& s)
 {
-	return SHA256(hash20, s, s.дайДлину());
+	return ша256(hash20, s, s.дайДлину());
 }
 
-Ткст SHA256String(const ук данные, бцел size)
+Ткст ша256Ткст(кук данные, бцел size)
 {
-	Sha256Stream sha1;
+	ПотокШа256 sha1;
 	sha1.помести(данные, size);
-	return sha1.FinishString();
+	return sha1.завершиТкст();
 }
 
-Ткст SHA256String(const Ткст& данные)
+Ткст ша256Ткст(const Ткст& данные)
 {
-	return SHA256String(~данные, данные.дайДлину());
+	return ша256Ткст(~данные, данные.дайДлину());
 }
 
-Ткст  SHA256StringS(const ук данные, бцел size)
+Ткст  ша256ПТкст(кук данные, бцел size)
 {
-	Sha256Stream sha1;
+	ПотокШа256 sha1;
 	sha1.помести(данные, size);
-	return sha1.FinishStringS();
+	return sha1.завершиПТкст();
 }
 
-Ткст  SHA256StringS(const Ткст& данные)
+Ткст  ша256ПТкст(const Ткст& данные)
 {
-	return SHA256StringS(~данные, данные.дайДлину());
+	return ша256ПТкст(~данные, данные.дайДлину());
 }
 
-}
+

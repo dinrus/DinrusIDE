@@ -1,6 +1,4 @@
-#include <DinrusPro/DinrusPro.h>
-
-namespace ДинрусРНЦП {
+#include <DinrusPro/DinrusCore.h>
 
 static цел s_month[] = {
 	31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31
@@ -39,7 +37,7 @@ static цел s_month_off[] = {
 	return i >= 0 && i < 7 ? Nvl(GetLngString(lang, day[i]), GetENUS(day[i])) : Ткст();
 }
 
-Ткст DyName(цел i, цел lang)
+Ткст имяДняГода(цел i, цел lang)
 {
 	static кткст0 day[] = {
 		tt_("date\vSu"), tt_("date\vMo"), tt_("date\vTu"),
@@ -58,7 +56,7 @@ static цел s_month_off[] = {
 	return i >= 0 && i < 12 ? Nvl(GetLngString(lang, month[i]), GetENUS(month[i])) : Ткст();
 }
 
-Ткст MonName(цел i, цел lang)
+Ткст имяМес(цел i, цел lang)
 {
 	static кткст0 month[] = {
 		tt_("sdate\vJan"), tt_("sdate\vFeb"), tt_("sdate\vMar"), tt_("sdate\vApr"), tt_("sdate\vMay"),
@@ -68,8 +66,8 @@ static цел s_month_off[] = {
 	return i >= 0 && i < 12 ? Nvl(GetLngString(lang, month[i]), GetENUS(month[i])) : Ткст();
 }
 
-static thread_local char s_date_format_thread[64];
-static char s_date_format_main[64] = "%2:02d/%3:02d/%1:4d";
+static thread_local сим s_date_format_thread[64];
+static сим s_date_format_main[64] = "%2:02d/%3:02d/%1:4d";
 
 проц   устФорматДаты(кткст0 fmt)
 {
@@ -85,8 +83,8 @@ static char s_date_format_main[64] = "%2:02d/%3:02d/%1:4d";
 	return фмт(*s_date_format_thread ? s_date_format_thread : s_date_format_main, date.year, date.month, date.day, деньНедели(date));
 }
 
-static thread_local char s_date_scan_thread[64];
-static char s_date_scan_main[64] = "mdy";
+static thread_local сим s_date_scan_thread[64];
+static сим s_date_scan_main[64] = "mdy";
 
 проц   устСканДат(кткст0 scan)
 {
@@ -112,7 +110,7 @@ static char s_date_scan_main[64] = "mdy";
 			s++;
 		цел n;
 		if(цифра_ли(*s)) {
-			char *q;
+			сим *q;
 			n = strtoul(s, &q, 10);
 			s = q;
 		}
@@ -125,7 +123,7 @@ static char s_date_scan_main[64] = "mdy";
 				m.кат(*s++);
 			m = взаг(m);
 			for(цел i = 0; i < 12; i++)
-				if(m == взаг(имяМесяца(i)) || m == взаг(MonName(i))) {
+				if(m == взаг(имяМесяца(i)) || m == взаг(имяМес(i))) {
 					n = i + 1;
 					goto found;
 				}
@@ -182,8 +180,8 @@ static char s_date_scan_main[64] = "mdy";
 	return опр;
 }
 
-static thread_local char s_date_seps_thread[64];
-static char s_date_seps_main[64] = "A/\a .-";
+static thread_local сим s_date_seps_thread[64];
+static сим s_date_seps_main[64] = "A/\a .-";
 
 проц   устФильтрДат(кткст0 seps)
 {
@@ -534,7 +532,7 @@ static char s_date_seps_main[64] = "A/\a .-";
 			s++;
 		цел n;
 		if(цифра_ли(*s)) {
-			char *q;
+			сим *q;
 			n = strtoul(s, &q, 10);
 			s = q;
 		} else
@@ -575,7 +573,7 @@ static char s_date_seps_main[64] = "A/\a .-";
 	return Время(st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond);
 }
 
-Время GetUtcTime() {
+Время дайВремяУВИ() {
 	SYSTEMTIME st;
 	GetSystemTime(&st);
 	return Время(st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond);
@@ -589,7 +587,7 @@ static char s_date_seps_main[64] = "A/\a .-";
 	return Время(time(NULL));
 }
 
-Время GetUtcTime()
+Время дайВремяУВИ()
 {
 	time_t gmt = time(NULL);
 	struct tm timer;
@@ -643,7 +641,7 @@ static char s_date_seps_main[64] = "A/\a .-";
 	ONCELOCK {
 		for(;;) { // This is somewhat ugly, but unified approach to get time zone offset
 			Время t0 = дайСисВремя();
-			Время gmtime = GetUtcTime();
+			Время gmtime = дайВремяУВИ();
 			Время ltime = дайСисВремя();
 			if(дайСисВремя() - t0 < 1) { // сделай sure that there is not much time between calls
 				zone = (цел)(ltime - gmtime) / 60; // Round to minutes
@@ -684,23 +682,21 @@ static char s_date_seps_main[64] = "A/\a .-";
 	};
 	static ббайт ls[1200]; // 100 years of leap seconds per month
 	ONCELOCK {
-		for(цел i = 0; i < __countof(sLeapSeconds); i++) {
+		for(цел i = 0; i < __количество(sLeapSeconds); i++) {
 			цел l = (sLeapSeconds[i].a - 1970) * 12 + sLeapSeconds[i].b - 1;
-			memset(ls + l, i + 1, __countof(ls) - l);
+			memset(ls + l, i + 1, __количество(ls) - l);
 		}
 	}
-	return ls[минмакс(12 * (dt.year - 1970) + dt.month - 1, 0, __countof(ls) - 1)];
+	return ls[минмакс(12 * (dt.year - 1970) + dt.month - 1, 0, __количество(ls) - 1)];
 }
 
-дол GetUTCSeconds(Время tm)
+дол дайСекундыУви(Время tm)
 {
 	return tm - Время(1970, 1, 1) + GetLeapSeconds(tm);
 }
 
-Время TimeFromUTC(дол seconds)
+Время времяИзУВИ(дол seconds)
 {
 	Время tm = Время(1970, 1, 1) + seconds;
 	return tm - GetLeapSeconds(tm);
-}
-
 }

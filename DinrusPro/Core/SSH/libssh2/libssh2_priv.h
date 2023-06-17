@@ -130,7 +130,7 @@ static inline цел writev(цел sock, struct iovec *iov, цел nvecs)
 
 #ifdef __OS400__
 /* усиль parameter тип. */
-#define send(s, b, l, f)    send((s), (unsigned char *) (b), (l), (f))
+#define send(s, b, l, f)    send((s), (ббайт *) (b), (l), (f))
 #endif
 
 #include "crypto.h"
@@ -247,11 +247,11 @@ typedef struct packet_requirev_state_t
 typedef struct kmdhgGPshakex_state_t
 {
     libssh2_nonblocking_states state;
-    unsigned char *e_packet;
-    unsigned char *s_packet;
-    unsigned char *tmp;
-    unsigned char h_sig_comp[MAX_SHA_DIGEST_LEN];
-    unsigned char c;
+    ббайт *e_packet;
+    ббайт *s_packet;
+    ббайт *tmp;
+    ббайт h_sig_comp[MAX_SHA_DIGEST_LEN];
+    ббайт c;
     т_мера e_packet_len;
     т_мера s_packet_len;
     т_мера tmp_len;
@@ -260,9 +260,9 @@ typedef struct kmdhgGPshakex_state_t
     _libssh2_bn *e;
     _libssh2_bn *f;
     _libssh2_bn *k;
-    unsigned char *f_value;
-    unsigned char *k_value;
-    unsigned char *h_sig;
+    ббайт *f_value;
+    ббайт *k_value;
+    ббайт *h_sig;
     т_мера f_value_len;
     т_мера k_value_len;
     т_мера h_sig_len;
@@ -278,17 +278,17 @@ typedef struct key_exchange_state_low_t
     kmdhgGPshakex_state_t exchange_state;
     _libssh2_bn *p;             /* SSH2 defined значение (p_value) */
     _libssh2_bn *g;             /* SSH2 defined значение (2) */
-    unsigned char request[256]; /* Must fit EC_MAX_POINT_LEN + данные */
-    unsigned char *данные;
+    ббайт request[256]; /* Must fit EC_MAX_POINT_LEN + данные */
+    ббайт *данные;
     т_мера request_len;
     т_мера data_len;
     _libssh2_ec_key *private_key;   /* SSH2 ecdh private ключ */
-    unsigned char *public_key_oct;  /* SSH2 ecdh public ключ octal значение */
+    ббайт *public_key_oct;  /* SSH2 ecdh public ключ octal значение */
     т_мера public_key_oct_len;      /* SSH2 ecdh public ключ octal значение
                                        length */
-    unsigned char *curve25519_public_key; /* curve25519 public ключ, 32
+    ббайт *curve25519_public_key; /* curve25519 public ключ, 32
                                              bytes */
-    unsigned char *curve25519_private_key; /* curve25519 private ключ, 32
+    ббайт *curve25519_private_key; /* curve25519 private ключ, 32
                                               bytes */
 } key_exchange_state_low_t;
 
@@ -297,9 +297,9 @@ typedef struct key_exchange_state_t
     libssh2_nonblocking_states state;
     packet_require_state_t req_state;
     key_exchange_state_low_t key_state_low;
-    unsigned char *данные;
+    ббайт *данные;
     т_мера data_len;
-    unsigned char *oldlocal;
+    ббайт *oldlocal;
     т_мера oldlocal_len;
 } key_exchange_state_t;
 
@@ -308,9 +308,9 @@ typedef struct key_exchange_state_t
 typedef struct packet_queue_listener_state_t
 {
     libssh2_nonblocking_states state;
-    unsigned char packet[17 + (sizeof(FwdNotReq) - 1)];
-    unsigned char *host;
-    unsigned char *shost;
+    ббайт packet[17 + (sizeof(FwdNotReq) - 1)];
+    ббайт *host;
+    ббайт *shost;
     uint32_t sender_channel;
     uint32_t initial_window_size;
     uint32_t packet_size;
@@ -326,8 +326,8 @@ typedef struct packet_queue_listener_state_t
 typedef struct packet_x11_open_state_t
 {
     libssh2_nonblocking_states state;
-    unsigned char packet[17 + (sizeof(X11FwdUnAvil) - 1)];
-    unsigned char *shost;
+    ббайт packet[17 + (sizeof(X11FwdUnAvil) - 1)];
+    ббайт *shost;
     uint32_t sender_channel;
     uint32_t initial_window_size;
     uint32_t packet_size;
@@ -341,7 +341,7 @@ struct _LIBSSH2_PACKET
     struct list_node node; /* linked list header */
 
     /* the raw unencrypted payload */
-    unsigned char *данные;
+    ббайт *данные;
     т_мера data_len;
 
     /* Where to start reading данные from,
@@ -358,21 +358,21 @@ typedef struct _libssh2_channel_data
     uint32_t window_size_initial, window_size, packet_size;
 
     /* уст to 1 when CHANNEL_CLOSE / CHANNEL_EOF sent/received */
-    char close, eof, extended_data_ignore_mode;
+    сим close, eof, extended_data_ignore_mode;
 } libssh2_channel_data;
 
 struct _LIBSSH2_CHANNEL
 {
     struct list_node node;
 
-    unsigned char *channel_type;
+    ббайт *channel_type;
     unsigned channel_type_len;
 
     /* channel's program exit status */
     цел exit_status;
 
     /* channel's program exit signal (without the SIG prefix) */
-    char *exit_signal;
+    сим *exit_signal;
 
     libssh2_channel_data local, remote;
     /* Amount of bytes to be refunded to receive window (but not yet sent) */
@@ -387,31 +387,31 @@ struct _LIBSSH2_CHANNEL
 
     /* State variables used in libssh2_channel_setenv_ex() */
     libssh2_nonblocking_states setenv_state;
-    unsigned char *setenv_packet;
+    ббайт *setenv_packet;
     т_мера setenv_packet_len;
-    unsigned char setenv_local_channel[4];
+    ббайт setenv_local_channel[4];
     packet_requirev_state_t setenv_packet_requirev_state;
 
     /* State variables used in libssh2_channel_request_pty_ex()
        libssh2_channel_request_pty_size_ex() */
     libssh2_nonblocking_states reqPTY_state;
-    unsigned char reqPTY_packet[41 + 256];
+    ббайт reqPTY_packet[41 + 256];
     т_мера reqPTY_packet_len;
-    unsigned char reqPTY_local_channel[4];
+    ббайт reqPTY_local_channel[4];
     packet_requirev_state_t reqPTY_packet_requirev_state;
 
     /* State variables used in libssh2_channel_x11_req_ex() */
     libssh2_nonblocking_states reqX11_state;
-    unsigned char *reqX11_packet;
+    ббайт *reqX11_packet;
     т_мера reqX11_packet_len;
-    unsigned char reqX11_local_channel[4];
+    ббайт reqX11_local_channel[4];
     packet_requirev_state_t reqX11_packet_requirev_state;
 
     /* State variables used in libssh2_channel_process_startup() */
     libssh2_nonblocking_states process_state;
-    unsigned char *process_packet;
+    ббайт *process_packet;
     т_мера process_packet_len;
-    unsigned char process_local_channel[4];
+    ббайт process_local_channel[4];
     packet_requirev_state_t process_packet_requirev_state;
 
     /* State variables used in libssh2_channel_flush_ex() */
@@ -421,7 +421,7 @@ struct _LIBSSH2_CHANNEL
 
     /* State variables used in libssh2_channel_receive_window_adjust() */
     libssh2_nonblocking_states adjust_state;
-    unsigned char adjust_adjust[9];     /* packet_type(1) + channel(4) +
+    ббайт adjust_adjust[9];     /* packet_type(1) + channel(4) +
                                            adjustment(4) */
 
     /* State variables used in libssh2_channel_read_ex() */
@@ -431,13 +431,13 @@ struct _LIBSSH2_CHANNEL
 
     /* State variables used in libssh2_channel_write_ex() */
     libssh2_nonblocking_states write_state;
-    unsigned char write_packet[13];
+    ббайт write_packet[13];
     т_мера write_packet_len;
     т_мера write_bufwrite;
 
     /* State variables used in libssh2_channel_close() */
     libssh2_nonblocking_states close_state;
-    unsigned char close_packet[5];
+    ббайт close_packet[5];
 
     /* State variables used in libssh2_channel_wait_closedeof() */
     libssh2_nonblocking_states wait_eof_state;
@@ -454,9 +454,9 @@ struct _LIBSSH2_CHANNEL
     /* State variables used in libssh2_channel_request_auth_agent() */
     libssh2_nonblocking_states req_auth_agent_try_state;
     libssh2_nonblocking_states req_auth_agent_state;
-    unsigned char req_auth_agent_packet[36];
+    ббайт req_auth_agent_packet[36];
     т_мера req_auth_agent_packet_len;
-    unsigned char req_auth_agent_local_channel[4];
+    ббайт req_auth_agent_local_channel[4];
     packet_requirev_state_t req_auth_agent_requirev_state;
 };
 
@@ -466,7 +466,7 @@ struct _LIBSSH2_LISTENER
 
     LIBSSH2_SESSION *session;
 
-    char *host;
+    сим *host;
     цел port;
 
     /* a list of CHANNELs for this listener */
@@ -477,15 +477,15 @@ struct _LIBSSH2_LISTENER
 
     /* State variables used in libssh2_channel_forward_cancel() */
     libssh2_nonblocking_states chanFwdCncl_state;
-    unsigned char *chanFwdCncl_data;
+    ббайт *chanFwdCncl_data;
     т_мера chanFwdCncl_data_len;
 };
 
 typedef struct _libssh2_endpoint_data
 {
-    unsigned char *banner;
+    ббайт *banner;
 
-    unsigned char *kexinit;
+    ббайт *kexinit;
     т_мера kexinit_len;
 
     const LIBSSH2_CRYPT_METHOD *crypt;
@@ -499,10 +499,10 @@ typedef struct _libssh2_endpoint_data
     ук comp_abstract;
 
     /* Method Preferences -- NULL yields "load order" */
-    char *crypt_prefs;
-    char *mac_prefs;
-    char *comp_prefs;
-    char *lang_prefs;
+    сим *crypt_prefs;
+    сим *mac_prefs;
+    сим *comp_prefs;
+    сим *lang_prefs;
 } libssh2_endpoint_data;
 
 #define PACKETBUFSIZE (1024*16)
@@ -510,8 +510,8 @@ typedef struct _libssh2_endpoint_data
 struct transportpacket
 {
     /* ------------- for incoming данные --------------- */
-    unsigned char buf[PACKETBUFSIZE];
-    unsigned char init[5];  /* first 5 bytes of the incoming данные stream,
+    ббайт buf[PACKETBUFSIZE];
+    ббайт init[5];  /* first 5 bytes of the incoming данные stream,
                                still encrypted */
     т_мера writeidx;        /* at what array индекс we do the next write into
                                the буфер */
@@ -527,16 +527,16 @@ struct transportpacket
                                number of bytes. A full package is
                                packet_length + padding_length + 4 +
                                mac_length. */
-    unsigned char *payload; /* this is a pointer to a LIBSSH2_ALLOC()
+    ббайт *payload; /* this is a pointer to a LIBSSH2_ALLOC()
                                area to which we write decrypted данные */
-    unsigned char *wptr;    /* write pointer into the payload to where we
+    ббайт *wptr;    /* write pointer into the payload to where we
                                are currently writing decrypted данные */
 
     /* ------------- for outgoing данные --------------- */
-    unsigned char outbuf[MAX_SSH_PACKET_LEN]; /* area for the outgoing данные */
+    ббайт outbuf[MAX_SSH_PACKET_LEN]; /* area for the outgoing данные */
 
     цел ototal_num;         /* size of outbuf in number of bytes */
-    const unsigned char *odata; /* original pointer to the данные */
+    const ббайт *odata; /* original pointer to the данные */
     т_мера olen;            /* original size of the данные we stored in
                                outbuf */
     т_мера osent;           /* number of bytes already sent */
@@ -549,24 +549,24 @@ struct _LIBSSH2_PUBLICKEY
 
     /* State variables used in libssh2_publickey_packet_receive() */
     libssh2_nonblocking_states receive_state;
-    unsigned char *receive_packet;
+    ббайт *receive_packet;
     т_мера receive_packet_len;
 
     /* State variables used in libssh2_publickey_add_ex() */
     libssh2_nonblocking_states add_state;
-    unsigned char *add_packet;
-    unsigned char *add_s;
+    ббайт *add_packet;
+    ббайт *add_s;
 
     /* State variables used in libssh2_publickey_remove_ex() */
     libssh2_nonblocking_states remove_state;
-    unsigned char *remove_packet;
-    unsigned char *remove_s;
+    ббайт *remove_packet;
+    ббайт *remove_s;
 
     /* State variables used in libssh2_publickey_list_fetch() */
     libssh2_nonblocking_states listFetch_state;
-    unsigned char *listFetch_s;
-    unsigned char listFetch_buffer[12];
-    unsigned char *listFetch_data;
+    ббайт *listFetch_s;
+    ббайт listFetch_buffer[12];
+    ббайт *listFetch_data;
     т_мера listFetch_data_len;
 };
 
@@ -595,8 +595,8 @@ struct _LIBSSH2_SESSION
       LIBSSH2_RECV_FUNC((*recv));
 
     /* Method preferences -- NULL yields "load order" */
-    char *kex_prefs;
-    char *hostkey_prefs;
+    сим *kex_prefs;
+    сим *hostkey_prefs;
 
     цел state;
 
@@ -607,7 +607,7 @@ struct _LIBSSH2_SESSION
     const LIBSSH2_KEX_METHOD *kex;
     бцел burn_optimistic_kexinit:1;
 
-    unsigned char *session_id;
+    ббайт *session_id;
     uint32_t session_id_len;
 
     /* this is set to TRUE if a blocking API behavior is requested */
@@ -623,16 +623,16 @@ struct _LIBSSH2_SESSION
     /* Either set with libssh2_session_hostkey() (for server mode)
      * Or read from server in (eg) KEXDH_INIT (for client mode)
      */
-    unsigned char *server_hostkey;
+    ббайт *server_hostkey;
     uint32_t server_hostkey_len;
 #if LIBSSH2_MD5
-    unsigned char server_hostkey_md5[MD5_DIGEST_LENGTH];
+    ббайт server_hostkey_md5[MD5_DIGEST_LENGTH];
     цел server_hostkey_md5_valid;
 #endif                          /* ! LIBSSH2_MD5 */
-    unsigned char server_hostkey_sha1[SHA_DIGEST_LENGTH];
+    ббайт server_hostkey_sha1[SHA_DIGEST_LENGTH];
     цел server_hostkey_sha1_valid;
 
-    unsigned char server_hostkey_sha256[SHA256_DIGEST_LENGTH];
+    ббайт server_hostkey_sha256[SHA256_DIGEST_LENGTH];
     цел server_hostkey_sha256_valid;
 
     /* (remote as source of данные -- packet_read ) */
@@ -675,19 +675,19 @@ struct _LIBSSH2_SESSION
 
     /* State variables used in libssh2_banner_send() */
     libssh2_nonblocking_states banner_TxRx_state;
-    char banner_TxRx_banner[256];
+    сим banner_TxRx_banner[256];
     ssize_t banner_TxRx_total_send;
 
     /* State variables used in libssh2_kexinit() */
     libssh2_nonblocking_states kexinit_state;
-    unsigned char *kexinit_data;
+    ббайт *kexinit_data;
     т_мера kexinit_data_len;
 
     /* State variables used in libssh2_session_startup() */
     libssh2_nonblocking_states startup_state;
-    unsigned char *startup_data;
+    ббайт *startup_data;
     т_мера startup_data_len;
-    unsigned char startup_service[sizeof("ssh-userauth") + 5 - 1];
+    ббайт startup_service[sizeof("ssh-userauth") + 5 - 1];
     т_мера startup_service_length;
     packet_require_state_t startup_req_state;
     key_exchange_state_t startup_key_state;
@@ -697,7 +697,7 @@ struct _LIBSSH2_SESSION
 
     /* State variables used in libssh2_session_disconnect_ex() */
     libssh2_nonblocking_states disconnect_state;
-    unsigned char disconnect_data[256 + 13];
+    ббайт disconnect_data[256 + 13];
     т_мера disconnect_data_len;
 
     /* State variables used in libssh2_packet_read() */
@@ -706,52 +706,52 @@ struct _LIBSSH2_SESSION
 
     /* State variables used in libssh2_userauth_list() */
     libssh2_nonblocking_states userauth_list_state;
-    unsigned char *userauth_list_data;
+    ббайт *userauth_list_data;
     т_мера userauth_list_data_len;
     packet_requirev_state_t userauth_list_packet_requirev_state;
 
     /* State variables used in libssh2_userauth_password_ex() */
     libssh2_nonblocking_states userauth_pswd_state;
-    unsigned char *userauth_pswd_data;
-    unsigned char userauth_pswd_data0;
+    ббайт *userauth_pswd_data;
+    ббайт userauth_pswd_data0;
     т_мера userauth_pswd_data_len;
-    char *userauth_pswd_newpw;
+    сим *userauth_pswd_newpw;
     цел userauth_pswd_newpw_len;
     packet_requirev_state_t userauth_pswd_packet_requirev_state;
 
     /* State variables used in libssh2_userauth_hostbased_fromfile_ex() */
     libssh2_nonblocking_states userauth_host_state;
-    unsigned char *userauth_host_data;
+    ббайт *userauth_host_data;
     т_мера userauth_host_data_len;
-    unsigned char *userauth_host_packet;
+    ббайт *userauth_host_packet;
     т_мера userauth_host_packet_len;
-    unsigned char *userauth_host_method;
+    ббайт *userauth_host_method;
     т_мера userauth_host_method_len;
-    unsigned char *userauth_host_s;
+    ббайт *userauth_host_s;
     packet_requirev_state_t userauth_host_packet_requirev_state;
 
     /* State variables used in libssh2_userauth_publickey_fromfile_ex() */
     libssh2_nonblocking_states userauth_pblc_state;
-    unsigned char *userauth_pblc_data;
+    ббайт *userauth_pblc_data;
     т_мера userauth_pblc_data_len;
-    unsigned char *userauth_pblc_packet;
+    ббайт *userauth_pblc_packet;
     т_мера userauth_pblc_packet_len;
-    unsigned char *userauth_pblc_method;
+    ббайт *userauth_pblc_method;
     т_мера userauth_pblc_method_len;
-    unsigned char *userauth_pblc_s;
-    unsigned char *userauth_pblc_b;
+    ббайт *userauth_pblc_s;
+    ббайт *userauth_pblc_b;
     packet_requirev_state_t userauth_pblc_packet_requirev_state;
 
     /* State variables used in libssh2_userauth_keyboard_interactive_ex() */
     libssh2_nonblocking_states userauth_kybd_state;
-    unsigned char *userauth_kybd_data;
+    ббайт *userauth_kybd_data;
     т_мера userauth_kybd_data_len;
-    unsigned char *userauth_kybd_packet;
+    ббайт *userauth_kybd_packet;
     т_мера userauth_kybd_packet_len;
     бцел userauth_kybd_auth_name_len;
-    char *userauth_kybd_auth_name;
+    сим *userauth_kybd_auth_name;
     unsigned userauth_kybd_auth_instruction_len;
-    char *userauth_kybd_auth_instruction;
+    сим *userauth_kybd_auth_instruction;
     бцел userauth_kybd_num_prompts;
     цел userauth_kybd_auth_failure;
     LIBSSH2_USERAUTH_KBDINT_PROMPT *userauth_kybd_prompts;
@@ -762,22 +762,22 @@ struct _LIBSSH2_SESSION
     libssh2_nonblocking_states open_state;
     packet_requirev_state_t open_packet_requirev_state;
     LIBSSH2_CHANNEL *open_channel;
-    unsigned char *open_packet;
+    ббайт *open_packet;
     т_мера open_packet_len;
-    unsigned char *open_data;
+    ббайт *open_data;
     т_мера open_data_len;
     uint32_t open_local_channel;
 
     /* State variables used in libssh2_channel_direct_tcpip_ex() */
     libssh2_nonblocking_states direct_state;
-    unsigned char *direct_message;
+    ббайт *direct_message;
     т_мера direct_host_len;
     т_мера direct_shost_len;
     т_мера direct_message_len;
 
     /* State variables used in libssh2_channel_forward_listen_ex() */
     libssh2_nonblocking_states fwdLstn_state;
-    unsigned char *fwdLstn_packet;
+    ббайт *fwdLstn_packet;
     uint32_t fwdLstn_host_len;
     uint32_t fwdLstn_packet_len;
     packet_requirev_state_t fwdLstn_packet_requirev_state;
@@ -786,10 +786,10 @@ struct _LIBSSH2_SESSION
     libssh2_nonblocking_states pkeyИниt_state;
     LIBSSH2_PUBLICKEY *pkeyИниt_pkey;
     LIBSSH2_CHANNEL *pkeyИниt_channel;
-    unsigned char *pkeyИниt_data;
+    ббайт *pkeyИниt_data;
     т_мера pkeyИниt_data_len;
     /* 19 = packet_len(4) + version_len(4) + "версия"(7) + version_num(4) */
-    unsigned char pkeyИниt_buffer[19];
+    ббайт pkeyИниt_buffer[19];
     т_мера pkeyИниt_buffer_sent; /* how much of буфер that has been sent */
 
     /* State variables used in libssh2_packet_add() */
@@ -809,16 +809,16 @@ struct _LIBSSH2_SESSION
     libssh2_nonblocking_states sftpИниt_state;
     LIBSSH2_SFTP *sftpИниt_sftp;
     LIBSSH2_CHANNEL *sftpИниt_channel;
-    unsigned char sftpИниt_buffer[9];   /* sftp_header(5){excludes request_id}
+    ббайт sftpИниt_buffer[9];   /* sftp_header(5){excludes request_id}
                                            + version_id(4) */
     цел sftpИниt_sent; /* number of bytes from the буфер that have been
                           sent */
 
     /* State variables used in libssh2_scp_recv() / libssh_scp_recv2() */
     libssh2_nonblocking_states scpRecv_state;
-    unsigned char *scpRecv_command;
+    ббайт *scpRecv_command;
     т_мера scpRecv_command_len;
-    unsigned char scpRecv_response[LIBSSH2_SCP_RESPONSE_BUFLEN];
+    ббайт scpRecv_response[LIBSSH2_SCP_RESPONSE_BUFLEN];
     т_мера scpRecv_response_len;
     long scpRecv_mode;
 #if defined(HAVE_LONGLONG) && defined(HAVE_STRTOLL)
@@ -838,9 +838,9 @@ struct _LIBSSH2_SESSION
 
     /* State variables used in libssh2_scp_send_ex() */
     libssh2_nonblocking_states scpSend_state;
-    unsigned char *scpSend_command;
+    ббайт *scpSend_command;
     т_мера scpSend_command_len;
-    unsigned char scpSend_response[LIBSSH2_SCP_RESPONSE_BUFLEN];
+    ббайт scpSend_response[LIBSSH2_SCP_RESPONSE_BUFLEN];
     т_мера scpSend_response_len;
     LIBSSH2_CHANNEL *scpSend_channel;
 
@@ -890,7 +890,7 @@ struct _LIBSSH2_HOSTKEY_METHOD
     кткст0 имя;
     unsigned long hash_len;
 
-    цел (*init) (LIBSSH2_SESSION * session, const unsigned char *hostkey_data,
+    цел (*init) (LIBSSH2_SESSION * session, const ббайт *hostkey_data,
                  т_мера hostkey_data_len, проц **abstract);
     цел (*initPEM) (LIBSSH2_SESSION * session, кткст0 privkeyfile,
                     unsigned кткст0 passphrase, проц **abstract);
@@ -899,14 +899,14 @@ struct _LIBSSH2_HOSTKEY_METHOD
                               т_мера privkeyfiledata_len,
                               unsigned кткст0 passphrase,
                               проц **abstract);
-    цел (*sig_verify) (LIBSSH2_SESSION * session, const unsigned char *sig,
-                       т_мера sig_len, const unsigned char *m,
+    цел (*sig_verify) (LIBSSH2_SESSION * session, const ббайт *sig,
+                       т_мера sig_len, const ббайт *m,
                        т_мера m_len, проц **abstract);
-    цел (*signv) (LIBSSH2_SESSION * session, unsigned char **signature,
+    цел (*signv) (LIBSSH2_SESSION * session, ббайт **signature,
                   т_мера *signature_len, цел veccount,
                   const struct iovec datavec[], проц **abstract);
-    цел (*encrypt) (LIBSSH2_SESSION * session, unsigned char **dst,
-                    т_мера *dst_len, const unsigned char *ист,
+    цел (*encrypt) (LIBSSH2_SESSION * session, ббайт **dst,
+                    т_мера *dst_len, const ббайт *ист,
                     т_мера src_len, проц **abstract);
     цел (*dtor) (LIBSSH2_SESSION * session, проц **abstract);
 };
@@ -925,10 +925,10 @@ struct _LIBSSH2_CRYPT_METHOD
     long flags;
 
     цел (*init) (LIBSSH2_SESSION * session,
-                 const LIBSSH2_CRYPT_METHOD * method, unsigned char *iv,
-                 цел *free_iv, unsigned char *secret, цел *free_secret,
+                 const LIBSSH2_CRYPT_METHOD * method, ббайт *iv,
+                 цел *free_iv, ббайт *secret, цел *free_secret,
                  цел encrypt, проц **abstract);
-    цел (*crypt) (LIBSSH2_SESSION * session, unsigned char *block,
+    цел (*crypt) (LIBSSH2_SESSION * session, ббайт *block,
                   т_мера blocksize, проц **abstract);
     цел (*dtor) (LIBSSH2_SESSION * session, проц **abstract);
 
@@ -942,16 +942,16 @@ struct _LIBSSH2_COMP_METHOD
     цел use_in_auth; /* 1 if compression should be used in userauth */
     цел (*init) (LIBSSH2_SESSION *session, цел compress, проц **abstract);
     цел (*comp) (LIBSSH2_SESSION *session,
-                 unsigned char *dest,
+                 ббайт *приёмник,
                  т_мера *dest_len,
-                 const unsigned char *ист,
+                 const ббайт *ист,
                  т_мера src_len,
                  проц **abstract);
     цел (*decomp) (LIBSSH2_SESSION *session,
-                   unsigned char **dest,
+                   ббайт **приёмник,
                    т_мера *dest_len,
                    т_мера payload_limit,
-                   const unsigned char *ист,
+                   const ббайт *ист,
                    т_мера src_len,
                    проц **abstract);
     цел (*dtor) (LIBSSH2_SESSION * session, цел compress, проц **abstract);
@@ -1061,7 +1061,7 @@ _libssh2_debug(LIBSSH2_SESSION * session, цел context, кткст0 форма
 
 ssize_t _libssh2_recv(libssh2_socket_t socket, ук буфер,
                       т_мера length, цел flags, проц **abstract);
-ssize_t _libssh2_send(libssh2_socket_t socket, const ук буфер,
+ssize_t _libssh2_send(libssh2_socket_t socket, кук буфер,
                       т_мера length, цел flags, проц **abstract);
 
 #define LIBSSH2_READ_TIMEOUT 60 /* generic timeout in seconds used when
@@ -1088,27 +1088,27 @@ const LIBSSH2_HOSTKEY_METHOD **libssh2_hostkey_methods(проц);
 цел _libssh2_pem_parse(LIBSSH2_SESSION * session,
                        кткст0 headerbegin,
                        кткст0 headerend,
-                       const unsigned char *passphrase,
-                       FILE * fp, unsigned char **данные, бцел *datalen);
+                       const ббайт *passphrase,
+                       FILE * fp, ббайт **данные, бцел *datalen);
 цел _libssh2_pem_parse_memory(LIBSSH2_SESSION * session,
                               кткст0 headerbegin,
                               кткст0 headerend,
                               кткст0 filedata, т_мера filedata_len,
-                              unsigned char **данные, бцел *datalen);
+                              ббайт **данные, бцел *datalen);
  /* OpenSSL keys */
 цел
 _libssh2_openssh_pem_parse(LIBSSH2_SESSION * session,
-                           const unsigned char *passphrase,
+                           const ббайт *passphrase,
                            FILE * fp, struct string_buf **decrypted_buf);
 цел
 _libssh2_openssh_pem_parse_memory(LIBSSH2_SESSION * session,
-                                  const unsigned char *passphrase,
+                                  const ббайт *passphrase,
                                   кткст0 filedata, т_мера filedata_len,
                                   struct string_buf **decrypted_buf);
 
-цел _libssh2_pem_decode_sequence(unsigned char **данные, бцел *datalen);
-цел _libssh2_pem_decode_integer(unsigned char **данные, бцел *datalen,
-                                unsigned char **i, бцел *ilen);
+цел _libssh2_pem_decode_sequence(ббайт **данные, бцел *datalen);
+цел _libssh2_pem_decode_integer(ббайт **данные, бцел *datalen,
+                                ббайт **i, бцел *ilen);
 
 /* global.c */
 проц _libssh2_init_if_needed(проц);

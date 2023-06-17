@@ -65,8 +65,8 @@ Unicode или UTF`-8, но на практике нам приходится
 [s3; &]
 [s4; &]
 [s5;:CHARSET`_TOASCII: [* CHARSET`_TOASCII]&]
-[s2;%RU-RU Этот набсим, используемый при 
-преобразовании&]
+[s2;%RU-RU Это набсим, используемый при преобразова
+нии&]
 [s3; &]
 [s4; &]
 [s5;:CHARSET`_UTF8: [* CHARSET`_UTF8]&]
@@ -787,19 +787,24 @@ WString`::GetVoid().&]
 [s4; &]
 [s5;:LoadFileBOM`(const char`*`,byte`): [_^String^ String]_[* LoadFileBOM]([@(0.0.255) cons
 t]_[@(0.0.255) char]_`*[*@3 path], [_^byte^ byte]_[*@3 def`_charset])&]
-[s2; [%RU-RU Reads file into 8`-bit string with default encoding, granting 
-optional BOM UNICODE mark. If there is no BOM, text is considered 
-to be in ][*@3 def`_charset][%RU-RU  . Если файл не читается, 
+[s2; [%RU-RU Считывает файл в 8`-битную строку 
+с дефолтной кодировкой, ]допуская 
+опциональную метку BOM UNICODE. Если она 
+отсутствует, считается, что текст 
+в[%RU-RU  ][*@3 def`_charset][%RU-RU  . Если файл не читается, 
 возвращает] String`::GetVoid().&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:LoadFileBOM`(const char`*`): [_^String^ String]_[* LoadFileBOM]([@(0.0.255) const]_[@(0.0.255) c
 har]_`*[*@3 path])&]
-[s2; [%RU-RU Reads file into 8`-bit string with default encoding, granting 
-optional BOM UNICODE mark. ]Если она отсутствует, 
-считается, что текст в [%RU-RU кодировке, 
-определённой хостом. (например, установленны
-й linux locale).]If the file cannot be read, returns String`::GetVoid().&]
+[s2; [%RU-RU Считывает файл в 8`-битную строку 
+с дефолтной кодировкой, ]допуская 
+опциональную метку BOM UNICODE.[%RU-RU  ]Если 
+она отсутствует, считается, что текст 
+в [%RU-RU кодировке, определённой хостом. 
+(например, установленный linux locale). 
+Если файл не читается, возвращает] 
+String`::GetVoid().&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:SaveStreamBOM`(Stream`&`,const WString`&`): [@(0.0.255) bool]_[* SaveStreamBOM]([_^Stream^ S
@@ -829,21 +834,22 @@ true.&]
 [s5;:SaveFileBOMUtf8`(const char`*`,const String`&`): [@(0.0.255) bool]_[* SaveFileBOMUtf
 8]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 path], [@(0.0.255) const]_[_^String^ String][@(0.0.255) `&
 ]_[*@3 data])&]
-[s2;%RU-RU [%- Saves 8`-bit string in default encoding to the file. 
-]При успехе возвращает true.&]
+[s2;%RU-RU Сохраняет 8`-битную строку в дефолтной 
+кодировке в файл.[%-  ]При успехе возвращает 
+true.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:Utf8BOM`(Upp`:`:Stream`&`): [@(0.0.255) bool]_[* Utf8BOM]([_^Upp`:`:Stream^ Str
 eam][@(0.0.255) `&]_[*@3 in])&]
-[s2;%RU-RU Tests for and skips UTF`-8 BOM mark in the seekable Stream 
-[%-*@3 in].&]
+[s2;%RU-RU Проверяет наличие и пропускает 
+метку UTF`-8 BOM (МПБ УТФ`-8) в seekable Stream [%-*@3 in].&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:FromUtf8`(const char`*`,int`): [_^WString^ WString]_[* FromUtf8]([@(0.0.255) const]_[@(0.0.255) c
 har]_`*[*@3 `_s], [@(0.0.255) int]_[*@3 len])&]
-[s2;%RU-RU Converts UTF`-8 to UNICODE string. Any wrong bytes and 
-sequences are converted to private 0xEExx range. Deprecated, 
-use ToUtf16.&]
+[s2;%RU-RU Преобразует UTF`-8 в строку UNICODE. 
+Any wrong bytes and sequences are converted to private 0xEExx 
+range. Deprecated, use ToUtf16.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:FromUtf8`(const char`*`): [_^WString^ WString]_[* FromUtf8]([@(0.0.255) const]_[@(0.0.255) c

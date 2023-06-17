@@ -111,7 +111,7 @@ banner_receive(LIBSSH2_SESSION * session)
     while((banner_len < (цел) sizeof(session->banner_TxRx_banner)) &&
            ((banner_len == 0)
             || (session->banner_TxRx_banner[banner_len - 1] != '\n'))) {
-        char c = '\0';
+        сим c = '\0';
 
         /* no incoming block yet! */
         session->socket_block_directions &= ~LIBSSH2_SESSION_BLOCK_INBOUND;
@@ -198,18 +198,18 @@ banner_receive(LIBSSH2_SESSION * session)
 static цел
 banner_send(LIBSSH2_SESSION * session)
 {
-    char *banner = (char *) LIBSSH2_SSH_DEFAULT_BANNER_WITH_CRLF;
+    сим *banner = (сим *) LIBSSH2_SSH_DEFAULT_BANNER_WITH_CRLF;
     цел banner_len = sizeof(LIBSSH2_SSH_DEFAULT_BANNER_WITH_CRLF) - 1;
     ssize_t ret;
 #ifdef LIBSSH2DEBUG
-    char banner_dup[256];
+    сим banner_dup[256];
 #endif
 
     if(session->banner_TxRx_state == libssh2_NB_state_idle) {
         if(session->local.banner) {
             /* setopt_string will have given us our \r\n characters */
-            banner_len = strlen((char *) session->local.banner);
-            banner = (char *) session->local.banner;
+            banner_len = strlen((сим *) session->local.banner);
+            banner = (сим *) session->local.banner;
         }
 #ifdef LIBSSH2DEBUG
         /* Hack and slash to avoid sending CRLF in debug output */
@@ -396,7 +396,7 @@ get_socket_nonblocking(цел sockfd)
     т_мера size = sizeof(цел);
 
     callstat = getsockopt(sockfd, SOL_SOCKET, SO_STATE,
-                                  (char *)&sockstat, &size);
+                                  (сим *)&sockstat, &size);
     if(callstat == -1) return 0;
     if((sockstat&SS_NBIO) != 0) return 1;
     return 0;
@@ -730,7 +730,7 @@ session_startup(LIBSSH2_SESSION *session, libssh2_socket_t sock)
             else if(rc)
                 return _libssh2_error(session, rc,
                                       "Failed getting banner");
-        } while(strncmp("SSH-", (char *)session->remote.banner, 4));
+        } while(strncmp("SSH-", (сим *)session->remote.banner, 4));
 
         session->startup_state = libssh2_NB_state_sent1;
     }
@@ -792,7 +792,7 @@ session_startup(LIBSSH2_SESSION *session, libssh2_socket_t sock)
 
 
         if((session->startup_service_length != (sizeof("ssh-userauth") - 1))
-            || strncmp("ssh-userauth", (char *) session->startup_data + 5,
+            || strncmp("ssh-userauth", (сим *) session->startup_data + 5,
                        session->startup_service_length)) {
             LIBSSH2_FREE(session, session->startup_data);
             session->startup_data = NULL;
@@ -1057,7 +1057,7 @@ session_free(LIBSSH2_SESSION *session)
         LIBSSH2_FREE(session, session->packet.payload);
     }
 
-    /* Cleanup all remaining packets */
+    /* зачисть all remaining packets */
     while((pkg = _libssh2_list_first(&session->packets))) {
         packets_left++;
         _libssh2_debug(session, LIBSSH2_TRACE_TRANS,
@@ -1088,7 +1088,7 @@ session_free(LIBSSH2_SESSION *session)
     /* Ошибка string */
     if(session->err_msg &&
        ((session->err_flags & LIBSSH2_ERR_FLAG_DUP) != 0)) {
-        LIBSSH2_FREE(session, (char *)session->err_msg);
+        LIBSSH2_FREE(session, (сим *)session->err_msg);
     }
 
     LIBSSH2_FREE(session, session);
@@ -1120,7 +1120,7 @@ session_disconnect(LIBSSH2_SESSION *session, цел reason,
                    кткст0 description,
                    кткст0 lang)
 {
-    unsigned char *s;
+    ббайт *s;
     unsigned long descr_len = 0, lang_len = 0;
     цел rc;
 
@@ -1154,7 +1154,7 @@ session_disconnect(LIBSSH2_SESSION *session, цел reason,
 
     rc = _libssh2_transport_send(session, session->disconnect_data,
                                  session->disconnect_data_len,
-                                 (unsigned char *)lang, lang_len);
+                                 (ббайт *)lang, lang_len);
     if(rc == LIBSSH2_ERROR_EAGAIN)
         return rc;
 
@@ -1188,7 +1188,7 @@ libssh2_session_disconnect_ex(LIBSSH2_SESSION *session, цел reason,
 LIBSSH2_API кткст0 
 libssh2_session_methods(LIBSSH2_SESSION * session, цел method_type)
 {
-    /* All methods have char *имя as their first element */
+    /* All methods have сим *имя as their first element */
     const LIBSSH2_KEX_METHOD *method = NULL;
 
     switch(method_type) {
@@ -1261,7 +1261,7 @@ libssh2_session_abstract(LIBSSH2_SESSION * session)
  * program. Otherwise it is assumed to be owned by libssh2
  */
 LIBSSH2_API цел
-libssh2_session_last_error(LIBSSH2_SESSION * session, char **errmsg,
+libssh2_session_last_error(LIBSSH2_SESSION * session, сим **errmsg,
                            цел *errmsg_len, цел want_buf)
 {
     т_мера msglen = 0;
@@ -1276,7 +1276,7 @@ libssh2_session_last_error(LIBSSH2_SESSION * session, char **errmsg,
                 }
             }
             else {
-                *errmsg = (char *) "";
+                *errmsg = (сим *) "";
             }
         }
         if(errmsg_len) {
@@ -1299,7 +1299,7 @@ libssh2_session_last_error(LIBSSH2_SESSION * session, char **errmsg,
             }
         }
         else
-            *errmsg = (char *)Ошибка;
+            *errmsg = (сим *)Ошибка;
     }
 
     if(errmsg_len) {
@@ -1828,5 +1828,5 @@ libssh2_session_banner_get(LIBSSH2_SESSION *session)
     if(NULL == session->remote.banner)
         return NULL;
 
-    return (const char *) session->remote.banner;
+    return (кткст0 ) session->remote.banner;
 }

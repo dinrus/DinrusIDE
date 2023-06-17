@@ -249,8 +249,8 @@ static цел g_debuglog_enable = 1;
   typedef uint64_t U64;
   typedef uintptr_t uptrval;
 #else
-  typedef unsigned char       BYTE;
-  typedef unsigned short      U16;
+  typedef ббайт       BYTE;
+  typedef бкрат      U16;
   typedef бцел        U32;
   typedef   signed цел        S32;
   typedef unsigned long long  U64;
@@ -283,9 +283,9 @@ static unsigned LZ4_isLittleEndian(проц)
 #if defined(LZ4_FORCE_MEMORY_ACCESS) && (LZ4_FORCE_MEMORY_ACCESS==2)
 /* lie to the compiler about data alignment; use with caution */
 
-static U16 LZ4_read16(const ук memPtr) { return *(const U16*) memPtr; }
-static U32 LZ4_read32(const ук memPtr) { return *(const U32*) memPtr; }
-static reg_t LZ4_read_ARCH(const ук memPtr) { return *(const reg_t*) memPtr; }
+static U16 LZ4_read16(кук memPtr) { return *(const U16*) memPtr; }
+static U32 LZ4_read32(кук memPtr) { return *(const U32*) memPtr; }
+static reg_t LZ4_read_ARCH(кук memPtr) { return *(const reg_t*) memPtr; }
 
 static проц LZ4_write16(ук memPtr, U16 значение) { *(U16*)memPtr = значение; }
 static проц LZ4_write32(ук memPtr, U32 значение) { *(U32*)memPtr = значение; }
@@ -296,26 +296,26 @@ static проц LZ4_write32(ук memPtr, U32 значение) { *(U32*)memPtr =
 /* currently only defined for gcc and icc */
 typedef union { U16 u16; U32 u32; reg_t uArch; } __attribute__((packed)) unalign;
 
-static U16 LZ4_read16(const ук укз) { return ((const unalign*)укз)->u16; }
-static U32 LZ4_read32(const ук укз) { return ((const unalign*)укз)->u32; }
-static reg_t LZ4_read_ARCH(const ук укз) { return ((const unalign*)укз)->uArch; }
+static U16 LZ4_read16(кук укз) { return ((const unalign*)укз)->u16; }
+static U32 LZ4_read32(кук укз) { return ((const unalign*)укз)->u32; }
+static reg_t LZ4_read_ARCH(кук укз) { return ((const unalign*)укз)->uArch; }
 
 static проц LZ4_write16(ук memPtr, U16 значение) { ((unalign*)memPtr)->u16 = значение; }
 static проц LZ4_write32(ук memPtr, U32 значение) { ((unalign*)memPtr)->u32 = значение; }
 
 #else  /* safe and portable access using memcpy() */
 
-static U16 LZ4_read16(const ук memPtr)
+static U16 LZ4_read16(кук memPtr)
 {
     U16 знач; memcpy(&знач, memPtr, sizeof(знач)); return знач;
 }
 
-static U32 LZ4_read32(const ук memPtr)
+static U32 LZ4_read32(кук memPtr)
 {
     U32 знач; memcpy(&знач, memPtr, sizeof(знач)); return знач;
 }
 
-static reg_t LZ4_read_ARCH(const ук memPtr)
+static reg_t LZ4_read_ARCH(кук memPtr)
 {
     reg_t знач; memcpy(&знач, memPtr, sizeof(знач)); return знач;
 }
@@ -333,7 +333,7 @@ static проц LZ4_write32(ук memPtr, U32 значение)
 #endif /* LZ4_FORCE_MEMORY_ACCESS */
 
 
-static U16 LZ4_readLE16(const ук memPtr)
+static U16 LZ4_readLE16(кук memPtr)
 {
     if (LZ4_isLittleEndian()) {
         return LZ4_read16(memPtr);
@@ -356,7 +356,7 @@ static проц LZ4_writeLE16(ук memPtr, U16 значение)
 
 /* customized variant of memcpy, which can overwrite up to 8 bytes beyond dstEnd */
 LZ4_FORCE_O2_INLINE_GCC_PPC64LE
-проц LZ4_wildCopy8(ук dstPtr, const ук srcPtr, ук dstEnd)
+проц LZ4_wildCopy8(ук dstPtr, кук srcPtr, ук dstEnd)
 {
     BYTE* d = (BYTE*)dstPtr;
     const BYTE* s = (const BYTE*)srcPtr;
@@ -409,7 +409,7 @@ LZ4_memcpy_using_offset_base(BYTE* dstPtr, const BYTE* srcPtr, BYTE* dstEnd, con
  * this version copies two times 16 bytes (instead of one time 32 bytes)
  * because it must be compatible with offsets >= 16. */
 LZ4_FORCE_O2_INLINE_GCC_PPC64LE проц
-LZ4_wildCopy32(ук dstPtr, const ук srcPtr, ук dstEnd)
+LZ4_wildCopy32(ук dstPtr, кук srcPtr, ук dstEnd)
 {
     BYTE* d = (BYTE*)dstPtr;
     const BYTE* s = (const BYTE*)srcPtr;
@@ -603,7 +603,7 @@ typedef enum { noDictIssue = 0, dictSmall } dictIssue_directive;
 *  Local Utils
 **************************************/
 цел LZ4_versionNumber (проц) { return LZ4_VERSION_NUMBER; }
-const char* LZ4_versionString(проц) { return LZ4_VERSION_STRING; }
+const сим* LZ4_versionString(проц) { return LZ4_VERSION_STRING; }
 цел LZ4_compressBound(цел isize)  { return LZ4_COMPRESSBOUND(isize); }
 цел LZ4_sizeofState() { return LZ4_STREAMSIZE; }
 
@@ -615,11 +615,11 @@ const char* LZ4_versionString(проц) { return LZ4_VERSION_STRING; }
 extern "C" {
 #endif
 
-цел LZ4_compress_forceExtDict (LZ4_stream_t* LZ4_dict, const char* source, char* dest, цел srcSize);
+цел LZ4_compress_forceExtDict (LZ4_stream_t* LZ4_dict, const сим* source, сим* приёмник, цел srcSize);
 
-цел LZ4_decompress_safe_forceExtDict(const char* source, char* dest,
+цел LZ4_decompress_safe_forceExtDict(const сим* source, сим* приёмник,
                                      цел compressedSize, цел maxOutputSize,
-                                     const ук dictStart, т_мера dictSize);
+                                     кук dictStart, т_мера dictSize);
 
 #if defined (__cplusplus)
 }
@@ -648,7 +648,7 @@ static U32 LZ4_hash5(U64 sequence, tableType_t const tableType)
     }
 }
 
-LZ4_FORCE_INLINE U32 LZ4_hashPosition(const ук const p, tableType_t const tableType)
+LZ4_FORCE_INLINE U32 LZ4_hashPosition(кук const p, tableType_t const tableType)
 {
     if ((sizeof(reg_t)==8) && (tableType != byU16)) return LZ4_hash5(LZ4_read_ARCH(p), tableType);
     return LZ4_hash4(LZ4_read32(p), tableType);
@@ -703,7 +703,7 @@ LZ4_FORCE_INLINE проц LZ4_putPosition(const BYTE* p, ук tableBase, tableTy
  * Assumption 1 : only valid if tableType == byU32 or byU16.
  * Assumption 2 : h is presumed valid (within limits of hash table)
  */
-static U32 LZ4_getIndexOnHash(U32 h, const ук tableBase, tableType_t tableType)
+static U32 LZ4_getIndexOnHash(U32 h, кук tableBase, tableType_t tableType)
 {
     LZ4_STATIC_ASSERT(LZ4_MEMORY_USAGE > 2);
     if (tableType == byU32) {
@@ -719,7 +719,7 @@ static U32 LZ4_getIndexOnHash(U32 h, const ук tableBase, tableType_t tableType
     assert(0); return 0;  /* forbidden case */
 }
 
-static const BYTE* LZ4_getPositionOnHash(U32 h, const ук tableBase, tableType_t tableType, const BYTE* srcBase)
+static const BYTE* LZ4_getPositionOnHash(U32 h, кук tableBase, tableType_t tableType, const BYTE* srcBase)
 {
     if (tableType == byPtr) { const BYTE* const* hashTable = (const BYTE* const*) tableBase; return hashTable[h]; }
     if (tableType == byU32) { const U32* const hashTable = (const U32*) tableBase; return hashTable[h] + srcBase; }
@@ -728,7 +728,7 @@ static const BYTE* LZ4_getPositionOnHash(U32 h, const ук tableBase, tableType_
 
 LZ4_FORCE_INLINE const BYTE*
 LZ4_getPosition(const BYTE* p,
-                const ук tableBase, tableType_t tableType,
+                кук tableBase, tableType_t tableType,
                 const BYTE* srcBase)
 {
     U32 const h = LZ4_hashPosition(p, tableType);
@@ -788,8 +788,8 @@ LZ4_prepareTable(LZ4_stream_t_internal* const cctx,
     inlined, to ensure branches are decided at compilation time */
 LZ4_FORCE_INLINE цел LZ4_compress_generic(
                  LZ4_stream_t_internal* const cctx,
-                 const char* const source,
-                 char* const dest,
+                 const сим* const source,
+                 сим* const приёмник,
                  const цел inputSize,
                  цел *inputConsumed, /* only written when outputDirective == fillOutput */
                  const цел maxOutputSize,
@@ -827,7 +827,7 @@ LZ4_FORCE_INLINE цел LZ4_compress_generic(
                             dictionary + dictSize - dictCtx->currentOffset :
                             dictionary + dictSize - startIndex;
 
-    BYTE* op = (BYTE*) dest;
+    BYTE* op = (BYTE*) приёмник;
     BYTE* const olimit = op + maxOutputSize;
 
     U32 offset = 0;
@@ -1168,33 +1168,33 @@ _last_literals:
     }
 
     if (outputDirective == fillOutput) {
-        *inputConsumed = (цел) (((const char*)ip)-source);
+        *inputConsumed = (цел) (((const сим*)ip)-source);
     }
-    DEBUGLOG(5, "LZ4_compress_generic: compressed %i bytes into %i bytes", inputSize, (цел)(((char*)op) - dest));
-    result = (цел)(((char*)op) - dest);
+    DEBUGLOG(5, "LZ4_compress_generic: compressed %i bytes into %i bytes", inputSize, (цел)(((сим*)op) - приёмник));
+    result = (цел)(((сим*)op) - приёмник);
     assert(result > 0);
     return result;
 }
 
 
-цел LZ4_compress_fast_extState(ук state, const char* source, char* dest, цел inputSize, цел maxOutputSize, цел acceleration)
+цел LZ4_compress_fast_extState(ук state, const сим* source, сим* приёмник, цел inputSize, цел maxOutputSize, цел acceleration)
 {
     LZ4_stream_t_internal* const ctx = & LZ4_initStream(state, sizeof(LZ4_stream_t)) -> internal_donotuse;
     assert(ctx != NULL);
     if (acceleration < 1) acceleration = ACCELERATION_DEFAULT;
     if (maxOutputSize >= LZ4_compressBound(inputSize)) {
         if (inputSize < LZ4_64Klimit) {
-            return LZ4_compress_generic(ctx, source, dest, inputSize, NULL, 0, notLimited, byU16, noDict, noDictIssue, acceleration);
+            return LZ4_compress_generic(ctx, source, приёмник, inputSize, NULL, 0, notLimited, byU16, noDict, noDictIssue, acceleration);
         } else {
             const tableType_t tableType = ((sizeof(проц*)==4) && ((uptrval)source > LZ4_DISTANCE_MAX)) ? byPtr : byU32;
-            return LZ4_compress_generic(ctx, source, dest, inputSize, NULL, 0, notLimited, tableType, noDict, noDictIssue, acceleration);
+            return LZ4_compress_generic(ctx, source, приёмник, inputSize, NULL, 0, notLimited, tableType, noDict, noDictIssue, acceleration);
         }
     } else {
         if (inputSize < LZ4_64Klimit) {
-            return LZ4_compress_generic(ctx, source, dest, inputSize, NULL, maxOutputSize, limitedOutput, byU16, noDict, noDictIssue, acceleration);
+            return LZ4_compress_generic(ctx, source, приёмник, inputSize, NULL, maxOutputSize, limitedOutput, byU16, noDict, noDictIssue, acceleration);
         } else {
             const tableType_t tableType = ((sizeof(проц*)==4) && ((uptrval)source > LZ4_DISTANCE_MAX)) ? byPtr : byU32;
-            return LZ4_compress_generic(ctx, source, dest, inputSize, NULL, maxOutputSize, limitedOutput, tableType, noDict, noDictIssue, acceleration);
+            return LZ4_compress_generic(ctx, source, приёмник, inputSize, NULL, maxOutputSize, limitedOutput, tableType, noDict, noDictIssue, acceleration);
         }
     }
 }
@@ -1208,7 +1208,7 @@ _last_literals:
  * (see comment in lz4.h on LZ4_resetStream_fast() for a definition of
  * "correctly initialized").
  */
-цел LZ4_compress_fast_extState_fastReset(ук state, const char* src, char* dst, цел srcSize, цел dstCapacity, цел acceleration)
+цел LZ4_compress_fast_extState_fastReset(ук state, const сим* src, сим* dst, цел srcSize, цел dstCapacity, цел acceleration)
 {
     LZ4_stream_t_internal* ctx = &((LZ4_stream_t*)state)->internal_donotuse;
     if (acceleration < 1) acceleration = ACCELERATION_DEFAULT;
@@ -1245,7 +1245,7 @@ _last_literals:
 }
 
 
-цел LZ4_compress_fast(const char* source, char* dest, цел inputSize, цел maxOutputSize, цел acceleration)
+цел LZ4_compress_fast(const сим* source, сим* приёмник, цел inputSize, цел maxOutputSize, цел acceleration)
 {
     цел result;
 #if (LZ4_HEAPMODE)
@@ -1255,7 +1255,7 @@ _last_literals:
     LZ4_stream_t ctx;
     LZ4_stream_t* const ctxPtr = &ctx;
 #endif
-    result = LZ4_compress_fast_extState(ctxPtr, source, dest, inputSize, maxOutputSize, acceleration);
+    result = LZ4_compress_fast_extState(ctxPtr, source, приёмник, inputSize, maxOutputSize, acceleration);
 
 #if (LZ4_HEAPMODE)
     FREEMEM(ctxPtr);
@@ -1264,7 +1264,7 @@ _last_literals:
 }
 
 
-цел LZ4_compress_default(const char* src, char* dst, цел srcSize, цел maxOutputSize)
+цел LZ4_compress_default(const сим* src, сим* dst, цел srcSize, цел maxOutputSize)
 {
     return LZ4_compress_fast(src, dst, srcSize, maxOutputSize, 1);
 }
@@ -1272,7 +1272,7 @@ _last_literals:
 
 /* hidden debug function */
 /* strangely enough, gcc generates faster code when this function is uncommented, even if unused */
-цел LZ4_compress_fast_force(const char* src, char* dst, цел srcSize, цел dstCapacity, цел acceleration)
+цел LZ4_compress_fast_force(const сим* src, сим* dst, цел srcSize, цел dstCapacity, цел acceleration)
 {
     LZ4_stream_t ctx;
     LZ4_initStream(&ctx, sizeof(ctx));
@@ -1289,7 +1289,7 @@ _last_literals:
 /* Note!: This function leaves the stream in an unclean/broken state!
  * It is not safe to subsequently use the same state with a _fastReset() or
  * _continue() call without resetting it. */
-static цел LZ4_compress_destSize_extState (LZ4_stream_t* state, const char* src, char* dst, цел* srcSizePtr, цел targetDstSize)
+static цел LZ4_compress_destSize_extState (LZ4_stream_t* state, const сим* src, сим* dst, цел* srcSizePtr, цел targetDstSize)
 {
     ук const s = LZ4_initStream(state, sizeof (*state));
     assert(s != NULL); (проц)s;
@@ -1306,7 +1306,7 @@ static цел LZ4_compress_destSize_extState (LZ4_stream_t* state, const char* s
 }
 
 
-цел LZ4_compress_destSize(const char* src, char* dst, цел* srcSizePtr, цел targetDstSize)
+цел LZ4_compress_destSize(const сим* src, сим* dst, цел* srcSizePtr, цел targetDstSize)
 {
 #if (LZ4_HEAPMODE)
     LZ4_stream_t* ctx = (LZ4_stream_t*)ALLOC(sizeof(LZ4_stream_t));   /* malloc-calloc always properly aligned */
@@ -1345,7 +1345,7 @@ LZ4_stream_t* LZ4_createStream(проц)
                      while actually aligning LZ4_stream_t on 4 bytes. */
 static т_мера LZ4_stream_t_alignment(проц)
 {
-    struct { char c; LZ4_stream_t t; } t_a;
+    struct { сим c; LZ4_stream_t t; } t_a;
     return sizeof(t_a) - sizeof(t_a.t);
 }
 #endif
@@ -1386,7 +1386,7 @@ LZ4_stream_t* LZ4_initStream (ук буфер, т_мера size)
 
 
 #define HASH_UNIT sizeof(reg_t)
-цел LZ4_loadDict (LZ4_stream_t* LZ4_dict, const char* dictionary, цел dictSize)
+цел LZ4_loadDict (LZ4_stream_t* LZ4_dict, const сим* dictionary, цел dictSize)
 {
     LZ4_stream_t_internal* dict = &LZ4_dict->internal_donotuse;
     const tableType_t tableType = byU32;
@@ -1483,7 +1483,7 @@ static проц LZ4_renormDictT(LZ4_stream_t_internal* LZ4_dict, цел nextSize
 
 
 цел LZ4_compress_fast_continue (LZ4_stream_t* LZ4_stream,
-                                const char* source, char* dest,
+                                const сим* source, сим* приёмник,
                                 цел inputSize, цел maxOutputSize,
                                 цел acceleration)
 {
@@ -1519,9 +1519,9 @@ static проц LZ4_renormDictT(LZ4_stream_t_internal* LZ4_dict, цел nextSize
     /* prefix mode : source data follows dictionary */
     if (dictEnd == (const BYTE*)source) {
         if ((streamPtr->dictSize < 64 KB) && (streamPtr->dictSize < streamPtr->currentOffset))
-            return LZ4_compress_generic(streamPtr, source, dest, inputSize, NULL, maxOutputSize, limitedOutput, tableType, withPrefix64k, dictSmall, acceleration);
+            return LZ4_compress_generic(streamPtr, source, приёмник, inputSize, NULL, maxOutputSize, limitedOutput, tableType, withPrefix64k, dictSmall, acceleration);
         else
-            return LZ4_compress_generic(streamPtr, source, dest, inputSize, NULL, maxOutputSize, limitedOutput, tableType, withPrefix64k, noDictIssue, acceleration);
+            return LZ4_compress_generic(streamPtr, source, приёмник, inputSize, NULL, maxOutputSize, limitedOutput, tableType, withPrefix64k, noDictIssue, acceleration);
     }
 
     /* external dictionary mode */
@@ -1539,15 +1539,15 @@ static проц LZ4_renormDictT(LZ4_stream_t_internal* LZ4_dict, цел nextSize
                  * so that the compression loop is only looking into one table.
                  */
                 memcpy(streamPtr, streamPtr->dictCtx, sizeof(LZ4_stream_t));
-                result = LZ4_compress_generic(streamPtr, source, dest, inputSize, NULL, maxOutputSize, limitedOutput, tableType, usingExtDict, noDictIssue, acceleration);
+                result = LZ4_compress_generic(streamPtr, source, приёмник, inputSize, NULL, maxOutputSize, limitedOutput, tableType, usingExtDict, noDictIssue, acceleration);
             } else {
-                result = LZ4_compress_generic(streamPtr, source, dest, inputSize, NULL, maxOutputSize, limitedOutput, tableType, usingDictCtx, noDictIssue, acceleration);
+                result = LZ4_compress_generic(streamPtr, source, приёмник, inputSize, NULL, maxOutputSize, limitedOutput, tableType, usingDictCtx, noDictIssue, acceleration);
             }
         } else {
             if ((streamPtr->dictSize < 64 KB) && (streamPtr->dictSize < streamPtr->currentOffset)) {
-                result = LZ4_compress_generic(streamPtr, source, dest, inputSize, NULL, maxOutputSize, limitedOutput, tableType, usingExtDict, dictSmall, acceleration);
+                result = LZ4_compress_generic(streamPtr, source, приёмник, inputSize, NULL, maxOutputSize, limitedOutput, tableType, usingExtDict, dictSmall, acceleration);
             } else {
-                result = LZ4_compress_generic(streamPtr, source, dest, inputSize, NULL, maxOutputSize, limitedOutput, tableType, usingExtDict, noDictIssue, acceleration);
+                result = LZ4_compress_generic(streamPtr, source, приёмник, inputSize, NULL, maxOutputSize, limitedOutput, tableType, usingExtDict, noDictIssue, acceleration);
             }
         }
         streamPtr->dictionary = (const BYTE*)source;
@@ -1558,7 +1558,7 @@ static проц LZ4_renormDictT(LZ4_stream_t_internal* LZ4_dict, цел nextSize
 
 
 /* Hidden debug function, to force-test external dictionary mode */
-цел LZ4_compress_forceExtDict (LZ4_stream_t* LZ4_dict, const char* source, char* dest, цел srcSize)
+цел LZ4_compress_forceExtDict (LZ4_stream_t* LZ4_dict, const сим* source, сим* приёмник, цел srcSize)
 {
     LZ4_stream_t_internal* streamPtr = &LZ4_dict->internal_donotuse;
     цел result;
@@ -1566,9 +1566,9 @@ static проц LZ4_renormDictT(LZ4_stream_t_internal* LZ4_dict, цел nextSize
     LZ4_renormDictT(streamPtr, srcSize);
 
     if ((streamPtr->dictSize < 64 KB) && (streamPtr->dictSize < streamPtr->currentOffset)) {
-        result = LZ4_compress_generic(streamPtr, source, dest, srcSize, NULL, 0, notLimited, byU32, usingExtDict, dictSmall, 1);
+        result = LZ4_compress_generic(streamPtr, source, приёмник, srcSize, NULL, 0, notLimited, byU32, usingExtDict, dictSmall, 1);
     } else {
-        result = LZ4_compress_generic(streamPtr, source, dest, srcSize, NULL, 0, notLimited, byU32, usingExtDict, noDictIssue, 1);
+        result = LZ4_compress_generic(streamPtr, source, приёмник, srcSize, NULL, 0, notLimited, byU32, usingExtDict, noDictIssue, 1);
     }
 
     streamPtr->dictionary = (const BYTE*)source;
@@ -1580,12 +1580,12 @@ static проц LZ4_renormDictT(LZ4_stream_t_internal* LZ4_dict, цел nextSize
 
 /*! LZ4_saveDict() :
  *  If previously compressed data block is not guaranteed to remain available at its memory location,
- *  save it into a safer place (char* safeBuffer).
+ *  save it into a safer place (сим* safeBuffer).
  *  Note : you don't need to call LZ4_loadDict() afterwards,
  *         dictionary is immediately usable, you can therefore call LZ4_compress_fast_continue().
  *  Return : saved dictionary size in bytes (necessarily <= dictSize), or 0 if Ошибка.
  */
-цел LZ4_saveDict (LZ4_stream_t* LZ4_dict, char* safeBuffer, цел dictSize)
+цел LZ4_saveDict (LZ4_stream_t* LZ4_dict, сим* safeBuffer, цел dictSize)
 {
     LZ4_stream_t_internal* const dict = &LZ4_dict->internal_donotuse;
     const BYTE* const previousDictEnd = dict->dictionary + dict->dictSize;
@@ -1652,8 +1652,8 @@ read_variable_length(const BYTE**ip, const BYTE* lencheck, цел loop_check, ц
  */
 LZ4_FORCE_INLINE цел
 LZ4_decompress_generic(
-                 const char* const src,
-                 char* const dst,
+                 const сим* const src,
+                 сим* const dst,
                  цел srcSize,
                  цел outputSize,         /* If endOnInput==endOnInputSize, this значение is `dstCapacity` */
 
@@ -2056,14 +2056,14 @@ LZ4_decompress_generic(
 
         /* end of decoding */
         if (endOnInput) {
-           return (цел) (((char*)op)-dst);     /* Nb of output bytes decoded */
+           return (цел) (((сим*)op)-dst);     /* Nb of output bytes decoded */
        } else {
-           return (цел) (((const char*)ip)-src);   /* Nb of input bytes read */
+           return (цел) (((const сим*)ip)-src);   /* Nb of input bytes read */
        }
 
         /* Overflow Ошибка detected */
     _output_error:
-        return (цел) (-(((const char*)ip)-src))-1;
+        return (цел) (-(((const сим*)ip)-src))-1;
     }
 }
 
@@ -2071,15 +2071,15 @@ LZ4_decompress_generic(
 /*===== Instantiate the API decoding functions. =====*/
 
 LZ4_FORCE_O2_GCC_PPC64LE
-цел LZ4_decompress_safe(const char* source, char* dest, цел compressedSize, цел maxDecompressedSize)
+цел LZ4_decompress_safe(const сим* source, сим* приёмник, цел compressedSize, цел maxDecompressedSize)
 {
-    return LZ4_decompress_generic(source, dest, compressedSize, maxDecompressedSize,
+    return LZ4_decompress_generic(source, приёмник, compressedSize, maxDecompressedSize,
                                   endOnInputSize, decode_full_block, noDict,
-                                  (BYTE*)dest, NULL, 0);
+                                  (BYTE*)приёмник, NULL, 0);
 }
 
 LZ4_FORCE_O2_GCC_PPC64LE
-цел LZ4_decompress_safe_partial(const char* src, char* dst, цел compressedSize, цел targetOutputSize, цел dstCapacity)
+цел LZ4_decompress_safe_partial(const сим* src, сим* dst, цел compressedSize, цел targetOutputSize, цел dstCapacity)
 {
     dstCapacity = MIN(targetOutputSize, dstCapacity);
     return LZ4_decompress_generic(src, dst, compressedSize, dstCapacity,
@@ -2088,57 +2088,57 @@ LZ4_FORCE_O2_GCC_PPC64LE
 }
 
 LZ4_FORCE_O2_GCC_PPC64LE
-цел LZ4_decompress_fast(const char* source, char* dest, цел originalSize)
+цел LZ4_decompress_fast(const сим* source, сим* приёмник, цел originalSize)
 {
-    return LZ4_decompress_generic(source, dest, 0, originalSize,
+    return LZ4_decompress_generic(source, приёмник, 0, originalSize,
                                   endOnOutputSize, decode_full_block, withPrefix64k,
-                                  (BYTE*)dest - 64 KB, NULL, 0);
+                                  (BYTE*)приёмник - 64 KB, NULL, 0);
 }
 
 /*===== Instantiate a few more decoding cases, used more than once. =====*/
 
 LZ4_FORCE_O2_GCC_PPC64LE /* Exported, an obsolete API function. */
-цел LZ4_decompress_safe_withPrefix64k(const char* source, char* dest, цел compressedSize, цел maxOutputSize)
+цел LZ4_decompress_safe_withPrefix64k(const сим* source, сим* приёмник, цел compressedSize, цел maxOutputSize)
 {
-    return LZ4_decompress_generic(source, dest, compressedSize, maxOutputSize,
+    return LZ4_decompress_generic(source, приёмник, compressedSize, maxOutputSize,
                                   endOnInputSize, decode_full_block, withPrefix64k,
-                                  (BYTE*)dest - 64 KB, NULL, 0);
+                                  (BYTE*)приёмник - 64 KB, NULL, 0);
 }
 
 /* Another obsolete API function, paired with the previous one. */
-цел LZ4_decompress_fast_withPrefix64k(const char* source, char* dest, цел originalSize)
+цел LZ4_decompress_fast_withPrefix64k(const сим* source, сим* приёмник, цел originalSize)
 {
     /* LZ4_decompress_fast doesn't validate match offsets,
      * and thus serves well with any prefixed dictionary. */
-    return LZ4_decompress_fast(source, dest, originalSize);
+    return LZ4_decompress_fast(source, приёмник, originalSize);
 }
 
 LZ4_FORCE_O2_GCC_PPC64LE
-static цел LZ4_decompress_safe_withSmallPrefix(const char* source, char* dest, цел compressedSize, цел maxOutputSize,
+static цел LZ4_decompress_safe_withSmallPrefix(const сим* source, сим* приёмник, цел compressedSize, цел maxOutputSize,
                                                т_мера prefixSize)
 {
-    return LZ4_decompress_generic(source, dest, compressedSize, maxOutputSize,
+    return LZ4_decompress_generic(source, приёмник, compressedSize, maxOutputSize,
                                   endOnInputSize, decode_full_block, noDict,
-                                  (BYTE*)dest-prefixSize, NULL, 0);
+                                  (BYTE*)приёмник-prefixSize, NULL, 0);
 }
 
 LZ4_FORCE_O2_GCC_PPC64LE
-цел LZ4_decompress_safe_forceExtDict(const char* source, char* dest,
+цел LZ4_decompress_safe_forceExtDict(const сим* source, сим* приёмник,
                                      цел compressedSize, цел maxOutputSize,
-                                     const ук dictStart, т_мера dictSize)
+                                     кук dictStart, т_мера dictSize)
 {
-    return LZ4_decompress_generic(source, dest, compressedSize, maxOutputSize,
+    return LZ4_decompress_generic(source, приёмник, compressedSize, maxOutputSize,
                                   endOnInputSize, decode_full_block, usingExtDict,
-                                  (BYTE*)dest, (const BYTE*)dictStart, dictSize);
+                                  (BYTE*)приёмник, (const BYTE*)dictStart, dictSize);
 }
 
 LZ4_FORCE_O2_GCC_PPC64LE
-static цел LZ4_decompress_fast_extDict(const char* source, char* dest, цел originalSize,
-                                       const ук dictStart, т_мера dictSize)
+static цел LZ4_decompress_fast_extDict(const сим* source, сим* приёмник, цел originalSize,
+                                       кук dictStart, т_мера dictSize)
 {
-    return LZ4_decompress_generic(source, dest, 0, originalSize,
+    return LZ4_decompress_generic(source, приёмник, 0, originalSize,
                                   endOnOutputSize, decode_full_block, usingExtDict,
-                                  (BYTE*)dest, (const BYTE*)dictStart, dictSize);
+                                  (BYTE*)приёмник, (const BYTE*)dictStart, dictSize);
 }
 
 /* The "дво dictionary" mode, for use with e.g. ring buffers: the first part
@@ -2146,21 +2146,21 @@ static цел LZ4_decompress_fast_extDict(const char* source, char* dest, цел
  * These routines are used only once, in LZ4_decompress_*_continue().
  */
 LZ4_FORCE_INLINE
-цел LZ4_decompress_safe_doubleDict(const char* source, char* dest, цел compressedSize, цел maxOutputSize,
-                                   т_мера prefixSize, const ук dictStart, т_мера dictSize)
+цел LZ4_decompress_safe_doubleDict(const сим* source, сим* приёмник, цел compressedSize, цел maxOutputSize,
+                                   т_мера prefixSize, кук dictStart, т_мера dictSize)
 {
-    return LZ4_decompress_generic(source, dest, compressedSize, maxOutputSize,
+    return LZ4_decompress_generic(source, приёмник, compressedSize, maxOutputSize,
                                   endOnInputSize, decode_full_block, usingExtDict,
-                                  (BYTE*)dest-prefixSize, (const BYTE*)dictStart, dictSize);
+                                  (BYTE*)приёмник-prefixSize, (const BYTE*)dictStart, dictSize);
 }
 
 LZ4_FORCE_INLINE
-цел LZ4_decompress_fast_doubleDict(const char* source, char* dest, цел originalSize,
-                                   т_мера prefixSize, const ук dictStart, т_мера dictSize)
+цел LZ4_decompress_fast_doubleDict(const сим* source, сим* приёмник, цел originalSize,
+                                   т_мера prefixSize, кук dictStart, т_мера dictSize)
 {
-    return LZ4_decompress_generic(source, dest, 0, originalSize,
+    return LZ4_decompress_generic(source, приёмник, 0, originalSize,
                                   endOnOutputSize, decode_full_block, usingExtDict,
-                                  (BYTE*)dest-prefixSize, (const BYTE*)dictStart, dictSize);
+                                  (BYTE*)приёмник-prefixSize, (const BYTE*)dictStart, dictSize);
 }
 
 /*===== streaming decompression functions =====*/
@@ -2185,7 +2185,7 @@ LZ4_streamDecode_t* LZ4_createStreamDecode(проц)
  *  Loading a size of 0 is allowed (same effect as no dictionary).
  * @return : 1 if OK, 0 if Ошибка
  */
-цел LZ4_setStreamDecode (LZ4_streamDecode_t* LZ4_streamDecode, const char* dictionary, цел dictSize)
+цел LZ4_setStreamDecode (LZ4_streamDecode_t* LZ4_streamDecode, const сим* dictionary, цел dictSize)
 {
     LZ4_streamDecode_t_internal* lz4sd = &LZ4_streamDecode->internal_donotuse;
     lz4sd->prefixSize = (т_мера) dictSize;
@@ -2222,7 +2222,7 @@ LZ4_streamDecode_t* LZ4_createStreamDecode(проц)
     and indicate where it stands using LZ4_setStreamDecode()
 */
 LZ4_FORCE_O2_GCC_PPC64LE
-цел LZ4_decompress_safe_continue (LZ4_streamDecode_t* LZ4_streamDecode, const char* source, char* dest, цел compressedSize, цел maxOutputSize)
+цел LZ4_decompress_safe_continue (LZ4_streamDecode_t* LZ4_streamDecode, const сим* source, сим* приёмник, цел compressedSize, цел maxOutputSize)
 {
     LZ4_streamDecode_t_internal* lz4sd = &LZ4_streamDecode->internal_donotuse;
     цел result;
@@ -2230,19 +2230,19 @@ LZ4_FORCE_O2_GCC_PPC64LE
     if (lz4sd->prefixSize == 0) {
         /* The first call, no dictionary yet. */
         assert(lz4sd->extDictSize == 0);
-        result = LZ4_decompress_safe(source, dest, compressedSize, maxOutputSize);
+        result = LZ4_decompress_safe(source, приёмник, compressedSize, maxOutputSize);
         if (result <= 0) return result;
         lz4sd->prefixSize = (т_мера)result;
-        lz4sd->prefixEnd = (BYTE*)dest + result;
-    } else if (lz4sd->prefixEnd == (BYTE*)dest) {
+        lz4sd->prefixEnd = (BYTE*)приёмник + result;
+    } else if (lz4sd->prefixEnd == (BYTE*)приёмник) {
         /* They're rolling the current segment. */
         if (lz4sd->prefixSize >= 64 KB - 1)
-            result = LZ4_decompress_safe_withPrefix64k(source, dest, compressedSize, maxOutputSize);
+            result = LZ4_decompress_safe_withPrefix64k(source, приёмник, compressedSize, maxOutputSize);
         else if (lz4sd->extDictSize == 0)
-            result = LZ4_decompress_safe_withSmallPrefix(source, dest, compressedSize, maxOutputSize,
+            result = LZ4_decompress_safe_withSmallPrefix(source, приёмник, compressedSize, maxOutputSize,
                                                          lz4sd->prefixSize);
         else
-            result = LZ4_decompress_safe_doubleDict(source, dest, compressedSize, maxOutputSize,
+            result = LZ4_decompress_safe_doubleDict(source, приёмник, compressedSize, maxOutputSize,
                                                     lz4sd->prefixSize, lz4sd->externalDict, lz4sd->extDictSize);
         if (result <= 0) return result;
         lz4sd->prefixSize += (т_мера)result;
@@ -2251,18 +2251,18 @@ LZ4_FORCE_O2_GCC_PPC64LE
         /* The буфер wraps around, or they're switching to another буфер. */
         lz4sd->extDictSize = lz4sd->prefixSize;
         lz4sd->externalDict = lz4sd->prefixEnd - lz4sd->extDictSize;
-        result = LZ4_decompress_safe_forceExtDict(source, dest, compressedSize, maxOutputSize,
+        result = LZ4_decompress_safe_forceExtDict(source, приёмник, compressedSize, maxOutputSize,
                                                   lz4sd->externalDict, lz4sd->extDictSize);
         if (result <= 0) return result;
         lz4sd->prefixSize = (т_мера)result;
-        lz4sd->prefixEnd  = (BYTE*)dest + result;
+        lz4sd->prefixEnd  = (BYTE*)приёмник + result;
     }
 
     return result;
 }
 
 LZ4_FORCE_O2_GCC_PPC64LE
-цел LZ4_decompress_fast_continue (LZ4_streamDecode_t* LZ4_streamDecode, const char* source, char* dest, цел originalSize)
+цел LZ4_decompress_fast_continue (LZ4_streamDecode_t* LZ4_streamDecode, const сим* source, сим* приёмник, цел originalSize)
 {
     LZ4_streamDecode_t_internal* lz4sd = &LZ4_streamDecode->internal_donotuse;
     цел result;
@@ -2270,15 +2270,15 @@ LZ4_FORCE_O2_GCC_PPC64LE
 
     if (lz4sd->prefixSize == 0) {
         assert(lz4sd->extDictSize == 0);
-        result = LZ4_decompress_fast(source, dest, originalSize);
+        result = LZ4_decompress_fast(source, приёмник, originalSize);
         if (result <= 0) return result;
         lz4sd->prefixSize = (т_мера)originalSize;
-        lz4sd->prefixEnd = (BYTE*)dest + originalSize;
-    } else if (lz4sd->prefixEnd == (BYTE*)dest) {
+        lz4sd->prefixEnd = (BYTE*)приёмник + originalSize;
+    } else if (lz4sd->prefixEnd == (BYTE*)приёмник) {
         if (lz4sd->prefixSize >= 64 KB - 1 || lz4sd->extDictSize == 0)
-            result = LZ4_decompress_fast(source, dest, originalSize);
+            result = LZ4_decompress_fast(source, приёмник, originalSize);
         else
-            result = LZ4_decompress_fast_doubleDict(source, dest, originalSize,
+            result = LZ4_decompress_fast_doubleDict(source, приёмник, originalSize,
                                                     lz4sd->prefixSize, lz4sd->externalDict, lz4sd->extDictSize);
         if (result <= 0) return result;
         lz4sd->prefixSize += (т_мера)originalSize;
@@ -2286,11 +2286,11 @@ LZ4_FORCE_O2_GCC_PPC64LE
     } else {
         lz4sd->extDictSize = lz4sd->prefixSize;
         lz4sd->externalDict = lz4sd->prefixEnd - lz4sd->extDictSize;
-        result = LZ4_decompress_fast_extDict(source, dest, originalSize,
+        result = LZ4_decompress_fast_extDict(source, приёмник, originalSize,
                                              lz4sd->externalDict, lz4sd->extDictSize);
         if (result <= 0) return result;
         lz4sd->prefixSize = (т_мера)originalSize;
-        lz4sd->prefixEnd  = (BYTE*)dest + originalSize;
+        lz4sd->prefixEnd  = (BYTE*)приёмник + originalSize;
     }
 
     return result;
@@ -2304,27 +2304,27 @@ Advanced decoding functions :
     the dictionary must be explicitly provided within parameters
 */
 
-цел LZ4_decompress_safe_usingDict(const char* source, char* dest, цел compressedSize, цел maxOutputSize, const char* dictStart, цел dictSize)
+цел LZ4_decompress_safe_usingDict(const сим* source, сим* приёмник, цел compressedSize, цел maxOutputSize, const сим* dictStart, цел dictSize)
 {
     if (dictSize==0)
-        return LZ4_decompress_safe(source, dest, compressedSize, maxOutputSize);
-    if (dictStart+dictSize == dest) {
+        return LZ4_decompress_safe(source, приёмник, compressedSize, maxOutputSize);
+    if (dictStart+dictSize == приёмник) {
         if (dictSize >= 64 KB - 1) {
-            return LZ4_decompress_safe_withPrefix64k(source, dest, compressedSize, maxOutputSize);
+            return LZ4_decompress_safe_withPrefix64k(source, приёмник, compressedSize, maxOutputSize);
         }
         assert(dictSize >= 0);
-        return LZ4_decompress_safe_withSmallPrefix(source, dest, compressedSize, maxOutputSize, (т_мера)dictSize);
+        return LZ4_decompress_safe_withSmallPrefix(source, приёмник, compressedSize, maxOutputSize, (т_мера)dictSize);
     }
     assert(dictSize >= 0);
-    return LZ4_decompress_safe_forceExtDict(source, dest, compressedSize, maxOutputSize, dictStart, (т_мера)dictSize);
+    return LZ4_decompress_safe_forceExtDict(source, приёмник, compressedSize, maxOutputSize, dictStart, (т_мера)dictSize);
 }
 
-цел LZ4_decompress_fast_usingDict(const char* source, char* dest, цел originalSize, const char* dictStart, цел dictSize)
+цел LZ4_decompress_fast_usingDict(const сим* source, сим* приёмник, цел originalSize, const сим* dictStart, цел dictSize)
 {
-    if (dictSize==0 || dictStart+dictSize == dest)
-        return LZ4_decompress_fast(source, dest, originalSize);
+    if (dictSize==0 || dictStart+dictSize == приёмник)
+        return LZ4_decompress_fast(source, приёмник, originalSize);
     assert(dictSize >= 0);
-    return LZ4_decompress_fast_extDict(source, dest, originalSize, dictStart, (т_мера)dictSize);
+    return LZ4_decompress_fast_extDict(source, приёмник, originalSize, dictStart, (т_мера)dictSize);
 }
 
 
@@ -2332,29 +2332,29 @@ Advanced decoding functions :
 *  Obsolete Functions
 ***************************************************/
 /* obsolete compression functions */
-цел LZ4_compress_limitedOutput(const char* source, char* dest, цел inputSize, цел maxOutputSize)
+цел LZ4_compress_limitedOutput(const сим* source, сим* приёмник, цел inputSize, цел maxOutputSize)
 {
-    return LZ4_compress_default(source, dest, inputSize, maxOutputSize);
+    return LZ4_compress_default(source, приёмник, inputSize, maxOutputSize);
 }
-цел LZ4_compress(const char* src, char* dest, цел srcSize)
+цел LZ4_compress(const сим* src, сим* приёмник, цел srcSize)
 {
-    return LZ4_compress_default(src, dest, srcSize, LZ4_compressBound(srcSize));
+    return LZ4_compress_default(src, приёмник, srcSize, LZ4_compressBound(srcSize));
 }
-цел LZ4_compress_limitedOutput_withState (ук state, const char* src, char* dst, цел srcSize, цел dstSize)
+цел LZ4_compress_limitedOutput_withState (ук state, const сим* src, сим* dst, цел srcSize, цел dstSize)
 {
     return LZ4_compress_fast_extState(state, src, dst, srcSize, dstSize, 1);
 }
-цел LZ4_compress_withState (ук state, const char* src, char* dst, цел srcSize)
+цел LZ4_compress_withState (ук state, const сим* src, сим* dst, цел srcSize)
 {
     return LZ4_compress_fast_extState(state, src, dst, srcSize, LZ4_compressBound(srcSize), 1);
 }
-цел LZ4_compress_limitedOutput_continue (LZ4_stream_t* LZ4_stream, const char* src, char* dst, цел srcSize, цел dstCapacity)
+цел LZ4_compress_limitedOutput_continue (LZ4_stream_t* LZ4_stream, const сим* src, сим* dst, цел srcSize, цел dstCapacity)
 {
     return LZ4_compress_fast_continue(LZ4_stream, src, dst, srcSize, dstCapacity, 1);
 }
-цел LZ4_compress_continue (LZ4_stream_t* LZ4_stream, const char* source, char* dest, цел inputSize)
+цел LZ4_compress_continue (LZ4_stream_t* LZ4_stream, const сим* source, сим* приёмник, цел inputSize)
 {
-    return LZ4_compress_fast_continue(LZ4_stream, source, dest, inputSize, LZ4_compressBound(inputSize), 1);
+    return LZ4_compress_fast_continue(LZ4_stream, source, приёмник, inputSize, LZ4_compressBound(inputSize), 1);
 }
 
 /*
@@ -2363,36 +2363,36 @@ They are only provided here for compatibility with older user programs.
 - LZ4_uncompress is totally equivalent to LZ4_decompress_fast
 - LZ4_uncompress_unknownOutputSize is totally equivalent to LZ4_decompress_safe
 */
-цел LZ4_uncompress (const char* source, char* dest, цел outputSize)
+цел LZ4_uncompress (const сим* source, сим* приёмник, цел outputSize)
 {
-    return LZ4_decompress_fast(source, dest, outputSize);
+    return LZ4_decompress_fast(source, приёмник, outputSize);
 }
-цел LZ4_uncompress_unknownOutputSize (const char* source, char* dest, цел isize, цел maxOutputSize)
+цел LZ4_uncompress_unknownOutputSize (const сим* source, сим* приёмник, цел isize, цел maxOutputSize)
 {
-    return LZ4_decompress_safe(source, dest, isize, maxOutputSize);
+    return LZ4_decompress_safe(source, приёмник, isize, maxOutputSize);
 }
 
 /* Obsolete Streaming functions */
 
 цел LZ4_sizeofStreamState() { return LZ4_STREAMSIZE; }
 
-цел LZ4_resetStreamState(ук state, char* inputBuffer)
+цел LZ4_resetStreamState(ук state, сим* inputBuffer)
 {
     (проц)inputBuffer;
     LZ4_resetStream((LZ4_stream_t*)state);
     return 0;
 }
 
-ук LZ4_create (char* inputBuffer)
+ук LZ4_create (сим* inputBuffer)
 {
     (проц)inputBuffer;
     return LZ4_createStream();
 }
 
-char* LZ4_slideInputBuffer (ук state)
+сим* LZ4_slideInputBuffer (ук state)
 {
-    /* avoid кткст0  -> char * conversion warning */
-    return (char *)(uptrval)((LZ4_stream_t*)state)->internal_donotuse.dictionary;
+    /* avoid кткст0  -> сим * conversion warning */
+    return (сим *)(uptrval)((LZ4_stream_t*)state)->internal_donotuse.dictionary;
 }
 
 #endif   /* LZ4_COMMONDEFS_ONLY */

@@ -1,8 +1,8 @@
-template <class Target>
-force_inline бул ToUtf8_(Target t, шим codepoint)
+template <class Мишень>
+форс_инлайн бул вУтф8_(Мишень t, шим codepoint)
 {
 	if(codepoint < 0x80)
-		t((char)codepoint);
+		t((сим)codepoint);
 	else
 	if(codepoint < 0x800) {
 		t(0xc0 | ббайт(codepoint >> 6));
@@ -10,7 +10,7 @@ force_inline бул ToUtf8_(Target t, шим codepoint)
 	}
 	else
 	if((codepoint & 0xFFFFFF00) == 0xEE00) // Ошибка ESCAPE
-		t((char) codepoint);
+		t((сим) codepoint);
 	else
 	if(codepoint < 0x10000) {
 		t(0xe0 | ббайт(codepoint >> 12));
@@ -29,7 +29,7 @@ force_inline бул ToUtf8_(Target t, шим codepoint)
 	return true;
 }
 
-force_inline бцел достаньУтф8(const char *&_s, бул nolim, кткст0 _lim, бул& ok)
+форс_инлайн бцел достаньУтф8(кткст0 &_s, бул nolim, кткст0 _lim, бул& ok)
 {
 	const ббайт *s = (const ббайт *)_s;
 	const ббайт *lim = (const ббайт *)_lim;
@@ -69,18 +69,18 @@ force_inline бцел достаньУтф8(const char *&_s, бул nolim, кт�
 	return 0xEE00 + code; // Ошибка ESCAPE
 }
 
-force_inline бцел достаньУтф8(const char *&s, кткст0 lim, бул& ok)
+форс_инлайн бцел достаньУтф8(кткст0 &s, кткст0 lim, бул& ok)
 {
 	return достаньУтф8(s, false, lim, ok);
 }
 
-force_inline бцел достаньУтф8(const char *&s, бул& ok)
+форс_инлайн бцел достаньУтф8(кткст0 &s, бул& ok)
 {
 	return достаньУтф8(s, true, NULL, ok);
 }
 
-template <class Target>
-force_inline бул FromUtf8_(Target t, кткст0 s, т_мера len)
+template <class Мишень>
+форс_инлайн бул изУтф8_(Мишень t, кткст0 s, т_мера len)
 {
 	бул ok = true;
 	кткст0 lim = s + len;
@@ -89,32 +89,32 @@ force_inline бул FromUtf8_(Target t, кткст0 s, т_мера len)
 	return ok;
 }
 
-template <class Target>
-force_inline бул ToUtf16_(Target t, т_мера codepoint)
+template <class Мишень>
+форс_инлайн бул вУтф16_(Мишень t, т_мера codepoint)
 {
 	if(codepoint < 0x10000)
-		t((char16)codepoint);
+		t((сим16)codepoint);
 	else
 	if(codepoint < 0x110000) {
 		codepoint -= 0x10000;
-		t(char16(0xD800 + (0x3ff & (codepoint >> 10))));
-		t(char16(0xDC00 + (0x3ff & codepoint)));
+		t(сим16(0xD800 + (0x3ff & (codepoint >> 10))));
+		t(сим16(0xDC00 + (0x3ff & codepoint)));
 	}
 	else
 		return false;
 	return true;
 }
 
-force_inline шим читайСуррогПару(const char16 *s, const char16 *lim)
+форс_инлайн шим читайСуррогПару(const сим16 *s, const сим16 *lim)
 {
 	return (*s & 0XFC00) == 0xD800 && s + 1 < lim && (s[1] & 0xFC00) == 0xDC00 ?
 		   ((шим(s[0] & 0x3ff) << 10) | (s[1] & 0x3ff)) + 0x10000 : 0;
 }
 
-template <class Target>
-force_inline проц FromUtf16_(Target t, const char16 *s, т_мера len)
+template <class Мишень>
+форс_инлайн проц изУтф16_(Мишень t, const сим16 *s, т_мера len)
 {
-	const char16 *lim = s + len;
+	const сим16 *lim = s + len;
 	while(s < lim) {
 		шим c = читайСуррогПару(s, lim);
 		if(c) {

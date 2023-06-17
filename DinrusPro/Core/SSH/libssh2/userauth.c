@@ -60,15 +60,15 @@
  * Not a common configuration for any SSH server though
  * username should be NULL, or a null terminated string
  */
-static char *userauth_list(LIBSSH2_SESSION *session, кткст0 username,
+static сим *userauth_list(LIBSSH2_SESSION *session, кткст0 username,
                            бцел username_len)
 {
-    static const unsigned char reply_codes[3] =
+    static const ббайт reply_codes[3] =
         { SSH_MSG_USERAUTH_SUCCESS, SSH_MSG_USERAUTH_FAILURE, 0 };
     /* packet_type(1) + username_len(4) + service_len(4) +
        service(14)"ssh-connection" + method_len(4) = 27 */
     unsigned long methods_len;
-    unsigned char *s;
+    ббайт *s;
     цел rc;
 
     if(session->userauth_list_state == libssh2_NB_state_idle) {
@@ -97,7 +97,7 @@ static char *userauth_list(LIBSSH2_SESSION *session, кткст0 username,
     if(session->userauth_list_state == libssh2_NB_state_created) {
         rc = _libssh2_transport_send(session, session->userauth_list_data,
                                      session->userauth_list_data_len,
-                                     (unsigned char *)"none", 4);
+                                     (ббайт *)"none", 4);
         if(rc == LIBSSH2_ERROR_EAGAIN) {
             _libssh2_error(session, LIBSSH2_ERROR_EAGAIN,
                            "Would block requesting userauth list");
@@ -169,7 +169,7 @@ static char *userauth_list(LIBSSH2_SESSION *session, кткст0 username,
     }
 
     session->userauth_list_state = libssh2_NB_state_idle;
-    return (char *) session->userauth_list_data;
+    return (сим *) session->userauth_list_data;
 }
 
 /* libssh2_userauth_list
@@ -179,11 +179,11 @@ static char *userauth_list(LIBSSH2_SESSION *session, кткст0 username,
  * Not a common configuration for any SSH server though
  * username should be NULL, or a null terminated string
  */
-LIBSSH2_API char *
+LIBSSH2_API сим *
 libssh2_userauth_list(LIBSSH2_SESSION * session, кткст0 user,
                       бцел user_len)
 {
-    char *укз;
+    сим *укз;
     BLOCK_ADJUST_ERRNO(укз, session,
                        userauth_list(session, user, user_len));
     return укз;
@@ -209,11 +209,11 @@ libssh2_userauth_authenticated(LIBSSH2_SESSION * session)
 static цел
 userauth_password(LIBSSH2_SESSION *session,
                   кткст0 username, бцел username_len,
-                  const unsigned char *password, бцел password_len,
+                  const ббайт *password, бцел password_len,
                   LIBSSH2_PASSWD_CHANGEREQ_FUNC((*passwd_change_cb)))
 {
-    unsigned char *s;
-    static const unsigned char reply_codes[4] =
+    ббайт *s;
+    static const ббайт reply_codes[4] =
         { SSH_MSG_USERAUTH_SUCCESS, SSH_MSG_USERAUTH_FAILURE,
           SSH_MSG_USERAUTH_PASSWD_CHANGEREQ, 0
         };
@@ -231,7 +231,7 @@ userauth_password(LIBSSH2_SESSION *session,
         session->userauth_pswd_data_len = username_len + 40;
 
         session->userauth_pswd_data0 =
-            (unsigned char) ~SSH_MSG_USERAUTH_PASSWD_CHANGEREQ;
+            (ббайт) ~SSH_MSG_USERAUTH_PASSWD_CHANGEREQ;
 
         /* TODO: remove this alloc with a fixed буфер in the session
            struct */
@@ -397,7 +397,7 @@ userauth_password(LIBSSH2_SESSION *session,
                         _libssh2_store_str(&s, "password",
                                            sizeof("password") - 1);
                         *s++ = 0x01;
-                        _libssh2_store_str(&s, (char *)password, password_len);
+                        _libssh2_store_str(&s, (сим *)password, password_len);
                         _libssh2_store_u32(&s,
                                            session->userauth_pswd_newpw_len);
                         /* send session->userauth_pswd_newpw separately */
@@ -410,7 +410,7 @@ userauth_password(LIBSSH2_SESSION *session,
                         rc = _libssh2_transport_send(session,
                                             session->userauth_pswd_data,
                                             session->userauth_pswd_data_len,
-                                            (unsigned char *)
+                                            (ббайт *)
                                             session->userauth_pswd_newpw,
                                             session->userauth_pswd_newpw_len);
                         if(rc == LIBSSH2_ERROR_EAGAIN) {
@@ -475,20 +475,20 @@ libssh2_userauth_password_ex(LIBSSH2_SESSION *session, кткст0 username,
     цел rc;
     BLOCK_ADJUST(rc, session,
                  userauth_password(session, username, username_len,
-                                   (unsigned char *)password, password_len,
+                                   (ббайт *)password, password_len,
                                    passwd_change_cb));
     return rc;
 }
 
 static цел
-memory_read_publickey(LIBSSH2_SESSION * session, unsigned char **method,
+memory_read_publickey(LIBSSH2_SESSION * session, ббайт **method,
                       т_мера *method_len,
-                      unsigned char **pubkeydata,
+                      ббайт **pubkeydata,
                       т_мера *pubkeydata_len,
                       кткст0 pubkeyfiledata,
                       т_мера pubkeyfiledata_len)
 {
-    unsigned char *pubkey = NULL, *sp1, *sp2, *tmp;
+    ббайт *pubkey = NULL, *sp1, *sp2, *tmp;
     т_мера pubkey_len = pubkeyfiledata_len;
     бцел tmp_len;
 
@@ -532,8 +532,8 @@ memory_read_publickey(LIBSSH2_SESSION * session, unsigned char **method,
         sp2 = pubkey + pubkey_len;
     }
 
-    if(libssh2_base64_decode(session, (char **) &tmp, &tmp_len,
-                              (char *) sp1, sp2 - sp1)) {
+    if(libssh2_base64_decode(session, (сим **) &tmp, &tmp_len,
+                              (сим *) sp1, sp2 - sp1)) {
         LIBSSH2_FREE(session, pubkey);
         return _libssh2_error(session, LIBSSH2_ERROR_FILE,
                                   "Invalid ключ data, not base64 encoded");
@@ -563,15 +563,15 @@ memory_read_publickey(LIBSSH2_SESSION * session, unsigned char **method,
  * in method on success.
  */
 static цел
-file_read_publickey(LIBSSH2_SESSION * session, unsigned char **method,
+file_read_publickey(LIBSSH2_SESSION * session, ббайт **method,
                     т_мера *method_len,
-                    unsigned char **pubkeydata,
+                    ббайт **pubkeydata,
                     т_мера *pubkeydata_len,
                     кткст0 pubkeyfile)
 {
     FILE *fd;
-    char c;
-    unsigned char *pubkey = NULL, *sp1, *sp2, *tmp;
+    сим c;
+    ббайт *pubkey = NULL, *sp1, *sp2, *tmp;
     т_мера pubkey_len = 0, sp_len;
     бцел tmp_len;
 
@@ -636,8 +636,8 @@ file_read_publickey(LIBSSH2_SESSION * session, unsigned char **method,
         sp2 = pubkey + pubkey_len;
     }
 
-    if(libssh2_base64_decode(session, (char **) &tmp, &tmp_len,
-                              (char *) sp1, sp2 - sp1)) {
+    if(libssh2_base64_decode(session, (сим **) &tmp, &tmp_len,
+                              (сим *) sp1, sp2 - sp1)) {
         LIBSSH2_FREE(session, pubkey);
         return _libssh2_error(session, LIBSSH2_ERROR_FILE,
                               "Invalid ключ data, not base64 encoded");
@@ -659,7 +659,7 @@ static цел
 memory_read_privatekey(LIBSSH2_SESSION * session,
                        const LIBSSH2_HOSTKEY_METHOD ** hostkey_method,
                        проц **hostkey_abstract,
-                       const unsigned char *method, цел method_len,
+                       const ббайт *method, цел method_len,
                        кткст0 privkeyfiledata, т_мера privkeyfiledata_len,
                        кткст0 passphrase)
 {
@@ -670,7 +670,7 @@ memory_read_privatekey(LIBSSH2_SESSION * session,
     *hostkey_abstract = NULL;
     while(*hostkey_methods_avail && (*hostkey_methods_avail)->имя) {
         if((*hostkey_methods_avail)->initPEMFromMemory
-             && strncmp((*hostkey_methods_avail)->имя, (const char *) method,
+             && strncmp((*hostkey_methods_avail)->имя, (кткст0 ) method,
                         method_len) == 0) {
             *hostkey_method = *hostkey_methods_avail;
             break;
@@ -684,7 +684,7 @@ memory_read_privatekey(LIBSSH2_SESSION * session,
 
     if((*hostkey_method)->
         initPEMFromMemory(session, privkeyfiledata, privkeyfiledata_len,
-                          (unsigned char *) passphrase,
+                          (ббайт *) passphrase,
                           hostkey_abstract)) {
         return _libssh2_error(session, LIBSSH2_ERROR_FILE,
                               "Unable to initialize private ключ from file");
@@ -700,7 +700,7 @@ static цел
 file_read_privatekey(LIBSSH2_SESSION * session,
                      const LIBSSH2_HOSTKEY_METHOD ** hostkey_method,
                      проц **hostkey_abstract,
-                     const unsigned char *method, цел method_len,
+                     const ббайт *method, цел method_len,
                      кткст0 privkeyfile, кткст0 passphrase)
 {
     const LIBSSH2_HOSTKEY_METHOD **hostkey_methods_avail =
@@ -712,7 +712,7 @@ file_read_privatekey(LIBSSH2_SESSION * session,
     *hostkey_abstract = NULL;
     while(*hostkey_methods_avail && (*hostkey_methods_avail)->имя) {
         if((*hostkey_methods_avail)->initPEM
-            && strncmp((*hostkey_methods_avail)->имя, (const char *) method,
+            && strncmp((*hostkey_methods_avail)->имя, (кткст0 ) method,
                        method_len) == 0) {
             *hostkey_method = *hostkey_methods_avail;
             break;
@@ -725,7 +725,7 @@ file_read_privatekey(LIBSSH2_SESSION * session,
     }
 
     if((*hostkey_method)->
-        initPEM(session, privkeyfile, (unsigned char *) passphrase,
+        initPEM(session, privkeyfile, (ббайт *) passphrase,
                 hostkey_abstract)) {
         return _libssh2_error(session, LIBSSH2_ERROR_FILE,
                               "Unable to initialize private ключ from file");
@@ -740,8 +740,8 @@ struct privkey_file {
 };
 
 static цел
-sign_frommemory(LIBSSH2_SESSION *session, unsigned char **sig, т_мера *sig_len,
-                const unsigned char *data, т_мера data_len, проц **abstract)
+sign_frommemory(LIBSSH2_SESSION *session, ббайт **sig, т_мера *sig_len,
+                const ббайт *data, т_мера data_len, проц **abstract)
 {
     struct privkey_file *pk_file = (struct privkey_file *) (*abstract);
     const LIBSSH2_HOSTKEY_METHOD *privkeyobj;
@@ -777,8 +777,8 @@ sign_frommemory(LIBSSH2_SESSION *session, unsigned char **sig, т_мера *sig_
 }
 
 static цел
-sign_fromfile(LIBSSH2_SESSION *session, unsigned char **sig, т_мера *sig_len,
-              const unsigned char *data, т_мера data_len, проц **abstract)
+sign_fromfile(LIBSSH2_SESSION *session, ббайт **sig, т_мера *sig_len,
+              const ббайт *data, т_мера data_len, проц **abstract)
 {
     struct privkey_file *privkey_file = (struct privkey_file *) (*abstract);
     const LIBSSH2_HOSTKEY_METHOD *privkeyobj;
@@ -835,12 +835,12 @@ userauth_hostbased_fromfile(LIBSSH2_SESSION *session,
 
     if(session->userauth_host_state == libssh2_NB_state_idle) {
         const LIBSSH2_HOSTKEY_METHOD *privkeyobj;
-        unsigned char *pubkeydata = NULL;
-        unsigned char *sig = NULL;
+        ббайт *pubkeydata = NULL;
+        ббайт *sig = NULL;
         т_мера pubkeydata_len = 0;
         т_мера sig_len = 0;
         ук abstract;
-        unsigned char buf[5];
+        ббайт buf[5];
         struct iovec datavec[4];
 
         /* обнули the whole thing out */
@@ -900,9 +900,9 @@ userauth_hostbased_fromfile(LIBSSH2_SESSION *session,
         _libssh2_store_str(&session->userauth_host_s, "ssh-connection", 14);
         _libssh2_store_str(&session->userauth_host_s, "hostbased", 9);
         _libssh2_store_str(&session->userauth_host_s,
-                           (const char *)session->userauth_host_method,
+                           (кткст0 )session->userauth_host_method,
                            session->userauth_host_method_len);
-        _libssh2_store_str(&session->userauth_host_s, (const char *)pubkeydata,
+        _libssh2_store_str(&session->userauth_host_s, (кткст0 )pubkeydata,
                            pubkeydata_len);
         LIBSSH2_FREE(session, pubkeydata);
         _libssh2_store_str(&session->userauth_host_s, hostname, hostname_len);
@@ -949,7 +949,7 @@ userauth_hostbased_fromfile(LIBSSH2_SESSION *session,
         }
 
         if(sig_len > pubkeydata_len) {
-            unsigned char *newpacket;
+            ббайт *newpacket;
             /* Should *НИКОГДА* happen, but...well.. better safe than sorry */
             newpacket = LIBSSH2_REALLOC(session, session->userauth_host_packet,
                                         session->userauth_host_packet_len + 4 +
@@ -975,12 +975,12 @@ userauth_hostbased_fromfile(LIBSSH2_SESSION *session,
                            4 + session->userauth_host_method_len +
                            4 + sig_len);
         _libssh2_store_str(&session->userauth_host_s,
-                           (const char *)session->userauth_host_method,
+                           (кткст0 )session->userauth_host_method,
                            session->userauth_host_method_len);
         LIBSSH2_FREE(session, session->userauth_host_method);
         session->userauth_host_method = NULL;
 
-        _libssh2_store_str(&session->userauth_host_s, (const char *)sig,
+        _libssh2_store_str(&session->userauth_host_s, (кткст0 )sig,
                            sig_len);
         LIBSSH2_FREE(session, sig);
 
@@ -1013,7 +1013,7 @@ userauth_hostbased_fromfile(LIBSSH2_SESSION *session,
     }
 
     if(session->userauth_host_state == libssh2_NB_state_sent) {
-        static const unsigned char reply_codes[3] =
+        static const ббайт reply_codes[3] =
             { SSH_MSG_USERAUTH_SUCCESS, SSH_MSG_USERAUTH_FAILURE, 0 };
         т_мера data_len;
         rc = _libssh2_packet_requirev(session, reply_codes,
@@ -1081,18 +1081,18 @@ libssh2_userauth_hostbased_fromfile_ex(LIBSSH2_SESSION *session,
 _libssh2_userauth_publickey(LIBSSH2_SESSION *session,
                             кткст0 username,
                             бцел username_len,
-                            const unsigned char *pubkeydata,
+                            const ббайт *pubkeydata,
                             unsigned long pubkeydata_len,
                             LIBSSH2_USERAUTH_PUBLICKEY_SIGN_FUNC
                             ((*sign_обрвыз)),
                             ук abstract)
 {
-    unsigned char reply_codes[4] =
+    ббайт reply_codes[4] =
         { SSH_MSG_USERAUTH_SUCCESS, SSH_MSG_USERAUTH_FAILURE,
           SSH_MSG_USERAUTH_PK_OK, 0
         };
     цел rc;
-    unsigned char *s;
+    ббайт *s;
 
     if(session->userauth_pblc_state == libssh2_NB_state_idle) {
 
@@ -1102,7 +1102,7 @@ _libssh2_userauth_publickey(LIBSSH2_SESSION *session,
          */
         if(pubkeydata_len < 4)
             return _libssh2_error(session, LIBSSH2_ERROR_PUBLICKEY_UNVERIFIED,
-                                  "Invalid public ключ, too short");
+                                  "Invalid public ключ, too крат");
 
         /* обнули the whole thing out */
         memset(&session->userauth_pblc_packet_requirev_state, 0,
@@ -1185,9 +1185,9 @@ _libssh2_userauth_publickey(LIBSSH2_SESSION *session,
         /* Not sending signature with *this* packet */
         *s++ = 0;
 
-        _libssh2_store_str(&s, (const char *)session->userauth_pblc_method,
+        _libssh2_store_str(&s, (кткст0 )session->userauth_pblc_method,
                            session->userauth_pblc_method_len);
-        _libssh2_store_str(&s, (const char *)pubkeydata, pubkeydata_len);
+        _libssh2_store_str(&s, (кткст0 )pubkeydata, pubkeydata_len);
 
         _libssh2_debug(session, LIBSSH2_TRACE_AUTH,
                        "Attempting publickey authentication");
@@ -1276,8 +1276,8 @@ _libssh2_userauth_publickey(LIBSSH2_SESSION *session,
     }
 
     if(session->userauth_pblc_state == libssh2_NB_state_sent1) {
-        unsigned char *buf;
-        unsigned char *sig;
+        ббайт *buf;
+        ббайт *sig;
         т_мера sig_len;
 
         s = buf = LIBSSH2_ALLOC(session, 4 + session->session_id_len
@@ -1288,7 +1288,7 @@ _libssh2_userauth_publickey(LIBSSH2_SESSION *session,
                                   "userauth-publickey signed data");
         }
 
-        _libssh2_store_str(&s, (const char *)session->session_id,
+        _libssh2_store_str(&s, (кткст0 )session->session_id,
                            session->session_id_len);
 
         memcpy(s, session->userauth_pblc_packet,
@@ -1316,7 +1316,7 @@ _libssh2_userauth_publickey(LIBSSH2_SESSION *session,
          * which will cause an unnecessary but harmless realloc here.
          */
         if(sig_len > pubkeydata_len) {
-            unsigned char *newpacket;
+            ббайт *newpacket;
             /* Should *НИКОГДА* happen, but...well.. better safe than sorry */
             newpacket = LIBSSH2_REALLOC(session,
                                         session->userauth_pblc_packet,
@@ -1343,13 +1343,13 @@ _libssh2_userauth_publickey(LIBSSH2_SESSION *session,
         _libssh2_store_u32(&s,
                            4 + session->userauth_pblc_method_len + 4 +
                            sig_len);
-        _libssh2_store_str(&s, (const char *)session->userauth_pblc_method,
+        _libssh2_store_str(&s, (кткст0 )session->userauth_pblc_method,
                            session->userauth_pblc_method_len);
 
         LIBSSH2_FREE(session, session->userauth_pblc_method);
         session->userauth_pblc_method = NULL;
 
-        _libssh2_store_str(&s, (const char *)sig, sig_len);
+        _libssh2_store_str(&s, (кткст0 )sig, sig_len);
         LIBSSH2_FREE(session, sig);
 
         _libssh2_debug(session, LIBSSH2_TRACE_AUTH,
@@ -1432,7 +1432,7 @@ userauth_publickey_frommemory(LIBSSH2_SESSION *session,
                               т_мера privatekeydata_len,
                               кткст0 passphrase)
 {
-    unsigned char *pubkeydata = NULL;
+    ббайт *pubkeydata = NULL;
     т_мера pubkeydata_len = 0;
     struct privkey_file privkey_file;
     ук abstract = &privkey_file;
@@ -1494,7 +1494,7 @@ userauth_publickey_fromfile(LIBSSH2_SESSION *session,
                             кткст0 privatekey,
                             кткст0 passphrase)
 {
-    unsigned char *pubkeydata = NULL;
+    ббайт *pubkeydata = NULL;
     т_мера pubkeydata_len = 0;
     struct privkey_file privkey_file;
     ук abstract = &privkey_file;
@@ -1600,7 +1600,7 @@ libssh2_userauth_publickey_fromfile_ex(LIBSSH2_SESSION *session,
 LIBSSH2_API цел
 libssh2_userauth_publickey(LIBSSH2_SESSION *session,
                            кткст0 user,
-                           const unsigned char *pubkeydata,
+                           const ббайт *pubkeydata,
                            т_мера pubkeydata_len,
                            LIBSSH2_USERAUTH_PUBLICKEY_SIGN_FUNC
                            ((*sign_обрвыз)),
@@ -1632,10 +1632,10 @@ userauth_keyboard_interactive(LIBSSH2_SESSION * session,
                               LIBSSH2_USERAUTH_KBDINT_RESPONSE_FUNC
                               ((*response_обрвыз)))
 {
-    unsigned char *s;
+    ббайт *s;
     цел rc;
 
-    static const unsigned char reply_codes[4] = {
+    static const ббайт reply_codes[4] = {
         SSH_MSG_USERAUTH_SUCCESS,
         SSH_MSG_USERAUTH_FAILURE, SSH_MSG_USERAUTH_INFO_REQUEST, 0
     };

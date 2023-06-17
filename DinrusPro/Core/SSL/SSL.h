@@ -5,7 +5,6 @@
 #include <openssl/err.h>
 #include <openssl/engine.h>
 
-namespace ДинрусРНЦП {
 	
 ИНИЦИАЛИЗУЙ(SSL);
 ИНИЦИАЛИЗУЙ(SSLSocket);
@@ -141,4 +140,3 @@ private:
 Дата   Asn1ToDate(ASN1_STRING *time);
 Ткст Asn1ToString(ASN1_STRING *s);
 
-}

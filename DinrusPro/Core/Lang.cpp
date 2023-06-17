@@ -1,4 +1,4 @@
-#include <DinrusPro/DinrusPro.h>
+#include <DinrusPro/DinrusCore.h>
 
 #ifdef PLATFORM_WIN32
 #include <wingdi.h>
@@ -10,8 +10,6 @@
 	#include <langinfo.h>
 	#endif
 #endif
-
-namespace ДинрусРНЦП {
 
 #define LLOG(x)  LOG(x)
 
@@ -90,13 +88,13 @@ namespace ДинрусРНЦП {
 	цел n = ::GetLocaleInfo(GetUserDefaultLCID(), тип, h, 256);
 	return n ? ШТкст(h, n - 1).вТкст() : Ткст();
 #else
-	char h[256];
+	сим h[256];
 	цел n =:: GetLocaleInfo(GetUserDefaultLCID(), тип, h, 256);
 	return n ? Ткст(h, n - 1) : Ткст();
 #endif
 }
 
-цел GetSystemLNG()
+цел дайСисЯЗ()
 {
 	static цел lang;
 	ONCELOCK {
@@ -112,7 +110,7 @@ namespace ДинрусРНЦП {
 #endif
 
 #ifdef PLATFORM_POSIX
-цел GetSystemLNG() {
+цел дайСисЯЗ() {
 	static цел lang;
 	ONCELOCK {
 		Ткст s = систСреда().дай("LANG", Null);
@@ -147,11 +145,11 @@ class LangConvertClass : public Преобр {
 
 Преобр& преобрЯЗ()
 {
-	return Single<LangConvertClass>();
+	return Сингл<LangConvertClass>();
 }
 
 проц устЯз(цел lang) {
-	if(lang != LNG_CURRENT)
+	if(lang != ТЕКЯЗ)
 		устДефНабСим(GetLNGCharset(lang));
 	SetCurrentLanguage(lang);
 }
@@ -165,18 +163,16 @@ class LangConvertClass : public Преобр {
 	устЯз(LNGFromText(s));
 }
 
-Ткст GetCurrentLanguageString()
+Ткст дайТекЯзТкст()
 {
-	return LNGAsText(GetCurrentLanguage());
+	return LNGAsText(дайТекЯз());
 }
 
 Ткст GetLangName(цел язык)
 {
-	return GetLanguageInfo(язык).english_name;
+	return дайИнфОЯз(язык).english_name;
 }
 
 Ткст GetNativeLangName(цел язык) {
-	return GetLanguageInfo(язык).native_name.вТкст();
-}
-
+	return дайИнфОЯз(язык).native_name.вТкст();
 }

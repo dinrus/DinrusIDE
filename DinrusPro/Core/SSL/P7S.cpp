@@ -1,8 +1,6 @@
 #include "SSL.h"
 
-namespace ДинрусРНЦП {
-
-Ткст GetP7Signature_imp(const ук данные, цел length, const Ткст& cert_pem, const Ткст& pkey_pem)
+Ткст GetP7Signature_imp(кук данные, цел length, const Ткст& cert_pem, const Ткст& pkey_pem)
 {
 	SslCertificate x509;
 	SslKey pkey;
@@ -12,7 +10,7 @@ namespace ДинрусРНЦП {
 		return Null;
 
 	SslStream in;
-	in.OpenBuffer((const char *)данные, length);
+	in.OpenBuffer((кткст0 )данные, length);
 
     PKCS7 *p7 = PKCS7_sign(x509, pkey, NULL, in, PKCS7_DETACHED|PKCS7_BINARY|PKCS7_STREAM);
 
@@ -35,11 +33,10 @@ namespace ДинрусРНЦП {
 	return r;
 }
 
-extern Ткст (*GetP7Signature__)(const ук данные, цел length, const Ткст& cert_pem, const Ткст& pkey_pem);
+extern Ткст (*GetP7Signature__)(кук данные, цел length, const Ткст& cert_pem, const Ткст& pkey_pem);
 
 ИНИЦИАЛИЗАТОР(P7S)
 {
 	GetP7Signature__ = GetP7Signature_imp;
 }
 
-}

@@ -1,8 +1,6 @@
-#include <DinrusPro/DinrusPro.h>
+#include <DinrusPro/DinrusCore.h>
 
-namespace ДинрусРНЦП {
-
-Значение ParseJSON(СиПарсер& p)
+Значение разбериДжейсон(СиПарсер& p)
 {
 	p.искейпЮникод();
 	if(p.дво_ли())
@@ -31,7 +29,7 @@ namespace ДинрусРНЦП {
 		while(!p.сим('}')) {
 			Ткст ключ = p.читайТкст();
 			p.передайСим(':');
-			m.добавь(ключ, ParseJSON(p));
+			m.добавь(ключ, разбериДжейсон(p));
 			if(p.сим('}')) // Stray ',' at the end of list is allowed...
 				break;
 			p.передайСим(',');
@@ -41,7 +39,7 @@ namespace ДинрусРНЦП {
 	if(p.сим('[')) {
 		МассивЗнач va;
 		while(!p.сим(']')) {
-			va.добавь(ParseJSON(p));
+			va.добавь(разбериДжейсон(p));
 			if(p.сим(']')) // Stray ',' at the end of list is allowed...
 				break;
 			p.передайСим(',');
@@ -52,36 +50,36 @@ namespace ДинрусРНЦП {
 	return Null;
 }
 
-Значение ParseJSON(кткст0 s)
+Значение разбериДжейсон(кткст0 s)
 {
 	try {
 		СиПарсер p(s);
-		return ParseJSON(p);
+		return разбериДжейсон(p);
 	}
 	catch(СиПарсер::Ошибка e) {
 		return значОш(e);
 	}
 }
 
-Ткст AsJSON(Время tm)
+Ткст какДжейсон(Время tm)
 {
 	return пусто_ли(tm) ? "null" : "\"\\/Дата(" + какТкст(1000 * (tm - Время(1970, 1, 1))) + ")\\/\"";
 }
 
-Ткст AsJSON(Дата dt)
+Ткст какДжейсон(Дата dt)
 {
-	return AsJSON(воВремя(dt));
+	return какДжейсон(воВремя(dt));
 }
 
-Json& Json::CatRaw(кткст0 ключ, const Ткст& знач)
+Джейсон& Джейсон::CatRaw(кткст0 ключ, const Ткст& знач)
 {
 	if(text.дайСчёт())
 		text << ',';
-	text << AsJSON(ключ) << ":" << знач;
+	text << какДжейсон(ключ) << ":" << знач;
 	return *this;
 }
 
-JsonArray& JsonArray::CatRaw(const Ткст& знач)
+МассивДжейсон& МассивДжейсон::CatRaw(const Ткст& знач)
 {
 	if(text.дайСчёт())
 		text << ',';
@@ -89,7 +87,7 @@ JsonArray& JsonArray::CatRaw(const Ткст& знач)
 	return *this;
 }
 
-Ткст AsJSON(const Значение& v, const Ткст& sep, бул pretty)
+Ткст какДжейсон(const Значение& v, const Ткст& sep, бул pretty)
 {
 	Ткст r;
 	if(v.дайТип() == VALUEMAP_V) {
@@ -109,8 +107,8 @@ JsonArray& JsonArray::CatRaw(const Ткст& знач)
 			}
 			if(pretty)
 				r << sep1;
-			r << AsJSON((Ткст)m.дайКлюч(i)) << (pretty ? ": " : ":")
-			  << AsJSON(va[i], sep1, pretty);
+			r << какДжейсон((Ткст)m.дайКлюч(i)) << (pretty ? ": " : ":")
+			  << какДжейсон(va[i], sep1, pretty);
 		}
 		if(pretty)
 			r << "\r\n" << sep;
@@ -133,7 +131,7 @@ JsonArray& JsonArray::CatRaw(const Ткст& знач)
 			}
 			if(pretty)
 				r << sep1;
-			r << AsJSON(va[i], sep1, pretty);
+			r << какДжейсон(va[i], sep1, pretty);
 		}
 		if(pretty)
 			r << "\r\n" << sep;
@@ -151,10 +149,10 @@ JsonArray& JsonArray::CatRaw(const Ткст& знач)
 	if(ткст_ли(v))
 		return какТкстСи((Ткст)v, INT_MAX, NULL, ASCSTRING_JSON);
 	if(датаВремя_ли(v))
-		return AsJSON((Время)v);
+		return какДжейсон((Время)v);
 	if(пусто_ли(v))
 		return "null";
-	НИКОГДА_("Non-JSON значение in AsJSON: " + v.дайИмяТипа());
+	НИКОГДА_("Non-JSON значение in какДжейсон: " + v.дайИмяТипа());
 	return "null";
 }
 
@@ -166,9 +164,9 @@ JsonArray& JsonArray::CatRaw(const Ткст& знач)
 	map->добавь(ключ, v);
 }
 
-Ткст AsJSON(const Значение& v, бул pretty)
+Ткст какДжейсон(const Значение& v, бул pretty)
 {
-	return AsJSON(v, Ткст(), pretty);
+	return какДжейсон(v, Ткст(), pretty);
 }
 
 template<> проц вДжейсон(ДжейсонВВ& io, дво& var)
@@ -190,7 +188,7 @@ template<> проц вДжейсон(ДжейсонВВ& io, дво& var)
 				return;
 			}
 		}
-		throw JsonizeError("number expected");
+		throw ОшДжейсонизации("number expected");
 	}
 	else
 		io.уст(var);
@@ -207,7 +205,7 @@ template<> проц вДжейсон(ДжейсонВВ& io, цел& var)
 		if(v >= INT_MIN && v <= INT_MAX && (цел)v == v)
 			var = (цел)v;
 		else
-			throw JsonizeError("number is not integer");
+			throw ОшДжейсонизации("number is not integer");
 	}
 }
 
@@ -219,7 +217,7 @@ template<> проц вДжейсон(ДжейсонВВ& io, ббайт& var)
 		if(v >= 0 && v <= 255 && (цел)v == v)
 			var = (ббайт)v;
 		else
-			throw JsonizeError("integer 0-255 expected");
+			throw ОшДжейсонизации("integer 0-255 expected");
 	}
 }
 
@@ -231,7 +229,7 @@ template<> проц вДжейсон(ДжейсонВВ& io, крат& var)
 		if(v >= -32768 && v <= 32767 && (цел)v == v)
 			var = (крат)v;
 		else
-			throw JsonizeError("16-bit integer expected");
+			throw ОшДжейсонизации("16-bit integer expected");
 	}
 }
 
@@ -242,7 +240,7 @@ template<> проц вДжейсон(ДжейсонВВ& io, бул& var)
 		if(число_ли(v) && !пусто_ли(v))
 			var = (бул)v;
 		else
-			throw JsonizeError("boolean expected");
+			throw ОшДжейсонизации("boolean expected");
 	}
 	else
 		io.уст(var);
@@ -275,13 +273,13 @@ template<> проц вДжейсон(ДжейсонВВ& io, дол& var)
 				return;
 			}
 		}
-		throw JsonizeError("invalid дол значение");
+		throw ОшДжейсонизации("invalid дол значение");
 	}
 	else
 		if(пусто_ли(var))
 			io.уст(Null);
 		else
-		if(var >= I64(-9007199254740992) && var <= I64(9007199254740991))
+		if(var >= Ц64(-9007199254740992) && var <= Ц64(9007199254740991))
 			io.уст(var);
 		else
 			io.уст(какТкст(var));
@@ -297,7 +295,7 @@ template<> проц вДжейсон(ДжейсонВВ& io, Ткст& var)
 		if(ткст_ли(v))
 			var = v;
 		else
-			throw JsonizeError("string expected");
+			throw ОшДжейсонизации("string expected");
 	}
 	else
 		io.уст(var);
@@ -313,7 +311,7 @@ template<> проц вДжейсон(ДжейсонВВ& io, ШТкст& var)
 		if(ткст_ли(v))
 			var = v;
 		else
-			throw JsonizeError("string expected");
+			throw ОшДжейсонизации("string expected");
 	}
 	else
 		io.уст(var);
@@ -328,7 +326,7 @@ template<> проц вДжейсон(ДжейсонВВ& io, Дата& var)
 			return;
 		}
 		if(ткст_ли(v)) {
-			Ткст text = фильтруй(~v, CharFilterDigit);
+			Ткст text = фильтруй(~v, СимФильтрЦифра);
 			if(text.дайСчёт() >= 8) {
 				Дата d;
 				d.year = сканЦел(text.лево(4));
@@ -340,7 +338,7 @@ template<> проц вДжейсон(ДжейсонВВ& io, Дата& var)
 				}
 			}
 		}
-		throw JsonizeError("string expected for Дата значение");
+		throw ОшДжейсонизации("string expected for Дата значение");
 	}
 	else
 		if(пусто_ли(var))
@@ -358,7 +356,7 @@ template<> проц вДжейсон(ДжейсонВВ& io, Время& var)
 			return;
 		}
 		if(ткст_ли(v)) {
-			Ткст text = фильтруй(~v, CharFilterDigit);
+			Ткст text = фильтруй(~v, СимФильтрЦифра);
 			if(text.дайСчёт() >= 12) { //seconds may be missing
 				Время tm;
 				tm.year = сканЦел(text.лево(4));
@@ -373,7 +371,7 @@ template<> проц вДжейсон(ДжейсонВВ& io, Время& var)
 				}
 			}
 		}
-		throw JsonizeError("string expected for Время значение");
+		throw ОшДжейсонизации("string expected for Время значение");
 	}
 	else
 		if(пусто_ли(var))
@@ -383,9 +381,8 @@ template<> проц вДжейсон(ДжейсонВВ& io, Время& var)
 				          var.year, var.month, var.day, var.hour, var.minute, var.second));
 }
 
-Ткст sJsonFile(кткст0 file)
+Ткст sДжейсонFile(кткст0 file)
 {
 	return file ? Ткст(file) : конфигФайл(дайТитулИсп() + ".json");
 }
 
-}

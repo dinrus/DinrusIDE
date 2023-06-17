@@ -1,10 +1,8 @@
-#include <DinrusPro/DinrusPro.h>
-
-namespace ДинрусРНЦП {
+#include <DinrusPro/DinrusCore.h>
 
 #define LLOG(x) // LOG(x)
 
-#define CUNDEF DEFAULTCHAR
+#define CUNDEF ДЕФСИМ
 
 бкрат СИМТАБ_ISO8859_1[128] = {
 	0x0080, 0x0081, 0x0082, 0x0083, 0x0084, 0x0085, 0x0086, 0x0087,
@@ -1698,8 +1696,8 @@ struct CharSetData {
 	проц Gen();
 
 	цел  вЮникод(цел chr)  { return (ббайт)chr < 128 ? (ббайт)chr : table[(ббайт)chr - 128]; }
-	цел  изЮникода(цел chr, цел опр = DEFAULTCHAR);
-	проц изЮникода(char *t, const шим *s, const шим *end, цел опр = DEFAULTCHAR);
+	цел  изЮникода(цел chr, цел опр = ДЕФСИМ);
+	проц изЮникода(сим *t, const шим *s, const шим *end, цел опр = ДЕФСИМ);
 
 	CharSetData();
 	~CharSetData();
@@ -1760,13 +1758,13 @@ inline цел CharSetData::изЮникода(цел chr, цел опр)
 	цел c = chr < 16 * 128 ? line[chr >> 7][chr & 0x7f]
 	                       : (chr & 0xFF00) == 0xEE00 ? (chr & 255)
 	                                                  : map.дай(chr, CUNDEF);
-	return c == DEFAULTCHAR ? опр : c;
+	return c == ДЕФСИМ ? опр : c;
 }
 
-inline проц CharSetData::изЮникода(char *t, const шим *s, const шим *end, цел опр)
+inline проц CharSetData::изЮникода(сим *t, const шим *s, const шим *end, цел опр)
 {
 	if(!line[0]) Gen();
-	if(опр == DEFAULTCHAR)
+	if(опр == ДЕФСИМ)
 		while(s < end) {
 			цел chr = *s++;
 			*t++ = chr < 16 * 128 ? line[chr >> 7][chr & 0x7f]
@@ -1779,7 +1777,7 @@ inline проц CharSetData::изЮникода(char *t, const шим *s, const 
 			цел c = chr < 16 * 128 ? line[chr >> 7][chr & 0x7f]
 			                       : (chr & 0xFF00) == 0xEE00 ? (chr & 255)
 			                                                  : map.дай(chr, CUNDEF);
-			*t++ = c == DEFAULTCHAR ? опр : c;
+			*t++ = c == ДЕФСИМ ? опр : c;
 		}
 }
 
@@ -1813,7 +1811,7 @@ static МассивМап<Ткст, CharSetData>& s_map()
 			init = true;
 			сИниц();
 		}
-	return Single< МассивМап<Ткст, CharSetData> >();
+	return Сингл< МассивМап<Ткст, CharSetData> >();
 }
 
 ббайт добавьНабСим(кткст0 имя, const бкрат *table)
@@ -1844,7 +1842,7 @@ static МассивМап<Ткст, CharSetData>& s_map()
 
 кткст0 имяНабСим(ббайт charset)
 {
-	if(charset == CHARSET_DEFAULT)
+	if(charset == ДЕФНАБСИМ)
 		charset = дайДефНабСим();
 	if(charset == НАБСИМ_УТФ8)
 		return "UTF-8";
@@ -1906,12 +1904,12 @@ static CharSetData& s_cset(ббайт charset)
 		*ws++ = cs.вЮникод(*s++);
 }
 
-проц изЮникода(char *s, const шим *ws, цел n, ббайт charset, цел опр)
+проц изЮникода(сим *s, const шим *ws, цел n, ббайт charset, цел опр)
 {
 	s_cset(charset).изЮникода(s, ws, ws + n, опр);
 }
 
-проц преобразуйНабСим(char *t, ббайт tcharset, кткст0 s, ббайт scharset, цел n)
+проц преобразуйНабСим(сим *t, ббайт tcharset, кткст0 s, ббайт scharset, цел n)
 {
 	CharSetData& cs = s_cset(scharset);
 	кткст0 lim = s + n;
@@ -1998,44 +1996,44 @@ static CharSetData& s_cset(ббайт charset)
 	return cs.изЮникода(вАски(cs.вЮникод(c)));
 }
 
-проц взаг(char *t, кткст0 s, цел len, ббайт charset)
+проц взаг(сим *t, кткст0 s, цел len, ббайт charset)
 {
 	charset = разрешиНабСим(charset);
 	CharSetData& cs = s_cset(charset);
 	кткст0 lim = s + len;
 	while(s < lim)
-		*t++ = cs.изЮникода(РНЦП::взаг(cs.вЮникод(*s++)));
+		*t++ = cs.изЮникода(взаг(cs.вЮникод(*s++)));
 }
 
-проц впроп(char *t, кткст0 s, цел len, ббайт charset)
+проц впроп(сим *t, кткст0 s, цел len, ббайт charset)
 {
 	charset = разрешиНабСим(charset);
 	CharSetData& cs = s_cset(charset);
 	кткст0 lim = s + len;
 	while(s < lim)
-		*t++ = cs.изЮникода(РНЦП::впроп(cs.вЮникод(*s++)));
+		*t++ = cs.изЮникода(впроп(cs.вЮникод(*s++)));
 }
 
-проц вАски(char *t, кткст0 s, цел len, ббайт charset)
+проц вАски(сим *t, кткст0 s, цел len, ббайт charset)
 {
 	charset = разрешиНабСим(charset);
 	CharSetData& cs = s_cset(charset);
 	кткст0 lim = s + len;
 	while(s < lim)
-		*t++ = cs.изЮникода(РНЦП::вАски(cs.вЮникод(*s++)));
+		*t++ = cs.изЮникода(вАски(cs.вЮникод(*s++)));
 }
 
-проц взаг(char *s, цел len, ббайт charset)
+проц взаг(сим *s, цел len, ббайт charset)
 {
 	взаг(s, s, len, charset);
 }
 
-проц впроп(char *s, цел len, ббайт charset)
+проц впроп(сим *s, цел len, ббайт charset)
 {
 	впроп(s, s, len, charset);
 }
 
-проц вАски(char *s, цел len, ббайт charset)
+проц вАски(сим *s, цел len, ббайт charset)
 {
 	вАски(s, s, len, charset);
 }
@@ -2260,4 +2258,111 @@ static CharSetData& s_cset(ббайт charset)
 			|| (c >= 0x30000 && c <= 0x3FFFD)
 			);
 }
-}
+
+ бул ведущийУтф8_ли(цел c) {	return (c & 0xc0) != 0x80; }
+ шим достаньУтф8(кткст0 &s, кткст0 lim) { бул ok; return достаньУтф8(s, lim, ok); }
+ шим достаньУтф8(кткст0 &s)                { бул ok; return достаньУтф8(s, ok); }
+ бул   проверьУтф8(кткст0 s)                { return проверьУтф8(s, (цел)длинтекс8(s)); }
+ бул   проверьУтф8(const Ткст& s)              { return проверьУтф8(~s, s.дайСчёт()); }
+ цел    длинаУтф8(const шим *s)                 { return длинаУтф8(s, длинтекс32(s)); }
+ цел    длинаУтф8(шим код_)                     { return длинаУтф8(&код_, 1); }
+ цел    длинаУтф8(const ШТкст& s)               { return длинаУтф8(~s, s.дайСчёт()); }
+ цел    длинаУтф8(const сим16 *s)                { return длинаУтф8(s, длинтекс16(s)); }
+ цел    длинаУтф8(const Вектор<сим16>& s)        { return длинаУтф8(s, s.дайСчёт()); }
+
+ Ткст вУтф8(const шим *s)                  { return вУтф8(s, длинтекс32(s)); }
+ Ткст вУтф8(шим код_)                      { return вУтф8(&код_, 1); }
+ Ткст вУтф8(const ШТкст& s)                { return вУтф8(~s, s.дайСчёт()); }
+
+ Ткст вУтф8(const сим16 *s)                 { return вУтф8(s, длинтекс16(s)); }
+ Ткст вУтф8(const Вектор<сим16>& s)         { return вУтф8(s, s.дайСчёт()); }
+
+ цел длинаУтф16(const шим *s)                   { return длинаУтф16(s, длинтекс32(s)); }
+ цел длинаУтф16(const ШТкст& s)                 { return длинаУтф16(s, s.дайСчёт()); }
+ цел длинаУтф16(шим код_)                       { return длинаУтф16(&код_, 1); }
+ цел длинаУтф16(кткст0 s)                    { return длинаУтф16(s, (цел)длинтекс8(s)); }
+ цел длинаУтф16(const Ткст& s)                  { return длинаУтф16(~s, s.дайСчёт()); }
+
+ Вектор<сим16> вУтф16(const шим *s)         { return вУтф16(s, длинтекс32(s)); }
+ Вектор<сим16> вУтф16(const ШТкст& s)       { return вУтф16(s, s.дайСчёт()); }
+ Вектор<сим16> вУтф16(шим код_)             { return вУтф16(&код_, 1); }
+
+ Вектор<сим16> вУтф16(кткст0 s)          { return вУтф16(s, (цел)длинтекс8(s)); }
+ Вектор<сим16> вУтф16(const Ткст& s)        { return вУтф16(~s, s.дайСчёт()); }
+
+  цел длинаУтф32(const сим16 *s)                 { return длинаУтф32(s, длинтекс16(s)); }
+  цел длинаУтф32(const Вектор<сим16>& s)         { return длинаУтф32(s, s.дайСчёт()); }
+
+ цел длинаУтф32(кткст0 s)                    { return длинаУтф32(s, (цел)длинтекс8(s)); }
+ цел длинаУтф32(const Ткст& s)                  { return длинаУтф32(~s, s.дайСчёт()); }
+
+ ШТкст вУтф32(const сим16 *s)               { return вУтф32(s, длинтекс16(s)); }
+ ШТкст вУтф32(const Вектор<сим16>& s)       { return вУтф32(s, s.дайСчёт()); }
+
+ ШТкст вУтф32(кткст0 s)                 { return вУтф32(s, (цел)длинтекс8(s)); }
+ ШТкст вУтф32(const Ткст& s)               { return вУтф32(~s, s.дайСчёт()); }
+
+
+extern бкрат unicode_fast_upper__[2048];
+extern бкрат unicode_fast_lower__[2048];
+extern ббайт unicode_fast_ascii__[2048];
+extern ббайт unicode_fast_info__[2048];
+extern ббайт unicode_fast_upper_ascii__[];
+extern ббайт unicode_fast_lower_ascii__[];
+
+ шим взаг(шим c)     { return c < 2048 ? unicode_fast_upper__[c] : ToUpperRest_(c); }
+ шим впроп(шим c)     { return c < 2048 ? unicode_fast_lower__[c] : ToLowerRest_(c); }
+ сим  вАски(шим c)     { return c < 2048 ? unicode_fast_ascii__[c] : ToAsciiRest_(c); }
+ сим  вАскиЗаг(шим c){ return c < 2048 ? unicode_fast_upper_ascii__[c] : (сим)взаг(ToAsciiRest_(c)); }
+ сим  вАскиПроп(шим c){ return c < 2048 ? unicode_fast_lower_ascii__[c] : (сим)впроп(ToAsciiRest_(c)); }
+ бул  заг_ли(шим c)     { return c < 2048 ? unicode_fast_info__[c] & 1 : IsLower_(c); }
+ бул  проп_ли(шим c)     { return c < 2048 ? unicode_fast_info__[c] & 2 : IsUpper_(c); }
+ бул  буква_ли(шим c)    { return c < 2048 ? unicode_fast_info__[c] & 4 : IsLetter_(c); }
+
+ бул слеванаправо(шим c)         { return (шим)c >= 1470 && IsRTL_(c); }
+ бул метка_ли(шим c)        { return c < 0x300 ? false : c <= 0x36f ? true : IsMark_(c); }
+
+ бул буква_ли(цел c)        { return буква_ли((шим) c); }
+ бул проп_ли(цел c)         { return проп_ли((шим) c); }
+ бул заг_ли(цел c)         { return заг_ли((шим) c); }
+ цел  взаг(цел c)         { return взаг((шим) c); }
+ цел  впроп(цел c)         { return впроп((шим) c); }
+ сим вАски(цел c)         { return вАски((шим) c); }
+ сим вАскиЗаг(цел c)    { return вАскиЗаг((шим) c); }
+ сим вАскиПроп(цел c)    { return вАскиЗаг((шим) c); }
+
+ бул  буква_ли(сим c)      { return буква_ли((шим)(ббайт) c); }
+ бул  проп_ли(сим c)       { return проп_ли((шим)(ббайт) c); }
+ бул  заг_ли(сим c)       { return заг_ли((шим)(ббайт) c); }
+ шим взаг(сим c)       { return взаг((шим)(ббайт) c); }
+ шим впроп(сим c)       { return впроп((шим)(ббайт) c); }
+ сим  вАски(сим c)       { return вАски((шим)(ббайт) c); }
+ сим  вАскиЗаг(сим c)  { return вАскиЗаг((шим)(ббайт) c); }
+ сим  вАскиПроп(сим c)  { return вАскиПроп((шим)(ббайт) c); }
+
+ бул  буква_ли(байт c) { return буква_ли((шим)(ббайт) c); }
+ бул  проп_ли(байт c)  { return проп_ли((шим)(ббайт) c); }
+ бул  заг_ли(байт c)  { return заг_ли((шим)(ббайт) c); }
+ шим взаг(байт c)  { return взаг((шим)(ббайт) c); }
+ шим впроп(байт c)  { return впроп((шим)(ббайт) c); }
+ сим  вАски(байт c)  { return вАски((шим)(ббайт) c); }
+ сим  вАскиЗаг(байт c)  { return вАскиЗаг((шим)(ббайт) c); }
+ сим  вАскиПроп(байт c)  { return вАскиПроп((шим)(ббайт) c); }
+
+ бул  буква_ли(сим16 c)      { return буква_ли((шим) c); }
+ бул  проп_ли(сим16 c)       { return проп_ли((шим) c); }
+ бул  заг_ли(сим16 c)       { return заг_ли((шим) c); }
+ шим взаг(сим16 c)       { return взаг((шим) c); }
+ шим впроп(сим16 c)       { return впроп((шим) c); }
+ сим  вАски(сим16 c)       { return вАски((шим) c); }
+ сим  вАскиЗаг(сим16 c)  { return вАскиЗаг((шим) c); }
+ сим  вАскиПроп(сим16 c)  { return вАскиПроп((шим) c); }
+
+ бул цифра_ли(цел c)         { return c >= '0' && c <= '9'; }
+ бул альфа_ли(цел c)         { return c >= 'A' && c <= 'Z' || c >= 'a' && c <= 'z'; }
+ бул алчис_ли(цел c)         { return цифра_ли(c) || альфа_ли(c); }
+ бул чисЛэ_ли(цел c)         { return цифра_ли(c) || буква_ли(c); }
+ бул пункт_ли(цел c)         { return c != ' ' && !алчис_ли(c); }
+ бул пробел_ли(цел c)         { return c == ' ' || c == '\f' || c == '\n' || c == '\r' || c == '\v' || c == '\t'; }
+ бул цифраикс_ли(цел c)        { return цифра_ли(c) || c >= 'A' && c <= 'F' || c >= 'a' && c <= 'f'; }
+

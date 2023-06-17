@@ -1,24 +1,22 @@
-#include <DinrusPro/DinrusPro.h>
+#include <DinrusPro/DinrusCore.h>
 
 #define LLOG(x) // LOG(x)
 
-namespace ДинрусРНЦП {
-
-СтатическийСтопор ValueCacheMutex;
+СтатическийСтопор СтопорКэшаЗначений;
 
 std::atomic<бул> sValueCacheFinished;
 
-struct ValueMakeCacheClass : LRUCache<Значение> {
+struct ValueMakeCacheClass : КэшЛРУ<Значение> {
 	~ValueMakeCacheClass() { sValueCacheFinished = true; }
 };
 
-LRUCache<Значение>& TheValueCache()
+КэшЛРУ<Значение>& дайКэшЗначений()
 {
 	static ValueMakeCacheClass m;
 	return m;
 }
 
-бул IsValueCacheActive()
+бул активенКэшЗначений()
 {
 	return !sValueCacheFinished;
 }
@@ -29,46 +27,44 @@ LRUCache<Значение>& TheValueCache()
 цел ValueCacheMaxSizeLimitHigh = 0;
 дво ValueCacheRatio = 0.125;
 
-проц AdjustValueCache()
+проц регулируйКэшЗначений()
 {
-	Стопор::Замок __(ValueCacheMutex);
+	Стопор::Замок __(СтопорКэшаЗначений);
 	бдол total, available;
 	дайСтатусСисПамяти(total, available);
 	if(ValueCacheMaxSizeLimitHigh == 0)
 		ValueCacheMaxSizeLimitHigh = INT_MAX;
 	ValueCacheMaxSize = clamp((цел)мин((дол)(ValueCacheRatio * available), (дол)2000*1024*1024),
 	                          ValueCacheMaxSizeLimitLow, ValueCacheMaxSizeLimitHigh);
-	LLOG("нов MakeValue макс size " << ValueCacheMaxSize << " high limit " << ValueCacheMaxSizeLimitHigh);
-	ShrinkValueCache();
+	LLOG("нов сделайЗначение макс size " << ValueCacheMaxSize << " high limit " << ValueCacheMaxSizeLimitHigh);
+	сожмиКэшЗначений();
 }
 
-проц ShrinkValueCache()
+проц сожмиКэшЗначений()
 {
-	Стопор::Замок __(ValueCacheMutex);
+	Стопор::Замок __(СтопорКэшаЗначений);
 	if(!ValueCacheMaxSizeLimitHigh)
-		AdjustValueCache();
-	TheValueCache().сожми(ValueCacheMaxSize, 20000);
-	LLOG("MakeValue cache size after shrink: " << TheValueCache().дайРазм());
+		регулируйКэшЗначений();
+	дайКэшЗначений().сожми(ValueCacheMaxSize, 20000);
+	LLOG("сделайЗначение cache size after shrink: " << дайКэшЗначений().дайРазм());
 }
 
-проц SetupValueCache(цел limit_low, цел limit_high, дво ratio)
+проц настройКэшЗначений(цел limit_low, цел limit_high, дво ratio)
 {
-	Стопор::Замок __(ValueCacheMutex);
+	Стопор::Замок __(СтопорКэшаЗначений);
 
 	ValueCacheMaxSizeLimitLow = 1000000;
 	ValueCacheMaxSizeLimitHigh = 256000000;
 	ValueCacheRatio = 0.125;
 }
 
-Значение MakeValue(ValueMaker& m)
+Значение сделайЗначение(ДелецЗначения& m)
 {
-	Стопор::Замок __(ValueCacheMutex);
-	LLOG("MakeValue cache size before make: " << TheValueCache().дайРазм());
-	Значение v = TheValueCache().дай(m);
-	LLOG("MakeValue cache size after make: " << TheValueCache().дайРазм());
-	ShrinkValueCache();
+	Стопор::Замок __(СтопорКэшаЗначений);
+	LLOG("сделайЗначение cache size before make: " << дайКэшЗначений().дайРазм());
+	Значение v = дайКэшЗначений().дай(m);
+	LLOG("сделайЗначение cache size after make: " << дайКэшЗначений().дайРазм());
+	сожмиКэшЗначений();
 	LLOG("-------------");
 	return v;
 }
-
-};

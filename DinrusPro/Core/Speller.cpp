@@ -1,6 +1,4 @@
-#include <DinrusPro/DinrusPro.h>
-
-namespace ДинрусРНЦП {
+#include <DinrusPro/DinrusCore.h>
 
 #define LLOG(x) // LOG(x)
 
@@ -14,7 +12,7 @@ struct SpellBlock : Движ<SpellBlock> {
 struct Speller {
 	Ткст        данные;
 	ббайт          charset;
-	const char   *voc[256];
+	const сим   *voc[256];
 	цел           dict;
 	struct Строка : Движ<Строка> {
 		const ббайт *begin;
@@ -276,11 +274,11 @@ struct SpellKey : Движ<SpellKey> {
 	цел     lang;
 	ШТкст wrd;
 	
-	т_хэш дайХэшЗнач() const { return комбинируйХэш(lang, wrd); }
+	т_хэш дайХэшЗнач() const { return КомбХэш(lang, wrd); }
 	бул operator==(const SpellKey& b) const { return lang == b.lang && wrd == b.wrd; }
 };
 
-struct SpellMaker : LRUCache<бул, SpellKey>::Делец {
+struct SpellMaker : КэшЛРУ<бул, SpellKey>::Делец {
 	SpellKey k;
 	
 	SpellKey Ключ() const  { return k; }
@@ -290,7 +288,7 @@ struct SpellMaker : LRUCache<бул, SpellKey>::Делец {
 	}
 };
 
-static LRUCache<бул, SpellKey> speller_cache;
+static КэшЛРУ<бул, SpellKey> speller_cache;
 
 бул SpellWord(const ШТкст& ws, цел lang)
 {
@@ -358,7 +356,7 @@ WordDistanceTester::WordDistanceTester()
 			pchars[c]--;
 			wchars[c]++;
 			score++;
-			LLOG("Letter " << (char)w[i]);
+			LLOG("Letter " << (сим)w[i]);
 		}
 	}
 
@@ -369,7 +367,7 @@ WordDistanceTester::WordDistanceTester()
 		if(wchars[c]) {
 			wchars[c]--;
 			if(first) {
-				LLOG("Pair " << (char)first << (char)c);
+				LLOG("Pair " << (сим)first << (сим)c);
 				цел pairi = MAKEWORD(first, c);
 				pairs[pairi]++;
 				used_pairs[used_pairs_count++] = pairi;
@@ -429,5 +427,3 @@ WordDistanceTester::WordDistanceTester()
 	});
 	return r;
 }
-
-};

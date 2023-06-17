@@ -1,16 +1,13 @@
-#include <DinrusPro/DinrusPro.h>
+#include <DinrusPro/DinrusCore.h>
 
 #ifdef PLATFORM_WIN32
 #include <mmsystem.h>
 #endif
 
-
-namespace ДинрусРНЦП {
-
 #define LTIMING(x) // TIMING(x)
 
 проц __LOGF__(кткст0 fmt, ...) {
-	char буфер[1024];
+	сим буфер[1024];
 	va_list argptr;
 	va_start(argptr, fmt);
 	vsprintf(буфер, fmt, argptr);
@@ -20,7 +17,7 @@ namespace ДинрусРНЦП {
 
 Ткст дайИмяТипа(кткст0 s)
 {
-	static const char _struct[] = "struct ", _class[] = "class ";
+	static const сим _struct[] = "struct ", _class[] = "class ";
 	enum { LEN_S = sizeof(_struct) - 1, LEN_C = sizeof(_class) - 1 };
 	цел len = (бцел)strlen(s);
 	if(len > LEN_C && !memcmp(s, _class, LEN_C))
@@ -124,8 +121,8 @@ static ТаймингИнспектор s_zero; // time of старт / стоп
 	RLOG("HITCOUNT " << имя << ": hit count = " << hitcount);
 }
 
-проц  гексДампДанных(Поток& s, const ук укз, цел size, бул adr, цел maxsize) {
-	char h[256];
+проц  гексДампДанных(Поток& s, кук укз, цел size, бул adr, цел maxsize) {
+	сим h[256];
 	цел a, b;
 	ббайт *q = (ббайт *)укз;
 	a = 0;
@@ -165,8 +162,8 @@ static ТаймингИнспектор s_zero; // time of старт / стоп
 	}
 }
 
-проц  гексДамп(Поток& s, const ук укз, цел size, цел maxsize) {
-	char h[256];
+проц  гексДамп(Поток& s, кук укз, цел size, цел maxsize) {
+	сим h[256];
 	sprintf(h, "Memory at 0x%p, size 0x%X = %d\n", укз, size, size);
 	s.помести(h);
 #ifdef PLATFORM_WIN32
@@ -205,7 +202,7 @@ static ТаймингИнспектор s_zero; // time of старт / стоп
 	memcpy(h, &x, 16);
 	крат w[8];
 	memcpy(w, &x, 16);
-	float f[4];
+	плав f[4];
 	memcpy(f, &x, 16);
 	return спринтф("_%08x_%08x_%08x_%08x (%d, %d, %d, %d) : (%d, %d, %d, %d) (%f, %f, %f, %f)",
 	               h[3], h[2], h[1], h[0], w[7], w[6], w[5], w[4], w[3], w[2], w[1], w[0],
@@ -236,8 +233,8 @@ template <class T>
 
 static LPTOP_LEVEL_EXCEPTION_FILTER sPrev;
 static бцел sESP;
-static char  appInfo[20];
-static char  crashfilename[MAX_PATH];
+static сим  appInfo[20];
+static сим  crashfilename[MAX_PATH];
 
 проц устИмяКрашФайла(кткст0 cfile)
 {
@@ -265,7 +262,7 @@ LONG __stdcall sDumpHandler(LPEXCEPTION_POINTERS ep) {
 		помести(file, er->ExceptionInformation[i]);
 
 #ifdef CPU_AMD64
-	qword esp = ep->ContextRecord->Rsp;
+	дим esp = ep->ContextRecord->Rsp;
 #else
 	бцел esp = ep->ContextRecord->Esp;
 #endif
@@ -281,7 +278,7 @@ LONG __stdcall sDumpHandler(LPEXCEPTION_POINTERS ep) {
 		base = new_base;
 	}*/
 	CloseHandle(file);
-	char h[200];
+	сим h[200];
 	sprintf(h, "CRASH: %d-%02d-%02d %02d:%02d:%02d код_: 0x%X  address: 0x%p",
 	        st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond,
 	        (цел)er->ExceptionCode, er->ExceptionAddress);
@@ -324,31 +321,22 @@ LONG __stdcall sDumpHandler(LPEXCEPTION_POINTERS ep) {
 #include <memory>
 #include <cxxabi.h>
 
-namespace ДинрусРНЦП {
-
 struct cpp_demangle_handle__ {
-    char* p;
-    cpp_demangle_handle__(char* укз) : p(укз) { }
+    сим* p;
+    cpp_demangle_handle__(сим* укз) : p(укз) { }
     ~cpp_demangle_handle__() { std::free(p); }
 };
 
-Ткст разманглируйСиПП(const char* имя) {
+Ткст разманглируйСиПП(const сим* имя) {
     цел status = -4;
     cpp_demangle_handle__ result( abi::__cxa_demangle(имя, NULL, NULL, &status) );
     return (status==0) ? result.p : имя ;
 }
 
-}
-
 #else
 
-namespace ДинрусРНЦП {
-
-Ткст разманглируйСиПП(const char* имя) {
+Ткст разманглируйСиПП(const сим* имя) {
     return обрежьЛево("struct ", обрежьЛево("class ", имя));
-}
-
-}
 
 #endif
 

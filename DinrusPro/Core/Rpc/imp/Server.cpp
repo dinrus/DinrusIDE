@@ -1,9 +1,7 @@
-#include <DinrusPro/DinrusPro.h>
+#include <DinrusPro/DinrusCore.h>
 #include <RKod/Rpc/Rpc.h>
 
 #define LLOG(x)  //  DLOG(x)
-
-namespace ДинрусРНЦП {
 
 typedef проц (*RpcFnPtr)(RpcData&);
 
@@ -105,10 +103,10 @@ struct XmlRpcDo {
 
 	Ткст XmlResult();
 	Ткст DoXmlRpc();
-	Ткст JsonRpcError(цел код_, кткст0 text, const Значение& ид);
-	Ткст JsonResult();
-	Ткст ProcessJsonRpc(const Значение& v);
-	Ткст DoJsonRpc();
+	Ткст ДжейсонRpcError(цел код_, кткст0 text, const Значение& ид);
+	Ткст ДжейсонResult();
+	Ткст ProcessДжейсонRpc(const Значение& v);
+	Ткст DoДжейсонRpc();
 	Ткст RpcExecute();
 	проц   RpcResponse(const Ткст& r);
 	проц   EndRpc();
@@ -179,9 +177,9 @@ XmlRpcDo::XmlRpcDo(TcpSocket& http, кткст0 группа)
 	return Null;
 }
 
-Ткст XmlRpcDo::JsonRpcError(цел код_, кткст0 text, const Значение& ид)
+Ткст XmlRpcDo::ДжейсонRpcError(цел код_, кткст0 text, const Значение& ид)
 {
-	Json m;
+	Джейсон m;
 	m("jsonrpc", "2.0");
 	МапЗнач err;
 	err.добавь("код_", код_);
@@ -191,7 +189,7 @@ XmlRpcDo::XmlRpcDo(TcpSocket& http, кткст0 группа)
 	return m;
 }
 
-Ткст XmlRpcDo::JsonResult()
+Ткст XmlRpcDo::ДжейсонResult()
 {
 	if(массивЗнач_ли(данные.out)) {
 		МассивЗнач va = данные.out;
@@ -202,23 +200,23 @@ XmlRpcDo::XmlRpcDo(TcpSocket& http, кткст0 группа)
 				Ткст e = дайТекстОш(данные.out[0]);
 				if(rpc_trace)
 					*rpc_trace << "Processing Ошибка: " << e << '\n';
-				return JsonRpcError(RPC_SERVER_PROCESSING_ERROR, "Processing Ошибка: " + e, ид);
+				return ДжейсонRpcError(RPC_SERVER_PROCESSING_ERROR, "Processing Ошибка: " + e, ид);
 			}
-			result = JsonRpcData(va[0]);
+			result = ДжейсонRpcData(va[0]);
 		}
-		Json json;
+		Джейсон json;
 		json("jsonrpc", "2.0");
-		if(result.является<RawJsonText>())
-			json.CatRaw("result", result.To<RawJsonText>().json);
+		if(result.является<RawДжейсонText>())
+			json.CatRaw("result", result.To<RawДжейсонText>().json);
 		else
 			json("result", result);
 		json("ид", ид);
 		return json;
 	}
-	return JsonRpcError(RPC_UNKNOWN_METHOD_ERROR, "Method not found", ид);
+	return ДжейсонRpcError(RPC_UNKNOWN_METHOD_ERROR, "Method not found", ид);
 }
 
-Ткст XmlRpcDo::ProcessJsonRpc(const Значение& v)
+Ткст XmlRpcDo::ProcessДжейсонRpc(const Значение& v)
 {
 	LLOG("Parsed JSON request: " << v);
 	ид = v["ид"];
@@ -232,39 +230,39 @@ XmlRpcDo::XmlRpcDo(TcpSocket& http, кткст0 группа)
 		if(CallRpcMethod(данные, группа, methodname, request)) {
 			if(!данные.rpc && !shorted)
 				return Null;
-			return JsonResult();
+			return ДжейсонResult();
 		}
-		return JsonRpcError(RPC_UNKNOWN_METHOD_ERROR, "Method not found", ид);
+		return ДжейсонRpcError(RPC_UNKNOWN_METHOD_ERROR, "Method not found", ид);
 	}
 	catch(RpcError e) {
 		LLOG("Processing Ошибка: " << e.text);
 		if(rpc_trace)
 			*rpc_trace << "Processing Ошибка: " << e.text << '\n';
-		return JsonRpcError(e.код_, e.text, ид);
+		return ДжейсонRpcError(e.код_, e.text, ид);
 	}
 	catch(ValueTypeMismatch) {
 		LLOG("ValueTypeMismatch at parameter " << данные.ii);
 		if(rpc_trace)
 			*rpc_trace << "ValueTypeMismatch at parameter " << данные.ii << '\n';
-		return JsonRpcError(RPC_SERVER_PARAM_ERROR, "Invalid params", ид);
+		return ДжейсонRpcError(RPC_SERVER_PARAM_ERROR, "Invalid params", ид);
 	}
 }
 
-Ткст XmlRpcDo::DoJsonRpc()
+Ткст XmlRpcDo::DoДжейсонRpc()
 {
 	try {
-		Значение v = ParseJSON(request);
+		Значение v = разбериДжейсон(request);
 		if(v.является<МапЗнач>())
-			return ProcessJsonRpc(v);
+			return ProcessДжейсонRpc(v);
 		if(v.является<МассивЗнач>()) {
-			JsonArray a;
+			МассивДжейсон a;
 			for(цел i = 0; i < v.дайСчёт(); i++)
-				a.CatRaw(ProcessJsonRpc(v[i]));
+				a.CatRaw(ProcessДжейсонRpc(v[i]));
 			return v.дайСчёт() ? ~a : Ткст();
 		}
 	}
 	catch(СиПарсер::Ошибка e) {}	
-	return AsJSON(JsonRpcError(RPC_SERVER_JSON_ERROR, "Parse Ошибка", Null));
+	return какДжейсон(ДжейсонRpcError(RPC_SERVER_JSON_ERROR, "Parse Ошибка", Null));
 }
 
 Ткст XmlRpcDo::RpcExecute()
@@ -280,7 +278,7 @@ XmlRpcDo::XmlRpcDo(TcpSocket& http, кткст0 группа)
 	Ткст mn;
 	ТаймСтоп tm;
 	if(json)
-		r = DoJsonRpc();
+		r = DoДжейсонRpc();
 	else
 	    r = DoXmlRpc();
 
@@ -307,7 +305,7 @@ XmlRpcDo::XmlRpcDo(TcpSocket& http, кткст0 группа)
 {
 	LLOG("--------- Server response:\n" << r << "=============");
 	Ткст response;
-	Ткст ts = WwwFormat(GetUtcTime());
+	Ткст ts = WwwFormat(дайВремяУВИ());
 	response <<
 		"HTTP/1.0 200 OK\r\n"
 		"Дата: " << ts << "\r\n"
@@ -323,7 +321,7 @@ XmlRpcDo::XmlRpcDo(TcpSocket& http, кткст0 группа)
 
 проц XmlRpcDo::EndRpc()
 {
-	RpcResponse(json ? JsonResult() : XmlResult());
+	RpcResponse(json ? ДжейсонResult() : XmlResult());
 }
 
 проц RpcData::EndRpc()
@@ -382,4 +380,4 @@ XmlRpcDo::XmlRpcDo(TcpSocket& http, кткст0 группа)
 	}
 }
 
-}
+

@@ -1,8 +1,6 @@
-#include <DinrusPro/DinrusPro.h>
+#include <DinrusPro/DinrusCore.h>
 
-namespace ДинрусРНЦП {
-
-static Кортеж<const char *, const char *> sEXT_MIME[] = {
+static Кортеж<кткст0 , кткст0 > sEXT_MIME[] = {
 	{ "txt", "text/plain" },
 	{ "html", "text/html" },
 	{ "jpeg", "image/jpeg" },
@@ -201,7 +199,7 @@ static const Индекс<Ткст>& sEXT()
 {
 	static Индекс<Ткст> x;
 	ONCELOCK {
-		for(цел i = 0; i < __countof(sEXT_MIME); i++)
+		for(цел i = 0; i < __количество(sEXT_MIME); i++)
 			x.добавь(sEXT_MIME[i].a);
 	}
 	return x;
@@ -211,7 +209,7 @@ static const Индекс<Ткст>& sMIME()
 {
 	static Индекс<Ткст> x;
 	ONCELOCK {
-		for(цел i = 0; i < __countof(sEXT_MIME); i++)
+		for(цел i = 0; i < __количество(sEXT_MIME); i++)
 			x.добавь(sEXT_MIME[i].b);
 	}
 	return x;
@@ -240,6 +238,4 @@ const Индекс<Ткст>& GetMIMETypes() {
 {
 	цел q = sMIME().найди(впроп(mime));
 	return q >= 0 ? sEXT()[q] : "bin";
-}
-
 }

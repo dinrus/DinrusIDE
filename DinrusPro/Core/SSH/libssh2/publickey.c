@@ -131,17 +131,17 @@ publickey_status_error(const LIBSSH2_PUBLICKEY *pkey,
  */
 static цел
 publickey_packet_receive(LIBSSH2_PUBLICKEY * pkey,
-                         unsigned char **data, т_мера *data_len)
+                         ббайт **data, т_мера *data_len)
 {
     LIBSSH2_CHANNEL *channel = pkey->channel;
     LIBSSH2_SESSION *session = channel->session;
-    unsigned char буфер[4];
+    ббайт буфер[4];
     цел rc;
     *data = NULL; /* default to nothing returned */
     *data_len = 0;
 
     if(pkey->receive_state == libssh2_NB_state_idle) {
-        rc = _libssh2_channel_read(channel, 0, (char *) буфер, 4);
+        rc = _libssh2_channel_read(channel, 0, (сим *) буфер, 4);
         if(rc == LIBSSH2_ERROR_EAGAIN) {
             return rc;
         }
@@ -163,7 +163,7 @@ publickey_packet_receive(LIBSSH2_PUBLICKEY * pkey,
     }
 
     if(pkey->receive_state == libssh2_NB_state_sent) {
-        rc = _libssh2_channel_read(channel, 0, (char *) pkey->receive_packet,
+        rc = _libssh2_channel_read(channel, 0, (сим *) pkey->receive_packet,
                                    pkey->receive_packet_len);
         if(rc == LIBSSH2_ERROR_EAGAIN) {
             return rc;
@@ -192,10 +192,10 @@ publickey_packet_receive(LIBSSH2_PUBLICKEY * pkey,
  * Data will be incremented by 4 + response_len on success only
  */
 static цел
-publickey_response_id(unsigned char **pdata, т_мера data_len)
+publickey_response_id(ббайт **pdata, т_мера data_len)
 {
     т_мера response_len;
-    unsigned char *data = *pdata;
+    ббайт *data = *pdata;
     const LIBSSH2_PUBLICKEY_CODE_LIST *codes = publickey_response_codes;
 
     if(data_len < 4) {
@@ -212,7 +212,7 @@ publickey_response_id(unsigned char **pdata, т_мера data_len)
 
     while(codes->имя) {
         if((unsigned long)codes->name_len == response_len &&
-            strncmp(codes->имя, (char *) data, response_len) == 0) {
+            strncmp(codes->имя, (сим *) data, response_len) == 0) {
             *pdata = data + response_len;
             return codes->код_;
         }
@@ -230,7 +230,7 @@ static цел
 publickey_response_success(LIBSSH2_PUBLICKEY * pkey)
 {
     LIBSSH2_SESSION *session = pkey->channel->session;
-    unsigned char *data, *s;
+    ббайт *data, *s;
     т_мера data_len;
     цел response;
 
@@ -357,7 +357,7 @@ static LIBSSH2_PUBLICKEY *publickey_init(LIBSSH2_SESSION *session)
     }
 
     if(session->pkeyInit_state == libssh2_NB_state_sent1) {
-        unsigned char *s;
+        ббайт *s;
         rc = _libssh2_channel_extended_data(session->pkeyInit_channel,
                                          LIBSSH2_CHANNEL_EXTENDED_DATA_IGNORE);
         if(rc == LIBSSH2_ERROR_EAGAIN) {
@@ -420,7 +420,7 @@ static LIBSSH2_PUBLICKEY *publickey_init(LIBSSH2_SESSION *session)
 
     if(session->pkeyInit_state == libssh2_NB_state_sent3) {
         while(1) {
-            unsigned char *s;
+            ббайт *s;
             rc = publickey_packet_receive(session->pkeyInit_pkey,
                                           &session->pkeyInit_data,
                                           &session->pkeyInit_data_len);
@@ -583,9 +583,9 @@ libssh2_publickey_init(LIBSSH2_SESSION *session)
  * добавь a new public ключ entry
  */
 LIBSSH2_API цел
-libssh2_publickey_add_ex(LIBSSH2_PUBLICKEY *pkey, const unsigned char *имя,
-                         unsigned long name_len, const unsigned char *blob,
-                         unsigned long blob_len, char overwrite,
+libssh2_publickey_add_ex(LIBSSH2_PUBLICKEY *pkey, const ббайт *имя,
+                         unsigned long name_len, const ббайт *blob,
+                         unsigned long blob_len, сим overwrite,
                          unsigned long num_attrs,
                          const libssh2_publickey_attribute attrs[])
 {
@@ -594,7 +594,7 @@ libssh2_publickey_add_ex(LIBSSH2_PUBLICKEY *pkey, const unsigned char *имя,
     /*  19 = packet_len(4) + add_len(4) + "add"(3) + name_len(4) + {имя}
         blob_len(4) + {blob} */
     unsigned long i, packet_len = 19 + name_len + blob_len;
-    unsigned char *comment = NULL;
+    ббайт *comment = NULL;
     unsigned long comment_len = 0;
     цел rc;
 
@@ -616,7 +616,7 @@ libssh2_publickey_add_ex(LIBSSH2_PUBLICKEY *pkey, const unsigned char *имя,
                 if(attrs[i].name_len == (sizeof("comment") - 1) &&
                     strncmp(attrs[i].имя, "comment",
                             sizeof("comment") - 1) == 0) {
-                    comment = (unsigned char *) attrs[i].значение;
+                    comment = (ббайт *) attrs[i].значение;
                     comment_len = attrs[i].value_len;
                     break;
                 }
@@ -731,8 +731,8 @@ libssh2_publickey_add_ex(LIBSSH2_PUBLICKEY *pkey, const unsigned char *имя,
  */
 LIBSSH2_API цел
 libssh2_publickey_remove_ex(LIBSSH2_PUBLICKEY * pkey,
-                            const unsigned char *имя, unsigned long name_len,
-                            const unsigned char *blob, unsigned long blob_len)
+                            const ббайт *имя, unsigned long name_len,
+                            const ббайт *blob, unsigned long blob_len)
 {
     LIBSSH2_CHANNEL *channel;
     LIBSSH2_SESSION *session;
@@ -902,7 +902,7 @@ libssh2_publickey_list_fetch(LIBSSH2_PUBLICKEY * pkey, unsigned long *num_keys,
             }
             else {
                 _libssh2_error(session, LIBSSH2_ERROR_BUFFER_TOO_SMALL,
-                               "ListFetch data too short");
+                               "ListFetch data too крат");
                 goto err_exit;
             }
 
@@ -915,7 +915,7 @@ libssh2_publickey_list_fetch(LIBSSH2_PUBLICKEY * pkey, unsigned long *num_keys,
             }
             else {
                 _libssh2_error(session, LIBSSH2_ERROR_BUFFER_TOO_SMALL,
-                               "ListFetch data too short");
+                               "ListFetch data too крат");
                 goto err_exit;
             }
 
@@ -926,7 +926,7 @@ libssh2_publickey_list_fetch(LIBSSH2_PUBLICKEY * pkey, unsigned long *num_keys,
             }
             else {
                 _libssh2_error(session, LIBSSH2_ERROR_BUFFER_TOO_SMALL,
-                               "ListFetch data too short");
+                               "ListFetch data too крат");
                 goto err_exit;
             }
 
@@ -977,7 +977,7 @@ libssh2_publickey_list_fetch(LIBSSH2_PUBLICKEY * pkey, unsigned long *num_keys,
                 }
                 else {
                     _libssh2_error(session, LIBSSH2_ERROR_BUFFER_TOO_SMALL,
-                                   "ListFetch data too short");
+                                   "ListFetch data too крат");
                     goto err_exit;
                 }
 
@@ -994,7 +994,7 @@ libssh2_publickey_list_fetch(LIBSSH2_PUBLICKEY * pkey, unsigned long *num_keys,
                     }
                     list[keys].attrs[0].имя = "comment";
                     list[keys].attrs[0].name_len = sizeof("comment") - 1;
-                    list[keys].attrs[0].значение = (char *) pkey->listFetch_s;
+                    list[keys].attrs[0].значение = (сим *) pkey->listFetch_s;
                     list[keys].attrs[0].value_len = comment_len;
                     list[keys].attrs[0].mandatory = 0;
 
@@ -1012,7 +1012,7 @@ libssh2_publickey_list_fetch(LIBSSH2_PUBLICKEY * pkey, unsigned long *num_keys,
                 }
                 else {
                     _libssh2_error(session, LIBSSH2_ERROR_BUFFER_TOO_SMALL,
-                                   "ListFetch data too short");
+                                   "ListFetch data too крат");
                     goto err_exit;
                 }
 
@@ -1023,7 +1023,7 @@ libssh2_publickey_list_fetch(LIBSSH2_PUBLICKEY * pkey, unsigned long *num_keys,
                 }
                 else {
                     _libssh2_error(session, LIBSSH2_ERROR_BUFFER_TOO_SMALL,
-                                   "ListFetch data too short");
+                                   "ListFetch data too крат");
                     goto err_exit;
                 }
 
@@ -1034,7 +1034,7 @@ libssh2_publickey_list_fetch(LIBSSH2_PUBLICKEY * pkey, unsigned long *num_keys,
                 }
                 else {
                     _libssh2_error(session, LIBSSH2_ERROR_BUFFER_TOO_SMALL,
-                                   "ListFetch data too short");
+                                   "ListFetch data too крат");
                     goto err_exit;
                 }
 
@@ -1045,7 +1045,7 @@ libssh2_publickey_list_fetch(LIBSSH2_PUBLICKEY * pkey, unsigned long *num_keys,
                 }
                 else {
                     _libssh2_error(session, LIBSSH2_ERROR_BUFFER_TOO_SMALL,
-                                   "ListFetch data too short");
+                                   "ListFetch data too крат");
                     goto err_exit;
                 }
             }
@@ -1059,7 +1059,7 @@ libssh2_publickey_list_fetch(LIBSSH2_PUBLICKEY * pkey, unsigned long *num_keys,
                 }
                 else {
                     _libssh2_error(session, LIBSSH2_ERROR_BUFFER_TOO_SMALL,
-                                   "ListFetch data too short");
+                                   "ListFetch data too крат");
                     goto err_exit;
                 }
 
@@ -1070,7 +1070,7 @@ libssh2_publickey_list_fetch(LIBSSH2_PUBLICKEY * pkey, unsigned long *num_keys,
                 }
                 else {
                     _libssh2_error(session, LIBSSH2_ERROR_BUFFER_TOO_SMALL,
-                                   "ListFetch data too short");
+                                   "ListFetch data too крат");
                     goto err_exit;
                 }
 
@@ -1081,7 +1081,7 @@ libssh2_publickey_list_fetch(LIBSSH2_PUBLICKEY * pkey, unsigned long *num_keys,
                 }
                 else {
                     _libssh2_error(session, LIBSSH2_ERROR_BUFFER_TOO_SMALL,
-                                   "ListFetch data too short");
+                                   "ListFetch data too крат");
                     goto err_exit;
                 }
 
@@ -1092,7 +1092,7 @@ libssh2_publickey_list_fetch(LIBSSH2_PUBLICKEY * pkey, unsigned long *num_keys,
                 }
                 else {
                     _libssh2_error(session, LIBSSH2_ERROR_BUFFER_TOO_SMALL,
-                                   "ListFetch data too short");
+                                   "ListFetch data too крат");
                     goto err_exit;
                 }
 
@@ -1103,7 +1103,7 @@ libssh2_publickey_list_fetch(LIBSSH2_PUBLICKEY * pkey, unsigned long *num_keys,
                 }
                 else {
                     _libssh2_error(session, LIBSSH2_ERROR_BUFFER_TOO_SMALL,
-                                   "ListFetch data too short");
+                                   "ListFetch data too крат");
                     goto err_exit;
                 }
 
@@ -1128,20 +1128,20 @@ libssh2_publickey_list_fetch(LIBSSH2_PUBLICKEY * pkey, unsigned long *num_keys,
                         else {
                             _libssh2_error(session,
                                            LIBSSH2_ERROR_BUFFER_TOO_SMALL,
-                                           "ListFetch data too short");
+                                           "ListFetch data too крат");
                             goto err_exit;
                         }
 
                         if(pkey->listFetch_s + list[keys].attrs[i].name_len <=
                            pkey->listFetch_data + pkey->listFetch_data_len) {
                             list[keys].attrs[i].имя =
-                                (char *) pkey->listFetch_s;
+                                (сим *) pkey->listFetch_s;
                             pkey->listFetch_s += list[keys].attrs[i].name_len;
                         }
                         else {
                             _libssh2_error(session,
                                            LIBSSH2_ERROR_BUFFER_TOO_SMALL,
-                                           "ListFetch data too short");
+                                           "ListFetch data too крат");
                             goto err_exit;
                         }
 
@@ -1154,7 +1154,7 @@ libssh2_publickey_list_fetch(LIBSSH2_PUBLICKEY * pkey, unsigned long *num_keys,
                         else {
                             _libssh2_error(session,
                                            LIBSSH2_ERROR_BUFFER_TOO_SMALL,
-                                           "ListFetch data too short");
+                                           "ListFetch data too крат");
                             goto err_exit;
                         }
 
@@ -1162,13 +1162,13 @@ libssh2_publickey_list_fetch(LIBSSH2_PUBLICKEY * pkey, unsigned long *num_keys,
                            list[keys].attrs[i].value_len <=
                            pkey->listFetch_data + pkey->listFetch_data_len) {
                             list[keys].attrs[i].значение =
-                                (char *) pkey->listFetch_s;
+                                (сим *) pkey->listFetch_s;
                             pkey->listFetch_s += list[keys].attrs[i].value_len;
                         }
                         else {
                             _libssh2_error(session,
                                            LIBSSH2_ERROR_BUFFER_TOO_SMALL,
-                                           "ListFetch data too short");
+                                           "ListFetch data too крат");
                             goto err_exit;
                         }
 

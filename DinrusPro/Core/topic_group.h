@@ -114,8 +114,8 @@
 
 #define TOPIC(ид)       { кткст0 topic = ид;
 #define TITLE(x)          кткст0 title = x;
-#define COMPRESSED        static const РНЦП::ббайт данные[] = {
-#define END_TOPIC         }; RegisterTopic__(КАКТКСТ(TOPICFILE), topic, title, данные, __countof(данные)); }
+#define COMPRESSED        static const ббайт данные[] = {
+#define END_TOPIC         }; RegisterTopic__(КАКТКСТ(TOPICFILE), topic, title, данные, __количество(данные)); }
 
 INITBLOCK_(КОМБИНИРУЙ3(TOPIC__, TOPIC_VERB, TOPIC_VERA))
 {

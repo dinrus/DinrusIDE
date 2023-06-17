@@ -3,8 +3,6 @@
 
 #include <DinrusPro/DinrusPro.h>
 
-namespace ДинрусРНЦП {
-
 class Smtp : public TcpSocket {
     struct Attachment
     {
@@ -25,7 +23,7 @@ class Smtp : public TcpSocket {
 	Ткст         from_name;
 	Вектор<Ткст> to;
 	Вектор<Ткст> to_name;
-	Вектор<char>   as;
+	Вектор<сим>   as;
 	Вектор<Ткст> body;
 	Вектор<Ткст> mime; // default: text/plain; charset=<default application charset>
 	Массив<Attachment> attachments;
@@ -110,7 +108,5 @@ public:
 	static Ткст  Encode(const Ткст& text);
 	static Ткст  FormatAddr(const Ткст& addr, const Ткст& имя);
 };
-
-}
 
 #endif

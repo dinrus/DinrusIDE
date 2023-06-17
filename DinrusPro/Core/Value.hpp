@@ -90,30 +90,30 @@ inline цел полиСравни(const Время& x, const Значение& 
 }
 
 template<>
-inline т_хэш ValueGetHashValue(const бул& x) {
-	return РНЦП::дайХэшЗнач((дол)x);
+inline т_хэш дайХэшЗначЗначения(const бул& x) {
+	return дайХэшЗнач((дол)x);
 }
 
 template<>
-inline т_хэш ValueGetHashValue(const цел& x) {
-	return РНЦП::дайХэшЗнач((дол)x);
+inline т_хэш дайХэшЗначЗначения(const цел& x) {
+	return дайХэшЗнач((дол)x);
 }
 
 template<>
-inline т_хэш ValueGetHashValue(const дво& x) {
-	if(x >= (дво)INT64_MIN && x <= (дво)INT64_MAX && (дол)x == x)
-		return РНЦП::дайХэшЗнач((дол)x); // we want this to be equal to other number types
-	return РНЦП::дайХэшЗнач(x);
+inline т_хэш дайХэшЗначЗначения(const дво& x) {
+	if(x >= (дво)ЦЕЛ64_МИН && x <= (дво)ЦЕЛ64_МАКС && (дол)x == x)
+		return дайХэшЗнач((дол)x); // we want this to be equal to other number types
+	return дайХэшЗнач(x);
 }
 
 template<>
-inline т_хэш ValueGetHashValue(const Дата& x) {
-	return РНЦП::дайХэшЗнач(воВремя(x));
+inline т_хэш дайХэшЗначЗначения(const Дата& x) {
+	return дайХэшЗнач(воВремя(x));
 }
 
 template<>
-inline т_хэш ValueGetHashValue(const ШТкст& x) {
-	return РНЦП::дайХэшЗнач(x.вТкст());
+inline т_хэш дайХэшЗначЗначения(const ШТкст& x) {
+	return дайХэшЗнач(x.вТкст());
 }
 
 template <class T>
@@ -138,18 +138,18 @@ public:
 template <class T>
 class RichValueRep : public RawValueRep<T> {
 public:
-	virtual бул       пусто_ли() const                { return РНЦП::пусто_ли(this->v); }
+	virtual бул       пусто_ли() const                { return пусто_ли(this->v); }
 	virtual проц       сериализуй(Поток& s)          { s % this->v; }
-	virtual проц       вРяр(РярВВ& xio)            { ДинрусРНЦП::вРяр(xio, this->v); }
-	virtual проц       вДжейсон(ДжейсонВВ& jio)          { ДинрусРНЦП::вДжейсон(jio, this->v); }
-	virtual т_хэш     дайХэшЗнач() const          { return РНЦП::ValueGetHashValue(this->v); }
+	virtual проц       вРяр(РярВВ& xio)            { вРяр(xio, this->v); }
+	virtual проц       вДжейсон(ДжейсонВВ& jio)          { вДжейсон(jio, this->v); }
+	virtual т_хэш     дайХэшЗнач() const          { return дайХэшЗначЗначения(this->v); }
 	virtual бул       равен(const Значение::Проц *p) { ПРОВЕРЬ(dynamic_cast<const RawValueRep<T> *>(p));
 	                                                   return static_cast<const RawValueRep<T> *>(p)->дай() == this->v; }
-	virtual бул       полиРавны(const Значение& b)   { return РНЦП::полиРавны(this->v, b); }
-	virtual Ткст     какТкст() const              { return РНЦП::какТкст(this->v); }
+	virtual бул       полиРавны(const Значение& b)   { return полиРавны(this->v, b); }
+	virtual Ткст     какТкст() const              { return какТкст(this->v); }
 	virtual цел        сравни(const Значение::Проц *p) { ПРОВЕРЬ(dynamic_cast<const RawValueRep<T> *>(p));
 	                                                   return сравниЗнак(this->v, static_cast<const RawValueRep<T> *>(p)->дай()); }
-	virtual цел        полиСравни(const Значение& b)   { return ДинрусРНЦП::полиСравни(this->v, b); }
+	virtual цел        полиСравни(const Значение& b)   { return полиСравни(this->v, b); }
 
 	RichValueRep(const T& v) : RawValueRep<T>(v)     {}
 	RichValueRep()                                   {}
@@ -159,16 +159,16 @@ public:
 
 template <class T>
 struct SvoFn {
-	static бул       пусто_ли(const ук p)                      { return РНЦП::пусто_ли(*(T *)p); }
+	static бул       пусто_ли(кук p)                      { return пусто_ли(*(T *)p); }
 	static проц       сериализуй(ук p, Поток& s)              { s % *(T*)p; }
-	static проц       вРяр(ук p, РярВВ& xio)                { ДинрусРНЦП::вРяр(xio, *(T*)p); }
-	static проц       вДжейсон(ук p, ДжейсонВВ& jio)              { ДинрусРНЦП::вДжейсон(jio, *(T*)p); }
-	static т_хэш     дайХэшЗнач(const ук p)                { return РНЦП::ValueGetHashValue(*(T*)p); }
-	static бул       равен(const ук p1, const ук p2)    { return *(T*)p1 == *(T*)p2; }
-	static бул       полиРавны(const ук p, const Значение& v) { return РНЦП::полиРавны(*(T*)p, v); }
-	static Ткст     какТкст(const ук p)                    { return РНЦП::какТкст(*(T*)p); }
-	static цел        сравни(const ук p1, const ук p2)    { return сравниЗнак(*(T*)p1, *(T*)p2); }
-	static цел        полиСравни(const ук p1, const Значение& p2) { return РНЦП::полиСравни(*(T*)p1, p2); }
+	static проц       вРяр(ук p, РярВВ& xio)                { вРяр(xio, *(T*)p); }
+	static проц       вДжейсон(ук p, ДжейсонВВ& jio)              { вДжейсон(jio, *(T*)p); }
+	static т_хэш     дайХэшЗнач(кук p)                { return дайХэшЗначЗначения(*(T*)p); }
+	static бул       равен(кук p1, кук p2)    { return *(T*)p1 == *(T*)p2; }
+	static бул       полиРавны(кук p, const Значение& v) { return полиРавны(*(T*)p, v); }
+	static Ткст     какТкст(кук p)                    { return какТкст(*(T*)p); }
+	static цел        сравни(кук p1, кук p2)    { return сравниЗнак(*(T*)p1, *(T*)p2); }
+	static цел        полиСравни(кук p1, const Значение& p2) { return полиСравни(*(T*)p1, p2); }
 };
 
 #define SVO_FN(ид, T) \
@@ -340,27 +340,27 @@ const Значение& Значение::operator[](const Ид& ключ) const
 }
 
 template <class T>
-inline Значение RawToValue(const T& данные)
+inline Значение сырВЗнач(const T& данные)
 {
 	return Значение(new RawValueRep<T>(данные), дайНомТипаЗнач<T>());
 }
 
 template <class T>
-inline Значение RawPickToValue(T&& данные)
+inline Значение сырПикуйВЗнач(T&& данные)
 {
 	typedef RawValueRep<T> R;
 	return Значение(new R(пикуй(данные), R::PICK), дайНомТипаЗнач<T>());
 }
 
 template <class T>
-inline Значение RawDeepToValue(const T& данные)
+inline Значение сырГлубВЗнач(const T& данные)
 {
 	typedef RawValueRep<T> R;
 	return Значение(new R(данные, R::DEEP), дайНомТипаЗнач<T>());
 }
 
 template <class T>
-inline T& CreateRawValue(Значение& v) {
+inline T& создайСырЗнач(Значение& v) {
 	typedef RawValueRep<T> R;
 	R *r = new R;
 	v = Значение(r, дайНомТипаЗнач<T>());
@@ -387,8 +387,8 @@ template <class T> // use Значение::является
 бул IsType(const Значение& x, T* = 0)                        { return x.является<T>(); }
 
 template <class T>
-struct СыроеЗначение : public Значение { // use RawToValue and Значение::To
-	СыроеЗначение(const T& x) : Значение(RawToValue(x))            {}
+struct СыроеЗначение : public Значение { // use сырВЗнач and Значение::To
+	СыроеЗначение(const T& x) : Значение(сырВЗнач(x))            {}
 	static const T& извлеки(const Значение& v)                { return v.To<T>(); }
 	static const T& извлеки(const Значение& v, const T& dflt) { return v.является<T>() ? v.To<T>() : dflt; }
 };

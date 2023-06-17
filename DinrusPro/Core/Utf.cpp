@@ -1,51 +1,49 @@
-#include <DinrusPro/DinrusPro.h>
-
-namespace ДинрусРНЦП {
+#include <DinrusPro/DinrusCore.h>
 
 бул проверьУтф8(кткст0 s, цел len)
 {
-	return FromUtf8_([](шим) {}, s, len);
+	return изУтф8_([](шим) {}, s, len);
 }
 
 цел длинаУтф8(const шим *s, цел len)
 {
 	цел rlen = 0;
 	for(const шим *lim = s + len; s < lim; s++)
-		ToUtf8_([&](char) { rlen++; }, *s);
+		вУтф8_([&](сим) { rlen++; }, *s);
 	return rlen;
 }
 
-проц вУтф8(char *t, const шим *s, цел len)
+проц вУтф8(сим *t, const шим *s, цел len)
 {
 	for(const шим *lim = s + len; s < lim; s++)
-		ToUtf8_([&](char c) { *t++ = c; }, *s);
+		вУтф8_([&](сим c) { *t++ = c; }, *s);
 }
 
 Ткст вУтф8(const шим *s, цел len)
 {
 	Ткст r;
 	for(const шим *lim = s + len; s < lim; s++)
-		ToUtf8_([&](char c) { r.кат(c); }, *s);
+		вУтф8_([&](сим c) { r.кат(c); }, *s);
 	return r;
 }
 
-цел длинаУтф8(const char16 *s, цел len)
+цел длинаУтф8(const сим16 *s, цел len)
 {
 	цел rlen = 0;
-	FromUtf16_([&](шим code) { ToUtf8_([&](char c) { rlen++; }, code); }, s, len);
+	изУтф16_([&](шим code) { вУтф8_([&](сим c) { rlen++; }, code); }, s, len);
 	return rlen;
 }
 
-проц вУтф8(char *t, const char16 *s, цел len)
+проц вУтф8(сим *t, const сим16 *s, цел len)
 {
-	FromUtf16_([&](шим code) { ToUtf8_([&](char c) { *t++ = c; }, code); }, s, len);
+	изУтф16_([&](шим code) { вУтф8_([&](сим c) { *t++ = c; }, code); }, s, len);
 }
 
-Ткст вУтф8(const char16 *s, цел len)
+Ткст вУтф8(const сим16 *s, цел len)
 {
 	ТкстБуф r;
 	r.резервируй(len);
-	FromUtf16_([&](шим code) { ToUtf8_([&](char c) { r.кат(c); }, code); }, s, len);
+	изУтф16_([&](шим code) { вУтф8_([&](сим c) { r.кат(c); }, code); }, s, len);
 	return Ткст(r);
 }
 
@@ -53,50 +51,50 @@ namespace ДинрусРНЦП {
 {
 	цел rlen = 0;
 	for(const шим *lim = s + len; s < lim; s++)
-		ToUtf16_([&](char16) { rlen++; }, *s);
+		вУтф16_([&](сим16) { rlen++; }, *s);
 	return rlen;
 }
 
-цел вУтф16(char16 *t, const шим *s, цел len)
+цел вУтф16(сим16 *t, const шим *s, цел len)
 {
-	char16 *t0 = t;
+	сим16 *t0 = t;
 	for(const шим *lim = s + len; s < lim; s++)
-		ToUtf16_([&](char16 c) { *t++ = c; }, *s);
+		вУтф16_([&](сим16 c) { *t++ = c; }, *s);
 	return цел(t - t0);
 }
 
-Вектор<char16> вУтф16(const шим *s, цел len)
+Вектор<сим16> вУтф16(const шим *s, цел len)
 {
-	Вектор<char16> r;
+	Вектор<сим16> r;
 	r.резервируй(len);
 	for(const шим *lim = s + len; s < lim; s++)
-		ToUtf16_([&](char16 c) { r.добавь(c); }, *s);
+		вУтф16_([&](сим16 c) { r.добавь(c); }, *s);
 	return r;
 }
 
 цел длинаУтф16(кткст0 s, цел len)
 {
 	цел rlen = 0;
-	FromUtf8_([&](шим code) {
-		ToUtf16_([&](char16) { rlen++; }, code);
+	изУтф8_([&](шим code) {
+		вУтф16_([&](сим16) { rlen++; }, code);
 	}, s, len);
 	return rlen;
 }
 
-цел вУтф16(char16 *t, кткст0 s, цел len)
+цел вУтф16(сим16 *t, кткст0 s, цел len)
 {
-	char16 *t0 = t;
-	FromUtf8_([&](шим code) {
-		ToUtf16_([&](char16 c) { *t++ = c; }, code);
+	сим16 *t0 = t;
+	изУтф8_([&](шим code) {
+		вУтф16_([&](сим16 c) { *t++ = c; }, code);
 	}, s, len);
 	return цел(t - t0);
 }
 
-Вектор<char16> вУтф16(кткст0 s, цел len)
+Вектор<сим16> вУтф16(кткст0 s, цел len)
 {
-	Вектор<char16> r;
-	FromUtf8_([&](шим code) {
-		ToUtf16_([&](char16 c) { r.добавь(c); } , code);
+	Вектор<сим16> r;
+	изУтф8_([&](шим code) {
+		вУтф16_([&](сим16 c) { r.добавь(c); } , code);
 	}, s, len);
 	return r;
 }
@@ -104,39 +102,39 @@ namespace ДинрусРНЦП {
 цел длинаУтф32(кткст0 s, цел len)
 {
 	цел rlen = 0;
-	FromUtf8_([&](шим) { rlen++; }, s, len);
+	изУтф8_([&](шим) { rlen++; }, s, len);
 	return rlen;
 }
 
 проц вУтф32(шим *t, кткст0 s, цел len)
 {
-	FromUtf8_([&](шим c) { *t++ = c; }, s, len);
+	изУтф8_([&](шим c) { *t++ = c; }, s, len);
 }
 
 ШТкст вУтф32(кткст0 s, цел len)
 {
 	ШТкстБуф r;
-	FromUtf8_([&](шим c) { r.кат(c); }, s, len);
+	изУтф8_([&](шим c) { r.кат(c); }, s, len);
 	return ШТкст(r);
 }
 
-цел длинаУтф32(const char16 *s, цел len)
+цел длинаУтф32(const сим16 *s, цел len)
 {
 	цел rlen = 0;
-	FromUtf16_([&](шим) { rlen++; }, s, len);
+	изУтф16_([&](шим) { rlen++; }, s, len);
 	return rlen;
 }
 
-проц вУтф32(шим *t, const char16 *s, цел len)
+проц вУтф32(шим *t, const сим16 *s, цел len)
 {
-	FromUtf16_([&](шим c) { *t++ = c; }, s, len);
+	изУтф16_([&](шим c) { *t++ = c; }, s, len);
 }
 
-ШТкст вУтф32(const char16 *s, цел len)
+ШТкст вУтф32(const сим16 *s, цел len)
 {
 	ШТкстБуф r;
 	r.резервируй(len);
-	FromUtf16_([&](шим c) { r.кат(c); }, s, len);
+	изУтф16_([&](шим c) { r.кат(c); }, s, len);
 	return ШТкст(r);
 }
 
@@ -146,7 +144,7 @@ namespace ДинрусРНЦП {
 	кткст0 s = ист.begin();
 	кткст0 lim = ист.end();
 
-	char *t = r;
+	сим *t = r;
 	while(s < lim)
 		*t++ = (ббайт)*s < 128 ? *s++ : вАски(достаньУтф8(s, lim));
 	r.устДлину(цел(t - ~r));
@@ -159,7 +157,7 @@ namespace ДинрусРНЦП {
 	кткст0 s = ист.begin();
 	кткст0 lim = ист.end();
 
-	char *t = r;
+	сим *t = r;
 	while(s < lim) {
 		*t++ = (ббайт)*s <= 'Z' ? *s++ : вАскиЗаг(достаньУтф8(s, lim));
 	}
@@ -173,11 +171,10 @@ namespace ДинрусРНЦП {
 	кткст0 s = ист.begin();
 	кткст0 lim = ист.end();
 
-	char *t = r;
+	сим *t = r;
 	while(s < lim)
 		*t++ = вАскиПроп(достаньУтф8(s, lim));
 	r.устДлину(цел(t - ~r));
 	return Ткст(r);
 }
 
-};

@@ -1,4 +1,4 @@
-#include <DinrusPro/DinrusPro.h>
+#include <DinrusPro/DinrusCore.h>
 
 #ifdef PLATFORM_MACOS
 #include <mach-o/dyld.h>
@@ -23,12 +23,10 @@
 #undef CY
 #endif
 
-namespace ДинрусРНЦП {
-
 static СтатическийСтопор сХЗмк;
 
-static char сДомДир[_МАКС_ПУТЬ + 1];
-static char аргЗ0__[_МАКС_ПУТЬ + 1];
+static сим сДомДир[_МАКС_ПУТЬ + 1];
+static сим аргЗ0__[_МАКС_ПУТЬ + 1];
 
 проц    устДомПапку(кткст0 dir)
 {
@@ -80,9 +78,9 @@ static проц сУстАргЗ0__(кткст0 title)
 }
 
 кткст0 процэкзепуть_() {
-    static char h[_МАКС_ПУТЬ + 1];
+    static сим h[_МАКС_ПУТЬ + 1];
     ONCELOCK {
-        char link[1024];
+        сим link[1024];
 #ifdef PLATFORM_MACOS
         uint32_t sz = 1024;
         if(_NSGetExecutablePath(link, &sz))
@@ -110,7 +108,7 @@ static проц сУстАргЗ0__(кткст0 title)
 
 Ткст дайФПутьИсп()
 {
-    static char exepath[_МАКС_ПУТЬ + 1];
+    static сим exepath[_МАКС_ПУТЬ + 1];
     ONCELOCK {
         кткст0 exe = процэкзепуть_();
         if(*exe)
@@ -162,7 +160,7 @@ static проц сУстАргЗ0__(кткст0 title)
 
 проц синхЛогПуть__();
 
-static char сИмяАпп[256];
+static сим сИмяАпп[256];
 
 Ткст дайИмяПрил()
 {
@@ -175,7 +173,7 @@ static char сИмяАпп[256];
     синхЛогПуть__();
 }
 
-static char сКонфигГруппа[256] = "u++";
+static сим сКонфигГруппа[256] = "u++";
 
 проц устКонфигГруппу(кткст0 группа)
 {
@@ -209,7 +207,7 @@ static бул сКонфДома;
     сКонфДома = b;
 }
 
-static char сКонфПапка[_МАКС_ПУТЬ + 1];
+static сим сКонфПапка[_МАКС_ПУТЬ + 1];
 
 проц устКонфДир(const Ткст& s)
 {
@@ -248,7 +246,7 @@ static char сКонфПапка[_МАКС_ПУТЬ + 1];
     }
     return дайФайлИзПапкиИсп(file);
 #elif defined(PLATFORM_POSIX)
-    static char cfgd[_МАКС_ПУТЬ + 1];
+    static сим cfgd[_МАКС_ПУТЬ + 1];
     static бул sandboxed = true;
     ONCELOCK {
         Ткст cfgdir;
@@ -470,7 +468,7 @@ static бул сГлавнВыполняется;
     паника("Неверная арифметическая операция!");
 }
 
-проц иницПрил__(цел argc, const char **argv, const char **envptr)
+проц иницПрил__(цел argc, кткст0 *argv, кткст0 *envptr)
 {
     устЯз(LNG_ENGLISH);
     сУстАргЗ0__(argv[0]);
@@ -530,7 +528,7 @@ static бул сГлавнВыполняется;
     иницОбщее();
 }
 
-проц иницПрил__(цел argc, const char **argv)
+проц иницПрил__(цел argc, кткст0 *argv)
 {
     иницПрилСреду__();
 }
@@ -569,7 +567,7 @@ static auxthread_t auxthread__ sShellExecuteOpen(ук str)
     Вектор<WCHAR> wurl = вСисНабсимШ(url);
     if ((дол)(ShellExecuteW(NULL, L"open", wurl, NULL, L".", SW_SHOWDEFAULT)) <= 32) {
         цел l = sizeof(шим) * wurl.дайСчёт() + 1;
-        char *curl = (char *)malloc(l);
+        сим *curl = (сим *)malloc(l);
         memcpy(curl, wurl, l);
         стартВспомНити(sShellExecuteOpen, curl);
     }
@@ -580,16 +578,16 @@ static auxthread_t auxthread__ sShellExecuteOpen(ук str)
 проц    запустиВебБраузер(const Ткст& url)
 {
 #ifdef PLATFORM_MACOS
-    IGNORE_RESULT(system("open " + url));
+    ИГНОРРЕЗ(system("open " + url));
 #else
     кткст0  browser[] = {
         "htmlview", "xdg-open", "x-www-browser", "firefox", "konqueror", "opera", "epiphany", "galeon", "netscape"
     };
-    for(цел i = 0; i < __countof(browser); i++)
+    for(цел i = 0; i < __количество(browser); i++)
         if(system("which " + Ткст(browser[i])) == 0) {
             Ткст u = url;
             u.замени("'", "'\\''");
-            IGNORE_RESULT(
+            ИГНОРРЕЗ(
                 system(Ткст(browser[i]) + " '" + u + "' &")
             );
             break;
@@ -628,7 +626,7 @@ static auxthread_t auxthread__ sShellExecuteOpen(ук str)
     бцел w = 255;
     ::GetComputerNameW(temp, &w);
 #else
-    char temp[256];
+    сим temp[256];
     gethostname(temp, sizeof(temp));
 #endif
     return temp;
@@ -688,7 +686,7 @@ MY_DEFINE_KNOWN_FOLDER(MY_FOLDERID_Downloads, 0x374de290, 0x123f, 0x4565, 0x91, 
 
 Ткст дайПапкуЗагрузок()
 {
-    static HRESULT (STDAPICALLTYPE * SHGetKnownFolderPath)(const ук rfid, DWORD dwFlags, HANDLE hToken, PWSTR *ppszPath);
+    static HRESULT (STDAPICALLTYPE * SHGetKnownFolderPath)(кук rfid, DWORD dwFlags, HANDLE hToken, PWSTR *ppszPath);
     ONCELOCK {
         фнДлл(SHGetKnownFolderPath, "shell32.dll", "SHGetKnownFolderPath");
     }
@@ -785,5 +783,3 @@ MY_DEFINE_KNOWN_FOLDER(MY_FOLDERID_Downloads, 0x374de290, 0x123f, 0x4565, 0x91, 
 Ткст дайПапкуЗагрузок()  { return дайПапкуОболочки("XDG_DOWNLOAD_DIR", "XDG_DOWNLOAD_DIR"); }
 
 #endif
-
-}

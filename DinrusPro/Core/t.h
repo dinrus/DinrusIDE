@@ -204,7 +204,7 @@
 
 INITBLOCK_(КОМБИНИРУЙ3(LNG_MODULE, LNG_VERB, LNG_VERA))
 {
-	static РНЦП::LngEntry__ langset[] = {
+	static LngEntry__ langset[] = {
 	#include TFILE
 		{ 0, NULL }
 	};

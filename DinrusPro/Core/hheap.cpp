@@ -1,9 +1,8 @@
-#include <DinrusPro/DinrusPro.h>
+#include <DinrusPro/DinrusCore.h>
 
 #define LTIMING(x)  // RTIMING(x)
 // #define LSTAT
 
-namespace ДинрусРНЦП {
 
 #ifdef КУЧА_РНЦП
 
@@ -14,8 +13,8 @@ namespace ДинрусРНЦП {
 // used as manager of huge memory blocks. 4KB and 64KB blocks are allocated from here too
 // also able to deal with bigger blocks, those are directly allocated / freed from system
 
-BlkHeader_<4096> HugeHeapDetail::freelist[20][1]; // only single global Huge heap...
-Куча::HugePage *Куча::huge_pages;
+ЗагБлока_<4096> ДетальКучиХьюдж::freelist[20][1]; // only single global Хьюдж heap...
+Куча::СтраницаХьюдж *Куча::huge_pages;
 
 #ifdef LSTAT
 static цел hstat[65536];
@@ -48,12 +47,12 @@ static ПрофильПамяти *sPeak;
 	return NULL;
 }
 
-Куча::HugePage *Куча::free_huge_pages;
+Куча::СтраницаХьюдж *Куча::free_huge_pages;
 цел             Куча::free_hpages;
 
-ук Куча::HugeAlloc(т_мера count) // count in 4kb pages
+ук Куча::разместиХьюдж(т_мера count) // count in 4kb pages
 {
-	LTIMING("HugeAlloc");
+	LTIMING("разместиХьюдж");
 	ПРОВЕРЬ(count);
 
 #ifdef LSTAT
@@ -74,14 +73,14 @@ static ПрофильПамяти *sPeak;
 	};
 
 	if(!D::freelist[0]->next) { // initialization
-		for(цел i = 0; i < __countof(D::freelist); i++)
+		for(цел i = 0; i < __количество(D::freelist); i++)
 			Dbl_Self(D::freelist[i]);
 	}
 		
 	if(count > сис_блок_лимит) { // we are wasting 4KB to store just 4 bytes here, but this is n MB after all..
 		LTIMING("SysAlloc");
 		ббайт *sysblk = (ббайт *)SysAllocRaw((count + 1) * 4096, 0);
-		BlkHeader *h = (BlkHeader *)(sysblk + 4096);
+		ЗагБлока *h = (ЗагБлока *)(sysblk + 4096);
 		h->size = 0;
 		*((т_мера *)sysblk) = count;
 		sys_count++;
@@ -90,20 +89,20 @@ static ПрофильПамяти *sPeak;
 		return h;
 	}
 	
-	LTIMING("Huge размести");
+	LTIMING("Хьюдж размести");
 
 	бкрат wcount = (бкрат)count;
 	
 	for(цел pass = 0; pass < 2; pass++) {
-		for(цел i = Cv(wcount); i < __countof(D::freelist); i++) {
-			BlkHeader *l = D::freelist[i];
-			BlkHeader *h = l->next;
+		for(цел i = Cv(wcount); i < __количество(D::freelist); i++) {
+			ЗагБлока *l = D::freelist[i];
+			ЗагБлока *h = l->next;
 			while(h != l) {
 				бкрат sz = h->дайРазм();
 				if(sz >= count) {
-					if(h->IsFirst() && h->IsLast()) // this is whole free page
+					if(h->первый_ли() && h->последний_ли()) // this is whole free page
 						free_hpages--;
-					ук укз = MakeAlloc(h, wcount);
+					ук укз = сделайРазмест(h, wcount);
 					MaxMem();
 					return укз;
 				}
@@ -114,32 +113,32 @@ static ПрофильПамяти *sPeak;
 		if(!FreeSmallEmpty(wcount, INT_MAX)) { // try to coalesce 4KB small free blocks back to huge storage
 			ук укз = SysAllocRaw(HPAGE * 4096, 0); // failed, add HPAGE from the system
 
-			HugePage *pg; // record in set of huge pages
+			СтраницаХьюдж *pg; // record in set of huge pages
 			if(free_huge_pages) {
 				pg = free_huge_pages;
 				free_huge_pages = free_huge_pages->next;
 			}
 			else
-				pg = (HugePage *)разместиПамПерманентно(sizeof(HugePage));
+				pg = (СтраницаХьюдж *)разместиПамПерманентно(sizeof(СтраницаХьюдж));
 
 			pg->page = укз;
 			pg->next = huge_pages;
 			huge_pages = pg;
 			huge_chunks++;
 			free_hpages++;
-			AddChunk((BlkHeader *)укз, HPAGE);
+			добавьКусок((ЗагБлока *)укз, HPAGE);
 		}
 	}
 	паника("выведи of memory");
 	return NULL;
 }
 
-цел Куча::HugeFree(ук укз)
+цел Куча::освободиХьюдж(ук укз)
 {
-	LTIMING("HugeFree");
-	BlkHeader *h = (BlkHeader *)укз;
+	LTIMING("освободиХьюдж");
+	ЗагБлока *h = (ЗагБлока *)укз;
 	if(h->size == 0) {
-		LTIMING("Sys освободи");
+		LTIMING("сис освободи");
 		ббайт *sysblk = (ббайт *)h - 4096;
 		т_мера count = *((т_мера *)sysblk);
 		SysFreeRaw(sysblk, (count + 1) * 4096);
@@ -148,17 +147,17 @@ static ПрофильПамяти *sPeak;
 		sys_size -= 4096 * count;
 		return 0;
 	}
-	LTIMING("Huge освободи");
+	LTIMING("Хьюдж освободи");
 	huge_4KB_count -= h->дайРазм();
-	h = BlkHeap::освободи(h);
+	h = КучаБлока::освободи(h);
 	цел sz = h->дайРазм();
-	if(h->IsFirst() && h->IsLast()) {
+	if(h->первый_ли() && h->последний_ли()) {
 		if(free_hpages >= max_free_hpages) { // we have enough pages in the reserve, return to the system
-			LTIMING("освободи Huge Страница");
-			h->UnlinkFree();
-			HugePage *p = NULL;
+			LTIMING("освободи Хьюдж Страница");
+			h->отлинкуйСвоб();
+			СтраницаХьюдж *p = NULL;
 			while(huge_pages) { // remove the page from the set of huge pages
-				HugePage *n = huge_pages->next;
+				СтраницаХьюдж *n = huge_pages->next;
 				if(huge_pages->page != h) {
 					huge_pages->next = p;
 					p = huge_pages;
@@ -175,11 +174,10 @@ static ПрофильПамяти *sPeak;
 	return sz;
 }
 
-бул Куча::HugeTryRealloc(ук укз, т_мера count)
+бул Куча::пробуйПереместХьюдж(ук укз, т_мера count)
 {
-	return count <= HPAGE && BlkHeap::TryRealloc(укз, count, huge_4KB_count);
+	return count <= HPAGE && КучаБлока::пробуйПеремест(укз, count, huge_4KB_count);
 }
 
 #endif
 
-}

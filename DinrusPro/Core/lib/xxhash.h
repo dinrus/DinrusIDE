@@ -1,5 +1,5 @@
 /*
-   xxHash - Extremely Fast Хэш algorithm
+   ххХэш - Extremely Fast Хэш algorithm
    Header Файл
    Copyright (C) 2012-2015, Yann Collet.
 
@@ -29,18 +29,18 @@
    OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
    You can contact the author at :
-   - xxHash source repository : https://github.com/Cyan4973/xxHash
+   - ххХэш source repository : https://github.com/Cyan4973/ххХэш
 */
 
-/* Notice extracted from xxHash homepage :
+/* Notice extracted from ххХэш homepage :
 
-xxHash is an extremely fast Хэш algorithm, running at RAM speed limits.
+ххХэш is an extremely fast Хэш algorithm, running at RAM speed limits.
 It also successfully passes all tests from the SMHasher suite.
 
 Comparison (single thread, Windows Seven 32 bits, using SMHasher on a Core 2 Duo @3GHz)
 
 Имя            Speed       Q.Score   Author
-xxHash          5.4 GB/s     10
+ххХэш          5.4 GB/s     10
 CrapWow         3.2 GB/s      2       Andrew
 MumurHash 3a    2.7 GB/s     10       Austin Appleby
 SpookyHash      2.0 GB/s     10       Bob Jenkins
@@ -50,8 +50,8 @@ SuperFastHash   1.2 GB/s      1       Paul Hsieh
 CityHash64      1.05 GB/s    10       Pike & Alakuijala
 FNV             0.55 GB/s     5       Fowler, Noll, Vo
 CRC32           0.43 GB/s     9
-MD5-32          0.33 GB/s    10       Ronald L. Rivest
-SHA1-32         0.28 GB/s    10
+мд5-32          0.33 GB/s    10       Ronald L. Rivest
+ша1-32         0.28 GB/s    10
 
 Q.Score is a measure of quality of the hash function.
 It depends on successfully passing SMHasher test set.
@@ -83,15 +83,15 @@ typedef enum { XXH_OK=0, XXH_ERROR } XXH_errorcode;
 *****************************/
 /* Motivations :
 
-If you need to include xxHash into your library,
-but wish to avoid xxHash symbols to be present on your library interface
-in an effort to avoid potential имя collision if another library also includes xxHash,
+If you need to include ххХэш into your library,
+but wish to avoid ххХэш symbols to be present on your library interface
+in an effort to avoid potential имя collision if another library also includes ххХэш,
 
-you can use XXH_NAMESPACE, which will automatically prefix any symbol from xxHash
+you can use XXH_NAMESPACE, which will automatically prefix any symbol from ххХэш
 with the значение of XXH_NAMESPACE (so avoid to keep it NULL, and avoid numeric values).
 
 Note that no change is required within the calling program :
-it can still call xxHash functions using their regular имя.
+it can still call ххХэш functions using their regular имя.
 They will be automatically translated by this header.
 */
 #ifdef XXH_NAMESPACE
@@ -116,8 +116,8 @@ They will be automatically translated by this header.
 *  Simple Хэш Functions
 *****************************/
 
-бцел       XXH32 (const ук input, т_мера length, unsigned seed);
-unsigned long long XXH64 (const ук input, т_мера length, unsigned long long seed);
+бцел       XXH32 (кук input, т_мера length, unsigned seed);
+unsigned long long XXH64 (кук input, т_мера length, unsigned long long seed);
 
 /*
 XXH32() :
@@ -159,15 +159,15 @@ States must then be initialized using XXHnn_reset() before first use.
 
 
 XXH_errorcode XXH32_reset  (XXH32_state_t* statePtr, unsigned seed);
-XXH_errorcode XXH32_update (XXH32_state_t* statePtr, const ук input, т_мера length);
+XXH_errorcode XXH32_update (XXH32_state_t* statePtr, кук input, т_мера length);
 бцел  XXH32_digest (const XXH32_state_t* statePtr);
 
 XXH_errorcode      XXH64_reset  (XXH64_state_t* statePtr, unsigned long long seed);
-XXH_errorcode      XXH64_update (XXH64_state_t* statePtr, const ук input, т_мера length);
+XXH_errorcode      XXH64_update (XXH64_state_t* statePtr, кук input, т_мера length);
 unsigned long long XXH64_digest (const XXH64_state_t* statePtr);
 
 /*
-These functions calculate the xxHash of an input provided in multiple smaller packets,
+These functions calculate the ххХэш of an input provided in multiple smaller packets,
 as opposed to an input provided as a single block.
 
 XXH state space must first be allocated, using either static or dynamic method provided above.

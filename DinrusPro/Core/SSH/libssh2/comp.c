@@ -56,15 +56,15 @@
  */
 static цел
 comp_method_none_comp(LIBSSH2_SESSION *session,
-                      unsigned char *dest,
+                      ббайт *приёмник,
                       т_мера *dest_len,
-                      const unsigned char *src,
+                      const ббайт *src,
                       т_мера src_len,
                       проц **abstract)
 {
     (проц) session;
     (проц) abstract;
-    (проц) dest;
+    (проц) приёмник;
     (проц) dest_len;
     (проц) src;
     (проц) src_len;
@@ -79,16 +79,16 @@ comp_method_none_comp(LIBSSH2_SESSION *session,
  */
 static цел
 comp_method_none_decomp(LIBSSH2_SESSION * session,
-                        unsigned char **dest,
+                        ббайт **приёмник,
                         т_мера *dest_len,
                         т_мера payload_limit,
-                        const unsigned char *src,
+                        const ббайт *src,
                         т_мера src_len, проц **abstract)
 {
     (проц) session;
     (проц) payload_limit;
     (проц) abstract;
-    *dest = (unsigned char *) src;
+    *приёмник = (ббайт *) src;
     *dest_len = src_len;
     return 0;
 }
@@ -180,12 +180,12 @@ comp_method_zlib_init(LIBSSH2_SESSION * session, цел compr,
  */
 static цел
 comp_method_zlib_comp(LIBSSH2_SESSION *session,
-                      unsigned char *dest,
+                      ббайт *приёмник,
 
                       /* dest_len is a pointer to allow this ФУНКЦИЯ to
                          update it with the final actual size used */
                       т_мера *dest_len,
-                      const unsigned char *src,
+                      const ббайт *src,
                       т_мера src_len,
                       проц **abstract)
 {
@@ -193,9 +193,9 @@ comp_method_zlib_comp(LIBSSH2_SESSION *session,
     цел out_maxlen = *dest_len;
     цел status;
 
-    strm->next_in = (unsigned char *) src;
+    strm->next_in = (ббайт *) src;
     strm->avail_in = src_len;
-    strm->next_out = dest;
+    strm->next_out = приёмник;
     strm->avail_out = out_maxlen;
 
     status = deflate(strm, Z_PARTIAL_FLUSH);
@@ -218,16 +218,16 @@ comp_method_zlib_comp(LIBSSH2_SESSION *session,
  */
 static цел
 comp_method_zlib_decomp(LIBSSH2_SESSION * session,
-                        unsigned char **dest,
+                        ббайт **приёмник,
                         т_мера *dest_len,
                         т_мера payload_limit,
-                        const unsigned char *src,
+                        const ббайт *src,
                         т_мера src_len, проц **abstract)
 {
     z_stream *strm = *abstract;
-    /* A short-term alloc of a full data chunk is better than a series of
+    /* A крат-term alloc of a full data chunk is better than a series of
        reallocs */
-    char *out;
+    сим *out;
     т_мера out_maxlen = src_len;
 
     if(src_len <= SIZE_MAX / 4)
@@ -247,10 +247,10 @@ comp_method_zlib_decomp(LIBSSH2_SESSION * session,
     if(out_maxlen > payload_limit)
         out_maxlen = payload_limit;
 
-    strm->next_in = (unsigned char *) src;
+    strm->next_in = (ббайт *) src;
     strm->avail_in = src_len;
-    strm->next_out = (unsigned char *) LIBSSH2_ALLOC(session, out_maxlen);
-    out = (char *) strm->next_out;
+    strm->next_out = (ббайт *) LIBSSH2_ALLOC(session, out_maxlen);
+    out = (сим *) strm->next_out;
     strm->avail_out = out_maxlen;
     if(!strm->next_out)
         return _libssh2_error(session, LIBSSH2_ERROR_ALLOC,
@@ -260,7 +260,7 @@ comp_method_zlib_decomp(LIBSSH2_SESSION * session,
     for(;;) {
         цел status;
         т_мера out_ofs;
-        char *newout;
+        сим *newout;
 
         status = inflate(strm, Z_PARTIAL_FLUSH);
 
@@ -299,11 +299,11 @@ comp_method_zlib_decomp(LIBSSH2_SESSION * session,
                                   "Unable to expand decompression буфер");
         }
         out = newout;
-        strm->next_out = (unsigned char *) out + out_ofs;
+        strm->next_out = (ббайт *) out + out_ofs;
         strm->avail_out = out_maxlen - out_ofs;
     }
 
-    *dest = (unsigned char *) out;
+    *приёмник = (ббайт *) out;
     *dest_len = out_maxlen - strm->avail_out;
 
     return 0;

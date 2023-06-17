@@ -1,5 +1,5 @@
 /*
-xxHash - Fast Хэш algorithm
+ххХэш - Fast Хэш algorithm
 Copyright (C) 2012-2015, Yann Collet
 
 BSD 2-Clause License (http://www.opensource.org/licenses/bsd-license.php)
@@ -28,7 +28,7 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 You can contact the author at :
-- xxHash source repository : https://github.com/Cyan4973/xxHash
+- ххХэш source repository : https://github.com/Cyan4973/ххХэш
 */
 
 
@@ -45,14 +45,14 @@ You can contact the author at :
 #endif
 
 /* XXH_ACCEPT_NULL_INPUT_POINTER :
- * If the input pointer is a null pointer, xxHash default behavior is to trigger a memory access Ошибка, since it is a bad pointer.
- * When this option is enabled, xxHash output for null input pointers will be the same as a null-length input.
+ * If the input pointer is a null pointer, ххХэш default behavior is to trigger a memory access Ошибка, since it is a bad pointer.
+ * When this option is enabled, ххХэш output for null input pointers will be the same as a null-length input.
  * By default, this option is disabled. To enable it, uncomment below define :
  */
 /* #define XXH_ACCEPT_NULL_INPUT_POINTER 1 */
 
 /* XXH_FORCE_NATIVE_FORMAT :
- * By default, xxHash library provides endian-independant Хэш values, based on little-endian convention.
+ * By default, ххХэш library provides endian-independant Хэш values, based on little-endian convention.
  * Results are therefore identical for little-endian and big-endian CPU.
  * This comes at a performance cost for big-endian CPU, since some swapping is required to emulate little-endian формат.
  * Should endian-independance be of no importance for your application, you may set the #define below to 1.
@@ -92,7 +92,7 @@ static ук XXH_malloc(т_мера s) { return malloc(s); }
 static проц  XXH_free  (ук p)  { free(p); }
 /* for memcpy() */
 #include <string.h>
-static ук XXH_memcpy(ук dest, const ук src, т_мера size) { return memcpy(dest,src,size); }
+static ук XXH_memcpy(ук приёмник, кук src, т_мера size) { return memcpy(приёмник,src,size); }
 
 
 /**************************************
@@ -106,21 +106,21 @@ static ук XXH_memcpy(ук dest, const ук src, т_мера size) { return mem
   typedef  int32_t S32;
   typedef uint64_t U64;
 #else
-  typedef unsigned char      BYTE;
-  typedef unsigned short     U16;
+  typedef ббайт      BYTE;
+  typedef бкрат     U16;
   typedef бцел       U32;
   typedef   signed цел       S32;
   typedef unsigned long long U64;
 #endif
 
-static U32 XXH_read32(const ук memPtr)
+static U32 XXH_read32(кук memPtr)
 {
     U32 val32;
     memcpy(&val32, memPtr, 4);
     return val32;
 }
 
-static U64 XXH_read64(const ук memPtr)
+static U64 XXH_read64(кук memPtr)
 {
     U64 val64;
     memcpy(&val64, memPtr, 8);
@@ -177,7 +177,7 @@ static U64 XXH_swap64 (U64 x)
 typedef enum { XXH_bigEndian=0, XXH_littleEndian=1 } XXH_endianess;
 #ifndef XXH_CPU_LITTLE_ENDIAN   /* XXH_CPU_LITTLE_ENDIAN can be defined externally, for example using a compiler switch */
 static const цел one = 1;
-#   define XXH_CPU_LITTLE_ENDIAN   (*(const char*)(&one))
+#   define XXH_CPU_LITTLE_ENDIAN   (*(const сим*)(&one))
 #endif
 
 
@@ -186,7 +186,7 @@ static const цел one = 1;
 *****************************/
 typedef enum { XXH_aligned, XXH_unaligned } XXH_alignment;
 
-FORCE_INLINE U32 XXH_readLE32_align(const ук укз, XXH_endianess endian, XXH_alignment align)
+FORCE_INLINE U32 XXH_readLE32_align(кук укз, XXH_endianess endian, XXH_alignment align)
 {
     if (align==XXH_unaligned)
         return endian==XXH_littleEndian ? XXH_read32(укз) : XXH_swap32(XXH_read32(укз));
@@ -194,12 +194,12 @@ FORCE_INLINE U32 XXH_readLE32_align(const ук укз, XXH_endianess endian, XXH
         return endian==XXH_littleEndian ? *(const U32*)укз : XXH_swap32(*(const U32*)укз);
 }
 
-FORCE_INLINE U32 XXH_readLE32(const ук укз, XXH_endianess endian)
+FORCE_INLINE U32 XXH_readLE32(кук укз, XXH_endianess endian)
 {
     return XXH_readLE32_align(укз, endian, XXH_unaligned);
 }
 
-FORCE_INLINE U64 XXH_readLE64_align(const ук укз, XXH_endianess endian, XXH_alignment align)
+FORCE_INLINE U64 XXH_readLE64_align(кук укз, XXH_endianess endian, XXH_alignment align)
 {
     if (align==XXH_unaligned)
         return endian==XXH_littleEndian ? XXH_read64(укз) : XXH_swap64(XXH_read64(укз));
@@ -207,7 +207,7 @@ FORCE_INLINE U64 XXH_readLE64_align(const ук укз, XXH_endianess endian, XXH
         return endian==XXH_littleEndian ? *(const U64*)укз : XXH_swap64(*(const U64*)укз);
 }
 
-FORCE_INLINE U64 XXH_readLE64(const ук укз, XXH_endianess endian)
+FORCE_INLINE U64 XXH_readLE64(кук укз, XXH_endianess endian)
 {
     return XXH_readLE64_align(укз, endian, XXH_unaligned);
 }
@@ -238,7 +238,7 @@ FORCE_INLINE U64 XXH_readLE64(const ук укз, XXH_endianess endian)
 /*****************************
 *  Simple Хэш Functions
 *****************************/
-FORCE_INLINE U32 XXH32_endian_align(const ук input, т_мера len, U32 seed, XXH_endianess endian, XXH_alignment align)
+FORCE_INLINE U32 XXH32_endian_align(кук input, т_мера len, U32 seed, XXH_endianess endian, XXH_alignment align)
 {
     const BYTE* p = (const BYTE*)input;
     const BYTE* bEnd = p + len;
@@ -315,7 +315,7 @@ FORCE_INLINE U32 XXH32_endian_align(const ук input, т_мера len, U32 seed,
 }
 
 
-unsigned XXH32 (const ук input, т_мера len, unsigned seed)
+unsigned XXH32 (кук input, т_мера len, unsigned seed)
 {
 #if 0
     /* Simple version, good for code maintenance, but unfortunately slow for small inputs */
@@ -343,7 +343,7 @@ unsigned XXH32 (const ук input, т_мера len, unsigned seed)
 #endif
 }
 
-FORCE_INLINE U64 XXH64_endian_align(const ук input, т_мера len, U64 seed, XXH_endianess endian, XXH_alignment align)
+FORCE_INLINE U64 XXH64_endian_align(кук input, т_мера len, U64 seed, XXH_endianess endian, XXH_alignment align)
 {
     const BYTE* p = (const BYTE*)input;
     const BYTE* bEnd = p + len;
@@ -455,7 +455,7 @@ FORCE_INLINE U64 XXH64_endian_align(const ук input, т_мера len, U64 seed,
 }
 
 
-unsigned long long XXH64 (const ук input, т_мера len, unsigned long long seed)
+unsigned long long XXH64 (кук input, т_мера len, unsigned long long seed)
 {
 #if 0
     /* Simple version, good for code maintenance, but unfortunately slow for small inputs */
@@ -565,7 +565,7 @@ XXH_errorcode XXH64_reset(XXH64_state_t* state_in, unsigned long long seed)
 }
 
 
-FORCE_INLINE XXH_errorcode XXH32_update_endian (XXH32_state_t* state_in, const ук input, т_мера len, XXH_endianess endian)
+FORCE_INLINE XXH_errorcode XXH32_update_endian (XXH32_state_t* state_in, кук input, т_мера len, XXH_endianess endian)
 {
     XXH_istate32_t* state = (XXH_istate32_t *) state_in;
     const BYTE* p = (const BYTE*)input;
@@ -654,7 +654,7 @@ FORCE_INLINE XXH_errorcode XXH32_update_endian (XXH32_state_t* state_in, const �
     return XXH_OK;
 }
 
-XXH_errorcode XXH32_update (XXH32_state_t* state_in, const ук input, т_мера len)
+XXH_errorcode XXH32_update (XXH32_state_t* state_in, кук input, т_мера len)
 {
     XXH_endianess endian_detected = (XXH_endianess)XXH_CPU_LITTLE_ENDIAN;
 
@@ -719,7 +719,7 @@ U32 XXH32_digest (const XXH32_state_t* state_in)
 }
 
 
-FORCE_INLINE XXH_errorcode XXH64_update_endian (XXH64_state_t* state_in, const ук input, т_мера len, XXH_endianess endian)
+FORCE_INLINE XXH_errorcode XXH64_update_endian (XXH64_state_t* state_in, кук input, т_мера len, XXH_endianess endian)
 {
     XXH_istate64_t * state = (XXH_istate64_t *) state_in;
     const BYTE* p = (const BYTE*)input;
@@ -808,7 +808,7 @@ FORCE_INLINE XXH_errorcode XXH64_update_endian (XXH64_state_t* state_in, const �
     return XXH_OK;
 }
 
-XXH_errorcode XXH64_update (XXH64_state_t* state_in, const ук input, т_мера len)
+XXH_errorcode XXH64_update (XXH64_state_t* state_in, кук input, т_мера len)
 {
     XXH_endianess endian_detected = (XXH_endianess)XXH_CPU_LITTLE_ENDIAN;
 

@@ -1,7 +1,5 @@
 #include "SMTP.h"
 
-namespace ДинрусРНЦП {
-
 namespace Ини {
 	INI_BOOL(Smtp_Trace, false, "Activates HTTP requests tracing")
 	INI_BOOL(Smtp_TraceBody, false, "Activates HTTP requests body tracing")
@@ -23,7 +21,7 @@ namespace Ини {
 
 static Ткст GetDelimiter(кткст0 b, кткст0 e, Ткст init)
 {
-	static const char delimiters[] =
+	static const сим delimiters[] =
 		"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdef"
 		"ghijklmnopqrstuvxyz()+/:?0123456"
 		"789abcdefghijklmnopqrstuvwxyzABC"
@@ -37,7 +35,7 @@ static Ткст GetDelimiter(кткст0 b, кткст0 e, Ткст init)
 	цел l = out.дайДлину();
 	for(; b != e; b++)
 	{
-		b = (const char *)memchr(b, *out, e - b);
+		b = (кткст0 )memchr(b, *out, e - b);
 		if(!b || e - b < l)
 			return out;
 		if(!memcmp(b, out, l))
@@ -225,7 +223,7 @@ static Ткст GetDelimiter(Ткст s, Ткст init)
 //////////////////////////////////////////////////////////////////////
 // Smtp::
 
-static const char default_mime[] = "application/octet-stream";
+static const сим default_mime[] = "application/octet-stream";
 
 Ткст Smtp::Encode(const Ткст& text)
 {
@@ -317,7 +315,7 @@ Smtp& Smtp::прикрепи(кткст0 имя, const Ткст& данные, �
 		msg << "From: " << FormatAddr(from, from_name) << "\r\n";
 		static const AS as_list[] = { TO, CC, BCC };
 		static кткст0 as_name[] = { "To", "CC", "BCC" };
-		for(цел a = 0; a < __countof(as_list); a++)
+		for(цел a = 0; a < __количество(as_list); a++)
 		{
 			цел pos = 0;
 			for(цел i = 0; i < as.дайСчёт(); i++)
@@ -373,7 +371,7 @@ Smtp& Smtp::прикрепи(кткст0 имя, const Ткст& данные, �
 			if(multi || alter)
 				msg << "--" << delimiter << "\r\n";
 			if(пусто_ли(m))
-				m << "text/plain; charset=\"" << MIMECharsetName(CHARSET_DEFAULT) << "\"";
+				m << "text/plain; charset=\"" << MIMECharsetName(ДЕФНАБСИМ) << "\"";
 			msg << "Content-Type: " << m << "\r\n"
 			"Content-Transfer-Encoding: quoted-printable\r\n";
 		}
@@ -400,7 +398,7 @@ Smtp& Smtp::прикрепи(кткст0 имя, const Ткст& данные, �
 				begin = true;
 			}
 			else {
-				static const char hex[] = "0123456789ABCDEF";
+				static const сим hex[] = "0123456789ABCDEF";
 				msg.кат('=');
 				msg.кат(hex[(*p >> 4) & 15]);
 				msg.кат(hex[*p & 15]);
@@ -426,7 +424,7 @@ Smtp& Smtp::прикрепи(кткст0 имя, const Ткст& данные, �
 			"Content-Disposition: attachment; имяф=\"" << a.имя << "\"\r\n"
 			"\r\n";
 
-		char буфер[54];
+		сим буфер[54];
 		for(цел c; (c = source -> дай(буфер, sizeof(буфер))) != 0;)
 		{
 			msg.кат(Base64Encode(буфер, буфер + c));
@@ -511,7 +509,7 @@ Smtp& Smtp::нов() {
 	add_header.очисть();
 	from.очисть();
 	sender.очисть();
-	message_id = какТкст(Uuid::создай());
+	message_id = какТкст(Ууид::создай());
 	return *this;
 }
 
@@ -525,6 +523,4 @@ Smtp::Smtp()
 	ssl = false;
 	starttls = false;
 	нов();
-}
-
 }

@@ -1,16 +1,14 @@
-#include <DinrusPro/DinrusPro.h>
-
-namespace ДинрусРНЦП {
+#include <DinrusPro/DinrusCore.h>
 
 #define LLOG(x)    // DLOG(x)
 #define LTIMING(x) // RTIMING(x)
 
 проц СиПарсер::выведиОш(кткст0 s) {
 	LLOG("СиПарсер::Ошибка: " << s);
-	LLOG(~Ткст(term, мин((цел)strlen((const char *)term), 512)));
+	LLOG(~Ткст(term, мин((цел)strlen((кткст0 )term), 512)));
 	Поз pos = дайПоз();
 	Ошибка err(фн + фмт("(%d,%d): ", line, pos.дайКолонку()) + s);
-//	err.term = (const char *)term;
+//	err.term = (кткст0 )term;
 	throw err;
 }
 
@@ -116,8 +114,8 @@ namespace ДинрусРНЦП {
 
 Ткст СиПарсер::LineInfoComment(const Ткст& file, цел line, цел column)
 {
-	return Ткст().кат() << (char)LINEINFO_ESC << file << '\3'
-	                      << line << '\3' << column << (char)LINEINFO_ESC;
+	return Ткст().кат() << (сим)LINEINFO_ESC << file << '\3'
+	                      << line << '\3' << column << (сим)LINEINFO_ESC;
 }
 
 Ткст СиПарсер::GetLineInfoComment(цел tabsize) const
@@ -153,19 +151,19 @@ namespace ДинрусРНЦП {
 		выведиОш(Ткст("отсутствует '") + s + "\'");
 }
 
-проц СиПарсер::передайСим(char c) {
+проц СиПарсер::передайСим(сим c) {
 	LTIMING("передайСим");
-	if(!char(c))
+	if(!сим(c))
 		выведиОш(Ткст("отсутствует '") + c + "\'");
 }
 
-проц СиПарсер::передайСим2(char c1, char c2) {
+проц СиПарсер::передайСим2(сим c1, сим c2) {
 	LTIMING("передайСим2");
 	if(!сим2(c1, c2))
 		выведиОш(Ткст("отсутствует '") + c1 + c2 + "\'");
 }
 
-проц СиПарсер::передайСим3(char c1, char c2, char c3) {
+проц СиПарсер::передайСим3(сим c1, сим c2, сим c3) {
 	LTIMING("передайСим3");
 	if(!сим3(c1, c2, c3))
 		выведиОш(Ткст("отсутствует '") + c1 + c2 + c3 + "\'");
@@ -228,7 +226,7 @@ namespace ДинрусРНЦП {
 	LTIMING("читайЦел");
 	цел n;
 	бул overflow = false;
-	кткст0 t = сканЦел<char, ббайт, бцел, цел, 10>(n, term, overflow);
+	кткст0 t = сканЦел<сим, ббайт, бцел, цел, 10>(n, term, overflow);
 	if(!t) выведиОш("отсутствует число");
 	if(overflow) выведиОш("число слишком велико");
 	term = t;
@@ -249,7 +247,7 @@ namespace ДинрусРНЦП {
 	LTIMING("читайЦел64");
 	дол n;
 	бул overflow = false;
-	кткст0 t = сканЦел<char, ббайт, бдол, дол, 10>(n, term, overflow);
+	кткст0 t = сканЦел<сим, ббайт, бдол, дол, 10>(n, term, overflow);
 	if(!t) выведиОш("отсутствует число");
 	if(overflow) выведиОш("число слишком велико");
 	term = t;
@@ -285,16 +283,16 @@ namespace ДинрусРНЦП {
 
 	switch(base) {
 	case 10:
-		t = сканБцел<char, ббайт, бцел, 10>(n, term, overflow);
+		t = сканБцел<сим, ббайт, бцел, 10>(n, term, overflow);
 		break;
 	case 8:
-		t = сканБцел<char, ббайт, бцел, 8>(n, term, overflow);
+		t = сканБцел<сим, ббайт, бцел, 8>(n, term, overflow);
 		break;
 	case 2:
-		t = сканБцел<char, ббайт, бцел, 2>(n, term, overflow);
+		t = сканБцел<сим, ббайт, бцел, 2>(n, term, overflow);
 		break;
 	case 16:
-		t = сканБцел<char, ббайт, бцел, 16>(n, term, overflow);
+		t = сканБцел<сим, ббайт, бцел, 16>(n, term, overflow);
 		break;
 	default:
 		бцел n = 0;
@@ -331,16 +329,16 @@ namespace ДинрусРНЦП {
 
 	switch(base) {
 	case 10:
-		t = сканБцел<char, ббайт, бцел, 10>(n, term, overflow);
+		t = сканБцел<сим, ббайт, бцел, 10>(n, term, overflow);
 		break;
 	case 8:
-		t = сканБцел<char, ббайт, бцел, 8>(n, term, overflow);
+		t = сканБцел<сим, ббайт, бцел, 8>(n, term, overflow);
 		break;
 	case 2:
-		t = сканБцел<char, ббайт, бцел, 2>(n, term, overflow);
+		t = сканБцел<сим, ббайт, бцел, 2>(n, term, overflow);
 		break;
 	case 16:
-		t = сканБцел<char, ббайт, бцел, 16>(n, term, overflow);
+		t = сканБцел<сим, ббайт, бцел, 16>(n, term, overflow);
 		break;
 	default:
 		бдол n = 0;
@@ -514,9 +512,9 @@ namespace ДинрусРНЦП {
 	return читайТкст('\"', chkend);
 }
 
-char СиПарсер::дайСим()
+сим СиПарсер::дайСим()
 {
-	char c = *term++;
+	сим c = *term++;
 	if(c == '\n') {
 		line++;
 		lineptr = term;
@@ -654,7 +652,7 @@ inline цел HexDigit(цел c)
 
 static inline проц sCatHex(ТкстБуф& t, бкрат q)
 {
-	char h[6];
+	сим h[6];
 	h[0] = '\\';
 	h[1] = 'u';
 	h[2] = HexDigit(q >> 12);
@@ -715,7 +713,7 @@ static inline проц sCatHex(ТкстБуф& t, бкрат q)
 			}
 			else {
 				if(ббайт(*s) < 32 || (ббайт)*s >= 0x7f && (flags & ASCSTRING_OCTALHI) || (ббайт)*s == 0xff || (ббайт)*s == 0x7f) {
-					char h[4];
+					сим h[4];
 					цел q = (ббайт)*s;
 					h[0] = '\\';
 					h[1] = (3 & (q >> 6)) + '0';
@@ -744,4 +742,3 @@ static inline проц sCatHex(ТкстБуф& t, бкрат q)
 	return какТкстСи(s, s.стоп(), linemax, linepfx, flags);
 }
 
-}

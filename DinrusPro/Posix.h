@@ -23,7 +23,7 @@
 	#include <dirent.h>
 	#include <signal.h>
 	#include <syslog.h>
-	#include <float.h>
+	#include <плав.h>
 	#include <fenv.h>
 	#ifdef PLATFORM_SOLARIS
 		#include <inttypes.h>

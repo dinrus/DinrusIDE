@@ -1,6 +1,4 @@
-#include <DinrusPro/DinrusPro.h>
-
-namespace ДинрусРНЦП {
+#include <DinrusPro/DinrusCore.h>
 
 #ifdef КУЧА_РНЦП
 
@@ -34,7 +32,7 @@ namespace ДинрусРНЦП {
 
 кткст0 какТкст(цел i)
 {
-	static thread_local char h[4][1024];
+	static thread_local сим h[4][1024];
 	static thread_local цел ii;
 	ii = (ii + 1) & 3;
 	sprintf(h[ii], "%d", i);
@@ -43,7 +41,7 @@ namespace ДинрусРНЦП {
 
 кткст0 какТкст(ук укз)
 {
-	static thread_local char h[4][1024];
+	static thread_local сим h[4][1024];
 	static thread_local цел ii;
 	ii = (ii + 1) & 3;
 	sprintf(h[ii], "%p", укз);
@@ -72,7 +70,7 @@ namespace ДинрусРНЦП {
 		work[i]->klass = i;
 		cachen[i] = 3500 / Ksz(i);
 	}
-	LИниt();
+	иницЛ();
 	large->линкуйся();
 	if(this != &aux && !aux.initialized) {
 		Стопор::Замок __(mutex);
@@ -95,17 +93,17 @@ namespace ДинрусРНЦП {
 	LLOG("MoveLargePage " << какТкст(ml) << " to " << какТкст(to_heap));
 	ml->отлинкуй();
 	ml->Линк(to_heap->large);
-	LBlkHeader *h = ml->дайПерв();
+	ЛЗагБлока *h = ml->дайПерв();
 	for(;;) {
-		LLOG("Large block " << какТкст(h) << " size " << какТкст(h->дайРазм() * 256) << (h->IsFree() ? " free" : ""));
+		LLOG("Large block " << какТкст(h) << " size " << какТкст(h->дайРазм() * 256) << (h->свободен_ли() ? " free" : ""));
 		h->heap = to_heap;
-		if(h->IsFree()) {
-			h->UnlinkFree(); // will link it when adopting
-			to_heap->lheap.LinkFree(h);
+		if(h->свободен_ли()) {
+			h->отлинкуйСвоб(); // will link it when adopting
+			to_heap->lheap.линкуйСвод(h);
 		}
-		if(h->IsLast())
+		if(h->последний_ли())
 			break;
-		h = h->GetNextHeader();
+		h = h->дайСледщЗаг();
 	}
 }
 
@@ -119,15 +117,15 @@ namespace ДинрусРНЦП {
 {
 	Страница *l = p;
 	do {
-		Assert(l->next->prev == l && l->prev->next == l);
+		подтверди(l->next->prev == l && l->prev->next == l);
 		l = l->next;
 	}
 	while(p != l);
 }
 
-цел Куча::CheckFree(FreeLink *l, цел k, бул pg)
+цел Куча::проверьСвоб(СвобЛинк *l, цел k, бул pg)
 {
-	char h[200];
+	сим h[200];
 	цел n = 0;
 	
 	Страница *page = дайСтраницу(l);
@@ -154,7 +152,7 @@ namespace ДинрусРНЦП {
 			}
 		}
 
-		DbgFreeCheckK(l, k);
+		проверьСвобОтлK(l, k);
 
 		l = l->next;
 		n++;
@@ -172,39 +170,39 @@ namespace ДинрусРНЦП {
 		DblCheck(full[i]);
 		Страница *p = work[i]->next;
 		while(p != work[i]) {
-			Assert(p->heap == this);
-			Assert(CheckFree(p->freelist, p->klass) + p->active == p->счёт());
+			подтверди(p->heap == this);
+			подтверди(проверьСвоб(p->freelist, p->klass) + p->active == p->счёт());
 			p = p->next;
 		}
 		p = full[i]->next;
 		while(p != full[i]) {
-			Assert(p->heap == this);
-			Assert(p->klass == i);
-			Assert(p->active == p->счёт());
+			подтверди(p->heap == this);
+			подтверди(p->klass == i);
+			подтверди(p->active == p->счёт());
 			p = p->next;
 		}
 		p = empty[i];
 		while(p) {
-			Assert(p->heap == this);
-			Assert(p->active == 0);
-			Assert(p->klass == i);
-			Assert(CheckFree(p->freelist, i) == p->счёт());
+			подтверди(p->heap == this);
+			подтверди(p->active == 0);
+			подтверди(p->klass == i);
+			подтверди(проверьСвоб(p->freelist, i) == p->счёт());
 			if(this != &aux)
 				break;
 			p = p->next;
 		}
-		CheckFree(cache[i], i, false);
+		проверьСвоб(cache[i], i, false);
 	}
 
 	DLink *l = large->next;
 	while(l != large) {
-		lheap.BlkCheck(l->дайПерв(), 255, true);
+		lheap.проверьБлок(l->дайПерв(), 255, true);
 		l = l->next;
 	}
 
-	HugePage *pg = huge_pages;
+	СтраницаХьюдж *pg = huge_pages;
 	while(pg) {
-		BlkCheck(pg->page, HPAGE);
+		проверьБлок(pg->page, HPAGE);
 		pg = pg->next;
 	}
 
@@ -212,7 +210,7 @@ namespace ДинрусРНЦП {
 		aux.Check();
 }
 
-проц Куча::AssertLeaks(бул b)
+проц Куча::подтвердиLeaks(бул b)
 {
 	if(!b)
 		паника("Memory leaks detected! (final check)");
@@ -227,21 +225,21 @@ namespace ДинрусРНЦП {
 	if(!aux.work[0]->next)
 		aux.иниц();
 	for(цел i = 0; i < NKLASS; i++) {
-		Assert(!aux.cache[i]);
+		подтверди(!aux.cache[i]);
 		DblCheck(aux.work[i]);
 		DblCheck(aux.full[i]);
-		AssertLeaks(aux.work[i] == aux.work[i]->next);
-		AssertLeaks(aux.full[i] == aux.full[i]->next);
+		подтвердиLeaks(aux.work[i] == aux.work[i]->next);
+		подтвердиLeaks(aux.full[i] == aux.full[i]->next);
 		Страница *p = aux.empty[i];
 		while(p) {
-			Assert(p->heap == &aux);
-			Assert(p->active == 0);
-			Assert(CheckFree(p->freelist, p->klass) == p->счёт());
+			подтверди(p->heap == &aux);
+			подтверди(p->active == 0);
+			подтверди(проверьСвоб(p->freelist, p->klass) == p->счёт());
 			p = p->next;
 		}
 	}
-	AssertLeaks(aux.large == aux.large->next);
-	AssertLeaks(big == big->next);
+	подтвердиLeaks(aux.large == aux.large->next);
+	подтвердиLeaks(big == big->next);
 }
 
 #ifdef MEMORY_SHRINK
@@ -277,7 +275,6 @@ namespace ДинрусРНЦП {
 
 #endif
 
-}
 
 #if defined(КУЧА_РНЦП) && !defined(STD_NEWDELETE)
 #include <new>
@@ -286,17 +283,17 @@ namespace ДинрусРНЦП {
 #pragma GCC diagnostic ignored "-Wdeprecated" // silence modern GCC warning about throw(std::bad_alloc)
 #endif
 
-ук operator new(т_мера size)                                    { ук укз = РНЦП::разместиПам(size); return укз; }
-проц operator  delete(ук укз) noexcept(true)                    { РНЦП::освободиПам(укз); }
+ук operator new(т_мера size)                                    { ук укз = разместиПам(size); return укз; }
+проц operator  delete(ук укз) noexcept(true)                    { освободиПам(укз); }
 
-ук operator new[](т_мера size)                                  { ук укз = РНЦП::разместиПам(size); return укз; }
-проц operator  delete[](ук укз) noexcept(true)                  { РНЦП::освободиПам(укз); }
+ук operator new[](т_мера size)                                  { ук укз = разместиПам(size); return укз; }
+проц operator  delete[](ук укз) noexcept(true)                  { освободиПам(укз); }
 
-ук operator new(т_мера size, const std::nothrow_t&) noexcept    { ук укз = РНЦП::разместиПам(size); return укз; }
-проц operator  delete(ук укз, const std::nothrow_t&) noexcept   { РНЦП::освободиПам(укз); }
+ук operator new(т_мера size, const std::nothrow_t&) noexcept    { ук укз = разместиПам(size); return укз; }
+проц operator  delete(ук укз, const std::nothrow_t&) noexcept   { освободиПам(укз); }
 
-ук operator new[](т_мера size, const std::nothrow_t&) noexcept  { ук укз = РНЦП::разместиПам(size); return укз; }
-проц operator  delete[](ук укз, const std::nothrow_t&) noexcept { РНЦП::освободиПам(укз); }
+ук operator new[](т_мера size, const std::nothrow_t&) noexcept  { ук укз = разместиПам(size); return укз; }
+проц operator  delete[](ук укз, const std::nothrow_t&) noexcept { освободиПам(укз); }
 
 #if defined(PLATFORM_WIN32) && defined(COMPILER_CLANG)
 //  this is temporary fix before llvm-mingw fixes weak references

@@ -5,13 +5,11 @@
 #include <termios.h>
 #endif
 
-namespace ДинрусРНЦП {
-
 #define LLOG(x) // RLOG(x)
 #define LDUMP(x) // RDUMP(x)
 #define LLOGHEXDUMP(x, y) // RLOGHEXDUMP(x, y)
 
-проц Поток::_помести(const ук данные, бцел size) {
+проц Поток::_помести(кук данные, бцел size) {
 	const ббайт *s = (const ббайт *) данные;
 	while(size--)
 		помести(*s++);
@@ -87,12 +85,12 @@ namespace ДинрусРНЦП {
 проц Поток::загрузиОш() {
 	устОш(ERROR_LOADING_FAILED);
 	if(style & STRM_THROW)
-		throw LoadingError();
+		throw ОшЗагрузки();
 }
 
 Ткст Поток::дайТекстОш() const
 {
-   return ошибка_ли() ? ДинрусРНЦП::дайОшСооб(errorcode) : Ткст();
+   return ошибка_ли() ? дайОшСооб(errorcode) : Ткст();
 }
 
 бул Поток::дайВсе(ук данные, цел size) {
@@ -103,7 +101,7 @@ namespace ДинрусРНЦП {
 	return true;
 }
 
-проц Поток::помести64(const ук данные, дол size)
+проц Поток::помести64(кук данные, дол size)
 {
 #ifdef CPU_64
 	ббайт *укз = (ббайт *)данные;
@@ -149,12 +147,12 @@ namespace ДинрусРНЦП {
 	return true;
 }
 
-т_мера Поток::дай(Huge& h, т_мера size)
+т_мера Поток::дай(Хьюдж& h, т_мера size)
 {
 	while(h.дайРазм() < size) {
-		цел sz = (цел)мин((т_мера)h.CHUNK, size - h.дайРазм());
-		цел len = дай(h.AddChunk(), sz);
-		if(len < h.CHUNK) {
+		цел sz = (цел)мин((т_мера)h.КУСОК, size - h.дайРазм());
+		цел len = дай(h.добавьКусок(), sz);
+		if(len < h.КУСОК) {
 			h.финиш(len);
 			break;
 		}
@@ -162,7 +160,7 @@ namespace ДинрусРНЦП {
 	return h.дайРазм();
 }
 
-бул Поток::дайВсе(Huge& h, т_мера size)
+бул Поток::дайВсе(Хьюдж& h, т_мера size)
 {
 	if(дай(h, size) != size) {
 		загрузиОш();
@@ -185,7 +183,7 @@ namespace ДинрусРНЦП {
 	if(size < 4 * 1024*1024)
 		result = дай(size);
 	else {
-		Huge h;
+		Хьюдж h;
 		дай(h, size);
 		result = h.дай();
 	}
@@ -300,13 +298,13 @@ namespace ДинрусРНЦП {
 	ббайт *q = укз;
 	while(q < rdlim)
 		if(*q == '\n') {
-			Ткст result((const char *)укз, (цел)(uintptr_t)(q - укз - (q > укз && q[-1] == '\r')));
+			Ткст result((кткст0 )укз, (цел)(uintptr_t)(q - укз - (q > укз && q[-1] == '\r')));
 			укз = q + 1;
 			return result;
 		}
 		else
 			q++;
-	Ткст result((const char *)укз, (цел)(uintptr_t)(q - укз));
+	Ткст result((кткст0 )укз, (цел)(uintptr_t)(q - укз));
 	укз = q;
 	for(;;) {
 		ббайт *q = укз;
@@ -636,14 +634,14 @@ namespace ДинрусРНЦП {
 		бцел len = дай();
 		if(len == 0xff)
 			len = Get32le();
-		Ткст h = дайВсе(len * sizeof(char16));
+		Ткст h = дайВсе(len * sizeof(сим16));
 		if(h.проц_ли())
 			загрузиОш();
 		else
-			s = вУтф32((const char16 *)~h, len);
+			s = вУтф32((const сим16 *)~h, len);
 	}
 	else {
-		Вектор<char16> x = вУтф16(s);
+		Вектор<сим16> x = вУтф16(s);
 		бцел len = x.дайСчёт();
 		if(len < 0xff)
 			помести(len);
@@ -651,7 +649,7 @@ namespace ДинрусРНЦП {
 			помести(0xff);
 			Put32le(len);
 		}
-		SerializeRaw((ббайт*)x.begin(), len * sizeof(char16));
+		SerializeRaw((ббайт*)x.begin(), len * sizeof(сим16));
 	}
 	return *this;
 }
@@ -740,7 +738,7 @@ namespace ДинрусРНЦП {
 	return данные;
 }
 
-проц  ТкстПоток::_помести(const ук d, бцел sz)
+проц  ТкстПоток::_помести(кук d, бцел sz)
 {
 	SetWriteMode();
 	if(укз + sz >= wrlim) {
@@ -834,7 +832,7 @@ namespace ДинрусРНЦП {
 	return size;
 }
 
-проц  ПамПоток::_помести(const ук данные, бцел size) {
+проц  ПамПоток::_помести(кук данные, бцел size) {
 	if(size > (бцел)(uintptr_t)(wrlim - укз)) {
 		устОш(ERROR_NOT_ENOUGH_SPACE);
 		return;
@@ -863,14 +861,14 @@ namespace ДинрусРНЦП {
 
 // ----------------------- Memory read streamer -------------------------
 
-проц ПамЧтенПоток::создай(const ук данные, дол size)
+проц ПамЧтенПоток::создай(кук данные, дол size)
 {
 	ПамПоток::создай((проц *)данные, size);
 	style = STRM_READ|STRM_SEEK|STRM_LOADING;
 	wrlim = буфер;
 }
 
-ПамЧтенПоток::ПамЧтенПоток(const ук данные, дол size)
+ПамЧтенПоток::ПамЧтенПоток(кук данные, дол size)
 {
 	создай(данные, size);
 }
@@ -879,29 +877,29 @@ namespace ДинрусРНЦП {
 
 // --------------------------- размер stream -----------------------
 
-дол РамерПоток::дайРазм() const
+дол РазмПоток::дайРазм() const
 {
 	return дол(укз - буфер + pos);
 }
 
-проц РамерПоток::_помести(const проц *, бцел sz)
+проц РазмПоток::_помести(const проц *, бцел sz)
 {
 	wrlim = буфер + sizeof(h);
 	pos += укз - буфер + sz;
 	укз = буфер;
 }
 
-проц РамерПоток::_помести(цел w)
+проц РазмПоток::_помести(цел w)
 {
 	_помести(NULL, 1);
 }
 
-бул РамерПоток::открыт() const
+бул РазмПоток::открыт() const
 {
 	return true;
 }
 
-РамерПоток::РамерПоток()
+РазмПоток::РазмПоток()
 {
 	style = STRM_WRITE;
 	буфер = укз = h;
@@ -970,7 +968,7 @@ namespace ДинрусРНЦП {
 	укз = буфер;
 }
 
-проц СравнПоток::сравни(дол pos, const ук данные, цел size) {
+проц СравнПоток::сравни(дол pos, кук данные, цел size) {
 	ПРОВЕРЬ(stream);
 	if(!size) return;
 	Буфер<ббайт> b(size);
@@ -984,7 +982,7 @@ namespace ДинрусРНЦП {
 	сравни(pos, буфер, (цел)(укз - буфер));
 }
 
-проц СравнПоток::_помести(const ук данные, бцел size) {
+проц СравнПоток::_помести(кук данные, бцел size) {
 	wrlim = буфер + sizeof(h);
 	ПРОВЕРЬ(укз <= wrlim);
 	слей();
@@ -1024,7 +1022,7 @@ namespace ДинрусРНЦП {
 	*укз++ = w;
 }
 
-проц ПотокВывода::_помести(const ук данные, бцел size)
+проц ПотокВывода::_помести(кук данные, бцел size)
 {
 	if(укз == буфер)
 		выведи(данные, size);
@@ -1057,7 +1055,7 @@ namespace ДинрусРНЦП {
 	return true;
 }
 
-проц TeeStream::выведи(const ук данные, бцел size)
+проц TeeStream::выведи(кук данные, бцел size)
 {
 	a.помести(данные, size);
 	b.помести(данные, size);
@@ -1070,9 +1068,9 @@ struct NilStreamClass : public Поток {
 	virtual   цел   _получи()         { return -1; }
 };
 
-Поток& NilStream()
+Поток& обнулиПоток()
 {
-	return Single<NilStreamClass>();
+	return Сингл<NilStreamClass>();
 }
 
 #ifndef PLATFORM_WINCE
@@ -1120,14 +1118,14 @@ class CoutStream : public Поток {
 
 Поток& Cout()
 {
-	return Single<CoutStream>();
+	return Сингл<CoutStream>();
 }
 
 class CerrStream : public Поток {
 	virtual проц    _помести(цел w) {
 	#ifdef PLATFORM_WIN32
 		static HANDLE h = GetStdHandle(STD_ERROR_HANDLE);
-		char s[1];
+		сим s[1];
 		s[0] = w;
 		бцел dummy;
 		WriteFile(h, s, 1, &dummy, NULL);
@@ -1136,7 +1134,7 @@ class CerrStream : public Поток {
 	#endif
 	}
 #ifdef PLATFORM_POSIX
-	virtual   проц  _помести(const ук данные, бцел size) {
+	virtual   проц  _помести(кук данные, бцел size) {
 		fwrite(данные, 1, size, stderr);
 	}
 #endif
@@ -1145,7 +1143,7 @@ class CerrStream : public Поток {
 
 Поток& Cerr()
 {
-	return Single<CerrStream>();
+	return Сингл<CerrStream>();
 }
 #endif
 
@@ -1224,7 +1222,7 @@ class CerrStream : public Поток {
 
 бул сохраниПоток(Поток& out, const Ткст& данные) {
 	if(!out.открыт() || out.ошибка_ли()) return false;
-	out.помести((const char *)данные, данные.дайДлину());
+	out.помести((кткст0 )данные, данные.дайДлину());
 	out.закрой();
 	return out.ок_ли();
 }
@@ -1234,12 +1232,12 @@ class CerrStream : public Поток {
 	return сохраниПоток(out, данные);
 }
 
-дол копируйПоток(Поток& dest, Поток& ист, дол count)
+дол копируйПоток(Поток& приёмник, Поток& ист, дол count)
 {
-	return копируйПоток(dest, ист, count, Null);
+	return копируйПоток(приёмник, ист, count, Null);
 }
 
-дол копируйПоток(Поток& dest, Поток& ист, дол count, Врата<дол, дол> progress, цел chunk_size)
+дол копируйПоток(Поток& приёмник, Поток& ист, дол count, Врата<дол, дол> progress, цел chunk_size)
 {
 	цел block = (цел)мин<дол>(count, chunk_size);
 	Буфер<ббайт> temp(block);
@@ -1247,8 +1245,8 @@ class CerrStream : public Поток {
 	дол done = 0;
 	дол total = count;
 	while(count > 0 && (loaded = ист.дай(~temp, (цел)мин<дол>(count, block))) > 0) {
-		dest.помести(~temp, loaded);
-		if(dest.ошибка_ли())
+		приёмник.помести(~temp, loaded);
+		if(приёмник.ошибка_ли())
 			return -1;
 		count -= loaded;
 		done += loaded;
@@ -1280,7 +1278,7 @@ class CerrStream : public Поток {
 	try {
 		CheckedSerialize(serialize, stream, версия);
 	}
-	catch(LoadingError) {
+	catch(ОшЗагрузки) {
 		backup.перейди(0);
 		backup.SetLoading();
 		serialize(backup);
@@ -1360,7 +1358,7 @@ class CerrStream : public Поток {
 	return s;
 }
 
-цел StreamHeading(Поток& stream, цел ver, цел minver, цел maxver, const char* tag)
+цел StreamHeading(Поток& stream, цел ver, цел minver, цел maxver, const сим* tag)
 {
 	if(stream.грузится() && stream.кф_ли() || stream.ошибка_ли())
 		return Null;
@@ -1381,13 +1379,11 @@ class CerrStream : public Поток {
 		}
 	}
 	else
-		stream.SerializeRaw((ббайт *)(const char*)text, len);
+		stream.SerializeRaw((ббайт *)(const сим*)text, len);
 	stream / ver;
 	if(ver < minver || ver > maxver) {
 		stream.устОш();
 		return Null;
 	}
 	return ver;
-}
-
 }

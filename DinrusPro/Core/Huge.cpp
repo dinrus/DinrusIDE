@@ -1,32 +1,30 @@
-#include <DinrusPro/DinrusPro.h>
+#include <DinrusPro/DinrusCore.h>
 
-namespace ДинрусРНЦП {
-
-Huge::Huge()
+Хьюдж::Хьюдж()
 {
 	size = 0;
 }
 
-ббайт *Huge::AddChunk()
+ббайт *Хьюдж::добавьКусок()
 {
-	size += CHUNK;
+	size += КУСОК;
 	return данные.добавь().данные;
 }
 
-проц Huge::финиш(цел last_chunk_size)
+проц Хьюдж::финиш(цел last_chunk_size)
 {
-	size = size - CHUNK + last_chunk_size;
+	size = size - КУСОК + last_chunk_size;
 }
 
-проц Huge::дай(ук t_, т_мера pos, т_мера sz) const
+проц Хьюдж::дай(ук t_, т_мера pos, т_мера sz) const
 {
 	ПРОВЕРЬ(pos + sz <= size);
-	цел blki = цел(pos / CHUNK);
-	т_мера blkpos = pos & (CHUNK - 1);
+	цел blki = цел(pos / КУСОК);
+	т_мера blkpos = pos & (КУСОК - 1);
 	ббайт *t = (ббайт *)t_;
 	
 	while(sz > 0) {
-		т_мера m = мин(sz, CHUNK - blkpos);
+		т_мера m = мин(sz, КУСОК - blkpos);
 		копирпам8(t, данные[blki].данные + blkpos, m);
 		t += m;
 		sz -= m;
@@ -35,13 +33,11 @@ Huge::Huge()
 	}
 }
 
-Ткст Huge::дай() const
+Ткст Хьюдж::дай() const
 {
 	if(size >= INT_MAX)
 		паника("Ткст is too big!");
 	ТкстБуф sb((цел)size);
 	дай(~sb, 0, size);
 	return Ткст(sb);
-}
-
 }

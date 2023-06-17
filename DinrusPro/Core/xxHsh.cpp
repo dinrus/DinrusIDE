@@ -1,8 +1,7 @@
-#include <DinrusPro/DinrusPro.h>
+#include <DinrusPro/DinrusCore.h>
 
 #include "lib/xxhash.h"
 
-namespace ДинрусРНЦП {
 
 ххХэшПоток::ххХэшПоток(бцел seed)
 {
@@ -15,7 +14,7 @@ namespace ДинрусРНЦП {
 	XXH32_reset((XXH32_state_t *)context, seed);
 }
 
-проц ххХэшПоток::выведи(const ук данные, бцел size)
+проц ххХэшПоток::выведи(кук данные, бцел size)
 {
 	XXH32_update((XXH32_state_t *)context, данные, size);
 }
@@ -26,16 +25,16 @@ namespace ДинрусРНЦП {
 	return XXH32_digest((XXH32_state_t *)context);
 }
 
-цел xxHash(const ук данные, т_мера len)
+цел ххХэш(кук данные, т_мера len)
 {
 	ххХэшПоток h;
 	h.помести64(данные, len);
 	return h.финиш();
 }
 
-цел xxHash(const Ткст& s)
+цел ххХэш(const Ткст& s)
 {
-	return xxHash(~s, s.дайСчёт());
+	return ххХэш(~s, s.дайСчёт());
 }
 
 ххХэш64Поток::ххХэш64Поток(бцел seed)
@@ -49,7 +48,7 @@ namespace ДинрусРНЦП {
 	XXH64_reset((XXH64_state_t *)context, seed);
 }
 
-проц ххХэш64Поток::выведи(const ук данные, бцел size)
+проц ххХэш64Поток::выведи(кук данные, бцел size)
 {
 	XXH64_update((XXH64_state_t *)context, данные, size);
 }
@@ -60,16 +59,15 @@ namespace ДинрусРНЦП {
 	return XXH64_digest((XXH64_state_t *)context);
 }
 
-дол xxHash64(const ук данные, т_мера len)
+дол ххХэш64(кук данные, т_мера len)
 {
 	ххХэш64Поток h;
 	h.помести64(данные, len);
 	return h.финиш();
 }
 
-дол xxHash64(const Ткст& s)
+дол ххХэш64(const Ткст& s)
 {
-	return xxHash64(~s, s.дайСчёт());
+	return ххХэш64(~s, s.дайСчёт());
 }
 
-};

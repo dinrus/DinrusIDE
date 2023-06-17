@@ -1,7 +1,5 @@
 #include "SSL.h"
 
-namespace ДинрусРНЦП {
-
 Ткст SslBuffer::дай() const
 {
 	if(пустой())
@@ -29,7 +27,7 @@ namespace ДинрусРНЦП {
 
 бул SslStream::OpenBuffer(кткст0 данные, цел length)
 {
-	return уст(BIO_new_mem_buf(const_cast<char *>(данные), length));
+	return уст(BIO_new_mem_buf(const_cast<сим *>(данные), length));
 }
 
 бул SslStream::CreateBuffer()
@@ -169,7 +167,7 @@ SslContext::SslContext(SSL_CTX *c)
 
 Ткст SslGetLastError(цел& код_)
 {
-	char errbuf[150];
+	сим errbuf[150];
 	ERR_error_string(код_ = ERR_get_error(), errbuf);
 	return errbuf;
 }
@@ -182,7 +180,7 @@ SslContext::SslContext(SSL_CTX *c)
 
 Ткст SslToString(X509_NAME *имя)
 {
-	char буфер[500];
+	сим буфер[500];
 	return X509_NAME_oneline(имя, буфер, sizeof(буфер));
 }
 
@@ -203,6 +201,4 @@ SslContext::SslContext(SSL_CTX *c)
 Ткст Asn1ToString(ASN1_STRING *s)
 {
 	return Ткст(s->data, s->length);
-}
-
 }

@@ -1,4 +1,4 @@
-#include <DinrusPro/DinrusPro.h>
+#include <DinrusPro/DinrusCore.h>
 
 #ifdef КУЧА_РНЦП
 
@@ -6,13 +6,11 @@
 #include <sys/mman.h>
 #endif
 
-namespace ДинрусРНЦП {
-
 #include "HeapImp.h"
 
-проц OutOfMemoryPanic(т_мера size)
+проц паникаВнеПамяти(т_мера size)
 {
-	char h[200];
+	сим h[200];
 	sprintf(h, "выведи of memory!\nnU++ allocated memory: %d KB", MemoryUsedKb());
 	паника(h);
 }
@@ -51,7 +49,7 @@ namespace ДинрусРНЦП {
 		укз = NULL;
 #endif
 	if(!укз)
-		OutOfMemoryPanic(size);
+		паникаВнеПамяти(size);
 	return укз;
 }
 
@@ -90,19 +88,19 @@ namespace ДинрусРНЦП {
 
 #ifdef HEAPDBG
 
-ук Куча::DbgFreeCheckK(ук p, цел k)
+ук Куча::проверьСвобОтлK(ук p, цел k)
 {
 	Страница *page = дайСтраницу(p);
 	ПРОВЕРЬ((ббайт *)page + sizeof(Страница) <= (ббайт *)p && (ббайт *)p < (ббайт *)page + 4096);
 	ПРОВЕРЬ((4096 - ((uintptr_t)p & (uintptr_t)4095)) % Ksz(k) == 0);
 	ПРОВЕРЬ(page->klass == k);
-	DbgFreeCheck((FreeLink *)p + 1, Ksz(k) - sizeof(FreeLink));
+	проверьСвобОтл((СвобЛинк *)p + 1, Ksz(k) - sizeof(СвобЛинк));
 	return p;
 }
 
-проц Куча::DbgFreeFillK(ук p, цел k)
+проц Куча::заполниСвобОтлK(ук p, цел k)
 {
-	DbgFreeFill((FreeLink *)p + 1, Ksz(k) - sizeof(FreeLink));
+	заполниСвобОтл((СвобЛинк *)p + 1, Ksz(k) - sizeof(СвобЛинк));
 }
 
 #endif
@@ -135,9 +133,9 @@ namespace ДинрусРНЦП {
 	}
 	DLink *m = large->next;
 	while(m != large) {
-		LargeHeap::BlkHeader *h = m->дайПерв();
+		КучаЛардж::ЗагБлока *h = m->дайПерв();
 		for(;;) {
-			if(h->IsFree()) {
+			if(h->свободен_ли()) {
 				f.large_fragments_count++;
 				цел sz = LUNIT * h->дайРазм();
 				f.large_fragments_total += sz;
@@ -148,9 +146,9 @@ namespace ДинрусРНЦП {
 				f.large_count++;
 				f.large_total += LUNIT * h->size;
 			}
-			if(h->IsLast())
+			if(h->последний_ли())
 				break;
-			h = h->GetNextHeader();
+			h = h->дайСледщЗаг();
 		}
 		m = m->next;
 	}
@@ -163,19 +161,19 @@ namespace ДинрусРНЦП {
 	
 	f.master_chunks = (цел)huge_chunks;
 
-	HugePage *pg = huge_pages;
+	СтраницаХьюдж *pg = huge_pages;
 	while(pg) {
-		BlkPrefix *h = (BlkPrefix *)pg->page;
+		ПрефиксБлока *h = (ПрефиксБлока *)pg->page;
 		for(;;) {
-			if(h->IsFree()) {
+			if(h->свободен_ли()) {
 				бкрат sz = h->дайРазм();
 				f.huge_fragments[sz]++;
 				f.huge_fragments_count++;
 				f.huge_fragments_total += sz;
 			}
-			if(h->IsLast())
+			if(h->последний_ли())
 				break;
-			h = h->GetNextHeader(4096);
+			h = h->дайСледщЗаг(4096);
 		}
 		pg = pg->next;
 	}
@@ -187,15 +185,15 @@ namespace ДинрусРНЦП {
 	DLink *m = large->next;
 	auto& out = VppLog();
 	while(m != large) {
-		LargeHeap::BlkHeader *h = m->дайПерв();
+		КучаЛардж::ЗагБлока *h = m->дайПерв();
 		out << h << ": ";
 		for(;;) {
-			if(h->IsFree())
+			if(h->свободен_ли())
 				out << "#";
 			out << h->дайРазм() * 0.25 << ' ';
-			if(h->IsLast())
+			if(h->последний_ли())
 				break;
-			h = h->GetNextHeader();
+			h = h->дайСледщЗаг();
 		}
 		out << "\r\n";
 		m = m->next;
@@ -205,18 +203,18 @@ namespace ДинрусРНЦП {
 проц Куча::DumpHuge()
 {
 	Стопор::Замок __(mutex);
-	HugePage *pg = huge_pages;
+	СтраницаХьюдж *pg = huge_pages;
 	auto& out = VppLog();
 	while(pg) {
-		BlkPrefix *h = (BlkPrefix *)pg->page;
+		ПрефиксБлока *h = (ПрефиксБлока *)pg->page;
 		out << h << ": ";
 		for(;;) {
-			if(h->IsFree())
+			if(h->свободен_ли())
 				out << "#";
 			out << 4 * h->дайРазм() << ' ';
-			if(h->IsLast())
+			if(h->последний_ли())
 				break;
-			h = h->GetNextHeader(4096);
+			h = h->дайСледщЗаг(4096);
 		}
 		out << "\r\n";
 		pg = pg->next;
@@ -250,11 +248,11 @@ namespace ДинрусРНЦП {
 	     << ", total size " << (mem.large_total >> 10) << " KB\n";
 	text << "Large fragments count " << mem.large_fragments_count
 	     << ", total size " << (mem.large_fragments_total >> 10) << " KB\n";
-	text << "Huge block count " << mem.huge_count
+	text << "Хьюдж block count " << mem.huge_count
 	     << ", total size " << цел(mem.huge_total >> 10) << " KB\n";
-	text << "Huge fragments count " << mem.huge_fragments_count
+	text << "Хьюдж fragments count " << mem.huge_fragments_count
 	     << ", total size " << 4 * mem.huge_fragments_total << " KB\n";
-	text << "Sys block count " << mem.sys_count
+	text << "сис block count " << mem.sys_count
 	     << ", total size " << цел(mem.sys_total >> 10) << " KB\n";
 	text << Куча::HPAGE * 4 / 1024 << "MB master blocks " << mem.master_chunks << "\n";
 	text << "\nLarge fragments:\n";
@@ -301,7 +299,5 @@ namespace ДинрусРНЦП {
 	}
 }
 #endif
-
-}
 
 #endif

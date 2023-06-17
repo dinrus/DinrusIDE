@@ -124,7 +124,7 @@ template <class K, class T, class V>
 template <class K, class T, class V>
 проц АМап<K, T, V>::вДжейсон(ДжейсонВВ& jio)
 {
-	JsonizeMap<АМап<K, T, V>, K, T>(jio, *this, "ключ", "значение");
+	джейсонируйМап<АМап<K, T, V>, K, T>(jio, *this, "ключ", "значение");
 }
 
 template <class K, class T, class V>
@@ -178,7 +178,7 @@ template <class K, class T, class V, class Less>
 template <class K, class T, class V, class Less>
 проц ФиксАМап<K, T, V, Less>::вДжейсон(ДжейсонВВ& jio)
 {
-	JsonizeSortedMap<ФиксАМап<K, T, V, Less>, K, T>(jio, *this, "ключ", "значение");
+	джейсонируйОтсортМап<ФиксАМап<K, T, V, Less>, K, T>(jio, *this, "ключ", "значение");
 }
 
 template <class K, class T, class V, class Less>

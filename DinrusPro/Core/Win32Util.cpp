@@ -1,6 +1,4 @@
-#include <DinrusPro/DinrusPro.h>
-
-namespace ДинрусРНЦП {
+#include <DinrusPro/DinrusCore.h>
 
 #ifdef PLATFORM_WIN32
 
@@ -59,8 +57,8 @@ HINSTANCE прилДайУк()
 	if(!буфер)
 		return Null;
 	ТкстБуф temp(count);
-	for(char *p = temp, *e = p + count; p < e;)
-		*p++ = (char)*буфер++;
+	for(сим *p = temp, *e = p + count; p < e;)
+		*p++ = (сим)*буфер++;
 	return Ткст(temp);
 }
 
@@ -140,7 +138,7 @@ HINSTANCE прилДайУк()
 	if(RegOpenKeyEx(base, ключ, 0, KEY_READ|wow, &hkey) != ERROR_SUCCESS)
 		return;
 	Вектор<Ткст> subkeys;
-	char temp[_MAX_PATH];
+	сим temp[_MAX_PATH];
 	бцел len;
 	for(бцел dw = 0; len = sizeof(temp), RegEnumKeyEx(hkey, dw, temp, &len, 0, 0, 0, 0) == ERROR_SUCCESS; dw++)
 		subkeys.добавь(temp);
@@ -217,5 +215,3 @@ HINSTANCE прилДайУк()
 #endif
 
 #endif
-
-}

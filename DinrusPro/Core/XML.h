@@ -1,6 +1,6 @@
-Ткст DeXml(кткст0 s, ббайт charset = CHARSET_DEFAULT, бул escapelf = false);
-Ткст DeXml(кткст0 s, кткст0 end, ббайт charset = CHARSET_DEFAULT, бул escapelf = false);
-Ткст DeXml(const Ткст& s, ббайт charset = CHARSET_DEFAULT, бул escapelf = false);
+Ткст DeXml(кткст0 s, ббайт charset = ДЕФНАБСИМ, бул escapelf = false);
+Ткст DeXml(кткст0 s, кткст0 end, ббайт charset = ДЕФНАБСИМ, бул escapelf = false);
+Ткст DeXml(const Ткст& s, ббайт charset = ДЕФНАБСИМ, бул escapelf = false);
 Ткст XmlPI(кткст0 text);
 Ткст XmlHeader(кткст0 encoding = "UTF-8", кткст0 версия = "1.0", кткст0 standalone = NULL);
 Ткст XmlDecl(кткст0 text);
@@ -18,10 +18,10 @@ public:
 	Ткст  operator()();
 	Ткст  operator()(кткст0 text);
 	Ткст  operator()(const Ткст& text)                        { return operator()(~text); }
-	Ткст  устТекст(кткст0 s, ббайт charset = CHARSET_DEFAULT);
-	Ткст  устТекст(const Ткст& s, ббайт charset = CHARSET_DEFAULT) { return устТекст(~s, charset); }
-	Ткст  PreservedText(кткст0 s, ббайт charset = CHARSET_DEFAULT);
-	Ткст  PreservedText(const Ткст& s, ббайт charset = CHARSET_DEFAULT) { return PreservedText(~s, charset); }
+	Ткст  устТекст(кткст0 s, ббайт charset = ДЕФНАБСИМ);
+	Ткст  устТекст(const Ткст& s, ббайт charset = ДЕФНАБСИМ) { return устТекст(~s, charset); }
+	Ткст  PreservedText(кткст0 s, ббайт charset = ДЕФНАБСИМ);
+	Ткст  PreservedText(const Ткст& s, ббайт charset = ДЕФНАБСИМ) { return PreservedText(~s, charset); }
 	
 	Ткст  дайНачало() const                                      { return tag + '>'; }
 	Ткст  дайКонец() const                                        { return end; }
@@ -45,10 +45,10 @@ class ПарсерРяр {
 	enum {
 #ifdef flagTEST_XML // This is for testing purposes only to increase boundary condition frequency
 		MCHARS = 128,
-		CHUNK = 256
+		КУСОК = 256
 #else
 		MCHARS = 256,
-		CHUNK = 16384
+		КУСОК = 16384
 #endif
 	};
 	
@@ -61,11 +61,11 @@ class ПарсерРяр {
 	ВекторМап<Ткст, Ткст> entity;
 
 	Поток                   *in;
-	Буфер<char>              буфер;
+	Буфер<сим>              буфер;
 	цел                       len;
 	цел                       begincolumn;
-	const char               *begin;
-	const char               *term;
+	const сим               *begin;
+	const сим               *term;
 
 	Ткст                    attr1, attrval1;
 	ВекторМап<Ткст, Ткст> attr;

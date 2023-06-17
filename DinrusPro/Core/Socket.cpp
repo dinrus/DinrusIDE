@@ -1,4 +1,4 @@
-#include <DinrusPro/DinrusPro.h>
+#include <DinrusPro/DinrusCore.h>
 
 #ifdef PLATFORM_WIN32
 #include <winsock2.h>
@@ -8,8 +8,6 @@
 #ifdef PLATFORM_POSIX
 #include <arpa/inet.h>
 #endif
-
-namespace ДинрусРНЦП {
 
 #ifdef PLATFORM_WIN32
 #pragma comment(lib, "ws2_32.lib")
@@ -38,7 +36,7 @@ IpAddrInfo::Entry IpAddrInfo::пул[IpAddrInfo::COUNT];
 	addrinfo hints;
 	memset(&hints, 0, sizeof(addrinfo));
 	const static цел FamilyToAF[] = { AF_UNSPEC, AF_INET, AF_INET6 };
-	hints.ai_family = FamilyToAF[(family > 0 && family < __countof(FamilyToAF)) ? family : 0];
+	hints.ai_family = FamilyToAF[(family > 0 && family < __количество(FamilyToAF)) ? family : 0];
 	hints.ai_socktype = SOCK_STREAM;
 	hints.ai_protocol = IPPROTO_TCP;
 
@@ -50,8 +48,8 @@ auxthread_t auxthread__ IpAddrInfo::Нить(ук укз)
 	Entry *entry = (Entry *)укз;
 	EnterPool();
 	if(entry->status == WORKING) {
-		char host[1025];
-		char port[257];
+		сим host[1025];
+		сим port[257];
 		цел family = entry->family;
 		strcpy(host, entry->host);
 		strcpy(port, entry->port);
@@ -185,7 +183,7 @@ IpAddrInfo::IpAddrInfo()
 
 кткст0 TcpSocketErrorDesc(цел код_)
 {
-	static Кортеж<цел, const char *> err[] = {
+	static Кортеж<цел, кткст0 > err[] = {
 		{ WSAEINTR,                 "Interrupted ФУНКЦИЯ call." },
 		{ WSAEACCES,                "Permission denied." },
 		{ WSAEFAULT,                "Bad address." },
@@ -209,7 +207,7 @@ IpAddrInfo::IpAddrInfo()
 		{ WSAENETDOWN,              "Network is down." },
 		{ WSAENETUNREACH,           "Network is unreachable." },
 		{ WSAENETRESET,             "Network dropped connection on reset." },
-		{ WSAECONNABORTED,          "Software caused connection abort." },
+		{ WSAECONNABORTED,          "Software caused connection аборт." },
 		{ WSAECONNRESET,            "Connection reset by peer." },
 		{ WSAENOBUFS,               "No буфер space available." },
 		{ WSAEISCONN,               "TcpSocket is already connected." },
@@ -231,7 +229,7 @@ IpAddrInfo::IpAddrInfo()
 		{ WSANO_DATA,               "Valid имя, no данные record of requested тип." },
 		{ WSASYSCALLFAILURE,        "System call failure." },
 	};
-	const Кортеж<цел, const char *> *x = найдиКортеж(err, __countof(err), код_);
+	const Кортеж<цел, кткст0 > *x = найдиКортеж(err, __количество(err), код_);
 	return x ? x->b : "Unknown Ошибка код_.";
 }
 
@@ -268,7 +266,7 @@ IpAddrInfo::IpAddrInfo()
 	ipv6 = false;
 	укз = end = буфер;
 	is_error = false;
-	is_abort = false;
+	is_аборт = false;
 	is_timeout = false;
 	mode = NONE;
 	ssl.очисть();
@@ -354,7 +352,7 @@ TcpSocket::TcpSocket()
 	}
 	if(reuse) {
 		цел optval = 1;
-		setsockopt(socket, SOL_SOCKET, SO_REUSEADDR, (const char *)&optval, sizeof(optval));
+		setsockopt(socket, SOL_SOCKET, SO_REUSEADDR, (кткст0 )&optval, sizeof(optval));
 	}
 	if(bind(socket, ipv6 ? (const sockaddr *)&sin6 : (const sockaddr *)&sin,
 	        ipv6 ? sizeof(sin6) : sizeof(sin))) {
@@ -412,7 +410,7 @@ TcpSocket::TcpSocket()
 #ifdef PLATFORM_WIN32
 	return inet_ntoa(addr.sin_addr);
 #else
-	char h[200];
+	сим h[200];
 	return inet_ntop(AF_INET, &addr.sin_addr, h, 200);
 #endif
 }
@@ -422,7 +420,7 @@ TcpSocket::TcpSocket()
 	ПРОВЕРЬ(открыт());
 	цел __true = 1;
 	LLOG("NoDelay(" << (цел)socket << ")");
-	if(setsockopt(socket, IPPROTO_TCP, TCP_NODELAY, (const char *)&__true, sizeof(__true)))
+	if(setsockopt(socket, IPPROTO_TCP, TCP_NODELAY, (кткст0 )&__true, sizeof(__true)))
 		SetSockError("setsockopt(TCP_NODELAY)");
 }
 
@@ -432,7 +430,7 @@ TcpSocket::TcpSocket()
 	linger ls;
 	ls.l_onoff = !пусто_ли(msecs) ? 1 : 0;
 	ls.l_linger = !пусто_ли(msecs) ? (msecs + 999) / 1000 : 0;
-	if(setsockopt(socket, SOL_SOCKET, SO_LINGER, reinterpret_cast<const char *>(&ls), sizeof(ls)))
+	if(setsockopt(socket, SOL_SOCKET, SO_LINGER, reinterpret_cast<кткст0 >(&ls), sizeof(ls)))
 		SetSockError("setsockopt(SO_LINGER)");
 }
 
@@ -501,7 +499,7 @@ TcpSocket::TcpSocket()
 	if(WaitWrite()) {
 		цел optval = 0;
 		socklen_t optlen = sizeof(optval);
-		if (getsockopt(GetSOCKET(), SOL_SOCKET, SO_ERROR, (char*)&optval, &optlen) == 0) {
+		if (getsockopt(GetSOCKET(), SOL_SOCKET, SO_ERROR, (сим*)&optval, &optlen) == 0) {
 			if (optval == 0)
 				return true;
 			else {
@@ -559,12 +557,12 @@ TcpSocket::TcpSocket()
 #endif
 }
 
-цел TcpSocket::RawSend(const ук buf, цел amount)
+цел TcpSocket::RawSend(кук buf, цел amount)
 {
 #ifdef PLATFORM_LINUX
-	цел res = send(socket, (const char *)buf, amount, MSG_NOSIGNAL);
+	цел res = send(socket, (кткст0 )buf, amount, MSG_NOSIGNAL);
 #else
-	цел res = send(socket, (const char *)buf, amount, 0);
+	цел res = send(socket, (кткст0 )buf, amount, 0);
 #endif
 	if(res < 0 && WouldBlock())
 		res = 0;
@@ -574,7 +572,7 @@ TcpSocket::TcpSocket()
 	return res;
 }
 
-цел TcpSocket::Send(const ук buf, цел amount)
+цел TcpSocket::Send(кук buf, цел amount)
 {
 	if(SSLHandshake())
 		return 0;
@@ -591,8 +589,8 @@ TcpSocket::TcpSocket()
 Ткст TcpSocket::GetHostName()
 {
 	иниц();
-	char буфер[256];
-	gethostname(буфер, __countof(буфер));
+	сим буфер[256];
+	gethostname(буфер, __количество(буфер));
 	return буфер;
 }
 
@@ -690,11 +688,11 @@ TcpSocket& TcpSocket::GlobalTimeout(цел ms)
 	return жди(flags, GetEndTime());
 }
 
-цел TcpSocket::помести(const ук s_, цел length)
+цел TcpSocket::помести(кук s_, цел length)
 {
 	LLOG("помести " << socket << ": " << length);
 	ПРОВЕРЬ(открыт());
-	кткст0 s = (const char *)s_;
+	кткст0 s = (кткст0 )s_;
 	if(length < 0 && s)
 		length = (цел)strlen(s);
 	if(!s || length <= 0 || ошибка_ли() || аборт_ли())
@@ -718,7 +716,7 @@ TcpSocket& TcpSocket::GlobalTimeout(цел ms)
 	return done;
 }
 
-бул TcpSocket::PutAll(const ук s, цел len)
+бул TcpSocket::PutAll(кук s, цел len)
 {
 	if(помести(s, len) != len) {
 		if(!ошибка_ли())
@@ -740,7 +738,7 @@ TcpSocket& TcpSocket::GlobalTimeout(цел ms)
 
 цел TcpSocket::RawRecv(ук buf, цел amount)
 {
-	цел res = recv(socket, (char *)buf, amount, 0);
+	цел res = recv(socket, (сим *)buf, amount, 0);
 	if(res == 0)
 		is_eof = true;
 	else
@@ -750,7 +748,7 @@ TcpSocket& TcpSocket::GlobalTimeout(цел ms)
 	if(res < 0)
 		SetSockError("recv");
 	LLOG("recv(" << socket << "): " << res << " bytes: "
-	     << какТкстСи((char *)buf, (char *)buf + мин(res, 16))
+	     << какТкстСи((сим *)buf, (сим *)buf + мин(res, 16))
 	     << (res ? "" : кф_ли() ? ", EOF" : ", WOULDBLOCK"));
 	return res;
 }
@@ -820,7 +818,7 @@ TcpSocket& TcpSocket::GlobalTimeout(цел ms)
 	while(done < count && !ошибка_ли() && !кф_ли()) {
 		if(!жди(WAIT_READ, end_time))
 			break;
-		цел part = Recv((char *)буфер + done, count - done);
+		цел part = Recv((сим *)буфер + done, count - done);
 		if(part > 0)
 			done += part;
 		if(timeout == 0)
@@ -1026,6 +1024,4 @@ SocketWaitСобытие::SocketWaitСобытие()
 	FD_ZERO(read);
 	FD_ZERO(write);
 	FD_ZERO(exception);
-}
-
 }

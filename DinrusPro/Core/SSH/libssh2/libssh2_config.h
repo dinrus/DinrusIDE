@@ -39,7 +39,7 @@
 // If you get errors during compilation, try modifying the definitons below:
 
 /* Пакет information */
-#define ПАКЕТ           "ДинрусРНЦП::SSH"
+#define ПАКЕТ           "SSH"
 #define PACKAGE_BUGREPORT "https://github.com/ultimatepp/ultimatepp/issues"
 #define PACKAGE_NAME      "Ultimate++ SSH package"
 #define PACKAGE_STRING    "Ultimate++ SSH package, a libssh2 wrapper, (ver. 2021.1)"
@@ -79,7 +79,7 @@
 /*
 * Z compression requires plugin/z on Windows and for static builds.
 * Below patch, which applies to libssh2/comp.c, allows using the
-* Z compression on ДинрусРНЦП::SSH Win32 and for static builds.
+* Z compression on SSH Win32 and for static builds.
 */
 #if defined(flagWIN32) || defined(flagNOSO)
 #define РНЦП_ZLIB_INCLUDE <plugin/z/lib/zlib.h>
@@ -163,11 +163,11 @@
 #include <stdio.h>
 #include <stdarg.h>
 /* Want safe, 'n += snprintf(b + n ...)' like ФУНКЦИЯ. If cp_max_len is 1
-* then assume cp is pointing to a null char and do nothing. Returns number
-* number of chars placed in cp excluding the trailing null char. So for
+* then assume cp is pointing to a null сим and do nothing. Returns number
+* number of chars placed in cp excluding the trailing null сим. So for
 * cp_max_len > 0 the return значение is always < cp_max_len; for cp_max_len
 * <= 0 the return значение is 0 (and no chars are written to cp). */
-static цел snprintf(char * cp, цел cp_max_len, кткст0  fmt, ...)
+static цел snprintf(сим * cp, цел cp_max_len, кткст0  fmt, ...)
 {
     va_list арги;
     цел n;

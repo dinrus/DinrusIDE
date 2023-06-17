@@ -1,6 +1,4 @@
-#include <DinrusPro/DinrusPro.h>
-
-namespace ДинрусРНЦП {
+#include <DinrusPro/DinrusCore.h>
 
 // iscale: computes x * y / z.
 
@@ -128,7 +126,7 @@ namespace ДинрусРНЦП {
 
 дол fround64(дво значение)
 {
-	return значение >= (дво)INT64_MAX ? INT64_MAX : значение <= (дво)INT64_MIN ? INT64_MIN
+	return значение >= (дво)ЦЕЛ64_МАКС ? ЦЕЛ64_МАКС : значение <= (дво)ЦЕЛ64_МИН ? ЦЕЛ64_МИН
 		: (дол)floor(значение + 0.5);
 }
 
@@ -136,7 +134,7 @@ namespace ДинрусРНЦП {
 
 дол ffloor64(дво значение)
 {
-	return значение >= (дво)INT64_MAX ? INT64_MAX : значение <= (дво)INT64_MIN ? INT64_MIN
+	return значение >= (дво)ЦЕЛ64_МАКС ? ЦЕЛ64_МАКС : значение <= (дво)ЦЕЛ64_МИН ? ЦЕЛ64_МИН
 		: (дол)floor(значение);
 }
 
@@ -144,7 +142,7 @@ namespace ДинрусРНЦП {
 
 дол fceil64(дво значение)
 {
-	return значение >= (дво)INT64_MAX ? INT64_MAX : значение <= (дво)INT64_MIN ? INT64_MIN
+	return значение >= (дво)ЦЕЛ64_МАКС ? ЦЕЛ64_МАКС : значение <= (дво)ЦЕЛ64_МИН ? ЦЕЛ64_МИН
 		: (дол)ceil(значение);
 }
 
@@ -180,9 +178,9 @@ namespace ДинрусРНЦП {
 		1e31, 1e32, 1e33, 1e34, 1e35, 1e36, 1e37, 1e38, 1e39, 1e40,
 		1e41, 1e42, 1e43, 1e44, 1e45, 1e46, 1e47, 1e48, 1e49, 1e50,
 	};
-	if(i >= 0 && i < __countof(pow_tbl))
+	if(i >= 0 && i < __количество(pow_tbl))
 		return pow_tbl[i];
-	else if(i < 0 && i > -__countof(pow_tbl))
+	else if(i < 0 && i > -__количество(pow_tbl))
 		return 1 / pow_tbl[-i];
 	return pow(10.0, (дво)i);
 }
@@ -256,6 +254,4 @@ namespace ДинрусРНЦП {
 		r[1] = (-b - d) / a;
     }
 	return 2;
-}
-
 }

@@ -3,7 +3,7 @@
 дол NewInVectorSerial();
 
 template <class T>
-проц InVector<T>::иниц()
+проц ВхоВектор<T>::иниц()
 {
 	serial = NewInVectorSerial();
 	slave = 0;
@@ -11,20 +11,20 @@ template <class T>
 }
 
 template <class T>
-InVector<T>::InVector()
+ВхоВектор<T>::ВхоВектор()
 {
 	иниц();
 }
 
 template <class T>
-проц InVector<T>::переустанов()
+проц ВхоВектор<T>::переустанов()
 {
 	hcount = count = 0;
-	SetBlkPar();
+	устПарБлк();
 }
 
 template <class T>
-проц InVector<T>::очисть()
+проц ВхоВектор<T>::очисть()
 {
 	if(slave)
 		Slave()->очисть();
@@ -39,7 +39,7 @@ template <class T>
 цел  FindInvectorCache__(дол serial, цел& pos, цел& off);
 
 template <class T>
-force_inline проц InVector<T>::SetCache(цел blki, цел offset) const
+форс_инлайн проц ВхоВектор<T>::устКэш(цел blki, цел offset) const
 {
 #ifdef flagIVTEST
 	Check(0, 0);
@@ -48,22 +48,22 @@ force_inline проц InVector<T>::SetCache(цел blki, цел offset) const
 }
 
 template <class T>
-force_inline проц InVector<T>::очистьКэш() const
+форс_инлайн проц ВхоВектор<T>::очистьКэш() const
 {
 	ClearInvectorCache__();
 }
 
 template <class T>
-force_inline цел InVector<T>::FindBlock(цел& pos, цел& off) const
+форс_инлайн цел ВхоВектор<T>::найдиБлок(цел& pos, цел& off) const
 {
 	цел i = FindInvectorCache__(serial, pos, off);
-	return i >= 0 ? i : FindBlock0(pos, off);
+	return i >= 0 ? i : найдиБлок0(pos, off);
 }
 
 template <class T>
-цел InVector<T>::FindBlock0(цел& pos, цел& off) const
+цел ВхоВектор<T>::найдиБлок0(цел& pos, цел& off) const
 {
-	LLOG("FindBlock " << pos);
+	LLOG("найдиБлок " << pos);
 	ПРОВЕРЬ(pos >= 0 && pos <= count);
 	if(pos == count) {
 		LLOG("Found last");
@@ -89,43 +89,43 @@ template <class T>
 		offset += n;
 	}
 
-	SetCache(blki, offset);
+	устКэш(blki, offset);
 
 	off = offset;
 	return blki;
 }
 
 template <class T>
-force_inline цел InVector<T>::FindBlock(цел& pos) const
+форс_инлайн цел ВхоВектор<T>::найдиБлок(цел& pos) const
 {
 	цел h;
-	return FindBlock(pos, h);
+	return найдиБлок(pos, h);
 }
 
 template <class T>
-const T& InVector<T>::operator[](цел i) const
+const T& ВхоВектор<T>::operator[](цел i) const
 {
 	LLOG("operator[] " << i);
 	ПРОВЕРЬ(i >= 0 && i < count);
-	цел blki = FindBlock(i);
+	цел blki = найдиБлок(i);
 	return данные[blki][i];
 }
 
 template <class T>
-T& InVector<T>::operator[](цел i)
+T& ВхоВектор<T>::operator[](цел i)
 {
 	LLOG("operator[] " << i);
 	ПРОВЕРЬ(i >= 0 && i < count);
-	цел blki = FindBlock(i);
+	цел blki = найдиБлок(i);
 	return данные[blki][i];
 }
 
 template <class T>
-проц InVector<T>::реиндексируй()
+проц ВхоВектор<T>::реиндексируй()
 {
 	LLOG("--- Reindexing");
 	очистьКэш();
-	SetBlkPar();
+	устПарБлк();
 	индекс.очисть();
 	if(slave)
 		Slave()->реиндексируй();
@@ -169,7 +169,7 @@ template <class T>
 }
 
 template <class T>
-проц InVector<T>::SetBlkPar()
+проц ВхоВектор<T>::устПарБлк()
 {
 #if defined(_ОТЛАДКА) && defined(flagIVTEST)
 	blk_high = 11;
@@ -182,14 +182,14 @@ template <class T>
 }
 
 template <class T>
-проц InVector<T>::Индекс(цел q, цел n)
+проц ВхоВектор<T>::Индекс(цел q, цел n)
 {
 	for(цел i = 0; i < индекс.дайСчёт(); i++)
 		индекс[i].по(q >>= 1, 0) += n;
 }
 
 template <class T>
-T *InVector<T>::вставь0(цел ii, цел blki, цел pos, цел off, const T *знач)
+T *ВхоВектор<T>::вставь0(цел ii, цел blki, цел pos, цел off, const T *знач)
 {
 	if(данные[blki].дайСчёт() > blk_high) {
 		if(slave)
@@ -199,7 +199,7 @@ T *InVector<T>::вставь0(цел ii, цел blki, цел pos, цел off, co
 		данные[blki].сожми();
 		реиндексируй();
 		pos = ii;
-		blki = FindBlock(pos, off);
+		blki = найдиБлок(pos, off);
 	}
 	LLOG("blki: " << blki << ", pos: " << pos);
 	count++;
@@ -213,12 +213,12 @@ T *InVector<T>::вставь0(цел ii, цел blki, цел pos, цел off, co
 		данные[blki].вставь(pos, *знач);
 	else
 		данные[blki].вставь(pos);
-	SetCache(blki, off);
+	устКэш(blki, off);
 	return &данные[blki][pos];
 }
 
 template <class T>
-T *InVector<T>::вставь0(цел ii, const T *знач)
+T *ВхоВектор<T>::вставь0(цел ii, const T *знач)
 {
 	ПРОВЕРЬ(ii >= 0 && ii <= дайСчёт());
 	if(данные.дайСчёт() == 0) {
@@ -226,7 +226,7 @@ T *InVector<T>::вставь0(цел ii, const T *знач)
 		очистьКэш();
 		if(slave) {
 			Slave()->Count(1);
-			Slave()->AddFirst();
+			Slave()->добавьПервый();
 		}
 		if(знач) {
 			данные.добавь().добавь(*знач);
@@ -236,13 +236,13 @@ T *InVector<T>::вставь0(цел ii, const T *знач)
 	}
 	цел pos = ii;
 	цел off;
-	цел blki = FindBlock(pos, off);
+	цел blki = найдиБлок(pos, off);
 	return вставь0(ii, blki, pos, off, знач);
 }
 
 template <class T>
 template <class Диапазон>
-проц InVector<T>::Insert_(цел ii, const Диапазон& r, бул опр)
+проц ВхоВектор<T>::Insert_(цел ii, const Диапазон& r, бул опр)
 {
 	цел n = r.дайСчёт();
 
@@ -271,7 +271,7 @@ template <class Диапазон>
 
 	цел pos = ii;
 	цел off;
-	цел blki = FindBlock(pos, off);
+	цел blki = найдиБлок(pos, off);
 	цел bc = данные[blki].дайСчёт();
 	
 	count += n;
@@ -282,7 +282,7 @@ template <class Диапазон>
 		else
 			данные[blki].вставьДиапазон(pos, СубДиапазон(s, n));
 		Индекс(blki, n);
-		SetCache(blki, off);
+		устКэш(blki, off);
 	}
 	else
 	if(bc - pos + n < blk_high) { // splitting into 2 blocks is enough
@@ -327,34 +327,34 @@ template <class Диапазон>
 }
 
 template <class T>
-проц InVector<T>::Join(цел blki)
+проц ВхоВектор<T>::соедини(цел blki)
 {
 	данные[blki].приставьПодбор(пикуй(данные[blki + 1]));
 	данные.удали(blki + 1);
 }
 
 template <class T>
-force_inline бул InVector<T>::JoinSmall(цел blki)
+форс_инлайн бул ВхоВектор<T>::JoinSmall(цел blki)
 {
 	if(blki < данные.дайСчёт()) {
 		цел n = данные[blki].дайСчёт();
 		if(n == 0) {
 			if(slave)
-				Slave()->RemoveBlk(blki, 1);
+				Slave()->удалиБлок(blki, 1);
 			данные.удали(blki);
 			return true;
 		}
 		if(n < blk_low) {
 			if(blki > 0 && данные[blki - 1].дайСчёт() + n <= blk_high) {
 				if(slave)
-					Slave()->Join(blki - 1);
-				Join(blki - 1);
+					Slave()->соедини(blki - 1);
+				соедини(blki - 1);
 				return true;
 			}
 			if(blki + 1 < данные.дайСчёт() && n + данные[blki + 1].дайСчёт() <= blk_high) {
 				if(slave)
-					Slave()->Join(blki);
-				Join(blki);
+					Slave()->соедини(blki);
+				соедини(blki);
 				return true;
 			}
 		}
@@ -363,13 +363,13 @@ force_inline бул InVector<T>::JoinSmall(цел blki)
 }
 
 template <class T>
-проц InVector<T>::удали(цел pos, цел n)
+проц ВхоВектор<T>::удали(цел pos, цел n)
 {
 	ПРОВЕРЬ(pos >= 0 && pos + n <= дайСчёт());
 	if(n == 0)
 		return;
 	цел off;
-	цел blki = FindBlock(pos, off);
+	цел blki = найдиБлок(pos, off);
 	count -= n;
 	if(slave)
 		Slave()->Count(-n);
@@ -383,7 +383,7 @@ template <class T>
 			if(slave)
 				Slave()->Индекс(blki, -n);
 			Индекс(blki, -n);
-			SetCache(blki, off);
+			устКэш(blki, off);
 		}
 	}
 	else {
@@ -399,7 +399,7 @@ template <class T>
 			b2++;
 		}
 		if(slave)
-			Slave()->RemoveBlk(b1, b2 - b1);
+			Slave()->удалиБлок(b1, b2 - b1);
 		данные.удали(b1, b2 - b1);
 		if(b1 < данные.дайСчёт()) {
 			if(slave)
@@ -416,7 +416,7 @@ template <class T>
 }
 
 template <class T>
-проц InVector<T>::устСчёт(цел n)
+проц ВхоВектор<T>::устСчёт(цел n)
 {
 	if(n < дайСчёт())
 		обрежь(n);
@@ -425,7 +425,7 @@ template <class T>
 }
 
 template <class T>
-проц InVector<T>::сожми()
+проц ВхоВектор<T>::сожми()
 {
 	for(цел i = 0; i < данные.дайСчёт(); i++)
 		данные[i].сожми();
@@ -436,7 +436,7 @@ template <class T>
 }
 
 template <class T>
-проц InVector<T>::уст(цел i, const T& x, цел count)
+проц ВхоВектор<T>::уст(цел i, const T& x, цел count)
 {
 	Обходчик it = дайОбх(i);
 	while(count-- > 0)
@@ -444,7 +444,7 @@ template <class T>
 }
 
 template <class T>
-InVector<T>::InVector(const InVector<T>& v, цел)
+ВхоВектор<T>::ВхоВектор(const ВхоВектор<T>& v, цел)
 {
 	данные <<= v.данные;
 	индекс <<= v.индекс;
@@ -457,7 +457,7 @@ InVector<T>::InVector(const InVector<T>& v, цел)
 }
 
 template <class T>
-проц InVector<T>::подбери(InVector&& v)
+проц ВхоВектор<T>::подбери(ВхоВектор&& v)
 {
 	данные = пикуй(v.данные);
 	индекс = пикуй(v.индекс);
@@ -474,7 +474,7 @@ template <class T>
 
 template <class T>
 template <class L>
-цел InVector<T>::найдиВерхнГран(const T& знач, const L& less, цел& off, цел& pos) const
+цел ВхоВектор<T>::найдиВерхнГран(const T& знач, const L& less, цел& off, цел& pos) const
 {
 	if(данные.дайСчёт() == 0) {
 		pos = off = 0;
@@ -501,22 +501,22 @@ template <class L>
 		if(!less(знач, данные[blki].верх()))
 			offset += данные[blki++].дайСчёт();
 		if(blki < данные.дайСчёт()) {
-			pos = ДинрусРНЦП::найдиВерхнГран(данные[blki], знач, less);
+			pos = найдиВерхнГран(данные[blki], знач, less);
 			off = offset;
-			SetCache(blki, offset);
+			устКэш(blki, offset);
 			return blki;
 		}
 	}
 	pos = данные.верх().дайСчёт();
 	off = count - pos;
 	blki--;
-	SetCache(blki, off);
+	устКэш(blki, off);
 	return blki;
 }
 
 template <class T>
 template <class L>
-цел InVector<T>::найдиНижнГран(const T& знач, const L& less, цел& off, цел& pos) const
+цел ВхоВектор<T>::найдиНижнГран(const T& знач, const L& less, цел& off, цел& pos) const
 {
 	if(данные.дайСчёт() == 0) {
 		pos = off = 0;
@@ -543,29 +543,29 @@ template <class L>
 		if(blki + 1 < данные.дайСчёт() && less(данные[blki + 1][0], знач))
 			offset += данные[blki++].дайСчёт();
 		if(blki < данные.дайСчёт()) {
-			pos = ДинрусРНЦП::найдиНижнГран(данные[blki], знач, less);
+			pos = найдиНижнГран(данные[blki], знач, less);
 			off = offset;
-			SetCache(blki, offset);
+			устКэш(blki, offset);
 			return blki;
 		}
 	}
 	pos = данные.верх().дайСчёт();
 	off = count - pos;
 	blki--;
-	SetCache(blki, off);
+	устКэш(blki, off);
 	return blki;
 }
 
 template <class T>
 template <class L>
-цел InVector<T>::InsertUpperBound(const T& знач, const L& less)
+цел ВхоВектор<T>::вставьВерхнГран(const T& знач, const L& less)
 {
 	if(данные.дайСчёт() == 0) {
 		count++;
 		очистьКэш();
 		if(slave) {
 			Slave()->счёт(1);
-			Slave()->AddFirst();
+			Slave()->добавьПервый();
 		}
 		данные.добавь().вставь(0) = знач;
 		return 0;
@@ -579,7 +579,7 @@ template <class L>
 
 template <class T>
 template <class L>
-цел InVector<T>::найди(const T& знач, const L& less) const
+цел ВхоВектор<T>::найди(const T& знач, const L& less) const
 {
 	цел i = найдиНижнГран(знач, less);
 	return i < дайСчёт() && !less(знач, (*this)[i]) ? i : -1;
@@ -587,21 +587,21 @@ template <class L>
 
 
 template <class T>
-проц InVector<T>::SetIter(КонстОбходчик& it, цел ii) const
+проц ВхоВектор<T>::устОбх(КонстОбходчик& it, цел ii) const
 {
 	if(count) {
 		it.v = this;
-		it.blki = FindBlock(ii, it.offset);
+		it.blki = найдиБлок(ii, it.offset);
 		it.begin = данные[it.blki].старт();
 		it.end = данные[it.blki].стоп();
 		it.укз = it.begin + ii;
 	}
 	else
-		SetEnd(it);
+		устКон(it);
 }
 
 template <class T>
-проц InVector<T>::SetBegin(КонстОбходчик& it) const
+проц ВхоВектор<T>::устНач(КонстОбходчик& it) const
 {
 	if(count) {
 		it.v = this;
@@ -611,11 +611,11 @@ template <class T>
 		it.offset = 0;
 	}
 	else
-		SetEnd(it);
+		устКон(it);
 }
 
 template <class T>
-проц InVector<T>::SetEnd(КонстОбходчик& it) const
+проц ВхоВектор<T>::устКон(КонстОбходчик& it) const
 {
 	if(count) {
 		it.v = this;
@@ -633,18 +633,18 @@ template <class T>
 }
 
 template <typename T>
-force_inline typename InVector<T>::КонстОбходчик& InVector<T>::КонстОбходчик::operator+=(цел d)
+форс_инлайн typename ВхоВектор<T>::КонстОбходчик& ВхоВектор<T>::КонстОбходчик::operator+=(цел d)
 {
 	if(d >= 0 ? d < end - укз : -d < укз - begin)
 		укз += d;
 	else
-		v->SetIter(*this, дайИндекс() + d);
+		v->устОбх(*this, дайИндекс() + d);
 	ПРОВЕРЬ(end - begin == v->данные[blki].дайСчёт());
 	return *this;
 }
 
 template <typename T>
-проц InVector<T>::КонстОбходчик::NextBlk()
+проц ВхоВектор<T>::КонстОбходчик::следщБлк()
 {
 	ПРОВЕРЬ(end - begin == v->данные[blki].дайСчёт());
 	if(blki + 1 < v->данные.дайСчёт()) {
@@ -656,7 +656,7 @@ template <typename T>
 }
 
 template <typename T>
-проц InVector<T>::КонстОбходчик::PrevBlk()
+проц ВхоВектор<T>::КонстОбходчик::предшБлк()
 {
 	--blki;
 	begin = v->данные[blki].старт();
@@ -665,41 +665,41 @@ template <typename T>
 }
 
 template <typename T>
-проц InVector<T>::разверни(InVector& b)
+проц ВхоВектор<T>::разверни(ВхоВектор& b)
 {
-	ДинрусРНЦП::разверни(данные, b.данные);
-	ДинрусРНЦП::разверни(индекс, b.индекс);
-	ДинрусРНЦП::разверни(count, b.count);
-	ДинрусРНЦП::разверни(hcount, b.hcount);
-	ДинрусРНЦП::разверни(serial, b.serial);
-	ДинрусРНЦП::разверни(blk_high, b.blk_high);
-	ДинрусРНЦП::разверни(blk_low, b.blk_low);
-	ДинрусРНЦП::разверни(slave, b.slave);
+	разверни(данные, b.данные);
+	разверни(индекс, b.индекс);
+	разверни(count, b.count);
+	разверни(hcount, b.hcount);
+	разверни(serial, b.serial);
+	разверни(blk_high, b.blk_high);
+	разверни(blk_low, b.blk_low);
+	разверни(slave, b.slave);
 }
 
 template <class T>
-проц InVector<T>::вРяр(РярВВ& xio, кткст0 itemtag)
+проц ВхоВектор<T>::вРяр(РярВВ& xio, кткст0 itemtag)
 {
 	контейнерВРяр(xio, itemtag, *this);
 }
 
 template <class T>
-проц InVector<T>::вДжейсон(ДжейсонВВ& jio)
+проц ВхоВектор<T>::вДжейсон(ДжейсонВВ& jio)
 {
-	JsonizeArray<InVector<T>>(jio, *this);
+	джейсонируйМассив<ВхоВектор<T>>(jio, *this);
 }
 
 template <class T>
-Ткст InVector<T>::вТкст() const
+Ткст ВхоВектор<T>::вТкст() const
 {
 	return AsStringArray(*this);
 }
 
 template <class T>
-проц InVector<T>::DumpIndex() const
+проц ВхоВектор<T>::DumpIndex() const
 {
 	Ткст h;
-	RLOG("------- InVector dump, count: " << дайСчёт() << ", индекс depth: " << индекс.дайСчёт());
+	RLOG("------- ВхоВектор dump, count: " << дайСчёт() << ", индекс depth: " << индекс.дайСчёт());
 	дол alloc = 0;
 	for(цел i = 0; i < данные.дайСчёт(); i++) {
 		if(i)
@@ -725,7 +725,7 @@ template <class T>
 
 #ifdef flagIVTEST
 template <class T>
-проц InVector<T>::Check(цел blki, цел offset) const
+проц ВхоВектор<T>::Check(цел blki, цел offset) const
 {
 	цел off = 0;
 	цел all = 0;
@@ -740,7 +740,7 @@ template <class T>
 #endif
 
 template <class T>
-проц InArray<T>::Delete(IVIter it, цел count)
+проц ВхоМассив<T>::Delete(IVIter it, цел count)
 {
 	ПРОВЕРЬ(count >= 0);
 	while(count--)
@@ -748,13 +748,13 @@ template <class T>
 }
 
 template <class T>
-проц InArray<T>::Delete(цел i, цел count)
+проц ВхоМассив<T>::Delete(цел i, цел count)
 {
 	Delete(iv.дайОбх(i), count);
 }
 
 template <class T>
-проц InArray<T>::иниц(цел i, цел count)
+проц ВхоМассив<T>::иниц(цел i, цел count)
 {
 	ПРОВЕРЬ(count >= 0);
 	IVIter it = iv.дайОбх(i);
@@ -763,7 +763,7 @@ template <class T>
 }
 
 template <class T>
-проц InArray<T>::вставьН(цел i, цел count)
+проц ВхоМассив<T>::вставьН(цел i, цел count)
 {
 	iv.вставьН(i, count);
 	иниц(i, count);
@@ -771,7 +771,7 @@ template <class T>
 
 template <class T>
 template <class Диапазон>
-проц InArray<T>::вставьДиапазон(цел i, const Диапазон& r)
+проц ВхоМассив<T>::вставьДиапазон(цел i, const Диапазон& r)
 {
 	цел count = r.дайСчёт();
 	iv.вставьН(i, count);
@@ -782,14 +782,14 @@ template <class Диапазон>
 }
 
 template <class T>
-проц InArray<T>::удали(цел i, цел count)
+проц ВхоМассив<T>::удали(цел i, цел count)
 {
 	Delete(i, count);
 	iv.удали(i, count);
 }
 
 template <class T>
-проц InArray<T>::устСчёт(цел n)
+проц ВхоМассив<T>::устСчёт(цел n)
 {
 	if(n < дайСчёт())
 		обрежь(n);
@@ -798,14 +798,14 @@ template <class T>
 }
 
 template <class T>
-проц InArray<T>::очисть()
+проц ВхоМассив<T>::очисть()
 {
 	освободи();
 	iv.очисть();
 }
 
 template <class T>
-проц InArray<T>::уст(цел i, const T& x, цел count)
+проц ВхоМассив<T>::уст(цел i, const T& x, цел count)
 {
 	Обходчик it = дайОбх(i);
 	while(count-- > 0)
@@ -813,25 +813,25 @@ template <class T>
 }
 
 template <class T>
-проц InArray<T>::SetIter(КонстОбходчик& it, цел ii) const
+проц ВхоМассив<T>::устОбх(КонстОбходчик& it, цел ii) const
 {
 	it.it = iv.дайОбх(ii);
 }
 
 template <class T>
-проц InArray<T>::SetBegin(КонстОбходчик& it) const
+проц ВхоМассив<T>::устНач(КонстОбходчик& it) const
 {
 	it.it = iv.старт();
 }
 
 template <class T>
-проц InArray<T>::SetEnd(КонстОбходчик& it) const
+проц ВхоМассив<T>::устКон(КонстОбходчик& it) const
 {
 	it.it = iv.стоп();
 }
 
 template <class T>
-InArray<T>::InArray(const InArray& v, цел)
+ВхоМассив<T>::ВхоМассив(const ВхоМассив& v, цел)
 {
 	цел n = v.дайСчёт();
 	iv.устСчёт(v.дайСчёт());
@@ -843,19 +843,19 @@ InArray<T>::InArray(const InArray& v, цел)
 
 #ifdef РНЦП
 template <class T>
-проц InArray<T>::вРяр(РярВВ& xio, кткст0 itemtag)
+проц ВхоМассив<T>::вРяр(РярВВ& xio, кткст0 itemtag)
 {
 	контейнерВРяр(xio, itemtag, *this);
 }
 
 template <class T>
-проц InArray<T>::вДжейсон(ДжейсонВВ& jio)
+проц ВхоМассив<T>::вДжейсон(ДжейсонВВ& jio)
 {
-	JsonizeArray<InArray<T>>(jio, *this);
+	джейсонируйМассив<ВхоМассив<T>>(jio, *this);
 }
 
 template <class T>
-Ткст InArray<T>::вТкст() const
+Ткст ВхоМассив<T>::вТкст() const
 {
 	return AsStringArray(*this);
 }

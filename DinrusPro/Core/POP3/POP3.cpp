@@ -1,7 +1,5 @@
 #include "POP3.h"
 
-namespace ДинрусРНЦП {
-
 static бул sPop3Trace;
 #define LLOG(x) do { if(sPop3Trace) RLOG(сожмиЛог(Ткст().кат() << x)); } while(0)
 
@@ -156,7 +154,7 @@ Pop3& Pop3::прокси(кткст0 p)
 	// Try using APOP authentication.
 	Ткст timestamp = GetTimeStamp();
 	if(!timestamp.пустой()) {
-		if(PutGet("APOP " + user + " " + MD5String(timestamp << pass) + "\r\n"))
+		if(PutGet("APOP " + user + " " + мд5Ткст(timestamp << pass) + "\r\n"))
 			return true;
 	}
 	else
@@ -253,6 +251,4 @@ Pop3::Pop3()
 Pop3::~Pop3()
 {
 	Logout();
-}
-
 }

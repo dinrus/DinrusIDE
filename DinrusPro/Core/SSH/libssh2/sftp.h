@@ -59,7 +59,7 @@ struct sftp_pipeline_chunk {
     т_мера sent;
     ssize_t lefttosend; /* if 0, the entire packet has been sent off */
     uint32_t request_id;
-    unsigned char packet[1]; /* данные */
+    ббайт packet[1]; /* данные */
 };
 
 struct sftp_zombie_requests {
@@ -75,7 +75,7 @@ struct _LIBSSH2_SFTP_PACKET
 {
     struct list_node node;   /* linked list header */
     uint32_t request_id;
-    unsigned char *данные;
+    ббайт *данные;
     т_мера data_len;              /* payload size */
 };
 
@@ -89,7 +89,7 @@ struct _LIBSSH2_SFTP_HANDLE
 
     LIBSSH2_SFTP *sftp;
 
-    char handle[SFTP_HANDLE_MAXLEN];
+    сим handle[SFTP_HANDLE_MAXLEN];
     т_мера handle_len;
 
     enum {
@@ -111,17 +111,17 @@ struct _LIBSSH2_SFTP_HANDLE
                the caller yet. It is of size 'data_len' and 'data_left is the
                number of bytes not yet returned, counted from the end of the
                буфер. */
-            unsigned char *данные;
+            ббайт *данные;
             т_мера data_len;
             т_мера data_left;
 
-            char eof; /* we have read to the end */
+            сим eof; /* we have read to the end */
         } file;
         struct _libssh2_sftp_handle_dir_data
         {
             uint32_t names_left;
             ук names_packet;
-            char *next_name;
+            сим *next_name;
             т_мера names_packet_len;
         } dir;
     } u;
@@ -129,7 +129,7 @@ struct _LIBSSH2_SFTP_HANDLE
     /* State variables used in libssh2_sftp_close_handle() */
     libssh2_nonblocking_states close_state;
     uint32_t close_request_id;
-    unsigned char *close_packet;
+    ббайт *close_packet;
 
     /* list of outstanding packets sent to server */
     struct list_head packet_list;
@@ -153,9 +153,9 @@ struct _LIBSSH2_SFTP
     uint32_t last_errno;
 
     /* Holder for partial packet, use in libssh2_sftp_packet_read() */
-    unsigned char partial_size[4];      /* буфер for size field   */
+    ббайт partial_size[4];      /* буфер for size field   */
     т_мера partial_size_len;            /* size field length       */
-    unsigned char *partial_packet;      /* The данные                */
+    ббайт *partial_packet;      /* The данные                */
     uint32_t partial_len;               /* Desired number of bytes */
     т_мера partial_received;            /* Bytes received so far   */
 
@@ -164,7 +164,7 @@ struct _LIBSSH2_SFTP
 
     /* State variables used in libssh2_sftp_open_ex() */
     libssh2_nonblocking_states open_state;
-    unsigned char *open_packet;
+    ббайт *open_packet;
     uint32_t open_packet_len; /* 32 bit on the wire */
     т_мера open_packet_sent;
     uint32_t open_request_id;
@@ -180,58 +180,58 @@ struct _LIBSSH2_SFTP
 
     /* State variables used in sftp_fsync() */
     libssh2_nonblocking_states fsync_state;
-    unsigned char *fsync_packet;
+    ббайт *fsync_packet;
     uint32_t fsync_request_id;
 
     /* State variables used in libssh2_sftp_readdir() */
     libssh2_nonblocking_states readdir_state;
-    unsigned char *readdir_packet;
+    ббайт *readdir_packet;
     uint32_t readdir_request_id;
 
     /* State variables used in libssh2_sftp_fstat_ex() */
     libssh2_nonblocking_states fstat_state;
-    unsigned char *fstat_packet;
+    ббайт *fstat_packet;
     uint32_t fstat_request_id;
 
     /* State variables used in libssh2_sftp_unlink_ex() */
     libssh2_nonblocking_states unlink_state;
-    unsigned char *unlink_packet;
+    ббайт *unlink_packet;
     uint32_t unlink_request_id;
 
     /* State variables used in libssh2_sftp_rename_ex() */
     libssh2_nonblocking_states rename_state;
-    unsigned char *rename_packet;
-    unsigned char *rename_s;
+    ббайт *rename_packet;
+    ббайт *rename_s;
     uint32_t rename_request_id;
 
     /* State variables used in libssh2_sftp_fstatvfs() */
     libssh2_nonblocking_states fstatvfs_state;
-    unsigned char *fstatvfs_packet;
+    ббайт *fstatvfs_packet;
     uint32_t fstatvfs_request_id;
 
     /* State variables used in libssh2_sftp_statvfs() */
     libssh2_nonblocking_states statvfs_state;
-    unsigned char *statvfs_packet;
+    ббайт *statvfs_packet;
     uint32_t statvfs_request_id;
 
     /* State variables used in libssh2_sftp_mkdir() */
     libssh2_nonblocking_states mkdir_state;
-    unsigned char *mkdir_packet;
+    ббайт *mkdir_packet;
     uint32_t mkdir_request_id;
 
     /* State variables used in libssh2_sftp_rmdir() */
     libssh2_nonblocking_states rmdir_state;
-    unsigned char *rmdir_packet;
+    ббайт *rmdir_packet;
     uint32_t rmdir_request_id;
 
     /* State variables used in libssh2_sftp_stat() */
     libssh2_nonblocking_states stat_state;
-    unsigned char *stat_packet;
+    ббайт *stat_packet;
     uint32_t stat_request_id;
 
     /* State variables used in libssh2_sftp_symlink() */
     libssh2_nonblocking_states symlink_state;
-    unsigned char *symlink_packet;
+    ббайт *symlink_packet;
     uint32_t symlink_request_id;
 };
 

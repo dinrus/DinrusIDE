@@ -136,7 +136,7 @@ extern struct _libssh2_wincng_ctx _libssh2_wincng;
 
 typedef struct __libssh2_wincng_hash_ctx {
     BCRYPT_HASH_HANDLE hHash;
-    unsigned char *pbHashObject;
+    ббайт *pbHashObject;
     unsigned long dwHashObject;
     unsigned long cbHash;
 } _libssh2_wincng_hash_ctx;
@@ -150,7 +150,7 @@ typedef struct __libssh2_wincng_hash_ctx {
   (_libssh2_wincng_hash_init(ctx, _libssh2_wincng.hAlgHashSHA1, \
                             SHA_DIGEST_LENGTH, NULL, 0) == 0)
 #define libssh2_sha1_update(ctx, данные, datalen) \
-  _libssh2_wincng_hash_update(&ctx, (unsigned char *) данные, datalen)
+  _libssh2_wincng_hash_update(&ctx, (ббайт *) данные, datalen)
 #define libssh2_sha1_final(ctx, hash) \
   _libssh2_wincng_hash_final(&ctx, hash)
 #define libssh2_sha1(данные, datalen, hash) \
@@ -162,7 +162,7 @@ typedef struct __libssh2_wincng_hash_ctx {
   (_libssh2_wincng_hash_init(ctx, _libssh2_wincng.hAlgHashSHA256, \
                             SHA256_DIGEST_LENGTH, NULL, 0) == 0)
 #define libssh2_sha256_update(ctx, данные, datalen) \
-  _libssh2_wincng_hash_update(&ctx, (unsigned char *) данные, datalen)
+  _libssh2_wincng_hash_update(&ctx, (ббайт *) данные, datalen)
 #define libssh2_sha256_final(ctx, hash) \
   _libssh2_wincng_hash_final(&ctx, hash)
 #define libssh2_sha256(данные, datalen, hash) \
@@ -173,7 +173,7 @@ typedef struct __libssh2_wincng_hash_ctx {
  (_libssh2_wincng_hash_init(ctx, _libssh2_wincng.hAlgHashSHA384, \
                            SHA384_DIGEST_LENGTH, NULL, 0) == 0)
 #define libssh2_sha384_update(ctx, данные, datalen) \
- _libssh2_wincng_hash_update(&ctx, (unsigned char *) данные, datalen)
+ _libssh2_wincng_hash_update(&ctx, (ббайт *) данные, datalen)
 #define libssh2_sha384_final(ctx, hash) \
  _libssh2_wincng_hash_final(&ctx, hash)
 #define libssh2_sha384(данные, datalen, hash) \
@@ -184,7 +184,7 @@ _libssh2_wincng_hash(данные, datalen, _libssh2_wincng.hAlgHashSHA384, \
   (_libssh2_wincng_hash_init(ctx, _libssh2_wincng.hAlgHashSHA512, \
                             SHA512_DIGEST_LENGTH, NULL, 0) == 0)
 #define libssh2_sha512_update(ctx, данные, datalen) \
-  _libssh2_wincng_hash_update(&ctx, (unsigned char *) данные, datalen)
+  _libssh2_wincng_hash_update(&ctx, (ббайт *) данные, datalen)
 #define libssh2_sha512_final(ctx, hash) \
   _libssh2_wincng_hash_final(&ctx, hash)
 #define libssh2_sha512(данные, datalen, hash) \
@@ -196,7 +196,7 @@ _libssh2_wincng_hash(данные, datalen, _libssh2_wincng.hAlgHashSHA384, \
   (_libssh2_wincng_hash_init(ctx, _libssh2_wincng.hAlgHashMD5, \
                             MD5_DIGEST_LENGTH, NULL, 0) == 0)
 #define libssh2_md5_update(ctx, данные, datalen) \
-  _libssh2_wincng_hash_update(&ctx, (unsigned char *) данные, datalen)
+  _libssh2_wincng_hash_update(&ctx, (ббайт *) данные, datalen)
 #define libssh2_md5_final(ctx, hash) \
   _libssh2_wincng_hash_final(&ctx, hash)
 #define libssh2_md5(данные, datalen, hash) \
@@ -224,7 +224,7 @@ _libssh2_wincng_hash(данные, datalen, _libssh2_wincng.hAlgHashSHA384, \
   _libssh2_wincng_hash_init(ctx, _libssh2_wincng.hAlgHmacSHA512, \
                             SHA512_DIGEST_LENGTH, ключ, keylen)
 #define libssh2_hmac_update(ctx, данные, datalen) \
-  _libssh2_wincng_hash_update(&ctx, (unsigned char *) данные, datalen)
+  _libssh2_wincng_hash_update(&ctx, (ббайт *) данные, datalen)
 #define libssh2_hmac_final(ctx, hash) \
   _libssh2_wincng_hmac_final(&ctx, hash)
 #define libssh2_hmac_cleanup(ctx) \
@@ -238,7 +238,7 @@ _libssh2_wincng_hash(данные, datalen, _libssh2_wincng.hAlgHashSHA384, \
 
 typedef struct __libssh2_wincng_key_ctx {
     BCRYPT_KEY_HANDLE hKey;
-    unsigned char *pbKeyObject;
+    ббайт *pbKeyObject;
     unsigned long cbKeyObject;
 } _libssh2_wincng_key_ctx;
 
@@ -308,9 +308,9 @@ typedef struct __libssh2_wincng_key_ctx {
 
 struct _libssh2_wincng_cipher_ctx {
     BCRYPT_KEY_HANDLE hKey;
-    unsigned char *pbKeyObject;
-    unsigned char *pbIV;
-    unsigned char *pbCtr;
+    ббайт *pbKeyObject;
+    ббайт *pbIV;
+    ббайт *pbCtr;
     unsigned long dwKeyObject;
     unsigned long dwIV;
     unsigned long dwBlockLength;
@@ -369,7 +369,7 @@ struct _libssh2_wincng_cipher_type {
  */
 
 struct _libssh2_wincng_bignum {
-    unsigned char *bignum;
+    ббайт *bignum;
     unsigned long length;
 };
 
@@ -430,55 +430,55 @@ typedef struct {
 цел
 _libssh2_wincng_hash_init(_libssh2_wincng_hash_ctx *ctx,
                           BCRYPT_ALG_HANDLE hAlg, unsigned long hashlen,
-                          unsigned char *ключ, unsigned long keylen);
+                          ббайт *ключ, unsigned long keylen);
 цел
 _libssh2_wincng_hash_update(_libssh2_wincng_hash_ctx *ctx,
-                            const unsigned char *данные, unsigned long datalen);
+                            const ббайт *данные, unsigned long datalen);
 цел
 _libssh2_wincng_hash_final(_libssh2_wincng_hash_ctx *ctx,
-                           unsigned char *hash);
+                           ббайт *hash);
 цел
-_libssh2_wincng_hash(unsigned char *данные, unsigned long datalen,
+_libssh2_wincng_hash(ббайт *данные, unsigned long datalen,
                      BCRYPT_ALG_HANDLE hAlg,
-                     unsigned char *hash, unsigned long hashlen);
+                     ббайт *hash, unsigned long hashlen);
 
 цел
 _libssh2_wincng_hmac_final(_libssh2_wincng_hash_ctx *ctx,
-                           unsigned char *hash);
+                           ббайт *hash);
 проц
 _libssh2_wincng_hmac_cleanup(_libssh2_wincng_hash_ctx *ctx);
 
 цел
 _libssh2_wincng_key_sha1_verify(_libssh2_wincng_key_ctx *ctx,
-                                const unsigned char *sig,
+                                const ббайт *sig,
                                 unsigned long sig_len,
-                                const unsigned char *m,
+                                const ббайт *m,
                                 unsigned long m_len,
                                 unsigned long flags);
 
 цел
 _libssh2_wincng_rsa_new(libssh2_rsa_ctx **rsa,
-                        const unsigned char *edata,
+                        const ббайт *edata,
                         unsigned long elen,
-                        const unsigned char *ndata,
+                        const ббайт *ndata,
                         unsigned long nlen,
-                        const unsigned char *ddata,
+                        const ббайт *ddata,
                         unsigned long dlen,
-                        const unsigned char *pdata,
+                        const ббайт *pdata,
                         unsigned long plen,
-                        const unsigned char *qdata,
+                        const ббайт *qdata,
                         unsigned long qlen,
-                        const unsigned char *e1data,
+                        const ббайт *e1data,
                         unsigned long e1len,
-                        const unsigned char *e2data,
+                        const ббайт *e2data,
                         unsigned long e2len,
-                        const unsigned char *coeffdata,
+                        const ббайт *coeffdata,
                         unsigned long coefflen);
 цел
 _libssh2_wincng_rsa_new_private(libssh2_rsa_ctx **rsa,
                                 LIBSSH2_SESSION *session,
                                 кткст0 имяф,
-                                const unsigned char *passphrase);
+                                const ббайт *passphrase);
 цел
 _libssh2_wincng_rsa_new_private_frommemory(libssh2_rsa_ctx **rsa,
                                            LIBSSH2_SESSION *session,
@@ -487,16 +487,16 @@ _libssh2_wincng_rsa_new_private_frommemory(libssh2_rsa_ctx **rsa,
                                            unsigned кткст0 passphrase);
 цел
 _libssh2_wincng_rsa_sha1_verify(libssh2_rsa_ctx *rsa,
-                                const unsigned char *sig,
+                                const ббайт *sig,
                                 unsigned long sig_len,
-                                const unsigned char *m,
+                                const ббайт *m,
                                 unsigned long m_len);
 цел
 _libssh2_wincng_rsa_sha1_sign(LIBSSH2_SESSION *session,
                               libssh2_rsa_ctx *rsa,
-                              const unsigned char *hash,
+                              const ббайт *hash,
                               т_мера hash_len,
-                              unsigned char **signature,
+                              ббайт **signature,
                               т_мера *signature_len);
 проц
 _libssh2_wincng_rsa_free(libssh2_rsa_ctx *rsa);
@@ -504,21 +504,21 @@ _libssh2_wincng_rsa_free(libssh2_rsa_ctx *rsa);
 #if LIBSSH2_DSA
 цел
 _libssh2_wincng_dsa_new(libssh2_dsa_ctx **dsa,
-                        const unsigned char *pdata,
+                        const ббайт *pdata,
                         unsigned long plen,
-                        const unsigned char *qdata,
+                        const ббайт *qdata,
                         unsigned long qlen,
-                        const unsigned char *gdata,
+                        const ббайт *gdata,
                         unsigned long glen,
-                        const unsigned char *ydata,
+                        const ббайт *ydata,
                         unsigned long ylen,
-                        const unsigned char *xdata,
+                        const ббайт *xdata,
                         unsigned long xlen);
 цел
 _libssh2_wincng_dsa_new_private(libssh2_dsa_ctx **dsa,
                                 LIBSSH2_SESSION *session,
                                 кткст0 имяф,
-                                const unsigned char *passphrase);
+                                const ббайт *passphrase);
 цел
 _libssh2_wincng_dsa_new_private_frommemory(libssh2_dsa_ctx **dsa,
                                            LIBSSH2_SESSION *session,
@@ -527,31 +527,31 @@ _libssh2_wincng_dsa_new_private_frommemory(libssh2_dsa_ctx **dsa,
                                            unsigned кткст0 passphrase);
 цел
 _libssh2_wincng_dsa_sha1_verify(libssh2_dsa_ctx *dsa,
-                                const unsigned char *sig_fixed,
-                                const unsigned char *m,
+                                const ббайт *sig_fixed,
+                                const ббайт *m,
                                 unsigned long m_len);
 цел
 _libssh2_wincng_dsa_sha1_sign(libssh2_dsa_ctx *dsa,
-                              const unsigned char *hash,
+                              const ббайт *hash,
                               unsigned long hash_len,
-                              unsigned char *sig_fixed);
+                              ббайт *sig_fixed);
 проц
 _libssh2_wincng_dsa_free(libssh2_dsa_ctx *dsa);
 #endif
 
 цел
 _libssh2_wincng_pub_priv_keyfile(LIBSSH2_SESSION *session,
-                                 unsigned char **method,
+                                 ббайт **method,
                                  т_мера *method_len,
-                                 unsigned char **pubkeydata,
+                                 ббайт **pubkeydata,
                                  т_мера *pubkeydata_len,
                                  кткст0 privatekey,
                                  кткст0 passphrase);
 цел
 _libssh2_wincng_pub_priv_keyfilememory(LIBSSH2_SESSION *session,
-                                       unsigned char **method,
+                                       ббайт **method,
                                        т_мера *method_len,
-                                       unsigned char **pubkeydata,
+                                       ббайт **pubkeydata,
                                        т_мера *pubkeydata_len,
                                        кткст0 privatekeydata,
                                        т_мера privatekeydata_len,
@@ -560,14 +560,14 @@ _libssh2_wincng_pub_priv_keyfilememory(LIBSSH2_SESSION *session,
 цел
 _libssh2_wincng_cipher_init(_libssh2_cipher_ctx *ctx,
                             _libssh2_cipher_type(тип),
-                            unsigned char *iv,
-                            unsigned char *secret,
+                            ббайт *iv,
+                            ббайт *secret,
                             цел encrypt);
 цел
 _libssh2_wincng_cipher_crypt(_libssh2_cipher_ctx *ctx,
                              _libssh2_cipher_type(тип),
                              цел encrypt,
-                             unsigned char *block,
+                             ббайт *block,
                              т_мера blocklen);
 проц
 _libssh2_wincng_cipher_dtor(_libssh2_cipher_ctx *ctx);
@@ -580,9 +580,9 @@ unsigned long
 _libssh2_wincng_bignum_bits(const _libssh2_bn *bn);
 проц
 _libssh2_wincng_bignum_from_bin(_libssh2_bn *bn, unsigned long len,
-                                const unsigned char *bin);
+                                const ббайт *bin);
 проц
-_libssh2_wincng_bignum_to_bin(const _libssh2_bn *bn, unsigned char *bin);
+_libssh2_wincng_bignum_to_bin(const _libssh2_bn *bn, ббайт *bin);
 проц
 _libssh2_wincng_bignum_free(_libssh2_bn *bn);
 extern проц

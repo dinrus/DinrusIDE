@@ -55,7 +55,7 @@ const char * StandardNames32[][MaxType+1] = {
 };
 
 // Standard names in 64-bit mode
-// COFF removes an underscore in 32-bit. There is no 64-bit OMF 
+// COFF removes an underscore in 32-bit. There is no 64-bit OMF
 const char * StandardNames64[][MaxType+1] = {
     //  0,    COFF,       OMF,         ELF,                MACHO
     {0,"__ImageBase",  "",    "__executable_start","__mh_execute_header"}
@@ -197,7 +197,7 @@ void CCommandLineInterpreter::ReadCommandFile(char * filename) {
                 buffer = ItemEnd + 1;
                 *ItemEnd = 0;    // Mark end of token
             }
-            // Found token. 
+            // Found token.
             // Check if it is a comment beginning with '#' or '//'
             if (ItemBegin[0] == '#' || (ItemBegin[0] == '/' && ItemBegin[1] == '/' )) {
                 // This is a comment. Skip to end of line
@@ -584,7 +584,7 @@ void CCommandLineInterpreter::InterpretErrorOption(char * string) {
     // Interpret warning/error option from command line
     if (strlen(string) < 3) {
         err.submit(2004, string); return; // Unknown option
-    } 
+    }
     int newstatus;   // New status for this error number
 
     switch (string[1]) {
@@ -868,7 +868,7 @@ int CCommandLineInterpreter::SymbolChange(char const * oldname, char const ** ne
     if (newname) *newname = 0;
 
     // Convert standard names if type conversion
-    if (cmd.InputType != cmd.OutputType 
+    if (cmd.InputType != cmd.OutputType
         && uint32(cmd.InputType) <= MaxType && uint32(cmd.OutputType) <= MaxType) {
             if (DesiredWordSize == 32) {
                 // Look for standard names to translate, 32-bit

@@ -8,7 +8,7 @@ struct Topic : Движ<Topic> {
 	Ткст label;
 
 	operator const Ткст&() const { return text; }
-	operator const char *() const  { return text; }
+	operator кткст0 () const  { return text; }
 };
 
 struct TopicLink {

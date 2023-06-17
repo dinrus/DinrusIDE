@@ -1,6 +1,4 @@
-#include <DinrusPro/DinrusPro.h>
-
-namespace ДинрусРНЦП {
+#include <DinrusPro/DinrusCore.h>
 
 /* Faster, but consuming more memory....
 PteBase::Prec *PteBase::добавьУк()
@@ -79,6 +77,4 @@ PteBase::~PteBase()
 УкОснова::~УкОснова()
 {
 	отпусти();
-}
-
 }

@@ -57,7 +57,7 @@ protected:
     virtual бул        иниц()                                  { return true; }
     virtual проц        выход()                                  {}
     проц                жди();
-    бул                пуск(Врата<>&& фн, бул abortable = true);
+    бул                пуск(Врата<>&& фн, бул абортable = true);
     бул                WouldBlock(цел rc)                      { return rc == LIBSSH2_ERROR_EAGAIN; }
     бул                WouldBlock()                            { return ssh->session && WouldBlock(libssh2_session_last_errno(ssh->session)); }
     бул                таймаут_ли() const                       { return !пусто_ли(ssh->timeout) && ssh->timeout > 0 &&  msecs(ssh->start_time) >= ssh->timeout; }

@@ -3,8 +3,6 @@
 
 #include <DinrusPro/DinrusPro.h>
 
-namespace ДинрусРНЦП {
-
 class Pop3 : public TcpSocket 
 {
 	Ткст       proxy_host;
@@ -110,6 +108,5 @@ struct MIMEHeader {
 Индекс<Ткст> ParseMessageIDs(const Ткст& s);
 Ткст        FormatMessageIDs(const Индекс<Ткст>& ид);
 
-}
 
 #endif

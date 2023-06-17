@@ -1,9 +1,7 @@
-#include <DinrusPro/DinrusPro.h>
+#include <DinrusPro/DinrusCore.h>
 
 #define LDUMP(x)  // DDUMP(x)
 #define LLOG(x)   // DLOG(x)
-
-namespace ДинрусРНЦП {
 
 #ifndef DEF_MEM_LEVEL
 #define DEF_MEM_LEVEL 8
@@ -40,7 +38,7 @@ enum
 
 static ббайт sGZip_header[10] = { GZ_MAGIC1, GZ_MAGIC2, Z_DEFLATED, 0, 0, 0, 0, 0, 0, OS_CODE };
 
-проц Crc32Stream::выведи(const ук укз, бцел count)
+проц Crc32Stream::выведи(кук укз, бцел count)
 {
 	crc = crc32(crc, (ббайт *)укз, count);
 }
@@ -50,7 +48,7 @@ static ббайт sGZip_header[10] = { GZ_MAGIC1, GZ_MAGIC2, Z_DEFLATED, 0, 0, 0
 	crc = crc32(0, NULL, 0);
 }
 
-бцел CRC32(const ук укз, бцел count)
+бцел CRC32(кук укз, бцел count)
 {
 	Crc32Stream c;
 	c.помести(укз, count);
@@ -117,7 +115,7 @@ static ббайт sGZip_header[10] = { GZ_MAGIC1, GZ_MAGIC2, Z_DEFLATED, 0, 0, 0
 		if(count) {
 			if((docrc || gzip) && mode == INFLATE)
 				crc = crc32(crc, output, count);
-			WhenOut((const char *)~output, count);
+			WhenOut((кткст0 )~output, count);
 			if(mode == INFLATE)
 				total += count;
 		}
@@ -213,12 +211,12 @@ static ббайт sGZip_header[10] = { GZ_MAGIC1, GZ_MAGIC2, Z_DEFLATED, 0, 0, 0
 	Pump(false);
 }
 	
-проц Zlib::помести(const ук укз, цел size)
+проц Zlib::помести(кук укз, цел size)
 {
 	if(Ошибка)
 		return;
 	LLOG("ZLIB помести " << size);
-	кткст0 p = reinterpret_cast<const char *>(укз);
+	кткст0 p = reinterpret_cast<кткст0 >(укз);
 	while(size) {
 		цел psz = (цел) мин(size, INT_MAX / 4);
 		Put0(p, size);
@@ -227,10 +225,10 @@ static ббайт sGZip_header[10] = { GZ_MAGIC1, GZ_MAGIC2, Z_DEFLATED, 0, 0, 0
 	}
 }
 
-проц Zlib::PutOut(const ук укз, цел size)
+проц Zlib::PutOut(кук укз, цел size)
 {
 	LLOG("ZLIB PutOut " << out.дайСчёт());
-	out.кат((const char *)укз, (цел)size);
+	out.кат((кткст0 )укз, (цел)size);
 }
 
 проц Zlib::стоп()
@@ -239,7 +237,7 @@ static ббайт sGZip_header[10] = { GZ_MAGIC1, GZ_MAGIC2, Z_DEFLATED, 0, 0, 0
 	if(mode != INFLATE || !gzip || gzip_header_done)
 		Pump(true);
 	if(gzip && mode == DEFLATE) {
-		char h[8];
+		сим h[8];
 		помести32лэ(h, crc);
 		помести32лэ(h + 4, total);
 		WhenOut(h, 8);
@@ -351,7 +349,7 @@ Zlib::~Zlib()
 	return zPress(out, in, in.GetLeft(), progress, false, false);
 }
 
-Ткст ZCompress(const ук данные, дол len, Врата<дол, дол>progress)
+Ткст ZCompress(кук данные, дол len, Врата<дол, дол>progress)
 {
 	ТкстПоток out;
 	ПамЧтенПоток in(данные, len);
@@ -363,7 +361,7 @@ Zlib::~Zlib()
 	return ZCompress(~s, s.дайДлину(), progress);
 }
 
-Ткст ZDecompress(const ук данные, дол len, Врата<дол, дол>progress)
+Ткст ZDecompress(кук данные, дол len, Врата<дол, дол>progress)
 {
 	ТкстПоток out;
 	ПамЧтенПоток in(данные, len);
@@ -390,7 +388,7 @@ Zlib::~Zlib()
 	return GZCompress(out, in, in.GetLeft(), progress);
 }
 
-Ткст GZCompress(const ук данные, цел len, Врата<дол, дол>progress)
+Ткст GZCompress(кук данные, цел len, Врата<дол, дол>progress)
 {
 	ТкстПоток out;
 	ПамЧтенПоток in(данные, len);
@@ -407,7 +405,7 @@ Zlib::~Zlib()
 	return GZDecompress(out, in, in.GetLeft(), progress);
 }
 
-Ткст GZDecompress(const ук данные, цел len, Врата<дол, дол>progress)
+Ткст GZDecompress(кук данные, цел len, Врата<дол, дол>progress)
 {
 	ТкстПоток out;
 	ПамЧтенПоток in(данные, len);
@@ -480,14 +478,14 @@ Zlib::~Zlib()
 
 #include "lib/lz4.h"
 
-Ткст сожмиБыстро(const ук s, цел sz)
+Ткст сожмиБыстро(кук s, цел sz)
 {
 	т_мера maxsize = LZ4_compressBound(sz);
 	if(maxsize + sizeof(цел) >= INT_MAX)
 		паника("Compress result is too big!");
 	ТкстБуф b((цел)maxsize + sizeof(цел));
 	*(цел *)~b = sz;
-	цел clen = LZ4_compress_default((const char *)s, ~b + sizeof(цел), sz, (цел)maxsize);
+	цел clen = LZ4_compress_default((кткст0 )s, ~b + sizeof(цел), sz, (цел)maxsize);
 	b.устСчёт(clen + sizeof(цел));
 	b.сожми();
 	return Ткст(b);
@@ -509,15 +507,15 @@ Zlib::~Zlib()
 // following function is used in both plugin/lz4 and plugin/zstd
 проц sCompressStreamCopy_(Поток& out, Поток& in, Врата<дол, дол> progress, Поток& orig_in, дол insz)
 {
-	const цел CHUNK = 32678;
-	Буфер<ббайт> b(CHUNK);
+	const цел КУСОК = 32678;
+	Буфер<ббайт> b(КУСОК);
 	while(!in.кф_ли()) {
 		if(progress(orig_in.дайПоз(), insz))
 			break;
-		цел n = in.дай(b, CHUNK);
+		цел n = in.дай(b, КУСОК);
 		out.помести(b, n);
 	}
 	progress(orig_in.дайПоз(), insz);
 }
 
-}
+

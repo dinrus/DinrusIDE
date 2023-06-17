@@ -24,7 +24,7 @@ public:
     Ткст              дай(цел size, цел sid = 0);
     Ткст              дайСтроку(цел maxlen = 65536, цел sid = 0);
     Ткст              GetStdErr(цел size)                                                 { return дай(size, SSH_EXTENDED_DATA_STDERR); }
-    цел                 помести(const ук укз, цел size, цел sid = 0);
+    цел                 помести(кук укз, цел size, цел sid = 0);
     цел                 помести(const Ткст& s, цел sid = 0)                                   { return помести(~s, s.дайДлину(), sid); }
     цел                 PutStdErr(const Ткст& err)                                        { return помести(err, SSH_EXTENDED_DATA_STDERR); }
 
@@ -51,8 +51,8 @@ protected:
     проц                выход() override;
     цел                 читай(ук укз, цел size, цел sid = 0);
     цел                 читай(цел sid = 0);
-    цел                 пиши(const ук укз, цел size, цел sid = 0);
-    бул                пиши(char c, цел sid = 0);
+    цел                 пиши(кук укз, цел size, цел sid = 0);
+    бул                пиши(сим c, цел sid = 0);
     бул                SetWndSz(бцел size, бул force = false);
     цел                 SetPtySz(цел w, цел h);
     цел                 SetPtySz(размер sz)                                                   { return SetPtySz(sz.cx, sz.cy); }
@@ -60,7 +60,7 @@ protected:
 
     бцел               СобытиеWait(цел fd, бцел events, цел tv = 10);
     бул                обработайСобытия(Ткст& input);
-    virtual проц        ReadWrite(Ткст& in, const ук out, цел out_len)                 {}
+    virtual проц        ReadWrite(Ткст& in, кук out, цел out_len)                 {}
 
     бул                Shut(const Ткст& msg, бул nowait = true);
     
@@ -97,7 +97,7 @@ public:
 private:
     бул   OpenRead(const Ткст& path, ScpAttrs& attrs);
     бул   OpenWrite(const Ткст& path, дол size, long mode = 0644);
-    бул   грузи(Поток& s, ScpAttrs a, дол maxsize = INT64_MAX);
+    бул   грузи(Поток& s, ScpAttrs a, дол maxsize = ЦЕЛ64_МАКС);
     бул   сохрани(Поток& s);
 };
 
@@ -136,7 +136,7 @@ public:
     бул        AcceptX11(SshX11Handle xhandle);
 
     проц        Send(цел c)                     { queue.кат(c);   }
-    проц        Send(const char* s)             { Send(Ткст(s));}
+    проц        Send(const сим* s)             { Send(Ткст(s));}
     проц        Send(const Ткст& s)           { queue.кат(s);   }
 
     SshShell&   PageSize(размер sz)               { resized = sz != psize; if(resized) psize = sz; return *this;}
@@ -152,13 +152,13 @@ public:
     SshShell(SshShell&&) = default;
 
 protected:
-    проц    ReadWrite(Ткст& in, const ук out, цел out_len) override;
+    проц    ReadWrite(Ткст& in, кук out, цел out_len) override;
     virtual бул пуск(цел mode_, const Ткст& terminal, размер pagesize, const Ткст& tmodes);
 
     проц    Resize();
     бул    консИниц();
     проц    консЧмтай();
-    проц    консПиши(const ук буфер, цел len);
+    проц    консПиши(кук буфер, цел len);
     проц    ConsoleRawMode(бул b = true);
 
     бул    х11Иниц();
@@ -182,7 +182,7 @@ private:
     ббайт    xdisplay;
     ббайт    xscreen;
     Ткст  xhost;
-    Буфер<char> xbuffer;
+    Буфер<сим> xbuffer;
     цел          xbuflen;
     Вектор<Кортеж<SshX11Handle, SOCKET>> xrequests;
 #endif

@@ -653,7 +653,7 @@ report(uint32_t data[], uint16_t len)
 {
     uint16_t i;
     for(i = 0; i < len; i += 2)
-        printf("Block %0hd: %08lx %08lx.\n",
+        printf("Блок %0hd: %08lx %08lx.\n",
                i / 2, data[i], data[i + 1]);
 }
 проц
@@ -661,8 +661,8 @@ main(проц)
 {
 
     blf_ctx c;
-    char    ключ[] = "AAAAA";
-    char    key2[] = "abcdefghijklmnopqrstuvwxyz";
+    сим    ключ[] = "AAAAA";
+    сим    key2[] = "abcdefghijklmnopqrstuvwxyz";
 
     uint32_t data[10];
     uint32_t data2[] =

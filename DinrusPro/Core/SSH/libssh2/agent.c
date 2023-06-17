@@ -102,9 +102,9 @@ typedef enum {
 } agent_nonblocking_states;
 
 typedef struct agent_transaction_ctx {
-    unsigned char *request;
+    ббайт *request;
     т_мера request_len;
-    unsigned char *response;
+    ббайт *response;
     т_мера response_len;
     agent_nonblocking_states state;
 } *agent_transaction_ctx_t;
@@ -139,7 +139,7 @@ struct _LIBSSH2_AGENT
     struct agent_publickey *identity;
     struct list_head head;              /* list of public keys */
 
-    char *identity_agent_path; /* Path to a custom identity agent socket */
+    сим *identity_agent_path; /* Path to a custom identity agent socket */
 };
 
 #ifdef PF_UNIX
@@ -181,7 +181,7 @@ agent_connect_unix(LIBSSH2_AGENT *agent)
                                                                      \
     while(finished < length) {                                       \
         rc = func(socket,                                            \
-                  (char *)буфер + finished, length - finished,      \
+                  (сим *)буфер + finished, length - finished,      \
                   flags, abstract);                                  \
         if(rc < 0)                                                   \
             return rc;                                               \
@@ -192,7 +192,7 @@ agent_connect_unix(LIBSSH2_AGENT *agent)
     return finished;
 
 static ssize_t _send_all(LIBSSH2_SEND_FUNC(func), libssh2_socket_t socket,
-                         const ук буфер, т_мера length,
+                         кук буфер, т_мера length,
                          цел flags, проц **abstract)
 {
     RECV_SEND_ALL(func, socket, буфер, length, flags, abstract);
@@ -210,7 +210,7 @@ static ssize_t _recv_all(LIBSSH2_RECV_FUNC(func), libssh2_socket_t socket,
 static цел
 agent_transact_unix(LIBSSH2_AGENT *agent, agent_transaction_ctx_t transctx)
 {
-    unsigned char buf[4];
+    ббайт buf[4];
     цел rc;
 
     /* Send the length of the request */
@@ -320,10 +320,10 @@ static цел
 agent_transact_pageant(LIBSSH2_AGENT *agent, agent_transaction_ctx_t transctx)
 {
     HWND hwnd;
-    char mapname[23];
+    сим mapname[23];
     HANDLE filemap;
-    unsigned char *p;
-    unsigned char *p2;
+    ббайт *p;
+    ббайт *p2;
     цел id;
     COPYDATASTRUCT cds;
 
@@ -352,7 +352,7 @@ agent_transact_pageant(LIBSSH2_AGENT *agent, agent_transaction_ctx_t transctx)
                               "failed to open pageant filemap for writing");
     }
 
-    _libssh2_store_str(&p2, (const char *)transctx->request,
+    _libssh2_store_str(&p2, (кткст0 )transctx->request,
                        transctx->request_len);
 
     cds.dwData = PAGEANT_COPYDATA_ID;
@@ -412,15 +412,15 @@ static struct {
 };
 
 static цел
-agent_sign(LIBSSH2_SESSION *session, unsigned char **sig, т_мера *sig_len,
-           const unsigned char *data, т_мера data_len, проц **abstract)
+agent_sign(LIBSSH2_SESSION *session, ббайт **sig, т_мера *sig_len,
+           const ббайт *data, т_мера data_len, проц **abstract)
 {
     LIBSSH2_AGENT *agent = (LIBSSH2_AGENT *) (*abstract);
     agent_transaction_ctx_t transctx = &agent->transctx;
     struct agent_publickey *identity = agent->identity;
     ssize_t len = 1 + 4 + identity->external.blob_len + 4 + data_len + 4;
     ssize_t method_len;
-    unsigned char *s;
+    ббайт *s;
     цел rc;
 
     /* создай a request to sign the data */
@@ -432,10 +432,10 @@ agent_sign(LIBSSH2_SESSION *session, unsigned char **sig, т_мера *sig_len,
 
         *s++ = SSH2_AGENTC_SIGN_REQUEST;
         /* ключ blob */
-        _libssh2_store_str(&s, (const char *)identity->external.blob,
+        _libssh2_store_str(&s, (кткст0 )identity->external.blob,
                            identity->external.blob_len);
         /* data */
-        _libssh2_store_str(&s, (const char *)data, data_len);
+        _libssh2_store_str(&s, (кткст0 )data, data_len);
 
         /* flags */
         _libssh2_store_u32(&s, 0);
@@ -533,9 +533,9 @@ agent_list_identities(LIBSSH2_AGENT *agent)
 {
     agent_transaction_ctx_t transctx = &agent->transctx;
     ssize_t len, num_identities;
-    unsigned char *s;
+    ббайт *s;
     цел rc;
-    unsigned char c = SSH2_AGENTC_REQUEST_IDENTITIES;
+    ббайт c = SSH2_AGENTC_REQUEST_IDENTITIES;
 
     /* создай a request to list identities */
     if(transctx->state == agent_NB_state_init) {
@@ -876,7 +876,7 @@ libssh2_agent_set_identity_path(LIBSSH2_AGENT *agent, кткст0 path)
     if(path) {
         т_мера path_len = strlen(path);
         if(path_len < SIZE_MAX - 1) {
-            char *path_buf = LIBSSH2_ALLOC(agent->session, path_len + 1);
+            сим *path_buf = LIBSSH2_ALLOC(agent->session, path_len + 1);
             memcpy(path_buf, path, path_len);
             path_buf[path_len] = '\0';
             agent->identity_agent_path = path_buf;

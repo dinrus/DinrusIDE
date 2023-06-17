@@ -1,6 +1,4 @@
-#include <DinrusPro/DinrusPro.h>
-
-namespace ДинрусРНЦП {
+#include <DinrusPro/DinrusCore.h>
 
 /*
 SHA-1 in C
@@ -38,7 +36,7 @@ A million repetitions of "a"
 #define blk(i) (block->l[i&15] = rol(block->l[(i+13)&15]^block->l[(i+8)&15] \
     ^block->l[(i+2)&15]^block->l[i&15],1))
 
-/* (R0+R1), R2, R3, R4 are the different operations used in SHA1 */
+/* (R0+R1), R2, R3, R4 are the different operations used in ша1 */
 #define R0(v,w,x,y,z,i) z+=((w&(x^y))^y)+blk0(i)+0x5A827999+rol(v,5);w=rol(w,30);
 #define R1(v,w,x,y,z,i) z+=((w&(x^y))^y)+blk(i)+0x5A827999+rol(v,5);w=rol(w,30);
 #define R2(v,w,x,y,z,i) z+=(w^x^y)+blk(i)+0x6ED9EBA1+rol(v,5);w=rol(w,30);
@@ -48,13 +46,13 @@ A million repetitions of "a"
 
 /* Хэш a single 512-bit block. This is the core of the algorithm. */
 
-проц SHA1Transform(uint32_t state[5], const unsigned char буфер[64])
+проц SHA1Transform(uint32_t state[5], const ббайт буфер[64])
 {
     uint32_t a, b, c, d, e;
 
     typedef union
     {
-        unsigned char c[64];
+        ббайт c[64];
         uint32_t l[16];
     } CHAR64LONG16;
 
@@ -162,9 +160,9 @@ A million repetitions of "a"
 
 /* SHA1Иниt - инициализуй new context */
 
-проц SHA1Иниt(РНЦП_SHA1_CTX *context)
+проц SHA1Иниt(РНЦП_ША1_КОНТЕКСТ *context)
 {
-    /* SHA1 initialization constants */
+    /* ша1 initialization constants */
     context->state[0] = 0x67452301;
     context->state[1] = 0xEFCDAB89;
     context->state[2] = 0x98BADCFE;
@@ -176,7 +174,7 @@ A million repetitions of "a"
 
 /* выполни your данные through this. */
 
-проц SHA1Update(РНЦП_SHA1_CTX *context, const unsigned char *данные, uint32_t len)
+проц SHA1Update(РНЦП_ША1_КОНТЕКСТ *context, const ббайт *данные, uint32_t len)
 {
     uint32_t i, j;
     j = context->count[0];
@@ -200,14 +198,14 @@ A million repetitions of "a"
 }
 
 
-проц SHA1Final(ббайт *digest, РНЦП_SHA1_CTX *context)
+проц SHA1Final(ббайт *digest, РНЦП_ША1_КОНТЕКСТ *context)
 {
     бцел  i;
-    unsigned char finalcount[8];
-    unsigned char c;
+    ббайт finalcount[8];
+    ббайт c;
 
     for (i = 0; i < 8; i++)
-        finalcount[i] = (unsigned char) ((context->count[(i >= 4 ? 0 : 1)] >> ((3 - (i & 3)) * 8)) & 255);      /* Endian independent */
+        finalcount[i] = (ббайт) ((context->count[(i >= 4 ? 0 : 1)] >> ((3 - (i & 3)) * 8)) & 255);      /* Endian independent */
 
     c = 0200;
     SHA1Update(context, &c, 1);
@@ -217,7 +215,7 @@ A million repetitions of "a"
     }
     SHA1Update(context, finalcount, 8); /* Should cause a SHA1Transform() */
     for (i = 0; i < 20; i++)
-        digest[i] = (unsigned char)
+        digest[i] = (ббайт)
             ((context->state[i >> 2] >> ((3 - (i & 3)) * 8)) & 255);
 
     /* Wipe variables */
@@ -225,80 +223,80 @@ A million repetitions of "a"
     memset(&finalcount, '\0', sizeof(finalcount));
 }
 
-проц Sha1Stream::выведи(const ук данные, бцел length)
+проц ПотокШа1::выведи(кук данные, бцел length)
 {
-	SHA1Update(ctx, (unsigned char *)данные, length);
+	SHA1Update(ctx, (ббайт *)данные, length);
 }
 
-проц Sha1Stream::финиш(ббайт *hash20)
+проц ПотокШа1::финиш(ббайт *hash20)
 {
 	слей();
 	SHA1Final(hash20, ctx);
-	Cleanup();
+	зачисть();
 }
 
-Ткст Sha1Stream::FinishString()
+Ткст ПотокШа1::завершиТкст()
 {
 	ббайт hash[20];
 	финиш(hash);
 	return гексТкст(hash, 20);
 }
 
-Ткст Sha1Stream::FinishStringS()
+Ткст ПотокШа1::завершиПТкст()
 {
 	ббайт hash[20];
 	финиш(hash);
 	return гексТкст(hash, 20, 4);
 }
 
-проц Sha1Stream::переустанов() {
+проц ПотокШа1::переустанов() {
 	SHA1Иниt(ctx);
 }
 
-Sha1Stream::Sha1Stream()
+ПотокШа1::ПотокШа1()
 {
 	переустанов();
 }
 
-Sha1Stream::~Sha1Stream()
+ПотокШа1::~ПотокШа1()
 {
-	Cleanup();
+	зачисть();
 }
 
-проц SHA1(ббайт *hash20, const ук данные, бцел size)
+проц ша1(ббайт *hash20, кук данные, бцел size)
 {
-	Sha1Stream sha1;
+	ПотокШа1 sha1;
 	sha1.помести(данные, size);
 	sha1.финиш(hash20);
 }
 
-проц SHA1(ббайт *hash20, const Ткст& s)
+проц ша1(ббайт *hash20, const Ткст& s)
 {
-	return SHA1(hash20, s, s.дайДлину());
+	return ша1(hash20, s, s.дайДлину());
 }
 
-Ткст SHA1String(const ук данные, бцел size)
+Ткст ша1Ткст(кук данные, бцел size)
 {
-	Sha1Stream sha1;
+	ПотокШа1 sha1;
 	sha1.помести(данные, size);
-	return sha1.FinishString();
+	return sha1.завершиТкст();
 }
 
-Ткст SHA1String(const Ткст& данные)
+Ткст ша1Ткст(const Ткст& данные)
 {
-	return SHA1String(~данные, данные.дайДлину());
+	return ша1Ткст(~данные, данные.дайДлину());
 }
 
-Ткст  SHA1StringS(const ук данные, бцел size)
+Ткст  ша1ПТкст(кук данные, бцел size)
 {
-	Sha1Stream sha1;
+	ПотокШа1 sha1;
 	sha1.помести(данные, size);
-	return sha1.FinishStringS();
+	return sha1.завершиПТкст();
 }
 
-Ткст  SHA1StringS(const Ткст& данные)
+Ткст  ша1ПТкст(const Ткст& данные)
 {
-	return SHA1StringS(~данные, данные.дайДлину());
+	return ша1ПТкст(~данные, данные.дайДлину());
 }
 
-}
+

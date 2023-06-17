@@ -110,17 +110,17 @@ template <class T, class V>
 }
 
 template <class C, class I>
-C& FindAppend(C& dest, I begin, I end)
+C& FindAppend(C& приёмник, I begin, I end)
 {
 	for(; begin != end; ++begin)
-		dest.найдиДобавь(*begin);
-	return dest;
+		приёмник.найдиДобавь(*begin);
+	return приёмник;
 }
 
 template <class C, class S>
-inline C& FindAppend(C& dest, const S& source)
+inline C& FindAppend(C& приёмник, const S& source)
 {
-	return FindAppend(dest, source.старт(), source.стоп());
+	return FindAppend(приёмник, source.старт(), source.стоп());
 }
 
 template <class C>
@@ -159,15 +159,15 @@ template <class C, class F, class O>
 { return найдиИндексПоля(container, field, object, StdEqual<O>()); }
 
 template <class DC, class I, class F>
-проц GetFieldContainer(DC& dest, I begin, I end, F field)
+проц GetFieldContainer(DC& приёмник, I begin, I end, F field)
 {
 	for(; begin != end; ++begin)
-		dest.добавь((*begin).*field);
+		приёмник.добавь((*begin).*field);
 }
 
 template <class DC, class SC, class F>
-проц GetFieldContainer(DC& dest, const SC& ист, F field)
-{ GetFieldContainer<DC, typename SC::КонстОбходчик, F>(dest, ист.старт(), ист.стоп(), field); }
+проц GetFieldContainer(DC& приёмник, const SC& ист, F field)
+{ GetFieldContainer<DC, typename SC::КонстОбходчик, F>(приёмник, ист.старт(), ист.стоп(), field); }
 
 
 template <class C>
@@ -336,7 +336,7 @@ template <class T, class V>
 #if 0
 
 template <class I, class Less>
-проц StableSort(I begin, I end, const Less& less)
+проц стабСортируй(I begin, I end, const Less& less)
 {
 	if(begin != end)
 		StableSort__(begin, end, less, &*begin);

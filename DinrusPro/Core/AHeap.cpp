@@ -1,8 +1,6 @@
-#include <DinrusPro/DinrusPro.h>
+#include <DinrusPro/DinrusCore.h>
 
 #define LTIMING(x) // RTIMING(x)
-
-namespace ДинрусРНЦП {
 
 #ifdef КУЧА_РНЦП
 
@@ -12,16 +10,16 @@ namespace ДинрусРНЦП {
 
 inline проц Куча::Страница::фмт(цел k)
 {
-	DbgFreeFill(старт(), стоп() - старт());
+	заполниСвобОтл(старт(), стоп() - старт());
 	klass = k;
 	active = 0;
 	цел sz = Ksz(k);
 	ббайт *укз = стоп() - sz;
 	ббайт *b = старт();
-	FreeLink *l = NULL;
+	СвобЛинк *l = NULL;
 	while(укз >= b) {
-		((FreeLink *)укз)->next = l;
-		l = (FreeLink *)укз;
+		((СвобЛинк *)укз)->next = l;
+		l = (СвобЛинк *)укз;
 		укз -= sz;
 	}
 	freelist = l;
@@ -80,7 +78,7 @@ inline проц Куча::Страница::фмт(цел k)
 					}
 		}
 		if(!page) { // No free memory was found, ask huge for the new page
-			page = (Страница *)HugeAlloc(1);
+			page = (Страница *)разместиХьюдж(1);
 			LLOG("AllocK - allocated new system page " << (проц *)page << " " << k);
 			page->фмт(k);
 		}
@@ -99,7 +97,7 @@ inline проц Куча::Страница::фмт(цел k)
 	Страница *page = work[k]->next;
 	for(;;) {
 		ПРОВЕРЬ(page->klass == k);
-		FreeLink *p = page->freelist;
+		СвобЛинк *p = page->freelist;
 		if(p) {
 			LLOG("AllocK allocating from " << (проц *)page << " " << (проц *)p);
 			page->freelist = p->next;
@@ -118,20 +116,20 @@ inline проц Куча::Страница::фмт(цел k)
 	}
 }
 
-force_inline
+форс_инлайн
 ук Куча::Allok(цел k)
 { // Try to alloc from the front-cache first
 	LTIMING("Allok");
-	FreeLink *укз = cache[k];
+	СвобЛинк *укз = cache[k];
 	if(укз) {
 		cachen[k]++;
 		cache[k] = укз->next;
-		return DbgFreeCheckK(укз, k);
+		return проверьСвобОтлK(укз, k);
 	}
-	return DbgFreeCheckK(AllocK(k), k);
+	return проверьСвобОтлK(AllocK(k), k);
 }
 
-force_inline
+форс_инлайн
 ук Куча::AllocSz(т_мера& sz)
 {
 	LTIMING("размести");
@@ -167,20 +165,20 @@ force_inline
 	return бРазмести(sz);
 }
 
-force_inline
+форс_инлайн
 проц Куча::FreeK(ук укз, Страница *page, цел k)
 {
 	if(page->freelist) {
 		LLOG("освободи next in work page " << k);
-		((FreeLink *)укз)->next = page->freelist;
+		((СвобЛинк *)укз)->next = page->freelist;
 	}
 	else {
 		LLOG("освободи full to work " << k << " heap: " << (проц *)page->heap);
 		page->отлинкуй();
 		page->Линк(work[k]);
-		((FreeLink *)укз)->next = NULL;
+		((СвобЛинк *)укз)->next = NULL;
 	}
-	page->freelist = (FreeLink *)укз;
+	page->freelist = (СвобЛинк *)укз;
 	if(--page->active == 0) { // there are no more allocated blocks in this page
 		LLOG("освободи page is empty " << (проц *)page);
 		page->отлинкуй();
@@ -210,12 +208,12 @@ force_inline
 		LLOG("резервируй 4KB " << какТкст(free_4KB));
 	}
 	else {
-		aux.HugeFree(page);
-		LLOG("HugeFree 4KB " << какТкст(free_4KB));
+		aux.освободиХьюдж(page);
+		LLOG("освободиХьюдж 4KB " << какТкст(free_4KB));
 	}
 }
 
-force_inline
+форс_инлайн
 проц Куча::освободи(ук укз, Страница *page, цел k)
 {
 	LTIMING("Small освободи");
@@ -225,10 +223,10 @@ force_inline
 		RemoteFree(укз, Ksz(k)); // add to originating heap's list of free pages to be properly freed later
 		return;
 	}
-	DbgFreeFillK(укз, k);
+	заполниСвобОтлK(укз, k);
 	if(cachen[k]) {
 		cachen[k]--;
-		FreeLink *l = (FreeLink *)укз;
+		СвобЛинк *l = (СвобЛинк *)укз;
 		l->next = cache[k];
 		cache[k] = l;
 		return;
@@ -236,7 +234,7 @@ force_inline
 	FreeK(укз, page, k);
 }
 
-force_inline
+форс_инлайн
 проц Куча::освободи(ук укз)
 {
 	if(!укз) return;
@@ -269,7 +267,7 @@ force_inline
 	цел k = page->klass;
 	LLOG("Small free page: " << (проц *)page << ", k: " << k << ", ksz: " << Ksz(k));
 	ПРОВЕРЬ((4096 - ((uintptr_t)укз & (uintptr_t)4095)) % Ksz(k) == 0);
-	DbgFreeFillK(укз, k);
+	заполниСвобОтлK(укз, k);
 	FreeK(укз, page, k);
 }
 
@@ -284,7 +282,7 @@ force_inline
 				aux.empty[i] = q->next;
 				free_4KB--;
 				ПРОВЕРЬ(free_4KB < max_free_spages);
-				if(aux.HugeFree(q) >= size4KB || --count <= 0) // HugeFree is really static, aux needed just to compile
+				if(aux.освободиХьюдж(q) >= size4KB || --count <= 0) // освободиХьюдж is really static, aux needed just to compile
 					return true;
 				released = true;
 			}
@@ -293,36 +291,36 @@ force_inline
 	return false;
 }
 
-force_inline
+форс_инлайн
 ук Куча::Alloc32()
 {
 	Stat(32);
-	return Allok(KLASS_32);
+	return Allok(КЛАСС_32);
 }
 
-force_inline
+форс_инлайн
 проц Куча::освободи(ук укз, цел k)
 {
 	освободи(укз, дайСтраницу(укз), k);
 }
 
-force_inline
+форс_инлайн
 проц Куча::Free32(ук укз)
 {
-	освободи(укз, KLASS_32);
+	освободи(укз, КЛАСС_32);
 }
 
-force_inline
+форс_инлайн
 ук Куча::Alloc48()
 {
 	Stat(48);
-	return Allok(KLASS_48);
+	return Allok(КЛАСС_48);
 }
 
-force_inline
+форс_инлайн
 проц Куча::Free48(ук укз)
 {
-	освободи(укз, KLASS_48);
+	освободи(укз, КЛАСС_48);
 }
 
 static thread_local бул heap_closed__;
@@ -339,9 +337,9 @@ static thread_local Куча *heap_tls__;
 	FreeRemoteRaw(); // освободи all remotely freed blocks
 	for(цел i = 0; i < NKLASS; i++) { // move all small pages to aux (some heap will пикуй them later)
 		LLOG("освободи cache " << какТкст(i));
-		FreeLink *l = cache[i];
+		СвобЛинк *l = cache[i];
 		while(l) {
-			FreeLink *h = l;
+			СвобЛинк *h = l;
 			l = l->next;
 			SmallFreeDirect(h);
 		}
@@ -463,9 +461,9 @@ struct ТекущаяКуча {
 	return ТекущаяКуча()->освободи(укз);
 }
 
-бул  MemoryTryRealloc_(ук укз, т_мера& size)
+бул  MemoryпробуйПеремест_(ук укз, т_мера& size)
 {
-	return ТекущаяКуча()->TryRealloc(укз, size);
+	return ТекущаяКуча()->пробуйПеремест(укз, size);
 }
 
 т_мера GetMemoryBlockSize_(ук укз)
@@ -559,14 +557,14 @@ inline ук LogAlloc(ук укз, т_мера sz) { return укз; }
 	return ТекущаяКуча()->GetBlockSize(укз);
 }
 
-бул MemoryTryRealloc__(ук укз, т_мера& size)
+бул MemoryпробуйПеремест__(ук укз, т_мера& size)
 {
 	Куча *heap = heap_tls__;
 	if(heap)
-		return heap->TryRealloc(укз, size);
+		return heap->пробуйПеремест(укз, size);
 	else {
 		HeapMutexLock __;
-		return MakeHeap()->TryRealloc(укз, size);
+		return MakeHeap()->пробуйПеремест(укз, size);
 	}
 }
 
@@ -577,7 +575,7 @@ inline ук LogAlloc(ук укз, т_мера sz) { return укз; }
 	return LogAlloc(MakeHeap()->Alloc32(), 32);
 }
 
-force_inline
+форс_инлайн
 ук разместиПам32_i()
 {
 	LTIMING("разместиПам32");
@@ -596,7 +594,7 @@ force_inline
 	MakeHeap()->Free32(укз);
 }
 
-force_inline
+форс_инлайн
 проц  освободиПам32_i(ук укз)
 {
 	LTIMING("освободиПам32");
@@ -640,12 +638,11 @@ force_inline
 }
 
 #ifdef HEAPDBG
-force_inline ук разместиПам32_i() { return разместиПам32(); }
-force_inline проц  освободиПам32_i(ук укз) { return освободиПам32(укз); }
+форс_инлайн ук разместиПам32_i() { return разместиПам32(); }
+форс_инлайн проц  освободиПам32_i(ук укз) { return освободиПам32(укз); }
 #endif
 
 #include "StringMem.i"
 
 #endif
 
-}

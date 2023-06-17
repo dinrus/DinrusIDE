@@ -1,8 +1,6 @@
-#include <DinrusPro/DinrusPro.h>
+#include <DinrusPro/DinrusCore.h>
 
 #define LLOG(x)
-
-namespace ДинрусРНЦП {
 
 дол NewInVectorSerial()
 {
@@ -121,4 +119,3 @@ thread_local цел   invector_cache_end_;
 	s.SerializeRaw(bp, dwords);
 }
 
-}

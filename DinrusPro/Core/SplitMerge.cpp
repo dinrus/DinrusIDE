@@ -1,6 +1,4 @@
-#include <DinrusPro/DinrusPro.h>
-
-namespace ДинрусРНЦП {
+#include <DinrusPro/DinrusCore.h>
 
 template <class S, class Char, class F>
 Вектор<S> SplitGeneric(цел maxcount, const F& delim, const Char *s, бул ignoreempty = true)
@@ -23,7 +21,7 @@ template <class S, class Char, class F>
 	return r;
 }
 
-Вектор<Ткст> разбей(цел maxcount, кткст0 s, кткст0  (*text_фильтр)(const char *), бул ignoreempty)
+Вектор<Ткст> разбей(цел maxcount, кткст0 s, кткст0  (*text_фильтр)(кткст0 ), бул ignoreempty)
 {
 	return SplitGeneric<Ткст>(maxcount, text_фильтр, s, ignoreempty);
 }
@@ -66,7 +64,7 @@ struct SplitDelimText__ {
 	return delim.l ? SplitGeneric<Ткст>(maxcount, delim, s, ignoreempty) : Вектор<Ткст>();
 }
 
-Вектор<Ткст> разбей(кткст0 s, кткст0  (*text_фильтр)(const char *), бул ignoreempty)
+Вектор<Ткст> разбей(кткст0 s, кткст0  (*text_фильтр)(кткст0 ), бул ignoreempty)
 {
 	return разбей(INT_MAX, s, text_фильтр, ignoreempty);
 }
@@ -176,12 +174,10 @@ T Join_(const Вектор<T>& im, const T& delim, бул ignoreempty) {
 	return T(r);
 }
 
-Ткст Join(const Вектор<Ткст>& im, const Ткст& delim, бул ignoreempty) {
+Ткст соедини(const Вектор<Ткст>& im, const Ткст& delim, бул ignoreempty) {
 	return Join_<ТкстБуф, Ткст>(im, delim, ignoreempty);
 }
 
-ШТкст Join(const Вектор<ШТкст>& im, const ШТкст& delim, бул ignoreempty) {
+ШТкст соедини(const Вектор<ШТкст>& im, const ШТкст& delim, бул ignoreempty) {
 	return Join_<ШТкстБуф, ШТкст>(im, delim, ignoreempty);
-}
-
 }

@@ -1,7 +1,5 @@
-#include <DinrusPro/DinrusPro.h>
+#include <DinrusPro/DinrusCore.h>
 #include <RKod/Rpc/Rpc.h>
-
-namespace ДинрусРНЦП {
 
 #define LLOG(x)  // LOG(x)
 
@@ -69,7 +67,7 @@ RpcGet RpcRequest::Retry()
 	return выполни();
 }
 
-Значение JsonRpcData(const Значение& v)
+Значение ДжейсонRpcData(const Значение& v)
 {
 	if(датаВремя_ли(v) && !пусто_ли(v))
 		return FormatIso8601(v);
@@ -87,30 +85,30 @@ RpcGet RpcRequest::выполни()
 	if(json) {
 		ContentType("application/json");
 		static Атомар ид;
-		Json json;
+		Джейсон json;
 		json("jsonrpc", "2.0")
 		    ("method", method);
 		if(данные.out.дайСчёт()) {
-			JsonArray a;
+			МассивДжейсон a;
 			for(цел i = 0; i < данные.out.дайСчёт(); i++) {
 				const Значение& v = данные.out[i];
-				if(v.является<RawJsonText>())
-					a.CatRaw(v.To<RawJsonText>().json);
+				if(v.является<RawДжейсонText>())
+					a.CatRaw(v.To<RawДжейсонText>().json);
 				else
-					a << JsonRpcData(v);
+					a << ДжейсонRpcData(v);
 			}
 			json("params", a);
 		}
 		else
 		if(данные.out_map.дайСчёт()) {
-			Json m;
+			Джейсон m;
 			for(цел i = 0; i < данные.out_map.дайСчёт(); i++) {
 				const Значение& v = данные.out_map.дайЗначение(i);
 				Ткст ключ = (Ткст)данные.out_map.дайКлюч(i);
-				if(v.является<RawJsonText>())
-					m.CatRaw(ключ, v.To<RawJsonText>().json);
+				if(v.является<RawДжейсонText>())
+					m.CatRaw(ключ, v.To<RawДжейсонText>().json);
 				else
-					m(ключ, JsonRpcData(v));
+					m(ключ, ДжейсонRpcData(v));
 			}
 			json("params", m);
 		}
@@ -154,7 +152,7 @@ RpcGet RpcRequest::выполни()
 	}
 	if(json) {
 		try {
-			Значение r = ParseJSON(response);
+			Значение r = разбериДжейсон(response);
 			if(мапЗнач_ли(r)) {
 				МапЗнач m = r;
 				Значение result = m["result"];
@@ -245,6 +243,4 @@ RpcGet RpcRequest::выполни()
 	faultCode = 0;
 	faultString.очисть();
 	Ошибка.очисть();
-}
-
 }

@@ -1,7 +1,5 @@
 #include <DinrusPro/DinrusCore.h>
 
-namespace ДинрусРНЦП {
-
 #define LLOG(x)       // RLOG(x)
 #define LDUMP(x)      // DDUMP(x)
 
@@ -372,6 +370,4 @@ thread_local СоРабота *СоРабота::текущ;
 {
 	финиш();
 	LLOG("~СоРабота " << фмтЦелГекс(this));
-}
-
 }

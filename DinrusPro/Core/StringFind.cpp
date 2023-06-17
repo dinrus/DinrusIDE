@@ -1,6 +1,4 @@
-#include <DinrusPro/DinrusPro.h>
-
-namespace ДинрусРНЦП {
+#include <DinrusPro/DinrusCore.h>
 
 #ifdef CPU_UNALIGNED // Use unaligned access
 
@@ -15,7 +13,7 @@ inline бул equal_back_8(кткст0 a, кткст0 b, цел len)
 	return true;
 }
 #else
-force_inline бул equal_back_4(кткст0 a, кткст0 b, цел len)
+форс_инлайн бул equal_back_4(кткст0 a, кткст0 b, цел len)
 {
 	while(len > 4) {
 		len -= 4;
@@ -58,7 +56,7 @@ template <цел step> // Template parameter to be a constant
 		else
 		if(len == 3) {
 			крат p0 = подбери16лэ(p);
-			char p1 = p[2];
+			сим p1 = p[2];
 			while(s <= e) {
 				if((крат)подбери16лэ(s) == p0 && s[2] == p1)
 					return (цел)(s - укз);
@@ -76,7 +74,7 @@ template <цел step> // Template parameter to be a constant
 		}
 		else
 		if(len == 1) {
-			char p0 = p[0];
+			сим p0 = p[0];
 			while(s <= e) {
 				if(*s == p0)
 					return (цел)(s - укз);
@@ -123,14 +121,14 @@ template <цел step> // Template parameter to be a constant
 
 цел найди(const шим *text, цел len, const шим *needle, цел nlen, цел from)
 {
-	цел q = t_find<sizeof(шим)>((const char *)text, sizeof(шим) * len, (const char *)needle, sizeof(шим) * nlen, sizeof(шим) * from);
+	цел q = t_find<sizeof(шим)>((кткст0 )text, sizeof(шим) * len, (кткст0 )needle, sizeof(шим) * nlen, sizeof(шим) * from);
 	return q < 0 ? q : q / sizeof(шим);
 }
 
 #else
 
 template <class tchar>
-force_inline бул svo_равнпам(const tchar *a, const tchar *b, цел len)
+форс_инлайн бул svo_равнпам(const tchar *a, const tchar *b, цел len)
 {
 	if(len > 11)
 		return memcmp(a, b, len * sizeof(tchar)) == 0;
@@ -239,5 +237,3 @@ template <class tchar>
 	return t_find(text, len, needle, nlen, from);
 }
 #endif
-
-}

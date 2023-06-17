@@ -49,7 +49,7 @@
  */
 цел _libssh2_channel_receive_window_adjust(LIBSSH2_CHANNEL * channel,
                                            uint32_t adjustment,
-                                           unsigned char force,
+                                           ббайт force,
                                            бцел *store);
 
 /*
@@ -80,7 +80,7 @@ _libssh2_channel_extended_data(LIBSSH2_CHANNEL *channel, цел ignore_mode);
  */
 ssize_t
 _libssh2_channel_write(LIBSSH2_CHANNEL *channel, цел stream_id,
-                       const unsigned char *buf, т_мера buflen);
+                       const ббайт *buf, т_мера buflen);
 
 /*
  * _libssh2_channel_open
@@ -92,7 +92,7 @@ _libssh2_channel_open(LIBSSH2_SESSION * session, кткст0 channel_type,
                       uint32_t channel_type_len,
                       uint32_t window_size,
                       uint32_t packet_size,
-                      const unsigned char *message, т_мера message_len);
+                      const ббайт *message, т_мера message_len);
 
 
 /*
@@ -115,7 +115,7 @@ _libssh2_channel_process_startup(LIBSSH2_CHANNEL *channel,
  * in the буфер with, we MUST make sure to return PACKET_EAGAIN.
  */
 ssize_t _libssh2_channel_read(LIBSSH2_CHANNEL *channel, цел stream_id,
-                              char *buf, т_мера buflen);
+                              сим *buf, т_мера buflen);
 
 uint32_t _libssh2_channel_nextid(LIBSSH2_SESSION * session);
 

@@ -238,11 +238,11 @@ libssh2_sftp_open_ex(LIBSSH2_SFTP *sftp,
                          LIBSSH2_SFTP_OPENDIR)
 
 LIBSSH2_API ssize_t libssh2_sftp_read(LIBSSH2_SFTP_HANDLE *handle,
-                                      char *буфер, т_мера buffer_maxlen);
+                                      сим *буфер, т_мера buffer_maxlen);
 
 LIBSSH2_API цел libssh2_sftp_readdir_ex(LIBSSH2_SFTP_HANDLE *handle, \
-                                        char *буфер, т_мера buffer_maxlen,
-                                        char *longentry,
+                                        сим *буфер, т_мера buffer_maxlen,
+                                        сим *longentry,
                                         т_мера longentry_maxlen,
                                         LIBSSH2_SFTP_ATTRIBUTES *attrs);
 #define libssh2_sftp_readdir(handle, буфер, buffer_maxlen, attrs)      \
@@ -331,7 +331,7 @@ LIBSSH2_API цел libssh2_sftp_stat_ex(LIBSSH2_SFTP *sftp,
 LIBSSH2_API цел libssh2_sftp_symlink_ex(LIBSSH2_SFTP *sftp,
                                         кткст0 path,
                                         бцел path_len,
-                                        char *target,
+                                        сим *target,
                                         бцел target_len,
                                         цел link_type);
 #define libssh2_sftp_symlink(sftp, orig, linkpath) \

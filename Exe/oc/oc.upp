@@ -1,0 +1,14 @@
+uses
+	Core,
+	plugin/objconv;
+
+file
+	main.cpp;
+
+mainconfig
+	"" = "EXE";
+
+custom(GUI) "",
+	"",
+	"";
+

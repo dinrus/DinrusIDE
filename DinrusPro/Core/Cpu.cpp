@@ -1,4 +1,4 @@
-#include <DinrusPro/DinrusPro.h>
+#include <DinrusPro/DinrusCore.h>
 
 #if defined(CPU_X86) && !defined(COMPILER_MSC)
 #include <cpuid.h>
@@ -11,8 +11,6 @@
 #include <mach/mach.h>
 #include <mach/vm_statistics.h>
 #endif
-
-namespace ДинрусРНЦП {
 
 #ifdef CPU_X86
 
@@ -206,4 +204,3 @@ static проц проверьПроцессор()
 проц эндианРазворот(дол *v, т_мера count) ЭНДИАН_РАЗВОРОТ
 проц эндианРазворот(бдол *v, т_мера count) ЭНДИАН_РАЗВОРОТ
 
-}

@@ -71,7 +71,7 @@
  * Queue a connection request for a listener
  */
 static inline цел
-packet_queue_listener(LIBSSH2_SESSION * session, unsigned char *data,
+packet_queue_listener(LIBSSH2_SESSION * session, ббайт *data,
                       unsigned long datalen,
                       packet_queue_listener_state_t *listen_state)
 {
@@ -80,9 +80,9 @@ packet_queue_listener(LIBSSH2_SESSION * session, unsigned char *data,
      */
     /* 17 = packet_type(1) + channel(4) + reason(4) + descr(4) + lang(4) */
     unsigned long packet_len = 17 + (sizeof(FwdNotReq) - 1);
-    unsigned char *p;
+    ббайт *p;
     LIBSSH2_LISTENER *listn = _libssh2_list_first(&session->listeners);
-    char failure_code = SSH_OPEN_ADMINISTRATIVELY_PROHIBITED;
+    сим failure_code = SSH_OPEN_ADMINISTRATIVELY_PROHIBITED;
     цел rc;
 
     if(listen_state->state == libssh2_NB_state_idle) {
@@ -102,35 +102,35 @@ packet_queue_listener(LIBSSH2_SESSION * session, unsigned char *data,
 
         if(_libssh2_get_u32(&buf, &(listen_state->sender_channel))) {
             return _libssh2_error(session, LIBSSH2_ERROR_BUFFER_TOO_SMALL,
-                                  "Data too short extracting channel");
+                                  "Data too крат extracting channel");
         }
         if(_libssh2_get_u32(&buf, &(listen_state->initial_window_size))) {
             return _libssh2_error(session, LIBSSH2_ERROR_BUFFER_TOO_SMALL,
-                                  "Data too short extracting window size");
+                                  "Data too крат extracting window size");
         }
         if(_libssh2_get_u32(&buf, &(listen_state->packet_size))) {
             return _libssh2_error(session, LIBSSH2_ERROR_BUFFER_TOO_SMALL,
-                                  "Data too short extracting packet");
+                                  "Data too крат extracting packet");
         }
         if(_libssh2_get_string(&buf, &(listen_state->host), &temp_len)) {
             return _libssh2_error(session, LIBSSH2_ERROR_BUFFER_TOO_SMALL,
-                                  "Data too short extracting host");
+                                  "Data too крат extracting host");
         }
         listen_state->host_len = (uint32_t)temp_len;
 
         if(_libssh2_get_u32(&buf, &(listen_state->port))) {
             return _libssh2_error(session, LIBSSH2_ERROR_BUFFER_TOO_SMALL,
-                                  "Data too short extracting port");
+                                  "Data too крат extracting port");
         }
         if(_libssh2_get_string(&buf, &(listen_state->shost), &temp_len)) {
             return _libssh2_error(session, LIBSSH2_ERROR_BUFFER_TOO_SMALL,
-                                  "Data too short extracting shost");
+                                  "Data too крат extracting shost");
         }
         listen_state->shost_len = (uint32_t)temp_len;
 
         if(_libssh2_get_u32(&buf, &(listen_state->sport))) {
             return _libssh2_error(session, LIBSSH2_ERROR_BUFFER_TOO_SMALL,
-                                  "Data too short extracting sport");
+                                  "Data too крат extracting sport");
         }
 
         _libssh2_debug(session, LIBSSH2_TRACE_CONN,
@@ -284,14 +284,14 @@ packet_queue_listener(LIBSSH2_SESSION * session, unsigned char *data,
  * прими a forwarded X11 connection
  */
 static inline цел
-packet_x11_open(LIBSSH2_SESSION * session, unsigned char *data,
+packet_x11_open(LIBSSH2_SESSION * session, ббайт *data,
                 unsigned long datalen,
                 packet_x11_open_state_t *x11open_state)
 {
     цел failure_code = SSH_OPEN_CONNECT_FAILED;
     /* 17 = packet_type(1) + channel(4) + reason(4) + descr(4) + lang(4) */
     unsigned long packet_len = 17 + (sizeof(X11FwdUnAvil) - 1);
-    unsigned char *p;
+    ббайт *p;
     LIBSSH2_CHANNEL *channel = x11open_state->channel;
     цел rc;
 
@@ -429,7 +429,7 @@ packet_x11_open(LIBSSH2_SESSION * session, unsigned char *data,
              * Pass control to the обрвыз, they may turn right around and
              * free the channel, or actually use it
              */
-            LIBSSH2_X11_OPEN(channel, (char *)x11open_state->shost,
+            LIBSSH2_X11_OPEN(channel, (сим *)x11open_state->shost,
                              x11open_state->sport);
 
             x11open_state->state = libssh2_NB_state_idle;
@@ -473,17 +473,17 @@ packet_x11_open(LIBSSH2_SESSION * session, unsigned char *data,
  * This ФУНКЦИЯ will always be called with 'datalen' greater than zero.
  */
 цел
-_libssh2_packet_add(LIBSSH2_SESSION * session, unsigned char *data,
+_libssh2_packet_add(LIBSSH2_SESSION * session, ббайт *data,
                     т_мера datalen, цел macstate)
 {
     цел rc = 0;
-    unsigned char *message = NULL;
-    unsigned char *language = NULL;
+    ббайт *message = NULL;
+    ббайт *language = NULL;
     т_мера message_len = 0;
     т_мера language_len = 0;
     LIBSSH2_CHANNEL *channelp = NULL;
     т_мера data_head = 0;
-    unsigned char msg = data[0];
+    ббайт msg = data[0];
 
     switch(session->packAdd_state) {
     case libssh2_NB_state_idle:
@@ -493,7 +493,7 @@ _libssh2_packet_add(LIBSSH2_SESSION * session, unsigned char *data,
 
         if((macstate == LIBSSH2_MAC_INVALID) &&
             (!session->macerror ||
-             LIBSSH2_MACERROR(session, (char *) data, datalen))) {
+             LIBSSH2_MACERROR(session, (сим *) data, datalen))) {
             /* Bad MAC input, but no обрвыз set or non-zero return from the
                обрвыз */
 
@@ -532,7 +532,7 @@ _libssh2_packet_add(LIBSSH2_SESSION * session, unsigned char *data,
             if(datalen >= 5) {
                 uint32_t reason = 0;
                 struct string_buf buf;
-                buf.data = (unsigned char *)data;
+                buf.data = (ббайт *)data;
                 buf.dataptr = buf.data;
                 buf.len = datalen;
                 buf.dataptr++; /* advance past тип */
@@ -542,8 +542,8 @@ _libssh2_packet_add(LIBSSH2_SESSION * session, unsigned char *data,
                 _libssh2_get_string(&buf, &language, &language_len);
 
                 if(session->ssh_msg_disconnect) {
-                    LIBSSH2_DISCONNECT(session, reason, (const char *)message,
-                                       message_len, (const char *)language,
+                    LIBSSH2_DISCONNECT(session, reason, (кткст0 )message,
+                                       message_len, (кткст0 )language,
                                        language_len);
                 }
 
@@ -565,7 +565,7 @@ _libssh2_packet_add(LIBSSH2_SESSION * session, unsigned char *data,
         case SSH_MSG_IGNORE:
             if(datalen >= 2) {
                 if(session->ssh_msg_ignore) {
-                    LIBSSH2_IGNORE(session, (char *) data + 1, datalen - 1);
+                    LIBSSH2_IGNORE(session, (сим *) data + 1, datalen - 1);
                 }
             }
             else if(session->ssh_msg_ignore) {
@@ -588,7 +588,7 @@ _libssh2_packet_add(LIBSSH2_SESSION * session, unsigned char *data,
 
                 if(datalen >= 6) {
                     struct string_buf buf;
-                    buf.data = (unsigned char *)data;
+                    buf.data = (ббайт *)data;
                     buf.dataptr = buf.data;
                     buf.len = datalen;
                     buf.dataptr += 2; /* advance past тип & always дисплей */
@@ -599,8 +599,8 @@ _libssh2_packet_add(LIBSSH2_SESSION * session, unsigned char *data,
 
                 if(session->ssh_msg_debug) {
                     LIBSSH2_DEBUG(session, always_display,
-                                  (const char *)message,
-                                  message_len, (const char *)language,
+                                  (кткст0 )message,
+                                  message_len, (кткст0 )language,
                                   language_len);
                 }
             }
@@ -625,7 +625,7 @@ _libssh2_packet_add(LIBSSH2_SESSION * session, unsigned char *data,
         case SSH_MSG_GLOBAL_REQUEST:
             if(datalen >= 5) {
                 uint32_t len = 0;
-                unsigned char want_reply = 0;
+                ббайт want_reply = 0;
                 len = _libssh2_ntohu32(data + 1);
                 if((len <= (UINT_MAX - 6)) && (datalen >= (6 + len))) {
                     want_reply = data[5 + len];
@@ -637,7 +637,7 @@ _libssh2_packet_add(LIBSSH2_SESSION * session, unsigned char *data,
 
 
                 if(want_reply) {
-                    static const unsigned char packet =
+                    static const ббайт packet =
                         SSH_MSG_REQUEST_FAILURE;
                   libssh2_packet_add_jump_point5:
                     session->packAdd_state = libssh2_NB_state_jump5;
@@ -828,7 +828,7 @@ _libssh2_packet_add(LIBSSH2_SESSION * session, unsigned char *data,
             if(datalen >= 9) {
                 uint32_t channel = _libssh2_ntohu32(data + 1);
                 uint32_t len = _libssh2_ntohu32(data + 5);
-                unsigned char want_reply = 1;
+                ббайт want_reply = 1;
 
                 if((len + 9) < datalen)
                     want_reply = data[len + 9];
@@ -902,7 +902,7 @@ _libssh2_packet_add(LIBSSH2_SESSION * session, unsigned char *data,
 
 
                 if(want_reply) {
-                    unsigned char packet[5];
+                    ббайт packet[5];
                   libssh2_packet_add_jump_point4:
                     session->packAdd_state = libssh2_NB_state_jump4;
                     packet[0] = SSH_MSG_CHANNEL_FAILURE;
@@ -1092,9 +1092,9 @@ _libssh2_packet_add(LIBSSH2_SESSION * session, unsigned char *data,
  * a packet first
  */
 цел
-_libssh2_packet_ask(LIBSSH2_SESSION * session, unsigned char packet_type,
-                    unsigned char **data, т_мера *data_len,
-                    цел match_ofs, const unsigned char *match_buf,
+_libssh2_packet_ask(LIBSSH2_SESSION * session, ббайт packet_type,
+                    ббайт **data, т_мера *data_len,
+                    цел match_ofs, const ббайт *match_buf,
                     т_мера match_len)
 {
     LIBSSH2_PACKET *packet = _libssh2_list_first(&session->packets);
@@ -1131,13 +1131,13 @@ _libssh2_packet_ask(LIBSSH2_SESSION * session, unsigned char packet_type,
  */
 цел
 _libssh2_packet_askv(LIBSSH2_SESSION * session,
-                     const unsigned char *packet_types,
-                     unsigned char **data, т_мера *data_len,
+                     const ббайт *packet_types,
+                     ббайт **data, т_мера *data_len,
                      цел match_ofs,
-                     const unsigned char *match_buf,
+                     const ббайт *match_buf,
                      т_мера match_len)
 {
-    цел i, packet_types_len = strlen((char *) packet_types);
+    цел i, packet_types_len = strlen((сим *) packet_types);
 
     for(i = 0; i < packet_types_len; i++) {
         if(0 == _libssh2_packet_ask(session, packet_types[i], data,
@@ -1160,10 +1160,10 @@ _libssh2_packet_askv(LIBSSH2_SESSION * session,
  * Returns 0 when it has taken care of the requested packet.
  */
 цел
-_libssh2_packet_require(LIBSSH2_SESSION * session, unsigned char packet_type,
-                        unsigned char **data, т_мера *data_len,
+_libssh2_packet_require(LIBSSH2_SESSION * session, ббайт packet_type,
+                        ббайт **data, т_мера *data_len,
                         цел match_ofs,
-                        const unsigned char *match_buf,
+                        const ббайт *match_buf,
                         т_мера match_len,
                         packet_require_state_t *state)
 {
@@ -1222,9 +1222,9 @@ _libssh2_packet_require(LIBSSH2_SESSION * session, unsigned char packet_type,
 _libssh2_packet_burn(LIBSSH2_SESSION * session,
                      libssh2_nonblocking_states * state)
 {
-    unsigned char *data;
+    ббайт *data;
     т_мера data_len;
-    unsigned char i, all_packets[255];
+    ббайт i, all_packets[255];
     цел ret;
 
     if(*state == libssh2_NB_state_idle) {
@@ -1262,7 +1262,7 @@ _libssh2_packet_burn(LIBSSH2_SESSION * session,
 
         /* Be lazy, let packet_ask pull it out of the brigade */
         if(0 ==
-            _libssh2_packet_ask(session, (unsigned char)ret,
+            _libssh2_packet_ask(session, (ббайт)ret,
                                          &data, &data_len, 0, NULL, 0)) {
             /* Smoke 'em if you got 'em */
             LIBSSH2_FREE(session, data);
@@ -1285,10 +1285,10 @@ _libssh2_packet_burn(LIBSSH2_SESSION * session,
 
 цел
 _libssh2_packet_requirev(LIBSSH2_SESSION *session,
-                         const unsigned char *packet_types,
-                         unsigned char **data, т_мера *data_len,
+                         const ббайт *packet_types,
+                         ббайт **data, т_мера *data_len,
                          цел match_ofs,
-                         const unsigned char *match_buf, т_мера match_len,
+                         const ббайт *match_buf, т_мера match_len,
                          packet_requirev_state_t * state)
 {
     if(_libssh2_packet_askv(session, packet_types, data, data_len, match_ofs,
@@ -1321,7 +1321,7 @@ _libssh2_packet_requirev(LIBSSH2_SESSION *session,
             }
         }
 
-        if(strchr((char *) packet_types, ret)) {
+        if(strchr((сим *) packet_types, ret)) {
             /* Be lazy, let packet_ask pull it out of the brigade */
             return _libssh2_packet_askv(session, packet_types, data,
                                         data_len, match_ofs, match_buf,

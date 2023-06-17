@@ -1,7 +1,5 @@
-#include <DinrusPro/DinrusPro.h>
+#include <DinrusPro/DinrusCore.h>
 #include <RKod/Rpc/Rpc.h>
-
-namespace ДинрусРНЦП {
 
 Значение ParseXmlRpcValue(ПарсерРяр& p)
 {
@@ -154,8 +152,8 @@ namespace ДинрусРНЦП {
 		r << "</данные></array>";
 	}
 	else
-	if(v.является<RawJsonText>())
-		r = ТэгРяр("string").устТекст(v.To<RawJsonText>().json);
+	if(v.является<RawДжейсонText>())
+		r = ТэгРяр("string").устТекст(v.To<RawДжейсонText>().json);
 	else
 		r = ТэгРяр("string").устТекст(v);
 	return ТэгРяр("значение")(r);
@@ -198,6 +196,4 @@ namespace ДинрусРНЦП {
 		"</methodResponse>"
 	;
 	return r;
-}
-
 }

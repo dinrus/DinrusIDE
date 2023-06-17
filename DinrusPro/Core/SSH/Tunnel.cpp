@@ -1,7 +1,5 @@
 #include "SSH.h"
 
-namespace ДинрусРНЦП {
-
 #define LLOG(x)       do { if(SSH::sTrace) RLOG(SSH::дайИмя(ssh->otype, ssh->oid) << x); } while(false)
 #define LDUMPHEX(x)	  do { if(SSH::sTraceVerbose) RDUMPHEX(x); } while(false)
 
@@ -106,5 +104,4 @@ namespace ДинрусРНЦП {
 		}
 		return ch;
 	});
-}
 }

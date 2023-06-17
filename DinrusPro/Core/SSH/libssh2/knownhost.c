@@ -41,18 +41,18 @@
 
 struct known_host {
     struct list_node node;
-    char *имя;      /* points to the имя or the hash (allocated) */
+    сим *имя;      /* points to the имя or the hash (allocated) */
     т_мера name_len; /* needed for hashed data */
     цел port;        /* if non-zero, a specific port this ключ is for on this
                         host */
     цел typemask;    /* plain, sha1, custom, ... */
-    char *salt;      /* points to binary salt (allocated) */
+    сим *salt;      /* points to binary salt (allocated) */
     т_мера salt_len; /* size of salt */
-    char *ключ;       /* the (allocated) associated ключ. This is kept base64
+    сим *ключ;       /* the (allocated) associated ключ. This is kept base64
                         encoded in memory. */
-    char *key_type_name; /* the (allocated) ключ тип имя */
+    сим *key_type_name; /* the (allocated) ключ тип имя */
     т_мера key_type_len; /* size of key_type_name */
-    char *comment;       /* the (allocated) optional comment text, may be
+    сим *comment;       /* the (allocated) optional comment text, may be
                             NULL */
     т_мера comment_len;  /* the size of comment */
 
@@ -141,7 +141,7 @@ knownhost_add(LIBSSH2_KNOWNHOSTS *hosts,
     struct known_host *entry;
     т_мера hostlen = strlen(host);
     цел rc;
-    char *укз;
+    сим *укз;
     бцел ptrlen;
 
     /* make sure we have a ключ тип set */
@@ -265,7 +265,7 @@ knownhost_add(LIBSSH2_KNOWNHOSTS *hosts,
  * The 'тип' argument specifies on what формат the given host and keys are:
  *
  * plain  - ascii "hostname.domain.tld"
- * sha1   - SHA1(<salt> <host>) base64-encoded!
+ * sha1   - ша1(<salt> <host>) base64-encoded!
  * custom - another hash
  *
  * If 'sha1' is selected as тип, the salt must be provided to the salt
@@ -303,7 +303,7 @@ libssh2_knownhost_add(LIBSSH2_KNOWNHOSTS *hosts,
  * The 'тип' argument specifies on what формат the given host and keys are:
  *
  * plain  - ascii "hostname.domain.tld"
- * sha1   - SHA1(<salt> <host>) base64-encoded!
+ * sha1   - ша1(<salt> <host>) base64-encoded!
  * custom - another hash
  *
  * If 'sha1' is selected as тип, the salt must be provided to the salt
@@ -356,9 +356,9 @@ knownhost_check(LIBSSH2_KNOWNHOSTS *hosts,
     struct known_host *node;
     struct known_host *badkey = NULL;
     цел тип = typemask & LIBSSH2_KNOWNHOST_TYPE_MASK;
-    char *keyalloc = NULL;
+    сим *keyalloc = NULL;
     цел rc = LIBSSH2_KNOWNHOST_CHECK_NOTFOUND;
-    char hostbuff[270]; /* most host names can't be longer than like 256 */
+    сим hostbuff[270]; /* most host names can't be longer than like 256 */
     кткст0 host;
     цел numcheck; /* number of host combos to check */
     цел match = 0;
@@ -418,7 +418,7 @@ knownhost_check(LIBSSH2_KNOWNHOSTS *hosts,
                        plain input to produce a hash to сравни with the
                        stored hash.
                     */
-                    unsigned char hash[SHA_DIGEST_LENGTH];
+                    ббайт hash[SHA_DIGEST_LENGTH];
                     libssh2_hmac_ctx ctx;
                     libssh2_hmac_ctx_init(ctx);
 
@@ -427,9 +427,9 @@ knownhost_check(LIBSSH2_KNOWNHOSTS *hosts,
                            we can't match it */
                         break;
                     }
-                    libssh2_hmac_sha1_init(&ctx, (unsigned char *)node->salt,
+                    libssh2_hmac_sha1_init(&ctx, (ббайт *)node->salt,
                                            node->salt_len);
-                    libssh2_hmac_update(ctx, (unsigned char *)host,
+                    libssh2_hmac_update(ctx, (ббайт *)host,
                                         strlen(host));
                     libssh2_hmac_final(ctx, hash);
                     libssh2_hmac_cleanup(&ctx);
@@ -636,7 +636,7 @@ static цел oldstyle_hostline(LIBSSH2_KNOWNHOSTS *hosts,
            имя to the collection */
         if((имя == host) || (*(имя-1) == ',')) {
 
-            char hostbuf[256];
+            сим hostbuf[256];
 
             /* make sure we don't overflow the буфер */
             if(namelen >= sizeof(hostbuf)-1)
@@ -676,8 +676,8 @@ static цел hashed_hostline(LIBSSH2_KNOWNHOSTS *hosts,
                            кткст0 comment, т_мера commentlen)
 {
     кткст0 p;
-    char saltbuf[32];
-    char hostbuf[256];
+    сим saltbuf[32];
+    сим hostbuf[256];
 
     кткст0 salt = &host[3]; /* skip the magic marker */
     hostlen -= 3;    /* deduct the marker */
@@ -751,7 +751,7 @@ static цел hostline(LIBSSH2_KNOWNHOSTS *hosts,
         return _libssh2_error(hosts->session,
                               LIBSSH2_ERROR_METHOD_NOT_SUPPORTED,
                               "Failed to parse known_hosts line "
-                              "(ключ too short)");
+                              "(ключ too крат)");
 
     switch(ключ[0]) {
     case '0': case '1': case '2': case '3': case '4':
@@ -955,7 +955,7 @@ libssh2_knownhost_readfile(LIBSSH2_KNOWNHOSTS *hosts,
 {
     FILE *file;
     цел num = 0;
-    char buf[4092];
+    сим buf[4092];
 
     if(тип != LIBSSH2_KNOWNHOST_FILE_OPENSSH)
         return _libssh2_error(hosts->session,
@@ -996,7 +996,7 @@ libssh2_knownhost_readfile(LIBSSH2_KNOWNHOSTS *hosts,
 static цел
 knownhost_writeline(LIBSSH2_KNOWNHOSTS *hosts,
                     struct known_host *node,
-                    char *buf, т_мера buflen,
+                    сим *buf, т_мера buflen,
                     т_мера *outlen, цел тип)
 {
     т_мера required_size;
@@ -1056,7 +1056,7 @@ knownhost_writeline(LIBSSH2_KNOWNHOSTS *hosts,
     }
 
     /* When putting together the host line there are three aspects to consider:
-       - Hashed (SHA1) or unhashed hostname
+       - Hashed (ша1) or unhashed hostname
        - ключ имя or no ключ имя (RSA1)
        - comment or no comment
 
@@ -1084,9 +1084,9 @@ knownhost_writeline(LIBSSH2_KNOWNHOSTS *hosts,
 
     if((node->typemask & LIBSSH2_KNOWNHOST_TYPE_MASK) ==
        LIBSSH2_KNOWNHOST_TYPE_SHA1) {
-        char *namealloc;
+        сим *namealloc;
         т_мера name_base64_len;
-        char *saltalloc;
+        сим *saltalloc;
         т_мера salt_base64_len;
 
         name_base64_len = _libssh2_base64_encode(hosts->session, node->имя,
@@ -1167,7 +1167,7 @@ knownhost_writeline(LIBSSH2_KNOWNHOSTS *hosts,
 LIBSSH2_API цел
 libssh2_knownhost_writeline(LIBSSH2_KNOWNHOSTS *hosts,
                             struct libssh2_knownhost *known,
-                            char *буфер, т_мера buflen,
+                            сим *буфер, т_мера buflen,
                             т_мера *outlen, /* the amount of written data */
                             цел тип)
 {
@@ -1194,7 +1194,7 @@ libssh2_knownhost_writefile(LIBSSH2_KNOWNHOSTS *hosts,
     struct known_host *node;
     FILE *file;
     цел rc = LIBSSH2_ERROR_NONE;
-    char буфер[4092];
+    сим буфер[4092];
 
     /* we only support this single file тип for now, bail out on all other
        attempts */

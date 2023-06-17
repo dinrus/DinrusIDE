@@ -39,7 +39,7 @@
 #include "libssh2_priv.h"
 
 static цел
-readline(char *line, цел line_size, FILE * fp)
+readline(сим *line, цел line_size, FILE * fp)
 {
     т_мера len;
 
@@ -68,7 +68,7 @@ readline(char *line, цел line_size, FILE * fp)
 }
 
 static цел
-readline_memory(char *line, т_мера line_size,
+readline_memory(сим *line, т_мера line_size,
                 кткст0 filedata, т_мера filedata_len,
                 т_мера *filedata_offset)
 {
@@ -98,7 +98,7 @@ readline_memory(char *line, т_мера line_size,
 
 static кткст0 crypt_annotation = "Proc-Type: 4,ENCRYPTED";
 
-static unsigned char hex_decode(char digit)
+static ббайт hex_decode(сим digit)
 {
     return (digit >= 'A') ? 0xA + (digit - 'A') : (digit - '0');
 }
@@ -107,12 +107,12 @@ static unsigned char hex_decode(char digit)
 _libssh2_pem_parse(LIBSSH2_SESSION * session,
                    кткст0 headerbegin,
                    кткст0 headerend,
-                   const unsigned char *passphrase,
-                   FILE * fp, unsigned char **data, бцел *datalen)
+                   const ббайт *passphrase,
+                   FILE * fp, ббайт **data, бцел *datalen)
 {
-    char line[LINE_SIZE];
-    unsigned char iv[LINE_SIZE];
-    char *b64data = NULL;
+    сим line[LINE_SIZE];
+    ббайт iv[LINE_SIZE];
+    сим *b64data = NULL;
     бцел b64datalen = 0;
     цел ret;
     const LIBSSH2_CRYPT_METHOD *method = NULL;
@@ -170,7 +170,7 @@ _libssh2_pem_parse(LIBSSH2_SESSION * session,
 
     do {
         if(*line) {
-            char *tmp;
+            сим *tmp;
             т_мера linelen;
 
             linelen = strlen(line);
@@ -196,7 +196,7 @@ _libssh2_pem_parse(LIBSSH2_SESSION * session,
         return -1;
     }
 
-    if(libssh2_base64_decode(session, (char **) data, datalen,
+    if(libssh2_base64_decode(session, (сим **) data, datalen,
                               b64data, b64datalen)) {
         ret = -1;
         goto out;
@@ -207,16 +207,16 @@ _libssh2_pem_parse(LIBSSH2_SESSION * session,
         цел free_iv = 0, free_secret = 0, len_decrypted = 0, padding = 0;
         цел blocksize = method->blocksize;
         ук abstract;
-        unsigned char secret[2*MD5_DIGEST_LENGTH];
+        ббайт secret[2*MD5_DIGEST_LENGTH];
         libssh2_md5_ctx fingerprint_ctx;
 
-        /* Perform ключ derivation (PBKDF1/MD5) */
+        /* Perform ключ derivation (PBKDF1/мд5) */
         if(!libssh2_md5_init(&fingerprint_ctx)) {
             ret = -1;
             goto out;
         }
         libssh2_md5_update(fingerprint_ctx, passphrase,
-                           strlen((char *)passphrase));
+                           strlen((сим *)passphrase));
         libssh2_md5_update(fingerprint_ctx, iv, 8);
         libssh2_md5_final(fingerprint_ctx, secret);
         if(method->secret_len > MD5_DIGEST_LENGTH) {
@@ -226,7 +226,7 @@ _libssh2_pem_parse(LIBSSH2_SESSION * session,
             }
             libssh2_md5_update(fingerprint_ctx, secret, MD5_DIGEST_LENGTH);
             libssh2_md5_update(fingerprint_ctx, passphrase,
-                               strlen((char *)passphrase));
+                               strlen((сим *)passphrase));
             libssh2_md5_update(fingerprint_ctx, iv, 8);
             libssh2_md5_final(fingerprint_ctx, secret + MD5_DIGEST_LENGTH);
         }
@@ -234,19 +234,19 @@ _libssh2_pem_parse(LIBSSH2_SESSION * session,
         /* Initialize the decryption */
         if(method->init(session, method, iv, &free_iv, secret,
                          &free_secret, 0, &abstract)) {
-            _libssh2_explicit_zero((char *)secret, sizeof(secret));
+            _libssh2_explicit_zero((сим *)secret, sizeof(secret));
             LIBSSH2_FREE(session, data);
             ret = -1;
             goto out;
         }
 
         if(free_secret) {
-            _libssh2_explicit_zero((char *)secret, sizeof(secret));
+            _libssh2_explicit_zero((сим *)secret, sizeof(secret));
         }
 
         /* Do the actual decryption */
         if((*datalen % blocksize) != 0) {
-            _libssh2_explicit_zero((char *)secret, sizeof(secret));
+            _libssh2_explicit_zero((сим *)secret, sizeof(secret));
             method->dtor(session, &abstract);
             _libssh2_explicit_zero(*data, *datalen);
             LIBSSH2_FREE(session, *data);
@@ -258,7 +258,7 @@ _libssh2_pem_parse(LIBSSH2_SESSION * session,
             if(method->crypt(session, *data + len_decrypted, blocksize,
                               &abstract)) {
                 ret = LIBSSH2_ERROR_DECRYPT;
-                _libssh2_explicit_zero((char *)secret, sizeof(secret));
+                _libssh2_explicit_zero((сим *)secret, sizeof(secret));
                 method->dtor(session, &abstract);
                 _libssh2_explicit_zero(*data, *datalen);
                 LIBSSH2_FREE(session, *data);
@@ -274,7 +274,7 @@ _libssh2_pem_parse(LIBSSH2_SESSION * session,
         *datalen -= padding;
 
         /* Clean up */
-        _libssh2_explicit_zero((char *)secret, sizeof(secret));
+        _libssh2_explicit_zero((сим *)secret, sizeof(secret));
         method->dtor(session, &abstract);
     }
 
@@ -292,10 +292,10 @@ _libssh2_pem_parse_memory(LIBSSH2_SESSION * session,
                           кткст0 headerbegin,
                           кткст0 headerend,
                           кткст0 filedata, т_мера filedata_len,
-                          unsigned char **data, бцел *datalen)
+                          ббайт **data, бцел *datalen)
 {
-    char line[LINE_SIZE];
-    char *b64data = NULL;
+    сим line[LINE_SIZE];
+    сим *b64data = NULL;
     бцел b64datalen = 0;
     т_мера off = 0;
     цел ret;
@@ -313,7 +313,7 @@ _libssh2_pem_parse_memory(LIBSSH2_SESSION * session,
 
     do {
         if(*line) {
-            char *tmp;
+            сим *tmp;
             т_мера linelen;
 
             linelen = strlen(line);
@@ -339,7 +339,7 @@ _libssh2_pem_parse_memory(LIBSSH2_SESSION * session,
         return -1;
     }
 
-    if(libssh2_base64_decode(session, (char **) data, datalen,
+    if(libssh2_base64_decode(session, (сим **) data, datalen,
                               b64data, b64datalen)) {
         ret = -1;
         goto out;
@@ -361,23 +361,23 @@ _libssh2_pem_parse_memory(LIBSSH2_SESSION * session,
 
 static цел
 _libssh2_openssh_pem_parse_data(LIBSSH2_SESSION * session,
-                                const unsigned char *passphrase,
+                                const ббайт *passphrase,
                                 кткст0 b64data, т_мера b64datalen,
                                 struct string_buf **decrypted_buf)
 {
     const LIBSSH2_CRYPT_METHOD *method = NULL;
     struct string_buf decoded, decrypted, kdf_buf;
-    unsigned char *ciphername = NULL;
-    unsigned char *kdfname = NULL;
-    unsigned char *kdf = NULL;
-    unsigned char *buf = NULL;
-    unsigned char *salt = NULL;
+    ббайт *ciphername = NULL;
+    ббайт *kdfname = NULL;
+    ббайт *kdf = NULL;
+    ббайт *buf = NULL;
+    ббайт *salt = NULL;
     uint32_t nkeys, check1, check2;
     uint32_t rounds = 0;
-    unsigned char *ключ = NULL;
-    unsigned char *key_part = NULL;
-    unsigned char *iv_part = NULL;
-    unsigned char *f = NULL;
+    ббайт *ключ = NULL;
+    ббайт *key_part = NULL;
+    ббайт *iv_part = NULL;
+    ббайт *f = NULL;
     бцел f_len = 0;
     цел ret = 0, keylen = 0, ivlen = 0, total_len = 0;
     т_мера kdf_len = 0, tmp_len = 0, salt_len = 0;
@@ -386,23 +386,23 @@ _libssh2_openssh_pem_parse_data(LIBSSH2_SESSION * session,
         *decrypted_buf = NULL;
 
     /* раскодируй file */
-    if(libssh2_base64_decode(session, (char **)&f, &f_len,
+    if(libssh2_base64_decode(session, (сим **)&f, &f_len,
                              b64data, b64datalen)) {
        ret = -1;
        goto out;
     }
 
     /* Parse the file */
-    decoded.data = (unsigned char *)f;
-    decoded.dataptr = (unsigned char *)f;
+    decoded.data = (ббайт *)f;
+    decoded.dataptr = (ббайт *)f;
     decoded.len = f_len;
 
     if(decoded.len < strlen(AUTH_MAGIC)) {
-        ret = _libssh2_error(session, LIBSSH2_ERROR_PROTO, "ключ too short");
+        ret = _libssh2_error(session, LIBSSH2_ERROR_PROTO, "ключ too крат");
         goto out;
     }
 
-    if(strncmp((char *) decoded.dataptr, AUTH_MAGIC,
+    if(strncmp((сим *) decoded.dataptr, AUTH_MAGIC,
                strlen(AUTH_MAGIC)) != 0) {
         ret = _libssh2_error(session, LIBSSH2_ERROR_PROTO,
                              "ключ auth magic mismatch");
@@ -436,22 +436,22 @@ _libssh2_openssh_pem_parse_data(LIBSSH2_SESSION * session,
         kdf_buf.len = kdf_len;
     }
 
-    if((passphrase == NULL || strlen((const char *)passphrase) == 0) &&
-        strcmp((const char *)ciphername, "none") != 0) {
+    if((passphrase == NULL || strlen((кткст0 )passphrase) == 0) &&
+        strcmp((кткст0 )ciphername, "none") != 0) {
         /* passphrase required */
         ret = LIBSSH2_ERROR_KEYFILE_AUTH_FAILED;
         goto out;
     }
 
-    if(strcmp((const char *)kdfname, "none") != 0 &&
-       strcmp((const char *)kdfname, "bcrypt") != 0) {
+    if(strcmp((кткст0 )kdfname, "none") != 0 &&
+       strcmp((кткст0 )kdfname, "bcrypt") != 0) {
         ret = _libssh2_error(session, LIBSSH2_ERROR_PROTO,
                              "unknown cipher");
         goto out;
     }
 
-    if(!strcmp((const char *)kdfname, "none") &&
-       strcmp((const char *)ciphername, "none") != 0) {
+    if(!strcmp((кткст0 )kdfname, "none") &&
+       strcmp((кткст0 )ciphername, "none") != 0) {
         ret =_libssh2_error(session, LIBSSH2_ERROR_PROTO,
                             "invalid формат");
         goto out;
@@ -482,7 +482,7 @@ _libssh2_openssh_pem_parse_data(LIBSSH2_SESSION * session,
     decrypted.data = decrypted.dataptr = buf;
     decrypted.len = tmp_len;
 
-    if(ciphername && strcmp((const char *)ciphername, "none") != 0) {
+    if(ciphername && strcmp((кткст0 )ciphername, "none") != 0) {
         const LIBSSH2_CRYPT_METHOD **all_methods, *cur_method;
 
         all_methods = libssh2_crypt_methods();
@@ -519,7 +519,7 @@ _libssh2_openssh_pem_parse_data(LIBSSH2_SESSION * session,
             goto out;
         }
 
-        if(strcmp((const char *)kdfname, "bcrypt") == 0 &&
+        if(strcmp((кткст0 )kdfname, "bcrypt") == 0 &&
            passphrase != NULL) {
             if((_libssh2_get_string(&kdf_buf, &salt, &salt_len)) ||
                 (_libssh2_get_u32(&kdf_buf, &rounds) != 0) ) {
@@ -529,8 +529,8 @@ _libssh2_openssh_pem_parse_data(LIBSSH2_SESSION * session,
                 goto out;
             }
 
-            if(_libssh2_bcrypt_pbkdf((const char *)passphrase,
-                                     strlen((const char *)passphrase),
+            if(_libssh2_bcrypt_pbkdf((кткст0 )passphrase,
+                                     strlen((кткст0 )passphrase),
                                      salt, salt_len, ключ,
                                      keylen + ivlen, rounds) < 0) {
                 ret = _libssh2_error(session, LIBSSH2_ERROR_DECRYPT,
@@ -659,11 +659,11 @@ out:
 
 цел
 _libssh2_openssh_pem_parse(LIBSSH2_SESSION * session,
-                           const unsigned char *passphrase,
+                           const ббайт *passphrase,
                            FILE * fp, struct string_buf **decrypted_buf)
 {
-    char line[LINE_SIZE];
-    char *b64data = NULL;
+    сим line[LINE_SIZE];
+    сим *b64data = NULL;
     бцел b64datalen = 0;
     цел ret = 0;
 
@@ -684,7 +684,7 @@ _libssh2_openssh_pem_parse(LIBSSH2_SESSION * session,
 
     do {
         if(*line) {
-            char *tmp;
+            сим *tmp;
             т_мера linelen;
 
             linelen = strlen(line);
@@ -712,7 +712,7 @@ _libssh2_openssh_pem_parse(LIBSSH2_SESSION * session,
 
     ret = _libssh2_openssh_pem_parse_data(session,
                                           passphrase,
-                                          (const char *)b64data,
+                                          (кткст0 )b64data,
                                           (т_мера)b64datalen,
                                           decrypted_buf);
 
@@ -728,12 +728,12 @@ out:
 
 цел
 _libssh2_openssh_pem_parse_memory(LIBSSH2_SESSION * session,
-                                  const unsigned char *passphrase,
+                                  const ббайт *passphrase,
                                   кткст0 filedata, т_мера filedata_len,
                                   struct string_buf **decrypted_buf)
 {
-    char line[LINE_SIZE];
-    char *b64data = NULL;
+    сим line[LINE_SIZE];
+    сим *b64data = NULL;
     бцел b64datalen = 0;
     т_мера off = 0;
     цел ret;
@@ -760,7 +760,7 @@ _libssh2_openssh_pem_parse_memory(LIBSSH2_SESSION * session,
 
     do {
         if (*line) {
-            char *tmp;
+            сим *tmp;
             т_мера linelen;
 
             linelen = strlen(line);
@@ -804,7 +804,7 @@ out:
 }
 
 static цел
-read_asn1_length(const unsigned char *data,
+read_asn1_length(const ббайт *data,
                  бцел datalen, бцел *len)
 {
     бцел lenlen;
@@ -839,7 +839,7 @@ read_asn1_length(const unsigned char *data,
 }
 
 цел
-_libssh2_pem_decode_sequence(unsigned char **data, бцел *datalen)
+_libssh2_pem_decode_sequence(ббайт **data, бцел *datalen)
 {
     бцел len;
     цел lenlen;
@@ -867,8 +867,8 @@ _libssh2_pem_decode_sequence(unsigned char **data, бцел *datalen)
 }
 
 цел
-_libssh2_pem_decode_integer(unsigned char **data, бцел *datalen,
-                            unsigned char **i, бцел *ilen)
+_libssh2_pem_decode_integer(ббайт **data, бцел *datalen,
+                            ббайт **i, бцел *ilen)
 {
     бцел len;
     цел lenlen;

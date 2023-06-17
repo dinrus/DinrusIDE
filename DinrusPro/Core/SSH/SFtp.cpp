@@ -1,7 +1,5 @@
 #include "SSH.h"
 
-namespace ДинрусРНЦП {
-
 #define LLOG(x)       do { if(SSH::sTrace) RLOG(SSH::дайИмя(ssh->otype, ssh->oid) << x); } while(false)
 #define LDUMPHEX(x)	  do { if(SSH::sTraceVerbose) RDUMPHEX(x); } while(false)
 
@@ -138,7 +136,7 @@ SFtp& SFtp::перейди(SFtpHandle handle, дол position)
 	пуск([=]() mutable {
 		while(done < size && !таймаут_ли()) {
 			цел rc = static_cast<цел>(
-				libssh2_sftp_read(handle, (char*) укз + done, мин(size - done, ssh->chunk_size))
+				libssh2_sftp_read(handle, (сим*) укз + done, мин(size - done, ssh->chunk_size))
 			);
 			if(rc < 0) {
 				if(!WouldBlock(rc))
@@ -160,14 +158,14 @@ SFtp& SFtp::перейди(SFtpHandle handle, дол position)
 	return GetDone();
 }
 
-цел SFtp::помести(SFtpHandle handle, const ук укз, цел size)
+цел SFtp::помести(SFtpHandle handle, кук укз, цел size)
 {
 	done = 0;
 
 	пуск([=]() mutable {
 		while(done < size && !таймаут_ли()) {
 			цел rc = static_cast<цел>(
-				libssh2_sftp_write(handle, (const char*) укз + done, мин(size - done, ssh->chunk_size))
+				libssh2_sftp_write(handle, (const сим*) укз + done, мин(size - done, ssh->chunk_size))
 			);
 			if(rc < 0) {
 				if(!WouldBlock(rc))
@@ -189,7 +187,7 @@ SFtp& SFtp::перейди(SFtpHandle handle, дол position)
 	return GetDone();
 }
 
-бул SFtp::CopyData(Поток& dest, Поток& ист, дол maxsize)
+бул SFtp::CopyData(Поток& приёмник, Поток& ист, дол maxsize)
 {
 	if(ошибка_ли())
 		return false;
@@ -202,8 +200,8 @@ SFtp& SFtp::перейди(SFtpHandle handle, дол position)
 	while(!ист.кф_ли()) {
 		цел n = ист.дай(chunk, (цел) мин<дол>(size - count, ssh->chunk_size));
 		if(n > 0) {
-			dest.помести(chunk, n);
-			if(dest.ошибка_ли()) {
+			приёмник.помести(chunk, n);
+			if(приёмник.ошибка_ли()) {
 				LLOG("Ошибка записи в поток. " + ист.дайТекстОш());
 				return false;
 			}
@@ -290,8 +288,8 @@ SFtpHandle SFtp::OpenDir(const Ткст& path)
 {
 	SFtpAttrs attrs;
 	return пуск([=, &attrs, &list] () mutable {
-		char label[512];
-		char longentry[512];
+		сим label[512];
+		сим longentry[512];
 
 		while(InProgress()) {
 			обнули(attrs);
@@ -336,7 +334,7 @@ SFtpHandle SFtp::OpenDir(const Ткст& path)
 
 бул SFtp::SymLink(const Ткст& path, Ткст& target, цел тип)
 {
-	Буфер<char> буфер(512, 0);
+	Буфер<сим> буфер(512, 0);
 
 	if(тип == LIBSSH2_SFTP_SYMLINK)
 		return пуск([=, &path, &буфер, &target] () mutable {
@@ -358,7 +356,7 @@ SFtpHandle SFtp::OpenDir(const Ткст& path)
 		});
 	else
 		return пуск([=, &path, &буфер, &target] () mutable {
-			Буфер<char> sbuf(512, 0);
+			Буфер<сим> sbuf(512, 0);
 			цел rc = libssh2_sftp_symlink_ex(
 						*sftp_session,
 						path,
@@ -371,7 +369,7 @@ SFtpHandle SFtp::OpenDir(const Ткст& path)
 				выведиОш(rc);
 			if(rc > 0) {
 				target.уст(буфер, rc);
-				LLOG("Symbolic link operation is successful. Target: " << target);
+				LLOG("Symbolic link operation is successful. Мишень: " << target);
 			}
 			return rc > 0;
 		});
@@ -491,11 +489,11 @@ SFtp::DirEntry SFtp::GetInfo(const Ткст& path)
 			break;
 		case SFTP_ATTR_LAST_MODIFIED:
 			attrs.flags |= LIBSSH2_SFTP_ATTR_ACMODTIME;
-			attrs.mtime = GetUTCSeconds(v);
+			attrs.mtime = дайСекундыУви(v);
 			break;
 		case SFTP_ATTR_LAST_ACCESSED:
 			attrs.flags |= LIBSSH2_SFTP_ATTR_ACMODTIME;
-			attrs.atime = GetUTCSeconds(v);
+			attrs.atime = дайСекундыУви(v);
 			break;
 		default:
 			break;
@@ -623,7 +621,7 @@ SFtp::~SFtp()
 проц SFtp::DirEntry::обнули()
 {
 	a.создай();
-	ДинрусРНЦП::обнули(*a);
+	обнули(*a);
 	valid = false;
 }
 
@@ -683,5 +681,4 @@ SFtp::DirEntry::DirEntry(const Ткст& path, const SFtpAttrs& attrs)
 	if(!browser->MakeDir(path, 0))
 		Ошибка = browser->GetErrorDesc();
 	return !browser->ошибка_ли();
-}
 }

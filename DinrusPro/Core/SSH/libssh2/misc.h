@@ -50,8 +50,8 @@ struct list_node {
 };
 
 struct string_buf {
-    unsigned char *данные;
-    unsigned char *dataptr;
+    ббайт *данные;
+    ббайт *dataptr;
     т_мера len;
 };
 
@@ -78,13 +78,13 @@ struct string_buf {
 проц _libssh2_list_remove(struct list_node *entry);
 
 т_мера _libssh2_base64_encode(LIBSSH2_SESSION *session,
-                              кткст0 inp, т_мера insize, char **outptr);
+                              кткст0 inp, т_мера insize, сим **outptr);
 
-бцел _libssh2_ntohu32(const unsigned char *buf);
-libssh2_uint64_t _libssh2_ntohu64(const unsigned char *buf);
-проц _libssh2_htonu32(unsigned char *buf, uint32_t знач);
-проц _libssh2_store_u32(unsigned char **buf, uint32_t значение);
-проц _libssh2_store_str(unsigned char **buf, кткст0 str, т_мера len);
+бцел _libssh2_ntohu32(const ббайт *buf);
+libssh2_uint64_t _libssh2_ntohu64(const ббайт *buf);
+проц _libssh2_htonu32(ббайт *buf, uint32_t знач);
+проц _libssh2_store_u32(ббайт **buf, uint32_t значение);
+проц _libssh2_store_str(ббайт **buf, кткст0 str, т_мера len);
 ук _libssh2_calloc(LIBSSH2_SESSION *session, т_мера size);
 проц _libssh2_explicit_zero(ук buf, т_мера size);
 
@@ -94,11 +94,11 @@ struct string_buf* _libssh2_string_buf_new(LIBSSH2_SESSION *session);
 цел _libssh2_get_u32(struct string_buf *buf, uint32_t *out);
 цел _libssh2_get_u64(struct string_buf *buf, libssh2_uint64_t *out);
 цел _libssh2_match_string(struct string_buf *buf, кткст0 match);
-цел _libssh2_get_string(struct string_buf *buf, unsigned char **outbuf,
+цел _libssh2_get_string(struct string_buf *buf, ббайт **outbuf,
                         т_мера *outlen);
 цел _libssh2_copy_string(LIBSSH2_SESSION* session, struct string_buf *buf,
-                         unsigned char **outbuf, т_мера *outlen);
-цел _libssh2_get_bignum_bytes(struct string_buf *buf, unsigned char **outbuf,
+                         ббайт **outbuf, т_мера *outlen);
+цел _libssh2_get_bignum_bytes(struct string_buf *buf, ббайт **outbuf,
                               т_мера *outlen);
 цел _libssh2_check_length(struct string_buf *buf, т_мера requested_len);
 
@@ -115,11 +115,11 @@ struct string_buf* _libssh2_string_buf_new(LIBSSH2_SESSION *session);
 #endif
 #endif
 
-проц _libssh2_xor_data(unsigned char *output,
-                       const unsigned char *input1,
-                       const unsigned char *input2,
+проц _libssh2_xor_data(ббайт *output,
+                       const ббайт *input1,
+                       const ббайт *input2,
                        т_мера length);
 
-проц _libssh2_aes_ctr_increment(unsigned char *ctr, т_мера length);
+проц _libssh2_aes_ctr_increment(ббайт *ctr, т_мера length);
 
 #endif /* _LIBSSH2_MISC_H */

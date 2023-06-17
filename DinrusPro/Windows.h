@@ -1,8 +1,7 @@
 #ifndef _DinrusPro_Windows_h_
 #define _DinrusPro_Windows_h_
 
-#ifdef PLATFORM_WIN32
-
+#include <DinrusPro/Windows.h>
 #include <intrin.h>
 
 	#if defined(COMPILER_MSC) && defined(CPU_X86)
@@ -68,9 +67,9 @@
 			#include <wingdi.h>
 			#include <winuser.h>
 			#include <Wincon.h>
-			#include <float.h>
+			#include <плав.h>
 			#include <mmsystem.h>
-		#define ббайт win32_byte_ // RpcNdr defines ббайт -> class with ДинрусРНЦП::ббайт
+		#define ббайт win32_byte_ // RpcNdr defines ббайт -> class with ббайт
 		#define CY win32_CY_
 			#include <objidl.h>
 			#include <winnetwk.h>
@@ -95,10 +94,6 @@
 		#include <process.h>
 	#endif
 
-	#ifdef RGBA
-		#undef RGBA
-	#endif
 #endif
 
-
-#endif
+#define КРИТСЕКЦ RTL_CRITICAL_SECTION

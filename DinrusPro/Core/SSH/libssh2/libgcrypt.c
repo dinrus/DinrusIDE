@@ -44,21 +44,21 @@
 
 цел
 _libssh2_rsa_new(libssh2_rsa_ctx ** rsa,
-                 const unsigned char *edata,
+                 const ббайт *edata,
                  unsigned long elen,
-                 const unsigned char *ndata,
+                 const ббайт *ndata,
                  unsigned long nlen,
-                 const unsigned char *ddata,
+                 const ббайт *ddata,
                  unsigned long dlen,
-                 const unsigned char *pdata,
+                 const ббайт *pdata,
                  unsigned long plen,
-                 const unsigned char *qdata,
+                 const ббайт *qdata,
                  unsigned long qlen,
-                 const unsigned char *e1data,
+                 const ббайт *e1data,
                  unsigned long e1len,
-                 const unsigned char *e2data,
+                 const ббайт *e2data,
                  unsigned long e2len,
-                 const unsigned char *coeffdata, unsigned long coefflen)
+                 const ббайт *coeffdata, unsigned long coefflen)
 {
     цел rc;
     (проц) e1data;
@@ -87,11 +87,11 @@ _libssh2_rsa_new(libssh2_rsa_ctx ** rsa,
 
 цел
 _libssh2_rsa_sha1_verify(libssh2_rsa_ctx * rsa,
-                         const unsigned char *sig,
+                         const ббайт *sig,
                          unsigned long sig_len,
-                         const unsigned char *m, unsigned long m_len)
+                         const ббайт *m, unsigned long m_len)
 {
-    unsigned char hash[SHA_DIGEST_LENGTH];
+    ббайт hash[SHA_DIGEST_LENGTH];
     gcry_sexp_t s_sig, s_hash;
     цел rc = -1;
 
@@ -119,15 +119,15 @@ _libssh2_rsa_sha1_verify(libssh2_rsa_ctx * rsa,
 
 цел
 _libssh2_dsa_new(libssh2_dsa_ctx ** dsactx,
-                 const unsigned char *p,
+                 const ббайт *p,
                  unsigned long p_len,
-                 const unsigned char *q,
+                 const ббайт *q,
                  unsigned long q_len,
-                 const unsigned char *g,
+                 const ббайт *g,
                  unsigned long g_len,
-                 const unsigned char *y,
+                 const ббайт *y,
                  unsigned long y_len,
-                 const unsigned char *x, unsigned long x_len)
+                 const ббайт *x, unsigned long x_len)
 {
     цел rc;
 
@@ -168,10 +168,10 @@ _libssh2_rsa_new_private(libssh2_rsa_ctx ** rsa,
                          кткст0 имяф, unsigned кткст0 passphrase)
 {
     FILE *fp;
-    unsigned char *data, *save_data;
+    ббайт *data, *save_data;
     бцел datalen;
     цел ret;
-    unsigned char *n, *e, *d, *p, *q, *e1, *e2, *coeff;
+    ббайт *n, *e, *d, *p, *q, *e1, *e2, *coeff;
     бцел nlen, elen, dlen, plen, qlen, e1len, e2len, coefflen;
 
     fp = fopen(имяф, FOPEN_READTEXT);
@@ -280,10 +280,10 @@ _libssh2_dsa_new_private(libssh2_dsa_ctx ** dsa,
                          кткст0 имяф, unsigned кткст0 passphrase)
 {
     FILE *fp;
-    unsigned char *data, *save_data;
+    ббайт *data, *save_data;
     бцел datalen;
     цел ret;
-    unsigned char *p, *q, *g, *y, *x;
+    ббайт *p, *q, *g, *y, *x;
     бцел plen, qlen, glen, ylen, xlen;
 
     fp = fopen(имяф, FOPEN_READTEXT);
@@ -365,9 +365,9 @@ _libssh2_dsa_new_private(libssh2_dsa_ctx ** dsa,
 цел
 _libssh2_rsa_sha1_sign(LIBSSH2_SESSION * session,
                        libssh2_rsa_ctx * rsactx,
-                       const unsigned char *hash,
+                       const ббайт *hash,
                        т_мера hash_len,
-                       unsigned char **signature, т_мера *signature_len)
+                       ббайт **signature, т_мера *signature_len)
 {
     gcry_sexp_t sig_sexp;
     gcry_sexp_t data;
@@ -424,10 +424,10 @@ _libssh2_rsa_sha1_sign(LIBSSH2_SESSION * session,
 
 цел
 _libssh2_dsa_sha1_sign(libssh2_dsa_ctx * dsactx,
-                       const unsigned char *hash,
-                       unsigned long hash_len, unsigned char *sig)
+                       const ббайт *hash,
+                       unsigned long hash_len, ббайт *sig)
 {
-    unsigned char zhash[SHA_DIGEST_LENGTH + 1];
+    ббайт zhash[SHA_DIGEST_LENGTH + 1];
     gcry_sexp_t sig_sexp;
     gcry_sexp_t data;
     цел ret;
@@ -514,10 +514,10 @@ _libssh2_dsa_sha1_sign(libssh2_dsa_ctx * dsactx,
 
 цел
 _libssh2_dsa_sha1_verify(libssh2_dsa_ctx * dsactx,
-                         const unsigned char *sig,
-                         const unsigned char *m, unsigned long m_len)
+                         const ббайт *sig,
+                         const ббайт *m, unsigned long m_len)
 {
-    unsigned char hash[SHA_DIGEST_LENGTH + 1];
+    ббайт hash[SHA_DIGEST_LENGTH + 1];
     gcry_sexp_t s_sig, s_hash;
     цел rc = -1;
 
@@ -545,7 +545,7 @@ _libssh2_dsa_sha1_verify(libssh2_dsa_ctx * dsactx,
 цел
 _libssh2_cipher_init(_libssh2_cipher_ctx * h,
                      _libssh2_cipher_type(algo),
-                     unsigned char *iv, unsigned char *secret, цел encrypt)
+                     ббайт *iv, ббайт *secret, цел encrypt)
 {
     цел ret;
     цел cipher = _libssh2_gcry_cipher(algo);
@@ -583,7 +583,7 @@ _libssh2_cipher_init(_libssh2_cipher_ctx * h,
 цел
 _libssh2_cipher_crypt(_libssh2_cipher_ctx * ctx,
                       _libssh2_cipher_type(algo),
-                      цел encrypt, unsigned char *block, т_мера blklen)
+                      цел encrypt, ббайт *block, т_мера blklen)
 {
     цел cipher = _libssh2_gcry_cipher(algo);
     цел ret;
@@ -599,9 +599,9 @@ _libssh2_cipher_crypt(_libssh2_cipher_ctx * ctx,
 
 цел
 _libssh2_pub_priv_keyfilememory(LIBSSH2_SESSION *session,
-                                unsigned char **method,
+                                ббайт **method,
                                 т_мера *method_len,
-                                unsigned char **pubkeydata,
+                                ббайт **pubkeydata,
                                 т_мера *pubkeydata_len,
                                 кткст0 privatekeydata,
                                 т_мера privatekeydata_len,
@@ -615,9 +615,9 @@ _libssh2_pub_priv_keyfilememory(LIBSSH2_SESSION *session,
 
 цел
 _libssh2_pub_priv_keyfile(LIBSSH2_SESSION *session,
-                          unsigned char **method,
+                          ббайт **method,
                           т_мера *method_len,
-                          unsigned char **pubkeydata,
+                          ббайт **pubkeydata,
                           т_мера *pubkeydata_len,
                           кткст0 privatekey,
                           кткст0 passphrase)

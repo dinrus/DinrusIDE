@@ -1,6 +1,4 @@
-#include <DinrusPro/DinrusPro.h>
-
-namespace ДинрусРНЦП {
+#include <DinrusPro/DinrusCore.h>
 
 #define LLOG(x)           // DLOG(x)
 #define LDUMP(x)          // DUMP(x)
@@ -140,7 +138,7 @@ namespace ДинрусРНЦП {
 	return c;
 }
 
-проц БлокПоток::_помести(const ук данные, бцел size) {
+проц БлокПоток::_помести(кук данные, бцел size) {
 	if(ошибка_ли() || !открыт()) return;
 	LLOG("помести " << size);
 	if(!size)
@@ -234,7 +232,7 @@ namespace ДинрусРНЦП {
 	return 0;
 }
 
-проц  БлокПоток::пиши(дол at, const ук данные, бцел size) {
+проц  БлокПоток::пиши(дол at, кук данные, бцел size) {
 	НИКОГДА();
 }
 
@@ -292,7 +290,7 @@ namespace ДинрусРНЦП {
 	return n;
 }
 
-проц ФайлПоток::пиши(дол at, const ук укз, бцел size) {
+проц ФайлПоток::пиши(дол at, кук укз, бцел size) {
 	ПРОВЕРЬ(открыт() && (style & STRM_WRITE));
 	бцел n;
 	устПоз(at);
@@ -403,7 +401,7 @@ namespace ДинрусРНЦП {
 		return;
 	}
 	while(pos > len) {
-		static char буфер[1024];
+		static сим буфер[1024];
 		дол diff = pos - len;
 		цел chunk = (diff > (дол)sizeof(буфер) ? sizeof(буфер) : (цел)diff);
 		if(write(handle, буфер, chunk) != chunk) {
@@ -441,7 +439,7 @@ namespace ДинрусРНЦП {
 	return n;
 }
 
-проц ФайлПоток::пиши(дол at, const ук укз, бцел size) {
+проц ФайлПоток::пиши(дол at, кук укз, бцел size) {
 	ПРОВЕРЬ(открыт() && (style & STRM_WRITE));
 	устПоз(at);
 	if(ошибка_ли()) return;
@@ -521,5 +519,3 @@ namespace ДинрусРНЦП {
 }
 
 #endif
-
-}

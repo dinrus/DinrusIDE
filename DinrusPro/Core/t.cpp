@@ -1,6 +1,4 @@
-#include <DinrusPro/DinrusPro.h>
-
-namespace ДинрусРНЦП {
+#include <DinrusPro/DinrusCore.h>
 
 #define TFILE <RKod/Core.t>
 #include <RKod/t.h>
@@ -151,10 +149,10 @@ static const LngRec *sFindLngRec(кткст0 ид, цел lang)
 }
 
 struct ZoneAlloc {
-	Вектор<char *> zsmall, zbig;
-	char *укз, *lim;
+	Вектор<сим *> zsmall, zbig;
+	сим *укз, *lim;
 
-	char *размести(цел sz);
+	сим *размести(цел sz);
 	проц  очисть();
 
 	ZoneAlloc()  { укз = lim = NULL; }
@@ -172,15 +170,15 @@ struct ZoneAlloc {
 	укз = lim = NULL;
 }
 
-char *ZoneAlloc::размести(цел sz)
+сим *ZoneAlloc::размести(цел sz)
 {
 	if(sz >= 1024)
-		return zbig.добавь() = new char[sz];
+		return zbig.добавь() = new сим[sz];
 	if(укз + sz >= lim) {
-		zsmall.добавь() = укз = new char[4096];
+		zsmall.добавь() = укз = new сим[4096];
 		lim = укз + 4096;
 	}
-	char *s = укз;
+	сим *s = укз;
 	укз += sz;
 	return s;
 }
@@ -199,16 +197,16 @@ static Индекс<цел>& sLangIndex()
 	return m;
 }
 
-static Массив< ВекторМап<const char *, const char *> >& sLangMap()
+static Массив< ВекторМап<кткст0 , кткст0 > >& sLangMap()
 {
-	static Массив< ВекторМап<const char *, const char *> > m;
+	static Массив< ВекторМап<кткст0 , кткст0 > > m;
 	return m;
 }
 
-ВекторМап<const char *, const char *> *sMainCurrentLangMapPtr;
-thread_local ВекторМап<const char *, const char *> *sCurrentLangMapPtr;
+ВекторМап<кткст0 , кткст0 > *sMainCurrentLangMapPtr;
+thread_local ВекторМап<кткст0 , кткст0 > *sCurrentLangMapPtr;
 
-ВекторМап<const char *, const char *>& sCurrentLangMap()
+ВекторМап<кткст0 , кткст0 >& sCurrentLangMap()
 {
 	if(sCurrentLangMapPtr)
 		return *sCurrentLangMapPtr;
@@ -237,7 +235,7 @@ thread_local ВекторМап<Ткст, Ткст> *sCurrentSLangMapPtr;
 
 thread_local цел thread_current_lang;
 
-цел GetCurrentLanguage()
+цел дайТекЯз()
 {
 	return thread_current_lang ? thread_current_lang : main_current_lang;
 }
@@ -259,7 +257,7 @@ thread_local цел thread_current_lang;
 		static цел n = 1;
 		if(ii > n) { // protected against too many язык/charset switches
 			n = 2 * n;
-			Single<ZoneAlloc>().очисть();
+			Сингл<ZoneAlloc>().очисть();
 			for(цел i = 0; i < sLangIndex().дайСчёт(); i++) {
 				sSLangMap()[i].очисть();
 				sLangMap()[i].очисть();
@@ -274,19 +272,19 @@ thread_local цел thread_current_lang;
 
 кткст0 t_GetLngString_(кткст0 ид)
 {
-	ВекторМап<const char *, const char *>& map = sCurrentLangMap();
+	ВекторМап<кткст0 , кткст0 >& map = sCurrentLangMap();
 	цел q = map.найди(ид);
 	if(q >= 0)
 		return map[q];
-	const LngRec *r = sFindLngRec(ид, GetCurrentLanguage());
+	const LngRec *r = sFindLngRec(ид, дайТекЯз());
 	if(r) {
-		цел dch = GetLNGCharset(GetCurrentLanguage());
+		цел dch = GetLNGCharset(дайТекЯз());
 		if(dch == CHARSET_UTF8) {
 			map.добавь(ид, r->text);
 			return r->text;
 		}
 		Ткст text = вНабсим(dch, r->text, CHARSET_UTF8);
-		char *q = Single<ZoneAlloc>().размести(text.дайДлину() + 1);
+		сим *q = Сингл<ZoneAlloc>().размести(text.дайДлину() + 1);
 		strcpy(q, ~text);
 		map.добавь(ид, q);
 		return q;
@@ -306,7 +304,7 @@ thread_local цел thread_current_lang;
 Ткст GetLngString_(цел lang, кткст0 ид)
 {
 	if(!lang)
-		lang = GetCurrentLanguage();
+		lang = дайТекЯз();
 	const LngRec *r = sFindLngRec(ид, lang);
 	if(r) {
 		цел dch = GetLNGCharset(lang);
@@ -331,7 +329,7 @@ thread_local цел thread_current_lang;
 	цел q = map.найди(ид);
 	if(q >= 0)
 		return map[q];
-	Ткст s = GetLngString_(GetCurrentLanguage(), ид);
+	Ткст s = GetLngString_(дайТекЯз(), ид);
 	map.добавь(ид, s);
 	return s;
 }
@@ -403,7 +401,7 @@ thread_local цел thread_current_lang;
 		LngModule& m = ma[i];
 		цел q = m.map.найди(ids);
 		if(q >= 0) {
-			char *t = перманентнаяКопия(text);
+			сим *t = перманентнаяКопия(text);
 			Вектор<LngRec>& r = m.map[q];
 			for(цел i = 0; i < r.дайСчёт(); i++)
 				if(r[i].lang == lang) {
@@ -420,7 +418,7 @@ thread_local цел thread_current_lang;
 		if(ma.дайСчёт() == 0)
 			ma.добавь();
 		LngRec& r = ma.верх().map.добавь(ids).добавь();
-		char *t = перманентнаяКопия(text);
+		сим *t = перманентнаяКопия(text);
 		strcpy(t, text);
 		r.lang = lang;
 		r.text = t;
@@ -450,6 +448,4 @@ thread_local цел thread_current_lang;
 		return false;
 	}
 	return true;
-}
-
 }

@@ -59,12 +59,12 @@ static цел hostkey_method_ssh_rsa_dtor(LIBSSH2_SESSION * session,
  */
 static цел
 hostkey_method_ssh_rsa_init(LIBSSH2_SESSION * session,
-                            const unsigned char *hostkey_data,
+                            const ббайт *hostkey_data,
                             т_мера hostkey_data_len,
                             проц **abstract)
 {
     libssh2_rsa_ctx *rsactx;
-    unsigned char *e, *n;
+    ббайт *e, *n;
     т_мера e_len, n_len;
     struct string_buf buf;
 
@@ -75,11 +75,11 @@ hostkey_method_ssh_rsa_init(LIBSSH2_SESSION * session,
 
     if(hostkey_data_len < 19) {
         _libssh2_debug(session, LIBSSH2_TRACE_ERROR,
-                       "host ключ length too short");
+                       "host ключ length too крат");
         return -1;
     }
 
-    buf.data = (unsigned char *)hostkey_data;
+    buf.data = (ббайт *)hostkey_data;
     buf.dataptr = buf.data;
     buf.len = hostkey_data_len;
 
@@ -170,9 +170,9 @@ hostkey_method_ssh_rsa_initPEMFromMemory(LIBSSH2_SESSION * session,
  */
 static цел
 hostkey_method_ssh_rsa_sig_verify(LIBSSH2_SESSION * session,
-                                  const unsigned char *sig,
+                                  const ббайт *sig,
                                   т_мера sig_len,
-                                  const unsigned char *m,
+                                  const ббайт *m,
                                   т_мера m_len, проц **abstract)
 {
     libssh2_rsa_ctx *rsactx = (libssh2_rsa_ctx *) (*abstract);
@@ -194,7 +194,7 @@ hostkey_method_ssh_rsa_sig_verify(LIBSSH2_SESSION * session,
  */
 static цел
 hostkey_method_ssh_rsa_signv(LIBSSH2_SESSION * session,
-                             unsigned char **signature,
+                             ббайт **signature,
                              т_мера *signature_len,
                              цел veccount,
                              const struct iovec datavec[],
@@ -208,7 +208,7 @@ hostkey_method_ssh_rsa_signv(LIBSSH2_SESSION * session,
 #else
     цел ret;
     цел i;
-    unsigned char hash[SHA_DIGEST_LENGTH];
+    ббайт hash[SHA_DIGEST_LENGTH];
     libssh2_sha1_ctx ctx;
 
     libssh2_sha1_init(&ctx);
@@ -277,12 +277,12 @@ static цел hostkey_method_ssh_dss_dtor(LIBSSH2_SESSION * session,
  */
 static цел
 hostkey_method_ssh_dss_init(LIBSSH2_SESSION * session,
-                            const unsigned char *hostkey_data,
+                            const ббайт *hostkey_data,
                             т_мера hostkey_data_len,
                             проц **abstract)
 {
     libssh2_dsa_ctx *dsactx;
-    unsigned char *p, *q, *g, *y;
+    ббайт *p, *q, *g, *y;
     т_мера p_len, q_len, g_len, y_len;
     struct string_buf buf;
 
@@ -293,11 +293,11 @@ hostkey_method_ssh_dss_init(LIBSSH2_SESSION * session,
 
     if(hostkey_data_len < 27) {
         _libssh2_debug(session, LIBSSH2_TRACE_ERROR,
-                       "host ключ length too short");
+                       "host ключ length too крат");
         return -1;
     }
 
-    buf.data = (unsigned char *)hostkey_data;
+    buf.data = (ббайт *)hostkey_data;
     buf.dataptr = buf.data;
     buf.len = hostkey_data_len;
 
@@ -394,9 +394,9 @@ hostkey_method_ssh_dss_initPEMFromMemory(LIBSSH2_SESSION * session,
  */
 static цел
 hostkey_method_ssh_dss_sig_verify(LIBSSH2_SESSION * session,
-                                  const unsigned char *sig,
+                                  const ббайт *sig,
                                   т_мера sig_len,
-                                  const unsigned char *m,
+                                  const ббайт *m,
                                   т_мера m_len, проц **abstract)
 {
     libssh2_dsa_ctx *dsactx = (libssh2_dsa_ctx *) (*abstract);
@@ -420,14 +420,14 @@ hostkey_method_ssh_dss_sig_verify(LIBSSH2_SESSION * session,
  */
 static цел
 hostkey_method_ssh_dss_signv(LIBSSH2_SESSION * session,
-                             unsigned char **signature,
+                             ббайт **signature,
                              т_мера *signature_len,
                              цел veccount,
                              const struct iovec datavec[],
                              проц **abstract)
 {
     libssh2_dsa_ctx *dsactx = (libssh2_dsa_ctx *) (*abstract);
-    unsigned char hash[SHA_DIGEST_LENGTH];
+    ббайт hash[SHA_DIGEST_LENGTH];
     libssh2_sha1_ctx ctx;
     цел i;
 
@@ -500,12 +500,12 @@ hostkey_method_ssh_ecdsa_dtor(LIBSSH2_SESSION * session,
  */
 static цел
 hostkey_method_ssh_ecdsa_init(LIBSSH2_SESSION * session,
-                          const unsigned char *hostkey_data,
+                          const ббайт *hostkey_data,
                           т_мера hostkey_data_len,
                           проц **abstract)
 {
     libssh2_ecdsa_ctx *ecdsactx = NULL;
-    unsigned char *type_str, *domain, *public_key;
+    ббайт *type_str, *domain, *public_key;
     т_мера key_len, len;
     libssh2_curve_type тип;
     struct string_buf buf;
@@ -517,24 +517,24 @@ hostkey_method_ssh_ecdsa_init(LIBSSH2_SESSION * session,
 
     if(hostkey_data_len < 39) {
         _libssh2_debug(session, LIBSSH2_TRACE_ERROR,
-                       "host ключ length too short");
+                       "host ключ length too крат");
         return -1;
     }
 
-    buf.data = (unsigned char *)hostkey_data;
+    buf.data = (ббайт *)hostkey_data;
     buf.dataptr = buf.data;
     buf.len = hostkey_data_len;
 
     if(_libssh2_get_string(&buf, &type_str, &len) || len != 19)
         return -1;
 
-    if(strncmp((char *) type_str, "ecdsa-sha2-nistp256", 19) == 0) {
+    if(strncmp((сим *) type_str, "ecdsa-sha2-nistp256", 19) == 0) {
         тип = LIBSSH2_EC_CURVE_NISTP256;
     }
-    else if(strncmp((char *) type_str, "ecdsa-sha2-nistp384", 19) == 0) {
+    else if(strncmp((сим *) type_str, "ecdsa-sha2-nistp384", 19) == 0) {
         тип = LIBSSH2_EC_CURVE_NISTP384;
     }
-    else if(strncmp((char *) type_str, "ecdsa-sha2-nistp521", 19) == 0) {
+    else if(strncmp((сим *) type_str, "ecdsa-sha2-nistp521", 19) == 0) {
         тип = LIBSSH2_EC_CURVE_NISTP521;
     }
     else {
@@ -545,15 +545,15 @@ hostkey_method_ssh_ecdsa_init(LIBSSH2_SESSION * session,
         return -1;
 
     if(тип == LIBSSH2_EC_CURVE_NISTP256 &&
-       strncmp((char *)domain, "nistp256", 8) != 0) {
+       strncmp((сим *)domain, "nistp256", 8) != 0) {
         return -1;
     }
     else if(тип == LIBSSH2_EC_CURVE_NISTP384 &&
-            strncmp((char *)domain, "nistp384", 8) != 0) {
+            strncmp((сим *)domain, "nistp384", 8) != 0) {
         return -1;
     }
     else if(тип == LIBSSH2_EC_CURVE_NISTP521 &&
-            strncmp((char *)domain, "nistp521", 8) != 0) {
+            strncmp((сим *)domain, "nistp521", 8) != 0) {
         return -1;
     }
 
@@ -640,12 +640,12 @@ hostkey_method_ssh_ecdsa_initPEMFromMemory(LIBSSH2_SESSION * session,
  */
 static цел
 hostkey_method_ssh_ecdsa_sig_verify(LIBSSH2_SESSION * session,
-                                    const unsigned char *sig,
+                                    const ббайт *sig,
                                     т_мера sig_len,
-                                    const unsigned char *m,
+                                    const ббайт *m,
                                     т_мера m_len, проц **abstract)
 {
-    unsigned char *r, *s, *имя;
+    ббайт *r, *s, *имя;
     т_мера r_len, s_len, name_len;
     uint32_t len;
     struct string_buf buf;
@@ -658,7 +658,7 @@ hostkey_method_ssh_ecdsa_sig_verify(LIBSSH2_SESSION * session,
 
     /* keyname_len(4) + keyname(19){"ecdsa-sha2-nistp256"} +
        signature_len(4) */
-    buf.data = (unsigned char *)sig;
+    buf.data = (ббайт *)sig;
     buf.dataptr = buf.data;
     buf.len = sig_len;
 
@@ -680,7 +680,7 @@ hostkey_method_ssh_ecdsa_sig_verify(LIBSSH2_SESSION * session,
 
 #define LIBSSH2_HOSTKEY_METHOD_EC_SIGNV_HASH(digest_type)               \
     {                                                                   \
-        unsigned char hash[SHA##digest_type##_DIGEST_LENGTH];           \
+        ббайт hash[SHA##digest_type##_DIGEST_LENGTH];           \
         libssh2_sha##digest_type##_ctx ctx;                             \
         цел i;                                                          \
         libssh2_sha##digest_type##_init(&ctx);                          \
@@ -702,7 +702,7 @@ hostkey_method_ssh_ecdsa_sig_verify(LIBSSH2_SESSION * session,
  */
 static цел
 hostkey_method_ssh_ecdsa_signv(LIBSSH2_SESSION * session,
-                               unsigned char **signature,
+                               ббайт **signature,
                                т_мера *signature_len,
                                цел veccount,
                                const struct iovec datavec[],
@@ -801,11 +801,11 @@ static цел hostkey_method_ssh_ed25519_dtor(LIBSSH2_SESSION * session,
  */
 static цел
 hostkey_method_ssh_ed25519_init(LIBSSH2_SESSION * session,
-                                const unsigned char *hostkey_data,
+                                const ббайт *hostkey_data,
                                 т_мера hostkey_data_len,
                                 проц **abstract)
 {
-    const unsigned char *s;
+    const ббайт *s;
     unsigned long len, key_len;
     libssh2_ed25519_ctx *ctx = NULL;
 
@@ -816,7 +816,7 @@ hostkey_method_ssh_ed25519_init(LIBSSH2_SESSION * session,
 
     if(hostkey_data_len < 19) {
         _libssh2_debug(session, LIBSSH2_TRACE_ERROR,
-                       "host ключ length too short");
+                       "host ключ length too крат");
         return -1;
     }
 
@@ -824,7 +824,7 @@ hostkey_method_ssh_ed25519_init(LIBSSH2_SESSION * session,
     len = _libssh2_ntohu32(s);
     s += 4;
 
-    if(len != 11 || strncmp((char *) s, "ssh-ed25519", 11) != 0) {
+    if(len != 11 || strncmp((сим *) s, "ssh-ed25519", 11) != 0) {
         return -1;
     }
 
@@ -914,9 +914,9 @@ hostkey_method_ssh_ed25519_initPEMFromMemory(LIBSSH2_SESSION * session,
  */
 static цел
 hostkey_method_ssh_ed25519_sig_verify(LIBSSH2_SESSION * session,
-                                      const unsigned char *sig,
+                                      const ббайт *sig,
                                       т_мера sig_len,
-                                      const unsigned char *m,
+                                      const ббайт *m,
                                       т_мера m_len, проц **abstract)
 {
     libssh2_ed25519_ctx *ctx = (libssh2_ed25519_ctx *) (*abstract);
@@ -943,7 +943,7 @@ hostkey_method_ssh_ed25519_sig_verify(LIBSSH2_SESSION * session,
  */
 static цел
 hostkey_method_ssh_ed25519_signv(LIBSSH2_SESSION * session,
-                           unsigned char **signature,
+                           ббайт **signature,
                            т_мера *signature_len,
                            цел veccount,
                            const struct iovec datavec[],
@@ -1024,7 +1024,7 @@ libssh2_hostkey_methods(проц)
  * Returns hash signature
  * Returned буфер should NOT be freed
  * длина of буфер is determined by hash тип
- * i.e. MD5 == 16, SHA1 == 20, SHA256 == 32
+ * i.e. мд5 == 16, ша1 == 20, ша256 == 32
  */
 LIBSSH2_API кткст0 
 libssh2_hostkey_hash(LIBSSH2_SESSION * session, цел hash_type)
@@ -1033,18 +1033,18 @@ libssh2_hostkey_hash(LIBSSH2_SESSION * session, цел hash_type)
 #if LIBSSH2_MD5
     case LIBSSH2_HOSTKEY_HASH_MD5:
         return (session->server_hostkey_md5_valid)
-          ? (char *) session->server_hostkey_md5
+          ? (сим *) session->server_hostkey_md5
           : NULL;
         break;
 #endif /* LIBSSH2_MD5 */
     case LIBSSH2_HOSTKEY_HASH_SHA1:
         return (session->server_hostkey_sha1_valid)
-          ? (char *) session->server_hostkey_sha1
+          ? (сим *) session->server_hostkey_sha1
           : NULL;
         break;
     case LIBSSH2_HOSTKEY_HASH_SHA256:
         return (session->server_hostkey_sha256_valid)
-          ? (char *) session->server_hostkey_sha256
+          ? (сим *) session->server_hostkey_sha256
           : NULL;
         break;
     default:
@@ -1052,27 +1052,27 @@ libssh2_hostkey_hash(LIBSSH2_SESSION * session, цел hash_type)
     }
 }
 
-static цел hostkey_type(const unsigned char *hostkey, т_мера len)
+static цел hostkey_type(const ббайт *hostkey, т_мера len)
 {
-    static const unsigned char rsa[] = {
+    static const ббайт rsa[] = {
         0, 0, 0, 0x07, 's', 's', 'h', '-', 'r', 's', 'a'
     };
-    static const unsigned char dss[] = {
+    static const ббайт dss[] = {
         0, 0, 0, 0x07, 's', 's', 'h', '-', 'd', 's', 's'
     };
-    static const unsigned char ecdsa_256[] = {
+    static const ббайт ecdsa_256[] = {
         0, 0, 0, 0x13, 'e', 'c', 'd', 's', 'a', '-', 's', 'h', 'a', '2', '-',
         'n', 'i', 's', 't', 'p', '2', '5', '6'
     };
-    static const unsigned char ecdsa_384[] = {
+    static const ббайт ecdsa_384[] = {
         0, 0, 0, 0x13, 'e', 'c', 'd', 's', 'a', '-', 's', 'h', 'a', '2', '-',
         'n', 'i', 's', 't', 'p', '3', '8', '4'
     };
-    static const unsigned char ecdsa_521[] = {
+    static const ббайт ecdsa_521[] = {
         0, 0, 0, 0x13, 'e', 'c', 'd', 's', 'a', '-', 's', 'h', 'a', '2', '-',
         'n', 'i', 's', 't', 'p', '5', '2', '1'
     };
-    static const unsigned char ed25519[] = {
+    static const ббайт ed25519[] = {
         0, 0, 0, 0x0b, 's', 's', 'h', '-', 'e', 'd', '2', '5', '5', '1', '9'
     };
 
@@ -1121,7 +1121,7 @@ libssh2_session_hostkey(LIBSSH2_SESSION *session, т_мера *len, цел *ти
         if(тип)
             *тип = hostkey_type(session->server_hostkey,
                                  session->server_hostkey_len);
-        return (char *) session->server_hostkey;
+        return (сим *) session->server_hostkey;
     }
     if(len)
         *len = 0;

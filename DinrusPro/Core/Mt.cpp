@@ -1,10 +1,8 @@
-#include <DinrusPro/DinrusPro.h>
+#include <DinrusPro/DinrusCore.h>
 
 #ifdef PLATFORM_OSX
 #include <sys/time.h>
 #endif
-
-namespace ДинрусРНЦП {
 
 #define LLOG(x)  // DLOG(x)
 
@@ -93,7 +91,7 @@ sThreadRoutine(ук арг)
 		паника(e);
 	}
 	catch(sThreadExitExc__) {}
-	catch(ДинрусРНЦП::ИсклВыхода) {}
+	catch(ИсклВыхода) {}
 	if(!p->noshutdown)
 		атомнДек(sThreadCount);
 	delete p;
@@ -759,4 +757,3 @@ BOOL (WINAPI *ПеременнаяУсловия::SleepConditionVariableCS)(PCON
 	return false;
 }
 
-}

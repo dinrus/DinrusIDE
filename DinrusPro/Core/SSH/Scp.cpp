@@ -1,7 +1,5 @@
 #include "SSH.h"
 
-namespace ДинрусРНЦП {
-
 #define LLOG(x)       do { if(SSH::sTrace) RLOG(SSH::дайИмя(ssh->otype, ssh->oid) << x); } while(false)
 #define LDUMPHEX(x)	  do { if(SSH::sTraceVerbose) RDUMPHEX(x); } while(false)
 
@@ -57,7 +55,7 @@ namespace ДинрусРНЦП {
 				done_ += n;
 				s.помести(chunk, n);
 				if((nowait = WhenProgress(done_, size))) {
-					msg = "Файл transfer is aborted.";
+					msg = "Файл transfer is абортed.";
 					break;
 				}
 			}
@@ -83,7 +81,7 @@ namespace ДинрусРНЦП {
 			if(n < l)
 				s.перейди(n);
 			if((nowait = WhenProgress(done_, size))) {
-				msg = "Файл transfer is aborted.";;
+				msg = "Файл transfer is абортed.";;
 				break;
 			}
 		}
@@ -115,5 +113,4 @@ namespace ДинрусРНЦП {
 {
 	ScpAttrs attrs;
 	return OpenRead(path, attrs) && грузи(out, attrs);
-}
 }

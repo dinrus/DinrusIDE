@@ -43,9 +43,9 @@
  * Minimalist MAC: No MAC
  */
 static цел
-mac_none_MAC(LIBSSH2_SESSION * session, unsigned char *buf,
-             uint32_t seqno, const unsigned char *packet,
-             uint32_t packet_len, const unsigned char *addtl,
+mac_none_MAC(LIBSSH2_SESSION * session, ббайт *buf,
+             uint32_t seqno, const ббайт *packet,
+             uint32_t packet_len, const ббайт *addtl,
              uint32_t addtl_len, проц **abstract)
 {
     return 0;
@@ -68,7 +68,7 @@ static LIBSSH2_MAC_METHOD mac_method_none = {
  * Initialize simple mac methods
  */
 static цел
-mac_method_common_init(LIBSSH2_SESSION * session, unsigned char *ключ,
+mac_method_common_init(LIBSSH2_SESSION * session, ббайт *ключ,
                        цел *free_key, проц **abstract)
 {
     *abstract = ключ;
@@ -81,7 +81,7 @@ mac_method_common_init(LIBSSH2_SESSION * session, unsigned char *ключ,
 
 
 /* mac_method_common_dtor
- * Cleanup simple mac methods
+ * зачисть simple mac methods
  */
 static цел
 mac_method_common_dtor(LIBSSH2_SESSION * session, проц **abstract)
@@ -102,14 +102,14 @@ mac_method_common_dtor(LIBSSH2_SESSION * session, проц **abstract)
  */
 static цел
 mac_method_hmac_sha2_512_hash(LIBSSH2_SESSION * session,
-                          unsigned char *buf, uint32_t seqno,
-                          const unsigned char *packet,
+                          ббайт *buf, uint32_t seqno,
+                          const ббайт *packet,
                           uint32_t packet_len,
-                          const unsigned char *addtl,
+                          const ббайт *addtl,
                           uint32_t addtl_len, проц **abstract)
 {
     libssh2_hmac_ctx ctx;
-    unsigned char seqno_buf[4];
+    ббайт seqno_buf[4];
     (проц) session;
 
     _libssh2_htonu32(seqno_buf, seqno);
@@ -147,14 +147,14 @@ static const LIBSSH2_MAC_METHOD mac_method_hmac_sha2_512 = {
  */
 static цел
 mac_method_hmac_sha2_256_hash(LIBSSH2_SESSION * session,
-                          unsigned char *buf, uint32_t seqno,
-                          const unsigned char *packet,
+                          ббайт *buf, uint32_t seqno,
+                          const ббайт *packet,
                           uint32_t packet_len,
-                          const unsigned char *addtl,
+                          const ббайт *addtl,
                           uint32_t addtl_len, проц **abstract)
 {
     libssh2_hmac_ctx ctx;
-    unsigned char seqno_buf[4];
+    ббайт seqno_buf[4];
     (проц) session;
 
     _libssh2_htonu32(seqno_buf, seqno);
@@ -192,14 +192,14 @@ static const LIBSSH2_MAC_METHOD mac_method_hmac_sha2_256 = {
  */
 static цел
 mac_method_hmac_sha1_hash(LIBSSH2_SESSION * session,
-                          unsigned char *buf, uint32_t seqno,
-                          const unsigned char *packet,
+                          ббайт *buf, uint32_t seqno,
+                          const ббайт *packet,
                           uint32_t packet_len,
-                          const unsigned char *addtl,
+                          const ббайт *addtl,
                           uint32_t addtl_len, проц **abstract)
 {
     libssh2_hmac_ctx ctx;
-    unsigned char seqno_buf[4];
+    ббайт seqno_buf[4];
     (проц) session;
 
     _libssh2_htonu32(seqno_buf, seqno);
@@ -233,17 +233,17 @@ static const LIBSSH2_MAC_METHOD mac_method_hmac_sha1 = {
  */
 static цел
 mac_method_hmac_sha1_96_hash(LIBSSH2_SESSION * session,
-                             unsigned char *buf, uint32_t seqno,
-                             const unsigned char *packet,
+                             ббайт *buf, uint32_t seqno,
+                             const ббайт *packet,
                              uint32_t packet_len,
-                             const unsigned char *addtl,
+                             const ббайт *addtl,
                              uint32_t addtl_len, проц **abstract)
 {
-    unsigned char temp[SHA_DIGEST_LENGTH];
+    ббайт temp[SHA_DIGEST_LENGTH];
 
     mac_method_hmac_sha1_hash(session, temp, seqno, packet, packet_len,
                               addtl, addtl_len, abstract);
-    memcpy(buf, (char *) temp, 96 / 8);
+    memcpy(buf, (сим *) temp, 96 / 8);
 
     return 0;
 }
@@ -264,15 +264,15 @@ static const LIBSSH2_MAC_METHOD mac_method_hmac_sha1_96 = {
  * Calculate hash using full md5 значение
  */
 static цел
-mac_method_hmac_md5_hash(LIBSSH2_SESSION * session, unsigned char *buf,
+mac_method_hmac_md5_hash(LIBSSH2_SESSION * session, ббайт *buf,
                          uint32_t seqno,
-                         const unsigned char *packet,
+                         const ббайт *packet,
                          uint32_t packet_len,
-                         const unsigned char *addtl,
+                         const ббайт *addtl,
                          uint32_t addtl_len, проц **abstract)
 {
     libssh2_hmac_ctx ctx;
-    unsigned char seqno_buf[4];
+    ббайт seqno_buf[4];
     (проц) session;
 
     _libssh2_htonu32(seqno_buf, seqno);
@@ -306,16 +306,16 @@ static const LIBSSH2_MAC_METHOD mac_method_hmac_md5 = {
  */
 static цел
 mac_method_hmac_md5_96_hash(LIBSSH2_SESSION * session,
-                            unsigned char *buf, uint32_t seqno,
-                            const unsigned char *packet,
+                            ббайт *buf, uint32_t seqno,
+                            const ббайт *packet,
                             uint32_t packet_len,
-                            const unsigned char *addtl,
+                            const ббайт *addtl,
                             uint32_t addtl_len, проц **abstract)
 {
-    unsigned char temp[MD5_DIGEST_LENGTH];
+    ббайт temp[MD5_DIGEST_LENGTH];
     mac_method_hmac_md5_hash(session, temp, seqno, packet, packet_len,
                              addtl, addtl_len, abstract);
-    memcpy(buf, (char *) temp, 96 / 8);
+    memcpy(buf, (сим *) temp, 96 / 8);
     return 0;
 }
 
@@ -337,15 +337,15 @@ static const LIBSSH2_MAC_METHOD mac_method_hmac_md5_96 = {
  */
 static цел
 mac_method_hmac_ripemd160_hash(LIBSSH2_SESSION * session,
-                               unsigned char *buf, uint32_t seqno,
-                               const unsigned char *packet,
+                               ббайт *buf, uint32_t seqno,
+                               const ббайт *packet,
                                uint32_t packet_len,
-                               const unsigned char *addtl,
+                               const ббайт *addtl,
                                uint32_t addtl_len,
                                проц **abstract)
 {
     libssh2_hmac_ctx ctx;
-    unsigned char seqno_buf[4];
+    ббайт seqno_buf[4];
     (проц) session;
 
     _libssh2_htonu32(seqno_buf, seqno);

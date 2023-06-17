@@ -1,6 +1,4 @@
-#include <DinrusPro/DinrusPro.h>
-
-namespace ДинрусРНЦП {
+#include <DinrusPro/DinrusCore.h>
 
 template<>
 проц вРяр(РярВВ& xml, Ткст& var)
@@ -172,7 +170,7 @@ VALUE_XMLIZE(Дата);
 
 Ткст DoStoreAsXML(Событие<РярВВ> xmlize, кткст0 имя)
 {
-	Ткст n = фильтруй(имя ? имя : "app", CharFilterAlpha);
+	Ткст n = фильтруй(имя ? имя : "app", СимФильтрАльфа);
 	УзелРяр node;
 	xmlize(РярВВ(node(n), false, Значение()));
 	return какРЯР(node);
@@ -227,7 +225,7 @@ static Ткст sXMLFile(кткст0 file)
 	return DoTryLoadFromXML(xmlize, загрузиФайл(sXMLFile(file)));
 }
 
-проц StoreJsonValue(РярВВ& xio, const Значение& v)
+проц StoreДжейсонValue(РярВВ& xio, const Значение& v)
 {
 	if(v.дайТип() == VALUEMAP_V) {
 		МапЗнач m = v;
@@ -235,7 +233,7 @@ static Ткст sXMLFile(кткст0 file)
 		for(цел i = 0; i < m.дайСчёт(); i++) {
 			Значение h = m.дайЗначение(i);
 			РярВВ io = xio.добавь((Ткст)m.дайКлюч(i));
-			StoreJsonValue(io, h);
+			StoreДжейсонValue(io, h);
 		}
 		return;
 	}
@@ -245,7 +243,7 @@ static Ткст sXMLFile(кткст0 file)
 		for(цел i = 0; i < va.дайСчёт(); i++) {
 			РярВВ io = xio.добавь("элт");
 			Значение h = va[i];
-			StoreJsonValue(io, h);
+			StoreДжейсонValue(io, h);
 		}
 	}
 	else
@@ -278,7 +276,7 @@ static Ткст sXMLFile(кткст0 file)
 		НИКОГДА();
 }
 
-Значение LoadJsonValue(const УзелРяр& n)
+Значение LoadДжейсонValue(const УзелРяр& n)
 {
 	Ткст h = n.Атр("значение");
 	if(h.дайСчёт())
@@ -287,10 +285,8 @@ static Ткст sXMLFile(кткст0 file)
 	Ткст text;
 	for(цел i = 0; i < n.дайСчёт(); i++)
 		if(n[i].тэг_ли())
-			m.добавь(n[i].дайТэг(), LoadJsonValue(n[i]));
+			m.добавь(n[i].дайТэг(), LoadДжейсонValue(n[i]));
 		else
 			return n[i].дайТекст();
 	return m;
-}
-
 }

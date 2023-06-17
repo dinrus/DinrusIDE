@@ -1,12 +1,12 @@
-TOPIC("Controls4UDemo_en-us")
-#include "Controls4UDemo_en-us.tppi"
+TOPIC("Controls4UDemo_ru-ru")
+#include "Controls4UDemo_ru-ru.tppi"
 END_TOPIC
 
-TOPIC("Controls4U_en-us")
-#include "Controls4U_en-us.tppi"
+TOPIC("Controls4U_ru-ru")
+#include "Controls4U_ru-ru.tppi"
 END_TOPIC
 
-TOPIC("Credits_en-us")
-#include "Credits_en-us.tppi"
+TOPIC("Credits_ru-ru")
+#include "Credits_ru-ru.tppi"
 END_TOPIC
 

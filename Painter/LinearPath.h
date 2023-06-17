@@ -40,14 +40,14 @@ private:
 	int    linejoin;
 	Rectf  preclip;
 	int    lines;
-	
+
 	void   Finish();
 	void   Round(const Pointf& p, const Pointf& v1, const Pointf& v2, double r);
 	void   Cap(const Pointf& p0, const Pointf& v0, const Pointf& o0,
 	           const Pointf& a0, const Pointf& b0);
 	bool   PreClipped(Pointf p2, Pointf p3);
 
-public:	
+public:
 	void Init(double width, double miterlimit, double tolerance, int linecap, int linejoin, const Rectf& preclip);
 };
 
@@ -94,9 +94,9 @@ private:
 
 		bool operator<(const Cell& b) const { return x < b.x; }
     };
-    
+
     enum { SVO_ALLOC = 15 };
-    
+
 	struct CellArray {
 		int    count;
 		int    alloc;
@@ -104,9 +104,9 @@ private:
 			Cell *ptr;
 			Cell  svo[SVO_ALLOC];
 		};
-		
+
 		Cell *Get()         { return alloc == SVO_ALLOC ? svo : ptr; }
-		
+
 		CellArray()         { count = 0; alloc = SVO_ALLOC; }
 	};
 
@@ -142,7 +142,7 @@ public:
 	};
 
 	void LineRaw(int x1, int y1, int x2, int y2);
-	
+
 	void  SetClip(const Rectf& rect);
 	Rectf GetClip() const                     { return cliprect; }
 
@@ -154,7 +154,7 @@ public:
 	void Reset();
 
 	void Create(int cx, int cy, bool subpixel);
-	
+
 	Rasterizer(int cx, int cy, bool subpixel) { Create(cx, cy, subpixel); }
 	Rasterizer()                              { sz = Size(0, 0); }
 	~Rasterizer()                             { Free(); }
@@ -163,7 +163,7 @@ public:
 class LinearInterpolator {
 	struct Dda2 {
 		int count, lift, rem, mod, p;
-		
+
 		void  Set(int a, int b, int len);
 		int   Get();
 	};
@@ -172,7 +172,7 @@ class LinearInterpolator {
 	Dda2    ddax, dday;
 
 	static int Q8(double x) { return int(256 * x + 0.5); }
-	
+
 public:
 	void   Set(const Xform2D& m)                    { xform = m; }
 

@@ -1,7 +1,6 @@
 description "Преобразователь объектных файлов\3770,128,128";
 
 file
-	main.icpp,
 	objconv.h,
 	lib readonly separator,
 	lib\cmdline.cpp,

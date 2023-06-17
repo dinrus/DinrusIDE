@@ -1,10 +1,8 @@
-#include <DinrusPro/DinrusPro.h>
-
-namespace ДинрусРНЦП {
+#include <DinrusPro/DinrusCore.h>
 
 #define LLOG(x)  // LOG(x)
 
-static inline проц sDeXmlChar(ТкстБуф& result, char chr, ббайт charset, бул escapelf)
+static inline проц sDeXmlChar(ТкстБуф& result, сим chr, ббайт charset, бул escapelf)
 {
 	/**/ if(chr == '<')  result.кат("&lt;");
 	else if(chr == '>')  result.кат("&gt;");
@@ -19,7 +17,7 @@ static inline проц sDeXmlChar(ТкстБуф& result, char chr, ббайт c
 
 Ткст DeXml(кткст0 s, ббайт charset, бул escapelf)
 {
-	if(charset == CHARSET_DEFAULT)
+	if(charset == ДЕФНАБСИМ)
 		charset = дайДефНабСим();
 	ТкстБуф result;
 	for(; *s; s++)
@@ -29,7 +27,7 @@ static inline проц sDeXmlChar(ТкстБуф& result, char chr, ббайт c
 
 Ткст DeXml(кткст0 s, кткст0 end, ббайт charset, бул escapelf)
 {
-	if(charset == CHARSET_DEFAULT)
+	if(charset == ДЕФНАБСИМ)
 		charset = дайДефНабСим();
 	ТкстБуф result;
 	for(; s < end; s++)
@@ -124,7 +122,7 @@ static inline проц sDeXmlChar(ТкстБуф& result, char chr, ббайт c
 		}
 		first = false;
 		wasslash = false;
-		char last = 0;
+		сим last = 0;
 		while(*s && *s != '\n' && *s != '\r') {
 			if(*s == '<')
 				wasslash = s[1] == '/';
@@ -159,7 +157,7 @@ static inline проц sDeXmlChar(ТкстБуф& result, char chr, ббайт c
 
 ТэгРяр& ТэгРяр::operator()(кткст0 attr, кткст0 знач)
 {
-	tag << ' ' << attr << "=\"" << DeXml(знач, CHARSET_DEFAULT, true) << "\"";
+	tag << ' ' << attr << "=\"" << DeXml(знач, ДЕФНАБСИМ, true) << "\"";
 	return *this;
 }
 
@@ -173,7 +171,7 @@ static inline проц sDeXmlChar(ТкстБуф& result, char chr, ббайт c
 	return operator()(attr, какТкст(q));
 }
 
-force_inline
+форс_инлайн
 Ткст ПарсерРяр::Преобр(ТкстБуф& b)
 {
 	if(acharset == scharset)
@@ -232,7 +230,7 @@ inline static бул IsXmlNameChar(цел c)
 			len -= pos;
 			memmove(буфер, term, len);
 			term = begin = буфер;
-			len += in->дай(~буфер + len, CHUNK);
+			len += in->дай(~буфер + len, КУСОК);
 			буфер[len] = '\0';
 		}
 	}
@@ -243,8 +241,8 @@ inline static бул IsXmlNameChar(цел c)
 	begincolumn = дайКолонку();
 	if(!in || in->кф_ли())
 		return false;
-	LLOG("ещё " << (цел)CHUNK);
-	len = in->дай(буфер, CHUNK);
+	LLOG("ещё " << (цел)КУСОК);
+	len = in->дай(буфер, КУСОК);
 	буфер[len] = '\0';
 	term = begin = буфер;
 	return len;
@@ -832,7 +830,7 @@ inline static бул IsXmlNameChar(цел c)
 ПарсерРяр::ПарсерРяр(Поток& in_)
 {
 	иниц();
-	буфер.размести(CHUNK + MCHARS + 1);
+	буфер.размести(КУСОК + MCHARS + 1);
 	begin = term = "";
 	in = &in_;
 	try {
@@ -1190,4 +1188,3 @@ IgnoreXmlPaths::IgnoreXmlPaths(кткст0 s)
 	list = разбей(s, ';');
 }
 
-}

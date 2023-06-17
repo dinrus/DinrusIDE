@@ -1,7 +1,5 @@
 #include "SSH.h"
 
-namespace ДинрусРНЦП {
-	
 #define MLOG(x)  //  LOG(x)
 
 #ifdef КУЧА_РНЦП
@@ -54,4 +52,3 @@ static ук ssh_realloc(ук укз, т_мера size, проц** abstract)
 }
 
 #endif
-}

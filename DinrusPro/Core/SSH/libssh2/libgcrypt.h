@@ -78,7 +78,7 @@
 #define libssh2_sha1_init(ctx) \
   (GPG_ERR_NO_ERROR == gcry_md_open(ctx,  GCRY_MD_SHA1, 0))
 #define libssh2_sha1_update(ctx, данные, len) \
-  gcry_md_write(ctx, (unsigned char *) данные, len)
+  gcry_md_write(ctx, (ббайт *) данные, len)
 #define libssh2_sha1_final(ctx, out) \
   memcpy(out, gcry_md_read(ctx, 0), SHA_DIGEST_LENGTH), gcry_md_close(ctx)
 #define libssh2_sha1(message, len, out) \
@@ -89,7 +89,7 @@
 #define libssh2_sha256_init(ctx) \
   (GPG_ERR_NO_ERROR == gcry_md_open(ctx,  GCRY_MD_SHA256, 0))
 #define libssh2_sha256_update(ctx, данные, len) \
-  gcry_md_write(ctx, (unsigned char *) данные, len)
+  gcry_md_write(ctx, (ббайт *) данные, len)
 #define libssh2_sha256_final(ctx, out) \
   memcpy(out, gcry_md_read(ctx, 0), SHA256_DIGEST_LENGTH), gcry_md_close(ctx)
 #define libssh2_sha256(message, len, out) \
@@ -100,7 +100,7 @@
 #define libssh2_sha384_init(ctx) \
   (GPG_ERR_NO_ERROR == gcry_md_open(ctx,  GCRY_MD_SHA384, 0))
 #define libssh2_sha384_update(ctx, данные, len) \
-  gcry_md_write(ctx, (unsigned char *) данные, len)
+  gcry_md_write(ctx, (ббайт *) данные, len)
 #define libssh2_sha384_final(ctx, out) \
   memcpy(out, gcry_md_read(ctx, 0), SHA384_DIGEST_LENGTH), gcry_md_close(ctx)
 #define libssh2_sha384(message, len, out) \
@@ -111,7 +111,7 @@
 #define libssh2_sha512_init(ctx) \
   (GPG_ERR_NO_ERROR == gcry_md_open(ctx,  GCRY_MD_SHA512, 0))
 #define libssh2_sha512_update(ctx, данные, len) \
-  gcry_md_write(ctx, (unsigned char *) данные, len)
+  gcry_md_write(ctx, (ббайт *) данные, len)
 #define libssh2_sha512_final(ctx, out) \
   memcpy(out, gcry_md_read(ctx, 0), SHA512_DIGEST_LENGTH), gcry_md_close(ctx)
 #define libssh2_sha512(message, len, out) \
@@ -124,7 +124,7 @@
   (GPG_ERR_NO_ERROR == gcry_md_open(ctx,  GCRY_MD_MD5, 0))
 
 #define libssh2_md5_update(ctx, данные, len) \
-  gcry_md_write(ctx, (unsigned char *) данные, len)
+  gcry_md_write(ctx, (ббайт *) данные, len)
 #define libssh2_md5_final(ctx, out) \
   memcpy(out, gcry_md_read(ctx, 0), MD5_DIGEST_LENGTH), gcry_md_close(ctx)
 #define libssh2_md5(message, len, out) \
@@ -148,7 +148,7 @@
   gcry_md_open(ctx, GCRY_MD_SHA512, GCRY_MD_FLAG_HMAC), \
     gcry_md_setkey(*ctx, ключ, keylen)
 #define libssh2_hmac_update(ctx, данные, datalen) \
-  gcry_md_write(ctx, (unsigned char *) данные, datalen)
+  gcry_md_write(ctx, (ббайт *) данные, datalen)
 #define libssh2_hmac_final(ctx, данные) \
   memcpy(данные, gcry_md_read(ctx, 0), \
       gcry_md_get_algo_dlen(gcry_md_get_algo(ctx)))

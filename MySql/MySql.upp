@@ -8,9 +8,9 @@ uses
 	Sql,
 	plugin\z;
 
-library(WIN32) libmysql.lib;
-
 library(OSX) mysqlclient;
+
+link(WIN32) "-lmysqlclient.dll -lmariadb.dll";
 
 pkg_config(LINUX | FREEBSD | OPENBSD) "mysqlclient mariadb";
 

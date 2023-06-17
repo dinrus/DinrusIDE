@@ -70,9 +70,9 @@ private:
 };
 
 #define RTIMING(x) \
-	static РНЦП::ТаймингИнспектор КОМБИНИРУЙ(sTmStat, __LINE__)(x); \
+	static ТаймингИнспектор КОМБИНИРУЙ(sTmStat, __LINE__)(x); \
 	static thread_local цел КОМБИНИРУЙ(sTmStatNesting, __LINE__); \
-	РНЦП::ТаймингИнспектор::Routine КОМБИНИРУЙ(sTmStatR, __LINE__)(КОМБИНИРУЙ(sTmStat, __LINE__), КОМБИНИРУЙ(sTmStatNesting, __LINE__))
+	ТаймингИнспектор::Routine КОМБИНИРУЙ(sTmStatR, __LINE__)(КОМБИНИРУЙ(sTmStat, __LINE__), КОМБИНИРУЙ(sTmStatNesting, __LINE__))
 
 #define RACTIVATE_TIMING()    ТаймингИнспектор::активируй(true);
 #define RDEACTIVATE_TIMING()  ТаймингИнспектор::активируй(false);

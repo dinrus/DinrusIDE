@@ -44,7 +44,7 @@
  * Minimalist cipher: VERY secure *wink*
  */
 static цел
-crypt_none_crypt(LIBSSH2_SESSION * session, unsigned char *buf,
+crypt_none_crypt(LIBSSH2_SESSION * session, ббайт *buf,
                          проц **abstract)
 {
     /* Do nothing to the data! */
@@ -74,8 +74,8 @@ struct crypt_ctx
 static цел
 crypt_init(LIBSSH2_SESSION * session,
            const LIBSSH2_CRYPT_METHOD * method,
-           unsigned char *iv, цел *free_iv,
-           unsigned char *secret, цел *free_secret,
+           ббайт *iv, цел *free_iv,
+           ббайт *secret, цел *free_secret,
            цел encrypt, проц **abstract)
 {
     struct crypt_ctx *ctx = LIBSSH2_ALLOC(session,
@@ -96,7 +96,7 @@ crypt_init(LIBSSH2_SESSION * session,
 }
 
 static цел
-crypt_encrypt(LIBSSH2_SESSION * session, unsigned char *block,
+crypt_encrypt(LIBSSH2_SESSION * session, ббайт *block,
               т_мера blocksize, проц **abstract)
 {
     struct crypt_ctx *cctx = *(struct crypt_ctx **) abstract;
@@ -246,8 +246,8 @@ static const LIBSSH2_CRYPT_METHOD libssh2_crypt_method_arcfour = {
 static цел
 crypt_init_arcfour128(LIBSSH2_SESSION * session,
                       const LIBSSH2_CRYPT_METHOD * method,
-                      unsigned char *iv, цел *free_iv,
-                      unsigned char *secret, цел *free_secret,
+                      ббайт *iv, цел *free_iv,
+                      ббайт *secret, цел *free_secret,
                       цел encrypt, проц **abstract)
 {
     цел rc;
@@ -256,7 +256,7 @@ crypt_init_arcfour128(LIBSSH2_SESSION * session,
                     encrypt, abstract);
     if(rc == 0) {
         struct crypt_ctx *cctx = *(struct crypt_ctx **) abstract;
-        unsigned char block[8];
+        ббайт block[8];
         т_мера discard = 1536;
         for(; discard; discard -= 8)
             _libssh2_cipher_crypt(&cctx->h, cctx->algo, cctx->encrypt, block,

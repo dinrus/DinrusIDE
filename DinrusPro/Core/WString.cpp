@@ -1,6 +1,4 @@
-#include <DinrusPro/DinrusPro.h>
-
-namespace ДинрусРНЦП {
+#include <DinrusPro/DinrusCore.h>
 
 шим *ШТкст0::размести(цел& count)
 {
@@ -214,29 +212,29 @@ namespace ДинрусРНЦП {
 
 ШТкст::ШТкст(кткст0 s) {
 	обнули();
-	*this = вЮникод(s, s ? (цел)strlen(s) : 0, CHARSET_DEFAULT);
+	*this = вЮникод(s, s ? (цел)strlen(s) : 0, ДЕФНАБСИМ);
 }
 
-ШТкст::ШТкст(const char16 *s) {
+ШТкст::ШТкст(const сим16 *s) {
 	обнули();
 	*this = вУтф32(s);
 }
 
 ШТкст::ШТкст(кткст0 s, цел n) {
 	обнули();
-	*this = вЮникод(s, n, CHARSET_DEFAULT);
+	*this = вЮникод(s, n, ДЕФНАБСИМ);
 }
 
 ШТкст::ШТкст(кткст0 s, кткст0 lim) {
 	обнули();
-	*this = вЮникод(s, s ? (цел)(lim - s) : 0, CHARSET_DEFAULT);
+	*this = вЮникод(s, s ? (цел)(lim - s) : 0, ДЕФНАБСИМ);
 }
-
+/*
 Ткст ШТкст::вТкст() const
 {
-	return изЮникода(*this, CHARSET_DEFAULT);
+	return изЮникода(*this, ДЕФНАБСИМ);
 }
-
+*/
 Атомар ШТкст0::voidptr[2];
 
 ШТкст ШТкст::дайПроц()
@@ -255,7 +253,7 @@ static_assert(sizeof(wchar_t) == 4 || sizeof(wchar_t) == 2, "Invalid wchar_t siz
 	if(sizeof(wchar_t) == 4)
 		*this = ШТкст((const шим *)s.c_str(), (цел)s.size());
 	if(sizeof(wchar_t) == 2)
-		*this = вУтф32((char16 *)s.c_str(), (цел)s.size());
+		*this = вУтф32((сим16 *)s.c_str(), (цел)s.size());
 }
 
 std::wstring ШТкст::вСтд() const
@@ -263,7 +261,7 @@ std::wstring ШТкст::вСтд() const
 	if(sizeof(wchar_t) == 4)
 		return std::wstring((const wchar_t *)begin(), дайСчёт());
 	if(sizeof(wchar_t) == 2) {
-		Вектор<char16> h = вУтф16(*this);
+		Вектор<сим16> h = вУтф16(*this);
 		return std::wstring((const wchar_t *)h.begin(), h.дайСчёт());
 	}
 }
@@ -406,4 +404,3 @@ struct WStringICompare__
 #endif
 }
 
-}

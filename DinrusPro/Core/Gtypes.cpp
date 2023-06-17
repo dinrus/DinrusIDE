@@ -1,6 +1,4 @@
-#include <DinrusPro/DinrusPro.h>
-
-namespace ДинрусРНЦП {
+#include <DinrusPro/DinrusCore.h>
 
 //template <>
 //проц Прямоугольник_<дво>::союз(const Прямоугольник_<дво>& r) {
@@ -167,4 +165,3 @@ namespace ДинрусРНЦП {
 	return atan2(p.y, p.x);
 }
 
-}

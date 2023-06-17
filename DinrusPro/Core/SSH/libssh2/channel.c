@@ -130,15 +130,15 @@ _libssh2_channel_open(LIBSSH2_SESSION * session, кткст0 channel_type,
                       uint32_t channel_type_len,
                       uint32_t window_size,
                       uint32_t packet_size,
-                      const unsigned char *message,
+                      const ббайт *message,
                       т_мера message_len)
 {
-    static const unsigned char reply_codes[3] = {
+    static const ббайт reply_codes[3] = {
         SSH_MSG_CHANNEL_OPEN_CONFIRMATION,
         SSH_MSG_CHANNEL_OPEN_FAILURE,
         0
     };
-    unsigned char *s;
+    ббайт *s;
     цел rc;
 
     if(session->open_state == libssh2_NB_state_idle) {
@@ -319,7 +319,7 @@ _libssh2_channel_open(LIBSSH2_SESSION * session, кткст0 channel_type,
         session->open_packet = NULL;
     }
     if(session->open_channel) {
-        unsigned char channel_id[4];
+        ббайт channel_id[4];
         LIBSSH2_FREE(session, session->open_channel->channel_type);
 
         _libssh2_list_remove(&session->open_channel->node);
@@ -366,7 +366,7 @@ libssh2_channel_open_ex(LIBSSH2_SESSION *session, кткст0 тип,
     BLOCK_ADJUST_ERRNO(укз, session,
                        _libssh2_channel_open(session, тип, type_len,
                                              window_size, packet_size,
-                                             (unsigned char *)msg,
+                                             (ббайт *)msg,
                                              msg_len));
     return укз;
 }
@@ -381,7 +381,7 @@ channel_direct_tcpip(LIBSSH2_SESSION * session, кткст0 host,
                      цел port, кткст0 shost, цел sport)
 {
     LIBSSH2_CHANNEL *channel;
-    unsigned char *s;
+    ббайт *s;
 
     if(session->direct_state == libssh2_NB_state_idle) {
         session->direct_host_len = strlen(host);
@@ -461,8 +461,8 @@ static LIBSSH2_LISTENER *
 channel_forward_listen(LIBSSH2_SESSION * session, кткст0 host,
                        цел port, цел *bound_port, цел queue_maxsize)
 {
-    unsigned char *s;
-    static const unsigned char reply_codes[3] =
+    ббайт *s;
+    static const ббайт reply_codes[3] =
         { SSH_MSG_REQUEST_SUCCESS, SSH_MSG_REQUEST_FAILURE, 0 };
     цел rc;
 
@@ -529,7 +529,7 @@ channel_forward_listen(LIBSSH2_SESSION * session, кткст0 host,
     }
 
     if(session->fwdLstn_state == libssh2_NB_state_sent) {
-        unsigned char *data;
+        ббайт *data;
         т_мера data_len;
         rc = _libssh2_packet_requirev(session, reply_codes, &data, &data_len,
                                       0, NULL, 0,
@@ -637,7 +637,7 @@ libssh2_channel_forward_listen_ex(LIBSSH2_SESSION *session, кткст0 host,
 {
     LIBSSH2_SESSION *session = listener->session;
     LIBSSH2_CHANNEL *queued;
-    unsigned char *packet, *s;
+    ббайт *packet, *s;
     т_мера host_len = strlen(listener->host);
     /* 14 = packet_type(1) + request_len(4) + want_replay(1) + host_len(4) +
        port(4) */
@@ -803,8 +803,8 @@ static цел channel_setenv(LIBSSH2_CHANNEL *channel,
                           кткст0 значение, бцел value_len)
 {
     LIBSSH2_SESSION *session = channel->session;
-    unsigned char *s, *data;
-    static const unsigned char reply_codes[3] =
+    ббайт *s, *data;
+    static const ббайт reply_codes[3] =
         { SSH_MSG_CHANNEL_SUCCESS, SSH_MSG_CHANNEL_FAILURE, 0 };
     т_мера data_len;
     цел rc;
@@ -931,8 +931,8 @@ static цел channel_request_pty(LIBSSH2_CHANNEL *channel,
                                цел width_px, цел height_px)
 {
     LIBSSH2_SESSION *session = channel->session;
-    unsigned char *s;
-    static const unsigned char reply_codes[3] =
+    ббайт *s;
+    static const ббайт reply_codes[3] =
         { SSH_MSG_CHANNEL_SUCCESS, SSH_MSG_CHANNEL_FAILURE, 0 };
     цел rc;
 
@@ -959,7 +959,7 @@ static цел channel_request_pty(LIBSSH2_CHANNEL *channel,
 
         *(s++) = SSH_MSG_CHANNEL_REQUEST;
         _libssh2_store_u32(&s, channel->remote.id);
-        _libssh2_store_str(&s, (char *)"pty-req", sizeof("pty-req") - 1);
+        _libssh2_store_str(&s, (сим *)"pty-req", sizeof("pty-req") - 1);
 
         *(s++) = 0x01;
 
@@ -993,9 +993,9 @@ static цел channel_request_pty(LIBSSH2_CHANNEL *channel,
     }
 
     if(channel->reqPTY_state == libssh2_NB_state_sent) {
-        unsigned char *data;
+        ббайт *data;
         т_мера data_len;
-        unsigned char код_;
+        ббайт код_;
         rc = _libssh2_packet_requirev(session, reply_codes, &data, &data_len,
                                       1, channel->reqPTY_local_channel, 4,
                                       &channel->reqPTY_packet_requirev_state);
@@ -1031,8 +1031,8 @@ static цел channel_request_auth_agent(LIBSSH2_CHANNEL *channel,
                                       цел request_str_len)
 {
     LIBSSH2_SESSION *session = channel->session;
-    unsigned char *s;
-    static const unsigned char reply_codes[3] =
+    ббайт *s;
+    static const ббайт reply_codes[3] =
         { SSH_MSG_CHANNEL_SUCCESS, SSH_MSG_CHANNEL_FAILURE, 0 };
     цел rc;
 
@@ -1067,7 +1067,7 @@ static цел channel_request_auth_agent(LIBSSH2_CHANNEL *channel,
         s = channel->req_auth_agent_packet;
         *(s++) = SSH_MSG_CHANNEL_REQUEST;
         _libssh2_store_u32(&s, channel->remote.id);
-        _libssh2_store_str(&s, (char *)request_str, request_str_len);
+        _libssh2_store_str(&s, (сим *)request_str, request_str_len);
         *(s++) = 0x01;
 
         channel->req_auth_agent_state = libssh2_NB_state_created;
@@ -1095,9 +1095,9 @@ static цел channel_request_auth_agent(LIBSSH2_CHANNEL *channel,
     }
 
     if(channel->req_auth_agent_state == libssh2_NB_state_sent) {
-        unsigned char *data;
+        ббайт *data;
         т_мера data_len;
-        unsigned char код_;
+        ббайт код_;
 
         rc = _libssh2_packet_requirev(
             session, reply_codes, &data, &data_len, 1,
@@ -1201,7 +1201,7 @@ channel_request_pty_size(LIBSSH2_CHANNEL * channel, цел width,
                          цел height, цел width_px, цел height_px)
 {
     LIBSSH2_SESSION *session = channel->session;
-    unsigned char *s;
+    ббайт *s;
     цел rc;
     цел retcode = LIBSSH2_ERROR_PROTO;
 
@@ -1221,7 +1221,7 @@ channel_request_pty_size(LIBSSH2_CHANNEL * channel, цел width,
 
         *(s++) = SSH_MSG_CHANNEL_REQUEST;
         _libssh2_store_u32(&s, channel->remote.id);
-        _libssh2_store_str(&s, (char *)"window-change",
+        _libssh2_store_str(&s, (сим *)"window-change",
                            sizeof("window-change") - 1);
         *(s++) = 0x00; /* Don't reply */
         _libssh2_store_u32(&s, width);
@@ -1282,8 +1282,8 @@ channel_x11_req(LIBSSH2_CHANNEL *channel, цел single_connection,
                 цел screen_number)
 {
     LIBSSH2_SESSION *session = channel->session;
-    unsigned char *s;
-    static const unsigned char reply_codes[3] =
+    ббайт *s;
+    static const ббайт reply_codes[3] =
         { SSH_MSG_CHANNEL_SUCCESS, SSH_MSG_CHANNEL_FAILURE, 0 };
     т_мера proto_len =
         auth_proto ? strlen(auth_proto) : (sizeof("MIT-MAGIC-COOKIE-1") - 1);
@@ -1336,11 +1336,11 @@ channel_x11_req(LIBSSH2_CHANNEL *channel, цел single_connection,
                loop will always write 3 bytes so the last one will write
                the trailing zero at the LIBSSH2_X11_RANDOM_COOKIE_LEN/2
                border */
-            unsigned char буфер[(LIBSSH2_X11_RANDOM_COOKIE_LEN / 2) + 1];
+            ббайт буфер[(LIBSSH2_X11_RANDOM_COOKIE_LEN / 2) + 1];
 
             _libssh2_random(буфер, LIBSSH2_X11_RANDOM_COOKIE_LEN / 2);
             for(i = 0; i < (LIBSSH2_X11_RANDOM_COOKIE_LEN / 2); i++) {
-                snprintf((char *)&s[i*2], 3, "%02X", буфер[i]);
+                snprintf((сим *)&s[i*2], 3, "%02X", буфер[i]);
             }
         }
         s += cookie_len;
@@ -1375,8 +1375,8 @@ channel_x11_req(LIBSSH2_CHANNEL *channel, цел single_connection,
 
     if(channel->reqX11_state == libssh2_NB_state_sent) {
         т_мера data_len;
-        unsigned char *data;
-        unsigned char код_;
+        ббайт *data;
+        ббайт код_;
 
         rc = _libssh2_packet_requirev(session, reply_codes, &data, &data_len,
                                       1, channel->reqX11_local_channel, 4,
@@ -1434,8 +1434,8 @@ _libssh2_channel_process_startup(LIBSSH2_CHANNEL *channel,
                                  кткст0 message, т_мера message_len)
 {
     LIBSSH2_SESSION *session = channel->session;
-    unsigned char *s;
-    static const unsigned char reply_codes[3] =
+    ббайт *s;
+    static const ббайт reply_codes[3] =
         { SSH_MSG_CHANNEL_SUCCESS, SSH_MSG_CHANNEL_FAILURE, 0 };
     цел rc;
 
@@ -1481,7 +1481,7 @@ _libssh2_channel_process_startup(LIBSSH2_CHANNEL *channel,
         rc = _libssh2_transport_send(session,
                                      channel->process_packet,
                                      channel->process_packet_len,
-                                     (unsigned char *)message, message_len);
+                                     (ббайт *)message, message_len);
         if(rc == LIBSSH2_ERROR_EAGAIN) {
             _libssh2_error(session, rc,
                            "Would block sending channel request");
@@ -1503,9 +1503,9 @@ _libssh2_channel_process_startup(LIBSSH2_CHANNEL *channel,
     }
 
     if(channel->process_state == libssh2_NB_state_sent) {
-        unsigned char *data;
+        ббайт *data;
         т_мера data_len;
-        unsigned char код_;
+        ббайт код_;
         rc = _libssh2_packet_requirev(session, reply_codes, &data, &data_len,
                                       1, channel->process_local_channel, 4,
                                       &channel->process_packet_requirev_state);
@@ -1582,7 +1582,7 @@ _libssh2_channel_flush(LIBSSH2_CHANNEL *channel, цел streamid)
         channel->flush_flush_bytes = 0;
 
         while(packet) {
-            unsigned char packet_type;
+            ббайт packet_type;
             LIBSSH2_PACKET *next = _libssh2_list_next(&packet->node);
 
             if(packet->data_len < 1) {
@@ -1712,11 +1712,11 @@ libssh2_channel_get_exit_status(LIBSSH2_CHANNEL *channel)
  */
 LIBSSH2_API цел
 libssh2_channel_get_exit_signal(LIBSSH2_CHANNEL *channel,
-                                char **exitsignal,
+                                сим **exitsignal,
                                 т_мера *exitsignal_len,
-                                char **errmsg,
+                                сим **errmsg,
                                 т_мера *errmsg_len,
-                                char **langtag,
+                                сим **langtag,
                                 т_мера *langtag_len)
 {
     т_мера namelen = 0;
@@ -1775,7 +1775,7 @@ libssh2_channel_get_exit_signal(LIBSSH2_CHANNEL *channel,
 цел
 _libssh2_channel_receive_window_adjust(LIBSSH2_CHANNEL * channel,
                                        uint32_t adjustment,
-                                       unsigned char force,
+                                       ббайт force,
                                        бцел *store)
 {
     цел rc;
@@ -1852,7 +1852,7 @@ _libssh2_channel_receive_window_adjust(LIBSSH2_CHANNEL * channel,
 LIBSSH2_API unsigned long
 libssh2_channel_receive_window_adjust(LIBSSH2_CHANNEL *channel,
                                       unsigned long adj,
-                                      unsigned char force)
+                                      ббайт force)
 {
     бцел window;
     цел rc;
@@ -1883,7 +1883,7 @@ libssh2_channel_receive_window_adjust(LIBSSH2_CHANNEL *channel,
 LIBSSH2_API цел
 libssh2_channel_receive_window_adjust2(LIBSSH2_CHANNEL *channel,
                                        unsigned long adj,
-                                       unsigned char force,
+                                       ббайт force,
                                        бцел *window)
 {
     цел rc;
@@ -1905,7 +1905,7 @@ _libssh2_channel_extended_data(LIBSSH2_CHANNEL *channel, цел ignore_mode)
                        "Setting channel %lu/%lu handle_extended_data"
                        " mode to %d",
                        channel->local.id, channel->remote.id, ignore_mode);
-        channel->remote.extended_data_ignore_mode = (char)ignore_mode;
+        channel->remote.extended_data_ignore_mode = (сим)ignore_mode;
 
         channel->extData2_state = libssh2_NB_state_created;
     }
@@ -1974,7 +1974,7 @@ libssh2_channel_handle_extended_data(LIBSSH2_CHANNEL *channel,
  * ФУНКЦИЯ.
  */
 ssize_t _libssh2_channel_read(LIBSSH2_CHANNEL *channel, цел stream_id,
-                              char *buf, т_мера buflen)
+                              сим *buf, т_мера buflen)
 {
     LIBSSH2_SESSION *session = channel->session;
     цел rc;
@@ -2139,7 +2139,7 @@ ssize_t _libssh2_channel_read(LIBSSH2_CHANNEL *channel, цел stream_id,
  * adjust the receive window more to increase transfer performance.
  */
 LIBSSH2_API ssize_t
-libssh2_channel_read_ex(LIBSSH2_CHANNEL *channel, цел stream_id, char *buf,
+libssh2_channel_read_ex(LIBSSH2_CHANNEL *channel, цел stream_id, сим *buf,
                         т_мера buflen)
 {
     цел rc;
@@ -2234,7 +2234,7 @@ _libssh2_channel_packet_data_len(LIBSSH2_CHANNEL * channel, цел stream_id)
  */
 ssize_t
 _libssh2_channel_write(LIBSSH2_CHANNEL *channel, цел stream_id,
-                       const unsigned char *buf, т_мера buflen)
+                       const ббайт *buf, т_мера buflen)
 {
     цел rc = 0;
     LIBSSH2_SESSION *session = channel->session;
@@ -2252,7 +2252,7 @@ _libssh2_channel_write(LIBSSH2_CHANNEL *channel, цел stream_id,
         buflen = 32700;
 
     if(channel->write_state == libssh2_NB_state_idle) {
-        unsigned char *s = channel->write_packet;
+        ббайт *s = channel->write_packet;
 
         _libssh2_debug(channel->session, LIBSSH2_TRACE_CONN,
                        "Writing %d bytes on channel %lu/%lu, stream #%d",
@@ -2355,7 +2355,7 @@ _libssh2_channel_write(LIBSSH2_CHANNEL *channel, цел stream_id,
            We cannot move on to send the next piece of data that may
            already have been provided in this same ФУНКЦИЯ call, as we
            risk getting EAGAIN for that and we can't return information
-           both about sent data as well as EAGAIN. So, by returning short
+           both about sent data as well as EAGAIN. So, by returning крат
            now, the caller will call this ФУНКЦИЯ again with new data to
            send */
 
@@ -2383,7 +2383,7 @@ libssh2_channel_write_ex(LIBSSH2_CHANNEL *channel, цел stream_id,
 
     BLOCK_ADJUST(rc, channel->session,
                  _libssh2_channel_write(channel, stream_id,
-                                        (unsigned char *)buf, buflen));
+                                        (ббайт *)buf, buflen));
     return rc;
 }
 
@@ -2395,7 +2395,7 @@ libssh2_channel_write_ex(LIBSSH2_CHANNEL *channel, цел stream_id,
 static цел channel_send_eof(LIBSSH2_CHANNEL *channel)
 {
     LIBSSH2_SESSION *session = channel->session;
-    unsigned char packet[5];    /* packet_type(1) + channelno(4) */
+    ббайт packet[5];    /* packet_type(1) + channelno(4) */
     цел rc;
 
     _libssh2_debug(session, LIBSSH2_TRACE_CONN,
@@ -2715,8 +2715,8 @@ libssh2_channel_wait_closed(LIBSSH2_CHANNEL *channel)
 цел _libssh2_channel_free(LIBSSH2_CHANNEL *channel)
 {
     LIBSSH2_SESSION *session = channel->session;
-    unsigned char channel_id[4];
-    unsigned char *data;
+    ббайт channel_id[4];
+    ббайт *data;
     т_мера data_len;
     цел rc;
 
@@ -2837,7 +2837,7 @@ libssh2_channel_window_read_ex(LIBSSH2_CHANNEL *channel,
             _libssh2_list_first(&channel->session->packets);
 
         while(packet) {
-            unsigned char packet_type;
+            ббайт packet_type;
                next_packet = _libssh2_list_next(&packet->node);
 
             if(packet->data_len < 1) {

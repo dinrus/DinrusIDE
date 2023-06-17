@@ -41,36 +41,36 @@
 
 цел _libssh2_packet_read(LIBSSH2_SESSION * session);
 
-цел _libssh2_packet_ask(LIBSSH2_SESSION * session, unsigned char packet_type,
-                        unsigned char **данные, т_мера *data_len,
+цел _libssh2_packet_ask(LIBSSH2_SESSION * session, ббайт packet_type,
+                        ббайт **данные, т_мера *data_len,
                         цел match_ofs,
-                        const unsigned char *match_buf,
+                        const ббайт *match_buf,
                         т_мера match_len);
 
 цел _libssh2_packet_askv(LIBSSH2_SESSION * session,
-                         const unsigned char *packet_types,
-                         unsigned char **данные, т_мера *data_len,
+                         const ббайт *packet_types,
+                         ббайт **данные, т_мера *data_len,
                          цел match_ofs,
-                         const unsigned char *match_buf,
+                         const ббайт *match_buf,
                          т_мера match_len);
 цел _libssh2_packet_require(LIBSSH2_SESSION * session,
-                            unsigned char packet_type, unsigned char **данные,
+                            ббайт packet_type, ббайт **данные,
                             т_мера *data_len, цел match_ofs,
-                            const unsigned char *match_buf,
+                            const ббайт *match_buf,
                             т_мера match_len,
                             packet_require_state_t * state);
 цел _libssh2_packet_requirev(LIBSSH2_SESSION *session,
-                             const unsigned char *packet_types,
-                             unsigned char **данные, т_мера *data_len,
+                             const ббайт *packet_types,
+                             ббайт **данные, т_мера *data_len,
                              цел match_ofs,
-                             const unsigned char *match_buf,
+                             const ббайт *match_buf,
                              т_мера match_len,
                              packet_requirev_state_t * state);
 цел _libssh2_packet_burn(LIBSSH2_SESSION * session,
                          libssh2_nonblocking_states * state);
-цел _libssh2_packet_write(LIBSSH2_SESSION * session, unsigned char *данные,
+цел _libssh2_packet_write(LIBSSH2_SESSION * session, ббайт *данные,
                           unsigned long data_len);
-цел _libssh2_packet_add(LIBSSH2_SESSION * session, unsigned char *данные,
+цел _libssh2_packet_add(LIBSSH2_SESSION * session, ббайт *данные,
                         т_мера datalen, цел macstate);
 
 #endif /* __LIBSSH2_PACKET_H */

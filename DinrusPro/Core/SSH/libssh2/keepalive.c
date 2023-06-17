@@ -70,13 +70,13 @@ libssh2_keepalive_send (LIBSSH2_SESSION *session,
     if(session->keepalive_last_sent + session->keepalive_interval <= now) {
         /* фмт is
            "SSH_MSG_GLOBAL_REQUEST || 4-ббайт len || str || want-reply". */
-        unsigned char keepalive_data[]
+        ббайт keepalive_data[]
             = "\x50\x00\x00\x00\x15keepalive@libssh2.orgW";
         т_мера len = sizeof(keepalive_data) - 1;
         цел rc;
 
         keepalive_data[len - 1] =
-            (unsigned char)session->keepalive_want_reply;
+            (ббайт)session->keepalive_want_reply;
 
         rc = _libssh2_transport_send(session, keepalive_data, len, NULL, 0);
         /* Silently ignore PACKET_EAGAIN here: if the write буфер is

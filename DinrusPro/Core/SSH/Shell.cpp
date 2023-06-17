@@ -1,7 +1,5 @@
 #include "SSH.h"
 
-namespace ДинрусРНЦП {
-
 #define LLOG(x)       do { if(SSH::sTrace) RLOG(SSH::дайИмя(ssh->otype, ssh->oid) << x); } while(false)
 #define LDUMPHEX(x)	  do { if(SSH::sTraceVerbose) RDUMPHEX(x); } while(false)
 
@@ -15,7 +13,7 @@ namespace ДинрусРНЦП {
 	return Shut(ошибка_ли() ? GetErrorDesc() : Null);
 }
 
-проц SshShell::ReadWrite(Ткст& in, const ук out, цел out_len)
+проц SshShell::ReadWrite(Ткст& in, кук out, цел out_len)
 {
 	switch(mode) {
 		case GENERIC: {
@@ -157,7 +155,7 @@ namespace ДинрусРНЦП {
 {
 	if(!СобытиеWait(STDIN_FILENO, WAIT_READ, 0))
 		return;
-	Буфер<char> буфер(ssh->chunk_size);
+	Буфер<сим> буфер(ssh->chunk_size);
 	auto n = read(STDIN_FILENO, буфер, т_мера(ssh->chunk_size));
 	if(n > 0)
 		Send(Ткст(буфер, n));
@@ -166,7 +164,7 @@ namespace ДинрусРНЦП {
 		выведиОш(-1, "Couldn't read input from console.");
 }
 
-проц SshShell::консПиши(const ук буфер, цел len)
+проц SshShell::консПиши(кук буфер, цел len)
 {
 	if(!СобытиеWait(STDOUT_FILENO, WAIT_WRITE, 0))
 		return;
@@ -211,14 +209,14 @@ namespace ДинрусРНЦП {
 {
 	DWORD n = 0;
 	const цел RBUFSIZE = 1024 * 16;
-	Буфер<char> буфер(RBUFSIZE);
+	Буфер<сим> буфер(RBUFSIZE);
 	if(!ReadConsole(stdinput, буфер, RBUFSIZE, &n, nullptr))
 		выведиОш(-1, "Couldn't read input from console.");
 	if(n > 0)
 		Send(Ткст(буфер, n));
 }
 
-проц SshShell::консПиши(const ук буфер, цел len)
+проц SshShell::консПиши(кук буфер, цел len)
 {
 	DWORD n = 0;
 	if(!WriteConsole(stdoutput, буфер, len, &n, nullptr))
@@ -300,7 +298,7 @@ namespace ДинрусРНЦП {
 				read(sock, xbuffer, т_мера(xbuflen))
 				);
 			if(rc > 0)
-				libssh2_channel_write(xhandle, (const char*) xbuffer, т_мера(rc));
+				libssh2_channel_write(xhandle, (const сим*) xbuffer, т_мера(rc));
 		}
 		if(libssh2_channel_eof(xhandle) == 1) {
 			LLOG("[X11] EOF received.");
@@ -384,5 +382,4 @@ SshShell::~SshShell()
 {
 	ConsoleRawMode(false);
 
-}
 }

@@ -88,15 +88,15 @@
 #endif
 
 #ifndef BCRYPT_MD5_ALGORITHM
-#define BCRYPT_MD5_ALGORITHM L"MD5"
+#define BCRYPT_MD5_ALGORITHM L"мд5"
 #endif
 
 #ifndef BCRYPT_SHA1_ALGORITHM
-#define BCRYPT_SHA1_ALGORITHM L"SHA1"
+#define BCRYPT_SHA1_ALGORITHM L"ша1"
 #endif
 
 #ifndef BCRYPT_SHA256_ALGORITHM
-#define BCRYPT_SHA256_ALGORITHM L"SHA256"
+#define BCRYPT_SHA256_ALGORITHM L"ша256"
 #endif
 
 #ifndef BCRYPT_SHA384_ALGORITHM
@@ -442,17 +442,17 @@ _libssh2_wincng_safe_free(ук buf, цел len)
     free(buf);
 }
 
-/* Copy a big endian set of bits from src to dest.
- * if the size of src is smaller than dest then pad the "left" (MSB)
+/* Copy a big endian set of bits from src to приёмник.
+ * if the size of src is smaller than приёмник then pad the "left" (MSB)
  * end with zeroes and copy the bits into the "right" (LSB) end. */
 static проц
-memcpy_with_be_padding(unsigned char *dest, unsigned long dest_len,
-                       unsigned char *src, unsigned long src_len)
+memcpy_with_be_padding(ббайт *приёмник, unsigned long dest_len,
+                       ббайт *src, unsigned long src_len)
 {
     if(dest_len > src_len) {
-        memset(dest, 0, dest_len - src_len);
+        memset(приёмник, 0, dest_len - src_len);
     }
-    memcpy((dest + dest_len) - src_len, src, src_len);
+    memcpy((приёмник + dest_len) - src_len, src, src_len);
 }
 
 static цел
@@ -469,15 +469,15 @@ round_down(цел number, цел multiple)
 цел
 _libssh2_wincng_hash_init(_libssh2_wincng_hash_ctx *ctx,
                           BCRYPT_ALG_HANDLE hAlg, unsigned long hashlen,
-                          unsigned char *ключ, unsigned long keylen)
+                          ббайт *ключ, unsigned long keylen)
 {
     BCRYPT_HASH_HANDLE hHash;
-    unsigned char *pbHashObject;
+    ббайт *pbHashObject;
     unsigned long dwHashObject, dwHash, cbData;
     цел ret;
 
     ret = BCryptGetProperty(hAlg, BCRYPT_HASH_LENGTH,
-                            (unsigned char *)&dwHash,
+                            (ббайт *)&dwHash,
                             sizeof(dwHash),
                             &cbData, 0);
     if((!BCRYPT_SUCCESS(ret)) || dwHash != hashlen) {
@@ -485,7 +485,7 @@ _libssh2_wincng_hash_init(_libssh2_wincng_hash_ctx *ctx,
     }
 
     ret = BCryptGetProperty(hAlg, BCRYPT_OBJECT_LENGTH,
-                            (unsigned char *)&dwHashObject,
+                            (ббайт *)&dwHashObject,
                             sizeof(dwHashObject),
                             &cbData, 0);
     if(!BCRYPT_SUCCESS(ret)) {
@@ -517,18 +517,18 @@ _libssh2_wincng_hash_init(_libssh2_wincng_hash_ctx *ctx,
 
 цел
 _libssh2_wincng_hash_update(_libssh2_wincng_hash_ctx *ctx,
-                            const unsigned char *data, unsigned long datalen)
+                            const ббайт *data, unsigned long datalen)
 {
     цел ret;
 
-    ret = BCryptHashData(ctx->hHash, (unsigned char *)data, datalen, 0);
+    ret = BCryptHashData(ctx->hHash, (ббайт *)data, datalen, 0);
 
     return BCRYPT_SUCCESS(ret) ? 0 : -1;
 }
 
 цел
 _libssh2_wincng_hash_final(_libssh2_wincng_hash_ctx *ctx,
-                           unsigned char *hash)
+                           ббайт *hash)
 {
     цел ret;
 
@@ -545,9 +545,9 @@ _libssh2_wincng_hash_final(_libssh2_wincng_hash_ctx *ctx,
 }
 
 цел
-_libssh2_wincng_hash(unsigned char *data, unsigned long datalen,
+_libssh2_wincng_hash(ббайт *data, unsigned long datalen,
                      BCRYPT_ALG_HANDLE hAlg,
-                     unsigned char *hash, unsigned long hashlen)
+                     ббайт *hash, unsigned long hashlen)
 {
     _libssh2_wincng_hash_ctx ctx;
     цел ret;
@@ -569,7 +569,7 @@ _libssh2_wincng_hash(unsigned char *data, unsigned long datalen,
 
 цел
 _libssh2_wincng_hmac_final(_libssh2_wincng_hash_ctx *ctx,
-                           unsigned char *hash)
+                           ббайт *hash)
 {
     цел ret;
 
@@ -597,15 +597,15 @@ _libssh2_wincng_hmac_cleanup(_libssh2_wincng_hash_ctx *ctx)
 
 цел
 _libssh2_wincng_key_sha1_verify(_libssh2_wincng_key_ctx *ctx,
-                                const unsigned char *sig,
+                                const ббайт *sig,
                                 unsigned long sig_len,
-                                const unsigned char *m,
+                                const ббайт *m,
                                 unsigned long m_len,
                                 unsigned long flags)
 {
     BCRYPT_PKCS1_PADDING_INFO paddingInfoPKCS1;
     ук pPaddingInfo;
-    unsigned char *data, *hash;
+    ббайт *data, *hash;
     unsigned long datalen, hashlen;
     цел ret;
 
@@ -667,7 +667,7 @@ _libssh2_wincng_load_pem(LIBSSH2_SESSION *session,
                          кткст0 passphrase,
                          кткст0 headerbegin,
                          кткст0 headerend,
-                         unsigned char **data,
+                         ббайт **data,
                          бцел *datalen)
 {
     FILE *fp;
@@ -691,11 +691,11 @@ static цел
 _libssh2_wincng_load_private(LIBSSH2_SESSION *session,
                              кткст0 имяф,
                              кткст0 passphrase,
-                             unsigned char **ppbEncoded,
+                             ббайт **ppbEncoded,
                              unsigned long *pcbEncoded,
                              цел tryLoadRSA, цел tryLoadDSA)
 {
-    unsigned char *data = NULL;
+    ббайт *data = NULL;
     бцел datalen = 0;
     цел ret = -1;
 
@@ -724,11 +724,11 @@ _libssh2_wincng_load_private_memory(LIBSSH2_SESSION *session,
                                     кткст0 privatekeydata,
                                     т_мера privatekeydata_len,
                                     кткст0 passphrase,
-                                    unsigned char **ppbEncoded,
+                                    ббайт **ppbEncoded,
                                     unsigned long *pcbEncoded,
                                     цел tryLoadRSA, цел tryLoadDSA)
 {
-    unsigned char *data = NULL;
+    ббайт *data = NULL;
     бцел datalen = 0;
     цел ret = -1;
 
@@ -757,13 +757,13 @@ _libssh2_wincng_load_private_memory(LIBSSH2_SESSION *session,
 }
 
 static цел
-_libssh2_wincng_asn_decode(unsigned char *pbEncoded,
+_libssh2_wincng_asn_decode(ббайт *pbEncoded,
                            unsigned long cbEncoded,
                            LPCSTR lpszStructType,
-                           unsigned char **ppbDecoded,
+                           ббайт **ppbDecoded,
                            unsigned long *pcbDecoded)
 {
-    unsigned char *pbDecoded = NULL;
+    ббайт *pbDecoded = NULL;
     unsigned long cbDecoded = 0;
     цел ret;
 
@@ -797,12 +797,12 @@ _libssh2_wincng_asn_decode(unsigned char *pbEncoded,
 }
 
 static цел
-_libssh2_wincng_bn_ltob(unsigned char *pbInput,
+_libssh2_wincng_bn_ltob(ббайт *pbInput,
                         unsigned long cbInput,
-                        unsigned char **ppbOutput,
+                        ббайт **ppbOutput,
                         unsigned long *pcbOutput)
 {
-    unsigned char *pbOutput;
+    ббайт *pbOutput;
     unsigned long cbOutput, index, offset, length;
 
     if(cbInput < 1) {
@@ -817,7 +817,7 @@ _libssh2_wincng_bn_ltob(unsigned char *pbInput,
         cbOutput += offset;
     }
 
-    pbOutput = (unsigned char *)malloc(cbOutput);
+    pbOutput = (ббайт *)malloc(cbOutput);
     if(!pbOutput) {
         return -1;
     }
@@ -836,12 +836,12 @@ _libssh2_wincng_bn_ltob(unsigned char *pbInput,
 }
 
 static цел
-_libssh2_wincng_asn_decode_bn(unsigned char *pbEncoded,
+_libssh2_wincng_asn_decode_bn(ббайт *pbEncoded,
                               unsigned long cbEncoded,
-                              unsigned char **ppbDecoded,
+                              ббайт **ppbDecoded,
                               unsigned long *pcbDecoded)
 {
-    unsigned char *pbDecoded = NULL, *pbInteger;
+    ббайт *pbDecoded = NULL, *pbInteger;
     unsigned long cbDecoded = 0, cbInteger;
     цел ret;
 
@@ -863,14 +863,14 @@ _libssh2_wincng_asn_decode_bn(unsigned char *pbEncoded,
 }
 
 static цел
-_libssh2_wincng_asn_decode_bns(unsigned char *pbEncoded,
+_libssh2_wincng_asn_decode_bns(ббайт *pbEncoded,
                                unsigned long cbEncoded,
-                               unsigned char ***prpbDecoded,
+                               ббайт ***prpbDecoded,
                                unsigned long **prcbDecoded,
                                unsigned long *pcbCount)
 {
     PCRYPT_DER_BLOB pBlob;
-    unsigned char *pbDecoded, **rpbDecoded;
+    ббайт *pbDecoded, **rpbDecoded;
     unsigned long cbDecoded, *rcbDecoded, index, length;
     цел ret;
 
@@ -928,7 +928,7 @@ _libssh2_wincng_asn_decode_bns(unsigned char *pbEncoded,
 #endif /* HAVE_LIBCRYPT32 */
 
 static unsigned long
-_libssh2_wincng_bn_size(const unsigned char *bignum,
+_libssh2_wincng_bn_size(const ббайт *bignum,
                         unsigned long length)
 {
     unsigned long offset;
@@ -955,27 +955,27 @@ _libssh2_wincng_bn_size(const unsigned char *bignum,
 
 цел
 _libssh2_wincng_rsa_new(libssh2_rsa_ctx **rsa,
-                        const unsigned char *edata,
+                        const ббайт *edata,
                         unsigned long elen,
-                        const unsigned char *ndata,
+                        const ббайт *ndata,
                         unsigned long nlen,
-                        const unsigned char *ddata,
+                        const ббайт *ddata,
                         unsigned long dlen,
-                        const unsigned char *pdata,
+                        const ббайт *pdata,
                         unsigned long plen,
-                        const unsigned char *qdata,
+                        const ббайт *qdata,
                         unsigned long qlen,
-                        const unsigned char *e1data,
+                        const ббайт *e1data,
                         unsigned long e1len,
-                        const unsigned char *e2data,
+                        const ббайт *e2data,
                         unsigned long e2len,
-                        const unsigned char *coeffdata,
+                        const ббайт *coeffdata,
                         unsigned long coefflen)
 {
     BCRYPT_KEY_HANDLE hKey;
     BCRYPT_RSAKEY_BLOB *rsakey;
     LPCWSTR lpszBlobType;
-    unsigned char *ключ;
+    ббайт *ключ;
     unsigned long keylen, offset, mlen, p1len = 0, p2len = 0;
     цел ret;
 
@@ -1090,11 +1090,11 @@ _libssh2_wincng_rsa_new(libssh2_rsa_ctx **rsa,
 static цел
 _libssh2_wincng_rsa_new_private_parse(libssh2_rsa_ctx **rsa,
                                       LIBSSH2_SESSION *session,
-                                      unsigned char *pbEncoded,
+                                      ббайт *pbEncoded,
                                       unsigned long cbEncoded)
 {
     BCRYPT_KEY_HANDLE hKey;
-    unsigned char *pbStructInfo;
+    ббайт *pbStructInfo;
     unsigned long cbStructInfo;
     цел ret;
 
@@ -1139,17 +1139,17 @@ _libssh2_wincng_rsa_new_private_parse(libssh2_rsa_ctx **rsa,
 _libssh2_wincng_rsa_new_private(libssh2_rsa_ctx **rsa,
                                 LIBSSH2_SESSION *session,
                                 кткст0 имяф,
-                                const unsigned char *passphrase)
+                                const ббайт *passphrase)
 {
 #ifdef HAVE_LIBCRYPT32
-    unsigned char *pbEncoded;
+    ббайт *pbEncoded;
     unsigned long cbEncoded;
     цел ret;
 
     (проц)session;
 
     ret = _libssh2_wincng_load_private(session, имяф,
-                                       (const char *)passphrase,
+                                       (кткст0 )passphrase,
                                        &pbEncoded, &cbEncoded, 1, 0);
     if(ret) {
         return -1;
@@ -1176,14 +1176,14 @@ _libssh2_wincng_rsa_new_private_frommemory(libssh2_rsa_ctx **rsa,
                                            unsigned кткст0 passphrase)
 {
 #ifdef HAVE_LIBCRYPT32
-    unsigned char *pbEncoded;
+    ббайт *pbEncoded;
     unsigned long cbEncoded;
     цел ret;
 
     (проц)session;
 
     ret = _libssh2_wincng_load_private_memory(session, filedata, filedata_len,
-                                              (const char *)passphrase,
+                                              (кткст0 )passphrase,
                                               &pbEncoded, &cbEncoded, 1, 0);
     if(ret) {
         return -1;
@@ -1205,9 +1205,9 @@ _libssh2_wincng_rsa_new_private_frommemory(libssh2_rsa_ctx **rsa,
 
 цел
 _libssh2_wincng_rsa_sha1_verify(libssh2_rsa_ctx *rsa,
-                                const unsigned char *sig,
+                                const ббайт *sig,
                                 unsigned long sig_len,
-                                const unsigned char *m,
+                                const ббайт *m,
                                 unsigned long m_len)
 {
     return _libssh2_wincng_key_sha1_verify(rsa, sig, sig_len, m, m_len,
@@ -1217,13 +1217,13 @@ _libssh2_wincng_rsa_sha1_verify(libssh2_rsa_ctx *rsa,
 цел
 _libssh2_wincng_rsa_sha1_sign(LIBSSH2_SESSION *session,
                               libssh2_rsa_ctx *rsa,
-                              const unsigned char *hash,
+                              const ббайт *hash,
                               т_мера hash_len,
-                              unsigned char **signature,
+                              ббайт **signature,
                               т_мера *signature_len)
 {
     BCRYPT_PKCS1_PADDING_INFO paddingInfo;
-    unsigned char *data, *sig;
+    ббайт *data, *sig;
     unsigned long cbData, datalen, siglen;
     цел ret;
 
@@ -1286,21 +1286,21 @@ _libssh2_wincng_rsa_free(libssh2_rsa_ctx *rsa)
 #if LIBSSH2_DSA
 цел
 _libssh2_wincng_dsa_new(libssh2_dsa_ctx **dsa,
-                        const unsigned char *pdata,
+                        const ббайт *pdata,
                         unsigned long plen,
-                        const unsigned char *qdata,
+                        const ббайт *qdata,
                         unsigned long qlen,
-                        const unsigned char *gdata,
+                        const ббайт *gdata,
                         unsigned long glen,
-                        const unsigned char *ydata,
+                        const ббайт *ydata,
                         unsigned long ylen,
-                        const unsigned char *xdata,
+                        const ббайт *xdata,
                         unsigned long xlen)
 {
     BCRYPT_KEY_HANDLE hKey;
     BCRYPT_DSA_KEY_BLOB *dsakey;
     LPCWSTR lpszBlobType;
-    unsigned char *ключ;
+    ббайт *ключ;
     unsigned long keylen, offset, length;
     цел ret;
 
@@ -1392,10 +1392,10 @@ _libssh2_wincng_dsa_new(libssh2_dsa_ctx **dsa,
 static цел
 _libssh2_wincng_dsa_new_private_parse(libssh2_dsa_ctx **dsa,
                                       LIBSSH2_SESSION *session,
-                                      unsigned char *pbEncoded,
+                                      ббайт *pbEncoded,
                                       unsigned long cbEncoded)
 {
-    unsigned char **rpbDecoded;
+    ббайт **rpbDecoded;
     unsigned long *rcbDecoded, index, length;
     цел ret;
 
@@ -1440,15 +1440,15 @@ _libssh2_wincng_dsa_new_private_parse(libssh2_dsa_ctx **dsa,
 _libssh2_wincng_dsa_new_private(libssh2_dsa_ctx **dsa,
                                 LIBSSH2_SESSION *session,
                                 кткст0 имяф,
-                                const unsigned char *passphrase)
+                                const ббайт *passphrase)
 {
 #ifdef HAVE_LIBCRYPT32
-    unsigned char *pbEncoded;
+    ббайт *pbEncoded;
     unsigned long cbEncoded;
     цел ret;
 
     ret = _libssh2_wincng_load_private(session, имяф,
-                                       (const char *)passphrase,
+                                       (кткст0 )passphrase,
                                        &pbEncoded, &cbEncoded, 0, 1);
     if(ret) {
         return -1;
@@ -1475,12 +1475,12 @@ _libssh2_wincng_dsa_new_private_frommemory(libssh2_dsa_ctx **dsa,
                                            unsigned кткст0 passphrase)
 {
 #ifdef HAVE_LIBCRYPT32
-    unsigned char *pbEncoded;
+    ббайт *pbEncoded;
     unsigned long cbEncoded;
     цел ret;
 
     ret = _libssh2_wincng_load_private_memory(session, filedata, filedata_len,
-                                              (const char *)passphrase,
+                                              (кткст0 )passphrase,
                                               &pbEncoded, &cbEncoded, 0, 1);
     if(ret) {
         return -1;
@@ -1502,8 +1502,8 @@ _libssh2_wincng_dsa_new_private_frommemory(libssh2_dsa_ctx **dsa,
 
 цел
 _libssh2_wincng_dsa_sha1_verify(libssh2_dsa_ctx *dsa,
-                                const unsigned char *sig_fixed,
-                                const unsigned char *m,
+                                const ббайт *sig_fixed,
+                                const ббайт *m,
                                 unsigned long m_len)
 {
     return _libssh2_wincng_key_sha1_verify(dsa, sig_fixed, 40, m, m_len, 0);
@@ -1511,11 +1511,11 @@ _libssh2_wincng_dsa_sha1_verify(libssh2_dsa_ctx *dsa,
 
 цел
 _libssh2_wincng_dsa_sha1_sign(libssh2_dsa_ctx *dsa,
-                              const unsigned char *hash,
+                              const ббайт *hash,
                               unsigned long hash_len,
-                              unsigned char *sig_fixed)
+                              ббайт *sig_fixed)
 {
-    unsigned char *data, *sig;
+    ббайт *data, *sig;
     unsigned long cbData, datalen, siglen;
     цел ret;
 
@@ -1576,9 +1576,9 @@ _libssh2_wincng_dsa_free(libssh2_dsa_ctx *dsa)
 
 #ifdef HAVE_LIBCRYPT32
 static unsigned long
-_libssh2_wincng_pub_priv_write(unsigned char *ключ,
+_libssh2_wincng_pub_priv_write(ббайт *ключ,
                                unsigned long offset,
-                               const unsigned char *bignum,
+                               const ббайт *bignum,
                                const unsigned long length)
 {
     _libssh2_htonu32(ключ + offset, length);
@@ -1592,16 +1592,16 @@ _libssh2_wincng_pub_priv_write(unsigned char *ключ,
 
 static цел
 _libssh2_wincng_pub_priv_keyfile_parse(LIBSSH2_SESSION *session,
-                                       unsigned char **method,
+                                       ббайт **method,
                                        т_мера *method_len,
-                                       unsigned char **pubkeydata,
+                                       ббайт **pubkeydata,
                                        т_мера *pubkeydata_len,
-                                       unsigned char *pbEncoded,
+                                       ббайт *pbEncoded,
                                        unsigned long cbEncoded)
 {
-    unsigned char **rpbDecoded;
+    ббайт **rpbDecoded;
     unsigned long *rcbDecoded;
-    unsigned char *ключ = NULL, *mth = NULL;
+    ббайт *ключ = NULL, *mth = NULL;
     unsigned long keylen = 0, mthlen = 0;
     unsigned long index, offset, length;
     цел ret;
@@ -1716,15 +1716,15 @@ _libssh2_wincng_pub_priv_keyfile_parse(LIBSSH2_SESSION *session,
 
 цел
 _libssh2_wincng_pub_priv_keyfile(LIBSSH2_SESSION *session,
-                                 unsigned char **method,
+                                 ббайт **method,
                                  т_мера *method_len,
-                                 unsigned char **pubkeydata,
+                                 ббайт **pubkeydata,
                                  т_мера *pubkeydata_len,
                                  кткст0 privatekey,
                                  кткст0 passphrase)
 {
 #ifdef HAVE_LIBCRYPT32
-    unsigned char *pbEncoded;
+    ббайт *pbEncoded;
     unsigned long cbEncoded;
     цел ret;
 
@@ -1753,16 +1753,16 @@ _libssh2_wincng_pub_priv_keyfile(LIBSSH2_SESSION *session,
 
 цел
 _libssh2_wincng_pub_priv_keyfilememory(LIBSSH2_SESSION *session,
-                                       unsigned char **method,
+                                       ббайт **method,
                                        т_мера *method_len,
-                                       unsigned char **pubkeydata,
+                                       ббайт **pubkeydata,
                                        т_мера *pubkeydata_len,
                                        кткст0 privatekeydata,
                                        т_мера privatekeydata_len,
                                        кткст0 passphrase)
 {
 #ifdef HAVE_LIBCRYPT32
-    unsigned char *pbEncoded;
+    ббайт *pbEncoded;
     unsigned long cbEncoded;
     цел ret;
 
@@ -1799,13 +1799,13 @@ _libssh2_wincng_pub_priv_keyfilememory(LIBSSH2_SESSION *session,
 цел
 _libssh2_wincng_cipher_init(_libssh2_cipher_ctx *ctx,
                             _libssh2_cipher_type(тип),
-                            unsigned char *iv,
-                            unsigned char *secret,
+                            ббайт *iv,
+                            ббайт *secret,
                             цел encrypt)
 {
     BCRYPT_KEY_HANDLE hKey;
     BCRYPT_KEY_DATA_BLOB_HEADER *header;
-    unsigned char *pbKeyObject, *pbIV, *ключ, *pbCtr, *pbIVCopy;
+    ббайт *pbKeyObject, *pbIV, *ключ, *pbCtr, *pbIVCopy;
     unsigned long dwKeyObject, dwIV, dwCtrLength, dwBlockLength,
                   cbData, keylen;
     цел ret;
@@ -1813,7 +1813,7 @@ _libssh2_wincng_cipher_init(_libssh2_cipher_ctx *ctx,
     (проц)encrypt;
 
     ret = BCryptGetProperty(*тип.phAlg, BCRYPT_OBJECT_LENGTH,
-                            (unsigned char *)&dwKeyObject,
+                            (ббайт *)&dwKeyObject,
                             sizeof(dwKeyObject),
                             &cbData, 0);
     if(!BCRYPT_SUCCESS(ret)) {
@@ -1821,7 +1821,7 @@ _libssh2_wincng_cipher_init(_libssh2_cipher_ctx *ctx,
     }
 
     ret = BCryptGetProperty(*тип.phAlg, BCRYPT_BLOCK_LENGTH,
-                            (unsigned char *)&dwBlockLength,
+                            (ббайт *)&dwBlockLength,
                             sizeof(dwBlockLength),
                             &cbData, 0);
     if(!BCRYPT_SUCCESS(ret)) {
@@ -1899,10 +1899,10 @@ _libssh2_wincng_cipher_init(_libssh2_cipher_ctx *ctx,
 _libssh2_wincng_cipher_crypt(_libssh2_cipher_ctx *ctx,
                              _libssh2_cipher_type(тип),
                              цел encrypt,
-                             unsigned char *block,
+                             ббайт *block,
                              т_мера blocklen)
 {
-    unsigned char *pbOutput, *pbInput;
+    ббайт *pbOutput, *pbInput;
     unsigned long cbOutput, cbInput;
     цел ret;
 
@@ -1999,7 +1999,7 @@ _libssh2_wincng_bignum_init(проц)
 static цел
 _libssh2_wincng_bignum_resize(_libssh2_bn *bn, unsigned long length)
 {
-    unsigned char *bignum;
+    ббайт *bignum;
 
     if(!bn)
         return -1;
@@ -2026,14 +2026,14 @@ _libssh2_wincng_bignum_resize(_libssh2_bn *bn, unsigned long length)
 static цел
 _libssh2_wincng_bignum_rand(_libssh2_bn *rnd, цел bits, цел top, цел bottom)
 {
-    unsigned char *bignum;
+    ббайт *bignum;
     unsigned long length;
 
     if(!rnd)
         return -1;
 
     length = (unsigned long) (ceil(((дво)bits) / 8.0) *
-                              sizeof(unsigned char));
+                              sizeof(ббайт));
     if(_libssh2_wincng_bignum_resize(rnd, length))
         return -1;
 
@@ -2071,7 +2071,7 @@ _libssh2_wincng_bignum_mod_exp(_libssh2_bn *r,
 {
     BCRYPT_KEY_HANDLE hKey;
     BCRYPT_RSAKEY_BLOB *rsakey;
-    unsigned char *ключ, *bignum;
+    ббайт *ключ, *bignum;
     unsigned long keylen, offset, length;
     цел ret;
 
@@ -2154,7 +2154,7 @@ _libssh2_wincng_bignum_set_word(_libssh2_bn *bn, unsigned long бкрат)
     bits++;
 
     length = (unsigned long) (ceil(((дво)bits) / 8.0) *
-                              sizeof(unsigned char));
+                              sizeof(ббайт));
     if(_libssh2_wincng_bignum_resize(bn, length))
         return -1;
 
@@ -2167,7 +2167,7 @@ _libssh2_wincng_bignum_set_word(_libssh2_bn *bn, unsigned long бкрат)
 unsigned long
 _libssh2_wincng_bignum_bits(const _libssh2_bn *bn)
 {
-    unsigned char number;
+    ббайт number;
     unsigned long offset, length, bits;
 
     if(!bn || !bn->bignum || !bn->length)
@@ -2189,9 +2189,9 @@ _libssh2_wincng_bignum_bits(const _libssh2_bn *bn)
 
 проц
 _libssh2_wincng_bignum_from_bin(_libssh2_bn *bn, unsigned long len,
-                                const unsigned char *bin)
+                                const ббайт *bin)
 {
-    unsigned char *bignum;
+    ббайт *bignum;
     unsigned long offset, length, bits;
 
     if(!bn || !bin || !len)
@@ -2204,7 +2204,7 @@ _libssh2_wincng_bignum_from_bin(_libssh2_bn *bn, unsigned long len,
 
     bits = _libssh2_wincng_bignum_bits(bn);
     length = (unsigned long) (ceil(((дво)bits) / 8.0) *
-                              sizeof(unsigned char));
+                              sizeof(ббайт));
 
     offset = bn->length - length;
     if(offset > 0) {
@@ -2223,7 +2223,7 @@ _libssh2_wincng_bignum_from_bin(_libssh2_bn *bn, unsigned long len,
 }
 
 проц
-_libssh2_wincng_bignum_to_bin(const _libssh2_bn *bn, unsigned char *bin)
+_libssh2_wincng_bignum_to_bin(const _libssh2_bn *bn, ббайт *bin)
 {
     if(bin && bn && bn->bignum && bn->length > 0) {
         memcpy(bin, bn->bignum, bn->length);
@@ -2290,7 +2290,7 @@ _libssh2_dh_key_pair(_libssh2_dh_ctx *dhctx, _libssh2_bn *public,
     while(_libssh2_wincng.hAlgDH && hasAlgDHwithKDF != -1) {
         BCRYPT_DH_PARAMETER_HEADER *dh_params = NULL;
         unsigned long dh_params_len;
-        unsigned char *blob = NULL;
+        ббайт *blob = NULL;
         цел status;
         /* Note that the DH provider requires that keys be multiples of 64 bits
          * in length. по the time of writing a practical observed group_order
@@ -2473,9 +2473,9 @@ _libssh2_dh_secret(_libssh2_dh_ctx *dhctx, _libssh2_bn *secret,
         BCRYPT_KEY_HANDLE peer_public = NULL;
         BCRYPT_SECRET_HANDLE agreement = NULL;
         ULONG secret_len_bytes = 0;
-        unsigned char *blob;
+        ббайт *blob;
         цел status;
-        unsigned char *start, *end;
+        ббайт *start, *end;
         BCRYPT_DH_KEY_BLOB *public_blob = NULL;
         DWORD key_length_bytes = макс(f->length, dhctx->dh_params->cbKeyLength);
         DWORD public_blob_len = sizeof(*public_blob) + 3 * key_length_bytes;
@@ -2484,8 +2484,8 @@ _libssh2_dh_secret(_libssh2_dh_ctx *dhctx, _libssh2_bn *secret,
             /* Populate a BCRYPT_DH_KEY_BLOB; after the header follows the
              * Modulus, Generator and Public data. Those components must have
              * equal size in this representation. */
-            unsigned char *dest;
-            unsigned char *src;
+            ббайт *приёмник;
+            ббайт *src;
 
             blob = malloc(public_blob_len);
             if(!blob) {
@@ -2495,18 +2495,18 @@ _libssh2_dh_secret(_libssh2_dh_ctx *dhctx, _libssh2_bn *secret,
             public_blob->dwMagic = BCRYPT_DH_PUBLIC_MAGIC;
             public_blob->cbKey = key_length_bytes;
 
-            dest = (unsigned char *)(public_blob + 1);
-            src = (unsigned char *)(dhctx->dh_params + 1);
+            приёмник = (ббайт *)(public_blob + 1);
+            src = (ббайт *)(dhctx->dh_params + 1);
 
             /* Modulus (the p-значение from the first call) */
-            memcpy_with_be_padding(dest, key_length_bytes, src,
+            memcpy_with_be_padding(приёмник, key_length_bytes, src,
                                    dhctx->dh_params->cbKeyLength);
             /* Generator (the g-значение from the first call) */
-            memcpy_with_be_padding(dest + key_length_bytes, key_length_bytes,
+            memcpy_with_be_padding(приёмник + key_length_bytes, key_length_bytes,
                                    src + dhctx->dh_params->cbKeyLength,
                                    dhctx->dh_params->cbKeyLength);
             /* Public from the peer */
-            memcpy_with_be_padding(dest + 2*key_length_bytes, key_length_bytes,
+            memcpy_with_be_padding(приёмник + 2*key_length_bytes, key_length_bytes,
                                    f->bignum, f->length);
         }
 
@@ -2561,7 +2561,7 @@ _libssh2_dh_secret(_libssh2_dh_ctx *dhctx, _libssh2_bn *secret,
         start = secret->bignum;
         end = secret->bignum + secret->length - 1;
         while(start < end) {
-            unsigned char tmp = *end;
+            ббайт tmp = *end;
             *end = *start;
             *start = tmp;
             start++;

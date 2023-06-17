@@ -1,21 +1,19 @@
-#include <DinrusPro/DinrusPro.h>
-
-namespace ДинрусРНЦП {
+#include <DinrusPro/DinrusCore.h>
 
 СтатическийСтопор log_mutex;
 
 #ifdef PLATFORM_WINCE
 кткст0 изСисНабСима(const шим *s)
 {
-	static char out[256];
-	изЮникода(out, s, wstrlen(s), CHARSET_DEFAULT);
+	static сим out[256];
+	изЮникода(out, s, wstrlen(s), ДЕФНАБСИМ);
 	return out;
 }
 
 const шим *вСисНабСим(кткст0 s)
 {
 	static шим out[1024];
-	вЮникод(out, s, strlen(s), CHARSET_DEFAULT);
+	вЮникод(out, s, strlen(s), ДЕФНАБСИМ);
 	return out;
 }
 #endif
@@ -32,7 +30,7 @@ struct ВыводЛога {
 	цел   hfile;
 #endif
 
-	char  filepath[512];
+	сим  filepath[512];
 	цел   filesize;
 
 	цел   part;
@@ -70,9 +68,9 @@ struct ВыводЛога {
 	
 	цел rotn = options >> 24;
 	if(rotn) {
-		char next[512];
+		сим next[512];
 		for(цел rot = rotn; rot >= 0; rot--) {
-			char текущ[512];
+			сим текущ[512];
 			if(rot == 0)
 				strcpy(текущ, filepath);
 			else
@@ -114,9 +112,9 @@ struct ВыводЛога {
 #ifdef PLATFORM_WINCE
 	шим exe[512];
 #else
-	char exe[512];
+	сим exe[512];
 #endif
-	char user[500];
+	сим user[500];
 	*user = 0;
 
 #ifdef PLATFORM_WIN32
@@ -132,7 +130,7 @@ struct ВыводЛога {
 	strcpy(user, uenv ? uenv : "boot");
 #endif
 
-	char h[1200];
+	сим h[1200];
 	sprintf(h, "* %s %02d.%02d.%04d %02d:%02d:%02d, user: %s\n",
 	           изСисНабСима(exe),
 	           t.day, t.month, t.year, t.hour, t.minute, t.second, user);
@@ -145,16 +143,16 @@ struct ВыводЛога {
 	}
 	WriteFile(hfile, "\r\n", 2, &n, NULL);
 #else
-	IGNORE_RESULT(
+	ИГНОРРЕЗ(
 		write(hfile, h, strlen(h))
 	);
 	if(part) {
 		sprintf(h, ", #%d", part);
-		IGNORE_RESULT(
+		ИГНОРРЕЗ(
 			write(hfile, h, strlen(h))
 		);
 	}
-	IGNORE_RESULT(
+	ИГНОРРЕЗ(
 		write(hfile, "\r\n", 2)
 	);
 #endif
@@ -179,8 +177,8 @@ struct ВыводЛога {
 	
 	ПРОВЕРЬ(len < 600);
 
-	char h[600];
-	char *p = h;
+	сим h[600];
+	сим *p = h;
 	цел   ll = 0;
 	if(options & LOG_ELAPSED) {
 		цел t = msecs();
@@ -192,14 +190,14 @@ struct ВыводЛога {
 		prev_msecs = t;
 	}
 	if((options & (LOG_TIMESTAMP|LOG_TIMESTAMP_UTC)) && line_begin) {
-		Время t = (options & LOG_TIMESTAMP_UTC) ? GetUtcTime() : дайСисВремя();
+		Время t = (options & LOG_TIMESTAMP_UTC) ? дайВремяУВИ() : дайСисВремя();
 		ll = sprintf(p, "%02d.%02d.%04d %02d:%02d:%02d ",
 		                t.day, t.month, t.year, t.hour, t.minute, t.second);
 		if(ll < 0)
 			return;
 		p += ll;
 	}
-	char *beg = p;
+	сим *beg = p;
 	for(цел q = мин(depth, 99); q--;)
 		*p++ = '\t';
 	line_begin = len && s[len - 1] == '\n';
@@ -231,7 +229,7 @@ struct ВыводЛога {
 #else
 	if(options & LOG_FILE)
 		if(hfile >= 0)
-			IGNORE_RESULT(
+			ИГНОРРЕЗ(
 				write(hfile, h, count)
 			);
 	if(options & LOG_DBG)
@@ -251,7 +249,7 @@ static ВыводЛога sLog = { LOG_FILE, 10 * 1024 * 1024 };
 #endif
 
 struct ЛогПотока {
-	char  буфер[512];
+	сим  буфер[512];
 	цел   len;
 	цел   line_depth;
 	цел   depth;
@@ -266,9 +264,9 @@ static проц sStdLogLine(кткст0 буфер, цел len, цел line_dept
 	sLog.Строка(буфер, len, line_depth);
 }
 
-static проц (*sLogLine)(const char *, цел, цел) = sStdLogLine;
+static проц (*sLogLine)(кткст0 , цел, цел) = sStdLogLine;
 
-LogLineFn SetUppLog(LogLineFn log_line)
+фнСтрокиЛога SetUppLog(фнСтрокиЛога log_line)
 {
 	auto h = sLogLine;
 	sLogLine = log_line;
@@ -296,7 +294,7 @@ LogLineFn SetUppLog(LogLineFn log_line)
 class ЛогПоток : public Поток {
 protected:
 	virtual проц    _помести(цел w);
-	virtual проц    _помести(const ук данные, бцел size);
+	virtual проц    _помести(кук данные, бцел size);
 	virtual дол   дайРазм() const;
 
 public:
@@ -318,7 +316,7 @@ public:
 	sTh.помести(w);
 }
 
-проц  ЛогПоток::_помести(const ук данные, бцел size)
+проц  ЛогПоток::_помести(кук данные, бцел size)
 {
 	const ббайт *q = (ббайт *)данные;
 	while(size--)
@@ -348,7 +346,7 @@ public:
 #endif
 
 #ifdef PLATFORM_WIN32
-static проц sLogFile(char *фн, кткст0 app = ".log")
+static проц sLogFile(сим *фн, кткст0 app = ".log")
 {
 #ifdef PLATFORM_WINCE
 	шим wfn[256];
@@ -357,7 +355,7 @@ static проц sLogFile(char *фн, кткст0 app = ".log")
 #else
 	::GetModuleFileName(NULL, фн, 512);
 #endif
-	char *e = фн + strlen(фн), *s = e;
+	сим *e = фн + strlen(фн), *s = e;
 	while(s > фн && *--s != '\\' && *s != '.')
 		;
 	strcpy(*s == '.' ? s : e, app);
@@ -369,7 +367,7 @@ static проц sLogFile(char *фн, кткст0 app = ".log")
 
 #ifdef PLATFORM_POSIX
 
-static char sLogPath[1024];
+static сим sLogPath[1024];
 
 проц синхЛогПуть__()
 {
@@ -377,7 +375,7 @@ static char sLogPath[1024];
 	strcpy(sLogPath, конфигФайл(дайТитулИсп()));
 }
 
-static проц sLogFile(char *фн, кткст0 app = ".log")
+static проц sLogFile(сим *фн, кткст0 app = ".log")
 {
 	Стопор::Замок __(log_mutex);
 	if(!*sLogPath)
@@ -463,5 +461,3 @@ static Поток *__logstream;
 namespace Ини {
 	INI_BOOL(user_log, false, "Activates logging of user actions");
 };
-
-}

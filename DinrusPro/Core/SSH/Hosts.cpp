@@ -1,7 +1,5 @@
 #include "SSH.h"
 
-namespace ДинрусРНЦП {
-	
 #define LLOG(x)       do { if(SSH::sTrace) RLOG("SshHosts: " << x); } while(false)
 	
 бул SshHosts::добавь(const Ткст& host, цел port, const Info& инфо, const Ткст& comment)
@@ -135,7 +133,7 @@ SshHosts::Info SshHosts::Check(const Ткст& host, цел port)
 бул SshHosts::Ошибка()
 {
 	ПРОВЕРЬ(ssh_session);
-	Буфер<char*> libmsg(256, 0);
+	Буфер<сим*> libmsg(256, 0);
 	цел rc = libssh2_session_last_error(ssh_session, libmsg, nullptr, 0);
 	Ошибка.a = rc;
 	Ошибка.b = Ткст(*libmsg);
@@ -165,5 +163,4 @@ SshHosts::~SshHosts()
 		LIBSSH2_KNOWNHOST_KEY_ECDSA_384,
 		LIBSSH2_KNOWNHOST_KEY_ECDSA_521,
 		LIBSSH2_KNOWNHOST_KEY_ED25519) < 0;
-}
 }

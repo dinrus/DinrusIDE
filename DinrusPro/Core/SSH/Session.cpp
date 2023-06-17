@@ -1,8 +1,6 @@
 #include "SSH.h"
 #include "разместпам.cpp"
 
-namespace ДинрусРНЦП {
-
 #define LLOG(x)       do { if(SSH::sTrace) RLOG(SSH::дайИмя(ssh->otype, ssh->oid) << x); } while(false)
 #define LDUMPHEX(x)   do { if(SSH::sTraceVerbose) RDUMPHEX(x); } while(false)
 
@@ -20,7 +18,7 @@ static проц sKeyboardCallback(кткст0 имя, цел name_len, кткс�
 			Ткст(prompts[i].text, prompts[i].length)
 		);
 #ifdef КУЧА_РНЦП
-		auto *r = (char*) ssh_malloc(response.дайДлину(), abstract);
+		auto *r = (сим*) ssh_malloc(response.дайДлину(), abstract);
 		memcpy(r, response.старт(), response.дайДлину());
 #else
 		auto *r = strdup(~response);
@@ -34,11 +32,11 @@ static проц sKeyboardCallback(кткст0 имя, цел name_len, кткс�
 
 // sChangePasswordCallback: Requests that the client's password be changed.
 
-static проц sChangePasswordCallback(LIBSSH2_SESSION *session, char **pwd, цел *len, проц **abstract)
+static проц sChangePasswordCallback(LIBSSH2_SESSION *session, сим **pwd, цел *len, проц **abstract)
 {
 	Ткст newpwd = reinterpret_cast<SshSession*>(*abstract)->WhenPasswordChange();
 #ifdef КУЧА_РНЦП
-		*pwd = (char*) ssh_malloc(newpwd.дайДлину(), abstract);
+		*pwd = (сим*) ssh_malloc(newpwd.дайДлину(), abstract);
 		memcpy(*pwd, ~newpwd, newpwd.дайДлину());
 #else
 		*pwd = strdup(~newpwd);
@@ -47,7 +45,7 @@ static проц sChangePasswordCallback(LIBSSH2_SESSION *session, char **pwd, ц
 
 // sX11RequestCallback: Dispatches incoming X11 requests.
 
-static проц sX11RequestCallback(LIBSSH2_SESSION *session, LIBSSH2_CHANNEL *channel, char *shost, цел sport, проц **abstract)
+static проц sX11RequestCallback(LIBSSH2_SESSION *session, LIBSSH2_CHANNEL *channel, сим *shost, цел sport, проц **abstract)
 {
 	reinterpret_cast<SshSession*>(*abstract)->WhenX11((SshX11Handle) channel);
 }
@@ -213,15 +211,15 @@ static проц slibssh2DebugCallback(LIBSSH2_SESSION *session, ук context, к
 			switch(session->hashtype) {  // TODO: удали this block along with the deprecated Hashtype()
 			case HASH_MD5:               //       and  GetFingerprint() methods, in the future versions.
 				session->fingerprint = GetMD5Fingerprint();
-				LLOG("MD5 fingerprint of " << host << ": " << гексТкст(session->fingerprint, 1, ':'));
+				LLOG("мд5 fingerprint of " << host << ": " << гексТкст(session->fingerprint, 1, ':'));
 				break;
 			case HASH_SHA1:
 				session->fingerprint = GetSHA1Fingerprint();
-				LLOG("SHA1 fingerprint of " << host << ": " << гексТкст(session->fingerprint, 1, ':'));
+				LLOG("ша1 fingerprint of " << host << ": " << гексТкст(session->fingerprint, 1, ':'));
 				break;
 			case HASH_SHA256:
 				session->fingerprint = GetSHA256Fingerprint();
-				LLOG("SHA256 fingerprint of " << host << ": " << Base64Encode(session->fingerprint));
+				LLOG("ша256 fingerprint of " << host << ": " << Base64Encode(session->fingerprint));
 				break;
 			default:
 				break;
@@ -390,7 +388,7 @@ SshShell SshSession::CreateShell()
 	МапЗнач methods;
 	if(ssh->session) {
 		for(цел i = METHOD_EXCHANGE; i <= METHOD_SLANGUAGE; i++) {
-			const char **p = nullptr;
+			кткст0 *p = nullptr;
 			auto rc = libssh2_session_supported_algs(ssh->session, i, &p);
 			if(rc > 0) {
 				auto& v = methods(i);
@@ -491,5 +489,4 @@ SshSession::SshSession()
 SshSession::~SshSession()
 {
 	выход();
-}
 }

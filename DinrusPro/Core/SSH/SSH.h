@@ -14,8 +14,6 @@
 #include "libssh2/libssh2_sftp.h"
 #include "libssh2/libssh2_publickey.h"
 
-namespace ДинрусРНЦП {
-
 ИНИЦИАЛИЗУЙ(SSH);
 
 using SFtpHandle   = LIBSSH2_SFTP_HANDLE*;
@@ -46,5 +44,5 @@ class SshHosts;
 #include "SFtp.h"
 #include "Channels.h"
 #include "Hosts.h"
-}
+
 #endif

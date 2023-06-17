@@ -1,10 +1,9 @@
-#include <DinrusPro/DinrusPro.h>
+#include <DinrusPro/DinrusCore.h>
 
 #define LTIMING(x)    // RTIMING(x)
 #define LHITCOUNT(x)  // RHITCOUNT(x)
 #define LLOG(x)       //  LOG((проц *)this << ' ' << x)
 
-namespace ДинрусРНЦП {
 
 #ifdef КУЧА_РНЦП
 
@@ -15,14 +14,14 @@ namespace ДинрусРНЦП {
 цел Куча::alloc_lclass[LPAGE + 1]; // allocation size -> lclass, size <= class sz
 
 
-проц Куча::LargeHeapDetail::LinkFree(BlkHeader_<LUNIT> *h)
+проц Куча::ДетальКучиЛардж::линкуйСвод(ЗагБлока_<LUNIT> *h)
 {
 	Dbl_LinkAfter(h, freelist[free_lclass[h->дайРазм()]]);
 }
 
-проц Куча::LИниt()
+проц Куча::иницЛ()
 {
-	ПРОВЕРЬ(__countof(lheap.freelist) == __countof(lclass));
+	ПРОВЕРЬ(__количество(lheap.freelist) == __количество(lclass));
 	ONCELOCK {
 		цел ai = 0;
 		цел fi = 0;
@@ -35,7 +34,7 @@ namespace ДинрусРНЦП {
 			free_lclass[i] = fi;
 		}
 	}
-	for(цел i = 0; i <= __countof(lheap.freelist); i++)
+	for(цел i = 0; i <= __количество(lheap.freelist); i++)
 		Dbl_Self(lheap.freelist[i]);
 	big->линкуйся();
 }
@@ -43,18 +42,18 @@ namespace ДинрусРНЦП {
 ук Куча::TryLAlloc(цел i0, бкрат wcount)
 {
 	LTIMING("TryLAlloc");
-	for(цел i = i0; i < __countof(lheap.freelist); i++) {
-		LBlkHeader *l = lheap.freelist[i];
-		LBlkHeader *h = l->next;
+	for(цел i = i0; i < __количество(lheap.freelist); i++) {
+		ЛЗагБлока *l = lheap.freelist[i];
+		ЛЗагБлока *h = l->next;
 		if(h != l) {
 			ПРОВЕРЬ(h->дайРазм() >= wcount);
 			if(h->дайРазм() == LPAGE && this != &aux) {
 				free_lpages--;
 				ПРОВЕРЬ(free_lpages >= 0);
 			}
-			lheap.MakeAlloc(h, wcount);
+			lheap.сделайРазмест(h, wcount);
 			h->heap = this;
-			return (BlkPrefix *)h + 1;
+			return (ПрефиксБлока *)h + 1;
 		}
 		LHITCOUNT("TryLAlloc 2");
 	}
@@ -79,14 +78,14 @@ namespace ДинрусРНЦП {
 	if(!initialized)
 		иниц();
 
-	if(size > LUNIT * LPAGE - sizeof(BlkPrefix)) { // big block allocation
+	if(size > LUNIT * LPAGE - sizeof(ПрефиксБлока)) { // big block allocation
 		LTIMING("Big alloc");
 		Стопор::Замок __(mutex);
-		т_мера count = (size + sizeof(DLink) + sizeof(BlkPrefix) + 4095) >> 12;
-		DLink *d = (DLink *)HugeAlloc(count);
+		т_мера count = (size + sizeof(DLink) + sizeof(ПрефиксБлока) + 4095) >> 12;
+		DLink *d = (DLink *)разместиХьюдж(count);
 		d->Линк(big);
-		d->size = size = (count << 12) - sizeof(DLink) - sizeof(BlkPrefix);
-		BlkPrefix *h = (BlkPrefix *)(d + 1);
+		d->size = size = (count << 12) - sizeof(DLink) - sizeof(ПрефиксБлока);
+		ПрефиксБлока *h = (ПрефиксБлока *)(d + 1);
 		h->heap = NULL; // mark this as huge block
 		big_size += size;
 		big_count++;
@@ -94,7 +93,7 @@ namespace ДинрусРНЦП {
 		return h + 1;
 	}
 
-	бкрат wcount = бкрат((size + sizeof(BlkPrefix) + LUNIT - 1) >> 8);
+	бкрат wcount = бкрат((size + sizeof(ПрефиксБлока) + LUNIT - 1) >> 8);
 
 #ifdef LSTAT
 	stat[wcount]++;
@@ -102,7 +101,7 @@ namespace ДинрусРНЦП {
 
 	LTIMING("бРазмести");
 
-	size = ((цел)wcount * LUNIT) - sizeof(BlkPrefix);
+	size = ((цел)wcount * LUNIT) - sizeof(ПрефиксБлока);
 	цел i0 = alloc_lclass[wcount];
 
 	if(large_remote_list)  // there might be blocks of this heap freed in other threads
@@ -117,21 +116,21 @@ namespace ДинрусРНЦП {
 	укз = aux.TryLAlloc(i0, wcount);
 	if(укз) { // found in aux, we need to move large page from aux to this heap
 		LLOG("Found in aux");
-		BlkPrefix *h = (BlkPrefix *)укз - 1;
-		while(!h->IsFirst()) // найди the start of large page to get page header
-			h = h->GetPrevHeader(LUNIT);
+		ПрефиксБлока *h = (ПрефиксБлока *)укз - 1;
+		while(!h->первый_ли()) // найди the start of large page to get page header
+			h = h->дайПредшЗаг(LUNIT);
 		MoveLargeTo((DLink *)((ббайт *)h - LOFFSET), this);
 		return укз;
 	}
 
 	LTIMING("Large ещё");
-	DLink *ml = (DLink *)HugeAlloc(((LPAGE + 1) * LUNIT) / 4096);
+	DLink *ml = (DLink *)разместиХьюдж(((LPAGE + 1) * LUNIT) / 4096);
 	ml->Линк(large);
-	LBlkHeader *h = ml->дайПерв();
-	lheap.AddChunk(h, LPAGE);
-	lheap.MakeAlloc(h, wcount);
+	ЛЗагБлока *h = ml->дайПерв();
+	lheap.добавьКусок(h, LPAGE);
+	lheap.сделайРазмест(h, wcount);
 	h->heap = this;
-	return (BlkPrefix *)h + 1;
+	return (ПрефиксБлока *)h + 1;
 }
 
 проц Куча::FreeLargePage(DLink *l)
@@ -139,20 +138,20 @@ namespace ДинрусРНЦП {
 	LLOG("Moving empty large " << (проц *)l << " to global storage, lcount " << lcount);
 	l->отлинкуй();
 	Стопор::Замок __(mutex);
-	HugeFree(l);
+	освободиХьюдж(l);
 }
 
 проц Куча::бОсвободи(ук укз)
 {
-	BlkPrefix *h = (BlkPrefix *)укз - 1;
+	ПрефиксБлока *h = (ПрефиксБлока *)укз - 1;
 
 	if(h->heap == this) {
 		LTIMING("Large освободи");
-		LBlkHeader *fh = lheap.освободи((LBlkHeader *)h);
+		ЛЗагБлока *fh = lheap.освободи((ЛЗагБлока *)h);
 		if(fh->дайРазм() == LPAGE) {
 			if(free_lpages >= max_free_lpages || this == &aux) {
 				LTIMING("FreeLargePage");
-				fh->UnlinkFree();
+				fh->отлинкуйСвоб();
 				FreeLargePage((DLink *)((ббайт *)fh - LOFFSET));
 			}
 			else
@@ -169,20 +168,20 @@ namespace ДинрусРНЦП {
 		big_count--;
 		d->отлинкуй();
 		LLOG("Big free " << (проц *) укз << " size " << h->size);
-		HugeFree(d);
+		освободиХьюдж(d);
 		return;
 	}
 
 	LTIMING("Remote освободи");
 	// this is remote heap
-	FreeLink *f = (FreeLink *)укз;
+	СвобЛинк *f = (СвобЛинк *)укз;
 	f->next = h->heap->large_remote_list;
 	h->heap->large_remote_list = f;
 }
 
-бул   Куча::TryRealloc(ук укз, т_мера& newsize)
+бул   Куча::пробуйПеремест(ук укз, т_мера& newsize)
 {
-	LTIMING("TryRealloc");
+	LTIMING("пробуйПеремест");
 	ПРОВЕРЬ(укз);
 
 #ifdef _ОТЛАДКА
@@ -190,15 +189,15 @@ namespace ДинрусРНЦП {
 		return false;
 #endif
 
-	BlkPrefix *h = (BlkPrefix *)укз - 1;
+	ПрефиксБлока *h = (ПрефиксБлока *)укз - 1;
 
 	if(h->heap == this) {
-		if(newsize > LUNIT * LPAGE - sizeof(BlkPrefix))
+		if(newsize > LUNIT * LPAGE - sizeof(ПрефиксБлока))
 			return false;
-		бкрат wcount = бкрат(((newsize ? newsize : 1) + sizeof(BlkPrefix) + LUNIT - 1) >> 8);
+		бкрат wcount = бкрат(((newsize ? newsize : 1) + sizeof(ПрефиксБлока) + LUNIT - 1) >> 8);
 		т_мера dummy = 0;
-		if(wcount == h->дайРазм() || lheap.TryRealloc(h, wcount, dummy)) {
-			newsize = ((цел)wcount * LUNIT) - sizeof(BlkPrefix);
+		if(wcount == h->дайРазм() || lheap.пробуйПеремест(h, wcount, dummy)) {
+			newsize = ((цел)wcount * LUNIT) - sizeof(ПрефиксБлока);
 			LHITCOUNT("Large realloc true");
 			return true;
 		}
@@ -210,11 +209,11 @@ namespace ДинрусРНЦП {
 
 		DLink *d = (DLink *)h - 1;
 
-		т_мера count = (newsize + sizeof(DLink) + sizeof(BlkPrefix) + 4095) >> 12;
+		т_мера count = (newsize + sizeof(DLink) + sizeof(ПрефиксБлока) + 4095) >> 12;
 
-		if(HugeTryRealloc(d, count)) {
+		if(пробуйПереместХьюдж(d, count)) {
 			big_size -= d->size;
-			d->size = newsize = (count << 12) - sizeof(DLink) - sizeof(BlkPrefix);
+			d->size = newsize = (count << 12) - sizeof(DLink) - sizeof(ПрефиксБлока);
 			big_size += d->size;
 			return true;
 		}
@@ -226,7 +225,7 @@ namespace ДинрусРНЦП {
 }
 
 т_мера Куча::LGetBlockSize(ук укз) {
-	BlkPrefix *h = (BlkPrefix *)укз - 1;
+	ПрефиксБлока *h = (ПрефиксБлока *)укз - 1;
 
 	if(h->heap == NULL) { // huge block
 		Стопор::Замок __(mutex);
@@ -234,9 +233,8 @@ namespace ДинрусРНЦП {
 		return hh->size;
 	}
 
-	return ((цел)h->дайРазм() * LUNIT) - sizeof(BlkPrefix);
+	return ((цел)h->дайРазм() * LUNIT) - sizeof(ПрефиксБлока);
 }
 
 #endif
 
-}

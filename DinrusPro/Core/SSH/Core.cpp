@@ -1,7 +1,5 @@
 #include "SSH.h"
 
-namespace ДинрусРНЦП {
-
 namespace SSH {
 бул sTrace = false;
 цел  sTraceVerbose = 0;
@@ -47,7 +45,7 @@ namespace SSH {
 
 static СтатическийСтопор sLoopLock;
 
-бул Ssh::пуск(Врата<>&& фн, бул abortable)
+бул Ssh::пуск(Врата<>&& фн, бул абортable)
 {
 	auto делай = [=, &фн]()
 	{
@@ -56,7 +54,7 @@ static СтатическийСтопор sLoopLock;
 		if(таймаут_ли())
 			выведиОш(-1, "Таймаут операции.");
 
-		if(abortable && ssh->status == ABORTED)
+		if(абортable && ssh->status == ABORTED)
 			выведиОш(-1, "Операция прервана.");
 	
 		if(ssh->socket && ssh->socket->ошибка_ли())
@@ -104,7 +102,7 @@ static СтатическийСтопор sLoopLock;
 проц Ssh::выведиОш(цел rc, const Ткст& reason)
 {
 	if(пусто_ли(reason) && ssh && ssh->session) {
-		Буфер<char*> libmsg(256, 0);
+		Буфер<сим*> libmsg(256, 0);
 		rc = libssh2_session_last_error(ssh->session, libmsg, nullptr, 0);
 		throw Ошибка(rc, *libmsg);
 	}
@@ -154,5 +152,4 @@ Ssh::~Ssh()
 }
 ЭКЗИТБЛОК {
 	libssh2_exit();
-}
 }

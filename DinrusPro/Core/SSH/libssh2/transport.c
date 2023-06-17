@@ -58,12 +58,12 @@
 #define UNPRINTABLE_CHAR '.'
 static проц
 debugdump(LIBSSH2_SESSION * session,
-          кткст0 desc, const unsigned char *укз, т_мера size)
+          кткст0 desc, const ббайт *укз, т_мера size)
 {
     т_мера i;
     т_мера c;
     бцел width = 0x10;
-    char буфер[256];  /* Must be enough for width*4 + about 30 or so */
+    сим буфер[256];  /* Must be enough for width*4 + about 30 or so */
     т_мера used;
     static кткст0 hex_chars = "0123456789ABCDEF";
 
@@ -122,14 +122,14 @@ debugdump(LIBSSH2_SESSION * session,
 #endif
 
 
-/* decrypt() decrypts 'len' bytes from 'source' to 'dest'.
+/* decrypt() decrypts 'len' bytes from 'source' to 'приёмник'.
  *
  * returns 0 on success and negative on failure
  */
 
 static цел
-decrypt(LIBSSH2_SESSION * session, unsigned char *source,
-        unsigned char *dest, цел len)
+decrypt(LIBSSH2_SESSION * session, ббайт *source,
+        ббайт *приёмник, цел len)
 {
     struct transportpacket *p = &session->packet;
     цел blocksize = session->remote.crypt->blocksize;
@@ -148,10 +148,10 @@ decrypt(LIBSSH2_SESSION * session, unsigned char *source,
         /* if the crypt() ФУНКЦИЯ would write to a given address it
            wouldn't have to memcpy() and we could avoid this memcpy()
            too */
-        memcpy(dest, source, blocksize);
+        memcpy(приёмник, source, blocksize);
 
         len -= blocksize;       /* less bytes left */
-        dest += blocksize;      /* advance write pointer */
+        приёмник += blocksize;      /* advance write pointer */
         source += blocksize;    /* advance read pointer */
     }
     return LIBSSH2_ERROR_NONE;         /* all is fine */
@@ -164,7 +164,7 @@ decrypt(LIBSSH2_SESSION * session, unsigned char *source,
 static цел
 fullpacket(LIBSSH2_SESSION * session, цел encrypted /* 1 or 0 */ )
 {
-    unsigned char macbuf[MAX_MACSIZE];
+    ббайт macbuf[MAX_MACSIZE];
     struct transportpacket *p = &session->packet;
     цел rc;
     цел compressed;
@@ -213,7 +213,7 @@ fullpacket(LIBSSH2_SESSION * session, цел encrypted /* 1 or 0 */ )
              * cannot decompress.
              */
 
-            unsigned char *data;
+            ббайт *data;
             т_мера data_len;
             rc = session->remote.comp->decomp(session,
                                               &data, &data_len,
@@ -278,7 +278,7 @@ fullpacket(LIBSSH2_SESSION * session, цел encrypted /* 1 or 0 */ )
     цел remainpack;
     цел numbytes;
     цел numdecrypt;
-    unsigned char block[MAX_BLOCKSIZE];
+    ббайт block[MAX_BLOCKSIZE];
     цел blocksize;
     цел encrypted = 1;
 
@@ -618,7 +618,7 @@ fullpacket(LIBSSH2_SESSION * session, цел encrypted /* 1 or 0 */ )
 }
 
 static цел
-send_existing(LIBSSH2_SESSION *session, const unsigned char *data,
+send_existing(LIBSSH2_SESSION *session, const ббайт *data,
               т_мера data_len, ssize_t *ret)
 {
     ssize_t rc;
@@ -702,8 +702,8 @@ send_existing(LIBSSH2_SESSION *session, const unsigned char *data,
  * This ФУНКЦИЯ DOES NOT call _libssh2_error() on any errors.
  */
 цел _libssh2_transport_send(LIBSSH2_SESSION *session,
-                            const unsigned char *data, т_мера data_len,
-                            const unsigned char *data2, т_мера data2_len)
+                            const ббайт *data, т_мера data_len,
+                            const ббайт *data2, т_мера data2_len)
 {
     цел blocksize =
         (session->state & LIBSSH2_STATE_NEWKEYS) ?
@@ -720,7 +720,7 @@ send_existing(LIBSSH2_SESSION *session, const unsigned char *data,
     цел compressed;
     ssize_t ret;
     цел rc;
-    const unsigned char *orgdata = data;
+    const ббайт *orgdata = data;
     т_мера orgdata_len = data_len;
 
     /*
@@ -855,7 +855,7 @@ send_existing(LIBSSH2_SESSION *session, const unsigned char *data,
        the MAC and the packet_length field itself */
     _libssh2_htonu32(p->outbuf, packet_length - 4);
     /* store padding_length */
-    p->outbuf[4] = (unsigned char)padding_length;
+    p->outbuf[4] = (ббайт)padding_length;
 
     /* fill the padding area with random junk */
     _libssh2_random(p->outbuf + 5 + data_len, padding_length);
@@ -875,7 +875,7 @@ send_existing(LIBSSH2_SESSION *session, const unsigned char *data,
         /* Encrypt the whole packet data, one block size at a time.
            The MAC field is not encrypted. */
         for(i = 0; i < packet_length; i += session->local.crypt->blocksize) {
-            unsigned char *укз = &p->outbuf[i];
+            ббайт *укз = &p->outbuf[i];
             if(session->local.crypt->crypt(session, укз,
                                             session->local.crypt->blocksize,
                                             &session->local.crypt_abstract))

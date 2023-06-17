@@ -52,6 +52,6 @@ struct LngEntry__ {
 бул       LoadLngFile(кткст0 file);
 
 проц       SetCurrentLanguage(цел lang);
-цел        GetCurrentLanguage();
+цел        дайТекЯз();
 
 проц       LngSetAdd(кткст0 ид, цел lang, кткст0 txt, бул addid);

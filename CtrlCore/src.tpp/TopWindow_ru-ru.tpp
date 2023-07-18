@@ -25,7 +25,7 @@ resizing), just the area that is `"controlled`" by U`+`+.&]
 to its owner (if there is any). This behaviour can be altered 
 by NoCenter or CenterScreen methods.&]
 [s3;%% &]
-[s9; [%%/ Derived from][%%  ][^topic`:`/`/CtrlCore`/src`/Ctrl`$en`-us`#`:`:Ctrl`:`:class^ C
+[s9; [%%/ Производный от][%%  ][^topic`:`/`/CtrlCore`/src`/Ctrl`$en`-us`#`:`:Ctrl`:`:class^ C
 trl]&]
 [s3;%% &]
 [s0;%% &]
@@ -102,7 +102,7 @@ workspace. Exceeding parts are trimmed (decreasing window size).&]
 [s4; &]
 [s5;:TopWindow`:`:Breaker`(int`): [_^Callback^ Callback]_[* Breaker]([@(0.0.255) int]_[*@3 ID
 ]_`=_IDEXIT)&]
-[s2;%% Returns Callback that, when invoked, invokes [* Break] with 
+[s2;%% Возвращает Callback that, when invoked, invokes [* Break] with 
 the specified exit code. Note that Callback as return value is 
 used for backward compatibility with pre`-C`+`+11 U`+`+ and for 
 practical purposes, you could consider Event<> being returned.&]
@@ -112,7 +112,7 @@ practical purposes, you could consider Event<> being returned.&]
 [s4; &]
 [s5;:TopWindow`:`:Acceptor`(int`): [_^Callback^ Callback]_[* Acceptor]([@(0.0.255) int]_[*@3 I
 D])&]
-[s2;%% Returns Callback that, when invoked, invokes [* AcceptBreak] 
+[s2;%% Возвращает Callback that, when invoked, invokes [* AcceptBreak] 
 with the specified exit code. Note that Callback as return value 
 is used for backward compatibility with pre`-C`+`+11 U`+`+ and 
 for practical purposes, you could consider Event<> being returned.&]
@@ -122,7 +122,7 @@ for practical purposes, you could consider Event<> being returned.&]
 [s4; &]
 [s5;:TopWindow`:`:Rejector`(int`): [_^Callback^ Callback]_[* Rejector]([@(0.0.255) int]_[*@3 I
 D])&]
-[s2;%% Returns Callback that, when invoked, invokes [* RejectBreak] 
+[s2;%% Возвращает Callback that, when invoked, invokes [* RejectBreak] 
 with the specified exit code. Note that Callback as return value 
 is used for backward compatibility with pre`-C`+`+11 U`+`+ and 
 for practical purposes, you could consider Event<> being returned.&]
@@ -158,25 +158,25 @@ to WhenAction method of specified Ctrl.&]
 [s3;%% &]
 [s4; &]
 [s5;:TopWindow`:`:NoCenter`(`): [_^TopWindow^ TopWindow][@(0.0.255) `&]_[* NoCenter]()&]
-[s2;%% Sets TopWindow not to be centered when being created on the 
-screen. Returns `*this.&]
+[s2;%% УстанавливаетTopWindow not to be centered when being created on the 
+screen. Возвращает `*this.&]
 [s3;%% &]
 [s4; &]
 [s5;:TopWindow`:`:CenterOwner`(`): [_^TopWindow^ TopWindow][@(0.0.255) `&]_[* CenterOwner](
 )&]
-[s2;%% Sets TopWindow to be centered w.r.t. its owner when being 
-created on the screen. This is default. Returns `*this.&]
+[s2;%% УстанавливаетTopWindow to be centered w.r.t. its owner when being 
+created on the screen. This is default. Возвращает `*this.&]
 [s3;%% &]
 [s4; &]
 [s5;:TopWindow`:`:CenterScreen`(`): [_^TopWindow^ TopWindow][@(0.0.255) `&]_[* CenterScreen
 ]()&]
-[s2;%% Sets TopWindow to be desktop centered when being created on 
-the screen. Returns `*this.&]
+[s2;%% УстанавливаетTopWindow to be desktop centered when being created on 
+the screen. Возвращает `*this.&]
 [s3;%% &]
 [s4; &]
 [s5;:TopWindow`:`:SetMinSize`(Size`): [@(0.0.255) virtual] [@(0.0.255) void]_[* SetMinSize](
 [_^Size^ Size]_[*@3 sz])&]
-[s2;%% Sets the minimal size for window. This size is then returned 
+[s2;%% Устанавливаетthe minimal size for window. This size is then returned 
 by GetMinSize virtual method. If window is resizable, it cannot 
 be made smaller than this size.&]
 [s7;%% [%-*C@3 sz]-|Minimal size of window.&]
@@ -190,14 +190,14 @@ be made smaller than this size.&]
 [s4; &]
 [s5;:TopWindow`:`:Style`(dword`): [_^TopWindow^ TopWindow][@(0.0.255) `&]_[* Style]([_^dword^ d
 word]_[*@3 `_style])&]
-[s2;%% Sets Win32 window style.&]
+[s2;%% УстанавливаетWin32 window style.&]
 [s6;%% Win32 specific.&]
 [s7;%% [%-*C@3 `_style]-|Style.&]
 [s7;%% [*/ Возвратное значение]-|`*this.&]
 [s3;%% &]
 [s4; &]
 [s5;:TopWindow`:`:GetStyle`(`)const: [_^dword^ dword]_[* GetStyle]()_[@(0.0.255) const]&]
-[s2;%% Sets Win32 window extended style.&]
+[s2;%% УстанавливаетWin32 window extended style.&]
 [s6;%% Win32 specific.&]
 [s7;%% [*/ Возвратное значение]-|`*this.&]
 [s3;%% &]
@@ -234,7 +234,7 @@ if it is owned by the process.&]
 alse])&]
 [s2;%% Execute modal loop for TopWindow. If TopWindow is not open, 
 it calls Open before starting loop, but it does not close it.&]
-[s7;%% [%-*C@3 appmodal]-|If true, all application window are disabled 
+[s7;%% [%-*C@3 appmodal]-|Если true, all application window are disabled 
 while performing loop. If false, only TopWindow`'s relative windows 
 (with the same `"super`"`-owner) are disabled.&]
 [s7;%% [*/ Возвратное значение]-|Result code of modal loop.&]
@@ -296,7 +296,7 @@ state.&]
 [s4; &]
 [s5;:TopWindow`:`:ActiveFocus`(Ctrl`&`): [_^TopWindow^ TopWindow][@(0.0.255) `&]_[* ActiveF
 ocus]([_^Ctrl^ Ctrl][@(0.0.255) `&]_[*@3 ctrl])&]
-[s2;%% Sets the ActiveFocus Ctrl. This Ctrl gets focus when TopWindow 
+[s2;%% Устанавливаетthe ActiveFocus Ctrl. This Ctrl gets focus when TopWindow 
 is activated. If there is no Ctrl with active focus, first Ctrl 
 is activated. When TopWindow is deactivated, Ctrl that has focus 
 is stored as new ActiveFocus Ctrl and gets focus once TopWindow 
@@ -311,7 +311,7 @@ equivalent to ctrl.SetFocus().&]
 e]([@(0.0.255) const]_[_^WString^ WString][@(0.0.255) `&]_[*@3 `_title])&]
 [s5;:TopWindow`:`:Title`(const char`*`): [_^TopWindow^ TopWindow][@(0.0.255) `&]_[* Title](
 [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 `_title])&]
-[s2;%% Sets the title of the window.&]
+[s2;%% Устанавливаетthe title of the window.&]
 [s7;%% [%-*C@3 `_title]-|Title.&]
 [s7;%% [*/ Возвратное значение]-|`*this.&]
 [s3;%% &]
@@ -340,21 +340,21 @@ ool]_[*@3 b]_`=_[@(0.0.255) true])&]
 [s4; &]
 [s5;:TopWindow`:`:MinimizeBox`(bool`): [_^TopWindow^ TopWindow][@(0.0.255) `&]_[* MinimizeB
 ox]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) true])&]
-[s2;%% Sets TopWindow to have a minimize box.&]
+[s2;%% УстанавливаетTopWindow to have a minimize box.&]
 [s7;%% [%-*C@3 b]-|true to set.&]
 [s7;%% [*/ Возвратное значение]-|`*this.&]
 [s3;%% &]
 [s4; &]
 [s5;:TopWindow`:`:MaximizeBox`(bool`): [_^TopWindow^ TopWindow][@(0.0.255) `&]_[* MaximizeB
 ox]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) true])&]
-[s2;%% Sets TopWindow to have a maximize box.&]
+[s2;%% УстанавливаетTopWindow to have a maximize box.&]
 [s7;%% [%-*C@3 b]-|true to set.&]
 [s7;%% [*/ Возвратное значение]-|`*this.&]
 [s3;%% &]
 [s4; &]
 [s5;:TopWindow`:`:Zoomable`(bool`): [_^TopWindow^ TopWindow][@(0.0.255) `&]_[* Zoomable]([@(0.0.255) b
 ool]_[*@3 b]_`=_[@(0.0.255) true])&]
-[s2;%% Sets TopWindow to be Zoomable `- to have maximize/minimize 
+[s2;%% УстанавливаетTopWindow to be Zoomable `- to have maximize/minimize 
 flags, if supported by host platform. То же, что и MinimizeBox(b).MaximizeBox(b).&]
 [s7;%% [%-*C@3 b]-|True to set.&]
 [s7;%% [*/ Возвратное значение]-|`*this.&]
@@ -372,7 +372,7 @@ flags, if supported by host platform. То же, что и MinimizeBox(b).Maximi
 [s4; &]
 [s5;:TopWindow`:`:Background`(const PaintRect`&`): [_^TopWindow^ TopWindow][@(0.0.255) `&
 ]_[* Background]([@(0.0.255) const]_[_^PaintRect^ PaintRect][@(0.0.255) `&]_[*@3 prect])&]
-[s2;%% Sets PaintRect that will be used to paint TopWindow background. 
+[s2;%% УстанавливаетPaintRect that will be used to paint TopWindow background. 
 Default PaintRect paints background with SColorFace.&]
 [s7;%% [%-*C@3 prect]-|PaintRect.&]
 [s7;%% [*/ Возвратное значение]-|`*this.&]
@@ -380,7 +380,7 @@ Default PaintRect paints background with SColorFace.&]
 [s4; &]
 [s5;:TopWindow`:`:GetBackground`(`)const: [@(0.0.255) const]_[_^PaintRect^ PaintRect][@(0.0.255) `&
 ]_[* GetBackground]()_[@(0.0.255) const]&]
-[s2;%% Returns active PaintRect used to paint TopWindow background.&]
+[s2;%% Возвращает active PaintRect used to paint TopWindow background.&]
 [s7;%% [*/ Возвратное значение]-|PaintRect.&]
 [s3;%% &]
 [s4; &]
@@ -406,7 +406,7 @@ onst]&]
 [s5;:TopWindow`:`:TopMost`(bool`,bool`): [_^TopWindow^ TopWindow][@(0.0.255) `&]_[* TopMost
 ]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) true], [@(0.0.255) bool]_[*@3 stay`_top]_`=_[@(0.0.255) t
 rue])&]
-[s2;%% Makes window stay over any other window. Returns `*this.&]
+[s2;%% Makes window stay over any other window. Возвращает `*this.&]
 [s3;%% &]
 [s4; &]
 [s5;:TopWindow`:`:NoTopMost`(`): [_^TopWindow^ TopWindow][@(0.0.255) `&]_[* NoTopMost]()&]
@@ -419,8 +419,8 @@ rue])&]
 [s4; &]
 [s5;:TopWindow`:`:FullScreen`(bool`): [_^TopWindow^ TopWindow][@(0.0.255) `&]_[* FullScreen
 ]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) true])&]
-[s2;%% Sets window to fullscreen if [%-*@3 b] is true, otherwise sets 
-window to regular state. Returns `*this.&]
+[s2;%% Устанавливаетwindow to fullscreen if [%-*@3 b] is true, otherwise sets 
+window to regular state. Возвращает `*this.&]
 [s3;%% &]
 [s4; &]
 [s5;:TopWindow`:`:IsFullScreen`(`)const: [@(0.0.255) bool]_[* IsFullScreen]()_[@(0.0.255) c
@@ -430,13 +430,13 @@ onst]&]
 [s4; &]
 [s5;:TopWindow`:`:FrameLess`(bool`): [_^TopWindow^ TopWindow][@(0.0.255) `&]_[* FrameLess](
 [@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) true])&]
-[s2;%% Creates window without border decorations (like windows title 
+[s2;%% Создаёт window without border decorations (like windows title 
 var or any resizing borders).&]
 [s3;%% &]
 [s4; &]
 [s5;:TopWindow`:`:IsFrameLess`(`)const: [@(0.0.255) bool]_[* IsFrameLess]()_[@(0.0.255) con
 st]&]
-[s2;%% Returns FrameLess status.&]
+[s2;%% Возвращает FrameLess status.&]
 [s3; &]
 [s4; &]
 [s5;:TopWindow`:`:Urgent`(bool`): [_^TopWindow^ TopWindow][@(0.0.255) `&]_[* Urgent]([@(0.0.255) b
@@ -512,7 +512,7 @@ the stream, minimized state is not restored.&]
 [s3;%% &]
 [s4; &]
 [s5;:TopWindow`:`:TopWindow`(`): [* TopWindow]()&]
-[s2;%% Constructor.&]
+[s2;%% Конструктор .&]
 [s3;%% &]
 [s4; &]
 [s5;:TopWindow`:`:`~TopWindow`(`): [@(0.0.255) `~][* TopWindow]()&]

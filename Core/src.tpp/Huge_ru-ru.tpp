@@ -1,4 +1,4 @@
-topic "Huge";
+topic "Класс Huge";
 [i448;a25;kKO9;2 $$1,0#37138531426314131252341829483380:class]
 [l288;2 $$2,2#27521748481378242620020725143825:desc]
 [0 $$3,0#96390100711032703541132217272105:end]
@@ -10,7 +10,7 @@ topic "Huge";
 [b42;2 $$9,9#13035079074754324216151401829390:normal]
 [2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%RU-RU 
-[ {{10000@(113.42.0) [s0; [*@7;4 Huge]]}}&]
+[ {{10000@(113.42.0) [s0; [*@7;4 Класс Huge]]}}&]
 [s3;%- &]
 [s1;:Upp`:`:Huge`:`:class:%- [@(0.0.255)3 class][3 _][*3 Huge]&]
 [s2; This class is intended for dealing of large raw binary data. 
@@ -82,7 +82,7 @@ full sized chunks until the last one.&]
 [s4;%- &]
 [s5;:Upp`:`:Huge`:`:GetSize`(`)const:%- [_^size`_t^ size`_t]_[* GetSize]()_[@(0.0.255) cons
 t]&]
-[s2; Returns the number of bytes stored.&]
+[s2; Возвращает the number of bytes stored.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:Huge`:`:Get`(void`*`,size`_t`,size`_t`)const:%- [@(0.0.255) void]_[* Get]([@(0.0.255) v
@@ -96,6 +96,6 @@ onst]&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:Huge`:`:Get`(`)const:%- [_^Upp`:`:String^ String]_[* Get]()_[@(0.0.255) const]&]
-[s2; Returns data as String. There must be less than 2GB of data 
+[s2; Возвращает data as String. There must be less than 2GB of data 
 or operation fails with Panic.&]
 [s3;%- ]]

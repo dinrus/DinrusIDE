@@ -93,7 +93,7 @@ isplay][@(0.0.255) `&]_[*@3 display])&]
 [s4;%- &]
 [s5;:DataPusher`:`:GetConvert`(`)const:%- [@(0.0.255) const]_[_^Convert^ Convert][@(0.0.255) `&
 ]_[* GetConvert]()_[@(0.0.255) const]&]
-[s2; Возвращает текущий Convert.&]
+[s2; Возвращает  текущий Convert.&]
 [s7; [*/ Возвратное значение]-|Текущий Convert.&]
 [s3; &]
 [s4;%- &]
@@ -106,7 +106,7 @@ isplay][@(0.0.255) `&]_[*@3 display])&]
 [s4;%- &]
 [s5;:DataPusher`:`:GetDisplay`(`)const:%- [@(0.0.255) const]_[_^Display^ Display][@(0.0.255) `&
 ]_[* GetDisplay]()_[@(0.0.255) const]&]
-[s2; Возвращает текущий Display.&]
+[s2; Возвращает  текущий Display.&]
 [s7; [*/ Возвратное значение]-|Текущий Display.&]
 [s3; &]
 [s4;%- &]
@@ -136,7 +136,7 @@ SetData. Устанавливает отображаемые
 [s4;%- &]
 [s5;:DataPusher`:`:GetData`(`)const:%- [@(0.0.255) virtual] [_^Value^ Value]_[* GetData]()_
 [@(0.0.255) const]&]
-[s2; Возвращает данные этого контрола.&]
+[s2; Возвращает  данные этого контрола.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:DataPusher`:`:NullText`(const char`*`,Color`):%- [_^DataPusher^ DataPusher][@(0.0.255) `&

@@ -56,7 +56,7 @@ size), also keeps track of output bytes written (see GetCount).&]
 [s4; &]
 [s5;:OutFilterStream`:`:GetCount`(`)const: [@(0.0.255) int64]_[* GetCount]()_[@(0.0.255) co
 nst]&]
-[s2;%% Returns a number of bytes written to the output stream (if 
+[s2;%% Возвращает a number of bytes written to the output stream (if 
 OutFilterStream is used for compression, this is the compressed 
 size). Note that this number is `'complete`' only after the OutFilterStream 
 is closed, because of buffering of data chunks.&]
@@ -65,7 +65,7 @@ is closed, because of buffering of data chunks.&]
 [s5;:OutFilterStream`:`:Set`(Stream`&`,F`&`): [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 F
 ]>_[@(0.0.255) void]_[* Set]([_^Stream^ Stream][@(0.0.255) `&]_[*@3 out`_], 
 [*@4 F][@(0.0.255) `&]_[*@3 filter])&]
-[s2;%% Sets the output stream and filter. Filter must have WhenOut 
+[s2;%% Устанавливаетthe output stream and filter. Filter must have WhenOut 
 callback which is connected to Out method and Put and End methods 
 that are connected to Filter and End callbacks.&]
 [s3;%% &]
@@ -81,5 +81,5 @@ lass]_[*@4 F]>_[* OutFilterStream]([_^Stream^ Stream][@(0.0.255) `&]_[*@3 in],
 [s3;%% &]
 [s4; &]
 [s5;:OutFilterStream`:`:`~OutFilterStream`(`): [@(0.0.255) `~][* OutFilterStream]()&]
-[s2;%% Calls Close.&]
+[s2;%% Вызывает Close.&]
 [s0;%% ]]

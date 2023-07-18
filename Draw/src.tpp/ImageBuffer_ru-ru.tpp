@@ -43,12 +43,12 @@ first pixel being top`-left.&]
 [s3; &]
 [s5;:ImageBuffer`:`:SetKind`(int`): [*@(0.0.255) void][* _SetKind(][*@(0.0.255) int][* _][*@3 k
 ][* )]&]
-[s2;%% Sets the kind of image. You can use this to avoid automatic 
+[s2;%% Устанавливаетthe kind of image. You can use this to avoid automatic 
 detection.&]
 [s3; &]
 [s4; &]
 [s5;:ImageBuffer`:`:GetKind`(`)const: [*@(0.0.255) int][* _GetKind()_][*@(0.0.255) const]&]
-[s2;%% Returns the kind of image set by SetKind.&]
+[s2;%% Возвращает the kind of image set by SetKind.&]
 [s3; &]
 [s4; &]
 [s5;:ImageBuffer`:`:ScanKind`(`)const: [*@(0.0.255) int][* _ScanKind()_][*@(0.0.255) const]&]
@@ -68,19 +68,19 @@ it, otherwise calls ScanKind().&]
 [s4; &]
 [s5;:ImageBuffer`:`:SetHotSpot`(Point`): [*@(0.0.255) void][* _SetHotSpot(][*_^Point^ Point
 ][* _][*@3 p][* )]&]
-[s2;%% Sets the reference point. This point is e.g. used as hot`-spot 
+[s2;%% Устанавливаетthe reference point. This point is e.g. used as hot`-spot 
 when Image is used as mouse pointer. Iml designer has the ability 
 to specify this point.&]
 [s3; &]
 [s4; &]
 [s5;:ImageBuffer`:`:GetHotSpot`(`)const: [*_^topic`:`/`/Core`/src`/Point`$en`-us^ Point
 ][* _GetHotSpot()_][*@(0.0.255) const]&]
-[s2;%% Returns the reference point.&]
+[s2;%% Возвращает the reference point.&]
 [s3; &]
 [s4; &]
 [s5;:ImageBuffer`:`:Set2ndSpot`(Point`): [*@(0.0.255) void][* _Set2ndSpot]([_^topic`:`/`/Core`/src`/Point`$en`-us^ P
 oint]_[*@3 p])&]
-[s2;%% Sets secondary reference point. Iml designer has the ability 
+[s2;%% Устанавливаетsecondary reference point. Iml designer has the ability 
 to specify this point.&]
 [s3;%% &]
 [s4; &]
@@ -91,32 +91,32 @@ to specify this point.&]
 [s4; &]
 [s5;:ImageBuffer`:`:SetDots`(Size`): [*@(0.0.255) void][* _SetDots(][*_^Size^ Size][* _][*@3 sz
 ][* )]&]
-[s2;%% Sets the optional physical size in dots.&]
+[s2;%% Устанавливаетthe optional physical size in dots.&]
 [s3; &]
 [s4; &]
 [s5;:ImageBuffer`:`:GetDots`(`)const: [*_^topic`:`/`/Core`/src`/Size`$en`-us^ Size][* _Ge
 tDots()_][*@(0.0.255) const]&]
-[s2;%% Returns the optional physical size. Default value is Size(0, 
+[s2;%% Возвращает the optional physical size. Default value is Size(0, 
 0).&]
 [s3; &]
 [s4; &]
 [s5;:ImageBuffer`:`:SetDPI`(Size`): [@(0.0.255) void]_[* SetDPI]([_^topic`:`/`/Core`/src`/Size`$en`-us^ S
 ize]_[*@3 sz])&]
-[s2;%% Sets the image resolution in dpi (dots per inch).&]
+[s2;%% Устанавливаетthe image resolution in dpi (dots per inch).&]
 [s2;%% As the dpi are not directly stored, if SetDots() is called 
 or image is resized, the dpi could change.&]
 [s3;%% &]
 [s4; &]
 [s5;:ImageBuffer`:`:GetDPI`(`): [_^topic`:`/`/Core`/src`/Size`$en`-us^ Size]_[* GetDPI]()
 &]
-[s2;%% Returns the image resolution in dpi (dots per inch).&]
+[s2;%% Возвращает the image resolution in dpi (dots per inch).&]
 [s2;%% As the dpi are not directly stored, if SetDots() is called 
 or image is resized, the dpi could change.&]
 [s3; &]
 [s4; &]
 [s5;:ImageBuffer`:`:GetSize`(`)const: [*_^topic`:`/`/Core`/src`/Size`$en`-us^ Size][* _Ge
 tSize()_][*@(0.0.255) const]&]
-[s2;%% Returns the dimensions of image.&]
+[s2;%% Возвращает the dimensions of image.&]
 [s3; &]
 [s4; &]
 [s5;:ImageBuffer`:`:GetWidth`(`)const: [*@(0.0.255) int][* _GetWidth()_][*@(0.0.255) const]&]
@@ -130,7 +130,7 @@ t]&]
 [s4; &]
 [s5;:ImageBuffer`:`:GetLength`(`)const: [*@(0.0.255) int][* _GetLength()_][*@(0.0.255) cons
 t]&]
-[s2;%% Returns the number of pixels in the image. То же, что и GetSize().cx 
+[s2;%% Возвращает the number of pixels in the image. То же, что и GetSize().cx 
 `* GetSize().cy.&]
 [s3; &]
 [s4; &]
@@ -138,7 +138,7 @@ t]&]
 `*operator`[`](][*@(0.0.255) int][* _][*@3 i][* )]&]
 [s5;:ImageBuffer`:`:operator`[`]`(int`)const: [*@(0.0.255) const][* _][*_^topic`:`/`/Core`/src`/RGBA`$en`-us^ R
 GBA][* _`*operator`[`](][*@(0.0.255) int][* _][*@3 i][* )_][*@(0.0.255) const]&]
-[s2;%% Returns a pointer to the first pixel in the line [%-*@3 i].&]
+[s2;%% Возвращает a pointer to the first pixel in the line [%-*@3 i].&]
 [s3; &]
 [s4; &]
 [s5;:ImageBuffer`:`:operator`~`(`): [*_^topic`:`/`/Core`/src`/RGBA`$en`-us^ RGBA][* _`*op
@@ -148,14 +148,14 @@ erator`~()]&]
 GBA][* _`*operator`~()_][*@(0.0.255) const]&]
 [s5;:ImageBuffer`:`:operator const RGBA`*`(`)const: [* operator_const_RGBA`*()_][*@(0.0.255) c
 onst]&]
-[s2;%% Returns a pointer to the first pixel of the image.  &]
+[s2;%% Возвращает a pointer to the first pixel of the image.  &]
 [s3; &]
 [s4; &]
 [s5;:ImageBuffer`:`:Create`(int`,int`): [*@(0.0.255) void][* _Create(][*@(0.0.255) int][* _][*@3 c
 x][* , ][*@(0.0.255) int][* _][*@3 cy][* )]&]
 [s5;:ImageBuffer`:`:Create`(Size`): [*@(0.0.255) void][* _Create(][*_^topic`:`/`/Core`/src`/Size`$en`-us^ S
 ize][* _][*@3 sz][* )]&]
-[s2;%% Creates a new image of specified size. Value of pixels is 
+[s2;%% Создаёт a new image of specified size. Value of pixels is 
 undefined. Previous content of ImageBuffer is lost.&]
 [s3; &]
 [s4; &]
@@ -174,7 +174,7 @@ ool]_[*@3 b]_`=_[@(0.0.255) true])&]
 ]()_[@(0.0.255) const]&]
 [s2;%% Sets/gets the hint that the image will likely be painted only 
 once with Draw`::DrawImage. This hint can improve the rendering 
-performance in certain contexts. Default is false.&]
+performance in certain contexts. Дефолт равен false.&]
 [s3; &]
 [s4; &]
 [s5;:ImageBuffer`:`:operator`=`(Image`&`): [*@(0.0.255) void][* _operator`=(][*_^Image^ Ima

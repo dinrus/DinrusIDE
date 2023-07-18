@@ -3683,7 +3683,7 @@ size.&]
 [s6;%- &]
 [s5;:StaticImage`:`:SetPopUpSize`(Size`):%- [_^StaticImage^ StaticImage][@(0.0.255) `&]_[* S
 etPopUpSize]([_^Size^ Size]_[*@3 sz])&]
-[s2; Sets with [%-*@3 sz] the size of popup.&]
+[s2; Устанавливаетwith [%-*@3 sz] the size of popup.&]
 [s2; If [%-*@3 sz ]is Null, popup Size is the original image Size.&]
 [s4; &]
 [s6;%- &]
@@ -3712,7 +3712,7 @@ ing]_[*@3 fileName])&]
 [s6;%- &]
 [s5;:StaticImage`:`:SetAngle`(int`):%- [_^StaticImage^ StaticImage][@(0.0.255) `&]_[* SetAn
 gle]([@(0.0.255) int]_[*@3 angle])&]
-[s2; Sets the image orientation.&]
+[s2; Устанавливаетthe image orientation.&]
 [s2; [%-*@3 angle] parameter valid values are Angle`_0, Angle`_90, 
 Angle`_180 and Angle`_270.&]
 [s2; &]
@@ -4533,7 +4533,7 @@ Angle`_180 and Angle`_270.&]
 [s6;%- &]
 [s5;:StaticImage`:`:SetFit`(int`):%- [_^StaticImage^ StaticImage][@(0.0.255) `&]_[* SetFit](
 [@(0.0.255) int]_[*@3 fit])&]
-[s2; Sets the image fit into the Ctrl frame.&]
+[s2; Устанавливаетthe image fit into the Ctrl frame.&]
 [s2; [%-*@3 fit ]parameter valid values are BestFit, FillFrame, NoScale, 
 RepeatToFill.&]
 [s2; Background example is a combination of SetFit(RepeatToFill); 
@@ -5506,7 +5506,7 @@ and UseAsBackground(true);&]
 [s6;%- &]
 [s5;:StaticImage`:`:SetBackground`(Color`):%- [_^StaticImage^ StaticImage][@(0.0.255) `&]_
 [* SetBackground]([_^Color^ Color]_[*@3 c])&]
-[s2; Sets [%-*@3 c].as image frame background color. Null is valid 
+[s2; Устанавливает[%-*@3 c].as image frame background color. Null is valid 
 as transparent color.&]
 [s4; &]
 [s6;%- &]

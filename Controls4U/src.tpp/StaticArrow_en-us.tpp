@@ -146,24 +146,24 @@ topic "StaticArrow";
 [s6;%- &]
 [s5;:StaticArrow`:`:SetWidth`(int`):%- [_^StaticArrow^ StaticArrow][@(0.0.255) `&]_[* SetWi
 dth]([@(0.0.255) int]_[*@3 w])&]
-[s3; Sets the arrow line width [%-*@3 w ]in pixels.&]
+[s3; Устанавливаетthe arrow line width [%-*@3 w ]in pixels.&]
 [s1; &]
 [s6;%- &]
 [s5;:StaticArrow`:`:SetColor`(Color`):%- [_^StaticArrow^ StaticArrow][@(0.0.255) `&]_[* Set
 Color]([_^Color^ Color]_[*@3 c])&]
-[s3; Sets the arrow color [%-*@3 c].&]
+[s3; Устанавливаетthe arrow color [%-*@3 c].&]
 [s1; &]
 [s6;%- &]
 [s5;:StaticArrow`:`:SetOrientation`(int`):%- [_^StaticArrow^ StaticArrow][@(0.0.255) `&]_
 [* SetOrientation]([@(0.0.255) int]_[*@3 o])&]
-[s3; Sets the arrow orientation [%-*@3 o]. Valid orientation values 
+[s3; Устанавливаетthe arrow orientation [%-*@3 o]. Valid orientation values 
 are OrVert, OrHor, OrNW`_SE, OrSW`_NE, OrNW`_SE`_HVH, OrSW`_NE`_HVH, 
 OrNW`_SE`_VHV, OrSW`_NE`_VHV.&]
 [s1; &]
 [s6;%- &]
 [s5;:StaticArrow`:`:SetOrientation`(String`):%- [_^StaticArrow^ StaticArrow][@(0.0.255) `&
 ]_[* SetOrientation]([_^String^ String]_[*@3 o])&]
-[s3; Sets the arrow orientation [%-*@3 o]. Valid orientation values 
+[s3; Устанавливаетthe arrow orientation [%-*@3 o]. Valid orientation values 
 are `"`|`", `"`\`\`", `"`-`", [* `"/`", `"в”ђ`_`", `"`_в”Њ`", `"в””в”ђ`" 
 and `"в”Њв”`".]&]
 [s0; &]
@@ -246,13 +246,13 @@ and `"в”Њв”`".]&]
 [s6;%- &]
 [s5;:StaticArrow`:`:SetEnds`(int`):%- [_^StaticArrow^ StaticArrow][@(0.0.255) `&]_[* SetEnd
 s]([@(0.0.255) int]_[*@3 e])&]
-[s3; Sets the arrow ends [%-*@3 e]. Valid ends values are EndLeft, 
+[s3; Устанавливаетthe arrow ends [%-*@3 e]. Valid ends values are EndLeft, 
 EndRight, EndLeftRight, NoEnd.&]
 [s1; &]
 [s6;%- &]
 [s5;:StaticArrow`:`:SetEnds`(String`):%- [_^StaticArrow^ StaticArrow][@(0.0.255) `&]_[* Set
 Ends]([_^String^ String]_[*@3 e])&]
-[s3; Sets the arrow ends [%-*@3 e]. Valid ends values are `"<`-`", 
+[s3; Устанавливаетthe arrow ends [%-*@3 e]. Valid ends values are `"<`-`", 
 `"`->`", `"<`->`" and `"`-`".&]
 [s1; &]
 [s0;= 

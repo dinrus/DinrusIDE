@@ -49,22 +49,22 @@ as part of [%-*@3 table] (TABLE.COLUMN notation).&]
 [s4; &]
 [s5;:S`_type`:`:GetColumnIds`(`):%- [@(0.0.255) static] [@(0.0.255) const]_[_^Vector^ Vecto
 r]<[_^SqlId^ SqlId]>`&_[* GetColumnIds]()&]
-[s2; Returns all columns.&]
+[s2; Возвращает all columns.&]
 [s3; &]
 [s4; &]
 [s5;:S`_type`:`:Clear`(`):%- [@(0.0.255) void]_[* Clear]()&]
-[s2; Sets all member variables to Null.&]
+[s2; Устанавливаетall member variables to Null.&]
 [s3; &]
 [s4; &]
 [s5;:S`_type`:`:FieldLayout`(FieldOperator`&`):%- [@(0.0.255) void]_[* FieldLayout]([_^FieldOperator^ F
 ieldOperator][@(0.0.255) `&]_[*@3 f])&]
-[s2; Calls FieldOpertator`::Field(const char `*name, Ref f) and Table(const 
+[s2; Вызывает FieldOpertator`::Field(const char `*name, Ref f) and Table(const 
 char `*name) methods of [%-*@3 f] to provide a visitor pattern 
 for S`_[/ type].&]
 [s3; &]
 [s4; &]
 [s5;:S`_type`:`:operator Fields`(`):%- [* operator_Fields]()&]
-[s2; Returns callback(this, `&S`_[/ type]`::FieldLayout). This method 
+[s2; Возвращает callback(this, `&S`_[/ type]`::FieldLayout). This method 
 provides unified access to all S`_[/ type]s, which is then used 
 in Sql`::Fetch.&]
 [s3; &]
@@ -72,7 +72,7 @@ in Sql`::Fetch.&]
 [s5;:S`_type`:`:operator`=`=`(const S`_type`&`)const:%- [@(0.0.255) bool]_[* operator`=`=
 ]([@(0.0.255) const]_[_^S`_type^ S`_][/_^S`_type^ type][@(0.0.255) `&]_[*@3 x])_[@(0.0.255) c
 onst]&]
-[s2; Возвращает true, если all fields are the same.&]
+[s2; Возвращает  true, если all fields are the same.&]
 [s3; &]
 [s4; &]
 [s5;:S`_type`:`:operator`!`=`(const S`_type`&`)const:%- [@(0.0.255) bool]_[* operator!`=](
@@ -87,61 +87,61 @@ purposes.&]
 [s3; &]
 [s4;%- &]
 [s5;:S`_type`:`:GetCount`(`):%- [@(0.0.255) static] [@(0.0.255) int]_[* GetCount]()&]
-[s2; Returns a number of columns of this S`_[/ type].&]
+[s2; Возвращает a number of columns of this S`_[/ type].&]
 [s3;%- &]
 [s4;%- &]
 [s5;:S`_type`:`:GetId`(int`):%- [@(0.0.255) static] [_^SqlId^ SqlId]_[* GetId]([@(0.0.255) in
 t]_[*@3 i])&]
-[s2; Returns a column ID for column at [%-*@3 i].&]
+[s2; Возвращает a column ID for column at [%-*@3 i].&]
 [s3; &]
 [s4;%- &]
 [s5;:S`_type`:`:GetIndex`(const String`&`):%- [@(0.0.255) static] [@(0.0.255) int]_[* GetIn
 dex]([@(0.0.255) const]_[_^String^ String][@(0.0.255) `&]_[*@3 id])&]
 [s5;:S`_type`:`:GetIndex`(const SqlId`&`):%- [@(0.0.255) static] [@(0.0.255) int]_[* GetInd
 ex]([@(0.0.255) const]_[_^SqlId^ SqlId][@(0.0.255) `&]_[*@3 id])&]
-[s2;~~~1792; Returns the index of column [%-*@3 id] or negative number 
+[s2;~~~1792; Возвращает the index of column [%-*@3 id] or negative number 
 if not found.&]
 [s3; &]
 [s4;%- &]
 [s5;:S`_type`:`:GetWidth`(int`):%- [@(0.0.255) static] [@(0.0.255) int]_[* GetWidth]([@(0.0.255) i
 nt]_[*@3 i])&]
-[s2; Returns the width of column (usually text) as defined in the 
+[s2; Возвращает the width of column (usually text) as defined in the 
 schema. If column does not have width, returns 0.&]
 [s3; &]
 [s4;%- &]
 [s5;:S`_type`:`:GetWidth`(const SqlId`&`):%- [@(0.0.255) static] [@(0.0.255) int]_[* GetWid
 th]([@(0.0.255) const]_[_^SqlId^ SqlId][@(0.0.255) `&]_[*@3 id])&]
-[s2; Returns the width of column (usually text) as defined in the 
+[s2; Возвращает the width of column (usually text) as defined in the 
 schema.If [%-*@3 id] is not in S`_[/ type], returns 0.&]
 [s3; &]
 [s4; &]
 [s5;:S`_type`:`:GetRef`(int`):%- [_^Ref^ Ref]_[* GetRef]([@(0.0.255) int]_[*@3 i])&]
-[s2; Returns a reference to column at [%-*@3 i].&]
+[s2; Возвращает a reference to column at [%-*@3 i].&]
 [s3; &]
 [s4; &]
 [s5;:S`_type`:`:GetRef`(const SqlId`&`):%- [_^Ref^ Ref]_[* GetRef]([@(0.0.255) const]_[_^SqlId^ S
 qlId][@(0.0.255) `&]_[*@3 id])&]
-[s2; Returns a reference to column [%-*@3 id ]or void reference if 
+[s2; Возвращает a reference to column [%-*@3 id ]or void reference if 
 not in S`_[/ type].&]
 [s3; &]
 [s4; &]
 [s5;:S`_type`:`:Get`(const SqlId`&`)const:%- [_^Value^ Value]_[* Get]([@(0.0.255) const]_[_^SqlId^ S
 qlId][@(0.0.255) `&]_[*@3 id])_[@(0.0.255) const]&]
-[s2; Returns a value of column [%-*@3 id] or void Value if not in S`_[/ type].&]
+[s2; Возвращает a value of column [%-*@3 id] or void Value if not in S`_[/ type].&]
 [s3; &]
 [s4; &]
 [s5;:S`_type`:`:Get`(int`)const:%- [_^Value^ Value]_[* Get]([@(0.0.255) int]_[*@3 i])_[@(0.0.255) c
 onst]&]
-[s2; Returns a value of column at [%-*@3 i].&]
+[s2; Возвращает a value of column at [%-*@3 i].&]
 [s3; &]
 [s4; &]
 [s5;:S`_type`:`:Get`(`)const:%- [_^ValueMap^ ValueMap]_[* Get]()_[@(0.0.255) const]&]
-[s2; Returns a map of column names to column values.&]
+[s2; Возвращает a map of column names to column values.&]
 [s3; &]
 [s4; &]
 [s5;:S`_type`:`:Set`(int`,const Value`&`):%- [@(0.0.255) void]_[* Set]([@(0.0.255) int]_[*@3 i
 ], [@(0.0.255) const]_[_^Value^ Value][@(0.0.255) `&]_[*@3 v])&]
-[s2; Sets column at [%-*@3 i] to [%-*@3 v]. Type of [%-*@3 v] must be convertible 
+[s2; Устанавливаетcolumn at [%-*@3 i] to [%-*@3 v]. Type of [%-*@3 v] must be convertible 
 to the column.&]
 [s3; &]
 [s4; &]
@@ -160,7 +160,7 @@ present in [%-*@3 m] are left unchanged.&]
 [s3; &]
 [s4; &]
 [s5;:S`_type`:`:S`_type`(`):%- [* S`_type]()&]
-[s2; Sets all columns to Null.&]
+[s2; Устанавливаетall columns to Null.&]
 [s3; &]
 [s4; &]
 [s5;:S`_type`:`:S`_type`(const ValueMap`&`):%- [* S`_type]([@(0.0.255) const]_[_^ValueMap^ V

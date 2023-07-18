@@ -28,19 +28,19 @@ FtpStream]  classes.&]
 [s3;%- &]
 [s5;:Upp`:`:SFtp`:`:Timeout`(int`):%- [_^Upp`:`:SFtp^ SFtp][@(0.0.255) `&]_[* Timeout]([@(0.0.255) i
 nt]_[*@3 ms])&]
-[s2; Sets timeout value in miliseconds. Setting the timeout value 
+[s2; Устанавливаетtimeout value in miliseconds. Setting the timeout value 
 to Null puts the SFtp object into blocking mode&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:SFtp`:`:ChunkSize`(int`):%- [_^Upp`:`:SFtp^ SFtp][@(0.0.255) `&]_[* ChunkSize](
 [@(0.0.255) int]_[*@3 sz])&]
-[s2; Sets the chunk size to [%-*@3 sz] for data reads and writes. The 
-default chunk size is 64K Returns `*this for method chaining.&]
+[s2; Устанавливаетthe chunk size to [%-*@3 sz] for data reads and writes. The 
+default chunk size is 64K Возвращает `*this for method chaining.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:SFtp`:`:GetHandle`(`)const:%- [_^LIBSSH2`_SFTP`_HANDLE^ LIBSSH2`_SFTP`_HAND
 LE][@(0.0.255) `*]_[* GetHandle]()_[@(0.0.255) const]&]
-[s2; Returns a pointer to the libssh2 sftp session handle on success, 
+[s2; Возвращает a pointer to the libssh2 sftp session handle on success, 
 NULL on failure.&]
 [s3;%- &]
 [s4;%- &]
@@ -48,7 +48,7 @@ NULL on failure.&]
 FtpHandle]_[* Open]([@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 path],
  [_^Upp`:`:dword^ dword]_[*@3 flags], [@(0.0.255) long]_[*@3 mode])&]
 [s0;l288; Opens the remote file or directory at [%-*@3 path] with access 
-[%-*@3 flags] and [%-*@3 mode]. Returns a file handle on success, 
+[%-*@3 flags] and [%-*@3 mode]. Возвращает a file handle on success, 
 and NULL on failure. File handles obtained using this method 
 must be released using the Close() method when finished.&]
 [s2; &]
@@ -60,7 +60,7 @@ read mode.&]
 in write mode.&]
 [s7;i1440;a17;:Ctrl`:`:RIGHT:~~~.1728~1728; [%-*C@3 APPEND]-|Opens file 
 in append mode.&]
-[s7;i1440;a17;:Ctrl`:`:TOP:~~~.1728~1728; [%-*C@3 CREATE]-|Creates file 
+[s7;i1440;a17;:Ctrl`:`:TOP:~~~.1728~1728; [%-*C@3 CREATE]-|Создаёт file 
 if it doesn`'t exist.&]
 [s7;i1440;~~~.1728~1728; [%-*C@3 EXCLUSIVE]-|Causes  the request to 
 fail if the named file already exists. CREATE flag must also 
@@ -84,7 +84,7 @@ for others.&]
 [s4;%- &]
 [s5;:Upp`:`:SFtp`:`:OpenRead`(const Upp`:`:String`&`):%- [_^Upp`:`:SFtpHandle^ SFtpHand
 le]_[* OpenRead]([@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 path])&]
-[s2; Opens remote [%-*@3 path] for reading. Returns a file handle on 
+[s2; Opens remote [%-*@3 path] for reading. Возвращает a file handle on 
 success, and NULL on failure. File handles obtained using this 
 method must be released using the Close() method when finished.&]
 [s3; &]
@@ -92,7 +92,7 @@ method must be released using the Close() method when finished.&]
 [s5;:Upp`:`:SFtp`:`:OpenWrite`(const Upp`:`:String`&`):%- [_^Upp`:`:SFtpHandle^ SFtpHan
 dle]_[* OpenWrite]([@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 path])&]
 [s2; Opens remote [%-*@3 path] for writing. File will be created if 
-it doesn`'t exist. Returns a file handle on success, and NULL 
+it doesn`'t exist. Возвращает a file handle on success, and NULL 
 on failure. File handles obtained using this method must be released 
 using the Close() method when finished.&]
 [s3; &]
@@ -108,36 +108,36 @@ finished.&]
 ool]_[* Rename]([@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 oldpath], 
 [@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 newpath])&]
 [s2; Renames a file or directory from [%-*@3 oldpath] to [%-*@3 newpath]. 
-Returns true on success. &]
+Возвращает true on success. &]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:SFtp`:`:Delete`(const Upp`:`:String`&`):%- [@(0.0.255) bool]_[* Delete]([@(0.0.255) c
 onst]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 path])&]
-[s2; Deletes the file at [%-*@3 path]. Returns true on success.&]
+[s2; Deletes the file at [%-*@3 path]. Возвращает true on success.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:SFtp`:`:Sync`(Upp`:`:SFtpHandle`):%- [@(0.0.255) bool]_[* Sync]([_^Upp`:`:SFtpHandle^ S
 FtpHandle]_[*@3 handle])&]
 [s2; Synchronizes the file pointed by [%-*@3 handle] to the remote 
-storage device. Returns true on success.&]
+storage device. Возвращает true on success.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:SFtp`:`:Seek`(Upp`:`:SFtpHandle`,Upp`:`:int64`):%- [_^Upp`:`:SFtp^ SFtp][@(0.0.255) `&
 ]_[* Seek]([_^Upp`:`:SFtpHandle^ SFtpHandle]_[*@3 handle], [_^Upp`:`:int64^ int64]_[*@3 pos
 ition])&]
 [s2; Seeks to [%-*@3 position] in a remote file pointed by [%-*@3 handle]. 
-Returns `*this for method chaining.&]
+Возвращает `*this for method chaining.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:SFtp`:`:GetPos`(Upp`:`:SFtpHandle`):%- [_^Upp`:`:int64^ int64]_[* GetPos]([_^Upp`:`:SFtpHandle^ S
 FtpHandle]_[*@3 handle])&]
-[s2; Returns the current position (in bytes) from the beginning of 
+[s2; Возвращает the current position (in bytes) from the beginning of 
 a remote file pointed by [%-*@3 handle].&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:SFtp`:`:OpenDir`(const Upp`:`:String`&`):%- [_^Upp`:`:SFtpHandle^ SFtpHandl
 e]_[* OpenDir]([@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 path])&]
-[s0;l288; Opens the directory at [%-*@3 path]. Returns a file handle 
+[s0;l288; Opens the directory at [%-*@3 path]. Возвращает a file handle 
 on success, and NULL on failure. File handles obtained using 
 this method must be released using Close() method when finished.&]
 [s3; &]
@@ -145,7 +145,7 @@ this method must be released using Close() method when finished.&]
 [s5;:Upp`:`:SFtp`:`:MakeDir`(const Upp`:`:String`&`,long`):%- [@(0.0.255) bool]_[* MakeDi
 r]([@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 path], 
 [@(0.0.255) long]_[*@3 mode])&]
-[s2; Creates a directory at [%-*@3 path ]with access [%-*@3 mode]. Returns 
+[s2; Создаёт a directory at [%-*@3 path ]with access [%-*@3 mode]. Возвращает 
 true on success.&]
 [s3; &]
 [s4;%- &]
@@ -158,14 +158,14 @@ true on success.&]
 ool]_[* ListDir]([_^Upp`:`:SFtpHandle^ SFtpHandle]_[*@3 handle], [_^Upp`:`:SFtp`:`:DirList^ D
 irList][@(0.0.255) `&]_[*@3 list])&]
 [s2; [%-*@3 list]s the content of remote directory pointed by the file 
-[%-*@3 handle]. Returns true on success. This method will return 
+[%-*@3 handle]. Возвращает true on success. This method will return 
 true even when the remote directory is empty. &]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:SFtp`:`:ListDir`(const Upp`:`:String`&`,Upp`:`:SFtp`:`:DirList`&`):%- [@(0.0.255) b
 ool]_[* ListDir]([@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 path], 
 [_^Upp`:`:SFtp`:`:DirList^ DirList][@(0.0.255) `&]_[*@3 list])&]
-[s2; Overload. [%-*@3 list]s the content of remote [%-*@3 path]. Returns 
+[s2; Overload. [%-*@3 list]s the content of remote [%-*@3 path]. Возвращает 
 true on success. This method will return true even when the remote 
 directory is empty.&]
 [s3;%- &]
@@ -173,26 +173,26 @@ directory is empty.&]
 [s5;:Upp`:`:SFtp`:`:MakeLink`(const Upp`:`:String`&`,Upp`:`:String`&`):%- [@(0.0.255) b
 ool]_[* MakeLink]([@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 orig], 
 [_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 target])&]
-[s2; Creates a symbolic link to the [%-*@3 orig]inating file system 
-object. Returns true on success.&]
+[s2; Создаёт a symbolic link to the [%-*@3 orig]inating file system 
+object. Возвращает true on success.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:SFtp`:`:ReadLink`(const Upp`:`:String`&`,Upp`:`:String`&`):%- [@(0.0.255) b
 ool]_[* ReadLink]([@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 path], 
 [_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 target])&]
 [s2; Resoves a symbolic link at [%-*@3 path] to its next [%-*@3 target]. 
-Returns true on success.&]
+Возвращает true on success.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:SFtp`:`:RealizePath`(const Upp`:`:String`&`,Upp`:`:String`&`):%- [@(0.0.255) b
 ool]_[* RealizePath]([@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 path],
  [_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 target])&]
 [s2; Resolves a complex, relative or symlinked [%-*@3 path] to its 
-effective [%-*@3 target]. Returns true on success.&]
+effective [%-*@3 target]. Возвращает true on success.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:SFtp`:`:GetDefaultDir`(`):%- [_^Upp`:`:String^ String]_[* GetDefaultDir]()&]
-[s2; Returns the path of default directory  (e.g. [C /home/][C@3 username]) 
+[s2; Возвращает the path of default directory  (e.g. [C /home/][C@3 username]) 
 on success, and String`::GetVoid() on failure.&]
 [s3;%- &]
 [s4;%- &]
@@ -200,120 +200,120 @@ on success, and String`::GetVoid() on failure.&]
 ol]_[* GetAttrs]([_^Upp`:`:SFtpHandle^ SFtpHandle]_[*@3 handle], [_^Upp`:`:SFtpAttrs^ SFt
 pAttrs][@(0.0.255) `&]_[*@3 attrs])&]
 [s2; Gets the attributes of file system object pointed by [%-*@3 handle 
-]to [%-*@3 attrs]. Returns true on success.&]
+]to [%-*@3 attrs]. Возвращает true on success.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:SFtp`:`:GetAttrs`(const Upp`:`:String`&`,Upp`:`:SFtpAttrs`&`):%- [@(0.0.255) b
 ool]_[* GetAttrs]([@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 path], 
 [_^Upp`:`:SFtpAttrs^ SFtpAttrs][@(0.0.255) `&]_[*@3 attrs])&]
 [s2; Gets the attributes of file system object at [%-*@3 path ]to [%-*@3 attrs]. 
-Returns true on success.&]
+Возвращает true on success.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:SFtp`:`:SetAttrs`(Upp`:`:SFtpHandle`,const Upp`:`:SFtpAttrs`&`):%- [@(0.0.255) b
 ool]_[* SetAttrs]([_^Upp`:`:SFtpHandle^ SFtpHandle]_[*@3 handle], [@(0.0.255) const]_[_^Upp`:`:SFtpAttrs^ S
 FtpAttrs][@(0.0.255) `&]_[*@3 attrs])&]
-[s2; Sets the attributes of the file system object pointed by [%-*@3 handle].to 
-[%-*@3 attrs]. Returns true on success.&]
+[s2; Устанавливаетthe attributes of the file system object pointed by [%-*@3 handle].to 
+[%-*@3 attrs]. Возвращает true on success.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:SFtp`:`:SetAttrs`(const Upp`:`:String`&`,const Upp`:`:SFtpAttrs`&`):%- [@(0.0.255) b
 ool]_[* SetAttrs]([@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 path], 
 [@(0.0.255) const]_[_^Upp`:`:SFtpAttrs^ SFtpAttrs][@(0.0.255) `&]_[*@3 attrs])&]
-[s2; Sets the attributes of the file system object at [%-*@3 path] 
-to [%-*@3 attrs]. Returns true on success.&]
+[s2; Устанавливаетthe attributes of the file system object at [%-*@3 path] 
+to [%-*@3 attrs]. Возвращает true on success.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:SFtp`:`:GetInfo`(const Upp`:`:String`&`):%- [_^Upp`:`:SFtp`:`:DirEntry^ SFt
 p`::DirEntry]_[* GetInfo]([@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 p
 ath])&]
-[s2; Returns a DirEntry object that contains information about [%-*@3 path] 
+[s2; Возвращает a DirEntry object that contains information about [%-*@3 path] 
 on success, and Null on failure.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:SFtp`:`:SetInfo`(const Upp`:`:SFtp`:`:DirEntry`&`):%- [@(0.0.255) bool]_[* Se
 tInfo]([@(0.0.255) const]_[_^Upp`:`:SFtp`:`:DirEntry^ DirEntry][@(0.0.255) `&]_[*@3 entry
 ])&]
-[s2; Sets the attributes of file system object represented by [%-*@3 entry]. 
-Returns true on succes, and Null on failure.&]
+[s2; Устанавливаетthe attributes of file system object represented by [%-*@3 entry]. 
+Возвращает true on succes, and Null on failure.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:SFtp`:`:GetSize`(const Upp`:`:String`&`):%- [_^Upp`:`:int64^ int64]_[* GetSiz
 e]([@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 path])&]
-[s2; Returns the size of [%-*@3 path] on success, `-1 on failure.&]
+[s2; Возвращает the size of [%-*@3 path] on success, `-1 on failure.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:SFtp`:`:SetSize`(const Upp`:`:String`&`,Upp`:`:int64`):%- [@(0.0.255) bool]_
 [* SetSize]([@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 path], 
 [_^Upp`:`:int64^ int64]_[*@3 size])&]
-[s2; Sets the [%-*@3 size ]of [%-*@3 path]. Returns true on success.&]
+[s2; Устанавливаетthe [%-*@3 size ]of [%-*@3 path]. Возвращает true on success.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:SFtp`:`:GetLastModifyTime`(const Upp`:`:String`&`):%- [_^Upp`:`:Time^ Time]_
 [* GetLastModifyTime]([@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 path
 ])&]
-[s2; Returns the last modification time[%-*@3  ]of [%-*@3 path] on success 
+[s2; Возвращает the last modification time[%-*@3  ]of [%-*@3 path] on success 
 and Null on failure.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:SFtp`:`:SetLastModifyTime`(const Upp`:`:String`&`,const Upp`:`:Time`&`):%- [@(0.0.255) b
 ool]_[* SetLastModifyTime]([@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 p
 ath], [@(0.0.255) const]_[_^Upp`:`:Time^ Time][@(0.0.255) `&]_[*@3 time])&]
-[s2; Sets the last modification [%-*@3 time ]of [%-*@3 path]. Returns 
+[s2; Устанавливаетthe last modification [%-*@3 time ]of [%-*@3 path]. Возвращает 
 true on success.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:SFtp`:`:GetLastAccessTime`(const Upp`:`:String`&`):%- [_^Upp`:`:Time^ Time]_
 [* GetLastAccessTime]([@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 path
 ])&]
-[s2; Returns the last access time of [%-*@3 path] on success and Null 
+[s2; Возвращает the last access time of [%-*@3 path] on success and Null 
 on failure.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:SFtp`:`:SetLastAccessTime`(const Upp`:`:String`&`,const Upp`:`:Time`&`):%- [@(0.0.255) b
 ool]_[* SetLastAccessTime]([@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 p
 ath], [@(0.0.255) const]_[_^Upp`:`:Time^ Time][@(0.0.255) `&]_[*@3 time])&]
-[s2; Sets the last access time[%-*@3  ]of [%-*@3 path]. Returns true 
+[s2; Устанавливаетthe last access time[%-*@3  ]of [%-*@3 path]. Возвращает true 
 on success.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:SFtp`:`:FileExists`(const Upp`:`:String`&`):%- [@(0.0.255) bool]_[* FileExist
 s]([@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 path])&]
-[s2; Возвращает true, если [%-*@3 path] represents a file.&]
+[s2; Возвращает  true, если [%-*@3 path] represents a file.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:SFtp`:`:DirectoryExists`(const Upp`:`:String`&`):%- [@(0.0.255) bool]_[* Dire
 ctoryExists]([@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 path])&]
-[s2; Возвращает true, если [%-*@3 path] represents a directory.&]
+[s2; Возвращает  true, если [%-*@3 path] represents a directory.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:SFtp`:`:SymLinkExists`(const Upp`:`:String`&`):%- [@(0.0.255) bool]_[* SymLin
 kExists]([@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 path])&]
-[s2; Возвращает true, если [%-*@3 path] represents a symbolic link.&]
+[s2; Возвращает  true, если [%-*@3 path] represents a symbolic link.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:SFtp`:`:SocketExists`(const Upp`:`:String`&`):%- [@(0.0.255) bool]_[* SocketE
 xists]([@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 path])&]
-[s2; Возвращает true, если [%-*@3 path] represents a socket.&]
+[s2; Возвращает  true, если [%-*@3 path] represents a socket.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:SFtp`:`:PipeExists`(const Upp`:`:String`&`):%- [@(0.0.255) bool]_[* PipeExist
 s]([@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 path])&]
-[s2; Возвращает true, если [%-*@3 path] represents a named pipe.&]
+[s2; Возвращает  true, если [%-*@3 path] represents a named pipe.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:SFtp`:`:BlockExists`(const Upp`:`:String`&`):%- [@(0.0.255) bool]_[* BlockExi
 sts]([@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 path])&]
-[s2; Возвращает true, если [%-*@3 path] represents a block special file.&]
+[s2; Возвращает  true, если [%-*@3 path] represents a block special file.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:SFtp`:`:SpecialFileExists`(const Upp`:`:String`&`):%- [@(0.0.255) bool]_[* Sp
 ecialFileExists]([@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 path])&]
-[s2; Возвращает true, если [%-*@3 path] represents a character special file.&]
+[s2; Возвращает  true, если [%-*@3 path] represents a character special file.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:SFtp`:`:GetDone`(`)const:%- [@(0.0.255) int]_[* GetDone]()_[@(0.0.255) const]&]
-[s2; Returns the number of bytes processed during a data transfer. 
+[s2; Возвращает the number of bytes processed during a data transfer. 
 Intended to be called from WhenWait routine.&]
 [s3;%- &]
 [s4;%- &]
@@ -332,7 +332,7 @@ FtpHandle]_[*@3 handle], [@(0.0.255) void]_`*[*@3 ptr], [@(0.0.255) int]_[*@3 si
 MAX)&]
 [s2; Reads at most [%-*@3 size] bytes data from the remote file object 
 associated with [%-*@3 handle] into the buffer pointed by [%-*@3 ptr], 
-trying to do so at most for a specified timeout. Returns the 
+trying to do so at most for a specified timeout. Возвращает the 
 number of bytes actually written.&]
 [s3; &]
 [s4;%- &]
@@ -341,28 +341,28 @@ t]([_^Upp`:`:SFtpHandle^ SFtpHandle]_[*@3 handle], [@(0.0.255) const]_[@(0.0.255
 [*@3 ptr], [@(0.0.255) int]_[*@3 size])&]
 [s2; Writes at most [%-*@3 size] bytes data from the buffer pointed 
 by [%-*@3 ptr] into the remote file object associated with [%-*@3 handle], 
-trying to do so at most for a specified timeout. Returns the 
+trying to do so at most for a specified timeout. Возвращает the 
 number of bytes actually written.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:SFtp`:`:SaveFile`(const char`*`,const Upp`:`:String`&`):%- [@(0.0.255) bool
 ]_[* SaveFile]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 path], [@(0.0.255) const]_[_^Upp`:`:String^ S
 tring][@(0.0.255) `&]_[*@3 data])&]
-[s2; Saves the content of [%-*@3 data ]to remote [%-*@3 path]. Returns 
+[s2; Saves the content of [%-*@3 data ]to remote [%-*@3 path]. Возвращает 
 true on success. [^topic`:`/`/Core`/SSH`/src`/Upp`_Ssh`_SFtp`_ru`-ru`#Upp`:`:SFtp`:`:WhenProgress^ W
 henProgress ]gate can be used to track data transfer.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:SFtp`:`:LoadFile`(const char`*`):%- [_^Upp`:`:String^ String]_[* LoadFile]([@(0.0.255) c
 onst]_[@(0.0.255) char]_`*[*@3 path])&]
-[s2; Returns the content of the remote [%-*@3 path]. [^topic`:`/`/Core`/SSH`/src`/Upp`_Ssh`_SFtp`_ru`-ru`#Upp`:`:SFtp`:`:WhenProgress^ W
+[s2; Возвращает the content of the remote [%-*@3 path]. [^topic`:`/`/Core`/SSH`/src`/Upp`_Ssh`_SFtp`_ru`-ru`#Upp`:`:SFtp`:`:WhenProgress^ W
 henProgress ]gate can be used to track data transfer.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:SFtp`:`:SaveFile`(const char`*`,Upp`:`:Stream`&`):%- [@(0.0.255) bool]_[* Sav
 eFile]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 path], [_^Upp`:`:Stream^ Stream][@(0.0.255) `&
 ]_[*@3 in])&]
-[s2; Saves the content of [%-*@3 in] to remote [%-*@3 path] . Returns 
+[s2; Saves the content of [%-*@3 in] to remote [%-*@3 path] . Возвращает 
 true on success. [^topic`:`/`/Core`/SSH`/src`/Upp`_Ssh`_SFtp`_ru`-ru`#Upp`:`:SFtp`:`:WhenProgress^ W
 henProgress ]gate can be used to track data transfer.&]
 [s3; &]
@@ -370,15 +370,15 @@ henProgress ]gate can be used to track data transfer.&]
 [s5;:Upp`:`:SFtp`:`:LoadFile`(Upp`:`:Stream`&`,const char`*`):%- [@(0.0.255) bool]_[* Loa
 dFile]([_^Upp`:`:Stream^ Stream][@(0.0.255) `&]_[*@3 out], [@(0.0.255) const]_[@(0.0.255) c
 har]_`*[*@3 path])&]
-[s2; Returns the content of remote [%-*@3 path ]into [%-*@3 out]. Returns 
+[s2; Возвращает the content of remote [%-*@3 path ]into [%-*@3 out]. Возвращает 
 true on success. [^topic`:`/`/Core`/SSH`/src`/Upp`_Ssh`_SFtp`_ru`-ru`#Upp`:`:SFtp`:`:WhenProgress^ W
 henProgress ]gate can be used to track data transfer.&]
 [s3; &]
-[ {{10000F(128)G(128)@1 [s0; [* Constructor detail]]}}&]
+[ {{10000F(128)G(128)@1 [s0; [* Конструктор  detail]]}}&]
 [s3;%- &]
 [s5;:Upp`:`:SFtp`:`:SFtp`(Upp`:`:SshSession`&`):%- [* SFtp]([_^Upp`:`:SshSession^ SshSess
 ion][@(0.0.255) `&]_[*@3 session])&]
-[s2; Constructor. Binds the SFtp instance to [%-*@3 session].&]
+[s2; Конструктор . Binds the SFtp instance to [%-*@3 session].&]
 [s3; &]
 [s0;%- &]
 [ {{10000@(113.42.0) [s0; [*@7;4 SFtp`::DirEntry]]}}&]
@@ -393,37 +393,37 @@ returned by the SFtp class. DirEntry class has pick semantics.&]
 [s3;%- &]
 [s5;:Upp`:`:SFtp`:`:DirEntry`:`:GetName`(`)const:%- [_^Upp`:`:String^ String]_[* GetName](
 )_[@(0.0.255) const]&]
-[s2; Returns the name (path) of the file system object on success, 
+[s2; Возвращает the name (path) of the file system object on success, 
 and Null on failure..&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:SFtp`:`:DirEntry`:`:GetUid`(`)const:%- [_^Upp`:`:int64^ int64]_[* GetUid]()_[@(0.0.255) c
 onst]&]
-[s2; Returns the user id associated with the file system object on 
+[s2; Возвращает the user id associated with the file system object on 
 success, and `-1 on failure.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:SFtp`:`:DirEntry`:`:GetGid`(`)const:%- [_^Upp`:`:int64^ int64]_[* GetGid]()_[@(0.0.255) c
 onst]&]
-[s2; Returns the group id associated with the file system object 
+[s2; Возвращает the group id associated with the file system object 
 on success, and `-1 on failure.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:SFtp`:`:DirEntry`:`:GetSize`(`)const:%- [_^Upp`:`:int64^ int64]_[* GetSize]()
 _[@(0.0.255) const]&]
-[s2; Returns the size of file system object in bytes on success, 
+[s2; Возвращает the size of file system object in bytes on success, 
 and `-1 on falure.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:SFtp`:`:DirEntry`:`:GetLastModified`(`)const:%- [_^Upp`:`:Time^ Time]_[* GetL
 astModified]()_[@(0.0.255) const]&]
-[s2; Returns the last modification time of the file system object 
+[s2; Возвращает the last modification time of the file system object 
 on success, and Null on failure.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:SFtp`:`:DirEntry`:`:GetLastAccessed`(`)const:%- [_^Upp`:`:Time^ Time]_[* GetL
 astAccessed]()_[@(0.0.255) const]&]
-[s2; Returns the last access time of the file system object on success, 
+[s2; Возвращает the last access time of the file system object on success, 
 and Null on failure.&]
 [s3;%- &]
 [s4;%- &]
@@ -431,7 +431,7 @@ and Null on failure.&]
 ]_[* GetAttrs]()&]
 [s5;:Upp`:`:SFtp`:`:DirEntry`:`:GetAttrs`(`):%- [_^Upp`:`:SFtpAttrs^ SFtpAttrs][@(0.0.255) `&
 ]_[* operator`*]()&]
-[s2; Returns the libssh2 file attributes structure for the file system 
+[s2; Возвращает the libssh2 file attributes structure for the file system 
 object.&]
 [s3;%- &]
 [s4;%- &]
@@ -442,63 +442,63 @@ FtpAttrs][@(0.0.255) `&]_[* operator`~]()_[@(0.0.255) const]&]
 [s4;%- &]
 [s5;:Upp`:`:SFtp`:`:DirEntry`:`:IsFile`(`)const:%- [@(0.0.255) bool]_[* IsFile]()_[@(0.0.255) c
 onst]&]
-[s2; Возвращает true, если the file system object is a file.&]
+[s2; Возвращает  true, если the file system object is a file.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:SFtp`:`:DirEntry`:`:IsDirectory`(`)const:%- [@(0.0.255) bool]_[* IsDirectory](
 )_[@(0.0.255) const]&]
-[s2; Возвращает true, если the file system object is a directory.&]
+[s2; Возвращает  true, если the file system object is a directory.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:SFtp`:`:DirEntry`:`:IsSymLink`(`)const:%- [@(0.0.255) bool]_[* IsSymLink]()_[@(0.0.255) c
 onst]&]
-[s2; Возвращает true, если the file system object is a symbolic link.&]
+[s2; Возвращает  true, если the file system object is a symbolic link.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:SFtp`:`:DirEntry`:`:IsSpecial`(`)const:%- [@(0.0.255) bool]_[* IsSpecial]()_[@(0.0.255) c
 onst]&]
-[s2; Возвращает true, если the file system object is a character special 
+[s2; Возвращает  true, если the file system object is a character special 
 file.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:SFtp`:`:DirEntry`:`:IsBlock`(`)const:%- [@(0.0.255) bool]_[* IsBlock]()_[@(0.0.255) c
 onst]&]
-[s2; Возвращает true, если the file system object is a block special file.&]
+[s2; Возвращает  true, если the file system object is a block special file.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:SFtp`:`:DirEntry`:`:IsPipe`(`)const:%- [@(0.0.255) bool]_[* IsPipe]()_[@(0.0.255) c
 onst]&]
-[s2; Возвращает true, если the file system object is a named pipe.&]
+[s2; Возвращает  true, если the file system object is a named pipe.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:SFtp`:`:DirEntry`:`:IsSocket`(`)const:%- [@(0.0.255) bool]_[* IsSocket]()_[@(0.0.255) c
 onst]&]
-[s2; Возвращает true, если the file system object is a socket.&]
+[s2; Возвращает  true, если the file system object is a socket.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:SFtp`:`:DirEntry`:`:IsReadable`(`)const:%- [@(0.0.255) bool]_[* IsReadable]()
 _[@(0.0.255) const]&]
-[s2; Возвращает true, если the file system object is readable.&]
+[s2; Возвращает  true, если the file system object is readable.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:SFtp`:`:DirEntry`:`:IsWriteable`(`)const:%- [@(0.0.255) bool]_[* IsWriteable](
 )_[@(0.0.255) const]&]
-[s2; Возвращает true, если the file system object is writable.&]
+[s2; Возвращает  true, если the file system object is writable.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:SFtp`:`:DirEntry`:`:IsReadOnly`(`)const:%- [@(0.0.255) bool]_[* IsReadOnly]()
 _[@(0.0.255) const]&]
-[s2; Возвращает true, если the file system object has read`-only access.&]
+[s2; Возвращает  true, если the file system object has read`-only access.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:SFtp`:`:DirEntry`:`:IsExecutable`(`)const:%- [@(0.0.255) bool]_[* IsExecutabl
 e]()_[@(0.0.255) const]&]
-[s2; Возвращает true, если the file system object is executable.&]
+[s2; Возвращает  true, если the file system object is executable.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:SFtp`:`:DirEntry`:`:ToString`(`)const:%- [_^Upp`:`:String^ String]_[* ToStrin
 g]()_[@(0.0.255) const]&]
-[s2; Returns the information of file system object as a formattad 
+[s2; Возвращает the information of file system object as a formattad 
 string. Output of this method is similar to Unix ls command`'s 
 output.&]
 [s3;%- &]
@@ -514,7 +514,7 @@ SFtpFileSystemInfo].&]
 alize]([_^Upp`:`:Stream^ Stream][@(0.0.255) `&]_[*@3 s])&]
 [s2; Serializes the DirEntry object.&]
 [s3; &]
-[ {{10000F(128)G(128)@1 [s0; [* Constructor detail]]}}&]
+[ {{10000F(128)G(128)@1 [s0; [* Конструктор  detail]]}}&]
 [s3;%- &]
 [s5;:Upp`:`:SFtp`:`:DirEntry`:`:DirEntry`(`):%- [* DirEntry]()&]
 [s2; Дефолтный конструктор.&]
@@ -522,7 +522,7 @@ alize]([_^Upp`:`:Stream^ Stream][@(0.0.255) `&]_[*@3 s])&]
 [s4;%- &]
 [s5;:Upp`:`:SFtp`:`:DirEntry`:`:DirEntry`(const Upp`:`:String`&`):%- [* DirEntry]([@(0.0.255) c
 onst]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 path])&]
-[s2; Creates an empty directory entry representing [%-*@3 path].&]
+[s2; Создаёт an empty directory entry representing [%-*@3 path].&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:SFtp`:`:DirEntry`:`:DirEntry`(const Upp`:`:String`&`,const Upp`:`:SFtpAttrs`&`):%- [* D
@@ -552,7 +552,7 @@ agnostic (`"transparent`") way.&]
 [s5;:Upp`:`:SFtpFileSystemInfo`:`:Mount`(Upp`:`:SFtp`&`):%- [_^Upp`:`:SFtpFileSystemInfo^ S
 FtpFileSystemInfo][@(0.0.255) `&]_[* Mount]([_^Upp`:`:SFtp^ SFtp][@(0.0.255) `&]_[*@3 sftp])
 &]
-[s2; Mounts a valid [%-*@3 sftp] file system to be enumerated. Returns 
+[s2; Mounts a valid [%-*@3 sftp] file system to be enumerated. Возвращает 
 `*this for method chaining.&]
 [s3; &]
 [s4;%- &]
@@ -561,7 +561,7 @@ rray]<[_^Upp`:`:FileSystemInfo`:`:FileInfo^ FileSystemInfo`::FileInfo]>_[* Find]
 tring]_[*@3 mask], [@(0.0.255) int]_[*@3 max`_count]_`=_`_`_INT`_MAX`_`_, 
 [@(0.0.255) bool]_[*@3 unmounted]_`=_[@(0.0.255) false])_[@(0.0.255) const]_override&]
 [s2; Searches for the given [%-*@3 mask] in the mounted sftp file system. 
-Returns an array of FileInfo objects on success, and an empty 
+Возвращает an array of FileInfo objects on success, and an empty 
 array on failure. Mask can be a full or relative path, and may 
 contain wildcards (`*, ?). When the mask is null or empty, this 
 method will return the content of the user`'s default directory. 
@@ -572,17 +572,17 @@ FileInfos. The [%-*@3 unmounted] flag is unused.&]
 [s5;:Upp`:`:SFtpFileSystemInfo`:`:CreateFolder`(Upp`:`:String`,Upp`:`:String`&`)const override:%- [@(0.0.255) b
 ool]_[* CreateFolder]([_^Upp`:`:String^ String]_[*@3 path], [_^Upp`:`:String^ String][@(0.0.255) `&
 ]_[*@3 error])_[@(0.0.255) const]_override&]
-[s0;l288; Attempts to create a new folder at [%-*@3 path]. Returns 
+[s0;l288; Attempts to create a new folder at [%-*@3 path]. Возвращает 
 true on success, and the [%-*@3 error]  buffer will be filled with 
 specific error message on failure.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:SFtpFileSystemInfo`:`:GetStyle`(`)const override:%- [@(0.0.255) int]_[* GetSt
 yle]()_[@(0.0.255) const]_override&]
-[s0;l288; Returns the file system style. This method returns the 
+[s0;l288; Возвращает the file system style. This method returns the 
 [C FileSystemInfo`::STYLE`_POSIX] constant.&]
 [s3;%- &]
-[ {{10000F(128)G(128)@1 [s0; [* Constructor detail]]}}&]
+[ {{10000F(128)G(128)@1 [s0; [* Конструктор  detail]]}}&]
 [s3;%- &]
 [s5;:Upp`:`:SFtpFileSystemInfo`:`:SFtpFileSystemInfo`(`):%- [* SFtpFileSystemInfo]()&]
 [s2; Дефолтный конструктор.&]
@@ -590,6 +590,6 @@ yle]()_[@(0.0.255) const]_override&]
 [s4;%- &]
 [s5;:Upp`:`:SFtpFileSystemInfo`:`:SFtpFileSystemInfo`(Upp`:`:SFtp`&`):%- [* SFtpFileSys
 temInfo]([_^Upp`:`:SFtp^ SFtp][@(0.0.255) `&]_[*@3 sftp])&]
-[s2; Constructor. Mounts a valid [%-*@3 sftp] file system to be enumerated.&]
+[s2; Конструктор . Mounts a valid [%-*@3 sftp] file system to be enumerated.&]
 [s3; &]
 [s0; ]]

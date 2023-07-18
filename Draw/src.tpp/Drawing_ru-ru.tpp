@@ -32,14 +32,14 @@ and hash`-value support.&]
 [s3; &]
 [s4; &]
 [s5;:Drawing`:`:GetSize`(`)const: [_^Size^ Size]_[* GetSize]()_[@(0.0.255) const]&]
-[s2;%% Returns the size of Drawing `- the value explicitly defined 
+[s2;%% Возвращает the size of Drawing `- the value explicitly defined 
 in DrawingDraw or set by SetSize.&]
 [s3; &]
 [s4; &]
 [s5;:Drawing`:`:SetSize`(Size`): [@(0.0.255) void]_[* SetSize]([_^Size^ Size]_[*@3 sz])&]
 [s5;:Drawing`:`:SetSize`(int`,int`): [@(0.0.255) void]_[* SetSize]([@(0.0.255) int]_[*@3 cx],
  [@(0.0.255) int]_[*@3 cy])&]
-[s2;%% Sets the size of Drawing.&]
+[s2;%% Устанавливаетthe size of Drawing.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:Drawing`:`:RatioSize`(int`,int`)const: [_^Size^ Size]_[* RatioSize]([@(0.0.255) int]_[*@3 c
@@ -53,7 +53,7 @@ zero, returns Drawing size.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:Drawing`:`:Clear`(`): [@(0.0.255) void]_[* Clear]()&]
-[s2;%% Sets Drawing empty.&]
+[s2;%% УстанавливаетDrawing empty.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:Drawing`:`:Append`(Drawing`&`): [@(0.0.255) void]_[* Append]([_^Drawing^ Drawing][@(0.0.255) `&
@@ -86,11 +86,11 @@ onst]&]
 [s3;%% &]
 [s4;%% &]
 [s5;:Drawing`:`:operator Value`(`)const: [* operator_Value]()_[@(0.0.255) const]&]
-[s2;%% Returns Drawing as Value `- Drawing is `"rich`" Value, supporting 
+[s2;%% Возвращает Drawing as Value `- Drawing is `"rich`" Value, supporting 
 operator`=`=, hashing, Null and serialization.&]
 [s3; &]
 [s0; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Constructor detail]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Конструктор  detail]]}}&]
 [s3; &]
 [s5;:Drawing`:`:Drawing`(const Value`&`): [* Drawing]([@(0.0.255) const]_[_^Value^ Value][@(0.0.255) `&
 ]_[*@3 src])&]

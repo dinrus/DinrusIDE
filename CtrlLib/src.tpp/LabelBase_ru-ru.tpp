@@ -40,7 +40,7 @@ flag.&]
 [s5;:GetSmartTextSize`(const char`*`,Font`,int`):%- [_^Size^ Size]_[* GetSmartTextSize]([@(0.0.255) c
 onst]_[@(0.0.255) char]_`*[*@3 text], [_^Font^ Font]_[*@3 font]_`=_StdFont(), 
 [@(0.0.255) int]_[*@3 cx]_`=_INT`_MAX)&]
-[s2; Returns the minimal size of SmartText. If text is multi`-paragraph 
+[s2; Возвращает the minimal size of SmartText. If text is multi`-paragraph 
 QTF text, width of text is the width of widest paragraph without 
 doing any line breaks (paragraphs are formatted for infinite 
 width).&]
@@ -53,7 +53,7 @@ width).&]
 [s5;:GetSmartTextHeight`(const char`*`,int`,Font`):%- [@(0.0.255) int]_[* GetSmartTextHei
 ght]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 s], [@(0.0.255) int]_[*@3 cx], 
 [_^Font^ Font]_[*@3 font]_`=_StdFont())&]
-[s2; Returns the height of given SmartText for given width. QTF paragraphs 
+[s2; Возвращает the height of given SmartText for given width. QTF paragraphs 
 are formatted for this width.&]
 [s7; [%-*C@3 w]-|Draw.&]
 [s7; [%-*C@3 s]-|SmartText string.&]
@@ -130,7 +130,7 @@ descriptions.&]
 [s3;%- &]
 [s5;:DrawLabel`:`:GetSize`(int`)const:%- [_^Size^ Size]_[* GetSize]([@(0.0.255) int]_[*@3 txt
 cx]_`=_INT`_MAX)_[@(0.0.255) const]&]
-[s2; Returns the size of label based on current set of attributes. 
+[s2; Возвращает the size of label based on current set of attributes. 
 [%-*@3 txtcx] specifies the maximum width of text.&]
 [s3; &]
 [s4;%- &]
@@ -159,12 +159,12 @@ nt]([_^Draw^ Draw][@(0.0.255) `&]_[*@3 w], [@(0.0.255) int]_[*@3 x], [@(0.0.255)
 [s4;%- &]
 [s5;:DrawLabel`:`:push:%- [@(0.0.255) bool]_[* push]&]
 [s2; Label should be painted as `"pushed`" (means paint offset one 
-pixel right and down). Default is false.&]
+pixel right and down). Дефолт равен false.&]
 [s3; &]
 [s4;%- &]
 [s5;:DrawLabel`:`:focus:%- [@(0.0.255) bool]_[* focus]&]
 [s2; Label should be painted as `"with input focus`" (light blue 
-rectangle is drawn around label). Default is false.&]
+rectangle is drawn around label). Дефолт равен false.&]
 [s3; &]
 [s4;%- &]
 [s5;:DrawLabel`:`:disabled:%- [@(0.0.255) bool]_[* disabled]&]
@@ -253,7 +253,7 @@ changes.&]
 [s5;:LabelBase`:`:SetLeftImage`(const Image`&`,int`):%- [_^LabelBase^ LabelBase][@(0.0.255) `&
 ]_[* SetLeftImage]([@(0.0.255) const]_[_^Image^ Image][@(0.0.255) `&]_[*@3 bmp1], 
 [@(0.0.255) int]_[*@3 spc]_`=_[@3 0])&]
-[s2; Sets the left image.&]
+[s2; Устанавливаетthe left image.&]
 [s7; [%-*C@3 bmp1]-|Image.&]
 [s7; [%-*C@3 spc]-|Space between left image and text. If Null, image 
 is placed at left size of Label.&]
@@ -262,28 +262,28 @@ is placed at left size of Label.&]
 [s4;%- &]
 [s5;:LabelBase`:`:SetPaintRect`(const PaintRect`&`):%- [_^LabelBase^ LabelBase][@(0.0.255) `&
 ]_[* SetPaintRect]([@(0.0.255) const]_[_^PaintRect^ PaintRect][@(0.0.255) `&]_[*@3 pr])&]
-[s2; Sets PaintRect to be drawn behind or instead of label text.&]
+[s2; УстанавливаетPaintRect to be drawn behind or instead of label text.&]
 [s7; [%-*C@3 pr]-|PaintRect&]
 [s7; [*/ Возвратное значение]-|`*this для сцепления.&]
 [s3; &]
 [s4;%- &]
 [s5;:LabelBase`:`:SetText`(const char`*`):%- [_^LabelBase^ LabelBase][@(0.0.255) `&]_[* Set
 Text]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 text])&]
-[s2; Sets text of the label.&]
+[s2; Устанавливаетtext of the label.&]
 [s7; [%-*C@3 text]-|Text.&]
 [s7; [*/ Возвратное значение]-|`*this для сцепления.&]
 [s3; &]
 [s4;%- &]
 [s5;:LabelBase`:`:SetFont`(Font`):%- [_^LabelBase^ LabelBase][@(0.0.255) `&]_[* SetFont]([_^Font^ F
 ont]_[*@3 font])&]
-[s2; Sets font of non`-QTF text.&]
+[s2; Устанавливаетfont of non`-QTF text.&]
 [s7; [%-*C@3 font]-|Font.&]
 [s7; [*/ Возвратное значение]-|`*this для сцепления.&]
 [s3; &]
 [s4;%- &]
 [s5;:LabelBase`:`:SetInk`(Color`):%- [_^LabelBase^ LabelBase][@(0.0.255) `&]_[* SetInk]([_^Color^ C
 olor]_[*@3 color])&]
-[s2; Sets the color of non`-QTF text .&]
+[s2; Устанавливаетthe color of non`-QTF text .&]
 [s7; [%-*C@3 color]-|Color.&]
 [s7; [*/ Возвратное значение]-|`*this для сцепления.&]
 [s3; &]
@@ -291,7 +291,7 @@ olor]_[*@3 color])&]
 [s5;:LabelBase`:`:SetRightImage`(const Image`&`,int`):%- [_^LabelBase^ LabelBase][@(0.0.255) `&
 ]_[* SetRightImage]([@(0.0.255) const]_[_^Image^ Image][@(0.0.255) `&]_[*@3 bmp2], 
 [@(0.0.255) int]_[*@3 spc]_`=_[@3 0])&]
-[s2; Sets the right image.&]
+[s2; Устанавливаетthe right image.&]
 [s7; [%-*C@3 bmp2]-|Image.&]
 [s7; [%-*C@3 spc]-|Space between left image and text. If Null, image 
 is placed at left size of Label.&]
@@ -300,7 +300,7 @@ is placed at left size of Label.&]
 [s4;%- &]
 [s5;:LabelBase`:`:SetAlign`(int`):%- [_^LabelBase^ LabelBase][@(0.0.255) `&]_[* SetAlign]([@(0.0.255) i
 nt]_[*@3 align])&]
-[s2; Sets horizontal alignment.&]
+[s2; Устанавливаетhorizontal alignment.&]
 [s7; [%-*C@3 align]-|One of ALIGN`_LEFT, ALIGN`_RIGHT or ALIGN`_CENTER.&]
 [s7; [*/ Возвратное значение]-|`*this для сцепления.&]
 [s3; &]
@@ -321,7 +321,7 @@ nt]_[*@3 align])&]
 [s4;%- &]
 [s5;:LabelBase`:`:SetVAlign`(int`):%- [_^LabelBase^ LabelBase][@(0.0.255) `&]_[* SetVAlign](
 [@(0.0.255) int]_[*@3 align])&]
-[s2; Sets vertical alignment.&]
+[s2; Устанавливаетvertical alignment.&]
 [s7; [%-*C@3 align]-|One of ALIGN`_TOP, ALIGN`_BOTTOM or ALIGN`_CENTER.&]
 [s7; [*/ Возвратное значение]-|`*this для сцепления.&]
 [s5; &]
@@ -387,7 +387,7 @@ h]_`=_[@(0.0.255) false], [@(0.0.255) bool]_[*@3 focus]_`=_[@(0.0.255) false],
 [s7; [%-*C@3 disabled]-|Disable flag.&]
 [s7; [%-*C@3 push]-|Push flag.&]
 [s7; [%-*C@3 focus]-|Focus flag.&]
-[s7; [%-*C@3 vak]-|If true, accelerator should be highlighted.&]
+[s7; [%-*C@3 vak]-|Если true, accelerator should be highlighted.&]
 [s7; [*/ Возвратное значение]-|Size of label.&]
 [s3; &]
 [s4;%- &]
@@ -403,7 +403,7 @@ alse], [@(0.0.255) bool]_[*@3 focus]_`=_[@(0.0.255) false], [@(0.0.255) bool]_[*
 [s7; [%-*C@3 disabled]-|Disable flag.&]
 [s7; [%-*C@3 push]-|Push flag.&]
 [s7; [%-*C@3 focus]-|Focus flag.&]
-[s7; [%-*C@3 vak]-|If true, accelerator should be highlighted.&]
+[s7; [%-*C@3 vak]-|Если true, accelerator should be highlighted.&]
 [s7; [*/ Возвратное значение]-|Size of label.&]
 [s3; &]
 [s4;%- &]

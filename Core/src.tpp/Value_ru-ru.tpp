@@ -71,30 +71,30 @@ is the name to be used with JSON or XML.&]
 [s3; &]
 [s4;%- &]
 [s5;:Value`:`:GetType`(`)const:%- [_^dword^ dword]_[* GetType]()_[@(0.0.255) const]&]
-[s2; Returns the type number (assigned by derivation from ValueType).&]
+[s2; Возвращает the type number (assigned by derivation from ValueType).&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Value`:`:IsError`(`)const:%- [@(0.0.255) bool]_[* IsError]()_[@(0.0.255) const]&]
-[s2; Возвращает true, если Value contains ErrorValue.&]
+[s2; Возвращает  true, если Value contains ErrorValue.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Value`:`:IsVoid`(`)const:%- [@(0.0.255) bool]_[* IsVoid]()_[@(0.0.255) const]&]
-[s2; Возвращает true, если Value is void (default constructed Value is 
+[s2; Возвращает  true, если Value is void (default constructed Value is 
 void). IsError implies IsVoid.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Value`:`:IsNull`(`)const:%- [@(0.0.255) bool]_[* IsNull]()_[@(0.0.255) const]&]
-[s2; Возвращает true, если Value is Null. IsVoid implies IsNull.&]
+[s2; Возвращает  true, если Value is Null. IsVoid implies IsNull.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Value`:`:Is`(`)const:%- [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 T]>_[@(0.0.255) b
 ool]_[* Is]()_[@(0.0.255) const]&]
-[s2; Возвращает true, если Value contains exactly type [%-*@4 T].&]
+[s2; Возвращает  true, если Value contains exactly type [%-*@4 T].&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Value`:`:To`(`)const:%- [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 T]>_[@(0.0.255) c
 onst]_[*@4 T][@(0.0.255) `&]_[* To]()_[@(0.0.255) const]&]
-[s2; Returns constant reference to data contained in Value if Is<T> 
+[s2; Возвращает constant reference to data contained in Value if Is<T> 
 is true, otherwise throws ValueTypeError exception. Undefined 
 if Value contains ValueArray or ValueMap (technical and performance 
 reasons).&]
@@ -102,7 +102,7 @@ reasons).&]
 [s4;%- &]
 [s5;:Value`:`:Get`(`)const:%- [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 T]>_[@(0.0.255) c
 onst]_[*@4 T][@(0.0.255) `&]_[* Get]()_[@(0.0.255) const]&]
-[s2; Returns constant reference to data contained in Value. Unlike 
+[s2; Возвращает constant reference to data contained in Value. Unlike 
 To, it also works if Value contains Null of any type, in that 
 case it returns a reference to Null of type T. If Value does 
 not contain T, throws ValueTypeError. Undefined if Value contains 
@@ -143,7 +143,7 @@ Value types. If conversion is not possible, throws ValueTypeError.&]
 [s4;%- &]
 [s5;:Value`:`:Value`(const Nuller`&`):%- [* Value]([@(0.0.255) const]_[_^Nuller^ Nuller][@(0.0.255) `&
 ])&]
-[s2; Support for assignment from Null (e.g. Value v `= Null). Creates 
+[s2; Support for assignment from Null (e.g. Value v `= Null). Создаёт 
 Value containing (int)Null.&]
 [s3; &]
 [s4;%- &]
@@ -209,7 +209,7 @@ onst]&]
 [s4;%- &]
 [s5;:Value`:`:GetTypeName`(`)const:%- [_^String^ String]_[* GetTypeName]()_[@(0.0.255) cons
 t]&]
-[s2; Returns the text with typename for debugging purposes.&]
+[s2; Возвращает the text with typename for debugging purposes.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Value`:`:Serialize`(Stream`&`):%- [@(0.0.255) void]_[* Serialize]([_^Stream^ Stream][@(0.0.255) `&
@@ -391,7 +391,7 @@ onst]_[*@4 T][@(0.0.255) `&])_[@(0.0.255) const]&]
 [s4;%- &]
 [s5;:ValueType`:`:Compare`(const T`&`)const:%- [@(0.0.255) int]_[* Compare]([@(0.0.255) con
 st]_[*@4 T][@(0.0.255) `&])_[@(0.0.255) const]&]
-[s2; Comparison with another value of the same type. Returns should 
+[s2; Comparison with another value of the same type. Возвращает should 
 return `-1, 0, 1.&]
 [s3;%- &]
 [s4;%- &]
@@ -401,7 +401,7 @@ onst]_[_^Value^ Value][@(0.0.255) `&])_[@(0.0.255) const]&]
 [s3;%- &]
 [s4;%- &]
 [s5;:ValueType`:`:operator Ref`(`):%- [* operator_Ref]()&]
-[s2; Returns a Ref (generic reference) to the instance of T.&]
+[s2; Возвращает a Ref (generic reference) to the instance of T.&]
 [s0;%- &]
 [ {{10000@(113.42.0) [s0; [*@7;4 Value support functions]]}}&]
 [s0;%- &]
@@ -409,12 +409,12 @@ onst]_[_^Value^ Value][@(0.0.255) `&])_[@(0.0.255) const]&]
 [s3;%- &]
 [s5;:FitsSvoValue`(`):%- [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 T]>_[@(0.0.255) bool]_
 [* FitsSvoValue]()&]
-[s2; Возвращает true, если sizeof(T) fits into SVO Value optimization.&]
+[s2; Возвращает  true, если sizeof(T) fits into SVO Value optimization.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:SvoToValue`(const T`&`):%- [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 T]>_[_^Value^ V
 alue]_[* SvoToValue]([@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[*@3 x])&]
-[s2; Creates SVO Value from [%-*@3 x]. T has to have defined all that 
+[s2; Создаёт SVO Value from [%-*@3 x]. T has to have defined all that 
 is required for Value compatibility (derivation from ValueType 
 takes care of this). Unlike RawToValue, SvoToValue should only 
 be used in client`'s type operator Value() `- to avoid casting 
@@ -423,7 +423,7 @@ issues between Rich and Svo kinds.&]
 [s4;%- &]
 [s5;:RichToValue`(const T`&`):%- [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 T]>_[_^Value^ V
 alue]_[* RichToValue]([@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[*@3 data])&]
-[s2; Creates Rich Value from [%-*@3 data]. T has to have defined all 
+[s2; Создаёт Rich Value from [%-*@3 data]. T has to have defined all 
 that is required for Value compatibility (derivation from ValueType 
 takes care of this). Unlike RawToValue, RichToValue should only 
 be used in client`'s type operator Value() `- to avoid casting 
@@ -432,24 +432,24 @@ issues between Rich and Svo kinds.&]
 [s4;%- &]
 [s5;:RawToValue`(const T`&`):%- [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 T]>_[_^Value^ V
 alue]_[* RawToValue]([@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[*@3 data])&]
-[s2; Creates Raw Value from [%-*@3 data]. T has to have deep copy constructor.&]
+[s2; Создаёт Raw Value from [%-*@3 data]. T has to have deep copy constructor.&]
 [s3; &]
 [s4;%- &]
 [s5;:RawPickToValue`(pick`_ T`&`):%- [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 T]>_[_^Value^ V
 alue]_[* RawPickToValue]([@(0.128.128) pick`_]_[*@4 T][@(0.0.255) `&]_[*@3 data])&]
-[s2; Creates Raw Value by picking [%-*@3 data] (data is destroyed in 
+[s2; Создаёт Raw Value by picking [%-*@3 data] (data is destroyed in 
 the process). T has to have pick copy semantics.&]
 [s3; &]
 [s4;%- &]
 [s5;:RawDeepToValue`(const T`&`):%- [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 T]>_[_^Value^ V
 alue]_[* RawDeepToValue]([@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[*@3 data])&]
-[s2; Creates Raw Value by using [* optional deep copy] constructor 
+[s2; Создаёт Raw Value by using [* optional deep copy] constructor 
 (T(const T`&, int)) [%-*@3 data].&]
 [s3; &]
 [s4;%- &]
 [s5;:CreateRawValue`(Value`&`):%- [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 T]>_[*@4 T][@(0.0.255) `&
 ]_[* CreateRawValue]([_^Value^ Value][@(0.0.255) `&]_[*@3 v])&]
-[s2; Creates Raw Value of type T in [%-*@3 v]. T is created using default 
+[s2; Создаёт Raw Value of type T in [%-*@3 v]. T is created using default 
 constructor and reference to created instance is returned. Client 
 code should setup this instance before v is passed elsewhere.&]
 [s3;%- &]
@@ -458,11 +458,11 @@ code should setup this instance before v is passed elsewhere.&]
 har]_`*[*@3 s])&]
 [s5;:ErrorValue`(const String`&`):%- [^Value^ Value]_[* ErrorValue]([@(0.0.255) const]_[^String^ S
 tring][@(0.0.255) `&]_[*@3 s])&]
-[s2; Returns Error Value with description [%-*@3 s].&]
+[s2; Возвращает Error Value with description [%-*@3 s].&]
 [s3; &]
 [s4;%- &]
 [s5;:ErrorValue`(`):%- [@(0.0.255) const]_[_^Value^ Value][@(0.0.255) `&]_[* ErrorValue]()&]
-[s2; Returns ErrorValue with empty description.&]
+[s2; Возвращает ErrorValue with empty description.&]
 [s3; &]
 [s0;i448;a25;kKO9;@(0.0.255)%- &]
 [ {{10000F(128)G(128)@1 [s0; [* Value type tests]]}}&]
@@ -479,28 +479,28 @@ alue][@(0.0.255) `&]_[*@3 v])&]
 [s4;%- &]
 [s5;:IsString`(const Value`&`):%- [@(0.0.255) bool]_[* IsString]([@(0.0.255) const]_[_^Value^ V
 alue][@(0.0.255) `&]_[*@3 v])&]
-[s2; Возвращает true, если [%-*@3 v] contains String, WString or Null value.&]
+[s2; Возвращает  true, если [%-*@3 v] contains String, WString or Null value.&]
 [s3; &]
 [s4;%- &]
 [s5;:IsNumber`(const Value`&`):%- [@(0.0.255) bool]_[* IsNumber]([@(0.0.255) const]_[_^Value^ V
 alue][@(0.0.255) `&]_[*@3 v])&]
-[s2; Возвращает true, если [%-*@3 v] contains bool, int, int64, double or 
+[s2; Возвращает  true, если [%-*@3 v] contains bool, int, int64, double or 
 Null value.&]
 [s3; &]
 [s4;%- &]
 [s5;:IsDateTime`(const Value`&`):%- [@(0.0.255) bool]_[* IsDateTime]([@(0.0.255) const]_[_^Value^ V
 alue][@(0.0.255) `&]_[*@3 v])&]
-[s2; Возвращает true, если [%-*@3 v] contains Date, Time or Null value.&]
+[s2; Возвращает  true, если [%-*@3 v] contains Date, Time or Null value.&]
 [s3; &]
 [s4;%- &]
 [s5;:IsValueArray`(const Value`&`):%- [@(0.0.255) bool]_[* IsValueArray]([@(0.0.255) const]_
 [_^Value^ Value][@(0.0.255) `&]_[*@3 v])&]
-[s2; Returns true [%-*@3 v] contains ValueArray or ValueMap.&]
+[s2; Возвращает true [%-*@3 v] contains ValueArray or ValueMap.&]
 [s3; &]
 [s4;%- &]
 [s5;:IsValueMap`(const Value`&`):%- [@(0.0.255) bool]_[* IsValueMap]([@(0.0.255) const]_[_^Value^ V
 alue][@(0.0.255) `&]_[*@3 v])&]
-[s2; Returns true [%-*@3 v] contains ValueArray or ValueMap.&]
+[s2; Возвращает true [%-*@3 v] contains ValueArray or ValueMap.&]
 [s3; &]
 [s4;%- &]
 [s5;:GetErrorText`(const Value`&`):%- [_^String^ String]_[* GetErrorText]([@(0.0.255) const

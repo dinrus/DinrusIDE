@@ -49,7 +49,7 @@ dAddList]([@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 s])&]
 [s4; &]
 [s5;:Upp`:`:SuggestCtrl`:`:GetList`(`): [@(0.0.255) const]_[_^Upp`:`:Vector^ Vector]<[_^Upp`:`:WString^ W
 String]>`&_[* GetList]()&]
-[s2;%% Returns the current list of suggestions.&]
+[s2;%% Возвращает the current list of suggestions.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:SuggestCtrl`:`:Pick`(Upp`:`:Vector`<Upp`:`:WString`>`&`&`): [@(0.0.255) voi
@@ -59,26 +59,26 @@ d]_[* Pick]([_^Upp`:`:Vector^ Vector]<[_^Upp`:`:WString^ WString]>`&`&_[*@3 list
 [s4;%% &]
 [s5;:SuggestCtrl`:`:SetDropLines`(int`): [_^SuggestCtrl^ SuggestCtrl][@(0.0.255) `&]_[* Set
 DropLines]([@(0.0.255) int]_[*@3 n])&]
-[s2;%% Sets the height of suggestion list popup as number of lines 
+[s2;%% Устанавливаетthe height of suggestion list popup as number of lines 
 to show. Default is 16.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:SuggestCtrl`:`:Delimiter`(int`): [_^SuggestCtrl^ SuggestCtrl][@(0.0.255) `&]_[* Delimi
 ter]([@(0.0.255) int]_[*@3 chr])&]
-[s2;%% Sets list separator as character. Default is none, which means 
+[s2;%% Устанавливаетlist separator as character. Default is none, which means 
 text does not form a list.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:SuggestCtrl`:`:Delimiter`(int`(`*`)`(int c`)`): [_^SuggestCtrl^ SuggestCtrl][@(0.0.255) `&
 ]_[* Delimiter]([@(0.0.255) int]_(`*[*@3 filter])([@(0.0.255) int]_c))&]
-[s2;%% Sets list separator as filter. Returning zero means character 
+[s2;%% Устанавливаетlist separator as filter. Returning zero means character 
 is not list separator. Filter can alter the character (e.g. to 
 change `',`' to `';`') before it is written to the text.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:SuggestCtrl`:`:CompareFilter`(int`(`*`)`(int c`)`): [_^SuggestCtrl^ SuggestCtrl][@(0.0.255) `&
 ]_[* CompareFilter]([@(0.0.255) int]_(`*[*@3 filter])([@(0.0.255) int]_c))&]
-[s2;%% Sets filter to be applied to text and to the suggestions before 
+[s2;%% Устанавливаетfilter to be applied to text and to the suggestions before 
 it is compared while searching for suggestions.&]
 [s3;%% &]
 [s4; &]

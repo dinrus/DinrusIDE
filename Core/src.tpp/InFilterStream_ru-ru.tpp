@@ -10,75 +10,93 @@ topic "InFilterStream";
 [b42;2 $$9,9#13035079074754324216151401829390:normal]
 [2 $$0,0#00000000000000000000000000000000:Default]
 [{_} 
-[ {{10000@(113.42.0) [s0;%% [*@7;4 InFilterStream]]}}&]
+[ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 InFilterStream]]}}&]
 [s0;i448;a25;kKO9;@(0.0.255) &]
 [s1;:InFilterStream`:`:class: [@(0.0.255)3 class][3 _][*3 InFilterStream][3 _:_][@(0.0.255)3 pub
 lic][3 _][*@3;3 Stream]&]
-[s2;%% Adapter Stream that glues an input stream with some filtering 
-object, typically of compression/decompression class.&]
+[s2;%RU-RU Поток`-адаптер, который склеивает 
+вводный поток с неким фильтрующим 
+объектом, как правило, классом сжатия/расжат
+ия.&]
 [s3; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%RU-RU [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:InFilterStream`:`:in: [_^Stream^ Stream]_`*[* in]&]
-[s2;%% Pointer to input stream that serves as the source of data 
-to be filtered.&]
+[s2;%RU-RU Указатель на вводный поток, служащий 
+в качестве источника данных, подлежащих 
+фильтровке.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:InFilterStream`:`:Filter: [_^Upp`:`:Event^ Event]<[@(0.0.255) const]_[@(0.0.255) v
 oid]_`*, [@(0.0.255) int]>_[* Filter]&]
-[s2;%% Callback to filter input function.&]
+[s2;%RU-RU Обратный вызов вводной функции 
+фильтра.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:InFilterStream`:`:FilterEof: [_^Upp`:`:Gate^ Gate]<>_[* FilterEof]&]
-[s2;%% In some cases, there is a logical end of filtered stream before 
-the end of `'real`' stream. This Gate serves as signal of such 
-situation.&]
+[s2;%RU-RU В некоторых случаях имеет место 
+логический конец фильтруемого потока, 
+ещё до того как достигнут конец `'реального`' 
+потока. Этот Gate служит как сигнал 
+о подобной ситуации.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:InFilterStream`:`:End: [_^Upp`:`:Event^ Event]<>_[* End]&]
-[s2;%% Callback to filter finalization. This is invoked by InFilterStream 
-when it reaches the end of input stream. It gives chance to the 
-filter to flush any remaining data (to Out).&]
+[s2;%RU-RU Обрвыз финализации фильтра. Вызывается 
+InFilterStream`'ом, когда он достигает конца 
+вводного потока. Даёт шанс фильтру 
+слить любые остаточные данные (на 
+вывод Out).&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:InFilterStream`:`:More: [_^Upp`:`:Gate^ Gate]<>_[* More]&]
-[s2;%% Callback used for alternate mode of operation where instead 
-of input stream and filter only single data source is used (e.g. 
-HttpRequest). It should push data through FilterStream`::Out method 
-and return true if source of data is still active, false when 
-it reaches the end. False is then interpreted as EOF of InFilterStream.&]
-[s3;%% &]
+[s2;%RU-RU Обрвыз, служащий для альтернативного 
+операционного режима, когда вместо 
+вводного потока и фильтра ипользуется 
+только единственный источник данных 
+(например, HttpRequest). Он должен проталкивать 
+данные через метод FilterStream`::Out и возвращаеть 
+true,.если источник данных всё ещё активен, 
+false `- когда достигнут конец. False затем 
+интерпретируется как EOF (КФ, `"конец 
+файла`") InFilterStream`'а.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:InFilterStream`:`:Out`(const void`*`,int`): [@(0.0.255) void]_[* Out]([@(0.0.255) cons
 t]_[@(0.0.255) void]_`*[*@3 ptr], [@(0.0.255) int]_[*@3 size])&]
-[s2;%% Method serving as filter output.&]
-[s3;%% &]
+[s2;%RU-RU Метод, служащий как вывод фильтра.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:InFilterStream`:`:WhenOut: [_^Upp`:`:Event^ Event]<>_[* WhenOut]&]
-[s2;%% This callback is called whenever Out method is invoked. It 
-is intended for load progress indicators.&]
+[s2;%RU-RU Этот обрвыз вызывается при любом 
+вызове метода Out. Он предназначен 
+для загрузки индикаторов прогресса.&]
 [s3; &]
-[s4;%% &]
+[s4;%RU-RU &]
 [s5;:InFilterStream`:`:Set`(Stream`&`,F`&`): [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 F
 ]>_[@(0.0.255) void]_[* Set]([_^Stream^ Stream][@(0.0.255) `&]_[*@3 in`_], 
 [*@4 F][@(0.0.255) `&]_[*@3 filter])&]
-[s2;%% Sets the input stream and filter. Filter must have WhenOut 
-Event which is connected to Out method and Put and End methods 
-that are connected to Filter and End Events.&]
-[s3;%% &]
+[s2;%RU-RU Устанавливает вводный поток и 
+фильтр. Фильтр должен иметь событие 
+WhenOut Event, которое подключено к методу 
+Out, и методы Put и End, подключенные к 
+событиям Filter и End.&]
+[s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:InFilterStream`:`:SetBufferSize`(int`): [@(0.0.255) void]_[* SetBufferSize]([@(0.0.255) i
 nt]_[*@3 size])&]
-[s2;%% Sets the [%-*@3 size] of internal buffer used to store input 
-data before being filtered.&]
-[s3;%% &]
-[s4;%% &]
+[s2;%RU-RU Устанавливает размер [%-*@3 size] внутреннего 
+буфера, используемого для сохранения 
+вводных данных перед их фильтрацией.&]
+[s3;%RU-RU &]
+[s4;%RU-RU &]
 [s5;:InFilterStream`:`:InFilterStream`(`): [* InFilterStream]()&]
-[s2;%% Дефолтный конструктор.&]
-[s3;%% &]
-[s4;%% &]
+[s2;%RU-RU Дефолтный конструктор.&]
+[s3;%RU-RU &]
+[s4;%RU-RU &]
 [s5;:InFilterStream`:`:InFilterStream`(Stream`&`,F`&`): [@(0.0.255) template]_<[@(0.0.255) c
 lass]_[*@4 F]>_[* InFilterStream]([_^Stream^ Stream][@(0.0.255) `&]_[*@3 in], 
 [*@4 F][@(0.0.255) `&]_[*@3 filter])&]
-[s2;%% Equivalent of default constructor followed by Set.&]
-[s0;%% ]]
+[s2;%RU-RU Эквивалентен дефолтному конструктору 
+с последующим Set.&]
+[s0;%RU-RU ]]

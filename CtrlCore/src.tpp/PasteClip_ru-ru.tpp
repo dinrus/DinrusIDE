@@ -36,9 +36,9 @@ it to final format.&]
 [s3; &]
 [s4; &]
 [s5;:ClipData`:`:Render`(`)const: [_^String^ String]_[* Render]()_[@(0.0.255) const]&]
-[s2;%% Equivalent to (`*render)(data).&]
+[s2;%% Эквивалентно (`*render)(data).&]
 [s3; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Constructor detail]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Конструктор  detail]]}}&]
 [s4; &]
 [s5;:ClipData`:`:ClipData`(const Value`&`,String`(`*`)`(const Value`&`)`): [* ClipData](
 [@(0.0.255) const]_[_^Value^ Value][@(0.0.255) `&]_[*@3 data], [_^String^ String]_(`*[*@3 ren
@@ -70,16 +70,16 @@ operations).&]
 [s0; &]
 [s5;:PasteClip`:`:IsAvailable`(const char`*`)const: [@(0.0.255) bool]_[* IsAvailable]([@(0.0.255) c
 onst]_[@(0.0.255) char]_`*[*@3 fmt])_[@(0.0.255) const]&]
-[s2;%% Returns true when data source offers data in format [%-*@3 fmt].&]
+[s2;%% Возвращает true when data source offers data in format [%-*@3 fmt].&]
 [s3;%% &]
 [s4; &]
 [s5;:PasteClip`:`:Get`(const char`*`)const: [_^String^ String]_[* Get]([@(0.0.255) const]_[@(0.0.255) c
 har]_`*[*@3 fmt])_[@(0.0.255) const]&]
-[s2;%% Returns binary data rendered in [%-*@3 fmt].&]
+[s2;%% Возвращает binary data rendered in [%-*@3 fmt].&]
 [s3;%% &]
 [s4; &]
 [s5;:PasteClip`:`:Accept`(`): [@(0.0.255) bool]_[* Accept]()&]
-[s2;%% Sets the status of operation to accepted (target accepts data) 
+[s2;%% Устанавливаетthe status of operation to accepted (target accepts data) 
 and returns true when source should [/ paste ]the source data into 
 target `- during drag`&drop operation, it returns false during 
 `'drag`' phase to alter appearance of mouse cursor (it should 
@@ -100,12 +100,12 @@ operation to indicate that target is willing to accept the data.&]
 [s3;%% &]
 [s4; &]
 [s5;:PasteClip`:`:GetFormat`(`): [_^String^ String]_[* GetFormat]()&]
-[s2;%% Returns a format accepted by the last Accept(fmt) method returning 
+[s2;%% Возвращает a format accepted by the last Accept(fmt) method returning 
 true.&]
 [s3; &]
 [s4; &]
 [s5;:PasteClip`:`:Get`(`)const: [_^String^ String]_[* Get]()_[@(0.0.255) const]&]
-[s2;%% Returns data rendered by the last Accept(fmt) method returning 
+[s2;%% Возвращает data rendered by the last Accept(fmt) method returning 
 true.&]
 [s3; &]
 [s4; &]
@@ -119,7 +119,7 @@ onst]&]
 [s3; &]
 [s4; &]
 [s5;:PasteClip`:`:Reject`(`): [@(0.0.255) void]_[* Reject]()&]
-[s2;%% Sets PasteClip to rejected status. This can be called after 
+[s2;%% УстанавливаетPasteClip to rejected status. This can be called after 
 setting it to accepted status to revert the decision. Usually 
 this is used when decision has to take into account the content 
 of actual data to be pasted `- in that case data is Accepted 
@@ -133,7 +133,7 @@ DND`_MOVE).&]
 [s4; &]
 [s5;:PasteClip`:`:GetAllowedActions`(`)const: [@(0.0.255) int]_[* GetAllowedActions]()_[@(0.0.255) c
 onst]&]
-[s2;%% Returns the bitmask of allowed operations of drag`&drop operation 
+[s2;%% Возвращает the bitmask of allowed operations of drag`&drop operation 
 (DND`_COPY, DND`_MOVE).&]
 [s3; &]
 [s4; &]
@@ -145,16 +145,16 @@ operation is no suitable for particular drop target.&]
 [s4; &]
 [s5;:PasteClip`:`:IsAccepted`(`)const: [@(0.0.255) bool]_[* IsAccepted]()_[@(0.0.255) const
 ]&]
-[s2;%% Возвращает true, если status is accepted.&]
+[s2;%% Возвращает  true, если status is accepted.&]
 [s3; &]
 [s4; &]
 [s5;:PasteClip`:`:IsQuery`(`)const: [@(0.0.255) bool]_[* IsQuery]()_[@(0.0.255) const]&]
-[s2;%% Возвращает true, если PasteClip represents drag phase (no pasting, 
+[s2;%% Возвращает  true, если PasteClip represents drag phase (no pasting, 
 Accept returns false).&]
 [s3; &]
 [s4; &]
 [s5;:PasteClip`:`:IsPaste`(`)const: [@(0.0.255) bool]_[* IsPaste]()_[@(0.0.255) const]&]
-[s2;%% Возвращает true, если PasteClip represents drop/paste phase (Accept 
+[s2;%% Возвращает  true, если PasteClip represents drop/paste phase (Accept 
 returns true).&]
 [s3; &]
 [s4; &]

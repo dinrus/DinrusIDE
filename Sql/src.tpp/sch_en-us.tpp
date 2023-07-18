@@ -157,7 +157,7 @@ C`+`+ type is int64.]
 :: [s0; [* UNIQUE]]
 :: [s0; Column has UNIQUE constraint.]
 :: [s0; [* UNIQUE`_LIST(][*/ constraint`_name][* , ][*/ list][* )]]
-:: [s0; Creates UNIQUE constraint for set of columns. [*/ list] is a C 
+:: [s0; Создаёт UNIQUE constraint for set of columns. [*/ list] is a C 
 literal with comma separated column names.]
 :: [s0; [* DUAL`_UNIQUE(][*/ column1][* , ][*/ column1][* )]]
 :: [s0; UNIQUE constraint for two columns.]

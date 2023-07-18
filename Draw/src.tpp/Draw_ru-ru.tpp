@@ -49,7 +49,7 @@ clipping is performed in that case.&]
 [s3; &]
 [s5;:Draw`:`:GetInfo`(`)const: [@(0.0.255) virtual] [_^dword^ dword]_[* GetInfo]()_[@(0.0.255) c
 onst]_`=_[@3 0]&]
-[s2;%% Returns some basic information about Draw as combination of 
+[s2;%% Возвращает some basic information about Draw as combination of 
 flags:&]
 [s2;%% &]
 [ {{3735:6265<256;^ [s2;l64;%% [* Draw`::DOTS_`=_0x001]]
@@ -69,7 +69,7 @@ operation to reduce memory consumption.]}}&]
 [s4; &]
 [s5;:Draw`:`:GetPageSize`(`)const: [@(0.0.255) virtual] [_^Size^ Size]_[* GetPageSize]()_[@(0.0.255) c
 onst]&]
-[s2;%% Returns the size of actual output (size of window in pixels, 
+[s2;%% Возвращает the size of actual output (size of window in pixels, 
 size of printable area). If native mode is active and has different 
 dpi, value is adjusted accordingly.&]
 [s3; &]
@@ -95,20 +95,20 @@ ExcludeClipOp or IntersectClipOp.&]
 [s4; &]
 [s5;:Draw`:`:OffsetOp`(Point`): [@(0.0.255) virtual] [@(0.0.255) void]_[* OffsetOp]([_^Point^ P
 oint]_[*@3 p])_`=_[@3 0]&]
-[s2;%% Implements Offset operation: Calls Begin and then offsets coordinates 
+[s2;%% Implements Offset operation: Вызывает Begin and then offsets coordinates 
 so that [%-*@3 p] becomes Point(0, 0).&]
 [s3;%% &]
 [s4;%% &]
 [s5;:Draw`:`:ClipOp`(const Rect`&`): [@(0.0.255) virtual] [@(0.0.255) bool]_[* ClipOp]([@(0.0.255) c
 onst]_[_^Rect^ Rect][@(0.0.255) `&]_[*@3 r])_`=_[@3 0]&]
-[s2;%% Implements Clip operation: Calls Begin and then restricts all 
+[s2;%% Implements Clip operation: Вызывает Begin and then restricts all 
 painting operations to [%-*@3 r] `- nothing is painted outside 
 this rectangle.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:Draw`:`:ClipoffOp`(const Rect`&`): [@(0.0.255) virtual] [@(0.0.255) bool]_[* ClipoffOp
 ]([@(0.0.255) const]_[_^Rect^ Rect][@(0.0.255) `&]_[*@3 r])_`=_[@3 0]&]
-[s2;%% Implements ClipOff operation: Calls begin, then restricts all 
+[s2;%% Implements ClipOff operation: Вызывает begin, then restricts all 
 painting operations to[%-  ][%-*@3 r] and offsets coordinates so 
 that to left point of [%-*@3 r] becomes Point(0, 0).&]
 [s3;%% &]
@@ -326,7 +326,7 @@ package has to be included in the project for this to work.&]
 [s4;%% &]
 [s5;:Draw`:`:GetNativeDpi`(`)const: [@(0.0.255) virtual] [_^Size^ Size]_[* GetNativeDpi]()_
 [@(0.0.255) const]&]
-[s2;%% Returns native resolution of target device. Default implementation 
+[s2;%% Возвращает native resolution of target device. Default implementation 
 returns Size(600, 600) for Dots device and Size(96, 96) for screen 
 output.&]
 [s3;%% &]
@@ -345,7 +345,7 @@ mode.&]
 [s4;%% &]
 [s5;:Draw`:`:GetCloffLevel`(`)const: [@(0.0.255) virtual] [@(0.0.255) int]_[* GetCloffLevel
 ]()_[@(0.0.255) const]&]
-[s2;%% Returns the number of elements in clip`&offset stack. Mostly 
+[s2;%% Возвращает the number of elements in clip`&offset stack. Mostly 
 used for diagnostic purposes.&]
 [s3;%% &]
 [s4; &]
@@ -358,7 +358,7 @@ define text hyperlinks. Frontend to EscapeOp.&]
 [s4;%% &]
 [s5;:Draw`:`:GetPixelsPerInch`(`)const: [_^Size^ Size]_[* GetPixelsPerInch]()_[@(0.0.255) c
 onst]&]
-[s2;%% Returns active resolution. Returns native resolution if native 
+[s2;%% Возвращает active resolution. Возвращает native resolution if native 
 mode is active, or Size(600, 600) for physical output or Size(96, 
 96) for screen output.&]
 [s3;%% &]
@@ -429,7 +429,7 @@ Frontend to EndOp.&]
 [s5;:Draw`:`:Offset`(Point`): [@(0.0.255) void]_[* Offset]([_^Point^ Point]_[*@3 p])&]
 [s5;:Draw`:`:Offset`(int`,int`): [@(0.0.255) void]_[* Offset]([@(0.0.255) int]_[*@3 x], 
 [@(0.0.255) int]_[*@3 y])&]
-[s2;%% Calls Begin and then offsets coordinates so that [%-*@3 p] or 
+[s2;%% Вызывает Begin and then offsets coordinates so that [%-*@3 p] or 
 [%-*@3 x][%- ,][%-*@3 y][%-  ]becomes Point(0, 0). Uses OffsetOp for 
 implementation. Frontend to OffsetOp.&]
 [s3;%% &]
@@ -438,7 +438,7 @@ implementation. Frontend to OffsetOp.&]
 t][@(0.0.255) `&]_[*@3 r])&]
 [s5;:Draw`:`:Clip`(int`,int`,int`,int`): [@(0.0.255) bool]_[* Clip]([@(0.0.255) int]_[*@3 x],
  [@(0.0.255) int]_[*@3 y], [@(0.0.255) int]_[*@3 cx], [@(0.0.255) int]_[*@3 cy])&]
-[s2;%% Calls Begin and then restricts all painting operations to 
+[s2;%% Вызывает Begin and then restricts all painting operations to 
 [%-*@3 r] or [%-*@3 x][%- ,][%-*@3 y][%- ,][%-*@3 cx][%- ,][%-*@3 cy] rectangle 
 `- nothing is painted outside this rectangle. Frontend to ClipOp.&]
 [s3;%% &]
@@ -447,7 +447,7 @@ t][@(0.0.255) `&]_[*@3 r])&]
 ect][@(0.0.255) `&]_[*@3 r])&]
 [s5;:Draw`:`:Clipoff`(int`,int`,int`,int`): [@(0.0.255) bool]_[* Clipoff]([@(0.0.255) int]_
 [*@3 x], [@(0.0.255) int]_[*@3 y], [@(0.0.255) int]_[*@3 cx], [@(0.0.255) int]_[*@3 cy])&]
-[s2;%% Implements ClipOff operation: Calls begin, then restricts all 
+[s2;%% Implements ClipOff operation: Вызывает begin, then restricts all 
 painting operations to[%-  ][%-*@3 r] or [%-*@3 x][%- ,][%-*@3 y][%- ,][%-*@3 cx][%- ,][%-*@3 cy] 
 rectangle and offsets coordinates so that to left point of [%-*@3 r] 
 or point [%-*@3 x][%- ,][%-*@3 y] becomes Point(0, 0). Frontend to 

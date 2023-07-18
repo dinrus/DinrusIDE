@@ -20,7 +20,7 @@ then finalized in String and WString final classes.&]
 [s6; String&]
 [s0; String uses three step implementation to maximize performance.&]
 [s0; &]
-[s0; Strings up to 14 characters (bytes) can be stored using small`-string 
+[s0; String'и up to 14 characters (bytes) can be stored using small`-string 
 optimization inside String value. sizeof(String) is 16; first 
 14 bytes (0`- 13) in this case are character data, byte 14 is 
 reserved for zero terminator (and is always zero for this kind), 

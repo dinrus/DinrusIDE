@@ -44,21 +44,21 @@ class, and has pick semantics.&]
 [s5;:Upp`:`:Scp`:`:SaveFile`(const char`*`,const Upp`:`:String`&`):%- [@(0.0.255) bool]_
 [* SaveFile]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 path], [@(0.0.255) const]_[_^Upp`:`:String^ S
 tring][@(0.0.255) `&]_[*@3 data])&]
-[s2; Saves the content of [%-*@3 data ]to remote [%-*@3 path]. Returns 
+[s2; Saves the content of [%-*@3 data ]to remote [%-*@3 path]. Возвращает 
 true on success. [^topic`:`/`/Core`/SSH`/src`/Upp`_Ssh`_SFtp`_ru`-ru`#Upp`:`:SFtp`:`:WhenProgress^ W
 henProgress ]gate can be used to track data transfer.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:Scp`:`:LoadFile`(const char`*`):%- [_^Upp`:`:String^ String]_[* LoadFile]([@(0.0.255) c
 onst]_[@(0.0.255) char]_`*[*@3 path])&]
-[s2; Returns the content of the remote [%-*@3 path]. [^topic`:`/`/Core`/SSH`/src`/Upp`_Ssh`_SFtp`_ru`-ru`#Upp`:`:SFtp`:`:WhenProgress^ W
+[s2; Возвращает the content of the remote [%-*@3 path]. [^topic`:`/`/Core`/SSH`/src`/Upp`_Ssh`_SFtp`_ru`-ru`#Upp`:`:SFtp`:`:WhenProgress^ W
 henProgress ]gate can be used to track data transfer.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:Scp`:`:SaveFile`(const char`*`,Upp`:`:Stream`&`):%- [@(0.0.255) bool]_[* Save
 File]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 path], [_^Upp`:`:Stream^ Stream][@(0.0.255) `&
 ]_[*@3 in])&]
-[s2; Saves the content of [%-*@3 in] to remote [%-*@3 path] . Returns 
+[s2; Saves the content of [%-*@3 in] to remote [%-*@3 path] . Возвращает 
 true on success. [^topic`:`/`/Core`/SSH`/src`/Upp`_Ssh`_SFtp`_ru`-ru`#Upp`:`:SFtp`:`:WhenProgress^ W
 henProgress ]gate can be used to track data transfer.&]
 [s3; &]
@@ -66,7 +66,7 @@ henProgress ]gate can be used to track data transfer.&]
 [s5;:Upp`:`:Scp`:`:LoadFile`(Upp`:`:Stream`&`,const char`*`):%- [@(0.0.255) bool]_[* Load
 File]([_^Upp`:`:Stream^ Stream][@(0.0.255) `&]_[*@3 out], [@(0.0.255) const]_[@(0.0.255) ch
 ar]_`*[*@3 path])&]
-[s2; Returns the content of remote [%-*@3 path ]into [%-*@3 out]. Returns 
+[s2; Возвращает the content of remote [%-*@3 path ]into [%-*@3 out]. Возвращает 
 true on success. [^topic`:`/`/Core`/SSH`/src`/Upp`_Ssh`_SFtp`_ru`-ru`#Upp`:`:SFtp`:`:WhenProgress^ W
 henProgress ]gate can be used to track data transfer.&]
 [s3; &]
@@ -79,11 +79,11 @@ been transferred. The second parameter provides the total amount
 of data to be transferred. Returning true will abort the current 
 data transfer.&]
 [s0; &]
-[ {{10000F(128)G(128)@1 [s0; [* Constructor detail]]}}&]
+[ {{10000F(128)G(128)@1 [s0; [* Конструктор  detail]]}}&]
 [s3;%- &]
 [s5;:Upp`:`:Scp`:`:Scp`(Upp`:`:SshSession`&`):%- [* Scp]([_^Upp`:`:SshSession^ SshSession
 ][@(0.0.255) `&]_[*@3 session])&]
-[s2; Constructor. Binds the Scp instance to [%-*@3 session].&]
+[s2; Конструктор . Binds the Scp instance to [%-*@3 session].&]
 [s3; &]
 [s3;%- &]
 [ {{10000@(113.42.0) [s0; [*@7;4 SshExec]]}}&]
@@ -114,11 +114,11 @@ line,returns its standard output in [%-*@3 out], its standard error
 output in [%-*@3 err], and its exit code as the return value. A 
 negative return value means protocol or internal error.&]
 [s3;%- &]
-[ {{10000F(128)G(128)@1 [s0; [* Constructor detail]]}}&]
+[ {{10000F(128)G(128)@1 [s0; [* Конструктор  detail]]}}&]
 [s3;%- &]
 [s5;:Upp`:`:SshExec`:`:SshExec`(Upp`:`:SshSession`&`):%- [* SshExec]([_^Upp`:`:SshSession^ S
 shSession][@(0.0.255) `&]_[*@3 session])&]
-[s0;l288; Constructor. Binds the SshExec instance to [%-*@3 session].&]
+[s0;l288; Конструктор . Binds the SshExec instance to [%-*@3 session].&]
 [s3;%- &]
 [s0;%- &]
 [ {{10000F(128)G(128)@1 [s0; [* Helper functions]]}}&]
@@ -172,7 +172,7 @@ and has pick semantics.&]
 nnect]([@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 host], 
 [@(0.0.255) int]_[*@3 port])&]
 [s2; Attempts a tunnelled TCP/IP connection to target [%-*@3 host] 
-at [%-*@3 port]. Returns true on success. [%-*@3 url] must contain 
+at [%-*@3 port]. Возвращает true on success. [%-*@3 url] must contain 
 the target host name and port information. (E.g. `"[C localhost:1080`").] 
 Please note that while the client to SSH server communication 
 remains encrypted, communication from the SSH server to target 
@@ -186,7 +186,7 @@ ool]_[* Listen]([@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3
 [@(0.0.255) int]_[*@3 port], [@(0.0.255) int`*]_[*@3 bound`_port], [@(0.0.255) int]_[*@3 list
 en`_count]_`=_[@3 5])&]
 [s2; Instructs the remote SSH server to begin listening for inbound 
-TCP/IP connections at [%-*@3 port]. Returns true on success. If 
+TCP/IP connections at [%-*@3 port]. Возвращает true on success. If 
 the listen port is set to 0, the SSH server will select the first 
 available dynamic port. If a dynamic port is requested, [%-*@3 bound`_port] 
 will be populated with the actual bound port assigned by the 
@@ -200,15 +200,15 @@ to queue before rejecting further attempts.&]
 [s4;%- &]
 [s5;:Upp`:`:SshTunnel`:`:Accept`(Upp`:`:SshTunnel`&`):%- [@(0.0.255) bool]_[* Accept]([_^Upp`:`:SshTunnel^ S
 shTunnel][@(0.0.255) `&]_[*@3 listener])&]
-[s2; Accepts a connection from the [%-*@3 listener]. Returns true on 
+[s2; Accepts a connection from the [%-*@3 listener]. Возвращает true on 
 success.&]
 [s3; &]
 [s3;%- &]
-[ {{10000F(128)G(128)@1 [s0; [* Constructor detail]]}}&]
+[ {{10000F(128)G(128)@1 [s0; [* Конструктор  detail]]}}&]
 [s3;%- &]
 [s5;:Upp`:`:SshTunnel`:`:SshTunnel`(Upp`:`:SshSession`&`):%- [* SshTunnel]([_^Upp`:`:SshSession^ S
 shSession][@(0.0.255) `&]_[*@3 session])&]
-[s2; Constructor. Binds the SshTunnel instance to [%-*@3 session].&]
+[s2; Конструктор . Binds the SshTunnel instance to [%-*@3 session].&]
 [s3; &]
 [s0;%- &]
 [ {{10000@(113.42.0) [s0; [*@7;4 SshShell]]}}&]
@@ -234,7 +234,7 @@ ool]_[* Run]([@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 te
 ool]_[* Run]([@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 terminal], 
 [@(0.0.255) int]_[*@3 width], [@(0.0.255) int]_[*@3 height], [@(0.0.255) const]_[_^Upp`:`:String^ S
 tring][@(0.0.255) `&]_[*@3 tmodes]_`=_Null)&]
-[s0;l288; Runs a generic remote command line interface. Returns true 
+[s0;l288; Runs a generic remote command line interface. Возвращает true 
 on successful exit. [%-*@3 terminal] should be set to preferred 
 terminal emulation (ansi, vt100, xterm, etc.). The dimensions 
 of the terminal view (as character cells) can be set using the 
@@ -247,7 +247,7 @@ table for details).&]
 [@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 terminal], 
 [@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 tmodes]_`=_Null)&]
 [s6;%- Requires console`-based applications.&]
-[s2; Runs a console`-based remote command line interface. Returns 
+[s2; Runs a console`-based remote command line interface. Возвращает 
 true on successful exit. [%-*@3 terminal] should be set to preferred 
 terminal emulation (ansi, vt100, xterm, etc.). Terminal modes 
 can be specified using the [%-*@3 tmodes] string (see below table 
@@ -266,7 +266,7 @@ values simply mean `"`[localhost`]:0`"). [%-*@3 screen] can be used
 to select the X11 screen to forward. [%-*@3 bufsize] specifies 
 the size of read/write buffer for the associated UNIX sockets. 
 Default buffer size is 1 MB (increasing the read/write buffer 
-may result in smoother performance). Returns `*this for method 
+may result in smoother performance). Возвращает `*this for method 
 chaining.&]
 [s3; &]
 [s4;%- &]
@@ -291,19 +291,19 @@ queue.&]
 [s4;%- &]
 [s5;:Upp`:`:SshShell`:`:PageSize`(Upp`:`:Size`):%- [_^Upp`:`:SshShell^ SshShell][@(0.0.255) `&
 ]_[* PageSize]([_^Upp`:`:Size^ Size]_[*@3 sz])&]
-[s2; Sets the terminal view size as character cells to [%-*@3 sz]. 
-Returns `*this for method chaining.&]
+[s2; Устанавливаетthe terminal view size as character cells to [%-*@3 sz]. 
+Возвращает `*this for method chaining.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:SshShell`:`:GetPageSize`(`)const:%- [_^Upp`:`:Size^ Size]_[* GetPageSize]()_[@(0.0.255) c
 onst]&]
-[s2; Returns the current SSH terminal view size in character cells.&]
+[s2; Возвращает the current SSH terminal view size in character cells.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:SshShell`:`:GetConsolePageSize`(`):%- [_^Upp`:`:Size^ Size]_[* GetConsolePage
 Size]()&]
 [s2; This helper method returns the actual page size of the local 
-console, and is meant to be used in console mode. Returns Null 
+console, and is meant to be used in console mode. Возвращает Null 
 on failure.&]
 [s3;%- &]
 [s4;%- &]
@@ -316,11 +316,11 @@ possible. Send() method can be used to send data over the channel.&]
 oid`*], [@(0.0.255) int]>_[* WhenOutput]&]
 [s2; This event is emitted whenever data is read from the shell.&]
 [s3;%- &]
-[ {{10000F(128)G(128)@1 [s0; [* Constructor detail]]}}&]
+[ {{10000F(128)G(128)@1 [s0; [* Конструктор  detail]]}}&]
 [s3;%- &]
 [s5;:Upp`:`:SshShell`:`:SshShell`(Upp`:`:SshSession`&`):%- [* SshShell]([_^Upp`:`:SshSession^ S
 shSession][@(0.0.255) `&]_[*@3 session])&]
-[s2; Constructor. Binds the SshShell instance to [%-*@3 session].&]
+[s2; Конструктор . Binds the SshShell instance to [%-*@3 session].&]
 [s3; &]
 [s3; &]
 [s0;%- &]

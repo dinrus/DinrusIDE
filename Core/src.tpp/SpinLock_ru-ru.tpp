@@ -51,7 +51,7 @@ for block of code using C`+`+ constructor / destructor rules.
 Using [* operator StaticMutex`::Mutex], it can be used with StaticMutex 
 as well.&]
 [s3; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Constructor / Destructor detail]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Конструктор  / Destructor detail]]}}&]
 [s3; &]
 [s5;:SpinLock`:`:Lock`:`:Lock`(SpinLock`&`): [* Lock]([_^SpinLock^ SpinLock][@(0.0.255) `&]_
 [*@3 s])&]

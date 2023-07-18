@@ -28,7 +28,7 @@ topic "Knob";
 [s0;%% Knob shows a knob handle&]
 [s0;i448;a25;kKO9;@(0.0.255) &]
 [s3; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Constructor detail]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Конструктор  detail]]}}&]
 [s3; &]
 [s5;:Knob`:`:Knob`(`): [* Knob]()&]
 [s2;%% Initializes Knob.&]
@@ -37,7 +37,7 @@ topic "Knob";
 [s4; &]
 [s5;:Knob`:`:SetData`(const Value`&`): [@(0.0.255) virtual] [@(0.0.255) void]_[* SetData]([@(0.0.255) c
 onst]_[_^Value^ Value][@(0.0.255) `&]_[*@3 v])&]
-[s2;%% Sets the value to [%-*@3 v].&]
+[s2;%% Устанавливаетthe value to [%-*@3 v].&]
 [s3;%% &]
 [s4; &]
 [s5;:Knob`:`:GetData`(`)const: [@(0.0.255) virtual] [_^Value^ Value]_[* GetData]()_[@(0.0.255) c
@@ -61,17 +61,17 @@ is counterclockwise.&]
 [s4; &]
 [s5;:Knob`:`:SetMin`(double`): [_^Knob^ Knob][@(0.0.255) `&]_[* SetMin]([@(0.0.255) double]_[*@3 v
 ])&]
-[s2;%% Sets [%-*@3 v ]as the min display value.&]
+[s2;%% Устанавливает[%-*@3 v ]as the min display value.&]
 [s3;%% &]
 [s4; &]
 [s5;:Knob`:`:SetMax`(double`): [_^Knob^ Knob][@(0.0.255) `&]_[* SetMax]([@(0.0.255) double]_[*@3 v
 ])&]
-[s2;%% Sets [%-*@3 v ]as the max display value.&]
+[s2;%% Устанавливает[%-*@3 v ]as the max display value.&]
 [s3;%% &]
 [s4; &]
 [s5;:Knob`:`:SetMinorStep`(double`): [_^Knob^ Knob][@(0.0.255) `&]_[* SetMinorStep]([@(0.0.255) d
 ouble]_[*@3 v])&]
-[s2;%% Sets [%-*@3 v ]as the value between minor display ticks.&]
+[s2;%% Устанавливает[%-*@3 v ]as the value between minor display ticks.&]
 [s2;%% If this value:&]
 [s2;i150;O0;%% is not multiple of the major step between clicks, 
 it is rounded.&]
@@ -81,38 +81,38 @@ equaled to it.&]
 [s4; &]
 [s5;:Knob`:`:SetMajorStep`(double`): [_^Knob^ Knob][@(0.0.255) `&]_[* SetMajorStep]([@(0.0.255) d
 ouble]_[*@3 v])&]
-[s2;%% Sets [%-*@3 v ]as the value between major display ticks.&]
+[s2;%% Устанавливает[%-*@3 v ]as the value between major display ticks.&]
 [s2;%% If this value is not multiple of the difference between max 
 and min values, it is rounded.&]
 [s3;^Knob^ &]
 [s4; &]
 [s5;:Knob`:`:SetMinorMarks`(int`): [_^Knob^ Knob][@(0.0.255) `&]_[* SetMinorMarks]([@(0.0.255) i
 nt]_[*@3 n])&]
-[s2;%% Sets [%-*@3 n ]as the number of minor marks between two major 
+[s2;%% Устанавливает[%-*@3 n ]as the number of minor marks between two major 
 marks.&]
 [s3;%% &]
 [s4; &]
 [s5;:Knob`:`:SetMajorMarks`(int`): [_^Knob^ Knob][@(0.0.255) `&]_[* SetMajorMarks]([@(0.0.255) i
 nt]_[*@3 n])&]
-[s2;%% Sets [%-*@3 n ]as the number of major marks between min and 
+[s2;%% Устанавливает[%-*@3 n ]as the number of major marks between min and 
 max values.&]
 [s3;%% &]
 [s4; &]
 [s5;:Knob`:`:SetKeyStep`(double`): [_^Knob^ Knob][@(0.0.255) `&]_[* SetKeyStep]([@(0.0.255) d
 ouble]_[*@3 fs]_`=_[@3 1])&]
-[s2;%% Sets [%-*@3 fs ]as the value to increment or decrement the control 
+[s2;%% Устанавливает[%-*@3 fs ]as the value to increment or decrement the control 
 value when handled with keyboard keys Up`-Right, Down`-Left, 
 PgUp and PgDown.&]
 [s3;%% &]
 [s4; &]
 [s5;:Knob`:`:SetAngleBegin`(double`): [_^Knob^ Knob][@(0.0.255) `&]_[* SetAngleBegin]([@(0.0.255) d
 ouble]_[*@3 v])&]
-[s2;%% Sets [%-*@3 v ]as the angle in degrees for the min value. &]
+[s2;%% Устанавливает[%-*@3 v ]as the angle in degrees for the min value. &]
 [s3;%% &]
 [s4; &]
 [s5;:Knob`:`:SetAngleEnd`(double`): [_^Knob^ Knob][@(0.0.255) `&]_[* SetAngleEnd]([@(0.0.255) d
 ouble]_[*@3 v])&]
-[s2;%% Sets [%-*@3 v ]as the angle in degrees for the max value. &]
+[s2;%% Устанавливает[%-*@3 v ]as the angle in degrees for the max value. &]
 [s3;%% &]
 [s4; &]
 [s5;:Knob`:`:SetNumber`(bool`): [_^Knob^ Knob][@(0.0.255) `&]_[* SetNumber]([@(0.0.255) bool]_
@@ -130,23 +130,23 @@ will be forced to the closest mark.&]
 [s4; &]
 [s5;:Knob`:`:SetColorType`(int`): [_^Knob^ Knob][@(0.0.255) `&]_[* SetColorType]([@(0.0.255) i
 nt]_[*@3 c])&]
-[s2;%% Sets with [%-*@3 c ]the Knob color type. Valid values are: SimpleWhiteType, 
+[s2;%% Устанавливаетwith [%-*@3 c ]the Knob color type. Valid values are: SimpleWhiteType, 
 SimpleBlackType, WhiteType, BlackType.&]
 [s3;%% &]
 [s4; &]
 [s5;:Knob`:`:SetMark`(int`): [_^Knob^ Knob][@(0.0.255) `&]_[* SetMark]([@(0.0.255) int]_[*@3 c])
 &]
-[s2;%% Sets with [%-*@3 c ]the Knob mark type. Valid values are: NoMark, 
+[s2;%% Устанавливаетwith [%-*@3 c ]the Knob mark type. Valid values are: NoMark, 
 Line, Circle.&]
 [s3;%% &]
 [s4; &]
 [s5;:Knob`:`:SetStyle`(int`): [_^Knob^ Knob][@(0.0.255) `&]_[* SetStyle]([@(0.0.255) int]_[*@3 c
 ])&]
-[s2;%% Sets with [%-*@3 c ]the Knob style. Valid values are: Simple, 
+[s2;%% Устанавливаетwith [%-*@3 c ]the Knob style. Valid values are: Simple, 
 Rugged.&]
 [s3;%% &]
 [s4; &]
 [s5;:Knob`:`:WhenSlideFinish: [_^Callback^ Callback]_[* WhenSlideFinish]&]
-[s2;%% Sets the function to be called after a control movement has 
+[s2;%% Устанавливаетthe function to be called after a control movement has 
 been done with mouse or keyboard.&]
 [s0; ]]

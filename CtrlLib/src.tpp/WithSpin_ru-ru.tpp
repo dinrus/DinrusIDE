@@ -37,11 +37,11 @@ how the value is incremented or decremented.&]
 [s3;%- &]
 [s5;:WithSpin`:`:SetInc`(IncType`):%- [_^WithSpin^ WithSpin][@(0.0.255) `&]_[* SetInc]([*@4 I
 ncType]_[*@3 `_inc]_`=_[@3 1])&]
-[s2; Sets the increment value.&]
+[s2; Устанавливаетthe increment value.&]
 [s3; &]
 [s4; &]
 [s5;:WithSpin`:`:GetInc`(`)const:%- [*@4 DataType]_[* GetInc]()_[@(0.0.255) const]&]
-[s2; Returns current increment value.&]
+[s2; Возвращает current increment value.&]
 [s3; &]
 [s4; &]
 [s5;:WithSpin`:`:OnSides`(bool`):%- [_^WithSpin^ WithSpin][@(0.0.255) `&]_[* OnSides]([@(0.0.255) b
@@ -61,7 +61,7 @@ ool]_[*@3 s]_`=_[@(0.0.255) true])&]
 [s4; &]
 [s5;:WithSpin`:`:IsSpinVisible`(`)const:%- [@(0.0.255) bool]_[* IsSpinVisible]()_[@(0.0.255) c
 onst]&]
-[s2; Возвращает true, если spin buttons are shown.&]
+[s2; Возвращает  true, если spin buttons are shown.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:WithSpin`:`:RoundFromMin`(bool`):%- [_^Upp`:`:WithSpin^ WithSpin][@(0.0.255) `&
@@ -75,7 +75,7 @@ value is 3, going up from the minimum goes through values 3,
 [s4;%- &]
 [s5;:Upp`:`:WithSpin`:`:MouseWheelSpin`(bool`):%- [_^Upp`:`:WithSpin^ WithSpin][@(0.0.255) `&
 ]_[* MouseWheelSpin]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) true])&]
-[s2; If active, the value can be altered by mouse wheel `- rolling 
+[s2; Если активен, the value can be altered by mouse wheel `- rolling 
 the wheel is equivalent to pushing up/down arrows. Default is 
 active.&]
 [s3; &]
@@ -87,7 +87,7 @@ active.&]
 [s4;%- &]
 [s5;:Upp`:`:WithSpin`:`:KeySpin`(bool`):%- [_^Upp`:`:WithSpin^ WithSpin][@(0.0.255) `&]_[* K
 eySpin]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) true])&]
-[s2; If active, the value can be altered with Up and Down keys. Default 
+[s2; Если активен, the value can be altered with Up and Down keys. Default 
 is active.&]
 [s3; &]
 [s4;%- &]
@@ -100,7 +100,7 @@ KeySpin]()&]
 inButtonsObject]()&]
 [s5;:WithSpin`:`:SpinButtonsObject`(`)const:%- [@(0.0.255) const]_[_^SpinButtons^ SpinBut
 tons][@(0.0.255) `&]_[* SpinButtonsObject]()_[@(0.0.255) const]&]
-[s2; Returns a reference to internal SpinButtons object.&]
+[s2; Возвращает a reference to internal SpinButtons object.&]
 [s0; &]
 [s0;%- &]
 [ {{10000@(113.42.0) [s0; [*@7;4 Predefined WithSpin widgets]]}}&]

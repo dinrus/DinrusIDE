@@ -31,7 +31,7 @@ Switch can be assigned any Value (not only Values associated
 with current cases); if there is no case with Value equal to 
 the Value of Switch, no case is highlighted.&]
 [s0;*%% &]
-[s0; [%%/ Derived from][%%  ][^topic`:`/`/CtrlCore`/src`/Ctrl`$en`-us^ Ctrl]&]
+[s0; [%%/ Производный от][%%  ][^topic`:`/`/CtrlCore`/src`/Ctrl`$en`-us^ Ctrl]&]
 [s3;%% &]
 [s0;%% &]
 [ {{10000F(128)G(128)@1 [s0;%% [* Детали Конструктора]]}}&]
@@ -41,7 +41,7 @@ the Value of Switch, no case is highlighted.&]
 [s3;%% &]
 [s4; &]
 [s5;:Switch`:`:`~Switch`(`): [@(0.0.255) `~][* Switch]()&]
-[s2;%% Default destructor.&]
+[s2;%% Дефолтный деструктор .&]
 [s3;%% &]
 [s0; &]
 [ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
@@ -49,7 +49,7 @@ the Value of Switch, no case is highlighted.&]
 [s5;:Upp`:`:Switch`:`:SetLabel`(int`,const char`*`,int`): [_^Upp`:`:Switch^ Switch][@(0.0.255) `&
 ]_[* SetLabel]([@(0.0.255) int]_[*@3 i], [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 text], 
 [@(0.0.255) int]_[*@3 gap]_`=_[@3 0])&]
-[s2; [%% Sets text of case with specified index ][%%*@3 i][%% . Text can 
+[s2; [%% Устанавливаетtext of case with specified index ][%%*@3 i][%% . Text can 
 contain `'`\b`' for access`-key assignment. Value of case is 
 set to ][%%*@3 i][%% . If ][%%*@3 i][%%  is greater than current number 
 of cases, empty cases are added to Switch with values equivalent 
@@ -61,7 +61,7 @@ the middle of the space.&]
 [s4; &]
 [s5;:Switch`:`:SetLabel`(const char`*`): [_^Switch^ Switch][@(0.0.255) `&]_[* SetLabel]([@(0.0.255) c
 onst]_[@(0.0.255) char]_`*[*@3 text])&]
-[s2; [%% Sets content of Switch. Each line of ][%%*@3 text ][%% represents 
+[s2; [%% Устанавливаетcontent of Switch. Each line of ][%%*@3 text ][%% represents 
 one case with value equivalent to the index of line. When there 
 is a number at the start line followed by `^ character, it represents 
 the ][*@3 gap] used in SetLabel. Same with `| character represents 
@@ -76,19 +76,19 @@ separator line in the middle between Second and Third.&]
 [s4; &]
 [s5;:Switch`:`:GetLabel`(int`)const: [_^String^ String]_[* GetLabel]([@(0.0.255) int]_[*@3 i])
 _[@(0.0.255) const]&]
-[s2;%% Returns the text of case with specified index [*@3 i].&]
+[s2;%% Возвращает the text of case with specified index [*@3 i].&]
 [s3;%% &]
 [s3;%% &]
 [s4; &]
 [s5;:Switch`:`:GetLabel`(`)const: [_^String^ String]_[* GetLabel]()_[@(0.0.255) const]&]
-[s2;%% Returns the context of the Switch.&]
+[s2;%% Возвращает the context of the Switch.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:Switch`:`:Set`(int`,const Upp`:`:Value`&`,const char`*`,int`): [_^Upp`:`:Switch^ S
 witch][@(0.0.255) `&]_[* Set]([@(0.0.255) int]_[*@3 i], [@(0.0.255) const]_[_^Upp`:`:Value^ V
 alue][@(0.0.255) `&]_[*@3 val], [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 text], 
 [@(0.0.255) int]_[*@3 gap]_`=_[@3 0])&]
-[s2;%% Sets text of case with specified index [*@3 i]. Text can contain 
+[s2;%% Устанавливаетtext of case with specified index [*@3 i]. Text can contain 
 `'`\b`' for access`-key assignment. Value of case is set to [*@3 val]. 
 If [*@3 i] is greater than current number of cases, empty cases 
 are added to Switch with values equivalent to their indexes. 
@@ -97,7 +97,7 @@ See SetLabel for [%-*@3 gap] parameter explanation.&]
 [s4; &]
 [s5;:Switch`:`:Set`(int`,const Value`&`): [_^Switch^ Switch][@(0.0.255) `&]_[* Set]([@(0.0.255) i
 nt]_[*@3 i], [@(0.0.255) const]_[_^Value^ Value][@(0.0.255) `&]_[*@3 val])&]
-[s2;%% Sets the Value of of case with specified index [*@3 i]. The 
+[s2;%% Устанавливаетthe Value of of case with specified index [*@3 i]. The 
 text of case is unaltered.&]
 [s3;%% &]
 [s4; &]
@@ -155,14 +155,14 @@ witch`::Case] structures.&]
 [s3;%% &]
 [s4; &]
 [s5;:Switch`:`:operator int`(`)const: [* operator_int]()_[@(0.0.255) const]&]
-[s2;%% Simplified access to Switch Value. Equivalent to (int)GetData().&]
+[s2;%% Simplified access to Switch Value. Эквивалентно (int)GetData().&]
 [s6;%% Switch must be assigned an integer value.&]
 [s7;%% [*/ Возвратное значение]-|Integer Value of Switch.&]
 [s3;%% &]
 [s4; &]
 [s5;:Switch`:`:operator`=`(const Value`&`): [@(0.0.255) void]_[* operator`=]([@(0.0.255) co
 nst]_[_^Value^ Value][@(0.0.255) `&]_[*@3 v])&]
-[s2;%% Equivalent to SetData([%-*@3 v]).&]
+[s2;%% Эквивалентно SetData([%-*@3 v]).&]
 [s3;%% &]
 [s4; &]
 [s5;:Switch`:`:SetFont`(Font`): [_^Switch^ Switch][@(0.0.255) `&]_[* SetFont]([_^Font^ Font]_
@@ -179,14 +179,14 @@ nst]_[_^Value^ Value][@(0.0.255) `&]_[*@3 v])&]
 [s4; &]
 [s5;:Switch`:`:MinCaseHeight`(int`): [_^Switch^ Switch][@(0.0.255) `&]_[* MinCaseHeight]([@(0.0.255) i
 nt]_[*@3 cy])&]
-[s2;%% Sets the minimal height of a case in the switch.&]
+[s2;%% Устанавливаетthe minimal height of a case in the switch.&]
 [s7;%% [%-*C@3 f]-|Font to be used.&]
 [s7;%% [*/ Возвратное значение]-|`*this для сцепления.&]
 [s3;%% &]
 [s4; &]
 [s5;:Switch`:`:SetAutoDirection`(`): [_^Switch^ Switch][@(0.0.255) `&]_[* SetAutoDirection](
 )&]
-[s2;%% Sets Switch layout to automatic mode, where items are layed 
+[s2;%% УстанавливаетSwitch layout to automatic mode, where items are layed 
 out depending on the available area for switch (vertically is 
 the are is high enough, horizontally otherwise).&]
 [s3; &]

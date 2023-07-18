@@ -17,7 +17,7 @@ topic "Операции с Мютексом ГИП";
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:TryEnterGuiMutex`(`): [@(0.0.255) bool]_[* TryEnterGuiMutex]()&]
-[s2;%RU-RU Attempts to lock global GUI mutex. Returns true on success.&]
+[s2;%RU-RU Attempts to lock global GUI mutex. Возвращает true on success.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:LeaveGuiMutex`(`): [@(0.0.255) void]_[* LeaveGuiMutex]()&]
@@ -27,7 +27,7 @@ topic "Операции с Мютексом ГИП";
 [s5;:Upp`:`:LeaveGuiMutexAll`(`): [@(0.0.255) int]_[* LeaveGuiMutexAll]()&]
 [s2;%RU-RU Completely unlocks GUI mutex `- if it was locked multiple 
 times in reentrant fashion, unlocks all levels as to leave mutex 
-unlocked. Returns the number of levels unlocked.&]
+unlocked. Возвращает the number of levels unlocked.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:EnterGuiMutex`(int`): [@(0.0.255) void]_[* EnterGuiMutex]([@(0.0.255) int]_[*@3 n
@@ -40,16 +40,16 @@ unlocked. Returns the number of levels unlocked.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:GetGuiLockLevel`(`): [@(0.0.255) int]_[* GetGuiLockLevel]()&]
-[s2;%RU-RU Returns reentrancy level of GUI mutex.&]
+[s2;%RU-RU Возвращает reentrancy level of GUI mutex.&]
 [s3; &]
 [s3; &]
 [s4; &]
 [s5; struct_[* GuiLock]&]
-[s2;%RU-RU Constructor locks GUI mutex, destructor unlocks it.&]
+[s2;%RU-RU Конструктор  locks GUI mutex, destructor unlocks it.&]
 [s3; &]
 [s4; &]
 [s5; class_[* GuiUnlock]&]
-[s2;%RU-RU Constructor completely unlocks GUI mutex using LeaveGuiMutexAll 
+[s2;%RU-RU Конструктор  completely unlocks GUI mutex using LeaveGuiMutexAll 
 and stores the locking leve, destructor locks GUI mutex again 
 to the same level.&]
 [s3; &]

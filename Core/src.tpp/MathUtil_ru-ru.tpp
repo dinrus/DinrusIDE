@@ -81,7 +81,7 @@ topic "Math utility";
 [s3; &]
 [s5;:Random`(`): [_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:dword`:`:typedef^ d
 word]_[* Random]()&]
-[s2;%% Returns the next random generated number. Algorithm used is 
+[s2;%% Возвращает the next random generated number. Algorithm used is 
 xoshiro256`*`*, with seed obtained from host platform specific 
 resources (`'/dev/urandom`' in Posix systems, GUID generator 
 in Win32).&]
@@ -90,26 +90,26 @@ in Win32).&]
 [s5;:Random`(dword`): [_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:dword`:`:typedef^ d
 word]_[* Random]([_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:dword`:`:typedef^ d
 word]_[*@3 n])&]
-[s2; Returns random generated number smaller than [*@3 n].&]
+[s2; Возвращает random generated number smaller than [*@3 n].&]
 [s3;%% &]
 [s4; &]
 [s5;:Random64`(`): [_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:qword`:`:typedef^ q
 word]_[* Random64]()&]
-[s2;%% Returns 64bit random number.&]
+[s2;%% Возвращает 64bit random number.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:Random64`(Upp`:`:uint64`): [_^Upp`:`:uint64^ uint64]_[* Random64]([_^Upp`:`:uint64^ u
 int64]_[*@3 n])&]
-[s2; [%% Returns the 64bit random number] smaller than [*@3 n].&]
+[s2; [%% Возвращает the 64bit random number] smaller than [*@3 n].&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:Random64`(Upp`:`:uint64`*`,int`): [@(0.0.255) void]_[* Random64]([_^Upp`:`:uint64^ u
 int64]_`*[*@3 t], [@(0.0.255) int]_[*@3 n])&]
-[s2;%% Sets [%-*@3 n] random 64bit numbers to [%-*@3 t] array.&]
+[s2;%% Устанавливает[%-*@3 n] random 64bit numbers to [%-*@3 t] array.&]
 [s3; &]
 [s4; &]
 [s5;:Randomf`(`): [@(0.0.255) double]_[* Randomf]()&]
-[s2;%% Returns the floating point number <0, 1).&]
+[s2;%% Возвращает the floating point number <0, 1).&]
 [s3;%% &]
 [s4; &]
 [s5;:SeedRandom`(dword`): [@(0.0.255) void]_[* SeedRandom]([_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:dword`:`:typedef^ d
@@ -129,46 +129,46 @@ Random after seeding it with fixed value.&]
 [s3; &]
 [s4; &]
 [s5;:sqr`(double`): [@(0.0.255) double]_[* sqr]_([@(0.0.255) double]_[*@3 a])&]
-[s2;%% Returns the square of [%-*@3 a].&]
+[s2;%% Возвращает the square of [%-*@3 a].&]
 [s3;%% &]
 [s4; &]
 [s5;:argsinh`(double`): [@(0.0.255) double]_[* argsinh]_([@(0.0.255) double]_[*@3 s])&]
-[s2;%% Returns the hyperbolic arcsin of [%-*@3 s].&]
+[s2;%% Возвращает the hyperbolic arcsin of [%-*@3 s].&]
 [s3;%% &]
 [s4; &]
 [s5;:argcosh`(double`): [@(0.0.255) double]_[* argcosh]_([@(0.0.255) double]_[*@3 c])&]
-[s2;%% Returns the hyperbolic arcsin of [%-*@3 c].&]
+[s2;%% Возвращает the hyperbolic arcsin of [%-*@3 c].&]
 [s3;%% &]
 [s4; &]
 [s5;:argtanh`(double`): [@(0.0.255) double]_[* argtanh]_([@(0.0.255) double]_[*@3 t])&]
-[s2;%% Returns the hyperbolic arctan of [%-*@3 t].&]
+[s2;%% Возвращает the hyperbolic arctan of [%-*@3 t].&]
 [s3;%% &]
 [s4; &]
 [s5;:iscale`(int`,int`,int`): [@(0.0.255) int]_[* iscale]([@(0.0.255) int]_[*@3 x], 
 [@(0.0.255) int]_[*@3 y], [@(0.0.255) int]_[*@3 z])&]
-[s2;%% Returns [%-*@3 x] `* [%-*@3 y] / [%-*@3 z].&]
+[s2;%% Возвращает [%-*@3 x] `* [%-*@3 y] / [%-*@3 z].&]
 [s3;%% &]
 [s4; &]
 [s5;:iscalefloor`(int`,int`,int`): [@(0.0.255) int]_[* iscalefloor]([@(0.0.255) int]_[*@3 x],
  [@(0.0.255) int]_[*@3 y], [@(0.0.255) int]_[*@3 z])&]
-[s2;%% Returns [%-*@3 x] `* [%-*@3 y] / [%-*@3 z][%-* ,][%-  rounded towards 
+[s2;%% Возвращает [%-*@3 x] `* [%-*@3 y] / [%-*@3 z][%-* ,][%-  rounded towards 
 negative infinity].&]
 [s3;%% &]
 [s4; &]
 [s5;:iscaleceil`(int`,int`,int`): [@(0.0.255) int]_[* iscaleceil]([@(0.0.255) int]_[*@3 x], 
 [@(0.0.255) int]_[*@3 y], [@(0.0.255) int]_[*@3 z])&]
-[s2;%% Returns [%-*@3 x] `* [%-*@3 y] / [%-*@3 z][%-* ,][%-  rounded towards 
+[s2;%% Возвращает [%-*@3 x] `* [%-*@3 y] / [%-*@3 z][%-* ,][%-  rounded towards 
 positive infinity].&]
 [s3;%% &]
 [s4; &]
 [s5;:idivfloor`(int`,int`): [@(0.0.255) int]_[* idivfloor]([@(0.0.255) int]_[*@3 x], 
 [@(0.0.255) int]_[*@3 y])&]
-[s2;%% Returns [%-*@3 x] / [%-*@3 y], truncated towards [%- negative infinity].&]
+[s2;%% Возвращает [%-*@3 x] / [%-*@3 y], truncated towards [%- negative infinity].&]
 [s3;%% &]
 [s4; &]
 [s5;:idivceil`(int`,int`): [@(0.0.255) int]_[* idivceil]([@(0.0.255) int]_[*@3 x], 
 [@(0.0.255) int]_[*@3 y])&]
-[s2;%% Returns [%-*@3 x] / [%-*@3 y], truncated towards [%- positive infinity].&]
+[s2;%% Возвращает [%-*@3 x] / [%-*@3 y], truncated towards [%- positive infinity].&]
 [s3;%% &]
 [s4; &]
 [s5;:itimesfloor`(int`,int`): [@(0.0.255) int]_[* itimesfloor]([@(0.0.255) int]_[*@3 x], 
@@ -214,7 +214,7 @@ Checks integer limits.&]
 [s4; &]
 [s5;:modulo`(double`,double`): [@(0.0.255) double]_[* modulo]([@(0.0.255) double]_[*@3 x], 
 [@(0.0.255) double]_[*@3 y])&]
-[s2;%% Returns the floating`-point remainder of [%-*@3 x]/[%-*@3 y].&]
+[s2;%% Возвращает the floating`-point remainder of [%-*@3 x]/[%-*@3 y].&]
 [s2;%% &]
 [s2;%% The remainder of a division operation is the result of subtracting 
 the integral quotient multiplied by the denominator from the 
@@ -226,14 +226,14 @@ numerator:&]
 [s5;:Upp`:`:SolveQuadraticEquation`(double`,double`,double`,double`*`): [@(0.0.255) int
 ]_[* SolveQuadraticEquation]([@(0.0.255) double]_[*@3 A], [@(0.0.255) double]_[*@3 B], 
 [@(0.0.255) double]_[*@3 C], [@(0.0.255) double]_`*[*@3 r])&]
-[s2;%% Solves quadratic equation. Returns number of solutions (0, 
+[s2;%% Solves quadratic equation. Возвращает number of solutions (0, 
 1 or 2), stores solutions to array r (which must have at least 
 two elements).&]
 [s3;%% &]
 [s4; &]
 [s5;:AsString`(double`,int`): [_^topic`:`/`/Core`/src`/String`$en`-us`#String`:`:class^ S
 tring]_[* AsString]([@(0.0.255) double]_[*@3 x], [@(0.0.255) int]_[*@3 nDigits])&]
-[s2;%% [%- Returns the string representation of ][%-*@3 x][%-  with] [%-*@3 nDigits][%-  
+[s2;%% [%- Возвращает the string representation of ][%-*@3 x][%-  with] [%-*@3 nDigits][%-  
 precision].&]
 [s3; &]
 [s0; ]]

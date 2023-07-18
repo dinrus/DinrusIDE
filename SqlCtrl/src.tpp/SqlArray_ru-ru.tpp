@@ -36,7 +36,7 @@ setup.&]
 [s3;%% &]
 [s4; &]
 [s5;:SqlArray`:`:CanInsert`(`)const: [@(0.0.255) bool]_[* CanInsert]()_[@(0.0.255) const]&]
-[s2;%% Возвращает true, если it is possible to insert row into database. 
+[s2;%% Возвращает  true, если it is possible to insert row into database. 
 In reality, this can be false for detail SqlArray in master`-detail 
 (see Join) relation when master SqlArray has no row selected 
 (and thus there is no foreign key to bind the record to).&]
@@ -79,7 +79,7 @@ removing.&]
 [s4; &]
 [s5;:SqlArray`:`:SetSession`(SqlSession`&`): [@(0.0.255) void]_[* SetSession]([_^SqlSession^ S
 qlSession][@(0.0.255) `&]_[*@3 `_session])&]
-[s2;%% Sets the sql session used for. (Default is SQL).&]
+[s2;%% Устанавливаетthe sql session used for. (Default is SQL).&]
 [s3;%% &]
 [s4; &]
 [s5;:SqlArray`:`:Join`(SqlId`,ArrayCtrl`&`): [@(0.0.255) void]_[* Join]([_^SqlId^ SqlId]_[*@3 f
@@ -130,18 +130,18 @@ which support it.&]
 [s4; &]
 [s5;:SqlArray`:`:SetTable`(SqlId`): [_^SqlArray^ SqlArray][@(0.0.255) `&]_[* SetTable]([_^SqlId^ S
 qlId]_[*@3 `_table])&]
-[s2;%% Sets the source table for this SqlArray.&]
+[s2;%% Устанавливаетthe source table for this SqlArray.&]
 [s3;%% &]
 [s4; &]
 [s5;:SqlArray`:`:SetTable`(SqlId`,SqlId`): [_^SqlArray^ SqlArray][@(0.0.255) `&]_[* SetTabl
 e]([_^SqlId^ SqlId]_[*@3 `_table], [_^SqlId^ SqlId]_[*@3 key])&]
-[s2;%% Sets both the table and the primary key. То же, что и SetTable([%-*@3 `_table]); 
+[s2;%% Устанавливаетboth the table and the primary key. То же, что и SetTable([%-*@3 `_table]); 
 AddKey([%-*@3 key)].&]
 [s3;%% &]
 [s4; &]
 [s5;:SqlArray`:`:SetWhere`(SqlBool`): [_^SqlArray^ SqlArray][@(0.0.255) `&]_[* SetWhere]([_^SqlBool^ S
 qlBool]_[*@3 where])&]
-[s2;%% Sets the [%-*@3 where] expression. This expression is combined 
+[s2;%% Устанавливаетthe [%-*@3 where] expression. This expression is combined 
 with foreign key (defined by Join) expression when performing 
 Query.&]
 [s3;%% &]
@@ -157,12 +157,12 @@ OrderBy]([@(0.0.255) const]_[_^SqlVal^ SqlVal][@(0.0.255) `&]_[*@3 a])&]
 qlArray][@(0.0.255) `&]_[* SetOrderBy]([@(0.0.255) const]_[_^SqlVal^ SqlVal][@(0.0.255) `&]_
 [*@3 a], [@(0.0.255) const]_[_^SqlVal^ SqlVal][@(0.0.255) `&]_[*@3 b], 
 [@(0.0.255) const]_[_^SqlVal^ SqlVal][@(0.0.255) `&]_[*@3 c])&]
-[s2;%% Sets the sorting order `- affects `"ORDER BY`" part of query.&]
+[s2;%% Устанавливаетthe sorting order `- affects `"ORDER BY`" part of query.&]
 [s3;%% &]
 [s4; &]
 [s5;:SqlArray`:`:GoEndPostQuery`(bool`): [_^SqlArray^ SqlArray][@(0.0.255) `&]_[* GoEndPost
 Query]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) true])&]
-[s2;%% If active, cursor is placed to the last row of SqlArray after 
+[s2;%% Если активен, cursor is placed to the last row of SqlArray after 
 the query instead of first one.&]
 [s3;%% &]
 [s4; &]

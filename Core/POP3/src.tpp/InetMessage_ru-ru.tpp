@@ -48,13 +48,13 @@ that there is no parent.&]
 [s4; &]
 [s5;:InetMessage`:`:Part`:`:operator`[`]`(const char`*`)const: [_^String^ String]_[* oper
 ator`[`]]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 id])_[@(0.0.255) const]&]
-[s2;%% Returns the text value of field [%-*@3 id] or empty string if 
+[s2;%% Возвращает the text value of field [%-*@3 id] or empty string if 
 missing.&]
 [s3;%% &]
 [s4; &]
 [s5;:InetMessage`:`:Part`:`:Decode`(`)const: [_^String^ String]_[* Decode]()_[@(0.0.255) co
 nst]&]
-[s2;%% Returns the body of part. Bodies with transfer encoding base64 
+[s2;%% Возвращает the body of part. Bodies with transfer encoding base64 
 or quoted`-printable are decoded. Also, if `'content`-type`', 
 has `'charset`' section, body is converted to application`'s 
 default encoding (usually utf`-8).&]
@@ -68,7 +68,7 @@ at least part 0 present.&]
 [s4; &]
 [s5;:InetMessage`:`:Read`(const String`&`): [@(0.0.255) bool]_[* Read]([@(0.0.255) const]_[_^String^ S
 tring][@(0.0.255) `&]_[*@3 msg])&]
-[s2;%% Attempts to parse the whole message. Returns true on success.&]
+[s2;%% Attempts to parse the whole message. Возвращает true on success.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:InetMessage`:`:ReadHeader`(const String`&`): [@(0.0.255) bool]_[* ReadHeader]([@(0.0.255) c
@@ -82,12 +82,12 @@ If succesful, there is exactly part 0 present, with empty body.&]
 [s3; &]
 [s4; &]
 [s5;:InetMessage`:`:GetCount`(`)const: [@(0.0.255) int]_[* GetCount]()_[@(0.0.255) const]&]
-[s2;%% Returns a number of parts present.&]
+[s2;%% Возвращает a number of parts present.&]
 [s3; &]
 [s4; &]
 [s5;:InetMessage`:`:operator`[`]`(int`)const: [@(0.0.255) const]_[_^InetMessage`:`:Part^ P
 art][@(0.0.255) `&]_[* operator`[`]]([@(0.0.255) int]_[*@3 i])_[@(0.0.255) const]&]
-[s2;%% Returns part`[i`].&]
+[s2;%% Возвращает part`[i`].&]
 [s3;%% &]
 [s4;%% &]
 [s5;:InetMessage`:`:operator`[`]`(const char`*`)const: [_^String^ String]_[* operator`[`]
@@ -98,6 +98,6 @@ email.&]
 [s4; &]
 [s5;:InetMessage`:`:GetMessage`(`)const: [_^String^ String]_[* GetMessage]()_[@(0.0.255) co
 nst]&]
-[s2;%% Returns InetMessage formatted according to RFC822.&]
+[s2;%% Возвращает InetMessage formatted according to RFC822.&]
 [s3; &]
 [s3;%% ]]

@@ -122,13 +122,13 @@ numbers.&]
 word]_[*@3 x])&]
 [s5;:Upp`:`:SignificantBits64`(Upp`:`:uint64`): [@(0.0.255) int]_[* SignificantBits64]([_^Upp`:`:uint64^ u
 int64]_[*@3 x])&]
-[s2;%% Returns the number of bits required to store the value. E.g. 
+[s2;%% Возвращает the number of bits required to store the value. E.g. 
 for binary value 1010, this value is 4. For 0, the value is 0.&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:FitsInInt64`(double`): [@(0.0.255) bool]_[* FitsInInt64]([@(0.0.255) double]_[*@3 x
 ])&]
-[s2;%% Возвращает true, если [%-*@3 x] can be converted to int64 without 
+[s2;%% Возвращает  true, если [%-*@3 x] can be converted to int64 without 
 loosing the precision.&]
 [s3;%% &]
 [s4; &]
@@ -179,7 +179,7 @@ word]_[*@3 v])&]
 int64]_[*@3 v])&]
 [s5;:Upp`:`:SwapEndian64`(Upp`:`:int64`): [_^Upp`:`:int64^ int64]_[* SwapEndian64]([_^Upp`:`:int64^ i
 nt64]_[*@3 v])&]
-[s2;%% Returns the [%-*@3 v] with swapped order of bytes.&]
+[s2;%% Возвращает the [%-*@3 v] with swapped order of bytes.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:EndianSwap`(Upp`:`:word`&`): [@(0.0.255) void]_[* EndianSwap]([_^Upp`:`:word^ w

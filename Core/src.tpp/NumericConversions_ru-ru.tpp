@@ -14,7 +14,7 @@ topic "Numeric Conversions";
 [s3; &]
 [s5;:Upp`:`:StrInt`(const char`*`): [@(0.0.255) int]_[* StrInt]([@(0.0.255) const]_[@(0.0.255) c
 har`*]_[*@3 s])&]
-[s2; Converts string [*@3 s] to integer. Returns Null if there is no 
+[s2; Converts string [*@3 s] to integer. Возвращает Null if there is no 
 number in [*@3 s].&]
 [s3; &]
 [s4; &]
@@ -25,7 +25,7 @@ empty String.&]
 [s4; &]
 [s5;:Upp`:`:StrDbl`(const char`*`): [@(0.0.255) double]_[* StrDbl]([@(0.0.255) const]_[@(0.0.255) c
 har`*]_[*@3 s])&]
-[s2; Converts string [*@3 s] to double. Returns Null if there is no 
+[s2; Converts string [*@3 s] to double. Возвращает Null if there is no 
 number in [*@3 s].&]
 [s3;%% &]
 [s4; &]
@@ -37,7 +37,7 @@ String.&]
 [s4; &]
 [s5;:Upp`:`:StrInt64`(Upp`:`:int64`): [_^Upp`:`:String^ String]_[* StrInt64]([_^Upp`:`:int64^ i
 nt64]_[*@3 i])&]
-[s2;%% [%- Converts string ][%-*@3 s][%-  to 64`-bit integer. Returns Null 
+[s2;%% [%- Converts string ][%-*@3 s][%-  to 64`-bit integer. Возвращает Null 
 if there is no number in ][%-*@3 s][%- .].&]
 [s3;%% &]
 [s4; &]

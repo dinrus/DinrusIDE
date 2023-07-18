@@ -13,7 +13,7 @@ topic "Internet utility";
 [ {{10000@(113.42.0) [s0;%% [*@7;4 Internet format utility functions]]}}&]
 [s3; &]
 [s5;:WwwFormat`(Time`): [_^String^ String]_[* WwwFormat]([_^Time^ Time]_[*@3 tm])&]
-[s2;%% Returns Time in format defined by RFC2822, commonly used in 
+[s2;%% Возвращает Time in format defined by RFC2822, commonly used in 
 HTTP and other internet protocol, like `"Sun, 15 Apr 2012 16:00:25 
 GMT`".&]
 [s3;%% &]
@@ -30,7 +30,7 @@ har]_`*[*@3 s])&]
 [s4; &]
 [s5;:MIMECharsetName`(byte`): [_^String^ String]_[* MIMECharsetName]([_^byte^ byte]_[*@3 char
 set])&]
-[s2;%% Returns U`+`+ [%-*@3 charset] formatted as required by MIME.&]
+[s2;%% Возвращает U`+`+ [%-*@3 charset] formatted as required by MIME.&]
 [s3;%% &]
 [s4; &]
 [s5;:UrlEncode`(const char`*`,const char`*`): [_^String^ String]_[* UrlEncode]([@(0.0.255) c
@@ -98,7 +98,7 @@ r]_`*[*@3 s])&]
 [s4; &]
 [s5;:GetMIMETypes`(`): [@(0.0.255) const]_[_^Index^ Index]<[_^String^ String]>`&_[* GetMIMETy
 pes]()&]
-[s2;%% Returns a list of MIME types (known to U`+`+).&]
+[s2;%% Возвращает a list of MIME types (known to U`+`+).&]
 [s3; &]
 [s4; &]
 [s5;:FileExtToMIME`(const String`&`): [_^String^ String]_[* FileExtToMIME]([@(0.0.255) cons

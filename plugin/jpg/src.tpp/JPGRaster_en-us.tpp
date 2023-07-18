@@ -23,7 +23,7 @@ functions specific to jpeg.&]
 [ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
 [s4; &]
 [s5;:JPGRaster`:`:GetExifThumbnail`(`): [_^Image^ Image]_[* GetExifThumbnail]()&]
-[s2;%% Returns jpeg image thumbnail if available. If not it returns 
+[s2;%% Возвращает jpeg image thumbnail if available. If not it returns 
 a Null Image.&]
 [s3; &]
 [s0; ]

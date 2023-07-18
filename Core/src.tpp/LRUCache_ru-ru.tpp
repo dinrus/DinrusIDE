@@ -39,12 +39,12 @@ the data based on parameters.&]
 [s4; &]
 [s5;:LRUCache`:`:Maker`:`:Key`(`)const: [@(0.0.255) virtual] [*@4 K]_[* Key]()_[@(0.0.255) co
 nst]_`=_[@3 0]&]
-[s2;%% Returns key based on parameters.&]
+[s2;%% Возвращает key based on parameters.&]
 [s3; &]
 [s4; &]
 [s5;:LRUCache`:`:Maker`:`:Make`(T`&`)const: [@(0.0.255) virtual] [@(0.0.255) int]_[* Make](
 [*@4 T][@(0.0.255) `&]_[*@3 object])_[@(0.0.255) const]_`=_[@3 0]&]
-[s2;%% Creates the data based on parameters, returns the size of 
+[s2;%% Создаёт the data based on parameters, returns the size of 
 created data in bytes.&]
 [s3;%% &]
 [s4; &]
@@ -55,13 +55,13 @@ created data in bytes.&]
 [ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:LRUCache`:`:GetSize`(`)const: [@(0.0.255) int]_[* GetSize]()_[@(0.0.255) const]&]
-[s2;%% Returns the total size of data in cache (as sum of numbers 
+[s2;%% Возвращает the total size of data in cache (as sum of numbers 
 returned by Maker`::Make). Note that LRUCache adds and estimate 
 of its internal memory consumption per item as well.&]
 [s3;%% &]
 [s4; &]
 [s5;:LRUCache`:`:GetCount`(`)const: [@(0.0.255) int]_[* GetCount]()_[@(0.0.255) const]&]
-[s2;%% Returns the number of data items in cache.&]
+[s2;%% Возвращает the number of data items in cache.&]
 [s3; &]
 [s4; &]
 [s5;:LRUCache`:`:AdjustSize`(P`): [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 P]>_[@(0.0.255) v
@@ -74,13 +74,13 @@ is retained, otherwise it is overwritten with the new value.&]
 [s3;%% &]
 [s4; &]
 [s5;:LRUCache`:`:GetLRU`(`): [*@4 T][@(0.0.255) `&]_[* GetLRU]()&]
-[s2;%% Returns a reference to the least recently used data item in 
+[s2;%% Возвращает a reference to the least recently used data item in 
 the cache (candidate for removal).&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:LRUCache`:`:GetLRUKey`(`): [@(0.0.255) const]_[*@4 K][@(0.0.255) `&]_[* GetLRUKey
 ]()&]
-[s2;%% Returns the key of the least recently used data item in the 
+[s2;%% Возвращает the key of the least recently used data item in the 
 cache (candidate for removal).&]
 [s3; &]
 [s4; &]
@@ -105,7 +105,7 @@ of data size.&]
 nt]_[* Remove]([*@4 P]_[*@3 predicate])&]
 [s2;%% Removes data items from the cache for which [%-*@3 predicate] 
 (which should have single const [%-*@4 T][%-@(0.0.255) `&] parameter) 
-returns true. Returns the number of items removed.&]
+returns true. Возвращает the number of items removed.&]
 [s3;%% &]
 [s4; &]
 [s5;:LRUCache`:`:RemoveOne`(P`): [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 P]>_[@(0.0.255) b
@@ -113,7 +113,7 @@ ool]_[* RemoveOne]([*@4 P]_[*@3 predicate])&]
 [s2;%% Removes the first data item from the cache for which [%-*@3 predicate] 
 (which should have single const [%-*@4 T][%-@(0.0.255) `&] parameter) 
 returns true, scanning the cache from the most recently used 
-items to least recently used. Возвращает true, если item was found 
+items to least recently used. Возвращает  true, если item was found 
 and removed.&]
 [s3;%% &]
 [s4; &]
@@ -132,13 +132,13 @@ onst]_[_^LRUCache`:`:Maker^ Maker][@(0.0.255) `&]_[*@3 m])&]
 [s4; &]
 [s5;:LRUCache`:`:GetFoundSize`(`)const: [@(0.0.255) int]_[* GetFoundSize]()_[@(0.0.255) con
 st]&]
-[s2;%% Returns the size of data in the cache that has been reused 
+[s2;%% Возвращает the size of data in the cache that has been reused 
 since the last ClearCounters call (or constructor if there was 
 none).&]
 [s3; &]
 [s4; &]
 [s5;:LRUCache`:`:GetNewSize`(`)const: [@(0.0.255) int]_[* GetNewSize]()_[@(0.0.255) const]&]
-[s2;%% Returns the size of data that had to be created since the 
+[s2;%% Возвращает the size of data that had to be created since the 
 last ClearCounters call (or constructor if there was none).&]
 [s3; &]
 [s0;%% ]]

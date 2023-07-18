@@ -154,7 +154,7 @@ sets LF line endings). If IsTruncated is true, Save is blocked.&]
 [s4; &]
 [s5;:TextCtrl`:`:GetInvalidCharPos`(byte`)const: [@(0.0.255) int]_[* GetInvalidCharPos]([_^byte^ b
 yte]_[*@3 charset]_`=_CHARSET`_DEFAULT)_[@(0.0.255) const]&]
-[s2;%% Returns the position of the first character that cannot be 
+[s2;%% Возвращает the position of the first character that cannot be 
 represented [%-*@3 charset]. If there is none, returns negative 
 value.&]
 [s3;%% &]
@@ -169,7 +169,7 @@ String][@(0.0.255) `&]_[*@3 s])&]
 [s5;:TextCtrl`:`:Set`(const String`&`,byte`): [@(0.0.255) void]_[* Set]([@(0.0.255) const]_
 [_^String^ String][@(0.0.255) `&]_[*@3 s], [_^byte^ byte]_[*@3 charset]_`=_CHARSET`_DEFAULT
 )&]
-[s2;%% Sets the text in the widget.&]
+[s2;%% Устанавливаетthe text in the widget.&]
 [s3;%% &]
 [s4; &]
 [s5;:TextCtrl`:`:Get`(byte`)const: [_^String^ String]_[* Get]([_^byte^ byte]_[*@3 charset]_`=
@@ -215,13 +215,13 @@ nt64]_[*@3 pos])_[@(0.0.255) const]&]
 [s4; &]
 [s5;:TextCtrl`:`:GetLinePos`(int`&`)const: [@(0.0.255) int]_[* GetLinePos]([@(0.0.255) int`&
 ]_[*@3 pos])_[@(0.0.255) const]&]
-[s2;%% Returns the line where character at offset [%-*@3 pos] resides; 
+[s2;%% Возвращает the line where character at offset [%-*@3 pos] resides; 
 [%-*@3 pos] is altered to contain the position withing the line.&]
 [s3;%% &]
 [s4; &]
 [s5;:TextCtrl`:`:GetPos`(int`,int`)const: [@(0.0.255) int]_[* GetPos]([@(0.0.255) int]_[*@3 l
 ine], [@(0.0.255) int]_[*@3 column])_[@(0.0.255) const]&]
-[s2;%% Returns the offset of character at [%-*@3 line] and [%-*@3 column] 
+[s2;%% Возвращает the offset of character at [%-*@3 line] and [%-*@3 column] 
 index within the line.&]
 [s3;%% &]
 [s4; &]
@@ -232,48 +232,48 @@ _[@(0.0.255) const]&]
 [s4; &]
 [s5;:TextCtrl`:`:GetUtf8Line`(int`)const: [@(0.0.255) const]_[_^String^ String][@(0.0.255) `&
 ]_[* GetUtf8Line]([@(0.0.255) int]_[*@3 i])_[@(0.0.255) const]&]
-[s2;%% Returns the line [%-*@3 i] in UTF`-8 encoding.&]
+[s2;%% Возвращает the line [%-*@3 i] in UTF`-8 encoding.&]
 [s3;%% &]
 [s4; &]
 [s5;:TextCtrl`:`:GetWLine`(int`)const: [_^WString^ WString]_[* GetWLine]([@(0.0.255) int]_[*@3 i
 ])_[@(0.0.255) const]&]
-[s2;%% Returns the line [%-*@3 i] in UNICODE.&]
+[s2;%% Возвращает the line [%-*@3 i] in UNICODE.&]
 [s3;%% &]
 [s4; &]
 [s5;:TextCtrl`:`:GetEncodedLine`(int`,byte`)const: [_^String^ String]_[* GetEncodedLine](
 [@(0.0.255) int]_[*@3 i], [_^byte^ byte]_[*@3 charset]_`=_CHARSET`_DEFAULT)_[@(0.0.255) con
 st]&]
-[s2;%% Returns the line [%-*@3 i] required encoding.&]
+[s2;%% Возвращает the line [%-*@3 i] required encoding.&]
 [s3;%% &]
 [s4; &]
 [s5;:TextCtrl`:`:GetLineLength`(int`)const: [@(0.0.255) int]_[* GetLineLength]([@(0.0.255) i
 nt]_[*@3 i])_[@(0.0.255) const]&]
-[s2;%% Returns the length of line [%-*@3 i].&]
+[s2;%% Возвращает the length of line [%-*@3 i].&]
 [s3;%% &]
 [s4; &]
 [s5;:TextCtrl`:`:GetLineCount`(`)const: [@(0.0.255) int]_[* GetLineCount]()_[@(0.0.255) con
 st]&]
-[s2;%% Returns the number of lines.&]
+[s2;%% Возвращает the number of lines.&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:TextCtrl`:`:GetChar`(Upp`:`:int64`)const: [@(0.0.255) int]_[* GetChar]([_^Upp`:`:int64^ i
 nt64]_[*@3 pos])_[@(0.0.255) const]&]
 [s5;:Upp`:`:TextCtrl`:`:operator`[`]`(Upp`:`:int64`)const: [@(0.0.255) int]_[* operator`[
 `]]([_^Upp`:`:int64^ int64]_[*@3 pos])_[@(0.0.255) const]&]
-[s2;%% Returns the UNICODE character at [%-*@3 pos] offset.&]
+[s2;%% Возвращает the UNICODE character at [%-*@3 pos] offset.&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:TextCtrl`:`:GetChar`(`)const: [@(0.0.255) int]_[* GetChar]()_[@(0.0.255) const]&]
-[s2;%% Returns UNICODE character at cursor, or 0 if cursor is behind 
+[s2;%% Возвращает UNICODE character at cursor, or 0 if cursor is behind 
 the last character.&]
 [s3;%% &]
 [s4; &]
 [s5;:TextCtrl`:`:GetLength`(`)const: [@(0.0.255) int]_[* GetLength]()_[@(0.0.255) const]&]
-[s2;%% Returns the total number of characters in the text.&]
+[s2;%% Возвращает the total number of characters in the text.&]
 [s3;%% &]
 [s4; &]
 [s5;:TextCtrl`:`:GetCursor`(`)const: [@(0.0.255) int]_[* GetCursor]()_[@(0.0.255) const]&]
-[s2;%% Returns the position of cursor.&]
+[s2;%% Возвращает the position of cursor.&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:TextCtrl`:`:GetCursorLine`(`)const: [@(0.0.255) int]_[* GetCursorLine]()_[@(0.0.255) c
@@ -284,7 +284,7 @@ onst]&]
 [s5;:Upp`:`:TextCtrl`:`:SetSelection`(Upp`:`:int64`,Upp`:`:int64`): [@(0.0.255) void]_[* S
 etSelection]([_^Upp`:`:int64^ int64]_[*@3 anchor]_`=_[@3 0], [_^Upp`:`:int64^ int64]_[*@3 c
 ursor]_`=_[@3 2147483647]_)&]
-[s2;%% Sets the selection. If [%-*@3 anchor] or [%-*@3 cursor] are out 
+[s2;%% Устанавливаетthe selection. If [%-*@3 anchor] or [%-*@3 cursor] are out 
 of range, they are `"fixed`". If they are equal, method changes 
 the position of cursor.&]
 [s3;%% &]
@@ -296,12 +296,12 @@ t]&]
 [s4; &]
 [s5;:TextCtrl`:`:IsRectSelection`(`)const: [@(0.0.255) bool]_[* IsRectSelection]()_[@(0.0.255) c
 onst]&]
-[s2;%% Возвращает true, если there is rectangular selection.&]
+[s2;%% Возвращает  true, если there is rectangular selection.&]
 [s3; &]
 [s4; &]
 [s5;:TextCtrl`:`:IsAnySelection`(`)const: [@(0.0.255) bool]_[* IsAnySelection]()_[@(0.0.255) c
 onst]&]
-[s2;%% Возвращает true, если there is either rectangular or normal selection.&]
+[s2;%% Возвращает  true, если there is either rectangular or normal selection.&]
 [s3;%% &]
 [s4; &]
 [s5;:TextCtrl`:`:GetSelection`(int`&`,int`&`)const: [@(0.0.255) bool]_[* GetSelection]([@(0.0.255) i
@@ -309,19 +309,19 @@ nt`&]_[*@3 l], [@(0.0.255) int`&]_[*@3 h])_[@(0.0.255) const]&]
 [s5;:Upp`:`:TextCtrl`:`:GetSelection`(Upp`:`:int64`&`,Upp`:`:int64`&`)const: [@(0.0.255) b
 ool]_[* GetSelection]([_^Upp`:`:int64^ int64][@(0.0.255) `&]_[*@3 l], 
 [_^Upp`:`:int64^ int64][@(0.0.255) `&]_[*@3 h])_[@(0.0.255) const]&]
-[s2;%% Returns the selection lower and upper bounds. int64 version 
+[s2;%% Возвращает the selection lower and upper bounds. int64 version 
 is only useful in view mode. In view mode, 32 bit version returns 
 false if the range is larger than 2GB.&]
 [s3;%% &]
 [s4; &]
 [s5;:TextCtrl`:`:GetSelection`(byte`)const: [_^String^ String]_[* GetSelection]([_^byte^ by
 te]_[*@3 charset]_`=_CHARSET`_DEFAULT)_[@(0.0.255) const]&]
-[s2;%% Returns the selected text in given [%-*@3 charset].&]
+[s2;%% Возвращает the selected text in given [%-*@3 charset].&]
 [s3;%% &]
 [s4; &]
 [s5;:TextCtrl`:`:GetSelectionW`(`)const: [_^WString^ WString]_[* GetSelectionW]()_[@(0.0.255) c
 onst]&]
-[s2;%% Returns the selected text in UNICODE.&]
+[s2;%% Возвращает the selected text in UNICODE.&]
 [s3;%% &]
 [s4; &]
 [s5;:TextCtrl`:`:ClearSelection`(`): [@(0.0.255) void]_[* ClearSelection]()&]
@@ -423,7 +423,7 @@ or ClearUndo before performing any text altering operation.&]
 [s5;:Upp`:`:TextCtrl`:`:SetPickUndoData`(Upp`:`:TextCtrl`:`:UndoData`&`&`): [@(0.0.255) v
 oid]_[* SetPickUndoData]([_^Upp`:`:TextCtrl`:`:UndoData^ TextCtrl`::UndoData][@(0.0.255) `&
 `&]_[*@3 data])&]
-[s2;%% Sets the undo/redo records. [%-@3 data] is picked (destroyed) 
+[s2;%% Устанавливаетthe undo/redo records. [%-@3 data] is picked (destroyed) 
 during the operation.&]
 [s3;%% &]
 [s4; &]
@@ -450,18 +450,18 @@ enu])&]
 [s4; &]
 [s5;:TextCtrl`:`:SetCharset`(byte`): [@(0.0.255) void]_[* SetCharset]([_^byte^ byte]_[*@3 cs])
 &]
-[s2;%% Sets the input character encoding of widget. This character 
+[s2;%% Устанавливаетthe input character encoding of widget. This character 
 set is used to decide which characters can be entered by the 
 user into the text.&]
 [s3;%% &]
 [s4; &]
 [s5;:TextCtrl`:`:GetCharset`(`)const: [_^byte^ byte]_[* GetCharset]()_[@(0.0.255) const]&]
-[s2;%% Returns the value set by SetCharset.&]
+[s2;%% Возвращает  значение, установленное посредством  SetCharset.&]
 [s3;%% &]
 [s4; &]
 [s5;:TextCtrl`:`:SetColor`(int`,Color`): [@(0.0.255) void]_[* SetColor]([@(0.0.255) int]_[*@3 i
 ], [_^Color^ Color]_[*@3 c])&]
-[s2;%% Sets one of colors used to display the text.&]
+[s2;%% Устанавливаетone of colors used to display the text.&]
 [s3;%% &]
 [ {{4443:5557<288;>864; [s0; [+75 TextCtrl`::][*+75 INK`_NORMAL]]
 :: [s0;%% [+75 Normal text color.]]
@@ -519,12 +519,12 @@ zeViewMap]([_^Upp`:`:Stream^ Stream][@(0.0.255) `&]_[*@3 s])&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:TextCtrl`:`:IsView`(`)const: [@(0.0.255) bool]_[* IsView]()_[@(0.0.255) const]&]
-[s2;%% Возвращает true, если TextCtrl is in view mode.&]
+[s2;%% Возвращает  true, если TextCtrl is in view mode.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:TextCtrl`:`:GetViewSize`(`)const: [_^Upp`:`:int64^ int64]_[* GetViewSize]()_[@(0.0.255) c
 onst]&]
-[s2;%% Returns GetSize of view stream.&]
+[s2;%% Возвращает GetSize of view stream.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:TextCtrl`:`:GetLinePos64`(Upp`:`:int64`&`)const: [@(0.0.255) int]_[* GetLineP
@@ -541,7 +541,7 @@ for view mode (where values > INT`_MAX are possible).&]
 [s4; &]
 [s5;:TextCtrl`:`:UndoSteps`(int`): [_^TextCtrl^ TextCtrl][@(0.0.255) `&]_[* UndoSteps]([@(0.0.255) i
 nt]_[*@3 n])&]
-[s2;%% Sets the maximum number of undo steps.&]
+[s2;%% Устанавливаетthe maximum number of undo steps.&]
 [s3;%% &]
 [s4; &]
 [s5;:TextCtrl`:`:ProcessTab`(bool`): [_^TextCtrl^ TextCtrl][@(0.0.255) `&]_[* ProcessTab]([@(0.0.255) b
@@ -568,7 +568,7 @@ r]()&]
 [s4; &]
 [s5;:TextCtrl`:`:NoBackground`(bool`): [_^TextCtrl^ TextCtrl][@(0.0.255) `&]_[* NoBackgroun
 d]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) true])&]
-[s2;%% Sets the widget into transparent mode `- background is not 
+[s2;%% Устанавливаетthe widget into transparent mode `- background is not 
 painted and Transparent is activated `- a result, anything painted 
 behind the widget is visible, allowing client code to provide 
 any background it needs.&]
@@ -576,7 +576,7 @@ any background it needs.&]
 [s4; &]
 [s5;:TextCtrl`:`:MaxLength`(int`): [_^TextCtrl^ TextCtrl][@(0.0.255) `&]_[* MaxLength]([@(0.0.255) i
 nt]_[*@3 len])&]
-[s2;%% Sets the maximum size of text in unicode characters. Has to 
+[s2;%% Устанавливаетthe maximum size of text in unicode characters. Has to 
 be less than 1Gchars. The default is 400Mchars.&]
 [s3;%% &]
 [s4; &]

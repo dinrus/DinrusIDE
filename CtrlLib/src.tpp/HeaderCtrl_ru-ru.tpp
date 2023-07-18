@@ -16,7 +16,7 @@ topic "Класс HeaderCtrl";
 (A9gAGAAAAOj/AAAAAHic7ZnBDcIwDEWZmD0YgQ16QFxBYgEODMAKSN0BTlTgxG7SOo6TfuuJQxrqfv6Xg9Tx9RwBAAB82R/OAFSB5PCNQpkXl8Pqk9me03CE8FrdkUMndmxWOHLoyo7NCs/N4e6/uNsKlxZA7qZ780Q7EoW3S7rw8FOre+48nO1ewikb9+Wx0GUCZeGcZOSwih2Wz1CFPnJIDizhCIte4laIZKI9bEq+qGhHVHi09aw0n6TnsIlzOXw8zjthc+gvt0hWyB5FO2Qts0IULStEyv9DwRSV7orzUCWH8raipqvnMDokHdLBPMyKRPpmzuW2cqhikwHIoeK5LPx6K+0QTEmZ4YqWFaKDHE52/J7L3GEUvcStkHZhIOUYKNohm5IlzSct5nANzh3Jfa3Q0MTTFV6iO3K4wI5wyjmXpiW8XHe8X3Zix2aFCzl83K8AmMHl8HYZADBDOJdRKMtCDlEeCjlEeagphx8wHNk4)
 &]
 [s2; &]
-[s0; [/ Derived from] Ctrl, [@(0.0.255) CtrlFrame]&]
+[s0; [/ Производный от] Ctrl, [@(0.0.255) CtrlFrame]&]
 [s0; &]
 [s0; HeaderCtrl is used mainly for table headers. It can be set up 
 to a certain column structure (in the code terminology, the individual 
@@ -84,7 +84,7 @@ determine the actual location of a certain header tab and align
 the dropdown control with respect to the tab rectangle location.&]
 [s0; &]
 [s5;K%- [^`:`:Rect^ Rect]_[@0 GetTabRect]([@(0.0.255) int]_[@3 i])&]
-[s2; Returns the bounding box of a certain tab (in coordinates relative 
+[s2; Возвращает the bounding box of a certain tab (in coordinates relative 
 to the HeaderCtrl view). This can be used by controls using the 
 header (like ArrayCtrl) to determine column break locations or 
 by host applications for positioning dropdown controls (activated 
@@ -102,7 +102,7 @@ following code snippet:&]
 [s0;3 &]
 [s5;:`:`:HeaderCtrl`:`:Tab`(int`)const: [@(0.0.255) const]_[^`:`:Column^ Column]`&_[@0 Tab](
 [@(0.0.255) int]_[@3 i][@0 )_const]&]
-[s2; Returns the descriptive [* HeaderCtrl`::Column] structure of a 
+[s2; Возвращает the descriptive [* HeaderCtrl`::Column] structure of a 
 given header tab. This constant version can be used to retrieve 
 individual tab properties. For a thorough description of the 
 [* Column] structure, see below.&]
@@ -112,7 +112,7 @@ to the [* Column] structure describing the tab.&]
 [s0;3 &]
 [s5;:`:`:HeaderCtrl`:`:Tab`(int`): [^`:`:Column^ Column][%- `&]_[@0 Tab]([@(0.0.255) int]_[@3 i
 ][@0 )]&]
-[s2; Returns a (non`-constant) reference to the descriptive [* HeaderCtrl`::Column] 
+[s2; Возвращает a (non`-constant) reference to the descriptive [* HeaderCtrl`::Column] 
 structure of a given header tab. This can be used to set and 
 retrieve individual tab properties (see below for a full description 
 of the [* Column] structure).&]
@@ -140,14 +140,14 @@ to the [* Column] structure describing the newly added tab.&]
 [s0;3 &]
 [s5;K%- [@(0.0.255) const]_[^`:`:HeaderCtrl`:`:Column^ Column]`&_[@0 operator`[`]]([@(0.0.255) i
 nt]_[@3 i])_[@(0.0.255) const]&]
-[s2; Returns a (constant) reference to a given header tab. This is 
+[s2; Возвращает a (constant) reference to a given header tab. This is 
 identical to the [/ const] version of the [* Tab] method.&]
 [s4; [*C@3 i]-|Tab index (zero based).&]
 [s4; [*/ Возвратное значение]-|a constant reference 
 to the given header tab.&]
 [s0;3 &]
 [s5;K%- [@(0.0.255) int]_[@0 GetCount]()_[@(0.0.255) const]&]
-[s2; Returns the current number of header tabs. Each [* Add] increases 
+[s2; Возвращает the current number of header tabs. Each [* Add] increases 
 this value by one and [* Reset] sets it to 0 (the initial value).&]
 [s4; [*/ Возвратное значение]-|Number of tabs.&]
 [s0;3 &]
@@ -174,7 +174,7 @@ false)].&]
 [s0;3 &]
 [s5;K%- [@(0.0.255) void]_[@0 SetTabRatio]([@(0.0.255) int]_[@3 i], [@(0.0.255) double]_[@3 ratio
 ])&]
-[s2; Sets the logical tab width (ratio) of a given tab.&]
+[s2; Устанавливаетthe logical tab width (ratio) of a given tab.&]
 [s4; [*C@3 i]-|tab index&]
 [s4; [*C@3 ratio]-|logical tab width.&]
 [s0;3 &]
@@ -188,13 +188,13 @@ object) or by dragging the tab breaks using the mouse.&]
 width&]
 [s0;3 &]
 [s5;K%- [@(0.0.255) void]_[@0 SetTabWidth]([@(0.0.255) int]_[@3 i], [@(0.0.255) int]_[@3 cx])&]
-[s2; Sets the given header tab to a physical (pixel) size. This also 
+[s2; Устанавливаетthe given header tab to a physical (pixel) size. This also 
 modifies the logical (relative) tab width accordingly.&]
 [s4; [*C@3 i]-|tab index (zero based)&]
 [s4; [*C@3 cx]-|tab pixel size&]
 [s0;3 &]
 [s5;K%- [@(0.0.255) int]_[@0 GetTabWidth]([@(0.0.255) int]_[@3 i])&]
-[s2; Returns the physical (pixel) width of a given header tab. Remember 
+[s2; Возвращает the physical (pixel) width of a given header tab. Remember 
 that (unless the HeaderCtrl is in the [* Scroll] mode) the physical 
 tab widths can change with the parent view size. Algorithms for 
 long`-term manipulation of tab sizes (typically serialization) 
@@ -216,7 +216,7 @@ nt]_[@3 from], [@(0.0.255) int]_[@3 to])&]
 [s0; &]
 [s5;K:`:`:HeaderCtrl`:`:GetTabIndex`(int`):%- [@(0.0.255) int]_[@0 GetTabIndex]([@(0.0.255) i
 nt]_[@3 i])&]
-[s2; Returns `"original`" index of Tab.&]
+[s2; Возвращает `"original`" index of Tab.&]
 [s0; &]
 [s5;K:`:`:HeaderCtrl`:`:FindIndexTab`(int`):%- [@(0.0.255) int]_[@0 FindIndexTab]([@(0.0.255) i
 nt]_[@3 ndx])&]
@@ -273,7 +273,7 @@ header itself remains hidden).&]
 [s4; [*/ Возвратное значение]-|[* `*this]&]
 [s0;3 &]
 [s5;K%- [^`:`:HeaderCtrl^ HeaderCtrl]`&_[@0 Track]([@(0.0.255) bool]_[@3 `_track]_`=_true)&]
-[s2; Sets whether the HeaderCtrl and its parent view contents should 
+[s2; Устанавливаетwhether the HeaderCtrl and its parent view contents should 
 be `'animated`' during repositioning the tab breaks using mouse 
 drag `& drop. When [* `_track] is set to [* true], the header and 
 its parents repaint is requested every time the mouse moves during 
@@ -331,7 +331,7 @@ Default is inactive.&]
 [s0;3 &]
 [s0;3 &]
 [s5;K%- static static_[@(0.0.255) int]_[@0 GetStdHeight]()&]
-[s2; Returns the standard header control height (when there are no 
+[s2; Возвращает the standard header control height (when there are no 
 icons and the standard font is used in all tabs).&]
 [s4; [*/ Возвратное значение]-|&]
 [s0;3 &]
@@ -351,7 +351,7 @@ changes).&]
 [s0; &]
 [s0; [*+117 HeaderCtrl`::Column (nested class)]&]
 [s2; &]
-[s0;%- [%RU-RU/ Derived from][%RU-RU  ]LabelBase&]
+[s0;%- [%RU-RU/ Производный от][%RU-RU  ]LabelBase&]
 [s0; &]
 [s0; The [* HeaderCtrl`::Column] structure represents an individual 
 header tab. HeaderCtrl methods for tab insertion and editation 
@@ -365,35 +365,35 @@ with repeated use of the dot operator, e.g.:&]
 [s0; [C -|headerctrl.Add().Min(10).Max(20).Margin(3);]&]
 [s0;3 &]
 [s5;K%- [^`:`:HeaderCtrl`:`:Column^ Column]`&_[@0 Min]([@(0.0.255) int]_[@3 `_min])&]
-[s2; Sets minimum tab pixel size. The default value is 0 (the tab 
+[s2; Устанавливаетminimum tab pixel size. The default value is 0 (the tab 
 can be shrunk arbitrarily and can disappear altogether at a certain 
 moment).&]
 [s4; [%-*C@3 `_min]-|Minimum tab width in pixels.&]
 [s4; [*/ Возвратное значение]-|[* `*this]&]
 [s0;3 &]
 [s5;K%- [^`:`:HeaderCtrl`:`:Column^ Column]`&_[@0 Max]([@(0.0.255) int]_[@3 `_max])&]
-[s2; Sets maximum tab pixel size. The default value is [/ INT`_MAX] 
+[s2; Устанавливаетmaximum tab pixel size. The default value is [/ INT`_MAX] 
 (unlimited).&]
 [s4; [%-*C@3 `_max]-|Maximum tab width in pixels.&]
 [s4; [*/ Возвратное значение]-|[* `*this]&]
 [s0;3 &]
 [s5;K%- [^`:`:HeaderCtrl`:`:Column^ Column]`&_[@0 MinMax]([@(0.0.255) int]_[@3 m], 
 [@(0.0.255) int]_[@3 n])&]
-[s2; Sets both minimum and maximum tab pixel size at the same time. 
+[s2; Устанавливаетboth minimum and maximum tab pixel size at the same time. 
 This has the same effect as [* .Min(m).Max(n)].&]
 [s4; [%-*C@3 m]-|Minimum tab width in pixels.&]
 [s4; [%-*C@3 n]-|Maximum tab width in pixels.&]
 [s4; [*/ Возвратное значение]-|[* `*this]&]
 [s0;3 &]
 [s5;K%- [^`:`:HeaderCtrl`:`:Column^ Column]`&_[@0 Fixed]([@(0.0.255) int]_[@3 f])&]
-[s2; Sets both minimum and maximum tab pixel size to the same value, 
+[s2; Устанавливаетboth minimum and maximum tab pixel size to the same value, 
 effectively making the tab width constant. Equal to [* .MinMax(f, 
 f)].&]
 [s4; [%-*C@3 f]-|Fixed tab width in pixels.&]
 [s4; [*/ Возвратное значение]-|[* `*this]&]
 [s0;3 &]
 [s5;K%- [^`:`:HeaderCtrl`:`:Column^ Column]`&_[@0 SetRatio]([@(0.0.255) double]_[@3 ratio])&]
-[s2; Sets logical (relative) tab width. The logical tab width (together 
+[s2; Устанавливаетlogical (relative) tab width. The logical tab width (together 
 with logical widths of other tabs and the minimum / maximum width 
 constraints) is used to calculate the final pixel size of each 
 tab according to the current header visual mode.&]
@@ -401,7 +401,7 @@ tab according to the current header visual mode.&]
 [s4; [*/ Возвратное значение]-|[* `*this]&]
 [s0;3 &]
 [s5;K%- [^`:`:HeaderCtrl`:`:Column^ Column]`&_[@0 SetMargin]([@(0.0.255) int]_[@3 m])&]
-[s2; Sets horizontal tab margin size, the number of pixels to deflate 
+[s2; Устанавливаетhorizontal tab margin size, the number of pixels to deflate 
 the tab rectangle horizontally to obtain the final `"column data`" 
 rectangle. In [/ ArrayCtrl], the tab margin areas are used to paint 
 the grid lines and the inverted selection rectangle outside of 
@@ -410,7 +410,7 @@ the table cells.&]
 [s4; [*/ Возвратное значение]-|[* `*this]&]
 [s0;3 &]
 [s5;K%- [@(0.0.255) int]_[@0 GetMargin]()_[@(0.0.255) const]&]
-[s2; Returns current tab margin width in pixels.&]
+[s2; Возвращает current tab margin width in pixels.&]
 [s4; [*/ Возвратное значение]-|[* `*this]&]
 [s0;3 &]
 [s5;K%- [^`:`:Callback^ Callback]_[@0 WhenAction]&]

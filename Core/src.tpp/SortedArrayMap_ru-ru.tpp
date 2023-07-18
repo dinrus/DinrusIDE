@@ -45,7 +45,7 @@ to the default constructed value at the same index.&]
 [s5;:SortedArrayMap`:`:Add`(const K`&`,T`*`):%- [*@4 T][@(0.0.255) `&]_[* Add]([@(0.0.255) co
 nst]_[*@4 K][@(0.0.255) `&]_[*@3 k], [*@4 T]_`*[*@3 newt])&]
 [s2; Inserts the key at upper bound key position and sets key to 
-[%-*@3 newt] `- SortedArrayMap takes ownership. Returns [%- `*][%-*@3 newt].&]
+[%-*@3 newt] `- SortedArrayMap takes ownership. Возвращает [%- `*][%-*@3 newt].&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:SortedArrayMap`:`:Create`(const K`&`,Args`&`&`.`.`.args`):%- [@(0.0.255) te
@@ -54,7 +54,7 @@ mplate]_<[@(0.0.255) class]_[*@4 TT], [@(0.0.255) class...]_[*@4 Args]>_[*@4 TT]
 args)&]
 [s2; Inserts the key at upper bound key position and creates a new 
 value of type [%-*@4 TT] using args as constructor parameters. 
-[%-*@4 TT] has to be derived from [%-*@4 T]. Returns a reference 
+[%-*@4 TT] has to be derived from [%-*@4 T]. Возвращает a reference 
 to this newly created value.&]
 [s3; &]
 [s4; &]

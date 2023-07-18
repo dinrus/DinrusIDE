@@ -125,26 +125,26 @@ of class grouping. [%-*@3 Index] can be any integer number [%-*@3 icon
 [s7;:WithFactory`:`:Create`(const String`&`):%- [@(0.0.255) static] 
 [_^One^ One]<[*@4 T]>_[* CreateInstance]([@(0.0.255) const]_[_^String^ String]_`&[*@3 classNa
 me])&]
-[s2; Creates a class derived from hierarchy base T by its [%-*@3 className].&]
-[s2; Returns a smart pointer to the base class T&]
+[s2; Создаёт a class derived from hierarchy base T by its [%-*@3 className].&]
+[s2; Возвращает a smart pointer to the base class T&]
 [s3; &]
 [s6;%- &]
 [s7;:WithFactory`:`:CreatePtr`(String const`&`):%- [@(0.0.255) static] 
 [*@4 T]_`*[* CreatePtr]([_^String^ String]_[@(0.0.255) const]_`&[*@3 className])&]
-[s2; Creates a class derived from hierarchy base T by its [%-*@3 className].&]
-[s2; Returns a traditional pointer to the base class T&]
+[s2; Создаёт a class derived from hierarchy base T by its [%-*@3 className].&]
+[s2; Возвращает a traditional pointer to the base class T&]
 [s3; &]
 [s6;%- &]
 [s7;:WithFactory`:`:Classes`(void`):%- [@(0.0.255) static] [_^Vector^ Vector]<[_^String^ St
 ring]>_[@(0.0.255) const]_`&[* Classes]([@(0.0.255) void])&]
-[s2; Returns Vector of strings containing all registered class names 
+[s2; Возвращает Vector of strings containing all registered class names 
 in hierarchy.&]
 [s3;%- &]
 [s6;%- &]
 [s7;:WithFactory`:`:GetClassDescription`(const String`&`):%- [@(0.0.255) static] 
 [_^String^ String]_[@(0.0.255) const]_`&[* GetClassDescription]([@(0.0.255) const]_[_^String^ S
 tring]_`&[*@3 className])&]
-[s2; Returns an ascii description of a class identified by [%-*@3 className].&]
+[s2; Возвращает an ascii description of a class identified by [%-*@3 className].&]
 [s2; If no description was given when registering the class, returns 
 an empty string.&]
 [s3; &]
@@ -166,7 +166,7 @@ Image_[* GetClassImage]([@(0.0.255) const]_[_^String^ String]_`&[*@3 className])
 [s6;%- &]
 [s7;:WithFactory`:`:IsA`(void`):%- [_^String^ String]_[@(0.0.255) const]_`&[* IsA]([@(0.0.255) v
 oid])&]
-[s2; Returns a string containing the class name.&]
+[s2; Возвращает a string containing the class name.&]
 [s3;%- &]
 [s6;%- &]
 [s0; ]]

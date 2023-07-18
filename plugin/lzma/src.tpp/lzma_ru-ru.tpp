@@ -72,7 +72,7 @@ ZMACompressFile]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 srcfile],
 [@(0.0.255) int]_[*@3 lvl]_`=_[@3 6])&]
 [s2;%% Compresses file into lzma format. If [%-*@3 dstfile] is not 
 present, the name is created by appending .lzma extension to 
-[%-*@3 srcfile]. Returns true on success. [%-*@3 lvl] can be used 
+[%-*@3 srcfile]. Возвращает true on success. [%-*@3 lvl] can be used 
 to tune compression ratio, can be 1..9 `- values greater than 
 6 however might take quite a long time and a lot of memory (hunderds 
 of MB).&]
@@ -88,5 +88,5 @@ DecompressFile]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 srcfile],
 [s2;%% Decompresses file from lzma format. If [%-*@3 dstfile] is not 
 present, the name is created by removing .lzma extension to [%-*@3 srcfile]. 
 If [%-*@3 srcfile] does not have .lzma extension, function returns 
-false to signal error and does nothing. Returns true on success.&]
+false to signal error and does nothing. Возвращает true on success.&]
 [s3;%% ]]

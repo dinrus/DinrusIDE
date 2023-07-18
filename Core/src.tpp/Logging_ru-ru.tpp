@@ -80,11 +80,11 @@ cannot be used to e.g. LOG inside heap routines).]}}&]
 [s3; &]
 [s4;%- &]
 [s5;:StdLog`(`):%- [_^Stream^ Stream][@(0.0.255) `&]_[* StdLog]()&]
-[s2; Returns a reference to standard log stream.&]
+[s2; Возвращает a reference to standard log stream.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:GetStdLogPath`(`):%- [_^Upp`:`:String^ String]_[* GetStdLogPath]()&]
-[s2; Returns the path of current log, if any.&]
+[s2; Возвращает the path of current log, if any.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:LOG`_BEGIN:%- [@(0.0.255) const]_[@(0.0.255) char]_[* LOG`_BEGIN `= 
@@ -100,12 +100,12 @@ tabulator of indentation to all subsequent lines (moves text
 [s3;%- &]
 [s4;%- &]
 [s5;:UppLog`(`):%- [_^Stream^ Stream][@(0.0.255) `&]_[* UppLog]()&]
-[s2; Returns a reference to [/ current] log stream.&]
+[s2; Возвращает a reference to [/ current] log stream.&]
 [s3; &]
 [s4;%- &]
 [s5;:SetUppLog`(Stream`&`):%- [@(0.0.255) void]_[* SetUppLog]([_^Stream^ Stream][@(0.0.255) `&
 ]_[*@3 log])&]
-[s2; Sets the current log stream to [%-*@3 log] (must be an object 
+[s2; Устанавливаетthe current log stream to [%-*@3 log] (must be an object 
 with global lifetime).&]
 [s3; &]
 [s4;%- &]

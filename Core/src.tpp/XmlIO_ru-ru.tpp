@@ -37,7 +37,7 @@ to XML.&]
 [s5;:XmlIO`:`:Node`(`)const: [@(0.0.255) const]_[_^XmlNode^ XmlNode][@(0.0.255) `&]_[* Node](
 )_[@(0.0.255) const]&]
 [s5;:XmlIO`:`:operator`-`>`(`): [_^XmlNode^ XmlNode]_`*[* operator`->]()&]
-[s2;%% Returns current XmlNode represented by this XmlIO.&]
+[s2;%% Возвращает current XmlNode represented by this XmlIO.&]
 [s3; &]
 [s4; &]
 [s5;:XmlIO`:`:GetAttr`(const char`*`): [_^String^ String]_[* GetAttr]([@(0.0.255) const]_[@(0.0.255) c
@@ -60,7 +60,7 @@ of attribute of current XmlNode (used when storing data to XML).&]
 ]_<[@(0.0.255) class]_[*@4 T], [@(0.0.255) class]_[*@4 D]>_[_^Upp`:`:XmlIO^ XmlIO]_[* operato
 r()]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 tag], [*@4 T][@(0.0.255) `&]_[*@3 var], 
 [@(0.0.255) const]_[*@4 D][@(0.0.255) `&]_[*@3 def])&]
-[s2;%% Creates subtag of current XmlNode [%-*@3 tag], forms a new XmlIO 
+[s2;%% Создаёт subtag of current XmlNode [%-*@3 tag], forms a new XmlIO 
 for it and calls global [* Xmlize ]function with this new XmlIO 
 and [%-*@3 var] as parameters. Common global [* Xmlize ]is a template 
 function that calls [* Xmlize ]method for [%-*@3 var] with new XmlIO 
@@ -80,7 +80,7 @@ ef])&]
 [s5;:Upp`:`:XmlIO`:`:List`(const char`*`,const char`*`,T`&`): [@(0.0.255) template]_<[@(0.0.255) c
 lass]_[*@4 T]>_[_^Upp`:`:XmlIO^ XmlIO]_[* List]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 t
 ag], [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 itemtag], [*@4 T][@(0.0.255) `&]_[*@3 var])&]
-[s2;%% Creates subtag of current XmlNode [%-*@3 tag], forms a new XmlIO 
+[s2;%% Создаёт subtag of current XmlNode [%-*@3 tag], forms a new XmlIO 
 for it and calls global [* Xmlize ]function with this new XmlIO, 
 [%-*@3 itemtag] and [%-*@3 var] as parameters. Common global [* Xmlize 
 ]is a template function that calls [* Xmlize ]method for [%-*@3 var] 
@@ -98,7 +98,7 @@ case.&]
 [s5;:Upp`:`:XmlIO`:`:Var`(const char`*`,T`&`,X`): [@(0.0.255) template]_<[@(0.0.255) clas
 s]_[*@4 T], [@(0.0.255) class]_[*@4 X]>_[_^Upp`:`:XmlIO^ XmlIO]_[* Var]([@(0.0.255) const]_[@(0.0.255) c
 har]_`*[*@3 tag], [*@4 T][@(0.0.255) `&]_[*@3 var], [*@4 X]_[*@3 var`_xmlize])&]
-[s2;%% Creates subtag of current XmlNode [%-*@3 tag], forms a new XmlIO 
+[s2;%% Создаёт subtag of current XmlNode [%-*@3 tag], forms a new XmlIO 
 for it and calls global [%-*@3 item`_xmlize][*  ]callable with this 
 new XmlIO and [%-*@3 var] as parameters. This allows for in`-place 
 definition of XML structure used to represent [%-*@3 var].&]
@@ -132,11 +132,11 @@ of current XmlNode to the result of global function call String
 Xmlize is a template function that calls [@(0.0.255) void ][* XmlAttrLoad](const 
 String`& [* text]) method for [%-*@3 var]. [%-*@3 def] parameter can 
 be used to provide default value when retrieving data from XML 
-fails. Returns `*this.&]
+fails. Возвращает `*this.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:XmlIO`:`:At`(int`): [_^XmlIO^ XmlIO]_[* At]([@(0.0.255) int]_[*@3 i])&]
-[s2;%% Creates a new subnode with index [%-*@3 i] of current XmlNode 
+[s2;%% Создаёт a new subnode with index [%-*@3 i] of current XmlNode 
 and returns a new XmlIO for it. Node type and properties are 
 to be set through created XmlIO.&]
 [s3;%% &]
@@ -168,7 +168,7 @@ value is propagated to any new XmlIO created by current XmlIO..&]
 [s3;%% &]
 [s4;%% &]
 [s5;:XmlIO`:`:GetUserData`(`)const: [_^Value^ Value]_[* GetUserData]()_[@(0.0.255) const]&]
-[s2;%% Returns value set by SetUserData.&]
+[s2;%% Возвращает value set by SetUserData.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:XmlIO`:`:XmlIO`(XmlNode`&`,bool`,const Value`&`): [* XmlIO]([_^XmlNode^ XmlNode][@(0.0.255) `&
@@ -176,7 +176,7 @@ value is propagated to any new XmlIO created by current XmlIO..&]
 ]_[*@3 userdata])&]
 [s5;:XmlIO`:`:XmlIO`(XmlNode`&`,bool`): [* XmlIO]([_^XmlNode^ XmlNode][@(0.0.255) `&]_[*@3 xm
 l], [@(0.0.255) bool]_[*@3 loading])&]
-[s2;%% Creates XmlIO for given XmlNode and sets the direction mode 
+[s2;%% Создаёт XmlIO for given XmlNode and sets the direction mode 
 based on [%-*@3 loading]. If [%-*@3 userdata] are present, calls 
 SetUserData([%-*@3 userdata]).&]
 [s3;%% &]

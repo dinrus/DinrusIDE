@@ -35,19 +35,19 @@ st]_[@(0.0.255) char]_`*[*@3 file], [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 
 [s2; Appends at the end of [%-*@3 file] the contents of file [%-*@3 appendFile]. 
 [%-*@3 file] will be modified and [%-*@3 appendFile ]will remain 
 unchanged.&]
-[s0;l288; Returns true in case of success.&]
+[s0;l288; Возвращает true in case of success.&]
 [s3; &]
 [s4;%- &]
 [s5;:FileStrAppend`(const char`*`,const char`*`):%- [@(0.0.255) bool]_[* FileStrAppend]([@(0.0.255) c
 onst]_[@(0.0.255) char]_`*[*@3 file], [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 str])&]
 [s2; Appends at the end of [%-*@3 file] the text [%-*@3 str].&]
-[s0;l288; Returns true in case of success.&]
+[s0;l288; Возвращает true in case of success.&]
 [s4;%- &]
 [s5;:AppendFile`(const char`*`,const char`*`):%- [@(0.0.255) bool]_[* AppendFile]([@(0.0.255) c
 onst]_[@(0.0.255) char]_`*[*@3 filename], [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 str])
 &]
 [s2; Appends at the end of file [%-*@3 filename] the text [%-*@3 str].&]
-[s2; Returns true in case of success.&]
+[s2; Возвращает true in case of success.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:AppendFileNameX`(T`,Args`.`.`.args`):%- [@(0.0.255) template]_<[@(0.0.255) ty
@@ -58,23 +58,23 @@ leNameX]([*@4 T]_[*@3 t], [*@4 Args][@(0.0.255) ...]_args)&]
 [s4; &]
 [s5;:GetUpperFolder`(const char`*`):%- [_^String^ String]_[* GetUpperFolder]([@(0.0.255) co
 nst]_[@(0.0.255) char]_`*[*@3 folderName])&]
-[s2; Returns the name of the folder over [%-*@3 folderName].&]
+[s2; Возвращает the name of the folder over [%-*@3 folderName].&]
 [s3; &]
 [s4;%- &]
 [s5;:IsRootFolder`(const char`*`):%- [@(0.0.255) bool]_[* IsRootFolder]([@(0.0.255) const]_
 [@(0.0.255) char]_`*[*@3 folderName])&]
-[s0;l288; Returns false if there is a folder over [%-*@3 folderName]. 
+[s0;l288; Возвращает false if there is a folder over [%-*@3 folderName]. 
 It does not check if [%-*@3 folderName] exists.&]
 [s3; &]
 [s4;%- &]
 [s5;:GetUpperFolder`(const String`&`):%- [_^String^ String]_[* GetUpperFolder]([@(0.0.255) c
 onst]_[_^String^ String]_`&[*@3 folderName])&]
-[s2; Returns the folder over [%-*@3 folderName].&]
+[s2; Возвращает the folder over [%-*@3 folderName].&]
 [s3; &]
 [s4;%- &]
 [s5;:FileRealName`(const char`*`):%- [_^String^ String]_[* FileRealName]([@(0.0.255) const]_
 [@(0.0.255) char]_`*[*@3 path])&]
-[s2; Returns the real name of [%-*@3 path].(directory or file) with 
+[s2; Возвращает the real name of [%-*@3 path].(directory or file) with 
 the right letter cases or `"`" if [%-*@3 path].does not exist.&]
 [s3; &]
 [s4;%- &]
@@ -113,13 +113,13 @@ is found.&]
 [s4;%- &]
 [s5;:GetDirectoryLength`(const char`*`):%- [_^int64^ Upp`::int64]_[* GetDirectoryLength]([@(0.0.255) c
 onst]_[@(0.0.255) char]_`*[*@3 directoryName])&]
-[s2; Returns the size in bytes of the sum of all file sizes under 
+[s2; Возвращает the size in bytes of the sum of all file sizes under 
 [%-*@3 directoryName].&]
 [s3; &]
 [s4;%- &]
 [s5;:GetLength`(const char`*`):%- [_^int64^ Upp`::int64]_[* GetLength]([@(0.0.255) const]_[@(0.0.255) c
 har]_`*[*@3 fileDirName])&]
-[s2; Returns the size of [%-*@3 fileDirName].&]
+[s2; Возвращает the size of [%-*@3 fileDirName].&]
 [s0;l288;i150;O0; If it is a file, it returns its size.&]
 [s0;l288;i150;O0; If it is a folder, it returns the size in bytes 
 of the sum of all file sizes under [%-*@3 fileDirName].&]
@@ -129,31 +129,31 @@ of the sum of all file sizes under [%-*@3 fileDirName].&]
 onst]_[@(0.0.255) char]_`*[*@3 dir], [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 newPlace])
 &]
 [s2; Copy folder [%-*@3 dir] including all files and folders to [%-*@3 newPlace].&]
-[s0;l288; Returns true in case of success.&]
+[s0;l288; Возвращает true in case of success.&]
 [s3; &]
 [s4;%- &]
 [s5;:SetReadOnly`(const char`*`,bool`):%- [@(0.0.255) bool]_[* SetReadOnly]([@(0.0.255) con
 st]_[@(0.0.255) char]_`*[*@3 path], [@(0.0.255) bool]_[*@3 readOnly])&]
-[s2; Sets [%-*@3 path ](file or folder) as read only or write permitted 
+[s2; Устанавливает[%-*@3 path ](file or folder) as read only or write permitted 
 depending on the value of[%-*@3  readOnly].&]
 [s0;l288; In Linux the permissions are set for user, group and others.&]
-[s2; -|Returns true in case of success.&]
+[s2; -|Возвращает true in case of success.&]
 [s3; &]
 [s4;%- &]
 [s5;:SetReadOnly`(const char`*`,bool`,bool`,bool`):%- [@(0.0.255) bool]_[* SetReadOnly]([@(0.0.255) c
 onst]_[@(0.0.255) char]_`*[*@3 path], [@(0.0.255) bool]_[*@3 user], [@(0.0.255) bool]_[*@3 gr
 oup], [@(0.0.255) bool]_[*@3 others])&]
-[s2; Sets [%-*@3 path] (file or folder) as read only or write permitted 
+[s2; Устанавливает[%-*@3 path] (file or folder) as read only or write permitted 
 for[%-*@3  user], [%-*@3 group ]and [%-*@3 others].&]
-[s0;l288; -|Returns true in case of success.&]
+[s0;l288; -|Возвращает true in case of success.&]
 [s3; &]
 [s4;%- &]
 [s5;:IsReadOnly`(const char`*`,bool`&`,bool`&`,bool`&`):%- [@(0.0.255) bool]_[* IsReadOnl
 y]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 path], [@(0.0.255) bool]_`&[*@3 user], 
 [@(0.0.255) bool]_`&[*@3 group], [@(0.0.255) bool]_`&[*@3 others])&]
-[s2; Returns true in [%-*@3 user], [%-*@3 group] or [%-*@3 others] if [%-*@3 path 
+[s2; Возвращает true in [%-*@3 user], [%-*@3 group] or [%-*@3 others] if [%-*@3 path 
 ](file or folder) is read only for some of those user groups.&]
-[s0; -|Returns true in case of success.&]
+[s0; -|Возвращает true in case of success.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:LoadFile`_Safe`(const String`):%- [_^String^ String]_[* LoadFile`_Safe]([@(0.0.255) co
@@ -172,19 +172,19 @@ until the file end.&]
 [s4;%- &]
 [s5;:IsFile`(const char`*`):%- [@(0.0.255) bool]_[* IsFile]([@(0.0.255) const]_[@(0.0.255) ch
 ar]_`*[*@3 fileName])&]
-[s2; Возвращает true, если [%-*@3 fileName] is a file.&]
+[s2; Возвращает  true, если [%-*@3 fileName] is a file.&]
 [s3; &]
 [s4; &]
 [s5;:IsFolder`(const char`*`):%- [@(0.0.255) bool]_[* IsFolder]([@(0.0.255) const]_[@(0.0.255) c
 har]_`*[*@3 fileName])&]
-[s2; Returns true id [%-*@3 fileName] is a folder.&]
+[s2; Возвращает true id [%-*@3 fileName] is a folder.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:SearchFile`(Upp`:`:String`,Upp`:`:String`,Upp`:`:String`,Upp`:`:Vector`<Upp`:`:String`>`&`):%- [_^Upp`:`:Vector^ V
 ector]<[_^Upp`:`:String^ String]>_[* SearchFile]([_^Upp`:`:String^ String]_[*@3 dir], 
 [_^Upp`:`:String^ String]_[*@3 condFile], [_^Upp`:`:String^ String]_[*@3 text], 
 [_^Upp`:`:Vector^ Vector]<[_^Upp`:`:String^ String]>_`&[*@3 errorList])&]
-[s2; Returns an Array of Strings containing the file names with full 
+[s2; Возвращает an Array of String'и containing the file names with full 
 path of the files under folder [%-*@3 dir] that comply with condition 
 (with wildcards) [%-*@3 condFile] and that contain inside the text 
 [%-*@3 text].&]
@@ -194,7 +194,7 @@ path of the files under folder [%-*@3 dir] that comply with condition
 [s5;:SearchFile`(String`,String`,String`):%- [_^Array^ Vector]<[_^String^ String]>_[* Searc
 hFile]([_^String^ String]_[*@3 dir], [_^String^ String]_[*@3 condFile], 
 [_^String^ String]_[*@3 text]_`=_`"`")&]
-[s2; Returns an Array of Strings containing the file names with full 
+[s2; Возвращает an Array of String'и containing the file names with full 
 path of the files under folder [%-*@3 dir] that comply with condition 
 (with wildcards) [%-*@3 condFile ]and that contain inside the text 
 [%-*@3 text].&]
@@ -206,7 +206,7 @@ st]_[@(0.0.255) char]_`*[*@3 path])&]
 [s3; &]
 [s4;%- &]
 [s5;:TrashBinGetCount`(`):%- [_^int64^ int64]_[* TrashBinGetCount]()&]
-[s2; Returns the number of items (files and directories) located 
+[s2; Возвращает the number of items (files and directories) located 
 in the Trash Bin.&]
 [s3;%- &]
 [s4;%- &]
@@ -223,17 +223,17 @@ Trash Bin.ç&]
 [s3; &]
 [s4;%- &]
 [s5;:USE`_TRASH`_BIN:%- [@(0.0.255) enum]_EXT`_FILE`_FLAGS_[* USE`_TRASH`_BIN]_`=_[@3 1]&]
-[s2; If true, removed fildes and fodlers will be moved to the Trash 
+[s2; Если true, removed fildes and fodlers will be moved to the Trash 
 (recycle) Bin.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:BROWSE`_LINKS:%- [@(0.0.255) enum]_EXT`_FILE`_FLAGS_[* BROWSE`_LINKS]_`=_[@3 2]&]
-[s2; If true, folder functions will follow symbolic links.&]
+[s2; Если true, folder functions will follow symbolic links.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:DELETE`_READ`_ONLY:%- [@(0.0.255) enum]_EXT`_FILE`_FLAGS_[* DELETE`_READ`_ONLY]_`=_[@3 4
 ]&]
-[s2; If true, file/folder deletion functions will not consider read 
+[s2; Если true, file/folder deletion functions will not consider read 
 only flag.&]
 [s0; &]
 [s4;%- &]
@@ -242,7 +242,7 @@ only flag.&]
 EXT`_FILE`_FLAGS_[*@3 flags]_`=_[@3 0])&]
 [s2;%- [%% Delete all folders under ][*@3 path ][%% using ][*@3 flags][%%  
 that comply the condition in wildcards included in ][*@3 path.]&]
-[s2; Returns true in case of success.&]
+[s2; Возвращает true in case of success.&]
 [s3; &]
 [s4;%- &]
 [s5;:DeleteFileDeepWildcardsX`(const char`*`,EXT`_FILE`_FLAGS`):%- [@(0.0.255) bool]_[* D
@@ -250,7 +250,7 @@ eleteFileDeepWildcardsX]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 path],
 EXT`_FILE`_FLAGS_[*@3 flags]_`=_[@3 0])&]
 [s2;%- [%% Delete all files under ][*@3 path ][%% using ][*@3 flags][%%  that 
 comply the condition in wildcards included in ][*@3 path.]&]
-[s2; Returns true in case of success.&]
+[s2; Возвращает true in case of success.&]
 [s3; &]
 [s4;%- &]
 [s5;:DeleteFolderDeepX`(const char`*`,EXT`_FILE`_FLAGS`):%- [@(0.0.255) bool]_[* DeleteFo
@@ -258,7 +258,7 @@ lderDeepX]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 path], EXT`_FILE`_FLAGS_[
 ]_`=_[@3 0])&]
 [s2; Delete [%-*@3 path] folder and all files and folders under it 
 using [%-*@3 flags].&]
-[s2; Returns true in case of success.&]
+[s2; Возвращает true in case of success.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:RenameDeepWildcardsX`(const char`*`,const char`*`,const char`*`,bool`,bool`,EXT`_FILE`_FLAGS`):%- [@(0.0.255) b
@@ -270,25 +270,25 @@ EXT`_FILE`_FLAGS_[*@3 flags]_`=_NO`_FLAG)&]
 true) and/or folders (if [%-*@3 forfolder] is set to true) under 
 [%-*@3 path] that comply the condition in wildcards included in 
 [%-*@3 namewc] using [%-*@3 flags] .&]
-[s2; Returns true in case of success.&]
+[s2; Возвращает true in case of success.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:DirectoryCreateX`(const char`*`):%- [@(0.0.255) bool]_[* DirectoryCreateX]([@(0.0.255) c
 onst]_[@(0.0.255) char]_`*[*@3 path])&]
-[s2; Creates [%-*@3 path] directory. Возвращает true, если [%-*@3 path] exists.&]
+[s2; Создаёт [%-*@3 path] directory. Возвращает  true, если [%-*@3 path] exists.&]
 [s3; &]
 [s4;%- &]
 [s5;:FileMoveX`(const char`*`,const char`*`,EXT`_FILE`_FLAGS`):%- [@(0.0.255) bool]_[* Fi
 leMoveX]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 oldpath], [@(0.0.255) const]_[@(0.0.255) c
 har]_`*[*@3 newpath], EXT`_FILE`_FLAGS_[*@3 flags]_`=_NO`_FLAG)&]
 [s2; Moves or renames [%-*@3 oldpath] file to [%-*@3 newpath] using [%-*@3 flags].&]
-[s2; Returns true in case of success.&]
+[s2; Возвращает true in case of success.&]
 [s3; &]
 [s4; &]
 [s5;:FileDeleteX`(const char`*`,EXT`_FILE`_FLAGS`):%- [@(0.0.255) bool]_[* FileDeleteX]([@(0.0.255) c
 onst]_[@(0.0.255) char]_`*[*@3 path], EXT`_FILE`_FLAGS_[*@3 flags]_`=_NO`_FLAG)&]
 [s2; Deletes [%-*@3 path] file using [%-*@3 flags].&]
-[s2; Returns true in case of success.&]
+[s2; Возвращает true in case of success.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:DirectoryExistsX`(const char`*`,EXT`_FILE`_FLAGS`):%- [@(0.0.255) bool]_[* Di
@@ -311,7 +311,7 @@ Spaces are chars like, `' `', `'`\t`', `'`\n`', ...&]
 ector]<String>_[* Tokenize]([@(0.0.255) const]_[^Upp`:`:String^ String]_`&[*@3 str], 
 [@(0.0.255) const]_[^Upp`:`:String^ String]_`&[*@3 token, ][@(0.0.255) int 
 ][*@3 pos] `= 0)&]
-[s2; Returns all substrings in [%-*@3 str] beginning from [%-*@3 pos][%-  
+[s2; Возвращает all substrings in [%-*@3 str] beginning from [%-*@3 pos][%-  
 ]that are between [%-*@3 token].&]
 [s3; &]
 [s4;%- &]
@@ -319,7 +319,7 @@ ector]<String>_[* Tokenize]([@(0.0.255) const]_[^Upp`:`:String^ String]_`&[*@3 s
 oid]_[* Tokenize]([@(0.0.255) const]_[_^Upp`:`:String^ String]_`&[*@3 str], 
 [@(0.0.255) const]_[_^Upp`:`:String^ String]_`&[*@3 token], [_^Upp`:`:Vector^ Vector]<[_^Upp`:`:String^ S
 tring]>_`&[*@3 ret, ][@(0.0.255) int ][*@3 pos] `= 0)&]
-[s2; Sets in [%-*@3 ret] all substrings in [%-*@3 str] beginning from 
+[s2; Устанавливаетin [%-*@3 ret] all substrings in [%-*@3 str] beginning from 
 [%-*@3 pos][%-  ]that are between [%-*@3 token].&]
 [s3; &]
 [s4;%- &]
@@ -328,7 +328,7 @@ tring]_[* Tokenize2]([@(0.0.255) const]_[_^Upp`:`:String^ String]_`&[*@3 str],
 [@(0.0.255) const]_[_^Upp`:`:String^ String]_`&[*@3 token], [@(0.0.255) int]_`&[*@3 pos])&]
 [s2; Finds the next token in [%-*@3 str] beginning from [%-*@3 pos]. 
 [%-*@3 token] is a String that contains token identifier chars.&]
-[s2; Returns the String from original [%-*@3 pos] to the char after 
+[s2; Возвращает the String from original [%-*@3 pos] to the char after 
 found token or until the end of the String if no token is found. 
 [%-*@3 pos] is updated to the next char after returned String, 
 or Null if there are not more chars available.&]
@@ -340,7 +340,7 @@ tring]_[* Tokenize2]([@(0.0.255) const]_[_^Upp`:`:String^ String]_`&[*@3 str],
 [@(0.0.255) const]_[_^Upp`:`:String^ String]_`&[*@3 token])&]
 [s2; Finds a token in [%-*@3 str]. [%-*@3 token] is a String that contains 
 token identifier chars.&]
-[s2; Returns the String to the char after found token or until the 
+[s2; Возвращает the String to the char after found token or until the 
 end of the String if no token is found.&]
 [s2; It replaces old Tokenize function().&]
 [s3; &]
@@ -373,7 +373,7 @@ tring][@(0.0.255) `&]_[*@3 toFind], [@(0.0.255) int]_[*@3 from]_`=_[@3 0])&]
 [s3; &]
 [s4;%- &]
 [s5;:FormatLong`(long`):%- [_^String^ String]_[* FormatLong]([@(0.0.255) long]_[*@3 a])&]
-[s2; Returns the long number [%-*@3 a ]converted into a String.&]
+[s2; Возвращает the long number [%-*@3 a ]converted into a String.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:SecondsToString`(double`,bool`,bool`):%- [_^String^ String]_[* SecondsToStrin
@@ -397,7 +397,7 @@ amount of seconds.&]
 [s5;:HMSToString`(int`,int`,double`,bool`):%- [_^String^ String]_[* HMSToString]([@(0.0.255) i
 nt]_[*@3 hour], [@(0.0.255) int]_[*@3 min], [@(0.0.255) double]_[*@3 seconds], 
 [@(0.0.255) bool]_[*@3 units ]`=_[@(0.0.255) false])&]
-[s2; Returns a String containing [%-*@3 hour], [%-*@3 min ]and [%-*@3 seconds 
+[s2; Возвращает a String containing [%-*@3 hour], [%-*@3 min ]and [%-*@3 seconds 
 ]formatted as HH:MM:SS.&]
 [s0;l288; If [%-*@3 units ]is true the units (hours, mins, seconds) 
 will be part of the text.&]
@@ -439,7 +439,7 @@ but returning directly a Date.&]
 [s4;%- &]
 [s5;:Upp`:`:FormatDoubleAutosize`(double`,double`):%- [_^Upp`:`:String^ String]_[* Format
 DoubleAutosize]([@(0.0.255) double]_[*@3 d], [@(0.0.255) double]_[*@3 range])&]
-[s2; Returns number [%-*@3 d] in [%-*@3 range ]converted to a String, 
+[s2; Возвращает number [%-*@3 d] in [%-*@3 range ]converted to a String, 
 so that it has the right number of digits.&]
 [s2; This function serves to show numbers in graph axis and other 
 elements that require to show the minimum right quantity of digits 
@@ -449,7 +449,7 @@ from a double.&]
 [s5;:Upp`:`:FormatDoubleSize`(double`,int`,bool`):%- [_^Upp`:`:String^ String]_[* FormatD
 oubleSize]([@(0.0.255) double]_[*@3 d], [@(0.0.255) int]_[*@3 fieldWidth], 
 [@(0.0.255) bool]_[*@3 fillSpaces])&]
-[s2; Returns number [%-*@3 d] converted to a String with the best resolution, 
+[s2; Возвращает number [%-*@3 d] converted to a String with the best resolution, 
 using either fixed or exponential notation,  filling exactly 
 [%-*@3 fieldWidth] chars. If [%-*@3 fillSpaces] is set, returned 
 string is filled with spaces at the left until [%-*@3 fieldWidth].&]
@@ -457,7 +457,7 @@ string is filled with spaces at the left until [%-*@3 fieldWidth].&]
 [s4;%- &]
 [s5;:RemoveAccents`(String`):%- [_^String^ String]_[* RemoveAccents]([_^String^ String]_[*@3 s
 tr])&]
-[s2; Returns [%-*@3 str ]with the accented characters substituted with 
+[s2; Возвращает [%-*@3 str ]with the accented characters substituted with 
 the most approximated ascii characters.&]
 [s0;l288; If the original letter is uppercase, begins a word and 
 the second letter is lowercase, the substituted first letter 
@@ -475,7 +475,7 @@ intermediate folder names replacing them with `"...`".&]
 [s3; &]
 [s4; &]
 [s5;:IsPunctuation`(wchar`):%- [@(0.0.255) bool]_[* IsPunctuation]([_^wchar^ wchar]_[*@3 c])&]
-[s2; Возвращает true, если [%-*@3 c ]is a punctuation character.&]
+[s2; Возвращает  true, если [%-*@3 c ]is a punctuation character.&]
 [s3;%- &]
 [s4; &]
 [s5;:Replace`(String`,String`,String`):%- [_^String^ String]_[* Replace]([_^String^ String]_
@@ -500,7 +500,7 @@ for all times [%-*@3 find] char appears.&]
 [s4; &]
 [s5;:Sign`(T`):%- [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 T]>_[@(0.0.255) int]_[* Sign](
 [*@4 T]_[*@3 a])&]
-[s2;%- [%% Returns the sign of ][*@3 a:]&]
+[s2;%- [%% Возвращает the sign of ][*@3 a:]&]
 [s2;i150;O0; `+1 if [%-*@3 a]. is positive&]
 [s2;i150;O0; 0 if [%-*@3 a] is 0&]
 [s2;i150;O0; `-1 if [%-*@3 a] is negative.&]
@@ -508,17 +508,17 @@ for all times [%-*@3 find] char appears.&]
 [s4;%- &]
 [s5;:Average`(T`,T`):%- [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 T]>_[*@4 T]_[* Average](
 [*@4 T]_[*@3 a], [*@4 T]_[*@3 b])&]
-[s2; Returns the average of [%-*@3 a] and [%-*@3 b].&]
+[s2; Возвращает the average of [%-*@3 a] and [%-*@3 b].&]
 [s3; &]
 [s4;%- &]
 [s5;:Average`(T`,T`,T`):%- [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 T]>_[*@4 T]_[* Averag
 e]([*@4 T]_[*@3 a], [*@4 T]_[*@3 b], [*@4 T]_[*@3 c])&]
-[s2; Returns the average of [%-*@3 a], [%-*@3 b] and [%-*@3 c].&]
+[s2; Возвращает the average of [%-*@3 a], [%-*@3 b] and [%-*@3 c].&]
 [s3; &]
 [s4;%- &]
 [s5;:Average`(T`,T`,T`,T`):%- [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 T]>_[*@4 T]_[* Ave
 rage]([*@4 T]_[*@3 a], [*@4 T]_[*@3 b], [*@4 T]_[*@3 c], [*@4 T]_[*@3 d])&]
-[s2; Returns the average of [%-*@3 a], [%-*@3 b], [%-*@3 c] and [%-*@3 d].&]
+[s2; Возвращает the average of [%-*@3 a], [%-*@3 b], [%-*@3 c] and [%-*@3 d].&]
 [s3; &]
 [s4;%- &]
 [s5;:pow2`(T`):%- [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 T]>_[*@4 T]_[* pow2]([*@4 T]_[*@3 a
@@ -545,7 +545,7 @@ round]([*@4 T]_[*@3 x], [@(0.0.255) int]_[*@3 numdec])&]
 ss]_[*@4 T]>_[@(0.0.255) bool]_[* Between]([@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[*@3 val],
  [@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[*@3 min], [@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_
 [*@3 max])&]
-[s2; Возвращает true, если [%-*@3 val] is between [%-*@3 min] and [%-*@3 max].&]
+[s2; Возвращает  true, если [%-*@3 val] is between [%-*@3 min] and [%-*@3 max].&]
 [s3; &]
 [s4;%- &]
 [s5;:AngleAdd360`(T`,T`):%- [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 T]>_[*@4 T]_[* Angle
@@ -558,14 +558,14 @@ Add360]([*@4 T]_[*@3 ang], [*@4 T]_[*@3 val])&]
 lass]_[*@4 T]>_[@(0.0.255) const]_[*@4 T]_[* Distance]([@(0.0.255) const]_[*@4 T][@(0.0.255) `&
 ]_[*@3 x1], [@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[*@3 y1], [@(0.0.255) const]_[*@4 T][@(0.0.255) `&
 ]_[*@3 x2], [@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[*@3 y2])&]
-[s2; Returns the distance ([^http`:`/`/en`.wikipedia`.org`/wiki`/Euclidean`_distance^ e
+[s2; Возвращает the distance ([^http`:`/`/en`.wikipedia`.org`/wiki`/Euclidean`_distance^ e
 uclidean]) between ([%-*@3 x1], [%-*@3 y1]) and ([%-*@3 x2], [%-*@3 y2]).&]
 [s3; &]
 [s4;%- &]
 [s5;:Distance`(const Point`_`<T`>`&`,const Point`_`<T`>`&`):%- [@(0.0.255) template]_<[@(0.0.255) c
 lass]_[*@4 T]>_[@(0.0.255) const]_[*@4 T]_[* Distance]([@(0.0.255) const]_[_^Point`_^ Point`_
 ]<[*@4 T]>`&_[*@3 p1], [@(0.0.255) const]_[_^Point`_^ Point`_]<[*@4 T]>`&_[*@3 p2])&]
-[s2; Returns the distance ([^http`:`/`/en`.wikipedia`.org`/wiki`/Euclidean`_distance^ e
+[s2; Возвращает the distance ([^http`:`/`/en`.wikipedia`.org`/wiki`/Euclidean`_distance^ e
 uclidean]) between [%-*@3 p1] and [%-*@3 p2].&]
 [s3; &]
 [s4;%- &]
@@ -575,7 +575,7 @@ st]_[*@4 T][@(0.0.255) `&]_[*@3 x1], [@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[
 [@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[*@3 z1], [@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[*@3 x
 2], [@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[*@3 y2], [@(0.0.255) const]_[*@4 T][@(0.0.255) `&
 ]_[*@3 z2])&]
-[s2; Returns the distance ([^http`:`/`/en`.wikipedia`.org`/wiki`/Euclidean`_distance^ e
+[s2; Возвращает the distance ([^http`:`/`/en`.wikipedia`.org`/wiki`/Euclidean`_distance^ e
 uclidean]) between ([%-*@3 x1], [%-*@3 y1] [%-*@3 z1]), and ([%-*@3 x2], 
 [%-*@3 y2], [%-*@3 z2]).&]
 [s3; &]
@@ -584,37 +584,37 @@ uclidean]) between ([%-*@3 x1], [%-*@3 y1] [%-*@3 z1]), and ([%-*@3 x2],
 lass]_[*@4 T]>_[@(0.0.255) const]_[@(0.0.255) double]_[* Angle]([@(0.0.255) const]_[*@4 T][@(0.0.255) `&
 ]_[*@3 x1], [@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[*@3 y1], [@(0.0.255) const]_[*@4 T][@(0.0.255) `&
 ]_[*@3 x2], [@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[*@3 y2])&]
-[s2; Returns the slope of the line that crosses ([%-*@3 x1], [%-*@3 y1]) 
+[s2; Возвращает the slope of the line that crosses ([%-*@3 x1], [%-*@3 y1]) 
 and ([%-*@3 x2], [%-*@3 y2]).&]
 [s3; &]
 [s4;%- &]
 [s5;:Angle`(const Point`_`<T`>`&`,const Point`_`<T`>`&`):%- [@(0.0.255) template]_<[@(0.0.255) c
 lass]_[*@4 T]>_[@(0.0.255) const]_[@(0.0.255) double]_[* Angle]([@(0.0.255) const]_[_^Point`_^ P
 oint`_]<[*@4 T]>`&_[*@3 p1], [@(0.0.255) const]_[_^Point`_^ Point`_]<[*@4 T]>`&_[*@3 p2])&]
-[s2; Returns the slope of the line that crosses [%-*@3 p1] and [%-*@3 p2].&]
+[s2; Возвращает the slope of the line that crosses [%-*@3 p1] and [%-*@3 p2].&]
 [s3; &]
 [s4; &]
 [s5;:Odd`(int`):%- [@(0.0.255) bool]_[* Odd]([@(0.0.255) int]_[*@3 val])&]
-[s2; Возвращает true, если [%-*@3 val ]is odd.&]
+[s2; Возвращает  true, если [%-*@3 val ]is odd.&]
 [s3; &]
 [s4;%- &]
 [s5;:Even`(int`):%- [@(0.0.255) bool]_[* Even]([@(0.0.255) int]_[*@3 val])&]
-[s2; Возвращает true, если [%-*@3 val ]is even.&]
+[s2; Возвращает  true, если [%-*@3 val ]is even.&]
 [s3; &]
 [s4;%- &]
 [s5;:RoundEven`(int`):%- [@(0.0.255) int]_[* RoundEven]([@(0.0.255) int]_[*@3 val])&]
-[s2; Returns [%-*@3 val ]rounded to the upper even number or itself 
+[s2; Возвращает [%-*@3 val ]rounded to the upper even number or itself 
 if it is even.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:ToRad`(T`):%- [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 T]>_[*@4 T]_[* ToRad](
 [*@4 T]_[*@3 angle])&]
-[s2; Returns [%-*@3 angle ]in degrees converted to radians.&]
+[s2; Возвращает [%-*@3 angle ]in degrees converted to radians.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:ToDeg`(T`):%- [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 T]>_[*@4 T]_[* ToDeg](
 [*@4 T]_[*@3 angle])&]
-[s2; Returns [%-*@3 angle ]in radians converted to degrees.&]
+[s2; Возвращает [%-*@3 angle ]in radians converted to degrees.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:atan2`_360`(T`,T`):%- [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 T]>_[*@4 T]_
@@ -632,7 +632,7 @@ degrees where 0º is vertical and angle rotates clockwise to
 [s5;:FitInFrame`(const Size`_`<T`>`&`,const Size`_`<T`>`&`):%- [@(0.0.255) template]_<[@(0.0.255) c
 lass]_[*@4 T]>_[_^Rect`_^ Rect`_]<[*@4 T]>_[* FitInFrame]([@(0.0.255) const]_[_^Size`_^ Size`_
 ]<[*@4 T]>_`&[*@3 frame], [@(0.0.255) const]_[_^Size`_^ Size`_]<[*@4 T]>_`&[*@3 object])&]
-[s2; Returns the rectangle in a Rect to fit inside [%-*@3 frame] the 
+[s2; Возвращает the rectangle in a Rect to fit inside [%-*@3 frame] the 
 [%-*@3 object ]maintaining the aspect ratio.&]
 [s0; &]
 [s0;= 
@@ -682,18 +682,18 @@ and Color [%-*@3 color].&]
 [s3; &]
 [s4; &]
 [s2;l0;:RandomColor`(`):%- [_^Color^ Color]_[* RandomColor]()&]
-[s2; Returns a random color.&]
+[s2; Возвращает a random color.&]
 [s3; &]
 [s4; &]
 [s5;:GetRainbowColor`(int`):%- [_^Color^ Color]_[* GetRainbowColor]([@(0.0.255) int]_[*@3 val
 16])&]
-[s2; Returns a rainbow color from an input value [%-*@3 val16] from 
+[s2; Возвращает a rainbow color from an input value [%-*@3 val16] from 
 0 (Red) to 0xFFFF.&]
 [s3; &]
 [s4; &]
 [s5;:GetRect`(const Image`&`,const Rect`&`):%- [_^Image^ Image]_[* GetRect]([@(0.0.255) con
 st]_[_^Image^ Image][@(0.0.255) `&]_[*@3 orig], [@(0.0.255) const]_[_^Rect^ Rect]_`&[*@3 r])&]
-[s2; Returns a subimage delimited by Rect [%-*@3 r] taken from [%-*@3 orig].&]
+[s2; Возвращает a subimage delimited by Rect [%-*@3 r] taken from [%-*@3 orig].&]
 [s3; &]
 [s4;%- &]
 [s5;:GetPixel`(const Image`&`,int`,int`):%- [@(0.0.255) const]_[_^RGBA^ RGBA]_`*[* GetPixel
@@ -712,24 +712,24 @@ mg], [@(0.0.255) int]_[*@3 x], [@(0.0.255) int]_[*@3 y])&]
 [s4; &]
 [s5;:IsValid`(const Image`&`,int`,int`):%- [@(0.0.255) bool]_[* IsValid]([@(0.0.255) const]_
 [_^Image^ Image]_`&[*@3 img], [@(0.0.255) int]_[*@3 x], [@(0.0.255) int]_[*@3 y])&]
-[s2; Возвращает true, если coordinates [%-*@3 x] and [%-*@3 y] are inside Image 
+[s2; Возвращает  true, если coordinates [%-*@3 x] and [%-*@3 y] are inside Image 
 [%-*@3 img].&]
 [s3; &]
 [s4; &]
 [s5;:IsValid`(ImageBuffer`&`,int`,int`):%- [@(0.0.255) bool]_[* IsValid]([_^ImageBuffer^ Im
 ageBuffer]_`&[*@3 img], [@(0.0.255) int]_[*@3 x], [@(0.0.255) int]_[*@3 y])&]
-[s2; Возвращает true, если coordinates [%-*@3 x] and [%-*@3 y] are inside ImageBuffer 
+[s2; Возвращает  true, если coordinates [%-*@3 x] and [%-*@3 y] are inside ImageBuffer 
 [%-*@3 img].&]
 [s3; &]
 [s4;%- &]
 [s5;:IsValid`(const Image`&`,T`&`):%- [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 T]>_[@(0.0.255) b
 ool]_[* IsValid]([@(0.0.255) const]_[_^Image^ Image]_`&[*@3 img], [*@4 T]_`&[*@3 t])&]
-[s2; Возвращает true, если point [%-*@3 t] is inside Image [%-*@3 img].&]
+[s2; Возвращает  true, если point [%-*@3 t] is inside Image [%-*@3 img].&]
 [s3; &]
 [s4;%- &]
 [s5;:IsValid`(ImageBuffer`&`,T`&`):%- [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 T]>_[@(0.0.255) b
 ool]_[* IsValid]([_^ImageBuffer^ ImageBuffer]_`&[*@3 img], [*@4 T]_`&[*@3 t])&]
-[s2; Возвращает true, если point [%-*@3 t] is inside ImageBuffer [%-*@3 img].&]
+[s2; Возвращает  true, если point [%-*@3 t] is inside ImageBuffer [%-*@3 img].&]
 [s3; &]
 [ {{10000@1 [s0; [* Other functions]]}}&]
 [s3; &]
@@ -743,20 +743,20 @@ onst]_[_^String^ String]_[*@3 ext])&]
 [s3; &]
 [s4;%- &]
 [s5;:GetDriveList`(`):%- [_^Array^ Vector]<[_^String^ String]>_[* GetDriveList]()&]
-[s2; Returns an array with the paths to all drives, internal or external, 
+[s2; Возвращает an array with the paths to all drives, internal or external, 
 identified in the system.&]
 [s3; &]
 [s4;%- &]
 [s5;:Getcwd`(`):%- [_^String^ String]_[* Getcwd]()&]
-[s2; Returns an absolute file name representing the current process 
+[s2; Возвращает an absolute file name representing the current process 
 working directory.&]
 [s6; Replaced by GetCurrentDurectory(.)&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Chdir`(const String`&`):%- [@(0.0.255) bool]_[* Chdir]_([@(0.0.255) const]_[_^String^ St
 ring]_`&[*@3 folder])&]
-[s2; Sets the process`'s working directory to [%-*@3 folder].&]
-[s0;l288; Возвращает true, если successful.&]
+[s2; Устанавливаетthe process`'s working directory to [%-*@3 folder].&]
+[s0;l288; Возвращает  true, если successful.&]
 [s6; Replaced by SetCurrentDurectory().&]
 [s3; &]
 [s4;%- &]
@@ -792,7 +792,7 @@ value is set again to the variable after the class destructor.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:tmGetTimeX`(`):%- [@(0.0.255) double]_[* tmGetTimeX]()&]
-[s2; High resolution clock. Returns time in seconds or Null in case 
+[s2; High resolution clock. Возвращает time in seconds or Null in case 
 of error.&]
 [s4;%- &]
 [s5;:Upp`:`:Shuffle`(C`&`,int`):%- [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 C]>_[@(0.0.255) v
@@ -808,7 +808,7 @@ plate]_<[@(0.0.255) class]_[*@4 T]>_[@(0.0.255) bool]_[* EqualRatio]([@(0.0.255)
 ][@(0.0.255) `&]_[*@3 a], [@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[*@3 b], 
 [@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[*@3 ratio], [@(0.0.255) const]_[*@4 T][@(0.0.255) `&
 ]_[*@3 zero]_`=_[@3 0])&]
-[s2; Возвращает true, если the difference ratio between [%-*@3 a] and [%-*@3 b] 
+[s2; Возвращает  true, если the difference ratio between [%-*@3 a] and [%-*@3 b] 
 is lower than [%-*@3 ratio]. A value lower than [%-*@3 zero] is considered 
 zero.&]
 [s3; &]
@@ -817,7 +817,7 @@ zero.&]
 plate]_<[@(0.0.255) class]_[*@4 Range]>_[@(0.0.255) int]_[* Find]([@(0.0.255) const]_[*@4 Ran
 ge][@(0.0.255) `&]_[*@3 r], [@(0.0.255) const]_[@(0.0.255) typename]_Range`::value`_type[@(0.0.255) `&
 ]_[*@3 value], [@(0.0.255) int]_[*@3 from]_`=_[@3 0])&]
-[s2; Returns the id of the element of Range (Vector<>, Array<>, ...) 
+[s2; Возвращает the id of the element of Range (Vector<>, Array<>, ...) 
 [%-*@3 r] that is equal to [%-*@3 value] from id [%-*@3 from]. If nothing 
 is found it returns `-1.&]
 [s3; &]
@@ -826,7 +826,7 @@ is found it returns `-1.&]
 te]_<[@(0.0.255) class]_[*@4 Range]>_[@(0.0.255) int]_[* FindAdd]([*@4 Range][@(0.0.255) `&]_
 [*@3 r], [@(0.0.255) const]_[@(0.0.255) typename]_Range`::value`_type[@(0.0.255) `&]_[*@3 va
 lue], [@(0.0.255) int]_[*@3 from]_`=_[@3 0])&]
-[s2; Returns the id of the element of Range (Vector<>, Array<>, ...) 
+[s2; Возвращает the id of the element of Range (Vector<>, Array<>, ...) 
 [%-*@3 r] that is equal to [%-*@3 value] from id [%-*@3 from], adding 
 it if is new.&]
 [s3; &]
@@ -836,7 +836,7 @@ emplate]_<[@(0.0.255) class]_[*@4 Range]>_[@(0.0.255) int]_[* FindRatio]([@(0.0.
 [*@4 Range][@(0.0.255) `&]_[*@3 r], [@(0.0.255) const]_[@(0.0.255) typename]_Range`::value`_
 type[@(0.0.255) `&]_[*@3 value], [@(0.0.255) const]_[@(0.0.255) typename]_Range`::value`_t
 ype[@(0.0.255) `&]_[*@3 ratio], [@(0.0.255) int]_[*@3 from]_`=_[@3 0])&]
-[s2; Returns the element of Range (Vector<>, Array<>, ...) [%-*@3 r] 
+[s2; Возвращает the element of Range (Vector<>, Array<>, ...) [%-*@3 r] 
 whose difference ratio with [%-*@3 value] is lower than [%-*@3 ratio] 
 searching from id [%-*@3 from]. If nothing is found it returns 
 `-1.&]
@@ -847,7 +847,7 @@ emplate]_<[@(0.0.255) class]_[*@4 Range]>_[@(0.0.255) int]_[* FindAddRatio]([*@4
 ]_[*@3 r], [@(0.0.255) const]_[@(0.0.255) typename]_Range`::value`_type[@(0.0.255) `&]_[*@3 v
 alue], [@(0.0.255) const]_[@(0.0.255) typename]_Range`::value`_type[@(0.0.255) `&]_[*@3 ra
 tio], [@(0.0.255) int]_[*@3 from]_`=_[@3 0])&]
-[s2; Returns the id of the element of Range (Vector<>, Array<>, ...) 
+[s2; Возвращает the id of the element of Range (Vector<>, Array<>, ...) 
 [%-*@3 r] whose difference ratio with [%-*@3 value] is lower than 
 [%-*@3 ratio] searching from id [%-*@3 from], adding it if is new.&]
 [s3; &]
@@ -857,7 +857,7 @@ emplate]_<[@(0.0.255) class]_[*@4 Range]>_[@(0.0.255) int]_[* FindDelta]([@(0.0.
 [*@4 Range][@(0.0.255) `&]_[*@3 r], [@(0.0.255) const]_[@(0.0.255) typename]_Range`::value`_
 type[@(0.0.255) `&]_[*@3 value], [@(0.0.255) const]_[@(0.0.255) typename]_Range`::value`_t
 ype[@(0.0.255) `&]_[*@3 delta], [@(0.0.255) int]_[*@3 from]_`=_[@3 0])&]
-[s2; Returns the element of Range (Vector<>, Array<>, ...) [%-*@3 r] 
+[s2; Возвращает the element of Range (Vector<>, Array<>, ...) [%-*@3 r] 
 whose difference with [%-*@3 value] is lower than [%-*@3 delta] searching 
 from id [%-*@3 from]. If nothing is found it returns `-1.&]
 [s3; &]
@@ -867,7 +867,7 @@ emplate]_<[@(0.0.255) class]_[*@4 Range]>_[@(0.0.255) int]_[* FindAddDelta]([*@4
 ]_[*@3 r], [@(0.0.255) const]_[@(0.0.255) typename]_Range`::value`_type[@(0.0.255) `&]_[*@3 v
 alue], [@(0.0.255) const]_[@(0.0.255) typename]_Range`::value`_type[@(0.0.255) `&]_[*@3 de
 lta], [@(0.0.255) int]_[*@3 from]_`=_[@3 0])&]
-[s2; Returns the id of the element of Range (Vector<>, Array<>, ...) 
+[s2; Возвращает the id of the element of Range (Vector<>, Array<>, ...) 
 [%-*@3 r] whose difference with [%-*@3 value] is lower than [%-*@3 delta] 
 searching from id [%-*@3 from], adding it if is new.&]
 [s3; &]
@@ -877,7 +877,7 @@ emplate]_<[@(0.0.255) class]_[*@4 Range]>_[@(0.0.255) int]_[* FindRoundDecimals]
 onst]_[*@4 Range][@(0.0.255) `&]_[*@3 r], [@(0.0.255) const]_[@(0.0.255) typename]_Range`::v
 alue`_type[@(0.0.255) `&]_[*@3 value], [@(0.0.255) int]_[*@3 numDecimals], 
 [@(0.0.255) int]_[*@3 from]_`=_[@3 0])&]
-[s2; Returns the id of the element of Range (Vector<>, Array<>, ...) 
+[s2; Возвращает the id of the element of Range (Vector<>, Array<>, ...) 
 [%-*@3 r] that is equal to [%-*@3 value] from id [%-*@3 from], rounding 
 [%-*@3 numDecimals] decimals. If nothing is found it returns `-1.&]
 [s3; &]
@@ -886,14 +886,14 @@ alue`_type[@(0.0.255) `&]_[*@3 value], [@(0.0.255) int]_[*@3 numDecimals],
 emplate]_<[@(0.0.255) class]_[*@4 Range]>_[@(0.0.255) int]_[* FindClosest]([@(0.0.255) cons
 t]_[*@4 Range][@(0.0.255) `&]_[*@3 r], [@(0.0.255) const]_[@(0.0.255) typename]_Range`::valu
 e`_type[@(0.0.255) `&]_[*@3 value], [@(0.0.255) int]_[*@3 from]_`=_[@3 0])&]
-[s2; Returns the id of the closest element of Range (Vector<>, Array<>, 
+[s2; Возвращает the id of the closest element of Range (Vector<>, Array<>, 
 ...) [%-*@3 r] to [%-*@3 value] counting from id [%-*@3 from].&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:Compare`(const Range`&`,const Range`&`):%- [@(0.0.255) template]_<[@(0.0.255) c
 lass]_[*@4 Range]>_[@(0.0.255) bool]_[* Compare]([@(0.0.255) const]_[*@4 Range][@(0.0.255) `&
 ]_[*@3 a], [@(0.0.255) const]_[*@4 Range][@(0.0.255) `&]_[*@3 b])&]
-[s2; Возвращает true, если Ranges (Vector<>, Array<>, ...) [%-*@3 a] and 
+[s2; Возвращает  true, если Ranges (Vector<>, Array<>, ...) [%-*@3 a] and 
 [%-*@3 b] are equal.&]
 [s3; &]
 [s4; &]
@@ -901,14 +901,14 @@ lass]_[*@4 Range]>_[@(0.0.255) bool]_[* Compare]([@(0.0.255) const]_[*@4 Range][
 late]_<[@(0.0.255) class]_[*@4 Range], [@(0.0.255) class]_[*@4 V]>_[@(0.0.255) bool]_[* Compa
 reRatio]([@(0.0.255) const]_[*@4 Range][@(0.0.255) `&]_[*@3 a], [@(0.0.255) const]_[*@4 Range
 ][@(0.0.255) `&]_[*@3 b], [@(0.0.255) const]_[*@4 V][@(0.0.255) `&]_[*@3 ratio])&]
-[s2;%- [%% Возвращает true, если the elements of Ranges (Vector<>, Array<>, 
+[s2;%- [%% Возвращает  true, если the elements of Ranges (Vector<>, Array<>, 
 ...) ][*@3 a][%%  and ][*@3 b][%%  are closer than ][*@3 ratio.]&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:ToString`(const Range`&`):%- [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 Ran
 ge]>_[_^Upp`:`:String^ String]_[* ToString]([@(0.0.255) const]_[*@4 Range][@(0.0.255) `&]_[*@3 a
 ])&]
-[s2; Returns a String from a Range (Vector<>, Array<>, ...) [%-*@3 a] 
+[s2; Возвращает a String from a Range (Vector<>, Array<>, ...) [%-*@3 a] 
 with elements separated with `';`'.&]
 [s3; &]
 [s4;%- &]
@@ -924,7 +924,7 @@ ere].&]
 [s4;%- &]
 [s5;:Upp`:`:GetPythonDeclaration`(const Upp`:`:String`&`):%- [_^Upp`:`:String^ String]_
 [* GetPythonDeclaration]([@(0.0.255) const]_[_^Upp`:`:String^ String]_`&[*@3 include])&]
-[s2; Returns the Python ctypes declarations based on C declarations 
+[s2; Возвращает the Python ctypes declarations based on C declarations 
 in [%-*@3 include].&]
 [s3; &]
 [s4;%- &]
@@ -941,7 +941,7 @@ ere].&]
 ool]_[* GetRelativePath]([_^Upp`:`:String^ String]_[*@3 from], [_^Upp`:`:String^ String]_
 [*@3 path], [_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 ret], [@(0.0.255) bool]_[*@3 normal
 ize])&]
-[s2; Returns the relative path to go from [%-*@3 from] to [%-*@3 path 
+[s2; Возвращает the relative path to go from [%-*@3 from] to [%-*@3 path 
 ]in[%-*@3  ret] and returns true if there is a match.&]
 [s0;l288; For example, if:&]
 [s0;l288;i150;O0; [%-*@3 from] `= `"/books/technology/computers`"&]

@@ -62,7 +62,7 @@ already there.&]
 [s5;:Upp`:`:WithDropChoice`:`:Set`(int`,const Upp`:`:Value`&`): [@(0.0.255) void]_[* Set](
 [@(0.0.255) int]_[*@3 i], [@(0.0.255) const]_[_^Upp`:`:Value^ Value][@(0.0.255) `&]_[*@3 data
 ])&]
-[s2;%% Sets entry [%-*@3 i] in drop`-down list to [%-*@3 data] .&]
+[s2;%% Устанавливаетentry [%-*@3 i] in drop`-down list to [%-*@3 data] .&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:WithDropChoice`:`:Remove`(int`): [@(0.0.255) void]_[* Remove]([@(0.0.255) int]_
@@ -109,26 +109,26 @@ ce][@(0.0.255) `&]_[* Appending]([@(0.0.255) const]_[_^String^ String][@(0.0.255
 [s4; &]
 [s5;:WithDropChoice`:`:SetDropLines`(int`): [_^WithDropChoice^ WithDropChoice][@(0.0.255) `&
 ]_[* SetDropLines]([@(0.0.255) int]_[*@3 n])&]
-[s2;%% Sets the maximum height of drop`-down list to accommodate 
+[s2;%% Устанавливаетthe maximum height of drop`-down list to accommodate 
 [%-*@3 n] lines (scrollbar appears if there is more than that).&]
 [s3;%% &]
 [s4; &]
 [s5;:WithDropChoice`:`:SetDisplay`(int`,const Display`&`): [_^WithDropChoice^ WithDropC
 hoice][@(0.0.255) `&]_[* SetDisplay]([@(0.0.255) int]_[*@3 i], [@(0.0.255) const]_[_^Display^ D
 isplay][@(0.0.255) `&]_[*@3 d])&]
-[s2;%% Sets the Display to be used with drop`-down list item [%-*@3 i].&]
+[s2;%% Устанавливаетthe Display to be used with drop`-down list item [%-*@3 i].&]
 [s3;%% &]
 [s4; &]
 [s5;:WithDropChoice`:`:SetDisplay`(const Display`&`): [_^WithDropChoice^ WithDropChoice
 ][@(0.0.255) `&]_[* SetDisplay]([@(0.0.255) const]_[_^Display^ Display][@(0.0.255) `&]_[*@3 d
 ])&]
-[s2;%% Sets the Display to be used with drop`-down list, unless item`-specific 
+[s2;%% Устанавливаетthe Display to be used with drop`-down list, unless item`-specific 
 Display is assigned.&]
 [s3;%% &]
 [s4; &]
 [s5;:WithDropChoice`:`:SetLineCy`(int`): [_^WithDropChoice^ WithDropChoice][@(0.0.255) `&
 ]_[* SetLineCy]([@(0.0.255) int]_[*@3 lcy])&]
-[s2;%% Sets the line height of drop`-down display.&]
+[s2;%% Устанавливаетthe line height of drop`-down display.&]
 [s3;%% &]
 [s4; &]
 [s5;:WithDropChoice`:`:SetDisplay`(const Display`&`,int`): [_^WithDropChoice^ WithDropC
@@ -140,12 +140,12 @@ hoice][@(0.0.255) `&]_[* SetDisplay]([@(0.0.255) const]_[_^Display^ Display][@(0
 [s5;:WithDropChoice`:`:SetConvert`(const Convert`&`): [_^WithDropChoice^ WithDropChoice
 ][@(0.0.255) `&]_[* SetConvert]([@(0.0.255) const]_[_^Convert^ Convert][@(0.0.255) `&]_[*@3 d
 ])&]
-[s2;%% Sets the Convert to be used with drop`-down list item [%-*@3 i].&]
+[s2;%% Устанавливаетthe Convert to be used with drop`-down list item [%-*@3 i].&]
 [s3;%% &]
 [s4; &]
 [s5;:WithDropChoice`:`:AlwaysDrop`(bool`): [_^WithDropChoice^ WithDropChoice][@(0.0.255) `&
 ]_[* AlwaysDrop]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) true])&]
-[s2;%% If active, drop button is visible even if the list is empty 
+[s2;%% Если активен, drop button is visible even if the list is empty 
 (client code can fill it using WhenDrop callback).&]
 [s3; &]
 [s4; &]
@@ -157,7 +157,7 @@ and AlwaysDrop is false, the drop arrow is hidden.&]
 [s4; &]
 [s5;:WithDropChoice`:`:RdOnlyDrop`(bool`): [_^WithDropChoice^ WithDropChoice][@(0.0.255) `&
 ]_[* RdOnlyDrop]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) true])&]
-[s2;%% If active, allows changing value even by drop even if ReadOnly.&]
+[s2;%% Если активен, allows changing value even by drop even if ReadOnly.&]
 [s3;%% &]
 [s4; &]
 [s5;:WithDropChoice`:`:WithWheel`(bool`): [_^WithDropChoice^ WithDropChoice][@(0.0.255) `&
@@ -183,7 +183,7 @@ zooming [%-*@3 w] in accordance with font scaling.&]
 [s4; &]
 [s5;:WithDropChoice`:`:UpDownKeys`(bool`): [_^WithDropChoice^ WithDropChoice][@(0.0.255) `&
 ]_[* UpDownKeys]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) true])&]
-[s2;%% If active, Up and Down keys cycle through the history. Default 
+[s2;%% Если активен, Up and Down keys cycle through the history. Default 
 is active..&]
 [s3;%% &]
 [s4; &]
@@ -194,25 +194,25 @@ is active..&]
 [s4; &]
 [s5;:WithDropChoice`:`:GetCount`(`)const: [@(0.0.255) int]_[* GetCount]()_[@(0.0.255) const
 ]&]
-[s2;%% Returns the number of items in the drop down list.&]
+[s2;%% Возвращает the number of items in the drop down list.&]
 [s3;%% &]
 [s4; &]
 [s5;:WithDropChoice`:`:Get`(int`)const: [_^Value^ Value]_[* Get]([@(0.0.255) int]_[*@3 i])_[@(0.0.255) c
 onst]&]
-[s2;%% Returns the item with the index [%-*@3 i ]from the drop down 
+[s2;%% Возвращает the item with the index [%-*@3 i ]from the drop down 
 list.&]
 [s3;%% &]
 [s4; &]
 [s5;:WithDropChoice`:`:StyleDefault`(`): [@(0.0.255) const]_[_^MultiButton`:`:Style^ Mult
 iButton`::Style][@(0.0.255) `&]_[* StyleDefault]()&]
-[s2;%% Returns the default style of the drop down frame added to 
+[s2;%% Возвращает the default style of the drop down frame added to 
 the widget.&]
 [s3; &]
 [s4; &]
 [s5;:WithDropChoice`:`:SetStyle`(const MultiButton`:`:Style`&`): [_^WithDropChoice^ Wit
 hDropChoice][@(0.0.255) `&]_[* SetStyle]([@(0.0.255) const]_[_^MultiButton`:`:Style^ Mult
 iButton`::Style][@(0.0.255) `&]_[*@3 s])&]
-[s2;%% Sets the frame style to [%-_^MultiButton`:`:Style^ MultiButton`::Style] 
+[s2;%% Устанавливаетthe frame style to [%-_^MultiButton`:`:Style^ MultiButton`::Style] 
 [%-*@3 s].&]
 [s3;%% &]
 [s0; ]]

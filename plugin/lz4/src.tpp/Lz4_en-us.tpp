@@ -33,7 +33,7 @@ encapsulated, nothing special is required from calling thread.&]
 tream][@(0.0.255) `&]_[*@3 out`_])&]
 [s5;:Upp`:`:LZ4CompressStream`:`:LZ4CompressStream`(Upp`:`:Stream`&`): [* LZ4CompressSt
 ream]([_^Upp`:`:Stream^ Stream][@(0.0.255) `&]_[*@3 out])&]
-[s2;%% Sets the output stream where compressed data are stored.&]
+[s2;%% Устанавливаетthe output stream where compressed data are stored.&]
 [s0;*@7;4%% &]
 [ {{10000@(113.42.0) [s0;%% [*@7;4 LZ4DecompressStream ]]}}&]
 [s3; &]
@@ -55,7 +55,7 @@ encapsulated, nothing special is required from calling thread.&]
 tream][@(0.0.255) `&]_[*@3 in])&]
 [s5;:Upp`:`:LZ4DecompressStream`:`:LZ4DecompressStream`(Upp`:`:Stream`&`): [* LZ4Decomp
 ressStream]([_^Upp`:`:Stream^ Stream][@(0.0.255) `&]_[*@3 in])&]
-[s2;%% Sets the input stream from where compressed data are read.&]
+[s2;%% Устанавливаетthe input stream from where compressed data are read.&]
 [s0;*@7;4%% &]
 [ {{10000@(113.42.0) [s0;%% [*@7;4 LZ4 Compress/Decompress functions]]}}&]
 [s3; &]
@@ -133,7 +133,7 @@ multithreaded.&]
 [s5;:Upp`:`:IsLZ4`(Upp`:`:Stream`&`): [@(0.0.255) bool]_[* IsLZ4]([_^Upp`:`:Stream^ Stream][@(0.0.255) `&
 ]_[*@3 s])&]
 [s2;%% Checks the Stream for magic number identifying LZ4 stream. 
-Seeks back after the check. Возвращает true, если magic number was 
+Seeks back after the check. Возвращает  true, если magic number was 
 detected.&]
 [s3;%% &]
 [s3;%% &]

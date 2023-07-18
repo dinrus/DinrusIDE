@@ -15,94 +15,116 @@ topic "Форматирование чисел";
 [s4;%- &]
 [s5;:Upp`:`:FormatUnsigned`(Upp`:`:dword`):%- [_^Upp`:`:String^ String]_[* FormatUnsigned
 ]([_^Upp`:`:dword^ dword]_[*@3 w])&]
-[s2; Returns argument as decimal string.&]
+[s2; Возвращает аргумент как десятичную 
+строку&]
 [s3; &]
 [s4; &]
 [s5;:FormatInt`(int`):%- [_^String^ String]_[* FormatInt]([@(0.0.255) int]_[*@3 i])&]
-[s2; Returns integer as decimal string. If argument is Null, returns 
-empty string.&]
+[s2; Возвращает аргумент как десятичную 
+строку. Если аргумент равен Null, строка 
+пуста.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:FormatUInt64`(Upp`:`:uint64`):%- [_^Upp`:`:String^ String]_[* FormatUInt64]([_^Upp`:`:uint64^ u
 int64]_[*@3 w])&]
-[s2; Returns argument as decimal string.&]
+[s2; Возвращает аргумент как десятичную 
+строку&]
 [s3; &]
 [s4;%- &]
 [s5;:FormatInt64`(int64`):%- [_^String^ String]_[* FormatInt64]([_^int64^ int64]_[*@3 a])&]
-[s2; Returns integer as decimal string. If argument is Null, returns 
-empty string.&]
+[s2; Возвращает аргумент как десятичную 
+строку. Если аргумент равен Null, строка 
+пуста.&]
 [s3; &]
 [s4; &]
 [s5;:FormatIntBase`(int`,int`,int`,char`,int`,bool`):%- String_[* FormatIntBase]([@(0.0.255) i
 nt]_[*@3 i], [@(0.0.255) int]_[*@3 radix], [@(0.0.255) int]_[*@3 width]_`=_[@3 0], 
 [@(0.0.255) char]_[*@3 lpad]_`=_`'_`', [@(0.0.255) int]_[*@3 sign]_`=_[@3 0], 
 [@(0.0.255) bool]_[*@3 upper]_`=_[@(0.0.255) false])&]
-[s2; Formats a signed or unsigned integer [%-*@3 i] in a given [%-*@3 radix] 
-with left padding to given [%-*@3 width] with a given [%-*@3 lpad] 
-character. If [*@3 sign ]is `+1 `= always prepend `'`+`'/`-, if 
-0 `= auto (`'`-`' only), if `-1, format as unsigned. If [%-*@3 upper] 
-is true, letters for base > 10 are uppercase. If [%-*@3 i] is Null, 
-returns empty String.&]
+[s2; Форматирует целое, со знаком или 
+без, [%-*@3 i,] при заданном корне [%-*@3 radix,] 
+с левым padding`'ом на заданную ширину 
+[%-*@3 width,] с заданным символом [%-*@3 lpad]. 
+Если [*@3 sign ]равен `+1 `= всегда предпоставлять 
+`'`+`'/`-, если 0 `= auto (только `'`-`'), если 
+`-1, форматировать как беззначное. 
+Если [%-*@3 upper] равно true, буквы для base 
+> 10 в верхнем регистре. Если [%-*@3 i] равно 
+Null, возвращает пустую String.&]
 [s3; &]
 [s3; &]
 [s4;%- &]
 [s5;:FormatIntDec`(int`,int`,char`,bool`):%- [_^String^ String]_[* FormatIntDec]([@(0.0.255) i
 nt]_[*@3 i], [@(0.0.255) int]_[*@3 width], [@(0.0.255) char]_[*@3 lpad]_`=_`'_`', 
 [@(0.0.255) bool]_[*@3 always`_sign]_`=_[@(0.0.255) false])&]
-[s2; Formats a signed decimal integer [%-*@3 i] with left padding up 
-to given [%-*@3 width] characters (output longer than this is not 
-padded) with a given [%-*@3 lpad] character. If [%-*@3 always`_sign 
-]is true, start positive numbers with `'`+`' (negative numbers 
-always start with `'`-`').&]
+[s2; Форматирует десятичное целое со 
+знаком [%-*@3 i, ]с левым padding`'ом до заданной 
+ширины [%-*@3 width] символов (вывод более 
+длинных не pad`'ируется), с заданным 
+символом [%-*@3 lpad]. Если [%-*@3 always`_sign ]равно 
+true, начинать положительные числа 
+с `'`+`' (отрицательные числа всегда 
+начинаются с `'`-`').&]
 [s3; &]
 [s4;%- &]
 [s5;:FormatIntHex`(int`,int`,char`):%- [_^String^ String]_[* FormatIntHex]([@(0.0.255) int]_
 [*@3 i], [@(0.0.255) int]_[*@3 width]_`=_[@3 8], [@(0.0.255) char]_[*@3 lpad]_`=_`'[@3 0]`')&]
-[s2;~~~.1152; Formats an unsigned hexadecimal (radix 16) integer 
-[%-*@3 i] with left padding up to given [%-*@3 width] characters 
-(output longer than this is not padded) with a given [%-*@3 lpad] 
-character.&]
+[s2;~~~.1152; Форматирует беззначное шестнадцатирич
+ное (корень 16) целое (integer) [%-*@3 i,] с левым 
+padding`'ом до заданной ширины [%-*@3 width] 
+символов (вывод более длинных не pad`'ируется),
+ с заданным символом [%-*@3 lpad].&]
 [s3; &]
 [s4;%- &]
 [s5;:FormatIntOct`(int`,int`,char`):%- [_^String^ String]_[* FormatIntOct]([@(0.0.255) int]_
 [*@3 i], [@(0.0.255) int]_[*@3 width]_`=_[@3 12], [@(0.0.255) char]_[*@3 lpad]_`=_`'[@3 0]`')&]
-[s2; Formats an unsigned octal (radix 8) integer [%-*@3 i] with left 
-padding up to given [%-*@3 width] characters (output longer than 
-this is not padded) with a given [%-*@3 lpad] character.&]
+[s2; Форматирует беззначное восмиричное 
+(корень 8) целое [%-*@3 i,] с левым padding`'ом 
+до заданной ширины [%-*@3 width] символов 
+(вывод более длинных не pad`'ируется), 
+с заданным символом [%-*@3 lpad].&]
 [s3; &]
 [s4;%- &]
 [s5;:FormatIntRoman`(int`,bool`):%- [_^String^ String]_[* FormatIntRoman]([@(0.0.255) int]_
 [*@3 i], [@(0.0.255) bool]_[*@3 upper]_`=_[@(0.0.255) false])&]
-[s2; Formats a signed integer [%-*@3 i] in Roman numerals. The biggest 
-`"implemented`" numeral is M (1000), so expect quite a long return 
-string when formatting a billion. Negative numbers are prepended 
-with `[`-`], 0 or Null is output as a Null String. If [%-*@3 upper] 
-is true, use uppercase `[true`] or lowercase `[false`] letters&]
+[s2; Форматирует значное целое [%-*@3 i] в 
+римские числительные. Наибольший 
+`"реализованный`" нумерал равен M (1000), 
+поэтому при форматировании миллионов 
+ожидается довольно длинная строка. 
+Отрицательные числа представлены 
+с подстановкой `[`-`], 0 или Null выводятся 
+как Null String. Если [%-*@3 upper] равно true, используются
+ заглавные `[true`] или строчные `[false`] 
+буквы&]
 [s3; &]
 [s4;%- &]
 [s5;:FormatIntAlpha`(int`,bool`):%- [_^String^ String]_[* FormatIntAlpha]([@(0.0.255) int]_
 [*@3 i], [@(0.0.255) bool]_[*@3 upper]_`=_[@(0.0.255) true])&]
-[s2; Formats a signed integer [%-*@3 i] in length`-first lexicographic 
-index, i.e. excel column numbering (1 `= A,2 `= B..  26 `= Z, 
-27 `= AA, 28 `= AB .. 52 `= AZ, 53 `= BA ... 78 `= BZ etc). 0 
-or Null is output as a Null String. Only negative numbers are 
-prepended with a `[`-`]. If [%-*@3 upper] is true, use uppercase 
-letter.&]
+[s2; Форматирует значное целое [%-*@3 i] in 
+length`-first lexicographic index, i.e. excel column numbering 
+(1 `= A,2 `= B..  26 `= Z, 27 `= AA, 28 `= AB .. 52 `= AZ, 53 
+`= BA ... 78 `= BZ etc). 0 or Null is output as a Null String. 
+Только к отрицательным числам предпоставляе
+тся `[`-`]. Если [%-*@3 upper] равен true, используется 
+верхний регистр букв.&]
 [s3; &]
 [s4;%- &]
 [s5;:Format64Hex`(uint64`):%- [_^String^ String]_[* Format64Hex]([_^uint64^ uint64]_[*@3 a])&]
-[s2; Formats an unsigned hexadecimal [%-*@3 a] (radix 16) 64`-bit integer. 
-Supposed to be quite fast. Lowecase letters a`-f are used for 
-digits `[10`] through `[15`].&]
+[s2; Форматирует беззначное 16`-ричное 
+[%-*@3 a] (корень 16) 64`-ьитное целое. Предположител
+ьно очень быстр. Прописные буквы a`-f 
+используются для цифр `[10`] `- `[15`].&]
 [s3; &]
 [s4;%- &]
 [s5;:FormatIntHex`(const void`*`):%- [_^String^ String]_[* FormatIntHex]([@(0.0.255) const]_
 [@(0.0.255) void]_`*[*@3 ptr])&]
-[s2; Formats the pointer address [%-*@3 ptr] as a hexadecimal (base 
-16) number zero`-padded to the number of digits appropriate for 
-the memory model (8 digits in 32`-bit systems, 16 digits in 64`-bit 
-systems). Useful for logging and debugging purposes. Equivalent 
-to FormatHex, god knows why there are two of them.&]
+[s2; Форматирует адрес указателя [%-*@3 ptr] 
+как шестнадцатиричное (основание 
+16) число, zero`-padded to the number of digits appropriate 
+for the memory model (8 digits in 32`-bit systems, 16 digits 
+in 64`-bit systems). Useful for logging and debugging purposes. 
+Equivalent to FormatHex, god knows why there are two of them.&]
 [s3; &]
 [s4;%- &]
 [s5;:FormatHex`(const void`*`):%- [_^String^ String]_[* FormatHex]([@(0.0.255) const]_[@(0.0.255) v
@@ -118,8 +140,8 @@ ormatDouble]([@(0.0.255) char]_`*[*@3 t], [@(0.0.255) double]_[*@3 x],
 matDouble]([@(0.0.255) double]_[*@3 x], [@(0.0.255) int]_[*@3 precision], 
 [_^Upp`:`:dword^ dword]_[*@3 flags]_`=_FD`_TOLERANCE([@3 6])`|FD`_MINIMAL`_EXP[@(0.0.255) `|
 ]FD`_SPECIAL)&]
-[s2; Formats a floating point number [%-*@3 d] in decimal notation 
-automatically selecting ordinary or scientific (exponential) 
+[s2; Форматирует a floating point number [%-*@3 d] in decimal 
+notation automatically selecting ordinary or scientific (exponential) 
 notation according to the FD`_TOLERANCE flag.&]
 [s2; The first variant requires the buffer of size [%-*@3 precision] 
 `+ 30 and returns a pointer after the last character produced 
@@ -205,14 +227,16 @@ character produced (terminating `'`\0`' is NOT appended).&]
 [s0; &]
 [s4;%- &]
 [s5;:FormatBool`(bool`):%- [_^String^ String]_[* FormatBool]([@(0.0.255) bool]_[*@3 a])&]
-[s2; Formats a boolean [%-*@3 a] as one of the fixed words `"true`" 
-or `"false`" (regardless of language settings).&]
+[s2; Форматирует булево [%-*@3 a] как одно 
+из фиксированных слов `"true`" или `"false`" 
+(несмотря на языковые установки).&]
 [s3; &]
 [s3; &]
 [s4;%- &]
 [s5;:FormatIntBase`(int`,int`,int`,char`,int`):%- [_^String^ String]_[* FormatIntBase]([@(0.0.255) i
 nt]_[*@3 i], [@(0.0.255) int]_[*@3 base], [@(0.0.255) int]_[*@3 width]_`=_[@3 0], 
 [@(0.0.255) char]_[*@3 lpad]_`=_`'_`', [@(0.0.255) int]_[*@3 sign]_`=_[@3 0])&]
-[s2;%- Formats integer [*@3 i ]with given numeric_[*@3 base], result 
-[*@3 width]_charters wide with [*@3 lpad]_padding.&]
+[s2;%- Форматирует целое [*@3 i ]с заданной 
+числовой основой [*@3 base], result [*@3 width]_charters 
+wide with [*@3 lpad]_padding.&]
 [s0; ]]

@@ -17,67 +17,88 @@ topic "Форматирование и сканирование дат";
 [s3;%- &]
 [s5;:StrToDate`(Date`&`,const char`*`):%- [@(0.0.255) const]_[@(0.0.255) char]_`*[* StrToDa
 te]([_^Date^ Date][@(0.0.255) `&]_[*@3 d], [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 s])&]
-[s2; Scans a string for a Date. Order of day, month and year is specified 
-using SetDateScan. In place of month both number and text is 
-accepted `- text must match abbreviated or full name of month.&]
-[s7; [%-*C@3 d]-|Found date.&]
-[s7; [%-*C@3 s]-|String to scan.&]
-[s7; [*/ Возвратное значение]-|NULL if no date is 
-found in s or pointer to character right after the date.&]
+[s2; Сканирует строку на наличие даты. 
+Порядок вывода дня, месяца и года 
+устанавливается с помощью SetDateScan. 
+Вместо месяца принимаются и число, 
+и текст: текст должен соответствовать 
+краткому, либо полному, названию месяца.&]
+[s7; [%-*C@3 d]-|Найденная дата.&]
+[s7; [%-*C@3 s]-|Сканируемая строка.&]
+[s7; [*/ Возвратное значение]-|NULL, если дат 
+не найдено в s, либо указатель на символ, 
+находящийся сразу после даты.&]
 [s3; &]
 [s4;%- &]
 [s5;:Format`(Date`):%- [_^String^ String]_[* Format]([_^Date^ Date]_[*@3 date])&]
-[s2; Formats date. Date is formated using the standard [^topic`:`/`/Core`/src`/Format`$en`-us^ F
-ormat] function, where the string set by SetDateFormat is used 
-as formating string, and the three supplied integer value arguments 
-are year, month and day.&]
-[s7; [%-*C@3 date]-|Date to format.&]
-[s7; [*/ Возвратное значение]-|Formatted date.&]
+[s2; Форматирует дату. Дата форматируется 
+посредством стандартной функции 
+[^topic`:`/`/Core`/src`/Format`_ru`-ru^ Format], где в качестве 
+строки форматирования используется 
+строка, установленная SetDateFormat, а три 
+прилагаемых целочисленных аргумента 
+являются годом, месяцем и днём.&]
+[s7; [%-*C@3 date]-|Форматируемая дата.&]
+[s7; [*/ Возвратное значение]-|Отформатированная 
+дата.&]
 [s3; &]
 [s4;%- &]
 [s5;:CharFilterDate`(int`):%- [@(0.0.255) int]_[* CharFilterDate]([@(0.0.255) int]_[*@3 c])&]
-[s2; Character filter for dates. Its behaviour is specified by SetDateFilter 
-function.&]
-[s7; [%-*C@3 c]-|Character to filter.&]
-[s7; [*/ Возвратное значение]-|Filtered character.&]
+[s2; Символьный фильтр для дат. Его поведение 
+задаётся функцией SetDateFilter.&]
+[s7; [%-*C@3 c]-|Фильтруемый символ.&]
+[s7; [*/ Возвратное значение]-|Отфильтрованный 
+символ.&]
 [s3; &]
 [s4;%- &]
 [s5;:SetDateFormat`(const char`*`):%- [@(0.0.255) void]_[* SetDateFormat]([@(0.0.255) const
 ]_[@(0.0.255) char]_`*[*@3 fmt])&]
-[s2; Sets formating string for dates. When used for formatting, there 
-are 3 integer arguments passed to [^topic`:`/`/Core`/src`/Format`$en`-us^ Format] 
-with this string. First is year, second is month and third is 
-day. This is per`-thread setting with threads inheriting the 
-setting of main thread.&]
+[s2; Устанавливает строку форматирования 
+для дат. При использовании для форматировани
+я, с этой строкой передаются 3 целочисленных 
+агрумента в функцию [^topic`:`/`/Core`/src`/Format`_ru`-ru^ Format
+]. Первый `- год, второй `- месяц, третий 
+`- день. Это попоточная (понитевая) 
+настройка, где нити наследуют настройку 
+от главной нити.&]
 [s3; &]
 [s4;%- &]
 [s5;:SetDateScan`(const char`*`):%- [@(0.0.255) void]_[* SetDateScan]([@(0.0.255) const]_[@(0.0.255) c
 har]_`*[*@3 scan])&]
-[s2; Sets date scan string `- this string represents order of [* d]ay, 
-[* m]onth and [* y]ear for StrToDate function. Letters `'[* d]`', `'[* m]`' 
-and `'[* y]`' are used in [%-*@3 scan] to designate the order.  This 
-is per`-thread setting with threads inheriting the setting of 
-main thread.&]
-[s2; Example:&]
+[s2; Устанавливает строку сканирования 
+дат: эта строка представляет порядок 
+[* d]дня, [* m]месяца и [* y]года[*  ]для функции 
+StrToDate. Буквы `'[* d]`', `'[* m]`' и `'[* y]`' используются 
+в [%-*@3 scan] для определения порядка. Это 
+попоточная (понитевая) настройка, 
+где нити наследуют настройку от главной 
+нити&]
+[s2; Пример:&]
 [s2; [*C@3       ][*C `"mdy`"]&]
-[s7; The month is first, day second and year third.&]
+[s7; Месяц `- первый, день `- второй, год 
+`- третий.&]
 [s3; &]
 [s4;%- &]
 [s5;:SetDateFilter`(const char`*`):%- [@(0.0.255) void]_[* SetDateFilter]([@(0.0.255) const
 ]_[@(0.0.255) char]_`*[*@3 seps])&]
-[s2; Specifies CharFilterDate behaviour. Digits are always allowed 
-in CharFilterDate. If there is `"a`" at the beginning of seps 
-string, letters are allowed. If there is `"A`", letters are allowed 
-and converted to upper`-case. After this optional character, 
-list of characters allowed as separator follows. `"`\r`" after 
-character designates `"replace`" character `- if used, all characters 
-up to next `"amend`" character or `'`\0`' are replaced by it. 
- This is per`-thread setting with threads inheriting the setting 
-of main thread.&]
-[s2; Example:&]
+[s2; Задаёт поведение CharFilterDate.Цифры всегда 
+допустимы для CharFilterDate. Если в начале 
+строки`-разделителя [%-*@3 seps] есть `"a`", 
+то допускаются и буквы. IЕсли есть 
+`"A`", то буквы допускаются, но преобразовывают
+ся в заглавные. После этого необязательного 
+символа, идёт список символов. `"`\r`" 
+после символа обозначает символ замены 
+(`"replace`"): если он используется, то все 
+символы до следующего символа `"amend`" 
+или `'`\0`' заменяются на него.  Это попоточная 
+(понитевая) настройка, где нити наследуют 
+настройку от главной нити&]
+[s2; Пример:&]
 [s2; [*C@3       ][*C `"a.][*C@3 `\r][*C@5 ,][*C@3 `\r][*C /][*C@3 `\r][*C@5 :;][*C `"]&]
-[s2; CharFilterDate would allow letters but not convert them to uppercase, 
-it will allow characters `'[* .]`' and `'/`' and it will convert 
-`'[*@5 ,]`' to `'[* .]`' and `'[*@5 :]`' or `'[*@5 ;]`' to `'[* /]`'.&]
+[s2; CharFilterDate допускает буквы, но не преобразует 
+их в верхний регистр; допускаются 
+символы `'[* .]`' и `'/`' , и преобразовываются 
+`'[*@5 ,]`' в `'[* .]`' , а `'[*@5 :]`' или `'[*@5 ;]`' в `'[* /]`'.&]
 [s3; &]
 [s0; ]]

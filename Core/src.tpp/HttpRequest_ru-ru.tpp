@@ -54,7 +54,7 @@ true to indicate that authorization was (hopefully) resolved
 [s5;:HttpRequest`:`:MaxHeaderSize`(int`): [_^HttpRequest^ HttpRequest][@(0.0.255) `&]_[* Ma
 xHeaderSize]([@(0.0.255) int]_[*@3 m])&]
 [s2;%% Specifies the maximum size of response header (default is 
-1000000). Returns `*this.&]
+1000000). Возвращает `*this.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:HttpRequest`:`:MaxContentSize`(int`): [_^HttpRequest^ HttpRequest][@(0.0.255) `&]_[* M
@@ -62,31 +62,31 @@ axContentSize]([@(0.0.255) int]_[*@3 m])&]
 [s2;%% Specifies the maximum size of response content that can be 
 stored in HttpRequest to be retrieved by GetContent method (default 
 is 10000000). Note that this limit does no apply when content 
-data are processed using WhenContent callback. Returns `*this.&]
+data are processed using WhenContent callback. Возвращает `*this.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:HttpRequest`:`:MaxRedirect`(int`): [_^HttpRequest^ HttpRequest][@(0.0.255) `&]_[* MaxR
 edirect]([@(0.0.255) int]_[*@3 n])&]
 [s2;%% Specifies the maximum number of redirections (code 3xx) (default 
-is 10). Returns `*this.&]
+is 10). Возвращает `*this.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:HttpRequest`:`:MaxRetries`(int`): [_^HttpRequest^ HttpRequest][@(0.0.255) `&]_[* MaxRe
 tries]([@(0.0.255) int]_[*@3 n])&]
 [s2;%% Specifies the maximum number of retries on failure (default 
-is 3). Returns `*this.&]
+is 3). Возвращает `*this.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:HttpRequest`:`:RequestTimeout`(int`): [_^HttpRequest^ HttpRequest][@(0.0.255) `&]_[* R
 equestTimeout]([@(0.0.255) int]_[*@3 ms])&]
 [s2;%% Specifies total allowed time for request in milliseconds (default 
-is .120000 `- two minutes). Returns `*this.&]
+is .120000 `- two minutes). Возвращает `*this.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:HttpRequest`:`:ChunkSize`(int`): [_^HttpRequest^ HttpRequest][@(0.0.255) `&]_[* ChunkS
 ize]([@(0.0.255) int]_[*@3 n])&]
 [s2;%% Specifies the maximum size of content data block for processing 
-(default is 4096). Returns `*this.&]
+(default is 4096). Возвращает `*this.&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:HttpRequest`:`:AllContent`(bool`): [_^Upp`:`:HttpRequest^ HttpRequest][@(0.0.255) `&
@@ -98,76 +98,76 @@ even if they are just redirection or authorization texts.&]
 [s5;:HttpRequest`:`:Method`(int`,const char`*`): [_^HttpRequest^ HttpRequest][@(0.0.255) `&
 ]_[* Method]([@(0.0.255) int]_[*@3 m], [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 custom`_na
 me]_`=_NULL)&]
-[s2;%% Sets HTTP request method. [%-*@3 m] can be one of METHOD`_GET, 
+[s2;%% УстанавливаетHTTP request method. [%-*@3 m] can be one of METHOD`_GET, 
 METHOD`_POST, METHOD`_HEAD, METHOD`_PUT, METHOD`_DELETE, METHOD`_TRACE, 
 METHOD`_OPTIONS, METHOD`_CONNECT, METHOD`_PATCH. Default setting 
 is METHOD`_GET. If [%-*@3 custom`_name] is not NULL, HttpRequest 
 behaves likem performing method [%-*@3 m] but in HTTP request [%-*@3 custom`_name] 
-is used as method. Returns `*this.&]
+is used as method. Возвращает `*this.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:HttpRequest`:`:GET`(`): [_^HttpRequest^ HttpRequest][@(0.0.255) `&]_[* GET]()&]
-[s2;%% То же, что и Method(METHOD`_GET) (default). Returns `*this.&]
+[s2;%% То же, что и Method(METHOD`_GET) (default). Возвращает `*this.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:HttpRequest`:`:POST`(`): [_^HttpRequest^ HttpRequest][@(0.0.255) `&]_[* POST]()&]
-[s2;%% То же, что и Method(METHOD`_POST). Returns `*this.&]
+[s2;%% То же, что и Method(METHOD`_POST). Возвращает `*this.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:HttpRequest`:`:HEAD`(`): [_^HttpRequest^ HttpRequest][@(0.0.255) `&]_[* HEAD]()&]
-[s2;%% То же, что и Method(METHOD`_HEAD). Returns `*this.&]
+[s2;%% То же, что и Method(METHOD`_HEAD). Возвращает `*this.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:HttpRequest`:`:PUT`(`): [_^HttpRequest^ HttpRequest][@(0.0.255) `&]_[* PUT]()&]
-[s2;%% То же, что и Method(METHOD`_PUT). Returns `*this.&]
+[s2;%% То же, что и Method(METHOD`_PUT). Возвращает `*this.&]
 [s3;%% &]
 [s4; &]
 [s5;:HttpRequest`:`:DEL`(`): [_^HttpRequest^ HttpRequest][@(0.0.255) `&]_[* DEL]()&]
-[s2;%% То же, что и Method(METHOD`_DELETE). Returns `*this. Note that 
+[s2;%% То же, что и Method(METHOD`_DELETE). Возвращает `*this. Note that 
 this method is not named `"DELETE`" because of name`-clash with 
 Win32 #define.&]
 [s3; &]
 [s4; &]
 [s5;:HttpRequest`:`:TRACE`(`): [_^HttpRequest^ HttpRequest][@(0.0.255) `&]_[* TRACE]()&]
-[s2;%% То же, что и Method(METHOD`_TRACE). Returns `*this.&]
+[s2;%% То же, что и Method(METHOD`_TRACE). Возвращает `*this.&]
 [s3; &]
 [s4; &]
 [s5;:HttpRequest`:`:OPTIONS`(`): [_^HttpRequest^ HttpRequest][@(0.0.255) `&]_[* OPTIONS]()&]
-[s2;%% То же, что и Method(METHOD`_OPTIONS). Returns `*this.&]
+[s2;%% То же, что и Method(METHOD`_OPTIONS). Возвращает `*this.&]
 [s3; &]
 [s4; &]
 [s5;:HttpRequest`:`:CONNECT`(`): [_^HttpRequest^ HttpRequest][@(0.0.255) `&]_[* CONNECT]()&]
-[s2;%% То же, что и Method(METHOD`_CONNECT). Returns `*this.&]
+[s2;%% То же, что и Method(METHOD`_CONNECT). Возвращает `*this.&]
 [s3; &]
 [s4; &]
 [s5;:HttpRequest`:`:PATCH`(`): [_^HttpRequest^ HttpRequest][@(0.0.255) `&]_[* PATCH]()&]
-[s2;%% То же, что и Method(METHOD`_PATCH). Returns `*this.&]
+[s2;%% То же, что и Method(METHOD`_PATCH). Возвращает `*this.&]
 [s3; &]
 [s4;%% &]
 [s5;:HttpRequest`:`:Host`(const String`&`): [_^HttpRequest^ HttpRequest][@(0.0.255) `&]_[* H
 ost]([@(0.0.255) const]_[_^String^ String][@(0.0.255) `&]_[*@3 h])&]
-[s2;%% Sets server host. Returns `*this.&]
+[s2;%% Устанавливаетserver host. Возвращает `*this.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:HttpRequest`:`:Port`(int`): [_^HttpRequest^ HttpRequest][@(0.0.255) `&]_[* Port]([@(0.0.255) i
 nt]_[*@3 p])&]
-[s2;%% Sets.server port. Returns `*this.&]
+[s2;%% Sets.server port. Возвращает `*this.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:HttpRequest`:`:SSL`(bool`): [_^HttpRequest^ HttpRequest][@(0.0.255) `&]_[* SSL]([@(0.0.255) b
 ool]_[*@3 b]_`=_[@(0.0.255) true])&]
-[s2;%% Activates SSL mode. Returns `*this.&]
+[s2;%% Activates SSL mode. Возвращает `*this.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:HttpRequest`:`:Path`(const String`&`): [_^HttpRequest^ HttpRequest][@(0.0.255) `&]_[* P
 ath]([@(0.0.255) const]_[_^String^ String][@(0.0.255) `&]_[*@3 p])&]
-[s2;%% Sets request path. Returns `*this.&]
+[s2;%% Устанавливаетrequest path. Возвращает `*this.&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:HttpRequest`:`:Authorization`(const Upp`:`:String`&`): [_^Upp`:`:HttpRequest^ H
 ttpRequest][@(0.0.255) `&]_[* Authorization]([@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&
 ]_[*@3 h])&]
-[s2;%% Sets authorization header (text between `"Authorization: `" 
+[s2;%% Устанавливаетauthorization header (text between `"Authorization: `" 
 and `"`\r`\n`" in header). It is intended to be used in WhenAuthenticate 
 callback to provide login info.&]
 [s3;%% &]
@@ -175,14 +175,14 @@ callback to provide login info.&]
 [s5;:HttpRequest`:`:User`(const String`&`,const String`&`): [_^HttpRequest^ HttpRequest
 ][@(0.0.255) `&]_[* User]([@(0.0.255) const]_[_^String^ String][@(0.0.255) `&]_[*@3 u], 
 [@(0.0.255) const]_[_^String^ String][@(0.0.255) `&]_[*@3 p])&]
-[s2;%% Sets user and password according to [^http`:`/`/en`.wikipedia`.org`/wiki`/Basic`_access`_authentication^ B
-asic access authentication]. Returns `*this.&]
+[s2;%% Устанавливаетuser and password according to [^http`:`/`/en`.wikipedia`.org`/wiki`/Basic`_access`_authentication^ B
+asic access authentication]. Возвращает `*this.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:HttpRequest`:`:Digest`(`): [_^HttpRequest^ HttpRequest][@(0.0.255) `&]_[* Digest]()&]
 [s2;%% Forces HttpRequest to use [^http`:`/`/en`.wikipedia`.org`/wiki`/Digest`_access`_authentication^ D
 igest access authentication]. `- not to send Basic access authentication. 
-Returns `*this.&]
+Возвращает `*this.&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:HttpRequest`:`:Digest`(const Upp`:`:String`&`,const Upp`:`:String`&`): [_^Upp`:`:HttpRequest^ H
@@ -194,16 +194,16 @@ ttpRequest][@(0.0.255) `&]_[* Digest]([@(0.0.255) const]_[_^Upp`:`:String^ Strin
 [s5;:Upp`:`:HttpRequest`:`:SetDigest`(const Upp`:`:String`&`): [_^Upp`:`:HttpRequest^ H
 ttpRequest][@(0.0.255) `&]_[* SetDigest]([@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&
 ]_[*@3 d])&]
-[s2;%% Sets digest. This is usually done by HttpRequest when processing 
-401 response code. Returns `*this.&]
+[s2;%% Устанавливаетdigest. This is usually done by HttpRequest when processing 
+401 response code. Возвращает `*this.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:HttpRequest`:`:Url`(const char`*`): [_^HttpRequest^ HttpRequest][@(0.0.255) `&]_[* Url
 ]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 url])&]
-[s2;%% Sets request [%-*@3 url]. [%-*@3 url] is parsed to get host name, 
+[s2;%% Устанавливаетrequest [%-*@3 url]. [%-*@3 url] is parsed to get host name, 
 port and path, then calling Host, Port and Path methods. If [%-*@3 url] 
 starts with `"https`", SSL mode is activated using SSL method. 
-Returns `*this.&]
+Возвращает `*this.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:HttpRequest`:`:UrlVar`(const char`*`,const String`&`): [_^HttpRequest^ HttpRequest
@@ -213,25 +213,25 @@ Returns `*this.&]
 equest][@(0.0.255) `&]_[* operator()]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 id], 
 [@(0.0.255) const]_[_^String^ String][@(0.0.255) `&]_[*@3 data])&]
 [s2;%% Adds name/value pair to the path in the format used by HTML 
-forms with `"GET`" method. Returns `*this.&]
+forms with `"GET`" method. Возвращает `*this.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:HttpRequest`:`:PostData`(const String`&`): [_^HttpRequest^ HttpRequest][@(0.0.255) `&
 ]_[* PostData]([@(0.0.255) const]_[_^String^ String][@(0.0.255) `&]_[*@3 pd])&]
-[s2;%% Sets data to be posted with request. Returns `*this.&]
+[s2;%% Устанавливаетdata to be posted with request. Возвращает `*this.&]
 [s3;%% &]
 [s4; &]
 [s5;:HttpRequest`:`:PostStream`(Stream`&`,int64`): [_^HttpRequest^ HttpRequest][@(0.0.255) `&
 ]_[* PostStream]([_^Stream^ Stream][@(0.0.255) `&]_[*@3 s], [_^int64^ int64]_[*@3 len]_`=_Nul
 l)&]
-[s2;%% Sets stream of data to be posted with request. [%-*@3 len] is 
+[s2;%% Устанавливаетstream of data to be posted with request. [%-*@3 len] is 
 number of bytes to be sent from the stream, if Null, all remaining 
-data from the stream are sent. Returns `*this.&]
+data from the stream are sent. Возвращает `*this.&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:HttpRequest`:`:GetPostData`(`)const: [_^Upp`:`:String^ String]_[* GetPostData
 ]()_[@(0.0.255) const]&]
-[s2;%% Returns the value set by PostData.&]
+[s2;%% Возвращает  значение, установленное посредством  PostData.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:HttpRequest`:`:ResolveDigestAuthentication`(`): [@(0.0.255) bool]_[* ResolveD
@@ -242,20 +242,20 @@ standard HTTP digest authentication.&]
 [s4;%% &]
 [s5;:HttpRequest`:`:PostUData`(const String`&`): [_^HttpRequest^ HttpRequest][@(0.0.255) `&
 ]_[* PostUData]([@(0.0.255) const]_[_^String^ String][@(0.0.255) `&]_[*@3 pd])&]
-[s2;%% Sets data to be posted with request, perform as url`-encoding 
-of data. Returns `*this.&]
+[s2;%% Устанавливаетdata to be posted with request, perform as url`-encoding 
+of data. Возвращает `*this.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:HttpRequest`:`:Post`(const String`&`): [_^HttpRequest^ HttpRequest][@(0.0.255) `&]_[* P
 ost]([@(0.0.255) const]_[_^String^ String][@(0.0.255) `&]_[*@3 data])&]
-[s2;%% То же, что и POST().PostData([%-*@3 data]). Returns `*this.&]
+[s2;%% То же, что и POST().PostData([%-*@3 data]). Возвращает `*this.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:HttpRequest`:`:Post`(const char`*`,const String`&`): [_^HttpRequest^ HttpRequest][@(0.0.255) `&
 ]_[* Post]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 id], [@(0.0.255) const]_[_^String^ Str
 ing][@(0.0.255) `&]_[*@3 data])&]
-[s2;%% Sets method to POST and name/value pair to the post data in 
-the format used by HTML forms with `"POST`" method. Returns `*this.&]
+[s2;%% Устанавливаетmethod to POST and name/value pair to the post data in 
+the format used by HTML forms with `"POST`" method. Возвращает `*this.&]
 [s3;%% &]
 [s4; &]
 [s5;:HttpRequest`:`:Part`(const char`*`,const String`&`,const char`*`,const char`*`): [_^HttpRequest^ H
@@ -278,8 +278,8 @@ part header.&]
 [s4;%% &]
 [s5;:HttpRequest`:`:Headers`(const String`&`): [_^HttpRequest^ HttpRequest][@(0.0.255) `&
 ]_[* Headers]([@(0.0.255) const]_[_^String^ String][@(0.0.255) `&]_[*@3 h])&]
-[s2;%% Sets text containing HTTP headers to be add after HttpRequest 
-generated header fields. Returns `*this.&]
+[s2;%% Устанавливаетtext containing HTTP headers to be add after HttpRequest 
+generated header fields. Возвращает `*this.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:HttpRequest`:`:ClearHeaders`(`): [_^HttpRequest^ HttpRequest][@(0.0.255) `&]_[* ClearH
@@ -290,18 +290,18 @@ eaders]()&]
 [s5;:HttpRequest`:`:AddHeaders`(const String`&`): [_^HttpRequest^ HttpRequest][@(0.0.255) `&
 ]_[* AddHeaders]([@(0.0.255) const]_[_^String^ String][@(0.0.255) `&]_[*@3 h])&]
 [s2;%% Adds text containing HTTP headers to be add after HttpRequest 
-generated header fields. Returns `*this.&]
+generated header fields. Возвращает `*this.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:HttpRequest`:`:Header`(const char`*`,const String`&`): [_^HttpRequest^ HttpRequest
 ][@(0.0.255) `&]_[* Header]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 id], 
 [@(0.0.255) const]_[_^String^ String][@(0.0.255) `&]_[*@3 data])&]
-[s2;%% Adds single name/value pair to headers. Returns `*this.&]
+[s2;%% Adds single name/value pair to headers. Возвращает `*this.&]
 [s3;%% &]
 [s4; &]
 [s5;:HttpRequest`:`:Cookie`(const HttpCookie`&`): [_^HttpRequest^ HttpRequest][@(0.0.255) `&
 ]_[* Cookie]([@(0.0.255) const]_[_^HttpCookie^ HttpCookie][@(0.0.255) `&]_[*@3 c])&]
-[s2;%% Sets the cookie to be send with any subsequent request. Member 
+[s2;%% Устанавливаетthe cookie to be send with any subsequent request. Member 
 raw of HttpCookie is ignored. Cookie is only send when path and 
 domain match (can be set to Null to match always).&]
 [s3;%% &]
@@ -311,7 +311,7 @@ ttpRequest][@(0.0.255) `&]_[* Cookie]([@(0.0.255) const]_[_^String^ String][@(0.
 [*@3 id], [@(0.0.255) const]_[_^String^ String][@(0.0.255) `&]_[*@3 value], 
 [@(0.0.255) const]_[_^String^ String][@(0.0.255) `&]_[*@3 domain]_`=_Null, 
 [@(0.0.255) const]_[_^String^ String][@(0.0.255) `&]_[*@3 path]_`=_Null)&]
-[s2;%% Sets the cookie to be send with any subsequent request. Member 
+[s2;%% Устанавливаетthe cookie to be send with any subsequent request. Member 
 raw of HttpCookie is ignored. Cookie is only send when path and 
 domain match (can be set to Null to match always)..&]
 [s3;%% &]
@@ -331,7 +331,7 @@ eaders]([@(0.0.255) bool]_[*@3 sh])&]
 [s2;%% Determines whether HttpRequest should provide standard http 
 header fields (URL, Host, Connection, Accept, Accept`-Encoding, 
 User`-Agent, Content`-Length, Content`-Type). Default is yes. 
-Returns `*this.&]
+Возвращает `*this.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:HttpRequest`:`:NoStdHeaders`(`): [_^HttpRequest^ HttpRequest][@(0.0.255) `&]_[* NoStdH
@@ -341,63 +341,63 @@ eaders]()&]
 [s4;%% &]
 [s5;:HttpRequest`:`:Accept`(const String`&`): [_^HttpRequest^ HttpRequest][@(0.0.255) `&]_
 [* Accept]([@(0.0.255) const]_[_^String^ String][@(0.0.255) `&]_[*@3 a])&]
-[s2;%% Sets the value of `"Accept`" field in HttpRequest generated 
-portion of header. Default is `"`*/`*`". Returns `*this.&]
+[s2;%% Устанавливаетthe value of `"Accept`" field in HttpRequest generated 
+portion of header. Default is `"`*/`*`". Возвращает `*this.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:HttpRequest`:`:UserAgent`(const String`&`): [_^HttpRequest^ HttpRequest][@(0.0.255) `&
 ]_[* UserAgent]([@(0.0.255) const]_[_^String^ String][@(0.0.255) `&]_[*@3 a])&]
 [s2;%% Specifies `"User`-Agent`" HTTP request field. Defualt is `"U`+`+ 
-HTTP request`". Returns `*this.&]
+HTTP request`". Возвращает `*this.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:HttpRequest`:`:ContentType`(const String`&`): [_^HttpRequest^ HttpRequest][@(0.0.255) `&
 ]_[* ContentType]([@(0.0.255) const]_[_^String^ String][@(0.0.255) `&]_[*@3 a])&]
-[s2;%% Specifies `"Content`-Type`" HTTP request field. Returns `*this.&]
+[s2;%% Specifies `"Content`-Type`" HTTP request field. Возвращает `*this.&]
 [s3;%% &]
 [s4; &]
 [s5;:HttpRequest`:`:KeepAlive`(bool`): [_^HttpRequest^ HttpRequest][@(0.0.255) `&]_[* KeepA
 live]([@(0.0.255) bool]_[*@3 ka]_`=_[@(0.0.255) true])&]
-[s2;%% If active, `"Connection`" HTTP request field is `"keep`-alive`", 
-otherwise `"close`". Returns `*this.&]
+[s2;%% Если активен, `"Connection`" HTTP request field is `"keep`-alive`", 
+otherwise `"close`". Возвращает `*this.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:HttpRequest`:`:Proxy`(const String`&`,int`): [_^HttpRequest^ HttpRequest][@(0.0.255) `&
 ]_[* Proxy]([@(0.0.255) const]_[_^String^ String][@(0.0.255) `&]_[*@3 host], 
 [@(0.0.255) int]_[*@3 port])&]
-[s2;%% Defines http proxy. Returns `*this.&]
+[s2;%% Defines http proxy. Возвращает `*this.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:HttpRequest`:`:Proxy`(const char`*`): [_^HttpRequest^ HttpRequest][@(0.0.255) `&]_[* P
 roxy]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 p])&]
 [s2;%% Defines http proxy, [%-*@3 p] should contain `"hostname:port`". 
-If port is not present, it is set to 80. Returns `*this.&]
+If port is not present, it is set to 80. Возвращает `*this.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:HttpRequest`:`:ProxyAuth`(const String`&`,const String`&`): [_^HttpRequest^ HttpRe
 quest][@(0.0.255) `&]_[* ProxyAuth]([@(0.0.255) const]_[_^String^ String][@(0.0.255) `&]_[*@3 u
 ], [@(0.0.255) const]_[_^String^ String][@(0.0.255) `&]_[*@3 p])&]
 [s2;%% Defines username and password authentication for SSL proxy. 
-Returns `*this.&]
+Возвращает `*this.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:HttpRequest`:`:SSLProxy`(const String`&`,int`): [_^HttpRequest^ HttpRequest][@(0.0.255) `&
 ]_[* SSLProxy]([@(0.0.255) const]_[_^String^ String][@(0.0.255) `&]_[*@3 host], 
 [@(0.0.255) int]_[*@3 port])&]
-[s2;%% Defines proxy for SSL connection. Returns `*this.&]
+[s2;%% Defines proxy for SSL connection. Возвращает `*this.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:HttpRequest`:`:SSLProxy`(const char`*`): [_^HttpRequest^ HttpRequest][@(0.0.255) `&]_
 [* SSLProxy]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 p])&]
 [s2;%% Defines proxy for SSL connection, [%-*@3 p] should contain `"hostname:port`". 
-If port is not present, it is set to 8080. Returns `*this.&]
+If port is not present, it is set to 8080. Возвращает `*this.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:HttpRequest`:`:SSLProxyAuth`(const String`&`,const String`&`): [_^HttpRequest^ Htt
 pRequest][@(0.0.255) `&]_[* SSLProxyAuth]([@(0.0.255) const]_[_^String^ String][@(0.0.255) `&
 ]_[*@3 u], [@(0.0.255) const]_[_^String^ String][@(0.0.255) `&]_[*@3 p])&]
 [s2;%% Defines username and password authentication for SSL proxy. 
-Returns `*this.&]
+Возвращает `*this.&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:HttpRequest`:`:SSLProxyGET`(bool`): [_^Upp`:`:HttpRequest^ HttpRequest][@(0.0.255) `&
@@ -410,14 +410,14 @@ Returns `*this.&]
 [@(0.0.255) int]_[*@3 port])&]
 [s2;%% Defines both SSL and non`-SSL proxies to the same [%-*@3 host] 
 and [%-*@3 port]. То же, что и Proxy(host, port); SSLProxy(host, port). 
-Returns `*this.&]
+Возвращает `*this.&]
 [s3;%% &]
 [s4; &]
 [s5;:HttpRequest`:`:CommonProxy`(const char`*`): [_^HttpRequest^ HttpRequest][@(0.0.255) `&
 ]_[* CommonProxy]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 p])&]
 [s2;%% Defines both SSL and non`-SSL proxies to the same server. 
 То же, что и Proxy(p); SSLProxy(p), including default port definitions. 
-Returns `*this.&]
+Возвращает `*this.&]
 [s3;%% &]
 [s4; &]
 [s5;:HttpRequest`:`:CommonProxyAuth`(const String`&`,const String`&`): [_^HttpRequest^ H
@@ -425,17 +425,17 @@ ttpRequest][@(0.0.255) `&]_[* CommonProxyAuth]([@(0.0.255) const]_[_^String^ Str
 ]_[*@3 u], [@(0.0.255) const]_[_^String^ String][@(0.0.255) `&]_[*@3 p])&]
 [s2;%% Defines username and password authentication for both SSL 
 and non`-SSL proxis. То же, что и ProxyAuth(u, p); SSLProxyAuth(u, 
-p). Returns `*this.&]
+p). Возвращает `*this.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:HttpRequest`:`:IsSocketError`(`)const: [@(0.0.255) bool]_[* IsSocketError]()_[@(0.0.255) c
 onst]&]
-[s2;%% Возвращает true, если there was error on socket level.&]
+[s2;%% Возвращает  true, если there was error on socket level.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:HttpRequest`:`:IsHttpError`(`)const: [@(0.0.255) bool]_[* IsHttpError]()_[@(0.0.255) c
 onst]&]
-[s2;%% Возвращает true, если there was error on HTTP protocol level.&]
+[s2;%% Возвращает  true, если there was error on HTTP protocol level.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:HttpRequest`:`:IsError`(`)const: [@(0.0.255) bool]_[* IsError]()_[@(0.0.255) const]&]
@@ -444,7 +444,7 @@ onst]&]
 [s4;%% &]
 [s5;:HttpRequest`:`:GetErrorDesc`(`)const: [_^String^ String]_[* GetErrorDesc]()_[@(0.0.255) c
 onst]&]
-[s2;%% Returns error description.&]
+[s2;%% Возвращает error description.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:HttpRequest`:`:ClearError`(`): [@(0.0.255) void]_[* ClearError]()&]
@@ -455,20 +455,20 @@ onst]&]
 onst]_[@(0.0.255) char]_`*[*@3 id])&]
 [s5;:HttpRequest`:`:operator`[`]`(const char`*`): [_^String^ String]_[* operator`[`]]([@(0.0.255) c
 onst]_[@(0.0.255) char]_`*[*@3 id])&]
-[s2;%% Returns response header field. [%-*@3 id] must be lowercase.&]
+[s2;%% Возвращает response header field. [%-*@3 id] must be lowercase.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:HttpRequest`:`:GetRedirectUrl`(`): [_^String^ String]_[* GetRedirectUrl]()&]
-[s2;%% Returns processed Location field of HTTP response header.&]
+[s2;%% Возвращает processed Location field of HTTP response header.&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:HttpRequest`:`:HasContentLength`(`): [@(0.0.255) bool]_[* HasContentLength]()
 &]
-[s2;%% Возвращает true, если received HTTP header has content`-length field.&]
+[s2;%% Возвращает  true, если received HTTP header has content`-length field.&]
 [s3; &]
 [s4;%% &]
 [s5;:HttpRequest`:`:GetContentLength`(`): [@(0.0.255) int64]_[* GetContentLength]()&]
-[s2;%% Returns the content length as specified in HTTP response header 
+[s2;%% Возвращает the content length as specified in HTTP response header 
 or 0 if not specified or header not yet loaded.&]
 [s3;%% &]
 [s4;%% &]
@@ -484,12 +484,12 @@ onst]&]
 [s4; &]
 [s5;:HttpRequest`:`:GetHttpHeader`(`)const: [@(0.0.255) const]_[_^HttpHeader^ HttpHeader][@(0.0.255) `&
 ]_[* GetHttpHeader]()_[@(0.0.255) const]&]
-[s2;%% Returns HttpHeader of response.&]
+[s2;%% Возвращает HttpHeader of response.&]
 [s3; &]
 [s4; &]
 [s5;:HttpRequest`:`:GetCookie`(const char`*`): [_^String^ String]_[* GetCookie]([@(0.0.255) c
 onst]_[@(0.0.255) char]_`*[*@3 id])&]
-[s2;%% Returns the value of cookie [%-*@3 id] of response.&]
+[s2;%% Возвращает the value of cookie [%-*@3 id] of response.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:HttpRequest`:`:GetContent`(`)const: [_^String^ String]_[* GetContent]()_[@(0.0.255) co
@@ -497,7 +497,7 @@ nst]&]
 [s5;:HttpRequest`:`:operator`~`(`)const: [_^String^ String]_[* operator`~]()_[@(0.0.255) co
 nst]&]
 [s5;:HttpRequest`:`:operator String`(`)const: [* operator_String]()_[@(0.0.255) const]&]
-[s2;%% Returns current gather content result.&]
+[s2;%% Возвращает current gather content result.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:HttpRequest`:`:ClearContent`(`): [@(0.0.255) void]_[* ClearContent]()&]
@@ -507,18 +507,18 @@ be called at any time.&]
 [s4;%% &]
 [s5;:HttpRequest`:`:Do`(`): [@(0.0.255) bool]_[* Do]()&]
 [s2;%% Progresses the request. Maximum duration is defined by Socket`::Timeout. 
-Возвращает true, если processing is not finished.&]
+Возвращает  true, если processing is not finished.&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:HttpRequest`:`:GetWaitEvents`(`): [_^Upp`:`:dword^ dword]_[* GetWaitEvents]()
 &]
-[s2;%% Returns a combination of WAIT`_READ and WAIT`_WRITE flags 
+[s2;%% Возвращает a combination of WAIT`_READ and WAIT`_WRITE flags 
 to indicate what is blocking the progress of HTTP request. Can 
 be used with SocketWaitEvent.&]
 [s3; &]
 [s4;%% &]
 [s5;:HttpRequest`:`:GetPhase`(`)const: [@(0.0.255) int]_[* GetPhase]()_[@(0.0.255) const]&]
-[s2;%% Returns the current phase of request processing, one of BEGIN, 
+[s2;%% Возвращает the current phase of request processing, one of BEGIN, 
 START, DNS, SSLPROXYREQUEST, SSLPROXYRESPONSE, SSLHANDSHAKE, 
 REQUEST, HEADER, BODY, CHUNK`_HEADER, CHUNK`_BODY, TRAILER, FINISHED, 
 FAILED.&]
@@ -526,12 +526,12 @@ FAILED.&]
 [s4;%% &]
 [s5;:HttpRequest`:`:GetPhaseName`(`)const: [_^String^ String]_[* GetPhaseName]()_[@(0.0.255) c
 onst]&]
-[s2;%% Returns the text description of current request phase.&]
+[s2;%% Возвращает the text description of current request phase.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:HttpRequest`:`:InProgress`(`)const: [@(0.0.255) bool]_[* InProgress]()_[@(0.0.255) con
 st]&]
-[s2;%% Возвращает true, если request is still in progress.&]
+[s2;%% Возвращает  true, если request is still in progress.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:HttpRequest`:`:IsFailure`(`)const: [@(0.0.255) bool]_[* IsFailure]()_[@(0.0.255) const
@@ -561,12 +561,12 @@ New request uses cookies received in previous requests.&]
 [s4; &]
 [s5;:HttpRequest`:`:NewRequest`(`): [@(0.0.255) void]_[* NewRequest]()&]
 [s2;%% Starts a new HTTP request without breaking the connection 
-to the server. Sets all settings to initial state, except Cookies 
+to the server. Устанавливаетall settings to initial state, except Cookies 
 received `- those are send with the new request.&]
 [s3; &]
 [s4; &]
 [s5;:HttpRequest`:`:Clear`(`): [@(0.0.255) void]_[* Clear]()&]
-[s2;%% Sets HTTP request to initial default state (same as freshly 
+[s2;%% УстанавливаетHTTP request to initial default state (same as freshly 
 constructed object) including cookies. Terminates TCP connection 
 to server.&]
 [s3; &]

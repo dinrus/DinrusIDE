@@ -28,24 +28,24 @@ separator bars.&]
 [s4; &]
 [s5;:Splitter`:`:Set`(Ctrl`&`,Ctrl`&`): [@(0.0.255) void]_[* Set]([_^Ctrl^ Ctrl][@(0.0.255) `&
 ]_[*@3 l], [_^Ctrl^ Ctrl][@(0.0.255) `&]_[*@3 r])&]
-[s2;%% Sets t splitter to contain two child widgets.&]
+[s2;%% Устанавливаетt splitter to contain two child widgets.&]
 [s3; &]
 [s4; &]
 [s5;:Splitter`:`:SetPos`(int`,int`): [_^Splitter^ Splitter][@(0.0.255) `&]_[* SetPos]([@(0.0.255) i
 nt]_[*@3 newpos], [@(0.0.255) int]_[*@3 index]_`=_[@3 0])&]
-[s2; [%% Sets the position of separator between widgets at ][*@3 index][%%  
+[s2; [%% Устанавливаетthe position of separator between widgets at ][*@3 index][%%  
 and ][*@3 index][%%  `+ 1. Units of ][*@3 newpos] express ratio, 10000 
 is the full width or height.&]
 [s3;%% &]
 [s4; &]
 [s5;:Splitter`:`:GetPos`(int`)const: [@(0.0.255) int]_[* GetPos]([@(0.0.255) int]_[*@3 index]_
 `=_[@3 0])_[@(0.0.255) const]&]
-[s2;%% Returns the position of separator between widgets at [%-*@3 index] 
+[s2;%% Возвращает the position of separator between widgets at [%-*@3 index] 
 and [%-*@3 index] `+ 1.&]
 [s3;%% &]
 [s4; &]
 [s5;:Splitter`:`:GetCount`(`)const: [@(0.0.255) int]_[* GetCount]()_[@(0.0.255) const]&]
-[s2;%% Returns the number of child widgets.&]
+[s2;%% Возвращает the number of child widgets.&]
 [s3;%% &]
 [s4; &]
 [s5;:Splitter`:`:PosToClient`(int`)const: [@(0.0.255) int]_[* PosToClient]([@(0.0.255) int]_
@@ -70,19 +70,19 @@ are hidden).&]
 [s3;%% &]
 [s4; &]
 [s5;:Splitter`:`:GetZoom`(`)const: [@(0.0.255) int]_[* GetZoom]()_[@(0.0.255) const]&]
-[s2;%% Returns the index of zoomed widget or negative value if none. 
+[s2;%% Возвращает the index of zoomed widget or negative value if none. 
  &]
 [s3;%% &]
 [s4; &]
 [s5;:Splitter`:`:SetMin`(int`,int`): [@(0.0.255) void]_[* SetMin]([@(0.0.255) int]_[*@3 i], 
 [@(0.0.255) int]_[*@3 w])&]
-[s2;%% Sets the minimal width of widget  [%-*@3 i] to [%-*@3 w] `* total 
+[s2;%% Устанавливаетthe minimal width of widget  [%-*@3 i] to [%-*@3 w] `* total 
 width / 10000.&]
 [s3;%% &]
 [s4; &]
 [s5;:Splitter`:`:SetMinPixels`(int`,int`): [@(0.0.255) void]_[* SetMinPixels]([@(0.0.255) i
 nt]_[*@3 i], [@(0.0.255) int]_[*@3 w])&]
-[s2;%% Sets the minimal width of widget  [%-*@3 i] to [%-*@3 w] pixels.&]
+[s2;%% Устанавливаетthe minimal width of widget  [%-*@3 i] to [%-*@3 w] pixels.&]
 [s3;%% &]
 [s4; &]
 [s5;:Splitter`:`:GetSplitWidth`(`)const: [@(0.0.255) int]_[* GetSplitWidth]()_[@(0.0.255) c
@@ -91,13 +91,13 @@ onst]&]
 [s3; &]
 [s4; &]
 [s5;:Splitter`:`:Vert`(`): [_^Splitter^ Splitter][@(0.0.255) `&]_[* Vert]()&]
-[s2;%% Sets splitter to vertical mode `- separator bars in this mode 
-are horizontal. Returns `*this.&]
+[s2;%% Устанавливаетsplitter to vertical mode `- separator bars in this mode 
+are horizontal. Возвращает `*this.&]
 [s3;%% &]
 [s4; &]
 [s5;:Splitter`:`:Horz`(`): [_^Splitter^ Splitter][@(0.0.255) `&]_[* Horz]()&]
-[s2;%% Sets splitter to horizontal mode `- separator bars in this 
-mode are vertical. Returns `*this.&]
+[s2;%% Устанавливаетsplitter to horizontal mode `- separator bars in this 
+mode are vertical. Возвращает `*this.&]
 [s3;%% &]
 [s4; &]
 [s5;:Splitter`:`:Add`(Ctrl`&`): [@(0.0.255) virtual] [@(0.0.255) void]_[* Add]([_^Ctrl^ Ctrl][@(0.0.255) `&
@@ -134,7 +134,7 @@ trl][@(0.0.255) `&]_[*@3 top], [_^Ctrl^ Ctrl][@(0.0.255) `&]_[*@3 bottom])&]
 [s4; &]
 [s5;:Splitter`:`:BarWidth`(int`): [_^Splitter^ Splitter][@(0.0.255) `&]_[* BarWidth]([@(0.0.255) i
 nt]_[*@3 w])&]
-[s2;%% Sets the width of separator bar to [%-*@3 w].&]
+[s2;%% Устанавливаетthe width of separator bar to [%-*@3 w].&]
 [s3;%% &]
 [s4; &]
 [s5;:Splitter`:`:IsHorz`(`)const: [@(0.0.255) bool]_[* IsHorz]()_[@(0.0.255) const]&]

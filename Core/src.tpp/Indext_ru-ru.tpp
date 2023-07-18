@@ -115,7 +115,7 @@ td`::initializer`_list]<[*@4 T]>_[*@3 init])&]
 [s2; Adds a new element [%-@3 x] with a precomputed hash value [%-@3 `_hash]. 
 The performance benefit of this variant is that sometimes you 
 can compute hash`-value as the part of other process, like fetching 
-strings from an input stream. Returns a reference to the element.&]
+strings from an input stream. Возвращает a reference to the element.&]
 [s6; Invalidates iterators to Index.&]
 [s6; Invalidates references to Index.&]
 [s6; The precomputed [%-@3 `_hash] must be the same as the hash specified 
@@ -126,7 +126,7 @@ by HashFn.&]
 ]_[*@3 x])&]
 [s5;:Upp`:`:Index`:`:Add`(T`&`&`):%- [*@4 T][@(0.0.255) `&]_[* Add]([*@4 T][@(0.0.255) `&`&]_[*@3 x
 ])&]
-[s2; Adds a new element [%-@3 x ]to Index. Returns a reference to the 
+[s2; Adds a new element [%-@3 x ]to Index. Возвращает a reference to the 
 element.&]
 [s6; Invalidates iterators to Index.&]
 [s6; Invalidates references to Index.&]
@@ -141,7 +141,7 @@ rator<<]([*@4 T][@(0.0.255) `&`&]_[*@3 x])&]
 [s4;%- &]
 [s5;:Index`:`:Find`(const T`&`,unsigned`)const:%- [@(0.0.255) int]_[* Find]([@(0.0.255) con
 st]_[*@4 T][@(0.0.255) `&]_[*@3 x], [@(0.0.255) unsigned]_[*@3 `_hash])_[@(0.0.255) const]&]
-[s2; Returns the position of the first element with value [%-*@3 x] 
+[s2; Возвращает the position of the first element with value [%-*@3 x] 
 in Index, using a precomputed [%-*@3 `_hash]. If multi`-key ordering 
 is not broken and more than one element with the same value exists 
 in AIndex, the lowest position is returned. If the specified 
@@ -153,7 +153,7 @@ by HashFn.&]
 [s4;%- &]
 [s5;:Index`:`:Find`(const T`&`)const:%- [@(0.0.255) int]_[* Find]([@(0.0.255) const]_[*@4 T][@(0.0.255) `&
 ]_[*@3 x])_[@(0.0.255) const]&]
-[s2; Returns the position of the first element with value [%-*@3 x] 
+[s2; Возвращает the position of the first element with value [%-*@3 x] 
 in AIndex. If multi`-key ordering is not broken and more than 
 one element with the same value exists in AIndex, lowest position 
 is retrieved. If the specified value does not exist in AIndex, 
@@ -162,7 +162,7 @@ a negative number is returned. Unlinked elements are ignored.&]
 [s4;%- &]
 [s5;:Index`:`:FindNext`(int`)const:%- [@(0.0.255) int]_[* FindNext]([@(0.0.255) int]_[*@3 i])
 _[@(0.0.255) const]&]
-[s2; Returns the position of the next element with the same value 
+[s2; Возвращает the position of the next element with the same value 
 as the element at [%-*@3 i]. If multi`-key ordering is not broken 
 and more than one element with that value exists in AIndex, the 
 lowest position greater than specified one is retrieved, so positions 
@@ -173,7 +173,7 @@ number is returned. Unlinked elements are ignored.&]
 [s4;%- &]
 [s5;:Index`:`:FindLast`(const T`&`,unsigned`)const:%- [@(0.0.255) int]_[* FindLast]([@(0.0.255) c
 onst]_[*@4 T][@(0.0.255) `&]_[*@3 x], [@(0.0.255) unsigned]_[*@3 `_hash])_[@(0.0.255) const]&]
-[s2; Returns the position of the last element with value [%-*@3 x] 
+[s2; Возвращает the position of the last element with value [%-*@3 x] 
 in AIndex, using a precomputed [%-*@3 `_hash]. If multi`-key ordering 
 is not broken and more than one element with the same value exists 
 in AIndex, the greatest position is retrieved. If the specified 
@@ -185,7 +185,7 @@ by HashFn.&]
 [s4;%- &]
 [s5;:Index`:`:FindLast`(const T`&`)const:%- [@(0.0.255) int]_[* FindLast]([@(0.0.255) const
 ]_[*@4 T][@(0.0.255) `&]_[*@3 x])_[@(0.0.255) const]&]
-[s2; Returns the position of the last element with value [%-*@3 x] 
+[s2; Возвращает the position of the last element with value [%-*@3 x] 
 in AIndex. If multi`-key ordering is not broken and more than 
 one element with the same value exists in AIndex, the greatest 
 position is retrieved. If element does not exist in AIndex, a 
@@ -194,7 +194,7 @@ negative number is returned. Unlinked elements are ignored.&]
 [s4;%- &]
 [s5;:Index`:`:FindPrev`(int`)const:%- [@(0.0.255) int]_[* FindPrev]([@(0.0.255) int]_[*@3 i])
 _[@(0.0.255) const]&]
-[s2; Returns the position of the previous element with the same value 
+[s2; Возвращает the position of the previous element with the same value 
 as the element at [%- _][%-*@3 i]. If multi`-key ordering is not 
 broken and more than one element with that value exists in AIndex, 
 the greatest position lower than specified one is retrieved (so 
@@ -306,7 +306,7 @@ nt]_[*@3 i], [*@4 T][@(0.0.255) `&`&]_[*@3 x], [@(0.0.255) unsigned]_[*@3 `_hash
 [s2; Replaces the element at the specified position with a new element 
 with value [%-*@3 x], using a precomputed [%-*@3 `_hash]. Speed of 
 this operation depends on the total number of elements with the 
-same value as the specified one. Returns a reference to the element.&]
+same value as the specified one. Возвращает a reference to the element.&]
 [s6; Invalidates iterators to AIndex.&]
 [s6; Invalidates references to Index.&]
 [s6;%- The precomputed [@3 `_hash] must be the same as the hash specified 
@@ -320,18 +320,18 @@ by HashFn.&]
 [s2; Replaces the element at the specified position with a new element 
 with value [%-*@3 x]. Speed of this operation depends on the total 
 number of elements with the same value as the specified one. 
-Returns a reference to the element.&]
+Возвращает a reference to the element.&]
 [s6; Invalidates iterators to AIndex.&]
 [s6; Invalidates references to Index.&]
 [s3; &]
 [s4;%- &]
 [s5;:Index`:`:operator`[`]`(int`)const:%- [@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[* operat
 or`[`]]([@(0.0.255) int]_[*@3 i])_[@(0.0.255) const]&]
-[s2; Returns the element at the specified position.&]
+[s2; Возвращает the element at the specified position.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Index`:`:GetCount`(`)const:%- [@(0.0.255) int]_[* GetCount]()_[@(0.0.255) const]&]
-[s2; Returns number of elements in AIndex.&]
+[s2; Возвращает number of elements in AIndex.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:Index`:`:begin`(`)const:%- [_^Upp`:`:Index`:`:ConstIterator^ ConstIterator]_
@@ -347,7 +347,7 @@ nd]()_[@(0.0.255) const]&]
 [s4;%- &]
 [s5;:Index`:`:GetHash`(int`)const:%- [@(0.0.255) unsigned]_[* GetHash]([@(0.0.255) int]_[*@3 i
 ])_[@(0.0.255) const]&]
-[s2; Returns a hash of element [%-*@3 i]. This is perhaps only useful 
+[s2; Возвращает a hash of element [%-*@3 i]. This is perhaps only useful 
 when making the exact copy of Index, e.g. in the persistent storage.&]
 [s3; &]
 [s4;%- &]
@@ -378,7 +378,7 @@ in the AIndex but are ignored by any Find operations.&]
 [s4;%- &]
 [s5;:Index`:`:GetUnlinked`(`)const:%- [_^Vector^ Vector]<[@(0.0.255) int]>_[* GetUnlinked](
 )_[@(0.0.255) const]&]
-[s2; Returns indices of all unlinked elements.&]
+[s2; Возвращает indices of all unlinked elements.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Index`:`:Sweep`(`):%- [@(0.0.255) void]_[* Sweep]()&]
@@ -389,14 +389,14 @@ the number of unlinked elements. Also restores multi`-key ordering.&]
 [s4;%- &]
 [s5;:Index`:`:HasUnlinked`(`)const:%- [@(0.0.255) bool]_[* HasUnlinked]()_[@(0.0.255) const
 ]&]
-[s2; Returns true of AIndex has any unlinked elements.&]
+[s2; Возвращает true of AIndex has any unlinked elements.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Index`:`:Insert`(int`,const T`&`,unsigned`):%- [*@4 T][@(0.0.255) `&]_[* Insert]([@(0.0.255) i
 nt]_[*@3 i], [@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[*@3 k], [@(0.0.255) unsigned]_[*@3 h])&]
 [s2; Inserts an element with value [%-*@3 k] at the specified position 
 [%-*@3 i], using a precomputed hash [%-*@3 h]. This is a slow O(n) 
-operation. Returns a reference to the element.&]
+operation. Возвращает a reference to the element.&]
 [s6; Requires T to have deep copy constructor.&]
 [s6; Invalidates iterators to AIndex.&]
 [s6; Invalidates references to Index.&]
@@ -407,7 +407,7 @@ by HashFn.&]
 [s5;:Index`:`:Insert`(int`,const T`&`):%- [*@4 T][@(0.0.255) `&]_[* Insert]([@(0.0.255) int]_
 [*@3 i], [@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[*@3 k])&]
 [s2; Inserts an element with value [%-*@3 k] at the specified position 
-[%-*@3 i]. This is a slow O(n) operation. Returns a reference to 
+[%-*@3 i]. This is a slow O(n) operation. Возвращает a reference to 
 the element.&]
 [s6; Requires T to have deep copy constructor.&]
 [s6; Invalidates iterators to AIndex.&]
@@ -477,7 +477,7 @@ in AIndex.&]
 [s4;%- &]
 [s5;:Index`:`:Top`(`)const:%- [@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[* Top]()_[@(0.0.255) c
 onst]&]
-[s2; Returns a reference to the last element in the AIndex.&]
+[s2; Возвращает a reference to the last element in the AIndex.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Index`:`:Pop`(`):%- [*@4 T]_[* Pop]()&]
@@ -496,7 +496,7 @@ capacity to the number of elements.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Index`:`:GetAlloc`(`)const:%- [@(0.0.255) int]_[* GetAlloc]()_[@(0.0.255) const]&]
-[s2; Returns the current capacity of AIndex.&]
+[s2; Возвращает the current capacity of AIndex.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Index`:`:Serialize`(Stream`&`):%- [@(0.0.255) void]_[* Serialize](Stream[@(0.0.255) `&
@@ -506,12 +506,12 @@ capacity to the number of elements.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Index`:`:PickKeys`(`):%- [*@4 V]_[* PickKeys]()&]
-[s2; Returns a basic random access container of elements. Destroys 
+[s2; Возвращает a basic random access container of elements. Destroys 
 AIndex by picking.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Index`:`:GetKeys`(`)const:%- [@(0.0.255) const]_[*@4 V][@(0.0.255) `&]_[* GetKeys]()_[@(0.0.255) c
 onst]&]
-[s2; Returns a constant reference to basic random access container 
+[s2; Возвращает a constant reference to basic random access container 
 of elements.&]
 [s0; ]]

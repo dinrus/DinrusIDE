@@ -27,17 +27,17 @@ and Rich`-Value compatible type.&]
 r`~()_[@(0.0.255) const]&]
 [s5;:Image`:`:operator const RGBA`*`(`)const: operator_const_RGBA`*()_[@(0.0.255) const
 ]&]
-[s2;%% Returns a pointer to Image pixels.&]
+[s2;%% Возвращает a pointer to Image pixels.&]
 [s3; &]
 [s4; &]
 [s5;:Image`:`:operator`[`]`(int`)const: [@(0.0.255) const]_[_^RGBA^ RGBA][@(0.0.255) `*]_op
 erator`[`]([@(0.0.255) int]_[@3 i])_[@(0.0.255) const]&]
-[s2;%% Returns a pointer to the first pixel in the line [%-*@3 i].&]
+[s2;%% Возвращает a pointer to the first pixel in the line [%-*@3 i].&]
 [s3; &]
 [s4; &]
 [s5;:Image`:`:GetSize`(`)const: [_^topic`:`/`/Core`/src`/Size`$en`-us^ Size]_GetSize()_
 [@(0.0.255) const]&]
-[s2;%% Returns the dimension of Image.&]
+[s2;%% Возвращает the dimension of Image.&]
 [s3; &]
 [s4; &]
 [s5;:Image`:`:GetWidth`(`)const: [@(0.0.255) int]_GetWidth()_[@(0.0.255) const]&]
@@ -54,12 +54,12 @@ erator`[`]([@(0.0.255) int]_[@3 i])_[@(0.0.255) const]&]
 [s4; &]
 [s5;:Image`:`:GetHotSpot`(`)const: [_^topic`:`/`/Core`/src`/Point`$en`-us^ Point]_GetHo
 tSpot()[@(64) _][@(0.0.255) const]&]
-[s2;%% Returns the reference point.&]
+[s2;%% Возвращает the reference point.&]
 [s3; &]
 [s4; &]
 [s5;:Image`:`:Get2ndSpot`(`)const: [_^topic`:`/`/Core`/src`/Point`$en`-us^ Point]_Get2n
 dSpot()_[@(0.0.255) const]&]
-[s2;%% Returns secondary reference point.&]
+[s2;%% Возвращает secondary reference point.&]
 [s3; &]
 [s4; &]
 [s5;:Image`:`:GetDots`(`)const: [_^topic`:`/`/Core`/src`/Size`$en`-us^ Size]_GetDots()[@(64) _
@@ -69,17 +69,17 @@ returns Size(0, 0).&]
 [s3; &]
 [s4; &]
 [s5;:Image`:`:GetDPI`(`): [_^Upp`:`:Size^ Size]_[* GetDPI]()_[@(0.0.255) const]&]
-[s2;%% Returns the image resolution in dpi (dots per inch).&]
+[s2;%% Возвращает the image resolution in dpi (dots per inch).&]
 [s3; &]
 [s4; &]
 [s5;:Image`:`:GetKindNoScan`(`)const: [@(0.0.255) int]_GetKindNoScan()_[@(0.0.255) const]&]
-[s2;%% Returns the kind of image. Unlike GetKind(), it does not perform 
+[s2;%% Возвращает the kind of image. Unlike GetKind(), it does not perform 
 the scan of image if the kind it not know, therefore it can return 
 IMAGE`_UNKNOWN.&]
 [s3; &]
 [s4; &]
 [s5;:Image`:`:GetKind`(`)const: [@(0.0.255) int]_GetKind()_[@(0.0.255) const]&]
-[s2;%% Returns the kind of image, either set by ImageBuffer`::SetKind 
+[s2;%% Возвращает the kind of image, either set by ImageBuffer`::SetKind 
 or (if it is IMAGE`_UNKNOWN) resolved by scanning pixels. If 
 the kind is IMAGE`_UNKNOWN, the pixels are scanned and the type 
 is determined, it is then stored (in private Image instance variable) 
@@ -90,18 +90,18 @@ for future use and returned.&]
 st]&]
 [s5;:Upp`:`:Image`:`:begin`(`)const: [@(0.0.255) const]_[_^Upp`:`:RGBA^ RGBA]_`*[* begin]()
 _[@(0.0.255) const]&]
-[s2;%% Returns a pointer to the first pixel.&]
+[s2;%% Возвращает a pointer to the first pixel.&]
 [s3; &]
 [s4; &]
 [s5;:Image`:`:End`(`)const: [@(0.0.255) const]_[_^RGBA^ RGBA]_`*[* End]()_[@(0.0.255) const]&]
 [s5;:Upp`:`:Image`:`:end`(`)const: [@(0.0.255) const]_[_^Upp`:`:RGBA^ RGBA]_`*[* end]()_[@(0.0.255) c
 onst]&]
-[s2;%% Returns begin() `+ GetLength().&]
+[s2;%% Возвращает begin() `+ GetLength().&]
 [s3; &]
 [s4; &]
 [s5;:Image`:`:GetSerialId`(`)const: [_^int64^ int64]_GetSerialId()[@(64) _][@(0.0.255) cons
 t]&]
-[s2;%% Returns the unique, per application run, identifier of Image. 
+[s2;%% Возвращает the unique, per application run, identifier of Image. 
 All Images with the same serial id can be considered equal (this 
 is useful for caching images).&]
 [s3; &]
@@ -122,13 +122,13 @@ can be slow.&]
 [s4; &]
 [s5;:Image`:`:GetHashValue`(`)const: [_^dword^ dword]_GetHashValue()[@(64) _][@(0.0.255) co
 nst]&]
-[s2;%% Returns the hash`-value for image. All pixels combined into 
+[s2;%% Возвращает the hash`-value for image. All pixels combined into 
 hash value (potentially slow).&]
 [s3; &]
 [s4; &]
 [s5;:Image`:`:ToString`(`)const: [_^topic`:`/`/Core`/src`/String`$en`-us^ String]_ToStr
 ing()[@(64) _][@(0.0.255) const]&]
-[s2;%% Returns the basic Image informations as String.&]
+[s2;%% Возвращает the basic Image informations as String.&]
 [s3; &]
 [s4; &]
 [s5;:Image`:`:Serialize`(Stream`&`): [@(0.0.255) void]_Serialize([_^Stream^ Stream][@(0.0.255) `&

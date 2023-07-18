@@ -40,17 +40,17 @@ topic "StaticLine";
 [s6; &]
 [s5;:StaticLine`:`:SetWidth`(int`):%- [_^StaticLine^ StaticLine][@(0.0.255) `&]_[* SetWidth
 ]([@(0.0.255) int]_[*@3 w])&]
-[s3; Sets the line width [%-*@3 w ]in pixels.&]
+[s3; Устанавливаетthe line width [%-*@3 w ]in pixels.&]
 [s1; &]
 [s6;%- &]
 [s5;:StaticLine`:`:SetColor`(Color`):%- [_^StaticLine^ StaticLine][@(0.0.255) `&]_[* SetCol
 or]([_^Color^ Color]_[*@3 c])&]
-[s3; Sets the line color [%-*@3 c].&]
+[s3; Устанавливаетthe line color [%-*@3 c].&]
 [s1; &]
 [s6;%- &]
 [s5;:StaticLine`:`:SetOrientation`(String`):%- [_^StaticLine^ StaticLine][@(0.0.255) `&]_
 [* SetOrientation]([_^String^ String]_[*@3 o])&]
-[s3; Sets the line orientation [%-*@3 o]. Valid orientation values 
+[s3; Устанавливаетthe line orientation [%-*@3 o]. Valid orientation values 
 are `"`|`", `"`\`\`", `"`-`" and [* `"/`"]&]
 [s1; &]
 [s0;= 
@@ -60,7 +60,7 @@ are `"`|`", `"`\`\`", `"`-`" and [* `"/`"]&]
 [s6;%- &]
 [s5;:StaticLine`:`:SetOrientation`(int`):%- [_^StaticLine^ StaticLine][@(0.0.255) `&]_[* Se
 tOrientation]([@(0.0.255) int]_[*@3 o])&]
-[s3; Sets the line orientation [%-*@3 o]. Valid orientation values 
+[s3; Устанавливаетthe line orientation [%-*@3 o]. Valid orientation values 
 are OrVert, OrHor, OrNW`_SE, OrSW`_NE.&]
 [s1; &]
 [s0; ]]

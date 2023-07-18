@@ -45,64 +45,64 @@ headers during parsing).&]
 [s4; &]
 [s5;:HttpHeader`:`:operator`[`]`(const char`*`)const: [_^String^ String]_[* operator`[`]](
 [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 id])_[@(0.0.255) const]&]
-[s2;%% Returns the first http header field with key [%-*@3 id] (must 
+[s2;%% Возвращает the first http header field with key [%-*@3 id] (must 
 be lower`-case) or empty string if such field is not present.&]
 [s3;%% &]
 [s4; &]
 [s5;:HttpHeader`:`:GetCookie`(const char`*`)const: [_^String^ String]_[* GetCookie]([@(0.0.255) c
 onst]_[@(0.0.255) char]_`*[*@3 id])_[@(0.0.255) const]&]
-[s2;%% Returns the value of first cookie of response (set by Set`-Cookie) 
+[s2;%% Возвращает the value of first cookie of response (set by Set`-Cookie) 
 with name [%-*@3 id].&]
 [s3;%% &]
 [s4; &]
 [s5;:HttpHeader`:`:Response`(String`&`,int`&`,String`&`)const: [@(0.0.255) bool]_[* Respo
 nse]([_^String^ String][@(0.0.255) `&]_[*@3 protocol], [@(0.0.255) int`&]_[*@3 code], 
 [_^String^ String][@(0.0.255) `&]_[*@3 reason])_[@(0.0.255) const]&]
-[s2;%% Returns first line fields of http response.&]
+[s2;%% Возвращает first line fields of http response.&]
 [s3;%% &]
 [s4; &]
 [s5;:HttpHeader`:`:Request`(String`&`,String`&`,String`&`)const: [@(0.0.255) bool]_[* Req
 uest]([_^String^ String][@(0.0.255) `&]_[*@3 method], [_^String^ String][@(0.0.255) `&]_[*@3 u
 ri], [_^String^ String][@(0.0.255) `&]_[*@3 version])_[@(0.0.255) const]&]
-[s2;%% Returns first line fields of http request.&]
+[s2;%% Возвращает first line fields of http request.&]
 [s3;%% &]
 [s4; &]
 [s5;:HttpHeader`:`:GetProtocol`(`)const: [_^String^ String]_[* GetProtocol]()_[@(0.0.255) c
 onst]&]
-[s2;%% Returns the protocol part of of the first line response.&]
+[s2;%% Возвращает the protocol part of of the first line response.&]
 [s3; &]
 [s4; &]
 [s5;:HttpHeader`:`:GetCode`(`)const: [@(0.0.255) int]_[* GetCode]()_[@(0.0.255) const]&]
-[s2;%% Returns the return code part of the first line of response.&]
+[s2;%% Возвращает the return code part of the first line of response.&]
 [s3; &]
 [s4; &]
 [s5;:HttpHeader`:`:GetReason`(`)const: [_^String^ String]_[* GetReason]()_[@(0.0.255) const
 ]&]
-[s2;%% Returns the reason part of the first line of response.&]
+[s2;%% Возвращает the reason part of the first line of response.&]
 [s3; &]
 [s4; &]
 [s5;:HttpHeader`:`:GetMethod`(`)const: [_^String^ String]_[* GetMethod]()_[@(0.0.255) const
 ]&]
-[s2;%% Returns the method part of the first line of request.&]
+[s2;%% Возвращает the method part of the first line of request.&]
 [s3; &]
 [s4; &]
 [s5;:HttpHeader`:`:GetURI`(`)const: [_^String^ String]_[* GetURI]()_[@(0.0.255) const]&]
-[s2;%% Returns the URI part of the first line of request.&]
+[s2;%% Возвращает the URI part of the first line of request.&]
 [s3; &]
 [s4; &]
 [s5;:HttpHeader`:`:GetVersion`(`)const: [_^String^ String]_[* GetVersion]()_[@(0.0.255) con
 st]&]
-[s2;%% Returns the version part of the first line of request.&]
+[s2;%% Возвращает the version part of the first line of request.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:HttpHeader`:`:HasContentLength`(`)const: [@(0.0.255) bool]_[* HasContentLengt
 h]()_[@(0.0.255) const]&]
-[s2;%% Возвращает true, если header has content`-length field.&]
+[s2;%% Возвращает  true, если header has content`-length field.&]
 [s3; &]
 [s4; &]
 [s5;:HttpHeader`:`:GetContentLength`(`)const: [_^int64^ int64]_[* GetContentLength]()_[@(0.0.255) c
 onst]&]
-[s2;%% Returns the content length as specified in header or 0 if 
+[s2;%% Возвращает the content length as specified in header or 0 if 
 not specified or header not yet loaded.&]
 [s3; &]
 [s4; &]
@@ -118,7 +118,7 @@ onst]_[_^String^ String][@(0.0.255) `&]_[*@3 hdrs])&]
 [s4; &]
 [s5;:HttpHeader`:`:Parse`(const String`&`): [@(0.0.255) bool]_[* Parse]([@(0.0.255) const]_
 [_^String^ String][@(0.0.255) `&]_[*@3 hdrs])&]
-[s2;%% Calls Clear and parses the header (all lines of header) into 
+[s2;%% Вызывает Clear and parses the header (all lines of header) into 
 [* first`_line ]and [* fields].&]
 [s3;%% &]
 [s4; &]

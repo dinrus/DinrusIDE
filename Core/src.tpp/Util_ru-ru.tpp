@@ -62,7 +62,7 @@ ata], [@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 cert`_pem
 [s2;%% Computes P7S signature in binary format of [%-*@3 data] bytes. 
 [%-*@3 cert`_pem] (X509 public key) and [%-*@3 pkey`_pem] (X509 private 
 key) should be in [^https`:`/`/en`.wikipedia`.org`/wiki`/Privacy`-enhanced`_Electronic`_Mail`.^ P
-EM] format. Requires Core/SSL. Returns signature in binary format 
-(e.g. needs to be base64 encoded for SMIME emails). Returns Null 
+EM] format. Requires Core/SSL. Возвращает signature in binary format 
+(e.g. needs to be base64 encoded for SMIME emails). Возвращает Null 
 in case of error.&]
 [s3;%% ]]

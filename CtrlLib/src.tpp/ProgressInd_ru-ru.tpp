@@ -25,7 +25,7 @@ of lengthy operation.&]
 @@image:2006&125
 (AlETUJFQgwCdUAJQgtBQglACUAJQUIJQAlACUUInUZpQPVHQEVCa0BNQURliAJ1iAFA/QiRQuFDiAJ1QL1EHEMIuUIVQkSzSEVAmQq0EllACUYrQ0QRigBhRBzxQBlGHYoDQLWKCrFAgMNAlYgAmwtAk0IZQoFBQHkIk0BJRQhhigCFCMZJRAlCkUZMDQidRk1CvF1EGUJdCmIBQN2KAGNDRC9ER0BlQUDZCt9AFUNCO0JBRnlFRntGe0R5RUY7QptAbQsI10LlQhlBQHMKgULdiFFACQjBQPoJRGFCQUL8nURFQnVCyM1AcUKRRnAJQCmKAOsLRAGKAE9EZNVA9UIlQm4NQJ1CHUJkYUANQsFCUGFAZUIhQoAFQOlCnUKgEUC1Rh1CgN9EJUBlCu41RAFGSUJIAoFEZUKriLNEfUD1QAQCUUhFRheI6UAlQG1A1J1IQUI9Rg4FRAlGWUKMVUQdQvUK7k1IRUKBQpIdRC1GEUJEgUARQhFCGLtEJUBVRlyZRCFC0ULE8YgQi0hHQ0Q1RCtC2QlAMUDpSkVHQBdACQjBiHVEOUAJiAFGVUChRnELQBdAs0ItRUDvQstAlUNEZUDjQA1BRi1CC0LFQ0DVQKVEJUFGOYoAi0RsswidiABziHFEFYgQWQtCeYoC60DuNUCBQmVCIDFIRUYVQhQJCJkKwYoDRHtCB0DxR0InRHNAvUVAvUInQJ1DQr9GT0DpC0Q5QhFCOUFIR0JVRBVDQAsIwYgAdiVEXULtQhotCK0KsUZcAolEEQqbR4oAU0D9COwCmUAJQvtHSkdAO0CJQQq7CLVGcUtAbUDPQHFDRjdCqYoAaDlACUK9RngVQHWKAHNFCLVCfYgAgG0IYUIxigNCCUALQM1BRmdAE0B9Q0LlRi0KrUcKt0CliAiwCrGICLNGXAqxiAizigmICrNEV0QwAnmIAMNC3AKBQDGKAmA==)
 &]
-[s0; [/ Derived from] [^topic`:`/`/CtrlCore`/src`/Ctrl`$en`-us`#`:`:Ctrl`:`:class Ctrl^ C
+[s0; [/ Производный от] [^topic`:`/`/CtrlCore`/src`/Ctrl`$en`-us`#`:`:Ctrl`:`:class Ctrl^ C
 trl]&]
 [s3; &]
 [s0;%- &]
@@ -33,14 +33,14 @@ trl]&]
 [s3;%- &]
 [s5;:ProgressIndicator`:`:Set`(int`,int`):%- [@(0.0.255) void]_[* Set]([@(0.0.255) int]_[*@3 a
 ctual], [@(0.0.255) int]_[*@3 total])&]
-[s2;%- [%RU-RU Sets the progress to ][*@3 actual][%RU-RU  steps of ][*@3 total][%RU-RU  
+[s2;%- [%RU-RU Устанавливаетthe progress to ][*@3 actual][%RU-RU  steps of ][*@3 total][%RU-RU  
 steps. If ][*@3 total][@2  ]is zero, ProgressIndicator displays a 
 bar starting at pixel position [*@3 actual] with reasonable size.&]
 [s3; &]
 [s4;%- &]
 [s5;:ProgressIndicator`:`:Set`(int`):%- [@(0.0.255) void]_[* Set]([@(0.0.255) int]_[*@3 `_act
 ual])&]
-[s2;%- [%RU-RU Sets the progress to ][%RU-RU*@3 `_][*@3 actual][%RU-RU  steps. 
+[s2;%- [%RU-RU Устанавливаетthe progress to ][%RU-RU*@3 `_][*@3 actual][%RU-RU  steps. 
 Total number of steps is defined by previous call to ][%RU-RU* Set][%RU-RU  
 or ][%RU-RU* SetTotal][%RU-RU . If ][*@3 total][@2  ]is zero, ProgressIndicator 
 displays a bar starting at pixel position [*@3 actual] with reasonable 
@@ -68,21 +68,21 @@ nt]_[*@3 i])&]
 [s3; &]
 [s4;%- &]
 [s5;:ProgressIndicator`:`:Get`(`)const:%- [@(0.0.255) int]_[* Get]()_[@(0.0.255) const]&]
-[s2; Returns the current actual position.  &]
+[s2; Возвращает the current actual position.  &]
 [s3;%- &]
 [s4;%- &]
 [s5;:ProgressIndicator`:`:GetTotal`(`)const:%- [@(0.0.255) int]_[* GetTotal]()_[@(0.0.255) c
 onst]&]
-[s2; Returns the total number of steps (set by SetTotal).&]
+[s2; Возвращает the total number of steps (set by SetTotal).&]
 [s3;%- &]
 [s4;%- &]
 [s5;:ProgressIndicator`:`:operator int`(`):%- [* operator_int]()&]
-[s2; Returns the current actual position.  &]
+[s2; Возвращает the current actual position.  &]
 [s3; &]
 [s4;%- &]
 [s5;:ProgressIndicator`:`:SetTotal`(int`):%- [_^ProgressIndicator^ ProgressIndicator][@(0.0.255) `&
 ]_[* SetTotal]([@(0.0.255) int]_[*@3 `_total])&]
-[s2; Sets the total number of steps to [%-*@3 `_total].&]
+[s2; Устанавливаетthe total number of steps to [%-*@3 `_total].&]
 [s3; &]
 [s4;%- &]
 [s5;:ProgressIndicator`:`:Percent`(bool`):%- [_^ProgressIndicator^ ProgressIndicator][@(0.0.255) `&

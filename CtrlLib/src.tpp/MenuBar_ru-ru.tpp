@@ -38,7 +38,7 @@ t]([_^Font^ Font]_[*@3 font]_`=_StdFont())&]
 [s4;%- &]
 [s5;:MenuBar`:`:Set`(Callback1`<Bar`&`>`):%- [@(0.0.255) void]_[* Set]([_^Callback1^ Callba
 ck1][@(0.0.255) <]Bar[@(0.0.255) `&>]_[*@3 menu])&]
-[s2; Sets the top`-level [%-*@3 menu]. Use for top`-level menu bars 
+[s2; Устанавливаетthe top`-level [%-*@3 menu]. Use for top`-level menu bars 
 only.&]
 [s3; &]
 [s4;%- &]
@@ -66,42 +66,42 @@ be defined by issuing individual Add methods before calling PopUp.&]
 [s5;:MenuBar`:`:Execute`(Ctrl`*`,Point`):%- [@(0.0.255) bool]_[* Execute]([_^Ctrl^ Ctrl]_`*
 [*@3 owner], [_^Point^ Point]_[*@3 p])&]
 [s2; Pop`-ups the menu at [%-*@3 p ]in the [%-*@3 owner] view area and 
-performs the modal loop for it. Returns false when menu is canceled 
+performs the modal loop for it. Возвращает false when menu is canceled 
 without performing any action.&]
 [s3; &]
 [s4;%- &]
 [s5;:MenuBar`:`:Execute`(Point`):%- [@(0.0.255) bool]_[* Execute]([_^Point^ Point]_[*@3 p])&]
-[s2; То же, что и Execute(GetActiveWindow(), [%-*@3 p]). Returns false when 
+[s2; То же, что и Execute(GetActiveWindow(), [%-*@3 p]). Возвращает false when 
 menu is canceled without performing any action.&]
 [s3; &]
 [s4;%- &]
 [s5;:MenuBar`:`:Execute`(`):%- [@(0.0.255) bool]_[* Execute]()&]
 [s2; То же, что и previous method, with p set to the current mouse position. 
-Returns false when menu is canceled without performing any action.&]
+Возвращает false when menu is canceled without performing any action.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:MenuBar`:`:Execute`(Upp`:`:Ctrl`*`,Upp`:`:Event`<Upp`:`:Bar`&`>`,Upp`:`:Point`):%- [@(0.0.255) s
 tatic] [@(0.0.255) bool]_[* Execute]([_^Upp`:`:Ctrl^ Ctrl]_`*[*@3 owner], 
 [_^Upp`:`:Event^ Event]<Bar[@(0.0.255) `&]>_[*@3 proc], [_^Upp`:`:Point^ Point]_[*@3 p])&]
-[s2; Pop`-ups the menu based on [%-*@3 proc]. Returns false when menu 
+[s2; Pop`-ups the menu based on [%-*@3 proc]. Возвращает false when menu 
 is canceled without performing any action.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:MenuBar`:`:Execute`(Upp`:`:Event`<Upp`:`:Bar`&`>`,Upp`:`:Point`):%- [@(0.0.255) s
 tatic] [@(0.0.255) bool]_[* Execute]([_^Upp`:`:Event^ Event]<Bar[@(0.0.255) `&]>_[*@3 proc],
  [_^Upp`:`:Point^ Point]_[*@3 p])&]
-[s2; То же, что и previous method, using GetActiveWindow() as owner. Returns 
+[s2; То же, что и previous method, using GetActiveWindow() as owner. Возвращает 
 false when menu is canceled without performing any action.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:MenuBar`:`:Execute`(Upp`:`:Event`<Upp`:`:Bar`&`>`):%- [@(0.0.255) static] 
 [@(0.0.255) bool]_[* Execute]([_^Upp`:`:Event^ Event]<Bar[@(0.0.255) `&]>_[*@3 proc])&]
-[s2; То же, что и previous method, using current mouse position. Returns 
+[s2; То же, что и previous method, using current mouse position. Возвращает 
 false when menu is canceled without performing any action.&]
 [s3; &]
 [s4;%- &]
 [s5;:MenuBar`:`:IsEmpty`(`):%- [@(0.0.255) bool]_[* IsEmpty]()&]
-[s2; Возвращает true, если MenuBar has no items.&]
+[s2; Возвращает  true, если MenuBar has no items.&]
 [s3; &]
 [s4;%- &]
 [s5;:MenuBar`:`:Clear`(`):%- [@(0.0.255) virtual] [@(0.0.255) void]_[* Clear]()&]
@@ -111,27 +111,27 @@ false when menu is canceled without performing any action.&]
 [s5;:MenuBar`:`:LeftGap`(int`):%- [_^MenuBar^ MenuBar][@(0.0.255) `&]_[* LeftGap]([@(0.0.255) i
 nt]_[*@3 cx])&]
 [s2; Minimum size reserved on the left side of menu items for icons 
-in pixels. Default value is 16. Returns `*this.&]
+in pixels. Default value is 16. Возвращает `*this.&]
 [s3; &]
 [s4;%- &]
 [s5;:MenuBar`:`:SetFont`(Font`):%- [_^MenuBar^ MenuBar][@(0.0.255) `&]_[* SetFont]([_^Font^ F
 ont]_[*@3 f])&]
-[s2; Sets the font to be used in MenuBar. Default is standard GUI 
-font. Returns `*this.&]
+[s2; Устанавливаетthe font to be used in MenuBar. Default is standard GUI 
+font. Возвращает `*this.&]
 [s3; &]
 [s4;%- &]
 [s5;:MenuBar`:`:GetFont`(`)const:%- [_^Font^ Font]_[* GetFont]()_[@(0.0.255) const]&]
-[s2; Returns the font used in MenuBar.&]
+[s2; Возвращает the font used in MenuBar.&]
 [s3; &]
 [s4;%- &]
 [s5;:MenuBar`:`:MaxIconSize`(Size`):%- [_^MenuBar^ MenuBar][@(0.0.255) `&]_[* MaxIconSize](
 [_^Size^ Size]_[*@3 sz])&]
-[s2; Sets the maximum size of an iconn displaye inside a menu item 
+[s2; Устанавливаетthe maximum size of an iconn displaye inside a menu item 
 to [%-*@3 sz].&]
 [s3; &]
 [s4;%- &]
 [s5;:MenuBar`:`:GetMaxIconSize`(`)const:%- [_^Size^ Size]_[* GetMaxIconSize]()_[@(0.0.255) c
 onst]&]
-[s2; Returns the maximum icons size.&]
+[s2; Возвращает the maximum icons size.&]
 [s3;%- &]
 [s0; ]]

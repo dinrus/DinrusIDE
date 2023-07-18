@@ -44,19 +44,19 @@ onst]_[_^String^ String][@(0.0.255) `&]_[*@3 hdrs])&]
 [s4; &]
 [s5;:InetHeader`:`:Parse`(const String`&`): [@(0.0.255) bool]_[* Parse]([@(0.0.255) const]_
 [_^String^ String][@(0.0.255) `&]_[*@3 hdrs])&]
-[s2;%% Calls Clear and parses the header (all lines of header) into 
+[s2;%% Вызывает Clear and parses the header (all lines of header) into 
 [* first`_line ]and [* fields].&]
 [s3;%% &]
 [s4; &]
 [s5;:InetHeader`:`:GetCookie`(const char`*`)const: [_^String^ String]_[* GetCookie]([@(0.0.255) c
 onst]_[@(0.0.255) char]_`*[*@3 id])_[@(0.0.255) const]&]
-[s2;%% Returns the value of first cookie of response (set by Set`-Cookie) 
+[s2;%% Возвращает the value of first cookie of response (set by Set`-Cookie) 
 with name [%-*@3 id].&]
 [s3;%% &]
 [s4;%% &]
 [s5;:InetHeader`:`:operator`[`]`(const char`*`)const: [_^String^ String]_[* operator`[`]](
 [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 id])_[@(0.0.255) const]&]
-[s2;%% Returns the first http header field with key [%-*@3 id] (must 
+[s2;%% Возвращает the first http header field with key [%-*@3 id] (must 
 be lower`-case) or empty string if such field is not present.&]
 [s3;%% &]
 [s0;%% ]]

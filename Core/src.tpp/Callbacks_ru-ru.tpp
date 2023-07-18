@@ -473,7 +473,7 @@ Null in output value.&]
 [s4;%- &]
 [s5;:EventArgTarget`:`:operator`[`]`(const T`&`):%- [_^Callback^ Callback]_[* operator`[`]
 ]([@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[*@3 value])&]
-[s2; Returns a Callback that, when invoked, assigns [@3 value] to the 
+[s2; Возвращает a Callback that, when invoked, assigns [@3 value] to the 
 output value.&]
 [s7; [%-*C@3 value]-|Value.&]
 [s7; [*/ Возвратное значение]-|Callback.&]

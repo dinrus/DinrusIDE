@@ -23,11 +23,11 @@ String.&]
 [s4;H0; &]
 [s5;:XmlTag`:`:Tag`(const char`*`): [_^XmlTag^ XmlTag][@(0.0.255) `&]_[* Tag]([@(0.0.255) con
 st]_[@(0.0.255) char]_`*[*@3 s])&]
-[s2;%% Sets the name of tag.&]
+[s2;%% Устанавливаетthe name of tag.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:XmlTag`:`:operator`(`)`(`): [_^String^ String]_[* operator()]()&]
-[s2;%% Returns the completed XML tag block with [/ empty] content. 
+[s2;%% Возвращает the completed XML tag block with [/ empty] content. 
 E.g. <mytag></mytag>.&]
 [s3;%% &]
 [s4; &]
@@ -35,7 +35,7 @@ E.g. <mytag></mytag>.&]
 onst]_[@(0.0.255) char]_`*[*@3 text])&]
 [s5;:XmlTag`:`:operator`(`)`(const String`&`): [_^String^ String]_[* operator()]([@(0.0.255) c
 onst]_[_^String^ String][@(0.0.255) `&]_[*@3 text])&]
-[s2;%% Returns the completed XML tag block with [*@3 text] content. 
+[s2;%% Возвращает the completed XML tag block with [*@3 text] content. 
 E.g. <mytag>mytext</mytag>. Note that the [*@3 text] here is not 
 altered in the output in any way `- it can contain other subtags.&]
 [s3;%% &]
@@ -45,7 +45,7 @@ har]_`*[*@3 text], [_^byte^ byte]_[*@3 charset]_`=_CHARSET`_DEFAULT)&]
 [s5;:XmlTag`:`:Text`(const String`&`,byte`): [_^String^ String]_[* Text]([@(0.0.255) const]_
 [_^String^ String][@(0.0.255) `&]_[*@3 s], [_^byte^ byte]_[*@3 charset]_`=_CHARSET`_DEFAULT
 )&]
-[s2; [%% Returns the completed XML tag block with ][*@3 text][%%  content. 
+[s2; [%% Возвращает the completed XML tag block with ][*@3 text][%%  content. 
 In this case, text is converted from ][*@3 charset] to UTF`-8 encoding 
 and escaped with entities.&]
 [s3;%% &]
@@ -56,7 +56,7 @@ FAULT)&]
 [s5;:XmlTag`:`:PreservedText`(const String`&`,byte`): [_^String^ String]_[* PreservedText
 ]([@(0.0.255) const]_[_^String^ String][@(0.0.255) `&]_[*@3 s], [_^byte^ byte]_[*@3 charset]_
 `=_CHARSET`_DEFAULT)&]
-[s2; Returns the completed XML tag block with [*@3 text] content. In 
+[s2; Возвращает the completed XML tag block with [*@3 text] content. In 
 this case, text is converted from [*@3 charset] to UTF`-8 encoding 
 and escaped with entities. Unlike [* Text], this variant adds [C xml:space`=`"preserve
 d`"] attribute and escapes `'`\t`' and `'`\n`' with entities 
@@ -82,7 +82,7 @@ name.&]
 [s4; &]
 [s5;:XmlTag`:`:XmlTag`(const char`*`): [* XmlTag]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 t
 ag])&]
-[s2;%% Sets the tag name to [%-*@3 tag].&]
+[s2;%% Устанавливаетthe tag name to [%-*@3 tag].&]
 [s3; &]
 [s0; &]
 [s0; &]
@@ -102,34 +102,34 @@ to UTF`-8. If [*@3 escapelf].is true, `'`\n`' is escaped as `'[@(128.0.255) `&#x
 er]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 encoding]_`=_`"UTF[@(0.0.255) `-][@3 8]`", 
 [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 version]_`=_`"[@3 1][@(0.0.255) .][@3 0]`", 
 [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 standalone]_`=_NULL)&]
-[s2; [%% Creates the header of XML file. If ][*@3 version]_ is NULL, 
+[s2; [%% Создаёт the header of XML file. If ][*@3 version]_ is NULL, 
 it is not included, [*@3 standalone] can be either `"yes`" or `"no`" 
 or NULL (standalone attribute is then not included).&]
 [s3;%% &]
 [s4; &]
 [s5;:XmlDecl`(const char`*`): [_^String^ String]_[* XmlDecl]([@(0.0.255) const]_[@(0.0.255) c
 har]_`*[*@3 text])&]
-[s2;%% Creates the declaration element of XML.&]
+[s2;%% Создаёт the declaration element of XML.&]
 [s3;%% &]
 [s4; &]
 [s5;:XmlDocType`(const char`*`): [_^String^ String]_[* XmlDocType]([@(0.0.255) const]_[@(0.0.255) c
 har]_`*[*@3 text])&]
-[s2;%% Creates the DOCTYPE XML declaration element.&]
+[s2;%% Создаёт the DOCTYPE XML declaration element.&]
 [s3;%% &]
 [s4; &]
 [s5;:XmlDoc`(const char`*`,const char`*`): [_^String^ String]_[* XmlDoc]([@(0.0.255) const]_
 [@(0.0.255) char]_`*[*@3 name], [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 xmlbody])&]
-[s2;%% Returns [*C XmlHeader() `+ XmlDocType(name) `+ XmlTag(name)(xmlbody)] 
+[s2;%% Возвращает [*C XmlHeader() `+ XmlDocType(name) `+ XmlTag(name)(xmlbody)] 
 `- basically adds standard XML header to XML body.&]
 [s3;%% &]
 [s4; &]
 [s5;:XmlComment`(const char`*`): [_^String^ String]_[* XmlComment]([@(0.0.255) const]_[@(0.0.255) c
 har]_`*[*@3 text])&]
-[s2;%% Returns the comment element of XML.&]
+[s2;%% Возвращает the comment element of XML.&]
 [s3;%% &]
 [s4; &]
 [s5;:XmlPI`(const char`*`): [_^String^ String]_[* XmlPI]([@(0.0.255) const]_[@(0.0.255) char]_
 `*[*@3 text])&]
-[s2;%% Creates the processing info element of XML.&]
+[s2;%% Создаёт the processing info element of XML.&]
 [s3;%% &]
 [s0; ]]

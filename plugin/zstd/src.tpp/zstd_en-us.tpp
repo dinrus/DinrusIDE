@@ -36,7 +36,7 @@ encapsulated, nothing special is required from calling thread.&]
 [s5;:Upp`:`:ZstdCompressStream`:`:ZstdCompressStream`(Upp`:`:Stream`&`,int`): [* ZstdCo
 mpressStream]([_^Upp`:`:Stream^ Stream][@(0.0.255) `&]_[*@3 out], [@(0.0.255) int]_[*@3 lev
 el]_`=_[@3 1])&]
-[s2;%% Sets the output stream where compressed data are stored. [%-*@3 level] 
+[s2;%% Устанавливаетthe output stream where compressed data are stored. [%-*@3 level] 
 is the compression level `- higher levels provide better compression 
 but slower speed. For fast compression, level 1 is recommended.&]
 [s0;*@7;4%% &]
@@ -58,7 +58,7 @@ encapsulated, nothing special is required from calling thread.&]
 tream][@(0.0.255) `&]_[*@3 in])&]
 [s5;:Upp`:`:ZstdDecompressStream`:`:ZstdDecompressStream`(Upp`:`:Stream`&`): [* ZstdDec
 ompressStream]([_^Upp`:`:Stream^ Stream][@(0.0.255) `&]_[*@3 in])&]
-[s2;%% Sets the input stream from where compressed data are read.&]
+[s2;%% Устанавливаетthe input stream from where compressed data are read.&]
 [s3;%% &]
 [s0;%% &]
 [ {{10000@(113.42.0) [s0;%% [*@7;4 Zstd Compress/Decompress functions]]}}&]
@@ -124,7 +124,7 @@ multithreaded.&]
 [s5;:Upp`:`:IsZstd`(Upp`:`:Stream`&`): [@(0.0.255) bool]_[* IsZstd]([_^Upp`:`:Stream^ Strea
 m][@(0.0.255) `&]_[*@3 s])&]
 [s2;%% Checks the Stream for magic number identifying Zstd stream. 
-Seeks back after the check. Возвращает true, если magic number was 
+Seeks back after the check. Возвращает  true, если magic number was 
 detected.&]
 [s3;%% &]
 [s0;%% ]]

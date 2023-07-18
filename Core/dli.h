@@ -18,7 +18,7 @@
 
 #ifndef DLLCALL
 #ifdef PLATFORM_WIN32
-#define DLLCALL //__cdecl
+#define DLLCALL __cdecl
 #else
 #define DLLCALL
 #endif

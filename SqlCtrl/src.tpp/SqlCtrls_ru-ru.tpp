@@ -22,7 +22,7 @@ class with SQL related operations.&]
 [s5;:Upp`:`:SqlCtrls`:`:operator`(`)`(Upp`:`:SqlId`,Upp`:`:Ctrl`&`): [_^Upp`:`:SqlCtrls^ S
 qlCtrls][@(0.0.255) `&]_[* operator()]([_^Upp`:`:SqlId^ SqlId]_[*@3 id], 
 [_^Upp`:`:Ctrl^ Ctrl][@(0.0.255) `&]_[*@3 ctrl])&]
-[s2;%% Calls IdCtrls`::Add([%-*@3 id], [%-*@3 ctrl]).&]
+[s2;%% Вызывает IdCtrls`::Add([%-*@3 id], [%-*@3 ctrl]).&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:SqlCtrls`:`:Table`(Upp`:`:Ctrl`&`,Upp`:`:SqlId`): [@(0.0.255) void]_[* Table](
@@ -42,7 +42,7 @@ qlCtrls][@(0.0.255) `&]_[* operator()]([_^Upp`:`:Ctrl^ Ctrl][@(0.0.255) `&]_[*@3
 [s4; &]
 [s5;:Upp`:`:SqlCtrls`:`:Set`(`)const: [_^Upp`:`:SqlSet^ SqlSet]_[* Set]()_[@(0.0.255) const
 ]&]
-[s2;%% Returns SqlSet of all ids of SqlCtrls.&]
+[s2;%% Возвращает SqlSet of all ids of SqlCtrls.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:SqlCtrls`:`:operator SqlSet`(`)const: [* operator_SqlSet]()_[@(0.0.255) const
@@ -133,5 +133,5 @@ flag set, as updated values.&]
 [@(0.0.255) int]_[*@3 i])_[@(0.0.255) const]&]
 [s5;:Upp`:`:SqlCtrls`:`:GetKey`(int`)const: [_^Upp`:`:SqlId^ SqlId]_[* GetKey]([@(0.0.255) i
 nt]_[*@3 i])_[@(0.0.255) const]&]
-[s2;%% Returns id of entry [%-*@3 i].&]
+[s2;%% Возвращает id of entry [%-*@3 i].&]
 [s0;%% ]]

@@ -234,7 +234,7 @@ trlFrame]&]
 [s0;^topic`:`/`/CtrlCore`/src`/Frame`$en`-us`#`:`:CtrlFrame`:`:class CtrlFrame^@(0.0.255)%- &]
 [s0;^topic`:`/`/CtrlCore`/src`/Frame`$en`-us`#`:`:CtrlFrame`:`:class CtrlFrame^@(0.0.255)%- &]
 [s5;:FrameCtrl`:`:GetParent`(`):%- [_^Ctrl^ Ctrl]_`*[* GetParent]()&]
-[s2; Возвращает родителя, к которому прикреплён 
+[s2; Возвращает  родителя, к которому прикреплён 
 этот Ctrl.&]
 [s3;%- &]
 [s4; &]

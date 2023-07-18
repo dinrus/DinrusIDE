@@ -27,138 +27,180 @@ topic "Format - форматирование текста";
 ][^`:`:Value^@(64) Value][@(64) _][*@3 arg][*,@3 1][*@3  ][@4 `[], [^`:`:Value^@(64) Value][@(64) _
 ][*@3 arg][*,@3 n][@4 `]...] [@(64) )]&]
 [s2; &]
-[s0; Format forms output text based on [*@3 format], inserting actual 
-arguments to placeholders. Argument values are converted to text 
-using formatters. U`+`+ specifies set of standard formatters; 
-application can freely register their own formatters for specific 
-Value types too.&]
+[s0; Format формирует текст вывода, основанный 
+на формате [*@3 format], помещая вместо местодержат
+елей действительные аргументы. Значения 
+аргументов преобразуются в текст 
+с помощью форматировщиков. U`+`+ задаёт 
+набор стандартных форматировщиков; 
+в приложениях можно свободно регистрировать
+ свои собственные, для особых типов 
+значений.&]
 [s0; &]
-[s0; Note that the variable number of Value arguments is implemented 
-by overloading the Format up to 20 parameters.&]
+[s0; Заметьте, что переменное число аргументов 
+значений Value реализуется перегрузкой 
+Format, до 20 параметров.&]
 [s0; &]
-[s0; Placeholders start with [* %] and have format:&]
+[s0; Местодержатели начинаются с [* %] и 
+имеют формат:&]
 [s0; &]
-[s0; [* %][*@4 `[][*@(0.0.255) commands][*@4 `]`[][*@(0.0.255) options][*@4 `]`[][*@(0.0.255) forma
-tter`-id][*@4 `]`[][*@(0.0.255) ``][*@4 `]]&]
+[s0; [* %][*@4 `[][*@(0.0.255) команды][*@4 `]`[][*@(0.0.255) опции][*@4 `]`[][*@(0.0.255) и
+д`-форматировщика][*@4 `]`[][*@(0.0.255) ``][*@4 `]]&]
 [s0; &]
-[s0; [*@(0.0.255) commands] are interpreted by Format routine (not 
-specific formatter). Each command sequence ends with character 
-specifying the kind of command, this delimits it from options 
-and/or formatter.&]
+[s0; [*@(0.0.255) команды ]интерпретируются 
+процедурой Format (а не специфичным форматировщ
+иком). Каждая последовательность 
+команд заканчивается символом, определяющим
+ вид команды, это разграничивает её 
+от опций и/или форматировщика.&]
 [s0; &]
-[s0; Available commands:&]
+[s0; Доступные команды:&]
 [s0; &]
 [ {{1785:8215^ [s0; [*/@(0.0.255) position][* :]]
-::= [s0; Seeks to an argument at [*/@(0.0.255) position]. Allows to `"reorganize`" 
-ordering of arguments, useful with translations.]
+::= [s0; Переходит к аргументу в позиции [*/@(0.0.255) position].
+ Позволяет `"реорганизовать`" порядок 
+аргументов, что полезно при переводах.]
 ::^ [s0; [*/@(0.0.255) width][* <]]
-::= [s0; Places formatter result into field with [*/@(0.0.255) width] characters, 
-aligns left.]
+::= [s0; Помещает результат форматировщика 
+в поле с шириной [*/@(0.0.255) width] символов, 
+раскладка слева.]
 ::^ [s0; [*/@(0.0.255) width][* >]]
-::= [s0; Places formatter result into field with [*/@(0.0.255) width] characters, 
-aligns right.]
+::= [s0; Помещает результат форматировщика 
+в поле с шириной [*/@(0.0.255) width] символов, 
+раскладка справа.[@N m`_delta]]
 ::^ [s0; [*/@(0.0.255) width][* `=]]
-::= [s0; Places formatter result into field with [*/@(0.0.255) width] characters, 
-aligns to center.]
+::= [s0; Помещает результат форматировщика 
+в поле с шириной [*/@(0.0.255) width] символов, 
+раскладка по центру.]
 ::^ [s0; [* `[][*/@(0.0.255) text][* `]`~]]
-::= [s0; If argument is [* Null], uses [*/@(0.0.255) text] instead of formatter 
-result.]}}&]
+::= [s0; Если аргумент равен [* Null], используется 
+текст [*/@(0.0.255) text] вместо результата 
+форматировщика.]}}&]
 [s0; &]
-[s0; [*@(0.0.255) formatter`-id][*  ]must consist of alpha characters 
-only, unlike C identifiers, digits or `'`_`' are not allowed. 
-Everything between [*@(0.0.255) commands] and [*@(0.0.255) formatter`-id] 
-is considered to be [*@(0.0.255) options] and passed to formatter. 
-Note that [*@(0.0.255) formatter`-id] is Value type specific `- 
-the same name can specify different formatter depending on Value 
-type. [*@(0.0.255) formatter`-id] is case`-sensitive.&]
+[s0; [*@(0.0.255) ид`-форматировщика][*  ]должен 
+состоять только из алфавитных (`"альфа`"`-) 
+символов, в отличие от идентификаторов 
+Си, цифры или `'`_`' не допускаются. Всё, 
+что между командами [*@(0.0.255) команды 
+]и ид`-форматировщика [*@(0.0.255) ид`-форматировщик
+а], рассматривается как опции [*@(0.0.255) опции 
+]и передаётся форматировщику. Заметьте, 
+что [*@(0.0.255) ид`-форматировщика] зависит 
+от типа значения:  одно и то же имя 
+может указывать на разные форматировщики, 
+в зависимости от типа значения. [*@(0.0.255) ид`-фор
+матировщика] регистрочувствителен.&]
 [s0; &]
-[s0; Character [* `*] in [*@(0.0.255) options] section is replaced by 
-an argument converted using AsString.&]
+[s0; Символ [* `*] в разделе опций [*@(0.0.255) опции 
+]заменяется аргументом, преобразованным 
+посредством AsString.&]
 [s0; &]
-[s0; If [*@(0.0.255) options] are to contain alpha characters, they 
-need to be escaped using [* `[ `]] to distinguish options from 
-formatter`-id.&]
+[s0; Если [*@(0.0.255) опции ]должны содержать 
+альфа`-символы, их нужно `"эскапировать`", 
+используя [* `[ `]] для того, чтобы отделить 
+опции от ид`-форматировщика.&]
 [s0; &]
-[s0; Placeholder can end either by non`-alpha character or by [* ``]. 
-formatter`-id can be left empty; in that case Format uses AsString 
-to convert Value to text (defined in RichValue interface) `- 
-the most trivial placeholder is therefore [* %``].&]
+[s0; местодержатель может оканчиваться 
+либо на неалфавитный символ, либо 
+на [* ``]. ид`-форматировщика можно оставлять 
+пустым; в этом случае Format использует 
+AsString для преобразования Value в текст 
+(определено в интерфейсе RichValue) `- самый 
+тривиальный местодержатель, следовательно, 
+[* %``].&]
 [s0; &]
-[s0; While Format implements all of classic printf formatter, please 
-notice two incompatibilities:&]
+[s0; Хотя Format реализует все классические 
+форматировщики printf, пожалуйста, обратите 
+внимание на два несоответствия:&]
 [s0; &]
-[s0;i150;O0; All arguments of Format must be convertible (and are 
-converted) to Value. On the positive side, Value performs natural 
-conversions like double `-> int, so it is possible to e.g. use 
-%d for double value.&]
+[s0;i150;O0; Все аргументы Format должны быть 
+конвертабельными (и они конвертируются 
+) в Value. На позитивной стороне, Value проводит 
+естественные конверсии, типа double 
+`-> int, поэтому можно, например, применять 
+%d для значения double.&]
 [s0; &]
-[s0;i150;O0; formatter`-id `"eats`" all alpha characters. This is 
-a problem when non`-placeholder alpha character is to follow 
-placeholder, e.g. %dpt `- this has to be written as %d``pt (`` 
-delimits the formatter`-id).&]
-[s0; &]
-[s0; &]
-[s0; [*/ Standard formatters]&]
-[s0; &]
-[s0; [* Default formatter]&]
-[s0; &]
-[s0; If formatter`-id is empty, Value is converted using AsString 
-(implemented in RichValue interface).&]
+[s0;i150;O0; formatter`-id `"ест`" все альфа`-символы. 
+Проблема только, когда алфавитный 
+символ, не являющийся местодержателем, 
+следует за местодержателем, например, 
+%dpt `- это надо писать как %d``pt (`` разграничивае
+т ид`-форматировщика).&]
 [s0; &]
 [s0; &]
-[s0; [* printf formatters]&]
+[s0; [*/ Стандартные форматировщики]&]
 [s0; &]
-[s0; Most printf formatters are supported:&]
+[s0; [* Дефолтный форматировщик]&]
+[s0; &]
+[s0; Если ид`-форматировщика пуст, Value 
+преобразуется с помощью AsString (реализованном
+ в интерфейсе RichValue).&]
+[s0; &]
+[s0; &]
+[s0; [* Форматировщики printf]&]
+[s0; &]
+[s0; Поддерживается большая часть форматировщик
+ов printf:&]
 [s0; &]
 [s0; [* c d i o x X ld li lo lx lX lld lli llo llx llX e E f g G s]&]
 [s0; &]
-[s0; Please refer to printf documentation for the description.&]
+[s0; Описание ищите в документации к printf.&]
 [s0; &]
 [s0; &]
-[s0; [* Switch formatter]&]
+[s0; [* Форматировщик Switch (Щит)]&]
 [s0; &]
-[s0; This is special number formatter (registered for double, int 
-and int64 values). [*@(0.0.255) options] of switch formatter contain 
-a list of values and respective texts `- a text for actual argument 
-is printed. [*@(0.0.255) formatter`-id] is [* s].&]
+[s0; Это особый форматировщик чисел (зарегистрир
+ованный для double, int и int64 значений). 
+[*@(0.0.255) опции ]форматировщика switch содержат 
+список значений и соответствующие 
+тексты `- выводится текст для актуального 
+аргумента. [*@(0.0.255) ид`-форматировщика] 
+равен [* s].&]
 [s0; &]
-[s0; The format of switch [*@(0.0.255) options] is&]
+[s0; Формат у switch [*@(0.0.255) опции ]такой&]
 [s0; &]
 [s0; [*@4 `[][*@(0.0.255) modulo][* %][*@4 `]`[][*@(0.0.255) case][* :][*@(0.0.255) text];[*@4 `]...`[
 ][*@(0.0.255) default][*@4 `]]&]
 [s0; &]
 [ {{1395:8605 [s0; [*@(0.0.255) modulo]]
-:: [s0; If this optional part is present, modulo of argument is used 
-for switch cases.]
+:: [s0; Если присутствует эта необязательная 
+часть, то модуль аргумента используется 
+для switch cases (`"тумблеров щита`").]
 :: [s0; [*@(0.0.255) case]]
-:: [s0; Numeric case.]
+:: [s0; Числовой триггер (case).]
 :: [s0; [*@(0.0.255) text]]
-:: [s0; Text for given numeric case.]
+:: [s0; Текст для данного числового триггера.]
 :: [s0; [*@(0.0.255) default]]
-:: [s0; Default text when no case is matched.]}}&]
+:: [s0; Дефолтный текст, если нет совпадений 
+текста.]}}&]
 [s0; &]
-[s0; Note that as text usually contains letters, whole switch options 
-section is almost always escaped using [* `[] [* `]].&]
+[s0; Заметьте, что, так как текст обычно 
+содержит буквы, вся секция опций switch 
+почти всегда эскапируется с помощью 
+[* `[] [* `]].&]
 [s0; &]
 [s0; &]
-[s0; [* Simple integer formatters]&]
+[s0; [* Простые целочисленные форматировщики]&]
 [s0; &]
-[s0; These formatters are registered for double, int and int64 values.&]
+[s0; Эти форматировщики зарегистрированы 
+для значений double, int и int64.&]
 [s0; &]
-[ {{1426:8574h1;@(204) [s0; [*@(0.0.255) formatter`-id]]
-:: [s0; Description]
+[ {{1426:8574h1;@(204) [s0; [*@(0.0.255) ид`-форматировщика]]
+:: [s0; Описание]
 ::@2 [s0;%- [* month]]
-:: [s0; Lower`-case month name.]
+:: [s0; Имя месяца прописными.]
 :: [s0;%- [* Month]]
-:: [s0; Month name with first letter upper`-case, rest lower`-case.]
+:: [s0; Имя месяца с первой заглавной, остальными 
+`- прописными.]
 :: [s0;%- [* MONTH]]
-:: [s0; Upper`-case month name.]
+:: [s0; Имя месяца заглавными.]
 :: [s0;%- [* mon]]
-:: [s0; Abbreviated lower`-case month name.]
+:: [s0; Сокращённое имя месяца прописными.]
 :: [s0;%- [* Mon]]
-:: [s0; Abbreviated month name, first letter upper`-case, rest lower`-case.]
+:: [s0; Сокращённое имя месяца с первой заглавной, 
+остальными `- прописными.]
 :: [s0;%- [* MON]]
-:: [s0; Abbreviated upper`-case month name.]
+:: [s0; Сокращённое имя месяца заглавными.]
 :: [s0;%- [* day]]
 :: [s0; Lower`-case day name.]
 :: [s0;%- [* Day]]
@@ -183,7 +225,8 @@ section is almost always escaped using [* `[] [* `]].&]
 :: [s0; Upper`-case roman numbers.]}}&]
 [s0; &]
 [s0; &]
-[s0; [* Extended real number formatters]&]
+[s0; [* Расширенные форматировщики реальных 
+чисел]&]
 [s0; &]
 [s0; These formatters are equivalent to regular %g, %f and %e, but 
 provide more options and are implemented by fast U`+`+ internal 
@@ -244,7 +287,8 @@ leave the output empty]
 point]}}&]
 [s0;C@(0.0.255) &]
 [s0; &]
-[s0; [*/ Legacy real number formatters]&]
+[s0; [*/ Унаследованные форматировщики 
+реальных чисел]&]
 [s0; &]
 [s0; [@(102) These are legacy U`+`+ formatters, superseded by %m family]&]
 [s0;@(102) &]
@@ -287,7 +331,7 @@ formatting ][*@(102) nl][@(102)  or ][*@(102) vl][@(102) )]]
 [s0;@(102) &]
 [s0; &]
 [s0; &]
-[s0;%- [*/ Examples of standard formatters]&]
+[s0;%- [*/ Примеры стандартных форматировщиков]&]
 [s0; &]
 [s0;3%- &]
 [ {{5073:4927 [s0;%- Format(`"[* %d, %s]`", 123, `"TEXT`")]
@@ -433,14 +477,15 @@ formatting ][*@(102) nl][@(102)  or ][*@(102) vl][@(102) )]]
 [s0; &]
 [s0; &]
 [s0; &]
-[s0;%- [*@3+117 Registering custom formatters]&]
+[s0;%- [*@3+117 Регистрация собственных форматировщик
+ов]&]
 [s0; &]
 [s5;:Formatter`:`:typedef:%- typedef_[^String^ String]_(`*Formatter)([@(0.0.255) const][@(64) _
 ][^Formatting^@(64) Formatting][@(64) `&_fmt)]&]
 [s2; Formatter has to have form of function with single [^Formatting^ Formatting] 
 argument.&]
 [s1; &]
-[ {{10000F(128)G(128)@1 [s0; [* Formatting]]}}&]
+[ {{10000F(128)G(128)@1 [s0; [* Форматирование]]}}&]
 [s0;%- &]
 [s1;:Formatting`:`:struct:%- [@(0.0.255) struct]_[* Formatting]&]
 [s2; This structure passes all informations to format Value argument 
@@ -462,7 +507,7 @@ to the formatter.&]
 [s5;:Formatting`:`:id:%- String_[* id]&]
 [s2; Formatter`-id.&]
 [s1; &]
-[ {{10000F(128)G(128)@1 [s0; [* Format registration functions]]}}&]
+[ {{10000F(128)G(128)@1 [s0; [* Функции регистрации формата]]}}&]
 [s3;%- &]
 [s5;:RegisterFormatter`(int`,const char`*`,Formatter`)init`_:%- [@(0.0.255) void]_[* Regi
 sterFormatter]([@(0.0.255) int]_[*@3 type], [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 id],

@@ -49,47 +49,47 @@ button options:&]
 [s6;:Upp`:`:SplitterButton`:`:Horz`(Upp`:`:Ctrl`&`,Upp`:`:Ctrl`&`):%- [_^Upp`:`:SplitterButton^ S
 plitterButton][@(0.0.255) `&]_[* Horz]([_^Upp`:`:Ctrl^ Ctrl]_`&[*@3 left], 
 [_^Upp`:`:Ctrl^ Ctrl]_`&[*@3 right])&]
-[s3; Sets splitter to contain two child widgets [%-*@3 left] and [%-*@3 right].&]
-[s3; Sets splitter to horizontal mode `- separator bar in this mode 
+[s3; Устанавливаетsplitter to contain two child widgets [%-*@3 left] and [%-*@3 right].&]
+[s3; Устанавливаетsplitter to horizontal mode `- separator bar in this mode 
 is vertical.&]
 [s1; &]
 [s5;%- &]
 [s6;:Upp`:`:SplitterButton`:`:Vert`(Upp`:`:Ctrl`&`,Upp`:`:Ctrl`&`):%- [_^Upp`:`:SplitterButton^ S
 plitterButton][@(0.0.255) `&]_[* Vert]([_^Upp`:`:Ctrl^ Ctrl][@(0.0.255) `&]_[*@3 top], 
 [_^Upp`:`:Ctrl^ Ctrl][@(0.0.255) `&]_[*@3 bottom])&]
-[s3; Sets splitter to contain two child widgets [%-*@3 top] and [%-*@3 bottom].&]
-[s3; Sets splitter to vertical mode `- separator bar in this mode 
+[s3; Устанавливаетsplitter to contain two child widgets [%-*@3 top] and [%-*@3 bottom].&]
+[s3; Устанавливаетsplitter to vertical mode `- separator bar in this mode 
 is horizontal.&]
 [s1; &]
 [s5;%- &]
 [s6;:Upp`:`:SplitterButton`:`:SetPositions`(const Upp`:`:Vector`<int`>`&`):%- [_^Upp`:`:SplitterButton^ S
 plitterButton]_`&[* SetPositions]([@(0.0.255) const ][_^Upp`:`:Vector^ Vector]<[@(0.0.255) i
 nt]>_`&[*@3 positions])&]
-[s3; Sets in [%-*@3 positions ]vector the separator line positions 
+[s3; Устанавливаетin [%-*@3 positions ]vector the separator line positions 
 in 0 to 10000 units. Minimum number of positions is two.&]
 [s1; &]
 [s5;%- &]
 [s6;:Upp`:`:SplitterButton`:`:SetPositions`(int`,int`):%- [_^Upp`:`:SplitterButton^ Spl
 itterButton]_`&[* SetPositions]([@(0.0.255) int]_[*@3 pos1], [@(0.0.255) int]_[*@3 pos2])&]
-[s3; Sets the two positions of the separator line ([%-*@3 pos1] and 
+[s3; Устанавливаетthe two positions of the separator line ([%-*@3 pos1] and 
 [%-*@3 pos2)].&]
 [s1; &]
 [s5;%- &]
 [s6;:Upp`:`:SplitterButton`:`:SetPositions`(int`,int`,int`):%- [_^Upp`:`:SplitterButton^ S
 plitterButton]_`&[* SetPositions]([@(0.0.255) int]_[*@3 pos1], [@(0.0.255) int]_[*@3 pos2],
  [@(0.0.255) int]_[*@3 pos3])&]
-[s3; Sets the three positions of the separator line ([%-*@3 pos1], 
+[s3; Устанавливаетthe three positions of the separator line ([%-*@3 pos1], 
 [%-*@3 pos2] and [%-*@3 pos3]).&]
 [s1; &]
 [s5;%- &]
 [s6;:Upp`:`:SplitterButton`:`:SetInitialPositionId`(int`):%- [_^Upp`:`:SplitterButton^ S
 plitterButton]_`&[* SetInitialPositionId]([@(0.0.255) int]_[*@3 id])&]
-[s3; Sets the [%-*@3 id] of the initial separator position between 
+[s3; Устанавливаетthe [%-*@3 id] of the initial separator position between 
 the previously indicated positions with SertPosition().&]
 [s5;%- &]
 [s6;:Upp`:`:SplitterButton`:`:SetButtonNumber`(int`):%- [_^Upp`:`:SplitterButton^ Split
 terButton]_`&[* SetButtonNumber]([@(0.0.255) int]_[*@3 buttonNumber])&]
-[s3; Sets the number of buttons:&]
+[s3; Устанавливаетthe number of buttons:&]
 [s3;i150;O0; 1: To move the splitter to one side until it arrives 
 to the end so it moves to the other side&]
 [s3;i150;O0; 2: One to move the splitter to one side and other to 

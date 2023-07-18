@@ -26,7 +26,7 @@ topic "SpinButtons";
 of owning Ctrl. Buttons have have preassigned images of up and 
 down arrows.&]
 [s2;%% &]
-[s0; [%%/ Derived from][%%  ]CtrlFrame&]
+[s0; [%%/ Производный от][%%  ]CtrlFrame&]
 [s3;%% &]
 [s0; &]
 [ {{10000F(128)G(128)@1 [s0;%% [* Public Field List]]}}&]
@@ -46,7 +46,7 @@ down arrows.&]
 [s3; &]
 [s4; &]
 [s5;:SpinButtons`:`:`~SpinButtons`(`): [@(0.0.255) `~][* SpinButtons]()&]
-[s2;%% Default destructor.&]
+[s2;%% Дефолтный деструктор .&]
 [s3; &]
 [s0; &]
 [ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
@@ -54,18 +54,18 @@ down arrows.&]
 [s5;:SpinButtons`:`:SetStyle`(const SpinButtons`:`:Style`&`): [_^SpinButtons^ SpinButto
 ns][@(0.0.255) `&]_[* SetStyle]([@(0.0.255) const]_[_^SpinButtons`:`:Style^ Style][@(0.0.255) `&
 ]_[*@3 s])&]
-[s2;%% Sets the style of to button to [^topic`:`/`/CtrlLib`/src`/SpinButtons`$en`-us`#SpinButtons`:`:Style`:`:struct^ S
+[s2;%% Устанавливаетthe style of to button to [^topic`:`/`/CtrlLib`/src`/SpinButtons`$en`-us`#SpinButtons`:`:Style`:`:struct^ S
 pinButtons`::Style] [%-*@3 s].&]
 [s3;%% &]
 [s4; &]
 [s5;:SpinButtons`:`:Show`(bool`): [@(0.0.255) void]_[* Show]([@(0.0.255) bool]_[*@3 s]_`=_[@(0.0.255) t
 rue])&]
-[s2;%% Sets the visibility of the spin buttons to [%-*@3 s].&]
+[s2;%% Устанавливаетthe visibility of the spin buttons to [%-*@3 s].&]
 [s3;%% &]
 [s4; &]
 [s5;:SpinButtons`:`:StyleDefault`(`): [@(0.0.255) static] [@(0.0.255) const]_[_^SpinButtons`:`:Style^ S
 tyle][@(0.0.255) `&]_[* StyleDefault]()&]
-[s2;%% Returns the default style used by spin buttons.&]
+[s2;%% Возвращает the default style used by spin buttons.&]
 [s3; &]
 [s0; &]
 [s0; &]

@@ -22,13 +22,13 @@ to RasterEncoder.&]
 [s3;%- &]
 [s5;:StreamRasterEncoder`:`:SetStream`(Stream`&`):%- [@(0.0.255) void]_[* SetStream]([_^Stream^ S
 tream][@(0.0.255) `&]_[*@3 `_s])&]
-[s2; Sets the Stream to be used as source of image data. Derived 
+[s2; Устанавливаетthe Stream to be used as source of image data. Derived 
 class can query this stream using GetStream method.&]
 [s3; &]
 [s4;%- &]
 [s5;:StreamRasterEncoder`:`:GetStream`(`):%- [_^Stream^ Stream][@(0.0.255) `&]_[* GetStream
 ]()&]
-[s2; Returns current stream.&]
+[s2; Возвращает current stream.&]
 [s3; &]
 [s4; &]
 [s5;:StreamRasterEncoder`:`:Save`(Stream`&`,Raster`&`):%- [@(0.0.255) void]_[* Save]([_^Stream^ S

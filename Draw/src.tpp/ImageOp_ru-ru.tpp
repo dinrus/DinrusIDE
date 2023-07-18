@@ -15,7 +15,7 @@ topic "Image Utility Functions";
 [s5;:Upp`:`:SetHotSpots`(Upp`:`:Image`&`,Upp`:`:Point`,Upp`:`:Point`): [@(0.0.255) void
 ]_[* SetHotSpots]([_^Upp`:`:Image^ Image][@(0.0.255) `&]_[*@3 m], [_^Upp`:`:Point^ Point]_[*@3 h
 otspot], [_^Upp`:`:Point^ Point]_[*@3 hotspot2])&]
-[s2;%% Sets hotspots in [%-*@3 m] to [%-*@3 hotspot], [%-*@3 hotspot2].&]
+[s2;%% Устанавливаетhotspots in [%-*@3 m] to [%-*@3 hotspot], [%-*@3 hotspot2].&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:WithHotSpots`(const Upp`:`:Image`&`,Upp`:`:Point`,Upp`:`:Point`): [_^Upp`:`:Image^ I
@@ -24,40 +24,40 @@ mage]_[* WithHotSpots]([@(0.0.255) const]_[_^Upp`:`:Image^ Image][@(0.0.255) `&]
 [s5;:WithHotSpots`(const Image`&`,int`,int`,int`,int`): [_^Image^ Image]_[* WithHotSpots](
 [@(0.0.255) const]_[_^Image^ Image][@(0.0.255) `&]_[*@3 m], [@(0.0.255) int]_[*@3 x1], 
 [@(0.0.255) int]_[*@3 y1], [@(0.0.255) int]_[*@3 x2], [@(0.0.255) int]_[*@3 y2])&]
-[s2;%% Returns [%-*@3 m] with new hotspots.&]
+[s2;%% Возвращает [%-*@3 m] with new hotspots.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:WithHotSpot`(const Image`&`,int`,int`): [_^Image^ Image]_[* WithHotSpot]([@(0.0.255) c
 onst]_[_^Image^ Image][@(0.0.255) `&]_[*@3 m], [@(0.0.255) int]_[*@3 x1], 
 [@(0.0.255) int]_[*@3 y1])&]
-[s2; [%% Returns ][*@3 m][%%  with hotspot ][*@3 x1,][%%  ][*@3 y1.]&]
+[s2; [%% Возвращает ][*@3 m][%%  with hotspot ][*@3 x1,][%%  ][*@3 y1.]&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:SetResolution`(Upp`:`:Image`&`,int`): [@(0.0.255) void]_[* SetResolution]([_^Upp`:`:Image^ I
 mage][@(0.0.255) `&]_[*@3 m], [@(0.0.255) int]_[*@3 res])&]
-[s2;%% Sets the resolution of [%-*@3 m] to [%-*@3 res].&]
+[s2;%% Устанавливаетthe resolution of [%-*@3 m] to [%-*@3 res].&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:WithResolution`(const Upp`:`:Image`&`,int`): [_^Upp`:`:Image^ Image]_[* WithR
 esolution]([@(0.0.255) const]_[_^Upp`:`:Image^ Image][@(0.0.255) `&]_[*@3 m], 
 [@(0.0.255) int]_[*@3 res])&]
-[s2;%% Returns [%-*@3 m] with resolution [%-*@3 res].&]
+[s2;%% Возвращает [%-*@3 m] with resolution [%-*@3 res].&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:WithResolution`(const Upp`:`:Image`&`,const Upp`:`:Image`&`): [_^Upp`:`:Image^ I
 mage]_[* WithResolution]([@(0.0.255) const]_[_^Upp`:`:Image^ Image][@(0.0.255) `&]_[*@3 m],
  [@(0.0.255) const]_[_^Upp`:`:Image^ Image][@(0.0.255) `&]_[*@3 res])&]
-[s2;%% Returns [%-*@3 m] with resolution equal to [%-*@3 res].GetResolution().&]
+[s2;%% Возвращает [%-*@3 m] with resolution equal to [%-*@3 res].GetResolution().&]
 [s3;%% &]
 [s4; &]
 [s5;:CreateImage`(Size`,const RGBA`&`): [_^Image^ Image]_[* CreateImage]([_^Size^ Size]_[*@3 s
 z], [@(0.0.255) const]_[_^RGBA^ RGBA][@(0.0.255) `&]_[*@3 rgba])&]
-[s2;%% Creates a new Image with Size [%-*@3 sz] filled with color [%-*@3 rgba].&]
+[s2;%% Создаёт a new Image with Size [%-*@3 sz] filled with color [%-*@3 rgba].&]
 [s3;%% &]
 [s4; &]
 [s5;:CreateImage`(Size`,Color`): [_^Image^ Image]_[* CreateImage]([_^Size^ Size]_[*@3 sz], 
 [_^Color^ Color]_[*@3 color])&]
-[s2;%% Creates a new Image with Size [%-*@3 sz] filled with color [%-*@3 color].&]
+[s2;%% Создаёт a new Image with Size [%-*@3 sz] filled with color [%-*@3 color].&]
 [s3;%% &]
 [s4; &]
 [s5;:DstSrc`(ImageBuffer`&`,Point`&`,const Image`&`,Rect`&`): [_^Size^ Size]_[* DstSrc]([_^ImageBuffer^ I
@@ -128,7 +128,7 @@ mage][@(0.0.255) `&]_[*@3 dest], [@(0.0.255) const]_[_^Upp`:`:Image^ Image][@(0.
 [s5;:Upp`:`:Copy`(const Upp`:`:Image`&`,const Upp`:`:Rect`&`): [_^Upp`:`:Image^ Image]_
 [* Copy]([@(0.0.255) const]_[_^Upp`:`:Image^ Image][@(0.0.255) `&]_[*@3 src], 
 [@(0.0.255) const]_[_^Upp`:`:Rect^ Rect][@(0.0.255) `&]_[*@3 srect])&]
-[s2;%% Returns [%-*@3 srect] area of [%-*@3 src].&]
+[s2;%% Возвращает [%-*@3 srect] area of [%-*@3 src].&]
 [s3;%% &]
 [s4; &]
 [s5;:OverStraightOpaque`(ImageBuffer`&`,Point`,const Image`&`,const Rect`&`): [@(0.0.255) v
@@ -151,13 +151,13 @@ into Point [%-*@3 p] of Image [%-*@3 dest].&]
 [s4; &]
 [s5;:Crop`(const Image`&`,const Rect`&`): [_^Image^ Image]_[* Crop]([@(0.0.255) const]_[_^Image^ I
 mage][@(0.0.255) `&]_[*@3 img], [@(0.0.255) const]_[_^Rect^ Rect][@(0.0.255) `&]_[*@3 rc])&]
-[s2;%% Returns a subimage from [%-*@3 img] defined by Rect [%-*@3 rc].&]
+[s2;%% Возвращает a subimage from [%-*@3 img] defined by Rect [%-*@3 rc].&]
 [s3;%% &]
 [s4; &]
 [s5;:Crop`(const Image`&`,int`,int`,int`,int`): [_^Image^ Image]_[* Crop]([@(0.0.255) const
 ]_[_^Image^ Image][@(0.0.255) `&]_[*@3 img], [@(0.0.255) int]_[*@3 x], 
 [@(0.0.255) int]_[*@3 y], [@(0.0.255) int]_[*@3 cx], [@(0.0.255) int]_[*@3 cy])&]
-[s2;%% Returns a subimage from [%-*@3 img] defined by origin [%-*@3 x,] 
+[s2;%% Возвращает a subimage from [%-*@3 img] defined by origin [%-*@3 x,] 
 [%-*@3 y], width [%-*@3 cx] and height [%-*@3 cy].&]
 [s3;%% &]
 [s4; &]
@@ -191,7 +191,7 @@ mage][@(0.0.255) `&]_[*@3 m])&]
 [s4; &]
 [s5;:ColorMask`(const Image`&`,Color`): [_^Image^ Image]_[* ColorMask]([@(0.0.255) const]_[_^Image^ I
 mage][@(0.0.255) `&]_[*@3 src], [_^Color^ Color]_[*@3 transparent])&]
-[s2;%% Returns a new Image based on [%-*@3 src] replaced Color [%-*@3 transparent] 
+[s2;%% Возвращает a new Image based on [%-*@3 src] replaced Color [%-*@3 transparent] 
 with RGBAZero().&]
 [s3;%% &]
 [s4; &]
@@ -204,7 +204,7 @@ st]_[_^Image^ Image][@(0.0.255) `&]_[*@3 img], [@(0.0.255) int]_[*@3 cx],
 [s5;:AssignAlpha`(const Image`&`,const Image`&`): [_^Image^ Image]_[* AssignAlpha]([@(0.0.255) c
 onst]_[_^Image^ Image][@(0.0.255) `&]_[*@3 img], [@(0.0.255) const]_[_^Image^ Image][@(0.0.255) `&
 ]_[*@3 new`_alpha])&]
-[s2;%% Returns a new Image based on [%-*@3 img] colors and [%-*@3 new`_alpha] 
+[s2;%% Возвращает a new Image based on [%-*@3 img] colors and [%-*@3 new`_alpha] 
 alpha.&]
 [s2;%% Image size is the minimum of [%-*@3 img] and [%-*@3 new`_alpha].&]
 [s3;%% &]
@@ -216,7 +216,7 @@ mage][@(0.0.255) `&]_[*@3 img], [@(0.0.255) int]_[*@3 thold]_`=_[@3 10])&]
 [s4; &]
 [s5;:Grayscale`(const Image`&`): [_^Image^ Image]_[* Grayscale]([@(0.0.255) const]_[_^Image^ I
 mage][@(0.0.255) `&]_[*@3 img])&]
-[s2;%% Returns a new Image including [%-*@3 img] converted to grayscale.&]
+[s2;%% Возвращает a new Image including [%-*@3 img] converted to grayscale.&]
 [s3;%% &]
 [s4; &]
 [s5;:Grayscale`(const Image`&`,int`): [_^Image^ Image]_[* Grayscale]([@(0.0.255) const]_[_^Image^ I
@@ -232,7 +232,7 @@ mage][@(0.0.255) `&]_[*@3 img], [@(0.0.255) int]_[*@3 amount])&]
 [s4; &]
 [s5;:Contrast`(const Image`&`,int`): [_^Image^ Image]_[* Contrast]([@(0.0.255) const]_[_^Image^ I
 mage][@(0.0.255) `&]_[*@3 img], [@(0.0.255) int]_[*@3 amount]_`=_[@3 256])&]
-[s2;%% Returns a new Image with its contrast increased in [%-*@3 amount] 
+[s2;%% Возвращает a new Image with its contrast increased in [%-*@3 amount] 
 based on [%-*@3 img].&]
 [s3;%% &]
 [s4; &]
@@ -240,7 +240,7 @@ based on [%-*@3 img].&]
 [* Rescale]([@(0.0.255) const]_[_^Image^ Image][@(0.0.255) `&]_[*@3 src], 
 [_^Size^ Size]_[*@3 sz], [@(0.0.255) const]_[_^Rect^ Rect][@(0.0.255) `&]_[*@3 src`_rc], 
 [_^Gate2^ Gate2]<[@(0.0.255) int], [@(0.0.255) int]>_[*@3 progress]_`=_[@(0.0.255) false])&]
-[s2; [%% Returns a new Image rescaled to Size ][*@3 sz][%%  based on Rect 
+[s2; [%% Возвращает a new Image rescaled to Size ][*@3 sz][%%  based on Rect 
 ][*@3 src`_rc ][%% of Image ][*@3 src]&]
 [s3;%% &]
 [s4; &]
@@ -273,41 +273,41 @@ blur approximation algorithms by Wojciech Jarosz and Peter Kovesi.]
 [s4; &]
 [s5;:SetColorKeepAlpha`(const Image`&`,Color`): [_^Image^ Image]_[* SetColorKeepAlpha]([@(0.0.255) c
 onst]_[_^Image^ Image][@(0.0.255) `&]_[*@3 img], [_^Color^ Color]_[*@3 c])&]
-[s2;%% Returns a new Image based on [%-*@3 img] alpha and [%-*@3 c] Color.&]
+[s2;%% Возвращает a new Image based on [%-*@3 img] alpha and [%-*@3 c] Color.&]
 [s3;%% &]
 [s4; &]
 [s5;:RotateClockwise`(const Image`&`): [_^Image^ Image]_[* RotateClockwise]([@(0.0.255) con
 st]_[_^Image^ Image][@(0.0.255) `&]_[*@3 img])&]
-[s2;%% Returns a new[%-*@3  ]Image rotated 90º (clockwise) that is 
+[s2;%% Возвращает a new[%-*@3  ]Image rotated 90º (clockwise) that is 
 based on [%-*@3 img].&]
 [s3;%% &]
 [s4; &]
 [s5;:RotateAntiClockwise`(const Image`&`): [_^Image^ Image]_[* RotateAntiClockwise]([@(0.0.255) c
 onst]_[_^Image^ Image][@(0.0.255) `&]_[*@3 img])&]
-[s2;%% Returns a new Image[%-*@3  ]rotated `-90º (anticlockwise) that 
+[s2;%% Возвращает a new Image[%-*@3  ]rotated `-90º (anticlockwise) that 
 is based on [%-*@3 img].&]
 [s3;%% &]
 [s4; &]
 [s5;:Rotate180`(const Image`&`): [_^Image^ Image]_[* Rotate180]([@(0.0.255) const]_[_^Image^ I
 mage][@(0.0.255) `&]_[*@3 orig])&]
-[s2;%% Returns a new Image[%-*@3  ]rotated 180º that is based on [%-*@3 img].&]
+[s2;%% Возвращает a new Image[%-*@3  ]rotated 180º that is based on [%-*@3 img].&]
 [s3;%% &]
 [s4; &]
 [s5;:MirrorHorz`(const Image`&`): [_^Image^ Image]_[* MirrorHorz]([@(0.0.255) const]_[_^Image^ I
 mage][@(0.0.255) `&]_[*@3 img])&]
-[s2;%% Returns a new Image that is a mirror of [%-*@3 img ]following 
+[s2;%% Возвращает a new Image that is a mirror of [%-*@3 img ]following 
 horizontal axis.&]
 [s3;%% &]
 [s4; &]
 [s5;:MirrorVert`(const Image`&`): [_^Image^ Image]_[* MirrorVert]([@(0.0.255) const]_[_^Image^ I
 mage][@(0.0.255) `&]_[*@3 img])&]
-[s2;%% Returns a new Image that is a mirror of [%-*@3 img ]following 
+[s2;%% Возвращает a new Image that is a mirror of [%-*@3 img ]following 
 vertical axis.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:Rotate`(const Image`&`,int`): [_^Image^ Image]_[* Rotate]([@(0.0.255) const]_[_^Image^ I
 mage][@(0.0.255) `&]_[*@3 m], [@(0.0.255) int]_[*@3 angle])&]
-[s2;%% Returns a new Image based on Image [%-*@3 m] rotated [%-*@3 angle] 
+[s2;%% Возвращает a new Image based on Image [%-*@3 m] rotated [%-*@3 angle] 
 by its center where the full rotation (2[%- π) ]is 3600.&]
 [s3;%% &]
 [s4; &]

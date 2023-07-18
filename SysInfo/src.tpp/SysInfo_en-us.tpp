@@ -19,7 +19,7 @@ topic "Function reference";
 ]_[* GetSystemInfo]([_^String^ String]_`&[*@3 manufacturer], [_^String^ String]_`&[*@3 prod
 uctName], [_^String^ String]_`&[*@3 version], [@(0.0.255) int]_`&[*@3 numberOfProcessors],
  [_^String^ String]_`&[*@3 mbSerial])&]
-[s2; Returns hardware information including computer [%-*@3 manufacturer, 
+[s2; Возвращает hardware information including computer [%-*@3 manufacturer, 
 ] [%-*@3 productName, ] [%-*@3 version], [%-*@3 numberOfProcessors 
 ]and [%-*@3 mbSerial ](motherboard serial number).&]
 [s3; &]
@@ -27,7 +27,7 @@ uctName], [_^String^ String]_`&[*@3 version], [@(0.0.255) int]_`&[*@3 numberOfPr
 [s5;:GetBiosInfo`(String`&`,Date`&`,String`&`):%- [@(0.0.255) void]_[* GetBiosInfo]([_^String^ S
 tring]_`&[*@3 biosVersion], [_^Date^ Date]_`&[*@3 biosReleaseDate][_^String^ , 
 String]_`&[*@3 biosSerial])&]
-[s2;%- [%% Returns bios information including ][*@3 biosVersion][%% , ][*@3 biosReleaseDate][%% .
+[s2;%- [%% Возвращает bios information including ][*@3 biosVersion][%% , ][*@3 biosReleaseDate][%% .
 and ][*@3 biosSerial.]&]
 [s3; &]
 [s4;%- &]
@@ -35,7 +35,7 @@ and ][*@3 biosSerial.]&]
 [* GetProcessorInfo]([@(0.0.255) int]_[*@3 number], [_^String^ String]_`&[*@3 vendor], 
 [_^String^ String]_`&[*@3 identifier], [_^String^ String]_`&[*@3 architecture], 
 [@(0.0.255) int]_`&[*@3 speed])&]
-[s2; Returns information about the different cpu cores.&]
+[s2; Возвращает information about the different cpu cores.&]
 [s2; [%-*@3 number] is the core number to get the information&]
 [s2; [%-*@3 vendor] is the core vendor&]
 [s2; [%-*@3 identifier] is the core identifier&]
@@ -85,19 +85,19 @@ Array_<Value>_`&[*@3 state])&]
 [s3; &]
 [s4;%- &]
 [s5;:GetCpuTemperature`(`):%- [@(0.0.255) double]_[* GetCpuTemperature]()&]
-[s2; Returns CPU temperature in degrees Celsius.&]
+[s2; Возвращает CPU temperature in degrees Celsius.&]
 [s6; It does not work in all computers.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:GetNetworkInfo`(String`&`,String`&`,String`&`,String`&`):%- [@(0.0.255) bool]_[* Get
 NetworkInfo]([_^String^ String]_`&[*@3 name], [_^String^ String]_`&[*@3 domain], 
 [_^String^ String]_`&[*@3 ip4], [_^String^ String]_`&[*@3 ip6])&]
-[s2; Returns the local computer network [%-*@3 name], [%-*@3 domain], 
+[s2; Возвращает the local computer network [%-*@3 name], [%-*@3 domain], 
 [%-*@3 ip4] and [%-*@3 ip6].&]
 [s3; &]
 [s4;%- &]
 [s5;:GetMacAddress`(`):%- [@(0.0.255) String]_[* GetMacAddress]()&]
-[s2; Returns the [%-@3 MAC ]address in uppercase hexadecimal formated 
+[s2; Возвращает the [%-@3 MAC ]address in uppercase hexadecimal formated 
 like `"0A:0B:0C:0C:0D:0E`" or Null.&]
 [s0;l288; This function is deprecated by GetAdapterInfo().&]
 [s3; &]
@@ -124,17 +124,17 @@ included types are:&]
 [s4;%- &]
 [s5;:GetNetworkInfo`(String`&`,String`&`):%- [@(0.0.255) bool]_[* GetNetworkInfo]([_^String^ S
 tring]_`&[*@3 name], [_^String^ String]_`&[*@3 domain])&]
-[s2; Returns the local computer network [%-*@3 name] and [%-*@3 domain].&]
+[s2; Возвращает the local computer network [%-*@3 name] and [%-*@3 domain].&]
 [s3; &]
 [s4;%- &]
 [s5;:GetAvailableSocketPort`(int`):%- [@(0.0.255) int]_[* GetAvailableSocketPort]([@(0.0.255) i
 nt]_[*@3 from]_`=_[@3 49152])&]
-[s2; Returns the first available socket port from [%-*@3 from] or Null 
+[s2; Возвращает the first available socket port from [%-*@3 from] or Null 
 if there is an error.&]
 [s3; &]
 [s4;%- &]
 [s5;:GetHDSerial`(`):%- [@(0.0.255) String]_[* GetHDSerial]()&]
-[s2; Returns the hard disk physical [%-*@3 serial ]number or Null. 
+[s2; Возвращает the hard disk physical [%-*@3 serial ]number or Null. 
 This code is not affected by disk formatting.&]
 [s6; Only available in Windows&]
 [s3; &]
@@ -178,7 +178,7 @@ veSpace]([_^String^ String]_[*@3 drive], [_^uint64^ uint64]_`&[*@3 freeBytesUser
 [s2; [%-*@3 freeBytesUser]: Amount of free bytes available to the user&]
 [s2; [%-*@3 totalBytesUser]: Size of drive visible for the user&]
 [s2; [%-*@3 totalFreeBytes]: Amount of free bytes.&]
-[s0; -|Returns false if drive is not mounted or it is not accessible&]
+[s0; -|Возвращает false if drive is not mounted or it is not accessible&]
 [s3; &]
 [s4;%- &]
 [s5;:GetDriveInformation`(String`,String`&`,String`&`,int`&`,String`&`):%- [@(0.0.255) b
@@ -192,13 +192,13 @@ ool]_[* GetDriveInformation]([_^String^ String]_[*@3 drive], [_^String^ String]_
 [s2;%- [*@3 volume]: Gets the name of the drive&]
 [s2;%- [*@3 maxName]: Gets the maximum length permitted for a file name&]
 [s2;%- fileSystem: Gets the drive formatting system.&]
-[s2; Returns false if drive is not mounted or it is not accessible&]
+[s2; Возвращает false if drive is not mounted or it is not accessible&]
 [s3; &]
 [s4; &]
 [s5;:GetCompilerInfo`(name`, version`, time`, mode`, bits`):%- [@(0.0.255) void]_[* GetCo
 mpilerInfo]([_^String^ String]_`&[*@3 name], [@(0.0.255) int]_`&[*@3 version], 
 [_^Time^ Time]_`&[*@3 time], [_^String^ String]_`&[*@3 mode], [_^String^ int]_`&[*@3 bits])&]
-[s2; Returns compiling information, like compiler [%-*@3 name, ]compiler 
+[s2; Возвращает compiling information, like compiler [%-*@3 name, ]compiler 
 [%-*@3 version], program compilation [%-*@3 time], compiling [%-*@3 mode] 
 and [%-*@3 bits].&]
 [s3; &]
@@ -210,13 +210,13 @@ iningMin])&]
 connected to the grid, [%-*@3 percentage] of charging where 100% 
 means full charge, and number of expected computer running minutes 
 in [%-*@3 remainingMin].&]
-[s2; Возвращает true, если the values got are valid.&]
+[s2; Возвращает  true, если the values got are valid.&]
 [s3; &]
 [s4;%- &]
 [s5;:GetBatteryInfo`(bool`&`):%- [@(0.0.255) bool]_[* GetBatteryInfo]([@(0.0.255) bool]_`&[*@3 p
 resent]_)&]
 [s2; Gets if battery is [%-*@3 present ]or not.&]
-[s2; Возвращает true, если the values got are valid.&]
+[s2; Возвращает  true, если the values got are valid.&]
 [s3; &]
 [s4;%- &]
 [s5;:OpenCDTray`(`):%- [@(0.0.255) void]_[* OpenCDTray]()&]
@@ -262,7 +262,7 @@ ing]>_`&[*@3 pNames])&]
 [s4;%- &]
 [s5;:GetProcessName`(int64`):%- [_^String^ String]_[* GetProcessName]([@(0.0.255) int64]_[*@3 p
 id])&]
-[s2; Returns the process name for a process with handle [%-*@3 pid].&]
+[s2; Возвращает the process name for a process with handle [%-*@3 pid].&]
 [s3; &]
 [s4;%- &]
 [s5;:GetProcessFileName`(int64`):%- [_^String^ String]_[* GetProcessFileName]([@(0.0.255) i
@@ -305,13 +305,13 @@ the window title matches with ][*@3 windowCaption.]&]
 [s4;%- &]
 [s5;:GetProcessIdFromWindowId`(int64`):%- [@(0.0.255) int64]_[* GetProcessIdFromWindowId](
 [@(0.0.255) int64]_[*@3 wid])&]
-[s2;%- [%% Returns the process handle of a program with window handle 
+[s2;%- [%% Возвращает the process handle of a program with window handle 
 ][*@3 wid.]&]
 [s3; &]
 [s4;%- &]
 [s5;:GetWindowIdFromProcessId`(int64`):%- [@(0.0.255) int64]_[* GetWindowIdFromProcessId](
 [@(0.0.255) int64]_[*@3 pid])&]
-[s2;%- [%% Returns the window handle of a program with process handle 
+[s2;%- [%% Возвращает the window handle of a program with process handle 
 ][*@3 pid.]&]
 [s3; &]
 [s4;%- &]
@@ -335,14 +335,14 @@ as a number from 0 (minimum) to 10 (maximum), if possible.&]
 [s4;%- &]
 [s5;:SetProcessPriority`(int64`,int`):%- [@(0.0.255) bool]_[* SetProcessPriority]([@(0.0.255) i
 nt64]_[*@3 pid], [@(0.0.255) int]_[*@3 priority])&]
-[s2; Sets the process priority to [%-*@3 priority ]of the process with 
+[s2; Устанавливаетthe process priority to [%-*@3 priority ]of the process with 
 handle [%-*@3 pid] as a number from 0 (minimum) to 10 (maximum), 
 if possible.&]
 [s3; &]
 [s4;%- &]
 [s5;:ProcessExists`(int64`):%- [@(0.0.255) bool]_[* ProcessExists]([@(0.0.255) int64]_[*@3 pi
 d])&]
-[s2; Возвращает true, если a process with handle [%-*@3 pid ]exists.&]
+[s2; Возвращает  true, если a process with handle [%-*@3 pid ]exists.&]
 [s3; &]
 [s4;%- &]
 [s5;:GetProcessId`(`):%- [@(0.0.255) int64]_[* GetProcessId]()&]
@@ -364,7 +364,7 @@ om])&]
 [s2; Giving this function the [%-*@3 windowId], it returns the window 
 location in the screen in [%-*@3 left], [%-*@3 top], [%-*@3 right] 
 and [%-*@3 bottom].&]
-[s2; Возвращает true, если the values got are valid.&]
+[s2; Возвращает  true, если the values got are valid.&]
 [s3; &]
 [s4;%- &]
 [s5;:Window`_SetRect`(int64`,long`,long`,long`,long`):%- [@(0.0.255) bool]_[* Window`_Set
@@ -373,7 +373,7 @@ Rect]([_^int64^ int64]_[*@3 windowId], [@(0.0.255) long]_[*@3 left],
 [s2; Giving this function the [%-*@3 windowId], it sets the window 
 location in the screen in [%-*@3 left], [%-*@3 top], [%-*@3 right] 
 and [%-*@3 bottom].&]
-[s2; Возвращает true, если the values got are valid.&]
+[s2; Возвращает  true, если the values got are valid.&]
 [s3; &]
 [s4;%- &]
 [s5;:Window`_Bottom`(int64`):%- [@(0.0.255) void]_[* Window`_Bottom]([_^int64^ int64]_[*@3 wi
@@ -397,14 +397,14 @@ indowId])&]
 `&[*@3 x], [@(0.0.255) int]_`&[*@3 y])&]
 [s2; Gets the mouse position [%-*@3 x, y].in screen pixels where upper 
 left corner is (0, 0).&]
-[s2; Возвращает true, если the operation has been done successfully.&]
+[s2; Возвращает  true, если the operation has been done successfully.&]
 [s3; &]
 [s4; &]
 [s5;:Mouse`_SetPos`(int`,int`,int64`):%- [@(0.0.255) bool]_[* Mouse`_SetPos]([@(0.0.255) in
 t]_[*@3 x], [@(0.0.255) int]_[*@3 y], [@(0.0.255) int64]_[*@3 windowId])&]
-[s2; Sets the mouse position to [%-*@3 x] [%-*@3 y] referenced to the 
+[s2; Устанавливаетthe mouse position to [%-*@3 x] [%-*@3 y] referenced to the 
 upper left vertex of window with window handle [%-*@3 windowId].&]
-[s2; Возвращает true, если the operation has been done successfully.&]
+[s2; Возвращает  true, если the operation has been done successfully.&]
 [s3; &]
 [s4;%- &]
 [s5;:Mouse`_LeftClick`(`):%- [@(0.0.255) void]_[* Mouse`_LeftClick]()&]
@@ -493,7 +493,7 @@ l])&]
 [s4;%- &]
 [s5;:SetKeyLockStatus`(bool`,bool`,bool`):%- [@(0.0.255) void]_[* SetKeyLockStatus]([@(0.0.255) b
 ool]_[*@3 caps], [@(0.0.255) bool]_[*@3 num], [@(0.0.255) bool]_[*@3 scroll])&]
-[s2; Sets the status of keys [%-*@3 caps ]lock,  [%-*@3 num ]lock and 
+[s2; Устанавливаетthe status of keys [%-*@3 caps ]lock,  [%-*@3 num ]lock and 
 [%-*@3 scroll] [%-*@3  ]lock. Not fully functional in Linux.&]
 [s3; &]
 [s0; &]
@@ -531,19 +531,19 @@ as an image file.&]
 [s3; &]
 [s4;%- &]
 [s5;:Snap`_Desktop`(`):%- [_^Image^ Image]_[* Snap`_Desktop]()&]
-[s2; Returns the desktop image.&]
+[s2; Возвращает the desktop image.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Snap`_DesktopRectangle`(int`,int`,int`,int`):%- [_^Image^ Image]_[* Snap`_DesktopRec
 tangle]([@(0.0.255) int]_[*@3 left], [@(0.0.255) int]_[*@3 top], [@(0.0.255) int]_[*@3 width],
  [@(0.0.255) int]_[*@3 height])&]
-[s2; Returns the image of a desktop rectangle defined by [%-*@3 left], 
+[s2; Возвращает the image of a desktop rectangle defined by [%-*@3 left], 
 [%-*@3 top], [%-*@3 width ]and [%-*@3 height].&]
 [s3; &]
 [s4;%- &]
 [s5;:Snap`_Window`(int64`):%- [_^Image^ Image]_[* Snap`_Window]([_^int64^ int64]_[*@3 handle])
 &]
-[s2; Returns a window image defined by its [%-*@3 handle].&]
+[s2; Возвращает a window image defined by its [%-*@3 handle].&]
 [s3; &]
 [s4;%- &]
 [s5;:Record`_Desktop`(String`,int`,int`,bool`):%- [@(0.0.255) bool]_[* Record`_Desktop]([_^String^ S
@@ -590,7 +590,7 @@ mouse movement if [%-*@3 viewMouse].is true.&]
 [s4;%- &]
 [s5;:SetDesktopWallPaper`(char`*`):%- [@(0.0.255) void]_[* SetDesktopWallPaper]([@(0.0.255) c
 har]_`*[*@3 path])&]
-[s2; Sets [%-*@3 path].file as desktop wallpaper. Supports Gnome, Kde 
+[s2; Устанавливает[%-*@3 path].file as desktop wallpaper. Supports Gnome, Kde 
 v3 and Windows desktops.&]
 [s0;l288; &]
 [s0;l288;i150;O0; In Gnome, [%-*@3 path] has to be .png&]

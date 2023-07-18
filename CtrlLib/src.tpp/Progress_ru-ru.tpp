@@ -43,7 +43,7 @@ number of steps.&]
 [s3;%- &]
 [s5;:Progress`:`:SetOwner`(Ctrl`*`):%- [@(0.0.255) void]_[* SetOwner]([_^Ctrl^ Ctrl]_`*[*@3 `_
 owner])&]
-[s2; Sets the owner window of progress. [%-*@3 `_owner] can be child 
+[s2; Устанавливаетthe owner window of progress. [%-*@3 `_owner] can be child 
 of owner window too. Note that if owner is not specified, current 
 active window is used as owner.&]
 [s3; &]
@@ -58,12 +58,12 @@ active window is used as owner.&]
 [s4;%- &]
 [s5;:Progress`:`:Set`(int`,int`):%- [@(0.0.255) void]_[* Set]([@(0.0.255) int]_[*@3 pos], 
 [@(0.0.255) int]_[*@3 total])&]
-[s2; Sets the current progress position and total. This method can 
+[s2; Устанавливаетthe current progress position and total. This method can 
 be called from non`-main thread without restriction.&]
 [s3; &]
 [s4;%- &]
 [s5;:Progress`:`:SetPos`(int`):%- [@(0.0.255) void]_[* SetPos]([@(0.0.255) int]_[*@3 pos])&]
-[s2; Sets the current progress position. This method can be called 
+[s2; Устанавливаетthe current progress position. This method can be called 
 from non`-main thread without restriction.&]
 [s3; &]
 [s4;%- &]
@@ -71,13 +71,13 @@ from non`-main thread without restriction.&]
 ]_[@(0.0.255) char]_`*[*@3 s])&]
 [s5;:Progress`:`:SetText`(const String`&`):%- [@(0.0.255) void]_[* SetText]([@(0.0.255) con
 st]_[_^String^ String][@(0.0.255) `&]_[*@3 s])&]
-[s2; Sets the text to be displayed in dialog. This method can be 
+[s2; Устанавливаетthe text to be displayed in dialog. This method can be 
 called from non`-main thread without restriction.&]
 [s3; &]
 [s4;%- &]
 [s5;:Progress`:`:SetTotal`(int`):%- [@(0.0.255) void]_[* SetTotal]([@(0.0.255) int]_[*@3 tota
 l])&]
-[s2; Sets the [%-*@3 total] number of progress steps.&]
+[s2; Устанавливаетthe [%-*@3 total] number of progress steps.&]
 [s3; &]
 [s4;%- &]
 [s5;:Progress`:`:Step`(int`):%- [@(0.0.255) void]_[* Step]([@(0.0.255) int]_[*@3 steps]_`=_[@3 1
@@ -88,20 +88,20 @@ from non`-main thread without restriction.&]
 [s3; &]
 [s4;%- &]
 [s5;:Progress`:`:GetPos`(`)const:%- [@(0.0.255) int]_[* GetPos]()_[@(0.0.255) const]&]
-[s2; Returns the current number of progress steps.&]
+[s2; Возвращает the current number of progress steps.&]
 [s3; &]
 [s4;%- &]
 [s5;:Progress`:`:GetTotal`(`)const:%- [@(0.0.255) int]_[* GetTotal]()_[@(0.0.255) const]&]
-[s2; Returns the total number of steps (as set by [* Set ]or [* SetTotal]).&]
+[s2; Возвращает the total number of steps (as set by [* Set ]or [* SetTotal]).&]
 [s3; &]
 [s4;%- &]
 [s5;:Progress`:`:GetText`(`)const:%- [_^String^ String]_[* GetText]()_[@(0.0.255) const]&]
-[s2; Returns the text of Progress.&]
+[s2; Возвращает the text of Progress.&]
 [s3; &]
 [s4;%- &]
 [s5;:Progress`:`:Canceled`(`):%- [@(0.0.255) bool]_[* Canceled]()&]
 [s2; Shows a Cancel button if not shown yet. If this button is pressed, 
-sets dialog to canceled mode. Возвращает true, если dialog was canceled. 
+sets dialog to canceled mode. Возвращает  true, если dialog was canceled. 
 This method can be called from non`-main thread without restriction. 
 Calling this method from the main thread also invokes processing 
 GUI events, including paint event, so calling this as often as 
@@ -129,23 +129,23 @@ nt]_[*@3 pos])&]
 [s4;%- &]
 [s5;:Progress`:`:Granularity`(int`):%- [@(0.0.255) void]_[* Granularity]([@(0.0.255) int]_[*@3 m
 s])&]
-[s2; Sets how much often should dialog refresh. Default is 50ms.&]
+[s2; Устанавливаетhow much often should dialog refresh. Default is 50ms.&]
 [s3; &]
 [s4;%- &]
 [s5;:Progress`:`:AlignText`(int`):%- [@(0.0.255) void]_[* AlignText]([@(0.0.255) int]_[*@3 al
 ign])&]
-[s2; Sets text alignment. Allowed values are ALIGN`_LEFT, ALIGN`_CENTER 
+[s2; Устанавливаетtext alignment. Allowed values are ALIGN`_LEFT, ALIGN`_CENTER 
 and ALIGN`_RIGHT.&]
 [s3; &]
 [s4;%- &]
 [s5;:Progress`:`:operator Gate2`<int`,int`>`(`):%- [* operator_Gate2<int, 
 int>]()&]
-[s2; Returns a callback to dialog`'s SetCanceled method.&]
+[s2; Возвращает a callback to dialog`'s SetCanceled method.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:Progress`:`:Delay`(int`):%- [@(0.0.255) void]_[* Delay]([@(0.0.255) int]_[*@3 ms])
 &]
-[s2; Sets the delay before the dialog is shown for the first time 
+[s2; Устанавливаетthe delay before the dialog is shown for the first time 
 (in order not to show it when operation proceeds fast). Default 
 is 250ms.&]
 [s3; &]

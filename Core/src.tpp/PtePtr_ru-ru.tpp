@@ -1,4 +1,4 @@
-topic "Ptr and Pte";
+topic "Классы Ptr и Pte";
 [i448;a25;kKO9;2 $$1,0#37138531426314131252341829483380:class]
 [l288;2 $$2,0#27521748481378242620020725143825:desc]
 [0 $$3,0#96390100711032703541132217272105:end]
@@ -10,7 +10,7 @@ topic "Ptr and Pte";
 [b42;2 $$9,9#13035079074754324216151401829390:normal]
 [2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%RU-RU 
-[ {{10000@(113.42.0) [s0; [*@7;4 Ptr and Pte]]}}&]
+[ {{10000@(113.42.0) [s0; [*@7;4 Классы Ptr и Pte]]}}&]
 [s9; Ptr and Pte class templates provide a smart pointer system that 
 cleared (assigned NULL) when pointed object is destructed. That 
 makes it useful in situations where life`-time of object cannot 
@@ -23,7 +23,7 @@ class bases, with the derived class as its parameter, e.g.:&]
 [s0; [C+75 struct Foo : Pte<Foo> `{....]&]
 [s3; &]
 [s0; &]
-[ {{10000@(113.42.0) [s0; [*@7;4 Pte]]}}&]
+[ {{10000@(113.42.0) [s0; [*@7;4 Класс Pte]]}}&]
 [s3;%- &]
 [s1;:noref:%- [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 T][@(0.0.255) >]&]
 [s1;:Pte`:`:class:%- [@(0.0.255) class]_[* Pte]_:_[@(0.0.255) public]_[*@3 PteBase]&]
@@ -32,11 +32,11 @@ class bases, with the derived class as its parameter, e.g.:&]
 pointed object.  &]
 [s0; [*C@4 T]-|Type of pointed object.&]
 [s0; &]
-[s0; [/ Derived from] [^topic`:`/`/Core`/src`/PtePtr`$en`-us`#`:`:PteBase`:`:class PteBase^ P
+[s0; [/ Производный от] [^topic`:`/`/Core`/src`/PtePtr`$en`-us`#`:`:PteBase`:`:class PteBase^ P
 teBase]&]
 [s3; &]
 [s0;%- &]
-[ {{10000@(113.42.0) [s0; [*@7;4 Ptr]]}}&]
+[ {{10000@(113.42.0) [s0; [*@7;4 Класс Ptr]]}}&]
 [s3;%- &]
 [s1;:noref:%- [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 T][@(0.0.255) >]&]
 [s1;:Ptr`:`:class:%- [@(0.0.255) class]_[* Ptr]_:_[@(0.0.255) public]_[*@3 PtrBase], 
@@ -47,7 +47,7 @@ teBase]&]
 [s0; [*C@4 T]-|Type of pointed object. T class must be derived from 
 Pte<T>.&]
 [s0; &]
-[s0; [/ Derived from] [^topic`:`/`/Core`/src`/PtePtr`$en`-us`#`:`:PtrBase`:`:PtrBase`(`)^ P
+[s0; [/ Производный от] [^topic`:`/`/Core`/src`/PtePtr`$en`-us`#`:`:PtrBase`:`:PtrBase`(`)^ P
 trBase]&]
 [s3; &]
 [s1;%- &]
@@ -68,35 +68,35 @@ trBase]&]
 [ {{10000F(128)G(128)@1 [s0; [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:Ptr`:`:operator`-`>`(`)const:%- [*@4 T]_`*[* operator`->]()_[@(0.0.255) const]&]
-[s2; Returns a C`+`+ pointer to pointed object or NULL if Ptr does 
+[s2; Возвращает a C`+`+ pointer to pointed object or NULL if Ptr does 
 not point to any object.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ptr`:`:operator`~`(`)const:%- [*@4 T]_`*[* operator`~]()_[@(0.0.255) const]&]
-[s2; Returns a C`+`+ pointer to pointed object or NULL if Ptr does 
+[s2; Возвращает a C`+`+ pointer to pointed object or NULL if Ptr does 
 not point to any object.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ptr`:`:operator T`*`(`)const:%- [* operator_T`*]()_[@(0.0.255) const]&]
-[s2; Returns a C`+`+ pointer to pointed object or NULL if Ptr does 
+[s2; Возвращает a C`+`+ pointer to pointed object or NULL if Ptr does 
 not point to any object.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ptr`:`:operator`=`(T`*`):%- [_^Ptr^ Ptr][@(0.0.255) `&]_[* operator`=]([*@4 T]_`*[*@3 ptr])
 &]
-[s2; Assigns new pointer. Returns `*this.&]
+[s2; Assigns new pointer. Возвращает `*this.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Ptr`:`:operator`=`(const Ptr`&`):%- [_^Ptr^ Ptr][@(0.0.255) `&]_[* operator`=]([@(0.0.255) c
 onst]_[_^Ptr^ Ptr][@(0.0.255) `&]_[*@3 ptr])&]
-[s2; Assigns other Ptr. Returns `*this.-|&]
+[s2; Assigns other Ptr. Возвращает `*this.-|&]
 [s3; &]
 [s4;%- &]
 [s5;:Ptr`:`:ToString`(`)const:%- [_^String^ String]_[* ToString]()_[@(0.0.255) const]&]
 [s2; Converts all information to string for diagnostic purposes&]
 [s3; &]
 [s0;i448;a25;kKO9;@(0.0.255)%- &]
-[ {{10000F(128)G(128)@1 [s0; [* Global Operators]]}}&]
+[ {{10000F(128)G(128)@1 [s0; [* Глобальные Операторы]]}}&]
 [s3; &]
 [s5;K%- friend_[@(0.0.255) bool][@(64) _]operator`=`=[@(64) (][@(0.0.255) const][@(64) _][^`:`:Ptr^@(64) P
 tr][@(64) `&_][@3 a][@(64) , ][@(0.0.255) const][@(64) _T_`*][@3 b][@(64) )]&]

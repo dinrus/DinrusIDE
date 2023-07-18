@@ -48,10 +48,10 @@ ointf]&]
 [s2; Point with with [* double][@(0.0.255)  ]coordinates .&]
 [s3; &]
 [s0; &]
-[ {{10000F(128)G(128)@1 [s0; [* Constructor List]]}}&]
+[ {{10000F(128)G(128)@1 [s0; [* Конструктор  List]]}}&]
 [s3;%- &]
 [s5;:Point`_`:`:Point`_`(`):%- [* Point`_]()&]
-[s2; Creates an uninitialized [%-* Point`_].&]
+[s2; Создаёт an uninitialized [%-* Point`_].&]
 [s3; &]
 [s4;%- &]
 [s5;:Point`_`:`:Point`_`(const Value`&`):%- [* Point`_]([@(0.0.255) const]_[_^Value^ Value][@(0.0.255) `&
@@ -60,44 +60,44 @@ ointf]&]
 [s3; &]
 [s4;%- &]
 [s5;:Point`_`:`:Point`_`(T`,T`):%- [* Point`_]([*@4 T]_[*@3 x], [*@4 T]_[*@3 y])&]
-[s2; Creates a [%-* Point`_ ]object an initializes it`'s horizontal 
+[s2; Создаёт a [%-* Point`_ ]object an initializes it`'s horizontal 
 coordinate with [%-*@3 x][%-  and it`'s vertical ]coordinate [%- with 
 ][%-*@3 y].&]
 [s3; &]
 [s4;%- &]
 [s5;:Point`_`:`:Point`_`(const Point`_`<int`>`&`):%- [* Point`_]([@(0.0.255) const]_[* Poin
 t`_][@(0.0.255) <int>`&]_[*@3 pt])&]
-[s2; Creates a [%-* Point`_ ]object and initializes it with a [%-* Point 
+[s2; Создаёт a [%-* Point`_ ]object and initializes it with a [%-* Point 
 ][*@3 sz].&]
 [s3; &]
 [s4;%- &]
 [s5;:Point`_`:`:Point`_`(const Point`_`<short`>`&`):%- [* Point`_]([@(0.0.255) const]_[* Po
 int`_][@(0.0.255) <short>`&]_[*@3 pt])&]
-[s2; Creates a [%-* Point`_ ]object and initializes it with a [%-* Point16 
+[s2; Создаёт a [%-* Point`_ ]object and initializes it with a [%-* Point16 
 ][*@3 sz].&]
 [s3; &]
 [s4;%- &]
 [s5;:Point`_`:`:Point`_`(const Point`_`<double`>`&`):%- [* Point`_]([@(0.0.255) const]_[* P
 oint`_][@(0.0.255) <double>`&]_[*@3 pt])&]
-[s2; Creates a [%-* Point`_ ]object and initializes it with a [%-* Pointf 
+[s2; Создаёт a [%-* Point`_ ]object and initializes it with a [%-* Pointf 
 ][*@3 sz].&]
 [s3; &]
 [s4;%- &]
 [s5;:Point`_`:`:Point`_`(const Point`_`<int64`>`&`):%- [* Point`_]([@(0.0.255) const]_[* Po
 int`_][@(0.0.255) <][_^int64^ int64][@(0.0.255) >`&]_[*@3 pt])&]
-[s2; Creates a [%-* Point`_ ]object and initializes it with a [%-* Point64 
+[s2; Создаёт a [%-* Point`_ ]object and initializes it with a [%-* Point64 
 ][%-*@3 sz].&]
 [s3; &]
 [s4;%- &]
 [s5;:Point`_`:`:Point`_`(const Size`_`<T`>`&`):%- [* Point`_]([@(0.0.255) const]_[_^Size`_^ S
 ize`_][@(0.0.255) <][*@4 T][@(0.0.255) >`&]_[*@3 sz])&]
-[s2; Creates a [%-* Point`_ ]object and initializes it with a [* Size] 
+[s2; Создаёт a [%-* Point`_ ]object and initializes it with a [* Size] 
 [%-*@3 sz].&]
 [s3; &]
 [s4;%- &]
 [s5;:Point`_`:`:Point`_`(const Nuller`&`):%- [* Point`_]([@(0.0.255) const]_[_^Nuller^ Null
 er][@(0.0.255) `&])&]
-[s2; Creates a [%-* Point`_ ]object and initializes with [* Null].&]
+[s2; Создаёт a [%-* Point`_ ]object and initializes with [* Null].&]
 [s3; &]
 [s0; &]
 [ {{10000F(128)G(128)@1 [s0; [* Public Field List]]}}&]
@@ -113,11 +113,11 @@ er][@(0.0.255) `&])&]
 [ {{10000F(128)G(128)@1 [s0; [* Method List]]}}&]
 [s3;%- &]
 [s5;:Point`_`:`:Clear`(`):%- [@(0.0.255) void]_[* Clear]()&]
-[s2; Sets both coordinates to 0.&]
+[s2; Устанавливаетboth coordinates to 0.&]
 [s3; &]
 [s4;%- &]
 [s5;:Point`_`:`:IsZero`(`)const:%- [@(0.0.255) bool]_[* IsZero]()_[@(0.0.255) const]&]
-[s2; Returns [* true] if both coordinates are 0, [* false] otherwise.&]
+[s2; Возвращает [* true] if both coordinates are 0, [* false] otherwise.&]
 [s3; &]
 [s4;%- &]
 [s5;:Point`_`:`:SetNull`(`):%- [@(0.0.255) void]_[* SetNull]()&]
@@ -136,11 +136,11 @@ onst]&]
 [s4;%- &]
 [s5;:Point`_`:`:GetHashValue`(`)const:%- [@(0.0.255) unsigned]_[* GetHashValue]()_[@(0.0.255) c
 onst]&]
-[s2; Returns the hash value of the point.&]
+[s2; Возвращает the hash value of the point.&]
 [s3; &]
 [s4;%- &]
 [s5;:Point`_`:`:ToString`(`)const:%- [_^String^ String]_[* ToString]()_[@(0.0.255) const]&]
-[s2; Returns the [* String] representation of the point.&]
+[s2; Возвращает the [* String] representation of the point.&]
 [s3; &]
 [s4;%- &]
 [s5;:Point`_`:`:operator`+`=`(Point`_`):%- [_^Point`_^ Point`_][@(0.0.255) `&]_[* operator`+
@@ -230,7 +230,7 @@ rator/`=]([_^Size`_^ Size`_][@(0.0.255) <][*@4 T][@(0.0.255) >]_[*@3 p])&]
 [s3; &]
 [s4;%- &]
 [s5;:Point`_`:`:operator Value`(`)const:%- [* operator_Value]()_[@(0.0.255) const]&]
-[s2; Returns a conversion of the point to [* Value].&]
+[s2; Возвращает a conversion of the point to [* Value].&]
 [s3; &]
 [s4;%- &]
 [s5;:Point`_`:`:Serialize`(Stream`&`):%- [@(0.0.255) void]_[* Serialize]([_^Stream^ Stream][@(0.0.255) `&
@@ -242,12 +242,12 @@ rator/`=]([_^Size`_^ Size`_][@(0.0.255) <][*@4 T][@(0.0.255) >]_[*@3 p])&]
 [s3; &]
 [s5;:`:`:Point`_`:`:operator`+`(`:`:Point`_`):%- friend_[^`:`:Point`_^ Point`_]_operato
 r`+[@(64) (][^`:`:Point`_^@(64) Point`_][@(64) _][@3 p][@(64) )]&]
-[s2; Returns an unmodified point [%-*@3 s].&]
+[s2; Возвращает an unmodified point [%-*@3 s].&]
 [s3; &]
 [s4; &]
 [s5;:`:`:Point`_`:`:operator`-`(`:`:Point`_`):%- friend_[^`:`:Point`_^ Point`_]_operato
 r`-[@(64) (][^`:`:Point`_^@(64) Point`_][@(64) _][@3 p][@(64) )]&]
-[s2; Returns a negated point [%-*@3 s].&]
+[s2; Возвращает a negated point [%-*@3 s].&]
 [s3; &]
 [s4; &]
 [s5;:`:`:Point`_`:`:operator`+`(`:`:Point`_`,`:`:Point`_`):%- friend_[^`:`:Point`_^ Poi
@@ -263,7 +263,7 @@ ator`+[@(64) (T_][@3 t][@(64) , ][^`:`:Point`_^@(64) Point`_][@(64) _][@3 b][@(6
 [s5;:`:`:Point`_`:`:operator`+`(`:`:Point`_`:`:Sz`,`:`:Point`_`):%- friend_[^topic`:`/`/Core`/src`/Size`$en`-us^ S
 ize`_]<[@4 T][@(64) >_]operator`+[@(64) (][^topic`:`/`/Core`/src`/Size`$en`-us^@(64) Size
 `_][@(64) <][@4 T][@(64) >_][@3 a][@(64) , ][^`:`:Point`_^@(64) Point`_][@(64) _][@3 b][@(64) )]&]
-[s2; Returns the result of the addition of two [* Point`_ ]values, 
+[s2; Возвращает the result of the addition of two [* Point`_ ]values, 
 a [* Point`_ ]with a [* Size`_ ]or a [* Point`_ ]with single value.&]
 [s3; &]
 [s4; &]
@@ -278,7 +278,7 @@ ator`-[@(64) (][^`:`:Point`_^@(64) Point`_][@(64) _][@3 a][@(64) , T_][@3 t][@(6
 [s5;:`:`:Point`_`:`:operator`-`(`:`:Point`_`:`:Sz`,`:`:Point`_`):%- friend_[^topic`:`/`/Core`/src`/Size`$en`-us^ S
 ize`_]<[@4 T][@(64) >_]operator`-[@(64) (][^topic`:`/`/Core`/src`/Size`$en`-us^@(64) Size
 `_][@(64) <][@4 T][@(64) >_][@3 a][@(64) , ][^`:`:Point`_^@(64) Point`_][@(64) _][@3 b][@(64) )]&]
-[s2; Returns the result of the subtraction of two [* Point`_ ]values, 
+[s2; Возвращает the result of the subtraction of two [* Point`_ ]values, 
 a [* Point`_ ]with a [* Size`_] or a [* Point`_ ]with single value.&]
 [s3; &]
 [s4; &]
@@ -289,7 +289,7 @@ nt`_]_operator`*[@(64) (][^`:`:Point`_^@(64) Point`_][@(64) _][@3 a][@(64) ,
 ator`*[@(64) (][^`:`:Point`_^@(64) Point`_][@(64) _][@3 a][@(64) , T_][@3 b][@(64) )]&]
 [s5;:`:`:Point`_`:`:operator`*`(T`,`:`:Point`_`):%- friend_[^`:`:Point`_^ Point`_]_oper
 ator`*[@(64) (T_][@3 a][@(64) , ][^`:`:Point`_^@(64) Point`_][@(64) _][@3 b][@(64) )]&]
-[s2; Returns the result of the multiplication of two [* Point`_ ]values 
+[s2; Возвращает the result of the multiplication of two [* Point`_ ]values 
 or[*  ]a [* Point`_ ]with single value.&]
 [s3; &]
 [s4; &]
@@ -298,40 +298,40 @@ oint`_]_operator/[@(64) (][^`:`:Point`_^@(64) Point`_][@(64) _][@3 a][@(64) ,
 ][^`:`:Point`_`:`:Sz^@(64) Sz][@(64) _][@3 b][@(64) )]&]
 [s5;:`:`:Point`_`:`:operator`/`(`:`:Point`_`,T`):%- friend_[^`:`:Point`_^ Point`_]_oper
 ator/[@(64) (][^`:`:Point`_^@(64) Point`_][@(64) _][@3 a][@(64) , T_][@3 b][@(64) )]&]
-[s2; Returns the result of the division of a [* Point`_ ]with a [* Size`_] 
+[s2; Возвращает the result of the division of a [* Point`_ ]with a [* Size`_] 
 or a [* Point`_ ]with single value.&]
 [s3; &]
 [s4; &]
 [s5;:`:`:Point`_`:`:operator`<`<`(`:`:Point`_`,int`):%- friend_[^`:`:Point`_^ Point`_]_
 operator<<[@(64) (][^`:`:Point`_^@(64) Point`_][@(64) _][@3 a][@(64) , 
 ][@(0.0.255) int][@(64) _][@3 sh][@(64) )]&]
-[s2; Returns the result of left shifting [*@3 a] by [*@3 sh].&]
+[s2; Возвращает the result of left shifting [*@3 a] by [*@3 sh].&]
 [s3; &]
 [s4; &]
 [s5;:`:`:Point`_`:`:operator`>`>`(`:`:Point`_`,int`):%- friend_[^`:`:Point`_^ Point`_]_
 operator>>[@(64) (][^`:`:Point`_^@(64) Point`_][@(64) _][@3 a][@(64) , 
 ][@(0.0.255) int][@(64) _][@3 sh][@(64) )]&]
-[s2; Returns the result of right shifting [*@3 a] by [*@3 sh].&]
+[s2; Возвращает the result of right shifting [*@3 a] by [*@3 sh].&]
 [s3; &]
 [s4; &]
 [s5;:`:`:Point`_`:`:operator`=`=`(`:`:Point`_`,`:`:Point`_`):%- friend_[@(0.0.255) bool
 ][@(64) _]operator`=`=[@(64) (][^`:`:Point`_^@(64) Point`_][@(64) _][@3 a][@(64) , 
 ][^`:`:Point`_^@(64) Point`_][@(64) _][@3 b][@(64) )]&]
-[s2; Returns [* true ]if [*@3 a ]and [*@3 b ]have their respective coordinates 
+[s2; Возвращает [* true ]if [*@3 a ]and [*@3 b ]have their respective coordinates 
 equal, [* false ]otherwise.&]
 [s3; &]
 [s4; &]
 [s5;:`:`:Point`_`:`:operator`!`=`(`:`:Point`_`,`:`:Point`_`):%- friend_[@(0.0.255) bool
 ][@(64) _]operator!`=[@(64) (][^`:`:Point`_^@(64) Point`_][@(64) _][@3 a][@(64) , 
 ][^`:`:Point`_^@(64) Point`_][@(64) _][@3 b][@(64) )]&]
-[s2; Returns [* true ]if [*@3 a ]and [*@3 b ]have at least an unequal coordinates 
+[s2; Возвращает [* true ]if [*@3 a ]and [*@3 b ]have at least an unequal coordinates 
 , [* false ]otherwise.&]
 [s3; &]
 [s4; &]
 [s5;:`:`:Point`_`:`:min`(`:`:Point`_`,`:`:Point`_`):%- friend_[^`:`:Point`_^ Point`_]_m
 in[@(64) (][^`:`:Point`_^@(64) Point`_][@(64) _][@3 a][@(64) , ][^`:`:Point`_^@(64) Point`_][@(64) _
 ][@3 b][@(64) )]&]
-[s2;%- [%% Returns a ][%%* Point`_][%%  with it`'s coordinates equaling 
+[s2;%- [%% Возвращает a ][%%* Point`_][%%  with it`'s coordinates equaling 
 the minimum of the respective coordinates between ][*@3 a][@3  ]and[%%  
 ][*@3 b].&]
 [s3;%- &]
@@ -339,7 +339,7 @@ the minimum of the respective coordinates between ][*@3 a][@3  ]and[%%
 [s5;:`:`:Point`_`:`:max`(`:`:Point`_`,`:`:Point`_`):%- friend_[^`:`:Point`_^ Point`_]_m
 ax[@(64) (][^`:`:Point`_^@(64) Point`_][@(64) _][@3 a][@(64) , ][^`:`:Point`_^@(64) Point`_][@(64) _
 ][@3 b][@(64) )]&]
-[s2;%- [%% Returns a ][%%* Point`_][%%  with it`'s coordinates equaling 
+[s2;%- [%% Возвращает a ][%%* Point`_][%%  with it`'s coordinates equaling 
 the maximum of the respective coordinates between ][*@3 a][@3  ]and[%%  
 ][*@3 b].&]
 [s3;%- &]
@@ -347,6 +347,6 @@ the maximum of the respective coordinates between ][*@3 a][@3  ]and[%%
 [s5;:`:`:Point`_`:`:Nvl`(`:`:Point`_`,`:`:Point`_`):%- friend_[^`:`:Point`_^ Point`_]_N
 vl[@(64) (][^`:`:Point`_^@(64) Point`_][@(64) _][@3 a][@(64) , ][^`:`:Point`_^@(64) Point`_][@(64) _
 ][@3 b][@(64) )]&]
-[s2; Returns [%-*@3 b] if [%-*@3 a] is Null, [%-*@3 a] otherwise.&]
+[s2; Возвращает [%-*@3 b] if [%-*@3 a] is Null, [%-*@3 a] otherwise.&]
 [s3; &]
 [s0; ]

@@ -48,13 +48,13 @@ is empty.&]
 [s3; &]
 [s4; &]
 [s5;:LineEdit`:`:GetFontSize`(`)const: [_^Size^ Size]_[* GetFontSize]()_[@(0.0.255) const]&]
-[s2;%% Returns the size of font character cell (LineEdit expects 
+[s2;%% Возвращает the size of font character cell (LineEdit expects 
 monospace glyphs `-  the width of character is constant).&]
 [s3; &]
 [s4; &]
 [s5;:LineEdit`:`:GetGPos`(int`,int`)const: [@(0.0.255) int]_[* GetGPos]([@(0.0.255) int]_[*@3 l
 n], [@(0.0.255) int]_[*@3 cl])_[@(0.0.255) const]&]
-[s2;%% Returns `"graphical`" position of [%-*@3 ln] line and [%-*@3 cl] 
+[s2;%% Возвращает `"graphical`" position of [%-*@3 ln] line and [%-*@3 cl] 
 column. This takes into account any tabulator characters in the 
 line.&]
 [s3; &]
@@ -66,32 +66,32 @@ t]_[*@3 p])_[@(0.0.255) const]&]
 [s4; &]
 [s5;:LineEdit`:`:GetColumnLine`(int`)const: [_^Point^ Point]_[* GetColumnLine]([@(0.0.255) i
 nt]_[*@3 pos])_[@(0.0.255) const]&]
-[s2;%% Returns the line and column for the character at [%-*@3 pos] 
+[s2;%% Возвращает the line and column for the character at [%-*@3 pos] 
 accounting for any tabulators. Column is x member of resulting 
 Point, line is y.&]
 [s3; &]
 [s4; &]
 [s5;:LineEdit`:`:GetColumnLinePos`(Point`)const: [@(0.0.255) int]_[* GetColumnLinePos]([_^Point^ P
 oint]_[*@3 pos])_[@(0.0.255) const]&]
-[s2;%% Returns the position for given column and line [%-*@3 pos]. 
+[s2;%% Возвращает the position for given column and line [%-*@3 pos]. 
 Does account for tabulators.&]
 [s3; &]
 [s4; &]
 [s5;:LineEdit`:`:GetIndexLine`(int`)const: [_^Point^ Point]_[* GetIndexLine]([@(0.0.255) in
 t]_[*@3 pos])_[@(0.0.255) const]&]
-[s2;%% Returns the line and index of character in the line for the 
+[s2;%% Возвращает the line and index of character in the line for the 
 given [%-*@3 pos]. Does not account for tabulators.&]
 [s3; &]
 [s4; &]
 [s5;:LineEdit`:`:GetIndexLinePos`(Point`)const: [@(0.0.255) int]_[* GetIndexLinePos]([_^Point^ P
 oint]_[*@3 pos])_[@(0.0.255) const]&]
-[s2;%% Returns the position for given column and line [%-*@3 pos]. 
+[s2;%% Возвращает the position for given column and line [%-*@3 pos]. 
 Does not account for tabulators.&]
 [s3; &]
 [s4; &]
 [s5;:LineEdit`:`:SetRectSelection`(int`,int`): [@(0.0.255) void]_[* SetRectSelection]([@(0.0.255) i
 nt]_[*@3 l], [@(0.0.255) int]_[*@3 h])&]
-[s2;%% Sets rectangular selection.&]
+[s2;%% Устанавливаетrectangular selection.&]
 [s3;%% &]
 [s4; &]
 [s5;:LineEdit`:`:SetRectSelection`(const Rect`&`): [@(0.0.255) void]_[* SetRectSelection](
@@ -102,14 +102,14 @@ rect.right));&]
 [s4; &]
 [s5;:LineEdit`:`:GetRectSelection`(`)const: [_^Rect^ Rect]_[* GetRectSelection]()_[@(0.0.255) c
 onst]&]
-[s2;%% Returns rectangular selection (as `"graphical`").&]
+[s2;%% Возвращает rectangular selection (as `"graphical`").&]
 [s3; &]
 [s4; &]
 [s5;:LineEdit`:`:GetRectSelection`(const Rect`&`,int`,int`&`,int`&`): [@(0.0.255) bool]_
 [* GetRectSelection]([@(0.0.255) const]_[_^Rect^ Rect][@(0.0.255) `&]_[*@3 rect], 
 [@(0.0.255) int]_[*@3 line], [@(0.0.255) int`&]_[*@3 l], [@(0.0.255) int]_`&[*@3 h])&]
-[s2;%% Returns lower and upper limits [%-*@3 l] [%-*@3 h] of characters 
-of [%-*@3 line] that are in rectangular selection [%-*@3 rect]. Returns 
+[s2;%% Возвращает lower and upper limits [%-*@3 l] [%-*@3 h] of characters 
+of [%-*@3 line] that are in rectangular selection [%-*@3 rect]. Возвращает 
 false when line is not in selection.&]
 [s3;%% &]
 [s4; &]
@@ -230,29 +230,29 @@ text.&]
 [s4; &]
 [s5;:LineEdit`:`:GetScrollPos`(`)const: [_^Point^ Point]_[* GetScrollPos]()_[@(0.0.255) con
 st]&]
-[s2;%% Returns the actual scroll position.&]
+[s2;%% Возвращает the actual scroll position.&]
 [s3; &]
 [s4; &]
 [s5;:LineEdit`:`:GetPageSize`(`): [_^Size^ Size]_[* GetPageSize]()&]
-[s2;%% Returns the current view size in character cells.&]
+[s2;%% Возвращает the current view size in character cells.&]
 [s3; &]
 [s4; &]
 [s5;:LineEdit`:`:SetScrollPos`(Point`): [@(0.0.255) void]_[* SetScrollPos]([_^Point^ Point]_
 [*@3 p])&]
-[s2;%% Sets the scroll position of view, e.g. to the value obtained 
+[s2;%% Устанавливаетthe scroll position of view, e.g. to the value obtained 
 by GetScrollPos.&]
 [s3; &]
 [s4; &]
 [s5;:LineEdit`:`:GetEditPos`(`)const: [_^LineEdit`:`:EditPos^ EditPos]_[* GetEditPos]()_[@(0.0.255) c
 onst]&]
-[s2;%% Returns the edit position in the text to be restored later. 
+[s2;%% Возвращает the edit position in the text to be restored later. 
 Edit position comprises cursor and scrollbar positions.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:LineEdit`:`:SetEditPos`(const Upp`:`:TextCtrl`:`:EditPos`&`): [@(0.0.255) v
 oid]_[* SetEditPos]([@(0.0.255) const]_[_^Upp`:`:TextCtrl`:`:EditPos^ EditPos][@(0.0.255) `&
 ]_[*@3 pos])&]
-[s2;%% Sets the edit position obtained by calling GetEditPos. If 
+[s2;%% Устанавливаетthe edit position obtained by calling GetEditPos. If 
 cursor is not in the view after restoring, view is scrolled so 
 that it is by calling ScrollIntoCursor.&]
 [s3; &]
@@ -260,14 +260,14 @@ that it is by calling ScrollIntoCursor.&]
 [s5;:LineEdit`:`:SetEditPosSb`(const LineEdit`:`:EditPos`&`): [@(0.0.255) void]_[* SetEdi
 tPosSb]([@(0.0.255) const]_[_^LineEdit`:`:EditPos^ LineEdit`::EditPos][@(0.0.255) `&]_[*@3 p
 os])&]
-[s2;%% Sets the edit position obtained by calling GetEditPos. Unlike 
+[s2;%% Устанавливаетthe edit position obtained by calling GetEditPos. Unlike 
 SetEditPos, no scrolls are performed to get cursor into the view.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:LineEdit`:`:SetEditPosSbOnly`(const Upp`:`:LineEdit`:`:EditPos`&`): [@(0.0.255) v
 oid]_[* SetEditPosSbOnly]([@(0.0.255) const]_[_^Upp`:`:LineEdit`:`:EditPos^ LineEdit`::E
 ditPos][@(0.0.255) `&]_[*@3 pos])&]
-[s2;%% Sets only scrollbar position of [%-*@3 pos].&]
+[s2;%% Устанавливаетonly scrollbar position of [%-*@3 pos].&]
 [s3;%% &]
 [s4; &]
 [s5;:LineEdit`:`:ScrollIntoCursor`(`): [@(0.0.255) void]_[* ScrollIntoCursor]()&]
@@ -279,11 +279,11 @@ to the last line.&]
 [s4; &]
 [s5;:LineEdit`:`:GetCaretPoint`(`)const: [_^Point^ Point]_[* GetCaretPoint]()_[@(0.0.255) c
 onst]&]
-[s2;%% Returns the current caret position.&]
+[s2;%% Возвращает the current caret position.&]
 [s3; &]
 [s4; &]
 [s5;:LineEdit`:`:Clear`(`): [@(0.0.255) void]_[* Clear]()&]
-[s2;%% Sets the text empty.&]
+[s2;%% Устанавливаетthe text empty.&]
 [s3; &]
 [s4; &]
 [s5;:LineEdit`:`:OverWriteMode`(bool`): [@(0.0.255) void]_[* OverWriteMode]([@(0.0.255) boo
@@ -298,7 +298,7 @@ instead of being inserted.&]
 [s4; &]
 [s5;:LineEdit`:`:RefreshChars`(bool`(`*`)`(int c`)`): [@(0.0.255) void]_[* RefreshChars](
 [@(0.0.255) bool]_(`*[*@3 predicate])([@(0.0.255) int]_c))&]
-[s2;%% Calls [%-*@3 predicate] for all characters in current view and 
+[s2;%% Вызывает [%-*@3 predicate] for all characters in current view and 
 when it returns true refreshes (schedules for repainting) character 
 cell. It is useful for advanced code editors (e.g. refreshing 
 color of braces in DinrusIDE editor).&]
@@ -306,11 +306,11 @@ color of braces in DinrusIDE editor).&]
 [s4; &]
 [s5;:LineEdit`:`:TabSize`(int`): [_^LineEdit^ LineEdit][@(0.0.255) `&]_[* TabSize]([@(0.0.255) i
 nt]_[*@3 n])&]
-[s2;%% Sets the tabulator size.&]
+[s2;%% Устанавливаетthe tabulator size.&]
 [s3; &]
 [s4; &]
 [s5;:LineEdit`:`:GetTabSize`(`)const: [@(0.0.255) int]_[* GetTabSize]()_[@(0.0.255) const]&]
-[s2;%% Returns current tabulator size.&]
+[s2;%% Возвращает current tabulator size.&]
 [s3; &]
 [s4; &]
 [s5;:LineEdit`:`:BorderColumn`(int`,Color`): [_^LineEdit^ LineEdit][@(0.0.255) `&]_[* Borde
@@ -325,14 +325,14 @@ rColumn]([@(0.0.255) int]_[*@3 col], [_^Color^ Color]_[*@3 c]_`=_SColorFace())&]
 [s4; &]
 [s5;:LineEdit`:`:SetFont`(Font`): [_^LineEdit^ LineEdit][@(0.0.255) `&]_[* SetFont]([_^Font^ F
 ont]_[*@3 f])&]
-[s2;%% Sets the font. HighlightLine can replace this font, however, 
+[s2;%% Устанавливаетthe font. HighlightLine can replace this font, however, 
 the size of character cell is determined by this font (note that 
 CJK ideograms are two character cells wide). Font should be monospaced. 
-Returns `*this. Default font is Courier(16).&]
+Возвращает `*this. Default font is Courier(16).&]
 [s3; &]
 [s4; &]
 [s5;:LineEdit`:`:GetFont`(`)const: [_^Font^ Font]_[* GetFont]()_[@(0.0.255) const]&]
-[s2;%% Returns the font.&]
+[s2;%% Возвращает the font.&]
 [s3; &]
 [s4; &]
 [s5;:LineEdit`:`:NoHorzScrollbar`(bool`): [_^LineEdit^ LineEdit][@(0.0.255) `&]_[* NoHorzSc
@@ -343,7 +343,7 @@ is off.&]
 [s4; &]
 [s5;:LineEdit`:`:IsNoHorzScrollbar`(`)const: [@(0.0.255) bool]_[* IsNoHorzScrollbar]()_[@(0.0.255) c
 onst]&]
-[s2;%% Returns status of NoHrozScrollbar.&]
+[s2;%% Возвращает status of NoHrozScrollbar.&]
 [s3; &]
 [s4; &]
 [s5;:LineEdit`:`:ShowTabs`(bool`): [_^LineEdit^ LineEdit][@(0.0.255) `&]_[* ShowTabs]([@(0.0.255) b
@@ -353,7 +353,7 @@ Default is off.&]
 [s3; &]
 [s4; &]
 [s5;:LineEdit`:`:IsShowTabs`(`)const: [@(0.0.255) bool]_[* IsShowTabs]()_[@(0.0.255) const]&]
-[s2;%% Returns status of ShowTabs..&]
+[s2;%% Возвращает status of ShowTabs..&]
 [s3; &]
 [s4; &]
 [s5;:LineEdit`:`:ShowSpaces`(bool`): [_^LineEdit^ LineEdit][@(0.0.255) `&]_[* ShowSpaces]([@(0.0.255) b
@@ -364,7 +364,7 @@ is off.&]
 [s4; &]
 [s5;:LineEdit`:`:IsShowSpaces`(`)const: [@(0.0.255) bool]_[* IsShowSpaces]()_[@(0.0.255) co
 nst]&]
-[s2;%% Returns status of ShowSpaces.&]
+[s2;%% Возвращает status of ShowSpaces.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:LineEdit`:`:ShowLineEndings`(bool`): [_^Upp`:`:LineEdit^ LineEdit][@(0.0.255) `&
@@ -375,7 +375,7 @@ Default is off.&]
 [s4; &]
 [s5;:Upp`:`:LineEdit`:`:IsShowLineEndings`(`)const: [@(0.0.255) bool]_[* IsShowLineEnding
 s]()_[@(0.0.255) const]&]
-[s2;%% Returns status of ShowLineEndings.&]
+[s2;%% Возвращает status of ShowLineEndings.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:LineEdit`:`:WarnWhiteSpace`(bool`): [_^Upp`:`:LineEdit^ LineEdit][@(0.0.255) `&
@@ -387,7 +387,7 @@ off.&]
 [s4; &]
 [s5;:Upp`:`:LineEdit`:`:IsWantWhiteSpace`(`)const: [@(0.0.255) bool]_[* IsWantWhiteSpace](
 )_[@(0.0.255) const]&]
-[s2;%% Returns status of WarnWhiteSpace.&]
+[s2;%% Возвращает status of WarnWhiteSpace.&]
 [s3; &]
 [s4; &]
 [s5;:LineEdit`:`:WithCutLine`(bool`): [_^LineEdit^ LineEdit][@(0.0.255) `&]_[* WithCutLine](
@@ -402,12 +402,12 @@ or Ctrl`+L. Default is on.&]
 [s4; &]
 [s5;:LineEdit`:`:IsWithCutLine`(`)const: [@(0.0.255) bool]_[* IsWithCutLine]()_[@(0.0.255) c
 onst]&]
-[s2;%% Returns status of WithCutLine.&]
+[s2;%% Возвращает status of WithCutLine.&]
 [s3; &]
 [s4; &]
 [s5;:LineEdit`:`:SetFilter`(int`(`*`)`(int c`)`): [_^LineEdit^ LineEdit][@(0.0.255) `&]_[* S
 etFilter]([@(0.0.255) int]_(`*[*@3 f])([@(0.0.255) int]_c))&]
-[s2;%% Sets the filter of characters processed. Filter function can 
+[s2;%% Устанавливаетthe filter of characters processed. Filter function can 
 alter characters before they are inserted into the text. If filter 
 function returns zero, character is rejected.&]
 [s0; &]

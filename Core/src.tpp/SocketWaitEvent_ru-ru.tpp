@@ -38,7 +38,7 @@ index is reserved anyway (see Get).&]
 [s5;:SocketWaitEvent`:`:Wait`(int`): [@(0.0.255) int]_[* Wait]([@(0.0.255) int]_[*@3 timeout])
 &]
 [s2;%% Waits for event for [%-*@3 timeout] ms. If [%-*@3 timeout] is 
-Null, call is blocking. Returns a number of sockets that signaled 
+Null, call is blocking. Возвращает a number of sockets that signaled 
 an event.&]
 [s3;%% &]
 [s4; &]
@@ -46,7 +46,7 @@ an event.&]
 onst]&]
 [s5;:SocketWaitEvent`:`:operator`[`]`(int`)const: [_^dword^ dword]_[* operator`[`]]([@(0.0.255) i
 nt]_[*@3 i])_[@(0.0.255) const]&]
-[s2;%% Returns events that triggered for socket at index [%-*@3 i] 
+[s2;%% Возвращает events that triggered for socket at index [%-*@3 i] 
 (indicies are specified by order of Add calls) as binary or of 
 WAIT`_READ, WAIT`_WRITE, WAIT`_IS`_EXCEPTION (something bad happened, 
 like peer closing the connection). If there were none events 
@@ -54,6 +54,6 @@ for requested socket (or it is not open), returns 0.&]
 [s3;%% &]
 [s4; &]
 [s5;:SocketWaitEvent`:`:SocketWaitEvent`(`): [* SocketWaitEvent]()&]
-[s2;%% Constructor.&]
+[s2;%% Конструктор .&]
 [s3; &]
 [s0;%% ]]

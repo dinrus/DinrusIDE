@@ -63,7 +63,7 @@ as [* Rect`_].&]
 [ {{10000F(128)G(128)@1 [s0;%% [* Детали Конструктора]]}}&]
 [s3; &]
 [s5;:Rect`_`:`:Rect`_`(`): [* Rect`_]()&]
-[s2;%% Creates an uninitialized [* Rect`_].&]
+[s2;%% Создаёт an uninitialized [* Rect`_].&]
 [s3; &]
 [s4; &]
 [s5;:Rect`_`:`:Rect`_`(const Value`&`): [* Rect`_]([@(0.0.255) const]_[_^Value^ Value][@(0.0.255) `&
@@ -73,55 +73,55 @@ as [* Rect`_].&]
 [s4; &]
 [s5;:Rect`_`:`:Rect`_`(T`,T`,T`,T`): [* Rect`_]([*@4 T]_[*@3 l], [*@4 T]_[*@3 t], 
 [*@4 T]_[*@3 r], [*@4 T]_[*@3 b])&]
-[s2;%% Creates a [* Rect`_] and initializes it`'s coordinates with 
+[s2;%% Создаёт a [* Rect`_] and initializes it`'s coordinates with 
 [%-*@3 l][%-* ,] [%-*@3 t][%-* ,] [%-*@3 r][%-  and] [%-*@3 b].&]
 [s3;%% &]
 [s4; &]
 [s5;:Rect`_`:`:Rect`_`(Rect`_`:`:Pt`,Rect`_`:`:Pt`): [* Rect`_]([_^Rect`_`:`:Pt^ Pt]_[*@3 a
 ], [_^Rect`_`:`:Pt^ Pt]_[*@3 b])&]
-[s2;%% Creates a [* Rect`_] and initializes it`'s upper left corner 
+[s2;%% Создаёт a [* Rect`_] and initializes it`'s upper left corner 
 with [%-*@3 a ]and it`'s bottom right corner with [%-*@3 b].&]
 [s3;%% &]
 [s4; &]
 [s5;:Rect`_`:`:Rect`_`(Rect`_`:`:Pt`,Rect`_`:`:Sz`): [* Rect`_]([_^Rect`_`:`:Pt^ Pt]_[*@3 a
 ], [_^Rect`_`:`:Sz^ Sz]_[*@3 sz])&]
-[s2;%% Creates a [* Rect`_] and initializes it`'s upper left corner 
+[s2;%% Создаёт a [* Rect`_] and initializes it`'s upper left corner 
 with [%-*@3 a ]and it`'s bottom right corner with [*@3 a ][* `+][*@3  
 sz].&]
 [s3;%% &]
 [s4; &]
 [s5;:Rect`_`:`:Rect`_`(Rect`_`:`:Sz`): [* Rect`_]([_^Rect`_`:`:Sz^ Sz]_[*@3 sz])&]
-[s2;%% Creates a [* Rect`_] and initializes it`'s upper left corner 
+[s2;%% Создаёт a [* Rect`_] and initializes it`'s upper left corner 
 with [%-* (0, 0)][%-*@3  ]and it`'s bottom right corner with [*@3 sz].&]
 [s3;%% &]
 [s4; &]
 [s5;:Rect`_`:`:Rect`_`(const Rect`_`<int`>`&`): [* Rect`_]([@(0.0.255) const]_[* Rect`_][@(0.0.255) <
 int>`&]_[*@3 r])&]
-[s2;%% Creates a [* Rect`_] and initializes it with [%-* Rect][%-@(0.0.255)  
+[s2;%% Создаёт a [* Rect`_] and initializes it with [%-* Rect][%-@(0.0.255)  
 ][%-*@3 r].&]
 [s3;%% &]
 [s4; &]
 [s5;:Rect`_`:`:Rect`_`(const Rect`_`<short`>`&`): [* Rect`_]([@(0.0.255) const]_[* Rect`_][@(0.0.255) <
 short>`&]_[*@3 r])&]
-[s2;%% Creates a [* Rect`_] and initializes it with [%-* Rect16][%-@(0.0.255)  
+[s2;%% Создаёт a [* Rect`_] and initializes it with [%-* Rect16][%-@(0.0.255)  
 ][%-*@3 r].&]
 [s3;%% &]
 [s4; &]
 [s5;:Rect`_`:`:Rect`_`(const Rect`_`<int64`>`&`): [* Rect`_]([@(0.0.255) const]_[* Rect`_][@(0.0.255) <
 ][_^int64^ int64][@(0.0.255) >`&]_[*@3 r])&]
-[s2;%% Creates a [* Rect`_] and initializes it with [%-* Rect64][%-@(0.0.255)  
+[s2;%% Создаёт a [* Rect`_] and initializes it with [%-* Rect64][%-@(0.0.255)  
 ][%-*@3 r].&]
 [s3;%% &]
 [s4; &]
 [s5;:Rect`_`:`:Rect`_`(const Rect`_`<double`>`&`): [* Rect`_]([@(0.0.255) const]_[* Rect`_][@(0.0.255) <
 double>`&]_[*@3 r])&]
-[s2;%% Creates a [* Rect`_] and initializes it with [%-* Rectf][%-@(0.0.255)  
+[s2;%% Создаёт a [* Rect`_] and initializes it with [%-* Rectf][%-@(0.0.255)  
 ][%-*@3 r].&]
 [s3;%% &]
 [s4; &]
 [s5;:Rect`_`:`:Rect`_`(const Nuller`&`): [* Rect`_]([@(0.0.255) const]_[_^Nuller^ Nuller][@(0.0.255) `&
 ])&]
-[s2;%% Creates a [* Rect`_] and initializes it with [%-* Null].&]
+[s2;%% Создаёт a [* Rect`_] and initializes it with [%-* Null].&]
 [s3; &]
 [s0; &]
 [ {{10000F(128)G(128)@1 [s0;%% [* Public Field List]]}}&]
@@ -145,15 +145,15 @@ double>`&]_[*@3 r])&]
 [ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:Rect`_`:`:Clear`(`): [@(0.0.255) void]_[* Clear]()&]
-[s2;%% Sets coordinates to 0.&]
+[s2;%% Устанавливаетcoordinates to 0.&]
 [s3; &]
 [s4; &]
 [s5;:Rect`_`:`:IsEmpty`(`)const: [@(0.0.255) bool]_[* IsEmpty]()_[@(0.0.255) const]&]
-[s2;%% Returns [* true] if [* right] <`= [* left] or if [* bottom] <`= [* top].&]
+[s2;%% Возвращает [* true] if [* right] <`= [* left] or if [* bottom] <`= [* top].&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:Rect`_`:`:SetNull`(`): [@(0.0.255) void]_[* SetNull]()&]
-[s2;%% Sets rectangle to Null (sets left, right, bottom and up to 
+[s2;%% Устанавливаетrectangle to Null (sets left, right, bottom and up to 
 Null).&]
 [s3; &]
 [s4; &]
@@ -164,73 +164,73 @@ onst]&]
 [s4; &]
 [s5;:Rect`_`:`:Width`(`)const: [*@4 T]_[* Width]()_[@(0.0.255) const]&]
 [s5;:Rect`_`:`:GetWidth`(`)const: [*@4 T]_[* GetWidth]()_[@(0.0.255) const]&]
-[s2;%% Returns the width of the rectangle, equal to [* right] `- [* left].&]
+[s2;%% Возвращает the width of the rectangle, equal to [* right] `- [* left].&]
 [s3; &]
 [s4; &]
 [s5;:Rect`_`:`:Height`(`)const: [*@4 T]_[* Height]()_[@(0.0.255) const]&]
 [s5;:Rect`_`:`:GetHeight`(`)const: [*@4 T]_[* GetHeight]()_[@(0.0.255) const]&]
-[s2;%% Returns the height of the rectangle, equal to [* bottom] `- 
+[s2;%% Возвращает the height of the rectangle, equal to [* bottom] `- 
 [* top].&]
 [s3; &]
 [s4; &]
 [s5;:Rect`_`:`:Size`(`)const: [_^Rect`_`:`:Sz^ Sz]_[* Size]()_[@(0.0.255) const]&]
 [s5;:Rect`_`:`:GetSize`(`)const: [_^Rect`_`:`:Sz^ Sz]_[* GetSize]()_[@(0.0.255) const]&]
-[s2;%% Returns a size containing the width and the height of the 
+[s2;%% Возвращает a size containing the width and the height of the 
 rectangle.&]
 [s3; &]
 [s4; &]
 [s5;:Rect`_`:`:TopLeft`(`)const: [_^Rect`_`:`:Pt^ Pt]_[* TopLeft]()_[@(0.0.255) const]&]
-[s2;%% Returns a point containing the top`-left coordinates.&]
+[s2;%% Возвращает a point containing the top`-left coordinates.&]
 [s3; &]
 [s4; &]
 [s5;:Rect`_`:`:TopCenter`(`)const: [_^Rect`_`:`:Pt^ Pt]_[* TopCenter]()_[@(0.0.255) const]&]
-[s2;%% Returns a point containing the top`-center coordinates.&]
+[s2;%% Возвращает a point containing the top`-center coordinates.&]
 [s3; &]
 [s4; &]
 [s5;:Rect`_`:`:TopRight`(`)const: [_^Rect`_`:`:Pt^ Pt]_[* TopRight]()_[@(0.0.255) const]&]
-[s2;%% Returns a point containing the top`-right coordinates.&]
+[s2;%% Возвращает a point containing the top`-right coordinates.&]
 [s3; &]
 [s4; &]
 [s5;:Rect`_`:`:CenterLeft`(`)const: [_^Rect`_`:`:Pt^ Pt]_[* CenterLeft]()_[@(0.0.255) const
 ]&]
-[s2;%% Returns a point containing the center`-left coordinates.&]
+[s2;%% Возвращает a point containing the center`-left coordinates.&]
 [s3; &]
 [s4; &]
 [s5;:Rect`_`:`:CenterPoint`(`)const: [_^Rect`_`:`:Pt^ Pt]_[* CenterPoint]()_[@(0.0.255) con
 st]&]
-[s2;%% Returns a point containing the coordinates of the center of 
+[s2;%% Возвращает a point containing the coordinates of the center of 
 the rectangle.&]
 [s3; &]
 [s4; &]
 [s5;:Rect`_`:`:CenterRight`(`)const: [_^Rect`_`:`:Pt^ Pt]_[* CenterRight]()_[@(0.0.255) con
 st]&]
-[s2;%% Returns a point containing the center`-right coordinates.&]
+[s2;%% Возвращает a point containing the center`-right coordinates.&]
 [s3; &]
 [s4; &]
 [s5;:Rect`_`:`:BottomLeft`(`)const: [_^Rect`_`:`:Pt^ Pt]_[* BottomLeft]()_[@(0.0.255) const
 ]&]
-[s2;%% Returns a point containing the bottom`-left coordinates.&]
+[s2;%% Возвращает a point containing the bottom`-left coordinates.&]
 [s3; &]
 [s4; &]
 [s5;:Rect`_`:`:BottomCenter`(`)const: [_^Rect`_`:`:Pt^ Pt]_[* BottomCenter]()_[@(0.0.255) c
 onst]&]
-[s2;%% Returns a point containing the bottom`-center coordinates.&]
+[s2;%% Возвращает a point containing the bottom`-center coordinates.&]
 [s3; &]
 [s4; &]
 [s5;:Rect`_`:`:BottomRight`(`)const: [_^Rect`_`:`:Pt^ Pt]_[* BottomRight]()_[@(0.0.255) con
 st]&]
-[s2;%% Returns a point containing the bottom`-right coordinates.&]
+[s2;%% Возвращает a point containing the bottom`-right coordinates.&]
 [s3; &]
 [s4; &]
 [s5;:Rect`_`:`:CenterPos`(T`,T`)const: [_^Rect`_`:`:Pt^ Pt]_[* CenterPos]([*@4 T]_[*@3 cx], 
 [*@4 T]_[*@3 cy])_[@(0.0.255) const]&]
-[s2; [%% Returns the left and top coordinates of an object of sizes 
+[s2; [%% Возвращает the left and top coordinates of an object of sizes 
 ][*@3 cx][%%  and ][*@3 cy] that is centered inside the rectangle.&]
 [s3;%% &]
 [s4; &]
 [s5;:Rect`_`:`:CenterPos`(Rect`_`:`:Sz`)const: [_^Rect`_`:`:Pt^ Pt]_[* CenterPos]([_^Rect`_`:`:Sz^ S
 z]_[*@3 sz])_[@(0.0.255) const]&]
-[s2; [%% Returns the left and top coordinates of an object of size 
+[s2; [%% Возвращает the left and top coordinates of an object of size 
 ][*@3 sz] that is centered inside the rectangle.&]
 [s3;%% &]
 [s4; &]
@@ -271,13 +271,13 @@ ect`_][@(0.0.255) `&]_[*@3 r])&]
 [s4; &]
 [s5;:Rect`_`:`:SetSize`(int`,int`): [@(0.0.255) void]_[* SetSize]([@(0.0.255) int]_[*@3 cx], 
 [@(0.0.255) int]_[*@3 cy])&]
-[s2;%% Sets the width of the rectangle to [%-*@3 cx] and the height 
+[s2;%% Устанавливаетthe width of the rectangle to [%-*@3 cx] and the height 
 to [%-*@3 cy].&]
 [s3;%% &]
 [s4; &]
 [s5;:Rect`_`:`:SetSize`(Rect`_`:`:Sz`): [@(0.0.255) void]_[* SetSize]([_^Rect`_`:`:Sz^ Sz]_
 [*@3 sz])&]
-[s2;%% Sets the width and height of the rectangle to [%-*@3 sz].&]
+[s2;%% Устанавливаетthe width and height of the rectangle to [%-*@3 sz].&]
 [s3;%% &]
 [s4; &]
 [s5;:Rect`_`:`:InflateHorz`(T`): [@(0.0.255) void]_[* InflateHorz]([*@4 T]_[*@3 dx])&]
@@ -362,13 +362,13 @@ and [%-*@3 r.bottom].&]
 [s4; &]
 [s5;:Rect`_`:`:InflatedHorz`(T`)const: [_^Rect`_^ Rect`_]_[* InflatedHorz]([*@4 T]_[*@3 dx])_
 [@(0.0.255) const]&]
-[s2;%% Returns the result of inflating the rectangle horizontally 
+[s2;%% Возвращает the result of inflating the rectangle horizontally 
 by [%-*@3 dx].&]
 [s3;%% &]
 [s4; &]
 [s5;:Rect`_`:`:InflatedVert`(T`)const: [_^Rect`_^ Rect`_]_[* InflatedVert]([*@4 T]_[*@3 dy])_
 [@(0.0.255) const]&]
-[s2;%% Returns the result of inflating the rectangle horizontally 
+[s2;%% Возвращает the result of inflating the rectangle horizontally 
 by [%-*@3 dx].&]
 [s3;%% &]
 [s4; &]
@@ -382,19 +382,19 @@ onst]&]
 [*@4 T]_[*@3 t], [*@4 T]_[*@3 r], [*@4 T]_[*@3 b])_[@(0.0.255) const]&]
 [s5;:Rect`_`:`:Inflated`(const Rect`_`&`)const: [_^Rect`_^ Rect`_]_[* Inflated]([@(0.0.255) c
 onst]_[_^Rect`_^ Rect`_][@(0.0.255) `&]_[*@3 q])_[@(0.0.255) const]&]
-[s2;%% Returns the result of inflating the rectangle with the amount 
+[s2;%% Возвращает the result of inflating the rectangle with the amount 
 specified by the respective parameters.&]
 [s3;%% &]
 [s4; &]
 [s5;:Rect`_`:`:DeflatedHorz`(T`)const: [_^Rect`_^ Rect`_]_[* DeflatedHorz]([*@4 T]_[*@3 dx])_
 [@(0.0.255) const]&]
-[s2;%% Returns the result of deflating the rectangle horizontally 
+[s2;%% Возвращает the result of deflating the rectangle horizontally 
 by [%-*@3 dx].&]
 [s3;%% &]
 [s4; &]
 [s5;:Rect`_`:`:DeflatedVert`(T`)const: [_^Rect`_^ Rect`_]_[* DeflatedVert]([*@4 T]_[*@3 dy])_
 [@(0.0.255) const]&]
-[s2;%% Returns the result of deflating the rectangle horizontally 
+[s2;%% Возвращает the result of deflating the rectangle horizontally 
 by [%-*@3 dx].&]
 [s3;%% &]
 [s4; &]
@@ -408,7 +408,7 @@ onst]&]
 [*@4 T]_[*@3 t], [*@4 T]_[*@3 r], [*@4 T]_[*@3 b])_[@(0.0.255) const]&]
 [s5;:Rect`_`:`:Deflated`(const Rect`_`&`)const: [_^Rect`_^ Rect`_]_[* Deflated]([@(0.0.255) c
 onst]_[_^Rect`_^ Rect`_][@(0.0.255) `&]_[*@3 q])_[@(0.0.255) const]&]
-[s2;%% Returns the result of deflating the rectangle with the amount 
+[s2;%% Возвращает the result of deflating the rectangle with the amount 
 specified by the respective parameters.&]
 [s3;%% &]
 [s0; ]]

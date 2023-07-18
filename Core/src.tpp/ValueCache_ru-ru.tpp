@@ -38,7 +38,7 @@ ValueMaker`::Make to obtain the Value and stores it to the cache.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:IsValueCacheActive`(`):%- [@(0.0.255) bool]_[* IsValueCacheActive]()&]
-[s2; Возвращает true, если it is still possible to use Value Cache. This 
+[s2; Возвращает  true, если it is still possible to use Value Cache. This 
 special function is intended to solve destruction conflicts at 
 the program exit.&]
 [s3;%- &]

@@ -28,58 +28,58 @@ i`+`+).&]
 [s0; &]
 [s5;:Pop3`:`:Host`(const String`&`): [_^Pop3^ Pop3][@(0.0.255) `&]_[* Host]([@(0.0.255) const
 ]_[_^String^ String][@(0.0.255) `&]_[*@3 h])&]
-[s2;%% Sets hostname. Returns `*this for method chaining.&]
+[s2;%% Устанавливаетhostname. Возвращает `*this for method chaining.&]
 [s3;%% &]
 [s4; &]
 [s5;:Pop3`:`:Port`(int`): [_^Pop3^ Pop3][@(0.0.255) `&]_[* Port]([@(0.0.255) int]_[*@3 p])&]
-[s2;%% Sets port number. Returns `*this for method chaining.&]
+[s2;%% Устанавливаетport number. Возвращает `*this for method chaining.&]
 [s3;%% &]
 [s4; &]
 [s5;:Pop3`:`:User`(const String`&`,const String`&`): [_^Pop3^ Pop3][@(0.0.255) `&]_[* User](
 [@(0.0.255) const]_[_^String^ String][@(0.0.255) `&]_[*@3 u], [@(0.0.255) const]_[_^String^ S
 tring][@(0.0.255) `&]_[*@3 p])&]
-[s2;%% Sets username and password. Returns `*this for method chaining.&]
+[s2;%% Устанавливаетusername and password. Возвращает `*this for method chaining.&]
 [s3;%% &]
 [s4; &]
 [s5;:Pop3`:`:SSL`(bool`): [_^Pop3^ Pop3][@(0.0.255) `&]_[* SSL]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) t
 rue])&]
 [s2;%% Activates POP3S mode (using SSL). Requires Core/SSL package. 
-Returns `*this for method chaining.&]
+Возвращает `*this for method chaining.&]
 [s3;%% &]
 [s4; &]
 [s5;:Pop3`:`:Proxy`(const String`&`,int`): [_^Pop3^ Pop3][@(0.0.255) `&]_[* Proxy]([@(0.0.255) c
 onst]_[_^String^ String][@(0.0.255) `&]_[*@3 host], [@(0.0.255) int]_[*@3 port])&]
-[s2;%% Sets HTTP CONNECT proxy for connection.&]
+[s2;%% УстанавливаетHTTP CONNECT proxy for connection.&]
 [s3;%% &]
 [s4; &]
 [s5;:Pop3`:`:Proxy`(const char`*`): [_^Pop3^ Pop3][@(0.0.255) `&]_[* Proxy]([@(0.0.255) const
 ]_[@(0.0.255) char]_`*[*@3 p])&]
-[s2;%% Sets HTTP CONNECT proxy for connection, parameter contains 
+[s2;%% УстанавливаетHTTP CONNECT proxy for connection, parameter contains 
 host and port separated by `':`'.&]
 [s3;%% &]
 [s4; &]
 [s5;:Pop3`:`:ProxyAuth`(const String`&`,const String`&`): [_^Pop3^ Pop3][@(0.0.255) `&]_[* P
 roxyAuth]([@(0.0.255) const]_[_^String^ String][@(0.0.255) `&]_[*@3 u], 
 [@(0.0.255) const]_[_^String^ String][@(0.0.255) `&]_[*@3 p])&]
-[s2;%% Sets the username and password for proxy..&]
+[s2;%% Устанавливаетthe username and password for proxy..&]
 [s3;%% &]
 [s4; &]
 [s5;:Pop3`:`:GetMessageCount`(`): [@(0.0.255) int]_[* GetMessageCount]()&]
-[s2;%% Returns the number of currently available messages in the 
-POP3 mailbox. Returns `-1 on failure.&]
+[s2;%% Возвращает the number of currently available messages in the 
+POP3 mailbox. Возвращает `-1 on failure.&]
 [s3; &]
 [s4; &]
 [s5;:Pop3`:`:GetMessage`(int`): [_^String^ String]_[* GetMessage]([@(0.0.255) int]_[*@3 index
 ])&]
 [s2;%% Retreives a message with the given [%-*@3 index] from the POP3 
-mailbox. Returns Null on failure. First message has index 1, 
+mailbox. Возвращает Null on failure. First message has index 1, 
 last GetMessageCount().&]
 [s3;%% &]
 [s4; &]
 [s5;:Pop3`:`:GetMessageHeader`(int`): [_^String^ String]_[* GetMessageHeader]([@(0.0.255) i
 nt]_[*@3 index])&]
 [s2;%% Retreives the header section of a message with the given [%-*@3 index] 
-from the POP3 mailbox. Returns Null on failure. First message 
+from the POP3 mailbox. Возвращает Null on failure. First message 
 has index 1, last GetMessageCount().&]
 [s3;%% &]
 [s4; &]
@@ -87,14 +87,14 @@ has index 1, last GetMessageCount().&]
 alueMap][@(0.0.255) `&]_[*@3 list])&]
 [s2;%% Retrieves the list of currently available messages in the 
 POP3 mailbox. [%-*@3 list] is a ValueMap containing messages indices 
-and sizes as integer key and integer value pairs. Returns true 
+and sizes as integer key and integer value pairs. Возвращает true 
 on success.&]
 [s3;%% &]
 [s4; &]
 [s5;:Pop3`:`:GetMessageUniqueId`(int`): [_^String^ String]_[* GetMessageUniqueId]([@(0.0.255) i
 nt]_[*@3 index])&]
 [s2;%% Retreives the unique identifier string of a message with the 
-given [%-*@3 index] from the POP3 mailbox. Returns Null on failure.&]
+given [%-*@3 index] from the POP3 mailbox. Возвращает Null on failure.&]
 [s3;%% &]
 [s4; &]
 [s5;:Pop3`:`:GetMessageUniqueIds`(ValueMap`&`): [@(0.0.255) bool]_[* GetMessageUniqueIds](
@@ -103,7 +103,7 @@ given [%-*@3 index] from the POP3 mailbox. Returns Null on failure.&]
 [s2;%% Retrieves the unique identifier strings of currently available 
 messages in the POP3 mailbox. [%-*@3 uids] is a ValueMap containing 
 messages indices and unique identifiers as integer key and String 
-value pairs. Returns true on success.&]
+value pairs. Возвращает true on success.&]
 [s3;%% &]
 [s4; &]
 [s5;:Pop3`:`:RemoveMessage`(int`): [@(0.0.255) bool]_[* RemoveMessage]([@(0.0.255) int]_[*@3 i
@@ -112,13 +112,13 @@ ndex])&]
 the POP3 mailbox. Messages marked for deletion are only deleted 
 by the POP3 server after a successful [^topic`:`/`/POP3`/src`/Pop3`$en`-us`#Pop3`:`:Logout`(`)^ L
 ogout()]. If you want to unmark messages, you must invoke [^topic`:`/`/POP3`/src`/Pop3`$en`-us`#Pop3`:`:Undo`(`)^ U
-ndo()] method before logging out. Returns true on success. &]
+ndo()] method before logging out. Возвращает true on success. &]
 [s3;%% &]
 [s4; &]
 [s5;:Pop3`:`:Undo`(`): [@(0.0.255) bool]_[* Undo]()&]
 [s2;%% Resets POP3 session. Useful for unmarking the messages marked 
 to be deleted. This method must be invoked before any [^topic`:`/`/POP3`/src`/Pop3`$en`-us`#Pop3`:`:Logout`(`)^ L
-ogout()]. Returns true on success.&]
+ogout()]. Возвращает true on success.&]
 [s3;%% &]
 [s4; &]
 [s5;:Pop3`:`:Noop`(`): [@(0.0.255) bool]_[* Noop]()&]
@@ -129,22 +129,22 @@ connections alive.&]
 [s5;:Pop3`:`:Login`(`): [@(0.0.255) bool]_[* Login]()&]
 [s2;%% Connect and login to the POP3 server. User name and password 
 must be set. Uses APOP authentication mechanism, if available. 
-Returns true on success.&]
+Возвращает true on success.&]
 [s3; &]
 [s4; &]
 [s5;:Pop3`:`:Logout`(`): [@(0.0.255) bool]_[* Logout]()&]
 [s2;%% Logout of and disconnect from the POP3 server. Messages marked 
 for deletion will be permanently deleted from the server after 
-a successful logout. Returns true on success. Calling Logout 
+a successful logout. Возвращает true on success. Calling Logout 
 on mailbox that is not online does nothing.&]
 [s3; &]
 [s4; &]
 [s5;:Pop3`:`:IsOnline`(`)const: [@(0.0.255) bool]_[* IsOnline]()_[@(0.0.255) const]&]
-[s2;%% Возвращает true, если the POP3 mailbox is online. &]
+[s2;%% Возвращает  true, если the POP3 mailbox is online. &]
 [s3; &]
 [s4; &]
 [s5;:Pop3`:`:GetLastError`(`): [_^String^ String]_[* GetLastError]()&]
-[s2;%% Returns the description of last error.&]
+[s2;%% Возвращает the description of last error.&]
 [s3; &]
 [s4; &]
 [s5;:Pop3`:`:Trace`(bool`): [@(0.0.255) static] [@(0.0.255) void]_[* Trace]([@(0.0.255) bool]_

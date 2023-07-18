@@ -31,25 +31,25 @@ basically a simple mapping between identifiers and widgets.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:IdCtrls`:`:GetCount`(`)const: [@(0.0.255) int]_[* GetCount]()_[@(0.0.255) const]&]
-[s2;%% Returns a number of entries.&]
+[s2;%% Возвращает a number of entries.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:IdCtrls`:`:operator`[`]`(int`): [_^Ctrl^ Ctrl][@(0.0.255) `&]_[* operator`[`]]([@(0.0.255) i
 nt]_[*@3 i])&]
 [s5;:IdCtrls`:`:operator`[`]`(int`)const: [@(0.0.255) const]_[_^Ctrl^ Ctrl][@(0.0.255) `&]_
 [* operator`[`]]([@(0.0.255) int]_[*@3 i])_[@(0.0.255) const]&]
-[s2;%% Returns the widget of entry [%-*@3 i]. .&]
+[s2;%% Возвращает the widget of entry [%-*@3 i]. .&]
 [s3;%% &]
 [s4; &]
 [s5;:IdCtrls`:`:GetKey`(int`)const: [_^Id^ Id]_[* GetKey]([@(0.0.255) int]_[*@3 i])_[@(0.0.255) c
 onst]&]
 [s5;:IdCtrls`:`:operator`(`)`(int`)const: [_^Id^ Id]_[* operator()]([@(0.0.255) int]_[*@3 i])
 _[@(0.0.255) const]&]
-[s2;%% Returns the identifier of entry [%-*@3 i].&]
+[s2;%% Возвращает the identifier of entry [%-*@3 i].&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:IdCtrls`:`:Accept`(`): [@(0.0.255) bool]_[* Accept]()&]
-[s2;%% Calls Accept of all widgets. If any widget returns false, 
+[s2;%% Вызывает Accept of all widgets. If any widget returns false, 
 returns false. Otherwise returns true.&]
 [s3; &]
 [s4; &]
@@ -58,7 +58,7 @@ returns false. Otherwise returns true.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:IdCtrls`:`:IsModified`(`): [@(0.0.255) bool]_[* IsModified]()&]
-[s2;%% Возвращает true, если any widget has `'modified`' flag set.&]
+[s2;%% Возвращает  true, если any widget has `'modified`' flag set.&]
 [s3; &]
 [s2;%% Enables/disable.&]
 [s3;%% &]
@@ -73,7 +73,7 @@ returns false. Otherwise returns true.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:IdCtrls`:`:SetNull`(`): [@(0.0.255) void]_[* SetNull]()&]
-[s2;%% Sets Null (using SetData) to all widgets.&]
+[s2;%% УстанавливаетNull (using SetData) to all widgets.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:IdCtrls`:`:operator`<`<`(Upp`:`:Event`<`>`): [_^Upp`:`:Event^ Event]<>_[* ope
@@ -83,17 +83,17 @@ rator<<]([_^Upp`:`:Event^ Event]<>_[*@3 action])&]
 [s4; &]
 [s5;:Upp`:`:IdCtrls`:`:operator`^`=`(Upp`:`:Event`<`>`): [_^Upp`:`:Event^ Event]<>_[* ope
 rator`^`=]([_^Upp`:`:Event^ Event]<>_[*@3 action])&]
-[s2;%% Sets [%-*@3 action] as WhenAction event of all widgets.&]
+[s2;%% Устанавливает[%-*@3 action] as WhenAction event of all widgets.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:IdCtrls`:`:Get`(`)const: [_^ValueMap^ ValueMap]_[* Get]()_[@(0.0.255) const]&]
-[s2;%% Creates a map, where keys are identifiers of entries and values 
+[s2;%% Создаёт a map, where keys are identifiers of entries and values 
 are obtained from respective widgets using GetData method.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:IdCtrls`:`:Set`(const ValueMap`&`): [@(0.0.255) void]_[* Set]([@(0.0.255) const]_[_^ValueMap^ V
 alueMap][@(0.0.255) `&]_[*@3 m])&]
-[s2;%% Sets value of widgets using SetData to values in map, using 
+[s2;%% Устанавливаетvalue of widgets using SetData to values in map, using 
 keys of map to identify the target widgets.&]
 [s4; &]
 [s5;:Upp`:`:IdCtrls`:`:operator`~`(`)const: [_^Upp`:`:ValueMap^ ValueMap]_[* operator`~](

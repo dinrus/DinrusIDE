@@ -22,7 +22,7 @@ empty String if resource not found..&]
 [s2;:GetSVGDimensions`(const char`*`,Sizef`&`,Rectf`&`): [@(0.0.255) void]_[* GetSVGDimen
 sions]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 svg], [_^Sizef^ Sizef][@(0.0.255) `&]_[*@3 s
 z], [_^Rectf^ Rectf][@(0.0.255) `&]_[*@3 viewbox])&]
-[s3; Returns size and viewbox attributes of SVG.&]
+[s3; Возвращает size and viewbox attributes of SVG.&]
 [s4; &]
 [s1; &]
 [s2;:GetSVGBoundingBox`(const char`*`): [_^Rectf^ Rectf]_[* GetSVGBoundingBox]([@(0.0.255) c
@@ -32,7 +32,7 @@ onst]_[@(0.0.255) char]_`*[*@3 svg])&]
 [s1;%- &]
 [s2;:Upp`:`:GetSVGPathBoundingBox`(const char`*`):%- [_^Upp`:`:Rectf^ Rectf]_[* GetSVGPat
 hBoundingBox]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 path])&]
-[s3; Returns the bounding box of [%-*@3 SVG] path stored in path element 
+[s3; Возвращает the bounding box of [%-*@3 SVG] path stored in path element 
 format.&]
 [s4; &]
 [s1; &]
@@ -50,6 +50,6 @@ to provide resources like images.&]
 [s1;%- &]
 [s2;:Upp`:`:IsSVG`(const char`*`):%- [@(0.0.255) bool]_[* IsSVG]([@(0.0.255) const]_[@(0.0.255) c
 har]_`*[*@3 svg])&]
-[s3; Возвращает true, если [%-*@3 svg] likely contains SVG image.&]
+[s3; Возвращает  true, если [%-*@3 svg] likely contains SVG image.&]
 [s4; &]
 [s0; ]]

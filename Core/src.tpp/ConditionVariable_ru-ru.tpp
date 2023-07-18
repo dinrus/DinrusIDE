@@ -13,10 +13,15 @@ topic "Класс ConditionVariable";
 [ {{10000t/25b/25@(113.42.0) [s0; [%RU-RU*@7;4 Класс ][*@7;4 ConditionVariable]]}}&]
 [s3; &]
 [s1;:ConditionVariable`:`:class: [@(0.0.255)3 class][3 _][*3 ConditionVariable]&]
-[s9;%RU-RU ConditionVariable allows threads to suspend execution 
-(using Wait) until they are awaken by another thread (using Signal 
-or Broadcast methods). ConditionVariable has associated Mutex 
-to avoid possible race conditions when entering suspended state.&]
+[s9;%RU-RU ConditionVariable позволяет потокам `"подвешиват
+ь`" своё выполнение (используя Wait), 
+до тех пор пока их не `"разбудит`" другой 
+поток (thread, т.е. `"нить`") (используя 
+методы Signal или Broadcast). ConditionVariable имеет 
+ассоциированный с ней Mutex (`"стопор`"), 
+во избежание возможных условий `"гона`" 
+(race conditions) при входе в `"подвешенное`" 
+состояние (suspended state).&]
 [s3; &]
 [s0; &]
 [ {{10000F(128)G(128)@1 [s0;%RU-RU [* Список Публичных Методов]]}}&]
@@ -24,20 +29,26 @@ to avoid possible race conditions when entering suspended state.&]
 [s5;:Upp`:`:ConditionVariable`:`:Wait`(Upp`:`:Mutex`&`,int`): [@(0.0.255) void]_[* Wait](
 [_^Upp`:`:Mutex^ Mutex][@(0.0.255) `&]_[*@3 m], [@(0.0.255) int]_[*@3 timeout`_ms]_`=_`-[@3 1
 ])&]
-[s2;%RU-RU Atomically unlocks [%-*@3 m ]and starts waiting for Signal 
-or Broadcast or until [%-*@3 timeout`_ms] milliseconds elapses. 
-[%-*@3 m] has to be owned by calling thread before invoking. When 
-Signal or Broadcast are received, resumes execution and reacquires 
-[%-*@3 m][%- . ]Negative value for [%-*@3 timeout`_ms] means the waiting 
-time is unlimited.&]
+[s2;%RU-RU Атомично разблокирует [%-*@3 m ]и запускает 
+процесс ожидания Signal, или Broadcast, или 
+до тех пор пока не истекут [%-*@3 timeout`_ms] 
+миллисекунд. [%-*@3 m] должно находиться 
+во владении вызывающей нити перед 
+вызовом. Когда получены Signal или Broadcast, 
+выполнение нити возобновляется и 
+происходит повторное `"овладение`" 
+[%-*@3 m][%- . Отрицательное значение] [%-*@3 timeout`_ms] 
+означает, что время ожидания неограничено.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:ConditionVariable`:`:Signal`(`): [@(0.0.255) void]_[* Signal]()&]
-[s2;%RU-RU Resumes execution of single waiting thread, if any.&]
+[s2;%RU-RU Возобновляет выполнение единичной 
+ожидающей нити, если она есть.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:ConditionVariable`:`:Broadcast`(`): [@(0.0.255) void]_[* Broadcast]()&]
-[s2;%RU-RU Resumes execution of all currently waiting threads.&]
+[s2;%RU-RU Возобновляет выполнение всех 
+в данный момент ожидающих нитей.&]
 [s3;%RU-RU &]
 [s0;3 &]
 [s0;3 &]
@@ -45,11 +56,15 @@ time is unlimited.&]
 [ {{10000t/25b/25@(113.42.0) [s0; [*@7;4 StaticConditionVariable]]}}&]
 [s3;%RU-RU &]
 [s1;:StaticConditionVariable`:`:class: [@(0.0.255)3 class][3 _][*3 StaticConditionVariable]&]
-[s9; Variant of ConditionVariable that can be used as static or global 
-variable without the need of initialization  `- it has no constructor 
-and correctly performs the first initialization when any of methods 
-is called. That avoids problems with initialization order or 
-multithreaded initialization issues.&]
+[s9; Вариант ConditionVariable, который можно 
+использовать как статическую или 
+глобальную переменную без нужды в 
+её инициализации: у него нет конструктора 
+и он чётко выполняет перввую инициализацию 
+при вызове любого из методов. Это 
+позволяет избежать проблем с порядком 
+инициализации или проблем многопоточной 
+инициализации.&]
 [s3; &]
 [s0; &]
 [ {{10000F(128)G(128)@1 [s0;%RU-RU [* Список Публичных Методов]]}}&]
@@ -58,13 +73,14 @@ multithreaded initialization issues.&]
 ]_[* Get]()&]
 [s5;:StaticConditionVariable`:`:operator ConditionVariable`&`(`): [* operator_Condition
 Variable`&]()&]
-[s2;%RU-RU Returns the instance of ConditionVariable.&]
+[s2;%RU-RU Возвращает  экземпляр ConditionVariable.&]
 [s3; &]
 [s4; &]
 [s5;:StaticConditionVariable`:`:Wait`(Mutex`&`): [@(0.0.255) void]_[* Wait]([_^Mutex^ Mutex
 ][@(0.0.255) `&]_[*@3 m])&]
 [s5;:StaticConditionVariable`:`:Signal`(`): [@(0.0.255) void]_[* Signal]()&]
 [s5;:StaticConditionVariable`:`:Broadcast`(`): [@(0.0.255) void]_[* Broadcast]()&]
-[s2;%RU-RU Calls respective ConditionVariable methods.&]
+[s2;%RU-RU Вызывают соответствующий метод 
+ConditionVariable.&]
 [s3; &]
 [s0; ]]

@@ -41,7 +41,7 @@ ClearHelpLine запрашивают отображение строки
 [s4; &]
 [s5;:BarCtrl`:`:GetBarCtrlParent`(Ctrl`*`): [@(0.0.255) static] [_^BarCtrl^ BarCtrl]_`*[* G
 etBarCtrlParent]([_^Ctrl^ Ctrl]_`*[*@3 child])&]
-[s2;%RU-RU Возвращает первого родителя типа 
+[s2;%RU-RU Возвращает  первого родителя типа 
 BarCtrl для отпрыска [%-*@3 child].&]
 [s3;%RU-RU &]
 [s4; &]
@@ -88,7 +88,7 @@ Line]([_^Ctrl^ Ctrl]_`*[*@3 q])&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:BarCtrl`:`:GetAlign`(`)const: [@(0.0.255) int]_[* GetAlign]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает текущую настройку 
+[s2;%RU-RU Возвращает  текущую настройку 
 Align.&]
 [s3;%RU-RU &]
 [s4; &]

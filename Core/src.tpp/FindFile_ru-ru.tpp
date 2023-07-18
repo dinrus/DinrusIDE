@@ -13,187 +13,218 @@ topic "Класс FindFile";
 [ {{10000@(113.42.0) [s0; [*@7;4 Класс FindFile]]}}&]
 [s3;%- &]
 [s1;:FindFile`:`:class:%- [@(0.0.255)3 class][3 _][*3 FindFile]&]
-[s9; This class serves as platform independent encapsulation of directory 
-enumeration.&]
+[s9; Этот класс служит как платформно`-независим
+ая инкапсуляция перечня директорий.&]
 [s0;%- &]
 [ {{10000F(128)G(128)@1 [s0; [* Список Публичных Методов]]}}&]
 [s3;%- &]
 [s5;:FindFile`:`:Search`(const char`*`):%- [@(0.0.255) bool]_[* Search]([@(0.0.255) const]_
 [@(0.0.255) char]_`*[*@3 path])&]
-[s2; Starts a new listing. [%-*@3 path] can contain wildcards (`'`*`', 
-`'?`') to list more than single file. Возвращает true, если first file 
-is found. Wildcard pattern follows Windows conventions, `*.`* 
-matches all files, even those without extension.&]
+[s2; Стартует новый листинг. [%-*@3 path] может 
+содержать уайлдкарды (`'`*`', `'?`'), чтобы 
+выводить список из более, чем одного 
+файла. Возвращает true, если найден 
+первый файл. Образец уалдкардов следует 
+конвенции Windows, `*.`* сверяет все файлы, 
+даже у которых нет расширения.&]
 [s3; &]
 [s4; &]
 [s5;:FindFile`:`:Next`(`):%- [@(0.0.255) bool]_[* Next]()&]
-[s2; Attemts to iterate to the next file, returns true if successful.&]
+[s2; Пытается итерировать к следующему 
+файлу, при успехе возвращает true.&]
 [s3; &]
 [s4; &]
 [s5;:FindFile`:`:GetAttributes`(`)const:%- [_^dword^ dword]_[* GetAttributes]()_[@(0.0.255) c
 onst]&]
 [s6;%- `[Win32`]&]
-[s2; Returns win32 attributes of file.&]
+[s2; Возвращает атрибуты файла win32.&]
 [s3; &]
 [s4; &]
 [s5;:FindFile`:`:GetName`(`)const:%- [_^String^ String]_[* GetName]()_[@(0.0.255) const]&]
-[s2; Returns the name of current directory entry.&]
+[s2; Возвращает имя записи текущей директории.&]
 [s3; &]
 [s4;%- &]
 [s5;:FindFile`:`:GetPath`(`)const:%- [_^String^ String]_[* GetPath]()_[@(0.0.255) const]&]
-[s2; Returns the full path of current directory entry.&]
+[s2; Возвращает полный путь записи текущей 
+директории.&]
 [s3;%- &]
 [s4; &]
 [s5;:FindFile`:`:GetLength`(`)const:%- [_^int64^ int64]_[* GetLength]()_[@(0.0.255) const]&]
-[s2; Returns the length of current file. Undefined if current directory 
-entry is not file.&]
+[s2; Возвращает длину текущего файла. 
+Неопределённое поведение, если запись 
+текущей директории не является файлом.&]
 [s3; &]
 [s4; &]
 [s5;:FindFile`:`:GetCreationTime`(`)const:%- [_^FileTime^ FileTime]_[* GetCreationTime]()
 _[@(0.0.255) const]&]
 [s6; `[Win32`]&]
-[s2; Returns Win32 creation time. Does not work with all filesystems.&]
+[s2; Возвращает время создания Win32. Работает 
+не со всеми файловыми системами.&]
 [s3; &]
 [s4; &]
 [s5;:FindFile`:`:GetLastAccessTime`(`)const:%- [_^FileTime^ FileTime]_[* GetLastAccessTim
 e]()_[@(0.0.255) const]&]
-[s2; Returns the last time the entry was accessed. Does not work 
-with all filesystems.&]
+[s2; Возвращает последнее время доступа 
+к записи. Работает не со всеми файловыми 
+системами.&]
 [s3; &]
 [s4; &]
 [s5;:FindFile`:`:GetLastWriteTime`(`)const:%- [_^FileTime^ FileTime]_[* GetLastWriteTime](
 )_[@(0.0.255) const]&]
-[s2; Returns the last time the entry was modified. Always works.&]
+[s2; Возвращает время последнего изменения 
+записи. Работает всегда.&]
 [s3; &]
 [s4;%- &]
 [s5;:FindFile`:`:GetLastChangeTime`(`)const:%- uid`_t_[* GetUid]()&]
 [s6; `[POSIX`]&]
-[s2; Returns user ID of file.&]
+[s2; Возвращает пользовательский ID файла.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:FindFile`:`:GetLastChangeTime`(`)const:%- gid`_t_[* GetGid]()&]
 [s6; `[POSIX`]&]
-[s2; Returns group ID of file.&]
+[s2; Возвращает групповой ID файла.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:FindFile`:`:GetLastChangeTime`(`)const:%- [@(0.0.255) bool]_[* CanRead]()_[@(0.0.255) c
 onst]&]
 [s6; `[POSIX`]&]
-[s2; Возвращает true, если current user can read the file.&]
+[s2; Возвращает true, если текущий пользователь 
+может читать файл.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:FindFile`:`:GetLastChangeTime`(`)const:%- [@(0.0.255) bool]_[* CanWrite]()_[@(0.0.255) c
 onst]&]
 [s6; `[POSIX`]&]
-[s2; Возвращает true, если current user can write the file.&]
+[s2; Возвращает true, если текущий пользователь 
+может записывать в файл.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:FindFile`:`:GetLastChangeTime`(`)const:%- [@(0.0.255) bool]_[* CanExecute]()_[@(0.0.255) c
 onst]&]
 [s6; `[POSIX`]&]
-[s2; Возвращает true, если current user can execute the file.&]
+[s2; Возвращает true, если текущий пользователь 
+может выполнять файл.&]
 [s3;%- &]
 [s4; &]
 [s5;:FindFile`:`:GetLastChangeTime`(`)const:%- [_^FileTime^ FileTime]_[* GetLastChangeTim
 e]()_[@(0.0.255) const]&]
 [s6; `[POSIX`]&]
-[s2; Returns the last change time (st`_ctime member of stat structure).&]
+[s2; Возвращает время последнего изменения 
+(член st`_ctime структуры stat).&]
 [s3; &]
 [s4; &]
 [s5;:FindFile`:`:IsDirectory`(`)const:%- [@(0.0.255) bool]_[* IsDirectory]()_[@(0.0.255) co
 nst]&]
-[s2; Возвращает true, если entry is a directory. Note that FindFile returns 
-`'..`' and `'.`' pseudo`-directories in the listing (on both 
-platforms), these return true as well.&]
+[s2; Возвращает true, если запись является 
+директорией. Заметьте, что FindFile возвращает 
+псевдодиректории `'..`' и `'.`' в листинге 
+(на обеих платформах), они тоже вернут 
+true.&]
 [s3; &]
 [s4; &]
 [s5;:FindFile`:`:IsFolder`(`)const:%- [@(0.0.255) bool]_[* IsFolder]()_[@(0.0.255) const]&]
-[s2; Возвращает true, если entry is a directory, but [* not] `'..`' nor `'.`'.&]
+[s2; Возвращает true, если запись есть директория, 
+но [* не] `'..`', и не `'.`'.&]
 [s3; &]
 [s4; &]
 [s5;:FindFile`:`:IsFile`(`)const:%- [@(0.0.255) bool]_[* IsFile]()_[@(0.0.255) const]&]
-[s2; Возвращает true, если entry is a file.&]
+[s2; Возвращает true, если запись является 
+файлом.&]
 [s3; &]
 [s4; &]
 [s5;:FindFile`:`:IsArchive`(`)const:%- [@(0.0.255) bool]_[* IsArchive]()_[@(0.0.255) const]&]
 [s6; `[Win32`]&]
-[s2; Возвращает true, если entry has archive flag set.&]
+[s2; Возвращает true, если у записи установлен 
+флаг `"архивный`".&]
 [s3; &]
 [s4; &]
 [s5;:FindFile`:`:IsCompressed`(`)const:%- [@(0.0.255) bool]_[* IsCompressed]()_[@(0.0.255) c
 onst]&]
 [s6; `[Win32`]&]
-[s2; Возвращает true, если entry has compressed flag set.&]
+[s2; Возвращает true, если у записи установлен 
+флаг `"сжатый`".&]
 [s3; &]
 [s4; &]
 [s5;:FindFile`:`:IsHidden`(`)const:%- [@(0.0.255) bool]_[* IsHidden]()_[@(0.0.255) const]&]
-[s2; Возвращает true, если entry has hidden flag set in Win32 or starts 
-with `'.`' in POSIX.&]
+[s2; Возвращает true, если запись имеет 
+флаг `"скрытый`" в Win32 или начинается 
+с `'.`' в POSIX.&]
 [s3; &]
 [s4; &]
 [s5;:FindFile`:`:IsReadOnly`(`)const:%- [@(0.0.255) bool]_[* IsReadOnly]()_[@(0.0.255) cons
 t]&]
-[s2; Возвращает true, если entry is read only (in current user context).&]
+[s2; Возвращает true, если запись только 
+для чтения (в контексте текущего пользовател
+я).&]
 [s3; &]
 [s4; &]
 [s5;:FindFile`:`:IsSystem`(`)const:%- [@(0.0.255) bool]_[* IsSystem]()_[@(0.0.255) const]&]
 [s6; `[Win32`]&]
-[s2; Возвращает true, если entry has system flag set.&]
+[s2; Возвращает true, если у записи установлен 
+флаг `"системный`".&]
 [s3; &]
 [s4; &]
 [s5;:FindFile`:`:IsTemporary`(`)const:%- [@(0.0.255) bool]_[* IsTemporary]()_[@(0.0.255) co
 nst]&]
 [s6; `[Win32`]&]
-[s2; Возвращает true, если entry has system flag set.&]
+[s2; Возвращает true, если у записи установлен 
+флаг `"временный`".&]
 [s3; &]
 [s4; &]
 [s5;:FindFile`:`:IsSymLink`(`)const:%- [@(0.0.255) bool]_[* IsSymLink]()_[@(0.0.255) const]&]
-[s2; POSIX: Возвращает true, если entry is POSIX symlink. Win32: Returns 
-true if entry is Shell link file (.lnk with proper content).&]
+[s2; POSIX: Возвращает true, если запись является 
+POSIX symlink. Win32: Возвращает true, если запись 
+является Shell link file (.lnk с соответствующим 
+контентом).&]
 [s3; &]
 [s4;%- &]
 [s5;:FindFile`:`:IsExecutable`(`)const:%- [@(0.0.255) bool]_[* IsExecutable]()_[@(0.0.255) c
 onst]&]
-[s2; Возвращает true, если target file is executable binary.&]
+[s2; Возвращает true, если целевой файл 
+является исполнимым бинарником.&]
 [s3;%- &]
 [s4; &]
 [s5;:FindFile`:`:GetMode`(`)const:%- [_^dword^ dword]_[* GetMode]()_[@(0.0.255) const]&]
 [s6; `[POSIX`]&]
-[s2; Returns UNIX access mode.&]
+[s2; Возвращает режим доступа UNIX.&]
 [s3; &]
 [s4; &]
 [s5;:FindFile`:`:operator bool`(`)const:%- [* operator_bool]()_[@(0.0.255) const]&]
-[s2; Возвращает true, если there is current entry in FindFile (if false, 
-all entry information methods have undefined behaviour). Usually, 
-this is used as condition to the loop that enumerates directory.&]
+[s2; Возвращает true, если есть текущая 
+запись в FindFile (если false, то все методы 
+получения информации о записи имеют 
+неопределённое поведение). Как правило, 
+это применяется в качестве условия 
+к циклу, создающему перечень директории.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:FindFile`:`:operator`+`+`(`):%- [@(0.0.255) bool]_[* operator`+`+]()&]
-[s2; То же, что и Next(). Improves [* for] syntax: for(FindFile 
-ff(...); ff; `+`+ff)&]
+[s2; То же, что и Next(). Улучшен синтаксис 
+[* for]: for(FindFile ff(...); ff; `+`+ff)&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:FindFile`:`:operator`+`+`(int`):%- [@(0.0.255) bool]_[* operator`+`+]([@(0.0.255) i
 nt])&]
-[s2; То же, что и Next(). Improves [* for] syntax: for(FindFile 
-ff(...); ff; ff`+`+)&]
+[s2; То же, что и Next(). Улучшен синтаксис 
+[* for]: for(FindFile ff(...); ff; ff`+`+)&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:FindFile`:`:begin`(`):%- [_^Upp`:`:FindFile`:`:Iterator^ Iterator]_[* begin](
 )&]
 [s5;:Upp`:`:FindFile`:`:end`(`):%- [_^Upp`:`:FindFile`:`:Iterator^ Iterator]_[* end]()&]
-[s2; Provides rudimentary iterators to allow range`-loop for.&]
+[s2; Предоставляет рудиментарные обходчики, 
+позволяющие выполнять range`-loop for.&]
 [s3; &]
 [s0; &]
-[ {{10000F(128)G(128)@1 [s0; [* Constructor detail]]}}&]
+[ {{10000F(128)G(128)@1 [s0; [* Детали Конструктора]]}}&]
 [s3; &]
 [s5;:FindFile`:`:FindFile`(`):%- [* FindFile]()&]
-[s2; Initializes to empty state.&]
+[s2; Инициализует в пустое состояние.&]
 [s3; &]
 [s3;%- &]
 [s4; &]
 [s5;:FindFile`:`:FindFile`(const char`*`):%- [* FindFile]([@(0.0.255) const]_[@(0.0.255) ch
 ar]_`*[*@3 name])&]
-[s2; Initializes and performs Search([%-*@3 name]).&]
+[s2; Инициализует и выполняет Search([%-*@3 name]).&]
 [s3; &]
 [s0; ]]

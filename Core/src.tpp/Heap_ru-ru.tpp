@@ -63,7 +63,7 @@ is slightly faster.&]
 [@(0.0.255) void]_`*[*@3 ptr], [_^size`_t^ size`_t][@(0.0.255) `&]_[*@3 newsize])&]
 [s2;%RU-RU Attempts to change the size of block at [%-*@3 ptr] to something 
 closer to [%-*@3 newsize]. The real value is returned in [%-*@3 newsize]. 
-Returns true on success.&]
+Возвращает true on success.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:TinyAlloc`(int`): [@(0.0.255) void]_`*[* TinyAlloc]([@(0.0.255) int]_[*@3 size])&]
@@ -93,7 +93,7 @@ oid]_[* tiny`_delete]([*@4 T]_`*[*@3 ptr])&]
 [s3;%RU-RU &]
 [s5;:Upp`:`:GetMemoryBlockSize`(void`*`): [_^size`_t^ size`_t]_[* GetMemoryBlockSize]([@(0.0.255) v
 oid]_`*[*@3 ptr])&]
-[s2;%RU-RU Returns the size of block in bytes.&]
+[s2;%RU-RU Возвращает the size of block in bytes.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:MemoryCheck`(`): [@(0.0.255) void]_[* MemoryCheck]()&]
@@ -112,11 +112,11 @@ to the standard log.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:MemoryUsedKb`(`): [@(0.0.255) int]_[* MemoryUsedKb]()&]
-[s2;%RU-RU Returns the currently used memory.&]
+[s2;%RU-RU Возвращает the currently used memory.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:MemoryUsedKbMax`(`): [@(0.0.255) int]_[* MemoryUsedKbMax]()&]
-[s2;%RU-RU Returns the peak memory usage.&]
+[s2;%RU-RU Возвращает the peak memory usage.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:MemoryLimitKb`(int`): [@(0.0.255) void]_[* MemoryLimitKb]([@(0.0.255) int]_[*@3 k
@@ -146,7 +146,7 @@ that are not launched by U`+`+ Thread class.&]
 [s4; &]
 [s5;:Upp`:`:MemoryIgnoreLeaksBegin`(`): [@(0.0.255) void]_[* MemoryIgnoreLeaksBegin]()&]
 [s2;%RU-RU Makes leak detector ignore leaks of blocks allocated until 
-[%-* MemoryIgnoreLeaksEnd ]is called. Calls can be nested. This 
+[%-* MemoryIgnoreLeaksEnd ]is called. Вызывает can be nested. This 
 is especially useful when working with 3rd party code that might 
 e.g. create static leaks (memory is allocated just once, but 
 library does not bother to deallocate on exit).&]
@@ -164,6 +164,6 @@ leaks till the end of block.&]
 [s3;%RU-RU &]
 [ {{10000F(128)G(128)@1 [s0;%RU-RU [* Heap tuning]]}}&]
 [s0;%RU-RU &]
-[s0;%RU-RU Heap tuning is provided through MemoryOptions class. Constructor 
+[s0;%RU-RU Heap tuning is provided through MemoryOptions class. Конструктор  
 of this class sets the default values to individual parameters, 
 destructor applies them to the heap subsystem.]]

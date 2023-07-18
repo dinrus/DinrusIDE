@@ -763,7 +763,7 @@ WhenSel)]]
 я, если у какого`-то из зависимых виджетов 
 неверное значение). Этот метод пытается 
 проверить на неверные значения и 
-обновляет сразу же ряд. Возвращает 
+обновляет сразу же ряд. Возвращает  
 true, если в зависимых виджетах неверные 
 значения отсутствуют.&]
 [s3;%- &]
@@ -813,7 +813,7 @@ ArrayCtrl.&]
 [s3; &]
 [s4; &]
 [s5;:ArrayCtrl`:`:GetLineCy`(`)const: [@(0.0.255) int]_[* GetLineCy]()_[@(0.0.255) const]&]
-[s2; Возвращает дефолтную высоту ряда 
+[s2; Возвращает  дефолтную высоту ряда 
 массива.&]
 [s7; [*/ Возвратное значение]-|высота ряда 
 в пикселях&]
@@ -821,7 +821,7 @@ ArrayCtrl.&]
 [s4; &]
 [s5;:ArrayCtrl`:`:GetLineY`(int`)const: [@(0.0.255) int]_[* GetLineY]([@(0.0.255) int]_[*@3 i
 ])_[@(0.0.255) const]&]
-[s2; Возвращает позицию [/ y] данного ряда 
+[s2; Возвращает  позицию [/ y] данного ряда 
 массива (расстояние в пикселях между 
 верхом первого ряда массива и [/ i]`-ным 
 рядом, т.е. сумму высот всех рядов, 
@@ -834,7 +834,7 @@ ArrayCtrl.&]
 [s4; &]
 [s5;:ArrayCtrl`:`:GetLineCy`(int`)const: [@(0.0.255) int]_[* GetLineCy]([@(0.0.255) int]_[*@3 i
 ])_[@(0.0.255) const]&]
-[s2; Возвращает высоту данного ряда (либо 
+[s2; Возвращает  высоту данного ряда (либо 
 специфичную для ряда высоту, либо, 
 при Null,дефолтную высоту ряда).&]
 [s7; [*C@3 i]-|индекс ряда (на основании нуля)&]
@@ -862,7 +862,7 @@ ArrayCtrl.&]
 [s4; &]
 [s5;:ArrayCtrl`:`:IsAppendLine`(`)const: [@(0.0.255) bool]_[* IsAppendLine]()_[@(0.0.255) c
 onst]&]
-[s2; Возвращает текущее состояние свойства 
+[s2; Возвращает  текущее состояние свойства 
 [* AppendLine].&]
 [s7; [*/ Возвратное значение]-|[* true] `= показывать 
 приставочный псевдоряд в конце массива&]
@@ -887,7 +887,7 @@ onst]&]
 [s4; &]
 [s5;:ArrayCtrl`:`:IsInserting`(`)const: [@(0.0.255) bool]_[* IsInserting]()_[@(0.0.255) con
 st]&]
-[s2; Возвращает текущее состояние свойства 
+[s2; Возвращает  текущее состояние свойства 
 [* Inserting].&]
 [s7; [*/ Возвратное значение]-|[* true] `= вставка 
 рядов активирована, [* false] `- когда нет.&]
@@ -904,7 +904,7 @@ st]&]
 [s4; &]
 [s5;:ArrayCtrl`:`:IsAppending`(`)const: [@(0.0.255) bool]_[* IsAppending]()_[@(0.0.255) con
 st]&]
-[s2; Возвращает текущее состояние свойства 
+[s2; Возвращает  текущее состояние свойства 
 [* Appending].&]
 [s7; [*/ Возвратное значение]-|[* true] `= приставление 
 ряда активировано, [* false] `-когда нет.&]
@@ -921,7 +921,7 @@ ending]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) true])&]
 [s4; &]
 [s5;:ArrayCtrl`:`:IsAutoAppending`(`)const: [@(0.0.255) bool]_[* IsAutoAppending]()_[@(0.0.255) c
 onst]&]
-[s2; Возвращает текущее состояние свойства 
+[s2; Возвращает  текущее состояние свойства 
 [* AutoAppending].&]
 [s7; [*/ Возвратное значение]-|[* true] `= [* AutoAppending 
 ]активен&]
@@ -962,7 +962,7 @@ ng]()&]
 [s4; &]
 [s5;:ArrayCtrl`:`:IsDuplicating`(`)const: [@(0.0.255) bool]_[* IsDuplicating]()_[@(0.0.255) c
 onst]&]
-[s2; Returns the state of the [* Duplicating] property.&]
+[s2; Возвращает the state of the [* Duplicating] property.&]
 [s7; [*/ Возвратное значение]-|[* true] `= local menu 
 offers row duplication, [* false] when not&]
 [s3; &]
@@ -997,14 +997,14 @@ ool]_[*@3 b]_`=_[@(0.0.255) true])&]
 [s4; &]
 [s5;:ArrayCtrl`:`:IsRemoving`(`)const: [@(0.0.255) bool]_[* IsRemoving]()_[@(0.0.255) const
 ]&]
-[s2; Returns current state of the [* Removing] property.&]
+[s2; Возвращает current state of the [* Removing] property.&]
 [s7; [*/ Возвратное значение]-|[* true] `= row deletion 
 is enabled, [* false ]when not&]
 [s3; &]
 [s4; &]
 [s5;:ArrayCtrl`:`:AskRemove`(bool`): [_^ArrayCtrl^ ArrayCtrl][@(0.0.255) `&]_[* AskRemove](
 [@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) true])&]
-[s2; Sets whether the user must manually confirm array row deletion. 
+[s2; Устанавливаетwhether the user must manually confirm array row deletion. 
 When set to [* true], every time a row is to be deleted, a confirmation 
 dialog pops up. When set to [* false], rows are deleted automatically 
 without any further confirmation.&]
@@ -1021,7 +1021,7 @@ without any further confirmation.&]
 [s4; &]
 [s5;:ArrayCtrl`:`:IsAskRemove`(`)const: [@(0.0.255) bool]_[* IsAskRemove]()_[@(0.0.255) con
 st]&]
-[s2; Returns current state of the [* AskRemove] property.&]
+[s2; Возвращает current state of the [* AskRemove] property.&]
 [s7; [*/ Возвратное значение]-|[* true] `= user confirmation 
 is needed to delete rows, [* false] `= rows are deleted immediately&]
 [s3; &]
@@ -1038,7 +1038,7 @@ straightforward manner.&]
 [s3; &]
 [s4; &]
 [s5;:ArrayCtrl`:`:IsMoving`(`)const: [@(0.0.255) bool]_[* IsMoving]()_[@(0.0.255) const]&]
-[s2; Returns current state of the [* Moving] property.&]
+[s2; Возвращает current state of the [* Moving] property.&]
 [s7; [*/ Возвратное значение]-|[* true] `= local menu 
 supports row swapping, [* false] `= it doesn`'t&]
 [s3; &]
@@ -1113,7 +1113,7 @@ grid lines&]
 [s4; &]
 [s5;:ArrayCtrl`:`:GridColor`(Color`): [_^ArrayCtrl^ ArrayCtrl][@(0.0.255) `&]_[* GridColor](
 [_^Color^ Color]_[*@3 c])&]
-[s2; Sets the color for grid lines.&]
+[s2; Устанавливаетthe color for grid lines.&]
 [s7; [*C@3 c]-|new grid line color&]
 [s7; [*/ Возвратное значение]-|[* `*this]&]
 [s3; &]
@@ -1121,7 +1121,7 @@ grid lines&]
 [s5;:ArrayCtrl`:`:EvenRowColor`(Color`,Color`): [_^ArrayCtrl^ ArrayCtrl][@(0.0.255) `&]_[* E
 venRowColor]([_^Color^ Color]_[*@3 paper]_`=_Blend(SColorMark, SColorPaper, 
 [@3 220]), [_^Color^ Color]_[*@3 ink]_`=_SColorText)&]
-[s2; Sets the paper and ink (background and foreground) color for 
+[s2; Устанавливаетthe paper and ink (background and foreground) color for 
 even array rows. In certain cases setting a different background 
 color for odd and even rows helps to simplify visual orientation 
 in the arrays (especially when the array has many columns).&]
@@ -1138,7 +1138,7 @@ etc. array row&]
 [s5;:ArrayCtrl`:`:OddRowColor`(Color`,Color`): [_^ArrayCtrl^ ArrayCtrl][@(0.0.255) `&]_[* O
 ddRowColor]([_^Color^ Color]_[*@3 paper]_`=_SColorInfo, [_^Color^ Color]_[*@3 ink]_`=_SCo
 lorText)&]
-[s2; Sets the paper and ink (background and foreground) color for 
+[s2; Устанавливаетthe paper and ink (background and foreground) color for 
 odd array rows.&]
 [s7; [*C@3 paper]-|background color to use for first, third, fifth etc. 
 array row&]
@@ -1219,13 +1219,13 @@ ct]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) true])&]
 [s4; &]
 [s5;:ArrayCtrl`:`:IsMultiSelect`(`)const: [@(0.0.255) bool]_[* IsMultiSelect]()_[@(0.0.255) c
 onst]&]
-[s2; Возвращает true, если ArrayCtrl is in multiselect 
+[s2; Возвращает  true, если ArrayCtrl is in multiselect 
 mode.&]
 [s3; &]
 [s4; &]
 [s5;:ArrayCtrl`:`:NoBackground`(bool`): [_^ArrayCtrl^ ArrayCtrl][@(0.0.255) `&]_[* NoBackgr
 ound]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) true])&]
-[s2; Sets the widget into transparent mode `- background is not painted 
+[s2; Устанавливаетthe widget into transparent mode `- background is not painted 
 and Transparent is activated `- a result, anything painted behind 
 the widget is visible, allowing client code to provide any background 
 it needs.&]
@@ -1274,7 +1274,7 @@ or after this modifier is called).&]
 [s5;:ArrayCtrl`:`:ColumnSortSecondary`(const ArrayCtrl`:`:Order`&`): [_^ArrayCtrl^ Arra
 yCtrl][@(0.0.255) `&]_[* ColumnSortSecondary]([@(0.0.255) const]_[_^ArrayCtrl`:`:Order^ O
 rder][@(0.0.255) `&]_[*@3 order])&]
-[s2; Sets secondary sorting predicate for column sorts (see ColumnSort, 
+[s2; Устанавливаетsecondary sorting predicate for column sorts (see ColumnSort, 
 Sorting) `- if two cells are equal when performing sort by column, 
 they are ordered by this predicate.&]
 [s3; &]
@@ -1300,7 +1300,7 @@ blank`-separated decimal numbers, e.g. `"1 4 6 4 1`".&]
 [s3; &]
 [s4; &]
 [s5;:ArrayCtrl`:`:GetColumnWidths`(`): [_^String^ String]_[* GetColumnWidths]()&]
-[s2; Returns current column widths in format compatible with ColumnWidths.&]
+[s2; Возвращает current column widths in format compatible with ColumnWidths.&]
 [s3; &]
 [s4; &]
 [s5;:ArrayCtrl`:`:CursorOverride`(const Image`&`): [_^ArrayCtrl^ ArrayCtrl][@(0.0.255) `&
@@ -1319,19 +1319,19 @@ Override]()&]
 is wider than cell width and next cell is Null (empty), the cell 
 width is extended to span over the next cell (just like in common 
 spreadsheet applications). ArrayCtrl header must no be in Moving 
-mode for correct operation. Returns `*this.&]
+mode for correct operation. Возвращает `*this.&]
 [s3; &]
 [s4; &]
 [s5;:ArrayCtrl`:`:RowFormat`(const char`*`): [_^String^ String]_[* RowFormat]([@(0.0.255) c
 onst]_[@(0.0.255) char]_`*[*@3 s])&]
 [s2; Formats a text by substituting [* %s] with the array`-specific 
 term for `'row`' (as set by the [* RowName] property). This is 
-used for array local menu items. Returns `*this.&]
+used for array local menu items. Возвращает `*this.&]
 [s3; &]
 [s4; &]
 [s5;:ArrayCtrl`:`:RowName`(const char`*`): [_^ArrayCtrl^ ArrayCtrl][@(0.0.255) `&]_[* RowNa
 me]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 s])&]
-[s2; Sets the array`-specific term for `'row`'. This can be used 
+[s2; Устанавливаетthe array`-specific term for `'row`'. This can be used 
 to customize the local menu terminology according to the logical 
 content of the array. For instance, when you have an array with 
 the list of employees, you can call [* RowName(`"employee`")] and 
@@ -1346,7 +1346,7 @@ employee`'] etc.&]
 [s0; &]
 [s5;:ArrayCtrl`:`:IndexInfo`(int`): [_^ArrayCtrl`:`:IdInfo^ IdInfo][@(0.0.255) `&]_[* Index
 Info]([@(0.0.255) int]_[*@3 ii])&]
-[s2; Returns a reference to the [* IdInfo] structure describing a given 
+[s2; Возвращает a reference to the [* IdInfo] structure describing a given 
 array index (column in the source data matrix).&]
 [s7; [*C@3 ii]-|zero`-based ordinal number of the array index&]
 [s7; [*/ Возвратное значение]-|IdInfo reference for 
@@ -1355,7 +1355,7 @@ the given index&]
 [s4; &]
 [s5;:ArrayCtrl`:`:IndexInfo`(const Id`&`): [_^ArrayCtrl`:`:IdInfo^ IdInfo][@(0.0.255) `&]_
 [* IndexInfo]([@(0.0.255) const ][_^Id^ Id]`&_[*@3 id])&]
-[s2; Returns a reference to the [* IdInfo] structure describing a given 
+[s2; Возвращает a reference to the [* IdInfo] structure describing a given 
 array index.&]
 [s7; [*C@3 id]-|the [* Id] index identifier&]
 [s7; [*/ Возвратное значение]-|IdInfo reference for 
@@ -1380,13 +1380,13 @@ can be used to set additional index properties.&]
 [s4; &]
 [s5;:ArrayCtrl`:`:GetIndexCount`(`)const: [@(0.0.255) int]_[* GetIndexCount]()_[@(0.0.255) c
 onst]&]
-[s2; Returns number of indices in the array.&]
+[s2; Возвращает number of indices in the array.&]
 [s7; [*/ Возвратное значение]-|index count&]
 [s3; &]
 [s4; &]
 [s5;:ArrayCtrl`:`:GetId`(int`)const: [_^Id^ Id]_[* GetId]([@(0.0.255) int]_[*@3 ii])_[@(0.0.255) c
 onst]&]
-[s2; Returns the identifier of a given index (addresses by its zero`-based 
+[s2; Возвращает the identifier of a given index (addresses by its zero`-based 
 ordinal number).&]
 [s7; [*C@3 ii]-|zero`-based ordinal number of the queried index&]
 [s7; [*/ Возвратное значение]-|index identifier or 
@@ -1395,7 +1395,7 @@ ordinal number).&]
 [s4; &]
 [s5;:ArrayCtrl`:`:GetPos`(const Id`&`)const: [@(0.0.255) int]_[* GetPos]([@(0.0.255) const 
 ][_^Id^ Id]`&_[*@3 id])_[@(0.0.255) const]&]
-[s2; Returns the zero`-based positional number of the array index 
+[s2; Возвращает the zero`-based positional number of the array index 
 with a given identifier.&]
 [s7; [*C@3 id]-|array index identifier&]
 [s7; [*/ Возвратное значение]-|zero`-based index number, 
@@ -1404,7 +1404,7 @@ with a given identifier.&]
 [s4; &]
 [s5;:ArrayCtrl`:`:SetId`(int`,const Id`&`): [_^ArrayCtrl`:`:IdInfo^ IdInfo][@(0.0.255) `&
 ]_[* SetId]([@(0.0.255) int]_[*@3 ii], [@(0.0.255) const ][_^Id^ Id]`&_[*@3 id])&]
-[s2; Sets the identifier for a given array index. This can be used 
+[s2; Устанавливаетthe identifier for a given array index. This can be used 
 to set or modify the identifier for a previously added index.&]
 [s7; [*C@3 ii]-|zero`-based ordinal number of the index to set the identifier 
 for&]
@@ -1437,7 +1437,7 @@ This is equivalent to [* AddKey(Null)].&]
 [s3; &]
 [s4; &]
 [s5;:ArrayCtrl`:`:GetKeyId`(`)const: [_^Id^ Id]_[* GetKeyId]()_[@(0.0.255) const]&]
-[s2; Returns primary key identifier for this table. This is equivalent 
+[s2; Возвращает primary key identifier for this table. This is equivalent 
 to calling [* GetId(0)].&]
 [s7; [*/ Возвратное значение]-|primary key index identifier&]
 [s3; &]
@@ -1591,13 +1591,13 @@ way to store the edited data back to its external storage).&]
 [s4; &]
 [s5;:ArrayCtrl`:`:GetColumnCount`(`)const: [@(0.0.255) int]_[* GetColumnCount]()_[@(0.0.255) c
 onst]&]
-[s2; Returns the current number of (output) columns in the array.&]
+[s2; Возвращает the current number of (output) columns in the array.&]
 [s7; [*/ Возвратное значение]-|number of columns&]
 [s3; &]
 [s4; &]
 [s5;:ArrayCtrl`:`:FindColumnWithPos`(int`)const: [@(0.0.255) int]_[* FindColumnWithPos]([@(0.0.255) i
 nt]_[*@3 pos])_[@(0.0.255) const]&]
-[s2; Returns the zero`-based index of a first column based on its 
+[s2; Возвращает the zero`-based index of a first column based on its 
 source data index or `-1 if not found. Note that there could 
 be multiple columns linked with single source `- in that case 
 the function returns the index of first one found. Use FindColumnsWithPos 
@@ -1606,7 +1606,7 @@ if you need them all.&]
 [s4; &]
 [s5;:ArrayCtrl`:`:FindColumnWithId`(const Id`&`)const: [@(0.0.255) int]_[* FindColumnWith
 Id]([@(0.0.255) const ][_^Id^ Id]`&_[*@3 id])_[@(0.0.255) const]&]
-[s2; Returns the zero`-based index of a first column based on its 
+[s2; Возвращает the zero`-based index of a first column based on its 
 source data Id or `-1 if not found. Note that there could be 
 multiple columns linked with single source `- in that case the 
 function returns the index of first one found. Use FindColumnsWithId 
@@ -1615,20 +1615,20 @@ if you need them all.&]
 [s4;%- &]
 [s5;:Upp`:`:ArrayCtrl`:`:FindColumnsWithPos`(int`)const:%- [_^Upp`:`:Vector^ Vector]<[@(0.0.255) i
 nt]>_[* FindColumnsWithPos]([@(0.0.255) int]_[*@3 pos])_[@(0.0.255) const]&]
-[s2; Returns the zero`-based indices of all columns based on its 
+[s2; Возвращает the zero`-based indices of all columns based on its 
 source data index or `-1 if not found.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:ArrayCtrl`:`:FindColumnsWithId`(const Upp`:`:Id`&`)const:%- [_^Upp`:`:Vector^ V
 ector]<[@(0.0.255) int]>_[* FindColumnsWithId]([@(0.0.255) const]_[_^Upp`:`:Id^ Id][@(0.0.255) `&
 ]_[*@3 id])_[@(0.0.255) const]&]
-[s2; Returns the zero`-based indices of all columns based on its 
+[s2; Возвращает the zero`-based indices of all columns based on its 
 source data [%-*@3 id] or `-1 if not found.&]
 [s3; &]
 [s4; &]
 [s5;:ArrayCtrl`:`:ColumnAt`(int`): [_^ArrayCtrl`:`:Column^ Column][@(0.0.255) `&]_[* Column
 At]([@(0.0.255) int]_[*@3 i])&]
-[s2; Returns the [* Column] structure describing a given column.&]
+[s2; Возвращает the [* Column] structure describing a given column.&]
 [s7; [*C@3 i]-|zero`-based column index&]
 [s7; [*/ Возвратное значение]-|a reference to the 
 [* Column] structure describing the given column&]
@@ -1636,7 +1636,7 @@ At]([@(0.0.255) int]_[*@3 i])&]
 [s4; &]
 [s5;:ArrayCtrl`:`:ColumnAt`(const Id`&`): [_^ArrayCtrl`:`:Column^ Column][@(0.0.255) `&]_
 [* ColumnAt]([@(0.0.255) const ][_^Id^ Id]`&_[*@3 id])&]
-[s2; Returns the [* Column] structure describing a given column.&]
+[s2; Возвращает the [* Column] structure describing a given column.&]
 [s7; [*C@3 i]-|zero`-based column index&]
 [s7; [*/ Возвратное значение]-|a constant reference 
 to the [* Column] structure describing the given column&]
@@ -1644,7 +1644,7 @@ to the [* Column] structure describing the given column&]
 [s4; &]
 [s5;:ArrayCtrl`:`:ColumnAt`(int`)const: [@(0.0.255) const]_[_^ArrayCtrl`:`:Column^ Column
 ][@(0.0.255) `&]_[* ColumnAt]([@(0.0.255) int]_[*@3 i])_[@(0.0.255) const]&]
-[s2; Returns the [* Column] structure describing a column with given 
+[s2; Возвращает the [* Column] structure describing a column with given 
 source index. This is merely the const version of the above method; 
 it can be used to query properties for the column.&]
 [s7; [*C@3 id]-|identifier of the index used as source for the column&]
@@ -1655,7 +1655,7 @@ it can be used to query properties for the column.&]
 [s5;:ArrayCtrl`:`:ColumnAt`(const Id`&`)const: [@(0.0.255) const]_[_^ArrayCtrl`:`:Column^ C
 olumn][@(0.0.255) `&]_[* ColumnAt]([@(0.0.255) const ][_^Id^ Id]`&_[*@3 id])_[@(0.0.255) cons
 t]&]
-[s2; Returns a constant reference to the [* Column] structure describing 
+[s2; Возвращает a constant reference to the [* Column] structure describing 
 a column with given source index. This is the constant version 
 of the above method; it can be used to query properties for the 
 column.&]
@@ -1666,7 +1666,7 @@ to the [* Column] structure describing the given column&]
 [s4; &]
 [s5;:ArrayCtrl`:`:HeaderTab`(int`): [_^HeaderCtrl`:`:Column^ HeaderCtrl`::Column][@(0.0.255) `&
 ]_[* HeaderTab]([@(0.0.255) int]_[*@3 i])&]
-[s2; Returns the [*^topic`:`/`/CtrlLib`/src`/HeaderCtrl`$en`-us`#`:`:HeaderCtrl`:`:Column`:`:Min`(int`)^ H
+[s2; Возвращает the [*^topic`:`/`/CtrlLib`/src`/HeaderCtrl`$en`-us`#`:`:HeaderCtrl`:`:Column`:`:Min`(int`)^ H
 eaderCtrl`::Column] descriptive structure for the given column. 
 The correspondence between the array columns and the header tabs 
 is 1:1, so that the indices of both are always the same ([* array.GetColumnCount() 
@@ -1680,7 +1680,7 @@ font and icon for the column title etc.)&]
 [s4; &]
 [s5;:ArrayCtrl`:`:HeaderTab`(int`)const: [@(0.0.255) const]_[_^HeaderCtrl`:`:Column^ Head
 erCtrl`::Column][@(0.0.255) `&]_[* HeaderTab]([@(0.0.255) int]_[*@3 i])_[@(0.0.255) const]&]
-[s2; Returns a constant reference to the [* HeaderCtrl`::Column] structure 
+[s2; Возвращает a constant reference to the [* HeaderCtrl`::Column] structure 
 for the given column.&]
 [s7; [*C@3 i]-|zero`-based column index&]
 [s7; [*/ Возвратное значение]-|a reference to the 
@@ -1691,7 +1691,7 @@ font and icon for the column title etc.)&]
 [s4; &]
 [s5;:ArrayCtrl`:`:HeaderTab`(const Id`&`): [_^HeaderCtrl`:`:Column^ HeaderCtrl`::Column][@(0.0.255) `&
 ]_[* HeaderTab]([@(0.0.255) const ][_^Id^ Id]`&_[*@3 id])&]
-[s2; Returns the [* HeaderCtrl`::Column] descriptive structure for the 
+[s2; Возвращает the [* HeaderCtrl`::Column] descriptive structure for the 
 column bound to a given source index.&]
 [s7; [*C@3 id]-|identifier of the index used as source for the column&]
 [s7; [*/ Возвратное значение]-|a reference to the 
@@ -1701,7 +1701,7 @@ column bound to a given source index.&]
 [s5;:ArrayCtrl`:`:HeaderTab`(const Id`&`)const: [@(0.0.255) const]_[_^HeaderCtrl`:`:Column^ H
 eaderCtrl`::Column][@(0.0.255) `&]_[* HeaderTab]([@(0.0.255) const ][_^Id^ Id]`&_[*@3 id])_[@(0.0.255) c
 onst]&]
-[s2; Returns a constant reference to the [* HeaderCtrl`::Column] descriptive 
+[s2; Возвращает a constant reference to the [* HeaderCtrl`::Column] descriptive 
 structure for the column bound to a given source index.&]
 [s7; [*C@3 id]-|identifier of the index used as source for the column&]
 [s7; [*/ Возвратное значение]-|a constant reference 
@@ -1710,7 +1710,7 @@ to the [* HeaderCtrl`::Column] structure&]
 [s4; &]
 [s5;:ArrayCtrl`:`:HeaderObject`(`)const: [@(0.0.255) const]_[_^HeaderCtrl^ HeaderCtrl][@(0.0.255) `&
 ]_[* HeaderObject]()_[@(0.0.255) const]&]
-[s2; Returns a non`-constant reference to the [* HeaderCtrl] object 
+[s2; Возвращает a non`-constant reference to the [* HeaderCtrl] object 
 for this table. The reference can be further used to alter properties 
 of the table header (tab visibility, header visual mode and so 
 on).&]
@@ -1752,7 +1752,7 @@ the next time.&]
 [s5;:ArrayCtrl`:`:SetDisplay`(int`,int`,const Display`&`): [@(0.0.255) void]_[* SetDispla
 y]([@(0.0.255) int]_[*@3 i], [@(0.0.255) int]_[*@3 col], [@(0.0.255) const]_[_^Display^ Displ
 ay][@(0.0.255) `&]_[*@3 d])&]
-[s2; Sets the [* Display] object for a given array cell.&]
+[s2; Устанавливаетthe [* Display] object for a given array cell.&]
 [s2;* &]
 [s2; [* Note:] the ownership to the Display object is not transferred 
 by this call. The ArrayCtrl stores a mere pointer to it and it 
@@ -1779,18 +1779,18 @@ or graphical exports from the array control).&]
 [s5;:Upp`:`:ArrayCtrl`:`:SetRowDisplay`(int`,const Upp`:`:Display`&`):%- [@(0.0.255) vo
 id]_[* SetRowDisplay]([@(0.0.255) int]_[*@3 i], [@(0.0.255) const]_[_^Upp`:`:Display^ Displ
 ay][@(0.0.255) `&]_[*@3 d])&]
-[s2; Sets Display [%-*@3 d] for each cell of line [%-*@3 i].&]
+[s2; УстанавливаетDisplay [%-*@3 d] for each cell of line [%-*@3 i].&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:ArrayCtrl`:`:SetColumnDisplay`(int`,const Upp`:`:Display`&`):%- [@(0.0.255) v
 oid]_[* SetColumnDisplay]([@(0.0.255) int]_[*@3 j], [@(0.0.255) const]_[_^Upp`:`:Display^ D
 isplay][@(0.0.255) `&]_[*@3 d])&]
-[s2; Sets Display [%-*@3 d] for each cell of column j.&]
+[s2; УстанавливаетDisplay [%-*@3 d] for each cell of column j.&]
 [s3; &]
 [s4; &]
 [s5;:ArrayCtrl`:`:GetDisplay`(int`,int`): [@(0.0.255) const]_[_^Display^ Display][@(0.0.255) `&
 ]_[* GetDisplay]([@(0.0.255) int]_[*@3 row], [@(0.0.255) int]_[*@3 col])&]
-[s2; Returns a reference to the Display object for the given array 
+[s2; Возвращает a reference to the Display object for the given array 
 cell.&]
 [s7; [*C@3 row]-|zero`-based row index&]
 [s7; [*C@3 col]-|zero`-based column index&]
@@ -1800,7 +1800,7 @@ Display object.&]
 [s4; &]
 [s5;:ArrayCtrl`:`:GetDisplay`(int`): [@(0.0.255) const]_[_^Display^ Display][@(0.0.255) `&]_
 [* GetDisplay]([@(0.0.255) int]_[*@3 col])&]
-[s2; Returns a reference to the Display object for the given array 
+[s2; Возвращает a reference to the Display object for the given array 
 column.&]
 [s7; [*C@3 col]-|zero`-based column index&]
 [s7; [*/ Возвратное значение]-|constant reference 
@@ -1810,7 +1810,7 @@ to the column Display&]
 [s5;:ArrayCtrl`:`:SetCtrl`(int`,int`,Ctrl`&`,bool`): [@(0.0.255) void]_[* SetCtrl]([@(0.0.255) i
 nt]_[*@3 i], [@(0.0.255) int]_[*@3 col], [_^Ctrl^ Ctrl][@(0.0.255) `&]_[*@3 ctrl], 
 [@(0.0.255) bool]_[*@3 value]_`=_[@(0.0.255) true])&]
-[s2; Sets an external control to use as the editor for a single array 
+[s2; Устанавливаетan external control to use as the editor for a single array 
 cell. Naturally, the same Ctrl object cannot be used as the editor 
 for multiple array cells. If the position of Ctrl is equivalent 
 to `'SetRect(0, 0, 0, 0)`', which is the default value, Ctrl 
@@ -1823,14 +1823,14 @@ is independent of it.&]
 [s4; &]
 [s5;:ArrayCtrl`:`:GetCtrl`(int`,int`): [_^Ctrl^ Ctrl]_`*[* GetCtrl]([@(0.0.255) int]_[*@3 i],
  [@(0.0.255) int]_[*@3 col])&]
-[s2; Returns a pointer to a ctrl at row [*@3 i] and column [*@3 col ]if 
+[s2; Возвращает a pointer to a ctrl at row [*@3 i] and column [*@3 col ]if 
 there is any, NULL otherwise.&]
 [s3; &]
 [s4; &]
 [s5;:ArrayCtrl`:`:CreateCtrl`(int`,int`,bool`): [@(0.0.255) template]_<[@(0.0.255) class]_
 [*@4 T]>_[*@4 T][@(0.0.255) `&]_[* CreateCtrl]([@(0.0.255) int]_[*@3 i], 
 [@(0.0.255) int]_[*@3 col], [@(0.0.255) bool]_[*@3 value]_`=_[@(0.0.255) true])&]
-[s2; Creates an control (owned by ArrayCtrl) for a single array cell. 
+[s2; Создаёт an control (owned by ArrayCtrl) for a single array cell. 
 If [*@3 value] is true, then the Ctrl represents the value of the 
 cell, otherwise it is independent of it. If the position of Ctrl 
 is equivalent to `'SetRect(0, 0, 0, 0)`', which is the default 
@@ -1840,7 +1840,7 @@ the position represents the position within the cell. &]
 [s3; &]
 [s4; &]
 [s5;:ArrayCtrl`:`:GetTotalCy`(`)const: [@(0.0.255) int]_[* GetTotalCy]()_[@(0.0.255) const]&]
-[s2; Returns total height of the array (sum of the individual line 
+[s2; Возвращает total height of the array (sum of the individual line 
 heights for all array rows)&]
 [s7; [*/ Возвратное значение]-|array height in pixels&]
 [s3; &]
@@ -1857,36 +1857,36 @@ or `-1 when not found&]
 [s4;%- &]
 [s5;:Upp`:`:ArrayCtrl`:`:SetLineColor`(int`,Upp`:`:Color`):%- [@(0.0.255) void]_[* SetLin
 eColor]([@(0.0.255) int]_[*@3 i], [_^Upp`:`:Color^ Color]_[*@3 c])&]
-[s2; Sets the background color of line [%-*@3 i] to [%-*@3 c].&]
+[s2; Устанавливаетthe background color of line [%-*@3 i] to [%-*@3 c].&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:ArrayCtrl`:`:GetCellRect`(int`,int`)const:%- [_^Upp`:`:Rect^ Rect]_[* GetCell
 Rect]([@(0.0.255) int]_[*@3 i], [@(0.0.255) int]_[*@3 col])_[@(0.0.255) const]&]
-[s2; Returns rectangle of cell at [%-*@3 i],[%-*@3  col] in view coordinates. 
+[s2; Возвращает rectangle of cell at [%-*@3 i],[%-*@3  col] in view coordinates. 
 Cell left and right margins are included in rectangle.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:ArrayCtrl`:`:GetCellRectM`(int`,int`)const:%- [_^Upp`:`:Rect^ Rect]_[* GetCel
 lRectM]([@(0.0.255) int]_[*@3 i], [@(0.0.255) int]_[*@3 col])_[@(0.0.255) const]&]
-[s2; Returns rectangle of cell at [%-*@3 i],[%-*@3  col] in view coordinates. 
+[s2; Возвращает rectangle of cell at [%-*@3 i],[%-*@3  col] in view coordinates. 
 Cell left and right margins are not included in rectangle.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:ArrayCtrl`:`:GetScreenCellRect`(int`,int`)const:%- [_^Upp`:`:Rect^ Rect]_[* G
 etScreenCellRect]([@(0.0.255) int]_[*@3 i], [@(0.0.255) int]_[*@3 col])_[@(0.0.255) const]&]
-[s2; Returns rectangle of cell at [%-*@3 i],[%-*@3  col] in screen coordinates. 
+[s2; Возвращает rectangle of cell at [%-*@3 i],[%-*@3  col] in screen coordinates. 
 Cell left and right margins are included in rectangle.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:ArrayCtrl`:`:GetScreenCellRectM`(int`,int`)const:%- [_^Upp`:`:Rect^ Rect]_[* G
 etScreenCellRectM]([@(0.0.255) int]_[*@3 i], [@(0.0.255) int]_[*@3 col])_[@(0.0.255) const]&]
-[s2; Returns rectangle of cell at [%-*@3 i],[%-*@3  col] in screen coordinates. 
+[s2; Возвращает rectangle of cell at [%-*@3 i],[%-*@3  col] in screen coordinates. 
 Cell left and right margins are not included in rectangle.&]
 [s3; &]
 [s4; &]
 [s5;:ArrayCtrl`:`:GetClickColumn`(`)const: [@(0.0.255) int]_[* GetClickColumn]()_[@(0.0.255) c
 onst]&]
-[s2; Returns column index of the last clicked column in the array. 
+[s2; Возвращает column index of the last clicked column in the array. 
 If the click happens past the last row of array, returns Null.&]
 [s7; [*/ Возвратное значение]-|zero`-based index of 
 the relevant column&]
@@ -1894,7 +1894,7 @@ the relevant column&]
 [s4; &]
 [s5;:ArrayCtrl`:`:GetClickRow`(`)const: [@(0.0.255) int]_[* GetClickRow]()_[@(0.0.255) cons
 t]&]
-[s2; Returns column index of the last clicked row in the array. If 
+[s2; Возвращает column index of the last clicked row in the array. If 
 the click happens past the last row of array, returns Null.&]
 [s7; [*/ Возвратное значение]-|zero`-based index of 
 the relevant column&]
@@ -1910,7 +1910,7 @@ GetClickRow())].&]
 [s3; &]
 [s0; &]
 [s5;:ArrayCtrl`:`:SetCount`(int`): [@(0.0.255) void]_[* SetCount]([@(0.0.255) int]_[*@3 c])&]
-[s2; Sets the number of rows in the array. This extends or trims 
+[s2; Устанавливаетthe number of rows in the array. This extends or trims 
 the source matrix as necessary. When using the Ctrl`-based individual 
 cell editors, as a side`-effect of this call some controls can 
 be constructed or destroyed.&]
@@ -1919,7 +1919,7 @@ be constructed or destroyed.&]
 [s4; &]
 [s5;:ArrayCtrl`:`:SetVirtualCount`(int`): [@(0.0.255) void]_[* SetVirtualCount]([@(0.0.255) i
 nt]_[*@3 c])&]
-[s2; Sets the number of rows in an array with external data. This 
+[s2; Устанавливаетthe number of rows in an array with external data. This 
 makes sense only when all the [/ Column`'s] and [/ Ctrl`'s] of the 
 array are [/ rownum]`-based. The function doesn`'t physically allocate 
 any source data matrix space, it just makes the array `'think`' 
@@ -1935,7 +1935,7 @@ flags.&]
 [s3; &]
 [s4; &]
 [s5;:ArrayCtrl`:`:GetCount`(`)const: [@(0.0.255) int]_[* GetCount]()_[@(0.0.255) const]&]
-[s2; Returns the number of rows in the array. In fact, this returns 
+[s2; Возвращает the number of rows in the array. In fact, this returns 
 the maximum of the number of `'real`' source matrix rows (as 
 set by the SetCount / Add / Insert methods) and the `'virtual`' 
 row count (as se by SetVirtualCount). By checking the implementation 
@@ -1961,7 +1961,7 @@ the minimum required memory space.&]
 [s4; &]
 [s5;:ArrayCtrl`:`:Get`(int`,int`)const: [_^Value^ Value]_[* Get]([@(0.0.255) int]_[*@3 i], 
 [@(0.0.255) int]_[*@3 ii])_[@(0.0.255) const]&]
-[s2; Returns the value at a given location in the source data matrix.&]
+[s2; Возвращает the value at a given location in the source data matrix.&]
 [s7; [*C@3 i]-|zero`-based row number&]
 [s7; [*C@3 ii]-|zero`-based index ordinal number&]
 [s7; [*/ Возвратное значение]-|value at the given 
@@ -1970,7 +1970,7 @@ location in the source data matrix&]
 [s4; &]
 [s5;:ArrayCtrl`:`:Get`(int`,const Id`&`)const: [_^Value^ Value]_[* Get]([@(0.0.255) int]_[*@3 i
 ], [@(0.0.255) const ][_^Id^ Id]`&_[*@3 id])_[@(0.0.255) const]&]
-[s2; Returns the value at a given location in the source data matrix. 
+[s2; Возвращает the value at a given location in the source data matrix. 
 In this version, the source indices are addressed by their identifiers.&]
 [s7; [*C@3 i]-|zero`-based row number&]
 [s7; [*C@3 id]-|source index identifier&]
@@ -1980,7 +1980,7 @@ location in the source data matrix&]
 [s4; &]
 [s5;:ArrayCtrl`:`:Get`(int`)const: [_^Value^ Value]_[* Get]([@(0.0.255) int]_[*@3 ii])_[@(0.0.255) c
 onst]&]
-[s2; Returns the value of a given source index at the currently active 
+[s2; Возвращает the value of a given source index at the currently active 
 cursor row. This is equivalent to [* Get(GetCursor(), ii)]. When 
 the row is currently being edited, the function returns the `'new`' 
 value (the current value of the respective editor control, i.e. 
@@ -1994,7 +1994,7 @@ in the cursor row&]
 [s4; &]
 [s5;:ArrayCtrl`:`:Get`(const Id`&`)const: [_^Value^ Value]_[* Get]([@(0.0.255) const 
 ][_^Id^ Id]`&_[*@3 id])_[@(0.0.255) const]&]
-[s2; Returns the value of a given source index at the currently active 
+[s2; Возвращает the value of a given source index at the currently active 
 cursor row. This is equivalent to [* Get(GetCursor(), id)].&]
 [s7; [*C@3 id]-|source index identifier&]
 [s7; [*/ Возвратное значение]-|value at the given 
@@ -2003,7 +2003,7 @@ location in the cursor row&]
 [s4; &]
 [s5;:ArrayCtrl`:`:GetOriginal`(int`)const: [_^Value^ Value]_[* GetOriginal]([@(0.0.255) int
 ]_[*@3 ii])_[@(0.0.255) const]&]
-[s2; Returns the `'original`' value of a given source index at the 
+[s2; Возвращает the `'original`' value of a given source index at the 
 currently active cursor row. When the row is open for editing, 
 this function returns the `'old`' value before any editing took 
 place.&]
@@ -2014,7 +2014,7 @@ location in the cursor row&]
 [s4; &]
 [s5;:ArrayCtrl`:`:GetOriginal`(const Id`&`)const: [_^Value^ Value]_[* GetOriginal]([@(0.0.255) c
 onst ][_^Id^ Id]`&_[*@3 id])_[@(0.0.255) const]&]
-[s2; Returns the `'original`' value (i.e., without any editing changed 
+[s2; Возвращает the `'original`' value (i.e., without any editing changed 
 applied) of a given source index at the currently active cursor 
 row.&]
 [s7; [*C@3 id]-|source index identifier&]
@@ -2023,7 +2023,7 @@ location in the cursor row&]
 [s3; &]
 [s4; &]
 [s5;:ArrayCtrl`:`:GetKey`(`)const: [_^Value^ Value]_[* GetKey]()_[@(0.0.255) const]&]
-[s2; Returns the value of the current row`'s primary key. This is 
+[s2; Возвращает the value of the current row`'s primary key. This is 
 equivalent to [* Get(0)].&]
 [s7; [*/ Возвратное значение]-|value at the index 
 #0 in the cursor row&]
@@ -2031,7 +2031,7 @@ equivalent to [* Get(0)].&]
 [s4; &]
 [s5;:ArrayCtrl`:`:GetOriginalKey`(`)const: [_^Value^ Value]_[* GetOriginalKey]()_[@(0.0.255) c
 onst]&]
-[s2; Returns the original value of the current row`'s primary key. 
+[s2; Возвращает the original value of the current row`'s primary key. 
 During editing, the function returns the value at the time of 
 opening the row for editing, i.e. without any editing changes 
 applied. This is equivalent to [* GetOriginal(0)].&]
@@ -2042,7 +2042,7 @@ applied. This is equivalent to [* GetOriginal(0)].&]
 [s5;:ArrayCtrl`:`:Set`(int`,int`,const Value`&`): [@(0.0.255) void]_[* Set]([@(0.0.255) int
 ]_[*@3 i], [@(0.0.255) int]_[*@3 ii], [@(0.0.255) const]_[_^Value^ Value][@(0.0.255) `&]_[*@3 v
 ])&]
-[s2; Sets the value at a given location in the source data matrix.&]
+[s2; Устанавливаетthe value at a given location in the source data matrix.&]
 [s7; [*C@3 i]-|zero`-based row number&]
 [s7; [*C@3 ii]-|zero`-based index ordinal number&]
 [s7; [*C@3 v]-|value to set to the given cell&]
@@ -2051,7 +2051,7 @@ applied. This is equivalent to [* GetOriginal(0)].&]
 [s5;:ArrayCtrl`:`:Set`(int`,const Id`&`,const Value`&`): [@(0.0.255) void]_[* Set]([@(0.0.255) i
 nt]_[*@3 i], [@(0.0.255) const ][_^Id^ Id]`&_[*@3 id], [@(0.0.255) const]_[_^Value^ Value][@(0.0.255) `&
 ]_[*@3 v])&]
-[s2; Sets the value at a given location in the source data matrix. 
+[s2; Устанавливаетthe value at a given location in the source data matrix. 
 &]
 [s7; [*C@3 i]-|zero`-based row number&]
 [s7; [*C@3 id]-|source index identifier&]
@@ -2078,7 +2078,7 @@ index.&]
 [s4; &]
 [s5;:ArrayCtrl`:`:GetColumn`(int`,int`)const: [_^Value^ Value]_[* GetColumn]([@(0.0.255) in
 t]_[*@3 row], [@(0.0.255) int]_[*@3 col])_[@(0.0.255) const]&]
-[s2; Returns the value of a given column. This depends on the column`-index 
+[s2; Возвращает the value of a given column. This depends on the column`-index 
 mapping established when adding columns to the table. When the 
 column is a [/ rownum] type (it is bound to no source indices), 
 the function just returns the [/ row] parameter. For columns with 
@@ -2094,7 +2094,7 @@ column&]
 [s4; &]
 [s5;:ArrayCtrl`:`:GetConvertedColumn`(int`,int`): [_^Value^ Value]_[* GetConvertedColumn](
 [@(0.0.255) int]_[*@3 row], [@(0.0.255) int]_[*@3 col])&]
-[s2; Returns the value of a given column after application of its 
+[s2; Возвращает the value of a given column after application of its 
 [* Convert]. For performance reasons, the values obtained by calls 
 to the [* Convert`::Format] methods are cached internally within 
 the ArrayCtrl object. You can manipulate the conversion cache 
@@ -2109,7 +2109,7 @@ value&]
 [s4; &]
 [s5;:ArrayCtrl`:`:ReadRow`(int`)const: [_^Vector^ Vector]<[_^Value^ Value]>_[* ReadRow]([@(0.0.255) i
 nt]_[*@3 i])_[@(0.0.255) const]&]
-[s2; Returns a [* Vector] containing the values of all source indices 
+[s2; Возвращает a [* Vector] containing the values of all source indices 
 in the given row. Invariantly, the [* GetCount()] of the returned 
 array is equal to the [* GetIndexCount()] of the source ArrayCtrl.&]
 [s7; [*C@3 i]-|zero`-based row index&]
@@ -2128,7 +2128,7 @@ passed in the parameter [/ v].&]
 [s4; &]
 [s5;:ArrayCtrl`:`:SetArray`(int`,const ValueArray`&`): [@(0.0.255) void]_[* SetArray]([@(0.0.255) i
 nt]_[*@3 i], [@(0.0.255) const]_[_^ValueArray^ ValueArray][@(0.0.255) `&]_[*@3 va])&]
-[s2; Sets the row [*@3 i] to [*@3 va].&]
+[s2; Устанавливаетthe row [*@3 i] to [*@3 va].&]
 [s3; &]
 [s4; &]
 [s5;:ArrayCtrl`:`:Add`(`): [@(0.0.255) void]_[* Add]()&]
@@ -2157,13 +2157,13 @@ onst]_[_^ValueArray^ ValueArray][@(0.0.255) `&]_[*@3 va])&]
 [s4; &]
 [s5;:ArrayCtrl`:`:GetArray`(int`)const: [_^ValueArray^ ValueArray]_[* GetArray]([@(0.0.255) i
 nt]_[*@3 i])_[@(0.0.255) const]&]
-[s2; Returns a row as ValueArray.&]
+[s2; Возвращает a row as ValueArray.&]
 [s3; &]
 [s4; &]
 [s5;:ArrayCtrl`:`:Set`(int`,const VectorMap`<String`,Value`>`&`): [@(0.0.255) void]_[* Se
 t]([@(0.0.255) int]_[*@3 i], [@(0.0.255) const]_[_^VectorMap^ VectorMap]<[_^String^ String],
  [_^Value^ Value]>`&_[*@3 m])&]
-[s2; Sets the row based on map. Keys are matched to row Ids, keys 
+[s2; Устанавливаетthe row based on map. Keys are matched to row Ids, keys 
 that are not found are ignored, those found are assigned correspoding 
 map values.&]
 [s3; &]
@@ -2177,7 +2177,7 @@ map values.&]
 [s4; &]
 [s5;:ArrayCtrl`:`:SetMap`(int`,const ValueMap`&`): [@(0.0.255) void]_[* SetMap]([@(0.0.255) i
 nt]_[*@3 i], [@(0.0.255) const]_[_^ValueMap^ ValueMap][@(0.0.255) `&]_[*@3 m])&]
-[s2; Sets the row based on map. Keys are matched to row Ids, keys 
+[s2; Устанавливаетthe row based on map. Keys are matched to row Ids, keys 
 that are not found are ignored, those found are assigned correspoding 
 map values.&]
 [s3; &]
@@ -2191,7 +2191,7 @@ map values.&]
 [s4; &]
 [s5;:ArrayCtrl`:`:GetMap`(int`)const: [_^ValueMap^ ValueMap]_[* GetMap]([@(0.0.255) int]_[*@3 i
 ])_[@(0.0.255) const]&]
-[s2; Returns row as map of row Ids to row values. Only non`-empty 
+[s2; Возвращает row as map of row Ids to row values. Only non`-empty 
 row Ids are added.&]
 [s3; &]
 [s4; &]
@@ -2369,7 +2369,7 @@ even be combination of more indexes).&]
 [s4; &]
 [s5;:ArrayCtrl`:`:SetSortColumn`(int`,bool`): [@(0.0.255) void]_[* SetSortColumn]([@(0.0.255) i
 nt]_[*@3 ii], [@(0.0.255) bool]_[*@3 descending]_`=_[@(0.0.255) false])&]
-[s2; Sets the `"sorting`" column and calls DoColumnSort. This setting 
+[s2; Устанавливаетthe `"sorting`" column and calls DoColumnSort. This setting 
 is used by DoColumnSort.&]
 [s3; &]
 [s4; &]
@@ -2387,13 +2387,13 @@ an image in the header.&]
 [s4; &]
 [s5;:ArrayCtrl`:`:GetSortColumn`(`)const: [@(0.0.255) int]_[* GetSortColumn]()_[@(0.0.255) c
 onst]&]
-[s2; Returns the column that is sorting the ArrayCtrl (user clicked 
+[s2; Возвращает the column that is sorting the ArrayCtrl (user clicked 
 on it and it has up or down arrow displayed).&]
 [s3; &]
 [s4; &]
 [s5;:ArrayCtrl`:`:IsSortDescending`(`)const: [@(0.0.255) bool]_[* IsSortDescending]()_[@(0.0.255) c
 onst]&]
-[s2; Возвращает true, если current column`-sort is 
+[s2; Возвращает  true, если current column`-sort is 
 descending.&]
 [s3; &]
 [s4; &]
@@ -2434,14 +2434,14 @@ output values.&]
 [s4; &]
 [s5;:ArrayCtrl`:`:GetSelectCount`(`)const: [@(0.0.255) int]_[* GetSelectCount]()_[@(0.0.255) c
 onst]&]
-[s2; Returns the number of selected row within the table.&]
+[s2; Возвращает the number of selected row within the table.&]
 [s7; [*/ Возвратное значение]-|number of selected 
 records (in the range [/ `[0 .. GetCount()`]])&]
 [s3; &]
 [s4; &]
 [s5;:ArrayCtrl`:`:IsSelection`(`)const: [@(0.0.255) bool]_[* IsSelection]()_[@(0.0.255) con
 st]&]
-[s2; Checks whether any rows are selected. Equivalent to [* GetSelectCount() 
+[s2; Checks whether any rows are selected. Эквивалентно [* GetSelectCount() 
 > 0].&]
 [s7; [*/ Возвратное значение]-|[* true] `= there is 
 at least one selected row, [* false] `= there is none.&]
@@ -2477,7 +2477,7 @@ selected, otherwise returns true if cursor is at [*@3 i].&]
 [s4;%- &]
 [s5;:Upp`:`:ArrayCtrl`:`:GetSelKeys`(`)const:%- [_^Upp`:`:Vector^ Vector]<[@(0.0.255) int
 ]>_[* GetSelKeys]()_[@(0.0.255) const]&]
-[s2; Returns keys (elements with index 0) of all selected lines (ordered 
+[s2; Возвращает keys (elements with index 0) of all selected lines (ordered 
 by line order).&]
 [s3;%- &]
 [s4; &]
@@ -2494,7 +2494,7 @@ nt]_[*@3 i])&]
 [s4; &]
 [s5;:Upp`:`:ArrayCtrl`:`:IsLineEnabled`(int`)const: [@(0.0.255) bool]_[* IsLineEnabled]([@(0.0.255) i
 nt]_[*@3 i])_[@(0.0.255) const]&]
-[s2; Возвращает true, если line is enabled. Not that 
+[s2; Возвращает  true, если line is enabled. Not that 
 in addition to EnableLine method, callback WhenLineEnabled affects 
 the status too.&]
 [s3; &]
@@ -2506,7 +2506,7 @@ the status too.&]
 [s4; &]
 [s5;:Upp`:`:ArrayCtrl`:`:ShowLine`(int`,bool`): [@(0.0.255) void]_[* ShowLine]([@(0.0.255) i
 nt]_[*@3 i], [@(0.0.255) bool]_[*@3 visible])&]
-[s2; Sets the visibility of line. Hidden lines are omitted from the 
+[s2; Устанавливаетthe visibility of line. Hidden lines are omitted from the 
 list.&]
 [s3; &]
 [s4; &]
@@ -2517,7 +2517,7 @@ list.&]
 [s4; &]
 [s5;:Upp`:`:ArrayCtrl`:`:IsLineVisible`(int`)const: [@(0.0.255) bool]_[* IsLineVisible]([@(0.0.255) i
 nt]_[*@3 i])_[@(0.0.255) const]&]
-[s2; Возвращает true, если line is visible. Not that 
+[s2; Возвращает  true, если line is visible. Not that 
 in addition to EnableLine method, callback WhenLineVisible affects 
 the visibility too.&]
 [s3; &]
@@ -2534,7 +2534,7 @@ to [* GetCursor()_>`=_0].&]
 [s4; &]
 [s5;:ArrayCtrl`:`:SetCursor`(int`): [@(0.0.255) bool]_[* SetCursor]([@(0.0.255) int]_[*@3 i])
 &]
-[s2; Sets the current cursor row. When an array row is open for editing, 
+[s2; Устанавливаетthe current cursor row. When an array row is open for editing, 
 the function first commits the edited row, then moved the cursor 
 to the new row. When the edited row cannot be commited, the function 
 returns [* false] and doesn`'t change the cursor location.&]
@@ -2561,7 +2561,7 @@ made in the individual column editors are rejected.&]
 [s3; &]
 [s4; &]
 [s5;:ArrayCtrl`:`:GetCursor`(`)const: [@(0.0.255) int]_[* GetCursor]()_[@(0.0.255) const]&]
-[s2; Returns the current cursor row, `-1 when none.&]
+[s2; Возвращает the current cursor row, `-1 when none.&]
 [s7; [*/ Возвратное значение]-|zero`-based cursor 
 row index, `-1 `= cursor is not in the array&]
 [s3; &]
@@ -2578,7 +2578,7 @@ row index, `-1 `= cursor is not in the array&]
 [s4; &]
 [s5;:ArrayCtrl`:`:GetCursorSc`(`)const: [@(0.0.255) int]_[* GetCursorSc]()_[@(0.0.255) cons
 t]&]
-[s2; Returns the visual vertical position of the cursor row relative 
+[s2; Возвращает the visual vertical position of the cursor row relative 
 to the current view. This method, in combination with [* ScCursor], 
 can be used to reposition the cursor row while maintaining the 
 same visual position of the row within the array view.&]
@@ -2617,7 +2617,7 @@ make the cursor row visible. This is equivalent to [* ScrollInto(GetCursor())].&
 [s3; &]
 [s4; &]
 [s5;:ArrayCtrl`:`:GetCursor`(`)const: [@(0.0.255) int]_[* GetCursor]()_[@(0.0.255) const]&]
-[s2; Returns the current vertical scrollbar position.&]
+[s2; Возвращает the current vertical scrollbar position.&]
 [s7; [*/ Возвратное значение]-|Pixel position of the 
 vertical scrollbar. Position 0 is at the very top (the top row 
 of the array is fully visible).&]
@@ -2725,7 +2725,7 @@ mode or it has no editable columns)&]
 [s4; &]
 [s5;:ArrayCtrl`:`:GetEditColumn`(`)const: [@(0.0.255) int]_[* GetEditColumn]()_[@(0.0.255) c
 onst]&]
-[s2; Returns the column being currently edited.&]
+[s2; Возвращает the column being currently edited.&]
 [s7; [*/ Возвратное значение]-|zero`-based index of 
 the column being edited, `-1 `= none&]
 [s3; &]
@@ -2810,7 +2810,7 @@ IsSel true are exported, [*@3 hdr] controls whether header is exported.&]
 [s4; &]
 [s5;:ArrayCtrl`:`:AsQtf`(bool`,bool`): [_^String^ String]_[* AsQtf]([@(0.0.255) bool]_[*@3 se
 l]_`=_[@(0.0.255) false], [@(0.0.255) bool]_[*@3 hdr]_`=_[@(0.0.255) true])&]
-[s2; Returns ArrayCtrl content in QTF format. If [*@3 sel] is true, 
+[s2; Возвращает ArrayCtrl content in QTF format. If [*@3 sel] is true, 
 only rows with IsSel true are exported, [*@3 hdr] controls whether 
 header is exported.&]
 [s3; &]
@@ -2818,7 +2818,7 @@ header is exported.&]
 [s5;:ArrayCtrl`:`:AsCsv`(bool`,int`,bool`): [_^String^ String]_[* AsCsv]([@(0.0.255) bool]_
 [*@3 sel]_`=_[@(0.0.255) false], [@(0.0.255) int]_[*@3 sep]_`=_`';`', 
 [@(0.0.255) bool]_[*@3 hdr]_`=_[@(0.0.255) true])&]
-[s2; Returns ArrayCtrl content in csv format, using [*@3 sep] as separator. 
+[s2; Возвращает ArrayCtrl content in csv format, using [*@3 sep] as separator. 
 If [*@3 sel] is true, only rows with IsSel true are exported, [*@3 hdr] 
 controls whether header is exported.&]
 [s0; &]
@@ -3031,7 +3031,7 @@ to be used as the default for the newly inserted row.&]
 [s1;:ArrayCtrl`:`:Column`:`:class: [@(0.0.255)3 class][3 _][*3 Column][3 _:_][@(0.0.255)3 privat
 e][3 _][*@3;3 FormatConvert]&]
 [s2; &]
-[s0; [/ Derived from] FormatConvert&]
+[s0; [/ Производный от] FormatConvert&]
 [s0;3 &]
 [s0; The [* ArrayCtrl`::Column] structure describes an output array 
 column. Its methods can be used to set or query its properties, 
@@ -3076,7 +3076,7 @@ of source indices bound to this output column.&]
 [s5;:ArrayCtrl`:`:Column`:`:SetConvert`(const Convert`&`): [_^ArrayCtrl`:`:Column^ Colu
 mn][@(0.0.255) `&]_[* SetConvert]([@(0.0.255) const]_[_^Convert^ Convert][@(0.0.255) `&]_[*@3 c
 ])&]
-[s2; Sets the [* Convert] object for the given column. This object 
+[s2; Устанавливаетthe [* Convert] object for the given column. This object 
 is used to convert the source values (obtained from the source 
 data matrix) to the values displayable and/or editable by the 
 respective column display / editor object.&]
@@ -3104,7 +3104,7 @@ conversion.&]
 [s5;:ArrayCtrl`:`:Column`:`:SetFormat`(const char`*`): [@(0.0.255) virtual] 
 [_^ArrayCtrl`:`:Column^ Column][@(0.0.255) `&]_[* SetFormat]([@(0.0.255) const]_[@(0.0.255) c
 har]_`*[*@3 fmt])&]
-[s2; Sets the format string to use for the default value formatting. 
+[s2; Устанавливаетthe format string to use for the default value formatting. 
 When no Convert object is set for the column, the source value 
 is normally passed to the [* NFormat] function where the [/ fmt] 
 argument defines the desired formatting pattern.&]
@@ -3115,7 +3115,7 @@ argument defines the desired formatting pattern.&]
 [s5;:ArrayCtrl`:`:Column`:`:SetDisplay`(const Display`&`): [_^ArrayCtrl`:`:Column^ Colu
 mn][@(0.0.255) `&]_[* SetDisplay]([@(0.0.255) const]_[_^Display^ Display][@(0.0.255) `&]_[*@3 d
 ])&]
-[s2; Sets the default Display to use for this column. The column 
+[s2; Устанавливаетthe default Display to use for this column. The column 
 Display can be overridden for certain array cells by calls to 
 the [*^topic`:`/`/CtrlLib`/src`/ArrayCtrl`$en`-us`#`:`:ArrayCtrl`:`:SetDisplay`(int`,int`,const Display`&`)^ A
 rrayCtrl`::SetDisplay] method.&]
@@ -3129,7 +3129,7 @@ as long as necessary.&]
 [s4; &]
 [s5;:ArrayCtrl`:`:Column`:`:Edit`(Ctrl`&`): [_^ArrayCtrl`:`:Column^ Column][@(0.0.255) `&
 ]_[* Edit]([_^Ctrl^ Ctrl][@(0.0.255) `&]_[*@3 e])&]
-[s2; Sets up the Ctrl`-based object to use for inline array column 
+[s2; Устанавливаетup the Ctrl`-based object to use for inline array column 
 editing.&]
 [s7; [*C@3 e]-|a reference to the editor control object&]
 [s7; [*/ Возвратное значение]-|[* `*this]&]
@@ -3235,7 +3235,7 @@ queries a database connection to convert the value).&]
 [s4; &]
 [s5;:ArrayCtrl`:`:Column`:`:Accel`(int`(`*`)`(int`)`): [_^ArrayCtrl`:`:Column^ Column][@(0.0.255) `&
 ]_[* Accel]([@(0.0.255) int]_(`*[*@3 filter])([@(0.0.255) int]))&]
-[s2; Sets up the accelerator for the given column. A given filtering 
+[s2; Устанавливаетup the accelerator for the given column. A given filtering 
 function is used to convert keystrokes before acceleration.&]
 [s7; [*C@3 filter]-|a [* CharConvert]`-style function to use for keystroke 
 conversion&]
@@ -3244,14 +3244,14 @@ conversion&]
 [s4; &]
 [s5;:ArrayCtrl`:`:Column`:`:Accel`(`): [_^ArrayCtrl`:`:Column^ Column][@(0.0.255) `&]_[* Ac
 cel]()&]
-[s2; Sets up the accelerator for the given column. No keystroke conversion 
+[s2; Устанавливаетup the accelerator for the given column. No keystroke conversion 
 is performed.&]
 [s7; [*/ Возвратное значение]-|[* `*this]&]
 [s3; &]
 [s4; &]
 [s5;:ArrayCtrl`:`:Column`:`:Margin`(int`): [_^ArrayCtrl`:`:Column^ Column][@(0.0.255) `&]_
 [* Margin]([@(0.0.255) int]_[*@3 m])&]
-[s2; Sets up the margin width for the given column. This is equivalent 
+[s2; Устанавливаетup the margin width for the given column. This is equivalent 
 to calling the [*^topic`:`/`/CtrlLib`/src`/HeaderCtrl`$en`-us`#`:`:HeaderCtrl`:`:Column`:`:SetMargin`(int`)^ S
 etMargin] method of the underlying [* HeaderTab].&]
 [s7; [*C@3 m]-|&]
@@ -3291,7 +3291,7 @@ return `-1, 0, 1 for <, `=, >.&]
 [s5;:Upp`:`:ArrayCtrl`:`:Column`:`:SortDefault`(bool`):%- [_^Upp`:`:ArrayCtrl`:`:Column^ A
 rrayCtrl`::Column][@(0.0.255) `&]_[* SortDefault]([@(0.0.255) bool]_[*@3 desc] 
 `= [@(0.0.255) false])&]
-[s2;%- [%RU-RU Sets this column to be initial sorting column (calls 
+[s2;%- [%RU-RU Устанавливаетthis column to be initial sorting column (calls 
 SetSortColumn of ArrayCtrl). If none of Sorting/SortingBy/SortingLines 
 methods was called on this column yet, calls default Sorting 
 for the column too. If ][*@3 desc] is true, sorting is in descending 
@@ -3302,7 +3302,7 @@ order.&]
 ]_[* HeaderTab]()&]
 [s5;:ArrayCtrl`:`:Column`:`:HeaderTab`(`)const: [@(0.0.255) const]_[_^HeaderCtrl`:`:Column^ H
 eaderCtrl`::Column][@(0.0.255) `&]_[* HeaderTab]()_[@(0.0.255) const]&]
-[s2; Returns the [* HeaderCtrl`::Column] object describing the given 
+[s2; Возвращает the [* HeaderCtrl`::Column] object describing the given 
 column. This object can be used to set up additional column properties 
 (like column width constraints or the [*^topic`:`/`/CtrlLib`/src`/HeaderCtrl`$en`-us`#`:`:HeaderCtrl`:`:Column`:`:Callback WhenAction^ W
 henAction] callback).&]

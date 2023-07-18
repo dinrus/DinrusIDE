@@ -149,7 +149,7 @@ of 32`-bit int)&]
 WStringBuffer, StringStream.&]
 [s5;l128;i150;O0; StringStream now has SizeLimit option, if breached 
 (when storing data to StringStream), exception is thrown.&]
-[s5;l128;i150;O0; NanoStrings class is removed.&]
+[s5;l128;i150;O0; NanoString'и class is removed.&]
 [s5;l128;i150;O0; HashFn / precomputed hash options in Index/Maps 
 are removed.&]
 [s5;l128;i150;O0; Index/Maps are further optimized (about 5% gain 

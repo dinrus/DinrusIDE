@@ -47,21 +47,21 @@ p][@(0.0.255) `&]_[*@3 v])&]
 [s4;%- &]
 [s5;:Upp`:`:ValueMap`:`:ValueMap`(const Upp`:`:ValueArray`&`):%- [* ValueMap]([@(0.0.255) c
 onst]_[_^Upp`:`:ValueArray^ ValueArray][@(0.0.255) `&]_[*@3 va])&]
-[s2; Creates ValueMap from ValueArray. ValueArray elements become 
+[s2; Создаёт ValueMap from ValueArray. ValueArray elements become 
 values with keys equal to indices.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:ValueMap`:`:ValueMap`(Upp`:`:Index`<Upp`:`:Value`>`&`&`,Upp`:`:Vector`<Upp`:`:Value`>`&`&`):%- [* V
 alueMap]([_^Upp`:`:Index^ Index]<[_^Upp`:`:Value^ Value]>`&`&_[*@3 k], 
 [_^Upp`:`:Vector^ Vector]<[_^Upp`:`:Value^ Value]>`&`&_[*@3 v])&]
-[s2; Creates ValueMap by picking Index a Vector of Values (efficient 
+[s2; Создаёт ValueMap by picking Index a Vector of Values (efficient 
 but sources are destroyed).&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:ValueMap`:`:ValueMap`(Upp`:`:VectorMap`<Upp`:`:Value`,Upp`:`:Value`>`&`&`):%- [* V
 alueMap]([_^Upp`:`:VectorMap^ VectorMap]<[_^Upp`:`:Value^ Value], 
 [_^Upp`:`:Value^ Value]>`&`&_[*@3 m])&]
-[s2; Creates ValueMap by picking VectorMap (efficient but source 
+[s2; Создаёт ValueMap by picking VectorMap (efficient but source 
 is destroyed).&]
 [s3; &]
 [s4;%- &]
@@ -69,13 +69,13 @@ is destroyed).&]
 alueMap]([@(0.0.255) const]_[_^Index^ Index]<[_^Value^ Value]>`&_[*@3 k], 
 [@(0.0.255) const]_[_^Vector^ Vector]<[_^Value^ Value]>`&_[*@3 v], [@(0.0.255) int]_[*@3 deep
 ])&]
-[s2; Creates ValueMap by deep copying Index a Vector of Values.&]
+[s2; Создаёт ValueMap by deep copying Index a Vector of Values.&]
 [s3; &]
 [s4;%- &]
 [s5;:ValueMap`:`:ValueMap`(const VectorMap`<Value`,Value`>`&`,int`):%- [* ValueMap]([@(0.0.255) c
 onst]_[_^VectorMap^ VectorMap]<[_^Value^ Value], [_^Value^ Value]>`&_[*@3 m], 
 [@(0.0.255) int]_[*@3 deep])&]
-[s2; Creates ValueMap by deep copying VectorMap.&]
+[s2; Создаёт ValueMap by deep copying VectorMap.&]
 [s3; &]
 [s4;%- &]
 [s5;:ValueMap`:`:`~ValueMap`(`):%- [@(0.0.255) `~][* ValueMap]()&]
@@ -125,7 +125,7 @@ onst]&]
 [s3;%- &]
 [s4;%- &]
 [s5;:ValueMap`:`:GetCount`(`)const:%- [@(0.0.255) int]_[* GetCount]()_[@(0.0.255) const]&]
-[s2; Returns number of elements in ValueMap.&]
+[s2; Возвращает number of elements in ValueMap.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:ValueMap`:`:IsEmpty`(`)const:%- [@(0.0.255) bool]_[* IsEmpty]()_[@(0.0.255) const]&]
@@ -134,22 +134,22 @@ onst]&]
 [s4;%- &]
 [s5;:ValueMap`:`:GetKey`(int`)const:%- [@(0.0.255) const]_[_^Value^ Value][@(0.0.255) `&]_[* G
 etKey]([@(0.0.255) int]_[*@3 i])_[@(0.0.255) const]&]
-[s2; Returns key at index [%-*@3 i].&]
+[s2; Возвращает key at index [%-*@3 i].&]
 [s3; &]
 [s4;%- &]
 [s5;:ValueMap`:`:GetValue`(int`)const:%- [@(0.0.255) const]_[_^Value^ Value][@(0.0.255) `&]_
 [* GetValue]([@(0.0.255) int]_[*@3 i])_[@(0.0.255) const]&]
-[s2; Returns value at index [%-*@3 i].&]
+[s2; Возвращает value at index [%-*@3 i].&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:ValueMap`:`:Find`(const Upp`:`:Value`&`)const:%- [@(0.0.255) int]_[* Find]([@(0.0.255) c
 onst]_[_^Upp`:`:Value^ Value][@(0.0.255) `&]_[*@3 key])_[@(0.0.255) const]&]
-[s2; Returns the index of first [%-*@3 key] or `-1 if not present.&]
+[s2; Возвращает the index of first [%-*@3 key] or `-1 if not present.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:ValueMap`:`:FindNext`(int`)const:%- [@(0.0.255) int]_[* FindNext]([@(0.0.255) i
 nt]_[*@3 ii])_[@(0.0.255) const]&]
-[s2; Returns the index of next key with the same value as key at 
+[s2; Возвращает the index of next key with the same value as key at 
 index [%-*@3 ii] or `-1 if not present.&]
 [s3; &]
 [s4;%- &]
@@ -246,12 +246,12 @@ nst]_[@(0.0.255) char`*]_[*@3 key])&]
 [s4;%- &]
 [s5;:ValueMap`:`:GetKeys`(`)const:%- [@(0.0.255) const]_[_^Index^ Index]<[_^Value^ Value]>`&
 _[* GetKeys]()_[@(0.0.255) const]&]
-[s2; Returns keys.&]
+[s2; Возвращает keys.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:ValueMap`:`:GetValues`(`)const:%- [_^ValueArray^ ValueArray]_[* GetValues]()_[@(0.0.255) c
 onst]&]
-[s2; Returns values.&]
+[s2; Возвращает values.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:ValueMap`:`:operator ValueArray`(`)const:%- [* operator_ValueArray]()_[@(0.0.255) co
@@ -276,7 +276,7 @@ e][@(0.0.255) `&]_[* operator`[`]]([@(0.0.255) const]_[_^String^ String][@(0.0.2
 ]_[* operator`[`]]([@(0.0.255) const]_[_^Id^ Id][@(0.0.255) `&]_[*@3 key])_[@(0.0.255) const]&]
 [s5;:ValueMap`:`:operator`[`]`(const int`)const:%- [@(0.0.255) const]_[_^Value^ Value][@(0.0.255) `&
 ]_[* operator`[`]]([@(0.0.255) const]_[@(0.0.255) int]_[*@3 key])_[@(0.0.255) const]&]
-[s2;%- [%% Returns value for ][*@3 key][%% . If ][*@3 key][%%  is not present, 
+[s2;%- [%% Возвращает value for ][*@3 key][%% . If ][*@3 key][%%  is not present, 
 returns ErrorValue (which is also void and Null Value). ]Note: 
 multiple overloads are required to make Id and SqlId work with 
 ValueMap.&]
@@ -284,7 +284,7 @@ ValueMap.&]
 [s4;%- &]
 [s5;:ValueMap`:`:GetAdd`(const Value`&`):%- [_^Value^ Value][@(0.0.255) `&]_[* GetAdd]([@(0.0.255) c
 onst]_[_^Value^ Value][@(0.0.255) `&]_[*@3 key])&]
-[s2; Returns a reference of element at key [%-*@3 key], if there is 
+[s2; Возвращает a reference of element at key [%-*@3 key], if there is 
 none, it is created as Void Value. [^topic`:`/`/Core`/srcdoc`/ValueReference`$en`-us^ T
 he reference returned is invalidated by any further use of originating 
 Value].&]
@@ -304,7 +304,7 @@ r()]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 key])&]
 [s3; &]
 [s4;%- &]
 [s5;:ValueMap`:`:At`(int`):%- [_^Value^ Value][@(0.0.255) `&]_[* At]([@(0.0.255) int]_[*@3 i])&]
-[s2; Returns a reference of value at index [%-*@3 i]. [^topic`:`/`/Core`/srcdoc`/ValueReference`$en`-us^ T
+[s2; Возвращает a reference of value at index [%-*@3 i]. [^topic`:`/`/Core`/srcdoc`/ValueReference`$en`-us^ T
 he reference returned is invalidated by any further use of originating 
 Value].&]
 [s3; &]
@@ -322,7 +322,7 @@ when changing it.&]
 [s4;%- &]
 [s5;:ValueMap`:`:GetHashValue`(`)const:%- [@(0.0.255) unsigned]_[* GetHashValue]()_[@(0.0.255) c
 onst]&]
-[s2; Returns hashing value.&]
+[s2; Возвращает hashing value.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:ValueMap`:`:Serialize`(Stream`&`):%- [@(0.0.255) void]_[* Serialize]([_^Stream^ Stream

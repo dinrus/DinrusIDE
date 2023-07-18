@@ -42,14 +42,14 @@ other tasks.&]
 [s4; &]
 [s5;:SqlSession`:`:GetTransactionLevel`(`)const: [@(0.0.255) virtual] 
 [@(0.0.255) int]_[* GetTransactionLevel]()_[@(0.0.255) const]&]
-[s2;%% Returns 0 if there is no transaction or 1 if transaciton is 
+[s2;%% Возвращает 0 if there is no transaction or 1 if transaciton is 
 active. (Originally, U`+`+ allowed nested transaction, this is 
 now deprecated).&]
 [s3;%% &]
 [s4;%% &]
 [s5;:SqlSession`:`:IsOpen`(`)const: [@(0.0.255) virtual] [@(0.0.255) bool]_[* IsOpen]()_[@(0.0.255) c
 onst]&]
-[s2;%% Возвращает true, если session is connected and ready to recieve 
+[s2;%% Возвращает  true, если session is connected and ready to recieve 
 statements.&]
 [s3;%% &]
 [s4;%% &]
@@ -97,7 +97,7 @@ Exact function depends on database.&]
 [s4;%% &]
 [s5;:SqlSession`:`:GetDialect`(`)const: [@(0.0.255) int]_[* GetDialect]()_[@(0.0.255) const
 ]&]
-[s2;%% Returns SQL dialect of session (ORACLE, SQLITE3, MY`_SQL, 
+[s2;%% Возвращает SQL dialect of session (ORACLE, SQLITE3, MY`_SQL, 
 MSSQL, PGSQL).&]
 [s3;%% &]
 [s4;%% &]
@@ -109,7 +109,7 @@ and SQL errors to the stream [%-*@3 s].&]
 [s4;%% &]
 [s5;:SqlSession`:`:GetTrace`(`)const: [_^Stream^ Stream]_`*[* GetTrace]()_[@(0.0.255) const
 ]&]
-[s2;%% Returns current trace stream or NULL if not active.&]
+[s2;%% Возвращает current trace stream or NULL if not active.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:SqlSession`:`:KillTrace`(`): [@(0.0.255) void]_[* KillTrace]()&]
@@ -134,7 +134,7 @@ tracing of SQL errors.&]
 [s4;%% &]
 [s5;:SqlSession`:`:IsTraceTime`(`)const: [@(0.0.255) bool]_[* IsTraceTime]()_[@(0.0.255) co
 nst]&]
-[s2;%% Returns TraceTime mode status.&]
+[s2;%% Возвращает TraceTime mode status.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:SqlSession`:`:TraceSlow`(int`): [_^SqlSession^ SqlSession][@(0.0.255) `&]_[* TraceSlow
@@ -150,11 +150,11 @@ error happens.&]
 [s4;%% &]
 [s5;:SqlSession`:`:IsThrowOnError`(`)const: [@(0.0.255) bool]_[* IsThrowOnError]()_[@(0.0.255) c
 onst]&]
-[s2;%% Возвращает true, если ThrowOnError is active.&]
+[s2;%% Возвращает  true, если ThrowOnError is active.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:SqlSession`:`:WasError`(`)const: [@(0.0.255) bool]_[* WasError]()_[@(0.0.255) const]&]
-[s2;%% Возвращает true, если there was error since the start of session 
+[s2;%% Возвращает  true, если there was error since the start of session 
 or since ClearError.&]
 [s3;%% &]
 [s4;%% &]
@@ -167,27 +167,27 @@ _NULL, Sql`::ERRORCLASS_[*@3 clss]_`=_Sql`::ERROR`_UNSPECIFIED)&]
 [s4;%% &]
 [s5;:SqlSession`:`:GetLastError`(`)const: [_^String^ String]_[* GetLastError]()_[@(0.0.255) c
 onst]&]
-[s2;%% Returns the description of last error.&]
+[s2;%% Возвращает the description of last error.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:SqlSession`:`:GetErrorStatement`(`)const: [_^String^ String]_[* GetErrorStatement]()
 _[@(0.0.255) const]&]
-[s2;%% Returns the statement that caused the last error.&]
+[s2;%% Возвращает the statement that caused the last error.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:SqlSession`:`:GetErrorCode`(`)const: [@(0.0.255) int]_[* GetErrorCode]()_[@(0.0.255) c
 onst]&]
-[s2;%% Returns the error`-code of last error.&]
+[s2;%% Возвращает the error`-code of last error.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:SqlSession`:`:GetErrorCodeString`(`)const: [_^String^ String]_[* GetErrorCodeString](
 )_[@(0.0.255) const]&]
-[s2;%% Returns the error`-code text.&]
+[s2;%% Возвращает the error`-code text.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:SqlSession`:`:GetErrorClass`(`)const: Sql`::ERRORCLASS_[* GetErrorClass]()_[@(0.0.255) c
 onst]&]
-[s2;%% Returns the class of error. Can be ERROR`_UNSPECIFIED or CONNECTION`_BROKEN.&]
+[s2;%% Возвращает the class of error. Can be ERROR`_UNSPECIFIED or CONNECTION`_BROKEN.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:SqlSession`:`:ClearError`(`): [@(0.0.255) void]_[* ClearError]()&]

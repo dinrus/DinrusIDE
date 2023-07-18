@@ -264,7 +264,7 @@ word]_[*@3 size])&]
 [ {{10000F(128)G(128)@1 [s0; [* Детали Конструктора]]}}&]
 [s3; &]
 [s5;:Stream`:`:Stream`(`):%- [* Stream]()&]
-[s2; Дефолтный конструктор. Sets stream into Loading serialization 
+[s2; Дефолтный конструктор. Устанавливаетstream into Loading serialization 
 mode and zero level indentation. All protected variables are 
 set to 0 / NULL.&]
 [s3;%- &]
@@ -275,7 +275,7 @@ set to 0 / NULL.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:`~Stream`(`):%- [@(0.0.255) `~][* Stream]()&]
-[s2; Default destructor.&]
+[s2; Дефолтный деструктор .&]
 [s3;%- &]
 [s0; &]
 [ {{10000F(128)G(128)@1 [s0; [* Список Публичных Членов: Raw Operations]]}}&]
@@ -288,7 +288,7 @@ nt64]_[*@3 pos])&]
 [s4;%- &]
 [s5;:Upp`:`:Stream`:`:SetVersion`(int`):%- [@(0.0.255) void]_[* SetVersion]([@(0.0.255) int
 ]_[*@3 ver])&]
-[s2; Sets the arbitrary number [%-*@3 ver] to the stream. Client code 
+[s2; Устанавливаетthe arbitrary number [%-*@3 ver] to the stream. Client code 
 can use it in any way it needs, but it is designed to store the 
 the version information during serialization.&]
 [s3; &]
@@ -334,23 +334,23 @@ since opening it or last [* ClearError] call `- error code is non`-zero.&]
 [s4;%- &]
 [s5;:Stream`:`:SetError`(int`):%- [@(0.0.255) void]_[* SetError]([@(0.0.255) int]_[*@3 c]_`=_
 [@3 0])&]
-[s2; Sets stream error code.&]
+[s2; Устанавливаетstream error code.&]
 [s7; [%-*C@3 c]-|Error code.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:SetLastError`(`):%- [@(0.0.255) void]_[* SetLastError]()&]
-[s2; Sets stream error to last OS`-specific error (obtained e.g. 
+[s2; Устанавливаетstream error to last OS`-specific error (obtained e.g. 
 by GetLastError call in Win32 or in errno in Posix). This error 
 can be interpreted by GetErrorMessage function.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:GetError`(`)const:%- [@(0.0.255) int]_[* GetError]()_[@(0.0.255) const]&]
-[s2; Returns current error`-code. Zero indicates no error.&]
+[s2; Возвращает current error`-code. Zero indicates no error.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:Stream`:`:GetErrorText`(`)const:%- [_^Upp`:`:String^ String]_[* GetErrorText](
 )_[@(0.0.255) const]&]
-[s2; Returns the text description of the last error.&]
+[s2; Возвращает the text description of the last error.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Stream`:`:ClearError`(`):%- [@(0.0.255) void]_[* ClearError]()&]
@@ -370,14 +370,14 @@ stream `- equivalent to GetSize() `- GetPos().&]
 [s4;%- &]
 [s5;:Stream`:`:SeekEnd`(int64`):%- [@(0.0.255) void]_[* SeekEnd]([_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:int64`:`:typedef^ i
 nt64]_[*@3 rel]_`=_[@3 0])&]
-[s2; Sets current position in the stream relative to the end of stream. 
+[s2; Устанавливаетcurrent position in the stream relative to the end of stream. 
 То же, что и Seek(GetSize() `+ rel).&]
 [s7; [%-*C@3 rel]-|Position `- should be less or equal to zero.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:SeekCur`(int64`):%- [@(0.0.255) void]_[* SeekCur]([_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:int64`:`:typedef^ i
 nt64]_[*@3 rel])&]
-[s2; Sets current position in the stream relative to the current 
+[s2; Устанавливаетcurrent position in the stream relative to the current 
 position. То же, что и Seek(GetPos() `+ rel).&]
 [s7; [%-*C@3 rel]-|Relative offset.&]
 [s3; &]
@@ -448,7 +448,7 @@ oid]_`*[*@3 data], [@(0.0.255) int]_[*@3 size])&]
 [s5;:Stream`:`:Get`(void`*`,int`):%- [@(0.0.255) int]_[* Get]([@(0.0.255) void]_`*[*@3 data],
  [@(0.0.255) int]_[*@3 size])&]
 [s2; Reads at most [%-*@3 size] bytes from the stream to [%-*@3 data]. 
-Returns the number of bytes actually read.&]
+Возвращает the number of bytes actually read.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:Get`(int`):%- [_^String^ String]_[* Get]([@(0.0.255) int]_[*@3 size])&]
@@ -468,7 +468,7 @@ that much memory would cause out`-of`-memory situation.&]
 [s4;%- &]
 [s5;:Upp`:`:Stream`:`:Skip`(int`):%- [@(0.0.255) int]_[* Skip]([@(0.0.255) int]_[*@3 size])&]
 [s2; Skips [%-*@3 size] bytes in input Stream. This is similar to SeekCur([%-*@3 size]), 
-however it works with Streams that do not support seeking. Returns 
+however it works with Streams that do not support seeking. Возвращает 
 a number of bytes actually skipped (can be less than required 
 because of EOF).&]
 [s3; &]
@@ -477,7 +477,7 @@ because of EOF).&]
 ata], [@(0.0.255) int]_[*@3 size])&]
 [s2; Reads [%-*@3 size] bytes from the stream to memory at [%-*@3 data]. 
 If there is not enough data in the stream, LoadError is invoked 
-(that in turn might throw an exception). Возвращает true, если required 
+(that in turn might throw an exception). Возвращает  true, если required 
 number of bytes was read.&]
 [s3;%- &]
 [s4;%- &]
@@ -493,7 +493,7 @@ bit.&]
 nt64]_[* Get64]([@(0.0.255) void]_`*[*@3 data], [_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:int64`:`:typedef^ i
 nt64]_[*@3 size])&]
 [s2; Reads at most [%-*@3 size] bytes from the stream to [%-*@3 data]. 
-Returns the number of bytes actually read. Unlike regular Get, 
+Возвращает the number of bytes actually read. Unlike regular Get, 
 block size can be greater than 2GB, if CPU is 64 bit.&]
 [s3; &]
 [s4;%- &]
@@ -502,7 +502,7 @@ block size can be greater than 2GB, if CPU is 64 bit.&]
 nt64]_[*@3 size])&]
 [s2; Reads [%-*@3 size] bytes from the stream to memory at [%-*@3 data]. 
 If there is not enough data in the stream, LoadError is invoked 
-(that in turn might throw an exception). Возвращает true, если required 
+(that in turn might throw an exception). Возвращает  true, если required 
 number of bytes was read. Unlike regular Get, block size can 
 be greater than 2GB, if CPU is 64 bit.&]
 [s3; &]
@@ -520,7 +520,7 @@ turn might throw an exception).&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:LoadThrowing`(`):%- [@(0.0.255) void]_[* LoadThrowing]()&]
-[s2; Sets stream into the mode that throws LoadingError exception 
+[s2; Устанавливаетstream into the mode that throws LoadingError exception 
 when LoadError is invoked. This mode is typical for serialization 
 usage of stream.&]
 [s3; &]
@@ -747,19 +747,19 @@ the end is written.&]
 [ {{10000F(128)G(128)@1 [s0; [* Список Публичных Членов: Serialization Support]]}}&]
 [s3;%- &]
 [s5;:Stream`:`:SetLoading`(`):%- [@(0.0.255) void]_[* SetLoading]()&]
-[s2; Sets the stream into the loading mode.&]
+[s2; Устанавливаетthe stream into the loading mode.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:SetStoring`(`):%- [@(0.0.255) void]_[* SetStoring]()&]
-[s2; Sets the stream into the storing mode.&]
+[s2; Устанавливаетthe stream into the storing mode.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:IsLoading`(`)const:%- [@(0.0.255) bool]_[* IsLoading]()_[@(0.0.255) const]&]
-[s2; Возвращает true, если stream is in loading mode.&]
+[s2; Возвращает  true, если stream is in loading mode.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Stream`:`:IsStoring`(`)const:%- [@(0.0.255) bool]_[* IsStoring]()_[@(0.0.255) const]&]
-[s2; Возвращает true, если stream is in storing mode.&]
+[s2; Возвращает  true, если stream is in storing mode.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:Stream`:`:SerializeRaw`(Upp`:`:byte`*`,Upp`:`:int64`):%- [@(0.0.255) void]_
@@ -806,91 +806,91 @@ yte]_`*[*@3 data], [@(0.0.255) int]_[*@3 count])&]
 [s5;:Stream`:`:operator`%`(bool`&`):%- [_^Stream^ Stream][@(0.0.255) `&]_[* operator%]([@(0.0.255) b
 ool`&]_[*@3 d])&]
 [s2; Serializes bool variable [%-*@3 d]. Might invoke LoadError if 
-there is not enough data to load. Returns [* `*this] for chaining.&]
+there is not enough data to load. Возвращает [* `*this] for chaining.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:operator`%`(char`&`):%- [_^Stream^ Stream][@(0.0.255) `&]_[* operator%]([@(0.0.255) c
 har`&]_[*@3 d])&]
 [s2; Serializes char variable [%-*@3 d]. Might invoke LoadError if 
-there is not enough data to load. Returns [* `*this] for chaining.&]
+there is not enough data to load. Возвращает [* `*this] for chaining.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:operator`%`(signed char`&`):%- [_^Stream^ Stream][@(0.0.255) `&]_[* operator
 %]([@(0.0.255) signed]_[@(0.0.255) char`&]_[*@3 d])&]
 [s2; Serializes signed char variable [%-*@3 d]. Might invoke LoadError 
-if there is not enough data to load. Returns [* `*this] for chaining.&]
+if there is not enough data to load. Возвращает [* `*this] for chaining.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:operator`%`(unsigned char`&`):%- [_^Stream^ Stream][@(0.0.255) `&]_[* operat
 or%]([@(0.0.255) unsigned]_[@(0.0.255) char`&]_[*@3 d])&]
 [s2; Serializes unsigned char variable [%-*@3 d]. Might invoke LoadError 
-if there is not enough data to load. Returns [* `*this] for chaining.&]
+if there is not enough data to load. Возвращает [* `*this] for chaining.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:operator`%`(short`&`):%- [_^Stream^ Stream][@(0.0.255) `&]_[* operator%]([@(0.0.255) s
 hort`&]_[*@3 d])&]
 [s2; Serializes short variable [%-*@3 d]. Might invoke LoadError if 
-there is not enough data to load. Returns [* `*this] for chaining.&]
+there is not enough data to load. Возвращает [* `*this] for chaining.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:operator`%`(unsigned short`&`):%- [_^Stream^ Stream][@(0.0.255) `&]_[* opera
 tor%]([@(0.0.255) unsigned]_[@(0.0.255) short`&]_[*@3 d])&]
 [s2; Serializes unsigned short variable [%-*@3 d]. Might invoke LoadError 
-if there is not enough data to load. Returns [* `*this] for chaining.&]
+if there is not enough data to load. Возвращает [* `*this] for chaining.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:operator`%`(int`&`):%- [_^Stream^ Stream][@(0.0.255) `&]_[* operator%]([@(0.0.255) i
 nt`&]_[*@3 d])&]
 [s2; Serializes int variable [%-*@3 d]. Might invoke LoadError if there 
-is not enough data to load. Returns [* `*this] for chaining.&]
+is not enough data to load. Возвращает [* `*this] for chaining.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:operator`%`(unsigned int`&`):%- [_^Stream^ Stream][@(0.0.255) `&]_[* operato
 r%]([@(0.0.255) unsigned]_[@(0.0.255) int`&]_[*@3 d])&]
 [s2; Serializes unsigned int variable [%-*@3 d]. Might invoke LoadError 
-if there is not enough data to load. Returns [* `*this] for chaining.&]
+if there is not enough data to load. Возвращает [* `*this] for chaining.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:operator`%`(long`&`):%- [_^Stream^ Stream][@(0.0.255) `&]_[* operator%]([@(0.0.255) l
 ong`&]_[*@3 d])&]
 [s2; Serializes long variable [%-*@3 d]. Might invoke LoadError if 
-there is not enough data to load. Returns [* `*this] for chaining.&]
+there is not enough data to load. Возвращает [* `*this] for chaining.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:operator`%`(unsigned long`&`):%- [_^Stream^ Stream][@(0.0.255) `&]_[* operat
 or%]([@(0.0.255) unsigned]_[@(0.0.255) long`&]_[*@3 d])&]
 [s2; Serializes unsigned long variable [%-*@3 d]. Might invoke LoadError 
-if there is not enough data to load. Returns [* `*this] for chaining.&]
+if there is not enough data to load. Возвращает [* `*this] for chaining.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:operator`%`(float`&`):%- [_^Stream^ Stream][@(0.0.255) `&]_[* operator%]([@(0.0.255) f
 loat`&]_[*@3 d])&]
 [s2; Serializes float variable [%-*@3 d]. Might invoke LoadError if 
-there is not enough data to load. Returns [* `*this] for chaining.&]
+there is not enough data to load. Возвращает [* `*this] for chaining.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:operator`%`(double`&`):%- [_^Stream^ Stream][@(0.0.255) `&]_[* operator%]([@(0.0.255) d
 ouble`&]_[*@3 d])&]
 [s2; Serializes double variable [%-*@3 d]. Might invoke LoadError if 
-there is not enough data to load. Returns [* `*this] for chaining.&]
+there is not enough data to load. Возвращает [* `*this] for chaining.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:operator`%`(int64`&`):%- [_^Stream^ Stream][@(0.0.255) `&]_[* operator%]([_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:int64`:`:typedef^ i
 nt64][@(0.0.255) `&]_[*@3 d])&]
 [s2; Serializes int64 variable [%-*@3 d]. Might invoke LoadError if 
-there is not enough data to load. Returns [* `*this] for chaining.&]
+there is not enough data to load. Возвращает [* `*this] for chaining.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:operator`%`(uint64`&`):%- [_^Stream^ Stream][@(0.0.255) `&]_[* operator%]([_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:uint64`:`:typedef^ u
 int64][@(0.0.255) `&]_[*@3 d])&]
 [s2; Serializes uint64 variable [%-*@3 d]. Might invoke LoadError if 
-there is not enough data to load. Returns [* `*this] for chaining.&]
+there is not enough data to load. Возвращает [* `*this] for chaining.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:operator`%`(String`&`):%- [_^Stream^ Stream][@(0.0.255) `&]_[* operator%]([_^String^ S
 tring][@(0.0.255) `&]_[*@3 s])&]
 [s2; Serializes String variable [%-*@3 s]. Might invoke LoadError if 
-there is not enough data to load or input data are invalid. Returns 
+there is not enough data to load or input data are invalid. Возвращает 
 [* `*this] for chaining.&]
 [s3; &]
 [s4;%- &]
@@ -898,14 +898,14 @@ there is not enough data to load or input data are invalid. Returns
 tring][@(0.0.255) `&]_[*@3 s])&]
 [s2; Serializes String variable [%-*@3 s ]using RLE compression and 
 packed format for length. Might invoke LoadError if there is 
-not enough data to load or input data are invalid. Returns [* `*this] 
+not enough data to load or input data are invalid. Возвращает [* `*this] 
 for chaining.&]
 [s3; &]
 [s4;%- &]
 [s5;:Stream`:`:operator`%`(WString`&`):%- [_^Stream^ Stream][@(0.0.255) `&]_[* operator%]([_^WString^ W
 String][@(0.0.255) `&]_[*@3 s])&]
 [s2; Serializes WString variable. Might invoke LoadError if there 
-is not enough data to load or input data are invalid. Returns 
+is not enough data to load or input data are invalid. Возвращает 
 [* `*this] for chaining.&]
 [s3; &]
 [s4;%- &]
@@ -913,7 +913,7 @@ is not enough data to load or input data are invalid. Returns
 String][@(0.0.255) `&]_[*@3 s])&]
 [s2; Serializes String variable using RLE compression and packed 
 format for length. Might invoke LoadError if there is not enough 
-data to load or input data are invalid. Returns [* `*this] for 
+data to load or input data are invalid. Возвращает [* `*this] for 
 chaining.&]
 [s3; &]
 [s4;%- &]
@@ -1003,7 +1003,7 @@ c][3 _][*@3;3 Stream]&]
 [s9; StringStream is stream that uses String as storage medium. The 
 maximum output size is limited to 2GB (maximum String size limit).&]
 [s2; &]
-[s0;%- [%%/ Derived from][%%  ][^topic`:`/`/Core`/src`/Stream`$en`-us`#`:`:Stream`:`:class Stream^ S
+[s0;%- [%%/ Производный от][%%  ][^topic`:`/`/Core`/src`/Stream`$en`-us`#`:`:Stream`:`:class Stream^ S
 tream]&]
 [s3; &]
 [s0;%- &]
@@ -1025,19 +1025,19 @@ serialization mode (like [* Open]).&]
 [s3;%- &]
 [s5;:StringStream`:`:Open`(const String`&`):%- [@(0.0.255) void]_[* Open]([@(0.0.255) const
 ]_[_^String^ String][@(0.0.255) `&]_[*@3 data])&]
-[s2;%- Sets the content of stream to specified String and sets it 
+[s2;%- Устанавливаетthe content of stream to specified String and sets it 
 into the Loading serialization mode.&]
 [s7; [%-*C@3 data]-|Content of stream.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:StringStream`:`:Limit`(int`):%- [@(0.0.255) void]_[* Limit]([@(0.0.255) int]_[*@3 s
 z])&]
-[s2; Sets the output size limit. Exception StringStream`::LimitExc 
+[s2; Устанавливаетthe output size limit. Exception StringStream`::LimitExc 
 is thrown if this the output size reaches this limit.&]
 [s3; &]
 [s4;%- &]
 [s5;:StringStream`:`:Create`(`):%- [@(0.0.255) void]_[* Create]()&]
-[s2; Creates empty StringStream and sets it into Storing serialization 
+[s2; Создаёт empty StringStream and sets it into Storing serialization 
 mode.&]
 [s3; &]
 [s4;%- &]
@@ -1049,7 +1049,7 @@ know how much data approximately will be put into StringStream.&]
 [s3; &]
 [s4;%- &]
 [s5;:StringStream`:`:GetResult`(`):%- [_^String^ String]_[* GetResult]()&]
-[s2; Returns resulting String.&]
+[s2; Возвращает resulting String.&]
 [s7; [*/ Возвратное значение]-|Result.&]
 [s3; &]
 [s4;%- &]
@@ -1066,7 +1066,7 @@ etResult]().&]
 tream]&]
 [s9; Stream that is using raw memory as its content.&]
 [s2; &]
-[s0;%- [%%/ Derived from][%%  ][^topic`:`/`/Core`/src`/Stream`$en`-us`#`:`:Stream`:`:class Stream^ S
+[s0;%- [%%/ Производный от][%%  ][^topic`:`/`/Core`/src`/Stream`$en`-us`#`:`:Stream`:`:class Stream^ S
 tream]&]
 [s3; &]
 [s0; &]
@@ -1087,7 +1087,7 @@ tream]&]
 lic][3 _][*@3;3 MemStream]&]
 [s9; Read`-only stream using raw memory as content.&]
 [s2; &]
-[s0;%- [%%/ Derived from][%%  ][^topic`:`/`/Core`/src`/Stream`$en`-us`#`:`:MemStream`:`:class MemStream^ M
+[s0;%- [%%/ Производный от][%%  ][^topic`:`/`/Core`/src`/Stream`$en`-us`#`:`:MemStream`:`:class MemStream^ M
 emStream]&]
 [s3; &]
 [s0;%- &]
@@ -1113,7 +1113,7 @@ It implements all virtual methods of Stream, with exception of
 [* IsOpen] and [* Close], using new virtual methods [* Read], [* Write] 
 and [* SetStreamSize].&]
 [s2; &]
-[s0;%- [%%/ Derived from][%%  ][^topic`:`/`/Core`/src`/Stream`$en`-us`#`:`:BufferStream`:`:class BufferStream^ B
+[s0;%- [%%/ Производный от][%%  ][^topic`:`/`/Core`/src`/Stream`$en`-us`#`:`:BufferStream`:`:class BufferStream^ B
 ufferStream]&]
 [s3; &]
 [s0;%- &]
@@ -1139,7 +1139,7 @@ subsequent streams to read the stream.&]
 [s4;%- &]
 [s5;:BlockStream`:`:SetBufferSize`(dword`):%- [@(0.0.255) void]_[* SetBufferSize]([_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:dword`:`:typedef^ d
 word]_[*@3 newsize])&]
-[s2; Sets a new size of internal buffer.&]
+[s2; Устанавливаетa new size of internal buffer.&]
 [s7; [%-*C@3 newsize]-|The new size of buffer.&]
 [s3; &]
 [s4;%- &]
@@ -1184,7 +1184,7 @@ adjust the size of media.&]
 [s4;%- &]
 [s5;:BlockStream`:`:GetStreamSize`(`)const:%- [_^topic`:`/`/Core`/src`/PrimitiveDataTypes`$en`-us`#Upp`:`:int64`:`:typedef^ i
 nt64]_[* GetStreamSize]()_[@(0.0.255) const]&]
-[s2; Returns current media size. Note that this might be different 
+[s2; Возвращает current media size. Note that this might be different 
 from current GetSize() `- media size adjustment can be deffered 
 to flushing the buffer.&]
 [s7; [*/ Возвратное значение]-|Current media size.&]
@@ -1207,7 +1207,7 @@ size.&]
 ][*@3;3 BlockStream]&]
 [s9; Classical file stream.&]
 [s9; &]
-[s0;%- [%%/ Derived from][%%  ][^topic`:`/`/Core`/src`/Stream`$en`-us`#`:`:BlockStream`:`:class BlockStream^ B
+[s0;%- [%%/ Производный от][%%  ][^topic`:`/`/Core`/src`/Stream`$en`-us`#`:`:BlockStream`:`:class BlockStream^ B
 lockStream]&]
 [s3; &]
 [s0; &]
@@ -1240,7 +1240,7 @@ ownership of this handle.&]
 [s3; &]
 [s4;%- &]
 [s5;:FileStream`:`:FileStream`(`):%- [* FileStream]()&]
-[s2; Creates empty unopened FileStream.&]
+[s2; Создаёт empty unopened FileStream.&]
 [s3; &]
 [s0;%- &]
 [ {{10000F(128)G(128)@1 [s0; [* Список Публичных Членов]]}}&]
@@ -1251,13 +1251,13 @@ ownership of this handle.&]
 [s4;%- &]
 [s5;:FileStream`:`:GetTime`(`)const:%- [_^FileTime^ FileTime]_[* GetTime]()_[@(0.0.255) con
 st]&]
-[s2; Returns last`-write time of stream.&]
+[s2; Возвращает last`-write time of stream.&]
 [s7; [*/ Возвратное значение]-|FileTime structure.&]
 [s3; &]
 [s4;%- &]
 [s5;:FileStream`:`:SetTime`(const FileTime`&`):%- [@(0.0.255) void]_[* SetTime]([@(0.0.255) c
 onst]_[_^FileTime^ FileTime][@(0.0.255) `&]_[*@3 tm])&]
-[s2; Sets the last modification time of stream.&]
+[s2; Устанавливаетthe last modification time of stream.&]
 [s7; [%-*C@3 tm]-|FileTime structure.&]
 [s3; &]
 [s4;%- &]
@@ -1302,7 +1302,7 @@ not already exist.&]
 leStream]&]
 [s9; Simple helper class that represents FileStream in read mode.&]
 [s0; &]
-[s9;%- [%%/ Derived from][%%  ][^topic`:`/`/Core`/src`/Stream`$en`-us`#`:`:FileStream`:`:class FileStream^ F
+[s9;%- [%%/ Производный от][%%  ][^topic`:`/`/Core`/src`/Stream`$en`-us`#`:`:FileStream`:`:class FileStream^ F
 ileStream]&]
 [s3; &]
 [s0; &]
@@ -1335,7 +1335,7 @@ har]_`*[*@3 fn])&]
 ileStream]&]
 [s9; Simple helper class that represents FileStream in write mode.&]
 [s2; &]
-[s0;%- [%%/ Derived from][%%  ][^topic`:`/`/Core`/src`/Stream`$en`-us`#`:`:FileStream`:`:class FileStream^ F
+[s0;%- [%%/ Производный от][%%  ][^topic`:`/`/Core`/src`/Stream`$en`-us`#`:`:FileStream`:`:class FileStream^ F
 ileStream]&]
 [s3; &]
 [s0; &]
@@ -1379,7 +1379,7 @@ st]_[@(0.0.255) char]_`*[*@3 fn], mode`_t_[*@3 acm]_`=_[@3 0644])&]
 `- that in fact means in write mode with current position at 
 the end of the file.&]
 [s2; &]
-[s0;%- [%%/ Derived from][%%  ]FileStream&]
+[s0;%- [%%/ Производный от][%%  ]FileStream&]
 [s3; &]
 [s0;%- &]
 [ {{10000F(128)G(128)@1 [s0; [* Детали Конструктора]]}}&]
@@ -1412,7 +1412,7 @@ har]_`*[*@3 fn])&]
 [s9; Special output stream that in fact does not store output data, 
 only counts the total number of bytes written.&]
 [s2; &]
-[s0;%- [%%/ Derived from][%%  ][^topic`:`/`/Core`/src`/Stream`$en`-us`#`:`:BufferStream`:`:class BufferStream^ B
+[s0;%- [%%/ Производный от][%%  ][^topic`:`/`/Core`/src`/Stream`$en`-us`#`:`:BufferStream`:`:class BufferStream^ B
 ufferStream]&]
 [s3; &]
 [s0;%- &]
@@ -1429,7 +1429,7 @@ ufferStream]&]
 [s3; &]
 [s4;%- &]
 [s5;:SizeStream`:`:operator int64`(`)const:%- [* operator_int64]()_[@(0.0.255) const]&]
-[s2; Returns current number of bytes written.&]
+[s2; Возвращает current number of bytes written.&]
 [s3;%- &]
 [s0; &]
 [s0;3 &]
@@ -1441,7 +1441,7 @@ lic][3 _][*@3;3 Stream]&]
 [s9; Special output stream that instead of storing data performs 
 their comparison to the data of another stream.&]
 [s2; &]
-[s0;%- [%%/ Derived from][%%  ][^topic`:`/`/Core`/src`/Stream`$en`-us`#`:`:BufferStream`:`:class BufferStream^ B
+[s0;%- [%%/ Производный от][%%  ][^topic`:`/`/Core`/src`/Stream`$en`-us`#`:`:BufferStream`:`:class BufferStream^ B
 ufferStream]&]
 [s3; &]
 [s0;%- &]
@@ -1453,7 +1453,7 @@ ufferStream]&]
 [s4;%- &]
 [s5;:CompareStream`:`:CompareStream`(Stream`&`):%- [* CompareStream]([_^Stream^ Stream][@(0.0.255) `&
 ]_[*@3 aStream])&]
-[s2; Constructors CompareStream opened for comparison with specified 
+[s2; Конструктор s CompareStream opened for comparison with specified 
 stream.&]
 [s7; [%-*C@3 aStream]-|Stream to compare with.&]
 [s3;%- &]

@@ -38,7 +38,7 @@ actions.&]
 [s3; &]
 [s4;%- &]
 [s5;:TabCtrl`:`:Add`(`):%- [_^TabCtrl`:`:Item^ TabCtrl`::Item][@(0.0.255) `&]_[* Add]()&]
-[s2; Add a new tab to TabCtrl. Returns a reference to [^`:`:TabCtrl`:`:Item^ TabCtrl`::I
+[s2; Add a new tab to TabCtrl. Возвращает a reference to [^`:`:TabCtrl`:`:Item^ TabCtrl`::I
 tem] which can be used to setup tab`'s properties.&]
 [s3; &]
 [s4;%- &]
@@ -68,7 +68,7 @@ ar]_`*[*@3 text])&]
 [s4;%- &]
 [s5;:TabCtrl`:`:Insert`(int`):%- [_^TabCtrl`:`:Item^ TabCtrl`::Item][@(0.0.255) `&]_[* Inser
 t]([@(0.0.255) int]_[*@3 i])&]
-[s2;%- Inserts a new tab to TabCtrl at position [*@3 i]. Returns a 
+[s2;%- Inserts a new tab to TabCtrl at position [*@3 i]. Возвращает a 
 reference to TabCtrl`::Item which can be used to setup tab`'s 
 properties.&]
 [s3; &]
@@ -107,18 +107,18 @@ tab label.&]
 [s3; &]
 [s4;%- &]
 [s5;:TabCtrl`:`:GetCount`(`)const:%- [@(0.0.255) int]_[* GetCount]()_[@(0.0.255) const]&]
-[s2; Returns the number of tabs in TabCtrl.&]
+[s2; Возвращает the number of tabs in TabCtrl.&]
 [s3; &]
 [s4;%- &]
 [s5;:TabCtrl`:`:GetTab`(Point`)const:%- [@(0.0.255) int]_[* GetTab]([_^Point^ Point]_[*@3 p])
 _[@(0.0.255) const]&]
-[s2; Returns the index of the tab that can be found at the psoition 
+[s2; Возвращает the index of the tab that can be found at the psoition 
 [%-*@3 p].&]
 [s3; &]
 [s4;%- &]
 [s5;:TabCtrl`:`:GetItem`(int`):%- [_^TabCtrl`:`:Item^ Item][@(0.0.255) `&]_[* GetItem]([@(0.0.255) i
 nt]_[*@3 i])&]
-[s2; Returns a reference to tab [%-*@3 i].&]
+[s2; Возвращает a reference to tab [%-*@3 i].&]
 [s3; &]
 [s4;%- &]
 [s5;:TabCtrl`:`:GetItem`(int`)const:%- [@(0.0.255) const]_[_^TabCtrl`:`:Item^ Item][@(0.0.255) `&
@@ -127,11 +127,11 @@ nt]_[*@3 i])&]
 [s3; &]
 [s4;%- &]
 [s5;:TabCtrl`:`:Set`(int`):%- [@(0.0.255) void]_[* Set]([@(0.0.255) int]_[*@3 i])&]
-[s2; Sets tab [*@3 i ]as active. You can also use SetData (or operator<<`=).&]
+[s2; Устанавливаетtab [*@3 i ]as active. You can also use SetData (or operator<<`=).&]
 [s3; &]
 [s4;%- &]
 [s5;:TabCtrl`:`:Get`(`)const:%- [@(0.0.255) int]_[* Get]()_[@(0.0.255) const]&]
-[s2; Returns the index of active tab. You can also use GetData (or 
+[s2; Возвращает the index of active tab. You can also use GetData (or 
 operator`~).&]
 [s3; &]
 [s4;%- &]
@@ -143,13 +143,13 @@ in TabCtrl, returns `-1.&]
 [s4;%- &]
 [s5;:TabCtrl`:`:Set`(Ctrl`&`):%- [@(0.0.255) void]_[* Set]([_^Ctrl^ Ctrl][@(0.0.255) `&]_[*@3 s
 lave])&]
-[s2;%- [%% Sets tab with ][*@3 slave][%%  widget as active. ]If [*@3 slave] 
+[s2;%- [%% Устанавливаетtab with ][*@3 slave][%%  widget as active. ]If [*@3 slave] 
 is not present in TabCtrl, nothing happens.&]
 [s3; &]
 [s4;%- &]
 [s5;:TabCtrl`:`:IsAt`(Ctrl`&`):%- [@(0.0.255) bool]_[* IsAt]([_^Ctrl^ Ctrl][@(0.0.255) `&]_[*@3 s
 lave])&]
-[s2; Возвращает true, если [%-*@3 slave] represents the active tab.&]
+[s2; Возвращает  true, если [%-*@3 slave] represents the active tab.&]
 [s3; &]
 [s4;%- &]
 [s5;:TabCtrl`:`:Insert`(Ctrl`&`):%- [_^TabCtrl`:`:Item^ TabCtrl`::Item][@(0.0.255) `&]_[* In
@@ -181,12 +181,12 @@ in TabCtrl, nothing happens.&]
 [s3; &]
 [s4;%- &]
 [s5;:TabCtrl`:`:GoNext`(`):%- [@(0.0.255) void]_[* GoNext]()&]
-[s2; Sets the next tab as active. If the tab is last, sets the first 
+[s2; Устанавливаетthe next tab as active. If the tab is last, sets the first 
 one.&]
 [s3; &]
 [s4;%- &]
 [s5;:TabCtrl`:`:GoPrev`(`):%- [@(0.0.255) void]_[* GoPrev]()&]
-[s2; Sets the previous tab as active. If the tab is first, sets the 
+[s2; Устанавливаетthe previous tab as active. If the tab is first, sets the 
 last one.&]
 [s3; &]
 [s4;%- &]
@@ -211,7 +211,7 @@ them.&]
 [s4;%- &]
 [s5;:TabCtrl`:`:NoAccept`(bool`):%- [_^TabCtrl^ TabCtrl][@(0.0.255) `&]_[* NoAccept]([@(0.0.255) b
 ool]_[*@3 ac]_`=_[@(0.0.255) true])&]
-[s2; If active, TabCtrl Accept method does not call any of slave 
+[s2; Если активен, TabCtrl Accept method does not call any of slave 
 widgets Accept.&]
 [s3; &]
 [s4;%- &]
@@ -219,7 +219,7 @@ widgets Accept.&]
 nt]([@(0.0.255) bool]_[*@3 ac]_`=_[@(0.0.255) true])&]
 [s2; If AcceptCurrent is active (default is not active), TabCtrl 
 Accept method accepts only the current slave widget instead of 
-all of them. Returns `*this.&]
+all of them. Возвращает `*this.&]
 [s3; &]
 [s4;%- &]
 [s5;:TabCtrl`:`:AcceptAll`(`):%- [_^TabCtrl^ TabCtrl][@(0.0.255) `&]_[* AcceptAll]()&]
@@ -228,7 +228,7 @@ all of them. Returns `*this.&]
 [s4;%- &]
 [s5;:TabCtrl`:`:SetStyle`(const TabCtrl`:`:Style`&`):%- [_^TabCtrl^ TabCtrl][@(0.0.255) `&
 ]_[* SetStyle]([@(0.0.255) const]_[_^TabCtrl`:`:Style^ Style][@(0.0.255) `&]_[*@3 s])&]
-[s2; Sets the style of the tab control to TabCtrl`::Style [%-*@3 s].&]
+[s2; Устанавливаетthe style of the tab control to TabCtrl`::Style [%-*@3 s].&]
 [s3; &]
 [s4;%- &]
 [s5;:TabCtrl`:`:Reset`(`):%- [@(0.0.255) void]_[* Reset]()&]
@@ -237,7 +237,7 @@ all of them. Returns `*this.&]
 [s4;%- &]
 [s5;:TabCtrl`:`:StyleDefault`(`):%- [@(0.0.255) static] [@(0.0.255) const]_[_^TabCtrl`:`:Style^ S
 tyle][@(0.0.255) `&]_[* StyleDefault]()&]
-[s2; Returns the default style of a tab control.&]
+[s2; Возвращает the default style of a tab control.&]
 [s3;%- &]
 [s0; &]
 [s0; &]
@@ -253,43 +253,43 @@ TabCtrl.&]
 [s3;%- &]
 [s5;:TabCtrl`:`:Item`:`:Text`(const String`&`):%- [_^TabCtrl`:`:Item^ Item][@(0.0.255) `&
 ]_[* Text]([@(0.0.255) const]_[_^String^ String][@(0.0.255) `&]_[*@3 `_text])&]
-[s2; Sets the label of tab to [%-*@3 `_text]. Returns `*this.&]
+[s2; Устанавливаетthe label of tab to [%-*@3 `_text]. Возвращает `*this.&]
 [s3; &]
 [s4;%- &]
 [s5;:TabCtrl`:`:Item`:`:Picture`(PaintRect`):%- [_^TabCtrl`:`:Item^ Item][@(0.0.255) `&]_
 [* Picture]([_^PaintRect^ PaintRect]_[*@3 d])&]
-[s2; Sets the [%-*@3 d] as visual content of tab. Returns `*this.&]
+[s2; Устанавливаетthe [%-*@3 d] as visual content of tab. Возвращает `*this.&]
 [s3; &]
 [s4;%- &]
 [s5;:TabCtrl`:`:Item`:`:SetImage`(const Image`&`):%- [_^TabCtrl`:`:Item^ Item][@(0.0.255) `&
 ]_[* SetImage]([@(0.0.255) const]_[_^Image^ UPP`::Image][@(0.0.255) `&]_[*@3 `_im])&]
-[s2; Sets the image to appear on the left side of tab`'s label[%- .] 
-Returns `*this.&]
+[s2; Устанавливаетthe image to appear on the left side of tab`'s label[%- .] 
+Возвращает `*this.&]
 [s3; &]
 [s4;%- &]
 [s5;:TabCtrl`:`:Item`:`:SetCtrl`(Ctrl`*`):%- [_^TabCtrl`:`:Item^ Item][@(0.0.255) `&]_[* Se
 tCtrl]([_^Ctrl^ Ctrl]_`*[*@3 `_ctrl])&]
-[s2; Sets the [%-*@3 ctrl ]to appear inside header tab. Returns `*this.&]
+[s2; Устанавливаетthe [%-*@3 ctrl ]to appear inside header tab. Возвращает `*this.&]
 [s3; &]
 [s4;%- &]
 [s5;:TabCtrl`:`:Item`:`:SetCtrl`(Ctrl`&`):%- [_^TabCtrl`:`:Item^ Item][@(0.0.255) `&]_[* Se
 tCtrl]([_^Ctrl^ Ctrl][@(0.0.255) `&]_[*@3 c])&]
-[s2; То же, что и SetCtrl(`&[%-*@3 c]). Returns `*this.&]
+[s2; То же, что и SetCtrl(`&[%-*@3 c]). Возвращает `*this.&]
 [s3; &]
 [s4;%- &]
 [s5;:TabCtrl`:`:Item`:`:Slave`(Ctrl`*`):%- [_^TabCtrl`:`:Item^ Item][@(0.0.255) `&]_[* Slav
 e]([_^Ctrl^ Ctrl]_`*[*@3 `_slave])&]
-[s2; Sets the [%-*@3 slave] widget. Returns `*this.&]
+[s2; Устанавливаетthe [%-*@3 slave] widget. Возвращает `*this.&]
 [s3; &]
 [s4;%- &]
 [s5;:TabCtrl`:`:Item`:`:Key`(dword`):%- [_^TabCtrl`:`:Item^ Item][@(0.0.255) `&]_[* Key]([_^dword^ d
 word]_[*@3 `_key])&]
-[s2; Sets a [%-*@3 key] that activates tab. Returns `*this.&]
+[s2; Устанавливаетa [%-*@3 key] that activates tab. Возвращает `*this.&]
 [s3; &]
 [s4;%- &]
 [s5;:TabCtrl`:`:Item`:`:Enable`(bool`):%- [_^TabCtrl`:`:Item^ Item][@(0.0.255) `&]_[* Enabl
 e]([@(0.0.255) bool]_[*@3 `_en]_`=_[@(0.0.255) true])&]
-[s2; Enables/disables tab. Returns `*this.&]
+[s2; Enables/disables tab. Возвращает `*this.&]
 [s3; &]
 [s4;%- &]
 [s5;:TabCtrl`:`:Item`:`:Disable`(`):%- [_^TabCtrl`:`:Item^ Item][@(0.0.255) `&]_[* Disable](
@@ -299,28 +299,28 @@ e]([@(0.0.255) bool]_[*@3 `_en]_`=_[@(0.0.255) true])&]
 [s4;%- &]
 [s5;:TabCtrl`:`:Item`:`:IsEnabled`(`)const:%- [@(0.0.255) bool]_[* IsEnabled]()_[@(0.0.255) c
 onst]&]
-[s2; Возвращает true, если tab is enabled.&]
+[s2; Возвращает  true, если tab is enabled.&]
 [s3; &]
 [s4;%- &]
 [s5;:TabCtrl`:`:Item`:`:GetSlave`(`):%- [_^Ctrl^ Ctrl]_`*[* GetSlave]()&]
 [s5;:TabCtrl`:`:Item`:`:GetSlave`(`)const:%- [@(0.0.255) const]_[_^Ctrl^ Ctrl]_`*[* GetSlav
 e]()_[@(0.0.255) const]&]
-[s2; Returns the slave widget.&]
+[s2; Возвращает the slave widget.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:TabCtrl`:`:Item`:`:GetCtrl`(`):%- [_^Ctrl^ Ctrl]_`*[* GetCtrl]()&]
 [s5;:TabCtrl`:`:Item`:`:GetCtrl`(`)const:%- [@(0.0.255) const]_[_^Ctrl^ Ctrl]_`*[* GetCtrl](
 )_[@(0.0.255) const]&]
-[s2; Returns the control that appears inside the header tab.&]
+[s2; Возвращает the control that appears inside the header tab.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:TabCtrl`:`:Item`:`:GetText`(`)const:%- [_^Upp`:`:String^ String]_[* GetText](
 )_[@(0.0.255) const]&]
-[s2; Returns the text set by Text.&]
+[s2; Возвращает the text set by Text.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:TabCtrl`:`:Item`:`:GetPicture`(`)const:%- [_^Upp`:`:PaintRect^ PaintRect]_[* G
 etPicture]()_[@(0.0.255) const]&]
-[s2; Returns the PaintRect set by Picture or SetImage.&]
+[s2; Возвращает the PaintRect set by Picture or SetImage.&]
 [s3;%- &]
 [s0; ]]

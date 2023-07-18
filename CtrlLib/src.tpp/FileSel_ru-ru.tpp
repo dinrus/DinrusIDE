@@ -70,20 +70,20 @@ returns true.&]
 [s3; &]
 [s4; &]
 [s5;:FileSel`:`:Get`(`)const: [_^String^ String]_[* Get]()_[@(0.0.255) const]&]
-[s2;%RU-RU Returns the path of the first chosen file. If there is 
+[s2;%RU-RU Возвращает the path of the first chosen file. If there is 
 none, returns empty String.&]
 [s3; &]
 [s4; &]
 [s5;:FileSel`:`:Set`(const String`&`): [@(0.0.255) void]_[* Set]([@(0.0.255) const]_[_^String^ S
 tring][@(0.0.255) `&]_[*@3 s])&]
-[s2;%RU-RU Sets [%-*@3 s] to be the chosen file: if it contains a full 
+[s2;%RU-RU Устанавливает[%-*@3 s] to be the chosen file: if it contains a full 
 path, file selector goes to the directory, filename is put into 
 the file name editor of file selector.&]
 [s3; &]
 [s4; &]
 [s5;:FileSel`:`:Set`(const Vector`<String`>`&`): [@(0.0.255) void]_[* Set]([@(0.0.255) cons
 t]_[_^Vector^ Vector][@(0.0.255) <][_^String^ String][@(0.0.255) >`&]_[*@3 s])&]
-[s2;%RU-RU Sets a group of files to be chosen.&]
+[s2;%RU-RU Устанавливаетa group of files to be chosen.&]
 [s3; &]
 [s4; &]
 [s5;:FileSel`:`:operator String`(`)const: [* operator_String]()_[@(0.0.255) const]&]
@@ -105,12 +105,12 @@ onst]_[_^String^ String][@(0.0.255) `&]_[*@3 s])&]
 [s3; &]
 [s4; &]
 [s5;:FileSel`:`:GetCount`(`)const: [@(0.0.255) int]_[* GetCount]()_[@(0.0.255) const]&]
-[s2;%RU-RU Returns a count of chosen files.&]
+[s2;%RU-RU Возвращает a count of chosen files.&]
 [s3; &]
 [s4; &]
 [s5;:FileSel`:`:GetFile`(int`)const: [_^String^ String]_[* GetFile]([@(0.0.255) int]_[*@3 i])
 _[@(0.0.255) const]&]
-[s2;%RU-RU Returns a chosen file [%-*@3 i].&]
+[s2;%RU-RU Возвращает a chosen file [%-*@3 i].&]
 [s3; &]
 [s4; &]
 [s5;:FileSel`:`:operator`[`]`(int`)const: [_^String^ String]_[* operator`[`]]([@(0.0.255) i
@@ -124,29 +124,29 @@ nt]_[*@3 i])_[@(0.0.255) const]&]
 [s4; &]
 [s5;:FileSel`:`:GetReadOnly`(`)const: [@(0.0.255) bool]_[* GetReadOnly]()_[@(0.0.255) const
 ]&]
-[s2;%RU-RU Returns the status of read`-only option. (Usually this 
+[s2;%RU-RU Возвращает the status of read`-only option. (Usually this 
 option is used to open files in read only mode).&]
 [s3; &]
 [s4; &]
 [s5;:FileSel`:`:GetActiveDir`(`)const: [_^String^ String]_[* GetActiveDir]()_[@(0.0.255) co
 nst]&]
-[s2;%RU-RU Returns the active directory of file selector.&]
+[s2;%RU-RU Возвращает the active directory of file selector.&]
 [s3; &]
 [s4; &]
 [s5;:FileSel`:`:GetActiveType`(`)const: [@(0.0.255) int]_[* GetActiveType]()_[@(0.0.255) co
 nst]&]
-[s2;%RU-RU Returns the active file type index of file selector.&]
+[s2;%RU-RU Возвращает the active file type index of file selector.&]
 [s3; &]
 [s4; &]
 [s5;:FileSel`:`:Filesystem`(FileSystemInfo`&`): [@(0.0.255) void]_[* Filesystem]([_^FileSystemInfo^ F
 ileSystemInfo][@(0.0.255) `&]_[*@3 fsys])&]
-[s2;%RU-RU Sets the file system to browse. Default is normal local 
+[s2;%RU-RU Устанавливаетthe file system to browse. Default is normal local 
 file system.&]
 [s3; &]
 [s4; &]
 [s5;:FileSel`:`:GetFilesystem`(`)const: [_^FileSystemInfo^ FileSystemInfo][@(0.0.255) `&]_
 [* GetFilesystem]()_[@(0.0.255) const]&]
-[s2;%RU-RU Returns the file system used in file selector.&]
+[s2;%RU-RU Возвращает the file system used in file selector.&]
 [s3; &]
 [s4; &]
 [s5;:FileSel`:`:Type`(const char`*`,const char`*`): [_^FileSel^ FileSel][@(0.0.255) `&]_[* T
@@ -177,13 +177,13 @@ files`\t`*.bmp `*.png `*.jpg `*.gif`")).&]
 [s4; &]
 [s5;:FileSel`:`:ActiveDir`(const String`&`): [_^FileSel^ FileSel][@(0.0.255) `&]_[* ActiveD
 ir]([@(0.0.255) const]_[_^String^ String][@(0.0.255) `&]_[*@3 d])&]
-[s2;%RU-RU Sets the active directory of file selector (directory 
+[s2;%RU-RU Устанавливаетthe active directory of file selector (directory 
 where file selector starts).&]
 [s3; &]
 [s4; &]
 [s5;:FileSel`:`:ActiveType`(int`): [_^FileSel^ FileSel][@(0.0.255) `&]_[* ActiveType]([@(0.0.255) i
 nt]_[*@3 i])&]
-[s2;%RU-RU Sets the active file type.&]
+[s2;%RU-RU Устанавливаетthe active file type.&]
 [s3; &]
 [s4; &]
 [s5;:FileSel`:`:PreSelect`(const String`&`): [_^FileSel^ FileSel][@(0.0.255) `&]_[* PreSele
@@ -193,20 +193,20 @@ ct]([@(0.0.255) const]_[_^String^ String][@(0.0.255) `&]_[*@3 path])&]
 [s4; &]
 [s5;:FileSel`:`:DefaultExt`(const char`*`): [_^FileSel^ FileSel][@(0.0.255) `&]_[* DefaultE
 xt]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 ext])&]
-[s2;%RU-RU Sets the file extension to add for `"Save as`" dialog 
+[s2;%RU-RU Устанавливаетthe file extension to add for `"Save as`" dialog 
 if none is specified.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:FileSel`:`:Sort`(int`): [_^Upp`:`:FileSel^ FileSel][@(0.0.255) `&]_[* Sort]([@(0.0.255) i
 nt]_[*@3 kind])&]
-[s2;%RU-RU Sets the sorting mode, [%-*@3 kind] can be one of FILELISTSORT`_NAME, 
+[s2;%RU-RU Устанавливаетthe sorting mode, [%-*@3 kind] can be one of FILELISTSORT`_NAME, 
 FILELISTSORT`_EXT, FILELISTSORT`_TIME, FILELISTSORT`_SIZE, potentially 
 combined (with binary or) with flag FILELISTSORT`_DESCENDING.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:FileSel`:`:Columns`(int`): [_^Upp`:`:FileSel^ FileSel][@(0.0.255) `&]_[* Column
 s]([@(0.0.255) int]_[*@3 n])&]
-[s2;%RU-RU Sets the number of columns.&]
+[s2;%RU-RU Устанавливаетthe number of columns.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:FileSel`:`:Multi`(bool`): [_^FileSel^ FileSel][@(0.0.255) `&]_[* Multi]([@(0.0.255) bool
@@ -217,12 +217,12 @@ is false.&]
 [s4; &]
 [s5;:FileSel`:`:ReadOnlyOption`(bool`): [_^FileSel^ FileSel][@(0.0.255) `&]_[* ReadOnlyOpti
 on]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) true])&]
-[s2;%RU-RU Makes `"Read only`" option visible. Default is false.&]
+[s2;%RU-RU Makes `"Read only`" option visible. Дефолт равен false.&]
 [s3; &]
 [s4; &]
 [s5;:FileSel`:`:MkDirOption`(bool`): [_^FileSel^ FileSel][@(0.0.255) `&]_[* MkDirOption]([@(0.0.255) b
 ool]_[*@3 b]_`=_[@(0.0.255) true])&]
-[s2;%RU-RU Makes `"Make directory`" button visible. Default is true.&]
+[s2;%RU-RU Makes `"Make directory`" button visible. Дефолт равен true.&]
 [s3; &]
 [s4; &]
 [s5;:FileSel`:`:NoMkDirOption`(`): [_^FileSel^ FileSel][@(0.0.255) `&]_[* NoMkDirOption]()&]
@@ -231,14 +231,14 @@ ool]_[*@3 b]_`=_[@(0.0.255) true])&]
 [s4; &]
 [s5;:FileSel`:`:BaseDir`(const char`*`): [_^FileSel^ FileSel][@(0.0.255) `&]_[* BaseDir]([@(0.0.255) c
 onst]_[@(0.0.255) char]_`*[*@3 dir])&]
-[s2;%RU-RU Sets [%-*@3 dir] to be the base directory. If used, files 
+[s2;%RU-RU Устанавливает[%-*@3 dir] to be the base directory. If used, files 
 can be selected only inside this base directory (or its subdirectories) 
 and selected file paths are relative to it.&]
 [s3; &]
 [s4; &]
 [s5;:FileSel`:`:Asking`(bool`): [_^FileSel^ FileSel][@(0.0.255) `&]_[* Asking]([@(0.0.255) bo
 ol]_[*@3 b]_`=_[@(0.0.255) true])&]
-[s2;%RU-RU If active, file selector asks before returning the path 
+[s2;%RU-RU Если активен, file selector asks before returning the path 
 of existing file in `"Save as`" dialog. Default is active.&]
 [s3; &]
 [s4; &]
@@ -248,7 +248,7 @@ of existing file in `"Save as`" dialog. Default is active.&]
 [s4; &]
 [s5;:FileSel`:`:EditFileName`(bool`): [_^FileSel^ FileSel][@(0.0.255) `&]_[* EditFileName](
 [@(0.0.255) bool]_[*@3 b])&]
-[s2;%RU-RU If active, user can type files into filename edit field. 
+[s2;%RU-RU Если активен, user can type files into filename edit field. 
 Default is active.&]
 [s3; &]
 [s4; &]
@@ -267,7 +267,7 @@ ool]_[*@3 b]_`=_[@(0.0.255) true])&]
 [s4; &]
 [s5;:FileSel`:`:Preview`(Ctrl`&`): [_^FileSel^ FileSel][@(0.0.255) `&]_[* Preview]([_^Ctrl^ C
 trl][@(0.0.255) `&]_[*@3 ctrl])&]
-[s2;%RU-RU Sets [%-*@3 ctrl ]to be provide a preview of currently selected 
+[s2;%RU-RU Устанавливает[%-*@3 ctrl ]to be provide a preview of currently selected 
 file. This widget is placed into FileSel and receives the path 
 of file via SetData to be previewed or Null if there is nothing 
 to preview.&]
@@ -275,7 +275,7 @@ to preview.&]
 [s4; &]
 [s5;:FileSel`:`:Preview`(const Display`&`): [_^FileSel^ FileSel][@(0.0.255) `&]_[* Preview](
 [@(0.0.255) const]_[_^Display^ Display][@(0.0.255) `&]_[*@3 d])&]
-[s2;%RU-RU Sets [%-*@3 d] to be provide a preview of currently selected 
+[s2;%RU-RU Устанавливает[%-*@3 d] to be provide a preview of currently selected 
 file. This Display is by FileSel to show the preview, the Value 
 in Paint method is either the path of file or Null if there is 
 nothing to preview.&]

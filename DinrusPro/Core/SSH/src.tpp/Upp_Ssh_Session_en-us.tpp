@@ -24,15 +24,15 @@ sh] base class, and has pick semantics.&]
 [s3; &]
 [s5;:Upp`:`:SshSession`:`:Timeout`(int`): [_^Upp`:`:SshSession^ SshSession][@(0.0.255) `&
 ]_[* Timeout]([@(0.0.255) int]_[*@3 ms])&]
-[s2;%% Sets timeout value in miliseconds. Setting the timeout value 
-to Null puts the SshSession object into blocking mode. Returns 
+[s2;%% Устанавливаетtimeout value in miliseconds. Setting the timeout value 
+to Null puts the SshSession object into blocking mode. Возвращает 
 `*this for method chaining. Note that ssh subsystems and channels 
 inherit their default timeout values from their session.&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:SshSession`:`:Compression`(bool`): [_^Upp`:`:SshSession^ SshSession][@(0.0.255) `&
 ]_[* Compression]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) true])&]
-[s2;%% Enables or disables Z compression for data transfers. Returns 
+[s2;%% Enables or disables Z compression for data transfers. Возвращает 
 `*this for method chaining. Compression is disabled by default. 
 This method affects the whole session. Therefore it must be invoked 
 either before any connection attempt or within the [^topic`:`/`/Core`/SSH`/src`/Upp`_Ssh`_Session`_en`-us`#Upp`:`:SshSession`:`:WhenConfig^ W
@@ -42,7 +42,7 @@ transport method settings.&]
 [s4; &]
 [s5;:Upp`:`:SshSession`:`:NoCompression`(`): [_^Upp`:`:SshSession^ SshSession][@(0.0.255) `&
 ]_[* NoCompression]()&]
-[s2;%% Disables Z compression. То же, что и Compression(false). Returns 
+[s2;%% Disables Z compression. То же, что и Compression(false). Возвращает 
 `*this for method chaining. Compression is disabled by default. 
 This method affects the whole session. Therefore it must be invoked 
 either before any connection attempt or within the [^topic`:`/`/Core`/SSH`/src`/Upp`_Ssh`_Session`_en`-us`#Upp`:`:SshSession`:`:WhenConfig^ W
@@ -54,9 +54,9 @@ shSession][@(0.0.255) `&]_[* Keys]([@(0.0.255) const]_[_^Upp`:`:String^ String][
 ]_[*@3 prikey], [@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 pubkey], 
 [@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 phrase], 
 [@(0.0.255) bool]_[*@3 fromfile]_`=_[@(0.0.255) true])&]
-[s2;%% Sets the asymmetric encryption keys to be used to authenticate 
+[s2;%% Устанавливаетthe asymmetric encryption keys to be used to authenticate 
 the session. [%-*@3 phrase] can be used to decipher the private 
-key, or it can be empty (not recommended). Returns `*this for 
+key, or it can be empty (not recommended). Возвращает `*this for 
 method chaining. Note that when the [%-*@3 fromfile] parameter 
 is true, [%-*@3 prikey] and [%-*@3 pubkey] strings will be treated 
 as file paths to the respective key files. This is the default 
@@ -67,62 +67,62 @@ the actual keys.&]
 [s5;:Upp`:`:SshSession`:`:Method`(int`,Upp`:`:Value`): [_^Upp`:`:SshSession^ SshSession
 ][@(0.0.255) `&]_[* Method]([@(0.0.255) int]_[*@3 type], [_^Upp`:`:Value^ Value]_[*@3 method])
 &]
-[s2;%% Sets the preferred transport method for the method [%-*@3 type]. 
+[s2;%% Устанавливаетthe preferred transport method for the method [%-*@3 type]. 
 Transport [%-*@3 method ]parameter may contain a single method, 
 or a list of methods, with the most preferred method listed as 
-first and the least preferred as last. Returns `*this for method 
+first and the least preferred as last. Возвращает `*this for method 
 chaining.&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:SshSession`:`:Methods`(Upp`:`:ValueMap`): [_^Upp`:`:SshSession^ SshSession][@(0.0.255) `&
 ]_[* Methods]([_^Upp`:`:ValueMap^ ValueMap]_[*@3 methods])&]
-[s2;%% Sets transport [%-*@3 methods]. Methods list should contain 
+[s2;%% Устанавливаетtransport [%-*@3 methods]. Methods list should contain 
 key`-value pairs, where keys represent possible method types, 
 and values represent a single or multiple transport method(s), 
 with the most preferred listed as first and the least preferred 
-as last. Returns `*this for method chaining.&]
+as last. Возвращает `*this for method chaining.&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:SshSession`:`:PasswordAuth`(`): [_^Upp`:`:SshSession^ SshSession][@(0.0.255) `&
 ]_[* PasswordAuth]()&]
-[s2;%% Sets the authentication method to basic password authentication. 
-Returns `*this for method chaining.&]
+[s2;%% Устанавливаетthe authentication method to basic password authentication. 
+Возвращает `*this for method chaining.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:SshSession`:`:PublicKeyAuth`(`): [_^Upp`:`:SshSession^ SshSession][@(0.0.255) `&
 ]_[* PublicKeyAuth]()&]
-[s2;%% Sets the authentication method to public key authentication. 
-Returns `*this for method chaining.&]
+[s2;%% Устанавливаетthe authentication method to public key authentication. 
+Возвращает `*this for method chaining.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:SshSession`:`:HostBasedAuth`(`): [_^Upp`:`:SshSession^ SshSession][@(0.0.255) `&
 ]_[* HostBasedAuth]()&]
-[s2;%% Sets the authentication method to host based authentication. 
-Returns `*this for method chaining.&]
+[s2;%% Устанавливаетthe authentication method to host based authentication. 
+Возвращает `*this for method chaining.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:SshSession`:`:KeyboardAuth`(`): [_^Upp`:`:SshSession^ SshSession][@(0.0.255) `&
 ]_[* KeyboardAuth]()&]
-[s2;%% Sets the authentication method to keyboard`-interactive (challenge/response) 
-authentication. Returns `*this for method chaining.&]
+[s2;%% Устанавливаетthe authentication method to keyboard`-interactive (challenge/response) 
+authentication. Возвращает `*this for method chaining.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:SshSession`:`:AgentAuth`(`): [_^Upp`:`:SshSession^ SshSession][@(0.0.255) `&]_
 [* AgentAuth]()&]
-[s2;%% Enables using an ssh`-agent for authentication. Returns this 
+[s2;%% Enables using an ssh`-agent for authentication. Возвращает this 
 for method chaining. This method requires public and private 
 keys to be present.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:SshSession`:`:GetHandle`(`): [_^LIBSSH2`_SESSION^ LIBSSH2`_SESSION][@(0.0.255) `*
 ]_[* GetHandle]()&]
-[s2; Returns a pointer to the libssh2 session handle on success, 
+[s2; Возвращает a pointer to the libssh2 session handle on success, 
 NULL on failure.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:SshSession`:`:GetBanner`(`)const: [_^Upp`:`:String^ String]_[* GetBanner]()_[@(0.0.255) c
 onst]&]
-[s2;%% Returns the server`'s banner if available.&]
+[s2;%% Возвращает the server`'s banner if available.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:SshSession`:`:GetMD5Fingerprint`(`)const: [_^Upp`:`:String^ String]_[* GetMD5
@@ -139,12 +139,12 @@ printable.&]
 [s4; &]
 [s5;:Upp`:`:SshSession`:`:GetSocket`(`): [_^Upp`:`:TcpSocket^ TcpSocket][@(0.0.255) `&]_[* G
 etSocket]()&]
-[s2;%% Returns a reference to the session socket.&]
+[s2;%% Возвращает a reference to the session socket.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:SshSession`:`:GetMethods`(`)const: [_^Upp`:`:ValueMap^ ValueMap]_[* GetMethod
 s]()_[@(0.0.255) const]&]
-[s0;l288;%% Returns a list of supported transport methods on success, 
+[s0;l288;%% Возвращает a list of supported transport methods on success, 
 and an empty list on failure. Supported method types are represented 
 by `"keys`", and available methods, which can be a single string 
 or a list of strings, are represented by `"values`". Note that 
@@ -153,8 +153,8 @@ all values are in lowercase letters.&]
 [s4; &]
 [s5;:Upp`:`:SshSession`:`:GetAuthMethods`(`): [_^Upp`:`:Vector^ Vector]<[_^Upp`:`:String^ S
 tring]>_[* GetAuthMethods]()&]
-[s0;l288;%% Returns a list of supported user authentication methods. 
-Returns an empty vector on failure. The following four authentication 
+[s0;l288;%% Возвращает a list of supported user authentication methods. 
+Возвращает an empty vector on failure. The following four authentication 
 methods are currently supported: `"[C password]`", `"[C publickey]`", 
 `"[C hostbased]`", `"[C keyboard`-interactive]`", and `"[C none]`". 
 The `"[C none]`" method allows logging in without an authentication 
@@ -163,35 +163,35 @@ by the session.&]
 [s3;^Upp`:`:SFtp^ &]
 [s4;^Upp`:`:SFtp^ &]
 [s5;:Upp`:`:SshSession`:`:CreateSFtp`(`): [_^Upp`:`:SFtp^ SFtp]_[* CreateSFtp]()&]
-[s2;%% Creates an sftp channel instance.&]
+[s2;%% Создаёт an sftp channel instance.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:SshSession`:`:CreateChannel`(`): [_^Upp`:`:SshChannel^ SshChannel]_[* CreateC
 hannel]()&]
-[s2;%% Creates a generic channel instance.&]
+[s2;%% Создаёт a generic channel instance.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:SshSession`:`:CreateExec`(`): [_^Upp`:`:SshExec^ SshExec]_[* CreateExec]()&]
-[s2;%% Creates an exec channel instance.&]
+[s2;%% Создаёт an exec channel instance.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:SshSession`:`:CreateScp`(`): [_^Upp`:`:Scp^ Scp]_[* CreateScp]()&]
-[s2;%% Creates an scp channel instance.&]
+[s2;%% Создаёт an scp channel instance.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:SshSession`:`:CreateTunnel`(`): [_^Upp`:`:SshTunnel^ SshTunnel]_[* CreateTunn
 el]()&]
-[s2;%% Creates a tcp`-ip and port forwarding channel instance.&]
+[s2;%% Создаёт a tcp`-ip and port forwarding channel instance.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:SshSession`:`:CreateShell`(`): [_^Upp`:`:SshShell^ SshShell]_[* CreateShell](
 )&]
-[s2;%% Creates a remote shell channel instance.&]
+[s2;%% Создаёт a remote shell channel instance.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:SshSession`:`:Connect`(const Upp`:`:String`&`): [@(0.0.255) bool]_[* Connect](
 [@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 url])&]
-[s2;%% Connects to a SSH2 server specified by the [%-*@3 url]. Returns 
+[s2;%% Connects to a SSH2 server specified by the [%-*@3 url]. Возвращает 
 true on success. &]
 [s2;%% Syntax of the URL is as follows: [C@3 `[ssh`|scp`|sftp`|exec`]://`[user:password`@`]
 host`[:port`]][C .]&]
@@ -202,7 +202,7 @@ ool]_[* Connect]([@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@
 [@(0.0.255) int]_[*@3 port], [@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 u
 ser], [@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 password])&]
 [s2;%% Connects to a SSH2 server specified at [%-*@3 host] and [%-*@3 port]. 
-Returns true on success.&]
+Возвращает true on success.&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:SshSession`:`:Disconnect`(`): [@(0.0.255) void]_[* Disconnect]()&]
@@ -270,14 +270,14 @@ and instructions may be empty strings. Returned responses will
 be evaluated by the host. Returning an empty string will halt 
 the connection attempt.&]
 [s3; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Constructor detail]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Конструктор  detail]]}}&]
 [s3; &]
 [s5;:Upp`:`:SshSession`:`:SshSession`(`): [* SshSession]()&]
 [s2;%% Дефолтный конструктор.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:SshSession`:`:`~SshSession`(`): [@(0.0.255) `~][* SshSession]()&]
-[s2;%% Default destructor. Automatically closes the session.&]
+[s2;%% Дефолтный деструктор . Automatically closes the session.&]
 [s3; &]
 [s0;%% &]
 [s0; &]

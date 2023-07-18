@@ -30,7 +30,7 @@ Value does not contain ValueArray, GetCount() returns 0).&]
 [ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:ValueArray`:`:ValueArray`(`): [* ValueArray]()&]
-[s2;%% Creates an empty ValueArray.&]
+[s2;%% Создаёт an empty ValueArray.&]
 [s3; &]
 [s4; &]
 [s5;:ValueArray`:`:ValueArray`(const ValueArray`&`): [* ValueArray]([@(0.0.255) const]_[* V
@@ -40,13 +40,13 @@ alueArray][@(0.0.255) `&]_[*@3 v])&]
 [s4; &]
 [s5;:Upp`:`:ValueArray`:`:ValueArray`(Upp`:`:Vector`<Upp`:`:Value`>`&`&`): [* ValueArra
 y]([_^Upp`:`:Vector^ Vector]<[_^Upp`:`:Value^ Value]>`&`&_[*@3 values])&]
-[s2;%% Creates ValueArray by picking [%-*@3 values] `- source is destroyed.&]
+[s2;%% Создаёт ValueArray by picking [%-*@3 values] `- source is destroyed.&]
 [s3;%% &]
 [s4; &]
 [s5;:ValueArray`:`:ValueArray`(const Vector`<Value`>`&`,int`): [@(0.0.255) explicit]_[* V
 alueArray]([@(0.0.255) const]_[_^Vector^ Vector]<[_^Value^ Value]>`&_[*@3 values], 
 [@(0.0.255) int]_[*@3 deep])&]
-[s2;%% Creates ValueArray as deep copy of [%-*@3 values] ([%-*@3 deep] 
+[s2;%% Создаёт ValueArray as deep copy of [%-*@3 values] ([%-*@3 deep] 
 is dummy parameter to make the signature different from picking 
 version).&]
 [s3;%% &]
@@ -72,7 +72,7 @@ td`::initializer`_list]<[_^Upp`:`:Value^ Value]>_[*@3 init])&]
 [s3;%% &]
 [s4; &]
 [s5;:ValueArray`:`:operator Value`(`)const: [* operator_Value]()_[@(0.0.255) const]&]
-[s2;%% Returns ValueArray as Value.&]
+[s2;%% Возвращает ValueArray as Value.&]
 [s3; &]
 [s4; &]
 [s5;:ValueArray`:`:ValueArray`(const Value`&`): [* ValueArray]([@(0.0.255) const]_[_^Value^ V
@@ -84,11 +84,11 @@ pairs, is returned).&]
 [s4; &]
 [s5;:ValueArray`:`:ValueArray`(const Nuller`&`): [* ValueArray]([@(0.0.255) const]_[_^Nuller^ N
 uller][@(0.0.255) `&])&]
-[s2;%% Creates empty ValueArray (Null assignment).&]
+[s2;%% Создаёт empty ValueArray (Null assignment).&]
 [s3; &]
 [s4; &]
 [s5;:ValueArray`:`:IsNull`(`)const: [@(0.0.255) bool]_[* IsNull]()_[@(0.0.255) const]&]
-[s2;%% Возвращает true, если there are no elements.&]
+[s2;%% Возвращает  true, если there are no elements.&]
 [s3; &]
 [s4; &]
 [s5;:ValueArray`:`:Clear`(`): [@(0.0.255) void]_[* Clear]()&]
@@ -96,18 +96,18 @@ uller][@(0.0.255) `&])&]
 [s3; &]
 [s4; &]
 [s5;:ValueArray`:`:SetCount`(int`): [@(0.0.255) void]_[* SetCount]([@(0.0.255) int]_[*@3 n])&]
-[s2;%% Sets the count of elements to [%-*@3 n]. If number of elements 
+[s2;%% Устанавливаетthe count of elements to [%-*@3 n]. If number of elements 
 increases, new elements are void Values.&]
 [s3;%% &]
 [s4; &]
 [s5;:ValueArray`:`:SetCount`(int`,const Value`&`): [@(0.0.255) void]_[* SetCount]([@(0.0.255) i
 nt]_[*@3 n], [@(0.0.255) const]_[_^Value^ Value][@(0.0.255) `&]_[*@3 v])&]
-[s2;%% Sets the count of elements to [%-*@3 n]. If number of elements 
+[s2;%% Устанавливаетthe count of elements to [%-*@3 n]. If number of elements 
 increases, new elements are set to [%-*@3 v] .&]
 [s3;%% &]
 [s4; &]
 [s5;:ValueArray`:`:GetCount`(`)const: [@(0.0.255) int]_[* GetCount]()_[@(0.0.255) const]&]
-[s2;%% Returns number of elements.&]
+[s2;%% Возвращает number of elements.&]
 [s3; &]
 [s4; &]
 [s5;:ValueArray`:`:IsEmpty`(`)const: [@(0.0.255) bool]_[* IsEmpty]()_[@(0.0.255) const]&]
@@ -126,13 +126,13 @@ alue][@(0.0.255) `&]_[*@3 v])&]
 [s4; &]
 [s5;:ValueArray`:`:Set`(int`,const Value`&`): [@(0.0.255) void]_[* Set]([@(0.0.255) int]_[*@3 i
 ], [@(0.0.255) const]_[_^Value^ Value][@(0.0.255) `&]_[*@3 v])&]
-[s2;%% Sets element at [%-*@3 i] to [%-*@3 v]. If [%-*@3 i] >`= GetCount(), 
+[s2;%% Устанавливаетelement at [%-*@3 i] to [%-*@3 v]. If [%-*@3 i] >`= GetCount(), 
 void Values are added so that element [%-*@3 i] created.&]
 [s3;%% &]
 [s4; &]
 [s5;:ValueArray`:`:Get`(int`)const: [@(0.0.255) const]_[_^Value^ Value][@(0.0.255) `&]_[* Get
 ]([@(0.0.255) int]_[*@3 i])_[@(0.0.255) const]&]
-[s2;%% Returns element at [%-*@3 i].&]
+[s2;%% Возвращает element at [%-*@3 i].&]
 [s3;%% &]
 [s4; &]
 [s5;:ValueArray`:`:GetAndClear`(int`): [_^Value^ Value]_[* GetAndClear]([@(0.0.255) int]_[*@3 i
@@ -146,7 +146,7 @@ required.&]
 [s4; &]
 [s5;:ValueArray`:`:Get`(`)const: [@(0.0.255) const]_[_^Vector^ Vector]<[_^Value^ Value]>`&_
 [* Get]()_[@(0.0.255) const]&]
-[s2;%% Returns constant reference to (internal) Vector<Value>.&]
+[s2;%% Возвращает constant reference to (internal) Vector<Value>.&]
 [s3; &]
 [s4; &]
 [s5;:ValueArray`:`:Pick`(`): [_^Vector^ Vector]<[_^Value^ Value]>_[* Pick]()&]
@@ -175,11 +175,11 @@ onst]_[_^ValueArray^ ValueArray][@(0.0.255) `&]_[*@3 va])&]
 [s4; &]
 [s5;:ValueArray`:`:operator`[`]`(int`)const: [@(0.0.255) const]_[_^Value^ Value][@(0.0.255) `&
 ]_[* operator`[`]]([@(0.0.255) int]_[*@3 i])_[@(0.0.255) const]&]
-[s2;%% Returns element at [%-*@3 i].&]
+[s2;%% Возвращает element at [%-*@3 i].&]
 [s3;%% &]
 [s4; &]
 [s5;:ValueArray`:`:At`(int`): [_^Value^ Value][@(0.0.255) `&]_[* At]([@(0.0.255) int]_[*@3 i])&]
-[s2;%% Returns a reference of element at [%-*@3 i] , if there is none, 
+[s2;%% Возвращает a reference of element at [%-*@3 i] , if there is none, 
 adds as much Void Values to array as necessarry to have it. [^topic`:`/`/Core`/srcdoc`/ValueReference`$en`-us^ T
 he reference returned is invalidated by any further use of originating 
 Value]. &]
@@ -187,7 +187,7 @@ Value]. &]
 [s4; &]
 [s5;:ValueArray`:`:GetHashValue`(`)const: [@(0.0.255) unsigned]_[* GetHashValue]()_[@(0.0.255) c
 onst]&]
-[s2;%% Returns hashing value.&]
+[s2;%% Возвращает hashing value.&]
 [s3; &]
 [s4; &]
 [s5;:ValueArray`:`:Serialize`(Stream`&`): [@(0.0.255) void]_[* Serialize]([_^Stream^ Stream

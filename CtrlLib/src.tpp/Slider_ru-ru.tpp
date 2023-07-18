@@ -24,7 +24,7 @@ by dragging a thumb.&]
 Лў±џшЊюҐт±­ЈШтґ›‰ДЎЂЁрЂ§ѓМВњ
 &]
 [s0;%- &]
-[s0; [/ Derived from] [^topic`:`/`/CtrlCore`/src`/Ctrl`$en`-us`#`:`:Ctrl`:`:class Ctrl^ C
+[s0; [/ Производный от] [^topic`:`/`/CtrlCore`/src`/Ctrl`$en`-us`#`:`:Ctrl`:`:class Ctrl^ C
 trl]&]
 [s3; &]
 [s0;%- &]
@@ -40,8 +40,8 @@ trl]&]
 [s4;%- &]
 [s5;:SliderCtrl`:`:MinMax`(int`,int`):%- [_^SliderCtrl^ SliderCtrl][@(0.0.255) `&]_[* MinMa
 x]([@(0.0.255) int]_[*@3 `_min], [@(0.0.255) int]_[*@3 `_max])&]
-[s2; Sets the minimum (thumb in leftmost position) and maximum (thumb 
-in rightmost position) values. Returns `*this.&]
+[s2; Устанавливаетthe minimum (thumb in leftmost position) and maximum (thumb 
+in rightmost position) values. Возвращает `*this.&]
 [s3; &]
 [s4;%- &]
 [s5;:SliderCtrl`:`:Range`(int`):%- [_^SliderCtrl^ SliderCtrl][@(0.0.255) `&]_[* Range]([@(0.0.255) i
@@ -51,21 +51,21 @@ inMax](0, [%-*@3 max]).&]
 [s3; &]
 [s4;%- &]
 [s5;:SliderCtrl`:`:GetMin`(`)const:%- [@(0.0.255) int]_[* GetMin]()_[@(0.0.255) const]&]
-[s2; Returns minimum value.&]
+[s2; Возвращает minimum value.&]
 [s3; &]
 [s4;%- &]
 [s5;:SliderCtrl`:`:GetMax`(`)const:%- [@(0.0.255) int]_[* GetMax]()_[@(0.0.255) const]&]
-[s2; Returns maximum value.&]
+[s2; Возвращает maximum value.&]
 [s3; &]
 [s4;%- &]
 [s5;:SliderCtrl`:`:IsVert`(`)const:%- [@(0.0.255) bool]_[* IsVert]()_[@(0.0.255) const]&]
-[s2; Sets the step used in Inc and Dec methods. If [%-*@3 r] is true, 
+[s2; Устанавливаетthe step used in Inc and Dec methods. If [%-*@3 r] is true, 
 SliderCtrl rounds the value to step multiplies even when dragging 
 the thumb by mouse.&]
 [s3; &]
 [s4;%- &]
 [s5;:SliderCtrl`:`:GetStep`(`)const:%- [@(0.0.255) int]_[* GetStep]()_[@(0.0.255) const]&]
-[s2; Returns current step.&]
+[s2; Возвращает current step.&]
 [s3; &]
 [s4;%- &]
 [s5;:SliderCtrl`:`:IsRoundStep`(`)const:%- [@(0.0.255) bool]_[* IsRoundStep]()_[@(0.0.255) c

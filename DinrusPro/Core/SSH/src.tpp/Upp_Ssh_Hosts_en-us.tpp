@@ -31,29 +31,29 @@ ool]_[* Add]([@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 ho
 shHosts`::Info][@(0.0.255) `&]_[*@3 info], [@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&
 ]_[*@3 comment])&]
 [s2;%% Adds a [%-*@3 host] to the known hosts list. Usually after verification. 
-Returns true on success. &]
+Возвращает true on success. &]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:SshHosts`:`:Remove`(Upp`:`:SshHost`*`): [@(0.0.255) bool]_[* Remove]([_^Upp`:`:SshHost^ S
 shHost][@(0.0.255) `*]_[*@3 host])&]
-[s2;%% Removes a [%-*@3 host] from the known hosts list. Returns true 
+[s2;%% Removes a [%-*@3 host] from the known hosts list. Возвращает true 
 on success.&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:SshHosts`:`:Load`(const Upp`:`:String`&`): [@(0.0.255) bool]_[* Load]([@(0.0.255) c
 onst]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 filename])&]
 [s2;%% Loads a list of known hosts from a specified file and adds 
-them to the list of known hosts. Returns true on success.&]
+them to the list of known hosts. Возвращает true on success.&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:SshHosts`:`:Save`(`): [@(0.0.255) bool]_[* Save]()&]
 [s2;%% Saves the list of known host to a previously loaded file. 
-Returns true on success. . &]
+Возвращает true on success. . &]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:SshHosts`:`:SaveAs`(const Upp`:`:String`&`): [@(0.0.255) bool]_[* SaveAs]([@(0.0.255) c
 onst]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 filename])&]
-[s2;%% Saves the list of known hosts to another file. Returns true 
+[s2;%% Saves the list of known hosts to another file. Возвращает true 
 on success. &]
 [s3;%% &]
 [s4; &]
@@ -61,30 +61,30 @@ on success. &]
 shHosts`::Info]_[* Check]([@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 h
 ost], [@(0.0.255) int]_[*@3 port])&]
 [s2;%% Checks a [%-*@3 host ]and its key against a list of known hosts. 
-Returns a [%-_^topic`:`/`/SSH`/src`/Upp`_Ssh`_Hosts`$en`-us`#Upp`:`:KnownHosts`:`:Info`:`:struct^ S
+Возвращает a [%-_^topic`:`/`/SSH`/src`/Upp`_Ssh`_Hosts`$en`-us`#Upp`:`:KnownHosts`:`:Info`:`:struct^ S
 shHosts`::Info] structure.&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:SshHosts`:`:GetHosts`(`): [_^Upp`:`:Vector^ Vector]<SshHost[@(0.0.255) `*]>_[* G
 etHosts]()&]
-[s2;%% Returns a list of known hosts. Note that an empty list doesn`'t 
+[s2;%% Возвращает a list of known hosts. Note that an empty list doesn`'t 
 necessarily mean error.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:SshHosts`:`:GetError`(`)const: [@(0.0.255) int]_[* GetError]()_[@(0.0.255) cons
 t]&]
-[s2;%% Returns the last error code.&]
+[s2;%% Возвращает the last error code.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:SshHosts`:`:GetErrorDesc`(`)const: [_^Upp`:`:String^ String]_[* GetErrorDesc](
 )_[@(0.0.255) const]&]
-[s2;%% Returns the decription of last error.&]
+[s2;%% Возвращает the decription of last error.&]
 [s3; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Constructor detail]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Конструктор  detail]]}}&]
 [s3; &]
 [s5;:Upp`:`:SshHosts`:`:SshHosts`(Upp`:`:SshSession`&`): [* SshHosts]([_^Upp`:`:Ssh^ SshS
 ession][@(0.0.255) `&]_[*@3 session])&]
-[s2;%% Constructor. Binds the SshHosts instance to [%-*@3 session]. 
+[s2;%% Конструктор . Binds the SshHosts instance to [%-*@3 session]. 
 &]
 [s0; &]
 [ {{10000@(113.42.0) [s0;%% [*@7;4 SshHosts`::Info]]}}&]
@@ -100,65 +100,65 @@ ession][@(0.0.255) `&]_[*@3 session])&]
 [s4; &]
 [s5;:Upp`:`:SshHosts`:`:Info`:`:IsRSA`(`)const: [@(0.0.255) bool]_[* IsRSA]()_[@(0.0.255) c
 onst]&]
-[s2;%% Возвращает true, если the public key of the given host is using 
+[s2;%% Возвращает  true, если the public key of the given host is using 
 RSA algorithm.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:SshHosts`:`:Info`:`:IsDSS`(`)const: [@(0.0.255) bool]_[* IsDSS]()_[@(0.0.255) c
 onst]&]
-[s2;%% Возвращает true, если the public key of the given host is using 
+[s2;%% Возвращает  true, если the public key of the given host is using 
 DSS algorithm.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:SshHosts`:`:Info`:`:IsECDSA256`(`)const: [@(0.0.255) bool]_[* IsECDSA256]()_[@(0.0.255) c
 onst]&]
-[s2;%% Возвращает true, если the public key of the given host is using 
+[s2;%% Возвращает  true, если the public key of the given host is using 
 ECDSA 256 algorithm.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:SshHosts`:`:Info`:`:IsECDSA384`(`)const: [@(0.0.255) bool]_[* IsECDSA384]()_[@(0.0.255) c
 onst]&]
-[s2;%% Возвращает true, если the public key of the given host is using 
+[s2;%% Возвращает  true, если the public key of the given host is using 
 ECDSA 384 algorithm.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:SshHosts`:`:Info`:`:IsECDSA521`(`)const: [@(0.0.255) bool]_[* IsECDSA521]()_[@(0.0.255) c
 onst]&]
-[s2;%% Возвращает true, если the public key of the given host is using 
+[s2;%% Возвращает  true, если the public key of the given host is using 
 ECDSA 521 algorithm.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:SshHosts`:`:Info`:`:IsED25519`(`)const: [@(0.0.255) bool]_[* IsED25519]()_[@(0.0.255) c
 onst]&]
-[s2;%% Возвращает true, если the public key of the given host is using 
+[s2;%% Возвращает  true, если the public key of the given host is using 
 ED 25519 algorithm.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:SshHosts`:`:Info`:`:IsUnknown`(`)const: [@(0.0.255) bool]_[* IsUnknown]()_[@(0.0.255) c
 onst]&]
-[s2;%% Возвращает true, если the public key of the given host is of unknown 
+[s2;%% Возвращает  true, если the public key of the given host is of unknown 
 type.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:SshHosts`:`:Info`:`:IsFailure`(`)const: [@(0.0.255) bool]_[* IsFailure]()_[@(0.0.255) c
 onst]&]
-[s2;%% Возвращает true, если something prevented the check to be made. 
+[s2;%% Возвращает  true, если something prevented the check to be made. 
 &]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:SshHosts`:`:Info`:`:IsNotFound`(`)const: [@(0.0.255) bool]_[* IsNotFound]()_[@(0.0.255) c
 onst]&]
-[s2;%% Возвращает true, если  no host match was found.&]
+[s2;%% Возвращает  true, если  no host match was found.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:SshHosts`:`:Info`:`:IsMismatch`(`)const: [@(0.0.255) bool]_[* IsMismatch]()_[@(0.0.255) c
 onst]&]
-[s2;%% Возвращает true, если the host was found, but the keys didn`'t match. 
+[s2;%% Возвращает  true, если the host was found, but the keys didn`'t match. 
 (This [/ may ]mean an attack!) &]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:SshHosts`:`:Info`:`:IsMatch`(`)const: [@(0.0.255) bool]_[* IsMatch]()_[@(0.0.255) c
 onst]&]
-[s2;%% Возвращает true, если the hosts and the keys match.&]
+[s2;%% Возвращает  true, если the hosts and the keys match.&]
 [s3; &]
 [s0;%% ]]

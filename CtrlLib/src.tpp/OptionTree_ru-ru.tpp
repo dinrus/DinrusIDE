@@ -45,7 +45,7 @@ LL)&]
 har]_`*[*@3 text])&]
 [s5;:OptionTree`:`:SetRoot`(const char`*`): [@(0.0.255) void]_[* SetRoot]([@(0.0.255) const
 ]_[@(0.0.255) char]_`*[*@3 text])&]
-[s2;%RU-RU Sets the root item.&]
+[s2;%RU-RU Устанавливаетthe root item.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:OptionTree`:`:Add`(int`,const Image`&`,Option`&`,const char`*`): [@(0.0.255) int]_
@@ -84,7 +84,7 @@ nt]_[*@3 parent], [@(0.0.255) int]_[*@3 i], [@(0.0.255) const]_[@(0.0.255) char]
 [s4; &]
 [s5;:OptionTree`:`:Get`(int`)const: [@(0.0.255) virtual] [@(0.0.255) int]_[* Get]([@(0.0.255) i
 nt]_[*@3 id])_[@(0.0.255) const]&]
-[s2;%RU-RU Returns the option setting for the item with id. Returns 
+[s2;%RU-RU Возвращает the option setting for the item with id. Возвращает 
 1, 0 or Null if node is mixed.&]
 [s3;%RU-RU &]
 [s4; &]
@@ -100,11 +100,11 @@ does not affect the checked/unchecked status of child items.&]
 [s4; &]
 [s5;:OptionTree`:`:SetLabel`(int`,const char`*`): [@(0.0.255) void]_[* SetLabel]([@(0.0.255) i
 nt]_[*@3 id], [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 text])&]
-[s2;%RU-RU Sets the label of node [%-*@3 id] to [%-*@3 text].&]
+[s2;%RU-RU Устанавливаетthe label of node [%-*@3 id] to [%-*@3 text].&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:OptionTree`:`:GetLabel`(int`)const: [_^String^ String]_[* GetLabel]([@(0.0.255) int]_[*@3 i
 d])_[@(0.0.255) const]&]
-[s2;%RU-RU Returns the label of node [%-*@3 id].&]
+[s2;%RU-RU Возвращает the label of node [%-*@3 id].&]
 [s3;%RU-RU &]
 [s0; ]]

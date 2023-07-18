@@ -48,7 +48,7 @@ e]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 types], [@(0.0.255) const]_[_^Str
 ][@(0.0.255) `&]_[*@3 data])&]
 [s2; Selects file and saves [%-*@3 data] to it, [%-*@3 types] follow 
 rules of [^topic`:`/`/CtrlLib`/src`/FileSel`$en`-us`#FileSel`:`:Types`(const char`*`)^ T
-ypes] method of FileSel. Returns true on success.&]
+ypes] method of FileSel. Возвращает true on success.&]
 [s3;%- &]
 [s0;%- &]
 [s0;%- &]

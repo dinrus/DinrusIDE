@@ -47,17 +47,17 @@ border width, is inside Ctrl limits.&]
 [s1;%- &]
 [s5;:StaticRectangle`:`:SetWidth`(int`):%- [_^StaticRectangle^ StaticRectangle][@(0.0.255) `&
 ]_[* SetWidth]([@(0.0.255) int]_[*@3 w])&]
-[s3; Sets the rectangle width [%-*@3 w ]in pixels.&]
+[s3; Устанавливаетthe rectangle width [%-*@3 w ]in pixels.&]
 [s1; &]
 [s6;%- &]
 [s5;:StaticRectangle`:`:SetColor`(Color`):%- [_^StaticRectangle^ StaticRectangle][@(0.0.255) `&
 ]_[* SetColor]([_^Color^ Color]_[*@3 c])&]
-[s3; Sets the rectangle border color [%-*@3 c].&]
+[s3; Устанавливаетthe rectangle border color [%-*@3 c].&]
 [s1; &]
 [s6;%- &]
 [s5;:StaticRectangle`:`:SetBackground`(Color`):%- [_^StaticRectangle^ StaticRectangle][@(0.0.255) `&
 ]_[* SetBackground]([_^Color^ Color]_[*@3 c])&]
-[s3; Sets the rectangle background color [%-*@3 c].&]
+[s3; Устанавливаетthe rectangle background color [%-*@3 c].&]
 [s1; &]
 [s6;%- &]
 [s5;:StaticRectangle`:`:IsSquare`(bool`):%- [_^StaticRectangle^ StaticRectangle][@(0.0.255) `&

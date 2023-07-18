@@ -5,7 +5,8 @@ noblitz;
 acceptflags
 	USEMALLOC;
 
-uses(WIN32 | NOSO) plugin\z;
+uses
+	plugin/z;
 
 library(LINUX !ANDROID) "pthread dl rt";
 

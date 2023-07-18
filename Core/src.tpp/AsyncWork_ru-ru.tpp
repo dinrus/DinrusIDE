@@ -28,7 +28,7 @@ topic "AsyncWork и Async";
 plate]_<_[@(0.0.255) class]_[*@4 Function], [@(0.0.255) class...]_[*@4 Args]>&]
 [s5;:Upp`:`:AsyncWork`:`:Do`(Upp`:`:Function`&`&`,Args`&`&`.`.`.args`): [@(0.0.255) voi
 d]_[* Do]([*@4 Function][@(0.0.255) `&`&]_[*@3 f], [*@4 Args][@(0.0.255) `&`&...]_args)&]
-[s2;%RU-RU Пранирует работу [%-*@3 f] с параметрами 
+[s2;%RU-RU Планирует работу [%-*@3 f] с параметрами 
 args на асинхронное выполнение в (по 
 возможности) другом потоке.&]
 [s3;%RU-RU &]
@@ -39,12 +39,12 @@ args на асинхронное выполнение в (по
 [s4; &]
 [s5;:Upp`:`:AsyncWork`:`:IsCanceled`(`): [@(0.0.255) static] [@(0.0.255) bool]_[* IsCancele
 d]()&]
-[s2;%RU-RU Возвращает true [*/ в этой рабочей 
+[s2;%RU-RU Возвращает  true [*/ в этой рабочей 
 процедуре], если master AsyncWork был отменён.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:AsyncWork`:`:IsFinished`(`): [@(0.0.255) bool]_[* IsFinished]()&]
-[s2;%RU-RU Возвращает true, если работа завершена.&]
+[s2;%RU-RU Возвращает  true, если работа завершена.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:AsyncWork`:`:Get`(`): [*@4 Ret]_[* Get]()&]
@@ -73,7 +73,7 @@ d]()&]
 [s3; &]
 [s5;:Upp`:`:Async`(Upp`:`:Function`&`&`,Args`&`&`.`.`.args`): [@(0.0.255) auto]_[* Async](
 [_^Upp`:`:Function^ Function][@(0.0.255) `&`&]_[*@3 f], Args[@(0.0.255) `&`&...]_args)&]
-[s2;%RU-RU Возвращает AsyncWork для данной работы 
+[s2;%RU-RU Возвращает  AsyncWork для данной работы 
 [%-*@3 f] с аргументами [%- args].&]
 [s3;%RU-RU &]
 [s0;@(0.0.255)3 ]]

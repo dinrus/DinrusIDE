@@ -26,18 +26,18 @@ column in .sch definition is used.&]
 [s3;%% &]
 [s4; &]
 [s5;:GetSchTables`(`): [_^Vector^ Vector]<[_^String^ String]>_[* GetSchTables]()&]
-[s2;%% Returns a list of all tables defined by .sch schema files.&]
+[s2;%% Возвращает a list of all tables defined by .sch schema files.&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:GetSchAll`(`): [_^Upp`:`:ArrayMap^ ArrayMap]<_[_^Upp`:`:String^ String], 
 [_^Upp`:`:Array^ Array]<[_^Upp`:`:SchColumnInfo^ SchColumnInfo]>_>_[* GetSchAll]()&]
-[s2;%% Returns the information of all .sch defined tables. Table 
+[s2;%% Возвращает the information of all .sch defined tables. Table 
 names are map keys. SchColumnInfo contains name of column, the 
 table it REFERENCES (if any) and the name of foreign key.&]
 [s3; &]
 [s4; &]
 [s5;:GetSchColumns`(const String`&`): [_^Vector^ Vector]<[_^String^ String]>_[* GetSchColum
 ns]([@(0.0.255) const]_[_^String^ String][@(0.0.255) `&]_[*@3 table])&]
-[s2;%% Returns all columns for [%-*@3 table] defined by .sch schema 
+[s2;%% Возвращает all columns for [%-*@3 table] defined by .sch schema 
 files.&]
 [s0;%% ]]

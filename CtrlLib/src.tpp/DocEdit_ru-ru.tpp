@@ -61,7 +61,7 @@ ool]_[*@3 b]_`=_[@(0.0.255) true])&]
 [s4;%- &]
 [s5;:DocEdit`:`:IsAutoHideSb`(`)const:%- [@(0.0.255) bool]_[* IsAutoHideSb]()_[@(0.0.255) c
 onst]&]
-[s2; Возвращает true, если AutoHideSb активен.&]
+[s2; Возвращает  true, если AutoHideSb активен.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:DocEdit`:`:UpDownLeave`(bool`):%- [_^DocEdit^ DocEdit][@(0.0.255) `&]_[* UpDownLeave](
@@ -102,12 +102,12 @@ ool]_[*@3 b]_`=_[@(0.0.255) true])&]
 [s3;%- &]
 [s4;%- &]
 [s5;:DocEdit`:`:IsEofLine`(`)const:%- [@(0.0.255) bool]_[* IsEofLine]()_[@(0.0.255) const]&]
-[s2; Возвращает true, если EofLine активен.&]
+[s2; Возвращает  true, если EofLine активен.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:DocEdit`:`:GetEditPos`(`)const:%- [_^Upp`:`:TextCtrl`:`:EditPos^ EditPos]_[* G
 etEditPos]()_[@(0.0.255) const]&]
-[s2; Возвращает позицию редактирования 
+[s2; Возвращает  позицию редактирования 
 в тексте, для восстановления позднее. 
 Позиция редактирования сочетает 
 позиции курсора и полосы прокрутки.&]

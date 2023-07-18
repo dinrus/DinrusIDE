@@ -38,12 +38,12 @@ Draw`::SetStdFont.]
 [ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Членов]]}}&]
 [s3; &]
 [s5;:Font`:`:GetFaceCount`(`): [@(0.0.255) static] [@(0.0.255) int]_[* GetFaceCount]()&]
-[s2;%% Returns the number of face`-names available.&]
+[s2;%% Возвращает the number of face`-names available.&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:GetFaceName`(int`): [@(0.0.255) static] [_^String^ String]_[* GetFaceName]([@(0.0.255) i
 nt]_[@3 index])&]
-[s2;%% Returns the name of face [%-*@3 index].&]
+[s2;%% Возвращает the name of face [%-*@3 index].&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:FindFaceNameIndex`(const String`&`): [@(0.0.255) static] 
@@ -54,7 +54,7 @@ nt]_[@3 index])&]
 [s4; &]
 [s5;:Font`:`:GetFaceInfo`(int`): [@(0.0.255) static] [_^dword^ dword]_[* GetFaceInfo]([@(0.0.255) i
 nt]_[@3 index])&]
-[s2;%% Returns the information about face [%-*@3 index] as combination 
+[s2;%% Возвращает the information about face [%-*@3 index] as combination 
 of binary flags:&]
 [ {{2587:7413<256;^ [s0; [* Font`::FIXEDPITCH]]
 ::= [s0;%% Font`-face is monospaced.]
@@ -68,7 +68,7 @@ fonts).]}}&]
 [s4; &]
 [s5;:Font`:`:SetDefaultFont`(Font`): [@(0.0.255) static] [@(0.0.255) void]_[* SetDefaultFon
 t]([_^Font^ Font]_[*@3 font])&]
-[s2;%% Sets the standard font, unless SetStdFont was used. This variant 
+[s2;%% Устанавливаетthe standard font, unless SetStdFont was used. This variant 
 is used by Chameleon skin to set font matching platform setting, 
 while SetStdFont can be used by client code to override this 
 setting (and thus has higher priority).&]
@@ -76,17 +76,17 @@ setting (and thus has higher priority).&]
 [s4; &]
 [s5;:Font`:`:SetStdFont`(Font`): [@(0.0.255) static] [@(0.0.255) void]_[* SetStdFont]([_^Font^ F
 ont]_[@3 font])&]
-[s2;%% Sets the standard font. U`+`+ sets the standard font to match 
+[s2;%% Устанавливаетthe standard font. U`+`+ sets the standard font to match 
 host platform standard. This method can be used to change this 
 default setting.&]
 [s3;%% &]
 [s4; &]
 [s5;:Font`:`:GetStdFont`(`): [@(0.0.255) static] [_^Font^ Font]_[* GetStdFont]()&]
-[s2;%% Returns the standard font.&]
+[s2;%% Возвращает the standard font.&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:GetStdFontSize`(`): [@(0.0.255) static] [_^Size^ Size]_[* GetStdFontSize]()&]
-[s2;%% Returns metrics of standard font `- height and average width 
+[s2;%% Возвращает metrics of standard font `- height and average width 
 of glyphs.&]
 [s3; &]
 [s4; &]
@@ -95,7 +95,7 @@ of glyphs.&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:GetHeight`(`)const: [@(0.0.255) int]_[* GetHeight]()_[@(0.0.255) const]&]
-[s2;%% Returns the requested height of font.&]
+[s2;%% Возвращает the requested height of font.&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:GetWidth`(`)const: [@(0.0.255) int]_[* GetWidth]()_[@(0.0.255) const]&]
@@ -104,7 +104,7 @@ of glyphs.&]
 [s4; &]
 [s5;:Font`:`:GetFaceName`(`)const: [_^String^ String]_[* GetFaceName]()[@(64) _][@(0.0.255) c
 onst]&]
-[s2;%% Returns the face`-name text for current instance.&]
+[s2;%% Возвращает the face`-name text for current instance.&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:GetFaceNameStd`(`)const: [_^String^ String]_[* GetFaceNameStd]()_[@(0.0.255) c
@@ -120,7 +120,7 @@ st]&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:AsInt64`(`)const: [_^int64^ int64]_[* AsInt64]()[@(64) _][@(0.0.255) const]&]
-[s2;%% Returns 64`-bit number representing the font. All font attributes 
+[s2;%% Возвращает 64`-bit number representing the font. All font attributes 
 are expressed as bitfields of this number.&]
 [s3; &]
 [s4; &]
@@ -133,15 +133,15 @@ normally returns), it is replaced with standard font height.&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:Face`(int`): [_^Font^ Font][@(0.0.255) `&]_[* Face]([@(0.0.255) int]_[@3 n])&]
-[s2;%% Sets the face index.&]
+[s2;%% Устанавливаетthe face index.&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:Height`(int`): [_^Font^ Font][@(0.0.255) `&]_[* Height]([@(0.0.255) int]_[@3 n])&]
-[s2;%% Sets the font height (in pixels/dots).&]
+[s2;%% Устанавливаетthe font height (in pixels/dots).&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:Width`(int`): [_^Font^ Font][@(0.0.255) `&]_[* Width]([@(0.0.255) int]_[@3 n])&]
-[s2;%% Sets the font width. Use 0 for default width (in pixels/dots).&]
+[s2;%% Устанавливаетthe font width. Use 0 for default width (in pixels/dots).&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:Bold`(`): [_^Font^ Font][@(0.0.255) `&]_[* Bold]()&]
@@ -159,7 +159,7 @@ normally returns), it is replaced with standard font height.&]
 [s5;:Font`:`:NoStrikeout`(`): [_^Font^ Font][@(0.0.255) `&]_[* NoStrikeout]()&]
 [s5;:Font`:`:Strikeout`(bool`): [_^Font^ Font][@(0.0.255) `&]_[* Strikeout]([@(0.0.255) bool]_
 [@3 b])&]
-[s2; Sets or unsets bold/italic/undeline/strikeout modes.&]
+[s2; Устанавливаетor unsets bold/italic/undeline/strikeout modes.&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:NonAntiAliased`(`): [_^Font^ Font][@(0.0.255) `&]_[* NonAntiAliased]()&]
@@ -185,20 +185,20 @@ onst]&]
 [s4; &]
 [s5;:Font`:`:FaceName`(const String`&`): [_^Font^ Font][@(0.0.255) `&]_[* FaceName]([@(0.0.255) c
 onst]_[_^String^ String][@(0.0.255) `&]_[@3 name])&]
-[s2;%% Sets the face to [%-*@3 name]. If name is not valid face`-name, 
+[s2;%% Устанавливаетthe face to [%-*@3 name]. If name is not valid face`-name, 
 Font is set to Null. Method is able to recognize generic names 
 `"serif`", `"sansserif`", `"monospace`" and `"STDFONT`".&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:operator`(`)`(`)const: [_^Font^ Font][@(64) _][@(0.0.255) operator]()()[@(64) _][@(0.0.255) c
 onst]&]
-[s2;%% Returns a copy of Font. Useful to simplify notation when altering 
+[s2;%% Возвращает a copy of Font. Useful to simplify notation when altering 
 existing Font values.&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:operator`(`)`(int`)const: [_^Font^ Font][@(64) _][@(0.0.255) operator]()([@(0.0.255) i
 nt]_[@3 n])_[@(0.0.255) const]&]
-[s2;%% Returns a copy of Font, with height changed to [%-*@3 n].&]
+[s2;%% Возвращает a copy of Font, with height changed to [%-*@3 n].&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:Serialize`(Stream`&`): [@(0.0.255) void]_[* Serialize]([_^Stream^ Stream][@(0.0.255) `&
@@ -226,7 +226,7 @@ ont]_[@3 f])_[@(0.0.255) const]&]
 [s4; &]
 [s5;:Font`:`:GetHashValue`(`)const: [_^dword^ dword]_[* GetHashValue]()[@(64) _][@(0.0.255) c
 onst]&]
-[s2;%% Returns the font hash value.&]
+[s2;%% Возвращает the font hash value.&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:IsNullInstance`(`)const: [@(0.0.255) bool]_[* IsNullInstance]()_[@(0.0.255) co
@@ -236,15 +236,15 @@ template).&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:SetNull`(`): [@(0.0.255) void]_[* SetNull]()&]
-[s2;%% Sets the Font to Null.&]
+[s2;%% Устанавливаетthe Font to Null.&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:GetAscent`(`)const: [@(0.0.255) int]_[* GetAscent]()_[@(0.0.255) const]&]
-[s2;%% Returns the character cell extend above the baseline.&]
+[s2;%% Возвращает the character cell extend above the baseline.&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:GetDescent`(`)const: [@(0.0.255) int]_[* GetDescent]()_[@(0.0.255) const]&]
-[s2;%% Returns the character cell extend below the baseline.&]
+[s2;%% Возвращает the character cell extend below the baseline.&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:GetCy`(`)const: [@(0.0.255) int]_[* GetCy]()_[@(0.0.255) const]&]
@@ -252,38 +252,38 @@ template).&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:GetExternal`(`)const: [@(0.0.255) int]_[* GetExternal]()_[@(0.0.255) const]&]
-[s2;%% Returns the additional space that font description recommends 
+[s2;%% Возвращает the additional space that font description recommends 
 to insert between two lines of text. Rarely used.&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:GetInternal`(`)const: [@(0.0.255) int]_[* GetInternal]()_[@(0.0.255) const]&]
-[s2;%% Returns the mostly free space inside GetAscent value. Rarely 
+[s2;%% Возвращает the mostly free space inside GetAscent value. Rarely 
 used.&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:GetHeight`(`)const: [@(0.0.255) int]_[* GetHeight]()_[@(0.0.255) const]&]
-[s2;%% Returns GetAscent() `+ GetDescent() `- the height of the line 
+[s2;%% Возвращает GetAscent() `+ GetDescent() `- the height of the line 
 of text.&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:GetLineHeight`(`)const: [@(0.0.255) int]_[* GetLineHeight]()_[@(0.0.255) const
 ]&]
-[s2;%% Returns suggested total line height.&]
+[s2;%% Возвращает suggested total line height.&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:GetOverhang`(`)const: [@(0.0.255) int]_[* GetOverhang]()_[@(0.0.255) const]&]
-[s2;%% Returns overhang of font.&]
+[s2;%% Возвращает overhang of font.&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:GetAveWidth`(`)const: [@(0.0.255) int]_[* GetAveWidth]()_[@(0.0.255) const]&]
-[s2;%% Returns the average width of character. Depends on information 
+[s2;%% Возвращает the average width of character. Depends on information 
 from the font provider, which is not always reliable `- it is 
 better the obtain the spacing info from the width of individual 
 glyphs.&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:GetMaxWidth`(`)const: [@(0.0.255) int]_[* GetMaxWidth]()_[@(0.0.255) const]&]
-[s2;%% Returns the maximal width of character. Depends on information 
+[s2;%% Возвращает the maximal width of character. Depends on information 
 from the font provider, which is not always reliable `- it is 
 better the obtain the spacing info from the width of individual 
 glyphs.&]
@@ -291,7 +291,7 @@ glyphs.&]
 [s4; &]
 [s5;:Upp`:`:Font`:`:GetMonoWidth`(`)const: [@(0.0.255) int]_[* GetMonoWidth]()_[@(0.0.255) c
 onst]&]
-[s2;%% Returns supposed width of character cell if the font is (or 
+[s2;%% Возвращает supposed width of character cell if the font is (or 
 is considered) monospace. This is the method used in LineEdit 
 to determine cell width. Currently, max(GetWidth(`'M`'), GetWidth(`'W`')) 
 value is used as GetAveWidth and GetMaxWidth using the information 
@@ -300,34 +300,34 @@ from the font metadata is unreliable.&]
 [s4; &]
 [s5;:Font`:`:IsNormal`(int`)const: [@(0.0.255) bool]_[* IsNormal]([@(0.0.255) int]_[@3 ch])_[@(0.0.255) c
 onst]&]
-[s2;%% Возвращает true, если [%-*@3 ch] exists as regular glyph in the font.&]
+[s2;%% Возвращает  true, если [%-*@3 ch] exists as regular glyph in the font.&]
 [s3;%% &]
 [s4; &]
 [s5;:Font`:`:IsComposed`(int`)const: [@(0.0.255) bool]_[* IsComposed]([@(0.0.255) int]_[@3 ch
 ])_[@(0.0.255) const]&]
-[s2;%% Возвращает true, если [%-*@3 ch].is to be rendered as composition 
+[s2;%% Возвращает  true, если [%-*@3 ch].is to be rendered as composition 
 of 2 other glyphs (ASCII letter and diacritical mark).&]
 [s3;%% &]
 [s4; &]
 [s5;:Font`:`:IsReplaced`(int`)const: [@(0.0.255) bool]_[* IsReplaced]([@(0.0.255) int]_[@3 ch
 ])_[@(0.0.255) const]&]
-[s2;%% Returns true [%-*@3 ch] is to be rendered using character from 
+[s2;%% Возвращает true [%-*@3 ch] is to be rendered using character from 
 some other font.&]
 [s3;%% &]
 [s4; &]
 [s5;:Font`:`:IsMissing`(int`)const: [@(0.0.255) bool]_[* IsMissing]([@(0.0.255) int]_[@3 ch])
 _[@(0.0.255) const]&]
-[s2;%% Возвращает true, если [%-*@3 ch] cannot be rendered.&]
+[s2;%% Возвращает  true, если [%-*@3 ch] cannot be rendered.&]
 [s3;%% &]
 [s4; &]
 [s5;:Font`:`:HasChar`(int`)const: [@(0.0.255) int]_HasChar([@(0.0.255) int]_[@3 ch])_[@(0.0.255) c
 onst]&]
-[s2;%% Возвращает true, если [%-*@3 ch] can be rendered (in any way).&]
+[s2;%% Возвращает  true, если [%-*@3 ch] can be rendered (in any way).&]
 [s3;%% &]
 [s4; &]
 [s5;:Font`:`:GetWidth`(int`)const: [@(0.0.255) int]_[* GetWidth]([@(0.0.255) int]_[@3 c])_[@(0.0.255) c
 onst]&]
-[s2;%% Returns the total advance with of character [%-*@3 c] (encoded 
+[s2;%% Возвращает the total advance with of character [%-*@3 c] (encoded 
 in unicode).&]
 [s3; &]
 [s4; &]
@@ -366,32 +366,32 @@ there is a space inside the cell not used for glyph.&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:IsSpecial`(`)const: [@(0.0.255) bool]_[* IsSpecial]()_[@(0.0.255) const]&]
-[s2;%% Возвращает true, если font does not use unicode placement of glyphs, 
+[s2;%% Возвращает  true, если font does not use unicode placement of glyphs, 
 for example some symbol fonts have this issue.&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:IsTrueType`(`)const: [@(0.0.255) bool]_[* IsTrueType]()_[@(0.0.255) const]&]
-[s2;%% Возвращает true, если font is TrueType font. (Note that PdfDraw 
+[s2;%% Возвращает  true, если font is TrueType font. (Note that PdfDraw 
 and Linux printing are only able to handle TrueType fonts).&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:GetPath`(`)const: [_^String^ String]_[* GetPath]()[@(64) _][@(0.0.255) const]&]
-[s2;%% [/ POSIX specific:] Returns the path of font file.&]
+[s2;%% [/ POSIX specific:] Возвращает the path of font file.&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:GetTextFlags`(`)const: [_^String^ String]_[* GetTextFlags]()_[@(0.0.255) const
 ]&]
-[s2;%% Returns font flags (like Bold) in verbose string form (e.g. 
+[s2;%% Возвращает font flags (like Bold) in verbose string form (e.g. 
 `"bold underline`").&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:ParseTextFlags`(const char`*`): [@(0.0.255) void]_[* ParseTextFlags]([@(0.0.255) c
 onst]_[@(0.0.255) char]_`*[*@3 s])&]
-[s2;%% Sets font flags based on text in format created by GetTextFlags.&]
+[s2;%% Устанавливаетfont flags based on text in format created by GetTextFlags.&]
 [s3;%% &]
 [s4; &]
 [s5;:Font`:`:GetData`(`)const: [_^String^ String]_[* GetData]()_[@(0.0.255) const]&]
-[s2;%% Returns the raw content of font file.&]
+[s2;%% Возвращает the raw content of font file.&]
 [s3; &]
 [s3; &]
 [s4; &]
@@ -399,7 +399,7 @@ onst]_[@(0.0.255) char]_`*[*@3 s])&]
 etData]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 table]_`=_NULL, 
 [@(0.0.255) int]_[*@3 offset]_`=_`-[@3 1], [@(0.0.255) int]_[*@3 size]_`=_`-[@3 1])_[@(0.0.255) c
 onst]&]
-[s2;%% Returns the raw content of font file. [%-*@3 table] [%-*@3 offset] 
+[s2;%% Возвращает the raw content of font file. [%-*@3 table] [%-*@3 offset] 
 [%-*@3 size] can specify which part of TTF or OTF font data to 
 retrieve.&]
 [s0;%% &]
@@ -424,7 +424,7 @@ ht])&]
 [s4; &]
 [s5;:Font`:`:Font`(const Nuller`&`): [* Font]([@(0.0.255) const]_[_^Nuller^ Nuller][@(0.0.255) `&
 ])&]
-[s2;%% Sets the font Null.&]
+[s2;%% Устанавливаетthe font Null.&]
 [s3; &]
 [s4; &]
 [s5;:Font`:`:operator Value`(`)const: [* operator_Value]()[@(64) _][@(0.0.255) const]&]

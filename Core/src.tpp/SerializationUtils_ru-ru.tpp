@@ -36,7 +36,7 @@ tream][@(0.0.255) `&]_[*@3 s], [@(0.0.255) int`&]_[*@3 i1], [@(0.0.255) int`&]_[
 ]_[* Pack16]([_^Stream^ Stream][@(0.0.255) `&]_[*@3 s], [@(0.0.255) int`&]_[*@3 i1], 
 [@(0.0.255) int`&]_[*@3 i2], [@(0.0.255) int`&]_[*@3 i3], [@(0.0.255) int`&]_[*@3 i4], 
 [@(0.0.255) int`&]_[*@3 i5])&]
-[s2; Calls Pack16 for each of individual 32`-bit integer parameters.&]
+[s2; Вызывает Pack16 for each of individual 32`-bit integer parameters.&]
 [s3; &]
 [s4;%- &]
 [s5;:Load`(Callback1`<Stream`&`>`,Stream`&`):%- [@(0.0.255) bool]_[* Load]([_^Callback1^ Ca
@@ -86,7 +86,7 @@ tore] data are saved to the file.&]
 [s5;:Load`(T`&`,Stream`&`):%- [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 T][@(0.0.255) >]_
 [@(0.0.255) bool]_[* Load]([*@4 T][@(0.0.255) `&]_[*@3 x], [_^Stream^ Stream][@(0.0.255) `&]_[*@3 s
 ])&]
-[s2; Calls [^topic`:`/`/Core`/src`/SerializationUtils`$en`-us`#`:`:Load`(Callback1`<Stream`&`>`,Stream`&`)^ L
+[s2; Вызывает [^topic`:`/`/Core`/src`/SerializationUtils`$en`-us`#`:`:Load`(Callback1`<Stream`&`>`,Stream`&`)^ L
 oad] with callback(`&[@3 x], `&T`::Serialize) as serialization callback. 
 In other words, [@3 x] is restored using its Serialize method.&]
 [s7; [*C@4 T]-|Type of object to restore.&]
@@ -98,7 +98,7 @@ In other words, [@3 x] is restored using its Serialize method.&]
 [s5;:Store`(T`&`,Stream`&`):%- [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 T][@(0.0.255) >
 ]_[@(0.0.255) bool]_[* Store]([*@4 T][@(0.0.255) `&]_[*@3 x], [_^Stream^ Stream][@(0.0.255) `&]_
 [*@3 s])&]
-[s2; Calls [^topic`:`/`/Core`/src`/SerializationUtils`$en`-us`#`:`:Store`(T`&`,Stream`&`)^ S
+[s2; Вызывает [^topic`:`/`/Core`/src`/SerializationUtils`$en`-us`#`:`:Store`(T`&`,Stream`&`)^ S
 tore] with callback(`&[@3 x], `&T`::Serialize) as serialization 
 callback. In other words, [@3 x] is stored using its Serialize 
 method.&]
@@ -111,7 +111,7 @@ method.&]
 [s5;:LoadFromFile`(T`&`,const char`*`):%- [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 T][@(0.0.255) >
 ]_[@(0.0.255) bool]_[* LoadFromFile]([*@4 T][@(0.0.255) `&]_[*@3 x], [@(0.0.255) const]_[@(0.0.255) c
 har]_`*[*@3 name]_`=_NULL)&]
-[s2; Calls [^topic`:`/`/Core`/src`/SerializationUtils`$en`-us`#`:`:LoadFromFile`(Callback1`<Stream`&`>`,const char`*`)^ L
+[s2; Вызывает [^topic`:`/`/Core`/src`/SerializationUtils`$en`-us`#`:`:LoadFromFile`(Callback1`<Stream`&`>`,const char`*`)^ L
 oadFromFile] with callback(`&[@3 x], `&T`::Serialize) as serialization 
 callback. In other words, [@3 x] is restored from the file using 
 its Serialize method.&]
@@ -124,7 +124,7 @@ its Serialize method.&]
 [s5;:StoreToFile`(T`&`,const char`*`):%- [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 T][@(0.0.255) >
 ]_[@(0.0.255) bool]_[* StoreToFile]([*@4 T][@(0.0.255) `&]_[*@3 x], [@(0.0.255) const]_[@(0.0.255) c
 har]_`*[*@3 name]_`=_NULL)&]
-[s2; Calls [^topic`:`/`/Core`/src`/SerializationUtils`$en`-us`#`:`:StoreToFile`(Callback1`<Stream`&`>`,const char`*`)^ S
+[s2; Вызывает [^topic`:`/`/Core`/src`/SerializationUtils`$en`-us`#`:`:StoreToFile`(Callback1`<Stream`&`>`,const char`*`)^ S
 toreToFile] with callback(`&[@3 x], `&T`::Serialize) as serialization 
 callback. In other words, [@3 x] is stored to the file using its 
 Serialize method.&]

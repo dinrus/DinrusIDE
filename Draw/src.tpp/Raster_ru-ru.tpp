@@ -46,7 +46,7 @@ exists.&]
 [s3; &]
 [s5;:Raster`:`:Line`:`:GetRGBA`(`)const: [@(0.0.255) const]_[_^RGBA^ RGBA]_`*[* GetRGBA]()_
 [@(0.0.255) const]&]
-[s2;%% Returns a pointer to array with scanline pixels. Conversion 
+[s2;%% Возвращает a pointer to array with scanline pixels. Conversion 
 of Raster format to RGBA buffer is lazy, does not happen before 
 this function is called for the first time. Also, if Raster format 
 is RGBA, no conversion is performed and pointer to raw data is 
@@ -55,17 +55,17 @@ returned.&]
 [s4; &]
 [s5;:Raster`:`:Line`:`:GetRawData`(`)const: [@(0.0.255) const]_[_^byte^ byte]_`*[* GetRawDa
 ta]()_[@(0.0.255) const]&]
-[s2;%% Returns the scanline in Raster format.&]
+[s2;%% Возвращает the scanline in Raster format.&]
 [s3; &]
 [s4; &]
 [s5;:Raster`:`:Line`:`:operator const RGBA`*`(`)const: [@(0.0.255) operator]_[@(0.0.255) c
 onst]_[_^RGBA^ RGBA]_`*()_[@(0.0.255) const]&]
 [s5;:Raster`:`:Line`:`:operator`~`(`)const: [@(0.0.255) const]_[_^RGBA^ RGBA]_`*[* operator
 `~]()_[@(0.0.255) const]&]
-[s2;%% Returns GetRGBA().&]
+[s2;%% Возвращает GetRGBA().&]
 [s3; &]
 [s0; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Raster`::Line Constructor detail]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Raster`::Line Конструктор  detail]]}}&]
 [s3; &]
 [s5;:Raster`:`:Line`:`:Line`(const RGBA`*`,bool`): [* Line]([@(0.0.255) const]_[_^RGBA^ RGB
 A]_`*[*@3 data], [@(0.0.255) bool]_[*@3 free])&]
@@ -141,12 +141,12 @@ digital camera).&]
 [s5;:Raster`:`:SeekPage`(int`): [@(0.0.255) virtual] [@(0.0.255) void]_[* SeekPage]([@(0.0.255) i
 nt]_[*@3 page])&]
 [s2;%% Provides Raster with ability to handle sources that contain 
-more than single image (e.g. animated GIFs). Sets Raster to image 
+more than single image (e.g. animated GIFs). УстанавливаетRaster to image 
 no [%-*@3 page], first image is 0. Default implementation is empty.&]
 [s3; &]
 [s4;%% &]
 [s5;:Raster`:`:GetPageCount`(`): [@(0.0.255) virtual] [@(0.0.255) int]_[* GetPageCount]()&]
-[s2;%% Returns a number of images in Raster. Default implementation 
+[s2;%% Возвращает a number of images in Raster. Default implementation 
 returns 1.&]
 [s3;%% &]
 [s4;%% &]
@@ -157,11 +157,11 @@ processing. false return value indicates failure.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:Raster`:`:GetSize`(`): [@(0.0.255) virtual] [_^Size^ Size]_[* GetSize]()_`=_[@3 0]&]
-[s2;%% Returns the size of Raster in pixels.&]
+[s2;%% Возвращает the size of Raster in pixels.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:Raster`:`:GetInfo`(`): [@(0.0.255) virtual] [_^Raster`:`:Info^ Info]_[* GetInfo]()&]
-[s2;%% Returns the information about Raster.&]
+[s2;%% Возвращает the information about Raster.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:Raster`:`:GetLine`(int`): [@(0.0.255) virtual] [_^Raster`:`:Line^ Line]_[* GetLine]([@(0.0.255) i
@@ -178,18 +178,18 @@ For example, it can signal that .png file is corrupt.&]
 [s4;%% &]
 [s5;:Raster`:`:GetPaletteCount`(`): [@(0.0.255) virtual] [@(0.0.255) int]_[* GetPaletteCoun
 t]()&]
-[s2;%% Returns the size of palette for raster. If there is no palette, 
+[s2;%% Возвращает the size of palette for raster. If there is no palette, 
 returns 0.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:Raster`:`:GetPalette`(`): [@(0.0.255) virtual] [@(0.0.255) const]_[_^RGBA^ RGBA]_`*[* Ge
 tPalette]()&]
-[s2;%% Returns current palette, NULL if there is no palette.&]
+[s2;%% Возвращает current palette, NULL if there is no palette.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:Raster`:`:GetFormat`(`): [@(0.0.255) virtual] [@(0.0.255) const]_[_^RasterFormat^ Rast
 erFormat]_`*[* GetFormat]()&]
-[s2;%% Returns the format of Raster, can return NULL if format is 
+[s2;%% Возвращает the format of Raster, can return NULL if format is 
 RGBA.&]
 [s3;%% &]
 [s4;%% &]

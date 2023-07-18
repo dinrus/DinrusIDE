@@ -27,39 +27,39 @@ optional deep copy] transfer semantics&]
 [s3; &]
 [s5;:XmlNode`:`:Void`(`): [@(0.0.255) static] [@(0.0.255) const]_[_^XmlNode^ XmlNode][@(0.0.255) `&
 ]_[* Void]()&]
-[s2;%% Returns a constant reference to XmlNode representing `"nothing`". 
+[s2;%% Возвращает a constant reference to XmlNode representing `"nothing`". 
 This reference is used as return value in cases where there are 
 missing requested elements.&]
 [s3; &]
 [s4; &]
 [s5;:XmlNode`:`:IsVoid`(`)const: [@(0.0.255) bool]_[* IsVoid]()_[@(0.0.255) const]&]
-[s2;%% Возвращает true, если XmlNode is Void.&]
+[s2;%% Возвращает  true, если XmlNode is Void.&]
 [s3; &]
 [s4; &]
 [s5;:XmlNode`:`:GetType`(`)const: [@(0.0.255) int]_[* GetType]()_[@(0.0.255) const]&]
-[s2;%% Returns the type of node. Possible types are: XML`_PI, XML`_DECL, 
+[s2;%% Возвращает the type of node. Possible types are: XML`_PI, XML`_DECL, 
 XML`_COMMENT, XML`_DOC, XML`_TEXT, XML`_TAG.&]
 [s3; &]
 [s4; &]
 [s5;:XmlNode`:`:GetText`(`)const: [_^String^ String]_[* GetText]()_[@(0.0.255) const]&]
 [s5;:XmlNode`:`:GetTag`(`)const: [_^String^ String]_[* GetTag]()_[@(0.0.255) const]&]
-[s2;%% Returns the text associated with node. If the node is XML`_TAG, 
+[s2;%% Возвращает the text associated with node. If the node is XML`_TAG, 
 the text is tag`-id. If the node is XML`_TEXT, the text is ... 
 the text. In other cases, like XML`_PI, the text is the copy 
 of element content.&]
 [s3; &]
 [s4; &]
 [s5;:XmlNode`:`:IsTag`(`)const: [@(0.0.255) bool]_[* IsTag]()_[@(0.0.255) const]&]
-[s2;%% Возвращает true, если node is XML`_TAG.&]
+[s2;%% Возвращает  true, если node is XML`_TAG.&]
 [s3; &]
 [s4; &]
 [s5;:XmlNode`:`:IsTag`(const char`*`)const: [@(0.0.255) bool]_[* IsTag]([@(0.0.255) const]_
 [@(0.0.255) char]_`*[*@3 tag])_[@(0.0.255) const]&]
-[s2;%% Возвращает true, если node is XML`_TAG and is equal to [%-*@3 tag].&]
+[s2;%% Возвращает  true, если node is XML`_TAG and is equal to [%-*@3 tag].&]
 [s3;%% &]
 [s4;%% &]
 [s5;:XmlNode`:`:IsText`(`)const: [@(0.0.255) bool]_[* IsText]()_[@(0.0.255) const]&]
-[s2;%% Возвращает true, если node is&]
+[s2;%% Возвращает  true, если node is&]
 [s3;%% &]
 [s4;%% &]
 [s5;:XmlNode`:`:Clear`(`): [@(0.0.255) void]_[* Clear]()&]
@@ -68,27 +68,27 @@ of element content.&]
 [s4;%% &]
 [s5;:XmlNode`:`:CreateTag`(const char`*`): [@(0.0.255) void]_[* CreateTag]([@(0.0.255) cons
 t]_[@(0.0.255) char]_`*[*@3 tag])&]
-[s2;%% Sets this XmlNode to represent XML tag with id [%-*@3 tag].&]
+[s2;%% Устанавливаетthis XmlNode to represent XML tag with id [%-*@3 tag].&]
 [s3;%% &]
 [s4;%% &]
 [s5;:XmlNode`:`:CreateText`(const String`&`): [@(0.0.255) void]_[* CreateText]([@(0.0.255) c
 onst]_[_^String^ String][@(0.0.255) `&]_[*@3 txt])&]
-[s2;%% Sets this XmlNode to represent text with content [%-*@3 txt].&]
+[s2;%% Устанавливаетthis XmlNode to represent text with content [%-*@3 txt].&]
 [s3;%% &]
 [s4;%% &]
 [s5;:XmlNode`:`:CreatePI`(const String`&`): [@(0.0.255) void]_[* CreatePI]([@(0.0.255) cons
 t]_[_^String^ String][@(0.0.255) `&]_[*@3 pi])&]
-[s2;%% Sets this XmlNode to represent processing info [%-*@3 pi].&]
+[s2;%% Устанавливаетthis XmlNode to represent processing info [%-*@3 pi].&]
 [s3;%% &]
 [s4;%% &]
 [s5;:XmlNode`:`:CreateDecl`(const String`&`): [@(0.0.255) void]_[* CreateDecl]([@(0.0.255) c
 onst]_[_^String^ String][@(0.0.255) `&]_[*@3 decl])&]
-[s2;%% Sets this XmlNode to represent XML declaration [%-*@3 decl].&]
+[s2;%% Устанавливаетthis XmlNode to represent XML declaration [%-*@3 decl].&]
 [s3;%% &]
 [s4;%% &]
 [s5;:XmlNode`:`:CreateComment`(const String`&`): [@(0.0.255) void]_[* CreateComment]([@(0.0.255) c
 onst]_[_^String^ String][@(0.0.255) `&]_[*@3 comment])&]
-[s2;%% Sets this XmlNode to represent XML [%-*@3 comment].&]
+[s2;%% Устанавливаетthis XmlNode to represent XML [%-*@3 comment].&]
 [s3;%% &]
 [s4;%% &]
 [s5;:XmlNode`:`:CreateDocument`(`): [@(0.0.255) void]_[* CreateDocument]()&]
@@ -96,7 +96,7 @@ onst]_[_^String^ String][@(0.0.255) `&]_[*@3 comment])&]
 [s3;%% &]
 [s4;%% &]
 [s5;:XmlNode`:`:IsEmpty`(`)const: [@(0.0.255) bool]_[* IsEmpty]()_[@(0.0.255) const]&]
-[s2;%% Возвращает true, если this XmlNode represents XML`_DOC and contains 
+[s2;%% Возвращает  true, если this XmlNode represents XML`_DOC and contains 
 no content.&]
 [s3;%% &]
 [s4;%% &]
@@ -105,26 +105,26 @@ no content.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:XmlNode`:`:GetCount`(`)const: [@(0.0.255) int]_[* GetCount]()_[@(0.0.255) const]&]
-[s2;%% Returns a number of contained XmlNode sub`-nodes.&]
+[s2;%% Возвращает a number of contained XmlNode sub`-nodes.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:XmlNode`:`:At`(int`): [_^XmlNode^ XmlNode][@(0.0.255) `&]_[* At]([@(0.0.255) int]_[*@3 i])
 &]
-[s2;%% Returns sub`-node at index [%-*@3 i]. If there is no such node 
+[s2;%% Возвращает sub`-node at index [%-*@3 i]. If there is no such node 
 (number of sub`-nodes is less than i `+ 1), number of nodes is 
 extended to i `+ 1 with empty nodes.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:XmlNode`:`:Node`(int`)const: [@(0.0.255) const]_[_^XmlNode^ XmlNode][@(0.0.255) `&]_[* N
 ode]([@(0.0.255) int]_[*@3 i])_[@(0.0.255) const]&]
-[s2;%% Returns node at index [%-*@3 i]. If there is none, behavior 
+[s2;%% Возвращает node at index [%-*@3 i]. If there is none, behavior 
 is undefined. This function is possibly slightly faster than 
 either At or operator`[`].&]
 [s3;%% &]
 [s4;%% &]
 [s5;:XmlNode`:`:operator`[`]`(int`)const: [@(0.0.255) const]_[_^XmlNode^ XmlNode][@(0.0.255) `&
 ]_[* operator`[`]]([@(0.0.255) int]_[*@3 i])_[@(0.0.255) const]&]
-[s2;%% Returns  [%-*@3 i].&]
+[s2;%% Возвращает  [%-*@3 i].&]
 [s3;%% &]
 [s4;%% &]
 [s5;:XmlNode`:`:operator`[`]`(const char`*`)const: [@(0.0.255) const]_[_^XmlNode^ XmlNode
@@ -164,7 +164,7 @@ to it.&]
 onst]_[@(0.0.255) char]_`*[*@3 tag])&]
 [s5;:XmlNode`:`:operator`(`)`(const char`*`): [_^XmlNode^ XmlNode][@(0.0.255) `&]_[* operat
 or()]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 tag])&]
-[s2;%% Returns a reference to XML`_TAG subnode with id [%-*@3 tag]. 
+[s2;%% Возвращает a reference to XML`_TAG subnode with id [%-*@3 tag]. 
 If no such node exists, adds it.&]
 [s3;%% &]
 [s4;%% &]
@@ -181,47 +181,47 @@ indicies.&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:XmlNode`:`:HasTags`(`)const: [@(0.0.255) bool]_[* HasTags]()_[@(0.0.255) const]&]
-[s2;%% Возвращает true, если the node has subtags.&]
+[s2;%% Возвращает  true, если the node has subtags.&]
 [s3; &]
 [s4;%% &]
 [s5;:XmlNode`:`:GetAttrCount`(`)const: [@(0.0.255) int]_[* GetAttrCount]()_[@(0.0.255) cons
 t]&]
-[s2;%% Returns the number of attributes of current node (it has to 
+[s2;%% Возвращает the number of attributes of current node (it has to 
 be XML`_TAG to have any attributes `- nonzero returned).&]
 [s3;%% &]
 [s4;%% &]
 [s5;:XmlNode`:`:AttrId`(int`)const: [_^String^ String]_[* AttrId]([@(0.0.255) int]_[*@3 i])_[@(0.0.255) c
 onst]&]
-[s2;%% Returns id of attribute [%-*@3 i].&]
+[s2;%% Возвращает id of attribute [%-*@3 i].&]
 [s3;%% &]
 [s4;%% &]
 [s5;:XmlNode`:`:Attr`(int`)const: [_^String^ String]_[* Attr]([@(0.0.255) int]_[*@3 i])_[@(0.0.255) c
 onst]&]
-[s2;%% Returns the value of attribute [%-*@3 i].&]
+[s2;%% Возвращает the value of attribute [%-*@3 i].&]
 [s3;%% &]
 [s4;%% &]
 [s5;:XmlNode`:`:Attr`(const char`*`)const: [_^String^ String]_[* Attr]([@(0.0.255) const]_[@(0.0.255) c
 har]_`*[*@3 id])_[@(0.0.255) const]&]
-[s2;%% Returns the value of attribute [%-*@3 id]. If no such attribute 
+[s2;%% Возвращает the value of attribute [%-*@3 id]. If no such attribute 
 exists, returns empty String.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:XmlNode`:`:SetAttr`(const char`*`,const String`&`): [_^XmlNode^ XmlNode][@(0.0.255) `&
 ]_[* SetAttr]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 id], [@(0.0.255) const]_[_^String^ S
 tring][@(0.0.255) `&]_[*@3 val])&]
-[s2;%% Sets the attribute [%-*@3 id] to have value [%-*@3 val]. Attribute 
+[s2;%% Устанавливаетthe attribute [%-*@3 id] to have value [%-*@3 val]. Attribute 
 does not have exist yet.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:XmlNode`:`:AttrInt`(const char`*`,int`)const: [@(0.0.255) int]_[* AttrInt]([@(0.0.255) c
 onst]_[@(0.0.255) char]_`*[*@3 id], [@(0.0.255) int]_[*@3 def]_`=_Null)_[@(0.0.255) const]&]
-[s2;%% Returns the value of attribute [%-*@3 id] converted to integer. 
+[s2;%% Возвращает the value of attribute [%-*@3 id] converted to integer. 
 If no such attribute exists, returns [%-*@3 def].&]
 [s3;%% &]
 [s4;%% &]
 [s5;:XmlNode`:`:SetAttr`(const char`*`,int`): [_^XmlNode^ XmlNode][@(0.0.255) `&]_[* SetAtt
 r]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 id], [@(0.0.255) int]_[*@3 val])&]
-[s2;%% Sets the attribute [%-*@3 id] to have integer value [%-*@3 val].&]
+[s2;%% Устанавливаетthe attribute [%-*@3 id] to have integer value [%-*@3 val].&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:XmlNode`:`:SetAttrs`(Upp`:`:VectorMap`<Upp`:`:String`,Upp`:`:String`>`&`&`): [@(0.0.255) v
@@ -242,9 +242,9 @@ is destroyed in operation).&]
 [s3; &]
 [s4; &]
 [s5;:XmlNode`:`:IsPicked`(`)const: [@(0.0.255) bool]_[* IsPicked]()_[@(0.0.255) const]&]
-[s2;%% Возвращает true, если picked&]
+[s2;%% Возвращает  true, если picked&]
 [s0; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Constructor detail]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Конструктор  detail]]}}&]
 [s3;%% &]
 [s0; [* XmlNode]()&]
 [s2;%% Construct an empty XmlNode.&]
@@ -288,7 +288,7 @@ XMLFile]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 path], [_^ParseXmlFilter^ P
 lter][@(0.0.255) `&]_[*@3 filter], [_^dword^ dword]_[*@3 style]_`=_XML`_IGNORE`_DECLS[@(0.0.255) `|
 ]XML`_IGNORE`_PIS[@(0.0.255) `|]XML`_IGNORE`_COMMENTS)&]
 [s0; &]
-[s2;%% Creates XmlNode parsing XML document supplied either as XmlParser, 
+[s2;%% Создаёт XmlNode parsing XML document supplied either as XmlParser, 
 string, input stream or file path. [%-*@3 style] can be a combination 
 of&]
 [s2;%% &]
@@ -316,7 +316,7 @@ onst]_[@(0.0.255) char]_`*[*@3 path], [@(0.0.255) const]_[_^XmlNode^ XmlNode][@(
 ]_[*@3 n], [_^dword^ dword]_[*@3 style]_`=_XML`_HEADER[@(0.0.255) `|]XML`_DOCTYPE[@(0.0.255) `|
 ]XML`_PRETTY)&]
 [s0; &]
-[s2;%% Creates a XML document from XmlNode [%-*@3 n]. [%-*@3 style] can 
+[s2;%% Создаёт a XML document from XmlNode [%-*@3 n]. [%-*@3 style] can 
 be a combination of&]
 [s2;%% &]
 [ {{3581:6419<288;^ [s2;l32; XML`_HEADER]

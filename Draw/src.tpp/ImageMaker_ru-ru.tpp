@@ -30,13 +30,13 @@ the source Image and the final size.&]
 [s4; &]
 [s5;:ImageMaker`:`:Key`(`)const: [@(0.0.255) virtual] [_^String^ String]_[* Key]()_[@(0.0.255) c
 onst]_`=_[@3 0]&]
-[s2;%% Returns the key for provided set of parameter. Note that the 
+[s2;%% Возвращает the key for provided set of parameter. Note that the 
 type identification of ImageMaker is automatically added by MakeImage.&]
 [s3; &]
 [s4; &]
 [s5;:ImageMaker`:`:Make`(`)const: [@(0.0.255) virtual] [_^Image^ Image]_[* Make]()_[@(0.0.255) c
 onst]_`=_[@3 0]&]
-[s2;%% Creates Image based on parameters.&]
+[s2;%% Создаёт Image based on parameters.&]
 [s3; &]
 [s4; &]
 [s5;:ImageMaker`:`:`~ImageMaker`(`): [@(0.0.255) `~][* ImageMaker]()&]
@@ -46,7 +46,7 @@ onst]_`=_[@3 0]&]
 [s0; &]
 [s5;:MakeImage`(const ImageMaker`&`): [_^Image^ Image]_[* MakeImage]([@(0.0.255) const]_[_^ImageMaker^ I
 mageMaker][@(0.0.255) `&]_[*@3 m])&]
-[s2;%% Returns the Image based on ImageMaker (either retrieves from 
+[s2;%% Возвращает the Image based on ImageMaker (either retrieves from 
 the cache or creates and stores to cache). Amount of images kept 
 in is controlled by SetImageCacheSize and SetImageCacheMax.&]
 [s3;%% &]
@@ -73,7 +73,7 @@ Null)&]
 [s5;:CachedRescale`(const Image`&`,Size`,int`): [_^Image^ Image]_[* CachedRescale]([@(0.0.255) c
 onst]_[_^Image^ Image][@(0.0.255) `&]_[*@3 m], [_^Size^ Size]_[*@3 sz], 
 [@(0.0.255) int]_[*@3 filter]_`=_Null)&]
-[s2;%% Returns rescaled Image, with results being cached. [%-*@3 filter] 
+[s2;%% Возвращает rescaled Image, with results being cached. [%-*@3 filter] 
 can be one of predefined filters for RescaleFilter function (e.g. 
 FILTER`_BILINEAR), if Null, standard speed optimized custom algorithm 
 is used.&]
@@ -86,7 +86,7 @@ is used.&]
 [s5;:CachedRescalePaintOnly`(const Image`&`,Size`,int`): [_^Image^ Image]_[* CachedRescal
 ePaintOnly]([@(0.0.255) const]_[_^Image^ Image][@(0.0.255) `&]_[*@3 m], 
 [_^Size^ Size]_[*@3 sz], [@(0.0.255) int]_[*@3 filter]_`=_Null)&]
-[s2;%% Returns rescaled Image, with results being cached, that can 
+[s2;%% Возвращает rescaled Image, with results being cached, that can 
 only be used with Draw`::DrawImage(this is optimization hint that 
 can save some memory in certain situations). [%-*@3 filter] can 
 be one of predefined filters for RescaleFilter function (e.g. 

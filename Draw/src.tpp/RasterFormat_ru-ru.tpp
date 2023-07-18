@@ -61,69 +61,69 @@ are in reversed order (in big endian).&]
 [ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:RasterFormat`:`:Set1lf`(`): [@(0.0.255) void]_[* Set1lf]()&]
-[s2; Sets 1 bit per pixel format (RASTER`_1).&]
+[s2; Устанавливает1 bit per pixel format (RASTER`_1).&]
 [s3; &]
 [s4; &]
 [s5;:RasterFormat`:`:Set1mf`(`): [@(0.0.255) void]_[* Set1mf]()&]
-[s2;%% Sets 1 bit per pixel format in reversed MSB mode (RASTER`_1`|RASTER`_MSBFIRST)
+[s2;%% Устанавливает1 bit per pixel format in reversed MSB mode (RASTER`_1`|RASTER`_MSBFIRST)
 .&]
 [s3; &]
 [s4; &]
 [s5;:RasterFormat`:`:Set2lf`(`): [@(0.0.255) void]_[* Set2lf]()&]
-[s2;%% Sets 2 bits per pixel format (RASTER`_2).&]
+[s2;%% Устанавливает2 bits per pixel format (RASTER`_2).&]
 [s3; &]
 [s4; &]
 [s5;:RasterFormat`:`:Set2mf`(`): [@(0.0.255) void]_[* Set2mf]()&]
-[s2;%% Sets 2 bits per pixel format in reversed MSB mode (RASTER`_2`|RASTER`_MSBFIRST
+[s2;%% Устанавливает2 bits per pixel format in reversed MSB mode (RASTER`_2`|RASTER`_MSBFIRST
 ).&]
 [s3; &]
 [s4; &]
 [s5;:RasterFormat`:`:Set4lf`(`): [@(0.0.255) void]_[* Set4lf]()&]
-[s2;%% Sets 4 bits per pixel format (RASTER`_4).&]
+[s2;%% Устанавливает4 bits per pixel format (RASTER`_4).&]
 [s3; &]
 [s4; &]
 [s5;:RasterFormat`:`:Set4mf`(`): [@(0.0.255) void]_[* Set4mf]()&]
-[s2;%% Sets 4 bits per pixel format in reversed MSB mode (RASTER`_4`|RASTER`_MSBFIRST
+[s2;%% Устанавливает4 bits per pixel format in reversed MSB mode (RASTER`_4`|RASTER`_MSBFIRST
 ).&]
 [s3; &]
 [s4; &]
 [s5;:RasterFormat`:`:Set8`(`): [@(0.0.255) void]_[* Set8]()&]
-[s2;%% Sets 8 bits per pixel format (RASTER`_8).&]
+[s2;%% Устанавливает8 bits per pixel format (RASTER`_8).&]
 [s3; &]
 [s4; &]
 [s5;:RasterFormat`:`:Set8A`(`): [@(0.0.255) void]_[* Set8A]()&]
-[s2;%% Sets 8`+8 bits per pixel format, with 8 bits for color with 
+[s2;%% Устанавливает8`+8 bits per pixel format, with 8 bits for color with 
 palette and 8 bits for alpha (RASTER`_8ALPHA).&]
 [s3; &]
 [s4; &]
 [s5;:RasterFormat`:`:Set16le`(dword`,dword`,dword`): [@(0.0.255) void]_[* Set16le]([_^dword^ d
 word]_[*@3 rmask], [_^dword^ dword]_[*@3 gmask], [_^dword^ dword]_[*@3 bmask])&]
-[s2;%% Sets 16 bits per pixel format with channel placement defined 
+[s2;%% Устанавливает16 bits per pixel format with channel placement defined 
 by channel masks in little`-endian mode (RASTER`_16).&]
 [s3;%% &]
 [s4;%% &]
 [s5;:RasterFormat`:`:Set16be`(dword`,dword`,dword`): [@(0.0.255) void]_[* Set16be]([_^dword^ d
 word]_[*@3 rmask], [_^dword^ dword]_[*@3 gmask], [_^dword^ dword]_[*@3 bmask])&]
-[s2;%% Sets 16 bits per pixel format with channel placement defined 
+[s2;%% Устанавливает16 bits per pixel format with channel placement defined 
 by channel masks in big`-endian mode (RASTER`_16`|RASTER`_MSBFIRST).&]
 [s3;%% &]
 [s4;%% &]
 [s5;:RasterFormat`:`:Set24le`(dword`,dword`,dword`): [@(0.0.255) void]_[* Set24le]([_^dword^ d
 word]_[*@3 rmask], [_^dword^ dword]_[*@3 gmask], [_^dword^ dword]_[*@3 bmask])&]
-[s2;%% Sets 24 bits per pixel format with channel placement defined 
+[s2;%% Устанавливает24 bits per pixel format with channel placement defined 
 by channel masks in little`-endian mode (RASTER`_24).&]
 [s3;%% &]
 [s4;%% &]
 [s5;:RasterFormat`:`:Set24be`(dword`,dword`,dword`): [@(0.0.255) void]_[* Set24be]([_^dword^ d
 word]_[*@3 rmask], [_^dword^ dword]_[*@3 gmask], [_^dword^ dword]_[*@3 bmask])&]
-[s2;%% Sets 24 bits per pixel format with channel placement defined 
+[s2;%% Устанавливает24 bits per pixel format with channel placement defined 
 by channel masks in big`-endian mode (RASTER`_24`|RASTER`_MSBFIRST).&]
 [s3;%% &]
 [s4;%% &]
 [s5;:RasterFormat`:`:Set32le`(dword`,dword`,dword`,dword`): [@(0.0.255) void]_[* Set32le](
 [_^dword^ dword]_[*@3 rmask], [_^dword^ dword]_[*@3 gmask], [_^dword^ dword]_[*@3 bmask], 
 [_^dword^ dword]_[*@3 amask]_`=_[@3 0])&]
-[s2;%% Sets 32 bits per pixel format with channel placement defined 
+[s2;%% Устанавливает32 bits per pixel format with channel placement defined 
 by channel masks in little`-endian mode. If [%-*@3 amask ]is not 
 zero, format is with premultiplied alpha (RASTER`_32PREMULTIPLIED), 
 otherwise it is without alpha (RASTER`_32).&]
@@ -132,7 +132,7 @@ otherwise it is without alpha (RASTER`_32).&]
 [s5;:RasterFormat`:`:Set32be`(dword`,dword`,dword`,dword`): [@(0.0.255) void]_[* Set32be](
 [_^dword^ dword]_[*@3 rmask], [_^dword^ dword]_[*@3 gmask], [_^dword^ dword]_[*@3 bmask], 
 [_^dword^ dword]_[*@3 amask]_`=_[@3 0])&]
-[s2;%% Sets 32 bits per pixel format with channel placement defined 
+[s2;%% Устанавливает32 bits per pixel format with channel placement defined 
 by channel masks in big`-endian mode. If [%-*@3 amask ]is not zero, 
 format is with premultiplied alpha (RASTER`_32PREMULTIPLIED`|RASTER`_MSBFIRST), 
 otherwise it is without alpha (RASTER`_32`|RASTER`_MSBFIRST).&]
@@ -141,7 +141,7 @@ otherwise it is without alpha (RASTER`_32`|RASTER`_MSBFIRST).&]
 [s5;:RasterFormat`:`:Set32leStraight`(dword`,dword`,dword`,dword`): [@(0.0.255) void]_[* S
 et32leStraight]([_^dword^ dword]_[*@3 rmask], [_^dword^ dword]_[*@3 gmask], 
 [_^dword^ dword]_[*@3 bmask], [_^dword^ dword]_[*@3 amask])&]
-[s2;%% Sets 32 bits per pixel format with channel placement defined 
+[s2;%% Устанавливает32 bits per pixel format with channel placement defined 
 by channel masks in little`-endian mode with non`-premultiplied 
 alpha (RASTER`_32ALPHA).&]
 [s3;%% &]
@@ -149,13 +149,13 @@ alpha (RASTER`_32ALPHA).&]
 [s5;:RasterFormat`:`:Set32beStraight`(dword`,dword`,dword`,dword`): [@(0.0.255) void]_[* S
 et32beStraight]([_^dword^ dword]_[*@3 rmask], [_^dword^ dword]_[*@3 gmask], 
 [_^dword^ dword]_[*@3 bmask], [_^dword^ dword]_[*@3 amask])&]
-[s2;%% Sets 32 bits per pixel format with channel placement defined 
+[s2;%% Устанавливает32 bits per pixel format with channel placement defined 
 by channel masks in little`-endian mode with non`-premultiplied 
 alpha (RASTER`_32ALPHA`|RASTER`_MSBFIRST).&]
 [s3;%% &]
 [s4;%% &]
 [s5;:RasterFormat`:`:SetRGBA`(`): [@(0.0.255) void]_[* SetRGBA]()&]
-[s2;%% Sets the mode that is bitwise equivalent of standard RGBA 
+[s2;%% Устанавливаетthe mode that is bitwise equivalent of standard RGBA 
 quads used in Image.&]
 [s3;%% &]
 [s4;%% &]
@@ -164,7 +164,7 @@ quads used in Image.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:RasterFormat`:`:GetType`(`)const: [@(0.0.255) int]_[* GetType]()_[@(0.0.255) const]&]
-[s2;%% Returns the current format.&]
+[s2;%% Возвращает the current format.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:RasterFormat`:`:IsRGBA`(`)const: [@(0.0.255) int]_[* IsRGBA]()_[@(0.0.255) const]&]
@@ -174,12 +174,12 @@ used in Image.&]
 [s4;%% &]
 [s5;:RasterFormat`:`:GetByteCount`(int`)const: [@(0.0.255) int]_[* GetByteCount]([@(0.0.255) i
 nt]_[*@3 cx])_[@(0.0.255) const]&]
-[s2;%% Returns a number of bytes required for [%-*@3 cx] pixels in 
+[s2;%% Возвращает a number of bytes required for [%-*@3 cx] pixels in 
 current format.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:RasterFormat`:`:GetBpp`(`)const: [@(0.0.255) int]_[* GetBpp]()_[@(0.0.255) const]&]
-[s2;%% Returns the number of bits per pixel of current format.&]
+[s2;%% Возвращает the number of bits per pixel of current format.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:RasterFormat`:`:HasAlpha`(`)const: [@(0.0.255) bool]_[* HasAlpha]()_[@(0.0.255) const]&]
@@ -188,12 +188,12 @@ current format.&]
 [s4;%% &]
 [s5;:RasterFormat`:`:GetColorCount`(`)const: [@(0.0.255) int]_[* GetColorCount]()_[@(0.0.255) c
 onst]&]
-[s2;%% Returns the number of colors the current format supports.&]
+[s2;%% Возвращает the number of colors the current format supports.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:RasterFormat`:`:GetPaletteCount`(`)const: [@(0.0.255) int]_[* GetPaletteCount]()_[@(0.0.255) c
 onst]&]
-[s2;%% Returns the palette size of current format. If format does 
+[s2;%% Возвращает the palette size of current format. If format does 
 not have palette, 0 is returned.&]
 [s3;%% &]
 [s4;%% &]

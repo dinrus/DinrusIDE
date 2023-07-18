@@ -38,7 +38,7 @@ populate the tree just before it is displayed.&]
 [s4; &]
 [s5;:Upp`:`:DropTree`:`:TreeObject`(`): [_^Upp`:`:PopUpTree^ PopUpTree][@(0.0.255) `&]_[* T
 reeObject]()&]
-[s2;%RU-RU Returns TreeCtrl (PopUpTree is implementation detail class 
+[s2;%RU-RU Возвращает TreeCtrl (PopUpTree is implementation detail class 
 that is publicly derived from TreeCtrl) object so that the tree 
 can be controlled. Another way to access TreeCtrl methods is 
 through operator`->.&]
@@ -53,25 +53,25 @@ eCtrl]_`*[* operator`->]()_[@(0.0.255) const]&]
 [s4; &]
 [s5;:Upp`:`:DropTree`:`:MaxHeight`(int`): [_^Upp`:`:DropTree^ DropTree][@(0.0.255) `&]_[* M
 axHeight]([@(0.0.255) int]_[*@3 maxheight`_])&]
-[s2;%RU-RU Sets the maximum height of TreeCtrl drop`-popup in pixels.&]
+[s2;%RU-RU Устанавливаетthe maximum height of TreeCtrl drop`-popup in pixels.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:DropTree`:`:AutoResize`(bool`): [_^Upp`:`:DropTree^ DropTree][@(0.0.255) `&]_
 [* AutoResize]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) true])&]
-[s2;%RU-RU If active, the size of TreeCtrl popup is changing based 
+[s2;%RU-RU Если активен, the size of TreeCtrl popup is changing based 
 on actual needs (but never exceeds MaxHeight limit).&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:DropTree`:`:ValueDisplay`(const Upp`:`:Display`&`): [_^Upp`:`:DropTree^ Dro
 pTree][@(0.0.255) `&]_[* ValueDisplay]([@(0.0.255) const]_[_^Upp`:`:Display^ Display][@(0.0.255) `&
 ]_[*@3 d])&]
-[s2;%RU-RU Sets distinct display for selected value. Default is to 
+[s2;%RU-RU Устанавливаетdistinct display for selected value. Default is to 
 use TreeCtrl`'s Display.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:DropTree`:`:DropFocus`(bool`): [_^Upp`:`:DropTree^ DropTree][@(0.0.255) `&]_[* D
 ropFocus]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) true])&]
-[s2;%RU-RU If active, pressing drop button sets focus to DropTree 
+[s2;%RU-RU Если активен, pressing drop button sets focus to DropTree 
 widget. Default is not active.&]
 [s3;%RU-RU &]
 [s4; &]
@@ -82,7 +82,7 @@ DropFocus]()&]
 [s4; &]
 [s5;:Upp`:`:DropTree`:`:SetDropLines`(int`): [_^Upp`:`:DropTree^ DropTree][@(0.0.255) `&]_
 [* SetDropLines]([@(0.0.255) int]_[*@3 d])&]
-[s2;%RU-RU Sets MaxHeight with argument computed to display maximum 
+[s2;%RU-RU УстанавливаетMaxHeight with argument computed to display maximum 
 of [%-*@3 d] lines with standard font (e.g. text with standard 
 display).&]
 [s3;%RU-RU &]

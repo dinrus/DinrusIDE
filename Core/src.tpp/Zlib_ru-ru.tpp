@@ -31,11 +31,11 @@ Default value stores data into output String inside Zlib.&]
 [s3; &]
 [s4; &]
 [s5;:Zlib`:`:Compress`(`): [@(0.0.255) void]_[* Compress]()&]
-[s2;%% Sets Zlib into compression mode (`"deflate`" in zlib terminology).&]
+[s2;%% УстанавливаетZlib into compression mode (`"deflate`" in zlib terminology).&]
 [s3; &]
 [s4; &]
 [s5;:Zlib`:`:Decompress`(`): [@(0.0.255) void]_[* Decompress]()&]
-[s2;%% Sets Zlib into decompression mode (`"inflate`" in zlib terminology).&]
+[s2;%% УстанавливаетZlib into decompression mode (`"inflate`" in zlib terminology).&]
 [s3; &]
 [s4; &]
 [s5;:Zlib`:`:Put`(const void`*`,int`): [@(0.0.255) void]_[* Put]([@(0.0.255) const]_[@(0.0.255) v
@@ -60,7 +60,7 @@ onst]&]
 _[@(0.0.255) const]&]
 [s5;:Zlib`:`:operator`~`(`)const: [@(0.0.255) const]_[_^String^ String][@(0.0.255) `&]_[* ope
 rator`~]()_[@(0.0.255) const]&]
-[s2;%% Returns current output String (it only gets created if WhenOut 
+[s2;%% Возвращает current output String (it only gets created if WhenOut 
 is not redirected somewhere else).&]
 [s3; &]
 [s4; &]
@@ -69,11 +69,11 @@ is not redirected somewhere else).&]
 [s3; &]
 [s4; &]
 [s5;:Zlib`:`:GetCRC`(`)const: [_^dword^ dword]_[* GetCRC]()_[@(0.0.255) const]&]
-[s2;%% Returns CRC of uncompressed stream, if CRC mode is active.&]
+[s2;%% Возвращает CRC of uncompressed stream, if CRC mode is active.&]
 [s3; &]
 [s4; &]
 [s5;:Zlib`:`:IsError`(`)const: [@(0.0.255) bool]_[* IsError]()_[@(0.0.255) const]&]
-[s2;%% Возвращает true, если there was error processing input.&]
+[s2;%% Возвращает  true, если there was error processing input.&]
 [s3; &]
 [s4; &]
 [s5;:Zlib`:`:GetGZipName`(`)const: [_^String^ String]_[* GetGZipName]()_[@(0.0.255) const]&]
@@ -114,18 +114,18 @@ data that can be at the end obtained by GetCRC method.&]
 [s4; &]
 [s5;:Zlib`:`:ChunkSize`(int`): [_^Zlib^ Zlib][@(0.0.255) `&]_[* ChunkSize]([@(0.0.255) int]_[*@3 n
 ])&]
-[s2;%% Sets the maximum amount of input or output data to be processed 
+[s2;%% Устанавливаетthe maximum amount of input or output data to be processed 
 in single zlib call.&]
 [s3;%% &]
 [s4; &]
 [s5;:Zlib`:`:Level`(int`): [_^Zlib^ Zlib][@(0.0.255) `&]_[* Level]([@(0.0.255) int]_[*@3 compre
 ssion`_lvl])&]
-[s2;%% Sets the compresison level. Must be 1..9. Default level is 
+[s2;%% Устанавливаетthe compresison level. Must be 1..9. Default level is 
 6.&]
 [s3;%% &]
 [s4; &]
 [s5;:Zlib`:`:Zlib`(`): [* Zlib]()&]
-[s2;%% Constructor.&]
+[s2;%% Конструктор .&]
 [s3; &]
 [s4; &]
 [s5;:Zlib`:`:`~Zlib`(`): [@(0.0.255) `~][* Zlib]()&]
@@ -242,7 +242,7 @@ ssFile]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 srcfile], [_^Gate2^ Gate2]<[
 t64], [_^int64^ int64]>_[*@3 progress]_`=_[@(0.0.255) false])&]
 [s2;%% Compresses file into gzip format. If [%-*@3 dstfile] is not 
 present, the name is created by appending .gz extension to [%-*@3 srcfile]. 
-Returns true on success.&]
+Возвращает true on success.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:GZDecompressFile`(const char`*`,const char`*`,Gate2`<int64`,int64`>`): [@(0.0.255) b
@@ -255,5 +255,5 @@ nt64], [_^int64^ int64]>_[*@3 progress]_`=_[@(0.0.255) false])&]
 [s2;%% Decompresses file from gzip format. If [%-*@3 dstfile] is not 
 present, the name is created by removing .gz extension to [%-*@3 srcfile]. 
 If [%-*@3 srcfile] does not have .gz extension, function returns 
-false to signal error and does nothing. Returns true on success.&]
+false to signal error and does nothing. Возвращает true on success.&]
 [s0;%% ]]

@@ -21,66 +21,66 @@ topic "MarkdownConverter";
 arkdownConverter][@(0.0.255) `&]_[* CollapseWhitespaces]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) t
 rue])&]
 [s2;%% Collapses non`-trivial whitespaces in main text into single 
-space (`' `') character. Returns `*this for method chaining.&]
+space (`' `') character. Возвращает `*this for method chaining.&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:MarkdownConverter`:`:NoIndentedCodeblocks`(bool`): [_^Upp`:`:MarkdownConverter^ M
 arkdownConverter][@(0.0.255) `&]_[* NoIndentedCodeblocks]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) t
 rue])&]
-[s2;%% Disable indented code blocks. (Only fenced code works.) Returns 
+[s2;%% Disable indented code blocks. (Only fenced code works.) Возвращает 
 `*this for method chaining.&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:MarkdownConverter`:`:Tables`(bool`): [_^Upp`:`:MarkdownConverter^ MarkdownC
 onverter][@(0.0.255) `&]_[* Tables]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) true])&]
-[s2;%% Enables tables. Returns `*this for method chaining.&]
+[s2;%% Enables tables. Возвращает `*this for method chaining.&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:MarkdownConverter`:`:WikiLinks`(bool`): [_^Upp`:`:MarkdownConverter^ Markdo
 wnConverter][@(0.0.255) `&]_[* WikiLinks]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) true])&]
-[s2;%% Enables wikilinks. Returns `*this for method chaining.&]
+[s2;%% Enables wikilinks. Возвращает `*this for method chaining.&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:MarkdownConverter`:`:Strikeout`(bool`): [_^Upp`:`:MarkdownConverter^ Markdo
 wnConverter][@(0.0.255) `&]_[* Strikeout]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) true])&]
-[s2;%% Enables strikedout text. Returns `*this for method chaining.&]
+[s2;%% Enables strikedout text. Возвращает `*this for method chaining.&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:MarkdownConverter`:`:Underline`(bool`): [_^Upp`:`:MarkdownConverter^ Markdo
 wnConverter][@(0.0.255) `&]_[* Underline]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) true])&]
-[s2;%% Enables underlined text. Returns `*this for method chaining.&]
+[s2;%% Enables underlined text. Возвращает `*this for method chaining.&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:MarkdownConverter`:`:NoHtmlBlocks`(bool`): [_^Upp`:`:MarkdownConverter^ Mar
 kdownConverter][@(0.0.255) `&]_[* NoHtmlBlocks]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) tr
 ue])&]
-[s2;%% Disables raw html blocks. Returns `*this for method chaining.&]
+[s2;%% Disables raw html blocks. Возвращает `*this for method chaining.&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:MarkdownConverter`:`:NoHtmlSpans`(bool`): [_^Upp`:`:MarkdownConverter^ Mark
 downConverter][@(0.0.255) `&]_[* NoHtmlSpans]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) true
 ])&]
-[s2;%% Disables [/ inline] raw html text. Returns `*this for method 
+[s2;%% Disables [/ inline] raw html text. Возвращает `*this for method 
 chaining.&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:MarkdownConverter`:`:NoHtml`(bool`): [_^Upp`:`:MarkdownConverter^ MarkdownC
 onverter][@(0.0.255) `&]_[* NoHtml]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) true])&]
-[s2;%% Disables both raw html blocks and inline raw html text. Returns 
+[s2;%% Disables both raw html blocks and inline raw html text. Возвращает 
 `*this for method chaining.&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:MarkdownConverter`:`:PermissiveAtxHeaders`(bool`): [_^Upp`:`:MarkdownConverter^ M
 arkdownConverter][@(0.0.255) `&]_[* PermissiveAtxHeaders]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) t
 rue])&]
-[s2;%% Do not require space in ATX headers (e.g [C ###header]). Returns 
+[s2;%% Do not require space in ATX headers (e.g [C ###header]). Возвращает 
 `*this for method chaining.&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:MarkdownConverter`:`:PermissiveUrlAutolinks`(bool`): [_^Upp`:`:MarkdownConverter^ M
 arkdownConverter][@(0.0.255) `&]_[* PermissiveUrlAutolinks]([@(0.0.255) bool]_[*@3 b]_`=_
 [@(0.0.255) true])&]
-[s2;%% Allows URLs as autolinks even without `'[C <]`', `'[C >]`'. Returns 
+[s2;%% Allows URLs as autolinks even without `'[C <]`', `'[C >]`'. Возвращает 
 `*this for method chaining.&]
 [s3;%% &]
 [s4; &]
@@ -88,7 +88,7 @@ arkdownConverter][@(0.0.255) `&]_[* PermissiveUrlAutolinks]([@(0.0.255) bool]_[*
 arkdownConverter][@(0.0.255) `&]_[* PermissiveWWWAutolinks]([@(0.0.255) bool]_[*@3 b]_`=_
 [@(0.0.255) true])&]
 [s2;%% Enables www autolinks (even without any scheme prefix, if 
-they begin with `'[C www]`'.) Returns `*this for method chaining.&]
+they begin with `'[C www]`'.) Возвращает `*this for method chaining.&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:MarkdownConverter`:`:PermissiveEmailAutolinks`(bool`): [_^Upp`:`:MarkdownConverter^ M
@@ -102,18 +102,18 @@ and `'[C mailto:]`'&]
 arkdownConverter][@(0.0.255) `&]_[* PermissiveAutolinks]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) t
 rue])&]
 [s2;%% Enables or disables permissive autolink parsing as a whole. 
-Returns `*this for method chaining.&]
+Возвращает `*this for method chaining.&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:MarkdownConverter`:`:CommonMarkDialect`(`): [_^Upp`:`:MarkdownConverter^ Ma
 rkdownConverter][@(0.0.255) `&]_[* CommonMarkDialect]()&]
-[s2;%% This is the default dialect of MarkdownConverter. Returns 
+[s2;%% This is the default dialect of MarkdownConverter. Возвращает 
 `*this for method chaining.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:MarkdownConverter`:`:GitHubDialect`(`): [_^Upp`:`:MarkdownConverter^ Markdo
 wnConverter][@(0.0.255) `&]_[* GitHubDialect]()&]
-[s2;%% Enables GitHub`'s markdown dialect. Returns `*this for method 
+[s2;%% Enables GitHub`'s markdown dialect. Возвращает `*this for method 
 chaining.&]
 [s3; &]
 [s4; &]
@@ -121,7 +121,7 @@ chaining.&]
 ng]_[* ToQtf]([@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 markdown`_te
 xt])&]
 [s2;%% Attempts to convert the [%-*@3 markdown`_text] into a qtf text. 
-The markdown text has to be a valid UTF`-8 string. Returns the 
+The markdown text has to be a valid UTF`-8 string. Возвращает the 
 qtf formatted text on success or a void String on failure.&]
 [s3;%% &]
 [s4; &]
@@ -138,7 +138,7 @@ however, then the resulting span may be converted into qtf as
 a hyperlink, plain text, or it can be completely discarded, depending 
 on the enabled markdown extensions or selected dialect. &]
 [s0; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Constructor detail]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Конструктор  detail]]}}&]
 [s3;%% &]
 [s5;:Upp`:`:MarkdownConverter`:`:MarkdownConverter`(`): [* MarkdownConverter]()&]
 [s2;%% Дефолтный конструктор.&]

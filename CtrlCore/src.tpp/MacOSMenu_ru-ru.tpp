@@ -54,6 +54,6 @@ right`-click on application icon).&]
 [s4;%- &]
 [s5;:Upp`:`:TopWindow`:`:SetMainMenu`(Upp`:`:Event`<Upp`:`:Bar`&`>`):%- [@(0.0.255) voi
 d]_[* SetMainMenu]([_^Upp`:`:Event^ Event]<Bar[@(0.0.255) `&]>_[*@3 menu])&]
-[s2; Sets the main application menu. This menu will be active if 
+[s2; Устанавливаетthe main application menu. This menu will be active if 
 given toplevel TopWindow is on the top.&]
 [s0; ]]

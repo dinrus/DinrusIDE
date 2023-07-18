@@ -112,26 +112,26 @@ of edited element.&]
 [s4; &]
 [s5;:TreeCtrl`:`:SetRoot`(const TreeCtrl`:`:Node`&`): [@(0.0.255) void]_[* SetRoot]([@(0.0.255) c
 onst]_[_^TreeCtrl`:`:Node^ TreeCtrl`::Node][@(0.0.255) `&]_[*@3 n])&]
-[s2;%% Sets the content of root item to [%-*@3 n]. Full deep copy of 
+[s2;%% Устанавливаетthe content of root item to [%-*@3 n]. Full deep copy of 
 [%-*@3 n] is performed.&]
 [s3; &]
 [s4; &]
 [s5;:TreeCtrl`:`:SetRoot`(const Image`&`,Value`): [@(0.0.255) void]_[* SetRoot]([@(0.0.255) c
 onst]_[_^Image^ Image][@(0.0.255) `&]_[*@3 img], [_^Value^ Value]_[*@3 v])&]
-[s2;%% Sets image, key and value of root item. [%-*@3 v] is used both 
+[s2;%% Устанавливаетimage, key and value of root item. [%-*@3 v] is used both 
 for key and value.&]
 [s3; &]
 [s4; &]
 [s5;:TreeCtrl`:`:SetRoot`(const Image`&`,Value`,Value`): [@(0.0.255) void]_[* SetRoot]([@(0.0.255) c
 onst]_[_^Image^ Image][@(0.0.255) `&]_[*@3 img], [_^Value^ Value]_[*@3 key], 
 [_^Value^ Value]_[*@3 text])&]
-[s2;%% Sets the image, key and value of root item.&]
+[s2;%% Устанавливаетthe image, key and value of root item.&]
 [s3;%% &]
 [s4; &]
 [s5;:TreeCtrl`:`:SetRoot`(const Image`&`,Ctrl`&`,int`,int`): [@(0.0.255) void]_[* SetRoot
 ]([@(0.0.255) const]_[_^Image^ Image][@(0.0.255) `&]_[*@3 img], [_^Ctrl^ Ctrl][@(0.0.255) `&]_
 [*@3 ctrl], [@(0.0.255) int]_[*@3 cx]_`=_[@3 0], [@(0.0.255) int]_[*@3 cy]_`=_[@3 0])&]
-[s2;%% Sets widget to be at root item. Only reference to [%-*@3 ctrl] 
+[s2;%% Устанавливаетwidget to be at root item. Only reference to [%-*@3 ctrl] 
 is stored `-> widget object lifetime must exceed TreeCtrl`'s 
 lifetime. Dimensions of widget should be [%-*@3 cx], [%-*@3 cy]. 
 If either [%-*@3 cx] or [%-*@3 cy] are zero, GetMinSize dimension 
@@ -167,7 +167,7 @@ nt]_[* Insert]([@(0.0.255) int]_[*@3 parentid], [@(0.0.255) int]_[*@3 i],
 [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 value], [@(0.0.255) bool]_[*@3 withopen]_`=_[@(0.0.255) f
 alse])&]
 [s2; Inserts child item to parent specified by id. Distinct variants 
-set various attributes to TreeCtrl`::Node of insterted item. Returns 
+set various attributes to TreeCtrl`::Node of insterted item. Возвращает 
 id of new item. Note: Last two overloads are  to avoid overloading 
 ambiguity.&]
 [s3;%% &]
@@ -197,7 +197,7 @@ mg], [_^Value^ Value]_[*@3 key], [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 val
 [@(0.0.255) bool]_[*@3 withopen]_`=_[@(0.0.255) false])&]
 [s2; Inserts child item at the end of list of parent`'s child items. 
 Parent is specified by id. Distinct variants set various attributes 
-to TreeCtrl`::Node of insterted item. Returns id of new item. 
+to TreeCtrl`::Node of insterted item. Возвращает id of new item. 
 Note: Last two overloads are  to avoid overloading ambiguity.&]
 [s3; &]
 [s4; &]
@@ -222,23 +222,23 @@ nt]_[*@3 parentid], [@(0.0.255) int]_[*@3 i1], [@(0.0.255) int]_[*@3 i2])&]
 [s4; &]
 [s5;:TreeCtrl`:`:GetChildCount`(int`)const: [@(0.0.255) int]_[* GetChildCount]([@(0.0.255) i
 nt]_[*@3 id])_[@(0.0.255) const]&]
-[s2;%% Returns the number of child items of parent item with [%-*@3 id].&]
+[s2;%% Возвращает the number of child items of parent item with [%-*@3 id].&]
 [s3; &]
 [s4; &]
 [s5;:TreeCtrl`:`:GetChild`(int`,int`)const: [@(0.0.255) int]_[* GetChild]([@(0.0.255) int]_
 [*@3 id], [@(0.0.255) int]_[*@3 i])_[@(0.0.255) const]&]
-[s2;%% Returns the identifier of child at index  [%-*@3 i] of parent 
+[s2;%% Возвращает the identifier of child at index  [%-*@3 i] of parent 
 item with [%-*@3 id].&]
 [s3; &]
 [s4; &]
 [s5;:TreeCtrl`:`:GetChildIndex`(int`,int`)const: [@(0.0.255) int]_[* GetChildIndex]([@(0.0.255) i
 nt]_[*@3 parentid], [@(0.0.255) int]_[*@3 childid])_[@(0.0.255) const]&]
-[s2;%% Returns an index of child item of [%-*@3 parentid] with id [%-*@3 childid].&]
+[s2;%% Возвращает an index of child item of [%-*@3 parentid] with id [%-*@3 childid].&]
 [s3;%% &]
 [s4; &]
 [s5;:TreeCtrl`:`:GetParent`(int`)const: [@(0.0.255) int]_[* GetParent]([@(0.0.255) int]_[*@3 i
 d])_[@(0.0.255) const]&]
-[s2;%% Returns the parent identifier of child with [%-*@3 id].&]
+[s2;%% Возвращает the parent identifier of child with [%-*@3 id].&]
 [s3; &]
 [s4; &]
 [s5;:TreeCtrl`:`:Get`(int`)const: [_^Value^ Value]_[* Get]([@(0.0.255) int]_[*@3 id])_[@(0.0.255) c
@@ -247,32 +247,32 @@ onst]&]
 [s4;^Value^ &]
 [s5;:TreeCtrl`:`:GetValue`(int`)const: [_^Value^ Value]_[* GetValue]([@(0.0.255) int]_[*@3 id
 ])_[@(0.0.255) const]&]
-[s2;%% Returns the value of item with [%-*@3 id].&]
+[s2;%% Возвращает the value of item with [%-*@3 id].&]
 [s3; &]
 [s4; &]
 [s5;:TreeCtrl`:`:operator`[`]`(int`)const: [_^Value^ Value]_[* operator`[`]]([@(0.0.255) in
 t]_[*@3 id])_[@(0.0.255) const]&]
-[s2;%% Returns the key of item with [%-*@3 id].&]
+[s2;%% Возвращает the key of item with [%-*@3 id].&]
 [s3; &]
 [s4; &]
 [s5;:TreeCtrl`:`:Set`(int`,Value`): [@(0.0.255) void]_[* Set]([@(0.0.255) int]_[*@3 id], 
 [_^Value^ Value]_[*@3 v])&]
-[s2;%% Sets the value [/ and] key of item with [%-*@3 id].&]
+[s2;%% Устанавливаетthe value [/ and] key of item with [%-*@3 id].&]
 [s3;%% &]
 [s4; &]
 [s5;:TreeCtrl`:`:Set`(int`,Value`,Value`): [@(0.0.255) void]_[* Set]([@(0.0.255) int]_[*@3 id
 ], [_^Value^ Value]_[*@3 key], [_^Value^ Value]_[*@3 value])&]
-[s2;%% Sets the value and key of item with [%-*@3 id].&]
+[s2;%% Устанавливаетthe value and key of item with [%-*@3 id].&]
 [s3; &]
 [s4; &]
 [s5;:TreeCtrl`:`:SetValue`(const Value`&`): [@(0.0.255) void]_[* SetValue]([@(0.0.255) cons
 t]_[_^Value^ Value][@(0.0.255) `&]_[*@3 v])&]
-[s2;%% Sets the value of item with cursor, key is unchanged.&]
+[s2;%% Устанавливаетthe value of item with cursor, key is unchanged.&]
 [s3;%% &]
 [s4; &]
 [s5;:TreeCtrl`:`:SetDisplay`(int`,const Display`&`): [@(0.0.255) void]_[* SetDisplay]([@(0.0.255) i
 nt]_[*@3 id], [@(0.0.255) const]_[_^Display^ Display][@(0.0.255) `&]_[*@3 display])&]
-[s2;%% Sets the display of [%-*@3 id] item.&]
+[s2;%% Устанавливаетthe display of [%-*@3 id] item.&]
 [s3;%% &]
 [s4; &]
 [s5;:TreeCtrl`:`:RefreshItem`(int`): [@(0.0.255) void]_[* RefreshItem]([@(0.0.255) int]_[*@3 i
@@ -298,18 +298,18 @@ returns negative value.&]
 [s4; &]
 [s5;:TreeCtrl`:`:GetNode`(int`)const: [_^TreeCtrl`:`:Node^ Node]_[* GetNode]([@(0.0.255) in
 t]_[*@3 id])_[@(0.0.255) const]&]
-[s2;%% Returns attributes of item with [%-*@3 id].&]
+[s2;%% Возвращает attributes of item with [%-*@3 id].&]
 [s3; &]
 [s4; &]
 [s5;:TreeCtrl`:`:SetNode`(int`,const TreeCtrl`:`:Node`&`): [@(0.0.255) void]_[* SetNode](
 [@(0.0.255) int]_[*@3 id], [@(0.0.255) const]_[_^TreeCtrl`:`:Node^ TreeCtrl`::Node][@(0.0.255) `&
 ]_[*@3 n])&]
-[s2;%% Sets attributes.&]
+[s2;%% Устанавливаетattributes.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:TreeCtrl`:`:IsValid`(int`)const: [@(0.0.255) bool]_[* IsValid]([@(0.0.255) int]_
 [*@3 id])_[@(0.0.255) const]&]
-[s2;%% Возвращает true, если [%-*@3 id] represents a valid node id.&]
+[s2;%% Возвращает  true, если [%-*@3 id] represents a valid node id.&]
 [s3;%% &]
 [s4; &]
 [s5;:TreeCtrl`:`:IsOpen`(int`)const: [@(0.0.255) bool]_[* IsOpen]([@(0.0.255) int]_[*@3 id])_
@@ -329,7 +329,7 @@ all child items visible.&]
 [s4; &]
 [s5;:Upp`:`:TreeCtrl`:`:GetOpenIds`(`)const: [_^Upp`:`:Vector^ Vector]<[@(0.0.255) int]>_
 [* GetOpenIds]()_[@(0.0.255) const]&]
-[s2;%% Returns all open node ids.&]
+[s2;%% Возвращает all open node ids.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:TreeCtrl`:`:OpenIds`(const Upp`:`:Vector`<int`>`&`): [@(0.0.255) void]_[* Ope
@@ -354,12 +354,12 @@ d])&]
 [s4; &]
 [s5;:TreeCtrl`:`:SetCursorLine`(int`): [@(0.0.255) void]_[* SetCursorLine]([@(0.0.255) int]_
 [*@3 i])&]
-[s2;%% Sets cursor in the tree to be at visible item line [%-*@3 i].&]
+[s2;%% Устанавливаетcursor in the tree to be at visible item line [%-*@3 i].&]
 [s3; &]
 [s4; &]
 [s5;:TreeCtrl`:`:GetCursorLine`(`)const: [@(0.0.255) int]_[* GetCursorLine]()_[@(0.0.255) c
 onst]&]
-[s2;%% Returns visible item line.&]
+[s2;%% Возвращает visible item line.&]
 [s3; &]
 [s4; &]
 [s5;:TreeCtrl`:`:KillCursor`(`): [@(0.0.255) void]_[* KillCursor]()&]
@@ -368,27 +368,27 @@ onst]&]
 [s4; &]
 [s5;:TreeCtrl`:`:SetCursor`(int`): [@(0.0.255) void]_[* SetCursor]([@(0.0.255) int]_[*@3 id])
 &]
-[s2;%% Sets cursor to item with [%-*@3 id]. If item is not visible, 
+[s2;%% Устанавливаетcursor to item with [%-*@3 id]. If item is not visible, 
 MakeVisible(id) is called first.&]
 [s3; &]
 [s4; &]
 [s5;:TreeCtrl`:`:GetCursor`(`)const: [@(0.0.255) int]_[* GetCursor]()_[@(0.0.255) const]&]
-[s2;%% Returns id of item that currently has cursor or negative value 
+[s2;%% Возвращает id of item that currently has cursor or negative value 
 if there is none.&]
 [s3; &]
 [s4; &]
 [s5;:TreeCtrl`:`:IsCursor`(`)const: [@(0.0.255) bool]_[* IsCursor]()_[@(0.0.255) const]&]
-[s2;%% Возвращает true, если there is cursor in the tree.&]
+[s2;%% Возвращает  true, если there is cursor in the tree.&]
 [s3; &]
 [s4; &]
 [s5;:TreeCtrl`:`:GetItemClickPos`(`)const: [_^Point^ Point]_[* GetItemClickPos]()_[@(0.0.255) c
 onst]&]
-[s2;%% Returns current mouse position within item Display rectangle 
+[s2;%% Возвращает current mouse position within item Display rectangle 
 when clicked.&]
 [s3; &]
 [s4; &]
 [s5;:TreeCtrl`:`:GetScroll`(`)const: [_^Point^ Point]_[* GetScroll]()_[@(0.0.255) const]&]
-[s2;%% Returns the scroll position of tree.&]
+[s2;%% Возвращает the scroll position of tree.&]
 [s3; &]
 [s4; &]
 [s5;:TreeCtrl`:`:ScrollTo`(Point`): [@(0.0.255) void]_[* ScrollTo]([_^Point^ Point]_[*@3 sc])
@@ -397,15 +397,15 @@ when clicked.&]
 [s3; &]
 [s4; &]
 [s5;:TreeCtrl`:`:Get`(`)const: [_^Value^ Value]_[* Get]()_[@(0.0.255) const]&]
-[s2;%% Returns key of item with cursor or Null if there is none.&]
+[s2;%% Возвращает key of item with cursor or Null if there is none.&]
 [s3; &]
 [s4; &]
 [s5;:TreeCtrl`:`:GetValue`(`)const: [_^Value^ Value]_[* GetValue]()_[@(0.0.255) const]&]
-[s2;%% Returns value of item with cursor or Null if there is none.&]
+[s2;%% Возвращает value of item with cursor or Null if there is none.&]
 [s3; &]
 [s4; &]
 [s5;:TreeCtrl`:`:Find`(Value`): [@(0.0.255) int]_[* Find]([_^Value^ Value]_[*@3 key])&]
-[s2;%% Returns id of item with [%-*@3 key] or negative value if not 
+[s2;%% Возвращает id of item with [%-*@3 key] or negative value if not 
 found.&]
 [s3; &]
 [s4; &]
@@ -502,12 +502,12 @@ d], [@(0.0.255) bool]_[*@3 sel])&]
 [s4; &]
 [s5;:TreeCtrl`:`:IsSelected`(int`)const: [@(0.0.255) bool]_[* IsSelected]([@(0.0.255) int]_
 [*@3 id])_[@(0.0.255) const]&]
-[s2;%% Возвращает true, если item with [%-*@3 id] is selected.&]
+[s2;%% Возвращает  true, если item with [%-*@3 id] is selected.&]
 [s3; &]
 [s4; &]
 [s5;:TreeCtrl`:`:IsSel`(int`)const: [@(0.0.255) bool]_[* IsSel]([@(0.0.255) int]_[*@3 id])_[@(0.0.255) c
 onst]&]
-[s2;%% Возвращает true, если item with [%-*@3 id] is selected [*/ or has cursor][/ .]&]
+[s2;%% Возвращает  true, если item with [%-*@3 id] is selected [*/ or has cursor][/ .]&]
 [s3; &]
 [s4; &]
 [s5;:TreeCtrl`:`:GetSelectCount`(`)const: [@(0.0.255) int]_[* GetSelectCount]()_[@(0.0.255) c
@@ -523,7 +523,7 @@ for its parent (if any item in parenthood chain is selected).&]
 [s4; &]
 [s5;:TreeCtrl`:`:GetSel`(`)const: [_^Vector^ Vector][@(0.0.255) <int>]_[* GetSel]()_[@(0.0.255) c
 onst]&]
-[s2;%% Returns ids of all items with IsSel is true (note that it 
+[s2;%% Возвращает ids of all items with IsSel is true (note that it 
 includes cursor item if there is no selection).&]
 [s3; &]
 [s4; &]
@@ -604,7 +604,7 @@ find the appropriate item.&]
 [s4; &]
 [s5;:TreeCtrl`:`:SetDisplay`(const Display`&`): [_^TreeCtrl^ TreeCtrl][@(0.0.255) `&]_[* Se
 tDisplay]([@(0.0.255) const]_[_^Display^ Display][@(0.0.255) `&]_[*@3 d])&]
-[s2;%% Sets the universal Display used for all node values. This 
+[s2;%% Устанавливаетthe universal Display used for all node values. This 
 can be overridden for particular node by assigning node specific 
 Display.&]
 [s3;%% &]
@@ -733,42 +733,42 @@ if widget for item is used.&]
 [s4; &]
 [s5;:TreeCtrl`:`:Node`:`:SetImage`(const Image`&`): [_^TreeCtrl`:`:Node^ Node][@(0.0.255) `&
 ]_[* SetImage]([@(0.0.255) const]_[_^Image^ Image][@(0.0.255) `&]_[*@3 img])&]
-[s2;%% Sets image.&]
+[s2;%% Устанавливаетimage.&]
 [s3; &]
 [s4; &]
 [s5;:TreeCtrl`:`:Node`:`:Set`(const Value`&`): [_^TreeCtrl`:`:Node^ Node][@(0.0.255) `&]_
 [* Set]([@(0.0.255) const]_[_^Value^ Value][@(0.0.255) `&]_[*@3 v])&]
-[s2;%% Sets both key and value to [%-*@3 v].&]
+[s2;%% Устанавливаетboth key and value to [%-*@3 v].&]
 [s3; &]
 [s4; &]
 [s5;:TreeCtrl`:`:Node`:`:Set`(const Value`&`,const Value`&`): [_^TreeCtrl`:`:Node^ Node
 ][@(0.0.255) `&]_[* Set]([@(0.0.255) const]_[_^Value^ Value][@(0.0.255) `&]_[*@3 v], 
 [@(0.0.255) const]_[_^Value^ Value][@(0.0.255) `&]_[*@3 t])&]
-[s2;%% Sets key and value.&]
+[s2;%% Устанавливаетkey and value.&]
 [s3; &]
 [s4; &]
 [s5;:TreeCtrl`:`:Node`:`:SetDisplay`(const Display`&`): [_^TreeCtrl`:`:Node^ Node][@(0.0.255) `&
 ]_[* SetDisplay]([@(0.0.255) const]_[_^Display^ Display][@(0.0.255) `&]_[*@3 d])&]
-[s2;%% Sets display.&]
+[s2;%% Устанавливаетdisplay.&]
 [s3; &]
 [s4; &]
 [s5;:TreeCtrl`:`:Node`:`:SetSize`(Size`): [_^TreeCtrl`:`:Node^ Node][@(0.0.255) `&]_[* SetS
 ize]([_^Size^ Size]_[*@3 sz])&]
-[s2;%% Sets size.&]
+[s2;%% Устанавливаетsize.&]
 [s3; &]
 [s4; &]
 [s5;:TreeCtrl`:`:Node`:`:SetCtrl`(Ctrl`&`): [_^TreeCtrl`:`:Node^ Node][@(0.0.255) `&]_[* Se
 tCtrl]([_^Ctrl^ Ctrl][@(0.0.255) `&]_[*@3 `_ctrl])&]
-[s2;%% Sets widget.&]
+[s2;%% Устанавливаетwidget.&]
 [s3; &]
 [s4; &]
 [s5;:TreeCtrl`:`:Node`:`:CanOpen`(bool`): [_^TreeCtrl`:`:Node^ Node][@(0.0.255) `&]_[* CanO
 pen]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) true])&]
-[s2;%% Sets canopen flag.&]
+[s2;%% Устанавливаетcanopen flag.&]
 [s3; &]
 [s4; &]
 [s5;:TreeCtrl`:`:Node`:`:CanSelect`(bool`): [_^TreeCtrl`:`:Node^ Node][@(0.0.255) `&]_[* Ca
 nSelect]([@(0.0.255) bool]_[*@3 b])&]
-[s2;%% Sets canselect flag.&]
+[s2;%% Устанавливаетcanselect flag.&]
 [s3; &]
 [s0; ]]

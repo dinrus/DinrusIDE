@@ -34,7 +34,7 @@ topic "Incremental Development of Database Models/Schemas";[2 $$0,0#000000000000
 schema (.sch file) definition and store them internally. This 
 function is defined by including the .sch file. It is a sort 
 of .sch interface point. All`_Tables does not execute scripts, 
-it creates them as Strings inside SqlSchema.&]
+it creates them as String'и inside SqlSchema.&]
 [s25; Checking for changes and executing SQL creation/update/drop 
 scripts:&]
 [s7; StdStatementExecutor se(m`_session);&]

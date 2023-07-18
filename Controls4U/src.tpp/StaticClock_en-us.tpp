@@ -571,17 +571,17 @@ topic "StaticClock";
 [s6;%- &]
 [s5;:StaticClock`:`:SetImage`(String`):%- [_^StaticClock^ StaticClock][@(0.0.255) `&]_[* Se
 tImage]([_^String^ String]_[*@3 fileName])&]
-[s3; Sets image in file [%-*@3 fileName ]as the clock background.&]
+[s3; Устанавливаетimage in file [%-*@3 fileName ]as the clock background.&]
 [s1; &]
 [s6;%- &]
 [s5;:StaticClock`:`:SetImage`(Image`):%- [_^StaticClock^ StaticClock][@(0.0.255) `&]_[* Set
 Image]([_^Image^ Image]_[*@3 image])&]
-[s3; Sets [%-*@3 image ]as the clock background.&]
+[s3; Устанавливает[%-*@3 image ]as the clock background.&]
 [s1; &]
 [s6;%- &]
 [s5;:StaticClock`:`:SetHourType`(int`):%- [_^StaticClock^ StaticClock][@(0.0.255) `&]_[* Se
 tHourType]([@(0.0.255) int]_[*@3 type])&]
-[s3; Sets the [%-*@3 type ]of hour and minute marks.&]
+[s3; Устанавливаетthe [%-*@3 type ]of hour and minute marks.&]
 [s3; Valid values are HourType`::No, HourType`::Square and HourType`::Rectangle.&]
 [s0; &]
 [s0;= 
@@ -664,7 +664,7 @@ tHourType]([@(0.0.255) int]_[*@3 type])&]
 [s6;%- &]
 [s5;:StaticClock`:`:SetNumberType`(int`):%- [_^StaticClock^ StaticClock][@(0.0.255) `&]_[* S
 etNumberType]([@(0.0.255) int]_[*@3 type])&]
-[s3; Sets the [%-*@3 type ]of hour numbers.&]
+[s3; Устанавливаетthe [%-*@3 type ]of hour numbers.&]
 [s3; Valid values are NumberType`::No, NumberType`::Small, NumberType`::Big, 
 NumberType`::BigSmall and NumberType`::Big4.&]
 [s0; &]
@@ -754,7 +754,7 @@ NumberType`::BigSmall and NumberType`::Big4.&]
 [s6;%- &]
 [s5;:StaticClock`:`:SetColorType`(int`):%- [_^StaticClock^ StaticClock][@(0.0.255) `&]_[* S
 etColorType]([@(0.0.255) int]_[*@3 c])&]
-[s3; Sets the color style.&]
+[s3; Устанавливаетthe color style.&]
 [s3; Valid [%-*@3 c ]color style values are ColorType`::WhiteType and 
 ColorType`::BlackType.&]
 [s0; &]
@@ -840,22 +840,22 @@ second or minute.&]
 [s1; &]
 [s6;%- &]
 [s5;:StaticClock`:`:IsAuto`(`):%- [@(0.0.255) bool]_[* IsAuto]()&]
-[s3; Возвращает true, если StaticClock is in `"auto`" mode&]
+[s3; Возвращает  true, если StaticClock is in `"auto`" mode&]
 [s1;%- &]
 [s6;%- &]
 [s5;:StaticClock`:`:SetData`(const Value`&`):%- [@(0.0.255) void]_[* SetData]([@(0.0.255) c
 onst]_[_^Value^ Value][@(0.0.255) `&]_[*@3 v])&]
-[s3; Sets the clock time as a value [%-*@3 v].of type Time.&]
+[s3; Устанавливаетthe clock time as a value [%-*@3 v].of type Time.&]
 [s1; &]
 [s6;%- &]
 [s5;:StaticClock`:`:SetTime`(const Time`&`):%- [@(0.0.255) void]_[* SetTime]([@(0.0.255) co
 nst]_[_^Time^ Time][@(0.0.255) `&]_[*@3 tm]_`=_GetSysTime())&]
-[s3; Sets the clock time as Time [%-*@3 tm].&]
+[s3; Устанавливаетthe clock time as Time [%-*@3 tm].&]
 [s1; &]
 [s6;%- &]
 [s5;:StaticClock`:`:SetTime`(int`,int`,int`):%- [@(0.0.255) void]_[* SetTime]([@(0.0.255) i
 nt]_[*@3 h], [@(0.0.255) int]_[*@3 n], [@(0.0.255) int]_[*@3 s])&]
-[s3; Sets the clock time as hours [%-*@3 h, ]minutes [%-*@3 n] and seconds 
+[s3; Устанавливаетthe clock time as hours [%-*@3 h, ]minutes [%-*@3 n] and seconds 
 [%-*@3 s].&]
 [s1; &]
 [s0; ]

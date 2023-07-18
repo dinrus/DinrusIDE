@@ -83,7 +83,7 @@ Unicode или UTF`-8, но на практике нам приходится
 [ {{10000F(128)G(128)@1 [s0;%RU-RU [* Function List]]}}&]
 [s3;^byte^ &]
 [s5;:GetDefaultCharset`(`): [_^byte^ byte]_[* GetDefaultCharset]()&]
-[s2;%RU-RU Возвращает текущий дефолтный 
+[s2;%RU-RU Возвращает  текущий дефолтный 
 набсим.&]
 [s3; &]
 [s4; &]
@@ -113,7 +113,7 @@ onst]_[@(0.0.255) char]_`*[*@3 name], [@(0.0.255) const]_[_^word^ word]_`*[*@3 t
 CUNDEF. [%-*@3 systemcharset  ]может содержать эквивалентн
 ый `"типичный`" набсим хостовой платформы, 
 как опциональную вспомогательную 
-информацию. Возвращает код для нового 
+информацию. Возвращает  код для нового 
 набсима. [%-*@3 table] должна существовать 
 до завершения программы (сохраняется 
 только указатель на неё).&]
@@ -136,12 +136,12 @@ even if some characters do not have assigned code`-points. Таблица
 [s4; &]
 [s5;:CharsetName`(byte`): [@(0.0.255) const]_[@(0.0.255) char]_`*[* CharsetName]([_^byte^ byt
 e]_[*@3 charset])&]
-[s2;%RU-RU Возвращает название кода набсима 
+[s2;%RU-RU Возвращает  название кода набсима 
 [%-*@3 charset].&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:CharsetCount`(`): [@(0.0.255) int]_[* CharsetCount]()&]
-[s2;%RU-RU Возвращает общее число набсимов 
+[s2;%RU-RU Возвращает  общее число набсимов 
 (UTF`-8 исключается). Это гарантирует, 
 что числовое значение кода набсима 
 для `"реального`" набсима находится 
@@ -272,17 +272,17 @@ ULTCHAR)&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:IsLetter`(int`): [@(0.0.255) bool]_[* IsLetter]([@(0.0.255) int]_[*@3 c])&]
-[s2;%RU-RU Возвращает true, если [%-*@3 c] < 2048 и 
+[s2;%RU-RU Возвращает  true, если [%-*@3 c] < 2048 и 
 он представляет собой букву.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:IsUpper`(int`): [@(0.0.255) bool]_[* IsUpper]([@(0.0.255) int]_[*@3 c])&]
-[s2;%RU-RU Возвращает true, если [%-*@3 c] < 2048 и 
+[s2;%RU-RU Возвращает  true, если [%-*@3 c] < 2048 и 
 это `"код`-пойнт`" UNICODE в верхнем регистре.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:IsLower`(int`): [@(0.0.255) bool]_[* IsLower]([@(0.0.255) int]_[*@3 c])&]
-[s2;%RU-RU Возвращает true, если [%-*@3 c] < 2048  и 
+[s2;%RU-RU Возвращает  true, если [%-*@3 c] < 2048  и 
 это `"код`-пойнт`" UNICODE в нижнем регистре.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
@@ -301,7 +301,7 @@ UNICODE верхнего регистра, иначе возвращается
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:ToAscii`(int`): [@(0.0.255) int]_[* ToAscii]([@(0.0.255) int]_[*@3 c])&]
-[s2;%RU-RU Возвращает UNICODE [%-*@3 c] `'преобразованным`' 
+[s2;%RU-RU Возвращает  UNICODE [%-*@3 c] `'преобразованным`' 
 в базовый ASCII. Преобразование происходит 
 с удалением всех диакритических знаков 
 (меток). Если такое преобразование 
@@ -321,42 +321,42 @@ UNICODE верхнего регистра, иначе возвращается
 [s5;:IsLetter`(char`): [@(0.0.255) bool]_[* IsLetter]([@(0.0.255) char]_[*@3 c])&]
 [s5;:IsLetter`(signed char`): [@(0.0.255) bool]_[* IsLetter]([@(0.0.255) signed]_[@(0.0.255) c
 har]_[*@3 c])&]
-[s2;%RU-RU Возвращает [^topic`:`/`/Core`/src`/CharSet`$en`-us`#IsLetter`(int`)^ I
+[s2;%RU-RU Возвращает  [^topic`:`/`/Core`/src`/CharSet`$en`-us`#IsLetter`(int`)^ I
 sLetter]((byte)[%-*@3 c]).&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:IsUpper`(char`): [@(0.0.255) bool]_[* IsUpper]([@(0.0.255) char]_[*@3 c])&]
 [s5;:IsUpper`(signed char`): [@(0.0.255) bool]_[* IsUpper]([@(0.0.255) signed]_[@(0.0.255) ch
 ar]_[*@3 c])&]
-[s2;%RU-RU Возвращает [^topic`:`/`/Core`/src`/CharSet`$en`-us`#IsUpper`(int`)^ I
+[s2;%RU-RU Возвращает  [^topic`:`/`/Core`/src`/CharSet`$en`-us`#IsUpper`(int`)^ I
 sUpper]((byte)[%-*@3 c]).&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:IsLower`(char`): [@(0.0.255) bool]_[* IsLower]([@(0.0.255) char]_[*@3 c])&]
 [s5;:IsLower`(signed char`): [@(0.0.255) bool]_[* IsLower]([@(0.0.255) signed]_[@(0.0.255) ch
 ar]_[*@3 c])&]
-[s2;%RU-RU Возвращает [^topic`:`/`/Core`/src`/CharSet`$en`-us`#IsLower`(int`)^ I
+[s2;%RU-RU Возвращает  [^topic`:`/`/Core`/src`/CharSet`$en`-us`#IsLower`(int`)^ I
 sLower]((byte)[%-*@3 c]).&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:ToUpper`(char`): [@(0.0.255) int]_[* ToUpper]([@(0.0.255) char]_[*@3 c])&]
 [s5;:ToUpper`(signed char`): [@(0.0.255) int]_[* ToUpper]([@(0.0.255) signed]_[@(0.0.255) cha
 r]_[*@3 c])&]
-[s2;%RU-RU Возвращает [^topic`:`/`/Core`/src`/CharSet`$en`-us`#ToUpper`(int`)^ T
+[s2;%RU-RU Возвращает  [^topic`:`/`/Core`/src`/CharSet`$en`-us`#ToUpper`(int`)^ T
 oUpper]((byte)[%-*@3 c]).&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:ToLower`(char`): [@(0.0.255) int]_[* ToLower]([@(0.0.255) char]_[*@3 c])&]
 [s5;:ToLower`(signed char`): [@(0.0.255) int]_[* ToLower]([@(0.0.255) signed]_[@(0.0.255) cha
 r]_[*@3 c])&]
-[s2;%RU-RU Возвращает [^topic`:`/`/Core`/src`/CharSet`$en`-us`#ToLower`(int`)^ T
+[s2;%RU-RU Возвращает  [^topic`:`/`/Core`/src`/CharSet`$en`-us`#ToLower`(int`)^ T
 oLower]((byte)[%-*@3 c]).&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:ToAscii`(char`): [@(0.0.255) int]_[* ToAscii]([@(0.0.255) char]_[*@3 c])&]
 [s5;:ToAscii`(signed char`): [@(0.0.255) int]_[* ToAscii]([@(0.0.255) signed]_[@(0.0.255) cha
 r]_[*@3 c])&]
-[s2;%RU-RU Возвращает [^topic`:`/`/Core`/src`/CharSet`$en`-us`#ToAscii`(int`)^ T
+[s2;%RU-RU Возвращает  [^topic`:`/`/Core`/src`/CharSet`$en`-us`#ToAscii`(int`)^ T
 oAscii]((byte)[%-*@3 c]).&]
 [s3;%RU-RU &]
 [s4; &]
@@ -381,32 +381,32 @@ ned]_[@(0.0.255) char]_[*@3 c])&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:IsLetter`(wchar`): [@(0.0.255) bool]_[* IsLetter]([_^wchar^ wchar]_[*@3 c])&]
-[s2;%RU-RU Возвращает [^topic`:`/`/Core`/src`/CharSet`$en`-us`#IsLetter`(int`)^ I
+[s2;%RU-RU Возвращает  [^topic`:`/`/Core`/src`/CharSet`$en`-us`#IsLetter`(int`)^ I
 sLetter]([%-*@3 c]).&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:IsUpper`(wchar`): [@(0.0.255) bool]_[* IsUpper]([_^wchar^ wchar]_[*@3 c])&]
-[s2;%RU-RU Возвращает [^topic`:`/`/Core`/src`/CharSet`$en`-us`#IsUpper`(int`)^ I
+[s2;%RU-RU Возвращает  [^topic`:`/`/Core`/src`/CharSet`$en`-us`#IsUpper`(int`)^ I
 sUpper]([%-*@3 c]).&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:IsLower`(wchar`): [@(0.0.255) bool]_[* IsLower]([_^wchar^ wchar]_[*@3 c])&]
-[s2;%RU-RU Возвращает [^topic`:`/`/Core`/src`/CharSet`$en`-us`#IsLower`(int`)^ I
+[s2;%RU-RU Возвращает  [^topic`:`/`/Core`/src`/CharSet`$en`-us`#IsLower`(int`)^ I
 sLower]([%-*@3 c]).&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:ToUpper`(wchar`): [@(0.0.255) int]_[* ToUpper]([_^wchar^ wchar]_[*@3 c])&]
-[s2;%RU-RU Возвращает [^topic`:`/`/Core`/src`/CharSet`$en`-us`#ToUpper`(int`)^ T
+[s2;%RU-RU Возвращает  [^topic`:`/`/Core`/src`/CharSet`$en`-us`#ToUpper`(int`)^ T
 oUpper]([%-*@3 c]).&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:ToLower`(wchar`): [@(0.0.255) int]_[* ToLower]([_^wchar^ wchar]_[*@3 c])&]
-[s2;%RU-RU Возвращает [^topic`:`/`/Core`/src`/CharSet`$en`-us`#ToLower`(int`)^ T
+[s2;%RU-RU Возвращает  [^topic`:`/`/Core`/src`/CharSet`$en`-us`#ToLower`(int`)^ T
 oLower]([%-*@3 c]).&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:ToAscii`(wchar`): [@(0.0.255) int]_[* ToAscii]([_^wchar^ wchar]_[*@3 c])&]
-[s2;%RU-RU Возвращает [^topic`:`/`/Core`/src`/CharSet`$en`-us`#ToAscii`(int`)^ T
+[s2;%RU-RU Возвращает  [^topic`:`/`/Core`/src`/CharSet`$en`-us`#ToAscii`(int`)^ T
 oAscii]([%-*@3 c]).&]
 [s3;%RU-RU &]
 [s4; &]
@@ -421,52 +421,52 @@ char]_[*@3 c])&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:IsDigit`(int`): [@(0.0.255) bool]_[* IsDigit]([@(0.0.255) int]_[*@3 c])&]
-[s2;%RU-RU Возвращает true, если [%-*@3 c] цифра: 
+[s2;%RU-RU Возвращает  true, если [%-*@3 c] цифра: 
 [%-*@3 c] >`= `'0`' `&`& [%-*@3 c] <`= `'9`'.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:IsAlpha`(int`): [@(0.0.255) bool]_[* IsAlpha]([@(0.0.255) int]_[*@3 c])&]
-[s2;%RU-RU Возвращает true, если [%-*@3 c].алфавитный 
+[s2;%RU-RU Возвращает  true, если [%-*@3 c].алфавитный 
 символ [*/ ASCII]: [%-*@3 c] >`= `'A`' `&`& [%-*@3 c] <`= `'Z`' 
 `|`| [%-*@3 c] >`= `'a`' `&`& [%-*@3 c] <`= `'z`'.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:IsAlNum`(int`): [@(0.0.255) bool]_[* IsAlNum]([@(0.0.255) int]_[*@3 c])&]
-[s2;%RU-RU Возвращает true, если [%-*@3 c].либо цифра, 
+[s2;%RU-RU Возвращает  true, если [%-*@3 c].либо цифра, 
 либо алфавитный символ [*/ ASCII].&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:IsLeNum`(int`): [@(0.0.255) bool]_[* IsLeNum]([@(0.0.255) int]_[*@3 c])&]
-[s2;%RU-RU Возвращает true, если [%-*@3 c].цифра 
+[s2;%RU-RU Возвращает  true, если [%-*@3 c].цифра 
 или буква [*/ UNICODE] < 2048.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:IsPunct`(int`): [@(0.0.255) bool]_[* IsPunct]([@(0.0.255) int]_[*@3 c])&]
-[s2;%RU-RU Возвращает true, если: [%-*@3 c] !`= `' `' 
+[s2;%RU-RU Возвращает  true, если: [%-*@3 c] !`= `' `' 
 `&`& !IsAlNum([%-*@3 c]).&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:IsSpace`(int`): [@(0.0.255) bool]_[* IsSpace]([@(0.0.255) int]_[*@3 c])&]
-[s2;%RU-RU Возвращает true, если [%-*@3 c ][%- один 
+[s2;%RU-RU Возвращает  true, если [%-*@3 c ][%- один 
 из символов] `' `', `'`\f`', `'`\n`', `'`\r`', `'`\v`', 
 `'`\t`'.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:IsXDigit`(int`): [@(0.0.255) bool]_[* IsXDigit]([@(0.0.255) int]_[*@3 c])&]
-[s2;%RU-RU Возвращает true, если [%-*@3 c].16`-ричная 
+[s2;%RU-RU Возвращает  true, если [%-*@3 c].16`-ричная 
 цифра (0`-9, a`-f, A`-F).&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:IsDoubleWidth`(int`): [@(0.0.255) bool]_[* IsDoubleWidth]([@(0.0.255) int]_[*@3 c
 ])&]
-[s2;%RU-RU Возвращает true, если [%-*@3 c] символ 
+[s2;%RU-RU Возвращает  true, если [%-*@3 c] символ 
 UNICODE двойной ширины (например, идеограф 
 CJK).&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:Utf8ToAscii`(const Upp`:`:String`&`): [_^Upp`:`:String^ String]_[* Utf8ToAsci
 i]([@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 src])&]
-[s2;%RU-RU Возвращает UTF`-8 String, `'преобразованной`' 
+[s2;%RU-RU Возвращает  UTF`-8 String, `'преобразованной`' 
 в базовый ASCII. Преоьазование выполняется 
 с удалением любых Преобразование 
 выполняется с удалением любых диакритически
@@ -524,14 +524,14 @@ oLowerAscii]([@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 sr
 [s4;%RU-RU &]
 [s5;:IsLetter`(int`,byte`): [@(0.0.255) bool]_[* IsLetter]([@(0.0.255) int]_[*@3 c], 
 [_^byte^ byte]_[*@3 charset])&]
-[s2;%RU-RU Возвращает true, если символ [%-*@3 c], 
+[s2;%RU-RU Возвращает  true, если символ [%-*@3 c], 
 кодированный с использованием 8`-битного 
 набсима [%-*@3 charset], явяется буквой.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:IsUpper`(int`,byte`): [@(0.0.255) bool]_[* IsUpper]([@(0.0.255) int]_[*@3 c], 
 [_^byte^ byte]_[*@3 charset])&]
-[s2;%RU-RU Возвращает true, если символ [%-*@3 c], 
+[s2;%RU-RU Возвращает  true, если символ [%-*@3 c], 
 кодированный с использованием 8`-битного 
 набсима [%-*@3 charset], явяется буквой верхнего 
 регистра (т.е. прописной).&]
@@ -539,7 +539,7 @@ oLowerAscii]([@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 sr
 [s4;%RU-RU &]
 [s5;:IsLower`(int`,byte`): [@(0.0.255) bool]_[* IsLower]([@(0.0.255) int]_[*@3 c], 
 [_^byte^ byte]_[*@3 charset])&]
-[s2; Возвращает true, если символ [*@3 c], кодированный
+[s2; Возвращает  true, если символ [*@3 c], кодированный
  в 8`-битном [*@3 charset], является буквой 
 нижнего регистра.&]
 [s3;%RU-RU &]
@@ -848,53 +848,63 @@ eam][@(0.0.255) `&]_[*@3 in])&]
 [s5;:FromUtf8`(const char`*`,int`): [_^WString^ WString]_[* FromUtf8]([@(0.0.255) const]_[@(0.0.255) c
 har]_`*[*@3 `_s], [@(0.0.255) int]_[*@3 len])&]
 [s2;%RU-RU Преобразует UTF`-8 в строку UNICODE. 
-Any wrong bytes and sequences are converted to private 0xEExx 
-range. Deprecated, use ToUtf16.&]
+Любые неправильные байты и цепочки 
+преобразуются в приватный диапазон 
+0xEExx. Депрекирован, используйте ToUtf16.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:FromUtf8`(const char`*`): [_^WString^ WString]_[* FromUtf8]([@(0.0.255) const]_[@(0.0.255) c
 har]_`*[*@3 `_s])&]
-[s2;%RU-RU Converts zero`-terminted UTF`-8 string to UNICODE. Any 
-wrong bytes and sequences are converted to private 0xEExx range. 
-Deprecated, use ToUtf16.&]
+[s2;%RU-RU Преобразует строку UTF`-8 с нулевым 
+окончанием в UNICODE. Любые неправильные 
+байты и цепочки преобразуются в приватный 
+диапазон 0xEExx. Депрекирован, используйте 
+ToUtf16.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:FromUtf8`(const String`&`): [_^WString^ WString]_[* FromUtf8]([@(0.0.255) const]_[_^String^ S
 tring][@(0.0.255) `&]_[*@3 s])&]
-[s2;%RU-RU Converts UTF`-8 string to UNICODE. Any wrong bytes and 
-sequences are converted to private 0xEExx range. Deprecated, 
-use ToUtf16.&]
+[s2;%RU-RU Преобразует строку UTF`-8 в UNICODE. 
+Любые неправильные байты и цепочки 
+преобразуются в приватный диапазон 
+0xEExx. Депрекирован, используйте ToUtf16.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:utf8check`(const char`*`,int`): [@(0.0.255) bool]_[* utf8check]([@(0.0.255) const]_[@(0.0.255) c
 har]_`*[*@3 `_s], [@(0.0.255) int]_[*@3 len])&]
-[s2;%RU-RU Checks whether array contains a valid UTF`-8 sequence. 
-Deprecated, use CheckUtf8.&]
+[s2;%RU-RU Проверяет, содержит ли массив 
+валидную последовательность UTF`-8. 
+Депрекирован, используйте CheckUtf8.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:utf8len`(const char`*`,int`): [@(0.0.255) int]_[* utf8len]([@(0.0.255) const]_[@(0.0.255) c
 har]_`*[*@3 s], [@(0.0.255) int]_[*@3 len])&]
-[s2;%RU-RU Returns a number of UNICODE characters in UTF`-8 text. 
-Error`-escaped 0xEExx characters for ill`-formed parts of UTF`-8 
-are correctly accounted for. Deprecated, use Utf16Len.&]
+[s2;%RU-RU Возвращает  число символов UNICODE 
+в тексте UTF`-8. Error`-escaped 0xEExx characters for 
+ill`-formed parts of UTF`-8 are correctly accounted for. Депрекирован
+, используйте Utf16Len.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:utf8len`(const char`*`): [@(0.0.255) int]_[* utf8len]([@(0.0.255) const]_[@(0.0.255) cha
 r]_`*[*@3 s])&]
-[s2;%RU-RU Returns a number of UNICODE characters in zero`-terminated 
-UTF`-8 text. Error`-escaped 0xEExx characters for ill`-formed 
-parts of UTF`-8 are correctly accounted for. Deprecated, use 
+[s2;%RU-RU Возвращает  число символов UNICODE 
+в тексте UTF`-8 с нулевым окончанием. 
+Error`-escaped 0xEExx characters for ill`-formed parts of UTF`-8 
+are correctly accounted for. Депрекирован, используйте 
 Utf16Len.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:lenAsUtf8`(const wchar`*`,int`): [@(0.0.255) int]_[* lenAsUtf8]([@(0.0.255) const]_[_^wchar^ w
 char]_`*[*@3 s], [@(0.0.255) int]_[*@3 len])&]
-[s2;%RU-RU Returns number of bytes of UNICODE text when UTF`-8 encoded. 
-Deprecated, use Utf8Len.&]
+[s2;%RU-RU Возвращает  число байтов текста 
+UNICODE, кодированного как UTF`-8. Депрекирован, 
+используйте Utf8Len.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:lenAsUtf8`(const wchar`*`): [@(0.0.255) int]_[* lenAsUtf8]([@(0.0.255) const]_[_^wchar^ w
 char]_`*[*@3 s])&]
-[s2;%RU-RU Returns number of bytes of UNICODE zero`-terminated text 
-when UTF`-8 encoded. Deprecated, use Utf8Len.&]
+[s2;%RU-RU Возвращает  число байтов текста 
+UNICODE с нулевым окончанием, кодированного 
+как UTF`-8. Депрекирован, используйте 
+Utf8Len.&]
 [s0; ]]

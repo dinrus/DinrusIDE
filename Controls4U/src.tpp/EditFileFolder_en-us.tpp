@@ -59,7 +59,7 @@ files`", `"`*.c `*.h`").&]
 [s3; &]
 [s4;%- &]
 [s5;:ActiveType`(int`):%- [@(0.0.255) void]_[* ActiveType]([@(0.0.255) int]_[*@3 type])&]
-[s2; Sets the active file [%-*@3 type] .&]
+[s2; Устанавливаетthe active file [%-*@3 type] .&]
 [s3; &]
 [s4;%- &]
 [s5;:AllFilesType`(`):%- [@(0.0.255) void]_[* AllFilesType]()&]
@@ -68,17 +68,17 @@ files`", `"`*.c `*.h`").&]
 [s4;%- &]
 [s5;:ActiveDir`(const Upp`:`:String`&`):%- [@(0.0.255) void]_[* ActiveDir]([@(0.0.255) cons
 t]_[_^String^ String][@(0.0.255) `&]_[*@3 d])&]
-[s2; Sets the active directory of file selector (directory where 
+[s2; Устанавливаетthe active directory of file selector (directory where 
 file selector starts).&]
 [s3; &]
 [s4;%- &]
 [s5;:MkDirOption`(bool`):%- [@(0.0.255) void]_[* MkDirOption]([@(0.0.255) bool]_[*@3 b])&]
-[s2; Makes `"Make directory`" button visible. Default is true.&]
+[s2; Makes `"Make directory`" button visible. Дефолт равен true.&]
 [s3; &]
 [s4;%- &]
 [s5;:BaseDir`(const char`*`):%- [@(0.0.255) void]_[* BaseDir]([@(0.0.255) const]_[@(0.0.255) c
 har]_`*[*@3 dir])&]
-[s2; Sets [%-*@3 dir] to be the base directory. If used, files can 
+[s2; Устанавливает[%-*@3 dir] to be the base directory. If used, files can 
 be selected only inside this base directory (or its subdirectories) 
 and selected file paths are relative to it.&]
 [s3; &]
@@ -103,7 +103,7 @@ t]&]
 [s4;%- &]
 [s5;:Set`(const Upp`:`:String`&`):%- [@(0.0.255) void]_[* Set]([@(0.0.255) const]_[_^String^ S
 tring][@(0.0.255) `&]_[*@3 s])&]
-[s2; Sets path in field with [%-*@3 s].&]
+[s2; Устанавливаетpath in field with [%-*@3 s].&]
 [s3; &]
 [s4;%- &]
 [s5;:operator`=`(const char`*`):%- [_^EditFileFolder^ EditFileFolder]_`&[* operator`=]([@(0.0.255) c
@@ -122,7 +122,7 @@ nst]_[_^String^ String][@(0.0.255) `&]_[*@3 s])&]
 [s3; &]
 [s4;%- &]
 [s5;:IsEmpty`(`):%- [@(0.0.255) bool]_[* IsEmpty]()&]
-[s2; Возвращает true, если field is empty.&]
+[s2; Возвращает  true, если field is empty.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:NotNull`(bool`):%- [_^EditFileFolder^ EditFileFolder]_`&[* NotNull]([@(0.0.255) bool]_
@@ -161,12 +161,12 @@ path.&]
 [s4;%- &]
 [s5;:BrowseRightWidth`(int`):%- [_^EditFileFolder^ EditFileFolder]_`&[* BrowseRightWidth](
 [@(0.0.255) int]_[*@3 w])&]
-[s2; Sets the width [%-*@3 w] of the right browse button.&]
+[s2; Устанавливаетthe width [%-*@3 w] of the right browse button.&]
 [s3; &]
 [s4;%- &]
 [s5;:BrowseOpenFolderWidth`(int`):%- [_^EditFileFolder^ EditFileFolder]_`&[* BrowseOpenFo
 lderWidth]([@(0.0.255) int]_[*@3 w])&]
-[s2; Sets the width [%-*@3 w] of the open folder button.&]
+[s2; Устанавливаетthe width [%-*@3 w] of the open folder button.&]
 [s3; &]
 [s4;%- &]
 [s5;:UseDropping`(bool`):%- [_^EditFileFolder^ EditFileFolder]_`&[* UseDropping]([@(0.0.255) b
@@ -177,7 +177,7 @@ history.&]
 [s4;%- &]
 [s5;:BrowseDroppingWidth`(int`):%- [_^EditFileFolder^ EditFileFolder]_`&[* BrowseDropping
 Width]([@(0.0.255) int]_[*@3 w])&]
-[s2; Sets the width of the drop down list to [%-*@3 w] .&]
+[s2; Устанавливаетthe width of the drop down list to [%-*@3 w] .&]
 [s3; &]
 [s4;%- &]
 [s5;:WhenChange:%- [_^Callback^ Function<bool ()>]_[* WhenChange]&]

@@ -13,7 +13,7 @@ topic "PasteClip basic formats support functions";
 [ {{10000@(113.42.0) [s0;%% [*@7;4 PasteClip basic formats support functions.]]}}&]
 [s3; &]
 [s5;:ClipFmtsText`(`): [@(0.0.255) const]_[@(0.0.255) char]_`*[* ClipFmtsText]()&]
-[s2;%% Returns a list of format ids associated with plain text (actually, 
+[s2;%% Возвращает a list of format ids associated with plain text (actually, 
 returns `"text;wtext`").&]
 [s3; &]
 [s4; &]
@@ -48,7 +48,7 @@ end]([_^VectorMap^ VectorMap]<[_^String^ String], [_^ClipData^ ClipData]>`&_[*@3
 [s3;%% &]
 [s4; &]
 [s5;:ClipFmtsImage`(`): [@(0.0.255) const]_[@(0.0.255) char]_`*[* ClipFmtsImage]()&]
-[s2;%% Returns host platform specific semicolon separated list of 
+[s2;%% Возвращает host platform specific semicolon separated list of 
 format ids associated with raster images.&]
 [s3; &]
 [s4; &]
@@ -78,7 +78,7 @@ to [%-*@3 data].&]
 [s4; &]
 [s5;:IsAvailableFiles`(PasteClip`&`): [@(0.0.255) bool]_[* IsAvailableFiles]([_^PasteClip^ P
 asteClip][@(0.0.255) `&]_[*@3 clip])&]
-[s2;%% Возвращает true, если [%-*@3 clip].contains a list of OS shell files 
+[s2;%% Возвращает  true, если [%-*@3 clip].contains a list of OS shell files 
 (drag operation from OS shell filelist to U`+`+ application).&]
 [s3;%% &]
 [s4; &]
@@ -113,7 +113,7 @@ ol]_[* Accept]([_^PasteClip^ PasteClip][@(0.0.255) `&]_[*@3 clip])&]
 ]>_[_^VectorMap^ VectorMap]<[_^String^ String], [_^ClipData^ ClipData]>_[* InternalClip](
 [@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[*@3 x], [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 i
 d]_`=_`"`")&]
-[s2;%% Creates `'internal`' clip for variable [%-*@3 x]. Internal clips 
+[s2;%% Создаёт `'internal`' clip for variable [%-*@3 x]. Internal clips 
 only work within single process as they are using simple pointers 
 to objects. [%-*@3 x] must exists as long as clip is available.&]
 [s3;%% &]
@@ -121,7 +121,7 @@ to objects. [%-*@3 x] must exists as long as clip is available.&]
 [s5;:IsAvailableInternal`(PasteClip`&`,const char`*`): [@(0.0.255) template]_<[@(0.0.255) c
 lass]_[*@4 T]>_[@(0.0.255) bool]_[* IsAvailableInternal]([_^PasteClip^ PasteClip][@(0.0.255) `&
 ]_[*@3 d], [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 id]_`=_`"`")&]
-[s2;%% Возвращает true, если there is internal clip  of required type and 
+[s2;%% Возвращает  true, если there is internal clip  of required type and 
 [%-*@3 id ]in [%-*@3 d].&]
 [s3;%% &]
 [s4; &]
@@ -134,7 +134,7 @@ s]_[*@4 T]>_[@(0.0.255) bool]_[* AcceptInternal]([_^PasteClip^ PasteClip][@(0.0.
 [s5;:GetInternal`(PasteClip`&`): [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 T]>_[@(0.0.255) c
 onst]_[*@4 T][@(0.0.255) `&]_[* GetInternal]([_^PasteClip^ PasteClip][@(0.0.255) `&]_[*@3 d])
 &]
-[s2;%% Returns a reference to internal clip.&]
+[s2;%% Возвращает a reference to internal clip.&]
 [s4; &]
 [s5;:Upp`:`:GetInternalPtr`(Upp`:`:PasteClip`&`,const char`*`): [@(0.0.255) template]_<
 [@(0.0.255) class]_[*@4 T]>_[@(0.0.255) const]_[*@4 T]_`*[* GetInternalPtr]([_^Upp`:`:PasteClip^ P

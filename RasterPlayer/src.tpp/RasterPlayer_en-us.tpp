@@ -73,7 +73,7 @@ or frame).&]
 [s5;%- &]
 [s6;:RasterPlayer`:`:SetBackground`(Color`):%- [_^RasterPlayer^ RasterPlayer][@(0.0.255) `&
 ]_[* SetBackground]([_^Color^ Color]_[*@3 c])&]
-[s3; Sets the color not filled with the animation and the transparent 
+[s3; Устанавливаетthe color not filled with the animation and the transparent 
 color.&]
 [s1; &]
 [s5;%- &]
@@ -109,7 +109,7 @@ program.&]
 [s5;%- &]
 [s6;:RasterPlayer`:`:SetPage`(int`):%- [@(0.0.255) void]_[* SetPage]([@(0.0.255) int]_[*@3 i])
 &]
-[s3; Sets the active page (frame).&]
+[s3; Устанавливаетthe active page (frame).&]
 [s1; &]
 [s5;%- &]
 [s6;:RasterPlayer`:`:WhenShown:%- [_^Callback^ Event<>]_[* WhenShown]&]

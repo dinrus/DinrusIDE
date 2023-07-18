@@ -21,7 +21,7 @@ Ftp] file system objects.at random position. &]
 [ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:Upp`:`:SFtpStream`:`:operator bool`(`)const: [* operator_bool]()_[@(0.0.255) const]&]
-[s2;%% Возвращает true, если the stream is open.&]
+[s2;%% Возвращает  true, если the stream is open.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:SFtpStream`:`:Open`(Upp`:`:SFtp`&`,const char`*`,Upp`:`:dword`,int`): [@(0.0.255) b
@@ -30,22 +30,22 @@ har]_`*[*@3 filename], [_^Upp`:`:dword^ dword]_[*@3 mode], [@(0.0.255) int]_[*@3
 644])&]
 [s2;%% Opens a remote file system object pointed by [%-*@3 filename] 
 in specified [%-*@3 mode] (as defined in [^topic`:`/`/Core`/src`/Stream`_ru`-ru`#BlockStream`:`:class^ B
-lockStream]), and with specific POSIX access rights. Returns 
+lockStream]), and with specific POSIX access rights. Возвращает 
 true on success. Requires a valid [%-*@3 sftp] object. &]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:SFtpStream`:`:GetHandle`(`)const: [_^Upp`:`:SFtpHandle^ SFtpHandle]_[* GetHan
 dle]()_[@(0.0.255) const]&]
-[s2;%% Returns the associated sftp file handle.&]
+[s2;%% Возвращает the associated sftp file handle.&]
 [s3; &]
 [s3; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Constructor detail]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Конструктор  detail]]}}&]
 [s3; &]
 [s5;:Upp`:`:SFtpStream`:`:SFtpStream`(Upp`:`:SFtp`&`,const char`*`,Upp`:`:dword`,int`): [* S
 FtpStream]([_^Upp`:`:SFtp^ SFtp][@(0.0.255) `&]_[*@3 sftp], [@(0.0.255) const]_[@(0.0.255) c
 har]_`*[*@3 filename], [_^Upp`:`:dword^ dword]_[*@3 mode], [@(0.0.255) int]_[*@3 acm]_`=_[@3 0
 644])&]
-[s2;%% Creates a block stream representing a remote file system object 
+[s2;%% Создаёт a block stream representing a remote file system object 
 pointed by [%-*@3 filename] in specified [%-*@3 mode] (as defined 
 in [^topic`:`/`/Core`/src`/Stream`_ru`-ru`#BlockStream`:`:class^ BlockStream]), 
 and with specific POSIX access rights. Requires a valid [%-*@3 sftp] 
@@ -67,10 +67,10 @@ ic][3 _][*@3;3 SFtpStream]&]
 [_^Upp`:`:SFtp^ SFtp][@(0.0.255) `&]_[*@3 sftp], [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 f
 ilename])&]
 [s2;%% Opens a remote file system object with [%-*@3 filename] for 
-reading with specific POSIX access rights. Returns true on success. 
+reading with specific POSIX access rights. Возвращает true on success. 
 Requires a valid [%-*@3 sftp] object.&]
 [s3;%% &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Constructor detail]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Конструктор  detail]]}}&]
 [s3; &]
 [s5;:Upp`:`:SFtpFileIn`:`:SFtpFileIn`(Upp`:`:SFtp`&`,const char`*`): [* SFtpFileIn]([_^Upp`:`:SFtp^ S
 Ftp][@(0.0.255) `&]_[*@3 sftp], [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 filename])&]
@@ -95,10 +95,10 @@ mode.&]
 [* Open]([_^Upp`:`:SFtp^ SFtp][@(0.0.255) `&]_[*@3 sftp], [@(0.0.255) const]_[@(0.0.255) char
 ]_`*[*@3 filename], [@(0.0.255) int]_[*@3 acm]_`=_[@3 0644])&]
 [s2;%% Opens a remote file system object with [%-*@3 filename] for 
-writing with specific POSIX access rights. Returns true on success. 
+writing with specific POSIX access rights. Возвращает true on success. 
 Requires a valid [%-*@3 sftp] object.&]
 [s3;%% &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Constructor detail]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Конструктор  detail]]}}&]
 [s3; &]
 [s5;:Upp`:`:SFtpFileOut`:`:SFtpFileOut`(Upp`:`:SFtp`&`,const char`*`): [* SFtpFileOut](
 [_^Upp`:`:SFtp^ SFtp][@(0.0.255) `&]_[*@3 sftp], [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 f
@@ -124,10 +124,10 @@ mode.&]
 pen]([_^Upp`:`:SFtp^ SFtp][@(0.0.255) `&]_[*@3 sftp], [@(0.0.255) const]_[@(0.0.255) char]_
 `*[*@3 filename])&]
 [s2;%% Opens a remote file system object with [%-*@3 filename] for 
-appending with specific POSIX access rights. Returns true on 
+appending with specific POSIX access rights. Возвращает true on 
 success. Requires a valid [%-*@3 sftp] object.&]
 [s3;%% &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Constructor detail]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Конструктор  detail]]}}&]
 [s3; &]
 [s5;:Upp`:`:SFtpFileAppend`:`:SFtpFileAppend`(Upp`:`:SFtp`&`,const char`*`): [* SFtpFil
 eAppend]([_^Upp`:`:SFtp^ SFtp][@(0.0.255) `&]_[*@3 sftp], [@(0.0.255) const]_[@(0.0.255) ch

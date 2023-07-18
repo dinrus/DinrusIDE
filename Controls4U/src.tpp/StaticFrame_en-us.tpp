@@ -55,7 +55,7 @@ topic "StaticFrame";
 [ {{10000F(128)G(128)@1 [s0; [*2 Список Публичных Членов]]}}&]
 [s6;%- &]
 [s0; [2 void_][*2 SetFrame][2 (CtrlFrame`&_][*@3;2 frame][2 )]&]
-[s0;l288; [2 Sets the decorative frame of ColumnList. ]&]
+[s0;l288; [2 Устанавливаетthe decorative frame of ColumnList. ]&]
 [s0;l288; [2 Valid ][*@3;2 frame ][2 values are InsetFrame(), OutsetFrame(), 
 ButtonFrame(), ThinInsetFrame(), ThinOutsetFrame(), BlackFrame(), 
 FieldFrame(), TopSeparatorFrame(), BottomSeparatorFrame(), LeftSeparatorFrame(), 
@@ -64,7 +64,7 @@ RightSeparatorFrame().]&]
 [s6;%- &]
 [s5;:StaticFrame`:`:SetBackground`(Color`):%- [_^StaticFrame^ StaticFrame][@(0.0.255) `&]_
 [* SetBackground]([_^Color^ Color]_[*@3 c])&]
-[s3; Sets [%-*@3 c].as frame background color. Null is valid as transparent 
+[s3; Устанавливает[%-*@3 c].as frame background color. Null is valid as transparent 
 color.&]
 [s1; &]
 [s0; ]

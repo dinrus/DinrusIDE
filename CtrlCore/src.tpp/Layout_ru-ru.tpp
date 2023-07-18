@@ -35,7 +35,7 @@ must be one of base classes of T.&]
 [s5;:CtrlLayout`(T`&`,const char`*`):%- [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 T]>_
 [@(0.0.255) void]_[* CtrlLayout]([*@4 T][@(0.0.255) `&]_[*@3 ctrl], [@(0.0.255) const]_[@(0.0.255) c
 har]_`*[*@3 title])&]
-[s2; Calls CtrlLayout and then calls Title method of [*@3 ctrl ](assigning 
+[s2; Вызывает CtrlLayout and then calls Title method of [*@3 ctrl ](assigning 
 a caption text to the TopWindow).&]
 [s7; [*C@4 T]-|Parent Ctrl type.&]
 [s7; [%-*C@3 ctrl]-|Parent Ctrl.&]
@@ -45,7 +45,7 @@ a caption text to the TopWindow).&]
 [s5;:CtrlLayoutOK`(T`&`,const char`*`):%- [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 T]>
 _[@(0.0.255) void]_[* CtrlLayoutOK]([*@4 T][@(0.0.255) `&]_[*@3 ctrl], 
 [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 title])&]
-[s2; Calls CtrlLayout and then assigns Acceptor(IDOK) to the [/ ok] 
+[s2; Вызывает CtrlLayout and then assigns Acceptor(IDOK) to the [/ ok] 
 member Ctrl variable and makes it the default button (activated 
 by Enter).&]
 [s7; [*C@4 T]-|Parent Ctrl type.&]
@@ -56,7 +56,7 @@ by Enter).&]
 [s5;:CtrlLayoutCancel`(T`&`,const char`*`):%- [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 T
 ]>_[@(0.0.255) void]_[* CtrlLayoutCancel]([*@4 T][@(0.0.255) `&]_[*@3 ctrl], 
 [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 title])&]
-[s2; Calls CtrlLayout and then assigns Rejector(IDCANCEL) to the 
+[s2; Вызывает CtrlLayout and then assigns Rejector(IDCANCEL) to the 
 [/ cancel] member Ctrl variable and makes it the default cancel 
 button (activated by Esc).&]
 [s7; [*C@4 T]-|Parent Ctrl type.&]
@@ -67,7 +67,7 @@ button (activated by Esc).&]
 [s5;:CtrlLayoutOKCancel`(T`&`,const char`*`):%- [@(0.0.255) template]_<[@(0.0.255) class]_
 [*@4 T]>_[@(0.0.255) void]_[* CtrlLayoutOKCancel]([*@4 T][@(0.0.255) `&]_[*@3 ctrl], 
 [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 title])&]
-[s2; Calls CtrlLayoutOK and then assigns Rejector(IDCANCEL) to the 
+[s2; Вызывает CtrlLayoutOK and then assigns Rejector(IDCANCEL) to the 
 [/ cancel] member Ctrl variable and makes it the default cancel 
 button (activated by Esc).&]
 [s7; [*C@4 T]-|Parent Ctrl type.&]
@@ -78,7 +78,7 @@ button (activated by Esc).&]
 [s5;:CtrlLayoutExit`(T`&`,const char`*`):%- [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 T
 ]>_[@(0.0.255) void]_[* CtrlLayoutExit]([*@4 T][@(0.0.255) `&]_[*@3 ctrl], 
 [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 title])&]
-[s2; Calls CtrlLayoutOK and then assigns Acceptor(IDEXIT) to the 
+[s2; Вызывает CtrlLayoutOK and then assigns Acceptor(IDEXIT) to the 
 [/ exit] member Ctrl variable and makes it the default button (activated 
 by Enter).&]
 [s7; [*C@4 T]-|Parent Ctrl type.&]

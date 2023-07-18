@@ -36,7 +36,7 @@ trl]&]
 [s5;:ButtonOption`:`:SetImage`(const Image`&`):%- [_^ButtonOption^ ButtonOption][@(0.0.255) `&
 ]_[* SetImage]([@(0.0.255) const]_[_^Image^ Image][@(0.0.255) `&]_[*@3 img])&]
 [s2; Устанавливает изображение [%-*C@3 img], 
-отображаемое в ButtonOption. Возвращает 
+отображаемое в ButtonOption. Возвращает  
 `*this.&]
 [s3; &]
 [s4;%- &]
@@ -58,7 +58,7 @@ onst]_[_^Image^ Image][@(0.0.255) `&]_[*@3 img])&]
 [s3; &]
 [s4;%- &]
 [s5;:ButtonOption`:`:Get`(`)const:%- [@(0.0.255) bool]_[* Get]()_[@(0.0.255) const]&]
-[s2; Возвращает состояние ButtonOption.&]
+[s2; Возвращает  состояние ButtonOption.&]
 [s3; &]
 [s4;%- &]
 [s5;:ButtonOption`:`:operator`=`(bool`):%- [@(0.0.255) void]_[* operator`=]([@(0.0.255) boo
@@ -77,18 +77,18 @@ l]_[*@3 b])&]
 [s4;%- &]
 [s5;:ButtonOption`:`:GetLabel`(`)const:%- [_^String^ String]_[* GetLabel]()_[@(0.0.255) con
 st]&]
-[s2; Возвращает ярлык кнопки.&]
+[s2; Возвращает  ярлык кнопки.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:ButtonOption`:`:StyleDefault`(`):%- [@(0.0.255) static] [@(0.0.255) const]_[_^ButtonOption`:`:Style^ S
 tyle][@(0.0.255) `&]_[* StyleDefault]()&]
-[s2; Возвращает дефолтный стиль, используемый 
+[s2; Возвращает  дефолтный стиль, используемый 
 для черчения `"нормальной`" ButtonOption.&]
 [s0; &]
 [s4;%- &]
 [s5;:ButtonOption`:`:StyleFlat`(`):%- [@(0.0.255) static] [@(0.0.255) const]_[_^ButtonOption`:`:Style^ S
 tyle][@(0.0.255) `&]_[* StyleFlat]()&]
-[s2; Возвращает дефолтный стиль, используемый 
+[s2; Возвращает  дефолтный стиль, используемый 
 для черчения `"плоской`" ButtonOption.&]
 [s3;%- &]
 [s4;%- &]
@@ -96,13 +96,13 @@ tyle][@(0.0.255) `&]_[* StyleFlat]()&]
 onOption][@(0.0.255) `&]_[* SetStyle]([@(0.0.255) const]_[_^ButtonOption`:`:Style^ Style][@(0.0.255) `&
 ]_[*@3 s])&]
 [s2; Устанавливает стиль кнопки в [%-*@3 s]. 
-Возвращает `*this для сцепления.&]
+Возвращает  `*this для сцепления.&]
 [s3; &]
 [s4;%- &]
 [s5;:ButtonOption`:`:AutoStyle`(`):%- [_^ButtonOption^ ButtonOption][@(0.0.255) `&]_[* Auto
 Style]()&]
 [s2; Очищает всю информацию о стиле, возвращая 
-к виду по умолчанию. Возвращает `*this 
+к виду по умолчанию. Возвращает  `*this 
 для сцепления.&]
 [s3;%- &]
 [s0; &]

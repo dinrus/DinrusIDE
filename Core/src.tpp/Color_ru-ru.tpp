@@ -10,157 +10,173 @@ topic "Класс Color";
 [b42;2 $$9,9#13035079074754324216151401829390:normal]
 [2 $$0,0#00000000000000000000000000000000:Default]
 [{_}%RU-RU 
-[ {{10000@(113.42.0) [s0; [*@7;4 Класс ][*@(229)4 Color]]}}&]
+[ {{10000@(113.42.0) [s0; [*@7;4 Класс ][*@(229)4 Color (Цвет)]]}}&]
 [s3;%- &]
 [s1;:Color`:`:class:%- [@(0.0.255)3 class][3 _][*3 Color][3 _:_][@(0.0.255)3 private][3 _][*@3;3 Ass
 ignValueTypeNo][@(0.0.255)3 <][*3 Color][3 , COLOR`_V, ][_^Moveable^3 Moveable][@(0.0.255)3 <
 ][*3 Color][@(0.0.255)3 >][3 _>_]&]
-[s9; [* Color] type representing RGB color. All components are in the 
-range 0 through 255. Null value is defined for Color. Color is 
-Value compatible as a Rich`-Value type (supports Value comparison, 
-serialization etc.).&]
+[s9; Тип [* Color] представляет цвет RGB (КЗС). 
+Все его компоненты находятся в диапазоне 
+от 0 до 255. Значение Null для Color определено. 
+Color совместим с Value как тип Rich`-Value (поддержива
+ется сравнение значений, сериализация 
+и проч.).&]
 [s3; &]
 [s0;%- &]
 [ {{10000F(128)G(128)@1 [s0; [* Детали Конструктора]]}}&]
 [s3; &]
 [s5;:Color`:`:Color`(`):%- [* Color]()&]
-[s2; Дефолтный конструктор. Leaves component 
-values uninitialized.&]
+[s2; Дефолтный конструктор. Оставляет 
+значения компонентов неинициализованными.&]
 [s3; &]
 [s4;%- &]
 [s5;:Color`:`:Color`(int`,int`,int`):%- [* Color]([@(0.0.255) int]_[*@3 r], 
 [@(0.0.255) int]_[*@3 g], [@(0.0.255) int]_[*@3 b])&]
-[s2; Constructor.&]
-[s7; [%-*C@3 r]-|Red channel.&]
-[s7; [%-*C@3 g]-|Green channel.&]
-[s7; [%-*C@3 b]-|Blue channel.&]
+[s2; Конструктор.&]
+[s7; [%-*C@3 r]-|Красный канал.&]
+[s7; [%-*C@3 g]-|Зелёный канал.&]
+[s7; [%-*C@3 b]-|Синий канал.&]
 [s3; &]
 [s4;%- &]
 [s5;:Color`:`:Color`(const Nuller`&`):%- [* Color]([@(0.0.255) const]_[_^Nuller^ Nuller][@(0.0.255) `&
 ])&]
-[s2; Null constructor.&]
+[s2; Конструктор Null.&]
 [s3; &]
 [s4;%- &]
 [s5;:Color`:`:Color`(const Value`&`):%- [* Color]([@(0.0.255) const]_[_^Value^ Value][@(0.0.255) `&
 ]_[*@3 q])&]
-[s2; Conversion from Value.&]
-[s7; [%-*@3 q]-|Value.&]
+[s2; Преобразование из Value.&]
+[s7; [%-*@3 q]-|Значение.&]
 [s3; &]
 [s4;%- &]
 [s5;:Color`:`:Color`(Color`(`*`)`(`)`):%- [* Color]([* Color]_(`*[*@3 fn])())&]
-[s6;%- `[deprecated`]&]
-[s2; This constructor allows using a pointer to a function returning 
-Colors instead of Colors in many places. Global functions returning 
-Color are needed instead of global Color constants on many platforms, 
-because often global variables are not allowed when using dynamic 
-libraries.&]
-[s7; [%-*@3 fn]-|Pointer to a function returning Color.&]
+[s6;%- `[депрекирован`]&]
+[s2; Этот конструктор  позволяет использовать 
+указатель на функцию, возвращающую 
+Colors, вместо Colors во многих местах. Глобальные 
+функции, возвращающие Color, а не глобальные 
+константы цвета, требуются на многих 
+платформах, поскольку при использовании 
+динамических библиотек глобальные 
+переменные запрещены.&]
+[s7; [%-*@3 fn]-|Указатель на функцию, возвращающую 
+Color.&]
 [s0; &]
 [s4;%- &]
 [s5;:Color`:`:Color`(RGBA`):%- [* Color]([_^RGBA^ RGBA]_[*@3 rgba])&]
-[s2; Conversion from a RGBA structure [%-*@3 rgba].&]
+[s2; Преобразование из структуры RGBA [%-*@3 rgba].&]
 [s3; &]
 [s0;%- &]
 [ {{10000F(128)G(128)@1 [s0; [* Список Публичных Членов]]}}&]
 [s3; &]
 [s5;:Color`:`:operator Value`(`)const:%- [* operator_Value]()_[@(0.0.255) const]&]
-[s2; Conversion to Value.&]
-[s7; [*/ Возвратное значение]-|Value.&]
+[s2; Преобразование в Value.&]
+[s7; [*/ Возвратное значение]-|Значение.&]
 [s3; &]
 [s4;%- &]
 [s5;:Color`:`:GetRaw`(`)const:%- [_^dword^ dword]_[* GetRaw]()_[@(0.0.255) const]&]
-[s7; [*/ Возвратное значение]-|Platform specific dword 
-representing the color.&]
+[s7; [*/ Возвратное значение]-|Платформо`-специфичны
+й dword, представляющий этот цвет.&]
 [s3; &]
 [s4;%- &]
 [s5;:Color`:`:GetR`(`)const:%- [@(0.0.255) int]_[* GetR]()_[@(0.0.255) const]&]
-[s7; [*/ Возвратное значение]-|The red component.&]
+[s7; [*/ Возвратное значение]-|Красная составляющая
+.&]
 [s3; &]
 [s4;%- &]
 [s5;:Color`:`:GetG`(`)const:%- [@(0.0.255) int]_[* GetG]()_[@(0.0.255) const]&]
-[s7; [*/ Возвратное значение]-|The green component.&]
+[s7; [*/ Возвратное значение]-|Зелёная составляющая
+.&]
 [s3; &]
 [s4;%- &]
 [s5;:Color`:`:GetB`(`)const:%- [@(0.0.255) int]_[* GetB]()_[@(0.0.255) const]&]
-[s7; [*/ Возвратное значение]-|The blue component.&]
+[s7; [*/ Возвратное значение]-|Синяя составляющая.&]
 [s3; &]
 [s4;%- &]
 [s5;:Color`:`:SetNull`(`):%- [@(0.0.255) void]_[* SetNull]()&]
-[s2; Sets the Color to Null.&]
+[s2; Устанавливает этот Color в Null.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Color`:`:IsNullInstance`(`)const:%- [@(0.0.255) bool]_[* IsNullInstance]()_[@(0.0.255) c
 onst]&]
-[s7; [*/ Возвратное значение]-|True if Color is Null. 
-Used to implement IsNull for Color.&]
+[s7; [*/ Возвратное значение]-|True, если Color 
+равен Null. Используется для реализации 
+IsNull для Color.&]
 [s3; &]
 [s4;%- &]
 [s5;:Color`:`:GetHashValue`(`)const:%- [@(0.0.255) unsigned]_[* GetHashValue]()_[@(0.0.255) c
 onst]&]
-[s7; [*/ Возвратное значение]-|Hash`-value for Color.&]
+[s7; [*/ Возвратное значение]-|Хэш`-значение 
+для Color.&]
 [s3; &]
 [s4;%- &]
 [s5;:Color`:`:operator`=`=`(Color`)const:%- [@(0.0.255) bool]_[* operator`=`=]([_^Color^ Co
 lor]_[*@3 c])_[@(0.0.255) const]&]
-[s7; [%-*C@3 c]-|Color to compare with.&]
-[s7; [*/ Возвратное значение]-|True if Color is equal 
-to [@3 c].&]
+[s7; [%-*C@3 c]-|Сравниваемый цвет.&]
+[s7; [*/ Возвратное значение]-|True, если Color 
+равен [@3 c].&]
 [s3; &]
 [s4;%- &]
 [s5;:Color`:`:operator`!`=`(Color`)const:%- [@(0.0.255) bool]_[* operator!`=]([_^Color^ Col
 or]_[*@3 c])_[@(0.0.255) const]&]
-[s7; [%-*C@3 c]-|Color to compare with.&]
-[s7; [*/ Возвратное значение]-|True if Color is not 
-equal to [@3 c].&]
+[s7; [%-*C@3 c]-|Сравниваемый цвет.&]
+[s7; [*/ Возвратное значение]-|True,если Color 
+не равен [@3 c].&]
 [s3; &]
 [s4;%- &]
 [s5;:Color`:`:Serialize`(Stream`&`):%- [@(0.0.255) void]_[* Serialize]([_^Stream^ Stream][@(0.0.255) `&
 ]_[*@3 s])&]
-[s2; Serializes the color to the [^topic`:`/`/Core`/src`/Stream`$en`-us`#Stream`:`:class^ S
+[s2; Сериализует этот цвет в поток [^topic`:`/`/Core`/src`/Stream`_ru`-ru`#Stream`:`:class^ S
 tream] [%-*@3 s].&]
 [s3; &]
 [s4;%- &]
 [s5;:Color`:`:FromRaw`(dword`):%- [@(0.0.255) static] [_^Color^ Color]_[* FromRaw]([_^dword^ d
 word]_[*@3 co])&]
-[s2; Creates a Color based on a platform specific raw dword value.&]
-[s7; [%-*C@3 co]-|Raw dword value.&]
+[s2; Создаёт Color, основанный на платформо`-специф
+ичном `"сыром`" значении dword (бцел).&]
+[s7; [%-*C@3 co]-|Сырое бцел`-значение.&]
 [s7; [*/ Возвратное значение]-|Color.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:Color`:`:Special`(int`):%- [@(0.0.255) static] [_^Upp`:`:Color^ Color]_[* Speci
 al]([@(0.0.255) int]_[*@3 n])&]
-[s2; Creates special color [%-*@3 n]. Special colors are application 
-defined, sort of `"escape`" color in situation where something 
-else has to be stored in Color, e.g. index of some color palette.&]
+[s2; Создаёт особый цвет [%-*@3 n]. Спеццвета 
+определены приложением, наподобии 
+цвета `"escape`" (`"обманки`") для тех ситуаций, 
+когда в Цвете нужно сохранить нечто 
+иное, например, индекс какой`-то цветовой 
+палитры.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:Color`:`:GetSpecial`(`)const:%- [@(0.0.255) int]_[* GetSpecial]()_[@(0.0.255) c
 onst]&]
-[s2; Returns special color value or `-1 if Color is not special.&]
+[s2; Возвращает  значение спеццвета или 
+`-1, если Color не спец.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Color`:`:operator COLORREF`(`)const:%- [* operator_COLORREF]()_[@(0.0.255) const]&]
-[s6;%- Win32 specific.&]
-[s2; Return COLORREF for Color.&]
+[s6;%- Специфично для Win32.&]
+[s2; Возвращает  COLORREF для Color.&]
 [s7; [*/ Возвратное значение]-|COLORREF.&]
 [s3; &]
 [s4;%- &]
 [s5;:Color`:`:FromCR`(COLORREF`):%- [@(0.0.255) static] [_^Color^ Color]_[* FromCR](COLORRE
 F_[*@3 cr])&]
-[s6; Win32 specific.&]
-[s2; Creates Color from COLORREF.&]
+[s6;%- Специфично для Win32.&]
+[s2; Создаёт Color из COLORREF.&]
 [s7; [%-*C@3 cr]-|COLORREF.&]
 [s7; [*/ Возвратное значение]-|Color.&]
 [s3; &]
 [s4;%- &]
 [s5;:Color`:`:operator dword`(`)const:%- [* operator_dword]()_[@(0.0.255) const]&]
-[s6;%- Not available on Win32&]
+[s6;%- Недоступно на Win32&]
 [s7; [*/ Возвратное значение]-|[^topic`:`/`/Core`/src`/Color`$en`-us`#Color`:`:GetRaw`(`)const^ G
 etRaw]().&]
 [s3; &]
 [s4;%- &]
 [s5;:Color`:`:operator RGBA`(`)const:%- [* operator_RGBA]()_[@(0.0.255) const]&]
-[s2; Returns a RGBA structure containing the color information.&]
+[s2; Возвращает  структуру RGBA, содержащую 
+цветовую информацию.&]
 [s3;%- &]
 [s0; &]
 [s0; &]
@@ -168,235 +184,282 @@ etRaw]().&]
 [ {{10000@(113.42.0) [s0; [*@(229)4 Утилитные Функции]]}}&]
 [s3;%- &]
 [s5;:GetRValue`(dword`):%- [@(0.0.255) int]_[* GetRValue]([_^dword^ dword]_[*@3 c])&]
-[s2; Returns red component from a platform specific value.&]
-[s7; [%-*C@3 c]-|Platform specific value.&]
-[s7; [*/ Возвратное значение]-|Red component.&]
+[s2; Возвращает  красную составляющую 
+из значения, специфичного для платформы.&]
+[s7; [%-*C@3 c]-|Платформно`-специфичное значение.&]
+[s7; [*/ Возвратное значение]-|Красная составляющая
+.&]
 [s3; &]
 [s4;%- &]
 [s5;:GetGValue`(dword`):%- [@(0.0.255) int]_[* GetGValue]([_^dword^ dword]_[*@3 c])&]
-[s2; Returns green component from a platform specific value.&]
-[s7; [%-*C@3 c]-|Platform specific value.&]
-[s7; [*/ Возвратное значение]-|Green component.&]
+[s2; Возвращает  зелёную составляющую 
+из значения, специфичного для платформы.&]
+[s7; [%-*C@3 c]-|Платформно`-специфичное значение&]
+[s7; [*/ Возвратное значение]-|Зелёная составляющая
+.&]
 [s3; &]
 [s4;%- &]
 [s5;:GetBValue`(dword`):%- [@(0.0.255) int]_[* GetBValue]([_^dword^ dword]_[*@3 c])&]
-[s2; Returns blue component from a platform specific value.&]
-[s7; [%-*C@3 c]-|Platform specific value.&]
-[s7; [*/ Возвратное значение]-|Blue component.&]
+[s2; Возвращает  синюю составляющую из 
+значения, специфичного для платформы.&]
+[s7; [%-*C@3 c]-|Платформно`-специфичное значение&]
+[s7; [*/ Возвратное значение]-|Синяя составляющая.&]
 [s3; &]
 [s4;%- &]
 [s5;:RGB`(byte`,byte`,byte`):%- [_^dword^ dword]_[* RGB]([_^byte^ byte]_[*@3 r], 
 [_^byte^ byte]_[*@3 g], [_^byte^ byte]_[*@3 b])&]
-[s2; Calculates platform specific value from components.&]
-[s7; [%-*C@3 r]-|Red component.&]
-[s7; [%-*C@3 g]-|Green component.&]
-[s7; [%-*C@3 b]-|Blue component.&]
-[s7; [*/ Возвратное значение]-|Platform specific value.&]
+[s2; Вычисляет платформно`-специфичное 
+значение из составляющих.&]
+[s7; [%-*C@3 r]-|Красная составляющая.&]
+[s7; [%-*C@3 g]-|Зелёная составляющая.&]
+[s7; [%-*C@3 b]-|Синяя составляющая.&]
+[s7; [*/ Возвратное значение]-|Платформно`-специфичн
+ое значение&]
 [s3; &]
 [s4;%- &]
 [s5;:GetHashValue`(Color`):%- [@(0.0.255) unsigned]_[* GetHashValue]([_^Color^ Color]_[*@3 c])
 &]
-[s2; Returns a hash value for the color.&]
+[s2; Возвращает  хэш`-значение для цвета.&]
 [s7; [%-*C@3 c]-|Color.&]
-[s7; [*/ Возвратное значение]-|Hash value.&]
+[s7; [*/ Возвратное значение]-|Хэш`-значение&]
 [s3; &]
 [s4;%- &]
 [s5;:Nvl`(Color`,Color`):%- [_^Color^ Color]_[* Nvl]([_^Color^ Color]_[*@3 a], 
 [_^Color^ Color]_[*@3 b])&]
-[s2; Returns first parameter if it is not Null, second otherwise.&]
+[s2; Возвращает  первый параметр, если 
+он не Null, иначе второй.&]
 [s7; [%-*C@3 a]-|Color.&]
 [s7; [%-*C@3 b]-|Color.&]
-[s7; [*/ Возвратное значение]-|a if not Null, b otherwise.&]
+[s7; [*/ Возвратное значение]-|a, если не Null, 
+иначе b.&]
 [s3; &]
 [s4;%- &]
 [s5;:AsString`(const Color`&`):%- [@(0.0.255) template]_<>_[_^String^ String]_[* AsString](
 [@(0.0.255) const]_[_^Color^ Color][@(0.0.255) `&]_[*@3 c])&]
-[s2; Converts Color to textual form.&]
+[s2; Преобразует Color в текстовый формат.&]
 [s7; [%-*C@3 c]-|Color.&]
-[s7; [*/ Возвратное значение]-|Textual form.&]
+[s7; [*/ Возвратное значение]-|Текстуальная 
+форма.&]
 [s3; &]
 [s4;%- &]
 [s5;:RGBtoHSV`(double`,double`,double`,double`&`,double`&`,double`&`):%- [@(0.0.255) vo
 id]_[* RGBtoHSV]([@(0.0.255) double]_[*@3 r], [@(0.0.255) double]_[*@3 g], 
 [@(0.0.255) double]_[*@3 b], [@(0.0.255) double`&]_[*@3 h], [@(0.0.255) double`&]_[*@3 s], 
 [@(0.0.255) double`&]_[*@3 v])&]
-[s2; Transforms an `[R,G,B`] color triplet (each of the components 
-is supposed to be in the range `[0..1`]) into an `[H,S,V`] triplet 
-(again all components are in the range `[0..1`]). This effectively 
-transforms the RGB cube to a cone in which color selection more 
-intuitively matches our our visual perception ([/ hue] corresponds 
-to the tint of the color, [/ saturation] to the richness of the 
-color hue and [/ value] corresponds to luminance or brightness). 
+[s2; Трансформирует цветовой триплет 
+`[R,G,B`] (каждая составляющая предположительно
+ находится в диапазоне `[0..1`]) в триплет 
+`[H,S,V`] (опять же, все составляющие в 
+диапазоне `[0..1`]). Это эффективно трансформиру
+ет куб RGB в конус, у которого выбор 
+цвета более интуитивно соответствует 
+нашему зрительному восприятию ([/ hue] 
+соответствует оттенку цвета (tint of 
+the color), [/ saturation] `- насыщенности цветового 
+оттенка (the richness of the color hue), а [/ value] соответству
+ет светимости (luminance) или яркости (brightness). 
 &]
 [s2; &]
-[s2; The mathematical formula used to convert between the two color 
-spaces are:&]
+[s2; Математическая формула, используемая 
+для преобразования между этими двумя 
+цветовыми пространствами, такая:&]
 [s2; &]
 [s2; v `= max(r, g, b)&]
 [s2; s `= 1 `- min(r, g, b) / v&]
 [s2; h `= (x `- min(r, g, b)) / (max(r, g, b) `- min(r, g, b))&]
 [s2; &]
-[s2; where [/ x] is the color component which is neither minimum nor 
-maximum. There are six combinations for this, in every even h 
-is taken, in every odd 1`-h. The six combinations correspond 
-to six points on the color wheel forming the base of the HSV 
-cone `- pure red, yellow, green, cyan, blue, and magenta. The 
-color component ranges along the circumference are the following 
-(capital letters denote maximum component value, minuscule letters 
-minimum): Rgb `-> RGb `-> rGb `-> rGB `-> rgB `-> RgB.&]
+[s2; где [/ x] `- цветовая составляющая, не 
+являющаяся ни минимальной, ни максимальной. 
+Для этого есть шесть комбинаций, в 
+каждой из которых чётное принимает 
+h, а в каждом нечётном 1`-h. Эти шесть 
+комбинаций соответствуют шести точкам 
+на цветовом круге (колесе), формирующим 
+основание конуса HSV, `- чистые красный, 
+жёлтый, зелёный, cyan, синий и magenta. Диапазоны 
+этих цветовых составляющих вдоль 
+окружности следующие (заглавные буквы 
+обозначают максимальное значение 
+составляющей, а маленькие `- минимальное): 
+Rgb `-> RGb `-> rGb `-> rGB `-> rgB `-> RgB.&]
 [s2; &]
-[s2; An easy way to visualize the HSV transform based on the RGB 
-cube is: imagine a slight deformation of the cube where the tip 
-of the cone corresponds to the black RBG cube vertex, the opposite 
-(white) RGB cube vertex corresponds to the center of the base 
-circle of the HSV cone and the remaining six RGB cube vertices 
-get projected on the circumference of the cone base as explained 
-in the preceding paragraph.&]
+[s2; Простой способ визуализации трансформа 
+HSV, основанного на кубе RGB, таков: вообразите 
+себе некую деформацию куба, где верхушка 
+конуса соответствует чёрной вершине 
+(vertex) куба RBG, противоположная (белая) 
+вершина куба RGB соответствует центру 
+базового круга конуса HSV, а остальные 
+шесть вершин куба RGB проецируются 
+на окружность основания конуса, как 
+поясняется в предыдущем параграфе.&]
 [s3; &]
 [s4;%- &]
 [s5;:HSVtoRGB`(double`,double`,double`,double`&`,double`&`,double`&`):%- [@(0.0.255) vo
 id]_[* HSVtoRGB]([@(0.0.255) double]_[*@3 h], [@(0.0.255) double]_[*@3 s], 
 [@(0.0.255) double]_[*@3 v], [@(0.0.255) double`&]_[*@3 r], [@(0.0.255) double`&]_[*@3 g], 
 [@(0.0.255) double`&]_[*@3 b])&]
-[s2; Transformes an HSV triplet (each of the components is supposed 
-to lie in the interval `[0..1`]) into an RGB triplet (again with 
-component ranges `[0..1`]). This projects the HSV cone (as explained 
-in the preceding section) back onto the RGB cube.&]
+[s2; Трансформирует триплет HSV (у которого 
+каждая компонента предположительно 
+находится в интервале `[0..1`]) в триплет 
+RGB (опять`-таки, с диапазонами составляющих 
+`[0..1`]). Это проецирует конус HSV (как 
+объяснено в предыдущем разделе) обратно 
+в куб RGB.&]
 [s3; &]
 [s4;%- &]
 [s5;:HsvColorf`(double`,double`,double`):%- [_^Color^ Color]_[* HsvColorf]([@(0.0.255) doub
 le]_[*@3 h], [@(0.0.255) double]_[*@3 s], [@(0.0.255) double]_[*@3 v])&]
-[s2; Converts an HSV color triplet into a [* Color] object. The H, 
-S, and V components are supposed to be in the range `[0..1`].&]
+[s2; Преобразует триплет цвета HSV в объект 
+[* Color]. Предполагается, что составляющие 
+H, S и V находятся в диапазоне `[0..1`].&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:CMYKtoRGB`(double`,double`,double`,double`,double`&`,double`&`,double`&`):%- [@(0.0.255) v
 oid]_[* CMYKtoRGB]([@(0.0.255) double]_[*@3 c], [@(0.0.255) double]_[*@3 m], 
 [@(0.0.255) double]_[*@3 y], [@(0.0.255) double]_[*@3 k], [@(0.0.255) double`&]_[*@3 r], 
 [@(0.0.255) double`&]_[*@3 g], [@(0.0.255) double`&]_[*@3 b])&]
-[s2; Converts CMYK color definition to RGB (all components are in 
-`[0..1`] range).&]
+[s2; Преобразует определение цвета CMYK 
+в RGB (все составляющие в диапазоне 
+`[0..1`]).&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:RGBtoCMYK`(double`,double`,double`,double`&`,double`&`,double`&`,double`&`):%- [@(0.0.255) v
 oid]_[* RGBtoCMYK]([@(0.0.255) double]_[*@3 r], [@(0.0.255) double]_[*@3 g], 
 [@(0.0.255) double]_[*@3 b], [@(0.0.255) double`&]_[*@3 c], [@(0.0.255) double`&]_[*@3 m], 
 [@(0.0.255) double`&]_[*@3 y], [@(0.0.255) double`&]_[*@3 k])&]
-[s2; Converts RGB color definition to CMYK (all components are in 
-`[0..1`] range).&]
+[s2; Преобразует определение цвета RGB 
+в CMYK (все составляющие в диапазоне 
+`[0..1`]).&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:CmykColorf`(double`,double`,double`,double`):%- [_^Upp`:`:Color^ Color]_[* Cm
 ykColorf]([@(0.0.255) double]_[*@3 c], [@(0.0.255) double]_[*@3 m], [@(0.0.255) double]_[*@3 y
 ], [@(0.0.255) double]_[*@3 k])&]
-[s2; Converts CMYK color definition to RGB (all components are in 
-`[0..1`] range).&]
+[s2; Преобразует определение цвета CMYK 
+в RGB (все составляющие в диапазоне 
+`[0..1`]).&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:CmyColorf`(double`,double`,double`):%- [_^Upp`:`:Color^ Color]_[* CmyColorf](
 [@(0.0.255) double]_[*@3 c], [@(0.0.255) double]_[*@3 m], [@(0.0.255) double]_[*@3 y])&]
-[s2; Converts CMY color definition to RGB (all components are in 
-`[0..1`] range).&]
+[s2; Преобразует определение цвета CMY 
+в RGB (все составляющие в диапазоне 
+`[0..1`]).&]
 [s3; &]
 [s4;%- &]
 [s5;:Blend`(Color`,Color`,int`):%- [_^Color^ Color]_[* Blend]([_^Color^ Color]_[*@3 c1], 
 [_^Color^ Color]_[*@3 c2], [@(0.0.255) int]_[*@3 alpha]_`=_[@3 128])&]
-[s2; Blends two colors.&]
-[s7; [%-*C@3 c1]-|First color.&]
-[s7; [%-*C@3 c2]-|Second color.&]
-[s7; [%-*C@3 alpha]-|Blending factor in the range 0..255.&]
-[s7; [*/ Возвратное значение]-|Blended color `- (255 
-`- alpha) / 255.0 `* c1 `+ alpha / 255.0 `* c2.&]
+[s2; Смешивает два цвета.&]
+[s7; [%-*C@3 c1]-|Первый цвет.&]
+[s7; [%-*C@3 c2]-|Второй цвет.&]
+[s7; [%-*C@3 alpha]-|Фактор смешивания в диапазоне 
+0..255.&]
+[s7; [*/ Возвратное значение]-|Смешанный 
+цвет `- (255 `- alpha) / 255.0 `* c1 `+ alpha / 255.0 `* 
+c2.&]
 [s3; &]
 [s4;%- &]
 [s5;:ColorToHtml`(Color`):%- [_^String^ String]_[* ColorToHtml]([_^Color^ Color]_[*@3 color])
 &]
-[s2; Converts Color to the textual format used in HTML (into hexadecimal 
-form like #ffffff for white).&]
+[s2; Преобразует Color в текстуальный формат, 
+используемый в HTML (в шестнадцатиричную 
+форму, типа #ffffff  для белого цвета).&]
 [s7; [%-*C@3 color]-|Color.&]
-[s7; [*/ Возвратное значение]-|HTML text.&]
+[s7; [*/ Возвратное значение]-|Текст HTML.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:ColorFromText`(const char`*`):%- [_^Upp`:`:Color^ Color]_[* ColorFromText]([@(0.0.255) c
 onst]_[@(0.0.255) char]_`*[*@3 s])&]
-[s2; Converts text to Color. Allowed formats are 3 decimal numbers 
-in range 0`-255, representing r, g, b colors and separated by 
-`',`' or `';`' or `'.`' or `' `', or the text must exactly contain 
-6 hexadecimal digits representing RRGGBB values.&]
+[s2; Преобразует текст в Color. Допустимые 
+форматы `- 3 десятичных числа в диапазоне 
+0`-255, представляющие цвета r, g, b и разделённые
+ либо `',`', либо `';`', либо `'.`', либо `' 
+`', либо же текст должен содержать 
+ровно 6 шестнадцатиричных цифр, представляющ
+их значения RRGGBB.&]
 [s3; &]
 [s4;%- &]
 [s5;:GrayColor`(int`):%- [_^Color^ Color]_[* GrayColor]([@(0.0.255) int]_[*@3 a]_`=_[@3 128])&]
-[s2; Returns a gray color of intensity [%-*@3 a].&]
+[s2; Возвращает  серый цвет с интенсивностью 
+[%-*@3 a].&]
 [s3; &]
 [s4;%- &]
 [s5;:Grayscale`(const Color`&`):%- [@(0.0.255) int]_[* Grayscale]([@(0.0.255) const]_[_^Color^ C
 olor][@(0.0.255) `&]_[*@3 c])&]
-[s2; Converts a color [%-*@3 c][%-  to grayscale].&]
+[s2; Преобразует цвет [%-*@3 c][%-  в grayscale (оттенок 
+серого)].&]
 [s3; &]
 [s4;%- &]
 [s5;:IsDark`(Color`):%- [@(0.0.255) bool]_[* IsDark]([_^Color^ Color]_[*@3 c])&]
-[s2; True if [%-*@3 c] grayscale level is lower than 80.&]
+[s2; True, если уровень оттенка серого [%-*@3 c] 
+ниже 80.&]
 [s3; &]
 [s4;%- &]
 [s5;:IsLight`(Color`):%- [@(0.0.255) bool]_[* IsLight]([_^Color^ Color]_[*@3 c])&]
-[s2; True if [%-*@3 c] grayscale is higher than 175 (255 `- 80).&]
+[s2; True, если уровень оттенка серого [%-*@3 c] 
+выше 175 (255 `- 80).&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:DarkTheme`(Upp`:`:Color`):%- [_^Upp`:`:Color^ Color]_[* DarkTheme]([_^Upp`:`:Color^ C
 olor]_[*@3 c])&]
-[s2; `'Dark Theme conversion`'. Converts dark colors to light ones 
-and vice versa, sustaining the color hue.&]
+[s2; `'Dark Theme conversion`'. Преобразует тёмные 
+цвета в светлые, и наоборот, сохраняя 
+цветовой оттенок.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:DarkThemeCached`(Upp`:`:Color`):%- [_^Upp`:`:Color^ Color]_[* DarkThemeCached
 ]([_^Upp`:`:Color^ Color]_[*@3 c])&]
-[s2; Cached variant of DarkTheme, caches up to 4 repeating colors.&]
+[s2; Кэшированный вариант DarkTheme, кэширует 
+до 4`-х повторяющихся цветов.&]
 [s3; &]
 [s4;%- &]
 [s5;:StraightColor`(RGBA`):%- [_^Color^ Color]_[* StraightColor]([_^RGBA^ RGBA]_[*@3 rgba])&]
-[s2; Converts a RGBA structure [%-*@3 rgba] to a [* Color].&]
+[s2; Преобразует структуру RGBA [%-*@3 rgba] в 
+[* Color].&]
 [s3; &]
 [s0;3 &]
 [ {{10000@(113.42.0) [s0; [*@(229)4 Color constants]]}}&]
 [s3; &]
-[s9; Predefined colors are represented by functions that return the 
-predefined color value.&]
+[s9; Предопределённые цвета представлены 
+функциями, возвращающими предопределённое 
+значение цвета.&]
 [s3; &]
 [s0; &]
 [s5;:Black`(`):%- [_^Color^ Color]_[* Black]()&]
-[s2; Black.&]
+[s2; Чёрный.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Gray`(`):%- [_^Color^ Color]_[* Gray]()&]
-[s2; Gray.&]
+[s2; Серый.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:LtGray`(`):%- [_^Color^ Color]_[* LtGray]()&]
-[s2; Light gray.&]
+[s2; Светло серый.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:WhiteGray`(`):%- [_^Color^ Color]_[* WhiteGray]()&]
-[s2; White gray.&]
+[s2; Бело`-серый.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:White`(`):%- [_^Color^ Color]_[* White]()&]
-[s2; White.&]
+[s2; Белый.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Red`(`):%- [_^Color^ Color]_[* Red]()&]
-[s2; Red.&]
+[s2; Красный.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Green`(`):%- [_^Color^ Color]_[* Green]()&]
-[s2; Green.&]
+[s2; Зелёный.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Brown`(`):%- [_^Color^ Color]_[* Brown]()&]
-[s2; Brown.&]
+[s2; Коричневый.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Blue`(`):%- [_^Color^ Color]_[* Blue]()&]
-[s2; Blue.&]
+[s2; Синий.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Magenta`(`):%- [_^Color^ Color]_[* Magenta]()&]
@@ -408,30 +471,30 @@ predefined color value.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Yellow`(`):%- [_^Color^ Color]_[* Yellow]()&]
-[s2; Yellow.&]
+[s2; Жёлтый.&]
 [s3; &]
 [s4;%- &]
 [s5;:LtRed`(`):%- [_^Color^ Color]_[* LtRed]()&]
-[s2; Light red.&]
+[s2; Светло`-красный (розовый).&]
 [s3;%- &]
 [s4;%- &]
 [s5;:LtGreen`(`):%- [_^Color^ Color]_[* LtGreen]()&]
-[s2; Light green.&]
+[s2; Светло`-зелёный.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:LtYellow`(`):%- [_^Color^ Color]_[* LtYellow]()&]
-[s2; Light yellow.&]
+[s2; Светло`-жёлтый.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:LtBlue`(`):%- [_^Color^ Color]_[* LtBlue]()&]
-[s2; Light blue.&]
+[s2; Светло`-синий (голубой).&]
 [s3;%- &]
 [s4;%- &]
 [s5;:LtMagenta`(`):%- [_^Color^ Color]_[* LtMagenta]()&]
-[s2; Light magenta.&]
+[s2; Светлая magenta.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:LtCyan`(`):%- [_^Color^ Color]_[* LtCyan]()&]
-[s2; Light cyan.&]
+[s2; Светлый cyan.&]
 [s3;%- &]
 [s0; ]]

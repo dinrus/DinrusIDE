@@ -27,7 +27,7 @@ lic][3 _][*@3;3 CtrlFrame][3 , ][@(0.0.255)3 private][3 _][*@3;3 Ctrl]&]
 [s5;:SplitterFrame`:`:Set`(Ctrl`&`,int`,int`):%- [_^SplitterFrame^ SplitterFrame][@(0.0.255) `&
 ]_[* Set]([_^Ctrl^ Ctrl][@(0.0.255) `&]_[*@3 c], [@(0.0.255) int]_[*@3 size], 
 [@(0.0.255) int]_[*@3 type])&]
-[s2; Sets SplitterFrame to contain [%-*@3 c] widget, with initial [%-*@3 size 
+[s2; УстанавливаетSplitterFrame to contain [%-*@3 c] widget, with initial [%-*@3 size 
 ](in pixels).[%-*@3  type] determines the position `- it can be 
 SplitterFrame`::[* LEFT], SplitterFrame`::[* RIGHT], SplitterFrame`::[* TOP 
 ]or SplitterFrame`::[* BOTTOM].&]
@@ -55,27 +55,27 @@ SplitterFrame`::[* LEFT], SplitterFrame`::[* RIGHT], SplitterFrame`::[* TOP
 [s4;%- &]
 [s5;:SplitterFrame`:`:MinSize`(int`):%- [_^SplitterFrame^ SplitterFrame][@(0.0.255) `&]_[* M
 inSize]([@(0.0.255) int]_[*@3 sz])&]
-[s2; Sets the minimal size.&]
+[s2; Устанавливаетthe minimal size.&]
 [s3; &]
 [s4;%- &]
 [s5;:SplitterFrame`:`:SizeMin`(int`):%- [_^SplitterFrame^ SplitterFrame][@(0.0.255) `&]_[* S
 izeMin]([@(0.0.255) int]_[*@3 sz])&]
-[s2; Sets the minimal size of next frame in the list or final view 
+[s2; Устанавливаетthe minimal size of next frame in the list or final view 
 if there is none `- this in fact determines the maximum size 
 of SplitterFrame.&]
 [s3; &]
 [s4;%- &]
 [s5;:SplitterFrame`:`:GetType`(`)const:%- [@(0.0.255) int]_[* GetType]()_[@(0.0.255) const]&]
-[s2; Returns the type (in pixels).&]
+[s2; Возвращает the type (in pixels).&]
 [s3; &]
 [s4;%- &]
 [s5;:SplitterFrame`:`:GetSize`(`)const:%- [@(0.0.255) virtual] [@(0.0.255) int]_[* GetSize](
 )_[@(0.0.255) const]&]
-[s2; Returns the current size.&]
+[s2; Возвращает the current size.&]
 [s3; &]
 [s4;%- &]
 [s5;:SplitterFrame`:`:SetSize`(int`):%- [@(0.0.255) void]_[* SetSize]([@(0.0.255) int]_[*@3 s
 z])&]
-[s2; Sets the size (in pixels).&]
+[s2; Устанавливаетthe size (in pixels).&]
 [s3; &]
 [s0; ]]

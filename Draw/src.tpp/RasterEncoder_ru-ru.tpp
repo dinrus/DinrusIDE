@@ -51,7 +51,7 @@ data to direct targets..&]
 [s3; &]
 [s5;:RasterEncoder`:`:GetPaletteCount`(`):%- [@(0.0.255) virtual] [@(0.0.255) int]_[* GetPa
 letteCount]()&]
-[s2; Returns the number of colors in the palette (or zero).&]
+[s2; Возвращает the number of colors in the palette (or zero).&]
 [s3; &]
 [s4; &]
 [s5;:RasterEncoder`:`:Start`(Size`):%- [@(0.0.255) virtual] [@(0.0.255) void]_[* Start]([_^Size^ S
@@ -77,27 +77,27 @@ and calls WriteLineRaw.&]
 [s4; &]
 [s5;:RasterEncoder`:`:GetFormat`(`)const:%- [@(0.0.255) const]_[_^RasterFormat^ RasterFor
 mat][@(0.0.255) `&]_[* GetFormat]()_[@(0.0.255) const]&]
-[s2; Returns current [* format].&]
+[s2; Возвращает current [* format].&]
 [s3; &]
 [s4; &]
 [s5;:RasterEncoder`:`:GetPalette`(`):%- [@(0.0.255) const]_[_^RGBA^ RGBA]_`*[* GetPalette](
 )&]
-[s2; Returns current palette.&]
+[s2; Возвращает current palette.&]
 [s3; &]
 [s4; &]
 [s5;:RasterEncoder`:`:GetPaletteCv`(`):%- [@(0.0.255) const]_[_^PaletteCv^ PaletteCv]_`*[* G
 etPaletteCv]()&]
-[s2; Returns palette convertor.&]
+[s2; Возвращает palette convertor.&]
 [s3; &]
 [s4; &]
 [s5;:RasterEncoder`:`:operator RGBA`*`(`):%- [@(0.0.255) operator]_[_^RGBA^ RGBA]_`*()&]
 [s5;:RasterEncoder`:`:operator`~`(`):%- [_^RGBA^ RGBA]_`*[* operator`~]()&]
-[s2; Returns the pointer to scanline buffer that is used in parameterless 
+[s2; Возвращает the pointer to scanline buffer that is used in parameterless 
 WriteLine.&]
 [s3; &]
 [s4; &]
 [s5;:RasterEncoder`:`:GetSize`(`)const:%- [_^Size^ Size]_[* GetSize]()_[@(0.0.255) const]&]
-[s2; Returns the size.&]
+[s2; Возвращает the size.&]
 [s3; &]
 [s4; &]
 [s5;:RasterEncoder`:`:GetWidth`(`)const:%- [@(0.0.255) int]_[* GetWidth]()_[@(0.0.255) cons
@@ -112,7 +112,7 @@ nst]&]
 [s4; &]
 [s5;:RasterEncoder`:`:SetHotSpot`(Point`):%- [@(0.0.255) void]_[* SetHotSpot]([_^Point^ Poi
 nt]_[*@3 p])&]
-[s2; Sets hotspot. This is useful for defining screen cursors (.ico 
+[s2; Устанавливаетhotspot. This is useful for defining screen cursors (.ico 
 or .cur files in Win32). The derived encoder might need the hotspot 
 information (it reads it by calling GetHotSpot in to store it 
 into the output file in Start).&]
@@ -125,18 +125,18 @@ onst]&]
 [s4; &]
 [s5;:RasterEncoder`:`:SetDots`(Size`):%- [@(0.0.255) void]_[* SetDots]([_^Size^ Size]_[*@3 `_
 dots])&]
-[s2; Sets the physical size of output image, in 1/600 of inch. The 
+[s2; Устанавливаетthe physical size of output image, in 1/600 of inch. The 
 derived encoder might read this information in Start and store 
 it into output file, if given format supports any related information.&]
 [s3; &]
 [s4; &]
 [s5;:RasterEncoder`:`:GetDots`(`)const:%- [_^Size^ Size]_[* GetDots]()_[@(0.0.255) const]&]
-[s2; Returns the size set by SetDots.&]
+[s2; Возвращает the size set by SetDots.&]
 [s3; &]
 [s4; &]
 [s5;:RasterEncoder`:`:SetPalette`(const RGBA`*`):%- [@(0.0.255) void]_[* SetPalette]([@(0.0.255) c
 onst]_[_^RGBA^ RGBA]_`*[*@3 palette])&]
-[s2; Sets the [%-*@3 palette] to be used with raster.&]
+[s2; Устанавливаетthe [%-*@3 palette] to be used with raster.&]
 [s3; &]
 [s4; &]
 [s5;:RasterEncoder`:`:SetPalette`(Raster`&`):%- [@(0.0.255) void]_[* SetPalette]([_^Raster^ R

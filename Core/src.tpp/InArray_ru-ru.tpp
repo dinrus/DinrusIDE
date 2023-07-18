@@ -50,7 +50,7 @@ iterators.&]
 [s5;:Upp`:`:InArray`:`:InsertCreate`(int`,Args`&`&`.`.`.args`):%- [@(0.0.255) template]_
 <[@(0.0.255) class]_[*@4 TT], [@(0.0.255) class...]_[*@4 Args]>_[*@4 TT][@(0.0.255) `&]_[* Inse
 rtCreate]([@(0.0.255) int]_[*@3 i], [*@4 Args][@(0.0.255) `&`&...]_args)&]
-[s2; Creates a in`-place constructed element (with args as constructor 
+[s2; Создаёт a in`-place constructed element (with args as constructor 
 parameters) of type [%-*@4 TT] and inserts it at [%-*@3 i]. Invalidates 
 iterators.&]
 [s3; &]
@@ -71,7 +71,7 @@ iterators.&]
 ator`[`]]([@(0.0.255) int]_[*@3 i])_[@(0.0.255) const]&]
 [s5;:InArray`:`:operator`[`]`(int`):%- [*@4 T][@(0.0.255) `&]_[* operator`[`]]([@(0.0.255) in
 t]_[*@3 i])&]
-[s2; Returns an element at [%-*@3 i].&]
+[s2; Возвращает an element at [%-*@3 i].&]
 [s3; &]
 [s4; &]
 [s5;:InArray`:`:Add`(`):%- [*@4 T][@(0.0.255) `&]_[* Add]()&]
@@ -99,7 +99,7 @@ iterators.&]
 [s3; &]
 [s4; &]
 [s5;:InArray`:`:GetCount`(`)const:%- [@(0.0.255) int]_[* GetCount]()_[@(0.0.255) const]&]
-[s2; Returns the number of elements.&]
+[s2; Возвращает the number of elements.&]
 [s3; &]
 [s4; &]
 [s5;:InArray`:`:IsEmpty`(`)const:%- [@(0.0.255) bool]_[* IsEmpty]()_[@(0.0.255) const]&]
@@ -111,7 +111,7 @@ iterators.&]
 [s3; &]
 [s4; &]
 [s5;:InArray`:`:SetCount`(int`):%- [@(0.0.255) void]_[* SetCount]([@(0.0.255) int]_[*@3 n])&]
-[s2; Sets the number of elements to be [%-*@3 n] either removing surplus 
+[s2; Устанавливаетthe number of elements to be [%-*@3 n] either removing surplus 
 elements or using AddN to extend the InArray. Invalidates iterators.&]
 [s3; &]
 [s4; &]
@@ -132,13 +132,13 @@ iterators.&]
 [s4; &]
 [s5;:InArray`:`:Set`(int`,const T`&`,int`):%- [@(0.0.255) void]_[* Set]([@(0.0.255) int]_[*@3 i
 ], [@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[*@3 x], [@(0.0.255) int]_[*@3 count])&]
-[s2; Sets the value of [%-*@3 count] elements starting at [%-*@3 i] to 
+[s2; Устанавливаетthe value of [%-*@3 count] elements starting at [%-*@3 i] to 
 [%-*@3 x].&]
 [s3; &]
 [s4; &]
 [s5;:InArray`:`:Set`(int`,const T`&`):%- [*@4 T][@(0.0.255) `&]_[* Set]([@(0.0.255) int]_[*@3 i
 ], [@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[*@3 x])&]
-[s2; Sets the value of element at [%-*@3 i] to [%-*@3 x].&]
+[s2; Устанавливаетthe value of element at [%-*@3 i] to [%-*@3 x].&]
 [s3; &]
 [s4; &]
 [s5;:InArray`:`:Swap`(int`,int`):%- [@(0.0.255) void]_[* Swap]([@(0.0.255) int]_[*@3 i1], 
@@ -153,11 +153,11 @@ iterators.&]
 [s5;:InArray`:`:Top`(`):%- [*@4 T][@(0.0.255) `&]_[* Top]()&]
 [s5;:InArray`:`:Top`(`)const:%- [@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[* Top]()_[@(0.0.255) c
 onst]&]
-[s2; Returns a reference to the last element.&]
+[s2; Возвращает a reference to the last element.&]
 [s3; &]
 [s4; &]
 [s5;:InArray`:`:Pop`(`):%- [*@4 T]_[* Pop]()&]
-[s2; Returns a copy to the last element and removes it.&]
+[s2; Возвращает a copy to the last element and removes it.&]
 [s3; &]
 [s4; &]
 [s5;:InArray`:`:FindUpperBound`(const T`&`,const L`&`)const:%- [@(0.0.255) template]_<[@(0.0.255) c
@@ -209,11 +209,11 @@ Iter]([@(0.0.255) int]_[*@3 pos])_[@(0.0.255) const]&]
 [s5;:InArray`:`:End`(`):%- [_^InArray`:`:Iterator^ Iterator]_[* End]()&]
 [s5;:InArray`:`:GetIter`(int`):%- [_^InArray`:`:Iterator^ Iterator]_[* GetIter]([@(0.0.255) i
 nt]_[*@3 pos])&]
-[s2; Returns constant/nonconstant iterator to the begin/end/[%-*@3 pos].&]
+[s2; Возвращает constant/nonconstant iterator to the begin/end/[%-*@3 pos].&]
 [s3; &]
 [s4; &]
 [s5;:InArray`:`:IsPicked`(`)const:%- [@(0.0.255) bool]_[* IsPicked]()_[@(0.0.255) const]&]
-[s2; Returns constant/nonconstant iterator to the begin/end/[%-*@3 pos].&]
+[s2; Возвращает constant/nonconstant iterator to the begin/end/[%-*@3 pos].&]
 [s3; &]
 [s4; &]
 [s5;:InArray`:`:InArray`(`):%- [* InArray]()&]

@@ -63,9 +63,9 @@ argument types are:&]
 [s0; &]
 [s0; bool-|Arguments expect the values 0 for false and 1 for true.&]
 [s0; int-|Arguments are 32`-bit or 64`-bit signed integers depending 
-on the platform. Equivalent to intptr`_t.&]
-[s0; position-|Positions and lengths in document. Equivalent to intptr`_t.&]
-[s0; line-|A line number in the document. Equivalent to intptr`_t.&]
+on the platform. Эквивалентно intptr`_t.&]
+[s0; position-|Positions and lengths in document. Эквивалентно intptr`_t.&]
+[s0; line-|A line number in the document. Эквивалентно intptr`_t.&]
 [s0; const char `*-|Arguments point at text that is being passed to 
 Scintilla but not modified. The text may be zero terminated or 
 another argument may specify the character count, the description 
@@ -81,7 +81,7 @@ result but other calls do not: to generically handle both types,
 allocate one more byte than indicated and set it to NUL.&]
 [s0; pointer-|A memory address. In some cases this is a pointer to 
 a sequence of char inside Scintilla that will only be available 
-for a limited period. Equivalent to void `*.&]
+for a limited period. Эквивалентно void `*.&]
 [s0; colour-|Colours are set using the RGB format (Red, Green, Blue). 
 The intensity of each colour is set in the range 0 to 255. If 
 you have three such intensities, they are combined as: red `| 

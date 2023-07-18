@@ -27,32 +27,32 @@ templated specialization of Jsonize can be used.&]
 [ {{10000F(128)G(128)@1 [s0;%RU-RU [* Список Публичных Методов]]}}&]
 [s3;%RU-RU &]
 [s5;:JsonIO`:`:IsLoading`(`)const: [@(0.0.255) bool]_[* IsLoading]()_[@(0.0.255) const]&]
-[s2;%RU-RU Returns true when retrieving data from JSON.&]
+[s2;%RU-RU Возвращает true when retrieving data from JSON.&]
 [s3; &]
 [s4; &]
 [s5;:JsonIO`:`:IsStoring`(`)const: [@(0.0.255) bool]_[* IsStoring]()_[@(0.0.255) const]&]
-[s2;%RU-RU Returns true when storing data to JSON.&]
+[s2;%RU-RU Возвращает true when storing data to JSON.&]
 [s3; &]
 [s4; &]
 [s5;:JsonIO`:`:Get`(`)const: [@(0.0.255) const]_[_^Value^ Value][@(0.0.255) `&]_[* Get]()_[@(0.0.255) c
 onst]&]
-[s2;%RU-RU Returns the value of JSON node when loading.&]
+[s2;%RU-RU Возвращает the value of JSON node when loading.&]
 [s3; &]
 [s4; &]
 [s5;:JsonIO`:`:Set`(const Value`&`): [@(0.0.255) void]_[* Set]([@(0.0.255) const]_[_^Value^ V
 alue][@(0.0.255) `&]_[*@3 v])&]
-[s2;%RU-RU Sets the value of JSON node when storing.&]
+[s2;%RU-RU Устанавливаетthe value of JSON node when storing.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:JsonIO`:`:Get`(const char`*`): [_^Upp`:`:Value^ Value]_[* Get]([@(0.0.255) cons
 t]_[@(0.0.255) char]_`*[*@3 key])&]
-[s2;%RU-RU Returns the value of JSON subnode [%-*@3 key] when loading.&]
+[s2;%RU-RU Возвращает the value of JSON subnode [%-*@3 key] when loading.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:JsonIO`:`:Set`(const char`*`,const Upp`:`:Value`&`): [@(0.0.255) void]_[* Set
 ]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 key], [@(0.0.255) const]_[_^Upp`:`:Value^ Val
 ue][@(0.0.255) `&]_[*@3 v])&]
-[s2;%RU-RU Sets the value of JSON subnode [%-*@3 key] when storing.&]
+[s2;%RU-RU Устанавливаетthe value of JSON subnode [%-*@3 key] when storing.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:JsonIO`:`:Put`(Value`&`): [@(0.0.255) void]_[* Put]([_^Value^ Value][@(0.0.255) `&]_[*@3 v
@@ -62,14 +62,14 @@ invoked to finish jsonization.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:JsonIO`:`:GetResult`(`)const: [_^Value^ Value]_[* GetResult]()_[@(0.0.255) const]&]
-[s2;%RU-RU Returns JSON node data into [%-*@3 v] when storing `- invoked 
+[s2;%RU-RU Возвращает JSON node data into [%-*@3 v] when storing `- invoked 
 to finish jsonization.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:JsonIO`:`:operator`(`)`(const char`*`,T`&`): [@(0.0.255) template]_<[@(0.0.255) clas
 s]_[*@4 T]>_[_^JsonIO^ JsonIO][@(0.0.255) `&]_[* operator()]([@(0.0.255) const]_[@(0.0.255) c
 har]_`*[*@3 key], [*@4 T][@(0.0.255) `&]_[*@3 value])&]
-[s2;%RU-RU Sets the JsonIO to represent JSON object (if it does not 
+[s2;%RU-RU Устанавливаетthe JsonIO to represent JSON object (if it does not 
 already), creates member [%-*@3 key] and jsonizes [%-*@3 value] into 
 it (by calling global Jsonize function, whose general form invokes 
 Jsonize method).&]
@@ -79,7 +79,7 @@ Jsonize method).&]
 e]_<[@(0.0.255) class]_[*@4 T]>_[_^Upp`:`:JsonIO^ JsonIO][@(0.0.255) `&]_[* operator()]([@(0.0.255) c
 onst]_[@(0.0.255) char]_`*[*@3 key], [*@4 T][@(0.0.255) `&]_[*@3 value], 
 [@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[*@3 defvalue])&]
-[s2;%RU-RU Sets the JsonIO to represent JSON object (if it does not 
+[s2;%RU-RU Устанавливаетthe JsonIO to represent JSON object (if it does not 
 already), creates member [%-*@3 key] and jsonizes [%-*@3 value] into 
 it (by calling global Jsonize function, whose general form invokes 
 Jsonize method). When loading and [%-*@3 key] is missing in source 
@@ -116,12 +116,12 @@ routines that provide both Jsonize and Xmlize code.&]
 [s4;%RU-RU &]
 [s5;:JsonIO`:`:JsonIO`(const Value`&`): [* JsonIO]([@(0.0.255) const]_[_^Value^ Value][@(0.0.255) `&
 ]_[*@3 src])&]
-[s2;%RU-RU Sets JsonIO for retrieving data from [%-*@3 src] which is 
+[s2;%RU-RU УстанавливаетJsonIO for retrieving data from [%-*@3 src] which is 
 must be Json compatible Value.&]
 [s3;%RU-RU &]
 [s4;%RU-RU &]
 [s5;:JsonIO`:`:JsonIO`(`): [* JsonIO]()&]
-[s2;%RU-RU Creates JsonIO for storing data.&]
+[s2;%RU-RU Создаёт JsonIO for storing data.&]
 [s3; &]
 [s0; &]
 [ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 Jsonize Store/Load functions]]}}&]

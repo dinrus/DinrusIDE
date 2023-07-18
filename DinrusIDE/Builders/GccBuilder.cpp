@@ -78,7 +78,7 @@ bool GccBuilder::BuildPackage(const String& package, Vector<String>& linkfile, V
 	IdeConsoleBeginGroup(package);
 	Vector<String> obj;
 
-	bool is_shared = HasFlag("SO");
+	bool is_shared = HasFlag("SO") || HasFlag("SHARED");
 	String shared_ext = (HasFlag("WIN32") ? ".dll" : ".so");
 
 	Vector<String> sfile, isfile;
@@ -520,8 +520,12 @@ bool GccBuilder::Link(const Vector<String>& linkfile, const String& linkoptions,
 			if(HasFlag("GCC32"))
 				lnk << " -m32";
 			if(HasFlag("DLL"))
-				lnk << " -shared -Wl,--out-implib="<<target<<".a";// -Wl,--export-all-symbols -Wl,--enable-auto-import";
-			if(!HasFlag("SHARED") && !HasFlag("SO"))
+			{
+				String name = GetFileName(target);
+				String path = GetFileDirectory(target);
+				lnk << " -shared -Wl,--out-implib="<<path<<DIR_SEP<<"lib"<<name<<".a";// -Wl,--export-all-symbols -Wl,--enable-auto-import";
+			}
+            if(!HasFlag("SHARED") && !HasFlag("SO"))
 				lnk << " -static";
 			if(HasFlag("WINCE"))
 				lnk << " -mwindowsce";

@@ -32,13 +32,13 @@ object to transform Value to text and back.&]
 [s3; &]
 [s5;:EditField`:`:GetViewHeight`(Font`): [@(0.0.255) static] [@(0.0.255) int]_[* GetViewHei
 ght]([_^Font^ Font]_[*@3 font]_`=_StdFont())&]
-[s2; Returns the correct height for EditField view with [*@3 font][%RU-RU  
+[s2; Возвращает the correct height for EditField view with [*@3 font][%RU-RU  
 used for edited text].&]
 [s3; &]
 [s4; &]
 [s5;:EditField`:`:GetStdHeight`(Font`): [@(0.0.255) static] [@(0.0.255) int]_[* GetStdHeigh
 t]([_^Font^ Font]_[*@3 font]_`=_StdFont())&]
-[s2;%RU-RU [%- Returns the correct height for EditField with ][%-*@3 font] 
+[s2;%RU-RU [%- Возвращает the correct height for EditField with ][%-*@3 font] 
 used for edited text, including the standard static frame.&]
 [s3; &]
 [s4; &]
@@ -117,7 +117,7 @@ true, selection is set between recent cursor position and [%-*@3 newpos].&]
 [s4; &]
 [s5;:EditField`:`:SetSelection`(int`,int`): [@(0.0.255) void]_[* SetSelection]([@(0.0.255) i
 nt]_[*@3 l]_`=_[@3 0], [@(0.0.255) int]_[*@3 h]_`=_INT`_MAX)&]
-[s2;%RU-RU [%- Sets the selection if ][%-*@3 l] < [%-*@3 h][%- . If ][%-*@3 l] 
+[s2;%RU-RU [%- Устанавливаетthe selection if ][%-*@3 l] < [%-*@3 h][%- . If ][%-*@3 l] 
 or [%-*@3 h ]exceed the available range (that is zero to length 
 of text), they are bound to it. I[%- f ][%-*@3 l] >`= [%-*@3 h], selection 
 is canceled and [%-*@3 l] is the new cursor position.&]
@@ -125,13 +125,13 @@ is canceled and [%-*@3 l] is the new cursor position.&]
 [s4; &]
 [s5;:EditField`:`:GetSelection`(int`&`,int`&`)const: [@(0.0.255) bool]_[* GetSelection]([@(0.0.255) i
 nt`&]_[*@3 l], [@(0.0.255) int`&]_[*@3 h])_[@(0.0.255) const]&]
-[s2;%RU-RU [%- Returns the current selection. If there is no selection, 
+[s2;%RU-RU [%- Возвращает the current selection. If there is no selection, 
 both] [%-*@3 l] [%-*@3 h] return the current cursor position.&]
 [s3; &]
 [s4; &]
 [s5;:EditField`:`:IsSelection`(`)const: [@(0.0.255) bool]_[* IsSelection]()_[@(0.0.255) con
 st]&]
-[s2;%RU-RU [%- Возвращает true, если there is a selection. 
+[s2;%RU-RU [%- Возвращает  true, если there is a selection. 
 ] &]
 [s3; &]
 [s4; &]
@@ -177,29 +177,29 @@ enu])&]
 [s4; &]
 [s5;:EditField`:`:SetText`(const WString`&`): [@(0.0.255) void]_[* SetText]([@(0.0.255) con
 st]_[_^WString^ WString][@(0.0.255) `&]_[*@3 text])&]
-[s2;%RU-RU [%- Sets the] [%-*@3 text].&]
+[s2;%RU-RU [%- Устанавливаетthe] [%-*@3 text].&]
 [s3; &]
 [s4; &]
 [s5;:EditField`:`:SetText`(const String`&`): [@(0.0.255) void]_[* SetText]([@(0.0.255) cons
 t]_[_^String^ String][@(0.0.255) `&]_[*@3 t])&]
 [s5;:EditField`:`:SetText`(const char`*`): [@(0.0.255) void]_[* SetText]([@(0.0.255) const]_
 [@(0.0.255) char]_`*[*@3 t])&]
-[s2;%RU-RU [%- Sets the text. ]Text is converted to unicode using the 
+[s2;%RU-RU [%- Устанавливаетthe text. ]Text is converted to unicode using the 
 default charset.&]
 [s3; &]
 [s4; &]
 [s5;:EditField`:`:GetText`(`)const: [@(0.0.255) const]_[_^WString^ WString][@(0.0.255) `&]_
 [* GetText]()_[@(0.0.255) const]&]
-[s2; Returns the text.&]
+[s2; Возвращает the text.&]
 [s3; &]
 [s4; &]
 [s5;:EditField`:`:GetLength`(`)const: [@(0.0.255) virtual] [@(0.0.255) int]_[* GetLength]()
 _[@(0.0.255) const]&]
-[s2; Returns the length of text.&]
+[s2; Возвращает the length of text.&]
 [s3; &]
 [s4; &]
 [s5;:EditField`:`:Clear`(`): [@(0.0.255) void]_[* Clear]()&]
-[s2; Sets the empty text.&]
+[s2; Устанавливаетthe empty text.&]
 [s3; &]
 [s4; &]
 [s5;:EditField`:`:Reset`(`): [@(0.0.255) void]_[* Reset]()&]
@@ -213,41 +213,41 @@ invalid (the same way as when assigned Convert returns ErrorValue).&]
 [s4; &]
 [s5;:EditField`:`:Password`(bool`): [_^EditField^ EditField][@(0.0.255) `&]_[* Password]([@(0.0.255) b
 ool]_[*@3 pwd]_`=_[@(0.0.255) true])&]
-[s2;%RU-RU Sets the password mode. In password mode all characters 
-are displayed as asterisk. Returns `*this.&]
+[s2;%RU-RU Устанавливаетthe password mode. In password mode all characters 
+are displayed as asterisk. Возвращает `*this.&]
 [s3; &]
 [s4; &]
 [s5;:EditField`:`:IsPassword`(`)const: [@(0.0.255) bool]_[* IsPassword]()_[@(0.0.255) const
 ]&]
-[s2;%RU-RU Возвращает true, если password mode is active.&]
+[s2;%RU-RU Возвращает  true, если password mode is active.&]
 [s3; &]
 [s4; &]
 [s5;:EditField`:`:SetFilter`(int`(`*`)`(int`)`): [_^EditField^ EditField][@(0.0.255) `&]_
 [* SetFilter]([@(0.0.255) int]_(`*[*@3 f])([@(0.0.255) int]))&]
-[s2;%RU-RU [%- Sets the character filter] [%-*@3 f]. All characters keystrokes 
+[s2;%RU-RU [%- Устанавливаетthe character filter] [%-*@3 f]. All characters keystrokes 
 are first altered by this function and used only if the result 
-is not zero. Returns `*this.&]
+is not zero. Возвращает `*this.&]
 [s3; &]
 [s4; &]
 [s5;:EditField`:`:SetConvert`(const Convert`&`): [_^EditField^ EditField][@(0.0.255) `&]_
 [* SetConvert]([@(0.0.255) const]_[_^Convert^ Convert][@(0.0.255) `&]_[*@3 c])&]
-[s2;%RU-RU Sets the Value converter. By using the specific converters, 
+[s2;%RU-RU Устанавливаетthe Value converter. By using the specific converters, 
 EditField can be adapted for editing any type of values with 
 text representation. Note that EditField stores just reference 
 to [%-@3 c], therefore its lifetime must exceed the lifetime of 
-EditField. Returns `*this.&]
+EditField. Возвращает `*this.&]
 [s3; &]
 [s4; &]
 [s5;:EditField`:`:SetInactiveConvert`(const Convert`&`): [_^EditField^ EditField][@(0.0.255) `&
 ]_[* SetInactiveConvert]([@(0.0.255) const]_[_^Convert^ Convert][@(0.0.255) `&]_[*@3 c])&]
-[s2;%RU-RU Sets the inactive Value converter. Such converter is used 
+[s2;%RU-RU Устанавливаетthe inactive Value converter. Such converter is used 
 to format displayed value when edit control does not own the 
-focus. Returns `*this.&]
+focus. Возвращает `*this.&]
 [s3; &]
 [s4; &]
 [s5;:EditField`:`:SetCharset`(byte`): [_^EditField^ EditField][@(0.0.255) `&]_[* SetCharset
 ]([_^byte^ byte]_[*@3 cs])&]
-[s2;%RU-RU Sets the encoding to [%-*@3 cs] `- only characters representable 
+[s2;%RU-RU Устанавливаетthe encoding to [%-*@3 cs] `- only characters representable 
 in given encoding are allowed in EditField. Note that this does 
 not impact encoding of String values returned from EditField, 
 only acts as another filter.&]
@@ -258,7 +258,7 @@ only acts as another filter.&]
 [s2;%RU-RU [%- In AutoFormat mode, when focus goes out of editfield, 
 text representation of value is reformated by current Convert 
 `- text is converted to Value and back. This mode is active by 
-default.] Returns `*this.&]
+default.] Возвращает `*this.&]
 [s3; &]
 [s4; &]
 [s5;:EditField`:`:NoAutoFormat`(`): [_^EditField^ EditField][@(0.0.255) `&]_[* NoAutoFormat
@@ -268,39 +268,39 @@ default.] Returns `*this.&]
 [s4; &]
 [s5;:EditField`:`:IsAutoFormat`(`)const: [@(0.0.255) bool]_[* IsAutoFormat]()_[@(0.0.255) c
 onst]&]
-[s2;%RU-RU Returns true is AutoFormat is active.&]
+[s2;%RU-RU Возвращает true is AutoFormat is active.&]
 [s3; &]
 [s4; &]
 [s5;:EditField`:`:SetFont`(Font`): [_^EditField^ EditField][@(0.0.255) `&]_[* SetFont]([_^Font^ F
 ont]_[*@3 `_font])&]
-[s2;%RU-RU [%- Sets the ][%-*@3 font] of displayed text. Returns `*this.&]
+[s2;%RU-RU [%- Устанавливаетthe ][%-*@3 font] of displayed text. Возвращает `*this.&]
 [s3; &]
 [s4; &]
 [s5;:EditField`:`:SetColor`(Color`): [_^EditField^ EditField][@(0.0.255) `&]_[* SetColor]([_^Color^ C
 olor]_[*@3 c])&]
-[s2;%RU-RU [%- Sets the color] of displayed text. Returns `*this.&]
+[s2;%RU-RU [%- Устанавливаетthe color] of displayed text. Возвращает `*this.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:EditField`:`:ClickSelect`(bool`): [_^EditField^ EditField][@(0.0.255) `&]_[* ClickSele
 ct]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) true])&]
 [s2; In ClickSelect mode, all the text of EditField is select when 
-clicked by mouse. Returns `*this.&]
+clicked by mouse. Возвращает `*this.&]
 [s3; &]
 [s4; &]
 [s5;:EditField`:`:IsClickSelect`(`)const: [@(0.0.255) bool]_[* IsClickSelect]()_[@(0.0.255) c
 onst]&]
-[s2;%RU-RU Возвращает true, если ClickSelect is active.&]
+[s2;%RU-RU Возвращает  true, если ClickSelect is active.&]
 [s3; &]
 [s4; &]
 [s5;:EditField`:`:InitCaps`(bool`): [_^EditField^ EditField][@(0.0.255) `&]_[* InitCaps]([@(0.0.255) b
 ool]_[*@3 b]_`=_[@(0.0.255) true])&]
 [s2; In InitCaps mode, initial letters of entered text are uppercased. 
-Returns `*this.&]
+Возвращает `*this.&]
 [s3; &]
 [s4; &]
 [s5;:EditField`:`:IsInitCaps`(`)const: [@(0.0.255) bool]_[* IsInitCaps]()_[@(0.0.255) const
 ]&]
-[s2;%RU-RU Возвращает true, если InitCaps is active.&]
+[s2;%RU-RU Возвращает  true, если InitCaps is active.&]
 [s3; &]
 [s4; &]
 [s5;:EditField`:`:NullText`(const Image`&`,const char`*`,Color`): [_^EditField^ EditFie
@@ -319,18 +319,18 @@ ult])`"), [_^Color^ Color]_[*@3 ink]_`=_SColorDisabled)&]
 [_^Color^ Color]_[*@3 ink])&]
 [s2; In NullText mode, empty EditField displays[%RU-RU  ][*@3 text][%RU-RU  
 using ][*@3 ink][%RU-RU  color and ][%RU-RU*@3 fnt][%RU-RU  as a font, 
-with ][*@3 icon][%RU-RU .] Returns `*this.&]
+with ][*@3 icon][%RU-RU .] Возвращает `*this.&]
 [s3; &]
 [s4; &]
 [s5;:EditField`:`:MaxChars`(int`): [_^EditField^ EditField][@(0.0.255) `&]_[* MaxChars]([@(0.0.255) i
 nt]_[*@3 mc])&]
 [s2; Limits maximum number of characters to[%RU-RU  ][*@3 mc][%RU-RU .] 
-Returns `*this.&]
+Возвращает `*this.&]
 [s3; &]
 [s4; &]
 [s5;:EditField`:`:GetMaxChars`(`)const: [@(0.0.255) int]_[* GetMaxChars]()_[@(0.0.255) cons
 t]&]
-[s2;%RU-RU Returns the maximum number of characters limit set by 
+[s2;%RU-RU Возвращает the maximum number of characters limit set by 
 MaxChars.&]
 [s3; &]
 [s4; &]
@@ -342,7 +342,7 @@ of text up to] [%-*@3 maxcx] width.&]
 [s4; &]
 [s5;:EditField`:`:NoBackground`(bool`): [_^EditField^ EditField][@(0.0.255) `&]_[* NoBackgr
 ound]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) true])&]
-[s2;%RU-RU Sets the widget into transparent mode `- background is 
+[s2;%RU-RU Устанавливаетthe widget into transparent mode `- background is 
 not painted and Transparent is activated `- a result, anything 
 painted behind the widget is visible, allowing client code to 
 provide any background it needs.&]
@@ -350,16 +350,16 @@ provide any background it needs.&]
 [s4; &]
 [s5;:EditField`:`:GetFilter`(`)const: [_^CharFilter^ CharFilter]_[* GetFilter]()_[@(0.0.255) c
 onst]&]
-[s2;%RU-RU Returns current character filter.&]
+[s2;%RU-RU Возвращает current character filter.&]
 [s3; &]
 [s4; &]
 [s5;:EditField`:`:GetConvert`(`)const: [@(0.0.255) const]_[_^Convert^ Convert][@(0.0.255) `&
 ]_[* GetConvert]()_[@(0.0.255) const]&]
-[s2; Returns current converter.&]
+[s2; Возвращает current converter.&]
 [s3; &]
 [s4; &]
 [s5;:EditField`:`:GetFont`(`)const: [_^Font^ Font]_[* GetFont]()_[@(0.0.255) const]&]
-[s2; Returns current font.&]
+[s2; Возвращает current font.&]
 [s3; &]
 [s4; &]
 [s5;:EditField`:`:AlignRight`(bool`): [_^EditField^ EditField][@(0.0.255) `&]_[* AlignRight
@@ -370,12 +370,12 @@ to the right. Left alignment is default.&]
 [s4; &]
 [s5;:EditField`:`:IsNoBackground`(`)const: [@(0.0.255) bool]_[* IsNoBackground]()_[@(0.0.255) c
 onst]&]
-[s2;%RU-RU Возвращает true, если NoBackground is active.&]
+[s2;%RU-RU Возвращает  true, если NoBackground is active.&]
 [s3; &]
 [s4; &]
 [s5;:EditField`:`:IsAlignRight`(`)const: [@(0.0.255) bool]_[* IsAlignRight]()_[@(0.0.255) c
 onst]&]
-[s2;%RU-RU Возвращает true, если AlignRight is active.&]
+[s2;%RU-RU Возвращает  true, если AlignRight is active.&]
 [s3; &]
 [s4; &]
 [s5;:EditField`:`:ShowSpaces`(bool`): [@(0.0.255) bool]_[* ShowSpaces]([@(0.0.255) bool]_[*@3 b
@@ -392,12 +392,12 @@ removes it.&]
 [s4; &]
 [s5;:EditField`:`:GetChar`(int`)const: [@(0.0.255) virtual] [@(0.0.255) int]_[* GetChar]([@(0.0.255) i
 nt]_[*@3 i])_[@(0.0.255) const]&]
-[s2;%RU-RU Returns the character at [%-*@3 i] index.&]
+[s2;%RU-RU Возвращает the character at [%-*@3 i] index.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:EditField`:`:GetCaretRect`(int`)const: [_^Rect^ Rect]_[* GetCaretRect]([@(0.0.255) int
 ]_[*@3 pos])_[@(0.0.255) const]&]
-[s2;%RU-RU Returns the caret placement for character [%-*@3 pos] in 
+[s2;%RU-RU Возвращает the caret placement for character [%-*@3 pos] in 
 EditField view coordinates.&]
 [s3;%RU-RU &]
 [s4; &]
@@ -408,12 +408,12 @@ t]&]
 [s4; &]
 [s5;:EditField`:`:StyleDefault`(`): [@(0.0.255) static] [@(0.0.255) const]_[_^EditField`:`:Style^ S
 tyle][@(0.0.255) `&]_[* StyleDefault]()&]
-[s2;%RU-RU Returns the default style used to draw edit fields.&]
+[s2;%RU-RU Возвращает the default style used to draw edit fields.&]
 [s3; &]
 [s4; &]
 [s5;:EditField`:`:SetStyle`(const EditField`:`:Style`&`): [_^EditField^ EditField][@(0.0.255) `&
 ]_[* SetStyle]([@(0.0.255) const]_[_^EditField`:`:Style^ Style][@(0.0.255) `&]_[*@3 s])&]
-[s2;%RU-RU Sets the style to an EditField`::Style [%-*@3 s].&]
+[s2;%RU-RU Устанавливаетthe style to an EditField`::Style [%-*@3 s].&]
 [s3;%RU-RU &]
 [s0; &]
 [ {{10000@3 [s0;%RU-RU [*@(229)4 EditField`::Style]]}}&]

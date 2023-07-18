@@ -14,17 +14,17 @@ topic "Font and Text Routines";
 [s3; &]
 [s5;:Upp`:`:SetStdFont`(Upp`:`:Font`): [@(0.0.255) void]_[* SetStdFont]([_^Upp`:`:Font^ Fon
 t]_[*@3 font])&]
-[s2;%% Sets the standard font. This is the default font used to draw 
+[s2;%% Устанавливаетthe standard font. This is the default font used to draw 
 most GUI texts. Standard font is normally set during GUI startup 
 and application rarely need to call this function.&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:GetStdFont`(`): [_^Upp`:`:Font^ Font]_[* GetStdFont]()&]
-[s2;%% Returns the standard font.&]
+[s2;%% Возвращает the standard font.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:GetStdFontCy`(`): [@(0.0.255) int]_[* GetStdFontCy]()&]
-[s2;%% Returns the standard font height (in pixels or dots).&]
+[s2;%% Возвращает the standard font height (in pixels or dots).&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:StdFont`(`): [_^Upp`:`:Font^ Font]_[* StdFont]()&]
@@ -32,21 +32,21 @@ and application rarely need to call this function.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:StdFont`(int`): [_^Upp`:`:Font^ Font]_[* StdFont]([@(0.0.255) int]_[*@3 h])&]
-[s2;%% Returns standard font with height changed to [%-*@3 h].&]
+[s2;%% Возвращает standard font with height changed to [%-*@3 h].&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:Serif`(int`): [_^Upp`:`:Font^ Font]_[* Serif]([@(0.0.255) int]_[*@3 n])&]
-[s2;%% Returns default serif font with height [%-*@3 n].&]
+[s2;%% Возвращает default serif font with height [%-*@3 n].&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:SansSerif`(int`): [_^Upp`:`:Font^ Font]_[* SansSerif]([@(0.0.255) int]_[*@3 n]_`=
 _`-[@3 32000])&]
-[s2;%% Returns default sans`-serif font with height [%-*@3 n].&]
+[s2;%% Возвращает default sans`-serif font with height [%-*@3 n].&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:Monospace`(int`): [_^Upp`:`:Font^ Font]_[* Monospace]([@(0.0.255) int]_[*@3 n]_`=
 _`-[@3 32000])&]
-[s2;%% Returns default monospace font with height [%-*@3 n].&]
+[s2;%% Возвращает default monospace font with height [%-*@3 n].&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:Compose`(Upp`:`:Font`,int`,Upp`:`:ComposedGlyph`&`): [@(0.0.255) bool]_[* Com
@@ -118,7 +118,7 @@ wrapped if line is longer.&]
 [s5;:Upp`:`:GetTLTextSize`(const Upp`:`:wchar`*`,Upp`:`:Font`): [_^Upp`:`:Size^ Size]_[* G
 etTLTextSize]([@(0.0.255) const]_[_^Upp`:`:wchar^ wchar]_`*[*@3 text], 
 [_^Upp`:`:Font^ Font]_[*@3 font]_`=_StdFont())&]
-[s2;%% Returns the size of multiline text with tabs.&]
+[s2;%% Возвращает the size of multiline text with tabs.&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:GetTLTextHeight`(const Upp`:`:wchar`*`,Upp`:`:Font`): [@(0.0.255) int]_[* Get

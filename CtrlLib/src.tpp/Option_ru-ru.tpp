@@ -33,7 +33,7 @@ state. 0 is always interpreted as false, Null number as either
 Null (NotNull mode) or false (NoNotNull mode), other numbers 
 as true. The control may be also known under [^https`:`/`/en`.wikipedia`.org`/wiki`/Checkbox^ c
 hecbox] name.&]
-[s9;%- [%%/ Derived from ][/ Pusher.]&]
+[s9;%- [%%/ Производный от ][/ Pusher.]&]
 [s3;%- &]
 [ {{10000F(128)G(128)@1 [s0; [* Exemplary usage]]}}&]
 [s9; Below is the exemplary usage of Option control with the detailed 
@@ -101,14 +101,14 @@ and standard appearance.&]
 [s3; &]
 [s4;%- &]
 [s5;:Option`:`:`~Option`(`):%- [@(0.0.255) `~][* Option]()&]
-[s2; Default destructor.&]
+[s2; Дефолтный деструктор .&]
 [s3;%- &]
 [s0;%- &]
 [ {{10000F(128)G(128)@1 [s0; [* Список Публичных Методов]]}}&]
 [s3;%- &]
 [s5;:Option`:`:Set`(int`):%- [_^Option^ Option][@(0.0.255) `&]_[* Set]([@(0.0.255) int]_[*@3 b])
 &]
-[s2; Sets Option to the specified state (0, 1 or Null).&]
+[s2; УстанавливаетOption to the specified state (0, 1 or Null).&]
 [s7; [%-*C@3 b]-|State.&]
 [s3;%- &]
 [s4;%- &]
@@ -150,7 +150,7 @@ representation suitable for placing it on dialog (SColorFace).&]
 [s4;%- &]
 [s5;:Upp`:`:Option`:`:IsBlackEdge`(`)const:%- [@(0.0.255) bool]_[* IsBlackEdge]()_[@(0.0.255) c
 onst]&]
-[s2; Возвращает true, если BlackEdge is active.&]
+[s2; Возвращает  true, если BlackEdge is active.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Option`:`:SwitchImage`(bool`):%- [_^Option^ Option][@(0.0.255) `&]_[* SwitchImage]([@(0.0.255) b
@@ -161,7 +161,7 @@ the Switch appearance.&]
 [s4;%- &]
 [s5;:Upp`:`:Option`:`:IsSwitchImage`(`)const:%- [@(0.0.255) bool]_[* IsSwitchImage]()_[@(0.0.255) c
 onst]&]
-[s2; Возвращает true, если SwitchImage is active.&]
+[s2; Возвращает  true, если SwitchImage is active.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Option`:`:ThreeState`(bool`):%- [_^Option^ Option][@(0.0.255) `&]_[* ThreeState]([@(0.0.255) b
@@ -171,7 +171,7 @@ ool]_[*@3 b]_`=_[@(0.0.255) true])&]
 [s4;%- &]
 [s5;:Upp`:`:Option`:`:IsThreeState`(`)const:%- [@(0.0.255) bool]_[* IsThreeState]()_[@(0.0.255) c
 onst]&]
-[s2; Возвращает true, если ThreeState is active.&]
+[s2; Возвращает  true, если ThreeState is active.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Option`:`:NotNull`(bool`):%- [_^Option^ Option][@(0.0.255) `&]_[* NotNull]([@(0.0.255) b
@@ -188,12 +188,12 @@ interpreted as Null.&]
 [s4;%- &]
 [s5;:Upp`:`:Option`:`:IsNotNull`(`)const:%- [@(0.0.255) bool]_[* IsNotNull]()_[@(0.0.255) c
 onst]&]
-[s2; Возвращает true, если NotNull is active.&]
+[s2; Возвращает  true, если NotNull is active.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:Option`:`:SetColor`(Upp`:`:Color`):%- [_^Upp`:`:Option^ Option][@(0.0.255) `&
 ]_[* SetColor]([_^Upp`:`:Color^ Color]_[*@3 c])&]
-[s2; Sets the color of text of Option label. Setting Null restores 
+[s2; Устанавливаетthe color of text of Option label. Setting Null restores 
 the default color.&]
 [s3; &]
 [s4;%- &]
@@ -204,7 +204,7 @@ ool]_[*@3 b]_`=_[@(0.0.255) true])&]
 [s4;%- &]
 [s5;:Upp`:`:Option`:`:AutoBox`(bool`):%- [_^Upp`:`:Option^ Option][@(0.0.255) `&]_[* AutoBo
 x]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) true])&]
-[s2; Calls Box([%-*@3 b]) and activates mode where all widgets that 
+[s2; Вызывает Box([%-*@3 b]) and activates mode where all widgets that 
 are children of Option`'s parent and are intersecting Option 
 rectangle are enabled / disabled based on the status of the Option.&]
 [s3; &]
@@ -216,7 +216,7 @@ ool]_[*@3 b]_`=_[@(0.0.255) true])&]
 [s4;%- &]
 [s5;:Upp`:`:Option`:`:IsShowLabel`(`)const:%- [@(0.0.255) bool]_[* IsShowLabel]()_[@(0.0.255) c
 onst]&]
-[s2; Возвращает true, если ShowLabel is active.&]
+[s2; Возвращает  true, если ShowLabel is active.&]
 [s0;%- &]
 [s0;%- &]
 [ {{10000@3 [s0; [*@(229)4 OptionBox]]}}&]

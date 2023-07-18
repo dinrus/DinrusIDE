@@ -26,43 +26,43 @@ the Turtle wire protocol.&]
 [s5;:Upp`:`:TurtleServer`:`:Bind`(const Upp`:`:String`&`): [_^Upp`:`:TurtleServer^ Turt
 leServer][@(0.0.255) `&]_[* Bind]([@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&
 ]_[*@3 addr])&]
-[s2;%% Sets the server bind address to [%-*@3 addr]. Default is `"0.0.0.0`". 
-Returns `*this for method chaining.&]
+[s2;%% Устанавливаетthe server bind address to [%-*@3 addr]. Default is `"0.0.0.0`". 
+Возвращает `*this for method chaining.&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:TurtleServer`:`:Host`(const Upp`:`:String`&`): [_^Upp`:`:TurtleServer^ Turt
 leServer][@(0.0.255) `&]_[* Host]([@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&
 ]_[*@3 host])&]
-[s2;%% Sets the host URL to [%-*@3 host]. Default URL is `"localhost`". 
-Returns `*this for method chaining.&]
+[s2;%% Устанавливаетthe host URL to [%-*@3 host]. Default URL is `"localhost`". 
+Возвращает `*this for method chaining.&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:TurtleServer`:`:HtmlPort`(int`): [_^Upp`:`:TurtleServer^ TurtleServer][@(0.0.255) `&
 ]_[* HtmlPort]([@(0.0.255) int]_[*@3 port])&]
-[s2;%% Sets the connection port number for serving the html file. 
-Default is 8888. Returns `*this for method chaining.&]
+[s2;%% Устанавливаетthe connection port number for serving the html file. 
+Default is 8888. Возвращает `*this for method chaining.&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:TurtleServer`:`:WsPort`(int`): [_^Upp`:`:TurtleServer^ TurtleServer][@(0.0.255) `&
 ]_[* WsPort]([@(0.0.255) int]_[*@3 port])&]
-[s2;%% Sets the connection port number for websocket connection. 
-Default is 8887. Returns `*this for method chaining.&]
+[s2;%% Устанавливаетthe connection port number for websocket connection. 
+Default is 8887. Возвращает `*this for method chaining.&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:TurtleServer`:`:MaxConnections`(int`): [_^Upp`:`:TurtleServer^ TurtleServer
 ][@(0.0.255) `&]_[* MaxConnections]([@(0.0.255) int]_[*@3 limit])&]
-[s2;%% Sets a limit to the maximum number of concurrent client conntections. 
-Default max. connection limit is 100. Returns `*this for method 
+[s2;%% Устанавливаетa limit to the maximum number of concurrent client conntections. 
+Default max. connection limit is 100. Возвращает `*this for method 
 chaining.&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:TurtleServer`:`:DebugMode`(bool`): [@(0.0.255) static] 
 [@(0.0.255) void]_[* DebugMode]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) true])&]
 [s6;%% POSIX only&]
-[s2;%% If true, the server will not spawn child processes (no forking). 
+[s2;%% Если true, the server will not spawn child processes (no forking). 
 Useful for debugging purposes.&]
 [s3;%% &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Constructor detail]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Конструктор  detail]]}}&]
 [s3; &]
 [s5;:Upp`:`:TurtleServer`:`:TurtleServer`(`): [* TurtleServer]()&]
 [s2;%% Дефолтный конструктор. Initializes the server bind address to 
@@ -73,14 +73,14 @@ port number to 8888.&]
 [s5;:Upp`:`:TurtleServer`:`:TurtleServer`(const Upp`:`:String`&`,int`): [* TurtleServer
 ]([@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 host], 
 [@(0.0.255) int]_[*@3 port])&]
-[s2;%% Constructor overload. Initializes the host URL and the connection 
+[s2;%% Конструктор  overload. Initializes the host URL and the connection 
 port number to provided values.&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:TurtleServer`:`:TurtleServer`(const Upp`:`:String`&`,Upp`:`:String`&`,int`): [* T
 urtleServer]([@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 ip], 
 [_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 host], [@(0.0.255) int]_[*@3 port])&]
-[s2;%% Constructor overload. Initializes the server bind adrress, 
+[s2;%% Конструктор  overload. Initializes the server bind adrress, 
 the host URL and the connection port number to provided values.&]
 [s3;%% &]
 [ {{10000F(128)G(128)@1 [s0;%% [* Function List]]}}&]

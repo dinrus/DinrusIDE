@@ -13,34 +13,57 @@ topic "Класс CoWork";
 [ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 Класс CoWork]]}}&]
 [s3; &]
 [s1;:CoWork`:`:class: [@(0.0.255)3 class][3 _][*3 CoWork]&]
-[s9;%RU-RU This class is indented as general parallelization tool. 
-Whenever jobs (e.g. loop iterations) are independent (they do 
-not share any data between iterations), CoWork can be used to 
-relatively easily spawn loop iterations over threads and thus 
-over CPU cores. Note that previous statement does [* not] preclude 
-CoWork iterations to share data at all `- sharing data using 
-Mutex or similar serialization mechanisms still works. CoWork 
-works with fixed`-size thread pool, which is created during initialization 
-phase (which first CoWork constructor is called). No more thread 
-are created or destroyed during normal work. Nesting of CoWork 
-instances is also possible. Thread pool is normally terminated 
-when the main thread finishes.&]
-[s9;%RU-RU No synchronization is required to access CoWork instances 
-from various threads (CoWork is internally synchronized).&]
-[s9;%RU-RU If an exception is thrown in worker thread, which is not 
-handled by worker thread, it is caught and rethrown in CoWork 
-thread in Finish routine. Any such exception also causes the 
-Cancel of the CoWork. For this reason, CoWork destructor [*/ CAN] 
-throw exceptions and CoWork should be usually used as automatick 
-(stack) variable. If you need CoWork that does not throw exceptions 
-in destructor, use CoWorkNX.&]
-[s9;%RU-RU [*/ Implementation notes: ]Current implementation has single 
-global FIFO stack for 2048 scheduled jobs. When there is no slot 
-available when scheduling the job, it is performed immediately 
-by Do. Finish method has to wait until all jobs scheduled by 
-CoWork instance are finished, while waiting it attempts to perform 
-scheduled jobs from the same instance. That way work always progresses 
-even if there is shortage of worker threads.&]
+[s9;%RU-RU Этот класс нацелен на применение 
+в качестве основного инструмента 
+параллелизации. Всякий раз, когда 
+jobs (например, цикличные обходы) независимы 
+(у них нет при обходе совместных данных), 
+CoWork можно использовать относительно 
+легко для spawn`'инга цикличных итераций 
+над потоками, по факту над ядрами 
+ЦПБ. Заметьте, что предыдущее утверждение 
+вовсе [* не] preclude обходы CoWork разделять 
+данные `- всё ещё работает разделение 
+данных с помощью Mutex и тому подобных 
+механизмов сериализации. CoWork работает 
+с пулом нитей (`"катушкой`") фиксированного 
+размера, который создаётся на фазе 
+инициализации (когда вызывается первый 
+конструктор CoWork). При нормальной работе 
+не создаётся и не разрушается больше 
+никаких потоков. Также можно `"гнездить`" 
+экземпляры CoWork друг в друга. `"Катушка`" 
+обычно `"обрывается`" по завершению 
+главной нити.&]
+[s9;%RU-RU Для получения доступа к экземплярам 
+CoWork из различных нитей не требуется 
+никакой синхронизации (CoWork синхронизирован 
+внутренне).&]
+[s9;%RU-RU Если в нити`-трудяге (worker thread) выбрасывает
+ся исключение, этой трудягой не обрабатывающ
+ееся, оно `"отлавливается`" и повторно 
+`"бросается`" из нити CoWork в процедуре 
+Finish. Любое подобное исключение также 
+вызывает Cancel из CoWork. По этой причине, 
+деструктор CoWork [*/ МОЖЕТ] бросать исключения 
+и CoWork следует обычно использовать 
+как автоматическую (стэковую) переменную. 
+Если понадобится CoWork, который не выводит 
+исключений в деструкторе, применяйте 
+CoWorkNX.&]
+[s9;%RU-RU [*/ Заметки по реализации: ]Текущая 
+реализация имеет единый глобальный 
+стэк FIFO на 2048 запланированных работ 
+(jobs). Когда при планировании работы 
+отсутствует доступный слот, она немедленно 
+выполняется посредством Do. Метод 
+Finish должен ждать окончания всех работ, 
+запланированных экземпляром CoWork, 
+при ожидании он пытается провести 
+запланированные работы из того же 
+экземпляра. Таким образом, работа 
+всегда ведётся, даже если есть нехватка 
+нитей`-трудяг.&]
 [s0;%RU-RU &]
 [ {{10000F(128)G(128)@1 [s0;%RU-RU [* Список Публичных Методов]]}}&]
 [s3; &]
@@ -50,11 +73,14 @@ c bool]_[* TrySchedule]([_^Upp`:`:Function^ Function]<[@(0.0.255) void]_()>`&`&_
 [s5;:Upp`:`:CoWork`:`:TrySchedule`(const Upp`:`:Function`<void`(`)`>`&`): [@(0.0.255) s
 tatic] [@(0.0.255) bool]_[* TrySchedule]([@(0.0.255) const]_[_^Upp`:`:Function^ Function]<
 [@(0.0.255) void]_()>`&_[*@3 fn])&]
-[s2;%RU-RU This is a low`-level function that attempts to schedule 
-[%-*@3 fn] to be executed by worker thread. Возвращает true, если [%-*@3 fn] 
-was scheduled, false if not (in case there is no slot left in 
-scheduling stacks). Note that this function only schedules the 
-function, the exact time of execution is unknown.&]
+[s2;%RU-RU Это низкоуровневая функция, пытающаяся 
+запланировать [%-*@3 fn] на выполнение 
+нитью`-трудягой. Возвращает true, если 
+[%-*@3 fn] запланирована, false, если нет (в 
+том случае, когда не осталось слота 
+на стэках планировки). Заметьте, что 
+эта функция только планирует функцию, 
+а точное время выполнения неизвестно.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:CoWork`:`:Schedule`(Upp`:`:Function`<void`(`)`>`&`&`): [@(0.0.255) static 
@@ -62,8 +88,9 @@ void]_[* Schedule]([_^Upp`:`:Function^ Function]<[@(0.0.255) void]_()>`&`&_[*@3 
 [s5;:Upp`:`:CoWork`:`:Schedule`(const Upp`:`:Function`<void`(`)`>`&`): [@(0.0.255) stat
 ic] [@(0.0.255) void]_[* Schedule]([@(0.0.255) const]_[_^Upp`:`:Function^ Function]<[@(0.0.255) v
 oid]_()>`&_[*@3 fn])&]
-[s2;%RU-RU Similar to TrySchedule, but always schedules [%-*@3 fn] 
-`- even if it has to wait for slot to become available.&]
+[s2;%RU-RU Подобно TrySchedule, но всегда планирует 
+[%-*@3 fn] `- даже если ей приходится ждать 
+доступности слота.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:CoWork`:`:Do`(Upp`:`:Function`<void`(`)`>`&`&`): [@(0.0.255) void]_[* Do]([_^Upp`:`:Function^ F
@@ -76,12 +103,15 @@ oid]_()>`&_[*@3 fn])&]
 [s5;:Upp`:`:CoWork`:`:operator`&`(Upp`:`:Function`<void`(`)`>`&`&`): [_^Upp`:`:CoWork^ C
 oWork][@(0.0.255) `&]_[* operator`&]([_^Upp`:`:Function^ Function]<[@(0.0.255) void]_()>`&
 `&_[*@3 fn])&]
-[s2;%RU-RU Schedules [%-*@3 fn] to be executed. All changes to data 
-done before Do are visible in the scheduled code. The order of 
-execution or whether the code is execute in another or calling 
-thread is not specified. In certain situations (no scheduling 
-slot available), Do can perform scheduled job immediately in 
-calling thread.&]
+[s2;%RU-RU Планирует [%-*@3 fn] на выполнение. 
+Все изменения данных, сделанные до 
+Do, видны в запланированном коде. Порядок 
+выполнения и то, будет ли код выполняться 
+в иной или же в вызывающей нити, не 
+указан. В некоторых ситуациях (недоступен 
+слот планировки), Do может выполнить 
+планируемую работу сразу же, в вызывающей 
+нити.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:CoWork`:`:Loop`(Upp`:`:Function`<void`(`)`>`&`&`): [@(0.0.255) void]_[* Loop](
@@ -94,199 +124,258 @@ oid]_()>`&_[*@3 fn])&]
 [s5;:Upp`:`:CoWork`:`:operator`*`(Upp`:`:Function`<void`(`)`>`&`&`): [_^Upp`:`:CoWork^ C
 oWork][@(0.0.255) `&]_[* operator`*]([_^Upp`:`:Function^ Function]<[@(0.0.255) void]_()>`&
 `&_[*@3 fn])&]
-[s2;%RU-RU Schedules [%-*@3 fn] to be run on all worker threads and 
-on calling thread. After the first thread returns from [%-*@3 fn], 
-all other scheduled [%-*@3 fn] jobs that has not started yet are 
-unscheduled. Waits for all started jobs to finish. The function 
-also sets internal index counter to zero in CoWork before starting 
-any worker thread. Worker thread should acquire job quantum in 
-internal loop `- internal CoWork index can be used for this purpose.&]
+[s2;%RU-RU Планирует [%-*@3 fn] на запуск во всех 
+нитях`-трудягах и в вызывающей нити. 
+После выхода первой нити из [%-*@3 fn], 
+все иные запланированные [%-*@3 fn] работы, 
+ещё не стартовавшие, отменяются. Ожидает 
+окончания всех запущенных работ. 
+Эта функция также устанавливает внутренний 
+счётчик индексов в ноль в CoWork, до того 
+как стартует какая`-либо нить`-трудяга. 
+Нить`-трудяга должна приобрести job 
+quantum во внутреннем цикле `- для этой 
+цели может использоваться внутренний 
+индекс CoWork.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:CoWork`:`:Next`(`): [@(0.0.255) int]_[* Next]()&]
-[s2;%RU-RU Atomically increments internal index counter and returns 
-its previous value (thus the first value returned is 0). Supposed 
-to be used with Loop.&]
+[s2;%RU-RU Автоматически увеличивает на 
+единицу внутренний счётчик индексов 
+и возвращает его предыдущее значение 
+(таким образом первое возвращаемое 
+значение равно 0). Предназначается 
+для использования с Loop.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:CoWork`:`:FinLock`(`): [@(0.0.255) static] [@(0.0.255) void]_[* FinLock]()&]
-[s2;%RU-RU This functions is to be called in scheduled routine. Its 
-purpose is to serialize access to shared data at the end of the 
-routine. The rationale is that CoWork has to lock some mutex 
-anyway after scheduled code finishes, so FinLock can lock this 
-mutex a bit earlier, joining two mutex locks into single one. 
-Of course, as with all locks, execution of locked code should 
-be short as not to cause congestion of CoWork scheduling.&]
+[s2;%RU-RU Эта функция должна вызываться 
+в запланированной процедуре. Её цель 
+`- сериализовать доступ к совместным 
+данным в конце процедуры. Поскольку 
+CoWork по любому должен блокировать 
+какой`-то мютекс после того, как запланирован
+ый код завершён, FinLock позволяет блокировать 
+этот `"стопор`" немного раньше, объединяя 
+два замка стопоров в один. Конечно, 
+как в случае со всеми замками, выполнение 
+блокированного кода должно длиться 
+не долго, чтобы не вызвать congestion планировки 
+CoWork.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:CoWork`:`:Cancel`(`): [@(0.0.255) void]_[* Cancel]()&]
-[s2;%RU-RU Removes all jobs scheduled by this thread that has not 
-started yet from the queue and then waits for any jobs already 
-started to finish. Rethrows the exception thrown in worker threads. 
-If more than single worker thread throws the exception, the first 
-exception thrown in absolute time is rethrown.&]
+[s2;%RU-RU Удаляет все работы, запланированные 
+этой нитью, которые ещё не запущены 
+из очереди, а затем ждёт окончания 
+любых, уже начатых, работ. Повторно 
+выбрасывает исключение, возникающее 
+в нитях`-трудягах. Если несколько 
+трудяг выбрасывает этот искл, то выводится 
+только первое.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:CoWork`:`:IsCanceled`(`): [@(0.0.255) static] [@(0.0.255) bool]_[* IsCanceled](
 )&]
-[s2;%RU-RU This methods returns true in worker thread when the worker 
-thread is a part of some CoWork instance and that instance was 
-canceled.&]
+[s2;%RU-RU Этот метод возвращает true в нить`-трудягу,
+ если эта трудяга является частью 
+какого`-то экземпляра CoWork, а он был 
+отменён.&]
 [s3; &]
 [s4; &]
 [s5;:CoWork`:`:Finish`(`): [@(0.0.255) void]_[* Finish]()&]
-[s2;%RU-RU Waits until all jobs scheduled using Do (or operator`&) 
-are finished. All changes to data performed by scheduled threads 
-are visible after Finish. While waiting, Finish can perform scheduled 
-jobs. Can &]
+[s2;%RU-RU Ждёт окончания всех работ, запланированн
+ых через Do (или operator`&). Все изменения 
+данных, выполненные запланированными 
+нитями, видны после Finish. При ожидании 
+Finish может выполнять запланированное.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:CoWork`:`:IsFinished`(`): [@(0.0.255) bool]_[* IsFinished]()&]
-[s2;%RU-RU Checkes whether all jobs scheduled using Do (or operator`&) 
-are finished. All changes to data performed by scheduled threads 
-are visible after IsFinished returns true (so this is basically 
-non`-blocking variant of Finish).&]
+[s2;%RU-RU Проверяет, все ли работы, запланированны
+е через Do (или operator`&), завершены. Все 
+изменения данных, выполненные запланированн
+ыми нитями, видны после того, как IsFinished 
+возвратит true (поэтому этот вариант 
+Finish без блокировки).&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:CoWork`:`:Reset`(`): [@(0.0.255) void]_[* Reset]()&]
-[s2;%RU-RU Calls Cancel, catches and ignores all exceptions eventually 
-thrown by worker threads. Then resets CoWork to the initial state 
-as if it was just constructed. Useful when using CoWork as nonlocal 
-variable.&]
+[s2;%RU-RU Вызывает Cancel, отлавливает и игнорирует 
+все исключения, выбрасываемые нитями`-трудяг
+ами. Затем сбрасывает CoWork в начальное 
+состояние, как если бы он был только`-только 
+отконструированным. Применяется 
+при использовании CoWork как нелокальной 
+переменной.&]
 [s3; &]
 [s4; &]
 [s5;:CoWork`:`:`~CoWork`(`): [@(0.0.255) `~][* CoWork]()&]
-[s2;%RU-RU Calls Finish(). Can eventually rethrow worker thread exception. 
-If there is a chance of destructor being involved in stack unwinding, 
-Finish should be called separately before destructor.&]
+[s2;%RU-RU Вызывает Finish(). Может повторно 
+выводить исключения из нитей`-трудяг. 
+Если имеется шанс того, что деструктор 
+имеет отношение к отмотке стэка (stack 
+unwinding), Finish следует вызывать отдельно, 
+перед деструктором.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:CoWork`:`:IsWorker`(`): [@(0.0.255) static] [@(0.0.255) bool]_[* IsWorker]()&]
-[s2;%RU-RU Возвращает true, если current thread is CoWork worker thread.&]
+[s2;%RU-RU Возвращает true, если текущая нить 
+является нитью`-трудягой CoWork.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:CoWork`:`:GetWorkerIndex`(`): [@(0.0.255) static] [@(0.0.255) int]_[* GetWorker
 Index]()&]
-[s2;%RU-RU Returns the index of worker `- index is >`= 0 and < GetPoolSize(). 
-This is useful if there is a need for per`-thread resources. 
-`-1 means that thread is now worker (this can happen when Finish 
-is using calling thread to perform jobs).&]
+[s2;%RU-RU Возвращает индекс трудяги: индекс 
+равен >`= 0 и < GetPoolSize(). Используется, 
+если нужны ресурсы для каждой нити. 
+`-1 означает, что нить сейчас является 
+трудягой (это может иметь место, когда 
+Finish использует вызывающую нить для 
+выполнения работ).&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:CoWork`:`:GetPoolSize`(`): [@(0.0.255) static] [@(0.0.255) int]_[* GetPoolSize](
 )&]
-[s2;%RU-RU Returns the current count of worker threads.&]
+[s2;%RU-RU Возвращает текущий счёт нитей`-трудяг.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:CoWork`:`:SetPoolSize`(int`): [@(0.0.255) static void]_[* SetPoolSize]([@(0.0.255) i
 nt]_[*@3 n])&]
-[s2;%RU-RU Adjusts the thread pool size (default pool size is CPU`_Cores() 
-`+ 2).&]
+[s2;%RU-RU Регулирует размер катушки (дефолтный 
+размер пула равен CPU`_Cores() `+ 2).&]
 [s0; &]
 [s0; &]
 [ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 CoWorkNX]]}}&]
 [s0; &]
 [s1;:Upp`:`:CoWorkNX`:`:struct: [@(0.0.255)3 struct][3 _][*3 CoWorkNX][3 _:_][@(0.0.255)3 public
 ][3 _][*@3;3 CoWork]&]
-[s2;%RU-RU This simple helper class just removes `"noexcept(false)`" 
-from CoWork destructor, removing exception throws from the destructor 
-and allowing it to be used as member variable. Obviously, if 
-exception handling is required, you need to use Finish (not to 
-depend on destructor to call it).&]
+[s2;%RU-RU Этот простой вспомогательный 
+класс просто удаляет `"noexcept(false)`" из 
+деструктора CoWork, удаляя выводы исключений 
+из деструктора и позволяя использовать 
+его как переменную`-член. Очевидно, 
+что если требуется обработка исключений, 
+то нужно использовать Finish (чтобы не 
+зависеть от его вызова деструктором).&]
 [s3; &]
 [ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 Функции параллелизации цикла]]}}&]
 [s3; &]
 [s5;:Upp`:`:CoDo`(Upp`:`:Function`<void`(`)`>`&`&`): [@(0.0.255) void]_[* CoDo]([_^Upp`:`:Function^ F
 unction]<[@(0.0.255) void]_()>`&`&_[*@3 fn])&]
-[s2;%RU-RU Creates CoWork and calls Loop([%-*@3 fn]). This is the most 
-effective way to parallelise iteration.&]
+[s2;%RU-RU Создаёт CoWork и вызывает Loop([%-*@3 fn]). 
+Это самый действенный способ паралеллизиров
+ать итерацию.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:CoDo`_ST`(Upp`:`:Function`<void`(`)`>`&`&`): [@(0.0.255) void]_[* CoDo`_ST]([_^Upp`:`:Function^ F
 unction]<[@(0.0.255) void]_()>`&`&_[*@3 fn])&]
-[s2;%RU-RU This function simply calls [%-*@3 fn]. It is diagnostics 
-tool `- it allows to change CoDo parallel iteration into serial 
-one by adding `"`_ST`" text.&]
+[s2;%RU-RU Эта функция просто вызывает [%-*@3 fn]. 
+Это инструмент диагностики: он позволяет 
+изменить параллельную итерацию CoDo 
+на серийную, добавляя текст `"`_ST`".&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:CoDo`(bool`,Upp`:`:Function`<void`(`)`>`&`&`): [@(0.0.255) void]_[* CoDo]([@(0.0.255) b
 ool]_[*@3 co], [_^Upp`:`:Function^ Function]<[@(0.0.255) void]_()>`&`&_[*@3 fn])&]
-[s2;%RU-RU If [%-*@3 co] is true, calls CoDo([%-*@3 fn]), otherwise CoDo`_ST([%-*@3 fn]). 
-This allows to parametrize algorithms with respect to parallelization.&]
+[s2;%RU-RU Если [%-*@3 co] равен true, вызывается 
+CoDo([%-*@3 fn]), иначе CoDo`_ST([%-*@3 fn]). Это позволяет 
+параметрировать алгоритмы с учётом 
+параллелизации.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:CoFor`(int`,Fn`): [@(0.0.255) template]_<[@(0.0.255) typename]_[*@4 Fn]>_[@(0.0.255) v
 oid]_[* CoFor]([@(0.0.255) int]_[*@3 n], [*@4 Fn]_[*@3 iterator])&]
-[s2;%RU-RU Based on CoDo, runs in parallel [%-*@3 iterator] for values 
-0..[%-*@3 n] passing the value as argument.&]
+[s2;%RU-RU Основан на CoDo, выполняет параллельно 
+[%-*@3 iterator] для значений 0..[%-*@3 n], передавая 
+это значение в качестве аргумента.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:CoFor`_ST`(int`,Fn`): [@(0.0.255) template]_<[@(0.0.255) typename]_[*@4 Fn]>_[@(0.0.255) v
 oid]_[* CoFor`_ST]([@(0.0.255) int]_[*@3 n], [*@4 Fn]_[*@3 iterator])&]
-[s2;%RU-RU Single threaded variant of CoFor, for diagnostics purposes.&]
+[s2;%RU-RU Однопоточный вариант CoFor, для 
+диагностических целей.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:CoFor`(bool`,int`,Fn`): [@(0.0.255) template]_<[@(0.0.255) typename]_[*@4 Fn]>_
 [@(0.0.255) void]_[* CoFor]([@(0.0.255) bool]_[*@3 co], [@(0.0.255) int]_[*@3 n], 
 [*@4 Fn]_[*@3 iterator])&]
-[s2;%RU-RU Calls CoFor([%-*@3 n], [%-*@3 iterator]) if [%-*@3 co] is true, 
-CoFor`_ST([%-*@3 n], [%-*@3 iterator]) otherwise. This allows to 
-parametrize algorithms with respect to parallelization.&]
+[s2;%RU-RU Вызывает CoFor([%-*@3 n], [%-*@3 iterator]), если 
+[%-*@3 co] равен true, CoFor`_ST([%-*@3 n], [%-*@3 iterator]) 
+в противном случае. Позволяет этим 
+параметрировать алгоритмы с учётом 
+параллелизации.&]
 [s3; &]
 [ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 CoWorkerResources]]}}&]
 [s3; &]
 [s1;:noref: [@(0.0.255)3 template][3 _<][@(0.0.255)3 class][3 _][*@4;3 T][3 >]&]
 [s1;:Upp`:`:CoWorkerResources`:`:class: [@(0.0.255) class]_[* CoWorkerResources]&]
-[s2;%RU-RU This is a simple helper class that provides per`-worker 
-resources. For example, certain calculation requires the instance 
-of computation model that is not immutable, but can be reused 
-over iterations. In single`-threaded code, a single instance 
-of such model would be used over the whole loop, however in multi`-threaded 
-code, each worker thread, plus thread that created CoWork need 
-its own instance. CoWorkerResources helps to manage such situation.&]
+[s2;%RU-RU Это простой вспомогательный класс, 
+предоставляющий ресурсы для каждой 
+трудяги. Например, некоторый расчёт 
+требует экземпляра модели вычисления, 
+который не является immutable (неизменным), 
+а может использоваться повторно в 
+ряде обходов (итераций). В однопоточном 
+коде, один экземпляр такой модели 
+использовался бы для всего цикла, 
+однако, в многопоточном коде каждая 
+нить`-трудяга, плюс нить, создавшую 
+CoWork, требует своего собственного 
+экземпляра. CoWorkerResources помогает управлять 
+при такой ситуации.&]
 [s0;%RU-RU &]
-[s2;%RU-RU NOTE: The problem that this helper class solves is in majority 
-cases better solved by using CoDo function.&]
+[s2;%RU-RU ЗАМЕТКА: Проблема, решаемая этим 
+вспомогательным классом, в большинстве 
+случаев лучше разрешима посредством 
+функции CoDo.&]
 [s0;%RU-RU &]
 [s3;%RU-RU &]
 [ {{10000F(128)G(128)@1 [s0;%RU-RU [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:Upp`:`:CoWorkerResources`:`:CoWorkerResources`(`): [* CoWorkerResources]()&]
-[s2;%RU-RU Creates a required number of instances so that each sub`-job 
-of CoWork has its unique instance.&]
+[s2;%RU-RU Создаёт требуемое число экземпляров, 
+так чтобы каждая подработа CoWork имела 
+свой уникальный экземпляр.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:CoWorkerResources`:`:CoWorkerResources`(Upp`:`:Event`<T`&`>`): [* CoWorkerR
 esources]([_^Upp`:`:Event^ Event]<[*@4 T][@(0.0.255) `&]>_[*@3 initializer])&]
-[s2;%RU-RU Creates a required number of instances so that each sub`-job 
-of CoWork has its unique instance.and initializes them using 
-[%-*@3 initializer].&]
+[s2;%RU-RU Создаёт требуемое число экземпляров, 
+так чтобы каждая подработа CoWork имела 
+свой уникальный экземпляр, и инициализирует
+ их посредством [%-*@3 initializer].&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:CoWorkerResources`:`:GetCount`(`)const: [@(0.0.255) int]_[* GetCount]()_[@(0.0.255) c
 onst]&]
-[s2;%RU-RU Returns the number of instances. Note that this is equal 
-to CoWork`::GetPoolSize() if thread that created CoWorkerResources 
-is itself CoWork worker, or CoWork`::GetPoolSize() `+ 1 if it 
-is any other thread. The reason for this is that CoWork owner 
-can execute CoWork jobs too (while waiting in Finish).&]
+[s2;%RU-RU Возвращает число экземпляров. 
+Заметьте, что это равно CoWork`::GetPoolSize(), 
+если нить, создавшая CoWorkerResources самя 
+является трудягой CoWork, или CoWork`::GetPoolSize() 
+`+ 1, если это какая`-то иная нить. Резон 
+состоит в том, что `"владелец`" CoWork 
+тоже может выполнять работы CoWork (при 
+ожидании в Finish).&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:CoWorkerResources`:`:operator`[`]`(int`): [*@4 T][@(0.0.255) `&]_[* operator`[`]
 ]([@(0.0.255) int]_[*@3 i])&]
-[s2;%RU-RU Returns instance [%-*@3 i]. Together with GetCount can be 
-used to initialize resources (alternative method to using constructor 
-with [%-*@3 initializer].&]
+[s2;%RU-RU Возвращает экземпляр [%-*@3 i]. Вместе 
+с GetCount может использоваться для инициализац
+ии ресурсов (альтернативный метод 
+использования контсруктора с [%-*@3 initializer].)&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:CoWorkerResources`:`:Get`(`): [*@4 T][@(0.0.255) `&]_[* Get]()&]
 [s5;:Upp`:`:CoWorkerResources`:`:operator`~`(`): [*@4 T][@(0.0.255) `&]_[* operator`~]()&]
-[s2;%RU-RU Supposed to be called in CoWork job, returns a reference 
-to resources unique for the thread.&]
+[s2;%RU-RU Предполагается его вызов из работы 
+CoWork, возвращает ссылку на уникальные 
+для нити ресурсы.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:CoWorkerResources`:`:begin`(`): [*@4 T]_`*[* begin]()&]
 [s5;:Upp`:`:CoWorkerResources`:`:end`(`): [*@4 T]_`*[* end]()&]
-[s2;%RU-RU Standard iterator access.&]
+[s2;%RU-RU Стандартный доступ к обходчику.&]
 [s3; &]
 [s0; ]]

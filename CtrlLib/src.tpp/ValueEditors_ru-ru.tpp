@@ -32,7 +32,7 @@ available without using further glue code.&]
 [ {{10000F(128)G(128)@1 [s0; [* Детали Конструктора]]}}&]
 [s3;%- &]
 [s5;:EditValue`:`:EditValue`(`):%- [* EditValue]()&]
-[s2; Constructor assigns [^`:`:Convert^ Convert] class (in fact, `*this) 
+[s2; Конструктор  assigns [^`:`:Convert^ Convert] class (in fact, `*this) 
 as the EditField converter.&]
 [s3; &]
 [s3; &]
@@ -66,7 +66,7 @@ ataType]_[*@3 min])&]
 ataType]_[*@3 max])&]
 [s5;:EditMinMax`:`:NotNull`(bool`):%- [_^EditMinMax^ EditMinMax][@(0.0.255) `&]_[* NotNull](
 [@(0.0.255) bool]_[*@3 nn]_`=_[@(0.0.255) true])&]
-[s2; Sets [* Min], [* Max] and [* NotNull] properties. In fact, the only 
+[s2; Устанавливает[* Min], [* Max] and [* NotNull] properties. In fact, the only 
 purpose of these methods is to change the returns value to the 
 correctly typed `*this.&]
 [s3; &]
@@ -102,7 +102,7 @@ ll]([*@4 DataType]_[*@3 min], [*@4 DataType]_[*@3 max])&]
 ]_[* Max]([*@4 DataType]_[*@3 max])&]
 [s5;:EditMinMaxNotNull`:`:NotNull`(bool`):%- [_^EditMinMaxNotNull^ EditMinMaxNotNull][@(0.0.255) `&
 ]_[* NotNull]([@(0.0.255) bool]_[*@3 nn]_`=_[@(0.0.255) true])&]
-[s2; Sets [* Min], [* Max] and [* NotNull] properties. In fact, the only 
+[s2; Устанавливает[* Min], [* Max] and [* NotNull] properties. In fact, the only 
 purpose of these methods is to change the returns value to the 
 correctly typed `*this.&]
 [s3; &]
@@ -190,13 +190,13 @@ text.&]
 [s3;%- &]
 [s5;:EditString`:`:MaxLen`(int`):%- [_^EditString^ EditString][@(0.0.255) `&]_[* MaxLen]([@(0.0.255) i
 nt]_[*@3 maxlen])&]
-[s2; Sets [%-*@3 maxlen] as maximum length of contained text.[%-*@3 maxlen] 
-Returns `*this.&]
+[s2; Устанавливает[%-*@3 maxlen] as maximum length of contained text.[%-*@3 maxlen] 
+Возвращает `*this.&]
 [s3; &]
 [s4;%- &]
 [s5;:EditString`:`:NotNull`(bool`):%- [_^EditString^ EditString][@(0.0.255) `&]_[* NotNull](
 [@(0.0.255) bool]_[*@3 nn]_`=_[@(0.0.255) true])&]
-[s2;%- [%% Sets ][* NotNull] property.&]
+[s2;%- [%% Устанавливает][* NotNull] property.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:EditString`:`:TrimLeft`(bool`):%- [_^Upp`:`:EditString^ EditString][@(0.0.255) `&
@@ -250,7 +250,7 @@ buttons are on.&]
 [s3; &]
 [s4;%- &]
 [s5;:EditIntSpin`:`:`~EditIntSpin`(`):%- [@(0.0.255) `~][* EditIntSpin]()&]
-[s2; Default destructor.&]
+[s2; Дефолтный деструктор .&]
 [s3;%- &]
 [s0;%- &]
 [ {{10000F(128)G(128)@1 [s0; [* Список Публичных Методов]]}}&]
@@ -266,7 +266,7 @@ Spin]([@(0.0.255) bool]_[*@3 s]_`=_[@(0.0.255) true])&]
 [s3; &]
 [s4;%- &]
 [s5;:EditIntSpin`:`:GetInc`(`)const:%- [@(0.0.255) int]_[* GetInc]()_[@(0.0.255) const]&]
-[s2; Returns the increment factor.&]
+[s2; Возвращает the increment factor.&]
 [s3;%- &]
 [s0; &]
 [s0; &]
@@ -282,7 +282,7 @@ ublic][3 _][*@3;3 EditDouble]&]
 [s3;%- &]
 [s5;:EditDoubleSpin`:`:EditDoubleSpin`(double`):%- [* EditDoubleSpin]([@(0.0.255) double]_
 [*@3 inc]_`=_[@3 0][@(0.0.255) .][@3 1])&]
-[s2; Sets the spin increment to [%-*@3 inc]. Spin buttons are on.&]
+[s2; Устанавливаетthe spin increment to [%-*@3 inc]. Spin buttons are on.&]
 [s3; &]
 [s4;%- &]
 [s5;:EditDoubleSpin`:`:EditDoubleSpin`(double`,double`,double`):%- [* EditDoubleSpin]([@(0.0.255) d
@@ -293,7 +293,7 @@ Spin buttons are on.&]
 [s3; &]
 [s4;%- &]
 [s5;:EditDoubleSpin`:`:`~EditDoubleSpin`(`):%- [@(0.0.255) `~][* EditDoubleSpin]()&]
-[s2; Default destructor.&]
+[s2; Дефолтный деструктор .&]
 [s3;%- &]
 [s0; &]
 [ {{10000F(128)G(128)@1 [s0; [* Список Публичных Методов]]}}&]
@@ -305,7 +305,7 @@ Spin buttons are on.&]
 [s4;%- &]
 [s5;:EditDoubleSpin`:`:GetInc`(`)const:%- [@(0.0.255) double]_[* GetInc]()_[@(0.0.255) cons
 t]&]
-[s2; Returns current spin increment.&]
+[s2; Возвращает current spin increment.&]
 [s3; &]
 [s4;%- &]
 [s5;:EditDoubleSpin`:`:ShowSpin`(bool`):%- [_^EditDoubleSpin^ EditDoubleSpin][@(0.0.255) `&
@@ -326,7 +326,7 @@ t]&]
 [s3; &]
 [s5;:EditDoubleNotNullSpin`:`:EditDoubleNotNullSpin`(double`):%- [* EditDoubleNotNullSp
 in]([@(0.0.255) double]_[*@3 inc]_`=_[@3 0][@(0.0.255) .][@3 1])&]
-[s2; Sets the spin increment to [%-*@3 inc]. Spin buttons are on.&]
+[s2; Устанавливаетthe spin increment to [%-*@3 inc]. Spin buttons are on.&]
 [s3; &]
 [s4;%- &]
 [s5;:EditDoubleNotNullSpin`:`:EditDoubleNotNullSpin`(double`,double`,double`):%- [* Edi

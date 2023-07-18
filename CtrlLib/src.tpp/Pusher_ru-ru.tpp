@@ -27,7 +27,7 @@ over pusher, PerformAction virtual method is invoked and its
 standard implementation invokes in turn WhenAction callback. 
 Other than that, WhenPush and WhenRepeat callbacks are available.&]
 [s0;%% &]
-[s5;K%% [/ Derived from] [^topic`:`/`/CtrlCore`/src`/Ctrl`$en`-us`#`:`:Ctrl`:`:class Ctrl^ C
+[s5;K%% [/ Производный от] [^topic`:`/`/CtrlCore`/src`/Ctrl`$en`-us`#`:`:Ctrl`:`:class Ctrl^ C
 trl]&]
 [s3;%% &]
 [s0; &]
@@ -39,7 +39,7 @@ key is cleared.&]
 [s3;%% &]
 [s4; &]
 [s5;:Pusher`:`:`~Pusher`(`): [@(0.0.255) `~][* Pusher]()&]
-[s2;%% Default destructor.&]
+[s2;%% Дефолтный деструктор .&]
 [s3;%% &]
 [s0; &]
 [ {{10000F(128)G(128)@1 [s0;%% [* Protected Field List]]}}&]
@@ -101,7 +101,7 @@ invokes WhenAction.&]
 [s3; &]
 [s5;:Pusher`:`:SetFont`(Font`): [_^Pusher^ Pusher][@(0.0.255) `&]_[* SetFont]([_^Font^ Font]_
 [*@3 fnt])&]
-[s2;%% Sets the font that should be used in painting the concrete 
+[s2;%% Устанавливаетthe font that should be used in painting the concrete 
 derived Pusher class. Pusher itself does not use this font anywhere, 
 but most derived classes do.&]
 [s7;%% [*C@3 fnt]-|Font.&]
@@ -110,7 +110,7 @@ but most derived classes do.&]
 [s4; &]
 [s5;:Pusher`:`:SetLabel`(const char`*`): [_^Pusher^ Pusher][@(0.0.255) `&]_[* SetLabel]([@(0.0.255) c
 onst]_[@(0.0.255) char]_`*[*@3 text])&]
-[s2;%% Sets the text of pusher. Pusher itself does not use this font 
+[s2;%% Устанавливаетthe text of pusher. Pusher itself does not use this font 
 anywhere, but most derived classes do. Text can contain `'`&`' 
 or `'`\b`' characters to define access keys.&]
 [s7;%% [*C@3 text]-|new text&]
@@ -152,20 +152,20 @@ t]&]
 [s3; &]
 [s4; &]
 [s5;:Pusher`:`:GetFont`(`)const: [_^Font^ Font]_[* GetFont]()_[@(0.0.255) const]&]
-[s2;%% Returns the font that should be used in painting the concrete 
+[s2;%% Возвращает the font that should be used in painting the concrete 
 derived Pusher class. Pusher itself does not use this font anywhere, 
 but most derived classes do.&]
 [s3; &]
 [s4; &]
 [s5;:Pusher`:`:GetLabel`(`)const: [_^String^ String]_[* GetLabel]()_[@(0.0.255) const]&]
-[s2;%% Returns the text of pusher. Pusher itself does not use this 
+[s2;%% Возвращает the text of pusher. Pusher itself does not use this 
 font anywhere, but most derived classes do. Text can contain 
 `'`&`' or `'`\b`' characters to define access keys.&]
 [s3;%% &]
 [s4; &]
 [s5;:Pusher`:`:GetVisualState`(`)const: [@(0.0.255) int]_[* GetVisualState]()_[@(0.0.255) c
 onst]&]
-[s2;%% Returns the current visual state of the current pusher:&]
+[s2;%% Возвращает the current visual state of the current pusher:&]
 [s7;%% CTRL`_NORMAL-|pusher is enabled and not interacting with mouse&]
 [s7;%% CTRL`_HOT-|pusher is enabled and under the mouse cursor&]
 [s7;%% CTRL`_PRESSED-|pusher is enabled and pressed&]

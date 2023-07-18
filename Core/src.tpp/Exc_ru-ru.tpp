@@ -13,10 +13,14 @@ topic "Класс Exc";
 [ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 Класс Exc]]}}&]
 [s3;%RU-RU &]
 [s1;:Exc`:`:class: [@(0.0.255)3 class][3 _][*3 Exc][3 _:_][@(0.0.255)3 public][3 _][*@3;3 String]&]
-[s9;%RU-RU This is the preferred root class of U`+`+ exception. It 
-is basically a String. The idea is that all kinds of exception 
-can be either managed by specific handlers, or simple Exc handler 
-can be used, displaying textual information to the user.&]
+[s9;%RU-RU Это предпочтительный корневой 
+класс исключений U`+`+. В его основе 
+String. Идея состоит в том, что исключения 
+всех видов могут либо обрабатываться 
+специальными обработчиками, либо 
+можно просто использовать обработчик 
+Exc, отображая пользователю текстовую 
+информацию.&]
 [s3;%RU-RU &]
 [s0;%RU-RU &]
 [ {{10000F(128)G(128)@1 [s0;%RU-RU [* Детали Конструктора]]}}&]
@@ -27,6 +31,7 @@ can be used, displaying textual information to the user.&]
 [s4; &]
 [s5;:Exc`:`:Exc`(const String`&`): [* Exc]([@(0.0.255) const]_[_^String^ String][@(0.0.255) `&
 ]_[*@3 desc])&]
-[s2;%RU-RU Constructor, error described as [%-*C@3 desc].&]
+[s2;%RU-RU Конструктор , ошибка описывается 
+как [%-*C@3 desc].&]
 [s3; &]
 [s0; ]]

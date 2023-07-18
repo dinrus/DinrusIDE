@@ -36,17 +36,17 @@ to the stream.&]
 ream][@(0.0.255) `&]_[*@3 dest], [_^Stream^ Stream][@(0.0.255) `&]_[*@3 src], 
 [_^int64^ int64]_[*@3 count] `= INT64`_MAX)&]
 [s2;%% Copies at most [%-*@3 count] bytes from source to destination 
-stream. Returns the actual number of bytes copied. With default 
+stream. Возвращает the actual number of bytes copied. With default 
 [%-*@3 count] value it copies all data from [%-*@3 src] until EOF.&]
 [s3; &]
 [s4; &]
 [s5;:Cout`(`): [_^Stream^ Stream][@(0.0.255) `&]_[* Cout]()&]
-[s2;%% Returns special output stream representing console output. 
+[s2;%% Возвращает special output stream representing console output. 
 Data written to this stream are displayed as characters in console.&]
 [s3; &]
 [s4; &]
 [s5;:Cerr`(`): [_^Stream^ Stream][@(0.0.255) `&]_[* Cerr]()&]
-[s2;%% Returns special output stream representing console error output. 
+[s2;%% Возвращает special output stream representing console error output. 
 Data written to this stream are displayed as characters in console.&]
 [s3; &]
 [s4; &]
@@ -63,7 +63,7 @@ etc. from the console.&]
 [s3; &]
 [s4; &]
 [s5;:NilStream`(`): [_^Stream^ Stream][@(0.0.255) `&]_[* NilStream]()&]
-[s2;%% Returns special stream that is always in IsEof state and simply 
+[s2;%% Возвращает special stream that is always in IsEof state and simply 
 discards all data written to it.&]
 [s7;%% [*/ Возвратное значение]-|`"Black hole`" stream.&]
 [s3; &]
@@ -159,7 +159,7 @@ value.&]
 [s5;:operator`<`<`(Stream`&`,const T`&`): [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 T][@(0.0.255) >
 ]_[_^Stream^ Stream][@(0.0.255) `&]_[* operator<<]([_^Stream^ Stream][@(0.0.255) `&]_[*@3 s],
  [@(0.0.255) const]_[*@4 T][@(0.0.255) `&]_[*@3 x])&]
-[s2;%% Global stream insertion operator. Calls AsString for x and 
+[s2;%% Global stream insertion operator. Вызывает AsString for x and 
 stores the result to the stream. Global AsString version in turn 
 calls ToString method of x.&]
 [s7;%% [*C@4 T]-|Type of data to write to the stream.&]

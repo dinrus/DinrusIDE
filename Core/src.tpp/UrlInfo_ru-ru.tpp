@@ -88,13 +88,13 @@ onst]_[_^String^ String][@(0.0.255) `&]_[*@3 url])&]
 [s4; &]
 [s5;:Upp`:`:UrlInfo`:`:operator`[`]`(const char`*`)const: [_^topic`:`/`/Core`/src`/String`$en`-us^ S
 tring]_[* operator`[`]]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 id])_[@(0.0.255) const]&]
-[s2;%% Returns value of scalar parameter or empty string if not present.&]
+[s2;%% Возвращает value of scalar parameter or empty string if not present.&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:UrlInfo`:`:GetArray`(const char`*`)const: [@(0.0.255) const]_[_^topic`:`/`/Core`/src`/Vector`$en`-us^ V
 ector]<[_^topic`:`/`/Core`/src`/String`$en`-us^ String]>`&_[* GetArray]([@(0.0.255) con
 st]_[@(0.0.255) char]_`*[*@3 id])_[@(0.0.255) const]&]
-[s2;%% Returns reference to array parameter or reference to empty 
+[s2;%% Возвращает reference to array parameter or reference to empty 
 array if not present.&]
 [s3;%% &]
 [s4; &]

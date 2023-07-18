@@ -13,13 +13,17 @@ topic "Класс Convert";
 [ {{10000@(113.42.0) [s0; [*@7;4 Класс Convert]]}}&]
 [s3;%- &]
 [s1;:Convert`:`:class:%- [@(0.0.255)3 class][3 _][*3 Convert]&]
-[s9; Convert`-derived classes serve as bidirectional Value`-Value 
-converters. One direction is represented by Format method and 
-usually converts the Value to the textual representation. Reverse 
-direction is represented by the Scan method.&]
-[s9; If the conversion is not possible (e.g. due to invalid textual 
-representation), convert methods should return `"ErrorValue`" 
-to indicate the problem.&]
+[s9; Производные от Convert классы служат 
+как двунаправленные конвертеры Value`-Value 
+(Значение`- Значение). Одно направление 
+представлено методом Format, и, как правило, 
+преобразует Value в текстовое представление. 
+Противоположное направление представлено 
+методом Scan.&]
+[s9; Если преобразование невозможно (например, 
+из`-за неверного текстового представления), 
+методы класса должны возвращать `"ErrorValue`", 
+указывая на проблему.&]
 [s3; &]
 [s0; &]
 [ {{10000F(128)G(128)@1 [s0; [* Список Публичных Членов]]}}&]
@@ -27,37 +31,46 @@ to indicate the problem.&]
 [s5;:Convert`:`:Format`(const Value`&`)const:%- [@(0.0.255) virtual] 
 [_^Value^ Value]_[* Format]([@(0.0.255) const]_[_^Value^ Value][@(0.0.255) `&]_[*@3 q])_[@(0.0.255) c
 onst]&]
-[s2; [%- Converts the Value. Default ]implementation uses Value`::ToString 
-to convert the Value.&]
-[s7; [%-*C@3 q]-|Value.&]
-[s7; [*/ Возвратное значение]-|Converted Value.&]
+[s2; [%- Преобразует данное Value. В дефолтной 
+реализации используется] Value`::ToString 
+для преобразование заданного Значения.&]
+[s7; [%-*C@3 q]-|Значение.&]
+[s7; [*/ Возвратное значение]-|Преобразованное 
+Значение.&]
 [s3; &]
 [s4;%- &]
 [s5;:Convert`:`:Scan`(const Value`&`)const:%- [@(0.0.255) virtual] 
 [_^Value^ Value]_[* Scan]([@(0.0.255) const]_[_^Value^ Value][@(0.0.255) `&]_[*@3 text])_[@(0.0.255) c
 onst]&]
-[s2; Converts the Value in reverse direction. Default implementation 
-returns [@3 text] (no conversion is performed).&]
-[s7; [%-*C@3 text]-|Value.&]
-[s7; [*/ Возвратное значение]-|Converted Value.&]
+[s2; Преобразует Value в противоположном 
+направлении. Дефолтная реализация 
+возвращает [@3 text] (без всякого преобразования)
+.&]
+[s7; [%-*C@3 text]-|Значение.&]
+[s7; [*/ Возвратное значение]-|Преобразованное 
+Значение.&]
 [s3; &]
 [s4;%- &]
 [s5;:Convert`:`:Filter`(int`)const:%- [@(0.0.255) virtual] [@(0.0.255) int]_[* Filter]([@(0.0.255) i
 nt]_[*@3 chr])_[@(0.0.255) const]&]
-[s2; Adjusts characters allowed in textual representation of Value.&]
-[s7; [%-*C@3 chr]-|Character to adjust.&]
-[s7; [*/ Возвратное значение]-|Adjusted character. 
-Zero indicates that character is rejected. Filter is allowed 
-to alter the input character (e.g. by upper`-casing it, changing 
-`',`' to `'.`' etc..). Default implementation returns unaltered 
-[@3 chr].&]
+[s2; Настраивает символы, допустимые 
+при текстовом представлении Значения.&]
+[s7; [%-*C@3 chr]-|Настраиваемый символ.&]
+[s7; [*/ Возвратное значение]-|Настроенный 
+символ. Ноль указывает на то, что символ 
+отвергнут. Filter может менять входные 
+символы (например, преобразуя в заглавные, 
+меняя `',`' на `'.`', и т.п.). Дефолтная реализация 
+возвращает неизменённый [@3 chr].&]
 [s3; &]
 [s4;%- &]
 [s5;:Convert`:`:operator`(`)`(const Value`&`)const:%- [_^Value^ Value]_[* operator()]([@(0.0.255) c
 onst]_[_^Value^ Value][@(0.0.255) `&]_[*@3 q])_[@(0.0.255) const]&]
-[s2; Invokes the Format method. Helper functor`-like syntax.&]
-[s7; [%-*C@3 q]-|Value.&]
-[s7; [*/ Возвратное значение]-|Converted Value.&]
+[s2; Вызывает метод Format. Функторный синтаксис 
+вспомогательного характера.&]
+[s7; [%-*C@3 q]-|Значение.&]
+[s7; [*/ Возвратное значение]-|Преобразованное 
+Значение.&]
 [s3; &]
 [s0;3 &]
 [s0;%- &]
@@ -66,10 +79,11 @@ onst]_[_^Value^ Value][@(0.0.255) `&]_[*@3 q])_[@(0.0.255) const]&]
 [s3;%- &]
 [s1;:ConvertDate`:`:class:%- [@(0.0.255)3 class][3 _][*3 ConvertDate][3 _:_][@(0.0.255)3 public][3 _
 ][*@3;3 Convert]&]
-[s9; Date Converter. Textual date format depends on actual regional 
-settings.&]
+[s9; Преобразователь дат. Текстовый формат 
+даты зависит от действительных региональных
+ настроек.&]
 [s9; &]
-[s0;%- [%RU-RU Derived from ][^topic`:`/`/Core`/src`/Convert`$en`-us`#Convert`:`:class^ C
+[s0;%- [%RU-RU Производный от ][^topic`:`/`/Core`/src`/Convert`_ru`-ru`#Convert`:`:class^ C
 onvert]&]
 [s3; &]
 [s0; &]
@@ -78,45 +92,50 @@ onvert]&]
 [s5;:ConvertDate`:`:ConvertDate`(Date`,Date`,bool`):%- [* ConvertDate]([_^Date^ Date]_[*@3 m
 inval]_`=_Date`::Low(), [_^Date^ Date]_[*@3 maxval]_`=_Date`::High(), 
 [@(0.0.255) bool]_[*@3 notnull]_`=_[@(0.0.255) false])&]
-[s2; Constructor.&]
-[s7; [%-*C@3 minval]-|Minimum Date allowed.&]
-[s7; [%-*C@3 maxval]-|Maximum Date allowed.&]
-[s7; [%-*C@3 notnull]-|Disallow Nulls.&]
+[s2; Конструктор.&]
+[s7; [%-*C@3 minval]-|Минимальная допустимая дата.&]
+[s7; [%-*C@3 maxval]-|Максимальная допустимая 
+дата.&]
+[s7; [%-*C@3 notnull]-|Запретить Null`'ы.&]
 [s3; &]
 [s4;%- &]
 [s5;:ConvertDate`:`:`~ConvertDate`(`):%- [@(0.0.255) `~][* ConvertDate]()&]
-[s2; Default destructor.&]
+[s2; Дефолтный конструктор.&]
 [s3;%- &]
 [s0; &]
 [ {{10000F(128)G(128)@1 [s0; [* Список Публичных Членов]]}}&]
 [s3;%- &]
 [s5;:ConvertDate`:`:MinMax`(Date`,Date`):%- [_^ConvertDate^ ConvertDate][@(0.0.255) `&]_[* M
 inMax]([_^Date^ Date]_[*@3 `_min], [_^Date^ Date]_[*@3 `_max])&]
-[s2; Sets the range of Dates allowed.&]
-[s7; [%-*C@3 `_min]-|Minimal Date.&]
-[s7; [%-*C@3 `_max]-|Maximal Date.&]
+[s2; Устанавливает допустимый диапазон 
+дат.&]
+[s7; [%-*C@3 `_min]-|Минимальная дата.&]
+[s7; [%-*C@3 `_max]-|Максимальная дата.&]
 [s7; [*/ Возвратное значение]-|`*this.&]
 [s3; &]
 [s4;%- &]
 [s5;:ConvertDate`:`:Min`(Date`):%- [_^ConvertDate^ ConvertDate][@(0.0.255) `&]_[* Min]([_^Date^ D
 ate]_[*@3 `_min])&]
-[s2; Sets minimal allowed Date.&]
-[s7; [%-*C@3 `_min]-|Minimal Date.&]
+[s2; Устанавливает минимально допустимую 
+дату.&]
+[s7; [%-*C@3 `_min]-|Минимальная дата.&]
 [s7; [*/ Возвратное значение]-|`*this.&]
 [s3; &]
 [s4;%- &]
 [s5;:ConvertDate`:`:Max`(Date`):%- [_^ConvertDate^ ConvertDate][@(0.0.255) `&]_[* Max]([_^Date^ D
 ate]_[*@3 `_max])&]
-[s2; Sets maximal allowed Date.&]
-[s7; [%-*C@3 `_max]-|Maximal Date.&]
+[s2; Устанавливает максимально допустимую 
+дату.&]
+[s7; [%-*C@3 `_max]-|Максимальная дата.&]
 [s7; [*/ Возвратное значение]-|`*this.&]
 [s3; &]
 [s4;%- &]
 [s5;:ConvertDate`:`:NotNull`(bool`):%- [_^ConvertDate^ ConvertDate][@(0.0.255) `&]_[* NotNu
 ll]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) true])&]
-[s2; Allows/disallows Null dates. (Null dates are represented by 
-the empty text).&]
-[s7; [%-*C@3 b]-|true to disallow Null dates.&]
+[s2; Позволяет/запрещает даты Null. (Даты 
+Null представлены пустым текстом).&]
+[s7; [%-*C@3 b]-|true, если надо запретить даты 
+Null.&]
 [s7; [*/ Возвратное значение]-|`*this.&]
 [s3; &]
 [s4;%- &]
@@ -128,39 +147,44 @@ otNull](false).&]
 [s4;%- &]
 [s5;:Upp`:`:ConvertDate`:`:Default`(Upp`:`:Date`):%- [_^Upp`:`:ConvertDate^ ConvertDate
 ][@(0.0.255) `&]_[* Default]([_^Upp`:`:Date^ Date]_[*@3 d])&]
-[s2; When the text is empty, Scan returns this value.&]
+[s2; Когда текст пустой, Scan возвращает 
+это значение.&]
 [s3; &]
 [s4;%- &]
 [s5;:ConvertDate`:`:GetMin`(`)const:%- [_^Date^ Date]_[* GetMin]()_[@(0.0.255) const]&]
-[s2; Returns minimal allowed date. This is maximum of value set by 
-Min and default minimum (GetDefaultMin).&]
+[s2; Возвращает минимально допустимую 
+дату. Это максимум значения, установленного 
+с помощью Min, и дефолтный минимум (GetDefaultMin).&]
 [s3; &]
 [s4;%- &]
 [s5;:ConvertDate`:`:GetMax`(`)const:%- [_^Date^ Date]_[* GetMax]()_[@(0.0.255) const]&]
-[s2; Returns upper limit of allowed dates. This is minimum of value 
-set by Max and default maximum (GetDefaultMax).&]
+[s2; Возвращает верхний предел допустимых 
+дат. Это минимум значения, установленного 
+через Max, и дефолтный максимум (GetDefaultMax).&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:ConvertDate`:`:GetDefaultMin`(`):%- [@(0.0.255) static] 
 [_^Upp`:`:Date^ Date]_[* GetDefaultMin]()&]
-[s2; Returns default minimum.&]
+[s2; Возвращает дефолтный минимум.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:ConvertDate`:`:GetDefaultMax`(`):%- [@(0.0.255) static] 
 [_^Upp`:`:Date^ Date]_[* GetDefaultMax]()&]
-[s2; Returns default maximum.&]
+[s2; Возвращает  дефолтный максимиум.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:ConvertDate`:`:SetDefaultMinMax`(Upp`:`:Date`,Upp`:`:Date`):%- [@(0.0.255) v
 oid]_[* SetDefaultMinMax]([_^Upp`:`:Date^ Date]_[*@3 min], [_^Upp`:`:Date^ Date]_[*@3 max])
 &]
-[s2; Sets values for default minimum and maximum. Default values 
-are Date`::Low() and Date`::Hight().&]
+[s2; Устанавливает значения дефолтных 
+минимума и максимума. Дефолтные значения 
+`- Date`::Low() и Date`::Hight().&]
 [s3;%- &]
 [s4;%- &]
 [s5;:ConvertDate`:`:IsNotNull`(`)const:%- [@(0.0.255) bool]_[* IsNotNull]()_[@(0.0.255) con
 st]&]
-[s7; [*/ Возвратное значение]-|true is Nulls are disallowed.&]
+[s7; [*/ Возвратное значение]-|true, если Null`'ы 
+запрещены.&]
 [s3; &]
 [s0; &]
 [s0;%- &]
@@ -169,9 +193,9 @@ st]&]
 [s3; &]
 [s1;:ConvertTime`:`:class:%- [@(0.0.255)3 class][3 _][*3 ConvertTime][3 _:_][@(0.0.255)3 public][3 _
 ][*@3;3 Convert]&]
-[s9; Time converter.&]
+[s9; Преобразователь времени.&]
 [s0; &]
-[s0;%- [%RU-RU/ Derived from][%RU-RU  ][^topic`:`/`/Core`/src`/Convert`$en`-us`#Convert`:`:class^ C
+[s0;%- [%RU-RU/ Производный от][%RU-RU  ][^topic`:`/`/Core`/src`/Convert`_ru`-ru`#Convert`:`:class^ C
 onvert]&]
 [s3; &]
 [s0; &]
@@ -180,40 +204,42 @@ onvert]&]
 [s5;:ConvertTime`:`:ConvertTime`(Time`,Time`,bool`):%- [* ConvertTime]([_^Time^ Time]_[*@3 m
 inval]_`=_ToTime(Date`::Low()), [_^Time^ Time]_[*@3 maxval]_`=_ToTime(Date`::High()), 
 [@(0.0.255) bool]_[*@3 notnull]_`=_[@(0.0.255) false])&]
-[s2;%- Constructor.&]
-[s7; [%-*C@3 minval]-|Lower limit. Default means there is no limit.&]
-[s7; [%-*C@3 maxval]-|Upper limit. Default means there is no limit.&]
-[s7; [%-*C@3 notnull]-|true disallows Nulls.&]
+[s2;%- Конструктор.&]
+[s7; [%-*C@3 minval]-|Нижний лимит. По дефолту лимит 
+отсутствует.&]
+[s7; [%-*C@3 maxval]-|Верхний лимит. По дефолту 
+лимит отсутствует.&]
+[s7; [%-*C@3 notnull]-|true запрещает Null`'ы.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:ConvertTime`:`:`~ConvertTime`(`):%- [@(0.0.255) `~][* ConvertTime]()&]
-[s2; Default destructor.&]
+[s2; Дефолтный конструктор.&]
 [s3; &]
 [s0; &]
 [ {{10000F(128)G(128)@1 [s0; [* Список Публичных Членов]]}}&]
 [s3;%- &]
 [s5;:ConvertTime`:`:MinMax`(Time`,Time`):%- [_^ConvertTime^ ConvertTime][@(0.0.255) `&]_[* M
 inMax]([_^Time^ Time]_[*@3 `_min], [_^Time^ Time]_[*@3 `_max])&]
-[s2;%- Time limeits.&]
-[s7; [%-*C@3 `_min]-|Lower limit.&]
-[s7; [%-*C@3 `_max]-|Upper limit.&]
+[s2;%- Лимиты времени.&]
+[s7; [%-*C@3 `_min]-|Нижний лимит.&]
+[s7; [%-*C@3 `_max]-|Верхний лимит.&]
 [s7; [*/ Возвратное значение]-|`*this.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:ConvertTime`:`:Min`(Upp`:`:Time`):%- [_^Upp`:`:ConvertTime^ ConvertTime][@(0.0.255) `&
 ]_[* Min]([_^Upp`:`:Time^ Time]_[*@3 `_min])&]
-[s2; Sets lower limit.&]
+[s2; Устанавливает нижний лимит.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:ConvertTime`:`:Max`(Upp`:`:Time`):%- [_^Upp`:`:ConvertTime^ ConvertTime][@(0.0.255) `&
 ]_[* Max]([_^Upp`:`:Time^ Time]_[*@3 `_max])&]
-[s2; Sets upper limit.&]
+[s2; Устанавливает верхний лимит.&]
 [s3; &]
 [s4;%- &]
 [s5;:ConvertTime`:`:NotNull`(bool`):%- [_^ConvertTime^ ConvertTime][@(0.0.255) `&]_[* NotNu
 ll]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) true])&]
-[s2; Disallows empty Strings.&]
-[s7; [%-*C@3 b]-|true to disallow.&]
+[s2; Запрещает пустые строки String.&]
+[s7; [%-*C@3 b]-|true, чтобы запретить.&]
 [s7; [*/ Возвратное значение]-|`*this.&]
 [s3; &]
 [s4;%- &]
@@ -225,7 +251,8 @@ otNull](false).&]
 [s4;%- &]
 [s5;:Upp`:`:ConvertTime`:`:Seconds`(bool`):%- [_^Upp`:`:ConvertTime^ ConvertTime][@(0.0.255) `&
 ]_[* Seconds]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) true])&]
-[s2; If true (which is default), Format returns time with seconds.&]
+[s2; Если true (что по дефолту), Format возвращает 
+время с секундами.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:ConvertTime`:`:NoSeconds`(`):%- [_^Upp`:`:ConvertTime^ ConvertTime][@(0.0.255) `&
@@ -235,60 +262,72 @@ otNull](false).&]
 [s4;%- &]
 [s5;:Upp`:`:ConvertTime`:`:IsSeconds`(`)const:%- [@(0.0.255) bool]_[* IsSeconds]()_[@(0.0.255) c
 onst]&]
-[s2; Returns the value set by Seconds.,&]
+[s2; Возвращает  значение, установленное 
+через Seconds.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:ConvertTime`:`:TimeAlways`(bool`):%- [_^ConvertTime^ ConvertTime][@(0.0.255) `&]_[* Ti
 meAlways]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) true])&]
-[s2; If active, Format always shows time, even if the Value is Date 
-or is at midnight. Default is false.&]
+[s2; Если активен, Format всегда показывает 
+время, даже если значение является 
+датой или полночь. Дефолт равен false.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:ConvertTime`:`:IsTimeAlways`(`)const:%- [@(0.0.255) bool]_[* IsTimeAlways]()_
 [@(0.0.255) const]&]
-[s2; Returns the value set by TimeAlways.&]
+[s2; Возвращает значение, установленное 
+через TimeAlways.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:ConvertTime`:`:DayEnd`(bool`):%- [_^ConvertTime^ ConvertTime][@(0.0.255) `&]_[* DayEnd
 ]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) true])&]
-[s2; If active, when Scan encounters date without time, it sets the 
-time to 23:59:59. Default is false.&]
+[s2; Если активен, когда Scan сталкивается 
+с датой без времени, он устанавливает 
+время в 23:59:59. Дефолт равен false.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:ConvertTime`:`:IsDayEnd`(`)const:%- [@(0.0.255) bool]_[* IsDayEnd]()_[@(0.0.255) c
 onst]&]
-[s2; Returns the value set by DayEnd.&]
+[s2; Возвращает значение, установленное 
+посредством DayEnd.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:ConvertTime`:`:Default`(Upp`:`:Time`):%- [_^Upp`:`:ConvertTime^ ConvertTime
 ][@(0.0.255) `&]_[* Default]([_^Upp`:`:Time^ Time]_[*@3 d])&]
-[s2; Sets default time returned by Scan when input is empty.&]
+[s2; Устанавливает дефолтное время, возвращаемо
+е от Scan, когда ввод пуст.&]
 [s3; &]
 [s4;%- &]
 [s5;:ConvertTime`:`:GetMin`(`)const:%- [_^Time^ Time]_[* GetMin]()_[@(0.0.255) const]&]
-[s2; Returns minimal allowed time. This is maximum of value set by 
-Min and default minimum (GetDefaultMin).&]
+[s2; Возвращает минимально допустимое 
+время. Это максимальное значение, 
+установленное посредством Min, и дефолтный 
+минимум (GetDefaultMin).&]
 [s3; &]
 [s4;%- &]
 [s5;:ConvertTime`:`:GetMax`(`)const:%- [_^Time^ Time]_[* GetMax]()_[@(0.0.255) const]&]
-[s2; Returns upper limit of allowed times. This is minimum of value 
-set by Max and default maximum (GetDefaultMax).&]
+[s2; Возвращает верхний предео допустимого 
+времени. Это минимальное значение, 
+установленное посредством Max, и дефолтный 
+максимум (GetDefaultMax).&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:ConvertTime`:`:GetDefaultMin`(`):%- [@(0.0.255) static] 
 [_^Upp`:`:Time^ Time]_[* GetDefaultMin]()&]
-[s2; Returns Date`::GetDefaultMin converted to Time.&]
+[s2; Возвращает Date`::GetDefaultMin преобразованным 
+в Time.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:ConvertTime`:`:GetDefaultMax`(`):%- [@(0.0.255) static] 
 [_^Upp`:`:Time^ Time]_[* GetDefaultMax]()&]
-[s2; Returns Date`::GetDefaultMax converted to Time.&]
+[s2; Возвращает Date`::GetDefaultMax преобразованным 
+в Time.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:ConvertTime`:`:IsNotNull`(`)const:%- [@(0.0.255) bool]_[* IsNotNull]()_[@(0.0.255) con
 st]&]
-[s7; [*/ Возвратное значение]-|true means Nulls are 
-disallowed.&]
+[s7; [*/ Возвратное значение]-|true означает, 
+что Null`'ы запрещены.&]
 [s3; &]
 [s0; &]
 [s0;%- &]
@@ -296,9 +335,10 @@ disallowed.&]
 [s3; &]
 [s1;:ConvertDouble`:`:class:%- [@(0.0.255)3 class][3 _][*3 ConvertDouble][3 _:_][@(0.0.255)3 pub
 lic][3 _][*@3;3 Convert]&]
-[s9; Floating point number converter.&]
+[s9; Преобразователь цифр с плавающей 
+запятой.&]
 [s0; &]
-[s0;%- [%RU-RU/ Derived from][%RU-RU  ][^topic`:`/`/Core`/src`/Convert`$en`-us`#Convert`:`:class^ C
+[s0;%- [%RU-RU/ Производный от][%RU-RU  ][^topic`:`/`/Core`/src`/Convert`_ru`-ru`#Convert`:`:class^ C
 onvert]&]
 [s3; &]
 [s0; &]
@@ -307,81 +347,90 @@ onvert]&]
 [s5;:ConvertDouble`:`:ConvertDouble`(double`,double`,bool`):%- [* ConvertDouble]([@(0.0.255) d
 ouble]_[*@3 minval]_`=_DOUBLE`_NULL`_LIM, [@(0.0.255) double]_[*@3 maxval]_`=_`-DOUBLE`_
 NULL`_LIM, [@(0.0.255) bool]_[*@3 notnull]_`=_[@(0.0.255) false])&]
-[s2; Constructor.&]
-[s7; [%-*C@3 minval]-|Lower limit `- default value means there is no 
-limit.&]
-[s7; [%-*C@3 maxval]-|Upper limit `- default value means there is no 
-limit.&]
-[s7; [%-*C@3 notnull]-|If true, Nulls are not allowed.&]
+[s2; Конструктор .&]
+[s7; [%-*C@3 minval]-|Нижний лимит `- по дефолту 
+лимит отсутствует&]
+[s7; [%-*C@3 maxval]-|Верхний лимит `- по дефолту 
+лимит отсутствует.&]
+[s7; [%-*C@3 notnull]-|Если true, Null`'ы не допускаются.&]
 [s3; &]
 [s4;%- &]
 [s5;:ConvertDouble`:`:`~ConvertDouble`(`):%- [@(0.0.255) `~][* ConvertDouble]()&]
-[s2; Default destructor.&]
+[s2; Дефолтный деструктор.&]
 [s3;%- &]
 [s0; &]
 [ {{10000F(128)G(128)@1 [s0; [* Список Публичных Членов]]}}&]
 [s3;%- &]
-[s5;:ConvertDouble`:`:Pattern`(const char`*`):%- [_^ConvertDouble^ ConvertDouble][@(0.0.255) `&
-]_[* Pattern]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 p])&]
-[s2; Formatting tag used for conversion to textual representation 
-(includes standard printf formatting tags, see Format function 
-for description). Default tag is [@4 %.10g]. After setting a new 
-pattern, ConvertDouble formats simple example number (Format(1.1)) 
-and if it detects character `',`' in resulting string, Filter 
-method forces `',`' to be used instead of `'.`' for decimal point.&]
-[s7; [%-*C@3 p]-|Pattern.&]
+[s5;:ConvertDouble`:`:Образец`(const char`*`):%- [_^ConvertDouble^ ConvertDouble
+][@(0.0.255) `&]_[* Образец]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 p])&]
+[s2; Тэг форматирования, используемый 
+для преобразования в текстовое представлени
+е (включает стандартные теги форматирования
+ вывода, описание приведено в функции 
+Format). Дефолным тэгом является [@4 %.10g]. 
+После установки нового образца, ConvertDouble 
+форматирует простое число`-пример 
+(Format(1.1)) и, если находит символ `',`' 
+в итоговой строке, метод Filter форсирует 
+применение  `',`' вместо `'.`' для десятичной 
+точки.&]
+[s7; [%-*C@3 p]-|Образец.&]
 [s7; [*/ Возвратное значение]-|`*this.&]
 [s3; &]
 [s4;%- &]
 [s5;:ConvertDouble`:`:MinMax`(double`,double`):%- [_^ConvertDouble^ ConvertDouble][@(0.0.255) `&
 ]_[* MinMax]([@(0.0.255) double]_[*@3 `_min], [@(0.0.255) double]_[*@3 `_max])&]
-[s2; Sets minimal and maximal allowed numbers.&]
-[s7; [%-*C@3 `_min]-|Lower limit.&]
-[s7; [%-*C@3 `_max]-|Upper limit.&]
+[s2; Устанавливает минимальное и максимальное 
+допустимые числа.&]
+[s7; [%-*C@3 `_min]-|Нижний лимит.&]
+[s7; [%-*C@3 `_max]-|Верхний лимит.&]
 [s7; [*/ Возвратное значение]-|`*this.&]
 [s3; &]
 [s4;%- &]
 [s5;:ConvertDouble`:`:Min`(double`):%- [_^ConvertDouble^ ConvertDouble][@(0.0.255) `&]_[* M
 in]([@(0.0.255) double]_[*@3 `_min])&]
-[s2; Sets minimal allowed number.&]
-[s7; [%-*C@3 `_min]-|Lower limit.&]
+[s2; Устанавливае минимально допустимое 
+число.&]
+[s7; [%-*C@3 `_min]-|Нижний лимит.&]
 [s7; [*/ Возвратное значение]-|`*this.&]
 [s3; &]
 [s4;%- &]
 [s5;:ConvertDouble`:`:Max`(double`):%- [_^ConvertDouble^ ConvertDouble][@(0.0.255) `&]_[* M
 ax]([@(0.0.255) double]_[*@3 `_max])&]
-[s2; Sets maximal allowed number.&]
-[s7; [%-*C@3 `_max]-|Upper limit.&]
+[s2; Устанавливает максимально допустимое 
+число.&]
+[s7; [%-*C@3 `_max]-|Верхний лимит.&]
 [s7; [*/ Возвратное значение]-|`*this.&]
 [s3; &]
 [s4;%- &]
 [s5;:ConvertDouble`:`:NotNull`(bool`):%- [_^ConvertDouble^ ConvertDouble][@(0.0.255) `&]_
 [* NotNull]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) true])&]
-[s2; Allows/disallows Nulls. (Nulls are represented by the empty 
-text).&]
-[s7; [%-*C@3 b]-|true to disallow.&]
+[s2; Разрешает/запрещает Null`'ы. (Null`'ы представлен
+ы пустым текстом).&]
+[s7; [%-*C@3 b]-|true, чтобы запретить.&]
 [s7; [*/ Возвратное значение]-|`*this.&]
 [s3; &]
 [s4;%- &]
 [s5;:ConvertDouble`:`:NoNotNull`(`):%- [_^ConvertDouble^ ConvertDouble][@(0.0.255) `&]_[* N
 oNotNull]()&]
-[s2; Equivalent to [^topic`:`/`/Core`/src`/Convert`$en`-us`#ConvertDouble`:`:NotNull`(bool`)^ N
+[s2; Эквивалентно [^topic`:`/`/Core`/src`/Convert`$en`-us`#ConvertDouble`:`:NotNull`(bool`)^ N
 otNull](false).&]
 [s3; &]
 [s4;%- &]
 [s5;:ConvertDouble`:`:GetMin`(`)const:%- [@(0.0.255) double]_[* GetMin]()_[@(0.0.255) const
 ]&]
-[s7; [*/ Возвратное значение]-|Lower limit.&]
+[s7; [*/ Возвратное значение]-|Нижний лимит.&]
 [s3; &]
 [s4;%- &]
 [s5;:ConvertDouble`:`:GetMax`(`)const:%- [@(0.0.255) double]_[* GetMax]()_[@(0.0.255) const
 ]&]
-[s7; [*/ Возвратное значение]-|Upper limit.&]
+[s7; [*/ Возвратное значение]-|Верхний лимит.&]
 [s3; &]
 [s4;%- &]
 [s5;:ConvertDouble`:`:IsNotNull`(`)const:%- [@(0.0.255) bool]_[* IsNotNull]()_[@(0.0.255) c
 onst]&]
-[s7; [*/ Возвратное значение]-|true is Nulls are disallowed.&]
+[s7; [*/ Возвратное значение]-|true, если Null`'ы 
+запрещены.&]
 [s3; &]
 [s0; &]
 [s0; &]
@@ -390,9 +439,9 @@ onst]&]
 [s3; &]
 [s1;:ConvertInt`:`:class:%- [@(0.0.255)3 class][3 _][*3 ConvertInt][3 _:_][@(0.0.255)3 public][3 _
 ][*@3;3 Convert]&]
-[s9; Integer converter.&]
+[s9; Преобразователь целых чисел.&]
 [s0; &]
-[s0;%- [%RU-RU/ Derived from][%RU-RU  ][^topic`:`/`/Core`/src`/Convert`$en`-us`#Convert`:`:class^ C
+[s0;%- [%RU-RU/ Производный от][%RU-RU  ][^topic`:`/`/Core`/src`/Convert`_ru`-ru`#Convert`:`:class^ C
 onvert]&]
 [s3; &]
 [s0;%- &]
@@ -401,67 +450,72 @@ onvert]&]
 [s5;:ConvertInt`:`:ConvertInt`(int`,int`,bool`):%- [* ConvertInt]([@(0.0.255) int]_[*@3 min
 val]_`=_`-INT`_MAX, [@(0.0.255) int]_[*@3 maxval]_`=_INT`_MAX, [@(0.0.255) bool]_[*@3 not
 null]_`=_[@(0.0.255) false])&]
-[s2; Constructor.&]
-[s7; [%-*C@3 minval]-|Lower limit. Default value results in no limit.&]
-[s7; [%-*C@3 maxval]-|Upper limit. Default value results in no limit.&]
-[s7; [%-*C@3 notnull]-|If true, Nulls are not allowed.&]
+[s2; Конструктор .&]
+[s7; [%-*C@3 minval]-|Нижний лимит. По дефолту лимит 
+отсутствует.&]
+[s7; [%-*C@3 maxval]-|Верхний лимит.По дефолту 
+лимит отсутствует.&]
+[s7; [%-*C@3 notnull]-|Если true, Null`'ы запрещены.&]
 [s3; &]
 [s4;%- &]
 [s5;:ConvertInt`:`:`~ConvertInt`(`):%- [@(0.0.255) `~][* ConvertInt]()&]
-[s2; Default destructor.&]
+[s2; Дефолтный деструктор.&]
 [s3;%- &]
 [s0; &]
 [ {{10000F(128)G(128)@1 [s0; [* Список Публичных Членов]]}}&]
 [s3;%- &]
 [s5;:ConvertInt`:`:MinMax`(int`,int`):%- [_^ConvertInt^ ConvertInt][@(0.0.255) `&]_[* MinMa
 x]([@(0.0.255) int]_[*@3 `_min], [@(0.0.255) int]_[*@3 `_max])&]
-[s2; Sets minimal and maximal allowed numbers.&]
-[s7; [%-*C@3 `_min]-|Lower limit.&]
-[s7; [%-*C@3 `_max]-|Upper limit.&]
+[s2; Устанавливает  минимальное и максимальное 
+допустимые числа..&]
+[s7; [%-*C@3 `_min]-|Нижний лимит.&]
+[s7; [%-*C@3 `_max]-|Верхний лимит.&]
 [s7; [*/ Возвратное значение]-|`*this.&]
 [s3; &]
 [s4;%- &]
 [s5;:ConvertInt`:`:Min`(int`):%- [_^ConvertInt^ ConvertInt][@(0.0.255) `&]_[* Min]([@(0.0.255) i
 nt]_[*@3 `_min])&]
-[s2; Sets minimal allowed number.&]
-[s7; [%-*C@3 `_min]-|Lower limit.&]
+[s2; Устанавливает минимальное допустимое 
+число.&]
+[s7; [%-*C@3 `_min]-|Нижний лимит.&]
 [s7; [*/ Возвратное значение]-|`*this.&]
 [s3; &]
 [s4;%- &]
 [s5;:ConvertInt`:`:Max`(int`):%- [_^ConvertInt^ ConvertInt][@(0.0.255) `&]_[* Max]([@(0.0.255) i
 nt]_[*@3 `_max])&]
-[s2; Sets maximal allowed number.&]
-[s7; [%-*C@3 `_max]-|Upper limit.&]
+[s2; Устанавливает максимальное допустимое 
+число.&]
+[s7; [%-*C@3 `_max]-|Верхний лимит.&]
 [s7; [*/ Возвратное значение]-|`*this.&]
 [s3; &]
 [s4;%- &]
 [s5;:ConvertInt`:`:NotNull`(bool`):%- [_^ConvertInt^ ConvertInt][@(0.0.255) `&]_[* NotNull](
 [@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) true])&]
-[s2; Allows/disallows Nulls. (Nulls are represented by the empty 
-text).&]
-[s7; [%-*C@3 b]-|true to disallow.&]
+[s2; Разрешает/запрещает Null`'ы. (Null`'ы представлен
+ы пустым текстом).&]
+[s7; [%-*C@3 b]-|true, чтобы запретить.&]
 [s7; [*/ Возвратное значение]-|`*this.&]
 [s3; &]
 [s4;%- &]
 [s5;:ConvertInt`:`:NoNotNull`(`):%- [_^ConvertInt^ ConvertInt][@(0.0.255) `&]_[* NoNotNull](
 )&]
-[s2; Equivalent to [^topic`:`/`/Core`/src`/Convert`$en`-us`#ConvertInt`:`:NotNull`(bool`)^ N
+[s2; Эквивалентно [^topic`:`/`/Core`/src`/Convert`$en`-us`#ConvertInt`:`:NotNull`(bool`)^ N
 otNull](false).&]
 [s7; [*/ Возвратное значение]-|`*this.&]
 [s3; &]
 [s4;%- &]
 [s5;:ConvertInt`:`:GetMin`(`)const:%- [@(0.0.255) int]_[* GetMin]()_[@(0.0.255) const]&]
-[s7; [*/ Возвратное значение]-|Lower limit.&]
+[s7; [*/ Возвратное значение]-|Нижний лимит.&]
 [s3; &]
 [s4;%- &]
 [s5;:ConvertInt`:`:GetMax`(`)const:%- [@(0.0.255) int]_[* GetMax]()_[@(0.0.255) const]&]
-[s7; [*/ Возвратное значение]-|Upper limit.&]
+[s7; [*/ Возвратное значение]-|Верхний лимит.&]
 [s3; &]
 [s4;%- &]
 [s5;:ConvertInt`:`:IsNotNull`(`)const:%- [@(0.0.255) bool]_[* IsNotNull]()_[@(0.0.255) cons
 t]&]
-[s7; [*/ Возвратное значение]-|true if null are not 
-allowed.&]
+[s7; [*/ Возвратное значение]-|true, если null 
+запрещён.&]
 [s3; &]
 [s0; &]
 [s0; &]
@@ -470,11 +524,13 @@ allowed.&]
 [s3; &]
 [s1;:ConvertString`:`:class:%- [@(0.0.255)3 class][3 _][*3 ConvertString][3 _:_][@(0.0.255)3 pub
 lic][3 _][*@3;3 Convert]&]
-[s9; String `"converter`". Of course, String already is textual representation 
-of itself, the real purpose of this class is to introduce constraints 
-of String value.&]
+[s9; String`'овый `"преобразователь`". Конечно 
+же, String уже является текстовым представление
+м себя, но реальное назначение этого 
+класса `- ввести ограничения на значения 
+String.&]
 [s0; &]
-[s0;%- [%RU-RU/ Derived from][%RU-RU  ][^topic`:`/`/Core`/src`/Convert`$en`-us`#Convert`:`:class^ C
+[s0;%- [%RU-RU/ Производный от][%RU-RU  ][^topic`:`/`/Core`/src`/Convert`_ru`-ru`#Convert`:`:class^ C
 onvert]&]
 [s3; &]
 [s0;%- &]
@@ -482,34 +538,37 @@ onvert]&]
 [s3; &]
 [s5;:ConvertString`:`:ConvertString`(int`,bool`):%- [* ConvertString]([@(0.0.255) int]_[*@3 m
 axlen]_`=_INT`_MAX, [@(0.0.255) bool]_[*@3 notnull]_`=_[@(0.0.255) false])&]
-[s2; Constructor.&]
-[s7; [%-*C@3 maxlen]-|Maximum length `- default is unlimited.&]
-[s7; [%-*C@3 notnull]-|If true, empty strings are not allowed.&]
+[s2; Конструктор.&]
+[s7; [%-*C@3 maxlen]-|Максимальная длина `- дефолтно 
+неограничена.&]
+[s7; [%-*C@3 notnull]-|Если true, пустые строки недопускаютс
+я.&]
 [s3; &]
 [s4;%- &]
 [s5;:ConvertString`:`:`~ConvertString`(`):%- [@(0.0.255) `~][* ConvertString]()&]
-[s2; Default destructor.&]
+[s2; Дефолтный деструктор.&]
 [s3;%- &]
 [s0;%- &]
 [ {{10000F(128)G(128)@1 [s0; [* Список Публичных Членов]]}}&]
 [s3; &]
 [s5;:ConvertString`:`:MaxLen`(int`):%- [_^ConvertString^ ConvertString][@(0.0.255) `&]_[* M
 axLen]([@(0.0.255) int]_[*@3 `_maxlen])&]
-[s2; Sets maximum length of String allowed.&]
-[s7; [%-*C@3 `_maxlen]-|Length.&]
+[s2; Устанавливает максимально допустимую 
+длину String.&]
+[s7; [%-*C@3 `_maxlen]-|Длина.&]
 [s7; [*/ Возвратное значение]-|`*this.&]
 [s3; &]
 [s4;%- &]
 [s5;:ConvertString`:`:GetMaxLength`(`)const:%- [@(0.0.255) int]_[* GetMaxLength]()_[@(0.0.255) c
 onst]&]
-[s7; [*/ Возвратное значение]-|Maximum length of String 
-allowed.&]
+[s7; [*/ Возвратное значение]-|Максимально 
+допустимая длина String.&]
 [s3; &]
 [s4;%- &]
 [s5;:ConvertString`:`:NotNull`(bool`):%- [_^ConvertString^ ConvertString][@(0.0.255) `&]_
 [* NotNull]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) true])&]
-[s2; Disallows empty Strings.&]
-[s7; [%-*C@3 b]-|true to disallow.&]
+[s2; Запрещает пустые String`'и.&]
+[s7; [%-*C@3 b]-|true, чтобы запретить.&]
 [s7; [*/ Возвратное значение]-|`*this.&]
 [s3; &]
 [s4;%- &]
@@ -521,8 +580,8 @@ otNull](false).&]
 [s4;%- &]
 [s5;:ConvertString`:`:IsNotNull`(`)const:%- [@(0.0.255) bool]_[* IsNotNull]()_[@(0.0.255) c
 onst]&]
-[s7; [*/ Возвратное значение]-|true mean empty Strings 
-are not allowed.&]
+[s7; [*/ Возвратное значение]-|true значит, 
+что пустые String`'и не допускаются.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:ConvertString`:`:TrimLeft`(bool`):%- [_^Upp`:`:ConvertString^ ConvertString
@@ -531,15 +590,17 @@ are not allowed.&]
 g][@(0.0.255) `&]_[* TrimRight]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) true])&]
 [s5;:Upp`:`:ConvertString`:`:TrimBoth`(bool`):%- [_^Upp`:`:ConvertString^ ConvertString
 ][@(0.0.255) `&]_[* TrimBoth]([@(0.0.255) bool]_[*@3 b]_`=_[@(0.0.255) true])&]
-[s2; Whitechars on the left/right/both side(s) are removed before 
-checking count of characters or nullness.&]
+[s2; Пробельные символы слева/справа/с 
+обеих сторон перед проверкой числа 
+символов или null`'ности удаляются.&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:ConvertString`:`:IsTrimLeft`(`)const:%- [@(0.0.255) bool]_[* IsTrimLeft]()_[@(0.0.255) c
 onst]&]
 [s5;:Upp`:`:ConvertString`:`:IsTrimRight`(`)const:%- [@(0.0.255) bool]_[* IsTrimRight]()_
 [@(0.0.255) const]&]
-[s2; Checks whether TrimLeft or TrimRight (or both) is active.&]
+[s2; Проверяет, активен ли TrimLeft или TrimRight 
+(или оба).&]
 [s0; &]
 [s0; &]
 [s0;%- &]
@@ -547,11 +608,13 @@ onst]&]
 [s3; &]
 [s1;:FormatConvert`:`:class:%- [@(0.0.255)3 class][3 _][*3 FormatConvert][3 _:_][@(0.0.255)3 pub
 lic][3 _][*@3;3 Convert]&]
-[s9; This unidirectional Convert class (only Format direction implemented) 
-converts single Value or ValueArray using Format function and 
-specified formatter pattern.&]
+[s9; Этот однонаправленный класс Convert 
+(реализовано только направление Format) 
+преобразует единичное Value или ValueArray, 
+применяя функцию Format и заданный образец 
+форматировщика.&]
 [s9; &]
-[s0;%- [%RU-RU/ Derived from][%RU-RU  ][^topic`:`/`/Core`/src`/Convert`$en`-us`#Convert`:`:class^ C
+[s0;%- [%RU-RU/ Производный от][%RU-RU  ][^topic`:`/`/Core`/src`/Convert`_ru`-ru`#Convert`:`:class^ C
 onvert]&]
 [s3; &]
 [s0;%- &]
@@ -559,8 +622,8 @@ onvert]&]
 [s3;%- &]
 [s5;:FormatConvert`:`:SetFormat`(const char`*`):%- [@(0.0.255) void]_[* SetFormat]([@(0.0.255) c
 onst]_[@(0.0.255) char]_`*[*@3 fmt])&]
-[s2; Sets formatting pattern.&]
-[s7; [%-*C@3 fmt]-|The pattern.&]
+[s2; Устанавливает образец форматировки.&]
+[s7; [%-*C@3 fmt]-|Образец.&]
 [s3; &]
 [s0;3 &]
 [s0;3 &]
@@ -569,14 +632,18 @@ onst]_[@(0.0.255) char]_`*[*@3 fmt])&]
 [s3; &]
 [s1;:JoinConvert`:`:class:%- [@(0.0.255)3 class][3 _][*3 JoinConvert][3 _:_][@(0.0.255)3 public][3 _
 ][*@3;3 Convert]&]
-[s9; This unidirectional Convert class (only Format direction is 
-implemented) converts ValueArray using a set of other Convert 
-instances. Resulting textual representation is created by joining 
-a set of defined elements `- some of them static texts, others 
-referring to elements of input ValueArray, converted using specified 
-Convert.&]
+[s9; Этот однонаправленный класс Convert 
+(реализовано только направление Format) 
+преобразует ValueArray, испольуя набор 
+других экземпляров Convert. Итоговое 
+текстовое представление создаётся 
+путёт объединения ряда заданных элементов 
+`- некоторые из них статические тексты, 
+другие ссылаются на элементы входного 
+ValueArray, преобразованного с помощью 
+указанного Convert.&]
 [s0; &]
-[s0;%- [%RU-RU/ Derived from][%RU-RU  ][^topic`:`/`/Core`/src`/Convert`$en`-us`#Convert`:`:class^ C
+[s0;%- [%RU-RU/ Производный от][%RU-RU  ][^topic`:`/`/Core`/src`/Convert`_ru`-ru`#Convert`:`:class^ C
 onvert]&]
 [s3; &]
 [s0;%- &]
@@ -584,54 +651,66 @@ onvert]&]
 [s3;%- &]
 [s5;:JoinConvert`:`:Add`(const char`*`):%- [_^JoinConvert^ JoinConvert][@(0.0.255) `&]_[* A
 dd]([@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 text])&]
-[s2; Adds static text to the list of elements.&]
-[s7; [%-*C@3 text]-|Text.&]
+[s2; Добавляет статический текст в список 
+элементов.&]
+[s7; [%-*C@3 text]-|Текст.&]
 [s7; [*/ Возвратное значение]-|`*this.&]
 [s3; &]
 [s4;%- &]
 [s5;:JoinConvert`:`:Add`(int`,const Convert`&`):%- [_^JoinConvert^ JoinConvert][@(0.0.255) `&
 ]_[* Add]([@(0.0.255) int]_[*@3 pos], [@(0.0.255) const]_[_^Convert^ Convert][@(0.0.255) `&]_
 [*@3 cv])&]
-[s2; Add element referring to input value, to be converted using 
-specified Convert.&]
-[s7; [%-*C@3 pos]-|Index of input ValueArray element.&]
+[s2; Добавляет элемент, ссылающееся на 
+входное значение, которое будет преобразова
+но посредством указанного Convert.&]
+[s7; [%-*C@3 pos]-|Индекс элемента входного ValueArray.&]
 [s7; [%-*C@3 cv]-|Convert.&]
 [s7; [*/ Возвратное значение]-|`*this.&]
 [s3; &]
 [s4;%- &]
 [s5;:JoinConvert`:`:Add`(int`):%- [_^JoinConvert^ JoinConvert][@(0.0.255) `&]_[* Add]([@(0.0.255) i
 nt]_[*@3 pos])&]
-[s2; Add element referring to input value, to be converted using 
-default Convert.&]
-[s7; [%-*C@3 pos]-|Index of input ValueArray element.&]
+[s2; Добавляет элемент, ссылающийся на 
+входное значение, который будет преобразова
+н посредством дефолтного Convert.&]
+[s7; [%-*C@3 pos]-|Индекс элемента входного ValueArray.&]
 [s7; [*/ Возвратное значение]-|`*this.&]
 [s3; &]
 [s4;%- &]
 [s5;:JoinConvert`:`:Add`(const Convert`&`):%- [_^JoinConvert^ JoinConvert][@(0.0.255) `&]_
 [* Add]([@(0.0.255) const]_[_^Convert^ Convert][@(0.0.255) `&]_[*@3 cv])&]
-[s2; Add element referring to input value, to be converted using 
-specified Convert. Index of input element is the index of previous 
-input element plus 1.&]
+[s2; Добавляет элемент, ссылающийся на 
+входное значение, который будет преобразова
+н посредством указанного Convert. Индекс 
+входного элемента является индекс 
+предыдущего входного элемента плюс 
+1.&]
 [s7; [%-*C@3 cv]-|Convert.&]
 [s7; [*/ Возвратное значение]-|`*this.&]
 [s3; &]
 [s4;%- &]
 [s5;:JoinConvert`:`:Add`(`):%- [_^JoinConvert^ JoinConvert][@(0.0.255) `&]_[* Add]()&]
-[s2; Add element referring to input value, to be converted using 
-default Convert. Index of input element is the index of previous 
-input element plus 1.&]
+[s2; Добавляет элемент, ссылающийся на 
+входное значение, который будет преобразова
+н посредством дефолтного Convert. Индекс 
+входного элемента является индекс 
+предыдущего входного элемента плюс 
+1.&]
 [s7; [*/ Возвратное значение]-|`*this.&]
 [s3; &]
 [s0; &]
 [s0;3 &]
 [s0;%- &]
-[ {{10000@(113.42.0) [s0; [*@7;4 Standard Converts]]}}&]
+[ {{10000@(113.42.0) [s0; [*@7;4 Стандартные `"Конверты`"]]}}&]
 [s3; &]
-[s9; Standard converts are simple global functions returning a constant 
-reference to the single global variable representing the particular 
-Convert class. Following table lists names of these functions 
-and respective constructors of Convert classes used to create 
-global variable:&]
+[s9; Стандартные конверты `- это простые 
+глобальные функции, возвращающие 
+константную ссылку на единичную глобальную 
+переменную, представляющую определённый 
+класс Convert. В следующей таблице дан 
+список имён этих функций и соответствующие 
+конструкторы классов Convert, используемые 
+для создания глобальных переменных:&]
 [s3; &]
 [s0; &]
 [s5;:StdConvert`(`):%- [@(0.0.255) const]_[_^Convert^ Convert][@(0.0.255) `&]_[* StdConvert](
@@ -706,8 +785,9 @@ t]([*@4 F]_[*@3 format], [*@4 S]_[*@3 scan])&]
 &]
 [s5;:Upp`:`:LambdaConvert`(F`):%- [@(0.0.255) const]_[@(0.0.255) auto`&]_[* LambdaConvert](
 [*@4 F]_[*@3 format])&]
-[s2; Returns a reference to a static Convert instance that has Format/Scan/Filter 
-defined as lambda expressions.&]
+[s2; Возвращает ссылку на статический 
+экземпляр Convert, у которого определены 
+Format/Scan/Filter как лямбда`-выражения.&]
 [s0; &]
 [s3; &]
 [s0; ]]

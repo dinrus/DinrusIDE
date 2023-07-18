@@ -12,7 +12,7 @@ topic "Split, Join, Merge";
 [{_} 
 [ {{10000@(113.42.0) [s0;%% [*@7;4 Split, Join, Merge]]}}&]
 [s0;i448;a25;kKO9;@(0.0.255) &]
-[s0;%% [* Утилитные Функции for splitting and joining Strings and WStrings.]&]
+[s0;%% [* Утилитные Функции for splitting and joining String'и and WString'и.]&]
 [s0;*%% &]
 [ {{10000F(128)G(128)@1 [s0;%% [* Function List]]}}&]
 [s3; &]
@@ -133,7 +133,7 @@ To]([@(0.0.255) const]_[_^wchar^ wchar]_`*[*@3 s], [@(0.0.255) const]_[_^wchar^ 
 elim], [_^WString^ WString][@(0.0.255) `&]_[*@3 p1][@(0.0.255) ...])&]
 [s2;%% Splits text into one or more targets substrings, inserting 
 them into string variables (current implementation supports up 
-to 8 output strings). Возвращает true, если the source text contains 
+to 8 output strings). Возвращает  true, если the source text contains 
 enough substrings. Delimiter can be defined as single character 
 [%-*@3 chr], character filter function [%-*@3 filter] (returns non`-zero 
 for delimiter character) or as string [%-*@3 text]. If [%-*@3 ignoreempty] 
@@ -146,7 +146,7 @@ can define upper limit of number of subtexts.&]
 [s5;:Merge`(const wchar`*`,WString`&`.`.`.`): [_^WString^ WString]_[* Merge]([@(0.0.255) co
 nst]_[_^wchar^ wchar]_`*[*@3 delim], [_^WString^ WString][@(0.0.255) `&]_[*@3 p1][@(0.0.255) .
 ..])&]
-[s2;%% Merges substrings. Returns source strings concatenated with 
+[s2;%% Merges substrings. Возвращает source strings concatenated with 
 delimiter put between them, however empty strings are ignored 
 (means Merge(`";`", `"1`", `"`") results in `"1`", not `"1;`").&]
 [s3;%% &]

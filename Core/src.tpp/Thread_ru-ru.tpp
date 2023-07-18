@@ -75,14 +75,14 @@ in that case returns immediately).&]
 [s4;%- &]
 [s5;:Upp`:`:Thread`:`:GetId`(`)const:%- [_^Upp`:`:Thread`:`:Id^ Thread`::Id]_[* GetId]()_[@(0.0.255) c
 onst]&]
-[s2; Returns the system`-unique id of thread.&]
+[s2; Возвращает the system`-unique id of thread.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Thread`:`:GetHandle`(`)const:%- HANDLE_[* GetHandle]()_[@(0.0.255) const 
 ][*C `[WIN32`]]&]
 [s5;:Thread`:`:GetHandle`(`)const:%- pthread`_t_[* GetHandle]()_[@(0.0.255) const 
 ][*C `[POSIX`]]&]
-[s2; Returns platform specific handle of thread.&]
+[s2; Возвращает platform specific handle of thread.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Thread`:`:Sleep`(int`):%- [@(0.0.255) static] [@(0.0.255) void]_[* Sleep]([@(0.0.255) in
@@ -96,7 +96,7 @@ is running so far).&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Thread`:`:IsMain`(`):%- [@(0.0.255) static] [@(0.0.255) bool]_[* IsMain]()&]
-[s2; Возвращает true, если current thread is main.&]
+[s2; Возвращает  true, если current thread is main.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:Thread`:`:IsUpp`(`):%- [@(0.0.255) static] [@(0.0.255) bool]_[* IsUpp]()&]
@@ -110,7 +110,7 @@ thread returns false).&]
 [s4;%- &]
 [s5;:Thread`:`:ShutdownThreads`(`):%- [@(0.0.255) static] [@(0.0.255) void]_[* ShutdownThre
 ads]()&]
-[s2; Sets the `"Shutdown`" flag on, waits before all threads started 
+[s2; Устанавливаетthe `"Shutdown`" flag on, waits before all threads started 
 without noshutdown true terminate, then sets flag off again. 
 It is meant to be used together with IsShutdownThreads to terminate 
 long running secondary service threads. Main thread calls ShutdownThreads, 
@@ -126,30 +126,30 @@ by threads participating in shutdown system.&]
 [s5;:Thread`:`:AtExit:%- [@(0.0.255) static]_[@(0.0.255) void]_(`*[* AtExit]([@(0.0.255) void
 ]_(`*[*@3 exitfn])()))()&]
 [s2; Allow to install a function [%-*@3 exitfn] to be called at thread 
-exit. Returns the pointer to function already installed or NULL, 
+exit. Возвращает the pointer to function already installed or NULL, 
 client code should call the already installed function (return 
 value is not null)&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:Thread`:`:GetCurrentId`(`):%- [@(0.0.255) static] [_^Upp`:`:Thread`:`:Id^ Thr
 ead`::Id]_[* GetCurrentId]()&]
-[s2; Returns the system`-unique id of calling thread.&]
+[s2; Возвращает the system`-unique id of calling thread.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Thread`:`:Priority`(int`):%- [@(0.0.255) bool]_[* Priority]([@(0.0.255) int]_[*@3 percen
 t])&]
-[s2; Sets the treads priority to [%-*@3 percent ][%- (0 to 200)]. In 
+[s2; Устанавливаетthe treads priority to [%-*@3 percent ][%- (0 to 200)]. In 
 reality, current implementation supports only 5 levels, 25%, 
 75%, 125%, 175% and more than 175%; last two levels require root 
-privileges. Возвращает true, если setting the priority was successful.&]
+privileges. Возвращает  true, если setting the priority was successful.&]
 [s4;%- &]
 [s5;:Upp`:`:Thread`:`:Nice`(`):%- [_^Upp`:`:Thread^ Thread][@(0.0.255) `&]_[* Nice]()&]
-[s2; Sets the priority suitable for long running threads.&]
+[s2; Устанавливаетthe priority suitable for long running threads.&]
 [s3;%- &]
 [s4;%- &]
 [s5;:Upp`:`:Thread`:`:Critical`(`):%- [_^Upp`:`:Thread^ Thread][@(0.0.255) `&]_[* Critical](
 )&]
-[s2; Sets the priority suitable for threads with critical latency 
+[s2; Устанавливаетthe priority suitable for threads with critical latency 
 (like audio generators).&]
 [s3;%- &]
 [s0;%- ]]

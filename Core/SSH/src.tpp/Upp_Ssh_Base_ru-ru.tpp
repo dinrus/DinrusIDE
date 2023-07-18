@@ -35,21 +35,21 @@ will be redirected to the object`'s session`'s WhenWait callback.&]
 [s4; &]
 [s5;:Upp`:`:Ssh`:`:WaitStep`(int`): [_^Upp`:`:Ssh^ Ssh][@(0.0.255) `&]_[* WaitStep]([@(0.0.255) i
 nt]_[*@3 ms])&]
-[s2;%% Sets the periodicity of calling [^topic`:`/`/Core`/SSH`/src`/Upp`_Ssh`_Base`_ru`-ru`#Upp`:`:Ssh`:`:WhenWait^ W
+[s2;%% Устанавливаетthe periodicity of calling [^topic`:`/`/Core`/SSH`/src`/Upp`_Ssh`_Base`_ru`-ru`#Upp`:`:Ssh`:`:WhenWait^ W
 henWait] in millisecond between calls. Default value is 10ms 
-(100hz). Returns `*this for method chaining. Note that ssh subsystems 
+(100hz). Возвращает `*this for method chaining. Note that ssh subsystems 
 and channels inherit their default waitstep values from their 
 session.&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:Ssh`:`:GetWaitStep`(`)const: [@(0.0.255) int]_[* GetWaitStep]()_[@(0.0.255) con
 st]&]
-[s2;%% Returns current periodicity of calling WhenWait.&]
+[s2;%% Возвращает current periodicity of calling WhenWait.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:Ssh`:`:GetTimeout`(`)const: [@(0.0.255) int]_[* GetTimeout]()_[@(0.0.255) const
 ]&]
-[s2;%% Returns the timeout value.&]
+[s2;%% Возвращает the timeout value.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:Ssh`:`:Abort`(`): [@(0.0.255) void]_[* Abort]()&]
@@ -58,30 +58,30 @@ st]&]
 [s4; &]
 [s5;:Upp`:`:Ssh`:`:InProgress`(`)const: [@(0.0.255) bool]_[* InProgress]()_[@(0.0.255) cons
 t]&]
-[s2;%% Возвращает true, если a command or data transfer is currently in 
+[s2;%% Возвращает  true, если a command or data transfer is currently in 
 progress.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:Ssh`:`:IsError`(`)const: [@(0.0.255) bool]_[* IsError]()_[@(0.0.255) const]&]
-[s2;%% Возвращает true, если there was an error.&]
+[s2;%% Возвращает  true, если there was an error.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:Ssh`:`:GetError`(`)const: [@(0.0.255) int]_[* GetError]()_[@(0.0.255) const]&]
-[s2;%% Returns the last error code, if any.&]
+[s2;%% Возвращает the last error code, if any.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:Ssh`:`:GetErrorDesc`(`)const: [_^Upp`:`:String^ String]_[* GetErrorDesc]()_[@(0.0.255) c
 onst]&]
-[s2;%% Returns the last error message, if any.&]
+[s2;%% Возвращает the last error message, if any.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:Ssh`:`:GetId`(`)const: [_^Upp`:`:int64^ int64]_[* GetId]()_[@(0.0.255) const]&]
-[s2;%% Returns the unique id of the object. Each ssh object is assigned 
+[s2;%% Возвращает the unique id of the object. Each ssh object is assigned 
 a unique id on construction.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:Ssh`:`:GetType`(`)const: [@(0.0.255) int]_[* GetType]()_[@(0.0.255) const]&]
-[s0;l288;%% Returns the ssh object type identifier. Currently it 
+[s0;l288;%% Возвращает the ssh object type identifier. Currently it 
 can be one of the following: SESSION, SFTP, SCP, CHANNEL, EXEC, 
 SHELL&]
 [s3; &]
@@ -89,7 +89,7 @@ SHELL&]
 [s5;:Upp`:`:Ssh`:`:To`(`): [@(0.0.255) template]_<[@(0.0.255) class]_[*@4 T]>_[*@4 T][@(0.0.255) `&
 ]_[* To]()&]
 [s0;l288;%% Converts the ssh object to [%-*@4 T]. [%-*@4 T] can be one 
-of the Ssh`-based classes. Returns a reference to [%-*@4 T] on 
+of the Ssh`-based classes. Возвращает a reference to [%-*@4 T] on 
 success. &]
 [s3; &]
 [s4; &]
@@ -137,7 +137,7 @@ or a combination of the following constants:&]
 :: [s2;%% Disables logging]}}&]
 [s3;%% &]
 [s0; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Constructor detail]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Конструктор  detail]]}}&]
 [s3; &]
 [s5;:Upp`:`:Ssh`:`:Ssh`(`): [* Ssh]()&]
 [s2;%% Дефолтный конструктор.&]
@@ -158,19 +158,19 @@ threads).&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:Ssh`:`:Error`:`:Error`(`): [* Error]()&]
-[s2;%% Дефолтный конструктор. Sets the error code to `-1, and error 
+[s2;%% Дефолтный конструктор. Устанавливаетthe error code to `-1, and error 
 message to Null.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:Ssh`:`:Error`:`:Error`(const Upp`:`:String`&`): [* Error]([@(0.0.255) const]_
 [_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 reason])&]
-[s2;%% Constructor overload. Sets error code to `-1, and error message 
+[s2;%% Конструктор  overload. Устанавливаетerror code to `-1, and error message 
 to [%-*@3 reason] .&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:Ssh`:`:Error`:`:Error`(int`,const Upp`:`:String`&`): [* Error]([@(0.0.255) in
 t]_[*@3 rc], [@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 reason])&]
-[s2;%% Constructor overload. Sets error code to [%-*@3 rc] and error 
+[s2;%% Конструктор  overload. Устанавливаетerror code to [%-*@3 rc] and error 
 message to [%-*@3 reason] .&]
 [s3;%% &]
 [s0;%% ]]

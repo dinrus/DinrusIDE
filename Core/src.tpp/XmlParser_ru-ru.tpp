@@ -30,25 +30,25 @@ egisterEntity]([@(0.0.255) const]_[_^String^ String][@(0.0.255) `&]_[*@3 id],
 [s3;%% &]
 [s4; &]
 [s5;:XmlParser`:`:IsEof`(`): [@(0.0.255) bool]_[* IsEof]()&]
-[s2;%% Возвращает true, если parser reached the end of text.&]
+[s2;%% Возвращает  true, если parser reached the end of text.&]
 [s3; &]
 [s4; &]
 [s5;:XmlParser`:`:GetPtr`(`)const: [@(0.0.255) const]_[@(0.0.255) char]_`*[* GetPtr]()_[@(0.0.255) c
 onst]&]
-[s2;%% Returns a pointer to the position in the text the parser reached.&]
+[s2;%% Возвращает a pointer to the position in the text the parser reached.&]
 [s3; &]
 [s4; &]
 [s5;:XmlParser`:`:IsTag`(`): [@(0.0.255) bool]_[* IsTag]()&]
-[s2;%% Возвращает true, если the parser is at XML start`-tag.&]
+[s2;%% Возвращает  true, если the parser is at XML start`-tag.&]
 [s3; &]
 [s4; &]
 [s5;:XmlParser`:`:PeekTag`(`): [_^String^ String]_[* PeekTag]()&]
-[s2;%% Returns the next tag id, but does not advance. If the parser 
+[s2;%% Возвращает the next tag id, but does not advance. If the parser 
 is not at start`-tag, XmlError is thrown.&]
 [s3; &]
 [s4; &]
 [s5;:XmlParser`:`:ReadTag`(`): [_^String^ String]_[* ReadTag]()&]
-[s2;%% Returns XML start`-tag id and advances. If the parser is not 
+[s2;%% Возвращает XML start`-tag id and advances. If the parser is not 
 at start`-tag, XmlError is thrown.&]
 [s3; &]
 [s4; &]
@@ -69,13 +69,13 @@ throws XmlError exception.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:XmlParser`:`:IsEnd`(`): [@(0.0.255) bool]_[* IsEnd]()&]
-[s2;%% Возвращает true, если the parser is at matching end`-tag. Note that 
+[s2;%% Возвращает  true, если the parser is at matching end`-tag. Note that 
 encountering non`-matching tags invokes XmlError, unless the 
 parser is in relaxed mode.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:XmlParser`:`:End`(`): [@(0.0.255) bool]_[* End]()&]
-[s2; Возвращает true, если the parser is at matching end`-tag and advances. 
+[s2; Возвращает  true, если the parser is at matching end`-tag and advances. 
 Note that encountering non`-matching tags throws XmlError, unless 
 the parser is in relaxed mode.&]
 [s3;%% &]
@@ -87,13 +87,13 @@ is thrown.&]
 [s4;%% &]
 [s5;:XmlParser`:`:TagE`(const char`*`): [@(0.0.255) bool]_[* TagE]([@(0.0.255) const]_[@(0.0.255) c
 har]_`*[*@3 tag])&]
-[s2;%% Calls Tag([%-*@3 tag]) `- if it returns true, immediately calls 
+[s2;%% Вызывает Tag([%-*@3 tag]) `- if it returns true, immediately calls 
 PassTag. In other words, matches element with empty content.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:XmlParser`:`:PassTagE`(const char`*`): [@(0.0.255) void]_[* PassTagE]([@(0.0.255) cons
 t]_[@(0.0.255) char]_`*[*@3 tag])&]
-[s2;%% Calls PassTag([%-*@3 tag]) and then PassEnd(). In other words, 
+[s2;%% Вызывает PassTag([%-*@3 tag]) and then PassEnd(). In other words, 
 requires to advance over element with empty content.&]
 [s3;%% &]
 [s4; &]
@@ -116,34 +116,34 @@ subtag of current level, e.g.: [*C while(LoopTag(`"foo`")) `{ ...
 [s4;%% &]
 [s5;:XmlParser`:`:GetAttrCount`(`)const: [@(0.0.255) int]_[* GetAttrCount]()_[@(0.0.255) co
 nst]&]
-[s2;%% Returns the number of attributes of the last start`-tag.&]
+[s2;%% Возвращает the number of attributes of the last start`-tag.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:XmlParser`:`:GetAttr`(int`)const: [_^String^ String]_[* GetAttr]([@(0.0.255) int]_[*@3 i
 ])_[@(0.0.255) const]&]
-[s2;%% Returns the name of attribute [%-*@3 i ]of the last start`-tag.&]
+[s2;%% Возвращает the name of attribute [%-*@3 i ]of the last start`-tag.&]
 [s3;%% &]
 [s4; &]
 [s5;:XmlParser`:`:IsAttr`(const char`*`)const: [@(0.0.255) bool]_[* IsAttr]([@(0.0.255) con
 st]_[@(0.0.255) char]_`*[*@3 id])_[@(0.0.255) const]&]
-[s2;%% Возвращает true, если [%-*@3 id] an attribute of the last start`-tag.&]
+[s2;%% Возвращает  true, если [%-*@3 id] an attribute of the last start`-tag.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:XmlParser`:`:operator`[`]`(int`)const: [_^String^ String]_[* operator`[`]]([@(0.0.255) i
 nt]_[*@3 i])_[@(0.0.255) const]&]
-[s2;%% Returns the value of attribute [%-*@3 i ]of the last start`-tag.&]
+[s2;%% Возвращает the value of attribute [%-*@3 i ]of the last start`-tag.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:XmlParser`:`:operator`[`]`(const char`*`)const: [_^String^ String]_[* operator`[`]](
 [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 id])_[@(0.0.255) const]&]
-[s2;%% Returns the value of attribute with name [%-*@3 id] of the last 
+[s2;%% Возвращает the value of attribute with name [%-*@3 id] of the last 
 start`-tag. If no such attribute exists, return empty String 
 (Null).&]
 [s3;%% &]
 [s4;%% &]
 [s5;:XmlParser`:`:Int`(const char`*`,int`)const: [@(0.0.255) int]_[* Int]([@(0.0.255) const
 ]_[@(0.0.255) char]_`*[*@3 id], [@(0.0.255) int]_[*@3 def]_`=_Null)_[@(0.0.255) const]&]
-[s2;%% Returns the value of attribute, converted to integer number, 
+[s2;%% Возвращает the value of attribute, converted to integer number, 
 with the name [%-*@3 id] of the last start`-tag. If no such attribute 
 exists or if attribute text cannot be converted to integer, returns 
 [%-*@3 def].&]
@@ -152,14 +152,14 @@ exists or if attribute text cannot be converted to integer, returns
 [s5;:XmlParser`:`:Double`(const char`*`,double`)const: [@(0.0.255) double]_[* Double]([@(0.0.255) c
 onst]_[@(0.0.255) char]_`*[*@3 id], [@(0.0.255) double]_[*@3 def]_`=_Null)_[@(0.0.255) cons
 t]&]
-[s2;%% Returns the value of attribute, converted to floating point 
+[s2;%% Возвращает the value of attribute, converted to floating point 
 number, with the name [%-*@3 id] of the last start`-tag. If no 
 such attribute exists or if attribute text cannot be converted 
 to integer, returns [%-*@3 def].&]
 [s3;%% &]
 [s4;%% &]
 [s5;:XmlParser`:`:IsText`(`): [@(0.0.255) bool]_[* IsText]()&]
-[s2;%% Возвращает true, если parser is at text content of element.&]
+[s2;%% Возвращает  true, если parser is at text content of element.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:XmlParser`:`:ReadText`(`): [_^String^ String]_[* ReadText]()&]
@@ -177,7 +177,7 @@ If there is no text, returns empty String.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:XmlParser`:`:IsDecl`(`): [@(0.0.255) bool]_[* IsDecl]()&]
-[s2;%% Возвращает true, если parser is at XML declaration.&]
+[s2;%% Возвращает  true, если parser is at XML declaration.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:XmlParser`:`:ReadDecl`(`): [_^String^ String]_[* ReadDecl]()&]
@@ -186,7 +186,7 @@ at declaration.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:XmlParser`:`:IsPI`(`): [@(0.0.255) bool]_[* IsPI]()&]
-[s2;%% Возвращает true, если parser is at XML processing info.&]
+[s2;%% Возвращает  true, если parser is at XML processing info.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:XmlParser`:`:ReadPI`(`): [_^String^ String]_[* ReadPI]()&]
@@ -195,7 +195,7 @@ any.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:XmlParser`:`:IsComment`(`): [@(0.0.255) bool]_[* IsComment]()&]
-[s2;%% Возвращает true, если parser is at XML comment.&]
+[s2;%% Возвращает  true, если parser is at XML comment.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:XmlParser`:`:ReadComment`(`): [_^String^ String]_[* ReadComment]()&]
@@ -219,11 +219,11 @@ the next start`-tag is processed.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:XmlParser`:`:GetLine`(`)const: [@(0.0.255) int]_[* GetLine]()_[@(0.0.255) const]&]
-[s2;%% Returns the current line of input text.&]
+[s2;%% Возвращает the current line of input text.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:XmlParser`:`:GetColumn`(`)const: [@(0.0.255) int]_[* GetColumn]()_[@(0.0.255) const]&]
-[s2;%% Returns the current column of input text.&]
+[s2;%% Возвращает the current column of input text.&]
 [s3;%% &]
 [s4;%% &]
 [s5;:XmlParser`:`:Relaxed`(bool`): [@(0.0.255) void]_[* Relaxed]([@(0.0.255) bool]_[*@3 b])&]
@@ -238,17 +238,17 @@ with broken XML files.&]
 and end`-tags is completely supressed. This mode was introduced 
 to deal with HTML.&]
 [s0; &]
-[ {{10000F(128)G(128)@1 [s0;%% [* Constructor detail]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%% [* Конструктор  detail]]}}&]
 [s3;%% &]
 [s5;:XmlParser`:`:XmlParser`(const char`*`): [* XmlParser]([@(0.0.255) const]_[@(0.0.255) c
 har]_`*[*@3 s])&]
-[s2;%% Creates the parser for xml input text [%-*@3 s]. The pointed 
+[s2;%% Создаёт the parser for xml input text [%-*@3 s]. The pointed 
 text must be valid through the whole parsing process (XmlParser 
 does not make copy of the text).&]
 [s3; &]
 [s4; &]
 [s5;:XmlParser`:`:XmlParser`(Stream`&`): [* XmlParser]([_^Stream^ Stream][@(0.0.255) `&]_[*@3 i
 n])&]
-[s2;%% Creates the parser for the input stream [%-*@3 in].&]
+[s2;%% Создаёт the parser for the input stream [%-*@3 in].&]
 [s3;%% &]
 [s0; ]]

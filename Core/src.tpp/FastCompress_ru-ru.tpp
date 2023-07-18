@@ -16,15 +16,19 @@ topic "Быстрое сжатие / разжатие";
 ess]([@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 s])&]
 [s5;:Upp`:`:FastCompress`(const void`*`,int`): [_^Upp`:`:String^ String]_[* FastCompress](
 [@(0.0.255) const]_[@(0.0.255) void]_`*[*@3 s], [@(0.0.255) int]_[*@3 sz])&]
-[s2;%RU-RU Compresses data using extremely fast algorithm (current 
-implementation is using LZ4). It is intended for internal purposes 
-to reduce memory consumption. Format should not be considered 
-stable and should not be saved to persistent storage (use plugin/LZ4 
-if you need that).&]
+[s2;%RU-RU Сжимает данные, используя крайне 
+быстрый алгоритм (в текущей реализации 
+использован LZ4). Предназначен для 
+внутреннего применения, чтобы снижать 
+потребление памяти. Формат не следует 
+считать стабильным и его нельзя сохранять 
+в постоянном хранилище (если это требуется, 
+используйте plugin/LZ4).&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Upp`:`:FastDecompress`(const Upp`:`:String`&`): [_^Upp`:`:String^ String]_[* FastDec
 ompress]([@(0.0.255) const]_[_^Upp`:`:String^ String][@(0.0.255) `&]_[*@3 data])&]
-[s2;%RU-RU Decompresses data compressed by FastCompress.&]
+[s2;%RU-RU Расжимает данные, сжатые посредством 
+FastCompress.&]
 [s3;%RU-RU &]
 [s0;%RU-RU ]]

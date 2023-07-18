@@ -14,10 +14,11 @@ topic "Структуры Date и Time";
 [s3;%RU-RU &]
 [s1;:Date`:`:struct: [@(0.0.255)3 struct][3 _][*3 Date][3 _:_][@(0.0.255)3 public][3 _][*@3;3 RelOps
 ][3 <_][*3 Date][3 , ][_^Moveable^3 Moveable][3 <][*3 Date][3 >_>_]&]
-[s9;%RU-RU A simple date object with up to a day precision.&]
+[s9;%RU-RU Простой объект даты с точностью 
+до дня.&]
 [s3; &]
 [s0;%RU-RU &]
-[ {{10000F(128)G(128)@1 [s0;%RU-RU [* Constructor detail]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%RU-RU [* Конструктор  detail]]}}&]
 [s3; &]
 [s5;:Date`:`:Date`(`): [* Date]()&]
 [s2;%RU-RU Дефолтный конструктор.&]
@@ -25,75 +26,83 @@ topic "Структуры Date и Time";
 [s4; &]
 [s5;:Date`:`:Date`(const Nuller`&`): [* Date]([@(0.0.255) const]_[_^Nuller^ Nuller][@(0.0.255) `&
 ])&]
-[s2;%RU-RU Construct an empty date.&]
+[s2;%RU-RU Конструирует пустую дату.&]
 [s3; &]
 [s4; &]
 [s5;:Date`:`:Date`(int`,int`,int`): [* Date]([@(0.0.255) int]_[*@3 y], 
 [@(0.0.255) int]_[*@3 m], [@(0.0.255) int]_[*@3 d])&]
-[s2;%RU-RU Constructs a date based on [%-*@3 y] [%-*@3 m] [%-*@3 d].&]
+[s2;%RU-RU Конструирует дату, основанную 
+на [%-*@3 y] [%-*@3 m] [%-*@3 d].&]
 [s3;%RU-RU &]
 [s3;%RU-RU &]
 [ {{10000F(128)G(128)@1 [s0;%RU-RU [* Список Публичных Членов]]}}&]
 [s3; &]
 [s5;:Date`:`:day: [_^byte^ byte]_[* day]&]
-[s2;%RU-RU Day.&]
+[s2;%RU-RU День.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Date`:`:month: [_^byte^ byte]_[* month]&]
-[s2;%RU-RU Month.&]
+[s2;%RU-RU Месяц.&]
 [s3; &]
 [s4; &]
 [s5;:Date`:`:year: [_^int16^ int16]_[* year]&]
-[s2;%RU-RU Year.&]
+[s2;%RU-RU Год.&]
 [s3; &]
 [s4; &]
 [s5;:Date`:`:Serialize`(Stream`&`): [@(0.0.255) void]_[* Serialize]([_^Stream^ Stream][@(0.0.255) `&
 ]_[*@3 s])&]
-[s2;%RU-RU Serializes Date to/from [%-*@3 s].&]
+[s2;%RU-RU Сериализует Date в/из [%-*@3 s].&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Date`:`:IsValid`(`)const: [@(0.0.255) bool]_[* IsValid]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает true, если the date is valid.&]
+[s2;%RU-RU Возвращает true, если дата полноценна.&]
 [s3; &]
 [s4; &]
 [s5;:Date`:`:Set`(int`): [@(0.0.255) void]_[* Set]([@(0.0.255) int]_[*@3 scalar])&]
-[s2;%RU-RU Assign a date that is stored in the numeric [%-*@3 scalar].&]
+[s2;%RU-RU Присвоить дату, сохраненную в 
+числовом значении [%-*@3 scalar].&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Date`:`:Get`(`)const: [@(0.0.255) int]_[* Get]()_[@(0.0.255) const]&]
-[s2;%RU-RU Converts the time into a numeric value.&]
+[s2;%RU-RU Преобразует время в числовое 
+значение.&]
 [s3; &]
 [s4; &]
 [s5;:Date`:`:Compare`(Date`)const: [@(0.0.255) int]_[* Compare]([_^Date^ Date]_[*@3 b])_[@(0.0.255) c
 onst]&]
-[s2;%RU-RU Compares Date with [%-*@3 b], returns `-1 if <b, 0 if `=`= 
-b, 1 if > b.&]
+[s2;%RU-RU Сравнивает Date с [%-*@3 b], возвращает 
+`-1, если <b, или 0, если `=`= b, или 1, если 
+> b.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Date`:`:operator`+`+`(`): [_^Date^ Date][@(0.0.255) `&]_[* operator`+`+]()&]
-[s2;%RU-RU Moves to the next day.&]
+[s2;%RU-RU Перемещает к следующему дню.&]
 [s3; &]
 [s4; &]
 [s5;:Date`:`:operator`-`-`(`): [_^Date^ Date][@(0.0.255) `&]_[* operator`-`-]()&]
-[s2;%RU-RU Moves to the previous day.&]
+[s2;%RU-RU Перемещает к предыдущему дню.&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:Date`:`:operator`+`+`(int`): [_^Upp`:`:Date^ Date]_[* operator`+`+]([@(0.0.255) i
 nt])&]
-[s2;%RU-RU Moves to the next day but returns the current (postfix`+`+).&]
+[s2;%RU-RU Перемещает к следующему дню, но 
+возвращает текущий (постфикс`+`+).&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:Date`:`:operator`-`-`(int`): [_^Upp`:`:Date^ Date]_[* operator`-`-]([@(0.0.255) i
 nt])&]
-[s2;%RU-RU Moves to the previous day but returns the current (postfix`-`-).&]
+[s2;%RU-RU Перемещает к предыдущему дню, 
+но возвращает текущий (постфикс`-`-).&]
 [s3; &]
 [s4; &]
 [s5;:Date`:`:Low`(`): [@(0.0.255) static] [_^Date^ Date]_[* Low]()&]
-[s2;%RU-RU Returns the lowest possible date (year 4000).&]
+[s2;%RU-RU Возвращает наименбшую возможную 
+дату (год 4000).&]
 [s3; &]
 [s4; &]
 [s5;:Date`:`:High`(`): [@(0.0.255) static] [_^Date^ Date]_[* High]()&]
-[s2;%RU-RU Returns the highest possible date (year 4000).&]
+[s2;%RU-RU Возвращает наибольшую возможную 
+дату (год 4000).&]
 [s3; &]
 [s0; &]
 [ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 Структура Time]]}}&]
@@ -101,10 +110,11 @@ nt])&]
 [s1;:Time`:`:struct: [@(0.0.255)3 struct][3 _][*3 Time][3 _:_][@(0.0.255)3 public][3 _][*@3;3 Date][3 ,
  ][@(0.0.255)3 public][3 _][*@3;3 RelOps][3 <_][*3 Time][3 , ][_^Moveable^3 Moveable][3 <][*3 Time][3 >
 _>_]&]
-[s9;%RU-RU A simple date time object with up to a second precision.&]
+[s9;%RU-RU Простой объект даты`-времени с 
+точностью до секунды.&]
 [s3; &]
 [s0; &]
-[ {{10000F(128)G(128)@1 [s0;%RU-RU [* Constructor detail]]}}&]
+[ {{10000F(128)G(128)@1 [s0;%RU-RU [* Конструктор  detail]]}}&]
 [s3; &]
 [s5;:Time`:`:Time`(`): [* Time]()&]
 [s2;%RU-RU Дефолтный конструктор.&]
@@ -112,122 +122,137 @@ _>_]&]
 [s4; &]
 [s5;:Time`:`:Time`(const Nuller`&`): [* Time]([@(0.0.255) const]_[_^Nuller^ Nuller][@(0.0.255) `&
 ])&]
-[s2;%RU-RU Конструирует пустой time.&]
+[s2;%RU-RU Конструирует пустое время.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Time`:`:Time`(int`,int`,int`,int`,int`,int`): [* Time]([@(0.0.255) int]_[*@3 y], 
 [@(0.0.255) int]_[*@3 m], [@(0.0.255) int]_[*@3 d], [@(0.0.255) int]_[*@3 h]_`=_[@3 0], 
 [@(0.0.255) int]_[*@3 n]_`=_[@3 0], [@(0.0.255) int]_[*@3 s]_`=_[@3 0])&]
-[s2;%RU-RU Constructs a time based on [%-*@3 y] [%-*@3 m] [%-*@3 d] [%-*@3 h] 
-[%-*@3 n] [%-*@3 s].&]
+[s2;%RU-RU Конструирует время, основанное 
+на [%-*@3 y] [%-*@3 m] [%-*@3 d] [%-*@3 h] [%-*@3 n] [%-*@3 s].&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Time`:`:Time`(FileTime`): [* Time]([_^FileTime^ FileTime]_[*@3 filetime])&]
-[s2;%RU-RU Constructs based on a platform specific [%-*@3 filetime].&]
+[s2;%RU-RU Конструирует на основе платформо`-специф
+ичного [%-*@3 filetime].&]
 [s3;%RU-RU &]
 [s0; &]
 [ {{10000F(128)G(128)@1 [s0;%RU-RU [* Список Публичных Членов]]}}&]
 [s3; &]
 [s5;:Time`:`:hour: [_^byte^ byte]_[* hour]&]
-[s2;%RU-RU Hour.&]
+[s2;%RU-RU Час.&]
 [s3; &]
 [s4; &]
 [s5;:Time`:`:minute: [_^byte^ byte]_[* minute]&]
-[s2;%RU-RU Minute.&]
+[s2;%RU-RU Минута.&]
 [s3; &]
 [s4; &]
 [s5;:Time`:`:second: [_^byte^ byte]_[* second]&]
-[s2;%RU-RU Second.&]
+[s2;%RU-RU Секунда.&]
 [s3; &]
 [s4; &]
 [s5;:Time`:`:High`(`): [@(0.0.255) virtual] [@(0.0.255) static] [_^Time^ Time]_[* High]()&]
-[s2;%RU-RU Returns the highest possible time (year 4000).&]
+[s2;%RU-RU Возвращает наибольшее возможное 
+время (год 4000).&]
 [s3; &]
 [s4; &]
 [s5;:Time`:`:Low`(`): [@(0.0.255) virtual] [@(0.0.255) static] [_^Time^ Time]_[* Low]()&]
-[s2;%RU-RU Returns the lowest possible time (year `-4000).&]
+[s2;%RU-RU Возвращает наименьшее возможное 
+время (год `-4000).&]
 [s3; &]
 [s4; &]
 [s5;:Time`:`:Set`(int64`): [@(0.0.255) void]_[* Set]([_^int64^ int64]_[*@3 scalar])&]
-[s2;%RU-RU Assign a time that is stored in the numeric [%-*@3 scalar].&]
+[s2;%RU-RU Присваивает время, сохранённое 
+в числовом значении [%-*@3 scalar].&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:Time`:`:Get`(`)const: [@(0.0.255) virtual] [_^int64^ int64]_[* Get]()_[@(0.0.255) const]&]
-[s2;%RU-RU Converts the time into a numeric value.&]
+[s2;%RU-RU Преобразует время в числовое 
+значение.&]
 [s3; &]
 [s4; &]
 [s5;:Time`:`:IsValid`(`)const: [@(0.0.255) bool]_[* IsValid]()_[@(0.0.255) const]&]
-[s2;%RU-RU Возвращает true, если Time is valid (Date is valid and hour/minute/second 
-values are in range).&]
+[s2;%RU-RU Возвращает true, если Time полноценен 
+(полноценна Date и значения hour/minute/second 
+попадают в диапазон).&]
 [s3; &]
 [s4; &]
 [s5;:Time`:`:AsFileTime`(`)const: [_^FileTime^ FileTime]_[* AsFileTime]()_[@(0.0.255) const
 ]&]
-[s2;%RU-RU Converts the time into a system specific value.&]
+[s2;%RU-RU Преобразует время в системно`-специфично
+е значение.&]
 [s3; &]
 [s0; &]
 [s0; &]
 [ {{10000@(113.42.0) [s0;%RU-RU [*@7;4 Функции Date и Time]]}}&]
 [s0; &]
 [s5;:DayOfWeek`(Date`): [@(0.0.255) int]_[* DayOfWeek]([_^Date^ Date]_[*@3 date])&]
-[s2;%RU-RU Day [%-*@3 date] number of day of week 0 Sunday `- 6 Saturday.&]
+[s2;%RU-RU Номер числа дня недели для даты 
+[%-*@3 date :] 0 Воскресенье `- 6 Суббота.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:IsLeapYear`(int`): [@(0.0.255) bool]_[* IsLeapYear]([@(0.0.255) int]_[*@3 year])&]
-[s2;%RU-RU Возвращает true, если [%-*@3 year] is leap (there is 29 days in 
-February in that year).&]
+[s2;%RU-RU Возвращает true, если год [%-*@3 year] 
+високосный (в этом году у Февраля 
+29 дней).&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:GetDaysOfMonth`(int`,int`): [@(0.0.255) int]_[* GetDaysOfMonth]([@(0.0.255) int]_[*@3 mo
 nth], [@(0.0.255) int]_[*@3 year])&]
-[s2;%RU-RU Returns a number of days in [%-*@3 month] of [%-*@3 year].&]
+[s2;%RU-RU Возвращает число дней в месяце 
+[%-*@3 month] года [%-*@3 year].&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:LastDayOfMonth`(Date`): [_^Date^ Date]_[* LastDayOfMonth]([_^Date^ Date]_[*@3 d])&]
-[s2;%RU-RU Returns day [%-*@3 d] last day of the month.&]
-[s0;l288;%RU-RU Example:&]
+[s2;%RU-RU Возвращает последний день месяца 
+для даты [%-*@3 d].&]
+[s0;l288;%RU-RU Пример:&]
 [s0;l288;%RU-RU [*C@3       ][*C LastDayOfMonth(Date(2011, 9, 23)) `= 
 `"30/9/2011`"]&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:FirstDayOfMonth`(Date`): [_^Date^ Date]_[* FirstDayOfMonth]([_^Date^ Date]_[*@3 d])&]
-[s2;%RU-RU Returns day [%-*@3 d] first day of the month.&]
-[s0;l288;%RU-RU Example:&]
+[s2;%RU-RU Возвращает первый день месяца 
+для даты [%-*@3 d].&]
+[s0;l288;%RU-RU Пример:&]
 [s0;l288;%RU-RU [*C@3       ][*C LastDayOfYear(Date(2011, 9, 23)) `= 
 `"1/9/2011`"]&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:LastDayOfYear`(Date`): [_^Date^ Date]_[* LastDayOfYear]([_^Date^ Date]_[*@3 d])&]
-[s2;%RU-RU Returns day [%-*@3 d] last day of the year.&]
-[s0;l288;%RU-RU Example:&]
+[s2;%RU-RU Возвращает последний день года 
+для даты [%-*@3 d].&]
+[s0;l288;%RU-RU Пример:&]
 [s0;l288;%RU-RU [*C@3       ][*C LastDayOfYear(Date(2011, 9, 23)) `= 
 `"31/12/2011`"]&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:FirstDayOfYear`(Date`): [_^Date^ Date]_[* FirstDayOfYear]([_^Date^ Date]_[*@3 d])&]
-[s2;%RU-RU Returns day [%-*@3 d ]first day of the year.&]
-[s0;l288;%RU-RU Example:&]
+[s2;%RU-RU Возвращает первый день года для 
+даты [%-*@3 d].&]
+[s0;l288;%RU-RU Пример:&]
 [s0;l288;%RU-RU [*C@3       ][*C FirstDayOfYear(Date(2011, 9, 23)) `= 
 `"1/1/2011`"]&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:DayOfYear`(Date`): [@(0.0.255) int]_[* DayOfYear]([_^Date^ Date]_[*@3 d])&]
-[s2;%RU-RU Returns day [%-*@3 d ]number of day of year, beginning from 
-1.&]
-[s0;l288;%RU-RU Example:&]
+[s2;%RU-RU Возвращает номер дня года для 
+даты [%-*@3 d], начиная с 1.&]
+[s0;l288;%RU-RU Пример:&]
 [s0;l288;%RU-RU [*C@3       ][*C DayOfYear(Date(2011, 1, 2)) `= 2]&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:AddMonths`(Date`,int`): [_^Date^ Date]_[* AddMonths]([_^Date^ Date]_[*@3 date], 
 [@(0.0.255) int]_[*@3 months])&]
-[s2;%RU-RU Adds [%-*@3 months] to [%-*@3 date] and returns the result.&]
+[s2;%RU-RU Прибавляет число месяцев [%-*@3 months] 
+к дате [%-*@3 date] и возвращает результат.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:GetMonths`(Date`,Date`): [@(0.0.255) int]_[* GetMonths]([_^Date^ Date]_[*@3 since], 
 [_^Date^ Date]_[*@3 till])&]
-[s2;%RU-RU Number of months between two dates. Only whole months 
-are counted.&]
-[s2;%RU-RU Examples:&]
+[s2;%RU-RU Число месяцев между двумя датами. 
+Считаются только полные месяцы.&]
+[s2;%RU-RU Примеры:&]
 [s2;%RU-RU [*C@3       ][*C GetMonths(Date(2013, 2, 5), Date(2013, 3, 
 4)) `= 0]&]
 [s2;%RU-RU [*C@3       ][*C GetMonths(Date(2013, 2, 5), Date(2013, 3, 
@@ -240,9 +265,9 @@ are counted.&]
 [s4; &]
 [s5;:Upp`:`:GetMonthsP`(Upp`:`:Date`,Upp`:`:Date`): [@(0.0.255) int]_[* GetMonthsP]([_^Upp`:`:Date^ D
 ate]_[*@3 since], [_^Upp`:`:Date^ Date]_[*@3 till])&]
-[s2;%RU-RU Number of months between two dates, including partial 
-months.&]
-[s2;%RU-RU Examples:&]
+[s2;%RU-RU Число месяцев между двумя датами, 
+включая неполные.&]
+[s2;%RU-RU Примеры:&]
 [s2;%RU-RU [*C       GetMonthsP(Date(2016, 1, 1), Date(2016, 1, 1)) 
 `= 0]&]
 [s2;%RU-RU [*C       GetMonthsP(Date(2016, 1, 1), Date(2016, 1, 2)) 
@@ -255,36 +280,44 @@ months.&]
 [s4; &]
 [s5;:AddYears`(Date`,int`): [_^Date^ Date]_[* AddYears]([_^Date^ Date]_[*@3 date], 
 [@(0.0.255) int]_[*@3 years])&]
-[s2;%RU-RU Adds [%-*@3 years] to [%-*@3 date] and returns the result. 
-Note that this is not as simple as adding year attribute of Date 
-because of leap years.&]
+[s2;%RU-RU Прибавляет годы [%-*@3 years] к дате 
+[%-*@3 date] и возвращает результат. Заметьте, 
+что это не так уж просто, так как надо 
+учитывать високосные годы.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:GetWeekDate`(int`,int`): [_^Date^ Date]_[* GetWeekDate]([@(0.0.255) int]_[*@3 year], 
 [@(0.0.255) int]_[*@3 week])&]
-[s2;%RU-RU Returns the date of Monday for given [%-*@3 year] and [%-*@3 week] 
-according to ISO`-8601. (First week of year is 1).&]
+[s2;%RU-RU Возвращает дату Понедельника 
+для данного года [%-*@3 year ]и недели [%-*@3 week] 
+в соответствии с ISO`-8601. (Первая неделя 
+года равна 1).&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:GetWeek`(Date`,int`&`): [@(0.0.255) int]_[* GetWeek]([_^Date^ Date]_[*@3 d], 
 [@(0.0.255) int`&]_[*@3 year])&]
-[s2;%RU-RU Returns the week for given date according to ISO`-8601. 
-In [%-*@3 year] the corresponding year is returned, as some days 
-at the beginning or end of the year can be part of week of another 
-week.&]
+[s2;%RU-RU Возвращает неделю для заданной 
+даты в соответствии с ISO`-8601. В [%-*@3 year] 
+возвращается соответствующий год, 
+так как несколько дней в начале или 
+конце года могут быть частью другой 
+недели.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:EasterDay`(int`): [_^Date^ Date]_[* EasterDay]([@(0.0.255) int]_[*@3 year])&]
-[s2;%RU-RU Returns the Easter day for given [%-*@3 year].&]
+[s2;%RU-RU Возвращает день Пасхи для заданного 
+года [%-*@3 year].&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:GetTimeZone`(`): [@(0.0.255) int]_[* GetTimeZone]()&]
-[s2;%RU-RU Returns a local timezone as offset from GMT in minutes.&]
+[s2;%RU-RU Возвращает локальный часовой 
+пояс как смещение от GMT в минутах.&]
 [s3; &]
 [s4; &]
 [s5;:FormatTimeZone`(int`): [_^String^ String]_[* FormatTimeZone]([@(0.0.255) int]_[*@3 n])&]
-[s2;%RU-RU Formats timezone in common format, used e.g. in internet 
-dates.&]
+[s2;%RU-RU Форматирует часовой пояс в общем 
+формате, что используется, например, 
+в датах Интернета.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:GetTimeZoneText`(`): [_^String^ String]_[* GetTimeZoneText]()&]
@@ -293,21 +326,24 @@ dates.&]
 [s4; &]
 [s5;:ScanTimeZone`(const char`*`): [@(0.0.255) int]_[* ScanTimeZone]([@(0.0.255) const]_[@(0.0.255) c
 har]_`*[*@3 s])&]
-[s2;%RU-RU Scans timezone text to obtain offset in seconds.&]
+[s2;%RU-RU Сканирует текст часового пояса, 
+чтобы получить смещение в секундах.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:GetLeapSeconds`(Date`): [@(0.0.255) int]_[* GetLeapSeconds]([_^Date^ Date]_[*@3 dt])&]
-[s2;%RU-RU Returns the number of leap seconds that has occurred since 
-the start of adding leap seconds till [%-*@3 dt].&]
+[s2;%RU-RU Возвращает число leap (високосных?) 
+секунд, имевшее место быть с начала 
+добавления leap`-секунд до даты [%-*@3 dt].&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:GetUTCSeconds`(Time`): [_^int64^ int64]_[* GetUTCSeconds]([_^Time^ Time]_[*@3 tm])&]
-[s2;%RU-RU Returns the number of seconds since 1970`-1`-1, including 
-leap seconds.&]
+[s2;%RU-RU Возвращает число секунд с 1970`-1`-1, 
+включая leap`-секунды.&]
 [s3;%RU-RU &]
 [s4; &]
 [s5;:TimeFromUTC`(int64`): [_^Time^ Time]_[* TimeFromUTC]([_^int64^ int64]_[*@3 seconds])&]
-[s2;%RU-RU Converts [%-*@3 seconds] since 1970`-1`-1, with leap seconds 
-included, to Time.&]
+[s2;%RU-RU Преобразует секунды [%-*@3 seconds] с 
+1970`-1`-1, включая leap`-секунды, до времени 
+Time.&]
 [s3;%RU-RU &]
 [s0; ]]

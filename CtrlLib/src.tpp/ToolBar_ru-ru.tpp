@@ -41,27 +41,27 @@ allback1][@(0.0.255) <]Bar[@(0.0.255) `&>]_[*@3 bar])&]
 [s4; &]
 [s5;:ToolBar`:`:ButtonMinSize`(Size`): [_^ToolBar^ ToolBar][@(0.0.255) `&]_[* ButtonMinSize
 ]([_^Size^ Size]_[*@3 sz])&]
-[s2;%% Sets the minimal size of standard ToolBar button.&]
+[s2;%% Устанавливаетthe minimal size of standard ToolBar button.&]
 [s3;%% &]
 [s4; &]
 [s5;:ToolBar`:`:MaxIconSize`(Size`): [_^ToolBar^ ToolBar][@(0.0.255) `&]_[* MaxIconSize]([_^Size^ S
 ize]_[*@3 sz])&]
-[s2;%% Sets the maximum size of an icon displayed in a button from 
+[s2;%% Устанавливаетthe maximum size of an icon displayed in a button from 
 the toolbar to [%-*@3 sz].&]
 [s3;%% &]
 [s4; &]
 [s5;:ToolBar`:`:StyleDefault`(`): [@(0.0.255) static] [@(0.0.255) const]_[_^ToolBar`:`:Style^ S
 tyle][@(0.0.255) `&]_[* StyleDefault]()&]
-[s2;%% Returns the default style used to paint a ToolBar.&]
+[s2;%% Возвращает the default style used to paint a ToolBar.&]
 [s3; &]
 [s4; &]
 [s5;:ToolBar`:`:SetStyle`(const ToolBar`:`:Style`&`): [_^ToolBar^ ToolBar][@(0.0.255) `&]_
 [* SetStyle]([@(0.0.255) const]_[_^ToolBar`:`:Style^ Style][@(0.0.255) `&]_[*@3 s])&]
-[s2;%% Sets the visual style to ToolBar`::Style [%-*@3 s].&]
+[s2;%% Устанавливаетthe visual style to ToolBar`::Style [%-*@3 s].&]
 [s3;%% &]
 [s4; &]
 [s5;:ToolBar`:`:GetStdHeight`(`): [@(0.0.255) static] [@(0.0.255) int]_[* GetStdHeight]()&]
-[s2;%% Returns the standard height of a toolbar when used as a frame. 
+[s2;%% Возвращает the standard height of a toolbar when used as a frame. 
 Not that this is only valid for toolbar with normal sized icons.&]
 [s3; &]
 [s0; &]

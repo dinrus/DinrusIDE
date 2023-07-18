@@ -35,21 +35,21 @@ to and from [* String].&]
 [s3;%% &]
 [s4; &]
 [s5;:StringBuffer`:`:`~StringBuffer`(`): [@(0.0.255) `~][* StringBuffer]()&]
-[s2;%% Default destructor.&]
+[s2;%% Дефолтный деструктор .&]
 [s3; &]
 [s0;i448;a25;kKO9;:noref:@(0.0.255) &]
 [ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:StringBuffer`:`:Begin`(`): [@(0.0.255) char]_`*[* Begin]()&]
 [s5;:Upp`:`:StringBuffer`:`:begin`(`): [@(0.0.255) char]_`*[* begin]()&]
-[s2;%% Returns a pointer to the buffer of characters. Mutating operations 
+[s2;%% Возвращает a pointer to the buffer of characters. Mutating operations 
 invalidate this pointer. Note that this is non`-const operation 
 and writes terminating zero at `*end().&]
 [s3; &]
 [s4; &]
 [s5;:StringBuffer`:`:End`(`): [@(0.0.255) char]_`*[* End]()&]
 [s5;:Upp`:`:StringBuffer`:`:end`(`): [@(0.0.255) char]_`*[* end]()&]
-[s2;%% Returns begin() `+ GetCount(). Mutating operations invalidate 
+[s2;%% Возвращает begin() `+ GetCount(). Mutating operations invalidate 
 this pointer. Note that this is non`-const operation and writes 
 terminating zero at `*end().&]
 [s3; &]
@@ -83,18 +83,18 @@ onst]_[@(0.0.255) char]_`*[*@3 s], [@(0.0.255) const]_[@(0.0.255) char]_`*[*@3 e
 [s5;:StringBuffer`:`:GetLength`(`)const: [@(0.0.255) int]_[* GetLength]()_[@(0.0.255) const
 ]&]
 [s5;:StringBuffer`:`:GetCount`(`)const: [@(0.0.255) int]_[* GetCount]()_[@(0.0.255) const]&]
-[s2;%% Returns the number of characters in the buffer.&]
+[s2;%% Возвращает the number of characters in the buffer.&]
 [s3; &]
 [s4; &]
 [s5;:StringBuffer`:`:SetLength`(int`): [@(0.0.255) void]_[* SetLength]([@(0.0.255) int]_[*@3 l
 ])&]
 [s5;:StringBuffer`:`:SetCount`(int`): [@(0.0.255) void]_[* SetCount]([@(0.0.255) int]_[*@3 l])
 &]
-[s2;%% Sets the length of the character buffer to [%-*@3 l].&]
+[s2;%% Устанавливаетthe length of the character buffer to [%-*@3 l].&]
 [s3;%% &]
 [s4; &]
 [s5;:StringBuffer`:`:Strlen`(`): [@(0.0.255) void]_[* Strlen]()&]
-[s2;%% Sets the length of the character buffer to the length of the 
+[s2;%% Устанавливаетthe length of the character buffer to the length of the 
 zero terminated string stored in the buffer (up to the first 
 zero character). Useful for converting C strings returned from 
 system to String.&]
@@ -114,29 +114,29 @@ r characters.&]
 [s3; &]
 [s4; &]
 [s5;:StringBuffer`:`:GetAlloc`(`)const: [@(0.0.255) int]_[* GetAlloc]()_[@(0.0.255) const]&]
-[s2;%% Returns the maximum number of characters in the internal buffer.&]
+[s2;%% Возвращает the maximum number of characters in the internal buffer.&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:StringBuffer`:`:operator`*`(`): [@(0.0.255) char`&]_[* operator`*]()&]
-[s2;%% Returns `*begin().&]
+[s2;%% Возвращает `*begin().&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:StringBuffer`:`:operator`[`]`(int`): [@(0.0.255) char`&]_[* operator`[`]]([@(0.0.255) i
 nt]_[*@3 i])&]
-[s2;%% Returns begin()`[[%-*@3 i]`].&]
+[s2;%% Возвращает begin()`[[%-*@3 i]`].&]
 [s3; &]
 [s4; &]
 [s5;:StringBuffer`:`:operator char`*`(`): [* operator_char`*]()&]
 [s5;:StringBuffer`:`:operator`~`(`): [@(0.0.255) char]_`*[* operator`~]()&]
-[s2;%% Returns begin().&]
+[s2;%% Возвращает begin().&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:StringBuffer`:`:operator byte`*`(`): [* operator_byte`*]()&]
-[s2;%% Returns (byte `*)begin().&]
+[s2;%% Возвращает (byte `*)begin().&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:StringBuffer`:`:operator void`*`(`): [* operator_void`*]()&]
-[s2;%% Returns begin().&]
+[s2;%% Возвращает begin().&]
 [s3; &]
 [s4; &]
 [s5;:StringBuffer`:`:operator`=`(String`&`): [@(0.0.255) void]_[* operator`=]([_^String^ St
@@ -172,21 +172,21 @@ assignment to and from [* WString].&]
 [s3;%% &]
 [s4; &]
 [s5;:WStringBuffer`:`:`~WStringBuffer`(`): [@(0.0.255) `~][* WStringBuffer]()&]
-[s2;%% Default destructor.&]
+[s2;%% Дефолтный деструктор .&]
 [s3; &]
 [s0;i448;a25;kKO9;:noref:@(0.0.255) &]
 [ {{10000F(128)G(128)@1 [s0;%% [* Список Публичных Методов]]}}&]
 [s3; &]
 [s5;:WStringBuffer`:`:Begin`(`): [_^wchar^ wchar]_`*[* Begin]()&]
 [s5;:Upp`:`:WStringBuffer`:`:begin`(`): [_^Upp`:`:wchar^ wchar]_`*[* begin]()&]
-[s2;%% Returns a pointer to the buffer of characters. Mutating operations 
+[s2;%% Возвращает a pointer to the buffer of characters. Mutating operations 
 invalidate this pointer. Note that this is non`-const operation 
 and writes terminating zero at `*end().&]
 [s3; &]
 [s4; &]
 [s5;:WStringBuffer`:`:End`(`): [_^wchar^ wchar]_`*[* End]()&]
 [s5;:Upp`:`:WStringBuffer`:`:end`(`): [_^Upp`:`:wchar^ wchar]_`*[* end]()&]
-[s2;%% Returns begin() `+ GetCount(). Mutating operations invalidate 
+[s2;%% Возвращает begin() `+ GetCount(). Mutating operations invalidate 
 this pointer. Note that this is non`-const operation and writes 
 terminating zero at `*end().&]
 [s3; &]
@@ -222,18 +222,18 @@ onst]_[_^wchar^ wchar]_`*[*@3 s], [@(0.0.255) const]_[_^wchar^ wchar]_`*[*@3 e])
 [s5;:WStringBuffer`:`:GetLength`(`)const: [@(0.0.255) int]_[* GetLength]()_[@(0.0.255) cons
 t]&]
 [s5;:WStringBuffer`:`:GetCount`(`)const: [@(0.0.255) int]_[* GetCount]()_[@(0.0.255) const]&]
-[s2;%% Returns the number of characters in the buffer.&]
+[s2;%% Возвращает the number of characters in the buffer.&]
 [s3; &]
 [s4; &]
 [s5;:WStringBuffer`:`:SetLength`(int`): [@(0.0.255) void]_[* SetLength]([@(0.0.255) int]_[*@3 l
 ])&]
 [s5;:WStringBuffer`:`:SetCount`(int`): [@(0.0.255) void]_[* SetCount]([@(0.0.255) int]_[*@3 l
 ])&]
-[s2;%% Sets the length of the character buffer to [%-*@3 l].&]
+[s2;%% Устанавливаетthe length of the character buffer to [%-*@3 l].&]
 [s3;%% &]
 [s4; &]
 [s5;:WStringBuffer`:`:Strlen`(`): [@(0.0.255) void]_[* Strlen]()&]
-[s2;%% Sets the length of the character buffer to the length of the 
+[s2;%% Устанавливаетthe length of the character buffer to the length of the 
 zero terminated string stored in the buffer (up to the first 
 zero character). Useful for converting C strings returned from 
 system to String.&]
@@ -250,30 +250,30 @@ buffer up to [%-*@3 r] characters).&]
 [s3;%% &]
 [s4; &]
 [s5;:WStringBuffer`:`:GetAlloc`(`)const: [@(0.0.255) int]_[* GetAlloc]()_[@(0.0.255) const]&]
-[s2;%% Returns the maximum number of characters in the internal buffer.&]
+[s2;%% Возвращает the maximum number of characters in the internal buffer.&]
 [s3;%% &]
 [s4; &]
 [s5;:Upp`:`:WStringBuffer`:`:operator`*`(`): [_^Upp`:`:wchar^ wchar][@(0.0.255) `&]_[* oper
 ator`*]()&]
-[s2;%% Returns `*begin().&]
+[s2;%% Возвращает `*begin().&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:WStringBuffer`:`:operator`[`]`(int`): [_^Upp`:`:wchar^ wchar][@(0.0.255) `&]_
 [* operator`[`]]([@(0.0.255) int]_[*@3 i])&]
-[s2;%% Returns begin()`[[%-*@3 i]`].&]
+[s2;%% Возвращает begin()`[[%-*@3 i]`].&]
 [s3; &]
 [s4; &]
 [s5;:WStringBuffer`:`:operator wchar`*`(`): [* operator_wchar`*]()&]
 [s5;:WStringBuffer`:`:operator`~`(`): [_^wchar^ wchar]_`*[* operator`~]()&]
-[s2;%% Returns begin().&]
+[s2;%% Возвращает begin().&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:WStringBuffer`:`:operator int16`*`(`): [* operator_int16`*]()&]
-[s2;%% Returns (int16`*)begin().&]
+[s2;%% Возвращает (int16`*)begin().&]
 [s3; &]
 [s4; &]
 [s5;:Upp`:`:WStringBuffer`:`:operator void`*`(`): [* operator_void`*]()&]
-[s2;%% Returns begin().&]
+[s2;%% Возвращает begin().&]
 [s3; &]
 [s4; &]
 [s5;:WStringBuffer`:`:operator`=`(WString`&`): [@(0.0.255) void]_[* operator`=]([_^WString^ W

@@ -22,11 +22,11 @@ regular Image as result.&]
 [s3; &]
 [s5;:ImageEncoder`:`:operator const RGBA`*`(`): [@(0.0.255) operator]_[@(0.0.255) const]_
 [_^RGBA^ RGBA]_`*()&]
-[s2;%% Returns a pointer to the array of pixels of Image.&]
+[s2;%% Возвращает a pointer to the array of pixels of Image.&]
 [s3; &]
 [s4; &]
 [s5;:ImageEncoder`:`:operator Image`(`): [* operator_Image]()&]
-[s2;%% Returns the resulting Image. Should only be called after all 
+[s2;%% Возвращает the resulting Image. Should only be called after all 
 scanlines (according to requested Image size) are completed.&]
 [s3; &]
 [s0; ]

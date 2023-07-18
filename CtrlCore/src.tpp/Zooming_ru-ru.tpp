@@ -41,13 +41,13 @@ scale factor.&]
 [s4;%- &]
 [s5;:Upp`:`:FontZ`(int`,int`):%- [_^Upp`:`:Font^ Font]_[* FontZ]([@(0.0.255) int]_[*@3 face],
  [@(0.0.255) int]_[*@3 height])&]
-[s2; Returns font with height rescaled by vertical zoom factor. Same 
+[s2; Возвращает font with height rescaled by vertical zoom factor. Same 
 as Font([%-*@3 face],_Ctrl`::VertLayoutZoom([%-*@3 height]).&]
 [s3; &]
 [s4;%- &]
 [s5;:Upp`:`:StdFontZ`(int`):%- [_^Upp`:`:Font^ Font]_[* StdFontZ]([@(0.0.255) int]_[*@3 heigh
 t])&]
-[s2; Returns standard GUI font with height rescaled by vertical zoom 
+[s2; Возвращает standard GUI font with height rescaled by vertical zoom 
 factor. То же, что и FontZ(Font`::STDFONT, [%-*@3 height]).&]
 [s3;%- &]
 [s4;%- &]
